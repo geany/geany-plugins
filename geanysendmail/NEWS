@@ -1,0 +1,17 @@
+GeanySendMail 0.4.2 (26. May 2009=:
+    * Added cancel button to recipient's address dialog
+	* Some minor code cleanup
+
+
+GeanySendMail 0.4.1 (16. February 2009):
+	* Update to Geany pugin API v116
+	* Minor improvments on wording and cleanup of code
+
+
+GeanySendMail 0.4 (22. October 2008):
+
+	* Adding support for creating a mail with recipients email
+	  (Basic Patch by Timothy Boronczyk)
+	* Added placeholder for file's basename (Idea by Timothy Boronczyk)
+	* Added build support for Windows (not very well tested)
+	* Updates at translation, documentation and buildsystem

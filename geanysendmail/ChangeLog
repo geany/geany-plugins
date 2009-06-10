@@ -1,0 +1,103 @@
+2009-05-28  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Make usage of Geany's ui_widget_set_tooltip_text() function.
+
+
+2009-04-24  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Applied a patch by Timothy Boronczyk which allows aborting when inserting
+   recipient's email address.
+
+
+2008-10-14  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Applied a patch by Nick to make use of Geany Plugin API r100 and the
+   add_document_sensitive() function from plugin API.
+
+
+2008-10-13  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Applied a patch by Nick to make use of Geany Plugin API r99 and the
+   add item to toolbar function.
+
+
+2008-10-03  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Implement a %b placeholder for adding basename of file to mailer command.
+   Thanks to Timothy Boronczyk for idea.
+
+
+2008-09-28  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Make configuration example copyable.
+
+
+2008-09-25  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Added a patch by Timothy Boronczyk to support creating a mail with
+   recipients email. Thanks for it.
+
+
+2008-09-01  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Build environment: Update of Makefiles to include icon.h into source
+   package
+ * Build environment: Added makefile for Windows (needs to be tested)
+ * configure.in: Update of version string
+
+
+2008-07-11  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Make plugin compile with Geany svn r2767.
+
+
+2008-06-26  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Update of used plugin API to v71.
+
+
+2008-06-16  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Make plugin also work together with GTK-2.8. Thanks to Nick for
+   providing patch.
+
+
+2008-06-14  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Update of plugin API
+
+
+2008-05-20  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Ported build system from spellcheck plugin. Thanks for it.
+ * Updated Geany plugin API.
+ * Activating of i18n support and adding a first German translation.
+
+
+2008-05-13  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Restart using ChangeLog.
+
+
+2007-11-29  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * geanysendmail.c: Applied a patch from Enrico to improve code;
+   Version 0.2b
+
+
+2007-11-23  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * geanysendmail.c, TODO: %f added Filename placeholder
+   Fixes a few segfaults and momory problems
+
+
+2007-11-23  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * geanysendmail.c: Added support configuration dialog called by
+   plugin manager and configuration file support to store mailer.
+ * TODO: Added list to keep in mind what is still missing
+
+
+2007-11-20  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * *: Initial commit

@@ -69,7 +69,10 @@ plugins = [
 	Plugin('spellcheck',
 		 [ 'spellcheck/src/gui.c', 'spellcheck/src/scplugin.c', 'spellcheck/src/speller.c' ], # source files
 		 [ 'spellcheck', 'spellcheck/src' ], # include dirs
-		 [ [ 'enchant', '1.3', True ] ])
+		 [ [ 'enchant', '1.3', True ] ]),
+	Plugin('geanysendmail',
+		 [ 'geanysendmail/src/geanysendmail.c' ],
+		 [ 'geanysendmail', 'geanysendmail/src' ])
 ]
 
 '''
@@ -85,10 +88,6 @@ temporary_disabled_plugins
 		   'gdb-ui-frame.c',  'gdb-ui-locn.c', 'gdb-ui-main.c',
 		   'geanydebug.c']), # source files
 		 [ 'geanygdb', 'geanygdb/src' ] # include dirs
-		 ),
-	Plugin('geanysendmail',
-		 [ 'geanysendmail/src/geanysendmail.c' ], # source files
-		 [ 'geanysendmail', 'geanysendmail/src' ] # include dirs
 		 ),
 	Plugin('geanydoc',
 		 [ 'geanydoc/src/config.c', 'geanydoc/src/geanydoc.c' ], # source files

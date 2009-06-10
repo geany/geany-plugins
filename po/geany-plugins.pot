@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-06-10 23:55+0200\n"
+"POT-Creation-Date: 2009-06-11 01:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,7 +36,8 @@ msgstr ""
 msgid "Various small addons for Geany."
 msgstr ""
 
-#: ../addons/src/addons.c:176 ../spellcheck/src/scplugin.c:143
+#: ../addons/src/addons.c:176 ../geanysendmail/src/geanysendmail.c:151
+#: ../geanysendmail/src/geanysendmail.c:312 ../spellcheck/src/scplugin.c:143
 msgid "Plugin configuration directory could not be created."
 msgstr ""
 
@@ -67,6 +68,96 @@ msgstr ""
 
 #: ../addons/src/ao_doclist.c:244
 msgid "Show Document List"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:47
+msgid "GeanySendMail"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:47
+msgid ""
+"A little plugin to send the current file as attachment by user's favorite "
+"mailer"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:107
+msgid "Recipient's Address"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:118
+msgid "Enter the recipient's e-mail address:"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:166
+msgid "Filename placeholder not found. The executed command might have failed."
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:172
+msgid ""
+"Recipient address placeholder not found. The executed command might have "
+"failed."
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:184
+msgid "Could not execute mailer. Please check your configuration."
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:196
+msgid "Please define a mail client first."
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:201
+msgid "File has to be saved before sending."
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:217
+msgid "Mail"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:248
+msgid "Send by mail"
+msgstr ""
+
+#. add a label and a text entry to the dialog
+#: ../geanysendmail/src/geanysendmail.c:333
+msgid "Path and options for the mail client:"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:341
+msgid ""
+"Note: \n"
+"\t\\%f will be replaced by your file.\n"
+"\t\\%r will be replaced by recipient's email address.\n"
+"\t\\%b will be replaced by basename of a file\n"
+"\tExamples:\n"
+"\tsylpheed --attach \"\\%f\" --compose \"\\%r\"\n"
+"\tmutt -s \"Sending '\\%b'\" -a \"\\%f\" \"\\%r\""
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:351
+msgid "Showing icon in toolbar"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:353
+msgid "Shows a icon in the toolbar to send file more easy."
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:359
+msgid "Using dialog for entering email address of recipients"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:384
+msgid "Send file by mail"
+msgstr ""
+
+#. Build up menu entry
+#: ../geanysendmail/src/geanysendmail.c:411
+msgid "_Mail document"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:414
+msgid ""
+"Sends the opened file as unzipped attachment by any mailer from your $PATH"
 msgstr ""
 
 #: ../spellcheck/src/speller.c:101
