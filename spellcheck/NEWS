@@ -1,0 +1,54 @@
+Spell Check 0.4 (May 30, 2009)
+
+    * Prefix the gettext package with "geany" to avoid possible naming
+      conflicts.
+    * List the available languages in the Tools menu as radio items
+      to easily indicate which language is currently in use.
+    * Show the default language also next to the 'Default' menu item.
+    * Show the currently used language in the toolbutton tooltip.
+
+
+Spell Check 0.3 (March 05, 2009)
+
+    * Reduce the delay to half a second to make checking while typing
+      smoother.
+    * Display a pulsing progressbar to show progress while checking
+      large documents.
+    * When replacing a misspelled word with a suggestion, add this
+      replacement to the spell checker to remember it in further checks.
+    * Remove the limit of showing a maximum of 10 suggestions, instead
+      add sub menus for more suggestions if available, similar to what
+      'gtkspell' does.
+    * When using 'Ignore All', add the word to ignore to the enchant
+      session list to really ignore it for further checks, too.
+    * Check the Scintilla lexing style for the word to check and
+      skip any further checks if the word is not a comment, string
+      or has any other style which belongs to the filetype language of
+      the current document. This makes the whole plugin much more useful,
+      eliminates many false positives and increases speed a lot.
+
+
+Spell Check 0.2 (October 29, 2008)
+
+    * Use Enchant as spell check engine instead of Aspell.
+
+    * When adding words to the dictionary, remove all indicators on
+      these words.
+    * Add keybinding to toggle the 'Check while typing' setting.
+    * Add toolbar button to quickly enable/disable the
+     'check while typing' setting (#2062239).
+    * Do not check numbers and words starting with digits.
+    * Add option to enable/disable use of the messages window.
+    * Provide a submenu to the editor menu with suggestions for
+      misspelled words and allow to add or ignore the word to the
+      personal dictionary.
+    * Highlight only misspelled instead of whole the line.
+    * Add Tools->Spellcheck sub menu to easily change the language to
+      use for spell checking.
+    * Add "check as you type" feature.
+
+
+Spell Check 0.1 (May 15, 2008)
+
+    * Initial 0.1 release of the Spell Check plugin with Aspell support.
+

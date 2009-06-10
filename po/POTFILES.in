@@ -1,0 +1,16 @@
+# List of source files containing translatable strings.
+
+# Addons
+addons/src/ao_systray.c
+addons/src/tasks.c
+addons/src/ao_openuri.c
+addons/src/addons.c
+addons/src/ao_doclist.c
+
+# Spell Check
+spellcheck/src/speller.c
+spellcheck/src/scplugin.c
+spellcheck/src/gui.c
+
+# Shift Column
+shiftcolumn/src/shiftcolumn.c

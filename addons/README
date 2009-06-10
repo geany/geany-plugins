@@ -1,0 +1,111 @@
+Addons Plugin
+=============
+
+
+About
+-----
+This plugin adds various small addons to Geany which aren't worth an own
+plugin but might still useful for people.
+
+DocList
+^^^^^^^
+This addon places a new item in the toolbar and when clicked offers a menu
+listing all open files plus the 'Close All' and 'Close Other Documents' menu
+items. This can be useful to quickly access open files and switch to them.
+
+OpenURI
+^^^^^^^
+Adds 'Open URI' and 'Copy URI' menu items to the editor menu when the word under
+the cursor looks like a URI. 'Open URI' uses the browser command configured in
+Geany to open it.
+
+Tasks
+^^^^^
+The tasks plugin goes through a file being edited and picks out lines with
+"TODO" or "FIXME" in them. It collects the text after those words and puts
+them in a new "Tasks" tab in the message window. Clicking on a task in that
+tab takes you to the line in the file where the task was defined.
+
+Systray
+^^^^^^^
+Adds a status icon to the notification area (systray) and provides
+a simple popup menu with some basic actions. It can also be used to
+quickly show and hide the Geany main window.
+
+
+Downloads
+---------
+
+Addons 0.2
+^^^^^^^^^^
+
+http://plugins.geany.org/addons/addons-0.2.tar.bz2
+
+http://plugins.geany.org/addons/addons-0.2.tar.bz2.sig (GPG-Signature)
+
+or
+
+http://plugins.geany.org/addons/addons-0.2.tar.gz
+
+http://plugins.geany.org/addons/addons-0.2.tar.gz.sig (GPG-Signature)
+
+
+Development Code
+^^^^^^^^^^^^^^^^
+
+Get the code from:
+
+    svn checkout http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/addons
+
+
+Requirements
+------------
+For compiling the plugin yourself, you will need the GTK (>= 2.8.0) libraries
+and header files. You will also need its dependency libraries and header
+files, such as Pango, Glib and ATK. All these files are available at
+http://www.gtk.org.
+
+And obviously, you will need have Geany installed. If you have Geany installed
+from the sources, you should be ready to go.
+If you used a prepared package e.g. from your distribution you probably need
+to install an additional package, this might be called geany-dev or geany-devel.
+Please note that in order to compile and use this plugin, you need Geany 0.16
+or later.
+
+Furthermore you need, of course, a C compiler and the Make tool.
+The GNU versions of these tools are recommended.
+
+
+Installation
+------------
+Compiling and installing the code is done by the following three commands:
+$ ./configure
+$ make
+$ make install
+
+For more configuration details run
+$ ./configure --help
+
+If there are any errors during compilation, check your build environment
+and try to find the error, otherwise contact one of the authors.
+
+
+Usage
+-----
+After installed successfully, simply load the plugin in Geany's plugin
+manager. In the configuration dialog you can enable or disable the various
+components of this plugin.
+
+
+License
+-------
+Addons is distributed under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2 of the
+License, or (at your option) any later version.  A copy of this license
+can be found in the file COPYING included with the source code of this
+program.
+
+
+Ideas, questions, patches and bug reports
+-----------------------------------------
+Report them at http://sourceforge.net/tracker/?group_id=222729.

@@ -1,0 +1,385 @@
+2009-05-30  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * configure.in, po/geanyspellcheck.pot:
+   Prefix the gettext package with "geany" to avoid possible
+   naming conflicts.
+
+
+2009-05-14  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/gui.c, src/scplugin.c, src/gui.h:
+   Update the label of the "Default" menu item if the default language
+   has been changed.
+ * src/speller.c:
+   Update Pascal styles as they changed in Scintilla.
+
+
+2009-05-02  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/gui.c:
+   Fix broken menu item "Default".
+
+
+2009-04-17  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/gui.c, src/scplugin.c, src/gui.h:
+   List the available languages in the Tools menu as radio items
+   to easily indicate which language is currently in use.
+   Show the default language also next to the 'Default' menu item.
+   Show the currently used language in the toolbutton tooltip.
+
+
+2009-03-05  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * New release: Spell Check 0.3.
+
+
+2009-02-27  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/gui.c, src/gui.h, src/scplugin.c, src/scplugin.h, src/speller.c,
+   src/speller.h:
+   Revert back the changes to use the "editor-notify" signal as it
+   makes things worse than before. Instead use the old code to connect
+   to the global "key-press-event" signal but reduce the delay
+   to half a second to make checking while typing smoother.
+
+
+2009-02-26  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * Makefile.am:
+   Fix 'make distcheck' by uninstalling documentation files.
+
+
+2009-02-17  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/gui.c, src/gui.h, src/scplugin.c, src/scplugin.h, src/speller.c,
+   src/speller.h:
+   Use the "editor-notify" signal to catch text modifications for
+   checking while typing. Also remove the timeout which never worked
+   as intended.
+   Don't add suggestions to the messages window when checking while
+   typing.
+   These changes should increase the usability and accuracy of the
+   'check while typing' feature while not being much slower (if ever).
+ * src/gui.c, src/scplugin.c, src/scplugin.h:
+   Display accelerator on the 'Default' menu item.
+ * src/gui.c, src/gui.h, src/scplugin.c, src/scplugin.h, src/speller.c,
+   src/speller.h:
+   Prefix all non-static functions which sc_ to avoid symbol clashes.
+ * src/speller.c:
+   Synchronise lexer checks with Geany's new filetypes.
+
+
+2009-02-15  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/sc_plugin.c:
+   Use Geany's main_locale_init() to init the localisation system.
+
+
+2009-02-14  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/speller.c:
+   Display a pulsing progressbar while checking large documents.
+
+
+2009-02-08  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/gui.c:
+   Remove unnecessary gpointer casts.
+   If the toolbar item is disabled, just hide it instead of destroying
+   it.
+
+
+2009-02-02  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * configure.in, Makefile.am:
+   Install documentation files into the geany-plugins doc dir.
+ * src/Makefile.am, src/scplugin.c:
+   Implement plugin_help() to open the Readme file in Geany.
+
+
+2009-01-21  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/gui.c:
+   Don't enable mnemonics for "Add ... to Dictionary" and "Ignore All"
+   menu items to prevent wrongly displayed labels.
+
+
+2009-01-18  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/scplugin.c, src/speller.c:
+   Update to Geany API 126 - LexOMS was removed.
+
+
+2009-01-14  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/scplugin.c:
+   Fix deprecated usage of g_win32_get_package_installation_directory(),
+   pass NULL as package name.
+ * po/de.po, src/gui.c, src/scplugin.c, src/speller.c, src/gui.h,
+   src/scplugin.h, src/speller.h:
+   Update copyright information.
+
+
+2008-12-06  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/scplugin.c, src/gui.c, src/speller.c:
+   Update to Geany API 115 - use geanyfunctions.h, from Nick's patch.
+
+
+2008-11-30  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/gui.c:
+   Show the 'Suggestions' sub menu in the editor menu also when we
+   have a misspelled word but no suggestions.
+   If there is a selection use it instead of the current word when
+   updating the editor menu.
+
+
+2008-11-21  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/scplugin.c, src/gui.c:
+   Make use of ui_image_menu_item_new().
+
+
+2008-11-16  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/speller.c, src/gui.c:
+   Update to Geany API 108 - indicator functions renamed.
+
+
+2008-11-15  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/speller.c, src/speller.h, src/gui.c:
+   When replacing a misspelled word with a suggestion, add this
+   replacement to the spell checker to remember it in further checks.
+ * src/gui.c, src/scplugin.c, src/speller.c, src/gui.h, src/scplugin.h:
+   Move SpellClickInfo struct into gui.c.
+ * src/gui.c:
+   Remove SpellClickInfo::suggs and retrieve the suggestion text from
+   the menu item label directly.
+   Remove the limit of showing a maximum of 10 suggestions, instead
+   add sub menus for more suggestions if available, similar to what
+   'gtkspell' does.
+   Fix an endless loop and some mismatches in clearing indicators when
+   using 'Add to Dictionary' and 'Ignore All'.
+
+
+2008-11-12  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/speller.c, src/speller.h, src/gui.c:
+   When using 'Ignore All', add the word to ignore to the enchant
+   session list to really ignore it for further checks, too.
+
+
+2008-11-10  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/speller.c, src/speller.h, src/gui.c:
+   Check the Scintilla lexing style for the word to check and
+   skip any further checks if the word is not a comment, string
+   or has any other style which belongs to the filetype language of
+   the current document. This makes the whole plugin much more useful,
+   eliminates many false positives and increases speed a lot.
+
+
+2008-10-29  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/speller.c, src/speller.h, src/scplugin.c:
+   Improve the auto-detection of the user's language (handle locales
+   like 'de_DE.UTF-8' correctly).
+ * src/gui.c:
+   Add 'Ignore All' menu item to the suggestions menu.
+ * New release: Spell Check 0.2.
+
+
+2008-10-25  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/speller.c:
+   Add some error checking and prevent crashes if Enchant doesn't
+   provide any dictionaries.
+   Plug a little memory leak.
+   If showing suggestions in the messages window is disabled, don't
+   check for suggestions at all, this heavily reduces the time needed
+   for a full document check.
+ * src/gui.c:
+   Ignore numbers when updating the editor menu.
+   Rename the editor menu item to 'Spelling Suggestions'.
+   When adding words to the dictionary, remove all indicators on
+   these words.
+ * src/gui.c, src/gui.h, src/scplugin.c:
+   Add keybinding to toggle the 'Check while typing' setting.
+
+
+2008-10-17  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/spellcheck.c, src/scplugin.c, src/gui.c, src/speller.c,
+   src/scplugin.h, src/gui.h, src/speller.h, src/Makefile.am,
+   po/POTFILES.in:
+   Split spellcheck.c into three source files.
+ * README:
+   Add some notes about known problems, especially with the
+   Zemberek provider.
+
+
+2008-10-16  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/spellcheck.c:
+   Test whether stored language is (still) available in enchant and fall
+   back to the first supported language if not.
+
+
+2008-10-15  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/spellcheck.c:
+   Update to Geany API 100 - use p_ui->add_document_sensitive().
+
+
+2008-10-13  Nick Treleaven  <nick(dot)treleaven(at)btinternet(dot)com>
+
+ * src/spellcheck.c:
+   Update to Geany API 99 - use p_plugin->add_toolbar_item().
+
+
+2008-09-18  Nick Treleaven  <nick(dot)treleaven(at)btinternet(dot)com>
+
+ * src/spellcheck.c:
+   Update to Geany API 95.
+
+
+2008-09-17  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/spellcheck.c:
+   Update to Geany API 94 and use new indicator API.
+
+
+2008-09-08  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/spellcheck.c:
+   Add toolbar button to quickly enable/disable the
+   'check while typing' setting (closes #2062239).
+   Do not check numbers and words starting with digits.
+   Use the 'gtk-spell-check' GTK stock icon for the main menu
+   item in the Tools menu.
+
+
+2008-08-03  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/spellcheck.c:
+   Disable the Tools menu item and the keybinding callbacks when
+   a dictionary could not be loaded.
+   Improve error message when loading the chosen dictionary failed.
+
+
+2008-07-20  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/spellcheck.c:
+   Remove temporary testing code.
+   Replace deprecated g_strncasecmp() with g_ascii_strncasecmp().
+
+
+2008-07-16  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/spellcheck.c:
+   Note: Don't use this revision for productive use!
+   Experimental changes in word retrieval to work better with complex
+   Unicode characters like in Hindi.
+   Use Scintilla's messages for finding word start and end positions
+   instead of my own variant which didn't work well in Hindi.
+   Add a temporary option to switch between Geany's word retrieval
+   method when showing the editor menu or use an alternative one
+   (only for testing).
+   This code is still in testing and should be considered as WIP.
+
+
+2008-07-15  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/spellcheck.c:
+   Update to Geany API 78 (GeanyEditor changes).
+
+
+2008-07-12  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/spellcheck.c:
+   Update to Geany API 75.
+
+
+2008-07-05  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/spellcheck.c:
+   Add option to enable/disable use of the messages window.
+   Don't act on key release events when the input focus is not in the
+   editor widget.
+   Fix showing an empty Spellcheck menu item in the editor popup menu.
+   Rename signal "populate-edit-menu" into "update-editor-menu".
+
+
+2008-07-03  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/spellcheck.c:
+   Create a new dict object when the default language in the preferences
+   dialog was changed to actually use the new language.
+
+
+2008-06-28  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/spellcheck.c:
+   Use "populate-edit-menu" signal to add a "Spell Check" menu item to
+   the editing menu and provide a submenu with suggestions for
+   misspelled words and allow to add the word to the personal
+   dictionary.
+
+
+2008-06-19  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * README, configure.in, src/Makefile.am, src/spellcheck.c:
+   Use enchant as spell check engine instead of Aspell.
+   Highlight only misspelled instead of whole the line.
+   Add Tools->Spellcheck sub menu to easily change the language
+   to use for spell checking.
+   Add "check as you type" feature.
+   Change doc pointer usage.
+   Update Readme.
+
+
+2008-06-03  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/spellcheck.c:
+   Compilation fixes.
+ * Makefile.am:
+   Add HTML target.
+
+
+2008-05-20  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/spellcheck.c:
+   Add new GeanyFunctions API.
+   Avoid crashes when LANG environment variable can't be read
+   (e.g. on Windows).
+   Detect the Aspell installation prefix on Windows and use it to find
+   installed dictionaries.
+ * makefile.win32:
+   Make Windows Makefile working.
+ * configure.in:
+   Explicitly depend on Geany >= 0.15.
+
+
+2008-05-16  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * configure.in:
+   Post-release version bump.
+   Display install location of the plugin binary and separately the
+   location of other files like translations for clarity.
+ * src/spellcheck.c:
+   Fix a big memory leak and don't use an unneeded array.
+   Fix possible crashes on Windows when working on unsaved documents
+   (patch by Nick, thanks :)).
+
+
+2008-05-15  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * po/*, src/*, *:
+   Initial import of spellcheck plugin.
+ * Makefile.am:
+   Add missing dist-bzip2 and sign targets.
+ * Initial 0.1 release of the spellcheck plugin.
+

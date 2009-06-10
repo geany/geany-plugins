@@ -1,0 +1,33 @@
+2009-03-31  Andrew L Janke  <a.janke@gmail.com>
+
+ * src/shiftcolumn.c: Check if document is open
+      before doing anything (Thanks Frank)
+
+2009-03-17  Andrew L Janke  <a.janke@gmail.com>
+
+ * src/shiftcolumn.c: Added VERSION instead of static string
+
+2009-03-12  Andrew L Janke  <a.janke@gmail.com>
+
+ * Added dk translation - Thanks Anders
+
+2009-03-10  Andrew L Janke  <a.janke@gmail.com>
+
+ * Added es translation - Thanks Jon
+ * Added fr translation - Thanks Laurence
+
+2009-03-10  Andrew L Janke  <a.janke@gmail.com>
+
+ * Added i18n headers to shiftcolumn.c
+ * Added ru and de translations
+
+2009-03-10  Andrew L Janke  <a.janke@gmail.com>
+
+ * Added GPL license and a few patches from Frank
+ * added a few translations in the process of learning pot
+
+2009-03-09  Andrew L Janke  <a.janke@gmail.com>
+
+ * Actually works now
+
+

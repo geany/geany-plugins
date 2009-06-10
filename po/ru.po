@@ -1,0 +1,195 @@
+# Russian translation for geany-plugins
+# Copyright (C) 2009 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the geany-plugins package.
+# Andrew Janke <a.janke@gmail.com>, 2009
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: geany-plugins 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-06-10 23:55+0200\n"
+"PO-Revision-Date: 2009-03-09 20:37+1000\n"
+"Last-Translator: Andrew Janke <a.janke@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../addons/src/tasks.c:311
+msgid "Tasks"
+msgstr ""
+
+#: ../addons/src/ao_openuri.c:169
+msgid "Open URI"
+msgstr ""
+
+#: ../addons/src/ao_openuri.c:175
+msgid "Copy URI"
+msgstr ""
+
+#: ../addons/src/addons.c:55
+msgid "Addons"
+msgstr ""
+
+#: ../addons/src/addons.c:55
+msgid "Various small addons for Geany."
+msgstr ""
+
+#: ../addons/src/addons.c:176 ../spellcheck/src/scplugin.c:143
+msgid "Plugin configuration directory could not be created."
+msgstr ""
+
+#: ../addons/src/addons.c:198
+msgid "Show toolbar item to show a list of currently open documents"
+msgstr ""
+
+#. TODO fix the string
+#: ../addons/src/addons.c:205
+msgid "Show a 'Open URI' menu item in the editor menu"
+msgstr ""
+
+#: ../addons/src/addons.c:211
+msgid "Show available tasks in the Message Window"
+msgstr ""
+
+#: ../addons/src/addons.c:217
+msgid "Show status icon in the Notification Area"
+msgstr ""
+
+#: ../addons/src/ao_doclist.c:209
+msgid "Close Ot_her Documents"
+msgstr ""
+
+#: ../addons/src/ao_doclist.c:214
+msgid "C_lose All"
+msgstr ""
+
+#: ../addons/src/ao_doclist.c:244
+msgid "Show Document List"
+msgstr ""
+
+#: ../spellcheck/src/speller.c:101
+msgid "Try: "
+msgstr ""
+
+#: ../spellcheck/src/speller.c:180
+msgid "Checking"
+msgstr ""
+
+#: ../spellcheck/src/speller.c:193
+#, c-format
+msgid "Checking file \"%s\" (lines %d to %d using %s):"
+msgstr ""
+
+#: ../spellcheck/src/speller.c:203
+#, c-format
+msgid "Checking file \"%s\" (using %s):"
+msgstr ""
+
+#: ../spellcheck/src/speller.c:221
+msgid "The checked text is spelled correctly."
+msgstr ""
+
+#: ../spellcheck/src/speller.c:231
+#, c-format
+msgid "The Enchant library couldn't be initialized (%s)."
+msgstr ""
+
+#: ../spellcheck/src/speller.c:232
+msgid "unknown error (maybe the chosen language is not available)"
+msgstr ""
+
+#: ../spellcheck/src/scplugin.c:59
+msgid "Spell Check"
+msgstr ""
+
+#: ../spellcheck/src/scplugin.c:59
+msgid "Checks the spelling of the current document."
+msgstr ""
+
+#: ../spellcheck/src/scplugin.c:60
+msgid "The Geany developer team"
+msgstr ""
+
+#: ../spellcheck/src/scplugin.c:199
+msgid "Run Spell Check"
+msgstr ""
+
+#: ../spellcheck/src/scplugin.c:202
+msgid "Toggle Check While Typing"
+msgstr ""
+
+#: ../spellcheck/src/scplugin.c:213
+msgid "Check spelling while typing"
+msgstr ""
+
+#: ../spellcheck/src/scplugin.c:217
+msgid "Show toolbar item to toggle spell checking"
+msgstr ""
+
+#: ../spellcheck/src/scplugin.c:222
+msgid "Print misspelled words and suggestions in the messages window"
+msgstr ""
+
+#: ../spellcheck/src/scplugin.c:226
+msgid "Language to use for the spell check:"
+msgstr ""
+
+#: ../spellcheck/src/gui.c:66
+msgid "Spell checking while typing is now enabled"
+msgstr ""
+
+#: ../spellcheck/src/gui.c:68
+msgid "Spell checking while typing is now disabled"
+msgstr ""
+
+#: ../spellcheck/src/gui.c:276
+msgid "More..."
+msgstr ""
+
+#: ../spellcheck/src/gui.c:290
+msgid "(No Suggestions)"
+msgstr ""
+
+#: ../spellcheck/src/gui.c:297
+#, c-format
+msgid "Add \"%s\" to Dictionary"
+msgstr ""
+
+#: ../spellcheck/src/gui.c:303
+msgid "Ignore All"
+msgstr ""
+
+#: ../spellcheck/src/gui.c:408
+#, c-format
+msgid "Default (%s)"
+msgstr ""
+
+#: ../spellcheck/src/gui.c:409 ../spellcheck/src/gui.c:420
+msgid "unknown"
+msgstr ""
+
+#: ../spellcheck/src/gui.c:419
+#, c-format
+msgid "Toggle spell check while typing (current language: %s)"
+msgstr ""
+
+#: ../spellcheck/src/gui.c:480
+msgid "Spelling Suggestions"
+msgstr ""
+
+#: ../shiftcolumn/src/shiftcolumn.c:46
+msgid "Shift Column"
+msgstr "Сдвинуть Столбец"
+
+#: ../shiftcolumn/src/shiftcolumn.c:47
+msgid "Shift a selection left and right"
+msgstr "Сдвинить Выделение влево и вправо"
+
+#: ../shiftcolumn/src/shiftcolumn.c:375 ../shiftcolumn/src/shiftcolumn.c:395
+msgid "Shift Left"
+msgstr "Сдвинуть Влево"
+
+#: ../shiftcolumn/src/shiftcolumn.c:382 ../shiftcolumn/src/shiftcolumn.c:397
+msgid "Shift Right"
+msgstr "Сдвинуть Вправо"

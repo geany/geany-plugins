@@ -1,0 +1,127 @@
+Spell Check Plugin
+==================
+
+.. contents::
+
+
+About
+-----
+This plugin checks the content of the current document in Geany with the spell
+check library Enchant. You can also select a certain text passage, then the
+plugin will only check the selected text. All lines with misspelled words
+are highlighted with a red squiggly underline and the wrong words are printed
+in the messages window at the bottom of Geany together with available
+suggestions. For the plugin to work at all, you need to have the Enchant
+library installed together with at least one backend (Aspell, Myspell,
+Hunspell, ...).
+The plugin's configure dialog lists all available languages/dictionaries
+which can be used for the spell check.
+
+
+Downloads
+---------
+
+Spell Check 0.4
+^^^^^^^^^^^^^^^
+
+http://plugins.geany.org/spellcheck/spellcheck-0.4.tar.bz2
+
+http://plugins.geany.org/spellcheck/spellcheck-0.4.tar.bz2.sig (GPG-Signature)
+
+or
+
+http://plugins.geany.org/spellcheck/spellcheck-0.4.tar.gz
+
+http://plugins.geany.org/spellcheck/spellcheck-0.4.tar.gz.sig (GPG-Signature)
+
+
+Development Code
+^^^^^^^^^^^^^^^^
+
+Get the code from:
+
+    svn checkout http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/spellcheck
+
+
+Requirements
+------------
+For compiling the plugin yourself, you will need the GTK (>= 2.8.0) libraries
+and header files. You will also need its dependency libraries and header
+files, such as Pango, Glib and ATK. All these files are available at
+http://www.gtk.org.
+Furthermore, you need to have installed enchant with its development files
+(libenchant-dev or enchant-devel).
+
+And obviously, you will need have Geany installed. If you have Geany installed
+from the sources, you should be ready to go.
+If you used a prepared package e.g. from your distribution you probably need
+to install an additional package, this might be called geany-dev or geany-devel.
+Please note that in order to compile and use this plugin, you need Geany 0.16
+or later.
+
+Furthermore you need, of course, a C compiler and the Make tool.
+The GNU versions of these tools are recommended.
+
+
+Installation
+------------
+Compiling and installing the code is done by the following three commands:
+$ ./configure
+$ make
+$ make install
+
+For more configuration details run
+$ ./configure --help
+
+If there are any errors during compilation, check your build environment
+and try to find the error, otherwise contact one of the authors.
+
+
+Usage
+-----
+After installed successfully, load the plugin in Geany's plugin manager
+and a new menu item in the Tools menu will appear. Alternatively, you can
+assign a keyboard shortcut in Geany's preferences dialog to perform a
+spell check.
+
+
+Known issues
+------------
+ * Spell checking with some languages like Hindi might be incorrect, i.e. some
+   words are incorrectly marked as correctly spelled or marked incorrectly
+   as misspelled.
+ * Crashes of Geany when loading the Spell Check plugin after it was unloaded.
+   This can happen when you are using a dictionary from the Zemberek provider
+   of Enchant (mostly Turkish dictionaries).
+   It can also happen when you tried to use a non-existing
+   dictionary and the Zemberek provider is installed on your system.
+   To avoid these crashes you have the following options:
+
+     * Do not load the plugin after it was unloaded, restart Geany first
+     * Do not use any of the dictionaries provided by the Zemberek provider
+     * Update your Enchant version at least to 1.4.3 (once it is released)
+     * Uninstall the Zemberek provider
+
+  Background:
+              These crashes are all related to the Zemberek provider in Enchant.
+              In version 1.4.2 and prior of Enchant, this provider/backend always
+              claimed to support any given invalid dictionary name and so it was
+              active and caused these crashes on load after unload of the plugin.
+              This provider is DBus-based and uses the GObject type
+              registration system which is not really capable of being unloaded and
+              loaded again.
+
+
+License
+-------
+Spell Check is distributed under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2 of the
+License, or (at your option) any later version.  A copy of this license
+can be found in the file COPYING included with the source code of this
+program.
+
+
+Ideas, questions, patches and bug reports
+-----------------------------------------
+Send it to me at enrico(dot)troeger(at)uvena(dot)de
+or report them at http://sourceforge.net/tracker/?group_id=222729.

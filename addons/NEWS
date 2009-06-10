@@ -1,0 +1,12 @@
+Addons 0.2 (May 30, 2009)
+
+    * Add a status icon for the notification area (systray).
+    * Add Russian translation.
+    * Prefix the gettext package with "geany" to avoid possible naming
+      conflicts.
+
+
+Addons 0.1 (April 08, 2009)
+
+    * Initial release of the Addons plugins.
+

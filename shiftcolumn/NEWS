@@ -1,0 +1,11 @@
+
+New in Version 0.3
+------------------
+
+* added license and po files (de,fr,ru,sw translations)
+* will no longer crash if called when no document is open
+
+New in Version 0.2
+------------------
+
+* it works
