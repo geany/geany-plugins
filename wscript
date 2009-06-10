@@ -32,7 +32,7 @@ If you need additional checks for header files, functions in libraries or
 need to check for library packages (using pkg-config), please ask Enrico
 before committing changes. Thanks.
 
-Requires WAF 1.5.3 and Python 2.4 (or later).
+Requires WAF 1.5.7 and Python 2.4 (or later).
 """
 
 
@@ -48,15 +48,13 @@ blddir = '_build_'
 
 
 class Plugin:
-	def __init__(self, n, s, i, v=VERSION, l=[], g=None):
+	def __init__(self, n, s, i, l=[], g=None):
 		self.name = n
 		self.sources = s
 		self.includes = i # do not include '.'
-		self.version = v
-		self.libs = l # a list of lists of libs and their versions, e.g. [ [ 'gtk', '2.6' ],
+		self.libs = l # a list of lists of libs and their versions, e.g. [ [ 'enchant', '1.3' ],
 		              # [ 'gtkspell-2.0', '2.0', False ] ], the third argument defines whether
 		              # the dependency is mandatory
-		self.gettext_package = g if g else n
 
 
 # add a new element for your plugin
@@ -64,28 +62,38 @@ plugins = [
 	Plugin('addons',
 		 [ 'addons/src/addons.c', 'addons/src/ao_doclist.c', 'addons/src/ao_openuri.c',
 		   'addons/src/ao_systray.c', 'addons/src/tasks.c' ],
-		 [ 'addons', 'addons/src' ],
-		 '0.3', [], 'geanyaddons'),
+		 [ 'addons', 'addons/src' ]),
+	Plugin('shiftcolumn',
+		 [ 'shiftcolumn/src/shiftcolumn.c'],
+		 [ 'shiftcolumn', 'shiftcolumn/src']),
+	Plugin('spellcheck',
+		 [ 'spellcheck/src/gui.c', 'spellcheck/src/scplugin.c', 'spellcheck/src/speller.c' ], # source files
+		 [ 'spellcheck', 'spellcheck/src' ], # include dirs
+		 [ [ 'enchant', '1.3', True ] ])
+]
+
+'''
+temporary_disabled_plugins
 	Plugin('externdbg',
 		 [ 'externdbg/src/dbg.c' ], # source files
-		 [ 'externdbg', 'externdbg/src' ], # include dirs
-		 '0.1'),
+		 [ 'externdbg', 'externdbg/src' ] # include dirs
+		 ),
 	Plugin('geanygdb',
 		 map(lambda x: "geanygdb/src/" + x, ['gdb-io-break.c',
 		   'gdb-io-envir.c', 'gdb-io-frame.c', 'gdb-io-read.c', 'gdb-io-run.c',
 		   'gdb-io-stack.c', 'gdb-lex.c', 'gdb-ui-break.c', 'gdb-ui-envir.c',
 		   'gdb-ui-frame.c',  'gdb-ui-locn.c', 'gdb-ui-main.c',
 		   'geanydebug.c']), # source files
-		 [ 'geanygdb', 'geanygdb/src' ], # include dirs
-		 '0.1'),
+		 [ 'geanygdb', 'geanygdb/src' ] # include dirs
+		 ),
 	Plugin('geanysendmail',
 		 [ 'geanysendmail/src/geanysendmail.c' ], # source files
-		 [ 'geanysendmail', 'geanysendmail/src' ], # include dirs
-		 '0.4.2'),
+		 [ 'geanysendmail', 'geanysendmail/src' ] # include dirs
+		 ),
 	Plugin('geanydoc',
 		 [ 'geanydoc/src/config.c', 'geanydoc/src/geanydoc.c' ], # source files
-		 [ 'geanydoc', 'geanydoc/src' ], # include dirs
-		 '0.3'),
+		 [ 'geanydoc', 'geanydoc/src' ] # include dirs
+		 ),
 	Plugin('geanylatex',
 		 [ 'geanylatex/src/latexencodings.c', 'geanylatex/src/geanylatex.c',
 		   'geanylatex/src/letters.c', 'geanylatex/src/bibtex.c',
@@ -94,41 +102,29 @@ plugins = [
 		   'geanylatex/src/formatpatterns.c',
 		   'geanylatex/src/latexenvironments.c',
 		   'geanylatex/src/latexkeybindings.c'],
-		 [ 'geanylatex' ], # include dirs
-		 '0.4'),
-	Plugin('geanylua',
-		 [ 'geanylua/geanylua.c' ], # the other source files are listed in build_lua()
-		 [ 'geanylua' ], # include dirs
-		 # maybe you need to modify the package name of Lua, try one of these: lua5.1 lua51 lua-5.1
-		 '0.7.0', [ [ 'lua', '5.1', True ] ]),
+		 [ 'geanylatex' ] # include dirs
+		 ),
 	Plugin('geanyprj',
 		 [ 'geanyprj/src/geanyprj.c', 'geanyprj/src/menu.c', 'geanyprj/src/project.c',
 		   'geanyprj/src/sidebar.c', 'geanyprj/src/utils.c', 'geanyprj/src/xproject.c' ],
-		 [ 'geanyprj', 'geanyprj/src' ], # include dirs
-		 '0.5'),
+		 [ 'geanyprj', 'geanyprj/src' ] # include dirs
+		 ),
 	Plugin('geanyvc',
 		 [ 'geanyvc/geanyvc.c', 'geanyvc/utils.c', 'geanyvc/externdiff.c',
 		   'geanyvc/vc_git.c', 'geanyvc/vc_cvs.c', 'geanyvc/vc_svn.c',
 		   'geanyvc/vc_svk.c', 'geanyvc/vc_bzr.c', 'geanyvc/vc_hg.c' ],
 		 [ 'geanyvc' ], # include dirs
-		 '0.6', [ [ 'gtkspell-2.0', '2.0', False ] ]),
-	Plugin('spellcheck',
-		 [ 'spellcheck/src/gui.c', 'spellcheck/src/scplugin.c', 'spellcheck/src/speller.c' ], # source files
-		 [ 'spellcheck', 'spellcheck/src' ], # include dirs
-		 '0.5', [ [ 'enchant', '1.3', True ] ], 'geanyspellcheck'),
+		 [ [ 'gtkspell-2.0', '2.0', False ] ]),
 	Plugin('geanylipsum',
 		 [ 'geanylipsum/src/geanylipsum.c' ], # source files
-		 [ 'geanylipsum', 'geanylipsum/src' ], # include dirs
-		 '0.2dev'),
+		 [ 'geanylipsum', 'geanylipsum/src' ] # include dirs
+		 ),
 	Plugin('geany-mini-script',
 		 [ 'geany-mini-script/src/gms.c', 'geany-mini-script/src/gms_gui.c' ], # source files
-		 [ 'geany-mini-script', 'geany-mini-script/src' ], # include dirs
-		 '0.2'),
-	Plugin('shiftcolumn',
-		 [ 'shiftcolumn/src/shiftcolumn.c'],
-		 [ 'shiftcolumn', 'shiftcolumn/src'],
-		 '0.3')
-]
+		 [ 'geany-mini-script', 'geany-mini-script/src' ] # include dirs
+		 )
+'''
+
 
 makefile_template = '''#!/usr/bin/make -f
 # Waf Makefile wrapper
@@ -221,7 +217,7 @@ def configure(conf):
 	if not is_win32:
 		set_lib_dir()
 
-	conf.check_cfg(package='gtk+-2.0', atleast_version='2.6.0', uselib_store='GTK',
+	conf.check_cfg(package='gtk+-2.0', atleast_version='2.8.0', uselib_store='GTK',
 		mandatory=True, args='--cflags --libs')
 	conf.check_cfg(package='geany', atleast_version='0.17', mandatory=True, args='--cflags --libs')
 
@@ -278,32 +274,28 @@ def configure(conf):
 
 	conf.env['G_PREFIX'] = conf.env['PREFIX']
 
-	# write a config.h for each plugin
-	for p in plugins:
-		if p.name in enabled_plugins:
-			if p.name == 'geanyvc' and conf.env['HAVE_GTKSPELL_2_0'] == 1:
-				# hack for GeanyVC
-				conf.define('USE_GTKSPELL', 1);
-			conf.define('VERSION', p.version, 1)
-			conf.define('PACKAGE', p.name, 1)
-			if is_win32:
-				conf.define('PREFIX', '', 1)
-				conf.define('LIBDIR', '', 1)
-				conf.define('DOCDIR', 'doc/%s' % p.name, 1)
-				conf.define('LOCALEDIR', 'share/locale', 1)
-				# DATADIR is defined in objidl.h, so we remove it from config.h
-				conf.undefine('DATADIR')
-			else:
-				conf.define('PREFIX', conf.env['PREFIX'], 1)
-				conf.define('DOCDIR', '%s/doc/geany-plugins/%s' % (conf.env['DATADIR'], p.name), 1)
-			if os.path.exists(os.path.join(p.name, 'po')):
-				conf.define('GETTEXT_PACKAGE', p.gettext_package, 1)
-				conf.define('ENABLE_NLS', 1)
-			else:
-				conf.undefine('GETTEXT_PACKAGE')
-				conf.undefine('ENABLE_NLS')
-			conf.write_config_header(os.path.join(p.name, 'config.h'))
+	if 'geanyvc' in enabled_plugins:
+		# hack for GeanyVC
+		conf.define('USE_GTKSPELL', 1);
+
 	if is_win32:
+		conf.define('PREFIX', '', 1)
+		conf.define('LIBDIR', '', 1)
+		conf.define('DOCDIR', 'doc/%s' % p.name, 1)
+		conf.define('LOCALEDIR', 'share/locale', 1)
+		# DATADIR is defined in objidl.h, so we remove it from config.h
+		conf.undefine('DATADIR')
+	else:
+		conf.define('PREFIX', conf.env['PREFIX'], 1)
+	# fixme, DOCDIR is wrong
+	conf.define('DOCDIR', '%s/doc/geany-plugins/' % conf.env['DATADIR'], 1)
+	conf.define('VERSION', VERSION, 1)
+	conf.define('PACKAGE', APPNAME, 1)
+	conf.define('GETTEXT_PACKAGE', APPNAME, 1)
+	conf.define('ENABLE_NLS', 1)
+	conf.write_config_header('config.h')
+
+	if is_win32: # overwrite LOCALEDIR to install message catalogues properly
 		conf.env['LOCALEDIR'] = os.path.join(conf.env['G_PREFIX'], 'share/locale')
 
 	Utils.pprint('BLUE', 'Summary:')
@@ -420,15 +412,16 @@ def build(bld):
 			install_path	= '${G_PREFIX}/lib' if is_win32 else '${LIBDIR}/geany/'
 		)
 
-		if os.path.exists(os.path.join(p.name, 'po')) and bld.env['INTLTOOL']:
+		install_docs(bld, p.name, 'AUTHORS ChangeLog COPYING NEWS README THANKS TODO'.split())
+
+
+	if bld.env['INTLTOOL']:
 			bld.new_task_gen(
 				features	= 'intltool_po',
-				podir		= os.path.join(p.name, 'po'),
-				appname		= p.gettext_package,
+			podir		= 'po',
+			appname		= APPNAME,
 				install_path = '${G_PREFIX}/share/locale' if is_win32 else '${LOCALEDIR}'
 			)
-
-		install_docs(bld, p.name, 'AUTHORS ChangeLog COPYING NEWS README THANKS TODO'.split())
 
 
 def init():
@@ -445,31 +438,23 @@ def init():
 
 def shutdown():
 	if Options.options.update_po:
-		# the following code is based on code from midori's WAF script, thanks
-		for p in plugins:
-			if not p.name in Build.bld.env['enabled_plugins']:
-				continue;
-			dir = os.path.join(p.name, 'po')
+		# the following code was taken from midori's WAF script, thanks
+		potfile = '%s.pot' % (APPNAME)
+		os.chdir('%s/po' % srcdir)
+		try:
 			try:
-				os.chdir(dir)
-				try:
-					try:
-						size_old = os.stat(p.name + '.pot').st_size
-					except:
-						size_old = 0
-					Utils.exec_command('intltool-update --pot -g %s' % p.name)
-					size_new = os.stat(p.name + '.pot').st_size
-					if size_new != size_old:
-						Utils.pprint('CYAN', 'Updated POT file for %s.' % p.name)
-						launch('intltool-update -r -g %s' % p.name,
-							'Updating translations for %s' % p.name, 'CYAN')
-					else:
-						Utils.pprint('CYAN', 'POT file is up to date for %s.' % p.name)
-				except:
-					Utils.pprint('RED', 'Failed to generate pot file for %s.' % p.name)
-				os.chdir(os.path.join('..', '..'))
+				size_old = os.stat(potfile).st_size
 			except:
-				pass
+				size_old = 0
+			Utils.exec_command('intltool-update --pot -g %s' % APPNAME)
+			if os.stat(potfile).st_size != size_old:
+				Utils.pprint('CYAN', 'Updated POT file.')
+				launch('intltool-update -r -g %s' % APPNAME, 'Updating translations', 'CYAN')
+			else:
+				Utils.pprint('CYAN', 'POT file is up to date.')
+		except:
+			Utils.pprint('RED', 'Failed to generate pot file.')
+		os.chdir('..')
 
 
 # Simple function to execute a command and print its exit status
