@@ -64,11 +64,12 @@ class Plugin:
 # add a new element for your plugin
 plugins = [
 	Plugin('addons', None, [ 'addons/src' ]),
-	Plugin('shiftcolumn', None, [ 'shiftcolumn/src']),
-	Plugin('spellcheck', None, [ 'spellcheck/src' ], [ [ 'enchant', '1.3', True ] ]),
 	Plugin('geanysendmail',
-		 [ 'geanysendmail/src/geanysendmail.c' ],
-		 [ 'geanysendmail/src' ])
+		[ 'geanysendmail/src/geanysendmail.c' ],
+		[ 'geanysendmail/src' ]),
+	Plugin('geanylipsum', None, [ 'geanylipsum/src']),
+	Plugin('shiftcolumn', None, [ 'shiftcolumn/src']),
+	Plugin('spellcheck', None, [ 'spellcheck/src' ], [ [ 'enchant', '1.3', True ] ])
 ]
 
 '''
@@ -110,10 +111,6 @@ temporary_disabled_plugins
 		   'geanyvc/vc_svk.c', 'geanyvc/vc_bzr.c', 'geanyvc/vc_hg.c' ],
 		 [ 'geanyvc' ], # include dirs
 		 [ [ 'gtkspell-2.0', '2.0', False ] ]),
-	Plugin('geanylipsum',
-		 [ 'geanylipsum/src/geanylipsum.c' ], # source files
-		 [ 'geanylipsum', 'geanylipsum/src' ] # include dirs
-		 ),
 	Plugin('geany-mini-script',
 		 [ 'geany-mini-script/src/gms.c', 'geany-mini-script/src/gms_gui.c' ], # source files
 		 [ 'geany-mini-script', 'geany-mini-script/src' ] # include dirs

@@ -7,6 +7,9 @@ addons/src/ao_openuri.c
 addons/src/addons.c
 addons/src/ao_doclist.c
 
+#geanylipsum
+geanylipsum/src/geanylipsum.c
+
 # geanysendmail
 geanysendmail/src/geanysendmail.c
 
