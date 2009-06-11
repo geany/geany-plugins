@@ -310,10 +310,14 @@ def configure(conf):
 	conf.env.append_value('enabled_plugins', enabled_plugins)
 	conf.env.append_value('CCFLAGS', '-DHAVE_CONFIG_H'.split())
 
-	# write a simply Makefile
-	f = open('Makefile', 'w')
-	print >>f, makefile_template
-	f.close
+	if is_win32: # convenience script (script content copied from the original waf.bat)
+		f = open('waf.bat', 'wb')
+		f.write('@python -x %~dp0waf %* & exit /b')
+		f.close
+	else: # write a simple Makefile
+		f = open('Makefile', 'w')
+		f.write(makefile_template)
+		f.close
 
 
 def set_options(opt):
