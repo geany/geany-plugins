@@ -27,7 +27,7 @@
 PLUGIN_VERSION_CHECK(136)
 
 PLUGIN_SET_INFO(_("LaTeX"), _("Plugin to provide better LaTeX support"),
-	VERSION,"Frank Lanitz <frank@frank.uvena.de>")
+	"0.4", "Frank Lanitz <frank@frank.uvena.de>")
 
 GeanyPlugin		*geany_plugin;
 GeanyData		*geany_data;
