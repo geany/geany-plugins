@@ -1,19 +1,20 @@
 # French translation for geany-plugins
 # Copyright (C) 2009 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Burlot Pascal <prublot(at)users(dot)sourceforge(dot)net>, 2009.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-06-10 23:55+0200\n"
-"PO-Revision-Date: 2009-03-10 10:56+1000\n"
+"POT-Creation-Date: 2009-06-11 10:17+0200\n"
+"PO-Revision-Date: 2009-06-11 10:15+0200\n"
 "Last-Translator: Andrew L Janke <a.janke@gmail.com>\n"
-"Language-Team: \n"
+"Language-Team: French <geany-i18n@uvena.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: ../addons/src/tasks.c:311
 msgid "Tasks"
@@ -35,7 +36,8 @@ msgstr ""
 msgid "Various small addons for Geany."
 msgstr ""
 
-#: ../addons/src/addons.c:176 ../spellcheck/src/scplugin.c:143
+#: ../addons/src/addons.c:176 ../geanysendmail/src/geanysendmail.c:151
+#: ../geanysendmail/src/geanysendmail.c:312 ../spellcheck/src/scplugin.c:143
 msgid "Plugin configuration directory could not be created."
 msgstr ""
 
@@ -66,6 +68,97 @@ msgstr ""
 
 #: ../addons/src/ao_doclist.c:244
 msgid "Show Document List"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:47
+msgid "GeanySendMail"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:47
+msgid ""
+"A little plugin to send the current file as attachment by user's favorite "
+"mailer"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:107
+msgid "Recipient's Address"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:118
+msgid "Enter the recipient's e-mail address:"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:166
+msgid "Filename placeholder not found. The executed command might have failed."
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:172
+msgid ""
+"Recipient address placeholder not found. The executed command might have "
+"failed."
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:184
+msgid "Could not execute mailer. Please check your configuration."
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:196
+msgid "Please define a mail client first."
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:201
+msgid "File has to be saved before sending."
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:217
+msgid "Mail"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:248
+msgid "Send by mail"
+msgstr ""
+
+#. add a label and a text entry to the dialog
+#: ../geanysendmail/src/geanysendmail.c:333
+msgid "Path and options for the mail client:"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:341
+msgid ""
+"Note: \n"
+"\t\\%f will be replaced by your file.\n"
+"\t\\%r will be replaced by recipient's email address.\n"
+"\t\\%b will be replaced by basename of a file\n"
+"\tExamples:\n"
+"\tsylpheed --attach \"\\%f\" --compose \"\\%r\"\n"
+"\tmutt -s \"Sending '\\%b'\" -a \"\\%f\" \"\\%r\""
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:351
+msgid "Showing icon in toolbar"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:353
+msgid "Shows a icon in the toolbar to send file more easy."
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:359
+msgid "Using dialog for entering email address of recipients"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:384
+msgid "Send file by mail"
+msgstr ""
+
+#. Build up menu entry
+#: ../geanysendmail/src/geanysendmail.c:411
+#, fuzzy
+msgid "_Mail document"
+msgstr "document"
+
+#: ../geanysendmail/src/geanysendmail.c:414
+msgid ""
+"Sends the opened file as unzipped attachment by any mailer from your $PATH"
 msgstr ""
 
 #: ../spellcheck/src/speller.c:101
@@ -193,3 +286,113 @@ msgstr "Déplacer vers la droit"
 #: ../shiftcolumn/src/shiftcolumn.c:382 ../shiftcolumn/src/shiftcolumn.c:397
 msgid "Shift Right"
 msgstr "Déplacer vers la gauche"
+
+#~ msgid "Load Mini-Script File"
+#~ msgstr "Chargement du mini-script"
+
+#~ msgid "Save Mini-Script File"
+#~ msgstr "Sauvegarde du Mini-script"
+
+#~ msgid ""
+#~ "<b>GMS : Geany Mini-Script filter Plugin</b>\n"
+#~ "This plugin is a tools to apply a script filter on :\n"
+#~ "   o the text selection,\n"
+#~ "   o the current document,\n"
+#~ "   o all documents of the current session.\n"
+#~ "\n"
+#~ "The filter type can be : \n"
+#~ "   o Unix shell script, \n"
+#~ "   o perl script, \n"
+#~ "   o python script, \n"
+#~ "   o sed commands,\n"
+#~ "   o awk script.\n"
+#~ "\n"
+#~ "<b>AUTHOR</b>\n"
+#~ "   Written by Pascal BURLOT (December,2008)\n"
+#~ "\n"
+#~ "<b>LICENSE:</b>\n"
+#~ "This program is free software; you can redistribute\n"
+#~ "it and/or modify it under the terms of the GNU \n"
+#~ "General Public License as published by the Free\n"
+#~ "Software Foundation; either version 2 of the License,\n"
+#~ "or (at your option) any later version."
+#~ msgstr ""
+#~ "<b>GMS : Geany Mini-Script filter Plugin</b>\n"
+#~ "Ce plugin est un outils pour appliquer un script sur:\n"
+#~ "   o la sélection de texte,\n"
+#~ "   o le document courant,\n"
+#~ "   o tous les documents de la session courante.\n"
+#~ "\n"
+#~ "Le type du script peut être : \n"
+#~ "   o un script shell UNIX, \n"
+#~ "   o un script PERL, \n"
+#~ "   o un script PYTHON, \n"
+#~ "   o une liste de commandes SED,\n"
+#~ "   o un script AWK.\n"
+#~ "\n"
+#~ "<b>AUTEUR</b>\n"
+#~ "   Ecrit par Pascal BURLOT (Decembre,2008)\n"
+#~ "\n"
+#~ "<b>LICENSE:</b>\n"
+#~ "This program is free software; you can redistribute\n"
+#~ "it and/or modify it under the terms of the GNU \n"
+#~ "General Public License as published by the Free\n"
+#~ "Software Foundation; either version 2 of the License,\n"
+#~ "or (at your option) any later version."
+
+#~ msgid "Mini-Script Filter"
+#~ msgstr "Filtre Mini-Script"
+
+#~ msgid "Clear the mini-script window"
+#~ msgstr "Efface la fenêtre du mini-script"
+
+#~ msgid "Load a mini-script into this window"
+#~ msgstr "Charge un fichier mini-script dans la fenêtre"
+
+#~ msgid "Save the mini-script into a file"
+#~ msgstr "Sauve le mini-script courant dans un fichier"
+
+#~ msgid "Display a information about the mini-script plugin"
+#~ msgstr "Affiche des informations à propos du plugin mini-script"
+
+#~ msgid "select the mini-script type"
+#~ msgstr "Sélectionne le type du mini-script"
+
+#~ msgid "filter input"
+#~ msgstr "Entrée du filtre"
+
+#~ msgid "select the input of mini-script filter"
+#~ msgstr "Sélectionne l'entrée du mini-script"
+
+#~ msgid "selection"
+#~ msgstr "sélection"
+
+#~ msgid "session"
+#~ msgstr "session"
+
+#~ msgid "filter output"
+#~ msgstr "sortie du filtre"
+
+#~ msgid "select the output of mini-script filter"
+#~ msgstr "Sélectionne la sortie du mini-script"
+
+#~ msgid "Current Doc."
+#~ msgstr "Doc. courant"
+
+#~ msgid "New Doc."
+#~ msgstr "Nouveau Doc."
+
+#~ msgid "script configuration"
+#~ msgstr "Configuration du script"
+
+#~ msgid "geany mini-script"
+#~ msgstr "mini-script pour geany"
+
+#~ msgid "GMS (Geany Mini-Script filter plugin)"
+#~ msgstr "GMS ( plugin Geany Mini-Script)"
+
+#~ msgid "Pascal BURLOT, a Geany user"
+#~ msgstr "Pascal BURLOT, un utilisateur de Geany"
+
+#~ msgid "_Mini-Script"
+#~ msgstr "_Mini-script"

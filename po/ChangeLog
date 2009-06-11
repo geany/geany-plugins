@@ -1,0 +1,8 @@
+2009-06-11  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * geany-plugins.pot, LINGUAS, *.po:
+   Add ChangeLog.
+   Fix headers of the existing translations.
+   Merge all existing translations into the catalogues and update them.
+   Fix wrong language code in the filename of the Danish translation.
+

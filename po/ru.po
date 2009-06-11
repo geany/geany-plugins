@@ -2,18 +2,21 @@
 # Copyright (C) 2009 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 # Andrew Janke <a.janke@gmail.com>, 2009
+# John Wehin <john.wehin@gmail.com>, 2009
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-06-10 23:55+0200\n"
-"PO-Revision-Date: 2009-03-09 20:37+1000\n"
-"Last-Translator: Andrew Janke <a.janke@gmail.com>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2009-06-11 10:17+0200\n"
+"PO-Revision-Date: 2009-06-11 10:15+0200\n"
+"Last-Translator: John Wehin <john.wehin@gmail.com>\n"
+"Language-Team: Russian <geany-i18n@uvena.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: ../addons/src/tasks.c:311
 msgid "Tasks"
@@ -21,32 +24,33 @@ msgstr ""
 
 #: ../addons/src/ao_openuri.c:169
 msgid "Open URI"
-msgstr ""
+msgstr "Открыть URI"
 
 #: ../addons/src/ao_openuri.c:175
 msgid "Copy URI"
-msgstr ""
+msgstr "Копировать URI"
 
 #: ../addons/src/addons.c:55
 msgid "Addons"
-msgstr ""
+msgstr "Дополнения"
 
 #: ../addons/src/addons.c:55
 msgid "Various small addons for Geany."
-msgstr ""
+msgstr "Различные небольшие дополнения для Geany."
 
-#: ../addons/src/addons.c:176 ../spellcheck/src/scplugin.c:143
+#: ../addons/src/addons.c:176 ../geanysendmail/src/geanysendmail.c:151
+#: ../geanysendmail/src/geanysendmail.c:312 ../spellcheck/src/scplugin.c:143
 msgid "Plugin configuration directory could not be created."
-msgstr ""
+msgstr "Каталог настроек плагинов не может быть создан."
 
 #: ../addons/src/addons.c:198
 msgid "Show toolbar item to show a list of currently open documents"
-msgstr ""
+msgstr "Показать в панели инструментов как список текущих открытых документов"
 
 #. TODO fix the string
 #: ../addons/src/addons.c:205
 msgid "Show a 'Open URI' menu item in the editor menu"
-msgstr ""
+msgstr "Показать 'Открыть URI' в меню редактора"
 
 #: ../addons/src/addons.c:211
 msgid "Show available tasks in the Message Window"
@@ -58,14 +62,104 @@ msgstr ""
 
 #: ../addons/src/ao_doclist.c:209
 msgid "Close Ot_her Documents"
-msgstr ""
+msgstr "Закрыть _другие документы"
 
 #: ../addons/src/ao_doclist.c:214
 msgid "C_lose All"
-msgstr ""
+msgstr "З_акрыть все"
 
 #: ../addons/src/ao_doclist.c:244
 msgid "Show Document List"
+msgstr "Показать список документов"
+
+#: ../geanysendmail/src/geanysendmail.c:47
+msgid "GeanySendMail"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:47
+msgid ""
+"A little plugin to send the current file as attachment by user's favorite "
+"mailer"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:107
+msgid "Recipient's Address"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:118
+msgid "Enter the recipient's e-mail address:"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:166
+msgid "Filename placeholder not found. The executed command might have failed."
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:172
+msgid ""
+"Recipient address placeholder not found. The executed command might have "
+"failed."
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:184
+msgid "Could not execute mailer. Please check your configuration."
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:196
+msgid "Please define a mail client first."
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:201
+msgid "File has to be saved before sending."
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:217
+msgid "Mail"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:248
+msgid "Send by mail"
+msgstr ""
+
+#. add a label and a text entry to the dialog
+#: ../geanysendmail/src/geanysendmail.c:333
+msgid "Path and options for the mail client:"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:341
+msgid ""
+"Note: \n"
+"\t\\%f will be replaced by your file.\n"
+"\t\\%r will be replaced by recipient's email address.\n"
+"\t\\%b will be replaced by basename of a file\n"
+"\tExamples:\n"
+"\tsylpheed --attach \"\\%f\" --compose \"\\%r\"\n"
+"\tmutt -s \"Sending '\\%b'\" -a \"\\%f\" \"\\%r\""
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:351
+msgid "Showing icon in toolbar"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:353
+msgid "Shows a icon in the toolbar to send file more easy."
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:359
+msgid "Using dialog for entering email address of recipients"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:384
+msgid "Send file by mail"
+msgstr ""
+
+#. Build up menu entry
+#: ../geanysendmail/src/geanysendmail.c:411
+msgid "_Mail document"
+msgstr ""
+
+#: ../geanysendmail/src/geanysendmail.c:414
+msgid ""
+"Sends the opened file as unzipped attachment by any mailer from your $PATH"
 msgstr ""
 
 #: ../spellcheck/src/speller.c:101
@@ -124,8 +218,9 @@ msgid "Check spelling while typing"
 msgstr ""
 
 #: ../spellcheck/src/scplugin.c:217
+#, fuzzy
 msgid "Show toolbar item to toggle spell checking"
-msgstr ""
+msgstr "Показать в панели инструментов как список текущих открытых документов"
 
 #: ../spellcheck/src/scplugin.c:222
 msgid "Print misspelled words and suggestions in the messages window"
@@ -157,8 +252,9 @@ msgid "Add \"%s\" to Dictionary"
 msgstr ""
 
 #: ../spellcheck/src/gui.c:303
+#, fuzzy
 msgid "Ignore All"
-msgstr ""
+msgstr "З_акрыть все"
 
 #: ../spellcheck/src/gui.c:408
 #, c-format
@@ -166,8 +262,9 @@ msgid "Default (%s)"
 msgstr ""
 
 #: ../spellcheck/src/gui.c:409 ../spellcheck/src/gui.c:420
+#, fuzzy
 msgid "unknown"
-msgstr ""
+msgstr "(неизвестно)"
 
 #: ../spellcheck/src/gui.c:419
 #, c-format
@@ -193,3 +290,555 @@ msgstr "Сдвинуть Влево"
 #: ../shiftcolumn/src/shiftcolumn.c:382 ../shiftcolumn/src/shiftcolumn.c:397
 msgid "Shift Right"
 msgstr "Сдвинуть Вправо"
+
+#~ msgid "Doc"
+#~ msgstr "Документация"
+
+#~ msgid "Call documentation viewer on current symbol."
+#~ msgstr "Показ документации на слово под курсором."
+
+#~ msgid "Yura Siamshka <yurand2@gmail.com>"
+#~ msgstr "Yura Siamshka <yurand2@gmail.com>"
+
+#~ msgid "Could not parse the output of command"
+#~ msgstr "Невозможно проанализировать вывод команды."
+
+#~ msgid "Put output in buffer"
+#~ msgstr "Вывести в буфер"
+
+#~ msgid "Command 0:"
+#~ msgstr "Команда 0:"
+
+#~ msgid "Command 1:"
+#~ msgstr "Команда 1:"
+
+#~ msgid "%w will be replaced with current word\n"
+#~ msgstr "%w будет заменено на слово под курсором\n"
+
+#~ msgid "Document current word"
+#~ msgstr "Документация на слово под курсором"
+
+#~ msgid "Document interactive"
+#~ msgstr "Интерактивная документация"
+
+#~ msgid "Added breakpoint #%s in %s() at %s:%s\n"
+#~ msgstr "Добавлена точка останова #%s в %s() на %s:%s\n"
+
+#~ msgid "Added breakpoint #%s at %s:%s\n"
+#~ msgstr "Добавлена точка останова #%s на %s:%s\n"
+
+#~ msgid "Added write watchpoint #%s for %s\n"
+#~ msgstr "Добавлена точка контроля(для записи) #%s на %s\n"
+
+#~ msgid "Added read/write watchpoint #%s for %s\n"
+#~ msgstr "Добавлена точка контроля(для чтения/записи) #%s на %s\n"
+
+#~ msgid "Added read watchpoint #%s for %s\n"
+#~ msgstr "Добавлена точка контроля(для чтения) #%s на %s\n"
+
+#~ msgid "Watch/breakpoint deleted.\n"
+#~ msgstr "Точка останова/контроля удалена.\n"
+
+#~ msgid "Failed to toggle breakpoint -\n"
+#~ msgstr "Ошибка переключения точки останова -\n"
+
+#~ msgid "Watch/breakpoint toggled.\n"
+#~ msgstr "Точка останова/контроля переключена.\n"
+
+#~ msgid "Watch/breakpoint modified.\n"
+#~ msgstr "Точка останова/контроля изменена.\n"
+
+#~ msgid "Failed to retrieve source search path setting from GDB."
+#~ msgstr ""
+#~ "Ошибка установки пути, для поиска исходных файлов, указанного в "
+#~ "настройках GDB."
+
+#~ msgid "Failed to retrieve executable search path setting from GDB."
+#~ msgstr ""
+#~ "Ошибку установки пути, для поиска исполняемых файлов, указанного в "
+#~ "настройках GDB."
+
+#~ msgid "Failed to retrieve working directory setting from GDB."
+#~ msgstr "Ошибка установки рабочего каталога, указанного в настройках GDB."
+
+#~ msgid "Field list too long, not all items can be displayed.\n"
+#~ msgstr ""
+#~ "Список полей слишком велик, не все элементы могут быть отображены.\n"
+
+#~ msgid "Error starting target process!\n"
+#~ msgstr "Ошибка запуска целевого процесса!\n"
+
+#~ msgid ""
+#~ "This executable does not appear to contain the required debugging "
+#~ "information."
+#~ msgstr "Исполняемый файл не содержит необходимой отладочной информации."
+
+#~ msgid "Program received signal %s (%s) at %s in function %s() at %s:%s"
+#~ msgstr ""
+#~ "Программа получила сигнал %s (%s) по адресу %s в функции %s() на %s:%s"
+
+#~ msgid "Watchpoint #%s out of scope"
+#~ msgstr "Контрольная точка #%s вне области видимости"
+
+#~ msgid "Program exited on signal %s (%s).\n"
+#~ msgstr "Программа завершилась по сигналу %s (%s).\n"
+
+#~ msgid "Unknown signal"
+#~ msgstr "Неизвестный сигнал"
+
+#~ msgid "Program exited with code %d [%s]\n"
+#~ msgstr "Программа завершилась с кодом %d [%s].\n"
+
+#~ msgid "Program exited normally.\n"
+#~ msgstr "Программа завершилась правильно.\n"
+
+#~ msgid "tty temporary directory not specified!\n"
+#~ msgstr "tty: директория для временных файлов не указанна!\n"
+
+#~ msgid "tty temporary directory not found!\n"
+#~ msgstr "tty: директория для временных файлов не найдена!\n"
+
+#~ msgid "tty helper program not specified!\n"
+#~ msgstr "программа ttyhelper, не указанна!\n"
+
+#~ msgid "tty helper program not found!\n"
+#~ msgstr "программа ttyhelper, не найдена!\n"
+
+# ?Добавить %s к терминалу\n
+#~ msgid "Attaching to terminal %s\n"
+#~ msgstr "Отправить на терминал %s\n"
+
+#~ msgid "Timeout waiting for TTY name.\n"
+#~ msgstr "Время ожидания терминала истекло.\n"
+
+#~ msgid "GDB exited (pid=%d)\n"
+#~ msgstr "Завершаем работу GDB (pid=%d)\n"
+
+#~ msgid "Target process exited. (pid=%d; %s%s)\n"
+#~ msgstr "Завершение целевого процесса. (pid=%d; %s%s)\n"
+
+#~ msgid "code="
+#~ msgstr "код="
+
+#~ msgid "reason:"
+#~ msgstr "причина:"
+
+#~ msgid "Directory %s not found!\n"
+#~ msgstr "Каталог %s не найден!\n"
+
+#~ msgid "Shutting down target program.\n"
+#~ msgstr "Завершение работы целевой программы.\n"
+
+#~ msgid "Killing target program.\n"
+#~ msgstr "Убить целевую программу.\n"
+
+#~ msgid "Timeout waiting for target process.\n"
+#~ msgstr "Время ожидание процесса истекло.\n"
+
+#~ msgid "Using a bigger hammer!\n"
+#~ msgstr "Используем кувалду!\n"
+
+#~ msgid "Waiting for target process to exit.\n"
+#~ msgstr "Закончилось время ожидания завершения процесса.\n"
+
+#~ msgid "Killing GDB (pid=%d)\n"
+#~ msgstr "Убиваем GDB (pid=%d)\n"
+
+# Вообще-то убиства но уж совсем не звучит :(
+#~ msgid "Timeout trying to kill GDB.\n"
+#~ msgstr "Истекло время ожидания, прерывания работы GDB.\n"
+
+#~ msgid "Shutting down GDB\n"
+#~ msgstr "Завершение работы GDB\n"
+
+#~ msgid "Waiting for GDB to exit.\n"
+#~ msgstr "Ожидание завершения GDB.\n"
+
+#~ msgid "Timeout waiting for GDB to exit.\n"
+#~ msgstr "Истекло время ожидания, завершения работы GDB.\n"
+
+#~ msgid "Starting gdb (pid=%d)\n"
+#~ msgstr "Запущен gdb (pid=%d)\n"
+
+#~ msgid "Started target process. (pid=%d)\n"
+#~ msgstr "Запуск процесса (pid=%d).\n"
+
+#~ msgid ""
+#~ "Stack too deep to display!\n"
+#~ "(Showing only %d frame)"
+#~ msgid_plural ""
+#~ "Stack too deep to display!\n"
+#~ "(Showing only %d frames)"
+#~ msgstr[0] ""
+#~ "Стек слишком велик для отображения!\n"
+#~ "(Показан только %d блок)"
+#~ msgstr[1] ""
+#~ "Стек слишком велик для отображения!\n"
+#~ "(Показано только %d блока)"
+#~ msgstr[2] ""
+#~ "Стек слишком велик для отображения!\n"
+#~ "(Показано только %d блоков)"
+
+#~ msgid "No %s selected"
+#~ msgstr "Не выбрана %s "
+
+#~ msgid "watchpoint"
+#~ msgstr "точка контроля"
+
+#~ msgid "breakpoint"
+#~ msgstr "точка останова"
+
+#~ msgid "Delete selected watchpoint?"
+#~ msgstr "Удалить контрольную точку?"
+
+#~ msgid "Delete selected breakpoint?"
+#~ msgstr "Удалить точку останова?"
+
+#~ msgid "Edit watchpoint"
+#~ msgstr "Править точку контроля"
+
+#~ msgid "Edit breakpoint"
+#~ msgstr "Править точку останова"
+
+#~ msgid "Enabled"
+#~ msgstr "Включено"
+
+#~ msgid " Break after "
+#~ msgstr "Прервать после"
+
+# ????
+#~ msgid " times. "
+#~ msgstr " раз."
+
+#~ msgid " Break when "
+#~ msgstr " Прервать когда "
+
+#~ msgid " is true. "
+#~ msgstr " это истина."
+
+#~ msgid "Add watchpoint"
+#~ msgstr "Добавить точку контроля"
+
+#~ msgid "Add breakpoint"
+#~ msgstr "Добавить точку останова"
+
+#~ msgid "Watchpoints"
+#~ msgstr "Точки контроля"
+
+#~ msgid "Breakpoints"
+#~ msgstr "Точки останова"
+
+#~ msgid "Environment settings"
+#~ msgstr "Параметры окружения"
+
+#~ msgid ""
+#~ "\n"
+#~ " Command-line arguments passed to target program:"
+#~ msgstr ""
+#~ "\n"
+#~ " Параметры командной строки для целевой программы:"
+
+#~ msgid ""
+#~ "\n"
+#~ " Search path for source files:"
+#~ msgstr ""
+#~ "\n"
+#~ "Путь для поиска исходных файлов:"
+
+#~ msgid ""
+#~ "\n"
+#~ " Working directory for target program:"
+#~ msgstr ""
+#~ "\n"
+#~ " Рабочий каталог для целевой программы:"
+
+#~ msgid ""
+#~ "\n"
+#~ " Search path for executables:"
+#~ msgstr ""
+#~ "\n"
+#~ "Путь для поиска исполняемых файлов:"
+
+#~ msgid "Select Font"
+#~ msgstr "Выбрать шрифт"
+
+#~ msgid "Preferences"
+#~ msgstr "Настройки"
+
+#~ msgid "Keep debug window on top."
+#~ msgstr "Окно отладки всегда поверх всех."
+
+#~ msgid "Show tooltips."
+#~ msgstr "Показывать подсказки"
+
+#~ msgid "Show icons."
+#~ msgstr "Показывать иконки"
+
+#~ msgid "Font for source code listings:"
+#~ msgstr "Шрифт для исходного кода:"
+
+#~ msgid "Terminal program:"
+#~ msgstr "Терминал:"
+
+#~ msgid "_Examine"
+#~ msgstr "_Проверить"
+
+#~ msgid "Object info"
+#~ msgstr "Информация об объекте "
+
+#~ msgid "Elements"
+#~ msgstr "Элементы"
+
+#~ msgid "Fields"
+#~ msgstr "Поля"
+
+#~ msgid "Return to previous dialog."
+#~ msgstr "Вернуться к предыдущему диалогу"
+
+#~ msgid "Display additional information about the selected item."
+#~ msgstr "Отобразить дополнительную информацию о выбранном элементе."
+
+# Кадр? часть? блок? wtf frame :)
+#~ msgid "Frame info"
+#~ msgstr "Информация о блоке"
+
+#~ msgid ""
+#~ "\n"
+#~ "Frame #%s in %s() at %s:%s\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Блок #%s в %s() на %s:%s\n"
+
+#~ msgid "Function arguments"
+#~ msgstr "Аргументы функции"
+
+#~ msgid "Local variables"
+#~ msgstr "Локальные переменные"
+
+#~ msgid "Return to stack list dialog."
+#~ msgstr "Вернуться к диалогу просмотра стека."
+
+#~ msgid "Stack trace"
+#~ msgstr "Трассировка стека"
+
+#~ msgid "Display additional information about the selected frame."
+#~ msgstr "Показать дополнительную информацию о выбранном блоке."
+
+#~ msgid "Clea_r"
+#~ msgstr "О_чистить"
+
+#~ msgid "Filename: "
+#~ msgstr "Имя файла:"
+
+#~ msgid "Variable to watch:"
+#~ msgstr "Контролировать переменную:"
+
+#~ msgid "Line number or function name: "
+#~ msgstr "Номер строки или имя функции:"
+
+# read/write/both
+#~ msgid "Access trigger:"
+#~ msgstr "Тип доступа:"
+
+#~ msgid "(no program)"
+#~ msgstr "(нет программы)"
+
+#~ msgid "loaded"
+#~ msgstr "загружено"
+
+#~ msgid "starting"
+#~ msgstr "запущено"
+
+#~ msgid "running"
+#~ msgstr "выполняется"
+
+#~ msgid "stopped"
+#~ msgstr "остановленно"
+
+#~ msgid "terminated"
+#~ msgstr "прервано"
+
+#~ msgid "paused"
+#~ msgstr "приостановленно"
+
+#~ msgid "Program received signal:"
+#~ msgstr "Программа возвратила сигнал:"
+
+#~ msgid "Error:"
+#~ msgstr "Ошибка:"
+
+#~ msgid "Select executable to debug"
+#~ msgstr "Выбор исполняемого файла для отладки"
+
+#~ msgid "Debugging of object files is not supported."
+#~ msgstr "Отладка объектных файлов не поддерживается."
+
+#~ msgid "You don't have permission to execute this file."
+#~ msgstr "У Вас нет прав для выполнения этого файла."
+
+#~ msgid "Debugging of shared libraries is not supported."
+#~ msgstr "Отладка разделяемых библиотек не поддерживается."
+
+# ???
+#~ msgid "Debugging of core files id not supported."
+#~ msgstr "Отладка исполняемых модулей ядра не поддерживается."
+
+#~ msgid "Target file must be ELF 32-bit x86 executable."
+#~ msgstr "Файл должен быть 32-разрядной(x86) исполняемой программой."
+
+#~ msgid "You don't have permission to read this file."
+#~ msgstr "У Вас нет прав для чтения этого файла."
+
+# ? Запустить в директории
+#~ msgid "Run to location"
+#~ msgstr "Перейти к размещению"
+
+#~ msgid "no program"
+#~ msgstr "нет программы"
+
+#~ msgid "_Load"
+#~ msgstr "_Загрузить"
+
+#~ msgid "Load target program into debugger."
+#~ msgstr "Загрузка программы в отладчик."
+
+#~ msgid "_Unload"
+#~ msgstr "_Выгрузить"
+
+#~ msgid "Kill the target program AND the debugger."
+#~ msgstr "Убить программу и отладчик. "
+
+#~ msgid "_Run"
+#~ msgstr "_Запустить"
+
+#~ msgid "Execute target program in debugger."
+#~ msgstr "Выполнить программу в отладчике."
+
+#~ msgid "_Kill"
+#~ msgstr "_Убить"
+
+#~ msgid "Kill the target program with SIGKILL."
+#~ msgstr "Убить программу сигналом SIGKILL."
+
+#~ msgid "_Pause"
+#~ msgstr "_Пауза"
+
+#~ msgid "Pause the target program with SIGINT."
+#~ msgstr "Приостановить программу сигналом SIGINT."
+
+#~ msgid "_Continue"
+#~ msgstr "_Продолжить"
+
+#~ msgid "Continue executing target program."
+#~ msgstr "Продолжить выполнение программы"
+
+#~ msgid "_Step"
+#~ msgstr "Следующая _строка"
+
+#~ msgid "Step to the next line or function call."
+#~ msgstr "Шаг к следующей строке или вызову функции."
+
+#~ msgid "Step _in"
+#~ msgstr "Следующий _вызов"
+
+#~ msgid "Execute the next machine instruction or function call."
+#~ msgstr "Выполнить следующую машинную команду или вызов функции."
+
+#~ msgid "Step to the next line."
+#~ msgstr "Переход к следующей строке"
+
+#~ msgid "Ne_xt in"
+#~ msgstr "Следующая _инструкция"
+
+#~ msgid "Execute the next machine instruction."
+#~ msgstr "Выполнить следующую машинную команду."
+
+#~ msgid "Run _to"
+#~ msgstr "_Перейти"
+
+# ? Перейти к указанной строке.
+#~ msgid "Run to specified source line."
+#~ msgstr "Выполнить до указанной строки."
+
+#~ msgid "Stac_k"
+#~ msgstr "Сте_к"
+
+# ?? Отобразить отслеживание стека текущего вызова.
+#~ msgid "Display a backtrace of the current call stack."
+#~ msgstr "Отобразить состояние стека текущего вызова."
+
+#~ msgid "Add or remove breakpoints."
+#~ msgstr "Добавить или удалить точку останова."
+
+#~ msgid "Add or remove watchpoints."
+#~ msgstr "Добавить или удалить контрольную точку."
+
+# Выполнить до коца функции
+#~ msgid "_Finish"
+#~ msgstr "_Завершить"
+
+#~ msgid "Complete the currently executing function."
+#~ msgstr "Завершить исполнение текущей функции."
+
+#~ msgid "_Return"
+#~ msgstr "_Возврат"
+
+#~ msgid "Return immediately from the current function."
+#~ msgstr "Принудительно выйти из текущей функции."
+
+#~ msgid "En_viron"
+#~ msgstr "_Окружение"
+
+#~ msgid "Set target environment and command line options."
+#~ msgstr "Установка окружения и опций командной строки."
+
+#~ msgid "_Options"
+#~ msgstr "_Опции"
+
+#~ msgid "Set user interface options."
+#~ msgstr "Установка опций пользовательского интерфейса."
+
+#~ msgid "Run in terminal"
+#~ msgstr "Запуск в терминале"
+
+#~ msgid "Execute target program inside a terminal window."
+#~ msgstr "Выполнить программу в окне терминала."
+
+#~ msgid "Ignore SIGPIPE"
+#~ msgstr "Игнорировать SIGPIPE"
+
+#~ msgid ""
+#~ "Don't pause execution when target gets a SIGPIPE signal.\n"
+#~ "(Useful for certain networking applications.)"
+#~ msgstr ""
+#~ "Не приостанавливать выполнение, когда цель получает сигнал SIGPIPE\n"
+#~ "(Полезно для определённых сетевых приложений.)"
+
+#~ msgid "Console:"
+#~ msgstr "Консоль:"
+
+#~ msgid "Send a GDB command directly to the debugger."
+#~ msgstr "Послать команду непосредственно в отладчик."
+
+#~ msgid "_Quit"
+#~ msgstr "_Выйти"
+
+#~ msgid "Exit everything"
+#~ msgstr "Закрыть все"
+
+#~ msgid "Debugger"
+#~ msgstr "Отладчик"
+
+#~ msgid "Integrated debugging with GDB."
+#~ msgstr "Комплексная отладка в GDB."
+
+#~ msgid "Jeff Pohlmeyer"
+#~ msgstr "Джефф Похлмейер(Jeff Pohlmeyer)"
+
+# ?
+# Каталог настроек плагинов (%s) не может быть создан.
+#~ msgid "Plugin configuration directory (%s) could not be created."
+#~ msgstr "Не возможно создать каталог настройки плагинов (%s)."
+
+#~ msgid "geanygdb: ttyhelper program not found."
+#~ msgstr "geanygdb: программа ttyhelper, не найдена."

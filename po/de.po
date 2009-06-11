@@ -8,13 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-06-11 01:07+0200\n"
-"PO-Revision-Date: 2009-03-09 20:50+1000\n"
+"POT-Creation-Date: 2009-06-11 10:17+0200\n"
+"PO-Revision-Date: 2009-06-11 10:15+0200\n"
 "Last-Translator: Andrew Janke <a.janke@gmail.com>\n"
-"Language-Team: \n"
+"Language-Team: German <geany-i18n@uvena.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../addons/src/tasks.c:311
 msgid "Tasks"
@@ -30,20 +31,24 @@ msgstr ""
 
 #: ../addons/src/addons.c:55
 msgid "Addons"
-msgstr ""
+msgstr "Addons"
 
 #: ../addons/src/addons.c:55
 msgid "Various small addons for Geany."
-msgstr ""
+msgstr "Verschiedene kleine Erweiterungen für Geany."
 
 #: ../addons/src/addons.c:176 ../geanysendmail/src/geanysendmail.c:151
 #: ../geanysendmail/src/geanysendmail.c:312 ../spellcheck/src/scplugin.c:143
 msgid "Plugin configuration directory could not be created."
 msgstr ""
+"Das Konfigurationsverzeichnis für das Plugin konnte nicht erstellt werden."
 
 #: ../addons/src/addons.c:198
+#, fuzzy
 msgid "Show toolbar item to show a list of currently open documents"
 msgstr ""
+"Zeige Symbol in der Werkzeugleiste um 'Rechtschreibung beim Tippen "
+"überprüfen' ein- und auszuschalten"
 
 #. TODO fix the string
 #: ../addons/src/addons.c:205
@@ -55,16 +60,19 @@ msgid "Show available tasks in the Message Window"
 msgstr ""
 
 #: ../addons/src/addons.c:217
+#, fuzzy
 msgid "Show status icon in the Notification Area"
 msgstr ""
+"Zeigt ein Symbol in der Werkzeugleiste an, sodass eine Datei einfacher "
+"versendet werden kann."
 
 #: ../addons/src/ao_doclist.c:209
 msgid "Close Ot_her Documents"
-msgstr ""
+msgstr "_Inaktive Dateien schließen"
 
 #: ../addons/src/ao_doclist.c:214
 msgid "C_lose All"
-msgstr ""
+msgstr "_Alle schließen"
 
 #: ../addons/src/ao_doclist.c:244
 msgid "Show Document List"
@@ -183,113 +191,118 @@ msgstr ""
 
 #: ../spellcheck/src/speller.c:101
 msgid "Try: "
-msgstr ""
+msgstr "Vorschlag: "
 
 #: ../spellcheck/src/speller.c:180
 msgid "Checking"
-msgstr ""
+msgstr "Prüfe"
 
 #: ../spellcheck/src/speller.c:193
 #, c-format
 msgid "Checking file \"%s\" (lines %d to %d using %s):"
-msgstr ""
+msgstr "Prüfe Datei »%s« (Zeilen %d bis %d mit »%s«):"
 
 #: ../spellcheck/src/speller.c:203
 #, c-format
 msgid "Checking file \"%s\" (using %s):"
-msgstr ""
+msgstr "Prüfe Datei »%s« (mit »%s«):"
 
 #: ../spellcheck/src/speller.c:221
 msgid "The checked text is spelled correctly."
-msgstr ""
+msgstr "Der geprüfte Text ist fehlerfrei."
 
 #: ../spellcheck/src/speller.c:231
 #, c-format
 msgid "The Enchant library couldn't be initialized (%s)."
-msgstr ""
+msgstr "Die Enchant-Blibliothek konnte nicht initialisiert werden (%s)."
 
 #: ../spellcheck/src/speller.c:232
 msgid "unknown error (maybe the chosen language is not available)"
 msgstr ""
+"unbekannter Fehler (möglicherweise ist die ausgewählte Sprache nicht "
+"verfügbar)."
 
 #: ../spellcheck/src/scplugin.c:59
 msgid "Spell Check"
-msgstr ""
+msgstr "Rechtschreibprüfung"
 
 #: ../spellcheck/src/scplugin.c:59
 msgid "Checks the spelling of the current document."
-msgstr ""
+msgstr "Prüft die Rechtschreibung im aktuellen Dokument."
 
 #: ../spellcheck/src/scplugin.c:60
 msgid "The Geany developer team"
-msgstr ""
+msgstr "Das Geany-Entwickler-Team"
 
 #: ../spellcheck/src/scplugin.c:199
 msgid "Run Spell Check"
-msgstr ""
+msgstr "Rechtschreibprüfung ausführen"
 
 #: ../spellcheck/src/scplugin.c:202
 msgid "Toggle Check While Typing"
-msgstr ""
+msgstr "'Rechtschreibung beim Tippen überprüfen' ein-/ausschalten"
 
 #: ../spellcheck/src/scplugin.c:213
 msgid "Check spelling while typing"
-msgstr ""
+msgstr "Beim Tippen Rechtschreibung überprüfen"
 
 #: ../spellcheck/src/scplugin.c:217
 msgid "Show toolbar item to toggle spell checking"
 msgstr ""
+"Zeige Symbol in der Werkzeugleiste um 'Rechtschreibung beim Tippen "
+"überprüfen' ein- und auszuschalten"
 
 #: ../spellcheck/src/scplugin.c:222
 msgid "Print misspelled words and suggestions in the messages window"
-msgstr ""
+msgstr "Falsch geschriebene Wörter und Vorschläge im Meldungsfenster anzeigen"
 
 #: ../spellcheck/src/scplugin.c:226
 msgid "Language to use for the spell check:"
-msgstr ""
+msgstr "Zu verwendende Sprache für die Prüfung:"
 
 #: ../spellcheck/src/gui.c:66
 msgid "Spell checking while typing is now enabled"
-msgstr ""
+msgstr "'Rechtschreibung beim Tippen überprüfen' ist nun eingeschaltet"
 
 #: ../spellcheck/src/gui.c:68
 msgid "Spell checking while typing is now disabled"
-msgstr ""
+msgstr "'Rechtschreibung beim Tippen überprüfen' ist nun ausgeschaltet"
 
 #: ../spellcheck/src/gui.c:276
 msgid "More..."
-msgstr ""
+msgstr "Mehr ..."
 
 #: ../spellcheck/src/gui.c:290
 msgid "(No Suggestions)"
-msgstr ""
+msgstr "(keine Vorschläge)"
 
 #: ../spellcheck/src/gui.c:297
 #, c-format
 msgid "Add \"%s\" to Dictionary"
-msgstr ""
+msgstr "»%s« zum Wörterbuch hinzufügen"
 
 #: ../spellcheck/src/gui.c:303
 msgid "Ignore All"
-msgstr ""
+msgstr "Alle ignorieren"
 
 #: ../spellcheck/src/gui.c:408
-#, c-format
+#, fuzzy, c-format
 msgid "Default (%s)"
-msgstr ""
+msgstr "Standard"
 
 #: ../spellcheck/src/gui.c:409 ../spellcheck/src/gui.c:420
+#, fuzzy
 msgid "unknown"
-msgstr ""
+msgstr "(unbekannt)"
 
 #: ../spellcheck/src/gui.c:419
-#, c-format
+#, fuzzy, c-format
 msgid "Toggle spell check while typing (current language: %s)"
-msgstr ""
+msgstr "'Rechtschreibung beim Tippen überprüfen' ein-/ausschalten"
 
 #: ../spellcheck/src/gui.c:480
 msgid "Spelling Suggestions"
-msgstr ""
+msgstr "Rechtschreibvorschläge"
 
 #: ../shiftcolumn/src/shiftcolumn.c:46
 msgid "Shift Column"
@@ -307,6 +320,859 @@ msgstr "Auswahl nach Links verschieben"
 msgid "Shift Right"
 msgstr "Auswahl nach Rechts verschieben"
 
+#~ msgid "_Spell Check"
+#~ msgstr "_Rechtschreibprüfung"
+
+#~ msgid "Lipsum"
+#~ msgstr "Lipsum"
+
+#~ msgid "Creating dummy text with Geany"
+#~ msgstr "Platzhaltertexte erstellen mit Geany"
+
+#~ msgid "Frank Lanitz <frank@frank.uvena.de>"
+#~ msgstr "Frank Lanitz <frank@frank.uvena.de>"
+
+#~ msgid "Lipsum-Generator"
+#~ msgstr "Lorem ipsum Generator"
+
+#~ msgid "Enter the length of Lipsum text here"
+#~ msgstr "Bitte die Länge des Platzhaltertextes eingeben"
+
+#~ msgid "_Lipsum"
+#~ msgstr "_Lipsum"
+
+#~ msgid "Include Pseudotext to your code"
+#~ msgstr "Fügt Platzhaltertexte in das Dokument ein"
+
+#~ msgid "Insert Lipsum text"
+#~ msgstr "Fügt Platzhaltertexte ein"
+
+#~ msgid "VC"
+#~ msgstr "VC"
+
+#~ msgid "Interface to different Version Control systems."
+#~ msgstr "Oberfläche für verschiedene Versionskontrollsysteme."
+
+#~ msgid ""
+#~ "Yura Siamashka <yurand2@gmail.com>,\n"
+#~ "Frank Lanitz <frank@frank.uvena.de>"
+#~ msgstr ""
+#~ "Yura Siamashka <yurand2@gmail.com>, Frank Lanitz <frank@frank.uvena.de>"
+
+#~ msgid "Could not parse the output of command"
+#~ msgstr "Kann die Ausgabe des Befehls nicht einlesen."
+
+#~ msgid "geanyvc: s_spawn_sync error: %s"
+#~ msgstr "geanyvc: s_spawn_sync error: %s"
+
+#~ msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
+#~ msgstr "geanyvc: vcdiff_file_activated: Kann »%s« nicht in »%s« umbenennen."
+
+#~ msgid "No changes were made."
+#~ msgstr "Es wurden keine Änderungen vorgenommen."
+
+#~ msgid "No history avaible"
+#~ msgstr "Keine Historie verfügbar"
+
+#~ msgid "Do you really want to revert: %s?"
+#~ msgstr "Möchten Sie wirklich »%s« zurücksetzen?"
+
+#~ msgid "Do you really want to add: %s?"
+#~ msgstr "Möchten Sie wirklich »%s« hinzufügen?"
+
+#~ msgid "Do you really want to remove: %s?"
+#~ msgstr "Möchten Sie wirklich »%s« entfernen?"
+
+#~ msgid "Do you really want to update?"
+#~ msgstr "Möchten Sie wirklich »%s« aktualisieren?"
+
+#~ msgid "Commit Y/N"
+#~ msgstr "Übertragen"
+
+#~ msgid "Status"
+#~ msgstr "Status"
+
+#~ msgid "Path"
+#~ msgstr "Pfad"
+
+#~ msgid "Commit"
+#~ msgstr "Übertragen"
+
+#~ msgid "_De-/select all files"
+#~ msgstr "Alle _Dateien aus- bzw. abwählen"
+
+#~ msgid "<b>Commit message:</b>"
+#~ msgstr "<b>Commitnachricht:</b>"
+
+#~ msgid "_Commit"
+#~ msgstr "Über_tragen"
+
+#~ msgid "Nothing to commit."
+#~ msgstr "Nichts zum Übertragen."
+
+#~ msgid "Error initializing spell checking: %s"
+#~ msgstr "Fehler beim Initialisieren der Rechtschreibprüfung: %s"
+
+#~ msgid ""
+#~ "Error while setting up language for spellchecking. Please check "
+#~ "configuration. Error message was: %s"
+#~ msgstr ""
+#~ "Fehler beim Auswählen der Sprache für die Rechtschreibprüfung. Bitte "
+#~ "überprüfen Sie Ihre Konfiguration. Fehlermeldung: %s"
+
+#~ msgid "Set Changed-flag for document tabs created by the plugin"
+#~ msgstr "Markiere vom Plugin erstellte Dokumente als geändert"
+
+#~ msgid ""
+#~ "If this option is activated, every new by the VC-plugin created document "
+#~ "tab will be marked as changed. Even this option is useful in some cases, "
+#~ "it could cause a big number of annoying \"Do you want to save\"-dialogs."
+#~ msgstr ""
+#~ "Wenn diese Option aktiviert ist, werden alle Dokumente die durch das "
+#~ "Plugin erzeugt werden als geändert markiert, sodass z.B. beim Schließen "
+#~ "der Datei der Speichern Dialog geöffnet wird. Auch wenn diese Option von "
+#~ "Zeit zu Zeit sehr nützlich sein kann, kann Sie ab und an einfach nur "
+#~ "stören."
+
+#~ msgid "Confirm adding new files to a VCS"
+#~ msgstr "Hinzufügen von Dateien zur Versionsverwaltung immer bestätigen"
+
+#~ msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
+#~ msgstr ""
+#~ "Zeigt einen Bestätigungsdialog wenn Dateien zu einem "
+#~ "Versionskontrollsystem hinzugefügt werden sollen."
+
+#~ msgid "Maximize commit dialog"
+#~ msgstr "Commit-Dialog maximieren"
+
+#~ msgid "Show commit dialog maximize."
+#~ msgstr "Commit-Dialog beim Anzeigen maximieren"
+
+#~ msgid "Use external diff viewer"
+#~ msgstr "Externes Diff-Programm benutzen"
+
+#~ msgid "Use external diff viewer for file diff."
+#~ msgstr "Externes Diff-Programm benutzen zum Vergleich von zwei Dateien."
+
+#~ msgid "Show VC entries at editor menu"
+#~ msgstr "Funktionen über das Editormenü verfügbar machen"
+
+#~ msgid "Show entries for VC functions inside editor menu"
+#~ msgstr "Zeige Einträge für das Plugin im Editor Menü an"
+
+#~ msgid "Enable CVS"
+#~ msgstr "CVS aktivieren"
+
+#~ msgid "Enable GIT"
+#~ msgstr "GIT aktivieren"
+
+#~ msgid "Enable SVN"
+#~ msgstr "SVN aktivieren"
+
+#~ msgid "Enable SVK"
+#~ msgstr "SVK aktivieren"
+
+#~ msgid "Enable Bazaar"
+#~ msgstr "Bazaar aktivieren"
+
+#~ msgid "Enable Mercurial"
+#~ msgstr "Mercurial aktivieren"
+
+#~ msgid "Spellcheck language"
+#~ msgstr "Sprache"
+
+#~ msgid "_VC file Actions"
+#~ msgstr "_VC Datei Operationen"
+
+#~ msgid "_File"
+#~ msgstr "_Datei"
+
+#~ msgid "_Diff"
+#~ msgstr "_Unterschiede anzeigen"
+
+#~ msgid "Make a diff from the current active file"
+#~ msgstr "Erstellt ein Diff für die aktuelle Datei."
+
+#~ msgid "_Revert"
+#~ msgstr "_Zurücksetzen"
+
+#~ msgid "Restore pristine working copy file (undo local edits)."
+#~ msgstr ""
+#~ "Stellt den ursprünglichen Zustand der Datei wieder her (verwirft lokale "
+#~ "Änderungen)."
+
+#~ msgid "_Blame"
+#~ msgstr "Ä_nderungsverfolgung"
+
+#~ msgid "Shows the changes made at one file per revision and author."
+#~ msgstr "Zeigt alle Änderungen einer Datei nach Autor und Revision."
+
+#~ msgid "_History"
+#~ msgstr "_Versionsgeschichte"
+
+#~ msgid "Shows the log of the current file"
+#~ msgstr "Zeigt die Versionshistorie der aktuellen Datei an."
+
+#~ msgid "_Original"
+#~ msgstr "_Original"
+
+#~ msgid "Shows the orignal of the current file"
+#~ msgstr "Zeigt die unveränderte Datei an"
+
+#~ msgid "_Add to Version Control"
+#~ msgstr "Zur _Versionskontrolle hinzufügen"
+
+#~ msgid "Add file to repository."
+#~ msgstr "Fügt eine Datei zum Repositorium _hinzu."
+
+#~ msgid "_Remove from Version Control"
+#~ msgstr "Aus Versionskontrolle entfernen"
+
+#~ msgid "Remove file from repository."
+#~ msgstr "Entfernt eine Datei aus dem Repositorium."
+
+#~ msgid "_Directory"
+#~ msgstr "_Verzeichnis"
+
+#~ msgid "Make a diff from the directory of the current active file"
+#~ msgstr "Erstellt ein Diff für das Verzeichnis der aktuellen Datei."
+
+#~ msgid "Restore original files in the current folder (undo local edits)."
+#~ msgstr ""
+#~ "Stellt den ursprünglichen Zustand der Datei wieder her (verwirft lokale "
+#~ "Änderungen)."
+
+#~ msgid "Shows the log of the current directory"
+#~ msgstr "Zeigt die Versionshistorie für das aktuelle Verzeichnis."
+
+#~ msgid "_Base Directory"
+#~ msgstr "_Basisordner"
+
+#~ msgid "Make a diff from the top VC directory"
+#~ msgstr "Erstellt ein Diff für die gesamte Arbeitskopie"
+
+#~ msgid "Revert any local edits."
+#~ msgstr "Alle lokalen Änderungen zurücksetzen"
+
+#~ msgid "Shows the log of the top VC directory"
+#~ msgstr "Zeigt die Versionsgeschichte für die gesamte Arbeitskopie"
+
+#~ msgid "VC _Commit"
+#~ msgstr "VC Über_tragen"
+
+#~ msgid "Show diff of file"
+#~ msgstr "Diff von der aktuellen Datei"
+
+#~ msgid "Show diff of diretory"
+#~ msgstr "Diff vom aktuellen Verzeichnis"
+
+#~ msgid "Show diff of basedir"
+#~ msgstr "Diff vom Grundverzeichnis"
+
+#~ msgid "Commit changes"
+#~ msgstr "Änderungen übertragen"
+
+#~ msgid "Show status"
+#~ msgstr "Status der Arbeitskopie anzeigen"
+
+#~ msgid "Revert single file"
+#~ msgstr "Datei zurücksetzen"
+
+#~ msgid "Revert directory"
+#~ msgstr "Verzeichnis zurücksetzen"
+
+#~ msgid "Revert base directory"
+#~ msgstr "Alle Änderungen verwerfen"
+
+#~ msgid "Update file"
+#~ msgstr "Datei aktualisieren"
+
+#~ msgid "_VC"
+#~ msgstr "_VC"
+
+#~ msgid "_Status"
+#~ msgstr "_Status"
+
+#~ msgid "Show status."
+#~ msgstr "Zeigt den Status der Arbeitskopie."
+
+#~ msgid "_Update"
+#~ msgstr "_Aktualisieren"
+
+#~ msgid "Update from remote repositary."
+#~ msgstr "Aus dem Repository aktualisieren"
+
+#~ msgid "Commit changes."
+#~ msgstr "Änderungen übertragen."
+
+#~ msgid "Current _File"
+#~ msgstr "_Aktuelle Datei"
+
+#~ msgid "Current _Basedirectory"
+#~ msgstr "Aktuelles _Basisverzeichnis"
+
+#~ msgid "Diff From Current File"
+#~ msgstr "Diff von der aktuellen Datei"
+
+#~ msgid "Diff From Current Directory"
+#~ msgstr "Diff vom aktuellen Verzeichnis"
+
+#~ msgid "Diff From Base Directory"
+#~ msgstr "Diff vom Grundverzeichnis"
+
+#~ msgid "Blame From Current File"
+#~ msgstr "Blame von aktueller Datei"
+
+#~ msgid "Remove File"
+#~ msgstr "Datei entfernen"
+
+#~ msgid "Diff From Current Project"
+#~ msgstr "Diff vom aktuellen Projekt"
+
+#~ msgid "Make a diff from the current project's base path"
+#~ msgstr "Erstellt ein Diff für das aktuell geöffnete Projekt."
+
+#~ msgid "Log Of Current Project"
+#~ msgstr "Historie vom aktuellen Projekt"
+
+#~ msgid "Shows the log of the current project"
+#~ msgstr "Zeigt die Versionshistorie vom aktuellen Projekt."
+
+#~ msgid "Doc"
+#~ msgstr "Doc"
+
+#~ msgid "Call documentation viewer on current symbol."
+#~ msgstr "Dokumentationsbetrachter für das aktuelle Wort aufrufen."
+
+#~ msgid "Yura Siamshka <yurand2@gmail.com>"
+#~ msgstr "Yura Siamshka <yurand2@gmail.com>"
+
+#~ msgid "Put output in buffer"
+#~ msgstr "Ausgabe in einem neuen Dokument anzeigen"
+
+#~ msgid "Command 0:"
+#~ msgstr "Kommando 0:"
+
+#~ msgid "Command 1:"
+#~ msgstr "Kommando 1:"
+
+#~ msgid "%w will be replaced with current word\n"
+#~ msgstr "%w wird mit dem aktuellen Wort ersetzt\n"
+
+#~ msgid "Document current word"
+#~ msgstr "Dokumentation für aktuelles Wort öffnen"
+
+#~ msgid "Document interactive"
+#~ msgstr "Nach Dokumentationswerkzeug für aktuelles Wort fragen"
+
+#, fuzzy
+#~ msgid "External Debugger"
+#~ msgstr "Führe externes Debuggingwerkzeug aus"
+
+#~ msgid "Run external debugger."
+#~ msgstr "Führe externes Debuggingwerkzeug aus"
+
+#~ msgid "Launch external debugger"
+#~ msgstr "Starte externes Debuggingwerkzeug"
+
+#~ msgid "DBG"
+#~ msgstr "DBG"
+
+#~ msgid "LaTeX"
+#~ msgstr "LaTeX"
+
+#~ msgid "Plugin to provide better LaTeX support"
+#~ msgstr "Plugin zum Verbessern des LaTeX-Support für Geany"
+
+#~ msgid "Marks selected text as italic"
+#~ msgstr "Auswahl kursiv formatieren"
+
+#~ msgid "Marks selected text as bold"
+#~ msgstr "Auswahl fett formatieren"
+
+#~ msgid "Underlines selected text"
+#~ msgstr "Auswahl unterstreichen"
+
+#~ msgid "Use KOMA script by default"
+#~ msgstr "KOMA-Script per Standard verwenden"
+
+#~ msgid "Show extra plugin toolbar"
+#~ msgstr "Zeige Werkzeugliste für das Plugin an"
+
+#~ msgid "Insert Label"
+#~ msgstr "Lesezeichen einfügen"
+
+#~ msgid "Label name:"
+#~ msgstr "Lesezeichenname:"
+
+#~ msgid "Insert Reference"
+#~ msgstr "Verweis einfügen"
+
+#~ msgid "Reference name:"
+#~ msgstr "Lesezeichenname:"
+
+#~ msgid "_Standard Reference"
+#~ msgstr "_Normaler Verweis"
+
+#~ msgid "_Page Reference"
+#~ msgstr "Verweis auf _Seite"
+
+#~ msgid "More"
+#~ msgstr "Weitere"
+
+#~ msgid "Documentclass:"
+#~ msgstr "Dokumentenklasse:"
+
+#~ msgid "Choose the kind of document you want to write"
+#~ msgstr "Art des Dokumentes"
+
+#~ msgid "Book"
+#~ msgstr "Buch"
+
+#~ msgid "Article"
+#~ msgstr "Artikel"
+
+#~ msgid "Report"
+#~ msgstr "Bericht"
+
+#~ msgid "Letter"
+#~ msgstr "Brief"
+
+#~ msgid "Presentation"
+#~ msgstr "Präsentation"
+
+#~ msgid "Encoding:"
+#~ msgstr "Zeichensatz:"
+
+#~ msgid "Set the encoding for your new document"
+#~ msgstr "Zeichensatz für das neue Dokument"
+
+#~ msgid "Font size:"
+#~ msgstr "Schriftgröße:"
+
+#~ msgid "Set the default font size of your new document"
+#~ msgstr "Setzt die Standardschriftgröße für das neue Dokument"
+
+#~ msgid "Author:"
+#~ msgstr "Autor:"
+
+#~ msgid ""
+#~ "Sets the value of the \\author command. In most cases this should be your "
+#~ "name"
+#~ msgstr ""
+#~ "Setzt den Eintrag für den \\author Befehl. Meist sollte hier Ihr Name "
+#~ "stehen."
+
+#~ msgid "Date:"
+#~ msgstr "Datum:"
+
+#~ msgid ""
+#~ "Sets the value of the \\date command inside header of your\t\t newly "
+#~ "created LaTeX-document. Keeping it at \\today is a good \t\t decision if "
+#~ "you don't need any fixed date."
+#~ msgstr ""
+#~ "Setzt den Eintrag für den \\date Befehl im Kopf des neuen Dokumentes. In "
+#~ "den meisten Fällen sollte \\today eine gute Wahl sein."
+
+#~ msgid "Title:"
+#~ msgstr "Titel:"
+
+#~ msgid "Sets the title of your new document."
+#~ msgstr "Setzt den Titel für das neue Dokument."
+
+#~ msgid "Paper size:"
+#~ msgstr "Papiergröße:"
+
+#~ msgid "Choose the paper format for the newly created document"
+#~ msgstr ""
+#~ "Setzt das Papierformat als Argument der Dokumentenklasse für das neue "
+#~ "Dokument"
+
+#~ msgid "LaTeX-Wizard"
+#~ msgstr "LaTeX-Assistent"
+
+#~ msgid "Use KOMA-script classes if possible"
+#~ msgstr "Benutze KOMA-Skript wenn möglich"
+
+#~ msgid ""
+#~ "Uses the KOMA-script classes by Markus Kohm.\n"
+#~ "Keep in mind: To compile your document these classeshave to be installed "
+#~ "before."
+#~ msgstr ""
+#~ "Wenn diese Option aktiviert ist, werden die KOMA-Skript-Klassen von "
+#~ "Markus Kohm genutzt. Sie müssen natürlich dafür installiert sein."
+
+#~ msgid "Use draft mode"
+#~ msgstr "Entwurfsmodus benutzen"
+
+#~ msgid ""
+#~ "Set the draft flag inside new created documents to get documents with a "
+#~ "number of debugging helpers"
+#~ msgstr ""
+#~ "Setzt die Option draft für die Dokumentenklasse um das neue Dokument mit "
+#~ "einer Nummer von kleinen Korrekturhinweisen zu versehen."
+
+#~ msgid "Dear Sir or Madame"
+#~ msgstr "Sehr geehrte Damen und Herren"
+
+#~ msgid "With kind regards"
+#~ msgstr "Mit freundlichen Grüßen"
+
+#~ msgid "Run LaTeX-Wizard"
+#~ msgstr "LaTeX-Assistent starten"
+
+#~ msgid "Insert \\label"
+#~ msgstr "\\label einfügen"
+
+#~ msgid "Insert \\ref"
+#~ msgstr "\\ref einfügen"
+
+#~ msgid "Insert linebreak \\\\ "
+#~ msgstr "Zeilenumbruch einfügen (\\\\)"
+
+#~ msgid "Turn input replacement on/off"
+#~ msgstr "Eingabeersetzungsfunktion ein-/ausschalten"
+
+#~ msgid "Replace special characters"
+#~ msgstr "Sonderzeichen ersetzen"
+
+#~ msgid "Run insert environment dialog"
+#~ msgstr "Dialog zum Einfügen von Umgebungen"
+
+#~ msgid "Insert \\item"
+#~ msgstr "\\item einfügen"
+
+#~ msgid "Format selection in bold font face"
+#~ msgstr "Auswahl fett formatieren"
+
+#~ msgid "Format selection in italic font face"
+#~ msgstr "Auswahl kursiv formatieren"
+
+#~ msgid "Format selection in typewriter font face"
+#~ msgstr "Auswahl in Maschinenschrift formatieren"
+
+#~ msgid "Format selection centered"
+#~ msgstr "Auswahl zentrieren"
+
+#~ msgid "Format selection left-aligned"
+#~ msgstr "Auswahl linksbündig formatieren"
+
+#~ msgid "Format selection right-aligned "
+#~ msgstr "Auswahl rechtsbündig formatieren"
+
+#~ msgid ""
+#~ "GeanyLaTeX is a plugin to improve support for LaTeX in Geany.\n"
+#~ "\n"
+#~ "Please report all bugs or feature requests to one of the authors."
+#~ msgstr ""
+#~ "GeanyLaTeX ist ein Plugin zur Verbesserung des Supports für LaTeX in "
+#~ "Geany. \n"
+#~ "\n"
+#~ "Alle Fehler bitte an einen der Entwickler weiter melden."
+
+#~ msgid "_LaTeX"
+#~ msgstr "_LaTeX"
+
+#~ msgid "LaTeX-_Wizard"
+#~ msgstr "LaTeX-_Assistent"
+
+#~ msgid "Starts a Wizard to easily create LaTeX-documents"
+#~ msgstr "Öffnet einen Assistenten, um einfache LaTeX-Dokumente zu erstellen."
+
+#~ msgid "Insert _Special Character"
+#~ msgstr "_Sonderzeichen einfügen"
+
+#~ msgid "Helps to use some not very common letters and signs"
+#~ msgstr "Unterstützt bei der Verwendung von seltenen Sonderzeichen"
+
+#~ msgid "Insert _Reference"
+#~ msgstr "_Verweis einfügen"
+
+#~ msgid "Inserting references to the document"
+#~ msgstr "Eine Referenz in das Dokument einfügen"
+
+#~ msgid "Insert _Label"
+#~ msgstr "_Lesezeichen einfügen"
+
+#~ msgid "Helps at inserting labels to a document"
+#~ msgstr "Untersützt bei dem Einfügen von Lesezeichen in ein Dokument"
+
+#~ msgid "Insert _Environment"
+#~ msgstr "_Umgebung einfügen"
+
+#~ msgid "Helps at inserting an environment a document"
+#~ msgstr "Untersützt bei dem Einfügen einer Umgebung in ein Dokument"
+
+#~ msgid "_BibTeX"
+#~ msgstr "_BibTeX"
+
+#~ msgid "_Format"
+#~ msgstr "_Format"
+
+#~ msgid "_Special Character Replacement"
+#~ msgstr "Sonderzeichen _ersetzen"
+
+#~ msgid "Bulk _Replace Special Characters"
+#~ msgstr "Sonderzeichen ersetzen (Auswahl)"
+
+#~ msgid "_Replace selected special cahracters with TeX substitutes"
+#~ msgstr "Sonderzeichen mit den _TeX-Entsprechungen ersetzen"
+
+#~ msgid "Toggle _Special Character Replacement"
+#~ msgstr "Ersetzung während Eingabe"
+
+#~ msgid "UTF-8"
+#~ msgstr "UTF-8"
+
+#~ msgid "US-ASCII"
+#~ msgstr "US-ASCII"
+
+#~ msgid "ISO-8859-1 (Latin-1)"
+#~ msgstr "ISO-8859-1 (Latin-1)"
+
+#~ msgid "ISO-8859-2 (Latin-2)"
+#~ msgstr "ISO-8859-2 (Latin-2)"
+
+#~ msgid "ISO-8859-3 (Latin-3)"
+#~ msgstr "ISO-8859-3 (Latin-3)"
+
+#~ msgid "ISO-8859-4 (Latin-4)"
+#~ msgstr "ISO-8859-4 (Latin-4)"
+
+#~ msgid "ISO-8859-5 (Latin-5)"
+#~ msgstr "ISO-8859-5 (Latin-5)"
+
+#~ msgid "ISO-8859-9 (Latin-9)"
+#~ msgstr "ISO-8859-9 (Latin-9)"
+
+#~ msgid "ISO-8859-10 (Latin-10)"
+#~ msgstr "ISO-8859-10 (Latin-10)"
+
+#~ msgid "IBM 850 code page"
+#~ msgstr "IBM 850 code page"
+
+#~ msgid "IBM 852 code page"
+#~ msgstr "IBM 852 code page"
+
+#~ msgid "Misc"
+#~ msgstr "Sonstiges"
+
+#~ msgid "Greek letters"
+#~ msgstr "Griechische Buchstaben"
+
+#~ msgid "German umlauts"
+#~ msgstr "Deutsche Umlaute"
+
+#~ msgid "Arrow characters"
+#~ msgstr "Pfeil-Symbole"
+
+#~ msgid "Relational"
+#~ msgstr "Relationale Operatoren"
+
+#~ msgid "Binary operation"
+#~ msgstr "Binäre Operatoren"
+
+#~ msgid "Booklet"
+#~ msgstr "Büchlein (Booklet)"
+
+#~ msgid "Conference"
+#~ msgstr "Konferenz"
+
+#~ msgid "Manual"
+#~ msgstr "Handbuch"
+
+#~ msgid "Mastersthesis"
+#~ msgstr "Masterarbeit"
+
+#~ msgid "PhdThesis"
+#~ msgstr "Doktorarbeit"
+
+#~ msgid "Techreport"
+#~ msgstr "Technischer Report"
+
+#~ msgid "Unpublished"
+#~ msgstr "Unveröffentlicht"
+
+#~ msgid "Address"
+#~ msgstr "Adresse"
+
+#~ msgid "Author"
+#~ msgstr "Autor"
+
+#~ msgid "Booktitle"
+#~ msgstr "Buchtitel"
+
+#~ msgid "Chapter"
+#~ msgstr "Kapitel"
+
+#~ msgid "HowPublished"
+#~ msgstr "Wie veröffentlicht"
+
+#~ msgid "Institution"
+#~ msgstr "Instituation"
+
+#~ msgid "Journal"
+#~ msgstr "Journal"
+
+#~ msgid "Key"
+#~ msgstr "Schlüssel"
+
+#~ msgid "Month"
+#~ msgstr "Monat"
+
+#~ msgid "Note"
+#~ msgstr "Note"
+
+#~ msgid "Number"
+#~ msgstr "Nummer"
+
+#~ msgid "Organization"
+#~ msgstr "Organisation"
+
+#~ msgid "Pages"
+#~ msgstr "Seiten"
+
+#~ msgid "Publisher"
+#~ msgstr "Herausgeber"
+
+#~ msgid "School"
+#~ msgstr "Hochschule"
+
+#~ msgid "Series"
+#~ msgstr "Reihe"
+
+#~ msgid "Title"
+#~ msgstr "Titel"
+
+#~ msgid "Type"
+#~ msgstr "Typ"
+
+#~ msgid "URL"
+#~ msgstr "URL"
+
+#~ msgid "Volume"
+#~ msgstr "Ausgabe"
+
+#~ msgid "Year"
+#~ msgstr "Jahr"
+
+#~ msgid "Address of publisher"
+#~ msgstr "Adresse des Verlegers"
+
+#~ msgid "Chapter number"
+#~ msgstr "Nummer des Kapitels"
+
+#~ msgid "Edition of the book (such as \"first\" or \"second\")"
+#~ msgstr "Auflage des Buches wie \"erste\" oder \"10. überarbeitete\""
+
+#~ msgid "Institution that was involved in the publishing"
+#~ msgstr "Institution, die an der Veröffentlichung beteiligt war"
+
+#~ msgid "Journal or magazine in which the work was published"
+#~ msgstr "Journal oder Magazin, in dem die Arbeit veröffentlicht wurde"
+
+#~ msgid "Month of publication or creation if unpublished"
+#~ msgstr ""
+#~ "Monat der Publikation bzw. der Erstellung bei unveröffentlichten Werken"
+
+#~ msgid "Miscellaneous extra information"
+#~ msgstr "Sonstige zusätzliche Informationen"
+
+#~ msgid "Number of journal, magazine, or tech-report"
+#~ msgstr "Nummer des Journals, des Magazins oder des technischen Reports"
+
+#~ msgid "Sponsor of the conference"
+#~ msgstr "Sponsor der Konferenz"
+
+#~ msgid "Page numbers separated by commas or double-hyphens"
+#~ msgstr "Seitenzahl(en) getrennt entweder durch Kommata, oder Hochkommata"
+
+#~ msgid "Name of publisher"
+#~ msgstr "Name des Herausgebers"
+
+#~ msgid "School where thesis was written"
+#~ msgstr "Schule/Hochschule, an der die Arbeit geschrieben wurde"
+
+#~ msgid "Series of books in which the book was published"
+#~ msgstr "Name der Serie, in der das Buch veröffentlicht wurde"
+
+#~ msgid "Title of the work"
+#~ msgstr "Titel der Arbeit"
+
+#~ msgid "Type of technical report"
+#~ msgstr "Art des technischen Reports"
+
+#~ msgid "Internet address"
+#~ msgstr "Internetadresse"
+
+#~ msgid "Number of the volume"
+#~ msgstr "Nummer der Ausgabe"
+
+#~ msgid "Year of publication or creation if unpublished"
+#~ msgstr ""
+#~ "Jahr der Publikation oder der Erstellung, wenn das Werk noch nicht "
+#~ "veröffentlicht ist."
+
+#~ msgid "Italic"
+#~ msgstr "Kursiv"
+
+#~ msgid "Boldfont"
+#~ msgstr "Fettdruck"
+
+#~ msgid "Underline"
+#~ msgstr "Unterstrichen"
+
+#~ msgid "Slanted"
+#~ msgstr "Auswahl geneigt formatieren"
+
+#~ msgid "Typewriter"
+#~ msgstr "Schreibmaschine"
+
+#~ msgid "Small Caps"
+#~ msgstr "Kapitälchen"
+
+#~ msgid "Emphasis"
+#~ msgstr "Hervorhebung"
+
+#~ msgid "Centered"
+#~ msgstr "Zentriert"
+
+#~ msgid "Left side oriented"
+#~ msgstr "Linksbündig"
+
+#~ msgid "Right side oriented"
+#~ msgstr "Rechtsbündig"
+
+#~ msgid "Environments"
+#~ msgstr "Umgebungen"
+
+#~ msgid "Formating"
+#~ msgstr "Formatierungen"
+
+#~ msgid "Document Structure"
+#~ msgstr "Dokumentstruktur"
+
+#~ msgid "Lists"
+#~ msgstr "Listen"
+
+#~ msgid "Math"
+#~ msgstr "Mathematik"
+
+#~ msgid "Insert Environment"
+#~ msgstr "Umgebung einfügen"
+
+#~ msgid "Environment:"
+#~ msgstr "Umgebung:"
+
+#~ msgid "Insert label"
+#~ msgstr "Lesezeichen einfügen"
+
+#~ msgid "Insert reference"
+#~ msgstr "Verweis einfügen"
+
+#~ msgid "Replacement of special characters"
+#~ msgstr "Sonderzeichen ersetzen"
+
 #~ msgid "_Mail"
 #~ msgstr "_Mail"
 
@@ -315,3 +1181,441 @@ msgstr "Auswahl nach Rechts verschieben"
 
 #~ msgid "Mail Configuration"
 #~ msgstr "Maileinstellungen"
+
+#~ msgid "Added breakpoint #%s in %s() at %s:%s\n"
+#~ msgstr "Haltepunkt #%s in %s() bei %s:%s hinzugefügt\n"
+
+#~ msgid "Added breakpoint #%s at %s:%s\n"
+#~ msgstr "Haltepunkt #%s bei %s:%s hinzugefügt\n"
+
+#~ msgid "Unknown signal"
+#~ msgstr "Unbekanntes Signal"
+
+#~ msgid "reason:"
+#~ msgstr "Grund:"
+
+#~ msgid "Directory %s not found!\n"
+#~ msgstr "Verzeichnis »%s« nicht gefunden!\n"
+
+#~ msgid "Killing target program.\n"
+#~ msgstr "Töte Zielprogramm.\n"
+
+#~ msgid "Delete selected breakpoint?"
+#~ msgstr "Ausgewählten Haltepunkt löschen?"
+
+#~ msgid "Edit breakpoint"
+#~ msgstr "Haltepunkt bearbeiten"
+
+#~ msgid "Enabled"
+#~ msgstr "Aktiviert"
+
+#~ msgid " times. "
+#~ msgstr " mal "
+
+#~ msgid "Add breakpoint"
+#~ msgstr "Haltepunkt hinzufügen"
+
+#~ msgid "Breakpoints"
+#~ msgstr "Haltepunkte"
+
+#~ msgid ""
+#~ "\n"
+#~ " Command-line arguments passed to target program:"
+#~ msgstr ""
+#~ "\n"
+#~ "Kommandozeilenargumente für das Zielprogramm:"
+
+#~ msgid ""
+#~ "\n"
+#~ " Search path for source files:"
+#~ msgstr ""
+#~ "\n"
+#~ "Suchpfad für Quelldateien:"
+
+#~ msgid ""
+#~ "\n"
+#~ " Working directory for target program:"
+#~ msgstr ""
+#~ "\n"
+#~ "Arbeitesverzeichnis für das Zielprogramm:"
+
+#~ msgid ""
+#~ "\n"
+#~ " Search path for executables:"
+#~ msgstr ""
+#~ "\n"
+#~ "Suchpfad für ausführbare Dateien:"
+
+#~ msgid "Select Font"
+#~ msgstr "Schriftart auswählen"
+
+#~ msgid "Preferences"
+#~ msgstr "Einstellungen"
+
+#~ msgid "Keep debug window on top."
+#~ msgstr "Debugfenster im Vordergrund halten"
+
+#~ msgid "Show tooltips."
+#~ msgstr "Kurzhilfen anzeigen"
+
+#~ msgid "Show icons."
+#~ msgstr "Symbole anzeigen"
+
+#~ msgid "Font for source code listings:"
+#~ msgstr "Schriftart für die Quellcode-Anzeige"
+
+#~ msgid "Terminal program:"
+#~ msgstr "Textkonsolen-Programm:"
+
+#~ msgid "_Examine"
+#~ msgstr "_Prüfen"
+
+#~ msgid "Object info"
+#~ msgstr "Objektinformationen"
+
+#~ msgid "Elements"
+#~ msgstr "Elemente"
+
+#~ msgid "Fields"
+#~ msgstr "Felder"
+
+#~ msgid "Return to previous dialog."
+#~ msgstr "Zum vorherigen Dialog zurückkehren"
+
+#~ msgid "Display additional information about the selected item."
+#~ msgstr "Zusätzliche Information zum ausgewählten Eintrag anzeigen"
+
+#~ msgid "Function arguments"
+#~ msgstr "Funktionsargumente"
+
+#~ msgid "Local variables"
+#~ msgstr "Lokale Variablen"
+
+#~ msgid "Clea_r"
+#~ msgstr "_Leeren"
+
+#~ msgid "Filename: "
+#~ msgstr "Dateiname: "
+
+#~ msgid "Line number or function name: "
+#~ msgstr "Zeilennummer oder Funktionsname: "
+
+#~ msgid "(no program)"
+#~ msgstr "(kein Programm)"
+
+#~ msgid "loaded"
+#~ msgstr "geladen"
+
+#~ msgid "starting"
+#~ msgstr "startet"
+
+#~ msgid "running"
+#~ msgstr "läuft"
+
+#~ msgid "stopped"
+#~ msgstr "unterbrochen"
+
+#~ msgid "terminated"
+#~ msgstr "abgebrochen"
+
+#~ msgid "paused"
+#~ msgstr "pausiert"
+
+#~ msgid "Program received signal:"
+#~ msgstr "Programm empfind signal:"
+
+#~ msgid "Error:"
+#~ msgstr "Fehler:"
+
+#~ msgid "Select executable to debug"
+#~ msgstr "Zielprogrammdatei auswählen"
+
+#~ msgid "Debugging of object files is not supported."
+#~ msgstr "Das Debuggen von Objektdateien wird nicht unterstützt."
+
+#~ msgid "You don't have permission to execute this file."
+#~ msgstr "Sie haben keine Berechtigung diese Datei auszuführen."
+
+#~ msgid "Debugging of shared libraries is not supported."
+#~ msgstr "Das Debuggen von Bibliotheken wird nicht unterstützt."
+
+#~ msgid "Debugging of core files id not supported."
+#~ msgstr "Das Debuggen von Core-Dateien wird nicht unterstützt."
+
+#~ msgid "Target file must be ELF 32-bit x86 executable."
+#~ msgstr "Die Zieldatei muss im ELF 32-bit x86 Format sein."
+
+#~ msgid "You don't have permission to read this file."
+#~ msgstr "Sie haben keine Berechtigung diese Datei lesen."
+
+#~ msgid "no program"
+#~ msgstr "Kein Programm"
+
+#~ msgid "_Load"
+#~ msgstr "_Laden"
+
+#~ msgid "_Unload"
+#~ msgstr "_Entladen"
+
+#~ msgid "Kill the target program AND the debugger."
+#~ msgstr "Das Programm UND den Debugger beenden (töten)."
+
+#~ msgid "_Run"
+#~ msgstr "_Ausführen"
+
+#~ msgid "Execute target program in debugger."
+#~ msgstr "Zieprogramm im Debugger ausführen."
+
+#~ msgid "_Kill"
+#~ msgstr "_Töten"
+
+#~ msgid "_Pause"
+#~ msgstr "_Anhalten"
+
+#~ msgid "_Continue"
+#~ msgstr "_Fortfahren"
+
+#~ msgid "Add or remove breakpoints."
+#~ msgstr "Haltepunkte hinzufügen oder entfernen."
+
+#~ msgid "_Finish"
+#~ msgstr "_Beenden"
+
+#~ msgid "_Options"
+#~ msgstr "_Optionen"
+
+#~ msgid "Run in terminal"
+#~ msgstr "In Terminal ausführen"
+
+#~ msgid "Execute target program inside a terminal window."
+#~ msgstr "Zielprogramm in einem Konsolenfenster ausführen"
+
+#~ msgid "Ignore SIGPIPE"
+#~ msgstr "SIGPIPE ignorieren"
+
+#~ msgid ""
+#~ "Don't pause execution when target gets a SIGPIPE signal.\n"
+#~ "(Useful for certain networking applications.)"
+#~ msgstr ""
+#~ "Die Ausführung des Programms nicht unterbrechen wenn das Signal SIGPIPE "
+#~ "empfangen wird.\n"
+#~ "(Nützlich bei einigen Netzwerkanwendungen)"
+
+#~ msgid "Console:"
+#~ msgstr "Konsole:"
+
+#~ msgid "Send a GDB command directly to the debugger."
+#~ msgstr "Sendet einen GDB-Befehl direkt an den Debugger."
+
+#~ msgid "_Quit"
+#~ msgstr "_Beenden"
+
+#~ msgid "Exit everything"
+#~ msgstr "Alles beenden"
+
+#~ msgid "Debugger"
+#~ msgstr "Debugger"
+
+#~ msgid "Integrated debugging with GDB."
+#~ msgstr "Debugging integriert in Geany"
+
+#~ msgid "Jeff Pohlmeyer"
+#~ msgstr "Jeff Pohlmeyer"
+
+#~ msgid "Project"
+#~ msgstr "Projekt"
+
+#~ msgid "Alternative project support."
+#~ msgstr "Alternative Projektunterstützung."
+
+#~ msgid "Yura Siamashka <yurand2@gmail.com>"
+#~ msgstr "Yura Siamashka <yurand2@gmail.com>"
+
+#~ msgid "Project Preferences"
+#~ msgstr "Projekteigenschaften"
+
+#~ msgid "New Project"
+#~ msgstr "Neues Projekt"
+
+#~ msgid "C_reate"
+#~ msgstr "_Erstellen"
+
+#~ msgid "Name:"
+#~ msgstr "Name:"
+
+#~ msgid "Location:"
+#~ msgstr "Ort:"
+
+#~ msgid "Choose Project Location"
+#~ msgstr "Projektverzeichnis auswählen"
+
+#~ msgid "Base path:"
+#~ msgstr "Basisverzeichnis:"
+
+#~ msgid ""
+#~ "Base directory of all files that make up the project. This can be a new "
+#~ "path, or an existing directory tree. You can use paths relative to the "
+#~ "project filename."
+#~ msgstr ""
+#~ "Basisverzeichnis aller Dateien, die zu einem Projekt gehören. Es kann "
+#~ "sowohl ein bereits existierender, als auch ein neu zu erstellendes "
+#~ "Verzeichnis sein. Weiterhin kann es sowohl in relativer als auch "
+#~ "absoluter Form eingegeben werden."
+
+#~ msgid "Choose Project Base Path"
+#~ msgstr "Projektbasisverzeichnisses auswählen"
+
+#~ msgid "Generate file list on load"
+#~ msgstr "Dateiliste beim Laden erzeugen"
+
+#~ msgid ""
+#~ "Automatically add files that match project type on project load "
+#~ "automaticly. You can't manually add/remove files if you checked this "
+#~ "option, since your modification will be lost on on next project load"
+#~ msgstr ""
+#~ "Fügt Dateien, die dem Projekt-Typ entsprechen, automatisch beim Laden "
+#~ "hinzu dem Projekte hinzu. Manuelles Hinzufügen oder Löschen von Dateien "
+#~ "ist dann nicht möglich, Änderungen würden beim nächsten Laden "
+#~ "überschrieben werden."
+
+#~ msgid "Type:"
+#~ msgstr "Typ:"
+
+#~ msgid "Project file \"%s\" already exists"
+#~ msgstr "Die Projektdatei »%s« existiert bereits."
+
+#~ msgid "_Project"
+#~ msgstr "_Projekt"
+
+#~ msgid "Delete Project"
+#~ msgstr "Projekt löschen"
+
+#~ msgid "Add File"
+#~ msgstr "Datei hinzufügen"
+
+#~ msgid "Find in Project"
+#~ msgstr "Im Projekt suchen"
+
+#~ msgid "H_ide Sidebar"
+#~ msgstr "Seitenleiste _verstecken"
+
+#~ msgid "Project \"%s\" opened."
+#~ msgstr "Projekt »%s« geöffnet."
+
+#~ msgid "Project \"%s\" closed."
+#~ msgstr "Projekt »%s« geschlossen."
+
+#~ msgid "Load Mini-Script File"
+#~ msgstr "Mini-Skript laden"
+
+#~ msgid "Save Mini-Script File"
+#~ msgstr "Mini-Skript speichern"
+
+#~ msgid ""
+#~ "<b>GMS : Geany Mini-Script filter Plugin</b>\n"
+#~ "This plugin is a tools to apply a script filter on :\n"
+#~ "   o the text selection,\n"
+#~ "   o the current document,\n"
+#~ "   o all documents of the current session.\n"
+#~ "\n"
+#~ "The filter type can be : \n"
+#~ "   o Unix shell script, \n"
+#~ "   o perl script, \n"
+#~ "   o python script, \n"
+#~ "   o sed commands,\n"
+#~ "   o awk script.\n"
+#~ "\n"
+#~ "<b>AUTHOR</b>\n"
+#~ "   Written by Pascal BURLOT (December,2008)\n"
+#~ "\n"
+#~ "<b>LICENSE:</b>\n"
+#~ "This program is free software; you can redistribute\n"
+#~ "it and/or modify it under the terms of the GNU \n"
+#~ "General Public License as published by the Free\n"
+#~ "Software Foundation; either version 2 of the License,\n"
+#~ "or (at your option) any later version."
+#~ msgstr ""
+#~ "<b>GMS: Geany Mini-Skript Filter Plugin</b>\n"
+#~ "Mit diesem Plugin können Sie Filter auf:\n"
+#~ "   o die Text-Auswahl, \n"
+#~ "   o das gegenwärtige Dokument, \n"
+#~ "   o alle Dokumente der gegenwärtigen Sitzung\n"
+#~ "anwenden.\n"
+#~ "\n"
+#~ "Der Filtertyp kann ein:\n"
+#~ "   o Unix Shell-Skript, \n"
+#~ "   o Perl Skript, \n"
+#~ "   o Python Skript, \n"
+#~ "   o sed Befehle, \n"
+#~ "   o awk Skript\n"
+#~ "sein.\n"
+#~ "\n"
+#~ "<b>AUTHOR </b>\n"
+#~ "          Geschrieben von Pascal BURLOT (Dezember 2008)\n"
+#~ "\n"
+#~ "<b>LIZENZ:</b>\n"
+#~ "This program is free software; you can redistribute \n"
+#~ "it and/or modify it under the terms of the GNU  \n"
+#~ "General Public License as published by the Free \n"
+#~ "Software Foundation; either version 2 of the License, \n"
+#~ "or (at your option) any later version."
+
+#~ msgid "Mini-Script Filter"
+#~ msgstr "Mini-Skript Filter"
+
+#~ msgid "Clear the mini-script window"
+#~ msgstr "Leert das Skript-Fenster"
+
+#~ msgid "Load a mini-script into this window"
+#~ msgstr "Lädt eine Datei in das Skript-Fenster"
+
+#~ msgid "Save the mini-script into a file"
+#~ msgstr "Speichert das Skript ab"
+
+#~ msgid "Display a information about the mini-script plugin"
+#~ msgstr "Zeigt Informationen über das Plugin"
+
+#~ msgid "select the mini-script type"
+#~ msgstr "Wählen Sie den Skript-Typ aus"
+
+#~ msgid "filter input"
+#~ msgstr "Eingabedaten für den Filter"
+
+#~ msgid "select the input of mini-script filter"
+#~ msgstr "Wählen Sie die Eingabedaten des Filters aus"
+
+#~ msgid "selection"
+#~ msgstr "Auswahl"
+
+#~ msgid "document"
+#~ msgstr "Dokument"
+
+#~ msgid "session"
+#~ msgstr "Sitzung"
+
+#~ msgid "filter output"
+#~ msgstr "Filterausgabe"
+
+#~ msgid "select the output of mini-script filter"
+#~ msgstr "Wählen Sie die Ausgabe des Filters aus"
+
+#~ msgid "Current Doc."
+#~ msgstr "Aktuelles Dokument"
+
+#~ msgid "New Doc."
+#~ msgstr "Neues Dokument"
+
+#~ msgid "script configuration"
+#~ msgstr "Skriptkonfiguration"
+
+#~ msgid "geany mini-script"
+#~ msgstr "Geany Mini-Skript"
+
+#~ msgid "GMS (Geany Mini-Script filter plugin)"
+#~ msgstr "GMS (Geany Mini-Skript-Filter)"
+
+#~ msgid "Pascal BURLOT, a Geany user"
+#~ msgstr "Pascal BURLOT, ein Geany-Benutzer"
+
+#~ msgid "_Mini-Script"
+#~ msgstr "_Mini-Skript"
