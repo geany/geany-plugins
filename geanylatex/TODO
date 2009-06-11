@@ -1,0 +1,16 @@
+	TODO
+************
+
+* Improving support for bibTeX
+    * Parsing of *.bib
+    * Inserting of \cite
+    * Dialog for inserting bibTeX entries
+* Wizard:
+	* Adding support for diff. letter classes
+	* Make plugin use customisable templates
+* Replacing of environments
+* Parsing document for »TOC«
+    * Navigation throught document
+    * "Graphical" support while using \ref, \pageref ...
+* Code examples for very common problems
+* Make special characters extensible through files

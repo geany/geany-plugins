@@ -7,6 +7,19 @@ addons/src/ao_openuri.c
 addons/src/addons.c
 addons/src/ao_doclist.c
 
+#geanylatex
+geanylatex/src/geanylatex.c
+geanylatex/src/latexencodings.c
+geanylatex/src/letters.c
+geanylatex/src/bibtex.c
+geanylatex/src/bibtexlabels.c
+geanylatex/src/formatutils.c
+geanylatex/src/formatpatterns.c
+geanylatex/src/latexenvironments.c
+geanylatex/src/latexkeybindings.c
+geanylatex/src/latexutils.c
+geanylatex/src/reftex.c
+
 #geanylipsum
 geanylipsum/src/geanylipsum.c
 
