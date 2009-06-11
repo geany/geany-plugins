@@ -48,31 +48,27 @@ blddir = '_build_'
 
 
 class Plugin:
-	def __init__(self, n, s, i, l=[], g=None):
+	def __init__(self, n, s, i, l=[]):
+		# plugin name, must be the same as the corresponding subdirectory
 		self.name = n
+		# may be None to auto-detect source files in all directories specified in 'includes'
 		self.sources = s
-		self.includes = i # do not include '.'
-		self.libs = l # a list of lists of libs and their versions, e.g. [ [ 'enchant', '1.3' ],
-		              # [ 'gtkspell-2.0', '2.0', False ] ], the third argument defines whether
-		              # the dependency is mandatory
+		# do not include '.'
+		self.includes = i
+		# a list of lists of libs and their versions, e.g. [ [ 'enchant', '1.3' ],
+		# [ 'gtkspell-2.0', '2.0', False ] ], the third argument defines whether
+		# the dependency is mandatory
+		self.libs = l
 
 
 # add a new element for your plugin
 plugins = [
-	Plugin('addons',
-		 [ 'addons/src/addons.c', 'addons/src/ao_doclist.c', 'addons/src/ao_openuri.c',
-		   'addons/src/ao_systray.c', 'addons/src/tasks.c' ],
-		 [ 'addons', 'addons/src' ]),
-	Plugin('shiftcolumn',
-		 [ 'shiftcolumn/src/shiftcolumn.c'],
-		 [ 'shiftcolumn', 'shiftcolumn/src']),
-	Plugin('spellcheck',
-		 [ 'spellcheck/src/gui.c', 'spellcheck/src/scplugin.c', 'spellcheck/src/speller.c' ], # source files
-		 [ 'spellcheck', 'spellcheck/src' ], # include dirs
-		 [ [ 'enchant', '1.3', True ] ]),
+	Plugin('addons', None, [ 'addons/src' ]),
+	Plugin('shiftcolumn', None, [ 'shiftcolumn/src']),
+	Plugin('spellcheck', None, [ 'spellcheck/src' ], [ [ 'enchant', '1.3', True ] ]),
 	Plugin('geanysendmail',
 		 [ 'geanysendmail/src/geanysendmail.c' ],
-		 [ 'geanysendmail', 'geanysendmail/src' ])
+		 [ 'geanysendmail/src' ])
 ]
 
 '''
@@ -406,7 +402,7 @@ def build(bld):
 		if p.name == 'geanygdb':
 			build_debug(bld, p, libs) # build additional binary for the debug plugin
 
-		bld.new_task_gen(
+		t = bld.new_task_gen(
 			features		= 'cc cshlib',
 			source			= p.sources,
 			includes		= p.includes,
@@ -414,6 +410,9 @@ def build(bld):
 			uselib			= libs,
 			install_path	= '${G_PREFIX}/lib' if is_win32 else '${LIBDIR}/geany/'
 		)
+		if not p.sources:
+			for dir in p.includes:
+				t.find_sources_in_dirs(dir)
 
 		install_docs(bld, p.name, 'AUTHORS ChangeLog COPYING NEWS README THANKS TODO'.split())
 
@@ -421,8 +420,8 @@ def build(bld):
 	if bld.env['INTLTOOL']:
 			bld.new_task_gen(
 				features	= 'intltool_po',
-			podir		= 'po',
-			appname		= APPNAME,
+				podir		= 'po',
+				appname		= APPNAME,
 				install_path = '${G_PREFIX}/share/locale' if is_win32 else '${LOCALEDIR}'
 			)
 
