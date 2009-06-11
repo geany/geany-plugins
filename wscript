@@ -37,7 +37,7 @@ Requires WAF 1.5.7 and Python 2.4 (or later).
 
 
 import Build, Options, Utils, preproc
-import sys, os
+import os, sys, tempfile
 
 
 APPNAME = 'geany-plugins'
@@ -255,8 +255,9 @@ def configure(conf):
 		if 'geanygdb' in enabled_plugins:
 			enabled_plugins.remove('geanygdb')
 
-		prefix = os.path.splitdrive(conf.srcdir)[1]
-		conf.env['PREFIX'] = os.path.join(prefix, '%s-%s' % (APPNAME, VERSION))
+		if conf.env['PREFIX'] == tempfile.gettempdir():
+			# overwrite default prefix on Windows (tempfile.gettempdir() is the Waf default)
+			conf.define('PREFIX', os.path.join(conf.srcdir, '%s-%s' % (APPNAME, VERSION)), 1)
 		# hack: we add the parent directory of the first include directory as this is missing in
 		# list returned from pkg-config
 		conf.env['CPPPATH_GTK'].insert(0, os.path.dirname(conf.env['CPPPATH_GTK'][0]))
@@ -286,8 +287,7 @@ def configure(conf):
 		conf.undefine('DATADIR')
 	else:
 		conf.define('PREFIX', conf.env['PREFIX'], 1)
-	# fixme, DOCDIR is wrong
-	conf.define('DOCDIR', '%s/doc/geany-plugins/' % conf.env['DATADIR'], 1)
+	conf.define('DOCDIR', '%s/doc/geany-plugins/', 1)
 	conf.define('VERSION', VERSION, 1)
 	conf.define('PACKAGE', APPNAME, 1)
 	conf.define('GETTEXT_PACKAGE', APPNAME, 1)
