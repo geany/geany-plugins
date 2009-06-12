@@ -1,0 +1,129 @@
+.. |(version)| replace:: 0.0.2
+.. |(download_current)| replace:: http://plugins.geany.org/geanygdb/geanygdb-0.0.2.tar.gz
+
+===============
+GeanyGDB Plugin
+===============
+
+.. contents::
+
+About
+=====
+GeanyGDB is a plugin for Geany which provides integrated debugging support
+within Geany via the GNU Debugger (gdb).
+
+Geany is a small and lightweight integrated development environment using the
+GTK2 toolkit.
+
+The GNU Debugger is a source-level debugger for C, C++, Fortran, Modula 2 and
+Java programs.
+
+It was developed and tested on openSUSE-10.3 with GDB-6.7.50. Other recent
+versions of GDB will probably work, but operating systems other than Linux-PC
+will not work, at least not without some considerable hacking.
+
+
+Current Version
+===============
+The current stable GeanyGDB release is |(version)|.
+
+
+Requirements
+============
+For compiling the plugin yourself, you will need the GTK (>= 2.8.0) libraries
+and header files. You will also need its dependency libraries and header
+files, such as Pango, Glib and ATK. All these files are available at
+http://www.gtk.org.
+
+And obviously, you will need have Geany installed. If you have Geany installed
+from the sources, you should be ready to go.
+If you used a prepared package e.g. from your distribution you probably need
+to install an additional package, this might be called geany-dev or geany-devel.
+Please note that in order to compile and use this plugin, you need Geany 0.16
+or later.
+
+Furthermore you need, of course, a C compiler and the Make tool.
+The GNU versions of these tools are recommended.
+
+
+Installation
+============
+See the file `INSTALL <INSTALL.html>`_ for more information.
+
+
+Documentation
+=============
+There is no real documentation, but if you hover your mouse over the buttons
+in the "Debug" sidebar panel in Geany the tooltips should give you some idea
+of what to do next. There are also a few "rough draft" notes below:
+
+Most of the console output from GDB is sent to the "Compiler" message window
+in Geany, and you can send standard commands to GDB using the "Console" entry
+on the debug sidebar. This should be used with caution, since GDB's machine
+interface and console interface don't always play well together.
+
+Also note that the plugin sets its own internal breakpoint #1 to grab the
+program's PID on startup, so any user-specified breakpoint numbers begin
+at #2, and if you manually delete the #1 breakpoint it will likely cause
+you some problems.
+
+Whenever the target program hits a breakpoint or encounters a segfault etc.
+it will try to open the appropriate source file and jump to the correct line.
+
+To examine the state of the program's variables, you can click on the "Stack"
+button in the debug sidebar. Note that the interaction between the plugin and
+the debugger can sometimes be quite slow, so please be patient when waiting
+for the dialogs to open.
+
+The "Add breakpoint", "Add watchpoint", and "Run to" dialogs will try to
+suggest some values based on your current position in whatever file you
+have open in Geany, but if you don't like the choice, just click the "Clear"
+button and type in whatever you please.
+
+The plugin tries to enable only the buttons that are relevant to the current
+state, but ocassionally it might end up getting things wrong. If this happens,
+you should be able to click the "Unload" button and everything will be reset.
+
+If you try to unload the plugin using the plugin manager while it has a
+program loaded, the plugin manager might appear to hang for a few seconds,
+while GDB tries to shut down. Again, just be patient, but note that it is
+much better use the "Unload" button in the debug sidebar before trying to
+disable the plugin.
+
+
+Download
+========
+
+Current Version
+---------------
+
+============= ================ =================================================
+Geany Version GeanyGDB Version Download
+============= ================ =================================================
+0.16               |(version)| |(download_current)|
+============= ================ =================================================
+
+Up to date source code can be downloaded here::
+
+  svn checkout http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geanygdb
+
+previous Versions
+-----------------
+
+======================= ================ =========================================================
+Geany Version           GeanyGDB Version Download
+======================= ================ =========================================================
+known to work with 0.14            0.0.1 http://plugins.geany.org/geanygdb/geanydebug-0.0.1.tar.gz
+======================= ================ =========================================================
+
+
+Contact
+=======
+Geanys official homepage is http://geany.org/
+
+mailing list is geany@uvena.de
+
+eMail to dmaphy@googlemail.com
+
+meet us in IRC on channels #geany or #geany-de using chat.freenode.net
+
