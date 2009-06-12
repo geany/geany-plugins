@@ -107,7 +107,7 @@ static void ao_systray_class_init(AoSystrayClass *klass)
 	g_object_class->finalize = ao_systray_finalize;
 	g_object_class->set_property = ao_systray_set_property;
 
-	g_type_class_add_private((gpointer)klass, sizeof(AoSystrayPrivate));
+	g_type_class_add_private(klass, sizeof(AoSystrayPrivate));
 
 	g_object_class_install_property(g_object_class,
 									PROP_ENABLE_SYSTRAY,
@@ -183,13 +183,13 @@ static void ao_systray_init(AoSystray *self)
 	item = gtk_image_menu_item_new_from_stock(GTK_STOCK_OPEN, NULL);
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(priv->popup_menu), item);
-	g_signal_connect((gpointer) item, "activate",
+	g_signal_connect(item, "activate",
 		G_CALLBACK(icon_popup_menu_cmd_clicked_cb), "menu_open1");
 
 	item = gtk_image_menu_item_new_from_stock(GEANY_STOCK_SAVE_ALL, NULL);
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(priv->popup_menu), item);
-	g_signal_connect((gpointer) item, "activate",
+	g_signal_connect(item, "activate",
 		G_CALLBACK(icon_popup_menu_cmd_clicked_cb), "menu_save_all1");
 
 	item = gtk_separator_menu_item_new();
@@ -199,7 +199,7 @@ static void ao_systray_init(AoSystray *self)
 	item = gtk_image_menu_item_new_from_stock(GTK_STOCK_PREFERENCES, NULL);
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(priv->popup_menu), item);
-	g_signal_connect((gpointer) item, "activate",
+	g_signal_connect(item, "activate",
 		G_CALLBACK(icon_popup_menu_cmd_clicked_cb), "preferences1");
 
 	item = gtk_separator_menu_item_new();
@@ -209,7 +209,7 @@ static void ao_systray_init(AoSystray *self)
 	item = gtk_image_menu_item_new_from_stock(GTK_STOCK_QUIT, NULL);
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(priv->popup_menu), item);
-	g_signal_connect((gpointer) item, "activate", G_CALLBACK(icon_popup_quit_clicked_cb), NULL);
+	g_signal_connect(item, "activate", G_CALLBACK(icon_popup_quit_clicked_cb), NULL);
 
 	g_signal_connect(priv->icon, "activate", G_CALLBACK(icon_activate_cb), NULL);
 	g_signal_connect(priv->icon, "popup-menu", G_CALLBACK(icon_popup_menu_cb), self);
