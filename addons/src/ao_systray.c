@@ -50,8 +50,10 @@ struct _AoSystrayPrivate
 {
 	gboolean enable_systray;
 
-	GtkStatusIcon *icon;
 	GtkWidget *popup_menu;
+#if GTK_CHECK_VERSION(2, 10, 0)
+	GtkStatusIcon *icon;
+#endif
 };
 
 enum
