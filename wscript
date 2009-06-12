@@ -70,15 +70,7 @@ plugins = [
 		[ 'geanysendmail/src' ]),
 	Plugin('geanylipsum', None, [ 'geanylipsum/src']),
 	Plugin('shiftcolumn', None, [ 'shiftcolumn/src']),
-	Plugin('spellcheck', None, [ 'spellcheck/src' ], [ [ 'enchant', '1.3', True ] ])
-]
-
-'''
-temporary_disabled_plugins
-	Plugin('externdbg',
-		 [ 'externdbg/src/dbg.c' ], # source files
-		 [ 'externdbg', 'externdbg/src' ] # include dirs
-		 ),
+	Plugin('spellcheck', None, [ 'spellcheck/src' ], [ [ 'enchant', '1.3', True ] ]),
 	Plugin('geanygdb',
 		 map(lambda x: "geanygdb/src/" + x, ['gdb-io-break.c',
 		   'gdb-io-envir.c', 'gdb-io-frame.c', 'gdb-io-read.c', 'gdb-io-run.c',
@@ -86,6 +78,14 @@ temporary_disabled_plugins
 		   'gdb-ui-frame.c',  'gdb-ui-locn.c', 'gdb-ui-main.c',
 		   'geanydebug.c']), # source files
 		 [ 'geanygdb', 'geanygdb/src' ] # include dirs
+		 )
+]
+
+'''
+temporary_disabled_plugins
+	Plugin('externdbg',
+		 [ 'externdbg/src/dbg.c' ], # source files
+		 [ 'externdbg', 'externdbg/src' ] # include dirs
 		 ),
 	Plugin('geanydoc',
 		 [ 'geanydoc/src/config.c', 'geanydoc/src/geanydoc.c' ], # source files
