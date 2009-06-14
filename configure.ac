@@ -4,7 +4,7 @@ AM_INIT_AUTOMAKE([foreign dist-bzip2 tar-ustar subdir-objects])
 
 AC_CONFIG_SRCDIR([po/LINGUAS])
 AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_MACRO_DIR([build/m4/cache])
 
 AC_PROG_CC
 AC_PROG_LIBTOOL
@@ -24,7 +24,6 @@ AC_SUBST(LOCALEDIR)
 dnl common checks
 PKG_CHECK_MODULES([GEANY], [geany >= 0.16])
 geanypluginsdir=`${PKG_CONFIG} --variable=libdir geany`/geany
-echo ${geanypluginsdir}
 AC_SUBST([geanypluginsdir])
 
 PKG_CHECK_MODULES([CHECK], [check >= 0.9.4], 

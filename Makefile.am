@@ -1,6 +1,6 @@
 plugins = addons geanygdb
 
-ACLOCAL_AMFLAGS = -I m4	-I addons/build -I geanygdb/build --install
+ACLOCAL_AMFLAGS = -Ibuild/m4/cache -Ibuild/m4/plugins --install
 
 SUBDIRS = \
 	po \
