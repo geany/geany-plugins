@@ -4,7 +4,7 @@ AM_INIT_AUTOMAKE([foreign dist-bzip2 tar-ustar subdir-objects])
 
 AC_CONFIG_SRCDIR([po/LINGUAS])
 AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_MACRO_DIR([build/m4/cache])
+AC_CONFIG_MACRO_DIR([build/cache])
 
 AC_PROG_CC
 AC_PROG_LIBTOOL

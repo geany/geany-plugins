@@ -1,6 +1,6 @@
 #!/bin/sh
 
-mkdir -p build/m4/cache
+mkdir -p build/cache
 intltoolize -c -f
 autoreconf -vfi
 
