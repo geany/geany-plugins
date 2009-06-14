@@ -1,5 +1,8 @@
 AM_CFLAGS = \
 	-DLOCALEDIR=\""$(LOCALEDIR)"\" \
+	-DPREFIX=\""$(prefix)"\" \
+	-DDOCDIR=\""$(docdir)"\" \
+	-DDATADIR=\""$(datadir)"\" \
 	-DLIBDIR=\""$(libdir)"\" \
 	$(GEANY_CFLAGS)
 
