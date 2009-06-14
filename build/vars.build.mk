@@ -10,4 +10,3 @@ AM_LDFLAGS = -module -avoid-version
 
 COMMONLIBS = \
 	$(GEANY_LIBS)
-	
