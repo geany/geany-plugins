@@ -26,4 +26,3 @@ geanylatex_la_SOURCES = \
 	formatutils.c
 
 geanylatex_la_LIBADD = $(COMMONLIBS)
-geanylatex_la_LDFLAGS = -module -avoid-version

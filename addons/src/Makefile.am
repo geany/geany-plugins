@@ -16,4 +16,3 @@ addons_la_SOURCES = \
 	tasks.c
 
 addons_la_LIBADD = $(COMMONLIBS)
-addons_la_LDFLAGS = -module -avoid-version

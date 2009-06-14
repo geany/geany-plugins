@@ -23,4 +23,3 @@ geanygdb_la_SOURCES = \
 	gdb-ui-locn.c
 
 geanygdb_la_LIBADD = $(COMMONLIBS)
-geanygdb_la_LDFLAGS = -module -avoid-version
