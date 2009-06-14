@@ -1,3 +1,5 @@
+include $(top_srcdir)/build/vars.mk
+
 geanyplugins_LTLIBRARIES = \
 	addons.la
 
@@ -15,8 +17,7 @@ addons_la_SOURCES = \
 
 addons_la_CFLAGS = \
 	$(AM_CFLAGS) \
-	$(GEANY_CFLAGS) \
-	-DLOCALEDIR=\"$(LOCALEDIR)\"
+	$(GEANY_CFLAGS)
 
 addons_la_LIBADD = \
 	$(GEANY_LIBS)

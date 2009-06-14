@@ -1,3 +1,5 @@
+include $(top_srcdir)/build/vars.mk
+
 geanyplugins_LTLIBRARIES = geanygdb.la
 
 geanygdb_la_SOURCES = \
@@ -22,9 +24,7 @@ geanygdb_la_SOURCES = \
 
 geanygdb_la_CFLAGS = \
 	$(AM_CFLAGS) \
-	$(GEANY_CFLAGS) \
-	-DLOCALEDIR=\""$(LOCALEDIR)"\" \
-	-DLIBDIR=\""$(libdir)"\"
+	$(GEANY_CFLAGS)
 
 geanygdb_la_LIBADD = \
 	$(GEANY_LIBS)

@@ -1,0 +1,3 @@
+AM_CFLAGS = \
+	-DLOCALEDIR=\""$(LOCALEDIR)"\" \
+	-DLIBDIR=\""$(LIBDIR)"\"
