@@ -281,7 +281,7 @@ def configure(conf):
 		conf.undefine('DATADIR')
 	else:
 		conf.define('PREFIX', conf.env['PREFIX'], 1)
-	conf.define('DOCDIR', '%s/doc/geany-plugins/', 1)
+	conf.define('DOCDIR', '%s/doc/geany-plugins/' % conf.env['DATADIR'], 1)
 	conf.define('VERSION', VERSION, 1)
 	conf.define('PACKAGE', APPNAME, 1)
 	conf.define('GETTEXT_PACKAGE', APPNAME, 1)
