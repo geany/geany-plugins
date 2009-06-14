@@ -15,11 +15,5 @@ addons_la_SOURCES = \
 	ao_systray.c \
 	tasks.c
 
-addons_la_CFLAGS = \
-	$(AM_CFLAGS) \
-	$(GEANY_CFLAGS)
-
-addons_la_LIBADD = \
-	$(GEANY_LIBS)
-
+addons_la_LIBADD = $(COMMONLIBS)
 addons_la_LDFLAGS = -module -avoid-version

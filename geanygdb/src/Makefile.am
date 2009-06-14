@@ -22,11 +22,5 @@ geanygdb_la_SOURCES = \
 	gdb-io-stack.c \
 	gdb-ui-locn.c
 
-geanygdb_la_CFLAGS = \
-	$(AM_CFLAGS) \
-	$(GEANY_CFLAGS)
-
-geanygdb_la_LIBADD = \
-	$(GEANY_LIBS)
-
+geanygdb_la_LIBADD = $(COMMONLIBS)
 geanygdb_la_LDFLAGS = -module -avoid-version

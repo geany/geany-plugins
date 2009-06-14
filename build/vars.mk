@@ -1,3 +1,8 @@
 AM_CFLAGS = \
 	-DLOCALEDIR=\""$(LOCALEDIR)"\" \
-	-DLIBDIR=\""$(LIBDIR)"\"
+	-DLIBDIR=\""$(LIBDIR)"\" \
+	$(GEANY_CFLAGS)
+
+COMMONLIBS = \
+	$(GEANY_LIBS)
+	
