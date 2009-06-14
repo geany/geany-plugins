@@ -1,6 +1,6 @@
 AM_CFLAGS = \
 	-DLOCALEDIR=\""$(LOCALEDIR)"\" \
-	-DLIBDIR=\""$(LIBDIR)"\" \
+	-DLIBDIR=\""$(libdir)"\" \
 	$(GEANY_CFLAGS)
 
 AM_LDFLAGS = -module -avoid-version
