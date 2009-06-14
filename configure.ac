@@ -23,11 +23,17 @@ AC_SUBST(LOCALEDIR)
 
 dnl common checks
 PKG_CHECK_MODULES([GEANY], [geany >= 0.16])
-geanypluginsdir=`${PKG_CONFIG} --variable=libdir geany}`/geany
+geanypluginsdir=`${PKG_CONFIG} --variable=libdir geany`/geany
+echo ${geanypluginsdir}
 AC_SUBST([geanypluginsdir])
+
+PKG_CHECK_MODULES([CHECK], [check >= 0.9.4], 
+        [AM_CONDITIONAL(UNITTESTS, true)],
+        [AM_CONDITIONAL(UNITTESTS, false)])
 
 dnl plugin checks
 GP_CHECK_ADDONS
+GP_CHECK_GEANYGDB
 
 AC_CONFIG_FILES([
     Makefile
