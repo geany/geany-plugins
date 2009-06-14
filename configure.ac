@@ -1,6 +1,6 @@
 AC_PREREQ([2.63])
 AC_INIT([geany-plugins], [0.17])
-AM_INIT_AUTOMAKE([foreign dist-bzip2 tar-ustar subdir-objects])
+AM_INIT_AUTOMAKE([1.8 foreign dist-bzip2 tar-ustar subdir-objects])
 
 AC_CONFIG_SRCDIR([po/LINGUAS])
 AC_CONFIG_HEADERS([config.h])
