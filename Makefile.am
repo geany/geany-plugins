@@ -1,6 +1,6 @@
 plugins = addons geanygdb geanylatex geanylipsum geanysendmail shiftcolumn spellcheck
 
-ACLOCAL_AMFLAGS = -Ibuild/m4/cache -Ibuild/m4/plugins --install
+ACLOCAL_AMFLAGS = -I build/m4/cache -I build/m4/plugins --install
 
 SUBDIRS = \
 	po \
