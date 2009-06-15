@@ -1,4 +1,4 @@
-plugindocdir = $(docdir)/$(PACKAGE)/$(plugin)
+plugindocdir = $(docdir)/$(plugin)
 plugindoc_DATA = \
 	README \
 	ChangeLog \
