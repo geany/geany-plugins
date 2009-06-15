@@ -1,0 +1,1276 @@
+<?xml version="1.0" encoding="iso-8859-1" ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+<!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
+<html xmlns="http://www.w3.org/1999/xhtml"  
+> 
+<head><title>GeanyLaTeX &#8211; A LaTeX plugin for Geany
+Version 0.4</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)" /> 
+<meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)" /> 
+<!-- xhtml,html --> 
+<meta name="src" content="geanylatex.tex" /> 
+<meta name="date" content="2009-05-25 23:34:00" /> 
+<link rel="stylesheet" type="text/css" href="geanylatex.css" /> 
+</head><body 
+>
+<!--l. 56--><p class="noindent" >
+                                                                                         
+                                                                                         
+</p>
+<div class="maketitle">
+                                                                                         
+                                                                                         
+                                                                                         
+                                                                                         
+
+<h2 class="titleHead">Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> &#8211; A <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> plugin for Geany<br /><br />
+Version 0.4</h2>
+ <div class="author" ><span 
+class="pplr7t-x-x-144">Frank Lanitz</span>
+<br /><a 
+href="mailto:frank@frank.uvena.de" ><span 
+class="pplr7t-x-x-90">frank@frank.uvena.de</span></a></div>
+<br />
+<div class="date" ><span 
+class="pplr7t-x-x-144">May 25, 2009</span></div>
+<span 
+class="pplb7t-">Note: </span>Please note the document has been created on May 25, 2009. If you are using devel version from
+SVN, please compile and check <span 
+class="pcrr7t-">doc/geanylatex.tex </span>from sources. Please check page <a 
+href="#x1-90004.2">5<!--tex4ht:ref: sec:compiling_of_documentation --></a>, section <a 
+href="#x1-90004.2">4.2<!--tex4ht:ref: sec:compiling_of_documentation --></a>
+how to do so.
+</div>
+<h3 class="likesectionHead"><a 
+ id="x1-1000"></a>Contents</h3>
+<div class="tableofcontents">
+<span class="sectionToc" ><a 
+href="#Q1-1-3">List of Tables</a></span>
+<br /><span class="sectionToc" >1 <a 
+href="#x1-30001" id="QQ2-1-4">About the plugin</a></span>
+<br /><span class="sectionToc" >2 <a 
+href="#x1-40002" id="QQ2-1-5">News</a></span>
+<br /><span class="sectionToc" >3 <a 
+href="#x1-60003" id="QQ2-1-7">Requirements</a></span>
+<br /><span class="sectionToc" >4 <a 
+href="#x1-70004" id="QQ2-1-8">Installation</a></span>
+<br />&#x00A0;<span class="subsectionToc" >4.1 <a 
+href="#x1-80004.1" id="QQ2-1-9">Compiling the plugin itself</a></span>
+<br />&#x00A0;<span class="subsectionToc" >4.2 <a 
+href="#x1-90004.2" id="QQ2-1-10">Compiling of documentation</a></span>
+<br /><span class="sectionToc" >5 <a 
+href="#x1-100005" id="QQ2-1-11">Usage</a></span>
+<br /><span class="sectionToc" >6 <a 
+href="#x1-110006" id="QQ2-1-13">Features</a></span>
+<br />&#x00A0;<span class="subsectionToc" >6.1 <a 
+href="#x1-120006.1" id="QQ2-1-14"><span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span>-Wizard</a></span>
+<br />&#x00A0;<span class="subsectionToc" >6.2 <a 
+href="#x1-130006.2" id="QQ2-1-16">Inserting References and Labels</a></span>
+<br />&#x00A0;<span class="subsectionToc" >6.3 <a 
+href="#x1-140006.3" id="QQ2-1-19">BibTeX templates for catalogue entries</a></span>
+                                                                                         
+                                                                                         
+<br />&#x00A0;<span class="subsectionToc" >6.4 <a 
+href="#x1-150006.4" id="QQ2-1-20">Replacement of special characters</a></span>
+<br />&#x00A0;<span class="subsectionToc" >6.5 <a 
+href="#x1-160006.5" id="QQ2-1-21">Inserting of special character</a></span>
+<br />&#x00A0;<span class="subsectionToc" >6.6 <a 
+href="#x1-170006.6" id="QQ2-1-22">Inserting of Environment</a></span>
+<br />&#x00A0;<span class="subsectionToc" >6.7 <a 
+href="#x1-180006.7" id="QQ2-1-24">Format</a></span>
+<br /><span class="sectionToc" >7 <a 
+href="#x1-190007" id="QQ2-1-25">Configuration</a></span>
+<br />&#x00A0;<span class="subsectionToc" >7.1 <a 
+href="#x1-200007.1" id="QQ2-1-26">GeanyLaTeX&#8217;s configuration dialog</a></span>
+<br />&#x00A0;<span class="subsectionToc" >7.2 <a 
+href="#x1-230007.2" id="QQ2-1-29">Key bindings</a></span>
+<br /><span class="sectionToc" >8 <a 
+href="#x1-240008" id="QQ2-1-31">Donating to the plugin</a></span>
+<br />&#x00A0;<span class="subsectionToc" >8.1 <a 
+href="#x1-250008.1" id="QQ2-1-32">Extending plugin</a></span>
+<br />&#x00A0;<span class="subsectionToc" >8.2 <a 
+href="#x1-280008.2" id="QQ2-1-35">Testing &amp; bug reporting</a></span>
+<br />&#x00A0;<span class="subsectionToc" >8.3 <a 
+href="#x1-290008.3" id="QQ2-1-36">Packaging</a></span>
+<br />&#x00A0;<span class="subsectionToc" >8.4 <a 
+href="#x1-300008.4" id="QQ2-1-37">Improving and extending of documentation</a></span>
+<br />&#x00A0;<span class="subsectionToc" >8.5 <a 
+href="#x1-310008.5" id="QQ2-1-38">Propaganda</a></span>
+<br /><span class="sectionToc" >9 <a 
+href="#x1-320009" id="QQ2-1-39">Development</a></span>
+<br />&#x00A0;<span class="subsectionToc" >9.1 <a 
+href="#x1-330009.1" id="QQ2-1-40">Development version</a></span>
+<br /><span class="sectionToc" >10 <a 
+href="#x1-3500010" id="QQ2-1-42">Known issues</a></span>
+<br /><span class="sectionToc" >11 <a 
+href="#x1-3600011" id="QQ2-1-43">Recommendations to improve work with <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> and Geany</a></span>
+<br />&#x00A0;<span class="subsectionToc" >11.1 <a 
+href="#x1-3700011.1" id="QQ2-1-44">Geany&#8217;s code snippet function</a></span>
+<br />&#x00A0;<span class="subsectionToc" >11.2 <a 
+href="#x1-3800011.2" id="QQ2-1-45">Other useful plugins</a></span>
+<br /><span class="sectionToc" >12 <a 
+href="#x1-4200012" id="QQ2-1-49">License</a></span>
+<br /><span class="sectionToc" >13 <a 
+href="#x1-4300013" id="QQ2-1-50">Bugs, questions, homepage</a></span>
+</div>
+<h3 class="likesectionHead"><a 
+ id="x1-2000"></a>List of Tables</h3>
+<a 
+ id="Q1-1-3"></a>
+<div class="tableofcontents"><span class="lotToc" >1&#x00A0;<a 
+href="#x1-23001r1">List of available keybindings</a></span><br />
+</div>
+                                                                                         
+                                                                                         
+<h3 class="sectionHead"><span class="titlemark">1  </span> <a 
+ id="x1-30001"></a>About the plugin</h3>
+<!--l. 70--><p class="noindent" >Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> is a little plugin to improve support of <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> on Geany. It implements a couple of maybe useful
+functions:
+</p>
+     <ul class="itemize1">
+     <li class="itemize">Wizard to create new <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> documents in a fast and easy way with a bunch of templates available
+     </li>
+     <li class="itemize">A front end for add labels <span 
+class="cmsy-10">\</span>label and references <span 
+class="cmsy-10">\</span>ref and <span 
+class="cmsy-10">\</span>pageref with getting suggestion from aux
+     file of document
+     </li>
+     <li class="itemize">Inserting special characters through menu
+     </li>
+     <li class="itemize">Help entering the right fields for BibTeX entries by providing templates
+     </li>
+     <li class="itemize">Easy inserting format patterns like <span 
+class="cmsy-10">\</span>texttt through menu
+     </li>
+     <li class="itemize">Support on inserting environments by offering an dialog and recognising selections
+     </li>
+     <li class="itemize">Shortcuts for inserting <span 
+class="cmsy-10">\</span>item and <span 
+class="cmsy-10">\</span>newline
+     </li>
+     <li class="itemize">Toolbar with often used format options</li></ul>
+<!--l. 91--><p class="noindent" >
+</p>
+<h3 class="sectionHead"><span class="titlemark">2  </span> <a 
+ id="x1-40002"></a>News</h3>
+<!--l. 92--><p class="noindent" >
+</p>
+<h4 class="likesubsectionHead"><a 
+ id="x1-50002"></a>GeanyLaTeX 0.4 &#8211; 2009-05-26</h4>
+     <ul class="itemize1">
+     <li class="itemize">Adding a toolbar with often used format commands
+     </li>
+     <li class="itemize">Adding a configuration dialog to configure basic options of plugin
+     </li>
+     <li class="itemize">Moved documentation into a <span class="TEX">T<span 
+class="E">E</span>X</span>-document
+                                                                                         
+                                                                                         
+     </li>
+     <li class="itemize">Replace <span 
+class="cmsy-10">\</span>u-UTF-8 letters by octal coded chars to don&#8217;t depend on C99 anymore.
+     </li>
+     <li class="itemize">Added a function to bulk replace special characters inside marked text by keybinding
+     </li>
+     <li class="itemize">Added a function to replace special characters on typing</li></ul>
+<!--l. 104--><p class="noindent" >
+</p>
+<h3 class="sectionHead"><span class="titlemark">3  </span> <a 
+ id="x1-60003"></a>Requirements</h3>
+<!--l. 106--><p class="noindent" >For compiling the plugin yourself, you will need the GTK (<span 
+class="zplmr7m-">&#x003E;</span><span 
+class="zplmr7t-">= </span>2.6.0) libraries and header files. You will also need
+its dependency libraries and header files, such as Pango, Glib and ATK. All these files are available at
+<a 
+href="http://www.gtk.org" class="url" ><span 
+class="pcrr7t-">http://www.gtk.org</span></a>.
+</p><!--l. 111--><p class="noindent" >And obviously, you will need have Geany with its header files installed (in case you are compiling the plugin on
+your own). If you have Geany installed from the sources, you should be ready to go. If you used a prepared
+package e.g. from your distribution you probably need to install an additional package, this might be called
+geany-dev or geany-devel. Please note that in order to compile and use this plugin, you need Geany 0.16 or later
+(Geany Plugin API v130 or higher).
+</p><!--l. 119--><p class="noindent" >Furthermore you need, of course, a C compiler and the Make tool. The GNU versions of these tools are
+recommended. Also there should be a working <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span>-environment on your System.
+</p><!--l. 123--><p class="noindent" >There is no special need in RAM or CPU so the plugin should run on all systems Geany is able to
+run.
+</p><!--l. 126--><p class="noindent" >
+</p>
+<h3 class="sectionHead"><span class="titlemark">4  </span> <a 
+ id="x1-70004"></a>Installation</h3>
+<!--l. 127--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">4.1  </span> <a 
+ id="x1-80004.1"></a>Compiling the plugin itself</h4>
+<!--l. 128--><p class="noindent" >Compiling and installing the code is done by the following three commands:
+</p>
+<hr class="figure" /><div class="figure" 
+>
+                                                                                         
+                                                                                         
+                                                                                         
+                                                                                         
+<!--l. 132-->
+<div class="lstlisting" id="listing-1"><span class="label"><a 
+ id="x1-8001r1"></a></span><span 
+class="pcrr7t-x-x-70">$</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">./</span><span 
+class="pcrr7t-x-x-70">configure</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-8002r2"></a></span><span 
+class="pcrr7t-x-x-70">$</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">make</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-8003r3"></a></span><span 
+class="pcrr7t-x-x-70">$</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">make</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">install</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">%</span><span 
+class="pcrr7t-x-x-70">$</span>
+</div>
+                                                                                         
+                                                                                         
+</div><hr class="endfigure" />
+<!--l. 139--><p class="noindent" >For more configuration details run <span 
+class="pcrr7t-">./configure --help</span>
+</p><!--l. 141--><p class="noindent" >If there are any errors during compilation, check your build environment and try to find the error, otherwise contact one of
+the authors<span class="footnote-mark"><a 
+href="geanylatex2.html#fn1x0"><sup class="textsuperscript">1</sup></a></span><a 
+ id="x1-8004f1"></a> 
+</p>
+<h4 class="subsectionHead"><span class="titlemark">4.2  </span> <a 
+ id="x1-90004.2"></a>Compiling of documentation</h4>
+<!--l. 148--><p class="noindent" >Sources of this documentation are available throught <span 
+class="pcrr7t-">doc/geanylatex.tex </span>inside source tree. To compile the
+sources, usage of <span 
+class="pcrr7t-">pdflatex </span>(should be delivered with your favorite <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> distribution) is recommended. For
+compiling into HTML format you might like to use <span 
+class="pcrr7t-">htlatex</span>. The HTML version of this documentation shipped
+with source tarball has been compiled with
+</p>
+<hr class="figure" /><div class="figure" 
+>
+                                                                                         
+                                                                                         
+                                                                                         
+                                                                                         
+<!--l. 156-->
+<div class="lstlisting" id="listing-2"><span class="label"><a 
+ id="x1-9001r1"></a></span><span 
+class="pcrr7t-x-x-70">htlatex</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">geanylatex</span><span 
+class="pcrr7t-x-x-70">.</span><span 
+class="pcrr7t-x-x-70">tex</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">xhtml</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">-</span><span 
+class="pcrr7t-x-x-70">cvalidate</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">-</span><span 
+class="pcrr7t-x-x-70">interaction</span><span 
+class="pcrr7t-x-x-70">=</span><span 
+class="pcrr7t-x-x-70">batchmode</span>
+</div>
+                                                                                         
+                                                                                         
+</div><hr class="endfigure" />
+<!--l. 161--><p class="noindent" >
+                                                                                         
+                                                                                         
+</p>
+<h3 class="sectionHead"><span class="titlemark">5  </span> <a 
+ id="x1-100005"></a>Usage</h3>
+<hr class="figure" /><div class="figure" 
+>
+                                                                                         
+                                                                                         
+<a 
+ id="x1-10001r1"></a>
+                                                                                         
+                                                                                         
+
+<!--l. 164--><p class="noindent" ><img 
+src="img/plugin_manager.png" alt="PIC"  
+ />
+<br /> </p><div class="caption" 
+><span class="id">Figure&#x00A0;1: </span><span  
+class="content">Plugin manager with Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> of Geany 0.16</span></div><!--tex4ht:label?: x1-10001r1 -->
+                                                                                         
+                                                                                         
+</div><hr class="endfigure" />
+<!--l. 168--><p class="noindent" >After Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> has been installed successfully the plugin can be loaded through Geany&#8217;s plugin manager and
+a new sub menu in the Tools menu will appear as well as new key bindings will be available inside Geany&#8217;s key
+binding interface. Inside the sub menu you will find entries for functions supported by this version of the plugin. It
+will be called <span 
+class="pcrr7t-">LaTeX</span>.
+</p><!--l. 175--><p class="noindent" >Also if the option for showing the toolbar is activated on configuration dialog, the toolbar with common used
+format functions appears on at top of editor widget. This feature is turned off by default.
+</p>
+<h3 class="sectionHead"><span class="titlemark">6  </span> <a 
+ id="x1-110006"></a>Features</h3>
+<!--l. 182--><p class="noindent" >Let&#8217;s go into more detail on some features.
+</p><!--l. 184--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">6.1  </span> <a 
+ id="x1-120006.1"></a><span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span>-Wizard</h4>
+<!--l. 186--><p class="noindent" >The <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span>-Wizard is implementing a easy way creating a number of default documents. </p><hr class="figure" /><div class="figure" 
+>
+                                                                                         
+                                                                                         
+<a 
+ id="x1-12001r2"></a>
+                                                                                         
+                                                                                         
+
+<!--l. 189--><p class="noindent" ><img 
+src="img/latexwizard.png" alt="PIC"  
+ />
+<br /> </p><div class="caption" 
+><span class="id">Figure&#x00A0;2: </span><span  
+class="content"><span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span>-Wizard of version 0.4</span></div><!--tex4ht:label?: x1-12001r2 -->
+                                                                                         
+                                                                                         
+</div><hr class="endfigure" />
+<!--l. 193--><p class="noindent" >Document types that are currently supported by the wizard are: </p>
+     <ul class="itemize1">
+     <li class="itemize">book
+     </li>
+     <li class="itemize">report
+     </li>
+     <li class="itemize">article
+     </li>
+     <li class="itemize">letter (default letter class)
+     </li>
+     <li class="itemize">presentation (<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> beamer)</li></ul>
+<!--l. 202--><p class="noindent" >This can be set by choosing the needed entry form <span 
+class="pplb7t-">Documentclass </span>pulldown menu.
+</p><!--l. 205--><p class="noindent" ><span 
+class="pplb7t-">Encoding </span>is configuring the packages <span 
+class="pcrr7t-">inputenc </span>to for example <span 
+class="cmsy-10">\</span><span 
+class="pcrr7t-">usepackage[utf8]</span><span 
+class="cmsy-10">{</span><span 
+class="pcrr7t-">inputenc</span><span 
+class="cmsy-10">} </span>in case of the
+document encoding should be UTF-8. Also it sets the encoding Geany is using for the newly created
+document.
+</p><!--l. 210--><p class="noindent" ><span 
+class="pplb7t-">Font size </span>as well as <span 
+class="pplb7t-">Paper size </span>will set class option for font/paper size of the new created document. <span 
+class="pplb7t-">Author</span>, <span 
+class="pplb7t-">Date</span>,
+<span 
+class="pplb7t-">Title </span>will be also passed to the corresponding command inside the file header.
+</p><!--l. 215--><p class="noindent" >Option <span 
+class="pplb7t-">Use draft mode </span>will add <span 
+class="pcrr7t-">draft </span>to list of document options which allows some help during debugging of
+document.
+</p><!--l. 218--><p class="noindent" >Since KOMA script is quiet popular the option <span 
+class="pplb7t-">Use KOMA script if possible </span>allows to activate the usage of KOMA
+script. If this options is activated instead of <span 
+class="pcrr7t-">book</span>, <span 
+class="pcrr7t-">scrbook </span>will be used as document class. Default is activated
+here. This option is deactivated by default and can be set through Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span>&#8217;s configuration dialog mentioned
+earlier in this document.
+</p><!--l. 225--><p class="noindent" >This wizard can also be called by a shortcut. Please have a look onto section <a 
+href="#x1-23001r1">1<!--tex4ht:ref: kb_latex_wizard --></a>, page <a 
+href="#x1-23001r1">38<!--tex4ht:ref: kb_latex_wizard --></a>.
+</p>
+<h4 class="subsectionHead"><span class="titlemark">6.2  </span> <a 
+ id="x1-130006.2"></a>Inserting References and Labels</h4>
+<!--l. 229--><p class="noindent" >An often used feature on writing of documents is adding and referring to labels. Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> is adding some
+support here for more comfortable adding new labels and reference offering a GUI.
+</p>
+<hr class="figure" /><div class="figure" 
+>
+                                                                                         
+                                                                                         
+<a 
+ id="x1-13001r3"></a>
+                                                                                         
+                                                                                         
+
+<!--l. 234--><p class="noindent" ><img 
+src="img/insert_label.png" alt="PIC"  
+ />
+<br /> </p><div class="caption" 
+><span class="id">Figure&#x00A0;3: </span><span  
+class="content">Insert label dialog on Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> 0.4</span></div><!--tex4ht:label?: x1-13001r3 -->
+                                                                                         
+                                                                                         
+</div><hr class="endfigure" />
+<!--l. 238--><p class="noindent" >After an label was added Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> is offering a dialog for inserting normal references and page references to
+an label.
+</p>
+<hr class="figure" /><div class="figure" 
+>
+                                                                                         
+                                                                                         
+<a 
+ id="x1-13002r4"></a>
+                                                                                         
+                                                                                         
+
+<!--l. 242--><p class="noindent" ><img 
+src="img/insert_reference.png" alt="PIC"  
+ />
+<br /> </p><div class="caption" 
+><span class="id">Figure&#x00A0;4: </span><span  
+class="content">Insert reference dialog on Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> 0.4</span></div><!--tex4ht:label?: x1-13002r4 -->
+                                                                                         
+                                                                                         
+</div><hr class="endfigure" />
+<!--l. 246--><p class="noindent" >The suggestions inside the pull down are based on the aux file creating by processing of *.tex file. The plugin is
+searching for a aux file for the current open *.tex file inside current directory. When first step was successful the file
+is parsed for <span 
+class="cmsy-10">\</span><span 
+class="pcrr7t-">newlabel</span><span 
+class="cmsy-10">{}{}{} </span>and tries to interpret them properly. The found entries will be inserted into pull
+down sorted by alphabet.
+</p><!--l. 253--><p class="noindent" >Both, the inserting labels as well as the inserting reference dialog can be accessed by key binding also. See chapter <a 
+href="#x1-23001r1">1<!--tex4ht:ref: kb_insert_label --></a>
+and <a 
+href="#x1-23001r1">1<!--tex4ht:ref: kb_insert_reference --></a> here.
+</p>
+<h4 class="subsectionHead"><span class="titlemark">6.3  </span> <a 
+ id="x1-140006.3"></a>BibTeX templates for catalogue entries</h4>
+<!--l. 258--><p class="noindent" >Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> is offering a number of often used templates for BibTeX catalogue entries. They can be access by the
+plugin submenu in Geany&#8217;s tools menu: </p>
+     <ul class="itemize1">
+     <li class="itemize">Article
+     </li>
+     <li class="itemize">Book
+     </li>
+     <li class="itemize">Booklet
+     </li>
+     <li class="itemize">Conference
+     </li>
+     <li class="itemize">Inbook
+     </li>
+     <li class="itemize">Incollection
+     </li>
+     <li class="itemize">Inproceedings
+     </li>
+     <li class="itemize">Manual
+     </li>
+     <li class="itemize">Mastersthesis
+     </li>
+     <li class="itemize">Misc
+     </li>
+     <li class="itemize">PhdThesis
+     </li>
+     <li class="itemize">Proceedings
+     </li>
+     <li class="itemize">Techreport
+     </li>
+     <li class="itemize">Unpublished</li></ul>
+                                                                                         
+                                                                                         
+<!--l. 277--><p class="noindent" >When choosing an entry from list on menu a templace with common used fields will be generated and inserted into
+the document. The template will be inserted on position of cursor which will no be moved during the process. As
+an example for a book, this will be inserted to the document:
+</p>
+<hr class="figure" /><div class="figure" 
+>
+                                                                                         
+                                                                                         
+                                                                                         
+                                                                                         
+<!--l. 284-->
+<div class="lstlisting" id="listing-3"><span class="label"><a 
+ id="x1-14001r1"></a></span><span 
+class="pcrr7t-x-x-70">@Book</span><span 
+class="pcrr7t-x-x-70">{</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-14002r2"></a></span><span 
+class="pcrr7t-x-x-70">Author</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">=</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">{},</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-14003r3"></a></span><span 
+class="pcrr7t-x-x-70">Editor</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">=</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">{},</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-14004r4"></a></span><span 
+class="pcrr7t-x-x-70">Publisher</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">=</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">{},</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-14005r5"></a></span><span 
+class="pcrr7t-x-x-70">Title</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">=</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">{},</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-14006r6"></a></span><span 
+class="pcrr7t-x-x-70">Year</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">=</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">{},</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-14007r7"></a></span><span 
+class="pcrr7t-x-x-70">}</span>
+</div>
+                                                                                         
+                                                                                         
+</div><hr class="endfigure" />
+<h4 class="subsectionHead"><span class="titlemark">6.4  </span> <a 
+ id="x1-150006.4"></a>Replacement of special characters</h4>
+<!--l. 296--><p class="noindent" >Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> is able to replace special characters to their there <span class="TEX">T<span 
+class="E">E</span>X</span>&#x00A0;substitute. This can be done in two different
+ways:
+</p><!--l. 299--><p class="noindent" >
+     </p><ol  class="enumerate1" >
+     <li 
+  class="enumerate" id="x1-15002x1"><span 
+class="pplb7t-">On input: </span>If this switch is active all special characters will be replaced during typing of text. You can
+     turn the switch on/off at Replacement of special characters submenu inside.
+     </li>
+     <li 
+  class="enumerate" id="x1-15004x2"><span 
+class="pplb7t-">Bulk replace of selected text: </span>A selected text will be parsed and all known special characters will be
+     replaced by their <span class="TEX">T<span 
+class="E">E</span>X</span> substitute. This can be very useful on importing a large amount of text into
+     your document including characters like ö or <span 
+class="zplmr7y-x-x-60">&#x226B;</span>. This function is available through the Replacement
+     of special characters submenu on plugin&#8217;s submenu of Geany&#8217;s Tools menu.</li></ol>
+<!--l. 313--><p class="noindent" >For both functions there are also shortcuts available.
+</p><!--l. 315--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">6.5  </span> <a 
+ id="x1-160006.5"></a>Inserting of special character</h4>
+<!--l. 316--><p class="noindent" >The plugin is offering a number of special characters with their <span class="TEX">T<span 
+class="E">E</span>X</span> substitutes to be inserted on easy accessing
+through the plugin menu.
+</p><!--l. 319--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">6.6  </span> <a 
+ id="x1-170006.6"></a>Inserting of Environment</h4>
+<!--l. 320--><p class="noindent" >Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> is offering a feature for inserting environments into your documents. It can be chosen from a
+pulldown menu and will be inserted at current position of cursor. If there is a selection activ, the selection will be
+included into environment.
+</p>
+<hr class="figure" /><div class="figure" 
+>
+                                                                                         
+                                                                                         
+                                                                                         
+                                                                                         
+<!--l. 326-->
+<div class="lstlisting" id="listing-4"><span class="label"><a 
+ id="x1-17001r1"></a></span><span 
+class="pcrr7t-x-x-70">\</span><span 
+class="pcrr7t-x-x-70">begin</span><span 
+class="pcrr7t-x-x-70">{</span><span 
+class="pcrr7t-x-x-70">your_environment</span><span 
+class="pcrr7t-x-x-70">}</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-17002r2"></a></span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">%</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">...</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">selected</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">text</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">...</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-17003r3"></a></span><span 
+class="pcrr7t-x-x-70">\</span><span 
+class="pcrr7t-x-x-70">end</span><span 
+class="pcrr7t-x-x-70">{</span><span 
+class="pcrr7t-x-x-70">your_environment</span><span 
+class="pcrr7t-x-x-70">}</span>
+</div>
+                                                                                         
+                                                                                         
+</div><hr class="endfigure" />
+<!--l. 333--><p class="noindent" >In case of an empty (= no selection) an empty environment with </p><hr class="figure" /><div class="figure" 
+>
+                                                                                         
+                                                                                         
+                                                                                         
+                                                                                         
+<!--l. 335-->
+<div class="lstlisting" id="listing-5"><span class="label"><a 
+ id="x1-17004r1"></a></span><span 
+class="pcrr7t-x-x-70">\</span><span 
+class="pcrr7t-x-x-70">begin</span><span 
+class="pcrr7t-x-x-70">{</span><span 
+class="pcrr7t-x-x-70">your_environment</span><span 
+class="pcrr7t-x-x-70">}</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-17005r2"></a></span><span 
+class="pcrr7t-x-x-70">...</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-17006r3"></a></span><span 
+class="pcrr7t-x-x-70">\</span><span 
+class="pcrr7t-x-x-70">end</span><span 
+class="pcrr7t-x-x-70">{</span><span 
+class="pcrr7t-x-x-70">your_environment</span><span 
+class="pcrr7t-x-x-70">}</span>
+</div>
+                                                                                         
+                                                                                         
+</div><hr class="endfigure" />
+<!--l. 342--><p class="noindent" >will be inserted to the document.
+</p>
+<hr class="figure" /><div class="figure" 
+>
+                                                                                         
+                                                                                         
+<a 
+ id="x1-17007r5"></a>
+                                                                                         
+                                                                                         
+
+<!--l. 345--><p class="noindent" ><img 
+src="img/insert_environment.png" alt="PIC"  
+ />
+<br /> </p><div class="caption" 
+><span class="id">Figure&#x00A0;5: </span><span  
+class="content">Insert environment dialog on Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> 0.4</span></div><!--tex4ht:label?: x1-17007r5 -->
+                                                                                         
+                                                                                         
+</div><hr class="endfigure" />
+<h4 class="subsectionHead"><span class="titlemark">6.7  </span> <a 
+ id="x1-180006.7"></a>Format</h4>
+<!--l. 351--><p class="noindent" >Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> is able to help on formation of text. For doing this its offering you to insert often use format patterns
+to your document. Patterns that are currently supported are:
+</p>
+     <ul class="itemize1">
+     <li class="itemize">Italic
+     </li>
+     <li class="itemize">Boldfont
+     </li>
+     <li class="itemize">Underline
+     </li>
+     <li class="itemize">Slanted
+     </li>
+     <li class="itemize">Typewriter
+     </li>
+     <li class="itemize">Small Caps
+     </li>
+     <li class="itemize">Emphasis
+     </li>
+     <li class="itemize">Centered
+     </li>
+     <li class="itemize">left-aligned
+     </li>
+     <li class="itemize">right-aligned</li></ul>
+<!--l. 368--><p class="noindent" >Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> will add the correct format pattern to the document. If there is an selection active, that pattern will be
+placed around so the selected text will be formatted with this chosen style.
+</p><!--l. 372--><p class="noindent" >Following items are also accessible using the Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> toolbar: </p>
+     <ul class="itemize1">
+     <li class="itemize">Italic
+     </li>
+     <li class="itemize">Boldfont
+     </li>
+     <li class="itemize">Underline
+     </li>
+     <li class="itemize">Centered
+     </li>
+     <li class="itemize">left-aligned
+     </li>
+     <li class="itemize">right-aligned</li></ul>
+                                                                                         
+                                                                                         
+<!--l. 382--><p class="noindent" >
+</p>
+<h3 class="sectionHead"><span class="titlemark">7  </span> <a 
+ id="x1-190007"></a>Configuration</h3>
+<!--l. 384--><p class="noindent" >GeanyLaTeX can be configured in two major ways:
+     </p><ol  class="enumerate1" >
+     <li 
+  class="enumerate" id="x1-19002x1">GeanyLaTeX&#8217;s configuration dialog
+     </li>
+     <li 
+  class="enumerate" id="x1-19004x2">Geany&#8217;s keybindings interface</li></ol>
+<!--l. 390--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">7.1  </span> <a 
+ id="x1-200007.1"></a>GeanyLaTeX&#8217;s configuration dialog</h4>
+<!--l. 391--><p class="noindent" >With version 0.4 the configuration dialog is offering two options which can be changed:
+</p><!--l. 394--><p class="noindent" >
+</p>
+<h5 class="subsubsectionHead"><span class="titlemark">7.1.1  </span> <a 
+ id="x1-210007.1.1"></a>Use KOMA script by default</h5>
+<!--l. 395--><p class="noindent" >KOMA script bei Markus Kohm is a very popular set of document classes mainly
+used in Europe. With this option the default setting for e.g. <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span>-Wizard can be
+configured<span class="footnote-mark"><a 
+href="geanylatex3.html#fn2x0"><sup class="textsuperscript">2</sup></a></span><a 
+ id="x1-21001f2"></a> .
+Option is turned off by default.
+</p><!--l. 400--><p class="noindent" >
+</p>
+<h5 class="subsubsectionHead"><span class="titlemark">7.1.2  </span> <a 
+ id="x1-220007.1.2"></a>Show extra toolbar</h5>
+<!--l. 401--><p class="noindent" >Decides whether toolbar with some format icons should appear in the top of editor widget. Option is turned off by
+default. Just give it a try.
+                                                                                         
+                                                                                         
+</p><!--l. 404--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">7.2  </span> <a 
+ id="x1-230007.2"></a>Key bindings</h4>
+<!--l. 405--><p class="noindent" >Keybindings which are available:
+</p>
+<div class="table">
+                                                                                         
+                                                                                         
+<!--l. 407--><p class="noindent" ><a 
+ id="x1-23001r1"></a></p><hr class="float" /><div class="float" 
+>
+                                                                                         
+                                                                                         
+ <div class="caption" 
+><span class="id">Table&#x00A0;1: </span><span  
+class="content">List of available keybindings</span></div><!--tex4ht:label?: x1-23001r1 -->
+<div class="tabular"> <table id="TBL-2" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-2-1g"><col 
+id="TBL-2-1" /></colgroup><colgroup id="TBL-2-2g"><col 
+id="TBL-2-2" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-2-1-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-1-1"  
+class="td11"><span 
+class="pplb7t-">Shortcut                                                     </span></td><td  style="white-space:wrap; text-align:left;" id="TBL-2-1-2"  
+class="td11"><!--l. 413--><p class="noindent" ><span 
+class="pplb7t-">Description</span>                                                                                 </p></td>
+</tr><tr 
+class="hline"><td><hr /></td><td><hr /></td></tr><tr 
+class="hline"><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-2-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-2-1"  
+class="td11">Run LaTeX-Wizard                                    </td><td  style="white-space:wrap; text-align:left;" id="TBL-2-2-2"  
+class="td11"><!--l. 414--><p class="noindent" >Starts the LaTeX-Wizard for creating a new document        </p></td>
+</tr><tr 
+class="hline"><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-3-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-3-1"  
+class="td11">Insert <span 
+class="cmsy-10">\</span>label                                                </td><td  style="white-space:wrap; text-align:left;" id="TBL-2-3-2"  
+class="td11"><!--l. 415--><p class="noindent" >Runs  the  dialog  for  inserting  a  new  label  into  your
+document.                                                                                    </p></td>
+</tr><tr 
+class="hline"><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-4-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-4-1"  
+class="td11">Insert <span 
+class="cmsy-10">\</span>ref                                                    </td><td  style="white-space:wrap; text-align:left;" id="TBL-2-4-2"  
+class="td11"><!--l. 416--><p class="noindent" >Starts an dialog for easy inserting <span 
+class="cmsy-10">\</span><span 
+class="pcrr7t-">ref </span>and<span 
+class="cmsy-10">\</span><span 
+class="pcrr7t-">pageref </span>into
+your document. The dialog is supporting easy parsing of
+aux files so it can suggest a couple of already set labels.     </p></td>
+</tr><tr 
+class="hline"><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-5-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-5-1"  
+class="td11">Insert linebreak <span 
+class="cmsy-10">\\            </span></td><td  style="white-space:wrap; text-align:left;" id="TBL-2-5-2"  
+class="td11"><!--l. 417--><p class="noindent" >Inserts a a newline <span 
+class="cmsy-10">\\ </span>into the document.                              </p></td>
+</tr><tr 
+class="hline"><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-6-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-6-1"  
+class="td11">Turn input replacement on/off               </td><td  style="white-space:wrap; text-align:left;" id="TBL-2-6-2"  
+class="td11"><!--l. 418--><p class="noindent" >A shortcut for turning input replacement on or off. When
+input replacement is activated special characters like &#x011B; are
+replaced by there <span class="TEX">T<span 
+class="E">E</span>X</span> substitute like <span 
+class="cmsy-10">\</span><span 
+class="pcrr7t-">v</span><span 
+class="cmsy-10">{</span><span 
+class="pcrr7t-">e</span><span 
+class="cmsy-10">}</span>        </p></td>
+</tr><tr 
+class="hline"><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-7-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-7-1"  
+class="td11">Replacement of special characters          </td><td  style="white-space:wrap; text-align:left;" id="TBL-2-7-2"  
+class="td11"><!--l. 419--><p class="noindent" >A  selected  text  will  be  parsed  and  all  known  special
+characters  will  be  replaced  by  their  <span class="TEX">T<span 
+class="E">E</span>X</span>  substitute.  This
+can be very useful on importing a large amount of text into
+your document including characters like ö or <span 
+class="zplmr7y-x-x-60">&#x226B;</span>.                  </p></td>
+</tr><tr 
+class="hline"><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-8-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-8-1"  
+class="td11">Run insert environment dialog               </td><td  style="white-space:wrap; text-align:left;" id="TBL-2-8-2"  
+class="td11"><!--l. 422--><p class="noindent" >Runs a dialog for easy inserting an environment. If there is
+some text selected, the environment will be placed around.</p></td>
+</tr><tr 
+class="hline"><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-9-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-9-1"  
+class="td11">Insert <span 
+class="cmsy-10">\</span>item                                                 </td><td  style="white-space:wrap; text-align:left;" id="TBL-2-9-2"  
+class="td11"><!--l. 424--><p class="noindent" >This shortcut will add an simple <span 
+class="cmsy-10">\</span>item to the document.
+This can be very useful during writing of lists with a huge
+number of items.                                                                        </p></td>
+</tr><tr 
+class="hline"><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-10-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-10-1"  
+class="td11">Format selection in bold font face           </td><td  style="white-space:wrap; text-align:left;" id="TBL-2-10-2"  
+class="td11"><!--l. 427--><p class="noindent" >Format  a  selection  with  bold  font  face.  This  is  done  be
+adding <span 
+class="cmsy-10">\</span><span 
+class="pcrr7t-">textbf</span><span 
+class="cmsy-10">{</span><span 
+class="pcrr7t-">...</span><span 
+class="cmsy-10">} </span>around selection.                              </p></td>
+</tr><tr 
+class="hline"><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-11-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-11-1"  
+class="td11">Format selection in italic font face          </td><td  style="white-space:wrap; text-align:left;" id="TBL-2-11-2"  
+class="td11"><!--l. 429--><p class="noindent" >Format  a  selection  with  italic  font  face.  This  is  done  be
+adding <span 
+class="cmsy-10">\</span><span 
+class="pcrr7t-">textit</span><span 
+class="cmsy-10">{</span><span 
+class="pcrr7t-">...</span><span 
+class="cmsy-10">} </span>around selection.                              </p></td>
+</tr><tr 
+class="hline"><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-12-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-12-1"  
+class="td11">Format selection in typewriter font face</td><td  style="white-space:wrap; text-align:left;" id="TBL-2-12-2"  
+class="td11"><!--l. 431--><p class="noindent" >Format a selection with typewriter font face. This is done
+be adding <span 
+class="cmsy-10">\</span><span 
+class="pcrr7t-">texttt</span><span 
+class="cmsy-10">{</span><span 
+class="pcrr7t-">...</span><span 
+class="cmsy-10">} </span>around selection.                         </p></td>
+</tr><tr 
+class="hline"><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-13-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-13-1"  
+class="td11">Format selection centered                        </td><td  style="white-space:wrap; text-align:left;" id="TBL-2-13-2"  
+class="td11"><!--l. 434--><p class="noindent" >Formats selected text centered on page (uses <span 
+class="cmsy-10">\</span><span 
+class="pcrr7t-">centering</span></p></td>
+</tr><tr 
+class="hline"><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-14-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-14-1"  
+class="td11">Format selection left-aligned                   </td><td  style="white-space:wrap; text-align:left;" id="TBL-2-14-2"  
+class="td11"><!--l. 435--><p class="noindent" >Formats    selected    text    left-aligned    on    page    (uses
+<span 
+class="cmsy-10">\</span><span 
+class="pcrr7t-">raggedleft</span>                                </p></td>
+</tr><tr 
+class="hline"><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-15-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-15-1"  
+class="td11">Format selection right-alignedm             </td><td  style="white-space:wrap; text-align:left;" id="TBL-2-15-2"  
+class="td11"><!--l. 436--><p class="noindent" >Formats    selected    text    right-aligned    on    page    (uses
+<span 
+class="cmsy-10">\</span><span 
+class="pcrr7t-">raggedright</span>                               </p></td>
+</tr><tr 
+class="hline"><td><hr /></td><td><hr /></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-16-"><td  style="white-space:nowrap; text-align:left;" id="TBL-2-16-1"  
+class="td11">                             </td></tr></table></div>
+                                                                                         
+                                                                                         
+</div><hr class="endfloat" />
+</div>
+<!--l. 440--><p class="noindent" >
+                                                                                         
+                                                                                         
+</p>
+<h3 class="sectionHead"><span class="titlemark">8  </span> <a 
+ id="x1-240008"></a>Donating to the plugin</h3>
+<!--l. 442--><p class="noindent" >If you like the plugin, there are a number of ways, how to donate the development of the plugin.
+</p><!--l. 445--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">8.1  </span> <a 
+ id="x1-250008.1"></a>Extending plugin</h4>
+<!--l. 447--><p class="noindent" >
+</p>
+<h5 class="subsubsectionHead"><span class="titlemark">8.1.1  </span> <a 
+ id="x1-260008.1.1"></a>Adding a new translation</h5>
+<!--l. 449--><p class="noindent" >Currently the plugin is available in English and German language but we are always looking for other translations
+to. There are two major topics in translation:
+</p><!--l. 453--><p class="noindent" >
+     </p><ol  class="enumerate1" >
+     <li 
+  class="enumerate" id="x1-26002x1"><span 
+class="pplb7t-">Translation of plugin: </span>Adding a new translation and improving an existing one is easy to do. After
+     catching the source tarball and extracting you can find all needed files inside the po folder. <br 
+class="newline" />Please contact the authors if you plan to update/add a translation to ensure nobody else is currently
+     working on and avoid double work and to get some further information about translation (see chapter
+     <a 
+href="#x1-4300013">13<!--tex4ht:ref: contact --></a>).
+     </li>
+     <li 
+  class="enumerate" id="x1-26004x2"><span 
+class="pplb7t-">Translation of documentation: </span>Since this document is currently only available in English it would be
+     helpful for not English speaking people to have a translated version. If you like to do an translation,
+     please also contact one of the authors for details (see chapter <a 
+href="#x1-4300013">13<!--tex4ht:ref: contact --></a>).</li></ol>
+<!--l. 469--><p class="noindent" >
+</p>
+<h5 class="subsubsectionHead"><span class="titlemark">8.1.2  </span> <a 
+ id="x1-270008.1.2"></a>Adding a new feature</h5>
+<!--l. 470--><p class="noindent" >New features are always highly welcome. The TODO file inside source code archive gives a good idea of current
+wished features and which are being worked on. Also you can have a look onto the feature request tracker of
+geany-plugins project at <a 
+href="http://sourceforge.net/tracker/?group\_id=222729" class="url" ><span 
+class="pcrr7t-">http://sourceforge.net/tracker/?group\_id=222729</span></a> whether you find
+something interesting. Of course we are also open for not in the sources mentioned before listed items. Just contact
+one of the authors (see chapter <a 
+href="#x1-4300013">13<!--tex4ht:ref: contact --></a>).
+                                                                                         
+                                                                                         
+</p><!--l. 479--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">8.2  </span> <a 
+ id="x1-280008.2"></a>Testing &amp; bug reporting</h4>
+<!--l. 480--><p class="noindent" >Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> is tested mainly on x86 and x86_64 architecture running GNU/Linux. Also it was tested on some
+Windows 32 versions like XP SP3 very briefly. Since there are also other systems available, testing on other
+platforms and maybe reporting of issues is highly appreciate.
+</p><!--l. 485--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">8.3  </span> <a 
+ id="x1-290008.3"></a>Packaging</h4>
+<!--l. 486--><p class="noindent" >Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> is part of the geany-plugins project even though there are releases independent of a major release of
+the project. Therefor there are two things you can do here:
+     </p><ol  class="enumerate1" >
+     <li 
+  class="enumerate" id="x1-29002x1">Package the plugin for your operating system or distribution. As you might can imagine, the authors
+     unfortunately cannot support all possible platforms.
+     </li>
+     <li 
+  class="enumerate" id="x1-29004x2">Help to keep releases and packages of geany-plugins project up to date for current version of Geany.</li></ol>
+<!--l. 497--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">8.4  </span> <a 
+ id="x1-300008.4"></a>Improving and extending of documentation</h4>
+<!--l. 498--><p class="noindent" >Documentation is never complete. There are spelling mistakes, paragraphs that needs to be extended or rewritten
+because they are not clear or topics that were missed out at all.
+</p><!--l. 502--><p class="noindent" >The documentation is written in <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> so all you need is to get the tex file from doc folder and add or update the
+content. After this, just send a diff or complete file to one of the authors.
+</p><!--l. 506--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">8.5  </span> <a 
+ id="x1-310008.5"></a>Propaganda</h4>
+<!--l. 507--><p class="noindent" >And of course, tell others of Geany and this plugin. If you like to do a talk about Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> and/or
+Geany in general, there is some code available on <a 
+href="http://git.geany.org/talks/" class="url" ><span 
+class="pcrr7t-">http://git.geany.org/talks/</span></a> you might
+can use as a start point for preparing your own presentation. If your favourite language is not yet
+available there, please feel free to do your own translation and in best case send your translation to one of
+                                                                                         
+                                                                                         
+Geany&#8217;s<span class="footnote-mark"><a 
+href="geanylatex4.html#fn3x0"><sup class="textsuperscript">3</sup></a></span><a 
+ id="x1-31001f3"></a> 
+development team so it can be added to archive.
+</p><!--l. 517--><p class="noindent" >
+</p>
+<h3 class="sectionHead"><span class="titlemark">9  </span> <a 
+ id="x1-320009"></a>Development</h3>
+<!--l. 518--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">9.1  </span> <a 
+ id="x1-330009.1"></a>Development version</h4>
+<!--l. 519--><p class="noindent" >You can checkout the current source code from the Subversion repository at Sourceforge.net. Get the code
+from:
+</p><!--l. 522--><p class="noindent" >svn checkout http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geanylatex
+</p><!--l. 525--><p class="noindent" >
+</p>
+<h5 class="subsubsectionHead"><span class="titlemark">9.1.1  </span> <a 
+ id="x1-340009.1.1"></a>Sending a patch</h5>
+<!--l. 526--><p class="noindent" >If you want to create a patch, please respect the license of Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> as well as intellectual property of third.
+Patches that should be included to the default distribution must be licensed under the same conditions as
+Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> by the copyright owner.
+</p><!--l. 531--><p class="noindent" >
+</p>
+<h3 class="sectionHead"><span class="titlemark">10  </span> <a 
+ id="x1-3500010"></a>Known issues</h3>
+<!--l. 532--><p class="noindent" >At time of the the documentation was created no issue were known. Since this is only a snapshot, you will find
+more recent information for all reported issues bug tracking system of SF at <br 
+class="newline" /><a 
+href="http://sourceforge.net/tracker/?group\_id=222729" class="url" ><span 
+class="pcrr7t-">http://sourceforge.net/tracker/?group\_id=222729</span></a>
+</p><!--l. 537--><p class="noindent" >
+                                                                                         
+                                                                                         
+</p>
+<h3 class="sectionHead"><span class="titlemark">11  </span> <a 
+ id="x1-3600011"></a>Recommendations to improve work with <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> and Geany</h3>
+<!--l. 539--><p class="noindent" >Geany is offering a number of nice features, that can be used to make daily work more easy without need to write a
+new plugin or extend Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span>.
+</p><!--l. 543--><p class="noindent" >
+</p>
+<h4 class="subsectionHead"><span class="titlemark">11.1  </span> <a 
+ id="x1-3700011.1"></a>Geany&#8217;s code snippet function</h4>
+<!--l. 544--><p class="noindent" >Geany is allowing you to define code snippets and inserting them easy during writing a document. This gives you
+some more flexibility than to create new commands.
+</p><!--l. 548--><p class="noindent" >A possible snippet for snippets.conf could be:
+</p>
+<hr class="figure" /><div class="figure" 
+>
+                                                                                         
+                                                                                         
+                                                                                         
+                                                                                         
+<!--l. 551-->
+<div class="lstlisting" id="listing-6"><span class="label"><a 
+ id="x1-37001r1"></a></span><span 
+class="pcrr7t-x-x-70">[</span><span 
+class="pcrr7t-x-x-70">LaTeX</span><span 
+class="pcrr7t-x-x-70">]</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-37002r2"></a></span><span 
+class="pcrr7t-x-x-70">frame</span><span 
+class="pcrr7t-x-x-70">=\\</span><span 
+class="pcrr7t-x-x-70">begin</span><span 
+class="pcrr7t-x-x-70">{</span><span 
+class="pcrr7t-x-x-70">frame</span><span 
+class="pcrr7t-x-x-70">}\</span><span 
+class="pcrr7t-x-x-70">n</span><span 
+class="pcrr7t-x-x-70">%</span><span 
+class="pcrr7t-x-x-70">ws</span><span 
+class="pcrr7t-x-x-70">%\\</span><span 
+class="pcrr7t-x-x-70">frametitle</span><span 
+class="pcrr7t-x-x-70">{%</span><span 
+class="pcrr7t-x-x-70">cursor</span><span 
+class="pcrr7t-x-x-70">%}\</span><span 
+class="pcrr7t-x-x-70">n</span><span 
+class="pcrr7t-x-x-70">%</span><span 
+class="pcrr7t-x-x-70">ws</span><span 
+class="pcrr7t-x-x-70">%%</span><span 
+class="pcrr7t-x-x-70">cursor</span><span 
+class="pcrr7t-x-x-70">%\</span><span 
+class="pcrr7t-x-x-70">n</span><span 
+class="pcrr7t-x-x-70">\\</span><span 
+class="pcrr7t-x-x-70">end</span><span 
+class="pcrr7t-x-x-70">{</span><span 
+class="pcrr7t-x-x-70">frame</span><span 
+class="pcrr7t-x-x-70">}</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-37003r3"></a></span><span 
+class="pcrr7t-x-x-70">block</span><span 
+class="pcrr7t-x-x-70">=\\</span><span 
+class="pcrr7t-x-x-70">begin</span><span 
+class="pcrr7t-x-x-70">{</span><span 
+class="pcrr7t-x-x-70">block</span><span 
+class="pcrr7t-x-x-70">}{%</span><span 
+class="pcrr7t-x-x-70">cursor</span><span 
+class="pcrr7t-x-x-70">%}\</span><span 
+class="pcrr7t-x-x-70">n</span><span 
+class="pcrr7t-x-x-70">%</span><span 
+class="pcrr7t-x-x-70">ws</span><span 
+class="pcrr7t-x-x-70">%%</span><span 
+class="pcrr7t-x-x-70">cursor</span><span 
+class="pcrr7t-x-x-70">%\</span><span 
+class="pcrr7t-x-x-70">n</span><span 
+class="pcrr7t-x-x-70">\\</span><span 
+class="pcrr7t-x-x-70">end</span><span 
+class="pcrr7t-x-x-70">{</span><span 
+class="pcrr7t-x-x-70">block</span><span 
+class="pcrr7t-x-x-70">}</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-37004r4"></a></span><span 
+class="pcrr7t-x-x-70">itemize</span><span 
+class="pcrr7t-x-x-70">=\\</span><span 
+class="pcrr7t-x-x-70">begin</span><span 
+class="pcrr7t-x-x-70">{</span><span 
+class="pcrr7t-x-x-70">itemize</span><span 
+class="pcrr7t-x-x-70">}\</span><span 
+class="pcrr7t-x-x-70">n</span><span 
+class="pcrr7t-x-x-70">%</span><span 
+class="pcrr7t-x-x-70">ws</span><span 
+class="pcrr7t-x-x-70">%\\</span><span 
+class="pcrr7t-x-x-70">item</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">%</span><span 
+class="pcrr7t-x-x-70">cursor</span><span 
+class="pcrr7t-x-x-70">%\</span><span 
+class="pcrr7t-x-x-70">n</span><span 
+class="pcrr7t-x-x-70">\\</span><span 
+class="pcrr7t-x-x-70">end</span><span 
+class="pcrr7t-x-x-70">{</span><span 
+class="pcrr7t-x-x-70">itemize</span><span 
+class="pcrr7t-x-x-70">}</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-37005r5"></a></span><span 
+class="pcrr7t-x-x-70">enumerate</span><span 
+class="pcrr7t-x-x-70">=\\</span><span 
+class="pcrr7t-x-x-70">begin</span><span 
+class="pcrr7t-x-x-70">{</span><span 
+class="pcrr7t-x-x-70">enumerate</span><span 
+class="pcrr7t-x-x-70">}\</span><span 
+class="pcrr7t-x-x-70">n</span><span 
+class="pcrr7t-x-x-70">%</span><span 
+class="pcrr7t-x-x-70">ws</span><span 
+class="pcrr7t-x-x-70">%\\</span><span 
+class="pcrr7t-x-x-70">item</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">%</span><span 
+class="pcrr7t-x-x-70">cursor</span><span 
+class="pcrr7t-x-x-70">%\</span><span 
+class="pcrr7t-x-x-70">n</span><span 
+class="pcrr7t-x-x-70">\\</span><span 
+class="pcrr7t-x-x-70">end</span><span 
+class="pcrr7t-x-x-70">{</span><span 
+class="pcrr7t-x-x-70">enumerate</span><span 
+class="pcrr7t-x-x-70">}</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-37006r6"></a></span><span 
+class="pcrr7t-x-x-70">description</span><span 
+class="pcrr7t-x-x-70">=\\</span><span 
+class="pcrr7t-x-x-70">begin</span><span 
+class="pcrr7t-x-x-70">{</span><span 
+class="pcrr7t-x-x-70">description</span><span 
+class="pcrr7t-x-x-70">}\</span><span 
+class="pcrr7t-x-x-70">n</span><span 
+class="pcrr7t-x-x-70">%</span><span 
+class="pcrr7t-x-x-70">ws</span><span 
+class="pcrr7t-x-x-70">%\\</span><span 
+class="pcrr7t-x-x-70">item</span><span 
+class="pcrr7t-x-x-70">&#x00A0;</span><span 
+class="pcrr7t-x-x-70">%</span><span 
+class="pcrr7t-x-x-70">cursor</span><span 
+class="pcrr7t-x-x-70">%\</span><span 
+class="pcrr7t-x-x-70">n</span><span 
+class="pcrr7t-x-x-70">\\</span><span 
+class="pcrr7t-x-x-70">end</span><span 
+class="pcrr7t-x-x-70">{</span><span 
+class="pcrr7t-x-x-70">description</span><span 
+class="pcrr7t-x-x-70">}</span>
+</div>
+                                                                                         
+                                                                                         
+</div><hr class="endfigure" />
+<!--l. 561--><p class="noindent" >A snapshot of authors&#8217; last version for LaTeX can be found on <a 
+href="http://www.geany.org/Download/Extras" class="url" ><span 
+class="pcrr7t-">http://www.geany.org/Download/Extras</span></a>
+</p>
+<h4 class="subsectionHead"><span class="titlemark">11.2  </span> <a 
+ id="x1-3800011.2"></a>Other useful plugins</h4>
+<!--l. 565--><p class="noindent" >As mentioned before a number of useful functions were already implemented with other plugins. Below you will
+find a list with the authors&#8217;s recommendations. More nice plugins can be found on Geany&#8217;s plugins page at
+<a 
+href="http//www.geany.org" class="url" ><span 
+class="pcrr7t-">http//www.geany.org</span></a>.
+</p><!--l. 570--><p class="noindent" >
+</p>
+<h5 class="subsubsectionHead"><span class="titlemark">11.2.1  </span> <a 
+ id="x1-3900011.2.1"></a>GeanyLipsum</h5>
+<!--l. 571--><p class="noindent" >This plugin implements an easy way for inserting Lorem Ipsum text into a document. The length of the inserted
+text if configurable so the plugin can be very helpful on testing layout.<br 
+class="newline" /><span 
+class="pplb7t-">Homepage: </span><a 
+href="http://frank.uvena.de/en/Geany/geanylipsum/" class="url" ><span 
+class="pcrr7t-">http://frank.uvena.de/en/Geany/geanylipsum/</span></a>
+</p><!--l. 576--><p class="noindent" >
+</p>
+<h5 class="subsubsectionHead"><span class="titlemark">11.2.2  </span> <a 
+ id="x1-4000011.2.2"></a>geanyVC</h5>
+<!--l. 577--><p class="noindent" >When working on bigger documents a version control system like Subversion could be useful to keep versions.
+GeanyVC is adding a easy to use frontend for a number of popular version controll systems such as git, Subversion,
+CVS, Bazaar or Mercural.<br 
+class="newline" /><span 
+class="pplb7t-">Homepage: </span><a 
+href="http://plugins.geany.org/geanyvc/" class="url" ><span 
+class="pcrr7t-">http://plugins.geany.org/geanyvc/</span></a>
+</p><!--l. 583--><p class="noindent" >
+</p>
+<h5 class="subsubsectionHead"><span class="titlemark">11.2.3  </span> <a 
+ id="x1-4100011.2.3"></a>tasks out of the addons plugins</h5>
+<!--l. 584--><p class="noindent" >A plugin that is recognising <span 
+class="pcrr7t-">TODO </span>or <span 
+class="pcrr7t-">FIXME </span>tags inside a document and allows to easy jump to these entries. This
+function is similar to the <span 
+class="pcrr7t-">todo </span>package but doesn&#8217;t require recompiling of the document. Recognised tags will be
+inserted to another tab in Geany&#8217;s message widget.<br 
+class="newline" /><span 
+class="pplb7t-">Homepage: </span><a 
+href="http://plugins.geany.org/addons/" class="url" ><span 
+class="pcrr7t-">http://plugins.geany.org/addons/</span></a>
+                                                                                         
+                                                                                         
+</p><!--l. 591--><p class="noindent" >
+</p>
+<h3 class="sectionHead"><span class="titlemark">12  </span> <a 
+ id="x1-4200012"></a>License</h3>
+<!--l. 592--><p class="noindent" >Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span> and all its parts is distributed under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at your option) any later version. A copy of this
+license can be found in the file COPYING included with the source code of this program. If not, you will be able to
+get a copy by contacting the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
+USA.
+</p><!--l. 601--><p class="noindent" >
+</p>
+<h3 class="sectionHead"><span class="titlemark">13  </span> <a 
+ id="x1-4300013"></a>Bugs, questions, homepage</h3>
+<!--l. 603--><p class="noindent" >If you found any bugs or want to provide a patch, please contact Frank Lanitz (frank(at)geany(dot)org). Please also
+do so, if you got any questions and visiting <br 
+class="newline" /><a 
+href="http://frank.uvena.de/en/Geany/geanylatex/" class="url" ><span 
+class="pcrr7t-">http://frank.uvena.de/en/Geany/geanylatex/</span></a> didn&#8217;t help you to figure out the answer. Visiting the
+website is also a good start if you want to check for any update on this plugin.
+</p>
+ 
+</body></html> 
+
+                                                                                         
+
+
