@@ -9,4 +9,10 @@ AM_CFLAGS = \
 AM_LDFLAGS = -module -avoid-version
 
 COMMONLIBS = \
-	$(GEANY_LIBS)
+	$(GEANY_LIBS) \
+	$(INTLLIBS)
+
+# delete all .la files
+install-data-hook:
+	cd $(DESTDIR)$(geanypluginsdir); \
+	rm -f $(geanyplugins_LTLIBRARIES)
