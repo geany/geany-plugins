@@ -1,0 +1,106 @@
+GeanyLipsum Plugin v0.1.1
+-----------
+
+
+About
+------
+
+GeanyLipsum is a plugin for Geany that implements a Lorem Ipsum
+generator to insert placeholder text into your document.
+
+
+Requirements
+------------
+
+For compiling the plugin yourself, you will need the GTK (>= 2.6.0)
+libraries and header files. You will also need its dependency
+libraries and header files, such as Pango, Glib and ATK. All these
+files are available at http://www.gtk.org.
+
+And obviously, you will need to have Geany installed. If you have Geany
+installed from the sources, you should be ready to go. If you used a
+prepared package e.g. from your distribution you probably need to
+install an additional package, this might be called geany-dev or
+geany-devel. Please note that in order to compile and use this plugin,
+you need Geany 0.16 or later (Geany Plugin API v130 or higher).
+
+Furthermore you need, of course, a C compiler and the Make tool. The
+GNU versions of these tools are recommended.
+
+
+Installation
+------------
+
+Compiling and installing the code is done by the following three
+commands:
+
+$ ./configure
+$ make
+$ make install
+
+For more configuration details run
+$ ./configure --help
+
+If there are any errors during compilation, check your build environment
+and try to find the error, otherwise contact one of the authors. (See below)
+
+
+Usage
+-----
+
+After installed successfully, load the plugin in Geany's plugin manager
+and a new menu item in the Tools menu will appear.
+
+To insert Lorem Ipsum to your document, either use the appearing menu
+item or use the keystroke which you can configure inside Geany's
+preferences dialog. Inside the dialog you can set up a length of the
+text. Values between 1 and 5000 chars are available here. If you
+choose a length that is not fitting with the length of the Lipsum
+snippet shipped with this plugin it will be repeated and cut so you
+will always get the wished number of chars inserted.
+
+
+Development
+-----------
+
+You can checkout the current source code from the Subversion repository at
+Sourceforge.net. Get the code from:
+
+svn checkout
+http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geanylipsum
+
+If you want to create a patch, please respect the license of
+GeanyLipsum as well as intellectual property of third. Patches that
+should be included to the default distribution must be licensed under
+the same conditions as GeanySendMail by the copyright owner.
+
+
+Known issues
+-----------
+
+At the moment, there is no known issue.
+
+For more recent information all reported issues will be tracked at
+http://sourceforge.net/tracker/?group_id=222729
+
+
+License
+-------
+
+GeanyLipsum and all its parts is distributed under the terms of the
+GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any
+later version. A copy of this license can be found in the file COPYING
+included with the source code of this program. If not, you will be
+able to get a copy by contacting the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+
+Bugs, questions, bugs, homepage
+---------------------------------
+
+If you found any bugs or want to provide a patch, please contact Frank
+Lanitz (frank(at)geany(dot)org). Please also do so, if you got any
+questions and visiting http://frank.uvena.de/en/Geany/geanylipsum
+didn't help you to figure out the answer. Visiting the website is also
+a good start if you want to check for any update on this plugin.
