@@ -172,7 +172,7 @@ static void ao_doclist_menu_item_activate_cb(GtkMenuItem *menuitem, gpointer dat
 
 static void ao_toolbar_item_doclist_clicked_cb(GtkWidget *button, gpointer data)
 {
-	GtkWidget *menu;
+	static GtkWidget *menu = NULL;
 	GtkWidget *menu_item;
 	GtkWidget *menu_item_label;
 	guint i;
@@ -181,9 +181,10 @@ static void ao_toolbar_item_doclist_clicked_cb(GtkWidget *button, gpointer data)
 	GeanyDocument *doc;
 	GeanyDocument *current_doc = document_get_current();
 
+	if (menu != NULL)
+		gtk_widget_destroy(menu);
+
 	menu = gtk_menu_new();
-	/* FIXME we are leaking the menu here as it is never ever destroyed. We could destroy it in
-	 * its "unmap-event" handler but this seems a little hack'ish. */
 
 	for (i = 0; i < geany->documents_array->len; i++)
 	{
