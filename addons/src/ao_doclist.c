@@ -140,7 +140,7 @@ static void ao_popup_position_menu(GtkMenu *menu, gint *x, gint *y, gboolean *pu
 }
 
 
-static void ao_doclist_menu_item_activate_cd(GtkMenuItem *menuitem, gpointer data)
+static void ao_doclist_menu_item_activate_cb(GtkMenuItem *menuitem, gpointer data)
 {
 	GeanyDocument *doc = data;
 	gchar *locale_filename;
@@ -175,10 +175,11 @@ static void ao_toolbar_item_doclist_clicked_cb(GtkWidget *button, gpointer data)
 	GtkWidget *menu;
 	GtkWidget *menu_item;
 	GtkWidget *menu_item_label;
-	GeanyDocument *doc;
 	guint i;
 	gchar *base_name;
 	const GdkColor *color;
+	GeanyDocument *doc;
+	GeanyDocument *current_doc = document_get_current();
 
 	menu = gtk_menu_new();
 	/* FIXME we are leaking the menu here as it is never ever destroyed. We could destroy it in
@@ -190,16 +191,21 @@ static void ao_toolbar_item_doclist_clicked_cb(GtkWidget *button, gpointer data)
 		if (! DOC_VALID(doc))
 			continue;
 
-		base_name = g_path_get_basename(doc->file_name);
+		base_name = g_path_get_basename(DOC_FILENAME(doc));
 		menu_item = gtk_menu_item_new_with_label(base_name);
 		gtk_widget_show(menu_item);
 		gtk_container_add(GTK_CONTAINER(menu), menu_item);
-		g_signal_connect(menu_item, "activate", G_CALLBACK(ao_doclist_menu_item_activate_cd), doc);
+		g_signal_connect(menu_item, "activate", G_CALLBACK(ao_doclist_menu_item_activate_cb), doc);
 
 		color = document_get_status_color(doc);
 		menu_item_label = gtk_bin_get_child(GTK_BIN(menu_item));
 		gtk_widget_modify_fg(menu_item_label, GTK_STATE_NORMAL, color);
 		gtk_widget_modify_fg(menu_item_label, GTK_STATE_ACTIVE, color);
+		if (doc == current_doc)
+		{
+			setptr(base_name, g_strconcat("<b>", base_name, "</b>", NULL));
+			gtk_label_set_markup(GTK_LABEL(menu_item_label), base_name);
+		}
 		g_free(base_name);
 	}
 	menu_item = gtk_separator_menu_item_new();
@@ -209,12 +215,12 @@ static void ao_toolbar_item_doclist_clicked_cb(GtkWidget *button, gpointer data)
 	menu_item = ui_image_menu_item_new(GTK_STOCK_CLOSE, _("Close Ot_her Documents"));
 	gtk_widget_show(menu_item);
 	gtk_container_add(GTK_CONTAINER(menu), menu_item);
-	g_signal_connect(menu_item, "activate", G_CALLBACK(ao_doclist_menu_item_activate_cd),
+	g_signal_connect(menu_item, "activate", G_CALLBACK(ao_doclist_menu_item_activate_cb),
 		GINT_TO_POINTER(ACTION_CLOSE_OTHER));
 	menu_item = ui_image_menu_item_new(GTK_STOCK_CLOSE, _("C_lose All"));
 	gtk_widget_show(menu_item);
 	gtk_container_add(GTK_CONTAINER(menu), menu_item);
-	g_signal_connect(menu_item, "activate", G_CALLBACK(ao_doclist_menu_item_activate_cd),
+	g_signal_connect(menu_item, "activate", G_CALLBACK(ao_doclist_menu_item_activate_cb),
 		GINT_TO_POINTER(ACTION_CLOSE_ALL));
 
 	gtk_menu_popup(GTK_MENU(menu), NULL, NULL,
