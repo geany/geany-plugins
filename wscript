@@ -41,7 +41,7 @@ import os, sys, tempfile
 
 
 APPNAME = 'geany-plugins'
-VERSION = '0.1'
+VERSION = '0.17'
 
 srcdir = '.'
 blddir = '_build_'
@@ -375,20 +375,20 @@ def build(bld):
 
 	def install_docs(bld, pname, files):
 		ext = '.txt' if is_win32 else ''
+		docdir = '${G_PREFIX}/doc/%s' % pname if is_win32 else '${DOCDIR}/%s' % pname
 		for file in files:
 			if os.path.exists(os.path.join(p.name, file)):
-				if is_win32:
-					filename = '%s/%s' % (pname, file)
-					bld.install_as(
-						'${G_PREFIX}/doc/%s%s' % (ucFirst(filename, is_win32), ext),
-						filename)
-				else:
-					bld.install_files(
-						'${DATADIR}/doc/geany-plugins/%s' % pname, '%s/%s' % (pname, file))
+				bld.install_as(
+					'%s/%s%s' % (docdir, ucFirst(file, is_win32), ext),
+					'%s/%s' % (pname, file))
+		if pname == 'geanylatex':
+			bld.install_files('%s' % docdir, 'geanylatex/doc/geanylatex.*')
+			bld.install_files('%s/img' % docdir, 'geanylatex/doc/img/*.png')
+
 
 	for p in plugins:
 		if not p.name in bld.env['enabled_plugins']:
-			continue;
+			continue
 
 		libs = 'GTK GEANY' # common for all plugins
 		for l in p.libs:   # add plugin specific libs
