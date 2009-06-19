@@ -14,6 +14,14 @@ AC_DEFUN([GP_CHECK_GEANYLUA],
     PKG_CHECK_MODULES(LUA, [${LUA_PKG_NAME} >= 5.1])
 
     AC_CONFIG_FILES([
+        geanylua/examples/edit/Makefile
+        geanylua/examples/scripting/Makefile
+        geanylua/examples/info/Makefile
+        geanylua/examples/work/Makefile
+        geanylua/examples/dialogs/Makefile
+        geanylua/examples/Makefile
+        geanylua/oldbuildsys/Makefile
+        geanylua/docs/Makefile
         geanylua/Makefile
     ])
 ])

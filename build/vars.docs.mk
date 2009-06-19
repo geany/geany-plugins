@@ -1,11 +1,3 @@
 plugindocdir = $(docdir)/$(plugin)
-plugindoc_DATA = \
-	README \
-	ChangeLog \
-	NEWS \
-	COPYING \
-	AUTHORS
-
-# TODO: make sure these files exist!
-README AUTHORS:
-	touch $@
+htmldocdir = $(plugindocdir)/html
+examplesdir = $(plugindocdir)/examples

@@ -1,4 +1,4 @@
-include $(top_srcdir)/build/vars.docs.mk
+include $(top_srcdir)/build/vars.auxfiles.mk
 include $(top_srcdir)/build/vars.build.mk
 
 plugin = geanylua
@@ -30,5 +30,5 @@ geanylua_la_LIBADD = \
 	$(COMMONLIBS) \
 	$(LUA_LIBS)
 
-# TODO: figure out where to install these
-EXTRA_DIST = docs util examples
+SUBDIRS = docs examples
+EXTRA_DIST = util

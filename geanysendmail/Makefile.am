@@ -1,4 +1,4 @@
-include $(top_srcdir)/build/vars.docs.mk
+include $(top_srcdir)/build/vars.auxfiles.mk
 
 SUBDIRS = src
 plugin = geanysendmail
