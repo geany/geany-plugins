@@ -1,0 +1,1224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title>Lua plugin for Geany - Reference</title>
+<style type="text/css">
+<!--
+UL,PRE,P{
+  margin:  12px 25% 12px 5%
+}
+.odd {
+  background-color:#f4f4fc
+}
+.even {
+  background-color:#ffffff
+}
+.desc {
+  font-family:sans-serif
+}
+-->
+</style>
+</head>
+<body >
+<hr><h2>Lua scripting plugin for the Geany IDE</h2><hr><br>
+The Geany module provides these functions and variables...<br><br><br>
+<div style="background-color:#fcf4f4; margin-left:12px; margin-right:12px">
+<hr>
+<table summary="quick links" width="90%" align="center" >
+<tr align="center" >
+<td><a href="#Editor_functions">Editor functions</a></td>
+<td><a href="#System_functions">System functions</a></td>
+<td><a href="#Dialog_functions">Dialog functions</a></td>
+</tr></table>
+<hr>
+</div>
+<br><br>
+
+<b><a name="Editor_functions"></a>Editor functions:</b>
+
+<table style="font-family:monospace" summary="function index" width="90%">
+<tr class="odd">
+  <td>&nbsp; function <a href="#activate"><b>activate</b></a> ( tab_id )<br></td>
+  <td class="desc">-- Focus the specified editor tab.</td>
+</tr>
+<tr class="even">
+  <td>&nbsp; function <a href="#appinfo"><b>appinfo</b></a> ()<br></td>
+  <td class="desc">-- Return information about the current Geany instance.</td>
+</tr>
+<tr class="odd">
+  <td>&nbsp; function <a href="#batch"><b>batch</b></a> ( start )<br></td>
+  <td class="desc">-- Set a marker for a reversible group of operations.</td>
+</tr>
+
+<tr class="even">
+  <td>&nbsp; function <a href="#byte"><b>byte</b></a> ( [position] )<br></td>
+  <td class="desc">-- Get the numeric value of the character at position.</td>
+</tr>
+<tr class="odd">
+  <td>&nbsp; function <a href="#caret"><b>caret</b></a> ( [position] )<br></td>
+  <td class="desc">-- Get or set the caret position.</td>
+</tr>
+
+<tr class="even">
+  <td>&nbsp; function <a href="#close"><b>close</b></a> ( [filename]|[index] )<br></td>
+  <td class="desc">-- Close a document.</td>
+</tr>
+
+<tr class="odd">
+  <td>&nbsp; function <a href="#copy"><b>copy</b></a> ( [content]|[start,stop] )<br></td>
+  <td class="desc">-- Copy text to the clipboard.</td>
+</tr>
+
+<tr class="even">
+  <td>&nbsp; function <a href="#count"><b>count</b></a> ()<br></td>
+  <td class="desc">-- Get the number of open tabs.</td>
+</tr>
+
+<tr class="odd">
+  <td>&nbsp; function <a href="#cut"><b>cut</b></a> ()<br></td>
+  <td class="desc">-- Cut selection to the clipboard.</td>
+</tr>
+
+<tr class="even">
+  <td>&nbsp; function <a href="#documents"><b>documents</b></a> ( [doc_id] )<br></td>
+  <td class="desc">-- Access the list of all open documents.</td>
+</tr>
+
+<tr class="odd">
+  <td>&nbsp; function <a href="#filename"><b>filename</b></a> ()<br></td>
+  <td class="desc">-- Get the name of the current document.</td>
+</tr>
+
+<tr class="even">
+  <td>&nbsp; function <a href="#fileinfo"><b>fileinfo</b></a> ()<br></td>
+  <td class="desc">-- Return some information about the current document.</td>
+</tr>
+
+<tr class="odd">
+  <td>&nbsp; function <a href="#find"><b>find</b></a> ( phrase, start, stop, options )<br></td>
+  <td class="desc">-- Search for text within the document.</td>
+</tr>
+
+<tr class="even">
+  <td>&nbsp; function <a href="#height"><b>height</b></a> ()<br></td>
+  <td class="desc">-- Get the number of lines in the current document</td>
+</tr>
+
+<tr class="odd">
+  <td>&nbsp; function <a href="#keycmd"><b>keycmd</b></a> ( command )<br></td>
+  <td class="desc">-- Activate a built-in Geany menu command.</td>
+</tr>
+
+<tr class="even">
+  <td>&nbsp; function <a href="#keygrab"><b>keygrab</b></a> ( [prompt] )<br></td>
+  <td class="desc">-- Intercept a keystroke from Geany.</td>
+</tr>
+
+
+<tr class="odd">
+  <td>&nbsp; function <a href="#length"><b>length</b></a> ()<br></td>
+  <td class="desc">-- Get number of characters in the current document.</td>
+</tr>
+
+<tr class="even">
+  <td>&nbsp; function <a href="#lines"><b>lines</b></a> ( [index] )<br></td>
+  <td class="desc">-- Get the text on one specific line, or all of them.</td>
+</tr>
+
+<tr class="odd">
+  <td>&nbsp; function <a href="#match"><b>match</b></a> ( [position] )<br></td>
+  <td class="desc">-- Find a matching bracket, parenthesis, etc.</td>
+</tr>
+
+<tr class="even">
+  <td>&nbsp; function <a href="#navigate"><b>navigate</b></a> ( mode,count [,extend [,rect]])<br></td>
+  <td class="desc">-- Move the caret incrementally.</td>
+</tr>
+
+<tr class="odd">
+  <td>&nbsp; function <a href="#newfile"><b>newfile</b></a> ( [filename] )<br></td>
+  <td class="desc">-- Create a new document.</td>
+</tr>
+
+<tr class="even">
+  <td>&nbsp; function <a href="#open"><b>open</b></a> ( [filename]|[index] )<br></td>
+  <td class="desc">-- Open or reload a file from disk.</td>
+</tr>
+
+<tr class="odd">
+  <td>&nbsp; function <a href="#paste"><b>paste</b></a> ()<br></td>
+  <td class="desc">-- Paste text from the clipboard.</td>
+</tr>
+
+
+<tr class="even">
+  <td>&nbsp; function <a href="#rowcol"><b>rowcol</b></a> ( [pos]|[row,col] )<br></td>
+  <td class="desc">-- Translate between linear and rectangular locations.</td>
+</tr>
+
+<tr class="odd">
+  <td>&nbsp; function <a href="#save"><b>save</b></a> ( [filename]|[index] )<br></td>
+  <td class="desc">-- Save an open document to a disk file.</td>
+</tr>
+
+<tr class="even">
+  <td>&nbsp; function <a href="#scintilla"><b>scintilla</b></a> ( msg_id, wparam, lparam )<br></td>
+  <td class="desc">-- Send a message directly to the Scintilla widget.</td>
+</tr>
+
+<tr class="odd">
+  <td>&nbsp; function <a href="#select"><b>select</b></a> ( [[start,] stop] )<br></td>
+  <td class="desc">-- Get or set the selection endpoints and caret.</td>
+</tr>
+
+<tr class="even">
+  <td>&nbsp; function <a href="#selection"><b>selection</b></a> ( [content] )<br></td>
+  <td class="desc">-- Get or set the contents of the document's selection.</td>
+</tr>
+
+<tr class="odd">
+  <td>&nbsp; function <a href="#signal"><b>signal</b></a> ( widget, signal )<br></td>
+  <td class="desc">-- Send a GTK signal to a Geany interface widget.</td>
+</tr>
+
+<tr class="even">
+  <td>&nbsp; function <a href="#text"><b>text</b></a> ( [content] )<br></td>
+  <td class="desc">-- Get or set the contents of the entire document.</td>
+</tr>
+
+<tr class="odd">
+  <td>&nbsp; function <a href="#word"><b>word</b></a> ( [position] )<br></td>
+  <td class="desc">-- Get the word at the specified location.</td>
+</tr>
+
+<tr class="even">
+  <td>&nbsp; function <a href="#xsel"><b>xsel</b></a> ( [text] )<br></td>
+  <td class="desc">-- Get or set the contents of the primary X selection.</td>
+</tr>
+
+<tr class="odd">
+  <td>&nbsp; function <a href="#yield"><b>yield</b></a> ()<br></td>
+  <td class="desc">-- Refreshes the user interface.</td>
+</tr>
+
+
+<tr class="even">
+ <td>&nbsp;</td>
+ <td></td>
+</tr>
+
+<tr class="odd">
+<td>&nbsp; var <a href="#caller"><b>caller</b></a> : <i>number</i><br>
+</td><td class="desc">-- The index of the document that triggered an event.</td>
+</tr>
+
+<tr class="even">
+<td>&nbsp; var <a href="#rectsel"><b>rectsel</b></a> : <i>boolean</i><br>
+</td><td class="desc">-- Whether or not the selection is in rectangular mode.</td>
+</tr>
+<tr class="odd">
+<td>&nbsp; var <a href="#project"><b>project</b></a> : <i>keyfile</i><br>
+</td><td class="desc">-- An object representing a project configuration event.</td>
+</tr>
+<tr class="even">
+<td>&nbsp; var <a href="#script"><b>script</b></a> : <i>string</i><br>
+</td><td class="desc">-- The filename of the currently executing Lua script.</td>
+</tr>
+<tr class="odd">
+<td>&nbsp; var <a href="#wordchars"><b>wordchars</b></a> : <i>string</i><br></td>
+<td class="desc">-- The characters that are considered part of a word.</td>
+</tr>
+
+</table>
+
+
+<br>
+<br><br>
+
+<b><a name="System_functions"></a>System functions:</b>
+<table style="font-family:monospace" summary="function index" width="90%">
+<tr class="odd">
+<td>&nbsp; function <a href="#basename"><b>basename</b></a>( pathstr )<br></td>
+<td class="desc">-- Extract the filename portion of a path string.</td>
+</tr>
+<tr class="even">
+<td>&nbsp; function <a href="#dirlist"><b>dirlist</b></a>( path )<br></td>
+<td class="desc">-- List the contents of a folder.</td>
+</tr>
+<tr class="odd">
+<td>&nbsp; function <a href="#dirname"><b>dirname</b></a>( pathstr )<br></td>
+<td class="desc">-- Get the directory portion of a file's path.</td>
+</tr>
+<tr class="even">
+<td>&nbsp; function <a href="#fullpath"><b>fullpath</b></a>( filename )<br></td>
+<td class="desc">-- Get the full path to a file.</td>
+</tr>
+<tr class="odd">
+  <td>&nbsp; function <a href="#launch"><b>launch</b></a> ( program [, arg1 [, arg2, ...]] )<br></td>
+  <td class="desc">-- Execute an external application.</td>
+</tr>
+<tr class="even">
+  <td>&nbsp; function <a href="#optimize"><b>optimize</b></a> ()<br></td>
+  <td class="desc">-- Run a script without the debug hook.</td>
+</tr>
+<tr class="odd">
+  <td>&nbsp; function <a href="#rescan"><b>rescan</b></a> ()<br></td>
+  <td class="desc">-- Regenerate the scripts menu.</td>
+</tr>
+<tr class="even">
+  <td>&nbsp; function <a href="#stat"><b>stat</b></a> ( filename [, lstat] )<br></td>
+  <td class="desc">-- Retrieve some information about a disk file.</td>
+</tr>
+<tr class="odd">
+  <td>&nbsp; function <a href="#timeout"><b>timeout</b></a> ( seconds )<br></td>
+  <td class="desc">-- Control maximum time allowed for script execution.</td>
+</tr>
+<tr class="even">
+  <td>&nbsp; function <a href="#wkdir"><b>wkdir</b></a> ( [folder] )<br></td>
+  <td class="desc">-- Get or set the current working directory.</td>
+</tr>
+<tr class="even">
+ <td>&nbsp;</td>
+ <td></td>
+</tr>
+<tr class="odd">
+<td>&nbsp; var <a href="#dirsep"><b>dirsep</b></a> : <i>string</i><br>
+</td><td class="desc">-- The default filesystem path separator, "<tt>/</tt>" or "<tt>\</tt>".</td>
+</tr>
+</table>
+
+<br>
+<br><br>
+
+<b><a name="Dialog_functions"></a>Dialog functions:</b>
+<table style="font-family:monospace" summary="function index" width="90%">
+<tr class="odd">
+<td>&nbsp; function <a href="#choose"><b>choose</b></a> ( prompt, items )</td>
+<td class="desc" width="33%">-- Select an item from the list.</td>
+</tr>
+<tr class="even">
+<td>&nbsp; function <a href="#confirm"><b>confirm</b></a> ( title, question, default )</td>
+<td class="desc">-- Ask a yes-or-no question.</td>
+</tr>
+<tr class="odd">
+<td>&nbsp; function <a href="#input"><b>input</b></a> ( [prompt] [,default] )</td>
+<td class="desc">-- Prompt to enter some text.</td>
+</tr>
+<tr class="even">
+<td>&nbsp; function <a href="#message"><b>message</b></a> ( [title,] message )</td>
+<td class="desc">-- Display some information.</td>
+</tr>
+<tr class="odd">
+<td>&nbsp; function <a href="#pickfile"><b>pickfile</b></a> ( [mode [,path [,filter]]] )</td>
+<td class="desc">-- Select a file from disk.</td>
+</tr>
+<tr class="even">
+ <td>&nbsp;</td>
+ <td></td>
+</tr>
+<tr class="odd">
+<td>&nbsp; var <a href="#banner"><b>banner</b></a> : <i>string</i><br></td>
+<td class="desc">-- The window title for all dialogs.</td>
+</tr>
+</table><br>
+If you need a more advanced dialog creation API, check out the 
+<tt><big><a href="geanylua-input.html">dialog</a></big></tt> module.
+<br><br><br>
+<hr>
+
+
+<hr><a name="activate"></a><h3><tt>geany.activate ( tab_id )</tt></h3><p>
+Activates the document specified by <tt><b>tab_id</b></tt>.
+</p>
+<p>
+If <tt><b>tab_id</b></tt> is a number, it activates the document at that index.
+ &nbsp; A <i>positive</i> number refers to the internal document array, and a <i>negative</i>
+number refers to the (absolute) GtkNotebook index.<br>
+Note that the indices begin at <tt>(1)</tt> and <tt>(-1)</tt> respectively.
+</p>
+<p>
+If <tt><b>tab_id</b></tt> is a string, the function will try to activate the
+notebook tab whose filename matches that string.<br>
+( The full pathname is required! )
+</p><p>
+Returns <tt><b>true</b></tt> on success, or <tt><b>false</b></tt> if the tab could not be found.
+</p><br><br>
+
+<a name="appinfo"></a><hr><h3><tt>geany.appinfo ()</tt></h3><p>
+Returns a Lua table containing information about the currently running Geany instance.<br><br>
+The <tt>appinfo</tt> table contains the following fields:
+<br>&nbsp;
+<table border="0" summary="appinfo table fields">
+<tr><td width="5%"></td><td><tt>debug</tt></td><td> -- <tt>true</tt> if Geany is running in debug mode.</td></tr>
+<tr><td width="5%"></td><td><tt>configdir &nbsp; </tt></td><td> -- User's local configuration folder.</td></tr>
+<tr><td width="5%"></td><td><tt>datadir</tt></td><td> -- System-wide configuration folder.</td></tr>
+<tr><td width="5%"></td><td><tt>docdir</tt></td><td> -- Location of the Geany help files.</td></tr>
+<tr><td width="5%"></td><td><tt>scriptdir</tt></td><td> -- Top level folder for GeanyLua scripts.</td></tr>
+<tr><td width="5%"></td><td><tt>tools</tt></td><td> -- Table of user-configured tools. (see below)</td></tr>
+<tr><td width="5%"></td><td><tt>template</tt></td><td> -- Table of user's template information. (see below)</td></tr>
+<tr><td width="5%"></td><td><tt>project</tt></td><td> -- Table of current project information. (see below)</td></tr>
+</table>
+<p>
+&mdash;&mdash;&mdash;&mdash;</p><p>
+The <tt>tools</tt> sub-table contains the following fields:
+<br>&nbsp;
+<table border="0" summary="tools table fields">
+<tr><td width="15%"></td><td><tt>browser</tt> </td></tr>
+<tr><td width="15%"></td><td><tt>make</tt> </td></tr>
+<tr><td width="15%"></td><td><tt>term</tt> </td><td></tr>
+<tr><td width="15%"></td><td><tt>print</tt> </td></tr>
+<tr><td width="15%"></td><td><tt>grep</tt> </td></tr>
+<tr><td width="15%"></td><td><tt>action</tt> </td></tr>
+</table>
+<p>
+&mdash;&mdash;&mdash;&mdash;</p><p>
+The <tt>template</tt> sub-table contains the following fields:
+<br>&nbsp;
+<table border="0" summary="template fields">
+<tr><td width="15%"></td><td><tt>developer</tt> </td></tr>
+<tr><td width="15%"></td><td><tt>company</tt> </td></tr>
+<tr><td width="15%"></td><td><tt>mail</tt> </td><td></tr>
+<tr><td width="15%"></td><td><tt>initial</tt> </td></tr>
+<tr><td width="15%"></td><td><tt>version</tt> </td></tr>
+</table>
+<p>
+&mdash;&mdash;&mdash;&mdash;</p><p>
+The <tt>project</tt> sub-table *might* contain the following fields:
+<br>&nbsp;
+<table border="0" summary="template fields">
+<tr><td width="15%"></td><td><tt>name</tt> </td><td> -- Name of project.</td></tr>
+<tr><td width="15%"></td><td><tt>desc</tt> </td><td> -- Project description.</td></tr>
+<tr><td width="15%"></td><td><tt>file</tt> </td><td> -- Project filename.</td></tr>
+<tr><td width="15%"></td><td><tt>base</tt> </td><td> -- Base path of project files.</td></tr>
+<tr><td width="15%"></td><td><tt>exec</tt> </td><td> -- Default "run" command.</td></tr>
+<tr><td width="15%"></td><td><tt>mask</tt> </td><td> -- Semicolon-delimited list of filetypes.</td></tr>
+</table>
+<p>
+<b>* Important:</b> The entire <tt>project</tt> sub-table will be <tt>nil</tt> if there is no open project!<br>
+<br><br>
+
+<a name="basename"></a><hr><h3><tt>geany.basename ( pathstr )</tt></h3><p>
+Returns the rightmost filename portion of <tt>pathstr</tt>, with the directory portion removed.
+</p><br><br>
+
+<hr><a name="batch"></a><h3><tt>geany.batch ( start )</tt></h3><p>
+This function marks the beginning or ending of a group of operations<br>
+that you want the user to be able to undo in a single step.</p>
+<p>
+If the <tt><b>start</b></tt> argument is <tt><b>true</b></tt>,
+it marks the <i>beginning</i> of a group of operations.</p>
+<p>
+If the <tt><b>start</b></tt> argument is <tt><b>false</b></tt>,
+it marks the <i>ending</i> of a group of operations.
+</p><br><br>
+
+<hr><a name="byte"></a><h3><tt>geany.byte ( [position] )</tt></h3><p>
+When called with no arguments, returns the numeric value of the character at
+the current caret position.</p><p>
+When called with a numeric <tt><b>position</b></tt> argument, returns the
+value of the character at that position.
+</p><br><br>
+
+
+<hr><a name="caret"></a><h3><tt>geany.caret ( [position] )</tt></h3><p>
+When called with no arguments, returns the current caret position.</p>
+<p>
+When called with a single numeric argument, moves the caret to that position.<br>
+Out-of-range values are adjusted to the nearest possible position (i.e. the start or end of the document.)
+</p><br><br>
+
+<a name="close"></a><hr><h3><tt>geany.close ( [filename]|[index] )</tt></h3>
+<p>
+When called with no arguments, closes the currently active document.
+</p>
+<p>
+When called with a numeric argument, closes the file of that document index.
+</p>
+<p>
+When called with a string argument, it will close that named document.
+</p>
+<p>
+If the document has unsaved changes, the user will be prompted to save before closing,<br>
+and will also be given the option to cancel the operation. &nbsp; To avoid this, you might <br>
+want to consider using the <tt>geany.save()</tt> function beforehand.
+</p>
+<p>
+Returns <tt><b>true</b></tt> if the document was successfully closed, or <tt><b>false</b></tt> otherwise.</p>
+<br><br>
+
+<hr><a name="copy"></a><h3><tt>geany.copy ( [content]|[start,stop] )</tt></h3><p>
+When called with no arguments, copies the current selection to the clipboard.
+</p><p>
+When called with a single string argument, copies the contents of that string to the clipboard.
+</p>
+<p>
+When called with two arguments, copies the portion of the current document's text
+that lies between the <tt><b>start</b></tt> and <tt><b>stop</b></tt> positions.
+(Both positions must be positive numbers.)
+</p>
+<p>
+Returns the number of characters copied, or <tt><b>nil</b></tt> if there is no open document.
+</p>
+<br><br>
+
+<hr><a name="count"></a><h3><tt>geany.count ()</tt></h3><p>
+Returns the number of open documents.
+</p><br><br>
+
+
+<hr><a name="cut"></a><h3><tt>geany.cut ()</tt></h3><p>
+Cuts the current selection to the clipboard.
+</p>
+<p>
+Returns the number of characters cut, or <tt><b>nil</b></tt> if there is no open document.
+</p><br><br>
+
+
+<a name="dirlist"></a><hr><h3><tt>geany.dirlist ( path )</tt></h3><p>
+Returns an iterator function that will be called once for each entry (file or subdirectory) in the specified folder.
+The iterator produces only the name of each entry, and in no particular order.</p><p>
+This function will generate an error dialog if the specified folder does not exist or cannot be accessed.
+</p><br><br>
+
+<a name="dirname"></a><hr><h3><tt>geany.dirname ( pathstr )</tt></h3><p>
+Returns the directory portion of <tt>pathstr</tt>, with the rightmost filename portion removed.
+</p><br><br>
+
+<hr><a name="documents"></a><h3><tt>geany.documents ( [doc_id] )</tt></h3><p>
+When called with a numeric argument, returns the full path and filename of <br>
+the document at the index specified by <tt><b>doc_id</b></tt>.
+</p>
+<p>
+When called with a string argument, returns the numeric index of the document with the<br>
+path/filename that matches the <tt><b>doc_id</b></tt> string.<br>
+</p>
+<p>
+Either of the two forms above may also return <tt><b>nil</b></tt> if the argument cannot be matched.</p>
+<p>
+Note: The <i>index</i> here refers to the editor's internal document array,
+and might not be <br>
+the same as the notebook tab index, since the tabs can be re-ordered by the user.
+</p>
+<p>
+<br><br>
+When called with no arguments, the function returns an iterator to list the full path and filename
+of each document currently open in the editor.</p><p>
+For example:</p>
+<pre>
+
+for filename in geany.documents()
+do
+  print(filename)
+end
+</pre>
+
+<br><br>
+
+
+<a name="filename"></a><hr><h3><tt>geany.filename ()</tt></h3><p>
+Returns the full path and filename of the current Geany document.</p><p>
+If there is no open document, or if the current document is untitled, returns <tt><b>nil</b></tt>.
+</p><br><br>
+
+
+<a name="fileinfo"></a><hr><h3><tt>geany.fileinfo ()</tt></h3><p>
+Returns a Lua table containing various information about the current document.<br>
+If there is no open document, returns <tt><b>nil</b></tt>.
+</p><p>
+The returned table contains the following fields:
+<table border="0" summary="fileinfo fields">
+<tr><td width="5%"></td><td><tt>name</tt> </td><td> -- The filename, without the path.</td></tr>
+<tr><td width="5%"></td><td><tt>path</tt> </td><td> -- The full path of the file's directory, including the trailing slash.</td></tr>
+<tr><td width="5%"></td><td><tt>ext</tt> </td><td> -- The file extension, including the dot, e.g. "<b>.DLL</b>" or "<b>.txt</b>"</td></tr>
+<tr><td width="5%"></td><td><tt>type</tt> </td><td> -- A one-word description of the filetype, e.g. "<b>C</b>" or "<b>Python</b>".</td></tr>
+<tr><td width="5%"></td><td><tt>desc</tt> </td><td> -- A longer description of the filetype, e.g. "<b>Lua source file</b>" or "<b>Cascading StyleSheet</b>".</td></tr>
+<tr><td width="5%"></td><td><tt>opener</tt> </td><td> -- The string used to begin a comment, e.g. "<b class="desc">&lt;!--</b>".</td></tr>
+<tr><td width="5%"></td><td><tt>closer</tt> </td><td> -- The string used to end a comment, e.g. "<b class="desc">--&gt;</b>".</td></tr>
+<tr><td width="5%"></td><td><tt>action</tt> </td><td> -- The action command as executed by the context menu</td></tr>
+<tr><td width="5%"></td><td><tt>compiler</tt> </td><td> -- The command used to compile this type of file.</td></tr>
+<tr><td width="5%"></td><td><tt>linker</tt> </td><td> -- The command used to link this type of file.</td></tr>
+<tr><td width="5%"></td><td><tt>exec</tt> </td><td> -- The primary command used to execute this type of file.</td></tr>
+<tr><td width="5%"></td><td><tt>exec2</tt> </td><td> -- An alternative command used to execute this type of file.</td></tr>
+<tr><td width="5%"></td><td><tt>ftid</tt> </td><td> -- The unique numeric filetype identifier, as used by Geany.</td></tr>
+<tr><td width="5%"></td><td><tt>encoding</tt> </td><td> -- The file's in-memory encoding. (may differ from the on-disk encoding.)</td></tr>
+<tr><td width="5%"></td><td><tt>bom</tt> </td><td> -- <tt><b>true</b></tt> if the file contains a <b>B</b>yte-<b>O</b>rder <b>M</b>arker.</td></tr>
+<tr><td width="5%"></td><td><tt>changed</tt> </td><td> -- <tt><b>true</b></tt> if the file has unsaved changes.</td></tr>
+<tr><td width="5%"></td><td><tt>readonly</tt> </td><td> -- <tt><b>true</b></tt> if the in-memory document is tagged as read-only.</td></tr>
+</table>
+<br><br>
+
+
+
+<a name="find"></a><hr><h3><tt>geany.find ( phrase, start, stop, options )</tt></h3><p>
+Searches within the current document for the string <tt>phrase</tt>, beginning at <br>
+the numeric <tt>start</tt> position and ending at the <tt>stop</tt> position.<br>
+( To search backwards, specify a <tt>start</tt> value greater than <tt>stop</tt> . )<br><br>
+</p><p>
+
+
+The <tt>options</tt> argument is a table, each element may be one of the following strings:<br>
+
+<table border="0" summary="search options">
+<tr><td width="3%">&nbsp;</td><td width="20%"><tt>
+"matchcase"</tt></td><td> -- A match only occurs with text that matches the case of the search string.
+</td></tr>
+<tr><td>&nbsp;</td><td><tt>
+"wholeword" </tt> </td><td> -- A match only occurs if the characters before and after are not word characters.
+</td></tr>
+<tr><td>&nbsp;</td><td><tt>
+"wordstart" </tt> </td><td> -- A match only occurs if the character before is not a word character.
+</td></tr>
+<tr><td>&nbsp;</td><td><tt>
+"regexp" </tt> </td><td> -- The search string should be interpreted as a regular expression.
+</td></tr>
+<tr><td>&nbsp;</td><td><tt>
+"posix" </tt> </td><td> -- Use bare parentheses
+<tt><b>(</b></tt> 
+<tt><b>)</b></tt> 
+for tagged sections rather than the escaped <tt><b>\(</b></tt> and <tt><b>\)</b></tt>.
+</td></tr>
+<tr><td colspan="3">
+( The empty set <tt><b>{}</b></tt> may also be specified, to search using the default options. )
+</td></tr>
+</table>
+<p>
+If a match is found, the function returns the starting and ending positions of the match,<br>
+otherwise it returns <tt><b>nil</b>.</tt>
+</p><p>
+For example, to select the first case-sensitive whole-word match of the string
+ &nbsp;'<b>foobar</b>'&nbsp; you could use something like this:</p>
+<pre>
+ a,b = geany.find( "foobar", 0, geany.length(), {"wholeword","matchcase"} )
+ if (a) then
+   geany.select(a,b)
+ else
+   geany.message("Search phrase not found.")
+ end
+</pre><br><br>
+
+
+
+<a name="fullpath"></a><hr><h3><tt>geany.fullpath ( filename )</tt></h3><p>
+Returns the fully canonicalized form of the path to an <i>existing</i> named file, or <tt>nil</tt> if the path could not be found.
+</p><br><br>
+
+
+
+
+<a name="height"></a><hr><h3><tt>geany.height ()</tt></h3><p>
+Returns the total number of  lines in the current document.
+</p><br><br>
+
+<a name="keycmd"></a><hr><h3><tt>geany.keycmd ( command )</tt></h3><p>
+Activates (runs) one of Geany's built-in menu commands.</p><p>
+The <tt>command</tt> argument should be one the string constants defined in the
+"<tt>glspi_keycmd.h</tt>" header from the plugin sources. &nbsp;
+For example, to display Geany's preferences dialog, you could use:</p><p>
+<tt> &nbsp; geany.keycmd("MENU_PREFERENCES")</tt>
+</p>
+<p>
+This function raises an error if the command argument is invalid.
+</p><br><br>
+
+
+
+
+
+<a name="keygrab"></a><hr><h3><tt>geany.keygrab ( [prompt] )</tt></h3><p>
+
+Intercepts the next keyboard key pressed, preventing the editor from receiving
+that keyboard event.</p>
+<p>
+The function returns the value of the pressed key as a string,
+alphanumeric keys will return their keyboard value, such as
+&nbsp;<tt>"a"</tt>&nbsp; or &nbsp;<tt>"1"</tt>&nbsp; while other keys may
+return a string describing the key, such
+as <tt>"Return"</tt> or <tt>"Escape"</tt>. &nbsp;
+( Consult the file &nbsp;<tt>gdk/gdkkeysyms.h</tt>&nbsp; in the GTK sources for some idea of the key names. )
+</p><p>
+It should be possible to use this function on keyboards other than US,
+although this hasn't been tested, and scripts written for one keyboard
+might not be portable to another system. </p>
+<p>Key combinations with the modifier keys &nbsp;<b>[Ctrl]</b> &nbsp;or&nbsp; <b>[Alt]</b>&nbsp;
+are not supported. &nbsp; Detection of the &nbsp;<b>[Shift]</b>&nbsp; key state is somewhat supported,
+although currently it may not be completely reliable.
+&nbsp; Repeatedly calling this function in rapid succession (as in a loop) may also result in some "dropped" keys,
+so for best results its use should be confined to detecting a single "lowercase" key press.</p><p>
+
+If the optional <tt>prompt</tt> string argument is present, its text will be shown
+as a "calltip" near the upper left-hand area of the current document.
+(but only if there is a document open.)</p>
+<p>
+This function was primarily intended for assigning "chained" sets of hot key
+options, in conjunction with user-defined <a href="geanylua-keys.html">keybindings</a>.
+
+
+</p>
+<p>
+
+</p><br><br>
+
+
+
+
+
+<a name="launch"></a><hr><h3><tt>geany.launch ( program [, arg1 [, arg2, ...]] )</tt></h3><p>
+Executes the external application specified by &nbsp;<tt>program</tt>,&nbsp;
+passing any additional arguments to its command line.
+</p>
+<p>
+Returns <tt>true</tt> if the process was succesfully created, else it returns <tt>false</tt> plus an error message.</p>
+<p>
+For example:<br><tt>
+&nbsp; local ok,msg = geany.launch("firefox", "http://www.yahoo.com/")<br>
+&nbsp; if not ok then geany.message(msg) end</tt>
+</p>
+<p>
+This function returns immediately, regardless of the status of the newly-created process.
+If you need to wait for a process to complete before returning,
+use Lua's built-in &nbsp;<tt>os.execute()</tt>&nbsp; function instead.
+</p>
+<p>Note that using this function on MS-Windows might require installing the
+"<b><tt>gspawn-win32-helper.exe</tt></b>" program somewhere in your <tt>PATH</tt>. &nbsp;
+( It is included in the GTK/GLib package. )</p>
+<br><br>
+
+
+<a name="length"></a><hr><h3><tt>geany.length ()</tt></h3><p>
+Returns the text length of the current document.
+</p><br><br>
+
+
+<a name="lines"></a><hr><h3><tt>geany.lines ( [index] )</tt></h3><p>
+When called with one argument, returns a string containing the text at
+the specified line number of the current document.<br>
+It may also return <tt><b>nil</b></tt> if there is no open document,
+or if the specified <tt><b>index</b></tt> is outside the range of lines.
+</p><p>
+When called without any arguments, it returns an iterator that steps
+through each line of the current document. <br>
+So you can use it like this:<pre>
+for line in geany.lines()
+do
+  print(line)
+end
+</pre>
+<br><br>
+
+
+<a name="match"></a><hr><h3><tt>geany.match ( [position] )</tt></h3><p>
+Attempts to find a corresponding matching brace from the given <tt><b>position</b></tt> of one brace.<br>
+( If the <tt><b>position</b></tt> argument is omitted, the current caret position is assumed. )
+</p>
+<p>The brace characters handled are: <tt><b>&nbsp; () [] {} &lt;&gt;</b></tt></p>
+<p> The search is forwards from an opening brace and backwards from a closing brace.<br>
+If the character at <tt><b>position</b></tt> is not a brace character, or a matching brace cannot be found,<br>
+the return value is -1. Otherwise, the return value is the position of the matching brace.
+</p><br><br>
+
+
+
+<a name="navigate"></a><hr><h3><tt>geany.navigate ( mode, count [,extend [,rect]] )</tt></h3><p>
+Moves the caret incrementally.</p>
+<p>
+The &nbsp;<tt><b>mode</b></tt> &nbsp;argument must be one of the following strings:
+<ul>
+<li><tt>"char"</tt> &nbsp; -- Move by characters.</li>
+<li><tt>"part"</tt> &nbsp; -- Move by segments in <big>MixedCase</big> or <big>under_score</big> style identifiers.</li>
+<li><tt>"word"</tt> &nbsp; -- Move by words.</li>
+<li><tt>"edge"</tt> &nbsp; -- Move to beginning or end of current line.</li>
+<li><tt>"line"</tt> &nbsp; -- Move up or down by lines.</li>
+<li><tt>"para"</tt> &nbsp; -- Move up or down by paragraphs.</li>
+<li><tt>"page"</tt> &nbsp; -- Move up or down by pages.</li>
+<li><tt>"body"</tt> &nbsp; -- Move to the beginning or end of the entire document.</li>
+</ul>
+<p>
+If the numeric <tt><b>count</b></tt> argument is <i>positive</i>, the caret is moved <i>forward</i> or <i>down</i> by that many steps.<br>
+If it is <i>negative</i>, the caret is moved <i>backward</i> or <i>up</i> by that many steps.<br>
+( If it is <i>zero</i> there is not much point in using this function. )<br>
+There is also no point in using a magnitude greater than <i>one</i> for the <tt>"edge"</tt> or <tt>"body"</tt> modes.
+</p>
+<p>
+If the optional boolean <tt><b>extend</b></tt> argument is <tt><b>true</b></tt>,
+the selection is expanded or contracted to the new caret position,
+similar to holding down the&nbsp; <big>[Shift]</big> &nbsp;key when navigating with the keyboard.
+</p><p>
+If the optional boolean <tt><b>rect</b></tt> argument is also <tt><b>true</b></tt>,
+the selection is treated as <i>rectangular</i> rather than <i>linear</i>.<br>
+( Rectangular selection is only supported for <tt>char</tt>, <tt>edge</tt>,
+<tt>line</tt>, or <tt>page</tt> modes. )
+</p>
+<br><br>
+
+
+<a name="newfile"></a><hr><h3><tt>geany.newfile ( [filename] )</tt></h3><p>
+When called with one argument, creates a new document with the specified
+<tt>filename</tt>. </p><p>When called with no arguments, creates a new, untitled document.
+</p><br><br>
+
+
+
+<a name="open"></a><hr><h3><tt>geany.open ( [filename]|[index] )</tt></h3><p>
+When called with no arguments, reloads the currently active document from disk.
+</p><p>
+When called with a numeric argument, reloads the file of that document index.
+</p><p>
+When called with a string argument, it will reload that filename if it is already open,
+or otherwise it will open it in a new tab. <br>
+It will not create a non-existent file, for that you need to use <tt>geany.newfile()</tt>
+</p>
+<p>
+Returns the <i>one-based</i> document index on success,
+or <i>zero</i> if the document could not be opened or reloaded.</p>
+<br><br>
+
+<a name="optimize"></a><hr><h3><tt>geany.optimize ()</tt></h3><p>
+Disables the Lua interpreter's "debug hook", the thing that
+allows the plugin to track line number information and elapsed time.</p><p>
+The advantage of calling <tt>optimize()</tt> is that a lengthy, CPU-intensive
+script can sometimes run much faster.
+</p><p>
+The disadvantage is that you lose the line number information that helps in
+debugging your script, and the built-in protection against things like endless loops.
+For this reason you should only use this function if you really need it, and
+only when you are reasonably sure that your script doesn't contain any errors.
+</p><p>For best results this function should be called at the very
+beginning of the script.
+
+</p>
+<br><br>
+
+<a name="paste"></a><hr><h3><tt>geany.paste ()</tt></h3><p>
+Pastes the text from the clipboard into the active document at the current caret position,<br>
+replacing any current selection.
+</p><p>
+Returns <tt><b>nil</b></tt> if there is no open document,
+or if the document is marked read-only.</p><p>
+Otherwise it returns the effective change in the document's size. <br>
+( Which may actually be negative, if the clipboard content size is less than the prior selection. )
+</p>
+<br><br>
+
+
+<a name="rescan"></a><hr><h3><tt>geany.rescan ()</tt></h3><p>
+Scans the scripts folder, rebuilds the <b><i>Tools-><u>L</u>ua Scripts</i></b> menu,
+and re-initializes the GTK accelerator group (keybindings) associated with the plugin.
+</p><br><br>
+
+
+<a name="rowcol"></a><hr><h3><tt>geany.rowcol ( [position]|[line,column] )</tt></h3><p>
+This function translates between line/column coordinates and linear position (offset from beginning of document).<br>
+</p>
+<p>The syntax takes three forms:</p>
+<ul>
+<li>
+With <i>no</i> arguments, it returns the rectangular coordinates of the current caret position:<br>
+<tt>&nbsp; line, column = geany.rowcol()</tt><br>
+( Note that in Lua a single function call like the one above returns both values! )<br><br>
+</li>
+<li>
+With <i>one</i> argument, it it returns the rectangular coordinates of the specified <tt><b>position</b></tt>
+argument:<br>
+<tt>&nbsp; line, column = geany.rowcol(position)</tt><br><br>
+</li>
+
+<li>
+With <i>two</i> arguments, it translates from the given <tt><b>line</b></tt> and <tt><b>column</b></tt>
+to the linear position:<br>
+<tt>&nbsp; position = geany.rowcol(line,column)</tt>
+</li>
+</ul>
+<p>
+Out-of-range arguments are adjusted to the nearest valid possibility.
+</p><br><br>
+
+<a name="save"></a><hr><h3><tt>geany.save ( [filename]|[index] )</tt></h3><p>
+When called with no arguments, saves the currently active document to disk.
+</p><p>
+When called with a numeric argument, saves the file of that document index.
+</p><p>
+When called with a string argument, it will save that named document ( That is, of course, if it is open. )
+</p>
+<p>
+Returns <tt><b>true</b></tt> on success, or <tt><b>false</b></tt> if the document could not be saved.</p>
+<br><br>
+
+
+<a name="scintilla"></a><hr><h3><tt>geany.scintilla ( msg_id [, wparam [, lparam]] )</tt></h3><p>
+<i>Power users only!</i>
+</p>
+<p>
+Sends a <tt><b>SCI_*</b></tt> message directly to the Scintilla widget of the active document.</p>
+<p>
+The <tt><b>msg_id</b></tt> can be a numeric value, or a case-insensitive string with or
+without the <tt>"SCI_"</tt> prefix, 
+such as <tt>"SCI_POSITIONFROMPOINT"</tt>, <tt>"POSITIONFROMPOINT"</tt>, or <tt>"PositionFromPoint"</tt>.
+</p><p>
+The wparam, lparam, and return types depend on the particular message, based on the
+interface described in the &nbsp;"<tt><small>Scintilla.iface</small></tt>"&nbsp; file from the Scintilla sources.
+</p><p>
+For API calls which expect a pre-allocated char buffer as the lparam, the allocation is 
+automatically managed 
+by the GeanyLua module, your lparam is ignored, and the return value is a Lua string.&nbsp; 
+In cases where the length is specified 
+in the wparam, the null terminator is not counted - if you ask for 3 chars, you get 3 chars.
+</p><p>
+Currently only string, numeric, and boolean types are supported, any API call that
+expects or returns complex types will result in an error. &nbsp;This function tries hard to 
+protect from garbage being passed to
+Scintilla, but ultimately <i>you</i> are expected to know what you're doing!
+</p><br><br>
+
+<a name="select"></a><hr><h3><tt>geany.select ( [[start,] stop]] )</tt></h3><p>
+When called with no arguments, returns the beginning <b><i>and</i></b> ending points of
+the current selection, in the form:<br>
+<tt>
+&nbsp; start, stop = geany.select()
+</tt><br>
+( Note that in Lua a single function call like the one above returns both values! )</p>
+<p>
+To find out if the selection is rectangular, test the
+boolean variable <tt><b>geany.rectsel</b></tt> immediately after this call.
+</p>
+<p><br>
+If this function is called with two arguments, it creates a new selection in
+the current document.
+<br> The selection is <i>anchored</i> at the <tt><b>start</b></tt>
+position, and <i>extended</i> to the <tt><b>stop</b></tt> position.</p><p>
+The boolean variable <tt><b>geany.rectsel</b></tt> can be set prior to this
+call to control 
+whether this selection is created in normal or rectangular mode.
+</p>
+<p><br>
+If called with one argument, the caret is moved to that position, but no selection is created,<br>
+and any existing selection is lost.
+</p>
+<p>
+<br>
+Note that in all cases, the value of <tt><b>stop</b></tt> is considered to be
+the end of the selection where the caret is located.</p><p>
+So, if <tt><b>stop</b></tt> is less than <tt><b>start</b></tt>, the caret is postioned
+at the <i>beginning</i> of the selection, <br>similar to a selection created by
+dragging the mouse <i>backwards</i> in the document.</p>
+<p>
+<b>Hint:</b> To select the entire document, you can use: &nbsp;
+<tt>geany.select( 0, geany.length() )</tt>
+</p><br><br>
+
+
+<a name="selection"></a><hr><h3><tt>geany.selection ( [content] )</tt></h3><p>
+When called with no arguments, returns the selected text in the current Geany
+document as a string. <br>
+Returns the empty string if no text is selected, or <tt><b>nil</b></tt>
+if there is no open document.
+</p><p>When called with one argument, the selected text of the current document
+will be replaced with the specified <tt>content</tt>
+string.<br>
+If no text is currently selected, the text will be inserted at the current
+(caret) position.
+</p><br><br>
+
+<a name="signal"></a><hr><h3><tt>geany.signal ( widget, signal )</tt></h3><p>
+Emits a GTK signal to a given widget in the Geany user interface.</p><p>
+The <tt>widget</tt> argument is a string identifying the widget by its Glade &nbsp;<tt><b>"id"</b></tt>&nbsp; attribute.<br>
+The <tt>signal</tt> argument is a string identifying the signal to be emitted.
+</p><p>
+This function was primarily intended for activating Geany's builtin menu commands.<br>
+For instance, to display the file open dialog you could do:<br> 
+<tt> &nbsp; geany.signal("menu_open1", "activate")</tt>
+</p><p>
+The function does not return a value, but may trigger an error message if the
+widget name is not found or the signal name is not valid for the specified widget.
+ &nbsp; 
+Note that it is generally easier and more reliable to use the <tt>keycmd()</tt> function whenever possible.
+</p><br><br>
+
+<a name="stat"></a><hr><h3><tt>geany.stat( filename [, lstat] )</tt></h3><p>
+Returns a table providing some (limited) information about the specified file.<br>
+If the information could not be obtained, the function returns <tt>nil</tt> plus an string describing the reason for failure.
+</p>
+<p>
+If the file is a symbolic link, and  the optional &nbsp;<tt>lstat</tt>&nbsp; argument is <tt>true</tt>, the
+information is returned about the link itself, otherwise the table provides
+information about the file that the link points to.
+</p><p>
+The returned table contains the following fields:
+<table border="0" summary="stat table fields">
+<tr><td width="5%"></td><td><tt>size </tt></td><td> -- The size of the file, in bytes.</td></tr>
+<tr><td width="5%"></td><td><tt>time </tt></td><td> -- Modification time, in seconds from the epoch.</td></tr>
+<tr><td width="5%"></td><td><tt>type </tt></td><td> -- A single-character string that denotes the type of file (see below)</td></tr>
+<tr><td width="5%"></td><td><tt>read </tt></td><td> -- <tt>true</tt> if the effective user can read from the file.</td></tr>
+<tr><td width="5%"></td><td><tt>write</tt></td><td> -- <tt>true</tt> if the effective user can modify the file.</td></tr>
+<tr><td width="5%"></td><td><tt>exec </tt></td><td> -- <tt>true</tt> if the effective user can execute the file.</td></tr>
+</table>
+<p><br>
+The <tt>type</tt> field contains one of the following values:
+<table border="0" summary="stat table type field values">
+<tr><td width="5%"></td><td><tt>"b" </tt></td><td> -- a block-oriented device.</td></tr>
+<tr><td width="5%"></td><td><tt>"c" </tt></td><td> -- a character-special device.</td></tr>
+<tr><td width="5%"></td><td><tt>"d" </tt></td><td> -- a directory.</td></tr>
+<tr><td width="5%"></td><td><tt>"f" </tt></td><td> -- a FIFO or named pipe.</td></tr>
+<tr><td width="5%"></td><td><tt>"l" </tt></td><td> -- a symbolic link.</td></tr>
+<tr><td width="5%"></td><td><tt>"r" </tt></td><td> -- a regular file.</td></tr>
+<tr><td width="5%"></td><td><tt>"s" </tt></td><td> -- a socket.</td></tr>
+</table>
+<p>
+Note that this function does not support symbolic links or ACL permissions on MS-Windows.
+</p><br><br>
+
+
+
+<a name="text"></a><hr><h3><tt>geany.text ( [content] )</tt></h3><p>
+When called with no arguments, returns the entire text of the currently
+active Geany document as a string.<br>( Returns <tt><b>nil</b></tt>
+if there is no open document.)
+</p><p>
+When called with one argument, the entire text of the current
+document is replaced with the specified <tt>content</tt> string.
+</p><br><br>
+
+
+<a name="timeout"></a><hr><h3><tt>geany.timeout ( seconds )</tt></h3><p>
+
+Attempts to control the maximum time allowed, in whole seconds, for the current script to
+finish execution.</p><p>
+By default, scripts are allowed 15 seconds to complete, but if your script needs
+more time, you can increase it here. 
+</p><p>
+Note that the interpreter is only able to trigger this "timeout exceeded" error when it is actually processing instructions.
+This provides protection against things like accidentally creating an endless loop,
+but it might still be possible to create a script that hangs indefinitely. ( For instance if
+you call <tt>io.read()</tt> without access to a terminal. )</p><p>
+The internal timer is paused whenever one of the dialog box functions is called,
+to allow the user time to respond.
+</p><p>
+Setting the timeout to zero will disable it completely, that is, the script will never time out.
+</p><p><br><br>
+
+<a name="wkdir"></a><hr><h3><tt>geany.wkdir ( [folder] )</tt></h3><p>
+When called with no arguments, returns the current working directory.</p>
+<p>
+When called with one argument, tries to change into that <tt>folder</tt>,
+and returns <tt>true</tt> on sucess, or <tt>false</tt> plus an error message
+on failure.
+</p><br><br>
+
+<a name="word"></a><hr><h3><tt>geany.word ( [position] )</tt></h3><p>
+When called with no arguments, returns the word at the current caret position.
+</p><p>
+When called with one argument, returns the word at the specified
+<tt><b>position</b></tt>.
+</p><p>
+This function can return an empty string if the position is not touching
+a character that is considered to be part of a word. You can modify this
+set of characters in the <tt><b>geany.wordchars</b></tt> variable.
+</p><br><br>
+
+
+<a name="xsel"></a><hr><h3><tt>geany.xsel ( [text] )</tt></h3><p>
+When called with no arguments, returns the text-based contents of the primary X selection.
+</p><p>
+When called with one argument, assigns that <tt>text</tt> as the contents of the primary X selection.
+
+</p><p>
+This function is only valid for X-Window environments, on MS-Windows, it does nothing.
+</p><br><br>
+
+<a name="yield"></a><hr><h3><tt>geany.yield ()</tt></h3><p>
+Temporarily returns control to the IDE, to allow user interface elements to
+be refreshed/repainted during lengthy script operations.
+</p><p>Since most scripts will probably have a run time of less than a couple of seconds,
+you will likely never need this function. But if you do, it should be used with caution,
+since it allows Geany's state to be changed during script execution. This could have
+unpleasant consequences, for instance if the user closes a document that the script is referencing.
+</p>
+<br><br>
+<br><br>
+<hr><hr>
+
+<!-- Dialog functions -->
+<h3>&nbsp; &nbsp; &nbsp; Dialog functions</h3>
+<hr>
+
+<a name="choose"></a><hr><h3><tt>geany.choose ( prompt, items )</tt></h3><p>
+Displays a dialog box to allow the user to choose from a list of items. </p><p>
+The <tt>prompt</tt> argument string will display a message above the list box
+to explain the request.</p><p>
+The <tt>items</tt> argument is a Lua table, each element of the table must be
+a string.
+</p><p>
+The function returns the selected item as a string:</p>
+<ul>
+<li>If the <b>OK</b> button is clicked,
+<li>If the [Return] key is pressed while the item list is active.
+<li>If the user double-clicks an item in the list.
+</ul>
+<p>
+If the <b>Cancel</b> button is clicked, or if the dialog is is dismissed by
+some other means, e.g. by pressing the  [Escape] key, the function returns
+<tt><b>nil</b></tt>.
+</p><br><br>
+
+
+<a name="confirm"></a><hr><h3><tt>geany.confirm ( title, question, default )</tt></h3><p>
+  Displays a simple yes-or-no style dialog box to ask the specified
+  <tt>question</tt>.<br>
+  The <tt>title</tt> argument is displayed as a bold-faced title for the dialog.
+  </p><p>
+  Returns <tt><b>true</b></tt> if the 'Yes' button is clicked,
+  or <tt><b>false</b></tt>  if the 'No' button is
+  clicked.</p><p>
+  If the dialog is dismissed by some other means, e.g. by pressing the
+  [Escape] key, <br>the function will return the boolean value specified by the
+   <tt>default</tt> argument. </p>
+  <p>All three arguments are required, but you can pass <tt><b>nil</b></tt>
+  as the first argument to suppress the title.
+</p><br><br>
+
+
+<a name="input"></a><hr><h3><tt>geany.input ( [prompt] [,default] )</tt></h3><p>
+Displays an input dialog to prompt the user for some text. </p><p>
+The <tt>prompt</tt> argument string will display a message above the entry box
+to explain what input is requested.</p><p>
+The <tt>default</tt> argument string, if present, will add some pre-selected
+text into the entry area.</p><p>
+If the <b>OK</b> button is clicked, or if the [Return] key is pressed while the
+entry field is active, the function will return the contents of the entry field
+ as a string.</p><p>
+If the <b>Cancel</b> button is clicked, or if the dialog is is dismissed by
+some other means, e.g. by pressing the
+  [Escape] key, the function returns <tt><b>nil</b></tt>.
+</p><br><br>
+
+
+<a name="message"></a><hr><h3><tt>geany.message ( [title,] message )</tt></h3><p>
+When called with one argument, displays a simple dialog box containing
+the specified <tt>message</tt> string. </p>
+<p>When called with two arguments, the <tt>title</tt> argument is displayed as
+a bold-faced title,
+and the <tt>message</tt> argument will be the message text.
+</p><br><br>
+<hr>
+
+<a name="pickfile"></a><hr><h3><tt>geany.pickfile ( [mode [,path [,filter]]] )</tt></h3>
+<p>
+Displays a dialog that allows the user to select a filename.</p><p>
+All three arguments are optional, but you can pass <tt>nil</tt> as a placeholder to
+use the default value for any of the arguments.</p><p>
+The <tt>mode</tt> argument specifies the type of dialog, and must be one
+of two strings, either <tt>"open"</tt> or <tt>"save"</tt>.<br>
+( passing <tt>nil</tt> is the same as <tt>"open"</tt> )<br>
+In <tt>"save"</tt> mode the function will issue an overwrite confirmation prompt if the targeted file already exists.
+</p><p>
+The <tt>path</tt> string argument sets the initial directory for the dialog, or <tt>nil</tt>
+to use the current directory.<br>
+If the last (rightmost) element of the path is an existing directory, the path will be used as-is,
+otherwise the last element is assumed to be a filename (whether it actually exists on disk or not)
+and will be parsed off and used as the suggested filename for the dialog.
+</p><p>
+The <tt>filter</tt> argument controls which files are displayed,
+or it can be <tt>nil</tt> to display all files.<br>
+It is a string consisting of pairs of substrings, where each substring
+is separated by the pipe "<tt>|</tt>" symbol.<br>
+The first element in each pair of substrings is the human-readable description of the filetype,<br> 
+and the second element of the 
+pair is a set of semicolon-delimited shell wildcards to filter on.<br>
+For instance, a filter for web files might look like:<br>
+<tt><b> &nbsp; "HTML files|*.html;*.htm|PHP files|*.php;*.php4|Style sheets|*.css"</b></tt>
+<br>
+( Those familiar with 
+<a href="http://en.wikipedia.org/wiki/Borland_Delphi">Borland Delphi</a>
+ might recognize this syntax from the
+ <a href="http://www.delphibasics.co.uk/RTL.asp?Name=TOpenDialog">TOpenDialog.Filter</a> property. )
+</p>
+<p><br>
+Note that this function does not actually open or save anything, it merely returns the
+full path and filename of the selected file, or <tt>nil</tt> if the user cancels the dialog.</p>
+<br><br>
+<hr>
+<hr>
+<h3>Module level variables</h3>
+<hr>
+<a name="wordchars"></a><hr><h3><tt>geany.wordchars</tt></h3><p>
+This variable determines which characters are considered to be part of a word.
+</p><p>
+It is used by the <tt><b>geany.word()</b></tt> function and may also be reset by that
+function if its current value cannot be interpreted as a string.</p><p>
+The default value is:<br><tt>
+&nbsp; &nbsp; <big> <big>
+"_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"</big> </big></tt>
+<p>
+If you need to modify this string, you may want to save a copy of the original
+so you can restore it later.
+</p><br><br>
+
+<a name="rectsel"></a><hr><h3><tt>geany.rectsel</tt></h3><p>
+This variable controls and/or returns the "selection mode" of the current document.
+</p><p>
+It is used by the <tt><b>geany.select()</b></tt> function and is adjusted
+when the selection is queried, and examined when the selection is set. <br>
+It may also be reset if its current value cannot be interpreted as a boolean.</p>
+<p>
+A value of <tt><b>true</b></tt> represents a rectangular selection
+and <tt><b>false</b></tt> represents the normal linear selection mode.
+</p><br><br>
+
+<a name="banner"></a><hr><h3><tt>geany.banner</tt></h3><p>
+This variable controls the window title for dialogs displayed by the current script.
+</p><p>
+It may be reset by the dialog functions if its value cannot be interpreted as a string.
+</p><br><br>
+
+
+<a name="caller"></a><hr><h3><tt>geany.caller</tt></h3><p>
+This variable stores the internal index of the document that triggered one of the <a href="./geanylua-intro.html#events">event scripts</a>.</p>
+<p>
+For example, to print the filename of a file that has just been saved, you could put<br>
+this line in your <b>~/.geany/plugins/lua/events/saved.lua</b> script file:</p><p>
+<tt>&nbsp; print(geany.documents(geany.caller))</tt>
+</p><p>
+
+
+
+
+This variable is only relevant for the opened, created, activated, and saved event scripts,
+for all other scripts it is set to zero.<br>
+
+</p><br><br>
+
+<a name="dirsep"></a><hr><h3><tt>geany.dirsep</tt></h3><p>
+This variable returns the default filesystem path separator.<br>
+( A forward slash <tt><b>/</b></tt> for Unix or
+  a backslash <tt><b>\</b></tt> for MS-Windows. )
+</p><br><br>
+
+
+<a name="project"></a><hr><h3><tt>geany.project</tt></h3><p>
+This variable provides a reference to the <a href="geanylua-keyfile.html">GKeyFile</a> object
+for the project that triggered a
+&nbsp;proj-*&nbsp; <a href="./geanylua-intro.html#events">event script</a>.</p>
+<p>
+The information stored in the object can be manipulated using the <tt>keyfile</tt> module.<br>
+For example, to print the description of the project that has just been opened, you could put<br>
+this line in your <b>~/.geany/plugins/lua/events/proj-opened.lua</b> script file:</p><p>
+<tt>&nbsp; print(keyfile.value(geany.project, "project", "description"))</tt>
+</p><p>
+This variable is only relevant for the project-based event scripts, for all other scripts it is set to <tt>nil</tt>.<br>
+
+</p><br><br>
+
+
+<a name="script"></a><hr><h3><tt>geany.script</tt></h3><p>
+This variable stores the full path and filename of the active script.</p>
+<br><br>
+<hr>
+<br><br>
+<div align="right"><small>&copy; 2007-2008 <i>Jeff Pohlmeyer </i> &nbsp; </small></div>
+<br><br>
+<br><br><br><br>
+<br><br><br><br>
+<br><br><br><br>
+<br><br><br><br>
+
+</body>
+</html>

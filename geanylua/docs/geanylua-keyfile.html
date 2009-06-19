@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title>Lua plugin for Geany - The Keyfile Module</title>
+</head>
+<body style="margin:  32px 25% 24px 5%">
+<hr><h2>The Keyfile module</h2><hr>
+<p>
+The <tt>keyfile</tt> module provides a minimal Lua wrapper around the GLib library's &nbsp;<tt><a href="http://www.gtk.org/api/2.6/glib/glib-Key-value-file-parser.html">GKeyFile</a></tt>&nbsp; object,
+for reading and writing of key-value file data, somewhat similar to MS-Windows <tt>*.INI</tt> files.
+</p>
+<p>
+This file format is used by Geany for various configuration and project files.
+Note that this module does not provide any functions for reading or writing disk files,
+it simply receives or returns its file data as a single continuous string. If you need to
+read or write a disk file, you can use Lua's built-in <tt>io</tt> module.
+</p><p>
+The functions are listed below... <br>
+Optional parameters are noted in [ square ] brackets.
+</p><p>
+For get/set style functions, calling the function <i>with</i> the optional parameter
+<i><u>assigns</u></i> a new value, calling the function <i>without</i> the optional
+parameter <i><u>returns</u></i> the current value.<br> 
+</p><p>
+Note that you can also use these functions in object-oriented style:<br>
+For instance, &nbsp; <tt>keyfile.value(kf,"foo","bar")</tt>&nbsp; <br>can also be written
+as &nbsp; <tt>kf:value("foo","bar")</tt><br></p><br>
+
+
+<hr><tt><b><big>function keyfile.new ()</big></b></tt><br>
+<p>Creates a new, empty <tt>keyfile</tt> object.</p><br>
+
+<hr><tt><b><big>function keyfile.data ( kf [, text] )</big></b></tt> &nbsp; -- <small>get/set</small><br>
+<p>Returns or assigns the full text of the keyfile.</p><br>
+
+<hr><tt><b><big>function keyfile.groups ( kf )</big></b></tt><br>
+<p>Returns an iterator to list the groups within the keyfile.</p><br>
+
+<hr><tt><b><big>function keyfile.keys ( kf, group )</big></b></tt><br>
+<p>Returns an iterator to list the keys within the specified group.</p><br>
+
+<hr><tt><b><big>function keyfile.value ( kf, group, key [, value] )</big></b></tt> &nbsp; -- <small>get/set</small><br>
+<p>Returns or assigns the value of the specified key.</p><br>
+
+<hr><tt><b><big>function keyfile.comment ( kf, group, key [, comment] )</big></b></tt> &nbsp; -- <small>get/set</small><br>
+<p>Returns or assigns the comment for the specified key.<br>
+If <tt>key</tt> is nil, it gets/sets the group comment.<br>
+If <tt>group</tt> is nil, it gets/sets the comment for the file.<br>
+</p><br>
+
+<hr><tt><b><big>function keyfile.has ( kf, group [, key] )</big></b></tt><br>
+<p>Returns <tt>true</tt> if the specified group (and optionally the key) already exists.</p><br>
+
+<hr><tt><b><big>function keyfile.remove ( kf, group [, key] )</big></b></tt><br>
+<p>Deletes the key, if specified, else it deletes the entire group.</p><br>
+<hr>
+<br><br>
+<div align="right"><small>&copy; 2007-2008 <i>Jeff Pohlmeyer </i> &nbsp; </small></div>
+<br><br>
+<br><br><br><br>
+</body>
+</html>

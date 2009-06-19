@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title>Lua plugin for Geany - Introduction</title>
+</head>
+<body style="margin:  32px 25% 24px 5%">
+<hr><h2>Lua scripting plugin for the Geany IDE</h2><hr>
+<p>
+This is a plugin for the <a href="http://www.geany.org/">Geany</a> IDE
+ to provide <a href="http://www.lua.org/">Lua</a> scripting.
+</p><p>
+To begin, you should install the plugin and the example scripts. Please
+read the <tt> INSTALL </tt> file for more information.
+</p><p>
+The next time you start Geany, the plugin will look for a directory named <tt><b>geanylua</b></tt>
+in the user's plugin directory. <br>
+On Linux, this would be: &nbsp; <tt>~/.geany/plugins/geanylua</tt><br>
+( Unless you specify another config folder by the geany <tt>--config</tt> command line.)<br>
+Any scripts found in this <tt>/plugins/geanylua/</tt> directory will appear in
+the <i style="font-family:sans-serif">Tools->Lua Scripts</i> menu in Geany.
+</p><p>
+You can create additional scripts yourself, but all script files must have
+names that end with the <tt><b>.lua</b></tt> file extension. &nbsp;
+The menu labels are generated from the filenames like this:
+<ol>
+  <li> The &nbsp;<tt><b>.lua</b></tt>&nbsp; filename extension is removed.
+  <li> If the filename <i>begins</i> with two decimal digits, followed by a dot,
+       those three characters are stripped off. Since the list of filenames is
+       scanned in alphanumeric order, this convention allows for arbitrary
+       sorting. &nbsp; For example if you wanted "<tt>Zebra</tt>" to appear before "<tt>Apple</tt>"
+        you could name your files &nbsp;
+       "<tt>01.Zebra.lua</tt>" &nbsp; and &nbsp; "<tt>02.Apple.lua</tt>"&nbsp;.
+  <li> If the resulting label <i>ends</i> with a trailing underscore, that underscore
+       is removed, and replaced with an ellipsis (three dots). This notation is generally
+       used to indicate to the user that the menu item invokes an additional dialog.
+  <li> If the label contains any addtional underscores, the first (leftmost) underscore is removed,
+       and the letter immediately following it will be marked as the underlined
+       "accelerator" key for the menu item.
+  <li> Finally, the first letter of the label is capitalized, and all hyphens are converted to spaces.
+
+</ol>
+<p>
+No effort is made by the plugin to resolve conflicting accelerators.
+While these collisions are generally harmless, you should take some
+effort to make sure you don't create inaccessible (duplicate) mnemonic keys.
+</p><p>
+Note that if you modify an existing script, the change will take effect immediately, but if you delete an existing script, or add a new script, you must
+reload the plugin in order for the change to completely take effect.
+&nbsp; ( The plugin can be reloaded either by restarting Geany, or
+by toggling it OFF/ON via Geany's Plugin Manager,
+or by calling the <tt>rescan()</tt> function from inside a script. )
+</p><p>
+If there are any sub-directories that contain scripts, these will be recursed
+to create sub-menus, with two exceptions - folders named &nbsp;<tt><b>events</b></tt>&nbsp; or &nbsp;<tt><b>support</b></tt>&nbsp;
+will be ignored, these names are considered reserved. The <tt><b>events</b></tt> folder is
+described below, and the <tt><b>support</b></tt> folder can be used to store arbitrary
+user data files, modules, etc.
+</p><p>
+<a name="events"><br></a>The special directory  &nbsp;<tt>./plugins/geanylua/events/</tt>&nbsp;
+can contain some scripts that
+will be invoked whenever the respective event is triggered by Geany.
+</p><p>
+Currently, there are nine valid filenames for the event scripts:
+<dl compact>
+ <dt><tt>init.lua &nbsp; </tt></dt><dd>      -- Runs when the plugin is loaded.</dd>
+ <dt><tt>cleanup.lua &nbsp; </tt></dt><dd>      -- Runs when the plugin is unloaded.</dd>
+
+ <dt><tt>saved.lua &nbsp; </tt></dt><dd>      -- Runs when an open document is saved.</dd>
+ <dt><tt>created.lua  &nbsp; </tt></dt><dd>    -- Runs when a new document is created.</dd>
+ <dt><tt>opened.lua  &nbsp; </tt></dt><dd>     -- Runs when an existing file is opened.</dd>
+ <dt><tt>activated.lua</tt></dt><dd>  -- Runs when switching documents (notebook tabs).</dd>
+
+ <dt><tt>proj-opened.lua &nbsp; </tt></dt><dd>      -- Runs when a project is opened.</dd>
+ <dt><tt>proj-saved.lua &nbsp; </tt></dt><dd>      -- Runs when a project is saved.</dd>
+ <dt><tt>proj-closed.lua &nbsp; </tt></dt><dd>      -- Runs when a project is closed.</dd>
+</dl>
+<p>
+Note that if any of these nine files exists, it will be executed each time
+its corresponding event occurs, which will result in some increase in disk activity.
+In particular, you might notice a delay in startup time with the &nbsp;<tt>opened.lua</tt>&nbsp;
+script when you open a bunch of files at once from the commmand line, etc.
+</p><p>
+<br><br>
+Consult the <a href="geanylua-ref.html">reference</a> page for documentation of the Geany-specific Lua functions.
+</p><p>
+
+A complete discussion of the Lua language is way beyond the scope of this
+plugin package, but there is plenty of information available on the net,
+For starters, you can check out:
+</p><p>&nbsp;
+<dl>
+
+<dt>
+The manual:
+</dt>
+<dd>
+<a href="http://www.lua.org/manual/5.1/">
+http://www.lua.org/manual/5.1/
+</a><br><br>
+</dd>
+
+<dt>The wiki:</dt>
+<dd>
+<a href="http://lua-users.org/wiki/TutorialDirectory">
+http://lua-users.org/wiki/TutorialDirectory
+</a><br><br>
+</dd>
+
+<dt>
+The book:
+</dt>
+<dd>
+<a href="http://www.lua.org/pil/">
+http://www.lua.org/pil/
+</a><br><br>
+</dd>
+
+</dl>
+
+<p>
+Also, be warned that the plugin does not place any restrictions on what
+you can or can't do from inside a script. For example, if you decide to
+call&nbsp;<tt> os.exit() </tt>&nbsp;from a script, you will end your current Geany session
+immediately, and any unsaved changes will be lost! </p><p>
+You should also take some caution not to write a script that hangs indefinitely,
+if this happens, the only way out is to kill the editor.
+</p>
+
+
+</body>
+</html>

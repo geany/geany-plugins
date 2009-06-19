@@ -1,0 +1,103 @@
+
+Important note! If you are upgrading from an older installation, please note
+that the name of the script folder is now changed from /lua/ to /geanylua/ !!!
+
+
+
+These installation instructions are written primarily for a Linux system,
+followed by some additional notes for MS-Windows users.
+
+If you are installing from the pre-compiled Linux plugin package, you can
+just run the "install.sh" script, to install the plugin, examples, and help
+files into your ~/.geany/plugins directory.
+
+
+If you want Geany's syntax highlighter to recognize the plugin's function 
+names you can also modify your  "filetypes.lua" file according to the notes
+in the "geanylua/keywords.list" file.
+
+
+For those of you who want to compile the plugin from scratch, keep reading...
+
+
+At the time of this writing, building the plugin requires a recent SVN checkout
+of the Geany sources (r2391+), and a properly installed copy of the Lua 5.1.x
+library, headers, and pkg-config script.
+
+
+Recent versions of Geany will now install all the necessary headers in
+$PREFIX/include/geany/ along with a pkg-config script that tells configure
+where to find the required files, so  the old --with-geany-src option
+is no longer required. Building should now be as simple as:
+
+ % configure
+ % make
+ % make install
+
+The "make install" command copies the files to your personal ~/.geany/plugins/
+directory, so you don't need to be root to install. If you actually do want
+everyone on the system to be able to access to the same copy of the plugin,
+you can add the --enable-sys-install option to the ./configure command line.
+
+
+To uninstall the plugin, you should be able to simply type "make uninstall"
+but be warned - although it will try not to remove any of your own personal
+scripts, the folder "geanylua/examples" and all its contents will always be
+removed unconditionally, so any scripts in the examples directory WILL BE LOST!
+
+
+
+===========================  MS-WINDOWS NOTES  ===============================
+
+The pre-compiled GeanyLua package includes a couple of Visual Basic scripts
+that I hope will simplify installation for most users. The scripts require a
+recent version of Geany (SVN-r2151 or newer) and the Windows VBS scripting
+engine. ( If you have at least Internet Explorer 5.0, you probably have VBS.)
+
+To install geanylua using the script, just double-click the "win32-install.vbs"
+file and if you don't see any error messages, you should be all set up.
+( Be sure to exit any running instance of Geany before installing! )
+
+If something goes wrong, you can try installing manually, as follows...
+
+To install the pre-compiled plugin on Windows, you can copy the "geanylua.dll"
+file to the "plugins" folder in the same place where Geany is installed, that
+would probably be "C:\Program Files\Geany\plugins\geanylua.dll" or somewhere
+like that.
+
+The exact location where Geany will look for the Lua script files depends on
+your Windows version, your Geany version, and possibly even your environment.
+
+For user "jane" it could be any one of these:
+
+Prior to Geany-SVN-2139, the paths would look something like this:
+
+Win2k:  C:\Documents and Settings\jane\.geany\plugins\geanylua\
+Win98:  C:\.geany\plugins\geanylua\
+MinGW:  C:\msys\1.0\home\jane\.geany\plugins\geanylua\
+
+
+As of Geany-SVN-2139, the configuration paths should be more like this:
+
+Win2k:  C:\Documents and Settings\jane\Application Data\Geanyplugins\geanylua\
+Win98:  C:\Windows\Profiles\jane\Application Data\Geany\plugins\geanylua\
+MinGW:  Geany's config path now ignores the $HOME environment variable.
+
+Just in case you aren't confused yet, anonymous users on Win98 may need to
+place the files in "C:\Windows\Application Data\Geany\plugins\geanylua\"
+
+
+If you want to compile the plugin from the sources on MS-Windows, you will
+need a fairly complete MSYS/MINGW/GTK build system, along with a properly built
+and installed "liblua.a" library, and the Lua headers. ( The "Win32_mingw3_lib"
+package from http://luabinaries.luaforge.net/ worked fine for me. )
+
+You also need a copy of the file "lua.pc" from the Lua sources somewhere in
+your $PKG_CONFIG_PATH. The libtool I used complains about missing symbols and
+refuses to build the DLL, so you may need to explicitly type "make win32"
+in order to produce the ".libs/geanylua.dll" file.
+
+The "make install" target is badly broken for Windows, so you will probably
+want to run the "win32-install.vbs" script, or copy the files manually
+to their required locations, as described above.
+

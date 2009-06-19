@@ -1,0 +1,10 @@
+
+# Replace these lines in your ~/.geany/filedefs/filetypes.lua file
+# to enable orange syntax highlighting for the geanylua keywords...
+
+
+## Put this in the [styling] section:
+word5=0xf0a000;0xffffff;false;false
+
+## Put this in the [keywords] section:
+user1=geany.activate geany.appinfo geany.banner geany.basename geany.batch geany.byte geany.caller geany.caret geany.choose geany.close geany.confirm geany.copy geany.count geany.cut geany.dirlist geany.dirname geany.dirsep geany.documents geany.fileinfo geany.filename geany.find geany.fullpath geany.height geany.input geany.keycmd geany.keygrab geany.launch geany.length geany.lines geany.match geany.message geany.navigate geany.newfile geany.open geany.optimize geany.paste geany.pickfile geany.pluginver geany.rectsel geany.rescan geany.rowcol geany.save geany.scintilla geany.script geany.select geany.selection geany.signal geany.stat geany.text geany.timeout geany.wkdir geany.word geany.wordchars geany.xsel geany.yield dialog.checkbox dialog.color dialog.file dialog.font dialog.group dialog.heading dialog.hr dialog.label dialog.new dialog.option dialog.password dialog.radio dialog.run dialog.select dialog.text dialog.textarea keyfile.comment keyfile.data keyfile.groups keyfile.has keyfile.keys keyfile.new keyfile.remove keyfile.value 

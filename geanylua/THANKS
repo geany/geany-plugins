@@ -1,0 +1,47 @@
+What's this file about?
+-----------------------
+This file lists all external people that have contributed to this project.
+If we missed anyone, please notify the developer ( see the AUTHORS file. )
+
+
+Thanks to Enrico Colombini and Thomas Lauer for the "Lua Short Reference"
+which is now included in the GeanyLua documentation. (Released under the
+same license as Lua itself.)
+
+
+
+Testers and contributors:
+-------------------------
+These people have contributed to GeanyLua by testing the software,
+reporting problems, sending patches and making useful suggestions.
+
+
+Enrico Troeger <enrico(dot)troeger(at)uvena(dot)de> -
+  Geany IDE author. Testing and feedback.
+
+
+Nick Treleaven <nick(dot)treleaven(at)btinternet(dot)com>
+  Testing and feedback, GTK-2.8 compatibility.
+
+
+Yura Siamashka yurand2(at)gmail(dot)com
+  Initial autotools scripts ( adapted from the geanyvc plugin. )
+  and improvements to INSTALL instructions.
+  
+
+Steve Jacobs steve(at)trinidadgraphics(dot)com
+  Testing and feedback.
+
+
+John Gabriele jmg3000(at)gmail(dot)com
+  Testing and feedback.
+
+
+Harri Koskinen geany_fi(at)fastmonkey(dot)org
+  Testing and feedback.
+
+
+Joerg Desch jd(dot)vvd(at)web(dot)de
+  Testing and feedback.
+
+

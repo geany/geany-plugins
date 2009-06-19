@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title>The Dialog Module for Lua</title>
+</head>
+<body style="margin:  32px 25% 24px 5%">
+<hr><h2>The Dialog module</h2><hr>
+<p>
+The <tt>dialog</tt> module provides a relatively simple way to create some fairly
+complex dialog boxes for user interaction. &nbsp;The general idea is very loosely based on HTML forms.
+<p>
+
+
+<p>The functions are described below. The &nbsp;<tt>dlg</tt>&nbsp; argument expects a
+dialog object, most other arguments are strings, unless otherwise noted.</p>
+
+Note that you can also use these functions in object-oriented style:<br>
+&nbsp; For instance &nbsp; <tt>dialog.label(dlg, "hello")</tt>&nbsp; <br>
+&nbsp; can also be written as &nbsp; <tt>dlg:label("hello")</tt><br></p>
+
+
+<br>
+
+<hr><tt><b><big>function dialog.new ( title, buttons )</big></b></tt><br><p>
+Creates a new dialog object. The <tt>title</tt> string assigns the window's title bar
+text for the dialog. &nbsp; The &nbsp;<tt>buttons</tt>&nbsp; argument is a table of
+strings, where each string will create a button with that text and add it to the
+bottom row of the dialog. If a button's text contains an underscore, the letter after
+it will be seen as an underlined accelerator for the button.</p>
+
+<br>
+<hr><tt><b><big>function dialog.run ( dlg )</big></b></tt><br>
+<p>Displays the dialog to the user and waits for submission.</p><p>
+This function returns two values: &nbsp;the one-based <tt>index</tt> of the the clicked button,
+and a <tt>results</tt> table containing key-value pairs collected from the dialog's elements.</p><p>
+If the user cancels the dialog e.g. by pressing the <tt>[Esc]</tt> key, the <tt>index</tt> will be zero, and the <tt>results</tt> table will be <tt>nil</tt>.
+</p>
+
+<br>
+<hr><tt><b><big>function dialog.label ( dlg, text )</big></b></tt><br>
+<p>Adds some informative text to the dialog.</p>
+
+
+<br>
+<hr><tt><b><big>function dialog.hr ( dlg )</big></b></tt><br>
+<p>Draws a horizontal separator across the dialog.</p>
+
+<br>
+<hr><tt><b><big>function dialog.heading ( dlg, text )</big></b></tt><br>
+<p>Adds a horizontal separator with some informative text below it.</p>
+<p>This function is the same as calling the <tt>hr()</tt> and <tt>label()</tt> functions individually.</p>
+
+
+<br>
+<hr><tt><b><big>function dialog.text ( dlg, key, default, prompt )</big></b></tt><br>
+<p>Creates a single-line text entry widget.</p>
+<p>
+The value of the <tt>key</tt> field in the <tt>results</tt> table will be set to the contents of the entry box.<br>
+If the <tt>default</tt> string is non-nil, that text will initially be displayed in the entry box.<br>
+The <tt>prompt</tt> string displays a label in front of the entry box to describe the requested input.
+</p>
+
+
+<br>
+<hr><tt><b><big>function dialog.password ( dlg, key, default, prompt )</big></b></tt><br>
+<p>Identical to the <tt>text()</tt> function, except that the contents of the entry box are "masked", the characters are displayed as asterisks. </p>
+
+
+<br>
+<hr><tt><b><big>function dialog.textarea ( dlg, key, default, caption )</big></b></tt><br>
+<p>Creates a multi-line text entry widget.</p>
+<p>
+The value of the <tt>key</tt> field in the results table will be set to the contents of the text area.<br>
+If the <tt>default</tt> string is non-nil, that text will initially be displayed in the text area.<br>
+The <tt>caption</tt> string displays a label above the text area to describe the requested input.
+</p>
+
+<br>
+<hr><tt><b><big>function dialog.checkbox ( dlg, key, default, caption )</big></b></tt><br>
+<p>Creates an on/off toggle button.</p>
+<p>
+If the boolean <tt>default</tt> argument is <tt>true</tt>, the button will initially be shown in a "checked" state.<br>
+The <tt>caption</tt> argument is the human-readable text to be displayed next to the button.
+</p><p>
+Note that although the default argument is boolean, the <tt>key</tt> value returned in the
+ <tt>results</tt> table will be a string, either &nbsp;<tt>"1"</tt>&nbsp;
+ for checked or &nbsp;<tt>"0"</tt>&nbsp; for unchecked.
+</p>
+
+
+
+<br>
+<hr><tt><b><big>function dialog.select ( dlg, key, default, caption )</big></b></tt><br>
+<p>Creates an empty drop-down list box.</p>
+<p>
+The contents of the <tt>key</tt> field in the <tt>results</tt> table will be set to the value of the selected item.<br>
+If the <tt>default</tt> string is non-nil, the item with that value will initially be selected in the list.<br>
+The <tt>caption</tt> string displays a label in front of the list box to describe the requested input.
+</p>
+
+<br>
+<hr><tt><b><big>function dialog.option ( dlg, key, value, label )</big></b></tt><br>
+<p>Adds an item to the drop-down list identified by <tt>key</tt>.</p>
+<p>
+The returned value of <tt>key</tt> will be set to this <tt>value</tt> in the <tt>results</tt> table if this item is selected.<br>
+The <tt>label</tt> argument is the human-readable text to be displayed in the list.
+</p>
+
+
+<br>
+<hr><tt><b><big>function dialog.group ( dlg, key, default, caption )</big></b></tt><br>
+<p>Creates an empty group for radio buttons.</p><p>
+The contents of the <tt>key</tt> field in the <tt>results</tt> table will be set to
+the value of the selected radio button.<br>
+If the <tt>default</tt> string is non-nil, the button with that value will initially be selected in the group.<br>
+The <tt>caption</tt> string displays a label above of the group to describe the requested input.
+</p>
+
+<br>
+<hr><tt><b><big>function dialog.radio ( dlg, key, value, label )</big></b></tt><br>
+<p>Adds a button to the radio group identified by <tt>key</tt>.</p>
+<p>
+The returned value of <tt>key</tt> will be set to this <tt>value</tt> in the <tt>results</tt> table if this button is selected.<br>
+The <tt>label</tt> argument is the human-readable text to be displayed next to this button.
+</p>
+
+<br>
+<hr><tt><b><big>function dialog.file ( dlg, key, default, caption )</big></b></tt><br>
+<p>
+Creates a single-line text entry widget, along with a "browse" button that
+invokes a separate file-selection dialog. <br>
+If the user selects a filename in the file dialog, the text in the
+entry widget will be set to the selected filename.
+</p>
+<p>
+The value of the <tt>key</tt> field in the <tt>results</tt> table will be set to
+the contents of the entry box.<br>
+</p>
+
+
+<br>
+<hr><tt><b><big>function dialog.color ( dlg, key, default, caption )</big></b></tt><br>
+<p>
+Creates a single-line text entry widget, along with a "choose" button that
+invokes a separate color-selection dialog. <br>
+If the user selects a color from the dialog, the text in the
+entry widget will be set to the selected color name in &nbsp;<tt>#RRGGBB</tt>&nbsp; format.
+</p>
+<p>
+The value of the <tt>key</tt> field in the <tt>results</tt> table will be set to
+the contents of the entry box.<br>
+</p>
+
+
+<br>
+<hr><tt><b><big>function dialog.font ( dlg, key, default, caption )</big></b></tt><br>
+<p>
+Creates a single-line text entry widget, along with a "select" button that
+invokes a separate font-selection dialog. <br>
+If the user selects a font from the dialog, the text in the
+entry widget will be set to the font name.
+</p>
+<p>
+The value of the <tt>key</tt> field in the <tt>results</tt> table will be set to
+the contents of the entry box.<br>
+</p>
+<br>
+
+
+
+<hr>
+<br><br>
+<div align="right"><small>&copy; 2007-2008 <i>Jeff Pohlmeyer </i> &nbsp; </small></div>
+<br><br>
+<br><br><br><br>
+
+
+</body>
+</html>

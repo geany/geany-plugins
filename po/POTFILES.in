@@ -46,3 +46,16 @@ spellcheck/src/gui.c
 
 # Shift Column
 shiftcolumn/src/shiftcolumn.c
+
+# Lua
+geanylua/gsdlg_lua.c
+geanylua/glspi_init.c
+geanylua/glspi_sci.c
+geanylua/gsdlg.c
+geanylua/geanylua.c
+geanylua/glspi_kfile.c
+geanylua/glspi.h
+geanylua/glspi_ver.h
+geanylua/glspi_app.c
+geanylua/glspi_dlg.c
+geanylua/glspi_run.c

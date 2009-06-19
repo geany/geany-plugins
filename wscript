@@ -78,7 +78,12 @@ plugins = [
 		   'gdb-ui-frame.c',  'gdb-ui-locn.c', 'gdb-ui-main.c',
 		   'geanydebug.c']), # source files
 		 [ 'geanygdb', 'geanygdb/src' ] # include dirs
-		 )
+		 ),
+	Plugin('geanylua',
+		 [ 'geanylua/geanylua.c' ], # the other source files are listed in build_lua()
+		 [ 'geanylua' ],
+		 # maybe you need to modify the package name of Lua, try one of these: lua5.1 lua51 lua-5.1
+		 [ [ 'lua', '5.1', True ] ])
 ]
 
 '''

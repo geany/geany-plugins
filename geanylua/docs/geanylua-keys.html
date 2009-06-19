@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title>Lua plugin for Geany - Keybindings</title>
+</head>
+<body style="margin:  32px 25% 24px 5%">
+<hr><h2>How to assign custom key bindings to scripts</h2><hr>
+Beginning with Geany version 0.14, it is now possible to integrate plugin
+key bindings with Geany's built-in preferences system. &nbsp; This allows for
+much easier configuration, and also helps to resolve conflicts between
+the editor's bindings and the bindings associated with plugins.</p>
+<p>
+To use the new method, you simply create a plain text file named
+"<tt><b>hotkeys.cfg</b></tt>" and place it your <b>/plugins/geanylua/</b>
+folder. &nbsp; In this file you will list any scripts that you want to configure
+keybindings for. &nbsp; The scripts should be listed one per line and may be
+specified either by using an absolute path, or with a path relative
+to your <b>/plugins/geanylua/</b> folder.</p><p>
+After reloading the plugin (or restarting Geany) the scripts will
+appear in Geany's &nbsp; <b>Edit->Preferences->Keybindings</b> &nbsp; dialog.
+&nbsp; The names appearing in the dialog are derived from the filenames in a
+manner similar to the way menu items are created from filenames.
+<br><br>
+</p>
+<hr>
+<h3>(The old way)</h3>
+<p>
+<b>Important:</b> The technique described below has been deprecated in favor
+of Geany's built-in keybinding API. It is still working for now, however
+you are strongly urged to convert your scripts over to the new method. &nbsp;
+The reference below is provided mainly for historical reasons...
+
+</p>
+<p>
+Before we begin, it is assumed that you are comfortable with your current
+keybindings in the editor itself. If you are the sort who
+likes to tweak your editor keybindings on a daily basis, adding script keybindings
+into the mix will likely be an exercise in frustration!&nbsp;  This is because there is
+absolutely no coordinated way to detect conflicts between the Geany keybindings
+ and script keybindings, or even between the individual scripts.&nbsp; So you
+ are the only one responsible to insure that such conflicts don't occur, or at
+ least that they don't cause you any major problems.
+</p><p>
+The syntax for enabling a keybinding is quite simple, but it <i>must</i> be the very first line in the script file.
+The line should begin with a double dash (the standard single-line Lua comment marker) followed by a space and the string &nbsp;<tt><b>@ACCEL@</b></tt>&nbsp; followed by another space and then the accelerator specification in standard
+<a href="http://www.gtk.org/api/2.6/gtk/gtk-Keyboard-Accelerators.html#gtk-accelerator-parse">GTK syntax</a>.
+</p><p>
+For example, to launch a script by pressing the keys <b>&nbsp;<u>[Ctrl]</u>&nbsp; <u>[Shift]</u>&nbsp; <u>[J]</u>&nbsp;</b> you could write this as the first line of your script:<br>
+<h3><tt>-- @ACCEL@ &lt;Control&gt;&lt;Shift&gt;j</tt></h3>
+<p>Note that such tags are scanned once only when the plugin is loaded, so any changes require reloading the plugin before the change will take effect.
+ &nbsp; The plugin can be reloaded either by restarting Geany, or
+by toggling it OFF/ON via Geany's Plugin Manager,
+or by calling the <tt>rescan()</tt> function from inside a script.
+</p>
+<br><hr>
+</body>
+</html>

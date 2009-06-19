@@ -1,0 +1,335 @@
+June 19, 2009 (ntrel)
+  Move to geany-plugins project, add i18n support.
+  Rename from GeanyLua to 'Lua Script'.
+  Temporarily fix plugin_configure().
+
+December 5, 2008 (ntrel)
+  Update to Geany API v115.
+
+September 17, 2008 (eht16)
+  Fix to work with Geany API v93.
+
+September 11, 2008 (ntrel)
+  Fix wrong argument for "project-close" signal.
+  Fix document signal callbacks to use document pointers.
+
+August 8, 2008 (ntrel)
+  Fix to work with Geany API v86.
+
+August 7, 2008 (ntrel)
+  Use $(mkdir_p) instead of $(MKDIR_P) in Makefile, so it works with
+  automake <= 1.96.
+
+July 17, 2008 (ntrel)
+  Fix use of old app macro.
+  Fix segfault in last commit in glspi_init() (oops).
+  Don't install .svn subdirectories in examples.
+
+July 15, 2008 (ntrel)
+  Fix for GeanyEditor changes.
+
+July 11, 2008 (ntrel)
+  Use plugin_init(), plugin_cleanup().
+  Add macro for main_widgets, fix project access.
+  Require Lua >= 5.1, not 5.1.2.
+
+July 10, 2008 (ntrel)
+  Convert doc_array usage to documents_array.
+
+July 2, 2008 (ntrel)
+  Update to use document pointers.
+  Update MY_GEANY_API_VER now we use p_document->close().
+  Update for new PLUGIN_ macro names.
+  Add comment about reloading in glspi_open().
+  Rename GeanyCallbacks, geany_callbacks symbol.
+  Rename document -> GeanyDocument.
+
+July 1, 2008 (ntrel)
+  Begin updating for Geany 0.15 API changes.
+  Use main_widgets instead of old app.
+  Include some Geany headers due to moved definitions.
+  Add glspi_geany_functions.
+  Use new _prefs structs.
+  Update DOCS macro usage for documents_array.
+
+Mar 24, 2008
+  Released version 0.7.0
+
+Mar 23, 2008
+  Added a new examples folder "work" with three new scripts:
+    edit-test-script.lua; run-test-script.lua; install-test-script.lua
+  These should make it a little easier for users to develop and save
+  their own personal scripts.
+  Also added "examples/edit/calculator.lua" -
+  The idea came from the "Plugin Wishlist" on the Geany website, only
+  this one can even do some fancy stuff like 'sqrt(pi^2*sin(rad(45)))'
+
+Mar 14, 2008
+  Revised configure.in and Makefile.am to support Geany's new header
+  installation and pkg-config features, so the build configuration
+  no longer requires the --with-geany-src option.
+
+Mar 13, 2008
+  Added support for Geany's new built-in keybinding API.
+  This means that scripts can now take advantage of Geany's
+  preferences system to configure keybindings.
+  See ./docs/geanylua-keys.html for more info.
+
+Feb 21, 2008
+  Code cleanup to quiet some compiler warnings.
+  Fix to compile with -DGEANY_DISABLE_DEPRECATED flag.
+
+Feb 21, 2008
+  New function: optimize() disables line info and elapsed time counter
+  for scripts that need all the CPU time they can get.
+  Also found and fixed a nasty crash bug in the filter-parsing code for
+  the pickfile() function.
+
+Feb 20, 2008
+  Added a copy of Enrico Colombini and Thomas Lauer's "Lua Short Reference"
+  to the GeanyLua docs. This provides a convenient and concise guide to the
+  Lua language and its core libraries.
+
+Feb 19, 2008
+  Removed gtk_main_iteration() loop from glspi_run_script() in glspi_run.c.
+  I am not even sure why it was there, possibly it was needed for something,
+  but maybe it just seemed like a good idea at the time. It was causing some
+  scripts to hang under certain conditions, particularly when event scripts
+  were invoked while the GeanyDebug plugin was running.
+
+Feb 12, 2008
+  Fixed missing symbols in Win32 library.
+  ( Thanks to Joerg Desch for reporting. )
+
+Jan 28, 2008
+  Released version 0.6.1
+  Note that the pre-compiled binaries availiable on the website are now
+  statically linked to Lua-5.1.3 instead of 5.1.2. This was a bugfix-only
+  release of Lua, and since most of the bugs were fairly obscure and trivial,
+  it really shouldn't affect GeanyLua at all.
+
+Jan 28, 2008
+  Fixed "make install" bug where ~/.geany/plugins/geanylua was not getting
+  created, which caused the installation to fail if the directory didn't
+  already exist. ( Thanks to Harri Koskinen for reporting. )
+
+Jan 22, 2008
+  Added the ability to show a calltip for the keygrab() function.
+  It might not seem like much, but I think it is a big improvement
+  over the previous "typing while blind" limitation.
+
+Jan 21, 2008
+  Released version 0.6.0
+
+Jan 19, 2008
+  New function: keygrab() intercepts the next keystroke from Geany, useful for
+  creating "chained" keybindings. ( Thanks to John Gabriele for suggesting. )
+
+Jan 17, 2008
+  Fix missing *.vbs files from "make dist"
+
+Jan 16, 2008
+  Major change - All of the core functionality has been moved into a support
+  library named "libgeanylua.so" and now the "geanylua.so" plugin is only a
+  thin wrapper around the core. This was done to bypass the local-binding
+  restriction placed on plugins by Geany, which prevented Lua API functions
+  from being referenced from binary Lua modules.
+
+Jan 14, 2008
+  Major code refactoring, trying to hide as many globally-visible symbols
+  as possible. There is a good chance that this might introduce a bug or
+  two, but I also found and fixed a bug in the choose() function, so
+  at least maybe it won't be a total loss.
+
+Jan 13, 2008
+  Cleaned up the documentation.
+
+Jan 12, 2008
+  Added some code to help with repainting the GUI during lengthy operations,
+  using the low-level GDK paint functions instead of the usual GTK main loop.
+  This should help keep the window painted while still preventing too much
+  user interaction while a script is running.
+
+Jan 11, 2008
+  The timeout measurement now pauses the timer while dialogs are displayed,
+  rather than setting the timer back to zero for each dialog. Actually it
+  considers the time spent as 1/10 of a second, to keep timeouts working
+  even if you create an endless loop with a dialog inside. But even still,
+  you might need to click a lot of buttons before the timer expires!
+
+Jan 10, 2008
+  Revamped the ugly and broken goto_error() function. Trying to parse the
+  filename and line number from the builtin error messages was just wrong,
+  and couldn't possibly be reliable since Lua truncates long path names when
+  it formats the message. So now we store the filename and line number from
+  our debug_hook() in case the filename changes if the script calls Lua's
+  dofile() function or something. That is a really slow way to do things,
+  since we strcmp() the filenames every time the interpreter executes a line.
+  But for now it's the only way I know how, and at least now it's working.
+
+Jan 8, 2008
+  The "geanylua.c" file was getting a bit too large to navigate easily,
+  so I moved most of the lua-related code into a new file, "glspi_run.c"
+  Added some new features to the filename-to-menu-label generator, a trailing
+  underscore in the filename will create an ellipsis after for the menu label,
+  e.g. "Files_.lua" becomes "Files..."  Also, any two-digit prefix followed
+  by a dot is now stripped off, this gives more control over the position of
+  menu items, e.g. "01.Zebra.lua" and "02.Apple.lua" creates the "Zebra" label
+  before the "Apple" label.
+
+Jan 7, 2008
+  Just after releasing 0.5.2, I found a mistake in the "gsdlg.c" file
+  that prevented the timeout reset for dialogs from working correctly.
+  It should be fixed now.
+
+Jan 7, 2008
+  Released version 0.5.2
+  Revised licensing clause to allow users the possibility of
+  choosing GPL-v2 or later versions.
+
+Jan 6, 2008
+  New function: yield() allows lengthy script operations to call
+  gtk_main_iteration() occasionaly to prevent the IDE from appearing
+  frozen. I imagine there might be cases where using this function
+  might be a very bad idea, since it allows the user and the script
+  to interact with Geany at the same time.
+
+Jan 4, 2008
+  Partially fixed the long-standing problem that a faulty script can
+  potentially lock up Geany. Scripts are now given a maximum of fifteen
+  seconds to complete before generating an error. This fix is not totally
+  idiot-proof, but it should provide adequate protection against endless loops.
+  ( Be warned - it might still be possible to hang up a script in some other
+    ways which can't currently be detected. )
+  Also added a timeout() function to allow script authors to increase or even
+  completely disable the timeout if needed.
+
+Jan 2, 2008
+  Released version 0.5.1
+  Fix to compile against Geany-SVN-r2145 (API Ver 37)
+  Moved all #include's for geany source headers above the evil "pluginmacros.h"
+  so maybe this bug won't bite me again.
+
+Jan 1, 2008
+  Released version 0.5.0
+
+Jan 1, 2008
+  Added files "win32-install.vbs" and "win32-uninstall.vbs" to hopefully
+  simplify windows installation. Likewise, added the file "install.sh"
+  to the pre-compiled Linux-x86 archive.
+
+Dec. 28, 2007
+  New function: rescan() rebuilds the "Tools->Lua Scripts" menu
+  so you can update your menus on-the-fly.
+
+Dec. 26, 2007
+  New function: launch() spawns a new process and returns immediately,
+  unlike Lua's standard execute() function which waits for the child
+  process to terminate before returning.
+
+Dec. 24, 2007
+  Completed (?) changing the makefile over to use autotools.
+  IMPORTANT NOTE: The new name of the script folder is now
+  .../plugins/geanylua instead of the old name of .../plugins/lua,
+  so you should move any of your own custom scripts into the new folder.
+
+Dec. 23, 2007
+  Following Enrico's suggestion, I converted code over to use
+  the "pluginmacors.h" macros.
+
+Dec. 18, 2007
+  Added keycmd() function to activate geany menu commands, per GeanyKeyCommand
+  enum in geany/src/keybindings.h
+
+Dec 15, 2007
+  Fixed a bad bug where menu items were not getting removed when
+  the plugin was disabled in plugin manager.
+
+Nov 29, 2007
+  Added function wkdir() to get/set the current working directory.
+
+Nov 26, 2007
+  Fixed a bug in the count() function - it was including documents that
+  were already closed.
+
+Nov 24, 2007
+  Added a new module "dialog" to provide a more flexible means for creating
+  custom dialog boxes. See gsdlg* sources and ./docs/geanylua-input.html .
+
+Nov 21, 2007
+  Added support for project opened/saved/closed event scripts.
+  These events receive a global variable, "geany.project" which
+  is a thin Lua wrapper around the GKeyFile object. Also added
+  a new Lua "keyfile" module to manipulate this type of object.
+
+Nov 20, 2007
+  Added PLUGIN_AUTHOR define for API compatibility.
+  Added a function to display a customized configure dialog for Geany's new
+  plugin manager.
+
+Nov 19, 2007
+  Released "Development snapshot" (geanylua-2007-11-19.tar.gz)
+
+Nov 7, 2007
+  Added some filesystem-related functions:
+    basename(); dirname(); dirlist(); stat(); and dirsep constant.
+
+Nov 6, 2007
+   Added support for two new 'event' scripts, "init.lua" and "cleanup.lua"
+   that run (respectively) when the plugin is loaded and unloaded.
+
+Nov 5, 2007
+  New function: signal() to send signals to Geany widgets,
+  mostly to activate builtin menu commands.
+
+
+Nov 4, 2007
+  Renamed source files from lua_* to glspi_* ( Geany Lua Scripting Plug In )
+
+
+Nov 3, 2007
+  New function: xsel() to get/set the primary X selection.
+
+
+Nov 2, 2007
+  New function: appinfo() to retrieve various Geany folder locations and
+  preferences, etc.
+
+
+Nov 1, 2007
+  New function: pickfile() to access the standard GTK file chooser
+  open/save dialogs.
+
+
+Oct 31, 2007
+  Added the ability to launch scripts from accelerator-key bindings
+  by using specially-formatted comment tags. Now your favorite script
+  can be right at your fingertips!
+
+
+Oct 15, 2007
+  Changed makefile to use pkg-config for Lua.
+
+
+Oct 13, 2007
+  Bumped versions: plugin=0.3, API=20 to correspond with "official"
+  Geany 0.12 release.
+
+
+Oct 10, 2007
+  Revised conditional to use GTK_MESSAGE_INFO instead of GTK_MESSAGE_OTHER
+  for all GTK versions before 2.10.
+
+
+Sept 20, 2007
+  Added an "open" button to the script error dialog, to give the user an
+  option to revise faulty scripts.
+
+
+Sept 11, 2007:
+  Revised geany.open() function to reflect svn~1870 API changes.
+
+
+Sept 5, 2007:
+  Initial release. (Version 0.1)
+
