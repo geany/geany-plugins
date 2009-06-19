@@ -1,4 +1,12 @@
-plugins = addons geanygdb geanylatex geanylipsum geanysendmail shiftcolumn spellcheck
+plugins = \
+	addons \
+	geanygdb \
+	geanylatex \
+	geanylipsum \
+	geanylua \
+	geanysendmail \
+	shiftcolumn \
+	spellcheck
 
 ACLOCAL_AMFLAGS = -I build/cache -I build --install
 
