@@ -9,3 +9,6 @@ edit_DATA = \
 	reverse.lua \
 	right-trim.lua \
 	select-block.lua
+
+# make sure that these files are distributed as well
+EXTRA_DIST = $(edit_DATA)

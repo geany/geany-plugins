@@ -10,3 +10,6 @@ htmldoc_DATA = \
 	geanylua-keys.html \
 	geanylua-ref.html \
 	luarefv51.html
+
+# make sure that these files are distributed as well
+EXTRA_DIST = $(htmldoc_DATA)

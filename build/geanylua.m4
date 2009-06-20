@@ -20,7 +20,6 @@ AC_DEFUN([GP_CHECK_GEANYLUA],
         geanylua/examples/work/Makefile
         geanylua/examples/dialogs/Makefile
         geanylua/examples/Makefile
-        geanylua/oldbuildsys/Makefile
         geanylua/docs/Makefile
         geanylua/Makefile
     ])

@@ -9,3 +9,6 @@ exampleinfo_DATA = \
 	list-open-files.lua \
 	Makefile.am \
 	show-filename.lua
+
+# make sure that these files are distributed as well
+EXTRA_DIST = $(exampleinfo_DATA)

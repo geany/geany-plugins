@@ -7,3 +7,6 @@ scripting_DATA = \
 	open-script.lua \
 	rebuild-menu.lua \
 	show-examples.lua
+
+# make sure that these files are distributed as well
+EXTRA_DIST = $(scripting_DATA)
