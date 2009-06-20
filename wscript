@@ -77,7 +77,8 @@ plugins = [
 		   'gdb-io-stack.c', 'gdb-lex.c', 'gdb-ui-break.c', 'gdb-ui-envir.c',
 		   'gdb-ui-frame.c',  'gdb-ui-locn.c', 'gdb-ui-main.c',
 		   'geanydebug.c']), # source files
-		 [ 'geanygdb', 'geanygdb/src' ] # include dirs
+		 [ 'geanygdb', 'geanygdb/src' ], # include dirs
+		 [ [ 'elf.h', '', True ] ]
 		 ),
 	Plugin('geanylua',
 		 [ 'geanylua/geanylua.c' ], # the other source files are listed in build_lua()
@@ -241,19 +242,24 @@ def configure(conf):
 	for p in plugins:
 		if p.name in enabled_plugins:
 			for l in p.libs:
-				uselib = Utils.quote_define_name(l[0])
-				conf.check_cfg(package=l[0], uselib_store=uselib, atleast_version=l[1], args='--cflags --libs')
-				if not conf.env['HAVE_%s' % uselib] == 1:
-					if l[2]:
-						enabled_plugins.remove(p.name)
+				if l[0].endswith('.h'):
+					# check for header files
+					conf.check(header_name=l[0])
+					if not conf.env['HAVE_%s' % Utils.quote_define_name(l[0])] == 1:
+						if l[2]:
+							enabled_plugins.remove(p.name)
+				else:
+					# check for libraries (with pkg-config)
+					uselib = Utils.quote_define_name(l[0])
+					conf.check_cfg(package=l[0], uselib_store=uselib, atleast_version=l[1],
+						args='--cflags --libs')
+					if not conf.env['HAVE_%s' % uselib] == 1:
+						if l[2]:
+							enabled_plugins.remove(p.name)
 
 
 	# Windows specials
 	if is_win32:
-		# geanygdb doesn't compile/run on Windows
-		if 'geanygdb' in enabled_plugins:
-			enabled_plugins.remove('geanygdb')
-
 		if conf.env['PREFIX'] == tempfile.gettempdir():
 			# overwrite default prefix on Windows (tempfile.gettempdir() is the Waf default)
 			conf.define('PREFIX', os.path.join(conf.srcdir, '%s-%s' % (APPNAME, VERSION)), 1)
