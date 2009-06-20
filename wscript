@@ -354,19 +354,21 @@ def build(bld):
 						'geanylua/glspi_doc.c', 'geanylua/glspi_kfile.c', 'geanylua/glspi_run.c',
 						'geanylua/glspi_sci.c', 'geanylua/gsdlg_lua.c' ]
 
-		# FIXME this most probably won't work on Windows, untested
 		bld.new_task_gen(
 			features		= 'cc cshlib',
 			source			= lua_sources,
 			includes		= p.includes,
 			target			= 'libgeanylua',
 			uselib			= libs,
-			install_path	= '${DATADIR}/geany/plugins/geanylua'
+			# FIXME wrong path on non-Win32, should be in $libdir
+			install_path	= '${G_PREFIX}/lib' if is_win32 else '${DATADIR}/geany/plugins/geanylua'
 		)
 
 		# install docs
-		bld.install_files('${DATADIR}/doc/geany-plugins/geanylua', 'geanylua/docs/*.html')
+		docdir = '${G_PREFIX}/doc/geanylua' if is_win32 else '${DOCDIR}/geanylua'
+		bld.install_files(docdir, 'geanylua/docs/*.html')
 		# install examples (Waf doesn't support installing files recursively, yet)
+		# FIXME we need a better path
 		bld.install_files('${DATADIR}/geany/plugins/geanylua/examples/dialogs', 'geanylua/examples/dialogs/*.lua')
 		bld.install_files('${DATADIR}/geany/plugins/geanylua/examples/edit', 'geanylua/examples/edit/*.lua')
 		bld.install_files('${DATADIR}/geany/plugins/geanylua/examples/info', 'geanylua/examples/info/*.lua')
