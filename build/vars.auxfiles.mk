@@ -8,5 +8,5 @@ plugindoc_DATA = \
 	AUTHORS
 
 # TODO: make sure these files exist!
-README AUTHORS:
+README AUTHORS NEWS:
 	touch $@
