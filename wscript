@@ -98,27 +98,11 @@ temporary_disabled_plugins
 		 [ 'geanydoc/src/config.c', 'geanydoc/src/geanydoc.c' ], # source files
 		 [ 'geanydoc', 'geanydoc/src' ] # include dirs
 		 ),
-	Plugin('geanylatex',
-		 [ 'geanylatex/src/latexencodings.c', 'geanylatex/src/geanylatex.c',
-		   'geanylatex/src/letters.c', 'geanylatex/src/bibtex.c',
-		   'geanylatex/src/bibtexlabels.c', 'geanylatex/src/reftex.c',
-		   'geanylatex/src/latexutils.c', 'geanylatex/src/formatutils.c',
-		   'geanylatex/src/formatpatterns.c',
-		   'geanylatex/src/latexenvironments.c',
-		   'geanylatex/src/latexkeybindings.c'],
-		 [ 'geanylatex' ] # include dirs
-		 ),
 	Plugin('geanyprj',
 		 [ 'geanyprj/src/geanyprj.c', 'geanyprj/src/menu.c', 'geanyprj/src/project.c',
 		   'geanyprj/src/sidebar.c', 'geanyprj/src/utils.c', 'geanyprj/src/xproject.c' ],
 		 [ 'geanyprj', 'geanyprj/src' ] # include dirs
 		 ),
-	Plugin('geanyvc',
-		 [ 'geanyvc/geanyvc.c', 'geanyvc/utils.c', 'geanyvc/externdiff.c',
-		   'geanyvc/vc_git.c', 'geanyvc/vc_cvs.c', 'geanyvc/vc_svn.c',
-		   'geanyvc/vc_svk.c', 'geanyvc/vc_bzr.c', 'geanyvc/vc_hg.c' ],
-		 [ 'geanyvc' ], # include dirs
-		 [ [ 'gtkspell-2.0', '2.0', False ] ]),
 	Plugin('geany-mini-script',
 		 [ 'geany-mini-script/src/gms.c', 'geany-mini-script/src/gms_gui.c' ], # source files
 		 [ 'geany-mini-script', 'geany-mini-script/src' ] # include dirs
