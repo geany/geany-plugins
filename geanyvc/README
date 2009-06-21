@@ -1,0 +1,197 @@
+.. |(version)| replace:: 0.5
+
+=======
+geanyvc
+=======
+
+.. contents::
+
+About
+=====
+
+geanyvc is plugin that provides a uniform way of accessing the different
+version-control systems inside Geany IDE. Only small subset of vc is
+implemented, but, hey, you don't need anything besides diff, log, status,
+revert and commit most time.
+
+In order to use it you need Geany 0.16.
+
+Features
+========
+
+geanyvc currently support the following version control systems:
+
+Bazaar, GIT, Mercurial, Subversion, SVK::
+
+ * diff file
+ * diff directory
+ * diff base directory
+ * blame
+ * log file
+ * log directory
+ * log base directory
+ * status
+ * revert file
+ * revert directory
+ * revert base directory
+ * show unmodified original file
+ * add file
+ * remove file
+ * update
+ * commit
+
+CVS::
+
+ * diff file
+ * diff directory
+ * diff base directory
+ * log file
+ * log directory
+ * log base directory
+ * status
+ * revert file
+ * revert directory
+ * revert base directory
+ * update
+
+Requirements
+============
+
+For compiling the plugin yourself, you will need the GTK (>= 2.6.0) libraries
+and header files. You will also need its dependency libraries and header
+files, such as Pango, Glib and ATK. All these files are available at
+http://www.gtk.org.
+If you like to use spellchecking for your commit
+messages you will also need gtkspell (>=2.0), but this is only optional.
+
+And obviously, you will need have Geany installed. If you have Geany installed
+from the sources, you should be ready to go.
+If you used a prepared package e.g. from your distribution you probably need
+to install an additional package, this might be called geany-dev or geany-devel.
+Please note that in order to compile and use this plugin, you need Geany 0.15
+or later.
+
+Furthermore you need, of course, a C compiler and the Make tool.
+The GNU versions of these tools are recommended.
+
+Usage
+=====
+
+After compiling and/or installing geanyvc, start Geany and go to menu
+Tools->Plugin Manager and set checkbox at VC plugin.
+
+You can configure the following options:
+
+* Set Change flag for document tabs created with pluging.
+
+If this option is activated, every new by the VC-plugin created document tab
+will be marked as changed. Even thus this option is useful in some cases, it
+could cause a big number of sometimes annoying "Do you want to save"-dialogs.
+
+* Confirm adding new files to a VCS
+
+Shows a confirmation dialog on adding a new (created) file to VCS. If not set
+you will not see dialog "Do you want to add <file>?"
+
+* Maximize commit dialog
+
+If this option is activated, commit dialog will fit the full size of your
+monitor. If it is not set commit dialog size will be 700x500.
+
+* Use external diff viewer
+
+If this option is activated and you have **meld**, **kompare**, **kdiff3**, 
+**diffuse** or **tkdiff** available from command line, one of these program 
+will be used to show differences for "Diff From Current File" command.
+
+* Enable CVS/GIT/SVN/SVK/Bazaar/Mercurial
+
+geanyvc detect if opened file is in version control by checking directories
+and executing commands from version control systems toolchain. These options
+disable checking for particular version control system. Disabling not
+required ones can speed up things. So it is recommended to activate svk only
+if you want to use it, since it is quiet slow.
+
+License
+=======
+
+geanyvc is distributed under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2 of the
+License, or (at your option) any later version. A copy of this license
+can be found in the file COPYING included with the source code of this
+program.
+
+Ideas, questions, patches and bug reports
+=========================================
+
+If you add something, or fix a bug, please send a patch (in 'diff -u'
+format) to the geany mailing list or to one of the authors listed bellow.
+
+Coding
+======
+
+Use static functions where possible.
+Try to use GLib types and functions - e.g. g_free instead of free and
+try to use only GLib 2.6 and GTK 2.6 functions. At least for the moment,
+we want to keep the minimum requirement for GTK at 2.6.
+
+Style
+=====
+
+The file indent-all.sh contains information about
+the current code style. Run this script before commit.
+
+Download
+========
+
+The current version is:
+
+============= =============== ==========================================================
+Geany Version Geanyvc Version Download
+============= =============== ==========================================================
+0.16                      0.5 http://users.cosmostv.by/yurand/geanyvc/geanyvc-0.5.tar.gz
+============= =============== ==========================================================
+
+Up to date source code can be downloaded here::
+
+  svn checkout http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geanyvc
+
+If you have old version of Geany installed you need old version of plugin as well. These versions of plugin
+are no longer supported and if you find bug in one of them, it won't be fixed unless you do it yourself.
+
+============= =============== ==========================================================
+Geany Version Geanyvc Version Download
+============= =============== ==========================================================
+0.15                      0.4 http://users.cosmostv.by/yurand/geanyvc/geanyvc-0.4.tar.gz
+
+0.14                      0.3 http://users.cosmostv.by/yurand/geanyvc/geanyvc-0.3.tar.gz
+
+0.13                      0.2 http://users.cosmostv.by/yurand/geanyvc/geanyvc-0.2.tar.gz
+============= =============== ==========================================================
+
+Gentoo
+------
+
+Gentoo ebuild is available here: http://bugs.gentoo.org/show_bug.cgi?id=218522
+
+Arch linux
+----------
+
+A package for Arch Linux is available here: http://aur.archlinux.org/packages.php?ID=16484
+
+Source Mage
+-----------
+
+To install geanyvc, just run the following command::
+
+  cast geanyvc
+
+Windows
+-------
+
+A windows installer is available here: http://users.cosmostv.by/yurand/geanyvc/geanyvc-0.4_setup.exe
+
+--
+2007-2008 by Yura Siamashka and Frank Lanitz
+yurand2(at)gmail(dot)com
+frank(at)frank(dot)uvena(dot)de

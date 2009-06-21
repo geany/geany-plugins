@@ -1,0 +1,15 @@
+What's this file about?
+-----------------------
+This file lists all external people that have contributed to this project.
+
+Testers and contributors:
+-------------------------
+Nick Treleaven <nick(dot)treleaven(at)btinternet(dot)com> - some patches
+Enrico Troeger <enrico(dot)troeger(at)uvena(dot)de> - Geany IDE author, some patches and testing
+Jeff Pohlmeyer <yetanothergeek(at)gmail(dot)com> - INSTALL instructions stolen from him.
+Karel Kolman <kolmis(at)gmail(dot)com> - Bazaar support.
+David Kalnischkies <kalnischkies(at)gmail(dot)com> - Mercurial support
+
+Projects
+--------
+Sylpheed

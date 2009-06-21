@@ -65,10 +65,11 @@ class Plugin:
 plugins = [
 	Plugin('addons', None, [ 'addons/src' ]),
 	Plugin('geanylatex', None, [ 'geanylatex/src']),
+	Plugin('geanylipsum', None, [ 'geanylipsum/src']),
 	Plugin('geanysendmail',
 		[ 'geanysendmail/src/geanysendmail.c' ],
 		[ 'geanysendmail/src' ]),
-	Plugin('geanylipsum', None, [ 'geanylipsum/src']),
+	Plugin('geanyvc', None, [ 'geanyvc/src/'], [ [ 'gtkspell-2.0', '2.0', True ] ]),
 	Plugin('shiftcolumn', None, [ 'shiftcolumn/src']),
 	Plugin('spellcheck', None, [ 'spellcheck/src' ], [ [ 'enchant', '1.3', True ] ]),
 	Plugin('geanygdb',

@@ -1,0 +1,11 @@
+* fix mess with local and utf8 encodings.
+* implement in_vc_cvs function.
+* implement cvs commit command.
+* implement cvs blame(?) command.
+* option external diff program.
+* check windows build for problems with stdout/stderr output
+* (add spellchecking to commit dialog)
+* (add function to change branches for VCS that support it)
+* (add auto wrapping long line at commit dialog)
+* (add commit function for a single file)
+* (add git bisec support)
