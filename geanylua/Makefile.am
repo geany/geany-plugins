@@ -4,9 +4,11 @@ include $(top_srcdir)/build/vars.build.mk
 plugin = geanylua
 
 geanyplugins_LTLIBRARIES = geanylua.la
+geanyluadir = $(geanypluginsdir)/geanylua
+geanylua_LTLIBRARIES = libgeanylua.la
 
-geanylua_la_SOURCES = \
-	geanylua.c \
+geanylua_la_SOURCES = geanylua.c
+libgeanylua_la_SOURCES = \
 	glspi_app.c \
 	glspi_dlg.c \
 	glspi_doc.c \
@@ -29,6 +31,9 @@ geanylua_la_CFLAGS = \
 geanylua_la_LIBADD = \
 	$(COMMONLIBS) \
 	$(LUA_LIBS)
+
+libgeanylua_la_CFLAGS = $(geanylua_la_CFLAGS)
+libgeanylua_la_LIBADD = $(geanylua_la_LIBADD)
 
 SUBDIRS = docs examples
 EXTRA_DIST = util
