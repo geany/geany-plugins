@@ -5,6 +5,7 @@ plugins = \
 	geanylipsum \
 	geanylua \
 	geanysendmail \
+	geanyvc \
 	shiftcolumn \
 	spellcheck
 
