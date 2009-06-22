@@ -1,4 +1,8 @@
+# don't include if geanylua's disabled, otherwise a whole bunch of empty
+# directories will be created
+if ENABLE_GEANYLUA
 include $(top_srcdir)/build/vars.docs.mk
+endif
 
 plugin = geanylua
 

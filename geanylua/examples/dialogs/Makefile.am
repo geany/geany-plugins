@@ -1,8 +1,9 @@
+# avoid creating empty directories if disabled
+if ENABLE_GEANYLUA
 include $(top_srcdir)/build/vars.docs.mk
-
 plugin = geanylua
-
 dialogsdir = $(examplesdir)/dialogs
+endif
 
 EXAMPLES = \
 	basic-dialogs.lua \

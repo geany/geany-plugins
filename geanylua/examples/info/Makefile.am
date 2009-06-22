@@ -1,7 +1,10 @@
+# avoid creating empty directories if disabled
+if ENABLE_GEANYLUA
 include $(top_srcdir)/build/vars.docs.mk
-
 plugin = geanylua
 exampleinfodir = $(examplesdir)/info
+endif
+
 EXAMPLES = \
 	about.lua \
 	app-information.lua \
