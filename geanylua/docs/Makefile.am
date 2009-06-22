@@ -16,4 +16,4 @@ htmldoc_DATA = $(DOCFILES)
 endif
 
 # make sure that these files are distributed as well
-EXTRA_DIST = $(htmldoc_DATA)
+EXTRA_DIST = $(DOCFILES)
