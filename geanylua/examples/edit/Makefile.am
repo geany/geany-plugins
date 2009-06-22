@@ -2,7 +2,7 @@ include $(top_srcdir)/build/vars.docs.mk
 
 plugin = geanylua
 editdir = $(examplesdir)/edit
-edit_DATA = \
+EXAMPLES = \
 	calculator.lua \
 	lua-replace.lua \
 	proper-case.lua \
@@ -10,5 +10,9 @@ edit_DATA = \
 	right-trim.lua \
 	select-block.lua
 
+if ENABLE_GEANYLUA
+edit_DATA = $(EXAMPLES)
+endif
+
 # make sure that these files are distributed as well
-EXTRA_DIST = $(edit_DATA)
+EXTRA_DIST = $(EXAMPLES)

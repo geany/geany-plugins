@@ -2,7 +2,7 @@ include $(top_srcdir)/build/vars.docs.mk
 
 plugin = geanylua
 exampleinfodir = $(examplesdir)/info
-exampleinfo_DATA = \
+EXAMPLES = \
 	about.lua \
 	app-information.lua \
 	file-information.lua \
@@ -10,5 +10,9 @@ exampleinfo_DATA = \
 	Makefile.am \
 	show-filename.lua
 
+if ENABLE_GEANYLUA
+exampleinfo_DATA = $(EXAMPLES)
+endif
+
 # make sure that these files are distributed as well
-EXTRA_DIST = $(exampleinfo_DATA)
+EXTRA_DIST = $(EXAMPLES)

@@ -2,7 +2,7 @@ include $(top_srcdir)/build/vars.docs.mk
 
 plugin = geanylua
 
-htmldoc_DATA = \
+DOCFILES = \
 	geanylua-index.html \
 	geanylua-input.html \
 	geanylua-intro.html \
@@ -10,6 +10,10 @@ htmldoc_DATA = \
 	geanylua-keys.html \
 	geanylua-ref.html \
 	luarefv51.html
+
+if ENABLE_GEANYLUA
+htmldoc_DATA = $(DOCFILES)
+endif
 
 # make sure that these files are distributed as well
 EXTRA_DIST = $(htmldoc_DATA)

@@ -3,9 +3,14 @@ include $(top_srcdir)/build/vars.docs.mk
 plugin = geanylua
 
 dialogsdir = $(examplesdir)/dialogs
-dialogs_DATA = \
+
+EXAMPLES = \
 	basic-dialogs.lua \
 	complex-dialog.lua
 
+if ENABLE_GEANYLUA
+dialogs_DATA = $(EXAMPLES)
+endif
+
 # make sure that these files are distributed as well
-EXTRA_DIST = $(dialogs_DATA)
+EXTRA_DIST = $(EXAMPLES)
