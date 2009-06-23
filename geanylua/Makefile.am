@@ -12,7 +12,7 @@ include $(top_srcdir)/build/vars.build.mk
 # don't build if disabled
 if ENABLE_GEANYLUA
 geanyplugins_LTLIBRARIES = geanylua.la
-geanyluadir = $(geanypluginsdir)/geanylua
+geanyluadir = $(pkglibdir)/geanylua
 geanylua_LTLIBRARIES = libgeanylua.la
 else
 EXTRA_LTLIBRARIES = geanylua.la libgeanylua.la
