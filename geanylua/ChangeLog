@@ -3,6 +3,10 @@ June 23, 2009 (ntrel)
   Read scripts from DATADIR/geany-plugins/geanylua.
   Init plugin_key_group fields to zero in case support library is not
   found.
+  Make Help script look in:
+  $prefix/share/doc/geany-plugins/geanylua/ - but $prefix is currently
+  Geany's install prefix, which works in most cases. Really this
+  should be fixed by exposing GeanyLua's $DOCDIR to Lua scripts.
 
 June 19, 2009 (ntrel)
   Move to geany-plugins project, add i18n support.
