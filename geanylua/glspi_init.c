@@ -8,9 +8,9 @@
 
 #define DIR_SEP  G_DIR_SEPARATOR_S
 
-#define SCRIPT_FOLDER  DIR_SEP  "plugins"  DIR_SEP  "geanylua"
+#define USER_SCRIPT_FOLDER  DIR_SEP  "plugins"  DIR_SEP  "geanylua"
 
-#define EVENTS_FOLDER  SCRIPT_FOLDER DIR_SEP  "events"  DIR_SEP
+#define EVENTS_FOLDER  USER_SCRIPT_FOLDER DIR_SEP  "events"  DIR_SEP
 
 #define ON_SAVED_SCRIPT      EVENTS_FOLDER  "saved.lua"
 #define ON_OPENED_SCRIPT     EVENTS_FOLDER  "opened.lua"
@@ -416,6 +416,7 @@ static GtkWidget* new_menu(GtkWidget *parent, gchar* script_dir, gchar*title)
 		local_data.script_list=g_slist_concat(local_data.script_list,script_names);
 		return menu_item;
 	}
+	g_printerr("%s: No scripts found in %s\n", PLUGIN_NAME, script_dir);
 	return NULL;
 }
 
@@ -439,17 +440,17 @@ PLUGIN_EXPORT
 void glspi_init (GeanyData *data, GeanyFunctions *functions, GeanyKeyGroup *kg)
 {
 	GeanyApp *app = data->app;
-	
+
 	glspi_geany_data = data;
 	glspi_geany_functions = functions;
 
 	local_data.script_dir =
-		g_strconcat(app->configdir, SCRIPT_FOLDER, NULL);
+		g_strconcat(app->configdir, USER_SCRIPT_FOLDER, NULL);
 
 	if (!g_file_test(local_data.script_dir, G_FILE_TEST_IS_DIR)) {
 		g_free(local_data.script_dir);
 		local_data.script_dir =
-			g_strconcat(app->datadir, SCRIPT_FOLDER, NULL);
+			g_build_path(G_DIR_SEPARATOR_S, DATADIR, "geany-plugins", "geanylua", NULL);
   }
 	if (app->debug_mode) {
 		g_printerr(_("     ==>> %s: Building menu from '%s'\n"),

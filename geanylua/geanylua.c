@@ -48,7 +48,6 @@
 
 #define GETSYM(name,ptr) ( g_module_symbol(libgeanylua, name, (gpointer) &ptr) && ptr )
 
-#define MKPATH(dir) g_build_path(G_DIR_SEPARATOR_S, dir, "plugins", "geanylua", SUPPORT_LIB, NULL);
 
 PLUGIN_EXPORT
 PLUGIN_VERSION_CHECK(MY_GEANY_API_VER)
@@ -60,7 +59,7 @@ PLUGIN_EXPORT
 GeanyFunctions *geany_functions;
 
 PLUGIN_EXPORT
-GeanyKeyGroup plugin_key_group[1];
+GeanyKeyGroup plugin_key_group[1] = {NULL, NULL, 0, NULL};
 
 
 
@@ -138,15 +137,15 @@ void plugin_init(GeanyData *data)
 	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 
 	geany_data=data;
-	libname=MKPATH(data->app->configdir);
+	libname=g_build_path(G_DIR_SEPARATOR_S, data->app->configdir, "plugins", "geanylua", SUPPORT_LIB, NULL);
 	if ( !g_file_test(libname,G_FILE_TEST_IS_REGULAR) ) {
 		g_free(libname);
-		libname=MKPATH(data->app->datadir);
+		libname=g_build_path(G_DIR_SEPARATOR_S, LIBDIR, "geany-plugins", "geanylua", SUPPORT_LIB, NULL);
 	}
 	if ( !g_file_test(libname,G_FILE_TEST_IS_REGULAR) ) {
+		g_printerr(_("%s: Can't find support library %s!\n"), PLUGIN_NAME, libname);
 		g_free(libname);
 		libname=NULL;
-		g_printerr(_("%s: Can't find support library!\n"), PLUGIN_NAME);
 		return;
 	}
 	libgeanylua=g_module_open(libname,0);

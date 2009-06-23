@@ -1,3 +1,9 @@
+June 23, 2009 (ntrel)
+  Look for support library in LIBDIR/geany-plugins/geanylua.
+  Read scripts from DATADIR/geany-plugins/geanylua.
+  Init plugin_key_group fields to zero in case support library is not
+  found.
+
 June 19, 2009 (ntrel)
   Move to geany-plugins project, add i18n support.
   Rename from GeanyLua to 'Lua Script'.
