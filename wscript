@@ -271,7 +271,7 @@ def configure(conf):
 	if is_win32:
 		conf.define('PREFIX', '', 1)
 		conf.define('LIBDIR', '', 1)
-		conf.define('DOCDIR', 'doc/%s' % p.name, 1)
+		conf.define('DOCDIR', 'doc', 1)
 		conf.define('LOCALEDIR', 'share/locale', 1)
 		# DATADIR is defined in objidl.h, so we remove it from config.h
 		conf.undefine('DATADIR')
@@ -345,20 +345,20 @@ def build(bld):
 			includes		= p.includes,
 			target			= 'libgeanylua',
 			uselib			= libs,
-			# FIXME wrong path on non-Win32, should be in $libdir
-			install_path	= '${G_PREFIX}/lib' if is_win32 else '${DATADIR}/geany/plugins/geanylua'
+			install_path	= '${G_PREFIX}/lib/geany-plugins/geanylua' if is_win32
+				else '${LIBDIR}/geany-plugins/geanylua'
 		)
 
 		# install docs
 		docdir = '${G_PREFIX}/doc/geanylua' if is_win32 else '${DOCDIR}/geanylua'
 		bld.install_files(docdir, 'geanylua/docs/*.html')
 		# install examples (Waf doesn't support installing files recursively, yet)
-		# FIXME we need a better path
-		bld.install_files('${DATADIR}/geany/plugins/geanylua/examples/dialogs', 'geanylua/examples/dialogs/*.lua')
-		bld.install_files('${DATADIR}/geany/plugins/geanylua/examples/edit', 'geanylua/examples/edit/*.lua')
-		bld.install_files('${DATADIR}/geany/plugins/geanylua/examples/info', 'geanylua/examples/info/*.lua')
-		bld.install_files('${DATADIR}/geany/plugins/geanylua/examples/scripting', 'geanylua/examples/scripting/*.lua')
-		bld.install_files('${DATADIR}/geany/plugins/geanylua/examples/work', 'geanylua/examples/work/*.lua')
+		datadir = '${G_PREFIX}/share/' if is_win32 else '${DATADIR}'
+		bld.install_files('%s/geany-plugins/geanylua/dialogs' % datadir, 'geanylua/examples/dialogs/*.lua')
+		bld.install_files('%s/geany-plugins/geanylua/edit' % datadir, 'geanylua/examples/edit/*.lua')
+		bld.install_files('%s/geany-plugins/geanylua/info' % datadir, 'geanylua/examples/info/*.lua')
+		bld.install_files('%s/geany-plugins/geanylua/scripting' % datadir, 'geanylua/examples/scripting/*.lua')
+		bld.install_files('%s/geany-plugins/geanylua/work' % datadir, 'geanylua/examples/work/*.lua')
 
 
 	def build_debug(bld, p, libs):
