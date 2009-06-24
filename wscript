@@ -69,7 +69,7 @@ plugins = [
 	Plugin('geanysendmail',
 		[ 'geanysendmail/src/geanysendmail.c' ],
 		[ 'geanysendmail/src' ]),
-	Plugin('geanyvc', None, [ 'geanyvc/src/'], [ [ 'gtkspell-2.0', '2.0', True ] ]),
+	Plugin('geanyvc', None, [ 'geanyvc/src/'], [ [ 'gtkspell-2.0', '2.0', False ] ]),
 	Plugin('shiftcolumn', None, [ 'shiftcolumn/src']),
 	Plugin('spellcheck', None, [ 'spellcheck/src' ], [ [ 'enchant', '1.3', True ] ]),
 	Plugin('geanygdb',
