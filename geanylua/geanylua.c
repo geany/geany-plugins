@@ -128,6 +128,24 @@ static void fail_init(void) {
 static GeanyData *geany_data=NULL;
 
 
+static gchar *get_lib_dir(void)
+{
+#ifdef G_OS_WIN32
+	gchar *install_dir, *result;
+# if GLIB_CHECK_VERSION(2, 16, 0)
+	install_dir = g_win32_get_package_installation_directory_of_module(NULL);
+# else
+	install_dir = g_win32_get_package_installation_directory(NULL, NULL);
+# endif
+	result = g_strconcat(install_dir, "\\lib", NULL);
+	g_free(install_dir);
+	return result;
+#else
+	return g_strdup(LIBDIR);
+#endif
+}
+
+
 
 PLUGIN_EXPORT
 void plugin_init(GeanyData *data)
@@ -139,8 +157,10 @@ void plugin_init(GeanyData *data)
 	geany_data=data;
 	libname=g_build_path(G_DIR_SEPARATOR_S, data->app->configdir, "plugins", "geanylua", SUPPORT_LIB, NULL);
 	if ( !g_file_test(libname,G_FILE_TEST_IS_REGULAR) ) {
+		gchar *libdir=get_lib_dir();
 		g_free(libname);
-		libname=g_build_path(G_DIR_SEPARATOR_S, LIBDIR, "geany-plugins", "geanylua", SUPPORT_LIB, NULL);
+		libname=g_build_path(G_DIR_SEPARATOR_S, libdir, "geany-plugins", "geanylua", SUPPORT_LIB, NULL);
+		g_free(libdir);
 	}
 	if ( !g_file_test(libname,G_FILE_TEST_IS_REGULAR) ) {
 		g_printerr(_("%s: Can't find support library %s!\n"), PLUGIN_NAME, libname);

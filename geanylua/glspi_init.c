@@ -434,6 +434,24 @@ static void build_menu(void)
 }
 
 
+static gchar *get_data_dir(void)
+{
+#ifdef G_OS_WIN32
+	gchar *install_dir, *result;
+# if GLIB_CHECK_VERSION(2, 16, 0)
+	install_dir = g_win32_get_package_installation_directory_of_module(NULL);
+# else
+	install_dir = g_win32_get_package_installation_directory(NULL, NULL);
+# endif
+	result = g_strconcat(install_dir, "\\share", NULL);
+	g_free(install_dir);
+	return result;
+#else
+	return g_strdup(LIBDIR);
+#endif
+}
+
+
 
 /* Called by Geany to initialize the plugin */
 PLUGIN_EXPORT
@@ -448,9 +466,11 @@ void glspi_init (GeanyData *data, GeanyFunctions *functions, GeanyKeyGroup *kg)
 		g_strconcat(app->configdir, USER_SCRIPT_FOLDER, NULL);
 
 	if (!g_file_test(local_data.script_dir, G_FILE_TEST_IS_DIR)) {
+		gchar *datadir = get_data_dir();
 		g_free(local_data.script_dir);
 		local_data.script_dir =
-			g_build_path(G_DIR_SEPARATOR_S, DATADIR, "geany-plugins", "geanylua", NULL);
+			g_build_path(G_DIR_SEPARATOR_S, datadir, "geany-plugins", "geanylua", NULL);
+		g_free(datadir);
   }
 	if (app->debug_mode) {
 		g_printerr(_("     ==>> %s: Building menu from '%s'\n"),
