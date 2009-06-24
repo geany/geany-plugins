@@ -10,7 +10,6 @@ EXAMPLES = \
 	app-information.lua \
 	file-information.lua \
 	list-open-files.lua \
-	Makefile.am \
 	show-filename.lua
 
 if ENABLE_GEANYLUA
