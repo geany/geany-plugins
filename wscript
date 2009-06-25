@@ -264,8 +264,7 @@ def configure(conf):
 
 	conf.env['G_PREFIX'] = conf.env['PREFIX']
 
-	if 'geanyvc' in enabled_plugins:
-		# hack for GeanyVC
+	if conf.env['HAVE_GTKSPELL_2_0']:
 		conf.define('USE_GTKSPELL', 1);
 
 	if is_win32:
