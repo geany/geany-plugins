@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.17\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-06-21 23:06+0200\n"
-"PO-Revision-Date: 2009-06-11 10:15+0200\n"
-"Last-Translator: Andrew Janke <a.janke@gmail.com>\n"
+"POT-Creation-Date: 2009-06-27 12:02+0200\n"
+"PO-Revision-Date: 2009-06-27 12:02+0100\n"
+"Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,15 +19,15 @@ msgstr ""
 
 #: ../addons/src/tasks.c:311
 msgid "Tasks"
-msgstr ""
+msgstr "Aufgaben"
 
 #: ../addons/src/ao_openuri.c:169
 msgid "Open URI"
-msgstr ""
+msgstr "URI öffnen"
 
 #: ../addons/src/ao_openuri.c:175
 msgid "Copy URI"
-msgstr ""
+msgstr "URI kopieren"
 
 #: ../addons/src/addons.c:55
 msgid "Addons"
@@ -55,11 +55,11 @@ msgstr ""
 #. TODO fix the string
 #: ../addons/src/addons.c:205
 msgid "Show a 'Open URI' menu item in the editor menu"
-msgstr ""
+msgstr "\"URI öffnen\" Eintrag im Editor Menü anzeigen"
 
 #: ../addons/src/addons.c:211
 msgid "Show available tasks in the Message Window"
-msgstr ""
+msgstr "Verfügbare Aufgaben im Nachrichtenfenster anzeigen"
 
 #: ../addons/src/addons.c:217
 #, fuzzy
@@ -78,7 +78,7 @@ msgstr "_Alle schließen"
 
 #: ../addons/src/ao_doclist.c:251
 msgid "Show Document List"
-msgstr ""
+msgstr "Dokumentenliste anzeigen"
 
 #: ../geanygdb/src/gdb-io-break.c:142
 #, c-format
@@ -173,7 +173,6 @@ msgid "Program exited with code %d [%s]\n"
 msgstr ""
 
 #: ../geanygdb/src/gdb-io-read.c:619
-#, fuzzy
 msgid "(unknown)"
 msgstr "(unbekannt)"
 
@@ -1958,7 +1957,7 @@ msgstr "Zeigt den Status der Arbeitskopie."
 #: ../geanyvc/src/geanyvc.c:2161
 #, fuzzy
 msgid "Update"
-msgstr "_Aktualisieren"
+msgstr "Aktualisieren"
 
 #: ../geanyvc/src/geanyvc.c:2163
 msgid "Update from remote repositary."
@@ -2065,14 +2064,14 @@ msgid "Ignore All"
 msgstr "Alle ignorieren"
 
 #: ../spellcheck/src/gui.c:408
-#, fuzzy, c-format
+#, c-format
 msgid "Default (%s)"
-msgstr "Standard"
+msgstr "Vorgabe (%s)"
 
 #: ../spellcheck/src/gui.c:409 ../spellcheck/src/gui.c:420
 #, fuzzy
 msgid "unknown"
-msgstr "(unbekannt)"
+msgstr "unbekannt"
 
 #: ../spellcheck/src/gui.c:419
 #, fuzzy, c-format
@@ -2116,21 +2115,20 @@ msgid ""
 " "
 msgstr ""
 
-#: ../geanylua/glspi_init.c:429
+#: ../geanylua/glspi_init.c:430
 msgid "_Lua Scripts"
-msgstr ""
+msgstr "_Lua-Skripte"
 
-#: ../geanylua/glspi_init.c:455
+#: ../geanylua/glspi_init.c:476
 #, c-format
 msgid "     ==>> %s: Building menu from '%s'\n"
 msgstr ""
 
-#: ../geanylua/glspi_init.c:555
-#, fuzzy
+#: ../geanylua/glspi_init.c:576
 msgid "Nothing to configure!"
-msgstr "Nichts zum Übertragen."
+msgstr "Sorry, es gibt nichts zu konfigurieren..."
 
-#: ../geanylua/glspi_init.c:557
+#: ../geanylua/glspi_init.c:578
 #, c-format
 msgid ""
 "You can create the script:\n"
@@ -2182,56 +2180,50 @@ msgid "<too large to display>"
 msgstr ""
 
 #: ../geanylua/gsdlg.c:103 ../geanylua/glspi_dlg.c:421
-#, fuzzy
 msgid "Open file"
-msgstr "Datei aktualisieren"
+msgstr "Datei öffnen"
 
 #: ../geanylua/gsdlg.c:107
-#, fuzzy
 msgid "Select file"
-msgstr "Schriftart auswählen"
+msgstr "Datei auswählen"
 
 #: ../geanylua/gsdlg.c:154
-#, fuzzy
 msgid "Browse..."
-msgstr "Mehr ..."
+msgstr "Durchsuchen..."
 
 #: ../geanylua/gsdlg.c:175
-#, fuzzy
 msgid "Select Color"
-msgstr "Schriftart auswählen"
+msgstr "Farbe auswählen"
 
 #: ../geanylua/gsdlg.c:205
-#, fuzzy
 msgid "Choose..."
-msgstr "Mehr ..."
+msgstr "Auswählen..."
 
 #: ../geanylua/gsdlg.c:253
-#, fuzzy
 msgid "Select..."
-msgstr "Schriftart auswählen"
+msgstr "Auswählen ..."
 
-#: ../geanylua/geanylua.c:149
+#: ../geanylua/geanylua.c:166
 #, c-format
-msgid "%s: Can't find support library!\n"
+msgid "%s: Can't find support library %s!\n"
 msgstr ""
 
-#: ../geanylua/geanylua.c:156
+#: ../geanylua/geanylua.c:175
 #, c-format
 msgid "%s: Can't load support library!\n"
 msgstr ""
 
-#: ../geanylua/geanylua.c:167
+#: ../geanylua/geanylua.c:186
 #, c-format
 msgid "%s: Failed to initialize support library!\n"
 msgstr ""
 
-#: ../geanylua/geanylua.c:172
+#: ../geanylua/geanylua.c:191
 #, c-format
 msgid "%s: Support library version mismatch: %s <=> %s\n"
 msgstr ""
 
-#: ../geanylua/geanylua.c:190
+#: ../geanylua/geanylua.c:209
 #, c-format
 msgid ""
 "The %s plugin failed to load properly.\n"
@@ -2251,7 +2243,7 @@ msgstr ""
 #.
 #: ../geanylua/glspi_ver.h:7
 msgid "Lua Script"
-msgstr ""
+msgstr "Lua-Skript"
 
 #: ../geanylua/glspi_ver.h:9
 msgid "Write and run Lua scripts for custom commands."
@@ -2286,21 +2278,19 @@ msgstr ""
 
 #: ../geanylua/glspi_dlg.c:337
 msgid "File exists"
-msgstr ""
+msgstr "Datei existiert"
 
 #: ../geanylua/glspi_dlg.c:337
-#, fuzzy
 msgid "Do you want to overwrite it?"
-msgstr "Möchten Sie wirklich »%s« zurücksetzen?"
+msgstr "Möchten Sie sie überschreiben?"
 
 #: ../geanylua/glspi_dlg.c:338
 msgid "confirm"
 msgstr ""
 
 #: ../geanylua/glspi_dlg.c:411
-#, fuzzy
 msgid "Save file"
-msgstr "Datei aktualisieren"
+msgstr "Datei speichern"
 
 #: ../geanylua/glspi_dlg.c:437
 #, c-format
@@ -2346,7 +2336,7 @@ msgstr ""
 
 #: ../geanylua/glspi_run.c:481
 msgid "Out of memory."
-msgstr ""
+msgstr "Nicht genügend Speicher."
 
 #: ../geanylua/glspi_run.c:484
 msgid "Failed to open script file."
