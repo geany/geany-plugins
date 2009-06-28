@@ -401,6 +401,20 @@ gboolean sc_gui_key_release_cb(GtkWidget *widget, GdkEventKey *ev, gpointer data
 }
 
 
+#if ! GTK_CHECK_VERSION(2, 16, 0)
+static void gtk_menu_item_set_label(GtkMenuItem *menu_item, const gchar *label)
+{
+	if (GTK_BIN(menu_item)->child != NULL)
+	{
+		GtkWidget *child = GTK_BIN(menu_item)->child;
+
+		if (GTK_IS_LABEL(child))
+			gtk_label_set_text(GTK_LABEL(child), label);
+	}
+}
+#endif
+
+
 static void update_labels(void)
 {
 	gchar *label;
@@ -524,7 +538,7 @@ void sc_gui_create_menu(GtkWidget *sp_item)
 	menu = gtk_menu_new();
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(sp_item), menu);
 
-	sc_info->submenu_item_default = gtk_menu_item_new();
+	sc_info->submenu_item_default = gtk_menu_item_new_with_label(NULL);
 	gtk_container_add(GTK_CONTAINER(menu), sc_info->submenu_item_default);
 	g_signal_connect(sc_info->submenu_item_default, "activate",
 		G_CALLBACK(menu_item_toggled_cb), NULL);
