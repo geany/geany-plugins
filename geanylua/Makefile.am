@@ -1,10 +1,11 @@
+EXTRA_DIST = util
 # don't install docs if disabled
 if ENABLE_GEANYLUA
 include $(top_srcdir)/build/vars.auxfiles.mk
 plugin = geanylua
 else
 include $(top_srcdir)/build/vars.docs.mk
-EXTRA_DIST = $(AUXFILES)
+EXTRA_DIST += $(AUXFILES)
 endif
 include $(top_srcdir)/build/vars.build.mk
 
@@ -47,4 +48,3 @@ libgeanylua_la_CFLAGS = $(geanylua_la_CFLAGS)
 libgeanylua_la_LIBADD = $(geanylua_la_LIBADD)
 
 SUBDIRS = docs examples
-EXTRA_DIST = util
