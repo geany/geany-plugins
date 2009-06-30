@@ -37,7 +37,7 @@ Requires WAF 1.5.7 and Python 2.4 (or later).
 
 
 import Build, Options, Utils, preproc
-import os, sys, tempfile
+import glob, os, sys, tempfile
 
 
 APPNAME = 'geany-plugins'
@@ -321,6 +321,8 @@ def set_options(opt):
 		help='update the message catalogs for translation', dest='update_po')
 	opt.add_option('--list-plugins', action='store_true', default=False,
 		help='list plugins which can be built', dest='list_plugins')
+	opt.add_option('--write-installer', action='store_true', default=False,
+		help='create Windows installer (maintainer and Win32 only)', dest='write_installer')
 
 	opt.add_option('--enable-plugins', action='store', default='',
 		help='plugins to be built [plugins in CSV format, e.g. "%(1)s,%(2)s"]' % \
@@ -349,7 +351,7 @@ def build(bld):
 		)
 
 		# install docs
-		docdir = '${G_PREFIX}/doc/geanylua' if is_win32 else '${DOCDIR}/geanylua'
+		docdir = '${G_PREFIX}/doc/plugins/geanylua' if is_win32 else '${DOCDIR}/geanylua'
 		bld.install_files(docdir, 'geanylua/docs/*.html')
 		# install examples (Waf doesn't support installing files recursively, yet)
 		datadir = '${G_PREFIX}/share/' if is_win32 else '${DATADIR}'
@@ -372,7 +374,7 @@ def build(bld):
 
 	def install_docs(bld, pname, files):
 		ext = '.txt' if is_win32 else ''
-		docdir = '${G_PREFIX}/doc/%s' % pname if is_win32 else '${DOCDIR}/%s' % pname
+		docdir = '${G_PREFIX}/doc/plugins/%s' % pname if is_win32 else '${DOCDIR}/%s' % pname
 		for file in files:
 			if os.path.exists(os.path.join(p.name, file)):
 				bld.install_as(
@@ -434,6 +436,23 @@ def init():
 
 
 def shutdown():
+	if Options.options.write_installer:
+		do_sign = os.path.exists("sign.bat") # private file to sign the binary files, not needed
+		def sign_binary(file):
+			if do_sign:
+				Utils.exec_command('sign.bat %s' % file)
+
+		# strip all binaries
+		Utils.pprint('CYAN', 'Stripping %sfiles' % ('and signing binary ' if do_sign else ''))
+		files = glob.glob(os.path.join(Build.bld.env['G_PREFIX'], 'lib', '*.dll'))
+		files.append(Build.bld.env['G_PREFIX'] + '\lib\geany-plugins\geanylua\libgeanylua.dll')
+		for	f in files: # sign the DLL files
+			Utils.exec_command('strip %s' % f)
+			sign_binary(f)
+		# create the installer
+		launch('makensis /V2 /NOCD build/geany-plugins.nsi', 'Creating the installer', 'CYAN')
+		sign_binary('geany-plugins-%s_setup.exe' % VERSION)
+
 	if Options.options.update_po:
 		# the following code was taken from midori's WAF script, thanks
 		potfile = '%s.pot' % (APPNAME)
