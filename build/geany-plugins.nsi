@@ -209,6 +209,33 @@ Win9x:
 done:
 !macroend
 
+Function CheckForGeany
+	; find and read Geany's installation directory and use it as our installation directory
+	ReadRegStr $INSTDIR SHCTX "${GEANY_DIR_REGKEY}" "Path"
+	StrCmp $INSTDIR "" 0 +3
+	MessageBox MB_OK|MB_ICONSTOP "Geany could not be found. Please install Geany first." /SD IDOK
+	Abort
+
+	; check Geany's version
+	GetDLLVersion "$INSTDIR\bin\geany.exe" $R0 $R1
+	IntOp $R2 $R0 >> 16
+	IntOp $R2 $R2 & 0x0000FFFF ; $R2 now contains major version
+	IntOp $R3 $R0 & 0x0000FFFF ; $R3 now contains minor version
+	StrCpy $0 "$R2.$R3"
+	StrCmp $0 ${REQUIRED_GEANY_VERSION} version_check_done 0
+	MessageBox MB_YESNO|MB_ICONEXCLAMATION \
+		"You have Geany $0 installed but you need Geany ${REQUIRED_GEANY_VERSION}.$\nDo you really want to continue?" \
+		/SD IDNO IDNO stop IDYES ignore
+stop:
+	Abort
+ignore:
+	MessageBox MB_OK|MB_ICONEXCLAMATION \
+		"Using another version than Geany ${REQUIRED_GEANY_VERSION} may cause unloadable plugins or crashes." \
+		/SD IDOK
+
+version_check_done:
+FunctionEnd
+
 Function .onInit
 	; (from http://jabref.svn.sourceforge.net/viewvc/jabref/trunk/jabref/src/windows/nsis/setup.nsi)
 	; If the user does *not* have administrator privileges, abort
@@ -224,30 +251,15 @@ Function .onInit
 		StrCpy $INSTDIR "$PROFILE\$(^Name)"
 	${endif}
 
-	; find and read Geany's installation directory and use it as our installation directory
-	ReadRegStr $INSTDIR SHCTX "${GEANY_DIR_REGKEY}" "Path"
-	StrCmp $INSTDIR "" 0 +3
-	MessageBox MB_OK|MB_ICONSTOP "Geany could not be found. Please install Geany first." /SD IDOK
-	Abort
-
-	; check Geany's version
-	GetDLLVersion "$INSTDIR\bin\geany.exe" $R0 $R1
-	IntOp $R2 $R0 >> 16
-	IntOp $R2 $R2 & 0x0000FFFF ; $R2 now contains major version
-	IntOp $R3 $R0 & 0x0000FFFF ; $R3 now contains minor version
-	StrCpy $0 "$R2.$R3" ; $0 now contains string like "1.2.0.192"
-	StrCmp $0 ${REQUIRED_GEANY_VERSION} +3 0
-	MessageBox MB_OK|MB_ICONSTOP \
-		"You have Geany $0 installed but you need Geany ${REQUIRED_GEANY_VERSION}." \
-		/SD IDOK
-	Abort
-
 	; prevent running multiple instances of the installer
 	System::Call 'kernel32::CreateMutexA(i 0, i 0, t "geany_plugins_installer") i .r1 ?e'
 	Pop $R0
 	StrCmp $R0 0 +3
 	MessageBox MB_OK|MB_ICONEXCLAMATION "The installer is already running." /SD IDOK
 	Abort
+
+	Call CheckForGeany
+
 	; warn about a new install over an existing installation
 	ReadRegStr $R0 SHCTX "${PRODUCT_UNINST_KEY}" "UninstallString"
 	StrCmp $R0 "" finish
