@@ -2089,7 +2089,7 @@ init_keybindings(void)
 	keybindings_set_item(plugin_key_group, VC_DIFF_FILE, kbdiff_file, 0, 0,
 			     "vc_show_diff_of_file", _("Show diff of file"), menu_vc_diff_file);
 	keybindings_set_item(plugin_key_group, VC_DIFF_DIR, kbdiff_dir, 0, 0,
-			     "vc_show_diff_of_dir", _("Show diff of diretory"), menu_vc_diff_dir);
+			     "vc_show_diff_of_dir", _("Show diff of directory"), menu_vc_diff_dir);
 	keybindings_set_item(plugin_key_group, VC_DIFF_BASEDIR, kbdiff_basedir, 0, 0,
 			     "vc_show_diff_of_basedir", _("Show diff of basedir"),
 			     menu_vc_diff_basedir);
