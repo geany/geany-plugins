@@ -59,7 +59,7 @@ PLUGIN_EXPORT
 GeanyFunctions *geany_functions;
 
 PLUGIN_EXPORT
-GeanyKeyGroup plugin_key_group[1] = {NULL, NULL, 0, NULL};
+GeanyKeyGroup plugin_key_group[1] = {{NULL, NULL, 0, NULL}};
 
 
 
