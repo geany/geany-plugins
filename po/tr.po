@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.17\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-07 09:41+0200\n"
+"POT-Creation-Date: 2009-07-13 13:44+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Gürkan Gür <seqizz@gmail.com>\n"
 "Language-Team: \n"
@@ -78,17 +78,17 @@ msgstr "Döküman Listesini Göster"
 #: ../geanygdb/src/gdb-io-break.c:142
 #, fuzzy, c-format
 msgid "Added breakpoint #%s in %s() at %s:%s\n"
-msgstr "beklenmedik \" yer: %d; '%s' içinde."
+msgstr "beklenmedik \" konum: %d; '%s' içinde."
 
 #: ../geanygdb/src/gdb-io-break.c:147
 #, fuzzy, c-format
 msgid "Added breakpoint #%s at %s:%s\n"
-msgstr "Anahtar burada:"
+msgstr "Bir-Kerede-Disk:"
 
 #: ../geanygdb/src/gdb-io-break.c:159
 #, fuzzy, c-format
 msgid "Added write watchpoint #%s for %s\n"
-msgstr "%2$s'e yazma için arama sırasında %1$s"
+msgstr "Uyarı: %snin %b bloğu yazılamadı: %m\n"
 
 #: ../geanygdb/src/gdb-io-break.c:168
 #, fuzzy, c-format
@@ -103,12 +103,12 @@ msgstr "%s için sağlama toplamı okunamıyor"
 #: ../geanygdb/src/gdb-io-break.c:226
 #, fuzzy
 msgid "Watch/breakpoint deleted.\n"
-msgstr "yinelenmiş sertifika `%s' silindi\n"
+msgstr "Silin&miş çevirileri temizle"
 
 #: ../geanygdb/src/gdb-io-break.c:250
 #, fuzzy
 msgid "Failed to toggle breakpoint -\n"
-msgstr "Belge yazdırılırken başarısız olundu."
+msgstr "Büyütece geçiş yapmak için bağ."
 
 #: ../geanygdb/src/gdb-io-break.c:268
 #, fuzzy
@@ -139,7 +139,7 @@ msgstr ""
 #: ../geanygdb/src/gdb-io-read.c:232
 #, fuzzy
 msgid "Error starting target process!\n"
-msgstr "İşlemde hata oluştu. Hata Kodu: %d"
+msgstr "Yazma işlemini başlatırken bir hata oluştu."
 
 #: ../geanygdb/src/gdb-io-read.c:277
 msgid ""
@@ -155,7 +155,7 @@ msgstr ""
 #: ../geanygdb/src/gdb-io-read.c:590
 #, fuzzy, c-format
 msgid "Watchpoint #%s out of scope"
-msgstr "[Hata - nüve dışında]"
+msgstr "Yazıdan uzaklaş"
 
 #: ../geanygdb/src/gdb-io-read.c:599
 #, fuzzy, c-format
@@ -172,14 +172,12 @@ msgid "Program exited with code %d [%s]\n"
 msgstr "bilinmeyen bir çıkış koduyla durdu"
 
 #: ../geanygdb/src/gdb-io-read.c:619
-#, fuzzy
 msgid "(unknown)"
 msgstr "(bilinmiyor)"
 
 #: ../geanygdb/src/gdb-io-read.c:625
-#, fuzzy
 msgid "Program exited normally.\n"
-msgstr "ssh programından beklenilmeyen çıkış"
+msgstr "Program normal olarak sonlandı.\n"
 
 #: ../geanygdb/src/gdb-io-run.c:264
 #, fuzzy
@@ -200,9 +198,9 @@ msgid "tty helper program not found!\n"
 msgstr ""
 
 #: ../geanygdb/src/gdb-io-run.c:348
-#, fuzzy, c-format
+#, c-format
 msgid "Attaching to terminal %s\n"
-msgstr "|İSİM|terminal karakter setini İSİM olarak ayarlar"
+msgstr "%s terminaline ekleniyor\n"
 
 #: ../geanygdb/src/gdb-io-run.c:363
 msgid "Timeout waiting for TTY name.\n"
@@ -232,29 +230,24 @@ msgid "Directory %s not found!\n"
 msgstr "%s dizini bulunamadı!\n"
 
 #: ../geanygdb/src/gdb-io-run.c:546
-#, fuzzy
 msgid "Shutting down target program.\n"
-msgstr "Yapılandırma sunucusu kapatılırken başarısız olundu: %s"
+msgstr "Hedef program kapatılıyor.\n"
 
 #: ../geanygdb/src/gdb-io-run.c:553
-#, fuzzy
 msgid "Killing target program.\n"
-msgstr "iPod programı çalıştır"
+msgstr "Hedef program sonlandırılıyor.\n"
 
 #: ../geanygdb/src/gdb-io-run.c:561
-#, fuzzy
 msgid "Timeout waiting for target process.\n"
-msgstr "ast süreç beklenirken hata oluştu"
+msgstr "Hedef işlem için zaman aşımı bekleniyor.\n"
 
 #: ../geanygdb/src/gdb-io-run.c:564
-#, fuzzy
 msgid "Using a bigger hammer!\n"
-msgstr "Daha büyük metin boyutu"
+msgstr "Daha büyük bir çekiç kullanılıyor!\n"
 
 #: ../geanygdb/src/gdb-io-run.c:578
-#, fuzzy
 msgid "Waiting for target process to exit.\n"
-msgstr "süreç %d sonlanacak diye beklerken başarısızlık: %s\n"
+msgstr "Hedef işlemin kapanması bekleniyor.\n"
 
 #: ../geanygdb/src/gdb-io-run.c:614
 #, fuzzy, c-format
@@ -268,7 +261,7 @@ msgstr ""
 #: ../geanygdb/src/gdb-io-run.c:638
 #, fuzzy
 msgid "Shutting down GDB\n"
-msgstr "Yapılandırma sunucusu kapatılırken başarısız olundu: %s"
+msgstr "Bİlgisayar kapatılıyor."
 
 #: ../geanygdb/src/gdb-io-run.c:651
 #, fuzzy
@@ -331,7 +324,7 @@ msgstr "Sonra çık:"
 #: ../geanygdb/src/gdb-ui-break.c:165
 #, fuzzy
 msgid " times. "
-msgstr "%d kez tekrarla"
+msgstr "zamanlar"
 
 #: ../geanygdb/src/gdb-ui-break.c:170
 #, fuzzy
@@ -339,9 +332,8 @@ msgid " Break when "
 msgstr "Uyarı Zamanı"
 
 #: ../geanygdb/src/gdb-ui-break.c:177
-#, fuzzy
 msgid " is true. "
-msgstr "kayandır"
+msgstr ""
 
 #: ../geanygdb/src/gdb-ui-break.c:242
 msgid "Add watchpoint"
@@ -455,7 +447,7 @@ msgstr "Kare bilgisi"
 msgid ""
 "\n"
 "Frame #%s in %s() at %s:%s\n"
-msgstr "beklenmedik \" yer: %d; '%s' içinde."
+msgstr "beklenmedik \" konum: %d; '%s' içinde."
 
 #: ../geanygdb/src/gdb-ui-frame.c:357
 msgid "Function arguments"
@@ -481,7 +473,7 @@ msgstr ""
 #: ../geanygdb/src/gdb-ui-locn.c:53
 #, fuzzy
 msgid "Clea_r"
-msgstr "_Geçmiş Bilgilerini Sil"
+msgstr "Temizl_e"
 
 #: ../geanygdb/src/gdb-ui-locn.c:68
 msgid "Filename: "
@@ -568,7 +560,7 @@ msgstr "Bu dosyayı okumak için gerekli izinlere sahip değilsiniz."
 #: ../geanygdb/src/gdb-ui-main.c:695
 #, fuzzy
 msgid "Run to location"
-msgstr "Ana konumuna git"
+msgstr "\"%s\" başlatılamadı:"
 
 #: ../geanygdb/src/gdb-ui-main.c:814
 msgid "no program"
@@ -619,9 +611,8 @@ msgid "_Continue"
 msgstr "_Devam et"
 
 #: ../geanygdb/src/gdb-ui-main.c:836
-#, fuzzy
 msgid "Continue executing target program."
-msgstr "Dosyayı bir program gibi ç_alıştırmaya izin ver"
+msgstr "Hedef programı çalıştırmaya devam et."
 
 #: ../geanygdb/src/gdb-ui-main.c:838
 msgid "_Step"
@@ -634,16 +625,15 @@ msgstr ""
 #: ../geanygdb/src/gdb-ui-main.c:841
 #, fuzzy
 msgid "Step _in"
-msgstr "%.2f x %.2f inc"
+msgstr "`%2$s..%3$s' adımında %1$s"
 
 #: ../geanygdb/src/gdb-ui-main.c:842
 msgid "Execute the next machine instruction or function call."
 msgstr ""
 
 #: ../geanygdb/src/gdb-ui-main.c:843
-#, fuzzy
 msgid "Step to the next line."
-msgstr "Sonraki satıra (aşağı) gider"
+msgstr "Gelecek satıra geç."
 
 #: ../geanygdb/src/gdb-ui-main.c:845
 #, fuzzy
@@ -657,7 +647,7 @@ msgstr ""
 #: ../geanygdb/src/gdb-ui-main.c:848
 #, fuzzy
 msgid "Run _to"
-msgstr "- '%s' çalıştırılırken oldu"
+msgstr "\"%s\" başlatılamadı:"
 
 #: ../geanygdb/src/gdb-ui-main.c:849
 msgid "Run to specified source line."
@@ -691,7 +681,7 @@ msgstr ""
 #: ../geanygdb/src/gdb-ui-main.c:859
 #, fuzzy
 msgid "_Return"
-msgstr " (return tuşuna basın)"
+msgstr "Enter"
 
 #: ../geanygdb/src/gdb-ui-main.c:860
 msgid "Return immediately from the current function."
@@ -711,9 +701,8 @@ msgid "_Options"
 msgstr "_Seçenekler"
 
 #: ../geanygdb/src/gdb-ui-main.c:866
-#, fuzzy
 msgid "Set user interface options."
-msgstr "Kullanıcı arayüzü yüklenirken hatakUL"
+msgstr "Kullanıcı arayüzü seçeneklerini ayarla."
 
 #: ../geanygdb/src/gdb-ui-main.c:915
 msgid "Run in terminal"
@@ -724,9 +713,8 @@ msgid "Execute target program inside a terminal window."
 msgstr ""
 
 #: ../geanygdb/src/gdb-ui-main.c:920
-#, fuzzy
 msgid "Ignore SIGPIPE"
-msgstr "V_ideoyu görmezden gel"
+msgstr "SIGPIPE ı görmezden gel"
 
 #: ../geanygdb/src/gdb-ui-main.c:922
 msgid ""
@@ -952,27 +940,30 @@ msgstr ""
 #: ../geanylatex/src/geanylatex.c:1092
 #, fuzzy
 msgid "With kind regards"
-msgstr "Bilinmeyen iş türü %u"
+msgstr ""
+"Tür: %s \n"
+"Değiştirme: %s\n"
+"Büyüklük: %s"
 
 #: ../geanylatex/src/geanylatex.c:1106
 #, fuzzy
 msgid "Run LaTeX-Wizard"
-msgstr "Yapılandırma sihi&rbazını şimdi çalıştır..."
+msgstr "Ağ yapılandırma sihi&rbazını çalıştır..."
 
 #: ../geanylatex/src/geanylatex.c:1108
 #, fuzzy
 msgid "Insert \\label"
-msgstr "Insert"
+msgstr "Dosya sistemi ismi = %s\n"
 
 #: ../geanylatex/src/geanylatex.c:1110
 #, fuzzy
 msgid "Insert \\ref"
-msgstr "Yazı ekle"
+msgstr "Tari_h Gir"
 
 #: ../geanylatex/src/geanylatex.c:1112
 #, fuzzy
 msgid "Insert linebreak \\\\ "
-msgstr "Yazı ekle"
+msgstr "Tari_h Gir"
 
 #: ../geanylatex/src/geanylatex.c:1114
 msgid "Turn input replacement on/off"
@@ -981,7 +972,7 @@ msgstr ""
 #: ../geanylatex/src/geanylatex.c:1118
 #, fuzzy
 msgid "Replace special characters"
-msgstr "Özel HTML karakterleri Ekle"
+msgstr "Özel karakterleri değiştir"
 
 #: ../geanylatex/src/geanylatex.c:1121
 #, fuzzy
@@ -1055,7 +1046,7 @@ msgstr "_Referans Ekle"
 #: ../geanylatex/src/geanylatex.c:1202
 #, fuzzy
 msgid "Inserting references to the document"
-msgstr "Belge yazdırılırken başarısız olundu."
+msgstr "Soldaki dökümana geç"
 
 #: ../geanylatex/src/geanylatex.c:1207
 msgid "Insert _Label"
@@ -1091,7 +1082,7 @@ msgstr "karakter özel dosyası"
 #: ../geanylatex/src/geanylatex.c:1264
 #, fuzzy
 msgid "Bulk _Replace Special Characters"
-msgstr "Özel HTML karakterleri Ekle"
+msgstr "Özel HTML karakterler_i Ekle"
 
 #: ../geanylatex/src/geanylatex.c:1266
 msgid "_Replace selected special cahracters with TeX substitutes"
@@ -1100,7 +1091,7 @@ msgstr ""
 #: ../geanylatex/src/geanylatex.c:1274
 #, fuzzy
 msgid "Toggle _Special Character Replacement"
-msgstr "%s bir karakter özellikli dosya değil"
+msgstr "Özel karakterlerin toplu yer değişimi"
 
 #: ../geanylatex/src/latexencodings.c:37
 msgid "UTF-8"
@@ -1158,7 +1149,7 @@ msgstr "Yunan harfleri"
 #: ../geanylatex/src/letters.c:40
 #, fuzzy
 msgid "German umlauts"
-msgstr "Alman (Makintoş)"
+msgstr "Almanca (Almanya)"
 
 #: ../geanylatex/src/letters.c:42
 msgid "Arrow characters"
@@ -1171,7 +1162,7 @@ msgstr ""
 #: ../geanylatex/src/letters.c:44
 #, fuzzy
 msgid "Binary operation"
-msgstr "1 Bekleyen işlem"
+msgstr "İşlem iptal edildi"
 
 #: ../geanylatex/src/bibtexlabels.c:28
 msgid "Booklet"
@@ -1194,9 +1185,8 @@ msgid "Inproceedings"
 msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:33
-#, fuzzy
 msgid "Manual"
-msgstr "El ile ayarla"
+msgstr "Elle"
 
 #: ../geanylatex/src/bibtexlabels.c:34
 msgid "Mastersthesis"
@@ -1288,9 +1278,8 @@ msgid "Organization"
 msgstr "Organizasyon"
 
 #: ../geanylatex/src/bibtexlabels.c:60
-#, fuzzy
 msgid "Pages"
-msgstr "Sayfa"
+msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:61
 msgid "Publisher"
@@ -1358,9 +1347,8 @@ msgid "Name(s) of the editor(s), separated by 'and' if more than one"
 msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:107
-#, fuzzy
 msgid "Specification of electronic publication"
-msgstr "Dil karakteristiklerini derler"
+msgstr "Elektronik yayımlama özellikleri"
 
 #: ../geanylatex/src/bibtexlabels.c:108
 msgid "Publishing method if the method is nonstandard"
@@ -1416,7 +1404,7 @@ msgstr "Kitabın yayınlandığı seri"
 #: ../geanylatex/src/bibtexlabels.c:120
 #, fuzzy
 msgid "Title of the work"
-msgstr "İş _faks:"
+msgstr "İş Telefonu"
 
 #: ../geanylatex/src/bibtexlabels.c:121
 #, fuzzy
@@ -1462,11 +1450,11 @@ msgstr "Daktilo"
 #: ../geanylatex/src/formatpatterns.c:43
 #, fuzzy
 msgid "Small Caps"
-msgstr "Küçük Daireler"
+msgstr "Küçük _Simgeler"
 
 #: ../geanylatex/src/formatpatterns.c:44
 msgid "Emphasis"
-msgstr ""
+msgstr "Vurgu"
 
 #: ../geanylatex/src/formatpatterns.c:45
 msgid "Centered"
@@ -1494,14 +1482,12 @@ msgid "Document Structure"
 msgstr "icount veri yapısı için yer ayrılırken hata oluştu: %m\n"
 
 #: ../geanylatex/src/latexenvironments.c:28
-#, fuzzy
 msgid "Lists"
-msgstr "%u bitset_lists\n"
+msgstr "Listeler"
 
 #: ../geanylatex/src/latexenvironments.c:29
-#, fuzzy
 msgid "Math"
-msgstr "Sembol, Matematik"
+msgstr "Matematik"
 
 #: ../geanylatex/src/latexenvironments.c:116
 #, fuzzy
@@ -1522,9 +1508,8 @@ msgid "Creating dummy text with Geany"
 msgstr ""
 
 #: ../geanylipsum/src/geanylipsum.c:87
-#, fuzzy
 msgid "Lipsum-Generator"
-msgstr "Ton Üreteci"
+msgstr "Lipsum-Oluşturucu"
 
 #: ../geanylipsum/src/geanylipsum.c:88
 msgid "Enter the length of Lipsum text here"
@@ -1540,9 +1525,8 @@ msgid "Include Pseudotext to your code"
 msgstr ""
 
 #: ../geanylipsum/src/geanylipsum.c:178
-#, fuzzy
 msgid "Insert Lipsum text"
-msgstr "_Öncelikli sadece metin"
+msgstr "Lipsum yazısı ekle"
 
 #: ../geanysendmail/src/geanysendmail.c:47
 msgid "GeanySendMail"
@@ -1609,9 +1593,8 @@ msgid ""
 msgstr ""
 
 #: ../geanysendmail/src/geanysendmail.c:351
-#, fuzzy
 msgid "Showing icon in toolbar"
-msgstr "Simge içinde geçersiz başlık"
+msgstr "Araç çubuğunda simge gösteriliyor"
 
 #: ../geanysendmail/src/geanysendmail.c:353
 msgid "Shows a icon in the toolbar to send file more easy."
@@ -1652,7 +1635,7 @@ msgstr ""
 #: ../geanyvc/src/geanyvc.c:407
 #, fuzzy
 msgid "Could not parse the output of command"
-msgstr "stdin'den komut ayrıştırılamıyor\n"
+msgstr "HATA: komut satırı argümanı %d ayrıştırılamadı: %s.\n"
 
 #: ../geanyvc/src/geanyvc.c:466
 #, fuzzy, c-format
@@ -1669,7 +1652,7 @@ msgstr ""
 #: ../geanyvc/src/geanyvc.c:637 ../geanyvc/src/geanyvc.c:686
 #, fuzzy
 msgid "No changes were made."
-msgstr "Değişiklik yapılmadı."
+msgstr "Hiç kayıt bulunamadı"
 
 #: ../geanyvc/src/geanyvc.c:712
 #, fuzzy
@@ -1714,7 +1697,7 @@ msgstr ""
 #: ../geanyvc/src/geanyvc.c:1301
 #, fuzzy
 msgid "<b>Commit message:</b>"
-msgstr "ileti kuyruğu"
+msgstr "Hata mesajı: %s."
 
 #. Commit all changes
 #: ../geanyvc/src/geanyvc.c:1314 ../geanyvc/src/geanyvc.c:2170
@@ -1724,7 +1707,7 @@ msgstr ""
 #: ../geanyvc/src/geanyvc.c:1384
 #, fuzzy
 msgid "Nothing to commit."
-msgstr "İleri alınacak hiçbirşey yok"
+msgstr "birşey yapılmadı.\n"
 
 #: ../geanyvc/src/geanyvc.c:1430
 #, fuzzy, c-format
@@ -1760,12 +1743,12 @@ msgstr ""
 #: ../geanyvc/src/geanyvc.c:1727
 #, fuzzy
 msgid "Maximize commit dialog"
-msgstr "Pencerenin üst penceresi"
+msgstr "Seçenekler penceresini göster"
 
 #: ../geanyvc/src/geanyvc.c:1728
 #, fuzzy
 msgid "Show commit dialog maximize."
-msgstr "Uygulama Çalıştırma Penceresini Göster"
+msgstr "'Panel Özelleştirme' penceresini göster"
 
 #: ../geanyvc/src/geanyvc.c:1735
 msgid "Use external diff viewer"
@@ -1920,7 +1903,7 @@ msgstr "Dosya işlemlerini göster"
 #: ../geanyvc/src/geanyvc.c:2092
 #, fuzzy
 msgid "Show diff of diretory"
-msgstr "--normal  Normal bir diff çıktılar."
+msgstr "Ham dizi&n listesini göster"
 
 #: ../geanyvc/src/geanyvc.c:2094
 #, fuzzy
@@ -1938,12 +1921,12 @@ msgstr "Durumu göster"
 #: ../geanyvc/src/geanyvc.c:2101
 #, fuzzy
 msgid "Revert single file"
-msgstr "Dosyanın kayıtlı sürümüne geri dön"
+msgstr "%s isimli dosyaya geri döneyim mi?"
 
 #: ../geanyvc/src/geanyvc.c:2103
 #, fuzzy
 msgid "Revert directory"
-msgstr "dizin `%s' oluşturuldu\n"
+msgstr "%s (%s dizininde)"
 
 #: ../geanyvc/src/geanyvc.c:2105
 #, fuzzy
@@ -2003,9 +1986,9 @@ msgid "The checked text is spelled correctly."
 msgstr ""
 
 #: ../spellcheck/src/speller.c:231
-#, c-format
+#, fuzzy, c-format
 msgid "The Enchant library couldn't be initialized (%s)."
-msgstr ""
+msgstr "Libburn kütüphanesi ilklendirilemedi"
 
 #: ../spellcheck/src/speller.c:232
 msgid "unknown error (maybe the chosen language is not available)"
@@ -2338,9 +2321,8 @@ msgid "Script timeout exceeded."
 msgstr "Betik zamanaşımı geçildi"
 
 #: ../geanylua/glspi_run.c:404
-#, fuzzy
 msgid "(error object is not a string)"
-msgstr "İsimli nesne araştırılabilir değil"
+msgstr "(hata nesnesi bir dizgi değil)"
 
 #: ../geanylua/glspi_run.c:409
 msgid "Unknown Error inside script."
