@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.17\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-06-27 00:08+0200\n"
+"POT-Creation-Date: 2009-07-13 19:52+0200\n"
 "PO-Revision-Date: 2009-06-26 17:52+0100\n"
 "Last-Translator: André Glória <gloria_dot_andre_at_gmail_dot_com>\n"
 "Language-Team: Portuguese\n"
@@ -482,7 +482,7 @@ msgstr ""
 #: ../geanygdb/src/gdb-ui-main.c:138
 #, fuzzy
 msgid "loaded"
-msgstr "Inclinada"
+msgstr "Inclinado"
 
 #: ../geanygdb/src/gdb-ui-main.c:143
 #, fuzzy
@@ -743,7 +743,7 @@ msgstr "LateX"
 
 #: ../geanylatex/src/geanylatex.c:29
 msgid "Plugin to provide better LaTeX support"
-msgstr "Plugin que fornece melhor suporte para LateX"
+msgstr "Plugin que melhora o suporte de LateX"
 
 #: ../geanylatex/src/geanylatex.c:95
 msgid "Marks selected text as italic"
@@ -850,7 +850,7 @@ msgid ""
 "Sets the value of the \\author command. In most cases this should be your "
 "name"
 msgstr ""
-"Define o valor do comando \\author. Na maioria dos casos, deve colocar o seu "
+"Defina o valor do comando \\author. Na maioria dos casos, deve colocar o seu "
 "nome"
 
 #. Date
@@ -864,9 +864,9 @@ msgid ""
 "LaTeX-document. Keeping it at \\today is a good \t\t decision if you don't "
 "need any fixed date."
 msgstr ""
-"Define o valor do comando \\date dentro do cabeçalho do seu\t\t documento "
-"LateX acabado de criar. Manter o valor em \\today é uma boa\t\tdecisão, caso "
-"não necessite de uma data fixa."
+"Defina o valor do comando \\date dentro do cabeçalho do seu documento LateX "
+"acabado de criar. Manter o valor em \\today é uma boa decisão, caso não "
+"necessite de uma data fixa."
 
 #. Title of the new document
 #: ../geanylatex/src/geanylatex.c:828
@@ -875,7 +875,7 @@ msgstr "Título:"
 
 #: ../geanylatex/src/geanylatex.c:831
 msgid "Sets the title of your new document."
-msgstr "Define o título do seu novo documento."
+msgstr "Defina o título do seu novo documento."
 
 #. Papersize
 #: ../geanylatex/src/geanylatex.c:837
@@ -927,7 +927,7 @@ msgstr "Melhores Cumprimentos"
 
 #: ../geanylatex/src/geanylatex.c:1106
 msgid "Run LaTeX-Wizard"
-msgstr "Correr o Assistente de LaTeX"
+msgstr "Executa o Assistente de LaTeX"
 
 #: ../geanylatex/src/geanylatex.c:1108
 msgid "Insert \\label"
@@ -987,7 +987,7 @@ msgid ""
 "\n"
 "Please report all bugs or feature requests to one of the authors."
 msgstr ""
-"GeanyLaTex é uma extensão para melhorar o suporte de LaTeX no Geany.\n"
+"GeanyLaTex é uma extensão que melhora o suporte de LaTeX no Geany.\n"
 "\n"
 "Por favor, reporte todas as falhas ou pedidos de funcionalidades a um dos "
 "autores."
@@ -1002,7 +1002,7 @@ msgstr "Assis_tente-LaTeX"
 
 #: ../geanylatex/src/geanylatex.c:1183
 msgid "Starts a Wizard to easily create LaTeX-documents"
-msgstr "Inicia um assistente, para facilmente, criar um documento "
+msgstr "Inicia um assistente, para facilmente, criar um novo documento "
 
 #: ../geanylatex/src/geanylatex.c:1188
 msgid "Insert _Special Character"
@@ -1026,7 +1026,7 @@ msgstr "Inserir _Etiqueta"
 
 #: ../geanylatex/src/geanylatex.c:1209
 msgid "Helps at inserting labels to a document"
-msgstr "Ajuda a inserir etiquetas no documento"
+msgstr "Ajuda a Inserir etiquetas no documento"
 
 #: ../geanylatex/src/geanylatex.c:1215
 msgid "Insert _Environment"
@@ -1164,7 +1164,7 @@ msgstr "Tese de Doutoramento "
 
 #: ../geanylatex/src/bibtexlabels.c:37
 msgid "Proceedings"
-msgstr "Papers Académicos"
+msgstr "Paper Académico"
 
 #: ../geanylatex/src/bibtexlabels.c:38
 msgid "Techreport"
@@ -1172,7 +1172,7 @@ msgstr "Relatório Técnico"
 
 #: ../geanylatex/src/bibtexlabels.c:39
 msgid "Unpublished"
-msgstr "Papers Não Publicado"
+msgstr "Paper Não Publicado"
 
 #: ../geanylatex/src/bibtexlabels.c:43
 msgid "Address"
@@ -1285,7 +1285,6 @@ msgid "Address of publisher"
 msgstr "Morada do Editor"
 
 #: ../geanylatex/src/bibtexlabels.c:100
-#, fuzzy
 msgid "Annotation for annotated bibliography styles"
 msgstr "Anotação para uma lista de citações de livros, artigos e documentos"
 
@@ -1402,9 +1401,8 @@ msgid "Underline"
 msgstr "Sublinhado"
 
 #: ../geanylatex/src/formatpatterns.c:41
-#, fuzzy
 msgid "Slanted"
-msgstr "Inclinada"
+msgstr "Inclinado"
 
 #: ../geanylatex/src/formatpatterns.c:42
 msgid "Typewriter"
@@ -1855,7 +1853,7 @@ msgid "Show diff of file"
 msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:2092
-msgid "Show diff of diretory"
+msgid "Show diff of directory"
 msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:2094
@@ -2006,21 +2004,21 @@ msgstr ""
 msgid "Ignore All"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:408
+#: ../spellcheck/src/gui.c:422
 #, c-format
 msgid "Default (%s)"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:409 ../spellcheck/src/gui.c:420
+#: ../spellcheck/src/gui.c:423 ../spellcheck/src/gui.c:434
 msgid "unknown"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:419
+#: ../spellcheck/src/gui.c:433
 #, c-format
 msgid "Toggle spell check while typing (current language: %s)"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:480
+#: ../spellcheck/src/gui.c:494
 msgid "Spelling Suggestions"
 msgstr ""
 
