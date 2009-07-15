@@ -19,5 +19,5 @@ spellcheck_la_CFLAGS = \
 	$(ENCHANT_CFLAGS)
 
 spellcheck_la_LIBADD = \
-	$(COMMON_LIBS) \
+	$(COMMONLIBS) \
 	$(ENCHANT_LIBS)
