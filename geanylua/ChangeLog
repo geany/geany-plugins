@@ -1,3 +1,6 @@
+July 15, 2009 (ntrel)
+  Update to API 146 (but require 147).
+
 July 13, 2009 (ntrel)
   Fix using datadir for scripts.
 

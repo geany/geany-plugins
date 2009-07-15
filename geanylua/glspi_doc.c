@@ -8,13 +8,12 @@
 #include "glspi.h"
 
 
-#define DOCS ((GeanyDocument**)(geany->documents_array->pdata))
 #define NOTEBOOK GTK_NOTEBOOK(main_widgets->notebook)
 
 
 #ifdef G_OS_WIN32
 #define fncmp(a,b) ( a && b && (strcasecmp(a,b)==0))
-#else 
+#else
 #define fncmp(a,b) ( a && b && (strcmp(a,b)==0))
 #endif
 
@@ -52,8 +51,9 @@ static gint filename_to_doc_idx(const gchar*fn)
 {
 	if (fn && *fn) {
 		guint i;
-		for(i = 0; i < geany->documents_array->len; i++) {
-			if fncmp(fn,DOCS[i]->file_name) {return i; }
+		documents_foreach(i)
+		{
+			if fncmp(fn,documents[i]->file_name) {return i; }
 		}
 	}
 	return -1;
@@ -64,15 +64,15 @@ static gint filename_to_doc_idx(const gchar*fn)
 static gint doc_idx_to_tab_idx(gint idx)
 {
 	return (
-		(idx>=0) && ((guint)idx<geany->documents_array->len) && DOCS[idx]->is_valid
-	) ? gtk_notebook_page_num(NOTEBOOK, GTK_WIDGET(DOCS[idx]->editor->sci)):-1;
+		(idx>=0) && ((guint)idx<geany->documents_array->len) && documents[idx]->is_valid
+	) ? gtk_notebook_page_num(NOTEBOOK, GTK_WIDGET(documents[idx]->editor->sci)):-1;
 }
 
 
 
 /* Returns the filename of the specified document, or NULL on bad index */
 static const gchar* doc_idx_to_filename(gint idx) {
-	 if ( (idx >= 0 ) && ( ((guint)idx) < geany->documents_array->len ) ) { 
+	 if ( (idx >= 0 ) && ( ((guint)idx) < geany->documents_array->len ) ) {
 		GeanyDocument *doc=g_ptr_array_index(geany->documents_array, idx);
 		if (doc) { return doc->file_name?doc->file_name:GEANY_STRING_UNTITLED; }
 	}
@@ -94,7 +94,7 @@ static gint glspi_activate(lua_State* L)
 			} else { /* A positive number refers to the geany->documents_array index */
 				idx=doc_idx_to_tab_idx(idx-1);
 			}
-			
+
 		} else {
 			if (lua_isstring(L,1)) {
 				idx=doc_idx_to_tab_idx(filename_to_doc_idx(lua_tostring(L, 1)));
@@ -119,10 +119,10 @@ static gint documents_closure(lua_State *L)
 {
 	gint idx=lua_tonumber(L, lua_upvalueindex(1));
 	int max=geany->documents_array->len;
-	do { 
+	do {
 		/* Find next valid index, skipping invalid (closed)  files */
-		idx++; 
-	} while (( idx < max ) && !DOCS[idx]->is_valid );
+		idx++;
+	} while (( idx < max ) && !documents[idx]->is_valid );
 	if ( idx < max ){
 		push_number(L, idx);
 		lua_pushvalue(L, -1);
@@ -155,7 +155,7 @@ static gint glspi_documents(lua_State *L)
 			} else {
 				return 0;
 			}
-		} else { 
+		} else {
 			if (lua_isstring(L,1)) {
 				name=lua_tostring(L,1);
 				idx=filename_to_doc_idx(name);
@@ -173,8 +173,9 @@ static gint glspi_documents(lua_State *L)
 static gint glspi_count(lua_State* L)
 {
 	guint i, n=0;
-	for (i=0; i<geany->documents_array->len; i++) {
-		if (DOCS[i]->is_valid){n++;}
+	documents_foreach(i)
+	{
+		if (documents[i]->is_valid){n++;}
 	}
 	push_number(L,n);
 	return 1;
@@ -191,11 +192,11 @@ static gint glspi_save(lua_State* L)
 	} else {
 		if (lua_isnumber(L,1)) {
 			gint idx=(gint)lua_tonumber(L,1)-1;
-			status=document_save_file(DOCS[idx], TRUE);
+			status=document_save_file(documents[idx], TRUE);
 		} else {
 			if (lua_isstring(L,1)) {
 				gint idx=filename_to_doc_idx(lua_tostring(L,1));
-				status=document_save_file(DOCS[idx], TRUE);
+				status=document_save_file(documents[idx], TRUE);
 			} else { return FAIL_STR_OR_NUM_ARG(1);	}
 		}
 	}
@@ -224,17 +225,17 @@ static gint glspi_open(lua_State* L)
 		}
 	}
 	if (!fn) {
-		status=document_reload_file(DOCS[idx],NULL) ? idx : -1;
+		status=document_reload_file(documents[idx],NULL) ? idx : -1;
 	} else {
 		guint len=geany->documents_array->len;
 		GeanyDocument*doc=document_open_file(fn,FALSE,NULL,NULL);
 		status=doc?doc->index:-1;
 		if ( (status>=0) && (len==geany->documents_array->len))
-		{ 
+		{
 			/* if len doesn't change, it means we are reloading an already open file */
 			/* ntrel: actually, len can stay the same when reusing invalid document slots. */
 			idx=document_get_current()->index;
-			status=document_reload_file(DOCS[idx],NULL) ? idx : -1;
+			status=document_reload_file(documents[idx],NULL) ? idx : -1;
 		}
 	}
 	push_number(L,status+1);
@@ -252,11 +253,11 @@ static gint glspi_close(lua_State* L)
 	} else {
 		if (lua_isnumber(L,1)) {
 			guint idx=(guint)lua_tonumber(L,1)-1;
-			status=document_close(DOCS[idx]);
+			status=document_close(documents[idx]);
 		} else {
 			if (lua_isstring(L,1)) {
 				guint idx=(guint)filename_to_doc_idx(lua_tostring(L,1));
-				status=document_close(DOCS[idx]);
+				status=document_close(documents[idx]);
 			} else { return FAIL_STR_OR_NUM_ARG(1);	}
 		}
 	}
@@ -287,11 +288,11 @@ static gint glspi_fileinfo(lua_State* L)
 		if (p && (*p==G_DIR_SEPARATOR)){
 			lua_pushstring(L, tmp);
 		} else {
-			lua_pushfstring(L, "%s%s", tmp, G_DIR_SEPARATOR_S);		
+			lua_pushfstring(L, "%s%s", tmp, G_DIR_SEPARATOR_S);
 		}
 		lua_rawset(L,-3);
 		g_free(tmp);
-		
+
 		tmp=g_path_get_basename (doc->file_name);
 		p=strrchr(tmp,'.');
 		if (p==tmp) {p=NULL;}

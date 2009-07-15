@@ -13,12 +13,13 @@
 #include <ctype.h>
 
 #include "geany.h"
+#include "plugindata.h"
+
 #include "prefs.h"
 #include "project.h"
 #include "support.h"
 #include "document.h"
 #include "filetypes.h"
-#include "plugindata.h"
 #include "sciwrappers.h"
 #include "keybindings.h"
 #include "ui_utils.h"
