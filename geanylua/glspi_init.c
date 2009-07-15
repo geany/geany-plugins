@@ -447,7 +447,7 @@ static gchar *get_data_dir(void)
 	g_free(install_dir);
 	return result;
 #else
-	return g_strdup(LIBDIR);
+	return g_strdup(DATADIR);
 #endif
 }
 

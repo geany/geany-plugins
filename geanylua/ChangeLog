@@ -1,6 +1,10 @@
+July 13, 2009 (ntrel)
+  Fix using datadir for scripts.
+
 June 24, 2009 (eht16)
   Build libdir and datadir paths on Windows using the installation
   directory as prefix. This still can be improved.
+
 June 23, 2009 (ntrel)
   Look for support library in LIBDIR/geany-plugins/geanylua.
   Read scripts from DATADIR/geany-plugins/geanylua.
