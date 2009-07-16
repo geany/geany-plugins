@@ -23,27 +23,13 @@
  */
 
 
-#include "geany.h"
-#include "support.h"
-
-#ifdef HAVE_LOCALE_H
-# include <locale.h>
-#endif
+#include "geanyplugin.h"
 
 /*
 #ifdef G_OS_WIN32
 # include <windows.h>
 #endif
 */
-
-#include "plugindata.h"
-
-#include "keybindings.h"
-#include "utils.h"
-#include "ui_utils.h"
-#include "filetypes.h"
-
-#include "geanyfunctions.h"
 
 #include "scplugin.h"
 #include "gui.h"
@@ -55,8 +41,8 @@ GeanyData		*geany_data;
 GeanyFunctions	*geany_functions;
 
 
-PLUGIN_VERSION_CHECK(132)
-PLUGIN_SET_INFO(_("Spell Check"), _("Checks the spelling of the current document."), "0.4",
+PLUGIN_VERSION_CHECK(147);
+PLUGIN_SET_INFO(_("Spell Check"), _("Checks the spelling of the current document."), VERSION,
 			_("The Geany developer team"))
 
 

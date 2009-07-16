@@ -23,23 +23,13 @@
  */
 
 
-#include "geany.h"
-#include "support.h"
+#include "geanyplugin.h"
+
+#include "scintilla/SciLexer.h"
 
 #include <string.h>
 #include <ctype.h>
 #include <enchant.h>
-
-#include "plugindata.h"
-
-#include "document.h"
-#include "editor.h"
-#include "msgwindow.h"
-#include "utils.h"
-#include "ui_utils.h"
-#include "scintilla/SciLexer.h"
-
-#include "geanyfunctions.h"
 
 #include "speller.h"
 #include "scplugin.h"

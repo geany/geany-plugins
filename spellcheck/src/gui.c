@@ -23,21 +23,11 @@
  */
 
 
-#include "geany.h"
-#include "support.h"
+#include "geanyplugin.h"
 
 #include <ctype.h>
 #include <string.h>
 
-#include "plugindata.h"
-
-#include "document.h"
-#include "editor.h"
-#include "msgwindow.h"
-#include "utils.h"
-#include "ui_utils.h"
-
-#include "geanyfunctions.h"
 
 #include "gui.h"
 #include "scplugin.h"
