@@ -22,22 +22,7 @@
  */
 
 
-#include "geany.h"
-#include "support.h"
-
-#ifdef HAVE_LOCALE_H
-# include <locale.h>
-#endif
-
-
-#include "keybindings.h"
-#include "utils.h"
-#include "ui_utils.h"
-#include "document.h"
-#include "filetypes.h"
-
-#include "plugindata.h"
-#include "geanyfunctions.h"
+#include "geanyplugin.h"
 
 #include "ao_doclist.h"
 #include "ao_openuri.h"
@@ -51,7 +36,7 @@ GeanyData		*geany_data;
 GeanyFunctions	*geany_functions;
 
 
-PLUGIN_VERSION_CHECK(132)
+PLUGIN_VERSION_CHECK(147)
 PLUGIN_SET_INFO(_("Addons"), _("Various small addons for Geany."), VERSION,
 	"Enrico Tröger, Bert Vermeulen")
 

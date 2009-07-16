@@ -23,14 +23,7 @@
 #include <glib-object.h>
 #include <string.h>
 
-#include "geany.h"
-#include "document.h"
-#include "ui_utils.h"
-#include "utils.h"
-#include "support.h"
-
-#include "plugindata.h"
-#include "geanyfunctions.h"
+#include "geanyplugin.h"
 
 #include "addons.h"
 #include "ao_openuri.h"

@@ -19,13 +19,7 @@
  */
 
 
-#include "geany.h"
-#include "support.h"
-
-#include "ui_utils.h"
-
-#include "plugindata.h"
-#include "geanyfunctions.h"
+#include "geanyplugin.h"
 
 #include "addons.h"
 #include "ao_systray.h"

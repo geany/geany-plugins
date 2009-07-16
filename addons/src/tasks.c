@@ -19,22 +19,12 @@
  *      MA 02110-1301, USA.
  */
 
+#include "geanyplugin.h"
+
 #include <stdlib.h>
 #include <string.h>
 
 #include <gdk/gdkkeysyms.h>
-
-#include "geany.h"
-#include "support.h"
-#include "sciwrappers.h"
-
-#include "prefs.h"
-#include "ui_utils.h"
-#include "utils.h"
-#include "document.h"
-
-#include "plugindata.h"
-#include "geanyfunctions.h"
 
 #include "addons.h"
 #include "tasks.h"

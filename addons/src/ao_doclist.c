@@ -24,14 +24,7 @@
 #include <gtk/gtk.h>
 #include <glib-object.h>
 
-#include "geany.h"
-#include "support.h"
-#include "document.h"
-#include "utils.h"
-#include "ui_utils.h"
-
-#include "plugindata.h"
-#include "geanyfunctions.h"
+#include "geanyplugin.h"
 
 #include "addons.h"
 #include "ao_doclist.h"
