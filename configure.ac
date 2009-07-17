@@ -15,7 +15,7 @@ IT_PROG_INTLTOOL([0.35.0])
 GP_I18N
 
 dnl common checks
-GP_CHECK_GEANY(0.16)
+GP_CHECK_GEANY(0.18)
 GP_CHECK_UNITTESTS(0.9.4)
 
 dnl plugin checks
