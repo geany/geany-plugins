@@ -92,9 +92,9 @@ PLUGIN_KEY_GROUP(geanylatex, COUNT_KB)
 
 const GtkActionEntry format_icons[] =
 {
-	{ "Italic", GTK_STOCK_ITALIC, NULL, NULL, N_("Marks selected text as italic"), G_CALLBACK(glatex_kb_format_bold) },
+	{ "Italic", GTK_STOCK_ITALIC, NULL, NULL, N_("Marks selected text as italic"), G_CALLBACK(glatex_kb_format_italic) },
 	{ "Bold", GTK_STOCK_BOLD, NULL, NULL, N_("Marks selected text as bold"), G_CALLBACK(glatex_kb_format_bold) },
-	{ "Underline", GTK_STOCK_UNDERLINE, NULL, NULL, N_("Underlines selected text"), G_CALLBACK(glatex_kb_format_bold) },
+	{ "Underline", GTK_STOCK_UNDERLINE, NULL, NULL, N_("Underlines selected text"), G_CALLBACK(glatex_kb_format_typewriter) },
 	{ "Centered", GTK_STOCK_JUSTIFY_CENTER, NULL, NULL, NULL, G_CALLBACK(glatex_kb_format_centering) },
 	{ "Left", GTK_STOCK_JUSTIFY_LEFT, NULL, NULL, NULL, G_CALLBACK(glatex_kb_format_left) },
 	{ "Right", GTK_STOCK_JUSTIFY_RIGHT, NULL, NULL, NULL, G_CALLBACK(glatex_kb_format_right) },
