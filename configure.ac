@@ -12,24 +12,11 @@ AC_PROG_LIBTOOL
 
 dnl i18n
 IT_PROG_INTLTOOL([0.35.0])
-GETTEXT_PACKAGE=geany-plugins
-AC_SUBST(GETTEXT_PACKAGE)
-AC_DEFINE_UNQUOTED(
-    [GETTEXT_PACKAGE],
-    ["$GETTEXT_PACKAGE"],
-    [The domain to use with gettext])
-AM_GLIB_GNU_GETTEXT
-LOCALEDIR="${datadir}/locale"
-AC_SUBST(LOCALEDIR)
+GP_I18N
 
 dnl common checks
-PKG_CHECK_MODULES([GEANY], [geany >= 0.16])
-geanypluginsdir=`${PKG_CONFIG} --variable=libdir geany`/geany
-AC_SUBST([geanypluginsdir])
-
-PKG_CHECK_MODULES([CHECK], [check >= 0.9.4], 
-        [AM_CONDITIONAL(UNITTESTS, true)],
-        [AM_CONDITIONAL(UNITTESTS, false)])
+GP_CHECK_GEANY(0.16)
+GP_CHECK_UNITTESTS(0.9.4)
 
 dnl plugin checks
 GP_CHECK_ADDONS
