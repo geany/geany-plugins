@@ -1,5 +1,6 @@
 AC_DEFUN([GP_CHECK_GEANYVC],
 [
+    GP_STATUS_PLUGIN_ADD([GeanyVC], [yes])
     AC_ARG_ENABLE(gtkspell,
         AC_HELP_STRING([--enable-gtkspell=ARG],
             [Enable GtkSpell support in GeanyVC. [[default=auto]]]),,
@@ -13,6 +14,7 @@ AC_DEFUN([GP_CHECK_GEANYVC],
     fi
 
     AM_CONDITIONAL(USE_GTKSPELL, test $enable_gtkspell = yes)
+    GP_STATUS_FEATURE_ADD([GeanyVC GtkSpell support], [$enable_gtkspell])
 
     AC_CONFIG_FILES([
         geanyvc/Makefile

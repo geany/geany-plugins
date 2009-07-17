@@ -27,6 +27,7 @@ AC_DEFUN([GP_CHECK_GEANYLUA],
     fi
 
     AM_CONDITIONAL(ENABLE_GEANYLUA, test $enable_geanylua = yes)
+    GP_STATUS_PLUGIN_ADD([GeanyLua], [$enable_geanylua])
 
     AC_CONFIG_FILES([
         geanylua/examples/edit/Makefile

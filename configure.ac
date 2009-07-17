@@ -34,3 +34,4 @@ AC_CONFIG_FILES([
     po/Makefile.in
 ])
 AC_OUTPUT
+GP_STATUS_PRINT

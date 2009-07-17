@@ -12,7 +12,8 @@ AC_DEFUN([GP_CHECK_GEANY],
         export PKG_CONFIG_PATH="$geany_prefix/lib/pkgconfig:$PKG_CONFIG_PATH"
 
     PKG_CHECK_MODULES([GEANY], [geany >= $1])
-    geanypluginsdir=$($PKG_CONFIG --variable=libdir)/geany
+    geanypluginsdir=$($PKG_CONFIG --variable=libdir geany)/geany
+    geanyversion=$($PKG_CONFIG --modversion geany)
     AC_SUBST([geanypluginsdir])
 
     test -z $geany_prefix || \
