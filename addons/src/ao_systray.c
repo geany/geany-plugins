@@ -132,7 +132,8 @@ static void icon_popup_menu_cmd_clicked_cb(GtkMenuItem *item, gpointer data)
 
 static gboolean icon_quit_cb(gpointer data)
 {
-	g_signal_emit_by_name(geany->main_widgets->window, "delete-event", NULL);
+	g_signal_emit_by_name(ui_lookup_widget(geany->main_widgets->window, "menu_quit1"),
+		"activate", NULL);
 
 	return FALSE;
 }
