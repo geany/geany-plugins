@@ -19,16 +19,7 @@
  *      MA 02110-1301, USA.
  */
 
-
-#include "geany.h"
-#include "ui_utils.h"
-#include "support.h"
-#include "plugindata.h"
-#include "document.h"
-#include "filetypes.h"
-#include "utils.h"
-#include "keybindings.h"
-#include "geanyfunctions.h"
+#include "geanyplugin.h"
 
 #include <string.h>
 #ifdef HAVE_LOCALE_H
@@ -40,7 +31,7 @@ GeanyPlugin		*geany_plugin;
 GeanyData		*geany_data;
 GeanyFunctions	*geany_functions;
 
-PLUGIN_VERSION_CHECK(130)
+PLUGIN_VERSION_CHECK(147)
 PLUGIN_SET_INFO(_("Lipsum"), _("Creating dummy text with Geany"), "0.4.2", "Frank Lanitz <frank@frank.uvena.de>");
 
 static GtkWidget *main_menu_item = NULL;
