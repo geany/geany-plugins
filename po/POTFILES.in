@@ -7,6 +7,9 @@ addons/src/ao_openuri.c
 addons/src/addons.c
 addons/src/ao_doclist.c
 
+#codenav
+codenav/src/codenavigation.c
+
 #geanygdb
 geanygdb/src/gdb-io-break.c
 geanygdb/src/gdb-io-envir.c
