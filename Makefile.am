@@ -1,5 +1,6 @@
 plugins = \
 	addons \
+	codenav \
 	geanygdb \
 	geanylatex \
 	geanylipsum \
