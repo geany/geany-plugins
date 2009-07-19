@@ -7,7 +7,7 @@ Usage:
 ./waf install
 
 This will configure, build and install most of the available plugins.
-To exclude some plugins, ./waf configure accepts the option ""-enable-plugins"
+To exclude some plugins, ./waf configure accepts the option "--enable-plugins"
 which takes a comma-separated list of plugins to compile, e.g.
 
 ./waf configure --enable-plugins=geanysendmail,spellcheck

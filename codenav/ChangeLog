@@ -1,0 +1,5 @@
+2009-07-19  Lionel Fuentes  <funto66@gmail.com>
+
+ * src/codenav.c: Initial import
+      implementation / header switching works but is not configurable
+

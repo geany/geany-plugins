@@ -64,6 +64,7 @@ class Plugin:
 # add a new element for your plugin
 plugins = [
 	Plugin('addons', None, [ 'addons/src' ]),
+	Plugin('codenav', None, [ 'codenav/src' ]),
 	Plugin('geanylatex', None, [ 'geanylatex/src']),
 	Plugin('geanylipsum', None, [ 'geanylipsum/src']),
 	Plugin('geanysendmail',
