@@ -49,7 +49,7 @@ static gboolean tasks_enabled = FALSE;
 
 static gboolean tasks_button_cb(GtkWidget *widget, GdkEventButton *event, gpointer data);
 static gboolean tasks_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer data);
-static void free_editor_tasks(void *editor);
+static void free_editor_tasks(gpointer key, gpointer value, gpointer data);
 static void scan_all_documents(void);
 static void scan_document_for_tasks(GeanyDocument *doc);
 static void create_tasks_tab(void);
@@ -77,15 +77,12 @@ static void tasks_init(void)
 static void tasks_cleanup(void)
 {
 	GtkWidget *notebook;
-	GList *editors, *editor;
 	int page;
 
 	g_string_free(linebuf, TRUE);
 
-	editors = g_hash_table_get_keys(globaltasks);
-	for(editor = g_list_first(editors); editor; editor = editor->next)
-		free_editor_tasks(editor);
-	g_hash_table_unref(globaltasks);
+	g_hash_table_foreach(globaltasks, free_editor_tasks, NULL);
+	g_hash_table_destroy(globaltasks);
 
 	notebook = ui_lookup_widget(geany->main_widgets->window, "notebook_info");
 	page = gtk_notebook_page_num(GTK_NOTEBOOK(notebook), notebook_page);
@@ -109,7 +106,7 @@ void tasks_on_document_close(GObject *object, GeanyDocument *doc, gpointer data)
 {
 
 	if(tasks_enabled && doc->is_valid)
-		free_editor_tasks(doc->editor);
+		free_editor_tasks(doc->editor, NULL, NULL);
 
 }
 
@@ -223,12 +220,12 @@ static gboolean tasks_key_cb(GtkWidget *widget, GdkEventKey *event, gpointer dat
 }
 
 
-static void free_editor_tasks(void *editor)
+static void free_editor_tasks(gpointer key, gpointer value, gpointer data)
 {
 	GList *tasklist, *entry;
 	GeanyTask *task;
 
-	tasklist = g_hash_table_lookup(globaltasks, editor);
+	tasklist = (value) ? value : g_hash_table_lookup(globaltasks, key);
 	if(tasklist)
 	{
 		for(entry = g_list_first(tasklist); entry; entry = g_list_next(entry))
@@ -239,7 +236,7 @@ static void free_editor_tasks(void *editor)
 		}
 		g_list_free(tasklist);
 	}
-	g_hash_table_remove(globaltasks, editor);
+	g_hash_table_remove(globaltasks, key);
 
 }
 
