@@ -1,101 +1,101 @@
 2009-07-17  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
 
-  * src/ao_systray.c:
-    Attempt to fix crashes when quitting Geany from the system tray
-    icon.
+ * src/ao_systray.c:
+   Attempt to fix crashes when quitting Geany from the system tray
+   icon.
 
 
 2009-07-16  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
 
-  * src/addons.c, src/ao_doclist.c, src/ao_openuri.c, src/ao_systray.c,
-    src/tasks.c:
-    Use single header includes.
+ * src/addons.c, src/ao_doclist.c, src/ao_openuri.c, src/ao_systray.c,
+   src/tasks.c:
+   Use single header includes.
 
 
 2009-06-16  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
 
-  * src/ao_doclist.c:
-    Fix a memory leak.
-  * src/ao_doclist.c:
-    Fix a typo. Fix label for new, untitled files in the document list
-    menu.
-    Show current document in bold in in the document list menu.
+ * src/ao_doclist.c:
+   Fix a memory leak.
+ * src/ao_doclist.c:
+   Fix a typo. Fix label for new, untitled files in the document list
+   menu.
+   Show current document in bold in in the document list menu.
 
 
 2009-06-12  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
 
-  * src/ao_systray.c:
-    Remove unnecessary casts.
-  * src/ao_systray.c:
-    Fix build for GTK 2.8.
+ * src/ao_systray.c:
+   Remove unnecessary casts.
+ * src/ao_systray.c:
+   Fix build for GTK 2.8.
 
 
 2009-05-30  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
 
-  * configure.in:
-    Post-release version bump.
-  * NEWS, README:
-    Update for 0.2.
-  * configure.in, po/addons.pot, po/geanyaddons.pot:
-    Prefix the gettext package with "geany" to avoid possible naming
-    conflicts.
+ * configure.in:
+   Post-release version bump.
+ * NEWS, README:
+   Update for 0.2.
+ * configure.in, po/addons.pot, po/geanyaddons.pot:
+   Prefix the gettext package with "geany" to avoid possible naming
+   conflicts.
 
 
 2009-05-02  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
 
-  * src/ao_systray.c:
-    Fix typo (oops).
+ * src/ao_systray.c:
+   Fix typo (oops).
 
 
 2009-04-29  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
 
-  * makefile.win32:
-    Fix build on Windows.
-  * src/ao_systray.c:
-    Simplify the show/hide code so it also works for Windows.
-  * po/POTFILES.in, src/Makefile.am, src/addons.c, src/ao_systray.c,
-    src/ao_systray.h:
-    Implement a notification area icon (systray) as part of the
-    Addons plugin.
+ * makefile.win32:
+   Fix build on Windows.
+ * src/ao_systray.c:
+   Simplify the show/hide code so it also works for Windows.
+ * po/POTFILES.in, src/Makefile.am, src/addons.c, src/ao_systray.c,
+   src/ao_systray.h:
+   Implement a notification area icon (systray) as part of the
+   Addons plugin.
 
 
 2009-04-24  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
 
-  * makefile.win32:
-    Fix Windows build (reported by Timothy Boronczyk, thanks).
+ * makefile.win32:
+   Fix Windows build (reported by Timothy Boronczyk, thanks).
 
 
 2009-04-07  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
 
-  * configure.in, src/addons.c:
-    Post-release version bump.
-  * NEWS, README:
-    Initial release of the Addons plugins.
+ * configure.in, src/addons.c:
+   Post-release version bump.
+ * NEWS, README:
+   Initial release of the Addons plugins.
 
 
 2009-04-06  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
 
-  * AUTHORS, README, makefile.win32, po/POTFILES.in, src/Makefile.am,
-    src/addons.c, src/tasks.c, src/tasks.h:
-    Move Tasks plugin into the Addons plugins as of biot's request.
+ * AUTHORS, README, makefile.win32, po/POTFILES.in, src/Makefile.am,
+   src/addons.c, src/tasks.c, src/tasks.h:
+   Move Tasks plugin into the Addons plugins as of biot's request.
 
 
 2009-03-29  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
 
-  * src/ao_doclist.c:
-    Don't use menu item images for the tab bar menu to save some
-    vertical space.
+ * src/ao_doclist.c:
+   Don't use menu item images for the tab bar menu to save some
+   vertical space.
 
 
 2009-03-13  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
 
-  * src/ao_openuri.c:
-    Make the check for a valid URI a bit stricter to reduce the
-    amount of false-positives.
+ * src/ao_openuri.c:
+   Make the check for a valid URI a bit stricter to reduce the
+   amount of false-positives.
 
 
 2009-02-26  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
 
-  * *.*:
-    Import 'Addons' plugin which adds various small addons to Geany
-    which aren't worth an own plugin but might still useful for people.
+ * *.*:
+   Import 'Addons' plugin which adds various small addons to Geany
+   which aren't worth an own plugin but might still useful for people.
