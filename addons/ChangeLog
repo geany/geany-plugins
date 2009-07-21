@@ -1,15 +1,15 @@
+2009-07-21  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/tasks.c:
+   Avoid using GHashTable functions from newer GLib versions to fix
+   compilation with GLib 2.8.
+
+
 2009-07-17  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
 
  * src/ao_systray.c:
    Attempt to fix crashes when quitting Geany from the system tray
    icon.
-
-
-2009-07-16  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
-
- * src/addons.c, src/ao_doclist.c, src/ao_openuri.c, src/ao_systray.c,
-   src/tasks.c:
-   Use single header includes.
 
 
 2009-06-16  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
