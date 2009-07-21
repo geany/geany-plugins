@@ -41,7 +41,7 @@ import glob, os, sys, tempfile
 
 
 APPNAME = 'geany-plugins'
-VERSION = '0.17'
+VERSION = '0.17.1'
 
 srcdir = '.'
 blddir = '_build_'
