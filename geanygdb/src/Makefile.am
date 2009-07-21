@@ -1,7 +1,8 @@
 include $(top_srcdir)/build/vars.build.mk
 
+geanygdbdir = $(pkglibdir)/geanygdb
 geanyplugins_LTLIBRARIES = geanygdb.la
-geanyplugins_PROGRAMS = ttyhelper
+geanygdb_PROGRAMS = ttyhelper
 
 geanygdb_la_SOURCES = \
 	gdb-io.h \
@@ -22,6 +23,7 @@ geanygdb_la_SOURCES = \
 	gdb-io-stack.c \
 	gdb-ui-locn.c
 
+geanygdb_la_CFLAGS = $(AM_CFLAGS) -DTTYHELPERDIR=\""$(geanygdbdir)"\"
 geanygdb_la_LIBADD = $(COMMONLIBS)
 
 ttyhelper_SOURCES = ttyhelper.c

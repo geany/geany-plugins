@@ -363,7 +363,7 @@ plugin_init(GeanyData * data)
 	 * the tty helper binary is either in the user's config dir or globally
 	 * installed in $LIBDIR/geany/
 	 */
-	glob_file = g_build_filename(LIBDIR, "geany", "ttyhelper", NULL);
+	glob_file = g_build_filename(TTYHELPERDIR, "ttyhelper", NULL);
 	user_file = g_build_filename(geany->app->configdir, "plugins", UNIX_NAME, "ttyhelper", NULL);
 	gdbio_setup.tty_helper = NULL;
 
