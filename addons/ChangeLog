@@ -1,8 +1,8 @@
 2009-07-21  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
 
  * src/tasks.c:
-   Avoid using GHastTable from newer GLib versions to fix compilation
-   with GLib 2.8.
+   Avoid using GHashTable functions from newer GLib versions to fix
+   compilation with GLib 2.8.
 
 
 2009-07-17  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
