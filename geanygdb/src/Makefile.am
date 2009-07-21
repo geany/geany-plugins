@@ -1,6 +1,6 @@
 include $(top_srcdir)/build/vars.build.mk
 
-geanygdbdir = $(libexecdir)/geanygdb
+geanygdbdir = $(libexecdir)/geany-plugins/geanygdb
 geanyplugins_LTLIBRARIES = geanygdb.la
 geanygdb_PROGRAMS = ttyhelper
 
