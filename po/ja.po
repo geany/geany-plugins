@@ -1,132 +1,129 @@
-# French translation for geany-plugins
-# Copyright (C) 2009 THE PACKAGE'S COPYRIGHT HOLDER
+# Japanese translations for geany-plugins package.
+# Copyright (C) 2009 THE geany-plugins'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
-# Burlot Pascal <prublot(at)users(dot)sourceforge(dot)net>, 2009.
-# Lionel Fuentes <funto66(at)gmail(dot)com>, 2009
+# Masami Chikahiro <cmasa.z321@gmail.com>, 2009.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.17\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-04 18:21+0200\n"
-"PO-Revision-Date: 2009-07-04 11:46+0100\n"
-"Last-Translator: Lionel Fuentes <funto66@gmail.com>\n"
-"Language-Team: French <geany-i18n@uvena.de>\n"
+"POT-Creation-Date: 2009-07-19 21:41+0200\n"
+"PO-Revision-Date: 2009-07-19 13:40+0900\n"
+"Last-Translator: Masami Chikahiro <cmasa.z321@gmail.com>\n"
+"Language-Team: Japanese\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ../addons/src/tasks.c:311
+#: ../addons/src/tasks.c:301
 msgid "Tasks"
-msgstr "Taches"
+msgstr "タスク"
 
-#: ../addons/src/ao_openuri.c:169
+#: ../addons/src/ao_openuri.c:162
 msgid "Open URI"
-msgstr "Ouvrir une URI"
+msgstr "URIを開く"
 
-#: ../addons/src/ao_openuri.c:175
+#: ../addons/src/ao_openuri.c:168
 msgid "Copy URI"
-msgstr "Copier une URI"
+msgstr "URIをコピー"
 
-#: ../addons/src/addons.c:55
+#: ../addons/src/addons.c:40
 msgid "Addons"
-msgstr "Additions"
+msgstr "アドオン"
 
-#: ../addons/src/addons.c:55
+#: ../addons/src/addons.c:40
 msgid "Various small addons for Geany."
-msgstr "Diverses petites additions pour Geany"
+msgstr "Geany用の小さなアドオン集"
 
-#: ../addons/src/addons.c:176 ../geanylatex/src/geanylatex.c:181
+#: ../addons/src/addons.c:161 ../geanylatex/src/geanylatex.c:181
 #: ../geanysendmail/src/geanysendmail.c:151
 #: ../geanysendmail/src/geanysendmail.c:312 ../geanyvc/src/geanyvc.c:1673
-#: ../spellcheck/src/scplugin.c:143
+#: ../spellcheck/src/scplugin.c:129
 msgid "Plugin configuration directory could not be created."
-msgstr "Le répertoire de configuration du plugin n'a pas pu être créé."
+msgstr "プラグイン設定ディレクトリを作成できません。"
 
-#: ../addons/src/addons.c:198
+#: ../addons/src/addons.c:183
 msgid "Show toolbar item to show a list of currently open documents"
-msgstr ""
-"Montrer le bouton dans la barre d'outils servant à montrer la liste des "
-"documents actuellement ouverts"
+msgstr "文書の一覧を表示するツールバーボタンを追加"
 
 #. TODO fix the string
-#: ../addons/src/addons.c:205
+#: ../addons/src/addons.c:190
 msgid "Show a 'Open URI' menu item in the editor menu"
-msgstr "Montrer une commande \"Ouvrir URI\" dans le menu de l'éditeur"
+msgstr "ポップアップメニューに'URIを開く'を追加"
 
-#: ../addons/src/addons.c:211
+#: ../addons/src/addons.c:196
 msgid "Show available tasks in the Message Window"
-msgstr "Montrer l'icône d'état dans la zone de notification"
+msgstr "メッセージウィンドウに利用可能なタスクを表示"
 
-#: ../addons/src/addons.c:217
+#: ../addons/src/addons.c:202
 msgid "Show status icon in the Notification Area"
-msgstr "Montrer l'icône d'état dans la zone de notification"
+msgstr "通知領域にアイコンを表示"
 
-#: ../addons/src/ao_doclist.c:216
+#: ../addons/src/ao_doclist.c:209
 msgid "Close Ot_her Documents"
-msgstr "Fermer les _autres documents"
+msgstr "他の文書を閉じる(_O)"
 
-#: ../addons/src/ao_doclist.c:221
+#: ../addons/src/ao_doclist.c:214
 msgid "C_lose All"
-msgstr "_Fermer tout"
+msgstr "すべて閉じる(_A)"
 
-#: ../addons/src/ao_doclist.c:251
+#: ../addons/src/ao_doclist.c:244
 msgid "Show Document List"
-msgstr "Montrer la liste des documents"
+msgstr "文書の一覧を表示"
 
 #: ../geanygdb/src/gdb-io-break.c:142
-#, c-format
+#, fuzzy, c-format
 msgid "Added breakpoint #%s in %s() at %s:%s\n"
-msgstr "Ajout d'un point d'arrêt #%s dans %s() à %s:%s\n"
+msgstr "ブレークポイント #%s を %s() %s:%s に追加しました\n"
 
 #: ../geanygdb/src/gdb-io-break.c:147
-#, c-format
+#, fuzzy, c-format
 msgid "Added breakpoint #%s at %s:%s\n"
-msgstr "Ajout d'un point d'arrêt #%s à %s:%s\n"
+msgstr "ブレークポイント #%s を %s:%s に追加しました\n"
 
 #: ../geanygdb/src/gdb-io-break.c:159
-#, c-format
+#, fuzzy, c-format
 msgid "Added write watchpoint #%s for %s\n"
-msgstr ""
+msgstr "出力ウォッチポイント #%s を %s 用に追加しました\n"
 
 #: ../geanygdb/src/gdb-io-break.c:168
-#, c-format
+#, fuzzy, c-format
 msgid "Added read/write watchpoint #%s for %s\n"
-msgstr ""
+msgstr "入出力ウォッチポイント #%s を %s 用に追加しました\n"
 
 #: ../geanygdb/src/gdb-io-break.c:179
-#, c-format
+#, fuzzy, c-format
 msgid "Added read watchpoint #%s for %s\n"
-msgstr ""
+msgstr "入力ウォッチポイント #%s を %s 用に追加しました\n"
 
 #: ../geanygdb/src/gdb-io-break.c:226
 msgid "Watch/breakpoint deleted.\n"
-msgstr ""
+msgstr "ウォッチ/ブレークポイントを削除しました\n"
 
 #: ../geanygdb/src/gdb-io-break.c:250
 msgid "Failed to toggle breakpoint -\n"
-msgstr ""
+msgstr "ブレークポイントの切り替え失敗 -\n"
 
 #: ../geanygdb/src/gdb-io-break.c:268
 msgid "Watch/breakpoint toggled.\n"
-msgstr ""
+msgstr "ウォッチ/ブレークポイントを切り替えました\n"
 
 #: ../geanygdb/src/gdb-io-break.c:282
 msgid "Watch/breakpoint modified.\n"
-msgstr ""
+msgstr "ウォッチ/ブレークポイントを修正しました\n"
 
 #: ../geanygdb/src/gdb-io-envir.c:122
 msgid "Failed to retrieve source search path setting from GDB."
-msgstr ""
+msgstr "GDBのソースプログラム検索パス設定の取得に失敗しました"
 
 #: ../geanygdb/src/gdb-io-envir.c:143
 msgid "Failed to retrieve executable search path setting from GDB."
-msgstr ""
+msgstr "GDBの実行プログラム検索パス設定の取得に失敗しました"
 
 #: ../geanygdb/src/gdb-io-envir.c:165
 msgid "Failed to retrieve working directory setting from GDB."
-msgstr ""
+msgstr "GDBの作業ディレクトリ設定の取得に失敗しました"
 
 #: ../geanygdb/src/gdb-io-frame.c:489
 msgid "Field list too long, not all items can be displayed.\n"
@@ -211,29 +208,28 @@ msgstr ""
 
 #: ../geanygdb/src/gdb-io-run.c:475
 msgid "code="
-msgstr "code="
+msgstr ""
 
 #: ../geanygdb/src/gdb-io-run.c:475
 msgid "reason:"
-msgstr "raison:"
+msgstr ""
 
 #: ../geanygdb/src/gdb-io-run.c:541 ../geanygdb/src/gdb-io-run.c:606
 #, c-format
 msgid "Directory %s not found!\n"
-msgstr "Répertoire %s introuvable !\n"
+msgstr ""
 
 #: ../geanygdb/src/gdb-io-run.c:546
 msgid "Shutting down target program.\n"
-msgstr "Fermeture du programme cible.\n"
+msgstr ""
 
 #: ../geanygdb/src/gdb-io-run.c:553
 msgid "Killing target program.\n"
-msgstr "Tue le programme cible.\n"
+msgstr ""
 
 #: ../geanygdb/src/gdb-io-run.c:561
-#, fuzzy
 msgid "Timeout waiting for target process.\n"
-msgstr "Timeout alors que l'on attendait le processus cible"
+msgstr ""
 
 #: ../geanygdb/src/gdb-io-run.c:564
 msgid "Using a bigger hammer!\n"
@@ -241,7 +237,7 @@ msgstr ""
 
 #: ../geanygdb/src/gdb-io-run.c:578
 msgid "Waiting for target process to exit.\n"
-msgstr "Attente de la fin du processus cible.\n"
+msgstr ""
 
 #: ../geanygdb/src/gdb-io-run.c:614
 #, c-format
@@ -370,7 +366,7 @@ msgstr ""
 
 #: ../geanygdb/src/gdb-ui-envir.c:151 ../geanylua/gsdlg.c:226
 msgid "Select Font"
-msgstr "Sélectionner une police"
+msgstr ""
 
 #: ../geanygdb/src/gdb-ui-envir.c:173
 msgid "Preferences"
@@ -418,7 +414,7 @@ msgstr ""
 
 #: ../geanygdb/src/gdb-ui-frame.c:297 ../geanygdb/src/gdb-ui-frame.c:371
 msgid "Display additional information about the selected item."
-msgstr "Affiche des informations supplémentaires sur l'item sélectionné"
+msgstr ""
 
 #: ../geanygdb/src/gdb-ui-frame.c:344
 msgid "Frame info"
@@ -448,9 +444,8 @@ msgid "Stack trace"
 msgstr ""
 
 #: ../geanygdb/src/gdb-ui-frame.c:595
-#, fuzzy
 msgid "Display additional information about the selected frame."
-msgstr "Affiche des informations supplémentaires sur la frame sélectionnée"
+msgstr ""
 
 #: ../geanygdb/src/gdb-ui-locn.c:53
 msgid "Clea_r"
@@ -959,7 +954,7 @@ msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1133
 msgid "Format selection left-aligned"
-msgstr "Aligner la sélection à gauche"
+msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1135
 msgid "Format selection right-aligned "
@@ -1102,9 +1097,8 @@ msgid "Arrow characters"
 msgstr ""
 
 #: ../geanylatex/src/letters.c:43
-#, fuzzy
 msgid "Relational"
-msgstr "Relationnel"
+msgstr ""
 
 #: ../geanylatex/src/letters.c:44
 msgid "Binary operation"
@@ -1124,7 +1118,7 @@ msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:31
 msgid "Incollection"
-msgstr "Incollection"
+msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:32
 msgid "Inproceedings"
@@ -1432,32 +1426,32 @@ msgstr ""
 msgid "Environment:"
 msgstr ""
 
-#: ../geanylipsum/src/geanylipsum.c:44
+#: ../geanylipsum/src/geanylipsum.c:35
 msgid "Lipsum"
 msgstr ""
 
-#: ../geanylipsum/src/geanylipsum.c:44
+#: ../geanylipsum/src/geanylipsum.c:35
 msgid "Creating dummy text with Geany"
 msgstr ""
 
-#: ../geanylipsum/src/geanylipsum.c:87
+#: ../geanylipsum/src/geanylipsum.c:78
 msgid "Lipsum-Generator"
 msgstr ""
 
-#: ../geanylipsum/src/geanylipsum.c:88
+#: ../geanylipsum/src/geanylipsum.c:79
 msgid "Enter the length of Lipsum text here"
 msgstr ""
 
 #. Building menu entry
-#: ../geanylipsum/src/geanylipsum.c:163
+#: ../geanylipsum/src/geanylipsum.c:154
 msgid "_Lipsum"
 msgstr ""
 
-#: ../geanylipsum/src/geanylipsum.c:165
+#: ../geanylipsum/src/geanylipsum.c:156
 msgid "Include Pseudotext to your code"
 msgstr ""
 
-#: ../geanylipsum/src/geanylipsum.c:178
+#: ../geanylipsum/src/geanylipsum.c:169
 msgid "Insert Lipsum text"
 msgstr ""
 
@@ -1544,7 +1538,7 @@ msgstr ""
 #. Build up menu entry
 #: ../geanysendmail/src/geanysendmail.c:411
 msgid "_Mail document"
-msgstr "Envoyer par _mail"
+msgstr ""
 
 #: ../geanysendmail/src/geanysendmail.c:414
 msgid ""
@@ -1823,7 +1817,7 @@ msgid "Show diff of file"
 msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:2092
-msgid "Show diff of diretory"
+msgid "Show diff of directory"
 msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:2094
@@ -1880,143 +1874,141 @@ msgstr ""
 msgid "Commit changes."
 msgstr ""
 
-#: ../spellcheck/src/speller.c:101
+#: ../spellcheck/src/speller.c:91
 msgid "Try: "
 msgstr ""
 
-#: ../spellcheck/src/speller.c:180
+#: ../spellcheck/src/speller.c:170
 msgid "Checking"
 msgstr ""
 
-#: ../spellcheck/src/speller.c:193
+#: ../spellcheck/src/speller.c:183
 #, c-format
 msgid "Checking file \"%s\" (lines %d to %d using %s):"
 msgstr ""
 
-#: ../spellcheck/src/speller.c:203
+#: ../spellcheck/src/speller.c:193
 #, c-format
 msgid "Checking file \"%s\" (using %s):"
 msgstr ""
 
-#: ../spellcheck/src/speller.c:221
+#: ../spellcheck/src/speller.c:211
 msgid "The checked text is spelled correctly."
 msgstr ""
 
-#: ../spellcheck/src/speller.c:231
+#: ../spellcheck/src/speller.c:221
 #, c-format
 msgid "The Enchant library couldn't be initialized (%s)."
 msgstr ""
 
-#: ../spellcheck/src/speller.c:232
+#: ../spellcheck/src/speller.c:222
 msgid "unknown error (maybe the chosen language is not available)"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:59
+#: ../spellcheck/src/scplugin.c:45
 msgid "Spell Check"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:59
+#: ../spellcheck/src/scplugin.c:45
 msgid "Checks the spelling of the current document."
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:60
+#: ../spellcheck/src/scplugin.c:46
 msgid "The Geany developer team"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:199
+#: ../spellcheck/src/scplugin.c:185
 msgid "Run Spell Check"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:202
+#: ../spellcheck/src/scplugin.c:188
 msgid "Toggle Check While Typing"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:213
+#: ../spellcheck/src/scplugin.c:199
 msgid "Check spelling while typing"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:217
+#: ../spellcheck/src/scplugin.c:203
 msgid "Show toolbar item to toggle spell checking"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:222
+#: ../spellcheck/src/scplugin.c:208
 msgid "Print misspelled words and suggestions in the messages window"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:226
+#: ../spellcheck/src/scplugin.c:212
 msgid "Language to use for the spell check:"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:66
+#: ../spellcheck/src/gui.c:56
 msgid "Spell checking while typing is now enabled"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:68
+#: ../spellcheck/src/gui.c:58
 msgid "Spell checking while typing is now disabled"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:276
+#: ../spellcheck/src/gui.c:266
 msgid "More..."
 msgstr ""
 
-#: ../spellcheck/src/gui.c:290
+#: ../spellcheck/src/gui.c:280
 msgid "(No Suggestions)"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:297
+#: ../spellcheck/src/gui.c:287
 #, c-format
 msgid "Add \"%s\" to Dictionary"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:303
+#: ../spellcheck/src/gui.c:293
 msgid "Ignore All"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:422
+#: ../spellcheck/src/gui.c:412
 #, c-format
 msgid "Default (%s)"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:423 ../spellcheck/src/gui.c:434
+#: ../spellcheck/src/gui.c:413 ../spellcheck/src/gui.c:424
 msgid "unknown"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:433
+#: ../spellcheck/src/gui.c:423
 #, c-format
 msgid "Toggle spell check while typing (current language: %s)"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:494
+#: ../spellcheck/src/gui.c:484
 msgid "Spelling Suggestions"
 msgstr ""
 
 #: ../shiftcolumn/src/shiftcolumn.c:46
 msgid "Shift Column"
-msgstr "Déplacer une colonne"
+msgstr ""
 
 #: ../shiftcolumn/src/shiftcolumn.c:47
 msgid "Shift a selection left and right"
-msgstr "Déplacer une sélection vers la gauche ou la droite"
+msgstr ""
 
 #: ../shiftcolumn/src/shiftcolumn.c:375 ../shiftcolumn/src/shiftcolumn.c:395
 msgid "Shift Left"
-msgstr "Déplacer vers la gauche"
+msgstr ""
 
 #: ../shiftcolumn/src/shiftcolumn.c:382 ../shiftcolumn/src/shiftcolumn.c:397
 msgid "Shift Right"
-msgstr "Déplacer vers la droite"
+msgstr ""
 
 #: ../geanylua/gsdlg_lua.c:95 ../geanylua/glspi_kfile.c:54
-#: ../geanylua/glspi.h:96
+#: ../geanylua/glspi.h:97
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
 " expected type \"%s\" for argument #%d\n"
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction %s():\n"
-"attendait le type \"%s\" pour l'argument #%d\n"
 
-#: ../geanylua/gsdlg_lua.c:108 ../geanylua/glspi.h:124
+#: ../geanylua/gsdlg_lua.c:108 ../geanylua/glspi.h:125
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2024,23 +2016,19 @@ msgid ""
 "  expected type \"%s\" for element #%d\n"
 " "
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction %s():\n"
-"table invalide pour l'argument #%d:\n"
-"attendait le type \"%s\" pour l'élément #%d\n"
-" "
 
 #: ../geanylua/glspi_init.c:430
 msgid "_Lua Scripts"
-msgstr "Scripts _Lua"
+msgstr ""
 
 #: ../geanylua/glspi_init.c:476
 #, c-format
 msgid "     ==>> %s: Building menu from '%s'\n"
-msgstr "    ==>> %s: Construction du menu depuis '%s'\n"
+msgstr ""
 
 #: ../geanylua/glspi_init.c:576
 msgid "Nothing to configure!"
-msgstr "Rien à configurer !"
+msgstr ""
 
 #: ../geanylua/glspi_init.c:578
 #, c-format
@@ -2051,11 +2039,6 @@ msgid ""
 "\n"
 "to add your own custom configuration dialog."
 msgstr ""
-"Vous créez le script:\n"
-"\n"
-"\"%s\"\n"
-"\n"
-"pour ajouter votre propre boîte de dialogue de configuration personnalisée."
 
 #: ../geanylua/glspi_sci.c:427
 #, c-format
@@ -2063,8 +2046,6 @@ msgid ""
 "Error in module \"%s\" at function navigate():\n"
 "unknown navigation mode \"%s\" for argument #1.\n"
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction navigate():\n"
-"mode de navigation \"%s\" inconnu pour l'argument #1.\n"
 
 #: ../geanylua/glspi_sci.c:602
 #, c-format
@@ -2072,8 +2053,6 @@ msgid ""
 "Error in module \"%s\" at function %s():\n"
 "API command \"%s\" not implemented.\n"
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction %s():\n"
-"la commande \"%s\" de l'API n'est pas implémentée.\n"
 
 #: ../geanylua/glspi_sci.c:613
 #, c-format
@@ -2081,8 +2060,6 @@ msgid ""
 "Error in module \"%s\" at function %s():\n"
 "not enough arguments for command \"%s\".\n"
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction %s():\n"
-"pas assez d'arguments pour la commande \"%s\".\n"
 
 #: ../geanylua/glspi_sci.c:651 ../geanylua/glspi_app.c:399
 #, c-format
@@ -2090,8 +2067,6 @@ msgid ""
 "Error in module \"%s\" at function %s():\n"
 "unknown command \"%s\" given for argument #1.\n"
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction %s():\n"
-"commande \"%s\" donnée pour l'argument #1 inconnue.\n"
 
 #: ../geanylua/glspi_sci.c:793
 #, c-format
@@ -2101,58 +2076,54 @@ msgid ""
 "  unknown flag \"%s\" for element #%d\n"
 " "
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction %s():\n"
-" table invalide dans l'argument #%d:\n"
-"  flag \"%s\" inconnu pour l'élément #%d\n"
-" "
 
 #: ../geanylua/glspi_sci.c:797
 msgid "<too large to display>"
-msgstr "<trop large pour l'afficher>"
+msgstr ""
 
 #: ../geanylua/gsdlg.c:103 ../geanylua/glspi_dlg.c:421
 msgid "Open file"
-msgstr "Ouvrir"
+msgstr ""
 
 #: ../geanylua/gsdlg.c:107
 msgid "Select file"
-msgstr "Sélectionner un fichier"
+msgstr ""
 
 #: ../geanylua/gsdlg.c:154
 msgid "Browse..."
-msgstr "Parcourir..."
+msgstr ""
 
 #: ../geanylua/gsdlg.c:175
 msgid "Select Color"
-msgstr "Sélectionner une couleur"
+msgstr ""
 
 #: ../geanylua/gsdlg.c:205
 msgid "Choose..."
-msgstr "Choisir..."
+msgstr ""
 
 #: ../geanylua/gsdlg.c:253
 msgid "Select..."
-msgstr "Sélectionner..."
+msgstr ""
 
 #: ../geanylua/geanylua.c:166
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Can't find support library %s!\n"
-msgstr "%s! Impossible de trouver la librairie de support !\n"
+msgstr ""
 
 #: ../geanylua/geanylua.c:175
 #, c-format
 msgid "%s: Can't load support library!\n"
-msgstr "%s! Impossible de charger la librairie de support !\n"
+msgstr ""
 
 #: ../geanylua/geanylua.c:186
 #, c-format
 msgid "%s: Failed to initialize support library!\n"
-msgstr "%s: Impossible d'initialiser la librairie de support !\n"
+msgstr ""
 
 #: ../geanylua/geanylua.c:191
 #, c-format
 msgid "%s: Support library version mismatch: %s <=> %s\n"
-msgstr "%s: Erreur dans la version de la librairie de support : %s <=> %s\n"
+msgstr ""
 
 #: ../geanylua/geanylua.c:209
 #, c-format
@@ -2160,17 +2131,13 @@ msgid ""
 "The %s plugin failed to load properly.\n"
 "Please check your installation."
 msgstr ""
-"Impossible de charger le plugin %s.\n"
-"Veuillez vérifier votre installation."
 
-#: ../geanylua/glspi.h:110
+#: ../geanylua/glspi.h:111
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
 " expected type \"%s\" or \"%s\" for argument #%d\n"
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction %s():\n"
-"attendait les types \"%s\" ou \"%s\" pour l'argument #%d\n"
 
 #.
 #. * glspi_ver.c - This file is part of the Lua scripting plugin for the Geany IDE
@@ -2178,15 +2145,15 @@ msgstr ""
 #.
 #: ../geanylua/glspi_ver.h:7
 msgid "Lua Script"
-msgstr "Lua Script"
+msgstr ""
 
 #: ../geanylua/glspi_ver.h:9
 msgid "Write and run Lua scripts for custom commands."
-msgstr "Écrit et exécute des scripts Lua pour des commandes personnalisées."
+msgstr ""
 
 #: ../geanylua/glspi_ver.h:19
 msgid "Lua Script Plugin"
-msgstr "Plugin Lua Script"
+msgstr ""
 
 #: ../geanylua/glspi_app.c:19
 #, c-format
@@ -2194,8 +2161,6 @@ msgid ""
 "%s %s: %s\n"
 "Copyright (c) 2007-2008 "
 msgstr ""
-"%s %s: %s\n"
-"Copyright (c) 2007-2008 "
 
 #: ../geanylua/glspi_app.c:151
 #, c-format
@@ -2204,9 +2169,6 @@ msgid ""
 "widget \"%s\"  not found for argument #1.\n"
 " "
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction %s():\n"
-"le widget \"%s\" est introuvable pour l'argument #1.\n"
-" "
 
 #: ../geanylua/glspi_app.c:160
 #, c-format
@@ -2215,35 +2177,30 @@ msgid ""
 "widget \"%s\" has no signal named \"%s\".\n"
 " "
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction %s() argument #2:\n"
-"le widget \"%s\" n'a pas de signal nommé \"%s\".\n"
-" "
 
 #: ../geanylua/glspi_dlg.c:337
 msgid "File exists"
-msgstr "Le fichier existe"
+msgstr ""
 
 #: ../geanylua/glspi_dlg.c:337
 msgid "Do you want to overwrite it?"
-msgstr "Voulez-vous l'écraser ?"
+msgstr ""
 
 #: ../geanylua/glspi_dlg.c:338
 msgid "confirm"
-msgstr "Confirmer"
+msgstr ""
 
 #: ../geanylua/glspi_dlg.c:411
 msgid "Save file"
-msgstr "Enregistrer"
+msgstr ""
 
 #: ../geanylua/glspi_dlg.c:437
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error in module \"%s\" at function pickfile():\n"
 "failed to parse filter string at argument #3.\n"
 " "
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction pickfile():\n"
-"impossible d'analyser la chaîne filtre en argument #2.\n"
 
 #: ../geanylua/glspi_dlg.c:487
 #, c-format
@@ -2252,150 +2209,41 @@ msgid ""
 "expected string \"open\" or \"save\" for argument #1.\n"
 " "
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction %s():\n"
-"attendait la chaîne \"open\" ou \"save\" pour l'argument #1.\n"
-" "
 
 #: ../geanylua/glspi_run.c:112 ../geanylua/glspi_run.c:119
 msgid "Lua script error:"
-msgstr "Erreur du script Lua :"
+msgstr ""
 
 #: ../geanylua/glspi_run.c:219
 msgid "Script timeout"
-msgstr "Délai dépassé pour le script"
+msgstr ""
 
 #: ../geanylua/glspi_run.c:220
 msgid ""
 "A Lua script seems to be taking excessive time to complete.\n"
 "Do you want to continue waiting?"
 msgstr ""
-"Un script Lua semble prendre beaucoup trop de temps pour s'exécuter.\n"
-"Voulez-vous continuer à attendre ?"
 
 #: ../geanylua/glspi_run.c:228
 msgid "Script timeout exceeded."
-msgstr "Délai du script dépassé."
+msgstr ""
 
 #: ../geanylua/glspi_run.c:404
 msgid "(error object is not a string)"
-msgstr "(erreur : l'objet n'est pas une chaîne de caractères)"
+msgstr ""
 
 #: ../geanylua/glspi_run.c:409
 msgid "Unknown Error inside script."
-msgstr "Erreur inconnue dans le script."
+msgstr ""
 
 #: ../geanylua/glspi_run.c:481
 msgid "Out of memory."
-msgstr "Dépassement mémoire."
+msgstr ""
 
 #: ../geanylua/glspi_run.c:484
 msgid "Failed to open script file."
-msgstr "Impossible d'ouvrir le script."
+msgstr ""
 
 #: ../geanylua/glspi_run.c:487
 msgid "Unknown error while loading script file."
-msgstr "Erreur inconnue lors du chargement du script."
-
-#~ msgid "Load Mini-Script File"
-#~ msgstr "Chargement du mini-script"
-
-#~ msgid "Save Mini-Script File"
-#~ msgstr "Sauvegarde du Mini-script"
-
-#~ msgid ""
-#~ "<b>GMS : Geany Mini-Script filter Plugin</b>\n"
-#~ "This plugin is a tools to apply a script filter on :\n"
-#~ "   o the text selection,\n"
-#~ "   o the current document,\n"
-#~ "   o all documents of the current session.\n"
-#~ "\n"
-#~ "The filter type can be : \n"
-#~ "   o Unix shell script, \n"
-#~ "   o perl script, \n"
-#~ "   o python script, \n"
-#~ "   o sed commands,\n"
-#~ "   o awk script.\n"
-#~ "\n"
-#~ "<b>AUTHOR</b>\n"
-#~ "   Written by Pascal BURLOT (December,2008)\n"
-#~ "\n"
-#~ "<b>LICENSE:</b>\n"
-#~ "This program is free software; you can redistribute\n"
-#~ "it and/or modify it under the terms of the GNU \n"
-#~ "General Public License as published by the Free\n"
-#~ "Software Foundation; either version 2 of the License,\n"
-#~ "or (at your option) any later version."
-#~ msgstr ""
-#~ "<b>GMS : Geany Mini-Script filter Plugin</b>\n"
-#~ "Ce plugin est un outils pour appliquer un script sur:\n"
-#~ "   o la sélection de texte,\n"
-#~ "   o le document courant,\n"
-#~ "   o tous les documents de la session courante.\n"
-#~ "\n"
-#~ "Le type du script peut être : \n"
-#~ "   o un script shell UNIX, \n"
-#~ "   o un script PERL, \n"
-#~ "   o un script PYTHON, \n"
-#~ "   o une liste de commandes SED,\n"
-#~ "   o un script AWK.\n"
-#~ "\n"
-#~ "<b>AUTEUR</b>\n"
-#~ "   Ecrit par Pascal BURLOT (Decembre,2008)\n"
-#~ "\n"
-#~ "<b>LICENSE:</b>\n"
-#~ "This program is free software; you can redistribute\n"
-#~ "it and/or modify it under the terms of the GNU \n"
-#~ "General Public License as published by the Free\n"
-#~ "Software Foundation; either version 2 of the License,\n"
-#~ "or (at your option) any later version."
-
-#~ msgid "Mini-Script Filter"
-#~ msgstr "Filtre Mini-Script"
-
-#~ msgid "Clear the mini-script window"
-#~ msgstr "Efface la fenêtre du mini-script"
-
-#~ msgid "Load a mini-script into this window"
-#~ msgstr "Charge un fichier mini-script dans la fenêtre"
-
-#~ msgid "Save the mini-script into a file"
-#~ msgstr "Sauve le mini-script courant dans un fichier"
-
-#~ msgid "select the mini-script type"
-#~ msgstr "Sélectionne le type du mini-script"
-
-#~ msgid "filter input"
-#~ msgstr "Entrée du filtre"
-
-#~ msgid "select the input of mini-script filter"
-#~ msgstr "Sélectionne l'entrée du mini-script"
-
-#~ msgid "session"
-#~ msgstr "session"
-
-#~ msgid "filter output"
-#~ msgstr "sortie du filtre"
-
-#~ msgid "select the output of mini-script filter"
-#~ msgstr "Sélectionne la sortie du mini-script"
-
-#~ msgid "Current Doc."
-#~ msgstr "Doc. courant"
-
-#~ msgid "New Doc."
-#~ msgstr "Nouveau Doc."
-
-#~ msgid "script configuration"
-#~ msgstr "Configuration du script"
-
-#~ msgid "geany mini-script"
-#~ msgstr "mini-script pour geany"
-
-#~ msgid "GMS (Geany Mini-Script filter plugin)"
-#~ msgstr "GMS ( plugin Geany Mini-Script)"
-
-#~ msgid "Pascal BURLOT, a Geany user"
-#~ msgstr "Pascal BURLOT, un utilisateur de Geany"
-
-#~ msgid "_Mini-Script"
-#~ msgstr "_Mini-script"
+msgstr ""
