@@ -27,6 +27,7 @@
 #include <string.h>
 #include <glib.h>
 #include <glib/gstdio.h>
+#include <unistd.h>
 
 #include "geany.h"
 #include "support.h"
