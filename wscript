@@ -201,6 +201,12 @@ def configure(conf):
 
 	if not is_win32:
 		set_lib_dir()
+		# libexec (e.g. for geanygdb)
+		if Options.options.libexecdir:
+			conf.define('LIBEXECDIR', Options.options.libexecdir, 1)
+		else:
+			conf.define('LIBEXECDIR', conf.env['PREFIX'] + '/libexec', 1)
+
 
 	conf.check_cfg(package='gtk+-2.0', atleast_version='2.8.0', uselib_store='GTK',
 		mandatory=True, args='--cflags --libs')
@@ -243,6 +249,8 @@ def configure(conf):
 						if l[2]:
 							enabled_plugins.remove(p.name)
 
+	if 'geanygdb' in enabled_plugins:
+		conf.define('TTYHELPERDIR', conf.env['LIBEXECDIR'] + '/geany-plugins/geanygdb', 1)
 
 	# Windows specials
 	if is_win32:
@@ -271,6 +279,7 @@ def configure(conf):
 	if is_win32:
 		conf.define('PREFIX', '', 1)
 		conf.define('LIBDIR', '', 1)
+		conf.define('LIBEXECDIR', '', 1)
 		conf.define('DOCDIR', 'doc', 1)
 		conf.define('LOCALEDIR', 'share/locale', 1)
 		# DATADIR is defined in objidl.h, so we remove it from config.h
@@ -317,6 +326,8 @@ def set_options(opt):
 	# Paths
 	opt.add_option('--libdir', type='string', default='',
 		help='object code libraries', dest='libdir')
+	opt.add_option('--libexecdir', type='string', default='',
+		help='program executables', dest='libexecdir')
 	# Actions
 	opt.add_option('--update-po', action='store_true', default=False,
 		help='update the message catalogs for translation', dest='update_po')
@@ -370,7 +381,7 @@ def build(bld):
 			includes	= p.includes,
 			target		= 'ttyhelper',
 			uselib		= libs,
-			install_path = '${LIBDIR}/geany'
+			install_path = '${TTYHELPERDIR}'
 		)
 
 	def install_docs(bld, pname, files):
