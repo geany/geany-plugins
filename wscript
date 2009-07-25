@@ -67,9 +67,7 @@ plugins = [
 	Plugin('codenav', None, [ 'codenav/src' ]),
 	Plugin('geanylatex', None, [ 'geanylatex/src']),
 	Plugin('geanylipsum', None, [ 'geanylipsum/src']),
-	Plugin('geanysendmail',
-		[ 'geanysendmail/src/geanysendmail.c' ],
-		[ 'geanysendmail/src' ]),
+	Plugin('geanysendmail', None, [ 'geanysendmail/src' ]),
 	Plugin('geanyvc', None, [ 'geanyvc/src/'], [ [ 'gtkspell-2.0', '2.0', False ] ]),
 	Plugin('shiftcolumn', None, [ 'shiftcolumn/src']),
 	Plugin('spellcheck', None, [ 'spellcheck/src' ], [ [ 'enchant', '1.3', True ] ]),
@@ -80,7 +78,7 @@ plugins = [
 		   'gdb-ui-frame.c',  'gdb-ui-locn.c', 'gdb-ui-main.c',
 		   'geanydebug.c']), # source files
 		 [ 'geanygdb', 'geanygdb/src' ], # include dirs
-		 [ [ 'elf.h', '', True ] ]
+		 [ [ 'elf.h', '', False ], [ 'elf_abi.h', '', False ] ]
 		 ),
 	Plugin('geanylua',
 		 [ 'geanylua/geanylua.c' ], # the other source files are listed in build_lua()
@@ -250,7 +248,10 @@ def configure(conf):
 							enabled_plugins.remove(p.name)
 
 	if 'geanygdb' in enabled_plugins:
-		conf.define('TTYHELPERDIR', conf.env['LIBEXECDIR'] + '/geany-plugins/geanygdb', 1)
+		if not conf.env['HAVE_ELF_H'] and not conf.env['HAVE_ELF_ABI_H']:
+			enabled_plugins.remove('geanygdb')
+		else:
+			conf.define('TTYHELPERDIR', conf.env['LIBEXECDIR'] + '/geany-plugins/geanygdb', 1)
 
 	# Windows specials
 	if is_win32:

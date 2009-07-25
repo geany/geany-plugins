@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <elf.h>
 #include <gtk/gtk.h>
 
 #include "gdb-io.h"
@@ -17,6 +16,13 @@
 
 #include "support.h"
 
+#ifdef HAVE_ELF_H
+# include <elf.h>
+#elif defined(HAVE_ELF_ABI_H)
+# include <elf_abi.h>
+#else
+# error Missing Elf header
+#endif
 
 
 GdbUiSetup gdbui_setup;
