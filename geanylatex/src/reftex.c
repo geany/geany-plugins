@@ -43,9 +43,11 @@ void glatex_add_Labels(GtkWidget *combobox, const gchar *file)
 					g_free(tmp);
 				}
 			}
+			g_free(aux_entries);
 		}
 	}
 }
+
 
 LaTeXLabel* glatex_parseLine(const gchar *line)
 {
