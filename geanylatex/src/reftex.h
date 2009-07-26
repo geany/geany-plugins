@@ -33,6 +33,6 @@ typedef struct
 
 void glatex_add_Labels(GtkWidget *combobox, const gchar *file);
 
-LaTeXLabel glatex_parseLine(const gchar *line);
+LaTeXLabel *glatex_parseLine(const gchar *line);
 
 #endif

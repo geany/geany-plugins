@@ -27,7 +27,7 @@ void glatex_add_Labels(GtkWidget *combobox, const gchar *file)
 {
 	gchar **aux_entries = NULL;
 	int i = 0;
-	LaTeXLabel tmp;
+	LaTeXLabel *tmp;
 	if (file != NULL)
 	{
 		aux_entries = geanylatex_read_file_in_array(file);
@@ -38,16 +38,19 @@ void glatex_add_Labels(GtkWidget *combobox, const gchar *file)
 				if  (g_str_has_prefix(aux_entries[i], "\\newlabel"))
 				{
 					tmp = glatex_parseLine(aux_entries[i]);
-					gtk_combo_box_append_text(GTK_COMBO_BOX(combobox), tmp.label_name);
+					gtk_combo_box_append_text(GTK_COMBO_BOX(combobox), 
+						tmp->label_name);
+					g_free(tmp);
 				}
 			}
 		}
 	}
 }
 
-LaTeXLabel glatex_parseLine(const gchar *line)
+LaTeXLabel* glatex_parseLine(const gchar *line)
 {
-	LaTeXLabel label;
+	LaTeXLabel *label;
+	label = g_new0(LaTeXLabel, 1);
 
 	gchar *t = NULL;
 	const gchar *x = NULL;
@@ -64,7 +67,7 @@ LaTeXLabel glatex_parseLine(const gchar *line)
 			x++;
 		}
 	}
-	label.label_name = g_strndup(line, l);
+	label->label_name = g_strndup(line, l);
 
 	return label;
 }
