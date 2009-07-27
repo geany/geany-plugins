@@ -52,11 +52,12 @@ void glatex_add_Labels(GtkWidget *combobox, const gchar *file)
 LaTeXLabel* glatex_parseLine(const gchar *line)
 {
 	LaTeXLabel *label;
-	label = g_new0(LaTeXLabel, 1);
 
 	gchar *t = NULL;
 	const gchar *x = NULL;
 	gint l = 0;
+
+	label = g_new0(LaTeXLabel, 1);
 
 	line += 10;
 	x = line;
