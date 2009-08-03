@@ -1,5 +1,18 @@
 2009-07-26  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
+ * pt_BR.po, LINGUAS:
+   Added  Brasilian Portuguese translation. 
+   (Thanks to Adrovane Marques Kade).
+
+
+2009-07-30  Masami Chikahiro  <cmasa(dot)z321(at)gmail(dot)com>,
+
+ * ja.po:
+   Update of Japanese translation.
+
+
+2009-07-26  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
  * ja.po, LINGUAS:
    Update of Japanese translation. Thanks to Chikahiro Masami.
 

@@ -1,0 +1,2416 @@
+# Portuguese translations for geany-plugins package.
+# Copyright (C) 2009 GEANY'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Adrovane Marques Kade <adrovane@gmail.com>, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: Geany Plugins 0.17.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-08-03 14:03+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Adrovane Marques Kade <adrovane@gmail.com>\n"
+"Language-Team: Adrovane Marques Kade <adrovane@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Portuguese\n"
+"X-Poedit-Country: BRAZIL\n"
+
+#: ../addons/src/tasks.c:298
+msgid "Tasks"
+msgstr "Tarefas"
+
+#: ../addons/src/ao_openuri.c:162
+msgid "Open URI"
+msgstr "Abrir URI"
+
+#: ../addons/src/ao_openuri.c:168
+msgid "Copy URI"
+msgstr "Copiar URI"
+
+#: ../addons/src/addons.c:40
+msgid "Addons"
+msgstr "Complementos"
+
+#: ../addons/src/addons.c:40
+msgid "Various small addons for Geany."
+msgstr "Diversos pequenos complementos para o Geany."
+
+#: ../addons/src/addons.c:161 ../geanylatex/src/geanylatex.c:181
+#: ../geanysendmail/src/geanysendmail.c:151
+#: ../geanysendmail/src/geanysendmail.c:312 ../geanyvc/src/geanyvc.c:1674
+#: ../spellcheck/src/scplugin.c:129
+msgid "Plugin configuration directory could not be created."
+msgstr "O diretório de configuração de plugins não pôde ser criado."
+
+#: ../addons/src/addons.c:183
+msgid "Show toolbar item to show a list of currently open documents"
+msgstr ""
+"Exibir um item na barra de ferramentas para mostrar uma lista dos arquivos "
+"atualmente abertos"
+
+#. TODO fix the string
+#: ../addons/src/addons.c:190
+msgid "Show a 'Open URI' menu item in the editor menu"
+msgstr "Exibir um item de menu 'Abrir URI' no menu do editor"
+
+#: ../addons/src/addons.c:196
+msgid "Show available tasks in the Message Window"
+msgstr "Exibir tarefas disponíveis na Janela de Mensagens"
+
+#: ../addons/src/addons.c:202
+msgid "Show status icon in the Notification Area"
+msgstr "Exibir ícone de estado na Área de Notificação"
+
+#: ../addons/src/ao_doclist.c:209
+msgid "Close Ot_her Documents"
+msgstr "Fec_har Outros Documentos"
+
+#: ../addons/src/ao_doclist.c:214
+msgid "C_lose All"
+msgstr "_Fechar Todos"
+
+#: ../addons/src/ao_doclist.c:244
+msgid "Show Document List"
+msgstr "Exibir Lista de Documentos"
+
+#. All plugins must set name, description, version and author.
+#: ../codenav/src/codenavigation.c:69
+msgid "Code navigation"
+msgstr ""
+
+#: ../codenav/src/codenavigation.c:69
+msgid ""
+"This plugin adds features to facilitate navigation between source files.\n"
+"As for the moment, it implements :\n"
+"- switching between a .cpp file and the corresponding .h file\n"
+"- opening a file by typing its name"
+msgstr ""
+
+#: ../codenav/src/codenavigation.c:72
+msgid "Lionel Fuentes"
+msgstr ""
+
+#: ../codenav/src/codenavigation.c:314
+#, c-format
+msgid "%s not found, create it ?"
+msgstr ""
+
+#: ../codenav/src/codenavigation.c:359
+#, c-format
+msgid "(From the %s plugin)"
+msgstr ""
+
+#. - add the "Switch header/implementation" menu item
+#: ../codenav/src/codenavigation.c:387 ../codenav/src/codenavigation.c:404
+msgid "Switch header/implementation"
+msgstr ""
+
+#. - add the "Open file by name" menu item
+#: ../codenav/src/codenavigation.c:392 ../codenav/src/codenavigation.c:411
+msgid "Goto file..."
+msgstr ""
+
+#: ../codenav/src/codenavigation.c:403
+msgid "switch_header_impl"
+msgstr ""
+
+#: ../codenav/src/codenavigation.c:410
+msgid "goto_file"
+msgstr ""
+
+#. Add a label
+#: ../codenav/src/codenavigation.c:531
+msgid "Code Navigation plug-in configuration"
+msgstr ""
+
+#. Add a frame for the switch header/implementation feature
+#: ../codenav/src/codenavigation.c:535
+msgid "Switch header / implementation"
+msgstr ""
+
+#: ../codenav/src/codenavigation.c:601
+msgid "Headers extensions"
+msgstr ""
+
+#: ../codenav/src/codenavigation.c:608
+msgid "Implementations extensions"
+msgstr ""
+
+#: ../geanygdb/src/gdb-io-break.c:142
+#, c-format
+msgid "Added breakpoint #%s in %s() at %s:%s\n"
+msgstr "Inserido ponto de quebra #%s em %s() em %s:%s\n"
+
+#: ../geanygdb/src/gdb-io-break.c:147
+#, c-format
+msgid "Added breakpoint #%s at %s:%s\n"
+msgstr "Inserido ponto de quebra #%s em %s:%s\n"
+
+#: ../geanygdb/src/gdb-io-break.c:159
+#, c-format
+msgid "Added write watchpoint #%s for %s\n"
+msgstr "Incluído ponto de observação de gravação #%s para %s\n"
+
+#: ../geanygdb/src/gdb-io-break.c:168
+#, c-format
+msgid "Added read/write watchpoint #%s for %s\n"
+msgstr "Incluído ponto de observação de leitura/gravação #%s para %s\n"
+
+#: ../geanygdb/src/gdb-io-break.c:179
+#, c-format
+msgid "Added read watchpoint #%s for %s\n"
+msgstr "Incluído ponto de observação de leitura #%s para %s\n"
+
+#: ../geanygdb/src/gdb-io-break.c:226
+msgid "Watch/breakpoint deleted.\n"
+msgstr "Ponto de observação/quebra removido.\n"
+
+#: ../geanygdb/src/gdb-io-break.c:250
+msgid "Failed to toggle breakpoint -\n"
+msgstr "Falha ao alternar ponto de quebra -\n"
+
+#: ../geanygdb/src/gdb-io-break.c:268
+msgid "Watch/breakpoint toggled.\n"
+msgstr "Ponto de observação/quebra alternado.\n"
+
+#: ../geanygdb/src/gdb-io-break.c:282
+msgid "Watch/breakpoint modified.\n"
+msgstr "Ponto de observação/quebra modificado.\n"
+
+#: ../geanygdb/src/gdb-io-envir.c:122
+msgid "Failed to retrieve source search path setting from GDB."
+msgstr "Falha ao recuperar do GDB a configuração do caminho de pesquisa fonte."
+
+#: ../geanygdb/src/gdb-io-envir.c:143
+msgid "Failed to retrieve executable search path setting from GDB."
+msgstr ""
+"Falha ao recuperar do GDB a configuração do caminho de pesquisa executável."
+
+#: ../geanygdb/src/gdb-io-envir.c:165
+msgid "Failed to retrieve working directory setting from GDB."
+msgstr "Falha ao recuperar do GDB a configuração do diretório de trabalho."
+
+#: ../geanygdb/src/gdb-io-frame.c:489
+msgid "Field list too long, not all items can be displayed.\n"
+msgstr "Lista de campos muito longa, nem todos os items podem ser exibidos.\n"
+
+#: ../geanygdb/src/gdb-io-read.c:232
+msgid "Error starting target process!\n"
+msgstr "Erro ao iniciar processo alvo!\n"
+
+#: ../geanygdb/src/gdb-io-read.c:277
+msgid ""
+"This executable does not appear to contain the required debugging "
+"information."
+msgstr ""
+"Esse executável parece não conter as informações de depuração necessárias."
+
+#: ../geanygdb/src/gdb-io-read.c:539
+#, c-format
+msgid "Program received signal %s (%s) at %s in function %s() at %s:%s"
+msgstr "O programa recebeu o sinal %s (%s) em %s na função %s() em %s:%s"
+
+#: ../geanygdb/src/gdb-io-read.c:590
+#, c-format
+msgid "Watchpoint #%s out of scope"
+msgstr "Ponto de observação #%s fora de escopo"
+
+#: ../geanygdb/src/gdb-io-read.c:599
+#, c-format
+msgid "Program exited on signal %s (%s).\n"
+msgstr "Programa encerrado com sinal %s (%s).\n"
+
+#: ../geanygdb/src/gdb-io-read.c:601
+msgid "Unknown signal"
+msgstr "Sinal desconhecido"
+
+#: ../geanygdb/src/gdb-io-read.c:618
+#, c-format
+msgid "Program exited with code %d [%s]\n"
+msgstr "Programa encerrado com código %d [%s]\n"
+
+#: ../geanygdb/src/gdb-io-read.c:619
+msgid "(unknown)"
+msgstr "(desconhecido)"
+
+#: ../geanygdb/src/gdb-io-read.c:625
+msgid "Program exited normally.\n"
+msgstr "Programa encerrado normalmente.\n"
+
+#: ../geanygdb/src/gdb-io-run.c:264
+msgid "tty temporary directory not specified!\n"
+msgstr "diretório temporário tty não especificado!\n"
+
+#: ../geanygdb/src/gdb-io-run.c:269
+msgid "tty temporary directory not found!\n"
+msgstr "diretório temporário tty não encontrado!\n"
+
+#: ../geanygdb/src/gdb-io-run.c:288
+msgid "tty helper program not specified!\n"
+msgstr "programa auxiliar tty não especificado!\n"
+
+#: ../geanygdb/src/gdb-io-run.c:295
+msgid "tty helper program not found!\n"
+msgstr "programa auxiliar tty não encontrado!\n"
+
+#: ../geanygdb/src/gdb-io-run.c:348
+#, c-format
+msgid "Attaching to terminal %s\n"
+msgstr "Anexando ao terminal %s\n"
+
+#: ../geanygdb/src/gdb-io-run.c:363
+msgid "Timeout waiting for TTY name.\n"
+msgstr "Tempo esgotado aguardando por nome de TTY.\n"
+
+#: ../geanygdb/src/gdb-io-run.c:412
+#, c-format
+msgid "GDB exited (pid=%d)\n"
+msgstr "GDB encerrado (pid=%d)\n"
+
+#: ../geanygdb/src/gdb-io-run.c:473
+#, c-format
+msgid "Target process exited. (pid=%d; %s%s)\n"
+msgstr "Processo alvo encerrado. (pid=%d; %s%s)\n"
+
+#: ../geanygdb/src/gdb-io-run.c:475
+msgid "code="
+msgstr "código="
+
+#: ../geanygdb/src/gdb-io-run.c:475
+msgid "reason:"
+msgstr "motivo:"
+
+#: ../geanygdb/src/gdb-io-run.c:541 ../geanygdb/src/gdb-io-run.c:606
+#, c-format
+msgid "Directory %s not found!\n"
+msgstr "Diretório %s não encontrado!\n"
+
+#: ../geanygdb/src/gdb-io-run.c:546
+msgid "Shutting down target program.\n"
+msgstr "Desligando programa alvo.\n"
+
+#: ../geanygdb/src/gdb-io-run.c:553
+msgid "Killing target program.\n"
+msgstr "Matando programa alvo.\n"
+
+#: ../geanygdb/src/gdb-io-run.c:561
+msgid "Timeout waiting for target process.\n"
+msgstr "Tempo esgotado aguardando por processo alvo.\n"
+
+#: ../geanygdb/src/gdb-io-run.c:564
+msgid "Using a bigger hammer!\n"
+msgstr "Usando um martelo maior!\n"
+
+#: ../geanygdb/src/gdb-io-run.c:578
+msgid "Waiting for target process to exit.\n"
+msgstr "Aguardando término de processo alvo.\n"
+
+#: ../geanygdb/src/gdb-io-run.c:614
+#, c-format
+msgid "Killing GDB (pid=%d)\n"
+msgstr "Matando o GDB (pid=%d)\n"
+
+#: ../geanygdb/src/gdb-io-run.c:628
+msgid "Timeout trying to kill GDB.\n"
+msgstr "Tempo esgotado tentando matar o GDB.\n"
+
+#: ../geanygdb/src/gdb-io-run.c:638
+msgid "Shutting down GDB\n"
+msgstr "Desligando o GDB\n"
+
+#: ../geanygdb/src/gdb-io-run.c:651
+msgid "Waiting for GDB to exit.\n"
+msgstr "Aguardando o término do GDB.\n"
+
+#: ../geanygdb/src/gdb-io-run.c:659
+msgid "Timeout waiting for GDB to exit.\n"
+msgstr "Tempo esgotado aguardando o término do GDB.\n"
+
+#: ../geanygdb/src/gdb-io-run.c:722
+#, c-format
+msgid "Starting gdb (pid=%d)\n"
+msgstr "Iniciando o GDB (pid=%d)\n"
+
+#: ../geanygdb/src/gdb-io-run.c:782
+#, c-format
+msgid "Started target process. (pid=%d)\n"
+msgstr "Processo alvo iniciado. (pid=%d)\n"
+
+#: ../geanygdb/src/gdb-ui-break.c:108
+#, c-format
+msgid "No %s selected"
+msgstr "Nenhum %s selecionado"
+
+#: ../geanygdb/src/gdb-ui-break.c:108 ../geanygdb/src/gdb-ui-break.c:343
+msgid "watchpoint"
+msgstr "ponto de observação"
+
+#: ../geanygdb/src/gdb-ui-break.c:108 ../geanygdb/src/gdb-ui-break.c:343
+#: ../geanygdb/src/gdb-ui-break.c:397
+msgid "breakpoint"
+msgstr "ponto de quebra"
+
+#: ../geanygdb/src/gdb-ui-break.c:114
+msgid "Delete selected watchpoint?"
+msgstr "Excluir ponto de observação selecionado?"
+
+#: ../geanygdb/src/gdb-ui-break.c:114
+msgid "Delete selected breakpoint?"
+msgstr "Excluir ponto de quebra selecionado?"
+
+#: ../geanygdb/src/gdb-ui-break.c:142
+msgid "Edit watchpoint"
+msgstr "Editar ponto de observação"
+
+#: ../geanygdb/src/gdb-ui-break.c:142
+msgid "Edit breakpoint"
+msgstr "Editar ponto de quebra"
+
+#: ../geanygdb/src/gdb-ui-break.c:152
+msgid "Enabled"
+msgstr "Habilitado"
+
+#: ../geanygdb/src/gdb-ui-break.c:158
+msgid " Break after "
+msgstr " Quebrar após"
+
+#: ../geanygdb/src/gdb-ui-break.c:165
+msgid " times. "
+msgstr " vezes."
+
+#: ../geanygdb/src/gdb-ui-break.c:170
+msgid " Break when "
+msgstr " Quebrar quando"
+
+#: ../geanygdb/src/gdb-ui-break.c:177
+msgid " is true. "
+msgstr " for verdadeiro."
+
+#: ../geanygdb/src/gdb-ui-break.c:242
+msgid "Add watchpoint"
+msgstr "Incluir ponto de observação"
+
+#: ../geanygdb/src/gdb-ui-break.c:242
+msgid "Add breakpoint"
+msgstr "Incluir ponto de quebra"
+
+#: ../geanygdb/src/gdb-ui-break.c:493
+msgid "Watchpoints"
+msgstr "Pontos de observação"
+
+#: ../geanygdb/src/gdb-ui-break.c:493
+msgid "Breakpoints"
+msgstr "Pontos de quebra"
+
+#: ../geanygdb/src/gdb-ui-envir.c:83
+msgid "Environment settings"
+msgstr "Definições do ambiente"
+
+#: ../geanygdb/src/gdb-ui-envir.c:105
+msgid ""
+"\n"
+" Command-line arguments passed to target program:"
+msgstr ""
+"\n"
+" Argumentos de linha de comando passados para o programa alvo:"
+
+#: ../geanygdb/src/gdb-ui-envir.c:106
+msgid ""
+"\n"
+" Search path for source files:"
+msgstr ""
+"\n"
+" Caminho de pesquisa para arquivos-fonte:"
+
+#: ../geanygdb/src/gdb-ui-envir.c:107
+msgid ""
+"\n"
+" Working directory for target program:"
+msgstr ""
+"\n"
+" Diretório de trabalho para o programa alvo:"
+
+#: ../geanygdb/src/gdb-ui-envir.c:108
+msgid ""
+"\n"
+" Search path for executables:"
+msgstr ""
+"\n"
+" Caminho de pesquisa para executáveis:"
+
+#: ../geanygdb/src/gdb-ui-envir.c:151 ../geanylua/gsdlg.c:226
+msgid "Select Font"
+msgstr "Selecionar Fonte"
+
+#: ../geanygdb/src/gdb-ui-envir.c:173
+msgid "Preferences"
+msgstr "Preferẽncias"
+
+#: ../geanygdb/src/gdb-ui-envir.c:189
+msgid "Keep debug window on top."
+msgstr "Manter janela de depuração no topo."
+
+#: ../geanygdb/src/gdb-ui-envir.c:191
+msgid "Show tooltips."
+msgstr "Exibir dicas de ferramentas."
+
+#: ../geanygdb/src/gdb-ui-envir.c:192
+msgid "Show icons."
+msgstr "Exibir ícones."
+
+#: ../geanygdb/src/gdb-ui-envir.c:197
+msgid "Font for source code listings:"
+msgstr "Fonte para listagens de código-fonte:"
+
+#: ../geanygdb/src/gdb-ui-envir.c:209
+msgid "Terminal program:"
+msgstr "Programa de terminal:"
+
+#: ../geanygdb/src/gdb-ui-frame.c:127
+msgid "_Examine"
+msgstr "_Examinar"
+
+#: ../geanygdb/src/gdb-ui-frame.c:277
+msgid "Object info"
+msgstr "Info do Objeto"
+
+#: ../geanygdb/src/gdb-ui-frame.c:284
+msgid "Elements"
+msgstr "Elementos"
+
+#: ../geanygdb/src/gdb-ui-frame.c:284
+msgid "Fields"
+msgstr "Campos"
+
+#: ../geanygdb/src/gdb-ui-frame.c:292
+msgid "Return to previous dialog."
+msgstr "Retornar para o diálogo anterior."
+
+#: ../geanygdb/src/gdb-ui-frame.c:297 ../geanygdb/src/gdb-ui-frame.c:371
+msgid "Display additional information about the selected item."
+msgstr "Exibir informações adicionais sobre o item selecionado."
+
+#: ../geanygdb/src/gdb-ui-frame.c:344
+msgid "Frame info"
+msgstr "Info do Quadro"
+
+#: ../geanygdb/src/gdb-ui-frame.c:347
+#, c-format
+msgid ""
+"\n"
+"Frame #%s in %s() at %s:%s\n"
+msgstr ""
+"\n"
+"Quadro #%s em %s() em %s:%s\n"
+
+#: ../geanygdb/src/gdb-ui-frame.c:357
+msgid "Function arguments"
+msgstr "Argumentos da função"
+
+#: ../geanygdb/src/gdb-ui-frame.c:361
+msgid "Local variables"
+msgstr "Variáveis locais"
+
+#: ../geanygdb/src/gdb-ui-frame.c:366
+msgid "Return to stack list dialog."
+msgstr "Voltar para o diálogo de lista de pilha."
+
+#: ../geanygdb/src/gdb-ui-frame.c:578
+msgid "Stack trace"
+msgstr "Stack trace"
+
+#: ../geanygdb/src/gdb-ui-frame.c:595
+msgid "Display additional information about the selected frame."
+msgstr "Exibir informações adicionais sobre o quadro selecionado."
+
+#: ../geanygdb/src/gdb-ui-locn.c:53
+msgid "Clea_r"
+msgstr "Limpa_r"
+
+#: ../geanygdb/src/gdb-ui-locn.c:68
+msgid "Filename: "
+msgstr "Nome do arquivo:"
+
+#: ../geanygdb/src/gdb-ui-locn.c:81
+msgid "Variable to watch:"
+msgstr "Variável observada:"
+
+#: ../geanygdb/src/gdb-ui-locn.c:82
+msgid "Line number or function name: "
+msgstr "Número da linha ou nome da função:"
+
+#: ../geanygdb/src/gdb-ui-locn.c:123
+msgid "Access trigger:"
+msgstr "Gatilho de acesso:"
+
+#: ../geanygdb/src/gdb-ui-main.c:130
+msgid "(no program)"
+msgstr "(nenhum programa)"
+
+#: ../geanygdb/src/gdb-ui-main.c:144
+msgid "loaded"
+msgstr "carregado"
+
+#: ../geanygdb/src/gdb-ui-main.c:149
+msgid "starting"
+msgstr "iniciando"
+
+#: ../geanygdb/src/gdb-ui-main.c:156
+msgid "running"
+msgstr "executando"
+
+#: ../geanygdb/src/gdb-ui-main.c:175
+msgid "stopped"
+msgstr "parado"
+
+#: ../geanygdb/src/gdb-ui-main.c:189
+msgid "terminated"
+msgstr "terminado"
+
+#: ../geanygdb/src/gdb-ui-main.c:226
+msgid "paused"
+msgstr "pausado"
+
+#: ../geanygdb/src/gdb-ui-main.c:235
+msgid "Program received signal:"
+msgstr "O programa recebeu sinal:"
+
+#: ../geanygdb/src/gdb-ui-main.c:304
+msgid "Error:"
+msgstr "Erro:"
+
+#: ../geanygdb/src/gdb-ui-main.c:484
+msgid "Select executable to debug"
+msgstr "Selecione executável para depurar"
+
+#: ../geanygdb/src/gdb-ui-main.c:507
+msgid "Debugging of object files is not supported."
+msgstr "Depuração de arquivo objeto não é suportada."
+
+#: ../geanygdb/src/gdb-ui-main.c:562
+msgid "You don't have permission to execute this file."
+msgstr "Você não tem permissão para executar este arquivo."
+
+#: ../geanygdb/src/gdb-ui-main.c:568
+msgid "Debugging of shared libraries is not supported."
+msgstr "Depuração de bibliotecas compartilhadas não é suportada."
+
+#: ../geanygdb/src/gdb-ui-main.c:573
+msgid "Debugging of core files id not supported."
+msgstr "Depuração de arquivos core não é suportada."
+
+#: ../geanygdb/src/gdb-ui-main.c:578
+msgid "Target file must be ELF 32-bit x86 executable."
+msgstr "O arquivo alvo deve ser um executável ELF 32-bit x86."
+
+#: ../geanygdb/src/gdb-ui-main.c:584
+msgid "You don't have permission to read this file."
+msgstr "Você não tem permissão para ler este arquivo."
+
+#: ../geanygdb/src/gdb-ui-main.c:701
+msgid "Run to location"
+msgstr "Executar até o local"
+
+#: ../geanygdb/src/gdb-ui-main.c:820
+msgid "no program"
+msgstr "nenhum programa"
+
+#: ../geanygdb/src/gdb-ui-main.c:827
+msgid "_Load"
+msgstr "C_arregar"
+
+#: ../geanygdb/src/gdb-ui-main.c:827
+msgid "Load target program into debugger."
+msgstr "Carrega programa alvo no depurador."
+
+#: ../geanygdb/src/gdb-ui-main.c:829
+msgid "_Unload"
+msgstr "_Descarregar"
+
+#: ../geanygdb/src/gdb-ui-main.c:830
+msgid "Kill the target program AND the debugger."
+msgstr "Mata o programa alvo E o depurador."
+
+#: ../geanygdb/src/gdb-ui-main.c:832
+msgid "_Run"
+msgstr "Executa_r"
+
+#: ../geanygdb/src/gdb-ui-main.c:833
+msgid "Execute target program in debugger."
+msgstr "Executa o programa alvo no depurador."
+
+#: ../geanygdb/src/gdb-ui-main.c:835
+msgid "_Kill"
+msgstr "_Matar"
+
+#: ../geanygdb/src/gdb-ui-main.c:836
+msgid "Kill the target program with SIGKILL."
+msgstr "Mata o programa alvo com SIGKILL."
+
+#: ../geanygdb/src/gdb-ui-main.c:838
+msgid "_Pause"
+msgstr "_Pausar"
+
+#: ../geanygdb/src/gdb-ui-main.c:839
+msgid "Pause the target program with SIGINT."
+msgstr "Pausa o programa alvo com SIGINT."
+
+#: ../geanygdb/src/gdb-ui-main.c:841
+msgid "_Continue"
+msgstr "_Continuar"
+
+#: ../geanygdb/src/gdb-ui-main.c:842
+msgid "Continue executing target program."
+msgstr "Continua executando o programa alvo."
+
+#: ../geanygdb/src/gdb-ui-main.c:844
+msgid "_Step"
+msgstr "_Passo"
+
+#: ../geanygdb/src/gdb-ui-main.c:845
+msgid "Step to the next line or function call."
+msgstr "Avança um passo para a próxima linha ou chamada de função."
+
+#: ../geanygdb/src/gdb-ui-main.c:847
+#, fuzzy
+msgid "Step _in"
+msgstr "Step _in"
+
+#: ../geanygdb/src/gdb-ui-main.c:848
+msgid "Execute the next machine instruction or function call."
+msgstr "Executa a próxima instrução de máquina ou chamada de função."
+
+#: ../geanygdb/src/gdb-ui-main.c:849
+msgid "Step to the next line."
+msgstr "Pula para a próxima linha."
+
+#: ../geanygdb/src/gdb-ui-main.c:851
+#, fuzzy
+msgid "Ne_xt in"
+msgstr "Ne_xt in"
+
+#: ../geanygdb/src/gdb-ui-main.c:852
+msgid "Execute the next machine instruction."
+msgstr "Executa a próxima instrução de máquina."
+
+#: ../geanygdb/src/gdb-ui-main.c:854
+msgid "Run _to"
+msgstr "Executar a_té"
+
+#: ../geanygdb/src/gdb-ui-main.c:855
+msgid "Run to specified source line."
+msgstr "Executa até a linha fonte especificada."
+
+#: ../geanygdb/src/gdb-ui-main.c:857
+msgid "Stac_k"
+msgstr "_Empilhar"
+
+#: ../geanygdb/src/gdb-ui-main.c:858
+msgid "Display a backtrace of the current call stack."
+msgstr "Exibe um backtrace da pilha de chamadas atual."
+
+#: ../geanygdb/src/gdb-ui-main.c:859
+msgid "Add or remove breakpoints."
+msgstr "Inclui ou remove pontos de quebra."
+
+#: ../geanygdb/src/gdb-ui-main.c:860
+msgid "Add or remove watchpoints."
+msgstr "Inclui ou remove pontos de observação."
+
+#: ../geanygdb/src/gdb-ui-main.c:862
+msgid "_Finish"
+msgstr "_Finalizar"
+
+#: ../geanygdb/src/gdb-ui-main.c:863
+msgid "Complete the currently executing function."
+msgstr "Completa a função atualmente em execução."
+
+#: ../geanygdb/src/gdb-ui-main.c:865
+msgid "_Return"
+msgstr "_Retornar"
+
+#: ../geanygdb/src/gdb-ui-main.c:866
+msgid "Return immediately from the current function."
+msgstr "Retorna imediatamente a partir da função atual."
+
+#: ../geanygdb/src/gdb-ui-main.c:868
+msgid "En_viron"
+msgstr "_Ambiente"
+
+#: ../geanygdb/src/gdb-ui-main.c:869
+msgid "Set target environment and command line options."
+msgstr "Define o ambiente alvo e as opções de linha de comando"
+
+#: ../geanygdb/src/gdb-ui-main.c:871
+msgid "_Options"
+msgstr "_Opções"
+
+#: ../geanygdb/src/gdb-ui-main.c:872
+msgid "Set user interface options."
+msgstr "Define opções de interface com o usuário."
+
+#: ../geanygdb/src/gdb-ui-main.c:921
+msgid "Run in terminal"
+msgstr "Executar no terminal"
+
+#: ../geanygdb/src/gdb-ui-main.c:923
+msgid "Execute target program inside a terminal window."
+msgstr "Executa o programa alvo dentro de uma janela de terminal."
+
+#: ../geanygdb/src/gdb-ui-main.c:926
+msgid "Ignore SIGPIPE"
+msgstr "Ignorar SIGPIPE"
+
+#: ../geanygdb/src/gdb-ui-main.c:928
+msgid ""
+"Don't pause execution when target gets a SIGPIPE signal.\n"
+"(Useful for certain networking applications.)"
+msgstr ""
+"Não para a execução quando o alvo receber um sinal SIGPIPE.\n"
+"(Útil para certas aplicações de rede.)"
+
+#: ../geanygdb/src/gdb-ui-main.c:935
+msgid "Console:"
+msgstr "Console:"
+
+#: ../geanygdb/src/gdb-ui-main.c:936
+msgid "Send a GDB command directly to the debugger."
+msgstr "Envia um comando GDB diretamente para o depurador."
+
+#: ../geanygdb/src/gdb-ui-main.c:992
+msgid "_Quit"
+msgstr "_Sair"
+
+#: ../geanygdb/src/gdb-ui-main.c:992
+msgid "Exit everything"
+msgstr "Sair de tudo"
+
+#: ../geanygdb/src/geanydebug.c:56
+msgid "Debugger"
+msgstr "Depurador"
+
+#: ../geanygdb/src/geanydebug.c:56
+msgid "Integrated debugging with GDB."
+msgstr "Depuração integrada com o GDB."
+
+#: ../geanygdb/src/geanydebug.c:56
+msgid "Jeff Pohlmeyer"
+msgstr "Jeff Pohlmeyer"
+
+#: ../geanygdb/src/geanydebug.c:373
+#, c-format
+msgid "Plugin configuration directory (%s) could not be created."
+msgstr "O diretório de configuração de plugins (%s) não pôde ser criado."
+
+#: ../geanygdb/src/geanydebug.c:390
+msgid "geanygdb: ttyhelper program not found."
+msgstr "geanygdb: programa ttyhelper não encontrado."
+
+#: ../geanylatex/src/geanylatex.c:29
+msgid "LaTeX"
+msgstr "LaTeX"
+
+#: ../geanylatex/src/geanylatex.c:29
+msgid "Plugin to provide better LaTeX support"
+msgstr "Plugin para fornecer um melhor suporte ao LaTeX"
+
+#: ../geanylatex/src/geanylatex.c:95
+msgid "Marks selected text as italic"
+msgstr "Marca o texto selecionado como itálico"
+
+#: ../geanylatex/src/geanylatex.c:96
+msgid "Marks selected text as bold"
+msgstr "Marca o texto selecionado como negrito"
+
+#: ../geanylatex/src/geanylatex.c:97
+msgid "Underlines selected text"
+msgstr "Sublinha o texto selecionado"
+
+#: ../geanylatex/src/geanylatex.c:223
+msgid "Use KOMA script by default"
+msgstr "Usar script KOMA por padrão"
+
+#: ../geanylatex/src/geanylatex.c:225
+msgid "Show extra plugin toolbar"
+msgstr "Exibir barra de plugins extra"
+
+#: ../geanylatex/src/geanylatex.c:395
+msgid "Insert Label"
+msgstr "Inserir Rótulo"
+
+#: ../geanylatex/src/geanylatex.c:408
+msgid "Label name:"
+msgstr "Nome do rótulo:"
+
+#: ../geanylatex/src/geanylatex.c:445
+msgid "Insert Reference"
+msgstr "Inserir Referẽncia"
+
+#: ../geanylatex/src/geanylatex.c:458
+msgid "Reference name:"
+msgstr "Nome da referência:"
+
+#: ../geanylatex/src/geanylatex.c:472
+msgid "_Standard Reference"
+msgstr "Referência Pa_drão"
+
+#: ../geanylatex/src/geanylatex.c:477
+msgid "_Page Reference"
+msgstr "Referẽncia de _Página"
+
+#: ../geanylatex/src/geanylatex.c:653
+msgid "More"
+msgstr "Mais"
+
+#. Documentclass
+#: ../geanylatex/src/geanylatex.c:745
+msgid "Documentclass:"
+msgstr "Documentclass:"
+
+#: ../geanylatex/src/geanylatex.c:748
+msgid "Choose the kind of document you want to write"
+msgstr "Escolha o tipo de documento que você quer escrever"
+
+#: ../geanylatex/src/geanylatex.c:750 ../geanylatex/src/bibtexlabels.c:27
+msgid "Book"
+msgstr "Book"
+
+#: ../geanylatex/src/geanylatex.c:752 ../geanylatex/src/bibtexlabels.c:26
+msgid "Article"
+msgstr "Article"
+
+#: ../geanylatex/src/geanylatex.c:754
+msgid "Report"
+msgstr "Report"
+
+#: ../geanylatex/src/geanylatex.c:756
+msgid "Letter"
+msgstr "Letter"
+
+#: ../geanylatex/src/geanylatex.c:758
+msgid "Presentation"
+msgstr "Apresentação"
+
+#. Encoding
+#: ../geanylatex/src/geanylatex.c:768
+msgid "Encoding:"
+msgstr "Codificação"
+
+#: ../geanylatex/src/geanylatex.c:772
+msgid "Set the encoding for your new document"
+msgstr "Define a codificação para o seu novo documento"
+
+#. fontsize
+#: ../geanylatex/src/geanylatex.c:788
+msgid "Font size:"
+msgstr "Tamanho da fonte:"
+
+#: ../geanylatex/src/geanylatex.c:794
+msgid "Set the default font size of your new document"
+msgstr "Define o tamanho da fonte padrão do seu novo documento"
+
+#. Author
+#: ../geanylatex/src/geanylatex.c:802
+msgid "Author:"
+msgstr "Autor:"
+
+#: ../geanylatex/src/geanylatex.c:805
+msgid ""
+"Sets the value of the \\author command. In most cases this should be your "
+"name"
+msgstr ""
+"Define o valor do comando \\author. Na maioria dos casos, deve ser o seu nome"
+
+#. Date
+#: ../geanylatex/src/geanylatex.c:816
+msgid "Date:"
+msgstr "Data:"
+
+#: ../geanylatex/src/geanylatex.c:819
+msgid ""
+"Sets the value of the \\date command inside header of your\t\t newly created "
+"LaTeX-document. Keeping it at \\today is a good \t\t decision if you don't "
+"need any fixed date."
+msgstr ""
+"Define o valor do comando \\date dentro do cabeçalho do seu\t\t novo "
+"documento LaTeX. Mantê-lo como \\today é uma boa \t\t decisão se você não "
+"precisar de uma data fixa."
+
+#. Title of the new document
+#: ../geanylatex/src/geanylatex.c:828
+msgid "Title:"
+msgstr "Título:"
+
+#: ../geanylatex/src/geanylatex.c:831
+msgid "Sets the title of your new document."
+msgstr "Define o título do seu documento."
+
+#. Papersize
+#: ../geanylatex/src/geanylatex.c:837
+msgid "Paper size:"
+msgstr "Tamanho do papel:"
+
+#: ../geanylatex/src/geanylatex.c:840
+msgid "Choose the paper format for the newly created document"
+msgstr "Escolha o formato de papel para o seu novo documento"
+
+#. Building the wizard-dialog and showing it
+#: ../geanylatex/src/geanylatex.c:855
+msgid "LaTeX-Wizard"
+msgstr "LaTeX-Wizard"
+
+#: ../geanylatex/src/geanylatex.c:866
+msgid "Use KOMA-script classes if possible"
+msgstr "Usar classes KOMA-script se possível"
+
+#: ../geanylatex/src/geanylatex.c:868
+msgid ""
+"Uses the KOMA-script classes by Markus Kohm.\n"
+"Keep in mind: To compile your document these classeshave to be installed "
+"before."
+msgstr ""
+"Usa as classes KOMA-script de Markus Kohm.\n"
+"Lembre-se: para compilar o seu documento essas classes devem ser instaladas "
+"antes."
+
+#: ../geanylatex/src/geanylatex.c:875
+msgid "Use draft mode"
+msgstr "Usar modo rascunho"
+
+#: ../geanylatex/src/geanylatex.c:877
+msgid ""
+"Set the draft flag inside new created documents to get documents with a "
+"number of debugging helpers"
+msgstr ""
+"Define o flag draft dentro de novos documentos para obter documentos com "
+"ajudantes de depuração"
+
+#: ../geanylatex/src/geanylatex.c:1091
+msgid "Dear Sir or Madame"
+msgstr "Prezado Sr. ou Sra."
+
+#: ../geanylatex/src/geanylatex.c:1092
+msgid "With kind regards"
+msgstr "Atenciosamente"
+
+#: ../geanylatex/src/geanylatex.c:1106
+msgid "Run LaTeX-Wizard"
+msgstr "Executar LaTeX-Wizard"
+
+#: ../geanylatex/src/geanylatex.c:1108
+msgid "Insert \\label"
+msgstr "Inserir \\label"
+
+#: ../geanylatex/src/geanylatex.c:1110
+msgid "Insert \\ref"
+msgstr "Inserir \\ref"
+
+#: ../geanylatex/src/geanylatex.c:1112
+msgid "Insert linebreak \\\\ "
+msgstr "Inserir quebra de linha \\\\"
+
+#: ../geanylatex/src/geanylatex.c:1114
+msgid "Turn input replacement on/off"
+msgstr "Liga/Desliga a substituição de entrada"
+
+#: ../geanylatex/src/geanylatex.c:1118
+msgid "Replace special characters"
+msgstr "Substituir caracteres especiais"
+
+#: ../geanylatex/src/geanylatex.c:1121
+msgid "Run insert environment dialog"
+msgstr "Executar o diálogo Inserir Ambiente"
+
+#: ../geanylatex/src/geanylatex.c:1123
+msgid "Insert \\item"
+msgstr "Inserir \\item"
+
+#: ../geanylatex/src/geanylatex.c:1125
+msgid "Format selection in bold font face"
+msgstr "Formatar seleção em negrito"
+
+#: ../geanylatex/src/geanylatex.c:1127
+msgid "Format selection in italic font face"
+msgstr "Formatar seleção em itálico"
+
+#: ../geanylatex/src/geanylatex.c:1129
+msgid "Format selection in typewriter font face"
+msgstr "Formatar seleção em fonte máquina de escrever"
+
+#: ../geanylatex/src/geanylatex.c:1131
+msgid "Format selection centered"
+msgstr "Formatar seleção centralizado"
+
+#: ../geanylatex/src/geanylatex.c:1133
+msgid "Format selection left-aligned"
+msgstr "Formatar seleção alinhado à esquerda"
+
+#: ../geanylatex/src/geanylatex.c:1135
+msgid "Format selection right-aligned "
+msgstr "Formatar seleção alinhado à direita"
+
+#: ../geanylatex/src/geanylatex.c:1141
+msgid ""
+"GeanyLaTeX is a plugin to improve support for LaTeX in Geany.\n"
+"\n"
+"Please report all bugs or feature requests to one of the authors."
+msgstr ""
+"GeanyLaTeX é um plugin para melhorar o suporte ao LaTeX no Geany.\n"
+"\n"
+"Por favor, informe todos os erros ou pedidos de recursos a um dos autores."
+
+#: ../geanylatex/src/geanylatex.c:1174
+msgid "_LaTeX"
+msgstr "_LaTeX"
+
+#: ../geanylatex/src/geanylatex.c:1180
+msgid "LaTeX-_Wizard"
+msgstr "LaTeX-_Wizard"
+
+#: ../geanylatex/src/geanylatex.c:1183
+msgid "Starts a Wizard to easily create LaTeX-documents"
+msgstr "Inicia um Assistente para criar facilmente documentos LaTeX"
+
+#: ../geanylatex/src/geanylatex.c:1188
+msgid "Insert _Special Character"
+msgstr "Inserir Caracteres E_speciais"
+
+#: ../geanylatex/src/geanylatex.c:1190
+msgid "Helps to use some not very common letters and signs"
+msgstr "Ajuda a usar algumas letras e símbolos não muito comuns"
+
+#: ../geanylatex/src/geanylatex.c:1200
+msgid "Insert _Reference"
+msgstr "Inserir _Referência"
+
+#: ../geanylatex/src/geanylatex.c:1202
+msgid "Inserting references to the document"
+msgstr "Inserindo referências no documento"
+
+#: ../geanylatex/src/geanylatex.c:1207
+msgid "Insert _Label"
+msgstr "Inserir Rótu_lo"
+
+#: ../geanylatex/src/geanylatex.c:1209
+msgid "Helps at inserting labels to a document"
+msgstr "Ajuda a inserir rótulos em um documento"
+
+#: ../geanylatex/src/geanylatex.c:1215
+msgid "Insert _Environment"
+msgstr "Inserir Ambi_ente"
+
+#: ../geanylatex/src/geanylatex.c:1217
+msgid "Helps at inserting an environment a document"
+msgstr "Ajuda a inserir um ambiente no documento"
+
+#: ../geanylatex/src/geanylatex.c:1222
+msgid "_BibTeX"
+msgstr "_BibTeX"
+
+#: ../geanylatex/src/geanylatex.c:1238
+msgid "_Format"
+msgstr "_Formatar"
+
+#: ../geanylatex/src/geanylatex.c:1256
+msgid "_Special Character Replacement"
+msgstr "_Substituir Caracteres Especiais"
+
+#: ../geanylatex/src/geanylatex.c:1264
+msgid "Bulk _Replace Special Characters"
+msgstr "Substitui_r Caracteres Especiais em Volume"
+
+#: ../geanylatex/src/geanylatex.c:1266
+msgid "_Replace selected special cahracters with TeX substitutes"
+msgstr "Substitui_r os caracteres especiais selecionados com substitutos TeX"
+
+#: ../geanylatex/src/geanylatex.c:1274
+msgid "Toggle _Special Character Replacement"
+msgstr "Alternar _Substituição de Caracteres Especiais"
+
+#: ../geanylatex/src/latexencodings.c:37
+msgid "UTF-8"
+msgstr "UTF-8"
+
+#: ../geanylatex/src/latexencodings.c:38
+msgid "US-ASCII"
+msgstr "US-ASCII"
+
+#: ../geanylatex/src/latexencodings.c:39
+msgid "ISO-8859-1 (Latin-1)"
+msgstr "ISO-8859-1 (Latin-1)"
+
+#: ../geanylatex/src/latexencodings.c:41
+msgid "ISO-8859-2 (Latin-2)"
+msgstr "ISO-8859-2 (Latin-2)"
+
+#: ../geanylatex/src/latexencodings.c:43
+msgid "ISO-8859-3 (Latin-3)"
+msgstr "ISO-8859-3 (Latin-3)"
+
+#: ../geanylatex/src/latexencodings.c:45
+msgid "ISO-8859-4 (Latin-4)"
+msgstr "ISO-8859-4 (Latin-4)"
+
+#: ../geanylatex/src/latexencodings.c:47
+msgid "ISO-8859-5 (Latin-5)"
+msgstr "ISO-8859-5 (Latin-5)"
+
+#: ../geanylatex/src/latexencodings.c:49
+msgid "ISO-8859-9 (Latin-9)"
+msgstr "ISO-8859-9 (Latin-9)"
+
+#: ../geanylatex/src/latexencodings.c:51
+msgid "ISO-8859-10 (Latin-10)"
+msgstr "ISO-8859-10 (Latin-10)"
+
+#: ../geanylatex/src/latexencodings.c:53
+msgid "IBM 850 code page"
+msgstr "Página de código IBM 850"
+
+#: ../geanylatex/src/latexencodings.c:55
+msgid "IBM 852 code page"
+msgstr "Ṕágina de código IBM 852"
+
+#: ../geanylatex/src/latexencodings.c:57 ../geanylatex/src/letters.c:41
+#: ../geanylatex/src/bibtexlabels.c:35
+msgid "Misc"
+msgstr "Misc"
+
+#: ../geanylatex/src/letters.c:39
+msgid "Greek letters"
+msgstr "Letras Gregas"
+
+#: ../geanylatex/src/letters.c:40
+msgid "German umlauts"
+msgstr "Umlauts Alemães"
+
+#: ../geanylatex/src/letters.c:42
+msgid "Arrow characters"
+msgstr "Caracteres de Seta"
+
+#: ../geanylatex/src/letters.c:43
+msgid "Relational"
+msgstr "Relacional"
+
+#: ../geanylatex/src/letters.c:44
+msgid "Binary operation"
+msgstr "Operação binária"
+
+#: ../geanylatex/src/bibtexlabels.c:28
+msgid "Booklet"
+msgstr "Livreto"
+
+#: ../geanylatex/src/bibtexlabels.c:29
+msgid "Conference"
+msgstr "Conference"
+
+#: ../geanylatex/src/bibtexlabels.c:30
+msgid "Inbook"
+msgstr "Inbook"
+
+#: ../geanylatex/src/bibtexlabels.c:31
+msgid "Incollection"
+msgstr "Incollection"
+
+#: ../geanylatex/src/bibtexlabels.c:32
+msgid "Inproceedings"
+msgstr "Inproceedings"
+
+#: ../geanylatex/src/bibtexlabels.c:33
+msgid "Manual"
+msgstr "Manual"
+
+#: ../geanylatex/src/bibtexlabels.c:34
+msgid "Mastersthesis"
+msgstr "Mastersthesis"
+
+#: ../geanylatex/src/bibtexlabels.c:36
+msgid "PhdThesis"
+msgstr "PhdThesis"
+
+#: ../geanylatex/src/bibtexlabels.c:37
+msgid "Proceedings"
+msgstr "Proceedings"
+
+#: ../geanylatex/src/bibtexlabels.c:38
+msgid "Techreport"
+msgstr "Techreport"
+
+#: ../geanylatex/src/bibtexlabels.c:39
+msgid "Unpublished"
+msgstr "Unpublished"
+
+#: ../geanylatex/src/bibtexlabels.c:43
+msgid "Address"
+msgstr "Address"
+
+#: ../geanylatex/src/bibtexlabels.c:44
+msgid "Annote"
+msgstr "Annote"
+
+#: ../geanylatex/src/bibtexlabels.c:45
+msgid "Author"
+msgstr "Author"
+
+#: ../geanylatex/src/bibtexlabels.c:46
+msgid "Booktitle"
+msgstr "Booktitle"
+
+#: ../geanylatex/src/bibtexlabels.c:47
+msgid "Chapter"
+msgstr "Chapter"
+
+#: ../geanylatex/src/bibtexlabels.c:48
+msgid "Crossref"
+msgstr "Crossref"
+
+#: ../geanylatex/src/bibtexlabels.c:49
+msgid "Edition"
+msgstr "Edition"
+
+#: ../geanylatex/src/bibtexlabels.c:50
+msgid "Editor"
+msgstr "Editor"
+
+#: ../geanylatex/src/bibtexlabels.c:51
+msgid "E-print"
+msgstr "E-print"
+
+#: ../geanylatex/src/bibtexlabels.c:52
+msgid "HowPublished"
+msgstr "HowPublished"
+
+#: ../geanylatex/src/bibtexlabels.c:53
+msgid "Institution"
+msgstr "Institution"
+
+#: ../geanylatex/src/bibtexlabels.c:54
+msgid "Journal"
+msgstr "Journal"
+
+#: ../geanylatex/src/bibtexlabels.c:55
+msgid "Key"
+msgstr "Key"
+
+#: ../geanylatex/src/bibtexlabels.c:56
+msgid "Month"
+msgstr "Month"
+
+#: ../geanylatex/src/bibtexlabels.c:57
+msgid "Note"
+msgstr "Note"
+
+#: ../geanylatex/src/bibtexlabels.c:58
+msgid "Number"
+msgstr "Number"
+
+#: ../geanylatex/src/bibtexlabels.c:59
+msgid "Organization"
+msgstr "Organization"
+
+#: ../geanylatex/src/bibtexlabels.c:60
+msgid "Pages"
+msgstr "Pages"
+
+#: ../geanylatex/src/bibtexlabels.c:61
+msgid "Publisher"
+msgstr "Publisher"
+
+#: ../geanylatex/src/bibtexlabels.c:62
+msgid "School"
+msgstr "School"
+
+#: ../geanylatex/src/bibtexlabels.c:63
+msgid "Series"
+msgstr "Series"
+
+#: ../geanylatex/src/bibtexlabels.c:64
+msgid "Title"
+msgstr "Title"
+
+#: ../geanylatex/src/bibtexlabels.c:65
+msgid "Type"
+msgstr "Type"
+
+#: ../geanylatex/src/bibtexlabels.c:66
+msgid "URL"
+msgstr "URL"
+
+#: ../geanylatex/src/bibtexlabels.c:67
+msgid "Volume"
+msgstr "Volume"
+
+#: ../geanylatex/src/bibtexlabels.c:68
+msgid "Year"
+msgstr "Year"
+
+#: ../geanylatex/src/bibtexlabels.c:99
+msgid "Address of publisher"
+msgstr "Address of publisher"
+
+#: ../geanylatex/src/bibtexlabels.c:100
+msgid "Annotation for annotated bibliography styles"
+msgstr "Annotation for annotated bibliography styles"
+
+#: ../geanylatex/src/bibtexlabels.c:101
+msgid "Name(s) of the author(s), separated by 'and' if more than one"
+msgstr "Nome(s) do(s) autor(es), separado(s) por 'and' se for mais de um"
+
+#: ../geanylatex/src/bibtexlabels.c:102
+msgid "Title of the book, if only part of it is being cited"
+msgstr "Título do livro, se somente parte dele estiver sendo citada"
+
+#: ../geanylatex/src/bibtexlabels.c:103
+msgid "Chapter number"
+msgstr "Número do capítulo"
+
+#: ../geanylatex/src/bibtexlabels.c:104
+msgid "Citation key of the cross-referenced entry"
+msgstr "Chave de citação da entrada de referẽncia cruzada"
+
+#: ../geanylatex/src/bibtexlabels.c:105
+msgid "Edition of the book (such as \"first\" or \"second\")"
+msgstr "Edição do livro (algo como \"primeira\" ou \"segunda\")"
+
+#: ../geanylatex/src/bibtexlabels.c:106
+msgid "Name(s) of the editor(s), separated by 'and' if more than one"
+msgstr "Nome(s) do(s) editor(es), separado(s) por 'and' se for mais de um"
+
+#: ../geanylatex/src/bibtexlabels.c:107
+msgid "Specification of electronic publication"
+msgstr "Especificação da publicação eletrônica"
+
+#: ../geanylatex/src/bibtexlabels.c:108
+msgid "Publishing method if the method is nonstandard"
+msgstr "Método de publicação, caso seja um método não padrão"
+
+#: ../geanylatex/src/bibtexlabels.c:109
+msgid "Institution that was involved in the publishing"
+msgstr "Instituição que esteve envolvida na publicação"
+
+#: ../geanylatex/src/bibtexlabels.c:110
+msgid "Journal or magazine in which the work was published"
+msgstr "Revista na qual o livro foi publicado"
+
+#: ../geanylatex/src/bibtexlabels.c:111
+msgid ""
+"Hidden field used for specifying or overriding the alphabetical order of "
+"entries"
+msgstr ""
+"Campo oculto usado para especificar ou sobrepor a ordem alfabética das "
+"entradas"
+
+#: ../geanylatex/src/bibtexlabels.c:112
+msgid "Month of publication or creation if unpublished"
+msgstr "Mês de publicação ou criação se não tiver sido publicada"
+
+#: ../geanylatex/src/bibtexlabels.c:113
+msgid "Miscellaneous extra information"
+msgstr "Miscelânea de informações extras"
+
+#: ../geanylatex/src/bibtexlabels.c:114
+msgid "Number of journal, magazine, or tech-report"
+msgstr "Número de journal, revista ou relatório técnico"
+
+#: ../geanylatex/src/bibtexlabels.c:115
+msgid "Sponsor of the conference"
+msgstr "Patrocinador da conferência"
+
+#: ../geanylatex/src/bibtexlabels.c:116
+msgid "Page numbers separated by commas or double-hyphens"
+msgstr "Números de página separados por vírgulas ou hífens duplos"
+
+#: ../geanylatex/src/bibtexlabels.c:117
+msgid "Name of publisher"
+msgstr "Nome da editora"
+
+#: ../geanylatex/src/bibtexlabels.c:118
+msgid "School where thesis was written"
+msgstr "Escola onde a tese foi escrita"
+
+#: ../geanylatex/src/bibtexlabels.c:119
+msgid "Series of books in which the book was published"
+msgstr "Séries de livros na qual o livro foi publicado"
+
+#: ../geanylatex/src/bibtexlabels.c:120
+msgid "Title of the work"
+msgstr "Título do trabalho"
+
+#: ../geanylatex/src/bibtexlabels.c:121
+msgid "Type of technical report"
+msgstr "Tipo de relatório técnico"
+
+#: ../geanylatex/src/bibtexlabels.c:122
+msgid "Internet address"
+msgstr "Endereço na internet"
+
+#: ../geanylatex/src/bibtexlabels.c:123
+msgid "Number of the volume"
+msgstr "Número do volume"
+
+#: ../geanylatex/src/bibtexlabels.c:124
+msgid "Year of publication or creation if unpublished"
+msgstr "Ano de publicação ou criação se não tiver sido publicado"
+
+#: ../geanylatex/src/formatpatterns.c:38
+msgid "Italic"
+msgstr "Itálico"
+
+#: ../geanylatex/src/formatpatterns.c:39
+msgid "Boldfont"
+msgstr "Negrito"
+
+#: ../geanylatex/src/formatpatterns.c:40
+msgid "Underline"
+msgstr "Sublinhado"
+
+#: ../geanylatex/src/formatpatterns.c:41
+msgid "Slanted"
+msgstr "Inclinado"
+
+#: ../geanylatex/src/formatpatterns.c:42
+msgid "Typewriter"
+msgstr "Máquina de escrever"
+
+#: ../geanylatex/src/formatpatterns.c:43
+msgid "Small Caps"
+msgstr "Caixa Alta"
+
+#: ../geanylatex/src/formatpatterns.c:44
+msgid "Emphasis"
+msgstr "Enfatizado"
+
+#: ../geanylatex/src/formatpatterns.c:45
+msgid "Centered"
+msgstr "Centralizado"
+
+#: ../geanylatex/src/formatpatterns.c:46
+msgid "Left side oriented"
+msgstr "Alinhado à esquerda"
+
+#: ../geanylatex/src/formatpatterns.c:47
+msgid "Right side oriented"
+msgstr "Alinhado à direita"
+
+#: ../geanylatex/src/latexenvironments.c:25
+msgid "Environments"
+msgstr "/Ambientes"
+
+#: ../geanylatex/src/latexenvironments.c:26
+msgid "Formating"
+msgstr "Formatação"
+
+#: ../geanylatex/src/latexenvironments.c:27
+msgid "Document Structure"
+msgstr "Estrutura do Documento"
+
+#: ../geanylatex/src/latexenvironments.c:28
+msgid "Lists"
+msgstr "Listas"
+
+#: ../geanylatex/src/latexenvironments.c:29
+msgid "Math"
+msgstr "Matemática"
+
+#: ../geanylatex/src/latexenvironments.c:116
+msgid "Insert Environment"
+msgstr "Inserir Ambiente"
+
+#: ../geanylatex/src/latexenvironments.c:130
+msgid "Environment:"
+msgstr "Ambiente:"
+
+#: ../geanylipsum/src/geanylipsum.c:35
+msgid "Lipsum"
+msgstr "Lipsum"
+
+#: ../geanylipsum/src/geanylipsum.c:35
+msgid "Creating dummy text with Geany"
+msgstr "Criação de texto modelo com o Geany"
+
+#: ../geanylipsum/src/geanylipsum.c:78
+msgid "Lipsum-Generator"
+msgstr "Lipsum-Generator"
+
+#: ../geanylipsum/src/geanylipsum.c:79
+msgid "Enter the length of Lipsum text here"
+msgstr "Informe o tamanho do texto Lipsum"
+
+#. Building menu entry
+#: ../geanylipsum/src/geanylipsum.c:154
+msgid "_Lipsum"
+msgstr "_Lipsum"
+
+#: ../geanylipsum/src/geanylipsum.c:156
+msgid "Include Pseudotext to your code"
+msgstr "Incluir Pseudotexto no seu código"
+
+#: ../geanylipsum/src/geanylipsum.c:169
+msgid "Insert Lipsum text"
+msgstr "Inserir texto Lipsum"
+
+#: ../geanysendmail/src/geanysendmail.c:47
+msgid "GeanySendMail"
+msgstr "GeanySendMail"
+
+#: ../geanysendmail/src/geanysendmail.c:47
+msgid ""
+"A little plugin to send the current file as attachment by user's favorite "
+"mailer"
+msgstr ""
+"Um pequeno plugin para enviar o arquivo atual como anexo pelo programa de "
+"correio preferido do usuário"
+
+#: ../geanysendmail/src/geanysendmail.c:107
+msgid "Recipient's Address"
+msgstr "Endereço do Destinatário"
+
+#: ../geanysendmail/src/geanysendmail.c:118
+msgid "Enter the recipient's e-mail address:"
+msgstr "Insira o endereço de e-mail do destinatário:"
+
+#: ../geanysendmail/src/geanysendmail.c:166
+msgid "Filename placeholder not found. The executed command might have failed."
+msgstr ""
+"Placeholder de nome de arquivo não encontrado. O comando executado deve ter "
+"falhado."
+
+#: ../geanysendmail/src/geanysendmail.c:172
+msgid ""
+"Recipient address placeholder not found. The executed command might have "
+"failed."
+msgstr ""
+"Posicionador do endereço de destinatário não encontrado. O comando executado "
+"pode ter falhado."
+
+#: ../geanysendmail/src/geanysendmail.c:184
+msgid "Could not execute mailer. Please check your configuration."
+msgstr ""
+"Não foi possível executar o programa de correio. Por favor, verifique sua "
+"configuração."
+
+#: ../geanysendmail/src/geanysendmail.c:196
+msgid "Please define a mail client first."
+msgstr "Por favor, primeiro defina um cliente de e-mail."
+
+#: ../geanysendmail/src/geanysendmail.c:201
+msgid "File has to be saved before sending."
+msgstr "O arquivo precisa ser salvo antes de ser enviado."
+
+#: ../geanysendmail/src/geanysendmail.c:217
+msgid "Mail"
+msgstr "Correio"
+
+#: ../geanysendmail/src/geanysendmail.c:248
+msgid "Send by mail"
+msgstr "Enviar por correio"
+
+#. add a label and a text entry to the dialog
+#: ../geanysendmail/src/geanysendmail.c:333
+msgid "Path and options for the mail client:"
+msgstr "Caminho e opções para o cliente de e-mail:"
+
+#: ../geanysendmail/src/geanysendmail.c:341
+msgid ""
+"Note: \n"
+"\t\\%f will be replaced by your file.\n"
+"\t\\%r will be replaced by recipient's email address.\n"
+"\t\\%b will be replaced by basename of a file\n"
+"\tExamples:\n"
+"\tsylpheed --attach \"\\%f\" --compose \"\\%r\"\n"
+"\tmutt -s \"Sending '\\%b'\" -a \"\\%f\" \"\\%r\""
+msgstr ""
+"Nota: \n"
+"\t\\%f será substituído pelo seu arquivo.\n"
+"\t\\%r será substituído pelo endereço de e-mail do destinatário.\n"
+"\t\\%b será substituído pelo nome base de um arquivo\n"
+"\tExemplos:\n"
+"\tsylpheed --attach \"\\%f\" --compose \"\\%r\"\n"
+"\tmutt -s \"Sending '\\%b'\" -a \"\\%f\" \"\\%r\""
+
+#: ../geanysendmail/src/geanysendmail.c:351
+msgid "Showing icon in toolbar"
+msgstr "Exibir ícone na barra de ferramentas"
+
+#: ../geanysendmail/src/geanysendmail.c:353
+msgid "Shows a icon in the toolbar to send file more easy."
+msgstr ""
+"Exibe um ícone na barra de ferramentas para facilitar envio de arquivo."
+
+#: ../geanysendmail/src/geanysendmail.c:359
+msgid "Using dialog for entering email address of recipients"
+msgstr "Usar diálogo para inserir o endereço de e-mail dos destinatários"
+
+#: ../geanysendmail/src/geanysendmail.c:384
+msgid "Send file by mail"
+msgstr "Enviar arquivo por e-mail"
+
+#. Build up menu entry
+#: ../geanysendmail/src/geanysendmail.c:411
+msgid "_Mail document"
+msgstr "Enviar docu_mento"
+
+#: ../geanysendmail/src/geanysendmail.c:414
+msgid ""
+"Sends the opened file as unzipped attachment by any mailer from your $PATH"
+msgstr ""
+"Envia o arquivo aberto como anexo não compactado por qualquer cliente de "
+"correio no seu $PATH"
+
+#: ../geanyvc/src/geanyvc.c:65
+msgid "VC"
+msgstr "CV"
+
+#: ../geanyvc/src/geanyvc.c:65
+msgid "Interface to different Version Control systems."
+msgstr "Interface com diferentes sistemas de Controle de Versão."
+
+#: ../geanyvc/src/geanyvc.c:66
+msgid ""
+"Yura Siamashka <yurand2@gmail.com>,\n"
+"Frank Lanitz <frank@frank.uvena.de>"
+msgstr ""
+"Yura Siamashka <yurand2@gmail.com>,\n"
+"Frank Lanitz <frank@frank.uvena.de>"
+
+#: ../geanyvc/src/geanyvc.c:408
+msgid "Could not parse the output of command"
+msgstr "Não foi possível reconhecer a saída do comando"
+
+#: ../geanyvc/src/geanyvc.c:467
+#, c-format
+msgid "geanyvc: s_spawn_sync error: %s"
+msgstr "geanyvc: s_spawn_sync error: %s"
+
+#: ../geanyvc/src/geanyvc.c:601 ../geanyvc/src/geanyvc.c:612
+#, c-format
+msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
+msgstr "geanyvc: vcdiff_file_activated: Incapaz de renomear '%s' para '%s'"
+
+#: ../geanyvc/src/geanyvc.c:638 ../geanyvc/src/geanyvc.c:687
+msgid "No changes were made."
+msgstr "Nenhuma alteração foi feita."
+
+#: ../geanyvc/src/geanyvc.c:713
+msgid "No history avaible"
+msgstr "Histórico não disponível"
+
+#: ../geanyvc/src/geanyvc.c:906 ../geanyvc/src/geanyvc.c:914
+#, c-format
+msgid "Do you really want to revert: %s?"
+msgstr "Você deseja mesmo reverter: %s?"
+
+#: ../geanyvc/src/geanyvc.c:922
+#, c-format
+msgid "Do you really want to add: %s?"
+msgstr "Você deseja mesmo incluir: %s?"
+
+#: ../geanyvc/src/geanyvc.c:929
+#, c-format
+msgid "Do you really want to remove: %s?"
+msgstr "Você deseja mesmo remover: %s?"
+
+#: ../geanyvc/src/geanyvc.c:952
+msgid "Do you really want to update?"
+msgstr "Você deseja mesmo atualizar?"
+
+#: ../geanyvc/src/geanyvc.c:1152
+msgid "Commit Y/N"
+msgstr "Submeter S/N"
+
+#: ../geanyvc/src/geanyvc.c:1162
+msgid "Status"
+msgstr "Estado"
+
+#: ../geanyvc/src/geanyvc.c:1169
+msgid "Path"
+msgstr "Caminho"
+
+#: ../geanyvc/src/geanyvc.c:1231
+msgid "Commit"
+msgstr "Submeter"
+
+#: ../geanyvc/src/geanyvc.c:1302
+msgid "<b>Commit message:</b>"
+msgstr "<b>Mensagem de submeter:</b>"
+
+#. Commit all changes
+#: ../geanyvc/src/geanyvc.c:1315 ../geanyvc/src/geanyvc.c:2171
+msgid "_Commit"
+msgstr "_Submeter"
+
+#: ../geanyvc/src/geanyvc.c:1385
+msgid "Nothing to commit."
+msgstr "Nada para submeter."
+
+#: ../geanyvc/src/geanyvc.c:1431
+#, c-format
+msgid "Error initializing spell checking: %s"
+msgstr "Erro ao inicializar verificação ortográfica automática: %s"
+
+#: ../geanyvc/src/geanyvc.c:1443
+#, c-format
+msgid ""
+"Error while setting up language for spellchecking. Please check "
+"configuration. Error message was: %s"
+msgstr ""
+"Erro ao definir linguagem para verificação ortográfica. Por favor, verifique "
+"a configuração. Mensagem de erro: %s"
+
+#: ../geanyvc/src/geanyvc.c:1707
+msgid "Set Changed-flag for document tabs created by the plugin"
+msgstr "Definir a flag Alterado para abas de documentos criados pelo plugin"
+
+#: ../geanyvc/src/geanyvc.c:1710
+msgid ""
+"If this option is activated, every new by the VC-plugin created document tab "
+"will be marked as changed. Even this option is useful in some cases, it "
+"could cause a big number of annoying \"Do you want to save\"-dialogs."
+msgstr ""
+"Se essa opção estiver ativada, cada nova aba de documento criado pelo plugin "
+"CV será marcada como alterada. Mesmo que essa opção seja útil algumas vezes, "
+"pode causar diálogos de mensagens \"Você quer salvar\" irritantes."
+
+#: ../geanyvc/src/geanyvc.c:1718
+msgid "Confirm adding new files to a VCS"
+msgstr "Confirmar inclusão de novos arquivos em um SCV"
+
+#: ../geanyvc/src/geanyvc.c:1721
+msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
+msgstr ""
+"Exibe um diálogo de confirmação ao incluir um novo (criado) arquivo ao SCV."
+
+#: ../geanyvc/src/geanyvc.c:1728
+msgid "Maximize commit dialog"
+msgstr "Maximizar diálogo de submeter"
+
+#: ../geanyvc/src/geanyvc.c:1729
+msgid "Show commit dialog maximize."
+msgstr "Exibe o diálogo de submeter maximizado. "
+
+#: ../geanyvc/src/geanyvc.c:1736
+msgid "Use external diff viewer"
+msgstr "Usar vizualizador de diff externo"
+
+#: ../geanyvc/src/geanyvc.c:1738
+msgid "Use external diff viewer for file diff."
+msgstr "Usar vizualizador externo de diff para diff de arquivos."
+
+#: ../geanyvc/src/geanyvc.c:1744
+msgid "Enable CVS"
+msgstr "Habilitar CVS"
+
+#: ../geanyvc/src/geanyvc.c:1749
+msgid "Enable GIT"
+msgstr "Habilitar GIT"
+
+#: ../geanyvc/src/geanyvc.c:1754
+msgid "Enable SVN"
+msgstr "Habilitar SVN"
+
+#: ../geanyvc/src/geanyvc.c:1759
+msgid "Enable SVK"
+msgstr "Habilitar SVK"
+
+#: ../geanyvc/src/geanyvc.c:1764
+msgid "Enable Bazaar"
+msgstr "Habilitar Bazaar"
+
+#: ../geanyvc/src/geanyvc.c:1769
+msgid "Enable Mercurial"
+msgstr "Habilitar Mercurial"
+
+#: ../geanyvc/src/geanyvc.c:1775
+msgid "Spellcheck language"
+msgstr "Linguagem para verificação ortográfica"
+
+#: ../geanyvc/src/geanyvc.c:1924
+msgid "_File"
+msgstr "_Arquivo"
+
+#. Diff of current file
+#. Diff of the current dir
+#. Complete diff of base directory
+#: ../geanyvc/src/geanyvc.c:1928 ../geanyvc/src/geanyvc.c:2012
+#: ../geanyvc/src/geanyvc.c:2053
+msgid "_Diff"
+msgstr "_Diff"
+
+#: ../geanyvc/src/geanyvc.c:1931
+msgid "Make a diff from the current active file"
+msgstr "Faz um diff do arquivo atualmente ativo"
+
+#. Revert current file
+#. Revert current dir
+#. Revert everything
+#: ../geanyvc/src/geanyvc.c:1937 ../geanyvc/src/geanyvc.c:2021
+#: ../geanyvc/src/geanyvc.c:2062
+msgid "_Revert"
+msgstr "_Reverter"
+
+#: ../geanyvc/src/geanyvc.c:1940
+msgid "Restore pristine working copy file (undo local edits)."
+msgstr "Restaura cópia funcional antiga do arquivo (desfaz edições locais)."
+
+#. Blame for current file
+#: ../geanyvc/src/geanyvc.c:1950
+#, fuzzy
+msgid "_Blame"
+msgstr "_Acusar"
+
+#: ../geanyvc/src/geanyvc.c:1953
+msgid "Shows the changes made at one file per revision and author."
+msgstr "Exibe as alterações feitas em um arquivo por revisão e autor."
+
+#. History/log of current file
+#. History/log of the current dir
+#. Complete History/Log of base directory
+#: ../geanyvc/src/geanyvc.c:1961 ../geanyvc/src/geanyvc.c:2032
+#: ../geanyvc/src/geanyvc.c:2074
+msgid "_History"
+msgstr "_Histórico"
+
+#: ../geanyvc/src/geanyvc.c:1964
+msgid "Shows the log of the current file"
+msgstr "Exibe o log do arquivo atual"
+
+#. base version of the current file
+#: ../geanyvc/src/geanyvc.c:1970
+msgid "_Original"
+msgstr "_Original"
+
+#: ../geanyvc/src/geanyvc.c:1973
+msgid "Shows the orignal of the current file"
+msgstr "Exibe o original do arquivo atual"
+
+#. add current file
+#: ../geanyvc/src/geanyvc.c:1982
+msgid "_Add to Version Control"
+msgstr "_Incluir no Controle de Versões"
+
+#: ../geanyvc/src/geanyvc.c:1984
+msgid "Add file to repository."
+msgstr "Inclui arquivo no repositório."
+
+#. remove current file
+#: ../geanyvc/src/geanyvc.c:1990
+msgid "_Remove from Version Control"
+msgstr "_Remover do Controle de Versões"
+
+#: ../geanyvc/src/geanyvc.c:1993
+msgid "Remove file from repository."
+msgstr "Remove arquivo do repositório."
+
+#: ../geanyvc/src/geanyvc.c:2009
+msgid "_Directory"
+msgstr "_Directório"
+
+#: ../geanyvc/src/geanyvc.c:2015
+msgid "Make a diff from the directory of the current active file"
+msgstr "Cria um diff do diretório do arquivo atualmente ativo"
+
+#: ../geanyvc/src/geanyvc.c:2024
+msgid "Restore original files in the current folder (undo local edits)."
+msgstr "Restaura arquivos originais na pasta atual (desfaz edições locais)."
+
+#: ../geanyvc/src/geanyvc.c:2035
+msgid "Shows the log of the current directory"
+msgstr "Exibe o log do diretório atual"
+
+#: ../geanyvc/src/geanyvc.c:2049
+msgid "_Base Directory"
+msgstr "Diretório _Base"
+
+#: ../geanyvc/src/geanyvc.c:2056
+msgid "Make a diff from the top VC directory"
+msgstr "Cria um diff do diretório topo do CV"
+
+#: ../geanyvc/src/geanyvc.c:2064
+msgid "Revert any local edits."
+msgstr "Reverter quaisquer edições locais."
+
+#: ../geanyvc/src/geanyvc.c:2077
+msgid "Shows the log of the top VC directory"
+msgstr "Exibe o log do diretório topo do CV"
+
+#: ../geanyvc/src/geanyvc.c:2091
+msgid "Show diff of file"
+msgstr "Exibir diff de arquivo"
+
+#: ../geanyvc/src/geanyvc.c:2093
+#, fuzzy
+msgid "Show diff of directory"
+msgstr "Exibir diff de diretório"
+
+#: ../geanyvc/src/geanyvc.c:2095
+msgid "Show diff of basedir"
+msgstr "Exibir diff do diretório base"
+
+#: ../geanyvc/src/geanyvc.c:2098
+msgid "Commit changes"
+msgstr "Submeter alterações"
+
+#: ../geanyvc/src/geanyvc.c:2100
+msgid "Show status"
+msgstr "Exibir estado"
+
+#: ../geanyvc/src/geanyvc.c:2102
+msgid "Revert single file"
+msgstr "Reverter arquivo único"
+
+#: ../geanyvc/src/geanyvc.c:2104
+msgid "Revert directory"
+msgstr "Reverter diretório"
+
+#: ../geanyvc/src/geanyvc.c:2106
+msgid "Revert base directory"
+msgstr "Reverter diretório base"
+
+#: ../geanyvc/src/geanyvc.c:2108
+msgid "Update file"
+msgstr "Atualizar arquivo"
+
+#: ../geanyvc/src/geanyvc.c:2133
+msgid "_VC"
+msgstr "C_V"
+
+#. Status of basedir
+#: ../geanyvc/src/geanyvc.c:2153
+msgid "_Status"
+msgstr "E_stado"
+
+#: ../geanyvc/src/geanyvc.c:2155
+msgid "Show status."
+msgstr "Exibe estado."
+
+#. complete update
+#: ../geanyvc/src/geanyvc.c:2162
+msgid "Update"
+msgstr "Atualizar"
+
+#: ../geanyvc/src/geanyvc.c:2164
+msgid "Update from remote repositary."
+msgstr "Atualiza do repositório remoto."
+
+#: ../geanyvc/src/geanyvc.c:2173
+msgid "Commit changes."
+msgstr "Submete alterações."
+
+#: ../spellcheck/src/speller.c:91
+msgid "Try: "
+msgstr "Tentar:"
+
+#: ../spellcheck/src/speller.c:170
+msgid "Checking"
+msgstr "Verificando"
+
+#: ../spellcheck/src/speller.c:183
+#, c-format
+msgid "Checking file \"%s\" (lines %d to %d using %s):"
+msgstr "Verificando arquivo \"%s\" (linhas %d para %d usando %s):"
+
+#: ../spellcheck/src/speller.c:193
+#, c-format
+msgid "Checking file \"%s\" (using %s):"
+msgstr "Verificando arquivo \"%s\" (usando %s):"
+
+#: ../spellcheck/src/speller.c:211
+msgid "The checked text is spelled correctly."
+msgstr "O texto verificado está escrito corretamente."
+
+#: ../spellcheck/src/speller.c:221
+#, c-format
+msgid "The Enchant library couldn't be initialized (%s)."
+msgstr "A biblioteca Enchant não pôde ser inicializada (%s)."
+
+#: ../spellcheck/src/speller.c:222
+msgid "unknown error (maybe the chosen language is not available)"
+msgstr "erro desconhecido (talvez a linguagem escolhida não esteja disponível)"
+
+#: ../spellcheck/src/scplugin.c:45
+msgid "Spell Check"
+msgstr "Verificar Ortografia"
+
+#: ../spellcheck/src/scplugin.c:45
+msgid "Checks the spelling of the current document."
+msgstr "Verifica a ortografia do documento atual."
+
+#: ../spellcheck/src/scplugin.c:46
+msgid "The Geany developer team"
+msgstr "A equipe de desenvolvimento do Geany"
+
+#: ../spellcheck/src/scplugin.c:185
+msgid "Run Spell Check"
+msgstr "Executar verificação ortográfica"
+
+#: ../spellcheck/src/scplugin.c:188
+msgid "Toggle Check While Typing"
+msgstr "Alternar Verificação ao Digitar"
+
+#: ../spellcheck/src/scplugin.c:199
+msgid "Check spelling while typing"
+msgstr "Verificar ortografia ao digitar"
+
+#: ../spellcheck/src/scplugin.c:203
+msgid "Show toolbar item to toggle spell checking"
+msgstr ""
+"Exibir item na barra de ferramentas para alternar verificação ortográfica"
+
+#: ../spellcheck/src/scplugin.c:208
+msgid "Print misspelled words and suggestions in the messages window"
+msgstr "Imprime palavras mal escritas e sugestões na janela de mensagens"
+
+#: ../spellcheck/src/scplugin.c:212
+msgid "Language to use for the spell check:"
+msgstr "Linguagem a usar para a verificação ortográfica:"
+
+#: ../spellcheck/src/gui.c:56
+msgid "Spell checking while typing is now enabled"
+msgstr "A verificação ortográfica ao digitar está agora habilitada"
+
+#: ../spellcheck/src/gui.c:58
+msgid "Spell checking while typing is now disabled"
+msgstr "A verificação ortográfica ao digitar está agora desabilitada"
+
+#: ../spellcheck/src/gui.c:266
+msgid "More..."
+msgstr "Mais..."
+
+#: ../spellcheck/src/gui.c:280
+msgid "(No Suggestions)"
+msgstr "(Nenhuma Sugestão)"
+
+#: ../spellcheck/src/gui.c:287
+#, c-format
+msgid "Add \"%s\" to Dictionary"
+msgstr "Incluir \"%s\" no Dicionário"
+
+#: ../spellcheck/src/gui.c:293
+msgid "Ignore All"
+msgstr "Ignorar Tudo"
+
+#: ../spellcheck/src/gui.c:412
+#, c-format
+msgid "Default (%s)"
+msgstr "Padrão (%s)"
+
+#: ../spellcheck/src/gui.c:413 ../spellcheck/src/gui.c:424
+msgid "unknown"
+msgstr "desconhecido"
+
+#: ../spellcheck/src/gui.c:423
+#, c-format
+msgid "Toggle spell check while typing (current language: %s)"
+msgstr "Alternar verificação ortográfica ao digitar (linguagem atual: %s)"
+
+#: ../spellcheck/src/gui.c:484
+msgid "Spelling Suggestions"
+msgstr "Sugestões de Ortografia"
+
+#: ../shiftcolumn/src/shiftcolumn.c:46
+msgid "Shift Column"
+msgstr "Deslocar Coluna"
+
+#: ../shiftcolumn/src/shiftcolumn.c:47
+msgid "Shift a selection left and right"
+msgstr "Desloca uma seleção para a esquerda e para a direita"
+
+#: ../shiftcolumn/src/shiftcolumn.c:375 ../shiftcolumn/src/shiftcolumn.c:395
+msgid "Shift Left"
+msgstr "Deslocar para a Esquerda"
+
+#: ../shiftcolumn/src/shiftcolumn.c:382 ../shiftcolumn/src/shiftcolumn.c:397
+msgid "Shift Right"
+msgstr "Deslocar para a Direita"
+
+#: ../geanylua/gsdlg_lua.c:95 ../geanylua/glspi_kfile.c:54
+#: ../geanylua/glspi.h:97
+#, c-format
+msgid ""
+"Error in module \"%s\" at function %s():\n"
+" expected type \"%s\" for argument #%d\n"
+msgstr ""
+"Erro no módulo \"%s\" na função %s():\n"
+" tipo esperado \"%s\" para o argumento #%d\n"
+
+#: ../geanylua/gsdlg_lua.c:108 ../geanylua/glspi.h:125
+#, c-format
+msgid ""
+"Error in module \"%s\" at function %s():\n"
+" invalid table in argument #%d:\n"
+"  expected type \"%s\" for element #%d\n"
+" "
+msgstr ""
+"Erro no módulo \"%s\" na função %s():\n"
+" tabela inválida no argumento #%d:\n"
+" tipo esperado \"%s\" para o elemento #%d\n"
+" "
+
+#: ../geanylua/glspi_init.c:430
+msgid "_Lua Scripts"
+msgstr "Scripts _Lua"
+
+#: ../geanylua/glspi_init.c:476
+#, c-format
+msgid "     ==>> %s: Building menu from '%s'\n"
+msgstr "     ==>> %s: Construindo menu de '%s'\n"
+
+#: ../geanylua/glspi_init.c:576
+msgid "Nothing to configure!"
+msgstr "Nada para configurar!"
+
+#: ../geanylua/glspi_init.c:578
+#, c-format
+msgid ""
+"You can create the script:\n"
+"\n"
+"\"%s\"\n"
+"\n"
+"to add your own custom configuration dialog."
+msgstr ""
+"Você pode criar o script:\n"
+"\n"
+"\"%s\"\n"
+"\n"
+"para incluir o seu próprio diálogo de configuração personalizado."
+
+#: ../geanylua/glspi_sci.c:427
+#, c-format
+msgid ""
+"Error in module \"%s\" at function navigate():\n"
+"unknown navigation mode \"%s\" for argument #1.\n"
+msgstr ""
+"Erro no módulo \"%s\" na função navigate():\n"
+"modo de navegação desconhecido \"%s\" para o argumento #1.\n"
+
+#: ../geanylua/glspi_sci.c:602
+#, c-format
+msgid ""
+"Error in module \"%s\" at function %s():\n"
+"API command \"%s\" not implemented.\n"
+msgstr ""
+"Erro no módulo \"%s\" na função %s():\n"
+"comando da API \"%s\" não implementado.\n"
+
+#: ../geanylua/glspi_sci.c:613
+#, c-format
+msgid ""
+"Error in module \"%s\" at function %s():\n"
+"not enough arguments for command \"%s\".\n"
+msgstr ""
+"Erro no módulo \"%s\" na função %s():\n"
+"argumentos insuficientes para o comando \"%s\".\n"
+
+#: ../geanylua/glspi_sci.c:651 ../geanylua/glspi_app.c:399
+#, c-format
+msgid ""
+"Error in module \"%s\" at function %s():\n"
+"unknown command \"%s\" given for argument #1.\n"
+msgstr ""
+"Erro no módulo \"%s\" da função %s():\n"
+"comando desconhecido \"%s\" dado pelo argumento #1.\n"
+
+#: ../geanylua/glspi_sci.c:793
+#, c-format
+msgid ""
+"Error in module \"%s\" at function %s():\n"
+" invalid table in argument #%d:\n"
+"  unknown flag \"%s\" for element #%d\n"
+" "
+msgstr ""
+"Erro no módulo \"%s\" na função %s():\n"
+" tabela inválida no argumento #%d:\n"
+"  flag desconhedica \"%s\" para o elemento #%d\n"
+" "
+
+#: ../geanylua/glspi_sci.c:797
+msgid "<too large to display>"
+msgstr "<grande demais para exibir>"
+
+#: ../geanylua/gsdlg.c:103 ../geanylua/glspi_dlg.c:421
+msgid "Open file"
+msgstr "Abrir arquivo"
+
+#: ../geanylua/gsdlg.c:107
+msgid "Select file"
+msgstr "Selecionar arquivo"
+
+#: ../geanylua/gsdlg.c:154
+msgid "Browse..."
+msgstr "Navegar..."
+
+#: ../geanylua/gsdlg.c:175
+msgid "Select Color"
+msgstr "Selecionar Cor"
+
+#: ../geanylua/gsdlg.c:205
+msgid "Choose..."
+msgstr "Escolher..."
+
+#: ../geanylua/gsdlg.c:253
+msgid "Select..."
+msgstr "Selecionar..."
+
+#: ../geanylua/geanylua.c:166
+#, fuzzy, c-format
+msgid "%s: Can't find support library %s!\n"
+msgstr "%s: Biblioteca de apoio não encontrada!\n"
+
+#: ../geanylua/geanylua.c:175
+#, c-format
+msgid "%s: Can't load support library!\n"
+msgstr "%s: Biblioteca de apoio não pôde ser carregada!\n"
+
+#: ../geanylua/geanylua.c:186
+#, c-format
+msgid "%s: Failed to initialize support library!\n"
+msgstr "%s: Falha ao inicializar biblioteca de apoio!\n"
+
+#: ../geanylua/geanylua.c:191
+#, c-format
+msgid "%s: Support library version mismatch: %s <=> %s\n"
+msgstr "%s: Versão da biblioteca de apoio não casa: %s <=> %s\n"
+
+#: ../geanylua/geanylua.c:209
+#, c-format
+msgid ""
+"The %s plugin failed to load properly.\n"
+"Please check your installation."
+msgstr ""
+"O plugin %s falhou em carregar apropriadamente.\n"
+"Por favor, verifique a sua instalação."
+
+#: ../geanylua/glspi.h:111
+#, c-format
+msgid ""
+"Error in module \"%s\" at function %s():\n"
+" expected type \"%s\" or \"%s\" for argument #%d\n"
+msgstr ""
+"Erro no módulo \"%s\" na função %s():\n"
+" tipo esperado \"%s\" ou \"%s\" para o argumento #%d\n"
+
+#.
+#. * glspi_ver.c - This file is part of the Lua scripting plugin for the Geany IDE
+#. * See the file "geanylua.c" for copyright information.
+#.
+#: ../geanylua/glspi_ver.h:7
+msgid "Lua Script"
+msgstr "Script Lua"
+
+#: ../geanylua/glspi_ver.h:9
+msgid "Write and run Lua scripts for custom commands."
+msgstr "Escrever e executar scripts Lua para comandos personalizados."
+
+#: ../geanylua/glspi_ver.h:19
+msgid "Lua Script Plugin"
+msgstr "Plugin para Scripts Lua"
+
+#: ../geanylua/glspi_app.c:19
+#, c-format
+msgid ""
+"%s %s: %s\n"
+"Copyright (c) 2007-2008 "
+msgstr ""
+"%s %s: %s\n"
+"Copyright (c) 2007-2008 "
+
+#: ../geanylua/glspi_app.c:151
+#, c-format
+msgid ""
+"Error in module \"%s\" at function %s():\n"
+"widget \"%s\"  not found for argument #1.\n"
+" "
+msgstr ""
+"Erro no módulo \"%s\" na função %s():\n"
+"widget \"%s\"  não encontrado para o argumento #1.\n"
+" "
+
+#: ../geanylua/glspi_app.c:160
+#, c-format
+msgid ""
+"Error in module \"%s\" at function %s() argument #2:\n"
+"widget \"%s\" has no signal named \"%s\".\n"
+" "
+msgstr ""
+"Erro no módulo \"%s\" na função %s() argumento #2:\n"
+"widget \"%s\" não tem símbolo nomeado \"%s\".\n"
+" "
+
+#: ../geanylua/glspi_dlg.c:337
+msgid "File exists"
+msgstr "O arquivo existe"
+
+#: ../geanylua/glspi_dlg.c:337
+msgid "Do you want to overwrite it?"
+msgstr "Você quer sobrescrevê-lo?"
+
+#: ../geanylua/glspi_dlg.c:338
+msgid "confirm"
+msgstr "confirmar"
+
+#: ../geanylua/glspi_dlg.c:411
+msgid "Save file"
+msgstr "Salvar arquivo"
+
+#: ../geanylua/glspi_dlg.c:437
+#, c-format
+msgid ""
+"Error in module \"%s\" at function pickfile():\n"
+"failed to parse filter string at argument #3.\n"
+" "
+msgstr ""
+"Erro no módulo \"%s\" na função pickfile():\n"
+"falhou ao reconhecer string de filtro no argumento #3.\n"
+" "
+
+#: ../geanylua/glspi_dlg.c:487
+#, c-format
+msgid ""
+"Error in module \"%s\" at function %s():\n"
+"expected string \"open\" or \"save\" for argument #1.\n"
+" "
+msgstr ""
+"Erro no módulo \"%s\" na função %s():\n"
+"string \"open\" ou \"save\" esperada pelo argumento #1.\n"
+" "
+
+#: ../geanylua/glspi_run.c:112 ../geanylua/glspi_run.c:119
+msgid "Lua script error:"
+msgstr "Erro no script Lua:"
+
+#: ../geanylua/glspi_run.c:219
+msgid "Script timeout"
+msgstr "Tempo esgotado do script"
+
+#: ../geanylua/glspi_run.c:220
+msgid ""
+"A Lua script seems to be taking excessive time to complete.\n"
+"Do you want to continue waiting?"
+msgstr ""
+"Um script Lua parece levar tempo demais para completar.\n"
+"Vocẽ quer continuar esperando?"
+
+#: ../geanylua/glspi_run.c:228
+msgid "Script timeout exceeded."
+msgstr "Tempo esgotado do script excedido."
+
+#: ../geanylua/glspi_run.c:404
+msgid "(error object is not a string)"
+msgstr "(objeto erro não é uma string)"
+
+#: ../geanylua/glspi_run.c:409
+msgid "Unknown Error inside script."
+msgstr "Erro desconhecido dentro do script."
+
+#: ../geanylua/glspi_run.c:481
+msgid "Out of memory."
+msgstr "Sem memória."
+
+#: ../geanylua/glspi_run.c:484
+msgid "Failed to open script file."
+msgstr "Falha ao abrir arquivo de script."
+
+#: ../geanylua/glspi_run.c:487
+msgid "Unknown error while loading script file."
+msgstr "Erro desconhecido ao carregar arquivo de script."
