@@ -2368,7 +2368,7 @@ msgstr "Lua スクリプト"
 
 #: ../geanylua/glspi_ver.h:9
 msgid "Write and run Lua scripts for custom commands."
-msgstr "カスタムコマンド用の Lua スクリプトを書いて実行"
+msgstr "Lua スクリプトで作成したカスタムコマンドを実行します"
 
 #: ../geanylua/glspi_ver.h:19
 msgid "Lua Script Plugin"
