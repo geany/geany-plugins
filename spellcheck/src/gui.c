@@ -71,11 +71,6 @@ static void toolbar_item_toggled_cb(GtkToggleToolButton *button, gpointer user_d
 }
 
 
-void sc_gui_update_tooltip(void)
-{
-}
-
-
 void sc_gui_update_toolbar(void)
 {
 	/* toolbar item is not requested, so remove the item if it exists */
@@ -91,7 +86,6 @@ void sc_gui_update_toolbar(void)
 		if (sc_info->toolbar_button == NULL)
 		{
 			sc_info->toolbar_button = gtk_toggle_tool_button_new_from_stock(GTK_STOCK_SPELL_CHECK);
-			sc_gui_update_tooltip();
 
 			plugin_add_toolbar_item(geany_plugin, sc_info->toolbar_button);
 			ui_add_document_sensitive(GTK_WIDGET(sc_info->toolbar_button));
