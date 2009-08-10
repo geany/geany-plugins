@@ -45,7 +45,7 @@ ${PACKAGE}-${VERSION}
     Geany version:                ${geanyversion}
     Install prefix:               ${prefix}
     Datadir:                      ${expanded_datadir}/${PACKAGE_TARNAME}
-    Libdir:                       ${expanded_libdir}${PACKAGE_TARNAME}
+    Libdir:                       ${expanded_libdir}/${PACKAGE_TARNAME}
     Docdir:                       ${expanded_docdir}
     Plugins path:                 ${geanypluginsdir}
 
