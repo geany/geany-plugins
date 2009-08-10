@@ -1,10 +1,19 @@
 /**
- * Written by Cédric Tabin
- * http://www.astorm.ch/
- * Version 1.0 - 08.08.2009
- * 
- * Code under licence GPLv2
- * Geany - http://www.geany.org/
+ *   Copyright (C) 2009  Cedric Tabin
+ *
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License along
+ *   with this program; if not, write to the Free Software Foundation, Inc.,
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
 #include "PrettyPrinter.h"
@@ -19,11 +28,11 @@ static int readWhites();                                                        
 static char readNextChar();                                                                             //read the next char into the input buffer;
 static char getNextChar();                                                                              //returns the next char but do not increase the input buffer index (use readNextChar for that)
 static char getPreviousInsertedChar();                                                                  //returns the last inserted char into the new buffer
-static boolean isWhite(char c);                                                                         //check if the specified char is a white
-static boolean isLineBreak(char c);                                                                     //check if the specified char is a new line
+static gboolean isWhite(char c);                                                                        //check if the specified char is a white
+static gboolean isLineBreak(char c);                                                                    //check if the specified char is a new line
 static int putNewLine();                                                                                //put a new line into the new char buffer with the correct number of whites (indentation)
-static boolean isInlineNodeAllowed();                                                                   //check if it is possible to have an inline node
-static void resetBackwardIndentation(boolean resetLineBreak);                                           //reset the indentation for the current depth (just reset the index in fact)
+static gboolean isInlineNodeAllowed();                                                                  //check if it is possible to have an inline node
+static void resetBackwardIndentation(gboolean resetLineBreak);                                          //reset the indentation for the current depth (just reset the index in fact)
                                                              
 //specific parsing functions                                 
 static int processElements();                                                                           //returns the number of elements processed
@@ -54,8 +63,8 @@ static int inputBufferLength;                                                   
 static int inputBufferIndex;                                                                            //input buffer index (position of the next char to read into the input string)
 static int currentDepth;                                                                                //current depth (for indentation)
 static char* currentNodeName;                                                                           //current node name
-static boolean appendIndentation;                                                                       //if the indentation must be added (with a line break before)
-static boolean lastNodeOpen;                                                                            //defines if the last action was a not opening or not
+static gboolean appendIndentation;                                                                      //if the indentation must be added (with a line break before)
+static gboolean lastNodeOpen;                                                                           //defines if the last action was a not opening or not
 static PrettyPrintingOptions* options;                                                                  //options of PrettyPrinting
 
 //============================================ GENERAL FUNCTIONS =======================================
@@ -68,7 +77,7 @@ int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* 
 	
 	//initialize the variables
 	result = PRETTY_PRINTING_SUCCESS;
-	boolean freeOptions = FALSE;
+	gboolean freeOptions = FALSE;
 	if (ppOptions == NULL) { ppOptions = createDefaultPrettyPrintingOptions(); freeOptions = TRUE; }
 	options = ppOptions;
 	
@@ -149,7 +158,8 @@ PrettyPrintingOptions* createDefaultPrettyPrintingOptions()
 
 void putNextCharsInBuffer(int nbChars)
 {
-	for (int i=0 ; i<nbChars ; ++i)
+	int i;
+	for (i=0 ; i<nbChars ; ++i)
 	{
 		char c = readNextChar();
 		putCharInBuffer(c);
@@ -191,7 +201,8 @@ int putNewLine()
 {
 	putCharInBuffer('\n');
 	int spaces = currentDepth*options->indentLength;
-	for(int i=0 ; i<spaces ; ++i)
+	int i;
+	for(i=0 ; i<spaces ; ++i)
 	{
 		putCharInBuffer(options->indentChar);
 	}
@@ -221,7 +232,7 @@ int readWhites()
 	return counter;
 }
 
-boolean isWhite(char c)
+gboolean isWhite(char c)
 {
 	if (c == ' ') return TRUE;
 	if (c == '\t') return TRUE;
@@ -231,7 +242,7 @@ boolean isWhite(char c)
 	return FALSE;
 }
 
-boolean isLineBreak(char c)
+gboolean isLineBreak(char c)
 {
 	if (c == '\n') return TRUE;
 	if (c == '\r') return TRUE;
@@ -239,7 +250,7 @@ boolean isLineBreak(char c)
 	return FALSE;
 }
 
-boolean isInlineNodeAllowed()
+gboolean isInlineNodeAllowed()
 {
 	//the last action was not an opening => inline not allowed
 	if (!lastNodeOpen) { return FALSE; }
@@ -263,7 +274,7 @@ boolean isInlineNodeAllowed()
 		//read until closing
 		char oldChar = ' ';
 		index += 3; //that by pass meanless chars
-		boolean loop = TRUE;
+		gboolean loop = TRUE;
 		while (loop)
 		{
 			char current = inputBuffer[index];
@@ -291,8 +302,8 @@ boolean isInlineNodeAllowed()
 		currentChar = inputBuffer[index+1];
 		if (currentChar == '/')
 		{
-			//as we are in a correct XML (so far...), if the node is being
-			//directly close, the inline is allowed !!!
+			//as we are in a correct XML (so far...), if the node is 
+			//being directly close, the inline is allowed !!!
 			return TRUE;
 		}
 	}
@@ -301,7 +312,7 @@ boolean isInlineNodeAllowed()
 	return FALSE;
 }
 
-void resetBackwardIndentation(boolean resetLineBreak)
+void resetBackwardIndentation(gboolean resetLineBreak)
 {
 	xmlPrettyPrintedIndex -= (currentDepth*options->indentLength);
 	if (resetLineBreak) { --xmlPrettyPrintedIndex; }
@@ -321,7 +332,7 @@ int processElements()
 {
 	int counter = 0;
 	++currentDepth;
-	boolean loop = TRUE;
+	gboolean loop = TRUE;
 	while (loop && result == PRETTY_PRINTING_SUCCESS)
 	{
 		//strip unused whites
@@ -334,7 +345,7 @@ int processElements()
 		if (appendIndentation) { putNewLine(); }
 		
 		//always append indentation (but need to store the state)
-		boolean indentBackward = appendIndentation;
+		gboolean indentBackward = appendIndentation;
 		appendIndentation = TRUE; 
 		
 		//okay what do we have now ?
@@ -360,7 +371,11 @@ int processElements()
 			{ 
 				//close a node => stop the loop !!
 				loop = FALSE; 
-				if (indentBackward) { xmlPrettyPrintedIndex -= options->indentLength; } //INDEX HACKING
+				if (indentBackward) 
+				{ 
+					//INDEX HACKING
+					xmlPrettyPrintedIndex -= options->indentLength; 
+				} 
 			}
 			else if (nextChar == '?')
 			{
@@ -413,12 +428,12 @@ void processElementAttributes()
 	char current = getNextChar(); //should not be a white
 	if (isWhite(current)) { fprintf(stderr, "processElementAttributes : first char shouldn't be a white"); printDebugStatus(); result = PRETTY_PRINTING_INVALID_CHAR_ERROR; return; }
 	
-	boolean loop = TRUE;
+	gboolean loop = TRUE;
 	while (loop)
 	{
 		readWhites(); //strip the whites
 		
-		char next = getNextChar(); //don't read the last char => will be processed afterwards
+		char next = getNextChar(); //don't read the last char (processed afterwards)
 		if (next == '/') { loop = FALSE; } /* end of node */
 		else if (next == '>') { loop = FALSE; } /* end of tag */
 		else if (next == '?') { loop = FALSE; } /* end of header */
@@ -438,13 +453,16 @@ void processHeader()
 	if (firstChar != '<') { fprintf(stderr, "processHeader : first char should be '<' (not '%c')", firstChar); printDebugStatus(); result = PRETTY_PRINTING_INVALID_CHAR_ERROR; return; } /* what ?????? invalid xml !!! */ 
 	if (secondChar == '?')
 	{ 
-		putNextCharsInBuffer(2); //puts the '<' and '?' chars into the new buffer
+		//puts the '<' and '?' chars into the new buffer
+		putNextCharsInBuffer(2); 
 		
 		while(!isWhite(getNextChar())) { putNextCharsInBuffer(1); }
 		
 		readWhites();
 		processElementAttributes(); 
-		putNextCharsInBuffer(2); //puts the '?' and '>' chars into the new buffer
+		
+		//puts the '?' and '>' chars into the new buffer
+		putNextCharsInBuffer(2); 
 	}
 }
 
@@ -456,7 +474,9 @@ void processNode()
 	
 	//read the node name
 	int nodeNameLength = 0;
-	while (!isWhite(getNextChar()) && getNextChar() != '>' && getNextChar() != '/')
+	while (!isWhite(getNextChar()) && 
+	       getNextChar() != '>' &&  //end of the tag
+	       getNextChar() != '/') //tag is being closed
 	{
 		putNextCharsInBuffer(1);
 		++nodeNameLength;
@@ -466,7 +486,8 @@ void processNode()
 	char* nodeName = (char*)malloc(sizeof(char)*nodeNameLength+1);
 	if (nodeName == NULL) { exit(PRETTY_PRINTING_MALLOC_ERROR); }
 	nodeName[nodeNameLength] = '\0';
-	for (int i=0 ; i<nodeNameLength ; ++i)
+	int i;
+	for (i=0 ; i<nodeNameLength ; ++i)
 	{
 		int index = xmlPrettyPrintedIndex-nodeNameLength+i;
 		nodeName[i] = xmlPrettyPrinted[index];
@@ -497,7 +518,12 @@ void processNode()
 			readNextChar(); //removing '>'
 			
 			putCharInBuffer('>');
-			if (!options->inlineText) { putNewLine(); } //no inline text => new line !
+			if (!options->inlineText) 
+			{
+				//no inline text => new line !
+				putNewLine(); 
+			} 
+			
 			putCharsInBuffer("</");
 			putCharsInBuffer(currentNodeName);
 			putCharInBuffer('>');
@@ -506,7 +532,12 @@ void processNode()
 		lastNodeOpen=FALSE; 
 		return; 
 	}
-	else if (nextChar == '>') { putNextCharsInBuffer(1); subElementsProcessed = processElements(TRUE); } //the tag is just closed (maybe some content)
+	else if (nextChar == '>') 
+	{ 
+		//the tag is just closed (maybe some content)
+		putNextCharsInBuffer(1); 
+		subElementsProcessed = processElements(TRUE); 
+	} 
 	else { fprintf(stderr, "processNode : Invalid character '%c'", nextChar); printDebugStatus(); result = PRETTY_PRINTING_INVALID_CHAR_ERROR; return; }
 	
 	//if the code reaches this area, then the processElements has been called and we must
@@ -527,7 +558,8 @@ void processNode()
 		//the node will be stripped
 		if (options->emptyNodeStripping)
 		{
-			xmlPrettyPrintedIndex -= nodeNameLength+4; //because we have '<nodeName ...></nodeName>'
+			//because we have '<nodeName ...></nodeName>'
+			xmlPrettyPrintedIndex -= nodeNameLength+4; 
 			resetBackwardIndentation(TRUE);
 			
 			if (options->emptyNodeStrippingSpace) { putCharInBuffer(' '); }
@@ -536,7 +568,8 @@ void processNode()
 		//the closing tag will be put on the same line
 		else if (options->inlineText)
 		{
-			xmlPrettyPrintedIndex -= nodeNameLength+3; //because we have '</nodeName>'
+			//correct the index because we have '</nodeName>'
+			xmlPrettyPrintedIndex -= nodeNameLength+3; 
 			resetBackwardIndentation(TRUE);
 			
 			//rewrite the node name
@@ -557,18 +590,18 @@ void processNode()
 
 void processComment()
 {
-	boolean inlineAllowed = FALSE;
+	gboolean inlineAllowed = FALSE;
 	if (options->inlineComment) { inlineAllowed = isInlineNodeAllowed(); }
 	if (inlineAllowed) { resetBackwardIndentation(TRUE); }
 	
 	putNextCharsInBuffer(4); //add the chars '<!--'
 	
 	char oldChar = '-';
-	boolean loop = TRUE;
+	gboolean loop = TRUE;
 	while (loop)
 	{
 		char nextChar = readNextChar();
-		if (oldChar == '-' && nextChar == '-') //the comment is being closed
+		if (oldChar == '-' && nextChar == '-') //comment is being closed
 		{
 			loop = FALSE;
 		}
@@ -578,7 +611,7 @@ void processComment()
 			putCharInBuffer(nextChar);
 			oldChar = nextChar;
 		}
-		else if (!options->oneLineComment) //oh ! there is a line break !
+		else if (!options->oneLineComment) //oh ! there is a line break
 		{
 			readWhites(); //strip the whites and new line
 			putNewLine(); //put a new indentation line
@@ -588,8 +621,11 @@ void processComment()
 		}
 		else //the comments must be inlined
 		{
-			readWhites(); //strip the whites and add a space if necessary
-			if (getPreviousInsertedChar() != ' ') { putCharInBuffer(' '); }
+			readWhites(); //strip the whites and add a space if needed
+			if (getPreviousInsertedChar() != ' ') 
+			{ 
+				putCharInBuffer(' '); 
+			}
 		}
 	}
 	
@@ -606,7 +642,7 @@ void processComment()
 void processTextNode()
 {
 	//checks if inline is allowed
-	boolean inlineTextAllowed = FALSE;
+	gboolean inlineTextAllowed = FALSE;
 	if (options->inlineText) { inlineTextAllowed = isInlineNodeAllowed(); }
 	if (inlineTextAllowed) { resetBackwardIndentation(TRUE); } //remove previous indentation
 	
@@ -614,13 +650,19 @@ void processTextNode()
 	if (!options->trimLeadingWhites)
 	{
 		int backwardIndex = inputBufferIndex-1;
-		while (inputBuffer[backwardIndex] == ' ' || inputBuffer[backwardIndex] == '\t') { --backwardIndex; } //backward rolling
+		while (inputBuffer[backwardIndex] == ' ' || 
+		       inputBuffer[backwardIndex] == '\t') 
+		{ 
+			--backwardIndex; //backward rolling
+		} 
 		
-		//now the input[backwardIndex] IS NOT a white. So we go to the next char...
+		//now the input[backwardIndex] IS NOT a white. So we go to 
+		//the next char...
 		++backwardIndex;
 		
 		//and then re-add the whites
-		while (inputBuffer[backwardIndex] == ' ' || inputBuffer[backwardIndex] == '\t') 
+		while (inputBuffer[backwardIndex] == ' ' || 
+		       inputBuffer[backwardIndex] == '\t') 
 		{
 			putCharInBuffer(inputBuffer[backwardIndex]);
 			++backwardIndex;
@@ -636,9 +678,13 @@ void processTextNode()
 			readWhites();
 			if (options->oneLineText)
 			{ 
-				//as we can put text on one line, remove the line break and replace it by a space
-				//but only if the previous char wasn't a space
-				if (getPreviousInsertedChar() != ' ') { putCharInBuffer(' '); }
+				//as we can put text on one line, remove the line break 
+				//and replace it by a space but only if the previous 
+				//char wasn't a space
+				if (getPreviousInsertedChar() != ' ') 
+				{ 
+					putCharInBuffer(' '); 
+				}
 			}
 			else 
 			{
@@ -658,7 +704,8 @@ void processTextNode()
 	//strip the trailing whites
 	if (options->trimTrailingWhites)
 	{
-		while(getPreviousInsertedChar() == ' ' || getPreviousInsertedChar() == '\t')
+		while(getPreviousInsertedChar() == ' ' || 
+		      getPreviousInsertedChar() == '\t')
 		{
 			--xmlPrettyPrintedIndex;
 		}
@@ -673,13 +720,13 @@ void processTextNode()
 
 void processCDATA()
 {
-	boolean inlineAllowed = FALSE;
+	gboolean inlineAllowed = FALSE;
 	if (options->inlineCdata) { inlineAllowed = isInlineNodeAllowed(); }
 	if (inlineAllowed) { resetBackwardIndentation(TRUE); }
 	
 	putNextCharsInBuffer(9); //putting the '<![CDATA[' into the buffer
 	
-	boolean loop = TRUE;
+	gboolean loop = TRUE;
 	char oldChar = '[';
 	while(loop)
 	{
