@@ -16,6 +16,7 @@ AC_DEFUN([GP_CHECK_SPELLCHECK],
     fi
 
     AM_CONDITIONAL(ENABLE_SPELLCHECK, test $enable_spellcheck = yes)
+    GP_STATUS_PLUGIN_ADD([Spellcheck], [$enable_spellcheck])
 
     AC_CONFIG_FILES([
         spellcheck/Makefile
