@@ -73,3 +73,7 @@ geanylua/glspi_ver.h
 geanylua/glspi_app.c
 geanylua/glspi_dlg.c
 geanylua/glspi_run.c
+
+#Pretty-printer
+pretty-printer/src/Plugin.c
+pretty-printer/src/PrettyPrinter.c

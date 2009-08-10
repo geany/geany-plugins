@@ -84,7 +84,8 @@ plugins = [
 		 [ 'geanylua/geanylua.c' ], # the other source files are listed in build_lua()
 		 [ 'geanylua' ],
 		 # maybe you need to modify the package name of Lua, try one of these: lua5.1 lua51 lua-5.1
-		 [ [ 'lua', '5.1', True ] ])
+		 [ [ 'lua', '5.1', True ] ]),
+	Plugin('pretty-printer', None, [ 'pretty-printer/src' ], [ [ 'libxml-2.0', '2.6', True ] ])
 ]
 
 '''
