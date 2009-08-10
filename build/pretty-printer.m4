@@ -5,12 +5,13 @@ AC_DEFUN([GP_CHECK_PRETTYPRINTER],
             [Enable the pretty-printer plugin [[default=auto]]]),,
         enable_prettyprinter=auto)
 
+    LIBXML_VERSION=2.6.27
     if [[ x"$enable_prettyprinter" = "xauto" ]]; then
-       PKG_CHECK_MODULES(LIBXML, [libxml-2.0],
+       PKG_CHECK_MODULES(LIBXML, [libxml-2.0 >= $LIBXML_VERSION],
            [enable_prettyprinter=yes],
            [enable_prettyprinter=no])
     elif [[ x"$enable_prettyprinter" = "xyes" ]]; then
-       PKG_CHECK_MODULES(LIBXML, [libxml-2.0])
+       PKG_CHECK_MODULES(LIBXML, [libxml-2.0 >= $LIBXML_VERSION])
     fi
 
     AM_CONDITIONAL(ENABLE_PRETTYPRINTER, test $enable_prettyprinter = yes)
