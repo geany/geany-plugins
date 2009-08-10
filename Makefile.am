@@ -7,6 +7,7 @@ plugins = \
 	geanylua \
 	geanysendmail \
 	geanyvc \
+	pretty-printer \
 	shiftcolumn \
 	spellcheck
 
