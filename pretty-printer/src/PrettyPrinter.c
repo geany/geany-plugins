@@ -836,10 +836,10 @@ void printError(char *msg, ...)
 
 void printDebugStatus()
 {
-	g_debug(stderr, "\n===== INPUT =====\n%s\n=================\ninputLength = %d\ninputIndex = %d\noutputLength = %d\noutputIndex = %d\n", 
-					inputBuffer, 
-					inputBufferLength, 
-					inputBufferIndex,
-					xmlPrettyPrintedLength,
-					xmlPrettyPrintedIndex);
+	g_debug("\n===== INPUT =====\n%s\n=================\ninputLength = %d\ninputIndex = %d\noutputLength = %d\noutputIndex = %d\n", 
+			inputBuffer, 
+			inputBufferLength, 
+			inputBufferIndex,
+			xmlPrettyPrintedLength,
+			xmlPrettyPrintedIndex);
 }

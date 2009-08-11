@@ -43,7 +43,7 @@ PrettyPrintingOptions* prettyPrintingOptions;
 
 //plugin information
 PLUGIN_VERSION_CHECK(130)
-PLUGIN_SET_INFO("XML PrettyPrinter", "Formats an XML and make it readable for a human.",
+PLUGIN_SET_INFO("XML PrettyPrinter", "Formats an XML and make it readable for human.",
                 "1.0", "Cédric Tabin - http://www.astorm.ch");
 
 static GtkWidget *main_menu_item = NULL;
@@ -79,7 +79,7 @@ static void item_activate_cb(GtkMenuItem *menuitem, gpointer gdata)
 	int result = processXMLPrettyPrinting(&buffer, &length, prettyPrintingOptions);
 	if (result != 0) 
 	{
-		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Unable to process PrettyPrinting on the specified XML because some features are not supported.");
+		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Unable to process PrettyPrinting on the specified XML because some features are not supported.\n\nSee Help > Debug messages for more details...");
 		return;
 	}
 
@@ -115,6 +115,8 @@ void plugin_cleanup(void)
     gtk_widget_destroy(main_menu_item);
 }
 
+//TODO create configuration widget
+/*
 GtkWidget* plugin_configure(GtkDialog * dialog)   	
 {
 	//default printing options
@@ -156,3 +158,4 @@ GtkWidget* plugin_configure(GtkDialog * dialog)
 	gtk_widget_show_all(globalBox);
 	return globalBox;
 }
+*/
