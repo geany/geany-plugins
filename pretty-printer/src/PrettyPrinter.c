@@ -47,6 +47,7 @@ static void processDoctype();                                                   
 static void processDoctypeElement();                                                                    //process a DOCTYPE ELEMENT node
                                                              
 //debug function                                             
+static void printError(char *msg, ...);                                                                 //just print a message like the printf method
 static void printDebugStatus();                                                                         //just print some variables into the console for debugging
 
 //============================================ PRIVATE PROPERTIES ======================================
@@ -93,7 +94,7 @@ int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* 
 	
 	xmlPrettyPrintedLength = *length;
 	xmlPrettyPrinted = (char*)malloc(sizeof(char)*(*length));
-	if (xmlPrettyPrinted == NULL) { exit(PRETTY_PRINTING_MALLOC_ERROR); }
+	if (xmlPrettyPrinted == NULL) { g_error("Allocation error"); }
 	
 	//go to the first char
 	readWhites();
@@ -106,7 +107,7 @@ int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* 
 	
 	//adjust the final size
 	xmlPrettyPrinted = realloc(xmlPrettyPrinted, xmlPrettyPrintedIndex);
-	if (xmlPrettyPrinted == NULL) { exit(PRETTY_PRINTING_MALLOC_ERROR); }
+	if (xmlPrettyPrinted == NULL) { g_error("Allocation error"); }
 	
 	//freeing the unused values
 	if (freeOptions) { free(options); }
@@ -137,7 +138,11 @@ int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* 
 PrettyPrintingOptions* createDefaultPrettyPrintingOptions()
 {
 	PrettyPrintingOptions* options = (PrettyPrintingOptions*)malloc(sizeof(PrettyPrintingOptions));
-	if (options == NULL) { fprintf(stderr, "createDefaultPrettyPrintingOptions : Unable to allocate memory"); return NULL; }
+	if (options == NULL) 
+	{ 
+		printError("createDefaultPrettyPrintingOptions : Unable to allocate memory"); 
+		return NULL; 
+	}
 	
 	options->indentChar = ' ';
 	options->indentLength = 2;
@@ -174,7 +179,7 @@ void putCharInBuffer(char charToAdd)
 		if (charToAdd == '\0') { ++xmlPrettyPrintedLength; }
 		else { xmlPrettyPrintedLength += inputBufferLength; }
 		xmlPrettyPrinted = (char*)realloc(xmlPrettyPrinted, xmlPrettyPrintedLength);
-		if (xmlPrettyPrinted == NULL) { exit(PRETTY_PRINTING_MALLOC_ERROR); }
+		if (xmlPrettyPrinted == NULL) { g_error("Allocation error"); }
 	}
 	
 	//putting the char and increase the index for the next one
@@ -365,7 +370,11 @@ int processElements()
 				else if (oneMore == '[') { processCDATA(); ++counter; } //cdata
 				else if (oneMore == 'D') { processDoctype(); ++counter; } //doctype <!DOCTYPE ... >
 				else if (oneMore == 'E') { processDoctypeElement(); ++counter; } //doctype element <!ELEMENT ... >
-				else { fprintf(stderr, "processElements : Invalid char '%c' afer '<!'", oneMore); printDebugStatus(); result = PRETTY_PRINTING_INVALID_CHAR_ERROR; }
+				else 
+				{ 
+					printError("processElements : Invalid char '%c' afer '<!'", oneMore); 
+					result = PRETTY_PRINTING_INVALID_CHAR_ERROR; 
+				}
 			} 
 			else if (nextChar == '/')
 			{ 
@@ -426,7 +435,12 @@ void processElementAttribute()
 void processElementAttributes()
 {
 	char current = getNextChar(); //should not be a white
-	if (isWhite(current)) { fprintf(stderr, "processElementAttributes : first char shouldn't be a white"); printDebugStatus(); result = PRETTY_PRINTING_INVALID_CHAR_ERROR; return; }
+	if (isWhite(current)) 
+	{ 
+		printError("processElementAttributes : first char shouldn't be a white"); 
+		result = PRETTY_PRINTING_INVALID_CHAR_ERROR; 
+		return; 
+	}
 	
 	gboolean loop = TRUE;
 	while (loop)
@@ -450,7 +464,13 @@ void processHeader()
 	int firstChar = inputBuffer[inputBufferIndex]; //should be '<'
 	int secondChar = inputBuffer[inputBufferIndex+1]; //must be '?'
 	
-	if (firstChar != '<') { fprintf(stderr, "processHeader : first char should be '<' (not '%c')", firstChar); printDebugStatus(); result = PRETTY_PRINTING_INVALID_CHAR_ERROR; return; } /* what ?????? invalid xml !!! */ 
+	if (firstChar != '<') 
+	{ 
+		/* what ?????? invalid xml !!! */ 
+		printError("processHeader : first char should be '<' (not '%c')", firstChar); 
+		result = PRETTY_PRINTING_INVALID_CHAR_ERROR; return; 
+	}
+	
 	if (secondChar == '?')
 	{ 
 		//puts the '<' and '?' chars into the new buffer
@@ -469,7 +489,13 @@ void processHeader()
 void processNode()
 {
 	int opening = readNextChar();
-	if (opening != '<') { fprintf(stderr, "processNode : The first char should be '<' (not '%c')", opening); printDebugStatus(); result = PRETTY_PRINTING_INVALID_CHAR_ERROR; return; }
+	if (opening != '<') 
+	{ 
+		printError("processNode : The first char should be '<' (not '%c')", opening); 
+		result = PRETTY_PRINTING_INVALID_CHAR_ERROR; 
+		return; 
+	}
+	
 	putCharInBuffer(opening);
 	
 	//read the node name
@@ -484,7 +510,7 @@ void processNode()
 
 	//store the name
 	char* nodeName = (char*)malloc(sizeof(char)*nodeNameLength+1);
-	if (nodeName == NULL) { exit(PRETTY_PRINTING_MALLOC_ERROR); }
+	if (nodeName == NULL) { g_error("Allocation error"); }
 	nodeName[nodeNameLength] = '\0';
 	int i;
 	for (i=0 ; i<nodeNameLength ; ++i)
@@ -538,12 +564,22 @@ void processNode()
 		putNextCharsInBuffer(1); 
 		subElementsProcessed = processElements(TRUE); 
 	} 
-	else { fprintf(stderr, "processNode : Invalid character '%c'", nextChar); printDebugStatus(); result = PRETTY_PRINTING_INVALID_CHAR_ERROR; return; }
+	else 
+	{ 
+		printError("processNode : Invalid character '%c'", nextChar);
+		result = PRETTY_PRINTING_INVALID_CHAR_ERROR; 
+		return; 
+	}
 	
 	//if the code reaches this area, then the processElements has been called and we must
 	//close the opening tag
 	char closeChar = getNextChar();
-	if (closeChar != '<') { fprintf(stderr, "processNode : Invalid character '%c' for closing tag (should be '<')", closeChar); printDebugStatus(); result = PRETTY_PRINTING_INVALID_CHAR_ERROR; return; }
+	if (closeChar != '<') 
+	{ 
+		printError("processNode : Invalid character '%c' for closing tag (should be '<')", closeChar); 
+		result = PRETTY_PRINTING_INVALID_CHAR_ERROR; 
+		return; 
+	}
 	
 	do
 	{
@@ -630,7 +666,12 @@ void processComment()
 	}
 	
 	char lastChar = readNextChar(); //should be '>'
-	if (lastChar != '>') { fprintf(stderr, "processComment : last char must be '>' (not '%c')", lastChar); printDebugStatus(); result = PRETTY_PRINTING_INVALID_CHAR_ERROR; return; }
+	if (lastChar != '>') 
+	{ 
+		printError("processComment : last char must be '>' (not '%c')", lastChar); 
+		result = PRETTY_PRINTING_INVALID_CHAR_ERROR; 
+		return; 
+	}
 	putCharInBuffer(lastChar);
 	
 	if (inlineAllowed) { appendIndentation = FALSE; }
@@ -754,7 +795,13 @@ void processCDATA()
 	}
 	
 	char lastChar = readNextChar(); //should be '>'
-	if (lastChar != '>') { fprintf(stderr, "processCDATA : last char must be '>' (not '%c')", lastChar); printDebugStatus(); result = PRETTY_PRINTING_INVALID_CHAR_ERROR; return; }
+	if (lastChar != '>') 
+	{ 
+		printError("processCDATA : last char must be '>' (not '%c')", lastChar); 
+		result = PRETTY_PRINTING_INVALID_CHAR_ERROR; 
+		return; 
+	}
+	
 	putCharInBuffer(lastChar);
 	
 	if (inlineAllowed) { appendIndentation = FALSE; }
@@ -765,27 +812,34 @@ void processCDATA()
 
 void processDoctype()	
 {
-	fprintf(stderr, "DOCTYPE is currently not supported by PrettyPrinter\n");
-	fflush(stderr);
-	
+	printError("DOCTYPE is currently not supported by PrettyPrinter\n");
 	result = PRETTY_PRINTING_NOT_SUPPORTED_YET;
 }
 
 void processDoctypeElement()
 {
-	fprintf(stderr, "ELEMENT is currently not supported by PrettyPrinter\n");
-	fflush(stderr);
-	
+	printError("ELEMENT is currently not supported by PrettyPrinter\n");
 	result = PRETTY_PRINTING_NOT_SUPPORTED_YET;
 }
 
+void printError(char *msg, ...) 
+{
+	va_list va;
+	va_start(va, msg);
+	g_warning(msg, va);
+	va_end(va);
+	
+	//TODO also do a fprintf on stderr ?
+	
+	printDebugStatus();
+} 
+
 void printDebugStatus()
 {
-	fprintf(stderr, "\n===== INPUT =====\n%s\n=================\ninputLength = %d\ninputIndex = %d\noutputLength = %d\noutputIndex = %d\n", 
+	g_debug(stderr, "\n===== INPUT =====\n%s\n=================\ninputLength = %d\ninputIndex = %d\noutputLength = %d\noutputIndex = %d\n", 
 					inputBuffer, 
 					inputBufferLength, 
 					inputBufferIndex,
 					xmlPrettyPrintedLength,
 					xmlPrettyPrintedIndex);
-	fflush(stderr);
 }

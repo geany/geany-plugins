@@ -43,7 +43,7 @@ PrettyPrintingOptions* prettyPrintingOptions;
 
 //plugin information
 PLUGIN_VERSION_CHECK(130)
-PLUGIN_SET_INFO("XML Formatter", "Format an XML file",
+PLUGIN_SET_INFO("XML PrettyPrinter", "Formats an XML and make it readable for a human.",
                 "1.0", "Cédric Tabin - http://www.astorm.ch");
 
 static GtkWidget *main_menu_item = NULL;
@@ -85,6 +85,7 @@ static void item_activate_cb(GtkMenuItem *menuitem, gpointer gdata)
 
 	//updates the document
 	sci_set_text(sco, buffer);
+	sci_set_current_position(sco, 0, TRUE);
 	
 	//sets the type
 	GeanyFiletype* fileType = filetypes_index(GEANY_FILETYPES_XML); 
@@ -100,7 +101,7 @@ void plugin_init(GeanyData *data)
     LIBXML_TEST_VERSION
 
     //put the menu into the Tools
-    main_menu_item = gtk_menu_item_new_with_mnemonic("XML Formatter");
+    main_menu_item = gtk_menu_item_new_with_mnemonic("PrettyPrint XML");
     gtk_widget_show(main_menu_item);
     gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), main_menu_item);
 

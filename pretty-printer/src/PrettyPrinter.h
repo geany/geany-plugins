@@ -24,14 +24,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <glib/gmacros.h>
-#include <glib/gtypes.h>
+#include <stdarg.h>
+#include <glib.h>
 
 //========================================== DEFINES ===========================================================
 
 //defines
 #define PRETTY_PRINTING_SUCCESS 0
-#define PRETTY_PRINTING_MALLOC_ERROR -1
 #define PRETTY_PRINTING_INVALID_CHAR_ERROR 1
 #define PRETTY_PRINTING_EMPTY_XML 2
 #define PRETTY_PRINTING_NOT_SUPPORTED_YET 3
