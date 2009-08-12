@@ -3,7 +3,8 @@ include $(top_srcdir)/build/vars.build.mk
 geanyplugins_LTLIBRARIES = pretty-print.la
 
 pretty_print_la_SOURCES = \
-	Plugin.c \
+	PluginEntry.h \
+	PluginEntry.c \
 	PrettyPrinter.c \
 	PrettyPrinter.h
 

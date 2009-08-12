@@ -29,7 +29,6 @@
 
 //========================================== DEFINES ===========================================================
 
-//defines
 #define PRETTY_PRINTING_SUCCESS 0
 #define PRETTY_PRINTING_INVALID_CHAR_ERROR 1
 #define PRETTY_PRINTING_EMPTY_XML 2
@@ -37,6 +36,11 @@
 
 //========================================== STRUCTURES =======================================================
 
+/**
+ * The PrettyPrintingOptions struct allows the programmer to tell the
+ * PrettyPrinter how it must format the XML output.
+ * 
+ */
 typedef struct 
 {
       char indentChar;                                                                           //char used for indentation

@@ -21,34 +21,48 @@
  *       http://www.geany.org/manual/reference/howto.html
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <geany.h>
-#include <ui_utils.h>
-#include <plugindata.h>
-#include <editor.h>
-#include <document.h>
-#include <filetypes.h>
-#include <geanyfunctions.h>
-#include <Scintilla.h>
-#include <libxml/parser.h>
-#include <libxml/tree.h>
-#include <glib/gmacros.h>
-#include "PrettyPrinter.h"
+#include "PluginEntry.h"
 
-GeanyPlugin*           geany_plugin;
-GeanyData*             geany_data;
-GeanyFunctions*        geany_functions;
-PrettyPrintingOptions* prettyPrintingOptions;
+//========================================== PLUGIN INFORMATION ==========================================================
 
-//plugin information
 PLUGIN_VERSION_CHECK(130)
 PLUGIN_SET_INFO("XML PrettyPrinter", "Formats an XML and make it readable for human.",
                 "1.0", "Cédric Tabin - http://www.astorm.ch");
 
-static GtkWidget *main_menu_item = NULL;
+//========================================== DECLARATIONS ================================================================
 
-static void item_activate_cb(GtkMenuItem *menuitem, gpointer gdata)
+static GtkWidget *main_menu_item = NULL; //the main menu of the plugin
+
+//declaration of the functions
+static void item_activate_cb(GtkMenuItem *menuitem, gpointer gdata);
+void plugin_init(GeanyData *data);
+void plugin_cleanup(void);
+
+//========================================== FUNCTIONS ===================================================================
+
+void plugin_init(GeanyData *data)
+{
+    //Initializes the libxml2
+    LIBXML_TEST_VERSION
+
+    //put the menu into the Tools
+    main_menu_item = gtk_menu_item_new_with_mnemonic("PrettyPrint XML");
+    gtk_widget_show(main_menu_item);
+    gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), main_menu_item);
+
+    //add activation callback
+    g_signal_connect(main_menu_item, "activate", G_CALLBACK(item_activate_cb), NULL);
+}
+
+void plugin_cleanup(void)
+{
+    //destroys the plugin
+    gtk_widget_destroy(main_menu_item);
+}
+
+//========================================== LISTENERS ===================================================================
+
+void item_activate_cb(GtkMenuItem *menuitem, gpointer gdata)
 {
 	//default printing options
 	if (prettyPrintingOptions == NULL) { prettyPrintingOptions = createDefaultPrettyPrintingOptions(); }
@@ -93,26 +107,6 @@ static void item_activate_cb(GtkMenuItem *menuitem, gpointer gdata)
 	
 	//free all
 	xmlFreeDoc(xmlDoc);
-}
-
-void plugin_init(GeanyData *data)
-{
-    //Initializes the libxml2
-    LIBXML_TEST_VERSION
-
-    //put the menu into the Tools
-    main_menu_item = gtk_menu_item_new_with_mnemonic("PrettyPrint XML");
-    gtk_widget_show(main_menu_item);
-    gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), main_menu_item);
-
-    //add activation callback
-    g_signal_connect(main_menu_item, "activate", G_CALLBACK(item_activate_cb), NULL);
-}
-
-void plugin_cleanup(void)
-{
-    //destroys the plugin
-    gtk_widget_destroy(main_menu_item);
 }
 
 //TODO create configuration widget
