@@ -204,7 +204,7 @@ char getPreviousInsertedChar()
 
 int putNewLine()
 {
-	putCharInBuffer('\n');
+	putCharInBuffer('\r\n');
 	int spaces = currentDepth*options->indentLength;
 	int i;
 	for(i=0 ; i<spaces ; ++i)
