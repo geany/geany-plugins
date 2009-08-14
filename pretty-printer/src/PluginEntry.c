@@ -31,6 +31,11 @@ PLUGIN_SET_INFO("XML PrettyPrinter", "Formats an XML and make it readable for hu
 
 //========================================== DECLARATIONS ================================================================
 
+GeanyPlugin*           geany_plugin;
+GeanyData*             geany_data;
+GeanyFunctions*        geany_functions;
+PrettyPrintingOptions* prettyPrintingOptions;
+
 static GtkWidget *main_menu_item = NULL; //the main menu of the plugin
 
 //declaration of the functions

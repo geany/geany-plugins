@@ -144,6 +144,7 @@ PrettyPrintingOptions* createDefaultPrettyPrintingOptions()
 		return NULL; 
 	}
 	
+	options->newLineChars = "\r\n";
 	options->indentChar = ' ';
 	options->indentLength = 2;
 	options->oneLineText = TRUE;
@@ -204,7 +205,7 @@ char getPreviousInsertedChar()
 
 int putNewLine()
 {
-	putCharInBuffer('\r\n');
+	putCharsInBuffer(options->newLineChars);
 	int spaces = currentDepth*options->indentLength;
 	int i;
 	for(i=0 ; i<spaces ; ++i)

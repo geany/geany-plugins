@@ -43,6 +43,7 @@
  */
 typedef struct 
 {
+	  char* newLineChars;                                                                        //char used to generate a new line (generally \r\n)
       char indentChar;                                                                           //char used for indentation
       int indentLength;                                                                          //number of char to use for indentation (by default 2 spaces)
       gboolean oneLineText;                                                                      //text is put on one line  

@@ -16,6 +16,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+//TODO is this header really useful ?
 #ifndef PLUGIN_ENTRY_H
 #define PLUGIN_ENTRY_H
 
@@ -38,11 +39,7 @@
 
 //========================================== PROPERTIES ========================================================
 
-GeanyPlugin*           geany_plugin;
-GeanyData*             geany_data;
-GeanyFunctions*        geany_functions;
 
-PrettyPrintingOptions* prettyPrintingOptions;
 
 //========================================== FUNCTIONS =========================================================
 
