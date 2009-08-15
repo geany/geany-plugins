@@ -32,12 +32,21 @@ If you need additional checks for header files, functions in libraries or
 need to check for library packages (using pkg-config), please ask Enrico
 before committing changes. Thanks.
 
+The code of this file itself loosely follows PEP 8 with some exceptions
+(line width 100 characters and some other minor things).
+
 Requires WAF 1.5.7 and Python 2.4 (or later).
 """
 
 
-import Build, Options, Utils, preproc
-import glob, os, sys, tempfile
+import glob
+import os
+import sys
+import tempfile
+import Build
+import Options
+import Utils
+import preproc
 
 
 APPNAME = 'geany-plugins'
@@ -304,18 +313,20 @@ def configure(conf):
 	print_message(conf, 'Using Geany version', geany_version)
 	if svn_rev != '-1':
 		print_message(conf, 'Compiling Subversion revision', svn_rev)
-		conf.env.append_value('CCFLAGS', '-g -O0 -DDEBUG'.split()) # -DGEANY_DISABLE_DEPRECATED')
+		conf.env.append_value('CCFLAGS', '-g -O0 -DDEBUG'.split()) # -DGEANY_DISABLE_DEPRECATED
 
 	print_message(conf, 'Plugins to compile', ' '.join(enabled_plugins))
 
 	conf.env.append_value('enabled_plugins', enabled_plugins)
 	conf.env.append_value('CCFLAGS', '-DHAVE_CONFIG_H'.split())
 
-	if is_win32: # convenience script (script content copied from the original waf.bat)
+	# convenience script (script content copied from the original waf.bat)
+	if is_win32:
 		f = open('waf.bat', 'wb')
 		f.write('@python -x %~dp0waf %* & exit /b')
 		f.close
-	else: # write a simple Makefile
+	# write a simple Makefile
+	else:
 		f = open('Makefile', 'w')
 		f.write(makefile_template)
 		f.close
@@ -392,7 +403,7 @@ def build(bld):
 		for file in files:
 			if os.path.exists(os.path.join(p.name, file)):
 				bld.install_as(
-					'%s/%s%s' % (docdir, ucFirst(file, is_win32), ext),
+					'%s/%s%s' % (docdir, uc_first(file, is_win32), ext),
 					'%s/%s' % (pname, file))
 		if pname == 'geanylatex':
 			bld.install_files('%s' % docdir, 'geanylatex/doc/geanylatex.*')
@@ -510,7 +521,7 @@ def print_message(conf, msg, result, color = 'GREEN'):
 	conf.check_message_2(result, color)
 
 
-def ucFirst(s, is_win32):
+def uc_first(s, is_win32):
 	if is_win32:
 		return s.title()
 	return s
