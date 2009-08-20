@@ -74,6 +74,7 @@ class Plugin:
 plugins = [
 	Plugin('addons', None, [ 'addons/src' ]),
 	Plugin('codenav', None, [ 'codenav/src' ]),
+	Plugin('geanydoc', None, [ 'geanydoc/src' ]),
 	Plugin('geanylatex', None, [ 'geanylatex/src']),
 	Plugin('geanylipsum', None, [ 'geanylipsum/src']),
 	Plugin('geanysendmail', None, [ 'geanysendmail/src' ]),
@@ -102,10 +103,6 @@ temporary_disabled_plugins
 	Plugin('externdbg',
 		 [ 'externdbg/src/dbg.c' ], # source files
 		 [ 'externdbg', 'externdbg/src' ] # include dirs
-		 ),
-	Plugin('geanydoc',
-		 [ 'geanydoc/src/config.c', 'geanydoc/src/geanydoc.c' ], # source files
-		 [ 'geanydoc', 'geanydoc/src' ] # include dirs
 		 ),
 	Plugin('geanyprj',
 		 [ 'geanyprj/src/geanyprj.c', 'geanyprj/src/menu.c', 'geanyprj/src/project.c',
