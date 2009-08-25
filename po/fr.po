@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: geany-plugins 0.17\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-07-04 18:21+0200\n"
-"PO-Revision-Date: 2009-07-04 11:46+0100\n"
+"PO-Revision-Date: 2009-07-20 20:02+0100\n"
 "Last-Translator: Lionel Fuentes <funto66@gmail.com>\n"
 "Language-Team: French <geany-i18n@uvena.de>\n"
 "MIME-Version: 1.0\n"
@@ -37,18 +37,18 @@ msgstr "Additions"
 msgid "Various small addons for Geany."
 msgstr "Diverses petites additions pour Geany"
 
-#: ../addons/src/addons.c:176 ../geanylatex/src/geanylatex.c:181
+#: ../addons/src/addons.c:176
+#: ../geanylatex/src/geanylatex.c:181
 #: ../geanysendmail/src/geanysendmail.c:151
-#: ../geanysendmail/src/geanysendmail.c:312 ../geanyvc/src/geanyvc.c:1673
+#: ../geanysendmail/src/geanysendmail.c:312
+#: ../geanyvc/src/geanyvc.c:1673
 #: ../spellcheck/src/scplugin.c:143
 msgid "Plugin configuration directory could not be created."
 msgstr "Le répertoire de configuration du plugin n'a pas pu être créé."
 
 #: ../addons/src/addons.c:198
 msgid "Show toolbar item to show a list of currently open documents"
-msgstr ""
-"Montrer le bouton dans la barre d'outils servant à montrer la liste des "
-"documents actuellement ouverts"
+msgstr "Montrer le bouton dans la barre d'outils servant à montrer la liste des documents actuellement ouverts"
 
 #. TODO fix the string
 #: ../addons/src/addons.c:205
@@ -57,7 +57,7 @@ msgstr "Montrer une commande \"Ouvrir URI\" dans le menu de l'éditeur"
 
 #: ../addons/src/addons.c:211
 msgid "Show available tasks in the Message Window"
-msgstr "Montrer l'icône d'état dans la zone de notification"
+msgstr "Montrer les tâches disponibles dans la fenêtre des messages"
 
 #: ../addons/src/addons.c:217
 msgid "Show status icon in the Notification Area"
@@ -137,9 +137,7 @@ msgid "Error starting target process!\n"
 msgstr ""
 
 #: ../geanygdb/src/gdb-io-read.c:277
-msgid ""
-"This executable does not appear to contain the required debugging "
-"information."
+msgid "This executable does not appear to contain the required debugging information."
 msgstr ""
 
 #: ../geanygdb/src/gdb-io-read.c:539
@@ -217,7 +215,8 @@ msgstr "code="
 msgid "reason:"
 msgstr "raison:"
 
-#: ../geanygdb/src/gdb-io-run.c:541 ../geanygdb/src/gdb-io-run.c:606
+#: ../geanygdb/src/gdb-io-run.c:541
+#: ../geanygdb/src/gdb-io-run.c:606
 #, c-format
 msgid "Directory %s not found!\n"
 msgstr "Répertoire %s introuvable !\n"
@@ -279,11 +278,13 @@ msgstr ""
 msgid "No %s selected"
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-break.c:108 ../geanygdb/src/gdb-ui-break.c:343
+#: ../geanygdb/src/gdb-ui-break.c:108
+#: ../geanygdb/src/gdb-ui-break.c:343
 msgid "watchpoint"
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-break.c:108 ../geanygdb/src/gdb-ui-break.c:343
+#: ../geanygdb/src/gdb-ui-break.c:108
+#: ../geanygdb/src/gdb-ui-break.c:343
 #: ../geanygdb/src/gdb-ui-break.c:397
 msgid "breakpoint"
 msgstr ""
@@ -368,7 +369,8 @@ msgid ""
 " Search path for executables:"
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-envir.c:151 ../geanylua/gsdlg.c:226
+#: ../geanygdb/src/gdb-ui-envir.c:151
+#: ../geanylua/gsdlg.c:226
 msgid "Select Font"
 msgstr "Sélectionner une police"
 
@@ -416,7 +418,8 @@ msgstr ""
 msgid "Return to previous dialog."
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-frame.c:297 ../geanygdb/src/gdb-ui-frame.c:371
+#: ../geanygdb/src/gdb-ui-frame.c:297
+#: ../geanygdb/src/gdb-ui-frame.c:371
 msgid "Display additional information about the selected item."
 msgstr "Affiche des informations supplémentaires sur l'item sélectionné"
 
@@ -796,11 +799,13 @@ msgstr ""
 msgid "Choose the kind of document you want to write"
 msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:750 ../geanylatex/src/bibtexlabels.c:27
+#: ../geanylatex/src/geanylatex.c:750
+#: ../geanylatex/src/bibtexlabels.c:27
 msgid "Book"
 msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:752 ../geanylatex/src/bibtexlabels.c:26
+#: ../geanylatex/src/geanylatex.c:752
+#: ../geanylatex/src/bibtexlabels.c:26
 msgid "Article"
 msgstr ""
 
@@ -840,9 +845,7 @@ msgid "Author:"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:805
-msgid ""
-"Sets the value of the \\author command. In most cases this should be your "
-"name"
+msgid "Sets the value of the \\author command. In most cases this should be your name"
 msgstr ""
 
 #. Date
@@ -851,10 +854,7 @@ msgid "Date:"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:819
-msgid ""
-"Sets the value of the \\date command inside header of your\t\t newly created "
-"LaTeX-document. Keeping it at \\today is a good \t\t decision if you don't "
-"need any fixed date."
+msgid "Sets the value of the \\date command inside header of your\t\t newly created LaTeX-document. Keeping it at \\today is a good \t\t decision if you don't need any fixed date."
 msgstr ""
 
 #. Title of the new document
@@ -887,8 +887,7 @@ msgstr ""
 #: ../geanylatex/src/geanylatex.c:868
 msgid ""
 "Uses the KOMA-script classes by Markus Kohm.\n"
-"Keep in mind: To compile your document these classeshave to be installed "
-"before."
+"Keep in mind: To compile your document these classeshave to be installed before."
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:875
@@ -896,9 +895,7 @@ msgid "Use draft mode"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:877
-msgid ""
-"Set the draft flag inside new created documents to get documents with a "
-"number of debugging helpers"
+msgid "Set the draft flag inside new created documents to get documents with a number of debugging helpers"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1091
@@ -1084,7 +1081,8 @@ msgstr ""
 msgid "IBM 852 code page"
 msgstr ""
 
-#: ../geanylatex/src/latexencodings.c:57 ../geanylatex/src/letters.c:41
+#: ../geanylatex/src/latexencodings.c:57
+#: ../geanylatex/src/letters.c:41
 #: ../geanylatex/src/bibtexlabels.c:35
 msgid "Misc"
 msgstr ""
@@ -1307,9 +1305,7 @@ msgid "Journal or magazine in which the work was published"
 msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:111
-msgid ""
-"Hidden field used for specifying or overriding the alphabetical order of "
-"entries"
+msgid "Hidden field used for specifying or overriding the alphabetical order of entries"
 msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:112
@@ -1466,9 +1462,7 @@ msgid "GeanySendMail"
 msgstr ""
 
 #: ../geanysendmail/src/geanysendmail.c:47
-msgid ""
-"A little plugin to send the current file as attachment by user's favorite "
-"mailer"
+msgid "A little plugin to send the current file as attachment by user's favorite mailer"
 msgstr ""
 
 #: ../geanysendmail/src/geanysendmail.c:107
@@ -1484,9 +1478,7 @@ msgid "Filename placeholder not found. The executed command might have failed."
 msgstr ""
 
 #: ../geanysendmail/src/geanysendmail.c:172
-msgid ""
-"Recipient address placeholder not found. The executed command might have "
-"failed."
+msgid "Recipient address placeholder not found. The executed command might have failed."
 msgstr ""
 
 #: ../geanysendmail/src/geanysendmail.c:184
@@ -1547,8 +1539,7 @@ msgid "_Mail document"
 msgstr "Envoyer par _mail"
 
 #: ../geanysendmail/src/geanysendmail.c:414
-msgid ""
-"Sends the opened file as unzipped attachment by any mailer from your $PATH"
+msgid "Sends the opened file as unzipped attachment by any mailer from your $PATH"
 msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:64
@@ -1574,12 +1565,14 @@ msgstr ""
 msgid "geanyvc: s_spawn_sync error: %s"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:600 ../geanyvc/src/geanyvc.c:611
+#: ../geanyvc/src/geanyvc.c:600
+#: ../geanyvc/src/geanyvc.c:611
 #, c-format
 msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:637 ../geanyvc/src/geanyvc.c:686
+#: ../geanyvc/src/geanyvc.c:637
+#: ../geanyvc/src/geanyvc.c:686
 msgid "No changes were made."
 msgstr ""
 
@@ -1587,7 +1580,8 @@ msgstr ""
 msgid "No history avaible"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:905 ../geanyvc/src/geanyvc.c:913
+#: ../geanyvc/src/geanyvc.c:905
+#: ../geanyvc/src/geanyvc.c:913
 #, c-format
 msgid "Do you really want to revert: %s?"
 msgstr ""
@@ -1627,7 +1621,8 @@ msgid "<b>Commit message:</b>"
 msgstr ""
 
 #. Commit all changes
-#: ../geanyvc/src/geanyvc.c:1314 ../geanyvc/src/geanyvc.c:2170
+#: ../geanyvc/src/geanyvc.c:1314
+#: ../geanyvc/src/geanyvc.c:2170
 msgid "_Commit"
 msgstr ""
 
@@ -1642,9 +1637,7 @@ msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:1442
 #, c-format
-msgid ""
-"Error while setting up language for spellchecking. Please check "
-"configuration. Error message was: %s"
+msgid "Error while setting up language for spellchecking. Please check configuration. Error message was: %s"
 msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:1706
@@ -1652,10 +1645,7 @@ msgid "Set Changed-flag for document tabs created by the plugin"
 msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:1709
-msgid ""
-"If this option is activated, every new by the VC-plugin created document tab "
-"will be marked as changed. Even this option is useful in some cases, it "
-"could cause a big number of annoying \"Do you want to save\"-dialogs."
+msgid "If this option is activated, every new by the VC-plugin created document tab will be marked as changed. Even this option is useful in some cases, it could cause a big number of annoying \"Do you want to save\"-dialogs."
 msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:1717
@@ -1717,7 +1707,8 @@ msgstr ""
 #. Diff of current file
 #. Diff of the current dir
 #. Complete diff of base directory
-#: ../geanyvc/src/geanyvc.c:1927 ../geanyvc/src/geanyvc.c:2011
+#: ../geanyvc/src/geanyvc.c:1927
+#: ../geanyvc/src/geanyvc.c:2011
 #: ../geanyvc/src/geanyvc.c:2052
 msgid "_Diff"
 msgstr ""
@@ -1729,7 +1720,8 @@ msgstr ""
 #. Revert current file
 #. Revert current dir
 #. Revert everything
-#: ../geanyvc/src/geanyvc.c:1936 ../geanyvc/src/geanyvc.c:2020
+#: ../geanyvc/src/geanyvc.c:1936
+#: ../geanyvc/src/geanyvc.c:2020
 #: ../geanyvc/src/geanyvc.c:2061
 msgid "_Revert"
 msgstr ""
@@ -1750,7 +1742,8 @@ msgstr ""
 #. History/log of current file
 #. History/log of the current dir
 #. Complete History/Log of base directory
-#: ../geanyvc/src/geanyvc.c:1960 ../geanyvc/src/geanyvc.c:2031
+#: ../geanyvc/src/geanyvc.c:1960
+#: ../geanyvc/src/geanyvc.c:2031
 #: ../geanyvc/src/geanyvc.c:2073
 msgid "_History"
 msgstr ""
@@ -1977,7 +1970,8 @@ msgstr ""
 msgid "Default (%s)"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:423 ../spellcheck/src/gui.c:434
+#: ../spellcheck/src/gui.c:423
+#: ../spellcheck/src/gui.c:434
 msgid "unknown"
 msgstr ""
 
@@ -1998,15 +1992,18 @@ msgstr "Déplacer une colonne"
 msgid "Shift a selection left and right"
 msgstr "Déplacer une sélection vers la gauche ou la droite"
 
-#: ../shiftcolumn/src/shiftcolumn.c:375 ../shiftcolumn/src/shiftcolumn.c:395
+#: ../shiftcolumn/src/shiftcolumn.c:375
+#: ../shiftcolumn/src/shiftcolumn.c:395
 msgid "Shift Left"
 msgstr "Déplacer vers la gauche"
 
-#: ../shiftcolumn/src/shiftcolumn.c:382 ../shiftcolumn/src/shiftcolumn.c:397
+#: ../shiftcolumn/src/shiftcolumn.c:382
+#: ../shiftcolumn/src/shiftcolumn.c:397
 msgid "Shift Right"
 msgstr "Déplacer vers la droite"
 
-#: ../geanylua/gsdlg_lua.c:95 ../geanylua/glspi_kfile.c:54
+#: ../geanylua/gsdlg_lua.c:95
+#: ../geanylua/glspi_kfile.c:54
 #: ../geanylua/glspi.h:96
 #, c-format
 msgid ""
@@ -2016,7 +2013,8 @@ msgstr ""
 "Erreur dans le module \"%s\" à la fonction %s():\n"
 "attendait le type \"%s\" pour l'argument #%d\n"
 
-#: ../geanylua/gsdlg_lua.c:108 ../geanylua/glspi.h:124
+#: ../geanylua/gsdlg_lua.c:108
+#: ../geanylua/glspi.h:124
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2084,7 +2082,8 @@ msgstr ""
 "Erreur dans le module \"%s\" à la fonction %s():\n"
 "pas assez d'arguments pour la commande \"%s\".\n"
 
-#: ../geanylua/glspi_sci.c:651 ../geanylua/glspi_app.c:399
+#: ../geanylua/glspi_sci.c:651
+#: ../geanylua/glspi_app.c:399
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2110,7 +2109,8 @@ msgstr ""
 msgid "<too large to display>"
 msgstr "<trop large pour l'afficher>"
 
-#: ../geanylua/gsdlg.c:103 ../geanylua/glspi_dlg.c:421
+#: ../geanylua/gsdlg.c:103
+#: ../geanylua/glspi_dlg.c:421
 msgid "Open file"
 msgstr "Ouvrir"
 
@@ -2256,7 +2256,8 @@ msgstr ""
 "attendait la chaîne \"open\" ou \"save\" pour l'argument #1.\n"
 " "
 
-#: ../geanylua/glspi_run.c:112 ../geanylua/glspi_run.c:119
+#: ../geanylua/glspi_run.c:112
+#: ../geanylua/glspi_run.c:119
 msgid "Lua script error:"
 msgstr "Erreur du script Lua :"
 
@@ -2298,10 +2299,8 @@ msgstr "Erreur inconnue lors du chargement du script."
 
 #~ msgid "Load Mini-Script File"
 #~ msgstr "Chargement du mini-script"
-
 #~ msgid "Save Mini-Script File"
 #~ msgstr "Sauvegarde du Mini-script"
-
 #~ msgid ""
 #~ "<b>GMS : Geany Mini-Script filter Plugin</b>\n"
 #~ "This plugin is a tools to apply a script filter on :\n"
@@ -2348,54 +2347,38 @@ msgstr "Erreur inconnue lors du chargement du script."
 #~ "General Public License as published by the Free\n"
 #~ "Software Foundation; either version 2 of the License,\n"
 #~ "or (at your option) any later version."
-
 #~ msgid "Mini-Script Filter"
 #~ msgstr "Filtre Mini-Script"
-
 #~ msgid "Clear the mini-script window"
 #~ msgstr "Efface la fenêtre du mini-script"
-
 #~ msgid "Load a mini-script into this window"
 #~ msgstr "Charge un fichier mini-script dans la fenêtre"
-
 #~ msgid "Save the mini-script into a file"
 #~ msgstr "Sauve le mini-script courant dans un fichier"
-
 #~ msgid "select the mini-script type"
 #~ msgstr "Sélectionne le type du mini-script"
-
 #~ msgid "filter input"
 #~ msgstr "Entrée du filtre"
-
 #~ msgid "select the input of mini-script filter"
 #~ msgstr "Sélectionne l'entrée du mini-script"
-
 #~ msgid "session"
 #~ msgstr "session"
-
 #~ msgid "filter output"
 #~ msgstr "sortie du filtre"
-
 #~ msgid "select the output of mini-script filter"
 #~ msgstr "Sélectionne la sortie du mini-script"
-
 #~ msgid "Current Doc."
 #~ msgstr "Doc. courant"
-
 #~ msgid "New Doc."
 #~ msgstr "Nouveau Doc."
-
 #~ msgid "script configuration"
 #~ msgstr "Configuration du script"
-
 #~ msgid "geany mini-script"
 #~ msgstr "mini-script pour geany"
-
 #~ msgid "GMS (Geany Mini-Script filter plugin)"
 #~ msgstr "GMS ( plugin Geany Mini-Script)"
-
 #~ msgid "Pascal BURLOT, a Geany user"
 #~ msgstr "Pascal BURLOT, un utilisateur de Geany"
-
 #~ msgid "_Mini-Script"
 #~ msgstr "_Mini-script"
+

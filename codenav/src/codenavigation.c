@@ -52,13 +52,13 @@ GeanyPlugin		*geany_plugin;
 GeanyData		*geany_data;
 GeanyFunctions	*geany_functions;
 
-/* #define CODE_NAVIGATION_DEBUG */
+//#define CODE_NAVIGATION_DEBUG
 #define CODE_NAVIGATION_VERSION "0.1"
 
 #ifdef CODE_NAVIGATION_DEBUG
 #define log_debug g_print
 #else
-inline void log_debug(const gchar* s, ...) {}
+static void log_debug(const gchar* s, ...) {}
 #endif
 
 /* Check that the running Geany supports the plugin API used below, and check
@@ -66,22 +66,25 @@ inline void log_debug(const gchar* s, ...) {}
 PLUGIN_VERSION_CHECK(112)
 
 /* All plugins must set name, description, version and author. */
-PLUGIN_SET_INFO(_("Code navigation"), _("This plugin adds features to facilitate navigation between source files.\n"
-										"As for the moment, it implements :\n"
-										"- switching between a .cpp file and the corresponding .h file\n"
-										"- opening a file by typing its name"), CODE_NAVIGATION_VERSION, _("Lionel Fuentes"))
+PLUGIN_SET_INFO(_("Code navigation"),
+	_(	"This plugin adds features to facilitate navigation between source files.\n"
+		"As for the moment, it implements :\n"
+		"- switching between a .cpp file and the corresponding .h file\n"
+		"- [opening a file by typing its name -> TODO]"), CODE_NAVIGATION_VERSION, _("Lionel Fuentes"))
 
 static GtkWidget* switch_menu_item = NULL;
 static GtkWidget* goto_file_menu_item = NULL;
+static GtkWidget* file_menu_item_separator = NULL;
 
 typedef struct
 {
-	GArray* head_extensions;	/* e.g. : "h", "hpp", ... */
-	GArray* impl_extensions; /* e.g. : "cpp", "cxx", ... */
+	const gchar* language_name;
+	GSList* head_extensions;	/* e.g. : "h", "hpp", ... */
+	GSList* impl_extensions; /* e.g. : "cpp", "cxx", ... */
 } LanguageExtensions;
 
-/* Array of LanguageExtensions */
-static GArray* languages_extensions;
+/* List of LanguageExtensions */
+static GSList* languages_extensions;
 
 /* Keybindings */
 enum
@@ -92,20 +95,6 @@ enum
 };
 
 PLUGIN_KEY_GROUP(code_navigation, PLUGIN_KEYS_NUMBER)
-
-/* Utility function to check if a string is in a given string array */
-static gboolean
-str_is_in_garray(const gchar* str, GArray* garray)
-{
-	guint i;
-
-	for(i=0 ; i < garray->len ; i++)
-	{
-		if(g_strcmp0(str, g_array_index(garray, gchar*, i)) == 0)
-			return TRUE;
-	}
-	return FALSE;
-}
 
 /* Utility function, which returns a newly-allocated string containing the
  * extension of the file path which is given, or NULL if it did not found any extension.
@@ -165,16 +154,18 @@ switch_menu_item_activate(guint key_id)
 
 	gchar* extension = NULL;	/* e.g. : "hpp" */
 
-	GArray* p_extensions_to_test = NULL;	/* e.g. : {"cpp", "cxx", ...} */
+	GSList* p_extensions_to_test = NULL;	/* e.g. : ["cpp", "cxx", ...] */
 
-	GArray* filenames_to_test = NULL;	/* e.g. : {"f.cpp", "f.cxx", ...} */
+	GSList* filenames_to_test = NULL;	/* e.g. : ["f.cpp", "f.cxx", ...] */
+
+	GSList* p_lang = NULL;
+	GSList* p_ext = NULL;
+	GSList* p_filename = NULL;
+	gint i=0;
 
 	gchar* dirname = NULL;
 	gchar* basename = NULL;
 	gchar* basename_no_extension = NULL;
-
-	guint i=0;
-	guint j=0;
 
 	gchar* p_str = NULL;	/* Local variables, used as temporaty buffers */
 	gchar* p_str2 = NULL;
@@ -183,12 +174,14 @@ switch_menu_item_activate(guint key_id)
 
 	log_debug("DEBUG : current_doc->file_name == %s\n", current_doc->file_name);
 
+	log_debug("DEBUG : geany->documents_array->len == %d\n", geany->documents_array->len);
+
 	if(current_doc != NULL && current_doc->file_name != NULL && current_doc->file_name[0] != '\0')
 	{
 		/* Get the basename, e.g. : "/home/me/file.cpp" -> "file.cpp" */
 		basename = g_path_get_basename(current_doc->file_name);
 
-		if(strlen(basename) < 2)
+		if(g_utf8_strlen(basename, -1) < 2)
 			goto free_mem;
 
 		log_debug("DEBUG : basename == %s\n", basename);
@@ -196,33 +189,33 @@ switch_menu_item_activate(guint key_id)
 		/* Get the extension , e.g. : "cpp" */
 		extension = get_extension(basename);
 
-		if(extension == NULL || strlen(extension) == 0)
+		if(extension == NULL || g_utf8_strlen(extension, -1) == 0)
 			goto free_mem;
 
 		log_debug("DEBUG : extension == %s\n", extension);
 
 		/* Get the basename without any extension */
 		basename_no_extension = copy_and_remove_extension(basename);
-		if(basename_no_extension == NULL || strlen(basename_no_extension) == 0)
+		if(basename_no_extension == NULL || g_utf8_strlen(basename_no_extension, -1) == 0)
 			goto free_mem;
 
 		/* Identify the language and whether the file is a header or an implementation. */
 		/* For each recognized language : */
-		for(i=0 ; i < languages_extensions->len ; i++)
+		for(p_lang = languages_extensions ; p_lang != NULL ; p_lang = p_lang->next)
 		{
-			LanguageExtensions* p_lang = &(g_array_index(languages_extensions, LanguageExtensions, i));
+			LanguageExtensions* p_lang_data = (LanguageExtensions*)(p_lang->data);
 
 			/* Test the headers : */
-			if(str_is_in_garray(extension, p_lang->head_extensions))
+			if(g_slist_find_custom(p_lang_data->head_extensions, extension, (GCompareFunc)(&g_strcmp0)) != NULL)
 			{
-				p_extensions_to_test = p_lang->impl_extensions;
+				p_extensions_to_test = p_lang_data->impl_extensions;
 				break;
 			}
 
 			/* Test the implementations : */
-			else if(str_is_in_garray(extension, p_lang->impl_extensions))
+			else if(g_slist_find_custom(p_lang_data->impl_extensions, extension, (GCompareFunc)(&g_strcmp0)) != NULL)
 			{
-				p_extensions_to_test = p_lang->head_extensions;
+				p_extensions_to_test = p_lang_data->head_extensions;
 				break;
 			}
 		}
@@ -230,20 +223,28 @@ switch_menu_item_activate(guint key_id)
 		if(p_extensions_to_test == NULL)
 			goto free_mem;
 
+#ifdef CODE_NAVIGATION_DEBUG
 		log_debug("DEBUG : extension known !\n");
 		log_debug("DEBUG : p_extensions_to_test : ");
-		for(i=0 ; i < p_extensions_to_test->len ; i++)
-			log_debug("\"%s\", ", g_array_index(p_extensions_to_test, gchar*, i));
+		g_slist_foreach(p_extensions_to_test, (GFunc)(&log_debug), NULL);
 		log_debug("\n");
+#endif
 
-		/* Build an array of filenames to test : */
-		filenames_to_test = g_array_sized_new(FALSE, FALSE, sizeof(gchar*), p_extensions_to_test->len);
-		for(i=0 ; i < p_extensions_to_test->len ; i++)
+		/* Build a list of filenames to test : */
+		filenames_to_test = NULL;
+		for(p_ext = p_extensions_to_test ; p_ext != NULL ; p_ext = p_ext->next)
 		{
-			p_str = g_strdup_printf("%s.%s", basename_no_extension, g_array_index(p_extensions_to_test, gchar*, i));
-			g_array_append_val(filenames_to_test, p_str);
-			log_debug("DEBUG : filenames_to_test[%d] == \"%s\"", i, g_array_index(filenames_to_test, gchar*, i));
+			p_str = g_strdup_printf("%s.%s", basename_no_extension, (const gchar*)(p_ext->data));
+			filenames_to_test = g_slist_prepend(filenames_to_test, p_str);
 		}
+
+		filenames_to_test = g_slist_reverse(filenames_to_test);
+
+#ifdef CODE_NAVIGATION_DEBUG
+		log_debug("DEBUG : filenames to test :\n");
+		g_slist_foreach(filenames_to_test, (GFunc)(&log_debug), NULL);
+		log_debug("\n");
+#endif
 
 		/* First : look for a corresponding file in the opened files.
 		 * If found, open it. */
@@ -251,14 +252,14 @@ switch_menu_item_activate(guint key_id)
 		{
 			new_doc = document_index(i);
 
-			for(j=0 ; j < p_extensions_to_test->len ; j++)
+			for(p_filename = filenames_to_test ; p_filename != NULL ; p_filename = p_filename->next)
 			{
 				p_str = g_path_get_basename(new_doc->file_name);
 
-				log_debug("DEBUG : comparing \"%s\" and \"%s\"\n", g_array_index(filenames_to_test, gchar*, j), p_str);
-				if(g_strcmp0(g_array_index(filenames_to_test, gchar*, j), p_str) == 0)
+				log_debug("DEBUG : comparing \"%s\" and \"%s\"\n", (const gchar*)(p_filename->data), p_str);
+				if(g_strcmp0((const gchar*)(p_filename->data), p_str) == 0)
 				{
-					log_debug("DEBUG : FOUND ! i == %d\n", i);
+					log_debug("DEBUG : FOUND !\n");
 					g_free(p_str);
 
 					p_str = g_locale_from_utf8(new_doc->file_name, -1, NULL, NULL, NULL);
@@ -283,10 +284,10 @@ switch_menu_item_activate(guint key_id)
 		log_debug("DEBUG : dirname == \"%s\"", dirname);
 
 		/* -> try all the extensions we should test */
-		for(i=0 ; i < p_extensions_to_test->len ; i++)
+		for(p_ext = p_extensions_to_test ; p_ext != NULL ; p_ext = p_ext->next)
 		{
 			p_str = g_strdup_printf(	"%s" G_DIR_SEPARATOR_S "%s.%s",
-										dirname, basename_no_extension, g_array_index(p_extensions_to_test, gchar*, i));
+										dirname, basename_no_extension, (const gchar*)(p_ext->data));
 
 			p_str2 = g_locale_from_utf8(p_str, -1, NULL, NULL, NULL);
 			g_free(p_str);
@@ -305,7 +306,7 @@ switch_menu_item_activate(guint key_id)
 
 		/* Third : if not found, ask the user if he wants to create it or not. */
 		{
-			p_str = g_strdup_printf("%s.%s", basename_no_extension, g_array_index(p_extensions_to_test, gchar*, 0));
+			p_str = g_strdup_printf("%s.%s", basename_no_extension, (const gchar*)(p_extensions_to_test->data));
 
 			GtkWidget* dialog = gtk_message_dialog_new(	GTK_WINDOW(geany_data->main_widgets->window),
 														GTK_DIALOG_MODAL,
@@ -328,13 +329,7 @@ switch_menu_item_activate(guint key_id)
 
 		/* Free the memory */
 free_mem:
-		if(filenames_to_test != NULL)
-		{
-			for(i=0 ; i < filenames_to_test->len ; i++)
-				g_free(g_array_index(filenames_to_test, gchar*, i));
-			g_array_free(filenames_to_test, TRUE);
-		}
-
+		g_slist_foreach(filenames_to_test, (GFunc)(&g_free), NULL);
 		g_free(dirname);
 		g_free(basename_no_extension);
 		g_free(extension);
@@ -367,21 +362,21 @@ goto_file_menu_item_activate(guint key_id)
  * Note: data is the same as geany_data. */
 void plugin_init(GeanyData *data)
 {
-	log_debug("DEBUG : plugin_init : POUET\n");
-
-	LanguageExtensions le;
+	LanguageExtensions* le = NULL;
 
 	gchar* p_str = NULL;
 
 	/* Get a pointer to the "Edit" menu */
 	GtkWidget* edit_menu = ui_lookup_widget(geany->main_widgets->window, "edit1_menu");
 
+	log_debug("DEBUG : plugin_init\n");
+
 	/* Add items to the Edit menu : */
 
 	/* - add a separator */
-	GtkWidget* separator = gtk_separator_menu_item_new();
-	gtk_container_add(GTK_CONTAINER(edit_menu), separator);
-	gtk_widget_show(separator);
+	file_menu_item_separator = gtk_separator_menu_item_new();
+	gtk_container_add(GTK_CONTAINER(edit_menu), file_menu_item_separator);
+	gtk_widget_show(file_menu_item_separator);
 
 	/* - add the "Switch header/implementation" menu item */
 	switch_menu_item = gtk_menu_item_new_with_mnemonic(_("Switch header/implementation"));
@@ -398,64 +393,82 @@ void plugin_init(GeanyData *data)
 	ui_add_document_sensitive(goto_file_menu_item);
 
 	/* Initialize the key bindings : */
-	plugin_keys[PLUGIN_KEYS_SWITCH].key = GDK_s;
-	plugin_keys[PLUGIN_KEYS_SWITCH].mods = GDK_MOD1_MASK | GDK_SHIFT_MASK;
-	plugin_keys[PLUGIN_KEYS_SWITCH].name = _("switch_header_impl");
-	plugin_keys[PLUGIN_KEYS_SWITCH].label = _("Switch header/implementation");
-	plugin_keys[PLUGIN_KEYS_SWITCH].callback = (GeanyKeyCallback)(&switch_menu_item_activate);
-	plugin_keys[PLUGIN_KEYS_SWITCH].menu_item = switch_menu_item;
+	keybindings_set_item(	plugin_key_group,
+							PLUGIN_KEYS_SWITCH,
+							(GeanyKeyCallback)(&switch_menu_item_activate),
+ 							GDK_s, GDK_MOD1_MASK | GDK_SHIFT_MASK,
+ 							_("switch_header_impl"),
+ 							_("Switch header/implementation"),
+ 							switch_menu_item);
 
-	plugin_keys[PLUGIN_KEYS_GOTO_FILE].key = GDK_g;
-	plugin_keys[PLUGIN_KEYS_GOTO_FILE].mods = GDK_MOD1_MASK | GDK_SHIFT_MASK;
-	plugin_keys[PLUGIN_KEYS_GOTO_FILE].name = _("goto_file");
-	plugin_keys[PLUGIN_KEYS_GOTO_FILE].label = _("Goto file...");
-	plugin_keys[PLUGIN_KEYS_GOTO_FILE].callback = (GeanyKeyCallback)(&goto_file_menu_item_activate);
-	plugin_keys[PLUGIN_KEYS_GOTO_FILE].menu_item = goto_file_menu_item;
+ 	keybindings_set_item(	plugin_key_group,
+ 							PLUGIN_KEYS_GOTO_FILE,
+ 							(GeanyKeyCallback)(&goto_file_menu_item_activate),
+ 							GDK_g, GDK_MOD1_MASK | GDK_SHIFT_MASK,
+ 							_("goto_file"),
+ 							_("Goto file..."),
+ 							goto_file_menu_item);
 
-	/* Initialize the extensions array.
+	/* Initialize the extensions list.
 	 * TODO : we should let the user configure this. */
-	languages_extensions = g_array_new(FALSE, FALSE, sizeof(LanguageExtensions));
+	languages_extensions = NULL;
+	le = NULL;
+
+#define HEAD_PREPEND(str_ext) { p_str = g_strdup(str_ext); le->head_extensions = g_slist_prepend(le->head_extensions, p_str); }
+#define IMPL_PREPEND(str_ext) { p_str = g_strdup(str_ext); le->impl_extensions = g_slist_prepend(le->impl_extensions, p_str); }
 
 	/* C/C++ */
-	le.head_extensions = g_array_new(FALSE, FALSE, sizeof(gchar*));
-	le.impl_extensions = g_array_new(FALSE, FALSE, sizeof(gchar*));
+	le = g_malloc0(sizeof(LanguageExtensions));
+	le->language_name = "c_cpp";
 
-	p_str = g_strdup("h");   g_array_append_val(le.head_extensions, p_str);
-	p_str = g_strdup("hpp"); g_array_append_val(le.head_extensions, p_str);
-	p_str = g_strdup("hxx"); g_array_append_val(le.head_extensions, p_str);
-	p_str = g_strdup("h++"); g_array_append_val(le.head_extensions, p_str);
-	p_str = g_strdup("hh");  g_array_append_val(le.head_extensions, p_str);
+	HEAD_PREPEND("h");
+	HEAD_PREPEND("hpp");
+	HEAD_PREPEND("hxx");
+	HEAD_PREPEND("h++");
+	HEAD_PREPEND("hh");
+	le->head_extensions = g_slist_reverse(le->head_extensions);
 
-	p_str = g_strdup("cpp"); g_array_append_val(le.impl_extensions, p_str);
-	p_str = g_strdup("cxx"); g_array_append_val(le.impl_extensions, p_str);
-	p_str = g_strdup("c++"); g_array_append_val(le.impl_extensions, p_str);
-	p_str = g_strdup("cc");  g_array_append_val(le.impl_extensions, p_str);
-	p_str = g_strdup("C"); g_array_append_val(le.impl_extensions, p_str);
-	p_str = g_strdup("c"); g_array_append_val(le.impl_extensions, p_str);
+	IMPL_PREPEND("cpp");
+	IMPL_PREPEND("cxx");
+	IMPL_PREPEND("c++");
+	IMPL_PREPEND("cc");
+	IMPL_PREPEND("C");
+	IMPL_PREPEND("c");
+	le->impl_extensions = g_slist_reverse(le->impl_extensions);
 
-	g_array_append_val(languages_extensions, le);
-
+	languages_extensions = g_slist_prepend(languages_extensions, le);
 
 	/* GLSL */
-	le.head_extensions = g_array_new(FALSE, FALSE, sizeof(gchar*));
-	le.impl_extensions = g_array_new(FALSE, FALSE, sizeof(gchar*));
 
-	p_str = g_strdup("vert");   g_array_append_val(le.head_extensions, p_str);
+	le = g_malloc0(sizeof(LanguageExtensions));
+	le->language_name = "glsl";
 
-	p_str = g_strdup("frag"); g_array_append_val(le.impl_extensions, p_str);
+	HEAD_PREPEND("vert");
+	le->head_extensions = g_slist_reverse(le->head_extensions);
 
-	g_array_append_val(languages_extensions, le);
+	IMPL_PREPEND("frag");
+	le->impl_extensions = g_slist_reverse(le->impl_extensions);
 
+	languages_extensions = g_slist_prepend(languages_extensions, le);
 
 	/* Ada */
-	le.head_extensions = g_array_new(FALSE, FALSE, sizeof(gchar*));
-	le.impl_extensions = g_array_new(FALSE, FALSE, sizeof(gchar*));
 
-	p_str = g_strdup("ads");   g_array_append_val(le.head_extensions, p_str);
+	le = g_malloc0(sizeof(LanguageExtensions));
+	le->language_name = "ada";
 
-	p_str = g_strdup("adb"); g_array_append_val(le.impl_extensions, p_str);
+	HEAD_PREPEND("ads");
+	le->head_extensions = g_slist_reverse(le->head_extensions);
 
-	g_array_append_val(languages_extensions, le);
+	IMPL_PREPEND("adb");
+	le->impl_extensions = g_slist_reverse(le->impl_extensions);
+
+	languages_extensions = g_slist_prepend(languages_extensions, le);
+
+	/* Done : */
+	languages_extensions = g_slist_reverse(languages_extensions);
+
+#undef HEAD_PREPEND
+#undef IMPL_PREPEND
 }
 
 
@@ -471,6 +484,49 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 		 * all plugin specific files should be created in:
 		 * geany->app->configdir G_DIR_SEPARATOR_S plugins G_DIR_SEPARATOR_S pluginname G_DIR_SEPARATOR_S
 		 * e.g. this could be: ~/.config/geany/plugins/Demo/, please use geany->app->configdir */
+
+		const gchar** lang_names = NULL;
+		GSList* lang_iterator = NULL;
+		guint i=0;
+		const guint nb_languages = g_slist_length(languages_extensions);
+
+		/* Open the GKeyFile */
+		GKeyFile* key_file = g_key_file_new();
+		gchar* config_dir = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S "plugins" G_DIR_SEPARATOR_S
+			"codenav" G_DIR_SEPARATOR_S, NULL);
+		gchar* config_filename = g_strconcat(config_dir, "codenav.conf", NULL);
+
+		g_key_file_load_from_file(key_file, config_filename, G_KEY_FILE_NONE, NULL);
+
+		/* Build an array of language names */
+		lang_names = g_malloc(nb_languages * sizeof(gchar*));
+		for(lang_iterator = languages_extensions, i=0 ;
+			lang_iterator != NULL ;
+			lang_iterator = lang_iterator->next, i++)
+		{
+			lang_names[i] = ((const LanguageExtensions*)(lang_iterator->data))->language_name;
+		}
+
+		g_key_file_set_string_list(key_file, "switching", "languages", lang_names, nb_languages);
+
+		g_free(lang_names);
+
+		/* Finally write to the config file */
+		if (!g_file_test(config_dir, G_FILE_TEST_IS_DIR)
+		    && utils_mkdir(config_dir, TRUE) != 0)
+		{
+			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Plugin configuration directory could not be created."));
+		}
+		else
+		{
+			gchar* data = g_key_file_to_data(key_file, NULL, NULL);
+			utils_write_file(config_filename, data);
+			g_free(data);
+		}
+
+		g_free(config_dir);
+		g_free(config_filename);
+		g_key_file_free(key_file);
 	}
 }
 
@@ -519,9 +575,9 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *cell_renderer;
 	GtkTreeIter iter;
-	guint i, j, k;
-	gchar** str_array = NULL;
-	gchar* str = NULL;
+	GSList* p_le = NULL;
+	gchar* p_str = NULL;
+	gint i=0;
 
 	typedef enum { COLUMN_HEAD, COLUMN_IMPL, NB_COLUMNS } Column;
 
@@ -542,52 +598,41 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	/* Add a list containing the extensions for each language (headers / implementations) */
 	/* - create the GtkListStore */
 	list_store = gtk_list_store_new(NB_COLUMNS, G_TYPE_STRING, G_TYPE_STRING);
-	for(i=0 ; i < languages_extensions->len ; i++)
+	for(p_le = languages_extensions ; p_le != NULL ; p_le = p_le->next)
 	{
-		LanguageExtensions* le = &(g_array_index(languages_extensions, LanguageExtensions, i));
-		GArray* extensions = NULL;
+		LanguageExtensions* le = (LanguageExtensions*)(p_le->data);
+		GSList* p_extensions = NULL;
+		GSList* p_ext = NULL;
 		Column col;
 
-		if(le->head_extensions->len == 0 || le->impl_extensions->len == 0)
+		if(le->head_extensions == NULL || le->impl_extensions == NULL)
 			continue;
 
 		/* Fill the GtkListStore with comma-separated strings */
 		/* loop : "headers", then "implementations" */
 		col = COLUMN_HEAD;
-		extensions = le->head_extensions;
-		for(j=0 ; j<2 ; j++)
+		p_extensions = le->head_extensions;
+		for(i=0 ; i<2 ; i++)
 		{
 			/* Copy extensions to str_array and then join the strings, separated with commas. */
-			str_array = g_malloc((extensions->len+1) * sizeof(gchar*));
-
-			log_debug("DEBUG : extensions->len == %d", extensions->len);
-			log_debug("DEBUG : head_extensions->len == %d", le->head_extensions->len);
-			log_debug("DEBUG : impl_extensions->len == %d", le->impl_extensions->len);
-			for(k=0 ; k < extensions->len ; k++)
+			p_str = NULL;
+			for(p_ext = p_extensions ; p_ext != NULL ; p_ext = p_ext->next)
 			{
-				str_array[k] = g_strdup(g_array_index(extensions, gchar*, k));
-				log_debug("DEBUG : str_array[%d] == %s", k, str_array[k]);
+				gchar* temp = p_str;
+				p_str = g_strjoin(",", (const gchar*)(p_ext->data), p_str, NULL);
+				g_free(temp);
 			}
-			str_array[k] = NULL;
+			log_debug("DEBUG : str == \"%s\"", p_str);
 
-			str = g_strjoinv(",", str_array);
-
-			log_debug("DEBUG : str == \"%s\"", str);
-
-			if(j == 0)
+			if(i == 0)
 				gtk_list_store_append(list_store, &iter);
-			gtk_list_store_set(list_store, &iter, col, str, -1);
+			gtk_list_store_set(list_store, &iter, col, p_str, -1);
 
-			g_free(str);
-
-			for(k=0 ; k < extensions->len ; k++)
-				g_free(str_array[k]);
-
-			g_free(str_array);
+			g_free(p_str);
 
 			/* Next iteration : "implementations" */
 			col = COLUMN_IMPL;
-			extensions = le->impl_extensions;
+			p_extensions = le->impl_extensions;
 		}
 	}
 
@@ -641,32 +686,25 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
  * Be sure to leave Geany as it was before plugin_init(). */
 void plugin_cleanup(void)
 {
-	guint i=0, j=0;
-	LanguageExtensions* p_lang = NULL;
+	GSList* p_le = NULL;
 
 	log_debug("DEBUG : plugin_cleanup\n");
 
-	/* For each language : */
-	for(i=0 ; i < languages_extensions->len ; i++)
+	for(p_le = languages_extensions ; p_le != NULL ; p_le = p_le->next)
 	{
-		p_lang = &(g_array_index(languages_extensions, LanguageExtensions, i));
+		LanguageExtensions* le = (LanguageExtensions*)(p_le->data);
 
-		/* Free the headers' extensions array */
-		for(j=0 ; j < p_lang->head_extensions->len ; j++)
-			g_free(g_array_index(p_lang->head_extensions, gchar*, j));
+		g_slist_foreach(le->head_extensions, (GFunc)(&g_free), NULL);
+		g_slist_free(le->head_extensions);
 
-		g_array_free(p_lang->head_extensions, TRUE);
-
-		/* Free the implementations' extensions array */
-		for(j=0 ; j < p_lang->impl_extensions->len ; j++)
-			g_free(g_array_index(p_lang->impl_extensions, gchar*, j));
-
-		g_array_free(p_lang->impl_extensions, TRUE);
+		g_slist_foreach(le->impl_extensions, (GFunc)(&g_free), NULL);
+		g_slist_free(le->impl_extensions);
 	}
 
-	g_array_free(languages_extensions, TRUE);
+	g_slist_free(languages_extensions);
 
 	/* remove the menu item added in plugin_init() */
 	gtk_widget_destroy(switch_menu_item);
 	gtk_widget_destroy(goto_file_menu_item);
+	gtk_widget_destroy(file_menu_item_separator);
 }
