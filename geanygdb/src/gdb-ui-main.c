@@ -512,10 +512,7 @@ load_click(GtkWidget * btn, gpointer user_data)
 								if (access(fn, X_OK) == 0)
 								{
 									gchar *base_path;
-									gchar *ldd =
-										g_strconcat("ldd ",
-											    fn,
-											    NULL);
+									gchar *ldd = g_strdup_printf("ldd \"%s\"", fn);
 									FILE *fh = popen(ldd, "r");
 									if (fh)
 									{

@@ -17,10 +17,7 @@
 #include "gdb-io-priv.h"
 #include "support.h"
 
-
-
 static GSList *source_files = NULL;
-
 static gboolean starting = FALSE;
 
 
@@ -38,6 +35,7 @@ free_string_list(GSList ** list)
 	}
 	*list = NULL;
 }
+
 
 
 static void
