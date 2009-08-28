@@ -59,12 +59,11 @@ PLUGIN_EXPORT
 GeanyFunctions *geany_functions;
 
 PLUGIN_EXPORT
-GeanyKeyGroup plugin_key_group[1] = {{NULL, NULL, 0, NULL}};
+GeanyPlugin *geany_plugin;
 
 
 
-
-typedef void (*InitFunc) (GeanyData *data, GeanyFunctions *functions, GeanyKeyGroup *kg);
+typedef void (*InitFunc) (GeanyData *data, GeanyFunctions *functions, GeanyPlugin *plugin);
 typedef void (*ConfigFunc) (GtkWidget *parent);
 typedef void (*CleanupFunc) (void);
 
@@ -195,7 +194,7 @@ void plugin_init(GeanyData *data)
 	}
 	copy_callbacks();
 
-	glspi_init(data, geany_functions, plugin_key_group);
+	glspi_init(data, geany_functions, geany_plugin);
 }
 
 

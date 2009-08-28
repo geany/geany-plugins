@@ -33,6 +33,7 @@ const gchar* glspi_version = VERSION;
 
 GeanyData *glspi_geany_data=NULL;
 GeanyFunctions *glspi_geany_functions=NULL;
+GeanyPlugin *glspi_geany_plugin=NULL;
 
 static struct {
 	GtkWidget *menu_item;
@@ -63,7 +64,7 @@ static struct {
 extern void glspi_run_script(gchar *script_file, gint caller, GKeyFile*proj, gchar *script_dir);
 
 
-/* Called by Geany, runa script associated with a keybinding. */
+/* Called by Geany, run a script associated with a keybinding. */
 static void kb_activate(guint key_id)
 {
   if ((key_id<MAX_HOT_KEYS) && KS[key_id]) {
@@ -71,7 +72,7 @@ static void kb_activate(guint key_id)
   }
 }
 
-/* Convert a script filename  into a "pretty-printed" menu label. */
+/* Convert a script filename into a "pretty-printed" menu label. */
 static gchar* fixup_label(gchar*label)
 {
 	gint i;
@@ -94,15 +95,6 @@ static gchar* fixup_label(gchar*label)
 /* Free all hotkey data */
 static void hotkey_cleanup(void)
 {
-	if (KG) {
-		guint i;
-		for (i=0; i<KG->count; i++) {
-			g_free(KG->keys[i].name);
-			g_free(KG->keys[i].label);
-		}
-		g_free(KG->keys);
-		memset(KG, 0, sizeof(*KG));
-	}
 	if (KS) { g_strfreev(KS); }
 }
 
@@ -121,15 +113,12 @@ static void hotkey_init(void)
 {
 	gchar *hotkeys_cfg=g_strconcat(SD,HOTKEYS_CFG,NULL);
 	hotkey_cleanup(); /* Make sure we are in initial state. */
-	KG->name="lua_scripts";
 	if (g_file_test(hotkeys_cfg,G_FILE_TEST_IS_REGULAR)) {
 		GError *err=NULL;
 		gchar*all=NULL;
 		gsize len;
 		if (g_file_get_contents(hotkeys_cfg,&all,&len,&err)) {
 			gchar**lines=g_strsplit(all, "\n", 0);
-			guint key=0;
-			GdkModifierType mod=0;
 			gint i;
 			gint n=0;
 			g_free(all);
@@ -154,27 +143,27 @@ static void hotkey_init(void)
 				}
 			}
 			g_strfreev(lines);
-			KG->count=n;
-			KG->keys=g_new0(GeanyKeyBinding,n);
+			KG=plugin_set_key_group(glspi_geany_plugin, "lua_scripts", n, NULL);
 			for (i=0; i<n; i++) {
+				GeanyKeyBinding *kb = keybindings_get_item(KG, i);
 				if (KS[i]) {
 					gchar*p=NULL;
-					KG->keys[i].label=g_path_get_basename(KS[i]);
-					fixup_label(KG->keys[i].label);
-					p=strchr(KG->keys[i].label,'_');
+					kb->label=g_path_get_basename(KS[i]);
+					fixup_label(kb->label);
+					p=strchr(kb->label,'_');
 					if (p) { *p=' ';}
-					p=strrchr(KG->keys[i].label, '.');
+					p=strrchr(kb->label, '.');
 					if (p && (strcasecmp(p, ".lua")==0)) {
 						*p='\0';
 					}
-					KG->keys[i].name=g_strdup_printf("lua_script_%d", i+1);
+					kb->name=g_strdup_printf("lua_script_%d", i+1);
 				} else {
-					KG->keys[i].label=NULL;
-					key=0;
-					mod=0;
+					kb->label=NULL;
 				}
-				keybindings_set_item(KG, i, kb_activate,
-						key,mod,KG->keys[i].name,KG->keys[i].label,NULL);
+				kb->callback = kb_activate;
+				/* no default keycombos, just overridden by user settings */
+				kb->key = 0;
+				kb->mods = 0;
 			}
 		} else {
 			if (geany->app->debug_mode) {
@@ -455,12 +444,13 @@ static gchar *get_data_dir(void)
 
 /* Called by Geany to initialize the plugin */
 PLUGIN_EXPORT
-void glspi_init (GeanyData *data, GeanyFunctions *functions, GeanyKeyGroup *kg)
+void glspi_init (GeanyData *data, GeanyFunctions *functions, GeanyPlugin *plugin)
 {
 	GeanyApp *app = data->app;
 
 	glspi_geany_data = data;
 	glspi_geany_functions = functions;
+	glspi_geany_plugin = plugin;
 
 	local_data.script_dir =
 		g_strconcat(app->configdir, USER_SCRIPT_FOLDER, NULL);
@@ -499,8 +489,7 @@ void glspi_init (GeanyData *data, GeanyFunctions *functions, GeanyKeyGroup *kg)
 
 	glspi_set_sci_cmd_hash(TRUE);
 	glspi_set_key_cmd_hash(TRUE);
-  build_menu();
-	KG=kg;
+	build_menu();
 	hotkey_init();
 	if (g_file_test(local_data.on_init_script,G_FILE_TEST_IS_REGULAR)) {
 		glspi_run_script(local_data.on_init_script,0,NULL, SD);
