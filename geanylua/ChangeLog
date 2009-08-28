@@ -1,3 +1,9 @@
+August 28, 2009 (ntrel)
+  Upgrade to API 153 except for plugin_key_group change (TODO). This
+  removes the "make" tool field, "exec" project field, "BUILD_RUN2"
+  keybinding, filetype build commands - the latter might be readded
+  if/when the API makes it possible.
+
 July 15, 2009 (ntrel)
   Update to API 146 (but require 147).
 

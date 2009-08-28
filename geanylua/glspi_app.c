@@ -30,7 +30,6 @@ static gint glspi_tools(lua_State* L)
 {
 	lua_newtable(L);
 	SetTableStr("browser", geany_data->tool_prefs->browser_cmd);
-	SetTableStr("make",    geany_data->tool_prefs->make_cmd);
 	SetTableStr("term",    geany_data->tool_prefs->term_cmd);
 	SetTableStr("grep",    geany_data->tool_prefs->grep_cmd);
 	SetTableStr("action",  geany_data->tool_prefs->context_action_cmd);
@@ -54,14 +53,13 @@ static gint glspi_template(lua_State* L)
 static gint glspi_project(lua_State* L)
 {
 	GeanyProject *project = geany->app->project;
-	
+
 	if (project) {
 		lua_newtable(L);
 		SetTableStr("name", project->name);
 		SetTableStr("desc", project->description);
 		SetTableStr("file", project->file_name);
 		SetTableStr("base", project->base_path);
-		SetTableStr("exec", project->run_cmd);
 		if (project->file_patterns && *project->file_patterns) {
 			gchar *tmp=g_strjoinv(";", project->file_patterns);
 			SetTableStr("mask", tmp);
@@ -78,7 +76,7 @@ static gchar *glspi_script_dir = NULL;
 static gint glspi_appinfo(lua_State* L)
 {
 	GeanyApp *app = geany->app;
-	
+
 	lua_newtable(L);
 	SetTableBool("debug", app->debug_mode);
 	SetTableStr("configdir", app->configdir);

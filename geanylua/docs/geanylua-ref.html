@@ -321,7 +321,7 @@ The Geany module provides these functions and variables...<br><br><br>
 <td class="desc">-- The window title for all dialogs.</td>
 </tr>
 </table><br>
-If you need a more advanced dialog creation API, check out the 
+If you need a more advanced dialog creation API, check out the
 <tt><big><a href="geanylua-input.html">dialog</a></big></tt> module.
 <br><br><br>
 <hr>
@@ -364,7 +364,6 @@ The <tt>tools</tt> sub-table contains the following fields:
 <br>&nbsp;
 <table border="0" summary="tools table fields">
 <tr><td width="15%"></td><td><tt>browser</tt> </td></tr>
-<tr><td width="15%"></td><td><tt>make</tt> </td></tr>
 <tr><td width="15%"></td><td><tt>term</tt> </td><td></tr>
 <tr><td width="15%"></td><td><tt>print</tt> </td></tr>
 <tr><td width="15%"></td><td><tt>grep</tt> </td></tr>
@@ -390,7 +389,6 @@ The <tt>project</tt> sub-table *might* contain the following fields:
 <tr><td width="15%"></td><td><tt>desc</tt> </td><td> -- Project description.</td></tr>
 <tr><td width="15%"></td><td><tt>file</tt> </td><td> -- Project filename.</td></tr>
 <tr><td width="15%"></td><td><tt>base</tt> </td><td> -- Base path of project files.</td></tr>
-<tr><td width="15%"></td><td><tt>exec</tt> </td><td> -- Default "run" command.</td></tr>
 <tr><td width="15%"></td><td><tt>mask</tt> </td><td> -- Semicolon-delimited list of filetypes.</td></tr>
 </table>
 <p>
@@ -535,10 +533,12 @@ The returned table contains the following fields:
 <tr><td width="5%"></td><td><tt>opener</tt> </td><td> -- The string used to begin a comment, e.g. "<b class="desc">&lt;!--</b>".</td></tr>
 <tr><td width="5%"></td><td><tt>closer</tt> </td><td> -- The string used to end a comment, e.g. "<b class="desc">--&gt;</b>".</td></tr>
 <tr><td width="5%"></td><td><tt>action</tt> </td><td> -- The action command as executed by the context menu</td></tr>
+<!--
 <tr><td width="5%"></td><td><tt>compiler</tt> </td><td> -- The command used to compile this type of file.</td></tr>
 <tr><td width="5%"></td><td><tt>linker</tt> </td><td> -- The command used to link this type of file.</td></tr>
 <tr><td width="5%"></td><td><tt>exec</tt> </td><td> -- The primary command used to execute this type of file.</td></tr>
 <tr><td width="5%"></td><td><tt>exec2</tt> </td><td> -- An alternative command used to execute this type of file.</td></tr>
+-->
 <tr><td width="5%"></td><td><tt>ftid</tt> </td><td> -- The unique numeric filetype identifier, as used by Geany.</td></tr>
 <tr><td width="5%"></td><td><tt>encoding</tt> </td><td> -- The file's in-memory encoding. (may differ from the on-disk encoding.)</td></tr>
 <tr><td width="5%"></td><td><tt>bom</tt> </td><td> -- <tt><b>true</b></tt> if the file contains a <b>B</b>yte-<b>O</b>rder <b>M</b>arker.</td></tr>
@@ -573,8 +573,8 @@ The <tt>options</tt> argument is a table, each element may be one of the followi
 </td></tr>
 <tr><td>&nbsp;</td><td><tt>
 "posix" </tt> </td><td> -- Use bare parentheses
-<tt><b>(</b></tt> 
-<tt><b>)</b></tt> 
+<tt><b>(</b></tt>
+<tt><b>)</b></tt>
 for tagged sections rather than the escaped <tt><b>\(</b></tt> and <tt><b>\)</b></tt>.
 </td></tr>
 <tr><td colspan="3">
@@ -851,20 +851,20 @@ Returns <tt><b>true</b></tt> on success, or <tt><b>false</b></tt> if the documen
 Sends a <tt><b>SCI_*</b></tt> message directly to the Scintilla widget of the active document.</p>
 <p>
 The <tt><b>msg_id</b></tt> can be a numeric value, or a case-insensitive string with or
-without the <tt>"SCI_"</tt> prefix, 
+without the <tt>"SCI_"</tt> prefix,
 such as <tt>"SCI_POSITIONFROMPOINT"</tt>, <tt>"POSITIONFROMPOINT"</tt>, or <tt>"PositionFromPoint"</tt>.
 </p><p>
 The wparam, lparam, and return types depend on the particular message, based on the
 interface described in the &nbsp;"<tt><small>Scintilla.iface</small></tt>"&nbsp; file from the Scintilla sources.
 </p><p>
-For API calls which expect a pre-allocated char buffer as the lparam, the allocation is 
-automatically managed 
-by the GeanyLua module, your lparam is ignored, and the return value is a Lua string.&nbsp; 
-In cases where the length is specified 
+For API calls which expect a pre-allocated char buffer as the lparam, the allocation is
+automatically managed
+by the GeanyLua module, your lparam is ignored, and the return value is a Lua string.&nbsp;
+In cases where the length is specified
 in the wparam, the null terminator is not counted - if you ask for 3 chars, you get 3 chars.
 </p><p>
 Currently only string, numeric, and boolean types are supported, any API call that
-expects or returns complex types will result in an error. &nbsp;This function tries hard to 
+expects or returns complex types will result in an error. &nbsp;This function tries hard to
 protect from garbage being passed to
 Scintilla, but ultimately <i>you</i> are expected to know what you're doing!
 </p><br><br>
@@ -886,7 +886,7 @@ the current document.
 <br> The selection is <i>anchored</i> at the <tt><b>start</b></tt>
 position, and <i>extended</i> to the <tt><b>stop</b></tt> position.</p><p>
 The boolean variable <tt><b>geany.rectsel</b></tt> can be set prior to this
-call to control 
+call to control
 whether this selection is created in normal or rectangular mode.
 </p>
 <p><br>
@@ -924,12 +924,12 @@ The <tt>widget</tt> argument is a string identifying the widget by its Glade &nb
 The <tt>signal</tt> argument is a string identifying the signal to be emitted.
 </p><p>
 This function was primarily intended for activating Geany's builtin menu commands.<br>
-For instance, to display the file open dialog you could do:<br> 
+For instance, to display the file open dialog you could do:<br>
 <tt> &nbsp; geany.signal("menu_open1", "activate")</tt>
 </p><p>
 The function does not return a value, but may trigger an error message if the
 widget name is not found or the signal name is not valid for the specified widget.
- &nbsp; 
+ &nbsp;
 Note that it is generally easier and more reliable to use the <tt>keycmd()</tt> function whenever possible.
 </p><br><br>
 
@@ -983,7 +983,7 @@ document is replaced with the specified <tt>content</tt> string.
 Attempts to control the maximum time allowed, in whole seconds, for the current script to
 finish execution.</p><p>
 By default, scripts are allowed 15 seconds to complete, but if your script needs
-more time, you can increase it here. 
+more time, you can increase it here.
 </p><p>
 Note that the interpreter is only able to trigger this "timeout exceeded" error when it is actually processing instructions.
 This provides protection against things like accidentally creating an endless loop,
@@ -1120,13 +1120,13 @@ The <tt>filter</tt> argument controls which files are displayed,
 or it can be <tt>nil</tt> to display all files.<br>
 It is a string consisting of pairs of substrings, where each substring
 is separated by the pipe "<tt>|</tt>" symbol.<br>
-The first element in each pair of substrings is the human-readable description of the filetype,<br> 
-and the second element of the 
+The first element in each pair of substrings is the human-readable description of the filetype,<br>
+and the second element of the
 pair is a set of semicolon-delimited shell wildcards to filter on.<br>
 For instance, a filter for web files might look like:<br>
 <tt><b> &nbsp; "HTML files|*.html;*.htm|PHP files|*.php;*.php4|Style sheets|*.css"</b></tt>
 <br>
-( Those familiar with 
+( Those familiar with
 <a href="http://en.wikipedia.org/wiki/Borland_Delphi">Borland Delphi</a>
  might recognize this syntax from the
  <a href="http://www.delphibasics.co.uk/RTL.asp?Name=TOpenDialog">TOpenDialog.Filter</a> property. )

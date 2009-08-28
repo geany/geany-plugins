@@ -308,10 +308,12 @@ static gint glspi_fileinfo(lua_State* L)
 	SetTableStr("opener", FileTypeStr(comment_open));
 	SetTableStr("closer", FileTypeStr(comment_close));
 	SetTableStr("action", FileTypeStr(context_action_cmd));
+/*
 	SetTableStr("compiler", BuildCmdStr(compiler));
 	SetTableStr("linker",   BuildCmdStr(linker));
 	SetTableStr("exec",     BuildCmdStr(run_cmd));
 	SetTableStr("exec2",    BuildCmdStr(run_cmd2));
+*/
 	SetTableNum("ftid", GPOINTER_TO_INT(doc->file_type?doc->file_type->id:GEANY_FILETYPES_NONE));
 	SetTableStr("encoding", StrField(doc,encoding));
 	SetTableBool("bom",doc->has_bom);
