@@ -461,7 +461,7 @@ void glspi_init (GeanyData *data, GeanyFunctions *functions, GeanyPlugin *plugin
 		local_data.script_dir =
 			g_build_path(G_DIR_SEPARATOR_S, datadir, "geany-plugins", "geanylua", NULL);
 		g_free(datadir);
-  }
+	}
 	if (app->debug_mode) {
 		g_printerr(_("     ==>> %s: Building menu from '%s'\n"),
 			PLUGIN_NAME, local_data.script_dir);

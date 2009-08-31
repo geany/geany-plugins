@@ -167,6 +167,9 @@ void plugin_init(GeanyData *data)
 		libname=NULL;
 		return;
 	}
+	if (geany->app->debug_mode) {
+		g_printerr("%s support library path: %s\n", PLUGIN_NAME, libname);
+	}
 	libgeanylua=g_module_open(libname,0);
 	g_free(libname);
 	if (!libgeanylua) {
