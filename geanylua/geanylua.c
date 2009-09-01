@@ -69,6 +69,7 @@ typedef void (*CleanupFunc) (void);
 
 
 static gchar **glspi_version = NULL;
+static guint *glspi_abi = NULL;
 static InitFunc glspi_init = NULL;
 static ConfigFunc glspi_configure = NULL;
 static CleanupFunc glspi_cleanup = NULL;
@@ -114,6 +115,7 @@ static void fail_init(void) {
 	if (libgeanylua) { g_module_close(libgeanylua); }
 	libgeanylua = NULL;
 	glspi_version = NULL;
+	glspi_abi = NULL;
 	glspi_init = NULL;
 	glspi_configure = NULL;
 	glspi_cleanup = NULL;
@@ -159,6 +161,7 @@ static gboolean load_support_lib(const gchar *libname)
 	}
 	if ( !(
 		GETSYM("glspi_version", glspi_version) &&
+		GETSYM("glspi_abi", glspi_abi) &&
 		GETSYM("glspi_init", glspi_init) &&
 		GETSYM("glspi_configure", glspi_configure) &&
 		GETSYM("glspi_cleanup", glspi_cleanup) &&
@@ -172,6 +175,12 @@ static gboolean load_support_lib(const gchar *libname)
 	if (!g_str_equal(*glspi_version, VERSION)) {
 		g_printerr(_("%s: Support library version mismatch: %s for %s (should be %s)!\n"),
 			PLUGIN_NAME, *glspi_version, libname, VERSION);
+		fail_init();
+		return FALSE;
+	}
+	if (*glspi_abi != GEANY_ABI_VERSION) {
+		g_printerr(_("%s: Support library ABI mismatch: %s for %s (should be %s)!\n"),
+			PLUGIN_NAME, *glspi_abi, libname, GEANY_ABI_VERSION);
 		fail_init();
 		return FALSE;
 	}

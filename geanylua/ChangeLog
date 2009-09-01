@@ -1,5 +1,6 @@
 September 1, 2009 (ntrel)
   Try loading system support library if user library fails.
+  Check support library ABI version matches.
 
 August 31, 2009 (ntrel)
   Print support library path if Geany is in debug mode.

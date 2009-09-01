@@ -30,6 +30,8 @@
 
 PLUGIN_EXPORT
 const gchar* glspi_version = VERSION;
+PLUGIN_EXPORT
+const guint glspi_abi = GEANY_ABI_VERSION;
 
 GeanyData *glspi_geany_data=NULL;
 GeanyFunctions *glspi_geany_functions=NULL;
