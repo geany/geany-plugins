@@ -146,36 +146,16 @@ static gchar *get_lib_dir(void)
 
 
 
-PLUGIN_EXPORT
-void plugin_init(GeanyData *data)
+static gboolean load_support_lib(const gchar *libname)
 {
-	gchar *libname=NULL;
-
-	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
-
-	geany_data=data;
-	libname=g_build_path(G_DIR_SEPARATOR_S, data->app->configdir, "plugins", "geanylua", SUPPORT_LIB, NULL);
 	if ( !g_file_test(libname,G_FILE_TEST_IS_REGULAR) ) {
-		gchar *libdir=get_lib_dir();
-		g_free(libname);
-		libname=g_build_path(G_DIR_SEPARATOR_S, libdir, "geany-plugins", "geanylua", SUPPORT_LIB, NULL);
-		g_free(libdir);
-	}
-	if ( !g_file_test(libname,G_FILE_TEST_IS_REGULAR) ) {
-		g_printerr(_("%s: Can't find support library %s!\n"), PLUGIN_NAME, libname);
-		g_free(libname);
-		libname=NULL;
-		return;
-	}
-	if (geany->app->debug_mode) {
-		g_printerr("%s support library path: %s\n", PLUGIN_NAME, libname);
+		return FALSE;
 	}
 	libgeanylua=g_module_open(libname,0);
-	g_free(libname);
 	if (!libgeanylua) {
 		g_printerr("%s\n", g_module_error());
-		g_printerr(_("%s: Can't load support library!\n"), PLUGIN_NAME);
-		return;
+		g_printerr(_("%s: Can't load support library %s!\n"), PLUGIN_NAME, libname);
+		return FALSE;
 	}
 	if ( !(
 		GETSYM("glspi_version", glspi_version) &&
@@ -185,16 +165,46 @@ void plugin_init(GeanyData *data)
 		GETSYM("glspi_geany_callbacks", glspi_geany_callbacks)
 	)) {
 		g_printerr("%s\n", g_module_error());
-		g_printerr(_("%s: Failed to initialize support library!\n"), PLUGIN_NAME);
+		g_printerr(_("%s: Failed to initialize support library %s!\n"), PLUGIN_NAME, libname);
 		fail_init();
-		return;
+		return FALSE;
 	}
 	if (!g_str_equal(*glspi_version, VERSION)) {
-		g_printerr(_("%s: Support library version mismatch: %s <=> %s\n"),
-			PLUGIN_NAME, *glspi_version, VERSION);
+		g_printerr(_("%s: Support library version mismatch: %s for %s (should be %s)!\n"),
+			PLUGIN_NAME, *glspi_version, libname, VERSION);
 		fail_init();
-		return;
+		return FALSE;
 	}
+	if (geany->app->debug_mode) {
+		g_printerr("%s: Using support library path: %s\n", PLUGIN_NAME, libname);
+	}
+	return TRUE;
+}
+
+
+PLUGIN_EXPORT
+void plugin_init(GeanyData *data)
+{
+	gchar *libname=NULL;
+
+	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+
+	geany_data=data;
+	/* first try the user config path */
+	libname=g_build_path(G_DIR_SEPARATOR_S, data->app->configdir, "plugins", "geanylua", SUPPORT_LIB, NULL);
+	if (!load_support_lib(libname)) {
+		/* try the system path */
+		gchar *libdir=get_lib_dir();
+		g_free(libname);
+		libname=g_build_path(G_DIR_SEPARATOR_S, libdir, "geany-plugins", "geanylua", SUPPORT_LIB, NULL);
+		g_free(libdir);
+		if (!load_support_lib(libname)) {
+			g_printerr(_("%s: Can't find support library %s!\n"), PLUGIN_NAME, libname);
+			g_free(libname);
+			return;
+		}
+	}
+	g_free(libname);
 	copy_callbacks();
 
 	glspi_init(data, geany_functions, geany_plugin);
