@@ -381,6 +381,7 @@ make_btn(gchar * text, GtkCallback cb, gchar * img, gchar * tip)
 			}
 		}
 		text = buf;
+		g_free(buf);
 	}
 	btn = text ? gtk_button_new_with_mnemonic(text) : gtk_button_new();
 	if (cb)
