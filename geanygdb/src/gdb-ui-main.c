@@ -395,24 +395,24 @@ make_btn(const gchar *text, GtkCallback cb, gchar *img, gchar *tip)
 
 	if (cb)
 	{
-		g_signal_connect(G_OBJECT(btn), "clicked", G_CALLBACK(cb), NULL);
+		g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(cb), NULL);
 	}
 
 
 	if (tip)
 	{
-		gdbui_set_tip(btn, tip);
+		gdbui_set_tip(button, tip);
 	}
 
 
 	if (img && gdbui_setup.options.show_icons)
 	{
-		gtk_button_set_image(GTK_BUTTON(btn),
+		gtk_button_set_image(GTK_BUTTON(button),
 				     gtk_image_new_from_stock(img, GTK_ICON_SIZE_BUTTON));
 	}
 
 
-	return btn;
+	return button;
 }
 
 
