@@ -74,6 +74,12 @@ static gboolean pause_clicked = FALSE;
 #define blue   "#0000FF"
 #define yellow "#FFFF00"
 
+/*
+ * targetpath is to remember the path of the executable. Will be set in
+ * load_click()
+ */
+gchar* targetpath = NULL;
+
 
 void
 gdbui_enable(gboolean enabled)
@@ -366,8 +372,7 @@ make_btn(gchar * text, GtkCallback cb, gchar * img, gchar * tip)
 	if (text && disable_mnemonics)
 	{
 		gchar *p;
-		gchar buf[32];
-		strncpy(buf, text, sizeof(buf));
+		gchar *buf = g_strdup(text);
 		for (p = buf; *p; p++)
 		{
 			if (*p == '_')
@@ -486,6 +491,12 @@ load_click(GtkWidget * btn, gpointer user_data)
 						     GTK_FILE_CHOOSER_ACTION_OPEN,
 						     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 						     GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
+
+	if (targetpath != NULL)
+	{
+		gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(dlg), targetpath);
+	}
+
 	do
 	{
 		if (errmsg)
@@ -493,9 +504,12 @@ load_click(GtkWidget * btn, gpointer user_data)
 			err_func(errmsg);
 			errmsg = NULL;
 		}
+
 		if (gtk_dialog_run(GTK_DIALOG(dlg)) == GTK_RESPONSE_ACCEPT)
 		{
 			gchar *fn = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dlg));
+			targetpath = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(dlg));
+
 			if (fn)
 			{
 				if (access(fn, R_OK) == 0)
