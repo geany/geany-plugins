@@ -366,37 +366,52 @@ gdbui_set_tip(GtkWidget * w, gchar * tip)
 static const gboolean disable_mnemonics = TRUE;
 
 static GtkWidget *
-make_btn(gchar * text, GtkCallback cb, gchar * img, gchar * tip)
+make_btn(const gchar *text, GtkCallback cb, gchar *img, gchar *tip)
 {
-	GtkWidget *btn;
-	if (text && disable_mnemonics)
+	GtkWidget *button;
+
+	if (disable_mnemonics)
 	{
 		gchar *p;
-		gchar *buf = g_strdup(text);
-		for (p = buf; *p; p++)
+		gchar *buffer = g_strdup(text);
+
+		for (p = buffer; *p; p++)
 		{
 			if (*p == '_')
 			{
 				memmove(p, p + 1, strlen(p));
 			}
 		}
-		text = buf;
-		g_free(buf);
+
+		button = gtk_button_new_with_label(buffer);
+		g_free(buffer);
 	}
-	btn = text ? gtk_button_new_with_mnemonic(text) : gtk_button_new();
+
+	else
+	{
+		gtk_button_new_with_mnemonic(text);
+	}
+
+
 	if (cb)
 	{
 		g_signal_connect(G_OBJECT(btn), "clicked", G_CALLBACK(cb), NULL);
 	}
+
+
 	if (tip)
 	{
 		gdbui_set_tip(btn, tip);
 	}
+
+
 	if (img && gdbui_setup.options.show_icons)
 	{
 		gtk_button_set_image(GTK_BUTTON(btn),
 				     gtk_image_new_from_stock(img, GTK_ICON_SIZE_BUTTON));
 	}
+
+
 	return btn;
 }
 
