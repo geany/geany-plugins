@@ -16,22 +16,21 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-//TODO is this header really useful ?
-#ifndef PLUGIN_ENTRY_H
-#define PLUGIN_ENTRY_H
+#ifndef PP_CONFIG_UI_H
+#define PP_CONFIG_UI_H
 
-//========================================== INCLUDES ==========================================================
+//========================================== INCLUDES =========================================================
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <geanyplugin.h>
-#include <libxml/parser.h>
-#include <libxml/tree.h>
+#include <gtk/gtk.h>
 #include "PrettyPrinter.h"
-#include "ConfigUI.h"
 
-//========================================== PROPERTIES ========================================================
+//========================================== VARIABLES ========================================================
 
-//========================================== FUNCTIONS =========================================================
+PrettyPrintingOptions* prettyPrintingOptions;
+
+//========================================== FUNCTIONS ========================================================
+
+GtkWidget* createPrettyPrinterConfigUI(GtkDialog* dialog);
+void saveSettings();
 
 #endif

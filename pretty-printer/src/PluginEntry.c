@@ -26,20 +26,20 @@
 //========================================== PLUGIN INFORMATION ==========================================================
 
 PLUGIN_VERSION_CHECK(130)
-PLUGIN_SET_INFO("XML PrettyPrinter", "Formats an XML and make it readable for human.",
-                "1.0", "Cédric Tabin - http://www.astorm.ch");
+PLUGIN_SET_INFO("XML PrettyPrinter", "Formats an XML and makes it readable for human.",
+                "1.1", "Cédric Tabin - http://www.astorm.ch");
 
 //========================================== DECLARATIONS ================================================================
 
 GeanyPlugin*           geany_plugin;
 GeanyData*             geany_data;
 GeanyFunctions*        geany_functions;
-PrettyPrintingOptions* prettyPrintingOptions;
 
-static GtkWidget *main_menu_item = NULL; //the main menu of the plugin
+static GtkWidget* main_menu_item = NULL; //the main menu of the plugin
 
 //declaration of the functions
-static void item_activate_cb(GtkMenuItem *menuitem, gpointer gdata);
+static void xml_format(GtkMenuItem *menuitem, gpointer gdata);
+static void config_closed(GtkWidget* configWidget, gint response, gpointer data);
 void plugin_init(GeanyData *data);
 void plugin_cleanup(void);
 
@@ -56,7 +56,7 @@ void plugin_init(GeanyData *data)
     gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), main_menu_item);
 
     //add activation callback
-    g_signal_connect(main_menu_item, "activate", G_CALLBACK(item_activate_cb), NULL);
+    g_signal_connect(main_menu_item, "activate", G_CALLBACK(xml_format), NULL);
 }
 
 void plugin_cleanup(void)
@@ -65,9 +65,27 @@ void plugin_cleanup(void)
     gtk_widget_destroy(main_menu_item);
 }
 
+//TODO uncomment when configuration widget ready
+/*GtkWidget* plugin_configure(GtkDialog * dialog)   	
+{
+	//creates the configuration widget
+	GtkWidget* widget = createPrettyPrinterConfigUI(dialog);
+	g_signal_connect(dialog, "response", G_CALLBACK(config_closed), NULL);
+	return widget;
+}*/
+
 //========================================== LISTENERS ===================================================================
 
-void item_activate_cb(GtkMenuItem *menuitem, gpointer gdata)
+void config_closed(GtkWidget* configWidget, gint response, gpointer gdata)
+{
+	//if the user clicked OK or APPLY, then save the settings
+	if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY)
+	{
+		saveSettings();
+	}
+}
+
+void xml_format(GtkMenuItem* menuitem, gpointer gdata)
 {
 	//default printing options
 	if (prettyPrintingOptions == NULL) { prettyPrintingOptions = createDefaultPrettyPrintingOptions(); }
@@ -104,7 +122,10 @@ void item_activate_cb(GtkMenuItem *menuitem, gpointer gdata)
 
 	//updates the document
 	sci_set_text(sco, buffer);
-	sci_set_current_position(sco, 0, TRUE);
+	
+	//set the line
+	int xOffset = scintilla_send_message(sco, SCI_GETXOFFSET, NULL, NULL);
+	scintilla_send_message(sco, SCI_LINESCROLL, -xOffset, 0); //TODO update with the right function-call for geany-0.19
 	
 	//sets the type
 	GeanyFiletype* fileType = filetypes_index(GEANY_FILETYPES_XML); 
@@ -113,48 +134,3 @@ void item_activate_cb(GtkMenuItem *menuitem, gpointer gdata)
 	//free all
 	xmlFreeDoc(xmlDoc);
 }
-
-//TODO create configuration widget
-/*
-GtkWidget* plugin_configure(GtkDialog * dialog)   	
-{
-	//default printing options
-	if (prettyPrintingOptions == NULL) { prettyPrintingOptions = createDefaultPrettyPrintingOptions(); }
-	
-	GtkWidget* globalBox = gtk_hbox_new(TRUE, 4);
-	GtkWidget* rightBox = gtk_vbox_new(FALSE, 6);
-	GtkWidget* centerBox = gtk_vbox_new(FALSE, 6);
-	GtkWidget* leftBox = gtk_vbox_new(FALSE, 6);
-	
-	GtkWidget* textLabel = gtk_label_new("Text nodes");
-	GtkWidget* textOneLine =   gtk_check_button_new_with_label("One line");
-	GtkWidget* textInline =   gtk_check_button_new_with_label("Inline");
-	
-	GtkWidget* cdataLabel = gtk_label_new("CDATA nodes");
-	GtkWidget* cdataOneLine =   gtk_check_button_new_with_label("One line");
-	GtkWidget* cdataInline =   gtk_check_button_new_with_label("Inline");
-	
-	GtkWidget* commentLabel = gtk_label_new("Comments");
-	GtkWidget* commentOneLine =   gtk_check_button_new_with_label("One line");
-	GtkWidget* commentInline =   gtk_check_button_new_with_label("Inline");
-	
-	gtk_box_pack_start(GTK_BOX(globalBox), leftBox, FALSE, FALSE, 3);
-	gtk_box_pack_start(GTK_BOX(globalBox), centerBox, FALSE, FALSE, 3);
-	gtk_box_pack_start(GTK_BOX(globalBox), rightBox, FALSE, FALSE, 3);
-
-	gtk_box_pack_start(GTK_BOX(leftBox), textLabel, FALSE, FALSE, 3);
-	gtk_box_pack_start(GTK_BOX(centerBox), textOneLine, FALSE, FALSE, 3);
-	gtk_box_pack_start(GTK_BOX(rightBox), textInline, FALSE, FALSE, 3);
-
-	gtk_box_pack_start(GTK_BOX(leftBox), cdataLabel, FALSE, FALSE, 3);
-	gtk_box_pack_start(GTK_BOX(centerBox), cdataOneLine, FALSE, FALSE, 3);
-	gtk_box_pack_start(GTK_BOX(rightBox), cdataInline, FALSE, FALSE, 3);
-	
-	gtk_box_pack_start(GTK_BOX(leftBox), commentLabel, FALSE, FALSE, 3);
-	gtk_box_pack_start(GTK_BOX(centerBox), commentOneLine, FALSE, FALSE, 3);
-	gtk_box_pack_start(GTK_BOX(rightBox), commentInline, FALSE, FALSE, 3);
-
-	gtk_widget_show_all(globalBox);
-	return globalBox;
-}
-*/

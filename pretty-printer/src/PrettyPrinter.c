@@ -30,6 +30,7 @@ static char getNextChar();                                                      
 static char getPreviousInsertedChar();                                                                  //returns the last inserted char into the new buffer
 static gboolean isWhite(char c);                                                                        //check if the specified char is a white
 static gboolean isLineBreak(char c);                                                                    //check if the specified char is a new line
+static gboolean isQuote(char c);                                                                        //check if the specified char is a quote (simple or double)
 static int putNewLine();                                                                                //put a new line into the new char buffer with the correct number of whites (indentation)
 static gboolean isInlineNodeAllowed();                                                                  //check if it is possible to have an inline node
 static void resetBackwardIndentation(gboolean resetLineBreak);                                          //reset the indentation for the current depth (just reset the index in fact)
@@ -140,7 +141,7 @@ PrettyPrintingOptions* createDefaultPrettyPrintingOptions()
 	PrettyPrintingOptions* options = (PrettyPrintingOptions*)malloc(sizeof(PrettyPrintingOptions));
 	if (options == NULL) 
 	{ 
-		printError("createDefaultPrettyPrintingOptions : Unable to allocate memory"); 
+		g_error("Unable to allocate memory for PrettyPrintingOptions");
 		return NULL; 
 	}
 	
@@ -238,6 +239,14 @@ int readWhites()
 	return counter;
 }
 
+gboolean isQuote(char c)
+{
+	if (c == '\'') return TRUE;
+	if (c == '"') return TRUE;
+	
+	return FALSE;
+}
+
 gboolean isWhite(char c)
 {
 	if (c == ' ') return TRUE;
@@ -321,7 +330,11 @@ gboolean isInlineNodeAllowed()
 void resetBackwardIndentation(gboolean resetLineBreak)
 {
 	xmlPrettyPrintedIndex -= (currentDepth*options->indentLength);
-	if (resetLineBreak) { --xmlPrettyPrintedIndex; }
+	if (resetLineBreak) 
+	{ 
+		int len = strlen(options->newLineChars);
+		xmlPrettyPrintedIndex -= len; 
+	}
 }
 
 //#########################################################################################################################################
@@ -773,7 +786,8 @@ void processCDATA()
 	while(loop)
 	{
 		char nextChar = readNextChar();
-		if (oldChar == ']' && nextChar == ']') { loop = FALSE; } //end of cdata
+		char nextChar2 = getNextChar();
+		if (oldChar == ']' && nextChar == ']' && nextChar2 == '>') { loop = FALSE; } //end of cdata
 		
 		if (!isLineBreak(nextChar)) //the cdata simply continues
 		{
@@ -813,8 +827,63 @@ void processCDATA()
 
 void processDoctype()	
 {
-	printError("DOCTYPE is currently not supported by PrettyPrinter\n");
-	result = PRETTY_PRINTING_NOT_SUPPORTED_YET;
+	putNextCharsInBuffer(9); //put the '<!DOCTYPE' into the buffer
+	
+	gboolean loop = TRUE;
+	while(loop)
+	{
+		readWhites();
+		putCharInBuffer(' '); //only one space for the attributes
+		
+		int nextChar = readNextChar();
+		while(!isWhite(nextChar) && 
+		      !isQuote(nextChar) &&  //begins a quoted text
+		      nextChar != '=' && //begins an attribute
+		      nextChar != '>' &&  //end of doctype
+		      nextChar != '[') //inner <!ELEMENT> types
+		{
+			putCharInBuffer(nextChar);
+			nextChar = readNextChar();
+		}
+		
+		if (isWhite(nextChar)) {} //do nothing, just let the next loop do the job
+		else if (isQuote(nextChar) || nextChar == '=')
+		{
+			if (nextChar == '=')
+			{
+				putCharInBuffer(nextChar);
+				nextChar = readNextChar(); //now we should have a quote
+				
+				if (!isQuote(nextChar)) 
+				{ 
+					printError("processDoctype : the next char should be a quote (not '%c')", nextChar); 
+					result = PRETTY_PRINTING_INVALID_CHAR_ERROR; 
+					return; 
+				}
+			}
+			
+			//simply process the content
+			char quote = nextChar;
+			do
+			{
+				putCharInBuffer(nextChar);
+				nextChar = readNextChar();
+			}
+			while (nextChar != quote);
+			putCharInBuffer(nextChar); //now the last char is the last quote
+		}
+		else if (nextChar == '>') //end of doctype
+		{
+			putCharInBuffer(nextChar);
+			loop = FALSE;
+		}
+		else //the char is a '[' => not supported yet
+		{
+			printError("DOCTYPE inner ELEMENT is currently not supported by PrettyPrinter\n");
+			result = PRETTY_PRINTING_NOT_SUPPORTED_YET;
+			loop = FALSE;
+		}
+	}
 }
 
 void processDoctypeElement()
