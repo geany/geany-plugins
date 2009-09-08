@@ -10,6 +10,9 @@ addons/src/ao_doclist.c
 #codenav
 codenav/src/codenavigation.c
 
+#codenav
+geanydoc/src/geanydoc.c
+
 #geanygdb
 geanygdb/src/gdb-io-break.c
 geanygdb/src/gdb-io-envir.c
