@@ -95,6 +95,7 @@ plugins = [
 		 [ 'geanylua' ],
 		 # maybe you need to modify the package name of Lua, try one of these: lua5.1 lua51 lua-5.1
 		 [ [ 'lua', '5.1', True ] ]),
+	Plugin('geanyprj', None, [ 'geanyprj/src' ]),
 	Plugin('pretty-printer', None, [ 'pretty-printer/src' ], [ [ 'libxml-2.0', '2.6.27', True ] ])
 ]
 
@@ -103,11 +104,6 @@ temporary_disabled_plugins
 	Plugin('externdbg',
 		 [ 'externdbg/src/dbg.c' ], # source files
 		 [ 'externdbg', 'externdbg/src' ] # include dirs
-		 ),
-	Plugin('geanyprj',
-		 [ 'geanyprj/src/geanyprj.c', 'geanyprj/src/menu.c', 'geanyprj/src/project.c',
-		   'geanyprj/src/sidebar.c', 'geanyprj/src/utils.c', 'geanyprj/src/xproject.c' ],
-		 [ 'geanyprj', 'geanyprj/src' ] # include dirs
 		 ),
 	Plugin('geany-mini-script',
 		 [ 'geany-mini-script/src/gms.c', 'geany-mini-script/src/gms_gui.c' ], # source files

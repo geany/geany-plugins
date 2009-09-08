@@ -1,10 +1,12 @@
 plugins = \
 	addons \
 	codenav \
+	geanydoc \
 	geanygdb \
 	geanylatex \
 	geanylipsum \
 	geanylua \
+	geanyprj \
 	geanysendmail \
 	geanyvc \
 	pretty-printer \

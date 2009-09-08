@@ -77,6 +77,15 @@ geanylua/glspi_app.c
 geanylua/glspi_dlg.c
 geanylua/glspi_run.c
 
+# GeanyPrj
+geanyprj/src/geanyprj.c
+geanyprj/src/geanyprj.h
+geanyprj/src/menu.c
+geanyprj/src/project.c
+geanyprj/src/sidebar.c
+geanyprj/src/utils.c
+geanyprj/src/xproject.c
+
 #Pretty-printer
 pretty-printer/src/PluginEntry.c
 pretty-printer/src/PrettyPrinter.c
