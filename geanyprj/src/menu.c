@@ -21,25 +21,10 @@
 #include <gdk/gdkkeysyms.h>
 #include <glib/gstdio.h>
 
-#include "geany.h"
-#include "support.h"
-#include "prefs.h"
-#include "plugindata.h"
-#include "document.h"
-#include "filetypes.h"
-#include "keybindings.h"
-#include "utils.h"
-#include "ui_utils.h"
-#include "geanyfunctions.h"
-
-#include "project.h"
-
 #include "geanyprj.h"
 
 PluginFields *plugin_fields;
 extern GeanyData *geany_data;
-extern GeanyFunctions *geany_functions;
-
 
 static struct
 {

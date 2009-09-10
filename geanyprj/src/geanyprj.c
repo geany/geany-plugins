@@ -23,24 +23,13 @@
 #include <sys/time.h>
 #include <string.h>
 
-#include "geany.h"
-#include "support.h"
-#include "plugindata.h"
-#include "document.h"
-#include "filetypes.h"
-#include "utils.h"
-#include "ui_utils.h"
-#include "geanyfunctions.h"
-
 #ifdef HAVE_LOCALE_H
 # include <locale.h>
 #endif
 
-#include "project.h"
-
 #include "geanyprj.h"
 
-PLUGIN_VERSION_CHECK(115);
+PLUGIN_VERSION_CHECK(147);
 PLUGIN_SET_INFO(_("Project"), _("Alternative project support."), VERSION,
 		_("Yura Siamashka <yurand2@gmail.com>"));
 

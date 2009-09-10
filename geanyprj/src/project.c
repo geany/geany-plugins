@@ -23,17 +23,6 @@
 #include <string.h>
 #include <sys/time.h>
 
-#include "geany.h"
-#include "support.h"
-#include "prefs.h"
-#include "plugindata.h"
-#include "document.h"
-#include "filetypes.h"
-#include "utils.h"
-#include "geanyfunctions.h"
-
-#include "project.h"
-
 #include "geanyprj.h"
 
 extern GeanyData *geany_data;

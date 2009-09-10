@@ -20,6 +20,8 @@
 #ifndef __GEANYPRJ_H__
 #define __GEANYPRJ_H__
 
+#include "geanyplugin.h"
+
 #ifdef __GNUC__
 #  ifdef DEBUG
 #    define debug(format, ...) printf((format), __VA_ARGS__)
@@ -62,6 +64,7 @@ struct GeanyPrj
 	GHashTable *tags;	///< project tags
 };
 
+extern GeanyFunctions *geany_functions;
 
 extern const gchar *project_type_string[NEW_PROJECT_TYPE_SIZE];
 extern void *project_type_filter[NEW_PROJECT_TYPE_SIZE];

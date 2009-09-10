@@ -8,13 +8,7 @@
 #include "geanyprj.h"
 
 
-
-/* FIXME: this function implemented in Geany core, I
-   don't know how to make it available in unittest */
-int utils_write_file(gchar *a, gchar *b)
-{
-	return 0;
-}
+GeanyFunctions *geany_functions = NULL;
 
 
 void

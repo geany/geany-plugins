@@ -18,10 +18,8 @@
  */
 
 #include <string.h>
-#include <glib.h>
 
-#include "geany.h"
-#include "utils.h"
+#include "geanyprj.h"
 
 gchar *
 find_file_path(const gchar * dir, const gchar * filename)
