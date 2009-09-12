@@ -16,6 +16,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#define PP_CONFIG_UI_PPOPTIONS 
 #include "ConfigUI.h"
 
 GtkWidget* createPrettyPrinterConfigUI(GtkDialog* dialog)
