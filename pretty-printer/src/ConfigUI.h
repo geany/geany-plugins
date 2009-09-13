@@ -26,12 +26,7 @@
 
 //========================================== VARIABLES ========================================================
 
-//just add the keyword extern if not in the ConfigUI.c
-#ifndef PP_CONFIG_UI_PPOPTIONS
-	extern
-#endif
-
-PrettyPrintingOptions* prettyPrintingOptions;
+extern PrettyPrintingOptions* prettyPrintingOptions;
 
 //========================================== FUNCTIONS ========================================================
 
