@@ -1,5 +1,5 @@
 AC_PREREQ([2.61])
-AC_INIT([geany-plugins], [0.17.1])
+AC_INIT([geany-plugins], [0.18])
 AM_INIT_AUTOMAKE([1.8 foreign dist-bzip2 tar-ustar subdir-objects])
 
 AC_CONFIG_SRCDIR([po/LINGUAS])
@@ -23,11 +23,11 @@ LOCALEDIR="${datadir}/locale"
 AC_SUBST(LOCALEDIR)
 
 dnl common checks
-PKG_CHECK_MODULES([GEANY], [geany >= 0.16])
+PKG_CHECK_MODULES([GEANY], [geany >= 0.18])
 geanypluginsdir=`${PKG_CONFIG} --variable=libdir geany`/geany
 AC_SUBST([geanypluginsdir])
 
-PKG_CHECK_MODULES([CHECK], [check >= 0.9.4], 
+PKG_CHECK_MODULES([CHECK], [check >= 0.9.4],
         [AM_CONDITIONAL(UNITTESTS, true)],
         [AM_CONDITIONAL(UNITTESTS, false)])
 
