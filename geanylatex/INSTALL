@@ -1,15 +1,3 @@
-These installation instructions are written for a Linux system.
-
-At the time of this writing, building the plugin requires a recent SVN
-checkout of the Geany sources (Geany Plugin API v130).
-
-You need for compliling the plugin the Geany header files installed.
-For configuring and installing just run
-
- % configure
- % make
- % make install
-
-If you want to install geanyLaTeX to another directory, you should run
-configure with --prefix=/path/to/dir option. make install will install
-all files to your new target.
+GeanyLaTeX as distributed within the geany-plugins package doesn't
+have a own build system for its own. Please check documentation of
+geany-plugins release instead.
