@@ -20,18 +20,7 @@
 
 #include <string.h>
 
-#include "geany.h"
-#include "support.h"
-#include "plugindata.h"
-#include "document.h"
-#include "filetypes.h"
-#include "utils.h"
-#include "ui_utils.h"
-#include "project.h"
-#include "prefs.h"
-#include "geanyfunctions.h"
-
-
+#include "geanyplugin.h"
 #include "geanyvc.h"
 
 extern GeanyFunctions *geany_functions;

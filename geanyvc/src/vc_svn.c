@@ -1,8 +1,8 @@
 /*
- *      Copyright 2007 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
- *      Copyright 2007 Enrico Tröger <enrico.troeger@uvena.de>
+ *      Copyright 2007-2009 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2007-2009 Enrico Tröger <enrico.troeger@uvena.de>
  *      Copyright 2007 Nick Treleaven <nick.treleaven@btinternet.com>
- *      Copyright 2007 Yura Siamashka <yurand2@gmail.com>
+ *      Copyright 2007-2009 Yura Siamashka <yurand2@gmail.com>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -20,15 +20,7 @@
  */
 
 #include <string.h>
-
-#include "geany.h"
-#include "support.h"
-#include "plugindata.h"
-#include "document.h"
-#include "filetypes.h"
-#include "utils.h"
-#include "geanyfunctions.h"
-
+#include "geanyplugin.h"
 #include "geanyvc.h"
 
 extern GeanyData *geany_data;
