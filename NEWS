@@ -1,0 +1,18 @@
+Geany-plugins 0.17.1 (July 21, 2009)
+
+    General:
+    * Avoid using GHashTable functions from newer GLib versions to fix
+      compilation with GLib 2.8.
+    * Updated translations.
+    * Correct typo: COMMON_LIBS => COMMONLIBS.
+    * Move ttyhelper to $libexecdir/geany-plugins/geanygdb.
+
+    Plugins:
+    * GeanyLua: Fix showing system script menu items.
+    * Addons: Fix crashes when quitting Geany from the system tray icon.
+    * GeanyLaTeX: Fix toolbar issue.
+
+
+Geany-plugins 0.17 (July 14, 2009)
+
+    * First release.
