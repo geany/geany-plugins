@@ -1,3 +1,16 @@
+Geany-plugins 0.18 (t.b.d.)
+
+    General:
+
+
+    Plugins:
+    * GeanyVC:
+      Update to most recent version including a entry to
+      editor menu and a check/uncheck all function on commit dialog
+
+    Internationalisation:
+
+
 Geany-plugins 0.17.1 (July 21, 2009)
 
     General:
