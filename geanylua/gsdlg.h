@@ -71,9 +71,9 @@ GSDLG_API GtkWindow* gsdlg_toplevel;
 typedef void (*GsDlgRunHook) (gboolean running, gpointer user_data);
 
 /*
-  If assigned, the cb callback will be called twice by gsdlg_run(),
-  first with running=TRUE when the dialog is displayed, and
-  then with running=FALSE when it is dismissed.
+	If assigned, the cb callback will be called twice by gsdlg_run(),
+	first with running=TRUE when the dialog is displayed, and
+	then with running=FALSE when it is dismissed.
 */
 #ifndef DIALOG_LIB
 GSDLG_API void gsdlg_set_run_hook(GsDlgRunHook cb);

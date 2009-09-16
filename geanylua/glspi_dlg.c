@@ -56,8 +56,8 @@ static void  set_dialog_title(lua_State *L, GtkWidget*dialog) {
 
 
 /*
-  The GtkMessageDialog wants format strings, but we want literals.
-  So we need to replace all '%' with "%%"
+	The GtkMessageDialog wants format strings, but we want literals.
+	So we need to replace all '%' with "%%"
 */
 static gchar*pct_esc(const gchar*s)
 {
@@ -164,7 +164,7 @@ static gint glspi_choose(lua_State* L)
 
 	scroll=gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
-	  GTK_POLICY_AUTOMATIC,  GTK_POLICY_AUTOMATIC);
+		GTK_POLICY_AUTOMATIC,  GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox),scroll);
 	gtk_container_add(GTK_CONTAINER(scroll),tree);
 
@@ -252,6 +252,7 @@ static gint glspi_confirm(lua_State* L)
 	gtk_widget_grab_default(dv==GTK_RESPONSE_YES?yes_btn:no_btn);
 	/* Where I come from, we ask "yes-or-no?"
 	 *  who the hell ever asks "no-or-yes?" ??? */
+	/* It's probably better to use descriptive names for button text -ntrel */
 	gtk_dialog_set_alternative_button_order(GTK_DIALOG(dialog),
 		GTK_RESPONSE_YES,GTK_RESPONSE_NO );
 	set_dialog_title(L,dialog);
@@ -393,7 +394,7 @@ static gboolean create_file_filter(lua_State* L, GtkFileChooser*dlg, const gchar
 			}
 		}
 	}
-  if (patterns) { g_strfreev(patterns); }
+	if (patterns) { g_strfreev(patterns); }
 	return TRUE;
 }
 
@@ -434,11 +435,11 @@ static gchar *file_dlg(lua_State* L, gboolean save, const gchar *path,	const gch
 		gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dlg), path);
 	}
 	if (!create_file_filter(L, GTK_FILE_CHOOSER(dlg), mask)) {
-     lua_pushfstring(L, _("Error in module \"%s\" at function pickfile():\n"
-             "failed to parse filter string at argument #3.\n "),
-     LUA_MODULE_NAME);
-     lua_error(L);
-     return NULL;
+		lua_pushfstring(L, _("Error in module \"%s\" at function pickfile():\n"
+			"failed to parse filter string at argument #3.\n "),
+			LUA_MODULE_NAME);
+		lua_error(L);
+		return NULL;
 	}
 
 #if NEED_OVERWRITE_PROMPT

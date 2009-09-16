@@ -44,8 +44,8 @@ static gint glspi_newfile(lua_State* L)
 
 
 /*
-  Try to find the geany->documents_array index of the specified filename.
-  Returns -1 if the filename doesn't match any open tabs.
+	Try to find the geany->documents_array index of the specified filename.
+	Returns -1 if the filename doesn't match any open tabs.
 */
 static gint filename_to_doc_idx(const gchar*fn)
 {
@@ -72,7 +72,7 @@ static gint doc_idx_to_tab_idx(gint idx)
 
 /* Returns the filename of the specified document, or NULL on bad index */
 static const gchar* doc_idx_to_filename(gint idx) {
-	 if ( (idx >= 0 ) && ( ((guint)idx) < geany->documents_array->len ) ) {
+	if ( (idx >= 0 ) && ( ((guint)idx) < geany->documents_array->len ) ) {
 		GeanyDocument *doc=g_ptr_array_index(geany->documents_array, idx);
 		if (doc) { return doc->file_name?doc->file_name:GEANY_STRING_UNTITLED; }
 	}
@@ -104,7 +104,7 @@ static gint glspi_activate(lua_State* L)
 		}
 	}
 	if (idx>=0) {
-	  if (idx!=gtk_notebook_get_current_page(NOTEBOOK)) {
+		if (idx!=gtk_notebook_get_current_page(NOTEBOOK)) {
 			gtk_notebook_set_current_page(NOTEBOOK, idx);
 		}
 	}

@@ -395,8 +395,8 @@ static gint glspi_keycmd(lua_State* L)
 	if ( !he ) {
 		lua_pushfstring(
 			L, _( "Error in module \"%s\" at function %s():\n"
-						"unknown command \"%s\" given for argument #1.\n"),
-						 LUA_MODULE_NAME, &__FUNCTION__[6], lua_tostring(L,1));
+				"unknown command \"%s\" given for argument #1.\n"),
+			LUA_MODULE_NAME, &__FUNCTION__[6], lua_tostring(L,1));
 		lua_error(L);
 		return 0;
 	}
@@ -424,7 +424,7 @@ static gint glspi_launch(lua_State* L)
 	g_strfreev(argv);
 	lua_pushboolean(L,rv);
 	if (rv) { return 1; }
-  lua_pushstring(L,err->message);
+	lua_pushstring(L,err->message);
 	g_error_free(err);
 	return 2;
 }

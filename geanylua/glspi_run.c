@@ -34,12 +34,12 @@ void glspi_init_kfile_module(lua_State *L, KeyfileAssignFunc *func);
 
 
 /*
-  If a script gets caught in a tight loop and the timeout expires,
-  and the user confirms they want to keep waiting, for some reason
-  the normal methods for repainting the window don't work in the
-  editor window, which makes it appear as if the dialog is still
-  active. So we need to tell scintilla to paint over the spot
-  where the dialog was.
+	If a script gets caught in a tight loop and the timeout expires,
+	and the user confirms they want to keep waiting, for some reason
+	the normal methods for repainting the window don't work in the
+	editor window, which makes it appear as if the dialog is still
+	active. So we need to tell scintilla to paint over the spot
+	where the dialog was.
 */
 static void repaint_scintilla(void)
 {
@@ -95,13 +95,13 @@ static gboolean glspi_goto_error(gchar *fn, gint line)
 
 
 /*
-  Display a message box showing any script error...
-  Depending on the type of error, Lua will sometimes prepend the filename
-  to the message. If need_name is TRUE then we assume that Lua didn't add
-  the filename, so we prepend it ourself. If need_name is FALSE, then the
-  error message likely contains a filename *and* a line number, so we
-  give the user an option to automatically open the file and scroll to
-  the offending line.
+	Display a message box showing any script error...
+	Depending on the type of error, Lua will sometimes prepend the filename
+	to the message. If need_name is TRUE then we assume that Lua didn't add
+	the filename, so we prepend it ourself. If need_name is FALSE, then the
+	error message likely contains a filename *and* a line number, so we
+	give the user an option to automatically open the file and scroll to
+	the offending line.
 */
 static void glspi_script_error(gchar *script_file, const gchar *msg, gboolean need_name, gint line)
 {
@@ -141,7 +141,7 @@ typedef struct _StateInfo {
 	gint counter;
 	gdouble remaining;
 	gdouble max;
-  gboolean optimized;
+	gboolean optimized;
 } StateInfo;
 
 static GSList *state_list=NULL;
@@ -241,10 +241,10 @@ static void debug_hook(lua_State *L, lua_Debug *ar)
 
 
 /*
-  Pause the run timer, while dialogs are displayed. Note that we
-  purposely add 1/10 of a second to our elapsed time here.
-  That should not even be noticeable for most scripts, but
-  it helps us time-out faster for dialogs caught in a loop.
+	Pause the run timer, while dialogs are displayed. Note that we
+	purposely add 1/10 of a second to our elapsed time here.
+	That should not even be noticeable for most scripts, but
+	it helps us time-out faster for dialogs caught in a loop.
 */
 
 static void glspi_pause_timer(gboolean pause, gpointer user_data)
@@ -333,7 +333,7 @@ static gint glspi_traceback(lua_State *L)
 }
 
 /*
-  The set_*_token functions assign default values for module-level variables
+	The set_*_token functions assign default values for module-level variables
 */
 
 static void set_string_token(lua_State *L, gchar*name, gchar*value)
@@ -436,10 +436,10 @@ static gint glspi_init_module(lua_State *L, gchar *script_file, gint caller, GKe
 
 
 /*
-  Function to load this module into the standalone lua interpreter.
-  The only reason you would ever want to do this is to re-generate
-  the "keywords.list" file from the command line.
-  See the file "util/keywords.lua" for more info.
+	Function to load this module into the standalone lua interpreter.
+	The only reason you would ever want to do this is to re-generate
+	the "keywords.list" file from the command line.
+	See the file "util/keywords.lua" for more info.
 */
 PLUGIN_EXPORT
 gint luaopen_libgeanylua(lua_State *L)

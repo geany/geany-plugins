@@ -158,7 +158,7 @@ static gint glspi_caret(lua_State* L)
 
 
 /*
-  Translate between rectangular (line/column) and linear (position) locations.
+	Translate between rectangular (line/column) and linear (position) locations.
 */
 static gint glspi_rowcol(lua_State* L)
 {
@@ -269,8 +269,8 @@ static gint glspi_word(lua_State* L)
 
 
 /*
-  Pushes the line of text onto the Lua stack from the specified
-  line number. Return FALSE only if the index is out of bounds.
+	Pushes the line of text onto the Lua stack from the specified
+	line number. Return FALSE only if the index is out of bounds.
 */
 static gchar* get_line_text(GeanyDocument*doc,gint linenum)
 {
@@ -286,7 +286,7 @@ static gchar* get_line_text(GeanyDocument*doc,gint linenum)
 
 
 /*
-  Lua "closure" function to iterate through each line in the current document
+	Lua "closure" function to iterate through each line in the current document
 */
 static gint lines_closure(lua_State *L)
 {
@@ -312,10 +312,10 @@ static gint glspi_lines(lua_State* L)
 {
 	DOC_REQUIRED
 	if (lua_gettop(L)==0) {
-	  push_number(L,0);
+		push_number(L,0);
 		lua_pushlightuserdata(L,doc); /* Pass the doc pointer to our iterator */
-	  lua_pushcclosure(L, &lines_closure, 2);
-	  return 1;
+		lua_pushcclosure(L, &lines_closure, 2);
+		return 1;
 	} else {
 		int idx;
 		gchar *text;
@@ -425,7 +425,7 @@ static gint glspi_navigate(lua_State* L)
 	if ( SCI_NULL == scicmd ) {
 		lua_pushfstring(
 			L, _( "Error in module \"%s\" at function navigate():\n"
-					  "unknown navigation mode \"%s\" for argument #1.\n"),
+						"unknown navigation mode \"%s\" for argument #1.\n"),
 						LUA_MODULE_NAME, strcmd);
 		lua_error(L);
 	} else {
@@ -599,9 +599,9 @@ static SciCmdHashEntry* lookup_cmd_id(gint cmd)
 static gint glspi_fail_not_implemented(lua_State* L, const gchar*funcname, gchar*cmdname)
 {
 	lua_pushfstring(
-			L, _( "Error in module \"%s\" at function %s():\n"
-						"API command \"%s\" not implemented.\n"),
-						 LUA_MODULE_NAME, &funcname[6], cmdname);
+		L, _( "Error in module \"%s\" at function %s():\n"
+			"API command \"%s\" not implemented.\n"),
+		LUA_MODULE_NAME, &funcname[6], cmdname);
 	lua_error(L);
 	return 0;
 }
@@ -610,9 +610,9 @@ static gint glspi_fail_not_implemented(lua_State* L, const gchar*funcname, gchar
 static gint glspi_fail_arg_count(lua_State* L, const gchar*funcname, gchar*cmdname)
 {
 	lua_pushfstring(
-			L, _( "Error in module \"%s\" at function %s():\n"
-						"not enough arguments for command \"%s\".\n"),
-						 LUA_MODULE_NAME, &funcname[6], cmdname);
+		L, _( "Error in module \"%s\" at function %s():\n"
+			"not enough arguments for command \"%s\".\n"),
+		LUA_MODULE_NAME, &funcname[6], cmdname);
 	lua_error(L);
 	return 0;
 }
@@ -644,13 +644,13 @@ static gint glspi_scintilla(lua_State* L)
 			strncpy(cmdbuf,lua_tostring(L,1),sizeof(cmdbuf)-1);
 			for (i=0;cmdbuf[i];i++) {cmdbuf[i]=g_ascii_toupper(cmdbuf[i]);}
 			he=lookup_cmd_str((strncmp(cmdbuf,"SCI_",4)==0)?&cmdbuf[4]:cmdbuf);
-	  } else { return FAIL_STRING_ARG(1); }
+		} else { return FAIL_STRING_ARG(1); }
 	}
 	if ( !he ) {
 		lua_pushfstring(
 			L, _( "Error in module \"%s\" at function %s():\n"
-						"unknown command \"%s\" given for argument #1.\n"),
-						 LUA_MODULE_NAME, &__FUNCTION__[6], lua_tostring(L,1));
+				"unknown command \"%s\" given for argument #1.\n"),
+			LUA_MODULE_NAME, &__FUNCTION__[6], lua_tostring(L,1));
 		lua_error(L);
 		return 0;
 	}
@@ -725,7 +725,7 @@ static gint glspi_scintilla(lua_State* L)
 				lua_pushnil(L);
 				return 1;
 			}
-		  break;
+			break;
 		case SLT_FINDTEXT: return FAIL_API;
 		case SLT_FORMATRANGE: return FAIL_API;
 		default:return FAIL_API;

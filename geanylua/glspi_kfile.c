@@ -162,7 +162,7 @@ static gint kfile_data(lua_State *L)
 
 
 /*
-  Lua "closure" function to iterate through each string in an array of strings
+	Lua "closure" function to iterate through each string in an array of strings
 */
 static gint strings_closure(lua_State *L)
 {

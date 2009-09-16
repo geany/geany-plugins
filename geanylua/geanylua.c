@@ -78,10 +78,10 @@ static PluginCallback *glspi_geany_callbacks = NULL;
 
 
 /*
-  It seems to me like we could simply pass the callbacks pointer directly
-  from the support library to the application. But for some reason that
-  doesn't work at all. So we make a copy of the callbacks array here,
-  and all is well...
+	It seems to me like we could simply pass the callbacks pointer directly
+	from the support library to the application. But for some reason that
+	doesn't work at all. So we make a copy of the callbacks array here,
+	and all is well...
 */
 PLUGIN_EXPORT
 PluginCallback	plugin_callbacks[8] = {

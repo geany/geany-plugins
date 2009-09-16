@@ -69,9 +69,9 @@ extern void glspi_run_script(gchar *script_file, gint caller, GKeyFile*proj, gch
 /* Called by Geany, run a script associated with a keybinding. */
 static void kb_activate(guint key_id)
 {
-  if ((key_id<MAX_HOT_KEYS) && KS[key_id]) {
+	if ((key_id<MAX_HOT_KEYS) && KS[key_id]) {
 		glspi_run_script(KS[key_id],0,NULL,SD);
-  }
+	}
 }
 
 /* Convert a script filename into a "pretty-printed" menu label. */
@@ -80,7 +80,7 @@ static gchar* fixup_label(gchar*label)
 	gint i;
 
 	if (isdigit(label[0])&&isdigit(label[1])&&('.'==label[2])&&(label[3])) {
-    memmove(label,label+3,strlen(label)-2);
+		memmove(label,label+3,strlen(label)-2);
 	}
 	/* Capitalize first char of menu label */
 	if (('_'==label[0])&&(label[1])) { /* Skip leading underscore */
@@ -278,8 +278,8 @@ static void menu_item_activate(GtkMenuItem * menuitem, gpointer gdata)
 /*
 	Check if the script file begins with a special comment in the form:
 	-- @ACCEL@ <Modifiers>key
-  If we find one, parse it, and bind that key combo to its menu item.
-  See gtk_accelerator_parse() doc for more info on accel syntax...
+	If we find one, parse it, and bind that key combo to its menu item.
+	See gtk_accelerator_parse() doc for more info on accel syntax...
 */
 static void assign_accel(GtkWidget*w, char*fn)
 {
@@ -575,10 +575,10 @@ void glspi_configure(GtkWidget *parent)
 }
 
 static gint glspi_rescan(lua_State* L) {
-  remove_menu();
-  build_menu();
+	remove_menu();
+	build_menu();
 	hotkey_init();
-  return 0;
+	return 0;
 }
 
 static const struct luaL_reg glspi_mnu_funcs[] = {

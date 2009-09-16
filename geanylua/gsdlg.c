@@ -64,7 +64,7 @@ void gsdlg_textarea(GtkDialog *dlg, GsDlgStr key, GsDlgStr value, GsDlgStr label
 	}
 	sw=gtk_scrolled_window_new(NULL, NULL);
 	gtk_widget_set_usize(sw, gdk_screen_get_width(gdk_screen_get_default())/3,
-												   gdk_screen_get_height(gdk_screen_get_default())/10);
+		gdk_screen_get_height(gdk_screen_get_default())/10);
 	gtk_container_add(GTK_CONTAINER(sw),tv);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 	frm=gtk_frame_new(label);
@@ -372,7 +372,7 @@ void gsdlg_group(GtkDialog *dlg, GsDlgStr key, GsDlgStr value, GsDlgStr label)
 		vbox=gtk_vbox_new(FALSE,FALSE);
 		gtk_container_add(GTK_CONTAINER(frm),vbox);
 		gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dlg)->vbox),frm);
-	} 
+	}
 
 	/* Frame holds keyname, vbox holds default value */
 	g_object_set_data_full(G_OBJECT(frm),  TextKey, g_strdup(key), g_free);
@@ -505,7 +505,7 @@ void gsdlg_label(GtkDialog *dlg, GsDlgStr text)
 void gsdlg_hr(GtkDialog *dlg)
 {
 	g_return_if_fail(dlg);
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dlg)->vbox), gtk_hseparator_new()); 
+	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dlg)->vbox), gtk_hseparator_new());
 }
 
 
@@ -585,10 +585,10 @@ static void widgets_foreach(GtkWidget *w, gpointer p)
 static GsDlgRunHook gsdlg_run_hook=NULL;
 
 
-#ifndef DIALOG_LIB 
+#ifndef DIALOG_LIB
 void gsdlg_set_run_hook(GsDlgRunHook cb)
 {
-  gsdlg_run_hook=cb;
+	gsdlg_run_hook=cb;
 }
 #endif
 
