@@ -147,25 +147,24 @@ static void hotkey_init(void)
 			g_strfreev(lines);
 			KG=plugin_set_key_group(glspi_geany_plugin, "lua_scripts", n, NULL);
 			for (i=0; i<n; i++) {
-				GeanyKeyBinding *kb = keybindings_get_item(KG, i);
+				gchar *label=NULL;
+				gchar *name=NULL;
 				if (KS[i]) {
 					gchar*p=NULL;
-					kb->label=g_path_get_basename(KS[i]);
-					fixup_label(kb->label);
-					p=strchr(kb->label,'_');
+					label=g_path_get_basename(KS[i]);
+					fixup_label(label);
+					p=strchr(label,'_');
 					if (p) { *p=' ';}
-					p=strrchr(kb->label, '.');
+					p=strrchr(label, '.');
 					if (p && (strcasecmp(p, ".lua")==0)) {
 						*p='\0';
 					}
-					kb->name=g_strdup_printf("lua_script_%d", i+1);
-				} else {
-					kb->label=NULL;
+					name=g_strdup_printf("lua_script_%d", i+1);
 				}
-				kb->callback = kb_activate;
 				/* no default keycombos, just overridden by user settings */
-				kb->key = 0;
-				kb->mods = 0;
+				keybindings_set_item(KG, i, kb_activate, 0, 0, name, label, NULL);
+				g_free(label);
+				g_free(name);
 			}
 		} else {
 			if (geany->app->debug_mode) {

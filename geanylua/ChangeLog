@@ -1,3 +1,7 @@
+September 16, 2009 (ntrel)
+  Fix possible memory leak; use keybindings_set_item() so we don't
+  leave Geany to free our memory (bad practice).
+
 September 1, 2009 (ntrel)
   Try loading system support library if user library fails.
   Check support library ABI version matches.
