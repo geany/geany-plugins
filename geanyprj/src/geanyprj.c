@@ -109,37 +109,11 @@ PluginCallback plugin_callbacks[] = {
 	{NULL, NULL, FALSE, NULL}
 };
 
-static void
-locale_init(void)
-{
-#ifdef ENABLE_NLS
-	gchar *locale_dir = NULL;
-
-#ifdef HAVE_LOCALE_H
-	setlocale(LC_ALL, "");
-#endif
-
-#ifdef G_OS_WIN32
-	gchar *install_dir = g_win32_get_package_installation_directory("geany", NULL);
-	/* e.g. C:\Program Files\geany\lib\locale */
-	locale_dir = g_strconcat(install_dir, "\\share\\locale", NULL);
-	g_free(install_dir);
-#else
-	locale_dir = g_strdup(LOCALEDIR);
-#endif
-
-	bindtextdomain(GETTEXT_PACKAGE, locale_dir);
-	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
-	textdomain(GETTEXT_PACKAGE);
-	g_free(locale_dir);
-#endif
-}
-
 /* Called by Geany to initialize the plugin */
 void
 plugin_init(G_GNUC_UNUSED GeanyData * data)
 {
-	locale_init();
+	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 	tools_menu_init();
 
 	xproject_init();
