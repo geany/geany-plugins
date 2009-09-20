@@ -396,10 +396,47 @@ void sc_speller_store_replacement(const gchar *old_word, const gchar *new_word)
 }
 
 
+#ifdef HAVE_ENCHANT_1_5
+/* TODO make this configurable */
+static gchar *get_dictionary_directory(void)
+{
+#ifdef G_OS_WIN32
+	gchar *path, *result;
+# if GLIB_CHECK_VERSION(2, 16, 0)
+	path = g_win32_get_package_installation_directory_of_module(NULL);
+# else
+	path = g_win32_get_package_installation_directory(NULL, NULL);
+# endif
+	result = g_build_filename(path, "dict", NULL);
+	g_free(path);
+	return result;
+#else
+	return g_build_filename(geany->app->datadir, "dict", NULL);
+#endif
+}
+#endif
+
+
 void sc_speller_init(void)
 {
-	sc_speller_broker = enchant_broker_init();
+	const gchar *old_path;
+	gchar *new_path, *dict_dir;
 
+	sc_speller_broker = enchant_broker_init();
+#if HAVE_ENCHANT_1_5
+	/* add custom dictionary path for myspell (primarily used on Windows) */
+	dict_dir = get_dictionary_directory();
+	old_path = enchant_broker_get_param(sc_speller_broker, "enchant.myspell.dictionary.path");
+	if (old_path != NULL)
+		new_path = g_strconcat(old_path, G_SEARCHPATH_SEPARATOR_S, dict_dir, NULL);
+	else
+		new_path = dict_dir;
+
+	enchant_broker_set_param(sc_speller_broker, "enchant.myspell.dictionary.path", new_path);
+	if (new_path != dict_dir)
+		g_free(dict_dir);
+	g_free(new_path);
+#endif
 	create_dicts_array();
 
 	sc_speller_reinit_enchant_dict();

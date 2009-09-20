@@ -2,6 +2,8 @@
 
  * src/scplugin.c:
    Remove more unused code.
+ * src/speller.c:
+   Add preliminary support for configurable dictionary directories.
 
 
 2009-08-09  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
