@@ -43,6 +43,7 @@ import glob
 import os
 import sys
 import tempfile
+from distutils import version
 import Build
 import Options
 import Utils
@@ -279,6 +280,10 @@ def configure(conf):
 
 	if conf.env['HAVE_GTKSPELL_2_0']:
 		conf.define('USE_GTKSPELL', 1);
+	if conf.env['HAVE_ENCHANT']:
+		enchant_version = conf.check_cfg(modversion="enchant")
+		if version.LooseVersion(enchant_version) >= version.LooseVersion('1.5.0'):
+			conf.define('HAVE_ENCHANT_1_5', 1);
 
 	if is_win32:
 		conf.define('PREFIX', '', 1)
