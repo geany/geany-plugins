@@ -25,11 +25,6 @@
 
 #include "geanyplugin.h"
 
-/*
-#ifdef G_OS_WIN32
-# include <windows.h>
-#endif
-*/
 
 #include "scplugin.h"
 #include "gui.h"
@@ -67,29 +62,6 @@ PluginCallback plugin_callbacks[] =
 	{ "update-editor-menu", (GCallback) &sc_gui_update_editor_menu_cb, FALSE, NULL },
 	{ NULL, NULL, FALSE, NULL }
 };
-
-
-/* currently unused */
-#ifdef G_OS_WIN32
-#warning TODO check Windows support
-/* On Windows we need to find the Aspell installation prefix via the Windows Registry
- * and then set the prefix in the Aspell config object. */
-static void set_up_aspell_prefix(AspellConfig *config)
-{
-	char sTemp[1024];
-	HKEY hkey;
-	DWORD len = sizeof(sTemp);
-
-	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Aspell"), 0,
-			KEY_QUERY_VALUE, &hkey) != ERROR_SUCCESS)
-		return;
-
-	if (RegQueryValueEx(hkey, NULL, 0, NULL, (LPBYTE)sTemp, &len) == ERROR_SUCCESS)
-		aspell_config_replace(config, "prefix", sTemp);
-
-	RegCloseKey(hkey);
-}
-#endif
 
 
 static void configure_response_cb(GtkDialog *dialog, gint response, gpointer user_data)
