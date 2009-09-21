@@ -1,6 +1,6 @@
 AC_PREREQ([2.61])
-AC_INIT([geany-plugins], [0.18])
-AM_INIT_AUTOMAKE([1.8 foreign dist-bzip2 tar-ustar subdir-objects])
+AC_INIT([geany-plugins], [0.17.1])
+AM_INIT_AUTOMAKE([1.8 foreign dist-bzip2 tar-ustar])
 
 AC_CONFIG_SRCDIR([po/LINGUAS])
 AC_CONFIG_HEADERS([config.h])
@@ -12,24 +12,11 @@ AC_PROG_LIBTOOL
 
 dnl i18n
 IT_PROG_INTLTOOL([0.35.0])
-GETTEXT_PACKAGE=geany-plugins
-AC_SUBST(GETTEXT_PACKAGE)
-AC_DEFINE_UNQUOTED(
-    [GETTEXT_PACKAGE],
-    ["$GETTEXT_PACKAGE"],
-    [The domain to use with gettext])
-AM_GLIB_GNU_GETTEXT
-LOCALEDIR="${datadir}/locale"
-AC_SUBST(LOCALEDIR)
+GP_I18N
 
 dnl common checks
-PKG_CHECK_MODULES([GEANY], [geany >= 0.18])
-geanypluginsdir=`${PKG_CONFIG} --variable=libdir geany`/geany
-AC_SUBST([geanypluginsdir])
-
-PKG_CHECK_MODULES([CHECK], [check >= 0.9.4],
-        [AM_CONDITIONAL(UNITTESTS, true)],
-        [AM_CONDITIONAL(UNITTESTS, false)])
+GP_CHECK_GEANY(0.18)
+GP_CHECK_UNITTESTS(0.9.4)
 
 dnl plugin checks
 GP_CHECK_ADDONS
@@ -47,3 +34,4 @@ AC_CONFIG_FILES([
     po/Makefile.in
 ])
 AC_OUTPUT
+GP_STATUS_PRINT
