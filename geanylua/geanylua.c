@@ -221,10 +221,10 @@ void plugin_init(GeanyData *data)
 
 
 PLUGIN_EXPORT
-GtkWidget *plugin_configure(G_GNUC_UNUSED GtkDialog *dialog)
+GtkWidget *plugin_configure_single(GtkWidget *parent)
 {
 	if (glspi_configure) {
-		glspi_configure(geany->main_widgets->window);
+		glspi_configure(parent);
 	} else {
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR,
 			_("The %s plugin failed to load properly.\n"
