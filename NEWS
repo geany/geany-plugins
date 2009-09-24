@@ -2,11 +2,9 @@ Geany-plugins 0.18 (t.b.d.)
 
     General:
 
-
-    Plugins:
-    * GeanyVC:
-      Update to most recent version including a entry to
-      editor menu and a check/uncheck all function on commit dialog
+    GeanyVC:
+    * Update to most recent version including an entry to editor menu
+      and a check/uncheck all function on commit dialog.
 
     Internationalisation:
 
