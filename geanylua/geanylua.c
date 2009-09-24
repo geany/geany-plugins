@@ -179,7 +179,7 @@ static gboolean load_support_lib(const gchar *libname)
 		return FALSE;
 	}
 	if (*glspi_abi != GEANY_ABI_VERSION) {
-		g_printerr(_("%s: Support library ABI mismatch: %s for %s (should be %s)!\n"),
+		g_printerr(_("%s: Support library ABI mismatch: %d for %s (should be %d)!\n"),
 			PLUGIN_NAME, *glspi_abi, libname, GEANY_ABI_VERSION);
 		fail_init();
 		return FALSE;
