@@ -74,6 +74,8 @@ static void configure_response_cb(GtkDialog *dialog, gint response, gpointer use
 
 		setptr(sc_info->default_language, gtk_combo_box_get_active_text(GTK_COMBO_BOX(
 			g_object_get_data(G_OBJECT(dialog), "combo"))));
+		setptr(sc_info->dictionary_dir, g_strdup(gtk_entry_get_text(GTK_ENTRY(
+			g_object_get_data(G_OBJECT(dialog), "dict_dir")))));
 		sc_speller_reinit_enchant_dict();
 
 		sc_info->check_while_typing = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
@@ -91,6 +93,7 @@ static void configure_response_cb(GtkDialog *dialog, gint response, gpointer use
 		g_key_file_set_boolean(config, "spellcheck", "check_while_typing", sc_info->check_while_typing);
 		g_key_file_set_boolean(config, "spellcheck", "use_msgwin", sc_info->use_msgwin);
 		g_key_file_set_boolean(config, "spellcheck", "show_toolbar_item", sc_info->show_toolbar_item);
+		g_key_file_set_string(config, "spellcheck", "dictionary_dir", sc_info->dictionary_dir);
 
 		sc_gui_update_toolbar();
 		sc_gui_update_menu();
@@ -131,6 +134,8 @@ void plugin_init(GeanyData *data)
 		"spellcheck", "check_while_typing", FALSE);
 	sc_info->show_toolbar_item = utils_get_setting_boolean(config,
 		"spellcheck", "show_toolbar_item", TRUE);
+	sc_info->dictionary_dir = utils_get_setting_string(config,
+		"spellcheck", "dictionary_dir", NULL);
 	sc_info->use_msgwin = utils_get_setting_boolean(config, "spellcheck", "use_msgwin", FALSE);
 	g_key_file_free(config);
 	g_free(default_lang);
@@ -161,9 +166,47 @@ void plugin_init(GeanyData *data)
 }
 
 
+#ifdef HAVE_ENCHANT_1_5
+static void dictionary_dir_button_clicked_cb(GtkButton *button, gpointer item)
+{
+	GtkWidget *dialog;
+	gchar *text;
+
+	/* initialize the dialog */
+	dialog = gtk_file_chooser_dialog_new(_("Select Directory"), NULL,
+					GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+					GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
+
+	text = utils_get_locale_from_utf8(gtk_entry_get_text(GTK_ENTRY(item)));
+	if (NZV(text))
+		gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), text);
+
+	/* run it */
+	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
+	{
+		gchar *utf8_filename, *tmp;
+
+		tmp = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+		utf8_filename = utils_get_utf8_from_locale(tmp);
+
+		gtk_entry_set_text(GTK_ENTRY(item), utf8_filename);
+
+		g_free(utf8_filename);
+		g_free(tmp);
+	}
+
+	gtk_widget_destroy(dialog);
+}
+#endif
+
+
 GtkWidget *plugin_configure(GtkDialog *dialog)
 {
 	GtkWidget *label, *vbox, *combo, *check_type, *check_msgwin, *check_toolbar;
+#ifdef HAVE_ENCHANT_1_5
+	GtkWidget *entry_dir, *hbox, *button, *image;
+#endif
 	guint i;
 
 	vbox = gtk_vbox_new(FALSE, 6);
@@ -204,7 +247,35 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 		gtk_combo_box_set_wrap_width(GTK_COMBO_BOX(combo), 2);
 	gtk_box_pack_start(GTK_BOX(vbox), combo, FALSE, FALSE, 6);
 
+#ifdef HAVE_ENCHANT_1_5
+	label = gtk_label_new_with_mnemonic(_("_Directory to look for dictionary files:"));
+	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
+
+	entry_dir = gtk_entry_new();
+	gtk_label_set_mnemonic_widget(GTK_LABEL(label), entry_dir);
+	ui_widget_set_tooltip_text(entry_dir,
+		_("Read additional dictionary files from this directory. "
+		  "For now, this only works with myspell dictionaries."));
+	if (NZV(sc_info->dictionary_dir))
+		gtk_entry_set_text(GTK_ENTRY(entry_dir), sc_info->dictionary_dir);
+
+	button = gtk_button_new();
+	g_signal_connect(button, "clicked",
+		G_CALLBACK(dictionary_dir_button_clicked_cb), entry_dir);
+
+	image = gtk_image_new_from_stock("gtk-open", GTK_ICON_SIZE_BUTTON);
+	gtk_container_add(GTK_CONTAINER(button), image);
+
+	hbox = gtk_hbox_new(FALSE, 6);
+	gtk_box_pack_start_defaults(GTK_BOX(hbox), entry_dir);
+	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
+
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+#endif
+
 	g_object_set_data(G_OBJECT(dialog), "combo", combo);
+	g_object_set_data(G_OBJECT(dialog), "dict_dir", entry_dir);
 	g_object_set_data(G_OBJECT(dialog), "check_type", check_type);
 	g_object_set_data(G_OBJECT(dialog), "check_msgwin", check_msgwin);
 	g_object_set_data(G_OBJECT(dialog), "check_toolbar", check_toolbar);
@@ -255,6 +326,7 @@ void plugin_cleanup(void)
 	sc_gui_free();
 	sc_speller_free();
 
+	g_free(sc_info->dictionary_dir);
 	g_free(sc_info->default_language);
 	g_free(sc_info->config_file);
 	gtk_widget_destroy(sc_info->menu_item);
