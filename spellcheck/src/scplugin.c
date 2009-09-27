@@ -272,10 +272,10 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
-#endif
 
-	g_object_set_data(G_OBJECT(dialog), "combo", combo);
 	g_object_set_data(G_OBJECT(dialog), "dict_dir", entry_dir);
+#endif
+	g_object_set_data(G_OBJECT(dialog), "combo", combo);
 	g_object_set_data(G_OBJECT(dialog), "check_type", check_type);
 	g_object_set_data(G_OBJECT(dialog), "check_msgwin", check_msgwin);
 	g_object_set_data(G_OBJECT(dialog), "check_toolbar", check_toolbar);

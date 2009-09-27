@@ -398,22 +398,24 @@ void sc_speller_store_replacement(const gchar *old_word, const gchar *new_word)
 
 void sc_speller_init(void)
 {
-	const gchar *old_path;
-	gchar *new_path, *dict_dir;
-
 	sc_speller_broker = enchant_broker_init();
 #if HAVE_ENCHANT_1_5
-	/* add custom dictionary path for myspell (primarily used on Windows) */
-	dict_dir = sc_info->dictionary_dir;
-	old_path = enchant_broker_get_param(sc_speller_broker, "enchant.myspell.dictionary.path");
-	if (old_path != NULL)
-		new_path = g_strconcat(old_path, G_SEARCHPATH_SEPARATOR_S, dict_dir, NULL);
-	else
-		new_path = dict_dir;
+	{
+		const gchar *old_path;
+		gchar *new_path, *dict_dir;
 
-	enchant_broker_set_param(sc_speller_broker, "enchant.myspell.dictionary.path", new_path);
-	if (new_path != dict_dir)
-		g_free(new_path);
+		/* add custom dictionary path for myspell (primarily used on Windows) */
+		dict_dir = sc_info->dictionary_dir;
+		old_path = enchant_broker_get_param(sc_speller_broker, "enchant.myspell.dictionary.path");
+		if (old_path != NULL)
+			new_path = g_strconcat(old_path, G_SEARCHPATH_SEPARATOR_S, dict_dir, NULL);
+		else
+			new_path = dict_dir;
+
+		enchant_broker_set_param(sc_speller_broker, "enchant.myspell.dictionary.path", new_path);
+		if (new_path != dict_dir)
+			g_free(new_path);
+	}
 #endif
 	create_dicts_array();
 
