@@ -363,39 +363,9 @@ static void init_menu(gpointer data, gpointer user_data)
 
 
 
-/*
- * Borrowed from Geany's utils_get_file_list() but modified because I want the
- * list to store the full path to each file...
- *
- * Gets a sorted list of files in the specified directory.
- * The list and the data in the list should be freed after use.
- * Returns: The list or NULL if no files found.
- */
-static GSList *get_file_list(const gchar *path)
-{
-	GSList *list = NULL;
-	GDir *dir;
-	GError *err = NULL;
-	g_return_val_if_fail(path && *path, NULL);
-	dir = g_dir_open(path, 0, &err);
-	if (dir) {
-		while (1) {
-			const gchar *filename = g_dir_read_name(dir);
-			if (!filename) { break; }
-			list = g_slist_insert_sorted(
-				list, g_strconcat(path, DIR_SEP, filename, NULL), (GCompareFunc) strcasecmp);
-		}
-		g_dir_close(dir);
-	}
-	if (err) {g_error_free(err);}
-	return list;
-}
-
-
-
 static GtkWidget* new_menu(GtkWidget *parent, gchar* script_dir, gchar*title)
 {
-	GSList *script_names=get_file_list(script_dir);
+	GSList *script_names=utils_get_file_list_full(script_dir, TRUE, TRUE, NULL);
 	if (script_names) {
 		GtkWidget *menu = gtk_menu_new();
 		GtkWidget *menu_item = gtk_menu_item_new_with_mnemonic(title);

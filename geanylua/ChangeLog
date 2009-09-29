@@ -1,3 +1,6 @@
+September 29, 2009 (ntrel)
+  Update to API 159.
+
 September 24, 2009 (ntrel)
   Use new plugin_configure_single() instead of using
   plugin_configure() wrongly.
