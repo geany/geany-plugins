@@ -1,3 +1,16 @@
+2009-09-30  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/gui.c, src/gui.h, src/scplugin.c, src/scplugin.h, src/speller.c:
+   Merge changes from trunk:
+   Allow setting a custom dictionary directory without reloading
+   the plugin.
+   Add an option to the preference dialog to select a custom
+   directory to look for additional dictionary files.
+   Minor fixes.
+   Remove unused code.
+   Use single header includes.
+
+
 2009-06-28  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
 
  * src/gui.c:

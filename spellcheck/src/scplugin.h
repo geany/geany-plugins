@@ -32,11 +32,13 @@ typedef struct
 {
 	gchar *config_file;
 	gchar *default_language;
+	gchar *dictionary_dir;
 	gboolean use_msgwin;
 	gboolean check_while_typing;
 	gboolean show_toolbar_item;
 	gulong signal_id;
 	GPtrArray *dicts;
+	GtkWidget *main_menu;
 	GtkWidget *menu_item;
 	GtkWidget *submenu_item_default;
 	GtkWidget *edit_menu;
