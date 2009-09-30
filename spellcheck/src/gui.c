@@ -142,7 +142,7 @@ static void menu_suggestion_item_activate_cb(GtkMenuItem *menuitem, gpointer gda
 }
 
 
-static void menu_addword_item_activate_cd(GtkMenuItem *menuitem, gpointer gdata)
+static void menu_addword_item_activate_cb(GtkMenuItem *menuitem, gpointer gdata)
 {
 	gint startword, endword, i, doc_len;
 	ScintillaObject *sci;
@@ -282,12 +282,12 @@ void sc_gui_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 		menu_item = image_menu_item_new(GTK_STOCK_ADD, label);
 		gtk_container_add(GTK_CONTAINER(sc_info->edit_menu_sub), menu_item);
 		g_signal_connect(menu_item, "activate",
-			G_CALLBACK(menu_addword_item_activate_cd), GINT_TO_POINTER(0));
+			G_CALLBACK(menu_addword_item_activate_cb), GINT_TO_POINTER(0));
 
 		menu_item = image_menu_item_new(GTK_STOCK_REMOVE, _("Ignore All"));
 		gtk_container_add(GTK_CONTAINER(sc_info->edit_menu_sub), menu_item);
 		g_signal_connect(menu_item, "activate",
-			G_CALLBACK(menu_addword_item_activate_cd), GINT_TO_POINTER(1));
+			G_CALLBACK(menu_addword_item_activate_cb), GINT_TO_POINTER(1));
 
 		gtk_widget_show(sc_info->edit_menu);
 		gtk_widget_show(sc_info->edit_menu_sep);
@@ -443,6 +443,7 @@ static void menu_item_toggled_cb(GtkCheckMenuItem *menuitem, gpointer gdata)
 	{
 		setptr(sc_info->default_language, g_strdup(gdata));
 		sc_speller_reinit_enchant_dict();
+		sc_gui_update_menu();
 		update_labels();
 	}
 
@@ -489,48 +490,33 @@ void sc_gui_create_edit_menu(void)
 
 void sc_gui_update_menu(void)
 {
-	GtkWidget *child, *menu = gtk_menu_item_get_submenu(GTK_MENU_ITEM(sc_info->menu_item));
-	GList *l, *children = gtk_container_get_children(GTK_CONTAINER(menu));
-
-	sc_ignore_callback = TRUE;
-	for (l = children; l != NULL; l = g_list_next(l))
-	{
-		if ((child = GTK_BIN(l->data)->child) != NULL)
-		{
-			if (GTK_IS_LABEL(child))
-			{
-				if (utils_str_equal(sc_info->default_language, gtk_label_get_text(GTK_LABEL(child))))
-					gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(l->data), TRUE);
-			}
-		}
-	}
-	sc_ignore_callback = FALSE;
-
-	update_labels();
-}
-
-
-void sc_gui_create_menu(GtkWidget *sp_item)
-{
-	GtkWidget *menu, *menu_item;
+	GtkWidget *menu_item;
 	guint i;
+	static gboolean need_init = TRUE;
 	GSList *group = NULL;
 	gchar *label;
 
-	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), sp_item);
+	if (need_init)
+	{
+		gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), sc_info->menu_item);
+		need_init = FALSE;
+	}
 
-	menu = gtk_menu_new();
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(sp_item), menu);
+	if (sc_info->main_menu != NULL)
+		gtk_widget_destroy(sc_info->main_menu);
+
+	sc_info->main_menu = gtk_menu_new();
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(sc_info->menu_item), sc_info->main_menu);
 
 	sc_info->submenu_item_default = gtk_menu_item_new_with_label(NULL);
-	gtk_container_add(GTK_CONTAINER(menu), sc_info->submenu_item_default);
+	gtk_container_add(GTK_CONTAINER(sc_info->main_menu), sc_info->submenu_item_default);
 	g_signal_connect(sc_info->submenu_item_default, "activate",
 		G_CALLBACK(menu_item_toggled_cb), NULL);
 
 	update_labels();
 
 	menu_item = gtk_separator_menu_item_new();
-	gtk_container_add(GTK_CONTAINER(menu), menu_item);
+	gtk_container_add(GTK_CONTAINER(sc_info->main_menu), menu_item);
 
 	sc_ignore_callback = TRUE;
 	for (i = 0; i < sc_info->dicts->len; i++)
@@ -540,10 +526,11 @@ void sc_gui_create_menu(GtkWidget *sp_item)
 		group = gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(menu_item));
 		if (utils_str_equal(sc_info->default_language, label))
 			gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_item), TRUE);
-		gtk_container_add(GTK_CONTAINER(menu), menu_item);
+		gtk_container_add(GTK_CONTAINER(sc_info->main_menu), menu_item);
 		g_signal_connect(menu_item, "toggled", G_CALLBACK(menu_item_toggled_cb), label);
 	}
 	sc_ignore_callback = FALSE;
+	gtk_widget_show_all(sc_info->main_menu);
 }
 
 

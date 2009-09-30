@@ -242,42 +242,6 @@ static gboolean check_default_lang(void)
 }
 
 
-void sc_speller_reinit_enchant_dict(void)
-{
-	gchar *lang = sc_info->default_language;
-
-	/* Release a previous dict object */
-	if (sc_speller_dict != NULL)
-		enchant_broker_free_dict(sc_speller_broker, sc_speller_dict);
-
-	/* Check if the stored default dictionary is (still) avaiable, fall back to the first
-	 * one in the list if not */
-	if (! check_default_lang())
-	{
-		if (sc_info->dicts->len > 0)
-		{
-			lang = g_ptr_array_index(sc_info->dicts, 0);
-			g_warning("Stored language ('%s') could not be loaded. Falling back to '%s'",
-				sc_info->default_language, lang);
-		}
-		else
-			g_warning("Stored language ('%s') could not be loaded.", sc_info->default_language);
-	}
-
-	/* Request new dict object */
-	sc_speller_dict = enchant_broker_request_dict(sc_speller_broker, lang);
-	if (sc_speller_dict == NULL)
-	{
-		broker_init_failed();
-		gtk_widget_set_sensitive(sc_info->menu_item, FALSE);
-	}
-	else
-	{
-		gtk_widget_set_sensitive(sc_info->menu_item, TRUE);
-	}
-}
-
-
 gchar *sc_speller_get_default_lang(void)
 {
 	const gchar *lang = g_getenv("LANG");
@@ -333,8 +297,24 @@ static gint sort_dicts(gconstpointer a, gconstpointer b)
 }
 
 
+static void sc_speller_dicts_free(void)
+{
+	guint i;
+	if (sc_info->dicts != NULL)
+	{
+		for (i = 0; i < sc_info->dicts->len; i++)
+		{
+			g_free(g_ptr_array_index(sc_info->dicts, i));
+		}
+		g_ptr_array_free(sc_info->dicts, TRUE);
+	}
+}
+
+
 static void create_dicts_array(void)
 {
+	sc_speller_dicts_free();
+
 	sc_info->dicts = g_ptr_array_new();
 
 	enchant_broker_list_dicts(sc_speller_broker, add_dict_array, sc_info->dicts);
@@ -396,28 +376,65 @@ void sc_speller_store_replacement(const gchar *old_word, const gchar *new_word)
 }
 
 
-void sc_speller_init(void)
+void sc_speller_reinit_enchant_dict(void)
 {
-	sc_speller_broker = enchant_broker_init();
+	gchar *lang = sc_info->default_language;
+
+	/* Release a previous dict object */
+	if (sc_speller_dict != NULL)
+		enchant_broker_free_dict(sc_speller_broker, sc_speller_dict);
+
 #if HAVE_ENCHANT_1_5
 	{
 		const gchar *old_path;
-		gchar *new_path, *dict_dir;
+		gchar *new_path;
 
 		/* add custom dictionary path for myspell (primarily used on Windows) */
-		dict_dir = sc_info->dictionary_dir;
 		old_path = enchant_broker_get_param(sc_speller_broker, "enchant.myspell.dictionary.path");
 		if (old_path != NULL)
-			new_path = g_strconcat(old_path, G_SEARCHPATH_SEPARATOR_S, dict_dir, NULL);
+			new_path = g_strconcat(
+				old_path, G_SEARCHPATH_SEPARATOR_S, sc_info->dictionary_dir, NULL);
 		else
-			new_path = dict_dir;
+			new_path = sc_info->dictionary_dir;
 
 		enchant_broker_set_param(sc_speller_broker, "enchant.myspell.dictionary.path", new_path);
-		if (new_path != dict_dir)
+		if (new_path != sc_info->dictionary_dir)
 			g_free(new_path);
 	}
 #endif
 	create_dicts_array();
+
+	/* Check if the stored default dictionary is (still) avaiable, fall back to the first
+	 * one in the list if not */
+	if (! check_default_lang())
+	{
+		if (sc_info->dicts->len > 0)
+		{
+			lang = g_ptr_array_index(sc_info->dicts, 0);
+			g_warning("Stored language ('%s') could not be loaded. Falling back to '%s'",
+				sc_info->default_language, lang);
+		}
+		else
+			g_warning("Stored language ('%s') could not be loaded.", sc_info->default_language);
+	}
+
+	/* Request new dict object */
+	sc_speller_dict = enchant_broker_request_dict(sc_speller_broker, lang);
+	if (sc_speller_dict == NULL)
+	{
+		broker_init_failed();
+		gtk_widget_set_sensitive(sc_info->menu_item, FALSE);
+	}
+	else
+	{
+		gtk_widget_set_sensitive(sc_info->menu_item, TRUE);
+	}
+}
+
+
+void sc_speller_init(void)
+{
+	sc_speller_broker = enchant_broker_init();
 
 	sc_speller_reinit_enchant_dict();
 }
@@ -425,6 +442,7 @@ void sc_speller_init(void)
 
 void sc_speller_free(void)
 {
+	sc_speller_dicts_free();
 	if (sc_speller_dict != NULL)
 		enchant_broker_free_dict(sc_speller_broker, sc_speller_dict);
 	enchant_broker_free(sc_speller_broker);

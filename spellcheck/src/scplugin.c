@@ -64,6 +64,25 @@ PluginCallback plugin_callbacks[] =
 };
 
 
+static void populate_dict_combo(GtkComboBox *combo)
+{
+	guint i;
+	GtkTreeModel *model = gtk_combo_box_get_model(combo);
+
+	gtk_list_store_clear(GTK_LIST_STORE(model));
+	for (i = 0; i < sc_info->dicts->len; i++)
+	{
+		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), g_ptr_array_index(sc_info->dicts, i));
+
+		if (utils_str_equal(g_ptr_array_index(sc_info->dicts, i), sc_info->default_language))
+			gtk_combo_box_set_active(GTK_COMBO_BOX(combo), i);
+	}
+	/* if the default language couldn't be selected, select the first available language */
+	if (gtk_combo_box_get_active(GTK_COMBO_BOX(combo)) == -1)
+		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
+}
+
+
 static void configure_response_cb(GtkDialog *dialog, gint response, gpointer user_data)
 {
 	if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY)
@@ -71,11 +90,13 @@ static void configure_response_cb(GtkDialog *dialog, gint response, gpointer use
 		GKeyFile *config = g_key_file_new();
 		gchar *data;
 		gchar *config_dir = g_path_get_dirname(sc_info->config_file);
+		GtkComboBox *combo = GTK_COMBO_BOX(g_object_get_data(G_OBJECT(dialog), "combo"));
 
-		setptr(sc_info->default_language, gtk_combo_box_get_active_text(GTK_COMBO_BOX(
-			g_object_get_data(G_OBJECT(dialog), "combo"))));
+		setptr(sc_info->default_language, gtk_combo_box_get_active_text(combo));
+#ifdef HAVE_ENCHANT_1_5
 		setptr(sc_info->dictionary_dir, g_strdup(gtk_entry_get_text(GTK_ENTRY(
 			g_object_get_data(G_OBJECT(dialog), "dict_dir")))));
+#endif
 		sc_speller_reinit_enchant_dict();
 
 		sc_info->check_while_typing = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
@@ -97,6 +118,7 @@ static void configure_response_cb(GtkDialog *dialog, gint response, gpointer use
 
 		sc_gui_update_toolbar();
 		sc_gui_update_menu();
+		populate_dict_combo(combo);
 
 		if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir(config_dir, TRUE) != 0)
 		{
@@ -151,7 +173,7 @@ void plugin_init(GeanyData *data)
 	sc_speller_init();
 
 	sc_gui_create_edit_menu();
-	sc_gui_create_menu(sc_info->menu_item);
+	sc_gui_update_menu();
 	gtk_widget_show_all(sc_info->menu_item);
 
 	sc_info->signal_id = g_signal_connect(geany->main_widgets->window,
@@ -207,7 +229,6 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 #ifdef HAVE_ENCHANT_1_5
 	GtkWidget *entry_dir, *hbox, *button, *image;
 #endif
-	guint i;
 
 	vbox = gtk_vbox_new(FALSE, 6);
 
@@ -229,17 +250,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 3);
 
 	combo = gtk_combo_box_new_text();
-
-	for (i = 0; i < sc_info->dicts->len; i++)
-	{
-		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), g_ptr_array_index(sc_info->dicts, i));
-
-		if (utils_str_equal(g_ptr_array_index(sc_info->dicts, i), sc_info->default_language))
-			gtk_combo_box_set_active(GTK_COMBO_BOX(combo), i);
-	}
-	/* if the default language couldn't be selected, select the first available language */
-	if (gtk_combo_box_get_active(GTK_COMBO_BOX(combo)) == -1)
-		gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
+	populate_dict_combo(GTK_COMBO_BOX(combo));
 
 	if (sc_info->dicts->len > 20)
 		gtk_combo_box_set_wrap_width(GTK_COMBO_BOX(combo), 3);
@@ -253,6 +264,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 
 	entry_dir = gtk_entry_new();
+	ui_entry_add_clear_icon(GTK_ENTRY(entry_dir));
 	gtk_label_set_mnemonic_widget(GTK_LABEL(label), entry_dir);
 	ui_widget_set_tooltip_text(entry_dir,
 		_("Read additional dictionary files from this directory. "
@@ -308,14 +320,6 @@ void plugin_help(void)
 
 void plugin_cleanup(void)
 {
-	guint i;
-
-	for (i = 0; i < sc_info->dicts->len; i++)
-	{
-		g_free(g_ptr_array_index(sc_info->dicts, i));
-	}
-	g_ptr_array_free(sc_info->dicts, TRUE);
-
 	g_signal_handler_disconnect(geany->main_widgets->window, sc_info->signal_id);
 
 	gtk_widget_destroy(sc_info->edit_menu);

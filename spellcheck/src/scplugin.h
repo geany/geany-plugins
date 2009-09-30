@@ -38,6 +38,7 @@ typedef struct
 	gboolean show_toolbar_item;
 	gulong signal_id;
 	GPtrArray *dicts;
+	GtkWidget *main_menu;
 	GtkWidget *menu_item;
 	GtkWidget *submenu_item_default;
 	GtkWidget *edit_menu;
