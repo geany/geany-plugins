@@ -366,7 +366,7 @@ def build(bld):
 		bld.new_task_gen(
 			features		= 'cc cshlib',
 			source			= lua_sources,
-			includes		= p.includes,
+			includes		= '. %s' % p.includes,
 			target			= 'libgeanylua',
 			uselib			= libs,
 			install_path	= '${G_PREFIX}/lib/geany-plugins/geanylua' if is_win32
@@ -389,7 +389,7 @@ def build(bld):
 		bld.new_task_gen(
 			features	= 'cc cprogram',
 			source		= [ 'geanygdb/src/ttyhelper.c' ],
-			includes	= p.includes,
+			includes	= '. %s' % p.includes,
 			target		= 'ttyhelper',
 			uselib		= libs,
 			install_path = '${TTYHELPERDIR}'
@@ -425,7 +425,7 @@ def build(bld):
 		t = bld.new_task_gen(
 			features		= 'cc cshlib',
 			source			= p.sources,
-			includes		= p.includes,
+			includes		= '. %s' % p.includes,
 			target			= p.name,
 			uselib			= libs,
 			install_path	= '${G_PREFIX}/lib' if is_win32 else '${LIBDIR}/geany/'
