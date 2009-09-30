@@ -1,5 +1,5 @@
 AC_PREREQ([2.61])
-AC_INIT([geany-plugins], [0.17.1])
+AC_INIT([geany-plugins], [0.19])
 AM_INIT_AUTOMAKE([1.8 foreign dist-bzip2 tar-ustar])
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
@@ -17,7 +17,7 @@ IT_PROG_INTLTOOL([0.35.0])
 GP_I18N
 
 dnl common checks
-GP_CHECK_GEANY(0.18)
+GP_CHECK_GEANY(0.19)
 GP_CHECK_UNITTESTS(0.9.4)
 
 dnl plugin checks
