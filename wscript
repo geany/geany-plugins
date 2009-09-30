@@ -32,12 +32,22 @@ If you need additional checks for header files, functions in libraries or
 need to check for library packages (using pkg-config), please ask Enrico
 before committing changes. Thanks.
 
+The code of this file itself loosely follows PEP 8 with some exceptions
+(line width 100 characters and some other minor things).
+
 Requires WAF 1.5.7 and Python 2.4 (or later).
 """
 
 
-import Build, Options, Utils, preproc
-import glob, os, sys, tempfile
+import glob
+import os
+import sys
+import tempfile
+from distutils import version
+import Build
+import Options
+import Utils
+import preproc
 
 
 APPNAME = 'geany-plugins'
@@ -66,9 +76,7 @@ plugins = [
 	Plugin('addons', None, [ 'addons/src' ]),
 	Plugin('geanylatex', None, [ 'geanylatex/src']),
 	Plugin('geanylipsum', None, [ 'geanylipsum/src']),
-	Plugin('geanysendmail',
-		[ 'geanysendmail/src/geanysendmail.c' ],
-		[ 'geanysendmail/src' ]),
+	Plugin('geanysendmail', None, [ 'geanysendmail/src' ]),
 	Plugin('geanyvc', None, [ 'geanyvc/src/'], [ [ 'gtkspell-2.0', '2.0', False ] ]),
 	Plugin('shiftcolumn', None, [ 'shiftcolumn/src']),
 	Plugin('spellcheck', None, [ 'spellcheck/src' ], [ [ 'enchant', '1.3', True ] ]),
@@ -79,7 +87,7 @@ plugins = [
 		   'gdb-ui-frame.c',  'gdb-ui-locn.c', 'gdb-ui-main.c',
 		   'geanydebug.c']), # source files
 		 [ 'geanygdb', 'geanygdb/src' ], # include dirs
-		 [ [ 'elf.h', '', True ] ]
+		 [ [ 'elf.h', '', False ], [ 'elf_abi.h', '', False ] ]
 		 ),
 	Plugin('geanylua',
 		 [ 'geanylua/geanylua.c' ], # the other source files are listed in build_lua()
@@ -93,15 +101,6 @@ temporary_disabled_plugins
 	Plugin('externdbg',
 		 [ 'externdbg/src/dbg.c' ], # source files
 		 [ 'externdbg', 'externdbg/src' ] # include dirs
-		 ),
-	Plugin('geanydoc',
-		 [ 'geanydoc/src/config.c', 'geanydoc/src/geanydoc.c' ], # source files
-		 [ 'geanydoc', 'geanydoc/src' ] # include dirs
-		 ),
-	Plugin('geanyprj',
-		 [ 'geanyprj/src/geanyprj.c', 'geanyprj/src/menu.c', 'geanyprj/src/project.c',
-		   'geanyprj/src/sidebar.c', 'geanyprj/src/utils.c', 'geanyprj/src/xproject.c' ],
-		 [ 'geanyprj', 'geanyprj/src' ] # include dirs
 		 ),
 	Plugin('geany-mini-script',
 		 [ 'geany-mini-script/src/gms.c', 'geany-mini-script/src/gms_gui.c' ], # source files
@@ -200,6 +199,12 @@ def configure(conf):
 
 	if not is_win32:
 		set_lib_dir()
+		# libexec (e.g. for geanygdb)
+		if Options.options.libexecdir:
+			conf.define('LIBEXECDIR', Options.options.libexecdir, 1)
+		else:
+			conf.define('LIBEXECDIR', conf.env['PREFIX'] + '/libexec', 1)
+
 
 	conf.check_cfg(package='gtk+-2.0', atleast_version='2.8.0', uselib_store='GTK',
 		mandatory=True, args='--cflags --libs')
@@ -242,6 +247,11 @@ def configure(conf):
 						if l[2]:
 							enabled_plugins.remove(p.name)
 
+	if 'geanygdb' in enabled_plugins:
+		if not conf.env['HAVE_ELF_H'] and not conf.env['HAVE_ELF_ABI_H']:
+			enabled_plugins.remove('geanygdb')
+		else:
+			conf.define('TTYHELPERDIR', conf.env['LIBEXECDIR'] + '/geany-plugins/geanygdb', 1)
 
 	# Windows specials
 	if is_win32:
@@ -266,10 +276,15 @@ def configure(conf):
 
 	if conf.env['HAVE_GTKSPELL_2_0']:
 		conf.define('USE_GTKSPELL', 1);
+	if conf.env['HAVE_ENCHANT']:
+		enchant_version = conf.check_cfg(modversion="enchant")
+		if version.LooseVersion(enchant_version) >= version.LooseVersion('1.5.0'):
+			conf.define('HAVE_ENCHANT_1_5', 1);
 
 	if is_win32:
 		conf.define('PREFIX', '', 1)
 		conf.define('LIBDIR', '', 1)
+		conf.define('LIBEXECDIR', '', 1)
 		conf.define('DOCDIR', 'doc', 1)
 		conf.define('LOCALEDIR', 'share/locale', 1)
 		# DATADIR is defined in objidl.h, so we remove it from config.h
@@ -292,18 +307,20 @@ def configure(conf):
 	print_message(conf, 'Using Geany version', geany_version)
 	if svn_rev != '-1':
 		print_message(conf, 'Compiling Subversion revision', svn_rev)
-		conf.env.append_value('CCFLAGS', '-g -O0 -DDEBUG'.split()) # -DGEANY_DISABLE_DEPRECATED')
+		conf.env.append_value('CCFLAGS', '-g -O0 -DDEBUG'.split()) # -DGEANY_DISABLE_DEPRECATED
 
 	print_message(conf, 'Plugins to compile', ' '.join(enabled_plugins))
 
 	conf.env.append_value('enabled_plugins', enabled_plugins)
 	conf.env.append_value('CCFLAGS', '-DHAVE_CONFIG_H'.split())
 
-	if is_win32: # convenience script (script content copied from the original waf.bat)
+	# convenience script (script content copied from the original waf.bat)
+	if is_win32:
 		f = open('waf.bat', 'wb')
 		f.write('@python -x %~dp0waf %* & exit /b')
 		f.close
-	else: # write a simple Makefile
+	# write a simple Makefile
+	else:
 		f = open('Makefile', 'w')
 		f.write(makefile_template)
 		f.close
@@ -316,6 +333,8 @@ def set_options(opt):
 	# Paths
 	opt.add_option('--libdir', type='string', default='',
 		help='object code libraries', dest='libdir')
+	opt.add_option('--libexecdir', type='string', default='',
+		help='program executables', dest='libexecdir')
 	# Actions
 	opt.add_option('--update-po', action='store_true', default=False,
 		help='update the message catalogs for translation', dest='update_po')
@@ -369,7 +388,7 @@ def build(bld):
 			includes	= '. %s' % p.includes,
 			target		= 'ttyhelper',
 			uselib		= libs,
-			install_path = '${LIBDIR}/geany'
+			install_path = '${TTYHELPERDIR}'
 		)
 
 	def install_docs(bld, pname, files):
@@ -378,7 +397,7 @@ def build(bld):
 		for file in files:
 			if os.path.exists(os.path.join(p.name, file)):
 				bld.install_as(
-					'%s/%s%s' % (docdir, ucFirst(file, is_win32), ext),
+					'%s/%s%s' % (docdir, uc_first(file, is_win32), ext),
 					'%s/%s' % (pname, file))
 		if pname == 'geanylatex':
 			bld.install_files('%s' % docdir, 'geanylatex/doc/geanylatex.*')
@@ -496,7 +515,7 @@ def print_message(conf, msg, result, color = 'GREEN'):
 	conf.check_message_2(result, color)
 
 
-def ucFirst(s, is_win32):
+def uc_first(s, is_win32):
 	if is_win32:
 		return s.title()
 	return s
