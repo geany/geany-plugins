@@ -2007,7 +2007,7 @@ do_current_file_menu(GtkWidget ** parent_menu, gboolean editor_menu)
 	gtk_container_add(GTK_CONTAINER(cur_file_menu), gtk_separator_menu_item_new());
 
 	/* History/log of current file */
-	menu_vc_log_file = gtk_menu_item_new_with_mnemonic(_("_History"));
+	menu_vc_log_file = gtk_menu_item_new_with_mnemonic(_("_History (log)"));
 	gtk_container_add(GTK_CONTAINER(cur_file_menu), menu_vc_log_file);
 	ui_widget_set_tooltip_text(menu_vc_log_file,
 			     _("Shows the log of the current file"));
@@ -2073,7 +2073,7 @@ do_current_dir_menu(GtkWidget ** parent_menu)
 
 	gtk_container_add(GTK_CONTAINER(cur_dir_menu), gtk_separator_menu_item_new());
 	/* History/log of the current dir */
-	menu_vc_log_dir = gtk_menu_item_new_with_mnemonic(_("_History"));
+	menu_vc_log_dir = gtk_menu_item_new_with_mnemonic(_("_History (log)"));
 	gtk_container_add(GTK_CONTAINER(cur_dir_menu), menu_vc_log_dir);
 	ui_widget_set_tooltip_text(menu_vc_log_dir,
 			     _("Shows the log of the current directory"));
@@ -2114,7 +2114,7 @@ do_basedir_menu(GtkWidget ** parent_menu)
 			 G_CALLBACK(vclog_dir_activated), NULL);
 
 	/* Complete History/Log of base directory */
-	menu_vc_log_basedir = gtk_menu_item_new_with_mnemonic(_("_History"));
+	menu_vc_log_basedir = gtk_menu_item_new_with_mnemonic(_("_History (log)"));
 	gtk_container_add(GTK_CONTAINER(basedir_menu), menu_vc_log_basedir);
 	ui_widget_set_tooltip_text(menu_vc_log_basedir,
 			     _("Shows the log of the top VC directory"));
