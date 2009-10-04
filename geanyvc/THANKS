@@ -9,6 +9,7 @@ Enrico Troeger <enrico(dot)troeger(at)uvena(dot)de> - Geany IDE author, some pat
 Jeff Pohlmeyer <yetanothergeek(at)gmail(dot)com> - INSTALL instructions stolen from him.
 Karel Kolman <kolmis(at)gmail(dot)com> - Bazaar support.
 David Kalnischkies <kalnischkies(at)gmail(dot)com> - Mercurial support
+Thomas Martitz <thomas(dot)martitz(at)student(dot)HTW-Berlin(dot)de> - Lot of improvments and patches e.g. on commit dialog
 
 Projects
 --------
