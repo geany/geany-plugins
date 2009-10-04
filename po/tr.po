@@ -4,11 +4,12 @@
 #
 # Gürkan Gür <seqizz@gmail.com>, 2009
 #
+#: ../geanyprj/src/menu.c:167
 msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.17\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-08 01:16+0200\n"
+"POT-Creation-Date: 2009-10-02 21:51+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Gürkan Gür <seqizz@gmail.com>\n"
 "Language-Team: \n"
@@ -38,10 +39,10 @@ msgstr "Eklentiler"
 msgid "Various small addons for Geany."
 msgstr "Geany için birkaç ufak eklenti."
 
-#: ../addons/src/addons.c:161 ../geanylatex/src/geanylatex.c:181
-#: ../geanysendmail/src/geanysendmail.c:151
-#: ../geanysendmail/src/geanysendmail.c:312 ../geanyvc/src/geanyvc.c:1674
-#: ../spellcheck/src/scplugin.c:129
+#: ../addons/src/addons.c:161 ../codenav/src/codenavigation.c:518
+#: ../geanylatex/src/geanylatex.c:181 ../geanysendmail/src/geanysendmail.c:151
+#: ../geanysendmail/src/geanysendmail.c:312 ../geanyvc/src/geanyvc.c:1776
+#: ../spellcheck/src/scplugin.c:126
 msgid "Plugin configuration directory could not be created."
 msgstr "Eklenti düzenleme dizini oluşturulamadı."
 
@@ -79,63 +80,106 @@ msgstr "Döküman Listesini Göster"
 msgid "Code navigation"
 msgstr "Kod gezgini"
 
-#: ../codenav/src/codenavigation.c:69
+#: ../codenav/src/codenavigation.c:70
 msgid ""
 "This plugin adds features to facilitate navigation between source files.\n"
 "As for the moment, it implements :\n"
 "- switching between a .cpp file and the corresponding .h file\n"
-"- opening a file by typing its name"
+"- [opening a file by typing its name -> TODO]"
 msgstr ""
 
-#: ../codenav/src/codenavigation.c:72
+#: ../codenav/src/codenavigation.c:73
 msgid "Lionel Fuentes"
 msgstr ""
 
-#: ../codenav/src/codenavigation.c:314
+#: ../codenav/src/codenavigation.c:315
 #, c-format
 msgid "%s not found, create it ?"
 msgstr "%s bulunamadı, oluşturulsun mu?"
 
-#: ../codenav/src/codenavigation.c:359
+#: ../codenav/src/codenavigation.c:354
 #, c-format
 msgid "(From the %s plugin)"
 msgstr "(%s eklentisinden)"
 
 #. - add the "Switch header/implementation" menu item
-#: ../codenav/src/codenavigation.c:387 ../codenav/src/codenavigation.c:404
+#: ../codenav/src/codenavigation.c:382 ../codenav/src/codenavigation.c:401
 msgid "Switch header/implementation"
 msgstr ""
 
 #. - add the "Open file by name" menu item
-#: ../codenav/src/codenavigation.c:392 ../codenav/src/codenavigation.c:411
+#: ../codenav/src/codenavigation.c:387 ../codenav/src/codenavigation.c:409
 msgid "Goto file..."
 msgstr "Dosyaya git..."
 
-#: ../codenav/src/codenavigation.c:403
+#: ../codenav/src/codenavigation.c:400
 msgid "switch_header_impl"
 msgstr ""
 
-#: ../codenav/src/codenavigation.c:410
+#: ../codenav/src/codenavigation.c:408
 msgid "goto_file"
 msgstr ""
 
 #. Add a label
-#: ../codenav/src/codenavigation.c:531
+#: ../codenav/src/codenavigation.c:587
 msgid "Code Navigation plug-in configuration"
 msgstr "Kod gezgini eklentisi ayarları"
 
 #. Add a frame for the switch header/implementation feature
-#: ../codenav/src/codenavigation.c:535
+#: ../codenav/src/codenavigation.c:591
 msgid "Switch header / implementation"
 msgstr ""
 
-#: ../codenav/src/codenavigation.c:601
+#: ../codenav/src/codenavigation.c:646
 msgid "Headers extensions"
 msgstr ""
 
-#: ../codenav/src/codenavigation.c:608
+#: ../codenav/src/codenavigation.c:653
 msgid "Implementations extensions"
 msgstr ""
+
+#. All plugins must set name, description, version and author.
+#: ../geanydoc/src/geanydoc.c:63 ../geanydoc/src/geanydoc.c:360
+msgid "Doc"
+msgstr ""
+
+#: ../geanydoc/src/geanydoc.c:63
+msgid "Call documentation viewer on current symbol."
+msgstr ""
+
+#: ../geanydoc/src/geanydoc.c:64
+msgid "Yura Siamshka <yurand2@gmail.com>"
+msgstr ""
+
+#: ../geanydoc/src/geanydoc.c:183 ../geanyvc/src/geanyvc.c:403
+msgid "Could not parse the output of command"
+msgstr ""
+
+#: ../geanydoc/src/geanydoc.c:370
+msgid "Put output in buffer"
+msgstr ""
+
+#: ../geanydoc/src/geanydoc.c:382
+msgid "Command 0:"
+msgstr ""
+
+#: ../geanydoc/src/geanydoc.c:388
+msgid "Command 1:"
+msgstr ""
+
+#: ../geanydoc/src/geanydoc.c:406
+msgid "%w will be replaced with current word\n"
+msgstr ""
+
+#: ../geanydoc/src/geanydoc.c:453
+#, fuzzy
+msgid "Document current word"
+msgstr "Döküman Yapısı"
+
+#: ../geanydoc/src/geanydoc.c:454
+#, fuzzy
+msgid "Document interactive"
+msgstr "Döküman Yapısı"
 
 #: ../geanygdb/src/gdb-io-break.c:142
 #, c-format
@@ -194,11 +238,11 @@ msgstr "GDB'den çalışma dizini ayarını alma işlemi başarısız."
 msgid "Field list too long, not all items can be displayed.\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-read.c:232
+#: ../geanygdb/src/gdb-io-read.c:230
 msgid "Error starting target process!\n"
 msgstr "Hedef işlem başlatılırken hata!\n"
 
-#: ../geanygdb/src/gdb-io-read.c:277
+#: ../geanygdb/src/gdb-io-read.c:275
 msgid ""
 "This executable does not appear to contain the required debugging "
 "information."
@@ -206,35 +250,35 @@ msgstr ""
 "Çalıştırılabilir dosya gerekli hata ayıklama bilgisine sahip değil gibi "
 "görünüyor."
 
-#: ../geanygdb/src/gdb-io-read.c:539
+#: ../geanygdb/src/gdb-io-read.c:537
 #, c-format
 msgid "Program received signal %s (%s) at %s in function %s() at %s:%s"
 msgstr "Program %s (%s) sinyali aldı,bölge %s, fonksiyon %s() %s:%s"
 
-#: ../geanygdb/src/gdb-io-read.c:590
+#: ../geanygdb/src/gdb-io-read.c:588
 #, c-format
 msgid "Watchpoint #%s out of scope"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-read.c:599
+#: ../geanygdb/src/gdb-io-read.c:597
 #, c-format
 msgid "Program exited on signal %s (%s).\n"
 msgstr "Program %s sinyali ile sonlandı (%s).\n"
 
-#: ../geanygdb/src/gdb-io-read.c:601
+#: ../geanygdb/src/gdb-io-read.c:599
 msgid "Unknown signal"
 msgstr "Bilinmeyen sinyal"
 
-#: ../geanygdb/src/gdb-io-read.c:618
+#: ../geanygdb/src/gdb-io-read.c:616
 #, c-format
 msgid "Program exited with code %d [%s]\n"
 msgstr "Program %d kodu ile sonlandı [%s]\n"
 
-#: ../geanygdb/src/gdb-io-read.c:619
+#: ../geanygdb/src/gdb-io-read.c:617
 msgid "(unknown)"
 msgstr "(bilinmiyor)"
 
-#: ../geanygdb/src/gdb-io-read.c:625
+#: ../geanygdb/src/gdb-io-read.c:623
 msgid "Program exited normally.\n"
 msgstr "Program normal olarak sonlandı.\n"
 
@@ -443,7 +487,8 @@ msgstr ""
 msgid "Select Font"
 msgstr "Yazıtipi Seçin"
 
-#: ../geanygdb/src/gdb-ui-envir.c:173
+#: ../geanygdb/src/gdb-ui-envir.c:173 ../geanyprj/src/menu.c:412
+#: ../geanyprj/src/sidebar.c:214
 msgid "Preferences"
 msgstr "Seçenekler"
 
@@ -544,223 +589,223 @@ msgstr "Fonksiyon adının satır numarası:"
 msgid "Access trigger:"
 msgstr "Tetikleyiciye ulaş:"
 
-#: ../geanygdb/src/gdb-ui-main.c:130
+#: ../geanygdb/src/gdb-ui-main.c:136
 msgid "(no program)"
 msgstr "(program yok)"
 
-#: ../geanygdb/src/gdb-ui-main.c:144
+#: ../geanygdb/src/gdb-ui-main.c:150
 msgid "loaded"
 msgstr "yüklendi"
 
-#: ../geanygdb/src/gdb-ui-main.c:149
+#: ../geanygdb/src/gdb-ui-main.c:155
 msgid "starting"
 msgstr "başlatılıyor"
 
-#: ../geanygdb/src/gdb-ui-main.c:156
+#: ../geanygdb/src/gdb-ui-main.c:162
 msgid "running"
 msgstr "çalışıyor"
 
-#: ../geanygdb/src/gdb-ui-main.c:175
+#: ../geanygdb/src/gdb-ui-main.c:181
 msgid "stopped"
 msgstr "durduruldu"
 
-#: ../geanygdb/src/gdb-ui-main.c:189
+#: ../geanygdb/src/gdb-ui-main.c:195
 msgid "terminated"
 msgstr "sonlandırıldı"
 
-#: ../geanygdb/src/gdb-ui-main.c:226
+#: ../geanygdb/src/gdb-ui-main.c:232
 msgid "paused"
 msgstr "ara verildi"
 
-#: ../geanygdb/src/gdb-ui-main.c:235
+#: ../geanygdb/src/gdb-ui-main.c:241
 msgid "Program received signal:"
 msgstr "Program sinyal aldı:"
 
-#: ../geanygdb/src/gdb-ui-main.c:304
+#: ../geanygdb/src/gdb-ui-main.c:310
 msgid "Error:"
 msgstr "Hata:"
 
-#: ../geanygdb/src/gdb-ui-main.c:484
+#: ../geanygdb/src/gdb-ui-main.c:505
 msgid "Select executable to debug"
 msgstr "Hata ayıklama için çalıştırılabilir dosya seçin"
 
-#: ../geanygdb/src/gdb-ui-main.c:507
+#: ../geanygdb/src/gdb-ui-main.c:537
 msgid "Debugging of object files is not supported."
 msgstr "Nesne dosyalarında hata ayıklama desteklenmiyor."
 
-#: ../geanygdb/src/gdb-ui-main.c:562
+#: ../geanygdb/src/gdb-ui-main.c:589
 msgid "You don't have permission to execute this file."
 msgstr "Bu dosyayı çalıştırmak için gerekli izinlere sahip değilsiniz."
 
-#: ../geanygdb/src/gdb-ui-main.c:568
+#: ../geanygdb/src/gdb-ui-main.c:595
 msgid "Debugging of shared libraries is not supported."
 msgstr "Paylaşılan kütüphanelerde hata ayıklama desteklenmiyor."
 
-#: ../geanygdb/src/gdb-ui-main.c:573
+#: ../geanygdb/src/gdb-ui-main.c:600
 msgid "Debugging of core files id not supported."
 msgstr "Temel kimlik dosyalarında hata ayıklama desteklenmiyor."
 
-#: ../geanygdb/src/gdb-ui-main.c:578
+#: ../geanygdb/src/gdb-ui-main.c:605
 msgid "Target file must be ELF 32-bit x86 executable."
 msgstr "Hedef ELF 32-bit x86 çalıştırılabilir dosyası olmalı."
 
-#: ../geanygdb/src/gdb-ui-main.c:584
+#: ../geanygdb/src/gdb-ui-main.c:611
 msgid "You don't have permission to read this file."
 msgstr "Bu dosyayı okumak için gerekli izinlere sahip değilsiniz."
 
-#: ../geanygdb/src/gdb-ui-main.c:701
+#: ../geanygdb/src/gdb-ui-main.c:728
 msgid "Run to location"
 msgstr "Konuma git"
 
-#: ../geanygdb/src/gdb-ui-main.c:820
+#: ../geanygdb/src/gdb-ui-main.c:847
 msgid "no program"
 msgstr "program yok"
 
-#: ../geanygdb/src/gdb-ui-main.c:827
+#: ../geanygdb/src/gdb-ui-main.c:854
 msgid "_Load"
 msgstr "_Yükle"
 
-#: ../geanygdb/src/gdb-ui-main.c:827
+#: ../geanygdb/src/gdb-ui-main.c:854
 msgid "Load target program into debugger."
 msgstr "Hedef programı hata ayıklayıcıya yükle."
 
-#: ../geanygdb/src/gdb-ui-main.c:829
+#: ../geanygdb/src/gdb-ui-main.c:856
 msgid "_Unload"
 msgstr "Bo_şalt"
 
-#: ../geanygdb/src/gdb-ui-main.c:830
+#: ../geanygdb/src/gdb-ui-main.c:857
 msgid "Kill the target program AND the debugger."
 msgstr "Hedef programı VE hata ayıklayıcıyı sonlandır."
 
-#: ../geanygdb/src/gdb-ui-main.c:832
+#: ../geanygdb/src/gdb-ui-main.c:859
 msgid "_Run"
 msgstr "_Çalıştır"
 
-#: ../geanygdb/src/gdb-ui-main.c:833
+#: ../geanygdb/src/gdb-ui-main.c:860
 msgid "Execute target program in debugger."
 msgstr "Hedef programı hata ayıklayıcıda çalıştır."
 
-#: ../geanygdb/src/gdb-ui-main.c:835
+#: ../geanygdb/src/gdb-ui-main.c:862
 msgid "_Kill"
 msgstr "_Öldür"
 
-#: ../geanygdb/src/gdb-ui-main.c:836
+#: ../geanygdb/src/gdb-ui-main.c:863
 msgid "Kill the target program with SIGKILL."
 msgstr "Hedef programı SIGKILL ile sonlandır."
 
-#: ../geanygdb/src/gdb-ui-main.c:838
+#: ../geanygdb/src/gdb-ui-main.c:865
 msgid "_Pause"
 msgstr "Du_rakla"
 
-#: ../geanygdb/src/gdb-ui-main.c:839
+#: ../geanygdb/src/gdb-ui-main.c:866
 msgid "Pause the target program with SIGINT."
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-main.c:841
+#: ../geanygdb/src/gdb-ui-main.c:868
 msgid "_Continue"
 msgstr "_Devam et"
 
-#: ../geanygdb/src/gdb-ui-main.c:842
+#: ../geanygdb/src/gdb-ui-main.c:869
 msgid "Continue executing target program."
 msgstr "Hedef programı çalıştırmaya devam et."
 
-#: ../geanygdb/src/gdb-ui-main.c:844
+#: ../geanygdb/src/gdb-ui-main.c:871
 msgid "_Step"
 msgstr "_Adım"
 
-#: ../geanygdb/src/gdb-ui-main.c:845
+#: ../geanygdb/src/gdb-ui-main.c:872
 msgid "Step to the next line or function call."
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-main.c:847
+#: ../geanygdb/src/gdb-ui-main.c:874
 msgid "Step _in"
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-main.c:848
+#: ../geanygdb/src/gdb-ui-main.c:875
 msgid "Execute the next machine instruction or function call."
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-main.c:849
+#: ../geanygdb/src/gdb-ui-main.c:876
 msgid "Step to the next line."
 msgstr "Gelecek satıra geç."
 
-#: ../geanygdb/src/gdb-ui-main.c:851
+#: ../geanygdb/src/gdb-ui-main.c:878
 msgid "Ne_xt in"
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-main.c:852
+#: ../geanygdb/src/gdb-ui-main.c:879
 msgid "Execute the next machine instruction."
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-main.c:854
+#: ../geanygdb/src/gdb-ui-main.c:881
 msgid "Run _to"
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-main.c:855
+#: ../geanygdb/src/gdb-ui-main.c:882
 msgid "Run to specified source line."
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-main.c:857
+#: ../geanygdb/src/gdb-ui-main.c:884
 msgid "Stac_k"
 msgstr "Yı_ğın"
 
-#: ../geanygdb/src/gdb-ui-main.c:858
+#: ../geanygdb/src/gdb-ui-main.c:885
 msgid "Display a backtrace of the current call stack."
 msgstr "Mevcut yığından geribildirim göster."
 
-#: ../geanygdb/src/gdb-ui-main.c:859
+#: ../geanygdb/src/gdb-ui-main.c:886
 msgid "Add or remove breakpoints."
 msgstr "Kesme noktası ekle/çıkart"
 
-#: ../geanygdb/src/gdb-ui-main.c:860
+#: ../geanygdb/src/gdb-ui-main.c:887
 msgid "Add or remove watchpoints."
 msgstr "İzleme noktası ekle/çıkart"
 
-#: ../geanygdb/src/gdb-ui-main.c:862
+#: ../geanygdb/src/gdb-ui-main.c:889
 msgid "_Finish"
 msgstr "_Bitir"
 
-#: ../geanygdb/src/gdb-ui-main.c:863
+#: ../geanygdb/src/gdb-ui-main.c:890
 msgid "Complete the currently executing function."
 msgstr "Yürütülen fonksiyonu tamamla."
 
-#: ../geanygdb/src/gdb-ui-main.c:865
+#: ../geanygdb/src/gdb-ui-main.c:892
 msgid "_Return"
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-main.c:866
+#: ../geanygdb/src/gdb-ui-main.c:893
 msgid "Return immediately from the current function."
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-main.c:868
+#: ../geanygdb/src/gdb-ui-main.c:895
 msgid "En_viron"
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-main.c:869
+#: ../geanygdb/src/gdb-ui-main.c:896
 msgid "Set target environment and command line options."
 msgstr "Hedef çevreyi ve komut satırı seçeneklerini ayarla."
 
-#: ../geanygdb/src/gdb-ui-main.c:871
+#: ../geanygdb/src/gdb-ui-main.c:898
 msgid "_Options"
 msgstr "_Seçenekler"
 
-#: ../geanygdb/src/gdb-ui-main.c:872
+#: ../geanygdb/src/gdb-ui-main.c:899
 msgid "Set user interface options."
 msgstr "Kullanıcı arayüzü seçeneklerini ayarla."
 
-#: ../geanygdb/src/gdb-ui-main.c:921
+#: ../geanygdb/src/gdb-ui-main.c:948
 msgid "Run in terminal"
 msgstr "Terminalde çalıştır"
 
-#: ../geanygdb/src/gdb-ui-main.c:923
+#: ../geanygdb/src/gdb-ui-main.c:950
 msgid "Execute target program inside a terminal window."
 msgstr "Hedef programı bir terminal penceresi içinde çalıştır."
 
-#: ../geanygdb/src/gdb-ui-main.c:926
+#: ../geanygdb/src/gdb-ui-main.c:953
 msgid "Ignore SIGPIPE"
 msgstr "SIGPIPE ı görmezden gel"
 
-#: ../geanygdb/src/gdb-ui-main.c:928
+#: ../geanygdb/src/gdb-ui-main.c:955
 msgid ""
 "Don't pause execution when target gets a SIGPIPE signal.\n"
 "(Useful for certain networking applications.)"
@@ -768,19 +813,19 @@ msgstr ""
 "Hedef SIGPIPE sinyali aldığında ara verme.\n"
 "(Ağ uygulamaları için kullanışlı.)"
 
-#: ../geanygdb/src/gdb-ui-main.c:935
+#: ../geanygdb/src/gdb-ui-main.c:962
 msgid "Console:"
 msgstr "Konsol:"
 
-#: ../geanygdb/src/gdb-ui-main.c:936
+#: ../geanygdb/src/gdb-ui-main.c:963
 msgid "Send a GDB command directly to the debugger."
 msgstr "Hata ayıklayıcıya direkt olarak bir GDB komutu gönder."
 
-#: ../geanygdb/src/gdb-ui-main.c:992
+#: ../geanygdb/src/gdb-ui-main.c:1019
 msgid "_Quit"
 msgstr "Çı_k"
 
-#: ../geanygdb/src/gdb-ui-main.c:992
+#: ../geanygdb/src/gdb-ui-main.c:1019
 msgid "Exit everything"
 msgstr "Herşeyden çık"
 
@@ -1629,332 +1674,352 @@ msgid ""
 "Sends the opened file as unzipped attachment by any mailer from your $PATH"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:65
+#: ../geanyvc/src/geanyvc.c:53
 msgid "VC"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:65
+#: ../geanyvc/src/geanyvc.c:53
 msgid "Interface to different Version Control systems."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:66
+#: ../geanyvc/src/geanyvc.c:54
 msgid ""
 "Yura Siamashka <yurand2@gmail.com>,\n"
 "Frank Lanitz <frank@frank.uvena.de>"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:408
-msgid "Could not parse the output of command"
-msgstr ""
-
-#: ../geanyvc/src/geanyvc.c:467
+#: ../geanyvc/src/geanyvc.c:462
 #, c-format
 msgid "geanyvc: s_spawn_sync error: %s"
 msgstr "geanyvc: s_spawn_sync hatası: %s"
 
-#: ../geanyvc/src/geanyvc.c:601 ../geanyvc/src/geanyvc.c:612
+#: ../geanyvc/src/geanyvc.c:596 ../geanyvc/src/geanyvc.c:607
 #, c-format
 msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:638 ../geanyvc/src/geanyvc.c:687
+#: ../geanyvc/src/geanyvc.c:633 ../geanyvc/src/geanyvc.c:683
 msgid "No changes were made."
 msgstr "Hiç değişiklik yapılmadı."
 
-#: ../geanyvc/src/geanyvc.c:713
+#: ../geanyvc/src/geanyvc.c:709
 msgid "No history avaible"
 msgstr "Geri al geçmişi yok"
 
-#: ../geanyvc/src/geanyvc.c:906 ../geanyvc/src/geanyvc.c:914
+#: ../geanyvc/src/geanyvc.c:902 ../geanyvc/src/geanyvc.c:910
 #, c-format
 msgid "Do you really want to revert: %s?"
 msgstr "Gerçekten geri almak istiyor musunuz: %s?"
 
-#: ../geanyvc/src/geanyvc.c:922
+#: ../geanyvc/src/geanyvc.c:918
 #, c-format
 msgid "Do you really want to add: %s?"
 msgstr "Gerçekten eklemek istiyor musunuz: %s ?"
 
-#: ../geanyvc/src/geanyvc.c:929
+#: ../geanyvc/src/geanyvc.c:925
 #, c-format
 msgid "Do you really want to remove: %s?"
 msgstr "Gerçekten kaldırmak istiyor musunuz: %s ?"
 
-#: ../geanyvc/src/geanyvc.c:952
+#: ../geanyvc/src/geanyvc.c:948
 msgid "Do you really want to update?"
 msgstr "Gerçekten güncellemek istiyor musunuz?"
 
-#: ../geanyvc/src/geanyvc.c:1152
+#: ../geanyvc/src/geanyvc.c:1211
 msgid "Commit Y/N"
 msgstr "Teslim et Y/N"
 
-#: ../geanyvc/src/geanyvc.c:1162
+#: ../geanyvc/src/geanyvc.c:1221
 msgid "Status"
 msgstr "Durum"
 
-#: ../geanyvc/src/geanyvc.c:1169
+#: ../geanyvc/src/geanyvc.c:1228
 msgid "Path"
 msgstr "Yol"
 
-#: ../geanyvc/src/geanyvc.c:1231
+#: ../geanyvc/src/geanyvc.c:1316
 msgid "Commit"
 msgstr "Teslim et"
 
-#: ../geanyvc/src/geanyvc.c:1302
+#: ../geanyvc/src/geanyvc.c:1358
+#, fuzzy
+msgid "_De-/select all files"
+msgstr "Dosya seçin"
+
+#: ../geanyvc/src/geanyvc.c:1399
 msgid "<b>Commit message:</b>"
 msgstr "<b>Teslim mesajı:</b>"
 
 #. Commit all changes
-#: ../geanyvc/src/geanyvc.c:1315 ../geanyvc/src/geanyvc.c:2171
+#: ../geanyvc/src/geanyvc.c:1412 ../geanyvc/src/geanyvc.c:2253
 msgid "_Commit"
 msgstr "_Teslim Et"
 
-#: ../geanyvc/src/geanyvc.c:1385
+#: ../geanyvc/src/geanyvc.c:1486
 msgid "Nothing to commit."
 msgstr "Teslim edilecek bir şey yok."
 
-#: ../geanyvc/src/geanyvc.c:1431
+#: ../geanyvc/src/geanyvc.c:1528
 #, c-format
 msgid "Error initializing spell checking: %s"
 msgstr "İmla denetimi yapılırken hata: %s"
 
-#: ../geanyvc/src/geanyvc.c:1443
+#: ../geanyvc/src/geanyvc.c:1540
 #, c-format
 msgid ""
 "Error while setting up language for spellchecking. Please check "
 "configuration. Error message was: %s"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1707
+#: ../geanyvc/src/geanyvc.c:1812
 msgid "Set Changed-flag for document tabs created by the plugin"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1710
+#: ../geanyvc/src/geanyvc.c:1815
 msgid ""
 "If this option is activated, every new by the VC-plugin created document tab "
 "will be marked as changed. Even this option is useful in some cases, it "
 "could cause a big number of annoying \"Do you want to save\"-dialogs."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1718
+#: ../geanyvc/src/geanyvc.c:1823
 msgid "Confirm adding new files to a VCS"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1721
+#: ../geanyvc/src/geanyvc.c:1826
 msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1728
+#: ../geanyvc/src/geanyvc.c:1832
 msgid "Maximize commit dialog"
 msgstr "Teslim diyaloğunu büyüt"
 
-#: ../geanyvc/src/geanyvc.c:1729
+#: ../geanyvc/src/geanyvc.c:1833
 msgid "Show commit dialog maximize."
 msgstr "Teslim diyaloğunu geniş göster."
 
-#: ../geanyvc/src/geanyvc.c:1736
+#: ../geanyvc/src/geanyvc.c:1839
 msgid "Use external diff viewer"
 msgstr "Harici diff görüntüleyici kullan"
 
-#: ../geanyvc/src/geanyvc.c:1738
+#: ../geanyvc/src/geanyvc.c:1841
 msgid "Use external diff viewer for file diff."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1744
+#: ../geanyvc/src/geanyvc.c:1847
+msgid "Show VC entries at editor menu"
+msgstr ""
+
+#: ../geanyvc/src/geanyvc.c:1849
+msgid "Show entries for VC functions inside editor menu"
+msgstr ""
+
+#: ../geanyvc/src/geanyvc.c:1854
 msgid "Enable CVS"
 msgstr "CVS'i etkinleştir"
 
-#: ../geanyvc/src/geanyvc.c:1749
+#: ../geanyvc/src/geanyvc.c:1859
 msgid "Enable GIT"
 msgstr "GIT'i etkinleştir"
 
-#: ../geanyvc/src/geanyvc.c:1754
+#: ../geanyvc/src/geanyvc.c:1864
 msgid "Enable SVN"
 msgstr "SVN'i etkinleştir"
 
-#: ../geanyvc/src/geanyvc.c:1759
+#: ../geanyvc/src/geanyvc.c:1869
 msgid "Enable SVK"
 msgstr "SVK'yı etkinleştir"
 
-#: ../geanyvc/src/geanyvc.c:1764
+#: ../geanyvc/src/geanyvc.c:1874
 msgid "Enable Bazaar"
 msgstr "Bazaar'ı Etkinleştir"
 
-#: ../geanyvc/src/geanyvc.c:1769
+#: ../geanyvc/src/geanyvc.c:1879
 msgid "Enable Mercurial"
 msgstr "Mercurial'i Etkinleştir"
 
-#: ../geanyvc/src/geanyvc.c:1775
+#: ../geanyvc/src/geanyvc.c:1885
 msgid "Spellcheck language"
 msgstr "İmla denetimi dili"
 
-#: ../geanyvc/src/geanyvc.c:1924
+#: ../geanyvc/src/geanyvc.c:1974
+msgid "_VC file Actions"
+msgstr ""
+
+#: ../geanyvc/src/geanyvc.c:1976
 msgid "_File"
 msgstr "_Dosya"
 
 #. Diff of current file
 #. Diff of the current dir
 #. Complete diff of base directory
-#: ../geanyvc/src/geanyvc.c:1928 ../geanyvc/src/geanyvc.c:2012
-#: ../geanyvc/src/geanyvc.c:2053
+#: ../geanyvc/src/geanyvc.c:1980 ../geanyvc/src/geanyvc.c:2057
+#: ../geanyvc/src/geanyvc.c:2097
 msgid "_Diff"
 msgstr "_Diff"
 
-#: ../geanyvc/src/geanyvc.c:1931
+#: ../geanyvc/src/geanyvc.c:1983
 msgid "Make a diff from the current active file"
 msgstr "Şimdiki aktif dosyadan bir diff dosyası oluştur"
 
 #. Revert current file
 #. Revert current dir
 #. Revert everything
-#: ../geanyvc/src/geanyvc.c:1937 ../geanyvc/src/geanyvc.c:2021
-#: ../geanyvc/src/geanyvc.c:2062
+#: ../geanyvc/src/geanyvc.c:1988 ../geanyvc/src/geanyvc.c:2066
+#: ../geanyvc/src/geanyvc.c:2105
 msgid "_Revert"
 msgstr "_Eskiye dön"
 
-#: ../geanyvc/src/geanyvc.c:1940
+#: ../geanyvc/src/geanyvc.c:1991
 msgid "Restore pristine working copy file (undo local edits)."
 msgstr ""
 
 #. Blame for current file
-#: ../geanyvc/src/geanyvc.c:1950
+#: ../geanyvc/src/geanyvc.c:2000
 msgid "_Blame"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1953
+#: ../geanyvc/src/geanyvc.c:2003
 msgid "Shows the changes made at one file per revision and author."
 msgstr ""
 
 #. History/log of current file
 #. History/log of the current dir
 #. Complete History/Log of base directory
-#: ../geanyvc/src/geanyvc.c:1961 ../geanyvc/src/geanyvc.c:2032
-#: ../geanyvc/src/geanyvc.c:2074
-msgid "_History"
+#: ../geanyvc/src/geanyvc.c:2010 ../geanyvc/src/geanyvc.c:2076
+#: ../geanyvc/src/geanyvc.c:2117
+#, fuzzy
+msgid "_History (log)"
 msgstr "_Geçmiş"
 
-#: ../geanyvc/src/geanyvc.c:1964
+#: ../geanyvc/src/geanyvc.c:2013
 msgid "Shows the log of the current file"
 msgstr "Mevcut dosyanın kayıtlarını gösterir"
 
 #. base version of the current file
-#: ../geanyvc/src/geanyvc.c:1970
+#: ../geanyvc/src/geanyvc.c:2018
 msgid "_Original"
 msgstr "_Orijinal"
 
-#: ../geanyvc/src/geanyvc.c:1973
+#: ../geanyvc/src/geanyvc.c:2021
 msgid "Shows the orignal of the current file"
 msgstr "Mevcut dosyanın orijinalini gösterir"
 
 #. add current file
-#: ../geanyvc/src/geanyvc.c:1982
+#: ../geanyvc/src/geanyvc.c:2029
 msgid "_Add to Version Control"
 msgstr "S_ürüm Kontrolüne Ekle"
 
-#: ../geanyvc/src/geanyvc.c:1984
+#: ../geanyvc/src/geanyvc.c:2031
 msgid "Add file to repository."
 msgstr "Dosyayı depoya ekle."
 
 #. remove current file
-#: ../geanyvc/src/geanyvc.c:1990
+#: ../geanyvc/src/geanyvc.c:2037
 msgid "_Remove from Version Control"
 msgstr "Sürüm Kont_rolünden Çıkart"
 
-#: ../geanyvc/src/geanyvc.c:1993
+#: ../geanyvc/src/geanyvc.c:2039
 msgid "Remove file from repository."
 msgstr "Dosyayı depodan kaldır."
 
-#: ../geanyvc/src/geanyvc.c:2009
+#: ../geanyvc/src/geanyvc.c:2054
 msgid "_Directory"
 msgstr "_Dizin"
 
-#: ../geanyvc/src/geanyvc.c:2015
+#: ../geanyvc/src/geanyvc.c:2060
 msgid "Make a diff from the directory of the current active file"
 msgstr "Şimdiki aktif dosyanın dizininden bir diff dosyası oluştur"
 
-#: ../geanyvc/src/geanyvc.c:2024
+#: ../geanyvc/src/geanyvc.c:2069
 msgid "Restore original files in the current folder (undo local edits)."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2035
+#: ../geanyvc/src/geanyvc.c:2079
 msgid "Shows the log of the current directory"
 msgstr "Mevcut klasörün kayıtlarını gösterir."
 
-#: ../geanyvc/src/geanyvc.c:2049
+#: ../geanyvc/src/geanyvc.c:2093
 msgid "_Base Directory"
 msgstr "_Temel Dizin"
 
-#: ../geanyvc/src/geanyvc.c:2056
+#: ../geanyvc/src/geanyvc.c:2099
 msgid "Make a diff from the top VC directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2064
+#: ../geanyvc/src/geanyvc.c:2107
 msgid "Revert any local edits."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2077
+#: ../geanyvc/src/geanyvc.c:2120
 msgid "Shows the log of the top VC directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2091
+#: ../geanyvc/src/geanyvc.c:2146
+#, fuzzy
+msgid "VC _Commit"
+msgstr "_Teslim Et"
+
+#: ../geanyvc/src/geanyvc.c:2179
 msgid "Show diff of file"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2093
+#: ../geanyvc/src/geanyvc.c:2181
 msgid "Show diff of directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2095
+#: ../geanyvc/src/geanyvc.c:2183
 msgid "Show diff of basedir"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2098
+#: ../geanyvc/src/geanyvc.c:2186
 msgid "Commit changes"
 msgstr "Değişiklikleri uygula"
 
-#: ../geanyvc/src/geanyvc.c:2100
+#: ../geanyvc/src/geanyvc.c:2188
 msgid "Show status"
 msgstr "Durumu göster"
 
-#: ../geanyvc/src/geanyvc.c:2102
+#: ../geanyvc/src/geanyvc.c:2190
 msgid "Revert single file"
 msgstr "Tek dosyayı eski haline getir"
 
-#: ../geanyvc/src/geanyvc.c:2104
+#: ../geanyvc/src/geanyvc.c:2192
 msgid "Revert directory"
 msgstr "Dizini eski haline getir"
 
-#: ../geanyvc/src/geanyvc.c:2106
+#: ../geanyvc/src/geanyvc.c:2194
 msgid "Revert base directory"
 msgstr "Temel dizini eski haline getir"
 
-#: ../geanyvc/src/geanyvc.c:2108
+#: ../geanyvc/src/geanyvc.c:2196
 msgid "Update file"
 msgstr "Dosyayı güncelle"
 
-#: ../geanyvc/src/geanyvc.c:2133
+#: ../geanyvc/src/geanyvc.c:2218
 msgid "_VC"
 msgstr ""
 
 #. Status of basedir
-#: ../geanyvc/src/geanyvc.c:2153
+#: ../geanyvc/src/geanyvc.c:2239
 msgid "_Status"
 msgstr "_Durum"
 
-#: ../geanyvc/src/geanyvc.c:2155
+#: ../geanyvc/src/geanyvc.c:2241
 msgid "Show status."
 msgstr "Durumu göster."
 
 #. complete update
-#: ../geanyvc/src/geanyvc.c:2162
-msgid "Update"
+#: ../geanyvc/src/geanyvc.c:2246
+#, fuzzy
+msgid "_Update"
 msgstr "Güncelle"
 
-#: ../geanyvc/src/geanyvc.c:2164
+#: ../geanyvc/src/geanyvc.c:2248
 msgid "Update from remote repositary."
 msgstr "Uzak depodan güncelle."
 
-#: ../geanyvc/src/geanyvc.c:2173
+#: ../geanyvc/src/geanyvc.c:2255
 msgid "Commit changes."
 msgstr "Değişiklikleri uygula."
 
@@ -1989,41 +2054,57 @@ msgstr "Enchant kütüphanesi yüklenemedi (%s)."
 msgid "unknown error (maybe the chosen language is not available)"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:45
+#: ../spellcheck/src/scplugin.c:40
 msgid "Spell Check"
 msgstr "imla denetimi"
 
-#: ../spellcheck/src/scplugin.c:45
+#: ../spellcheck/src/scplugin.c:40
 msgid "Checks the spelling of the current document."
 msgstr "Mevcut belgenin imla denetimini yapar."
 
-#: ../spellcheck/src/scplugin.c:46
+#: ../spellcheck/src/scplugin.c:41
 msgid "The Geany developer team"
 msgstr "Geany geliştirme takımı"
 
-#: ../spellcheck/src/scplugin.c:185
+#: ../spellcheck/src/scplugin.c:184
 msgid "Run Spell Check"
 msgstr "İmla Denetimi Yap"
 
-#: ../spellcheck/src/scplugin.c:188
+#: ../spellcheck/src/scplugin.c:187
 msgid "Toggle Check While Typing"
 msgstr "Yazarken Kontrol Et"
 
-#: ../spellcheck/src/scplugin.c:199
+#. initialize the dialog
+#: ../spellcheck/src/scplugin.c:198
+#, fuzzy
+msgid "Select Directory"
+msgstr "Dizini eski haline getir"
+
+#: ../spellcheck/src/scplugin.c:235
 msgid "Check spelling while typing"
 msgstr "Yazma sırasında imla denetimi yap"
 
-#: ../spellcheck/src/scplugin.c:203
+#: ../spellcheck/src/scplugin.c:239
 msgid "Show toolbar item to toggle spell checking"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:208
+#: ../spellcheck/src/scplugin.c:244
 msgid "Print misspelled words and suggestions in the messages window"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:212
+#: ../spellcheck/src/scplugin.c:248
 msgid "Language to use for the spell check:"
 msgstr "İmla denetimi için kullanılacak dili seçin:"
+
+#: ../spellcheck/src/scplugin.c:262
+msgid "_Directory to look for dictionary files:"
+msgstr ""
+
+#: ../spellcheck/src/scplugin.c:270
+msgid ""
+"Read additional dictionary files from this directory. For now, this only "
+"works with myspell dictionaries."
+msgstr ""
 
 #: ../spellcheck/src/gui.c:56
 msgid "Spell checking while typing is now enabled"
@@ -2033,38 +2114,38 @@ msgstr ""
 msgid "Spell checking while typing is now disabled"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:266
+#: ../spellcheck/src/gui.c:260
 msgid "More..."
 msgstr "Daha fazla..."
 
-#: ../spellcheck/src/gui.c:280
+#: ../spellcheck/src/gui.c:274
 msgid "(No Suggestions)"
 msgstr "(Öneri Yok)"
 
-#: ../spellcheck/src/gui.c:287
+#: ../spellcheck/src/gui.c:281
 #, c-format
 msgid "Add \"%s\" to Dictionary"
 msgstr "Sözlüğe Ekle: \"%s\""
 
-#: ../spellcheck/src/gui.c:293
+#: ../spellcheck/src/gui.c:287
 msgid "Ignore All"
 msgstr "Tümünü Yoksay"
 
-#: ../spellcheck/src/gui.c:412
+#: ../spellcheck/src/gui.c:406
 #, c-format
 msgid "Default (%s)"
 msgstr "Varsayılan (%s)"
 
-#: ../spellcheck/src/gui.c:413 ../spellcheck/src/gui.c:424
+#: ../spellcheck/src/gui.c:407 ../spellcheck/src/gui.c:418
 msgid "unknown"
 msgstr "bilinmeyen"
 
-#: ../spellcheck/src/gui.c:423
+#: ../spellcheck/src/gui.c:417
 #, c-format
 msgid "Toggle spell check while typing (current language: %s)"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:484
+#: ../spellcheck/src/gui.c:479
 msgid "Spelling Suggestions"
 msgstr "İmla Denetimi Önerileri"
 
@@ -2101,20 +2182,20 @@ msgid ""
 " "
 msgstr ""
 
-#: ../geanylua/glspi_init.c:430
+#: ../geanylua/glspi_init.c:390
 msgid "_Lua Scripts"
 msgstr "_Lua Betikleri"
 
-#: ../geanylua/glspi_init.c:476
+#: ../geanylua/glspi_init.c:437
 #, c-format
 msgid "     ==>> %s: Building menu from '%s'\n"
 msgstr "     ==>> %s: Menü '%s' kaynağından oluşturuluyor\n"
 
-#: ../geanylua/glspi_init.c:576
+#: ../geanylua/glspi_init.c:536
 msgid "Nothing to configure!"
 msgstr "Düzenlenecek bir şey yok!"
 
-#: ../geanylua/glspi_init.c:578
+#: ../geanylua/glspi_init.c:538
 #, c-format
 msgid ""
 "You can create the script:\n"
@@ -2145,7 +2226,7 @@ msgid ""
 "not enough arguments for command \"%s\".\n"
 msgstr ""
 
-#: ../geanylua/glspi_sci.c:651 ../geanylua/glspi_app.c:399
+#: ../geanylua/glspi_sci.c:651 ../geanylua/glspi_app.c:397
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2165,7 +2246,7 @@ msgstr ""
 msgid "<too large to display>"
 msgstr "<gösterilemeyecek kadar uzun>"
 
-#: ../geanylua/gsdlg.c:103 ../geanylua/glspi_dlg.c:421
+#: ../geanylua/gsdlg.c:103 ../geanylua/glspi_dlg.c:422
 msgid "Open file"
 msgstr "Dosya aç"
 
@@ -2189,27 +2270,32 @@ msgstr "Seç..."
 msgid "Select..."
 msgstr "Seç..."
 
-#: ../geanylua/geanylua.c:166
+#: ../geanylua/geanylua.c:159
+#, fuzzy, c-format
+msgid "%s: Can't load support library %s!\n"
+msgstr "%s: Destek kütüphanesi yüklenemedi!\n"
+
+#: ../geanylua/geanylua.c:171
+#, fuzzy, c-format
+msgid "%s: Failed to initialize support library %s!\n"
+msgstr "%s: Destek kütüphanesi kullanılamıyor!\n"
+
+#: ../geanylua/geanylua.c:176
+#, fuzzy, c-format
+msgid "%s: Support library version mismatch: %s for %s (should be %s)!\n"
+msgstr "%s: Destek kütüphanesi sürüm uyumsuzluğu: %s <=> %s\n"
+
+#: ../geanylua/geanylua.c:182
+#, fuzzy, c-format
+msgid "%s: Support library ABI mismatch: %d for %s (should be %d)!\n"
+msgstr "%s: Destek kütüphanesi sürüm uyumsuzluğu: %s <=> %s\n"
+
+#: ../geanylua/geanylua.c:211
 #, c-format
 msgid "%s: Can't find support library %s!\n"
 msgstr "%s: Destek kütüphanesi bulunamadı %s!\n"
 
-#: ../geanylua/geanylua.c:175
-#, c-format
-msgid "%s: Can't load support library!\n"
-msgstr "%s: Destek kütüphanesi yüklenemedi!\n"
-
-#: ../geanylua/geanylua.c:186
-#, c-format
-msgid "%s: Failed to initialize support library!\n"
-msgstr "%s: Destek kütüphanesi kullanılamıyor!\n"
-
-#: ../geanylua/geanylua.c:191
-#, c-format
-msgid "%s: Support library version mismatch: %s <=> %s\n"
-msgstr "%s: Destek kütüphanesi sürüm uyumsuzluğu: %s <=> %s\n"
-
-#: ../geanylua/geanylua.c:209
+#: ../geanylua/geanylua.c:230
 #, c-format
 msgid ""
 "The %s plugin failed to load properly.\n"
@@ -2248,7 +2334,7 @@ msgstr ""
 "%s %s: %s\n"
 "Copyright (c) 2007-2008 "
 
-#: ../geanylua/glspi_app.c:151
+#: ../geanylua/glspi_app.c:149
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2256,7 +2342,7 @@ msgid ""
 " "
 msgstr ""
 
-#: ../geanylua/glspi_app.c:160
+#: ../geanylua/glspi_app.c:158
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s() argument #2:\n"
@@ -2264,23 +2350,23 @@ msgid ""
 " "
 msgstr ""
 
-#: ../geanylua/glspi_dlg.c:337
+#: ../geanylua/glspi_dlg.c:338
 msgid "File exists"
 msgstr "Dosya var"
 
-#: ../geanylua/glspi_dlg.c:337
+#: ../geanylua/glspi_dlg.c:338
 msgid "Do you want to overwrite it?"
 msgstr "Üzerine yazmak ister misiniz?"
 
-#: ../geanylua/glspi_dlg.c:338
+#: ../geanylua/glspi_dlg.c:339
 msgid "confirm"
 msgstr "onayla"
 
-#: ../geanylua/glspi_dlg.c:411
+#: ../geanylua/glspi_dlg.c:412
 msgid "Save file"
 msgstr "Dosyayı kaydet"
 
-#: ../geanylua/glspi_dlg.c:437
+#: ../geanylua/glspi_dlg.c:438
 #, c-format
 msgid ""
 "Error in module \"%s\" at function pickfile():\n"
@@ -2288,7 +2374,7 @@ msgid ""
 " "
 msgstr ""
 
-#: ../geanylua/glspi_dlg.c:487
+#: ../geanylua/glspi_dlg.c:488
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2333,3 +2419,113 @@ msgstr "Betik dosyası açılamadı."
 #: ../geanylua/glspi_run.c:487
 msgid "Unknown error while loading script file."
 msgstr ""
+
+#: ../geanyprj/src/geanyprj.c:33 ../geanyprj/src/sidebar.c:449
+msgid "Project"
+msgstr ""
+
+#: ../geanyprj/src/geanyprj.c:33
+msgid "Alternative project support."
+msgstr ""
+
+#: ../geanyprj/src/geanyprj.c:34
+msgid "Yura Siamashka <yurand2@gmail.com>"
+msgstr ""
+
+#: ../geanyprj/src/menu.c:90
+#, fuzzy
+msgid "Project Preferences"
+msgstr "Seçenekler"
+
+#: ../geanyprj/src/menu.c:99 ../geanyprj/src/menu.c:381
+#: ../geanyprj/src/sidebar.c:170
+msgid "New Project"
+msgstr ""
+
+#: ../geanyprj/src/menu.c:108
+msgid "C_reate"
+msgstr ""
+
+#: ../geanyprj/src/menu.c:121
+#, fuzzy
+msgid "Name:"
+msgstr "Tarih:"
+
+#: ../geanyprj/src/menu.c:130
+msgid "Location:"
+msgstr ""
+
+#: ../geanyprj/src/menu.c:145
+msgid "Choose Project Location"
+msgstr ""
+
+#: ../geanyprj/src/menu.c:153
+msgid "Base path:"
+msgstr ""
+
+#: ../geanyprj/src/menu.c:158
+msgid ""
+"Base directory of all files that make up the project. This can be a new "
+"path, or an existing directory tree. You can use paths relative to the "
+"project filename."
+msgstr ""
+
+#: ../geanyprj/src/menu.c:161
+msgid "Choose Project Base Path"
+msgstr ""
+
+#: ../geanyprj/src/menu.c:168
+msgid "Generate file list on load"
+msgstr ""
+
+#: ../geanyprj/src/menu.c:170
+msgid ""
+"Automatically add files that match project type on project load automaticly. "
+"You can't manually add/remove files if you checked this option, since your "
+"modification will be lost on on next project load"
+msgstr ""
+
+#: ../geanyprj/src/menu.c:178
+#, fuzzy
+msgid "Type:"
+msgstr "Tür"
+
+#: ../geanyprj/src/menu.c:216
+#, c-format
+msgid "Project file \"%s\" already exists"
+msgstr ""
+
+#: ../geanyprj/src/menu.c:369
+msgid "_Project"
+msgstr ""
+
+#: ../geanyprj/src/menu.c:390 ../geanyprj/src/sidebar.c:179
+msgid "Delete Project"
+msgstr ""
+
+#: ../geanyprj/src/menu.c:401 ../geanyprj/src/sidebar.c:192
+#, fuzzy
+msgid "Add File"
+msgstr "_Dosya"
+
+#: ../geanyprj/src/menu.c:423 ../geanyprj/src/sidebar.c:227
+msgid "Find in Project"
+msgstr ""
+
+#: ../geanyprj/src/sidebar.c:201
+#, fuzzy
+msgid "Remove File"
+msgstr "Dosyayı kaydet"
+
+#: ../geanyprj/src/sidebar.c:238
+msgid "H_ide Sidebar"
+msgstr ""
+
+#: ../geanyprj/src/xproject.c:95
+#, c-format
+msgid "Project \"%s\" opened."
+msgstr ""
+
+#, fuzzy
+#~ msgid "_History (Log)"
+#~ msgstr "_Geçmiş"
