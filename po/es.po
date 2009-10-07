@@ -2,15 +2,15 @@
 # Copyright (C) 2009 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 # Andrew Janke <a.janke@gmail.com>, 2009
+# Lucas Vieites <lucas@codexion.com>, 2009
 #
-#: ../geanyprj/src/menu.c:167
 msgid ""
 msgstr ""
-"Project-Id-Version: geany-plugins 0.17\n"
+"Project-Id-Version: geany-plugins 0.19\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-02 21:51+0200\n"
-"PO-Revision-Date: 2009-06-11 10:15+0200\n"
-"Last-Translator: Andrew L Janke <a.janke@gmail.com>\n"
+"POT-Creation-Date: 2009-10-07 22:59+0200\n"
+"PO-Revision-Date: 2009-10-07 22:57+0200\n"
+"Last-Translator: Lucas Vieites <lucas@codexion.com>\n"
 "Language-Team: Spanish <geany-i18n@uvena.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,59 +19,61 @@ msgstr ""
 
 #: ../addons/src/tasks.c:298
 msgid "Tasks"
-msgstr ""
+msgstr "Tareas"
 
 #: ../addons/src/ao_openuri.c:162
 msgid "Open URI"
-msgstr ""
+msgstr "Abrir URI"
 
 #: ../addons/src/ao_openuri.c:168
 msgid "Copy URI"
-msgstr ""
+msgstr "Copiar URI"
 
 #: ../addons/src/addons.c:40
 msgid "Addons"
-msgstr ""
+msgstr "A??adidos"
 
 #: ../addons/src/addons.c:40
 msgid "Various small addons for Geany."
-msgstr ""
+msgstr "Varios peque??os a??adidos para Geany."
 
 #: ../addons/src/addons.c:161 ../codenav/src/codenavigation.c:518
 #: ../geanylatex/src/geanylatex.c:181 ../geanysendmail/src/geanysendmail.c:151
 #: ../geanysendmail/src/geanysendmail.c:312 ../geanyvc/src/geanyvc.c:1776
 #: ../spellcheck/src/scplugin.c:126
 msgid "Plugin configuration directory could not be created."
-msgstr ""
+msgstr "No se ha podido crear el directorio de configuraci??n del plugin."
 
 #: ../addons/src/addons.c:183
+#, fuzzy
 msgid "Show toolbar item to show a list of currently open documents"
 msgstr ""
+"Mostrar un bot??n en la barra para mostrar un listado de documentos abiertos"
 
 #. TODO fix the string
 #: ../addons/src/addons.c:190
 msgid "Show a 'Open URI' menu item in the editor menu"
-msgstr ""
+msgstr "Mostrar un elemento ??Abrir URI?? en el men?? ??Editar??"
 
 #: ../addons/src/addons.c:196
 msgid "Show available tasks in the Message Window"
-msgstr ""
+msgstr "Mostrar tareas disponibles en la ventana de mensajes"
 
 #: ../addons/src/addons.c:202
 msgid "Show status icon in the Notification Area"
-msgstr ""
+msgstr "Mostrar icono de estado en el ??rea de notificaci??n"
 
 #: ../addons/src/ao_doclist.c:209
 msgid "Close Ot_her Documents"
-msgstr ""
+msgstr "Cerrar los _dem??s documentos"
 
 #: ../addons/src/ao_doclist.c:214
 msgid "C_lose All"
-msgstr ""
+msgstr "_Cerrar todos"
 
 #: ../addons/src/ao_doclist.c:244
 msgid "Show Document List"
-msgstr ""
+msgstr "Mostrar lista de documentos"
 
 #. All plugins must set name, description, version and author.
 #: ../codenav/src/codenavigation.c:69

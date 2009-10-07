@@ -1,6 +1,12 @@
-2009-10-03
+2009-10-07  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
-* *.po, geany-plugins.pot:
+ * es.po: Update of Spanish translation mostly for addons
+	  plugin. Thanks to Lucas Vieites.
+
+	
+2009-10-03  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * *.po, geany-plugins.pot:
    Update of translation files and catalog with current strings.
 
 
