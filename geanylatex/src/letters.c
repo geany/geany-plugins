@@ -108,8 +108,11 @@ SubMenuTemplate glatex_char_array[] = {
 
 	/* German Umlaute */
 	{GERMAN_LETTERS, "ä","\"a"},
+	{GERMAN_LETTERS, "Ä","\"A"},
 	{GERMAN_LETTERS, "ü","\"u"},
+	{GERMAN_LETTERS, "Ü","\"U"},
 	{GERMAN_LETTERS, "ö","\"o"},
+	{GERMAN_LETTERS, "Ö","\"O"},
 	{GERMAN_LETTERS, "ß","\"s"},
 
 	/* Czech characters */

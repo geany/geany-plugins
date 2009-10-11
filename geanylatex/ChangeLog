@@ -1,3 +1,8 @@
+2009-10-11  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Backport a fix of trunk to also replace capital German Umlauts.
+
+
 2009-05-25  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * Some more clean up of code.
