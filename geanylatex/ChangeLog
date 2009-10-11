@@ -1,5 +1,10 @@
 2009-05-25  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
+ * Replace also capital letter German Umlauts.
+
+
+2009-05-25  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
  * Some more clean up of code.
  * Update of documentation for 0.4 release.
 
