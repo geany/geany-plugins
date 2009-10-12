@@ -36,18 +36,9 @@ quickly show and hide the Geany main window.
 Downloads
 ---------
 
-Addons 0.2
-^^^^^^^^^^
-
-http://plugins.geany.org/addons/addons-0.2.tar.bz2
-
-http://plugins.geany.org/addons/addons-0.2.tar.bz2.sig (GPG-Signature)
-
-or
-
-http://plugins.geany.org/addons/addons-0.2.tar.gz
-
-http://plugins.geany.org/addons/addons-0.2.tar.gz.sig (GPG-Signature)
+The Addons plugin is part of the combined Geany Plugins release.
+For more information and downloads, please visit
+http://plugins.geany.org/geany-plugins/
 
 
 Development Code
@@ -55,7 +46,7 @@ Development Code
 
 Get the code from:
 
-    svn checkout http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/addons
+    svn checkout http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geany-plugins
 
 
 Requirements
