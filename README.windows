@@ -1,0 +1,19 @@
+Geany Plugins for Windows
+=========================
+
+
+Since the Geany Plugins 0.18 release, the Windows installer contains
+a few dependency library files. Currently, these are Enchant 1.5.0 which
+is required by the Spell Check plugin and Lua 5.1 for the GeanyLua
+plugin.
+
+The installation of these dependencies is fully optional but obviously
+those plugins which depend on the libraries can't be loaded if the
+dependencies are not installed.
+
+
+Enchant 1.5.0 was downloaded from
+http://ftp.acc.umu.se/pub/gnome/binaries/win32/dependencies/.
+
+Lua 5.1 was downloaded from
+http://luaforge.net/frs/?group_id=377
