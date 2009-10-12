@@ -264,7 +264,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 
 	entry_dir = gtk_entry_new();
-	ui_entry_add_clear_icon(GTK_ENTRY(entry_dir));
+	ui_entry_add_clear_icon(GTK_WIDGET(entry_dir));
 	gtk_label_set_mnemonic_widget(GTK_LABEL(label), entry_dir);
 	ui_widget_set_tooltip_text(entry_dir,
 		_("Read additional dictionary files from this directory. "
