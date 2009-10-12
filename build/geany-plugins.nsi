@@ -31,14 +31,14 @@ RequestExecutionLevel user ; set execution level for Windows Vista
 ; helper defines  ;
 ;;;;;;;;;;;;;;;;;;;
 !define PRODUCT_NAME "Geany-Plugins"
-!define PRODUCT_VERSION "0.17"
-!define PRODUCT_VERSION_ID "0.17.0.0"
+!define PRODUCT_VERSION "0.19"
+!define PRODUCT_VERSION_ID "0.19.0.0"
 !define PRODUCT_PUBLISHER "The Geany developer team"
 !define PRODUCT_WEB_SITE "http://www.geany.org/"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_DIR_REGKEY "Software\Geany-Plugins"
 !define GEANY_DIR_REGKEY "Software\Geany"
-!define REQUIRED_GEANY_VERSION "0.17"
+!define REQUIRED_GEANY_VERSION "0.19"
 !define RESOURCEDIR "geany-plugins-${PRODUCT_VERSION}"
 
 ;;;;;;;;;;;;;;;;;;;;;
@@ -99,6 +99,9 @@ Section "!Program Files" SEC01
 	SectionIn RO 1 2
 	SetOverwrite ifnewer
 
+	SetOutPath "$INSTDIR\"
+	File "${RESOURCEDIR}\ReadMe.Windows.txt"
+
 	SetOutPath "$INSTDIR\lib"
 	File /r "${RESOURCEDIR}\lib\*"
 
@@ -119,6 +122,13 @@ Section "Documentation" SEC03
 	File /r "${RESOURCEDIR}\doc"
 SectionEnd
 
+Section "Dependencies" SEC04
+	SectionIn 1
+	SetOverwrite ifnewer
+	SetOutPath "$INSTDIR"
+	File /r "contrib\"
+SectionEnd
+
 Section -Post
 	WriteUninstaller "$INSTDIR\uninst-plugins.exe"
 	WriteRegStr SHCTX "${PRODUCT_DIR_REGKEY}" Path "$INSTDIR"
@@ -136,6 +146,7 @@ Section -Post
 SectionEnd
 
 Section Uninstall
+	Delete "$INSTDIR\ReadMe.Windows.txt"
 	Delete "$INSTDIR\uninst-plugins.exe"
 	Delete "$INSTDIR\lib\addons.dll"
 	Delete "$INSTDIR\lib\geanylatex.dll"
@@ -144,10 +155,16 @@ Section Uninstall
 	Delete "$INSTDIR\lib\geanysendmail.dll"
 	Delete "$INSTDIR\lib\geanyvc.dll"
 	Delete "$INSTDIR\lib\shiftcolumn.dll"
+	Delete "$INSTDIR\lib\spellcheck.dll"
+
+	Delete "$INSTDIR\bin\libenchant.dll"
+	Delete "$INSTDIR\bin\lua5.1.dll"
 
 	RMDir /r "$INSTDIR\doc\plugins"
 	RMDir /r "$INSTDIR\lib\geany-plugins"
 	RMDir /r "$INSTDIR\share\geany-plugins"
+	RMDir /r "$INSTDIR\lib\enchant"
+	RMDir /r "$INSTDIR\share\enchant"
 
 	FindFirst $0 $1 "$INSTDIR\share\locale\*"
 	loop:
@@ -182,6 +199,7 @@ SectionEnd
 !insertmacro MUI_DESCRIPTION_TEXT ${SEC01} "Required plugin files. You cannot skip these files."
 !insertmacro MUI_DESCRIPTION_TEXT ${SEC02} "Various translations for the included plugins."
 !insertmacro MUI_DESCRIPTION_TEXT ${SEC03} "Various documentation files for the included plugins."
+!insertmacro MUI_DESCRIPTION_TEXT ${SEC04} "Dependency files for various plugins (currently libenchant for Spell Check)."
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;;;;;;;;;;;;;;;;;;;;;
