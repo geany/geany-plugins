@@ -406,7 +406,8 @@ def build(bld):
 		if pname == 'geanylatex':
 			bld.install_files('%s' % docdir, 'geanylatex/doc/geanylatex.*')
 			bld.install_files('%s/img' % docdir, 'geanylatex/doc/img/*.png')
-
+		if is_win32:
+			bld.install_as('${G_PREFIX}/README.windows.txt', 'README.windows')
 
 	for p in plugins:
 		if not p.name in bld.env['enabled_plugins']:
