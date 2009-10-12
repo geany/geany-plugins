@@ -21,18 +21,9 @@ which can be used for the spell check.
 Downloads
 ---------
 
-Spell Check 0.4
-^^^^^^^^^^^^^^^
-
-http://plugins.geany.org/spellcheck/spellcheck-0.4.tar.bz2
-
-http://plugins.geany.org/spellcheck/spellcheck-0.4.tar.bz2.sig (GPG-Signature)
-
-or
-
-http://plugins.geany.org/spellcheck/spellcheck-0.4.tar.gz
-
-http://plugins.geany.org/spellcheck/spellcheck-0.4.tar.gz.sig (GPG-Signature)
+Spell Check is part of the combined Geany Plugins release.
+For more information and downloads, please visit
+http://plugins.geany.org/geany-plugins/
 
 
 Development Code
@@ -40,7 +31,7 @@ Development Code
 
 Get the code from:
 
-    svn checkout http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/spellcheck
+    svn checkout http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geany-plugins
 
 
 Requirements
