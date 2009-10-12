@@ -1,9 +1,15 @@
+2009-10-12  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * de.po: Update of German translation. Thanks to Dominic Hopf for
+   reviewing and updating.
+
+
 2009-10-07  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * es.po: Update of Spanish translation mostly for addons
 	  plugin. Thanks to Lucas Vieites.
 
-	
+
 2009-10-03  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * *.po, geany-plugins.pot:
