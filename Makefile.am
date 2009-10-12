@@ -1,9 +1,11 @@
 plugins = \
 	addons \
+	geadydoc \
 	geanygdb \
 	geanylatex \
 	geanylipsum \
 	geanylua \
+	geanyprj \
 	geanysendmail \
 	geanyvc \
 	shiftcolumn \

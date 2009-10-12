@@ -74,6 +74,7 @@ class Plugin:
 # add a new element for your plugin
 plugins = [
 	Plugin('addons', None, [ 'addons/src' ]),
+	Plugin('geanydoc', None, [ 'geanydoc/src']),
 	Plugin('geanylatex', None, [ 'geanylatex/src']),
 	Plugin('geanylipsum', None, [ 'geanylipsum/src']),
 	Plugin('geanysendmail', None, [ 'geanysendmail/src' ]),
@@ -89,6 +90,7 @@ plugins = [
 		 [ 'geanygdb', 'geanygdb/src' ], # include dirs
 		 [ [ 'elf.h', '', False ], [ 'elf_abi.h', '', False ] ]
 		 ),
+	Plugin('geanyprj', None, [ 'geanyprj/src']),
 	Plugin('geanylua',
 		 [ 'geanylua/geanylua.c' ], # the other source files are listed in build_lua()
 		 [ 'geanylua' ],
