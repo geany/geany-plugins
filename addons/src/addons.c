@@ -36,7 +36,7 @@ GeanyData		*geany_data;
 GeanyFunctions	*geany_functions;
 
 
-PLUGIN_VERSION_CHECK(147)
+PLUGIN_VERSION_CHECK(160)
 PLUGIN_SET_INFO(_("Addons"), _("Various small addons for Geany."), VERSION,
 	"Enrico Tröger, Bert Vermeulen")
 

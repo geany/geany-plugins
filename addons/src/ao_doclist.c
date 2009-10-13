@@ -167,11 +167,6 @@ static void ao_toolbar_item_doclist_clicked_cb(GtkWidget *button, gpointer data)
 {
 	static GtkWidget *menu = NULL;
 	GtkWidget *menu_item;
-	GtkWidget *menu_item_label;
-	guint i;
-	gchar *base_name;
-	const GdkColor *color;
-	GeanyDocument *doc;
 	GeanyDocument *current_doc = document_get_current();
 
 	if (menu != NULL)
@@ -179,29 +174,9 @@ static void ao_toolbar_item_doclist_clicked_cb(GtkWidget *button, gpointer data)
 
 	menu = gtk_menu_new();
 
-	for (i = 0; i < geany->documents_array->len; i++)
-	{
-		doc = document_index(i);
-		if (! DOC_VALID(doc))
-			continue;
+	ui_menu_add_document_items(GTK_MENU(menu), current_doc,
+		G_CALLBACK(ao_doclist_menu_item_activate_cb));
 
-		base_name = g_path_get_basename(DOC_FILENAME(doc));
-		menu_item = gtk_menu_item_new_with_label(base_name);
-		gtk_widget_show(menu_item);
-		gtk_container_add(GTK_CONTAINER(menu), menu_item);
-		g_signal_connect(menu_item, "activate", G_CALLBACK(ao_doclist_menu_item_activate_cb), doc);
-
-		color = document_get_status_color(doc);
-		menu_item_label = gtk_bin_get_child(GTK_BIN(menu_item));
-		gtk_widget_modify_fg(menu_item_label, GTK_STATE_NORMAL, color);
-		gtk_widget_modify_fg(menu_item_label, GTK_STATE_ACTIVE, color);
-		if (doc == current_doc)
-		{
-			setptr(base_name, g_strconcat("<b>", base_name, "</b>", NULL));
-			gtk_label_set_markup(GTK_LABEL(menu_item_label), base_name);
-		}
-		g_free(base_name);
-	}
 	menu_item = gtk_separator_menu_item_new();
 	gtk_widget_show(menu_item);
 	gtk_container_add(GTK_CONTAINER(menu), menu_item);
