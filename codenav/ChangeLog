@@ -1,3 +1,10 @@
+2009-10-14  Nick Treleaven  <nick(dot)treleaven(at)btinternet(dot)com>
+
+ * src/codenavigation.c:
+   Fix building on GLib < 2.16.
+   Declare variable before code for ISO C90.
+
+
 2009-07-19  Lionel Fuentes  <funto66@gmail.com>
 
  * src/codenav.c: Initial import

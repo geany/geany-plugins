@@ -96,6 +96,18 @@ enum
 
 PLUGIN_KEY_GROUP(code_navigation, PLUGIN_KEYS_NUMBER)
 
+#if !GLIB_CHECK_VERSION(2, 16, 0)
+int
+g_strcmp0(const char *str1, const char *str2)
+{
+	if (!str1)
+		return -(str1 != str2);
+	if (!str2)
+		return str1 != str2;
+	return strcmp(str1, str2);
+}
+#endif
+
 /* Utility function, which returns a newly-allocated string containing the
  * extension of the file path which is given, or NULL if it did not found any extension.
  */
@@ -306,9 +318,11 @@ switch_menu_item_activate(guint key_id)
 
 		/* Third : if not found, ask the user if he wants to create it or not. */
 		{
+			GtkWidget* dialog;
+
 			p_str = g_strdup_printf("%s.%s", basename_no_extension, (const gchar*)(p_extensions_to_test->data));
 
-			GtkWidget* dialog = gtk_message_dialog_new(	GTK_WINDOW(geany_data->main_widgets->window),
+			dialog = gtk_message_dialog_new(	GTK_WINDOW(geany_data->main_widgets->window),
 														GTK_DIALOG_MODAL,
 														GTK_MESSAGE_QUESTION,
 														GTK_BUTTONS_OK_CANCEL,
