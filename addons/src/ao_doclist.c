@@ -136,7 +136,6 @@ static void ao_popup_position_menu(GtkMenu *menu, gint *x, gint *y, gboolean *pu
 static void ao_doclist_menu_item_activate_cb(GtkMenuItem *menuitem, gpointer data)
 {
 	GeanyDocument *doc = data;
-	gchar *locale_filename;
 
 	if (GPOINTER_TO_INT(data) == ACTION_CLOSE_OTHER)
 	{
@@ -154,12 +153,8 @@ static void ao_doclist_menu_item_activate_cb(GtkMenuItem *menuitem, gpointer dat
 	if (! DOC_VALID(doc))
 		return;
 
-	locale_filename = utils_get_locale_from_utf8(doc->file_name);
-	/* Go the easy way and let document_open_file() handle finding the right document and
-	 * switch the notebook page accordingly. */
-	document_open_file(locale_filename, FALSE, NULL, NULL);
-
-	g_free(locale_filename);
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(geany->main_widgets->notebook),
+		document_get_notebook_page(doc));
 }
 
 

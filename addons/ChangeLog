@@ -1,3 +1,9 @@
+2009-10-14  Nick Treleaven  <nick(dot)treleaven(at)btinternet(dot)com>
+
+ * src/ao_doclist.c, src/addons.c:
+   Fix switching to an untitled document with the tool button.
+
+
 2009-10-13  Nick Treleaven  <nick(dot)treleaven(at)btinternet(dot)com>
 
  * src/ao_doclist.c, src/addons.c:
