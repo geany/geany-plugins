@@ -1,6 +1,6 @@
 plugins = \
 	addons \
-	geadydoc \
+	geanydoc \
 	geanygdb \
 	geanylatex \
 	geanylipsum \
