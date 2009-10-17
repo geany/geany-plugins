@@ -1,3 +1,8 @@
+2009-10-17  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * intl_stats.sh: Add i18n-stats script copied from Geany.
+
+
 2009-10-12  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * de.po: Update of German translation. Thanks to Dominic Hopf for
