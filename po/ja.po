@@ -3,10 +3,9 @@
 # This file is distributed under the same license as the geany-plugins package.
 # Masami Chikahiro <cmasa.z321@gmail.com>, 2009.
 #
-#: ../geanyprj/src/menu.c:167
 msgid ""
 msgstr ""
-"Project-Id-Version: geany-plugins 0.17\n"
+"Project-Id-Version: geany-plugins 0.18\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-10-02 21:51+0200\n"
 "PO-Revision-Date: 2009-07-19 13:40+0900\n"
@@ -76,7 +75,7 @@ msgstr "文書一覧を表示"
 #. All plugins must set name, description, version and author.
 #: ../codenav/src/codenavigation.c:69
 msgid "Code navigation"
-msgstr ""
+msgstr "コードナビ"
 
 #: ../codenav/src/codenavigation.c:70
 msgid ""
@@ -85,72 +84,74 @@ msgid ""
 "- switching between a .cpp file and the corresponding .h file\n"
 "- [opening a file by typing its name -> TODO]"
 msgstr ""
+"このプラグインはソースファイルを移動する機能を追加します。\n"
+"現時点で、次の機能があります。\n"
+"- .cpp ファイルと対応する .h ファイル間の切り替え\n"
+"- [名前を入力するとファイルを開く -> TODO]"
 
 #: ../codenav/src/codenavigation.c:73
 msgid "Lionel Fuentes"
-msgstr ""
+msgstr "Lionel Fuentes"
 
 #: ../codenav/src/codenavigation.c:315
 #, c-format
 msgid "%s not found, create it ?"
-msgstr ""
+msgstr "%s はありません。作成しますか?"
 
 #: ../codenav/src/codenavigation.c:354
 #, c-format
 msgid "(From the %s plugin)"
-msgstr ""
+msgstr "(%s プラグインより)"
 
 #. - add the "Switch header/implementation" menu item
 #: ../codenav/src/codenavigation.c:382 ../codenav/src/codenavigation.c:401
 msgid "Switch header/implementation"
-msgstr ""
+msgstr "ヘッダとソースの切り替え"
 
 #. - add the "Open file by name" menu item
 #: ../codenav/src/codenavigation.c:387 ../codenav/src/codenavigation.c:409
 msgid "Goto file..."
-msgstr ""
+msgstr "ファイルに移動..."
 
 #: ../codenav/src/codenavigation.c:400
 msgid "switch_header_impl"
-msgstr ""
+msgstr "switch_header_impl"
 
 #: ../codenav/src/codenavigation.c:408
 msgid "goto_file"
-msgstr ""
+msgstr "goto_file"
 
 #. Add a label
 #: ../codenav/src/codenavigation.c:587
 msgid "Code Navigation plug-in configuration"
-msgstr ""
+msgstr "コードナビ プラグイン設定"
 
 #. Add a frame for the switch header/implementation feature
 #: ../codenav/src/codenavigation.c:591
 msgid "Switch header / implementation"
-msgstr ""
+msgstr "ヘッダとソースの切り替え"
 
 #: ../codenav/src/codenavigation.c:646
 msgid "Headers extensions"
-msgstr ""
+msgstr "ヘッダの拡張子"
 
 #: ../codenav/src/codenavigation.c:653
 msgid "Implementations extensions"
-msgstr ""
+msgstr "ソースの拡張子"
 
 #. All plugins must set name, description, version and author.
 #: ../geanydoc/src/geanydoc.c:63 ../geanydoc/src/geanydoc.c:360
 msgid "Doc"
-msgstr ""
+msgstr "Doc"
 
 #: ../geanydoc/src/geanydoc.c:63
+#, fuzzy
 msgid "Call documentation viewer on current symbol."
-msgstr ""
+msgstr "現在のシンボルに文書ビューワを呼び出します"
 
 #: ../geanydoc/src/geanydoc.c:64
-#, fuzzy
 msgid "Yura Siamshka <yurand2@gmail.com>"
-msgstr ""
-"Yura Siamashka <yurand2@gmail.com>,\n"
-"Frank Lanitz <frank@frank.uvena.de>"
+msgstr "Yura Siamashka <yurand2@gmail.com>"
 
 #: ../geanydoc/src/geanydoc.c:183 ../geanyvc/src/geanyvc.c:403
 msgid "Could not parse the output of command"
@@ -158,29 +159,28 @@ msgstr "コマンド出力を解析できません"
 
 #: ../geanydoc/src/geanydoc.c:370
 msgid "Put output in buffer"
-msgstr ""
+msgstr "バッファに出力"
 
 #: ../geanydoc/src/geanydoc.c:382
 msgid "Command 0:"
-msgstr ""
+msgstr "コマンド 0:"
 
 #: ../geanydoc/src/geanydoc.c:388
 msgid "Command 1:"
-msgstr ""
+msgstr "コマンド 1:"
 
 #: ../geanydoc/src/geanydoc.c:406
 msgid "%w will be replaced with current word\n"
-msgstr ""
+msgstr "%w は現在の単語に置き換えられます\n"
 
 #: ../geanydoc/src/geanydoc.c:453
-#, fuzzy
 msgid "Document current word"
-msgstr "Document Structure"
+msgstr "文書の現在の単語"
 
 #: ../geanydoc/src/geanydoc.c:454
 #, fuzzy
 msgid "Document interactive"
-msgstr "Document Structure"
+msgstr "文書の挙動"
 
 #: ../geanygdb/src/gdb-io-break.c:142
 #, c-format
@@ -1914,9 +1914,8 @@ msgid "Commit"
 msgstr "コミット"
 
 #: ../geanyvc/src/geanyvc.c:1358
-#, fuzzy
 msgid "_De-/select all files"
-msgstr "ファイルを選択"
+msgstr "すべてのファイルを選択/解除(_D)"
 
 #: ../geanyvc/src/geanyvc.c:1399
 msgid "<b>Commit message:</b>"
@@ -1985,13 +1984,12 @@ msgid "Use external diff viewer for file diff."
 msgstr "ファイルの差分を表示するのに外部のdiffビューアを使用します。"
 
 #: ../geanyvc/src/geanyvc.c:1847
-#, fuzzy
 msgid "Show VC entries at editor menu"
-msgstr "'URIを開く'をエディタのメニューに追加"
+msgstr "'VCエントリー'をエディタのメニューに追加"
 
 #: ../geanyvc/src/geanyvc.c:1849
 msgid "Show entries for VC functions inside editor menu"
-msgstr ""
+msgstr "エディタメニュー内にVCの機能を表示"
 
 #: ../geanyvc/src/geanyvc.c:1854
 msgid "Enable CVS"
@@ -2023,7 +2021,7 @@ msgstr "スペルチェック言語"
 
 #: ../geanyvc/src/geanyvc.c:1974
 msgid "_VC file Actions"
-msgstr ""
+msgstr "_VC ファイル アクション"
 
 #: ../geanyvc/src/geanyvc.c:1976
 msgid "_File"
@@ -2067,9 +2065,8 @@ msgstr "ファイルの変更履歴を版ごと修正者ごとに表示"
 #. Complete History/Log of base directory
 #: ../geanyvc/src/geanyvc.c:2010 ../geanyvc/src/geanyvc.c:2076
 #: ../geanyvc/src/geanyvc.c:2117
-#, fuzzy
 msgid "_History (log)"
-msgstr "履歴(_H)"
+msgstr "履歴ログ(_H)"
 
 #: ../geanyvc/src/geanyvc.c:2013
 msgid "Shows the log of the current file"
@@ -2135,9 +2132,8 @@ msgid "Shows the log of the top VC directory"
 msgstr "バージョン管理ディレクトリのログを表示"
 
 #: ../geanyvc/src/geanyvc.c:2146
-#, fuzzy
 msgid "VC _Commit"
-msgstr "コミット(_C)"
+msgstr "VC コミット(_C)"
 
 #: ../geanyvc/src/geanyvc.c:2179
 msgid "Show diff of file"
@@ -2190,9 +2186,8 @@ msgstr "状態を表示"
 
 #. complete update
 #: ../geanyvc/src/geanyvc.c:2246
-#, fuzzy
 msgid "_Update"
-msgstr "更新"
+msgstr "更新(_U)"
 
 #: ../geanyvc/src/geanyvc.c:2248
 msgid "Update from remote repositary."
@@ -2225,7 +2220,7 @@ msgid "The checked text is spelled correctly."
 msgstr "検査した文字の綴りは正しいです。"
 
 #: ../spellcheck/src/speller.c:221
-#, fuzzy, c-format
+#, c-format
 msgid "The Enchant library couldn't be initialized (%s)."
 msgstr "Enchantライブラリを初期化できません(%s)。"
 
@@ -2255,9 +2250,8 @@ msgstr "入力中のチェックを有効/無効"
 
 #. initialize the dialog
 #: ../spellcheck/src/scplugin.c:198
-#, fuzzy
 msgid "Select Directory"
-msgstr "ディレクトリを元に戻す"
+msgstr "ディレクトリを選択"
 
 #: ../spellcheck/src/scplugin.c:235
 msgid "Check spelling while typing"
@@ -2277,13 +2271,15 @@ msgstr "スペルチェックの言語:"
 
 #: ../spellcheck/src/scplugin.c:262
 msgid "_Directory to look for dictionary files:"
-msgstr ""
+msgstr "辞書ファイルを探すディレクトリ(_D):"
 
 #: ../spellcheck/src/scplugin.c:270
 msgid ""
 "Read additional dictionary files from this directory. For now, this only "
 "works with myspell dictionaries."
 msgstr ""
+"このディレクトリから追加の辞書を読み込みます。"
+"現時点では、myspell 辞書のみ動作します。"
 
 #: ../spellcheck/src/gui.c:56
 msgid "Spell checking while typing is now enabled"
@@ -2473,24 +2469,24 @@ msgid "Select..."
 msgstr "選択..."
 
 #: ../geanylua/geanylua.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Can't load support library %s!\n"
-msgstr "%s: サポートライブラリをロードできません!\n"
+msgstr "%s: サポートライブラリ %s をロードできません!\n"
 
 #: ../geanylua/geanylua.c:171
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Failed to initialize support library %s!\n"
-msgstr "%s: サポートライブラリの初期化に失敗!\n"
+msgstr "%s: サポートライブラリ %s の初期化に失敗!\n"
 
 #: ../geanylua/geanylua.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Support library version mismatch: %s for %s (should be %s)!\n"
-msgstr "%s: サポートライブラリのバージョンが不一致: %s <=> %s\n"
+msgstr "%s: サポートライブラリのバージョンが不一致: %s for %s (%s であるべきです)!\n"
 
 #: ../geanylua/geanylua.c:182
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Support library ABI mismatch: %d for %s (should be %d)!\n"
-msgstr "%s: サポートライブラリのバージョンが不一致: %s <=> %s\n"
+msgstr "%s: サポートライブラリABIが不一致: %d for %s (%d であるべきです)!\n"
 
 #: ../geanylua/geanylua.c:211
 #, c-format
@@ -2642,49 +2638,44 @@ msgstr "スクリプトファイル読み込み時の不明なエラー"
 
 #: ../geanyprj/src/geanyprj.c:33 ../geanyprj/src/sidebar.c:449
 msgid "Project"
-msgstr ""
+msgstr "プロジェクト"
 
 #: ../geanyprj/src/geanyprj.c:33
 msgid "Alternative project support."
-msgstr ""
+msgstr "別のプロジェクト管理プラグイン"
 
 #: ../geanyprj/src/geanyprj.c:34
-#, fuzzy
 msgid "Yura Siamashka <yurand2@gmail.com>"
-msgstr ""
-"Yura Siamashka <yurand2@gmail.com>,\n"
-"Frank Lanitz <frank@frank.uvena.de>"
+msgstr "Yura Siamashka <yurand2@gmail.com>"
 
 #: ../geanyprj/src/menu.c:90
-#, fuzzy
 msgid "Project Preferences"
-msgstr "設定"
+msgstr "プロジェクトの設定"
 
 #: ../geanyprj/src/menu.c:99 ../geanyprj/src/menu.c:381
 #: ../geanyprj/src/sidebar.c:170
 msgid "New Project"
-msgstr ""
+msgstr "新規プロジェクト"
 
 #: ../geanyprj/src/menu.c:108
 msgid "C_reate"
-msgstr ""
+msgstr "作成(_R)"
 
 #: ../geanyprj/src/menu.c:121
-#, fuzzy
 msgid "Name:"
-msgstr "日付:"
+msgstr "名前:"
 
 #: ../geanyprj/src/menu.c:130
 msgid "Location:"
-msgstr ""
+msgstr "場所:"
 
 #: ../geanyprj/src/menu.c:145
 msgid "Choose Project Location"
-msgstr ""
+msgstr "プロジェクトの場所を選択"
 
 #: ../geanyprj/src/menu.c:153
 msgid "Base path:"
-msgstr ""
+msgstr "基本パス:"
 
 #: ../geanyprj/src/menu.c:158
 msgid ""
@@ -2692,14 +2683,17 @@ msgid ""
 "path, or an existing directory tree. You can use paths relative to the "
 "project filename."
 msgstr ""
+"すべてのファイルの基本パスは、プロジェクトを定義します。"
+"新規のパス、または既存のディレクトリを指定できます。"
+"プロジェクトファイル名の相対パスを使用できます。"
 
 #: ../geanyprj/src/menu.c:161
 msgid "Choose Project Base Path"
-msgstr ""
+msgstr "プロジェクトの基本パスを選択"
 
 #: ../geanyprj/src/menu.c:168
 msgid "Generate file list on load"
-msgstr ""
+msgstr "ロード時にファイル一覧を生成"
 
 #: ../geanyprj/src/menu.c:170
 msgid ""
@@ -2707,48 +2701,48 @@ msgid ""
 "You can't manually add/remove files if you checked this option, since your "
 "modification will be lost on on next project load"
 msgstr ""
+"自動的にファイルを追加は、プロジェクトのプロジェクトの種類に一致したファイルを自動的にロードします。"
+"このオプションを選択すると、あなたは手動でファイルの追加や削除ができなくなります。"
+"あなたが手作業でした変更は次回にプロジェクトがロードされたときに失われます。"
 
 #: ../geanyprj/src/menu.c:178
-#, fuzzy
 msgid "Type:"
-msgstr "Type"
+msgstr "種類:"
 
 #: ../geanyprj/src/menu.c:216
 #, c-format
 msgid "Project file \"%s\" already exists"
-msgstr ""
+msgstr "プロジェクトファイル \"%s\" は既に存在します"
 
 #: ../geanyprj/src/menu.c:369
 msgid "_Project"
-msgstr ""
+msgstr "プロジェクト(_P)"
 
 #: ../geanyprj/src/menu.c:390 ../geanyprj/src/sidebar.c:179
 msgid "Delete Project"
-msgstr ""
+msgstr "プロジェクトを削除"
 
 #: ../geanyprj/src/menu.c:401 ../geanyprj/src/sidebar.c:192
-#, fuzzy
 msgid "Add File"
-msgstr "ファイル(_F)"
+msgstr "ファイルを追加"
 
 #: ../geanyprj/src/menu.c:423 ../geanyprj/src/sidebar.c:227
 msgid "Find in Project"
-msgstr ""
+msgstr "プロジェクト内を検索"
 
 #: ../geanyprj/src/sidebar.c:201
-#, fuzzy
 msgid "Remove File"
-msgstr "ファイルを保存"
+msgstr "ファイルを削除"
 
 #: ../geanyprj/src/sidebar.c:238
 msgid "H_ide Sidebar"
-msgstr ""
+msgstr "サイドバーを隠す(_I)"
 
 #: ../geanyprj/src/xproject.c:95
 #, c-format
 msgid "Project \"%s\" opened."
-msgstr ""
+msgstr "プロジェクト \"%s\" が開かれました"
 
 #, fuzzy
 #~ msgid "_History (Log)"
-#~ msgstr "履歴(_H)"
+#~ msgstr "履歴ログ(_H)"
