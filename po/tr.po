@@ -4,14 +4,12 @@
 #
 # Gürkan Gür <seqizz@gmail.com>, 2009
 #
-#: ../geanyprj/src/menu.c:167
-msgid ""
-msgstr ""
-"Project-Id-Version: geany-plugins 0.17\n"
+
+"Project-Id-Version: geany-plugins 0.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-02 21:51+0200\n"
+"POT-Creation-Date: 2009-10-18 01:11+0200\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Gürkan Gür <seqizz@gmail.com>\n"
+"Last-Translator: Gürkan 'seqizz' Gür <seqizz@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,7 +37,7 @@ msgstr "Eklentiler"
 msgid "Various small addons for Geany."
 msgstr "Geany için birkaç ufak eklenti."
 
-#: ../addons/src/addons.c:161 ../codenav/src/codenavigation.c:518
+#: ../addons/src/addons.c:161 ../codenav/src/codenavigation.c:532
 #: ../geanylatex/src/geanylatex.c:181 ../geanysendmail/src/geanysendmail.c:151
 #: ../geanysendmail/src/geanysendmail.c:312 ../geanyvc/src/geanyvc.c:1776
 #: ../spellcheck/src/scplugin.c:126
@@ -57,21 +55,21 @@ msgstr ""
 
 #: ../addons/src/addons.c:196
 msgid "Show available tasks in the Message Window"
-msgstr ""
+msgstr "Mesaj penceresinde erişilebilir görevleri göster"
 
 #: ../addons/src/addons.c:202
 msgid "Show status icon in the Notification Area"
-msgstr ""
+msgstr "Bildiri alanında durum simgesi göster"
 
-#: ../addons/src/ao_doclist.c:209
+#: ../addons/src/ao_doclist.c:179
 msgid "Close Ot_her Documents"
 msgstr "Di_ğer Dosyaları Kapat"
 
-#: ../addons/src/ao_doclist.c:214
+#: ../addons/src/ao_doclist.c:184
 msgid "C_lose All"
 msgstr "Tümü_nü Kapat"
 
-#: ../addons/src/ao_doclist.c:244
+#: ../addons/src/ao_doclist.c:214
 msgid "Show Document List"
 msgstr "Döküman Listesini Göster"
 
@@ -92,49 +90,49 @@ msgstr ""
 msgid "Lionel Fuentes"
 msgstr ""
 
-#: ../codenav/src/codenavigation.c:315
+#: ../codenav/src/codenavigation.c:329
 #, c-format
 msgid "%s not found, create it ?"
 msgstr "%s bulunamadı, oluşturulsun mu?"
 
-#: ../codenav/src/codenavigation.c:354
+#: ../codenav/src/codenavigation.c:368
 #, c-format
 msgid "(From the %s plugin)"
 msgstr "(%s eklentisinden)"
 
 #. - add the "Switch header/implementation" menu item
-#: ../codenav/src/codenavigation.c:382 ../codenav/src/codenavigation.c:401
+#: ../codenav/src/codenavigation.c:396 ../codenav/src/codenavigation.c:415
 msgid "Switch header/implementation"
 msgstr ""
 
 #. - add the "Open file by name" menu item
-#: ../codenav/src/codenavigation.c:387 ../codenav/src/codenavigation.c:409
+#: ../codenav/src/codenavigation.c:401 ../codenav/src/codenavigation.c:423
 msgid "Goto file..."
 msgstr "Dosyaya git..."
 
-#: ../codenav/src/codenavigation.c:400
+#: ../codenav/src/codenavigation.c:414
 msgid "switch_header_impl"
 msgstr ""
 
-#: ../codenav/src/codenavigation.c:408
+#: ../codenav/src/codenavigation.c:422
 msgid "goto_file"
 msgstr ""
 
 #. Add a label
-#: ../codenav/src/codenavigation.c:587
+#: ../codenav/src/codenavigation.c:601
 msgid "Code Navigation plug-in configuration"
 msgstr "Kod gezgini eklentisi ayarları"
 
 #. Add a frame for the switch header/implementation feature
-#: ../codenav/src/codenavigation.c:591
+#: ../codenav/src/codenavigation.c:605
 msgid "Switch header / implementation"
 msgstr ""
 
-#: ../codenav/src/codenavigation.c:646
+#: ../codenav/src/codenavigation.c:660
 msgid "Headers extensions"
 msgstr ""
 
-#: ../codenav/src/codenavigation.c:653
+#: ../codenav/src/codenavigation.c:667
 msgid "Implementations extensions"
 msgstr ""
 
@@ -161,25 +159,23 @@ msgstr ""
 
 #: ../geanydoc/src/geanydoc.c:382
 msgid "Command 0:"
-msgstr ""
+msgstr "Komut 0:"
 
 #: ../geanydoc/src/geanydoc.c:388
 msgid "Command 1:"
-msgstr ""
+msgstr "Komut 1:"
 
 #: ../geanydoc/src/geanydoc.c:406
 msgid "%w will be replaced with current word\n"
-msgstr ""
+msgstr "%w mevcut cümle ile yer değiştirecek\n"
 
 #: ../geanydoc/src/geanydoc.c:453
-#, fuzzy
 msgid "Document current word"
-msgstr "Döküman Yapısı"
+msgstr ""
 
 #: ../geanydoc/src/geanydoc.c:454
-#, fuzzy
 msgid "Document interactive"
-msgstr "Döküman Yapısı"
+msgstr ""
 
 #: ../geanygdb/src/gdb-io-break.c:142
 #, c-format
@@ -743,7 +739,7 @@ msgstr ""
 
 #: ../geanygdb/src/gdb-ui-main.c:882
 msgid "Run to specified source line."
-msgstr ""
+msgstr "Belirtilen kod satırına gider."
 
 #: ../geanygdb/src/gdb-ui-main.c:884
 msgid "Stac_k"
@@ -913,7 +909,7 @@ msgstr "Döküman sınıfı:"
 
 #: ../geanylatex/src/geanylatex.c:748
 msgid "Choose the kind of document you want to write"
-msgstr ""
+msgstr "Yazmak istediğiniz döküman türünü seçin"
 
 #: ../geanylatex/src/geanylatex.c:750 ../geanylatex/src/bibtexlabels.c:27
 msgid "Book"
@@ -992,7 +988,7 @@ msgstr "Kağıt boyutu:"
 
 #: ../geanylatex/src/geanylatex.c:840
 msgid "Choose the paper format for the newly created document"
-msgstr ""
+msgstr "Yeni oluşturulmuş döküman için kağıt türünü seçin"
 
 #. Building the wizard-dialog and showing it
 #: ../geanylatex/src/geanylatex.c:855
@@ -1090,6 +1086,10 @@ msgid ""
 "\n"
 "Please report all bugs or feature requests to one of the authors."
 msgstr ""
+"GeanyLaTeX eklentisi Geany'e gelişmiş LaTeX desteği için yazılmıştır.\n"
+"\n"
+"Lütfen hataları ve istekleri eklenti geliştiricilerinden bir tanesine "
+"bildirin."
 
 #: ../geanylatex/src/geanylatex.c:1174
 msgid "_LaTeX"
@@ -1101,7 +1101,7 @@ msgstr "LaTeX-Sihirbaz_ı"
 
 #: ../geanylatex/src/geanylatex.c:1183
 msgid "Starts a Wizard to easily create LaTeX-documents"
-msgstr ""
+msgstr "LaTeX dökümanları kolay oluşturmak için sihirbazı başlatır"
 
 #: ../geanylatex/src/geanylatex.c:1188
 msgid "Insert _Special Character"
@@ -1109,7 +1109,7 @@ msgstr "_Özel Karakter Ekle"
 
 #: ../geanylatex/src/geanylatex.c:1190
 msgid "Helps to use some not very common letters and signs"
-msgstr ""
+msgstr "Yaygın olmayan harf ve işaretleri kullanmaya yardımcı olur"
 
 #: ../geanylatex/src/geanylatex.c:1200
 msgid "Insert _Reference"
@@ -1125,7 +1125,7 @@ msgstr "Etiket Ek_le"
 
 #: ../geanylatex/src/geanylatex.c:1209
 msgid "Helps at inserting labels to a document"
-msgstr ""
+msgstr "Bir dökümana etiket eklemeye yardımcı olur"
 
 #: ../geanylatex/src/geanylatex.c:1215
 msgid "Insert _Environment"
@@ -1148,18 +1148,16 @@ msgid "_Special Character Replacement"
 msgstr "Özel Karakter Yer De_ğişimi"
 
 #: ../geanylatex/src/geanylatex.c:1264
-#, fuzzy
 msgid "Bulk _Replace Special Characters"
-msgstr "Özel HTML karakterler_i Ekle"
+msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1266
 msgid "_Replace selected special cahracters with TeX substitutes"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1274
-#, fuzzy
 msgid "Toggle _Special Character Replacement"
-msgstr "Özel karakterlerin toplu yer değişimi"
+msgstr ""
 
 #: ../geanylatex/src/latexencodings.c:37
 msgid "UTF-8"
@@ -1215,9 +1213,8 @@ msgid "Greek letters"
 msgstr "Yunan harfleri"
 
 #: ../geanylatex/src/letters.c:40
-#, fuzzy
 msgid "German umlauts"
-msgstr "Almanca (Almanya)"
+msgstr ""
 
 #: ../geanylatex/src/letters.c:42
 msgid "Arrow characters"
@@ -1228,9 +1225,8 @@ msgid "Relational"
 msgstr ""
 
 #: ../geanylatex/src/letters.c:44
-#, fuzzy
 msgid "Binary operation"
-msgstr "İşlem başarısız oldu"
+msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:28
 msgid "Booklet"
@@ -1309,9 +1305,8 @@ msgid "Editor"
 msgstr "Düzenleyici"
 
 #: ../geanylatex/src/bibtexlabels.c:51
-#, fuzzy
 msgid "E-print"
-msgstr "Yazdır"
+msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:52
 msgid "HowPublished"
@@ -1485,7 +1480,7 @@ msgstr "Cilt numarası"
 
 #: ../geanylatex/src/bibtexlabels.c:124
 msgid "Year of publication or creation if unpublished"
-msgstr ""
+msgstr "Yayın tarihi, yayınlanmamışsa oluşturulma tarihi"
 
 #: ../geanylatex/src/formatpatterns.c:38
 msgid "Italic"
@@ -1622,7 +1617,7 @@ msgstr ""
 
 #: ../geanysendmail/src/geanysendmail.c:201
 msgid "File has to be saved before sending."
-msgstr ""
+msgstr "Dosya gönderilmeden önce kaydedilmeli."
 
 #: ../geanysendmail/src/geanysendmail.c:217
 msgid "Mail"
@@ -1654,11 +1649,11 @@ msgstr "Araç çubuğunda simge gösteriliyor"
 
 #: ../geanysendmail/src/geanysendmail.c:353
 msgid "Shows a icon in the toolbar to send file more easy."
-msgstr ""
+msgstr "Dosyaları daha kolay göndermek için araç çubuğunda bir simge gösterir."
 
 #: ../geanysendmail/src/geanysendmail.c:359
 msgid "Using dialog for entering email address of recipients"
-msgstr ""
+msgstr "Alıcıların e-posta adresleri için dialog kullanımı"
 
 #: ../geanysendmail/src/geanysendmail.c:384
 msgid "Send file by mail"
@@ -1742,9 +1737,8 @@ msgid "Commit"
 msgstr "Teslim et"
 
 #: ../geanyvc/src/geanyvc.c:1358
-#, fuzzy
 msgid "_De-/select all files"
-msgstr "Dosya seçin"
+msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:1399
 msgid "<b>Commit message:</b>"
@@ -1770,6 +1764,8 @@ msgid ""
 "Error while setting up language for spellchecking. Please check "
 "configuration. Error message was: %s"
 msgstr ""
+"İmla denetimi için dil ayarlanmasında hata. Lütfen yapılandırmayı kontrol "
+"edin. Hata mesajı: %s"
 
 #: ../geanyvc/src/geanyvc.c:1812
 msgid "Set Changed-flag for document tabs created by the plugin"
@@ -1956,9 +1952,8 @@ msgid "Shows the log of the top VC directory"
 msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:2146
-#, fuzzy
 msgid "VC _Commit"
-msgstr "_Teslim Et"
+msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:2179
 msgid "Show diff of file"
@@ -2011,9 +2006,8 @@ msgstr "Durumu göster."
 
 #. complete update
 #: ../geanyvc/src/geanyvc.c:2246
-#, fuzzy
 msgid "_Update"
-msgstr "Güncelle"
+msgstr "G_üncelle"
 
 #: ../geanyvc/src/geanyvc.c:2248
 msgid "Update from remote repositary."
@@ -2076,9 +2070,8 @@ msgstr "Yazarken Kontrol Et"
 
 #. initialize the dialog
 #: ../spellcheck/src/scplugin.c:198
-#, fuzzy
 msgid "Select Directory"
-msgstr "Dizini eski haline getir"
+msgstr "Dizin Seçin"
 
 #: ../spellcheck/src/scplugin.c:235
 msgid "Check spelling while typing"
@@ -2094,7 +2087,7 @@ msgstr ""
 
 #: ../spellcheck/src/scplugin.c:248
 msgid "Language to use for the spell check:"
-msgstr "İmla denetimi için kullanılacak dili seçin:"
+msgstr "İmla denetimi için kullanılacak dil:"
 
 #: ../spellcheck/src/scplugin.c:262
 msgid "_Directory to look for dictionary files:"
@@ -2225,6 +2218,8 @@ msgid ""
 "Error in module \"%s\" at function %s():\n"
 "not enough arguments for command \"%s\".\n"
 msgstr ""
+"\"%s\" modülü %s() fonksiyonunda hata:\n"
+"\"%s\" komutu için yeterli argüman girilmedi.\n"
 
 #: ../geanylua/glspi_sci.c:651 ../geanylua/glspi_app.c:397
 #, c-format
@@ -2271,24 +2266,24 @@ msgid "Select..."
 msgstr "Seç..."
 
 #: ../geanylua/geanylua.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Can't load support library %s!\n"
-msgstr "%s: Destek kütüphanesi yüklenemedi!\n"
+msgstr "%s: Destek kütüphanesi %s yüklenemedi!\n"
 
 #: ../geanylua/geanylua.c:171
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Failed to initialize support library %s!\n"
-msgstr "%s: Destek kütüphanesi kullanılamıyor!\n"
+msgstr "%s: Destek kütüphanesi %s kullanılamıyor!\n"
 
 #: ../geanylua/geanylua.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Support library version mismatch: %s for %s (should be %s)!\n"
-msgstr "%s: Destek kütüphanesi sürüm uyumsuzluğu: %s <=> %s\n"
+msgstr ""
 
 #: ../geanylua/geanylua.c:182
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Support library ABI mismatch: %d for %s (should be %d)!\n"
-msgstr "%s: Destek kütüphanesi sürüm uyumsuzluğu: %s <=> %s\n"
+msgstr ""
 
 #: ../geanylua/geanylua.c:211
 #, c-format
@@ -2418,11 +2413,11 @@ msgstr "Betik dosyası açılamadı."
 
 #: ../geanylua/glspi_run.c:487
 msgid "Unknown error while loading script file."
-msgstr ""
+msgstr "Betik dosyasını yüklerken bilinmeyen hata."
 
 #: ../geanyprj/src/geanyprj.c:33 ../geanyprj/src/sidebar.c:449
 msgid "Project"
-msgstr ""
+msgstr "Proje"
 
 #: ../geanyprj/src/geanyprj.c:33
 msgid "Alternative project support."
@@ -2430,38 +2425,36 @@ msgstr ""
 
 #: ../geanyprj/src/geanyprj.c:34
 msgid "Yura Siamashka <yurand2@gmail.com>"
-msgstr ""
+msgstr "Yura Siamashka <yurand2@gmail.com>"
 
 #: ../geanyprj/src/menu.c:90
-#, fuzzy
 msgid "Project Preferences"
-msgstr "Seçenekler"
+msgstr "Proje Seçenekleri"
 
 #: ../geanyprj/src/menu.c:99 ../geanyprj/src/menu.c:381
 #: ../geanyprj/src/sidebar.c:170
 msgid "New Project"
-msgstr ""
+msgstr "Yeni Proje"
 
 #: ../geanyprj/src/menu.c:108
 msgid "C_reate"
-msgstr ""
+msgstr "Oluştu_r"
 
 #: ../geanyprj/src/menu.c:121
-#, fuzzy
 msgid "Name:"
-msgstr "Tarih:"
+msgstr "İsim:"
 
 #: ../geanyprj/src/menu.c:130
 msgid "Location:"
-msgstr ""
+msgstr "Konum:"
 
 #: ../geanyprj/src/menu.c:145
 msgid "Choose Project Location"
-msgstr ""
+msgstr "Proje Konumunu Seçin"
 
 #: ../geanyprj/src/menu.c:153
 msgid "Base path:"
-msgstr ""
+msgstr "Temel dizin:"
 
 #: ../geanyprj/src/menu.c:158
 msgid ""
@@ -2469,10 +2462,12 @@ msgid ""
 "path, or an existing directory tree. You can use paths relative to the "
 "project filename."
 msgstr ""
+"Projenin tüm dosyaları için kullanılacak en üst dizin. Yeni bir dizin "
+"oluşturabilir veya varolan bir dizini kullanabilirsiniz."
 
 #: ../geanyprj/src/menu.c:161
 msgid "Choose Project Base Path"
-msgstr ""
+msgstr "Proje Temel Dizinini Seçin"
 
 #: ../geanyprj/src/menu.c:168
 msgid "Generate file list on load"
@@ -2486,45 +2481,42 @@ msgid ""
 msgstr ""
 
 #: ../geanyprj/src/menu.c:178
-#, fuzzy
 msgid "Type:"
-msgstr "Tür"
+msgstr "Tür:"
 
 #: ../geanyprj/src/menu.c:216
 #, c-format
 msgid "Project file \"%s\" already exists"
-msgstr ""
+msgstr "Proje dosyası \"%s\" zaten mevcut"
 
 #: ../geanyprj/src/menu.c:369
 msgid "_Project"
-msgstr ""
+msgstr "_Proje"
 
 #: ../geanyprj/src/menu.c:390 ../geanyprj/src/sidebar.c:179
 msgid "Delete Project"
-msgstr ""
+msgstr "Projeyi Sil"
 
 #: ../geanyprj/src/menu.c:401 ../geanyprj/src/sidebar.c:192
-#, fuzzy
 msgid "Add File"
-msgstr "_Dosya"
+msgstr "Dosya Ekle"
 
 #: ../geanyprj/src/menu.c:423 ../geanyprj/src/sidebar.c:227
 msgid "Find in Project"
-msgstr ""
+msgstr "Projede Ara"
 
 #: ../geanyprj/src/sidebar.c:201
-#, fuzzy
 msgid "Remove File"
-msgstr "Dosyayı kaydet"
+msgstr "Dosyayı Kaldır"
 
 #: ../geanyprj/src/sidebar.c:238
 msgid "H_ide Sidebar"
-msgstr ""
+msgstr "Yan Panel_i Gizle"
 
 #: ../geanyprj/src/xproject.c:95
 #, c-format
 msgid "Project \"%s\" opened."
-msgstr ""
+msgstr "\"%s\" projesi açıldı."
 
 #, fuzzy
 #~ msgid "_History (Log)"

@@ -1,3 +1,8 @@
+2009-10-18  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * tr.po: Update of Turkish translation. Thanks to Türkan Gür.
+
+
 2009-10-17  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * intl_stats.sh: Add i18n-stats script copied from Geany.
