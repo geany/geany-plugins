@@ -1,7 +1,8 @@
 2009-10-17  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * intl_stats.sh: Add i18n-stats script copied from Geany.
- ja.po: Update of Japanese translation. Thanks to Masami Chikahiro.
+ * ja.po: Update of Japanese translation. Thanks to Masami Chikahiro.
+ * pt_PT.po: Update of Portugese translation. Thanks to André Glória.
 
 
 2009-10-12  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
