@@ -2,6 +2,8 @@
 
  * intl_stats.sh: Add i18n-stats script copied from Geany.
  * ja.po: Update of Japanese translation. Thanks to Masami Chikahiro.
+ * pt_BR.po: Update of Brasilian Portuguese translation. Thanks to
+   Adrovane Marques Kade.
  * pt_PT.po: Update of Portuguese translation. Thanks to André Glória.
  * pt.po/pt_PT.po: Rename Portuguese translation to just pt.po.
 
@@ -14,8 +16,8 @@
 
 2009-10-07  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
- * es.po: Update of Spanish translation mostly for addons
-	  plugin. Thanks to Lucas Vieites.
+ * es.po: Update of Spanish translation mostly for addons plugin.
+   Thanks to Lucas Vieites.
 
 
 2009-10-03  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>

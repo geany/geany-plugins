@@ -2,12 +2,12 @@
 # Copyright (C) 2009 GEANY'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Adrovane Marques Kade <adrovane@gmail.com>, 2009.
-#: ../geanyprj/src/menu.c:167
+
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany Plugins 0.17.1\n"
+"Project-Id-Version: Geany Plugins 0.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-02 21:51+0200\n"
+"POT-Creation-Date: 2009-10-17 22:15+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Adrovane Marques Kade <adrovane@gmail.com>\n"
 "Language-Team: Adrovane Marques Kade <adrovane@gmail.com>\n"
@@ -37,7 +37,7 @@ msgstr "Complementos"
 msgid "Various small addons for Geany."
 msgstr "Diversos pequenos complementos para o Geany."
 
-#: ../addons/src/addons.c:161 ../codenav/src/codenavigation.c:518
+#: ../addons/src/addons.c:161 ../codenav/src/codenavigation.c:532
 #: ../geanylatex/src/geanylatex.c:181 ../geanysendmail/src/geanysendmail.c:151
 #: ../geanysendmail/src/geanysendmail.c:312 ../geanyvc/src/geanyvc.c:1776
 #: ../spellcheck/src/scplugin.c:126
@@ -63,22 +63,23 @@ msgstr "Exibir tarefas disponíveis na Janela de Mensagens"
 msgid "Show status icon in the Notification Area"
 msgstr "Exibir ícone de estado na Área de Notificação"
 
-#: ../addons/src/ao_doclist.c:209
+#: ../addons/src/ao_doclist.c:179
 msgid "Close Ot_her Documents"
 msgstr "Fec_har Outros Documentos"
 
-#: ../addons/src/ao_doclist.c:214
+#: ../addons/src/ao_doclist.c:184
 msgid "C_lose All"
 msgstr "_Fechar Todos"
 
-#: ../addons/src/ao_doclist.c:244
+#: ../addons/src/ao_doclist.c:214
 msgid "Show Document List"
 msgstr "Exibir Lista de Documentos"
 
 #. All plugins must set name, description, version and author.
 #: ../codenav/src/codenavigation.c:69
+#, fuzzy
 msgid "Code navigation"
-msgstr ""
+msgstr "Code navigation"
 
 #: ../codenav/src/codenavigation.c:70
 msgid ""
@@ -87,72 +88,74 @@ msgid ""
 "- switching between a .cpp file and the corresponding .h file\n"
 "- [opening a file by typing its name -> TODO]"
 msgstr ""
+"Esse plugin inclui características para facilitar a navegação entre arquivos "
+"fonte.\n"
+"Até este momento, ele implementa: \n"
+"- alternância entre um arquivo .cpp e o arquivo .h correspondente\n"
+"- [abertura de um arquivo digitando-se o seu nome -> TODO]"
 
 #: ../codenav/src/codenavigation.c:73
 msgid "Lionel Fuentes"
-msgstr ""
+msgstr "Lionel Fuentes"
 
-#: ../codenav/src/codenavigation.c:315
+#: ../codenav/src/codenavigation.c:329
 #, c-format
 msgid "%s not found, create it ?"
-msgstr ""
+msgstr "%s não encontrado. Deseja criá-lo?"
 
-#: ../codenav/src/codenavigation.c:354
+#: ../codenav/src/codenavigation.c:368
 #, c-format
 msgid "(From the %s plugin)"
-msgstr ""
+msgstr "(Do plugin %s)"
 
 #. - add the "Switch header/implementation" menu item
-#: ../codenav/src/codenavigation.c:382 ../codenav/src/codenavigation.c:401
+#: ../codenav/src/codenavigation.c:396 ../codenav/src/codenavigation.c:415
 msgid "Switch header/implementation"
-msgstr ""
+msgstr "Alternar cabeçalho/implementação"
 
 #. - add the "Open file by name" menu item
-#: ../codenav/src/codenavigation.c:387 ../codenav/src/codenavigation.c:409
+#: ../codenav/src/codenavigation.c:401 ../codenav/src/codenavigation.c:423
 msgid "Goto file..."
-msgstr ""
+msgstr "Ir para o arquivo..."
 
-#: ../codenav/src/codenavigation.c:400
+#: ../codenav/src/codenavigation.c:414
 msgid "switch_header_impl"
-msgstr ""
+msgstr "switch_header_impl"
 
-#: ../codenav/src/codenavigation.c:408
+#: ../codenav/src/codenavigation.c:422
 msgid "goto_file"
-msgstr ""
+msgstr "goto_file"
 
 #. Add a label
-#: ../codenav/src/codenavigation.c:587
+#: ../codenav/src/codenavigation.c:601
 msgid "Code Navigation plug-in configuration"
-msgstr ""
+msgstr "Configuração do plug-in Code Navigation"
 
 #. Add a frame for the switch header/implementation feature
-#: ../codenav/src/codenavigation.c:591
+#: ../codenav/src/codenavigation.c:605
 msgid "Switch header / implementation"
-msgstr ""
+msgstr "Alternar cabeçalho/implementação"
 
-#: ../codenav/src/codenavigation.c:646
+#: ../codenav/src/codenavigation.c:660
 msgid "Headers extensions"
-msgstr ""
+msgstr "Extensões de cabeçalhos"
 
-#: ../codenav/src/codenavigation.c:653
+#: ../codenav/src/codenavigation.c:667
 msgid "Implementations extensions"
-msgstr ""
+msgstr "Extensões de implementações"
 
 #. All plugins must set name, description, version and author.
 #: ../geanydoc/src/geanydoc.c:63 ../geanydoc/src/geanydoc.c:360
 msgid "Doc"
-msgstr ""
+msgstr "Doc"
 
 #: ../geanydoc/src/geanydoc.c:63
 msgid "Call documentation viewer on current symbol."
-msgstr ""
+msgstr "Chama o visualizador de documentação no símbolo atual."
 
 #: ../geanydoc/src/geanydoc.c:64
-#, fuzzy
 msgid "Yura Siamshka <yurand2@gmail.com>"
-msgstr ""
-"Yura Siamashka <yurand2@gmail.com>,\n"
-"Frank Lanitz <frank@frank.uvena.de>"
+msgstr "Yura Siamshka <yurand2@gmail.com>"
 
 #: ../geanydoc/src/geanydoc.c:183 ../geanyvc/src/geanyvc.c:403
 msgid "Could not parse the output of command"
@@ -160,29 +163,27 @@ msgstr "Não foi possível reconhecer a saída do comando"
 
 #: ../geanydoc/src/geanydoc.c:370
 msgid "Put output in buffer"
-msgstr ""
+msgstr "Colocar saída no buffer"
 
 #: ../geanydoc/src/geanydoc.c:382
 msgid "Command 0:"
-msgstr ""
+msgstr "Comando 0:"
 
 #: ../geanydoc/src/geanydoc.c:388
 msgid "Command 1:"
-msgstr ""
+msgstr "Comando 1:"
 
 #: ../geanydoc/src/geanydoc.c:406
 msgid "%w will be replaced with current word\n"
-msgstr ""
+msgstr "%w será substituída pela palavra atual\n"
 
 #: ../geanydoc/src/geanydoc.c:453
-#, fuzzy
 msgid "Document current word"
-msgstr "Estrutura do Documento"
+msgstr "Palavra atual do documento"
 
 #: ../geanydoc/src/geanydoc.c:454
-#, fuzzy
 msgid "Document interactive"
-msgstr "Estrutura do Documento"
+msgstr "Documento interativo"
 
 #: ../geanygdb/src/gdb-io-break.c:142
 #, c-format
@@ -1776,9 +1777,8 @@ msgid "Commit"
 msgstr "Submeter"
 
 #: ../geanyvc/src/geanyvc.c:1358
-#, fuzzy
 msgid "_De-/select all files"
-msgstr "Selecionar arquivo"
+msgstr "_De-/selecionar todos os arquivos"
 
 #: ../geanyvc/src/geanyvc.c:1399
 msgid "<b>Commit message:</b>"
@@ -1847,13 +1847,12 @@ msgid "Use external diff viewer for file diff."
 msgstr "Usar vizualizador externo de diff para diff de arquivos."
 
 #: ../geanyvc/src/geanyvc.c:1847
-#, fuzzy
 msgid "Show VC entries at editor menu"
-msgstr "Exibir um item de menu 'Abrir URI' no menu do editor"
+msgstr "Exibir entradas VC no menu do editor"
 
 #: ../geanyvc/src/geanyvc.c:1849
 msgid "Show entries for VC functions inside editor menu"
-msgstr ""
+msgstr "Exibir entradas para funções VC dentro do menu do editor"
 
 #: ../geanyvc/src/geanyvc.c:1854
 msgid "Enable CVS"
@@ -1885,7 +1884,7 @@ msgstr "Linguagem para verificação ortográfica"
 
 #: ../geanyvc/src/geanyvc.c:1974
 msgid "_VC file Actions"
-msgstr ""
+msgstr "Ações de arquivo _VC"
 
 #: ../geanyvc/src/geanyvc.c:1976
 msgid "_File"
@@ -1917,9 +1916,8 @@ msgstr "Restaura cópia funcional antiga do arquivo (desfaz edições locais)."
 
 #. Blame for current file
 #: ../geanyvc/src/geanyvc.c:2000
-#, fuzzy
 msgid "_Blame"
-msgstr "_Acusar"
+msgstr "_Culpar"
 
 #: ../geanyvc/src/geanyvc.c:2003
 msgid "Shows the changes made at one file per revision and author."
@@ -1930,9 +1928,8 @@ msgstr "Exibe as alterações feitas em um arquivo por revisão e autor."
 #. Complete History/Log of base directory
 #: ../geanyvc/src/geanyvc.c:2010 ../geanyvc/src/geanyvc.c:2076
 #: ../geanyvc/src/geanyvc.c:2117
-#, fuzzy
 msgid "_History (log)"
-msgstr "_Histórico"
+msgstr "_Histórico (log)"
 
 #: ../geanyvc/src/geanyvc.c:2013
 msgid "Shows the log of the current file"
@@ -2000,14 +1997,13 @@ msgstr "Exibe o log do diretório topo do CV"
 #: ../geanyvc/src/geanyvc.c:2146
 #, fuzzy
 msgid "VC _Commit"
-msgstr "_Submeter"
+msgstr "VC _Commit"
 
 #: ../geanyvc/src/geanyvc.c:2179
 msgid "Show diff of file"
 msgstr "Exibir diff de arquivo"
 
 #: ../geanyvc/src/geanyvc.c:2181
-#, fuzzy
 msgid "Show diff of directory"
 msgstr "Exibir diff de diretório"
 
@@ -2054,9 +2050,8 @@ msgstr "Exibe estado."
 
 #. complete update
 #: ../geanyvc/src/geanyvc.c:2246
-#, fuzzy
 msgid "_Update"
-msgstr "Atualizar"
+msgstr "At_ualizar"
 
 #: ../geanyvc/src/geanyvc.c:2248
 msgid "Update from remote repositary."
@@ -2119,9 +2114,8 @@ msgstr "Alternar Verificação ao Digitar"
 
 #. initialize the dialog
 #: ../spellcheck/src/scplugin.c:198
-#, fuzzy
 msgid "Select Directory"
-msgstr "Reverter diretório"
+msgstr "Selecionar diretório"
 
 #: ../spellcheck/src/scplugin.c:235
 msgid "Check spelling while typing"
@@ -2142,13 +2136,15 @@ msgstr "Linguagem a usar para a verificação ortográfica:"
 
 #: ../spellcheck/src/scplugin.c:262
 msgid "_Directory to look for dictionary files:"
-msgstr ""
+msgstr "_Diretório a pesquisar para arquivos de dicionário:"
 
 #: ../spellcheck/src/scplugin.c:270
 msgid ""
 "Read additional dictionary files from this directory. For now, this only "
 "works with myspell dictionaries."
 msgstr ""
+"Ler arquivos de diretório adicionais deste diretório. Por enquanto, isso só "
+"funciona com dicionários myspell."
 
 #: ../spellcheck/src/gui.c:56
 msgid "Spell checking while typing is now enabled"
@@ -2338,29 +2334,32 @@ msgid "Select..."
 msgstr "Selecionar..."
 
 #: ../geanylua/geanylua.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Can't load support library %s!\n"
-msgstr "%s: Biblioteca de apoio não pôde ser carregada!\n"
+msgstr "%s: Biblioteca de apoio %s não pôde ser carregada!\n"
 
 #: ../geanylua/geanylua.c:171
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Failed to initialize support library %s!\n"
-msgstr "%s: Falha ao inicializar biblioteca de apoio!\n"
+msgstr "%s: Falha ao inicializar biblioteca de apoio %s!\n"
 
 #: ../geanylua/geanylua.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Support library version mismatch: %s for %s (should be %s)!\n"
-msgstr "%s: Versão da biblioteca de apoio não casa: %s <=> %s\n"
+msgstr ""
+"%s: Versão da biblioteca de apoio não casa: %s para %s (deveria ser %s)!\n"
 
 #: ../geanylua/geanylua.c:182
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Support library ABI mismatch: %d for %s (should be %d)!\n"
-msgstr "%s: Versão da biblioteca de apoio não casa: %s <=> %s\n"
+msgstr ""
+"%s: Versão da biblioteca de apoio ABI não casa: %d para %s (deveria ser %"
+"d)!\n"
 
 #: ../geanylua/geanylua.c:211
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Can't find support library %s!\n"
-msgstr "%s: Biblioteca de apoio não encontrada!\n"
+msgstr "%s: Biblioteca de apoio %s não encontrada!\n"
 
 #: ../geanylua/geanylua.c:230
 #, c-format
@@ -2507,49 +2506,44 @@ msgstr "Erro desconhecido ao carregar arquivo de script."
 
 #: ../geanyprj/src/geanyprj.c:33 ../geanyprj/src/sidebar.c:449
 msgid "Project"
-msgstr ""
+msgstr "Projeto"
 
 #: ../geanyprj/src/geanyprj.c:33
 msgid "Alternative project support."
-msgstr ""
+msgstr "Suporte a projeto alternativo."
 
 #: ../geanyprj/src/geanyprj.c:34
-#, fuzzy
 msgid "Yura Siamashka <yurand2@gmail.com>"
-msgstr ""
-"Yura Siamashka <yurand2@gmail.com>,\n"
-"Frank Lanitz <frank@frank.uvena.de>"
+msgstr "Yura Siamashka <yurand2@gmail.com>"
 
 #: ../geanyprj/src/menu.c:90
-#, fuzzy
 msgid "Project Preferences"
-msgstr "Preferẽncias"
+msgstr "Preferẽncias do Projeto"
 
 #: ../geanyprj/src/menu.c:99 ../geanyprj/src/menu.c:381
 #: ../geanyprj/src/sidebar.c:170
 msgid "New Project"
-msgstr ""
+msgstr "Novo Projeto"
 
 #: ../geanyprj/src/menu.c:108
 msgid "C_reate"
-msgstr ""
+msgstr "C_riar"
 
 #: ../geanyprj/src/menu.c:121
-#, fuzzy
 msgid "Name:"
-msgstr "Data:"
+msgstr "Nome:"
 
 #: ../geanyprj/src/menu.c:130
 msgid "Location:"
-msgstr ""
+msgstr "Local:"
 
 #: ../geanyprj/src/menu.c:145
 msgid "Choose Project Location"
-msgstr ""
+msgstr "Escolher Local do Projeto"
 
 #: ../geanyprj/src/menu.c:153
 msgid "Base path:"
-msgstr ""
+msgstr "Caminho base:"
 
 #: ../geanyprj/src/menu.c:158
 msgid ""
@@ -2557,14 +2551,17 @@ msgid ""
 "path, or an existing directory tree. You can use paths relative to the "
 "project filename."
 msgstr ""
+"Diretório base para todos os arquivos que compõem o projeto. Pode ser um "
+"novo caminho, ou uma árvore de diretório existente. Você pode usar caminhos "
+"relativos ao nome de arquivo do projeto."
 
 #: ../geanyprj/src/menu.c:161
 msgid "Choose Project Base Path"
-msgstr ""
+msgstr "Escolher Caminho Base do Projeto"
 
 #: ../geanyprj/src/menu.c:168
 msgid "Generate file list on load"
-msgstr ""
+msgstr "Gerar lista de arquivos ao carregar"
 
 #: ../geanyprj/src/menu.c:170
 msgid ""
@@ -2572,47 +2569,49 @@ msgid ""
 "You can't manually add/remove files if you checked this option, since your "
 "modification will be lost on on next project load"
 msgstr ""
+"Inclui automaticamente arquivos que casam com o tipo do projeto ao carregar "
+"o projeto. Você não pode incluir/remover arquivos manualmente se você marcou "
+"essa opção, já que as suas modificações serão perdidas na próxima vez que o "
+"projeto for carregado"
 
 #: ../geanyprj/src/menu.c:178
-#, fuzzy
 msgid "Type:"
-msgstr "Type"
+msgstr "Tipo:"
 
 #: ../geanyprj/src/menu.c:216
 #, c-format
 msgid "Project file \"%s\" already exists"
-msgstr ""
+msgstr "Arquivo de projeto \"%s\" já existe"
 
 #: ../geanyprj/src/menu.c:369
 msgid "_Project"
-msgstr ""
+msgstr "_Projeto"
 
 #: ../geanyprj/src/menu.c:390 ../geanyprj/src/sidebar.c:179
 msgid "Delete Project"
-msgstr ""
+msgstr "Excluir Projeto"
 
 #: ../geanyprj/src/menu.c:401 ../geanyprj/src/sidebar.c:192
-#, fuzzy
 msgid "Add File"
-msgstr "_Arquivo"
+msgstr "Incluir Arquivo"
 
 #: ../geanyprj/src/menu.c:423 ../geanyprj/src/sidebar.c:227
 msgid "Find in Project"
-msgstr ""
+msgstr "Pesquisa em Projeto"
 
 #: ../geanyprj/src/sidebar.c:201
-#, fuzzy
 msgid "Remove File"
-msgstr "Salvar arquivo"
+msgstr "Remover arquivo"
 
 #: ../geanyprj/src/sidebar.c:238
+#, fuzzy
 msgid "H_ide Sidebar"
-msgstr ""
+msgstr "Ocultar S_idebar"
 
 #: ../geanyprj/src/xproject.c:95
 #, c-format
 msgid "Project \"%s\" opened."
-msgstr ""
+msgstr "Projeto \"%s\" aberto."
 
 #, fuzzy
 #~ msgid "_History (Log)"
