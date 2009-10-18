@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.17\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-06-21 23:06+0200\n"
+"POT-Creation-Date: 2009-10-18 22:16+0200\n"
 "PO-Revision-Date: 2009-06-11 10:15+0200\n"
 "Last-Translator: Yura Siamshka <yurand2@gmail.com>>\n"
 "Language-Team: Belarusian <geany-i18n@uvena.de>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-Country: BELARUS\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: ../addons/src/tasks.c:311
+#: ../addons/src/tasks.c:308
 msgid "Tasks"
 msgstr ""
 
@@ -41,8 +41,8 @@ msgstr ""
 
 #: ../addons/src/addons.c:176 ../geanylatex/src/geanylatex.c:181
 #: ../geanysendmail/src/geanysendmail.c:151
-#: ../geanysendmail/src/geanysendmail.c:312 ../geanyvc/src/geanyvc.c:1673
-#: ../spellcheck/src/scplugin.c:143
+#: ../geanysendmail/src/geanysendmail.c:312 ../geanyvc/src/geanyvc.c:1776
+#: ../spellcheck/src/scplugin.c:126
 msgid "Plugin configuration directory could not be created."
 msgstr ""
 
@@ -1556,167 +1556,183 @@ msgid ""
 "Sends the opened file as unzipped attachment by any mailer from your $PATH"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:64
+#: ../geanyvc/src/geanyvc.c:53
 msgid "VC"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:64
+#: ../geanyvc/src/geanyvc.c:53
 msgid "Interface to different Version Control systems."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:65
+#: ../geanyvc/src/geanyvc.c:54
 #, fuzzy
 msgid ""
 "Yura Siamashka <yurand2@gmail.com>,\n"
 "Frank Lanitz <frank@frank.uvena.de>"
 msgstr "Юра Сямашка <yurand2@gmail.com>"
 
-#: ../geanyvc/src/geanyvc.c:407
+#: ../geanyvc/src/geanyvc.c:403
 msgid "Could not parse the output of command"
 msgstr "Немагчыма прааналізаваць вывад каманды"
 
-#: ../geanyvc/src/geanyvc.c:466
+#: ../geanyvc/src/geanyvc.c:462
 #, c-format
 msgid "geanyvc: s_spawn_sync error: %s"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:600 ../geanyvc/src/geanyvc.c:611
+#: ../geanyvc/src/geanyvc.c:596 ../geanyvc/src/geanyvc.c:607
 #, c-format
 msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:637 ../geanyvc/src/geanyvc.c:686
+#: ../geanyvc/src/geanyvc.c:633 ../geanyvc/src/geanyvc.c:683
 msgid "No changes were made."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:712
+#: ../geanyvc/src/geanyvc.c:709
 msgid "No history avaible"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:905 ../geanyvc/src/geanyvc.c:913
+#: ../geanyvc/src/geanyvc.c:902 ../geanyvc/src/geanyvc.c:910
 #, c-format
 msgid "Do you really want to revert: %s?"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:921
+#: ../geanyvc/src/geanyvc.c:918
 #, c-format
 msgid "Do you really want to add: %s?"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:928
+#: ../geanyvc/src/geanyvc.c:925
 #, c-format
 msgid "Do you really want to remove: %s?"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:951
+#: ../geanyvc/src/geanyvc.c:948
 msgid "Do you really want to update?"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1151
+#: ../geanyvc/src/geanyvc.c:1211
 msgid "Commit Y/N"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1161
+#: ../geanyvc/src/geanyvc.c:1221
 msgid "Status"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1168
+#: ../geanyvc/src/geanyvc.c:1228
 msgid "Path"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1230
+#: ../geanyvc/src/geanyvc.c:1316
 msgid "Commit"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1301
+#: ../geanyvc/src/geanyvc.c:1358
+msgid "_De-/select all files"
+msgstr ""
+
+#: ../geanyvc/src/geanyvc.c:1399
 msgid "<b>Commit message:</b>"
 msgstr ""
 
 #. Commit all changes
-#: ../geanyvc/src/geanyvc.c:1314 ../geanyvc/src/geanyvc.c:2170
+#: ../geanyvc/src/geanyvc.c:1412 ../geanyvc/src/geanyvc.c:2253
 msgid "_Commit"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1384
+#: ../geanyvc/src/geanyvc.c:1486
 msgid "Nothing to commit."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1430
+#: ../geanyvc/src/geanyvc.c:1528
 #, c-format
 msgid "Error initializing spell checking: %s"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1442
+#: ../geanyvc/src/geanyvc.c:1540
 #, c-format
 msgid ""
 "Error while setting up language for spellchecking. Please check "
 "configuration. Error message was: %s"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1706
+#: ../geanyvc/src/geanyvc.c:1812
 msgid "Set Changed-flag for document tabs created by the plugin"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1709
+#: ../geanyvc/src/geanyvc.c:1815
 msgid ""
 "If this option is activated, every new by the VC-plugin created document tab "
 "will be marked as changed. Even this option is useful in some cases, it "
 "could cause a big number of annoying \"Do you want to save\"-dialogs."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1717
+#: ../geanyvc/src/geanyvc.c:1823
 msgid "Confirm adding new files to a VCS"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1720
+#: ../geanyvc/src/geanyvc.c:1826
 msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1727
+#: ../geanyvc/src/geanyvc.c:1832
 msgid "Maximize commit dialog"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1728
+#: ../geanyvc/src/geanyvc.c:1833
 msgid "Show commit dialog maximize."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1735
+#: ../geanyvc/src/geanyvc.c:1839
 msgid "Use external diff viewer"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1737
+#: ../geanyvc/src/geanyvc.c:1841
 msgid "Use external diff viewer for file diff."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1743
+#: ../geanyvc/src/geanyvc.c:1847
+msgid "Show VC entries at editor menu"
+msgstr ""
+
+#: ../geanyvc/src/geanyvc.c:1849
+msgid "Show entries for VC functions inside editor menu"
+msgstr ""
+
+#: ../geanyvc/src/geanyvc.c:1854
 msgid "Enable CVS"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1748
+#: ../geanyvc/src/geanyvc.c:1859
 msgid "Enable GIT"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1753
+#: ../geanyvc/src/geanyvc.c:1864
 msgid "Enable SVN"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1758
+#: ../geanyvc/src/geanyvc.c:1869
 msgid "Enable SVK"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1763
+#: ../geanyvc/src/geanyvc.c:1874
 msgid "Enable Bazaar"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1768
+#: ../geanyvc/src/geanyvc.c:1879
 msgid "Enable Mercurial"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1774
+#: ../geanyvc/src/geanyvc.c:1885
 msgid "Spellcheck language"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1923
+#: ../geanyvc/src/geanyvc.c:1974
+msgid "_VC file Actions"
+msgstr ""
+
+#: ../geanyvc/src/geanyvc.c:1976
 #, fuzzy
 msgid "_File"
 msgstr "Дадаць файл"
@@ -1724,277 +1740,297 @@ msgstr "Дадаць файл"
 #. Diff of current file
 #. Diff of the current dir
 #. Complete diff of base directory
-#: ../geanyvc/src/geanyvc.c:1927 ../geanyvc/src/geanyvc.c:2011
-#: ../geanyvc/src/geanyvc.c:2052
+#: ../geanyvc/src/geanyvc.c:1980 ../geanyvc/src/geanyvc.c:2057
+#: ../geanyvc/src/geanyvc.c:2097
 msgid "_Diff"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1930
+#: ../geanyvc/src/geanyvc.c:1983
 msgid "Make a diff from the current active file"
 msgstr ""
 
 #. Revert current file
 #. Revert current dir
 #. Revert everything
-#: ../geanyvc/src/geanyvc.c:1936 ../geanyvc/src/geanyvc.c:2020
-#: ../geanyvc/src/geanyvc.c:2061
+#: ../geanyvc/src/geanyvc.c:1988 ../geanyvc/src/geanyvc.c:2066
+#: ../geanyvc/src/geanyvc.c:2105
 msgid "_Revert"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1939
+#: ../geanyvc/src/geanyvc.c:1991
 msgid "Restore pristine working copy file (undo local edits)."
 msgstr ""
 
 #. Blame for current file
-#: ../geanyvc/src/geanyvc.c:1949
+#: ../geanyvc/src/geanyvc.c:2000
 msgid "_Blame"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1952
+#: ../geanyvc/src/geanyvc.c:2003
 msgid "Shows the changes made at one file per revision and author."
 msgstr ""
 
 #. History/log of current file
 #. History/log of the current dir
 #. Complete History/Log of base directory
-#: ../geanyvc/src/geanyvc.c:1960 ../geanyvc/src/geanyvc.c:2031
-#: ../geanyvc/src/geanyvc.c:2073
+#: ../geanyvc/src/geanyvc.c:2010 ../geanyvc/src/geanyvc.c:2076
+#: ../geanyvc/src/geanyvc.c:2117
 msgid "_History"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1963
+#: ../geanyvc/src/geanyvc.c:2013
 msgid "Shows the log of the current file"
 msgstr ""
 
 #. base version of the current file
-#: ../geanyvc/src/geanyvc.c:1969
+#: ../geanyvc/src/geanyvc.c:2018
 msgid "_Original"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1972
+#: ../geanyvc/src/geanyvc.c:2021
 msgid "Shows the orignal of the current file"
 msgstr ""
 
 #. add current file
-#: ../geanyvc/src/geanyvc.c:1981
+#: ../geanyvc/src/geanyvc.c:2029
 msgid "_Add to Version Control"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1983
+#: ../geanyvc/src/geanyvc.c:2031
 msgid "Add file to repository."
 msgstr ""
 
 #. remove current file
-#: ../geanyvc/src/geanyvc.c:1989
+#: ../geanyvc/src/geanyvc.c:2037
 msgid "_Remove from Version Control"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1992
+#: ../geanyvc/src/geanyvc.c:2039
 msgid "Remove file from repository."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2008
+#: ../geanyvc/src/geanyvc.c:2054
 msgid "_Directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2014
+#: ../geanyvc/src/geanyvc.c:2060
 msgid "Make a diff from the directory of the current active file"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2023
+#: ../geanyvc/src/geanyvc.c:2069
 msgid "Restore original files in the current folder (undo local edits)."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2034
+#: ../geanyvc/src/geanyvc.c:2079
 msgid "Shows the log of the current directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2048
+#: ../geanyvc/src/geanyvc.c:2093
 msgid "_Base Directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2055
+#: ../geanyvc/src/geanyvc.c:2099
 msgid "Make a diff from the top VC directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2063
+#: ../geanyvc/src/geanyvc.c:2107
 msgid "Revert any local edits."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2076
+#: ../geanyvc/src/geanyvc.c:2120
 msgid "Shows the log of the top VC directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2090
+#: ../geanyvc/src/geanyvc.c:2146
+msgid "VC _Commit"
+msgstr ""
+
+#: ../geanyvc/src/geanyvc.c:2179
 msgid "Show diff of file"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2092
-msgid "Show diff of diretory"
+#: ../geanyvc/src/geanyvc.c:2181
+msgid "Show diff of directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2094
+#: ../geanyvc/src/geanyvc.c:2183
 msgid "Show diff of basedir"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2097
+#: ../geanyvc/src/geanyvc.c:2186
 msgid "Commit changes"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2099
+#: ../geanyvc/src/geanyvc.c:2188
 msgid "Show status"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2101
+#: ../geanyvc/src/geanyvc.c:2190
 msgid "Revert single file"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2103
+#: ../geanyvc/src/geanyvc.c:2192
 msgid "Revert directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2105
+#: ../geanyvc/src/geanyvc.c:2194
 msgid "Revert base directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2107
+#: ../geanyvc/src/geanyvc.c:2196
 msgid "Update file"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2132
+#: ../geanyvc/src/geanyvc.c:2218
 msgid "_VC"
 msgstr ""
 
 #. Status of basedir
-#: ../geanyvc/src/geanyvc.c:2152
+#: ../geanyvc/src/geanyvc.c:2239
 msgid "_Status"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2154
+#: ../geanyvc/src/geanyvc.c:2241
 msgid "Show status."
 msgstr ""
 
 #. complete update
-#: ../geanyvc/src/geanyvc.c:2161
-msgid "Update"
+#: ../geanyvc/src/geanyvc.c:2246
+msgid "_Update"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2163
+#: ../geanyvc/src/geanyvc.c:2248
 msgid "Update from remote repositary."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2172
+#: ../geanyvc/src/geanyvc.c:2255
 msgid "Commit changes."
 msgstr ""
 
-#: ../spellcheck/src/speller.c:101
+#: ../spellcheck/src/speller.c:91
 #, fuzzy
 msgid "Try: "
 msgstr "Тып:"
 
-#: ../spellcheck/src/speller.c:180
+#: ../spellcheck/src/speller.c:170
 msgid "Checking"
 msgstr ""
 
-#: ../spellcheck/src/speller.c:193
+#: ../spellcheck/src/speller.c:183
 #, c-format
 msgid "Checking file \"%s\" (lines %d to %d using %s):"
 msgstr ""
 
-#: ../spellcheck/src/speller.c:203
+#: ../spellcheck/src/speller.c:193
 #, c-format
 msgid "Checking file \"%s\" (using %s):"
 msgstr ""
 
-#: ../spellcheck/src/speller.c:221
+#: ../spellcheck/src/speller.c:211
 msgid "The checked text is spelled correctly."
 msgstr ""
 
-#: ../spellcheck/src/speller.c:231
+#: ../spellcheck/src/speller.c:221
 #, c-format
 msgid "The Enchant library couldn't be initialized (%s)."
 msgstr ""
 
-#: ../spellcheck/src/speller.c:232
+#: ../spellcheck/src/speller.c:222
 msgid "unknown error (maybe the chosen language is not available)"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:59
+#: ../spellcheck/src/scplugin.c:40
 msgid "Spell Check"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:59
+#: ../spellcheck/src/scplugin.c:40
 msgid "Checks the spelling of the current document."
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:60
+#: ../spellcheck/src/scplugin.c:41
 msgid "The Geany developer team"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:199
+#: ../spellcheck/src/scplugin.c:184
 msgid "Run Spell Check"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:202
+#: ../spellcheck/src/scplugin.c:187
 msgid "Toggle Check While Typing"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:213
+#. initialize the dialog
+#: ../spellcheck/src/scplugin.c:198
+#, fuzzy
+msgid "Select Directory"
+msgstr "Выдаліць праэкт"
+
+#: ../spellcheck/src/scplugin.c:235
 msgid "Check spelling while typing"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:217
+#: ../spellcheck/src/scplugin.c:239
 msgid "Show toolbar item to toggle spell checking"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:222
+#: ../spellcheck/src/scplugin.c:244
 msgid "Print misspelled words and suggestions in the messages window"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:226
+#: ../spellcheck/src/scplugin.c:248
 msgid "Language to use for the spell check:"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:66
+#: ../spellcheck/src/scplugin.c:262
+msgid "_Directory to look for dictionary files:"
+msgstr ""
+
+#: ../spellcheck/src/scplugin.c:270
+msgid ""
+"Read additional dictionary files from this directory. For now, this only "
+"works with myspell dictionaries."
+msgstr ""
+
+#: ../spellcheck/src/gui.c:56
 msgid "Spell checking while typing is now enabled"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:68
+#: ../spellcheck/src/gui.c:58
 msgid "Spell checking while typing is now disabled"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:276
+#: ../spellcheck/src/gui.c:260
 msgid "More..."
 msgstr ""
 
-#: ../spellcheck/src/gui.c:290
+#: ../spellcheck/src/gui.c:274
 msgid "(No Suggestions)"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:297
+#: ../spellcheck/src/gui.c:281
 #, c-format
 msgid "Add \"%s\" to Dictionary"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:303
+#: ../spellcheck/src/gui.c:287
 msgid "Ignore All"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:408
+#: ../spellcheck/src/gui.c:406
 #, c-format
 msgid "Default (%s)"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:409 ../spellcheck/src/gui.c:420
+#: ../spellcheck/src/gui.c:407 ../spellcheck/src/gui.c:418
 msgid "unknown"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:419
+#: ../spellcheck/src/gui.c:417
 #, c-format
 msgid "Toggle spell check while typing (current language: %s)"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:480
+#: ../spellcheck/src/gui.c:479
 msgid "Spelling Suggestions"
 msgstr ""
 
@@ -2031,20 +2067,20 @@ msgid ""
 " "
 msgstr ""
 
-#: ../geanylua/glspi_init.c:429
+#: ../geanylua/glspi_init.c:430
 msgid "_Lua Scripts"
 msgstr ""
 
-#: ../geanylua/glspi_init.c:455
+#: ../geanylua/glspi_init.c:476
 #, c-format
 msgid "     ==>> %s: Building menu from '%s'\n"
 msgstr ""
 
-#: ../geanylua/glspi_init.c:555
+#: ../geanylua/glspi_init.c:576
 msgid "Nothing to configure!"
 msgstr ""
 
-#: ../geanylua/glspi_init.c:557
+#: ../geanylua/glspi_init.c:578
 #, c-format
 msgid ""
 "You can create the script:\n"
@@ -2119,27 +2155,27 @@ msgstr ""
 msgid "Select..."
 msgstr ""
 
-#: ../geanylua/geanylua.c:149
+#: ../geanylua/geanylua.c:166
 #, c-format
-msgid "%s: Can't find support library!\n"
+msgid "%s: Can't find support library %s!\n"
 msgstr ""
 
-#: ../geanylua/geanylua.c:156
+#: ../geanylua/geanylua.c:175
 #, c-format
 msgid "%s: Can't load support library!\n"
 msgstr ""
 
-#: ../geanylua/geanylua.c:167
+#: ../geanylua/geanylua.c:186
 #, c-format
 msgid "%s: Failed to initialize support library!\n"
 msgstr ""
 
-#: ../geanylua/geanylua.c:172
+#: ../geanylua/geanylua.c:191
 #, c-format
 msgid "%s: Support library version mismatch: %s <=> %s\n"
 msgstr ""
 
-#: ../geanylua/geanylua.c:190
+#: ../geanylua/geanylua.c:209
 #, c-format
 msgid ""
 "The %s plugin failed to load properly.\n"
@@ -2287,11 +2323,19 @@ msgstr ""
 #~ msgid "Document current word"
 #~ msgstr "Даведка па слове, на якім засяроджаны курсор"
 
+#, fuzzy
+#~ msgid "Document interactive"
+#~ msgstr "Інтэрактыўная даведка"
+
 #~ msgid "Project"
 #~ msgstr "Праэкт"
 
 #~ msgid "Alternative project support."
 #~ msgstr "Альтэрнатыўная падтрымка праэкта"
+
+#, fuzzy
+#~ msgid "Yura Siamashka <yurand2@gmail.com>"
+#~ msgstr "Юра Сямашка <yurand2@gmail.com>"
 
 #~ msgid "Project Preferences"
 #~ msgstr "Наладкі праэкта"
@@ -2301,6 +2345,10 @@ msgstr ""
 
 #~ msgid "C_reate"
 #~ msgstr "Стварыць"
+
+#, fuzzy
+#~ msgid "Name:"
+#~ msgstr "Імя:"
 
 #~ msgid "Location:"
 #~ msgstr "Лакацыя:"
@@ -2335,6 +2383,10 @@ msgstr ""
 #~ "дадаваць/выдаляць файлы з праекту, калі вы абралі гэту наладку таму, што "
 #~ "вашы зьмяненьні будуць страчаны пры наступнай загрузке праэкта."
 
+#, fuzzy
+#~ msgid "Type:"
+#~ msgstr "Тып:"
+
 #~ msgid "Project file \"%s\" already exists"
 #~ msgstr "Файл праэкта \"%s\" ужо існуе"
 
@@ -2344,8 +2396,16 @@ msgstr ""
 #~ msgid "Delete Project"
 #~ msgstr "Выдаліць праэкт"
 
+#, fuzzy
+#~ msgid "Add File"
+#~ msgstr "Дадаць файл"
+
 #~ msgid "Find in Project"
 #~ msgstr "Знайсьці і праэкце"
+
+#, fuzzy
+#~ msgid "Remove File"
+#~ msgstr "Выдаліць файл"
 
 #~ msgid "H_ide Sidebar"
 #~ msgstr "Схаваць сайдбар"

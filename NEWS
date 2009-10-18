@@ -11,6 +11,8 @@ Geany-plugins 0.18 (t.b.d.)
       and a check/uncheck all function on commit dialog.
 
     Internationalisation:
+    * New translations: ca, ja, pt_BR.
+    * Updated translations: de, es, pt_BR, pt, tr.
 
 
 Geany-plugins 0.17.1 (July 21, 2009)

@@ -1,3 +1,68 @@
+2009-10-18  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * ca.po, LINGUAS: Added Catalan translation. Thanks to Toni Garcia-Navarro
+   for providing.
+ * tr.po: Update of Turkish translation. Thanks to Türkan Gür.
+ * Update of translation files for geany-plugins 0.18 release.
+
+
+2009-10-17  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * intl_stats.sh: Add i18n-stats script copied from Geany.
+ * ja.po: Update of Japanese translation. Thanks to Masami Chikahiro.
+ * pt_BR.po: Update of Brasilian Portuguese translation. Thanks to
+   Adrovane Marques Kade.
+ * pt_PT.po: Update of Portuguese translation. Thanks to André Glória.
+ * pt.po/pt_PT.po: Rename Portuguese translation to just pt.po.
+
+
+2009-10-12  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * de.po: Update of German translation. Thanks to Dominic Hopf for
+   reviewing and updating.
+
+
+2009-10-07  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * es.po: Update of Spanish translation mostly for addons plugin.
+   Thanks to Lucas Vieites.
+
+
+2009-10-03  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * *.po, geany-plugins.pot:
+   Update of translation files and catalog with current strings.
+
+
+2009-10-02  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * de.po: Update of German translation.
+
+
+2009-08-08  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * tr.po: Update of Turkish translation. Thanks to Türkan Gür.
+
+
+2009-07-26  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * pt_BR.po, LINGUAS:
+   Added Brasilian Portuguese translation.
+   (Thanks to Adrovane Marques Kade).
+
+
+2009-07-30  Masami Chikahiro  <cmasa(dot)z321(at)gmail(dot)com>,
+
+ * ja.po:
+   Update of Japanese translation.
+
+
+2009-07-26  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * ja.po, LINGUAS:
+   Update of Japanese translation. Thanks to Chikahiro Masami.
+
+
 2009-07-19  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * ja.po, LINGUAS:
