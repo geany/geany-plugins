@@ -9,8 +9,11 @@ addons/src/ao_doclist.c
 
 #codenav
 codenav/src/codenavigation.c
+codenav/src/goto_file.c
+codenav/src/switch_head_impl.c
+codenav/src/utils.c
 
-#codenav
+#geanydoc
 geanydoc/src/geanydoc.c
 
 #geanygdb
