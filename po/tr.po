@@ -4,6 +4,8 @@
 #
 # Gürkan Gür <seqizz@gmail.com>, 2009
 #
+msgid ""
+msgstr ""
 
 "Project-Id-Version: geany-plugins 0.18\n"
 "Report-Msgid-Bugs-To: \n"
