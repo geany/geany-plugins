@@ -164,7 +164,7 @@ build_properties_dialog(gboolean properties)
 
 	ui_table_add_row(GTK_TABLE(table), 2, label, bbox, NULL);
 
-	label = gtk_label_new(_(""));
+	label = gtk_label_new("");
 	e->regenerate = gtk_check_button_new_with_label(_("Generate file list on load"));
 	gtk_tooltips_set_tip(tooltips, e->regenerate,
 			     _("Automatically add files that match project type on project load "
