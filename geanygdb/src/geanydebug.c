@@ -438,9 +438,8 @@ plugin_cleanup()
 }
 
 
-GtkWidget *
-plugin_configure(G_GNUC_UNUSED GtkWidget * parent)
+void
+plugin_configure_single(G_GNUC_UNUSED GtkWidget * parent)
 {
 	gdbui_opts_dlg();
-	return NULL;
 }
