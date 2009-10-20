@@ -221,7 +221,7 @@ void plugin_init(GeanyData *data)
 
 
 PLUGIN_EXPORT
-GtkWidget *plugin_configure_single(GtkWidget *parent)
+void plugin_configure_single(GtkWidget *parent)
 {
 	if (glspi_configure) {
 		glspi_configure(parent);
@@ -230,7 +230,6 @@ GtkWidget *plugin_configure_single(GtkWidget *parent)
 			_("The %s plugin failed to load properly.\n"
 			"Please check your installation."), PLUGIN_NAME );
 	}
-	return NULL; /* FIXME */
 }
 
 
