@@ -147,7 +147,7 @@ static gint glspi_signal(lua_State* L) {
 	w=ui_lookup_widget(main_widgets->window, widname);
 	if (!w) {
 		lua_pushfstring(L, _("Error in module \"%s\" at function %s():\n"
-			"widget \"%s\"  not found for argument #1.\n "),
+			"widget \"%s\" not found for argument #1.\n"),
 			LUA_MODULE_NAME, &__FUNCTION__[6], widname);
 			lua_error(L);
 		return 0;
@@ -156,7 +156,7 @@ static gint glspi_signal(lua_State* L) {
 	sigid=g_signal_lookup(signame,typeid);
 	if (!sigid) {
 		lua_pushfstring(L, _("Error in module \"%s\" at function %s() argument #2:\n"
-			"widget \"%s\" has no signal named \"%s\".\n "),
+			"widget \"%s\" has no signal named \"%s\".\n"),
 			LUA_MODULE_NAME, &__FUNCTION__[6], widname, signame);
 			lua_error(L);
 		return 0;

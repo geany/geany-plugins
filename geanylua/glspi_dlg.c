@@ -436,7 +436,7 @@ static gchar *file_dlg(lua_State* L, gboolean save, const gchar *path,	const gch
 	}
 	if (!create_file_filter(L, GTK_FILE_CHOOSER(dlg), mask)) {
 		lua_pushfstring(L, _("Error in module \"%s\" at function pickfile():\n"
-			"failed to parse filter string at argument #3.\n "),
+			"failed to parse filter string at argument #3.\n"),
 			LUA_MODULE_NAME);
 		lua_error(L);
 		return NULL;
@@ -486,7 +486,7 @@ static gint glspi_pickfile(lua_State* L)
 			} else
 			if ( (*tmp != '\0') && (strcasecmp(tmp,"open")!=0) ) {
 				lua_pushfstring(L, _("Error in module \"%s\" at function %s():\n"
-							"expected string \"open\" or \"save\" for argument #1.\n "),
+							"expected string \"open\" or \"save\" for argument #1.\n"),
 							LUA_MODULE_NAME, &__FUNCTION__[6]);
 				lua_error(L);
 				return 0;

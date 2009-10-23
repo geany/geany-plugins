@@ -124,7 +124,7 @@ static gint glspi_fail_elem_type(
 {
 	lua_pushfstring(L, _("Error in module \"%s\" at function %s():\n"
 											" invalid table in argument #%d:\n"
-											"  expected type \"%s\" for element #%d\n "),
+											" expected type \"%s\" for element #%d\n"),
 											LUA_MODULE_NAME, func+6, argnum, type, idx);
 	lua_error(L);
 	return 0;

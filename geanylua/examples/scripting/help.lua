@@ -55,6 +55,6 @@ if FullName then
   end
 else
   geany.message("Error launching help",
-     "Can't find help file in:\n "..OwnHelpDir.."\nor:\n "..SysHelpDir)
+     "Can't find help file in:\n "..OwnHelpDir.."\nor:\n"..SysHelpDir)
 end
 

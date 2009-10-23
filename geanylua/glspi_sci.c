@@ -792,7 +792,7 @@ static gint glspi_find(lua_State* L)
 			} else {
 				lua_pushfstring(L, _("Error in module \"%s\" at function %s():\n"
 					" invalid table in argument #%d:\n"
-					"  unknown flag \"%s\" for element #%d\n "),
+					" unknown flag \"%s\" for element #%d\n"),
 					LUA_MODULE_NAME, &__FUNCTION__[6], 4,
 					(strlen(flagname)>64)?_("<too large to display>"):flagname, i);
 				lua_error(L);
