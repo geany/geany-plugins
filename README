@@ -1,0 +1,46 @@
+You can use Autotools to build the Geany plugins in this repository.
+
+Usage:
+./configure [arguments] or alternatively ./autogen.sh [arguments]
+make
+sudo make install
+
+This will configure, build and install most of the Geany plugins. There is some
+auto-detection in place which automagically disables some of the plug-ins if
+there are insufficient build dependencies. The following arguments can tweak the
+behaviour of the configure script:-
+
+=== Options ===
+A full listing of all supported options can be found in ./configure --help.
+
+== Enable/Disable Features ==
+The following options can be passed to ./configure in forms
+--enable-<option>=auto (default), --enable-<option>, --disable-<option>. In all
+cases, --enable-<option>=auto causes the feature to be enabled/disabled
+automatically based on whether the dependency exists on your system.
+--enable-<option> causes the feature to be forcefully enabled, causing configure
+to fail with an error message if you have missing
+dependencies. --disable-<option> causes the feature to be forcefully disabled.
+
+* geanylua -- the GeanyLua plug-in
+* gtkspell -- GeanyVC's spell-check support
+* spellcheck -- the Spellcheck plug-in
+
+Example:
+./configure --enable-geanylua --enable-gtkspell --enable-spellcheck
+
+This will force all optional plug-ins to be enabled even if dependencies are missing.
+
+
+== Other tweaks ==
+The following options can be passed to ./configure in the form
+--with-<option>=<argument>.
+
+* Lu's-pkg -- the name of the lua pkg-config package name.
+* geany-prefix -- Geany's prefix, used when compiling Geany.
+
+
+== Compiling Individual Plug-ins ==
+The Geany Plug-ins project uses a recursive automake build system, which means
+that after running ./configure, you may compile each individual plug-in by cd-ing
+into the respective plug-in directory and compiling it.
