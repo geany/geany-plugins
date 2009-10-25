@@ -1,3 +1,10 @@
+2009-10-25  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/Makefile.am, src/addons.c, src/bookmarklist.c,
+   src/bookmarklist.h:
+   Add a simple bookmark list to the sidebar.
+
+
 2009-10-14  Nick Treleaven  <nick(dot)treleaven(at)btinternet(dot)com>
 
  * src/ao_doclist.c, src/addons.c:
