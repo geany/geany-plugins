@@ -57,7 +57,7 @@ struct _AoOpenUriPrivate
 enum
 {
 	PROP_0,
-	PROP_ENABLE_OPENURI,
+	PROP_ENABLE_OPENURI
 };
 
 

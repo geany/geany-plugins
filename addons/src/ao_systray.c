@@ -53,7 +53,7 @@ struct _AoSystrayPrivate
 enum
 {
 	PROP_0,
-	PROP_ENABLE_SYSTRAY,
+	PROP_ENABLE_SYSTRAY
 };
 
 G_DEFINE_TYPE(AoSystray, ao_systray, G_TYPE_OBJECT);

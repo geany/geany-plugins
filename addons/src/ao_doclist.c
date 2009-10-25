@@ -54,7 +54,7 @@ struct _AoDocListPrivate
 enum
 {
 	PROP_0,
-	PROP_ENABLE_DOCLIST,
+	PROP_ENABLE_DOCLIST
 };
 enum
 {
