@@ -6,6 +6,7 @@ addons/src/tasks.c
 addons/src/ao_openuri.c
 addons/src/addons.c
 addons/src/ao_doclist.c
+addons/src/ao_bookmarklist.c
 
 #codenav
 codenav/src/codenavigation.c

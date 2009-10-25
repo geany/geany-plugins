@@ -27,6 +27,7 @@
 #include "ao_doclist.h"
 #include "ao_openuri.h"
 #include "ao_systray.h"
+#include "ao_bookmarklist.h"
 #include "tasks.h"
 
 
@@ -36,7 +37,7 @@ GeanyData		*geany_data;
 GeanyFunctions	*geany_functions;
 
 
-PLUGIN_VERSION_CHECK(161)
+PLUGIN_VERSION_CHECK(164)
 PLUGIN_SET_INFO(_("Addons"), _("Various small addons for Geany."), VERSION,
 	"Enrico Tröger, Bert Vermeulen")
 
@@ -49,11 +50,13 @@ typedef struct
 	gboolean enable_openuri;
 	gboolean enable_tasks;
 	gboolean enable_systray;
+	gboolean enable_bookmarklist;
 
 	/* instances and variables of components */
 	AoDocList *doclist;
 	AoOpenUri *openuri;
 	AoSystray *systray;
+	AoBookmarkList *bookmarklist;
 } AddonsInfo;
 static AddonsInfo *ao_info = NULL;
 
@@ -61,19 +64,35 @@ static AddonsInfo *ao_info = NULL;
 
 static void ao_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 									 GeanyDocument *doc, gpointer data);
+static void ao_document_activate_cb(GObject *obj, GeanyDocument *doc, gpointer data);
+gboolean ao_editor_notify_cb(GObject *object, GeanyEditor *editor,
+	SCNotification *nt, gpointer data);
 
 
 PluginCallback plugin_callbacks[] =
 {
     { "update-editor-menu", (GCallback) &ao_update_editor_menu_cb, FALSE, NULL },
 
-	{ "editor-notify", (GCallback) &tasks_on_editor_notify, TRUE, NULL },
+	{ "editor-notify", (GCallback) &ao_editor_notify_cb, TRUE, NULL },
 	{ "document-open", (GCallback) &tasks_on_document_open, TRUE, NULL },
 	{ "document-close", (GCallback) &tasks_on_document_close, TRUE, NULL },
-	{ "document-activate", (GCallback) &tasks_on_document_activate, TRUE, NULL },
+	{ "document-activate", (GCallback) &ao_document_activate_cb, TRUE, NULL },
 
 	{ NULL, NULL, FALSE, NULL }
 };
+
+
+gboolean ao_editor_notify_cb(GObject *object, GeanyEditor *editor,
+							 SCNotification *nt, gpointer data)
+{
+	gboolean ret = FALSE;
+
+	ao_bookmark_list_update_marker(ao_info->bookmarklist, editor, nt);
+
+	ret = tasks_on_editor_notify(object, editor, nt, data);
+
+	return ret;
+}
 
 
 static void ao_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
@@ -82,6 +101,15 @@ static void ao_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 	g_return_if_fail(doc != NULL && doc->is_valid);
 
 	ao_open_uri_update_menu(ao_info->openuri, doc, pos);
+}
+
+
+static void ao_document_activate_cb(GObject *obj, GeanyDocument *doc, gpointer data)
+{
+	g_return_if_fail(doc != NULL && doc->is_valid);
+
+	tasks_on_document_activate(obj, doc, data);
+	ao_bookmark_list_update(ao_info->bookmarklist, doc);
 }
 
 
@@ -114,6 +142,8 @@ void plugin_init(GeanyData *data)
 		"addons", "enable_tasks", TRUE);
 	ao_info->enable_systray = utils_get_setting_boolean(config,
 		"addons", "enable_systray", FALSE);
+	ao_info->enable_bookmarklist = utils_get_setting_boolean(config,
+		"addons", "enable_bookmarklist", FALSE);
 
 	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 	plugin_module_make_resident(geany_plugin);
@@ -121,6 +151,7 @@ void plugin_init(GeanyData *data)
 	ao_info->doclist = ao_doc_list_new(ao_info->show_toolbar_doclist_item);
 	ao_info->openuri = ao_open_uri_new(ao_info->enable_openuri);
 	ao_info->systray = ao_systray_new(ao_info->enable_systray);
+	ao_info->bookmarklist = ao_bookmark_list_new(ao_info->enable_bookmarklist);
 
 	tasks_set_enable(ao_info->enable_tasks);
 }
@@ -142,6 +173,8 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 			g_object_get_data(G_OBJECT(dialog), "check_tasks"))));
 		ao_info->enable_systray = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
 			g_object_get_data(G_OBJECT(dialog), "check_systray"))));
+		ao_info->enable_bookmarklist = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
+			g_object_get_data(G_OBJECT(dialog), "check_bookmarklist"))));
 
 		g_key_file_load_from_file(config, ao_info->config_file, G_KEY_FILE_NONE, NULL);
 		g_key_file_set_boolean(config, "addons",
@@ -149,10 +182,14 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 		g_key_file_set_boolean(config, "addons", "enable_openuri", ao_info->enable_openuri);
 		g_key_file_set_boolean(config, "addons", "enable_tasks", ao_info->enable_tasks);
 		g_key_file_set_boolean(config, "addons", "enable_systray", ao_info->enable_systray);
+		g_key_file_set_boolean(config, "addons", "enable_bookmarklist",
+			ao_info->enable_bookmarklist);
 
 		g_object_set(ao_info->doclist, "enable-doclist", ao_info->show_toolbar_doclist_item, NULL);
 		g_object_set(ao_info->openuri, "enable-openuri", ao_info->enable_openuri, NULL);
 		g_object_set(ao_info->systray, "enable-systray", ao_info->enable_systray, NULL);
+		g_object_set(ao_info->bookmarklist, "enable-bookmarklist",
+			ao_info->enable_bookmarklist, NULL);
 		tasks_set_enable(ao_info->enable_tasks);
 
 		if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir(config_dir, TRUE) != 0)
@@ -176,6 +213,7 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 GtkWidget *plugin_configure(GtkDialog *dialog)
 {
 	GtkWidget *vbox, *check_doclist, *check_openuri, *check_tasks, *check_systray;
+	GtkWidget *check_bookmarklist;
 
 	vbox = gtk_vbox_new(FALSE, 6);
 
@@ -204,10 +242,17 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 		ao_info->enable_systray);
 	gtk_box_pack_start(GTK_BOX(vbox), check_systray, FALSE, FALSE, 3);
 
+	check_bookmarklist = gtk_check_button_new_with_label(
+		_("Show define bookmarks (marked lines) in the sidebar"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_bookmarklist),
+		ao_info->enable_bookmarklist);
+	gtk_box_pack_start(GTK_BOX(vbox), check_bookmarklist, FALSE, FALSE, 3);
+
 	g_object_set_data(G_OBJECT(dialog), "check_doclist", check_doclist);
 	g_object_set_data(G_OBJECT(dialog), "check_openuri", check_openuri);
 	g_object_set_data(G_OBJECT(dialog), "check_tasks", check_tasks);
 	g_object_set_data(G_OBJECT(dialog), "check_systray", check_systray);
+	g_object_set_data(G_OBJECT(dialog), "check_bookmarklist", check_bookmarklist);
 	g_signal_connect(dialog, "response", G_CALLBACK(ao_configure_response_cb), NULL);
 
 	gtk_widget_show_all(vbox);
@@ -225,6 +270,7 @@ void plugin_cleanup(void)
 	g_object_unref(ao_info->doclist);
 	g_object_unref(ao_info->openuri);
 	g_object_unref(ao_info->systray);
+	g_object_unref(ao_info->bookmarklist);
 
 	tasks_set_enable(FALSE);
 
