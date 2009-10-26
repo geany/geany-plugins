@@ -32,7 +32,7 @@
 #include "editor.h"
 #include "filetypes.h"
 #include "templates.h"
-#include "dialogs.h"
+//#include "dialogs.h"
 #include "utils.h"
 #include "ui_utils.h"
 #include "keybindings.h"

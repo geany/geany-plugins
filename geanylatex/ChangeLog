@@ -1,5 +1,10 @@
 2009-05-25  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
+ * Remove dependency for dialog.h from geanylatex header files.
+
+
+2009-05-25  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
  * Replace also capital letter German Umlauts.
 
 
