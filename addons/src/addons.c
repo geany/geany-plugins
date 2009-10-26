@@ -243,7 +243,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_box_pack_start(GTK_BOX(vbox), check_systray, FALSE, FALSE, 3);
 
 	check_bookmarklist = gtk_check_button_new_with_label(
-		_("Show define bookmarks (marked lines) in the sidebar"));
+		_("Show defined bookmarks (marked lines) in the sidebar"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_bookmarklist),
 		ao_info->enable_bookmarklist);
 	gtk_box_pack_start(GTK_BOX(vbox), check_bookmarklist, FALSE, FALSE, 3);
