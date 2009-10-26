@@ -42,6 +42,16 @@ PLUGIN_SET_INFO(_("Addons"), _("Various small addons for Geany."), VERSION,
 	"Enrico Tröger, Bert Vermeulen")
 
 
+/* Keybinding(s) */
+enum
+{
+	KB_FOCUS_BOOKMARK_LIST,
+	KB_COUNT
+};
+
+PLUGIN_KEY_GROUP(addons, KB_COUNT)
+
+
 typedef struct
 {
 	/* general settings */
@@ -80,6 +90,12 @@ PluginCallback plugin_callbacks[] =
 
 	{ NULL, NULL, FALSE, NULL }
 };
+
+
+static void kb_bmlist_activate(guint key_id)
+{
+	ao_bookmark_list_activate(ao_info->bookmarklist);
+}
 
 
 gboolean ao_editor_notify_cb(GObject *object, GeanyEditor *editor,
@@ -154,6 +170,10 @@ void plugin_init(GeanyData *data)
 	ao_info->bookmarklist = ao_bookmark_list_new(ao_info->enable_bookmarklist);
 
 	tasks_set_enable(ao_info->enable_tasks);
+
+	/* setup keybindings */
+	keybindings_set_item(plugin_key_group, KB_FOCUS_BOOKMARK_LIST, kb_bmlist_activate,
+		0, 0, "focus_bookmark_list", _("Focus Bookmark List"), NULL);
 }
 
 

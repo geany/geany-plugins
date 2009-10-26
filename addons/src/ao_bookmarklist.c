@@ -34,7 +34,6 @@
 /*
  * TODO
  * - context menu
- * - activate keybinding
  */
 
 typedef struct _AoBookmarkListPrivate			AoBookmarkListPrivate;
@@ -56,10 +55,10 @@ struct _AoBookmarkListPrivate
 {
 	gboolean enable_bookmarklist;
 
-	GtkWidget *box;
-
 	gint page_number;
+
 	GtkListStore *store;
+	GtkWidget *tree;
 
 	gint		 search_line;
 	GtkTreeIter	*search_iter;
@@ -308,6 +307,20 @@ static void ao_bookmark_list_show(AoBookmarkList *bm)
 		gtk_label_new(_("Bookmarks")));
 
 	priv->store = store;
+	priv->tree = GTK_WIDGET(tree);
+}
+
+
+void ao_bookmark_list_activate(AoBookmarkList *bm)
+{
+	AoBookmarkListPrivate *priv = AO_BOOKMARK_LIST_GET_PRIVATE(bm);
+
+	if (priv->enable_bookmarklist)
+	{
+		gtk_notebook_set_current_page(
+			GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook), priv->page_number);
+		gtk_widget_grab_focus(priv->tree);
+	}
 }
 
 

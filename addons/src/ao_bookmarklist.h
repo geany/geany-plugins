@@ -44,6 +44,7 @@ AoBookmarkList*	ao_bookmark_list_new			(gboolean enable);
 void			ao_bookmark_list_update			(AoBookmarkList *bm, GeanyDocument *doc);
 void 			ao_bookmark_list_update_marker	(AoBookmarkList *bm, GeanyEditor *editor,
 												 SCNotification *nt);
+void			ao_bookmark_list_activate		(AoBookmarkList *bm);
 
 G_END_DECLS
 
