@@ -20,7 +20,6 @@
 #include "support.h"
 #include "document.h"
 #include "filetypes.h"
-#include "sciwrappers.h"
 #include "keybindings.h"
 #include "ui_utils.h"
 #include "editor.h"
