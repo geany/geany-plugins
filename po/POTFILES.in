@@ -70,3 +70,12 @@ geanylua/glspi_ver.h
 geanylua/glspi_app.c
 geanylua/glspi_dlg.c
 geanylua/glspi_run.c
+
+# geanyprj
+geanyprj/src/geanyprj.c
+geanyprj/src/menu.c
+geanyprj/src/sidebar.c
+geanyprj/src/xproject.c
+
+# geanydoc
+geanydoc/src/geanydoc.c
