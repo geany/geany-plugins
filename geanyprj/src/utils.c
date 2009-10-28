@@ -240,8 +240,13 @@ get_file_list(const gchar * path, guint * length, gboolean(*func) (const gchar *
 			continue;
 
 		filename = g_build_filename(abs_path, name, NULL);
-
-		if (g_file_test(filename, G_FILE_TEST_IS_DIR))
+		
+		if (g_file_test(filename, G_FILE_TEST_IS_SYMLINK))
+		{
+			g_free(filename);
+			continue;
+		}
+		else if (g_file_test(filename, G_FILE_TEST_IS_DIR))
 		{
 			guint l;
 			GSList *lst = get_file_list(filename, &l, func, NULL);
