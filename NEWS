@@ -2,6 +2,7 @@ Geany-plugins 0.18 (October 28, 2009)
 
     General:
     * Added new plugins GeanyDoc and GeanyPrj.
+    * Minor fixes.
 
     Spell Check:
     * Allow setting custom dictionary directories if
