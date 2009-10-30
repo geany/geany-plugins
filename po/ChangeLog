@@ -1,3 +1,9 @@
+2009-10-30  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * LINGUAS, zh_CN.po: Add Chinese Simplified translations.
+   Thanks to Xhacker Liu.
+
+
 2009-10-18  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * ca.po, LINGUAS: Added Catalan translation. Thanks to Toni Garcia-Navarro
