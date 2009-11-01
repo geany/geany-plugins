@@ -2,20 +2,20 @@
 
  * src/addons.c:
    Fix setting up keybindings.
- * src/bookmarklist.c:
+ * src/ao_bookmarklist.c:
    Improve handling of the notebook page (closes #2889415).
 
 
 2009-10-26  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
 
- * src/addons.c, src/bookmarklist.c, src/bookmarklist.h:
+ * src/addons.c, src/ao_bookmarklist.c, src/ao_bookmarklist.h:
    Add an 'activate' keybinding.
 
 
 2009-10-25  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
 
- * src/Makefile.am, src/addons.c, src/bookmarklist.c,
-   src/bookmarklist.h:
+ * src/Makefile.am, src/addons.c, src/ao_bookmarklist.c,
+   src/ao_bookmarklist.h:
    Add a simple bookmark list to the sidebar.
 
 
