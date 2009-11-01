@@ -49,7 +49,6 @@ enum
 	KB_COUNT
 };
 
-PLUGIN_KEY_GROUP(addons, KB_COUNT)
 
 
 typedef struct
@@ -143,6 +142,7 @@ GtkWidget *ao_image_menu_item_new(const gchar *stock_id, const gchar *label)
 void plugin_init(GeanyData *data)
 {
 	GKeyFile *config = g_key_file_new();
+	GeanyKeyGroup *key_group;
 
 	ao_info = g_new0(AddonsInfo, 1);
 
@@ -172,7 +172,8 @@ void plugin_init(GeanyData *data)
 	tasks_set_enable(ao_info->enable_tasks);
 
 	/* setup keybindings */
-	keybindings_set_item(plugin_key_group, KB_FOCUS_BOOKMARK_LIST, kb_bmlist_activate,
+	key_group = plugin_set_key_group(geany_plugin, "addons", KB_COUNT, NULL);
+	keybindings_set_item(key_group, KB_FOCUS_BOOKMARK_LIST, kb_bmlist_activate,
 		0, 0, "focus_bookmark_list", _("Focus Bookmark List"), NULL);
 }
 
