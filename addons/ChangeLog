@@ -5,6 +5,7 @@
  * src/ao_bookmarklist.c:
    Improve handling of the notebook page (closes #2889415).
    Add a popup menu to the Bookmark list to easily remove set bookmarks.
+   Initally fill the Bookmark list after the plugin has been enabled.
 
 
 2009-10-26  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>

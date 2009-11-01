@@ -317,6 +317,7 @@ static void ao_bookmark_list_show(AoBookmarkList *bm)
 	GtkListStore *store;
 	GtkWidget *scrollwin;
 	GtkTreeSortable *sortable;
+	GeanyDocument *doc;
 	AoBookmarkListPrivate *priv = AO_BOOKMARK_LIST_GET_PRIVATE(bm);
 
 	tree = GTK_TREE_VIEW(gtk_tree_view_new());
@@ -372,6 +373,11 @@ static void ao_bookmark_list_show(AoBookmarkList *bm)
 	priv->store = store;
 	priv->tree = GTK_WIDGET(tree);
 	priv->page = scrollwin;
+
+	/* initial update */
+	doc = document_get_current();
+	if (doc != NULL)
+		ao_bookmark_list_update(bm, doc);
 }
 
 
