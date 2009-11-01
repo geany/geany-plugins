@@ -31,10 +31,6 @@
 
 #include <gdk/gdkkeysyms.h>
 
-/*
- * TODO
- * - context menu
- */
 
 typedef struct _AoBookmarkListPrivate			AoBookmarkListPrivate;
 
@@ -56,6 +52,8 @@ struct _AoBookmarkListPrivate
 	gboolean enable_bookmarklist;
 
 	GtkWidget *page;
+	GtkWidget *popup_menu;
+
 	GtkListStore *store;
 	GtkWidget *tree;
 
@@ -221,6 +219,17 @@ static gboolean ao_button_press_cb(GtkWidget *widget, GdkEventButton *event, gpo
 	{	/* allow reclicking of a treeview item */
 		g_idle_add(ao_selection_changed_cb, widget);
 	}
+	else if (event->button == 3)
+	{
+		AoBookmarkListPrivate *priv = AO_BOOKMARK_LIST_GET_PRIVATE(data);
+		GtkTreeSelection *treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(priv->tree));
+		if (gtk_tree_selection_get_selected(treesel, NULL, NULL))
+		{
+			gtk_menu_popup(GTK_MENU(priv->popup_menu), NULL, NULL, NULL, NULL,
+				event->button, event->time);
+		}
+		/* don't return TRUE here, unless the selection won't be changed */
+	}
 	return FALSE;
 }
 
@@ -233,6 +242,17 @@ static gboolean ao_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer 
 		event->keyval == GDK_space)
 	{
 		g_idle_add(ao_selection_changed_cb, widget);
+	}
+
+	if ((event->keyval == GDK_F10 && event->state & GDK_SHIFT_MASK) || event->keyval == GDK_Menu)
+	{
+		GdkEventButton button_event;
+
+		button_event.time = event->time;
+		button_event.button = 3;
+
+		ao_button_press_cb(widget, &button_event, data);
+		return TRUE;
 	}
 	return FALSE;
 }
@@ -247,6 +267,45 @@ static void ao_bookmark_list_hide(AoBookmarkList *bm)
 		gtk_widget_destroy(priv->page);
 		priv->page = NULL;
 	}
+	if (priv->popup_menu)
+	{
+		gtk_widget_destroy(priv->popup_menu);
+		priv->popup_menu = NULL;
+	}
+}
+
+
+static void popup_item_click_cb(GtkWidget *button, gpointer data)
+{
+	GtkTreeSelection *treesel;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	AoBookmarkListPrivate *priv = AO_BOOKMARK_LIST_GET_PRIVATE(data);
+
+	treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(priv->tree));
+
+	if (gtk_tree_selection_get_selected(treesel, &model, &iter))
+	{
+		GeanyDocument *doc = document_get_current();
+		gint line_nr;
+		gtk_tree_model_get(model, &iter, BMLIST_COL_LINE, &line_nr, -1);
+		sci_delete_marker_at_line(doc->editor->sci, line_nr - 1, 1);
+	}
+}
+
+
+static GtkWidget *create_popup_menu(AoBookmarkList *bm)
+{
+	GtkWidget *item, *menu;
+
+	menu = gtk_menu_new();
+
+	item = ui_image_menu_item_new(GTK_STOCK_DELETE, _("_Remove Bookmark"));
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	g_signal_connect(item, "activate", G_CALLBACK(popup_item_click_cb), bm);
+
+	return menu;
 }
 
 
@@ -293,8 +352,8 @@ static void ao_bookmark_list_show(AoBookmarkList *bm)
 		g_object_set(tree, "has-tooltip", TRUE, "tooltip-column", BMLIST_COL_TOOLTIP, NULL);
 
 	/* selection handling */
-	g_signal_connect(tree, "button-press-event", G_CALLBACK(ao_button_press_cb), NULL);
-	g_signal_connect(tree, "key-press-event", G_CALLBACK(ao_key_press_cb), NULL);
+	g_signal_connect(tree, "button-press-event", G_CALLBACK(ao_button_press_cb), bm);
+	g_signal_connect(tree, "key-press-event", G_CALLBACK(ao_key_press_cb), bm);
 
 	/* scrolled window */
 	scrollwin = gtk_scrolled_window_new(NULL, NULL);
@@ -309,6 +368,7 @@ static void ao_bookmark_list_show(AoBookmarkList *bm)
 		scrollwin,
 		gtk_label_new(_("Bookmarks")));
 
+	priv->popup_menu = create_popup_menu(bm);
 	priv->store = store;
 	priv->tree = GTK_WIDGET(tree);
 	priv->page = scrollwin;
