@@ -2,6 +2,8 @@
 
  * src/addons.c:
    Fix setting up keybindings.
+ * src/bookmarklist.c:
+   Improve handling of the notebook page (closes #2889415).
 
 
 2009-10-26  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>

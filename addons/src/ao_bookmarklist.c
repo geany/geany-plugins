@@ -55,8 +55,7 @@ struct _AoBookmarkListPrivate
 {
 	gboolean enable_bookmarklist;
 
-	gint page_number;
-
+	GtkWidget *page;
 	GtkListStore *store;
 	GtkWidget *tree;
 
@@ -243,7 +242,11 @@ static void ao_bookmark_list_hide(AoBookmarkList *bm)
 {
 	AoBookmarkListPrivate *priv = AO_BOOKMARK_LIST_GET_PRIVATE(bm);
 
-	gtk_notebook_remove_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook), priv->page_number);
+	if (priv->page)
+	{
+		gtk_widget_destroy(priv->page);
+		priv->page = NULL;
+	}
 }
 
 
@@ -301,13 +304,14 @@ static void ao_bookmark_list_show(AoBookmarkList *bm)
 	gtk_container_add(GTK_CONTAINER(scrollwin), GTK_WIDGET(tree));
 
 	gtk_widget_show_all(scrollwin);
-	priv->page_number = gtk_notebook_append_page(
+	gtk_notebook_append_page(
 		GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook),
 		scrollwin,
 		gtk_label_new(_("Bookmarks")));
 
 	priv->store = store;
 	priv->tree = GTK_WIDGET(tree);
+	priv->page = scrollwin;
 }
 
 
@@ -317,8 +321,10 @@ void ao_bookmark_list_activate(AoBookmarkList *bm)
 
 	if (priv->enable_bookmarklist)
 	{
-		gtk_notebook_set_current_page(
-			GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook), priv->page_number);
+		GtkNotebook *notebook = GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook);
+		gint page_number = gtk_notebook_page_num(notebook, priv->page);
+
+		gtk_notebook_set_current_page(notebook, page_number);
 		gtk_widget_grab_focus(priv->tree);
 	}
 }
@@ -358,6 +364,9 @@ void ao_bookmark_list_update_marker(AoBookmarkList *bm, GeanyEditor *editor, SCN
 
 static void ao_bookmark_list_init(AoBookmarkList *self)
 {
+	AoBookmarkListPrivate *priv = AO_BOOKMARK_LIST_GET_PRIVATE(self);
+
+	priv->page = NULL;
 }
 
 
