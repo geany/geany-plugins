@@ -28,6 +28,7 @@
 #include "ao_openuri.h"
 #include "ao_systray.h"
 #include "ao_bookmarklist.h"
+#include "ao_markword.h"
 #include "tasks.h"
 
 
@@ -60,12 +61,14 @@ typedef struct
 	gboolean enable_tasks;
 	gboolean enable_systray;
 	gboolean enable_bookmarklist;
+	gboolean enable_markword;
 
 	/* instances and variables of components */
 	AoDocList *doclist;
 	AoOpenUri *openuri;
 	AoSystray *systray;
 	AoBookmarkList *bookmarklist;
+	AoMarkWord *markword;
 } AddonsInfo;
 static AddonsInfo *ao_info = NULL;
 
@@ -103,6 +106,7 @@ gboolean ao_editor_notify_cb(GObject *object, GeanyEditor *editor,
 	gboolean ret = FALSE;
 
 	ao_bookmark_list_update_marker(ao_info->bookmarklist, editor, nt);
+	ao_mark_word_check(ao_info->markword, editor, nt);
 
 	ret = tasks_on_editor_notify(object, editor, nt, data);
 
@@ -160,6 +164,8 @@ void plugin_init(GeanyData *data)
 		"addons", "enable_systray", FALSE);
 	ao_info->enable_bookmarklist = utils_get_setting_boolean(config,
 		"addons", "enable_bookmarklist", FALSE);
+	ao_info->enable_markword = utils_get_setting_boolean(config,
+		"addons", "enable_markword", FALSE);
 
 	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 	plugin_module_make_resident(geany_plugin);
@@ -168,6 +174,7 @@ void plugin_init(GeanyData *data)
 	ao_info->openuri = ao_open_uri_new(ao_info->enable_openuri);
 	ao_info->systray = ao_systray_new(ao_info->enable_systray);
 	ao_info->bookmarklist = ao_bookmark_list_new(ao_info->enable_bookmarklist);
+	ao_info->markword = ao_mark_word_new(ao_info->enable_markword);
 
 	tasks_set_enable(ao_info->enable_tasks);
 
@@ -196,6 +203,8 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 			g_object_get_data(G_OBJECT(dialog), "check_systray"))));
 		ao_info->enable_bookmarklist = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
 			g_object_get_data(G_OBJECT(dialog), "check_bookmarklist"))));
+		ao_info->enable_markword = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
+			g_object_get_data(G_OBJECT(dialog), "check_markword"))));
 
 		g_key_file_load_from_file(config, ao_info->config_file, G_KEY_FILE_NONE, NULL);
 		g_key_file_set_boolean(config, "addons",
@@ -205,12 +214,14 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 		g_key_file_set_boolean(config, "addons", "enable_systray", ao_info->enable_systray);
 		g_key_file_set_boolean(config, "addons", "enable_bookmarklist",
 			ao_info->enable_bookmarklist);
+		g_key_file_set_boolean(config, "addons", "enable_markword", ao_info->enable_markword);
 
 		g_object_set(ao_info->doclist, "enable-doclist", ao_info->show_toolbar_doclist_item, NULL);
 		g_object_set(ao_info->openuri, "enable-openuri", ao_info->enable_openuri, NULL);
 		g_object_set(ao_info->systray, "enable-systray", ao_info->enable_systray, NULL);
 		g_object_set(ao_info->bookmarklist, "enable-bookmarklist",
 			ao_info->enable_bookmarklist, NULL);
+		g_object_set(ao_info->markword, "enable-markword", ao_info->enable_markword, NULL);
 		tasks_set_enable(ao_info->enable_tasks);
 
 		if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir(config_dir, TRUE) != 0)
@@ -234,7 +245,7 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 GtkWidget *plugin_configure(GtkDialog *dialog)
 {
 	GtkWidget *vbox, *check_doclist, *check_openuri, *check_tasks, *check_systray;
-	GtkWidget *check_bookmarklist;
+	GtkWidget *check_bookmarklist, *check_markword;
 
 	vbox = gtk_vbox_new(FALSE, 6);
 
@@ -269,11 +280,18 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 		ao_info->enable_bookmarklist);
 	gtk_box_pack_start(GTK_BOX(vbox), check_bookmarklist, FALSE, FALSE, 3);
 
+	check_markword = gtk_check_button_new_with_label(
+		_("Mark all occurrences of a word when double-clicking it"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_markword),
+		ao_info->enable_markword);
+	gtk_box_pack_start(GTK_BOX(vbox), check_markword, FALSE, FALSE, 3);
+
 	g_object_set_data(G_OBJECT(dialog), "check_doclist", check_doclist);
 	g_object_set_data(G_OBJECT(dialog), "check_openuri", check_openuri);
 	g_object_set_data(G_OBJECT(dialog), "check_tasks", check_tasks);
 	g_object_set_data(G_OBJECT(dialog), "check_systray", check_systray);
 	g_object_set_data(G_OBJECT(dialog), "check_bookmarklist", check_bookmarklist);
+	g_object_set_data(G_OBJECT(dialog), "check_markword", check_markword);
 	g_signal_connect(dialog, "response", G_CALLBACK(ao_configure_response_cb), NULL);
 
 	gtk_widget_show_all(vbox);
@@ -292,6 +310,7 @@ void plugin_cleanup(void)
 	g_object_unref(ao_info->openuri);
 	g_object_unref(ao_info->systray);
 	g_object_unref(ao_info->bookmarklist);
+	g_object_unref(ao_info->markword);
 
 	tasks_set_enable(FALSE);
 

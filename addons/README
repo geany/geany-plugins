@@ -32,6 +32,17 @@ Adds a status icon to the notification area (systray) and provides
 a simple popup menu with some basic actions. It can also be used to
 quickly show and hide the Geany main window.
 
+Bookmark List
+^^^^^^^^^^^^^
+Add a list of defined bookmarks (line markers) to the sidebar.
+This list contains all bookmarks defined in the current file
+for faster overview and access.
+
+Mark Word
+^^^^^^^^^
+When double-clicking a word, all occurences of this word are searched
+and then highlighted (similar to Geany's 'Mark All' Find option).
+
 
 Downloads
 ---------
