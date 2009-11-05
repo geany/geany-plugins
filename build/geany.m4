@@ -14,6 +14,6 @@ AC_DEFUN([GP_CHECK_GEANY],
     geanyversion=$(${PKG_CONFIG} --modversion geany)
     AC_SUBST([geanypluginsdir])
 
-    PKG_CONFIG_PATH="${PKG_CONFIG_PATH#*:}"
+    export PKG_CONFIG_PATH="${PKG_CONFIG_PATH#*:}"
     test -z "${PKG_CONFIG_PATH}" && unset PKG_CONFIG_PATH
 ])
