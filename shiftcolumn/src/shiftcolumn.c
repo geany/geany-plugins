@@ -28,7 +28,6 @@
 
 #include "ui_utils.h"
 
-#include "sciwrappers.h"
 #include "document.h"
 #include "keybindings.h"
 #include "plugindata.h"
