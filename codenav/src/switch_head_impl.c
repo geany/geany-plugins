@@ -358,8 +358,12 @@ menu_item_activate(guint key_id)
 			gtk_window_set_title(GTK_WINDOW(dialog), "Geany");
 			if(gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_OK)
 			{
-				document_new_file(p_str, current_doc->file_type, NULL);
+				p_str2 = g_strdup_printf(	"%s" G_DIR_SEPARATOR_S "%s", dirname, p_str);
+
+				document_new_file(p_str2, current_doc->file_type, NULL);
 				document_set_text_changed(document_get_current(), TRUE);
+
+				g_free(p_str2);
 			}
 
 			log_debug("DESTROY");
