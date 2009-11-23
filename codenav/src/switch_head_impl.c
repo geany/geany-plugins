@@ -417,6 +417,9 @@ add_language(GtkListStore* list_store, Language* lang)
 	if(lang->head_extensions == NULL || lang->impl_extensions == NULL)
 		return;
 
+	/* Append an empty row */
+	gtk_list_store_append(list_store, &tree_iter);
+
 	/* Header extensions */
 	p_str = concatenate_extensions(lang->head_extensions);
 	gtk_list_store_set(list_store, &tree_iter, COLUMN_HEAD, p_str, -1);
@@ -424,7 +427,6 @@ add_language(GtkListStore* list_store, Language* lang)
 
 	/* Implementation extensions */
 	p_str = concatenate_extensions(lang->impl_extensions);
-	gtk_list_store_append(list_store, &tree_iter);
 	gtk_list_store_set(list_store, &tree_iter, COLUMN_IMPL, p_str, -1);
 	g_free(p_str);
 }
