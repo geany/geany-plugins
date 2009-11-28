@@ -218,6 +218,12 @@ static GtkWidget *init_editor_submenu(void)
 }
 
 
+static void perform_spell_check_cb(GtkWidget *menu_item, GeanyDocument *doc)
+{
+	sc_speller_check_document(doc);
+}
+
+
 void sc_gui_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 								  GeanyDocument *doc, gpointer user_data)
 {
@@ -252,20 +258,20 @@ void sc_gui_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 	/* ignore too long search words */
 	if (strlen(search_word) > 100)
 	{
-		gchar *label, *short_search_word;
 		GtkWidget *menu_item;
 
-		short_search_word = utils_str_middle_truncate(search_word, 30);
-		label = g_strdup_printf(_("Search term \"%s\" is too long to check."), short_search_word);
-
 		init_editor_submenu();
-		menu_item = gtk_menu_item_new_with_label(label);
+		menu_item = gtk_menu_item_new_with_label(
+			_("Search term is too long to provide\nspelling suggestions in the editor menu."));
 		gtk_widget_set_sensitive(menu_item, FALSE);
 		gtk_widget_show(menu_item);
 		gtk_container_add(GTK_CONTAINER(sc_info->edit_menu_sub), menu_item);
 
-		g_free(label);
-		g_free(short_search_word);
+		menu_item = gtk_menu_item_new_with_label(_("Perform Spell Check"));
+		gtk_widget_show(menu_item);
+		gtk_container_add(GTK_CONTAINER(sc_info->edit_menu_sub), menu_item);
+		g_signal_connect(menu_item, "activate", G_CALLBACK(perform_spell_check_cb), doc);
+
 		g_free(search_word);
 		return;
 	}
