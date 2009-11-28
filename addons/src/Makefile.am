@@ -10,13 +10,13 @@ addons_la_SOURCES = \
 	ao_systray.h \
 	ao_bookmarklist.h \
 	ao_markword.h \
-	tasks.h \
+	ao_tasks.h \
 	addons.c \
 	ao_doclist.c \
 	ao_openuri.c \
 	ao_systray.c \
 	ao_bookmarklist.c \
 	ao_markword.c \
-	tasks.c
+	ao_tasks.c
 
 addons_la_LIBADD = $(COMMONLIBS)

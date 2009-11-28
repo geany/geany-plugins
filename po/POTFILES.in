@@ -2,7 +2,7 @@
 
 # Addons
 addons/src/ao_systray.c
-addons/src/tasks.c
+addons/src/ao_tasks.c
 addons/src/ao_openuri.c
 addons/src/addons.c
 addons/src/ao_doclist.c

@@ -29,7 +29,7 @@
 #include "ao_systray.h"
 #include "ao_bookmarklist.h"
 #include "ao_markword.h"
-#include "tasks.h"
+#include "ao_tasks.h"
 
 
 
@@ -47,6 +47,7 @@ PLUGIN_SET_INFO(_("Addons"), _("Various small addons for Geany."), VERSION,
 enum
 {
 	KB_FOCUS_BOOKMARK_LIST,
+	KB_FOCUS_TASKS,
 	KB_COUNT
 };
 
@@ -69,6 +70,7 @@ typedef struct
 	AoSystray *systray;
 	AoBookmarkList *bookmarklist;
 	AoMarkWord *markword;
+	AoTasks *tasks;
 } AddonsInfo;
 static AddonsInfo *ao_info = NULL;
 
@@ -77,6 +79,9 @@ static AddonsInfo *ao_info = NULL;
 static void ao_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 									 GeanyDocument *doc, gpointer data);
 static void ao_document_activate_cb(GObject *obj, GeanyDocument *doc, gpointer data);
+static void ao_document_open_cb(GObject *obj, GeanyDocument *doc, gpointer data);
+static void ao_document_save_cb(GObject *obj, GeanyDocument *doc, gpointer data);
+static void ao_document_close_cb(GObject *obj, GeanyDocument *doc, gpointer data);
 gboolean ao_editor_notify_cb(GObject *object, GeanyEditor *editor,
 	SCNotification *nt, gpointer data);
 
@@ -86,8 +91,9 @@ PluginCallback plugin_callbacks[] =
     { "update-editor-menu", (GCallback) &ao_update_editor_menu_cb, FALSE, NULL },
 
 	{ "editor-notify", (GCallback) &ao_editor_notify_cb, TRUE, NULL },
-	{ "document-open", (GCallback) &tasks_on_document_open, TRUE, NULL },
-	{ "document-close", (GCallback) &tasks_on_document_close, TRUE, NULL },
+	{ "document-open", (GCallback) &ao_document_open_cb, TRUE, NULL },
+	{ "document-save", (GCallback) &ao_document_save_cb, TRUE, NULL },
+	{ "document-close", (GCallback) &ao_document_close_cb, TRUE, NULL },
 	{ "document-activate", (GCallback) &ao_document_activate_cb, TRUE, NULL },
 
 	{ NULL, NULL, FALSE, NULL }
@@ -100,17 +106,19 @@ static void kb_bmlist_activate(guint key_id)
 }
 
 
+static void kb_tasks_activate(guint key_id)
+{
+	ao_tasks_activate(ao_info->tasks);
+}
+
+
 gboolean ao_editor_notify_cb(GObject *object, GeanyEditor *editor,
 							 SCNotification *nt, gpointer data)
 {
-	gboolean ret = FALSE;
-
 	ao_bookmark_list_update_marker(ao_info->bookmarklist, editor, nt);
 	ao_mark_word_check(ao_info->markword, editor, nt);
 
-	ret = tasks_on_editor_notify(object, editor, nt, data);
-
-	return ret;
+	return FALSE;
 }
 
 
@@ -127,8 +135,31 @@ static void ao_document_activate_cb(GObject *obj, GeanyDocument *doc, gpointer d
 {
 	g_return_if_fail(doc != NULL && doc->is_valid);
 
-	tasks_on_document_activate(obj, doc, data);
 	ao_bookmark_list_update(ao_info->bookmarklist, doc);
+}
+
+
+static void ao_document_open_cb(GObject *obj, GeanyDocument *doc, gpointer data)
+{
+	g_return_if_fail(doc != NULL && doc->is_valid);
+
+	ao_tasks_update(ao_info->tasks, doc);
+}
+
+
+static void ao_document_close_cb(GObject *obj, GeanyDocument *doc, gpointer data)
+{
+	g_return_if_fail(doc != NULL && doc->is_valid);
+
+	ao_tasks_update(ao_info->tasks, doc);
+}
+
+
+static void ao_document_save_cb(GObject *obj, GeanyDocument *doc, gpointer data)
+{
+	g_return_if_fail(doc != NULL && doc->is_valid);
+
+	ao_tasks_update(ao_info->tasks, doc);
 }
 
 
@@ -175,13 +206,14 @@ void plugin_init(GeanyData *data)
 	ao_info->systray = ao_systray_new(ao_info->enable_systray);
 	ao_info->bookmarklist = ao_bookmark_list_new(ao_info->enable_bookmarklist);
 	ao_info->markword = ao_mark_word_new(ao_info->enable_markword);
-
-	tasks_set_enable(ao_info->enable_tasks);
+	ao_info->tasks = ao_tasks_new(ao_info->enable_tasks);
 
 	/* setup keybindings */
 	key_group = plugin_set_key_group(geany_plugin, "addons", KB_COUNT, NULL);
 	keybindings_set_item(key_group, KB_FOCUS_BOOKMARK_LIST, kb_bmlist_activate,
 		0, 0, "focus_bookmark_list", _("Focus Bookmark List"), NULL);
+	keybindings_set_item(key_group, KB_FOCUS_TASKS, kb_tasks_activate,
+		0, 0, "focus_tasks", _("Focus Tasks List"), NULL);
 }
 
 
@@ -205,6 +237,8 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 			g_object_get_data(G_OBJECT(dialog), "check_bookmarklist"))));
 		ao_info->enable_markword = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
 			g_object_get_data(G_OBJECT(dialog), "check_markword"))));
+		ao_info->enable_tasks = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
+			g_object_get_data(G_OBJECT(dialog), "check_tasks"))));
 
 		g_key_file_load_from_file(config, ao_info->config_file, G_KEY_FILE_NONE, NULL);
 		g_key_file_set_boolean(config, "addons",
@@ -222,7 +256,7 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 		g_object_set(ao_info->bookmarklist, "enable-bookmarklist",
 			ao_info->enable_bookmarklist, NULL);
 		g_object_set(ao_info->markword, "enable-markword", ao_info->enable_markword, NULL);
-		tasks_set_enable(ao_info->enable_tasks);
+		g_object_set(ao_info->tasks, "enable-tasks", ao_info->enable_tasks, NULL);
 
 		if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir(config_dir, TRUE) != 0)
 		{
@@ -263,7 +297,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_box_pack_start(GTK_BOX(vbox), check_openuri, FALSE, FALSE, 3);
 
 	check_tasks = gtk_check_button_new_with_label(
-		_("Show available tasks in the Message Window"));
+		_("Show available Tasks in the Messages Window"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_tasks),
 		ao_info->enable_tasks);
 	gtk_box_pack_start(GTK_BOX(vbox), check_tasks, FALSE, FALSE, 3);
@@ -311,8 +345,7 @@ void plugin_cleanup(void)
 	g_object_unref(ao_info->systray);
 	g_object_unref(ao_info->bookmarklist);
 	g_object_unref(ao_info->markword);
-
-	tasks_set_enable(FALSE);
+	g_object_unref(ao_info->tasks);
 
 	g_free(ao_info->config_file);
 	g_free(ao_info);

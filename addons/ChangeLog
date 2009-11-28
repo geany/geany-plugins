@@ -1,3 +1,13 @@
+2009-11-28  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/Makefile.am, src/tasks.c, src/tasks.h, src/ao_tasks.h,
+   src/ao_tasks.c, src/addons.c:
+   Complete rewrite of the Tasks Addon. Changes:
+   - Works on all open documents, not only on the current one
+   - Rescan for tokens only on document open/save/close
+   - Add keybinding to activate the Tasks tab
+
+
 2009-11-04  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
 
  * src/ao_bookmarklist.c:
