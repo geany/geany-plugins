@@ -5,6 +5,9 @@
  * src/gui.c, src/scplugin.c, src/scplugin.h:
    Add an option to make the editor menu items for Spelling
    Suggestions optional.
+ * src/gui.c:
+   Prevent looking for very long search terms which most probably
+   will fail anyway.
 
 
 2009-09-30  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>

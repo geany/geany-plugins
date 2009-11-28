@@ -202,6 +202,22 @@ static GtkWidget *image_menu_item_new(const gchar *stock_id, const gchar *label)
 }
 
 
+static GtkWidget *init_editor_submenu(void)
+{
+	if (sc_info->edit_menu_sub != NULL && GTK_IS_WIDGET(sc_info->edit_menu_sub))
+		gtk_widget_destroy(sc_info->edit_menu_sub);
+
+	sc_info->edit_menu_sub = gtk_menu_new();
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(sc_info->edit_menu), sc_info->edit_menu_sub);
+
+	gtk_widget_show(sc_info->edit_menu);
+	gtk_widget_show(sc_info->edit_menu_sep);
+	gtk_widget_show(sc_info->edit_menu_sub);
+
+	return sc_info->edit_menu_sub;
+}
+
+
 void sc_gui_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 								  GeanyDocument *doc, gpointer user_data)
 {
@@ -233,6 +249,27 @@ void sc_gui_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 		return;
 	}
 
+	/* ignore too long search words */
+	if (strlen(search_word) > 100)
+	{
+		gchar *label, *short_search_word;
+		GtkWidget *menu_item;
+
+		short_search_word = utils_str_middle_truncate(search_word, 30);
+		label = g_strdup_printf(_("Search term \"%s\" is too long to check."), short_search_word);
+
+		init_editor_submenu();
+		menu_item = gtk_menu_item_new_with_label(label);
+		gtk_widget_set_sensitive(menu_item, FALSE);
+		gtk_widget_show(menu_item);
+		gtk_container_add(GTK_CONTAINER(sc_info->edit_menu_sub), menu_item);
+
+		g_free(label);
+		g_free(short_search_word);
+		g_free(search_word);
+		return;
+	}
+
 	if (sc_speller_dict_check(search_word) != 0)
 	{
 		GtkWidget *menu_item, *menu;
@@ -246,11 +283,7 @@ void sc_gui_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 		clickinfo.doc = doc;
 		setptr(clickinfo.word, search_word);
 
-		if (sc_info->edit_menu_sub != NULL && GTK_IS_WIDGET(sc_info->edit_menu_sub))
-			gtk_widget_destroy(sc_info->edit_menu_sub);
-
-		sc_info->edit_menu_sub = menu = gtk_menu_new();
-		gtk_menu_item_set_submenu(GTK_MENU_ITEM(sc_info->edit_menu), sc_info->edit_menu_sub);
+		menu = init_editor_submenu();
 
 		for (i = 0; i < n_suggs; i++)
 		{
@@ -268,6 +301,7 @@ void sc_gui_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 				gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_item), menu);
 			}
 			menu_item = gtk_menu_item_new_with_label(suggs[i]);
+			gtk_widget_show(menu_item);
 			gtk_container_add(GTK_CONTAINER(menu), menu_item);
 			g_signal_connect(menu_item, "activate",
 				G_CALLBACK(menu_suggestion_item_activate_cb), NULL);
@@ -276,25 +310,25 @@ void sc_gui_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 		{
 			menu_item = gtk_menu_item_new_with_label(_("(No Suggestions)"));
 			gtk_widget_set_sensitive(menu_item, FALSE);
+			gtk_widget_show(menu_item);
 			gtk_container_add(GTK_CONTAINER(sc_info->edit_menu_sub), menu_item);
 		}
 		menu_item = gtk_separator_menu_item_new();
+		gtk_widget_show(menu_item);
 		gtk_container_add(GTK_CONTAINER(sc_info->edit_menu_sub), menu_item);
 
 		label = g_strdup_printf(_("Add \"%s\" to Dictionary"), search_word);
 		menu_item = image_menu_item_new(GTK_STOCK_ADD, label);
+		gtk_widget_show(menu_item);
 		gtk_container_add(GTK_CONTAINER(sc_info->edit_menu_sub), menu_item);
 		g_signal_connect(menu_item, "activate",
 			G_CALLBACK(menu_addword_item_activate_cb), GINT_TO_POINTER(0));
 
 		menu_item = image_menu_item_new(GTK_STOCK_REMOVE, _("Ignore All"));
+		gtk_widget_show(menu_item);
 		gtk_container_add(GTK_CONTAINER(sc_info->edit_menu_sub), menu_item);
 		g_signal_connect(menu_item, "activate",
 			G_CALLBACK(menu_addword_item_activate_cb), GINT_TO_POINTER(1));
-
-		gtk_widget_show(sc_info->edit_menu);
-		gtk_widget_show(sc_info->edit_menu_sep);
-		gtk_widget_show_all(sc_info->edit_menu_sub);
 
 		if (suggs != NULL)
 			sc_speller_dict_free_string_list(suggs);
