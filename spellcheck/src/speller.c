@@ -378,7 +378,7 @@ void sc_speller_store_replacement(const gchar *old_word, const gchar *new_word)
 
 void sc_speller_reinit_enchant_dict(void)
 {
-	gchar *lang = sc_info->default_language;
+	const gchar *lang = sc_info->default_language;
 
 	/* Release a previous dict object */
 	if (sc_speller_dict != NULL)
@@ -404,9 +404,9 @@ void sc_speller_reinit_enchant_dict(void)
 #endif
 	create_dicts_array();
 
-	/* Check if the stored default dictionary is (still) avaiable, fall back to the first
+	/* Check if the stored default dictionary is (still) available, fall back to the first
 	 * one in the list if not */
-	if (! check_default_lang())
+	if (! NZV(lang) || ! check_default_lang())
 	{
 		if (sc_info->dicts->len > 0)
 		{
@@ -419,7 +419,10 @@ void sc_speller_reinit_enchant_dict(void)
 	}
 
 	/* Request new dict object */
-	sc_speller_dict = enchant_broker_request_dict(sc_speller_broker, lang);
+	if (NZV(lang))
+		sc_speller_dict = enchant_broker_request_dict(sc_speller_broker, lang);
+	else
+		sc_speller_dict = NULL;
 	if (sc_speller_dict == NULL)
 	{
 		broker_init_failed();
