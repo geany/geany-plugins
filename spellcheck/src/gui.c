@@ -218,9 +218,23 @@ static GtkWidget *init_editor_submenu(void)
 }
 
 
+static void perform_check(GeanyDocument *doc)
+{
+	editor_indicator_clear(doc->editor, GEANY_INDICATOR_ERROR);
+
+	if (sc_info->use_msgwin)
+	{
+		msgwin_clear_tab(MSG_MESSAGE);
+		msgwin_switch_tab(MSG_MESSAGE, FALSE);
+	}
+
+	sc_speller_check_document(doc);
+}
+
+
 static void perform_spell_check_cb(GtkWidget *menu_item, GeanyDocument *doc)
 {
-	sc_speller_check_document(doc);
+	perform_check(doc);
 }
 
 
@@ -490,20 +504,13 @@ static void menu_item_toggled_cb(GtkCheckMenuItem *menuitem, gpointer gdata)
 		update_labels();
 	}
 
-	editor_indicator_clear(doc->editor, GEANY_INDICATOR_ERROR);
-	if (sc_info->use_msgwin)
-	{
-		msgwin_clear_tab(MSG_MESSAGE);
-		msgwin_switch_tab(MSG_MESSAGE, FALSE);
-	}
-
-	sc_speller_check_document(doc);
+	perform_check(doc);
 }
 
 
 void sc_gui_kb_run_activate_cb(guint key_id)
 {
-	menu_item_toggled_cb(NULL, NULL);
+	perform_check(document_get_current());
 }
 
 
