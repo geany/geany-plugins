@@ -48,6 +48,7 @@ enum
 {
 	KB_FOCUS_BOOKMARK_LIST,
 	KB_FOCUS_TASKS,
+	KB_UPDATE_TASKS,
 	KB_COUNT
 };
 
@@ -109,6 +110,12 @@ static void kb_bmlist_activate(guint key_id)
 static void kb_tasks_activate(guint key_id)
 {
 	ao_tasks_activate(ao_info->tasks);
+}
+
+
+static void kb_tasks_update(guint key_id)
+{
+	ao_tasks_update(ao_info->tasks, NULL);
 }
 
 
@@ -214,6 +221,8 @@ void plugin_init(GeanyData *data)
 		0, 0, "focus_bookmark_list", _("Focus Bookmark List"), NULL);
 	keybindings_set_item(key_group, KB_FOCUS_TASKS, kb_tasks_activate,
 		0, 0, "focus_tasks", _("Focus Tasks List"), NULL);
+	keybindings_set_item(key_group, KB_UPDATE_TASKS, kb_tasks_update,
+		0, 0, "update_tasks", _("Update Tasks List"), NULL);
 }
 
 
