@@ -36,6 +36,7 @@ typedef struct
 	gboolean use_msgwin;
 	gboolean check_while_typing;
 	gboolean show_toolbar_item;
+	gboolean show_editor_menu_item;
 	gulong signal_id;
 	GPtrArray *dicts;
 	GtkWidget *main_menu;

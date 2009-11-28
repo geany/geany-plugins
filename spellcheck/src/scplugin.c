@@ -108,12 +108,20 @@ static void configure_response_cb(GtkDialog *dialog, gint response, gpointer use
 		sc_info->show_toolbar_item = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
 			g_object_get_data(G_OBJECT(dialog), "check_toolbar"))));
 
+		sc_info->show_editor_menu_item = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
+			g_object_get_data(G_OBJECT(dialog), "check_editor_menu"))));
+
 		g_key_file_load_from_file(config, sc_info->config_file, G_KEY_FILE_NONE, NULL);
 		if (sc_info->default_language != NULL) /* lang may be NULL */
 			g_key_file_set_string(config, "spellcheck", "language", sc_info->default_language);
-		g_key_file_set_boolean(config, "spellcheck", "check_while_typing", sc_info->check_while_typing);
-		g_key_file_set_boolean(config, "spellcheck", "use_msgwin", sc_info->use_msgwin);
-		g_key_file_set_boolean(config, "spellcheck", "show_toolbar_item", sc_info->show_toolbar_item);
+		g_key_file_set_boolean(config, "spellcheck", "check_while_typing",
+			sc_info->check_while_typing);
+		g_key_file_set_boolean(config, "spellcheck", "use_msgwin",
+			sc_info->use_msgwin);
+		g_key_file_set_boolean(config, "spellcheck", "show_toolbar_item",
+			sc_info->show_toolbar_item);
+		g_key_file_set_boolean(config, "spellcheck", "show_editor_menu_item",
+			sc_info->show_editor_menu_item);
 		g_key_file_set_string(config, "spellcheck", "dictionary_dir", sc_info->dictionary_dir);
 
 		sc_gui_update_toolbar();
@@ -146,7 +154,8 @@ void plugin_init(GeanyData *data)
 	default_lang = sc_speller_get_default_lang();
 	sc_info = g_new0(SpellCheck, 1);
 
-	sc_info->config_file = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
+	sc_info->config_file = g_strconcat(geany->app->configdir,
+		G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
 		"spellcheck", G_DIR_SEPARATOR_S, "spellcheck.conf", NULL);
 
 	g_key_file_load_from_file(config, sc_info->config_file, G_KEY_FILE_NONE, NULL);
@@ -156,6 +165,8 @@ void plugin_init(GeanyData *data)
 		"spellcheck", "check_while_typing", FALSE);
 	sc_info->show_toolbar_item = utils_get_setting_boolean(config,
 		"spellcheck", "show_toolbar_item", TRUE);
+	sc_info->show_editor_menu_item = utils_get_setting_boolean(config,
+		"spellcheck", "show_editor_menu_item", TRUE);
 	sc_info->dictionary_dir = utils_get_setting_string(config,
 		"spellcheck", "dictionary_dir", NULL);
 	sc_info->use_msgwin = utils_get_setting_boolean(config, "spellcheck", "use_msgwin", FALSE);
@@ -194,7 +205,7 @@ static void dictionary_dir_button_clicked_cb(GtkButton *button, gpointer item)
 	GtkWidget *dialog;
 	gchar *text;
 
-	/* initialize the dialog */
+	/* initialise the dialog */
 	dialog = gtk_file_chooser_dialog_new(_("Select Directory"), NULL,
 					GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
 					GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -225,7 +236,7 @@ static void dictionary_dir_button_clicked_cb(GtkButton *button, gpointer item)
 
 GtkWidget *plugin_configure(GtkDialog *dialog)
 {
-	GtkWidget *label, *vbox, *combo, *check_type, *check_msgwin, *check_toolbar;
+	GtkWidget *label, *vbox, *combo, *check_type, *check_msgwin, *check_toolbar, *check_editor_menu;
 #ifdef HAVE_ENCHANT_1_5
 	GtkWidget *entry_dir, *hbox, *button, *image;
 #endif
@@ -236,9 +247,16 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_type), sc_info->check_while_typing);
 	gtk_box_pack_start(GTK_BOX(vbox), check_type, FALSE, FALSE, 6);
 
-	check_toolbar = gtk_check_button_new_with_label(_("Show toolbar item to toggle spell checking"));
+	check_toolbar = gtk_check_button_new_with_label(
+		_("Show toolbar item to toggle spell checking"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_toolbar), sc_info->show_toolbar_item);
 	gtk_box_pack_start(GTK_BOX(vbox), check_toolbar, FALSE, FALSE, 3);
+
+	check_editor_menu = gtk_check_button_new_with_label(
+		_("Show editor menu item to show spelling suggestions"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_editor_menu),
+		sc_info->show_editor_menu_item);
+	gtk_box_pack_start(GTK_BOX(vbox), check_editor_menu, FALSE, FALSE, 3);
 
 	check_msgwin = gtk_check_button_new_with_label(
 		_("Print misspelled words and suggestions in the messages window"));
@@ -291,6 +309,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	g_object_set_data(G_OBJECT(dialog), "check_type", check_type);
 	g_object_set_data(G_OBJECT(dialog), "check_msgwin", check_msgwin);
 	g_object_set_data(G_OBJECT(dialog), "check_toolbar", check_toolbar);
+	g_object_set_data(G_OBJECT(dialog), "check_editor_menu", check_editor_menu);
 	g_signal_connect(dialog, "response", G_CALLBACK(configure_response_cb), NULL);
 
 	gtk_widget_show_all(vbox);

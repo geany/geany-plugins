@@ -2,6 +2,9 @@
 
  * src/speller.c:
    Try to make broker initialisation a bit more robust.
+ * src/gui.c, src/scplugin.c, src/scplugin.h:
+   Add an option to make the editor menu items for Spelling
+   Suggestions optional.
 
 
 2009-09-30  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>

@@ -213,6 +213,9 @@ void sc_gui_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 	gtk_widget_hide(sc_info->edit_menu);
 	gtk_widget_hide(sc_info->edit_menu_sep);
 
+	if (! sc_info->show_editor_menu_item)
+		return;
+
 	/* if we have a selection, prefer it over the current word */
 	if (sci_has_selection(doc->editor->sci))
 	{
