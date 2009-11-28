@@ -196,7 +196,6 @@ static gboolean ao_selection_changed_cb(gpointer widget)
 	GtkTreeIter iter;
 	GtkTreeModel *model;
 
-	/* use switch_notebook_page to ignore changing the notebook page because it is already done */
 	if (gtk_tree_selection_get_selected(selection, &model, &iter))
 	{
 		gint line;
