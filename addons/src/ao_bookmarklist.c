@@ -67,7 +67,6 @@ enum
 	PROP_ENABLE_BOOKMARKLIST
 };
 
-/* documents tree model columns */
 enum
 {
 	BMLIST_COL_LINE,
