@@ -32,10 +32,6 @@
 #include <gdk/gdkkeysyms.h>
 
 
-/* TODO make tokens configurable */
-const gchar *tokens[] = { "TODO", "FIXME", NULL };
-
-
 typedef struct _AoTasksPrivate AoTasksPrivate;
 
 #define AO_TASKS_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), \
@@ -61,12 +57,15 @@ struct _AoTasksPrivate
 
 	GtkWidget *page;
 	GtkWidget *popup_menu;
+
+	gchar **tokens;
 };
 
 enum
 {
 	PROP_0,
-	PROP_ENABLE_TASKS
+	PROP_ENABLE_TASKS,
+	PROP_TOKENS
 };
 
 enum
@@ -104,6 +103,15 @@ static void ao_tasks_set_property(GObject *object, guint prop_id,
 			priv->enable_tasks = new_val;
 			break;
 		}
+		case PROP_TOKENS:
+		{
+			const gchar *t = g_value_get_string(value);
+			if (! NZV(t))
+				t = "TODO;FIXME"; /* fallback */
+			g_strfreev(priv->tokens);
+			priv->tokens = g_strsplit(t, ";", -1);
+			break;
+		}
 		default:
 			G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
 			break;
@@ -128,13 +136,27 @@ static void ao_tasks_class_init(AoTasksClass *klass)
 									"Whether to show list of defined tasks",
 									TRUE,
 									G_PARAM_WRITABLE));
+
+	g_object_class_install_property(g_object_class,
+									PROP_TOKENS,
+									g_param_spec_string(
+									"tokens",
+									"tokens",
+									"The tokens to scan documents for",
+									NULL,
+									G_PARAM_WRITABLE));
 }
 
 
 static void ao_tasks_finalize(GObject *object)
 {
+	AoTasksPrivate *priv;
+
 	g_return_if_fail(object != NULL);
 	g_return_if_fail(IS_AO_TASKS(object));
+
+	priv = AO_TASKS_GET_PRIVATE(object);
+	g_strfreev(priv->tokens);
 
 	ao_tasks_hide(AO_TASKS(object));
 
@@ -411,7 +433,7 @@ static void update_tasks_for_doc(AoTasks *t, G_GNUC_UNUSED GeanyDocument *doc)
 {
 	guint lines, line;
 	gchar *line_buf, *context, *display_name, *tooltip;
-	const gchar **token;
+	gchar **token;
 	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
 
 	if (doc->is_valid)
@@ -421,7 +443,7 @@ static void update_tasks_for_doc(AoTasks *t, G_GNUC_UNUSED GeanyDocument *doc)
 		for (line = 0; line < lines; line++)
 		{
 			line_buf = g_strstrip(sci_get_line(doc->editor->sci, line));
-			token = tokens;
+			token = priv->tokens;
 			while (*token != NULL)
 			{
 				if (NZV(*token) && strstr(line_buf, *token) != NULL)
@@ -486,11 +508,12 @@ static void ao_tasks_init(AoTasks *self)
 
 	priv->page = NULL;
 	priv->popup_menu = NULL;
+	priv->tokens = NULL;
 	priv->active = FALSE;
 }
 
 
-AoTasks *ao_tasks_new(gboolean enable)
+AoTasks *ao_tasks_new(gboolean enable, const gchar *tokens)
 {
-	return g_object_new(AO_TASKS_TYPE, "enable-tasks", enable, NULL);
+	return g_object_new(AO_TASKS_TYPE, "tokens", tokens, "enable-tasks", enable, NULL);
 }

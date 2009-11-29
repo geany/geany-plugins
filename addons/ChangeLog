@@ -10,6 +10,9 @@
    Update the task list only for changed documents and on document
    closing, simply delete matching TODO tasks instead of updating all.
    This is major speed up of the whole tasks processing.
+ * src/addons.c, src/ao_tasks.c, src/ao_tasks.h:
+   Add a property to the AoTasks class to prepare configurable
+   tasks tokens.
 
 
 2009-11-28  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>

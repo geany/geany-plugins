@@ -213,7 +213,7 @@ void plugin_init(GeanyData *data)
 	ao_info->systray = ao_systray_new(ao_info->enable_systray);
 	ao_info->bookmarklist = ao_bookmark_list_new(ao_info->enable_bookmarklist);
 	ao_info->markword = ao_mark_word_new(ao_info->enable_markword);
-	ao_info->tasks = ao_tasks_new(ao_info->enable_tasks);
+	ao_info->tasks = ao_tasks_new(ao_info->enable_tasks, "TODO;FIXME");
 
 	/* setup keybindings */
 	key_group = plugin_set_key_group(geany_plugin, "addons", KB_COUNT, NULL);
