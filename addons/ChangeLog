@@ -13,6 +13,8 @@
  * src/addons.c, src/ao_tasks.c, src/ao_tasks.h:
    Add a property to the AoTasks class to prepare configurable
    tasks tokens.
+   Make the search tokens for the Task list fully configurable
+   (closes #2775986).
 
 
 2009-11-28  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
