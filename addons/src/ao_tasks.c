@@ -110,6 +110,7 @@ static void ao_tasks_set_property(GObject *object, guint prop_id,
 				t = "TODO;FIXME"; /* fallback */
 			g_strfreev(priv->tokens);
 			priv->tokens = g_strsplit(t, ";", -1);
+			ao_tasks_update(AO_TASKS(object), NULL);
 			break;
 		}
 		default:
