@@ -54,6 +54,7 @@ struct _AoTasksClass
 struct _AoTasksPrivate
 {
 	gboolean enable_tasks;
+	gboolean active;
 
 	GtkListStore *store;
 	GtkWidget *tree;
@@ -261,6 +262,20 @@ static GtkWidget *create_popup_menu(AoTasks *t)
 }
 
 
+static gboolean update_list_delay(gpointer t)
+{
+	if (main_is_realized())
+	{
+		AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
+		priv->active = TRUE;
+		ao_tasks_update(AO_TASKS(t), NULL);
+		return FALSE;
+	}
+	else
+		return TRUE;
+}
+
+
 static void ao_tasks_show(AoTasks *t)
 {
 	GtkCellRenderer *text_renderer;
@@ -334,7 +349,11 @@ static void ao_tasks_show(AoTasks *t)
 	priv->popup_menu = create_popup_menu(t);
 
 	/* initial update */
-	ao_tasks_update(t, NULL);
+#if GLIB_CHECK_VERSION(2, 14, 0)
+	g_timeout_add_seconds(3, update_list_delay, t);
+#else
+	g_timeout_add(3, update_list_delay, t);
+#endif
 }
 
 
@@ -361,6 +380,9 @@ void ao_tasks_update(AoTasks *t, G_GNUC_UNUSED GeanyDocument *cur_doc)
 	const gchar **token;
 	GeanyDocument *doc;
 	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
+
+	if (! priv->active)
+		return;
 
 	/* TODO this could be improved to only update the currently loaded/saved document instead of
 	 * iterating over all documents. */
@@ -411,6 +433,8 @@ static void ao_tasks_init(AoTasks *self)
 	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(self);
 
 	priv->page = NULL;
+	priv->popup_menu = NULL;
+	priv->active = FALSE;
 }
 
 

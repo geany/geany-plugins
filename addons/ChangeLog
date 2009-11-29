@@ -3,6 +3,9 @@
  * src/ao_tasks.c:
    Add a simple popup menu to update the Tasks list and hide
    the Messages window.
+ * src/addons.c, src/ao_tasks.c:
+   Update the tasks list on startup only first the main window has been
+   realized, i.e. Geany has finished the startup process.
 
 
 2009-11-28  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
