@@ -32,7 +32,7 @@
 #include <gdk/gdkkeysyms.h>
 
 
-/* Make tokens configurable */
+/* TODO make tokens configurable */
 const gchar *tokens[] = { "TODO", "FIXME", NULL };
 
 
@@ -59,6 +59,7 @@ struct _AoTasksPrivate
 	GtkWidget *tree;
 
 	GtkWidget *page;
+	GtkWidget *popup_menu;
 };
 
 enum
@@ -173,6 +174,13 @@ static gboolean ao_tasks_button_press_cb(GtkWidget *widget, GdkEventButton *even
 	{	/* allow reclicking of a treeview item */
 		g_idle_add(ao_tasks_selection_changed_cb, widget);
 	}
+	else if (event->button == 3)
+	{
+		AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(data);
+		gtk_menu_popup(GTK_MENU(priv->popup_menu), NULL, NULL, NULL, NULL,
+				event->button, event->time);
+		/* don't return TRUE here, otherwise the selection won't be changed */
+	}
 	return FALSE;
 }
 
@@ -185,6 +193,16 @@ static gboolean ao_tasks_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpo
 		event->keyval == GDK_space)
 	{
 		g_idle_add(ao_tasks_selection_changed_cb, widget);
+	}
+	if ((event->keyval == GDK_F10 && event->state & GDK_SHIFT_MASK) || event->keyval == GDK_Menu)
+	{
+		GdkEventButton button_event;
+
+		button_event.time = event->time;
+		button_event.button = 3;
+
+		ao_tasks_button_press_cb(widget, &button_event, data);
+		return TRUE;
 	}
 	return FALSE;
 }
@@ -199,6 +217,47 @@ static void ao_tasks_hide(AoTasks *t)
 		gtk_widget_destroy(priv->page);
 		priv->page = NULL;
 	}
+	if (priv->popup_menu)
+	{
+		gtk_widget_destroy(priv->popup_menu);
+		priv->popup_menu = NULL;
+	}
+}
+
+
+static void popup_update_item_click_cb(GtkWidget *button, AoTasks *t)
+{
+	ao_tasks_update(t, NULL);
+}
+
+
+static void popup_hide_item_click_cb(GtkWidget *button, AoTasks *t)
+{
+	keybindings_send_command(GEANY_KEY_GROUP_VIEW, GEANY_KEYS_VIEW_MESSAGEWINDOW);
+}
+
+
+static GtkWidget *create_popup_menu(AoTasks *t)
+{
+	GtkWidget *item, *menu;
+
+	menu = gtk_menu_new();
+
+	item = ui_image_menu_item_new(GTK_STOCK_REFRESH, _("_Update"));
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	g_signal_connect(item, "activate", G_CALLBACK(popup_update_item_click_cb), t);
+
+	item = gtk_separator_menu_item_new();
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(menu), item);
+
+	item = gtk_menu_item_new_with_mnemonic(_("_Hide Message Window"));
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	g_signal_connect(item, "activate", G_CALLBACK(popup_hide_item_click_cb), t);
+
+	return menu;
 }
 
 
@@ -271,6 +330,8 @@ static void ao_tasks_show(AoTasks *t)
 		GTK_NOTEBOOK(ui_lookup_widget(geany->main_widgets->window, "notebook_info")),
 		priv->page,
 		gtk_label_new(_("Tasks")));
+
+	priv->popup_menu = create_popup_menu(t);
 
 	/* initial update */
 	ao_tasks_update(t, NULL);
