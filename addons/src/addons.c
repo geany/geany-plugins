@@ -158,7 +158,7 @@ static void ao_document_close_cb(GObject *obj, GeanyDocument *doc, gpointer data
 {
 	g_return_if_fail(doc != NULL && doc->is_valid);
 
-	ao_tasks_update(ao_info->tasks, doc);
+	ao_tasks_remove(ao_info->tasks, doc);
 }
 
 

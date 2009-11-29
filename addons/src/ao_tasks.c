@@ -264,6 +264,8 @@ static GtkWidget *create_popup_menu(AoTasks *t)
 
 static gboolean update_list_delay(gpointer t)
 {
+	/* TODO add a signal in Geany when the main window is realised or the startup process
+	 * has been in general */
 	if (main_is_realized())
 	{
 		AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
@@ -373,56 +375,106 @@ void ao_tasks_activate(AoTasks *t)
 }
 
 
-void ao_tasks_update(AoTasks *t, G_GNUC_UNUSED GeanyDocument *cur_doc)
+void ao_tasks_remove(AoTasks *t, GeanyDocument *cur_doc)
 {
-	guint i, lines, line;
+	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
+	GtkTreeModel *model = GTK_TREE_MODEL(priv->store);
+	GtkTreeIter iter;
+	gchar *filename;
+
+	if (! priv->active)
+		return;
+
+	if (gtk_tree_model_get_iter_first(model, &iter))
+	{
+		while (TRUE)
+		{
+			gtk_tree_model_get(model, &iter, TLIST_COL_FILENAME, &filename, -1);
+
+			if (utils_str_equal(filename, cur_doc->file_name))
+			{	/* gtk_list_store_remove() manages the iter and set it to the next row */
+				if (! gtk_list_store_remove(priv->store, &iter))
+					break;
+			}
+			else
+			{	/* if we didn't delete the row, we need to manage the iter manually */
+				if (! gtk_tree_model_iter_next(model, &iter))
+					break;
+			}
+			g_free(filename);
+		}
+	}
+}
+
+
+static void update_tasks_for_doc(AoTasks *t, G_GNUC_UNUSED GeanyDocument *doc)
+{
+	guint lines, line;
 	gchar *line_buf, *context, *display_name, *tooltip;
 	const gchar **token;
-	GeanyDocument *doc;
+	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
+
+	if (doc->is_valid)
+	{
+		display_name = document_get_basename_for_display(doc, -1);
+		lines = sci_get_line_count(doc->editor->sci);
+		for (line = 0; line < lines; line++)
+		{
+			line_buf = g_strstrip(sci_get_line(doc->editor->sci, line));
+			token = tokens;
+			while (*token != NULL)
+			{
+				if (NZV(*token) && strstr(line_buf, *token) != NULL)
+				{
+					context = g_strstrip(sci_get_line(doc->editor->sci, line + 1));
+					setptr(context, g_strconcat(
+						_("Context:"), "\n", line_buf, "\n", context, NULL));
+					tooltip = g_markup_escape_text(context, -1);
+
+					gtk_list_store_insert_with_values(priv->store, NULL, -1,
+						TLIST_COL_FILENAME, DOC_FILENAME(doc),
+						TLIST_COL_DISPLAY_FILENAME, display_name,
+						TLIST_COL_LINE, line + 1,
+						TLIST_COL_NAME, line_buf,
+						TLIST_COL_TOOLTIP, tooltip,
+						-1);
+					g_free(context);
+					g_free(tooltip);
+				}
+				token++;
+			}
+			g_free(line_buf);
+		}
+		g_free(display_name);
+	}
+}
+
+
+void ao_tasks_update(AoTasks *t, G_GNUC_UNUSED GeanyDocument *cur_doc)
+{
 	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
 
 	if (! priv->active)
 		return;
 
-	/* TODO this could be improved to only update the currently loaded/saved document instead of
-	 * iterating over all documents. */
-	gtk_list_store_clear(priv->store);
-
-	for (i = 0; i < geany->documents_array->len; i++)
+	if (cur_doc != NULL)
 	{
-		doc = document_index(i);
-		if (doc->is_valid)
-		{
-			display_name = document_get_basename_for_display(doc, -1);
-			lines = sci_get_line_count(doc->editor->sci);
-			for (line = 0; line < lines; line++)
-			{
-				line_buf = g_strstrip(sci_get_line(doc->editor->sci, line));
-				token = tokens;
-				while (*token != NULL)
-				{
-					if (NZV(*token) && strstr(line_buf, *token) != NULL)
-					{
-						context = g_strstrip(sci_get_line(doc->editor->sci, line + 1));
-						setptr(context, g_strconcat(
-							_("Context:"), "\n", line_buf, "\n", context, NULL));
-						tooltip = g_markup_escape_text(context, -1);
+		/* TODO handle renaming of files, probably we need a new signal for this */
+		ao_tasks_remove(t, cur_doc);
+		update_tasks_for_doc(t, cur_doc);
+	}
+	else
+	{
+		GeanyDocument *doc;
+		guint i;
 
-						gtk_list_store_insert_with_values(priv->store, NULL, -1,
-							TLIST_COL_FILENAME, DOC_FILENAME(doc),
-							TLIST_COL_DISPLAY_FILENAME, display_name,
-							TLIST_COL_LINE, line + 1,
-							TLIST_COL_NAME, line_buf,
-							TLIST_COL_TOOLTIP, tooltip,
-							-1);
-						g_free(context);
-						g_free(tooltip);
-					}
-					token++;
-				}
-				g_free(line_buf);
-			}
-			g_free(display_name);
+		/* clear all */
+		gtk_list_store_clear(priv->store);
+		/* iterate over all docs */
+		for (i = 0; i < geany->documents_array->len; i++)
+		{
+			doc = document_index(i);
+			update_tasks_for_doc(t, doc);
 		}
 	}
 }

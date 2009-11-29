@@ -6,6 +6,10 @@
  * src/addons.c, src/ao_tasks.c:
    Update the tasks list on startup only first the main window has been
    realized, i.e. Geany has finished the startup process.
+ * src/addons.c, src/ao_tasks.c, src/ao_tasks.h:
+   Update the task list only for changed documents and on document
+   closing, simply delete matching TODO tasks instead of updating all.
+   This is major speed up of the whole tasks processing.
 
 
 2009-11-28  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
