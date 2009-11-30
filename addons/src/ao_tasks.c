@@ -326,6 +326,9 @@ static void ao_tasks_show(AoTasks *t)
 	gtk_tree_view_column_pack_start(column, text_renderer, TRUE);
 	gtk_tree_view_column_set_attributes(column, text_renderer, "text",
 		TLIST_COL_DISPLAY_FILENAME, NULL);
+	gtk_tree_view_column_set_sort_indicator(column, FALSE);
+	gtk_tree_view_column_set_sort_column_id(column, TLIST_COL_DISPLAY_FILENAME);
+	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(priv->tree), column);
 
 	text_renderer = gtk_cell_renderer_text_new();
@@ -333,6 +336,9 @@ static void ao_tasks_show(AoTasks *t)
 	gtk_tree_view_column_set_title(column, _("Line"));
 	gtk_tree_view_column_pack_start(column, text_renderer, TRUE);
 	gtk_tree_view_column_set_attributes(column, text_renderer, "text", TLIST_COL_LINE, NULL);
+	gtk_tree_view_column_set_sort_indicator(column, FALSE);
+	gtk_tree_view_column_set_sort_column_id(column, TLIST_COL_LINE);
+	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(priv->tree), column);
 
 	text_renderer = gtk_cell_renderer_text_new();
@@ -341,6 +347,9 @@ static void ao_tasks_show(AoTasks *t)
 	gtk_tree_view_column_set_title(column, _("Task"));
 	gtk_tree_view_column_pack_start(column, text_renderer, TRUE);
 	gtk_tree_view_column_set_attributes(column, text_renderer, "text", TLIST_COL_NAME, NULL);
+	gtk_tree_view_column_set_sort_indicator(column, FALSE);
+	gtk_tree_view_column_set_sort_column_id(column, TLIST_COL_NAME);
+	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(priv->tree), column);
 
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(priv->tree), TRUE);
@@ -348,7 +357,6 @@ static void ao_tasks_show(AoTasks *t)
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(priv->tree), TLIST_COL_DISPLAY_FILENAME);
 
 	/* sorting */
-	/* TODO improve sorting: sort by filename, then line number; make header clicks sort the data */
 	sortable = GTK_TREE_SORTABLE(GTK_TREE_MODEL(priv->store));
 	gtk_tree_sortable_set_sort_column_id(sortable, TLIST_COL_DISPLAY_FILENAME, GTK_SORT_ASCENDING);
 
