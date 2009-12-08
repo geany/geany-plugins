@@ -199,7 +199,7 @@ static gboolean ao_uri_is_link(const gchar  *uri)
 }
 
 
-/* based on g_uri_parse_scheme() but only checks for a scheme, don't return it */
+/* based on g_uri_parse_scheme() but only checks for a scheme, doesn't return it */
 static gboolean ao_uri_has_scheme(const gchar  *uri)
 {
 	const gchar *p;
@@ -249,9 +249,14 @@ void ao_open_uri_update_menu(AoOpenUri *openuri, GeanyDocument *doc, gint pos)
 	else
 		text = editor_get_word_at_pos(doc->editor, pos, GEANY_WORDCHARS"@.://-?&%#=");
 
-	/* TODO be more restrictive when handling selections as there are too many hits bynow */
+	/* TODO be more restrictive when handling selections as there are too many hits by now */
 	if (text != NULL && (ao_uri_has_scheme(text) || ao_uri_is_link(text)))
 	{
+		guint len = strlen(text);
+		/* remove trailing dots and colons */
+		if (text[len - 1] == '.' || text[len - 1] == ':')
+			text[len - 1] = '\0';
+
 		setptr(priv->uri, text);
 
 		gtk_widget_show(priv->menu_item_open);
