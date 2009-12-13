@@ -1,4 +1,4 @@
-h/*
+/*
  *      geanylipsum.c
  *
  *      Copyright 2008-2009 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
