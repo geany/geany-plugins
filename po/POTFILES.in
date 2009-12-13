@@ -29,7 +29,7 @@ geanygdb/src/gdb-ui-envir.c
 geanygdb/src/gdb-ui-frame.c
 geanygdb/src/gdb-ui-locn.c
 geanygdb/src/gdb-ui-main.c
-geanygdb/src/geanydebug.c
+geanygdb/src/geanygdb.c
 
 #geanylatex
 geanylatex/src/geanylatex.c
