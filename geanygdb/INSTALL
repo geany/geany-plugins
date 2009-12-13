@@ -6,36 +6,6 @@ Installation
 Please note that this plugin just should work with Geany 0.16 or higher. There
 is no guarantee that it works with versions below 0.16.
 
-There are different possibilities to install this plugin:
-
-First
-=====
- ./configure
- make
- make install
-
-
-Second
-======
- ./configure
- make
- cp src/.libs/geanygdb.so ~/.config/geany/plugins
- cp src/ttyhelper ~/.config/geany/plugins/geanygdb/ttyhelper
-
-
-Third
-=====
-There will soon be a possibility to build geanygdb using waf.
-
-
-Fourth
-======
-You can build much of the available plugins from svn by doing this:
-
- svn co https://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk geany-plugins
- cd geany-plugins
- ./waf configure
- ./waf build -p -k
-
-Built \*.so-files will be available in ./_build_/default/ after a successful
-build. Copy the ones you want to ~/.config/geany/plugins/.
+GeanyGDB is part of the Geany-Plugins project. Please consider compiling and/or
+installing Geany-Plugins. A separate compilation of GeanyGDB is not supported
+anymore.
