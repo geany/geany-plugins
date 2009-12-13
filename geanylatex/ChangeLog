@@ -1,3 +1,8 @@
+2009-12-13  Frank Lanitz  <frank@frank.uvena.de>
+
+ * Show geanyLaTeX inside plugin manager.
+
+
 2009-05-25  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * Remove dependency for dialog.h from geanylatex header files.
