@@ -1,7 +1,11 @@
+2009-12-13 Dominic Hopf <dmaphy@googlemail.com>
+ * finally fix any remaining naming issues, GeanyGDB will show up as "GeanyGDB"
+   now in the plugin manager
+
 2009-09-02 Dominic Hopf <dmaphy@googlemail.com>
  * fix an issue with button labels, where some localizations may caused a stack
    overflow
- * rember the last targetpath
+ * remember the last targetpath
 
 2009-05-07 Dominic Hopf <dmaphy@googlemail.com>
  * install ttyhelper and geanydebug.so to /usr/lib/geany/

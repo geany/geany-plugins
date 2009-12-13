@@ -1,5 +1,5 @@
 /*
- * geanydebug.c - Integrated debugger plugin for the Geany IDE
+ * geanygdb.c - Integrated debugger plugin for the Geany IDE
  * Copyright 2008 Jeff Pohlmeyer <yetanothergeek(at)gmail(dot)com>
  *
  *
@@ -53,7 +53,7 @@
 
 
 PLUGIN_VERSION_CHECK(115)
-PLUGIN_SET_INFO(_("Debugger"), _("Integrated debugging with GDB."), VERSION, _("Jeff Pohlmeyer"))
+PLUGIN_SET_INFO(_("GeanyGDB"), _("Integrated debugging with GDB."), VERSION, _("Jeff Pohlmeyer, Dominic Hopf"))
 
 GeanyData *geany_data;
 GeanyFunctions *geany_functions;

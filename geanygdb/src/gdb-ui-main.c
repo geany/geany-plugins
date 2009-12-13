@@ -392,7 +392,6 @@ make_btn(const gchar *text, GtkCallback cb, gchar *img, gchar *tip)
 		gtk_button_new_with_mnemonic(text);
 	}
 
-
 	if (cb)
 	{
 		g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(cb), NULL);
