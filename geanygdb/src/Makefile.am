@@ -10,7 +10,7 @@ geanygdb_la_SOURCES = \
 	gdb-lex.h \
 	gdb-ui.h \
 	gdb-ui-envir.c \
-	geanydebug.c \
+	geanygdb.c \
 	gdb-io-break.c \
 	gdb-lex.c \
 	gdb-ui-frame.c \
