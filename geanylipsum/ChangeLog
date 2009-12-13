@@ -1,3 +1,8 @@
+2009-12-13  Frank Lanitz  <frank@frank.uvena.de>
+
+ * Show geanyLipsum inside plugin manager dialog
+
+
 2009-04-11  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * Add not complete part of Lorem Ipsum text if there is any at end of 

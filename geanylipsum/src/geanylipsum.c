@@ -1,4 +1,4 @@
-/*
+h/*
  *      geanylipsum.c
  *
  *      Copyright 2008-2009 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
@@ -32,7 +32,7 @@ GeanyData		*geany_data;
 GeanyFunctions	*geany_functions;
 
 PLUGIN_VERSION_CHECK(147)
-PLUGIN_SET_INFO(_("Lipsum"), _("Creating dummy text with Geany"), "0.4.2", "Frank Lanitz <frank@frank.uvena.de>");
+PLUGIN_SET_INFO(_("GeanyLipsum"), _("Creating dummy text with Geany"), "0.4.2", "Frank Lanitz <frank@frank.uvena.de>");
 
 static GtkWidget *main_menu_item = NULL;
 static gchar *lipsum = NULL;
