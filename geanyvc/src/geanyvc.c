@@ -50,7 +50,7 @@ GeanyData *geany_data;
 GeanyFunctions *geany_functions;
 
 PLUGIN_VERSION_CHECK(115);
-PLUGIN_SET_INFO(_("VC"), _("Interface to different Version Control systems."), VERSION,
+PLUGIN_SET_INFO(_("GeanyVC"), _("Interface to different Version Control systems."), VERSION,
 		_("Yura Siamashka <yurand2@gmail.com>,\nFrank Lanitz <frank@frank.uvena.de>"));
 
 /* Some global variables */
