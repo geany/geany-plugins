@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-13 15:22+0100\n"
-"PO-Revision-Date: 2009-12-12 23:42+0100\n"
-"Last-Translator: Michael Spahn <anyone90@googlemail.com>\n"
+"POT-Creation-Date: 2009-12-13 22:26+0100\n"
+"PO-Revision-Date: 2009-12-13 22:20+0100\n"
+"Last-Translator: Dominic Hopf <dmaphy@googlemail.com>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,26 +26,25 @@ msgstr "_Aktualisieren"
 
 #: ../addons/src/ao_tasks.c:279
 msgid "_Hide Message Window"
-msgstr ""
+msgstr "Meldungsfenster verstecken"
 
 #: ../addons/src/ao_tasks.c:325
-#, fuzzy
 msgid "File"
-msgstr "_Datei"
+msgstr "Datei"
 
 #: ../addons/src/ao_tasks.c:336
 msgid "Line"
-msgstr ""
+msgstr "Zeile"
 
 #: ../addons/src/ao_tasks.c:347
-#, fuzzy
 msgid "Task"
-msgstr "Aufgaben"
+msgstr "Aufgabe"
 
 #: ../addons/src/ao_tasks.c:380
 msgid "Tasks"
 msgstr "Aufgaben"
 
+# Ironischerweise finde ich den Kontext für diesen String nicht --Dominic
 #: ../addons/src/ao_tasks.c:462
 #, fuzzy
 msgid "Context:"
@@ -69,15 +68,15 @@ msgstr "Verschiedene kleine Erweiterungen für Geany."
 
 #: ../addons/src/addons.c:225
 msgid "Focus Bookmark List"
-msgstr ""
+msgstr "Lesezeichen fokussieren"
 
 #: ../addons/src/addons.c:227
 msgid "Focus Tasks List"
-msgstr ""
+msgstr "Aufgabenliste fokussieren"
 
 #: ../addons/src/addons.c:229
 msgid "Update Tasks List"
-msgstr ""
+msgstr "Aufgabenliste aktualisieren"
 
 #: ../addons/src/addons.c:284 ../geanylatex/src/geanylatex.c:181
 #: ../geanysendmail/src/geanysendmail.c:151
@@ -99,17 +98,16 @@ msgid "Show a 'Open URI' menu item in the editor menu"
 msgstr "\"URI öffnen\" Eintrag im Editor-Menü anzeigen"
 
 #: ../addons/src/addons.c:321
-#, fuzzy
 msgid "Show available Tasks in the Messages Window"
-msgstr "Verfügbare Aufgaben im Nachrichtenfenster anzeigen"
+msgstr "Verfügbare Aufgaben im Meldungsfenster anzeigen"
 
 #: ../addons/src/addons.c:331
 msgid "Specify a semicolon separated list of search tokens."
-msgstr ""
+msgstr "Geben Sie eine durch Semikolon getrennte Liste von Suchwörtern ein"
 
 #: ../addons/src/addons.c:333
 msgid "Search tokens:"
-msgstr ""
+msgstr "Suchwörter:"
 
 #: ../addons/src/addons.c:342
 msgid "Show status icon in the Notification Area"
@@ -117,11 +115,11 @@ msgstr "Zeige ein Statussymbol im Benachrichtigungsfeld"
 
 #: ../addons/src/addons.c:348
 msgid "Show defined bookmarks (marked lines) in the sidebar"
-msgstr ""
+msgstr "Lesezeichen (markierte Zeilen) in der Seitenleiste anzeigen"
 
 #: ../addons/src/addons.c:354
 msgid "Mark all occurrences of a word when double-clicking it"
-msgstr ""
+msgstr "Bei Doppelklick alle Vorkommen eines Wortes markieren."
 
 #: ../addons/src/ao_doclist.c:179
 msgid "Close Ot_her Documents"
@@ -135,27 +133,26 @@ msgstr "_Alle schließen"
 msgid "Show Document List"
 msgstr "Dokumentenliste anzeigen"
 
+# what the heck? :D
 #: ../addons/src/ao_bookmarklist.c:179
 msgid "(Empty Line)"
 msgstr ""
 
 #: ../addons/src/ao_bookmarklist.c:301
 msgid "_Remove Bookmark"
-msgstr ""
+msgstr "Lesezeichen entfernen"
 
 #: ../addons/src/ao_bookmarklist.c:327
 msgid "No."
-msgstr ""
+msgstr "Nein."
 
 #: ../addons/src/ao_bookmarklist.c:335
-#, fuzzy
 msgid "Contents"
-msgstr "Umgebungen"
+msgstr "Inhalt"
 
 #: ../addons/src/ao_bookmarklist.c:368
-#, fuzzy
 msgid "Bookmarks"
-msgstr "Buch"
+msgstr "Lesezeichen"
 
 #. All plugins must set name, description, version and author.
 #: ../codenav/src/codenavigation.c:46
@@ -219,12 +216,12 @@ msgstr "%s existiert nicht. Neu anlegen?"
 #: ../codenav/src/switch_head_impl.c:473
 #, fuzzy
 msgid "Headers extensions"
-msgstr "Erweiterungen werden gestartet"
+msgstr "Header Erweiterungen"
 
 #: ../codenav/src/switch_head_impl.c:480
 #, fuzzy
 msgid "Implementations extensions"
-msgstr "Erweiterungen werden gestartet"
+msgstr "Implementierungserweiterungen"
 
 #. All plugins must set name, description, version and author.
 #: ../geanydoc/src/geanydoc.c:63 ../geanydoc/src/geanydoc.c:360
@@ -278,12 +275,14 @@ msgid "Added breakpoint #%s at %s:%s\n"
 msgstr "Haltepunkt #%s bei %s:%s hinzugefügt\n"
 
 # Beobachtungspunkt oder Haltepunkt?
+# Watchpoint = Beobachtungspunkt, Breakpoint=Haltepunkt, das war meine Intention --Dominic
 #: ../geanygdb/src/gdb-io-break.c:159
 #, fuzzy, c-format
 msgid "Added write watchpoint #%s for %s\n"
 msgstr "Beobachtungspunkt #%s für Schreibzugriff auf %s hinzugefügt\n"
 
 # Beobachtungspunkt oder Haltepunkt?
+# Watchpoint = Beobachtungspunkt, Breakpoint=Haltepunkt, das war meine Intention --Dominic
 #: ../geanygdb/src/gdb-io-break.c:168
 #, fuzzy, c-format
 msgid "Added read/write watchpoint #%s for %s\n"
@@ -291,6 +290,7 @@ msgstr ""
 "Beobachtungspunkt #%s für Lese- und Schreibzugriff auf %s hinzugefügt\n"
 
 # Beobachtungspunkt oder Haltepunkt?
+# Watchpoint = Beobachtungspunkt, Breakpoint=Haltepunkt, das war meine Intention --Dominic
 #: ../geanygdb/src/gdb-io-break.c:179
 #, fuzzy, c-format
 msgid "Added read watchpoint #%s for %s\n"
@@ -404,14 +404,13 @@ msgid "Attaching to terminal %s\n"
 msgstr "An Prozess %1 anhängen"
 
 #: ../geanygdb/src/gdb-io-run.c:363
-#, fuzzy
 msgid "Timeout waiting for TTY name.\n"
-msgstr "Auszeit beim Warten auf das Terminal.\n"
+msgstr "Zeitüberschreitung beim Warten auf das Terminal.\n"
 
 #: ../geanygdb/src/gdb-io-run.c:412
-#, fuzzy, c-format
+#, c-format
 msgid "GDB exited (pid=%d)\n"
-msgstr "GDB mit PID=%d beendet."
+msgstr "GDB mit PID »%d« beendet.\n"
 
 #: ../geanygdb/src/gdb-io-run.c:473
 #, fuzzy, c-format
@@ -950,16 +949,15 @@ msgstr "Alles beenden"
 
 #: ../geanygdb/src/geanygdb.c:56
 msgid "GeanyGDB"
-msgstr ""
+msgstr "GeanyGDB"
 
 #: ../geanygdb/src/geanygdb.c:56
 msgid "Integrated debugging with GDB."
 msgstr "Debugging integriert in Geany"
 
 #: ../geanygdb/src/geanygdb.c:56
-#, fuzzy
 msgid "Jeff Pohlmeyer, Dominic Hopf"
-msgstr "Jeff Pohlmeyer"
+msgstr "Jeff Pohlmeyer, Dominic Hopf"
 
 #: ../geanygdb/src/geanygdb.c:373
 #, c-format
@@ -2256,11 +2254,8 @@ msgstr ""
 "überprüfen' ein- und auszuschalten"
 
 #: ../spellcheck/src/scplugin.c:256
-#, fuzzy
 msgid "Show editor menu item to show spelling suggestions"
-msgstr ""
-"Zeige Symbol in der Werkzeugleiste um 'Rechtschreibung beim Tippen "
-"überprüfen' ein- und auszuschalten"
+msgstr "Zeige den Eintrag im Editor Menü um Vorschläge anzuzeigen"
 
 #: ../spellcheck/src/scplugin.c:262
 msgid "Print misspelled words and suggestions in the messages window"
@@ -2290,16 +2285,18 @@ msgstr "'Rechtschreibung beim Tippen überprüfen' ist nun eingeschaltet"
 msgid "Spell checking while typing is now disabled"
 msgstr "'Rechtschreibung beim Tippen überprüfen' ist nun ausgeschaltet"
 
+# Mit dem Umbruch kann man an dieser Stelle ggf. ja nochmal spielen
 #: ../spellcheck/src/gui.c:279
 msgid ""
 "Search term is too long to provide\n"
 "spelling suggestions in the editor menu."
 msgstr ""
+"Der Ausdruck ist zu lang um Vorschläge\n"
+"im Editor Menü anzuzeigen."
 
 #: ../spellcheck/src/gui.c:284
-#, fuzzy
 msgid "Perform Spell Check"
-msgstr "Rechtschreibprüfung"
+msgstr "Rechtschreibung prüfen"
 
 #: ../spellcheck/src/gui.c:316
 msgid "More..."
@@ -2554,11 +2551,13 @@ msgid ""
 msgstr "Fehler in Modul \"%s\" in Funktion %s():\n"
 
 #: ../geanylua/glspi_app.c:158
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Error in module \"%s\" at function %s() argument #2:\n"
 "widget \"%s\" has no signal named \"%s\".\n"
-msgstr "Fehler in Modul \"%s\" in Funktion %s():\n"
+msgstr ""
+"Fehler in Modul \"%s\" in Funktion %s():\n"
+"\n"
 
 #: ../geanylua/glspi_dlg.c:338
 msgid "File exists"
