@@ -1530,7 +1530,7 @@ vccommit_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 		g_error_free(spellcheck_error);
 		spellcheck_error = NULL;
 	}
-	else if (lang != NULL)
+	else if (NZV(lang))
 	{
 		gtkspell_set_language(speller, lang, &spellcheck_error);
 		if (spellcheck_error != NULL)
