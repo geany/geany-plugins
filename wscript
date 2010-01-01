@@ -3,7 +3,7 @@
 #
 # WAF build script for geany-plugins
 #
-# Copyright 2008-2009 Enrico Tröger <enrico(dot)troeger(at)uvena(dot)de>
+# Copyright 2008-2010 Enrico Tröger <enrico(dot)troeger(at)uvena(dot)de>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
