@@ -66,6 +66,7 @@ typedef struct
 	gboolean enable_markword;
 
 	gchar *tasks_token_list;
+	gboolean tasks_scan_all_documents;
 
 	/* instances and variables of components */
 	AoDocList *doclist;
@@ -145,6 +146,7 @@ static void ao_document_activate_cb(GObject *obj, GeanyDocument *doc, gpointer d
 	g_return_if_fail(doc != NULL && doc->is_valid);
 
 	ao_bookmark_list_update(ao_info->bookmarklist, doc);
+	ao_tasks_update_single(ao_info->tasks, doc);
 }
 
 
@@ -200,6 +202,8 @@ void plugin_init(GeanyData *data)
 		"addons", "enable_openuri", FALSE);
 	ao_info->enable_tasks = utils_get_setting_boolean(config,
 		"addons", "enable_tasks", TRUE);
+	ao_info->tasks_scan_all_documents = utils_get_setting_boolean(config,
+		"addons", "tasks_scan_all_documents", FALSE);
 	ao_info->tasks_token_list = utils_get_setting_string(config,
 		"addons", "tasks_token_list", "TODO;FIXME");
 	ao_info->enable_systray = utils_get_setting_boolean(config,
@@ -217,7 +221,8 @@ void plugin_init(GeanyData *data)
 	ao_info->systray = ao_systray_new(ao_info->enable_systray);
 	ao_info->bookmarklist = ao_bookmark_list_new(ao_info->enable_bookmarklist);
 	ao_info->markword = ao_mark_word_new(ao_info->enable_markword);
-	ao_info->tasks = ao_tasks_new(ao_info->enable_tasks, ao_info->tasks_token_list);
+	ao_info->tasks = ao_tasks_new(ao_info->enable_tasks,
+						ao_info->tasks_token_list, ao_info->tasks_scan_all_documents);
 
 	/* setup keybindings */
 	key_group = plugin_set_key_group(geany_plugin, "addons", KB_COUNT, NULL);
@@ -227,6 +232,15 @@ void plugin_init(GeanyData *data)
 		0, 0, "focus_tasks", _("Focus Tasks List"), NULL);
 	keybindings_set_item(key_group, KB_UPDATE_TASKS, kb_tasks_update,
 		0, 0, "update_tasks", _("Update Tasks List"), NULL);
+}
+
+
+static void ao_configure_tasks_toggled_cb(GtkToggleButton *togglebutton, gpointer data)
+{
+	gboolean sens = gtk_toggle_button_get_active(togglebutton);
+
+	gtk_widget_set_sensitive(g_object_get_data(G_OBJECT(data), "check_tasks_scan_mode"), sens);
+	gtk_widget_set_sensitive(g_object_get_data(G_OBJECT(data), "entry_tasks_tokens"), sens);
 }
 
 
@@ -244,6 +258,8 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 			g_object_get_data(G_OBJECT(dialog), "check_openuri"))));
 		ao_info->enable_tasks = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
 			g_object_get_data(G_OBJECT(dialog), "check_tasks"))));
+		ao_info->tasks_scan_all_documents = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
+			g_object_get_data(G_OBJECT(dialog), "check_tasks_scan_mode"))));
 		g_free(ao_info->tasks_token_list);
 		ao_info->tasks_token_list = g_strdup(gtk_entry_get_text(GTK_ENTRY(
 			g_object_get_data(G_OBJECT(dialog), "entry_tasks_tokens"))));
@@ -253,8 +269,6 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 			g_object_get_data(G_OBJECT(dialog), "check_bookmarklist"))));
 		ao_info->enable_markword = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
 			g_object_get_data(G_OBJECT(dialog), "check_markword"))));
-		ao_info->enable_tasks = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
-			g_object_get_data(G_OBJECT(dialog), "check_tasks"))));
 
 		g_key_file_load_from_file(config, ao_info->config_file, G_KEY_FILE_NONE, NULL);
 		g_key_file_set_boolean(config, "addons",
@@ -262,6 +276,8 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 		g_key_file_set_boolean(config, "addons", "enable_openuri", ao_info->enable_openuri);
 		g_key_file_set_boolean(config, "addons", "enable_tasks", ao_info->enable_tasks);
 		g_key_file_set_string(config, "addons", "tasks_token_list", ao_info->tasks_token_list);
+		g_key_file_set_boolean(config, "addons", "tasks_scan_all_documents",
+			ao_info->tasks_scan_all_documents);
 		g_key_file_set_boolean(config, "addons", "enable_systray", ao_info->enable_systray);
 		g_key_file_set_boolean(config, "addons", "enable_bookmarklist",
 			ao_info->enable_bookmarklist);
@@ -275,6 +291,7 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 		g_object_set(ao_info->markword, "enable-markword", ao_info->enable_markword, NULL);
 		g_object_set(ao_info->tasks,
 			"enable-tasks", ao_info->enable_tasks,
+			"scan-all-documents", ao_info->tasks_scan_all_documents,
 			"tokens", ao_info->tasks_token_list,
 			NULL);
 
@@ -299,8 +316,8 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 GtkWidget *plugin_configure(GtkDialog *dialog)
 {
 	GtkWidget *vbox, *check_doclist, *check_openuri, *check_tasks, *check_systray;
-	GtkWidget *check_bookmarklist, *check_markword;
-	GtkWidget *entry_tasks_tokens, *label_tasks_tokens, *tokens_hbox;
+	GtkWidget *check_bookmarklist, *check_markword, *frame_tasks, *vbox_tasks;
+	GtkWidget *check_tasks_scan_mode, *entry_tasks_tokens, *label_tasks_tokens, *tokens_hbox;
 
 	vbox = gtk_vbox_new(FALSE, 6);
 
@@ -321,7 +338,14 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 		_("Show available Tasks in the Messages Window"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_tasks),
 		ao_info->enable_tasks);
-	gtk_box_pack_start(GTK_BOX(vbox), check_tasks, FALSE, FALSE, 3);
+	g_signal_connect(check_tasks, "toggled", G_CALLBACK(ao_configure_tasks_toggled_cb), dialog);
+
+	check_tasks_scan_mode = gtk_check_button_new_with_label(
+		_("Show tasks of all documents"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_tasks_scan_mode),
+		ao_info->tasks_scan_all_documents);
+	ui_widget_set_tooltip_text(check_tasks_scan_mode,
+		_("Whether to show the tasks of all open documents in the list or only those of the current document."));
 
 	entry_tasks_tokens = gtk_entry_new();
 	if (NZV(ao_info->tasks_token_list))
@@ -336,7 +360,15 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	tokens_hbox = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(tokens_hbox), label_tasks_tokens, FALSE, FALSE, 3);
 	gtk_box_pack_start(GTK_BOX(tokens_hbox), entry_tasks_tokens, TRUE, TRUE, 3);
-	gtk_box_pack_start(GTK_BOX(vbox), tokens_hbox, TRUE, TRUE, 3);
+
+	vbox_tasks = gtk_vbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox_tasks), check_tasks_scan_mode, FALSE, FALSE, 3);
+	gtk_box_pack_start(GTK_BOX(vbox_tasks), tokens_hbox, TRUE, TRUE, 3);
+
+	frame_tasks = gtk_frame_new(NULL);
+	gtk_frame_set_label_widget(GTK_FRAME(frame_tasks), check_tasks);
+	gtk_container_add(GTK_CONTAINER(frame_tasks), vbox_tasks);
+	gtk_box_pack_start(GTK_BOX(vbox), frame_tasks, TRUE, TRUE, 3);
 
 	check_systray = gtk_check_button_new_with_label(
 		_("Show status icon in the Notification Area"));
@@ -360,10 +392,13 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	g_object_set_data(G_OBJECT(dialog), "check_openuri", check_openuri);
 	g_object_set_data(G_OBJECT(dialog), "check_tasks", check_tasks);
 	g_object_set_data(G_OBJECT(dialog), "entry_tasks_tokens", entry_tasks_tokens);
+	g_object_set_data(G_OBJECT(dialog), "check_tasks_scan_mode", check_tasks_scan_mode);
 	g_object_set_data(G_OBJECT(dialog), "check_systray", check_systray);
 	g_object_set_data(G_OBJECT(dialog), "check_bookmarklist", check_bookmarklist);
 	g_object_set_data(G_OBJECT(dialog), "check_markword", check_markword);
 	g_signal_connect(dialog, "response", G_CALLBACK(ao_configure_response_cb), NULL);
+
+	ao_configure_tasks_toggled_cb(GTK_TOGGLE_BUTTON(check_tasks), dialog);
 
 	gtk_widget_show_all(vbox);
 

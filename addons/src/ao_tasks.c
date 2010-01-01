@@ -60,13 +60,16 @@ struct _AoTasksPrivate
 	GtkWidget *popup_menu_delete_button;
 
 	gchar **tokens;
+
+	gboolean scan_all_documents;
 };
 
 enum
 {
 	PROP_0,
 	PROP_ENABLE_TASKS,
-	PROP_TOKENS
+	PROP_TOKENS,
+	PROP_SCAN_ALL_DOCUMENTS
 };
 
 enum
@@ -104,6 +107,11 @@ static void ao_tasks_set_property(GObject *object, guint prop_id,
 			priv->enable_tasks = new_val;
 			break;
 		}
+		case PROP_SCAN_ALL_DOCUMENTS:
+		{
+			priv->scan_all_documents = g_value_get_boolean(value);
+			break;
+		}
 		case PROP_TOKENS:
 		{
 			const gchar *t = g_value_get_string(value);
@@ -129,6 +137,15 @@ static void ao_tasks_class_init(AoTasksClass *klass)
 	g_object_class->finalize = ao_tasks_finalize;
 	g_object_class->set_property = ao_tasks_set_property;
 	g_type_class_add_private(klass, sizeof(AoTasksPrivate));
+
+	g_object_class_install_property(g_object_class,
+									PROP_SCAN_ALL_DOCUMENTS,
+									g_param_spec_boolean(
+									"scan-all-documents",
+									"scan-all-documents",
+									"Whether to show tasks for all open documents",
+									TRUE,
+									G_PARAM_WRITABLE));
 
 	g_object_class_install_property(g_object_class,
 									PROP_ENABLE_TASKS,
@@ -540,12 +557,35 @@ static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
 }
 
 
+void ao_tasks_update_single(AoTasks *t, GeanyDocument *cur_doc)
+{
+	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
+
+	if (! priv->active)
+		return;
+
+	if (! priv->scan_all_documents)
+	{
+		gtk_list_store_clear(priv->store);
+		ao_tasks_update(t, cur_doc);
+	}
+}
+
+
 void ao_tasks_update(AoTasks *t, GeanyDocument *cur_doc)
 {
 	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
 
 	if (! priv->active)
 		return;
+
+	if (! priv->scan_all_documents && cur_doc == NULL)
+	{
+		/* clear all */
+		gtk_list_store_clear(priv->store);
+		/* get the current document */
+		cur_doc = document_get_current();
+	}
 
 	if (cur_doc != NULL)
 	{
@@ -578,7 +618,10 @@ static void ao_tasks_init(AoTasks *self)
 }
 
 
-AoTasks *ao_tasks_new(gboolean enable, const gchar *tokens)
+AoTasks *ao_tasks_new(gboolean enable, const gchar *tokens, gboolean scan_all_documents)
 {
-	return g_object_new(AO_TASKS_TYPE, "tokens", tokens, "enable-tasks", enable, NULL);
+	return g_object_new(AO_TASKS_TYPE,
+		"scan-all-documents", scan_all_documents,
+		"tokens", tokens,
+		"enable-tasks", enable, NULL);
 }

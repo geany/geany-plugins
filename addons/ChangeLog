@@ -9,6 +9,9 @@
    delete tasks (closes #2911105).
    List tasks only once per line even if there were more than
    one matching token.
+ * src/addons.c, src/ao_tasks.c, src/ao_tasks.h:
+   Add an option to define whether all open documents or only the
+   current document should be scanned for tasks (closes #2911086).
 
 
 2009-12-08  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>

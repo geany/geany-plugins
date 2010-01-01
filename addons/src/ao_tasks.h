@@ -36,8 +36,11 @@ typedef struct _AoTasks			AoTasks;
 typedef struct _AoTasksClass	AoTasksClass;
 
 GType			ao_tasks_get_type		(void);
-AoTasks*		ao_tasks_new			(gboolean enable, const gchar *tokens);
+AoTasks*		ao_tasks_new			(gboolean enable,
+										 const gchar *tokens,
+										 gboolean scan_all_documents);
 void			ao_tasks_update			(AoTasks *t, GeanyDocument *cur_doc);
+void			ao_tasks_update_single	(AoTasks *t, GeanyDocument *cur_doc);
 void			ao_tasks_remove			(AoTasks *t, GeanyDocument *cur_doc);
 void			ao_tasks_activate		(AoTasks *t);
 
