@@ -528,6 +528,8 @@ static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
 						-1);
 					g_free(context);
 					g_free(tooltip);
+					/* if we found a token, continue on next line */
+					break;
 				}
 				token++;
 			}
