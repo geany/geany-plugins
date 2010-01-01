@@ -438,7 +438,7 @@ void ao_tasks_remove(AoTasks *t, GeanyDocument *cur_doc)
 }
 
 
-static void update_tasks_for_doc(AoTasks *t, G_GNUC_UNUSED GeanyDocument *doc)
+static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
 {
 	guint lines, line;
 	gchar *line_buf, *context, *display_name, *tooltip;
@@ -481,7 +481,7 @@ static void update_tasks_for_doc(AoTasks *t, G_GNUC_UNUSED GeanyDocument *doc)
 }
 
 
-void ao_tasks_update(AoTasks *t, G_GNUC_UNUSED GeanyDocument *cur_doc)
+void ao_tasks_update(AoTasks *t, GeanyDocument *cur_doc)
 {
 	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
 
@@ -496,16 +496,13 @@ void ao_tasks_update(AoTasks *t, G_GNUC_UNUSED GeanyDocument *cur_doc)
 	}
 	else
 	{
-		GeanyDocument *doc;
 		guint i;
-
 		/* clear all */
 		gtk_list_store_clear(priv->store);
 		/* iterate over all docs */
-		for (i = 0; i < geany->documents_array->len; i++)
+		foreach_document(i)
 		{
-			doc = document_index(i);
-			update_tasks_for_doc(t, doc);
+			update_tasks_for_doc(t, documents[i]);
 		}
 	}
 }
