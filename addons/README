@@ -22,9 +22,10 @@ Geany to open it.
 Tasks
 ^^^^^
 The tasks plugin goes through a file being edited and picks out lines with
-"TODO" or "FIXME" in them. It collects the text after those words and puts
-them in a new "Tasks" tab in the message window. Clicking on a task in that
-tab takes you to the line in the file where the task was defined.
+configurable keywords (e.g. "TODO" or "FIXME") in them. It collects the text
+after those words and puts them in a new "Tasks" tab in the message window.
+Clicking on a task in that tab takes you to the line in the file where the
+task was defined.
 
 Systray
 ^^^^^^^
