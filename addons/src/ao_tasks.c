@@ -57,6 +57,7 @@ struct _AoTasksPrivate
 
 	GtkWidget *page;
 	GtkWidget *popup_menu;
+	GtkWidget *popup_menu_delete_button;
 
 	gchar **tokens;
 };
@@ -201,6 +202,10 @@ static gboolean ao_tasks_button_press_cb(GtkWidget *widget, GdkEventButton *even
 	else if (event->button == 3)
 	{
 		AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(data);
+		gboolean has_selection = gtk_tree_selection_get_selected(
+			gtk_tree_view_get_selection(GTK_TREE_VIEW(priv->tree)), NULL, NULL);
+		gtk_widget_set_sensitive(priv->popup_menu_delete_button, has_selection);
+
 		gtk_menu_popup(GTK_MENU(priv->popup_menu), NULL, NULL, NULL, NULL,
 				event->button, event->time);
 		/* don't return TRUE here, otherwise the selection won't be changed */
@@ -249,6 +254,47 @@ static void ao_tasks_hide(AoTasks *t)
 }
 
 
+static void popup_delete_item_click_cb(GtkWidget *button, AoTasks *t)
+{
+	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+	GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(priv->tree));
+	gchar *filename;
+	gint line, start, end;
+	GeanyDocument *doc;
+
+	if (! gtk_tree_selection_get_selected(selection, &model, &iter))
+		return;
+
+	/* get task information */
+	gtk_tree_model_get(model, &iter,
+		TLIST_COL_FILENAME, &filename,
+		TLIST_COL_LINE, &line,
+		-1);
+
+	/* find the document of this task item */
+	doc = document_find_by_filename(filename);
+	g_free(filename);
+
+	if (doc == NULL)
+		return;
+
+	line--; /* display line vs. document line */
+
+	start = sci_get_position_from_line(doc->editor->sci, line);
+	end = sci_get_position_from_line(doc->editor->sci, line + 1);
+	if (end == -1)
+		end = sci_get_length(doc->editor->sci);
+
+	/* create a selection over this line and then delete it */
+	scintilla_send_message(doc->editor->sci, SCI_SETSEL, start, end);
+	scintilla_send_message(doc->editor->sci, SCI_CLEAR, 0, 0);
+	/* update the task list */
+	ao_tasks_update(t, doc);
+}
+
+
 static void popup_update_item_click_cb(GtkWidget *button, AoTasks *t)
 {
 	ao_tasks_update(t, NULL);
@@ -264,8 +310,19 @@ static void popup_hide_item_click_cb(GtkWidget *button, AoTasks *t)
 static GtkWidget *create_popup_menu(AoTasks *t)
 {
 	GtkWidget *item, *menu;
+	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
 
 	menu = gtk_menu_new();
+
+	item = gtk_image_menu_item_new_from_stock(GTK_STOCK_DELETE, NULL);
+	priv->popup_menu_delete_button = item;
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	g_signal_connect(item, "activate", G_CALLBACK(popup_delete_item_click_cb), t);
+
+	item = gtk_separator_menu_item_new();
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(menu), item);
 
 	item = ui_image_menu_item_new(GTK_STOCK_REFRESH, _("_Update"));
 	gtk_widget_show(item);

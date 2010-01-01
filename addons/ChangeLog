@@ -4,6 +4,9 @@
    Update copyright information.
  * src/ao_bookmarklist.c:
    Fix warning if the bookmark list is disabled.
+ * src/ao_tasks.c:
+   Implement a Delete menu item for the tasks list popup menu to easily
+   delete tasks (closes #2911105).
 
 
 2009-12-08  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
