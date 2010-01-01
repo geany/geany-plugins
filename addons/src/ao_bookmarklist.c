@@ -401,11 +401,14 @@ void ao_bookmark_list_update(AoBookmarkList *bm, GeanyDocument *doc)
 	ScintillaObject *sci = doc->editor->sci;
 	AoBookmarkListPrivate *priv = AO_BOOKMARK_LIST_GET_PRIVATE(bm);
 
-	gtk_list_store_clear(priv->store);
-	while ((line_nr = scintilla_send_message(sci, SCI_MARKERNEXT, line_nr, mask)) != -1)
+	if (priv->enable_bookmarklist)
 	{
-		add_line(bm, sci, line_nr);
-		line_nr++;
+		gtk_list_store_clear(priv->store);
+		while ((line_nr = scintilla_send_message(sci, SCI_MARKERNEXT, line_nr, mask)) != -1)
+		{
+			add_line(bm, sci, line_nr);
+			line_nr++;
+		}
 	}
 }
 
