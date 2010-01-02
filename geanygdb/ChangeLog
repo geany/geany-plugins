@@ -1,3 +1,6 @@
+2010-01-02 Dominic Hopf <dmaphy@googlemail.com>
+ * update copyright information
+
 2009-12-13 Dominic Hopf <dmaphy@googlemail.com>
  * finally fix any remaining naming issues, GeanyGDB will show up as "GeanyGDB"
    now in the plugin manager
