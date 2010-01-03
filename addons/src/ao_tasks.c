@@ -513,7 +513,7 @@ void ao_tasks_remove(AoTasks *t, GeanyDocument *cur_doc)
 
 
 static void create_task(AoTasks *t, GeanyDocument *doc, gint line,
-						const gchar *line_buf, const gchar *display_name)
+						const gchar *line_buf, const gchar *task_start, const gchar *display_name)
 {
 	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
 	gchar *context, *tooltip;
@@ -529,7 +529,7 @@ static void create_task(AoTasks *t, GeanyDocument *doc, gint line,
 		TLIST_COL_FILENAME, DOC_FILENAME(doc),
 		TLIST_COL_DISPLAY_FILENAME, display_name,
 		TLIST_COL_LINE, line + 1,
-		TLIST_COL_NAME, line_buf,
+		TLIST_COL_NAME, task_start,
 		TLIST_COL_TOOLTIP, tooltip,
 		-1);
 	g_free(context);
@@ -540,7 +540,7 @@ static void create_task(AoTasks *t, GeanyDocument *doc, gint line,
 static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
 {
 	guint lines, line;
-	gchar *line_buf, *display_name;
+	gchar *line_buf, *display_name, *task_start;
 	gchar **token;
 	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
 
@@ -554,9 +554,17 @@ static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
 			token = priv->tokens;
 			while (*token != NULL)
 			{
-				if (NZV(*token) && strstr(line_buf, *token) != NULL)
+				if (NZV(*token) && (task_start = strstr(line_buf, *token)) != NULL)
 				{
-					create_task(t, doc, line, line_buf, display_name);
+					/* skip the token and additional whitespace */
+					task_start += strlen(*token);
+					while (*task_start == ' ' || *task_start == ':')
+						task_start++;
+					/* reset task_start in case there is no text following */
+					if (! NZV(task_start))
+						task_start = line_buf;
+					/* create the task */
+					create_task(t, doc, line, line_buf, task_start, display_name);
 					/* if we found a token, continue on next line */
 					break;
 				}
