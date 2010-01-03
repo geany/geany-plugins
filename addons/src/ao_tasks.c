@@ -512,10 +512,35 @@ void ao_tasks_remove(AoTasks *t, GeanyDocument *cur_doc)
 }
 
 
+static void create_task(AoTasks *t, GeanyDocument *doc, gint line,
+						const gchar *line_buf, const gchar *display_name)
+{
+	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
+	gchar *context, *tooltip;
+
+	/* retrieve the following line and use it for the tooltip */
+	context = g_strstrip(sci_get_line(doc->editor->sci, line + 1));
+	setptr(context, g_strconcat(
+		_("Context:"), "\n", line_buf, "\n", context, NULL));
+	tooltip = g_markup_escape_text(context, -1);
+
+	/* add the task into the list */
+	gtk_list_store_insert_with_values(priv->store, NULL, -1,
+		TLIST_COL_FILENAME, DOC_FILENAME(doc),
+		TLIST_COL_DISPLAY_FILENAME, display_name,
+		TLIST_COL_LINE, line + 1,
+		TLIST_COL_NAME, line_buf,
+		TLIST_COL_TOOLTIP, tooltip,
+		-1);
+	g_free(context);
+	g_free(tooltip);
+}
+
+
 static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
 {
 	guint lines, line;
-	gchar *line_buf, *context, *display_name, *tooltip;
+	gchar *line_buf, *display_name;
 	gchar **token;
 	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
 
@@ -531,20 +556,7 @@ static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
 			{
 				if (NZV(*token) && strstr(line_buf, *token) != NULL)
 				{
-					context = g_strstrip(sci_get_line(doc->editor->sci, line + 1));
-					setptr(context, g_strconcat(
-						_("Context:"), "\n", line_buf, "\n", context, NULL));
-					tooltip = g_markup_escape_text(context, -1);
-
-					gtk_list_store_insert_with_values(priv->store, NULL, -1,
-						TLIST_COL_FILENAME, DOC_FILENAME(doc),
-						TLIST_COL_DISPLAY_FILENAME, display_name,
-						TLIST_COL_LINE, line + 1,
-						TLIST_COL_NAME, line_buf,
-						TLIST_COL_TOOLTIP, tooltip,
-						-1);
-					g_free(context);
-					g_free(tooltip);
+					create_task(t, doc, line, line_buf, display_name);
 					/* if we found a token, continue on next line */
 					break;
 				}
