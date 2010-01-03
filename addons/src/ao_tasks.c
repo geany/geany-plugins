@@ -77,6 +77,7 @@ enum
 	TLIST_COL_FILENAME,
 	TLIST_COL_DISPLAY_FILENAME,
 	TLIST_COL_LINE,
+	TLIST_COL_TOKEN,
 	TLIST_COL_NAME,
 	TLIST_COL_TOOLTIP,
 	TLIST_COL_MAX
@@ -384,7 +385,7 @@ static void ao_tasks_show(AoTasks *t)
 	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
 
 	priv->store = gtk_list_store_new(TLIST_COL_MAX,
-		G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING, G_TYPE_STRING);
+		G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 	priv->tree = gtk_tree_view_new_with_model(GTK_TREE_MODEL(priv->store));
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(priv->tree));
@@ -412,6 +413,17 @@ static void ao_tasks_show(AoTasks *t)
 	gtk_tree_view_column_set_attributes(column, text_renderer, "text", TLIST_COL_LINE, NULL);
 	gtk_tree_view_column_set_sort_indicator(column, FALSE);
 	gtk_tree_view_column_set_sort_column_id(column, TLIST_COL_LINE);
+	gtk_tree_view_column_set_resizable(column, TRUE);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(priv->tree), column);
+
+	text_renderer = gtk_cell_renderer_text_new();
+	g_object_set(text_renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
+	column = gtk_tree_view_column_new();
+	gtk_tree_view_column_set_title(column, _("Type"));
+	gtk_tree_view_column_pack_start(column, text_renderer, TRUE);
+	gtk_tree_view_column_set_attributes(column, text_renderer, "text", TLIST_COL_TOKEN, NULL);
+	gtk_tree_view_column_set_sort_indicator(column, FALSE);
+	gtk_tree_view_column_set_sort_column_id(column, TLIST_COL_TOKEN);
 	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(priv->tree), column);
 
@@ -512,7 +524,7 @@ void ao_tasks_remove(AoTasks *t, GeanyDocument *cur_doc)
 }
 
 
-static void create_task(AoTasks *t, GeanyDocument *doc, gint line,
+static void create_task(AoTasks *t, GeanyDocument *doc, gint line, const gchar *token,
 						const gchar *line_buf, const gchar *task_start, const gchar *display_name)
 {
 	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
@@ -529,6 +541,7 @@ static void create_task(AoTasks *t, GeanyDocument *doc, gint line,
 		TLIST_COL_FILENAME, DOC_FILENAME(doc),
 		TLIST_COL_DISPLAY_FILENAME, display_name,
 		TLIST_COL_LINE, line + 1,
+		TLIST_COL_TOKEN, token,
 		TLIST_COL_NAME, task_start,
 		TLIST_COL_TOOLTIP, tooltip,
 		-1);
@@ -564,7 +577,7 @@ static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
 					if (! NZV(task_start))
 						task_start = line_buf;
 					/* create the task */
-					create_task(t, doc, line, line_buf, task_start, display_name);
+					create_task(t, doc, line, *token, line_buf, task_start, display_name);
 					/* if we found a token, continue on next line */
 					break;
 				}
