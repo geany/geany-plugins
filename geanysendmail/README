@@ -1,6 +1,7 @@
-GeanySendMail Plugin
-(0.4.2 - Geany-plugins 0.19)
+GeanySendMail
+=============
 
+.. contents::
 
 About
 ------
@@ -57,20 +58,19 @@ the plugin to communicate with your mail client. Depending on what's
 your favorite mailer, the command will differ. A number of
 placeholders are available for doing this:
 
-* %s: Will be replaced by the complete path of the file that should be
-send.
-* %r: Will be replaced by one or more recipient's email address that
-can be entered inside a separate dialog. (Please remember during
-input, what your mail client is expecting here)
-* %b: Will be replace by the file name. For a file /tmp/foo.baa it
-will be replaced by foo.baa.
+* %s: Will be replaced by the complete path of the file that should be send.
+* %r: Will be replaced by one or more recipient's email address that can be
+      entered inside a separate dialog. (Please remember during input, what your
+      mail client is expecting here)
+* %b: Will be replace by the file name. For a file /tmp/foo.baa it will be
+      replaced by foo.baa.
 
 Depending on how you like to use, you can combine all of the
 placeholders to build up your command. It is possible to use one
 placeholder several times. When using keep care, as the placeholders
 are replace step by step, so a filename containing %b might have some
 funny outcome. However, examples could be:
-	
+
 Sylpheed:
 	sylpheed --attach "%f" --compose "%r"
 mutt:
@@ -80,7 +80,7 @@ Mozilla Thunderbird at Windows:
 		-compose to="%r",subject="%b",attachment="%f"
 
 In theory it should also work together with tools like Microsoft
-Outlook - Unfortunately the authoer wasn't able to bring it up
+Outlook - Unfortunately the author wasn't able to bring it up
 running. Input for the correct commandline is highly welcome.
 
 
@@ -108,7 +108,7 @@ copyright owner.
 
 
 Known issues
------------
+------------
 
 In case you are working with white spaces either in your path names,
 file names or at mail addresses (e.g. for separating two addresses)

@@ -1,5 +1,7 @@
-GeanyLipsum Plugin v0.1.1
+GeanyLipsum
 -----------
+
+.. contents::
 
 About
 ------
@@ -46,7 +48,7 @@ the same conditions as GeanySendMail by the copyright owner.
 
 
 Known issues
------------
+------------
 
 At the moment, there is no known issue.
 
@@ -67,7 +69,7 @@ able to get a copy by contacting the Free Software Foundation, Inc.,
 
 
 Bugs, questions, bugs, homepage
----------------------------------
+-------------------------------
 
 If you found any bugs or want to provide a patch, please contact Frank
 Lanitz (frank(at)geany(dot)org). Please also do so, if you got any
