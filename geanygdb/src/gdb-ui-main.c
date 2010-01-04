@@ -22,10 +22,10 @@
 #include <string.h>
 #include <gtk/gtk.h>
 
+#include "geanyplugin.h"
+
 #include "gdb-io.h"
 #include "gdb-ui.h"
-
-#include "support.h"
 
 #ifdef HAVE_ELF_H
 # include <elf.h>
@@ -343,19 +343,6 @@ pipe_click(GtkWidget * w, gpointer user_data)
 
 
 
-static GtkTooltips *tooltips = NULL;
-
-void
-gdbui_set_tips(GtkTooltips * tips)
-{
-	if (tooltips)
-	{
-		gtk_object_destroy(GTK_OBJECT(tooltips));
-	}
-	tooltips = tips;
-}
-
-
 void
 gdbui_set_tip(GtkWidget * w, gchar * tip)
 {
@@ -363,12 +350,7 @@ gdbui_set_tip(GtkWidget * w, gchar * tip)
 	{
 		if (w && tip)
 		{
-			if (!tooltips)
-			{
-				tooltips = gtk_tooltips_new();
-			}
-			gtk_tooltips_set_tip(tooltips, w, tip, NULL);
-
+			ui_widget_set_tooltip_text(w, tip);
 		}
 	}
 }

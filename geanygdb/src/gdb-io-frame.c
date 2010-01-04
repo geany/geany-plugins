@@ -21,8 +21,8 @@
 #include <string.h>
 #include <glib.h>
 
+#include "geanyplugin.h"
 #include "gdb-io-priv.h"
-#include "support.h"
 
 
 static GdbFrameFunc gdbio_locals_func = NULL;

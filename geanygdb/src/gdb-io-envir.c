@@ -18,9 +18,9 @@
  */
 
 #include <string.h>
-#include <glib.h>
+
+#include "geanyplugin.h"
 #include "gdb-io-priv.h"
-#include "support.h"
 
 
 static GdbEnvironFunc gdbio_environ_func = NULL;

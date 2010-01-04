@@ -20,6 +20,9 @@
 
 #define gui_loop() while (gtk_events_pending()) {gtk_main_iteration();}
 
+extern GeanyData		*geany_data;
+extern GeanyFunctions	*geany_functions;
+
 
 typedef struct
 {
@@ -65,7 +68,6 @@ extern GdbUiSetup gdbui_setup;
 
 GtkWidget *gdbui_create_widgets(GtkWidget * parent);
 void gdbui_set_tip(GtkWidget * w, gchar * tip);
-void gdbui_set_tips(GtkTooltips * tips);
 void gdbui_enable(gboolean enabled);
 
 GtkWidget *gdbui_new_dialog(gchar * title);

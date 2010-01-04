@@ -20,9 +20,9 @@
 #include <unistd.h>
 #include <signal.h>
 #include <string.h>
-#include <glib.h>
+
+#include "geanyplugin.h"
 #include "gdb-io-priv.h"
-#include "support.h"
 
 
 extern gint g_unlink(const gchar * filename);

@@ -1,3 +1,7 @@
+2010-01-04 Dominic Hopf <dmaphy@googlemail.com>
+ * update sources to use more current plugin API functions
+ * fix a widget-not-found-warning
+
 2010-01-02 Dominic Hopf <dmaphy@googlemail.com>
  * update copyright information
 

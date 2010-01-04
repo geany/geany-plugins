@@ -18,10 +18,10 @@
  */
 
 #include <string.h>
-#include <gtk/gtk.h>
+
+#include "geanyplugin.h"
 #include "gdb-io.h"
 #include "gdb-ui.h"
-#include "support.h"
 
 
 

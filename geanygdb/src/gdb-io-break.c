@@ -18,9 +18,9 @@
  */
 
 #include <string.h>
-#include <glib.h>
+
+#include "geanyplugin.h"
 #include "gdb-io-priv.h"
-#include "support.h"
 
 
 static GdbListFunc gdbio_break_list_func = NULL;

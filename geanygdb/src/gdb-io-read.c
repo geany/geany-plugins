@@ -23,10 +23,9 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdarg.h>
-#include <glib.h>
 
+#include "geanyplugin.h"
 #include "gdb-io-priv.h"
-#include "support.h"
 
 static GSList *source_files = NULL;
 static gboolean starting = FALSE;
