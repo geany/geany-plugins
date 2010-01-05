@@ -1,3 +1,0 @@
-GeanySendMail as distributed within the geany-plugins package doesn't
-have a own build system for its own. Please check documentation of
-geany-plugins release instead.

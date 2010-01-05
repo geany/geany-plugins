@@ -23,16 +23,9 @@
 
 /* A little plugin to send a document as attachment using the preferred mail client */
 
-#include "geany.h"
-#include "ui_utils.h"
-#include "support.h"
-#include "plugindata.h"
-#include "document.h"
-#include "filetypes.h"
-#include "utils.h"
-#include "keybindings.h"
+#include "geanyplugin.h"
 #include "icon.h"
-#include "geanyfunctions.h"
+
 
 #ifdef HAVE_LOCALE_H
 # include <locale.h>
@@ -42,10 +35,10 @@ GeanyPlugin		*geany_plugin;
 GeanyData		*geany_data;
 GeanyFunctions	*geany_functions;
 
-PLUGIN_VERSION_CHECK(116)
+PLUGIN_VERSION_CHECK(147)
 
 PLUGIN_SET_INFO(_("GeanySendMail"), _("A little plugin to send the current \
-file as attachment by user's favorite mailer"), "0.4.2", "Frank Lanitz <frank@frank.uvena.de>")
+file as attachment by user's favorite mailer"), "0.4.3", "Frank Lanitz <frank@frank.uvena.de>")
 
 /* Keybinding(s) */
 enum

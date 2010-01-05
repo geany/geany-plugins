@@ -1,5 +1,6 @@
 TODO
 ----
 
+ * Buildsupport for Win32 (Needs some testing)
  * Support for Inline-mailing (embedded text inside mail)
  * Send mail directly (only UNIX like systems)

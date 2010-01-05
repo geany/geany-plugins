@@ -1,5 +1,10 @@
+GeanySendMail 0.4.3 (05.01.2010 - maintenance release)
+	* Use waf instead of autotools
+	* Update to Geany plugin API 147
+
+
 GeanySendMail 0.4.2 (26. May 2009):
-    * Added cancel button to recipient's address dialog
+	* Added cancel button to recipient's address dialog
 	* Some minor code cleanup
 
 
