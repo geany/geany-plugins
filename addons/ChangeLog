@@ -4,6 +4,9 @@
    src/Makefile.am, src/addons.c:
    Add new addon 'Strip trailing blank lines' by Eugene Arshinov,
    thanks.
+ * src/ao_tasks.c:
+   Restore the selected task when the list is updated
+   (part of #2911086).
 
 
 2010-01-03  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>

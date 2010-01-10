@@ -62,6 +62,11 @@ struct _AoTasksPrivate
 	gchar **tokens;
 
 	gboolean scan_all_documents;
+
+	GHashTable *selected_tasks;
+	gint selected_task_line;
+	GeanyDocument *selected_task_doc;
+	gboolean ignore_selection_changed;
 };
 
 enum
@@ -180,13 +185,17 @@ static void ao_tasks_finalize(GObject *object)
 
 	ao_tasks_hide(AO_TASKS(object));
 
+	if (priv->selected_tasks != NULL)
+		g_hash_table_destroy(priv->selected_tasks);
+
 	G_OBJECT_CLASS(ao_tasks_parent_class)->finalize(object);
 }
 
 
-static gboolean ao_tasks_selection_changed_cb(gpointer widget)
+static gboolean ao_tasks_selection_changed_cb(gpointer t)
 {
-	GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(widget));
+	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
+	GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(priv->tree));
 	GtkTreeIter iter;
 	GtkTreeModel *model;
 
@@ -196,7 +205,10 @@ static gboolean ao_tasks_selection_changed_cb(gpointer widget)
 		gchar *filename, *locale_filename;
 		GeanyDocument *doc;
 
-		gtk_tree_model_get(model, &iter, TLIST_COL_LINE, &line, TLIST_COL_FILENAME, &filename, -1);
+		gtk_tree_model_get(model, &iter,
+			TLIST_COL_LINE, &line,
+			TLIST_COL_FILENAME, &filename,
+			-1);
 		locale_filename = utils_get_locale_from_utf8(filename);
 		doc = document_open_file(locale_filename, FALSE, NULL, NULL);
 		if (doc != NULL)
@@ -204,6 +216,16 @@ static gboolean ao_tasks_selection_changed_cb(gpointer widget)
 			sci_goto_line(doc->editor->sci, line - 1, TRUE);
 			gtk_widget_grab_focus(GTK_WIDGET(doc->editor->sci));
 		}
+
+		/* remember the selected line for this document to restore the selection after an update */
+		if (priv->scan_all_documents)
+		{
+			priv->selected_task_doc = doc;
+			priv->selected_task_line = line;
+		}
+		else
+			g_hash_table_insert(priv->selected_tasks, doc, GINT_TO_POINTER(line));
+
 		g_free(filename);
 		g_free(locale_filename);
 	}
@@ -215,7 +237,7 @@ static gboolean ao_tasks_button_press_cb(GtkWidget *widget, GdkEventButton *even
 {
 	if (event->button == 1)
 	{	/* allow reclicking of a treeview item */
-		g_idle_add(ao_tasks_selection_changed_cb, widget);
+		g_idle_add(ao_tasks_selection_changed_cb, data);
 	}
 	else if (event->button == 3)
 	{
@@ -239,7 +261,7 @@ static gboolean ao_tasks_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpo
 		event->keyval == GDK_KP_Enter ||
 		event->keyval == GDK_space)
 	{
-		g_idle_add(ao_tasks_selection_changed_cb, widget);
+		g_idle_add(ao_tasks_selection_changed_cb, data);
 	}
 	if ((event->keyval == GDK_F10 && event->state & GDK_SHIFT_MASK) || event->keyval == GDK_Menu)
 	{
@@ -599,9 +621,46 @@ void ao_tasks_update_single(AoTasks *t, GeanyDocument *cur_doc)
 
 	if (! priv->scan_all_documents)
 	{
+		/* update */
 		gtk_list_store_clear(priv->store);
 		ao_tasks_update(t, cur_doc);
 	}
+}
+
+
+static gboolean ao_tasks_select_task(GtkTreeModel *model, GtkTreePath *path,
+									 GtkTreeIter *iter, gpointer data)
+{
+	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(data);
+	gint line, selected_line;
+	gchar *filename = NULL;
+	gchar *selected_filename = NULL;
+	gboolean ret = FALSE;
+
+	if (priv->scan_all_documents)
+	{
+		gtk_tree_model_get(model, iter, TLIST_COL_LINE, &line, TLIST_COL_FILENAME, &filename, -1);
+		selected_line = priv->selected_task_line;
+		selected_filename = DOC_FILENAME(priv->selected_task_doc);
+	}
+	else
+	{
+		gtk_tree_model_get(model, iter, TLIST_COL_LINE, &line, -1);
+		selected_line = GPOINTER_TO_INT(g_hash_table_lookup(
+							priv->selected_tasks, priv->selected_task_doc));
+	}
+
+	if (line == selected_line && utils_str_equal(filename, selected_filename))
+	{
+		GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(priv->tree));
+
+		gtk_tree_selection_select_iter(selection, iter);
+		gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(priv->tree), path, NULL, FALSE, 0.0, 0.0);
+
+		ret = TRUE;
+	}
+	g_free(filename);
+	return ret;
 }
 
 
@@ -637,6 +696,18 @@ void ao_tasks_update(AoTasks *t, GeanyDocument *cur_doc)
 			update_tasks_for_doc(t, documents[i]);
 		}
 	}
+	/* restore selection */
+	priv->ignore_selection_changed = TRUE;
+	if (priv->scan_all_documents && priv->selected_task_doc != NULL)
+	{
+		gtk_tree_model_foreach(GTK_TREE_MODEL(priv->store), ao_tasks_select_task, t);
+	}
+	else if (cur_doc != NULL && g_hash_table_lookup(priv->selected_tasks, cur_doc) != NULL)
+	{
+		priv->selected_task_doc = cur_doc;
+		gtk_tree_model_foreach(GTK_TREE_MODEL(priv->store), ao_tasks_select_task, t);
+	}
+	priv->ignore_selection_changed = FALSE;
 }
 
 
@@ -648,6 +719,14 @@ static void ao_tasks_init(AoTasks *self)
 	priv->popup_menu = NULL;
 	priv->tokens = NULL;
 	priv->active = FALSE;
+	priv->ignore_selection_changed = FALSE;
+
+	priv->selected_task_line = 0;
+	priv->selected_task_doc = 0;
+	if (priv->scan_all_documents)
+		priv->selected_tasks = NULL;
+	else
+		priv->selected_tasks = g_hash_table_new(g_direct_hash, g_direct_equal);
 }
 
 
