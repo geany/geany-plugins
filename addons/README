@@ -7,6 +7,7 @@ About
 This plugin adds various small addons to Geany which aren't worth an own
 plugin but might still useful for people.
 
+
 DocList
 ^^^^^^^
 This addon places a new item in the toolbar and when clicked offers a menu
@@ -43,6 +44,13 @@ Mark Word
 ^^^^^^^^^
 When double-clicking a word, all occurences of this word are searched
 and then highlighted (similar to Geany's 'Mark All' Find option).
+
+Strip trailing blank lines
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+This addon removes trailing blank lines from the document when it is
+saved. This is useful for filetypes like PHP but unfavorable for
+filetypes like C where compilers might warn about a missing trailing
+blank line.
 
 
 Downloads

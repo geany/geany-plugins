@@ -5,6 +5,7 @@ geanyplugins_LTLIBRARIES = \
 
 addons_la_SOURCES = \
 	addons.h \
+	ao_blanklines.h \
 	ao_doclist.h \
 	ao_openuri.h \
 	ao_systray.h \
@@ -12,6 +13,7 @@ addons_la_SOURCES = \
 	ao_markword.h \
 	ao_tasks.h \
 	addons.c \
+	ao_blanklines.c \
 	ao_doclist.c \
 	ao_openuri.c \
 	ao_systray.c \
