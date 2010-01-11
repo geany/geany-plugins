@@ -47,10 +47,9 @@ and then highlighted (similar to Geany's 'Mark All' Find option).
 
 Strip trailing blank lines
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
-This addon removes trailing blank lines from the document when it is
-saved. This is useful for filetypes like PHP but unfavorable for
-filetypes like C where compilers might warn about a missing trailing
-blank line.
+This addon removes excessive trailing blank lines from the document when it is
+saved. If you have 'Ensure new line at file end' option checked in Preferences,
+one trailing newline will be left.
 
 
 Downloads
