@@ -2,6 +2,7 @@
  * geanygdb.c - Integrated debugger plugin for the Geany IDE
  * Copyright 2008 Jeff Pohlmeyer <yetanothergeek(at)gmail(dot)com>
  * Copyright 2009 - 2010 Dominic Hopf <dmaphy@googlemail.com>
+ * Copyright 2010 Radu Stefan <radu124@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +33,7 @@
 #define UNIX_NAME_OLD "debugger"
 
 
-PLUGIN_VERSION_CHECK(115)
+PLUGIN_VERSION_CHECK(163)
 PLUGIN_SET_INFO(_("GeanyGDB"), _("Integrated debugging with GDB."), VERSION, _("Jeff Pohlmeyer, Dominic Hopf"))
 
 GeanyData *geany_data;
@@ -41,6 +42,8 @@ GeanyFunctions *geany_functions;
 static GtkNotebook *msgbook;
 static GtkWidget *compwin;
 static GtkWidget *frame;
+static GtkWidget *menudbg;
+static GtkWidget *btmframe;
 static gchar *config_file;
 
 
@@ -371,6 +374,22 @@ plugin_init(GeanyData * data)
 	frame = gtk_frame_new(NULL);
 	gtk_notebook_append_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook), frame,
 				 gtk_label_new("Debug"));
+
+	menudbg = gtk_menu_item_new_with_mnemonic (_("Debu_g"));
+	gtk_widget_show (menudbg);
+	gtk_menu_insert (
+		GTK_CONTAINER (	ui_lookup_widget(geany->main_widgets->window, "menubar1"))
+		, menudbg, 7);
+
+	btmframe = gtk_frame_new(NULL);
+	gtk_widget_show_all(btmframe);
+	gtk_notebook_append_page(
+		GTK_NOTEBOOK(ui_lookup_widget(geany->main_widgets->window, "notebook_info")),
+		btmframe,
+		gtk_label_new(_("Debug")));
+
+
+	gdbui_create_menu(menudbg);
 	gdbui_create_widgets(frame);
 	gtk_widget_show_all(frame);
 }
@@ -387,6 +406,8 @@ plugin_cleanup()
 	g_free(gdbio_setup.tty_helper);
 
 	gtk_widget_destroy(frame);
+	gtk_widget_destroy(btmframe);
+	gtk_widget_destroy(menudbg);
 	gdbui_opts_done();
 }
 

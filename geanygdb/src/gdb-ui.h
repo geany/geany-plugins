@@ -1,6 +1,7 @@
 /*
  * gdb-ui.h - A GTK-based user interface for the GNU debugger.
  * Copyright 2008 Jeff Pohlmeyer <yetanothergeek(at)gmail(dot)com>
+ * Copyright 2010 Radu Stefan <radu124@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -67,6 +68,9 @@ extern GdbUiSetup gdbui_setup;
 
 
 GtkWidget *gdbui_create_widgets(GtkWidget * parent);
+void gdbui_create_menu(GtkWidget * parent);
+void gdbui_create_dview(GtkWidget * parent);
+
 void gdbui_set_tip(GtkWidget * w, gchar * tip);
 void gdbui_enable(gboolean enabled);
 

@@ -1,6 +1,7 @@
 /*
  * gdb-ui-main.c - A GTK-based user interface for the GNU debugger.
  * Copyright 2008 Jeff Pohlmeyer <yetanothergeek(at)gmail(dot)com>
+ * Copyright 2010 Radu Stefan <radu124@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,27 +43,40 @@ static GtkWidget *main_vbox;
 static GtkWidget *action_area;
 static GtkWidget *stat_lab;
 
-static GtkWidget *load_btn;
-static GtkWidget *run_btn;
-static GtkWidget *pause_btn;
-static GtkWidget *cont_btn;
-static GtkWidget *step_btn;
-static GtkWidget *stepi_btn;
-static GtkWidget *next_btn;
-static GtkWidget *nexti_btn;
-static GtkWidget *until_btn;
-static GtkWidget *stack_btn;
-static GtkWidget *break_btn;
-static GtkWidget *watch_btn;
-static GtkWidget *finish_btn;
-static GtkWidget *return_btn;
-static GtkWidget *kill_btn;
-static GtkWidget *env_btn;
-static GtkWidget *unload_btn;
-static GtkWidget *prefs_btn;
-
 static GtkWidget *term_chk;
 static GtkWidget *pipe_chk;
+
+#define DEBUGACTIONS \
+DAENTRY(load   , GTK_STOCK_OPEN,         "_Load"        ,"Load target program into debugger.")\
+DAENTRY(unload , GTK_STOCK_QUIT,         "_Unload"      ,"Kill the target program AND the debugger.")\
+DAENTRY(run    , GTK_STOCK_EXECUTE,      "_Run"         ,"Execute target program in debugger.")\
+DAENTRY(kill   , GTK_STOCK_STOP,         "_Kill"        ,"Kill the target program with SIGKILL.")\
+DAENTRY(pause  , GTK_STOCK_MEDIA_PAUSE,  "_Pause"       ,"Pause the target program with SIGINT.")\
+DAENTRY(cont   , GTK_STOCK_MEDIA_PLAY,   "_Continue"    ,"Continue executing target program.")\
+DAENTRY(step   , GTK_STOCK_GO_FORWARD,   "_Step"        ,"Step to the next line or function call.")\
+DAENTRY(stepi  , GTK_STOCK_GOTO_LAST,    "Step _Into"   ,"Execute the next machine instruction or function call.")\
+DAENTRY(next   , GTK_STOCK_MEDIA_FORWARD,"_Next"        ,"Step to the next line.")\
+DAENTRY(nexti  , GTK_STOCK_MEDIA_NEXT,   "Ne_xt in"     ,"Execute the next machine instruction.")\
+DAENTRY(until  , GTK_STOCK_JUMP_TO,      "Run _To"      ,"Run to specified source line.")\
+DAENTRY(stack  , GTK_STOCK_DND_MULTIPLE, "Sta_ck"       ,"Display a backtrace of the current call stack.")\
+DAENTRY(break  , GTK_STOCK_INDEX,        "_Break"       ,"Add or remove breakpoints.")\
+DAENTRY(watch  , GTK_STOCK_FIND,         "_Watches"     ,"Add or remove watches.")\
+DAENTRY(finish , GTK_STOCK_GOTO_BOTTOM,  "_Finish"      ,"Complete the currently executing function.")\
+DAENTRY(return , GTK_STOCK_UNDO,         "_Return"      ,"Return immediately from the current function.")\
+DAENTRY(env    , GTK_STOCK_PROPERTIES,   "En_vironment" ,"Set target environment and command line options.")\
+DAENTRY(prefs  , GTK_STOCK_PREFERENCES,  "_Options"     ,"Set user interface options.")
+
+struct SdebugMenu
+{
+    GtkWidget *menu;
+#define DAENTRY(A,B,C,D) GtkWidget *_##A;
+    DEBUGACTIONS
+#undef DAENTRY
+} sdm;
+
+#define DAENTRY(A,B,C,D) GtkWidget *A##_btn;
+    DEBUGACTIONS
+#undef DAENTRY
 
 
 static GtkWidget *con_lab;
@@ -75,6 +89,14 @@ static gboolean pause_clicked = FALSE;
 
 #define we(w) gtk_widget_set_sensitive(w,TRUE);
 #define wd(w) gtk_widget_set_sensitive(w,FALSE);
+
+#define bwe(w) do { gtk_widget_set_sensitive(w##_btn,TRUE); \
+	gtk_widget_set_sensitive(sdm._##w,TRUE); \
+	} while(0)
+#define bwd(w) do { gtk_widget_set_sensitive(w##_btn,FALSE); \
+	gtk_widget_set_sensitive(sdm._##w,FALSE); \
+	} while(0)
+
 
 #define pipe_chk_active() gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pipe_chk))
 
@@ -117,47 +139,50 @@ static GdbStatus curr_status = GdbDead;
 static void
 status_func(GdbStatus st)
 {
-	wd(load_btn);
-	wd(run_btn);
-	wd(pause_btn);
-	wd(cont_btn);
-	wd(step_btn);
-	wd(stepi_btn);
-	wd(next_btn);
-	wd(nexti_btn);
-	wd(until_btn);
-	wd(finish_btn) wd(return_btn) wd(stack_btn);
-	wd(kill_btn);
+	bwd(load);
+	bwd(run);
+	bwd(pause);
+	bwd(cont);
+	bwd(step);
+	bwd(stepi);
+	bwd(next);
+	bwd(nexti);
+	bwd(until);
+	bwd(finish);
+	bwd(return);
+	bwd(stack);
+
+	bwd(kill);
 	wd(pipe_chk);
-	wd(break_btn);
-	wd(watch_btn);
+	bwd(break);
+	bwd(watch);
 	wd(con_lab);
 	wd(con_cmd);
 	wd(term_chk);
-	wd(env_btn);
-	we(unload_btn);
+	bwd(env);
+	bwe(unload);
 	switch (st)
 	{
 		case GdbDead:
 			{
-				we(load_btn);
+				bwe(load);
 				we(pipe_chk);
 				we(term_chk);
-				wd(unload_btn);
+				bwd(unload);
 				status(_("(no program)"), black, white);
 				break;
 			}
 		case GdbLoaded:
 			{
-				we(load_btn);
-				we(run_btn);
+				bwe(load);
+				bwe(run);
 				we(pipe_chk);
-				we(break_btn);
-				we(watch_btn);
+				bwe(break);
+				bwe(watch);
 				we(term_chk);
 				we(con_lab);
 				we(con_cmd);
-				we(env_btn);
+				bwe(env);
 				status(_("loaded"), white, black);
 				break;
 			}
@@ -168,41 +193,43 @@ status_func(GdbStatus st)
 			}
 		case GdbRunning:
 			{
-				we(pause_btn);
-				we(kill_btn);
+				bwe(pause);
+				bwe(kill);
 				status(_("running"), green, white);
 				break;
 			}
 		case GdbStopped:
 			{
-				we(cont_btn);
-				we(step_btn);
-				we(stepi_btn);
-				we(next_btn);
-				we(nexti_btn);
-				we(until_btn);
-				we(finish_btn) we(return_btn) we(stack_btn);
-				we(kill_btn);
-				we(break_btn);
-				we(watch_btn);
+				bwe(cont);
+				bwe(step);
+				bwe(stepi);
+				bwe(next);
+				bwe(nexti);
+				bwe(until);
+				bwe(finish);
+				bwe(return);
+				bwe(stack);
+				bwe(kill);
+				bwe(break);
+				bwe(watch);
 				we(con_lab);
 				we(con_cmd);
 				we(pipe_chk);
-				we(env_btn);
+				bwe(env);
 				status(_("stopped"), red, yellow);
 				break;
 			}
 		case GdbFinished:
 			{
-				we(load_btn);
-				we(run_btn);
+				bwe(load);
+				bwe(run);
 				we(con_lab);
 				we(con_cmd);
 				we(pipe_chk);
 				we(term_chk);
-				we(break_btn);
-				we(watch_btn);
-				we(env_btn);
+				bwe(break);
+				bwe(watch);
+				bwe(env);
 				status(_("terminated"), white, black);
 				break;
 			}
@@ -817,6 +844,66 @@ gtk_box_pack_start(GTK_BOX(vb),splitw,FALSE,FALSE,3);
 #define BtnFill TRUE
 #define BtnPad 1
 
+#define MENUENTRY(A,QI,Q2,D) \
+        sdm._##A = gtk_image_menu_item_new_with_mnemonic (_(Q2)); \
+	gtk_widget_show (sdm._##A); \
+        gtk_container_add (GTK_CONTAINER (sdm.menu), sdm._##A); \
+	if (QI[0]) {\
+		img=gtk_image_new_from_stock (QI, GTK_ICON_SIZE_MENU); \
+		gtk_widget_show (img); \
+		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (sdm._##A), img); \
+	} \
+	ui_widget_set_tooltip_text(sdm._##A,_(D));\
+	g_signal_connect(GTK_OBJECT(sdm._##A), "activate", G_CALLBACK(A##_click), NULL); \
+	keybindings_set_item(plugin_key_group, KB_DEBUG_##A, kb_activate, \
+		0, 0, ""#Q2, _(Q2 ":  " D), sdm._##A);
+
+#define DBKEYACT(A,B,C) \
+	case KB_DEBUG_##A: \
+		A##_click(NULL,NULL); \
+		break;
+
+#define DBBUTTON(A,B,C,D) A##_btn = make_btn(_(C), A##_click, B, _(D));
+
+enum
+{
+#define DAENTRY(A,B,C,D) KB_DEBUG_##A,
+	DEBUGACTIONS
+#undef DAENTRY
+	KB_DEBUG_COUNT
+};
+
+PLUGIN_KEY_GROUP(debug, KB_DEBUG_COUNT)
+
+static void kb_activate(guint key_id)
+{
+	//gtk_notebook_set_current_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook), page_number);
+	//gtk_widget_grab_focus(file_view);
+	switch (key_id)
+	{
+#define DAENTRY(A,B,C,D) DBKEYACT(A,B,C)
+	DEBUGACTIONS
+#undef DAENTRY
+	}
+}
+
+
+void gdbui_create_menu(GtkWidget * parent)
+{
+	GtkWidget* img;
+        sdm.menu = gtk_menu_new ();
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (parent), sdm.menu);
+#define DAENTRY(A,B,C,D) MENUENTRY(A,B,C,D);
+	DEBUGACTIONS
+#undef DAENTRY
+//	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (sdm._load), GTK_STOCK_OPEN);
+}
+
+void gdbui_create_dview(GtkWidget * parent)
+{
+
+}
+
 GtkWidget *
 gdbui_create_widgets(GtkWidget * parent)
 {
@@ -842,64 +929,19 @@ gdbui_create_widgets(GtkWidget * parent)
 	action_area = gtk_vbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(main_vbox), action_area, FALSE, FALSE, 0);
 	gtk_widget_show(action_area);
-	load_btn =
-		make_btn(_("_Load"), load_click, GTK_STOCK_OPEN, _("Load target program into debugger."));
-	unload_btn =
-		make_btn(_("_Unload"), unload_click, GTK_STOCK_QUIT,
-			 _("Kill the target program AND the debugger."));
-	run_btn =
-		make_btn(_("_Run"), run_click, GTK_STOCK_EXECUTE,
-			 _("Execute target program in debugger."));
-	kill_btn =
-		make_btn(_("_Kill"), kill_click, GTK_STOCK_STOP,
-			 _("Kill the target program with SIGKILL."));
-	pause_btn =
-		make_btn(_("_Pause"), pause_click, GTK_STOCK_MEDIA_PAUSE,
-			 _("Pause the target program with SIGINT."));
-	cont_btn =
-		make_btn(_("_Continue"), cont_click, GTK_STOCK_MEDIA_PLAY,
-			 _("Continue executing target program."));
-	step_btn =
-		make_btn(_("_Step"), step_click, GTK_STOCK_GO_FORWARD,
-			 _("Step to the next line or function call."));
-	stepi_btn =
-		make_btn(_("Step _in"), stepi_click, GTK_STOCK_GOTO_LAST,
-			 _("Execute the next machine instruction or function call."));
-	next_btn = make_btn("_Next", next_click, GTK_STOCK_MEDIA_FORWARD, _("Step to the next line."));
-	nexti_btn =
-		make_btn(_("Ne_xt in"), nexti_click, GTK_STOCK_MEDIA_NEXT,
-			 _("Execute the next machine instruction."));
-	until_btn =
-		make_btn(_("Run _to"), until_click, GTK_STOCK_JUMP_TO,
-			 _("Run to specified source line."));
-	stack_btn =
-		make_btn(_("Stac_k"), stack_click, GTK_STOCK_DND_MULTIPLE,
-			 _("Display a backtrace of the current call stack."));
-	break_btn = make_btn("_Breaks", break_click, GTK_STOCK_INDEX, _("Add or remove breakpoints."));
-	watch_btn = make_btn("_Watches", watch_click, GTK_STOCK_FIND, _("Add or remove watchpoints."));
-	finish_btn =
-		make_btn(_("_Finish"), finish_click, GTK_STOCK_GOTO_BOTTOM,
-			 _("Complete the currently executing function."));
-	return_btn =
-		make_btn(_("_Return"), return_click, GTK_STOCK_UNDO,
-			 _("Return immediately from the current function."));
-	env_btn =
-		make_btn(_("En_viron"), env_click, GTK_STOCK_PROPERTIES,
-			 _("Set target environment and command line options."));
-	prefs_btn =
-		make_btn(_("_Options"), prefs_click, GTK_STOCK_PREFERENCES,
-			 _("Set user interface options."));
+
+#define DAENTRY DBBUTTON
+	DEBUGACTIONS
+#undef DAENTRY
 
 	split1;
 	new_row;
 	gtk_box_pack_start(GTK_BOX(w), load_btn, BtnGrow, BtnFill, BtnPad);
 	gtk_box_pack_start(GTK_BOX(w), unload_btn, BtnGrow, BtnFill, BtnPad);
 
-
 	new_row;
 	gtk_box_pack_start(GTK_BOX(w), run_btn, BtnGrow, BtnFill, BtnPad);
 	gtk_box_pack_start(GTK_BOX(w), kill_btn, BtnGrow, BtnFill, BtnPad);
-
 
 	split1;
 
@@ -922,7 +964,6 @@ gdbui_create_widgets(GtkWidget * parent)
 	new_row;
 	gtk_box_pack_start(GTK_BOX(w), until_btn, BtnGrow, BtnFill, BtnPad);
 	gtk_box_pack_start(GTK_BOX(w), stack_btn, BtnGrow, BtnFill, BtnPad);
-
 
 	split1;
 
