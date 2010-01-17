@@ -4,7 +4,7 @@ AM_INIT_AUTOMAKE([1.8 foreign dist-bzip2 tar-ustar])
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
-AC_CONFIG_SRCDIR([po/LINGUAS])
+AC_CONFIG_SRCDIR([po/POTFILES.in])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([build/cache])
 
