@@ -43,6 +43,7 @@ void			ao_tasks_update			(AoTasks *t, GeanyDocument *cur_doc);
 void			ao_tasks_update_single	(AoTasks *t, GeanyDocument *cur_doc);
 void			ao_tasks_remove			(AoTasks *t, GeanyDocument *cur_doc);
 void			ao_tasks_activate		(AoTasks *t);
+void			ao_tasks_set_active		(AoTasks *t);
 
 G_END_DECLS
 

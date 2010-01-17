@@ -39,7 +39,7 @@ GeanyData		*geany_data;
 GeanyFunctions	*geany_functions;
 
 
-PLUGIN_VERSION_CHECK(165)
+PLUGIN_VERSION_CHECK(170)
 PLUGIN_SET_INFO(_("Addons"), _("Various small addons for Geany."), VERSION,
 	"Enrico Tröger, Bert Vermeulen, Eugene Arshinov")
 
@@ -89,6 +89,7 @@ static void ao_document_open_cb(GObject *obj, GeanyDocument *doc, gpointer data)
 static void ao_document_save_cb(GObject *obj, GeanyDocument *doc, gpointer data);
 static void ao_document_before_save_cb(GObject *obj, GeanyDocument *doc, gpointer data);
 static void ao_document_close_cb(GObject *obj, GeanyDocument *doc, gpointer data);
+static void ao_startup_complete_cb(GObject *obj, gpointer data);
 gboolean ao_editor_notify_cb(GObject *object, GeanyEditor *editor,
 	SCNotification *nt, gpointer data);
 
@@ -103,9 +104,16 @@ PluginCallback plugin_callbacks[] =
 	{ "document-close", (GCallback) &ao_document_close_cb, TRUE, NULL },
 	{ "document-activate", (GCallback) &ao_document_activate_cb, TRUE, NULL },
 	{ "document-before-save", (GCallback) &ao_document_before_save_cb, TRUE, NULL },
+	{ "geany-startup-complete", (GCallback) &ao_startup_complete_cb, TRUE, NULL },
 
 	{ NULL, NULL, FALSE, NULL }
 };
+
+
+static void ao_startup_complete_cb(GObject *obj, gpointer data)
+{
+	ao_tasks_set_active(ao_info->tasks);
+}
 
 
 static void kb_bmlist_activate(guint key_id)

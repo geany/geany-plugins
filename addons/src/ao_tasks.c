@@ -383,22 +383,6 @@ static GtkWidget *create_popup_menu(AoTasks *t)
 }
 
 
-static gboolean update_list_delay(gpointer t)
-{
-	/* TODO add a signal in Geany when the main window is realised or the startup process
-	 * has been in general */
-	if (main_is_realized())
-	{
-		AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
-		priv->active = TRUE;
-		ao_tasks_update(AO_TASKS(t), NULL);
-		return FALSE;
-	}
-	else
-		return TRUE;
-}
-
-
 static void ao_tasks_show(AoTasks *t)
 {
 	GtkCellRenderer *text_renderer;
@@ -489,13 +473,6 @@ static void ao_tasks_show(AoTasks *t)
 		gtk_label_new(_("Tasks")));
 
 	priv->popup_menu = create_popup_menu(t);
-
-	/* initial update */
-#if GLIB_CHECK_VERSION(2, 14, 0)
-	g_timeout_add_seconds(3, update_list_delay, t);
-#else
-	g_timeout_add(3, update_list_delay, t);
-#endif
 }
 
 
@@ -662,6 +639,15 @@ static gboolean ao_tasks_select_task(GtkTreeModel *model, GtkTreePath *path,
 	}
 	g_free(filename);
 	return ret;
+}
+
+
+void ao_tasks_set_active(AoTasks *t)
+{
+	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
+	priv->active = TRUE;
+
+	ao_tasks_update(t, NULL);
 }
 
 
