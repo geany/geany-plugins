@@ -24,14 +24,7 @@
 
 #include <string.h>
 
-#include "geany.h"
-#include "support.h"
-#include "plugindata.h"
-#include "document.h"
-#include "filetypes.h"
-#include "utils.h"
-#include "project.h"
-#include "pluginmacros.h"
+#include "geanyplugin.h"
 
 #include "geanydoc.h"
 
@@ -66,7 +59,7 @@ void
 config_init()
 {
 	config_file = g_build_filename(geany->app->configdir, "plugins", "geanydoc", NULL);
-	p_utils->mkdir(config_file, TRUE);
+	utils_mkdir(config_file, TRUE);
 
 	setptr(config_file, g_build_filename(config_file, "geanydoc.conf", NULL));
 
@@ -107,7 +100,7 @@ config_set(GKeyFile * cfg)
 	config = cfg;
 
 	data = g_key_file_to_data(config, NULL, NULL);
-	p_utils->write_file(config_file, data);
+	utils_write_file(config_file, data);
 	g_free(data);
 }
 
@@ -116,17 +109,17 @@ config_get_command(const gchar * lang, gint cmd_num, gboolean * intern)
 {
 	gchar *ret, *tmp;
 	gchar *key = g_strdup_printf("command%d", cmd_num);
-	ret = p_utils->get_setting_string(config, lang, key, "");
+	ret = utils_get_setting_string(config, lang, key, "");
 	g_free(key);
 	if (!NZV(ret))
 		return ret;
 	key = g_strdup_printf("command%d", cmd_num + 1);
-	tmp = p_utils->get_setting_string(config, lang, key, "");
+	tmp = utils_get_setting_string(config, lang, key, "");
 	g_free(key);
 	if (NZV(tmp))
 		*intern = TRUE;
 	else
-		*intern = p_utils->get_setting_boolean(config, lang, "internal", FALSE);
+		*intern = utils_get_setting_boolean(config, lang, "internal", FALSE);
 	g_free(tmp);
 	return ret;
 }

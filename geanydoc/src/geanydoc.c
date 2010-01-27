@@ -29,21 +29,8 @@
 #include "config.h"
 #endif
 
-#include "geany.h"		/* for the GeanyApp data type */
-#include "keybindings.h"
-#include "support.h"		/* for the _() translation macro (see also po/POTFILES.in) */
-#include "document.h"
-#include "editor.h"
-#include "filetypes.h"
-#include "ui_utils.h"
-#include "utils.h"
+#include "geanyplugin.h"
 
-#include "plugindata.h"		/* this defines the plugin API */
-#include "pluginmacros.h"	/* some useful macros to avoid typing geany_data so often */
-
-#ifdef HAVE_LOCALE_H
-# include <locale.h>
-#endif
 
 #include "geanydoc.h"
 
@@ -101,23 +88,23 @@ current_word()
 	gchar c;
 	gint text_len;
 
-	doc = p_document->get_current();
+	doc = document_get_current();
 	g_return_val_if_fail(doc != NULL && doc->file_name != NULL, NULL);
 
-	text_len = p_sci->get_selected_text_length(doc->editor->sci);
+	text_len = sci_get_selected_text_length(doc->editor->sci);
 	if (text_len > 1)
 	{
 		txt = g_malloc(text_len + 1);
-		p_sci->get_selected_text(doc->editor->sci, txt);
+		sci_get_selected_text(doc->editor->sci, txt);
 		return txt;
 	}
 
-	pos = p_sci->get_current_position(doc->editor->sci);
+	pos = sci_get_current_position(doc->editor->sci);
 	if (pos > 0)
 		pos--;
 
 	cstart = pos;
-	c = p_sci->get_char_at(doc->editor->sci, cstart);
+	c = sci_get_char_at(doc->editor->sci, cstart);
 
 	if (!word_check_left(c))
 		return NULL;
@@ -126,25 +113,25 @@ current_word()
 	{
 		cstart--;
 		if (cstart >= 0)
-			c = p_sci->get_char_at(doc->editor->sci, cstart);
+			c = sci_get_char_at(doc->editor->sci, cstart);
 		else
 			break;
 	}
 	cstart++;
 
 	cend = pos;
-	c = p_sci->get_char_at(doc->editor->sci, cend);
-	while (word_check_right(c) && cend < p_sci->get_length(doc->editor->sci))
+	c = sci_get_char_at(doc->editor->sci, cend);
+	while (word_check_right(c) && cend < sci_get_length(doc->editor->sci))
 	{
 		cend++;
-		c = p_sci->get_char_at(doc->editor->sci, cend);
+		c = sci_get_char_at(doc->editor->sci, cend);
 	}
 
 	if (cstart == cend)
 		return NULL;
 	txt = g_malloc0(cend - cstart + 1);
 
-	p_sci->get_text_range(doc->editor->sci, cstart, cend, txt);
+	sci_get_text_range(doc->editor->sci, cstart, cend, txt);
 	return txt;
 }
 
@@ -159,28 +146,28 @@ show_output(const gchar * std_output, const gchar * name, const gchar * force_en
 
 	if (std_output)
 	{
-		cur_doc = p_document->get_current();
-		doc = p_document->find_by_filename(name);
+		cur_doc = document_get_current();
+		doc = document_find_by_filename(name);
 		if (doc == NULL)
 		{
-			doc = p_document->new_file(name,
-						   filetypes_array->pdata[filetype_new_file],
+			doc = document_new_file(name,
+						   filetypes[filetype_new_file],
 						   std_output);
 		}
 		else
 		{
-			p_sci->set_text(doc->editor->sci, std_output);
+			sci_set_text(doc->editor->sci, std_output);
 			book = GTK_NOTEBOOK(geany->main_widgets->notebook);
 			page = gtk_notebook_page_num(book, GTK_WIDGET(doc->editor->sci));
 			gtk_notebook_set_current_page(book, page);
 		}
-		p_document->set_text_changed(doc, FALSE);
-		p_document->set_encoding(doc, (force_encoding ? force_encoding : "UTF-8"));
-		p_navqueue->goto_line(cur_doc, p_document->get_current(), 1);
+		document_set_text_changed(doc, FALSE);
+		document_set_encoding(doc, (force_encoding ? force_encoding : "UTF-8"));
+		navqueue_goto_line(cur_doc, document_get_current(), 1);
 	}
 	else
 	{
-		p_ui->set_statusbar(FALSE, _("Could not parse the output of command"));
+		ui_set_statusbar(FALSE, _("Could not parse the output of command"));
 	}
 }
 
@@ -193,7 +180,7 @@ show_doc(const gchar * word, gint cmd_num)
 	gchar *tmp;
 	gboolean intern;
 
-	doc = p_document->get_current();
+	doc = document_get_current();
 	g_return_if_fail(doc != NULL && doc->file_name != NULL);
 
 	ftype = doc->file_type->name;
@@ -254,7 +241,7 @@ kb_doc_ask(G_GNUC_UNUSED guint key_id)
 	/* run the dialog and check for the response code */
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
 	{
-		entry = p_support->lookup_widget(dialog, "entry_word");
+		entry = ui_lookup_widget(dialog, "entry_word");
 		word = g_strdup(gtk_entry_get_text(GTK_ENTRY(entry)));
 	}
 	gtk_widget_destroy(dialog);
@@ -270,9 +257,9 @@ static void
 on_comboboxType_changed(GtkComboBox * combobox, G_GNUC_UNUSED gpointer user_data)
 {
 	gchar *from, *to;
-	GtkWidget *cmd0 = p_support->lookup_widget(GTK_WIDGET(combobox), "entryCommand0");
-	GtkWidget *cmd1 = p_support->lookup_widget(GTK_WIDGET(combobox), "entryCommand1");
-	GtkWidget *intern = p_support->lookup_widget(GTK_WIDGET(combobox), "cbIntern");
+	GtkWidget *cmd0 = ui_lookup_widget(GTK_WIDGET(combobox), "entryCommand0");
+	GtkWidget *cmd1 = ui_lookup_widget(GTK_WIDGET(combobox), "entryCommand1");
+	GtkWidget *intern = ui_lookup_widget(GTK_WIDGET(combobox), "cbIntern");
 
 	gchar *cmd0_txt = (gchar *) gtk_entry_get_text(GTK_ENTRY(cmd0));
 	gchar *cmd1_txt = (gchar *) gtk_entry_get_text(GTK_ENTRY(cmd1));
@@ -297,9 +284,9 @@ on_comboboxType_changed(GtkComboBox * combobox, G_GNUC_UNUSED gpointer user_data
 	}
 	g_object_set_data(G_OBJECT(combobox), "current", g_strdup(to));
 
-	cmd0_txt = p_utils->get_setting_string(config, to, "command0", "");
-	cmd1_txt = p_utils->get_setting_string(config, to, "command1", "");
-	intern_b = p_utils->get_setting_boolean(config, to, "internal", FALSE);
+	cmd0_txt = utils_get_setting_string(config, to, "command0", "");
+	cmd1_txt = utils_get_setting_string(config, to, "command1", "");
+	intern_b = utils_get_setting_boolean(config, to, "internal", FALSE);
 
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(intern), intern_b);
 	gtk_entry_set_text(GTK_ENTRY(cmd0), cmd0_txt);
@@ -449,7 +436,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	gchar *kb_label1;
 	gchar *kb_label2;
 
-	p_main->locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 	kb_label1 = _("Document current word");
 	kb_label2 = _("Document interactive");
 
@@ -458,9 +445,9 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	keyb1 = gtk_menu_item_new();
 	keyb2 = gtk_menu_item_new();
 
-	p_keybindings->set_item(plugin_key_group, KB_DOCUMENT_WORD, kb_doc,
+	keybindings_set_item(plugin_key_group, KB_DOCUMENT_WORD, kb_doc,
 				0, 0, kb_label1, kb_label1, keyb1);
-	p_keybindings->set_item(plugin_key_group, KB_DOCUMENT_WORD_ASK, kb_doc_ask,
+	keybindings_set_item(plugin_key_group, KB_DOCUMENT_WORD_ASK, kb_doc_ask,
 				0, 0, kb_label2, kb_label2, keyb2);
 }
 
@@ -470,13 +457,13 @@ init_Configure(GtkWidget * dialog)
 	guint i;
 	GtkWidget *cbTypes;
 
-	cbTypes = p_support->lookup_widget(dialog, "comboboxType");
+	cbTypes = ui_lookup_widget(dialog, "comboboxType");
 	g_object_set(cbTypes, "wrap-width", 3, NULL);
 
-	for (i = 0; i < filetypes_array->len; i++)
+	for (i = 0; i < geany->filetypes_array->len; i++)
 	{
 		gtk_combo_box_append_text(GTK_COMBO_BOX(cbTypes),
-					  ((struct GeanyFiletype *) (filetypes_array->pdata[i]))->
+					  ((struct GeanyFiletype *) (filetypes[i]))->
 					  name);
 	}
 	g_object_set_data(G_OBJECT(cbTypes), "config", config_clone());
@@ -497,7 +484,7 @@ plugin_configure_single(G_GNUC_UNUSED GtkWidget * parent)
 	dialog = create_Configure();
 	init_Configure(dialog);
 
-	cbTypes = p_support->lookup_widget(dialog, "comboboxType");
+	cbTypes = ui_lookup_widget(dialog, "comboboxType");
 
 	/* run the dialog and check for the response code */
 
