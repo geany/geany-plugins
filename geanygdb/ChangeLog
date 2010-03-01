@@ -1,40 +1,78 @@
-2010-01-04 Dominic Hopf <dmaphy@googlemail.com>
- * update sources to use more current plugin API functions
- * fix a widget-not-found-warning
+2010-01-16  Dominic Hopf  <dmaphy@googlemail.com>
 
-2010-01-02 Dominic Hopf <dmaphy@googlemail.com>
- * update copyright information
+ * src/gdb-ui-main.c, src/gdb-ui.h, src/geanygdb.c:
+   Add a menu entry for GeanyGDB, add possibility to set keyboard shortcuts, add
+   page in the bottom toolbar which in the future may be used to display the
+   stack and local variables or watches. This changes were all made by Radu
+   Stefan, thanks very much.
 
-2009-12-13 Dominic Hopf <dmaphy@googlemail.com>
- * finally fix any remaining naming issues, GeanyGDB will show up as "GeanyGDB"
-   now in the plugin manager
 
-2009-09-02 Dominic Hopf <dmaphy@googlemail.com>
- * fix an issue with button labels, where some localizations may caused a stack
-   overflow
- * remember the last targetpath
+2010-01-04  Dominic Hopf  <dmaphy@googlemail.com>
 
-2009-05-07 Dominic Hopf <dmaphy@googlemail.com>
- * install ttyhelper and geanydebug.so to /usr/lib/geany/
+ * src/geanygdb.c, src/gdb-ui-frame.c, src/gdb-ui-locn.c, src/gdb-io-run.c,
+   src/gdb-io-stack.c, src/gdb-io-read.c, src/gdb-ui.h, src/gdb-io-envir.c,
+   src/gdb-io-break.c, src/gdb-ui-envir.c, src/gdb-ui-main.c,
+   src/gdb-ui-break.c, src/gdb-io-frame.c: Update sources to use more current
+   plugin API functions and fix a widget-not-found-warning.
+
+
+2010-01-02  Dominic Hopf  <dmaphy@googlemail.com>
+ * Any file: Update copyright information.
+
+
+2009-12-13  Dominic Hopf  <dmaphy@googlemail.com>
+ * geanydebug.c, geanygdb.c, Makefile.am: Finally fix any remaining naming
+   issues, GeanyGDB will show up as "GeanyGDB" now in the plugin manager.
+ * INSTALL, README: Remove installation instructions and add hint for
+   Geany-Plugins instead, update wording and notation for GeanyGDB.
+
+
+2009-10-27  Dominic Hopf  <dmaphy@googlemail.com>
+ * TODO: Add a TODO file, to note some things to get done for next releases.
+
+
+2009-10-18  Dominic Hopf <dmaphy@googlemail.com>
+ * AUTHORS: Add Dominic Hopf to the AUTHORS.
+
+
+2009-09-02  Dominic Hopf  <dmaphy@googlemail.com>
+ * src/gdb-ui-main.c: Fix an issue with button labels, where some localizations
+   may caused a stack overflow, remember the last targetpath.
+
+
+2009-05-07  Dominic Hopf  <dmaphy@googlemail.com>
+ * Makefile.am: Install ttyhelper and geanydebug.so to /usr/lib/geany/,
    patch by Chow Loong Jin, thanks!
 
-2009-05-04 Dominic Hopf <dmaphy@googlemail.com>
+
+2009-05-04  Dominic Hopf  <dmaphy@googlemail.com>
  * search for a globally installed tty helper in $PREFIX/$LIBDIR/geany/,
    and fall back to the users config dir if not found. this fixes problems when
    the plugin is installed to ~/.config/geany/plugins/.
- * rename configuration directory for this plugin from "debugger" to "geanygdb",
-   GeanyGDB will try to automatically rename ~/.config/geany/plugins/debugger/
-   to ~/.config/geany/plugins/geanygdb/.
-   You are recommended to backup this directory.
+ * configure.in, README: Be consistent with naming issues, name of this plugin
+   is GeanyGDB, unix name is geanygdb.
+ * src/geanydebug.c, src/Makefile.am, INSTALL: Rename configuration directory
+   for this plugin from "debugger" to "geanygdb", GeanyGDB will try t
+   automatically rename ~/.config/geany/plugins/debugger/ to
+   ~/.config/geany/plugins/geanygdb/. You are recommended to backup this
+   directory.
 
-2009-05-02 Dominic Hopf <dmaphy@googlemail.com>
- * fix a crash when trying to delete breakpoints or watchpoints without
-   selecting one - thanks to eht16 for the patch
 
-2009-05-01 Dominic Hopf <dmaphy@googlemail.com>
- * fix Geany version dependency in configure.in
- * rewrite Documentation (README and INSTALL) with ReST
+2009-05-02  Dominic Hopf  <dmaphy@googlemail.com>
+ * src/gdb-ui-break.c: Fix a crash when trying to delete breakpoints or
+   watchpoints without selecting one. (thanks to eht16)
 
-2009-04-18 Dominic Hopf <dmaphy@googlemail.com>
- * version bump to 0.0.2
+
+2009-05-01  Dominic Hopf  <dmaphy@googlemail.com>
+ * configure.in: Fix Geany version dependency
+
+
+2009-04-18  Dominic Hopf  <dmaphy@googlemail.com>
+ * INSTALL: Add installation instructions for GeanyGDB.
+ * README: Remove hint to conflicts with geanylua since there is geanylua 0.7.0
+   (at least in svn) where this issue should have been fixed.
+ * src/geanydebug.c: Remove version definition since it is defined by autotools
+   or waf.
+ * configure.in: Version bump to 0.0.2.
  * this maintenance release will be compatible with Geany 0.16
+ * README, INSTALL: Rewrite Documentation in ReST.
