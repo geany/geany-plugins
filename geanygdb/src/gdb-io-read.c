@@ -695,10 +695,7 @@ handle_response_line(gchar * str, gchar ** list)
 						{
 							starting = FALSE;
 						}
-						else
-						{
-							gdbio_do_status(GdbRunning);
-						}
+                        gdbio_do_status(GdbRunning);
 						gdbio_set_running(TRUE);
 					}
 				}

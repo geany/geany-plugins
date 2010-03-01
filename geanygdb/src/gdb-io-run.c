@@ -554,7 +554,7 @@ gdbio_kill_target(gboolean force)
 		if (!force)
 		{
 			gdbio_info_func(_("Shutting down target program.\n"));
-			gdbio_send_seq_cmd(target_killed, "kill SIGKILL\n");
+			gdbio_send_seq_cmd(target_killed, "kill\n");
 			gdbio_wait(250);
 			do_loop();
 		}

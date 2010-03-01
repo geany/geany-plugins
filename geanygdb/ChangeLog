@@ -1,3 +1,9 @@
+2010-03-01  Dominic Hopf  <dmaphy@googlemail.com>
+
+ * src/gdb-io-run.c, src/gdb-io-read.c: Improve the way a running process gets
+   killed (thanks Thomas Martitz)
+
+
 2010-01-16  Dominic Hopf  <dmaphy@googlemail.com>
 
  * src/gdb-ui-main.c, src/gdb-ui.h, src/geanygdb.c:
