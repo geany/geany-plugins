@@ -77,6 +77,7 @@ plugins = [
 	Plugin('addons', None, [ 'addons/src' ]),
 	Plugin('codenav', None, [ 'codenav/src' ]),
 	Plugin('geanydoc', None, [ 'geanydoc/src' ]),
+	Plugin('geanyinsertnum', None, [ 'geanyinsertnum/src' ]),
 	Plugin('geanylatex', None, [ 'geanylatex/src']),
 	Plugin('geanylipsum', None, [ 'geanylipsum/src']),
 	Plugin('geanysendmail', None, [ 'geanysendmail/src' ]),

@@ -95,3 +95,6 @@ geanyprj/src/xproject.c
 #Pretty-printer
 pretty-printer/src/PluginEntry.c
 pretty-printer/src/PrettyPrinter.c
+
+# GeanyInsertnum
+geanyinsertnum/src/insertnum.c

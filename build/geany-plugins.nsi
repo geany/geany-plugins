@@ -149,6 +149,7 @@ Section Uninstall
 	Delete "$INSTDIR\ReadMe.Windows.txt"
 	Delete "$INSTDIR\uninst-plugins.exe"
 	Delete "$INSTDIR\lib\addons.dll"
+	Delete "$INSTDIR\lib\geanyinsertnum.dll"
 	Delete "$INSTDIR\lib\geanylatex.dll"
 	Delete "$INSTDIR\lib\geanylipsum.dll"
 	Delete "$INSTDIR\lib\geanylua.dll"

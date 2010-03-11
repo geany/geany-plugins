@@ -3,6 +3,7 @@ plugins = \
 	codenav \
 	geanydoc \
 	geanygdb \
+	geanyinsertnum \
 	geanylatex \
 	geanylipsum \
 	geanylua \

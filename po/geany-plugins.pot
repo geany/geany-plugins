@@ -2490,3 +2490,76 @@ msgstr ""
 #, c-format
 msgid "Project \"%s\" opened."
 msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:33 ../geanyinsertnum/src/insertnum.c:375
+#: ../geanyinsertnum/src/insertnum.c:504
+msgid "Insert Numbers"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:33
+msgid "Insert/Fill columns with numbers."
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:153
+msgid "Counting..."
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:200
+msgid "Preparing..."
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:206
+msgid "Inserting..."
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:365
+msgid "For base 11 and above"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:387
+msgid "_Start:"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:392
+msgid "S_tep:"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:398
+msgid "_Base:"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:408
+msgid "Letters:"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:411
+msgid "_Upper"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:416
+msgid "_Lower"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:420
+msgid "Base _prefix"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:422
+msgid "0 for octal, 0x for hex, + for positive decimal"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:424
+msgid "Padding:"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:426
+msgid "Sp_ace"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:429
+msgid "_Zero"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:497
+msgid "Insert _Numbers"
+msgstr ""
