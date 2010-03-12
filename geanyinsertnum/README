@@ -11,7 +11,6 @@ For practical reasons, the number of lines is limited to 500000.
 Requirements
 ------------
 Geany 0.18 or later and the respective headers and development libraries.
-Python 2.4 or later.
 
 
 Installation

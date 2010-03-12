@@ -1,0 +1,4 @@
+2010-03-12  Dimitar Zhekov  <hamster@mbox.contact.bg>
+
+ * src/insertnum.c:
+   Small changes to compile with GTK 2.8 / Win32.

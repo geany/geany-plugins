@@ -119,9 +119,7 @@ static int sci_point_x_from_position(ScintillaObject *sci, gint position)
 	return scintilla_send_message(sci, SCI_POINTXFROMPOSITION, 0, position);
 }
 
-/* these did not work for me in 0.18 */
-#define sci_get_line_end_position(sci, line) \
-	scintilla_send_message((sci), SCI_GETLINEENDPOSITION, (line), 0)
+/* these and sci_get_line_end_position() did not work for me in 0.18 */
 #define sci_get_pos_at_line_sel_start(sci, line) \
 	scintilla_send_message((sci), SCI_GETLINESELSTARTPOSITION, (line), 0)
 #define sci_goto_pos(sci, position) \
@@ -155,7 +153,7 @@ static void insert_numbers(gboolean *cancel)
 	for (line = start_line, i = 0; line <= end_line; line++, i++)
 	{
           	if (sci_point_x_from_position(sci,
-			sci_get_line_end_position(sci, line)) >= xinsert)
+			scintilla_send_message(sci, SCI_GETLINEENDPOSITION, line, 0)) >= xinsert)
 		{
 			line_pos[i] = sci_get_pos_at_line_sel_start(sci, line) -
 				sci_get_position_from_line(sci, line);
@@ -214,7 +212,7 @@ static void insert_numbers(gboolean *cancel)
 
 		beg = buffer;
 		end = buffer + length;
-		value = llabs(start);
+		value = ABS(start);
 
 		do
 		{
@@ -280,7 +278,7 @@ static void on_entry_insert_text(GtkEntry *entry, const gchar *text, gint length
 
 	if (length == -1)
 		length = strlen(text);
-	result = g_new(gchar, gtk_entry_get_text_length(entry) + length + 1);
+	result = g_new(gchar, strlen(gtk_entry_get_text(entry)) + length + 1);
 	strcpy(result, gtk_entry_get_text(entry));
 
 	for (i = 0; i < length; i++)
@@ -359,7 +357,7 @@ static void on_insert_numbers_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GN
 	gpointer gdata)
 {
 	InsertNumbersDialog d;
-	GtkWidget *vbox, *label, *upper, *space, *button, *action;
+	GtkWidget *vbox, *label, *upper, *space, *button;
 	GtkTable *table;
 	GtkComboBox *combo;
 	const char *case_tip = _("For base 11 and above");
@@ -432,9 +430,8 @@ static void on_insert_numbers_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GN
 
 	button = gtk_button_new_from_stock(GTK_STOCK_OK);
 	g_signal_connect(button, "clicked", G_CALLBACK(on_insert_numbers_ok_clicked), &d);
-	action = gtk_dialog_get_action_area(GTK_DIALOG(d.dialog));
-	gtk_box_pack_end(GTK_BOX(action), button, TRUE, TRUE, 0);
-	gtk_widget_set_can_default(button, TRUE);
+	gtk_box_pack_end(GTK_BOX(GTK_DIALOG(d.dialog)->action_area), button, TRUE, TRUE, 0);
+	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
 	gtk_widget_grab_default(button);
 
 	gtk_entry_set_text(GTK_ENTRY(d.start), start_text);
