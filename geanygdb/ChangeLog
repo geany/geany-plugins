@@ -1,3 +1,9 @@
+2010-03-15  Thomas Martitz  <thomas.martitz@student.htw-berlin.de>
+
+ * src/gdb-io-run.c, src/gdb-ui-break.c: Run gdb with LANG=C to avoid
+   locale-related clashes when parsing the gdb output for the localized version
+   break- and watchpoints
+
 2010-03-01  Dominic Hopf  <dmaphy@googlemail.com>
 
  * src/gdb-io-run.c, src/gdb-io-read.c: Improve the way a running process gets

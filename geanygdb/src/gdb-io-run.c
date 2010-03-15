@@ -22,6 +22,7 @@
 #include <string.h>
 
 #include "geanyplugin.h"
+extern GeanyFunctions *geany_functions;
 #include "gdb-io-priv.h"
 
 
@@ -724,8 +725,15 @@ void
 gdbio_load(const gchar * exe_name)
 {
 	GError *err = NULL;
+	/* need to execute gdb with LANG=C because we parse the output
+	 * for break and watch points
+	 * however, the debugged applications ought to run under the
+	 * systems locale (i.e. the current LANG) */
+	const gchar *exclude[] = { "LANG", NULL };
+	gchar **gdbio_env = utils_copy_environment(exclude, "LANG", "C", NULL);
+	const gchar *env_lang = g_getenv("LANG");
 	gdbio_exit();
-	if (g_spawn_async_with_pipes(NULL, gdbio_args, NULL,
+	if (g_spawn_async_with_pipes(NULL, gdbio_args, gdbio_env,
 				     GDB_SPAWN_FLAGS, NULL,
 				     NULL, &gdbio_pid, &gdbio_in, &gdbio_out, NULL, &err))
 	{
@@ -748,6 +756,8 @@ gdbio_load(const gchar * exe_name)
 		gdbio_id_out = g_io_add_watch(gdbio_ch_out, G_IO_IN, on_read_from_gdb, NULL);
 
 		gdbio_send_cmd("-gdb-set width 0\n-gdb-set height 0\n");
+		/* restore LANG for apps here, gdb is under LANG=C */
+		gdbio_send_cmd("-gdb-set environment LANG=%s\n", env_lang);
 		if (exe_name)
 		{
 			load_target(exe_name);
@@ -757,6 +767,7 @@ gdbio_load(const gchar * exe_name)
 	{
 		gerror("Error starting debugger.", &err);
 	}
+	g_strfreev(gdbui_env);
 }
 
 

@@ -351,7 +351,7 @@ has_items(const GSList * frame_list)
 		{
 			continue;
 		}
-		if ((bpi) && (strstr(bpi->type, is_watchlist ? _("watchpoint") : _("breakpoint"))))
+		if (strstr(bpi->type, is_watchlist ? "watchpoint" : "breakpoint"))
 		{
 			return TRUE;
 		}
@@ -405,7 +405,7 @@ break_dlg(const GSList * frame_list)
 			GdbBreakPointInfo *bpi = p->data;
 			if (bpi)
 			{
-				gboolean iswatch = !g_str_equal(_("breakpoint"), bpi->type);
+				gboolean iswatch = !g_str_equal("breakpoint", bpi->type);
 				if (is_watchlist != iswatch)
 				{
 					continue;
