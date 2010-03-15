@@ -767,7 +767,7 @@ gdbio_load(const gchar * exe_name)
 	{
 		gerror("Error starting debugger.", &err);
 	}
-	g_strfreev(gdbui_env);
+	g_strfreev(gdbio_env);
 }
 
 
