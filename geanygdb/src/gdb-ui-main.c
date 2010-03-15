@@ -47,35 +47,35 @@ static GtkWidget *term_chk;
 static GtkWidget *pipe_chk;
 
 #define DEBUGACTIONS \
-DAENTRY(load   , GTK_STOCK_OPEN,         "_Load"        ,"Load target program into debugger.")\
-DAENTRY(unload , GTK_STOCK_QUIT,         "_Unload"      ,"Kill the target program AND the debugger.")\
-DAENTRY(run    , GTK_STOCK_EXECUTE,      "_Run"         ,"Execute target program in debugger.")\
-DAENTRY(kill   , GTK_STOCK_STOP,         "_Kill"        ,"Kill the target program with SIGKILL.")\
-DAENTRY(pause  , GTK_STOCK_MEDIA_PAUSE,  "_Pause"       ,"Pause the target program with SIGINT.")\
-DAENTRY(cont   , GTK_STOCK_MEDIA_PLAY,   "_Continue"    ,"Continue executing target program.")\
-DAENTRY(step   , GTK_STOCK_GO_FORWARD,   "_Step"        ,"Step to the next line or function call.")\
-DAENTRY(stepi  , GTK_STOCK_GOTO_LAST,    "Step _Into"   ,"Execute the next machine instruction or function call.")\
-DAENTRY(next   , GTK_STOCK_MEDIA_FORWARD,"_Next"        ,"Step to the next line.")\
-DAENTRY(nexti  , GTK_STOCK_MEDIA_NEXT,   "Ne_xt in"     ,"Execute the next machine instruction.")\
-DAENTRY(until  , GTK_STOCK_JUMP_TO,      "Run _To"      ,"Run to specified source line.")\
-DAENTRY(stack  , GTK_STOCK_DND_MULTIPLE, "Sta_ck"       ,"Display a backtrace of the current call stack.")\
-DAENTRY(break  , GTK_STOCK_INDEX,        "_Break"       ,"Add or remove breakpoints.")\
-DAENTRY(watch  , GTK_STOCK_FIND,         "_Watches"     ,"Add or remove watches.")\
-DAENTRY(finish , GTK_STOCK_GOTO_BOTTOM,  "_Finish"      ,"Complete the currently executing function.")\
-DAENTRY(return , GTK_STOCK_UNDO,         "_Return"      ,"Return immediately from the current function.")\
-DAENTRY(env    , GTK_STOCK_PROPERTIES,   "En_vironment" ,"Set target environment and command line options.")\
-DAENTRY(prefs  , GTK_STOCK_PREFERENCES,  "_Options"     ,"Set user interface options.")
+DAENTRY(load,	GTK_STOCK_OPEN,			"_Load",	"Load target program into debugger.")\
+DAENTRY(unload,	GTK_STOCK_QUIT,			"_Unload",	"Kill the target program AND the debugger.")\
+DAENTRY(run, 	GTK_STOCK_EXECUTE,		"_Run",		"Execute target program in debugger.")\
+DAENTRY(kill,	GTK_STOCK_STOP,			"_Kill",	"Kill the target program with SIGKILL.")\
+DAENTRY(pause,	GTK_STOCK_MEDIA_PAUSE,	"_Pause",	"Pause the target program with SIGINT.")\
+DAENTRY(cont,	GTK_STOCK_MEDIA_PLAY,	"_Continue","Continue executing target program.")\
+DAENTRY(step,	GTK_STOCK_GO_FORWARD,	"_Step",	"Step to the next line or function call.")\
+DAENTRY(stepi,	GTK_STOCK_GOTO_LAST,	"Step _Into","Execute the next machine instruction or function call.")\
+DAENTRY(next,	GTK_STOCK_MEDIA_FORWARD,"_Next",	"Step to the next line.")\
+DAENTRY(nexti,	GTK_STOCK_MEDIA_NEXT,	"Ne_xt in",	"Execute the next machine instruction.")\
+DAENTRY(until,	GTK_STOCK_JUMP_TO,		"Run _To",	"Run to specified source line.")\
+DAENTRY(stack,	GTK_STOCK_DND_MULTIPLE,	"Sta_ck",	"Display a backtrace of the current call stack.")\
+DAENTRY(break,	GTK_STOCK_INDEX,		"_Break",	"Add or remove breakpoints.")\
+DAENTRY(watch,	GTK_STOCK_FIND,			"_Watches",	"Add or remove watches.")\
+DAENTRY(finish,	GTK_STOCK_GOTO_BOTTOM,	"_Finish",	"Complete the currently executing function.")\
+DAENTRY(return,	GTK_STOCK_UNDO,			"_Return",	"Return immediately from the current function.")\
+DAENTRY(env,	GTK_STOCK_PROPERTIES,	"En_vironment" ,"Set target environment and command line options.")\
+DAENTRY(prefs,	GTK_STOCK_PREFERENCES,	"_Options",	"Set user interface options.")
 
 struct SdebugMenu
 {
-    GtkWidget *menu;
+	GtkWidget *menu;
 #define DAENTRY(A,B,C,D) GtkWidget *_##A;
-    DEBUGACTIONS
+	DEBUGACTIONS
 #undef DAENTRY
 } sdm;
 
 #define DAENTRY(A,B,C,D) GtkWidget *A##_btn;
-    DEBUGACTIONS
+	DEBUGACTIONS
 #undef DAENTRY
 
 
@@ -262,9 +262,9 @@ static void
 signal_func(const GdbSignalInfo * si)
 {
 	gchar *msg = g_strdup_printf("%s (%s)\nat %s in function %s()\nat %s:%s%s%s",
-				     si->signal_name, si->signal_meaning, si->addr,
-				     si->func, si->file, si->line, si->from ? "\nfrom " : "",
-				     si->from ? si->from : "");
+					 si->signal_name, si->signal_meaning, si->addr,
+					 si->func, si->file, si->line, si->from ? "\nfrom " : "",
+					 si->from ? si->from : "");
 	if (pause_clicked)
 	{
 		status(_("paused"), yellow, red);
@@ -344,8 +344,8 @@ err_func(const gchar * msg)
 {
 	GtkWidget *dlg = NULL;
 	dlg = gtk_message_dialog_new(GTK_WINDOW(gdbui_setup.main_window),
-				     GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-				     GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, _("Error:"));
+					 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+					 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, _("Error:"));
 	gtk_window_set_keep_above(GTK_WINDOW(dlg), TRUE);
 	gtk_window_set_title(GTK_WINDOW(dlg), "debugger");
 	gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(dlg), "%s", msg);
@@ -364,7 +364,7 @@ static void
 pipe_click(GtkWidget * w, gpointer user_data)
 {
 	gdbio_send_cmd("-interpreter-exec console \"handle SIGPIPE %s\"\n",
-		       pipe_chk_active()? "nostop" : "stop");
+			   pipe_chk_active()? "nostop" : "stop");
 }
 
 
@@ -427,7 +427,7 @@ make_btn(const gchar *text, GtkCallback cb, gchar *img, gchar *tip)
 	if (img && gdbui_setup.options.show_icons)
 	{
 		gtk_button_set_image(GTK_BUTTON(button),
-				     gtk_image_new_from_stock(img, GTK_ICON_SIZE_BUTTON));
+					 gtk_image_new_from_stock(img, GTK_ICON_SIZE_BUTTON));
 	}
 
 
@@ -522,10 +522,10 @@ load_click(GtkWidget * btn, gpointer user_data)
 {
 	gchar *errmsg = NULL;
 	GtkWidget *dlg = gtk_file_chooser_dialog_new(_("Select executable to debug"),
-						     GTK_WINDOW(gdbui_setup.main_window),
-						     GTK_FILE_CHOOSER_ACTION_OPEN,
-						     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-						     GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
+							 GTK_WINDOW(gdbui_setup.main_window),
+							 GTK_FILE_CHOOSER_ACTION_OPEN,
+							 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+							 GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
 
 	if (targetpath != NULL)
 	{
@@ -552,77 +552,66 @@ load_click(GtkWidget * btn, gpointer user_data)
 					switch (get_elf_type(fn))
 					{
 						case ELF_RELOC:
-							{
-								errmsg = _("Debugging of object files is not supported.");
-								break;
-							}
+						{
+							errmsg = _("Debugging of object files is not supported.");
+							break;
+						}
 						case ELF_EXEC:
+						{
+							if (access(fn, X_OK) == 0)
 							{
-								if (access(fn, X_OK) == 0)
+								gchar *base_path;
+								gchar *ldd = g_strdup_printf("ldd \"%s\"", fn);
+								FILE *fh = popen(ldd, "r");
+								if (fh)
 								{
-									gchar *base_path;
-									gchar *ldd = g_strdup_printf("ldd \"%s\"", fn);
-									FILE *fh = popen(ldd, "r");
-									if (fh)
+									ssize_t r = 0;
+									char *buf = NULL;
+									size_t len = 0;
+									gboolean have_x = FALSE;
+									while (r >= 0)
 									{
-										ssize_t r = 0;
-										char *buf = NULL;
-										size_t len = 0;
-										gboolean have_x =
-											FALSE;
-										while (r >= 0)
+										r = getline(&buf, &len, fh);
+										if (len && buf
+												&& strstr(buf, "libX11.so"))
 										{
-											r = getline
-												(&buf,
-												 &len,
-												 fh);
-											if (len
-											    && buf
-											    &&
-											    strstr
-											    (buf,
-											     "libX11.so"))
-											{
-												have_x = TRUE;
-											}
+											have_x = TRUE;
 										}
-										fclose(fh);
-										gtk_toggle_button_set_active
-											(GTK_TOGGLE_BUTTON
-											 (term_chk),
-											 !have_x);
 									}
-									gdbio_load(fn);
-									if (pipe_chk_active())
-									{
-										pipe_click(pipe_chk,
-											   NULL);
-									}
-									/* set working dir after loading */
-									base_path = g_path_get_dirname(fn);
-									gdbio_send_cmd("-environment-cd %s\n", base_path);
-									g_free(base_path);
+									fclose(fh);
+									gtk_toggle_button_set_active
+											(GTK_TOGGLE_BUTTON(term_chk),
+											!have_x);
 								}
-								else
-								{
-									errmsg = _("You don't have permission to execute this file.");
-								}
-								break;
+								gdbio_load(fn);
+								if (pipe_chk_active())
+									pipe_click(pipe_chk, NULL);
+									
+								/* set working dir after loading */
+								base_path = g_path_get_dirname(fn);
+								gdbio_send_cmd("-environment-cd %s\n", base_path);
+								g_free(base_path);
 							}
+							else
+							{
+								errmsg = _("You don't have permission to execute this file.");
+							}
+							break;
+						}
 						case ELF_SHARED:
-							{
-								errmsg = _("Debugging of shared libraries is not supported.");
-								break;
-							}
+						{
+							errmsg = _("Debugging of shared libraries is not supported.");
+							break;
+						}
 						case ELF_CORE:
-							{
-								errmsg = _("Debugging of core files id not supported.");
-								break;
-							}
+						{
+							errmsg = _("Debugging of core files id not supported.");
+							break;
+						}
 						default:
-							{
-								errmsg = _("Target file must be ELF 32-bit x86 executable.");
-							}
+						{
+							errmsg = _("Target file must be ELF 32-bit x86 executable.");
+						}
 					}
 				}
 				else
@@ -845,9 +834,9 @@ gtk_box_pack_start(GTK_BOX(vb),splitw,FALSE,FALSE,3);
 #define BtnPad 1
 
 #define MENUENTRY(A,QI,Q2,D) \
-        sdm._##A = gtk_image_menu_item_new_with_mnemonic (_(Q2)); \
+		sdm._##A = gtk_image_menu_item_new_with_mnemonic (_(Q2)); \
 	gtk_widget_show (sdm._##A); \
-        gtk_container_add (GTK_CONTAINER (sdm.menu), sdm._##A); \
+		gtk_container_add (GTK_CONTAINER (sdm.menu), sdm._##A); \
 	if (QI[0]) {\
 		img=gtk_image_new_from_stock (QI, GTK_ICON_SIZE_MENU); \
 		gtk_widget_show (img); \
@@ -891,7 +880,7 @@ static void kb_activate(guint key_id)
 void gdbui_create_menu(GtkWidget * parent)
 {
 	GtkWidget* img;
-        sdm.menu = gtk_menu_new ();
+		sdm.menu = gtk_menu_new ();
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (parent), sdm.menu);
 #define DAENTRY(A,B,C,D) MENUENTRY(A,B,C,D);
 	DEBUGACTIONS
@@ -985,8 +974,8 @@ gdbui_create_widgets(GtkWidget * parent)
 
 	pipe_chk = gtk_check_button_new_with_label(_("Ignore SIGPIPE"));
 	gdbui_set_tip(pipe_chk,
-		      _("Don't pause execution when target gets a SIGPIPE signal.\n"
-		      "(Useful for certain networking applications.)"));
+			  _("Don't pause execution when target gets a SIGPIPE signal.\n"
+			  "(Useful for certain networking applications.)"));
 	gtk_box_pack_start(GTK_BOX(w), pipe_chk, FALSE, FALSE, 0);
 	g_signal_connect(G_OBJECT(pipe_chk), "clicked", G_CALLBACK(pipe_click), NULL);
 
