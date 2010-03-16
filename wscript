@@ -323,7 +323,7 @@ def configure(conf):
 	print_message(conf, 'Using Geany version', geany_version)
 	if svn_rev != '-1':
 		print_message(conf, 'Compiling Subversion revision', svn_rev)
-		conf.env.append_value('CCFLAGS', '-g -O0 -DDEBUG'.split()) # -DGEANY_DISABLE_DEPRECATED
+		conf.env.append_value('CCFLAGS', '-g -DDEBUG'.split()) # -DGEANY_DISABLE_DEPRECATED
 
 	print_message(conf, 'Plugins to compile', ' '.join(enabled_plugins))
 
