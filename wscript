@@ -99,7 +99,8 @@ plugins = [
 		 # maybe you need to modify the package name of Lua, try one of these: lua5.1 lua51 lua-5.1
 		 [ [ 'lua', '5.1', True ] ]),
 	Plugin('geanyprj', None, [ 'geanyprj/src' ]),
-	Plugin('pretty-printer', None, [ 'pretty-printer/src' ], [ [ 'libxml-2.0', '2.6.27', True ] ])
+	Plugin('pretty-printer', None, [ 'pretty-printer/src' ], [ [ 'libxml-2.0', '2.6.27', True ] ]),
+	Plugin('treebrowser', None, [ 'treebrowser/src' ])
 ]
 
 '''
