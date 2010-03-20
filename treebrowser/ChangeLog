@@ -1,0 +1,80 @@
+Development release ChangeLog
+-----------------------------
+
+
+20-03-2010 	Adrian Dimitrov 	<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		clear comments
+		changelog update
+		if filter start with '!;' then filters are temporary reversed
+			ex.: '!;*.c;*.h' will show all expect .c and .h files
+
+19-03-2010 	Adrian Dimitrov 	<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		clear up the syntax and function names
+		fixed many bugs with renaming/creating/deleting objects
+		added multiple filtering criterias (separated by ';')
+		added oneclick document opening
+
+
+18-03-2010 	Adrian Dimitrov 	<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		add option to reverse filematch filter
+
+
+17-03-2010 	Adrian Dimitrov 	<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		migrated to dialogs_show_msgbox and dialogs_show_question
+		fix problem with path initialization
+
+
+16-03-2010 	Adrian Dimitrov 	<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		fix compilation warning messages
+		fix some crytical errors
+
+
+21-02-2010 	Adrian Dimitrov 	<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		fix patch applyed from Enrico about initial directories
+
+
+20-02-2010 	Adrian Dimitrov 	<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		made strings suitable for localization
+		fixed problem with default chroot
+		added option to disable chrooting on double click on directory
+
+
+17-02-2010 	Adrian Dimitrov 	<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		added options to add/remove/rename directories and files
+		code cleanup
+
+
+14-02-2010 	Adrian Dimitrov 	<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		initial, with base options
+
+
+
+TODO
+---------------------------
+	(DONE) codestyle improve to be same as other parts as geany`s
+	* configuration dialog
+	* trackick path to current focused document
+	* Windows compitable
+	* Language files
+	(DONE) oneclick document opening
+	(DONE) filter separating ex.: "*.c;*.cpp;*.h"
+	* fix possible memory leaks (using g_free... where is need)
+

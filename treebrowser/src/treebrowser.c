@@ -1,56 +1,8 @@
-//      treebrowser.c
-//
-//      Copyright 2010 Adrian Dimitrov <dimitrov.adrian@gmail.com>
-
 /*
- * TODO
- * ---------------------------
- * 		configuration dialog
- * 		trackick path to current focused document
- * 		Windows compitable
- * 		Language files
- * 		(DONE) oneclick document opening
- * 		(DONE) filter separating ex.: "*.c;*.cpp;*.h"
- * 		fix possible memory leaks (using g_free... where is need)
+ *      treebrowser.c
  *
- *
- * Development release ChangeLog
- * -----------------------------
- * (19-03-2010)
- * 		clear up the syntax and function names
- * 		fixed many bugs with renaming/creating/deleting objects
- * 		added multiple filtering criterias
- * 		added oneclick document opening
- *
- * (18-03-2010)
- * 		add option to reverse filematch filter
- *
- * (17-03-2010)
- * 		migrated to dialogs_show_msgbox and dialogs_show_question
- * 		fix problem with path initialization
- *
- * (16-03-2010)
- * 		fix compilation warning messages
- * 		fix some crytical errors
- *
- * (21-02-2010)
- * 		fix patch applyed from Enrico about initial directories
- *
- * (20-02-2010)
- * 		made strings suitable for localization
- * 		fixed problem with default chroot
- * 		added option to disable chrooting on double click on directory
- *
- * (17-02-2010)
- *		added options to add/remove/rename directories and files
- * 		code cleanup
- *
- * (14-02-2010)
- * 		initial, with base options
- *
+ *      Copyright 2010 Adrian Dimitrov <dimitrov.adrian@gmail.com>
  */
-
-
 
 #include "geanyplugin.h"
 #include "Scintilla.h"
@@ -72,9 +24,10 @@ static gchar 				*addressbar_last_address 	= NULL;
 static GtkTreeViewColumn 	*treeview_column_icon, *treeview_column_text;
 static GtkCellRenderer 		*render_icon, *render_text;
 
-//
-// CONFIG VARS
-//
+
+/* ------------------
+ *  CONFIG VARS
+ * ------------------ */
 static gint 				CONFIG_INITIAL_DIR_DEEP 	= 1;
 static gboolean 			CONFIG_REVERSE_FILTER 		= FALSE;
 static gboolean 			CONFIG_ONE_CLICK_CHDOC 		= FALSE;
@@ -83,9 +36,10 @@ static gboolean 			CONFIG_SHOW_BARS			= TRUE;
 static gboolean 			CONFIG_CHROOT_ON_DCLICK		= FALSE;
 static gboolean 			CONFIG_FOLLOW_CURRENT_DOC 	= FALSE;
 
-//
-// TREEVIEW STRUCT
-//
+
+/* ------------------
+ * TREEVIEW STRUCT
+ * ------------------ */
 enum
 {
 	TREEBROWSER_COLUMNC 								= 3,
@@ -98,46 +52,55 @@ enum
 	TREEBROWSER_RENDER_TEXT								= 1
 };
 
-//
-// PLUGIN INFO
-//
+/* ------------------
+ * PLUGIN INFO
+ * ------------------ */
 PLUGIN_VERSION_CHECK(147)
 PLUGIN_SET_INFO(_("Tree Browser"), _("Treeview filebrowser plugin."), "0.1" , "Adrian Dimitrov (dimitrov.adrian@gmail.com)")
 
 
-//
-// PREDEFINES
-//
+/* ------------------
+ * PREDEFINES
+ * ------------------ */
 #define foreach_slist_free(node, list) for (node = list, list = NULL; g_slist_free_1(list), node != NULL; list = node, node = node->next)
 
 
-//
-// PROTOTYPES
-//
+/* ------------------
+ * PROTOTYPES
+ * ------------------ */
 static void 	treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit);
 static void 	gtk_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root);
 
 
-//
-// TREEBROWSER CORE FUNCTIONS
-//
+/* ------------------
+ * TREEBROWSER CORE FUNCTIONS
+ * ------------------ */
 
 static gboolean
 check_filtered(const gchar *base_name)
 {
 	gchar		**filters;
 	gint 		i;
+	gboolean 	temporary_reverse = FALSE;
 
 	if (gtk_entry_get_text_length(GTK_ENTRY(filter)) < 1)
 		return TRUE;
 
 	filters = g_strsplit(gtk_entry_get_text(GTK_ENTRY(filter)), ";", 0);
 
-	for (i = 0; filters[i]; i++)
-		if (utils_str_equal(base_name, "*") || g_pattern_match_simple(filters[i], base_name))
-			return CONFIG_REVERSE_FILTER ? FALSE : TRUE;
+	if (g_strcmp0(filters[0], "!") == 0)
+	{
+		temporary_reverse = TRUE;
+		i = 1;
+	}
+	else
+		i = 0;
 
-	return CONFIG_REVERSE_FILTER ? TRUE : FALSE;
+	for (; filters[i]; i++)
+		if (utils_str_equal(base_name, "*") || g_pattern_match_simple(filters[i], base_name))
+			return CONFIG_REVERSE_FILTER || temporary_reverse ? FALSE : TRUE;
+
+	return CONFIG_REVERSE_FILTER || temporary_reverse ? TRUE : FALSE;
 }
 
 static gchar*
@@ -189,8 +152,6 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 	gchar 			*utf8_dir, *utf8_name;
 	GSList 			*list, *node;
 
-	GtkTreePath *gpath;
-
 	if (deep_limit < 1)
 		return;
 
@@ -228,9 +189,9 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 					}
 					last_dir_iter = gtk_tree_iter_copy(&iter);
 					gtk_tree_store_set(treestore, &iter,
-										TREEBROWSER_COLUMN_ICON, GTK_STOCK_DIRECTORY,
-										TREEBROWSER_COLUMN_NAME, fname,
-										TREEBROWSER_COLUMN_URI, uri,
+										TREEBROWSER_COLUMN_ICON, 	GTK_STOCK_DIRECTORY,
+										TREEBROWSER_COLUMN_NAME, 	fname,
+										TREEBROWSER_COLUMN_URI, 	uri,
 										-1);
 					treebrowser_browse(uri, &iter, deep_limit);
 				}
@@ -240,9 +201,9 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 					{
 						gtk_tree_store_append(treestore, &iter, parent);
 						gtk_tree_store_set(treestore, &iter,
-										TREEBROWSER_COLUMN_ICON, GTK_STOCK_FILE,
-										TREEBROWSER_COLUMN_NAME, fname,
-										TREEBROWSER_COLUMN_URI, uri,
+										TREEBROWSER_COLUMN_ICON, 	GTK_STOCK_FILE,
+										TREEBROWSER_COLUMN_NAME, 	fname,
+										TREEBROWSER_COLUMN_URI, 	uri,
 										-1);
 					}
 				}
@@ -355,7 +316,7 @@ treebrowser_track_current(void)
 {
 
 	GeanyDocument	*doc 		= document_get_current();
-	gchar 			*path_current, *path_search = "/";
+	gchar 			*path_current, *path_search = G_DIR_SEPARATOR_S;
 	gchar			**path_segments;
 	gint 			i;
 
@@ -371,7 +332,8 @@ treebrowser_track_current(void)
 		for (i = 0; path_segments[i]; i++)
 		{
 			path_search = g_build_filename(path_search, path_segments[i], NULL);
-			//dialogs_show_msgbox(GTK_MESSAGE_INFO, "%s", path_search);
+			/* dialogs_show_msgbox(GTK_MESSAGE_INFO, "%s", path_search);
+			 */
 			treebrowser_search(path_search, NULL);
 			return FALSE;
 		}
@@ -382,9 +344,9 @@ treebrowser_track_current(void)
 }
 
 
-//
-// RIGHTCLICK MENU EVENTS
-//
+/* ------------------
+ * RIGHTCLICK MENU EVENTS
+ * ------------------*/
 
 static void
 on_menu_open_externally(GtkMenuItem *menuitem, gpointer *user_data)
@@ -437,9 +399,7 @@ on_menu_create_new_object(GtkMenuItem *menuitem, gchar *type)
 			uri 		= g_path_get_dirname(uri);
 			path_parent = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
 			if (gtk_tree_path_up(path_parent))
-			{
 				gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter, path_parent);
-			}
 		}
 	}
 	else return;
@@ -510,7 +470,7 @@ on_menu_delete(GtkMenuItem *menuitem, gpointer *user_data)
 	{
 		gtk_tree_model_get(model, &iter, TREEBROWSER_COLUMN_URI, &uri, -1);
 
-		if (dialogs_show_question(_("Do you want to remove '%s'?"), uri))
+		if (dialogs_show_question(_("Do you really want to delete '%s' ?"), uri))
 		{
 			fs_remove(uri, TRUE);
 			path_parent = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
@@ -601,9 +561,9 @@ create_popup_menu(gpointer *user_data)
 }
 
 
-//
-// TOOLBAR`S EVENTS
-//
+/* ------------------
+ * TOOLBAR`S EVENTS
+ * ------------------ */
 
 static void
 on_button_go_up(void)
@@ -643,9 +603,9 @@ on_filter_activate(GtkEntry *entry, gpointer user_data)
 }
 
 
-//
-// TREEVIEW EVENTS
-//
+/* ------------------
+ * TREEVIEW EVENTS
+ * ------------------ */
 
 static gboolean
 on_treeview_mouseclick(GtkWidget *widget, GdkEventButton *event, gpointer user_data)
@@ -765,16 +725,17 @@ on_treeview_renamed(GtkCellRenderer *renderer, const gchar *path_string, const g
 	}
 }
 
-
 static void
 treebrowser_track_current_cb(void)
 {
 	if (CONFIG_FOLLOW_CURRENT_DOC)
 		treebrowser_track_current_cb();
 }
-//
-// TREEBROWSER INITIAL FUNCTIONS
-//
+
+
+/* ------------------
+ * TREEBROWSER INITIAL FUNCTIONS
+ * ------------------ */
 
 static void
 create_sidebar(void)
@@ -836,7 +797,7 @@ create_sidebar(void)
 	gtk_box_pack_start(GTK_BOX(vbox), 				vbox_bars, 			FALSE, TRUE,  1);
 
 	g_signal_connect(selection, 		"changed", 				G_CALLBACK(on_treeview_changed), 				NULL);
-	g_signal_connect(treeview, 			"button-press-event", 	G_CALLBACK(on_treeview_mouseclick), 						selection);
+	g_signal_connect(treeview, 			"button-press-event", 	G_CALLBACK(on_treeview_mouseclick), 			selection);
 	g_signal_connect(treeview, 			"row-activated", 		G_CALLBACK(on_treeview_row_activated), 			NULL);
 	g_signal_connect(treeview, 			"row-collapsed", 		G_CALLBACK(on_treeview_row_collapsed), 			NULL);
 	g_signal_connect(treeview, 			"row-expanded", 		G_CALLBACK(on_treeview_row_expanded), 			NULL);
@@ -880,9 +841,9 @@ create_view_and_model(void)
 }
 
 
-//
-// CONFIG DIALOG
-//
+/* ------------------
+ * CONFIG DIALOG
+ * ------------------ */
 
 static void
 on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
@@ -890,7 +851,8 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 	if (! (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY))
 		return;
 
-	//dialogs_show_msgbox(GTK_MESSAGE_INFO, "OKAY");
+	/*dialogs_show_msgbox(GTK_MESSAGE_INFO, "OKAY");
+	 */
 
 }
 
@@ -954,9 +916,9 @@ plugin_configure(GtkDialog *dialog)
 }
 
 
-//
-// GEANY HOOKS
-//
+/* ------------------
+ * GEANY HOOKS
+ * ------------------ */
 
 void
 plugin_init(GeanyData *data)
@@ -964,10 +926,9 @@ plugin_init(GeanyData *data)
 	treeview = create_view_and_model();
 	create_sidebar();
 	treebrowser_chroot(get_default_dir());
-	//treebrowser_chroot("/tmp");
 
 	plugin_signal_connect(geany_plugin, NULL, "document-activate", TRUE,
-		(GCallback) &treebrowser_track_current_cb, NULL);
+		(GCallback)&treebrowser_track_current_cb, NULL);
 }
 
 void
