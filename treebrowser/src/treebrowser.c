@@ -36,7 +36,7 @@ static gboolean 			CONFIG_ONE_CLICK_CHDOC 		= FALSE;
 static gboolean 			CONFIG_SHOW_HIDDEN_FILES 	= FALSE;
 static gboolean 			CONFIG_SHOW_BARS			= TRUE;
 static gboolean 			CONFIG_CHROOT_ON_DCLICK		= FALSE;
-static gboolean 			CONFIG_FOLLOW_CURRENT_DOC 	= FALSE;
+static gboolean 			CONFIG_FOLLOW_CURRENT_DOC 	= TRUE;
 
 
 /* ------------------
@@ -732,7 +732,7 @@ static void
 treebrowser_track_current_cb(void)
 {
 	if (CONFIG_FOLLOW_CURRENT_DOC)
-		treebrowser_track_current_cb();
+		treebrowser_track_current();
 }
 
 
