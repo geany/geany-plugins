@@ -1,6 +1,11 @@
 Development release ChangeLog
 -----------------------------
 
+21-03-2010 Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+	* src/treebrowser.c
+		fix few compile warnings with glib and unused vars
+		now directory is open when it click filling for first time
+
 
 20-03-2010 	Adrian Dimitrov 	<dimitrov.adrian@gmail.com>
 

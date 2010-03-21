@@ -4,6 +4,8 @@
  *      Copyright 2010 Adrian Dimitrov <dimitrov.adrian@gmail.com>
  */
 
+#include <glib/gstdio.h>
+
 #include "geanyplugin.h"
 #include "Scintilla.h"
 
@@ -144,12 +146,9 @@ static void
 treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 {
 	GtkTreeIter 	iter, *last_dir_iter = NULL;
-	gchar 			*path, *path_new, *display_name;
 	gboolean 		is_dir, expanded;
+	gchar 			*utf8_name;
 	GDir 			*dir;
-
-	const gchar 	*name, *basename;
-	gchar 			*utf8_dir, *utf8_name;
 	GSList 			*list, *node;
 
 	if (deep_limit < 1)
@@ -159,8 +158,11 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 
 	directory = g_strconcat(directory, G_DIR_SEPARATOR_S, NULL);
 
-	if (parent && gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), parent)))
+	if ((parent && gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), parent)))
+		|| !gtk_tree_model_iter_has_child(GTK_TREE_MODEL(treestore), parent))
+	{
 		expanded = TRUE;
+	}
 	else
 		expanded = FALSE;
 
@@ -193,7 +195,8 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 										TREEBROWSER_COLUMN_NAME, 	fname,
 										TREEBROWSER_COLUMN_URI, 	uri,
 										-1);
-					treebrowser_browse(uri, &iter, deep_limit);
+					if (deep_limit > 0)
+						treebrowser_browse(uri, &iter, deep_limit);
 				}
 				else
 				{
