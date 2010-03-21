@@ -13,6 +13,7 @@ Development release ChangeLog
 		added option to close bars in bars
 		added options to expand/collapse all from menu
 		fixed compile error with glib < 2.12.0
+		added option to go current doc path in menu
 
 
 20-03-2010 	Adrian Dimitrov 	<dimitrov.adrian@gmail.com>

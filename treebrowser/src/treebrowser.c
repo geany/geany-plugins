@@ -105,7 +105,7 @@ check_filtered(const gchar *base_name)
 	gint 		i;
 	gboolean 	temporary_reverse = FALSE;
 
-	if (gtk_entry_get_text_length(GTK_ENTRY(filter)) < 1)
+	if (base_name == NULL || base_name == "")
 		return TRUE;
 
 	filters = g_strsplit(gtk_entry_get_text(GTK_ENTRY(filter)), ";", 0);
@@ -368,6 +368,12 @@ on_menu_go_up(GtkMenuItem *menuitem, gpointer *user_data)
 }
 
 static void
+on_menu_current_path(GtkMenuItem *menuitem, gpointer *user_data)
+{
+	treebrowser_chroot(get_default_dir());
+}
+
+static void
 on_menu_open_externally(GtkMenuItem *menuitem, gpointer *user_data)
 {
 
@@ -580,6 +586,10 @@ create_popup_menu(gpointer *user_data)
 	item = ui_image_menu_item_new(GTK_STOCK_GO_UP, _("Go up"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_go_up), NULL);
+
+	item = ui_image_menu_item_new(GTK_STOCK_GO_UP, _("Set path from document"));
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_current_path), NULL);
 
 	item = ui_image_menu_item_new(GTK_STOCK_OPEN, _("Open externally"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
@@ -960,7 +970,6 @@ static struct
 	GtkWidget *CHROOT_ON_DCLICK;
 	GtkWidget *FOLLOW_CURRENT_DOC;
 } configure_widgets;
-
 
 static void
 load_settings(void)
