@@ -3,13 +3,16 @@ Development release ChangeLog
 
 21-03-2010 Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 	* src/treebrowser.c
-		fix few compile warnings with glib and unused vars
-		now directory is open when it click filling for first time
+		fixed few compile warnings with glib and unused vars
+		fixed expanding, now directory is open when it click filling for first time
 		fixed possible segfault on start
 		added menu option to go up
 		fixed duplicated vbox varname now is 'sidebar_vbox'
 		added configuration dialog
-		improved externally open menu
+		fixed externally open menu
+		added option to close bars in bars
+		added options to expand/collapse all from menu
+		fixed compile error with glib < 2.12.0
 
 
 20-03-2010 	Adrian Dimitrov 	<dimitrov.adrian@gmail.com>

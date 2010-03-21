@@ -23,6 +23,8 @@ static GtkWidget 			*filter;
 static GtkWidget 			*addressbar;
 static gchar 				*addressbar_last_address 	= NULL;
 
+static GtkWidget 			*menu_showbars;
+
 static GtkTreeViewColumn 	*treeview_column_icon, *treeview_column_text;
 static GtkCellRenderer 		*render_icon, *render_text;
 
@@ -57,6 +59,7 @@ enum
 	TREEBROWSER_RENDER_TEXT								= 1
 };
 
+
 /* ------------------
  * PLUGIN INFO
  * ------------------ */
@@ -68,6 +71,20 @@ PLUGIN_SET_INFO(_("Tree Browser"), _("Treeview filebrowser plugin."), "0.1" , "A
  * PREDEFINES
  * ------------------ */
 #define foreach_slist_free(node, list) for (node = list, list = NULL; g_slist_free_1(list), node != NULL; list = node, node = node->next)
+
+#if GTK_CHECK_VERSION(2, 12, 0)
+	static GList*
+	_gtk_cell_layout_get_cells(GtkTreeViewColumn *column)
+	{
+		return gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(column));
+	}
+#else
+	static GList*
+	_gtk_cell_layout_get_cells(GtkTreeViewColumn *column)
+	{
+		return gtk_tree_view_column_get_cell_renderers(column);
+	}
+#endif
 
 
 /* ------------------
@@ -149,7 +166,7 @@ static void
 treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 {
 	GtkTreeIter 	iter, *last_dir_iter = NULL;
-	gboolean 		is_dir, expanded;
+	gboolean 		is_dir;
 	gchar 			*utf8_name;
 	GDir 			*dir;
 	GSList 			*list, *node;
@@ -160,14 +177,6 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 	deep_limit--;
 
 	directory = g_strconcat(directory, G_DIR_SEPARATOR_S, NULL);
-
-	if ((parent && gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), parent)))
-		|| !gtk_tree_model_iter_has_child(GTK_TREE_MODEL(treestore), parent))
-	{
-		expanded = TRUE;
-	}
-	else
-		expanded = FALSE;
 
 	gtk_tree_store_iter_clear_nodes(parent, FALSE);
 
@@ -218,9 +227,6 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 			g_free(uri);
 		}
 	}
-
-	if (expanded)
-		gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), parent), FALSE);
 
 }
 
@@ -300,6 +306,7 @@ showbars(gboolean state)
 	if (state) 	gtk_widget_show(sidebar_vbox_bars);
 	else 		gtk_widget_hide(sidebar_vbox_bars);
 	CONFIG_SHOW_BARS = state;
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_showbars), CONFIG_SHOW_BARS);
 }
 
 static void
@@ -480,8 +487,10 @@ on_menu_rename(GtkMenuItem *menuitem, gpointer *user_data)
 		path = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
 		if (G_LIKELY(path != NULL))
 		{
-			column 		= gtk_tree_view_get_column(GTK_TREE_VIEW (treeview), 0);
-			renderers 	= gtk_cell_layout_get_cells(GTK_CELL_LAYOUT (column));
+			column 		= gtk_tree_view_get_column(GTK_TREE_VIEW(treeview), 0);
+
+			renderers 	= _gtk_cell_layout_get_cells(column);
+
 			renderer 	= g_list_nth_data(renderers, TREEBROWSER_RENDER_TEXT);
 
 			g_object_set(G_OBJECT(renderer), "editable", TRUE, NULL);
@@ -525,12 +534,21 @@ on_menu_refresh(GtkMenuItem *menuitem, gpointer *user_data)
 	GtkTreeIter 		iter;
 	GtkTreeModel 		*model;
 	gchar 				*uri;
+	gboolean 			expanded = FALSE;
 
 	if (gtk_tree_selection_get_selected(selection, &model, &iter))
 	{
 		gtk_tree_model_get(model, &iter, TREEBROWSER_COLUMN_URI, &uri, -1);
 		if (g_file_test(uri, G_FILE_TEST_IS_DIR))
+		{
+			if (gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter)))
+				expanded = TRUE;
+
 			treebrowser_browse(uri, &iter, CONFIG_INITIAL_DIR_DEEP);
+
+			if (expanded)
+				gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter), FALSE);
+		}
 	}
 }
 
@@ -615,10 +633,10 @@ create_popup_menu(gpointer *user_data)
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(menu), item);
 
-	item = gtk_check_menu_item_new_with_mnemonic(_("Show bars"));
-	gtk_container_add(GTK_CONTAINER(menu), item);
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), CONFIG_SHOW_BARS);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_show_bars), NULL);
+	menu_showbars = gtk_check_menu_item_new_with_mnemonic(_("Show bars"));
+	gtk_container_add(GTK_CONTAINER(menu), menu_showbars);
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_showbars), CONFIG_SHOW_BARS);
+	g_signal_connect(menu_showbars, "activate", G_CALLBACK(on_menu_show_bars), NULL);
 
 	gtk_widget_show_all(menu);
 
@@ -652,6 +670,12 @@ static void
 on_button_current_path(void)
 {
 	treebrowser_chroot(get_default_dir());
+}
+
+static void
+on_button_hide_bars(void)
+{
+	showbars(FALSE);
 }
 
 static void
@@ -691,6 +715,7 @@ on_treeview_changed(GtkWidget *widget, gpointer user_data)
 	GtkTreeIter 	iter;
 	GtkTreeModel 	*model;
 	gchar 			*uri;
+	gboolean 		expanded = FALSE;
 
 	if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(widget), &model, &iter))
 	{
@@ -700,7 +725,16 @@ on_treeview_changed(GtkWidget *widget, gpointer user_data)
 		if (g_file_test(uri, G_FILE_TEST_EXISTS))
 		{
 			if (g_file_test(uri, G_FILE_TEST_IS_DIR))
+			{
+				if (gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter))
+					|| !gtk_tree_model_iter_has_child(GTK_TREE_MODEL(treestore), &iter))
+					expanded = TRUE;
+
 				treebrowser_browse(uri, &iter, CONFIG_INITIAL_DIR_DEEP);
+
+				if (expanded)
+					gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter), FALSE);
+			}
 			else
 				if (CONFIG_ONE_CLICK_CHDOC)
 					document_open_file(uri, FALSE, NULL, NULL);
@@ -756,7 +790,7 @@ on_treeview_renamed(GtkCellRenderer *renderer, const gchar *path_string, const g
 	GtkTreePath 		*path_parent;
 
 	column 		= gtk_tree_view_get_column(GTK_TREE_VIEW(treeview), 0);
-	renderers 	= gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(column));
+	renderers 	= _gtk_cell_layout_get_cells(column);
 	renderer 	= g_list_nth_data(renderers, TREEBROWSER_RENDER_TEXT);
 
 	g_object_set(G_OBJECT(renderer), "editable", FALSE, NULL);
@@ -851,6 +885,11 @@ create_sidebar(void)
 	wid = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_DIRECTORY));
 	ui_widget_set_tooltip_text(wid, _("Track path"));
 	g_signal_connect(wid, "clicked", G_CALLBACK(treebrowser_track_current), NULL);
+	gtk_container_add(GTK_CONTAINER(toolbar), wid);
+
+	wid = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_CLOSE));
+	ui_widget_set_tooltip_text(wid, _("Hide bars"));
+	g_signal_connect(wid, "clicked", G_CALLBACK(on_button_hide_bars), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), wid);
 
 	gtk_container_add(GTK_CONTAINER(scrollwin), 	treeview);
@@ -982,6 +1021,8 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 		data = g_key_file_to_data(config, NULL, NULL);
 		utils_write_file(CONFIG_FILE, data);
 		g_free(data);
+
+		treebrowser_chroot(addressbar_last_address);
 	}
 
 }
