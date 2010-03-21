@@ -1,6 +1,11 @@
 Development release ChangeLog
 -----------------------------
 
+22-03-2010 Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+	* src/treebrowser.c
+		fixed some bugs
+		fixed few old compiler warnings
+
 21-03-2010 Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 	* src/treebrowser.c
 		fixed few compile warnings with glib and unused vars

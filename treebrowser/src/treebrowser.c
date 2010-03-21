@@ -105,7 +105,7 @@ check_filtered(const gchar *base_name)
 	gint 		i;
 	gboolean 	temporary_reverse = FALSE;
 
-	if (base_name == NULL || base_name == "")
+	if (! NZV(gtk_entry_get_text(GTK_ENTRY(filter))))
 		return TRUE;
 
 	filters = g_strsplit(gtk_entry_get_text(GTK_ENTRY(filter)), ";", 0);
@@ -976,7 +976,6 @@ load_settings(void)
 {
 	GKeyFile *config 	= g_key_file_new();
 	GError *error 		= NULL;
-	gboolean tmp;
 
 	g_key_file_load_from_file(config, CONFIG_FILE, G_KEY_FILE_NONE, NULL);
 
@@ -995,6 +994,10 @@ load_settings(void)
 static void
 on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 {
+	GKeyFile 	*config 		= g_key_file_new();
+	gchar 		*config_dir 	= g_path_get_dirname(CONFIG_FILE);
+	gchar 		*data;
+
 	if (! (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY))
 		return;
 
@@ -1006,10 +1009,6 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 	CONFIG_SHOW_BARS 			= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_BARS));
 	CONFIG_CHROOT_ON_DCLICK 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.CHROOT_ON_DCLICK));
 	CONFIG_FOLLOW_CURRENT_DOC 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.FOLLOW_CURRENT_DOC));
-
-	GKeyFile 	*config 		= g_key_file_new();
-	gchar 		*config_dir 	= g_path_get_dirname(CONFIG_FILE);
-	gchar 		*data;
 
 	g_key_file_load_from_file(config, CONFIG_FILE, G_KEY_FILE_NONE, NULL);
 	if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir(config_dir, TRUE) != 0)
