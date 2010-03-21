@@ -17,8 +17,8 @@ GeanyFunctions 				*geany_functions;
 static gint 				page_number 				= 0;
 static GtkTreeStore 		*treestore;
 static GtkWidget 			*treeview;
-static GtkWidget 			*vbox;
-static GtkWidget 			*vbox_bars;
+static GtkWidget 			*sidebar_vbox;
+static GtkWidget 			*sidebar_vbox_bars;
 static GtkWidget 			*filter;
 static GtkWidget 			*addressbar;
 static gchar 				*addressbar_last_address 	= NULL;
@@ -30,6 +30,9 @@ static GtkCellRenderer 		*render_icon, *render_text;
 /* ------------------
  *  CONFIG VARS
  * ------------------ */
+
+static gchar 				*CONFIG_FILE 				= NULL;
+static gchar 				*CONFIG_OPEN_EXTERNAL_CMD 	= "nautilus '%d'";
 static gint 				CONFIG_INITIAL_DIR_DEEP 	= 1;
 static gboolean 			CONFIG_REVERSE_FILTER 		= FALSE;
 static gboolean 			CONFIG_ONE_CLICK_CHDOC 		= FALSE;
@@ -90,7 +93,7 @@ check_filtered(const gchar *base_name)
 
 	filters = g_strsplit(gtk_entry_get_text(GTK_ENTRY(filter)), ";", 0);
 
-	if (g_strcmp0(filters[0], "!") == 0)
+	if (utils_str_equal(filters[0], "!") == TRUE)
 	{
 		temporary_reverse = TRUE;
 		i = 1;
@@ -239,7 +242,7 @@ treebrowser_search(gchar *uri, gpointer parent)
 				return TRUE;
 		}
 
-		if (g_strcmp0(uri,uri_current) == 0)
+		if (utils_str_equal(uri,uri_current) == TRUE)
 		{
 			path = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
 			gtk_tree_view_expand_to_path(GTK_TREE_VIEW(treeview), path);
@@ -294,8 +297,8 @@ fs_remove(gchar *root, gboolean delete_root)
 static void
 showbars(gboolean state)
 {
-	if (state) 	gtk_widget_show(vbox_bars);
-	else 		gtk_widget_hide(vbox_bars);
+	if (state) 	gtk_widget_show(sidebar_vbox_bars);
+	else 		gtk_widget_hide(sidebar_vbox_bars);
 	CONFIG_SHOW_BARS = state;
 }
 
@@ -352,20 +355,51 @@ treebrowser_track_current(void)
  * ------------------*/
 
 static void
+on_menu_go_up(GtkMenuItem *menuitem, gpointer *user_data)
+{
+	treebrowser_chroot(g_path_get_dirname(addressbar_last_address));
+}
+
+static void
 on_menu_open_externally(GtkMenuItem *menuitem, gpointer *user_data)
 {
 
-	GtkTreeSelection 	*selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
+	GtkTreeSelection 	*selection 	= gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
 	GtkTreeIter 		iter;
 	GtkTreeModel 		*model;
 	gchar 				*uri;
 
+	gchar 				*cmd, *locale_cmd, *dir;
+	GString 			*cmd_str 	= g_string_new(CONFIG_OPEN_EXTERNAL_CMD);
+	GError 				*error 		= NULL;
+
 	if (gtk_tree_selection_get_selected(selection, &model, &iter))
 	{
 		gtk_tree_model_get(model, &iter, TREEBROWSER_COLUMN_URI, &uri, -1);
-		if (g_file_test(uri, G_FILE_TEST_IS_DIR))
-			utils_open_browser(uri);
+
+		dir = g_file_test(uri, G_FILE_TEST_IS_DIR) ? g_strdup(uri) : g_path_get_dirname(uri);
+
+		utils_string_replace_all(cmd_str, "%f", uri);
+		utils_string_replace_all(cmd_str, "%d", dir);
+
+		cmd = g_string_free(cmd_str, FALSE);
+		locale_cmd = utils_get_locale_from_utf8(cmd);
+		if (! g_spawn_command_line_async(locale_cmd, &error))
+		{
+			gchar *c = strchr(cmd, ' ');
+			if (c != NULL)
+				*c = '\0';
+			ui_set_statusbar(TRUE,
+				_("Could not execute configured external command '%s' (%s)."),
+				cmd, error->message);
+			g_error_free(error);
+		}
+		g_free(locale_cmd);
+		g_free(cmd);
+		g_free(dir);
+
 	}
+
 }
 
 static void
@@ -501,6 +535,18 @@ on_menu_refresh(GtkMenuItem *menuitem, gpointer *user_data)
 }
 
 static void
+on_menu_expand_all(GtkMenuItem *menuitem, gpointer *user_data)
+{
+	gtk_tree_view_expand_all(GTK_TREE_VIEW(treeview));
+}
+
+static void
+on_menu_collapse_all(GtkMenuItem *menuitem, gpointer *user_data)
+{
+	gtk_tree_view_collapse_all(GTK_TREE_VIEW(treeview));
+}
+
+static void
 on_menu_show_bars(GtkMenuItem *menuitem, gpointer *user_data)
 {
 	showbars(gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menuitem)));
@@ -512,6 +558,10 @@ create_popup_menu(gpointer *user_data)
 	GtkWidget *item, *menu;
 
 	menu = gtk_menu_new();
+
+	item = ui_image_menu_item_new(GTK_STOCK_GO_UP, _("Go up"));
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_go_up), NULL);
 
 	item = ui_image_menu_item_new(GTK_STOCK_OPEN, _("Open externally"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
@@ -548,6 +598,18 @@ create_popup_menu(gpointer *user_data)
 	item = ui_image_menu_item_new(GTK_STOCK_REFRESH, _("Refresh"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_refresh), NULL);
+
+	item = gtk_separator_menu_item_new();
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(menu), item);
+
+	item = ui_image_menu_item_new(GTK_STOCK_GO_FORWARD, _("Expand all"));
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_expand_all), NULL);
+
+	item = ui_image_menu_item_new(GTK_STOCK_GO_BACK, _("Collapse all"));
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_collapse_all), NULL);
 
 	item = gtk_separator_menu_item_new();
 	gtk_widget_show(item);
@@ -748,8 +810,8 @@ create_sidebar(void)
 	GtkWidget 			*wid;
 	GtkTreeSelection 	*selection;
 
-	vbox 				= gtk_vbox_new(FALSE, 0);
-	vbox_bars 			= gtk_vbox_new(FALSE, 0);
+	sidebar_vbox 		= gtk_vbox_new(FALSE, 0);
+	sidebar_vbox_bars 	= gtk_vbox_new(FALSE, 0);
 
 	selection 			= gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
 	addressbar 			= gtk_entry_new();
@@ -758,7 +820,7 @@ create_sidebar(void)
 	scrollwin 			= gtk_scrolled_window_new(NULL, NULL);
 
 	page_number 		= gtk_notebook_append_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook),
-							vbox, gtk_label_new(_("Tree Browser")));
+							sidebar_vbox, gtk_label_new(_("Tree Browser")));
 
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
@@ -792,12 +854,12 @@ create_sidebar(void)
 	gtk_container_add(GTK_CONTAINER(toolbar), wid);
 
 	gtk_container_add(GTK_CONTAINER(scrollwin), 	treeview);
-	gtk_box_pack_start(GTK_BOX(vbox_bars), 			filter, 			FALSE, TRUE,  1);
-	gtk_box_pack_start(GTK_BOX(vbox_bars), 			addressbar, 		FALSE, TRUE,  1);
-	gtk_box_pack_start(GTK_BOX(vbox_bars), 			toolbar, 			FALSE, TRUE,  1);
+	gtk_box_pack_start(GTK_BOX(sidebar_vbox_bars), 			filter, 			FALSE, TRUE,  1);
+	gtk_box_pack_start(GTK_BOX(sidebar_vbox_bars), 			addressbar, 		FALSE, TRUE,  1);
+	gtk_box_pack_start(GTK_BOX(sidebar_vbox_bars), 			toolbar, 			FALSE, TRUE,  1);
 
-	gtk_box_pack_start(GTK_BOX(vbox), 				scrollwin, 			TRUE,  TRUE,  1);
-	gtk_box_pack_start(GTK_BOX(vbox), 				vbox_bars, 			FALSE, TRUE,  1);
+	gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				scrollwin, 			TRUE,  TRUE,  1);
+	gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				sidebar_vbox_bars, 	FALSE, TRUE,  1);
 
 	g_signal_connect(selection, 		"changed", 				G_CALLBACK(on_treeview_changed), 				NULL);
 	g_signal_connect(treeview, 			"button-press-event", 	G_CALLBACK(on_treeview_mouseclick), 			selection);
@@ -807,7 +869,7 @@ create_sidebar(void)
 	g_signal_connect(addressbar, 		"activate", 			G_CALLBACK(on_addressbar_activate), 			NULL);
 	g_signal_connect(filter, 			"activate", 			G_CALLBACK(on_filter_activate), 				NULL);
 
-	gtk_widget_show_all(vbox);
+	gtk_widget_show_all(sidebar_vbox);
 
 	showbars(CONFIG_SHOW_BARS);
 }
@@ -848,68 +910,136 @@ create_view_and_model(void)
  * CONFIG DIALOG
  * ------------------ */
 
+static struct
+{
+	GtkWidget *OPEN_EXTERNAL_CMD;
+	GtkWidget *INITIAL_DIR_DEEP;
+	GtkWidget *REVERSE_FILTER;
+	GtkWidget *ONE_CLICK_CHDOC;
+	GtkWidget *SHOW_HIDDEN_FILES;
+	GtkWidget *SHOW_BARS;
+	GtkWidget *CHROOT_ON_DCLICK;
+	GtkWidget *FOLLOW_CURRENT_DOC;
+} configure_widgets;
+
+
+static void
+load_settings(void)
+{
+	GKeyFile *config 	= g_key_file_new();
+	GError *error 		= NULL;
+	gboolean tmp;
+
+	g_key_file_load_from_file(config, CONFIG_FILE, G_KEY_FILE_NONE, NULL);
+
+	CONFIG_OPEN_EXTERNAL_CMD 	= g_key_file_get_string(config, 	"treebrowser", "open_external_cmd", 	&error);
+	CONFIG_INITIAL_DIR_DEEP 	= g_key_file_get_integer(config, 	"treebrowser", "initial_dir_deep", 		&error);
+	CONFIG_REVERSE_FILTER 		= g_key_file_get_boolean(config, 	"treebrowser", "reverse_filter", 		&error);
+	CONFIG_ONE_CLICK_CHDOC 		= g_key_file_get_boolean(config, 	"treebrowser", "one_click_chdoc", 		&error);
+	CONFIG_SHOW_HIDDEN_FILES 	= g_key_file_get_boolean(config, 	"treebrowser", "show_hidden_files", 	&error);
+	CONFIG_SHOW_BARS 			= g_key_file_get_boolean(config, 	"treebrowser", "show_bars", 			&error);
+	CONFIG_CHROOT_ON_DCLICK		= g_key_file_get_boolean(config, 	"treebrowser", "chroot_on_dclick", 		&error);
+	CONFIG_FOLLOW_CURRENT_DOC 	= g_key_file_get_boolean(config, 	"treebrowser", "follow_current_doc", 	&error);
+
+	g_key_file_free(config);
+}
+
 static void
 on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 {
 	if (! (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY))
 		return;
 
-	/*dialogs_show_msgbox(GTK_MESSAGE_INFO, "OKAY");
-	 */
+	CONFIG_OPEN_EXTERNAL_CMD 	= gtk_editable_get_chars(GTK_EDITABLE(configure_widgets.OPEN_EXTERNAL_CMD), 0, -1);
+	CONFIG_INITIAL_DIR_DEEP 	= gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(configure_widgets.INITIAL_DIR_DEEP));
+	CONFIG_REVERSE_FILTER 		= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.REVERSE_FILTER));
+	CONFIG_ONE_CLICK_CHDOC 		= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.ONE_CLICK_CHDOC));
+	CONFIG_SHOW_HIDDEN_FILES 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_HIDDEN_FILES));
+	CONFIG_SHOW_BARS 			= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_BARS));
+	CONFIG_CHROOT_ON_DCLICK 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.CHROOT_ON_DCLICK));
+	CONFIG_FOLLOW_CURRENT_DOC 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.FOLLOW_CURRENT_DOC));
+
+	GKeyFile 	*config 		= g_key_file_new();
+	gchar 		*config_dir 	= g_path_get_dirname(CONFIG_FILE);
+	gchar 		*data;
+
+	g_key_file_load_from_file(config, CONFIG_FILE, G_KEY_FILE_NONE, NULL);
+	if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir(config_dir, TRUE) != 0)
+		dialogs_show_msgbox(GTK_MESSAGE_ERROR,
+			_("Plugin configuration directory could not be created."));
+	else
+	{
+		g_key_file_set_string(config, 	"treebrowser", "open_external_cmd", 	CONFIG_OPEN_EXTERNAL_CMD);
+		g_key_file_set_integer(config, 	"treebrowser", "initial_dir_deep", 		CONFIG_INITIAL_DIR_DEEP);
+		g_key_file_set_boolean(config, 	"treebrowser", "reverse_filter", 		CONFIG_REVERSE_FILTER);
+		g_key_file_set_boolean(config, 	"treebrowser", "one_click_chdoc", 		CONFIG_ONE_CLICK_CHDOC);
+		g_key_file_set_boolean(config, 	"treebrowser", "show_hidden_files", 	CONFIG_SHOW_HIDDEN_FILES);
+		g_key_file_set_boolean(config, 	"treebrowser", "show_bars", 			CONFIG_SHOW_BARS);
+		g_key_file_set_boolean(config, 	"treebrowser", "chroot_on_dclick", 		CONFIG_CHROOT_ON_DCLICK);
+		g_key_file_set_boolean(config, 	"treebrowser", "follow_current_doc", 	CONFIG_FOLLOW_CURRENT_DOC);
+
+		/* write config to file */
+		data = g_key_file_to_data(config, NULL, NULL);
+		utils_write_file(CONFIG_FILE, data);
+		g_free(data);
+	}
 
 }
 
 GtkWidget*
 plugin_configure(GtkDialog *dialog)
 {
-	GtkWidget *label, *entry, *checkbox;
+	GtkWidget *label;
 	GtkWidget *vbox, *hbox;
 
-	vbox = gtk_vbox_new(FALSE, 0);
+	vbox 	= gtk_vbox_new(FALSE, 0);
 
-	label = gtk_label_new(_("This is experimental and not working for now."));
-	gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
-
-	hbox = gtk_hbox_new(FALSE, 0);
-	label = gtk_label_new(_("External open command: "));
+	hbox 	= gtk_hbox_new(FALSE, 0);
+	label 	= gtk_label_new(_("External open command: "));
+	configure_widgets.OPEN_EXTERNAL_CMD = gtk_entry_new();
+	gtk_entry_set_text(GTK_ENTRY(configure_widgets.OPEN_EXTERNAL_CMD), CONFIG_OPEN_EXTERNAL_CMD);
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	ui_widget_set_tooltip_text(configure_widgets.OPEN_EXTERNAL_CMD,
+		_("The command to execute when using \"Open with\". You can use %f and %d wildcards.\n"
+		  "%f will be replaced with the filename including full path\n"
+		  "%d will be replaced with the path name of the selected file without the filename"));
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
-	entry = gtk_entry_new();
-	gtk_box_pack_start(GTK_BOX(hbox), entry, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), configure_widgets.OPEN_EXTERNAL_CMD, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
 
-	hbox = gtk_hbox_new(FALSE, 0);
-	label = gtk_label_new(_("Initial directory deep: "));
+	hbox 	= gtk_hbox_new(FALSE, 0);
+	label 	= gtk_label_new(_("Default directory deep to fill: "));
+	configure_widgets.INITIAL_DIR_DEEP = gtk_spin_button_new_with_range(1, 99, 1);
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(configure_widgets.INITIAL_DIR_DEEP), CONFIG_INITIAL_DIR_DEEP);
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
-	entry = gtk_entry_new();
-	gtk_box_pack_start(GTK_BOX(hbox), entry, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), configure_widgets.INITIAL_DIR_DEEP, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
 
-	checkbox = gtk_check_button_new_with_label(_("Show hidden files"));
-	gtk_button_set_focus_on_click(GTK_BUTTON(checkbox), FALSE);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox), CONFIG_SHOW_HIDDEN_FILES);
-	gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+	configure_widgets.SHOW_HIDDEN_FILES = gtk_check_button_new_with_label(_("Show hidden files"));
+	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.SHOW_HIDDEN_FILES), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_HIDDEN_FILES), CONFIG_SHOW_HIDDEN_FILES);
+	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.SHOW_HIDDEN_FILES, FALSE, FALSE, 0);
 
-	checkbox = gtk_check_button_new_with_label(_("Reverse filter"));
-	gtk_button_set_focus_on_click(GTK_BUTTON(checkbox), FALSE);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox), CONFIG_REVERSE_FILTER);
-	gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+	configure_widgets.REVERSE_FILTER = gtk_check_button_new_with_label(_("Reverse filter"));
+	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.REVERSE_FILTER), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.REVERSE_FILTER), CONFIG_REVERSE_FILTER);
+	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.REVERSE_FILTER, FALSE, FALSE, 0);
 
-	checkbox = gtk_check_button_new_with_label(_("Follow path"));
-	gtk_button_set_focus_on_click(GTK_BUTTON(checkbox), FALSE);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox), CONFIG_FOLLOW_CURRENT_DOC);
-	gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+	configure_widgets.FOLLOW_CURRENT_DOC = gtk_check_button_new_with_label(_("Follow current document"));
+	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.FOLLOW_CURRENT_DOC), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.FOLLOW_CURRENT_DOC), CONFIG_FOLLOW_CURRENT_DOC);
+	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.FOLLOW_CURRENT_DOC, FALSE, FALSE, 0);
 
-	checkbox = gtk_check_button_new_with_label(_("On click document change"));
-	gtk_button_set_focus_on_click(GTK_BUTTON(checkbox), FALSE);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox), CONFIG_ONE_CLICK_CHDOC);
-	gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+	configure_widgets.ONE_CLICK_CHDOC = gtk_check_button_new_with_label(_("On click document change"));
+	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.ONE_CLICK_CHDOC), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.ONE_CLICK_CHDOC), CONFIG_ONE_CLICK_CHDOC);
+	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.ONE_CLICK_CHDOC, FALSE, FALSE, 0);
 
-	checkbox = gtk_check_button_new_with_label(_("Chroot on dclick"));
-	gtk_button_set_focus_on_click(GTK_BUTTON(checkbox), FALSE);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox), CONFIG_CHROOT_ON_DCLICK);
-	gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+	configure_widgets.CHROOT_ON_DCLICK = gtk_check_button_new_with_label(_("Chroot on dclick"));
+	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.CHROOT_ON_DCLICK), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.CHROOT_ON_DCLICK), CONFIG_CHROOT_ON_DCLICK);
+	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.CHROOT_ON_DCLICK, FALSE, FALSE, 0);
 
 	gtk_widget_show_all(vbox);
 
@@ -926,6 +1056,11 @@ plugin_configure(GtkDialog *dialog)
 void
 plugin_init(GeanyData *data)
 {
+	CONFIG_FILE = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
+		"treebrowser", G_DIR_SEPARATOR_S, "treebrowser.conf", NULL);
+
+	load_settings();
+
 	treeview = create_view_and_model();
 	create_sidebar();
 	treebrowser_chroot(get_default_dir());
@@ -937,5 +1072,5 @@ plugin_init(GeanyData *data)
 void
 plugin_cleanup(void)
 {
-	gtk_widget_destroy(GTK_WIDGET(vbox));
+	gtk_widget_destroy(GTK_WIDGET(sidebar_vbox));
 }
