@@ -1,3 +1,7 @@
+2010-03-22  Thomas Martitz  <thomas.martitz@student.htw-berlin.de>
+
+ * src/gdb-io-run.c: Fix the general geany slowness that geanygdb causes once a binary is loaded.
+
 2010-03-15  Thomas Martitz  <thomas.martitz@student.htw-berlin.de>
 
  * src/gdb-io-run.c, src/gdb-ui-break.c: Run gdb with LANG=C to avoid

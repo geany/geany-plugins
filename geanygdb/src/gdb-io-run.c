@@ -470,9 +470,9 @@ on_send_to_gdb(GIOChannel * src, GIOCondition cond, gpointer data)
 		}
 		st = g_io_channel_flush(src, &err);
 		gerror("Error pushing command", &err);
+		gdbio_wait(10);
 	}
 	do_loop();
-	gdbio_wait(10);
 	return TRUE;
 }
 
