@@ -5,8 +5,11 @@ Development release ChangeLog
 	* src/treebrowser.c
 		fixed some bugs
 		fixed few old compiler warnings
+		applied few patches from Enrico Troger (code improvement)
+
 
 21-03-2010 Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
 	* src/treebrowser.c
 		fixed few compile warnings with glib and unused vars
 		fixed expanding, now directory is open when it click filling for first time

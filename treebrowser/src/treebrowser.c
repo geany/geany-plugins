@@ -7,7 +7,6 @@
 #include <glib/gstdio.h>
 
 #include "geanyplugin.h"
-#include "Scintilla.h"
 
 /* These items are set by Geany before plugin_init() is called. */
 GeanyPlugin 				*geany_plugin;
@@ -72,19 +71,15 @@ PLUGIN_SET_INFO(_("Tree Browser"), _("Treeview filebrowser plugin."), "0.1" , "A
  * ------------------ */
 #define foreach_slist_free(node, list) for (node = list, list = NULL; g_slist_free_1(list), node != NULL; list = node, node = node->next)
 
+static GList*
+_gtk_cell_layout_get_cells(GtkTreeViewColumn *column)
+{
 #if GTK_CHECK_VERSION(2, 12, 0)
-	static GList*
-	_gtk_cell_layout_get_cells(GtkTreeViewColumn *column)
-	{
-		return gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(column));
-	}
+	return gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(column));
 #else
-	static GList*
-	_gtk_cell_layout_get_cells(GtkTreeViewColumn *column)
-	{
-		return gtk_tree_view_column_get_cell_renderers(column);
-	}
+	return gtk_tree_view_column_get_cell_renderers(column);
 #endif
+}
 
 
 /* ------------------
@@ -168,7 +163,6 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 	GtkTreeIter 	iter, *last_dir_iter = NULL;
 	gboolean 		is_dir;
 	gchar 			*utf8_name;
-	GDir 			*dir;
 	GSList 			*list, *node;
 
 	if (deep_limit < 1)
@@ -233,7 +227,7 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 static gboolean
 treebrowser_search(gchar *uri, gpointer parent)
 {
-	GtkTreeIter 	iter, iter_parent;
+	GtkTreeIter 	iter;
 	GtkTreePath 	*path;
 	gchar 			*uri_current;
 
@@ -259,6 +253,7 @@ treebrowser_search(gchar *uri, gpointer parent)
 
 	} while(gtk_tree_model_iter_next(GTK_TREE_MODEL(treestore), &iter));
 
+	return FALSE;
 }
 
 static void
@@ -416,7 +411,7 @@ on_menu_open_externally(GtkMenuItem *menuitem, gpointer *user_data)
 }
 
 static void
-on_menu_set_as_root(GtkMenuItem *menuitem, gpointer *user_data)
+on_menu_set_as_root(GtkMenuItem *menuitem, const gchar *type)
 {
 
 	GtkTreeSelection 	*selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
@@ -454,10 +449,10 @@ on_menu_create_new_object(GtkMenuItem *menuitem, gchar *type)
 	}
 	else return;
 
-	if (type == "directory")
+	if (utils_str_equal(type, "directory"))
 		uri_new = g_strconcat(uri, G_DIR_SEPARATOR_S, _("NewDirectory"), NULL);
 	else
-		if (type == "file")
+		if (utils_str_equal(type, "file"))
 			uri_new = g_strconcat(uri, G_DIR_SEPARATOR_S, _("NewFile"), NULL);
 		else
 			return;
@@ -465,7 +460,7 @@ on_menu_create_new_object(GtkMenuItem *menuitem, gchar *type)
 	while(g_file_test(uri_new, G_FILE_TEST_EXISTS))
 		uri_new = g_strconcat(uri_new, "_", NULL);
 
-	if (type == "directory")
+	if (utils_str_equal(type, "directory"))
 	{
 		if (g_mkdir(uri_new, 0755) == 0)
 			treebrowser_browse(uri, &iter, CONFIG_INITIAL_DIR_DEEP);
@@ -975,18 +970,17 @@ static void
 load_settings(void)
 {
 	GKeyFile *config 	= g_key_file_new();
-	GError *error 		= NULL;
 
 	g_key_file_load_from_file(config, CONFIG_FILE, G_KEY_FILE_NONE, NULL);
 
-	CONFIG_OPEN_EXTERNAL_CMD 	= g_key_file_get_string(config, 	"treebrowser", "open_external_cmd", 	&error);
-	CONFIG_INITIAL_DIR_DEEP 	= g_key_file_get_integer(config, 	"treebrowser", "initial_dir_deep", 		&error);
-	CONFIG_REVERSE_FILTER 		= g_key_file_get_boolean(config, 	"treebrowser", "reverse_filter", 		&error);
-	CONFIG_ONE_CLICK_CHDOC 		= g_key_file_get_boolean(config, 	"treebrowser", "one_click_chdoc", 		&error);
-	CONFIG_SHOW_HIDDEN_FILES 	= g_key_file_get_boolean(config, 	"treebrowser", "show_hidden_files", 	&error);
-	CONFIG_SHOW_BARS 			= g_key_file_get_boolean(config, 	"treebrowser", "show_bars", 			&error);
-	CONFIG_CHROOT_ON_DCLICK		= g_key_file_get_boolean(config, 	"treebrowser", "chroot_on_dclick", 		&error);
-	CONFIG_FOLLOW_CURRENT_DOC 	= g_key_file_get_boolean(config, 	"treebrowser", "follow_current_doc", 	&error);
+	CONFIG_OPEN_EXTERNAL_CMD       = utils_get_setting_string(config, "treebrowser", "open_external_cmd", CONFIG_OPEN_EXTERNAL_CMD);
+	CONFIG_INITIAL_DIR_DEEP        = utils_get_setting_integer(config, "treebrowser", "initial_dir_deep", CONFIG_INITIAL_DIR_DEEP);
+	CONFIG_REVERSE_FILTER   = utils_get_setting_boolean(config, "treebrowser", "reverse_filter", CONFIG_REVERSE_FILTER);
+	CONFIG_ONE_CLICK_CHDOC                 = utils_get_setting_boolean(config, "treebrowser", "one_click_chdoc", CONFIG_ONE_CLICK_CHDOC);
+	CONFIG_SHOW_HIDDEN_FILES       = utils_get_setting_boolean(config, "treebrowser", "show_hidden_files", CONFIG_SHOW_HIDDEN_FILES);
+	CONFIG_SHOW_BARS                   = utils_get_setting_boolean(config, "treebrowser", "show_bars", CONFIG_SHOW_BARS);
+	CONFIG_CHROOT_ON_DCLICK                = utils_get_setting_boolean(config, "treebrowser", "chroot_on_dclick", CONFIG_CHROOT_ON_DCLICK);
+	CONFIG_FOLLOW_CURRENT_DOC      = utils_get_setting_boolean(config, "treebrowser", "follow_current_doc", CONFIG_FOLLOW_CURRENT_DOC);
 
 	g_key_file_free(config);
 }
