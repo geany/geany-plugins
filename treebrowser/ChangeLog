@@ -1,14 +1,22 @@
 Development release ChangeLog
 -----------------------------
 
-22-03-2010 Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+23-03-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		added option when expanding to refresh directory tree
+		fixed complier warning with glib
+
+
+22-03-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
 	* src/treebrowser.c
 		fixed some bugs
 		fixed few old compiler warnings
 		applied few patches from Enrico Troger (code improvement)
 
 
-21-03-2010 Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+21-03-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
 		fixed few compile warnings with glib and unused vars
@@ -93,7 +101,8 @@ TODO
 ---------------------------
 	(DONE) codestyle improve to be same as other parts as geany`s
 	(DONE) configuration dialog
-	* trackick path to current focused document
+	* trackick path to current focused document (currently now roking on Windows)
+	* In windows can choice between devices (C:\, D:\,...)
 	* Windows compitable
 	* Language files
 	(DONE) oneclick document opening
