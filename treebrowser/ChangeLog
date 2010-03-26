@@ -1,6 +1,13 @@
 Development release ChangeLog
 -----------------------------
 
+26-03-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		fixed bug with 'On expand, refresh.'
+		now right click not select item from list
+
+
 23-03-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
