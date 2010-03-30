@@ -170,6 +170,7 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 {
 	GtkTreeIter 	iter, *last_dir_iter = NULL;
 	gboolean 		is_dir;
+	gboolean 		expanded = FALSE;
 	gchar 			*utf8_name;
 	GSList 			*list, *node;
 
@@ -179,6 +180,9 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 	deep_limit--;
 
 	directory = g_strconcat(directory, G_DIR_SEPARATOR_S, NULL);
+
+	if (gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), parent)))
+		expanded = TRUE;
 
 	gtk_tree_store_iter_clear_nodes(parent, FALSE);
 
@@ -229,6 +233,9 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 			g_free(uri);
 		}
 	}
+
+	if (expanded)
+		gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), parent), FALSE);
 
 }
 
@@ -350,8 +357,6 @@ treebrowser_track_current(void)
 		for (i = 0; path_segments[i]; i++)
 		{
 			path_search = g_build_filename(path_search, path_segments[i], NULL);
-			/* dialogs_show_msgbox(GTK_MESSAGE_INFO, "%s", path_search);
-			 */
 			treebrowser_search(path_search, NULL);
 			return FALSE;
 		}
@@ -445,6 +450,7 @@ on_menu_create_new_object(GtkMenuItem *menuitem, gchar *type)
 	GtkTreeModel 		*model;
 	gchar 				*uri, *uri_new;
 	GtkTreePath 		*path_parent;
+	gboolean 			refresh_root = FALSE;
 
 	if (gtk_tree_selection_get_selected(selection, &model, &iter))
 	{
@@ -457,7 +463,14 @@ on_menu_create_new_object(GtkMenuItem *menuitem, gchar *type)
 				gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter, path_parent);
 		}
 	}
-	else return;
+	else
+	{
+		refresh_root 	= TRUE;
+		uri 			= addressbar_last_address;
+		path_parent 	= gtk_tree_path_new_from_string("0");
+		gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter, path_parent);
+
+	}
 
 	if (utils_str_equal(type, "directory"))
 		uri_new = g_strconcat(uri, G_DIR_SEPARATOR_S, _("NewDirectory"), NULL);
@@ -473,12 +486,12 @@ on_menu_create_new_object(GtkMenuItem *menuitem, gchar *type)
 	if (utils_str_equal(type, "directory"))
 	{
 		if (g_mkdir(uri_new, 0755) == 0)
-			treebrowser_browse(uri, &iter, CONFIG_INITIAL_DIR_DEEP);
+			treebrowser_browse(uri, refresh_root ? NULL : &iter, CONFIG_INITIAL_DIR_DEEP);
 	}
 	else
 	{
 		if (g_creat(uri_new, 0755) != -1)
-			treebrowser_browse(uri, &iter, CONFIG_INITIAL_DIR_DEEP);
+			treebrowser_browse(uri, refresh_root ? NULL : &iter, CONFIG_INITIAL_DIR_DEEP);
 	}
 }
 
@@ -531,8 +544,10 @@ on_menu_delete(GtkMenuItem *menuitem, gpointer *user_data)
 		{
 			fs_remove(uri, TRUE);
 			path_parent = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
+
 			if (gtk_tree_path_up(path_parent))
 				gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter, path_parent);
+
 			treebrowser_browse(g_path_get_dirname(uri), &iter, CONFIG_INITIAL_DIR_DEEP);
 		}
 	}
@@ -545,20 +560,13 @@ on_menu_refresh(GtkMenuItem *menuitem, gpointer *user_data)
 	GtkTreeIter 		iter;
 	GtkTreeModel 		*model;
 	gchar 				*uri;
-	gboolean 			expanded = FALSE;
 
 	if (gtk_tree_selection_get_selected(selection, &model, &iter))
 	{
 		gtk_tree_model_get(model, &iter, TREEBROWSER_COLUMN_URI, &uri, -1);
 		if (g_file_test(uri, G_FILE_TEST_IS_DIR))
 		{
-			if (gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter)))
-				expanded = TRUE;
-
 			treebrowser_browse(uri, &iter, CONFIG_INITIAL_DIR_DEEP);
-
-			if (expanded)
-				gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter), FALSE);
 		}
 	}
 }
@@ -731,7 +739,6 @@ on_treeview_changed(GtkWidget *widget, gpointer user_data)
 	GtkTreeIter 	iter;
 	GtkTreeModel 	*model;
 	gchar 			*uri;
-	gboolean 		expanded = FALSE;
 
 	if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(widget), &model, &iter))
 	{
@@ -742,14 +749,7 @@ on_treeview_changed(GtkWidget *widget, gpointer user_data)
 		{
 			if (g_file_test(uri, G_FILE_TEST_IS_DIR))
 			{
-				if (gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter))
-					|| !gtk_tree_model_iter_has_child(GTK_TREE_MODEL(treestore), &iter))
-					expanded = TRUE;
-
 				treebrowser_browse(uri, &iter, CONFIG_INITIAL_DIR_DEEP);
-
-				if (expanded)
-					gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter), FALSE);
 			}
 			else
 				if (CONFIG_ONE_CLICK_CHDOC)

@@ -1,6 +1,13 @@
 Development release ChangeLog
 -----------------------------
 
+
+30-03-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		fixed expaned state when create/delete/remove files or directories
+
+
 26-03-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
@@ -112,6 +119,7 @@ TODO
 	* In windows can choice between devices (C:\, D:\,...)
 	* Windows compitable
 	* Language files
+	* Saving state of Showbars in config file everytime where is changed
 	(DONE) oneclick document opening
 	(DONE) filter separating ex.: "*.c;*.cpp;*.h"
 	* fix possible memory leaks (using g_free... where is need)
