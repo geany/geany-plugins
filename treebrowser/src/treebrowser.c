@@ -54,6 +54,7 @@ static gboolean 			CONFIG_ON_EXPAND_REFRESH 	= FALSE;
 /* ------------------
  * TREEVIEW STRUCT
  * ------------------ */
+
 enum
 {
 	TREEBROWSER_COLUMNC 								= 3,
@@ -70,6 +71,7 @@ enum
 /* ------------------
  * PLUGIN INFO
  * ------------------ */
+
 PLUGIN_VERSION_CHECK(147)
 PLUGIN_SET_INFO(_("Tree Browser"), _("Treeview filebrowser plugin."), "0.1" , "Adrian Dimitrov (dimitrov.adrian@gmail.com)")
 
@@ -77,6 +79,7 @@ PLUGIN_SET_INFO(_("Tree Browser"), _("Treeview filebrowser plugin."), "0.1" , "A
 /* ------------------
  * PREDEFINES
  * ------------------ */
+
 #define foreach_slist_free(node, list) for (node = list, list = NULL; g_slist_free_1(list), node != NULL; list = node, node = node->next)
 
 static GList*
@@ -93,10 +96,24 @@ _gtk_cell_layout_get_cells(GtkTreeViewColumn *column)
 /* ------------------
  * PROTOTYPES
  * ------------------ */
+
+static void 	project_change_cb(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile *config, G_GNUC_UNUSED gpointer data);
 static void 	treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit);
 static void 	gtk_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root);
 static void 	load_settings(void);
 static gboolean save_settings(void);
+
+
+/* ------------------
+ * PLUGIN CALLBACKS
+ * ------------------ */
+
+PluginCallback plugin_callbacks[] =
+{
+	{ "project-open", (GCallback) &project_change_cb, TRUE, NULL },
+	{ "project-save", (GCallback) &project_change_cb, TRUE, NULL },
+	{ NULL, NULL, FALSE, NULL }
+};
 
 
 /* ------------------
@@ -419,9 +436,7 @@ on_menu_open_externally(GtkMenuItem *menuitem, gpointer *user_data)
 		g_free(locale_cmd);
 		g_free(cmd);
 		g_free(dir);
-
 	}
-
 }
 
 static void
@@ -568,6 +583,8 @@ on_menu_refresh(GtkMenuItem *menuitem, gpointer *user_data)
 			treebrowser_browse(uri, &iter, CONFIG_INITIAL_DIR_DEEP);
 		}
 	}
+	else
+		treebrowser_browse(addressbar_last_address, NULL, CONFIG_INITIAL_DIR_DEEP);
 }
 
 static void
@@ -1134,6 +1151,12 @@ plugin_configure(GtkDialog *dialog)
 /* ------------------
  * GEANY HOOKS
  * ------------------ */
+
+static void
+project_change_cb(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile *config, G_GNUC_UNUSED gpointer data)
+{
+	treebrowser_chroot(get_default_dir());
+}
 
 void
 plugin_init(GeanyData *data)

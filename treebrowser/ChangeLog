@@ -1,12 +1,31 @@
-Development release ChangeLog
------------------------------
 
++---------------------------+
+| TODO                      |
++---------------------------+
+
+	(DONE) codestyle improve to be same as other parts as geany`s
+	(DONE) configuration dialog
+	* trackick path to current focused document (currently now roking on Windows)
+	* In windows can choice between devices (C:\, D:\,...)
+	* Windows compitable
+	* Language files
+	(DONE) Saving state of Showbars in config file everytime where is changed
+	(DONE) oneclick document opening
+	(DONE) filter separating ex.: "*.c;*.cpp;*.h"
+	* fix possible memory leaks (using g_free... where is need)
+
+
++-------------------------------+
+| Development release ChangeLog |
++-------------------------------+
 
 31-03-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
 		fixed saving state of Show the toolbars when starting Geany
 		moving settings saving in separated function - save_settings()
+		now changing root directory when change current project
+		fixed bug when 'Right click->Refresh'
 
 
 30-03-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
@@ -115,19 +134,3 @@ Development release ChangeLog
 
 	* src/treebrowser.c
 		initial, with base options
-
-
-
-TODO
----------------------------
-	(DONE) codestyle improve to be same as other parts as geany`s
-	(DONE) configuration dialog
-	* trackick path to current focused document (currently now roking on Windows)
-	* In windows can choice between devices (C:\, D:\,...)
-	* Windows compitable
-	* Language files
-	* Saving state of Showbars in config file everytime where is changed
-	(DONE) oneclick document opening
-	(DONE) filter separating ex.: "*.c;*.cpp;*.h"
-	* fix possible memory leaks (using g_free... where is need)
-
