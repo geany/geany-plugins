@@ -95,6 +95,8 @@ _gtk_cell_layout_get_cells(GtkTreeViewColumn *column)
  * ------------------ */
 static void 	treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit);
 static void 	gtk_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root);
+static void 	load_settings(void);
+static gboolean save_settings(void);
 
 
 /* ------------------
@@ -233,10 +235,8 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 			g_free(uri);
 		}
 	}
-
 	if (expanded)
 		gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), parent), FALSE);
-
 }
 
 static gboolean
@@ -274,13 +274,11 @@ treebrowser_search(gchar *uri, gpointer parent)
 static void
 fs_remove(gchar *root, gboolean delete_root)
 {
-
 	if (! g_file_test(root, G_FILE_TEST_EXISTS))
 		return;
 
 	if (g_file_test(root, G_FILE_TEST_IS_DIR))
 	{
-
 		GDir *dir;
 		const gchar *name;
 
@@ -317,6 +315,7 @@ showbars(gboolean state)
 	else 		gtk_widget_hide(sidebar_vbox_bars);
 	CONFIG_SHOW_BARS = state;
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_showbars), CONFIG_SHOW_BARS);
+	save_settings();
 }
 
 static void
@@ -1012,12 +1011,38 @@ load_settings(void)
 	g_key_file_free(config);
 }
 
-static void
-on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
+static gboolean
+save_settings(void)
 {
 	GKeyFile 	*config 		= g_key_file_new();
 	gchar 		*config_dir 	= g_path_get_dirname(CONFIG_FILE);
 	gchar 		*data;
+
+	g_key_file_load_from_file(config, CONFIG_FILE, G_KEY_FILE_NONE, NULL);
+	if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir(config_dir, TRUE) != 0)
+		return FALSE;
+
+	g_key_file_set_string(config, 	"treebrowser", "open_external_cmd", 	CONFIG_OPEN_EXTERNAL_CMD);
+	g_key_file_set_integer(config, 	"treebrowser", "initial_dir_deep", 		CONFIG_INITIAL_DIR_DEEP);
+	g_key_file_set_boolean(config, 	"treebrowser", "reverse_filter", 		CONFIG_REVERSE_FILTER);
+	g_key_file_set_boolean(config, 	"treebrowser", "one_click_chdoc", 		CONFIG_ONE_CLICK_CHDOC);
+	g_key_file_set_boolean(config, 	"treebrowser", "show_hidden_files", 	CONFIG_SHOW_HIDDEN_FILES);
+	g_key_file_set_boolean(config, 	"treebrowser", "show_bars", 			CONFIG_SHOW_BARS);
+	g_key_file_set_boolean(config, 	"treebrowser", "chroot_on_dclick", 		CONFIG_CHROOT_ON_DCLICK);
+	g_key_file_set_boolean(config, 	"treebrowser", "follow_current_doc", 	CONFIG_FOLLOW_CURRENT_DOC);
+	g_key_file_set_boolean(config, 	"treebrowser", "on_expand_refresh", 	CONFIG_ON_EXPAND_REFRESH);
+
+	/* write config to file */
+	data = g_key_file_to_data(config, NULL, NULL);
+	utils_write_file(CONFIG_FILE, data);
+	g_free(data);
+
+	return TRUE;
+}
+
+static void
+on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
+{
 
 	if (! (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY))
 		return;
@@ -1027,35 +1052,15 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 	CONFIG_REVERSE_FILTER 		= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.REVERSE_FILTER));
 	CONFIG_ONE_CLICK_CHDOC 		= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.ONE_CLICK_CHDOC));
 	CONFIG_SHOW_HIDDEN_FILES 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_HIDDEN_FILES));
-	CONFIG_SHOW_BARS 			= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_BARS));
 	CONFIG_CHROOT_ON_DCLICK 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.CHROOT_ON_DCLICK));
 	CONFIG_FOLLOW_CURRENT_DOC 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.FOLLOW_CURRENT_DOC));
 	CONFIG_ON_EXPAND_REFRESH 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.ON_EXPAND_REFRESH));
 
-	g_key_file_load_from_file(config, CONFIG_FILE, G_KEY_FILE_NONE, NULL);
-	if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir(config_dir, TRUE) != 0)
+	if (save_settings() == TRUE)
+		treebrowser_chroot(addressbar_last_address);
+	else
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR,
 			_("Plugin configuration directory could not be created."));
-	else
-	{
-		g_key_file_set_string(config, 	"treebrowser", "open_external_cmd", 	CONFIG_OPEN_EXTERNAL_CMD);
-		g_key_file_set_integer(config, 	"treebrowser", "initial_dir_deep", 		CONFIG_INITIAL_DIR_DEEP);
-		g_key_file_set_boolean(config, 	"treebrowser", "reverse_filter", 		CONFIG_REVERSE_FILTER);
-		g_key_file_set_boolean(config, 	"treebrowser", "one_click_chdoc", 		CONFIG_ONE_CLICK_CHDOC);
-		g_key_file_set_boolean(config, 	"treebrowser", "show_hidden_files", 	CONFIG_SHOW_HIDDEN_FILES);
-		g_key_file_set_boolean(config, 	"treebrowser", "show_bars", 			CONFIG_SHOW_BARS);
-		g_key_file_set_boolean(config, 	"treebrowser", "chroot_on_dclick", 		CONFIG_CHROOT_ON_DCLICK);
-		g_key_file_set_boolean(config, 	"treebrowser", "follow_current_doc", 	CONFIG_FOLLOW_CURRENT_DOC);
-		g_key_file_set_boolean(config, 	"treebrowser", "on_expand_refresh", 	CONFIG_ON_EXPAND_REFRESH);
-
-		/* write config to file */
-		data = g_key_file_to_data(config, NULL, NULL);
-		utils_write_file(CONFIG_FILE, data);
-		g_free(data);
-
-		treebrowser_chroot(addressbar_last_address);
-	}
-
 }
 
 GtkWidget*
@@ -1139,9 +1144,6 @@ plugin_init(GeanyData *data)
 	flag_on_expand_refresh = FALSE;
 
 	load_settings();
-
-	if (CONFIG_SHOW_BARS)
-		dialogs_show_msgbox(GTK_MESSAGE_INFO, "wasaaaaa");
 
 	treeview = create_view_and_model();
 	create_sidebar();

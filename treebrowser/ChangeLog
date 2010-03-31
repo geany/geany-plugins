@@ -2,6 +2,13 @@ Development release ChangeLog
 -----------------------------
 
 
+31-03-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		fixed saving state of Show the toolbars when starting Geany
+		moving settings saving in separated function - save_settings()
+
+
 30-03-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
