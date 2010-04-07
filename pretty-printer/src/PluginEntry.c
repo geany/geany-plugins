@@ -52,6 +52,8 @@ void plugin_init(GeanyData *data)
 
     //put the menu into the Tools
     main_menu_item = gtk_menu_item_new_with_mnemonic("PrettyPrint XML");
+    ui_add_document_sensitive(main_menu_item);
+
     gtk_widget_show(main_menu_item);
     gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), main_menu_item);
 
@@ -66,7 +68,7 @@ void plugin_cleanup(void)
 }
 
 //TODO uncomment when configuration widget ready
-/*GtkWidget* plugin_configure(GtkDialog * dialog)   	
+/*GtkWidget* plugin_configure(GtkDialog * dialog)
 {
 	//creates the configuration widget
 	GtkWidget* widget = createPrettyPrinterConfigUI(dialog);
@@ -87,25 +89,28 @@ void config_closed(GtkWidget* configWidget, gint response, gpointer gdata)
 
 void xml_format(GtkMenuItem* menuitem, gpointer gdata)
 {
-	//default printing options
-	if (prettyPrintingOptions == NULL) { prettyPrintingOptions = createDefaultPrettyPrintingOptions(); }
-	
 	//retrieves the current document
 	GeanyDocument* doc = document_get_current();
 	GeanyEditor* editor = doc->editor;
 	ScintillaObject* sco = editor->sci;
 
-	//allocate a new pointer
+	g_return_if_fail(doc != NULL);
+
+	//default printing options
+	if (prettyPrintingOptions == NULL) { prettyPrintingOptions = createDefaultPrettyPrintingOptions(); }
+
+	//prepare the buffer that will contain the text
+	//from the scintilla object
 	int length = sci_get_length(sco)+1;
 	char* buffer = (char*)malloc(length*sizeof(char));
 	if (buffer == NULL) { exit(-1); } //malloc error
-	
+
 	//retrieves the text
 	sci_get_text(sco, length, buffer);
-	
+
 	//checks if the data is an XML format
 	xmlDoc* xmlDoc = xmlParseDoc((unsigned char*)buffer);
-	
+
 	if(xmlDoc == NULL) //this is not a valid xml
 	{
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Unable to parse the content as XML.");
@@ -114,7 +119,7 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
 
 	//process pretty-printing
 	int result = processXMLPrettyPrinting(&buffer, &length, prettyPrintingOptions);
-	if (result != 0) 
+	if (result != 0)
 	{
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Unable to process PrettyPrinting on the specified XML because some features are not supported.\n\nSee Help > Debug messages for more details...");
 		return;
@@ -122,15 +127,15 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
 
 	//updates the document
 	sci_set_text(sco, buffer);
-	
+
 	//set the line
 	int xOffset = scintilla_send_message(sco, SCI_GETXOFFSET, NULL, NULL);
 	scintilla_send_message(sco, SCI_LINESCROLL, -xOffset, 0); //TODO update with the right function-call for geany-0.19
-	
+
 	//sets the type
-	GeanyFiletype* fileType = filetypes_index(GEANY_FILETYPES_XML); 
+	GeanyFiletype* fileType = filetypes_index(GEANY_FILETYPES_XML);
 	document_set_filetype(doc, fileType);
-	
+
 	//free all
 	xmlFreeDoc(xmlDoc);
 }
