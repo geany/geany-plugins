@@ -725,6 +725,20 @@ static void
 on_addressbar_activate(GtkEntry *entry, gpointer user_data)
 {
 	gchar *directory = gtk_editable_get_chars(GTK_EDITABLE(entry), 0, -1);
+
+	static const GdkColor red   = {0, 0xffff, 0x6666, 0x6666};
+	static const GdkColor white = {0, 0xffff, 0xffff, 0xffff};
+	static gboolean old_value = TRUE;
+	gboolean success = g_file_test(directory, G_FILE_TEST_IS_DIR);
+
+	g_return_if_fail(GTK_WIDGET(entry) != NULL);
+	if (old_value != success)
+	{
+		gtk_widget_modify_base(GTK_WIDGET(entry), GTK_STATE_NORMAL, success ? NULL : &red);
+		gtk_widget_modify_text(GTK_WIDGET(entry), GTK_STATE_NORMAL, success ? NULL : &white);
+		old_value = success;
+	}
+
 	treebrowser_chroot(directory);
 }
 
