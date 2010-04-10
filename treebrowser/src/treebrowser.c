@@ -473,17 +473,16 @@ on_menu_create_new_object(GtkMenuItem *menuitem, gchar *type)
 		{
 			uri 		= g_path_get_dirname(uri);
 			path_parent = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
-			if (gtk_tree_path_up(path_parent))
-				gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter, path_parent);
+			if (gtk_tree_path_up(path_parent) &&
+				gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter, path_parent));
+			else
+				refresh_root = TRUE;
 		}
 	}
 	else
 	{
 		refresh_root 	= TRUE;
 		uri 			= addressbar_last_address;
-		path_parent 	= gtk_tree_path_new_from_string("0");
-		gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter, path_parent);
-
 	}
 
 	if (utils_str_equal(type, "directory"))
@@ -559,10 +558,11 @@ on_menu_delete(GtkMenuItem *menuitem, gpointer *user_data)
 			fs_remove(uri, TRUE);
 			path_parent = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
 
-			if (gtk_tree_path_up(path_parent))
-				gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter, path_parent);
-
-			treebrowser_browse(g_path_get_dirname(uri), &iter, CONFIG_INITIAL_DIR_DEEP);
+			if (gtk_tree_path_up(path_parent) &&
+				gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter, path_parent))
+				treebrowser_browse(g_path_get_dirname(uri), &iter, CONFIG_INITIAL_DIR_DEEP);
+			else
+				treebrowser_browse(g_path_get_dirname(uri), NULL, CONFIG_INITIAL_DIR_DEEP);
 		}
 	}
 }
@@ -765,7 +765,10 @@ on_treeview_changed(GtkWidget *widget, gpointer user_data)
 		{
 			if (g_file_test(uri, G_FILE_TEST_IS_DIR))
 			{
+				/*
+				Not sure that this is job for clicks
 				treebrowser_browse(uri, &iter, CONFIG_INITIAL_DIR_DEEP);
+				*/
 			}
 			else
 				if (CONFIG_ONE_CLICK_CHDOC)
@@ -942,6 +945,12 @@ create_sidebar(void)
 	gtk_box_pack_start(GTK_BOX(sidebar_vbox_bars), 			addressbar, 		FALSE, TRUE,  1);
 	gtk_box_pack_start(GTK_BOX(sidebar_vbox_bars), 			toolbar, 			FALSE, TRUE,  1);
 
+	ui_widget_set_tooltip_text(filter,
+		_("Filter (*.c;*.h;*.cpp)"));
+	ui_widget_set_tooltip_text(addressbar,
+		_("Addressbar (/projects/my-project"));
+
+
 	gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				scrollwin, 			TRUE,  TRUE,  1);
 	gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				sidebar_vbox_bars, 	FALSE, TRUE,  1);
 
@@ -1049,7 +1058,6 @@ save_settings(void)
 	g_key_file_set_boolean(config, 	"treebrowser", "follow_current_doc", 	CONFIG_FOLLOW_CURRENT_DOC);
 	g_key_file_set_boolean(config, 	"treebrowser", "on_expand_refresh", 	CONFIG_ON_EXPAND_REFRESH);
 
-	/* write config to file */
 	data = g_key_file_to_data(config, NULL, NULL);
 	utils_write_file(CONFIG_FILE, data);
 	g_free(data);
@@ -1089,7 +1097,7 @@ plugin_configure(GtkDialog *dialog)
 	vbox 	= gtk_vbox_new(FALSE, 0);
 
 	hbox 	= gtk_hbox_new(FALSE, 0);
-	label 	= gtk_label_new(_("External open command: "));
+	label 	= gtk_label_new(_("External open command "));
 	configure_widgets.OPEN_EXTERNAL_CMD = gtk_entry_new();
 	gtk_entry_set_text(GTK_ENTRY(configure_widgets.OPEN_EXTERNAL_CMD), CONFIG_OPEN_EXTERNAL_CMD);
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
@@ -1102,10 +1110,12 @@ plugin_configure(GtkDialog *dialog)
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
 
 	hbox 	= gtk_hbox_new(FALSE, 0);
-	label 	= gtk_label_new(_("Default directory deep to fill: "));
+	label 	= gtk_label_new(_("Default directory deep to fill "));
 	configure_widgets.INITIAL_DIR_DEEP = gtk_spin_button_new_with_range(1, 99, 1);
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(configure_widgets.INITIAL_DIR_DEEP), CONFIG_INITIAL_DIR_DEEP);
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	ui_widget_set_tooltip_text(configure_widgets.INITIAL_DIR_DEEP,
+		_("How many folders will opened and store in tree."));
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), configure_widgets.INITIAL_DIR_DEEP, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
@@ -1114,6 +1124,8 @@ plugin_configure(GtkDialog *dialog)
 	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.SHOW_HIDDEN_FILES), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_HIDDEN_FILES), CONFIG_SHOW_HIDDEN_FILES);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.SHOW_HIDDEN_FILES, FALSE, FALSE, 0);
+	ui_widget_set_tooltip_text(configure_widgets.INITIAL_DIR_DEEP,
+		_("On Windows, this just hide files that are prefixed with '.' (dot)."));
 
 	configure_widgets.REVERSE_FILTER = gtk_check_button_new_with_label(_("Reverse filter"));
 	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.REVERSE_FILTER), FALSE);
@@ -1125,12 +1137,12 @@ plugin_configure(GtkDialog *dialog)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.FOLLOW_CURRENT_DOC), CONFIG_FOLLOW_CURRENT_DOC);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.FOLLOW_CURRENT_DOC, FALSE, FALSE, 0);
 
-	configure_widgets.ONE_CLICK_CHDOC = gtk_check_button_new_with_label(_("On click document change"));
+	configure_widgets.ONE_CLICK_CHDOC = gtk_check_button_new_with_label(_("Single click, open document and focus it"));
 	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.ONE_CLICK_CHDOC), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.ONE_CLICK_CHDOC), CONFIG_ONE_CLICK_CHDOC);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.ONE_CLICK_CHDOC, FALSE, FALSE, 0);
 
-	configure_widgets.CHROOT_ON_DCLICK = gtk_check_button_new_with_label(_("Chroot on dclick"));
+	configure_widgets.CHROOT_ON_DCLICK = gtk_check_button_new_with_label(_("Double click open directory"));
 	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.CHROOT_ON_DCLICK), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.CHROOT_ON_DCLICK), CONFIG_CHROOT_ON_DCLICK);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.CHROOT_ON_DCLICK, FALSE, FALSE, 0);

@@ -5,7 +5,8 @@
 
 	(DONE) codestyle improve to be same as other parts as geany`s
 	(DONE) configuration dialog
-	* trackick path to current focused document (currently now roking on Windows)
+	(DONE) tracking path to current focused document (currently now roking on Windows)
+	* Better tracking for files, open path to them
 	* In windows can choice between devices (C:\, D:\,...)
 	* Windows compitable
 	* Language files
@@ -18,6 +19,13 @@
 +-------------------------------+
 | Development release ChangeLog |
 +-------------------------------+
+
+10-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		fixed wrong root refresh on delete and create when objects are in toplevel
+		some string changed in prefs dialog
+
 
 31-03-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
