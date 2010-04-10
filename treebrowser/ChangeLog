@@ -27,6 +27,7 @@
 		some string changed in prefs dialog
 		added option to close document if it is deleted from treebrowser
 		highlighing addressbar if typed directory not exists
+		make right click menu dynamic
 
 
 31-03-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>

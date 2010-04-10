@@ -389,6 +389,13 @@ treebrowser_track_current(void)
  * ------------------*/
 
 static void
+on_menu_close(GtkMenuItem *menuitem, gchar *uri)
+{
+	if (g_file_test(uri, G_FILE_TEST_EXISTS))
+		document_close(document_find_by_filename(uri));
+}
+
+static void
 on_menu_go_up(GtkMenuItem *menuitem, gpointer *user_data)
 {
 	treebrowser_chroot(g_path_get_dirname(addressbar_last_address));
@@ -401,60 +408,39 @@ on_menu_current_path(GtkMenuItem *menuitem, gpointer *user_data)
 }
 
 static void
-on_menu_open_externally(GtkMenuItem *menuitem, gpointer *user_data)
+on_menu_open_externally(GtkMenuItem *menuitem, gchar *uri)
 {
-
-	GtkTreeSelection 	*selection 	= gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
-	GtkTreeIter 		iter;
-	GtkTreeModel 		*model;
-	gchar 				*uri;
-
 	gchar 				*cmd, *locale_cmd, *dir;
 	GString 			*cmd_str 	= g_string_new(CONFIG_OPEN_EXTERNAL_CMD);
 	GError 				*error 		= NULL;
 
-	if (gtk_tree_selection_get_selected(selection, &model, &iter))
+	dir = g_file_test(uri, G_FILE_TEST_IS_DIR) ? g_strdup(uri) : g_path_get_dirname(uri);
+
+	utils_string_replace_all(cmd_str, "%f", uri);
+	utils_string_replace_all(cmd_str, "%d", dir);
+
+	cmd = g_string_free(cmd_str, FALSE);
+	locale_cmd = utils_get_locale_from_utf8(cmd);
+	if (! g_spawn_command_line_async(locale_cmd, &error))
 	{
-		gtk_tree_model_get(model, &iter, TREEBROWSER_COLUMN_URI, &uri, -1);
-
-		dir = g_file_test(uri, G_FILE_TEST_IS_DIR) ? g_strdup(uri) : g_path_get_dirname(uri);
-
-		utils_string_replace_all(cmd_str, "%f", uri);
-		utils_string_replace_all(cmd_str, "%d", dir);
-
-		cmd = g_string_free(cmd_str, FALSE);
-		locale_cmd = utils_get_locale_from_utf8(cmd);
-		if (! g_spawn_command_line_async(locale_cmd, &error))
-		{
-			gchar *c = strchr(cmd, ' ');
-			if (c != NULL)
-				*c = '\0';
-			ui_set_statusbar(TRUE,
-				_("Could not execute configured external command '%s' (%s)."),
-				cmd, error->message);
-			g_error_free(error);
-		}
-		g_free(locale_cmd);
-		g_free(cmd);
-		g_free(dir);
+		gchar *c = strchr(cmd, ' ');
+		if (c != NULL)
+			*c = '\0';
+		ui_set_statusbar(TRUE,
+			_("Could not execute configured external command '%s' (%s)."),
+			cmd, error->message);
+		g_error_free(error);
 	}
+	g_free(locale_cmd);
+	g_free(cmd);
+	g_free(dir);
 }
 
 static void
-on_menu_set_as_root(GtkMenuItem *menuitem, const gchar *type)
+on_menu_set_as_root(GtkMenuItem *menuitem, gchar *uri)
 {
-
-	GtkTreeSelection 	*selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
-	GtkTreeIter 		iter;
-	GtkTreeModel 		*model;
-	gchar 				*uri;
-
-	if (gtk_tree_selection_get_selected(selection, &model, &iter))
-	{
-		gtk_tree_model_get(model, &iter, TREEBROWSER_COLUMN_URI, &uri, -1);
-		if (g_file_test(uri, G_FILE_TEST_IS_DIR))
-			treebrowser_chroot(uri);
-	}
+	if (g_file_test(uri, G_FILE_TEST_IS_DIR))
+		treebrowser_chroot(uri);
 }
 
 static void
@@ -610,11 +596,23 @@ on_menu_show_bars(GtkMenuItem *menuitem, gpointer *user_data)
 }
 
 static GtkWidget*
-create_popup_menu(gpointer *user_data)
+create_popup_menu(gchar *name, gchar *uri)
 {
+	gboolean is_exists 	= g_file_test(uri, G_FILE_TEST_EXISTS);
+	gboolean is_dir 	= is_exists ? g_file_test(uri, G_FILE_TEST_IS_DIR) : FALSE;
 	GtkWidget *item, *menu;
 
 	menu = gtk_menu_new();
+
+	if (document_find_by_filename(uri) != NULL)
+	{
+		item = ui_image_menu_item_new(GTK_STOCK_CLOSE, g_strdup_printf(_("Close: %s"), name));
+		gtk_container_add(GTK_CONTAINER(menu), item);
+		g_signal_connect(item, "activate", G_CALLBACK(on_menu_close), uri);
+
+		item = gtk_separator_menu_item_new();
+		gtk_container_add(GTK_CONTAINER(menu), item);
+	}
 
 	item = ui_image_menu_item_new(GTK_STOCK_GO_UP, _("Go up"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
@@ -624,16 +622,21 @@ create_popup_menu(gpointer *user_data)
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_current_path), NULL);
 
-	item = ui_image_menu_item_new(GTK_STOCK_OPEN, _("Open externally"));
-	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_open_externally), NULL);
+	if (is_exists)
+	{
+		item = ui_image_menu_item_new(GTK_STOCK_OPEN, _("Open externally"));
+		gtk_container_add(GTK_CONTAINER(menu), item);
+		g_signal_connect(item, "activate", G_CALLBACK(on_menu_open_externally), uri);
+	}
 
-	item = ui_image_menu_item_new(GTK_STOCK_OPEN, _("Set as root"));
-	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_set_as_root), NULL);
+	if (is_dir)
+	{
+		item = ui_image_menu_item_new(GTK_STOCK_OPEN, _("Set as root"));
+		gtk_container_add(GTK_CONTAINER(menu), item);
+		g_signal_connect(item, "activate", G_CALLBACK(on_menu_set_as_root), uri);
+	}
 
 	item = gtk_separator_menu_item_new();
-	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(menu), item);
 
 	item = ui_image_menu_item_new(GTK_STOCK_ADD, _("Create new directory"));
@@ -644,16 +647,18 @@ create_popup_menu(gpointer *user_data)
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_create_new_object), "file");
 
-	item = ui_image_menu_item_new(GTK_STOCK_SAVE_AS, _("Rename"));
-	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_rename), NULL);
+	if (is_exists)
+	{
+		item = ui_image_menu_item_new(GTK_STOCK_SAVE_AS, _("Rename"));
+		gtk_container_add(GTK_CONTAINER(menu), item);
+		g_signal_connect(item, "activate", G_CALLBACK(on_menu_rename), NULL);
 
-	item = ui_image_menu_item_new(GTK_STOCK_DELETE, _("Delete"));
-	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_delete), NULL);
+		item = ui_image_menu_item_new(GTK_STOCK_DELETE, _("Delete"));
+		gtk_container_add(GTK_CONTAINER(menu), item);
+		g_signal_connect(item, "activate", G_CALLBACK(on_menu_delete), NULL);
+	}
 
 	item = gtk_separator_menu_item_new();
-	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(menu), item);
 
 	item = ui_image_menu_item_new(GTK_STOCK_REFRESH, _("Refresh"));
@@ -673,7 +678,6 @@ create_popup_menu(gpointer *user_data)
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_collapse_all), NULL);
 
 	item = gtk_separator_menu_item_new();
-	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(menu), item);
 
 	menu_showbars = gtk_check_menu_item_new_with_mnemonic(_("Show bars"));
@@ -754,14 +758,23 @@ on_filter_activate(GtkEntry *entry, gpointer user_data)
  * ------------------ */
 
 static gboolean
-on_treeview_mouseclick(GtkWidget *widget, GdkEventButton *event, gpointer user_data)
+on_treeview_mouseclick(GtkWidget *widget, GdkEventButton *event, GtkTreeSelection *selection)
 {
+	GtkTreeIter 	iter;
+	GtkTreeModel 	*model;
+	gchar 			*name = NULL, *uri = NULL;
+
+	if (gtk_tree_selection_get_selected(selection, &model, &iter))
+	{
+		gtk_tree_model_get(GTK_TREE_MODEL(treestore), &iter,
+							TREEBROWSER_COLUMN_NAME, &name,
+							TREEBROWSER_COLUMN_URI, &uri,
+							-1);
+	}
+
 	if (event->button == 3)
 	{
-		static GtkWidget *popup_menu = NULL;
-		if (popup_menu == NULL)
-			popup_menu = create_popup_menu(user_data);
-		gtk_menu_popup(GTK_MENU(popup_menu), NULL, NULL, NULL, NULL, event->button, event->time);
+		gtk_menu_popup(GTK_MENU(create_popup_menu(name, uri)), NULL, NULL, NULL, NULL, event->button, event->time);
 		return TRUE;
 	}
 	return FALSE;
