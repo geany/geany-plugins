@@ -49,6 +49,7 @@ static gboolean 			CONFIG_SHOW_BARS			= TRUE;
 static gboolean 			CONFIG_CHROOT_ON_DCLICK		= FALSE;
 static gboolean 			CONFIG_FOLLOW_CURRENT_DOC 	= TRUE;
 static gboolean 			CONFIG_ON_EXPAND_REFRESH 	= FALSE;
+static gboolean 			CONFIG_ON_DELETE_CLOSE_FILE = TRUE;
 
 
 /* ------------------
@@ -555,6 +556,9 @@ on_menu_delete(GtkMenuItem *menuitem, gpointer *user_data)
 
 		if (dialogs_show_question(_("Do you really want to delete '%s' ?"), uri))
 		{
+			if (CONFIG_ON_DELETE_CLOSE_FILE && ! g_file_test(uri, G_FILE_TEST_IS_DIR))
+				document_close(document_find_by_filename(uri));
+
 			fs_remove(uri, TRUE);
 			path_parent = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
 
@@ -950,7 +954,6 @@ create_sidebar(void)
 	ui_widget_set_tooltip_text(addressbar,
 		_("Addressbar (/projects/my-project"));
 
-
 	gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				scrollwin, 			TRUE,  TRUE,  1);
 	gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				sidebar_vbox_bars, 	FALSE, TRUE,  1);
 
@@ -1014,6 +1017,7 @@ static struct
 	GtkWidget *CHROOT_ON_DCLICK;
 	GtkWidget *FOLLOW_CURRENT_DOC;
 	GtkWidget *ON_EXPAND_REFRESH;
+	GtkWidget *ON_DELETE_CLOSE_FILE;
 
 } configure_widgets;
 
@@ -1033,6 +1037,7 @@ load_settings(void)
 	CONFIG_CHROOT_ON_DCLICK 		= utils_get_setting_boolean(config, "treebrowser", "chroot_on_dclick", 		CONFIG_CHROOT_ON_DCLICK);
 	CONFIG_FOLLOW_CURRENT_DOC 		= utils_get_setting_boolean(config, "treebrowser", "follow_current_doc", 	CONFIG_FOLLOW_CURRENT_DOC);
 	CONFIG_ON_EXPAND_REFRESH 		= utils_get_setting_boolean(config, "treebrowser", "on_expand_refresh", 	CONFIG_ON_EXPAND_REFRESH);
+	CONFIG_ON_DELETE_CLOSE_FILE 	= utils_get_setting_boolean(config, "treebrowser", "on_delete_close_file", 	CONFIG_ON_DELETE_CLOSE_FILE);
 
 	g_key_file_free(config);
 }
@@ -1057,6 +1062,7 @@ save_settings(void)
 	g_key_file_set_boolean(config, 	"treebrowser", "chroot_on_dclick", 		CONFIG_CHROOT_ON_DCLICK);
 	g_key_file_set_boolean(config, 	"treebrowser", "follow_current_doc", 	CONFIG_FOLLOW_CURRENT_DOC);
 	g_key_file_set_boolean(config, 	"treebrowser", "on_expand_refresh", 	CONFIG_ON_EXPAND_REFRESH);
+	g_key_file_set_boolean(config, 	"treebrowser", "on_delete_close_file", 	CONFIG_ON_DELETE_CLOSE_FILE);
 
 	data = g_key_file_to_data(config, NULL, NULL);
 	utils_write_file(CONFIG_FILE, data);
@@ -1080,6 +1086,7 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 	CONFIG_CHROOT_ON_DCLICK 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.CHROOT_ON_DCLICK));
 	CONFIG_FOLLOW_CURRENT_DOC 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.FOLLOW_CURRENT_DOC));
 	CONFIG_ON_EXPAND_REFRESH 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.ON_EXPAND_REFRESH));
+	CONFIG_ON_DELETE_CLOSE_FILE = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.ON_DELETE_CLOSE_FILE));
 
 	if (save_settings() == TRUE)
 		treebrowser_chroot(addressbar_last_address);
@@ -1151,6 +1158,11 @@ plugin_configure(GtkDialog *dialog)
 	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.ON_EXPAND_REFRESH), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.ON_EXPAND_REFRESH), CONFIG_ON_EXPAND_REFRESH);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.ON_EXPAND_REFRESH, FALSE, FALSE, 0);
+
+	configure_widgets.ON_DELETE_CLOSE_FILE = gtk_check_button_new_with_label(_("On delete file, close if it is opened"));
+	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.ON_DELETE_CLOSE_FILE), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.ON_DELETE_CLOSE_FILE), CONFIG_ON_DELETE_CLOSE_FILE);
+	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.ON_DELETE_CLOSE_FILE, FALSE, FALSE, 0);
 
 	gtk_widget_show_all(vbox);
 

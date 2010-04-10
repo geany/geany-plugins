@@ -25,6 +25,7 @@
 	* src/treebrowser.c
 		fixed wrong root refresh on delete and create when objects are in toplevel
 		some string changed in prefs dialog
+		added option to close document if it is deleted from treebrowser
 
 
 31-03-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
