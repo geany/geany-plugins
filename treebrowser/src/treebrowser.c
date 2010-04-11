@@ -188,7 +188,7 @@ treebrowser_chroot(gchar *directory)
 static void
 treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 {
-	GtkTreeIter 	iter, *last_dir_iter = NULL;
+	GtkTreeIter 	iter, iter_empty, *last_dir_iter = NULL;
 	gboolean 		is_dir;
 	gboolean 		expanded = FALSE;
 	gchar 			*utf8_name;
@@ -201,7 +201,7 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 
 	directory = g_strconcat(directory, G_DIR_SEPARATOR_S, NULL);
 
-	if (parent != NULL && gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), parent)))
+	if (gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), parent)))
 		expanded = TRUE;
 
 	gtk_tree_store_iter_clear_nodes(parent, FALSE);
@@ -237,8 +237,8 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 						treebrowser_browse(uri, &iter, deep_limit);
 					else
 					{
-						gtk_tree_store_append(treestore, &iter, &iter);
-						gtk_tree_store_set(treestore, &iter,
+						gtk_tree_store_prepend(treestore, &iter_empty, &iter);
+						gtk_tree_store_set(treestore, &iter_empty,
 										TREEBROWSER_COLUMN_ICON, 	NULL,
 										TREEBROWSER_COLUMN_NAME, 	g_strdup_printf("(%s)", _("Empty")),
 										TREEBROWSER_COLUMN_URI, 	NULL,
@@ -611,16 +611,6 @@ create_popup_menu(gchar *name, gchar *uri)
 
 	menu = gtk_menu_new();
 
-	if (document_find_by_filename(uri) != NULL)
-	{
-		item = ui_image_menu_item_new(GTK_STOCK_CLOSE, g_strdup_printf(_("Close: %s"), name));
-		gtk_container_add(GTK_CONTAINER(menu), item);
-		g_signal_connect(item, "activate", G_CALLBACK(on_menu_close), uri);
-
-		item = gtk_separator_menu_item_new();
-		gtk_container_add(GTK_CONTAINER(menu), item);
-	}
-
 	item = ui_image_menu_item_new(GTK_STOCK_GO_UP, _("Go up"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_go_up), NULL);
@@ -687,7 +677,15 @@ create_popup_menu(gchar *name, gchar *uri)
 	item = gtk_separator_menu_item_new();
 	gtk_container_add(GTK_CONTAINER(menu), item);
 
+	if (document_find_by_filename(uri) != NULL)
+	{
+		item = ui_image_menu_item_new(GTK_STOCK_CLOSE, g_strdup_printf(_("Close: %s"), name));
+		gtk_container_add(GTK_CONTAINER(menu), item);
+		g_signal_connect(item, "activate", G_CALLBACK(on_menu_close), uri);
 
+		item = gtk_separator_menu_item_new();
+		gtk_container_add(GTK_CONTAINER(menu), item);
+	}
 
 	menu_showbars = gtk_check_menu_item_new_with_mnemonic(_("Show bars"));
 

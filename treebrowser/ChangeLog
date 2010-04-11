@@ -5,6 +5,7 @@
 
 	* crytical warning when unloading the plugin
 
+
 +---------------------------+
 | TODO                      |
 +---------------------------+
@@ -29,9 +30,11 @@
 11-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
-		fixed bug when turned off "On expand refres"
+		fixed bug when turned off "On expand refresh"
 		fixed runtime crytical warnings reported in http://nopaste.geany.org/p/m3f018a3e
 			and thanks to Enrico to help with gdb :)
+		added empty element when directory not filled, and changed default option values
+			for "On expand refresh"
 
 
 10-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
