@@ -796,10 +796,8 @@ on_treeview_changed(GtkWidget *widget, gpointer user_data)
 		{
 			if (g_file_test(uri, G_FILE_TEST_IS_DIR))
 			{
-				/*
-				Not sure that this is job for clicks
-				treebrowser_browse(uri, &iter, CONFIG_INITIAL_DIR_DEEP);
-				*/
+				if (! CONFIG_ON_EXPAND_REFRESH)
+					treebrowser_browse(uri, &iter, CONFIG_INITIAL_DIR_DEEP);
 			}
 			else
 				if (CONFIG_ONE_CLICK_CHDOC)

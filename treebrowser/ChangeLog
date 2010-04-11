@@ -20,6 +20,12 @@
 | Development release ChangeLog |
 +-------------------------------+
 
+11-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		fixed bug when turned off "On expand refres"
+
+
 10-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
