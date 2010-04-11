@@ -27,6 +27,8 @@ GtkWidget* createPrettyPrinterConfigUI(GtkDialog* dialog)
 	if (prettyPrintingOptions == NULL) { prettyPrintingOptions = createDefaultPrettyPrintingOptions(); }
 	
 	//TODO create configuration widget
+	
+	return NULL;
 }
 
 void saveSettings()

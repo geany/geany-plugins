@@ -39,7 +39,7 @@ static GtkWidget* main_menu_item = NULL; //the main menu of the plugin
 
 //declaration of the functions
 static void xml_format(GtkMenuItem *menuitem, gpointer gdata);
-static void config_closed(GtkWidget* configWidget, gint response, gpointer data);
+//static void config_closed(GtkWidget* configWidget, gint response, gpointer data);
 void plugin_init(GeanyData *data);
 void plugin_cleanup(void);
 
@@ -78,14 +78,15 @@ void plugin_cleanup(void)
 
 //========================================== LISTENERS ===================================================================
 
-void config_closed(GtkWidget* configWidget, gint response, gpointer gdata)
+//TODO uncomment when configuration widget ready
+/*void config_closed(GtkWidget* configWidget, gint response, gpointer gdata)
 {
 	//if the user clicked OK or APPLY, then save the settings
 	if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY)
 	{
 		saveSettings();
 	}
-}
+}*/
 
 void xml_format(GtkMenuItem* menuitem, gpointer gdata)
 {
@@ -129,7 +130,7 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
 	sci_set_text(sco, buffer);
 
 	//set the line
-	int xOffset = scintilla_send_message(sco, SCI_GETXOFFSET, NULL, NULL);
+	int xOffset = scintilla_send_message(sco, SCI_GETXOFFSET, 0, 0);
 	scintilla_send_message(sco, SCI_LINESCROLL, -xOffset, 0); //TODO update with the right function-call for geany-0.19
 
 	//sets the type
