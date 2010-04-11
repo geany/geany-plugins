@@ -48,7 +48,7 @@ static gboolean 			CONFIG_SHOW_HIDDEN_FILES 	= FALSE;
 static gboolean 			CONFIG_SHOW_BARS			= TRUE;
 static gboolean 			CONFIG_CHROOT_ON_DCLICK		= FALSE;
 static gboolean 			CONFIG_FOLLOW_CURRENT_DOC 	= TRUE;
-static gboolean 			CONFIG_ON_EXPAND_REFRESH 	= FALSE;
+static gboolean 			CONFIG_ON_EXPAND_REFRESH 	= TRUE;
 static gboolean 			CONFIG_ON_DELETE_CLOSE_FILE = TRUE;
 
 
@@ -235,6 +235,15 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 										-1);
 					if (deep_limit > 0)
 						treebrowser_browse(uri, &iter, deep_limit);
+					else
+					{
+						gtk_tree_store_append(treestore, &iter, &iter);
+						gtk_tree_store_set(treestore, &iter,
+										TREEBROWSER_COLUMN_ICON, 	NULL,
+										TREEBROWSER_COLUMN_NAME, 	g_strdup_printf("(%s)", _("Empty")),
+										TREEBROWSER_COLUMN_URI, 	NULL,
+										-1);
+					}
 				}
 				else
 				{
@@ -512,9 +521,7 @@ on_menu_rename(GtkMenuItem *menuitem, gpointer *user_data)
 		if (G_LIKELY(path != NULL))
 		{
 			column 		= gtk_tree_view_get_column(GTK_TREE_VIEW(treeview), 0);
-
 			renderers 	= _gtk_cell_layout_get_cells(column);
-
 			renderer 	= g_list_nth_data(renderers, TREEBROWSER_RENDER_TEXT);
 
 			g_object_set(G_OBJECT(renderer), "editable", TRUE, NULL);
@@ -680,10 +687,10 @@ create_popup_menu(gchar *name, gchar *uri)
 	item = gtk_separator_menu_item_new();
 	gtk_container_add(GTK_CONTAINER(menu), item);
 
-	/*
-	 * this is no more needen, when is initialized from create_sidebar()
+
+
 	menu_showbars = gtk_check_menu_item_new_with_mnemonic(_("Show bars"));
-	*/
+
 	gtk_container_add(GTK_CONTAINER(menu), menu_showbars);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_showbars), CONFIG_SHOW_BARS);
 	g_signal_connect(menu_showbars, "activate", G_CALLBACK(on_menu_show_bars), NULL);
@@ -916,6 +923,37 @@ treebrowser_track_current_cb(void)
  * TREEBROWSER INITIAL FUNCTIONS
  * ------------------ */
 
+static GtkWidget*
+create_view_and_model(void)
+{
+
+	GtkWidget 			*view;
+
+	view 					= gtk_tree_view_new();
+	treeview_column_icon	= gtk_tree_view_column_new();
+	treeview_column_text	= gtk_tree_view_column_new();
+	render_icon 			= gtk_cell_renderer_pixbuf_new();
+	render_text 			= gtk_cell_renderer_text_new();
+
+	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
+
+	gtk_tree_view_append_column(GTK_TREE_VIEW(view), treeview_column_text);
+
+	gtk_tree_view_column_pack_start(treeview_column_text, render_icon, FALSE);
+	gtk_tree_view_column_set_attributes(treeview_column_text, render_icon, "stock-id", TREEBROWSER_RENDER_ICON, NULL);
+
+	gtk_tree_view_column_pack_start(treeview_column_text, render_text, TRUE);
+	gtk_tree_view_column_add_attribute(treeview_column_text, render_text, "text", TREEBROWSER_RENDER_TEXT);
+
+	treestore = gtk_tree_store_new(TREEBROWSER_COLUMNC, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+
+	gtk_tree_view_set_model(GTK_TREE_VIEW(view), GTK_TREE_MODEL(treestore));
+
+	g_signal_connect(G_OBJECT(render_text), "edited", G_CALLBACK(on_treeview_renamed), view);
+
+	return view;
+}
+
 static void
 create_sidebar(void)
 {
@@ -924,20 +962,14 @@ create_sidebar(void)
 	GtkWidget 			*wid;
 	GtkTreeSelection 	*selection;
 
-
-	menu_showbars = gtk_check_menu_item_new_with_mnemonic(_("Show bars"));
-
+	treeview 			= create_view_and_model();
+	menu_showbars 		= gtk_check_menu_item_new();
 	sidebar_vbox 		= gtk_vbox_new(FALSE, 0);
 	sidebar_vbox_bars 	= gtk_vbox_new(FALSE, 0);
-
 	selection 			= gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
 	addressbar 			= gtk_entry_new();
 	filter 				= gtk_entry_new();
-
 	scrollwin 			= gtk_scrolled_window_new(NULL, NULL);
-
-	page_number 		= gtk_notebook_append_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook),
-							sidebar_vbox, gtk_label_new(_("Tree Browser")));
 
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
@@ -998,38 +1030,10 @@ create_sidebar(void)
 
 	gtk_widget_show_all(sidebar_vbox);
 
+	page_number = gtk_notebook_append_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook),
+							sidebar_vbox, gtk_label_new(_("Tree Browser")));
+
 	showbars(CONFIG_SHOW_BARS);
-}
-
-static GtkWidget*
-create_view_and_model(void)
-{
-
-	GtkWidget 			*view;
-
-	view 					= gtk_tree_view_new();
-	treeview_column_icon	= gtk_tree_view_column_new();
-	treeview_column_text	= gtk_tree_view_column_new();
-	render_icon 			= gtk_cell_renderer_pixbuf_new();
-	render_text 			= gtk_cell_renderer_text_new();
-
-	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
-
-	gtk_tree_view_append_column(GTK_TREE_VIEW(view), treeview_column_text);
-
-	gtk_tree_view_column_pack_start(treeview_column_text, render_icon, FALSE);
-	gtk_tree_view_column_set_attributes(treeview_column_text, render_icon, "stock-id", TREEBROWSER_RENDER_ICON, NULL);
-
-	gtk_tree_view_column_pack_start(treeview_column_text, render_text, TRUE);
-	gtk_tree_view_column_add_attribute(treeview_column_text, render_text, "text", TREEBROWSER_RENDER_TEXT);
-
-	treestore = gtk_tree_store_new(TREEBROWSER_COLUMNC, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
-
-	gtk_tree_view_set_model(GTK_TREE_VIEW(view), GTK_TREE_MODEL(treestore));
-
-	g_signal_connect(G_OBJECT(render_text), "edited", G_CALLBACK(on_treeview_renamed), view);
-
-	return view;
 }
 
 
@@ -1222,8 +1226,6 @@ plugin_init(GeanyData *data)
 	flag_on_expand_refresh = FALSE;
 
 	load_settings();
-
-	treeview = create_view_and_model();
 	create_sidebar();
 	treebrowser_chroot(get_default_dir());
 
@@ -1234,5 +1236,6 @@ plugin_init(GeanyData *data)
 void
 plugin_cleanup(void)
 {
-	gtk_widget_destroy(GTK_WIDGET(sidebar_vbox));
+	gtk_object_destroy(GTK_OBJECT(treeview));
+	gtk_widget_destroy(sidebar_vbox);
 }

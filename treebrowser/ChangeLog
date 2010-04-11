@@ -1,5 +1,11 @@
 
 +---------------------------+
+| KNOWN BUGS                |
++---------------------------+
+
+	* crytical warning when unloading the plugin
+
++---------------------------+
 | TODO                      |
 +---------------------------+
 
@@ -24,6 +30,8 @@
 
 	* src/treebrowser.c
 		fixed bug when turned off "On expand refres"
+		fixed runtime crytical warnings reported in http://nopaste.geany.org/p/m3f018a3e
+			and thanks to Enrico to help with gdb :)
 
 
 10-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
