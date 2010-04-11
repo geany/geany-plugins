@@ -201,7 +201,7 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 
 	directory = g_strconcat(directory, G_DIR_SEPARATOR_S, NULL);
 
-	if (gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), parent)))
+	if (parent != NULL && gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), parent)))
 		expanded = TRUE;
 
 	gtk_tree_store_iter_clear_nodes(parent, FALSE);
@@ -680,7 +680,10 @@ create_popup_menu(gchar *name, gchar *uri)
 	item = gtk_separator_menu_item_new();
 	gtk_container_add(GTK_CONTAINER(menu), item);
 
+	/*
+	 * this is no more needen, when is initialized from create_sidebar()
 	menu_showbars = gtk_check_menu_item_new_with_mnemonic(_("Show bars"));
+	*/
 	gtk_container_add(GTK_CONTAINER(menu), menu_showbars);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_showbars), CONFIG_SHOW_BARS);
 	g_signal_connect(menu_showbars, "activate", G_CALLBACK(on_menu_show_bars), NULL);
@@ -921,6 +924,9 @@ create_sidebar(void)
 	GtkWidget 			*wid;
 	GtkTreeSelection 	*selection;
 
+
+	menu_showbars = gtk_check_menu_item_new_with_mnemonic(_("Show bars"));
+
 	sidebar_vbox 		= gtk_vbox_new(FALSE, 0);
 	sidebar_vbox_bars 	= gtk_vbox_new(FALSE, 0);
 
@@ -969,7 +975,7 @@ create_sidebar(void)
 	g_signal_connect(wid, "clicked", G_CALLBACK(on_button_hide_bars), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), wid);
 
-	gtk_container_add(GTK_CONTAINER(scrollwin), 	treeview);
+	gtk_container_add(GTK_CONTAINER(scrollwin), 			treeview);
 	gtk_box_pack_start(GTK_BOX(sidebar_vbox_bars), 			filter, 			FALSE, TRUE,  1);
 	gtk_box_pack_start(GTK_BOX(sidebar_vbox_bars), 			addressbar, 		FALSE, TRUE,  1);
 	gtk_box_pack_start(GTK_BOX(sidebar_vbox_bars), 			toolbar, 			FALSE, TRUE,  1);
