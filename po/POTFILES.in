@@ -98,3 +98,6 @@ pretty-printer/src/PrettyPrinter.c
 
 # GeanyInsertnum
 geanyinsertnum/src/insertnum.c
+
+# treebrowser
+treebrowser/src/treebrowser.c
