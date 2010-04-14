@@ -27,6 +27,12 @@
 | Development release ChangeLog |
 +-------------------------------+
 
+14-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		strings cleanup
+
+
 11-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c

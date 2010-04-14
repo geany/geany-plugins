@@ -274,6 +274,7 @@ treebrowser_search(gchar *uri, gpointer parent)
 	gchar 			*uri_current;
 
 	gtk_tree_model_iter_children(GTK_TREE_MODEL(treestore), &iter, parent);
+
 	do
 	{
 		gtk_tree_model_get(GTK_TREE_MODEL(treestore), &iter, TREEBROWSER_COLUMN_URI, &uri_current, -1);
@@ -338,8 +339,11 @@ fs_remove(gchar *root, gboolean delete_root)
 static void
 showbars(gboolean state)
 {
-	if (state) 	gtk_widget_show(sidebar_vbox_bars);
-	else 		gtk_widget_hide(sidebar_vbox_bars);
+	if (state)
+		gtk_widget_show(sidebar_vbox_bars);
+	else
+		gtk_widget_hide(sidebar_vbox_bars);
+
 	CONFIG_SHOW_BARS = state;
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_showbars), CONFIG_SHOW_BARS);
 	save_settings();
@@ -348,7 +352,7 @@ showbars(gboolean state)
 static void
 gtk_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root)
 {
-	GtkTreeIter 	i;
+	GtkTreeIter i;
 
 	while (gtk_tree_model_iter_children(GTK_TREE_MODEL(treestore), &i, iter))
 	{
@@ -378,7 +382,9 @@ treebrowser_track_current(void)
 		path_segments = g_strsplit(path_current, G_DIR_SEPARATOR_S, 0);
 
 		treebrowser_search(path_current, NULL);
-
+		/*
+		 * NEED TO REWORK THE CONCEPT
+		 */
 		return FALSE;
 		for (i = 0; path_segments[i]; i++)
 		{
@@ -1011,9 +1017,9 @@ create_sidebar(void)
 	gtk_box_pack_start(GTK_BOX(sidebar_vbox_bars), 			toolbar, 			FALSE, TRUE,  1);
 
 	ui_widget_set_tooltip_text(filter,
-		_("Filter (*.c;*.h;*.cpp)"));
+		_("Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' reverse try for example this '!;*.c;*.h;*.cpp'"));
 	ui_widget_set_tooltip_text(addressbar,
-		_("Addressbar (/projects/my-project"));
+		_("Addressbar for example '/projects/my-project'"));
 
 	gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				scrollwin, 			TRUE,  TRUE,  1);
 	gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				sidebar_vbox_bars, 	FALSE, TRUE,  1);
@@ -1137,7 +1143,7 @@ plugin_configure(GtkDialog *dialog)
 	vbox 	= gtk_vbox_new(FALSE, 0);
 
 	hbox 	= gtk_hbox_new(FALSE, 0);
-	label 	= gtk_label_new(_("External open command "));
+	label 	= gtk_label_new(_("External open command"));
 	configure_widgets.OPEN_EXTERNAL_CMD = gtk_entry_new();
 	gtk_entry_set_text(GTK_ENTRY(configure_widgets.OPEN_EXTERNAL_CMD), CONFIG_OPEN_EXTERNAL_CMD);
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
@@ -1150,12 +1156,12 @@ plugin_configure(GtkDialog *dialog)
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
 
 	hbox 	= gtk_hbox_new(FALSE, 0);
-	label 	= gtk_label_new(_("Default directory deep to fill "));
+	label 	= gtk_label_new(_("Default directory deep to fill"));
 	configure_widgets.INITIAL_DIR_DEEP = gtk_spin_button_new_with_range(1, 99, 1);
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(configure_widgets.INITIAL_DIR_DEEP), CONFIG_INITIAL_DIR_DEEP);
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 	ui_widget_set_tooltip_text(configure_widgets.INITIAL_DIR_DEEP,
-		_("How many folders will opened and store in tree."));
+		_("How many folders will opened and store in tree"));
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), configure_widgets.INITIAL_DIR_DEEP, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
@@ -1165,7 +1171,7 @@ plugin_configure(GtkDialog *dialog)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_HIDDEN_FILES), CONFIG_SHOW_HIDDEN_FILES);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.SHOW_HIDDEN_FILES, FALSE, FALSE, 0);
 	ui_widget_set_tooltip_text(configure_widgets.INITIAL_DIR_DEEP,
-		_("On Windows, this just hide files that are prefixed with '.' (dot)."));
+		_("On Windows, this just hide files that are prefixed with '.' (dot)"));
 
 	configure_widgets.REVERSE_FILTER = gtk_check_button_new_with_label(_("Reverse filter"));
 	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.REVERSE_FILTER), FALSE);
