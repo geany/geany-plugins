@@ -12,7 +12,7 @@
 
 	(DONE) codestyle improve to be same as other parts as geany`s
 	(DONE) configuration dialog
-	(DONE) tracking path to current focused document (currently now roking on Windows)
+	(DONE) tracking path to current focused document (work only for refreshed directories)
 	* Better tracking for files, open path to them
 	* In windows can choice between devices (C:\, D:\,...)
 	* Windows compitable
@@ -21,16 +21,26 @@
 	(DONE) oneclick document opening
 	(DONE) filter separating ex.: "*.c;*.cpp;*.h"
 	* fix possible memory leaks (using g_free... where is need)
+	* Folowing path from current document view
+	(DONE) Hide object files as native filebroser (*.o;*.a;*.so;*.dll;*.lib..)
 
 
 +-------------------------------+
 | Development release ChangeLog |
 +-------------------------------+
 
+17-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		added option to hide object files *.so;*.obj;*.so;*.dll;*.a;*.lib
+		fixed a few warnings
+
+
 14-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
 		strings cleanup
+		(This is version 0.2, because the plugin become 2 months old :)
 
 
 11-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
@@ -38,7 +48,7 @@
 	* src/treebrowser.c
 		fixed bug when turned off "On expand refresh"
 		fixed runtime crytical warnings reported in http://nopaste.geany.org/p/m3f018a3e
-			and thanks to Enrico to help with gdb :)
+			and thanks to Enrico for help with gdb :)
 		added empty element when directory not filled, and changed default option values
 			for "On expand refresh"
 
