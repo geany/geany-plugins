@@ -7,10 +7,11 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 
-#ifdef HAVE_GIO
+#ifdef HAVE_GIO_2_0
 # include <gio/gio.h>
 #endif
 
+#include "geany.h"
 #include "geanyplugin.h"
 
 /* These items are set by Geany before plugin_init() is called. */
@@ -166,7 +167,7 @@ check_hidden(const gchar *uri)
 		return TRUE;
 
 #ifdef G_OS_WIN32
-#ifdef HAVE_GIO
+#ifdef HAVE_GIO_2_0
 	GError *error = NULL;
 	GFile *file;
 	GFileInfo *info;
@@ -1160,6 +1161,7 @@ load_settings(void)
 	CONFIG_ON_DELETE_CLOSE_FILE 	= utils_get_setting_boolean(config, "treebrowser", "on_delete_close_file", 	CONFIG_ON_DELETE_CLOSE_FILE);
 
 	g_key_file_free(config);
+
 }
 
 static gboolean

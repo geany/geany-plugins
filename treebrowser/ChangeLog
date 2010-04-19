@@ -20,10 +20,11 @@
 	(DONE) Saving state of Showbars in config file everytime where is changed
 	(DONE) oneclick document opening
 	(DONE) filter separating ex.: "*.c;*.cpp;*.h"
-	* fix possible memory leaks (using g_free... where is need)
+	* Fix possible memory leaks (using g_free... where is need)
 	* Folowing path from current document view
 	(DONE) Hide object files as native filebroser (*.o;*.a;*.so;*.dll;*.lib..)
 	(DONE) Using font from geany settings for sidebar
+	* Migrating to stash
 
 
 +-------------------------------+
