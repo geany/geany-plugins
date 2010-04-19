@@ -4,6 +4,7 @@
 +---------------------------+
 
 	* crytical warning when unloading the plugin
+		"CRITICAL	: g_object_ref: assertion `object->ref_count > 0' failed"
 	(FIXED) show/hide hidden files not working on Windows
 
 
@@ -25,6 +26,7 @@
 	(DONE) Hide object files as native filebroser (*.o;*.a;*.so;*.dll;*.lib..)
 	(DONE) Using font from geany settings for sidebar
 	* Migrating to stash
+	* Adding keybindings for renaming/deleting/refreshing
 
 
 +-------------------------------+

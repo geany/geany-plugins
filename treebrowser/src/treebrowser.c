@@ -1332,6 +1332,8 @@ plugin_init(GeanyData *data)
 void
 plugin_cleanup(void)
 {
-	gtk_object_destroy(GTK_OBJECT(treeview));
+	g_free(addressbar_last_address);
+	g_free(CONFIG_FILE);
+	g_free(CONFIG_OPEN_EXTERNAL_CMD);
 	gtk_widget_destroy(sidebar_vbox);
 }
