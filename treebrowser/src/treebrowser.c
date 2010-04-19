@@ -7,6 +7,10 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 
+#ifdef HAVE_GIO
+# include <gio/gio.h>
+#endif
+
 #include "geanyplugin.h"
 
 /* These items are set by Geany before plugin_init() is called. */
@@ -73,7 +77,7 @@ enum
  * ------------------ */
 
 PLUGIN_VERSION_CHECK(147)
-PLUGIN_SET_INFO(_("Tree Browser"), _("Treeview filebrowser plugin."), "0.1" , "Adrian Dimitrov (dimitrov.adrian@gmail.com)")
+PLUGIN_SET_INFO(_("Tree Browser"), _("Treeview filebrowser plugin."), "0.2" , "Adrian Dimitrov (dimitrov.adrian@gmail.com)")
 
 
 /* ------------------
@@ -155,6 +159,50 @@ check_filtered(const gchar *base_name)
 	return CONFIG_REVERSE_FILTER || temporary_reverse ? TRUE : FALSE;
 }
 
+static gboolean
+check_hidden(const gchar *uri)
+{
+	if (CONFIG_SHOW_HIDDEN_FILES)
+		return TRUE;
+
+#ifdef G_OS_WIN32
+#ifdef HAVE_GIO
+	GError *error = NULL;
+	GFile *file;
+	GFileInfo *info;
+
+	file = g_file_new_for_path(uri);
+	info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_IS_HIDDEN, 0, NULL, &error);
+	if (error)
+	{
+		g_error_free(error);
+		g_object_unref(file);
+		return TRUE;
+	}
+	else
+	{
+		if (g_file_info_get_is_hidden (info))
+		{
+			g_error_free(error);
+			g_object_unref(file);
+			return FALSE;
+		}
+		g_error_free(error);
+		g_object_unref(file);
+		return TRUE;
+	}
+#else
+	return TRUE;
+#endif
+
+#else
+	if (g_path_get_basename(uri) [0] == '.')
+		return FALSE;
+	else
+		return TRUE;
+#endif
+}
+
 static gchar*
 get_default_dir(void)
 {
@@ -196,7 +244,7 @@ static void
 treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 {
 	GtkTreeIter 	iter, iter_empty, *last_dir_iter = NULL;
-	gboolean 		is_dir;
+	gboolean 		is_dir, is_hidden;
 	gboolean 		expanded = FALSE;
 	gchar 			*utf8_name;
 	GSList 			*list, *node;
@@ -223,7 +271,7 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 			is_dir 			= g_file_test (uri, G_FILE_TEST_IS_DIR);
 			utf8_name 		= utils_get_utf8_from_locale(fname);
 
-			if (!(fname[0] == '.' && CONFIG_SHOW_HIDDEN_FILES == FALSE))
+			if (check_hidden(uri))
 			{
 				if (is_dir)
 				{
@@ -326,12 +374,12 @@ fs_remove(gchar *root, gboolean delete_root)
 		while (name != NULL)
 		{
 			gchar *path;
-			path = g_build_filename (root, name, NULL);
-			if (g_file_test (path, G_FILE_TEST_IS_DIR))
+			path = g_build_filename(root, name, NULL);
+			if (g_file_test(path, G_FILE_TEST_IS_DIR))
 				fs_remove(path, delete_root);
 			g_remove(path);
 			name = g_dir_read_name(dir);
-			g_free (path);
+			g_free(path);
 		}
 	}
 	else
@@ -783,6 +831,13 @@ on_filter_activate(GtkEntry *entry, gpointer user_data)
 	treebrowser_chroot(addressbar_last_address);
 }
 
+static void
+on_filter_clear(GtkEntry *entry, gint icon_pos, GdkEvent *event, gpointer data)
+{
+	gtk_entry_set_text(entry, "");
+	treebrowser_chroot(addressbar_last_address);
+}
+
 
 /* ------------------
  * TREEVIEW EVENTS
@@ -958,6 +1013,8 @@ create_view_and_model(void)
 
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
 
+	ui_widget_modify_font_from_string(view, geany->interface_prefs->tagbar_font);
+
 	gtk_tree_view_append_column(GTK_TREE_VIEW(view), treeview_column_text);
 
 	gtk_tree_view_column_pack_start(treeview_column_text, render_icon, FALSE);
@@ -1034,6 +1091,12 @@ create_sidebar(void)
 
 	ui_widget_set_tooltip_text(filter,
 		_("Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' reverse try for example this '!;*.c;*.h;*.cpp'"));
+	if (gtk_check_version(2, 15, 2) == NULL)
+	{
+		ui_entry_add_clear_icon(GTK_ENTRY(filter));
+		g_signal_connect(filter, "icon-release", G_CALLBACK(on_filter_clear), NULL);
+	}
+
 	ui_widget_set_tooltip_text(addressbar,
 		_("Addressbar for example '/projects/my-project'"));
 

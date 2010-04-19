@@ -4,7 +4,7 @@
 +---------------------------+
 
 	* crytical warning when unloading the plugin
-	* show/hide hidden files not working on Windows
+	(FIXED) show/hide hidden files not working on Windows
 
 
 +---------------------------+
@@ -16,7 +16,6 @@
 	(DONE) tracking path to current focused document (work only for refreshed directories)
 	* Better tracking for files, open path to them
 	* In windows can choice between devices (C:\, D:\,...)
-	* Windows compitable
 	* Language files
 	(DONE) Saving state of Showbars in config file everytime where is changed
 	(DONE) oneclick document opening
@@ -24,11 +23,19 @@
 	* fix possible memory leaks (using g_free... where is need)
 	* Folowing path from current document view
 	(DONE) Hide object files as native filebroser (*.o;*.a;*.so;*.dll;*.lib..)
+	(DONE) Using font from geany settings for sidebar
 
 
 +-------------------------------+
 | Development release ChangeLog |
 +-------------------------------+
+
+19-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		added clear icon in filter // thanks to native filebrowser plugin
+		using font from geany settings for sidebar  // thanks to native filebrowser plugin
+
 
 17-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
