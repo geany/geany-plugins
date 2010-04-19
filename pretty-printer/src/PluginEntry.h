@@ -16,9 +16,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-//TODO is this header really useful ?
 #ifndef PLUGIN_ENTRY_H
 #define PLUGIN_ENTRY_H
+
+// This constants will be enabled once the preferences GUI will be finished :)
+//#define PLUGIN_XMLPP_GUI
 
 //========================================== INCLUDES ==========================================================
 

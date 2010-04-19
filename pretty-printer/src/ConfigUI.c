@@ -23,60 +23,60 @@ PrettyPrintingOptions* prettyPrintingOptions;
 
 GtkWidget* createPrettyPrinterConfigUI(GtkDialog* dialog)
 {
-	//default printing options
-	if (prettyPrintingOptions == NULL) { prettyPrintingOptions = createDefaultPrettyPrintingOptions(); }
-	
-	//TODO create configuration widget
-	
-	return NULL;
+    //default printing options
+    if (prettyPrintingOptions == NULL) { prettyPrintingOptions = createDefaultPrettyPrintingOptions(); }
+    
+    //TODO create configuration widget
+    
+    return NULL;
 }
 
 void saveSettings()
 {
-	//TODO save settings into a file
+    //TODO save settings into a file
 }
 
 
-/*
-GtkWidget* plugin_configure(GtkDialog * dialog)   	
+//Will never be used, just here for example
+/*GtkWidget* plugin_configure(GtkDialog * dialog)     
 {
-	//default printing options
-	if (prettyPrintingOptions == NULL) { prettyPrintingOptions = createDefaultPrettyPrintingOptions(); }
-	
-	GtkWidget* globalBox = gtk_hbox_new(TRUE, 4);
-	GtkWidget* rightBox = gtk_vbox_new(FALSE, 6);
-	GtkWidget* centerBox = gtk_vbox_new(FALSE, 6);
-	GtkWidget* leftBox = gtk_vbox_new(FALSE, 6);
-	
-	GtkWidget* textLabel = gtk_label_new("Text nodes");
-	GtkWidget* textOneLine =   gtk_check_button_new_with_label("One line");
-	GtkWidget* textInline =   gtk_check_button_new_with_label("Inline");
-	
-	GtkWidget* cdataLabel = gtk_label_new("CDATA nodes");
-	GtkWidget* cdataOneLine =   gtk_check_button_new_with_label("One line");
-	GtkWidget* cdataInline =   gtk_check_button_new_with_label("Inline");
-	
-	GtkWidget* commentLabel = gtk_label_new("Comments");
-	GtkWidget* commentOneLine =   gtk_check_button_new_with_label("One line");
-	GtkWidget* commentInline =   gtk_check_button_new_with_label("Inline");
-	
-	gtk_box_pack_start(GTK_BOX(globalBox), leftBox, FALSE, FALSE, 3);
-	gtk_box_pack_start(GTK_BOX(globalBox), centerBox, FALSE, FALSE, 3);
-	gtk_box_pack_start(GTK_BOX(globalBox), rightBox, FALSE, FALSE, 3);
+    //default printing options
+    if (prettyPrintingOptions == NULL) { prettyPrintingOptions = createDefaultPrettyPrintingOptions(); }
+    
+    GtkWidget* globalBox = gtk_hbox_new(TRUE, 4);
+    GtkWidget* rightBox = gtk_vbox_new(FALSE, 6);
+    GtkWidget* centerBox = gtk_vbox_new(FALSE, 6);
+    GtkWidget* leftBox = gtk_vbox_new(FALSE, 6);
+    
+    GtkWidget* textLabel = gtk_label_new("Text nodes");
+    GtkWidget* textOneLine =   gtk_check_button_new_with_label("One line");
+    GtkWidget* textInline =   gtk_check_button_new_with_label("Inline");
+    
+    GtkWidget* cdataLabel = gtk_label_new("CDATA nodes");
+    GtkWidget* cdataOneLine =   gtk_check_button_new_with_label("One line");
+    GtkWidget* cdataInline =   gtk_check_button_new_with_label("Inline");
+    
+    GtkWidget* commentLabel = gtk_label_new("Comments");
+    GtkWidget* commentOneLine =   gtk_check_button_new_with_label("One line");
+    GtkWidget* commentInline =   gtk_check_button_new_with_label("Inline");
+    
+    gtk_box_pack_start(GTK_BOX(globalBox), leftBox, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(globalBox), centerBox, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(globalBox), rightBox, FALSE, FALSE, 3);
 
-	gtk_box_pack_start(GTK_BOX(leftBox), textLabel, FALSE, FALSE, 3);
-	gtk_box_pack_start(GTK_BOX(centerBox), textOneLine, FALSE, FALSE, 3);
-	gtk_box_pack_start(GTK_BOX(rightBox), textInline, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(leftBox), textLabel, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(centerBox), textOneLine, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(rightBox), textInline, FALSE, FALSE, 3);
 
-	gtk_box_pack_start(GTK_BOX(leftBox), cdataLabel, FALSE, FALSE, 3);
-	gtk_box_pack_start(GTK_BOX(centerBox), cdataOneLine, FALSE, FALSE, 3);
-	gtk_box_pack_start(GTK_BOX(rightBox), cdataInline, FALSE, FALSE, 3);
-	
-	gtk_box_pack_start(GTK_BOX(leftBox), commentLabel, FALSE, FALSE, 3);
-	gtk_box_pack_start(GTK_BOX(centerBox), commentOneLine, FALSE, FALSE, 3);
-	gtk_box_pack_start(GTK_BOX(rightBox), commentInline, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(leftBox), cdataLabel, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(centerBox), cdataOneLine, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(rightBox), cdataInline, FALSE, FALSE, 3);
+    
+    gtk_box_pack_start(GTK_BOX(leftBox), commentLabel, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(centerBox), commentOneLine, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(rightBox), commentInline, FALSE, FALSE, 3);
 
-	gtk_widget_show_all(globalBox);
-	return globalBox;
+    gtk_widget_show_all(globalBox);
+    return globalBox;
 }
 */
