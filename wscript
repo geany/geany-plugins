@@ -100,7 +100,7 @@ plugins = [
 		 [ [ 'lua', '5.1', True ] ]),
 	Plugin('geanyprj', None, [ 'geanyprj/src' ]),
 	Plugin('pretty-printer', None, [ 'pretty-printer/src' ], [ [ 'libxml-2.0', '2.6.27', True ] ]),
-	Plugin('treebrowser', None, [ 'treebrowser/src' ])
+	Plugin('treebrowser', None, [ 'treebrowser/src' ], [ [ 'gio-2.0', '2.16', False ] ])
 ]
 
 '''
