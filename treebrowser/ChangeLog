@@ -4,6 +4,7 @@
 +---------------------------+
 
 	* crytical warning when unloading the plugin
+	* show/hide hidden files not working on Windows
 
 
 +---------------------------+
