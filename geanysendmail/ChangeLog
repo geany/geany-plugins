@@ -1,13 +1,18 @@
+2010-04-16  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Allow hitting return to close email address dialog and proceed.
+
+
 2010-01-05
 
  * Release of 0.4.3 mainteinance release.
-	
-	
+
+
 2009-10-08  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * Use waf for building plugin in faovr of autotools.
 
-	
+
 2009-07-18  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * Update to Geany plugin API v147 and make usage of single header includes.

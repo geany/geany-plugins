@@ -1,3 +1,10 @@
+GeansSendMail 0.4.4 (21.04.2010 - maintenance release)
+	* Execute send email dialog by hitting simple return on email adress
+	  dialog
+	* Minor update of waf build system
+	* Last stand alone release
+
+
 GeanySendMail 0.4.3 (05.01.2010 - maintenance release)
 	* Use waf instead of autotools
 	* Update to Geany plugin API 147

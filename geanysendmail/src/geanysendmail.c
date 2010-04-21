@@ -1,7 +1,7 @@
 /*
  *      geanysendmail.c
  *
- *      Copyright 2007-2009 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2007-2010 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *      Copyright 2007 Enrico Tröger <enrico(dot)troeger(at)uvena(dot)de>
  *      Copyright 2007, 2008 Nick Treleaven <nick(dot)treleaven(at)btinternet(dot)com>
  *      Copyright 2008, 2009 Timothy Boronczyk <tboronczyk(at)gmail(dot)com>
@@ -38,7 +38,7 @@ GeanyFunctions	*geany_functions;
 PLUGIN_VERSION_CHECK(147)
 
 PLUGIN_SET_INFO(_("GeanySendMail"), _("A little plugin to send the current \
-file as attachment by user's favorite mailer"), "0.4.3", "Frank Lanitz <frank@frank.uvena.de>")
+file as attachment by user's favorite mailer"), VERSION, "Frank Lanitz <frank@frank.uvena.de>")
 
 /* Keybinding(s) */
 enum
@@ -57,6 +57,13 @@ gboolean use_address_dialog = FALSE;
 /* Needed global to remove from toolbar again */
 GtkWidget *mailbutton = NULL;
 static GtkWidget *main_menu_item = NULL;
+
+
+static void on_enter_key_pressed_in_entry(G_GNUC_UNUSED GtkWidget *widget, gpointer dialog )
+{
+	gtk_dialog_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
+}
+
 
 /* Callback for sending file as attachment */
 static void
@@ -120,14 +127,10 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
  				gtk_container_add(GTK_CONTAINER(vbox), entry);
  				gtk_widget_show(vbox);
 
- 				tmp = gtk_dialog_run(GTK_DIALOG(dialog));
+				g_signal_connect(G_OBJECT(entry), "activate",
+					G_CALLBACK(on_enter_key_pressed_in_entry), dialog);
 
-				if (tmp != GTK_RESPONSE_ACCEPT)
-				{
-					gtk_widget_destroy(dialog);
-					return;
-				}
-				else
+				if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
 				{
 					g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
 
@@ -136,6 +139,11 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
 
  					g_key_file_set_string(config, "tools", "address", address);
  				}
+ 				else
+ 				{
+					gtk_widget_destroy(dialog);
+					return;
+				}
 
 				if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) &&
 				      utils_mkdir(config_dir, TRUE) != 0)
@@ -182,7 +190,10 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
 			g_free(command);
 
 			if (dialog != NULL)
+			{
 				gtk_widget_destroy(dialog);
+			}
+
 		}
 		else
 		{
