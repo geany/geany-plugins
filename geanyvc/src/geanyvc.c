@@ -2245,7 +2245,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	/* complete update */
 	menu_vc_update = gtk_menu_item_new_with_mnemonic(_("_Update"));
 	gtk_container_add(GTK_CONTAINER(menu_vc_menu), menu_vc_update);
-	ui_widget_set_tooltip_text(menu_vc_update, _("Update from remote repositary."));
+	ui_widget_set_tooltip_text(menu_vc_update, _("Update from remote repository."));
 
 	g_signal_connect(menu_vc_update, "activate", G_CALLBACK(vcupdate_activated), NULL);
 
