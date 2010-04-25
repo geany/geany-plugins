@@ -3,9 +3,11 @@
 | KNOWN BUGS                |
 +---------------------------+
 
-	* crytical warning when unloading the plugin
+	* CRYTICAL warning when unloading the plugin
 		"CRITICAL	: g_object_ref: assertion `object->ref_count > 0' failed"
+	(FIXED) Double click on bookmarks, do nothing
 	(FIXED) show/hide hidden files not working on Windows
+	(FIXED) "Go Up" not working if the current path ends with slash
 
 
 +---------------------------+
@@ -27,6 +29,9 @@
 	(DONE) Using font from geany settings for sidebar
 	* Migrating to stash
 	* Adding keybindings for renaming/deleting/refreshing
+	* Add option to change bars position
+	* Add option to autorename the newest created objects by the Treebrowser
+
 
 +-------------------------------+
 | Development release ChangeLog |
@@ -43,6 +48,7 @@
 		Added tooltips with uri // thanks to native filebrowser
 		Added option to open terminal
 		Applied patch from Enrico to fix gtk+-2.8 compitable for tree lines
+		Fixed "Go Up" not working if the current path ends with slash
 
 
 19-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>

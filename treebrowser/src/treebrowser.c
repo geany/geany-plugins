@@ -181,7 +181,7 @@ check_hidden(const gchar *uri)
 	GFileInfo *info;
 
 	file = g_file_new_for_path(uri);
-	info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_IS_HIDDEN, 0, NULL, &error);
+	info = g_file_query_info(file, G_FILE_ATTRIBUTE_STANDARD_IS_HIDDEN, 0, NULL, &error);
 	if (error)
 	{
 		g_error_free(error);
@@ -249,6 +249,9 @@ get_terminal (void)
 static void
 treebrowser_chroot(gchar *directory)
 {
+	if (g_str_has_suffix(directory, "/"))
+		g_strlcpy(directory, directory, strlen(directory));
+
 	gtk_entry_set_text(GTK_ENTRY(addressbar), directory);
 
 	if (! g_file_test(directory, G_FILE_TEST_IS_DIR))
@@ -411,6 +414,12 @@ treebrowser_load_bookmarks(void)
 												TREEBROWSER_COLUMN_ICON, 	GTK_STOCK_DIRECTORY,
 												TREEBROWSER_COLUMN_NAME, 	g_basename(path_full),
 												TREEBROWSER_COLUMN_URI, 	path_full,
+												-1);
+					gtk_tree_store_append(treestore, &iter, &iter);
+					gtk_tree_store_set(treestore, &iter,
+											TREEBROWSER_COLUMN_ICON, 	NULL,
+											TREEBROWSER_COLUMN_NAME, 	g_strdup_printf("(%s)", _("Empty")),
+											TREEBROWSER_COLUMN_URI, 	NULL,
 												-1);
 				}
 			}
