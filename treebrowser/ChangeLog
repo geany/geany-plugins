@@ -7,7 +7,7 @@
 		"CRITICAL	: g_object_ref: assertion `object->ref_count > 0' failed"
 	(FIXED) Double click on bookmarks, do nothing
 	(FIXED) show/hide hidden files not working on Windows
-	(FIXED) "Go Up" not working if the current path ends with slash
+	(FIXED) "Go Up" not working if the current path ends with slash // thanks to <dmaphy> for report
 
 
 +---------------------------+
@@ -29,13 +29,18 @@
 	(DONE) Using font from geany settings for sidebar
 	* Migrating to stash
 	* Adding keybindings for renaming/deleting/refreshing
-	* Add option to change bars position
+	(DONE) Add option to change bars position // requested by <dmaphy>
 	* Add option to autorename the newest created objects by the Treebrowser
 
 
 +-------------------------------+
 | Development release ChangeLog |
 +-------------------------------+
+
+25-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		Added option to change bars position (Top or Bottom)
 
 25-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 

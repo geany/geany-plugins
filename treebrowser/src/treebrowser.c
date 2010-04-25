@@ -53,6 +53,7 @@ static gboolean 			CONFIG_ONE_CLICK_CHDOC 		= FALSE;
 static gboolean 			CONFIG_SHOW_HIDDEN_FILES 	= FALSE;
 static gboolean 			CONFIG_HIDE_OBJECT_FILES 	= FALSE;
 static gboolean 			CONFIG_SHOW_BARS			= TRUE;
+static gboolean 			CONFIG_SHOW_BARS_AT_TOP		= FALSE;
 static gboolean 			CONFIG_CHROOT_ON_DCLICK		= FALSE;
 static gboolean 			CONFIG_FOLLOW_CURRENT_DOC 	= TRUE;
 static gboolean 			CONFIG_ON_EXPAND_REFRESH 	= TRUE;
@@ -1258,11 +1259,6 @@ create_sidebar(void)
 	g_signal_connect(wid, "clicked", G_CALLBACK(treebrowser_track_current), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), wid);
 
-	wid = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_ABOUT));
-	ui_widget_set_tooltip_text(wid, _("Bookmarks"));
-	g_signal_connect(wid, "clicked", G_CALLBACK(treebrowser_load_bookmarks), NULL);
-	gtk_container_add(GTK_CONTAINER(toolbar), wid);
-
 	wid = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_CLOSE));
 	ui_widget_set_tooltip_text(wid, _("Hide bars"));
 	g_signal_connect(wid, "clicked", G_CALLBACK(on_button_hide_bars), NULL);
@@ -1284,8 +1280,16 @@ create_sidebar(void)
 	ui_widget_set_tooltip_text(addressbar,
 		_("Addressbar for example '/projects/my-project'"));
 
-	gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				scrollwin, 			TRUE,  TRUE,  1);
-	gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				sidebar_vbox_bars, 	FALSE, TRUE,  1);
+	if (CONFIG_SHOW_BARS_AT_TOP)
+	{
+		gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				sidebar_vbox_bars, 	FALSE, TRUE,  1);
+		gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				scrollwin, 			TRUE,  TRUE,  1);
+	}
+	else
+	{
+		gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				scrollwin, 			TRUE,  TRUE,  1);
+		gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				sidebar_vbox_bars, 	FALSE, TRUE,  1);
+	}
 
 	g_signal_connect(selection, 		"changed", 				G_CALLBACK(on_treeview_changed), 				NULL);
 	g_signal_connect(treeview, 			"button-press-event", 	G_CALLBACK(on_treeview_mouseclick), 			selection);
@@ -1317,6 +1321,7 @@ static struct
 	GtkWidget *SHOW_HIDDEN_FILES;
 	GtkWidget *HIDE_OBJECT_FILES;
 	GtkWidget *SHOW_BARS;
+	GtkWidget *SHOW_BARS_AT_TOP;
 	GtkWidget *CHROOT_ON_DCLICK;
 	GtkWidget *FOLLOW_CURRENT_DOC;
 	GtkWidget *ON_EXPAND_REFRESH;
@@ -1340,6 +1345,7 @@ load_settings(void)
 	CONFIG_SHOW_HIDDEN_FILES 		= utils_get_setting_boolean(config, "treebrowser", "show_hidden_files", 	CONFIG_SHOW_HIDDEN_FILES);
 	CONFIG_HIDE_OBJECT_FILES 		= utils_get_setting_boolean(config, "treebrowser", "hide_object_files", 	CONFIG_HIDE_OBJECT_FILES);
 	CONFIG_SHOW_BARS 				= utils_get_setting_boolean(config, "treebrowser", "show_bars", 			CONFIG_SHOW_BARS);
+	CONFIG_SHOW_BARS_AT_TOP 		= utils_get_setting_boolean(config, "treebrowser", "show_bars_at_top", 		CONFIG_SHOW_BARS_AT_TOP);
 	CONFIG_CHROOT_ON_DCLICK 		= utils_get_setting_boolean(config, "treebrowser", "chroot_on_dclick", 		CONFIG_CHROOT_ON_DCLICK);
 	CONFIG_FOLLOW_CURRENT_DOC 		= utils_get_setting_boolean(config, "treebrowser", "follow_current_doc", 	CONFIG_FOLLOW_CURRENT_DOC);
 	CONFIG_ON_EXPAND_REFRESH 		= utils_get_setting_boolean(config, "treebrowser", "on_expand_refresh", 	CONFIG_ON_EXPAND_REFRESH);
@@ -1369,6 +1375,7 @@ save_settings(void)
 	g_key_file_set_boolean(config, 	"treebrowser", "show_hidden_files", 	CONFIG_SHOW_HIDDEN_FILES);
 	g_key_file_set_boolean(config, 	"treebrowser", "hide_object_files", 	CONFIG_HIDE_OBJECT_FILES);
 	g_key_file_set_boolean(config, 	"treebrowser", "show_bars", 			CONFIG_SHOW_BARS);
+	g_key_file_set_boolean(config, 	"treebrowser", "show_bars_at_top", 		CONFIG_SHOW_BARS_AT_TOP);
 	g_key_file_set_boolean(config, 	"treebrowser", "chroot_on_dclick", 		CONFIG_CHROOT_ON_DCLICK);
 	g_key_file_set_boolean(config, 	"treebrowser", "follow_current_doc", 	CONFIG_FOLLOW_CURRENT_DOC);
 	g_key_file_set_boolean(config, 	"treebrowser", "on_expand_refresh", 	CONFIG_ON_EXPAND_REFRESH);
@@ -1396,6 +1403,7 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 	CONFIG_ONE_CLICK_CHDOC 		= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.ONE_CLICK_CHDOC));
 	CONFIG_SHOW_HIDDEN_FILES 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_HIDDEN_FILES));
 	CONFIG_HIDE_OBJECT_FILES 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.HIDE_OBJECT_FILES));
+	CONFIG_SHOW_BARS_AT_TOP 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_BARS_AT_TOP));
 	CONFIG_CHROOT_ON_DCLICK 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.CHROOT_ON_DCLICK));
 	CONFIG_FOLLOW_CURRENT_DOC 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.FOLLOW_CURRENT_DOC));
 	CONFIG_ON_EXPAND_REFRESH 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.ON_EXPAND_REFRESH));
@@ -1420,12 +1428,12 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 GtkWidget*
 plugin_configure(GtkDialog *dialog)
 {
-	GtkWidget *label;
-	GtkWidget *vbox, *hbox;
+	GtkWidget 	*label;
+	GtkWidget 	*vbox, *hbox;
 
 	vbox 	= gtk_vbox_new(FALSE, 0);
-
 	hbox 	= gtk_hbox_new(FALSE, 0);
+
 	label 	= gtk_label_new(_("External open command"));
 	configure_widgets.OPEN_EXTERNAL_CMD = gtk_entry_new();
 	gtk_entry_set_text(GTK_ENTRY(configure_widgets.OPEN_EXTERNAL_CMD), CONFIG_OPEN_EXTERNAL_CMD);
@@ -1448,6 +1456,16 @@ plugin_configure(GtkDialog *dialog)
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), configure_widgets.INITIAL_DIR_DEEP, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
+
+	configure_widgets.SHOW_BARS = gtk_check_button_new_with_label(_("Show bars"));
+	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.SHOW_BARS), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_BARS), CONFIG_SHOW_BARS);
+	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.SHOW_BARS, FALSE, FALSE, 0);
+
+	configure_widgets.SHOW_BARS_AT_TOP = gtk_check_button_new_with_label(_("Show bars at top (Require plugin restart)"));
+	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.SHOW_BARS_AT_TOP), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_BARS_AT_TOP), CONFIG_SHOW_BARS_AT_TOP);
+	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.SHOW_BARS_AT_TOP, FALSE, FALSE, 0);
 
 	configure_widgets.SHOW_HIDDEN_FILES = gtk_check_button_new_with_label(_("Show hidden files"));
 	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.SHOW_HIDDEN_FILES), FALSE);
