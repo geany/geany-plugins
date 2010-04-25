@@ -28,10 +28,16 @@
 	* Migrating to stash
 	* Adding keybindings for renaming/deleting/refreshing
 
-
 +-------------------------------+
 | Development release ChangeLog |
 +-------------------------------+
+
+25-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		Menu elements are inactive instant of hidden
+		Added option to copy the uri into clipboard
+
 
 19-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 

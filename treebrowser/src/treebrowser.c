@@ -457,13 +457,6 @@ treebrowser_track_current(void)
  * ------------------*/
 
 static void
-on_menu_close(GtkMenuItem *menuitem, gchar *uri)
-{
-	if (g_file_test(uri, G_FILE_TEST_EXISTS))
-		document_close(document_find_by_filename(uri));
-}
-
-static void
 on_menu_go_up(GtkMenuItem *menuitem, gpointer *user_data)
 {
 	treebrowser_chroot(g_path_get_dirname(addressbar_last_address));
@@ -657,6 +650,20 @@ on_menu_collapse_all(GtkMenuItem *menuitem, gpointer *user_data)
 }
 
 static void
+on_menu_close(GtkMenuItem *menuitem, gchar *uri)
+{
+	if (g_file_test(uri, G_FILE_TEST_EXISTS))
+		document_close(document_find_by_filename(uri));
+}
+
+static void
+on_menu_copy_uri(GtkMenuItem *menuitem, gchar *uri)
+{
+	GtkClipboard *cb = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+	gtk_clipboard_set_text(cb, uri, -1);
+}
+
+static void
 on_menu_show_hidden_files(GtkMenuItem *menuitem, gpointer *user_data)
 {
 	CONFIG_SHOW_HIDDEN_FILES = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menuitem));
@@ -673,9 +680,10 @@ on_menu_show_bars(GtkMenuItem *menuitem, gpointer *user_data)
 static GtkWidget*
 create_popup_menu(gchar *name, gchar *uri)
 {
-	gboolean is_exists 	= g_file_test(uri, G_FILE_TEST_EXISTS);
-	gboolean is_dir 	= is_exists ? g_file_test(uri, G_FILE_TEST_IS_DIR) : FALSE;
 	GtkWidget *item, *menu;
+	gboolean is_exists 		= g_file_test(uri, G_FILE_TEST_EXISTS);
+	gboolean is_dir 		= is_exists ? g_file_test(uri, G_FILE_TEST_IS_DIR) : FALSE;
+	gboolean is_document 	= document_find_by_filename(uri) != NULL ? TRUE : FALSE;
 
 	menu = gtk_menu_new();
 
@@ -687,19 +695,15 @@ create_popup_menu(gchar *name, gchar *uri)
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_current_path), NULL);
 
-	if (is_exists)
-	{
-		item = ui_image_menu_item_new(GTK_STOCK_OPEN, _("Open externally"));
-		gtk_container_add(GTK_CONTAINER(menu), item);
-		g_signal_connect(item, "activate", G_CALLBACK(on_menu_open_externally), uri);
-	}
+	item = ui_image_menu_item_new(GTK_STOCK_OPEN, _("Open externally"));
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_open_externally), uri);
+	gtk_widget_set_sensitive(item, is_exists);
 
-	if (is_dir)
-	{
-		item = ui_image_menu_item_new(GTK_STOCK_OPEN, _("Set as root"));
-		gtk_container_add(GTK_CONTAINER(menu), item);
-		g_signal_connect(item, "activate", G_CALLBACK(on_menu_set_as_root), uri);
-	}
+	item = ui_image_menu_item_new(GTK_STOCK_GOTO_TOP, _("Set as root"));
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_set_as_root), uri);
+	gtk_widget_set_sensitive(item, is_dir);
 
 	item = gtk_separator_menu_item_new();
 	gtk_container_add(GTK_CONTAINER(menu), item);
@@ -712,16 +716,15 @@ create_popup_menu(gchar *name, gchar *uri)
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_create_new_object), "file");
 
-	if (is_exists)
-	{
-		item = ui_image_menu_item_new(GTK_STOCK_SAVE_AS, _("Rename"));
-		gtk_container_add(GTK_CONTAINER(menu), item);
-		g_signal_connect(item, "activate", G_CALLBACK(on_menu_rename), NULL);
+	item = ui_image_menu_item_new(GTK_STOCK_SAVE_AS, _("Rename"));
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_rename), NULL);
+	gtk_widget_set_sensitive(item, is_exists);
 
-		item = ui_image_menu_item_new(GTK_STOCK_DELETE, _("Delete"));
-		gtk_container_add(GTK_CONTAINER(menu), item);
-		g_signal_connect(item, "activate", G_CALLBACK(on_menu_delete), NULL);
-	}
+	item = ui_image_menu_item_new(GTK_STOCK_DELETE, _("Delete"));
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_delete), NULL);
+	gtk_widget_set_sensitive(item, is_exists);
 
 	item = gtk_separator_menu_item_new();
 	gtk_container_add(GTK_CONTAINER(menu), item);
@@ -745,15 +748,18 @@ create_popup_menu(gchar *name, gchar *uri)
 	item = gtk_separator_menu_item_new();
 	gtk_container_add(GTK_CONTAINER(menu), item);
 
-	if (document_find_by_filename(uri) != NULL)
-	{
-		item = ui_image_menu_item_new(GTK_STOCK_CLOSE, g_strdup_printf(_("Close: %s"), name));
-		gtk_container_add(GTK_CONTAINER(menu), item);
-		g_signal_connect(item, "activate", G_CALLBACK(on_menu_close), uri);
+	item = ui_image_menu_item_new(GTK_STOCK_CLOSE, g_strdup_printf(_("Close: %s"), name));
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_close), uri);
+	gtk_widget_set_sensitive(item, is_document);
 
-		item = gtk_separator_menu_item_new();
-		gtk_container_add(GTK_CONTAINER(menu), item);
-	}
+	item = ui_image_menu_item_new(GTK_STOCK_COPY, g_strdup_printf(_("Copy URI"), name));
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_copy_uri), uri);
+	gtk_widget_set_sensitive(item, is_document);
+
+	item = gtk_separator_menu_item_new();
+	gtk_container_add(GTK_CONTAINER(menu), item);
 
 	item = gtk_check_menu_item_new_with_mnemonic(_("Show hidden files"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
