@@ -257,7 +257,7 @@ treebrowser_chroot(gchar *directory)
 		return;
 	}
 
-	if (CONFIG_SHOW_BOOKMARKS)
+	if (CONFIG_SHOW_BOOKMARKS && gtk_tree_store_iter_is_valid(treestore, &bookmarks_iter))
 		bookmarks_expanded = gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &bookmarks_iter));
 
 	gtk_tree_store_clear(treestore);
