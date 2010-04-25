@@ -28,6 +28,7 @@ static GtkWidget 			*filter;
 static GtkWidget 			*addressbar;
 static gchar 				*addressbar_last_address 	= NULL;
 
+static GtkTreeIter 			bookmarks_iter;
 static GtkTreeViewColumn 	*treeview_column_icon, *treeview_column_text;
 static GtkCellRenderer 		*render_icon, *render_text;
 
@@ -330,17 +331,32 @@ treebrowser_load_bookmarks(void)
 	GError 		*error = NULL;
 	gchar 		*contents, *path_full;
 	gchar 		**lines, **line;
-	GtkTreeIter iter_bookmark, iter;
+	GtkTreeIter iter;
+	gboolean 	expanded = FALSE;
 
 	bookmarks = g_build_filename (g_get_home_dir(), ".gtk-bookmarks", NULL);
-	if (g_file_get_contents (bookmarks, &contents, NULL, &error))
+	if (g_file_get_contents(bookmarks, &contents, NULL, &error))
 	{
-		gtk_tree_store_prepend(treestore, &iter_bookmark, NULL);
-		gtk_tree_store_set(treestore, &iter_bookmark,
-										TREEBROWSER_COLUMN_ICON, 	GTK_STOCK_HOME,
-										TREEBROWSER_COLUMN_NAME, 	_("Bookmarks"),
-										TREEBROWSER_COLUMN_URI, 	NULL,
-										-1);
+		if (gtk_tree_store_iter_is_valid(treestore, &bookmarks_iter))
+		{
+			expanded = gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &bookmarks_iter));
+			gtk_tree_store_iter_clear_nodes(&bookmarks_iter, FALSE);
+		}
+		else
+		{
+			gtk_tree_store_prepend(treestore, &iter, NULL);
+			gtk_tree_store_set(treestore, &iter,
+											TREEBROWSER_COLUMN_ICON, 	NULL,
+											TREEBROWSER_COLUMN_NAME, 	"--------------------",
+											TREEBROWSER_COLUMN_URI, 	FALSE,
+											-1);
+			gtk_tree_store_prepend(treestore, &bookmarks_iter, NULL);
+			gtk_tree_store_set(treestore, &bookmarks_iter,
+											TREEBROWSER_COLUMN_ICON, 	GTK_STOCK_HOME,
+											TREEBROWSER_COLUMN_NAME, 	_("Bookmarks"),
+											TREEBROWSER_COLUMN_URI, 	FALSE,
+											-1);
+		}
 		lines = g_strsplit (contents, "\n", 0);
 		for (line = lines; *line; ++line)
 		{
@@ -359,19 +375,25 @@ treebrowser_load_bookmarks(void)
 			}
 			if (path_full = g_filename_from_uri(*line, NULL, NULL))
 			{
-				gtk_tree_store_append(treestore, &iter, &iter_bookmark);
-				gtk_tree_store_set(treestore, &iter,
-											TREEBROWSER_COLUMN_ICON, 	GTK_STOCK_HOME,
-											TREEBROWSER_COLUMN_NAME, 	g_basename(path_full),
-											TREEBROWSER_COLUMN_URI, 	path_full,
-											-1);
+				if (g_file_test(path_full, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_DIR))
+				{
+					gtk_tree_store_append(treestore, &iter, &bookmarks_iter);
+					gtk_tree_store_set(treestore, &iter,
+												TREEBROWSER_COLUMN_ICON, 	GTK_STOCK_DIRECTORY,
+												TREEBROWSER_COLUMN_NAME, 	g_basename(path_full),
+												TREEBROWSER_COLUMN_URI, 	path_full,
+												-1);
+				}
 			}
 		}
-		g_strfreev (lines);
-		g_free (contents);
+		g_strfreev(lines);
+		g_free(contents);
 	}
 	else
 		g_error_free(error);
+
+	if (expanded)
+		gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &bookmarks_iter), FALSE);
 }
 
 static gboolean
@@ -732,10 +754,10 @@ on_menu_show_bars(GtkMenuItem *menuitem, gpointer *user_data)
 static GtkWidget*
 create_popup_menu(gchar *name, gchar *uri)
 {
-	GtkWidget *item, *menu;
 	gboolean is_exists 		= g_file_test(uri, G_FILE_TEST_EXISTS);
 	gboolean is_dir 		= is_exists ? g_file_test(uri, G_FILE_TEST_IS_DIR) : FALSE;
 	gboolean is_document 	= document_find_by_filename(uri) != NULL ? TRUE : FALSE;
+	GtkWidget *item, *menu;
 
 	menu = gtk_menu_new();
 
@@ -910,18 +932,17 @@ on_treeview_mouseclick(GtkWidget *widget, GdkEventButton *event, GtkTreeSelectio
 	gchar 			*name = "", *uri = "";
 
 	if (gtk_tree_selection_get_selected(selection, &model, &iter))
-	{
 		gtk_tree_model_get(GTK_TREE_MODEL(treestore), &iter,
 							TREEBROWSER_COLUMN_NAME, &name,
 							TREEBROWSER_COLUMN_URI, &uri,
 							-1);
-	}
 
 	if (event->button == 3)
 	{
 		gtk_menu_popup(GTK_MENU(create_popup_menu(name, uri)), NULL, NULL, NULL, NULL, event->button, event->time);
 		return TRUE;
 	}
+
 	return FALSE;
 }
 
@@ -937,6 +958,9 @@ on_treeview_changed(GtkWidget *widget, gpointer user_data)
 		gtk_tree_model_get(GTK_TREE_MODEL(treestore), &iter,
 							TREEBROWSER_COLUMN_URI, &uri,
 							-1);
+		if (uri == FALSE)
+			return;
+
 		if (g_file_test(uri, G_FILE_TEST_EXISTS))
 		{
 			if (g_file_test(uri, G_FILE_TEST_IS_DIR))
@@ -960,9 +984,10 @@ on_treeview_row_activated(GtkWidget *widget, GtkTreePath *path, GtkTreeViewColum
 	gchar 			*uri;
 
 	gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter, path);
-	gtk_tree_model_get(GTK_TREE_MODEL(treestore), &iter,
-							TREEBROWSER_COLUMN_URI, &uri,
-							-1);
+	gtk_tree_model_get(GTK_TREE_MODEL(treestore), &iter, TREEBROWSER_COLUMN_URI, &uri, -1);
+
+	if (uri == FALSE)
+		return;
 
 	if (g_file_test (uri, G_FILE_TEST_IS_DIR))
 		if (CONFIG_CHROOT_ON_DCLICK)
@@ -981,12 +1006,13 @@ on_treeview_row_expanded(GtkWidget *widget, GtkTreeIter *iter, GtkTreePath *path
 {
 	gchar *uri;
 
+	gtk_tree_model_get(GTK_TREE_MODEL(treestore), iter, TREEBROWSER_COLUMN_URI, &uri, -1);
+	if (uri == FALSE)
+		return;
+
 	if (flag_on_expand_refresh == FALSE && CONFIG_ON_EXPAND_REFRESH == TRUE)
 	{
 		flag_on_expand_refresh = TRUE;
-		gtk_tree_model_get(GTK_TREE_MODEL(treestore), iter,
-							TREEBROWSER_COLUMN_URI, &uri,
-							-1);
 		treebrowser_browse(uri, iter, CONFIG_INITIAL_DIR_DEEP);
 		gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), path, FALSE);
 		flag_on_expand_refresh = FALSE;
@@ -998,6 +1024,11 @@ on_treeview_row_expanded(GtkWidget *widget, GtkTreeIter *iter, GtkTreePath *path
 static void
 on_treeview_row_collapsed(GtkWidget *widget, GtkTreeIter *iter, GtkTreePath *path, gpointer user_data)
 {
+	gchar *uri;
+	gtk_tree_model_get(GTK_TREE_MODEL(treestore), iter, TREEBROWSER_COLUMN_URI, &uri, -1);
+	if (uri == FALSE)
+		return;
+
 	gtk_tree_store_set(treestore, iter, TREEBROWSER_COLUMN_ICON, GTK_STOCK_DIRECTORY, -1);
 }
 
@@ -1148,7 +1179,7 @@ create_sidebar(void)
 	g_signal_connect(wid, "clicked", G_CALLBACK(treebrowser_track_current), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), wid);
 
-	wid = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_HOME));
+	wid = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_ABOUT));
 	ui_widget_set_tooltip_text(wid, _("Bookmarks"));
 	g_signal_connect(wid, "clicked", G_CALLBACK(treebrowser_load_bookmarks), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), wid);
