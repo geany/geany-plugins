@@ -335,15 +335,12 @@ treebrowser_load_bookmarks(void)
 	bookmarks = g_build_filename (g_get_home_dir(), ".gtk-bookmarks", NULL);
 	if (g_file_get_contents (bookmarks, &contents, NULL, &error))
 	{
-
-		//gtk_tree_store_iter_clear_nodes(NULL, FALSE);
-		/*gtk_tree_store_prepend(treestore, &iter_bookmark, NULL);
+		gtk_tree_store_prepend(treestore, &iter_bookmark, NULL);
 		gtk_tree_store_set(treestore, &iter_bookmark,
 										TREEBROWSER_COLUMN_ICON, 	GTK_STOCK_HOME,
 										TREEBROWSER_COLUMN_NAME, 	_("Bookmarks"),
 										TREEBROWSER_COLUMN_URI, 	NULL,
 										-1);
-		*/
 		lines = g_strsplit (contents, "\n", 0);
 		for (line = lines; *line; ++line)
 		{
@@ -360,9 +357,9 @@ treebrowser_load_bookmarks(void)
 				else
 					name = NULL;
 			}
-			if (path_full = g_file_get_path(g_file_new_for_uri(*line)))
+			if (path_full = g_filename_from_uri(*line, NULL, NULL))
 			{
-				gtk_tree_store_append(treestore, &iter, NULL);
+				gtk_tree_store_append(treestore, &iter, &iter_bookmark);
 				gtk_tree_store_set(treestore, &iter,
 											TREEBROWSER_COLUMN_ICON, 	GTK_STOCK_HOME,
 											TREEBROWSER_COLUMN_NAME, 	g_basename(path_full),
@@ -1090,7 +1087,11 @@ create_view_and_model(void)
 	if (gtk_check_version(2, 12, 0) == NULL)
 		g_object_set(view, "has-tooltip", TRUE, "tooltip-column", TREEBROWSER_COLUMN_URI, NULL);
 
+	gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW(view)), GTK_SELECTION_SINGLE);
+
+#if GTK_CHECK_VERSION(2, 10, 0)
 	gtk_tree_view_set_enable_tree_lines(GTK_TREE_VIEW(view), CONFIG_SHOW_TREE_LINES);
+#endif
 
 	treestore = gtk_tree_store_new(TREEBROWSER_COLUMNC, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 
@@ -1290,7 +1291,9 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 
 	if (save_settings() == TRUE)
 	{
+#if GTK_CHECK_VERSION(2, 10, 0)
 		gtk_tree_view_set_enable_tree_lines(GTK_TREE_VIEW(treeview), CONFIG_SHOW_TREE_LINES);
+#endif
 		treebrowser_chroot(addressbar_last_address);
 	}
 	else
@@ -1377,8 +1380,9 @@ plugin_configure(GtkDialog *dialog)
 	configure_widgets.SHOW_TREE_LINES = gtk_check_button_new_with_label(_("Show tree lines."));
 	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.SHOW_TREE_LINES), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_TREE_LINES), CONFIG_SHOW_TREE_LINES);
+#if GTK_CHECK_VERSION(2, 10, 0)
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.SHOW_TREE_LINES, FALSE, FALSE, 0);
-
+#endif
 	gtk_widget_show_all(vbox);
 
 	g_signal_connect(dialog, "response", G_CALLBACK(on_configure_response), NULL);
