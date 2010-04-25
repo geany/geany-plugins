@@ -35,8 +35,12 @@
 25-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
-		Menu elements are inactive instant of hidden
+		Menu elements are inactive instands of hidden
+		Added experimental bookmarks view
+		Added option to show/hide tree lines
 		Added option to copy the uri into clipboard
+		Added option to search into the view by the name // thanks to native filebrowser
+		Added tooltips with uri // thanks to native filebrowser
 
 
 19-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
