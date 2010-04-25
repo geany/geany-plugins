@@ -370,19 +370,21 @@ treebrowser_load_bookmarks(void)
 		}
 		else
 		{
-			gtk_tree_store_prepend(treestore, &iter, NULL);
-			gtk_tree_store_set(treestore, &iter,
-											TREEBROWSER_COLUMN_ICON, 	NULL,
-											TREEBROWSER_COLUMN_NAME, 	NULL,
-											TREEBROWSER_COLUMN_URI, 	FALSE,
-											TREEBROWSER_COLUMN_FLAG, 	TREEBROWSER_FLAGS_SEPARATOR,
-											-1);
 			gtk_tree_store_prepend(treestore, &bookmarks_iter, NULL);
 			gtk_tree_store_set(treestore, &bookmarks_iter,
 											TREEBROWSER_COLUMN_ICON, 	GTK_STOCK_ABOUT,
 											TREEBROWSER_COLUMN_NAME, 	_("Bookmarks"),
 											TREEBROWSER_COLUMN_URI, 	FALSE,
 											-1);
+
+			gtk_tree_store_insert_after(treestore, &iter, NULL, &bookmarks_iter);
+			gtk_tree_store_set(treestore, &iter,
+											TREEBROWSER_COLUMN_ICON, 	NULL,
+											TREEBROWSER_COLUMN_NAME, 	NULL,
+											TREEBROWSER_COLUMN_URI, 	FALSE,
+											TREEBROWSER_COLUMN_FLAG, 	TREEBROWSER_FLAGS_SEPARATOR,
+											-1);
+
 		}
 		lines = g_strsplit (contents, "\n", 0);
 		for (line = lines; *line; ++line)
@@ -415,12 +417,12 @@ treebrowser_load_bookmarks(void)
 		}
 		g_strfreev(lines);
 		g_free(contents);
+		if (bookmarks_expanded)
+			gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &bookmarks_iter), FALSE);
+		CONFIG_SHOW_BOOKMARKS = TRUE;
 	}
 	else
 		g_error_free(error);
-
-	if (bookmarks_expanded)
-		gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &bookmarks_iter), FALSE);
 }
 
 static gboolean
@@ -782,11 +784,8 @@ static void
 on_menu_show_bookmarks(GtkMenuItem *menuitem, gpointer *user_data)
 {
 	CONFIG_SHOW_BOOKMARKS = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menuitem));
-	if (CONFIG_SHOW_BOOKMARKS)
-		treebrowser_load_bookmarks();
-	else
-		gtk_tree_store_iter_clear_nodes(&bookmarks_iter, TRUE);
 	save_settings();
+	treebrowser_chroot(addressbar_last_address);
 }
 
 static void
