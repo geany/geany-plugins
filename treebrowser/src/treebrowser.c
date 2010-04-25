@@ -29,6 +29,8 @@ static GtkWidget 			*addressbar;
 static gchar 				*addressbar_last_address 	= NULL;
 
 static GtkTreeIter 			bookmarks_iter;
+static gboolean 			bookmarks_expanded = FALSE;
+
 static GtkTreeViewColumn 	*treeview_column_icon, *treeview_column_text;
 static GtkCellRenderer 		*render_icon, *render_text;
 
@@ -109,6 +111,7 @@ _gtk_cell_layout_get_cells(GtkTreeViewColumn *column)
 
 static void 	project_change_cb(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile *config, G_GNUC_UNUSED gpointer data);
 static void 	treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit);
+static void 	treebrowser_load_bookmarks(void);
 static void 	gtk_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root);
 static void 	load_settings(void);
 static gboolean save_settings(void);
@@ -254,9 +257,16 @@ treebrowser_chroot(gchar *directory)
 		return;
 	}
 
+	if (CONFIG_SHOW_BOOKMARKS)
+		bookmarks_expanded = gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &bookmarks_iter));
+
 	gtk_tree_store_clear(treestore);
 	addressbar_last_address = directory;
+
 	treebrowser_browse(directory, NULL, CONFIG_INITIAL_DIR_DEEP);
+
+	if (CONFIG_SHOW_BOOKMARKS)
+		treebrowser_load_bookmarks();
 }
 
 static void
@@ -349,14 +359,13 @@ treebrowser_load_bookmarks(void)
 	gchar 		*contents, *path_full;
 	gchar 		**lines, **line;
 	GtkTreeIter iter;
-	gboolean 	expanded = FALSE;
 
 	bookmarks = g_build_filename (g_get_home_dir(), ".gtk-bookmarks", NULL);
 	if (g_file_get_contents(bookmarks, &contents, NULL, &error))
 	{
 		if (gtk_tree_store_iter_is_valid(treestore, &bookmarks_iter))
 		{
-			expanded = gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &bookmarks_iter));
+			bookmarks_expanded = gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &bookmarks_iter));
 			gtk_tree_store_iter_clear_nodes(&bookmarks_iter, FALSE);
 		}
 		else
@@ -410,7 +419,7 @@ treebrowser_load_bookmarks(void)
 	else
 		g_error_free(error);
 
-	if (expanded)
+	if (bookmarks_expanded)
 		gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &bookmarks_iter), FALSE);
 }
 
