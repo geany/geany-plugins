@@ -328,14 +328,22 @@ treebrowser_load_bookmarks(void)
 {
 	gchar 		*bookmarks;
 	GError 		*error = NULL;
-	gchar 		*contents;
+	gchar 		*contents, *path_full;
 	gchar 		**lines, **line;
-	GtkTreeIter iter;
+	GtkTreeIter iter_bookmark, iter;
 
 	bookmarks = g_build_filename (g_get_home_dir(), ".gtk-bookmarks", NULL);
 	if (g_file_get_contents (bookmarks, &contents, NULL, &error))
 	{
-		gtk_tree_store_iter_clear_nodes(NULL, FALSE);
+
+		//gtk_tree_store_iter_clear_nodes(NULL, FALSE);
+		/*gtk_tree_store_prepend(treestore, &iter_bookmark, NULL);
+		gtk_tree_store_set(treestore, &iter_bookmark,
+										TREEBROWSER_COLUMN_ICON, 	GTK_STOCK_HOME,
+										TREEBROWSER_COLUMN_NAME, 	_("Bookmarks"),
+										TREEBROWSER_COLUMN_URI, 	NULL,
+										-1);
+		*/
 		lines = g_strsplit (contents, "\n", 0);
 		for (line = lines; *line; ++line)
 		{
@@ -351,12 +359,15 @@ treebrowser_load_bookmarks(void)
 				}
 				else
 					name = NULL;
+			}
+			if (path_full = g_file_get_path(g_file_new_for_uri(*line)))
+			{
 				gtk_tree_store_append(treestore, &iter, NULL);
 				gtk_tree_store_set(treestore, &iter,
-										TREEBROWSER_COLUMN_ICON, 	GTK_STOCK_DIRECTORY,
-										TREEBROWSER_COLUMN_NAME, 	g_basename(*line),
-										TREEBROWSER_COLUMN_URI, 	g_path_get_dirname(*line),
-										-1);
+											TREEBROWSER_COLUMN_ICON, 	GTK_STOCK_HOME,
+											TREEBROWSER_COLUMN_NAME, 	g_basename(path_full),
+											TREEBROWSER_COLUMN_URI, 	path_full,
+											-1);
 			}
 		}
 		g_strfreev (lines);
@@ -800,7 +811,7 @@ create_popup_menu(gchar *name, gchar *uri)
 	item = ui_image_menu_item_new(GTK_STOCK_COPY, g_strdup_printf(_("Copy full path"), name));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_copy_uri), uri);
-	gtk_widget_set_sensitive(item, is_document);
+	gtk_widget_set_sensitive(item, is_exists);
 
 	item = gtk_separator_menu_item_new();
 	gtk_container_add(GTK_CONTAINER(menu), item);
