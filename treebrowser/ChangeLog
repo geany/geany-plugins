@@ -41,6 +41,7 @@
 		Added option to copy the uri into clipboard
 		Added option to search into the view by the name // thanks to native filebrowser
 		Added tooltips with uri // thanks to native filebrowser
+		Added option to open terminal
 		Applied patch from Enrico to fix gtk+-2.8 compitable for tree lines
 
 
