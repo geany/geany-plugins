@@ -2563,3 +2563,39 @@ msgstr ""
 #: ../geanyinsertnum/src/insertnum.c:497
 msgid "Insert _Numbers"
 msgstr ""
+
+#: extrasel.c:30
+msgid "Extra Selection"
+msgstr ""
+
+#: extrasel.c:30
+msgid "Column mode, select to line / matching brace."
+msgstr ""
+
+#: extrasel.c:264
+msgid "E_xtra selection"
+msgstr ""
+
+#: extrasel.c:270
+msgid "_Column mode"
+msgstr ""
+
+#: extrasel.c:274
+msgid "Column mode"
+msgstr ""
+
+#: extrasel.c:276
+msgid "Select to _Line"
+msgstr ""
+
+#: extrasel.c:280
+msgid "Select to line"
+msgstr ""
+
+#: extrasel.c:282
+msgid "Select to Matching _Brace"
+msgstr ""
+
+#: extrasel.c:287
+msgid "Select to matching brace"
+msgstr ""

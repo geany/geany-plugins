@@ -1,0 +1,65 @@
+Extra Selection Plugin
+======================
+
+About
+-----
+This plugin adds the following functions:
+
+Goto matching brace and select (Select to matching brace).
+
+Goto line and select (Select to line).
+
+Ctrl-Shift-Alt Left/Right/Home/End keys - same as Ctrl-Shift, but for
+rectangular selection.
+
+Column mode - while active, the [Ctrl-]Shift-movement keys do rectangle
+selection (instead of stream), while the [Ctrl-]Shift-Alt-movement keys
+are blocked.
+
+
+Requirements
+------------
+Geany 0.18 or later and the respective headers and development libraries.
+
+
+Installation
+------------
+Compiling and installing the code is done by the following three
+commands:
+
+$ ./waf configure
+$ ./waf build
+$ ./waf install
+
+For more configuration details run
+$ ./waf --help
+
+If there are any errors during compilation, check your build environment.
+
+
+Usage
+-----
+Select a rectangle and choose Tools -> Insert Numbers.
+
+
+Known issues
+------------
+The column mode is global, not per-document. However, (de)activating it
+will change the selection (if any) type for the current document only.
+
+The column mode applies to the movement keys only - not to mouse
+selection, find functions etc.
+
+
+License
+-------
+Insert Numbers is distributed under the terms of the GNU General Public
+License as published by the Free Software Foundation; either version 2 of
+the License, or (at your option) any later version. A copy of this license
+can be found in the file COPYING included with the source code of this
+program.
+
+
+Ideas, questions, patches and bug reports
+-----------------------------------------
+Dimitar Toshkov Zhekov <jimmy@is-vn.bg>

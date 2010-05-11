@@ -101,3 +101,6 @@ geanyinsertnum/src/insertnum.c
 
 # treebrowser
 treebrowser/src/treebrowser.c
+
+# GeanyExtraSel
+geanyextrasel/src/extrasel.c

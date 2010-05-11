@@ -2,6 +2,7 @@ plugins = \
 	addons \
 	codenav \
 	geanydoc \
+	geanyextrasel \
 	geanygdb \
 	geanyinsertnum \
 	geanylatex \
