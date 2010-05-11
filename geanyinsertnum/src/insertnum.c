@@ -119,7 +119,7 @@ static int sci_point_x_from_position(ScintillaObject *sci, gint position)
 	return scintilla_send_message(sci, SCI_POINTXFROMPOSITION, 0, position);
 }
 
-/* these and sci_get_line_end_position() did not work for me in 0.18 */
+/* not #defined in 0.18 */
 #define sci_get_pos_at_line_sel_start(sci, line) \
 	scintilla_send_message((sci), SCI_GETLINESELSTARTPOSITION, (line), 0)
 #define sci_goto_pos(sci, position) \
