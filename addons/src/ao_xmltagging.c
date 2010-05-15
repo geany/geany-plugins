@@ -30,7 +30,7 @@ static void enter_key_pressed_in_entry(G_GNUC_UNUSED GtkWidget *widget, gpointer
 }
 
 
-void ao_xmltagging()
+void ao_xmltagging(void)
 {
 	GeanyDocument *doc = NULL;
 

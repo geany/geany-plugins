@@ -19,4 +19,4 @@
  *	  MA 02110-1301, USA.
  */
 
-void ao_xmltagging();
+void ao_xmltagging(void);
