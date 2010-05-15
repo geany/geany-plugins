@@ -1,3 +1,9 @@
+Geany-plugins 0.19 (t.b.p.s)
+
+    GeanySendMail:
+    * Allow hitting return to close email address dialog and proceed.
+
+
 Geany-plugins 0.18 (October 28, 2009)
 
     General:
