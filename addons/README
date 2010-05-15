@@ -51,6 +51,11 @@ This addon removes excessive trailing blank lines from the document when it is
 saved. If you have 'Ensure new line at file end' option checked in Preferences,
 one trailing newline will be left.
 
+XMLtagging
+^^^^^^^^^^
+XMLtagging allows to easy tag a selected text, by checking for a
+selection, offering a little dialog for inserting a tag and
+replacing a selection.
 
 Downloads
 ---------

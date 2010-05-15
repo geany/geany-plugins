@@ -31,6 +31,7 @@
 #include "ao_bookmarklist.h"
 #include "ao_markword.h"
 #include "ao_tasks.h"
+#include "ao_xmltagging.h"
 
 
 
@@ -50,6 +51,7 @@ enum
 	KB_FOCUS_BOOKMARK_LIST,
 	KB_FOCUS_TASKS,
 	KB_UPDATE_TASKS,
+	KB_XMLTAGGING,
 	KB_COUNT
 };
 
@@ -65,6 +67,7 @@ typedef struct
 	gboolean enable_systray;
 	gboolean enable_bookmarklist;
 	gboolean enable_markword;
+	gboolean enable_xmltagging;
 	gboolean strip_trailing_blank_lines;
 
 	gchar *tasks_token_list;
@@ -90,6 +93,7 @@ static void ao_document_save_cb(GObject *obj, GeanyDocument *doc, gpointer data)
 static void ao_document_before_save_cb(GObject *obj, GeanyDocument *doc, gpointer data);
 static void ao_document_close_cb(GObject *obj, GeanyDocument *doc, gpointer data);
 static void ao_startup_complete_cb(GObject *obj, gpointer data);
+
 gboolean ao_editor_notify_cb(GObject *object, GeanyEditor *editor,
 	SCNotification *nt, gpointer data);
 
@@ -133,6 +137,10 @@ static void kb_tasks_update(guint key_id)
 	ao_tasks_update(ao_info->tasks, NULL);
 }
 
+static void kb_ao_xmltagging(guint key_id)
+{
+	ao_xmltagging(NULL, NULL);
+}
 
 gboolean ao_editor_notify_cb(GObject *object, GeanyEditor *editor,
 							 SCNotification *nt, gpointer data)
@@ -234,6 +242,8 @@ void plugin_init(GeanyData *data)
 		"addons", "enable_markword", FALSE);
 	ao_info->strip_trailing_blank_lines = utils_get_setting_boolean(config,
 		"addons", "strip_trailing_blank_lines", FALSE);
+	ao_info->enable_xmltagging = utils_get_setting_boolean(config, "addons",
+		"enable_xmltagging", FALSE);
 
 	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 	plugin_module_make_resident(geany_plugin);
@@ -256,6 +266,8 @@ void plugin_init(GeanyData *data)
 		0, 0, "focus_tasks", _("Focus Tasks List"), NULL);
 	keybindings_set_item(key_group, KB_UPDATE_TASKS, kb_tasks_update,
 		0, 0, "update_tasks", _("Update Tasks List"), NULL);
+	keybindings_set_item(key_group, KB_XMLTAGGING, kb_ao_xmltagging,
+		0, 0, "xml_tagging", _("Run XML tagging"), NULL);
 }
 
 
@@ -295,6 +307,8 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 			g_object_get_data(G_OBJECT(dialog), "check_markword"))));
 		ao_info->strip_trailing_blank_lines = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
 			g_object_get_data(G_OBJECT(dialog), "check_blanklines"))));
+		ao_info->enable_xmltagging = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
+			g_object_get_data(G_OBJECT(dialog), "check_xmltagging"))));
 
 		g_key_file_load_from_file(config, ao_info->config_file, G_KEY_FILE_NONE, NULL);
 		g_key_file_set_boolean(config, "addons",
@@ -310,6 +324,8 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 		g_key_file_set_boolean(config, "addons", "enable_markword", ao_info->enable_markword);
 		g_key_file_set_boolean(config, "addons", "strip_trailing_blank_lines",
 		  ao_info->strip_trailing_blank_lines);
+		g_key_file_set_boolean(config, "addons", "enable_xmltagging",
+			ao_info->enable_xmltagging);
 
 		g_object_set(ao_info->doclist, "enable-doclist", ao_info->show_toolbar_doclist_item, NULL);
 		g_object_set(ao_info->openuri, "enable-openuri", ao_info->enable_openuri, NULL);
@@ -347,7 +363,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	GtkWidget *vbox, *check_doclist, *check_openuri, *check_tasks, *check_systray;
 	GtkWidget *check_bookmarklist, *check_markword, *frame_tasks, *vbox_tasks;
 	GtkWidget *check_tasks_scan_mode, *entry_tasks_tokens, *label_tasks_tokens, *tokens_hbox;
-	GtkWidget *check_blanklines;
+	GtkWidget *check_blanklines, *check_xmltagging;
 
 	vbox = gtk_vbox_new(FALSE, 6);
 
@@ -424,6 +440,12 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 		ao_info->strip_trailing_blank_lines);
 	gtk_box_pack_start(GTK_BOX(vbox), check_blanklines, FALSE, FALSE, 3);
 
+	check_xmltagging = gtk_check_button_new_with_label(
+		_("XML tagging for selection"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_xmltagging),
+		ao_info->enable_xmltagging);
+	gtk_box_pack_start(GTK_BOX(vbox), check_xmltagging, FALSE, FALSE, 3);
+
 	g_object_set_data(G_OBJECT(dialog), "check_doclist", check_doclist);
 	g_object_set_data(G_OBJECT(dialog), "check_openuri", check_openuri);
 	g_object_set_data(G_OBJECT(dialog), "check_tasks", check_tasks);
@@ -433,6 +455,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	g_object_set_data(G_OBJECT(dialog), "check_bookmarklist", check_bookmarklist);
 	g_object_set_data(G_OBJECT(dialog), "check_markword", check_markword);
 	g_object_set_data(G_OBJECT(dialog), "check_blanklines", check_blanklines);
+	g_object_set_data(G_OBJECT(dialog), "check_xmltagging", check_xmltagging);
 	g_signal_connect(dialog, "response", G_CALLBACK(ao_configure_response_cb), NULL);
 
 	ao_configure_tasks_toggled_cb(GTK_TOGGLE_BUTTON(check_tasks), dialog);

@@ -9,6 +9,7 @@ addons/src/ao_doclist.c
 addons/src/ao_bookmarklist.c
 addons/src/ao_markword.c
 addons/src/ao_blanklines.c
+addons/src/ao_xmltagging.c
 
 #codenav
 codenav/src/codenavigation.c
