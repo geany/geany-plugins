@@ -44,9 +44,9 @@ void ao_xmltagging()
 		gchar *replacement = NULL;
 		GtkWidget *dialog = NULL;
 		GtkWidget *vbox = NULL;
+		GtkWidget *hbox = NULL;
 		GtkWidget *label = NULL;
 		GtkWidget *textbox = NULL;
-		GtkWidget *table = NULL;
 
 		dialog = gtk_dialog_new_with_buttons(_("XML tagging"),
 							 GTK_WINDOW(geany->main_widgets->window),
@@ -57,18 +57,16 @@ void ao_xmltagging()
 		gtk_widget_set_name(dialog, "GeanyDialog");
 		gtk_box_set_spacing(GTK_BOX(vbox), 10);
 
-		table = gtk_table_new(1, 2, FALSE);
-		gtk_table_set_col_spacings(GTK_TABLE(table), 6);
-		gtk_table_set_row_spacings(GTK_TABLE(table), 6);
+		hbox = gtk_hbox_new(FALSE, 10);
 
 		label = gtk_label_new(_("Tag name to be inserted:"));
 		textbox = gtk_entry_new();
 
+		gtk_container_add(GTK_CONTAINER(hbox), label);
+		gtk_container_add(GTK_CONTAINER(hbox), textbox);
 		gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 
-		gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
-		gtk_table_attach_defaults(GTK_TABLE(table), textbox, 1, 2, 0, 1);
-		gtk_container_add(GTK_CONTAINER(vbox), table);
+		gtk_container_add(GTK_CONTAINER(vbox), hbox);
 
 		g_signal_connect(G_OBJECT(textbox), "activate",
 			G_CALLBACK(enter_key_pressed_in_entry), dialog);
