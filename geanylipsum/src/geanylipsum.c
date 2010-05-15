@@ -166,7 +166,7 @@ plugin_init(G_GNUC_UNUSED GeanyData *data)
 
 	/* init keybindings */
 	keybindings_set_item(plugin_key_group, LIPSUM_KB_INSERT, kblipsum_insert,
-		0, 0, "inster_lipsum", _("Insert Lipsum text"), menu_lipsum);
+		0, 0, "insert_lipsum", _("Insert Lipsum text"), menu_lipsum);
 }
 
 /* Called by Geany before unloading the plugin. */
