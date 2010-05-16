@@ -2253,9 +2253,6 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	g_signal_connect(menu_vc_commit, "activate", G_CALLBACK(vccommit_activated), NULL);
 
 	gtk_widget_show_all(menu_vc);
-	gtk_widget_show_all(menu_vc_file);
-	gtk_widget_show_all(menu_vc_dir);
-	gtk_widget_show_all(menu_vc_basedir);
 
 	/* initialize keybindings */
 	init_keybindings();
