@@ -102,8 +102,6 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
 
 			if ((use_address_dialog == TRUE) && (g_strrstr(mailer, "%r") != NULL))
 			{
-				gint tmp;
-
 				dialog = gtk_dialog_new_with_buttons(_("Recipient's Address"),
 										GTK_WINDOW(geany->main_widgets->window),
 										GTK_DIALOG_DESTROY_WITH_PARENT,
