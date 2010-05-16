@@ -1508,14 +1508,18 @@ vccommit_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 	set_diff_buff(diffbuf, diff);
 
 	if (set_maximize_commit_dialog)
+	{
 		gtk_window_maximize(GTK_WINDOW(commit));
+	}
 	else
+	{
 		gtk_widget_set_size_request(commit, 700, 500);
+	}
 
-		gtk_widget_show_now(commit);
-		gtk_window_get_size(GTK_WINDOW(commit), NULL, &height);
-		gtk_paned_set_position(GTK_PANED(vpaned1), height * 30 / 100);
-		gtk_paned_set_position(GTK_PANED(vpaned2), height * 55 / 100);
+	gtk_widget_show_now(commit);
+	gtk_window_get_size(GTK_WINDOW(commit), NULL, &height);
+	gtk_paned_set_position(GTK_PANED(vpaned1), height * 30 / 100);
+	gtk_paned_set_position(GTK_PANED(vpaned2), height * 55 / 100);
 
 #ifdef USE_GTKSPELL
 	speller = gtkspell_new_attach(GTK_TEXT_VIEW(messageView), NULL, &spellcheck_error);
