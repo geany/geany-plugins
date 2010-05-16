@@ -30,12 +30,17 @@
 	* Migrating to stash
 	* Adding keybindings for renaming/deleting/refreshing
 	(DONE) Add option to change bars position // requested by <dmaphy>
-	* Add option to autorename the newest created objects by the Treebrowser
+	* Add option to autorename point the newest created objects by the Treebrowser
 
 
 +-------------------------------+
 | Development release ChangeLog |
 +-------------------------------+
+
+16-05-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		Fixed Bookmarks state when refreshing the tree
 
 25-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 

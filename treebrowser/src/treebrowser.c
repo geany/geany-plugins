@@ -292,6 +292,9 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 	if (parent && gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), parent)))
 		expanded = TRUE;
 
+	if (CONFIG_SHOW_BOOKMARKS && gtk_tree_store_iter_is_valid(treestore, &bookmarks_iter))
+		bookmarks_expanded = gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &bookmarks_iter));
+
 	gtk_tree_store_iter_clear_nodes(parent, FALSE);
 
 	list = utils_get_file_list(directory, NULL, NULL);
@@ -350,8 +353,15 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 			g_free(uri);
 		}
 	}
-	if (parent && expanded)
-		gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), parent), FALSE);
+
+	if (parent)
+	{
+		if (expanded)
+			gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), parent), FALSE);
+	}
+	else
+		if (CONFIG_SHOW_BOOKMARKS)
+			treebrowser_load_bookmarks();
 }
 
 
