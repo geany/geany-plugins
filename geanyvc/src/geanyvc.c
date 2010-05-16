@@ -29,10 +29,6 @@
 #include <glib/gstdio.h>
 #include <unistd.h>
 
-#ifdef HAVE_LOCALE_H
-# include <locale.h>
-#endif
-
 #include "geanyvc.h"
 #include "geanyplugin.h"
 #include "SciLexer.h"
