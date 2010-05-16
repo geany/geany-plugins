@@ -3,18 +3,21 @@ Extra Selection Plugin
 
 About
 -----
-This plugin adds the following functions:
+The Extra Selection adds the following functions:
 
 Goto matching brace and select (Select to matching brace).
 
 Goto line and select (Select to line).
 
-Ctrl-Shift-Alt Left/Right/Home/End keys - same as Ctrl-Shift, but for
+Ctrl-Shift-Alt-Left/Right/Home/End keys - same as Ctrl-Shift, but for
 rectangular selection.
 
-Column mode - while active, the [Ctrl-]Shift-movement keys do rectangle
-selection (instead of stream), while the [Ctrl-]Shift-Alt-movement keys
-are blocked.
+Column mode - while active, all (Ctrl)-Shift-movement keys do rectangle
+selection instead of stream.
+
+"Movement keys" refers to the arrows, Home, End, Page Up and Page Down.
+
+For more information, see the Usage section below.
 
 
 Requirements
@@ -37,10 +40,52 @@ $ ./waf --help
 If there are any errors during compilation, check your build environment.
 
 
+Usage
+-----
+Under Tools -> Extra Selection, there are 3 new items: "Column mode",
+"Select to line" and "Select to matching brace". Normally these should be
+bound to keys, for example Alt-c, Alt-Shift-l and Control-Shift-b. Now:
+
+1. Position the cursor on an opening brace and invoke "Select to matching
+   brace". The cursor will move to the closing brace, and the braced area
+   will be selected.
+
+2. Position the cursor on line 10, invoke "Select to line" and enter 15.
+   The cursor will move to line 15, and the area between the previous and
+   the new current cursor position will be selected.
+
+3. Select a small rectangular area and press Control-Alt-Shift-Right. The
+   cursor will move to the next word, extending the rectangurar selection.
+   The complete new keys list is:
+
+   Control-Alt-Shift	Extends the selection to
+   -----------------	------------------------
+   Left                 Previous word
+   Right                Next word
+   Up                   Previous paragraph
+   Down                 Next paragraph
+   Home                 Start of file
+   End                  End of file
+
+Unfortunately, holding Alt for rectangular selection has some problems,
+which apply both to the standard Geany keys and these added by the plugin.
+Under Windows, Alt and the keypad keys generate unicodes, even if used
+with Shift or Control. With X11, some Alt-(Ctrl)-(Shift)-movement keys
+may be used by the window manager for switching to the previous/next
+desktop, moving windows etc. So then:
+
+4. Turn "Column mode" on. While active, the (Control)-Shift-movement keys
+   will select a rectangle instead of stream without the need to hold
+   Alt (in fact, the (Control)-Alt-Shift-movement keys will be temporarily
+   blocked). This way, you will avoid the Alt key problems mentioned
+   above, and it's move convinient to select while holding Shift only.
+
+
 Known issues
 ------------
 The column mode is global, not per-document. However, (de)activating it
-will change the selection (if any) type for the current document only.
+will change the selection (if any) to stream/rectangle for the current
+document only.
 
 The column mode applies to the movement keys only - not to mouse
 selection, find functions etc.
