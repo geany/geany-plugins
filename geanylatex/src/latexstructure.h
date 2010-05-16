@@ -1,5 +1,5 @@
 /*
- *      formatpatterns.c
+ *      latexstructure.h
  *
  *      Copyright 2009-2010 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
@@ -19,56 +19,26 @@
  *      MA 02110-1301, USA.
  */
 
+#ifndef LATEXSTRUCTURE_H
+#define LATEXSTRUCTURE_H
+
 #include "geanylatex.h"
 
-gchar* glatex_format_pattern[] = {
-	"\\textit",
-	"\\textbf",
-	"\\underline",
-	"\\textsl",
-	"\\texttt",
-	"\\textsc",
-	"\\emph",
-	"\\centering",
-	"\\raggedleft",
-	"\\raggedright",
-};
+enum {
+	GLATEX_STRUCTURE_PART = 0,
+	GLATEX_STRUCTURE_CHAPTER,
+	GLATEX_STRUCTURE_SECTION,
+	GLATEX_STRUCTURE_SUBSECTION,
+	GLATEX_STRUCTURE_SUBSUBSECTION,
+	GLATEX_STRUCTURE_PARAGRAPH,
+	GLATEX_STRUCTURE_SUBPARAGRAPH,
+	GLATEX_STRUCTURE_SUBSUBPARAGRAPH,
+	GLATEX_STRUCTURE_N_LEVEL};
 
-const gchar *glatex_format_labels[] = {
-	N_("Italic"),
-	N_("Boldfont"),
-	N_("Underline"),
-	N_("Slanted"),
-	N_("Typewriter"),
-	N_("Small Caps"),
-	N_("Emphasis"),
-	N_("Centered"),
-	N_("Left side oriented"),
-	N_("Right side oriented")
-};
+extern const gchar *glatex_structure_values[];
 
-gchar *glatex_fontsize_pattern[] = {
-	"\\tiny",
-	"\\scriptsize",
-	"\\footnotesize",
-	"\\small",
-	"\\normalsize",
-	"\\large",
-	"\\Large",
-	"\\LARGE",
-	"\\huge",
-	"\\Huge"
-};
+void glatex_structure_lvlup();
 
-const gchar *glatex_fontsize_labels[] = {
-	N_("tiny"),
-	N_("scriptsize"),
-	N_("footnotesize"),
-	N_("small"),
-	N_("normalsize"),
-	N_("large"),
-	N_("Large"),
-	N_("LARGE"),
-	N_("huge"),
-	N_("Huge")
-};
+void glatex_structure_lvldown();
+
+#endif

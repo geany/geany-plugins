@@ -1,16 +1,149 @@
+2010-05-15  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Add a feature which is inserting {} automaticly once a new line is
+   entered and an command seems to don't have some.
+
+
+2010-05-10  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Fix indention on inserting list environments.
+
+
+2010-04-24  Frank Lanitz  <frank@frank.uvena.de>
+
+ * Add a simple insert dommand dialog, which shall support inserting
+   commands more in future
+
+
+2010-04-21  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Automatic insert {} after typing ^ or _
+
+
+2010-04-16  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Fix indention on insert environment features.
+ * Make wizard run on hitting enter when inserting some of the values.
+
+
+2010-04-14  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Ensure basic indent is getting applied on closing command of
+   autocompletion of \begin{} and \begingroup{} feature.
+
+
+2010-04-11  Frank Lanitz  <frank@frank.uvena.de>
+
+ * Enabling inserting label on pushing return after typing in label name.
+ * Enabling inserting \usepackage{} on pushing return after typing in dialog.
+ * Enabling inserting environment on pushing return after typing inside
+   the insert environment dialog.
+ * Enabling inserting reference on pushing return after typing inside the
+   insert reference dialog.
+
+
+2010-03-27  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Add a menu entry for inserting font sizes to document
+
+
+2010-03-20  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Insert a keybinding and a dialog to insert a \usepackage{} line to header.
+   Still experimental.
+
+
+2010-03-12  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Add a very first attempt to support landscape on wizard. Output is
+   far away from being good.
+
+
+2010-01-27  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Add an example spec file for creating rpm files.
+   Thanks to Krzysztof Goliński and Dominic Hopf for efforts here.
+
+
+2010-01-16  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Took over functionality to automatic close \begin{} and \begingroup{}
+   from Geany core
+
+
+2009-01-03  Frank Lanitz  <frank@frank.uvena.de>
+
+ * Don't deactivate wizard icon if no document is open
+
+
+2009-01-01  Frank Lanitz  <frank@frank.uvena.de>
+
+ * Make text used for inserting references configurable.
+   Please check documentation for details on how to do it.
+
+
+2009-12-26  Frank Lanitz  <frank@frank.uvena.de>
+
+ * Deactivate icons of toolbar, if no LaTeX document is open. Behavior
+   can be deactivated via hidden pref.
+
+
+2009-12-23  Frank Lanitz  <frank@frank.uvena.de>
+
+ * Do only special character replacement in case of we really have
+   an LaTeX file here.
+
+
 2009-12-13  Frank Lanitz  <frank@frank.uvena.de>
 
  * Show geanyLaTeX inside plugin manager.
 
 
-2009-05-25  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+2009-10-11  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
- * Remove dependency for dialog.h from geanylatex header files.
+ * Replace also capital German umlauts.
 
 
-2009-05-25  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+2009-10-10 Frank Lanitz  <frank@frank(dot)uvena(dot)de>
 
- * Replace also capital letter German Umlauts.
+ * Add a function to insert \ref{} and \pageref{} together when
+   inserting a reference.
+
+
+2009-09-13  Frank Lanitz  <frank@frank(dot)uvena(dot)de>
+
+ * Adding custom templates to wizard.
+
+
+2009-08-14  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Make reference dialog catch suggestions from all *.aux files inside
+   the current directory.
+
+
+2009-08-13  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Switch to waf and remove autotools build environment. Still experimental.
+
+
+2009-07-13  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Correct a tooltip by removing unneeded \t from it.
+
+
+2009-07-09  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Added a function to level up and level down structure element.
+
+
+2009-07-08  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Migrated bibTeX inserting entry framework to make usage of a GPtrArray.
+
+
+2009-06-27  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Added Portuguese translation. Thanks to André Glória for providing.
 
 
 2009-05-25  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>

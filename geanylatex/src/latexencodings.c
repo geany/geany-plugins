@@ -1,7 +1,7 @@
 /*
  *      latexencodings.h
  *
- *      Copyright 2008 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2008-2010 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  */
 
 #include <gtk/gtk.h>
-#include "support.h"
+#include "geanylatex.h"
 #include "encodings.h"
 #include "latexencodings.h"
 
@@ -54,6 +54,6 @@ void glatex_init_encodings_latex(void)
 		GEANY_ENCODING_IBM_850);
 	fill(LATEX_ENCODING_IBM_852, _("IBM 852 code page"), "cp852",
 		GEANY_ENCODING_IBM_852);
-	fill(LATEX_ENCODING_NONE, _("Misc"), NULL,
+	fill(LATEX_ENCODING_NONE, _("Don't set any encoding"), NULL,
 		GEANY_ENCODING_NONE);
 }

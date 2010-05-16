@@ -1,7 +1,7 @@
 /*
  *      reftex.h
  *
- *      Copyright 2009 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2009-2010 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -31,8 +31,10 @@ typedef struct
 	gchar *chapter;
 } LaTeXLabel;
 
-void glatex_add_Labels(GtkWidget *combobox, const gchar *file);
+void glatex_add_Labels(GtkWidget *combobox, GSList *dir);
 
 LaTeXLabel *glatex_parseLine(const gchar *line);
+
+void glatex_parse_aux_file(gchar* file, gpointer combobox);
 
 #endif

@@ -1,7 +1,7 @@
 \documentclass[%
-a4paper,%
-10pt,%
-oneside,%
+paper=a4,%
+fontsize=11pt,%
+twoside=false,%
 DIV18,
 headsepline,
 plainheadsepline,
@@ -9,10 +9,10 @@ footsepline,
 plainfootsepline,
 %appendixprefix,
 %automark,%
-bibtotoc,%
-liststotoc,%
-BCOR12mm,%
-halfparskip,%
+bibliography=totoc,%
+listof=totoc,%
+BCOR10mm,%
+parskip=half,%
 openany,%
 ]{scrartcl}
 \usepackage[utf8]{inputenc}
@@ -38,7 +38,7 @@ openany,%
 \lstset{captionpos=b}
 \lstset{frame=single}
 \setcounter{secnumdepth}{4} % Also numbering of \paragraph
-\setcounter{tocdepth}{2} % Don't add \subsubsection to toc
+\setcounter{tocdepth}{3} % Don't add \subsubsection to toc
 
 % including and configuring package for links
 \usepackage{hyperref}
@@ -47,103 +47,152 @@ openany,%
 \hypersetup{pdftex=true, colorlinks=true, breaklinks=true, linkcolor=black, urlcolor=darkblue}
 
 \title{Geany\LaTeX{} -- A \LaTeX{} plugin for Geany \\[1.5ex]
-	   \normalsize Version 0.4}
+	   \normalsize Version 0.5dev}
 \author{Frank Lanitz \\ \small{\href{mailto:frank@frank.uvena.de}{frank@frank.uvena.de}}}
 \date{\today}
 
+\newcommand{\up}[1]{\ensuremath{^\textrm{\scriptsize#1}}}
+
 \begin{document}
 
-\newpage
-\dedication{\normalsize \textbf{Note:} Please note the document has been created on
-\today. If you are using devel version from SVN, please compile and check
-\texttt{doc/geanylatex.tex} from sources. Please check page \pageref
-{sec:compiling_of_documentation}, section \ref{sec:compiling_of_documentation} how to do so.}
+\dedication{\normalsize \textbf{Note:} Please note that this document has been created on
+\today. If you are using a devel version from SVN, please compile and check
+\texttt{doc/geanylatex.tex} from sources. Please check Page \pageref
+{sec:compiling_of_documentation}, Section \ref{sec:compiling_of_documentation} to see how to do this. }
 
 \pagenumbering{Roman}
 \maketitle
 \tableofcontents
 \listoftables
+\listoffigures
 \newpage
 \pagenumbering{arabic}
 \section{About the plugin}
 
-Geany\LaTeX{} is a little plugin to improve support of \LaTeX{} on Geany.
-It implements a couple of maybe useful functions:
+Geany\LaTeX{} is a little plugin to improve \LaTeX{} support in Geany.
+It implements a couple of hopefully useful functions:
 
 \begin{itemize}
-	\item Wizard to create new \LaTeX{} documents in a fast and easy way
+	\item A wizard to create new \LaTeX{} documents in a fast and easy way
 	 	  with a bunch of templates available
-	\item A front end for add labels \textbackslash label{} and
+	\item A front end for adding labels \textbackslash label{} and
 		  references \textbackslash ref{} and \textbackslash pageref{}
-   		  with getting suggestion from aux file of document
-	\item Inserting special characters through menu
-	\item Help entering the right fields for BibTeX entries by
-		  providing templates
-	\item Easy inserting format patterns like \textbackslash texttt{}
-		  through menu
-	\item Support on inserting environments by offering an dialog and
+   		  getting suggestions from the document's aux file
+	\item Insertion of special characters through the menu
+	\item Help on BibTeX entries by templates
+	\item Easy insertion of format patterns like \textbackslash texttt{}
+		  through the menu
+	\item Support of environment insertion by offering an dialog and
 		  recognising selections
 	\item Shortcuts for inserting \textbackslash item and
 		  \textbackslash newline
-	\item Toolbar with often used format options
+	\item Toolbar with frequently used format options
+	\item A couple of useful auto-completion functions during typing
 \end{itemize}
 
-\section{News}
+\newpage
+\section{News \& ChangeLog}
+\subsection*{Since 0.4}
+\begin{itemize}
+
+	\item Introduced custom templates for \LaTeX-Wizard
+	\item Added a \LaTeX-Wizard icon to the toolbar
+	\item Added shortcuts for inserting common list environments
+		  like \texttt{enumerate}, \texttt{itemize} and
+		  \texttt{description}
+	\item Some general bugfixes and improvements. As always, see the
+		  ChangeLog or svn log.
+	\item Switched to waf for building the plugin
+	\item Moved some \LaTeX{}-specific stuff out of Geany's core into the
+		  plugin. This affects features like
+			\begin{itemize}
+				\item Autocompletion of \texttt{\textbackslash{}end\{\}}
+					and \texttt{\textbackslash{}endgroup\{\}}
+			\end{itemize}
+	\item Proceeded to Geany Plugin API v184
+	\item Made reference insertion configurable.
+	\item Added an function to insert \textbackslash{}usepackage\{\} into
+		  header of file
+	\item Automatic adding of \{\} after typing of \_{} and \symbol{94}
+	\item Added automatic inserting of \{\} after typing a command and
+		  hitting return in case of none pair is already present
+\end{itemize}
+
 \subsection*{GeanyLaTeX{} 0.4 -- 2009-05-26}
 \begin{itemize}
-	\item Adding a toolbar with often used format commands
-	\item Adding a configuration dialog to configure basic options of plugin
+	\item Added a toolbar with frequently used format commands
+	\item Added a configuration dialog to configure basic options
+          of the plugin
 	\item Moved documentation into a \TeX{}-document
-	\item Replace \textbackslash{}u-UTF-8 letters by octal coded chars to
-		  don't depend on C99 anymore.
+	\item Replace \textbackslash{}u-UTF-8 letters by octal coded
+          chars to avoid dependency on C99.
 	\item Added a function to bulk replace special characters
-    	  inside marked text by keybinding
-	\item Added a function to replace special characters on typing
+          inside marked text by keybinding
+	\item Added a function for special characters substitution during typing
 \end{itemize}
 
+\newpage
 \section{Requirements}
 
-For compiling the plugin yourself, you will need the GTK ($>= 2.6.0$)
+\small{\textbf{Please note:} This section of documentation is only
+valid with standalone distribution of Geany\LaTeX{}. If you are
+planning to use the common geany-plugins project, please check
+documentation over there as there are some specialties you might
+like to know.}
+
+For compiling the plugin yourself, you will need the GTK ($>= 2.8.0$)
 libraries and header files. You will also need its dependency
 libraries and header files, such as Pango, Glib and ATK. All these
 files are available at \url{http://www.gtk.org}.
 
-And obviously, you will need have Geany with its header files
+And obviously, you will need to have Geany with its header files
 installed (in case you are compiling the plugin on your own). If you
-have Geany installed from the sources, you should be ready to go. If
-you used a prepared package e.g. from your distribution you probably
-need to install an additional package, this might be called geany-dev
+installed Geany from the sources, you should be ready to go. If
+you used a prepared package, e.g. from your distribution, you probably
+need to install an additional package, probably called geany-dev
 or geany-devel. Please note that in order to compile and use this
-plugin, you need Geany 0.17 or later (Geany Plugin API v136 or higher).
+plugin, you need Geany 0.19svn or later (Geany Plugin API v184 or higher).
 
-Furthermore you need, of course, a C compiler and the Make tool. The
-GNU versions of these tools are recommended. Also there should be a
+Furthermore you need, of course, a C compiler and python installed. The
+GNU version of the C compiler is recommended. Furthermore, there should be a
 working \LaTeX-environment on your System.
 
-There is no special need in RAM or CPU so the plugin should run on
-all systems Geany is able to run.
+There is no special need in RAM or CPU, so the plugin should compile and
+run on all systems Geany is able to run.
 
 \section{Installation}
+
+\small{\textbf{Please note:} This section of documentation is only
+valid for the standalone distribution of Geany\LaTeX{}. If you are
+about to use the common geany-plugins project, please check their
+documentation as there are some specialties you might like to know.}
+
 \subsection{Compiling the plugin itself}
 Compiling and installing the code is done by the following three
 commands:
 
 \begin{figure}[h!]
 \begin{lstlisting}
-$ ./configure
-$ make
-$ make install %$
+$ ./waf configure
+$ ./waf build
+$ ./waf install %$
 \end{lstlisting}
 \end{figure}
 
-For more configuration details run \texttt{./configure --help}
+For more configuration details run \texttt{./waf --help}
+
+By default the plugin is getting installed into the lib subfolder of
+your found Geany installation. So if you have installed Geany to
+\texttt{/usr/local/} the plugin will be installed to
+\texttt{/usr/local/lib/geany/}. Translation files will be installed to
+\texttt{/usr/local/share/locale/} in this case.
 
 If there are any errors during compilation, check your build environment
 and try to find the error, otherwise contact one of the
 authors\footnote{Contact data can be found at chapter \ref{contact},
 page \pageref{contact}.}
 
-\subsection{Compiling of documentation}
+\subsection{Compiling the documentation}
 \label{sec:compiling_of_documentation}
 Sources of this documentation are available throught
 \texttt{doc/geanylatex.tex} inside source tree. To compile the sources,
@@ -158,19 +207,18 @@ htlatex geanylatex.tex xhtml -cvalidate -interaction=batchmode
 \end{lstlisting}
 \end{figure}
 
-\newpage
 \section{Usage}
 \begin{figure}[h!]
 	\centering{\includegraphics[height=7cm]{img/plugin_manager.png}}
 	\caption{Plugin manager with Geany\LaTeX{} of Geany 0.16}
 \end{figure}
 
-After Geany\LaTeX{} has been installed successfully the plugin can be
+After Geany\LaTeX{} has been installed successful the plugin can be
 loaded through Geany's plugin manager and a new sub menu in the Tools
 menu will appear as well as new key bindings will be available inside
 Geany's key binding interface. Inside the sub menu you will find entries
-for functions supported by this version of the plugin. It will be
-called \texttt{LaTeX}.
+for functions supported by this version of the plugin. The main menu entry
+will be called something like \texttt{LaTeX}, depending on your locale.
 
 Also if the option for showing the toolbar is activated on configuration
 dialog, the toolbar with common used format functions appears on at top
@@ -181,23 +229,20 @@ of editor widget. This feature is turned off by default.
 
 Let's go into more detail on some features.
 
+
 \subsection{\LaTeX-Wizard}
 
+\subsubsection{General usage of wizard}
 The \LaTeX-Wizard is implementing a easy way creating a number of
 default documents.
 \begin{figure}[h!]
 	\centering{\includegraphics[height=7cm]{img/latexwizard.png}}
-	\caption{\LaTeX-Wizard of version 0.4}
+	\caption{\LaTeX-Wizard of version 0.5dev}
 \end{figure}
 
-Document types that are currently supported by the wizard are:
-\begin{itemize}
-	\item book
-	\item report
-	\item article
-	\item letter (default letter class)
-	\item presentation (\LaTeX{} beamer)
-\end{itemize}
+The wizard is offering a chance to choose from a couple of templates
+with the possibility of adding customer templates. This can be
+chosen from \textbf{Templates} pulldown on top of dialog.
 
 This can be set by choosing the needed entry form
 \textbf{Documentclass} pulldown menu.
@@ -225,6 +270,71 @@ configuration dialog mentioned earlier in this document.
 This wizard can also be called by a shortcut. Please have a look onto
 section \ref{kb_latex_wizard}, page \pageref{kb_latex_wizard}.
 
+\subsubsection{Default templates}
+Document types that are currently supported by the wizard are:
+\begin{itemize}
+	\item book
+	\item report
+	\item article
+	\item letter (default letter class)
+	\item presentation (\LaTeX{} beamer)
+\end{itemize}
+
+\subsubsection{Extending by own templates}
+\label{sec:extending_wizard_by_own_templates}
+Geany\LaTeX{} is offering a way for extending the wizard by user
+defined templates. This templates will be stored inside the plugin
+configuration dir with file extension glt. For creating a
+customized template you will need to create a normal *.tex file and
+store it inside the directory. On most Linux systems this should be
+\texttt{\textasciitilde/.config/geany/geanyLaTeX/}.
+
+Inside your template you can refer to wizard's field by using some
+special strings which are:
+
+\begin{table}[H]
+\centering
+\label{tab:symbols_in_custom_templates}
+\caption{List of available symbols on custom templates}
+\begin{tabular}{l|p{10cm}}
+\textbf{Symbol} & \textbf{Usage}\\ \hline
+\texttt{\{CLASSOPTION\}} & Will be replaced by the classoptions set on
+	the wizard as for example font size or paper size.\\
+\texttt{\{DOCUMENTCLASS\}} & Will be replaced by the choosen document
+	class based on the pulldown of wizard and whether option for KOMA
+	script has been set. \\
+\texttt{\{DATE\}} & Will be replaced by the input given on the date
+	field of wizard.\\
+\texttt{\{TITLE\}} & Will be replaced by the input given on the title
+	field of wizard.\\
+\texttt{\{AUTHOR\} }& Will be replaced by the input given on the author
+	field of wizard.\\
+\texttt{\{ENCODING\}} & Will be replace by choosen encoding from pulldown
+	of wizard\\
+\texttt{\{OPENING\}} & Will be replaced by »Dear Sir or Madame« in local
+	geany\LaTeX{} is running with. If you like to overwrite it, please
+	don't use the symbol and hardcode the phrase instead.\\
+\texttt{\{CLOSING\}} & Will be replaced by »With kind regards« in local
+	geany\LaTeX{} is running with. If you like to overwrite it, please
+	don't use the symbol and hardcode the phrase instead.\\
+	\end{tabular}
+\end{table}
+
+If you have other than the default templates defined they will be
+add to templates pulldown. So when creating a template, please keep
+care to set up a good name for the file, as the filename will be
+the identifier you can choose from on pulldown.
+
+In future a number of templates should be available also online at
+\url{http://frank.uvena.de/files/geany/data/geanyLaTeX/}. Please
+feel also free to publish templates in case of you have some useful
+one.
+
+If you need more general templates, you may have a look onto Geany's
+build in template feature -- briefly introduced on chapter \ref
+{sec:recommended_things_geany_template_system}, page \pageref
+{sec:recommended_things_geany_template_system}.
+
 \subsection{Inserting References and Labels}
 An often used feature on writing of documents is adding and referring
 to labels. Geany\LaTeX{} is adding some support here for more
@@ -236,23 +346,23 @@ comfortable adding new labels and reference offering a GUI.
 \end{figure}
 
 After an label was added Geany\LaTeX{} is offering a dialog for
-inserting normal references and page references to an label.
+inserting normal references and page references to a label.
 
 \begin{figure}[h!]
 	\centering{\includegraphics[height=3.5cm]{img/insert_reference.png}}
-	\caption{Insert reference dialog on Geany\LaTeX{} 0.4}
+	\caption{Insert reference dialog on Geany\LaTeX{} 0.5svn}
 \end{figure}
 
-The suggestions inside the pull down are based on the aux file creating
-by processing of *.tex file. The plugin is searching for a aux file
-for the current open *.tex file inside current directory. When first step
-was successful the file is parsed for \texttt{\textbackslash
-newlabel\{\}\{\}\{\}} and tries to interpret them properly. The found
-entries will be inserted into pull down sorted by alphabet.
+The suggestions inside the pull down are based on the aux files
+creating by processing of *.tex file located inside directory of
+current \TeX-file. When first step was successful the files are
+parsed for \texttt{\textbackslash newlabel\{\}\{\}\{\}} and outcome
+is tried to interpret them properly. The found entries will be
+inserted into pull down sorted by alphabet.
 
 Both, the inserting labels as well as the inserting reference dialog
-can be accessed by key binding also. See chapter \ref{kb_insert_label}
-and \ref{kb_insert_reference} here.
+can be accessed by key binding also. See chapter \ref
+{kb_insert_label} here.
 
 \subsection{BibTeX templates for catalogue entries}
 Geany\LaTeX{} is offering a number of often used templates for BibTeX
@@ -325,7 +435,7 @@ will be included into environment.
 \begin{figure}[h!]
 \begin{lstlisting}
 \begin{your_environment}
-	% ... selected text ...
+	... selected text ...
 \end{your_environment}
 \end{lstlisting}
 \end{figure}
@@ -379,6 +489,49 @@ Following items are also accessible using the Geany\LaTeX{} toolbar:
 	\item right-aligned
 \end{itemize}
 
+\subsection{Autocompletion of \textbackslash{}begin and
+  \textbackslash{}begingroup}
+
+Since version 0.5 GeanyLaTeX{} is supporting autocompletion for
+closing \textbackslash{}end and \textbackslash{}endgroup for begin
+commands. Before Geany 0.19 this has been part of the Geany core
+but has been moved out as it is something \LaTeX{} specific.
+
+\subsubsection{Usage of feature}
+
+After the feature has been enabled (Please check \ref
+{sec:modus_of_autocompletion}, page \pageref
+{sec:modus_of_autocompletion} here for more detailed information),
+in every case you enter a \texttt{\textbackslash{}begin\{\}} or
+\texttt{\textbackslash {}begingroup\{\}} the plugin will
+automatically add the fitting \texttt{\textbackslash{}end\{\}} or
+\texttt{\textbackslash{}endgroup\{\}} if its not finding a closing
+tag within the definded context length -- by default this means
+inside following 5 lines. If you like to change this size, please
+check chapter \ref {sec:hidden_pref_autocompletion_context}, page
+\pageref {sec:hidden_pref_autocompletion_context}.
+
+This feature is by default file type depending, so it will only work
+on \TeX{}-like file types.
+
+
+\subsection{Inserting \textbackslash{}usepackage\{\}-entry to header}
+
+From time you need to insert a new package into header of a document,
+but don't want to change to top of document and scroll back to where you were.
+
+Since version 0.5 Geany\LaTeX{} is offering an easy to use dialog
+which is taking over the package name and possible package options to
+insert them into header of document. Right now, its placed direct in
+top of the \texttt{\textbackslash{}begin\{document\}} statement if
+there is any.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.4\textwidth]{img/insert_usepackage.png}
+	\caption{Dialog for inserting \textbackslash{}usepackage\{\}}
+\end{figure}
+
 \section{Configuration}
 
 GeanyLaTeX{} can be configured in two major ways:
@@ -400,6 +553,21 @@ this option is being used to be honest}. Option is turned off by default.
 \subsubsection{Show extra toolbar}
 Decides whether toolbar with some format icons should appear in the top
 of editor widget. Option is turned off by default. Just give it a try.
+
+\begin{figure}[h!]
+	\centering{\includegraphics[height=2cm]{img/toolbar.png}}
+	\caption{Plugin toolbar of Geany\LaTeX{} 0.5}
+\end{figure}
+
+\subsubsection{Modus of autocompletion}
+\label{sec:modus_of_autocompletion}
+Here you can choose, whether the Geany\LaTeX{} should do some
+autocompletion or not. Values are either
+\begin{enumerate}
+	\item Don't care about this inside plugin or
+	\item Always perform autocompletion on LaTeX
+\end{enumerate}
+
 
 \subsection{Key bindings}
 Keybindings which are available:
@@ -433,14 +601,149 @@ font face. This is done be adding \texttt{\textbackslash texttt\{...\}} around
 selection.\\\hline
 Format selection centered & Formats selected text centered on page (uses \texttt{\textbackslash{}centering} \\\hline
 Format selection left-aligned & Formats selected text left-aligned on page (uses \texttt{\textbackslash{}raggedleft} \\\hline
- Format selection right-alignedm & Formats selected text right-aligned on page (uses \texttt{\textbackslash{}raggedright}\\\hline
+Format selection right-alignedm & Formats selected text right-aligned on page (uses \texttt{\textbackslash{}raggedright}\\\hline
+Insert description list & Inserts an description environment as well as a 1\up{st} \textbackslash{}item element.\\\hline
+Insert itemize list & Inserts an itemize environment as well as a 1\up{st} \textbackslash{}item element.\\\hline
+Insert enumerate list & Inserts an enumerate environment as well as a 1\up{st} \textbackslash{}item element.\\\hline
 \end{tabular}
 \end{table}
 
-\newpage
-\section{Donating to the plugin}
-If you like the plugin, there are a number of ways, how to donate the
-development of the plugin.
+
+\subsection{Hidden preferencess}
+As not all users need to configure everything on there plugin, Geany
+\LaTeX{} has some hidden preferences which can be set through
+command line.
+
+\subsubsection{Deactivate toolbar items if document is a non \TeX-type}
+
+By defaul, Geany\LaTeX{} is deactivating buttons inside toolbar, which
+don't make much sense to be applied on non-\TeX{} file types. As
+this is not always wished, its possible to turn this feature off
+via a hidden preferences.
+
+If you want to do so, just add a new section called \texttt{toolbar}
+into your general.conf file of Geany\LaTeX{} plugin which stats
+\texttt{glatex\_deactivate\_toolbaritems\_with\_non\_latex=false}.
+As a result, your config file could look similar to this:
+
+\begin{lstlisting}
+[general]
+glatex_set_koma_active=false
+glatex_set_toolbar_active=true
+
+[toolbar]
+glatex_deactivate_toolbaritems_with_non_latex=false
+\end{lstlisting}
+
+Setting this option back to true will go back to default behaviour.
+
+Please ensure, you reload the plugin once this option has been changed.
+
+\subsubsection{Size of context for autocompletion}
+\label{sec:hidden_pref_autocompletion_context}
+Inside configuration file you can add a value to adjust the size of
+context, which is being searched for autocompletion of \texttt{
+\textbackslash{}end} and \texttt{\textbackslash{}endgroup}. The
+default value is 5. If you want to reset it, just add a new line to
+your configuration file with
+\texttt{glatex\_set\_autocompletion\_contextsize} followed by an integer
+value. An example could look like this:
+
+\begin{figure}[h!]
+\begin{lstlisting}
+[general]
+glatex_set_koma_active=true
+glatex_set_toolbar_active=false
+glatex_set_autocompletion=true
+
+[autocompletion]
+glatex_set_autocompletion_contextsize=2
+\end{lstlisting}
+\caption{general.conf example for contextsize}
+\end{figure}
+
+\subsubsection{Apply autocompletion only to \TeX{}-like files}
+With this option, you can force Geany\LaTeX{} to apply all autocompletion functions also to non-\TeX{} file types as for example an C-source code file. As this is only in a very low number of cases a really good idea, the option is by default turned on.
+
+\begin{figure}[h!]
+\begin{lstlisting}
+[general]
+glatex_set_koma_active=true
+glatex_set_toolbar_active=false
+glatex_set_autocompletion=true
+
+[autocompletion]
+glatex_autocompletion_only_for_latex=false
+\end{lstlisting}
+\caption{general.conf example for deactivating file type specific restrictions for autocompletion}
+\end{figure}
+
+\subsubsection{Customized reference strings}
+
+Geany\LaTeX{} is able to insert references to a label where its
+using some default value. As this value is not always optimal, it
+can be changed using a hidden preference by setting
+\texttt{glatex\_reference\_page}, \texttt{glatex\_reference\_chapter} or
+\texttt{glatex\_reference\_all} inside configuration file as shown inside
+the example configuration snippet.
+
+\begin{lstlisting}
+[general]
+glatex_set_koma_active=true
+glatex_set_toolbar_active=true
+
+[reference]
+glatex_reference_page=\\textbf{\pageref{{{reference}}}}
+glatex_reference_chapter=\\textbf{\\ref{{{reference}}}}
+glatex_reference_all=\\textbf{\\ref{{{reference}}}, page \pageref{{{reference}}}}
+\end{lstlisting}
+
+Please take care in this case \texttt{\{\{reference\}\}} will be
+replace by label name.
+
+Also \texttt{\textbackslash{}t}, \texttt{\textbackslash{}r},
+\texttt{\textbackslash{}n} will be handled as known from C so you will
+need to add a second \textbackslash{} in front of in such cases. Even
+this seems to be annyoing on the first hand, it allows you to insert some
+more complicated constructs over  here which might require a new line inside.
+
+
+\subsubsection{Autocompletion of \{\} after \_ and \symbol{94}}
+\label{sec:autoadding_of_braces}
+Geany\LaTeX{} is able to autocomplete \{\} after typing \_ and
+\symbol{94}. This might by useful on typing mathematic text and
+formula. However, as this option is turn on by default and it might
+get annoying you can deactivate it by setting \texttt{glatex\_set\_autobraces}
+inside \texttt{[autocompletion]} section of configuration file. An example
+which is turning off the feature might can look like this:
+
+\begin{lstlisting}
+[general]
+glatex_set_koma_active=true
+glatex_set_toolbar_active=true
+glatex_set_autocompletion=true
+
+[autocompletion]
+glatex_set_autobraces=false
+\end{lstlisting}
+
+\textbf{Note:} The feature in general is only working, if
+\texttt{glatex\_set\_autocompletion=true} is also set to \texttt{true}.
+
+\subsubsection{Autoadding of \{\} after a command}
+
+The plugin can autoadd a pair of braces \{\} on hitting return after typing a
+command. The function will search for a \textbackslash{} and will
+stop once it founds a space, some \{\} or a second \textbackslash{}
+as on \textbackslash{} \textbackslash{}. This can be configured also
+by using the hidden preference \texttt{glatex\_set\_autobraces}
+described in chapter \ref{sec:autoadding_of_braces}, page \pageref
+{sec:autoadding_of_braces}.
+
+
+\section{Contribution to the plugin}
+If you like the plugin, there are a number of ways, how to
+contribute to the development of the plugin.
 
 \subsection{Extending plugin}
 
@@ -454,7 +757,7 @@ topics in translation:
 \item \textbf{Translation of plugin:}
 	   Adding a new translation and improving an existing one is easy to
 	   do. After catching the source tarball and extracting you can find
-	   all needed files inside the po folder. \\
+	   all needed files inside the po/ folder. \\
 	   Please contact the authors if you plan to update/add a translation
 	   to ensure nobody else is currently working on and avoid double
 	   work and to get some further information about translation (see
@@ -476,11 +779,18 @@ something interesting. Of course we are also open for not in the
 sources mentioned before listed items. Just contact one of the authors
 (see chapter \ref{contact}).
 
-\subsection{Testing \& bug reporting}
-Geany\LaTeX{} is tested mainly on x86 and x86\_64 architecture running
-GNU/Linux. Also it was tested on some Windows 32 versions like XP SP3
-very briefly. Since there are also other systems available, testing on other
-platforms and maybe reporting of issues is highly appreciate.
+When sending a patch which is adding a new feature, please check
+whether you did also care about some documentation for it. As the
+user will need some, it might can increase the speed a patch is
+applied. Of course you should also check chapter \ref{sec:sending_a_patch},
+page \pageref{sec:sending_a_patch} for maybe some more detailed
+information before.
+
+\subsection{Testing \& bug reporting} Geany\LaTeX{} is tested mainly
+on x86 and x86\_64 architecture running GNU/Linux. Also it was
+tested on some Windows 32 versions like XP SP3 very briefly. Since
+there are also other systems available, testing on other platforms
+and maybe reporting of issues is highly appreciate.
 
 \subsection{Packaging}
 Geany\LaTeX{} is part of the geany-plugins project even though there
@@ -494,6 +804,7 @@ there are two things you can do here:
 	up to date for current version of Geany.
 \end{enumerate}
 
+
 \subsection{Improving and extending of documentation}
 Documentation is never complete. There are spelling mistakes,
 paragraphs that needs to be extended or rewritten because they are not
@@ -502,6 +813,14 @@ clear or topics that were missed out at all.
 The documentation is written in \LaTeX{} so all you need is to get the
 tex file from doc folder and add or update the content.
 After this, just send a diff or complete file to one of the authors.
+
+
+\subsection{Providing additional data for plugin}
+
+You can also contribute to the plugin's development by providing
+additional data as for example customized templates for the
+\LaTeX-Wizard. If you build up one, you might like to send it to
+one of the authors.
 
 \subsection{Propaganda}
 And of course, tell others of Geany and this plugin. If you like to do
@@ -523,6 +842,7 @@ svn checkout
 http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geanylatex
 
 \subsubsection{Sending a patch}
+\label{sec:sending_a_patch}
 If you want to create a patch, please respect the license of
 Geany\LaTeX{} as well as intellectual property of third. Patches that
 should be included to the default distribution must be licensed under
@@ -538,7 +858,36 @@ for all reported issues bug tracking system of SF at \\
 \section{Recommendations to improve work with \LaTeX{} and Geany}
 Geany is offering a number of nice features, that can be used to make
 daily work more easy without need to write a new plugin or extend
-Geany\LaTeX.
+Geany\LaTeX{}.
+
+\subsection{Geany's build system}
+
+On Geany you can define a couple of commands for the build system to
+improve work with your source file.
+
+\subsubsection{Document backward search}
+When working on a document it happens taht you find a typing error or
+some more generic issue on your document. Once this happend, its hard
+to find the correct position in your tex file. If you are using xdvi
+you can use the backward search function to jump to the right place of
+your document. An example configuration line for Geany's build system
+could look similar to  this snippet:
+
+\begin{lstlisting}
+xdvi -editor "geany --line %l '%%f'" "%f"
+\end{lstlisting}
+
+\subsection{Geany's template system}
+\label{sec:recommended_things_geany_template_system}
+If you don't need a dynamic template as described in chapter \ref
+{sec:extending_wizard_by_own_templates}, page \pageref
+{sec:extending_wizard_by_own_templates} you can also use Geany's
+buildin template function which allows to also add customised
+templates, including placeholders for e.g. author's name, but in a
+more general and non\LaTeX{}-specific way. Nevertheless you should
+give it a try as it useful in many cases. For information how to
+create your own template using Geany's build in feature, please
+check manual.
 
 \subsection{Geany's code snippet function}
 Geany is allowing you to define code snippets and inserting them easy
@@ -579,6 +928,15 @@ Subversion could be useful to keep versions. GeanyVC is adding a easy
 to use frontend for a number of popular version controll systems such
 as git, Subversion, CVS, Bazaar or Mercural.\\
 \textbf{Homepage:} \url{http://plugins.geany.org/geanyvc/}
+
+\subsubsection{Spellcheck}
+Nobody is perfect - in special with typing mistakes on writing a
+text. Spellcheck is offering a way on Geany to make usage of a
+common spellchecking sytem as aspell, myspell or hunspell. Wrong
+spelled words can be marked with an red line and the plugin is
+offering suggestions for correct the word. Unfortunately right now
+its not supporting some special things common in \TeX{} and \LaTeX{}.\\
+\textbf{Homepage:} \url{http://plugins.geany.org/spellcheck/}
 
 \subsubsection{tasks out of the addons plugins}
 A plugin that is recognising \texttt{TODO} or \texttt{FIXME} tags

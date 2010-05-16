@@ -1,7 +1,7 @@
 /*
- *      utils.c
+ *      latexutils.c
  *
- *      Copyright 2009 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2009-2010 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -20,9 +20,9 @@
  */
 
 #include "latexutils.h"
-#include "document.h"
+#include "geanylatex.h"
 
-gchar **geanylatex_read_file_in_array(const gchar *filename)
+gchar **glatex_read_file_in_array(const gchar *filename)
 {
 	gchar **result = NULL;
 	gchar *data;
@@ -41,26 +41,81 @@ gchar **geanylatex_read_file_in_array(const gchar *filename)
 	return result;
 }
 
-const gchar *glatex_get_aux_file()
+void glatex_usepackage(const gchar *pkg, const gchar *options)
 {
 	GeanyDocument *doc = NULL;
-	gchar *locale_filename = NULL;
-	GString *tmp = NULL;
+	gint i;
+	gint document_number_of_lines;
+	gchar *tmp_line;
 
 	doc = document_get_current();
 
-	if (doc != NULL)
-	{
-		if (doc->file_name != NULL)
-		{
-			locale_filename = utils_get_locale_from_utf8(doc->file_name);
-			tmp = g_string_new(locale_filename);
-			utils_string_replace_all(tmp, ".tex", ".aux");
+	/* Checking whether we have a document */
+	g_return_if_fail(doc != NULL);
 
-			return g_string_free(tmp, FALSE);
+	/* Iterating through document to find \begin{document}
+	 * Do nothing, if its not available at all */
+	document_number_of_lines = sci_get_line_count(doc->editor->sci);
+	for (i = 0; i < document_number_of_lines; i++)
+	{
+		tmp_line = sci_get_line(doc->editor->sci, i);
+		if (utils_str_equal(tmp_line, "\\begin{document}\n"))
+		{
+			gint pos;
+			gchar *packagestring;
+
+			pos = sci_get_position_from_line(doc->editor->sci, i);
+			/* Building up package string and inserting it */
+			if (NZV(options))
+			{
+				packagestring = g_strconcat("\\usepackage[", options,
+					"]{", pkg, "}\n", NULL);
+			}
+			else
+			{
+				packagestring = g_strconcat("\\usepackage{", pkg, "}\n", NULL);
+			}
+			sci_insert_text(doc->editor->sci, pos, packagestring);
+
+			g_free(tmp_line);
+			g_free(packagestring);
+
+			return;
 		}
+		g_free(tmp_line);
 	}
 
-	return NULL;
+	dialogs_show_msgbox(GTK_MESSAGE_ERROR,
+		_("Could not determine where to insert package: %s"
+		  "\nPlease try insert package manually"), pkg);
+	ui_set_statusbar(TRUE, _("Could not determine where to insert package: %s"), pkg );
+}
+
+
+void glatex_enter_key_pressed_in_entry(G_GNUC_UNUSED GtkWidget *widget, gpointer dialog )
+{
+	gtk_dialog_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
+}
+
+
+void
+glatex_insert_string(gchar *string, gboolean reset_position)
+{
+	GeanyDocument *doc = NULL;
+
+	doc = document_get_current();
+
+	if (doc != NULL && string != NULL)
+	{
+		gint pos = sci_get_current_position(doc->editor->sci);
+		gint len = 0;
+
+		if (reset_position == TRUE)
+		{
+			len = strlen(string);
+		}
+
+		editor_insert_text_block(doc->editor, string, pos, len, 0, TRUE);
+	}
 }
 

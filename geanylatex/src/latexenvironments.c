@@ -1,22 +1,22 @@
 /*
- *      latexenvironments.c
+ *	  latexenvironments.c
  *
- *      Copyright 2009 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *	  Copyright 2009-2010 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
- *      This program is free software; you can redistribute it and/or modify
- *      it under the terms of the GNU General Public License as published by
- *      the Free Software Foundation; either version 2 of the License, or
- *      (at your option) any later version.
+ *	  This program is free software; you can redistribute it and/or modify
+ *	  it under the terms of the GNU General Public License as published by
+ *	  the Free Software Foundation; either version 2 of the License, or
+ *	  (at your option) any later version.
  *
- *      This program is distributed in the hope that it will be useful,
- *      but WITHOUT ANY WARRANTY; without even the implied warranty of
- *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *      GNU General Public License for more details.
+ *	  This program is distributed in the hope that it will be useful,
+ *	  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	  GNU General Public License for more details.
  *
- *      You should have received a copy of the GNU General Public License
- *      along with this program; if not, write to the Free Software
- *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- *      MA 02110-1301, USA.
+ *	  You should have received a copy of the GNU General Public License
+ *	  along with this program; if not, write to the Free Software
+ *	  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ *	  MA 02110-1301, USA.
  */
 
 #include "latexenvironments.h"
@@ -51,8 +51,16 @@ SubMenuTemplate glatex_environment_array[] = {
 	{0, NULL, NULL},
 };
 
+gchar *glatex_list_environments [] =
+{
+	"description",
+	"enumerate",
+	"itemize"
+};
 
-void glatex_insert_environment(gchar *environment)
+
+/* if type == -1 then we will try to autodetect the type */
+void glatex_insert_environment(gchar *environment, gint type)
 {
 	GeanyDocument *doc = NULL;
 
@@ -62,30 +70,95 @@ void glatex_insert_environment(gchar *environment)
 	if (doc != NULL && environment != NULL)
 	{
 		if (sci_has_selection(doc->editor->sci))
-        {
+		{
 			gchar *selection  = NULL;
-			const gchar *replacement = NULL;
+			gchar *replacement = NULL;
+			selection = sci_get_selection_contents(doc->editor->sci);
 
-            selection = sci_get_selection_contents(doc->editor->sci);
+			sci_start_undo_action(doc->editor->sci);
+			if (utils_str_equal(environment, "block") == TRUE)
+			{
+				replacement = g_strconcat("\\begin{", environment, "}{}\n",
+							  selection, "\n\\end{", environment, "}\n", NULL);
+			}
+			else
+			{
+				replacement = g_strconcat("\\begin{", environment, "}\n",
+							  selection, "\n\\end{", environment, "}\n", NULL);
+			}
+			sci_replace_sel(doc->editor->sci, replacement);
+			sci_end_undo_action(doc->editor->sci);
+			g_free(selection);
+			g_free(replacement);
 
-            replacement = g_strconcat("\\begin{", environment, "}\n",
-                selection,"\n\\end{", environment, "}\n", NULL);
-
-            sci_replace_sel(doc->editor->sci, replacement);
-            g_free(selection);
 		}
 		else
 		{
-			gint pos = sci_get_current_position(doc->editor->sci);
-			gint len = strlen(environment);
+			gint indent, pos, len;
+			GString *tmpstring = NULL;
 			gchar *tmp = NULL;
+			static const GeanyIndentPrefs *indention_prefs = NULL;
 
-			tmp = g_strconcat("\\begin{", environment, "}\n\n\\end{",
-			environment, "}\n", NULL);
+			if (type == -1)
+			{
+				gint i;
 
-			sci_insert_text(doc->editor->sci, pos, tmp);
-			sci_set_current_position(doc->editor->sci, pos + len + 9, TRUE);
+				/* First, we check whether we have a known list over here
+				 * an reset type to fit new value*/
+				for (i = 0; i < GLATEX_LIST_END; i++)
+				{
+					if (utils_str_equal(glatex_list_environments[i], environment) == TRUE)
+					{
+						type = GLATEX_ENVIRONMENT_TYPE_LIST;
+						break;
+					}
+				}
+			}
+			pos = sci_get_current_position(doc->editor->sci);
+			len = strlen(environment);
+
+			sci_start_undo_action(doc->editor->sci);
+
+			tmpstring = g_string_new("\\begin{");
+			g_string_append(tmpstring, environment);
+
+			if (utils_str_equal(environment, "block") == TRUE)
+			{
+				g_string_append(tmpstring, "}{}");
+			}
+			else
+			{
+				g_string_append(tmpstring, "}");
+			}
+			g_string_append(tmpstring, "\n");
+
+
+			if (type == GLATEX_ENVIRONMENT_TYPE_LIST)
+			{
+				g_string_append(tmpstring, "\t\\item ");
+			}
+
+			tmp = g_string_free(tmpstring, FALSE);
+			glatex_insert_string(tmp, TRUE);
 			g_free(tmp);
+
+			indent = sci_get_line_indentation(doc->editor->sci,
+				sci_get_line_from_position(doc->editor->sci, pos));
+
+			tmp = g_strdup_printf("\n\\end{%s}", environment);
+			glatex_insert_string(tmp, FALSE);
+			g_free(tmp);
+
+			indention_prefs = editor_get_indent_prefs(doc->editor);
+			if (type == GLATEX_ENVIRONMENT_TYPE_LIST)
+			{
+				sci_set_line_indentation(doc->editor->sci,
+					sci_get_current_line(doc->editor->sci),
+					indent + indention_prefs->width);
+			}
+			sci_set_line_indentation(doc->editor->sci,
+				sci_get_current_line(doc->editor->sci) + 1, indent);
+			sci_end_undo_action(doc->editor->sci);
 		}
 	}
 }
@@ -93,23 +166,29 @@ void glatex_insert_environment(gchar *environment)
 
 void
 glatex_environment_insert_activated (G_GNUC_UNUSED GtkMenuItem *menuitem,
-                              G_GNUC_UNUSED gpointer gdata)
+							  G_GNUC_UNUSED gpointer gdata)
 {
-    gint env = GPOINTER_TO_INT(gdata);
+	gint env = GPOINTER_TO_INT(gdata);
 
-    glatex_insert_environment(glatex_environment_array[env].latex);
+	if (glatex_environment_array[env].cat == ENVIRONMENT_CAT_LISTS)
+		glatex_insert_environment(glatex_environment_array[env].latex,
+			GLATEX_ENVIRONMENT_TYPE_LIST);
+	else
+		glatex_insert_environment(glatex_environment_array[env].latex,
+			GLATEX_ENVIRONMENT_TYPE_NONE);
 }
 
 
 void
 glatex_insert_environment_dialog(G_GNUC_UNUSED GtkMenuItem *menuitem,
-                                 G_GNUC_UNUSED gpointer gdata)
+								 G_GNUC_UNUSED gpointer gdata)
 {
 	GtkWidget *dialog = NULL;
 	GtkWidget *vbox = NULL;
 	GtkWidget *label_env = NULL;
 	GtkWidget *textbox_env = NULL;
 	GtkWidget *table = NULL;
+	GtkWidget *tmp_entry = NULL;
 	GtkTreeModel *model = NULL;
 	gint i, max;
 
@@ -147,9 +226,13 @@ glatex_insert_environment_dialog(G_GNUC_UNUSED GtkMenuItem *menuitem,
 	gtk_table_attach_defaults(GTK_TABLE(table), textbox_env, 1, 2, 0, 1);
 	gtk_container_add(GTK_CONTAINER(vbox), table);
 
+	tmp_entry =  gtk_bin_get_child(GTK_BIN(textbox_env));
+	g_signal_connect(G_OBJECT(tmp_entry), "activate",
+		G_CALLBACK(glatex_enter_key_pressed_in_entry), dialog);
+
 	gtk_widget_show_all(vbox);
 
-    if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
+	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
 	{
 		gchar *env_string = NULL;
 
@@ -158,7 +241,7 @@ glatex_insert_environment_dialog(G_GNUC_UNUSED GtkMenuItem *menuitem,
 
 		if (env_string != NULL)
 		{
-			glatex_insert_environment(env_string);
+			glatex_insert_environment(env_string, -1);
 			g_free(env_string);
 		}
 	}
@@ -166,3 +249,7 @@ glatex_insert_environment_dialog(G_GNUC_UNUSED GtkMenuItem *menuitem,
 	gtk_widget_destroy(dialog);
 }
 
+void glatex_insert_list_environment(gint type)
+{
+	glatex_insert_environment(glatex_list_environments[type], GLATEX_ENVIRONMENT_TYPE_LIST);
+}

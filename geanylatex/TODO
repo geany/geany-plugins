@@ -1,16 +1,28 @@
 	TODO
 ************
 
+Features:
+* Improving inserting \usepackge{}-function
+	* recognize other \usepackage{} entries
+	* Give a couple of examples
+* Extending insert environment section
+	* More common examples
+	* Parsing document for already used ones
 * Improving support for bibTeX
     * Parsing of *.bib
     * Inserting of \cite
     * Dialog for inserting bibTeX entries
 * Wizard:
 	* Adding support for diff. letter classes
-	* Make plugin use customisable templates
+	* Adding a way setting variables/values for wizard inside custom
+	  template
+	* Cleaning up the mess with KOMA/non KOMA classes
+	* Replacing & by \& inside title and author on wizard screen as most
+	  likely user is not inserting any tabular there
 * Replacing of environments
 * Parsing document for »TOC«
     * Navigation throught document
-    * "Graphical" support while using \ref, \pageref ...
 * Code examples for very common problems
 * Make special characters extensible through files
+* Improve behaviour of levelup and leveldown of structures
+* Adding a font size chooser to toolbar

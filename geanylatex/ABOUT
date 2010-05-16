@@ -1,0 +1,17 @@
+GeanyLaTeX is a little plugin to improve support of LaTeX on Geany.
+It implements a couple of maybe useful functions:
+
+	*  Wizard to create new LaTeX documents in a fast and easy way
+	   with a bunch of templates available
+	*  A front end for add labels \label{} and references \ref{} and 
+	   \pageref{} with getting suggestion from aux file of document
+	*  Inserting special characters through menu
+	*  Help entering the right fields for BibTeX entries by
+	   providing templates
+	*  Easy inserting format patterns like \texttt{} through menu
+	*  Support on inserting environments by offering an dialog and
+	   recognising selections
+	*  Shortcuts for inserting \item and \newline
+	*  Toolbar with often used format options
+
+You will find more information inside documentation.

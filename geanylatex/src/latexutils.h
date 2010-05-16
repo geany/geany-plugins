@@ -1,7 +1,7 @@
 /*
  *      latexutils.h
  *
- *      Copyright 2009 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2009-2010 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -23,8 +23,9 @@
 
 #include "geanylatex.h"
 
-gchar **geanylatex_read_file_in_array(const gchar *filename);
-
-const gchar *glatex_get_aux_file();
+gchar **glatex_read_file_in_array(const gchar *filename);
+void glatex_usepackage(const gchar *pkg, const gchar *options);
+void glatex_enter_key_pressed_in_entry(G_GNUC_UNUSED GtkWidget *widget, gpointer dialog);
+void glatex_insert_string(gchar *string, gboolean reset_position);
 
 #endif
