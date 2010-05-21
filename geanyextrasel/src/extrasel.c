@@ -51,18 +51,19 @@ static gboolean column_mode = FALSE;
 typedef struct _command_key
 {
 	guint key;
+	guint keypad;
 	gint command;
 } command_key;
 
 static const command_key command_keys[] =
 {
-	{ GDK_Left,   SCI_WORDLEFT },
-	{ GDK_Right,  SCI_WORDRIGHTEND },
-	{ GDK_Home,   SCI_DOCUMENTSTART },
-	{ GDK_End,    SCI_DOCUMENTEND },
-	{ GDK_Up,     SCI_PARAUP },
-	{ GDK_Down,   SCI_PARADOWN },
-	{ 0, 0 }
+	{ GDK_Left,   GDK_KP_Left,   SCI_WORDLEFT },
+	{ GDK_Right,  GDK_KP_Right,  SCI_WORDRIGHTEND },
+	{ GDK_Home,   GDK_KP_Home,   SCI_DOCUMENTSTART },
+	{ GDK_End,    GDK_KP_End,    SCI_DOCUMENTEND },
+	{ GDK_Up,     GDK_KP_Up,     SCI_PARAUP },
+	{ GDK_Down,   GDK_KP_Down,   SCI_PARADOWN },
+	{ 0, 0, 0 }
 };
 
 /* not #defined in 0.18 */
@@ -94,7 +95,7 @@ static gboolean on_key_press_event(GtkWidget *widget, GdkEventKey *event, G_GNUC
 
 		for (ck = command_keys; ck->key; ck++)
 		{
-			if (event->keyval == ck->key)
+			if (event->keyval == ck->key || event->keyval == ck->keypad)
 			{
 				GeanyDocument *doc = document_get_current();
 

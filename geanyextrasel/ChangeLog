@@ -1,1 +1,4 @@
+2010-05-21  Dimitar Zhekov  <hamster@mbox.contact.bg>
 
+ * src/extrasel.c:
+   Handle the Ctrl-(Alt)-Shift-Keypad keys.
