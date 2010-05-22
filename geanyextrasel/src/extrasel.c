@@ -293,6 +293,11 @@ void plugin_init(G_GNUC_UNUSED GeanyData *data)
 		"key-press-event", FALSE, G_CALLBACK(on_key_press_event), NULL);
 }
 
+/* for 0.18 compatibility */
+#ifndef foreach_document
+#define foreach_document documents_foreach
+#endif
+
 void plugin_cleanup(void)
 {
 	guint i;

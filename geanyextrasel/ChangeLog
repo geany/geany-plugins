@@ -2,6 +2,7 @@
 
  * src/extrasel.c:
    Fixed crash in plugin_cleanup() - patch by Colomban Wendling, thanks.
+   Use documents_foreach() if foreach_document() is not available.
  
 2010-05-21  Dimitar Zhekov  <hamster@mbox.contact.bg>
 
