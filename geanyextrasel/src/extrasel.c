@@ -289,17 +289,16 @@ void plugin_init(G_GNUC_UNUSED GeanyData *data)
 
 	gtk_widget_show_all(main_menu_item);
 
-	// testing
 	plugin_signal_connect(geany_plugin, G_OBJECT(geany->main_widgets->window),
 		"key-press-event", FALSE, G_CALLBACK(on_key_press_event), NULL);
 }
 
 void plugin_cleanup(void)
 {
-	gint i, max = gtk_notebook_get_n_pages(GTK_NOTEBOOK(geany->main_widgets->notebook));
+	guint i;
 
 	column_mode = FALSE;
-	for (i = 0; i < max; i++)
-		assign_column_keys(document_get_from_page(i)->editor->sci);
+	foreach_document (i)
+		assign_column_keys(documents[i]->editor->sci);
 	gtk_widget_destroy(main_menu_item);
 }

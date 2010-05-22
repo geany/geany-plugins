@@ -1,3 +1,8 @@
+2010-05-22  Dimitar Zhekov  <hamster@mbox.contact.bg>
+
+ * src/extrasel.c:
+   Fixed crash in plugin_cleanup() - patch by Colomban Wendling, thanks.
+ 
 2010-05-21  Dimitar Zhekov  <hamster@mbox.contact.bg>
 
  * src/extrasel.c:
