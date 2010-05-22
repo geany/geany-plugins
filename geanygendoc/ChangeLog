@@ -1,4 +1,4 @@
-2010-05-22  Colomban Wendling  <ban@herbesfolles.org>
+2010-05-22  Colomban Wendling  <ban(at)herbesfolles(dot)org>
 
   * src/ggd-plugin.c:
     Fix packing of the General frame not to expand unnecessarily, which
@@ -9,7 +9,7 @@
     Import into Geany-Plugins.
 
 
-2010-05-21  Colomban Wendling  <ban@herbesfolles.org>
+2010-05-21  Colomban Wendling  <ban(at)herbesfolles(dot)org>
 
   * docs/help/manual.rst:
     Add a new section in the manual that presents and describes the UI
@@ -27,13 +27,13 @@
     likely to use Javadoc, Vala to use Valadoc, etc.).
 
 
-2010-05-20  Colomban Wendling  <ban@herbesfolles.org>
+2010-05-20  Colomban Wendling  <ban(at)herbesfolles(dot)org>
 
   * TODO, src/ggd-plugin.c:
     Use an helper function to add menu items
 
 
-2010-05-11  Colomban Wendling  <ban@herbesfolles.org>
+2010-05-11  Colomban Wendling  <ban(at)herbesfolles(dot)org>
 
   * src/ggd-options.c:
     Make option saving more robust against corrupted conffile.
@@ -42,7 +42,7 @@
     the configuration file does not exist or exists but is corrupted.
 
 
-2010-05-09  Colomban Wendling  <ban@herbesfolles.org>
+2010-05-09  Colomban Wendling  <ban(at)herbesfolles(dot)org>
 
   * configure.ac:
     Show whether to build documentation on configure summary
@@ -50,7 +50,7 @@
     Clarify the manual by saying for what the syntax is used
 
 
-2010-05-04  Colomban Wendling  <ban@herbesfolles.org>
+2010-05-04  Colomban Wendling  <ban(at)herbesfolles(dot)org>
 
   * src/Makefile.am, src/ggd-plugin.c:
     Add a menu item to open the manual
@@ -60,7 +60,7 @@
     Add a manual and install it (and other missing documentation files).
 
 
-2010-05-01  Colomban Wendling  <ban@herbesfolles.org>
+2010-05-01  Colomban Wendling  <ban(at)herbesfolles(dot)org>
 
   * src/ggd.c:
     Don't use a hard-coded list of what can have arguments.
@@ -107,7 +107,7 @@
     arguments and return type (oops).
 
 
-2010-04-29  Colomban Wendling  <ban@herbesfolles.org>
+2010-04-29  Colomban Wendling  <ban(at)herbesfolles(dot)org>
 
   * src/ggd-doc-setting.c, src/ggd-doc-setting.h, src/ggd-doc-type.c,
     src/ggd-doc-type.h, src/ggd-file-type-loader.c, src/ggd-file-type-loader.h, 
@@ -134,7 +134,7 @@
     visibility.
 
 
-2010-04-28  Colomban Wendling  <ban@herbesfolles.org>
+2010-04-28  Colomban Wendling  <ban(at)herbesfolles(dot)org>
 
   * src/ggd-plugin.c:
     Show the "indent" preference in the plugin's preference dialog.
@@ -149,7 +149,7 @@
     Prefix the options with GGD_ since they are now exported.
 
 
-2010-04-26  Colomban Wendling  <ban@herbesfolles.org>
+2010-04-26  Colomban Wendling  <ban(at)herbesfolles(dot)org>
 
   * po/fr.po:
     Update French translation
@@ -170,7 +170,7 @@
     each children of i.e. a structure.
 
 
-2010-04-24  Colomban Wendling  <ban@herbesfolles.org>
+2010-04-24  Colomban Wendling  <ban(at)herbesfolles(dot)org>
 
   * data/filetypes/c.conf:
     Use new cursor positioning in C filetype configuration
@@ -194,7 +194,7 @@
     without rules.
 
 
-2010-04-22  Colomban Wendling  <ban@herbesfolles.org>
+2010-04-22  Colomban Wendling  <ban(at)herbesfolles(dot)org>
 
   * TODO, src/ggd-tag-utils.c:
     Fix ordering of tag children
@@ -226,7 +226,7 @@
     directory. Sorry for this.
 
 
-2010-04-21  Colomban Wendling  <ban@herbesfolles.org>
+2010-04-21  Colomban Wendling  <ban(at)herbesfolles(dot)org>
 
   * src/ggd-plugin.c:
     Make editor's menu action work at the popup position
@@ -250,7 +250,7 @@
     Move GGD_PTR_ARRAY_FOR() to ggd-utils
 
 
-2010-04-20  Colomban Wendling  <ban@herbesfolles.org>
+2010-04-20  Colomban Wendling  <ban(at)herbesfolles(dot)org>
 
   * src/ggd-tag-utils.c, src/ggd-tag-utils.h:
     Make tag find functions take a const array
@@ -267,7 +267,7 @@
     operation) and no more modification of the given tag array.
 
 
-2010-04-18  Colomban Wendling  <ban@herbesfolles.org>
+2010-04-18  Colomban Wendling  <ban(at)herbesfolles(dot)org>
 
   * AUTHORS, COPYING, INSTALL, Makefile.am, README.in, TODO, autogen.sh,
     configure.ac, data/Makefile.am, data/filetypes/Makefile.am,
