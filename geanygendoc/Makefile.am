@@ -5,7 +5,5 @@ include $(top_srcdir)/build/vars.docs.mk
 EXTRA_DIST = $(AUXFILES)
 endif
 
-SUBDIRS = src docs
-# don't install data because it doesn't work for now
-#SUBDIRS += data
+SUBDIRS = src docs data
 plugin = geanygendoc
