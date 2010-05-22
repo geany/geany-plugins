@@ -4,6 +4,7 @@ plugins = \
 	geanydoc \
 	geanyextrasel \
 	geanygdb \
+	geanygendoc \
 	geanyinsertnum \
 	geanylatex \
 	geanylipsum \

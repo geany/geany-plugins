@@ -1,0 +1,282 @@
+2010-05-22  Colomban Wendling  <ban@herbesfolles.org>
+
+  * src/ggd-plugin.c:
+    Fix packing of the General frame not to expand unnecessarily, which
+    would break other expansions.
+  * TODO:
+    Add an entry in the TODO-list
+  * [All]
+    Import into Geany-Plugins.
+
+
+2010-05-21  Colomban Wendling  <ban@herbesfolles.org>
+
+  * docs/help/manual.rst:
+    Add a new section in the manual that presents and describes the UI
+    that the plugin adds to Geany.
+  * src/ggd-file-type-loader.c, src/ggd-file-type-manager.c, src/ggd-options.c, 
+    src/ggd-plugin.c, src/ggd-utils.c, src/ggd-widget-doctype-selector.c,
+    src/ggd.c:
+    Strings review
+  * src/ggd-plugin.c:
+    Open the manual on plugin_help()
+  * TODO, src/Makefile.am, src/ggd-plugin.c, src/ggd-plugin.h,
+    src/ggd-widget-doctype-selector.c, src/ggd-widget-doctype-selector.h:
+    Support per-filetype documentation type setting. This is useful since
+    different languages may not share the same doctype (e.g. Java is
+    likely to use Javadoc, Vala to use Valadoc, etc.).
+
+
+2010-05-20  Colomban Wendling  <ban@herbesfolles.org>
+
+  * TODO, src/ggd-plugin.c:
+    Use an helper function to add menu items
+
+
+2010-05-11  Colomban Wendling  <ban@herbesfolles.org>
+
+  * src/ggd-options.c:
+    Make option saving more robust against corrupted conffile.
+    Do not fail saving if the original file cannot be loaded, simply
+    overwrite with the new settings. This fixes configuration saving when
+    the configuration file does not exist or exists but is corrupted.
+
+
+2010-05-09  Colomban Wendling  <ban@herbesfolles.org>
+
+  * configure.ac:
+    Show whether to build documentation on configure summary
+  * docs/help/manual.rst:
+    Clarify the manual by saying for what the syntax is used
+
+
+2010-05-04  Colomban Wendling  <ban@herbesfolles.org>
+
+  * src/Makefile.am, src/ggd-plugin.c:
+    Add a menu item to open the manual
+  * Makefile.am, README.in, configure.ac, docs/Makefile.am,
+    docs/help/Makefile.am, docs/help/html4css1.css, docs/help/manual.css,
+    docs/help/manual.rst:
+    Add a manual and install it (and other missing documentation files).
+
+
+2010-05-01  Colomban Wendling  <ban@herbesfolles.org>
+
+  * src/ggd.c:
+    Don't use a hard-coded list of what can have arguments.
+    Always generate arguments list if the tag have one.
+    In the same spirit, always generate the "returns" symbol too even
+    when it doesn't make sense; simply let the template use it or not.
+  * src/Makefile.am, src/ggd-plugin.c, src/ggd-widget-frame.c,
+    src/ggd-widget-frame.h:
+    Implement and use Glade-style frames.
+    This makes the UI quite nicer and more consistent with both Geany
+    and GNOME.
+  * TODO:
+    Update TODO list
+  * data/filetypes/Makefile.am, 
+    data/filetypes/vala.conf:
+    Add basic rules for Vala
+  * src/ggd-tag-utils.c, src/ggd-tag-utils.h, 
+    src/ggd.c:
+    Fix tag scope detection for non-c-style languages.
+    Don't use hard-coded "::" separator but try to find the right
+    separator for the file type.
+  * src/ggd.c:
+    Display a message when no setting applies to a tag.
+    This eases writing/debugging of rules, and is not that intrusive for
+    production use.
+  * configure.ac, src/ggd-plugin.c:
+    Decrease plugin API dependency to 171, which should be the actual
+    version we need and should make the plugin work with Geany 0.18.1.
+  * src/ggd-plugin.c, src/ggd-plugin.h, src/ggd.c:
+    Support for global environment overrides.
+    Add a global environment to allow overrides and additions to the
+    filetype-specific environments. This is useful e.g. to set a "insert
+    since" property that will apply to all filetypes, an this without
+    modifying filetypes themselves.
+  * src/Makefile.am:
+    Fix distribution of ggd-macros.h
+  * src/ggd.c:
+    Fix crash when documenting symbol with no rules set.
+    Don't try to access the GgdDocSetting.autodoc_children field if the
+    setting is NULL (oops).
+  * src/ggd.c:
+    Fix support of argument list and return type for methods.
+    Methods was just forgotten in the list of things that can have
+    arguments and return type (oops).
+
+
+2010-04-29  Colomban Wendling  <ban@herbesfolles.org>
+
+  * src/ggd-doc-setting.c, src/ggd-doc-setting.h, src/ggd-doc-type.c,
+    src/ggd-doc-type.h, src/ggd-file-type-loader.c, src/ggd-file-type-loader.h, 
+    src/ggd-file-type-manager.c, src/ggd-file-type-manager.h,
+    src/ggd-file-type.c, src/ggd-file-type.h, src/ggd-macros.h,
+    src/ggd-options.c, src/ggd-options.h, src/ggd-plugin.c, src/ggd-plugin.h,
+    src/ggd-tag-utils.c, src/ggd-tag-utils.h, src/ggd-utils.c, src/ggd-utils.h,
+    src/ggd.c, src/ggd.h:
+    Cleanup and fix copyright information:
+     * Don't use non-ASCII character;
+     * Don't include nickname in author's name;
+     * Update some outdated dates;
+     * Add a short description of the package.
+  * src/ggd-doc-setting.h, src/ggd-doc-type.h, src/ggd-file-type-loader.h,
+    src/ggd-file-type-manager.h, src/ggd-file-type.h, src/ggd-macros.h,
+    src/ggd-options.h, src/ggd-plugin.h, src/ggd-tag-utils.h, src/ggd-utils.h,
+    src/ggd.h:
+    Set the "internal" visibility for plugin's symbols. This cleans the
+    symbol table of the plugin, as well as it might allow the compiler
+    to do some optimizations.
+    
+    This is currently only supported when building with GCC >= 4.2. Builds
+    with other/older compilers will simply keep their default symbol
+    visibility.
+
+
+2010-04-28  Colomban Wendling  <ban@herbesfolles.org>
+
+  * src/ggd-plugin.c:
+    Show the "indent" preference in the plugin's preference dialog.
+  * src/ggd-plugin.c, src/ggd-plugin.h, src/ggd.c, src/ggd.h:
+    Indent the inserted comment according to the insertion position
+    indentation. This can be disabled by a (currently) hidden "indent"
+    preference.
+    Also use editor_insert_text_block() in place of sci_insert_text(),
+    which fixes line endings to be the right ones for the working file.
+  * src/ggd-plugin.c, src/ggd-plugin.h:
+    Plugin options are now available everywhere by including ggd-plugin.h.
+    Prefix the options with GGD_ since they are now exported.
+
+
+2010-04-26  Colomban Wendling  <ban@herbesfolles.org>
+
+  * po/fr.po:
+    Update French translation
+  * src/ggd-plugin.c:
+    Add & cleanup some tooltips.
+    Add tooltips for the tool's menu items;
+    Cleanup the big tooltip of the save-to-refresh option.
+  * data/filetypes/c.conf:
+    Use new auto-generation of children documentation
+    Use auto-generation of children's documentation for structures, unions
+    and enumerations in Doxygen format.
+  * src/ggd-doc-setting.c, src/ggd-doc-setting.h, src/ggd-file-type-loader.c,
+    src/ggd-tag-utils.c, src/ggd-tag-utils.h, src/ggd.c:
+    Support automatic documentation of children
+    Allow a rule to request for automatic generation of its children
+    documentation. This is useful for fragmented documentation styles
+    such as Doxygen not to need to manually generate documentation for
+    each children of i.e. a structure.
+
+
+2010-04-24  Colomban Wendling  <ban@herbesfolles.org>
+
+  * data/filetypes/c.conf:
+    Use new cursor positioning in C filetype configuration
+  * src/ggd.c:
+    Add support for the special "cursor" variable in templates, allowing
+    to explicitly place the cursor in the generated comment.
+    This variable may appear more than once but currently only the first
+    occurrence that appears in the output comment is honored.
+  * data/filetypes/c.conf:
+    Update C filetype configuration
+    gtkdoc:
+     * Don't document prototypes;
+     * Fill-in union rule.
+    doxygen:
+     * Add support for more types.
+  * src/ggd.c:
+    Fix "document all" when there are symbols not to document
+    The "document all" action was aborting if the setting for any tag
+    wasn't found rather than when something went actually wrong.
+    This fixes the action when called on a file that contains symbols
+    without rules.
+
+
+2010-04-22  Colomban Wendling  <ban@herbesfolles.org>
+
+  * TODO, src/ggd-tag-utils.c:
+    Fix ordering of tag children
+    Make ggd_tag_find_children() return a sorted list of the tags, in the
+    order they appears in the source.
+    This fixes wrong order of some children such as structure members or
+    enumeration values that were sorted alphabetically.
+  * src/ggd-doc-setting.c, src/ggd-doc-setting.h, src/ggd-file-type-loader.c,
+    src/ggd-file-type-loader.h, src/ggd-file-type-manager.c,
+    src/ggd-file-type.c, src/ggd-options.c, src/ggd-options.h,
+    src/ggd-tag-utils.c, src/ggd-tag-utils.h, src/ggd-utils.c, src/ggd-utils.h, 
+    src/ggd.c:
+    Add some code documentation
+  * TODO:
+    Update TODO list
+  * data/filetypes/c.conf:
+    C configuration: fix match of empty argument list
+    Cleanly support completely empty argument lists (foo()) used e.g. in
+    macros with no arguments.
+  * data/filetypes/c.conf:
+    Updated default C filetype configuration
+    * Added template for defines;
+    * Don't include since tag by default.
+  * configure.ac:
+    Fix installation directory of plugin's data (oops)
+    Install plugin's data in ${prefix}/geany/plugin/${plugin_name} rather
+    than ${prefix}/geany/{plugin_name}.
+    If you already have installed the plugin, simply delete the old
+    directory. Sorry for this.
+
+
+2010-04-21  Colomban Wendling  <ban@herbesfolles.org>
+
+  * src/ggd-plugin.c:
+    Make editor's menu action work at the popup position
+    When inserting documentation by activating the editor's popup menu
+    item, insert documentation for the popup position rather than for
+    the cursor's position.
+    This fixes strange behavior when using editor's popup menu item.
+  * src/ggd-plugin.c:
+    Make menu items document-sensitive when it makes sense
+  * po/fr.po:
+    Update French translation
+  * src/ggd-plugin.c:
+    Add the "Document current symbol" item to the plugin's menu too
+  * src/ggd-plugin.c, src/ggd.c, src/ggd.h:
+    Add ability to document a whole file at once
+  * src/ggd-tag-utils.c, src/ggd-tag-utils.h:
+    Add sort direction argument to ggd_tag_sort_by_line()
+    Provide a way to chose sort direction (ascending or descending) with
+    ggd_tag_sort_by_line().
+  * src/ggd-tag-utils.c, src/ggd-utils.h:
+    Move GGD_PTR_ARRAY_FOR() to ggd-utils
+
+
+2010-04-20  Colomban Wendling  <ban@herbesfolles.org>
+
+  * src/ggd-tag-utils.c, src/ggd-tag-utils.h:
+    Make tag find functions take a const array
+    Tag find functions actually doesn't and shouldn't have to modify the
+    the given tag list they work on.
+  * src/ggd-tag-utils.c, src/ggd-tag-utils.h:
+    Add ggd_tag_sort_by_line() function that sorts a tag array by tag's
+    line.
+  * src/ggd-tag-utils.c:
+    Improve tag search for a given line
+    Make ggd_tag_find_from_line() use only a linear search rather than
+    sorting the tag array and then doing an almost linear search.
+    Benefits are probable speed improvement (array sorting isn't a cheap
+    operation) and no more modification of the given tag array.
+
+
+2010-04-18  Colomban Wendling  <ban@herbesfolles.org>
+
+  * AUTHORS, COPYING, INSTALL, Makefile.am, README.in, TODO, autogen.sh,
+    configure.ac, data/Makefile.am, data/filetypes/Makefile.am,
+    data/filetypes/c.conf, po/LINGUAS, po/POTFILES.in, po/fr.po,
+    src/Makefile.am, src/ggd-doc-setting.c, src/ggd-doc-setting.h,
+    src/ggd-doc-type.c, src/ggd-doc-type.h, src/ggd-file-type-loader.c,
+    src/ggd-file-type-loader.h, src/ggd-file-type-manager.c,
+    src/ggd-file-type-manager.h, src/ggd-file-type.c, src/ggd-file-type.h,
+    src/ggd-options.c, src/ggd-options.h, src/ggd-plugin.c, src/ggd-plugin.h,
+    src/ggd-tag-utils.c, src/ggd-tag-utils.h, src/ggd-utils.c, src/ggd-utils.h,
+    src/ggd.c, src/ggd.h:
+    Initial commit of the plugin

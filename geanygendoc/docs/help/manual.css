@@ -1,0 +1,68 @@
+/*
+:Author: Colomban Wendling
+:Contact: ban@herbesfolles.org
+:Copyright: This stylesheet has been placed in the public domain.
+
+Stylesheet for use with Docutils.
+*/
+
+@import url(html4css1.css);
+
+html {
+	background-color: #eeeeec;
+	color: #2e3436;
+	font-family: bitstream vera sans, sans-serif;
+	margin: 0 1em;
+}
+
+
+h1, h2, h3, h4, h5, h6, p.topic-title {
+	font-family: georgia, times new roman, times, serif;
+}
+
+h2.subtitle {
+	font-style: italic;
+	font-weight: normal;
+}
+
+p, dd {
+	text-align: justify;
+}
+
+.literal-block,
+.literal {
+	background: #fff;
+}
+.literal-block {
+	border: 1px solid #babdb6;
+	padding: 1px 2px;
+}
+h1 .literal, h2 .literal, h3 .literal, h4 .literal, h5 .literal, h6 .literal
+p.topic-title .literal {
+	background: inherit;
+	text-align: left;
+}
+
+
+.footnote-reference {
+	vertical-align: super;
+	font-size: 75%;
+}
+
+
+a         { text-decoration: none; }
+a:hover   { text-decoration: underline }
+a:link    { color: #204a87; }
+a:visited { color: #5c3566; }
+
+h1 a, h1 a:hover, h1 a:link, h1 a:visited,
+h2 a, h2 a:hover, h2 a:link, h2 a:visited,
+h3 a, h3 a:hover, h3 a:link, h3 a:visited,
+h4 a, h4 a:hover, h4 a:link, h4 a:visited,
+h5 a, h5 a:hover, h5 a:link, h5 a:visited,
+h6 a, h6 a:hover, h6 a:link, h6 a:visited,
+p.topic-title a, p.topic-title a:hover, p.topic-title a:link, p.topic-title a:visited
+{
+	text-decoration: none;
+	color: inherit;
+}

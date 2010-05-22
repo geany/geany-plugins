@@ -1,0 +1,37 @@
+General Information
+===================
+
+This is GeanyGenDoc @VERSION@, a plugin for Geany that aims to automatically
+generate documentation comment basis from the source code.
+
+Requirements
+============
+
+You will need the following packages to build GeanyGenDoc:
+ - Geany >= 0.19 (http://www.geany.org/)
+ - GTK+ >= 2.12 (http://www.gtk.org)
+ - GLib >= 2.14 (http://www.gtk.org)
+ - GIO >= 2.18 (http://www.gtk.org)
+ - CTPL >= 0.2 (http://ctpl.tuxfamily.org/)
+ - A working C compiler (GCC for example, http://gcc.gnu.org/)
+ - A working make implementation (GNU make is recommended,
+   http://www.gnu.org/software/make/)
+
+You may also want the following packages that enables extra features:
+ - Docutils (http://docutils.sourceforge.net/) -- or another implementation of
+   rst2html -- is needed to (re)generate the HTML manual.
+
+
+Installation
+============
+
+Compiling and installing the plugin is done by the following commands:
+
+ $ ./configure
+ $ make
+ $ make install
+
+For more configuration details run
+ $ ./configure --help
+
+For detailed instructions, see the INSTALL file.
