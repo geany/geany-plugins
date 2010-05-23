@@ -198,10 +198,11 @@ ggd_get_config_file (const gchar *name,
         
         /* try to copy the system file to the user's configuration directory */
         if (ggd_copy_file (system_path, user_path, TRUE, 0640, &gerr) ||
-            /* the file was already exist (unlikely if GGD_PERMS_R is set) */
+            /* the file already exists (unlikely if GGD_PERMS_R is set) */
             gerr->code == G_FILE_ERROR_EXIST) {
           path = user_path;
           if (gerr) g_clear_error (&gerr);
+          g_clear_error (error);
         } else if (gerr->code == G_FILE_ERROR_NOENT) {
           /* the system file doesn't exist. No problem, just try to create the
            * file (if it does not already exist) */
@@ -214,6 +215,7 @@ ggd_get_config_file (const gchar *name,
           } else {
             close (fd);
             path = user_path;
+            g_clear_error (error);
           }
         }
         if (gerr) {
