@@ -153,10 +153,7 @@ ggd_get_config_file (const gchar *name,
   
   user_dir = g_build_filename (G_DIR_SEPARATOR_S, geany->app->configdir,
                                "plugins", GGD_PLUGIN_CNAME, section, NULL);
-  /* FIXME: this should probably be fixed together with the build system not
-   *        to need to explicitly add the "geany-plugins" part */
-  system_dir = g_build_filename (DATADIR, "geany-plugins", GGD_PLUGIN_CNAME,
-                                 section, NULL);
+  system_dir = g_build_filename (PKGDATADIR, GGD_PLUGIN_CNAME, section, NULL);
   user_path = g_build_filename (user_dir, name, NULL);
   system_path = g_build_filename (system_dir, name, NULL);
   if (perms_req & GGD_PERM_R) {

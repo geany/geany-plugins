@@ -1,7 +1,7 @@
 if ENABLE_GEANYGENDOC
 plugin = geanygendoc
 # FIXME: should probably done by an included .mk such as vars.data.mk
-plugindatadir = $(datadir)/geany-plugins/$(plugin)
+plugindatadir = $(pkgdatadir)/$(plugin)
 endif
 
 FILETYPES = c.conf \
