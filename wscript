@@ -308,7 +308,6 @@ def configure(conf):
 		conf.define('LOCALEDIR', 'share/locale', 1)
 		# DATADIR is defined in objidl.h, so we remove it from config.h
 		conf.undefine('DATADIR')
-		conf.define('DATADIR', 'share')
 	else:
 		conf.define('PREFIX', conf.env['PREFIX'], 1)
 		conf.define('DOCDIR', '%s/doc/geany-plugins/' % conf.env['DATADIR'], 1)
