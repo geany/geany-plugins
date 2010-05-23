@@ -4,7 +4,9 @@ AM_CFLAGS = \
 	-DDOCDIR=\""$(docdir)"\" \
 	-DDATADIR=\""$(datadir)"\" \
 	-DGEANYPLUGINS_DATADIR=\""$(datadir)"\" \
+	-DPKGDATADIR=\""$(pkgdatadir)"\" \
 	-DLIBDIR=\""$(libdir)"\" \
+	-DPKGLIBDIR=\""$(pkglibdir)"\" \
 	$(GEANY_CFLAGS)
 
 AM_LDFLAGS = -module -avoid-version
