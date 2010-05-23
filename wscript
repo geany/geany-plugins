@@ -313,6 +313,8 @@ def configure(conf):
 		conf.define('PREFIX', conf.env['PREFIX'], 1)
 		conf.define('DOCDIR', '%s/doc/geany-plugins/' % conf.env['DATADIR'], 1)
 		conf.define('GEANYPLUGINS_DATADIR', conf.env['DATADIR'])
+	conf.define('PKGDATADIR', os.path.join(conf.env['GEANYPLUGINS_DATADIR'], 'geany-plugins'))
+	conf.define('PKGLIBDIR', os.path.join(conf.env['LIBDIR'], 'geany-plugins'))
 	conf.define('VERSION', VERSION, 1)
 	conf.define('PACKAGE', APPNAME, 1)
 	conf.define('GETTEXT_PACKAGE', APPNAME, 1)
