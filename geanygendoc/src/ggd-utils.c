@@ -151,8 +151,8 @@ ggd_get_config_file (const gchar *name,
   g_return_val_if_fail (name != NULL, NULL);
   g_return_val_if_fail (error == NULL || *error == NULL, NULL);
   
-  user_dir = g_build_filename (G_DIR_SEPARATOR_S, geany->app->configdir,
-                               "plugins", GGD_PLUGIN_CNAME, section, NULL);
+  user_dir = g_build_filename (geany->app->configdir, "plugins",
+                               GGD_PLUGIN_CNAME, section, NULL);
   system_dir = g_build_filename (PKGDATADIR, GGD_PLUGIN_CNAME, section, NULL);
   user_path = g_build_filename (user_dir, name, NULL);
   system_path = g_build_filename (system_dir, name, NULL);
