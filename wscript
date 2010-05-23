@@ -78,6 +78,7 @@ plugins = [
 	Plugin('codenav', None, [ 'codenav/src' ]),
 	Plugin('geanydoc', None, [ 'geanydoc/src' ]),
 	Plugin('geanyextrasel', None, [ 'geanyextrasel/src' ]),
+	Plugin('geanygendoc', None, [ 'geanygendoc/src' ], [ [ 'ctpl', '0.2', True ] ]),
 	Plugin('geanyinsertnum', None, [ 'geanyinsertnum/src' ]),
 	Plugin('geanylatex', None, [ 'geanylatex/src']),
 	Plugin('geanylipsum', None, [ 'geanylipsum/src']),
@@ -419,6 +420,19 @@ def build(bld):
 		bld.install_files('%s/geany-plugins/geanylua/work' % datadir, 'geanylua/examples/work/*.lua')
 
 
+	def build_gendoc(bld):
+		# install docs
+		docdir = '${G_PREFIX}/doc/plugins/geanygendoc/help' \
+					if is_win32 else '${DOCDIR}/geanygendoc/help'
+		if os.path.exists('geanygendoc/docs/help/manual.html'):
+			bld.install_files(docdir, 'geanygendoc/docs/help/manual.html')
+		bld.install_files(docdir, 'geanygendoc/docs/help/manual.rst')
+		# install examples (Waf doesn't support installing files recursively, yet)
+		datadir = '${G_PREFIX}/share/' if is_win32 else '${DATADIR}'
+		bld.install_files('%s/geany-plugins/geanygendoc/filetypes' % datadir, \
+			'geanygendoc/data/filetypes/*.conf')
+
+
 	def build_debug(bld, p, libs):
 		bld.new_task_gen(
 			features	= 'cc cprogram',
@@ -453,6 +467,9 @@ def build(bld):
 
 		if p.name == 'geanylua':
 			build_lua(bld, p, libs) # build additional lib for the lua plugin
+
+		if p.name == 'geanygendoc':
+			build_gendoc(bld) # install data files
 
 		if p.name == 'geanygdb':
 			build_debug(bld, p, libs) # build additional binary for the debug plugin
