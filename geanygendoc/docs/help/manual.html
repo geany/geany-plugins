@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.6: http://docutils.sourceforge.net/" />
+<title>GeanyGenDoc User Manual</title>
+<style type="text/css">
+
+/*
+:Author: Colomban Wendling
+:Contact: ban@herbesfolles.org
+:Copyright: This stylesheet has been placed in the public domain.
+
+Stylesheet for use with Docutils.
+*/
+
+@import url(html4css1.css);
+
+html {
+	background-color: #eeeeec;
+	color: #2e3436;
+	font-family: bitstream vera sans, sans-serif;
+	margin: 0 1em;
+}
+
+
+h1, h2, h3, h4, h5, h6, p.topic-title {
+	font-family: georgia, times new roman, times, serif;
+}
+
+h2.subtitle {
+	font-style: italic;
+	font-weight: normal;
+}
+
+p, dd {
+	text-align: justify;
+}
+
+.literal-block,
+.literal {
+	background: #fff;
+}
+.literal-block {
+	border: 1px solid #babdb6;
+	padding: 1px 2px;
+}
+h1 .literal, h2 .literal, h3 .literal, h4 .literal, h5 .literal, h6 .literal
+p.topic-title .literal {
+	background: inherit;
+	text-align: left;
+}
+
+
+.footnote-reference {
+	vertical-align: super;
+	font-size: 75%;
+}
+
+
+a         { text-decoration: none; }
+a:hover   { text-decoration: underline }
+a:link    { color: #204a87; }
+a:visited { color: #5c3566; }
+
+h1 a, h1 a:hover, h1 a:link, h1 a:visited,
+h2 a, h2 a:hover, h2 a:link, h2 a:visited,
+h3 a, h3 a:hover, h3 a:link, h3 a:visited,
+h4 a, h4 a:hover, h4 a:link, h4 a:visited,
+h5 a, h5 a:hover, h5 a:link, h5 a:visited,
+h6 a, h6 a:hover, h6 a:link, h6 a:visited,
+p.topic-title a, p.topic-title a:hover, p.topic-title a:link, p.topic-title a:visited
+{
+	text-decoration: none;
+	color: inherit;
+}
+
+</style>
+</head>
+<body>
+<div class="document" id="geanygendoc-user-manual">
+<h1 class="title">GeanyGenDoc User Manual</h1>
+<h2 class="subtitle" id="a-handy-hand-guide-for-the-lazy-documenter-in-you">A handy hand guide for the lazy documenter in you</h2>
+
+<div class="section" id="introduction">
+<h1><a class="toc-backref" href="#id4">Introduction</a></h1>
+<p>First of all, welcome to this manual. Then, what is GeanyGenDoc? It is a
+plug-in for Geany as you might have noticed; but what is it meant to do?
+Basically, it generates and inserts text chunks, particularly from document's
+symbols. Its goal is to ease writing documentation for the good.</p>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#introduction" id="id4">Introduction</a></li>
+<li><a class="reference internal" href="#design" id="id5">Design</a></li>
+<li><a class="reference internal" href="#syntax" id="id6">Syntax</a><ul>
+<li><a class="reference internal" href="#key-value-pairs" id="id7">Key-Value pairs</a></li>
+<li><a class="reference internal" href="#naming" id="id8">Naming</a></li>
+<li><a class="reference internal" href="#comments" id="id9">Comments</a></li>
+<li><a class="reference internal" href="#value-types" id="id10">Value types</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#file-types" id="id11">File types</a><ul>
+<li><a class="reference internal" href="#the-settings-group" id="id12">The <tt class="docutils literal">settings</tt> group</a></li>
+<li><a class="reference internal" href="#the-doctypes-group" id="id13">The <tt class="docutils literal">doctypes</tt> group</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#documentation-types" id="id14">Documentation types</a><ul>
+<li><a class="reference internal" href="#short-example" id="id15">Short example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rules-the-cool-thing" id="id16">Rules: the cool thing</a><ul>
+<li><a class="reference internal" href="#type-hierarchy" id="id17">Type hierarchy</a><ul>
+<li><a class="reference internal" href="#known-types" id="id18">Known types</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rule-settings" id="id19">Rule settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#user-interface-in-geany" id="id20">User interface in Geany</a><ul>
+<li><a class="reference internal" href="#menus" id="id21">Menus</a><ul>
+<li><a class="reference internal" href="#editor-s-pop-up-menu" id="id22">Editor's pop-up menu</a></li>
+<li><a class="reference internal" href="#tools-menu" id="id23">Tools menu</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#preferences-dialog" id="id24">Preferences dialog</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#miscellaneous" id="id25">Miscellaneous</a><ul>
+<li><a class="reference internal" href="#configuration-directories" id="id26">Configuration directories</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#appendix" id="id27">Appendix</a><ul>
+<li><a class="reference internal" href="#configuration-syntax-summary" id="id28">Configuration syntax summary</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="design">
+<h1><a class="toc-backref" href="#id5">Design</a></h1>
+<p>GeanyGenDoc has an extensible design based on three points: file type,
+documentation type and rules.</p>
+<dl class="docutils">
+<dt><a class="reference internal" href="#file-types">File type</a></dt>
+<dd>The file type determines which configuration applies to which document. For
+example, the &quot;c&quot; file type corresponds to C source, and so on.</dd>
+<dt><a class="reference internal" href="#documentation-types">Documentation type</a></dt>
+<dd>A documentation type is an arbitrary name for a set of rules. The goal of
+documentation types is to allow different set of rules to be defined for each
+file type.
+One might want to have separate rules to generate for example <a class="reference external" href="http://www.doxygen.org">Doxygen</a>
+and <a class="reference external" href="http://www.gtk.org/gtk-doc/">Gtk-Doc</a> documentation from C sources. She should then create two
+documentation types in the C <a class="reference internal" href="#file-types">file type configuration file</a>, such as
+&quot;doxygen&quot; and &quot;gtkdoc&quot;.</dd>
+<dt><a class="reference internal" href="#rules-the-cool-thing">Rule</a></dt>
+<dd>A rule is a group of settings controlling how a documentation comment is
+generated. For example, it can define a template, describe how to handle
+particular imbrications and so on.</dd>
+</dl>
+</div>
+<div class="section" id="syntax">
+<h1><a class="toc-backref" href="#id6">Syntax</a></h1>
+<div class="section" id="key-value-pairs">
+<h2><a class="toc-backref" href="#id7">Key-Value pairs</a></h2>
+<p>The syntax used by the configuration files is an extended key-value tree
+definition based on common concepts (trees, string literals, semicolon-ended
+values, etc.).</p>
+<p>The key-value syntax is as follows:</p>
+<pre class="literal-block">
+key = value
+</pre>
+<p>where value is either a semicolon-ended single value:</p>
+<pre class="literal-block">
+value;
+</pre>
+<p>or a brace-surrounded list of key-value pairs that use the same syntax again:</p>
+<pre class="literal-block">
+{
+  key1 = value1
+  key2 = value2
+}
+</pre>
+<p>Here a little example of the <em>syntax</em> (not any actual configuration example):</p>
+<pre class="literal-block">
+key1 = value1;
+key2 = {
+  sub-key1 = sub-value1;
+  sub-key2 = {
+    sub-sub-key1 = sub-sub-value1;
+  }
+}
+</pre>
+</div>
+<div class="section" id="naming">
+<h2><a class="toc-backref" href="#id8">Naming</a></h2>
+<p>Key-value pairs are often referred as <em>group</em> when they are meant to have
+multiple values and as <em>setting</em> when they have a single value.</p>
+</div>
+<div class="section" id="comments">
+<h2><a class="toc-backref" href="#id9">Comments</a></h2>
+<p>Is considered as comment (and therefore ignored) everything between a number
+sign (<tt class="docutils literal">#</tt>) and the following end of line, unless the <tt class="docutils literal">#</tt> occurs as part of
+another syntactic element (such as a string literal).</p>
+<p>A short example:</p>
+<pre class="literal-block">
+# This is a comment
+key = value; # This is also a comment
+string = &quot;A string. # This isn't a comment but a string&quot;;
+</pre>
+</div>
+<div class="section" id="value-types">
+<h2><a class="toc-backref" href="#id10">Value types</a></h2>
+<dl class="docutils">
+<dt>string</dt>
+<dd><p class="first">A string literal. String literals are surrounded by either single (<tt class="docutils literal">'</tt>) or
+double (<tt class="docutils literal">&quot;</tt>) quotes.</p>
+<p>Some special characters can be inserted in a string with an escape sequence:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal">\t</tt></dt>
+<dd>A tabulation.</dd>
+<dt><tt class="docutils literal">\n</tt></dt>
+<dd>A new line.</dd>
+<dt><tt class="docutils literal">\r</tt></dt>
+<dd>A carriage return.</dd>
+<dt><tt class="docutils literal">\\</tt></dt>
+<dd>A backslash.</dd>
+<dt><tt class="docutils literal">\'</tt></dt>
+<dd>A single quote (escaping only needed in single-quotes surrounded strings).</dd>
+<dt><tt class="docutils literal">\&quot;</tt></dt>
+<dd>A double quote (escaping only needed in double-quotes surrounded strings).</dd>
+</dl>
+<p>Note that backslashes are used as the escaping character, which means that it
+must be escaped to be treated as a simple backslash character.</p>
+<p>A simple example:</p>
+<pre class="last literal-block">
+&quot;This is a string with \&quot;special\&quot; characters.\nThis is another line!&quot;
+</pre>
+</dd>
+<dt>boolean</dt>
+<dd>A boolean. It can take one of the two symbolic values <tt class="docutils literal">True</tt> and <tt class="docutils literal">False</tt>.</dd>
+<dt>enumeration</dt>
+<dd>An enumeration. It consists of a named constant, generally in capital letters.
+The possible values depend on the setting that use this type.</dd>
+<dt>flags</dt>
+<dd><p class="first">A logical OR of named constants. This is like enumerations but can combine
+different values.</p>
+<p class="last">The syntax is common for such types and uses the pipe (<tt class="docutils literal">|</tt>) as
+combination character. Considering the <tt class="docutils literal">A</tt>, <tt class="docutils literal">B</tt> and <tt class="docutils literal">C</tt> constants, a
+valid value could be <tt class="docutils literal">A | C</tt>, which represents both <tt class="docutils literal">A</tt> and <tt class="docutils literal">C</tt> but
+not <tt class="docutils literal">B</tt>.</p>
+</dd>
+<dt>list</dt>
+<dd>A list of values (often referred as array).</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="file-types">
+<h1><a class="toc-backref" href="#id11">File types</a></h1>
+<p>The file type determines which configuration applies to which document.
+<em>File type identifiers</em> are the lowercased name of the Geany's file type, for
+example &quot;c&quot; or &quot;python&quot;.</p>
+<p>Configuration for a particular file type goes in a file named
+<tt class="docutils literal"><span class="pre">file-type-identifier.conf</span></tt> in the <tt class="docutils literal">filetypes</tt> sub-directory of a
+<a class="reference internal" href="#configuration-directories">configuration directory</a>.</p>
+<p>A file type configuration can contain two type of things: file-type-wide
+settings and any number of <a class="reference internal" href="#documentation-types">documentation types</a>.</p>
+<div class="section" id="the-settings-group">
+<h2><a class="toc-backref" href="#id12">The <tt class="docutils literal">settings</tt> group</a></h2>
+<p>This group contains the file-type-wide settings.</p>
+<dl class="docutils">
+<dt><tt class="docutils literal">match_function_arguments</tt> (string)</dt>
+<dd>A regular expression used to extract arguments from a function-style argument
+list (functions, methods, macros, etc.). This regular expression should match
+one argument at a time and capture only the argument's name.
+This setting is a little odd but currently needed to extract argument list
+from function definitions.</dd>
+<dt><tt class="docutils literal">global_environment</tt> (string)</dt>
+<dd>A description of a <a class="reference external" href="http://ctpl.tuxfamily.org/">CTPL</a> environment to add when parsing <a class="reference internal" href="#rules-the-cool-thing">rule</a>'s templates.</dd>
+</dl>
+</div>
+<div class="section" id="the-doctypes-group">
+<h2><a class="toc-backref" href="#id13">The <tt class="docutils literal">doctypes</tt> group</a></h2>
+<p>This group contains a list of <a class="reference internal" href="#documentation-types">documentation types</a>.</p>
+</div>
+</div>
+<div class="section" id="documentation-types">
+<h1><a class="toc-backref" href="#id14">Documentation types</a></h1>
+<p>A documentation type is a named set of <a class="reference internal" href="#rules-the-cool-thing">rules</a> for a <a class="reference internal" href="#file-types">file type</a>, describing how
+to generate a particular type of documentation (i.e. <a class="reference external" href="http://www.doxygen.org">Doxygen</a>, <a class="reference external" href="http://www.gtk.org/gtk-doc/">Gtk-Doc</a>,
+<a class="reference external" href="http://www.valadoc.org/">Valadoc</a> or whatever).</p>
+<p>A documentation type is identified by its name and must therefore be unique
+in a file type. But of course, different file types can define the same
+documentation type. It is even recommended for a better consistency to use the
+same identifier in different file types when they generate the same type of
+documentation (even though it is completely up to you).</p>
+<div class="section" id="short-example">
+<h2><a class="toc-backref" href="#id15">Short example</a></h2>
+<pre class="literal-block">
+doxygen = {
+  struct.member = {
+    template = &quot; /**&lt; {cursor} */&quot;;
+    position = AFTER;
+  }
+  struct.template = &quot;/**\n * &#64;brief: {cursor}\n * \n * \n */\n&quot;;
+}
+</pre>
+</div>
+</div>
+<div class="section" id="rules-the-cool-thing">
+<h1><a class="toc-backref" href="#id16">Rules: the cool thing</a></h1>
+<p>Rules are the actual definition of how documentation is generated. A rule
+applies to a symbol type and hierarchy, allowing fine control over which and
+how symbols are documented.</p>
+<p>A rule is represented as a group of <a class="reference internal" href="#rule-settings">settings</a> in a <a class="reference internal" href="#documentation-types">documentation type</a>.
+The name of this group is the <a class="reference internal" href="#type-hierarchy">type hierarchy</a> to which the settings applies.</p>
+<div class="section" id="type-hierarchy">
+<h2><a class="toc-backref" href="#id17">Type hierarchy</a></h2>
+<p>A type hierarchy is a hierarchy of the types that a symbol must have to match
+this rule.</p>
+<p>In the symbol side, the type hierarchy is the types of the symbol's parents,
+terminated by the symbol's own type. For example, a method in a class would
+have a hierarchy like <tt class="docutils literal">class <span class="pre">-&gt;</span> method</tt>; and if the class is itself in a
+namespace, the hierarchy would the look like <tt class="docutils literal">namespace <span class="pre">-&gt;</span> class <span class="pre">-&gt;</span> method</tt>,
+and so on.</p>
+<p>For a rule to apply, its type hierarchy must match <em>the end</em> of the symbol
+type hierarchy. For example a rule with the type hierarchy <tt class="docutils literal">class</tt> will match
+a symbol with the type hierarchy <tt class="docutils literal">namespace <span class="pre">-&gt;</span> class</tt> but not one with
+<tt class="docutils literal">class <span class="pre">-&gt;</span> method</tt>.</p>
+<p>A type hierarchy uses dots (<tt class="docutils literal">.</tt>) to separate types and build the hierarchy.
+For example, the type hierarchy representing <tt class="docutils literal">namespace <span class="pre">-&gt;</span> class</tt> would be
+written <tt class="docutils literal">namespace.class</tt>.</p>
+<div class="section" id="known-types">
+<h3><a class="toc-backref" href="#id18">Known types</a></h3>
+<dl class="docutils">
+<dt><tt class="docutils literal">class</tt></dt>
+<dd>A class.</dd>
+<dt><tt class="docutils literal">enum</tt></dt>
+<dd>An enumeration.</dd>
+<dt><tt class="docutils literal">enumval</tt></dt>
+<dd>An enumeration value.</dd>
+<dt><tt class="docutils literal">field</tt></dt>
+<dd>A field (of a class for example).</dd>
+<dt><tt class="docutils literal">function</tt></dt>
+<dd>A function.</dd>
+<dt><tt class="docutils literal">interface</tt></dt>
+<dd>An interface.</dd>
+<dt><tt class="docutils literal">member</tt></dt>
+<dd>A member (of a structure for example).</dd>
+<dt><tt class="docutils literal">method</tt></dt>
+<dd>A method.</dd>
+<dt><tt class="docutils literal">namespace</tt></dt>
+<dd>A namespace.</dd>
+<dt><tt class="docutils literal">package</tt></dt>
+<dd>A package.</dd>
+<dt><tt class="docutils literal">prototype</tt></dt>
+<dd>A prototype.</dd>
+<dt><tt class="docutils literal">struct</tt></dt>
+<dd>A structure.</dd>
+<dt><tt class="docutils literal">typedef</tt></dt>
+<dd>A type alias definition (<em>typedef</em> in C).</dd>
+<dt><tt class="docutils literal">union</tt></dt>
+<dd>An union.</dd>
+<dt><tt class="docutils literal">variable</tt></dt>
+<dd>A variable.</dd>
+<dt><tt class="docutils literal">extern</tt></dt>
+<dd><cite>???</cite></dd>
+<dt><tt class="docutils literal">define</tt></dt>
+<dd>A definition (like the <em>define</em> C preprocessor macro).</dd>
+<dt><tt class="docutils literal">macro</tt></dt>
+<dd>A macro.</dd>
+<dt><tt class="docutils literal">file</tt></dt>
+<dd>A file (will never match).</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="rule-settings">
+<h2><a class="toc-backref" href="#id19">Rule settings</a></h2>
+<dl class="docutils">
+<dt><tt class="docutils literal">template</tt> (string)</dt>
+<dd><p class="first">A <a class="reference external" href="http://ctpl.tuxfamily.org/">CTPL</a> template that can include references to the following predefined
+variables in addition to the file-type-wide and the global environment:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal">argument_list</tt> (string list)</dt>
+<dd>A list of the arguments of the currently documented symbol.</dd>
+<dt><tt class="docutils literal">returns</tt> (boolean)</dt>
+<dd>Indicates whether the currently documented symbol returns a value
+(makes sense only for symbols that may return a value).</dd>
+<dt><tt class="docutils literal">children</tt> (string list)</dt>
+<dd>A list of the current symbol's first-level children. This is only set if
+the rule's setting <tt class="docutils literal">children</tt> is set to <tt class="docutils literal">MERGE</tt>.</dd>
+</dl>
+<p><strong>[...]</strong></p>
+<dl class="last docutils">
+<dt><tt class="docutils literal">cursor</tt> (special, described below)</dt>
+<dd>This can be used to mark in the template the position where the editor's
+cursor should be moved to after comment insertion.
+This mark will be removed from the generated documentation.
+Note that even if this mark may occur as many times as you want in a
+template, only the first will be actually honored, the latter being
+only removed.</dd>
+</dl>
+</dd>
+<dt><tt class="docutils literal">position</tt> (enumeration)</dt>
+<dd><p class="first">The position where the documentation should be inserted. Possible values are:</p>
+<dl class="last docutils">
+<dt><tt class="docutils literal">BEFORE</tt> <a class="citation-reference" href="#default" id="id1">[default]</a></dt>
+<dd>Inserts the documentation just before the symbol.</dd>
+<dt><tt class="docutils literal">AFTER</tt></dt>
+<dd>Inserts the documentation just after the symbol (currently quite limited, it
+inserts the documentation at the end of the symbol's first line).</dd>
+<dt><tt class="docutils literal">CURSOR</tt></dt>
+<dd>Inserts the documentation at the current cursor position.</dd>
+</dl>
+</dd>
+<dt><tt class="docutils literal">policy</tt> (enumeration)</dt>
+<dd><p class="first">How the symbol is documented. Possible values are:</p>
+<dl class="last docutils">
+<dt><tt class="docutils literal">KEEP</tt> <a class="citation-reference" href="#default" id="id2">[default]</a></dt>
+<dd>The symbol documents itself.</dd>
+<dt><tt class="docutils literal">FORWARD</tt></dt>
+<dd>Forward the documentation request to the parent. This is useful for symbols
+that are documented by their parent, such as <a class="reference external" href="http://www.gtk.org/gtk-doc/">Gtk-Doc</a>'s enumerations.</dd>
+</dl>
+</dd>
+<dt><tt class="docutils literal">children</tt> (enumeration)</dt>
+<dd><p class="first">How the symbol's children can be used in the template. Possible values are:</p>
+<dl class="last docutils">
+<dt><tt class="docutils literal">SPLIT</tt> <a class="citation-reference" href="#default" id="id3">[default]</a></dt>
+<dd>The symbol's children are provided as per-type lists.</dd>
+<dt><tt class="docutils literal">MERGE</tt></dt>
+<dd>The symbol's children are provided as a single list named <tt class="docutils literal">children</tt>.</dd>
+</dl>
+</dd>
+<dt><tt class="docutils literal">matches</tt> (flags)</dt>
+<dd>List of the children types that should be provided. Only useful if the
+<tt class="docutils literal">children</tt> setting is set to <tt class="docutils literal">MERGE</tt>.
+Defaults to all.
+<strong>FIXME: check the exactitude of this description</strong></dd>
+<dt><tt class="docutils literal">auto_doc_children</tt> (boolean)</dt>
+<dd>Whether to also document symbol's children (according to their own rules).</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="user-interface-in-geany">
+<h1><a class="toc-backref" href="#id20">User interface in Geany</a></h1>
+<div class="section" id="menus">
+<h2><a class="toc-backref" href="#id21">Menus</a></h2>
+<p>GeanyGenDoc adds an item named <cite>Insert Documentation Comment</cite> in the editor's
+pop-up under the <cite>Insert Comments</cite> sub-menu; and a menu named
+<cite>Documentation Generator</cite> into the <cite>Tools</cite> menu.</p>
+<div class="section" id="editor-s-pop-up-menu">
+<h3><a class="toc-backref" href="#id22">Editor's pop-up menu</a></h3>
+<p>The item <cite>Editor's pop-up → Insert Comments → Insert Documentation Comment</cite>
+generates documentation for the current symbol. It has a keyboard shortcut
+that can be configured through Geany's keybinding configuration system, under
+<cite>GeanyGenDoc → Insert Documentation Comment</cite>.</p>
+</div>
+<div class="section" id="tools-menu">
+<h3><a class="toc-backref" href="#id23">Tools menu</a></h3>
+<p>The <cite>Documentation Generator</cite> menu under <cite>Tools</cite> contains the following items:</p>
+<dl class="docutils">
+<dt><cite>Document Current Symbol</cite></dt>
+<dd>This generates documentation for the current symbol. It is equivalent to the
+item <cite>Insert Documentation Comment</cite> that can be found in the editor's pop-up
+menu.</dd>
+<dt><cite>Document All Symbols</cite></dt>
+<dd>This generates documentation for all symbols in the document. This is
+equivalent to manually requesting documentation generation for each symbol in
+the document.</dd>
+<dt><cite>Reload Configuration Files</cite></dt>
+<dd>This force reloading of all the <a class="reference internal" href="#file-types">file type</a> configuration files. It is
+useful when a file type configuration file was modified, in order to the new
+configuration to be used without reloading the plugin.</dd>
+<dt><cite>Edit Current Language Configuration</cite></dt>
+<dd>This opens the configuration file that applies to the current document for
+editing. The opened configuration file has write permissions: if it was a
+system configuration file it is copied under your personal <a class="reference internal" href="#configuration-directories">configuration
+directory</a> transparently.</dd>
+<dt><cite>Open Manual</cite></dt>
+<dd>Opens this manual in a browser.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="preferences-dialog">
+<h2><a class="toc-backref" href="#id24">Preferences dialog</a></h2>
+<p>The preferences dialog, than can either be opened through <cite>Edit →
+Plugin Preferences</cite> or with the <cite>Preferences</cite> button in the plugin manager,
+allows to modify the following preferences:</p>
+<dl class="docutils">
+<dt><cite>General</cite></dt>
+<dd><dl class="first last docutils">
+<dt><cite>Save file before generating documentation</cite></dt>
+<dd>Choose whether the current document should be saved to disc before
+generating the documentation. This is a technical detail, but it is
+currently needed to have an up-to-date tag list. If you disable this option
+and ask for documentation generation on a modified document, the behavior
+may be surprising since the comment will be generated for the last saved
+state of the document and not the current one.</dd>
+<dt><cite>Indent inserted documentation</cite></dt>
+<dd>Chooses whether the inserted documentation should be indented to fit the
+indentation at the insertion position.</dd>
+</dl>
+</dd>
+<dt><cite>Documentation type</cite></dt>
+<dd>This list allows you to choose the documentation type to use with each file
+type. The special language <cite>All</cite> on top of the list is used to choose the
+default documentation type, used for all languages that haven't one set.</dd>
+<dt><cite>Global environment</cite></dt>
+<dd>Global environment overrides and additions. This is an environment that will
+be merged with the <a class="reference internal" href="#file-types">file type</a>-specific ones, possibly overriding some parts.
+It can be used to define some values for all the file types, such as whether
+to write the common <cite>Since</cite> tag, define the <a class="reference external" href="http://www.doxygen.org">Doxygen</a> prefix an so on.
+Its most use case is not to need to change a file type's environment to change
+the value of one of its elements.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="miscellaneous">
+<h1><a class="toc-backref" href="#id25">Miscellaneous</a></h1>
+<div class="section" id="configuration-directories">
+<h2><a class="toc-backref" href="#id26">Configuration directories</a></h2>
+<p>Configuration directories hold GeanyGenDoc's configuration. They are the
+following:</p>
+<ul class="simple">
+<li>The user-specific configuration directory, containing the user-defined
+settings is <tt class="docutils literal">$GEANY_USER_CONFIG/plugins/geanygendoc/</tt>.
+<tt class="docutils literal">$GEANY_USER_CONFIG</tt> is generally <tt class="docutils literal"><span class="pre">~/.config/geany/</span></tt> on UNIX systems.</li>
+<li>The system-wide configuration directory containing the default and
+pre-installed configuration is <tt class="docutils literal">$GEANY_SYS_CONFIG/plugins/geanygendoc/</tt>.
+<tt class="docutils literal">$GEANY_SYS_CONFIG</tt> is generally <tt class="docutils literal">/usr/share/geany/</tt> or
+<tt class="docutils literal">/usr/local/share/geany</tt> on UNIX systems.</li>
+</ul>
+<p>When searching for configuration, GeanyGenDoc will first look in the
+user's configuration directory, and if it wasn't successful, in the system
+configuration directory. If both failed, it assumes that there is no
+configuration at all.</p>
+</div>
+</div>
+<div class="section" id="appendix">
+<h1><a class="toc-backref" href="#id27">Appendix</a></h1>
+<div class="section" id="configuration-syntax-summary">
+<h2><a class="toc-backref" href="#id28">Configuration syntax summary</a></h2>
+<pre class="literal-block">
+string               ::= ( &quot;&quot;&quot; .* &quot;&quot;&quot; | &quot;'&quot; .* &quot;'&quot; )
+constant             ::= [_A-Z][_A-Z0-9]+
+integer              ::= [0-9]+
+boolean              ::= ( &quot;True&quot; | &quot;False&quot; )
+setting_value        ::= ( string | constant | integer )
+setting              ::= &quot;setting-name&quot; &quot;=&quot; setting_value &quot;;&quot;
+setting_list         ::= ( &quot;{&quot; setting* &quot;}&quot; | setting )
+setting_section      ::= &quot;settings&quot; &quot;=&quot; setting_list
+
+position             ::= ( &quot;BEFORE&quot; | &quot;AFTER&quot; | &quot;CURSOR&quot; )
+policy               ::= ( &quot;KEEP&quot; | &quot;FORWARD&quot; )
+children             ::= ( &quot;SPLIT&quot; | &quot;MERGE&quot; )
+type                 ::= ( &quot;class&quot; | &quot;enum&quot; | &quot;enumval&quot; | &quot;field&quot; |
+                           &quot;function&quot; | &quot;interface&quot; | &quot;member&quot; | &quot;method&quot; |
+                           &quot;namespace&quot; | &quot;package&quot; | &quot;prototype&quot; | &quot;struct&quot; |
+                           &quot;typedef&quot; | &quot;union&quot; | &quot;variable&quot; | &quot;extern&quot; |
+                           &quot;define&quot; | &quot;macro&quot; | &quot;file&quot; )
+matches              ::= type ( &quot;|&quot; type )*
+doctype_subsetting   ::= ( &quot;template&quot;          &quot;=&quot; string |
+                           &quot;position&quot;          &quot;=&quot; position |
+                           &quot;policy&quot;            &quot;=&quot; policy |
+                           &quot;children&quot;          &quot;=&quot; children |
+                           &quot;matches&quot;           &quot;=&quot; matches |
+                           &quot;auto_doc_children&quot; &quot;=&quot; boolean ) &quot;;&quot;
+match                ::= type ( &quot;.&quot; type )*
+doctype_setting      ::= ( match &quot;=&quot; &quot;{&quot; doctype_subsetting* &quot;}&quot; |
+                           match &quot;.&quot; doctype_subsetting )
+doctype_setting_list ::= ( &quot;{&quot; doctype_setting* &quot;}&quot; | doctype_setting )
+doctype              ::= &quot;doctype-name&quot; &quot;=&quot; doctype_setting_list
+doctype_list         ::= ( &quot;{&quot; doctype* &quot;}&quot; | doctype )
+doctype_section      ::= &quot;doctypes&quot; &quot;=&quot; doctype_list
+
+document             ::= ( setting_section? doctype_section? |
+                           doctype_section? setting_section? )
+</pre>
+<!-- Content end, begin references -->
+<!-- External links -->
+<!--  -->
+<!-- Internal links -->
+<!--  -->
+<hr class="docutils" />
+<table class="docutils citation" frame="void" id="default" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[default]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>, <a class="fn-backref" href="#id3">3</a>)</em> This is the default value of the setting</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr class="footer" />
+Generated on: 2010-05-22.
+
+</div>
+</body>
+</html>

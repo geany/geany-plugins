@@ -1,3 +1,12 @@
+2010-05-23  Colomban Wendling  <ban(at)herbesfolles(dot)org>
+
+  * ChangeLog, Makefile.am, data/filetypes/Makefile.am, src/ggd-utils.c:
+    Temporary hackish fix for data installation.
+  * ChangeLog, docs/help/Makefile.am, docs/help/manual.html:
+    Add the generated HTML manual under VCS for the users not to need
+    docutils.
+
+
 2010-05-22  Colomban Wendling  <ban(at)herbesfolles(dot)org>
 
   * src/ggd-plugin.c:
@@ -7,8 +16,6 @@
     Add an entry in the TODO-list
   * [All]
     Import into Geany-Plugins.
-  * ChangeLog, Makefile.am, data/filetypes/Makefile.am, src/ggd-utils.c:
-    Temporary hackish fix for data installation.
 
 
 2010-05-21  Colomban Wendling  <ban(at)herbesfolles(dot)org>
