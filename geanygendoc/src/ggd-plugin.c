@@ -204,7 +204,13 @@ load_configuration (void)
     success = ggd_opt_group_load_from_file (plugin->config, conffile, &err);
   }
   if (err) {
-    g_warning (_("Failed to load configuration: %s"), err->message);
+    GLogLevelFlags level = G_LOG_LEVEL_WARNING;
+    
+    if (err->domain == G_FILE_ERROR && err->code == G_FILE_ERROR_NOENT) {
+      level = G_LOG_LEVEL_INFO;
+    }
+    g_log (G_LOG_DOMAIN, level,
+           _("Failed to load configuration: %s"), err->message);
     g_error_free (err);
   }
   g_free (conffile);
