@@ -9,7 +9,8 @@ EXTRA_DIST = manual.rst \
              manual.html
 
 if ENABLE_GEANYGENDOC
-plugindoc_DATA = manual.html
+plugindoc_DATA = manual.rst \
+                 manual.html
 
 if BUILD_RST
 manual.html: manual.rst manual.css

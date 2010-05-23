@@ -5,6 +5,8 @@
   * ChangeLog, docs/help/Makefile.am, docs/help/manual.html:
     Add the generated HTML manual under VCS for the users not to need
     docutils.
+  * ChangeLog, docs/help/Makefile.am:
+    Install plain-text manual together with the HTML version.
 
 
 2010-05-22  Colomban Wendling  <ban(at)herbesfolles(dot)org>
