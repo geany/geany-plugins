@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: geany-plugins 0.18\n"
+"Project-Id-Version: geany-plugins 0.19\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-02 21:51+0200\n"
+"POT-Creation-Date: 2010-05-23 20:24+0200\n"
 "PO-Revision-Date: 2009-07-19 13:40+0900\n"
 "Last-Translator: Masami Chikahiro <cmasa.z321@gmail.com>\n"
 "Language-Team: Japanese\n"
@@ -16,9 +16,42 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ../addons/src/tasks.c:298
+#. complete update
+#: ../addons/src/ao_tasks.c:368 ../geanyvc/src/geanyvc.c:2246
+msgid "_Update"
+msgstr "更新(_U)"
+
+#: ../addons/src/ao_tasks.c:377
+msgid "_Hide Message Window"
+msgstr ""
+
+#: ../addons/src/ao_tasks.c:407
+#, fuzzy
+msgid "File"
+msgstr "ファイル(_F)"
+
+#: ../addons/src/ao_tasks.c:418
+msgid "Line"
+msgstr ""
+
+#: ../addons/src/ao_tasks.c:429 ../geanylatex/src/bibtexlabels.c:65
+#, fuzzy
+msgid "Type"
+msgstr "Type"
+
+#: ../addons/src/ao_tasks.c:440
+#, fuzzy
+msgid "Task"
+msgstr "タスク"
+
+#: ../addons/src/ao_tasks.c:473
 msgid "Tasks"
 msgstr "タスク"
+
+#: ../addons/src/ao_tasks.c:536
+#, fuzzy
+msgid "Context:"
+msgstr "コンソール:"
 
 #: ../addons/src/ao_openuri.c:162
 msgid "Open URI"
@@ -28,56 +61,137 @@ msgstr "URIを開く"
 msgid "Copy URI"
 msgstr "URIをコピー"
 
-#: ../addons/src/addons.c:40
+#: ../addons/src/addons.c:44
 msgid "Addons"
 msgstr "アドオン"
 
-#: ../addons/src/addons.c:40
+#: ../addons/src/addons.c:44
 msgid "Various small addons for Geany."
 msgstr "Geanyむけのアドオン集"
 
-#: ../addons/src/addons.c:161 ../codenav/src/codenavigation.c:518
-#: ../geanylatex/src/geanylatex.c:181 ../geanysendmail/src/geanysendmail.c:151
-#: ../geanysendmail/src/geanysendmail.c:312 ../geanyvc/src/geanyvc.c:1776
-#: ../spellcheck/src/scplugin.c:126
+#: ../addons/src/addons.c:264
+msgid "Focus Bookmark List"
+msgstr ""
+
+#: ../addons/src/addons.c:266
+msgid "Focus Tasks List"
+msgstr ""
+
+#: ../addons/src/addons.c:268
+msgid "Update Tasks List"
+msgstr ""
+
+#: ../addons/src/addons.c:270
+msgid "Run XML tagging"
+msgstr ""
+
+#: ../addons/src/addons.c:346 ../geanylatex/src/geanylatex.c:202
+#: ../geanysendmail/src/geanysendmail.c:150
+#: ../geanysendmail/src/geanysendmail.c:314 ../geanyvc/src/geanyvc.c:1776
+#: ../spellcheck/src/scplugin.c:134 ../treebrowser/src/treebrowser.c:1435
 msgid "Plugin configuration directory could not be created."
 msgstr "プラグイン設定ディレクトリを作成できません。"
 
-#: ../addons/src/addons.c:183
+#: ../addons/src/addons.c:371
 msgid "Show toolbar item to show a list of currently open documents"
 msgstr "現在の文書一覧を表示するツールバーボタンを表示"
 
 #. TODO fix the string
-#: ../addons/src/addons.c:190
+#: ../addons/src/addons.c:378
 msgid "Show a 'Open URI' menu item in the editor menu"
 msgstr "'URIを開く'をエディタのメニューに追加"
 
-#: ../addons/src/addons.c:196
-msgid "Show available tasks in the Message Window"
+#: ../addons/src/addons.c:384
+#, fuzzy
+msgid "Show available Tasks in the Messages Window"
 msgstr "メッセージウィンドウに利用可能なタスクを表示"
 
-#: ../addons/src/addons.c:202
+#: ../addons/src/addons.c:390
+msgid "Show tasks of all documents"
+msgstr ""
+
+#: ../addons/src/addons.c:394
+msgid ""
+"Whether to show the tasks of all open documents in the list or only those of "
+"the current document."
+msgstr ""
+
+#: ../addons/src/addons.c:401
+msgid "Specify a semicolon separated list of search tokens."
+msgstr ""
+
+#: ../addons/src/addons.c:403
+msgid "Search tokens:"
+msgstr ""
+
+#: ../addons/src/addons.c:420
 msgid "Show status icon in the Notification Area"
 msgstr "通知領域にステータスアイコンを表示"
 
-#: ../addons/src/ao_doclist.c:209
+#: ../addons/src/addons.c:426
+msgid "Show defined bookmarks (marked lines) in the sidebar"
+msgstr ""
+
+#: ../addons/src/addons.c:432
+msgid "Mark all occurrences of a word when double-clicking it"
+msgstr ""
+
+#: ../addons/src/addons.c:438
+msgid "Strip trailing blank lines"
+msgstr ""
+
+#: ../addons/src/addons.c:444
+msgid "XML tagging for selection"
+msgstr ""
+
+#: ../addons/src/ao_doclist.c:179
 msgid "Close Ot_her Documents"
 msgstr "他の文書を閉じる(_O)"
 
-#: ../addons/src/ao_doclist.c:214
+#: ../addons/src/ao_doclist.c:184
 msgid "C_lose All"
 msgstr "すべて閉じる(_A)"
 
-#: ../addons/src/ao_doclist.c:244
+#: ../addons/src/ao_doclist.c:214
 msgid "Show Document List"
 msgstr "文書一覧を表示"
 
+#: ../addons/src/ao_bookmarklist.c:179
+msgid "(Empty Line)"
+msgstr ""
+
+#: ../addons/src/ao_bookmarklist.c:301
+msgid "_Remove Bookmark"
+msgstr ""
+
+#: ../addons/src/ao_bookmarklist.c:327
+msgid "No."
+msgstr ""
+
+#: ../addons/src/ao_bookmarklist.c:335
+#, fuzzy
+msgid "Contents"
+msgstr "Environments"
+
+#: ../addons/src/ao_bookmarklist.c:368 ../treebrowser/src/treebrowser.c:390
+#, fuzzy
+msgid "Bookmarks"
+msgstr "書籍"
+
+#: ../addons/src/ao_xmltagging.c:51
+msgid "XML tagging"
+msgstr ""
+
+#: ../addons/src/ao_xmltagging.c:62
+msgid "Tag name to be inserted:"
+msgstr ""
+
 #. All plugins must set name, description, version and author.
-#: ../codenav/src/codenavigation.c:69
+#: ../codenav/src/codenavigation.c:46
 msgid "Code navigation"
 msgstr "コードナビ"
 
-#: ../codenav/src/codenavigation.c:70
+#: ../codenav/src/codenavigation.c:47
 msgid ""
 "This plugin adds features to facilitate navigation between source files.\n"
 "As for the moment, it implements :\n"
@@ -89,368 +203,363 @@ msgstr ""
 "- .cpp ファイルと対応する .h ファイル間の切り替え\n"
 "- [名前を入力するとファイルを開く -> TODO]"
 
-#: ../codenav/src/codenavigation.c:73
+#: ../codenav/src/codenavigation.c:50
 msgid "Lionel Fuentes"
 msgstr "Lionel Fuentes"
 
-#: ../codenav/src/codenavigation.c:315
-#, c-format
-msgid "%s not found, create it ?"
-msgstr "%s はありません。作成しますか?"
+#. Add the menu item, sensitive only when a document is opened
+#: ../codenav/src/goto_file.c:50 ../codenav/src/goto_file.c:64
+#, fuzzy
+msgid "Goto file"
+msgstr "ファイルに移動..."
 
-#: ../codenav/src/codenavigation.c:354
+#: ../codenav/src/goto_file.c:63
+msgid "goto_file"
+msgstr "goto_file"
+
+#: ../codenav/src/goto_file.c:101
 #, c-format
 msgid "(From the %s plugin)"
 msgstr "(%s プラグインより)"
 
-#. - add the "Switch header/implementation" menu item
-#: ../codenav/src/codenavigation.c:382 ../codenav/src/codenavigation.c:401
+#. Add the menu item and make it sensitive only when a document is opened
+#. Frame, which is the returned widget
+#: ../codenav/src/switch_head_impl.c:75 ../codenav/src/switch_head_impl.c:89
+#: ../codenav/src/switch_head_impl.c:449
 msgid "Switch header/implementation"
 msgstr "ヘッダとソースの切り替え"
 
-#. - add the "Open file by name" menu item
-#: ../codenav/src/codenavigation.c:387 ../codenav/src/codenavigation.c:409
-msgid "Goto file..."
-msgstr "ファイルに移動..."
-
-#: ../codenav/src/codenavigation.c:400
-msgid "switch_header_impl"
+#: ../codenav/src/switch_head_impl.c:88
+#, fuzzy
+msgid "switch_head_impl"
 msgstr "switch_header_impl"
 
-#: ../codenav/src/codenavigation.c:408
-msgid "goto_file"
-msgstr "goto_file"
+#: ../codenav/src/switch_head_impl.c:357
+#, c-format
+msgid "%s not found, create it ?"
+msgstr "%s はありません。作成しますか?"
 
-#. Add a label
-#: ../codenav/src/codenavigation.c:587
-msgid "Code Navigation plug-in configuration"
-msgstr "コードナビ プラグイン設定"
-
-#. Add a frame for the switch header/implementation feature
-#: ../codenav/src/codenavigation.c:591
-msgid "Switch header / implementation"
-msgstr "ヘッダとソースの切り替え"
-
-#: ../codenav/src/codenavigation.c:646
+#. TODO ! Try it...
+#. g_object_set(G_OBJECT(cell_renderer), "editable", TRUE, NULL);
+#: ../codenav/src/switch_head_impl.c:473
 msgid "Headers extensions"
 msgstr "ヘッダの拡張子"
 
-#: ../codenav/src/codenavigation.c:653
+#: ../codenav/src/switch_head_impl.c:480
 msgid "Implementations extensions"
 msgstr "ソースの拡張子"
 
 #. All plugins must set name, description, version and author.
-#: ../geanydoc/src/geanydoc.c:63 ../geanydoc/src/geanydoc.c:360
+#: ../geanydoc/src/geanydoc.c:50 ../geanydoc/src/geanydoc.c:347
 msgid "Doc"
 msgstr "Doc"
 
-#: ../geanydoc/src/geanydoc.c:63
+#: ../geanydoc/src/geanydoc.c:50
 #, fuzzy
 msgid "Call documentation viewer on current symbol."
 msgstr "現在のシンボルに文書ビューワを呼び出します"
 
-#: ../geanydoc/src/geanydoc.c:64
+#: ../geanydoc/src/geanydoc.c:51
 msgid "Yura Siamshka <yurand2@gmail.com>"
 msgstr "Yura Siamashka <yurand2@gmail.com>"
 
-#: ../geanydoc/src/geanydoc.c:183 ../geanyvc/src/geanyvc.c:403
+#: ../geanydoc/src/geanydoc.c:170 ../geanyvc/src/geanyvc.c:399
 msgid "Could not parse the output of command"
 msgstr "コマンド出力を解析できません"
 
-#: ../geanydoc/src/geanydoc.c:370
+#: ../geanydoc/src/geanydoc.c:357
 msgid "Put output in buffer"
 msgstr "バッファに出力"
 
-#: ../geanydoc/src/geanydoc.c:382
+#: ../geanydoc/src/geanydoc.c:369
 msgid "Command 0:"
 msgstr "コマンド 0:"
 
-#: ../geanydoc/src/geanydoc.c:388
+#: ../geanydoc/src/geanydoc.c:375
 msgid "Command 1:"
 msgstr "コマンド 1:"
 
-#: ../geanydoc/src/geanydoc.c:406
+#: ../geanydoc/src/geanydoc.c:393
 msgid "%w will be replaced with current word\n"
 msgstr "%w は現在の単語に置き換えられます\n"
 
-#: ../geanydoc/src/geanydoc.c:453
+#: ../geanydoc/src/geanydoc.c:440
 msgid "Document current word"
 msgstr "文書の現在の単語"
 
-#: ../geanydoc/src/geanydoc.c:454
+#: ../geanydoc/src/geanydoc.c:441
 #, fuzzy
 msgid "Document interactive"
 msgstr "文書の挙動"
 
-#: ../geanygdb/src/gdb-io-break.c:142
+#: ../geanygdb/src/gdb-io-break.c:152
 #, c-format
 msgid "Added breakpoint #%s in %s() at %s:%s\n"
 msgstr "ブレークポイント #%s を関数 %s() に追加。場所 %s:%s\n"
 
-#: ../geanygdb/src/gdb-io-break.c:147
+#: ../geanygdb/src/gdb-io-break.c:157
 #, c-format
 msgid "Added breakpoint #%s at %s:%s\n"
 msgstr "ブレークポイント #%s を追加。場所 %s:%s\n"
 
-#: ../geanygdb/src/gdb-io-break.c:159
+#: ../geanygdb/src/gdb-io-break.c:169
 #, c-format
 msgid "Added write watchpoint #%s for %s\n"
 msgstr "出力監視ポイント #%s を追加。変数 %s\n"
 
-#: ../geanygdb/src/gdb-io-break.c:168
+#: ../geanygdb/src/gdb-io-break.c:178
 #, c-format
 msgid "Added read/write watchpoint #%s for %s\n"
 msgstr "入出力監視ポイント #%s を追加。変数 %s\n"
 
-#: ../geanygdb/src/gdb-io-break.c:179
+#: ../geanygdb/src/gdb-io-break.c:189
 #, c-format
 msgid "Added read watchpoint #%s for %s\n"
 msgstr "入力監視ポイント #%s を追加。変数 %s\n"
 
-#: ../geanygdb/src/gdb-io-break.c:226
+#: ../geanygdb/src/gdb-io-break.c:236
 msgid "Watch/breakpoint deleted.\n"
 msgstr "監視/ブレークポイントを削除。\n"
 
-#: ../geanygdb/src/gdb-io-break.c:250
+#: ../geanygdb/src/gdb-io-break.c:260
 msgid "Failed to toggle breakpoint -\n"
 msgstr "ブレークポイント切り替えに失敗 -\n"
 
-#: ../geanygdb/src/gdb-io-break.c:268
+#: ../geanygdb/src/gdb-io-break.c:278
 msgid "Watch/breakpoint toggled.\n"
 msgstr "監視/ブレークポイントを切り替え。\n"
 
-#: ../geanygdb/src/gdb-io-break.c:282
+#: ../geanygdb/src/gdb-io-break.c:292
 msgid "Watch/breakpoint modified.\n"
 msgstr "監視/ブレークポイントを変更。\n"
 
-#: ../geanygdb/src/gdb-io-envir.c:122
+#: ../geanygdb/src/gdb-io-envir.c:132
 msgid "Failed to retrieve source search path setting from GDB."
 msgstr "GDBのソースファイル検索パス設定の読み込みに失敗。"
 
-#: ../geanygdb/src/gdb-io-envir.c:143
+#: ../geanygdb/src/gdb-io-envir.c:153
 msgid "Failed to retrieve executable search path setting from GDB."
 msgstr "GDBの実行ファイル検索パス設定の読み込みに失敗。"
 
-#: ../geanygdb/src/gdb-io-envir.c:165
+#: ../geanygdb/src/gdb-io-envir.c:175
 msgid "Failed to retrieve working directory setting from GDB."
 msgstr "GDBの作業ディレクトリ設定の読み込みに失敗。"
 
-#: ../geanygdb/src/gdb-io-frame.c:489
+#: ../geanygdb/src/gdb-io-frame.c:500
 msgid "Field list too long, not all items can be displayed.\n"
 msgstr "項目リストが長すぎて、すべての項目が表示できません。\n"
 
-#: ../geanygdb/src/gdb-io-read.c:230
+#: ../geanygdb/src/gdb-io-read.c:240
 msgid "Error starting target process!\n"
 msgstr "ターゲットプロセス起動エラー!\n"
 
-#: ../geanygdb/src/gdb-io-read.c:275
+#: ../geanygdb/src/gdb-io-read.c:285
 msgid ""
 "This executable does not appear to contain the required debugging "
 "information."
 msgstr "必要なデバッグ情報が含まれていないため、実行ファイルは表示できません。"
 
-#: ../geanygdb/src/gdb-io-read.c:537
+#: ../geanygdb/src/gdb-io-read.c:547
 #, c-format
 msgid "Program received signal %s (%s) at %s in function %s() at %s:%s"
 msgstr "プログラムがシグナル %s (%s) を %s で受信。場所 関数 %s()  %s:%s"
 
-#: ../geanygdb/src/gdb-io-read.c:588
+#: ../geanygdb/src/gdb-io-read.c:598
 #, c-format
 msgid "Watchpoint #%s out of scope"
 msgstr "監視ポイント #%s はスコープ範囲外"
 
-#: ../geanygdb/src/gdb-io-read.c:597
+#: ../geanygdb/src/gdb-io-read.c:607
 #, c-format
 msgid "Program exited on signal %s (%s).\n"
 msgstr "プログラムはシグナル %s (%s) で終了。\n"
 
-#: ../geanygdb/src/gdb-io-read.c:599
+#: ../geanygdb/src/gdb-io-read.c:609
 msgid "Unknown signal"
 msgstr "不明なシグナル"
 
-#: ../geanygdb/src/gdb-io-read.c:616
+#: ../geanygdb/src/gdb-io-read.c:626
 #, c-format
 msgid "Program exited with code %d [%s]\n"
 msgstr "プログラムは終了コード %d [%s]で終了。\n"
 
-#: ../geanygdb/src/gdb-io-read.c:617
+#: ../geanygdb/src/gdb-io-read.c:627
 msgid "(unknown)"
 msgstr "(不明)"
 
-#: ../geanygdb/src/gdb-io-read.c:623
+#: ../geanygdb/src/gdb-io-read.c:633
 msgid "Program exited normally.\n"
 msgstr "プログラムは正常に終了。\n"
 
-#: ../geanygdb/src/gdb-io-run.c:264
+#: ../geanygdb/src/gdb-io-run.c:275
 msgid "tty temporary directory not specified!\n"
 msgstr "tty 一時ディレクトリが指定されていません!\n"
 
-#: ../geanygdb/src/gdb-io-run.c:269
+#: ../geanygdb/src/gdb-io-run.c:280
 msgid "tty temporary directory not found!\n"
 msgstr "tty 一時ディレクトリがありません!\n"
 
-#: ../geanygdb/src/gdb-io-run.c:288
+#: ../geanygdb/src/gdb-io-run.c:299
 msgid "tty helper program not specified!\n"
 msgstr "tty ヘルパープログラムが指定されていません!\n"
 
-#: ../geanygdb/src/gdb-io-run.c:295
+#: ../geanygdb/src/gdb-io-run.c:306
 msgid "tty helper program not found!\n"
 msgstr "tty ヘルパープログラムがありません!\n"
 
-#: ../geanygdb/src/gdb-io-run.c:348
+#: ../geanygdb/src/gdb-io-run.c:359
 #, c-format
 msgid "Attaching to terminal %s\n"
 msgstr "端末 %s に割り当て中\n"
 
-#: ../geanygdb/src/gdb-io-run.c:363
+#: ../geanygdb/src/gdb-io-run.c:374
 msgid "Timeout waiting for TTY name.\n"
 msgstr "TTY 名のタイムアウト待ち。\n"
 
-#: ../geanygdb/src/gdb-io-run.c:412
+#: ../geanygdb/src/gdb-io-run.c:423
 #, c-format
 msgid "GDB exited (pid=%d)\n"
 msgstr "GDB が終了しました (pid=%d)\n"
 
-#: ../geanygdb/src/gdb-io-run.c:473
+#: ../geanygdb/src/gdb-io-run.c:484
 #, c-format
 msgid "Target process exited. (pid=%d; %s%s)\n"
 msgstr "ターゲットプロセスが終了しました。(pid=%d; %s%s)\n"
 
-#: ../geanygdb/src/gdb-io-run.c:475
+#: ../geanygdb/src/gdb-io-run.c:486
 msgid "code="
 msgstr "コード="
 
-#: ../geanygdb/src/gdb-io-run.c:475
+#: ../geanygdb/src/gdb-io-run.c:486
 msgid "reason:"
 msgstr "理由:"
 
-#: ../geanygdb/src/gdb-io-run.c:541 ../geanygdb/src/gdb-io-run.c:606
+#: ../geanygdb/src/gdb-io-run.c:552 ../geanygdb/src/gdb-io-run.c:617
 #, c-format
 msgid "Directory %s not found!\n"
 msgstr "ディレクトリ %s がありません!\n"
 
-#: ../geanygdb/src/gdb-io-run.c:546
+#: ../geanygdb/src/gdb-io-run.c:557
 msgid "Shutting down target program.\n"
 msgstr "ターゲットプログラムをシャットダウンします。\n"
 
-#: ../geanygdb/src/gdb-io-run.c:553
+#: ../geanygdb/src/gdb-io-run.c:564
 msgid "Killing target program.\n"
 msgstr "ターゲットプログラムを終了させます。\n"
 
-#: ../geanygdb/src/gdb-io-run.c:561
+#: ../geanygdb/src/gdb-io-run.c:572
 msgid "Timeout waiting for target process.\n"
 msgstr "ターゲットプログラムのタイムアウト待ち。\n"
 
-#: ../geanygdb/src/gdb-io-run.c:564
+#: ../geanygdb/src/gdb-io-run.c:575
 msgid "Using a bigger hammer!\n"
 msgstr "大きなハンマーを使用中!\n"
 
-#: ../geanygdb/src/gdb-io-run.c:578
+#: ../geanygdb/src/gdb-io-run.c:589
 msgid "Waiting for target process to exit.\n"
 msgstr "ターゲットプロセスの終了待ち。\n"
 
-#: ../geanygdb/src/gdb-io-run.c:614
+#: ../geanygdb/src/gdb-io-run.c:625
 #, c-format
 msgid "Killing GDB (pid=%d)\n"
 msgstr "GDBを終了中 (pid=%d)\n"
 
-#: ../geanygdb/src/gdb-io-run.c:628
+#: ../geanygdb/src/gdb-io-run.c:639
 msgid "Timeout trying to kill GDB.\n"
 msgstr "GDBを終了しようとしてタイムアウトしました。\n"
 
-#: ../geanygdb/src/gdb-io-run.c:638
+#: ../geanygdb/src/gdb-io-run.c:649
 msgid "Shutting down GDB\n"
 msgstr "GDBをシャットダウンします。\n"
 
-#: ../geanygdb/src/gdb-io-run.c:651
+#: ../geanygdb/src/gdb-io-run.c:662
 msgid "Waiting for GDB to exit.\n"
 msgstr "GDBの終了待ち。\n"
 
-#: ../geanygdb/src/gdb-io-run.c:659
+#: ../geanygdb/src/gdb-io-run.c:670
 msgid "Timeout waiting for GDB to exit.\n"
 msgstr "GDBの終了のタイムアウト待ち。\n"
 
-#: ../geanygdb/src/gdb-io-run.c:722
+#: ../geanygdb/src/gdb-io-run.c:740
 #, c-format
 msgid "Starting gdb (pid=%d)\n"
 msgstr "GDBを開始中 (pid=%d)\n"
 
-#: ../geanygdb/src/gdb-io-run.c:782
+#: ../geanygdb/src/gdb-io-run.c:803
 #, c-format
 msgid "Started target process. (pid=%d)\n"
 msgstr "ターゲットプロセスを開始しました。(pid=%d)\n"
 
-#: ../geanygdb/src/gdb-ui-break.c:108
+#: ../geanygdb/src/gdb-ui-break.c:119
 #, c-format
 msgid "No %s selected"
 msgstr "%s が選ばれていません"
 
-#: ../geanygdb/src/gdb-ui-break.c:108 ../geanygdb/src/gdb-ui-break.c:343
+#: ../geanygdb/src/gdb-ui-break.c:119
 msgid "watchpoint"
 msgstr "監視ポイント"
 
-#: ../geanygdb/src/gdb-ui-break.c:108 ../geanygdb/src/gdb-ui-break.c:343
-#: ../geanygdb/src/gdb-ui-break.c:397
+#: ../geanygdb/src/gdb-ui-break.c:119
 msgid "breakpoint"
 msgstr "ブレークポイント"
 
-#: ../geanygdb/src/gdb-ui-break.c:114
+#: ../geanygdb/src/gdb-ui-break.c:125
 msgid "Delete selected watchpoint?"
 msgstr "選択した監視ポイントを削除しますか?"
 
-#: ../geanygdb/src/gdb-ui-break.c:114
+#: ../geanygdb/src/gdb-ui-break.c:125
 msgid "Delete selected breakpoint?"
 msgstr "選択したブレークポイントを削除しますか?"
 
-#: ../geanygdb/src/gdb-ui-break.c:142
+#: ../geanygdb/src/gdb-ui-break.c:153
 msgid "Edit watchpoint"
 msgstr "監視ポイントを修正"
 
-#: ../geanygdb/src/gdb-ui-break.c:142
+#: ../geanygdb/src/gdb-ui-break.c:153
 msgid "Edit breakpoint"
 msgstr "ブレークポイントを修正"
 
-#: ../geanygdb/src/gdb-ui-break.c:152
+#: ../geanygdb/src/gdb-ui-break.c:163
 msgid "Enabled"
 msgstr "有効"
 
-#: ../geanygdb/src/gdb-ui-break.c:158
+#: ../geanygdb/src/gdb-ui-break.c:169
 msgid " Break after "
 msgstr " ブレーク条件 "
 
-#: ../geanygdb/src/gdb-ui-break.c:165
+#: ../geanygdb/src/gdb-ui-break.c:176
 msgid " times. "
 msgstr " 回ごと "
 
-#: ../geanygdb/src/gdb-ui-break.c:170
+#: ../geanygdb/src/gdb-ui-break.c:181
 msgid " Break when "
 msgstr " ブレーク条件 "
 
-#: ../geanygdb/src/gdb-ui-break.c:177
+#: ../geanygdb/src/gdb-ui-break.c:188
 msgid " is true. "
 msgstr " が trueのとき "
 
-#: ../geanygdb/src/gdb-ui-break.c:242
+#: ../geanygdb/src/gdb-ui-break.c:253
 msgid "Add watchpoint"
 msgstr "監視ポイントを追加"
 
-#: ../geanygdb/src/gdb-ui-break.c:242
+#: ../geanygdb/src/gdb-ui-break.c:253
 msgid "Add breakpoint"
 msgstr "ブレークポイントを追加"
 
-#: ../geanygdb/src/gdb-ui-break.c:493
+#: ../geanygdb/src/gdb-ui-break.c:504
 msgid "Watchpoints"
 msgstr "監視ポイント"
 
-#: ../geanygdb/src/gdb-ui-break.c:493
+#: ../geanygdb/src/gdb-ui-break.c:504
 msgid "Breakpoints"
 msgstr "ブレークポイント"
 
-#: ../geanygdb/src/gdb-ui-envir.c:83
+#: ../geanygdb/src/gdb-ui-envir.c:94
 msgid "Environment settings"
 msgstr "環境設定"
 
-#: ../geanygdb/src/gdb-ui-envir.c:105
+#: ../geanygdb/src/gdb-ui-envir.c:116
 msgid ""
 "\n"
 " Command-line arguments passed to target program:"
@@ -458,7 +567,7 @@ msgstr ""
 "\n"
 " ターゲットプログラムに渡すコマンドライン引数:"
 
-#: ../geanygdb/src/gdb-ui-envir.c:106
+#: ../geanygdb/src/gdb-ui-envir.c:117
 msgid ""
 "\n"
 " Search path for source files:"
@@ -466,7 +575,7 @@ msgstr ""
 "\n"
 " ソースプログラム検索パス:"
 
-#: ../geanygdb/src/gdb-ui-envir.c:107
+#: ../geanygdb/src/gdb-ui-envir.c:118
 msgid ""
 "\n"
 " Working directory for target program:"
@@ -474,7 +583,7 @@ msgstr ""
 "\n"
 " ターゲットプログラムの作業ディレクトリ:"
 
-#: ../geanygdb/src/gdb-ui-envir.c:108
+#: ../geanygdb/src/gdb-ui-envir.c:119
 msgid ""
 "\n"
 " Search path for executables:"
@@ -482,64 +591,64 @@ msgstr ""
 "\n"
 " 実行ファイル検索パス:"
 
-#: ../geanygdb/src/gdb-ui-envir.c:151 ../geanylua/gsdlg.c:226
+#: ../geanygdb/src/gdb-ui-envir.c:162 ../geanylua/gsdlg.c:226
 msgid "Select Font"
 msgstr "フォントを選択"
 
-#: ../geanygdb/src/gdb-ui-envir.c:173 ../geanyprj/src/menu.c:412
+#: ../geanygdb/src/gdb-ui-envir.c:184 ../geanyprj/src/menu.c:412
 #: ../geanyprj/src/sidebar.c:214
 msgid "Preferences"
 msgstr "設定"
 
-#: ../geanygdb/src/gdb-ui-envir.c:189
+#: ../geanygdb/src/gdb-ui-envir.c:200
 msgid "Keep debug window on top."
 msgstr "デバッグウィンドウを前面に表示。"
 
-#: ../geanygdb/src/gdb-ui-envir.c:191
+#: ../geanygdb/src/gdb-ui-envir.c:202
 msgid "Show tooltips."
 msgstr "ツールチップを表示"
 
-#: ../geanygdb/src/gdb-ui-envir.c:192
+#: ../geanygdb/src/gdb-ui-envir.c:203
 msgid "Show icons."
 msgstr "アイコンを表示"
 
-#: ../geanygdb/src/gdb-ui-envir.c:197
+#: ../geanygdb/src/gdb-ui-envir.c:208
 msgid "Font for source code listings:"
 msgstr "ソースプログラム一覧のフォント:"
 
-#: ../geanygdb/src/gdb-ui-envir.c:209
+#: ../geanygdb/src/gdb-ui-envir.c:220
 msgid "Terminal program:"
 msgstr "端末プログラム:"
 
-#: ../geanygdb/src/gdb-ui-frame.c:127
+#: ../geanygdb/src/gdb-ui-frame.c:137
 msgid "_Examine"
 msgstr "テスト(_E)"
 
-#: ../geanygdb/src/gdb-ui-frame.c:277
+#: ../geanygdb/src/gdb-ui-frame.c:287
 msgid "Object info"
 msgstr "オブジェクト情報"
 
-#: ../geanygdb/src/gdb-ui-frame.c:284
+#: ../geanygdb/src/gdb-ui-frame.c:294
 msgid "Elements"
 msgstr "要素"
 
-#: ../geanygdb/src/gdb-ui-frame.c:284
+#: ../geanygdb/src/gdb-ui-frame.c:294
 msgid "Fields"
 msgstr "項目"
 
-#: ../geanygdb/src/gdb-ui-frame.c:292
+#: ../geanygdb/src/gdb-ui-frame.c:302
 msgid "Return to previous dialog."
 msgstr "前の画面に戻る。"
 
-#: ../geanygdb/src/gdb-ui-frame.c:297 ../geanygdb/src/gdb-ui-frame.c:371
+#: ../geanygdb/src/gdb-ui-frame.c:307 ../geanygdb/src/gdb-ui-frame.c:381
 msgid "Display additional information about the selected item."
 msgstr "選択した項目の詳細な情報を表示する。"
 
-#: ../geanygdb/src/gdb-ui-frame.c:344
+#: ../geanygdb/src/gdb-ui-frame.c:354
 msgid "Frame info"
 msgstr "フレーム情報"
 
-#: ../geanygdb/src/gdb-ui-frame.c:347
+#: ../geanygdb/src/gdb-ui-frame.c:357
 #, c-format
 msgid ""
 "\n"
@@ -548,263 +657,135 @@ msgstr ""
 "\n"
 "フレーム #%s 場所 %s() ファイル %s:%s\n"
 
-#: ../geanygdb/src/gdb-ui-frame.c:357
+#: ../geanygdb/src/gdb-ui-frame.c:367
 msgid "Function arguments"
 msgstr "関数の引数"
 
-#: ../geanygdb/src/gdb-ui-frame.c:361
+#: ../geanygdb/src/gdb-ui-frame.c:371
 msgid "Local variables"
 msgstr "局所変数"
 
-#: ../geanygdb/src/gdb-ui-frame.c:366
+#: ../geanygdb/src/gdb-ui-frame.c:376
 msgid "Return to stack list dialog."
 msgstr "スタック表示ダイアログに戻る。"
 
-#: ../geanygdb/src/gdb-ui-frame.c:578
+#: ../geanygdb/src/gdb-ui-frame.c:588
 msgid "Stack trace"
 msgstr "スタックトレース"
 
-#: ../geanygdb/src/gdb-ui-frame.c:595
+#: ../geanygdb/src/gdb-ui-frame.c:605
 msgid "Display additional information about the selected frame."
 msgstr "選択したフレームの詳細な情報を表示する。"
 
-#: ../geanygdb/src/gdb-ui-locn.c:53
+#: ../geanygdb/src/gdb-ui-locn.c:63
 msgid "Clea_r"
 msgstr "消去(_R)"
 
-#: ../geanygdb/src/gdb-ui-locn.c:68
+#: ../geanygdb/src/gdb-ui-locn.c:78
 msgid "Filename: "
 msgstr "ファイル名: "
 
-#: ../geanygdb/src/gdb-ui-locn.c:81
+#: ../geanygdb/src/gdb-ui-locn.c:91
 msgid "Variable to watch:"
 msgstr "監視する変数:"
 
-#: ../geanygdb/src/gdb-ui-locn.c:82
+#: ../geanygdb/src/gdb-ui-locn.c:92
 msgid "Line number or function name: "
 msgstr "行番号または関数名: "
 
-#: ../geanygdb/src/gdb-ui-locn.c:123
+#: ../geanygdb/src/gdb-ui-locn.c:133
 msgid "Access trigger:"
 msgstr "アクセス トリガ:"
 
-#: ../geanygdb/src/gdb-ui-main.c:136
+#: ../geanygdb/src/gdb-ui-main.c:172
 msgid "(no program)"
 msgstr "(no program)"
 
-#: ../geanygdb/src/gdb-ui-main.c:150
+#: ../geanygdb/src/gdb-ui-main.c:186
 msgid "loaded"
 msgstr "loaded"
 
-#: ../geanygdb/src/gdb-ui-main.c:155
+#: ../geanygdb/src/gdb-ui-main.c:191
 msgid "starting"
 msgstr "starting"
 
-#: ../geanygdb/src/gdb-ui-main.c:162
+#: ../geanygdb/src/gdb-ui-main.c:198
 msgid "running"
 msgstr "running"
 
-#: ../geanygdb/src/gdb-ui-main.c:181
+#: ../geanygdb/src/gdb-ui-main.c:219
 msgid "stopped"
 msgstr "stopped"
 
-#: ../geanygdb/src/gdb-ui-main.c:195
+#: ../geanygdb/src/gdb-ui-main.c:233
 msgid "terminated"
 msgstr "terminated"
 
-#: ../geanygdb/src/gdb-ui-main.c:232
+#: ../geanygdb/src/gdb-ui-main.c:270
 msgid "paused"
 msgstr "paused"
 
-#: ../geanygdb/src/gdb-ui-main.c:241
+#: ../geanygdb/src/gdb-ui-main.c:279
 msgid "Program received signal:"
 msgstr "プログラムが受信したシグナル:"
 
-#: ../geanygdb/src/gdb-ui-main.c:310
+#: ../geanygdb/src/gdb-ui-main.c:348
 msgid "Error:"
 msgstr "エラー:"
 
-#: ../geanygdb/src/gdb-ui-main.c:505
+#: ../geanygdb/src/gdb-ui-main.c:524
 msgid "Select executable to debug"
 msgstr "デバッグする実行ファイルを選択"
 
-#: ../geanygdb/src/gdb-ui-main.c:537
+#: ../geanygdb/src/gdb-ui-main.c:556
 msgid "Debugging of object files is not supported."
 msgstr "オブジェクトファイルのデバッグはサポートされていません。"
 
-#: ../geanygdb/src/gdb-ui-main.c:589
+#: ../geanygdb/src/gdb-ui-main.c:597
 msgid "You don't have permission to execute this file."
 msgstr "このファイルを実行する権利がありません。"
 
-#: ../geanygdb/src/gdb-ui-main.c:595
+#: ../geanygdb/src/gdb-ui-main.c:603
 msgid "Debugging of shared libraries is not supported."
 msgstr "共有ライブラリのデバッグはサポートされていません。"
 
-#: ../geanygdb/src/gdb-ui-main.c:600
+#: ../geanygdb/src/gdb-ui-main.c:608
 msgid "Debugging of core files id not supported."
 msgstr "コアファイルのデバッグはサポートされていません。"
 
-#: ../geanygdb/src/gdb-ui-main.c:605
+#: ../geanygdb/src/gdb-ui-main.c:613
 msgid "Target file must be ELF 32-bit x86 executable."
 msgstr "ターゲットファイルは ELF 32-bit x86 実行ファイルでなければなりません。"
 
-#: ../geanygdb/src/gdb-ui-main.c:611
+#: ../geanygdb/src/gdb-ui-main.c:619
 msgid "You don't have permission to read this file."
 msgstr "このファイルを読む権利がありません。"
 
-#: ../geanygdb/src/gdb-ui-main.c:728
+#: ../geanygdb/src/gdb-ui-main.c:736
 msgid "Run to location"
 msgstr "実行する位置"
 
-#: ../geanygdb/src/gdb-ui-main.c:847
+#: ../geanygdb/src/gdb-ui-main.c:848
+msgid ":  "
+msgstr ""
+
+#: ../geanygdb/src/gdb-ui-main.c:915
 msgid "no program"
 msgstr "no program"
 
-#: ../geanygdb/src/gdb-ui-main.c:854
-msgid "_Load"
-msgstr "_Load"
-
-#: ../geanygdb/src/gdb-ui-main.c:854
-msgid "Load target program into debugger."
-msgstr "ターゲットプログラムをデバッガにロードします。"
-
-#: ../geanygdb/src/gdb-ui-main.c:856
-msgid "_Unload"
-msgstr "_Unload"
-
-#: ../geanygdb/src/gdb-ui-main.c:857
-msgid "Kill the target program AND the debugger."
-msgstr "ターゲットプログラムとデバッガを終了します。"
-
-#: ../geanygdb/src/gdb-ui-main.c:859
-msgid "_Run"
-msgstr "_Run"
-
-#: ../geanygdb/src/gdb-ui-main.c:860
-msgid "Execute target program in debugger."
-msgstr "ターゲットプログラムをデバッガで実行します。"
-
-#: ../geanygdb/src/gdb-ui-main.c:862
-msgid "_Kill"
-msgstr "_Kill"
-
-#: ../geanygdb/src/gdb-ui-main.c:863
-msgid "Kill the target program with SIGKILL."
-msgstr "SIGKILL シグナルを送ってターゲットプログラムを終了させます。"
-
-#: ../geanygdb/src/gdb-ui-main.c:865
-msgid "_Pause"
-msgstr "_Pause"
-
-#: ../geanygdb/src/gdb-ui-main.c:866
-msgid "Pause the target program with SIGINT."
-msgstr "SIGINT シグナルを送ってターゲットプログラムを一時停止します。"
-
-#: ../geanygdb/src/gdb-ui-main.c:868
-msgid "_Continue"
-msgstr "_Continue"
-
-#: ../geanygdb/src/gdb-ui-main.c:869
-msgid "Continue executing target program."
-msgstr "ターゲットプログラムの実行を再開します。"
-
-#: ../geanygdb/src/gdb-ui-main.c:871
-msgid "_Step"
-msgstr "_Step"
-
-#: ../geanygdb/src/gdb-ui-main.c:872
-msgid "Step to the next line or function call."
-msgstr "次の行または関数呼び出しを実行して止まります。"
-
-#: ../geanygdb/src/gdb-ui-main.c:874
-msgid "Step _in"
-msgstr "Step _in"
-
-#: ../geanygdb/src/gdb-ui-main.c:875
-msgid "Execute the next machine instruction or function call."
-msgstr "次の機械語命令または関数呼び出しまで実行して止まります。"
-
-#: ../geanygdb/src/gdb-ui-main.c:876
-msgid "Step to the next line."
-msgstr "次の行まで実行。"
-
-#: ../geanygdb/src/gdb-ui-main.c:878
-msgid "Ne_xt in"
-msgstr "Ne_xt in"
-
-#: ../geanygdb/src/gdb-ui-main.c:879
-msgid "Execute the next machine instruction."
-msgstr "次の機械語命令まで実行します。"
-
-#: ../geanygdb/src/gdb-ui-main.c:881
-msgid "Run _to"
-msgstr "Run _to"
-
-#: ../geanygdb/src/gdb-ui-main.c:882
-msgid "Run to specified source line."
-msgstr "ソースプログラムの位置を指定して実行します。"
-
-#: ../geanygdb/src/gdb-ui-main.c:884
-msgid "Stac_k"
-msgstr "Stac_k"
-
-#: ../geanygdb/src/gdb-ui-main.c:885
-msgid "Display a backtrace of the current call stack."
-msgstr "現在の呼び出しスタックを表示します。"
-
-#: ../geanygdb/src/gdb-ui-main.c:886
-msgid "Add or remove breakpoints."
-msgstr "ブレークポイントを追加または削除します。"
-
-#: ../geanygdb/src/gdb-ui-main.c:887
-msgid "Add or remove watchpoints."
-msgstr "監視ポイントを追加または削除します。"
-
-#: ../geanygdb/src/gdb-ui-main.c:889
-msgid "_Finish"
-msgstr "_Finish"
-
-#: ../geanygdb/src/gdb-ui-main.c:890
-msgid "Complete the currently executing function."
-msgstr "現在実行している関数を終了します。"
-
-#: ../geanygdb/src/gdb-ui-main.c:892
-msgid "_Return"
-msgstr "_Return"
-
-#: ../geanygdb/src/gdb-ui-main.c:893
-msgid "Return immediately from the current function."
-msgstr "現在実行している関数から直ちに戻ります。"
-
-#: ../geanygdb/src/gdb-ui-main.c:895
-msgid "En_viron"
-msgstr "En_viron"
-
-#: ../geanygdb/src/gdb-ui-main.c:896
-msgid "Set target environment and command line options."
-msgstr "ターゲット プログラムの環境やコマンドライン オプションを設定します。"
-
-#: ../geanygdb/src/gdb-ui-main.c:898
-msgid "_Options"
-msgstr "_Options"
-
-#: ../geanygdb/src/gdb-ui-main.c:899
-msgid "Set user interface options."
-msgstr "ユーザ インタフェース オプションを設定します。"
-
-#: ../geanygdb/src/gdb-ui-main.c:948
+#: ../geanygdb/src/gdb-ui-main.c:970
 msgid "Run in terminal"
 msgstr "端末で実行"
 
-#: ../geanygdb/src/gdb-ui-main.c:950
+#: ../geanygdb/src/gdb-ui-main.c:972
 msgid "Execute target program inside a terminal window."
 msgstr "ターゲットプログラムを端末ウィンドウで実行します。"
 
-#: ../geanygdb/src/gdb-ui-main.c:953
+#: ../geanygdb/src/gdb-ui-main.c:975
 msgid "Ignore SIGPIPE"
 msgstr "SIGPIPEを無視"
 
-#: ../geanygdb/src/gdb-ui-main.c:955
+#: ../geanygdb/src/gdb-ui-main.c:977
 msgid ""
 "Don't pause execution when target gets a SIGPIPE signal.\n"
 "(Useful for certain networking applications.)"
@@ -812,503 +793,483 @@ msgstr ""
 "ターゲットプログラムが SIGPIPE シグナルを受け取っても一時停止しません。\n"
 "(ネットワーク アプリケーションのデバッグに便利です)"
 
-#: ../geanygdb/src/gdb-ui-main.c:962
+#: ../geanygdb/src/gdb-ui-main.c:984
 msgid "Console:"
 msgstr "コンソール:"
 
-#: ../geanygdb/src/gdb-ui-main.c:963
+#: ../geanygdb/src/gdb-ui-main.c:985
 msgid "Send a GDB command directly to the debugger."
 msgstr "GDB コマンドを直接デバッガに送ります。"
 
-#: ../geanygdb/src/gdb-ui-main.c:1019
+#: ../geanygdb/src/gdb-ui-main.c:1041
 msgid "_Quit"
 msgstr "_Quit"
 
-#: ../geanygdb/src/gdb-ui-main.c:1019
+#: ../geanygdb/src/gdb-ui-main.c:1041
 msgid "Exit everything"
 msgstr "すべて終了します。"
 
-#: ../geanygdb/src/geanydebug.c:56
-msgid "Debugger"
-msgstr "デバッガ"
+#: ../geanygdb/src/geanygdb.c:37
+msgid "GeanyGDB"
+msgstr ""
 
-#: ../geanygdb/src/geanydebug.c:56
+#: ../geanygdb/src/geanygdb.c:37
 msgid "Integrated debugging with GDB."
 msgstr "GDBを使ったデバッグを統合"
 
-#: ../geanygdb/src/geanydebug.c:56
-msgid "Jeff Pohlmeyer"
+#: ../geanygdb/src/geanygdb.c:37
+#, fuzzy
+msgid "Jeff Pohlmeyer, Dominic Hopf"
 msgstr "Jeff Pohlmeyer"
 
-#: ../geanygdb/src/geanydebug.c:373
+#: ../geanygdb/src/geanygdb.c:330
 #, c-format
 msgid "Plugin configuration directory (%s) could not be created."
 msgstr "プラグイン設定ディレクトリ (%s) を作成できません。"
 
-#: ../geanygdb/src/geanydebug.c:390
+#: ../geanygdb/src/geanygdb.c:347
 msgid "geanygdb: ttyhelper program not found."
 msgstr "geanygdb: ttyhelper プログラムがありません。"
 
-#: ../geanylatex/src/geanylatex.c:29
+#: ../geanygdb/src/geanygdb.c:378
 #, fuzzy
-msgid "LaTeX"
-msgstr "LaTeX"
+msgid "Debu_g"
+msgstr "デバッガ"
 
-#: ../geanylatex/src/geanylatex.c:29
+#: ../geanygdb/src/geanygdb.c:389
 #, fuzzy
-msgid "Plugin to provide better LaTeX support"
-msgstr "LaTeX サポートを提供するプラグイン"
+msgid "Debug"
+msgstr "デバッガ"
 
-#: ../geanylatex/src/geanylatex.c:95
+#: ../geanygendoc/src/ggd.c:79
+#, c-format
+msgid "Failed to resize memory output stream"
+msgstr ""
+
+#: ../geanygendoc/src/ggd.c:107
+#, c-format
+msgid ""
+"Argument parsing regular expression did not match (argument list was: \"%s\")"
+msgstr ""
+
+#: ../geanygendoc/src/ggd.c:241
+#, c-format
+msgid "Failed to add global environment, skipping: %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd.c:247
+#, c-format
+msgid "Failed to build comment: %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd.c:423
+#, c-format
+msgid "Documentation type \"%s\" does not exist for language \"%s\"."
+msgstr ""
+
+#: ../geanygendoc/src/ggd.c:478
+#, c-format
+msgid "No setting applies to symbol \"%s\" of type \"%s\" at line %lu."
+msgstr ""
+
+#: ../geanygendoc/src/ggd.c:520
+#, c-format
+msgid "No valid tag at line %d."
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:112
+msgid "boolean value"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:125
+#, c-format
+msgid "invalid boolean value \"%s\""
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:152
+#, c-format
+msgid "invalid template: %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:173
+msgid "position name"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:180
+#, c-format
+msgid "invalid position \"%s\""
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:199
+msgid "policy name"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:206
+#, c-format
+msgid "invalid policy \"%s\""
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:225
+msgid "merge policy"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:232
+#, c-format
+msgid "invalid merge policy \"%s\""
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:254
 #, fuzzy
-msgid "Marks selected text as italic"
-msgstr "選択した文字を斜体に設定"
+msgid "type"
+msgstr "Type"
 
-#: ../geanylatex/src/geanylatex.c:96
+#: ../geanygendoc/src/ggd-file-type-loader.c:261
+#, c-format
+msgid "invalid type \"%s\""
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:323
+#: ../geanygendoc/src/ggd-file-type-loader.c:774
+#, c-format
+msgid "invalid setting name \"%s\""
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:344
+#: ../geanygendoc/src/ggd-file-type-loader.c:355
+#: ../geanygendoc/src/ggd-file-type-loader.c:380
+msgid "setting identifier"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:426
+#, c-format
+msgid "Unknown type \"%s\", is it a typo?"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:441
+#: ../geanygendoc/src/ggd-file-type-loader.c:485
+#: ../geanygendoc/src/ggd-file-type-loader.c:497
+#: ../geanygendoc/src/ggd-file-type-loader.c:535
+msgid "match identifier"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:449
+#, c-format
+msgid "match identifier is empty"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:467
+msgid "documentation type identifier"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:571
+#: ../geanygendoc/src/ggd-file-type-loader.c:583
+#: ../geanygendoc/src/ggd-file-type-loader.c:605
+msgid "documentation type"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:640
+#, c-format
+msgid "invalid regular expression: %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:697
+#, c-format
+msgid "invalid environment description: %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:734
+#: ../geanygendoc/src/ggd-file-type-loader.c:745
+#: ../geanygendoc/src/ggd-file-type-loader.c:784
 #, fuzzy
-msgid "Marks selected text as bold"
-msgstr "選択した文字を太字に設定"
+msgid "setting"
+msgstr "starting"
 
-#: ../geanylatex/src/geanylatex.c:97
+#: ../geanygendoc/src/ggd-file-type-loader.c:812
 #, fuzzy
-msgid "Underlines selected text"
-msgstr "選択した文字に下線を設定"
+msgid "section name"
+msgstr "関数の引数"
 
-#: ../geanylatex/src/geanylatex.c:223
+#: ../geanygendoc/src/ggd-file-type-loader.c:823
+#, c-format
+msgid "duplicated section \"%s\""
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:832
+#, c-format
+msgid "invalid section name \"%s\""
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:845
+#: ../geanygendoc/src/ggd-file-type-loader.c:897
+#, c-format
+msgid "input is empty"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:859
+#, c-format
+msgid "Parser warning: %s:%u:%u: %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:862
+#, c-format
+msgid "Parser error: %s:%u:%u: %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:866
+#, c-format
+msgid "%s:%u:%u: %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-manager.c:175
+#, c-format
+msgid "File type configuration file for language \"%s\" not found: %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-manager.c:182
+#, c-format
+msgid "Failed to load file type \"%s\" from file \"%s\": %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-options.c:326
 #, fuzzy
-msgid "Use KOMA script by default"
-msgstr "標準で KOMA スクリプトを使用"
+msgid "Unknown option"
+msgstr "不明なシグナル"
 
-#: ../geanylatex/src/geanylatex.c:225
+#: ../geanygendoc/src/ggd-options.c:335
+msgid ""
+"Invalid option or proxy: either the proxy's property or the option type is "
+"incompatible."
+msgstr ""
+
+#: ../geanygendoc/src/ggd-options.c:512
+#, c-format
+msgid "Unknown value type for keyfile entry %s::%s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-options.c:516
+#, c-format
+msgid "Error retrieving keyfile entry %s::%s: %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:51
 #, fuzzy
-msgid "Show extra plugin toolbar"
-msgstr "追加プラグインツールバーを表示"
+msgid "Documentation Generator"
+msgstr "文書の挙動"
 
-#: ../geanylatex/src/geanylatex.c:395
+#: ../geanygendoc/src/ggd-plugin.c:52
+msgid "Generates documentation basis from source code"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:207
+#, c-format
+msgid "Failed to load configuration: %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:228
+#, c-format
+msgid "Failed to save configuration: %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:299
+#, c-format
+msgid "Failed to find configuration file for file type \"%s\": %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:360 ../geanygendoc/src/ggd-plugin.c:371
 #, fuzzy
-msgid "Insert Label"
-msgstr "ラベルを挿入"
+msgid "Insert Documentation Comment"
+msgstr "Insert Environment"
 
-#: ../geanylatex/src/geanylatex.c:408
+#: ../geanygendoc/src/ggd-plugin.c:425
 #, fuzzy
-msgid "Label name:"
-msgstr "ラベル名:"
+msgid "_Document Current Symbol"
+msgstr "文書の現在の単語"
 
-#: ../geanylatex/src/geanylatex.c:445
+#: ../geanygendoc/src/ggd-plugin.c:426
 #, fuzzy
-msgid "Insert Reference"
-msgstr "参照を挿入"
+msgid "Generate documentation for the current symbol"
+msgstr "現在のシンボルに文書ビューワを呼び出します"
 
-#: ../geanylatex/src/geanylatex.c:458
+#: ../geanygendoc/src/ggd-plugin.c:432
+msgid "Document _All Symbols"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:433
+msgid "Generate documentation for all symbols in the current document"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:443
+msgid "_Reload Configuration Files"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:444
 #, fuzzy
-msgid "Reference name:"
-msgstr "参照名:"
+msgid "Force reloading of the configuration files"
+msgstr "現在のファイルのログを表示"
 
-#: ../geanylatex/src/geanylatex.c:472
+#: ../geanygendoc/src/ggd-plugin.c:449
+msgid "_Edit Current Language Configuration"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:450
+msgid "Open the current language configuration file for editing"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:460
 #, fuzzy
-msgid "_Standard Reference"
-msgstr "標準参照(_S)"
+msgid "Open _Manual"
+msgstr "Manual"
 
-#: ../geanylatex/src/geanylatex.c:477
+#: ../geanygendoc/src/ggd-plugin.c:461
+msgid "Open the manual in a browser"
+msgstr ""
+
+#. build tools menu item
+#: ../geanygendoc/src/ggd-plugin.c:465
 #, fuzzy
-msgid "_Page Reference"
-msgstr "ページ参照(_P)"
+msgid "_Documentation Generator"
+msgstr "文書の挙動"
 
-#: ../geanylatex/src/geanylatex.c:653
+#. General
+#: ../geanygendoc/src/ggd-plugin.c:562
 #, fuzzy
-msgid "More"
-msgstr "詳細"
+msgid "General"
+msgstr "GeanySendMail"
 
-#. Documentclass
-#: ../geanylatex/src/geanylatex.c:745
+#. auto-save
+#: ../geanygendoc/src/ggd-plugin.c:567
+msgid "_Save file before generating documentation"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:570
+msgid ""
+"Whether the current document should be saved to disc before generating the "
+"documentation. This is a technical detail, but it is currently needed to "
+"have an up-to-date tag list. If you disable this option and ask for "
+"documentation generation on a modified document, the behavior may be "
+"surprising since the comment will be generated for the last saved state of "
+"this document and not the current one."
+msgstr ""
+
+#. indent
+#: ../geanygendoc/src/ggd-plugin.c:580
+msgid "_Indent inserted documentation"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:582
+msgid ""
+"Whether the inserted documentation should be indented to fit the indentation "
+"at the insertion position."
+msgstr ""
+
+#. Documentation type
+#: ../geanygendoc/src/ggd-plugin.c:589
+#: ../geanygendoc/src/ggd-widget-doctype-selector.c:121
 #, fuzzy
-msgid "Documentclass:"
-msgstr "文書クラス:"
+msgid "Documentation type"
+msgstr "文書の挙動"
 
-#: ../geanylatex/src/geanylatex.c:748
+#: ../geanygendoc/src/ggd-plugin.c:599
+msgid ""
+"Choose the documentation type to use with each file type. The special "
+"language \"All\" on top of the list is used to choose the default "
+"documentation type, used for all languages that haven't one set."
+msgstr ""
+
+#. Environ editor
+#: ../geanygendoc/src/ggd-plugin.c:605
 #, fuzzy
-msgid "Choose the kind of document you want to write"
-msgstr "作成する文書の種類を選択"
+msgid "Global environment"
+msgstr "Environments"
 
-#: ../geanylatex/src/geanylatex.c:750 ../geanylatex/src/bibtexlabels.c:27
+#: ../geanygendoc/src/ggd-plugin.c:607
+msgid ""
+"Global environment overrides and additions. This environment will be merged "
+"with the file-type-specific ones."
+msgstr ""
+
+#: ../geanygendoc/src/ggd-tag-utils.c:389
+msgid "Invalid tag"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-utils.c:166 ../geanygendoc/src/ggd-utils.c:177
+#, c-format
+msgid "File \"%s\" exists but is not a regular file"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-utils.c:186
+#, c-format
+msgid "%s: no such file or directory"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-widget-doctype-selector.c:112
+msgid "Language"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-widget-doctype-selector.c:143
+msgid "All"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-widget-doctype-selector.c:144
+msgid "Default documentation type for languages that does not have one set"
+msgstr ""
+
+#: ../geanylatex/src/latexenvironments.c:25
 #, fuzzy
-msgid "Book"
-msgstr "書籍"
+msgid "Environments"
+msgstr "Environments"
 
-#: ../geanylatex/src/geanylatex.c:752 ../geanylatex/src/bibtexlabels.c:26
+#: ../geanylatex/src/latexenvironments.c:26
+#, fuzzy
+msgid "Formating"
+msgstr "Formating"
+
+#: ../geanylatex/src/latexenvironments.c:27
+#, fuzzy
+msgid "Document Structure"
+msgstr "Document Structure"
+
+#: ../geanylatex/src/latexenvironments.c:28
+#, fuzzy
+msgid "Lists"
+msgstr "Lists"
+
+#: ../geanylatex/src/latexenvironments.c:29
+#, fuzzy
+msgid "Math"
+msgstr "Math"
+
+#: ../geanylatex/src/latexenvironments.c:195
+#, fuzzy
+msgid "Insert Environment"
+msgstr "Insert Environment"
+
+#: ../geanylatex/src/latexenvironments.c:209
+#, fuzzy
+msgid "Environment:"
+msgstr "Environment:"
+
+#: ../geanylatex/src/latexutils.c:89
+#, c-format
+msgid ""
+"Could not determine where to insert package: %s\n"
+"Please try insert package manually"
+msgstr ""
+
+#: ../geanylatex/src/latexutils.c:91
+#, c-format
+msgid "Could not determine where to insert package: %s"
+msgstr ""
+
+#: ../geanylatex/src/bibtexlabels.c:26 ../geanylatex/src/geanylatex.c:1638
 #, fuzzy
 msgid "Article"
 msgstr "論文"
 
-#: ../geanylatex/src/geanylatex.c:754
+#: ../geanylatex/src/bibtexlabels.c:27 ../geanylatex/src/geanylatex.c:1636
 #, fuzzy
-msgid "Report"
-msgstr "レポート"
-
-#: ../geanylatex/src/geanylatex.c:756
-#, fuzzy
-msgid "Letter"
-msgstr "手紙"
-
-#: ../geanylatex/src/geanylatex.c:758
-#, fuzzy
-msgid "Presentation"
-msgstr "プレゼンテーション"
-
-#. Encoding
-#: ../geanylatex/src/geanylatex.c:768
-#, fuzzy
-msgid "Encoding:"
-msgstr "エンコード方法:"
-
-#: ../geanylatex/src/geanylatex.c:772
-#, fuzzy
-msgid "Set the encoding for your new document"
-msgstr "新規文書のエンコード方法を設定"
-
-#. fontsize
-#: ../geanylatex/src/geanylatex.c:788
-#, fuzzy
-msgid "Font size:"
-msgstr "フォントサイズ:"
-
-#: ../geanylatex/src/geanylatex.c:794
-#, fuzzy
-msgid "Set the default font size of your new document"
-msgstr "新規文書の標準フォントサイズを設定"
-
-#. Author
-#: ../geanylatex/src/geanylatex.c:802
-#, fuzzy
-msgid "Author:"
-msgstr "作者:"
-
-#: ../geanylatex/src/geanylatex.c:805
-#, fuzzy
-msgid ""
-"Sets the value of the \\author command. In most cases this should be your "
-"name"
-msgstr "\\author コマンドの値を設定。通常あなたの氏名を設定します。"
-
-#. Date
-#: ../geanylatex/src/geanylatex.c:816
-#, fuzzy
-msgid "Date:"
-msgstr "日付:"
-
-#: ../geanylatex/src/geanylatex.c:819
-#, fuzzy
-msgid ""
-"Sets the value of the \\date command inside header of your\t\t newly created "
-"LaTeX-document. Keeping it at \\today is a good \t\t decision if you don't "
-"need any fixed date."
-msgstr ""
-"新規作成 LaTeX文書のヘッダに追加する\\dateコマンドの値を設定します。日付を一"
-"定にしたくないときは、\\todayのままにしておくのがよいでしょう。"
-
-#. Title of the new document
-#: ../geanylatex/src/geanylatex.c:828
-#, fuzzy
-msgid "Title:"
-msgstr "表題:"
-
-#: ../geanylatex/src/geanylatex.c:831
-#, fuzzy
-msgid "Sets the title of your new document."
-msgstr "新規文書の表題を設定します。"
-
-#. Papersize
-#: ../geanylatex/src/geanylatex.c:837
-#, fuzzy
-msgid "Paper size:"
-msgstr "用紙サイズ:"
-
-#: ../geanylatex/src/geanylatex.c:840
-#, fuzzy
-msgid "Choose the paper format for the newly created document"
-msgstr "新規文書の用紙を選択"
-
-#. Building the wizard-dialog and showing it
-#: ../geanylatex/src/geanylatex.c:855
-#, fuzzy
-msgid "LaTeX-Wizard"
-msgstr "LaTeXウィザード"
-
-#: ../geanylatex/src/geanylatex.c:866
-#, fuzzy
-msgid "Use KOMA-script classes if possible"
-msgstr "可能であれば、KOMAスクリプトクラスを使用します。"
-
-#: ../geanylatex/src/geanylatex.c:868
-#, fuzzy
-msgid ""
-"Uses the KOMA-script classes by Markus Kohm.\n"
-"Keep in mind: To compile your document these classeshave to be installed "
-"before."
-msgstr ""
-"Markus Kohmによる、KOMAスクリプト\n"
-"使用の注意: あなたの文書をコンパイルするには、これらのクラスを事前にインス"
-"トールする必要があります。"
-
-#: ../geanylatex/src/geanylatex.c:875
-#, fuzzy
-msgid "Use draft mode"
-msgstr "草稿モードを使用"
-
-#: ../geanylatex/src/geanylatex.c:877
-#, fuzzy
-msgid ""
-"Set the draft flag inside new created documents to get documents with a "
-"number of debugging helpers"
-msgstr ""
-"新規文書に草稿フラグを設定し、デバッグヘルパーを使用した文書を作成します。"
-
-#: ../geanylatex/src/geanylatex.c:1091
-#, fuzzy
-msgid "Dear Sir or Madame"
-msgstr "敬称の書出し(Dear Sir or Madameなど)"
-
-#: ../geanylatex/src/geanylatex.c:1092
-#, fuzzy
-msgid "With kind regards"
-msgstr "文末の定型句(regardsなど)"
-
-#: ../geanylatex/src/geanylatex.c:1106
-#, fuzzy
-msgid "Run LaTeX-Wizard"
-msgstr "LaTeXウィザードを実行"
-
-#: ../geanylatex/src/geanylatex.c:1108
-#, fuzzy
-msgid "Insert \\label"
-msgstr "ラベル(\\label)を挿入"
-
-#: ../geanylatex/src/geanylatex.c:1110
-#, fuzzy
-msgid "Insert \\ref"
-msgstr "参照(\\ref)を挿入"
-
-#: ../geanylatex/src/geanylatex.c:1112
-#, fuzzy
-msgid "Insert linebreak \\\\ "
-msgstr "改行(\\\\)を挿入 "
-
-#: ../geanylatex/src/geanylatex.c:1114
-#, fuzzy
-msgid "Turn input replacement on/off"
-msgstr "入力置き換えのOn/Off"
-
-#: ../geanylatex/src/geanylatex.c:1118
-#, fuzzy
-msgid "Replace special characters"
-msgstr "特殊文字の置き換え"
-
-#: ../geanylatex/src/geanylatex.c:1121
-#, fuzzy
-msgid "Run insert environment dialog"
-msgstr "環境挿入ダイアログを実行"
-
-#: ../geanylatex/src/geanylatex.c:1123
-#, fuzzy
-msgid "Insert \\item"
-msgstr "項目を挿入(\\item)"
-
-#: ../geanylatex/src/geanylatex.c:1125
-#, fuzzy
-msgid "Format selection in bold font face"
-msgstr "太字フォント"
-
-#: ../geanylatex/src/geanylatex.c:1127
-#, fuzzy
-msgid "Format selection in italic font face"
-msgstr "斜体フォント"
-
-#: ../geanylatex/src/geanylatex.c:1129
-#, fuzzy
-msgid "Format selection in typewriter font face"
-msgstr "固定幅フォント"
-
-#: ../geanylatex/src/geanylatex.c:1131
-#, fuzzy
-msgid "Format selection centered"
-msgstr "中央合わせ"
-
-#: ../geanylatex/src/geanylatex.c:1133
-#, fuzzy
-msgid "Format selection left-aligned"
-msgstr "左寄せ"
-
-#: ../geanylatex/src/geanylatex.c:1135
-#, fuzzy
-msgid "Format selection right-aligned "
-msgstr "右寄せ "
-
-#: ../geanylatex/src/geanylatex.c:1141
-#, fuzzy
-msgid ""
-"GeanyLaTeX is a plugin to improve support for LaTeX in Geany.\n"
-"\n"
-"Please report all bugs or feature requests to one of the authors."
-msgstr ""
-"GeanyLaTeX は Geany で LaTexをよりよくサポートするプラグインです。\n"
-"不具合や機能追加については作者にレポートしてください。"
-
-#: ../geanylatex/src/geanylatex.c:1174
-#, fuzzy
-msgid "_LaTeX"
-msgstr "_LaTeX"
-
-#: ../geanylatex/src/geanylatex.c:1180
-#, fuzzy
-msgid "LaTeX-_Wizard"
-msgstr "LaTeX-_Wizard"
-
-#: ../geanylatex/src/geanylatex.c:1183
-#, fuzzy
-msgid "Starts a Wizard to easily create LaTeX-documents"
-msgstr "LaTeX 文書を簡単に作成するウィザードを開始"
-
-#: ../geanylatex/src/geanylatex.c:1188
-#, fuzzy
-msgid "Insert _Special Character"
-msgstr "特殊文字の挿入(_S)"
-
-#: ../geanylatex/src/geanylatex.c:1190
-#, fuzzy
-msgid "Helps to use some not very common letters and signs"
-msgstr "あまり使われない特殊文字や記号を入力するのを補助します。"
-
-#: ../geanylatex/src/geanylatex.c:1200
-#, fuzzy
-msgid "Insert _Reference"
-msgstr "参照を挿入(_R)"
-
-#: ../geanylatex/src/geanylatex.c:1202
-#, fuzzy
-msgid "Inserting references to the document"
-msgstr "文書に参照を挿入します。"
-
-#: ../geanylatex/src/geanylatex.c:1207
-#, fuzzy
-msgid "Insert _Label"
-msgstr "ラベルを挿入(_L)"
-
-#: ../geanylatex/src/geanylatex.c:1209
-#, fuzzy
-msgid "Helps at inserting labels to a document"
-msgstr "文書にラベルを挿入します。"
-
-#: ../geanylatex/src/geanylatex.c:1215
-#, fuzzy
-msgid "Insert _Environment"
-msgstr "環境を挿入(_E)"
-
-#: ../geanylatex/src/geanylatex.c:1217
-#, fuzzy
-msgid "Helps at inserting an environment a document"
-msgstr "文書に環境を挿入します。"
-
-#: ../geanylatex/src/geanylatex.c:1222
-#, fuzzy
-msgid "_BibTeX"
-msgstr "_BibTeX"
-
-#: ../geanylatex/src/geanylatex.c:1238
-#, fuzzy
-msgid "_Format"
-msgstr "書式(_F)"
-
-#: ../geanylatex/src/geanylatex.c:1256
-#, fuzzy
-msgid "_Special Character Replacement"
-msgstr "特殊文字の置換(_S)"
-
-#: ../geanylatex/src/geanylatex.c:1264
-#, fuzzy
-msgid "Bulk _Replace Special Characters"
-msgstr "特殊文字の大域置換(_R)"
-
-#: ../geanylatex/src/geanylatex.c:1266
-#, fuzzy
-msgid "_Replace selected special cahracters with TeX substitutes"
-msgstr "選択した特殊文字をTexの構文に置換(_R)"
-
-#: ../geanylatex/src/geanylatex.c:1274
-#, fuzzy
-msgid "Toggle _Special Character Replacement"
-msgstr "特殊文字置換の切り替え(_S)"
-
-#: ../geanylatex/src/latexencodings.c:37
-msgid "UTF-8"
-msgstr "UTF-8"
-
-#: ../geanylatex/src/latexencodings.c:38
-msgid "US-ASCII"
-msgstr "US-ASCII"
-
-#: ../geanylatex/src/latexencodings.c:39
-msgid "ISO-8859-1 (Latin-1)"
-msgstr "ISO-8859-1 (Latin-1)"
-
-#: ../geanylatex/src/latexencodings.c:41
-msgid "ISO-8859-2 (Latin-2)"
-msgstr "ISO-8859-2 (Latin-2)"
-
-#: ../geanylatex/src/latexencodings.c:43
-msgid "ISO-8859-3 (Latin-3)"
-msgstr "ISO-8859-3 (Latin-3)"
-
-#: ../geanylatex/src/latexencodings.c:45
-msgid "ISO-8859-4 (Latin-4)"
-msgstr "ISO-8859-4 (Latin-4)"
-
-#: ../geanylatex/src/latexencodings.c:47
-msgid "ISO-8859-5 (Latin-5)"
-msgstr "ISO-8859-5 (Latin-5)"
-
-#: ../geanylatex/src/latexencodings.c:49
-msgid "ISO-8859-9 (Latin-9)"
-msgstr "ISO-8859-9 (Latin-9)"
-
-#: ../geanylatex/src/latexencodings.c:51
-msgid "ISO-8859-10 (Latin-10)"
-msgstr "ISO-8859-10 (Latin-10)"
-
-#: ../geanylatex/src/latexencodings.c:53
-msgid "IBM 850 code page"
-msgstr "IBM 850 code page"
-
-#: ../geanylatex/src/latexencodings.c:55
-msgid "IBM 852 code page"
-msgstr "IBM 852 code page"
-
-#: ../geanylatex/src/latexencodings.c:57 ../geanylatex/src/letters.c:41
-#: ../geanylatex/src/bibtexlabels.c:35
-msgid "Misc"
-msgstr "その他"
-
-#: ../geanylatex/src/letters.c:39
-msgid "Greek letters"
-msgstr "ギリシャ文字"
-
-#: ../geanylatex/src/letters.c:40
-msgid "German umlauts"
-msgstr "ドイツ語ウムラウト"
-
-#: ../geanylatex/src/letters.c:42
-#, fuzzy
-msgid "Arrow characters"
-msgstr "矢印記号"
-
-#: ../geanylatex/src/letters.c:43
-#, fuzzy
-msgid "Relational"
-msgstr "分数"
-
-#: ../geanylatex/src/letters.c:44
-#, fuzzy
-msgid "Binary operation"
-msgstr "バイナリ操作"
+msgid "Book"
+msgstr "書籍"
 
 #: ../geanylatex/src/bibtexlabels.c:28
 #, fuzzy
@@ -1344,6 +1305,10 @@ msgstr "Manual"
 #, fuzzy
 msgid "Mastersthesis"
 msgstr "Mastersthesis"
+
+#: ../geanylatex/src/bibtexlabels.c:35 ../geanylatex/src/letters.c:41
+msgid "Misc"
+msgstr "その他"
 
 #: ../geanylatex/src/bibtexlabels.c:36
 #, fuzzy
@@ -1475,11 +1440,6 @@ msgstr "Series"
 msgid "Title"
 msgstr "Title"
 
-#: ../geanylatex/src/bibtexlabels.c:65
-#, fuzzy
-msgid "Type"
-msgstr "Type"
-
 #: ../geanylatex/src/bibtexlabels.c:66
 #, fuzzy
 msgid "URL"
@@ -1495,67 +1455,67 @@ msgstr "Volume"
 msgid "Year"
 msgstr "Year"
 
-#: ../geanylatex/src/bibtexlabels.c:99
+#: ../geanylatex/src/bibtexlabels.c:100
 #, fuzzy
 msgid "Address of publisher"
 msgstr "出版社の住所"
 
-#: ../geanylatex/src/bibtexlabels.c:100
+#: ../geanylatex/src/bibtexlabels.c:101
 #, fuzzy
 msgid "Annotation for annotated bibliography styles"
 msgstr "Annotation for annotated bibliography styles"
 
-#: ../geanylatex/src/bibtexlabels.c:101
+#: ../geanylatex/src/bibtexlabels.c:102
 #, fuzzy
 msgid "Name(s) of the author(s), separated by 'and' if more than one"
 msgstr "著者の名前, 複数あるときは 'and' で区切ります"
 
-#: ../geanylatex/src/bibtexlabels.c:102
+#: ../geanylatex/src/bibtexlabels.c:103
 #, fuzzy
 msgid "Title of the book, if only part of it is being cited"
 msgstr "Title of the book, if only part of it is being cited"
 
-#: ../geanylatex/src/bibtexlabels.c:103
+#: ../geanylatex/src/bibtexlabels.c:104
 #, fuzzy
 msgid "Chapter number"
 msgstr "章番号"
 
-#: ../geanylatex/src/bibtexlabels.c:104
+#: ../geanylatex/src/bibtexlabels.c:105
 #, fuzzy
 msgid "Citation key of the cross-referenced entry"
 msgstr "Citation key of the cross-referenced entry"
 
-#: ../geanylatex/src/bibtexlabels.c:105
+#: ../geanylatex/src/bibtexlabels.c:106
 #, fuzzy
 msgid "Edition of the book (such as \"first\" or \"second\")"
 msgstr "Edition of the book (such as \"first\" or \"second\")"
 
-#: ../geanylatex/src/bibtexlabels.c:106
+#: ../geanylatex/src/bibtexlabels.c:107
 #, fuzzy
 msgid "Name(s) of the editor(s), separated by 'and' if more than one"
 msgstr "Name(s) of the editor(s), separated by 'and' if more than one"
 
-#: ../geanylatex/src/bibtexlabels.c:107
+#: ../geanylatex/src/bibtexlabels.c:108
 #, fuzzy
 msgid "Specification of electronic publication"
 msgstr "Specification of electronic publication"
 
-#: ../geanylatex/src/bibtexlabels.c:108
+#: ../geanylatex/src/bibtexlabels.c:109
 #, fuzzy
 msgid "Publishing method if the method is nonstandard"
 msgstr "Publishing method if the method is nonstandard"
 
-#: ../geanylatex/src/bibtexlabels.c:109
+#: ../geanylatex/src/bibtexlabels.c:110
 #, fuzzy
 msgid "Institution that was involved in the publishing"
 msgstr "Institution that was involved in the publishing"
 
-#: ../geanylatex/src/bibtexlabels.c:110
+#: ../geanylatex/src/bibtexlabels.c:111
 #, fuzzy
 msgid "Journal or magazine in which the work was published"
 msgstr "Journal or magazine in which the work was published"
 
-#: ../geanylatex/src/bibtexlabels.c:111
+#: ../geanylatex/src/bibtexlabels.c:112
 #, fuzzy
 msgid ""
 "Hidden field used for specifying or overriding the alphabetical order of "
@@ -1564,70 +1524,635 @@ msgstr ""
 "Hidden field used for specifying or overriding the alphabetical order of "
 "entries"
 
-#: ../geanylatex/src/bibtexlabels.c:112
+#: ../geanylatex/src/bibtexlabels.c:113
 #, fuzzy
 msgid "Month of publication or creation if unpublished"
 msgstr "Month of publication or creation if unpublished"
 
-#: ../geanylatex/src/bibtexlabels.c:113
+#: ../geanylatex/src/bibtexlabels.c:114
 #, fuzzy
 msgid "Miscellaneous extra information"
 msgstr "Miscellaneous extra information"
 
-#: ../geanylatex/src/bibtexlabels.c:114
+#: ../geanylatex/src/bibtexlabels.c:115
 #, fuzzy
 msgid "Number of journal, magazine, or tech-report"
 msgstr "Number of journal, magazine, or tech-report"
 
-#: ../geanylatex/src/bibtexlabels.c:115
+#: ../geanylatex/src/bibtexlabels.c:116
 #, fuzzy
 msgid "Sponsor of the conference"
 msgstr "Sponsor of the conference"
 
-#: ../geanylatex/src/bibtexlabels.c:116
+#: ../geanylatex/src/bibtexlabels.c:117
 #, fuzzy
 msgid "Page numbers separated by commas or double-hyphens"
 msgstr "Page numbers separated by commas or double-hyphens"
 
-#: ../geanylatex/src/bibtexlabels.c:117
+#: ../geanylatex/src/bibtexlabels.c:118
 #, fuzzy
 msgid "Name of publisher"
 msgstr "Name of publisher"
 
-#: ../geanylatex/src/bibtexlabels.c:118
+#: ../geanylatex/src/bibtexlabels.c:119
 #, fuzzy
 msgid "School where thesis was written"
 msgstr "School where thesis was written"
 
-#: ../geanylatex/src/bibtexlabels.c:119
+#: ../geanylatex/src/bibtexlabels.c:120
 #, fuzzy
 msgid "Series of books in which the book was published"
 msgstr "Series of books in which the book was published"
 
-#: ../geanylatex/src/bibtexlabels.c:120
+#: ../geanylatex/src/bibtexlabels.c:121
 #, fuzzy
 msgid "Title of the work"
 msgstr "Title of the work"
 
-#: ../geanylatex/src/bibtexlabels.c:121
+#: ../geanylatex/src/bibtexlabels.c:122
 #, fuzzy
 msgid "Type of technical report"
 msgstr "Type of technical report"
 
-#: ../geanylatex/src/bibtexlabels.c:122
+#: ../geanylatex/src/bibtexlabels.c:123
 #, fuzzy
 msgid "Internet address"
 msgstr "Internet address"
 
-#: ../geanylatex/src/bibtexlabels.c:123
+#: ../geanylatex/src/bibtexlabels.c:124
 #, fuzzy
 msgid "Number of the volume"
 msgstr "Number of the volume"
 
-#: ../geanylatex/src/bibtexlabels.c:124
+#: ../geanylatex/src/bibtexlabels.c:125
 #, fuzzy
 msgid "Year of publication or creation if unpublished"
 msgstr "Year of publication or creation if unpublished"
+
+#: ../geanylatex/src/geanylatex.c:33
+#, fuzzy
+msgid "GeanyLaTeX"
+msgstr "LaTeX"
+
+#: ../geanylatex/src/geanylatex.c:33
+#, fuzzy
+msgid "Plugin to provide better LaTeX support"
+msgstr "LaTeX サポートを提供するプラグイン"
+
+#: ../geanylatex/src/geanylatex.c:98
+#, fuzzy
+msgid "Runs LaTeX wizard"
+msgstr "LaTeXウィザードを実行"
+
+#: ../geanylatex/src/geanylatex.c:99
+#, fuzzy
+msgid "Marks selected text as italic"
+msgstr "選択した文字を斜体に設定"
+
+#: ../geanylatex/src/geanylatex.c:100
+#, fuzzy
+msgid "Marks selected text as bold"
+msgstr "選択した文字を太字に設定"
+
+#: ../geanylatex/src/geanylatex.c:101
+#, fuzzy
+msgid "Underlines selected text"
+msgstr "選択した文字に下線を設定"
+
+#: ../geanylatex/src/geanylatex.c:102 ../geanylatex/src/formatpatterns.c:45
+#, fuzzy
+msgid "Centered"
+msgstr "Centered"
+
+#: ../geanylatex/src/geanylatex.c:103 ../geanylatex/src/formatpatterns.c:46
+#, fuzzy
+msgid "Left side oriented"
+msgstr "Left side oriented"
+
+#: ../geanylatex/src/geanylatex.c:104 ../geanylatex/src/formatpatterns.c:47
+#, fuzzy
+msgid "Right side oriented"
+msgstr "Right side oriented"
+
+#: ../geanylatex/src/geanylatex.c:247
+#, fuzzy
+msgid "Use KOMA script by default"
+msgstr "標準で KOMA スクリプトを使用"
+
+#: ../geanylatex/src/geanylatex.c:249
+#, fuzzy
+msgid "Show extra plugin toolbar"
+msgstr "追加プラグインツールバーを表示"
+
+#: ../geanylatex/src/geanylatex.c:253
+msgid "Don't care about this inside plugin"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:255
+msgid "Always perform autocompletion on LaTeX"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:267
+msgid "Modus of autocompletion"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:726
+#, fuzzy
+msgid "Insert Label"
+msgstr "ラベルを挿入"
+
+#: ../geanylatex/src/geanylatex.c:739
+#, fuzzy
+msgid "Label name:"
+msgstr "ラベル名:"
+
+#: ../geanylatex/src/geanylatex.c:775
+#, fuzzy
+msgid "Insert Command"
+msgstr "Insert Environment"
+
+#: ../geanylatex/src/geanylatex.c:788
+#, fuzzy
+msgid "Command name:"
+msgstr "コマンド 0:"
+
+#: ../geanylatex/src/geanylatex.c:848
+#, fuzzy
+msgid "Insert Reference"
+msgstr "参照を挿入"
+
+#: ../geanylatex/src/geanylatex.c:861
+#, fuzzy
+msgid "Reference name:"
+msgstr "参照名:"
+
+#: ../geanylatex/src/geanylatex.c:886
+#, fuzzy
+msgid "_Standard Reference"
+msgstr "標準参照(_S)"
+
+#: ../geanylatex/src/geanylatex.c:891
+#, fuzzy
+msgid "_Page Reference"
+msgstr "ページ参照(_P)"
+
+#: ../geanylatex/src/geanylatex.c:896
+#, fuzzy
+msgid "_Add both"
+msgstr "ブレークポイントを追加"
+
+#: ../geanylatex/src/geanylatex.c:1093
+#, fuzzy
+msgid "More"
+msgstr "詳細"
+
+#: ../geanylatex/src/geanylatex.c:1149
+msgid "Add additional package"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:1162
+#, fuzzy
+msgid "Package name:"
+msgstr "ラベル名:"
+
+#: ../geanylatex/src/geanylatex.c:1165
+msgid "Package options:"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:1556
+#, fuzzy
+msgid "Dear Sir or Madame"
+msgstr "敬称の書出し(Dear Sir or Madameなど)"
+
+#: ../geanylatex/src/geanylatex.c:1557
+#, fuzzy
+msgid "With kind regards"
+msgstr "文末の定型句(regardsなど)"
+
+#: ../geanylatex/src/geanylatex.c:1565
+msgid "No template assigned. Aborting"
+msgstr ""
+
+#. Building the wizard-dialog and showing it
+#: ../geanylatex/src/geanylatex.c:1592
+#, fuzzy
+msgid "LaTeX-Wizard"
+msgstr "LaTeXウィザード"
+
+#. Templates
+#. *  Adds custom templates if there are any. If there are none just
+#. *  adds default one
+#: ../geanylatex/src/geanylatex.c:1607
+msgid "Template:"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:1611
+msgid "Set the template which should be used for creating the new document"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:1620
+#, fuzzy
+msgid "Default"
+msgstr "標準 (%s)"
+
+#. Documentclass
+#: ../geanylatex/src/geanylatex.c:1631
+#, fuzzy
+msgid "Documentclass:"
+msgstr "文書クラス:"
+
+#: ../geanylatex/src/geanylatex.c:1634
+#, fuzzy
+msgid "Choose the kind of document you want to write"
+msgstr "作成する文書の種類を選択"
+
+#: ../geanylatex/src/geanylatex.c:1640
+#, fuzzy
+msgid "Report"
+msgstr "レポート"
+
+#: ../geanylatex/src/geanylatex.c:1642
+#, fuzzy
+msgid "Letter"
+msgstr "手紙"
+
+#: ../geanylatex/src/geanylatex.c:1644
+#, fuzzy
+msgid "Presentation"
+msgstr "プレゼンテーション"
+
+#. Encoding
+#: ../geanylatex/src/geanylatex.c:1654
+#, fuzzy
+msgid "Encoding:"
+msgstr "エンコード方法:"
+
+#: ../geanylatex/src/geanylatex.c:1658
+#, fuzzy
+msgid "Set the encoding for your new document"
+msgstr "新規文書のエンコード方法を設定"
+
+#. fontsize
+#: ../geanylatex/src/geanylatex.c:1674
+#, fuzzy
+msgid "Font size:"
+msgstr "フォントサイズ:"
+
+#: ../geanylatex/src/geanylatex.c:1680
+#, fuzzy
+msgid "Set the default font size of your new document"
+msgstr "新規文書の標準フォントサイズを設定"
+
+#. Author
+#: ../geanylatex/src/geanylatex.c:1692
+#, fuzzy
+msgid "Author:"
+msgstr "作者:"
+
+#: ../geanylatex/src/geanylatex.c:1695
+#, fuzzy
+msgid ""
+"Sets the value of the \\author command. In most cases this should be your "
+"name"
+msgstr "\\author コマンドの値を設定。通常あなたの氏名を設定します。"
+
+#. Date
+#: ../geanylatex/src/geanylatex.c:1709
+#, fuzzy
+msgid "Date:"
+msgstr "日付:"
+
+#: ../geanylatex/src/geanylatex.c:1712
+#, fuzzy
+msgid ""
+"Sets the value of the \\date command inside header of your new created LaTeX-"
+"document. Keeping it at \\today is a good decision if you don't need any "
+"fixed date."
+msgstr ""
+"新規作成 LaTeX文書のヘッダに追加する\\dateコマンドの値を設定します。日付を一"
+"定にしたくないときは、\\todayのままにしておくのがよいでしょう。"
+
+#. Title of the new document
+#: ../geanylatex/src/geanylatex.c:1724
+#, fuzzy
+msgid "Title:"
+msgstr "表題:"
+
+#: ../geanylatex/src/geanylatex.c:1727
+#, fuzzy
+msgid "Sets the title of your new document."
+msgstr "新規文書の表題を設定します。"
+
+#. Papersize
+#: ../geanylatex/src/geanylatex.c:1736
+#, fuzzy
+msgid "Paper size:"
+msgstr "用紙サイズ:"
+
+#: ../geanylatex/src/geanylatex.c:1739
+#, fuzzy
+msgid "Choose the paper format for the newly created document"
+msgstr "新規文書の用紙を選択"
+
+#. Paper direction
+#: ../geanylatex/src/geanylatex.c:1752
+#, fuzzy
+msgid "Paper Orientation:"
+msgstr "プレゼンテーション"
+
+#: ../geanylatex/src/geanylatex.c:1755
+#, fuzzy
+msgid "Choose the paper orientation for the newly created document"
+msgstr "新規文書の用紙を選択"
+
+#: ../geanylatex/src/geanylatex.c:1776
+#, fuzzy
+msgid "Use KOMA-script classes if possible"
+msgstr "可能であれば、KOMAスクリプトクラスを使用します。"
+
+#: ../geanylatex/src/geanylatex.c:1778
+#, fuzzy
+msgid ""
+"Uses the KOMA-script classes by Markus Kohm.\n"
+"Keep in mind: To compile your document these classes have to be installed "
+"before."
+msgstr ""
+"Markus Kohmによる、KOMAスクリプト\n"
+"使用の注意: あなたの文書をコンパイルするには、これらのクラスを事前にインス"
+"トールする必要があります。"
+
+#: ../geanylatex/src/geanylatex.c:1785
+#, fuzzy
+msgid "Use draft mode"
+msgstr "草稿モードを使用"
+
+#: ../geanylatex/src/geanylatex.c:1787
+#, fuzzy
+msgid ""
+"Set the draft flag inside new created documents to get documents with a "
+"number of debugging helpers"
+msgstr ""
+"新規文書に草稿フラグを設定し、デバッグヘルパーを使用した文書を作成します。"
+
+#: ../geanylatex/src/geanylatex.c:1801
+#, fuzzy
+msgid "Run LaTeX-Wizard"
+msgstr "LaTeXウィザードを実行"
+
+#: ../geanylatex/src/geanylatex.c:1803
+#, fuzzy
+msgid "Insert \\label"
+msgstr "ラベル(\\label)を挿入"
+
+#: ../geanylatex/src/geanylatex.c:1805
+#, fuzzy
+msgid "Insert \\ref"
+msgstr "参照(\\ref)を挿入"
+
+#: ../geanylatex/src/geanylatex.c:1807
+#, fuzzy
+msgid "Insert linebreak \\\\ "
+msgstr "改行(\\\\)を挿入 "
+
+#: ../geanylatex/src/geanylatex.c:1810
+#, fuzzy
+msgid "Insert command"
+msgstr "Insert Environment"
+
+#: ../geanylatex/src/geanylatex.c:1812
+#, fuzzy
+msgid "Turn input replacement on/off"
+msgstr "入力置き換えのOn/Off"
+
+#: ../geanylatex/src/geanylatex.c:1816
+#, fuzzy
+msgid "Replace special characters"
+msgstr "特殊文字の置き換え"
+
+#: ../geanylatex/src/geanylatex.c:1819
+#, fuzzy
+msgid "Run insert environment dialog"
+msgstr "環境挿入ダイアログを実行"
+
+#: ../geanylatex/src/geanylatex.c:1821
+#, fuzzy
+msgid "Insert \\item"
+msgstr "項目を挿入(\\item)"
+
+#: ../geanylatex/src/geanylatex.c:1823
+#, fuzzy
+msgid "Format selection in bold font face"
+msgstr "太字フォント"
+
+#: ../geanylatex/src/geanylatex.c:1825
+#, fuzzy
+msgid "Format selection in italic font face"
+msgstr "斜体フォント"
+
+#: ../geanylatex/src/geanylatex.c:1827
+#, fuzzy
+msgid "Format selection in typewriter font face"
+msgstr "固定幅フォント"
+
+#: ../geanylatex/src/geanylatex.c:1829
+#, fuzzy
+msgid "Format selection centered"
+msgstr "中央合わせ"
+
+#: ../geanylatex/src/geanylatex.c:1831
+#, fuzzy
+msgid "Format selection left-aligned"
+msgstr "左寄せ"
+
+#: ../geanylatex/src/geanylatex.c:1833
+#, fuzzy
+msgid "Format selection right-aligned"
+msgstr "右寄せ "
+
+#: ../geanylatex/src/geanylatex.c:1836
+msgid "Insert description list"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:1839
+#, fuzzy
+msgid "Insert itemize list"
+msgstr "項目を挿入(\\item)"
+
+#: ../geanylatex/src/geanylatex.c:1842
+#, fuzzy
+msgid "Insert enumerate list"
+msgstr "ダミーテキストを挿入"
+
+#: ../geanylatex/src/geanylatex.c:1845
+msgid "Set selection one level up"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:1848
+#, fuzzy
+msgid "Set selection one level down"
+msgstr "中央合わせ"
+
+#: ../geanylatex/src/geanylatex.c:1851
+#, fuzzy
+msgid "Insert \\usepackage{}"
+msgstr "ラベル(\\label)を挿入"
+
+#: ../geanylatex/src/geanylatex.c:1858
+#, fuzzy
+msgid ""
+"GeanyLaTeX is a plugin to improve support for LaTeX in Geany.\n"
+"\n"
+"Please report all bugs or feature requests to one of the authors."
+msgstr ""
+"GeanyLaTeX は Geany で LaTexをよりよくサポートするプラグインです。\n"
+"不具合や機能追加については作者にレポートしてください。"
+
+#: ../geanylatex/src/geanylatex.c:1894
+msgid ""
+"glatex_set_autocompletion_contextsize has been initialized with an invalid "
+"value. Default value taken. Please check your configuration file"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:1906 ../geanylatex/src/geanylatex.c:1913
+msgid "page \\pageref{{{reference}}}"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:1910 ../geanylatex/src/geanylatex.c:1917
+msgid "\\ref{{{reference}}}, page \\pageref{{{reference}}}"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:1934
+#, fuzzy
+msgid "_LaTeX"
+msgstr "_LaTeX"
+
+#: ../geanylatex/src/geanylatex.c:1940
+#, fuzzy
+msgid "LaTeX-_Wizard"
+msgstr "LaTeX-_Wizard"
+
+#: ../geanylatex/src/geanylatex.c:1943
+#, fuzzy
+msgid "Starts a Wizard to easily create LaTeX-documents"
+msgstr "LaTeX 文書を簡単に作成するウィザードを開始"
+
+#: ../geanylatex/src/geanylatex.c:1948
+#, fuzzy
+msgid "I_nsert Special Character"
+msgstr "特殊文字の挿入(_S)"
+
+#: ../geanylatex/src/geanylatex.c:1950
+#, fuzzy
+msgid "Helps to use some not very common letters and signs"
+msgstr "あまり使われない特殊文字や記号を入力するのを補助します。"
+
+#: ../geanylatex/src/geanylatex.c:1960
+#, fuzzy
+msgid "Insert _Reference"
+msgstr "参照を挿入(_R)"
+
+#: ../geanylatex/src/geanylatex.c:1962
+#, fuzzy
+msgid "Inserting references to the document"
+msgstr "文書に参照を挿入します。"
+
+#: ../geanylatex/src/geanylatex.c:1967
+#, fuzzy
+msgid "Insert _Label"
+msgstr "ラベルを挿入(_L)"
+
+#: ../geanylatex/src/geanylatex.c:1969
+#, fuzzy
+msgid "Helps at inserting labels to a document"
+msgstr "文書にラベルを挿入します。"
+
+#: ../geanylatex/src/geanylatex.c:1975
+#, fuzzy
+msgid "Insert _Environment"
+msgstr "環境を挿入(_E)"
+
+#: ../geanylatex/src/geanylatex.c:1977
+#, fuzzy
+msgid "Helps at inserting an environment a document"
+msgstr "文書に環境を挿入します。"
+
+#: ../geanylatex/src/geanylatex.c:1983
+#, fuzzy
+msgid "Insert P_ackage"
+msgstr "ラベルを挿入(_L)"
+
+#: ../geanylatex/src/geanylatex.c:1985
+msgid "A small dialog to insert \\usepackage{} into header of current file"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:1990
+#, fuzzy
+msgid "_BibTeX"
+msgstr "_BibTeX"
+
+#: ../geanylatex/src/geanylatex.c:2006
+#, fuzzy
+msgid "_Format"
+msgstr "書式(_F)"
+
+#. Add font size menu
+#: ../geanylatex/src/geanylatex.c:2023
+#, fuzzy
+msgid "F_ont size"
+msgstr "フォントサイズ:"
+
+#: ../geanylatex/src/geanylatex.c:2041
+#, fuzzy
+msgid "_Special Character Replacement"
+msgstr "特殊文字の置換(_S)"
+
+#: ../geanylatex/src/geanylatex.c:2049
+#, fuzzy
+msgid "Bulk _Replace Special Characters"
+msgstr "特殊文字の大域置換(_R)"
+
+#: ../geanylatex/src/geanylatex.c:2051
+#, fuzzy
+msgid "_Replace selected special characters with TeX substitutes"
+msgstr "選択した特殊文字をTexの構文に置換(_R)"
+
+#: ../geanylatex/src/geanylatex.c:2059
+#, fuzzy
+msgid "Toggle _Special Character Replacement"
+msgstr "特殊文字置換の切り替え(_S)"
+
+#: ../geanylatex/src/geanylatex.c:2070
+#, fuzzy
+msgid "Insert _Command"
+msgstr "環境を挿入(_E)"
+
+#: ../geanylatex/src/geanylatex.c:2072
+#, fuzzy
+msgid "Inserting costumized command to document"
+msgstr "文書に参照を挿入します。"
+
+#: ../geanylatex/src/letters.c:39
+msgid "Greek letters"
+msgstr "ギリシャ文字"
+
+#: ../geanylatex/src/letters.c:40
+msgid "German umlauts"
+msgstr "ドイツ語ウムラウト"
+
+#: ../geanylatex/src/letters.c:42
+#, fuzzy
+msgid "Arrow characters"
+msgstr "矢印記号"
+
+#: ../geanylatex/src/letters.c:43
+#, fuzzy
+msgid "Relational"
+msgstr "分数"
+
+#: ../geanylatex/src/letters.c:44
+#, fuzzy
+msgid "Binary operation"
+msgstr "バイナリ操作"
 
 #: ../geanylatex/src/formatpatterns.c:38
 #, fuzzy
@@ -1664,58 +2189,100 @@ msgstr "Small Caps"
 msgid "Emphasis"
 msgstr "Emphasis"
 
-#: ../geanylatex/src/formatpatterns.c:45
-#, fuzzy
-msgid "Centered"
-msgstr "Centered"
+#: ../geanylatex/src/formatpatterns.c:64
+msgid "tiny"
+msgstr ""
 
-#: ../geanylatex/src/formatpatterns.c:46
-#, fuzzy
-msgid "Left side oriented"
-msgstr "Left side oriented"
+#: ../geanylatex/src/formatpatterns.c:65
+msgid "scriptsize"
+msgstr ""
 
-#: ../geanylatex/src/formatpatterns.c:47
+#: ../geanylatex/src/formatpatterns.c:66
 #, fuzzy
-msgid "Right side oriented"
-msgstr "Right side oriented"
+msgid "footnotesize"
+msgstr "フォントサイズ:"
 
-#: ../geanylatex/src/latexenvironments.c:25
-#, fuzzy
-msgid "Environments"
-msgstr "Environments"
+#: ../geanylatex/src/formatpatterns.c:67
+msgid "small"
+msgstr ""
 
-#: ../geanylatex/src/latexenvironments.c:26
-#, fuzzy
-msgid "Formating"
-msgstr "Formating"
+#: ../geanylatex/src/formatpatterns.c:68
+msgid "normalsize"
+msgstr ""
 
-#: ../geanylatex/src/latexenvironments.c:27
+#: ../geanylatex/src/formatpatterns.c:69
 #, fuzzy
-msgid "Document Structure"
-msgstr "Document Structure"
+msgid "large"
+msgstr "Pages"
 
-#: ../geanylatex/src/latexenvironments.c:28
+#: ../geanylatex/src/formatpatterns.c:70
 #, fuzzy
-msgid "Lists"
-msgstr "Lists"
+msgid "Large"
+msgstr "LaTeX"
 
-#: ../geanylatex/src/latexenvironments.c:29
-#, fuzzy
-msgid "Math"
-msgstr "Math"
+#: ../geanylatex/src/formatpatterns.c:71
+msgid "LARGE"
+msgstr ""
 
-#: ../geanylatex/src/latexenvironments.c:116
-#, fuzzy
-msgid "Insert Environment"
-msgstr "Insert Environment"
+#: ../geanylatex/src/formatpatterns.c:72
+msgid "huge"
+msgstr ""
 
-#: ../geanylatex/src/latexenvironments.c:130
-#, fuzzy
-msgid "Environment:"
-msgstr "Environment:"
+#: ../geanylatex/src/formatpatterns.c:73
+msgid "Huge"
+msgstr ""
+
+#: ../geanylatex/src/latexencodings.c:37
+msgid "UTF-8"
+msgstr "UTF-8"
+
+#: ../geanylatex/src/latexencodings.c:38
+msgid "US-ASCII"
+msgstr "US-ASCII"
+
+#: ../geanylatex/src/latexencodings.c:39
+msgid "ISO-8859-1 (Latin-1)"
+msgstr "ISO-8859-1 (Latin-1)"
+
+#: ../geanylatex/src/latexencodings.c:41
+msgid "ISO-8859-2 (Latin-2)"
+msgstr "ISO-8859-2 (Latin-2)"
+
+#: ../geanylatex/src/latexencodings.c:43
+msgid "ISO-8859-3 (Latin-3)"
+msgstr "ISO-8859-3 (Latin-3)"
+
+#: ../geanylatex/src/latexencodings.c:45
+msgid "ISO-8859-4 (Latin-4)"
+msgstr "ISO-8859-4 (Latin-4)"
+
+#: ../geanylatex/src/latexencodings.c:47
+msgid "ISO-8859-5 (Latin-5)"
+msgstr "ISO-8859-5 (Latin-5)"
+
+#: ../geanylatex/src/latexencodings.c:49
+msgid "ISO-8859-9 (Latin-9)"
+msgstr "ISO-8859-9 (Latin-9)"
+
+#: ../geanylatex/src/latexencodings.c:51
+msgid "ISO-8859-10 (Latin-10)"
+msgstr "ISO-8859-10 (Latin-10)"
+
+#: ../geanylatex/src/latexencodings.c:53
+msgid "IBM 850 code page"
+msgstr "IBM 850 code page"
+
+#: ../geanylatex/src/latexencodings.c:55
+msgid "IBM 852 code page"
+msgstr "IBM 852 code page"
+
+#: ../geanylatex/src/latexencodings.c:57
+msgid "Don't set any encoding"
+msgstr ""
 
 #: ../geanylipsum/src/geanylipsum.c:35
-msgid "Lipsum"
+#, fuzzy
+msgid "GeanyLipsum"
 msgstr "Lipsum"
 
 #: ../geanylipsum/src/geanylipsum.c:35
@@ -1743,11 +2310,11 @@ msgstr "あなたの文書にダミーテキストを追加します。"
 msgid "Insert Lipsum text"
 msgstr "ダミーテキストを挿入"
 
-#: ../geanysendmail/src/geanysendmail.c:47
+#: ../geanysendmail/src/geanysendmail.c:40
 msgid "GeanySendMail"
 msgstr "GeanySendMail"
 
-#: ../geanysendmail/src/geanysendmail.c:47
+#: ../geanysendmail/src/geanysendmail.c:40
 msgid ""
 "A little plugin to send the current file as attachment by user's favorite "
 "mailer"
@@ -1755,50 +2322,50 @@ msgstr ""
 "編集中のファイルをユーザが使用しているメイラの添付ファイルとして送信するプラ"
 "グイン"
 
-#: ../geanysendmail/src/geanysendmail.c:107
+#: ../geanysendmail/src/geanysendmail.c:105
 msgid "Recipient's Address"
 msgstr "受信者アドレス"
 
-#: ../geanysendmail/src/geanysendmail.c:118
+#: ../geanysendmail/src/geanysendmail.c:116
 msgid "Enter the recipient's e-mail address:"
 msgstr "受信者の電子メールアドレスを入力:"
 
-#: ../geanysendmail/src/geanysendmail.c:166
+#: ../geanysendmail/src/geanysendmail.c:165
 msgid "Filename placeholder not found. The executed command might have failed."
 msgstr "ファイル名がありません。実行したコマンドは間違っています。"
 
-#: ../geanysendmail/src/geanysendmail.c:172
+#: ../geanysendmail/src/geanysendmail.c:171
 msgid ""
 "Recipient address placeholder not found. The executed command might have "
 "failed."
 msgstr "受信者アドレスがありません。実行したコマンドは間違っています。"
 
-#: ../geanysendmail/src/geanysendmail.c:184
+#: ../geanysendmail/src/geanysendmail.c:183
 msgid "Could not execute mailer. Please check your configuration."
 msgstr "メイラを実行できません。環境設定を確認してください。"
 
-#: ../geanysendmail/src/geanysendmail.c:196
+#: ../geanysendmail/src/geanysendmail.c:198
 msgid "Please define a mail client first."
 msgstr "メールクライアントプログラムを先に設定してください。"
 
-#: ../geanysendmail/src/geanysendmail.c:201
+#: ../geanysendmail/src/geanysendmail.c:203
 msgid "File has to be saved before sending."
 msgstr "送信する前にファイルを保存する必要があります。"
 
-#: ../geanysendmail/src/geanysendmail.c:217
+#: ../geanysendmail/src/geanysendmail.c:219
 msgid "Mail"
 msgstr "メール"
 
-#: ../geanysendmail/src/geanysendmail.c:248
+#: ../geanysendmail/src/geanysendmail.c:250
 msgid "Send by mail"
 msgstr "電子メールとして送信"
 
 #. add a label and a text entry to the dialog
-#: ../geanysendmail/src/geanysendmail.c:333
+#: ../geanysendmail/src/geanysendmail.c:335
 msgid "Path and options for the mail client:"
 msgstr "メール クライアント プログラムのパスとオプション:"
 
-#: ../geanysendmail/src/geanysendmail.c:341
+#: ../geanysendmail/src/geanysendmail.c:343
 msgid ""
 "Note: \n"
 "\t\\%f will be replaced by your file.\n"
@@ -1816,43 +2383,43 @@ msgstr ""
 "\tsylpheed --attach \"\\%f\" --compose \"\\%r\"\n"
 "\tmutt -s \"Sending '\\%b'\" -a \"\\%f\" \"\\%r\""
 
-#: ../geanysendmail/src/geanysendmail.c:351
+#: ../geanysendmail/src/geanysendmail.c:353
 msgid "Showing icon in toolbar"
 msgstr "ツールバーにアイコンを表示"
 
-#: ../geanysendmail/src/geanysendmail.c:353
+#: ../geanysendmail/src/geanysendmail.c:355
 msgid "Shows a icon in the toolbar to send file more easy."
 msgstr "ファイル送信を簡単にするためにツールバーにアイコンを表示します。"
 
-#: ../geanysendmail/src/geanysendmail.c:359
+#: ../geanysendmail/src/geanysendmail.c:361
 msgid "Using dialog for entering email address of recipients"
 msgstr "受信者のメールアドレスを入力するダイアログを使用"
 
-#: ../geanysendmail/src/geanysendmail.c:384
+#: ../geanysendmail/src/geanysendmail.c:386
 msgid "Send file by mail"
 msgstr "ファイルを電子メールとして送信"
 
 #. Build up menu entry
-#: ../geanysendmail/src/geanysendmail.c:411
+#: ../geanysendmail/src/geanysendmail.c:413
 msgid "_Mail document"
 msgstr "文書をメールとして送信(_M)"
 
-#: ../geanysendmail/src/geanysendmail.c:414
+#: ../geanysendmail/src/geanysendmail.c:416
 msgid ""
 "Sends the opened file as unzipped attachment by any mailer from your $PATH"
 msgstr ""
 "任意の電子メールプログラムによって編集中のファイルを非圧縮の添付ファイルとし"
 "て送信"
 
-#: ../geanyvc/src/geanyvc.c:53
-msgid "VC"
-msgstr "VC"
+#: ../geanyvc/src/geanyvc.c:49
+msgid "GeanyVC"
+msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:53
+#: ../geanyvc/src/geanyvc.c:49
 msgid "Interface to different Version Control systems."
 msgstr "バージョン管理システムとのインタフェース"
 
-#: ../geanyvc/src/geanyvc.c:54
+#: ../geanyvc/src/geanyvc.c:50
 msgid ""
 "Yura Siamashka <yurand2@gmail.com>,\n"
 "Frank Lanitz <frank@frank.uvena.de>"
@@ -1860,73 +2427,73 @@ msgstr ""
 "Yura Siamashka <yurand2@gmail.com>,\n"
 "Frank Lanitz <frank@frank.uvena.de>"
 
-#: ../geanyvc/src/geanyvc.c:462
+#: ../geanyvc/src/geanyvc.c:458
 #, c-format
 msgid "geanyvc: s_spawn_sync error: %s"
 msgstr "geanyvc: s_spawn_sync エラー: %s"
 
-#: ../geanyvc/src/geanyvc.c:596 ../geanyvc/src/geanyvc.c:607
+#: ../geanyvc/src/geanyvc.c:592 ../geanyvc/src/geanyvc.c:603
 #, c-format
 msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
 msgstr "geanyvc: vcdiff_file_activated:  '%s' から '%s' に名前変更できません。"
 
-#: ../geanyvc/src/geanyvc.c:633 ../geanyvc/src/geanyvc.c:683
+#: ../geanyvc/src/geanyvc.c:629 ../geanyvc/src/geanyvc.c:679
 msgid "No changes were made."
 msgstr "変更されたものはありません。"
 
-#: ../geanyvc/src/geanyvc.c:709
+#: ../geanyvc/src/geanyvc.c:705
 msgid "No history avaible"
 msgstr "履歴が利用できません"
 
-#: ../geanyvc/src/geanyvc.c:902 ../geanyvc/src/geanyvc.c:910
+#: ../geanyvc/src/geanyvc.c:898 ../geanyvc/src/geanyvc.c:906
 #, c-format
 msgid "Do you really want to revert: %s?"
 msgstr "変更を取り消してもよいですか: %s?"
 
-#: ../geanyvc/src/geanyvc.c:918
+#: ../geanyvc/src/geanyvc.c:914
 #, c-format
 msgid "Do you really want to add: %s?"
 msgstr "ファイルを追加してもよいですか: %s?"
 
-#: ../geanyvc/src/geanyvc.c:925
+#: ../geanyvc/src/geanyvc.c:921
 #, c-format
 msgid "Do you really want to remove: %s?"
 msgstr "ファイルを削除してもよいですか: %s?"
 
-#: ../geanyvc/src/geanyvc.c:948
+#: ../geanyvc/src/geanyvc.c:944
 msgid "Do you really want to update?"
 msgstr "リポジトリから更新してもよいですか?"
 
-#: ../geanyvc/src/geanyvc.c:1211
+#: ../geanyvc/src/geanyvc.c:1207
 msgid "Commit Y/N"
 msgstr "リポジトリに反映してもよいですか Y/N"
 
-#: ../geanyvc/src/geanyvc.c:1221
+#: ../geanyvc/src/geanyvc.c:1217
 msgid "Status"
 msgstr "状態"
 
-#: ../geanyvc/src/geanyvc.c:1228
+#: ../geanyvc/src/geanyvc.c:1224
 msgid "Path"
 msgstr "パス"
 
-#: ../geanyvc/src/geanyvc.c:1316
+#: ../geanyvc/src/geanyvc.c:1312
 msgid "Commit"
 msgstr "コミット"
 
-#: ../geanyvc/src/geanyvc.c:1358
+#: ../geanyvc/src/geanyvc.c:1354
 msgid "_De-/select all files"
 msgstr "すべてのファイルを選択/解除(_D)"
 
-#: ../geanyvc/src/geanyvc.c:1399
+#: ../geanyvc/src/geanyvc.c:1395
 msgid "<b>Commit message:</b>"
 msgstr "<b>コミット メッセージ:</b>"
 
 #. Commit all changes
-#: ../geanyvc/src/geanyvc.c:1412 ../geanyvc/src/geanyvc.c:2253
+#: ../geanyvc/src/geanyvc.c:1408 ../geanyvc/src/geanyvc.c:2253
 msgid "_Commit"
 msgstr "コミット(_C)"
 
-#: ../geanyvc/src/geanyvc.c:1486
+#: ../geanyvc/src/geanyvc.c:1482
 msgid "Nothing to commit."
 msgstr "反映させるものはありません。"
 
@@ -2184,13 +2751,9 @@ msgstr "状態(_S)"
 msgid "Show status."
 msgstr "状態を表示"
 
-#. complete update
-#: ../geanyvc/src/geanyvc.c:2246
-msgid "_Update"
-msgstr "更新(_U)"
-
 #: ../geanyvc/src/geanyvc.c:2248
-msgid "Update from remote repositary."
+#, fuzzy
+msgid "Update from remote repository."
 msgstr "外部のレポジトリから更新"
 
 #: ../geanyvc/src/geanyvc.c:2255
@@ -2240,46 +2803,51 @@ msgstr "現在の文書の綴りを検査"
 msgid "The Geany developer team"
 msgstr "Geany 開発チーム"
 
-#: ../spellcheck/src/scplugin.c:184
+#: ../spellcheck/src/scplugin.c:195
 msgid "Run Spell Check"
 msgstr "スペルチェックを実行"
 
-#: ../spellcheck/src/scplugin.c:187
+#: ../spellcheck/src/scplugin.c:198
 msgid "Toggle Check While Typing"
 msgstr "入力中のチェックを有効/無効"
 
-#. initialize the dialog
-#: ../spellcheck/src/scplugin.c:198
+#. initialise the dialog
+#: ../spellcheck/src/scplugin.c:209
 msgid "Select Directory"
 msgstr "ディレクトリを選択"
 
-#: ../spellcheck/src/scplugin.c:235
+#: ../spellcheck/src/scplugin.c:246
 msgid "Check spelling while typing"
 msgstr "入力中にスペルチェックを行う"
 
-#: ../spellcheck/src/scplugin.c:239
+#: ../spellcheck/src/scplugin.c:251
 msgid "Show toolbar item to toggle spell checking"
 msgstr "スペルチェックを有効/無効にするツールバーボタンを表示"
 
-#: ../spellcheck/src/scplugin.c:244
+#: ../spellcheck/src/scplugin.c:256
+#, fuzzy
+msgid "Show editor menu item to show spelling suggestions"
+msgstr "スペルチェックを有効/無効にするツールバーボタンを表示"
+
+#: ../spellcheck/src/scplugin.c:262
 msgid "Print misspelled words and suggestions in the messages window"
 msgstr "メッセージウィンドウに間違った単語と修正候補を表示"
 
-#: ../spellcheck/src/scplugin.c:248
+#: ../spellcheck/src/scplugin.c:266
 msgid "Language to use for the spell check:"
 msgstr "スペルチェックの言語:"
 
-#: ../spellcheck/src/scplugin.c:262
+#: ../spellcheck/src/scplugin.c:280
 msgid "_Directory to look for dictionary files:"
 msgstr "辞書ファイルを探すディレクトリ(_D):"
 
-#: ../spellcheck/src/scplugin.c:270
+#: ../spellcheck/src/scplugin.c:288
 msgid ""
 "Read additional dictionary files from this directory. For now, this only "
 "works with myspell dictionaries."
 msgstr ""
-"このディレクトリから追加の辞書を読み込みます。"
-"現時点では、myspell 辞書のみ動作します。"
+"このディレクトリから追加の辞書を読み込みます。現時点では、myspell 辞書のみ動"
+"作します。"
 
 #: ../spellcheck/src/gui.c:56
 msgid "Spell checking while typing is now enabled"
@@ -2289,59 +2857,70 @@ msgstr "入力中のスペルチェックは有効です"
 msgid "Spell checking while typing is now disabled"
 msgstr "入力中のスペルチェックは無効です"
 
-#: ../spellcheck/src/gui.c:260
+#: ../spellcheck/src/gui.c:279
+msgid ""
+"Search term is too long to provide\n"
+"spelling suggestions in the editor menu."
+msgstr ""
+
+#: ../spellcheck/src/gui.c:284
+#, fuzzy
+msgid "Perform Spell Check"
+msgstr "スペルチェック"
+
+#: ../spellcheck/src/gui.c:316
 msgid "More..."
 msgstr "さらに..."
 
-#: ../spellcheck/src/gui.c:274
+#: ../spellcheck/src/gui.c:331
 msgid "(No Suggestions)"
 msgstr "(候補なし)"
 
-#: ../spellcheck/src/gui.c:281
+#: ../spellcheck/src/gui.c:340
 #, c-format
 msgid "Add \"%s\" to Dictionary"
 msgstr "\"%s\" を辞書に追加"
 
-#: ../spellcheck/src/gui.c:287
+#: ../spellcheck/src/gui.c:347
 msgid "Ignore All"
 msgstr "すべて無視"
 
-#: ../spellcheck/src/gui.c:406
+#: ../spellcheck/src/gui.c:463
 #, c-format
 msgid "Default (%s)"
 msgstr "標準 (%s)"
 
-#: ../spellcheck/src/gui.c:407 ../spellcheck/src/gui.c:418
+#: ../spellcheck/src/gui.c:464 ../spellcheck/src/gui.c:475
 msgid "unknown"
 msgstr "不明"
 
-#: ../spellcheck/src/gui.c:417
+#: ../spellcheck/src/gui.c:474
 #, c-format
 msgid "Toggle spell check while typing (current language: %s)"
 msgstr "入力中のスペルチェックを有効/無効(現在の言語: %s)"
 
-#: ../spellcheck/src/gui.c:479
+#: ../spellcheck/src/gui.c:529
 msgid "Spelling Suggestions"
 msgstr "正しい単語の候補"
 
-#: ../shiftcolumn/src/shiftcolumn.c:46
+#: ../shiftcolumn/src/shiftcolumn.c:45
 msgid "Shift Column"
 msgstr "列を移動"
 
-#: ../shiftcolumn/src/shiftcolumn.c:47
+#: ../shiftcolumn/src/shiftcolumn.c:46
 msgid "Shift a selection left and right"
 msgstr "選択した箇所を左右に移動"
 
-#: ../shiftcolumn/src/shiftcolumn.c:375 ../shiftcolumn/src/shiftcolumn.c:395
+#: ../shiftcolumn/src/shiftcolumn.c:374 ../shiftcolumn/src/shiftcolumn.c:394
 msgid "Shift Left"
 msgstr "左に移動"
 
-#: ../shiftcolumn/src/shiftcolumn.c:382 ../shiftcolumn/src/shiftcolumn.c:397
+#: ../shiftcolumn/src/shiftcolumn.c:381 ../shiftcolumn/src/shiftcolumn.c:396
 msgid "Shift Right"
 msgstr "右に移動"
 
 #: ../geanylua/gsdlg_lua.c:95 ../geanylua/glspi_kfile.c:54
-#: ../geanylua/glspi.h:97
+#: ../geanylua/glspi.h:96
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2350,13 +2929,12 @@ msgstr ""
 "モジュール \"%s\" が関数 %s() でエラー:\n"
 " 正しい変数型は \"%s\" (引数 #%d )\n"
 
-#: ../geanylua/gsdlg_lua.c:108 ../geanylua/glspi.h:125
-#, c-format
+#: ../geanylua/gsdlg_lua.c:108 ../geanylua/glspi.h:124
+#, fuzzy, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
 " invalid table in argument #%d:\n"
-"  expected type \"%s\" for element #%d\n"
-" "
+" expected type \"%s\" for element #%d\n"
 msgstr ""
 "モジュール \"%s\" が関数 %s() でエラー:\n"
 " 引数 #%d で無効なテーブル:\n"
@@ -2428,12 +3006,11 @@ msgstr ""
 "不明なコマンド \"%s\" (引数 #1)\n"
 
 #: ../geanylua/glspi_sci.c:793
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
 " invalid table in argument #%d:\n"
-"  unknown flag \"%s\" for element #%d\n"
-" "
+" unknown flag \"%s\" for element #%d\n"
 msgstr ""
 "モジュール \"%s\" が関数 %s() でエラー:\n"
 " 引数 #%d で無効なテーブル:\n"
@@ -2481,7 +3058,8 @@ msgstr "%s: サポートライブラリ %s の初期化に失敗!\n"
 #: ../geanylua/geanylua.c:176
 #, c-format
 msgid "%s: Support library version mismatch: %s for %s (should be %s)!\n"
-msgstr "%s: サポートライブラリのバージョンが不一致: %s for %s (%s であるべきです)!\n"
+msgstr ""
+"%s: サポートライブラリのバージョンが不一致: %s for %s (%s であるべきです)!\n"
 
 #: ../geanylua/geanylua.c:182
 #, c-format
@@ -2502,7 +3080,7 @@ msgstr ""
 "プラグイン %s のロードに失敗。\n"
 "インストールを確認してください。"
 
-#: ../geanylua/glspi.h:111
+#: ../geanylua/glspi.h:110
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2537,22 +3115,20 @@ msgstr ""
 "Copyright (c) 2007-2008 "
 
 #: ../geanylua/glspi_app.c:149
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
-"widget \"%s\"  not found for argument #1.\n"
-" "
+"widget \"%s\" not found for argument #1.\n"
 msgstr ""
 "モジュール \"%s\" が関数 %s() でエラー:\n"
 "ウィジェット \"%s\" がありません(引数 #1)\n"
 " "
 
 #: ../geanylua/glspi_app.c:158
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Error in module \"%s\" at function %s() argument #2:\n"
 "widget \"%s\" has no signal named \"%s\".\n"
-" "
 msgstr ""
 "モジュール \"%s\" が関数 %s() 引数 #2 でエラー:\n"
 "ウィジェット \"%s\" にシグナル \"%s\"がありません\n"
@@ -2575,22 +3151,20 @@ msgid "Save file"
 msgstr "ファイルを保存"
 
 #: ../geanylua/glspi_dlg.c:438
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Error in module \"%s\" at function pickfile():\n"
 "failed to parse filter string at argument #3.\n"
-" "
 msgstr ""
 "モジュール \"%s\" が関数 pickfile() でエラー:\n"
 "引数 #3 のフィルタ文字列の解析に失敗\n"
 " "
 
 #: ../geanylua/glspi_dlg.c:488
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
 "expected string \"open\" or \"save\" for argument #1.\n"
-" "
 msgstr ""
 "モジュール \"%s\" が関数 %s() でエラー:\n"
 "引数 #1には文字列 \"open\" または \"save\" が必要です\n"
@@ -2683,9 +3257,9 @@ msgid ""
 "path, or an existing directory tree. You can use paths relative to the "
 "project filename."
 msgstr ""
-"すべてのファイルの基本パスは、プロジェクトを定義します。"
-"新規のパス、または既存のディレクトリを指定できます。"
-"プロジェクトファイル名の相対パスを使用できます。"
+"すべてのファイルの基本パスは、プロジェクトを定義します。新規のパス、または既"
+"存のディレクトリを指定できます。プロジェクトファイル名の相対パスを使用できま"
+"す。"
 
 #: ../geanyprj/src/menu.c:161
 msgid "Choose Project Base Path"
@@ -2701,9 +3275,10 @@ msgid ""
 "You can't manually add/remove files if you checked this option, since your "
 "modification will be lost on on next project load"
 msgstr ""
-"自動的にファイルを追加は、プロジェクトのプロジェクトの種類に一致したファイルを自動的にロードします。"
-"このオプションを選択すると、あなたは手動でファイルの追加や削除ができなくなります。"
-"あなたが手作業でした変更は次回にプロジェクトがロードされたときに失われます。"
+"自動的にファイルを追加は、プロジェクトのプロジェクトの種類に一致したファイル"
+"を自動的にロードします。このオプションを選択すると、あなたは手動でファイルの"
+"追加や削除ができなくなります。あなたが手作業でした変更は次回にプロジェクトが"
+"ロードされたときに失われます。"
 
 #: ../geanyprj/src/menu.c:178
 msgid "Type:"
@@ -2742,6 +3317,441 @@ msgstr "サイドバーを隠す(_I)"
 #, c-format
 msgid "Project \"%s\" opened."
 msgstr "プロジェクト \"%s\" が開かれました"
+
+#: ../geanyinsertnum/src/insertnum.c:33 ../geanyinsertnum/src/insertnum.c:373
+#: ../geanyinsertnum/src/insertnum.c:501
+#, fuzzy
+msgid "Insert Numbers"
+msgstr "ラベルを挿入"
+
+#: ../geanyinsertnum/src/insertnum.c:33
+msgid "Insert/Fill columns with numbers."
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:151
+#, fuzzy
+msgid "Counting..."
+msgstr "_Continue"
+
+#: ../geanyinsertnum/src/insertnum.c:198
+msgid "Preparing..."
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:204
+#, fuzzy
+msgid "Inserting..."
+msgstr "starting"
+
+#: ../geanyinsertnum/src/insertnum.c:363
+msgid "For base 11 and above"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:385
+#, fuzzy
+msgid "_Start:"
+msgstr "状態(_S)"
+
+#: ../geanyinsertnum/src/insertnum.c:390
+#, fuzzy
+msgid "S_tep:"
+msgstr "_Step"
+
+#: ../geanyinsertnum/src/insertnum.c:396
+#, fuzzy
+msgid "_Base:"
+msgstr "_Pause"
+
+#: ../geanyinsertnum/src/insertnum.c:406
+#, fuzzy
+msgid "Letters:"
+msgstr "手紙"
+
+#: ../geanyinsertnum/src/insertnum.c:409
+#, fuzzy
+msgid "_Upper"
+msgstr "更新(_U)"
+
+#: ../geanyinsertnum/src/insertnum.c:414
+msgid "_Lower"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:418
+msgid "Base _prefix"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:420
+msgid "0 for octal, 0x for hex, + for positive decimal"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:422
+msgid "Padding:"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:424
+msgid "Sp_ace"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:427
+msgid "_Zero"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:494
+#, fuzzy
+msgid "Insert _Numbers"
+msgstr "ラベルを挿入(_L)"
+
+#: ../treebrowser/src/treebrowser.c:89 ../treebrowser/src/treebrowser.c:1315
+msgid "Tree Browser"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:89
+msgid "Treeview filebrowser plugin."
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:260
+#, fuzzy, c-format
+msgid "Directory '%s' not exists."
+msgstr "ディレクトリ %s がありません!\n"
+
+#: ../treebrowser/src/treebrowser.c:334 ../treebrowser/src/treebrowser.c:432
+msgid "Empty"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:614
+#, c-format
+msgid "Could not execute configured external command '%s' (%s)."
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:674
+#, fuzzy
+msgid "NewDirectory"
+msgstr "ディレクトリ(_D)"
+
+#: ../treebrowser/src/treebrowser.c:677
+#, fuzzy
+msgid "NewFile"
+msgstr "ファイル(_F)"
+
+#: ../treebrowser/src/treebrowser.c:740
+#, fuzzy, c-format
+msgid "Do you really want to delete '%s' ?"
+msgstr "変更を取り消してもよいですか: %s?"
+
+#: ../treebrowser/src/treebrowser.c:835 ../treebrowser/src/treebrowser.c:1248
+msgid "Go up"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:839 ../treebrowser/src/treebrowser.c:1263
+#, fuzzy
+msgid "Set path from document"
+msgstr "新規文書のエンコード方法を設定"
+
+#: ../treebrowser/src/treebrowser.c:843
+msgid "Open externally"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:848
+#, fuzzy
+msgid "Open Terminal"
+msgstr "端末で実行"
+
+#: ../treebrowser/src/treebrowser.c:852
+msgid "Set as root"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:860
+#, fuzzy
+msgid "Create new directory"
+msgstr "BASE ディレクトリに戻す"
+
+#: ../treebrowser/src/treebrowser.c:864
+#, fuzzy
+msgid "Create new file"
+msgstr "ファイルを更新"
+
+#: ../treebrowser/src/treebrowser.c:868
+#, fuzzy
+msgid "Rename"
+msgstr "ファイル名: "
+
+#: ../treebrowser/src/treebrowser.c:873
+#, fuzzy
+msgid "Delete"
+msgstr "プロジェクトを削除"
+
+#: ../treebrowser/src/treebrowser.c:881 ../treebrowser/src/treebrowser.c:1253
+#, fuzzy
+msgid "Refresh"
+msgstr "Series"
+
+#: ../treebrowser/src/treebrowser.c:889
+msgid "Expand all"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:893
+#, fuzzy
+msgid "Collapse all"
+msgstr "すべて閉じる(_A)"
+
+#: ../treebrowser/src/treebrowser.c:900
+#, fuzzy, c-format
+msgid "Close: %s"
+msgstr "すべて閉じる(_A)"
+
+#: ../treebrowser/src/treebrowser.c:905
+#, c-format
+msgid "Copy full path"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:913 ../treebrowser/src/treebrowser.c:1531
+msgid "Show bookmarks"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:918 ../treebrowser/src/treebrowser.c:1480
+#, fuzzy
+msgid "Show hidden files"
+msgstr "ファイルの差分を表示"
+
+#: ../treebrowser/src/treebrowser.c:923 ../treebrowser/src/treebrowser.c:1470
+#, fuzzy
+msgid "Show bars"
+msgstr "状態を表示"
+
+#: ../treebrowser/src/treebrowser.c:1258
+#, fuzzy
+msgid "Home"
+msgstr "Volume"
+
+#: ../treebrowser/src/treebrowser.c:1268
+#, fuzzy
+msgid "Track path"
+msgstr "基本パス:"
+
+#: ../treebrowser/src/treebrowser.c:1273
+#, fuzzy
+msgid "Hide bars"
+msgstr "サイドバーを隠す(_I)"
+
+#: ../treebrowser/src/treebrowser.c:1283
+msgid ""
+"Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
+"reverse try for example this '!;*.c;*.h;*.cpp'"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1291
+msgid "Addressbar for example '/projects/my-project'"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1447
+msgid "External open command"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1452
+#, c-format
+msgid ""
+"The command to execute when using \"Open with\". You can use %f and %d "
+"wildcards.\n"
+"%f will be replaced with the filename including full path\n"
+"%d will be replaced with the path name of the selected file without the "
+"filename"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1460
+msgid "Default directory deep to fill"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1465
+msgid "How many folders will opened and store in tree"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1475
+msgid "Show bars at top (Require plugin restart)"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1485
+msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1487
+#, fuzzy
+msgid "Hide object files"
+msgstr "ファイルを選択"
+
+#: ../treebrowser/src/treebrowser.c:1492
+msgid ""
+"Don't show generated object files in the file browser, this includes *.o, *."
+"obj. *.so, *.dll, *.a, *.lib"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1494
+#, fuzzy
+msgid "Reverse filter"
+msgstr "1つのファイルを元に戻す"
+
+#: ../treebrowser/src/treebrowser.c:1499
+msgid "Follow current document"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1504
+msgid "Single click, open document and focus it"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1509
+#, fuzzy
+msgid "Double click open directory"
+msgstr "ディレクトリの差分を表示"
+
+#: ../treebrowser/src/treebrowser.c:1514
+msgid "On expand, refresh directory view"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1519
+msgid "On delete file, close it if is opened"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1524
+#, fuzzy
+msgid "Show tree lines"
+msgstr "ツールチップを表示"
+
+#: ../geanyextrasel/src/extrasel.c:30
+#, fuzzy
+msgid "Extra Selection"
+msgstr "フォントを選択"
+
+#: ../geanyextrasel/src/extrasel.c:30
+msgid "Column mode, select to line / matching brace."
+msgstr ""
+
+#: ../geanyextrasel/src/extrasel.c:265
+msgid "E_xtra selection"
+msgstr ""
+
+#: ../geanyextrasel/src/extrasel.c:271
+msgid "_Column mode"
+msgstr ""
+
+#: ../geanyextrasel/src/extrasel.c:275
+msgid "Column mode"
+msgstr ""
+
+#: ../geanyextrasel/src/extrasel.c:277
+#, fuzzy
+msgid "Select to _Line"
+msgstr "フォントを選択"
+
+#: ../geanyextrasel/src/extrasel.c:281
+#, fuzzy
+msgid "Select to line"
+msgstr "フォントを選択"
+
+#: ../geanyextrasel/src/extrasel.c:283
+msgid "Select to Matching _Brace"
+msgstr ""
+
+#: ../geanyextrasel/src/extrasel.c:288
+msgid "Select to matching brace"
+msgstr ""
+
+#~ msgid "Code Navigation plug-in configuration"
+#~ msgstr "コードナビ プラグイン設定"
+
+#~ msgid "Switch header / implementation"
+#~ msgstr "ヘッダとソースの切り替え"
+
+#~ msgid "_Load"
+#~ msgstr "_Load"
+
+#~ msgid "Load target program into debugger."
+#~ msgstr "ターゲットプログラムをデバッガにロードします。"
+
+#~ msgid "_Unload"
+#~ msgstr "_Unload"
+
+#~ msgid "Kill the target program AND the debugger."
+#~ msgstr "ターゲットプログラムとデバッガを終了します。"
+
+#~ msgid "_Run"
+#~ msgstr "_Run"
+
+#~ msgid "Execute target program in debugger."
+#~ msgstr "ターゲットプログラムをデバッガで実行します。"
+
+#~ msgid "_Kill"
+#~ msgstr "_Kill"
+
+#~ msgid "Kill the target program with SIGKILL."
+#~ msgstr "SIGKILL シグナルを送ってターゲットプログラムを終了させます。"
+
+#~ msgid "Pause the target program with SIGINT."
+#~ msgstr "SIGINT シグナルを送ってターゲットプログラムを一時停止します。"
+
+#~ msgid "Continue executing target program."
+#~ msgstr "ターゲットプログラムの実行を再開します。"
+
+#~ msgid "Step to the next line or function call."
+#~ msgstr "次の行または関数呼び出しを実行して止まります。"
+
+#~ msgid "Step _in"
+#~ msgstr "Step _in"
+
+#~ msgid "Execute the next machine instruction or function call."
+#~ msgstr "次の機械語命令または関数呼び出しまで実行して止まります。"
+
+#~ msgid "Step to the next line."
+#~ msgstr "次の行まで実行。"
+
+#~ msgid "Ne_xt in"
+#~ msgstr "Ne_xt in"
+
+#~ msgid "Execute the next machine instruction."
+#~ msgstr "次の機械語命令まで実行します。"
+
+#~ msgid "Run _to"
+#~ msgstr "Run _to"
+
+#~ msgid "Run to specified source line."
+#~ msgstr "ソースプログラムの位置を指定して実行します。"
+
+#~ msgid "Stac_k"
+#~ msgstr "Stac_k"
+
+#~ msgid "Display a backtrace of the current call stack."
+#~ msgstr "現在の呼び出しスタックを表示します。"
+
+#~ msgid "Add or remove breakpoints."
+#~ msgstr "ブレークポイントを追加または削除します。"
+
+#~ msgid "Add or remove watchpoints."
+#~ msgstr "監視ポイントを追加または削除します。"
+
+#~ msgid "_Finish"
+#~ msgstr "_Finish"
+
+#~ msgid "Complete the currently executing function."
+#~ msgstr "現在実行している関数を終了します。"
+
+#~ msgid "_Return"
+#~ msgstr "_Return"
+
+#~ msgid "Return immediately from the current function."
+#~ msgstr "現在実行している関数から直ちに戻ります。"
+
+#~ msgid "En_viron"
+#~ msgstr "En_viron"
+
+#~ msgid "Set target environment and command line options."
+#~ msgstr ""
+#~ "ターゲット プログラムの環境やコマンドライン オプションを設定します。"
+
+#~ msgid "_Options"
+#~ msgstr "_Options"
+
+#~ msgid "Set user interface options."
+#~ msgstr "ユーザ インタフェース オプションを設定します。"
+
+#~ msgid "VC"
+#~ msgstr "VC"
 
 #, fuzzy
 #~ msgid "_History (Log)"

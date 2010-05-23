@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 0.19\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-30 07:58+0100\n"
+"POT-Creation-Date: 2010-05-23 20:24+0200\n"
 "PO-Revision-Date: 2009-10-30 08:44+0800\n"
 "Last-Translator: Xhacker Liu <liu.dongyuan@gmail.com>\n"
 "Language-Team: zh_CN <>\n"
@@ -17,9 +17,41 @@ msgstr ""
 "X-Generator: Gtranslator 1.9.6\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ../addons/src/tasks.c:298
+#. complete update
+#: ../addons/src/ao_tasks.c:368 ../geanyvc/src/geanyvc.c:2246
+msgid "_Update"
+msgstr "更新(_U)"
+
+#: ../addons/src/ao_tasks.c:377
+msgid "_Hide Message Window"
+msgstr ""
+
+#: ../addons/src/ao_tasks.c:407
+#, fuzzy
+msgid "File"
+msgstr "文件(_F)"
+
+#: ../addons/src/ao_tasks.c:418
+msgid "Line"
+msgstr ""
+
+#: ../addons/src/ao_tasks.c:429 ../geanylatex/src/bibtexlabels.c:65
+msgid "Type"
+msgstr "Type"
+
+#: ../addons/src/ao_tasks.c:440
+#, fuzzy
+msgid "Task"
+msgstr "任务"
+
+#: ../addons/src/ao_tasks.c:473
 msgid "Tasks"
 msgstr "任务"
+
+#: ../addons/src/ao_tasks.c:536
+#, fuzzy
+msgid "Context:"
+msgstr "内容"
 
 #: ../addons/src/ao_openuri.c:162
 msgid "Open URI"
@@ -29,42 +61,90 @@ msgstr "打开URI"
 msgid "Copy URI"
 msgstr "复制URI"
 
-#: ../addons/src/addons.c:41
+#: ../addons/src/addons.c:44
 msgid "Addons"
 msgstr "附加组件"
 
-#: ../addons/src/addons.c:41
+#: ../addons/src/addons.c:44
 msgid "Various small addons for Geany."
 msgstr "很多 Geany 的小附加组件。"
 
-#: ../addons/src/addons.c:198 ../geanylatex/src/geanylatex.c:181
-#: ../geanysendmail/src/geanysendmail.c:151
-#: ../geanysendmail/src/geanysendmail.c:312 ../geanyvc/src/geanyvc.c:1776
-#: ../spellcheck/src/scplugin.c:126
+#: ../addons/src/addons.c:264
+msgid "Focus Bookmark List"
+msgstr "焦点书签列表"
+
+#: ../addons/src/addons.c:266
+#, fuzzy
+msgid "Focus Tasks List"
+msgstr "焦点书签列表"
+
+#: ../addons/src/addons.c:268
+msgid "Update Tasks List"
+msgstr ""
+
+#: ../addons/src/addons.c:270
+msgid "Run XML tagging"
+msgstr ""
+
+#: ../addons/src/addons.c:346 ../geanylatex/src/geanylatex.c:202
+#: ../geanysendmail/src/geanysendmail.c:150
+#: ../geanysendmail/src/geanysendmail.c:314 ../geanyvc/src/geanyvc.c:1776
+#: ../spellcheck/src/scplugin.c:134 ../treebrowser/src/treebrowser.c:1435
 msgid "Plugin configuration directory could not be created."
 msgstr "无法创建插件配置文件目录。"
 
-#: ../addons/src/addons.c:221
+#: ../addons/src/addons.c:371
 msgid "Show toolbar item to show a list of currently open documents"
 msgstr "在工具栏中显示当前打开文件列表"
 
 #. TODO fix the string
-#: ../addons/src/addons.c:228
+#: ../addons/src/addons.c:378
 msgid "Show a 'Open URI' menu item in the editor menu"
 msgstr "在编辑器菜单中显示“打开URI”"
 
-#: ../addons/src/addons.c:234
-msgid "Show available tasks in the Message Window"
+#: ../addons/src/addons.c:384
+#, fuzzy
+msgid "Show available Tasks in the Messages Window"
 msgstr "在消息窗口中显示可用的任务"
 
-#: ../addons/src/addons.c:240
+#: ../addons/src/addons.c:390
+msgid "Show tasks of all documents"
+msgstr ""
+
+#: ../addons/src/addons.c:394
+msgid ""
+"Whether to show the tasks of all open documents in the list or only those of "
+"the current document."
+msgstr ""
+
+#: ../addons/src/addons.c:401
+msgid "Specify a semicolon separated list of search tokens."
+msgstr ""
+
+#: ../addons/src/addons.c:403
+msgid "Search tokens:"
+msgstr ""
+
+#: ../addons/src/addons.c:420
 msgid "Show status icon in the Notification Area"
 msgstr "在通知区域显示状态图标"
 
-#: ../addons/src/addons.c:246
+#: ../addons/src/addons.c:426
 #, fuzzy
-msgid "Show define bookmarks (marked lines) in the sidebar"
+msgid "Show defined bookmarks (marked lines) in the sidebar"
 msgstr "显示定义的书签（标记的行）在侧栏"
+
+#: ../addons/src/addons.c:432
+msgid "Mark all occurrences of a word when double-clicking it"
+msgstr ""
+
+#: ../addons/src/addons.c:438
+msgid "Strip trailing blank lines"
+msgstr ""
+
+#: ../addons/src/addons.c:444
+msgid "XML tagging for selection"
+msgstr ""
 
 #: ../addons/src/ao_doclist.c:179
 msgid "Close Ot_her Documents"
@@ -78,21 +158,34 @@ msgstr "关闭全部(_L)"
 msgid "Show Document List"
 msgstr "显示文件列表"
 
-#: ../addons/src/ao_bookmarklist.c:184
+#: ../addons/src/ao_bookmarklist.c:179
 msgid "(Empty Line)"
 msgstr "（空行）"
 
-#: ../addons/src/ao_bookmarklist.c:267
+#: ../addons/src/ao_bookmarklist.c:301
+#, fuzzy
+msgid "_Remove Bookmark"
+msgstr "书签"
+
+#: ../addons/src/ao_bookmarklist.c:327
 msgid "No."
 msgstr "No."
 
-#: ../addons/src/ao_bookmarklist.c:275
+#: ../addons/src/ao_bookmarklist.c:335
 msgid "Contents"
 msgstr "内容"
 
-#: ../addons/src/ao_bookmarklist.c:308
+#: ../addons/src/ao_bookmarklist.c:368 ../treebrowser/src/treebrowser.c:390
 msgid "Bookmarks"
 msgstr "书签"
+
+#: ../addons/src/ao_xmltagging.c:51
+msgid "XML tagging"
+msgstr ""
+
+#: ../addons/src/ao_xmltagging.c:62
+msgid "Tag name to be inserted:"
+msgstr ""
 
 #. All plugins must set name, description, version and author.
 #: ../codenav/src/codenavigation.c:46
@@ -132,7 +225,7 @@ msgstr "（来自 %s 插件）"
 #. Add the menu item and make it sensitive only when a document is opened
 #. Frame, which is the returned widget
 #: ../codenav/src/switch_head_impl.c:75 ../codenav/src/switch_head_impl.c:89
-#: ../codenav/src/switch_head_impl.c:443
+#: ../codenav/src/switch_head_impl.c:449
 msgid "Switch header/implementation"
 msgstr ""
 
@@ -147,327 +240,326 @@ msgstr "未找到 %s，创建？"
 
 #. TODO ! Try it...
 #. g_object_set(G_OBJECT(cell_renderer), "editable", TRUE, NULL);
-#: ../codenav/src/switch_head_impl.c:467
+#: ../codenav/src/switch_head_impl.c:473
 msgid "Headers extensions"
 msgstr ""
 
-#: ../codenav/src/switch_head_impl.c:474
+#: ../codenav/src/switch_head_impl.c:480
 msgid "Implementations extensions"
 msgstr ""
 
 #. All plugins must set name, description, version and author.
-#: ../geanydoc/src/geanydoc.c:63 ../geanydoc/src/geanydoc.c:360
+#: ../geanydoc/src/geanydoc.c:50 ../geanydoc/src/geanydoc.c:347
 msgid "Doc"
 msgstr "文档"
 
-#: ../geanydoc/src/geanydoc.c:63
+#: ../geanydoc/src/geanydoc.c:50
 msgid "Call documentation viewer on current symbol."
 msgstr "为当前标记调用文档查看器。"
 
-#: ../geanydoc/src/geanydoc.c:64
+#: ../geanydoc/src/geanydoc.c:51
 msgid "Yura Siamshka <yurand2@gmail.com>"
 msgstr "Yura Siamshka <yurand2@gmail.com>"
 
-#: ../geanydoc/src/geanydoc.c:183 ../geanyvc/src/geanyvc.c:403
+#: ../geanydoc/src/geanydoc.c:170 ../geanyvc/src/geanyvc.c:399
 msgid "Could not parse the output of command"
 msgstr "无法解析命令的输出"
 
-#: ../geanydoc/src/geanydoc.c:370
+#: ../geanydoc/src/geanydoc.c:357
 msgid "Put output in buffer"
 msgstr "输出到缓冲区"
 
-#: ../geanydoc/src/geanydoc.c:382
+#: ../geanydoc/src/geanydoc.c:369
 msgid "Command 0:"
 msgstr "命令0："
 
-#: ../geanydoc/src/geanydoc.c:388
+#: ../geanydoc/src/geanydoc.c:375
 msgid "Command 1:"
 msgstr "命令1："
 
-#: ../geanydoc/src/geanydoc.c:406
+#: ../geanydoc/src/geanydoc.c:393
 msgid "%w will be replaced with current word\n"
 msgstr "%w 将被替换为当前词\n"
 
-#: ../geanydoc/src/geanydoc.c:453
+#: ../geanydoc/src/geanydoc.c:440
 msgid "Document current word"
 msgstr "文件当前词"
 
-#: ../geanydoc/src/geanydoc.c:454
+#: ../geanydoc/src/geanydoc.c:441
 msgid "Document interactive"
 msgstr "文件交互"
 
-#: ../geanygdb/src/gdb-io-break.c:142
+#: ../geanygdb/src/gdb-io-break.c:152
 #, c-format
 msgid "Added breakpoint #%s in %s() at %s:%s\n"
 msgstr "已于 %3$s:%4$s 在 %2$s() 中增加断点 #%1$s\n"
 
-#: ../geanygdb/src/gdb-io-break.c:147
+#: ../geanygdb/src/gdb-io-break.c:157
 #, c-format
 msgid "Added breakpoint #%s at %s:%s\n"
 msgstr "已于 %2$s:%3$s 增加断点 #%1$s\n"
 
-#: ../geanygdb/src/gdb-io-break.c:159
+#: ../geanygdb/src/gdb-io-break.c:169
 #, c-format
 msgid "Added write watchpoint #%s for %s\n"
 msgstr "已为 %2$s 增加写观察点 #%1$s\n"
 
-#: ../geanygdb/src/gdb-io-break.c:168
+#: ../geanygdb/src/gdb-io-break.c:178
 #, c-format
 msgid "Added read/write watchpoint #%s for %s\n"
 msgstr "已为 %2$s 增加读/写观察点 #%1$s\n"
 
-#: ../geanygdb/src/gdb-io-break.c:179
+#: ../geanygdb/src/gdb-io-break.c:189
 #, c-format
 msgid "Added read watchpoint #%s for %s\n"
 msgstr "已为 %2$s 增加读观察点 #%1$s\n"
 
-#: ../geanygdb/src/gdb-io-break.c:226
+#: ../geanygdb/src/gdb-io-break.c:236
 msgid "Watch/breakpoint deleted.\n"
 msgstr "观察点/断点已删除。\n"
 
-#: ../geanygdb/src/gdb-io-break.c:250
+#: ../geanygdb/src/gdb-io-break.c:260
 msgid "Failed to toggle breakpoint -\n"
 msgstr "开关断点失败 -\n"
 
-#: ../geanygdb/src/gdb-io-break.c:268
+#: ../geanygdb/src/gdb-io-break.c:278
 msgid "Watch/breakpoint toggled.\n"
 msgstr "观察点/断点已切换。\n"
 
-#: ../geanygdb/src/gdb-io-break.c:282
+#: ../geanygdb/src/gdb-io-break.c:292
 msgid "Watch/breakpoint modified.\n"
 msgstr "观察点/断点已更改。\n"
 
-#: ../geanygdb/src/gdb-io-envir.c:122
+#: ../geanygdb/src/gdb-io-envir.c:132
 msgid "Failed to retrieve source search path setting from GDB."
 msgstr "取回 GDB 源文件搜索路径设置失败。"
 
-#: ../geanygdb/src/gdb-io-envir.c:143
+#: ../geanygdb/src/gdb-io-envir.c:153
 msgid "Failed to retrieve executable search path setting from GDB."
 msgstr "取回 GDB 可执行文件搜索路径设置失败。"
 
-#: ../geanygdb/src/gdb-io-envir.c:165
+#: ../geanygdb/src/gdb-io-envir.c:175
 msgid "Failed to retrieve working directory setting from GDB."
 msgstr "取回 GDB 工作路径设置失败"
 
-#: ../geanygdb/src/gdb-io-frame.c:489
+#: ../geanygdb/src/gdb-io-frame.c:500
 msgid "Field list too long, not all items can be displayed.\n"
 msgstr "字段列表太长，无法显示所有项。\n"
 
-#: ../geanygdb/src/gdb-io-read.c:230
+#: ../geanygdb/src/gdb-io-read.c:240
 msgid "Error starting target process!\n"
 msgstr "启动目标进程错误！\n"
 
-#: ../geanygdb/src/gdb-io-read.c:275
+#: ../geanygdb/src/gdb-io-read.c:285
 msgid ""
 "This executable does not appear to contain the required debugging "
 "information."
 msgstr "这个可执行文件看起来没有包含必需的调试信息。"
 
-#: ../geanygdb/src/gdb-io-read.c:537
+#: ../geanygdb/src/gdb-io-read.c:547
 #, c-format
 msgid "Program received signal %s (%s) at %s in function %s() at %s:%s"
 msgstr "程序于 %5$s:%6$s 在 %4$s() 函数 中的 %3$s 接收到一个信号 %1$s（%2$s）"
 
-#: ../geanygdb/src/gdb-io-read.c:588
+#: ../geanygdb/src/gdb-io-read.c:598
 #, c-format
 msgid "Watchpoint #%s out of scope"
 msgstr "观察点 #%s 越界"
 
-#: ../geanygdb/src/gdb-io-read.c:597
+#: ../geanygdb/src/gdb-io-read.c:607
 #, c-format
 msgid "Program exited on signal %s (%s).\n"
 msgstr "程序已退出，信号 %s（%s）。\n"
 
-#: ../geanygdb/src/gdb-io-read.c:599
+#: ../geanygdb/src/gdb-io-read.c:609
 msgid "Unknown signal"
 msgstr "未知信号"
 
-#: ../geanygdb/src/gdb-io-read.c:616
+#: ../geanygdb/src/gdb-io-read.c:626
 #, c-format
 msgid "Program exited with code %d [%s]\n"
 msgstr "程序退出，代码 %d [%s]\n"
 
-#: ../geanygdb/src/gdb-io-read.c:617
+#: ../geanygdb/src/gdb-io-read.c:627
 msgid "(unknown)"
 msgstr "（未知）"
 
-#: ../geanygdb/src/gdb-io-read.c:623
+#: ../geanygdb/src/gdb-io-read.c:633
 msgid "Program exited normally.\n"
 msgstr "程序正常退出。\n"
 
-#: ../geanygdb/src/gdb-io-run.c:264
+#: ../geanygdb/src/gdb-io-run.c:275
 msgid "tty temporary directory not specified!\n"
 msgstr "未指定 tty 临时目录！\n"
 
-#: ../geanygdb/src/gdb-io-run.c:269
+#: ../geanygdb/src/gdb-io-run.c:280
 msgid "tty temporary directory not found!\n"
 msgstr "未找到 tty 临时目录！\n"
 
-#: ../geanygdb/src/gdb-io-run.c:288
+#: ../geanygdb/src/gdb-io-run.c:299
 msgid "tty helper program not specified!\n"
 msgstr "未指定 tty helper program！\n"
 
-#: ../geanygdb/src/gdb-io-run.c:295
+#: ../geanygdb/src/gdb-io-run.c:306
 msgid "tty helper program not found!\n"
 msgstr "未找到 tty helper program！\n"
 
-#: ../geanygdb/src/gdb-io-run.c:348
+#: ../geanygdb/src/gdb-io-run.c:359
 #, c-format
 msgid "Attaching to terminal %s\n"
 msgstr "附加到终端 %s\n"
 
-#: ../geanygdb/src/gdb-io-run.c:363
+#: ../geanygdb/src/gdb-io-run.c:374
 msgid "Timeout waiting for TTY name.\n"
 msgstr "等待 TTY 名称超时。\n"
 
-#: ../geanygdb/src/gdb-io-run.c:412
+#: ../geanygdb/src/gdb-io-run.c:423
 #, c-format
 msgid "GDB exited (pid=%d)\n"
 msgstr "GDB已退出（pid=%d）\n"
 
-#: ../geanygdb/src/gdb-io-run.c:473
+#: ../geanygdb/src/gdb-io-run.c:484
 #, c-format
 msgid "Target process exited. (pid=%d; %s%s)\n"
 msgstr "目标进程已退出。（pid=%d; %s%s）\n"
 
-#: ../geanygdb/src/gdb-io-run.c:475
+#: ../geanygdb/src/gdb-io-run.c:486
 msgid "code="
 msgstr "代码="
 
-#: ../geanygdb/src/gdb-io-run.c:475
+#: ../geanygdb/src/gdb-io-run.c:486
 msgid "reason:"
 msgstr "原因："
 
-#: ../geanygdb/src/gdb-io-run.c:541 ../geanygdb/src/gdb-io-run.c:606
+#: ../geanygdb/src/gdb-io-run.c:552 ../geanygdb/src/gdb-io-run.c:617
 #, c-format
 msgid "Directory %s not found!\n"
 msgstr "未找到字典 %s！\n"
 
-#: ../geanygdb/src/gdb-io-run.c:546
+#: ../geanygdb/src/gdb-io-run.c:557
 msgid "Shutting down target program.\n"
 msgstr "正在结束目标程序。\n"
 
-#: ../geanygdb/src/gdb-io-run.c:553
+#: ../geanygdb/src/gdb-io-run.c:564
 msgid "Killing target program.\n"
 msgstr "正在杀死目标程序。\n"
 
-#: ../geanygdb/src/gdb-io-run.c:561
+#: ../geanygdb/src/gdb-io-run.c:572
 msgid "Timeout waiting for target process.\n"
 msgstr "等待目标进程超时。\n"
 
-#: ../geanygdb/src/gdb-io-run.c:564
+#: ../geanygdb/src/gdb-io-run.c:575
 #, fuzzy
 msgid "Using a bigger hammer!\n"
 msgstr "使用大铁锤！\n"
 
-#: ../geanygdb/src/gdb-io-run.c:578
+#: ../geanygdb/src/gdb-io-run.c:589
 msgid "Waiting for target process to exit.\n"
 msgstr "等待目标进程退出。\n"
 
-#: ../geanygdb/src/gdb-io-run.c:614
+#: ../geanygdb/src/gdb-io-run.c:625
 #, c-format
 msgid "Killing GDB (pid=%d)\n"
 msgstr "正在杀死GDB（pid = %d）\n"
 
-#: ../geanygdb/src/gdb-io-run.c:628
+#: ../geanygdb/src/gdb-io-run.c:639
 msgid "Timeout trying to kill GDB.\n"
 msgstr "尝试杀死GDB超时。\n"
 
-#: ../geanygdb/src/gdb-io-run.c:638
+#: ../geanygdb/src/gdb-io-run.c:649
 msgid "Shutting down GDB\n"
 msgstr "正在结束GDB\n"
 
-#: ../geanygdb/src/gdb-io-run.c:651
+#: ../geanygdb/src/gdb-io-run.c:662
 msgid "Waiting for GDB to exit.\n"
 msgstr "等待GDB退出。\n"
 
-#: ../geanygdb/src/gdb-io-run.c:659
+#: ../geanygdb/src/gdb-io-run.c:670
 msgid "Timeout waiting for GDB to exit.\n"
 msgstr "等待GDB退出超时。\n"
 
-#: ../geanygdb/src/gdb-io-run.c:722
+#: ../geanygdb/src/gdb-io-run.c:740
 #, c-format
 msgid "Starting gdb (pid=%d)\n"
 msgstr "正在启动GDB（pid = %d）\n"
 
-#: ../geanygdb/src/gdb-io-run.c:782
+#: ../geanygdb/src/gdb-io-run.c:803
 #, c-format
 msgid "Started target process. (pid=%d)\n"
 msgstr "目标进程已启动。（pid = %d）\n"
 
-#: ../geanygdb/src/gdb-ui-break.c:108
+#: ../geanygdb/src/gdb-ui-break.c:119
 #, c-format
 msgid "No %s selected"
 msgstr "未选择任何 %s"
 
-#: ../geanygdb/src/gdb-ui-break.c:108 ../geanygdb/src/gdb-ui-break.c:343
+#: ../geanygdb/src/gdb-ui-break.c:119
 msgid "watchpoint"
 msgstr "观察点"
 
-#: ../geanygdb/src/gdb-ui-break.c:108 ../geanygdb/src/gdb-ui-break.c:343
-#: ../geanygdb/src/gdb-ui-break.c:397
+#: ../geanygdb/src/gdb-ui-break.c:119
 msgid "breakpoint"
 msgstr "断点"
 
-#: ../geanygdb/src/gdb-ui-break.c:114
+#: ../geanygdb/src/gdb-ui-break.c:125
 msgid "Delete selected watchpoint?"
 msgstr "删除选定的观察点？"
 
-#: ../geanygdb/src/gdb-ui-break.c:114
+#: ../geanygdb/src/gdb-ui-break.c:125
 msgid "Delete selected breakpoint?"
 msgstr "删除选定的断点？"
 
-#: ../geanygdb/src/gdb-ui-break.c:142
+#: ../geanygdb/src/gdb-ui-break.c:153
 msgid "Edit watchpoint"
 msgstr "编辑观察点"
 
-#: ../geanygdb/src/gdb-ui-break.c:142
+#: ../geanygdb/src/gdb-ui-break.c:153
 msgid "Edit breakpoint"
 msgstr "编辑断点"
 
-#: ../geanygdb/src/gdb-ui-break.c:152
+#: ../geanygdb/src/gdb-ui-break.c:163
 msgid "Enabled"
 msgstr "已启用"
 
-#: ../geanygdb/src/gdb-ui-break.c:158
+#: ../geanygdb/src/gdb-ui-break.c:169
 #, fuzzy
 msgid " Break after "
 msgstr " 之后停止 "
 
-#: ../geanygdb/src/gdb-ui-break.c:165
+#: ../geanygdb/src/gdb-ui-break.c:176
 msgid " times. "
 msgstr " 次。"
 
-#: ../geanygdb/src/gdb-ui-break.c:170
+#: ../geanygdb/src/gdb-ui-break.c:181
 #, fuzzy
 msgid " Break when "
 msgstr " 时停止 "
 
-#: ../geanygdb/src/gdb-ui-break.c:177
+#: ../geanygdb/src/gdb-ui-break.c:188
 msgid " is true. "
 msgstr " 为真。"
 
-#: ../geanygdb/src/gdb-ui-break.c:242
+#: ../geanygdb/src/gdb-ui-break.c:253
 msgid "Add watchpoint"
 msgstr "增加观察点"
 
-#: ../geanygdb/src/gdb-ui-break.c:242
+#: ../geanygdb/src/gdb-ui-break.c:253
 msgid "Add breakpoint"
 msgstr "增加断点"
 
-#: ../geanygdb/src/gdb-ui-break.c:493
+#: ../geanygdb/src/gdb-ui-break.c:504
 msgid "Watchpoints"
 msgstr "观察点"
 
-#: ../geanygdb/src/gdb-ui-break.c:493
+#: ../geanygdb/src/gdb-ui-break.c:504
 msgid "Breakpoints"
 msgstr "断点"
 
-#: ../geanygdb/src/gdb-ui-envir.c:83
+#: ../geanygdb/src/gdb-ui-envir.c:94
 msgid "Environment settings"
 msgstr "环境设置"
 
-#: ../geanygdb/src/gdb-ui-envir.c:105
+#: ../geanygdb/src/gdb-ui-envir.c:116
 msgid ""
 "\n"
 " Command-line arguments passed to target program:"
@@ -475,7 +567,7 @@ msgstr ""
 "\n"
 " 命令行参数已传给目标程序："
 
-#: ../geanygdb/src/gdb-ui-envir.c:106
+#: ../geanygdb/src/gdb-ui-envir.c:117
 msgid ""
 "\n"
 " Search path for source files:"
@@ -483,7 +575,7 @@ msgstr ""
 "\n"
 " 源文件搜索路径："
 
-#: ../geanygdb/src/gdb-ui-envir.c:107
+#: ../geanygdb/src/gdb-ui-envir.c:118
 msgid ""
 "\n"
 " Working directory for target program:"
@@ -491,7 +583,7 @@ msgstr ""
 "\n"
 " 目标程序工作目录："
 
-#: ../geanygdb/src/gdb-ui-envir.c:108
+#: ../geanygdb/src/gdb-ui-envir.c:119
 msgid ""
 "\n"
 " Search path for executables:"
@@ -499,64 +591,64 @@ msgstr ""
 "\n"
 " 可执行文件搜索路径："
 
-#: ../geanygdb/src/gdb-ui-envir.c:151 ../geanylua/gsdlg.c:226
+#: ../geanygdb/src/gdb-ui-envir.c:162 ../geanylua/gsdlg.c:226
 msgid "Select Font"
 msgstr "选择字体"
 
-#: ../geanygdb/src/gdb-ui-envir.c:173 ../geanyprj/src/menu.c:412
+#: ../geanygdb/src/gdb-ui-envir.c:184 ../geanyprj/src/menu.c:412
 #: ../geanyprj/src/sidebar.c:214
 msgid "Preferences"
 msgstr "首选项"
 
-#: ../geanygdb/src/gdb-ui-envir.c:189
+#: ../geanygdb/src/gdb-ui-envir.c:200
 msgid "Keep debug window on top."
 msgstr "保持 debug 窗口置顶。"
 
-#: ../geanygdb/src/gdb-ui-envir.c:191
+#: ../geanygdb/src/gdb-ui-envir.c:202
 msgid "Show tooltips."
 msgstr "显示工具提示。"
 
-#: ../geanygdb/src/gdb-ui-envir.c:192
+#: ../geanygdb/src/gdb-ui-envir.c:203
 msgid "Show icons."
 msgstr "显示图标。"
 
-#: ../geanygdb/src/gdb-ui-envir.c:197
+#: ../geanygdb/src/gdb-ui-envir.c:208
 msgid "Font for source code listings:"
 msgstr "源码列表字体："
 
-#: ../geanygdb/src/gdb-ui-envir.c:209
+#: ../geanygdb/src/gdb-ui-envir.c:220
 msgid "Terminal program:"
 msgstr "终端程序："
 
-#: ../geanygdb/src/gdb-ui-frame.c:127
+#: ../geanygdb/src/gdb-ui-frame.c:137
 msgid "_Examine"
 msgstr "检查(_E)"
 
-#: ../geanygdb/src/gdb-ui-frame.c:277
+#: ../geanygdb/src/gdb-ui-frame.c:287
 msgid "Object info"
 msgstr "目标信息"
 
-#: ../geanygdb/src/gdb-ui-frame.c:284
+#: ../geanygdb/src/gdb-ui-frame.c:294
 msgid "Elements"
 msgstr "元素"
 
-#: ../geanygdb/src/gdb-ui-frame.c:284
+#: ../geanygdb/src/gdb-ui-frame.c:294
 msgid "Fields"
 msgstr "字段"
 
-#: ../geanygdb/src/gdb-ui-frame.c:292
+#: ../geanygdb/src/gdb-ui-frame.c:302
 msgid "Return to previous dialog."
 msgstr "返回上一个对话框。"
 
-#: ../geanygdb/src/gdb-ui-frame.c:297 ../geanygdb/src/gdb-ui-frame.c:371
+#: ../geanygdb/src/gdb-ui-frame.c:307 ../geanygdb/src/gdb-ui-frame.c:381
 msgid "Display additional information about the selected item."
 msgstr "显示选定项的更多信息。"
 
-#: ../geanygdb/src/gdb-ui-frame.c:344
+#: ../geanygdb/src/gdb-ui-frame.c:354
 msgid "Frame info"
 msgstr "帧信息"
 
-#: ../geanygdb/src/gdb-ui-frame.c:347
+#: ../geanygdb/src/gdb-ui-frame.c:357
 #, fuzzy, c-format
 msgid ""
 "\n"
@@ -565,263 +657,135 @@ msgstr ""
 "\n"
 "帧 #%s 在 %s() 中 于 %s: %s\n"
 
-#: ../geanygdb/src/gdb-ui-frame.c:357
+#: ../geanygdb/src/gdb-ui-frame.c:367
 msgid "Function arguments"
 msgstr "函数参数"
 
-#: ../geanygdb/src/gdb-ui-frame.c:361
+#: ../geanygdb/src/gdb-ui-frame.c:371
 msgid "Local variables"
 msgstr "本地变量"
 
-#: ../geanygdb/src/gdb-ui-frame.c:366
+#: ../geanygdb/src/gdb-ui-frame.c:376
 msgid "Return to stack list dialog."
 msgstr "返回堆栈列表对话框。"
 
-#: ../geanygdb/src/gdb-ui-frame.c:578
+#: ../geanygdb/src/gdb-ui-frame.c:588
 msgid "Stack trace"
 msgstr "堆栈跟踪"
 
-#: ../geanygdb/src/gdb-ui-frame.c:595
+#: ../geanygdb/src/gdb-ui-frame.c:605
 msgid "Display additional information about the selected frame."
 msgstr "显示选定帧的附加信息。"
 
-#: ../geanygdb/src/gdb-ui-locn.c:53
+#: ../geanygdb/src/gdb-ui-locn.c:63
 msgid "Clea_r"
 msgstr "清除(_R)"
 
-#: ../geanygdb/src/gdb-ui-locn.c:68
+#: ../geanygdb/src/gdb-ui-locn.c:78
 msgid "Filename: "
 msgstr "文件名："
 
-#: ../geanygdb/src/gdb-ui-locn.c:81
+#: ../geanygdb/src/gdb-ui-locn.c:91
 msgid "Variable to watch:"
 msgstr "观察的变量："
 
-#: ../geanygdb/src/gdb-ui-locn.c:82
+#: ../geanygdb/src/gdb-ui-locn.c:92
 msgid "Line number or function name: "
 msgstr "行号或函数名："
 
-#: ../geanygdb/src/gdb-ui-locn.c:123
+#: ../geanygdb/src/gdb-ui-locn.c:133
 msgid "Access trigger:"
 msgstr "访问触发器"
 
-#: ../geanygdb/src/gdb-ui-main.c:136
+#: ../geanygdb/src/gdb-ui-main.c:172
 msgid "(no program)"
 msgstr "（无程序）"
 
-#: ../geanygdb/src/gdb-ui-main.c:150
+#: ../geanygdb/src/gdb-ui-main.c:186
 msgid "loaded"
 msgstr "已加载"
 
-#: ../geanygdb/src/gdb-ui-main.c:155
+#: ../geanygdb/src/gdb-ui-main.c:191
 msgid "starting"
 msgstr "正在启动"
 
-#: ../geanygdb/src/gdb-ui-main.c:162
+#: ../geanygdb/src/gdb-ui-main.c:198
 msgid "running"
 msgstr "运行中"
 
-#: ../geanygdb/src/gdb-ui-main.c:181
+#: ../geanygdb/src/gdb-ui-main.c:219
 msgid "stopped"
 msgstr "已停止"
 
-#: ../geanygdb/src/gdb-ui-main.c:195
+#: ../geanygdb/src/gdb-ui-main.c:233
 msgid "terminated"
 msgstr "已终止"
 
-#: ../geanygdb/src/gdb-ui-main.c:232
+#: ../geanygdb/src/gdb-ui-main.c:270
 msgid "paused"
 msgstr "暂停"
 
-#: ../geanygdb/src/gdb-ui-main.c:241
+#: ../geanygdb/src/gdb-ui-main.c:279
 msgid "Program received signal:"
 msgstr "程序收到信号："
 
-#: ../geanygdb/src/gdb-ui-main.c:310
+#: ../geanygdb/src/gdb-ui-main.c:348
 msgid "Error:"
 msgstr "错误："
 
-#: ../geanygdb/src/gdb-ui-main.c:505
+#: ../geanygdb/src/gdb-ui-main.c:524
 msgid "Select executable to debug"
 msgstr "选择要调试的可执行文件"
 
-#: ../geanygdb/src/gdb-ui-main.c:537
+#: ../geanygdb/src/gdb-ui-main.c:556
 msgid "Debugging of object files is not supported."
 msgstr "不支持调试目标文件。"
 
-#: ../geanygdb/src/gdb-ui-main.c:589
+#: ../geanygdb/src/gdb-ui-main.c:597
 msgid "You don't have permission to execute this file."
 msgstr "您没有执行这个文件的权限。"
 
-#: ../geanygdb/src/gdb-ui-main.c:595
+#: ../geanygdb/src/gdb-ui-main.c:603
 msgid "Debugging of shared libraries is not supported."
 msgstr "不支持调试共享库。"
 
-#: ../geanygdb/src/gdb-ui-main.c:600
+#: ../geanygdb/src/gdb-ui-main.c:608
 msgid "Debugging of core files id not supported."
 msgstr "不支持调试核心文件（core file）。"
 
-#: ../geanygdb/src/gdb-ui-main.c:605
+#: ../geanygdb/src/gdb-ui-main.c:613
 msgid "Target file must be ELF 32-bit x86 executable."
 msgstr "目标文件必须是 ELF 32位 x86 可执行文件。"
 
-#: ../geanygdb/src/gdb-ui-main.c:611
+#: ../geanygdb/src/gdb-ui-main.c:619
 msgid "You don't have permission to read this file."
 msgstr "您没有读这个文件的权限"
 
-#: ../geanygdb/src/gdb-ui-main.c:728
+#: ../geanygdb/src/gdb-ui-main.c:736
 msgid "Run to location"
 msgstr "运行到位置"
 
-#: ../geanygdb/src/gdb-ui-main.c:847
+#: ../geanygdb/src/gdb-ui-main.c:848
+msgid ":  "
+msgstr ""
+
+#: ../geanygdb/src/gdb-ui-main.c:915
 msgid "no program"
 msgstr "无程序"
 
-#: ../geanygdb/src/gdb-ui-main.c:854
-msgid "_Load"
-msgstr "加载(_L)"
-
-#: ../geanygdb/src/gdb-ui-main.c:854
-msgid "Load target program into debugger."
-msgstr "加载目标程序到调试器。"
-
-#: ../geanygdb/src/gdb-ui-main.c:856
-msgid "_Unload"
-msgstr "卸载(_U)"
-
-#: ../geanygdb/src/gdb-ui-main.c:857
-msgid "Kill the target program AND the debugger."
-msgstr "杀死目标程序和调试器。"
-
-#: ../geanygdb/src/gdb-ui-main.c:859
-msgid "_Run"
-msgstr "运行(_R)"
-
-#: ../geanygdb/src/gdb-ui-main.c:860
-msgid "Execute target program in debugger."
-msgstr "在调试器中执行目标程序。"
-
-#: ../geanygdb/src/gdb-ui-main.c:862
-msgid "_Kill"
-msgstr "杀死(_K)"
-
-#: ../geanygdb/src/gdb-ui-main.c:863
-msgid "Kill the target program with SIGKILL."
-msgstr "使用 SIGKILL 杀死目标程序。"
-
-#: ../geanygdb/src/gdb-ui-main.c:865
-msgid "_Pause"
-msgstr "暂停(_P)"
-
-#: ../geanygdb/src/gdb-ui-main.c:866
-msgid "Pause the target program with SIGINT."
-msgstr "使用 SIGINT 暂停目标程序。"
-
-#: ../geanygdb/src/gdb-ui-main.c:868
-msgid "_Continue"
-msgstr "继续(_C)"
-
-#: ../geanygdb/src/gdb-ui-main.c:869
-msgid "Continue executing target program."
-msgstr "继续执行目标程序"
-
-#: ../geanygdb/src/gdb-ui-main.c:871
-msgid "_Step"
-msgstr "单步(_S)"
-
-#: ../geanygdb/src/gdb-ui-main.c:872
-msgid "Step to the next line or function call."
-msgstr "单步进入下一行或函数调用。"
-
-#: ../geanygdb/src/gdb-ui-main.c:874
-msgid "Step _in"
-msgstr "单步进入(_I)"
-
-#: ../geanygdb/src/gdb-ui-main.c:875
-msgid "Execute the next machine instruction or function call."
-msgstr "执行下一个机器指令或函数调用。"
-
-#: ../geanygdb/src/gdb-ui-main.c:876
-msgid "Step to the next line."
-msgstr "单步进入下一行。"
-
-#: ../geanygdb/src/gdb-ui-main.c:878
-msgid "Ne_xt in"
-msgstr "单步(_X)"
-
-#: ../geanygdb/src/gdb-ui-main.c:879
-msgid "Execute the next machine instruction."
-msgstr "执行下一个机器指令。"
-
-#: ../geanygdb/src/gdb-ui-main.c:881
-msgid "Run _to"
-msgstr "运行到(_T)"
-
-#: ../geanygdb/src/gdb-ui-main.c:882
-msgid "Run to specified source line."
-msgstr "运行到指定的源码行。"
-
-#: ../geanygdb/src/gdb-ui-main.c:884
-msgid "Stac_k"
-msgstr "堆栈(_K)"
-
-#: ../geanygdb/src/gdb-ui-main.c:885
-msgid "Display a backtrace of the current call stack."
-msgstr "显示当前调用的堆栈的回溯。"
-
-#: ../geanygdb/src/gdb-ui-main.c:886
-msgid "Add or remove breakpoints."
-msgstr "添加/删除断点。"
-
-#: ../geanygdb/src/gdb-ui-main.c:887
-msgid "Add or remove watchpoints."
-msgstr "添加/删除观察点。"
-
-#: ../geanygdb/src/gdb-ui-main.c:889
-msgid "_Finish"
-msgstr "完成(_F)"
-
-#: ../geanygdb/src/gdb-ui-main.c:890
-msgid "Complete the currently executing function."
-msgstr "完成当前执行的函数。"
-
-#: ../geanygdb/src/gdb-ui-main.c:892
-msgid "_Return"
-msgstr "返回(_R)"
-
-#: ../geanygdb/src/gdb-ui-main.c:893
-msgid "Return immediately from the current function."
-msgstr "立即从当前函数返回。"
-
-#: ../geanygdb/src/gdb-ui-main.c:895
-msgid "En_viron"
-msgstr "环境(_V)"
-
-#: ../geanygdb/src/gdb-ui-main.c:896
-msgid "Set target environment and command line options."
-msgstr "设置目标环境和命令行选项。"
-
-#: ../geanygdb/src/gdb-ui-main.c:898
-msgid "_Options"
-msgstr "选项(_O)"
-
-#: ../geanygdb/src/gdb-ui-main.c:899
-msgid "Set user interface options."
-msgstr "设置用户界面选项。"
-
-#: ../geanygdb/src/gdb-ui-main.c:948
+#: ../geanygdb/src/gdb-ui-main.c:970
 msgid "Run in terminal"
 msgstr "在终端中运行"
 
-#: ../geanygdb/src/gdb-ui-main.c:950
+#: ../geanygdb/src/gdb-ui-main.c:972
 msgid "Execute target program inside a terminal window."
 msgstr "在一个终端窗口中运行目标程序。"
 
-#: ../geanygdb/src/gdb-ui-main.c:953
+#: ../geanygdb/src/gdb-ui-main.c:975
 msgid "Ignore SIGPIPE"
 msgstr "忽略 SIGPIPE"
 
-#: ../geanygdb/src/gdb-ui-main.c:955
+#: ../geanygdb/src/gdb-ui-main.c:977
 msgid ""
 "Don't pause execution when target gets a SIGPIPE signal.\n"
 "(Useful for certain networking applications.)"
@@ -829,428 +793,474 @@ msgstr ""
 "当目标程序接收到 SIGPIPE 信号时不要暂停执行。\n"
 "（对一些网络应用程序有用）"
 
-#: ../geanygdb/src/gdb-ui-main.c:962
+#: ../geanygdb/src/gdb-ui-main.c:984
 msgid "Console:"
 msgstr "控制台："
 
-#: ../geanygdb/src/gdb-ui-main.c:963
+#: ../geanygdb/src/gdb-ui-main.c:985
 msgid "Send a GDB command directly to the debugger."
 msgstr "向调试器直接发送一条 GDB 命令。"
 
-#: ../geanygdb/src/gdb-ui-main.c:1019
+#: ../geanygdb/src/gdb-ui-main.c:1041
 msgid "_Quit"
 msgstr "退出(_Q)"
 
-#: ../geanygdb/src/gdb-ui-main.c:1019
+#: ../geanygdb/src/gdb-ui-main.c:1041
 msgid "Exit everything"
 msgstr "退出所有"
 
-#: ../geanygdb/src/geanydebug.c:56
-msgid "Debugger"
-msgstr "调试器"
+#: ../geanygdb/src/geanygdb.c:37
+msgid "GeanyGDB"
+msgstr ""
 
-#: ../geanygdb/src/geanydebug.c:56
+#: ../geanygdb/src/geanygdb.c:37
 msgid "Integrated debugging with GDB."
 msgstr "集成 GDB 调试。"
 
-#: ../geanygdb/src/geanydebug.c:56
-msgid "Jeff Pohlmeyer"
+#: ../geanygdb/src/geanygdb.c:37
+#, fuzzy
+msgid "Jeff Pohlmeyer, Dominic Hopf"
 msgstr "Jeff Pohlmeyer"
 
-#: ../geanygdb/src/geanydebug.c:373
+#: ../geanygdb/src/geanygdb.c:330
 #, c-format
 msgid "Plugin configuration directory (%s) could not be created."
 msgstr "无法创建插件配置文件目录（%s）。"
 
-#: ../geanygdb/src/geanydebug.c:390
+#: ../geanygdb/src/geanygdb.c:347
 msgid "geanygdb: ttyhelper program not found."
 msgstr "geanygdb：未找到 ttyhelper program。"
 
-#: ../geanylatex/src/geanylatex.c:29
-msgid "LaTeX"
-msgstr "LaTeX"
+#: ../geanygdb/src/geanygdb.c:378
+#, fuzzy
+msgid "Debu_g"
+msgstr "调试器"
 
-#: ../geanylatex/src/geanylatex.c:29
-msgid "Plugin to provide better LaTeX support"
-msgstr "提供更好的 LaTeX 支持的插件"
+#: ../geanygdb/src/geanygdb.c:389
+#, fuzzy
+msgid "Debug"
+msgstr "调试器"
 
-#: ../geanylatex/src/geanylatex.c:95
-msgid "Marks selected text as italic"
-msgstr "标记选中的文字为斜体"
+#: ../geanygendoc/src/ggd.c:79
+#, c-format
+msgid "Failed to resize memory output stream"
+msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:96
-msgid "Marks selected text as bold"
-msgstr "标记选中的文字为粗体"
+#: ../geanygendoc/src/ggd.c:107
+#, c-format
+msgid ""
+"Argument parsing regular expression did not match (argument list was: \"%s\")"
+msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:97
-msgid "Underlines selected text"
-msgstr "为选中的文字添加下划线"
+#: ../geanygendoc/src/ggd.c:241
+#, c-format
+msgid "Failed to add global environment, skipping: %s"
+msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:223
-msgid "Use KOMA script by default"
-msgstr "默认使用 KOMA 脚本"
+#: ../geanygendoc/src/ggd.c:247
+#, c-format
+msgid "Failed to build comment: %s"
+msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:225
-msgid "Show extra plugin toolbar"
-msgstr "显示额外的插件工具栏"
+#: ../geanygendoc/src/ggd.c:423
+#, c-format
+msgid "Documentation type \"%s\" does not exist for language \"%s\"."
+msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:395
-msgid "Insert Label"
-msgstr "插入标签"
+#: ../geanygendoc/src/ggd.c:478
+#, c-format
+msgid "No setting applies to symbol \"%s\" of type \"%s\" at line %lu."
+msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:408
-msgid "Label name:"
-msgstr "标签名称："
+#: ../geanygendoc/src/ggd.c:520
+#, c-format
+msgid "No valid tag at line %d."
+msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:445
-msgid "Insert Reference"
-msgstr "插入引用"
+#: ../geanygendoc/src/ggd-file-type-loader.c:112
+msgid "boolean value"
+msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:458
-msgid "Reference name:"
-msgstr "引用名称"
+#: ../geanygendoc/src/ggd-file-type-loader.c:125
+#, c-format
+msgid "invalid boolean value \"%s\""
+msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:472
-msgid "_Standard Reference"
-msgstr "标准引用(_S)"
+#: ../geanygendoc/src/ggd-file-type-loader.c:152
+#, c-format
+msgid "invalid template: %s"
+msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:477
-msgid "_Page Reference"
-msgstr "页引用(_P)"
+#: ../geanygendoc/src/ggd-file-type-loader.c:173
+msgid "position name"
+msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:653
-msgid "More"
-msgstr "更多"
+#: ../geanygendoc/src/ggd-file-type-loader.c:180
+#, c-format
+msgid "invalid position \"%s\""
+msgstr ""
 
-#. Documentclass
-#: ../geanylatex/src/geanylatex.c:745
-msgid "Documentclass:"
-msgstr "文档类型："
+#: ../geanygendoc/src/ggd-file-type-loader.c:199
+msgid "policy name"
+msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:748
-msgid "Choose the kind of document you want to write"
-msgstr "选择您想要写哪种文档"
+#: ../geanygendoc/src/ggd-file-type-loader.c:206
+#, c-format
+msgid "invalid policy \"%s\""
+msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:750 ../geanylatex/src/bibtexlabels.c:27
-msgid "Book"
-msgstr "书籍"
+#: ../geanygendoc/src/ggd-file-type-loader.c:225
+msgid "merge policy"
+msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:752 ../geanylatex/src/bibtexlabels.c:26
+#: ../geanygendoc/src/ggd-file-type-loader.c:232
+#, c-format
+msgid "invalid merge policy \"%s\""
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:254
+#, fuzzy
+msgid "type"
+msgstr "Type"
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:261
+#, c-format
+msgid "invalid type \"%s\""
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:323
+#: ../geanygendoc/src/ggd-file-type-loader.c:774
+#, c-format
+msgid "invalid setting name \"%s\""
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:344
+#: ../geanygendoc/src/ggd-file-type-loader.c:355
+#: ../geanygendoc/src/ggd-file-type-loader.c:380
+msgid "setting identifier"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:426
+#, c-format
+msgid "Unknown type \"%s\", is it a typo?"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:441
+#: ../geanygendoc/src/ggd-file-type-loader.c:485
+#: ../geanygendoc/src/ggd-file-type-loader.c:497
+#: ../geanygendoc/src/ggd-file-type-loader.c:535
+msgid "match identifier"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:449
+#, c-format
+msgid "match identifier is empty"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:467
+msgid "documentation type identifier"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:571
+#: ../geanygendoc/src/ggd-file-type-loader.c:583
+#: ../geanygendoc/src/ggd-file-type-loader.c:605
+msgid "documentation type"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:640
+#, c-format
+msgid "invalid regular expression: %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:697
+#, c-format
+msgid "invalid environment description: %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:734
+#: ../geanygendoc/src/ggd-file-type-loader.c:745
+#: ../geanygendoc/src/ggd-file-type-loader.c:784
+#, fuzzy
+msgid "setting"
+msgstr "正在启动"
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:812
+#, fuzzy
+msgid "section name"
+msgstr "函数参数"
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:823
+#, c-format
+msgid "duplicated section \"%s\""
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:832
+#, c-format
+msgid "invalid section name \"%s\""
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:845
+#: ../geanygendoc/src/ggd-file-type-loader.c:897
+#, c-format
+msgid "input is empty"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:859
+#, c-format
+msgid "Parser warning: %s:%u:%u: %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:862
+#, c-format
+msgid "Parser error: %s:%u:%u: %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-loader.c:866
+#, c-format
+msgid "%s:%u:%u: %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-manager.c:175
+#, c-format
+msgid "File type configuration file for language \"%s\" not found: %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-file-type-manager.c:182
+#, c-format
+msgid "Failed to load file type \"%s\" from file \"%s\": %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-options.c:326
+#, fuzzy
+msgid "Unknown option"
+msgstr "未知信号"
+
+#: ../geanygendoc/src/ggd-options.c:335
+msgid ""
+"Invalid option or proxy: either the proxy's property or the option type is "
+"incompatible."
+msgstr ""
+
+#: ../geanygendoc/src/ggd-options.c:512
+#, c-format
+msgid "Unknown value type for keyfile entry %s::%s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-options.c:516
+#, c-format
+msgid "Error retrieving keyfile entry %s::%s: %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:51
+#, fuzzy
+msgid "Documentation Generator"
+msgstr "文件交互"
+
+#: ../geanygendoc/src/ggd-plugin.c:52
+msgid "Generates documentation basis from source code"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:207
+#, c-format
+msgid "Failed to load configuration: %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:228
+#, c-format
+msgid "Failed to save configuration: %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:299
+#, c-format
+msgid "Failed to find configuration file for file type \"%s\": %s"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:360 ../geanygendoc/src/ggd-plugin.c:371
+#, fuzzy
+msgid "Insert Documentation Comment"
+msgstr "插入环境"
+
+#: ../geanygendoc/src/ggd-plugin.c:425
+#, fuzzy
+msgid "_Document Current Symbol"
+msgstr "文件当前词"
+
+#: ../geanygendoc/src/ggd-plugin.c:426
+#, fuzzy
+msgid "Generate documentation for the current symbol"
+msgstr "为当前标记调用文档查看器。"
+
+#: ../geanygendoc/src/ggd-plugin.c:432
+msgid "Document _All Symbols"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:433
+msgid "Generate documentation for all symbols in the current document"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:443
+msgid "_Reload Configuration Files"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:444
+#, fuzzy
+msgid "Force reloading of the configuration files"
+msgstr "显示当前文件日志"
+
+#: ../geanygendoc/src/ggd-plugin.c:449
+msgid "_Edit Current Language Configuration"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:450
+msgid "Open the current language configuration file for editing"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:460
+#, fuzzy
+msgid "Open _Manual"
+msgstr "Manual"
+
+#: ../geanygendoc/src/ggd-plugin.c:461
+msgid "Open the manual in a browser"
+msgstr ""
+
+#. build tools menu item
+#: ../geanygendoc/src/ggd-plugin.c:465
+#, fuzzy
+msgid "_Documentation Generator"
+msgstr "文件交互"
+
+#. General
+#: ../geanygendoc/src/ggd-plugin.c:562
+#, fuzzy
+msgid "General"
+msgstr "GeanySendMail"
+
+#. auto-save
+#: ../geanygendoc/src/ggd-plugin.c:567
+msgid "_Save file before generating documentation"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:570
+msgid ""
+"Whether the current document should be saved to disc before generating the "
+"documentation. This is a technical detail, but it is currently needed to "
+"have an up-to-date tag list. If you disable this option and ask for "
+"documentation generation on a modified document, the behavior may be "
+"surprising since the comment will be generated for the last saved state of "
+"this document and not the current one."
+msgstr ""
+
+#. indent
+#: ../geanygendoc/src/ggd-plugin.c:580
+msgid "_Indent inserted documentation"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:582
+msgid ""
+"Whether the inserted documentation should be indented to fit the indentation "
+"at the insertion position."
+msgstr ""
+
+#. Documentation type
+#: ../geanygendoc/src/ggd-plugin.c:589
+#: ../geanygendoc/src/ggd-widget-doctype-selector.c:121
+#, fuzzy
+msgid "Documentation type"
+msgstr "文件交互"
+
+#: ../geanygendoc/src/ggd-plugin.c:599
+msgid ""
+"Choose the documentation type to use with each file type. The special "
+"language \"All\" on top of the list is used to choose the default "
+"documentation type, used for all languages that haven't one set."
+msgstr ""
+
+#. Environ editor
+#: ../geanygendoc/src/ggd-plugin.c:605
+#, fuzzy
+msgid "Global environment"
+msgstr "环境"
+
+#: ../geanygendoc/src/ggd-plugin.c:607
+msgid ""
+"Global environment overrides and additions. This environment will be merged "
+"with the file-type-specific ones."
+msgstr ""
+
+#: ../geanygendoc/src/ggd-tag-utils.c:389
+msgid "Invalid tag"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-utils.c:166 ../geanygendoc/src/ggd-utils.c:177
+#, c-format
+msgid "File \"%s\" exists but is not a regular file"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-utils.c:186
+#, c-format
+msgid "%s: no such file or directory"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-widget-doctype-selector.c:112
+msgid "Language"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-widget-doctype-selector.c:143
+msgid "All"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-widget-doctype-selector.c:144
+msgid "Default documentation type for languages that does not have one set"
+msgstr ""
+
+#: ../geanylatex/src/latexenvironments.c:25
+msgid "Environments"
+msgstr "环境"
+
+#: ../geanylatex/src/latexenvironments.c:26
+msgid "Formating"
+msgstr "格式"
+
+#: ../geanylatex/src/latexenvironments.c:27
+msgid "Document Structure"
+msgstr "文档结构"
+
+#: ../geanylatex/src/latexenvironments.c:28
+msgid "Lists"
+msgstr "列表"
+
+#: ../geanylatex/src/latexenvironments.c:29
+msgid "Math"
+msgstr "数学"
+
+#: ../geanylatex/src/latexenvironments.c:195
+msgid "Insert Environment"
+msgstr "插入环境"
+
+#: ../geanylatex/src/latexenvironments.c:209
+msgid "Environment:"
+msgstr "环境："
+
+#: ../geanylatex/src/latexutils.c:89
+#, c-format
+msgid ""
+"Could not determine where to insert package: %s\n"
+"Please try insert package manually"
+msgstr ""
+
+#: ../geanylatex/src/latexutils.c:91
+#, c-format
+msgid "Could not determine where to insert package: %s"
+msgstr ""
+
+#: ../geanylatex/src/bibtexlabels.c:26 ../geanylatex/src/geanylatex.c:1638
 msgid "Article"
 msgstr "文章"
 
-#: ../geanylatex/src/geanylatex.c:754
-msgid "Report"
-msgstr "报告"
-
-#: ../geanylatex/src/geanylatex.c:756
-msgid "Letter"
-msgstr "书信"
-
-#: ../geanylatex/src/geanylatex.c:758
-msgid "Presentation"
-msgstr "简报"
-
-#. Encoding
-#: ../geanylatex/src/geanylatex.c:768
-msgid "Encoding:"
-msgstr "编码："
-
-#: ../geanylatex/src/geanylatex.c:772
-msgid "Set the encoding for your new document"
-msgstr "为您的新文档设置编码"
-
-#. fontsize
-#: ../geanylatex/src/geanylatex.c:788
-msgid "Font size:"
-msgstr "文字大小："
-
-#: ../geanylatex/src/geanylatex.c:794
-msgid "Set the default font size of your new document"
-msgstr "为您的新文档设置默认的文字大小"
-
-#. Author
-#: ../geanylatex/src/geanylatex.c:802
-msgid "Author:"
-msgstr "作者："
-
-#: ../geanylatex/src/geanylatex.c:805
-msgid ""
-"Sets the value of the \\author command. In most cases this should be your "
-"name"
-msgstr "设置 \\author 命令的值。大多数情况下这应该是您的姓名。"
-
-#. Date
-#: ../geanylatex/src/geanylatex.c:816
-msgid "Date:"
-msgstr "日期："
-
-#: ../geanylatex/src/geanylatex.c:819
-#, fuzzy
-msgid ""
-"Sets the value of the \\date command inside header of your\t\t newly created "
-"LaTeX-document. Keeping it at \\today is a good \t\t decision if you don't "
-"need any fixed date."
-msgstr ""
-"为您新建的 LaTeX 文档设置文件头中 \\date 命令的值。大多数情况下这应该是您的姓"
-"名。如果您不需要固定的日期，设置为 \\today 是一个很好的决定。"
-
-#. Title of the new document
-#: ../geanylatex/src/geanylatex.c:828
-msgid "Title:"
-msgstr "标题："
-
-#: ../geanylatex/src/geanylatex.c:831
-msgid "Sets the title of your new document."
-msgstr "设置您的新文档的标题。"
-
-#. Papersize
-#: ../geanylatex/src/geanylatex.c:837
-msgid "Paper size:"
-msgstr "纸张尺寸："
-
-#: ../geanylatex/src/geanylatex.c:840
-msgid "Choose the paper format for the newly created document"
-msgstr "为新建文档选择纸张格式"
-
-#. Building the wizard-dialog and showing it
-#: ../geanylatex/src/geanylatex.c:855
-msgid "LaTeX-Wizard"
-msgstr "LaTeX 向导"
-
-#: ../geanylatex/src/geanylatex.c:866
-msgid "Use KOMA-script classes if possible"
-msgstr "如果可能，使用 KOMA 脚本类"
-
-#: ../geanylatex/src/geanylatex.c:868
-msgid ""
-"Uses the KOMA-script classes by Markus Kohm.\n"
-"Keep in mind: To compile your document these classeshave to be installed "
-"before."
-msgstr ""
-"使用 Markus Kohm 的 KOMA 脚本类。\n"
-"注意：编译您的文档前需要安装这些类。"
-
-#: ../geanylatex/src/geanylatex.c:875
-msgid "Use draft mode"
-msgstr "使用草稿模式"
-
-#: ../geanylatex/src/geanylatex.c:877
-msgid ""
-"Set the draft flag inside new created documents to get documents with a "
-"number of debugging helpers"
-msgstr "在新建的文档中设置草稿标志使他人可以帮助调试。"
-
-#: ../geanylatex/src/geanylatex.c:1091
-msgid "Dear Sir or Madame"
-msgstr "亲爱的先生或女士"
-
-#: ../geanylatex/src/geanylatex.c:1092
-msgid "With kind regards"
-msgstr "亲切的问候"
-
-#: ../geanylatex/src/geanylatex.c:1106
-msgid "Run LaTeX-Wizard"
-msgstr "运行 LaTeX 向导"
-
-#: ../geanylatex/src/geanylatex.c:1108
-msgid "Insert \\label"
-msgstr "插入 \\label"
-
-#: ../geanylatex/src/geanylatex.c:1110
-msgid "Insert \\ref"
-msgstr "插入 \\ref"
-
-#: ../geanylatex/src/geanylatex.c:1112
-msgid "Insert linebreak \\\\ "
-msgstr "插入断行 \\\\ "
-
-#: ../geanylatex/src/geanylatex.c:1114
-msgid "Turn input replacement on/off"
-msgstr "开/关输入替换"
-
-#: ../geanylatex/src/geanylatex.c:1118
-msgid "Replace special characters"
-msgstr "替换特殊字符"
-
-#: ../geanylatex/src/geanylatex.c:1121
-msgid "Run insert environment dialog"
-msgstr "运行插入环境对话框"
-
-#: ../geanylatex/src/geanylatex.c:1123
-msgid "Insert \\item"
-msgstr "插入 \\item"
-
-#: ../geanylatex/src/geanylatex.c:1125
-msgid "Format selection in bold font face"
-msgstr "将选中部分变为粗体"
-
-#: ../geanylatex/src/geanylatex.c:1127
-msgid "Format selection in italic font face"
-msgstr "将选中部分变为斜体"
-
-#: ../geanylatex/src/geanylatex.c:1129
-msgid "Format selection in typewriter font face"
-msgstr "将选中部分变为打字机字体"
-
-#: ../geanylatex/src/geanylatex.c:1131
-msgid "Format selection centered"
-msgstr "将选中部分居中"
-
-#: ../geanylatex/src/geanylatex.c:1133
-msgid "Format selection left-aligned"
-msgstr "将选中部分左对齐"
-
-#: ../geanylatex/src/geanylatex.c:1135
-msgid "Format selection right-aligned "
-msgstr "将选中部分右对齐"
-
-#: ../geanylatex/src/geanylatex.c:1141
-msgid ""
-"GeanyLaTeX is a plugin to improve support for LaTeX in Geany.\n"
-"\n"
-"Please report all bugs or feature requests to one of the authors."
-msgstr ""
-"GeanyLaTeX 是一个增强 Geany 的 LaTeX 支持的插件。\n"
-"\n"
-"请将所有 bug 或 功能请求 报告给作者。"
-
-#: ../geanylatex/src/geanylatex.c:1174
-msgid "_LaTeX"
-msgstr "_LaTeX"
-
-#: ../geanylatex/src/geanylatex.c:1180
-msgid "LaTeX-_Wizard"
-msgstr "LaTeX 向导(_W)"
-
-#: ../geanylatex/src/geanylatex.c:1183
-msgid "Starts a Wizard to easily create LaTeX-documents"
-msgstr "启动一个向导轻松创建 LaTeX 文档"
-
-#: ../geanylatex/src/geanylatex.c:1188
-msgid "Insert _Special Character"
-msgstr "插入特殊字符(_S)"
-
-#: ../geanylatex/src/geanylatex.c:1190
-msgid "Helps to use some not very common letters and signs"
-msgstr "帮助您使用一些不常用的字符"
-
-#: ../geanylatex/src/geanylatex.c:1200
-msgid "Insert _Reference"
-msgstr "插入引用(_R)"
-
-#: ../geanylatex/src/geanylatex.c:1202
-msgid "Inserting references to the document"
-msgstr "向文档中插入引用"
-
-#: ../geanylatex/src/geanylatex.c:1207
-msgid "Insert _Label"
-msgstr "插入标签(_L)"
-
-#: ../geanylatex/src/geanylatex.c:1209
-msgid "Helps at inserting labels to a document"
-msgstr "帮助您向文档中插入标签"
-
-#: ../geanylatex/src/geanylatex.c:1215
-msgid "Insert _Environment"
-msgstr "插入环境(_E)"
-
-#: ../geanylatex/src/geanylatex.c:1217
-msgid "Helps at inserting an environment a document"
-msgstr "帮助您向文档中插入环境"
-
-#: ../geanylatex/src/geanylatex.c:1222
-msgid "_BibTeX"
-msgstr "_BibTeX"
-
-#: ../geanylatex/src/geanylatex.c:1238
-msgid "_Format"
-msgstr "格式(_F)"
-
-#: ../geanylatex/src/geanylatex.c:1256
-msgid "_Special Character Replacement"
-msgstr "特殊字符替换(_S)"
-
-#: ../geanylatex/src/geanylatex.c:1264
-msgid "Bulk _Replace Special Characters"
-msgstr "批量替换特殊字符(_R)"
-
-#: ../geanylatex/src/geanylatex.c:1266
-msgid "_Replace selected special cahracters with TeX substitutes"
-msgstr "用 TeX 格式替换选中的特殊字符(_R)"
-
-#: ../geanylatex/src/geanylatex.c:1274
-msgid "Toggle _Special Character Replacement"
-msgstr "开关特殊字符替换(_S)"
-
-#: ../geanylatex/src/latexencodings.c:37
-msgid "UTF-8"
-msgstr "UTF-8"
-
-#: ../geanylatex/src/latexencodings.c:38
-msgid "US-ASCII"
-msgstr "US-ASCII"
-
-#: ../geanylatex/src/latexencodings.c:39
-msgid "ISO-8859-1 (Latin-1)"
-msgstr "ISO-8859-1 (Latin-1)"
-
-#: ../geanylatex/src/latexencodings.c:41
-msgid "ISO-8859-2 (Latin-2)"
-msgstr "ISO-8859-2 (Latin-2)"
-
-#: ../geanylatex/src/latexencodings.c:43
-msgid "ISO-8859-3 (Latin-3)"
-msgstr "ISO-8859-3 (Latin-3)"
-
-#: ../geanylatex/src/latexencodings.c:45
-msgid "ISO-8859-4 (Latin-4)"
-msgstr "ISO-8859-4 (Latin-4)"
-
-#: ../geanylatex/src/latexencodings.c:47
-msgid "ISO-8859-5 (Latin-5)"
-msgstr "ISO-8859-5 (Latin-5)"
-
-#: ../geanylatex/src/latexencodings.c:49
-msgid "ISO-8859-9 (Latin-9)"
-msgstr "ISO-8859-9 (Latin-9)"
-
-#: ../geanylatex/src/latexencodings.c:51
-msgid "ISO-8859-10 (Latin-10)"
-msgstr "ISO-8859-10 (Latin-10)"
-
-#: ../geanylatex/src/latexencodings.c:53
-msgid "IBM 850 code page"
-msgstr "IBM 850 code page"
-
-#: ../geanylatex/src/latexencodings.c:55
-msgid "IBM 852 code page"
-msgstr "IBM 852 code page"
-
-#: ../geanylatex/src/latexencodings.c:57 ../geanylatex/src/letters.c:41
-#: ../geanylatex/src/bibtexlabels.c:35
-msgid "Misc"
-msgstr "其他"
-
-#: ../geanylatex/src/letters.c:39
-msgid "Greek letters"
-msgstr "希腊字母"
-
-#: ../geanylatex/src/letters.c:40
-msgid "German umlauts"
-msgstr "德文元音变音"
-
-#: ../geanylatex/src/letters.c:42
-msgid "Arrow characters"
-msgstr "箭头字符"
-
-#: ../geanylatex/src/letters.c:43
-msgid "Relational"
-msgstr "相关的"
-
-#: ../geanylatex/src/letters.c:44
-msgid "Binary operation"
-msgstr "二元运算"
+#: ../geanylatex/src/bibtexlabels.c:27 ../geanylatex/src/geanylatex.c:1636
+msgid "Book"
+msgstr "书籍"
 
 #: ../geanylatex/src/bibtexlabels.c:28
 msgid "Booklet"
@@ -1279,6 +1289,10 @@ msgstr "Manual"
 #: ../geanylatex/src/bibtexlabels.c:34
 msgid "Mastersthesis"
 msgstr "Mastersthesis"
+
+#: ../geanylatex/src/bibtexlabels.c:35 ../geanylatex/src/letters.c:41
+msgid "Misc"
+msgstr "其他"
 
 #: ../geanylatex/src/bibtexlabels.c:36
 msgid "PhdThesis"
@@ -1384,10 +1398,6 @@ msgstr "Series"
 msgid "Title"
 msgstr "Title"
 
-#: ../geanylatex/src/bibtexlabels.c:65
-msgid "Type"
-msgstr "Type"
-
 #: ../geanylatex/src/bibtexlabels.c:66
 msgid "URL"
 msgstr "URL"
@@ -1400,111 +1410,605 @@ msgstr "Volume"
 msgid "Year"
 msgstr "Year"
 
-#: ../geanylatex/src/bibtexlabels.c:99
+#: ../geanylatex/src/bibtexlabels.c:100
 msgid "Address of publisher"
 msgstr "发布者的地址"
 
-#: ../geanylatex/src/bibtexlabels.c:100
+#: ../geanylatex/src/bibtexlabels.c:101
 msgid "Annotation for annotated bibliography styles"
 msgstr "注释风格书目的注释"
 
-#: ../geanylatex/src/bibtexlabels.c:101
+#: ../geanylatex/src/bibtexlabels.c:102
 msgid "Name(s) of the author(s), separated by 'and' if more than one"
 msgstr "作者的姓名，如果有多个作者，用“and”分开。"
 
-#: ../geanylatex/src/bibtexlabels.c:102
+#: ../geanylatex/src/bibtexlabels.c:103
 msgid "Title of the book, if only part of it is being cited"
 msgstr "书名，如果只是部分被引用"
 
-#: ../geanylatex/src/bibtexlabels.c:103
+#: ../geanylatex/src/bibtexlabels.c:104
 msgid "Chapter number"
 msgstr "章号"
 
-#: ../geanylatex/src/bibtexlabels.c:104
+#: ../geanylatex/src/bibtexlabels.c:105
 msgid "Citation key of the cross-referenced entry"
 msgstr "交叉引用条目中的引用键"
 
-#: ../geanylatex/src/bibtexlabels.c:105
+#: ../geanylatex/src/bibtexlabels.c:106
 msgid "Edition of the book (such as \"first\" or \"second\")"
 msgstr "书籍的版本（比如“第一版”或“第二版”）"
 
-#: ../geanylatex/src/bibtexlabels.c:106
+#: ../geanylatex/src/bibtexlabels.c:107
 msgid "Name(s) of the editor(s), separated by 'and' if more than one"
 msgstr "编辑者的姓名，如果有多个作者，用“and”分开。"
 
-#: ../geanylatex/src/bibtexlabels.c:107
+#: ../geanylatex/src/bibtexlabels.c:108
 msgid "Specification of electronic publication"
 msgstr "电子出版物规范"
 
-#: ../geanylatex/src/bibtexlabels.c:108
+#: ../geanylatex/src/bibtexlabels.c:109
 msgid "Publishing method if the method is nonstandard"
 msgstr "出版方法，如果方法非标准"
 
-#: ../geanylatex/src/bibtexlabels.c:109
+#: ../geanylatex/src/bibtexlabels.c:110
 msgid "Institution that was involved in the publishing"
 msgstr "参与出版的机构"
 
-#: ../geanylatex/src/bibtexlabels.c:110
+#: ../geanylatex/src/bibtexlabels.c:111
 msgid "Journal or magazine in which the work was published"
 msgstr "发表在哪个杂志或报刊"
 
-#: ../geanylatex/src/bibtexlabels.c:111
+#: ../geanylatex/src/bibtexlabels.c:112
 msgid ""
 "Hidden field used for specifying or overriding the alphabetical order of "
 "entries"
 msgstr "隐藏用于指定或重写条目的字母顺序排列的字段"
 
-#: ../geanylatex/src/bibtexlabels.c:112
+#: ../geanylatex/src/bibtexlabels.c:113
 msgid "Month of publication or creation if unpublished"
 msgstr "如果没有出版，出版或创作的月份"
 
-#: ../geanylatex/src/bibtexlabels.c:113
+#: ../geanylatex/src/bibtexlabels.c:114
 msgid "Miscellaneous extra information"
 msgstr "其他附加信息"
 
-#: ../geanylatex/src/bibtexlabels.c:114
+#: ../geanylatex/src/bibtexlabels.c:115
 msgid "Number of journal, magazine, or tech-report"
 msgstr "报刊、杂志或科技报告编号"
 
-#: ../geanylatex/src/bibtexlabels.c:115
+#: ../geanylatex/src/bibtexlabels.c:116
 msgid "Sponsor of the conference"
 msgstr "会议赞助商"
 
-#: ../geanylatex/src/bibtexlabels.c:116
+#: ../geanylatex/src/bibtexlabels.c:117
 msgid "Page numbers separated by commas or double-hyphens"
 msgstr "用逗号或双连字符分隔的页码"
 
-#: ../geanylatex/src/bibtexlabels.c:117
+#: ../geanylatex/src/bibtexlabels.c:118
 msgid "Name of publisher"
 msgstr "发布者姓名"
 
-#: ../geanylatex/src/bibtexlabels.c:118
+#: ../geanylatex/src/bibtexlabels.c:119
 msgid "School where thesis was written"
 msgstr "论文所属的学校"
 
-#: ../geanylatex/src/bibtexlabels.c:119
+#: ../geanylatex/src/bibtexlabels.c:120
 msgid "Series of books in which the book was published"
 msgstr "书籍发布于哪个系列"
 
-#: ../geanylatex/src/bibtexlabels.c:120
+#: ../geanylatex/src/bibtexlabels.c:121
 msgid "Title of the work"
 msgstr "作品的标题"
 
-#: ../geanylatex/src/bibtexlabels.c:121
+#: ../geanylatex/src/bibtexlabels.c:122
 msgid "Type of technical report"
 msgstr "科技报告类型"
 
-#: ../geanylatex/src/bibtexlabels.c:122
+#: ../geanylatex/src/bibtexlabels.c:123
 msgid "Internet address"
 msgstr "网址"
 
-#: ../geanylatex/src/bibtexlabels.c:123
+#: ../geanylatex/src/bibtexlabels.c:124
 msgid "Number of the volume"
 msgstr "卷号"
 
-#: ../geanylatex/src/bibtexlabels.c:124
+#: ../geanylatex/src/bibtexlabels.c:125
 msgid "Year of publication or creation if unpublished"
 msgstr "如果没有出版，出版或创作的年份"
+
+#: ../geanylatex/src/geanylatex.c:33
+#, fuzzy
+msgid "GeanyLaTeX"
+msgstr "LaTeX"
+
+#: ../geanylatex/src/geanylatex.c:33
+msgid "Plugin to provide better LaTeX support"
+msgstr "提供更好的 LaTeX 支持的插件"
+
+#: ../geanylatex/src/geanylatex.c:98
+#, fuzzy
+msgid "Runs LaTeX wizard"
+msgstr "运行 LaTeX 向导"
+
+#: ../geanylatex/src/geanylatex.c:99
+msgid "Marks selected text as italic"
+msgstr "标记选中的文字为斜体"
+
+#: ../geanylatex/src/geanylatex.c:100
+msgid "Marks selected text as bold"
+msgstr "标记选中的文字为粗体"
+
+#: ../geanylatex/src/geanylatex.c:101
+msgid "Underlines selected text"
+msgstr "为选中的文字添加下划线"
+
+#: ../geanylatex/src/geanylatex.c:102 ../geanylatex/src/formatpatterns.c:45
+msgid "Centered"
+msgstr "居中"
+
+#: ../geanylatex/src/geanylatex.c:103 ../geanylatex/src/formatpatterns.c:46
+msgid "Left side oriented"
+msgstr "左侧导向"
+
+#: ../geanylatex/src/geanylatex.c:104 ../geanylatex/src/formatpatterns.c:47
+msgid "Right side oriented"
+msgstr "右侧导向"
+
+#: ../geanylatex/src/geanylatex.c:247
+msgid "Use KOMA script by default"
+msgstr "默认使用 KOMA 脚本"
+
+#: ../geanylatex/src/geanylatex.c:249
+msgid "Show extra plugin toolbar"
+msgstr "显示额外的插件工具栏"
+
+#: ../geanylatex/src/geanylatex.c:253
+msgid "Don't care about this inside plugin"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:255
+msgid "Always perform autocompletion on LaTeX"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:267
+msgid "Modus of autocompletion"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:726
+msgid "Insert Label"
+msgstr "插入标签"
+
+#: ../geanylatex/src/geanylatex.c:739
+msgid "Label name:"
+msgstr "标签名称："
+
+#: ../geanylatex/src/geanylatex.c:775
+#, fuzzy
+msgid "Insert Command"
+msgstr "插入环境"
+
+#: ../geanylatex/src/geanylatex.c:788
+#, fuzzy
+msgid "Command name:"
+msgstr "命令0："
+
+#: ../geanylatex/src/geanylatex.c:848
+msgid "Insert Reference"
+msgstr "插入引用"
+
+#: ../geanylatex/src/geanylatex.c:861
+msgid "Reference name:"
+msgstr "引用名称"
+
+#: ../geanylatex/src/geanylatex.c:886
+msgid "_Standard Reference"
+msgstr "标准引用(_S)"
+
+#: ../geanylatex/src/geanylatex.c:891
+msgid "_Page Reference"
+msgstr "页引用(_P)"
+
+#: ../geanylatex/src/geanylatex.c:896
+#, fuzzy
+msgid "_Add both"
+msgstr "增加断点"
+
+#: ../geanylatex/src/geanylatex.c:1093
+msgid "More"
+msgstr "更多"
+
+#: ../geanylatex/src/geanylatex.c:1149
+msgid "Add additional package"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:1162
+#, fuzzy
+msgid "Package name:"
+msgstr "标签名称："
+
+#: ../geanylatex/src/geanylatex.c:1165
+msgid "Package options:"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:1556
+msgid "Dear Sir or Madame"
+msgstr "亲爱的先生或女士"
+
+#: ../geanylatex/src/geanylatex.c:1557
+msgid "With kind regards"
+msgstr "亲切的问候"
+
+#: ../geanylatex/src/geanylatex.c:1565
+msgid "No template assigned. Aborting"
+msgstr ""
+
+#. Building the wizard-dialog and showing it
+#: ../geanylatex/src/geanylatex.c:1592
+msgid "LaTeX-Wizard"
+msgstr "LaTeX 向导"
+
+#. Templates
+#. *  Adds custom templates if there are any. If there are none just
+#. *  adds default one
+#: ../geanylatex/src/geanylatex.c:1607
+msgid "Template:"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:1611
+msgid "Set the template which should be used for creating the new document"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:1620
+#, fuzzy
+msgid "Default"
+msgstr "默认（%s）"
+
+#. Documentclass
+#: ../geanylatex/src/geanylatex.c:1631
+msgid "Documentclass:"
+msgstr "文档类型："
+
+#: ../geanylatex/src/geanylatex.c:1634
+msgid "Choose the kind of document you want to write"
+msgstr "选择您想要写哪种文档"
+
+#: ../geanylatex/src/geanylatex.c:1640
+msgid "Report"
+msgstr "报告"
+
+#: ../geanylatex/src/geanylatex.c:1642
+msgid "Letter"
+msgstr "书信"
+
+#: ../geanylatex/src/geanylatex.c:1644
+msgid "Presentation"
+msgstr "简报"
+
+#. Encoding
+#: ../geanylatex/src/geanylatex.c:1654
+msgid "Encoding:"
+msgstr "编码："
+
+#: ../geanylatex/src/geanylatex.c:1658
+msgid "Set the encoding for your new document"
+msgstr "为您的新文档设置编码"
+
+#. fontsize
+#: ../geanylatex/src/geanylatex.c:1674
+msgid "Font size:"
+msgstr "文字大小："
+
+#: ../geanylatex/src/geanylatex.c:1680
+msgid "Set the default font size of your new document"
+msgstr "为您的新文档设置默认的文字大小"
+
+#. Author
+#: ../geanylatex/src/geanylatex.c:1692
+msgid "Author:"
+msgstr "作者："
+
+#: ../geanylatex/src/geanylatex.c:1695
+msgid ""
+"Sets the value of the \\author command. In most cases this should be your "
+"name"
+msgstr "设置 \\author 命令的值。大多数情况下这应该是您的姓名。"
+
+#. Date
+#: ../geanylatex/src/geanylatex.c:1709
+msgid "Date:"
+msgstr "日期："
+
+#: ../geanylatex/src/geanylatex.c:1712
+#, fuzzy
+msgid ""
+"Sets the value of the \\date command inside header of your new created LaTeX-"
+"document. Keeping it at \\today is a good decision if you don't need any "
+"fixed date."
+msgstr ""
+"为您新建的 LaTeX 文档设置文件头中 \\date 命令的值。大多数情况下这应该是您的姓"
+"名。如果您不需要固定的日期，设置为 \\today 是一个很好的决定。"
+
+#. Title of the new document
+#: ../geanylatex/src/geanylatex.c:1724
+msgid "Title:"
+msgstr "标题："
+
+#: ../geanylatex/src/geanylatex.c:1727
+msgid "Sets the title of your new document."
+msgstr "设置您的新文档的标题。"
+
+#. Papersize
+#: ../geanylatex/src/geanylatex.c:1736
+msgid "Paper size:"
+msgstr "纸张尺寸："
+
+#: ../geanylatex/src/geanylatex.c:1739
+msgid "Choose the paper format for the newly created document"
+msgstr "为新建文档选择纸张格式"
+
+#. Paper direction
+#: ../geanylatex/src/geanylatex.c:1752
+#, fuzzy
+msgid "Paper Orientation:"
+msgstr "简报"
+
+#: ../geanylatex/src/geanylatex.c:1755
+#, fuzzy
+msgid "Choose the paper orientation for the newly created document"
+msgstr "为新建文档选择纸张格式"
+
+#: ../geanylatex/src/geanylatex.c:1776
+msgid "Use KOMA-script classes if possible"
+msgstr "如果可能，使用 KOMA 脚本类"
+
+#: ../geanylatex/src/geanylatex.c:1778
+#, fuzzy
+msgid ""
+"Uses the KOMA-script classes by Markus Kohm.\n"
+"Keep in mind: To compile your document these classes have to be installed "
+"before."
+msgstr ""
+"使用 Markus Kohm 的 KOMA 脚本类。\n"
+"注意：编译您的文档前需要安装这些类。"
+
+#: ../geanylatex/src/geanylatex.c:1785
+msgid "Use draft mode"
+msgstr "使用草稿模式"
+
+#: ../geanylatex/src/geanylatex.c:1787
+msgid ""
+"Set the draft flag inside new created documents to get documents with a "
+"number of debugging helpers"
+msgstr "在新建的文档中设置草稿标志使他人可以帮助调试。"
+
+#: ../geanylatex/src/geanylatex.c:1801
+msgid "Run LaTeX-Wizard"
+msgstr "运行 LaTeX 向导"
+
+#: ../geanylatex/src/geanylatex.c:1803
+msgid "Insert \\label"
+msgstr "插入 \\label"
+
+#: ../geanylatex/src/geanylatex.c:1805
+msgid "Insert \\ref"
+msgstr "插入 \\ref"
+
+#: ../geanylatex/src/geanylatex.c:1807
+msgid "Insert linebreak \\\\ "
+msgstr "插入断行 \\\\ "
+
+#: ../geanylatex/src/geanylatex.c:1810
+#, fuzzy
+msgid "Insert command"
+msgstr "插入环境"
+
+#: ../geanylatex/src/geanylatex.c:1812
+msgid "Turn input replacement on/off"
+msgstr "开/关输入替换"
+
+#: ../geanylatex/src/geanylatex.c:1816
+msgid "Replace special characters"
+msgstr "替换特殊字符"
+
+#: ../geanylatex/src/geanylatex.c:1819
+msgid "Run insert environment dialog"
+msgstr "运行插入环境对话框"
+
+#: ../geanylatex/src/geanylatex.c:1821
+msgid "Insert \\item"
+msgstr "插入 \\item"
+
+#: ../geanylatex/src/geanylatex.c:1823
+msgid "Format selection in bold font face"
+msgstr "将选中部分变为粗体"
+
+#: ../geanylatex/src/geanylatex.c:1825
+msgid "Format selection in italic font face"
+msgstr "将选中部分变为斜体"
+
+#: ../geanylatex/src/geanylatex.c:1827
+msgid "Format selection in typewriter font face"
+msgstr "将选中部分变为打字机字体"
+
+#: ../geanylatex/src/geanylatex.c:1829
+msgid "Format selection centered"
+msgstr "将选中部分居中"
+
+#: ../geanylatex/src/geanylatex.c:1831
+msgid "Format selection left-aligned"
+msgstr "将选中部分左对齐"
+
+#: ../geanylatex/src/geanylatex.c:1833
+#, fuzzy
+msgid "Format selection right-aligned"
+msgstr "将选中部分右对齐"
+
+#: ../geanylatex/src/geanylatex.c:1836
+msgid "Insert description list"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:1839
+#, fuzzy
+msgid "Insert itemize list"
+msgstr "插入 \\item"
+
+#: ../geanylatex/src/geanylatex.c:1842
+#, fuzzy
+msgid "Insert enumerate list"
+msgstr "插入 Lipsum 文本"
+
+#: ../geanylatex/src/geanylatex.c:1845
+msgid "Set selection one level up"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:1848
+#, fuzzy
+msgid "Set selection one level down"
+msgstr "将选中部分居中"
+
+#: ../geanylatex/src/geanylatex.c:1851
+#, fuzzy
+msgid "Insert \\usepackage{}"
+msgstr "插入 \\label"
+
+#: ../geanylatex/src/geanylatex.c:1858
+msgid ""
+"GeanyLaTeX is a plugin to improve support for LaTeX in Geany.\n"
+"\n"
+"Please report all bugs or feature requests to one of the authors."
+msgstr ""
+"GeanyLaTeX 是一个增强 Geany 的 LaTeX 支持的插件。\n"
+"\n"
+"请将所有 bug 或 功能请求 报告给作者。"
+
+#: ../geanylatex/src/geanylatex.c:1894
+msgid ""
+"glatex_set_autocompletion_contextsize has been initialized with an invalid "
+"value. Default value taken. Please check your configuration file"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:1906 ../geanylatex/src/geanylatex.c:1913
+msgid "page \\pageref{{{reference}}}"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:1910 ../geanylatex/src/geanylatex.c:1917
+msgid "\\ref{{{reference}}}, page \\pageref{{{reference}}}"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:1934
+msgid "_LaTeX"
+msgstr "_LaTeX"
+
+#: ../geanylatex/src/geanylatex.c:1940
+msgid "LaTeX-_Wizard"
+msgstr "LaTeX 向导(_W)"
+
+#: ../geanylatex/src/geanylatex.c:1943
+msgid "Starts a Wizard to easily create LaTeX-documents"
+msgstr "启动一个向导轻松创建 LaTeX 文档"
+
+#: ../geanylatex/src/geanylatex.c:1948
+#, fuzzy
+msgid "I_nsert Special Character"
+msgstr "插入特殊字符(_S)"
+
+#: ../geanylatex/src/geanylatex.c:1950
+msgid "Helps to use some not very common letters and signs"
+msgstr "帮助您使用一些不常用的字符"
+
+#: ../geanylatex/src/geanylatex.c:1960
+msgid "Insert _Reference"
+msgstr "插入引用(_R)"
+
+#: ../geanylatex/src/geanylatex.c:1962
+msgid "Inserting references to the document"
+msgstr "向文档中插入引用"
+
+#: ../geanylatex/src/geanylatex.c:1967
+msgid "Insert _Label"
+msgstr "插入标签(_L)"
+
+#: ../geanylatex/src/geanylatex.c:1969
+msgid "Helps at inserting labels to a document"
+msgstr "帮助您向文档中插入标签"
+
+#: ../geanylatex/src/geanylatex.c:1975
+msgid "Insert _Environment"
+msgstr "插入环境(_E)"
+
+#: ../geanylatex/src/geanylatex.c:1977
+msgid "Helps at inserting an environment a document"
+msgstr "帮助您向文档中插入环境"
+
+#: ../geanylatex/src/geanylatex.c:1983
+#, fuzzy
+msgid "Insert P_ackage"
+msgstr "插入标签(_L)"
+
+#: ../geanylatex/src/geanylatex.c:1985
+msgid "A small dialog to insert \\usepackage{} into header of current file"
+msgstr ""
+
+#: ../geanylatex/src/geanylatex.c:1990
+msgid "_BibTeX"
+msgstr "_BibTeX"
+
+#: ../geanylatex/src/geanylatex.c:2006
+msgid "_Format"
+msgstr "格式(_F)"
+
+#. Add font size menu
+#: ../geanylatex/src/geanylatex.c:2023
+#, fuzzy
+msgid "F_ont size"
+msgstr "文字大小："
+
+#: ../geanylatex/src/geanylatex.c:2041
+msgid "_Special Character Replacement"
+msgstr "特殊字符替换(_S)"
+
+#: ../geanylatex/src/geanylatex.c:2049
+msgid "Bulk _Replace Special Characters"
+msgstr "批量替换特殊字符(_R)"
+
+#: ../geanylatex/src/geanylatex.c:2051
+#, fuzzy
+msgid "_Replace selected special characters with TeX substitutes"
+msgstr "用 TeX 格式替换选中的特殊字符(_R)"
+
+#: ../geanylatex/src/geanylatex.c:2059
+msgid "Toggle _Special Character Replacement"
+msgstr "开关特殊字符替换(_S)"
+
+#: ../geanylatex/src/geanylatex.c:2070
+#, fuzzy
+msgid "Insert _Command"
+msgstr "插入环境(_E)"
+
+#: ../geanylatex/src/geanylatex.c:2072
+#, fuzzy
+msgid "Inserting costumized command to document"
+msgstr "向文档中插入引用"
+
+#: ../geanylatex/src/letters.c:39
+msgid "Greek letters"
+msgstr "希腊字母"
+
+#: ../geanylatex/src/letters.c:40
+msgid "German umlauts"
+msgstr "德文元音变音"
+
+#: ../geanylatex/src/letters.c:42
+msgid "Arrow characters"
+msgstr "箭头字符"
+
+#: ../geanylatex/src/letters.c:43
+msgid "Relational"
+msgstr "相关的"
+
+#: ../geanylatex/src/letters.c:44
+msgid "Binary operation"
+msgstr "二元运算"
 
 #: ../geanylatex/src/formatpatterns.c:38
 msgid "Italic"
@@ -1534,48 +2038,100 @@ msgstr "小型大写字母"
 msgid "Emphasis"
 msgstr "强调"
 
-#: ../geanylatex/src/formatpatterns.c:45
-msgid "Centered"
-msgstr "居中"
+#: ../geanylatex/src/formatpatterns.c:64
+msgid "tiny"
+msgstr ""
 
-#: ../geanylatex/src/formatpatterns.c:46
-msgid "Left side oriented"
-msgstr "左侧导向"
+#: ../geanylatex/src/formatpatterns.c:65
+msgid "scriptsize"
+msgstr ""
 
-#: ../geanylatex/src/formatpatterns.c:47
-msgid "Right side oriented"
-msgstr "右侧导向"
+#: ../geanylatex/src/formatpatterns.c:66
+#, fuzzy
+msgid "footnotesize"
+msgstr "文字大小："
 
-#: ../geanylatex/src/latexenvironments.c:25
-msgid "Environments"
-msgstr "环境"
+#: ../geanylatex/src/formatpatterns.c:67
+msgid "small"
+msgstr ""
 
-#: ../geanylatex/src/latexenvironments.c:26
-msgid "Formating"
-msgstr "格式"
+#: ../geanylatex/src/formatpatterns.c:68
+msgid "normalsize"
+msgstr ""
 
-#: ../geanylatex/src/latexenvironments.c:27
-msgid "Document Structure"
-msgstr "文档结构"
+#: ../geanylatex/src/formatpatterns.c:69
+#, fuzzy
+msgid "large"
+msgstr "Pages"
 
-#: ../geanylatex/src/latexenvironments.c:28
-msgid "Lists"
-msgstr "列表"
+#: ../geanylatex/src/formatpatterns.c:70
+#, fuzzy
+msgid "Large"
+msgstr "LaTeX"
 
-#: ../geanylatex/src/latexenvironments.c:29
-msgid "Math"
-msgstr "数学"
+#: ../geanylatex/src/formatpatterns.c:71
+msgid "LARGE"
+msgstr ""
 
-#: ../geanylatex/src/latexenvironments.c:116
-msgid "Insert Environment"
-msgstr "插入环境"
+#: ../geanylatex/src/formatpatterns.c:72
+msgid "huge"
+msgstr ""
 
-#: ../geanylatex/src/latexenvironments.c:130
-msgid "Environment:"
-msgstr "环境："
+#: ../geanylatex/src/formatpatterns.c:73
+msgid "Huge"
+msgstr ""
+
+#: ../geanylatex/src/latexencodings.c:37
+msgid "UTF-8"
+msgstr "UTF-8"
+
+#: ../geanylatex/src/latexencodings.c:38
+msgid "US-ASCII"
+msgstr "US-ASCII"
+
+#: ../geanylatex/src/latexencodings.c:39
+msgid "ISO-8859-1 (Latin-1)"
+msgstr "ISO-8859-1 (Latin-1)"
+
+#: ../geanylatex/src/latexencodings.c:41
+msgid "ISO-8859-2 (Latin-2)"
+msgstr "ISO-8859-2 (Latin-2)"
+
+#: ../geanylatex/src/latexencodings.c:43
+msgid "ISO-8859-3 (Latin-3)"
+msgstr "ISO-8859-3 (Latin-3)"
+
+#: ../geanylatex/src/latexencodings.c:45
+msgid "ISO-8859-4 (Latin-4)"
+msgstr "ISO-8859-4 (Latin-4)"
+
+#: ../geanylatex/src/latexencodings.c:47
+msgid "ISO-8859-5 (Latin-5)"
+msgstr "ISO-8859-5 (Latin-5)"
+
+#: ../geanylatex/src/latexencodings.c:49
+msgid "ISO-8859-9 (Latin-9)"
+msgstr "ISO-8859-9 (Latin-9)"
+
+#: ../geanylatex/src/latexencodings.c:51
+msgid "ISO-8859-10 (Latin-10)"
+msgstr "ISO-8859-10 (Latin-10)"
+
+#: ../geanylatex/src/latexencodings.c:53
+msgid "IBM 850 code page"
+msgstr "IBM 850 code page"
+
+#: ../geanylatex/src/latexencodings.c:55
+msgid "IBM 852 code page"
+msgstr "IBM 852 code page"
+
+#: ../geanylatex/src/latexencodings.c:57
+msgid "Don't set any encoding"
+msgstr ""
 
 #: ../geanylipsum/src/geanylipsum.c:35
-msgid "Lipsum"
+#, fuzzy
+msgid "GeanyLipsum"
 msgstr "Lipsum"
 
 #: ../geanylipsum/src/geanylipsum.c:35
@@ -1604,60 +2160,60 @@ msgstr "包含 Pseudotext 到您的代码"
 msgid "Insert Lipsum text"
 msgstr "插入 Lipsum 文本"
 
-#: ../geanysendmail/src/geanysendmail.c:47
+#: ../geanysendmail/src/geanysendmail.c:40
 msgid "GeanySendMail"
 msgstr "GeanySendMail"
 
-#: ../geanysendmail/src/geanysendmail.c:47
+#: ../geanysendmail/src/geanysendmail.c:40
 msgid ""
 "A little plugin to send the current file as attachment by user's favorite "
 "mailer"
 msgstr "一个小插件，可以使用用户喜欢的邮件程序将当前文件作为附件发送。"
 
-#: ../geanysendmail/src/geanysendmail.c:107
+#: ../geanysendmail/src/geanysendmail.c:105
 msgid "Recipient's Address"
 msgstr "收件人地址"
 
-#: ../geanysendmail/src/geanysendmail.c:118
+#: ../geanysendmail/src/geanysendmail.c:116
 msgid "Enter the recipient's e-mail address:"
 msgstr "输入收件人的电子邮件地址："
 
-#: ../geanysendmail/src/geanysendmail.c:166
+#: ../geanysendmail/src/geanysendmail.c:165
 msgid "Filename placeholder not found. The executed command might have failed."
 msgstr "没有找到文件名的占位符。执行的命令可能会失败。"
 
-#: ../geanysendmail/src/geanysendmail.c:172
+#: ../geanysendmail/src/geanysendmail.c:171
 msgid ""
 "Recipient address placeholder not found. The executed command might have "
 "failed."
 msgstr "没有找到收件人地址的占位符。执行的命令可能会失败。"
 
-#: ../geanysendmail/src/geanysendmail.c:184
+#: ../geanysendmail/src/geanysendmail.c:183
 msgid "Could not execute mailer. Please check your configuration."
 msgstr "无法执行邮件程序。请检查您的设置。"
 
-#: ../geanysendmail/src/geanysendmail.c:196
+#: ../geanysendmail/src/geanysendmail.c:198
 msgid "Please define a mail client first."
 msgstr "请先指定一个邮件客户端。"
 
-#: ../geanysendmail/src/geanysendmail.c:201
+#: ../geanysendmail/src/geanysendmail.c:203
 msgid "File has to be saved before sending."
 msgstr "文件在发送前必须保存。"
 
-#: ../geanysendmail/src/geanysendmail.c:217
+#: ../geanysendmail/src/geanysendmail.c:219
 msgid "Mail"
 msgstr "邮件"
 
-#: ../geanysendmail/src/geanysendmail.c:248
+#: ../geanysendmail/src/geanysendmail.c:250
 msgid "Send by mail"
 msgstr "用邮件发送"
 
 #. add a label and a text entry to the dialog
-#: ../geanysendmail/src/geanysendmail.c:333
+#: ../geanysendmail/src/geanysendmail.c:335
 msgid "Path and options for the mail client:"
 msgstr "邮件客户端路径和选项："
 
-#: ../geanysendmail/src/geanysendmail.c:341
+#: ../geanysendmail/src/geanysendmail.c:343
 msgid ""
 "Note: \n"
 "\t\\%f will be replaced by your file.\n"
@@ -1675,42 +2231,42 @@ msgstr ""
 "\tsylpheed --attach \"\\%f\" --compose \"\\%r\"\n"
 "\tmutt -s \"Sending '\\%b'\" -a \"\\%f\" \"\\%r\""
 
-#: ../geanysendmail/src/geanysendmail.c:351
+#: ../geanysendmail/src/geanysendmail.c:353
 msgid "Showing icon in toolbar"
 msgstr "在工具栏上显示图标"
 
-#: ../geanysendmail/src/geanysendmail.c:353
+#: ../geanysendmail/src/geanysendmail.c:355
 msgid "Shows a icon in the toolbar to send file more easy."
 msgstr "在工具栏上显示一个图标，可以更轻松地发送文件。"
 
-#: ../geanysendmail/src/geanysendmail.c:359
+#: ../geanysendmail/src/geanysendmail.c:361
 msgid "Using dialog for entering email address of recipients"
 msgstr "使用对话框输入收件人电子邮件地址"
 
-#: ../geanysendmail/src/geanysendmail.c:384
+#: ../geanysendmail/src/geanysendmail.c:386
 msgid "Send file by mail"
 msgstr "用邮件发送文件"
 
 #. Build up menu entry
-#: ../geanysendmail/src/geanysendmail.c:411
+#: ../geanysendmail/src/geanysendmail.c:413
 #, fuzzy
 msgid "_Mail document"
 msgstr "将文档作为邮件发送"
 
-#: ../geanysendmail/src/geanysendmail.c:414
+#: ../geanysendmail/src/geanysendmail.c:416
 msgid ""
 "Sends the opened file as unzipped attachment by any mailer from your $PATH"
 msgstr "将打开的文件作为未压缩的附件通过您 $PATH 中的邮件程序发送"
 
-#: ../geanyvc/src/geanyvc.c:53
-msgid "VC"
-msgstr "VC"
+#: ../geanyvc/src/geanyvc.c:49
+msgid "GeanyVC"
+msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:53
+#: ../geanyvc/src/geanyvc.c:49
 msgid "Interface to different Version Control systems."
 msgstr "不同的版本控制系统的界面。"
 
-#: ../geanyvc/src/geanyvc.c:54
+#: ../geanyvc/src/geanyvc.c:50
 msgid ""
 "Yura Siamashka <yurand2@gmail.com>,\n"
 "Frank Lanitz <frank@frank.uvena.de>"
@@ -1718,73 +2274,73 @@ msgstr ""
 "Yura Siamashka <yurand2@gmail.com>,\n"
 "Frank Lanitz <frank@frank.uvena.de>"
 
-#: ../geanyvc/src/geanyvc.c:462
+#: ../geanyvc/src/geanyvc.c:458
 #, c-format
 msgid "geanyvc: s_spawn_sync error: %s"
 msgstr "geanyvc：s_spawn_sync 错误：%s"
 
-#: ../geanyvc/src/geanyvc.c:596 ../geanyvc/src/geanyvc.c:607
+#: ../geanyvc/src/geanyvc.c:592 ../geanyvc/src/geanyvc.c:603
 #, c-format
 msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
 msgstr "geanyvc：vcdiff_file_activated：无法重命名“%s”为“%s”"
 
-#: ../geanyvc/src/geanyvc.c:633 ../geanyvc/src/geanyvc.c:683
+#: ../geanyvc/src/geanyvc.c:629 ../geanyvc/src/geanyvc.c:679
 msgid "No changes were made."
 msgstr "没有作出任何修改。"
 
-#: ../geanyvc/src/geanyvc.c:709
+#: ../geanyvc/src/geanyvc.c:705
 msgid "No history avaible"
 msgstr "没有可用的历史"
 
-#: ../geanyvc/src/geanyvc.c:902 ../geanyvc/src/geanyvc.c:910
+#: ../geanyvc/src/geanyvc.c:898 ../geanyvc/src/geanyvc.c:906
 #, c-format
 msgid "Do you really want to revert: %s?"
 msgstr "您真的想恢复：%s？"
 
-#: ../geanyvc/src/geanyvc.c:918
+#: ../geanyvc/src/geanyvc.c:914
 #, c-format
 msgid "Do you really want to add: %s?"
 msgstr "您真的想添加：%s？"
 
-#: ../geanyvc/src/geanyvc.c:925
+#: ../geanyvc/src/geanyvc.c:921
 #, c-format
 msgid "Do you really want to remove: %s?"
 msgstr "您真的想移除：%s？"
 
-#: ../geanyvc/src/geanyvc.c:948
+#: ../geanyvc/src/geanyvc.c:944
 msgid "Do you really want to update?"
 msgstr "您真的想更新吗？"
 
-#: ../geanyvc/src/geanyvc.c:1211
+#: ../geanyvc/src/geanyvc.c:1207
 msgid "Commit Y/N"
 msgstr "提交 Y/N"
 
-#: ../geanyvc/src/geanyvc.c:1221
+#: ../geanyvc/src/geanyvc.c:1217
 msgid "Status"
 msgstr "状态"
 
-#: ../geanyvc/src/geanyvc.c:1228
+#: ../geanyvc/src/geanyvc.c:1224
 msgid "Path"
 msgstr "路径"
 
-#: ../geanyvc/src/geanyvc.c:1316
+#: ../geanyvc/src/geanyvc.c:1312
 msgid "Commit"
 msgstr "提交"
 
-#: ../geanyvc/src/geanyvc.c:1358
+#: ../geanyvc/src/geanyvc.c:1354
 msgid "_De-/select all files"
 msgstr "全不选/全选所有文件(_D)"
 
-#: ../geanyvc/src/geanyvc.c:1399
+#: ../geanyvc/src/geanyvc.c:1395
 msgid "<b>Commit message:</b>"
 msgstr "<b>提交信息：</b>"
 
 #. Commit all changes
-#: ../geanyvc/src/geanyvc.c:1412 ../geanyvc/src/geanyvc.c:2253
+#: ../geanyvc/src/geanyvc.c:1408 ../geanyvc/src/geanyvc.c:2253
 msgid "_Commit"
 msgstr "提交(_C)"
 
-#: ../geanyvc/src/geanyvc.c:1486
+#: ../geanyvc/src/geanyvc.c:1482
 msgid "Nothing to commit."
 msgstr "没有可以提交的。"
 
@@ -2038,13 +2594,9 @@ msgstr "状态(_S)"
 msgid "Show status."
 msgstr "显示状态。"
 
-#. complete update
-#: ../geanyvc/src/geanyvc.c:2246
-msgid "_Update"
-msgstr "更新(_U)"
-
 #: ../geanyvc/src/geanyvc.c:2248
-msgid "Update from remote repositary."
+#, fuzzy
+msgid "Update from remote repository."
 msgstr "从远程库更新。"
 
 #: ../geanyvc/src/geanyvc.c:2255
@@ -2094,40 +2646,45 @@ msgstr "检查当前文件的拼写。"
 msgid "The Geany developer team"
 msgstr "Geany 开发团队"
 
-#: ../spellcheck/src/scplugin.c:184
+#: ../spellcheck/src/scplugin.c:195
 msgid "Run Spell Check"
 msgstr "运行拼写检查"
 
-#: ../spellcheck/src/scplugin.c:187
+#: ../spellcheck/src/scplugin.c:198
 msgid "Toggle Check While Typing"
 msgstr "开关输入时的拼写检查"
 
-#. initialize the dialog
-#: ../spellcheck/src/scplugin.c:198
+#. initialise the dialog
+#: ../spellcheck/src/scplugin.c:209
 msgid "Select Directory"
 msgstr "选择字典"
 
-#: ../spellcheck/src/scplugin.c:235
+#: ../spellcheck/src/scplugin.c:246
 msgid "Check spelling while typing"
 msgstr "输入时进行拼写检查"
 
-#: ../spellcheck/src/scplugin.c:239
+#: ../spellcheck/src/scplugin.c:251
 msgid "Show toolbar item to toggle spell checking"
 msgstr "在工具栏中显示开关拼写检查的项"
 
-#: ../spellcheck/src/scplugin.c:244
+#: ../spellcheck/src/scplugin.c:256
+#, fuzzy
+msgid "Show editor menu item to show spelling suggestions"
+msgstr "在工具栏中显示开关拼写检查的项"
+
+#: ../spellcheck/src/scplugin.c:262
 msgid "Print misspelled words and suggestions in the messages window"
 msgstr "在消息窗口输出拼写错误的单词和建议"
 
-#: ../spellcheck/src/scplugin.c:248
+#: ../spellcheck/src/scplugin.c:266
 msgid "Language to use for the spell check:"
 msgstr "拼写检查时使用的语言："
 
-#: ../spellcheck/src/scplugin.c:262
+#: ../spellcheck/src/scplugin.c:280
 msgid "_Directory to look for dictionary files:"
 msgstr "查找字典文件的目录(_D)"
 
-#: ../spellcheck/src/scplugin.c:270
+#: ../spellcheck/src/scplugin.c:288
 msgid ""
 "Read additional dictionary files from this directory. For now, this only "
 "works with myspell dictionaries."
@@ -2141,54 +2698,65 @@ msgstr "输入时的拼写检查已启用"
 msgid "Spell checking while typing is now disabled"
 msgstr "输入时的拼写检查已禁用"
 
-#: ../spellcheck/src/gui.c:260
+#: ../spellcheck/src/gui.c:279
+msgid ""
+"Search term is too long to provide\n"
+"spelling suggestions in the editor menu."
+msgstr ""
+
+#: ../spellcheck/src/gui.c:284
+#, fuzzy
+msgid "Perform Spell Check"
+msgstr "拼写检查"
+
+#: ../spellcheck/src/gui.c:316
 msgid "More..."
 msgstr "更多..."
 
-#: ../spellcheck/src/gui.c:274
+#: ../spellcheck/src/gui.c:331
 msgid "(No Suggestions)"
 msgstr "（无建议）"
 
-#: ../spellcheck/src/gui.c:281
+#: ../spellcheck/src/gui.c:340
 #, c-format
 msgid "Add \"%s\" to Dictionary"
 msgstr "添加“%s”到字典"
 
-#: ../spellcheck/src/gui.c:287
+#: ../spellcheck/src/gui.c:347
 msgid "Ignore All"
 msgstr "忽略全部"
 
-#: ../spellcheck/src/gui.c:406
+#: ../spellcheck/src/gui.c:463
 #, c-format
 msgid "Default (%s)"
 msgstr "默认（%s）"
 
-#: ../spellcheck/src/gui.c:407 ../spellcheck/src/gui.c:418
+#: ../spellcheck/src/gui.c:464 ../spellcheck/src/gui.c:475
 msgid "unknown"
 msgstr "未知"
 
-#: ../spellcheck/src/gui.c:417
+#: ../spellcheck/src/gui.c:474
 #, c-format
 msgid "Toggle spell check while typing (current language: %s)"
 msgstr "开关输入时的拼写检查（当前语言：%s）"
 
-#: ../spellcheck/src/gui.c:479
+#: ../spellcheck/src/gui.c:529
 msgid "Spelling Suggestions"
 msgstr "拼写建议"
 
-#: ../shiftcolumn/src/shiftcolumn.c:46
+#: ../shiftcolumn/src/shiftcolumn.c:45
 msgid "Shift Column"
 msgstr "移列"
 
-#: ../shiftcolumn/src/shiftcolumn.c:47
+#: ../shiftcolumn/src/shiftcolumn.c:46
 msgid "Shift a selection left and right"
 msgstr "将选中部分左移或右移"
 
-#: ../shiftcolumn/src/shiftcolumn.c:375 ../shiftcolumn/src/shiftcolumn.c:395
+#: ../shiftcolumn/src/shiftcolumn.c:374 ../shiftcolumn/src/shiftcolumn.c:394
 msgid "Shift Left"
 msgstr "左移"
 
-#: ../shiftcolumn/src/shiftcolumn.c:382 ../shiftcolumn/src/shiftcolumn.c:397
+#: ../shiftcolumn/src/shiftcolumn.c:381 ../shiftcolumn/src/shiftcolumn.c:396
 msgid "Shift Right"
 msgstr "右移"
 
@@ -2581,5 +3149,431 @@ msgstr "隐藏侧栏(_I)"
 msgid "Project \"%s\" opened."
 msgstr "项目“%s”已打开。"
 
-#~ msgid "Focus Bookmark List"
-#~ msgstr "焦点书签列表"
+#: ../geanyinsertnum/src/insertnum.c:33 ../geanyinsertnum/src/insertnum.c:373
+#: ../geanyinsertnum/src/insertnum.c:501
+#, fuzzy
+msgid "Insert Numbers"
+msgstr "插入标签"
+
+#: ../geanyinsertnum/src/insertnum.c:33
+msgid "Insert/Fill columns with numbers."
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:151
+#, fuzzy
+msgid "Counting..."
+msgstr "继续(_C)"
+
+#: ../geanyinsertnum/src/insertnum.c:198
+msgid "Preparing..."
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:204
+#, fuzzy
+msgid "Inserting..."
+msgstr "正在启动"
+
+#: ../geanyinsertnum/src/insertnum.c:363
+msgid "For base 11 and above"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:385
+#, fuzzy
+msgid "_Start:"
+msgstr "状态(_S)"
+
+#: ../geanyinsertnum/src/insertnum.c:390
+#, fuzzy
+msgid "S_tep:"
+msgstr "单步(_S)"
+
+#: ../geanyinsertnum/src/insertnum.c:396
+#, fuzzy
+msgid "_Base:"
+msgstr "暂停(_P)"
+
+#: ../geanyinsertnum/src/insertnum.c:406
+#, fuzzy
+msgid "Letters:"
+msgstr "书信"
+
+#: ../geanyinsertnum/src/insertnum.c:409
+#, fuzzy
+msgid "_Upper"
+msgstr "更新(_U)"
+
+#: ../geanyinsertnum/src/insertnum.c:414
+msgid "_Lower"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:418
+msgid "Base _prefix"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:420
+msgid "0 for octal, 0x for hex, + for positive decimal"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:422
+msgid "Padding:"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:424
+msgid "Sp_ace"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:427
+msgid "_Zero"
+msgstr ""
+
+#: ../geanyinsertnum/src/insertnum.c:494
+#, fuzzy
+msgid "Insert _Numbers"
+msgstr "插入标签(_L)"
+
+#: ../treebrowser/src/treebrowser.c:89 ../treebrowser/src/treebrowser.c:1315
+msgid "Tree Browser"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:89
+msgid "Treeview filebrowser plugin."
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:260
+#, fuzzy, c-format
+msgid "Directory '%s' not exists."
+msgstr "未找到字典 %s！\n"
+
+#: ../treebrowser/src/treebrowser.c:334 ../treebrowser/src/treebrowser.c:432
+msgid "Empty"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:614
+#, c-format
+msgid "Could not execute configured external command '%s' (%s)."
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:674
+#, fuzzy
+msgid "NewDirectory"
+msgstr "目录(_D)"
+
+#: ../treebrowser/src/treebrowser.c:677
+#, fuzzy
+msgid "NewFile"
+msgstr "文件(_F)"
+
+#: ../treebrowser/src/treebrowser.c:740
+#, fuzzy, c-format
+msgid "Do you really want to delete '%s' ?"
+msgstr "您真的想恢复：%s？"
+
+#: ../treebrowser/src/treebrowser.c:835 ../treebrowser/src/treebrowser.c:1248
+msgid "Go up"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:839 ../treebrowser/src/treebrowser.c:1263
+#, fuzzy
+msgid "Set path from document"
+msgstr "为您的新文档设置编码"
+
+#: ../treebrowser/src/treebrowser.c:843
+msgid "Open externally"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:848
+#, fuzzy
+msgid "Open Terminal"
+msgstr "在终端中运行"
+
+#: ../treebrowser/src/treebrowser.c:852
+msgid "Set as root"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:860
+#, fuzzy
+msgid "Create new directory"
+msgstr "恢复根目录"
+
+#: ../treebrowser/src/treebrowser.c:864
+#, fuzzy
+msgid "Create new file"
+msgstr "更新文件"
+
+#: ../treebrowser/src/treebrowser.c:868
+#, fuzzy
+msgid "Rename"
+msgstr "文件名："
+
+#: ../treebrowser/src/treebrowser.c:873
+#, fuzzy
+msgid "Delete"
+msgstr "删除项目"
+
+#: ../treebrowser/src/treebrowser.c:881 ../treebrowser/src/treebrowser.c:1253
+#, fuzzy
+msgid "Refresh"
+msgstr "Series"
+
+#: ../treebrowser/src/treebrowser.c:889
+msgid "Expand all"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:893
+#, fuzzy
+msgid "Collapse all"
+msgstr "关闭全部(_L)"
+
+#: ../treebrowser/src/treebrowser.c:900
+#, fuzzy, c-format
+msgid "Close: %s"
+msgstr "关闭全部(_L)"
+
+#: ../treebrowser/src/treebrowser.c:905
+#, c-format
+msgid "Copy full path"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:913 ../treebrowser/src/treebrowser.c:1531
+#, fuzzy
+msgid "Show bookmarks"
+msgstr "书签"
+
+#: ../treebrowser/src/treebrowser.c:918 ../treebrowser/src/treebrowser.c:1480
+#, fuzzy
+msgid "Show hidden files"
+msgstr "显示文件差异"
+
+#: ../treebrowser/src/treebrowser.c:923 ../treebrowser/src/treebrowser.c:1470
+#, fuzzy
+msgid "Show bars"
+msgstr "显示状态"
+
+#: ../treebrowser/src/treebrowser.c:1258
+#, fuzzy
+msgid "Home"
+msgstr "Volume"
+
+#: ../treebrowser/src/treebrowser.c:1268
+#, fuzzy
+msgid "Track path"
+msgstr "根目录："
+
+#: ../treebrowser/src/treebrowser.c:1273
+#, fuzzy
+msgid "Hide bars"
+msgstr "隐藏侧栏(_I)"
+
+#: ../treebrowser/src/treebrowser.c:1283
+msgid ""
+"Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
+"reverse try for example this '!;*.c;*.h;*.cpp'"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1291
+msgid "Addressbar for example '/projects/my-project'"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1447
+msgid "External open command"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1452
+#, c-format
+msgid ""
+"The command to execute when using \"Open with\". You can use %f and %d "
+"wildcards.\n"
+"%f will be replaced with the filename including full path\n"
+"%d will be replaced with the path name of the selected file without the "
+"filename"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1460
+msgid "Default directory deep to fill"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1465
+msgid "How many folders will opened and store in tree"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1475
+msgid "Show bars at top (Require plugin restart)"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1485
+msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1487
+#, fuzzy
+msgid "Hide object files"
+msgstr "选择文件"
+
+#: ../treebrowser/src/treebrowser.c:1492
+msgid ""
+"Don't show generated object files in the file browser, this includes *.o, *."
+"obj. *.so, *.dll, *.a, *.lib"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1494
+#, fuzzy
+msgid "Reverse filter"
+msgstr "恢复单个文件"
+
+#: ../treebrowser/src/treebrowser.c:1499
+msgid "Follow current document"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1504
+msgid "Single click, open document and focus it"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1509
+#, fuzzy
+msgid "Double click open directory"
+msgstr "显示目录差异"
+
+#: ../treebrowser/src/treebrowser.c:1514
+msgid "On expand, refresh directory view"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1519
+msgid "On delete file, close it if is opened"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1524
+#, fuzzy
+msgid "Show tree lines"
+msgstr "显示工具提示。"
+
+#: ../geanyextrasel/src/extrasel.c:30
+#, fuzzy
+msgid "Extra Selection"
+msgstr "选择字体"
+
+#: ../geanyextrasel/src/extrasel.c:30
+msgid "Column mode, select to line / matching brace."
+msgstr ""
+
+#: ../geanyextrasel/src/extrasel.c:265
+msgid "E_xtra selection"
+msgstr ""
+
+#: ../geanyextrasel/src/extrasel.c:271
+msgid "_Column mode"
+msgstr ""
+
+#: ../geanyextrasel/src/extrasel.c:275
+msgid "Column mode"
+msgstr ""
+
+#: ../geanyextrasel/src/extrasel.c:277
+#, fuzzy
+msgid "Select to _Line"
+msgstr "选择字体"
+
+#: ../geanyextrasel/src/extrasel.c:281
+#, fuzzy
+msgid "Select to line"
+msgstr "选择字体"
+
+#: ../geanyextrasel/src/extrasel.c:283
+msgid "Select to Matching _Brace"
+msgstr ""
+
+#: ../geanyextrasel/src/extrasel.c:288
+msgid "Select to matching brace"
+msgstr ""
+
+#~ msgid "_Load"
+#~ msgstr "加载(_L)"
+
+#~ msgid "Load target program into debugger."
+#~ msgstr "加载目标程序到调试器。"
+
+#~ msgid "_Unload"
+#~ msgstr "卸载(_U)"
+
+#~ msgid "Kill the target program AND the debugger."
+#~ msgstr "杀死目标程序和调试器。"
+
+#~ msgid "_Run"
+#~ msgstr "运行(_R)"
+
+#~ msgid "Execute target program in debugger."
+#~ msgstr "在调试器中执行目标程序。"
+
+#~ msgid "_Kill"
+#~ msgstr "杀死(_K)"
+
+#~ msgid "Kill the target program with SIGKILL."
+#~ msgstr "使用 SIGKILL 杀死目标程序。"
+
+#~ msgid "Pause the target program with SIGINT."
+#~ msgstr "使用 SIGINT 暂停目标程序。"
+
+#~ msgid "Continue executing target program."
+#~ msgstr "继续执行目标程序"
+
+#~ msgid "Step to the next line or function call."
+#~ msgstr "单步进入下一行或函数调用。"
+
+#~ msgid "Step _in"
+#~ msgstr "单步进入(_I)"
+
+#~ msgid "Execute the next machine instruction or function call."
+#~ msgstr "执行下一个机器指令或函数调用。"
+
+#~ msgid "Step to the next line."
+#~ msgstr "单步进入下一行。"
+
+#~ msgid "Ne_xt in"
+#~ msgstr "单步(_X)"
+
+#~ msgid "Execute the next machine instruction."
+#~ msgstr "执行下一个机器指令。"
+
+#~ msgid "Run _to"
+#~ msgstr "运行到(_T)"
+
+#~ msgid "Run to specified source line."
+#~ msgstr "运行到指定的源码行。"
+
+#~ msgid "Stac_k"
+#~ msgstr "堆栈(_K)"
+
+#~ msgid "Display a backtrace of the current call stack."
+#~ msgstr "显示当前调用的堆栈的回溯。"
+
+#~ msgid "Add or remove breakpoints."
+#~ msgstr "添加/删除断点。"
+
+#~ msgid "Add or remove watchpoints."
+#~ msgstr "添加/删除观察点。"
+
+#~ msgid "_Finish"
+#~ msgstr "完成(_F)"
+
+#~ msgid "Complete the currently executing function."
+#~ msgstr "完成当前执行的函数。"
+
+#~ msgid "_Return"
+#~ msgstr "返回(_R)"
+
+#~ msgid "Return immediately from the current function."
+#~ msgstr "立即从当前函数返回。"
+
+#~ msgid "En_viron"
+#~ msgstr "环境(_V)"
+
+#~ msgid "Set target environment and command line options."
+#~ msgstr "设置目标环境和命令行选项。"
+
+#~ msgid "_Options"
+#~ msgstr "选项(_O)"
+
+#~ msgid "Set user interface options."
+#~ msgstr "设置用户界面选项。"
+
+#~ msgid "VC"
+#~ msgstr "VC"
