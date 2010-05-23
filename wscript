@@ -394,6 +394,7 @@ def write_linguas_file(self):
 
 def build(bld):
 	is_win32 = target_is_win32(bld.env)
+	datadir = '${G_PREFIX}/${GEANYPLUGINS_DATADIR}' if is_win32 else '${GEANYPLUGINS_DATADIR}'
 
 	def build_lua(bld, p, libs):
 		lua_sources = [ 'geanylua/glspi_init.c', 'geanylua/glspi_app.c', 'geanylua/glspi_dlg.c',
@@ -414,7 +415,6 @@ def build(bld):
 		docdir = '${G_PREFIX}/doc/plugins/geanylua' if is_win32 else '${DOCDIR}/geanylua'
 		bld.install_files(docdir, 'geanylua/docs/*.html')
 		# install examples (Waf doesn't support installing files recursively, yet)
-		datadir = '${GEANYPLUGINS_DATADIR}'
 		bld.install_files('%s/geany-plugins/geanylua/dialogs' % datadir, 'geanylua/examples/dialogs/*.lua')
 		bld.install_files('%s/geany-plugins/geanylua/edit' % datadir, 'geanylua/examples/edit/*.lua')
 		bld.install_files('%s/geany-plugins/geanylua/info' % datadir, 'geanylua/examples/info/*.lua')
@@ -430,7 +430,6 @@ def build(bld):
 			bld.install_files(docdir, 'geanygendoc/docs/help/manual.html')
 		bld.install_files(docdir, 'geanygendoc/docs/help/manual.rst')
 		# install examples (Waf doesn't support installing files recursively, yet)
-		datadir = '${GEANYPLUGINS_DATADIR}'
 		bld.install_files('%s/geany-plugins/geanygendoc/filetypes' % datadir, \
 			'geanygendoc/data/filetypes/*.conf')
 
