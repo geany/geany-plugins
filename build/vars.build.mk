@@ -2,7 +2,6 @@ AM_CFLAGS = \
 	-DLOCALEDIR=\""$(LOCALEDIR)"\" \
 	-DPREFIX=\""$(prefix)"\" \
 	-DDOCDIR=\""$(docdir)"\" \
-	-DDATADIR=\""$(datadir)"\" \
 	-DGEANYPLUGINS_DATADIR=\""$(datadir)"\" \
 	-DPKGDATADIR=\""$(pkgdatadir)"\" \
 	-DLIBDIR=\""$(libdir)"\" \
