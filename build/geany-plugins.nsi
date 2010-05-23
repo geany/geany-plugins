@@ -51,7 +51,7 @@ VIAddVersionKey "ProductVersion" "${PRODUCT_VERSION}"
 VIAddVersionKey "LegalCopyright" "Copyright 2009-2010 by the Geany developer team"
 VIAddVersionKey "FileDescription" "${PRODUCT_NAME} Installer"
 
-BrandingText "$(^NAME) installer (NSIS 2.45)"
+BrandingText "$(^NAME) installer (NSIS 2.46)"
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 SetCompressor /SOLID lzma
 ShowInstDetails hide
@@ -149,18 +149,25 @@ Section Uninstall
 	Delete "$INSTDIR\ReadMe.Windows.txt"
 	Delete "$INSTDIR\uninst-plugins.exe"
 	Delete "$INSTDIR\lib\addons.dll"
+	Delete "$INSTDIR\lib\codenav.dll"
+	Delete "$INSTDIR\lib\geanydoc.dll"
 	Delete "$INSTDIR\lib\geanyextrasel.dll"
+	Delete "$INSTDIR\lib\geanygendoc.dll"
 	Delete "$INSTDIR\lib\geanyinsertnum.dll"
 	Delete "$INSTDIR\lib\geanylatex.dll"
 	Delete "$INSTDIR\lib\geanylipsum.dll"
 	Delete "$INSTDIR\lib\geanylua.dll"
+	Delete "$INSTDIR\lib\geanyprj.dll"
 	Delete "$INSTDIR\lib\geanysendmail.dll"
 	Delete "$INSTDIR\lib\geanyvc.dll"
+	Delete "$INSTDIR\lib\pretty-printer.dll"
 	Delete "$INSTDIR\lib\shiftcolumn.dll"
 	Delete "$INSTDIR\lib\spellcheck.dll"
 
 	Delete "$INSTDIR\bin\libenchant.dll"
 	Delete "$INSTDIR\bin\lua5.1.dll"
+	Delete "$INSTDIR\bin\libxml2-2.dll"
+	Delete "$INSTDIR\bin\ctpl.dll"
 
 	RMDir /r "$INSTDIR\doc\plugins"
 	RMDir /r "$INSTDIR\lib\geany-plugins"
@@ -201,7 +208,7 @@ SectionEnd
 !insertmacro MUI_DESCRIPTION_TEXT ${SEC01} "Required plugin files. You cannot skip these files."
 !insertmacro MUI_DESCRIPTION_TEXT ${SEC02} "Various translations for the included plugins."
 !insertmacro MUI_DESCRIPTION_TEXT ${SEC03} "Various documentation files for the included plugins."
-!insertmacro MUI_DESCRIPTION_TEXT ${SEC04} "Dependency files for various plugins (currently libenchant for Spell Check, Lua for GeanyLua and libxml2 for PrettyPrinter)."
+!insertmacro MUI_DESCRIPTION_TEXT ${SEC04} "Dependency files for various plugins (currently libenchant for Spell Check, Lua for GeanyLua, libxml2 for PrettyPrinter, CTPL for GeanyGenDoc)."
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;;;;;;;;;;;;;;;;;;;;;
