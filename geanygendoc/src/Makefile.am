@@ -32,6 +32,7 @@ noinst_HEADERS         = ggd.h \
                          ggd-utils.h \
                          ggd-widget-frame.h \
                          ggd-widget-doctype-selector.h
+geanygendoc_la_CPPFLAGS= -DG_LOG_DOMAIN=\"GeanyGenDoc\"
 geanygendoc_la_CFLAGS  = $(AM_CFLAGS) \
                          @GLIB_CFLAGS@ \
                          @GIO_CFLAGS@ \
