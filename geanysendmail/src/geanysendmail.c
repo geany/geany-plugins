@@ -364,11 +364,11 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pref_widgets.checkbox_use_addressdialog), use_address_dialog);
 	gtk_widget_show(pref_widgets.checkbox_use_addressdialog);
 
-	gtk_container_add(GTK_CONTAINER(vbox), label1);
-	gtk_container_add(GTK_CONTAINER(vbox), pref_widgets.entry);
-	gtk_container_add(GTK_CONTAINER(vbox), label2);
-	gtk_box_pack_start(GTK_BOX(vbox), pref_widgets.checkbox_icon_to_toolbar, TRUE, FALSE, 2);
-	gtk_box_pack_start(GTK_BOX(vbox), pref_widgets.checkbox_use_addressdialog, TRUE, FALSE, 2);
+	gtk_box_pack_start(GTK_BOX(vbox), label1, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), pref_widgets.entry, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), label2, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), pref_widgets.checkbox_icon_to_toolbar, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), pref_widgets.checkbox_use_addressdialog, FALSE, FALSE, 0);
 
 	gtk_widget_show(vbox);
 
