@@ -308,9 +308,11 @@ def configure(conf):
 		conf.define('LOCALEDIR', 'share/locale', 1)
 		# DATADIR is defined in objidl.h, so we remove it from config.h
 		conf.undefine('DATADIR')
+		conf.define('GEANYPLUGINS_DATADIR', 'share')
 	else:
 		conf.define('PREFIX', conf.env['PREFIX'], 1)
 		conf.define('DOCDIR', '%s/doc/geany-plugins/' % conf.env['DATADIR'], 1)
+		conf.define('GEANYPLUGINS_DATADIR', conf.env['DATADIR'])
 	conf.define('VERSION', VERSION, 1)
 	conf.define('PACKAGE', APPNAME, 1)
 	conf.define('GETTEXT_PACKAGE', APPNAME, 1)
@@ -412,7 +414,7 @@ def build(bld):
 		docdir = '${G_PREFIX}/doc/plugins/geanylua' if is_win32 else '${DOCDIR}/geanylua'
 		bld.install_files(docdir, 'geanylua/docs/*.html')
 		# install examples (Waf doesn't support installing files recursively, yet)
-		datadir = '${G_PREFIX}/share/' if is_win32 else '${DATADIR}'
+		datadir = '${GEANYPLUGINS_DATADIR}'
 		bld.install_files('%s/geany-plugins/geanylua/dialogs' % datadir, 'geanylua/examples/dialogs/*.lua')
 		bld.install_files('%s/geany-plugins/geanylua/edit' % datadir, 'geanylua/examples/edit/*.lua')
 		bld.install_files('%s/geany-plugins/geanylua/info' % datadir, 'geanylua/examples/info/*.lua')
@@ -428,7 +430,7 @@ def build(bld):
 			bld.install_files(docdir, 'geanygendoc/docs/help/manual.html')
 		bld.install_files(docdir, 'geanygendoc/docs/help/manual.rst')
 		# install examples (Waf doesn't support installing files recursively, yet)
-		datadir = '${G_PREFIX}/share/' if is_win32 else '${DATADIR}'
+		datadir = '${GEANYPLUGINS_DATADIR}'
 		bld.install_files('%s/geany-plugins/geanygendoc/filetypes' % datadir, \
 			'geanygendoc/data/filetypes/*.conf')
 
@@ -551,17 +553,16 @@ def shutdown():
 # Simple function to execute a command and print its exit status
 def launch(command, status, success_color='GREEN'):
 	ret = 0
+	error_message = ''
 	Utils.pprint(success_color, status)
 	try:
 		ret = Utils.exec_command(command)
 	except OSError, e:
 		ret = 1
-		print str(e), ":", command
-	except:
-		ret = 1
+		error_message = ' (%s: %s)' % (str(e), command)
 
 	if ret != 0:
-		Utils.pprint('RED', status + ' failed')
+		Utils.pprint('RED', '%s failed%s' % (status, error_message))
 
 	return ret
 
