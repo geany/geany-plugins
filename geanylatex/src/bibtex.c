@@ -22,20 +22,6 @@
 #include "bibtex.h"
 #include "reftex.h"
 
-#if 0
-static int get_entry_pos(char *str)
-{
-	int i;
-
-	if(str != NULL) {
-		for (i = 0; i < N_ENTRIES; i++) {
-			if (utils_str_casecmp(str, label_entry[i]) == 0)
-				return i;
-		}
-	}
-	return -1;
-}
-#endif
 
 void glatex_insert_bibtex_entry(G_GNUC_UNUSED GtkMenuItem * menuitem,
 						 gpointer gdata)
