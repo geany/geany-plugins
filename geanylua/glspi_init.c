@@ -407,7 +407,7 @@ static gchar *get_data_dir(void)
 	g_free(install_dir);
 	return result;
 #else
-	return g_strdup(DATADIR);
+	return g_strdup(GEANYPLUGINS_DATADIR);
 #endif
 }
 

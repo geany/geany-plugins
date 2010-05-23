@@ -3,6 +3,7 @@ AM_CFLAGS = \
 	-DPREFIX=\""$(prefix)"\" \
 	-DDOCDIR=\""$(docdir)"\" \
 	-DDATADIR=\""$(datadir)"\" \
+	-DGEANYPLUGINS_DATADIR=\""$(datadir)"\" \
 	-DLIBDIR=\""$(libdir)"\" \
 	$(GEANY_CFLAGS)
 
