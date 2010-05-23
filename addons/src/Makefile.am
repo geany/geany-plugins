@@ -12,6 +12,7 @@ addons_la_SOURCES = \
 	ao_bookmarklist.h \
 	ao_markword.h \
 	ao_tasks.h \
+	ao_xmltagging.h \
 	addons.c \
 	ao_blanklines.c \
 	ao_doclist.c \
@@ -19,6 +20,7 @@ addons_la_SOURCES = \
 	ao_systray.c \
 	ao_bookmarklist.c \
 	ao_markword.c \
-	ao_tasks.c
+	ao_tasks.c \
+	ao_xmltagging.c
 
 addons_la_LIBADD = $(COMMONLIBS)
