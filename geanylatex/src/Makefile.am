@@ -3,26 +3,30 @@ include $(top_srcdir)/build/vars.build.mk
 geanyplugins_LTLIBRARIES = geanylatex.la
 
 geanylatex_la_SOURCES = \
-	letters.h \
-	latexutils.h \
-	formatutils.h \
-	latexencodings.h \
-	latexkeybindings.h \
-	datatypes.h \
-	geanylatex.h \
-	reftex.h \
-	bibtex.h \
-	latexenvironments.h \
-	geanylatex.c \
-	latexencodings.c \
 	bibtex.c \
+	geanylatex.c \
+	latexkeybindings.h \
+	reftex.c \
+	bibtex.h \
+	geanylatex.h \
+	latexstructure.c \
+	reftex.h \
 	bibtexlabels.c \
+	latexencodings.c \
+	latexstructure.h \
+	templates.c \
+	datatypes.h \
+	latexencodings.h \
 	latexutils.c \
+	templates.h \
 	formatpatterns.c \
 	latexenvironments.c \
+	latexutils.h \
+	formatutils.c \
+	latexenvironments.h \
 	letters.c \
+	formatutils.h \
 	latexkeybindings.c \
-	reftex.c \
-	formatutils.c
+	letters.h
 
 geanylatex_la_LIBADD = $(COMMONLIBS)
