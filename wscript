@@ -59,34 +59,34 @@ blddir = '_build_'
 
 
 class Plugin:
-	def __init__(self, n, s, i, l=[]):
+	def __init__(self, name, sources, includes, deps=[]):
 		# plugin name, must be the same as the corresponding subdirectory
-		self.name = n
+		self.log_domain = name
+		self.name = name.lower()
 		# may be None to auto-detect source files in all directories specified in 'includes'
-		self.sources = s
+		self.sources = sources
 		# do not include '.'
-		self.includes = i
+		self.includes = includes
 		# a list of lists of libs and their versions, e.g. [ [ 'enchant', '1.3' ],
 		# [ 'gtkspell-2.0', '2.0', False ] ], the third argument defines whether
 		# the dependency is mandatory
-		self.libs = l
-
+		self.libs = deps
 
 # add a new element for your plugin
 plugins = [
-	Plugin('addons', None, [ 'addons/src' ]),
-	Plugin('codenav', None, [ 'codenav/src' ]),
-	Plugin('geanydoc', None, [ 'geanydoc/src' ]),
-	Plugin('geanyextrasel', None, [ 'geanyextrasel/src' ]),
-	Plugin('geanygendoc', None, [ 'geanygendoc/src' ], [ [ 'ctpl', '0.2', True ] ]),
-	Plugin('geanyinsertnum', None, [ 'geanyinsertnum/src' ]),
-	Plugin('geanylatex', None, [ 'geanylatex/src']),
-	Plugin('geanylipsum', None, [ 'geanylipsum/src']),
-	Plugin('geanysendmail', None, [ 'geanysendmail/src' ]),
-	Plugin('geanyvc', None, [ 'geanyvc/src/'], [ [ 'gtkspell-2.0', '2.0', False ] ]),
-	Plugin('shiftcolumn', None, [ 'shiftcolumn/src']),
-	Plugin('spellcheck', None, [ 'spellcheck/src' ], [ [ 'enchant', '1.3', True ] ]),
-	Plugin('geanygdb',
+	Plugin('Addons', None, [ 'addons/src' ]),
+	Plugin('CodeNav', None, [ 'codenav/src' ]),
+	Plugin('GeanyDoc', None, [ 'geanydoc/src' ]),
+	Plugin('GeanyExtraSel', None, [ 'geanyextrasel/src' ]),
+	Plugin('GeanyGenDoc', None, [ 'geanygendoc/src' ], [ [ 'ctpl', '0.2', True ] ]),
+	Plugin('GeanyInsertNum', None, [ 'geanyinsertnum/src' ]),
+	Plugin('GeanyLaTeX', None, [ 'geanylatex/src']),
+	Plugin('GeanyLipsum', None, [ 'geanylipsum/src']),
+	Plugin('GeanySendMail', None, [ 'geanysendmail/src' ]),
+	Plugin('GeanyVC', None, [ 'geanyvc/src/'], [ [ 'gtkspell-2.0', '2.0', False ] ]),
+	Plugin('ShiftColumn', None, [ 'shiftcolumn/src']),
+	Plugin('SpellCheck', None, [ 'spellcheck/src' ], [ [ 'enchant', '1.3', True ] ]),
+	Plugin('GeanyGDB',
 		 map(lambda x: "geanygdb/src/" + x, ['gdb-io-break.c',
 		   'gdb-io-envir.c', 'gdb-io-frame.c', 'gdb-io-read.c', 'gdb-io-run.c',
 		   'gdb-io-stack.c', 'gdb-lex.c', 'gdb-ui-break.c', 'gdb-ui-envir.c',
@@ -95,14 +95,14 @@ plugins = [
 		 [ 'geanygdb', 'geanygdb/src' ], # include dirs
 		 [ [ 'elf.h', '', False ], [ 'elf_abi.h', '', False ] ]
 		 ),
-	Plugin('geanylua',
+	Plugin('GeanyLUA',
 		 [ 'geanylua/geanylua.c' ], # the other source files are listed in build_lua()
 		 [ 'geanylua' ],
 		 # maybe you need to modify the package name of Lua, try one of these: lua5.1 lua51 lua-5.1
 		 [ [ 'lua', '5.1', True ] ]),
-	Plugin('geanyprj', None, [ 'geanyprj/src' ]),
-	Plugin('pretty-printer', None, [ 'pretty-printer/src' ], [ [ 'libxml-2.0', '2.6.27', True ] ]),
-	Plugin('treebrowser', None, [ 'treebrowser/src' ], [ [ 'gio-2.0', '2.16', False ] ])
+	Plugin('GeanyPrj', None, [ 'geanyprj/src' ]),
+	Plugin('Pretty-Printer', None, [ 'pretty-printer/src' ], [ [ 'libxml-2.0', '2.6.27', True ] ]),
+	Plugin('TreeBrowser', None, [ 'treebrowser/src' ], [ [ 'gio-2.0', '2.16', False ] ])
 ]
 
 '''
@@ -407,6 +407,7 @@ def build(bld):
 			features		= 'cc cshlib',
 			source			= lua_sources,
 			includes		= '. %s' % p.includes,
+			defines			= 'G_LOG_DOMAIN="%s"' % p.log_domain,
 			target			= 'libgeanylua',
 			uselib			= libs,
 			install_path	= '${G_PREFIX}/lib/geany-plugins/geanylua' if is_win32
@@ -441,6 +442,7 @@ def build(bld):
 			features	= 'cc cprogram',
 			source		= [ 'geanygdb/src/ttyhelper.c' ],
 			includes	= '. %s' % p.includes,
+			defines			= 'G_LOG_DOMAIN="%s"' % p.log_domain,
 			target		= 'ttyhelper',
 			uselib		= libs,
 			install_path = '${TTYHELPERDIR}'
@@ -481,6 +483,7 @@ def build(bld):
 			features		= 'cc cshlib',
 			source			= p.sources,
 			includes		= '. %s' % p.includes,
+			defines			= 'G_LOG_DOMAIN="%s"' % p.log_domain,
 			target			= p.name,
 			uselib			= libs,
 			install_path	= '${G_PREFIX}/lib' if is_win32 else '${LIBDIR}/geany/'
