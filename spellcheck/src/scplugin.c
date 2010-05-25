@@ -122,7 +122,9 @@ static void configure_response_cb(GtkDialog *dialog, gint response, gpointer use
 			sc_info->show_toolbar_item);
 		g_key_file_set_boolean(config, "spellcheck", "show_editor_menu_item",
 			sc_info->show_editor_menu_item);
-		g_key_file_set_string(config, "spellcheck", "dictionary_dir", sc_info->dictionary_dir);
+	   if (sc_info->dictionary_dir != NULL)
+			g_key_file_set_string(config, "spellcheck", "dictionary_dir",
+				sc_info->dictionary_dir);
 
 		sc_gui_update_toolbar();
 		sc_gui_update_menu();
