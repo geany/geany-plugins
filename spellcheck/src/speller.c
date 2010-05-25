@@ -196,16 +196,25 @@ void sc_speller_check_document(GeanyDocument *doc)
 	}
 	g_free(dict_string);
 
-	for (i = first_line; i < last_line; i++)
+	if (first_line == last_line)
 	{
-		line = sci_get_line(doc->editor->sci, i);
-
-		suggestions_found += sc_speller_process_line(doc, i, line);
-
-		/* process other GTK events to keep the GUI being responsive */
-		while (g_main_context_iteration(NULL, FALSE));
-
+		line = sci_get_selection_contents(doc->editor->sci);
+		suggestions_found += sc_speller_process_line(doc, first_line, line);
 		g_free(line);
+	}
+	else
+	{
+		for (i = first_line; i < last_line; i++)
+		{
+			line = sci_get_line(doc->editor->sci, i);
+
+			suggestions_found += sc_speller_process_line(doc, i, line);
+
+			/* process other GTK events to keep the GUI being responsive */
+			while (g_main_context_iteration(NULL, FALSE));
+
+			g_free(line);
+		}
 	}
 	if (suggestions_found == 0 && sc_info->use_msgwin)
 		msgwin_msg_add(COLOR_BLUE, -1, NULL, _("The checked text is spelled correctly."));
