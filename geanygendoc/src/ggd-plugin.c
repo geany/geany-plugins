@@ -317,7 +317,7 @@ static void
 open_manual_handler (GtkWidget  *widget,
                      gpointer    data)
 {
-  utils_open_browser (DOCDIR "/" GGD_PLUGIN_CNAME "/manual.html");
+  utils_open_browser (DOCDIR "/" GGD_PLUGIN_CNAME "/html/manual.html");
 }
 
 /* handler that reloads the configuration */

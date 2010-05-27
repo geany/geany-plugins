@@ -427,12 +427,12 @@ def build(bld):
 
 	def build_gendoc(bld):
 		# install docs
-		docdir = '${G_PREFIX}/doc/plugins/geanygendoc/help' \
-					if is_win32 else '${DOCDIR}/geanygendoc/help'
-		if os.path.exists('geanygendoc/docs/help/manual.html'):
-			bld.install_files(docdir, 'geanygendoc/docs/help/manual.html')
-		bld.install_files(docdir, 'geanygendoc/docs/help/manual.rst')
-		# install examples (Waf doesn't support installing files recursively, yet)
+		docdir = '${G_PREFIX}/doc/plugins/geanygendoc' \
+					if is_win32 else '${DOCDIR}/geanygendoc'
+		htmldocdir = '%s/html' % docdir
+		bld.install_files(docdir, 'geanygendoc/docs/manual.rst')
+		bld.install_files(htmldocdir, 'geanygendoc/docs/manual.html')
+		# install data files (Waf doesn't support installing files recursively, yet)
 		bld.install_files('%s/geany-plugins/geanygendoc/filetypes' % datadir, \
 			'geanygendoc/data/filetypes/*.conf')
 
