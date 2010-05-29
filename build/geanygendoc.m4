@@ -56,6 +56,5 @@ AC_DEFUN([GP_CHECK_GEANYGENDOC],
         geanygendoc/data/Makefile
         geanygendoc/data/filetypes/Makefile
         geanygendoc/docs/Makefile
-        geanygendoc/docs/help/Makefile
     ])
 ])
