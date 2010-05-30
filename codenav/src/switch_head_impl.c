@@ -60,6 +60,9 @@ on_configure_add_language(GtkWidget* widget, gpointer data);
 static void
 on_configure_remove_language(GtkWidget* widget, gpointer data);
 
+static void
+on_configure_cell_edited(GtkCellRendererText* text, gchar* arg1, gchar* arg2, gpointer data);
+
 /* ---------------------------------------------------------------------
  *  Initialization
  * ---------------------------------------------------------------------
@@ -85,7 +88,7 @@ switch_head_impl_init()
  							KEY_ID_SWITCH_HEAD_IMPL,
  							(GeanyKeyCallback)(&menu_item_activate),
  							GDK_s, GDK_MOD1_MASK | GDK_SHIFT_MASK,
- 							_("switch_head_impl"),
+ 							"switch_head_impl",
  							_("Switch header/implementation"),	/* used in the Preferences dialog */
  							menu_item);
 
@@ -468,8 +471,8 @@ switch_head_impl_config_widget()
 	/* - add the columns */
 	/* -> headers : */
 	cell_renderer = gtk_cell_renderer_text_new();
-	/* TODO ! Try it... */
-	/* g_object_set(G_OBJECT(cell_renderer), "editable", TRUE, NULL); */
+	g_object_set(G_OBJECT(cell_renderer), "editable", TRUE, NULL);
+	g_signal_connect(G_OBJECT(cell_renderer), "edited", G_CALLBACK(on_configure_cell_edited), GINT_TO_POINTER(COLUMN_HEAD));
 	column = gtk_tree_view_column_new_with_attributes(	_("Headers extensions"), cell_renderer,
 														"text", COLUMN_HEAD,
 														NULL);
@@ -477,10 +480,13 @@ switch_head_impl_config_widget()
 
 	/* -> implementations : */
 	cell_renderer = gtk_cell_renderer_text_new();
+	g_object_set(G_OBJECT(cell_renderer), "editable", TRUE, NULL);
+	g_signal_connect(G_OBJECT(cell_renderer), "edited", G_CALLBACK(on_configure_cell_edited), GINT_TO_POINTER(COLUMN_IMPL));
 	column = gtk_tree_view_column_new_with_attributes(	_("Implementations extensions"), cell_renderer,
 														"text", COLUMN_IMPL,
 														NULL);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), column);
+
 
 	/* - finally add the GtkTreeView to the frame's vbox */
 	gtk_box_pack_start(GTK_BOX(vbox), tree_view, TRUE, TRUE, 6);
@@ -494,7 +500,6 @@ switch_head_impl_config_widget()
 
 	/* Add the "add" button to the frame's hbox */
 	add_button = gtk_button_new_from_stock(GTK_STOCK_ADD);
-	gtk_widget_set_sensitive(add_button, FALSE);	/* TODO ! */
 	g_signal_connect(G_OBJECT(add_button), "clicked", G_CALLBACK(on_configure_add_language), tree_view);
 	gtk_box_pack_start(GTK_BOX(hbox_buttons), add_button, FALSE, FALSE, 0);
 
@@ -514,8 +519,6 @@ switch_head_impl_config_widget()
 static void
 on_configure_add_language(GtkWidget* widget, gpointer data)
 {
-	/* TODO : test it ! */
-
 	GtkWidget* tree_view = (GtkWidget*)data;
 	GtkListStore *list_store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(tree_view)));
 	GtkTreeIter tree_iter;
@@ -532,6 +535,8 @@ on_configure_add_language(GtkWidget* widget, gpointer data)
 	path = gtk_tree_path_new_from_indices(nb_lines-1, -1);
 
 	column = gtk_tree_view_get_column(GTK_TREE_VIEW(tree_view), 0);
+
+	/* TODO : why isn't the cell being edited, although we say "TRUE" as last parameter ?? */
 	gtk_tree_view_set_cursor(GTK_TREE_VIEW(tree_view), path, column, TRUE);
 	gtk_widget_grab_focus(tree_view);
 
@@ -546,6 +551,18 @@ static void
 on_configure_remove_language(GtkWidget* widget, gpointer data)
 {
 	/* TODO ! */
+}
+
+/* ---------------------------------------------------------------------
+ * Callback called when a cell has been edited in the configuration dialog
+ * ---------------------------------------------------------------------
+ */
+static void
+on_configure_cell_edited(GtkCellRendererText* text, gchar* arg1, gchar* arg2, gpointer data)
+{
+	/* TODO !! */
+	Column col = (Column)(GPOINTER_TO_INT(data));
+	log_debug("arg1 == %s, arg2 == %s\n", arg1, arg2);
 }
 
 /* ---------------------------------------------------------------------

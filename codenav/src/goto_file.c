@@ -60,7 +60,7 @@ goto_file_init()
  							KEY_ID_GOTO_FILE,
  							(GeanyKeyCallback)(&menu_item_activate),
  							GDK_g, GDK_MOD1_MASK | GDK_SHIFT_MASK,
- 							_("goto_file"),
+ 							"goto_file",
  							_("Goto file"),	/* used in the Preferences dialog */
  							menu_item);
 }
