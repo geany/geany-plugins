@@ -36,9 +36,14 @@ GeanyData		*geany_data;
 GeanyFunctions	*geany_functions;
 
 
-PLUGIN_VERSION_CHECK(147);
-PLUGIN_SET_INFO(_("Spell Check"), _("Checks the spelling of the current document."), VERSION,
-			_("The Geany developer team"))
+PLUGIN_VERSION_CHECK(188)
+PLUGIN_SET_TRANSLATABLE_INFO(
+	LOCALEDIR,
+	GETTEXT_PACKAGE,
+	_("Spell Check"),
+	_("Checks the spelling of the current document."),
+	VERSION,
+	"The Geany developer team")
 
 
 SpellCheck *sc_info = NULL;
@@ -174,8 +179,6 @@ void plugin_init(GeanyData *data)
 	sc_info->use_msgwin = utils_get_setting_boolean(config, "spellcheck", "use_msgwin", FALSE);
 	g_key_file_free(config);
 	g_free(default_lang);
-
-	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 
 	sc_info->menu_item = gtk_image_menu_item_new_from_stock(GTK_STOCK_SPELL_CHECK, NULL);
 	ui_add_document_sensitive(sc_info->menu_item);
