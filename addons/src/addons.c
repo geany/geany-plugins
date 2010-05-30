@@ -40,9 +40,14 @@ GeanyData		*geany_data;
 GeanyFunctions	*geany_functions;
 
 
-PLUGIN_VERSION_CHECK(170)
-PLUGIN_SET_INFO(_("Addons"), _("Various small addons for Geany."), VERSION,
-	"Enrico Tröger, Bert Vermeulen, Eugene Arshinov")
+PLUGIN_VERSION_CHECK(188)
+PLUGIN_SET_TRANSLATABLE_INFO(
+	LOCALEDIR,
+	GETTEXT_PACKAGE,
+	_("Addons"),
+	_("Various small addons for Geany."),
+	VERSION,
+	"Enrico Tröger, Bert Vermeulen, Eugene Arshinov, Frank Lanitz")
 
 
 /* Keybinding(s) */
@@ -245,7 +250,6 @@ void plugin_init(GeanyData *data)
 	ao_info->enable_xmltagging = utils_get_setting_boolean(config, "addons",
 		"enable_xmltagging", FALSE);
 
-	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 	plugin_module_make_resident(geany_plugin);
 
 	ao_info->doclist = ao_doc_list_new(ao_info->show_toolbar_doclist_item);
