@@ -1,3 +1,8 @@
+2010-05-31  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/extrasel.c:
+   Fixed "Goto line and select" with the toolbar visible.
+ 
 2010-05-22  Dimitar Zhekov  <hamster@mbox.contact.bg>
 
  * src/extrasel.c:

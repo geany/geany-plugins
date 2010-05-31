@@ -45,6 +45,7 @@ static GtkWidget *main_menu_item = NULL;
 static GtkWidget *column_mode_item;
 static GtkWidget *goto_line_item;
 static GtkWidget *brace_match_item;
+static gpointer *go_to_line1_item = NULL;
 
 static gboolean column_mode = FALSE;
 
@@ -227,7 +228,17 @@ static void doit_and_select(guint group_id, guint key_id)
 		ScintillaObject *sci = doc->editor->sci;
 		int before = sci_get_current_position(sci), after;
 
-		keybindings_send_command(group_id, key_id);
+		if (key_id != GEANY_KEYS_GOTO_LINE || !geany_data->toolbar_prefs->visible)
+			keybindings_send_command(group_id, key_id);
+		else if (go_to_line1_item)
+			g_signal_emit_by_name(go_to_line1_item, "activate");
+		else
+		{
+			if (geany_data->prefs->beep_on_errors)
+				gdk_beep();
+			return;
+		}
+
 		after = sci_get_current_position(sci);
 		if (before != after)
 			sci_set_anchor(sci, before);
@@ -288,6 +299,9 @@ void plugin_init(G_GNUC_UNUSED GeanyData *data)
 		"brace_match_extend", _("Select to matching brace"), brace_match_item);
 
 	gtk_widget_show_all(main_menu_item);
+
+	go_to_line1_item = g_object_get_data((gpointer) geany->main_widgets->window,
+		"go_to_line1");
 
 	plugin_signal_connect(geany_plugin, G_OBJECT(geany->main_widgets->window),
 		"key-press-event", FALSE, G_CALLBACK(on_key_press_event), NULL);
