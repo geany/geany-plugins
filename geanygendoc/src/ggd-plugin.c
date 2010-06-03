@@ -46,12 +46,15 @@ GeanyData       *geany_data;
 GeanyFunctions  *geany_functions;
 
 /* TODO check minimum requierment */
-PLUGIN_VERSION_CHECK (171)
+PLUGIN_VERSION_CHECK (188)
 
-PLUGIN_SET_INFO (_("Documentation Generator"),
-                 _("Generates documentation basis from source code"),
-                 VERSION,
-                 "Colomban Wendling <ban@herbesfolles.org>")
+PLUGIN_SET_TRANSLATABLE_INFO (
+  LOCALEDIR, GETTEXT_PACKAGE,
+  _("Documentation Generator"),
+  _("Generates documentation basis from source code"),
+  VERSION,
+  "Colomban Wendling <ban@herbesfolles.org>"
+)
 
 enum
 {
@@ -497,7 +500,6 @@ destroy_menus (PluginData *pdata)
 void
 plugin_init (GeanyData *data G_GNUC_UNUSED)
 {
-  main_locale_init (LOCALEDIR, GETTEXT_PACKAGE);
   load_configuration ();
   build_menus (plugin);
   plugin_signal_connect (geany_plugin, NULL, "update-editor-menu", FALSE,
