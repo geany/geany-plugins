@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.19\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-23 20:24+0200\n"
+"POT-Creation-Date: 2010-06-03 23:17+0200\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Gürkan 'seqizz' Gür <seqizz@gmail.com>\n"
+"Last-Translator: Gürkan Gür <seqizz@gmail.com>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,6 +21,7 @@ msgstr ""
 
 #. complete update
 #: ../addons/src/ao_tasks.c:368 ../geanyvc/src/geanyvc.c:2246
+#, fuzzy
 msgid "_Update"
 msgstr "G_üncelle"
 
@@ -28,31 +30,28 @@ msgid "_Hide Message Window"
 msgstr ""
 
 #: ../addons/src/ao_tasks.c:407
-#, fuzzy
 msgid "File"
-msgstr "_Dosya"
+msgstr "Dosya"
 
 #: ../addons/src/ao_tasks.c:418
 msgid "Line"
-msgstr ""
+msgstr "Satır"
 
 #: ../addons/src/ao_tasks.c:429 ../geanylatex/src/bibtexlabels.c:65
 msgid "Type"
 msgstr "Tür"
 
 #: ../addons/src/ao_tasks.c:440
-#, fuzzy
 msgid "Task"
-msgstr "Görevler"
+msgstr "Görev"
 
 #: ../addons/src/ao_tasks.c:473
 msgid "Tasks"
 msgstr "Görevler"
 
 #: ../addons/src/ao_tasks.c:536
-#, fuzzy
 msgid "Context:"
-msgstr "Konsol:"
+msgstr "İçerik:"
 
 #: ../addons/src/ao_openuri.c:162
 msgid "Open URI"
@@ -62,86 +61,86 @@ msgstr "Adres Aç"
 msgid "Copy URI"
 msgstr "Adresi Kopyala"
 
-#: ../addons/src/addons.c:44
+#: ../addons/src/addons.c:47
 msgid "Addons"
 msgstr "Eklentiler"
 
-#: ../addons/src/addons.c:44
+#: ../addons/src/addons.c:48
 msgid "Various small addons for Geany."
 msgstr "Geany için birkaç ufak eklenti."
 
-#: ../addons/src/addons.c:264
+#: ../addons/src/addons.c:268
 msgid "Focus Bookmark List"
 msgstr ""
 
-#: ../addons/src/addons.c:266
+#: ../addons/src/addons.c:270
 msgid "Focus Tasks List"
 msgstr ""
 
-#: ../addons/src/addons.c:268
+#: ../addons/src/addons.c:272
 msgid "Update Tasks List"
 msgstr ""
 
-#: ../addons/src/addons.c:270
+#: ../addons/src/addons.c:274
 msgid "Run XML tagging"
 msgstr ""
 
-#: ../addons/src/addons.c:346 ../geanylatex/src/geanylatex.c:202
+#: ../addons/src/addons.c:350 ../geanylatex/src/geanylatex.c:202
 #: ../geanysendmail/src/geanysendmail.c:150
 #: ../geanysendmail/src/geanysendmail.c:314 ../geanyvc/src/geanyvc.c:1776
-#: ../spellcheck/src/scplugin.c:134 ../treebrowser/src/treebrowser.c:1435
+#: ../spellcheck/src/scplugin.c:141 ../treebrowser/src/treebrowser.c:1435
 msgid "Plugin configuration directory could not be created."
 msgstr "Eklenti düzenleme dizini oluşturulamadı."
 
-#: ../addons/src/addons.c:371
+#: ../addons/src/addons.c:375
 msgid "Show toolbar item to show a list of currently open documents"
 msgstr ""
 
 #. TODO fix the string
-#: ../addons/src/addons.c:378
+#: ../addons/src/addons.c:382
 msgid "Show a 'Open URI' menu item in the editor menu"
 msgstr ""
 
-#: ../addons/src/addons.c:384
+#: ../addons/src/addons.c:388
 #, fuzzy
 msgid "Show available Tasks in the Messages Window"
 msgstr "Mesaj penceresinde erişilebilir görevleri göster"
 
-#: ../addons/src/addons.c:390
+#: ../addons/src/addons.c:394
 msgid "Show tasks of all documents"
 msgstr ""
 
-#: ../addons/src/addons.c:394
+#: ../addons/src/addons.c:398
 msgid ""
 "Whether to show the tasks of all open documents in the list or only those of "
 "the current document."
 msgstr ""
 
-#: ../addons/src/addons.c:401
+#: ../addons/src/addons.c:405
 msgid "Specify a semicolon separated list of search tokens."
 msgstr ""
 
-#: ../addons/src/addons.c:403
+#: ../addons/src/addons.c:407
 msgid "Search tokens:"
 msgstr ""
 
-#: ../addons/src/addons.c:420
+#: ../addons/src/addons.c:424
 msgid "Show status icon in the Notification Area"
 msgstr "Bildiri alanında durum simgesi göster"
 
-#: ../addons/src/addons.c:426
+#: ../addons/src/addons.c:430
 msgid "Show defined bookmarks (marked lines) in the sidebar"
 msgstr ""
 
-#: ../addons/src/addons.c:432
+#: ../addons/src/addons.c:436
 msgid "Mark all occurrences of a word when double-clicking it"
 msgstr ""
 
-#: ../addons/src/addons.c:438
+#: ../addons/src/addons.c:442
 msgid "Strip trailing blank lines"
 msgstr ""
 
-#: ../addons/src/addons.c:444
+#: ../addons/src/addons.c:448
 msgid "XML tagging for selection"
 msgstr ""
 
@@ -159,7 +158,7 @@ msgstr "Döküman Listesini Göster"
 
 #: ../addons/src/ao_bookmarklist.c:179
 msgid "(Empty Line)"
-msgstr ""
+msgstr "(Boş Satır)"
 
 #: ../addons/src/ao_bookmarklist.c:301
 msgid "_Remove Bookmark"
@@ -171,16 +170,15 @@ msgstr ""
 
 #: ../addons/src/ao_bookmarklist.c:335
 msgid "Contents"
-msgstr ""
+msgstr "İçerik"
 
 #: ../addons/src/ao_bookmarklist.c:368 ../treebrowser/src/treebrowser.c:390
-#, fuzzy
 msgid "Bookmarks"
-msgstr "Kitap"
+msgstr "Yer İmleri"
 
 #: ../addons/src/ao_xmltagging.c:51
 msgid "XML tagging"
-msgstr ""
+msgstr "XML etiketleme"
 
 #: ../addons/src/ao_xmltagging.c:62
 msgid "Tag name to be inserted:"
@@ -205,13 +203,8 @@ msgstr ""
 
 #. Add the menu item, sensitive only when a document is opened
 #: ../codenav/src/goto_file.c:50 ../codenav/src/goto_file.c:64
-#, fuzzy
 msgid "Goto file"
-msgstr "Dosyaya git..."
-
-#: ../codenav/src/goto_file.c:63
-msgid "goto_file"
-msgstr ""
+msgstr "Dosyaya git"
 
 #: ../codenav/src/goto_file.c:101
 #, c-format
@@ -220,27 +213,21 @@ msgstr "(%s eklentisinden)"
 
 #. Add the menu item and make it sensitive only when a document is opened
 #. Frame, which is the returned widget
-#: ../codenav/src/switch_head_impl.c:75 ../codenav/src/switch_head_impl.c:89
-#: ../codenav/src/switch_head_impl.c:449
+#: ../codenav/src/switch_head_impl.c:78 ../codenav/src/switch_head_impl.c:92
+#: ../codenav/src/switch_head_impl.c:452
 msgid "Switch header/implementation"
 msgstr ""
 
-#: ../codenav/src/switch_head_impl.c:88
-msgid "switch_head_impl"
-msgstr ""
-
-#: ../codenav/src/switch_head_impl.c:357
+#: ../codenav/src/switch_head_impl.c:360
 #, c-format
 msgid "%s not found, create it ?"
 msgstr "%s bulunamadı, oluşturulsun mu?"
 
-#. TODO ! Try it...
-#. g_object_set(G_OBJECT(cell_renderer), "editable", TRUE, NULL);
-#: ../codenav/src/switch_head_impl.c:473
+#: ../codenav/src/switch_head_impl.c:476
 msgid "Headers extensions"
 msgstr ""
 
-#: ../codenav/src/switch_head_impl.c:480
+#: ../codenav/src/switch_head_impl.c:485
 msgid "Implementations extensions"
 msgstr ""
 
@@ -806,16 +793,15 @@ msgstr "Herşeyden çık"
 
 #: ../geanygdb/src/geanygdb.c:37
 msgid "GeanyGDB"
-msgstr ""
+msgstr "GeanyGDB"
 
 #: ../geanygdb/src/geanygdb.c:37
 msgid "Integrated debugging with GDB."
 msgstr "GDB ile tümleşik hata ayıklama."
 
 #: ../geanygdb/src/geanygdb.c:37
-#, fuzzy
 msgid "Jeff Pohlmeyer, Dominic Hopf"
-msgstr "Jeff Pohlmeyer"
+msgstr "Jeff Pohlmeyer, Dominic Hopf"
 
 #: ../geanygdb/src/geanygdb.c:330
 #, c-format
@@ -827,14 +813,12 @@ msgid "geanygdb: ttyhelper program not found."
 msgstr "geanygdb: ttyhelper programı bulunamadı."
 
 #: ../geanygdb/src/geanygdb.c:378
-#, fuzzy
 msgid "Debu_g"
-msgstr "Hata ayıklayıcı"
+msgstr "Hata A_yıkla"
 
 #: ../geanygdb/src/geanygdb.c:389
-#, fuzzy
 msgid "Debug"
-msgstr "Hata ayıklayıcı"
+msgstr "Hata Ayıkla"
 
 #: ../geanygendoc/src/ggd.c:79
 #, c-format
@@ -874,35 +858,35 @@ msgstr ""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:112
 msgid "boolean value"
-msgstr ""
+msgstr "mantıksal değer"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:125
 #, c-format
 msgid "invalid boolean value \"%s\""
-msgstr ""
+msgstr "geçersiz mantıksal değer \"%s\""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:152
 #, c-format
 msgid "invalid template: %s"
-msgstr ""
+msgstr "geçersiz şablon: %s"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:173
 msgid "position name"
-msgstr ""
+msgstr "konum ismi"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:180
 #, c-format
 msgid "invalid position \"%s\""
-msgstr ""
+msgstr "geçersiz konum \"%s\""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:199
 msgid "policy name"
-msgstr ""
+msgstr "hareket ismi"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:206
 #, c-format
 msgid "invalid policy \"%s\""
-msgstr ""
+msgstr "geçersiz hareket \"%s\""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:225
 msgid "merge policy"
@@ -914,31 +898,30 @@ msgid "invalid merge policy \"%s\""
 msgstr ""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:254
-#, fuzzy
 msgid "type"
-msgstr "Tür"
+msgstr "tür"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:261
 #, c-format
 msgid "invalid type \"%s\""
-msgstr ""
+msgstr "geçersiz tür \"%s\""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:323
 #: ../geanygendoc/src/ggd-file-type-loader.c:774
 #, c-format
 msgid "invalid setting name \"%s\""
-msgstr ""
+msgstr "geçersiz ayar ismi \"%s\""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:344
 #: ../geanygendoc/src/ggd-file-type-loader.c:355
 #: ../geanygendoc/src/ggd-file-type-loader.c:380
 msgid "setting identifier"
-msgstr ""
+msgstr "tanımlayıcı ayarlanıyor"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:426
 #, c-format
 msgid "Unknown type \"%s\", is it a typo?"
-msgstr ""
+msgstr "Bilinmeyen tür \"%s\", yazım hatası mı yaptınız?"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:441
 #: ../geanygendoc/src/ggd-file-type-loader.c:485
@@ -960,7 +943,7 @@ msgstr ""
 #: ../geanygendoc/src/ggd-file-type-loader.c:583
 #: ../geanygendoc/src/ggd-file-type-loader.c:605
 msgid "documentation type"
-msgstr ""
+msgstr "belgelendirme türü"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:640
 #, c-format
@@ -975,14 +958,12 @@ msgstr ""
 #: ../geanygendoc/src/ggd-file-type-loader.c:734
 #: ../geanygendoc/src/ggd-file-type-loader.c:745
 #: ../geanygendoc/src/ggd-file-type-loader.c:784
-#, fuzzy
 msgid "setting"
-msgstr "başlatılıyor"
+msgstr "ayar"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:812
-#, fuzzy
 msgid "section name"
-msgstr "İşlev argümanları"
+msgstr "bölüm adı"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:823
 #, c-format
@@ -992,13 +973,13 @@ msgstr ""
 #: ../geanygendoc/src/ggd-file-type-loader.c:832
 #, c-format
 msgid "invalid section name \"%s\""
-msgstr ""
+msgstr "geçersiz bölüm adı \"%s\""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:845
 #: ../geanygendoc/src/ggd-file-type-loader.c:897
 #, c-format
 msgid "input is empty"
-msgstr ""
+msgstr "girdi boş"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:859
 #, c-format
@@ -1013,7 +994,7 @@ msgstr ""
 #: ../geanygendoc/src/ggd-file-type-loader.c:866
 #, c-format
 msgid "%s:%u:%u: %s"
-msgstr ""
+msgstr "%s:%u:%u: %s"
 
 #: ../geanygendoc/src/ggd-file-type-manager.c:175
 #, c-format
@@ -1026,9 +1007,8 @@ msgid "Failed to load file type \"%s\" from file \"%s\": %s"
 msgstr ""
 
 #: ../geanygendoc/src/ggd-options.c:326
-#, fuzzy
 msgid "Unknown option"
-msgstr "Bilinmeyen sinyal"
+msgstr "Bilinmeyen seçenek"
 
 #: ../geanygendoc/src/ggd-options.c:335
 msgid ""
@@ -1046,91 +1026,89 @@ msgstr ""
 msgid "Error retrieving keyfile entry %s::%s: %s"
 msgstr ""
 
-#: ../geanygendoc/src/ggd-plugin.c:51
+#: ../geanygendoc/src/ggd-plugin.c:53
 msgid "Documentation Generator"
-msgstr ""
+msgstr "Belge Oluşturucu"
 
-#: ../geanygendoc/src/ggd-plugin.c:52
+#: ../geanygendoc/src/ggd-plugin.c:54
 msgid "Generates documentation basis from source code"
-msgstr ""
+msgstr "Kaynak kodu temel alarak belgelendirmeyi biçimlendirir"
 
-#: ../geanygendoc/src/ggd-plugin.c:207
+#: ../geanygendoc/src/ggd-plugin.c:216
 #, c-format
 msgid "Failed to load configuration: %s"
-msgstr ""
+msgstr "Seçenekler yüklenemedi: %s"
 
-#: ../geanygendoc/src/ggd-plugin.c:228
+#: ../geanygendoc/src/ggd-plugin.c:237
 #, c-format
 msgid "Failed to save configuration: %s"
-msgstr ""
+msgstr "Seçenekler kaydedilemedi: %s"
 
-#: ../geanygendoc/src/ggd-plugin.c:299
+#: ../geanygendoc/src/ggd-plugin.c:308
 #, c-format
 msgid "Failed to find configuration file for file type \"%s\": %s"
-msgstr ""
+msgstr "\"%s\" dosya türü için yapılandırma dosyası bulunamadı: %s"
 
-#: ../geanygendoc/src/ggd-plugin.c:360 ../geanygendoc/src/ggd-plugin.c:371
+#: ../geanygendoc/src/ggd-plugin.c:369 ../geanygendoc/src/ggd-plugin.c:380
 msgid "Insert Documentation Comment"
 msgstr ""
 
-#: ../geanygendoc/src/ggd-plugin.c:425
+#: ../geanygendoc/src/ggd-plugin.c:434
 msgid "_Document Current Symbol"
 msgstr ""
 
-#: ../geanygendoc/src/ggd-plugin.c:426
+#: ../geanygendoc/src/ggd-plugin.c:435
 msgid "Generate documentation for the current symbol"
 msgstr ""
 
-#: ../geanygendoc/src/ggd-plugin.c:432
+#: ../geanygendoc/src/ggd-plugin.c:441
 msgid "Document _All Symbols"
 msgstr ""
 
-#: ../geanygendoc/src/ggd-plugin.c:433
+#: ../geanygendoc/src/ggd-plugin.c:442
 msgid "Generate documentation for all symbols in the current document"
 msgstr ""
 
-#: ../geanygendoc/src/ggd-plugin.c:443
+#: ../geanygendoc/src/ggd-plugin.c:452
 msgid "_Reload Configuration Files"
 msgstr ""
 
-#: ../geanygendoc/src/ggd-plugin.c:444
-#, fuzzy
+#: ../geanygendoc/src/ggd-plugin.c:453
 msgid "Force reloading of the configuration files"
-msgstr "Mevcut dosyanın kayıtlarını gösterir"
+msgstr "Ayar dosyalarının tekrar yüklenmesini zorla"
 
-#: ../geanygendoc/src/ggd-plugin.c:449
+#: ../geanygendoc/src/ggd-plugin.c:458
 msgid "_Edit Current Language Configuration"
-msgstr ""
+msgstr "G_eçerli Dil Yapılandırmasını Düzenle"
 
-#: ../geanygendoc/src/ggd-plugin.c:450
+#: ../geanygendoc/src/ggd-plugin.c:459
 msgid "Open the current language configuration file for editing"
-msgstr ""
+msgstr "Kullanılan dilin yapılandırma dosyasını düzenlemek üzere aç"
 
-#: ../geanygendoc/src/ggd-plugin.c:460
-#, fuzzy
+#: ../geanygendoc/src/ggd-plugin.c:469
 msgid "Open _Manual"
-msgstr "Elle"
+msgstr "Klavuzu A_ç"
 
-#: ../geanygendoc/src/ggd-plugin.c:461
+#: ../geanygendoc/src/ggd-plugin.c:470
 msgid "Open the manual in a browser"
-msgstr ""
+msgstr "Kullanım klavuzunu bir tarayıcı ile aç"
 
 #. build tools menu item
-#: ../geanygendoc/src/ggd-plugin.c:465
+#: ../geanygendoc/src/ggd-plugin.c:474
 msgid "_Documentation Generator"
-msgstr ""
+msgstr "_Belge Oluşturucu"
 
 #. General
-#: ../geanygendoc/src/ggd-plugin.c:562
+#: ../geanygendoc/src/ggd-plugin.c:570
 msgid "General"
-msgstr ""
+msgstr "Genel"
 
 #. auto-save
-#: ../geanygendoc/src/ggd-plugin.c:567
+#: ../geanygendoc/src/ggd-plugin.c:575
 msgid "_Save file before generating documentation"
-msgstr ""
+msgstr "Belgelendirmeyi oluşturmadan do_syayı kaydet"
 
-#: ../geanygendoc/src/ggd-plugin.c:570
+#: ../geanygendoc/src/ggd-plugin.c:578
 msgid ""
 "Whether the current document should be saved to disc before generating the "
 "documentation. This is a technical detail, but it is currently needed to "
@@ -1139,26 +1117,30 @@ msgid ""
 "surprising since the comment will be generated for the last saved state of "
 "this document and not the current one."
 msgstr ""
+"Belgelendirme oluşturulmadan dosyanın diske kaydedilip kaydedilmemesini "
+"belirler. Teknik bir detay sayılabilir, ancak şimdilik güncel bir etiket "
+"listesine sahip olmak için gerekli bir işlemdir. Eğer kaydetmeden "
+"belgelendirmenin başlamasını isterseniz, belgelendirme işlemi dosyanın son "
+"kaydedilmiş hali üzerinden yapılacağı için sonuçlar şaşırtıcı olabilir."
 
 #. indent
-#: ../geanygendoc/src/ggd-plugin.c:580
+#: ../geanygendoc/src/ggd-plugin.c:588
 msgid "_Indent inserted documentation"
 msgstr ""
 
-#: ../geanygendoc/src/ggd-plugin.c:582
+#: ../geanygendoc/src/ggd-plugin.c:590
 msgid ""
 "Whether the inserted documentation should be indented to fit the indentation "
 "at the insertion position."
 msgstr ""
 
 #. Documentation type
-#: ../geanygendoc/src/ggd-plugin.c:589
+#: ../geanygendoc/src/ggd-plugin.c:597
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:121
-#, fuzzy
 msgid "Documentation type"
-msgstr "Döküman Yapısı"
+msgstr "Belgelendirme türü"
 
-#: ../geanygendoc/src/ggd-plugin.c:599
+#: ../geanygendoc/src/ggd-plugin.c:607
 msgid ""
 "Choose the documentation type to use with each file type. The special "
 "language \"All\" on top of the list is used to choose the default "
@@ -1166,12 +1148,11 @@ msgid ""
 msgstr ""
 
 #. Environ editor
-#: ../geanygendoc/src/ggd-plugin.c:605
-#, fuzzy
+#: ../geanygendoc/src/ggd-plugin.c:613
 msgid "Global environment"
-msgstr "Çevre:"
+msgstr ""
 
-#: ../geanygendoc/src/ggd-plugin.c:607
+#: ../geanygendoc/src/ggd-plugin.c:615
 msgid ""
 "Global environment overrides and additions. This environment will be merged "
 "with the file-type-specific ones."
@@ -1179,25 +1160,25 @@ msgstr ""
 
 #: ../geanygendoc/src/ggd-tag-utils.c:389
 msgid "Invalid tag"
-msgstr ""
+msgstr "Geçersiz etiket"
 
-#: ../geanygendoc/src/ggd-utils.c:166 ../geanygendoc/src/ggd-utils.c:177
+#: ../geanygendoc/src/ggd-utils.c:163 ../geanygendoc/src/ggd-utils.c:174
 #, c-format
 msgid "File \"%s\" exists but is not a regular file"
-msgstr ""
+msgstr "\"%s\" dosyası bulundu ama geçerli değil"
 
-#: ../geanygendoc/src/ggd-utils.c:186
+#: ../geanygendoc/src/ggd-utils.c:183
 #, c-format
 msgid "%s: no such file or directory"
-msgstr ""
+msgstr "%s: dosya veya dizin bulunamadı"
 
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:112
 msgid "Language"
-msgstr ""
+msgstr "Dil"
 
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:143
 msgid "All"
-msgstr ""
+msgstr "Hepsi"
 
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:144
 msgid "Default documentation type for languages that does not have one set"
@@ -1409,7 +1390,7 @@ msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:102
 msgid "Name(s) of the author(s), separated by 'and' if more than one"
-msgstr ""
+msgstr "Yazarların isim veya isimleri, eğer birden fazla ise 've' ile ayırınız"
 
 #: ../geanylatex/src/bibtexlabels.c:103
 msgid "Title of the book, if only part of it is being cited"
@@ -1506,18 +1487,16 @@ msgid "Year of publication or creation if unpublished"
 msgstr "Yayın tarihi, yayınlanmamışsa oluşturulma tarihi"
 
 #: ../geanylatex/src/geanylatex.c:33
-#, fuzzy
 msgid "GeanyLaTeX"
-msgstr "LaTeX"
+msgstr "GeanyLaTeX"
 
 #: ../geanylatex/src/geanylatex.c:33
 msgid "Plugin to provide better LaTeX support"
 msgstr "Daha iyi LaTeX desteği sağlamak için eklenti"
 
 #: ../geanylatex/src/geanylatex.c:98
-#, fuzzy
 msgid "Runs LaTeX wizard"
-msgstr "LaTeX Sihirbazını Çalıştır"
+msgstr "LaTeX sihirbazını çalıştırır"
 
 #: ../geanylatex/src/geanylatex.c:99
 msgid "Marks selected text as italic"
@@ -1572,14 +1551,12 @@ msgid "Label name:"
 msgstr "Etiket adı:"
 
 #: ../geanylatex/src/geanylatex.c:775
-#, fuzzy
 msgid "Insert Command"
-msgstr "Etiket Ekle"
+msgstr "Komut Girin"
 
 #: ../geanylatex/src/geanylatex.c:788
-#, fuzzy
 msgid "Command name:"
-msgstr "Komut 0:"
+msgstr "Komut adı:"
 
 #: ../geanylatex/src/geanylatex.c:848
 msgid "Insert Reference"
@@ -1598,9 +1575,8 @@ msgid "_Page Reference"
 msgstr "Sa_yfa Referansı"
 
 #: ../geanylatex/src/geanylatex.c:896
-#, fuzzy
 msgid "_Add both"
-msgstr "Kesme noktası ekle"
+msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1093
 msgid "More"
@@ -1611,25 +1587,24 @@ msgid "Add additional package"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1162
-#, fuzzy
 msgid "Package name:"
-msgstr "Etiket adı:"
+msgstr "Paket adı:"
 
 #: ../geanylatex/src/geanylatex.c:1165
 msgid "Package options:"
-msgstr ""
+msgstr "Paket seçenekleri:"
 
 #: ../geanylatex/src/geanylatex.c:1556
 msgid "Dear Sir or Madame"
-msgstr ""
+msgstr "Sayın Bay veya Bayan"
 
 #: ../geanylatex/src/geanylatex.c:1557
 msgid "With kind regards"
-msgstr ""
+msgstr "En derin saygılarımızla"
 
 #: ../geanylatex/src/geanylatex.c:1565
 msgid "No template assigned. Aborting"
-msgstr ""
+msgstr "Hiçbir şablon seçilmedi. İptal ediliyor"
 
 #. Building the wizard-dialog and showing it
 #: ../geanylatex/src/geanylatex.c:1592
@@ -1641,16 +1616,15 @@ msgstr "LaTeX-Sihirbazı"
 #. *  adds default one
 #: ../geanylatex/src/geanylatex.c:1607
 msgid "Template:"
-msgstr ""
+msgstr "Şablon:"
 
 #: ../geanylatex/src/geanylatex.c:1611
 msgid "Set the template which should be used for creating the new document"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1620
-#, fuzzy
 msgid "Default"
-msgstr "Varsayılan (%s)"
+msgstr "Varsayılan"
 
 #. Documentclass
 #: ../geanylatex/src/geanylatex.c:1631
@@ -1734,14 +1708,12 @@ msgstr "Yeni oluşturulmuş döküman için kağıt türünü seçin"
 
 #. Paper direction
 #: ../geanylatex/src/geanylatex.c:1752
-#, fuzzy
 msgid "Paper Orientation:"
-msgstr "Sunum"
+msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1755
-#, fuzzy
 msgid "Choose the paper orientation for the newly created document"
-msgstr "Yeni oluşturulmuş döküman için kağıt türünü seçin"
+msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1776
 msgid "Use KOMA-script classes if possible"
@@ -1781,9 +1753,8 @@ msgid "Insert linebreak \\\\ "
 msgstr "Satır sonu ekle \\\\ "
 
 #: ../geanylatex/src/geanylatex.c:1810
-#, fuzzy
 msgid "Insert command"
-msgstr "Etiket Ekle"
+msgstr "Komut girin"
 
 #: ../geanylatex/src/geanylatex.c:1812
 msgid "Turn input replacement on/off"
@@ -1831,28 +1802,24 @@ msgid "Insert description list"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1839
-#, fuzzy
 msgid "Insert itemize list"
-msgstr "\\item ekle"
+msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1842
-#, fuzzy
 msgid "Insert enumerate list"
-msgstr "Lipsum yazısı ekle"
+msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1845
 msgid "Set selection one level up"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1848
-#, fuzzy
 msgid "Set selection one level down"
-msgstr "Seçimi ortaya hizala"
+msgstr "Seçimi bir seviye aşağıya ayarla"
 
 #: ../geanylatex/src/geanylatex.c:1851
-#, fuzzy
 msgid "Insert \\usepackage{}"
-msgstr "\\label ekle"
+msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1858
 msgid ""
@@ -1892,7 +1859,6 @@ msgid "Starts a Wizard to easily create LaTeX-documents"
 msgstr "LaTeX dökümanları kolay oluşturmak için sihirbazı başlatır"
 
 #: ../geanylatex/src/geanylatex.c:1948
-#, fuzzy
 msgid "I_nsert Special Character"
 msgstr "_Özel Karakter Ekle"
 
@@ -1925,9 +1891,8 @@ msgid "Helps at inserting an environment a document"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1983
-#, fuzzy
 msgid "Insert P_ackage"
-msgstr "Etiket Ek_le"
+msgstr "P_aket Ekle"
 
 #: ../geanylatex/src/geanylatex.c:1985
 msgid "A small dialog to insert \\usepackage{} into header of current file"
@@ -1943,9 +1908,8 @@ msgstr "_Biçim"
 
 #. Add font size menu
 #: ../geanylatex/src/geanylatex.c:2023
-#, fuzzy
 msgid "F_ont size"
-msgstr "Yazı tipi boyutu:"
+msgstr "Yazı tipi b_oyutu"
 
 #: ../geanylatex/src/geanylatex.c:2041
 msgid "_Special Character Replacement"
@@ -1956,18 +1920,16 @@ msgid "Bulk _Replace Special Characters"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:2051
-#, fuzzy
 msgid "_Replace selected special characters with TeX substitutes"
-msgstr "Özel karakterleri değiştir"
+msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:2059
 msgid "Toggle _Special Character Replacement"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:2070
-#, fuzzy
 msgid "Insert _Command"
-msgstr "Etiket Ek_le"
+msgstr "Komut Ek_le"
 
 #: ../geanylatex/src/geanylatex.c:2072
 msgid "Inserting costumized command to document"
@@ -1987,7 +1949,7 @@ msgstr "Karakterlere izin ver"
 
 #: ../geanylatex/src/letters.c:43
 msgid "Relational"
-msgstr ""
+msgstr "İlişkisel"
 
 #: ../geanylatex/src/letters.c:44
 msgid "Binary operation"
@@ -2030,39 +1992,36 @@ msgid "scriptsize"
 msgstr ""
 
 #: ../geanylatex/src/formatpatterns.c:66
-#, fuzzy
 msgid "footnotesize"
-msgstr "Yazı tipi boyutu:"
+msgstr ""
 
 #: ../geanylatex/src/formatpatterns.c:67
 msgid "small"
-msgstr ""
+msgstr "küçük"
 
 #: ../geanylatex/src/formatpatterns.c:68
 msgid "normalsize"
-msgstr ""
+msgstr "normal boyut"
 
 #: ../geanylatex/src/formatpatterns.c:69
-#, fuzzy
 msgid "large"
-msgstr "Sayfalar"
+msgstr "geniş"
 
 #: ../geanylatex/src/formatpatterns.c:70
-#, fuzzy
 msgid "Large"
-msgstr "LaTeX"
+msgstr "GenişLaTeX"
 
 #: ../geanylatex/src/formatpatterns.c:71
 msgid "LARGE"
-msgstr ""
+msgstr "GENİŞ"
 
 #: ../geanylatex/src/formatpatterns.c:72
 msgid "huge"
-msgstr ""
+msgstr "olağanüstü"
 
 #: ../geanylatex/src/formatpatterns.c:73
 msgid "Huge"
-msgstr ""
+msgstr "Olağanüstü"
 
 #: ../geanylatex/src/latexencodings.c:37
 msgid "UTF-8"
@@ -2110,15 +2069,15 @@ msgstr ""
 
 #: ../geanylatex/src/latexencodings.c:57
 msgid "Don't set any encoding"
-msgstr ""
+msgstr "Hiçbir kodlama ayarlama"
 
 #: ../geanylipsum/src/geanylipsum.c:35
 msgid "GeanyLipsum"
-msgstr ""
+msgstr "GeanyLipsum"
 
 #: ../geanylipsum/src/geanylipsum.c:35
 msgid "Creating dummy text with Geany"
-msgstr ""
+msgstr "Geany için rastgele yazı yazı üretiliyor"
 
 #: ../geanylipsum/src/geanylipsum.c:78
 msgid "Lipsum-Generator"
@@ -2126,12 +2085,12 @@ msgstr "Lipsum-Oluşturucu"
 
 #: ../geanylipsum/src/geanylipsum.c:79
 msgid "Enter the length of Lipsum text here"
-msgstr ""
+msgstr "Rastgele yazının uzunluğunu giriniz"
 
 #. Building menu entry
 #: ../geanylipsum/src/geanylipsum.c:154
 msgid "_Lipsum"
-msgstr ""
+msgstr "_Lipsum"
 
 #: ../geanylipsum/src/geanylipsum.c:156
 msgid "Include Pseudotext to your code"
@@ -2143,13 +2102,15 @@ msgstr "Lipsum yazısı ekle"
 
 #: ../geanysendmail/src/geanysendmail.c:40
 msgid "GeanySendMail"
-msgstr ""
+msgstr "GeanyEPostaGönder"
 
 #: ../geanysendmail/src/geanysendmail.c:40
 msgid ""
 "A little plugin to send the current file as attachment by user's favorite "
 "mailer"
 msgstr ""
+"Geçerli dosyayı kullanıcının seçtiği program ile e-postaya eklemek için ufak "
+"bir eklenti"
 
 #: ../geanysendmail/src/geanysendmail.c:105
 msgid "Recipient's Address"
@@ -2233,7 +2194,7 @@ msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:49
 msgid "GeanyVC"
-msgstr ""
+msgstr "GeanyVC"
 
 #: ../geanyvc/src/geanyvc.c:49
 msgid "Interface to different Version Control systems."
@@ -2446,9 +2407,8 @@ msgstr ""
 #. Complete History/Log of base directory
 #: ../geanyvc/src/geanyvc.c:2010 ../geanyvc/src/geanyvc.c:2076
 #: ../geanyvc/src/geanyvc.c:2117
-#, fuzzy
 msgid "_History (log)"
-msgstr "_Geçmiş"
+msgstr "_Geçmiş (kayıt)"
 
 #: ../geanyvc/src/geanyvc.c:2013
 msgid "Shows the log of the current file"
@@ -2567,7 +2527,6 @@ msgid "Show status."
 msgstr "Durumu göster."
 
 #: ../geanyvc/src/geanyvc.c:2248
-#, fuzzy
 msgid "Update from remote repository."
 msgstr "Uzak depodan güncelle."
 
@@ -2593,69 +2552,65 @@ msgstr "\"%s\" dosyası kontrol ediliyor (%d - %d satırları, %s kullanılıyor
 msgid "Checking file \"%s\" (using %s):"
 msgstr "\"%s\" dosyası kontrol ediliyor (%s kullanılarak):"
 
-#: ../spellcheck/src/speller.c:211
+#: ../spellcheck/src/speller.c:220
 msgid "The checked text is spelled correctly."
 msgstr ""
 
-#: ../spellcheck/src/speller.c:221
+#: ../spellcheck/src/speller.c:230
 #, c-format
 msgid "The Enchant library couldn't be initialized (%s)."
 msgstr "Enchant kütüphanesi yüklenemedi (%s)."
 
-#: ../spellcheck/src/speller.c:222
+#: ../spellcheck/src/speller.c:231
 msgid "unknown error (maybe the chosen language is not available)"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:40
+#: ../spellcheck/src/scplugin.c:43
 msgid "Spell Check"
 msgstr "imla denetimi"
 
-#: ../spellcheck/src/scplugin.c:40
+#: ../spellcheck/src/scplugin.c:44
 msgid "Checks the spelling of the current document."
 msgstr "Mevcut belgenin imla denetimini yapar."
 
-#: ../spellcheck/src/scplugin.c:41
-msgid "The Geany developer team"
-msgstr "Geany geliştirme takımı"
-
-#: ../spellcheck/src/scplugin.c:195
+#: ../spellcheck/src/scplugin.c:200
 msgid "Run Spell Check"
 msgstr "İmla Denetimi Yap"
 
-#: ../spellcheck/src/scplugin.c:198
+#: ../spellcheck/src/scplugin.c:203
 msgid "Toggle Check While Typing"
 msgstr "Yazarken Kontrol Et"
 
 #. initialise the dialog
-#: ../spellcheck/src/scplugin.c:209
+#: ../spellcheck/src/scplugin.c:214
 msgid "Select Directory"
 msgstr "Dizin Seçin"
 
-#: ../spellcheck/src/scplugin.c:246
+#: ../spellcheck/src/scplugin.c:251
 msgid "Check spelling while typing"
 msgstr "Yazma sırasında imla denetimi yap"
 
-#: ../spellcheck/src/scplugin.c:251
+#: ../spellcheck/src/scplugin.c:256
 msgid "Show toolbar item to toggle spell checking"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:256
+#: ../spellcheck/src/scplugin.c:261
 msgid "Show editor menu item to show spelling suggestions"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:262
+#: ../spellcheck/src/scplugin.c:267
 msgid "Print misspelled words and suggestions in the messages window"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:266
+#: ../spellcheck/src/scplugin.c:271
 msgid "Language to use for the spell check:"
 msgstr "İmla denetimi için kullanılacak dil:"
 
-#: ../spellcheck/src/scplugin.c:280
+#: ../spellcheck/src/scplugin.c:285
 msgid "_Directory to look for dictionary files:"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:288
+#: ../spellcheck/src/scplugin.c:293
 msgid ""
 "Read additional dictionary files from this directory. For now, this only "
 "works with myspell dictionaries."
@@ -2663,11 +2618,11 @@ msgstr ""
 
 #: ../spellcheck/src/gui.c:56
 msgid "Spell checking while typing is now enabled"
-msgstr ""
+msgstr "Yazarken imla denetimi artık aktif"
 
 #: ../spellcheck/src/gui.c:58
 msgid "Spell checking while typing is now disabled"
-msgstr ""
+msgstr "Yazarken imla denetimi artık pasif"
 
 #: ../spellcheck/src/gui.c:279
 msgid ""
@@ -2676,9 +2631,8 @@ msgid ""
 msgstr ""
 
 #: ../spellcheck/src/gui.c:284
-#, fuzzy
 msgid "Perform Spell Check"
-msgstr "imla denetimi"
+msgstr "İmla Denetimi Uygula"
 
 #: ../spellcheck/src/gui.c:316
 msgid "More..."
@@ -2740,14 +2694,15 @@ msgid ""
 msgstr ""
 
 #: ../geanylua/gsdlg_lua.c:108 ../geanylua/glspi.h:124
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
 " invalid table in argument #%d:\n"
 " expected type \"%s\" for element #%d\n"
 msgstr ""
 "\"%s\" modülü %s() fonksiyonunda hata:\n"
-"\"%s\" komutu için yeterli argüman girilmedi.\n"
+" geçersiz argüman #%d:\n"
+" \"%s\" türünde bekleniyordu, #%d elementi için\n"
 
 #: ../geanylua/glspi_init.c:390
 msgid "_Lua Scripts"
@@ -2803,14 +2758,15 @@ msgid ""
 msgstr ""
 
 #: ../geanylua/glspi_sci.c:793
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
 " invalid table in argument #%d:\n"
 " unknown flag \"%s\" for element #%d\n"
 msgstr ""
 "\"%s\" modülü %s() fonksiyonunda hata:\n"
-"\"%s\" komutu için yeterli argüman girilmedi.\n"
+" geçersiz argüman #%d:\n"
+" \"%s\" geçersiz bayrak, #%d elementi için\n"
 
 #: ../geanylua/glspi_sci.c:797
 msgid "<too large to display>"
@@ -2905,22 +2861,20 @@ msgstr ""
 "Copyright (c) 2007-2008 "
 
 #: ../geanylua/glspi_app.c:149
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
 "widget \"%s\" not found for argument #1.\n"
 msgstr ""
 "\"%s\" modülü %s() fonksiyonunda hata:\n"
-"\"%s\" komutu için yeterli argüman girilmedi.\n"
+"\"%s\", #1 argümanında bulunamadı.\n"
 
 #: ../geanylua/glspi_app.c:158
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error in module \"%s\" at function %s() argument #2:\n"
 "widget \"%s\" has no signal named \"%s\".\n"
 msgstr ""
-"\"%s\" modülü %s() fonksiyonunda hata:\n"
-"\"%s\" komutu için yeterli argüman girilmedi.\n"
 
 #: ../geanylua/glspi_dlg.c:338
 msgid "File exists"
@@ -2939,22 +2893,18 @@ msgid "Save file"
 msgstr "Dosyayı kaydet"
 
 #: ../geanylua/glspi_dlg.c:438
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error in module \"%s\" at function pickfile():\n"
 "failed to parse filter string at argument #3.\n"
 msgstr ""
-"\"%s\" modülü %s() fonksiyonunda hata:\n"
-"\"%s\" komutu için yeterli argüman girilmedi.\n"
 
 #: ../geanylua/glspi_dlg.c:488
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
 "expected string \"open\" or \"save\" for argument #1.\n"
 msgstr ""
-"\"%s\" modülü %s() fonksiyonunda hata:\n"
-"\"%s\" komutu için yeterli argüman girilmedi.\n"
 
 #: ../geanylua/glspi_run.c:112 ../geanylua/glspi_run.c:119
 msgid "Lua script error:"
@@ -3099,56 +3049,48 @@ msgstr "\"%s\" projesi açıldı."
 
 #: ../geanyinsertnum/src/insertnum.c:33 ../geanyinsertnum/src/insertnum.c:373
 #: ../geanyinsertnum/src/insertnum.c:501
-#, fuzzy
 msgid "Insert Numbers"
-msgstr "Etiket Ekle"
+msgstr "Numara Girin"
 
 #: ../geanyinsertnum/src/insertnum.c:33
 msgid "Insert/Fill columns with numbers."
 msgstr ""
 
 #: ../geanyinsertnum/src/insertnum.c:151
-#, fuzzy
 msgid "Counting..."
-msgstr "_Devam et"
+msgstr "Sayılıyor..."
 
 #: ../geanyinsertnum/src/insertnum.c:198
 msgid "Preparing..."
-msgstr ""
+msgstr "Hazırlanıyor..."
 
 #: ../geanyinsertnum/src/insertnum.c:204
-#, fuzzy
 msgid "Inserting..."
-msgstr "başlatılıyor"
+msgstr "Ekleniyor..."
 
 #: ../geanyinsertnum/src/insertnum.c:363
 msgid "For base 11 and above"
 msgstr ""
 
 #: ../geanyinsertnum/src/insertnum.c:385
-#, fuzzy
 msgid "_Start:"
-msgstr "_Durum"
+msgstr "Ba_şla:"
 
 #: ../geanyinsertnum/src/insertnum.c:390
-#, fuzzy
 msgid "S_tep:"
-msgstr "_Adım"
+msgstr "_Adım:"
 
 #: ../geanyinsertnum/src/insertnum.c:396
-#, fuzzy
 msgid "_Base:"
-msgstr "Du_rakla"
+msgstr "_Temel:"
 
 #: ../geanyinsertnum/src/insertnum.c:406
-#, fuzzy
 msgid "Letters:"
-msgstr "Mektup"
+msgstr "Harfler:"
 
 #: ../geanyinsertnum/src/insertnum.c:409
-#, fuzzy
 msgid "_Upper"
-msgstr "G_üncelle"
+msgstr "B_üyük"
 
 #: ../geanyinsertnum/src/insertnum.c:414
 msgid "_Lower"
@@ -3168,147 +3110,132 @@ msgstr ""
 
 #: ../geanyinsertnum/src/insertnum.c:424
 msgid "Sp_ace"
-msgstr ""
+msgstr "Bo_şluk"
 
 #: ../geanyinsertnum/src/insertnum.c:427
 msgid "_Zero"
-msgstr ""
+msgstr "S_ıfır"
 
 #: ../geanyinsertnum/src/insertnum.c:494
-#, fuzzy
 msgid "Insert _Numbers"
-msgstr "Etiket Ek_le"
+msgstr "Sayı Giri_n"
 
 #: ../treebrowser/src/treebrowser.c:89 ../treebrowser/src/treebrowser.c:1315
 msgid "Tree Browser"
-msgstr ""
+msgstr "Ağaç Gezgini"
 
 #: ../treebrowser/src/treebrowser.c:89
 msgid "Treeview filebrowser plugin."
-msgstr ""
+msgstr "Ağaç biçiminde dosya gezme eklentisi."
 
 #: ../treebrowser/src/treebrowser.c:260
-#, fuzzy, c-format
+#, c-format
 msgid "Directory '%s' not exists."
-msgstr "%s dizini bulunamadı!\n"
+msgstr "'%s' dizini bulunamadı."
 
 #: ../treebrowser/src/treebrowser.c:334 ../treebrowser/src/treebrowser.c:432
 msgid "Empty"
-msgstr ""
+msgstr "Boş"
 
 #: ../treebrowser/src/treebrowser.c:614
 #, c-format
 msgid "Could not execute configured external command '%s' (%s)."
-msgstr ""
+msgstr "Ayarlanmış harici komut çalıştırılamadı '%s' (%s)."
 
 #: ../treebrowser/src/treebrowser.c:674
-#, fuzzy
 msgid "NewDirectory"
-msgstr "_Dizin"
+msgstr "YeniDizin"
 
 #: ../treebrowser/src/treebrowser.c:677
-#, fuzzy
 msgid "NewFile"
-msgstr "_Dosya"
+msgstr "YeniDosya"
 
 #: ../treebrowser/src/treebrowser.c:740
-#, fuzzy, c-format
+#, c-format
 msgid "Do you really want to delete '%s' ?"
-msgstr "Gerçekten geri almak istiyor musunuz: %s?"
+msgstr "Gerçekten silmek istiyor musunuz: '%s' ?"
 
 #: ../treebrowser/src/treebrowser.c:835 ../treebrowser/src/treebrowser.c:1248
 msgid "Go up"
-msgstr ""
+msgstr "Yukarı git"
 
 #: ../treebrowser/src/treebrowser.c:839 ../treebrowser/src/treebrowser.c:1263
-#, fuzzy
 msgid "Set path from document"
-msgstr "Yeni dökümanınız için kodlamayı ayarlayın"
+msgstr "Yolu belgeden ayarla"
 
 #: ../treebrowser/src/treebrowser.c:843
 msgid "Open externally"
-msgstr ""
+msgstr "Harici olarak aç"
 
 #: ../treebrowser/src/treebrowser.c:848
-#, fuzzy
 msgid "Open Terminal"
-msgstr "Terminalde çalıştır"
+msgstr "Terminali Aç"
 
 #: ../treebrowser/src/treebrowser.c:852
 msgid "Set as root"
 msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:860
-#, fuzzy
 msgid "Create new directory"
-msgstr "Temel dizini eski haline getir"
+msgstr "Yeni dizin oluştur"
 
 #: ../treebrowser/src/treebrowser.c:864
-#, fuzzy
 msgid "Create new file"
-msgstr "Dosyayı güncelle"
+msgstr "Yeni dosya oluştur"
 
 #: ../treebrowser/src/treebrowser.c:868
-#, fuzzy
 msgid "Rename"
-msgstr "Dosya Adı: "
+msgstr "Yeniden adlandır"
 
 #: ../treebrowser/src/treebrowser.c:873
-#, fuzzy
 msgid "Delete"
-msgstr "Projeyi Sil"
+msgstr "Sil"
 
 #: ../treebrowser/src/treebrowser.c:881 ../treebrowser/src/treebrowser.c:1253
-#, fuzzy
 msgid "Refresh"
-msgstr "Seri"
+msgstr "Yenile"
 
 #: ../treebrowser/src/treebrowser.c:889
 msgid "Expand all"
-msgstr ""
+msgstr "Hepsini aç"
 
 #: ../treebrowser/src/treebrowser.c:893
-#, fuzzy
 msgid "Collapse all"
-msgstr "Tümü_nü Kapat"
+msgstr "Tümünü Kapat"
 
 #: ../treebrowser/src/treebrowser.c:900
-#, fuzzy, c-format
+#, c-format
 msgid "Close: %s"
-msgstr "Tümü_nü Kapat"
+msgstr "Kapat: %s"
 
 #: ../treebrowser/src/treebrowser.c:905
 #, c-format
 msgid "Copy full path"
-msgstr ""
+msgstr "Tam yolu kopyala"
 
 #: ../treebrowser/src/treebrowser.c:913 ../treebrowser/src/treebrowser.c:1531
 msgid "Show bookmarks"
-msgstr ""
+msgstr "Yer imlerini göster"
 
 #: ../treebrowser/src/treebrowser.c:918 ../treebrowser/src/treebrowser.c:1480
 msgid "Show hidden files"
-msgstr ""
+msgstr "Gizli dosyaları göster"
 
 #: ../treebrowser/src/treebrowser.c:923 ../treebrowser/src/treebrowser.c:1470
-#, fuzzy
 msgid "Show bars"
-msgstr "Durumu göster"
+msgstr "Çubukları göster"
 
 #: ../treebrowser/src/treebrowser.c:1258
-#, fuzzy
 msgid "Home"
-msgstr "Cilt"
+msgstr "Ev"
 
 #: ../treebrowser/src/treebrowser.c:1268
-#, fuzzy
 msgid "Track path"
-msgstr "Temel dizin:"
+msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1273
-#, fuzzy
 msgid "Hide bars"
-msgstr "Yan Panel_i Gizle"
+msgstr "Çubukları gizle"
 
 #: ../treebrowser/src/treebrowser.c:1283
 msgid ""
@@ -3318,11 +3245,11 @@ msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1291
 msgid "Addressbar for example '/projects/my-project'"
-msgstr ""
+msgstr "Adres satırı, örneğin '/projeler/benim-projem'"
 
 #: ../treebrowser/src/treebrowser.c:1447
 msgid "External open command"
-msgstr ""
+msgstr "Harici açma komutu"
 
 #: ../treebrowser/src/treebrowser.c:1452
 #, c-format
@@ -3351,9 +3278,8 @@ msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1487
-#, fuzzy
 msgid "Hide object files"
-msgstr "Dosya seçin"
+msgstr "Nesne dosyalarını gizle"
 
 #: ../treebrowser/src/treebrowser.c:1492
 msgid ""
@@ -3362,9 +3288,8 @@ msgid ""
 msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1494
-#, fuzzy
 msgid "Reverse filter"
-msgstr "Tek dosyayı eski haline getir"
+msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1499
 msgid "Follow current document"
@@ -3376,7 +3301,7 @@ msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1509
 msgid "Double click open directory"
-msgstr ""
+msgstr "Dizini açmak için çift tık"
 
 #: ../treebrowser/src/treebrowser.c:1514
 msgid "On expand, refresh directory view"
@@ -3384,51 +3309,50 @@ msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1519
 msgid "On delete file, close it if is opened"
-msgstr ""
+msgstr "Silme tuşu, eğer açık ise kapat"
 
 #: ../treebrowser/src/treebrowser.c:1524
-#, fuzzy
 msgid "Show tree lines"
-msgstr "İpuçlarını göster."
+msgstr ""
 
 #: ../geanyextrasel/src/extrasel.c:30
-#, fuzzy
 msgid "Extra Selection"
-msgstr "Yazıtipi Seçin"
+msgstr ""
 
 #: ../geanyextrasel/src/extrasel.c:30
 msgid "Column mode, select to line / matching brace."
 msgstr ""
 
-#: ../geanyextrasel/src/extrasel.c:265
+#: ../geanyextrasel/src/extrasel.c:276
 msgid "E_xtra selection"
 msgstr ""
 
-#: ../geanyextrasel/src/extrasel.c:271
+#: ../geanyextrasel/src/extrasel.c:282
 msgid "_Column mode"
-msgstr ""
+msgstr "S_ütun Modu"
 
-#: ../geanyextrasel/src/extrasel.c:275
+#: ../geanyextrasel/src/extrasel.c:286
 msgid "Column mode"
+msgstr "Sütun Modu"
+
+#: ../geanyextrasel/src/extrasel.c:288
+msgid "Select to _Line"
 msgstr ""
 
-#: ../geanyextrasel/src/extrasel.c:277
-#, fuzzy
-msgid "Select to _Line"
-msgstr "Yazıtipi Seçin"
-
-#: ../geanyextrasel/src/extrasel.c:281
-#, fuzzy
+#: ../geanyextrasel/src/extrasel.c:292
 msgid "Select to line"
-msgstr "Yazıtipi Seçin"
+msgstr ""
 
-#: ../geanyextrasel/src/extrasel.c:283
+#: ../geanyextrasel/src/extrasel.c:294
 msgid "Select to Matching _Brace"
 msgstr ""
 
-#: ../geanyextrasel/src/extrasel.c:288
+#: ../geanyextrasel/src/extrasel.c:299
 msgid "Select to matching brace"
 msgstr ""
+
+#~ msgid "The Geany developer team"
+#~ msgstr "Geany geliştirme takımı"
 
 #~ msgid "Code Navigation plug-in configuration"
 #~ msgstr "Kod gezgini eklentisi ayarları"
