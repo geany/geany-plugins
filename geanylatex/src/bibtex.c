@@ -148,7 +148,7 @@ void glatex_bibtex_write_entry(GPtrArray *entry, gint doctype)
 			if (utils_str_equal(g_ptr_array_index (entry, i), "\0"))
 			{
 				g_string_append(output, glatex_label_entry_keywords[i]);
-				g_string_append(output," = {}");
+				g_string_append(output," = {},");
 				g_string_append(output, eol);
 			}
 			/* ... or has some real value inside. */
@@ -157,7 +157,7 @@ void glatex_bibtex_write_entry(GPtrArray *entry, gint doctype)
 				g_string_append(output, glatex_label_entry_keywords[i]);
 				g_string_append(output, " = {");
 				g_string_append(output, g_ptr_array_index(entry, i));
-				g_string_append(output, "}");
+				g_string_append(output, "},");
 				g_string_append(output, eol);
 			}
 		}
