@@ -507,15 +507,17 @@ ggd_insert_comment (GeanyDocument  *doc,
                     const gchar    *doc_type)
 {
   gboolean          success = FALSE;
-  const TMTag      *tag;
-  GPtrArray        *tag_array;
+  const TMTag      *tag = NULL;
+  GPtrArray        *tag_array = NULL;
   GgdFileType      *filetype;
   GgdDocType       *doctype;
   
   g_return_val_if_fail (DOC_VALID (doc), FALSE);
   
-  tag_array = doc->tm_file->tags_array;
-  tag = ggd_tag_find_from_line (tag_array, line + 1 /* it is a SCI line */);
+  if (doc->tm_file) {
+    tag_array = doc->tm_file->tags_array;
+    tag = ggd_tag_find_from_line (tag_array, line + 1 /* it is a SCI line */);
+  }
   if (! tag || (tag->type & tm_tag_file_t)) {
     msgwin_status_add (_("No valid tag at line %d."), line);
   } else {
@@ -559,7 +561,12 @@ ggd_insert_all_comments (GeanyDocument *doc,
   
   g_return_val_if_fail (DOC_VALID (doc), FALSE);
   
-  if (get_config (doc, doc_type, &filetype, &doctype)) {
+  if (! doc->tm_file) {
+    /* FIXME: we're on string freeze then don't add a new string; simply re-use
+     * an existing one. Need to fix this after string freeze. */
+    /*msgwin_status_add (_("No tags in the document"));*/
+    msgwin_status_add (_("No valid tag at line %d."), 1);
+  } else if (get_config (doc, doc_type, &filetype, &doctype)) {
     GList    *tag_list;
     
     /* get a sorted list of tags to be sure to insert by the end of the
