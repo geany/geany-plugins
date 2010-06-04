@@ -260,9 +260,9 @@ ggd_tag_find_parent (const GPtrArray *tags,
     GGD_PTR_ARRAY_FOR (tags, i, el) {
       if (! (el->type & tm_tag_file_t) &&
           (utils_str_equal (el->name, parent_name) &&
-           utils_str_equal (el->atts.entry.scope, parent_scope))) {
+           utils_str_equal (el->atts.entry.scope, parent_scope) &&
+           el->atts.entry.line <= child->atts.entry.line)) {
         tag = el;
-        break;
       }
     }
     g_free (parent_scope);
