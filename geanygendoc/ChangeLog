@@ -1,12 +1,64 @@
+2010-06-04  Colomban Wendling  <ban(at)herbesfolles(dot)org>
+
+  * src/ggd.c:
+    Fix crash when trying to generate documentation for a document with
+    doc->tm_file == NULL, which is the case e.g. for None file type.
+  * src/ggd-tag-utils.c:
+    Fix finding the parent of a tag if this parent have the same name and
+    scope than another tag in the document.
+
+
+2010-06-03  Colomban Wendling  <ban(at)herbesfolles(dot)org>
+
+  * src/ggd-plugin.c:
+    Use new PLUGIN_SET_TRANSLATABLE_INFO() macro
+
+
+2010-05-27  Colomban Wendling  <ban(at)herbesfolles(dot)org>
+
+  * docs/Makefile.am, docs/help/Makefile.am -> docs/Makefile.am,
+    docs/help/html4css1.css -> docs/html4css1.css,
+    docs/help/manual.css -> docs/manual.css,
+    docs/help/manual.html -> docs/manual.html,
+    docs/help/manual.rst -> docs/manual.rst, src/ggd-plugin.c:
+    Move the manual sources from docs/help to docs since the sub-directory
+    is useless and led to some confusion.
+    Install the HTML version of the manual in DOCDIR/html rather than
+    DOCDIR.
+
+
+2010-05-26  Colomban Wendling  <ban(at)herbesfolles(dot)org>
+
+  * data/filetypes/c.conf:
+    Fix "brief" Doxygen tag in C configuration.
+
+
 2010-05-23  Colomban Wendling  <ban(at)herbesfolles(dot)org>
 
-  * ChangeLog, Makefile.am, data/filetypes/Makefile.am, src/ggd-utils.c:
+  * Makefile.am, data/filetypes/Makefile.am, src/ggd-utils.c:
     Temporary hackish fix for data installation.
-  * ChangeLog, docs/help/Makefile.am, docs/help/manual.html:
+  * docs/help/Makefile.am, docs/help/manual.html:
     Add the generated HTML manual under VCS for the users not to need
     docutils.
-  * ChangeLog, docs/help/Makefile.am:
+  * docs/help/Makefile.am:
     Install plain-text manual together with the HTML version.
+  * data/filetypes/Makefile.am, src/ggd-utils.c:
+    Make use of the brand new PKGDATADIR.
+  * src/ggd-utils.c:
+    Don't unnecessarily prefix the paths with the directory separator since
+    they already are absolute and it brakes them on Windows (\C:\...).
+  * src/ggd-utils.c:
+    Fix error reporting in ggd_get_config_file(). Don't report an error in 
+    the GError if there is actually no error, which may lead the caller not 
+    to handle this correctly, or to corrupt its other uses of the passed 
+    error.
+  * src/Makefile.am:
+    Set the G_LOG_DOMAIN constant to make the log message of the plugin
+    easily identifiable from those of Geany or other plugins.
+  * src/ggd-plugin.c:
+    Don't report a missing configuration file as a warning. Only print an 
+    information if the configuration file is missing, since it is not a 
+    problem and the file never exists at first start-up.
 
 
 2010-05-22  Colomban Wendling  <ban(at)herbesfolles(dot)org>
