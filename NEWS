@@ -7,19 +7,19 @@ Geany-plugins 0.19 (t.b.p.s)
     * Bugfix: Should compile on BSD again.
     * Bugfix: Now loads files which have a space in path.
     * Bugfix: Fixed an issue, where some localizations may caused a crash.
-	* Bugfix: Run gdb with LANG=C to avoid locale-related clashes when
-	  parsing the gdb output for the localized version break- and watchpoints.
+    * Bugfix: Run gdb with LANG=C to avoid locale-related clashes when
+      parsing the gdb output for the localized version break- and watchpoints.
     * Bugfix: Improve the way a running process gets killed.
-	* Bugfix: Fix the general geany slowness that geanygdb causes once a
-	  binary is loaded
-	* Usability: Fixed confusing naming issues. This plugin is now
-	  consistently called GeanyGDB, the Unix name is geanygdb (lowercase).
+    * Bugfix: Fix the general geany slowness that geanygdb causes once a
+      binary is loaded
+    * Usability: Fixed confusing naming issues. This plugin is now
+      consistently called GeanyGDB, the Unix name is geanygdb (lowercase).
     * Usability: add a menu entry to the Geany menubar
     * Usability: add the possibilty to set keyboard shortcuts
-	* Added a page to the info area at the bottom of Geany, which will be
-	  used to display the stack and local variables or watches in future
-	* API: Update GeanyGDB to use current API interface of Geany, to be
-	  compatible with current Geany versions.
+    * Added a page to the info area at the bottom of Geany, which will be
+      used to display the stack and local variables or watches in future
+    * API: Update GeanyGDB to use current API interface of Geany, to be
+      compatible with current Geany versions.
 
 
 Geany-plugins 0.18 (October 28, 2009)
