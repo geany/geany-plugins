@@ -1,6 +1,8 @@
 plugindocdir = $(docdir)/$(plugin)
 htmldocdir = $(plugindocdir)
-examplesdir = $(pkgdatadir)/$(plugin)
+plugindatadir = $(pkgdatadir)/$(plugin)
+pluginlibdir = $(pkglibdir)/$(plugin)
+examplesdir = $(plugindatadir)
 AUXFILES = \
 	README \
 	ChangeLog \
