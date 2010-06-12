@@ -42,6 +42,18 @@ Geany-plugins 0.19 (t.b.p.s)
     • Added automatic inserting of {} after typing a command and hitting
       return in case of none pair is already present
 
+    Addons:
+    * Add new addon 'Strip trailing blank lines' by Eugene Arshinov.
+    * Add new addon 'XML Taggging' by Frank Lanitz.
+    * Add new addon 'Mark Word'.
+    * Add new addon 'Bookmark List'.
+    * Rework the 'Tasks' addon to be more flexible and faster.
+
+    Spell Check:
+    * Add an option to make the editor menu items for Spelling Suggestions
+      optional.
+    * Minor bug fixes
+
 
 Geany-plugins 0.18 (October 28, 2009)
 
