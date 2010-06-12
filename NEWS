@@ -1,4 +1,4 @@
-Geany-plugins 0.19 (t.b.p.s)
+Geany-Plugins 0.19 (t.b.p.s)
 
     General:
     * Added new plugin GeanyGenDoc.
@@ -6,7 +6,7 @@ Geany-plugins 0.19 (t.b.p.s)
     GeanySendMail:
     * Allow hitting return to close email address dialog and proceed.
 
-    GeanyGDB
+    GeanyGDB:
     * Bugfix: Should compile on BSD again.
     * Bugfix: Now loads files which have a space in path.
     * Bugfix: Fixed an issue, where some localizations may caused a crash.
@@ -14,13 +14,13 @@ Geany-plugins 0.19 (t.b.p.s)
       parsing the gdb output for the localized version break- and watchpoints.
     * Bugfix: Improve the way a running process gets killed.
     * Bugfix: Fix the general geany slowness that geanygdb causes once a
-      binary is loaded
+      binary is loaded.
     * Usability: Fixed confusing naming issues. This plugin is now
       consistently called GeanyGDB, the Unix name is geanygdb (lowercase).
-    * Usability: add a menu entry to the Geany menubar
-    * Usability: add the possibilty to set keyboard shortcuts
+    * Usability: add a menu entry to the Geany menubar.
+    * Usability: add the possibilty to set keyboard shortcuts.
     * Added a page to the info area at the bottom of Geany, which will be
-      used to display the stack and local variables or watches in future
+      used to display the stack and local variables or watches in future.
     * API: Update GeanyGDB to use current API interface of Geany, to be
       compatible with current Geany versions.
 
@@ -52,10 +52,10 @@ Geany-plugins 0.19 (t.b.p.s)
     Spell Check:
     * Add an option to make the editor menu items for Spelling Suggestions
       optional.
-    * Minor bug fixes
+    * Minor bug fixes.
 
 
-Geany-plugins 0.18 (October 28, 2009)
+Geany-Plugins 0.18 (October 28, 2009)
 
     General:
     * Added new plugins GeanyDoc and GeanyPrj.
@@ -74,7 +74,7 @@ Geany-plugins 0.18 (October 28, 2009)
     * Updated translations: de, es, pt_BR, pt, tr.
 
 
-Geany-plugins 0.17.1 (July 21, 2009)
+Geany-Plugins 0.17.1 (July 21, 2009)
 
     General:
     * Avoid using GHashTable functions from newer GLib versions to fix
@@ -89,6 +89,6 @@ Geany-plugins 0.17.1 (July 21, 2009)
     * GeanyLaTeX: Fix toolbar issue.
 
 
-Geany-plugins 0.17 (July 14, 2009)
+Geany-Plugins 0.17 (July 14, 2009)
 
     * First release.
