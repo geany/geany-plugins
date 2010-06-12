@@ -59,6 +59,10 @@ Geany-Plugins 0.19 (t.b.p.s)
     * Bugfix: Fix an error, when the language for spellchecking inside
       commit dialog is not set properly
 
+    Internationalisation:
+    * New translations: gl, zh_CN.
+    * Updated translations: de, ja, pt, pt_BR, tr.
+
 
 Geany-Plugins 0.18 (October 28, 2009)
 
