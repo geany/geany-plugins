@@ -47,7 +47,7 @@ openany,%
 \hypersetup{pdftex=true, colorlinks=true, breaklinks=true, linkcolor=black, urlcolor=darkblue}
 
 \title{Geany\LaTeX{} -- A \LaTeX{} plugin for Geany \\[1.5ex]
-	   \normalsize Version 0.5dev}
+	   \normalsize Version 0.5}
 \author{Frank Lanitz \\ \small{\href{mailto:frank@frank.uvena.de}{frank@frank.uvena.de}}}
 \date{\today}
 
@@ -58,7 +58,8 @@ openany,%
 \dedication{\normalsize \textbf{Note:} Please note that this document has been created on
 \today. If you are using a devel version from SVN, please compile and check
 \texttt{doc/geanylatex.tex} from sources. Please check Page \pageref
-{sec:compiling_of_documentation}, Section \ref{sec:compiling_of_documentation} to see how to do this. }
+{sec:compiling_of_documentation}, Section \ref{sec:compiling_of_documentation} on how to do this. }
+
 
 \pagenumbering{Roman}
 \maketitle
@@ -82,8 +83,8 @@ It implements a couple of hopefully useful functions:
 	\item Help on BibTeX entries by templates
 	\item Easy insertion of format patterns like \textbackslash texttt{}
 		  through the menu
-	\item Support of environment insertion by offering an dialog and
-		  recognising selections
+	\item Support of environment insertion by offering a dialog and
+		  recognizing selections
 	\item Shortcuts for inserting \textbackslash item and
 		  \textbackslash newline
 	\item Toolbar with frequently used format options
@@ -92,7 +93,7 @@ It implements a couple of hopefully useful functions:
 
 \newpage
 \section{News \& ChangeLog}
-\subsection*{Since 0.4}
+\subsection*{Geany\LaTeX{} 0.5 -- 2010-06-13}
 \begin{itemize}
 
 	\item Introduced custom templates for \LaTeX-Wizard
@@ -167,7 +168,7 @@ valid for the standalone distribution of Geany\LaTeX{}. If you are
 about to use the common geany-plugins project, please check their
 documentation as there are some specialties you might like to know.}
 
-\subsection{Compiling the plugin itself}
+\subsection{Compiling the plugin}
 Compiling and installing the code is done by the following three
 commands:
 
@@ -179,17 +180,17 @@ $ ./waf install %$
 \end{lstlisting}
 \end{figure}
 
-For more configuration details run \texttt{./waf --help}
+For more configuration details, run \texttt{./waf --help}
 
-By default the plugin is getting installed into the lib subfolder of
-your found Geany installation. So if you have installed Geany to
+By default, the plugin is installed into the \texttt{lib} subfolder of
+your Geany installation. So if you have installed Geany to
 \texttt{/usr/local/} the plugin will be installed to
 \texttt{/usr/local/lib/geany/}. Translation files will be installed to
 \texttt{/usr/local/share/locale/} in this case.
 
 If there are any errors during compilation, check your build environment
 and try to find the error, otherwise contact one of the
-authors\footnote{Contact data can be found at chapter \ref{contact},
+authors\footnote{Contact data can be found in Chapter \ref{contact},
 page \pageref{contact}.}
 
 \subsection{Compiling the documentation}
@@ -210,7 +211,7 @@ htlatex geanylatex.tex xhtml -cvalidate -interaction=batchmode
 \section{Usage}
 \begin{figure}[h!]
 	\centering{\includegraphics[height=7cm]{img/plugin_manager.png}}
-	\caption{Plugin manager with Geany\LaTeX{} of Geany 0.16}
+	\caption{Plugin manager with Geany\LaTeX{} 0.5 at Geany 0.19}
 \end{figure}
 
 After Geany\LaTeX{} has been installed successful the plugin can be
@@ -237,7 +238,7 @@ The \LaTeX-Wizard is implementing a easy way creating a number of
 default documents.
 \begin{figure}[h!]
 	\centering{\includegraphics[height=7cm]{img/latexwizard.png}}
-	\caption{\LaTeX-Wizard of version 0.5dev}
+	\caption{\LaTeX-Wizard of version 0.5}
 \end{figure}
 
 The wizard is offering a chance to choose from a couple of templates
@@ -268,7 +269,7 @@ deactivated by default and can be set through Geany\LaTeX{}'s
 configuration dialog mentioned earlier in this document.
 
 This wizard can also be called by a shortcut. Please have a look onto
-section \ref{kb_latex_wizard}, page \pageref{kb_latex_wizard}.
+Section \ref{kb_latex_wizard}, page \pageref{kb_latex_wizard}.
 
 \subsubsection{Default templates}
 Document types that are currently supported by the wizard are:
@@ -331,7 +332,7 @@ feel also free to publish templates in case of you have some useful
 one.
 
 If you need more general templates, you may have a look onto Geany's
-build in template feature -- briefly introduced on chapter \ref
+build in template feature -- briefly introduced on Chapter \ref
 {sec:recommended_things_geany_template_system}, page \pageref
 {sec:recommended_things_geany_template_system}.
 
@@ -342,7 +343,7 @@ comfortable adding new labels and reference offering a GUI.
 
 \begin{figure}[h!]
 	\centering{\includegraphics[height=2.5cm]{img/insert_label.png}}
-	\caption{Insert label dialog on Geany\LaTeX{} 0.4}
+	\caption{Insert label dialog on Geany\LaTeX{} 0.5}
 \end{figure}
 
 After an label was added Geany\LaTeX{} is offering a dialog for
@@ -350,7 +351,7 @@ inserting normal references and page references to a label.
 
 \begin{figure}[h!]
 	\centering{\includegraphics[height=3.5cm]{img/insert_reference.png}}
-	\caption{Insert reference dialog on Geany\LaTeX{} 0.5svn}
+	\caption{Insert reference dialog on Geany\LaTeX{} 0.5}
 \end{figure}
 
 The suggestions inside the pull down are based on the aux files
@@ -361,7 +362,7 @@ is tried to interpret them properly. The found entries will be
 inserted into pull down sorted by alphabet.
 
 Both, the inserting labels as well as the inserting reference dialog
-can be accessed by key binding also. See chapter \ref
+can be accessed by key binding also. See Chapter \ref
 {kb_insert_label} here.
 
 \subsection{BibTeX templates for catalogue entries}
@@ -453,7 +454,7 @@ will be inserted to the document.
 
 \begin{figure}[h!]
 	\centering{\includegraphics[height=2.5cm]{img/insert_environment.png}}
-	\caption{Insert environment dialog on Geany\LaTeX{} 0.4}
+	\caption{Insert environment dialog on Geany\LaTeX{} 0.5}
 \end{figure}
 
 
@@ -508,7 +509,7 @@ automatically add the fitting \texttt{\textbackslash{}end\{\}} or
 \texttt{\textbackslash{}endgroup\{\}} if its not finding a closing
 tag within the definded context length -- by default this means
 inside following 5 lines. If you like to change this size, please
-check chapter \ref {sec:hidden_pref_autocompletion_context}, page
+check Chapter \ref {sec:hidden_pref_autocompletion_context}, page
 \pageref {sec:hidden_pref_autocompletion_context}.
 
 This feature is by default file type depending, so it will only work
@@ -567,7 +568,6 @@ autocompletion or not. Values are either
 	\item Don't care about this inside plugin or
 	\item Always perform autocompletion on LaTeX
 \end{enumerate}
-
 
 \subsection{Key bindings}
 Keybindings which are available:
@@ -761,12 +761,12 @@ topics in translation:
 	   Please contact the authors if you plan to update/add a translation
 	   to ensure nobody else is currently working on and avoid double
 	   work and to get some further information about translation (see
-	   chapter \ref{contact}).
+	   Chapter \ref{contact}).
 \item \textbf{Translation of documentation:}
 	   Since this document is currently only available in English it
 	   would be helpful for not English speaking people to have a
 	   translated version. If you like to do an translation, please
-	   also contact one of the authors for details (see chapter \ref{contact}).
+	   also contact one of the authors for details (see Chapter \ref{contact}).
 \end{enumerate}
 
 \subsubsection{Adding a new feature}
@@ -777,7 +777,7 @@ tracker of geany-plugins project at
 \url{http://sourceforge.net/tracker/?group\_id=222729} whether you find
 something interesting. Of course we are also open for not in the
 sources mentioned before listed items. Just contact one of the authors
-(see chapter \ref{contact}).
+(see Chapter \ref{contact}).
 
 When sending a patch which is adding a new feature, please check
 whether you did also care about some documentation for it. As the
@@ -854,9 +854,8 @@ Since this is only a snapshot, you will find more recent information
 for all reported issues bug tracking system of SF at \\
 \url{http://sourceforge.net/tracker/?group\_id=222729}
 
-\newpage
 \section{Recommendations to improve work with \LaTeX{} and Geany}
-Geany is offering a number of nice features, that can be used to make
+Geany is offering a number of nice features that can be used to make
 daily work more easy without need to write a new plugin or extend
 Geany\LaTeX{}.
 
@@ -879,20 +878,19 @@ xdvi -editor "geany --line %l '%%f'" "%f"
 
 \subsection{Geany's template system}
 \label{sec:recommended_things_geany_template_system}
-If you don't need a dynamic template as described in chapter \ref
+If you don't need a dynamic template as described in Chapter \ref
 {sec:extending_wizard_by_own_templates}, page \pageref
 {sec:extending_wizard_by_own_templates} you can also use Geany's
 buildin template function which allows to also add customised
 templates, including placeholders for e.g. author's name, but in a
 more general and non\LaTeX{}-specific way. Nevertheless you should
-give it a try as it useful in many cases. For information how to
-create your own template using Geany's build in feature, please
-check manual.
+give it a try as it is useful in many cases. For information on how to
+create your own template using Geany's built-in feature, please
+check the manual.
 
 \subsection{Geany's code snippet function}
-Geany is allowing you to define code snippets and inserting them easy
-during writing a document. This gives you some more flexibility than to
-create new commands.
+Geany allows you to define code snippets and re-insert them easily
+at different places throughout your document.
 
 A possible snippet for snippets.conf could be:
 
@@ -907,12 +905,12 @@ description=\\begin{description}\n%ws%\\item %cursor%\n\\end{description}
 \end{lstlisting}
 \end{figure}
 
-A snapshot of authors' last version for LaTeX can be found on
+A snapshot of the authors' last version for LaTeX can be found on
 \url{http://www.geany.org/Download/Extras}
 
 \subsection{Other useful plugins}
-As mentioned before a number of useful functions were already
-implemented with other plugins. Below you will find a list with the
+As mentioned before, a number of useful functions are already
+implemented in other plugins. Below you will find a list with the
 authors's recommendations. More nice plugins can be found on Geany's
 plugins page at \url{http://www.geany.org}.
 
