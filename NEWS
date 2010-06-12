@@ -54,6 +54,11 @@ Geany-Plugins 0.19 (t.b.p.s)
       optional.
     * Minor bug fixes.
 
+    GeanyVC:
+    * Some minor code cleanups
+    * Bugfix: Fix an error, when the language for spellchecking inside
+      commit dialog is not set properly
+
 
 Geany-Plugins 0.18 (October 28, 2009)
 
