@@ -52,7 +52,7 @@ PLUGIN_SET_TRANSLATABLE_INFO (
   LOCALEDIR, GETTEXT_PACKAGE,
   _("Documentation Generator"),
   _("Generates documentation basis from source code"),
-  VERSION,
+  GGD_PLUGIN_VERSION,
   "Colomban Wendling <ban@herbesfolles.org>"
 )
 
