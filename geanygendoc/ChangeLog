@@ -3,6 +3,8 @@
   * src/ggd-tag-utils.c:
     Fix finding of tag's children. Pretty hackish fix but it now works even if
     there is two top-level tags sharing the same name.
+  * NEWS:
+    Update NEWS file.
 
 
 2010-06-04  Colomban Wendling  <ban(at)herbesfolles(dot)org>

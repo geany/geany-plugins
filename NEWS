@@ -1,5 +1,8 @@
 Geany-plugins 0.19 (t.b.p.s)
 
+    General:
+    * Added new plugin GeanyGenDoc.
+
     GeanySendMail:
     * Allow hitting return to close email address dialog and proceed.
 
