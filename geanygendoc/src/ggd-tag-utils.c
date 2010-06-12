@@ -505,6 +505,7 @@ scope_child_matches (const gchar *a,
  * @parent: Tag for which get children
  * @geany_ft: The Geany's file type identifier for which tags were generated
  * @depth: Maximum depth for children to be found (< 0 means infinite)
+ *         Value != 0 aren't honored for now, see FIXME in function's body.
  * @filter: A logical OR of the TMTagType<!-- -->s to match
  * 
  * Finds children tags of a #TMTag that matches @matches.
@@ -523,28 +524,40 @@ ggd_tag_find_children_filtered (const GPtrArray *tags,
   GList  *children = NULL;
   guint   i;
   TMTag  *el;
-  gchar  *fake_scope;
+  /*gchar  *fake_scope;*/
   
   g_return_val_if_fail (tags != NULL, NULL);
   g_return_val_if_fail (parent != NULL, NULL);
   
-  if (parent->atts.entry.scope) {
+  /*if (parent->atts.entry.scope) {
     fake_scope = g_strconcat (parent->atts.entry.scope,
                               ggd_tag_utils_get_context_separator (geany_ft),
                               parent->name, NULL);
   } else {
     fake_scope = g_strdup (parent->name);
-  }
+  }*/
   GGD_PTR_ARRAY_FOR (tags, i, el) {
-    if (scope_child_matches (fake_scope, el->atts.entry.scope,
-                             geany_ft, depth) &&
-        el->type & filter) {
+    /* FIXME: we definitely need a better way to determinate who is child of
+     * who and who is parent of who.
+     * On this side, it may find as children a tag that isn't the children,
+     * and simply getting children that comes after parent isn't a proper fix
+     * since the first possible parent will have all children.
+     * Crap.
+     * 
+     * Hack by checking if the parent of the element is the same as the parent
+     * we search for children. It breaks depth >= 0, but as we don't use it for
+     * now it's OK. A little odd but it works. */
+    if (el->type & filter &&
+        /*el->atts.entry.line >= parent->atts.entry.line &&*/
+        /*scope_child_matches (fake_scope, el->atts.entry.scope,
+                             geany_ft, depth) &&*/
+        ggd_tag_find_parent (tags, geany_ft, el) == parent) {
       children = g_list_insert_sorted_with_data (children, el,
                                                  tag_cmp_by_line,
                                                  GINT_TO_POINTER (GGD_SORT_ASC));
     }
   }
-  g_free (fake_scope);
+  /*g_free (fake_scope);*/
   
   return children;
 }
