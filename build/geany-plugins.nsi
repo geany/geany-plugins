@@ -25,7 +25,7 @@
 
 ; Do a Cyclic Redundancy Check to make sure the installer was not corrupted by the download
 CRCCheck force
-RequestExecutionLevel user ; set execution level for Windows Vista
+RequestExecutionLevel highest ; set execution level for Windows Vista
 
 ;;;;;;;;;;;;;;;;;;;
 ; helper defines  ;
