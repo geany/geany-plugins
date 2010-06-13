@@ -25,22 +25,22 @@ Geany-Plugins 0.19 (t.b.p.s)
       compatible with current Geany versions.
 
     GeanyLaTeX:
-    * Introduced custom templates for LaTeX-Wizard
-    * Added a LaTeX-Wizard icon to the toolbar
+    * Introduced custom templates for LaTeX-Wizard.
+    * Added a LaTeX-Wizard icon to the toolbar.
     * Added shortcuts for inserting common list environments like
-      enumerate, itemize and description
+      enumerate, itemize and description.
     * Some general bugfixes and improvements. As always, see the
       ChangeLog or svn log.
-    * Switched to waf for building the plugin (stand alone version only)
+    * Switched to waf for building the plugin (stand alone version only).
     * Moved some LaTeX-specific stuff out of Geany’s core into the plugin.
-      This affects features like
-      * Autocompletion of \end{} and \endgroup{}
-    * Proceeded to Geany Plugin API v184
+      This affects features like.
+    * Autocompletion of \end{} and \endgroup{}.
+    * Proceeded to Geany Plugin API v184.
     * Made reference insertion configurable.
-    * Added an function to insert \usepackage{} into header of file
-    * Automatic adding of {} after typing of and ˆ
+    * Added an function to insert \usepackage{} into header of file.
+    * Automatic adding of {} after typing of and ˆ.
     * Added automatic inserting of {} after typing a command and hitting
-      return in case of none pair is already present
+      return in case of none pair is already present.
 
     Addons:
     * Add new addon 'Strip trailing blank lines' by Eugene Arshinov.
@@ -55,9 +55,9 @@ Geany-Plugins 0.19 (t.b.p.s)
     * Minor bug fixes.
 
     GeanyVC:
-    * Some minor code cleanups
+    * Some minor code cleanups.
     * Bugfix: Fix an error, when the language for spellchecking inside
-      commit dialog is not set properly
+      commit dialog is not set properly.
 
     Internationalisation:
     * New translations: gl, zh_CN.
