@@ -1,7 +1,12 @@
 Geany-Plugins 0.19 (t.b.p.s)
 
     General:
-    * Added new plugin GeanyGenDoc.
+    * Add new plugin CodeNav.
+    * Add new plugin GeanyExtraSel.
+    * Add new plugin GeanyGenDoc.
+    * Add new plugin GeanyInsertNum.
+    * Add new plugin Pretty-Printer.
+    * Add new plugin TreeBrowser.
 
     GeanySendMail:
     * Allow hitting return to close email address dialog and proceed.
