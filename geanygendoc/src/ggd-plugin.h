@@ -49,7 +49,7 @@ GGD_BEGIN_PLUGIN_API
 #define GGD_PLUGIN_ONAME    geanygendoc
 #define GGD_PLUGIN_CNAME    G_STRINGIFY (GGD_PLUGIN_ONAME)
 #define GGD_PLUGIN_NAME     "GeanyGenDoc"
-#define GGD_PLUGIN_VERSION  "0.1" /* Don't use Geany-Plugin's version */
+#define GGD_PLUGIN_VERSION  "0.2" /* Don't use Geany-Plugin's version */
 
 
 /* global plugin options */

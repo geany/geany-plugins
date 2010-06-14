@@ -1,3 +1,9 @@
+2010-06-14  Colomban Wendling  <ban(at)herbesfolles(dot)org>
+
+  * src/ggd-plugin.h:
+    Post-release version bump.
+
+
 2010-06-12  Colomban Wendling  <ban(at)herbesfolles(dot)org>
 
   * src/ggd-tag-utils.c:
