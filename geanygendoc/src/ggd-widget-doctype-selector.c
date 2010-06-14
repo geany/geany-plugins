@@ -25,30 +25,42 @@
 #include "ggd-plugin.h"
 
 
-static void   ggd_doctype_selector_finalize     (GObject *object);
-static void   ggd_doctype_selector_constructed  (GObject *object);
-static void   doctype_column_edited_handler     (GtkCellRendererText *renderer,
-                                                 gchar               *path,
-                                                 gchar               *new_text,
-                                                 GtkListStore        *store);
-static gint   sort_language_column              (GtkTreeModel *model,
-                                                 GtkTreeIter  *a,
-                                                 GtkTreeIter  *b,
-                                                 gpointer      user_data);
+static void     ggd_doctype_selector_finalize     (GObject *object);
+static void     ggd_doctype_selector_constructed  (GObject *object);
+static void     doctype_column_edited_handler     (GtkCellRendererText *renderer,
+                                                   gchar               *path,
+                                                   gchar               *new_text,
+                                                   GtkListStore        *store);
+static gint     sort_language_column              (GtkTreeModel *model,
+                                                   GtkTreeIter  *a,
+                                                   GtkTreeIter  *b,
+                                                   gpointer      user_data);
+static gboolean tree_view_button_press_event      (GtkTreeView         *view,
+                                                   GdkEventButton      *event,
+                                                   GgdDoctypeSelector  *selector);
+static gboolean tree_view_popup_menu              (GtkTreeView         *view,
+                                                   GgdDoctypeSelector  *selector);
+static void     tree_view_popup_clear_handler     (GtkMenuItem        *item,
+                                                   GgdDoctypeSelector *selector);
+static void     tree_view_popup_edit_handler      (GtkMenuItem        *item,
+                                                   GgdDoctypeSelector *selector);
 
 
 struct _GgdDoctypeSelectorPrivate
 {
   GtkListStore   *store;
   GtkWidget      *view;
+  GtkWidget      *popup_menu;
 };
 
 enum
 {
-  COLUMN_ID,
+  /* Sort model column IDs in the order they are shown in the view for them to
+   * correspond to tree view's columns. Inivisible column at the end. */
   COLUMN_LANGUAGE,
-  COLUMN_TOOLTIP,
   COLUMN_DOCTYPE,
+  COLUMN_ID,
+  COLUMN_TOOLTIP,
   
   N_COLUMNS
 };
@@ -83,6 +95,7 @@ ggd_doctype_selector_init (GgdDoctypeSelector *self)
 {
   GtkCellRenderer    *renderer;
   GtkTreeViewColumn  *column;
+  GtkWidget          *item;
   
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
                                             GGD_DOCTYPE_SELECTOR_TYPE,
@@ -94,8 +107,9 @@ ggd_doctype_selector_init (GgdDoctypeSelector *self)
                                        GTK_SHADOW_IN);
   
   /* Model */
-  self->priv->store = gtk_list_store_new (N_COLUMNS, G_TYPE_UINT, G_TYPE_STRING,
-                                          G_TYPE_STRING, G_TYPE_STRING);
+  self->priv->store = gtk_list_store_new (N_COLUMNS, G_TYPE_STRING,
+                                          G_TYPE_STRING, G_TYPE_UINT,
+                                          G_TYPE_STRING);
   gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (self->priv->store),
                                    COLUMN_LANGUAGE, sort_language_column,
                                    NULL, NULL);
@@ -122,6 +136,34 @@ ggd_doctype_selector_init (GgdDoctypeSelector *self)
                                                      "text", COLUMN_DOCTYPE,
                                                      NULL);
   gtk_tree_view_append_column (GTK_TREE_VIEW (self->priv->view), column);
+  
+  /* create popup menu */
+  self->priv->popup_menu = gtk_menu_new ();
+  g_signal_connect (self->priv->popup_menu, "deactivate",
+                    G_CALLBACK (gtk_widget_hide), NULL);
+  gtk_menu_attach_to_widget (GTK_MENU (self->priv->popup_menu),
+                             self->priv->view, NULL);
+  item = gtk_image_menu_item_new_with_mnemonic (_("_Change associated documentation type"));
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
+                                 gtk_image_new_from_stock (GTK_STOCK_EDIT,
+                                                           GTK_ICON_SIZE_MENU));
+  g_signal_connect (item, "activate",
+                    G_CALLBACK (tree_view_popup_edit_handler), self);
+  gtk_menu_shell_append (GTK_MENU_SHELL (self->priv->popup_menu), item);
+  gtk_widget_show (item);
+  item = gtk_image_menu_item_new_with_mnemonic (_("_Disassociate documentation type"));
+  gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
+                                 gtk_image_new_from_stock (GTK_STOCK_CLEAR,
+                                                           GTK_ICON_SIZE_MENU));
+  g_signal_connect (item, "activate",
+                    G_CALLBACK (tree_view_popup_clear_handler), self);
+  gtk_menu_shell_append (GTK_MENU_SHELL (self->priv->popup_menu), item);
+  gtk_widget_show (item);
+  /* connect signals for popping the menu up */
+  g_signal_connect (self->priv->view, "button-press-event",
+                    G_CALLBACK (tree_view_button_press_event), self);
+  g_signal_connect (self->priv->view, "popup-menu",
+                    G_CALLBACK (tree_view_popup_menu), self);
 }
 
 static void
@@ -155,6 +197,151 @@ ggd_doctype_selector_constructed (GObject *object)
                         COLUMN_DOCTYPE, NULL,
                         -1);
   }
+}
+
+/* clears documentation type on the selected row */
+static void
+tree_view_popup_clear_handler (GtkMenuItem        *item,
+                               GgdDoctypeSelector *selector)
+{
+  GtkTreeIter       iter;
+  GtkTreeSelection *selection;
+  
+  selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (selector->priv->view));
+  if (gtk_tree_selection_get_selected (selection, NULL, &iter)) {
+    gtk_list_store_set (selector->priv->store, &iter, COLUMN_DOCTYPE, "", -1);
+  }
+}
+
+/* starts editing of the documentation type on the selected row */
+static void
+tree_view_popup_edit_handler (GtkMenuItem        *item,
+                              GgdDoctypeSelector *selector)
+{
+  GtkTreeIter       iter;
+  GtkTreeSelection *selection;
+  GtkTreeModel     *model;
+  GtkTreeView      *view = GTK_TREE_VIEW (selector->priv->view);
+  
+  selection = gtk_tree_view_get_selection (view);
+  if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+    GtkTreePath        *path;
+    GtkTreeViewColumn  *column;
+    
+    path = gtk_tree_model_get_path (model, &iter);
+    column = gtk_tree_view_get_column (view, COLUMN_DOCTYPE);
+    gtk_tree_view_set_cursor_on_cell (view, path, column, NULL, TRUE);
+    gtk_tree_path_free (path);
+  }
+}
+
+static void
+tree_view_popup_menu_position_func (GtkMenu   *menu,
+                                    gint      *x,
+                                    gint      *y,
+                                    gboolean  *push_in,
+                                    gpointer   user_data)
+{
+  GgdDoctypeSelector *selector = user_data;
+  GtkTreeView        *view = GTK_TREE_VIEW (selector->priv->view);
+  GdkScreen          *screen = gtk_widget_get_screen (selector->priv->view);
+  gint                monitor_id;
+  GtkTreeModel       *model;
+  GtkTreeViewColumn  *column;
+  GtkTreeSelection   *selection;
+  GtkTreePath        *path;
+  GtkTreeIter         iter;
+  GdkWindow          *window;
+  GdkRectangle        cell;
+  GdkRectangle        monitor;
+  GtkRequisition      req;
+  
+  g_return_if_fail (gtk_widget_get_realized (selector->priv->view));
+
+  window = gtk_widget_get_window (GTK_WIDGET (view));
+  gdk_window_get_origin (window, x, y);
+  /* ensure there is a row selected */
+  selection = gtk_tree_view_get_selection (view);
+  if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+    path = gtk_tree_model_get_path (model, &iter);
+  } else {
+    gtk_tree_view_get_cursor (view, &path, NULL);
+    gtk_tree_selection_select_path (selection, path);
+  }
+  column = gtk_tree_view_get_column (view, COLUMN_DOCTYPE);
+  gtk_tree_view_scroll_to_cell (view, path, column, FALSE, 0.0, 0.0);
+  gtk_tree_view_get_cell_area (view, path, column, &cell);
+  gtk_tree_path_free (path);
+  gtk_tree_view_convert_bin_window_to_widget_coords (view,
+                                                     *x + cell.x, *y + cell.y,
+                                                     x, y);
+  gtk_widget_size_request (GTK_WIDGET (menu), &req);
+  monitor_id = gdk_screen_get_monitor_at_point (screen, *x, *y);
+  gtk_menu_set_monitor (menu, monitor_id);
+  gdk_screen_get_monitor_geometry (screen, monitor_id, &monitor);
+  if (*y + cell.height + req.height <= monitor.height) {
+    *y += cell.height;
+  } else {
+    *y -= req.height;
+  }
+  *x = CLAMP (*x, monitor.x, monitor.x + MAX (0, monitor.width - req.width));
+  *y = CLAMP (*y, monitor.y, monitor.y + MAX (0, monitor.height - req.height));
+  *push_in = FALSE;
+}
+
+static void
+do_popup_menu (GgdDoctypeSelector *self,
+               GdkEventButton     *event)
+{
+  guint               event_button;
+  guint32             event_time;
+  GtkMenuPositionFunc menu_position_func;
+  
+  if (event) {
+    event_button = event->button;
+    event_time = event->time;
+    menu_position_func = NULL;
+  } else {
+    event_button = 0;
+    event_time = gtk_get_current_event_time ();
+    menu_position_func = tree_view_popup_menu_position_func;
+  }
+  gtk_menu_popup (GTK_MENU (self->priv->popup_menu), NULL, NULL,
+                  menu_position_func, self, event_button, event_time);
+}
+
+static gboolean
+tree_view_button_press_event (GtkTreeView        *view,
+                              GdkEventButton     *event,
+                              GgdDoctypeSelector *selector)
+{
+  gboolean handled = FALSE;
+  
+  /* Ignore double-clicks and triple-clicks */
+  if (event->button == 3 && event->type == GDK_BUTTON_PRESS) {
+    GtkTreePath *path;
+    
+    /* select row under the cursor before poping the menu up */
+    if (gtk_tree_view_get_path_at_pos (view, (gint)event->x, (gint)event->y,
+                                       &path, NULL, NULL, NULL)) {
+      gtk_tree_selection_select_path (gtk_tree_view_get_selection (view), path);
+      gtk_tree_view_scroll_to_cell (view, path, NULL, FALSE, 0.0, 0.0);
+      gtk_tree_path_free (path);
+    }
+    do_popup_menu (selector, event);
+    handled = TRUE;
+  }
+
+  return handled;
+}
+
+static gboolean
+tree_view_popup_menu (GtkTreeView        *view,
+                      GgdDoctypeSelector *selector)
+{
+  do_popup_menu (selector, NULL);
+  
+  return TRUE;
 }
 
 /* Gets the row having @language_id as language ID.
