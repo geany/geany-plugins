@@ -2,6 +2,8 @@
 
   * src/ggd-plugin.h:
     Post-release version bump.
+  * src/ggd.c:
+    Update a string.
 
 
 2010-06-12  Colomban Wendling  <ban(at)herbesfolles(dot)org>

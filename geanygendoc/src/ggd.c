@@ -562,10 +562,7 @@ ggd_insert_all_comments (GeanyDocument *doc,
   g_return_val_if_fail (DOC_VALID (doc), FALSE);
   
   if (! doc->tm_file) {
-    /* FIXME: we're on string freeze then don't add a new string; simply re-use
-     * an existing one. Need to fix this after string freeze. */
-    /*msgwin_status_add (_("No tags in the document"));*/
-    msgwin_status_add (_("No valid tag at line %d."), 1);
+    msgwin_status_add (_("No tags in the document"));
   } else if (get_config (doc, doc_type, &filetype, &doctype)) {
     GList    *tag_list;
     
