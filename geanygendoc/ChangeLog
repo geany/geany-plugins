@@ -4,6 +4,9 @@
     Post-release version bump.
   * src/ggd.c:
     Update a string.
+  * src/ggd-tag-utils.c:
+    Use Geany's symbols_get_context_separator() and not a copied version since
+    it is now exported to the plugin API since 185.
 
 
 2010-06-12  Colomban Wendling  <ban(at)herbesfolles(dot)org>

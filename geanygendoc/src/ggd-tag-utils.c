@@ -28,29 +28,6 @@
 #include "ggd-plugin.h" /* to access Geany data/funcs */
 
 
-/* symbols_get_context_separator() borrowed from Geany since it isn't in the
- * plugin API yet (API v183) */
-/* FIXME: replace calls to this function with Geany's
- *        symbols_get_context_separator() when it gets into the plugin API */
-static const gchar *
-ggd_tag_utils_get_context_separator (filetype_id geany_ft)
-{
-  switch (geany_ft) {
-    case GEANY_FILETYPES_C:     /* for C++ .h headers or C structs */
-    case GEANY_FILETYPES_CPP:
-    case GEANY_FILETYPES_GLSL:  /* for structs */
-      return "::";
-
-    /* avoid confusion with other possible separators in group/section name */
-    case GEANY_FILETYPES_CONF:
-    case GEANY_FILETYPES_REST:
-      return ":::";
-
-    default:
-      return ".";
-  }
-}
-
 /*
  * tag_cmp_by_line:
  * @a: A #TMTag
@@ -243,7 +220,7 @@ ggd_tag_find_parent (const GPtrArray *tags,
     
     /* scope is of the form a<sep>b<sep>c */
     parent_name = child->atts.entry.scope;
-    separator = ggd_tag_utils_get_context_separator (geany_ft);
+    separator = symbols_get_context_separator (geany_ft);
     separator_len = strlen (separator);
     while ((tmp = strstr (parent_name, separator)) != NULL) {
       parent_name = &tmp[separator_len];
@@ -471,7 +448,7 @@ scope_child_matches (const gchar *a,
     if (! *a /* we're at the end of the prefix and it matched */) {
       const gchar  *separator;
       
-      separator = ggd_tag_utils_get_context_separator (geany_ft);
+      separator = symbols_get_context_separator (geany_ft);
       if (maxdepth < 0) {
         if (! *b || strncmp (b, separator, strlen (separator)) == 0) {
           matches = TRUE;
@@ -531,7 +508,7 @@ ggd_tag_find_children_filtered (const GPtrArray *tags,
   
   /*if (parent->atts.entry.scope) {
     fake_scope = g_strconcat (parent->atts.entry.scope,
-                              ggd_tag_utils_get_context_separator (geany_ft),
+                              symbols_get_context_separator (geany_ft),
                               parent->name, NULL);
   } else {
     fake_scope = g_strdup (parent->name);
