@@ -52,7 +52,7 @@ from TaskGen import taskgen, feature
 
 
 APPNAME = 'geany-plugins'
-VERSION = '0.19'
+VERSION = '0.20'
 
 srcdir = '.'
 blddir = '_build_'

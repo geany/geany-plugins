@@ -1,5 +1,5 @@
 AC_PREREQ([2.61])
-AC_INIT([geany-plugins], [0.19])
+AC_INIT([geany-plugins], [0.20])
 AM_INIT_AUTOMAKE([1.8 foreign dist-bzip2 tar-ustar])
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
