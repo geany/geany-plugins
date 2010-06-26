@@ -3,6 +3,8 @@
  * src/ao_xmltagging.c:
    Only use part of inserted tag until first white space character for
    closing tag so e.g. inserting 'span class=foo"' is working properly.
+ * src/addons.c:
+   Fix an issue that prevent xmltagging keybinding to be turned on/off.
 
 
 2010-05-30  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>

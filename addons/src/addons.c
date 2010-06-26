@@ -144,7 +144,10 @@ static void kb_tasks_update(guint key_id)
 
 static void kb_ao_xmltagging(guint key_id)
 {
-	ao_xmltagging();
+	if ao_info->enable_xmltagging == TRUE
+	{
+		ao_xmltagging();
+	}
 }
 
 gboolean ao_editor_notify_cb(GObject *object, GeanyEditor *editor,
