@@ -83,8 +83,24 @@ void ao_xmltagging(void)
 			tag = g_strdup(gtk_entry_get_text(GTK_ENTRY(textbox)));
 			if (NZV(tag))
 			{
+				gint end = 0;
+				const gchar *end_tag;
+				/* We try to find a space inside the inserted tag as we
+				 * only need to close the tag with part until first space.
+				 * */
+				while (!g_ascii_isspace(tag[end]) && tag[end] != '\0')
+					end++;
+
+				if (end > 0)
+				{
+					end_tag = g_strndup(tag, end);
+				}
+				else
+				{
+					end_tag = tag;
+				}
 				replacement = g_strconcat("<", tag, ">",
-								selection, "</", tag, ">", NULL);
+								selection, "</", end_tag, ">", NULL);
 			}
 
 			sci_replace_sel(doc->editor->sci, replacement);
@@ -92,7 +108,6 @@ void ao_xmltagging(void)
 			g_free(selection);
 			g_free(replacement);
 		}
-
 		gtk_widget_destroy(dialog);
 	}
 }
