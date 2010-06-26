@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.19\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-12 20:49+0200\n"
+"POT-Creation-Date: 2010-06-26 16:38+0200\n"
 "PO-Revision-Date: 2010-06-12 20:48+0100\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -886,13 +886,14 @@ msgid "No setting applies to symbol \"%s\" of type \"%s\" at line %lu."
 msgstr ""
 "Keine Konfiguration gefunden für das Symbol »%s« des Typs »%s« in Zeile %lu."
 
-#. FIXME: we're on string freeze then don't add a new string; simply re-use
-#. * an existing one. Need to fix this after string freeze.
-#. msgwin_status_add (_("No tags in the document"));
-#: ../geanygendoc/src/ggd.c:522 ../geanygendoc/src/ggd.c:568
+#: ../geanygendoc/src/ggd.c:522
 #, c-format
 msgid "No valid tag at line %d."
 msgstr "Kein gültiger Tag für %d."
+
+#: ../geanygendoc/src/ggd.c:565
+msgid "No tags in the document"
+msgstr "Keine Markierungen im Dokument"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:112
 msgid "boolean value"
@@ -1181,7 +1182,7 @@ msgstr ""
 
 #. Documentation type
 #: ../geanygendoc/src/ggd-plugin.c:597
-#: ../geanygendoc/src/ggd-widget-doctype-selector.c:121
+#: ../geanygendoc/src/ggd-widget-doctype-selector.c:135
 msgid "Documentation type"
 msgstr "Typ der Dokuemntation"
 
@@ -1209,7 +1210,7 @@ msgstr ""
 "Globale Umgebung wird überschrieben oder ergänzt: Die Umgebung wird mit den "
 "Dateityp spezifischen Einstellungen zusammen geführt."
 
-#: ../geanygendoc/src/ggd-tag-utils.c:389
+#: ../geanygendoc/src/ggd-tag-utils.c:366
 msgid "Invalid tag"
 msgstr "Ungültige Markierung"
 
@@ -1223,15 +1224,23 @@ msgstr "Die Datei »%s« existiert, scheint aber keine reguläre Datei zu sein. 
 msgid "%s: no such file or directory"
 msgstr "Die Datei oder das Verzeichnis »%s« gibt es nicht."
 
-#: ../geanygendoc/src/ggd-widget-doctype-selector.c:112
+#: ../geanygendoc/src/ggd-widget-doctype-selector.c:126
 msgid "Language"
 msgstr "Sprache"
 
-#: ../geanygendoc/src/ggd-widget-doctype-selector.c:143
+#: ../geanygendoc/src/ggd-widget-doctype-selector.c:146
+msgid "_Change associated documentation type"
+msgstr "_Verknüpfte Dokumententyp ändern"
+
+#: ../geanygendoc/src/ggd-widget-doctype-selector.c:154
+msgid "_Disassociate documentation type"
+msgstr "_Dokumententypverknüpfung aufheben"
+
+#: ../geanygendoc/src/ggd-widget-doctype-selector.c:185
 msgid "All"
 msgstr "Alle"
 
-#: ../geanygendoc/src/ggd-widget-doctype-selector.c:144
+#: ../geanygendoc/src/ggd-widget-doctype-selector.c:186
 msgid "Default documentation type for languages that does not have one set"
 msgstr ""
 "Standardkonfiguration des Dokumentationstyps bei Dokumenten, die keinen "
