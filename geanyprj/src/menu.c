@@ -168,7 +168,7 @@ build_properties_dialog(gboolean properties)
 	e->regenerate = gtk_check_button_new_with_label(_("Generate file list on load"));
 	gtk_tooltips_set_tip(tooltips, e->regenerate,
 			     _("Automatically add files that match project type on project load "
-			       "automaticly. You can't manually add/remove files if "
+			       "automatically. You can't manually add/remove files if "
 			       "you checked this option, since your modification will be lost on "
 			       "on next project load"), NULL);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(e->regenerate), TRUE);
