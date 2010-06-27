@@ -1,3 +1,11 @@
+2010-06-27  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * src/ao_xmltagging.c:
+   Add a placeholder %s to insert also the selection to tag. This allows
+   a href="%s" to become <a href="$selection">$selection</a> where
+   $selection is the selected text on document.
+
+
 2010-06-26  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * src/ao_xmltagging.c:

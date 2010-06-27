@@ -47,6 +47,7 @@ void ao_xmltagging(void)
 		GtkWidget *hbox = NULL;
 		GtkWidget *label = NULL;
 		GtkWidget *textbox = NULL;
+		GtkWidget *textline = NULL;
 
 		dialog = gtk_dialog_new_with_buttons(_("XML tagging"),
 							 GTK_WINDOW(geany->main_widgets->window),
@@ -62,11 +63,15 @@ void ao_xmltagging(void)
 		label = gtk_label_new(_("Tag name to be inserted:"));
 		textbox = gtk_entry_new();
 
+		textline = gtk_label_new(
+			_("%s will be replaced with your current selection. Please keep care on your selection"));
+
 		gtk_container_add(GTK_CONTAINER(hbox), label);
 		gtk_container_add(GTK_CONTAINER(hbox), textbox);
 		gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 
 		gtk_container_add(GTK_CONTAINER(vbox), hbox);
+		gtk_container_add(GTK_CONTAINER(vbox), textline);
 
 		g_signal_connect(G_OBJECT(textbox), "activate",
 			G_CALLBACK(enter_key_pressed_in_entry), dialog);
@@ -84,7 +89,14 @@ void ao_xmltagging(void)
 			if (NZV(tag))
 			{
 				gint end = 0;
+				GString *tmp = NULL;
 				const gchar *end_tag;
+
+				/* First we check for %s and replace it with selection*/
+				tmp = g_string_new(tag);
+				utils_string_replace_all(tmp, "%s", selection);
+				tag = g_string_free(tmp, FALSE);
+
 				/* We try to find a space inside the inserted tag as we
 				 * only need to close the tag with part until first space.
 				 * */
