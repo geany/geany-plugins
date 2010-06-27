@@ -31,8 +31,14 @@ GeanyPlugin		*geany_plugin;
 GeanyData		*geany_data;
 GeanyFunctions	*geany_functions;
 
-PLUGIN_VERSION_CHECK(147)
-PLUGIN_SET_INFO(_("GeanyLipsum"), _("Creating dummy text with Geany"), "0.4.2", "Frank Lanitz <frank@frank.uvena.de>");
+PLUGIN_VERSION_CHECK(188)
+PLUGIN_SET_TRANSLATABLE_INFO(
+	LOCALEDIR,
+	GETTEXT_PACKAGE,
+	_("GeanyLipsum"),
+	_("Creating dummy text with Geany"),
+	"0.4.2",
+	"Frank Lanitz <frank@frank.uvena.de>");
 
 static GtkWidget *main_menu_item = NULL;
 static gchar *lipsum = NULL;
