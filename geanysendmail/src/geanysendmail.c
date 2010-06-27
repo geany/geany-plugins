@@ -35,10 +35,16 @@ GeanyPlugin		*geany_plugin;
 GeanyData		*geany_data;
 GeanyFunctions	*geany_functions;
 
-PLUGIN_VERSION_CHECK(147)
+PLUGIN_VERSION_CHECK(188)
 
-PLUGIN_SET_INFO(_("GeanySendMail"), _("A little plugin to send the current \
-file as attachment by user's favorite mailer"), VERSION, "Frank Lanitz <frank@frank.uvena.de>")
+PLUGIN_SET_TRANSLATABLE_INFO(
+	LOCALEDIR,
+	GETTEXT_PACKAGE,
+	_("GeanySendMail"),
+	_("A little plugin to send the current"
+	  "file as attachment by user's favorite mailer"),
+	VERSION,
+	"Frank Lanitz <frank@frank.uvena.de>")
 
 /* Keybinding(s) */
 enum
