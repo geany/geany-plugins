@@ -39,12 +39,12 @@ You can checkout the current source code from the Subversion repository at
 Sourceforge.net. Get the code from:
 
 svn checkout
-http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geanylipsum
+http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geany-plugins/geanylipsum
 
 If you want to create a patch, please respect the license of
 GeanyLipsum as well as intellectual property of third. Patches that
 should be included to the default distribution must be licensed under
-the same conditions as GeanySendMail by the copyright owner.
+the same conditions as GeanyLipsum by the copyright owner.
 
 
 Known issues
