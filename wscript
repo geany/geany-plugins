@@ -98,8 +98,10 @@ plugins = [
 	Plugin('GeanyLUA',
 		 [ 'geanylua/geanylua.c' ], # the other source files are listed in build_lua()
 		 [ 'geanylua' ],
-		 # maybe you need to modify the package name of Lua, try one of these: lua5.1 lua51 lua-5.1
-		 [ [ 'lua', '5.1', True ] ]),
+		 [ [ 'lua', '5.1', False ],
+		   [ 'lua5.1', '5.1', False ],
+		   [ 'lua51', '5.1', False ],
+		   [ 'lua-5.1', '5.1', False ] ]),
 	Plugin('GeanyPrj', None, [ 'geanyprj/src' ]),
 	Plugin('Pretty-Printer', None, [ 'pretty-printer/src' ], [ [ 'libxml-2.0', '2.6.27', True ] ]),
 	Plugin('TreeBrowser', None, [ 'treebrowser/src' ], [ [ 'gio-2.0', '2.16', False ] ])
@@ -271,6 +273,11 @@ def configure(conf):
 			enabled_plugins.remove('geanygdb')
 		else:
 			conf.define('TTYHELPERDIR', conf.env['LIBEXECDIR'] + '/geany-plugins/geanygdb', 1)
+
+	if 'geanylua' in enabled_plugins:
+		if not conf.env['HAVE_LUA'] and not conf.env['HAVE_LUA5_1'] and \
+		   not conf.env['HAVE_LUA51'] and not conf.env['HAVE_LUA_5_1']:
+			enabled_plugins.remove('geanylua')
 
 	# Windows specials
 	if is_win32:
