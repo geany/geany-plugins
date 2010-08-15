@@ -1,3 +1,9 @@
+2010-08-15  Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+ * src/addons.c, src/ao_bookmarklist.c:
+   Fix line scrolling when jumping to bookmarks (part of #3043534).
+
+
 2010-06-27  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * src/ao_xmltagging.c:

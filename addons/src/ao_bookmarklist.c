@@ -201,9 +201,12 @@ static gboolean ao_selection_changed_cb(gpointer widget)
 		GeanyDocument *doc = document_get_current();
 		if (DOC_VALID(doc))
 		{
-			gtk_tree_model_get(model, &iter, BMLIST_COL_LINE, &line, -1);
-			sci_goto_line(doc->editor->sci, line - 1, TRUE);
+			gint pos;
 
+			gtk_tree_model_get(model, &iter, BMLIST_COL_LINE, &line, -1);
+			pos = sci_get_position_from_line(doc->editor->sci, line - 1);
+
+			editor_goto_pos(doc->editor, pos, FALSE);
 			gtk_widget_grab_focus(GTK_WIDGET(doc->editor->sci));
 		}
 	}
