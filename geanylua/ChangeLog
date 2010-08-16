@@ -1,3 +1,7 @@
+August 16, 2010 (ntrel)
+  Fix building against recent Geany trunk (patch from Enrico Tröger, 
+  thanks).
+
 September 29, 2009 (ntrel)
   Update to API 159.
 
