@@ -18,6 +18,88 @@ symbols. Its goal is to ease writing documentation for the good.
 .. contents::
 
 
+User interface in Geany
+=======================
+
+Menus
+-----
+
+GeanyGenDoc adds an item named `Insert Documentation Comment` in the editor's
+pop-up under the `Insert Comments` sub-menu; and a menu named
+`Documentation Generator` into the `Tools` menu.
+
+Editor's pop-up menu
+~~~~~~~~~~~~~~~~~~~~
+
+The item `Editor's pop-up → Insert Comments → Insert Documentation Comment`
+generates documentation for the current symbol. It has a keyboard shortcut
+that can be configured through Geany's keybinding configuration system, under
+`GeanyGenDoc → Insert Documentation Comment`.
+
+Tools menu
+~~~~~~~~~~
+
+The `Documentation Generator` menu under `Tools` contains the following items:
+
+`Document Current Symbol`
+  This generates documentation for the current symbol. It is equivalent to the
+  item `Insert Documentation Comment` that can be found in the editor's pop-up
+  menu.
+
+`Document All Symbols`
+  This generates documentation for all symbols in the document. This is
+  equivalent to manually requesting documentation generation for each symbol in
+  the document.
+
+`Reload Configuration Files`
+  This force reloading of all the `file type`_ configuration files. It is
+  useful when a file type configuration file was modified, in order to the new
+  configuration to be used without reloading the plugin.
+
+`Edit Current Language Configuration`
+  This opens the configuration file that applies to the current document for
+  editing. The opened configuration file has write permissions: if it was a
+  system configuration file it is copied under your personal `configuration
+  directory`_ transparently.
+
+`Open Manual`
+  Opens this manual in a browser.
+
+
+Preferences dialog
+------------------
+
+The preferences dialog, than can either be opened through `Edit →
+Plugin Preferences` or with the `Preferences` button in the plugin manager,
+allows to modify the following preferences:
+
+`General`
+  `Save file before generating documentation`
+    Choose whether the current document should be saved to disc before
+    generating the documentation. This is a technical detail, but it is
+    currently needed to have an up-to-date tag list. If you disable this option
+    and ask for documentation generation on a modified document, the behavior
+    may be surprising since the comment will be generated for the last saved
+    state of the document and not the current one.
+
+  `Indent inserted documentation`
+    Chooses whether the inserted documentation should be indented to fit the
+    indentation at the insertion position.
+
+`Documentation type`
+  This list allows you to choose the documentation type to use with each file
+  type. The special language `All` on top of the list is used to choose the
+  default documentation type, used for all languages that haven't one set.
+
+`Global environment`
+  Global environment overrides and additions. This is an environment that will
+  be merged with the `file type`_-specific ones, possibly overriding some parts.
+  It can be used to define some values for all the file types, such as whether
+  to write the common `Since` tag, define the `Doxygen`_ prefix an so on.
+  Its most use case is not to need to change a file type's environment to change
+  the value of one of its elements.
+
+
 Design
 ======
 
@@ -358,88 +440,6 @@ Rule settings
 
 ``auto_doc_children`` (boolean)
   Whether to also document symbol's children (according to their own rules).
-
-
-User interface in Geany
-=======================
-
-Menus
------
-
-GeanyGenDoc adds an item named `Insert Documentation Comment` in the editor's
-pop-up under the `Insert Comments` sub-menu; and a menu named
-`Documentation Generator` into the `Tools` menu.
-
-Editor's pop-up menu
-~~~~~~~~~~~~~~~~~~~~
-
-The item `Editor's pop-up → Insert Comments → Insert Documentation Comment`
-generates documentation for the current symbol. It has a keyboard shortcut
-that can be configured through Geany's keybinding configuration system, under
-`GeanyGenDoc → Insert Documentation Comment`.
-
-Tools menu
-~~~~~~~~~~
-
-The `Documentation Generator` menu under `Tools` contains the following items:
-
-`Document Current Symbol`
-  This generates documentation for the current symbol. It is equivalent to the
-  item `Insert Documentation Comment` that can be found in the editor's pop-up
-  menu.
-
-`Document All Symbols`
-  This generates documentation for all symbols in the document. This is
-  equivalent to manually requesting documentation generation for each symbol in
-  the document.
-
-`Reload Configuration Files`
-  This force reloading of all the `file type`_ configuration files. It is
-  useful when a file type configuration file was modified, in order to the new
-  configuration to be used without reloading the plugin.
-
-`Edit Current Language Configuration`
-  This opens the configuration file that applies to the current document for
-  editing. The opened configuration file has write permissions: if it was a
-  system configuration file it is copied under your personal `configuration
-  directory`_ transparently.
-
-`Open Manual`
-  Opens this manual in a browser.
-
-
-Preferences dialog
-------------------
-
-The preferences dialog, than can either be opened through `Edit →
-Plugin Preferences` or with the `Preferences` button in the plugin manager,
-allows to modify the following preferences:
-
-`General`
-  `Save file before generating documentation`
-    Choose whether the current document should be saved to disc before
-    generating the documentation. This is a technical detail, but it is
-    currently needed to have an up-to-date tag list. If you disable this option
-    and ask for documentation generation on a modified document, the behavior
-    may be surprising since the comment will be generated for the last saved
-    state of the document and not the current one.
-
-  `Indent inserted documentation`
-    Chooses whether the inserted documentation should be indented to fit the
-    indentation at the insertion position.
-
-`Documentation type`
-  This list allows you to choose the documentation type to use with each file
-  type. The special language `All` on top of the list is used to choose the
-  default documentation type, used for all languages that haven't one set.
-
-`Global environment`
-  Global environment overrides and additions. This is an environment that will
-  be merged with the `file type`_-specific ones, possibly overriding some parts.
-  It can be used to define some values for all the file types, such as whether
-  to write the common `Since` tag, define the `Doxygen`_ prefix an so on.
-  Its most use case is not to need to change a file type's environment to change
-  the value of one of its elements.
 
 
 Miscellaneous

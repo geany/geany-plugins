@@ -4,6 +4,9 @@
     Add license information in the manual.
   * docs/manual.css:
     Add a style definition for blockquotes in the manual stylesheet.
+  * docs/manual.rst, docs/manual.html:
+    Move "User interface in Geany" part on the top of the manual. This part is
+    probably the first new users would look at, then move it to the top.
 
 
 2010-06-14  Colomban Wendling  <ban(at)herbesfolles(dot)org>
