@@ -1,0 +1,175 @@
+======================
+Hacking on GeanyGenDoc
+======================
+
+.. contents::
+
+
+Introduction
+============
+
+This file contains some information that may be useful to start hacking on
+GeanyGenDoc; but there might be some things that are missing. If you have a
+question for which you can't find the answer, feel free to ask a developer
+(me in fact, I'm currently the only one).
+
+
+Directory structure
+===================
+
+src/
+  Contains all the source code of GeanyGenDoc, see below for details.
+
+docs/
+  Contains the manual, this is the place to go to improve the end-user
+  documentation.
+
+data/
+  Contains the various data files of GeanyGenDoc.
+  
+  filetypes/
+    Contains the file type definitions. See the end-user documentation for
+    details on the syntax of these files.
+
+
+Code organisation
+=================
+
+All source files starts with the `ggd` prefix that, obviously, stands for
+GeanyGenDoc.
+
+ggd-plugin.{c,h}
+  This is the actual plugin, the part that interacts with Geany directly:
+  it implements all the symbols that a Geany plusing must export; it takes care
+  of setting everything necessary up, and so on. Think of it as the plugin's
+  `main()`.
+  
+  This is the only part of the plugin that is allowed to export symbols (see
+  below).
+
+ggd.{c,h}
+  This is the higher-level API of the plugin. It is meant to be the primary API
+  to use to build and insert documentation basis on a Geany document.
+
+ggd-doc-setting.{c,h}, ggd-doc-type.{c,h}, ggd-file-type.{c,h}
+  The main three data types of GeanyGenDoc, and their manipulation functions
+
+ggd-file-type-loader.{c,h}
+  File type loader
+
+ggd-file-type-manager.{c,h}
+  High-level loading and management of file types, also acting as a cache
+
+ggd-options.{c,h}
+  Configuration manager
+
+ggd-tag-utils.{c,h}
+  Geany's tagmanager management and utility functions. Almost all acces to tags
+  is done through this module
+
+ggd-macros.h, ggd-utils.{c,h}
+  Various utility functions and macros
+
+ggd-widget-*
+  These files are custom GTK+ widgets used by the UI part of the plugin.
+  
+  ggd-widget-doctype-selector.{c,h}
+    The documentation type selector and manager widget
+  
+  ggd-widget-frame.{c,h}
+    A custom frame widget
+
+
+Coding style
+============
+
+The first rule is: look at the code and follow the style.
+
+To give further consideration, the style is close to 1TBS-K&R with some
+GNU-style things. Here's an exemple, followed by notes about it:
+
+::
+
+  /**
+   * a_function:
+   * @arg1: something
+   * @n: another thing
+   * 
+   * This is the documentation of the function. Write documentation for each and
+   * every non-local function. Local function can has a full documentation but
+   * in a normal comment (starting with /* and not /**), or can either have only
+   * a few line describing it or no comment at all if it is enough explicit.
+   * 
+   * Returns: A number, obviously... but what does it mean?
+   */
+  int
+  a_function (const char *arg1,
+              int         n)
+  {
+    int         a;
+    const char *b;
+    
+    a = foo ();
+    if (a == n) {
+      b = arg1;
+    } else {
+      int tmp;
+      
+      b = stuff (arg1, n, A_LONG_CONSTANT, ,
+                 ANOTHER_LONG_CONSTANT_THAT_GOES_BEYOND_80TH_COLUMN);
+      if (got_it (&tmp)) {
+        a = tmp;
+      } else {
+        a = n;
+      }
+    }
+    if (! variable || (A_THIRD_WAY_TOO_LONG_CONSTANT && ITS_ME_AGAIN &&
+                       PLEASE_STOP_THIS)) {
+      /* you may want to explain why you do this operation, so put a comment
+       * just before it. it is also good to document magic numbers such as this
+       * "8" that comes from nowhere. */
+      a = n << 8;
+    }
+    
+    return a;
+  }
+
+You can see that (in random order):
+
+* The indentation consists of 2 spaces per level -- no tabs;
+* The return type is on its own line (as in GNU style);
+* There is a space between function name and argumen list;
+* Variables and arguments declarations are aligned, one per line.
+* If the arguments of a function call, a macro, an expression, etc., would
+  overflow the 80th column rule, it is split on two (or more, as needed) lines,
+  aligned on the corresponding parenthesis;
+* There is blank lines at two places: right after some variable declarations,
+  and right before the return statement;
+* There is no parenthesis around the return statement;
+* Put a space between the unary operator `!` and its operand;
+* There is a space around binary operators;
+* Use const everywhere it makes sense, almost like a sementic annotation;
+* There is braces around every block (1TBS style);
+* Constants are uppercase;
+* So are macros that may have side effects;
+* Decalre local variables at the scope they belongs;
+* Document non-local functions with a Gtk-Doc documentation comment -- you know
+  what? GeanyGenDoc can help!
+* You don't see it in this example, but give pointful names to functions,
+  variables, marcos, etc.
+
+
+API, ABI, exported symbols, stuff like that
+-------------------------------------------
+
+Always use static functions if they should have file scope; and prefix all
+non-local symbol with the `ggd` prefix (with the appropriate case).
+
+Besides this, don't pollute the list of exported symbols of the plugin. Even if
+all symbols that might be exported by accident are prefixed, exporting them has
+no point (this isn't a library) and only bloates the output ELF (or whatever)
+binary.
+
+To prevent this, all "public" (read: that is used outside its file/module)
+should have a protorype that is protected with `GGD_BEGIN_PLUGIN_API`
+and `GGD_END_PLUGIN_API` (see gdd-macros.h for details).

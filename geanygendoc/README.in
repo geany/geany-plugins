@@ -1,37 +1,93 @@
-General Information
-===================
+===========
+GeanyGenDoc
+===========
 
-This is GeanyGenDoc @VERSION@, a plugin for Geany that aims to automatically
-generate documentation comment basis from the source code.
+.. contents::
+
+
+About
+=====
+
+GeanyGenDoc is a plugin for Geany that aims to help code documentation by
+automatically generating documentation comment basis from the source code.
+
 
 Requirements
 ============
 
 You will need the following packages to build GeanyGenDoc:
- - Geany >= 0.19 (http://www.geany.org/)
- - GTK+ >= 2.12 (http://www.gtk.org)
- - GLib >= 2.14 (http://www.gtk.org)
- - GIO >= 2.18 (http://www.gtk.org)
- - CTPL >= 0.2 (http://ctpl.tuxfamily.org/)
- - A working C compiler (GCC for example, http://gcc.gnu.org/)
- - A working make implementation (GNU make is recommended,
-   http://www.gnu.org/software/make/)
+
+* Geany >= 0.19 (http://www.geany.org/)
+* GTK+ >= 2.12 (http://www.gtk.org)
+* GLib >= 2.14 (http://www.gtk.org)
+* GIO >= 2.18 (http://www.gtk.org)
+* CTPL >= 0.2 (http://ctpl.tuxfamily.org/)
+* A working C compiler (GCC for example, http://gcc.gnu.org/)
+* A working make implementation (GNU make is recommended,
+  http://www.gnu.org/software/make/)
 
 You may also want the following packages that enables extra features:
- - Docutils (http://docutils.sourceforge.net/) -- or another implementation of
-   rst2html -- is needed to (re)generate the HTML manual.
+
+* Docutils (http://docutils.sourceforge.net/) -- or another implementation of
+  rst2html -- is needed to (re)generate the HTML manual.
 
 
 Installation
 ============
 
-Compiling and installing the plugin is done by the following commands:
+Compiling and installing the plugin is done by running the following
+commands from the top-level directory (it is the parent of the one
+containing this file if you're building GeanyGenDoc as part of Geany-plugins):
+
+::
 
  $ ./configure
  $ make
  $ make install
 
-For more configuration details run
+For more configuration details, run
+
+::
+
  $ ./configure --help
 
 For detailed instructions, see the INSTALL file.
+
+
+Usage
+=====
+
+For more details about GeanyGenDoc, see the user manual that can be found in
+the docs/ subirectory or opened with the menu item `Tools → Documentation
+Generator → Open Manual` from the Geany window if you already runs GeanyGenDoc.
+
+
+Hacking
+=======
+
+See the HACKING file for information on how to get started on hacking
+GeanyGenDoc internals.
+
+
+License
+=======
+
+GeanyGenDoc is distributed under the terms of the GNU General Public License
+as published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version. You should have received a copy
+of the GNU General Public License along with GeanyGenDoc.  If not, see
+<http://www.gnu.org/licenses/>.
+
+
+Contact
+=======
+
+You can mail me at <ban(at)herbesfolles(dot)org>, and I may also be on the
+#geany channel on FreeNode, under the `b4n` nickname.
+
+
+Bug reports and feature requests
+--------------------------------
+
+To report a bug or ask for a new feature, please use the Geany-Plugins tracker
+on SourceForge: http://sourceforge.net/tracker/?group_id=222729

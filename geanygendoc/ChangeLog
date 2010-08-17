@@ -9,6 +9,8 @@
     probably the first new users would look at, then move it to the top.
   * docs/manual.rst, docs/manual.html:
     Add a small sentence in the introduction to guide the user in her read.
+  * README.in, HACKING:
+    Update README.in, add HACKING.
 
 
 2010-06-14  Colomban Wendling  <ban(at)herbesfolles(dot)org>
