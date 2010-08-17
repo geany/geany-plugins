@@ -7,6 +7,8 @@
   * docs/manual.rst, docs/manual.html:
     Move "User interface in Geany" part on the top of the manual. This part is
     probably the first new users would look at, then move it to the top.
+  * docs/manual.rst, docs/manual.html:
+    Add a small sentence in the introduction to guide the user in her read.
 
 
 2010-06-14  Colomban Wendling  <ban(at)herbesfolles(dot)org>

@@ -14,6 +14,10 @@ plug-in for Geany as you might have noticed; but what is it meant to do?
 Basically, it generates and inserts text chunks, particularly from document's
 symbols. Its goal is to ease writing documentation for the good.
 
+If you are impatient, you will probably want to discover the `user interface in
+Geany`_ first; but if you have the time to discover the tool, take a look at the
+`design`_ and learn how GeanyGenDoc works and how you can take the most of it.
+
 
 .. contents::
 
