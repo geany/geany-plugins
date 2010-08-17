@@ -29,6 +29,12 @@ p, dd {
 	text-align: justify;
 }
 
+blockquote {
+	padding-left: 1em;
+	margin-left: 1em;
+	border-left: 3px solid #5c3566;
+}
+
 .literal-block,
 .literal {
 	background: #fff;

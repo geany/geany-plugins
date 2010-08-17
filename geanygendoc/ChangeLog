@@ -2,6 +2,8 @@
 
   * docs/manual.rst, docs/manual.html:
     Add license information in the manual.
+  * docs/manual.css:
+    Add a style definition for blockquotes in the manual stylesheet.
 
 
 2010-06-14  Colomban Wendling  <ban(at)herbesfolles(dot)org>
