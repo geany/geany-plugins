@@ -1,3 +1,9 @@
+2010-08-17  Colomban Wendling  <ban(at)herbesfolles(dot)org>
+
+  * docs/manual.rst, docs/manual.html:
+    Add license information in the manual.
+
+
 2010-06-14  Colomban Wendling  <ban(at)herbesfolles(dot)org>
 
   * src/ggd-plugin.h:
