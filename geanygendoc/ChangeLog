@@ -11,6 +11,10 @@
     Add a small sentence in the introduction to guide the user in her read.
   * README.in, HACKING:
     Update README.in, add HACKING.
+  * ../build/geanygendoc.m4, README.in -> README:
+    Don't pre-process README anymore. It isn't needed anymore since the version
+    number was removed, and this version number was wrong anyway since the the
+    plugin is part of Geany-plugins.
 
 
 2010-06-14  Colomban Wendling  <ban(at)herbesfolles(dot)org>

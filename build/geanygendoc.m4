@@ -50,7 +50,6 @@ AC_DEFUN([GP_CHECK_GEANYGENDOC],
     GP_STATUS_PLUGIN_ADD([GeanyGenDoc], [$enable_geanygendoc])
 
     AC_CONFIG_FILES([
-        geanygendoc/README
         geanygendoc/Makefile
         geanygendoc/src/Makefile
         geanygendoc/data/Makefile
