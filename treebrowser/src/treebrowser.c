@@ -4,6 +4,9 @@
  *      Copyright 2010 Adrian Dimitrov <dimitrov.adrian@gmail.com>
  */
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <glib.h>
 #include <glib/gstdio.h>
 
@@ -112,6 +115,7 @@ _gtk_cell_layout_get_cells(GtkTreeViewColumn *column)
 
 static void 	project_change_cb(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile *config, G_GNUC_UNUSED gpointer data);
 static void 	treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit);
+static void 	treebrowser_bookmarks_state(void);
 static void 	treebrowser_load_bookmarks(void);
 static void 	gtk_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root);
 static void 	load_settings(void);
@@ -292,8 +296,7 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 	if (parent && gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), parent)))
 		expanded = TRUE;
 
-	if (CONFIG_SHOW_BOOKMARKS && gtk_tree_store_iter_is_valid(treestore, &bookmarks_iter))
-		bookmarks_expanded = gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &bookmarks_iter));
+	treebrowser_bookmarks_state();
 
 	gtk_tree_store_iter_clear_nodes(parent, FALSE);
 
@@ -354,16 +357,21 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 		}
 	}
 
-	if (parent)
-	{
-		if (expanded)
-			gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), parent), FALSE);
-	}
-	else
-		if (CONFIG_SHOW_BOOKMARKS)
-			treebrowser_load_bookmarks();
+	if (parent && expanded)
+		gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), parent), FALSE);
+
+	treebrowser_load_bookmarks();
 }
 
+
+static void
+treebrowser_bookmarks_state(void)
+{
+	if (gtk_tree_store_iter_is_valid(treestore, &bookmarks_iter))
+		bookmarks_expanded = gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &bookmarks_iter));
+	else
+		bookmarks_expanded = FALSE;
+}
 
 static void
 treebrowser_load_bookmarks(void)
@@ -373,6 +381,9 @@ treebrowser_load_bookmarks(void)
 	gchar 		*contents, *path_full;
 	gchar 		**lines, **line;
 	GtkTreeIter iter;
+
+	if (! CONFIG_SHOW_BOOKMARKS)
+		return;
 
 	bookmarks = g_build_filename (g_get_home_dir(), ".gtk-bookmarks", NULL);
 	if (g_file_get_contents(bookmarks, &contents, NULL, &error))
@@ -902,7 +913,7 @@ create_popup_menu(gchar *name, gchar *uri)
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_close), uri);
 	gtk_widget_set_sensitive(item, is_document);
 
-	item = ui_image_menu_item_new(GTK_STOCK_COPY, g_strdup_printf(_("Copy full path"), name));
+	item = ui_image_menu_item_new(GTK_STOCK_COPY, g_strdup_printf(_("Copy full path to clipboard"), name));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_copy_uri), uri);
 	gtk_widget_set_sensitive(item, is_exists);
