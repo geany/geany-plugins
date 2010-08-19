@@ -67,18 +67,18 @@ bound to keys, for example Alt-c, Alt-Shift-l and Control-Shift-b. Now:
    Home                 Start of file
    End                  End of file
 
-Unfortunately, holding Alt for rectangular selection has some problems,
-which apply both to the standard Geany keys and these added by the plugin.
-Under Windows, Alt and the keypad keys generate unicodes, even if used
-with Shift or Control. With X11, some Alt-(Ctrl)-(Shift)-movement keys
-may be used by the window manager for switching to the previous/next
-desktop, moving windows etc. So then:
+   Unfortunately, holding Alt for rectangular selection has some problems,
+   which apply both to the standard Geany keys and these added by the
+   plugin. Under Windows, the Alt-keypad keys generates unicodes, even if
+   used with Shift or Control. With X11, some Alt-(Ctrl)-(Shift)-movement
+   keys may be used by the window manager for moving windows, switching to
+   the previous/next desktop etc. So then:
 
 4. Turn "Column mode" on. While active, the (Control)-Shift-movement keys
-   will select a rectangle instead of stream without the need to hold
+   will select a rectangle instead of stream, without the need to hold
    Alt (in fact, the (Control)-Alt-Shift-movement keys will be temporarily
    blocked). This way, you will avoid the Alt key problems mentioned
-   above, and it's move convinient to select while holding Shift only.
+   above, and it's more convenient to select while holding Shift only.
 
 
 Known issues
