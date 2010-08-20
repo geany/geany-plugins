@@ -1,0 +1,43 @@
+.. |(version)| replace:: 0.2
+
+=======
+Treebrowser plugin
+=======
+
+.. contents::
+
+About
+=====
+
+Treebrowser is plugin that provide tree like file browser for geany`s sidebar.
+It is on beta state, then all reports are welcome.
+
+Features
+========
+
+ * Project folowing
+ * Filesystem functionality (create, rename, delete files or directoreis)
+ * EXPERIMENTAL gtk bookmark showing
+ * Open path externaly (using predefined filebrowser ex.: nautilus, thunar...)
+ * Open path in terminal
+ * Copy document`s path to clipboard
+ * Filters in browser
+
+Requirements
+============
+
+
+Usage
+=====
+
+After compiling and/or installing geanyvc, start Geany and go to menu
+Tools->Plugin Manager and set checkbox at treebrowser plugin
+
+License
+=======
+
+Treebrowser plugin is distrubuted under the same license as the geany.
+
+--
+2010 Adrian Dimitrov
+dimitrov(dot)adrian(at)gmail(dot)com
