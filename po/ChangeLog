@@ -1,3 +1,9 @@
+2010-08-23  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * de.po: Update of German translation with new strings for Updatechecker
+          plugin.
+
+
 2010-06-26  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * de.po: Fix some fuzzy strings.
