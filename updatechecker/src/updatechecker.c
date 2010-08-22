@@ -210,13 +210,13 @@ static void update_check_result_cb(SoupSession *session,
 		else
 		{
 			dialogs_show_msgbox(GTK_MESSAGE_INFO,
-				_("No update needed"));
+				_("No update available"));
 		}
 	}
 	else
 	{
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR,
-			_("Wasn't able to catch some version information\n"
+			_("Wasn't able to catch some version information.\n"
 			  "Error code: %d \n"
 			  "Error message: »%s«"), msg->status_code, msg->reason_phrase);
 	}
