@@ -122,3 +122,6 @@ treebrowser/src/treebrowser.c
 
 # GeanyExtraSel
 geanyextrasel/src/extrasel.c
+
+# UpdateChecker
+updatechecker/src/updatechecker.c

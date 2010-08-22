@@ -1,0 +1,77 @@
+UpdateChecker
+-----------
+
+.. contents::
+
+About
+------
+
+UpdateChecker is a plugin for Geany, which is able to check whether
+there is a more recent version of Geany available.
+
+
+Installation
+------------
+
+This version of the plugin is installed with the combined
+geany-plugins release. Please check README of this package
+
+
+Usage
+-----
+
+After installed successfully, load the plugin in Geany's plugin manager
+and a new menu item in the Tools menu will appear.
+
+When pushing the entry inside the menu bar, the plugin will try to
+get in contact with the Geany-servers and figure out, whether there
+has been a new version release or not. Once there is some result,
+you will get informed by a info popup.
+
+In default configuration the plugin will not check automaticly for
+new versions. But you can change this by activating this inside
+configuration dialog.
+
+
+Development
+-----------
+
+You can checkout the current source code from the Subversion repository at
+Sourceforge.net. Get the code from:
+
+svn checkout
+http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geany-plugins/updatechecker
+
+If you want to create a patch, please respect the license of
+UpdateChecker as well as intellectual property of third. Patches that
+should be included to the default distribution must be licensed under
+the same conditions as UpdateChecker by the copyright owner.
+
+
+Known issues
+------------
+
+At the moment, there is no known issue.
+
+For more recent information all reported issues will be tracked at
+http://sourceforge.net/tracker/?group_id=222729
+
+
+License
+-------
+
+UpdateChecker and all its parts is distributed under the terms of the
+GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any
+later version. A copy of this license can be found in the file COPYING
+included with the source code of this program. If not, you will be
+able to get a copy by contacting the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+
+Bugs, questions, bugs, homepage
+-------------------------------
+
+If you found any bugs or want to provide a patch, please contact Frank
+Lanitz (frank(at)geany(dot)org). 
+
