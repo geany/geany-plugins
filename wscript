@@ -105,7 +105,7 @@ plugins = [
 	Plugin('GeanyPrj', None, [ 'geanyprj/src' ]),
 	Plugin('Pretty-Printer', None, [ 'pretty-printer/src' ], [ [ 'libxml-2.0', '2.6.27', True ] ]),
 	Plugin('TreeBrowser', None, [ 'treebrowser/src' ], [ [ 'gio-2.0', '2.16', False ] ]),
-	Plugin('Updatechecker', None, [ 'updatechecker/src' ], [ ['libsoup-2.4', '2.25', True] ])
+	Plugin('Updatechecker', None, [ 'updatechecker/src' ], [ ['libsoup-2.4', '2.4.0', True] ])
 ]
 
 '''
