@@ -34,7 +34,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	LOCALEDIR,
 	GETTEXT_PACKAGE,
 	_("Updatechecker"),
-	_("A plugin which is checking for "),
+	_("A plugin which is checking wheter there are updates for Geany available."),
 	VERSION,
 	"Frank Lanitz <frank@frank.uvena.de>")
 
