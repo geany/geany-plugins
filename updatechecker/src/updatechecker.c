@@ -76,7 +76,7 @@ static void update_check(gint type)
 	SoupSession *soup;
 	SoupMessage *msg;
 
-	g_warning(_("Starting checking for updates"));
+	g_message("Starting checking for updates");
 	soup = soup_session_async_new ();
 	msg = soup_message_new ("GET", "http://geany.org/service/version.php");
 
@@ -178,19 +178,19 @@ static void update_check_result_quiet_cb(SoupSession *session,
 	{
 		if (version_compare(msg->response_body->data) == TRUE)
 		{
-			g_warning(_("There is a more recent version availble"));
+			g_message("There is a more recent version available");
 			dialogs_show_msgbox(GTK_MESSAGE_INFO,
 				_("There is a more recent version availble. Please check "
 				  "http://www.geany.org for updates."));
 		}
 		else
 		{
-			g_warning(_("No update available"));
+			g_message("No update available");
 		}
 	}
 	else
 	{
-		g_warning(_("Connection error. Code: %d; Message: %s"),
+		g_warning("Connection error. Code: %d; Message: %s",
 			msg->status_code, msg->reason_phrase);
 	}
 }
