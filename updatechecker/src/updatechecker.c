@@ -147,7 +147,7 @@ static void parse_version_string(const gchar *ver, gint *major, gint *minor,
 /* Returns TRUE if the version installed is < as the version found
 on the * server. All other cases a causes a FALSE. */
 static gboolean
-version_compair(const gchar *current_version)
+version_compare(const gchar *current_version)
 {
 	version_struct geany_running;
 	version_struct geany_current;
@@ -176,7 +176,7 @@ static void update_check_result_quiet_cb(SoupSession *session,
 {
 	if (msg->status_code == 200)
 	{
-		if (version_compair(msg->response_body->data) == TRUE)
+		if (version_compare(msg->response_body->data) == TRUE)
 		{
 			g_warning(_("There is a more recent version availble"));
 			dialogs_show_msgbox(GTK_MESSAGE_INFO,
@@ -202,7 +202,7 @@ static void update_check_result_cb(SoupSession *session,
 	/* Checking whether we did get a valid (200) result */
 	if (msg->status_code == 200)
 	{
-		if (version_compair(msg->response_body->data) == TRUE)
+		if (version_compare(msg->response_body->data) == TRUE)
 		{
 			dialogs_show_msgbox(GTK_MESSAGE_INFO,
 				_("There is a more recent version availble"));
