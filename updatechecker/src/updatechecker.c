@@ -276,8 +276,6 @@ GtkWidget *
 plugin_configure(GtkDialog * dialog)
 {
 	GtkWidget   *vbox;
-	GtkWidget   *hbox_autocompletion;
-
 	vbox = gtk_vbox_new(FALSE, 6);
 
 	config_widgets.run_on_startup = gtk_check_button_new_with_label(
