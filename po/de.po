@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.19\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-23 01:36+0200\n"
-"PO-Revision-Date: 2010-08-23 01:37+0100\n"
+"POT-Creation-Date: 2010-08-26 00:57+0200\n"
+"PO-Revision-Date: 2010-08-26 00:59+0100\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
 "Language: de\n"
@@ -193,7 +193,7 @@ msgstr "Tag zum Einfügen:"
 #: ../addons/src/ao_xmltagging.c:67
 #, c-format
 msgid "%s will be replaced with your current selection. Please keep care on your selection"
-msgstr ""
+msgstr "%s wird mit der jeweils aktuellen Auswahl ersetzt."
 
 #. All plugins must set name, description, version and author.
 #: ../codenav/src/codenavigation.c:46
@@ -3057,7 +3057,6 @@ msgid "Generate file list on load"
 msgstr "Dateiliste beim Laden erzeugen"
 
 #: ../geanyprj/src/menu.c:170
-#, fuzzy
 msgid "Automatically add files that match project type on project load automatically. You can't manually add/remove files if you checked this option, since your modification will be lost on on next project load"
 msgstr "Fügt Dateien, die dem Projekt-Typ entsprechen, automatisch beim Laden hinzu dem Projekte hinzu. Manuelles Hinzufügen oder Löschen von Dateien ist dann nicht möglich, Änderungen würden beim nächsten Laden überschrieben werden."
 
@@ -3417,31 +3416,20 @@ msgid "Updatechecker"
 msgstr "Updatechecker"
 
 #: ../updatechecker/src/updatechecker.c:37
-msgid "A plugin which is checking wheter there are updates for Geany available."
+msgid "A plugin which is checking whether there are updates for Geany available."
 msgstr "Eine Erweiterung, die überprüft, ob für Geany auf dem Server Aktualisierungen bereitliegen."
-
-#: ../updatechecker/src/updatechecker.c:79
-msgid "Starting checking for updates"
-msgstr "Beginne mit der Prüfung auf Aktualisierungen"
-
-#: ../updatechecker/src/updatechecker.c:181
-#: ../updatechecker/src/updatechecker.c:208
-msgid "There is a more recent version availble"
-msgstr "Eine neuere Version ist verfügbar"
 
 #: ../updatechecker/src/updatechecker.c:183
 msgid "There is a more recent version availble. Please check http://www.geany.org for updates."
 msgstr "Eine neue Version wurde gefunden und kann von http://www.geany.org heruntergeladen werden. "
 
-#: ../updatechecker/src/updatechecker.c:188
+#: ../updatechecker/src/updatechecker.c:208
+msgid "There is a more recent version availble"
+msgstr "Eine neuere Version ist verfügbar"
+
 #: ../updatechecker/src/updatechecker.c:213
 msgid "No update available"
 msgstr "Keine Aktualisierung verfügbar"
-
-#: ../updatechecker/src/updatechecker.c:193
-#, c-format
-msgid "Connection error. Code: %d; Message: %s"
-msgstr "Verbindungsproblem. Code: %d; Botschaft: %s"
 
 #: ../updatechecker/src/updatechecker.c:219
 #, c-format
@@ -3454,14 +3442,18 @@ msgstr ""
 "Error: %d \n"
 "Error Botschaft: »%s«"
 
-#: ../updatechecker/src/updatechecker.c:284
+#: ../updatechecker/src/updatechecker.c:282
 msgid "Run updatecheck on startup"
 msgstr "Überprüfung nach Aktualisierungen beim Starten durchführen"
 
-#: ../updatechecker/src/updatechecker.c:326
+#: ../updatechecker/src/updatechecker.c:324
 msgid "Check for Updates"
 msgstr "Auf mögliche Aktualisierungen prüfen"
 
+#~ msgid "Starting checking for updates"
+#~ msgstr "Beginne mit der Prüfung auf Aktualisierungen"
+#~ msgid "Connection error. Code: %d; Message: %s"
+#~ msgstr "Verbindungsproblem. Code: %d; Botschaft: %s"
 #~ msgid "No update needed"
 #~ msgstr "Keine Aktualisierung notwendig"
 
