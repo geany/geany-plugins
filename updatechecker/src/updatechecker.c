@@ -46,8 +46,6 @@ enum {
 static GtkWidget *main_menu_item = NULL;
 static void update_check_result_cb(SoupSession *session,
 	SoupMessage *msg, gpointer user_data);
-static void update_check_result_quiet_cb(SoupSession *session,
-	SoupMessage *msg, gpointer user_data);
 
 static gboolean check_on_startup = FALSE;
 
@@ -80,11 +78,7 @@ static void update_check(gint type)
 	soup = soup_session_async_new ();
 	msg = soup_message_new ("GET", "http://geany.org/service/version.php");
 
-	if (type == UPDATECHECK_STARTUP)
-		soup_session_queue_message (soup, msg, update_check_result_quiet_cb, NULL);
-	if (type == UPDATECHECK_MANUAL)
-		soup_session_queue_message (soup, msg, update_check_result_cb, NULL);
-	
+	soup_session_queue_message (soup, msg, update_check_result_cb, GINT_TO_POINTER(type));
 }
 
 
@@ -171,34 +165,10 @@ version_compare(const gchar *current_version)
 }
 
 
-static void update_check_result_quiet_cb(SoupSession *session,
-	SoupMessage *msg, gpointer user_data)
-{
-	if (msg->status_code == 200)
-	{
-		if (version_compare(msg->response_body->data) == TRUE)
-		{
-			g_message("There is a more recent version available");
-			dialogs_show_msgbox(GTK_MESSAGE_INFO,
-				_("There is a more recent version availble. Please check "
-				  "http://www.geany.org for updates."));
-		}
-		else
-		{
-			g_message("No update available");
-		}
-	}
-	else
-	{
-		g_warning("Connection error. Code: %d; Message: %s",
-			msg->status_code, msg->reason_phrase);
-	}
-}
-
-
 static void update_check_result_cb(SoupSession *session,
 	SoupMessage *msg, gpointer user_data)
 {
+	gint type = GPOINTER_TO_INT(user_data);
 	/* Checking whether we did get a valid (200) result */
 	if (msg->status_code == 200)
 	{
@@ -206,19 +176,31 @@ static void update_check_result_cb(SoupSession *session,
 		{
 			dialogs_show_msgbox(GTK_MESSAGE_INFO,
 				_("There is a more recent version availble"));
+			g_message("There is a more recent version availble");
 		}
 		else
 		{
-			dialogs_show_msgbox(GTK_MESSAGE_INFO,
-				_("No update available"));
+			if (type == UPDATECHECK_MANUAL)
+			{
+				dialogs_show_msgbox(GTK_MESSAGE_INFO,
+					_("No update available"));
+			}
+
+			g_message("No update available");
+
 		}
 	}
 	else
 	{
-		dialogs_show_msgbox(GTK_MESSAGE_ERROR,
-			_("Wasn't able to catch some version information.\n"
-			  "Error code: %d \n"
-			  "Error message: »%s«"), msg->status_code, msg->reason_phrase);
+		if (type == UPDATECHECK_MANUAL)
+		{
+			dialogs_show_msgbox(GTK_MESSAGE_ERROR,
+				_("Wasn't able to catch some version information.\n"
+				"Error code: %d \n"
+				"Error message: »%s«"), msg->status_code, msg->reason_phrase);
+		}
+		g_warning("Connection error. Code: %d; Message: %s",
+			msg->status_code, msg->reason_phrase);
 	}
 }
 
