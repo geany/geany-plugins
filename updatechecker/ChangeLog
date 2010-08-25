@@ -1,6 +1,12 @@
+2010-08-26  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * src/updatechecker.c: Cleaning up the code and removing redundant code
+						as well as fixing a typo. 
+
+
 2010-08-23  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
- * src/updatechecker: Some adjustments on a couple of strings. 
+ * src/updatechecker.c: Some adjustments on a couple of strings. 
 
 
 2010-08-22  Frank Lanitz  <frank@frank.uvena.de>

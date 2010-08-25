@@ -139,7 +139,7 @@ static void parse_version_string(const gchar *ver, gint *major, gint *minor,
 
 
 /* Returns TRUE if the version installed is < as the version found
-on the * server. All other cases a causes a FALSE. */
+ * on the server. All other cases a causes a FALSE. */
 static gboolean
 version_compare(const gchar *current_version)
 {
@@ -169,14 +169,15 @@ static void update_check_result_cb(SoupSession *session,
 	SoupMessage *msg, gpointer user_data)
 {
 	gint type = GPOINTER_TO_INT(user_data);
+	
 	/* Checking whether we did get a valid (200) result */
 	if (msg->status_code == 200)
 	{
 		if (version_compare(msg->response_body->data) == TRUE)
 		{
 			dialogs_show_msgbox(GTK_MESSAGE_INFO,
-				_("There is a more recent version availble"));
-			g_message("There is a more recent version availble");
+				_("There is a more recent version available"));
+			g_message("There is a more recent version available");
 		}
 		else
 		{

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.19\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-26 00:57+0200\n"
-"PO-Revision-Date: 2010-08-26 00:59+0100\n"
+"POT-Creation-Date: 2010-08-26 01:14+0200\n"
+"PO-Revision-Date: 2010-08-26 01:15+0100\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
 "Language: de\n"
@@ -95,7 +95,7 @@ msgstr "XML-Tagging durchführen"
 #: ../geanyvc/src/geanyvc.c:1776
 #: ../spellcheck/src/scplugin.c:141
 #: ../treebrowser/src/treebrowser.c:1446
-#: ../updatechecker/src/updatechecker.c:259
+#: ../updatechecker/src/updatechecker.c:242
 msgid "Plugin configuration directory could not be created."
 msgstr "Das Konfigurationsverzeichnis für das Plugin konnte nicht erstellt werden."
 
@@ -3419,19 +3419,15 @@ msgstr "Updatechecker"
 msgid "A plugin which is checking whether there are updates for Geany available."
 msgstr "Eine Erweiterung, die überprüft, ob für Geany auf dem Server Aktualisierungen bereitliegen."
 
-#: ../updatechecker/src/updatechecker.c:183
-msgid "There is a more recent version availble. Please check http://www.geany.org for updates."
-msgstr "Eine neue Version wurde gefunden und kann von http://www.geany.org heruntergeladen werden. "
-
-#: ../updatechecker/src/updatechecker.c:208
-msgid "There is a more recent version availble"
+#: ../updatechecker/src/updatechecker.c:179
+msgid "There is a more recent version available"
 msgstr "Eine neuere Version ist verfügbar"
 
-#: ../updatechecker/src/updatechecker.c:213
+#: ../updatechecker/src/updatechecker.c:187
 msgid "No update available"
 msgstr "Keine Aktualisierung verfügbar"
 
-#: ../updatechecker/src/updatechecker.c:219
+#: ../updatechecker/src/updatechecker.c:199
 #, c-format
 msgid ""
 "Wasn't able to catch some version information.\n"
@@ -3442,14 +3438,20 @@ msgstr ""
 "Error: %d \n"
 "Error Botschaft: »%s«"
 
-#: ../updatechecker/src/updatechecker.c:282
+#: ../updatechecker/src/updatechecker.c:265
 msgid "Run updatecheck on startup"
 msgstr "Überprüfung nach Aktualisierungen beim Starten durchführen"
 
-#: ../updatechecker/src/updatechecker.c:324
+#: ../updatechecker/src/updatechecker.c:307
 msgid "Check for Updates"
 msgstr "Auf mögliche Aktualisierungen prüfen"
 
+#~ msgid ""
+#~ "There is a more recent version availble. Please check http://www.geany."
+#~ "org for updates."
+#~ msgstr ""
+#~ "Eine neue Version wurde gefunden und kann von http://www.geany.org "
+#~ "heruntergeladen werden. "
 #~ msgid "Starting checking for updates"
 #~ msgstr "Beginne mit der Prüfung auf Aktualisierungen"
 #~ msgid "Connection error. Code: %d; Message: %s"
