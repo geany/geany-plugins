@@ -1,3 +1,8 @@
+2010-08-27  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * src/updatechecker.c: Submit an user agent on request.
+
+
 2010-08-26  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * src/updatechecker.c: Cleaning up the code and removing redundant code
