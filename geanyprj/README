@@ -123,8 +123,8 @@ the current code style. Run this script before commit.
 Download
 ========
 
-Spell Check is part of the combined Geany Plugins release. 
-For more information and downloads, please visit 
+geanyprj is part of the combined Geany Plugins release.
+For more information and downloads, please visit
 http://plugins.geany.org/geany-plugins/
 
 Development Code
@@ -132,7 +132,7 @@ Development Code
 
 Get the code from::
 
-  svn checkout http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geany-plugins 
+  svn checkout http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geany-plugins
 
 
 2007-2008 by Yura Siamashka

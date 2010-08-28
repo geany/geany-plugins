@@ -73,50 +73,18 @@ the current code style. Run this script before commit.
 Download
 ========
 
-The current version is:
+geanydoc is part of the combined Geany Plugins release.
+For more information and downloads, please visit
+http://plugins.geany.org/geany-plugins/
 
-============= ================ ============================================================
-Geany Version GeanyDoc Version Download
-============= ================ ============================================================
-0.16               |(version)| http://users.cosmostv.by/yurand/geanydoc/geanydoc-0.4.tar.gz
-============= ================ ============================================================
+Development Code
+================
 
-Up to date source code can be downloaded here::
+Get the code from::
 
-  svn checkout http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geanydoc
-  
-If you have old version of Geany installed you need old version of plugin as well. These versions of plugin
-are no longer supported and if you find bug in one of them, it won't be fixed unless you do it yourself.
-
-============= ================ ============================================================
-Geany Version GeanyDoc Version Download
-============= ================ ============================================================
-0.16                       0.4 http://users.cosmostv.by/yurand/geanydoc/geanydoc-0.4.tar.gz
-
-0.15                       0.3 http://users.cosmostv.by/yurand/geanydoc/geanydoc-0.3.tar.gz
-
-0.14                       0.2 http://users.cosmostv.by/yurand/geanydoc/geanydoc-0.2.tar.gz
-
-0.13                       0.1 http://users.cosmostv.by/yurand/geanydoc/geanydoc-0.1.tar.gz
-============= ================ ============================================================
-
-
-Gentoo
-------
-
-Gentoo ebuild is available here: http://bugs.gentoo.org/show_bug.cgi?id=218493
-
-Arch linux
-----------
-
-A package for Arch Linux is available here: http://aur.archlinux.org/packages.php?ID=16475
-
-Windows
--------
-
-A windows installer is available here: http://users.cosmostv.by/yurand/geanydoc/geanydoc-0.4_setup.exe
+  svn checkout http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geany-plugins
 
 Author
 ======
-Yura Siamashka http://users.cosmostv.by/yurand/cv.html
+Yura Siamashka yurand2(at)gmail(dot)com
 
