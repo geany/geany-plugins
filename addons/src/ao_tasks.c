@@ -482,8 +482,7 @@ void ao_tasks_activate(AoTasks *t)
 
 	if (priv->enable_tasks)
 	{
-		GtkNotebook *notebook = GTK_NOTEBOOK(
-			ui_lookup_widget(geany->main_widgets->window, "notebook_info"));
+		GtkNotebook *notebook = GTK_NOTEBOOK(geany->main_widgets->message_window_notebook);
 		gint page_number = gtk_notebook_page_num(notebook, priv->page);
 
 		gtk_notebook_set_current_page(notebook, page_number);
