@@ -54,12 +54,14 @@ parser_parse_to_string (const CtplToken *tree,
                         CtplEnviron     *env,
                         GError         **error)
 {
-  GOutputStream  *ostream;
-  gchar          *output = NULL;
+  GOutputStream    *gostream;
+  CtplOutputStream *ostream;
+  gchar            *output = NULL;
   
-  ostream = g_memory_output_stream_new (NULL, 0, g_try_realloc, NULL);
+  gostream = g_memory_output_stream_new (NULL, 0, g_try_realloc, NULL);
+  ostream = ctpl_output_stream_new (gostream);
   if (ctpl_parser_parse (tree, env, ostream, error)) {
-    GMemoryOutputStream  *memostream = G_MEMORY_OUTPUT_STREAM (ostream);
+    GMemoryOutputStream  *memostream = G_MEMORY_OUTPUT_STREAM (gostream);
     gsize                 size;
     gsize                 data_size;
     
@@ -84,8 +86,9 @@ parser_parse_to_string (const CtplToken *tree,
     if (size > data_size) {
       output[data_size] = 0;
     }
-    g_object_unref (ostream);
   }
+  ctpl_output_stream_unref (ostream);
+  g_object_unref (gostream);
   
   return output;
 }
