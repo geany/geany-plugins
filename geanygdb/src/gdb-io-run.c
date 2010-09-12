@@ -57,6 +57,9 @@ static gboolean is_running = FALSE;
 static gint process_token = 0;
 
 
+static void send_to_gdb(const gchar *data);
+
+
 /*
   Hash table to associate a "tokenized" GDB command with a function call.
   This stores a list of key-value pairs where the unique sequence-number
@@ -82,6 +85,7 @@ gint
 gdbio_send_seq_cmd(ResponseHandler func, const gchar * fmt, ...)
 {
 	va_list args;
+	GString *data;
 	if (!gdbio_pid)
 	{
 		return 0;
@@ -99,10 +103,13 @@ gdbio_send_seq_cmd(ResponseHandler func, const gchar * fmt, ...)
 		sequencer = g_hash_table_new(g_direct_hash, g_direct_equal);
 	}
 	g_hash_table_insert(sequencer, GINT_TO_POINTER(sequence), func);
-	g_string_append_printf(&send_buf, "%d", sequence);
+	data = g_string_sized_new(128);
+	g_string_append_printf(data, "%d", sequence);
 	va_start(args, fmt);
-	g_string_append_vprintf(&send_buf, fmt, args);
+	g_string_append_vprintf(data, fmt, args);
 	va_end(args);
+	send_to_gdb(data->str);
+	g_string_free(data, TRUE);
 	return sequence;
 }
 
@@ -230,13 +237,17 @@ void
 gdbio_send_cmd(const gchar * fmt, ...)
 {
 	va_list args;
+	gchar *data;
 	if (!gdbio_pid)
 	{
 		return;
 	}
 	va_start(args, fmt);
-	g_string_append_vprintf(&send_buf, fmt, args);
+	data = g_strdup_vprintf(fmt, args);
 	va_end(args);
+
+	send_to_gdb(data);
+	g_free(data);
 }
 
 
@@ -424,7 +435,6 @@ on_gdb_exit(GPid pid, gint status, gpointer data)
 	g_spawn_close_pid(pid);
 
 
-	g_source_remove(gdbio_id_in);
 	shutdown_channel(&gdbio_ch_in);
 
 	g_source_remove(gdbio_id_out);
@@ -450,11 +460,13 @@ on_gdb_exit(GPid pid, gint status, gpointer data)
 
 
 static gboolean
-on_send_to_gdb(GIOChannel * src, GIOCondition cond, gpointer data)
+on_send_to_gdb(gpointer data)
 {
 	GIOStatus st;
 	GError *err = NULL;
 	gsize count;
+	GIOChannel *src = gdbio_ch_in;
+
 	if (send_buf.len)
 	{
 		while (send_buf.len)
@@ -472,8 +484,48 @@ on_send_to_gdb(GIOChannel * src, GIOCondition cond, gpointer data)
 		gerror("Error pushing command", &err);
 		gdbio_wait(10);
 	}
-	do_loop();
-	return TRUE;
+	return (send_buf.len > 0);
+}
+
+
+
+static void
+delay_send_to_gdb(const gchar *data)
+{
+	g_string_append(&send_buf, data);
+	g_idle_add(on_send_to_gdb, NULL);
+}
+
+
+
+static void
+send_to_gdb(const gchar *data)
+{
+	GIOStatus st;
+	GError *err = NULL;
+	gsize count;
+	GIOChannel *src = gdbio_ch_in;
+	GString *text = g_string_new(data);
+
+	if (text->len)
+	{
+		while (text->len)
+		{
+			st = g_io_channel_write_chars(src, text->str, text->len, &count,
+						      &err);
+			g_string_erase(text, 0, count);
+			if (err || (st == G_IO_STATUS_ERROR) || (st == G_IO_STATUS_EOF))
+			{
+				gerror("Error sending command", &err);
+				/* puffer string for later retry */
+				delay_send_to_gdb(text->str);
+				break;
+			}
+		}
+		st = g_io_channel_flush(src, &err);
+		gerror("Error pushing command", &err);
+	}
+	g_string_free(text, TRUE);
 }
 
 
@@ -752,7 +804,6 @@ gdbio_load(const gchar * exe_name)
 		gerror("Error setting encoding", &err);
 		g_io_channel_set_buffered(gdbio_ch_out, FALSE);
 
-		gdbio_id_in = g_io_add_watch(gdbio_ch_in, G_IO_OUT, on_send_to_gdb, NULL);
 		gdbio_id_out = g_io_add_watch(gdbio_ch_out, G_IO_IN, on_read_from_gdb, NULL);
 
 		gdbio_send_cmd("-gdb-set width 0\n-gdb-set height 0\n");
