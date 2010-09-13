@@ -1,5 +1,5 @@
 # German translation for geany-plugins
-# Copyright (C) 2009 THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) 2009-2010 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 # Andrew Janke <a.janke@gmail.com>, 2009
 # Frank Lanitz <frank@frank.uvena.de>, 2009-2010
@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.19\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-26 01:14+0200\n"
-"PO-Revision-Date: 2010-08-26 01:15+0100\n"
+"POT-Creation-Date: 2010-09-13 21:12+0200\n"
+"PO-Revision-Date: 2010-09-13 21:44+0100\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
 "Language: de\n"
@@ -1258,63 +1258,62 @@ msgstr "Konnte nicht genau feststellen, wohin das Paket »%s« eingefügt werden
 #: ../geanylatex/src/bibtexlabels.c:26
 #: ../geanylatex/src/geanylatex.c:1638
 msgid "Article"
-msgstr "Artikel"
+msgstr "Artikel (@Article)"
 
 #: ../geanylatex/src/bibtexlabels.c:27
 #: ../geanylatex/src/geanylatex.c:1636
 msgid "Book"
-msgstr "Buch"
+msgstr "Buch (@Book)"
 
 #: ../geanylatex/src/bibtexlabels.c:28
 msgid "Booklet"
-msgstr "Büchlein (Booklet)"
+msgstr "Broschüre (@Booklet)"
 
 #: ../geanylatex/src/bibtexlabels.c:29
 msgid "Conference"
-msgstr "Konferenz"
+msgstr "Konferenzbeitrag (@Conference)"
 
-# Ich denke Kapitel passt, Alternative wäre Sektion oder sowas? Im Zweifelsfall das englische Original lassen würde ich sagen.
+
 #: ../geanylatex/src/bibtexlabels.c:30
 msgid "Inbook"
-msgstr "Kapitel"
+msgstr "Buchkapitel (@Inbook)"
 
 #: ../geanylatex/src/bibtexlabels.c:31
 msgid "Incollection"
-msgstr "Auswahl"
+msgstr "Sammelbandbeitrag (@Incollection)"
 
-# ne bessere Übersetzung find ich hierfür nich :s
 #: ../geanylatex/src/bibtexlabels.c:32
 msgid "Inproceedings"
-msgstr "Artikel"
+msgstr "Konferenzbeitrag (@Inproceedings)"
 
 #: ../geanylatex/src/bibtexlabels.c:33
 msgid "Manual"
-msgstr "Handbuch"
+msgstr "Handbuch (@Manual)"
 
 #: ../geanylatex/src/bibtexlabels.c:34
 msgid "Mastersthesis"
-msgstr "Masterarbeit"
+msgstr "Masterarbeit (@Mastersthesis)"
 
 #: ../geanylatex/src/bibtexlabels.c:35
 #: ../geanylatex/src/letters.c:41
 msgid "Misc"
-msgstr "Sonstiges"
+msgstr "Sonstige"
 
 #: ../geanylatex/src/bibtexlabels.c:36
 msgid "PhdThesis"
-msgstr "Doktorarbeit"
+msgstr "Doktorarbeit (@PhdThesis)"
 
 #: ../geanylatex/src/bibtexlabels.c:37
 msgid "Proceedings"
-msgstr "Fortschritte"
+msgstr "Konferenzband (@Proceedings)"
 
 #: ../geanylatex/src/bibtexlabels.c:38
 msgid "Techreport"
-msgstr "Technischer Report"
+msgstr "Technischer Bericht (@Techreport)"
 
 #: ../geanylatex/src/bibtexlabels.c:39
 msgid "Unpublished"
-msgstr "Unveröffentlicht"
+msgstr "Unveröffentlichtes (@Unpublished)"
 
 #: ../geanylatex/src/bibtexlabels.c:43
 msgid "Address"
