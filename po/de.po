@@ -1995,7 +1995,7 @@ msgstr "Unterstrichen"
 
 #: ../geanylatex/src/formatpatterns.c:41
 msgid "Slanted"
-msgstr "Auswahl geneigt formatieren"
+msgstr "Geneigt (Slanted)"
 
 #: ../geanylatex/src/formatpatterns.c:42
 msgid "Typewriter"
