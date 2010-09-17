@@ -81,7 +81,9 @@ static PluginData plugin_data = {
   NULL, 0, NULL, NULL, NULL, 0l
 };
 
-/* global plugin options */
+/* global plugin options
+ * default values that needs to be set dynamically goes at the top of
+ * load_configuration() */
 gchar      *GGD_OPT_doctype[GEANY_MAX_BUILT_IN_FILETYPES] = { NULL };
 gboolean    GGD_OPT_save_to_refresh                       = FALSE;
 gboolean    GGD_OPT_indent                                = TRUE;
@@ -186,6 +188,9 @@ load_configuration (void)
   gchar    *conffile;
   GError   *err = NULL;
   guint     i;
+  
+  /* default options that needs to be set dynamically */
+  GGD_OPT_doctype[0] = g_strdup ("doxygen");
   
   plugin->config = ggd_opt_group_new ("General");
   ggd_opt_group_add_string (plugin->config, &GGD_OPT_doctype[0], "doctype");
