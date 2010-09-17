@@ -350,7 +350,9 @@ do_insert_comment (GeanyDocument   *doc,
         line = adjust_start_line (sci, tag_array, tag, line);
         pos = sci_get_position_from_line (sci, line);
         if (GGD_OPT_indent) {
-          pos += sci_get_line_indentation (sci, line);
+          while (isspace (sci_get_char_at (sci, pos))) {
+            pos++;
+          }
         }
         break;
       }
