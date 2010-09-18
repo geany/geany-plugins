@@ -201,7 +201,8 @@ ggd_policy_from_string (const gchar *string)
     GgdPolicy     policy;
   } policies[] = {
     { "KEEP",       GGD_POLICY_KEEP },
-    { "FORWARD",    GGD_POLICY_FORWARD }/*,
+    { "FORWARD",    GGD_POLICY_FORWARD },
+    { "PASS",       GGD_POLICY_PASS }/*,
     { "DUPLICATE",  GGD_POLICY_DUPLICATE }*/
   };
   guint i;

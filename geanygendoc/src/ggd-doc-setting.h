@@ -51,13 +51,15 @@ typedef enum _GgdPosition
  * _GgdPolicy:
  * @GGD_POLICY_KEEP: Document the symbol
  * @GGD_POLICY_FORWARD: Forward the documentation request to the parent symbol
+ * @GGD_POLICY_PASS: Ignore the symbol, do as if it didn't exist
  * 
  * Possible policies for documenting symbols.
  */
 typedef enum _GgdPolicy
 {
   GGD_POLICY_KEEP,
-  GGD_POLICY_FORWARD/*,
+  GGD_POLICY_FORWARD,
+  GGD_POLICY_PASS/*,
   GGD_POLICY_DUPLICATE*/
 } GgdPolicy;
 

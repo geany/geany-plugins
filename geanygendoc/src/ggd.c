@@ -519,6 +519,8 @@ ggd_insert_comment (GeanyDocument  *doc,
   
   g_return_val_if_fail (DOC_VALID (doc), FALSE);
   
+ again:
+  
   if (doc->tm_file) {
     tag_array = doc->tm_file->tags_array;
     tag = ggd_tag_find_from_line (tag_array, line + 1 /* it is a SCI line */);
@@ -531,6 +533,12 @@ ggd_insert_comment (GeanyDocument  *doc,
       GList          *tag_list = NULL;
       
       setting = get_setting_from_tag (doctype, doc, tag, &tag);
+      if (setting && setting->policy == GGD_POLICY_PASS) {
+        /* We want to completely skip this tag, so try previous line instead
+         * FIXME: this implementation is kinda ugly... */
+        line--;
+        goto again;
+      }
       if (setting && setting->autodoc_children) {
         tag_list = ggd_tag_find_children_filtered (tag_array, tag,
                                                    FILETYPE_ID (doc->file_type),

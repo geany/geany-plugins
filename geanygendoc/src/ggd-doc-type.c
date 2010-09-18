@@ -157,13 +157,13 @@ get_parent_match (const gchar *match)
  * ggd_doc_type_resolve_setting:
  * @doctype: A #GgdDocType
  * @match: A match "pattern"
- * @nth_child: return location for the number of redirections to go to the final
+ * @nth_child: return location for the number of redirection to go to the final
  *             match
  * 
- * Resolve the setting that should be applied fo match @match. This is similar
- * to ggd_doc_type_get_setting() but applies the policy too (e.g. if @match
- * matches a setting of which the policy is FORWARD, this function will try to
- * resolve the parent and return it, and so on).
+ * Resolve the setting that should be applied of match @match. This is similar
+ * to ggd_doc_type_get_setting() but applies FORWARD policies too (e.g. if
+ * @match matches a setting of which the policy is FORWARD, this function will
+ * try to resolve the parent and return it, and so on).
  * 
  * Returns: the matching #GgdDocSetting or %NULL if none matches.
  */
@@ -181,7 +181,7 @@ ggd_doc_type_resolve_setting (const GgdDocType  *doctype,
   /*g_debug ("Resolving match \"%s\"...", child_match);*/
   if (nth_child) (*nth_child) = 0;
   setting = ggd_doc_type_get_setting (doctype, child_match);
-  while (setting && setting->policy != GGD_POLICY_KEEP) {
+  while (setting && setting->policy == GGD_POLICY_FORWARD) {
     gchar *parent_match = get_parent_match (child_match);
     
     if (nth_child) (*nth_child)++;

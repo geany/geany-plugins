@@ -426,6 +426,12 @@ Rule settings
   ``FORWARD``
     Forward the documentation request to the parent. This is useful for symbols
     that are documented by their parent, such as `Gtk-Doc`_'s enumerations.
+  
+  ``PASS``
+    Completely ignore the symbol and handle the documentation request as if it
+    hasn't existed at all. This can be useful to ignore e.g. variables if
+    if they are extracted by the tag manager of the language, and you won't
+    document them and don't want them to "eat" the documentation request.
 
 ``children`` (enumeration)
   How the symbol's children can be used in the template. Possible values are:
