@@ -44,6 +44,8 @@
 PluginFields *plugin_fields;
 GeanyData *geany_data;
 GeanyFunctions *geany_functions;
+GeanyPlugin		*geany_plugin;
+
 
 PLUGIN_VERSION_CHECK(188);
 PLUGIN_SET_TRANSLATABLE_INFO(
@@ -129,8 +131,8 @@ enum
 	COUNT_KB
 };
 
-PLUGIN_KEY_GROUP(geanyvc, COUNT_KB)
-     GSList *get_commit_files_null(G_GNUC_UNUSED const gchar * dir)
+
+GSList *get_commit_files_null(G_GNUC_UNUSED const gchar * dir)
 {
 	return NULL;
 }
@@ -2180,6 +2182,8 @@ static void
 init_keybindings(void)
 {
 	/* init keybindins */
+	GeanyKeyGroup *plugin_key_group;
+	plugin_key_group = plugin_set_key_group(geany_plugin, "geanyvc", COUNT_KB, NULL);
 	keybindings_set_item(plugin_key_group, VC_DIFF_FILE, kbdiff_file, 0, 0,
 			     "vc_show_diff_of_file", _("Show diff of file"), menu_vc_diff_file);
 	keybindings_set_item(plugin_key_group, VC_DIFF_DIR, kbdiff_dir, 0, 0,
