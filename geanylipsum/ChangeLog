@@ -1,3 +1,8 @@
+2010-09-23  Frank Lanitz  <frank@frank.uvena.de>
+
+ * Replace deprecated PLUGIN_KEY_GROUP macro.
+
+
 2009-12-13  Frank Lanitz  <frank@frank.uvena.de>
 
  * Show geanyLipsum inside plugin manager dialog

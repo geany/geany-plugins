@@ -1,7 +1,7 @@
 /*
  *      geanylipsum.c
  *
- *      Copyright 2008-2009 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2008-2010 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	GETTEXT_PACKAGE,
 	_("GeanyLipsum"),
 	_("Creating dummy text with Geany"),
-	"0.4.2",
+	"0.4.3",
 	"Frank Lanitz <frank@frank.uvena.de>");
 
 static GtkWidget *main_menu_item = NULL;
@@ -56,7 +56,7 @@ enum
 	COUNT_KB
 };
 
-PLUGIN_KEY_GROUP(geanylipsum, COUNT_KB);
+
 
 
 
@@ -140,6 +140,7 @@ plugin_init(G_GNUC_UNUSED GeanyData *data)
 	GKeyFile *config = g_key_file_new();
 	GtkTooltips *tooltips = NULL;
 	gchar *config_file = NULL;
+	GeanyKeyGroup *key_group;
 
 	tooltips = gtk_tooltips_new();
 
@@ -171,9 +172,11 @@ plugin_init(G_GNUC_UNUSED GeanyData *data)
 	main_menu_item = menu_lipsum;
 
 	/* init keybindings */
-	keybindings_set_item(plugin_key_group, LIPSUM_KB_INSERT, kblipsum_insert,
+	key_group = plugin_set_key_group(geany_plugin, "geanylipsum", COUNT_KB, NULL);
+	keybindings_set_item(key_group, LIPSUM_KB_INSERT, kblipsum_insert,
 		0, 0, "insert_lipsum", _("Insert Lipsum text"), menu_lipsum);
 }
+
 
 /* Called by Geany before unloading the plugin. */
 void plugin_cleanup(void)
