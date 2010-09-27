@@ -39,9 +39,6 @@
 #include <gtkspell/gtkspell.h>
 #endif
 
-
-
-PluginFields *plugin_fields;
 GeanyData *geany_data;
 GeanyFunctions *geany_functions;
 GeanyPlugin		*geany_plugin;
@@ -110,6 +107,8 @@ const gchar FILE_STATUS_UNKNOWN[] = "Unknown";
 static GtkWidget *editor_menu_vc = NULL;
 static GtkWidget *editor_menu_commit = NULL;
 static GtkWidget *menu_item_sep = NULL;
+static GtkWidget *menu_entry = NULL;
+
 
 static void registrate();
 static void add_menuitems_to_editor_menu();
@@ -2273,8 +2272,8 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	/* init entries inside editor menu */
 	add_menuitems_to_editor_menu();
 
-	plugin_fields->menu_item = menu_vc;
-	plugin_fields->flags = PLUGIN_IS_DOCUMENT_SENSITIVE;
+	ui_add_document_sensitive(menu_vc);
+	menu_entry = menu_vc;
 }
 
 
@@ -2282,9 +2281,8 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 void
 plugin_cleanup()
 {
-	// remove the menu item added in init()
-	gtk_widget_destroy(plugin_fields->menu_item);
 	remove_menuitems_from_editor_menu();
+	gtk_widget_destroy(menu_entry);
 	g_slist_free(VC);
 	VC = NULL;
 	g_free(config_file);
