@@ -14,7 +14,7 @@ version-control systems inside Geany IDE. Only small subset of vc is
 implemented, but, hey, you don't need anything besides diff, log, status,
 revert and commit most time.
 
-In order to use it you need Geany 0.16.
+In order to use it you need Geany 0.19.
 
 Features
 ========
@@ -68,7 +68,7 @@ And obviously, you will need have Geany installed. If you have Geany installed
 from the sources, you should be ready to go.
 If you used a prepared package e.g. from your distribution you probably need
 to install an additional package, this might be called geany-dev or geany-devel.
-Please note that in order to compile and use this plugin, you need Geany 0.15
+Please note that in order to compile and use this plugin, you need Geany 0.19
 or later.
 
 Furthermore you need, of course, a C compiler and the Make tool.
@@ -156,6 +156,6 @@ Get the code from::
   svn checkout http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geany-plugins
 
 --
-2007-2008 by Yura Siamashka and Frank Lanitz
+2007-2010 by Yura Siamashka and Frank Lanitz
 yurand2(at)gmail(dot)com
 frank(at)frank(dot)uvena(dot)de

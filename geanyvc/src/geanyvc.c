@@ -1,7 +1,7 @@
 /*
  *      geanyvc.c - Plugin to geany light IDE to work with vc
  *
- *      Copyright 2007-2009 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2007-2010 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *      Copyright 2007-2009 Enrico Tröger <enrico.troeger@uvena.de>
  *      Copyright 2007 Nick Treleaven <nick.treleaven@btinternet.com>
  *      Copyright 2007-2009 Yura Siamashka <yurand2@gmail.com>
@@ -45,9 +45,14 @@ PluginFields *plugin_fields;
 GeanyData *geany_data;
 GeanyFunctions *geany_functions;
 
-PLUGIN_VERSION_CHECK(115);
-PLUGIN_SET_INFO(_("GeanyVC"), _("Interface to different Version Control systems."), VERSION,
-		_("Yura Siamashka <yurand2@gmail.com>,\nFrank Lanitz <frank@frank.uvena.de>"));
+PLUGIN_VERSION_CHECK(188);
+PLUGIN_SET_TRANSLATABLE_INFO(
+	LOCALEDIR,
+	GETTEXT_PACKAGE,
+	_("GeanyVC"),
+	_("Interface to different Version Control systems."),
+	VERSION,
+	_("Yura Siamashka <yurand2@gmail.com>,\nFrank Lanitz <frank@frank.uvena.de>"));
 
 /* Some global variables */
 static gboolean set_changed_flag;
