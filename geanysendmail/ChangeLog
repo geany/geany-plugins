@@ -1,3 +1,8 @@
+2010-09-23  Frank Lanitz  <frank@frank.uvena.de>
+
+ * Replace deprecated PLUGIN_KEY_GROUP macro.
+
+
 2010-04-16  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * Allow hitting return to close email address dialog and proceed.

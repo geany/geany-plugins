@@ -53,8 +53,6 @@ enum
 	COUNT_KB
 };
 
-PLUGIN_KEY_GROUP(sendmail, COUNT_KB)
-
 static gchar *config_file = NULL;
 static gchar *mailer = NULL;
 static gchar *address = NULL;
@@ -386,12 +384,10 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 void plugin_init(GeanyData G_GNUC_UNUSED *data)
 {
 	GtkTooltips *tooltips = NULL;
-
 	GKeyFile *config = g_key_file_new();
-
 	gchar *kb_label = _("Send file by mail");
-
 	GtkWidget *menu_mail = NULL;
+	GeanyKeyGroup *key_group;
 
 	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 
@@ -423,7 +419,8 @@ void plugin_init(GeanyData G_GNUC_UNUSED *data)
 	g_signal_connect(G_OBJECT(menu_mail), "activate", G_CALLBACK(send_as_attachment), NULL);
 
 	/* setup keybindings */
-	keybindings_set_item(plugin_key_group, SENDMAIL_KB, key_send_as_attachment,
+	key_group = plugin_set_key_group(geany_plugin, "sendmail", COUNT_KB, NULL);
+	keybindings_set_item(key_group, SENDMAIL_KB, key_send_as_attachment,
 		0, 0, "send_file_as_attachment", kb_label, menu_mail);
 
 	gtk_widget_show_all(menu_mail);
