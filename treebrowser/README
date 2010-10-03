@@ -1,6 +1,5 @@
 .. |(version)| replace:: 0.2
 
-=======
 Treebrowser plugin
 =======
 
@@ -15,28 +14,37 @@ It is on beta state, then all reports are welcome.
 Features
 ========
 
- * Project folowing
+ * Project following
  * Filesystem functionality (create, rename, delete files or directoreis)
- * EXPERIMENTAL gtk bookmark showing
- * Open path externaly (using predefined filebrowser ex.: nautilus, thunar...)
+ * (EXPERIMENTAL) gtk bookmark showing
+ * Open path externaly (using predefined filebrowser ex.: nautilus, thunar, ...)
  * Open path in terminal
- * Copy document`s path to clipboard
+ * Copy file path to clipboard
  * Filters in browser
 
 Requirements
 ============
+ * GTK >= 2.8.0
+ * Geany >= 0.17
 
 
 Usage
 =====
 
-After compiling and/or installing geanyvc, start Geany and go to menu
+After compiling and/or installing treebrowser, start Geany and go to menu
 Tools->Plugin Manager and set checkbox at treebrowser plugin
+
 
 License
 =======
 
 Treebrowser plugin is distrubuted under the same license as the geany.
+
+
+Ideas, questions, patches and bug reports
+=======
+
+Report them at http://sourceforge.net/tracker/?group_id=222729.
 
 --
 2010 Adrian Dimitrov

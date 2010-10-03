@@ -50,16 +50,13 @@ static gboolean 			flag_on_expand_refresh 		= FALSE;
 
 static gchar 				*CONFIG_FILE 				= NULL;
 static gchar 				*CONFIG_OPEN_EXTERNAL_CMD 	= "nautilus '%d'";
-static gint 				CONFIG_INITIAL_DIR_DEEP 	= 1;
 static gboolean 			CONFIG_REVERSE_FILTER 		= FALSE;
 static gboolean 			CONFIG_ONE_CLICK_CHDOC 		= FALSE;
 static gboolean 			CONFIG_SHOW_HIDDEN_FILES 	= FALSE;
 static gboolean 			CONFIG_HIDE_OBJECT_FILES 	= FALSE;
-static gboolean 			CONFIG_SHOW_BARS			= TRUE;
-static gboolean 			CONFIG_SHOW_BARS_AT_TOP		= FALSE;
+static gint 				CONFIG_SHOW_BARS			= 1;
 static gboolean 			CONFIG_CHROOT_ON_DCLICK		= FALSE;
 static gboolean 			CONFIG_FOLLOW_CURRENT_DOC 	= TRUE;
-static gboolean 			CONFIG_ON_EXPAND_REFRESH 	= TRUE;
 static gboolean 			CONFIG_ON_DELETE_CLOSE_FILE = TRUE;
 static gboolean 			CONFIG_SHOW_TREE_LINES 		= TRUE;
 static gboolean 			CONFIG_SHOW_BOOKMARKS 		= FALSE;
@@ -114,8 +111,8 @@ _gtk_cell_layout_get_cells(GtkTreeViewColumn *column)
  * ------------------ */
 
 static void 	project_change_cb(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile *config, G_GNUC_UNUSED gpointer data);
-static void 	treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit);
-static void 	treebrowser_bookmarks_state(void);
+static void 	treebrowser_browse(gchar *directory, gpointer parent);
+static void 	treebrowser_bookmarks_set_state(void);
 static void 	treebrowser_load_bookmarks(void);
 static void 	gtk_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root);
 static void 	load_settings(void);
@@ -239,7 +236,7 @@ get_default_dir(void)
 }
 
 static gchar *
-get_terminal (void)
+get_terminal(void)
 {
 	gchar 		*terminal;
 	const gchar *term = g_getenv("TERM");
@@ -259,44 +256,49 @@ treebrowser_chroot(gchar *directory)
 
 	gtk_entry_set_text(GTK_ENTRY(addressbar), directory);
 
+	if (strlen(directory) == 0)
+		directory = "/";
+
 	if (! g_file_test(directory, G_FILE_TEST_IS_DIR))
 	{
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Directory '%s' not exists."), directory);
 		return;
 	}
 
-	if (CONFIG_SHOW_BOOKMARKS && gtk_tree_store_iter_is_valid(treestore, &bookmarks_iter))
-		bookmarks_expanded = gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &bookmarks_iter));
+	treebrowser_bookmarks_set_state();
 
 	gtk_tree_store_clear(treestore);
 	addressbar_last_address = directory;
 
-	treebrowser_browse(directory, NULL, CONFIG_INITIAL_DIR_DEEP);
-
-	if (CONFIG_SHOW_BOOKMARKS)
-		treebrowser_load_bookmarks();
+	treebrowser_browse(directory, NULL);
+	treebrowser_load_bookmarks();
 }
 
 static void
-treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
+treebrowser_browse(gchar *directory, gpointer parent)
 {
 	GtkTreeIter 	iter, iter_empty, *last_dir_iter = NULL;
-	gboolean 		is_dir, is_hidden;
-	gboolean 		expanded = FALSE;
+	gboolean 		is_dir, is_hidden, is_parent_bookmarks;
+	gboolean 		expanded = FALSE, has_parent;
 	gchar 			*utf8_name;
 	GSList 			*list, *node;
 
-	if (deep_limit < 1)
-		return;
-
-	deep_limit--;
-
 	directory = g_strconcat(directory, G_DIR_SEPARATOR_S, NULL);
 
-	if (parent && gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), parent)))
-		expanded = TRUE;
+	has_parent = gtk_tree_store_iter_is_valid(treestore, parent);
+	if (has_parent)
+	{
+		if (parent == &bookmarks_iter)
+			treebrowser_load_bookmarks();
+	}
+	else
+		parent = NULL;
 
-	treebrowser_bookmarks_state();
+	if (has_parent && gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), parent)))
+	{
+		expanded = TRUE;
+		treebrowser_bookmarks_set_state();
+	}
 
 	gtk_tree_store_iter_clear_nodes(parent, FALSE);
 
@@ -327,17 +329,12 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 										TREEBROWSER_COLUMN_NAME, 	fname,
 										TREEBROWSER_COLUMN_URI, 	uri,
 										-1);
-					if (deep_limit > 0)
-						treebrowser_browse(uri, &iter, deep_limit);
-					else
-					{
-						gtk_tree_store_prepend(treestore, &iter_empty, &iter);
-						gtk_tree_store_set(treestore, &iter_empty,
-										TREEBROWSER_COLUMN_ICON, 	NULL,
-										TREEBROWSER_COLUMN_NAME, 	g_strdup_printf("(%s)", _("Empty")),
-										TREEBROWSER_COLUMN_URI, 	NULL,
-										-1);
-					}
+					gtk_tree_store_prepend(treestore, &iter_empty, &iter);
+					gtk_tree_store_set(treestore, &iter_empty,
+									TREEBROWSER_COLUMN_ICON, 	NULL,
+									TREEBROWSER_COLUMN_NAME, 	g_strdup_printf("(%s)", _("Empty")),
+									TREEBROWSER_COLUMN_URI, 	NULL,
+									-1);
 				}
 				else
 				{
@@ -355,17 +352,30 @@ treebrowser_browse(gchar *directory, gpointer parent, gint deep_limit)
 			g_free(fname);
 			g_free(uri);
 		}
+
+	}
+	else
+	{
+		gtk_tree_store_prepend(treestore, &iter_empty, parent);
+		gtk_tree_store_set(treestore, &iter_empty,
+						TREEBROWSER_COLUMN_ICON, 	NULL,
+						TREEBROWSER_COLUMN_NAME, 	g_strdup_printf("(%s)", _("Empty")),
+						TREEBROWSER_COLUMN_URI, 	NULL,
+						-1);
 	}
 
-	if (parent && expanded)
-		gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), parent), FALSE);
+	if (has_parent)
+	{
+		if (expanded)
+			gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), parent), FALSE);
+	}
+	else
+		treebrowser_load_bookmarks();
 
-	treebrowser_load_bookmarks();
 }
 
-
 static void
-treebrowser_bookmarks_state(void)
+treebrowser_bookmarks_set_state(void)
 {
 	if (gtk_tree_store_iter_is_valid(treestore, &bookmarks_iter))
 		bookmarks_expanded = gtk_tree_view_row_expanded(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &bookmarks_iter));
@@ -385,7 +395,7 @@ treebrowser_load_bookmarks(void)
 	if (! CONFIG_SHOW_BOOKMARKS)
 		return;
 
-	bookmarks = g_build_filename (g_get_home_dir(), ".gtk-bookmarks", NULL);
+	bookmarks = g_build_filename(g_get_home_dir(), ".gtk-bookmarks", NULL);
 	if (g_file_get_contents(bookmarks, &contents, NULL, &error))
 	{
 		if (gtk_tree_store_iter_is_valid(treestore, &bookmarks_iter))
@@ -409,7 +419,6 @@ treebrowser_load_bookmarks(void)
 											TREEBROWSER_COLUMN_URI, 	FALSE,
 											TREEBROWSER_COLUMN_FLAG, 	TREEBROWSER_FLAGS_SEPARATOR,
 											-1);
-
 		}
 		lines = g_strsplit (contents, "\n", 0);
 		for (line = lines; *line; ++line)
@@ -450,7 +459,6 @@ treebrowser_load_bookmarks(void)
 		g_free(contents);
 		if (bookmarks_expanded)
 			gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &bookmarks_iter), FALSE);
-		CONFIG_SHOW_BOOKMARKS = TRUE;
 	}
 	else
 		g_error_free(error);
@@ -534,7 +542,7 @@ showbars(gboolean state)
 	else
 		gtk_widget_hide(sidebar_vbox_bars);
 
-	CONFIG_SHOW_BARS = state;
+	CONFIG_SHOW_BARS = state ? (CONFIG_SHOW_BARS ? CONFIG_SHOW_BARS : 1) : 0;
 	save_settings();
 }
 
@@ -695,12 +703,12 @@ on_menu_create_new_object(GtkMenuItem *menuitem, gchar *type)
 	if (utils_str_equal(type, "directory"))
 	{
 		if (g_mkdir(uri_new, 0755) == 0)
-			treebrowser_browse(uri, refresh_root ? NULL : &iter, CONFIG_INITIAL_DIR_DEEP);
+			treebrowser_browse(uri, refresh_root ? NULL : &iter);
 	}
 	else
 	{
 		if (g_creat(uri_new, 0755) != -1)
-			treebrowser_browse(uri, refresh_root ? NULL : &iter, CONFIG_INITIAL_DIR_DEEP);
+			treebrowser_browse(uri, refresh_root ? NULL : &iter);
 	}
 
 }
@@ -746,6 +754,7 @@ on_menu_delete(GtkMenuItem *menuitem, gpointer *user_data)
 
 	if (gtk_tree_selection_get_selected(selection, &model, &iter))
 	{
+
 		gtk_tree_model_get(model, &iter, TREEBROWSER_COLUMN_URI, &uri, -1);
 
 		if (dialogs_show_question(_("Do you really want to delete '%s' ?"), uri))
@@ -757,10 +766,14 @@ on_menu_delete(GtkMenuItem *menuitem, gpointer *user_data)
 			path_parent = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
 
 			if (gtk_tree_path_up(path_parent) &&
-				gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter, path_parent))
-				treebrowser_browse(g_path_get_dirname(uri), &iter, CONFIG_INITIAL_DIR_DEEP);
+				gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter, path_parent)
+			)
+			{
+				treebrowser_browse(g_path_get_dirname(uri), &iter);
+				treebrowser_load_bookmarks();
+			}
 			else
-				treebrowser_browse(g_path_get_dirname(uri), NULL, CONFIG_INITIAL_DIR_DEEP);
+				treebrowser_browse(g_path_get_dirname(uri), NULL);
 		}
 	}
 }
@@ -777,12 +790,10 @@ on_menu_refresh(GtkMenuItem *menuitem, gpointer *user_data)
 	{
 		gtk_tree_model_get(model, &iter, TREEBROWSER_COLUMN_URI, &uri, -1);
 		if (g_file_test(uri, G_FILE_TEST_IS_DIR))
-		{
-			treebrowser_browse(uri, &iter, CONFIG_INITIAL_DIR_DEEP);
-		}
+			treebrowser_browse(uri, &iter);
 	}
 	else
-		treebrowser_browse(addressbar_last_address, NULL, CONFIG_INITIAL_DIR_DEEP);
+		treebrowser_browse(addressbar_last_address, NULL);
 }
 
 static void
@@ -824,7 +835,7 @@ on_menu_show_hidden_files(GtkMenuItem *menuitem, gpointer *user_data)
 {
 	CONFIG_SHOW_HIDDEN_FILES = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menuitem));
 	save_settings();
-	treebrowser_browse(addressbar_last_address, NULL, CONFIG_INITIAL_DIR_DEEP);
+	treebrowser_browse(addressbar_last_address, NULL);
 }
 
 static void
@@ -933,7 +944,7 @@ create_popup_menu(gchar *name, gchar *uri)
 
 	item = gtk_check_menu_item_new_with_mnemonic(_("Show bars"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
-	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), CONFIG_SHOW_BARS);
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), CONFIG_SHOW_BARS ? TRUE : FALSE);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_show_bars), NULL);
 
 	gtk_widget_show_all(menu);
@@ -1055,10 +1066,7 @@ on_treeview_changed(GtkWidget *widget, gpointer user_data)
 		if (g_file_test(uri, G_FILE_TEST_EXISTS))
 		{
 			if (g_file_test(uri, G_FILE_TEST_IS_DIR))
-			{
-				if (! CONFIG_ON_EXPAND_REFRESH)
-					treebrowser_browse(uri, &iter, CONFIG_INITIAL_DIR_DEEP);
-			}
+				treebrowser_browse(uri, &iter);
 			else
 				if (CONFIG_ONE_CLICK_CHDOC)
 					document_open_file(uri, FALSE, NULL, NULL);
@@ -1101,10 +1109,10 @@ on_treeview_row_expanded(GtkWidget *widget, GtkTreeIter *iter, GtkTreePath *path
 	if (uri == FALSE)
 		return;
 
-	if (flag_on_expand_refresh == FALSE && CONFIG_ON_EXPAND_REFRESH == TRUE)
+	if (flag_on_expand_refresh == FALSE)
 	{
 		flag_on_expand_refresh = TRUE;
-		treebrowser_browse(uri, iter, CONFIG_INITIAL_DIR_DEEP);
+		treebrowser_browse(uri, iter);
 		gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), path, FALSE);
 		flag_on_expand_refresh = FALSE;
 	}
@@ -1157,12 +1165,13 @@ on_treeview_renamed(GtkCellRenderer *renderer, const gchar *path_string, const g
 				if (gtk_tree_path_up(path_parent))
 				{
 					if (gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter_parent, path_parent))
-						treebrowser_browse(g_path_get_dirname(uri_new), &iter_parent, CONFIG_INITIAL_DIR_DEEP);
+						treebrowser_browse(g_path_get_dirname(uri_new), &iter_parent);
 					else
-						treebrowser_browse(g_path_get_dirname(uri_new), NULL, CONFIG_INITIAL_DIR_DEEP);
+						treebrowser_browse(g_path_get_dirname(uri_new), NULL);
+					treebrowser_load_bookmarks();
 				}
 				else
-					treebrowser_browse(g_path_get_dirname(uri_new), NULL, CONFIG_INITIAL_DIR_DEEP);
+					treebrowser_browse(g_path_get_dirname(uri_new), NULL);
 			}
 		}
 	}
@@ -1301,7 +1310,7 @@ create_sidebar(void)
 	ui_widget_set_tooltip_text(addressbar,
 		_("Addressbar for example '/projects/my-project'"));
 
-	if (CONFIG_SHOW_BARS_AT_TOP)
+	if (CONFIG_SHOW_BARS == 1)
 	{
 		gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				sidebar_vbox_bars, 	FALSE, TRUE,  1);
 		gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				scrollwin, 			TRUE,  TRUE,  1);
@@ -1336,16 +1345,13 @@ create_sidebar(void)
 static struct
 {
 	GtkWidget *OPEN_EXTERNAL_CMD;
-	GtkWidget *INITIAL_DIR_DEEP;
 	GtkWidget *REVERSE_FILTER;
 	GtkWidget *ONE_CLICK_CHDOC;
 	GtkWidget *SHOW_HIDDEN_FILES;
 	GtkWidget *HIDE_OBJECT_FILES;
 	GtkWidget *SHOW_BARS;
-	GtkWidget *SHOW_BARS_AT_TOP;
 	GtkWidget *CHROOT_ON_DCLICK;
 	GtkWidget *FOLLOW_CURRENT_DOC;
-	GtkWidget *ON_EXPAND_REFRESH;
 	GtkWidget *ON_DELETE_CLOSE_FILE;
 	GtkWidget *SHOW_TREE_LINES;
 	GtkWidget *SHOW_BOOKMARKS;
@@ -1360,22 +1366,18 @@ load_settings(void)
 	g_key_file_load_from_file(config, CONFIG_FILE, G_KEY_FILE_NONE, NULL);
 
 	CONFIG_OPEN_EXTERNAL_CMD 		=  utils_get_setting_string(config, "treebrowser", "open_external_cmd", 	CONFIG_OPEN_EXTERNAL_CMD);
-	CONFIG_INITIAL_DIR_DEEP 		= utils_get_setting_integer(config, "treebrowser", "initial_dir_deep", 		CONFIG_INITIAL_DIR_DEEP);
 	CONFIG_REVERSE_FILTER 			= utils_get_setting_boolean(config, "treebrowser", "reverse_filter", 		CONFIG_REVERSE_FILTER);
 	CONFIG_ONE_CLICK_CHDOC 			= utils_get_setting_boolean(config, "treebrowser", "one_click_chdoc", 		CONFIG_ONE_CLICK_CHDOC);
 	CONFIG_SHOW_HIDDEN_FILES 		= utils_get_setting_boolean(config, "treebrowser", "show_hidden_files", 	CONFIG_SHOW_HIDDEN_FILES);
 	CONFIG_HIDE_OBJECT_FILES 		= utils_get_setting_boolean(config, "treebrowser", "hide_object_files", 	CONFIG_HIDE_OBJECT_FILES);
-	CONFIG_SHOW_BARS 				= utils_get_setting_boolean(config, "treebrowser", "show_bars", 			CONFIG_SHOW_BARS);
-	CONFIG_SHOW_BARS_AT_TOP 		= utils_get_setting_boolean(config, "treebrowser", "show_bars_at_top", 		CONFIG_SHOW_BARS_AT_TOP);
+	CONFIG_SHOW_BARS 				= utils_get_setting_integer(config, "treebrowser", "show_bars", 			CONFIG_SHOW_BARS);
 	CONFIG_CHROOT_ON_DCLICK 		= utils_get_setting_boolean(config, "treebrowser", "chroot_on_dclick", 		CONFIG_CHROOT_ON_DCLICK);
 	CONFIG_FOLLOW_CURRENT_DOC 		= utils_get_setting_boolean(config, "treebrowser", "follow_current_doc", 	CONFIG_FOLLOW_CURRENT_DOC);
-	CONFIG_ON_EXPAND_REFRESH 		= utils_get_setting_boolean(config, "treebrowser", "on_expand_refresh", 	CONFIG_ON_EXPAND_REFRESH);
 	CONFIG_ON_DELETE_CLOSE_FILE 	= utils_get_setting_boolean(config, "treebrowser", "on_delete_close_file", 	CONFIG_ON_DELETE_CLOSE_FILE);
 	CONFIG_SHOW_TREE_LINES 			= utils_get_setting_boolean(config, "treebrowser", "show_tree_lines", 		CONFIG_SHOW_TREE_LINES);
 	CONFIG_SHOW_BOOKMARKS 			= utils_get_setting_boolean(config, "treebrowser", "show_bookmarks", 		CONFIG_SHOW_BOOKMARKS);
 
 	g_key_file_free(config);
-
 }
 
 static gboolean
@@ -1390,16 +1392,13 @@ save_settings(void)
 		return FALSE;
 
 	g_key_file_set_string(config, 	"treebrowser", "open_external_cmd", 	CONFIG_OPEN_EXTERNAL_CMD);
-	g_key_file_set_integer(config, 	"treebrowser", "initial_dir_deep", 		CONFIG_INITIAL_DIR_DEEP);
 	g_key_file_set_boolean(config, 	"treebrowser", "reverse_filter", 		CONFIG_REVERSE_FILTER);
 	g_key_file_set_boolean(config, 	"treebrowser", "one_click_chdoc", 		CONFIG_ONE_CLICK_CHDOC);
 	g_key_file_set_boolean(config, 	"treebrowser", "show_hidden_files", 	CONFIG_SHOW_HIDDEN_FILES);
 	g_key_file_set_boolean(config, 	"treebrowser", "hide_object_files", 	CONFIG_HIDE_OBJECT_FILES);
-	g_key_file_set_boolean(config, 	"treebrowser", "show_bars", 			CONFIG_SHOW_BARS);
-	g_key_file_set_boolean(config, 	"treebrowser", "show_bars_at_top", 		CONFIG_SHOW_BARS_AT_TOP);
+	g_key_file_set_integer(config, 	"treebrowser", "show_bars", 			CONFIG_SHOW_BARS);
 	g_key_file_set_boolean(config, 	"treebrowser", "chroot_on_dclick", 		CONFIG_CHROOT_ON_DCLICK);
 	g_key_file_set_boolean(config, 	"treebrowser", "follow_current_doc", 	CONFIG_FOLLOW_CURRENT_DOC);
-	g_key_file_set_boolean(config, 	"treebrowser", "on_expand_refresh", 	CONFIG_ON_EXPAND_REFRESH);
 	g_key_file_set_boolean(config, 	"treebrowser", "on_delete_close_file", 	CONFIG_ON_DELETE_CLOSE_FILE);
 	g_key_file_set_boolean(config, 	"treebrowser", "show_tree_lines", 		CONFIG_SHOW_TREE_LINES);
 	g_key_file_set_boolean(config, 	"treebrowser", "show_bookmarks", 		CONFIG_SHOW_BOOKMARKS);
@@ -1419,15 +1418,13 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 		return;
 
 	CONFIG_OPEN_EXTERNAL_CMD 	= gtk_editable_get_chars(GTK_EDITABLE(configure_widgets.OPEN_EXTERNAL_CMD), 0, -1);
-	CONFIG_INITIAL_DIR_DEEP 	= gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(configure_widgets.INITIAL_DIR_DEEP));
 	CONFIG_REVERSE_FILTER 		= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.REVERSE_FILTER));
 	CONFIG_ONE_CLICK_CHDOC 		= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.ONE_CLICK_CHDOC));
 	CONFIG_SHOW_HIDDEN_FILES 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_HIDDEN_FILES));
 	CONFIG_HIDE_OBJECT_FILES 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.HIDE_OBJECT_FILES));
-	CONFIG_SHOW_BARS_AT_TOP 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_BARS_AT_TOP));
+	CONFIG_SHOW_BARS 			= gtk_combo_box_get_active(GTK_COMBO_BOX(configure_widgets.SHOW_BARS));
 	CONFIG_CHROOT_ON_DCLICK 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.CHROOT_ON_DCLICK));
 	CONFIG_FOLLOW_CURRENT_DOC 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.FOLLOW_CURRENT_DOC));
-	CONFIG_ON_EXPAND_REFRESH 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.ON_EXPAND_REFRESH));
 	CONFIG_ON_DELETE_CLOSE_FILE = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.ON_DELETE_CLOSE_FILE));
 	CONFIG_SHOW_TREE_LINES 		= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_TREE_LINES));
 	CONFIG_SHOW_BOOKMARKS 		= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_BOOKMARKS));
@@ -1449,8 +1446,8 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 GtkWidget*
 plugin_configure(GtkDialog *dialog)
 {
-	GtkWidget 	*label;
-	GtkWidget 	*vbox, *hbox;
+	GtkWidget 		*label;
+	GtkWidget 		*vbox, *hbox;
 
 	vbox 	= gtk_vbox_new(FALSE, 0);
 	hbox 	= gtk_hbox_new(FALSE, 0);
@@ -1463,43 +1460,33 @@ plugin_configure(GtkDialog *dialog)
 		_("The command to execute when using \"Open with\". You can use %f and %d wildcards.\n"
 		  "%f will be replaced with the filename including full path\n"
 		  "%d will be replaced with the path name of the selected file without the filename"));
-	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(hbox), configure_widgets.OPEN_EXTERNAL_CMD, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
 
-	hbox 	= gtk_hbox_new(FALSE, 0);
-	label 	= gtk_label_new(_("Default directory deep to fill"));
-	configure_widgets.INITIAL_DIR_DEEP = gtk_spin_button_new_with_range(1, 99, 1);
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(configure_widgets.INITIAL_DIR_DEEP), CONFIG_INITIAL_DIR_DEEP);
-	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-	ui_widget_set_tooltip_text(configure_widgets.INITIAL_DIR_DEEP,
-		_("How many folders will opened and store in tree"));
-	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), configure_widgets.INITIAL_DIR_DEEP, FALSE, FALSE, 0);
+	hbox = gtk_hbox_new(FALSE, 0);
+	label = gtk_label_new(_("Toolbar"));
+	configure_widgets.SHOW_BARS = gtk_combo_box_new_text();
+	gtk_combo_box_append_text( GTK_COMBO_BOX(configure_widgets.SHOW_BARS), _("Hidden"));
+	gtk_combo_box_append_text( GTK_COMBO_BOX(configure_widgets.SHOW_BARS), _("Top"));
+	gtk_combo_box_append_text( GTK_COMBO_BOX(configure_widgets.SHOW_BARS), _("Bottom"));
+	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(hbox), configure_widgets.SHOW_BARS, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
-
-	configure_widgets.SHOW_BARS = gtk_check_button_new_with_label(_("Show bars"));
-	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.SHOW_BARS), FALSE);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_BARS), CONFIG_SHOW_BARS);
-	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.SHOW_BARS, FALSE, FALSE, 0);
-
-	configure_widgets.SHOW_BARS_AT_TOP = gtk_check_button_new_with_label(_("Show bars at top (Require plugin restart)"));
-	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.SHOW_BARS_AT_TOP), FALSE);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_BARS_AT_TOP), CONFIG_SHOW_BARS_AT_TOP);
-	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.SHOW_BARS_AT_TOP, FALSE, FALSE, 0);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(configure_widgets.SHOW_BARS), CONFIG_SHOW_BARS);
 
 	configure_widgets.SHOW_HIDDEN_FILES = gtk_check_button_new_with_label(_("Show hidden files"));
 	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.SHOW_HIDDEN_FILES), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_HIDDEN_FILES), CONFIG_SHOW_HIDDEN_FILES);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.SHOW_HIDDEN_FILES, FALSE, FALSE, 0);
-	ui_widget_set_tooltip_text(configure_widgets.INITIAL_DIR_DEEP,
+	ui_widget_set_tooltip_text(configure_widgets.SHOW_HIDDEN_FILES,
 		_("On Windows, this just hide files that are prefixed with '.' (dot)"));
 
 	configure_widgets.HIDE_OBJECT_FILES = gtk_check_button_new_with_label(_("Hide object files"));
 	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.HIDE_OBJECT_FILES), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.HIDE_OBJECT_FILES), CONFIG_HIDE_OBJECT_FILES);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.HIDE_OBJECT_FILES, FALSE, FALSE, 0);
-	ui_widget_set_tooltip_text(configure_widgets.INITIAL_DIR_DEEP,
+	ui_widget_set_tooltip_text(configure_widgets.HIDE_OBJECT_FILES,
 		_("Don't show generated object files in the file browser, this includes *.o, *.obj. *.so, *.dll, *.a, *.lib"));
 
 	configure_widgets.REVERSE_FILTER = gtk_check_button_new_with_label(_("Reverse filter"));
@@ -1521,11 +1508,6 @@ plugin_configure(GtkDialog *dialog)
 	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.CHROOT_ON_DCLICK), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.CHROOT_ON_DCLICK), CONFIG_CHROOT_ON_DCLICK);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.CHROOT_ON_DCLICK, FALSE, FALSE, 0);
-
-	configure_widgets.ON_EXPAND_REFRESH = gtk_check_button_new_with_label(_("On expand, refresh directory view"));
-	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.ON_EXPAND_REFRESH), FALSE);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.ON_EXPAND_REFRESH), CONFIG_ON_EXPAND_REFRESH);
-	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.ON_EXPAND_REFRESH, FALSE, FALSE, 0);
 
 	configure_widgets.ON_DELETE_CLOSE_FILE = gtk_check_button_new_with_label(_("On delete file, close it if is opened"));
 	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.ON_DELETE_CLOSE_FILE), FALSE);

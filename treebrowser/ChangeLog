@@ -38,6 +38,21 @@
 | Development release ChangeLog |
 +-------------------------------+
 
+03-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		Fixed bugs in Bookmarks
+			(directory expander, renaming and deleting files/directories)
+		Fixed bug with empty path to chroot
+		Fixed showing wrong tooltips in settings dialog
+		Merged show_bars and show_bars_at_top in one combobox
+			(I think that this is more suitable)
+		Changed Right click -> Show bars to Hide/Show toolbar
+			(Now this is temporary hidding/showing and it now saving in the settings)
+		Removed option for change how deep directories will be scanned
+			(I think that this is unusable and in some cases make geany to freezy)
+		Removed option "ON_EXPAND_REFRESH" - This is unnessecary already
+
 19-08-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
