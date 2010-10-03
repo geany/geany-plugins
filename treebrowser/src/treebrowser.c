@@ -538,11 +538,17 @@ static void
 showbars(gboolean state)
 {
 	if (state)
+	{
 		gtk_widget_show(sidebar_vbox_bars);
+		if (!CONFIG_SHOW_BARS)
+			CONFIG_SHOW_BARS = 1;
+	}
 	else
+	{
 		gtk_widget_hide(sidebar_vbox_bars);
+		CONFIG_SHOW_BARS = 0;
+	}
 
-	CONFIG_SHOW_BARS = state ? (CONFIG_SHOW_BARS ? CONFIG_SHOW_BARS : 1) : 0;
 	save_settings();
 }
 
@@ -1310,15 +1316,15 @@ create_sidebar(void)
 	ui_widget_set_tooltip_text(addressbar,
 		_("Addressbar for example '/projects/my-project'"));
 
-	if (CONFIG_SHOW_BARS == 1)
+	if (CONFIG_SHOW_BARS == 2)
 	{
-		gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				sidebar_vbox_bars, 	FALSE, TRUE,  1);
 		gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				scrollwin, 			TRUE,  TRUE,  1);
+		gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				sidebar_vbox_bars, 	FALSE, TRUE,  1);
 	}
 	else
 	{
-		gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				scrollwin, 			TRUE,  TRUE,  1);
 		gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				sidebar_vbox_bars, 	FALSE, TRUE,  1);
+		gtk_box_pack_start(GTK_BOX(sidebar_vbox), 				scrollwin, 			TRUE,  TRUE,  1);
 	}
 
 	g_signal_connect(selection, 		"changed", 				G_CALLBACK(on_treeview_changed), 				NULL);

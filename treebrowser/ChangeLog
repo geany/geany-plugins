@@ -47,8 +47,7 @@
 		Fixed showing wrong tooltips in settings dialog
 		Merged show_bars and show_bars_at_top in one combobox
 			(I think that this is more suitable)
-		Changed Right click -> Show bars to Hide/Show toolbar
-			(Now this is temporary hidding/showing and it now saving in the settings)
+		Fixed bug in show/hide toolbar
 		Removed option for change how deep directories will be scanned
 			(I think that this is unusable and in some cases make geany to freezy)
 		Removed option "ON_EXPAND_REFRESH" - This is unnessecary already
