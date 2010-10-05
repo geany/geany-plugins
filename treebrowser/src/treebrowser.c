@@ -286,7 +286,7 @@ treebrowser_browse(gchar *directory, gpointer parent)
 
 	directory = g_strconcat(directory, G_DIR_SEPARATOR_S, NULL);
 
-	has_parent = gtk_tree_store_iter_is_valid(treestore, parent);
+	has_parent = parent ? gtk_tree_store_iter_is_valid(treestore, parent) : FALSE;
 	if (has_parent)
 	{
 		if (parent == &bookmarks_iter)

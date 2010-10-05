@@ -47,6 +47,7 @@
 		Improved dialog for nonexisting folder
 			(now apear only when toolbars is hidden)
 		Fixed some warnings when compiling
+		Fixed gtk_tree_store_iter_is_valid() warning when loading the plugin
 
 03-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
