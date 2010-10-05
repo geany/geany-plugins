@@ -41,6 +41,11 @@
 03-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
+		Fixed some warnings when compiling
+
+03-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
 		Fixed bugs in Bookmarks
 			(directory expander, renaming and deleting files/directories)
 		Fixed bug with empty path to chroot
