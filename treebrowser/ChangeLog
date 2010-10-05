@@ -41,6 +41,8 @@
 05-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
+		Fixed wrong english message for not existing directory
+			(thanks to Dimitar Zhekov (dimitar.zhekov@gmail.com))
 		Added option to autorename point the newest created objects by the Treebrowser
 			Improved autorename focus while renamed is successful then close old and
 			  open new file;

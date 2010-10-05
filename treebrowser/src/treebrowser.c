@@ -261,7 +261,7 @@ treebrowser_chroot(gchar *directory)
 	if (! g_file_test(directory, G_FILE_TEST_IS_DIR))
 	{
 		if (CONFIG_SHOW_BARS == 0)
-			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Directory '%s' not exists."), directory);
+			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("%s: no such directory."), directory);
 
 		return;
 	}
