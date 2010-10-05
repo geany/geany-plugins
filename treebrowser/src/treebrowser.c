@@ -43,7 +43,6 @@ static GtkCellRenderer 		*render_icon, *render_text;
 
 static gboolean 			flag_on_expand_refresh 		= FALSE;
 
-
 /* ------------------
  *  CONFIG VARS
  * ------------------ */
@@ -261,7 +260,9 @@ treebrowser_chroot(gchar *directory)
 
 	if (! g_file_test(directory, G_FILE_TEST_IS_DIR))
 	{
-		dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Directory '%s' not exists."), directory);
+		if (CONFIG_SHOW_BARS == 0)
+			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Directory '%s' not exists."), directory);
+
 		return;
 	}
 
@@ -478,19 +479,17 @@ treebrowser_search(gchar *uri, gpointer parent)
 		gtk_tree_model_get(GTK_TREE_MODEL(treestore), &iter, TREEBROWSER_COLUMN_URI, &uri_current, -1);
 
 		if (gtk_tree_model_iter_has_child(GTK_TREE_MODEL(treestore), &iter))
-		{
 			if (treebrowser_search(uri, &iter))
 				return TRUE;
+
+		if (utils_str_equal(uri, uri_current) == TRUE)
+		{
+			path = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
+			gtk_tree_view_expand_to_path(GTK_TREE_VIEW(treeview), path);
+			gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(treeview), path, TREEBROWSER_COLUMN_ICON, FALSE, 0, 0);
+			gtk_tree_view_set_cursor(GTK_TREE_VIEW(treeview), path, treeview_column_text, FALSE);
+			return TRUE;
 		}
-		else
-			if (utils_str_equal(uri, uri_current) == TRUE)
-			{
-				path = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
-				gtk_tree_view_expand_to_path(GTK_TREE_VIEW(treeview), path);
-				gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(treeview), path, TREEBROWSER_COLUMN_ICON, FALSE, 0, 0);
-				gtk_tree_view_set_cursor(GTK_TREE_VIEW(treeview), path, treeview_column_text, FALSE);
-				return TRUE;
-			}
 
 	} while(gtk_tree_model_iter_next(GTK_TREE_MODEL(treestore), &iter));
 
@@ -599,6 +598,34 @@ treebrowser_track_current()
 	return FALSE;
 }
 
+static gboolean
+treebrowser_iter_rename(gpointer iter)
+{
+	GtkTreeModel 		*model;
+	GtkTreeViewColumn 	*column;
+	GtkCellRenderer 	*renderer;
+	GtkTreePath 		*path;
+	GList 				*renderers;
+
+	if (gtk_tree_store_iter_is_valid(treestore, iter))
+	{
+		path = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), iter);
+		if (G_LIKELY(path != NULL))
+		{
+			column 		= gtk_tree_view_get_column(GTK_TREE_VIEW(treeview), 0);
+			renderers 	= _gtk_cell_layout_get_cells(column);
+			renderer 	= g_list_nth_data(renderers, TREEBROWSER_RENDER_TEXT);
+
+			g_object_set(G_OBJECT(renderer), "editable", TRUE, NULL);
+			gtk_tree_view_set_cursor_on_cell(GTK_TREE_VIEW(treeview), path, column, renderer, TRUE);
+
+			gtk_tree_path_free(path);
+			g_list_free(renderers);
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
 
 /* ------------------
  * RIGHTCLICK MENU EVENTS
@@ -710,11 +737,22 @@ on_menu_create_new_object(GtkMenuItem *menuitem, gchar *type)
 	{
 		if (g_mkdir(uri_new, 0755) == 0)
 			treebrowser_browse(uri, refresh_root ? NULL : &iter);
+		else
+			return;
 	}
 	else
 	{
 		if (g_creat(uri_new, 0755) != -1)
 			treebrowser_browse(uri, refresh_root ? NULL : &iter);
+		else
+			return;
+	}
+
+	if (treebrowser_search(uri_new, NULL))
+	{
+		selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
+		if (gtk_tree_selection_get_selected(selection, &model, &iter))
+			treebrowser_iter_rename(&iter);
 	}
 
 }
@@ -725,27 +763,9 @@ on_menu_rename(GtkMenuItem *menuitem, gpointer *user_data)
 	GtkTreeSelection 	*selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
 	GtkTreeIter 		iter;
 	GtkTreeModel 		*model;
-	GtkTreeViewColumn 	*column;
-	GtkCellRenderer 	*renderer;
-	GtkTreePath 		*path;
-	GList 				*renderers;
 
 	if (gtk_tree_selection_get_selected(selection, &model, &iter))
-	{
-		path = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
-		if (G_LIKELY(path != NULL))
-		{
-			column 		= gtk_tree_view_get_column(GTK_TREE_VIEW(treeview), 0);
-			renderers 	= _gtk_cell_layout_get_cells(column);
-			renderer 	= g_list_nth_data(renderers, TREEBROWSER_RENDER_TEXT);
-
-			g_object_set(G_OBJECT(renderer), "editable", TRUE, NULL);
-			gtk_tree_view_set_cursor_on_cell(GTK_TREE_VIEW(treeview), path, column, renderer, TRUE);
-
-			gtk_tree_path_free(path);
-			g_list_free(renderers);
-		}
-	}
+		treebrowser_iter_rename(&iter);
 }
 
 static void
@@ -765,7 +785,7 @@ on_menu_delete(GtkMenuItem *menuitem, gpointer *user_data)
 
 		if (dialogs_show_question(_("Do you really want to delete '%s' ?"), uri))
 		{
-			if (CONFIG_ON_DELETE_CLOSE_FILE && ! g_file_test(uri, G_FILE_TEST_IS_DIR))
+			if (CONFIG_ON_DELETE_CLOSE_FILE && !g_file_test(uri, G_FILE_TEST_IS_DIR))
 				document_close(document_find_by_filename(uri));
 
 			fs_remove(uri, TRUE);
@@ -1178,6 +1198,10 @@ on_treeview_renamed(GtkCellRenderer *renderer, const gchar *path_string, const g
 				}
 				else
 					treebrowser_browse(g_path_get_dirname(uri_new), NULL);
+
+				if (!g_file_test(uri, G_FILE_TEST_IS_DIR))
+					if (document_close(document_find_by_filename(uri)))
+						document_open_file(uri_new, FALSE, NULL, NULL);
 			}
 		}
 	}

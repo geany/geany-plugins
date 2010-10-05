@@ -3,7 +3,7 @@
 | KNOWN BUGS                |
 +---------------------------+
 
-	* http://sourceforge.net/tracker/?func=detail&aid=3034450&group_id=222729&atid=1056532
+	(FIXED) http://sourceforge.net/tracker/?func=detail&aid=3034450&group_id=222729&atid=1056532
 	* CRYTICAL warning when unloading the plugin
 		"CRITICAL	: g_object_ref: assertion `object->ref_count > 0' failed"
 	(FIXED) Double click on bookmarks, do nothing
@@ -31,7 +31,7 @@
 	* Migrating to stash
 	* Adding keybindings for renaming/deleting/refreshing
 	(DONE) Add option to change bars position // requested by <dmaphy>
-	* Add option to autorename point the newest created objects by the Treebrowser
+	(DONE) Add option to autorename point the newest created objects by the Treebrowser
 
 
 +-------------------------------+
@@ -41,6 +41,11 @@
 03-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
+		Added option to autorename point the newest created objects by the Treebrowser
+			Improved autorename focus while renamed is successful then close old and
+			  open new file;
+		Improved dialog for nonexisting folder
+			(now apear only when toolbars is hidden)
 		Fixed some warnings when compiling
 
 03-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
