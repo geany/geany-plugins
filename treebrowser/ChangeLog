@@ -38,7 +38,7 @@
 | Development release ChangeLog |
 +-------------------------------+
 
-03-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+05-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
 		Added option to autorename point the newest created objects by the Treebrowser
