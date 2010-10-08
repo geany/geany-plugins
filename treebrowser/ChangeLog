@@ -43,6 +43,8 @@
 	* src/treebrowser.c
 		Added keybindings for renaming/deleting/refreshing
 			(from the todo list)
+		Added: now when option for show hidden files is disabled, it don`t show
+			files that ends with '~'
 		Fixed possible segfault when option "Hidding object files" is enabled
 			(idea from native filebrowser plugin)
 
