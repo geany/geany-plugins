@@ -95,8 +95,15 @@ enum
  * PLUGIN INFO
  * ------------------ */
 
-PLUGIN_VERSION_CHECK(147)
-PLUGIN_SET_INFO(_("Tree Browser"), _("Treeview filebrowser plugin."), "0.2" , "Adrian Dimitrov (dimitrov.adrian@gmail.com)")
+PLUGIN_VERSION_CHECK(188)
+
+PLUGIN_SET_TRANSLATABLE_INFO(
+	LOCALEDIR,
+	GETTEXT_PACKAGE,
+	_("Tree Browser"),
+	_("Treeview filebrowser plugin."),
+	"0.2" ,
+	"Adrian Dimitrov (dimitrov.adrian@gmail.com)")
 
 
 /* ------------------
