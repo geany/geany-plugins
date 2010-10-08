@@ -90,8 +90,6 @@ enum
 	KB_COUNT
 };
 
-PLUGIN_KEY_GROUP(file_browser, KB_COUNT)
-
 
 /* ------------------
  * PLUGIN INFO
@@ -1623,6 +1621,8 @@ static void kb_activate(guint key_id)
 void
 plugin_init(GeanyData *data)
 {
+	GeanyKeyGroup *key_group;
+
 	CONFIG_FILE = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
 		"treebrowser", G_DIR_SEPARATOR_S, "treebrowser.conf", NULL);
 
@@ -1633,13 +1633,15 @@ plugin_init(GeanyData *data)
 	treebrowser_chroot(get_default_dir());
 
 	/* setup keybindings */
-	keybindings_set_item(plugin_key_group, KB_FOCUS_FILE_LIST, kb_activate,
+	key_group = plugin_set_key_group(geany_plugin, "file_browser", KB_COUNT, NULL);
+
+	keybindings_set_item(key_group, KB_FOCUS_FILE_LIST, kb_activate,
 		0, 0, "focus_file_list", _("Focus File List"), NULL);
-	keybindings_set_item(plugin_key_group, KB_FOCUS_PATH_ENTRY, kb_activate,
+	keybindings_set_item(key_group, KB_FOCUS_PATH_ENTRY, kb_activate,
 		0, 0, "focus_path_entry", _("Focus Path Entry"), NULL);
-	keybindings_set_item(plugin_key_group, KB_RENAME_OBJECT, kb_activate,
+	keybindings_set_item(key_group, KB_RENAME_OBJECT, kb_activate,
 		0, 0, "rename_object", _("Rename Object"), NULL);
-	keybindings_set_item(plugin_key_group, KB_REFRESH, kb_activate,
+	keybindings_set_item(key_group, KB_REFRESH, kb_activate,
 		0, 0, "rename_refresh", _("Refresh"), NULL);
 
 	plugin_signal_connect(geany_plugin, NULL, "document-activate", TRUE,

@@ -1,4 +1,3 @@
-
 +---------------------------+
 | KNOWN BUGS                |
 +---------------------------+
@@ -37,6 +36,14 @@
 +-------------------------------+
 | Development release ChangeLog |
 +-------------------------------+
+
+2010-10-08  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+	*  src/treebrowser.c
+		Replace deprecated PLUGIN_KEY_GROUP macro.
+
+
+
 
 05-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
