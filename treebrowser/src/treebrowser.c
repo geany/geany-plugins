@@ -157,18 +157,18 @@ static gboolean
 check_filtered(const gchar *base_name)
 {
 	gchar		**filters;
-	gint 		i;
+	guint 		i;
 	gboolean 	temporary_reverse 	= FALSE;
 	const gchar *exts[] 			= {".o", ".obj", ".so", ".dll", ".a", ".lib"};
+	guint exts_len;
+	const gchar *ext;
 
 	if (CONFIG_HIDE_OBJECT_FILES)
 	{
-		guint i, exts_len;
 		exts_len = G_N_ELEMENTS(exts);
 		for (i = 0; i < exts_len; i++)
 		{
-			const gchar *ext = exts[i];
-
+			ext = exts[i];
 			if (g_str_has_suffix(base_name, ext))
 				return FALSE;
 		}
@@ -311,6 +311,9 @@ treebrowser_browse(gchar *directory, gpointer parent)
 	gchar 			*utf8_name;
 	GSList 			*list, *node;
 
+	gchar *fname;
+	gchar *uri;
+
 	directory = g_strconcat(directory, G_DIR_SEPARATOR_S, NULL);
 
 	has_parent = parent ? gtk_tree_store_iter_is_valid(treestore, parent) : FALSE;
@@ -335,10 +338,10 @@ treebrowser_browse(gchar *directory, gpointer parent)
 	{
 		foreach_slist_free(node, list)
 		{
-			gchar *fname 	= node->data;
-			gchar *uri 		= g_strconcat(directory, fname, NULL);
-			is_dir 			= g_file_test (uri, G_FILE_TEST_IS_DIR);
-			utf8_name 		= utils_get_utf8_from_locale(fname);
+			fname 		= node->data;
+			uri 		= g_strconcat(directory, fname, NULL);
+			is_dir 		= g_file_test (uri, G_FILE_TEST_IS_DIR);
+			utf8_name 	= utils_get_utf8_from_locale(fname);
 
 			if (check_hidden(uri))
 			{
@@ -419,6 +422,8 @@ treebrowser_load_bookmarks()
 	gchar 		*contents, *path_full;
 	gchar 		**lines, **line;
 	GtkTreeIter iter;
+	gchar *pos;
+	gchar *name;
 
 	if (! CONFIG_SHOW_BOOKMARKS)
 		return;
@@ -453,8 +458,6 @@ treebrowser_load_bookmarks()
 		{
 			if (**line)
 			{
-				gchar *pos;
-				gchar *name;
 				pos = g_utf8_strchr (*line, -1, ' ');
 				if (pos != NULL)
 				{
@@ -526,13 +529,15 @@ treebrowser_search(gchar *uri, gpointer parent)
 static void
 fs_remove(gchar *root, gboolean delete_root)
 {
+	GDir *dir;
+	gchar *path;
+	const gchar *name;
+
 	if (! g_file_test(root, G_FILE_TEST_EXISTS))
 		return;
 
 	if (g_file_test(root, G_FILE_TEST_IS_DIR))
 	{
-		GDir *dir;
-		const gchar *name;
 
 		dir = g_dir_open (root, 0, NULL);
 
@@ -542,13 +547,11 @@ fs_remove(gchar *root, gboolean delete_root)
 		name = g_dir_read_name (dir);
 		while (name != NULL)
 		{
-			gchar *path;
 			path = g_build_filename(root, name, NULL);
 			if (g_file_test(path, G_FILE_TEST_IS_DIR))
 				fs_remove(path, delete_root);
 			g_remove(path);
 			name = g_dir_read_name(dir);
-			g_free(path);
 		}
 	}
 	else
@@ -557,6 +560,7 @@ fs_remove(gchar *root, gboolean delete_root)
 	if (delete_root)
 		g_remove(root);
 
+	g_free(path);
 	return;
 }
 
@@ -683,7 +687,7 @@ on_menu_current_path(GtkMenuItem *menuitem, gpointer *user_data)
 static void
 on_menu_open_externally(GtkMenuItem *menuitem, gchar *uri)
 {
-	gchar 				*cmd, *locale_cmd, *dir;
+	gchar 				*cmd, *locale_cmd, *dir, *c;
 	GString 			*cmd_str 	= g_string_new(CONFIG_OPEN_EXTERNAL_CMD);
 	GError 				*error 		= NULL;
 
@@ -696,7 +700,7 @@ on_menu_open_externally(GtkMenuItem *menuitem, gchar *uri)
 	locale_cmd = utils_get_locale_from_utf8(cmd);
 	if (! g_spawn_command_line_async(locale_cmd, &error))
 	{
-		gchar *c = strchr(cmd, ' ');
+		c = strchr(cmd, ' ');
 		if (c != NULL)
 			*c = '\0';
 		ui_set_statusbar(TRUE,
@@ -900,12 +904,11 @@ on_menu_show_bars(GtkMenuItem *menuitem, gpointer *user_data)
 static GtkWidget*
 create_popup_menu(gchar *name, gchar *uri)
 {
+	GtkWidget *item, *menu = gtk_menu_new();
+
 	gboolean is_exists 		= g_file_test(uri, G_FILE_TEST_EXISTS);
 	gboolean is_dir 		= is_exists ? g_file_test(uri, G_FILE_TEST_IS_DIR) : FALSE;
 	gboolean is_document 	= document_find_by_filename(uri) != NULL ? TRUE : FALSE;
-	GtkWidget *item, *menu;
-
-	menu = gtk_menu_new();
 
 	item = ui_image_menu_item_new(GTK_STOCK_GO_UP, _("Go up"));
 	gtk_container_add(GTK_CONTAINER(menu), item);

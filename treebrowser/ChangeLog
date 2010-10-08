@@ -43,6 +43,7 @@
 		Fixed translatable info
 			(thanks to Frank Lanitz  <frank(at)frank(dot)uvena(dot)de> for patch)
 		Fixed some compilation warnings
+		Try to prevent from "ISO C90 forbids mixed declarations and code" compile message
 
 
 08-10-2010 	Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
