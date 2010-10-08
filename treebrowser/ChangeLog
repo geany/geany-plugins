@@ -37,15 +37,20 @@
 | Development release ChangeLog |
 +-------------------------------+
 
-2010-10-08  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+09-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		Fixed translatable info
+			(thanks to Frank Lanitz  <frank(at)frank(dot)uvena(dot)de> for patch)
+
+
+08-10-2010 	Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
 	*  src/treebrowser.c
 		Replace deprecated PLUGIN_KEY_GROUP macro.
 
 
-
-
-05-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+08-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
 		Added keybindings for renaming/deleting/refreshing
@@ -54,7 +59,6 @@
 			files that ends with '~'
 		Fixed possible segfault when option "Hidding object files" is enabled
 			(idea from native filebrowser plugin)
-
 
 
 05-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
@@ -70,6 +74,7 @@
 		Fixed some warnings when compiling
 		Fixed gtk_tree_store_iter_is_valid() warning when loading the plugin
 
+
 03-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
@@ -84,6 +89,7 @@
 			(I think that this is unusable and in some cases make geany to freezy)
 		Removed option "ON_EXPAND_REFRESH" - This is unnessecary already
 
+
 19-08-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
@@ -91,15 +97,18 @@
 		to fix issue with creat() declaration
 		THANKS
 
+
 16-05-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
 		Fixed Bookmarks state when refreshing the tree
 
+
 25-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
 		Added option to change bars position (Top or Bottom)
+
 
 25-04-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
@@ -216,6 +225,7 @@
 		changelog update
 		if filter start with '!;' then filters are temporary reversed
 			ex.: '!;*.c;*.h' will show all expect .c and .h files
+
 
 19-03-2010 	Adrian Dimitrov 	<dimitrov.adrian@gmail.com>
 
