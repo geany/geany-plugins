@@ -8,7 +8,7 @@
 		"CRITICAL	: g_object_ref: assertion `object->ref_count > 0' failed"
 	(FIXED) Double click on bookmarks, do nothing
 	(FIXED) show/hide hidden files not working on Windows
-	(FIXED) "Go Up" not working if the current path ends with slash // thanks to <dmaphy> for report
+	(FIXED) "Go Up" not working if the current path ends with slash // thanks to <dmaphy> for the report
 
 
 +---------------------------+
@@ -18,7 +18,7 @@
 	(DONE) codestyle improve to be same as other parts as geany`s
 	(DONE) configuration dialog
 	(DONE) tracking path to current focused document (work only for refreshed directories)
-	* Better tracking for files, open path to them
+	* Better tracking for files, when they are not cached, open path to them
 	* In windows can choice between devices (C:\, D:\,...)
 	* Language files
 	(DONE) Saving state of Showbars in config file everytime where is changed
@@ -29,7 +29,7 @@
 	(DONE) Hide object files as native filebroser (*.o;*.a;*.so;*.dll;*.lib..)
 	(DONE) Using font from geany settings for sidebar
 	* Migrating to stash
-	* Adding keybindings for renaming/deleting/refreshing
+	(DONE) Adding keybindings for renaming/deleting/refreshing
 	(DONE) Add option to change bars position // requested by <dmaphy>
 	(DONE) Add option to autorename point the newest created objects by the Treebrowser
 
@@ -37,6 +37,16 @@
 +-------------------------------+
 | Development release ChangeLog |
 +-------------------------------+
+
+05-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		Added keybindings for renaming/deleting/refreshing
+			(from the todo list)
+		Fixed possible segfault when option "Hidding object files" is enabled
+			(idea from native filebrowser plugin)
+
+
 
 05-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 

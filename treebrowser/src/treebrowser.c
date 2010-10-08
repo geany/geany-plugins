@@ -80,6 +80,19 @@ enum
 };
 
 
+/* Keybinding(s) */
+enum
+{
+	KB_FOCUS_FILE_LIST,
+	KB_FOCUS_PATH_ENTRY,
+	KB_RENAME_OBJECT,
+	KB_REFRESH,
+	KB_COUNT
+};
+
+PLUGIN_KEY_GROUP(file_browser, KB_COUNT)
+
+
 /* ------------------
  * PLUGIN INFO
  * ------------------ */
@@ -114,6 +127,7 @@ static void 	treebrowser_browse(gchar *directory, gpointer parent);
 static void 	treebrowser_bookmarks_set_state();
 static void 	treebrowser_load_bookmarks();
 static void 	gtk_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root);
+static gboolean treebrowser_rename_current();
 static void 	load_settings();
 static gboolean save_settings();
 
@@ -143,11 +157,17 @@ check_filtered(const gchar *base_name)
 	const gchar *exts[] 			= {".o", ".obj", ".so", ".dll", ".a", ".lib"};
 
 	if (CONFIG_HIDE_OBJECT_FILES)
-		for (i = 0; exts[i]; i++)
+	{
+		guint i, exts_len;
+		exts_len = G_N_ELEMENTS(exts);
+		for (i = 0; i < exts_len; i++)
 		{
-			if (g_str_has_suffix(base_name, exts[i]))
+			const gchar *ext = exts[i];
+
+			if (g_str_has_suffix(base_name, ext))
 				return FALSE;
 		}
+	}
 
 	if (! NZV(gtk_entry_get_text(GTK_ENTRY(filter))))
 		return TRUE;
@@ -174,6 +194,9 @@ check_hidden(const gchar *uri)
 {
 	if (CONFIG_SHOW_HIDDEN_FILES)
 		return TRUE;
+
+	if (uri[strlen(uri) - 1] == '~')
+		return FALSE;
 
 #ifdef G_OS_WIN32
 #ifdef HAVE_GIO_2_0
@@ -206,10 +229,9 @@ check_hidden(const gchar *uri)
 #endif
 
 #else
-	if (g_path_get_basename(uri) [0] == '.')
+	if (g_path_get_basename(uri)[0] == '.')
 		return FALSE;
-	else
-		return TRUE;
+	return TRUE;
 #endif
 }
 
@@ -255,7 +277,7 @@ treebrowser_chroot(gchar *directory)
 
 	gtk_entry_set_text(GTK_ENTRY(addressbar), directory);
 
-	if (strlen(directory) == 0)
+	if (!directory || strlen(directory) == 0)
 		directory = "/";
 
 	if (! g_file_test(directory, G_FILE_TEST_IS_DIR))
@@ -627,6 +649,17 @@ treebrowser_iter_rename(gpointer iter)
 	return FALSE;
 }
 
+static gboolean
+treebrowser_rename_current()
+{
+	GtkTreeSelection 	*selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
+	GtkTreeIter 		iter;
+	GtkTreeModel 		*model;
+
+	if (gtk_tree_selection_get_selected(selection, &model, &iter))
+		treebrowser_iter_rename(&iter);
+}
+
 /* ------------------
  * RIGHTCLICK MENU EVENTS
  * ------------------*/
@@ -749,23 +782,13 @@ on_menu_create_new_object(GtkMenuItem *menuitem, gchar *type)
 	}
 
 	if (treebrowser_search(uri_new, NULL))
-	{
-		selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
-		if (gtk_tree_selection_get_selected(selection, &model, &iter))
-			treebrowser_iter_rename(&iter);
-	}
-
+		treebrowser_rename_current();
 }
 
 static void
 on_menu_rename(GtkMenuItem *menuitem, gpointer *user_data)
 {
-	GtkTreeSelection 	*selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
-	GtkTreeIter 		iter;
-	GtkTreeModel 		*model;
-
-	if (gtk_tree_selection_get_selected(selection, &model, &iter))
-		treebrowser_iter_rename(&iter);
+	treebrowser_rename_current();
 }
 
 static void
@@ -1574,6 +1597,29 @@ project_change_cb(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile *config, G_
 	treebrowser_chroot(get_default_dir());
 }
 
+static void kb_activate(guint key_id)
+{
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook), page_number);
+	switch (key_id)
+	{
+		case KB_FOCUS_FILE_LIST:
+			gtk_widget_grab_focus(treeview);
+			break;
+
+		case KB_FOCUS_PATH_ENTRY:
+			gtk_widget_grab_focus(addressbar);
+			break;
+
+		case KB_RENAME_OBJECT:
+			treebrowser_rename_current();
+			break;
+
+		case KB_REFRESH:
+			on_menu_refresh(NULL, NULL);
+			break;
+	}
+}
+
 void
 plugin_init(GeanyData *data)
 {
@@ -1585,6 +1631,16 @@ plugin_init(GeanyData *data)
 	load_settings();
 	create_sidebar();
 	treebrowser_chroot(get_default_dir());
+
+	/* setup keybindings */
+	keybindings_set_item(plugin_key_group, KB_FOCUS_FILE_LIST, kb_activate,
+		0, 0, "focus_file_list", _("Focus File List"), NULL);
+	keybindings_set_item(plugin_key_group, KB_FOCUS_PATH_ENTRY, kb_activate,
+		0, 0, "focus_path_entry", _("Focus Path Entry"), NULL);
+	keybindings_set_item(plugin_key_group, KB_RENAME_OBJECT, kb_activate,
+		0, 0, "rename_object", _("Rename Object"), NULL);
+	keybindings_set_item(plugin_key_group, KB_REFRESH, kb_activate,
+		0, 0, "rename_refresh", _("Refresh"), NULL);
 
 	plugin_signal_connect(geany_plugin, NULL, "document-activate", TRUE,
 		(GCallback)&treebrowser_track_current_cb, NULL);
