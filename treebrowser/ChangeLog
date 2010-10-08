@@ -42,6 +42,7 @@
 	* src/treebrowser.c
 		Fixed translatable info
 			(thanks to Frank Lanitz  <frank(at)frank(dot)uvena(dot)de> for patch)
+		Fixed some compilation warnings
 
 
 08-10-2010 	Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>

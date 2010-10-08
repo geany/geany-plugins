@@ -628,7 +628,6 @@ treebrowser_track_current()
 static gboolean
 treebrowser_iter_rename(gpointer iter)
 {
-	GtkTreeModel 		*model;
 	GtkTreeViewColumn 	*column;
 	GtkCellRenderer 	*renderer;
 	GtkTreePath 		*path;
@@ -1250,7 +1249,7 @@ treebrowser_track_current_cb()
 static gboolean
 treeview_separator_func(GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
 {
-	guint flag;
+	gint flag;
 	gtk_tree_model_get(model, iter, TREEBROWSER_COLUMN_FLAG, &flag, -1);
 	return (flag == TREEBROWSER_FLAGS_SEPARATOR);
 }
