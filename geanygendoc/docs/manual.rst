@@ -381,7 +381,7 @@ Rule settings
 
 ``template`` (string)
   A CTPL_ template that can include references to the following predefined
-  variables in addition to the file-type-wide and the global environment:
+  variables in addition to the file-type-wide and the global environments:
   
   ``argument_list`` (string list)
     A list of the arguments of the currently documented symbol.
@@ -393,6 +393,9 @@ Rule settings
   ``children`` (string list)
     A list of the current symbol's first-level children. This is only set if
     the rule's setting ``children`` is set to ``MERGE``.
+  
+  ``symbol`` (string)
+    The name of the symbol that is documented.
   
   **[...]**
   
@@ -429,9 +432,9 @@ Rule settings
   
   ``PASS``
     Completely ignore the symbol and handle the documentation request as if it
-    hasn't existed at all. This can be useful to ignore e.g. variables if
-    if they are extracted by the tag manager of the language, and you won't
-    document them and don't want them to "eat" the documentation request.
+    hasn't existed at all. This can be useful to ignore e.g. variables if they
+    are extracted by the tag manager of the language and you don't want to
+    document them, and don't want them to "eat" the documentation request.
 
 ``children`` (enumeration)
   How the symbol's children can be used in the template. Possible values are:

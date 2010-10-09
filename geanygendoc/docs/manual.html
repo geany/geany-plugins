@@ -464,7 +464,7 @@ written <tt class="docutils literal">namespace.class</tt>.</p>
 <dl class="docutils">
 <dt><tt class="docutils literal">template</tt> (string)</dt>
 <dd><p class="first">A <a class="reference external" href="http://ctpl.tuxfamily.org/">CTPL</a> template that can include references to the following predefined
-variables in addition to the file-type-wide and the global environment:</p>
+variables in addition to the file-type-wide and the global environments:</p>
 <dl class="docutils">
 <dt><tt class="docutils literal">argument_list</tt> (string list)</dt>
 <dd>A list of the arguments of the currently documented symbol.</dd>
@@ -474,6 +474,8 @@ variables in addition to the file-type-wide and the global environment:</p>
 <dt><tt class="docutils literal">children</tt> (string list)</dt>
 <dd>A list of the current symbol's first-level children. This is only set if
 the rule's setting <tt class="docutils literal">children</tt> is set to <tt class="docutils literal">MERGE</tt>.</dd>
+<dt><tt class="docutils literal">symbol</tt> (string)</dt>
+<dd>The name of the symbol that is documented.</dd>
 </dl>
 <p><strong>[...]</strong></p>
 <dl class="last docutils">
@@ -508,9 +510,9 @@ inserts the documentation at the end of the symbol's first line).</dd>
 that are documented by their parent, such as <a class="reference external" href="http://www.gtk.org/gtk-doc/">Gtk-Doc</a>'s enumerations.</dd>
 <dt><tt class="docutils literal">PASS</tt></dt>
 <dd>Completely ignore the symbol and handle the documentation request as if it
-hasn't existed at all. This can be useful to ignore e.g. variables if
-if they are extracted by the tag manager of the language, and you won't
-document them and don't want them to &quot;eat&quot; the documentation request.</dd>
+hasn't existed at all. This can be useful to ignore e.g. variables if they
+are extracted by the tag manager of the language and you don't want to
+document them, and don't want them to &quot;eat&quot; the documentation request.</dd>
 </dl>
 </dd>
 <dt><tt class="docutils literal">children</tt> (enumeration)</dt>
@@ -627,7 +629,7 @@ document             ::= ( setting_section? doctype_section? |
 </div>
 <div class="footer">
 <hr class="footer" />
-Generated on: 2010-09-18.
+Generated on: 2010-09-22.
 
 </div>
 </body>
