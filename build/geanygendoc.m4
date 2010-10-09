@@ -8,7 +8,7 @@ AC_DEFUN([GP_CHECK_GEANYGENDOC],
     GTK_VERSION=2.12
     GLIB_VERSION=2.14
     GIO_VERSION=2.18
-    CTPL_VERSION=0.2
+    CTPL_VERSION=0.3
 
     geanygendoc_have_gtk=no
     geanygendoc_have_glib=no

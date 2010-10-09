@@ -78,7 +78,7 @@ plugins = [
 	Plugin('CodeNav', None, [ 'codenav/src' ]),
 	Plugin('GeanyDoc', None, [ 'geanydoc/src' ]),
 	Plugin('GeanyExtraSel', None, [ 'geanyextrasel/src' ]),
-	Plugin('GeanyGenDoc', None, [ 'geanygendoc/src' ], [ [ 'ctpl', '0.2', True ] ]),
+	Plugin('GeanyGenDoc', None, [ 'geanygendoc/src' ], [ [ 'ctpl', '0.3', True ] ]),
 	Plugin('GeanyInsertNum', None, [ 'geanyinsertnum/src' ]),
 	Plugin('GeanyLaTeX', None, [ 'geanylatex/src']),
 	Plugin('GeanyLipsum', None, [ 'geanylipsum/src']),

@@ -152,7 +152,7 @@ ggd_file_type_read_setting_template (GScanner       *scanner,
       g_scanner_error (scanner, _("invalid template: %s"), err->message);
       g_error_free (err);
     } else {
-      ctpl_lexer_free_tree (setting->template);
+      ctpl_token_free (setting->template);
       setting->template = tree;
       success = TRUE;
     }

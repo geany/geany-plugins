@@ -89,7 +89,7 @@ ggd_doc_setting_unref (GgdDocSetting *setting)
   
   if (g_atomic_int_dec_and_test (&setting->ref_count)) {
     g_free (setting->match);
-    ctpl_lexer_free_tree (setting->template);
+    ctpl_token_free (setting->template);
     g_slice_free1 (sizeof *setting, setting);
   }
 }

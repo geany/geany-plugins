@@ -98,7 +98,7 @@ ggd_file_type_unref (GgdFileType *filetype)
     if (filetype->match_function_arguments) {
       g_regex_unref (filetype->match_function_arguments);
     }
-    ctpl_environ_free (filetype->user_env);
+    ctpl_environ_unref (filetype->user_env);
     g_slice_free1 (sizeof *filetype, filetype);
   }
 }
