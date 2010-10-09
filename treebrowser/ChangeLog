@@ -42,6 +42,8 @@
 	* src/treebrowser.c
 		Fixed translatable info
 			(thanks to Frank Lanitz  <frank(at)frank(dot)uvena(dot)de> for patch)
+		Fixed fixed bad code and compilation warning in unused vars
+			(thanks to Frank Lanitz  <frank(at)frank(dot)uvena(dot)de> for patch)
 		Fixed some compilation warnings
 		Try to prevent from "ISO C90 forbids mixed declarations and code" compile message
 

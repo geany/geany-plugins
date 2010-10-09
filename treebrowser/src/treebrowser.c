@@ -132,7 +132,7 @@ static void 	treebrowser_browse(gchar *directory, gpointer parent);
 static void 	treebrowser_bookmarks_set_state();
 static void 	treebrowser_load_bookmarks();
 static void 	gtk_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root);
-static gboolean treebrowser_rename_current();
+static void 	treebrowser_rename_current();
 static void 	load_settings();
 static gboolean save_settings();
 
@@ -467,7 +467,8 @@ treebrowser_load_bookmarks()
 				else
 					name = NULL;
 			}
-			if (path_full = g_filename_from_uri(*line, NULL, NULL))
+			path_full = g_filename_from_uri(*line, NULL, NULL);
+			if (path_full != NULL)
 			{
 				if (g_file_test(path_full, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_DIR))
 				{
@@ -616,15 +617,8 @@ treebrowser_track_current()
 		/*
 		 * NEED TO REWORK THE CONCEPT
 		 */
-		return FALSE;
-		for (i = 0; path_segments[i]; i++)
-		{
-			path_search = g_build_filename(path_search, path_segments[i], NULL);
-			treebrowser_search(path_search, NULL);
-			return FALSE;
-		}
 
-		return TRUE;
+		return FALSE;
 	}
 	return FALSE;
 }
@@ -657,7 +651,7 @@ treebrowser_iter_rename(gpointer iter)
 	return FALSE;
 }
 
-static gboolean
+static void
 treebrowser_rename_current()
 {
 	GtkTreeSelection 	*selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
@@ -665,7 +659,9 @@ treebrowser_rename_current()
 	GtkTreeModel 		*model;
 
 	if (gtk_tree_selection_get_selected(selection, &model, &iter))
+	{
 		treebrowser_iter_rename(&iter);
+	}
 }
 
 /* ------------------
