@@ -25,6 +25,11 @@
 #include "ggd-plugin.h"
 
 
+#if ! GTK_CHECK_VERSION (2, 20, 0) && ! defined(gtk_widget_get_realized)
+# define gtk_widget_get_realized(w) (GTK_WIDGET_REALIZED (w))
+#endif
+
+
 static void     ggd_doctype_selector_finalize     (GObject *object);
 static void     ggd_doctype_selector_constructed  (GObject *object);
 static void     doctype_column_edited_handler     (GtkCellRendererText *renderer,
