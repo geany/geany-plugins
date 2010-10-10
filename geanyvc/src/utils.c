@@ -20,6 +20,7 @@
 #include <glib.h>
 
 #include "geanyplugin.h"
+#include "utils.h"
 
 extern GeanyData *geany_data;
 extern GeanyFunctions *geany_functions;
