@@ -442,14 +442,14 @@ treebrowser_load_bookmarks()
 			gtk_tree_store_set(treestore, &bookmarks_iter,
 											TREEBROWSER_COLUMN_ICON, 	GTK_STOCK_ABOUT,
 											TREEBROWSER_COLUMN_NAME, 	_("Bookmarks"),
-											TREEBROWSER_COLUMN_URI, 	FALSE,
+											TREEBROWSER_COLUMN_URI, 	NULL,
 											-1);
 
 			gtk_tree_store_insert_after(treestore, &iter, NULL, &bookmarks_iter);
 			gtk_tree_store_set(treestore, &iter,
 											TREEBROWSER_COLUMN_ICON, 	NULL,
 											TREEBROWSER_COLUMN_NAME, 	NULL,
-											TREEBROWSER_COLUMN_URI, 	FALSE,
+											TREEBROWSER_COLUMN_URI, 	NULL,
 											TREEBROWSER_COLUMN_FLAG, 	TREEBROWSER_FLAGS_SEPARATOR,
 											-1);
 		}

@@ -1,9 +1,10 @@
 .. |(version)| replace:: 0.2
 
 Treebrowser plugin
-=======
+==================
 
 .. contents::
+
 
 About
 =====
@@ -11,16 +12,15 @@ About
 Treebrowser is plugin that provide tree like file browser for geany`s sidebar.
 It is on beta state, then all reports are welcome.
 
+
 Features
 ========
 
  * Project following
- * Filesystem functionality (create, rename, delete files or directoreis)
- * (EXPERIMENTAL) gtk bookmark showing
- * Open path externaly (using predefined filebrowser ex.: nautilus, thunar, ...)
- * Open path in terminal
- * Copy file path to clipboard
+ * Basic filesystem functionality
+ * GTK bookmarks support
  * Filters in browser
+
 
 Requirements
 ============
@@ -38,11 +38,11 @@ Tools->Plugin Manager and set checkbox at treebrowser plugin
 License
 =======
 
-Treebrowser plugin is distrubuted under the same license as the geany.
+Treebrowser plugin is distrubuted under the same license as and geany.
 
 
 Ideas, questions, patches and bug reports
-=======
+=========================================
 
 Report them at http://sourceforge.net/tracker/?group_id=222729.
 

@@ -37,6 +37,14 @@
 | Development release ChangeLog |
 +-------------------------------+
 
+
+09-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		Fixes possible segfaults with bookmarks in ubuntu 10.10
+	* README
+		Update and fixes website compitables
+
 09-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
