@@ -41,6 +41,15 @@
 09-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
+		Fixed possible segfault when deleting file which is in bookmarks tree
+		Fixed wrong Show toolbars state when it turned off from the plugin configuration
+		Fixed collapsing and preloading bookmarks list when renaming, and deleting objects
+	* README
+		Try to add screenshot for the website
+
+09-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
 		Fixes possible segfaults with bookmarks in ubuntu 10.10
 	* README
 		Update and fixes website compitables

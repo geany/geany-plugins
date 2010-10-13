@@ -12,6 +12,12 @@ About
 Treebrowser is plugin that provide tree like file browser for geany`s sidebar.
 It is on beta state, then all reports are welcome.
 
+.. image:: http://img177.imageshack.us/img177/6403/geanytreebrowser.png
+   :width: 240
+   :alt: treebrowser plugin
+   :align: right
+   :target: http://img177.imageshack.us/img177/6403/geanytreebrowser.png
+
 
 Features
 ========

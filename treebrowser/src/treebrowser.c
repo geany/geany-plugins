@@ -543,7 +543,9 @@ fs_remove(gchar *root, gboolean delete_root)
 		dir = g_dir_open (root, 0, NULL);
 
 		if (!dir)
-			return;
+			if (delete_root)
+				g_remove(root);
+			else return;
 
 		name = g_dir_read_name (dir);
 		while (name != NULL)
@@ -803,32 +805,31 @@ on_menu_delete(GtkMenuItem *menuitem, gpointer *user_data)
 	GtkTreeIter 		iter;
 	GtkTreeModel 		*model;
 	GtkTreePath 		*path_parent;
-	gchar 				*uri;
+	gchar 				*uri, *uri_parent;
 
-	if (gtk_tree_selection_get_selected(selection, &model, &iter))
+	if (! gtk_tree_selection_get_selected(selection, &model, &iter))
+		return;
+
+	gtk_tree_model_get(model, &iter, TREEBROWSER_COLUMN_URI, &uri, -1);
+
+	if (! dialogs_show_question(_("Do you really want to delete '%s' ?"), uri))
+		return;
+
+	if (CONFIG_ON_DELETE_CLOSE_FILE && !g_file_test(uri, G_FILE_TEST_IS_DIR))
+		document_close(document_find_by_filename(uri));
+
+	uri_parent = g_path_get_dirname(uri);
+	fs_remove(uri, TRUE);
+	path_parent = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
+	if (gtk_tree_path_up(path_parent))
 	{
-
-		gtk_tree_model_get(model, &iter, TREEBROWSER_COLUMN_URI, &uri, -1);
-
-		if (dialogs_show_question(_("Do you really want to delete '%s' ?"), uri))
-		{
-			if (CONFIG_ON_DELETE_CLOSE_FILE && !g_file_test(uri, G_FILE_TEST_IS_DIR))
-				document_close(document_find_by_filename(uri));
-
-			fs_remove(uri, TRUE);
-			path_parent = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
-
-			if (gtk_tree_path_up(path_parent) &&
-				gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter, path_parent)
-			)
-			{
-				treebrowser_browse(g_path_get_dirname(uri), &iter);
-				treebrowser_load_bookmarks();
-			}
-			else
-				treebrowser_browse(g_path_get_dirname(uri), NULL);
-		}
+		if (gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter, path_parent))
+			treebrowser_browse(uri_parent, &iter);
+		else
+			treebrowser_browse(uri_parent, NULL);
 	}
+	else
+		treebrowser_browse(uri_parent, NULL);
 }
 
 static void
@@ -1211,16 +1212,13 @@ on_treeview_renamed(GtkCellRenderer *renderer, const gchar *path_string, const g
 								TREEBROWSER_COLUMN_NAME, name_new,
 								TREEBROWSER_COLUMN_URI, uri_new,
 								-1);
-
 				path_parent = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
-
 				if (gtk_tree_path_up(path_parent))
 				{
 					if (gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter_parent, path_parent))
 						treebrowser_browse(g_path_get_dirname(uri_new), &iter_parent);
 					else
 						treebrowser_browse(g_path_get_dirname(uri_new), NULL);
-					treebrowser_load_bookmarks();
 				}
 				else
 					treebrowser_browse(g_path_get_dirname(uri_new), NULL);
@@ -1493,6 +1491,7 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 		treebrowser_chroot(addressbar_last_address);
 		if (CONFIG_SHOW_BOOKMARKS)
 			treebrowser_load_bookmarks();
+		showbars(CONFIG_SHOW_BARS);
 	}
 	else
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR,
