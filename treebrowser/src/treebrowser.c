@@ -154,21 +154,26 @@ static GdkPixbuf *
 utils_pixbuf_from_path(gchar *path)
 {
 	GIcon 		*icon;
-	GdkPixbuf *ret = NULL;
+	GdkPixbuf 	*ret = NULL;
 	GtkIconInfo *info;
-	gint width;
+	gchar 		*ctype;
+	gint 		width;
 
-	icon = g_content_type_get_icon(g_content_type_guess(path, NULL, 0, NULL));
+	ctype = g_content_type_guess(path, NULL, 0, NULL);
+	icon = g_content_type_get_icon(ctype);
+	g_free(ctype);
 
 	if (icon != NULL)
 	{
-		gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, &width, NULL);
-		info = gtk_icon_theme_lookup_by_gicon (gtk_icon_theme_get_default(), icon, width, GTK_ICON_LOOKUP_USE_BUILTIN);
+		gtk_icon_size_lookup(GTK_ICON_SIZE_MENU, &width, NULL);
+		info = gtk_icon_theme_lookup_by_gicon(gtk_icon_theme_get_default(), icon, width, GTK_ICON_LOOKUP_USE_BUILTIN);
 		if (!info)
 			return NULL;
 		ret = gtk_icon_info_load_icon (info, NULL);
-		gtk_icon_info_free (info);
+		gtk_icon_info_free(info);
 	}
+
+	g_object_unref(icon);
 
 	return ret;
 }
@@ -176,7 +181,7 @@ utils_pixbuf_from_path(gchar *path)
 static GdkPixbuf *
 utils_pixbuf_from_stock(const gchar *stock_id)
 {
-	GtkIconSet *icon_set;
+	GtkIconSet 	*icon_set;
 
 	icon_set = gtk_icon_factory_lookup_default(stock_id);
 
@@ -184,7 +189,6 @@ utils_pixbuf_from_stock(const gchar *stock_id)
 		return gtk_icon_set_render_icon(icon_set, gtk_widget_get_default_style(),
 										gtk_widget_get_default_direction(),
 										GTK_STATE_NORMAL, GTK_ICON_SIZE_MENU, NULL, NULL);
-
 	return NULL;
 }
 
@@ -485,7 +489,7 @@ treebrowser_load_bookmarks()
 		{
 			gtk_tree_store_prepend(treestore, &bookmarks_iter, NULL);
 			gtk_tree_store_set(treestore, &bookmarks_iter,
-											TREEBROWSER_COLUMN_ICON, 	CONFIG_SHOW_ICONS ? utils_pixbuf_from_stock(GTK_STOCK_DIRECTORY) : NULL,
+											TREEBROWSER_COLUMN_ICON, 	CONFIG_SHOW_ICONS ? utils_pixbuf_from_stock(GTK_STOCK_HOME) : NULL,
 											TREEBROWSER_COLUMN_NAME, 	_("Bookmarks"),
 											TREEBROWSER_COLUMN_URI, 	NULL,
 											-1);

@@ -41,6 +41,9 @@
 16-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
+		Fixed unref data in utils_pixbuf_from_path()
+		Changed default icon for bookmarks to GTK_STOCK_HOME
+
 		Added new option to show mime-type icons (can be configured by the preferences)
 			(Idea from Colomban Wendling`s mail)
 
