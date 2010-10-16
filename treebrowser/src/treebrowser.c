@@ -167,14 +167,12 @@ utils_pixbuf_from_path(gchar *path)
 	{
 		gtk_icon_size_lookup(GTK_ICON_SIZE_MENU, &width, NULL);
 		info = gtk_icon_theme_lookup_by_gicon(gtk_icon_theme_get_default(), icon, width, GTK_ICON_LOOKUP_USE_BUILTIN);
+		g_object_unref(icon);
 		if (!info)
 			return NULL;
 		ret = gtk_icon_info_load_icon (info, NULL);
 		gtk_icon_info_free(info);
 	}
-
-	g_object_unref(icon);
-
 	return ret;
 }
 
