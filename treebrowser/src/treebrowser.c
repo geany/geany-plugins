@@ -59,6 +59,7 @@ static gboolean 			CONFIG_FOLLOW_CURRENT_DOC 	= TRUE;
 static gboolean 			CONFIG_ON_DELETE_CLOSE_FILE = TRUE;
 static gboolean 			CONFIG_SHOW_TREE_LINES 		= TRUE;
 static gboolean 			CONFIG_SHOW_BOOKMARKS 		= FALSE;
+static gint 				CONFIG_SHOW_ICONS 			= 2;
 
 /* ------------------
  * TREEVIEW STRUCT
@@ -147,6 +148,45 @@ PluginCallback plugin_callbacks[] =
 	{ "project-save", (GCallback) &project_change_cb, TRUE, NULL },
 	{ NULL, NULL, FALSE, NULL }
 };
+
+
+static GdkPixbuf *
+utils_pixbuf_from_path(gchar *path)
+{
+	GIcon 		*icon;
+	GdkPixbuf *ret = NULL;
+	GtkIconInfo *info;
+	gint width;
+
+	icon = g_content_type_get_icon(g_content_type_guess(path, NULL, 0, NULL));
+
+	if (icon != NULL)
+	{
+		gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, &width, NULL);
+		info = gtk_icon_theme_lookup_by_gicon (gtk_icon_theme_get_default(), icon, width, GTK_ICON_LOOKUP_USE_BUILTIN);
+		if (!info)
+			return NULL;
+		ret = gtk_icon_info_load_icon (info, NULL);
+		gtk_icon_info_free (info);
+	}
+
+	return ret;
+}
+
+static GdkPixbuf *
+utils_pixbuf_from_stock(const gchar *stock_id)
+{
+	GtkIconSet *icon_set;
+
+	icon_set = gtk_icon_factory_lookup_default(stock_id);
+
+	if (icon_set)
+		return gtk_icon_set_render_icon(icon_set, gtk_widget_get_default_style(),
+										gtk_widget_get_default_direction(),
+										GTK_STATE_NORMAL, GTK_ICON_SIZE_MENU, NULL, NULL);
+
+	return NULL;
+}
 
 
 /* ------------------
@@ -311,8 +351,8 @@ treebrowser_browse(gchar *directory, gpointer parent)
 	gchar 			*utf8_name;
 	GSList 			*list, *node;
 
-	gchar *fname;
-	gchar *uri;
+	gchar 			*fname;
+	gchar 			*uri;
 
 	directory = g_strconcat(directory, G_DIR_SEPARATOR_S, NULL);
 
@@ -356,7 +396,7 @@ treebrowser_browse(gchar *directory, gpointer parent)
 					}
 					last_dir_iter = gtk_tree_iter_copy(&iter);
 					gtk_tree_store_set(treestore, &iter,
-										TREEBROWSER_COLUMN_ICON, 	GTK_STOCK_DIRECTORY,
+										TREEBROWSER_COLUMN_ICON, 	CONFIG_SHOW_ICONS ? utils_pixbuf_from_stock(GTK_STOCK_DIRECTORY) : NULL,
 										TREEBROWSER_COLUMN_NAME, 	fname,
 										TREEBROWSER_COLUMN_URI, 	uri,
 										-1);
@@ -373,7 +413,11 @@ treebrowser_browse(gchar *directory, gpointer parent)
 					{
 						gtk_tree_store_append(treestore, &iter, parent);
 						gtk_tree_store_set(treestore, &iter,
-										TREEBROWSER_COLUMN_ICON, 	GTK_STOCK_FILE,
+										TREEBROWSER_COLUMN_ICON, 	CONFIG_SHOW_ICONS == 2
+																		? utils_pixbuf_from_path(uri)
+																		: CONFIG_SHOW_ICONS
+																			? utils_pixbuf_from_stock(GTK_STOCK_FILE)
+																			: NULL,
 										TREEBROWSER_COLUMN_NAME, 	fname,
 										TREEBROWSER_COLUMN_URI, 	uri,
 										-1);
@@ -422,8 +466,9 @@ treebrowser_load_bookmarks()
 	gchar 		*contents, *path_full;
 	gchar 		**lines, **line;
 	GtkTreeIter iter;
-	gchar *pos;
-	gchar *name;
+	gchar 		*pos;
+	gchar 		*name;
+	GdkPixbuf 	*icon = NULL;
 
 	if (! CONFIG_SHOW_BOOKMARKS)
 		return;
@@ -440,7 +485,7 @@ treebrowser_load_bookmarks()
 		{
 			gtk_tree_store_prepend(treestore, &bookmarks_iter, NULL);
 			gtk_tree_store_set(treestore, &bookmarks_iter,
-											TREEBROWSER_COLUMN_ICON, 	GTK_STOCK_ABOUT,
+											TREEBROWSER_COLUMN_ICON, 	CONFIG_SHOW_ICONS ? utils_pixbuf_from_stock(GTK_STOCK_DIRECTORY) : NULL,
 											TREEBROWSER_COLUMN_NAME, 	_("Bookmarks"),
 											TREEBROWSER_COLUMN_URI, 	NULL,
 											-1);
@@ -474,7 +519,7 @@ treebrowser_load_bookmarks()
 				{
 					gtk_tree_store_append(treestore, &iter, &bookmarks_iter);
 					gtk_tree_store_set(treestore, &iter,
-												TREEBROWSER_COLUMN_ICON, 	GTK_STOCK_DIRECTORY,
+												TREEBROWSER_COLUMN_ICON, 	CONFIG_SHOW_ICONS ? utils_pixbuf_from_stock(GTK_STOCK_DIRECTORY) : NULL,
 												TREEBROWSER_COLUMN_NAME, 	g_basename(path_full),
 												TREEBROWSER_COLUMN_URI, 	path_full,
 												-1);
@@ -1169,8 +1214,8 @@ on_treeview_row_expanded(GtkWidget *widget, GtkTreeIter *iter, GtkTreePath *path
 		gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), path, FALSE);
 		flag_on_expand_refresh = FALSE;
 	}
-	gtk_tree_store_set(treestore, iter, TREEBROWSER_COLUMN_ICON, GTK_STOCK_OPEN, -1);
-
+	if (CONFIG_SHOW_ICONS)
+		gtk_tree_store_set(treestore, iter, TREEBROWSER_COLUMN_ICON, utils_pixbuf_from_stock(GTK_STOCK_OPEN), -1);
 }
 
 static void
@@ -1180,8 +1225,8 @@ on_treeview_row_collapsed(GtkWidget *widget, GtkTreeIter *iter, GtkTreePath *pat
 	gtk_tree_model_get(GTK_TREE_MODEL(treestore), iter, TREEBROWSER_COLUMN_URI, &uri, -1);
 	if (uri == FALSE)
 		return;
-
-	gtk_tree_store_set(treestore, iter, TREEBROWSER_COLUMN_ICON, GTK_STOCK_DIRECTORY, -1);
+	if (CONFIG_SHOW_ICONS)
+		gtk_tree_store_set(treestore, iter, TREEBROWSER_COLUMN_ICON, utils_pixbuf_from_stock(GTK_STOCK_DIRECTORY), -1);
 }
 
 static void
@@ -1267,7 +1312,7 @@ create_view_and_model()
 	gtk_tree_view_append_column(GTK_TREE_VIEW(view), treeview_column_text);
 
 	gtk_tree_view_column_pack_start(treeview_column_text, render_icon, FALSE);
-	gtk_tree_view_column_set_attributes(treeview_column_text, render_icon, "stock-id", TREEBROWSER_RENDER_ICON, NULL);
+	gtk_tree_view_column_set_attributes(treeview_column_text, render_icon, "pixbuf", TREEBROWSER_RENDER_ICON, NULL);
 
 	gtk_tree_view_column_pack_start(treeview_column_text, render_text, TRUE);
 	gtk_tree_view_column_add_attribute(treeview_column_text, render_text, "text", TREEBROWSER_RENDER_TEXT);
@@ -1288,7 +1333,7 @@ create_view_and_model()
 	gtk_tree_view_set_enable_tree_lines(GTK_TREE_VIEW(view), CONFIG_SHOW_TREE_LINES);
 #endif
 
-	treestore = gtk_tree_store_new(TREEBROWSER_COLUMNC, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT);
+	treestore = gtk_tree_store_new(TREEBROWSER_COLUMNC, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT);
 
 	gtk_tree_view_set_model(GTK_TREE_VIEW(view), GTK_TREE_MODEL(treestore));
 	g_signal_connect(G_OBJECT(render_text), "edited", G_CALLBACK(on_treeview_renamed), view);
@@ -1409,6 +1454,7 @@ static struct
 	GtkWidget *ON_DELETE_CLOSE_FILE;
 	GtkWidget *SHOW_TREE_LINES;
 	GtkWidget *SHOW_BOOKMARKS;
+	GtkWidget *SHOW_ICONS;
 
 } configure_widgets;
 
@@ -1430,6 +1476,7 @@ load_settings()
 	CONFIG_ON_DELETE_CLOSE_FILE 	= utils_get_setting_boolean(config, "treebrowser", "on_delete_close_file", 	CONFIG_ON_DELETE_CLOSE_FILE);
 	CONFIG_SHOW_TREE_LINES 			= utils_get_setting_boolean(config, "treebrowser", "show_tree_lines", 		CONFIG_SHOW_TREE_LINES);
 	CONFIG_SHOW_BOOKMARKS 			= utils_get_setting_boolean(config, "treebrowser", "show_bookmarks", 		CONFIG_SHOW_BOOKMARKS);
+	CONFIG_SHOW_ICONS 				= utils_get_setting_integer(config, "treebrowser", "show_icons", 			CONFIG_SHOW_ICONS);
 
 	g_key_file_free(config);
 }
@@ -1456,6 +1503,7 @@ save_settings()
 	g_key_file_set_boolean(config, 	"treebrowser", "on_delete_close_file", 	CONFIG_ON_DELETE_CLOSE_FILE);
 	g_key_file_set_boolean(config, 	"treebrowser", "show_tree_lines", 		CONFIG_SHOW_TREE_LINES);
 	g_key_file_set_boolean(config, 	"treebrowser", "show_bookmarks", 		CONFIG_SHOW_BOOKMARKS);
+	g_key_file_set_integer(config, 	"treebrowser", "show_icons", 			CONFIG_SHOW_ICONS);
 
 	data = g_key_file_to_data(config, NULL, NULL);
 	utils_write_file(CONFIG_FILE, data);
@@ -1482,6 +1530,7 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 	CONFIG_ON_DELETE_CLOSE_FILE = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.ON_DELETE_CLOSE_FILE));
 	CONFIG_SHOW_TREE_LINES 		= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_TREE_LINES));
 	CONFIG_SHOW_BOOKMARKS 		= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_BOOKMARKS));
+	CONFIG_SHOW_ICONS 			= gtk_combo_box_get_active(GTK_COMBO_BOX(configure_widgets.SHOW_ICONS));
 
 	if (save_settings() == TRUE)
 	{
@@ -1528,7 +1577,20 @@ plugin_configure(GtkDialog *dialog)
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(hbox), configure_widgets.SHOW_BARS, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
+	ui_widget_set_tooltip_text(configure_widgets.SHOW_BARS,
+		_("If position is changed, the option require plugin restart."));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(configure_widgets.SHOW_BARS), CONFIG_SHOW_BARS);
+
+	hbox = gtk_hbox_new(FALSE, 0);
+	label = gtk_label_new(_("Show icons"));
+	configure_widgets.SHOW_ICONS = gtk_combo_box_new_text();
+	gtk_combo_box_append_text( GTK_COMBO_BOX(configure_widgets.SHOW_ICONS), _("None"));
+	gtk_combo_box_append_text( GTK_COMBO_BOX(configure_widgets.SHOW_ICONS), _("Base"));
+	gtk_combo_box_append_text( GTK_COMBO_BOX(configure_widgets.SHOW_ICONS), _("Content-type"));
+	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(hbox), configure_widgets.SHOW_ICONS, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(configure_widgets.SHOW_ICONS), CONFIG_SHOW_ICONS);
 
 	configure_widgets.SHOW_HIDDEN_FILES = gtk_check_button_new_with_label(_("Show hidden files"));
 	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.SHOW_HIDDEN_FILES), FALSE);
