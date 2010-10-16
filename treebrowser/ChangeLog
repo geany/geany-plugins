@@ -41,6 +41,8 @@
 16-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
+		Fixed gio troubles (BIG THANKS TO Colomban Wendling)
+
 		Fixed unref data in utils_pixbuf_from_path()
 		Changed default icon for bookmarks to GTK_STOCK_HOME
 

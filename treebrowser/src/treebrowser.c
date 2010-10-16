@@ -10,7 +10,7 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 
-#ifdef HAVE_GIO_2_0
+#ifdef HAVE_GIO
 # include <gio/gio.h>
 #endif
 
@@ -150,9 +150,29 @@ PluginCallback plugin_callbacks[] =
 };
 
 
+/* ------------------
+ * TREEBROWSER CORE FUNCTIONS
+ * ------------------ */
+
+
+static GdkPixbuf *
+utils_pixbuf_from_stock(const gchar *stock_id)
+{
+	GtkIconSet 	*icon_set;
+
+	icon_set = gtk_icon_factory_lookup_default(stock_id);
+
+	if (icon_set)
+		return gtk_icon_set_render_icon(icon_set, gtk_widget_get_default_style(),
+										gtk_widget_get_default_direction(),
+										GTK_STATE_NORMAL, GTK_ICON_SIZE_MENU, NULL, NULL);
+	return NULL;
+}
+
 static GdkPixbuf *
 utils_pixbuf_from_path(gchar *path)
 {
+#ifdef HAVE_GIO
 	GIcon 		*icon;
 	GdkPixbuf 	*ret = NULL;
 	GtkIconInfo *info;
@@ -174,26 +194,12 @@ utils_pixbuf_from_path(gchar *path)
 		gtk_icon_info_free(info);
 	}
 	return ret;
+#else
+	return utils_pixbuf_from_stock(g_file_test(path, G_FILE_TEST_IS_DIR)
+									? GTK_STOCK_DIRECTORY
+									: GTK_STOCK_FILE);
+#endif
 }
-
-static GdkPixbuf *
-utils_pixbuf_from_stock(const gchar *stock_id)
-{
-	GtkIconSet 	*icon_set;
-
-	icon_set = gtk_icon_factory_lookup_default(stock_id);
-
-	if (icon_set)
-		return gtk_icon_set_render_icon(icon_set, gtk_widget_get_default_style(),
-										gtk_widget_get_default_direction(),
-										GTK_STATE_NORMAL, GTK_ICON_SIZE_MENU, NULL, NULL);
-	return NULL;
-}
-
-
-/* ------------------
- * TREEBROWSER CORE FUNCTIONS
- * ------------------ */
 
 static gboolean
 check_filtered(const gchar *base_name)
@@ -246,7 +252,7 @@ check_hidden(const gchar *uri)
 		return FALSE;
 
 #ifdef G_OS_WIN32
-#ifdef HAVE_GIO_2_0
+#ifdef HAVE_GIO
 	GError *error;
 	GFile *file;
 	GFileInfo *info;
