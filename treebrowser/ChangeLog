@@ -24,7 +24,7 @@
 	(DONE) oneclick document opening
 	(DONE) filter separating ex.: "*.c;*.cpp;*.h"
 	* Fix possible memory leaks (using g_free... where is need)
-	* Folowing path from current document view
+	* Complete following path from current document view
 	(DONE) Hide object files as native filebroser (*.o;*.a;*.so;*.dll;*.lib..)
 	(DONE) Using font from geany settings for sidebar
 	* Migrating to stash
@@ -36,6 +36,13 @@
 +-------------------------------+
 | Development release ChangeLog |
 +-------------------------------+
+
+
+17-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		Refactor a bit check_hidden() not to leak memory
+			(Patch by Colomban Wendling)
 
 
 16-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>

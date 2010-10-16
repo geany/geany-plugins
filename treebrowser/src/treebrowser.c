@@ -251,41 +251,32 @@ check_hidden(const gchar *uri)
 	if (uri[strlen(uri) - 1] == '~')
 		return FALSE;
 
+	gboolean is_visible = TRUE;
 #ifdef G_OS_WIN32
-#ifdef HAVE_GIO
-	GError *error;
+# ifdef HAVE_GIO
 	GFile *file;
 	GFileInfo *info;
 
 	file = g_file_new_for_path(uri);
-	info = g_file_query_info(file, G_FILE_ATTRIBUTE_STANDARD_IS_HIDDEN, 0, NULL, &error);
-	if (error)
+	info = g_file_query_info(file, G_FILE_ATTRIBUTE_STANDARD_IS_HIDDEN, 0, NULL, NULL);
+	if (info)
 	{
-		g_error_free(error);
-		g_object_unref(file);
-		return TRUE;
+		if (g_file_info_get_is_hidden(info))
+			is_visible = FALSE;
+		g_object_unref(info);
 	}
-	else
-	{
-		if (g_file_info_get_is_hidden (info))
-		{
-			g_error_free(error);
-			g_object_unref(file);
-			return FALSE;
-		}
-		g_error_free(error);
-		g_object_unref(file);
-		return TRUE;
-	}
-#else
-	return TRUE;
+	g_object_unref(file);
+# endif /* HAVE_GIO */
+#else /* G_OS_WIN32 */
+	gchar *base_name;
+
+	base_name = g_path_get_basename(uri);
+	if (base_name[0] == '.')
+		is_visible = FALSE;
+	g_free(base_name);
 #endif
 
-#else
-	if (g_path_get_basename(uri)[0] == '.')
-		return FALSE;
-	return TRUE;
-#endif
+	return is_visible;
 }
 
 static gchar*
