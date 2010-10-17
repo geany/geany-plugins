@@ -34,7 +34,7 @@ static gchar 				*addressbar_last_address 	= NULL;
 static GtkTreeIter 			bookmarks_iter;
 static gboolean 			bookmarks_expanded = FALSE;
 
-static GtkTreeViewColumn 	*treeview_column_icon, *treeview_column_text;
+static GtkTreeViewColumn 	*treeview_column_text;
 static GtkCellRenderer 		*render_icon, *render_text;
 
 /* ------------------
@@ -473,7 +473,6 @@ treebrowser_browse(gchar *directory, gpointer parent)
 						TREEBROWSER_COLUMN_NAME, 	_("(Empty)"),
 						TREEBROWSER_COLUMN_URI, 	NULL,
 						-1);
-		g_free(fname);
 	}
 
 	if (has_parent)
@@ -637,7 +636,6 @@ fs_remove(gchar *root, gboolean delete_root)
 
 	if (g_file_test(root, G_FILE_TEST_IS_DIR))
 	{
-
 		dir = g_dir_open (root, 0, NULL);
 
 		if (!dir)
@@ -1408,7 +1406,6 @@ create_view_and_model()
 	GtkWidget 			*view;
 
 	view 					= gtk_tree_view_new();
-	treeview_column_icon	= gtk_tree_view_column_new();
 	treeview_column_text	= gtk_tree_view_column_new();
 	render_icon 			= gtk_cell_renderer_pixbuf_new();
 	render_text 			= gtk_cell_renderer_text_new();
