@@ -39,6 +39,13 @@
 17-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
+		Fixed order of includes with gio.h
+			(Patch by Enrico Troger)
+
+
+17-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
 		Fixed memory leaks
 			(Patch by Colomban Wendling)
 		Fixed missing GIcon compilation error in gtk versions before 2.14

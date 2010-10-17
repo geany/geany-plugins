@@ -10,12 +10,13 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 
+#include "geany.h"
+#include "geanyplugin.h"
+
 #ifdef HAVE_GIO
 # include <gio/gio.h>
 #endif
 
-#include "geany.h"
-#include "geanyplugin.h"
 
 /* These items are set by Geany before plugin_init() is called. */
 GeanyPlugin 				*geany_plugin;
