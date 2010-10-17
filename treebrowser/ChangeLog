@@ -3,7 +3,7 @@
 +---------------------------+
 
 	(FIXED) http://sourceforge.net/tracker/?func=detail&aid=3034450&group_id=222729&atid=1056532
-	* CRYTICAL warning when unloading the plugin
+	(FIXED) CRYTICAL warning when unloading the plugin
 		"CRITICAL	: g_object_ref: assertion `object->ref_count > 0' failed"
 	(FIXED) Double click on bookmarks, do nothing
 	(FIXED) show/hide hidden files not working on Windows
@@ -17,9 +17,7 @@
 	(DONE) codestyle improve to be same as other parts as geany`s
 	(DONE) configuration dialog
 	(DONE) tracking path to current focused document (work only for refreshed directories)
-	* Better tracking for files, when they are not cached, open path to them
 	* In windows can choice between devices (C:\, D:\,...)
-	* Language files
 	(DONE) Saving state of Showbars in config file everytime where is changed
 	(DONE) oneclick document opening
 	(DONE) filter separating ex.: "*.c;*.cpp;*.h"
@@ -47,6 +45,7 @@
 		Fixed some compilation warnings on unused variables
 		Fixed translation string _("Empty") to be _("(Empty)")
 
+
 17-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
@@ -59,9 +58,17 @@
 	* src/treebrowser.c
 		Fixed gio troubles (BIG THANKS TO Colomban Wendling)
 
+
+16-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
 		Fixed unref data in utils_pixbuf_from_path()
 		Changed default icon for bookmarks to GTK_STOCK_HOME
 
+
+16-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
 		Added new option to show mime-type icons (can be configured by the preferences)
 			(Idea from Colomban Wendling`s mail)
 
