@@ -41,6 +41,13 @@
 17-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
+		Fixed memory leaks
+			(Patch by Colomban Wendling)
+		Fixed missing GIcon compilation error in gtk versions before 2.14
+
+17-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
 		Refactor a bit check_hidden() not to leak memory
 			(Patch by Colomban Wendling)
 
