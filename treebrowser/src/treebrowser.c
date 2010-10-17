@@ -433,12 +433,9 @@ treebrowser_browse(gchar *directory, gpointer parent)
 										TREEBROWSER_COLUMN_URI, 	uri,
 										-1);
 					gtk_tree_store_prepend(treestore, &iter_empty, &iter);
-					/* FIXME: why not simply _("(Empty)")? is this really better for translators?
-					 * this would also avoid the need to duplicate the string */
-					setptr(fname, g_strdup_printf("(%s)", _("Empty")));
 					gtk_tree_store_set(treestore, &iter_empty,
 									TREEBROWSER_COLUMN_ICON, 	NULL,
-									TREEBROWSER_COLUMN_NAME, 	fname,
+									TREEBROWSER_COLUMN_NAME, 	_("(Empty)"),
 									TREEBROWSER_COLUMN_URI, 	NULL,
 									-1);
 				}
@@ -464,19 +461,16 @@ treebrowser_browse(gchar *directory, gpointer parent)
 					g_object_unref(icon);
 			}
 			g_free(utf8_name);
-			g_free(fname);
 			g_free(uri);
+			g_free(fname);
 		}
-
 	}
 	else
 	{
 		gtk_tree_store_prepend(treestore, &iter_empty, parent);
-		/* see FIXME above */
-		fname = g_strdup_printf("(%s)", _("Empty"));
 		gtk_tree_store_set(treestore, &iter_empty,
 						TREEBROWSER_COLUMN_ICON, 	NULL,
-						TREEBROWSER_COLUMN_NAME, 	fname,
+						TREEBROWSER_COLUMN_NAME, 	_("(Empty)"),
 						TREEBROWSER_COLUMN_URI, 	NULL,
 						-1);
 		g_free(fname);
@@ -574,11 +568,9 @@ treebrowser_load_bookmarks()
 					if (icon)
 						g_object_unref(icon);
 					gtk_tree_store_append(treestore, &iter, &iter);
-					/* see above for same strange thing */
-					setptr(path_full, g_strdup_printf("(%s)", _("Empty")));
 					gtk_tree_store_set(treestore, &iter,
 											TREEBROWSER_COLUMN_ICON, 	NULL,
-											TREEBROWSER_COLUMN_NAME, 	path_full,
+											TREEBROWSER_COLUMN_NAME, 	_("(Empty)"),
 											TREEBROWSER_COLUMN_URI, 	NULL,
 												-1);
 				}
@@ -649,9 +641,13 @@ fs_remove(gchar *root, gboolean delete_root)
 		dir = g_dir_open (root, 0, NULL);
 
 		if (!dir)
+		{
 			if (delete_root)
+			{
 				g_remove(root);
+			}
 			else return;
+		}
 
 		name = g_dir_read_name (dir);
 		while (name != NULL)
@@ -711,9 +707,8 @@ treebrowser_track_current()
 {
 
 	GeanyDocument	*doc 		= document_get_current();
-	gchar 			*path_current, *path_search = G_DIR_SEPARATOR_S;
+	gchar 			*path_current;
 	gchar			**path_segments;
-	gint 			i;
 
 	if (doc != NULL && doc->file_name != NULL && g_path_is_absolute(doc->file_name))
 	{

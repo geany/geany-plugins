@@ -44,6 +44,8 @@
 		Fixed memory leaks
 			(Patch by Colomban Wendling)
 		Fixed missing GIcon compilation error in gtk versions before 2.14
+		Fixed some compilation warnings on unused variables
+		Fixed translation string _("Empty") to be _("(Empty)")
 
 17-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
