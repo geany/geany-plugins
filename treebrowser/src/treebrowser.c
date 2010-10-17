@@ -185,7 +185,7 @@ utils_pixbuf_from_stock(const gchar *stock_id)
 static GdkPixbuf *
 utils_pixbuf_from_path(gchar *path)
 {
-#if defined(HAVE_GIO) && GLIB_CHECK_VERSION(2, 14, 0)
+#if defined(HAVE_GIO) && GTK_CHECK_VERSION(2, 14, 0)
 	GIcon 		*icon;
 	GdkPixbuf 	*ret = NULL;
 	GtkIconInfo *info;
@@ -1426,8 +1426,9 @@ create_view_and_model()
 
 	ui_widget_modify_font_from_string(view, geany->interface_prefs->tagbar_font);
 
-	if (gtk_check_version(2, 12, 0) == NULL)
+#if GTK_CHECK_VERSION(2, 10, 0)
 		g_object_set(view, "has-tooltip", TRUE, "tooltip-column", TREEBROWSER_COLUMN_URI, NULL);
+#endif
 
 	gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW(view)), GTK_SELECTION_SINGLE);
 
