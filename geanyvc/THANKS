@@ -10,6 +10,7 @@ Jeff Pohlmeyer <yetanothergeek(at)gmail(dot)com> - INSTALL instructions stolen f
 Karel Kolman <kolmis(at)gmail(dot)com> - Bazaar support.
 David Kalnischkies <kalnischkies(at)gmail(dot)com> - Mercurial support
 Thomas Martitz <thomas(dot)martitz(at)student(dot)HTW-Berlin(dot)de> - Lot of improvments and patches e.g. on commit dialog
+Jean-Paul Iribarren <jeanpaul(dot)iribarren(at)free(dot)fr> - patch for cvs's commit
 
 Projects
 --------
