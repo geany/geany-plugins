@@ -53,6 +53,7 @@ CVS::
  * revert directory
  * revert base directory
  * update
+ * commit
 
 Requirements
 ============

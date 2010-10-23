@@ -3,6 +3,8 @@
  *      Copyright 2007-2009 Enrico Tröger <enrico.troeger@uvena.de>
  *      Copyright 2007 Nick Treleaven <nick.treleaven@btinternet.com>
  *      Copyright 2007-2009 Yura Siamashka <yurand2@gmail.com>
+ *      Copyright 2010 Jean-Paul Iribarren <jeanpaul.Iribarren@free.fr> 
+ * 
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
