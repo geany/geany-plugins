@@ -36,6 +36,12 @@
 +-------------------------------+
 
 
+25-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		Fixed wrong expaned status of the directories
+
+
 17-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c

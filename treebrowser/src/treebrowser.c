@@ -162,7 +162,7 @@ tree_view_row_expanded_iter(GtkTreeView *tree_view, GtkTreeIter *iter)
 	GtkTreePath *tree_path;
 	gboolean expanded;
 
-	tree_path = gtk_tree_model_get_path(gtk_tree_view_get_model(tree_view), &bookmarks_iter);
+	tree_path = gtk_tree_model_get_path(gtk_tree_view_get_model(tree_view), iter);
 	expanded = gtk_tree_view_row_expanded(tree_view, tree_path);
 	gtk_tree_path_free(tree_path);
 
