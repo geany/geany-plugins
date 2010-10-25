@@ -19,4 +19,9 @@
  *	  MA 02110-1301, USA.
  */
 
+#ifndef __ADD_XMLTAGGING__
+#define __ADD_XMLTAGGING__
+
 void ao_xmltagging(void);
+
+#endif
