@@ -1,4 +1,5 @@
 AC_PREREQ([2.61])
+dnl Don't forget when updating version number to do GP_CHECK_GEANY also
 AC_INIT([geany-plugins], [0.20])
 AM_INIT_AUTOMAKE([1.8 foreign dist-bzip2 tar-ustar])
 
@@ -17,7 +18,7 @@ IT_PROG_INTLTOOL([0.35.0])
 GP_I18N
 
 dnl common checks
-GP_CHECK_GEANY(0.19)
+GP_CHECK_GEANY(0.20)
 GP_CHECK_UNITTESTS(0.9.4)
 
 dnl plugin checks
