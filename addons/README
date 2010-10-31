@@ -92,12 +92,14 @@ The GNU versions of these tools are recommended.
 
 Installation
 ------------
-Compiling and installing the code is done by the following three commands:
+Compiling and installing the code is done by the following three commands::
+
   $ ./configure
   $ make
   $ make install
 
-For more configuration details run
+For more configuration details run::
+
   $ ./configure --help
 
 If there are any errors during compilation, check your build environment
