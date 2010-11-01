@@ -1,0 +1,60 @@
+=========
+WebHelper
+=========
+
+.. contents::
+
+
+About
+=====
+
+WebHelper is a plugin for Geany that provides some web development facilities,
+such as a web page preview and some debugging tools (web inspector).
+
+
+Requirements
+============
+
+This plugin requires GTK+ (>= 2.16), GLib (>= 2.16), GIO (>= 2.18),
+GdkPixbuf (>= 2.0), WebKitGTK (>= 1.1.18), and obviously Geany (>= 0.20) to
+work. If you indent to build it yourself, you will need to get the development
+files of these libraries. You can find these packages at http://www.geany.org/,
+http://www.gtk.org/ and http://www.webkitgtk.org/.
+
+
+Installation
+============
+
+For detailed instructions, see the INSTALL file of the Geany-Plugins package
+this plugin is part of.
+
+
+Usage
+=====
+
+When loaded into Geany, this plugins adds a web view in one of the panels --
+bottom (the default) or left. You can find most of the features from this view.
+
+
+License
+=======
+
+WebHelper is distributed under the terms of the GNU General Public License
+as published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version. You should have received a copy
+of the GNU General Public License along with WebHelper.  If not, see
+<http://www.gnu.org/licenses/>.
+
+
+Contact
+=======
+
+You can email me at <ban(at)herbesfolles(dot)org>, and I may also be on the
+#geany channel on FreeNode, under the `b4n` nickname.
+
+
+Bug reports and feature requests
+--------------------------------
+
+To report a bug or ask for a new feature, please use the Geany-Plugins tracker
+on SourceForge: http://sourceforge.net/tracker/?group_id=222729

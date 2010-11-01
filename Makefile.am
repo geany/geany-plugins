@@ -15,7 +15,8 @@ plugins = \
 	pretty-printer \
 	shiftcolumn \
 	spellcheck \
-	treebrowser
+	treebrowser \
+	webhelper
 
 ACLOCAL_AMFLAGS = -I build/cache -I build --install
 
