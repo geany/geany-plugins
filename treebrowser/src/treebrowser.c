@@ -881,21 +881,25 @@ on_menu_create_new_object(GtkMenuItem *menuitem, gchar *type)
 
 	if (uri_new)
 	{
-		gboolean creation_success = FALSE;
-
-		while(g_file_test(uri_new, G_FILE_TEST_EXISTS))
-			setptr(uri_new, g_strconcat(uri_new, "_", NULL));
-
-		if (utils_str_equal(type, "directory"))
-			creation_success = (g_mkdir(uri_new, 0755) == 0);
-		else
-			creation_success = (g_creat(uri_new, 0755) != -1);
-
-		if (creation_success)
+		if (!(g_file_test(uri_new, G_FILE_TEST_EXISTS) &&
+			!dialogs_show_question(_("Target file '%s' exists\n, do you really want to replace it with empty file?"), uri_new)))
 		{
-			treebrowser_browse(uri, refresh_root ? NULL : &iter);
-			if (treebrowser_search(uri_new, NULL))
-				treebrowser_rename_current();
+			gboolean creation_success = FALSE;
+
+			while(g_file_test(uri_new, G_FILE_TEST_EXISTS))
+				setptr(uri_new, g_strconcat(uri_new, "_", NULL));
+
+			if (utils_str_equal(type, "directory"))
+				creation_success = (g_mkdir(uri_new, 0755) == 0);
+			else
+				creation_success = (g_creat(uri_new, 0755) != -1);
+
+			if (creation_success)
+			{
+				treebrowser_browse(uri, refresh_root ? NULL : &iter);
+				if (treebrowser_search(uri_new, NULL))
+					treebrowser_rename_current();
+			}
 		}
 		g_free(uri_new);
 	}
@@ -1353,26 +1357,30 @@ on_treeview_renamed(GtkCellRenderer *renderer, const gchar *path_string, const g
 		if (uri)
 		{
 			uri_new = g_strconcat(g_path_get_dirname(uri), G_DIR_SEPARATOR_S, name_new, NULL);
-			if (g_rename(uri, uri_new) == 0)
+			if (!(g_file_test(uri_new, G_FILE_TEST_EXISTS) &&
+				!dialogs_show_question(_("Target file '%s' exists, do you really want to replace it?"), uri_new)))
 			{
-				gtk_tree_store_set(treestore, &iter,
-								TREEBROWSER_COLUMN_NAME, name_new,
-								TREEBROWSER_COLUMN_URI, uri_new,
-								-1);
-				path_parent = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
-				if (gtk_tree_path_up(path_parent))
+				if (g_rename(uri, uri_new) == 0)
 				{
-					if (gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter_parent, path_parent))
-						treebrowser_browse(g_path_get_dirname(uri_new), &iter_parent);
+					gtk_tree_store_set(treestore, &iter,
+									TREEBROWSER_COLUMN_NAME, name_new,
+									TREEBROWSER_COLUMN_URI, uri_new,
+									-1);
+					path_parent = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
+					if (gtk_tree_path_up(path_parent))
+					{
+						if (gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter_parent, path_parent))
+							treebrowser_browse(g_path_get_dirname(uri_new), &iter_parent);
+						else
+							treebrowser_browse(g_path_get_dirname(uri_new), NULL);
+					}
 					else
 						treebrowser_browse(g_path_get_dirname(uri_new), NULL);
-				}
-				else
-					treebrowser_browse(g_path_get_dirname(uri_new), NULL);
 
-				if (!g_file_test(uri, G_FILE_TEST_IS_DIR))
-					if (document_close(document_find_by_filename(uri)))
-						document_open_file(uri_new, FALSE, NULL, NULL);
+					if (!g_file_test(uri, G_FILE_TEST_IS_DIR))
+						if (document_close(document_find_by_filename(uri)))
+							document_open_file(uri_new, FALSE, NULL, NULL);
+				}
 			}
 			g_free(uri_new);
 			g_free(uri);

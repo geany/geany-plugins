@@ -36,6 +36,27 @@
 +-------------------------------+
 
 
+01-11-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		Added dialog question when creating/removing file, to prevent from losing
+			target files if they exists.
+
+
+01-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* ChangeLog
+		Revision 1688, Modified Thu Oct 28 21:02:33 2010 UTC by colombanw
+
+		Build system: don't force building the Treebrowser plugin
+
+		If the dependencies of the Treebrowser plugin are not met, simply
+		disable the plugin rather than abort the whole build.
+
+		Also add checks for creat(), sys/types.h, sys/stat.h and fcntl.h, and
+		fix the check for GIO to correctly handle the case it's not available.
+
+
 25-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
