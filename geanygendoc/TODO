@@ -17,3 +17,12 @@
 
 * Add a pop-up menu to the document type selector for common actions (edit,
   clear, etc.).
+
+* When user choose "edit current language configuration", don't copy the system
+  configuration if the user don't have one, but simply open the system one with
+  the correct path for it to be saved on the user's configurations directory
+  when actually saved.
+  This would implement "copy on write" style copying, which would avoid landing
+  user configuration files just because they opened it once (e.g. by mistake).
+  This is a real problem since we use user's config first, so they won't get
+  the possible updates of the default distribution in such cases.
