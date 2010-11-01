@@ -31,6 +31,10 @@
 #include "gwh-settings.h"
 
 
+#define PLUGIN_NAME     "Web Helper"
+#define PLUGIN_TARNAME  "web-helper"
+
+
 GeanyPlugin      *geany_plugin;
 GeanyData        *geany_data;
 GeanyFunctions   *geany_functions;
@@ -104,7 +108,7 @@ static gchar *
 get_config_filename (void)
 {
   return g_build_filename (geany_data->app->configdir, "plugins",
-                           PACKAGE_TARNAME, PACKAGE_TARNAME".conf", NULL);
+                           PLUGIN_TARNAME, PLUGIN_TARNAME".conf", NULL);
 }
 
 static void
