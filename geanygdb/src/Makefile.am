@@ -1,8 +1,13 @@
 include $(top_srcdir)/build/vars.build.mk
 
+if ENABLE_GEANYGDB
 geanygdbdir = $(libexecdir)/geany-plugins/geanygdb
 geanyplugins_LTLIBRARIES = geanygdb.la
 geanygdb_PROGRAMS = ttyhelper
+else
+EXTRA_LTLIBRARIES = geanygdb.la
+EXTRA_PROGRAMS = ttyhelper
+endif
 
 geanygdb_la_SOURCES = \
 	gdb-io.h \
