@@ -5,5 +5,5 @@ geanyplugins_LTLIBRARIES = updatechecker.la
 else
 EXTRA_LTLIBRARIES = updatechecker.la
 endif
-geanylipsum_la_SOURCES = updatechecker.c
-geanylipsum_la_LIBADD = $(COMMONLIBS)
+updatechecker_la_SOURCES = updatechecker.c
+updatechecker_la_LIBADD = $(COMMONLIBS)
