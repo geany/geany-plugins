@@ -14,7 +14,7 @@ AC_DEFUN([GP_CHECK_GEANYVC],
         PKG_CHECK_MODULES(GTKSPELL, [gtkspell-2.0])
     fi
 
-    if [[ "$enable_gtkspell" = yes -a "$enable_geanyvc" no ]]; then
+    if [[ "$enable_gtkspell" = yes -a "$enable_geanyvc" = no ]]; then
        AC_MSG_WARN([GtkSpell support for GeanyVC enabled, but GeanyVC itself not enabled.])
     fi
 

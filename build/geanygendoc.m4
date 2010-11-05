@@ -8,7 +8,7 @@ AC_DEFUN([GP_CHECK_GEANYGENDOC],
     CTPL_VERSION=0.3
 
     GP_CHECK_PLUGIN_DEPS([GeanyGenDoc], GEANYGENDOC,
-                         [gtk+-2.0 >= ${GK_VERSION}
+                         [gtk+-2.0 >= ${GTK_VERSION}
                           glib-2.0 >= ${GLIB_VERSION}
                           gio-2.0 >= ${GIO_VERSION}
                           ctpl >= ${CTPL_VERSION}])
