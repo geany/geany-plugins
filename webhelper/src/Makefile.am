@@ -36,17 +36,9 @@ webhelper_la_CPPFLAGS = $(AM_CPPFLAGS) \
                         -I$(srcdir) -I$(builddir) \
                         -DG_LOG_DOMAIN=\"WebHelper\"
 webhelper_la_CFLAGS   = $(AM_CFLAGS) \
-                        $(GLIB_CFLAGS) \
-                        $(GIO_CFLAGS) \
-                        $(GTK_CFLAGS) \
-                        $(GDK_PIXBUF_CFLAGS) \
-                        $(WEBKIT_CFLAGS)
+                        $(WEBHELPER_CFLAGS)
 webhelper_la_LIBADD   = $(COMMONLIBS) \
-                        $(GLIB_LIBS) \
-                        $(GIO_LIBS) \
-                        $(GTK_LIBS) \
-                        $(GDK_PIXBUF_LIBS) \
-                        $(WEBKIT_LIBS)
+                        $(WEBHELPER_LIBS)
 
 gwh-enum-types.c: $(srcdir)/gwh-enum-types.c.tpl gwh-enum-types.h $(headers) Makefile
 	$(AM_V_GEN)$(GLIB_MKENUMS) --template $< $(headers:%=$(srcdir)/%) > $@
