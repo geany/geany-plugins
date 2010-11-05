@@ -1,14 +1,18 @@
 AC_DEFUN([GP_CHECK_TREEBROWSER],
 [
-    AC_ARG_ENABLE(treebrowser,
-        AC_HELP_STRING([--enable-treebrowser=ARG],
-            [Enable TreeBrowser plugin [[default=auto]]]),,
-        [enable_treebrowser=auto])
+    GP_ARG_DISABLE([Treebrowser], [auto])
+    if [[ "$enable_treebrowser" != no ]]; then
+        AC_CHECK_FUNC([creat],,
+            [
+                if [[ "$enable_treebrowser" = auto ]]; then
+                    enable_treebrowser=no
+                else
+                    AC_MSG_ERROR([Treebrowser cannot be enabled because creat() is missing.
+                                  Please disable it (--disable-treebrowser) or make sure creat()
+                                  works on your system.])
+                fi
+            ])
 
-    treebrowser_have_creat=yes
-    AC_CHECK_HEADERS([sys/types.h sys/stat.h fcntl.h],
-                     [], [treebrowser_have_creat=no])
-    AC_CHECK_FUNC([creat], [], [treebrowser_have_creat=no])
     PKG_CHECK_MODULES([GIO], [gio-2.0],
         [AC_DEFINE([HAVE_GIO], 1, [Whether we have GIO])],
         [AC_MSG_NOTICE([Treebrowser GIO support is disabled because of the following problem: $GIO1_PKG_ERRORS])])

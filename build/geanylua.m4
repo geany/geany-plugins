@@ -1,9 +1,6 @@
 AC_DEFUN([GP_CHECK_GEANYLUA],
 [
-    AC_ARG_ENABLE(geanylua,
-        AC_HELP_STRING([--enable-geanylua=ARG],
-            [Enable GeanyLua plugin [[default=auto]]]),,
-        [enable_geanylua=auto])
+    GP_ARG_DISABLE([GeanyLua], [auto])
 
     AC_ARG_WITH([lua-pkg],
         AC_HELP_STRING([--with-lua-pkg=ARG],
@@ -18,15 +15,8 @@ AC_DEFUN([GP_CHECK_GEANYLUA],
         done])
 
     LUA_VERSION=5.1
-    if [[ x"$enable_geanylua" = "xauto" ]]; then
-        PKG_CHECK_MODULES(LUA, [${LUA_PKG_NAME} >= ${LUA_VERSION}],
-            [enable_geanylua=yes],
-            [enable_geanylua=no])
-    elif [[ x"$enable_geanylua" = "xyes" ]]; then
-        PKG_CHECK_MODULES(LUA, [${LUA_PKG_NAME} >= ${LUA_VERSION}])
-    fi
-
-    AM_CONDITIONAL(ENABLE_GEANYLUA, test $enable_geanylua = yes)
+    GP_CHECK_PLUGIN_DEPS([GeanyLua], [LUA],
+                         [${LUA_PKG_NAME} >= ${LUA_VERSION}])
     GP_STATUS_PLUGIN_ADD([GeanyLua], [$enable_geanylua])
 
     AC_CONFIG_FILES([
