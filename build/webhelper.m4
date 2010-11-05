@@ -19,7 +19,7 @@ AC_DEFUN([GP_CHECK_WEBHELPER],
     fi
 
     GP_CHECK_PLUGIN_DEPS([WebHelper], [WEBHELPER],
-                         [gtk-2.0 >= ${GTK_VERSION}
+                         [gtk+-2.0 >= ${GTK_VERSION}
                           glib-2.0 >= ${GLIB_VERSION}
                           gio-2.0 >= ${GIO_VERSION}
                           gdk-pixbuf-2.0 >= ${GDK_PIXBUF_VERSION}
