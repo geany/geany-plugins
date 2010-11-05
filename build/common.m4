@@ -15,7 +15,7 @@ AC_DEFUN([GP_ARG_DISABLE],
     dnl if enableval is not auto, then we make the decision here. Otherwise this
     dnl this needs to be done in GP_CHECK_PLUGIN_DEPS
     if test "$m4_tolower(AS_TR_SH(enable_$1))" != "auto"; then
-        AM_CONDITIONAL(m4_toupper(ENABLE_$1),
+        AM_CONDITIONAL(m4_toupper(AS_TR_SH(ENABLE_$1)),
                        test "m4_tolower($AS_TR_SH(enable_$1))" = "yes")
     fi
 ])
@@ -33,5 +33,5 @@ AC_DEFUN([GP_CHECK_PLUGIN_DEPS],
                           [m4_tolower(AS_TR_SH(enable_$1))=no])
     fi
 
-    AM_CONDITIONAL(m4_toupper(ENABLE_$2), test "$m4_tolower(AS_TR_SH(enable_$1_)" = yes)
+    AM_CONDITIONAL(m4_toupper(AS_TR_SH(ENABLE_$2)), test "$m4_tolower(AS_TR_SH(enable_$1_)" = yes)
 ])
