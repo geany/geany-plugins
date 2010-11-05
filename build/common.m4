@@ -33,5 +33,5 @@ AC_DEFUN([GP_CHECK_PLUGIN_DEPS],
                           [m4_tolower(AS_TR_SH(enable_$1))=no])
     fi
 
-    AM_CONDITIONAL(m4_toupper(AS_TR_SH(ENABLE_$2)), test "$m4_tolower(AS_TR_SH(enable_$1_)" = yes)
+    AM_CONDITIONAL(m4_toupper(AS_TR_SH(ENABLE_$2)), test "$m4_tolower(AS_TR_SH(enable_$1_)" = yes))
 ])
