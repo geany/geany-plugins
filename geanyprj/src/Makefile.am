@@ -1,6 +1,10 @@
 include $(top_srcdir)/build/vars.build.mk
 
+if ENABLE_GEANYPRJ
 geanyplugins_LTLIBRARIES = geanyprj.la
+else
+EXTRA_LTLIBRARIES = geanyprj.la
+endif
 geanyprj_la_SOURCES = geanyprj.c \
 	geanyprj.h \
 	menu.c \
