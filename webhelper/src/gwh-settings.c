@@ -176,7 +176,7 @@ gwh_settings_class_init (GwhSettingsClass *klass)
   g_object_class_install_property (object_class, PROP_BROWSER_LAST_URI,
                                    g_param_spec_string ("browser-last-uri",
                                                         "Browser last URI",
-                                                        "Last URI visited with the browser",
+                                                        "Last URI visited by the browser",
                                                         "about:blank",
                                                         G_PARAM_READWRITE));
   g_object_class_install_property (object_class, PROP_BROWSER_ORIENTATION,
@@ -188,8 +188,8 @@ gwh_settings_class_init (GwhSettingsClass *klass)
                                                       G_PARAM_READWRITE));
   g_object_class_install_property (object_class, PROP_BROWSER_POSITION,
                                    g_param_spec_enum ("browser-position",
-                                                      "browser position",
-                                                      "Position of the browser widget in the Geany's UI",
+                                                      "Browser position",
+                                                      "Position of the browser widget in Geany's UI",
                                                       GWH_TYPE_BROWSER_POSITION,
                                                       GWH_BROWSER_POSITION_BOTTOM,
                                                       G_PARAM_READWRITE));
@@ -266,7 +266,8 @@ key_file_set_value (GKeyFile     *kf,
       enum_value = g_enum_get_value (enum_class, val);
       if (! enum_value) {
         g_set_error (error, G_KEY_FILE_ERROR, G_KEY_FILE_ERROR_INVALID_VALUE,
-                     "Value %d is not valid for key %s::%s", val, group, key);
+                     "Value \"%d\" is not valid for key \"%s::%s\"",
+                     val, group, key);
       } else {
         g_key_file_set_string (kf, group, key, enum_value->value_nick);
       }
@@ -284,7 +285,7 @@ key_file_set_value (GKeyFile     *kf,
     
     default:
       g_set_error (error, G_KEY_FILE_ERROR, G_KEY_FILE_ERROR_INVALID_VALUE,
-                   "Unsupported setting type %s for setting %s::%s",
+                   "Unsupported setting type \"%s\" for setting \"%s::%s\"",
                    G_VALUE_TYPE_NAME (value), group, key);
       success =  FALSE;
   }
@@ -370,7 +371,7 @@ key_file_get_value (GKeyFile     *kf,
         enum_value = g_enum_get_value_by_nick (enum_class, str);
         if (! enum_value) {
           g_set_error (&err, G_KEY_FILE_ERROR, G_KEY_FILE_ERROR_INVALID_VALUE,
-                       "Value \"%s\" is not valid for key %s::%s",
+                       "Value \"%s\" is not valid for key \"%s::%s\"",
                        str, group, key);
         } else {
           g_value_set_enum (value, enum_value->value);
@@ -403,7 +404,7 @@ key_file_get_value (GKeyFile     *kf,
     
     default:
       g_set_error (&err, G_KEY_FILE_ERROR, G_KEY_FILE_ERROR_INVALID_VALUE,
-                   "Unsupported setting type %s for setting %s::%s",
+                   "Unsupported setting type \"%s\" for setting \"%s::%s\"",
                    G_VALUE_TYPE_NAME (value), group, key);
   }
   if (err) {

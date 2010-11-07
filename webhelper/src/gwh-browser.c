@@ -19,8 +19,11 @@
 
 #include "gwh-browser.h"
 
+#include "config.h"
+
 #include <stdio.h>
 #include <glib.h>
+#include <glib/gi18n-lib.h>
 #include <gtk/gtk.h>
 #include <webkit/webkit.h>
 
@@ -457,7 +460,7 @@ on_web_view_populate_popup (WebKitWebView *view,
   
   /* Zoom menu */
   submenu = gtk_menu_new ();
-  item = gtk_menu_item_new_with_mnemonic ("_Zoom");
+  item = gtk_menu_item_new_with_mnemonic (_("_Zoom"));
   gtk_widget_show (item);
   gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), submenu);
   gtk_menu_append (menu, item);
@@ -479,7 +482,7 @@ on_web_view_populate_popup (WebKitWebView *view,
   gtk_menu_append (GTK_MENU (submenu), item);
   /* full content zoom */
   ADD_SEPARATOR (submenu);
-  item = gtk_check_menu_item_new_with_mnemonic ("Full-_content zoom");
+  item = gtk_check_menu_item_new_with_mnemonic (_("Full-_content zoom"));
   gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item),
                                   webkit_web_view_get_full_content_zoom (view));
   g_signal_connect (item, "activate",
@@ -490,7 +493,7 @@ on_web_view_populate_popup (WebKitWebView *view,
   
   ADD_SEPARATOR (menu);
   
-  item = gtk_menu_item_new_with_label ("Flip panes orientation");
+  item = gtk_menu_item_new_with_label (_("Flip panes orientation"));
   g_signal_connect (item, "activate",
                     G_CALLBACK (on_item_flip_orientation_activate), self);
   gtk_widget_show (item);
@@ -729,19 +732,19 @@ create_toolbar (GwhBrowser *self)
                           NULL);
   
   self->priv->item_prev = gtk_tool_button_new_from_stock (GTK_STOCK_GO_BACK);
-  gtk_tool_item_set_tooltip_text (self->priv->item_prev, "Back");
+  gtk_tool_item_set_tooltip_text (self->priv->item_prev, _("Back"));
   gtk_toolbar_insert (GTK_TOOLBAR (toolbar), self->priv->item_prev, -1);
   gtk_widget_show (GTK_WIDGET (self->priv->item_prev));
   self->priv->item_next = gtk_tool_button_new_from_stock (GTK_STOCK_GO_FORWARD);
-  gtk_tool_item_set_tooltip_text (self->priv->item_next, "Forward");
+  gtk_tool_item_set_tooltip_text (self->priv->item_next, _("Forward"));
   gtk_toolbar_insert (GTK_TOOLBAR (toolbar), self->priv->item_next, -1);
   gtk_widget_show (GTK_WIDGET (self->priv->item_next));
   self->priv->item_cancel = gtk_tool_button_new_from_stock (GTK_STOCK_CANCEL);
-  gtk_tool_item_set_tooltip_text (self->priv->item_cancel, "Cancel loading");
+  gtk_tool_item_set_tooltip_text (self->priv->item_cancel, _("Cancel loading"));
   gtk_toolbar_insert (GTK_TOOLBAR (toolbar), self->priv->item_cancel, -1);
   /* don't show cancel */
   self->priv->item_reload = gtk_tool_button_new_from_stock (GTK_STOCK_REFRESH);
-  gtk_tool_item_set_tooltip_text (self->priv->item_reload, "Reload current page");
+  gtk_tool_item_set_tooltip_text (self->priv->item_reload, _("Reload current page"));
   gtk_toolbar_insert (GTK_TOOLBAR (toolbar), self->priv->item_reload, -1);
   gtk_widget_show (GTK_WIDGET (self->priv->item_reload));
   
@@ -754,8 +757,8 @@ create_toolbar (GwhBrowser *self)
   gtk_widget_show_all (GTK_WIDGET (item));
   
   self->priv->item_inspector = gtk_toggle_tool_button_new_from_stock (GTK_STOCK_INFO);
-  gtk_tool_button_set_label (GTK_TOOL_BUTTON (self->priv->item_inspector), "Web inspector");
-  gtk_tool_item_set_tooltip_text (self->priv->item_inspector, "Toggle web inspector");
+  gtk_tool_button_set_label (GTK_TOOL_BUTTON (self->priv->item_inspector), _("Web inspector"));
+  gtk_tool_item_set_tooltip_text (self->priv->item_inspector, _("Toggle web inspector"));
   gtk_toolbar_insert (GTK_TOOLBAR (toolbar), self->priv->item_inspector, -1);
   gtk_widget_show (GTK_WIDGET (self->priv->item_inspector));
   
@@ -827,7 +830,7 @@ gwh_browser_init (GwhBrowser *self)
   self->priv->inspector_window = g_object_new (GTK_TYPE_WINDOW,
                                                "type", GTK_WINDOW_TOPLEVEL,
                                                "skip-taskbar-hint", TRUE,
-                                               "title", "Web inspector",
+                                               "title", _("Web inspector"),
                                                NULL);
   g_signal_connect (self->priv->inspector_window, "delete-event",
                     G_CALLBACK (on_inspector_window_delete_event), self);

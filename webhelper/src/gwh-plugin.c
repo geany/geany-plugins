@@ -17,16 +17,18 @@
  *  
  */
 
+#include "config.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <glib.h>
+#include <glib/gi18n-lib.h>
 #include <gtk/gtk.h>
 
 #include <geanyplugin.h>
 #include <geany.h>
 #include <document.h>
 
-#include "config.h"
 #include "gwh-browser.h"
 #include "gwh-settings.h"
 
@@ -95,7 +97,7 @@ on_browser_populate_popup (GwhBrowser *browser,
   
   g_object_get (G_OBJECT (G_settings), "browser-auto-reload", &auto_reload,
                 NULL);
-  item = gtk_check_menu_item_new_with_mnemonic ("Reload upon document saving");
+  item = gtk_check_menu_item_new_with_mnemonic (_("Reload upon document saving"));
   gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), auto_reload);
   gtk_widget_show (item);
   gtk_menu_append (menu, item);
