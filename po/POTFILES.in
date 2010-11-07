@@ -125,3 +125,6 @@ geanyextrasel/src/extrasel.c
 
 # UpdateChecker
 updatechecker/src/updatechecker.c
+
+# WebHelper
+webhelper/src/gwh-plugin.c
