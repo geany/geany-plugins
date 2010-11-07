@@ -31,7 +31,7 @@ GeanyFunctions	*geany_functions;
 PLUGIN_VERSION_CHECK(150)
 
 PLUGIN_SET_INFO(_("Insert Numbers"), _("Insert/Fill columns with numbers."),
-		"0.1", "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>");
+		"0.2", "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>");
 
 /* Keybinding(s) */
 enum
@@ -43,12 +43,12 @@ enum
 PLUGIN_KEY_GROUP(insert_numbers, COUNT_KB)
 
 /* when altering the RANGE_ or MAX_LINES, make sure that RANGE_ * MAX_LINES
-   fit in gint64, and that RANGE_LEN is enough for RANGE_ digits and '-' */
+   fit in gint64, and that RANGE_LEN is enough for RANGE_ digits and sign */
 #define RANGE_MIN (-2147483647 - 1)
 #define RANGE_MAX 2147483647
 #define RANGE_LEN 11
 #define RANGE_TOOLTIP "-2147483648..2147483647"
-#define MAX_LINES 500000
+#define MAX_LINES 100000
 
 typedef struct _InsertNumbersDialog
 {
@@ -64,10 +64,10 @@ static GObject *tools1_menu = NULL;
 static GtkWidget *main_menu_item = NULL;
 static gint start_pos, start_line;
 static gint end_pos, end_line;
-/* dialog data */
-static gchar *start_text = NULL;
-static gchar *step_text = NULL;
-static gchar *base_text = NULL;
+/* input data */
+static gint64 start_value;
+static gint64 step_value;
+static gint base_value;
 static gboolean lower_case = 0;
 static gboolean base_prefix = 0;
 static gboolean pad_zeros = 0;
@@ -76,13 +76,6 @@ static void plugin_beep(void)
 {
 	if (geany_data->prefs->beep_on_errors)
 		gdk_beep();
-}
-
-static void free_insert_dialog_data(void)
-{
-	g_free(start_text);
-	g_free(step_text);
-	g_free(base_text);
 }
 
 static gboolean can_insert_numbers(void)
@@ -134,11 +127,9 @@ static void insert_numbers(gboolean *cancel)
 	gint *line_pos = g_new(gint, end_line - start_line + 1);
 	gint line, i;
 	/* generator */
-	gint64 start = *start_text ? atol(start_text) : 1;
+	gint64 start = start_value;
 	gint64 value;
-	unsigned base = *base_text ? atoi(base_text) : 10;
 	unsigned count = 0;
-	gint64 step = *step_text ? atol(step_text) : 1;
 	size_t prefix_len = 0;
 	int plus = 0, minus;
 	size_t length, lend;
@@ -173,20 +164,20 @@ static void insert_numbers(gboolean *cancel)
 		}
 	}
 
-	switch (base * base_prefix)
+	switch (base_value * base_prefix)
 	{
 		case 8 : prefix_len = 1; break;
 		case 16 : prefix_len = 2; break;
 		case 10 : plus++;
 	}
 
-	value = start + (count - 1) * step;
+	value = start + (count - 1) * step_value;
 	minus = start < 0 || value < 0;
 	lend = plus || (pad_zeros ? minus : value < 0);
-	while (value /= base) lend++;
+	while (value /= base_value) lend++;
 	value = start;
 	length = plus || (pad_zeros ? minus : value < 0);
-	while (value /= base) length++;
+	while (value /= base_value) length++;
 	length = prefix_len + (length > lend ? length : lend) + 1;
 
 	buffer = g_new(gchar, length + 1);
@@ -216,9 +207,9 @@ static void insert_numbers(gboolean *cancel)
 
 		do
 		{
-			unsigned digit = value % base;
+			unsigned digit = value % base_value;
 			*--end = digit + (digit < 10 ? '0' : aax);
-		} while (value /= base);
+		} while (value /= base_value);
 
 		if (pad_zeros)
 		{
@@ -239,7 +230,7 @@ static void insert_numbers(gboolean *cancel)
 		memset(beg, pad, end - beg);
 		insert_pos = sci_get_position_from_line(sci, line) + line_pos[i];
 		sci_insert_text(sci, insert_pos, buffer);
-		start += step;
+		start += step_value;
 
 		if (cancel && i % 1000 == 0)
 		{
@@ -258,55 +249,22 @@ static void insert_numbers(gboolean *cancel)
 }
 
 /* interface */
-static gboolean range_valid(const gchar *text)
+static void on_base_insert_text(G_GNUC_UNUSED GtkEntry *entry, const gchar *text, gint length,
+	G_GNUC_UNUSED gint *position, G_GNUC_UNUSED gpointer data)
 {
-	gint64 value = atoll(text);
-	return value >= RANGE_MIN && value <= RANGE_MAX;
-}
-
-static gboolean base_valid(const gchar *text)
-{
-	return atoi(text) <= 36;
-}
-
-static void on_entry_insert_text(GtkEntry *entry, const gchar *text, gint length, gint *position,
-	gpointer data)
-{
-	GtkEditable *editable = GTK_EDITABLE(entry);
-  	gint i, start = *position, pos = *position;
-	gchar *result;
+	gint i;
 
 	if (length == -1)
 		length = strlen(text);
-	result = g_new(gchar, strlen(gtk_entry_get_text(entry)) + length + 1);
-	strcpy(result, gtk_entry_get_text(entry));
 
 	for (i = 0; i < length; i++)
 	{
-		if (isdigit(text[i]) || (data == range_valid && pos == 0 && text[i] == '-'))
+		if (!isdigit(text[i]))
 		{
-			memmove(result + pos + 1, result + pos, strlen(result + pos) + 1);
-			result[pos++] = text[i];
-			if (!((entry_valid) data)(result))
-			{
-				pos = start;
-				plugin_beep();
-				break;
-			}
+			g_signal_stop_emission_by_name(G_OBJECT(entry), "insert-text");
+			break;
 		}
 	}
-
-	if (pos > start)
-	{
-		g_signal_handlers_block_by_func(G_OBJECT(editable),
-			G_CALLBACK(on_entry_insert_text), data);
-		gtk_editable_insert_text(editable, result + start, pos - start, position);
-		g_signal_handlers_unblock_by_func(G_OBJECT(editable),
-			G_CALLBACK(on_entry_insert_text), data);
-	}
-
-	g_signal_stop_emission_by_name(G_OBJECT(editable), "insert_text");
-	g_free(result);
 }
 
 static void on_insert_numbers_response(G_GNUC_UNUSED GtkDialog *dialog,
@@ -320,17 +278,16 @@ static void on_insert_numbers_ok_clicked(G_GNUC_UNUSED GtkButton *button, gpoint
 	InsertNumbersDialog *d = (InsertNumbersDialog *) user_data;
 	GtkWidget *bad_entry = NULL;
 
-	free_insert_dialog_data();
-	start_text = g_strdup(gtk_entry_get_text(GTK_ENTRY(d->start)));
-	step_text = g_strdup(gtk_entry_get_text(GTK_ENTRY(d->step)));
-	base_text = g_strdup(gtk_entry_get_text(GTK_ENTRY(d->base)));
+	start_value = gtk_spin_button_get_value(GTK_SPIN_BUTTON(d->start));
+	step_value = gtk_spin_button_get_value(GTK_SPIN_BUTTON(d->step));
+	base_value = atoi(gtk_entry_get_text(GTK_ENTRY(d->base)));
 	lower_case = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(d->lower));
 	base_prefix = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(d->prefix));
 	pad_zeros = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(d->zero));
 
-	if (!strcmp(step_text, "-"))
+	if (!step_value)
 		bad_entry = d->step;
-	else if (*base_text && atoi(base_text) < 2)
+	else if (base_value < 2 || base_value > 36)
 		bad_entry = d->base;
 
 	if (bad_entry)
@@ -343,12 +300,10 @@ static void on_insert_numbers_ok_clicked(G_GNUC_UNUSED GtkButton *button, gpoint
 	gtk_dialog_response(GTK_DIALOG(d->dialog), GTK_RESPONSE_ACCEPT);
 }
 
-static void set_entry(GtkWidget *entry, gint maxlen, GtkWidget *label, entry_valid valid,
-	const gchar *tooltip)
+static void set_entry(GtkWidget *entry, gint maxlen, GtkWidget *label, const gchar *tooltip)
 {
 	gtk_entry_set_max_length(GTK_ENTRY(entry), maxlen);
 	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
-	g_signal_connect(entry, "insert-text", G_CALLBACK(on_entry_insert_text), valid);
 	gtk_label_set_mnemonic_widget(GTK_LABEL(label), entry);
 	ui_widget_set_tooltip_text(entry, tooltip);
 }
@@ -361,6 +316,7 @@ static void on_insert_numbers_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GN
 	GtkTable *table;
 	GtkComboBox *combo;
 	const char *case_tip = _("For base 11 and above");
+	gchar *base_text;
 	gint result;
 
 	if (!can_insert_numbers())
@@ -384,20 +340,21 @@ static void on_insert_numbers_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GN
 
 	label = gtk_label_new_with_mnemonic(_("_Start:"));
 	gtk_table_attach_defaults(table, label, 0, 1, 0, 1);
-	d.start = gtk_entry_new();
-	set_entry(d.start, RANGE_LEN, label, range_valid, RANGE_TOOLTIP);
+	d.start = gtk_spin_button_new_with_range(RANGE_MIN, RANGE_MAX, 1);
+	set_entry(d.start, RANGE_LEN, label, RANGE_TOOLTIP);
 	gtk_table_attach_defaults(table, d.start, 1, 3, 0, 1);
 	label = gtk_label_new_with_mnemonic(_("S_tep:"));
 	gtk_table_attach_defaults(table, label, 3, 4, 0, 1);
-	d.step = gtk_entry_new();
-	set_entry(d.step, RANGE_LEN, label, range_valid, RANGE_TOOLTIP);
+	d.step = gtk_spin_button_new_with_range(RANGE_MIN, RANGE_MAX, 1);
+	set_entry(d.step, RANGE_LEN, label, RANGE_TOOLTIP);
 	gtk_table_attach_defaults(table, d.step, 4, 6, 0, 1);
 
 	label = gtk_label_new_with_mnemonic(_("_Base:"));
 	gtk_table_attach_defaults(table, label, 0, 1, 1, 2);
 	combo = GTK_COMBO_BOX(gtk_combo_box_entry_new_text());
 	d.base = gtk_bin_get_child(GTK_BIN(combo));
-	set_entry(d.base, 2, label, base_valid, "2..36");
+	set_entry(d.base, 2, label, "2..36");
+	g_signal_connect(d.base, "insert-text", G_CALLBACK(on_base_insert_text), NULL);
 	gtk_combo_box_append_text(combo, "2");
 	gtk_combo_box_append_text(combo, "8");
 	gtk_combo_box_append_text(combo, "10");
@@ -434,9 +391,11 @@ static void on_insert_numbers_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GN
 	GTK_WIDGET_SET_FLAGS(button, GTK_CAN_DEFAULT);
 	gtk_widget_grab_default(button);
 
-	gtk_entry_set_text(GTK_ENTRY(d.start), start_text);
-	gtk_entry_set_text(GTK_ENTRY(d.step), step_text);
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(d.start), start_value);
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(d.step), step_value);
+	base_text = g_strdup_printf("%d", base_value);
 	gtk_entry_set_text(GTK_ENTRY(d.base), base_text);
+	g_free(base_text);
 	gtk_button_clicked(GTK_BUTTON(lower_case ? d.lower : upper));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(d.prefix), base_prefix);
 	gtk_button_clicked(GTK_BUTTON(pad_zeros ? d.zero : space));
@@ -487,9 +446,9 @@ void plugin_init(G_GNUC_UNUSED GeanyData *data)
 {
 	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 
-	start_text = g_strdup("1");
-	step_text = g_strdup("1");
-	base_text = g_strdup("10");
+	start_value = 1;
+	step_value = 1;
+	base_value = 10;
 
 	main_menu_item = gtk_menu_item_new_with_mnemonic(_("Insert _Numbers"));
 	gtk_widget_show(main_menu_item);
@@ -513,5 +472,4 @@ void plugin_init(G_GNUC_UNUSED GeanyData *data)
 void plugin_cleanup(void)
 {
 	gtk_widget_destroy(main_menu_item);
-	free_insert_dialog_data();
 }

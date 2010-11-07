@@ -1,3 +1,9 @@
+2010-10-06  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/insertnum.c:
+   Replaced start and step entries with spins.
+   Decreased the number of lines to 100000.
+
 2010-03-12  Dimitar Zhekov  <hamster@mbox.contact.bg>
 
  * src/insertnum.c:
