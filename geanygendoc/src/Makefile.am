@@ -42,6 +42,6 @@ geanygendoc_la_CFLAGS = \
 	$(AM_CFLAGS) \
 	$(GEANYGENDOC_CFLAGS)
 
-geanygendoc_la_LIBADD =
+geanygendoc_la_LIBADD = \
 	$(COMMONLIBS) \
 	$(GEANYGENDOC_LIBS)
