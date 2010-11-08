@@ -562,6 +562,9 @@ gwh_browser_destroy (GtkObject *object)
   g_signal_handlers_disconnect_matched (self->priv->web_view,
                                         G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL,
                                         self);
+  g_signal_handlers_disconnect_matched (self->priv->settings,
+                                        G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL,
+                                        self);
   /* also destroy the window, since it has no parent that will tell it to die */
   gtk_widget_destroy (self->priv->inspector_window);
   
