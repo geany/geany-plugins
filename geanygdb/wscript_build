@@ -1,0 +1,44 @@
+# -*- coding: utf-8 -*-
+#
+# WAF build script for geany-plugins - GeanyGDB
+#
+# Copyright 2010 Enrico Tröger <enrico(dot)troeger(at)uvena(dot)de>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+# $Id$
+
+from build.wafutils import build_plugin
+
+
+name = 'GeanyGDB'
+includes = ['src', bld.out_dir]
+sources = ['gdb-io-break.c',
+           'gdb-io-envir.c', 'gdb-io-frame.c', 'gdb-io-read.c', 'gdb-io-run.c',
+           'gdb-io-stack.c', 'gdb-lex.c', 'gdb-ui-break.c', 'gdb-ui-envir.c',
+           'gdb-ui-frame.c',  'gdb-ui-locn.c', 'gdb-ui-main.c',
+           'geanygdb.c']
+sources = ['src/%s' % source_file for source_file in sources]
+
+
+build_plugin(bld, name, sources=sources, includes=includes)
+
+bld.new_task_gen(
+            features    = 'c cprogram',
+            source      = 'src/ttyhelper.c',
+            includes    = includes,
+            defines     = 'G_LOG_DOMAIN="%s"' % name,
+            target      = 'ttyhelper',
+            install_path = '${TTYHELPERDIR}')

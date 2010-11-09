@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # WAF build script for geany-plugins
@@ -24,582 +23,307 @@
 """
 Waf build script for Geany Plugins.
 
-If you want to add your plugin to this build system, simply add a Plugin object
-to the plugin list below by adding a new line and passing the appropiate
-values to the Plugin constructor. Everything below doesn't need to be changed.
+If you want to add your plugin to this build system, simply put a file called
+'wscript_build' into your plugin directory and add necessary code to build your
+plugin or simply copy the wscript_build file from another plugin
+and adjust the values.
+If special configuration is necessary, e.g. checking for dependencies of
+the plugin, create a file 'wscript_configure' and put the code into.
 
-If you need additional checks for header files, functions in libraries or
-need to check for library packages (using pkg-config), please ask Enrico
-before committing changes. Thanks.
 
 The code of this file itself loosely follows PEP 8 with some exceptions
 (line width 100 characters and some other minor things).
 
-Requires WAF 1.5.7 and Python 2.4 (or later).
+Requires WAF 1.6.0 and Python 2.4 (or later).
 """
 
-
-import glob
 import os
-import sys
 import tempfile
-from distutils import version
-import Build
-import Options
-import Utils
-import preproc
-from TaskGen import taskgen, feature
+from waflib import Logs, Scripting
+from waflib.Tools import c_preproc
+from waflib.Errors import ConfigurationError
+from waflib.TaskGen import feature
+from build.wafutils import (
+    add_define_to_env,
+    add_to_env_and_define,
+    check_cfg_cached,
+    get_plugins,
+    get_enabled_plugins,
+    get_svn_rev,
+    launch,
+    load_intltool_if_available,
+    set_lib_dir,
+    setup_makefile,
+    target_is_win32)
 
 
 APPNAME = 'geany-plugins'
 VERSION = '0.20'
+LINGUAS_FILE = 'po/LINGUAS'
 
-srcdir = '.'
-blddir = '_build_'
-
-
-class Plugin:
-	def __init__(self, name, sources, includes, deps=[]):
-		# plugin name, must be the same as the corresponding subdirectory
-		self.log_domain = name
-		self.name = name.lower()
-		# may be None to auto-detect source files in all directories specified in 'includes'
-		self.sources = sources
-		# do not include '.'
-		self.includes = includes
-		# a list of lists of libs and their versions, e.g. [ [ 'enchant', '1.3' ],
-		# [ 'gtkspell-2.0', '2.0', False ] ], the third argument defines whether
-		# the dependency is mandatory
-		self.libs = deps
-
-# add a new element for your plugin
-plugins = [
-	Plugin('Addons', None, [ 'addons/src' ]),
-	Plugin('CodeNav', None, [ 'codenav/src' ]),
-	Plugin('GeanyDoc', None, [ 'geanydoc/src' ]),
-	Plugin('GeanyExtraSel', None, [ 'geanyextrasel/src' ]),
-	Plugin('GeanyGenDoc', None, [ 'geanygendoc/src' ], [ [ 'ctpl', '0.3', True ] ]),
-	Plugin('GeanyInsertNum', None, [ 'geanyinsertnum/src' ]),
-	Plugin('GeanyLaTeX', None, [ 'geanylatex/src']),
-	Plugin('GeanyLipsum', None, [ 'geanylipsum/src']),
-	Plugin('GeanySendMail', None, [ 'geanysendmail/src' ]),
-	Plugin('GeanyVC', None, [ 'geanyvc/src/'], [ [ 'gtkspell-2.0', '2.0', False ] ]),
-	Plugin('ShiftColumn', None, [ 'shiftcolumn/src']),
-	Plugin('SpellCheck', None, [ 'spellcheck/src' ], [ [ 'enchant', '1.3', True ] ]),
-	Plugin('GeanyGDB',
-		 map(lambda x: "geanygdb/src/" + x, ['gdb-io-break.c',
-		   'gdb-io-envir.c', 'gdb-io-frame.c', 'gdb-io-read.c', 'gdb-io-run.c',
-		   'gdb-io-stack.c', 'gdb-lex.c', 'gdb-ui-break.c', 'gdb-ui-envir.c',
-		   'gdb-ui-frame.c',  'gdb-ui-locn.c', 'gdb-ui-main.c',
-		   'geanygdb.c']), # source files
-		 [ 'geanygdb', 'geanygdb/src' ], # include dirs
-		 [ [ 'elf.h', '', False ], [ 'elf_abi.h', '', False ] ]
-		 ),
-	Plugin('GeanyLUA',
-		 [ 'geanylua/geanylua.c' ], # the other source files are listed in build_lua()
-		 [ 'geanylua' ],
-		 [ [ 'lua', '5.1', False ],
-		   [ 'lua5.1', '5.1', False ],
-		   [ 'lua51', '5.1', False ],
-		   [ 'lua-5.1', '5.1', False ] ]),
-	Plugin('GeanyPrj', None, [ 'geanyprj/src' ]),
-	Plugin('Pretty-Printer', None, [ 'pretty-printer/src' ], [ [ 'libxml-2.0', '2.6.27', True ] ]),
-	Plugin('TreeBrowser', None, [ 'treebrowser/src' ],
-		   [ [ 'gio-2.0', '2.16', False ],
-			 [ 'sys/types.h', '', True ],
-			 [ 'sys/stat.h', '', True ],
-			 [ 'fcntl.h', '', True] ]),
-	Plugin('Updatechecker', None, [ 'updatechecker/src' ], [ ['libsoup-2.4', '2.4.0', True] ])
-]
-
-'''
-temporary_disabled_plugins
-	Plugin('externdbg',
-		 [ 'externdbg/src/dbg.c' ], # source files
-		 [ 'externdbg', 'externdbg/src' ] # include dirs
-		 ),
-	Plugin('geany-mini-script',
-		 [ 'geany-mini-script/src/gms.c', 'geany-mini-script/src/gms_gui.c' ], # source files
-		 [ 'geany-mini-script', 'geany-mini-script/src' ] # include dirs
-		 )
-'''
+top = '.'
+out = '_build_'
 
 
-makefile_template = '''#!/usr/bin/make -f
-# Waf Makefile wrapper
+c_preproc.go_absolute = True
+c_preproc.standard_includes = []
 
-all:
-	@./waf build
-
-update-po:
-	@./waf --update-po
-
-install:
-	@if test -n "$(DESTDIR)"; then \\
-		./waf install --destdir="$(DESTDIR)"; \\
-	else \\
-		./waf install; \\
-	fi;
-
-uninstall:
-	@if test -n "$(DESTDIR)"; then \\
-		./waf uninstall --destdir="$(DESTDIR)"; \\
-	else \\
-		./waf uninstall; \\
-	fi;
-
-clean:
-	@./waf clean
-
-distclean:
-	@./waf distclean
-
-.PHONY: clean uninstall install all
-'''
-
-
-preproc.go_absolute = True
-preproc.standard_includes = []
 
 def configure(conf):
-	def in_git():
-		cmd = 'git ls-files >/dev/null 2>&1'
-		return (Utils.exec_command(cmd) == 0)
 
-	def in_svn():
-		return os.path.exists('.svn')
+    # a C compiler is the very minimum we need
+    conf.load('compiler_c')
 
-	def conf_get_svn_rev():
-		# try GIT
-		if in_git():
-			cmds = [ 'git svn find-rev HEAD 2>/dev/null',
-					 'git svn find-rev origin/trunk 2>/dev/null',
-					 'git svn find-rev trunk 2>/dev/null',
-					 'git svn find-rev master 2>/dev/null'
-					]
-			for c in cmds:
-				try:
-					stdout = Utils.cmd_output(c)
-					if stdout:
-						return stdout.strip()
-				except:
-					pass
-		# try SVN
-		elif in_svn():
-			try:
-				_env = None if is_win32 else {'LANG' : 'C'}
-				stdout = Utils.cmd_output(cmd='svn info --non-interactive', silent=True, env=_env)
-				lines = stdout.splitlines(True)
-				for line in lines:
-					if line.startswith('Last Changed Rev'):
-						key, value = line.split(': ', 1)
-						return value.strip()
-			except:
-				pass
-		else:
-			pass
-		return '-1'
+    # common for all plugins
+    check_cfg_cached(conf,
+                   package='gtk+-2.0',
+                   atleast_version='2.8.0',
+                   uselib_store='GTK',
+                   mandatory=True,
+                   args='--cflags --libs')
+    check_cfg_cached(conf,
+                   package='geany',
+                   atleast_version=VERSION,
+                   uselib_store='GEANY',
+                   mandatory=True,
+                   args='--cflags --libs')
 
-	def set_lib_dir():
-		# use the libdir specified on command line
-		if Options.options.libdir:
-			conf.define('LIBDIR', Options.options.libdir, 1)
-		else:
-			# get Geany's libdir (this should be the default case for most users)
-			libdir = conf.check_cfg(package='geany', args='--variable=libdir')
-			if libdir:
-				conf.define('LIBDIR', libdir.strip(), 1)
-			else:
-				conf.define('LIBDIR', conf.env['PREFIX'] + '/lib', 1)
+    set_lib_dir(conf)
+    # SVN/GIT detection
+    svn_rev = get_svn_rev(conf)
+    conf.define('REVISION', svn_rev, 1)
+    # GTK/Geany versions
+    geany_version = conf.check_cfg(modversion='geany') or 'Unknown'
+    gtk_version = conf.check_cfg(modversion='gtk+-2.0') or 'Unknown'
 
-	conf.check_tool('compiler_cc')
-	# we don't require intltool on Windows (it would require Perl) though it works well
-	try:
-		conf.check_tool('intltool')
-		if 'LINGUAS' in os.environ:
-			conf.env['LINGUAS'] = os.environ['LINGUAS']
-	except:
-		pass
+    load_intltool_if_available(conf)
 
-	is_win32 = target_is_win32(conf.env)
+    # build plugin list
+    enabled_plugins = get_enabled_plugins(conf)
 
-	if not is_win32:
-		set_lib_dir()
-		# libexec (e.g. for geanygdb)
-		if Options.options.libexecdir:
-			conf.define('LIBEXECDIR', Options.options.libexecdir, 1)
-		else:
-			conf.define('LIBEXECDIR', conf.env['PREFIX'] + '/libexec', 1)
+    # execute plugin specific coniguration code
+    configure_plugins(conf, enabled_plugins)
+    # now add the enabled_plugins to the env to remember them
+    conf.env.append_value('enabled_plugins', enabled_plugins)
+
+    setup_configuration_env(conf)
+    setup_makefile(conf)
+    conf.write_config_header('config.h')
+
+    # enable debug when compiling from VCS
+    if svn_rev > 0:
+        conf.env.append_value('CFLAGS', '-g -DDEBUG'.split()) # -DGEANY_DISABLE_DEPRECATED
+
+    # summary
+    Logs.pprint('BLUE', 'Summary:')
+    conf.msg('Install Geany Plugins ' + VERSION + ' in', conf.env['G_PREFIX'])
+    conf.msg('Using GTK version', gtk_version)
+    conf.msg('Using Geany version', geany_version)
+    if svn_rev > 0:
+        conf.msg('Compiling Subversion revision', svn_rev)
+    conf.msg('Plugins to compile', ' '.join(enabled_plugins))
 
 
-	conf.check_cfg(package='gtk+-2.0', atleast_version='2.8.0', uselib_store='GTK',
-		mandatory=True, args='--cflags --libs')
-	conf.check_cfg(package='geany', atleast_version=VERSION, mandatory=True, args='--cflags --libs')
-
-	gtk_version = conf.check_cfg(modversion='gtk+-2.0') or 'Unknown'
-	geany_version = conf.check_cfg(modversion='geany') or 'Unknown'
-
-	enabled_plugins = []
-	if Options.options.enable_plugins:
-		for p_name in Options.options.enable_plugins.split(','):
-			enabled_plugins.append(p_name.strip())
-	else:
-		skipped_plugins = Options.options.skip_plugins.split(',')
-		for p in plugins:
-				if not p.name in skipped_plugins:
-					enabled_plugins.append(p.name)
-
-	# remove enabled but not existent plugins
-	for p in plugins:
-		if p.name in enabled_plugins and not os.path.exists(p.name):
-			enabled_plugins.remove(p.name)
-
-	# check for plugin deps
-	for p in plugins:
-		if p.name in enabled_plugins:
-			for l in p.libs:
-				if l[0].endswith('.h'):
-					# check for header files
-					conf.check(header_name=l[0])
-					if not conf.env['HAVE_%s' % Utils.quote_define_name(l[0])] == 1:
-						if l[2]:
-							enabled_plugins.remove(p.name)
-				else:
-					# check for libraries (with pkg-config)
-					uselib = Utils.quote_define_name(l[0])
-					conf.check_cfg(package=l[0], uselib_store=uselib, atleast_version=l[1],
-						args='--cflags --libs')
-					if not conf.env['HAVE_%s' % uselib] == 1:
-						if l[2]:
-							enabled_plugins.remove(p.name)
-
-	if 'geanygdb' in enabled_plugins:
-		if not conf.env['HAVE_ELF_H'] and not conf.env['HAVE_ELF_ABI_H']:
-			enabled_plugins.remove('geanygdb')
-		else:
-			conf.define('TTYHELPERDIR', conf.env['LIBEXECDIR'] + '/geany-plugins/geanygdb', 1)
-
-	if 'geanylua' in enabled_plugins:
-		if not conf.env['HAVE_LUA'] and not conf.env['HAVE_LUA5_1'] and \
-		   not conf.env['HAVE_LUA51'] and not conf.env['HAVE_LUA_5_1']:
-			enabled_plugins.remove('geanylua')
-
-	# Windows specials
-	if is_win32:
-		if conf.env['PREFIX'] == tempfile.gettempdir():
-			# overwrite default prefix on Windows (tempfile.gettempdir() is the Waf default)
-			conf.define('PREFIX', os.path.join(conf.srcdir, '%s-%s' % (APPNAME, VERSION)), 1)
-		# hack: we add the parent directory of the first include directory as this is missing in
-		# list returned from pkg-config
-		conf.env['CPPPATH_GTK'].insert(0, os.path.dirname(conf.env['CPPPATH_GTK'][0]))
-		# we don't need -fPIC when compiling on or for Windows
-		if '-fPIC' in conf.env['shlib_CCFLAGS']:
-			conf.env['shlib_CCFLAGS'].remove('-fPIC')
-		conf.env['shlib_PATTERN'] = '%s.dll'
-		conf.env['program_PATTERN'] = '%s.exe'
-	else:
-		conf.env['shlib_PATTERN'] = '%s.so'
-
-	svn_rev = conf_get_svn_rev()
-	conf.define('REVISION', svn_rev, 1)
-
-	conf.env['G_PREFIX'] = conf.env['PREFIX']
-
-	if conf.env['HAVE_GTKSPELL_2_0']:
-		conf.define('USE_GTKSPELL', 1);
-	if conf.env['HAVE_ENCHANT']:
-		enchant_version = conf.check_cfg(modversion="enchant")
-		if version.LooseVersion(enchant_version) >= version.LooseVersion('1.5.0'):
-			conf.define('HAVE_ENCHANT_1_5', 1);
-
-	if is_win32:
-		conf.define('PREFIX', '', 1)
-		conf.define('LIBDIR', '', 1)
-		conf.define('LIBEXECDIR', '', 1)
-		conf.define('DOCDIR', 'doc', 1)
-		conf.define('LOCALEDIR', 'share/locale', 1)
-		# DATADIR is defined in objidl.h, so we remove it from config.h
-		conf.undefine('DATADIR')
-		conf.define('GEANYPLUGINS_DATADIR', 'share')
-	else:
-		conf.define('PREFIX', conf.env['PREFIX'], 1)
-		conf.define('DOCDIR', '%s/doc/geany-plugins/' % conf.env['DATADIR'], 1)
-		conf.define('GEANYPLUGINS_DATADIR', conf.env['DATADIR'])
-	conf.define('PKGDATADIR', os.path.join(conf.env['GEANYPLUGINS_DATADIR'], 'geany-plugins'))
-	conf.define('PKGLIBDIR', os.path.join(conf.env['LIBDIR'], 'geany-plugins'))
-	conf.define('VERSION', VERSION, 1)
-	conf.define('PACKAGE', APPNAME, 1)
-	conf.define('GETTEXT_PACKAGE', APPNAME, 1)
-	conf.define('ENABLE_NLS', 1)
-	conf.write_config_header('config.h')
-
-	if is_win32: # overwrite LOCALEDIR to install message catalogues properly
-		conf.env['LOCALEDIR'] = os.path.join(conf.env['G_PREFIX'], 'share/locale')
-
-	Utils.pprint('BLUE', 'Summary:')
-	print_message(conf, 'Install Geany Plugins ' + VERSION + ' in', conf.env['G_PREFIX'])
-	print_message(conf, 'Using GTK version', gtk_version)
-	print_message(conf, 'Using Geany version', geany_version)
-	if svn_rev != '-1':
-		print_message(conf, 'Compiling Subversion revision', svn_rev)
-		conf.env.append_value('CCFLAGS', '-g -DDEBUG'.split()) # -DGEANY_DISABLE_DEPRECATED
-
-	print_message(conf, 'Plugins to compile', ' '.join(enabled_plugins))
-
-	conf.env.append_value('enabled_plugins', enabled_plugins)
-	conf.env.append_value('CCFLAGS', '-DHAVE_CONFIG_H'.split())
-
-	# convenience script (script content copied from the original waf.bat)
-	if is_win32:
-		f = open('waf.bat', 'wb')
-		f.write('@python -x %~dp0waf %* & exit /b')
-		f.close
-	# write a simple Makefile
-	else:
-		f = open('Makefile', 'w')
-		f.write(makefile_template)
-		f.close
+def configure_plugins(conf, enabled_plugins):
+    # we need to iterate over the plugin directories ourselves to be able
+    # to catch plugin ConfigurationError's and remove the plugin in this case
+    plugins = list(enabled_plugins)
+    # iterate over a copy of the list as we remove items during iteration
+    for plugin in plugins:
+        try:
+            # this calls the configure() functions of each plugin's wscript
+            conf.recurse(plugin, mandatory=False)
+        except ConfigurationError:
+            enabled_plugins.remove(plugin)
 
 
-def set_options(opt):
-	opt.tool_options('compiler_cc')
-	opt.tool_options('intltool')
+def setup_configuration_env(conf):
+    # Windows specials
+    if target_is_win32(conf):
+        # FIXME
+        if conf.env['PREFIX'] == tempfile.gettempdir():
+            # overwrite default prefix on Windows (tempfile.gettempdir() is the Waf default)
+            conf.define('PREFIX', os.path.join(conf.top, '%s-%s' % (APPNAME, VERSION)), True)
+        # hack: we add the parent directory of the first include directory as this is missing in
+        # list returned from pkg-config
+        conf.env['CPPPATH_GTK'].insert(0, os.path.dirname(conf.env['CPPPATH_GTK'][0]))
+        # we don't need -fPIC when compiling on or for Windows
+        if '-fPIC' in conf.env['shlib_CCFLAGS']:
+            conf.env['shlib_CCFLAGS'].remove('-fPIC')
+        conf.env['cshlib_PATTERN'] = '%s.dll'
+        # TODO shouldn't be necessary
+        #~ conf.env['program_PATTERN'] = '%s.exe'
+        # paths
+        add_to_env_and_define(conf, 'PREFIX', '', quote=True)
+        add_to_env_and_define(conf, 'LIBDIR', '', quote=True)
+        add_to_env_and_define(conf, 'LIBEXECDIR', '', quote=True)
+        add_to_env_and_define(conf, 'DOCDIR', 'doc', quote=True)
+        # TODO validate the following both, maybe one can be removed
+        conf.define('LOCALEDIR', 'share/locale', 1)
+        # overwrite LOCALEDIR to install message catalogues properly
+        conf.env['LOCALEDIR'] = os.path.join(conf.env['G_PREFIX'], 'share/locale')
+        # DATADIR is defined in objidl.h, so we remove it from config.h
+        conf.undefine('DATADIR')
+        add_to_env_and_define(conf, 'GEANYPLUGINS_DATADIR', 'share')
+    else:
+        prefix = conf.env['PREFIX']
+        # DATADIR and LOCALEDIR are defined by the intltool tool
+        # but they are not added to the environment, so we need to
+        #~ datadir = conf.options.datadir
+        #~ if not datadir:
+            #~ datadir = os.path.join(prefix, 'share')
+        #~ conf.env['DATADIR'] = datadir
+        add_define_to_env(conf, 'DATADIR')
+        add_define_to_env(conf, 'LOCALEDIR')
+        conf.env['cshlib_PATTERN'] = '%s.so'
+        doc_dir = '%s/doc/geany-plugins' % conf.env['DATADIR']
+        conf.define('PREFIX', prefix, quote=True)
+        add_to_env_and_define(conf, 'DOCDIR', doc_dir, quote=True)
+        add_to_env_and_define(conf, 'GEANYPLUGINS_DATADIR', conf.env['DATADIR'], quote=True)
+        conf.env['GEANYPLUGINS_DATADIR'] = conf.env['DATADIR']
+    # common
+    conf.env['G_PREFIX'] = conf.env['PREFIX']
+    pkgdatadir = os.path.join(conf.env['GEANYPLUGINS_DATADIR'], 'geany-plugins')
+    pkglibdir = os.path.join(conf.env['LIBDIR'], 'geany-plugins')
+    add_to_env_and_define(conf, 'PKGDATADIR', pkgdatadir, quote=True)
+    add_to_env_and_define(conf, 'PKGLIBDIR', pkglibdir, quote=True)
+    add_to_env_and_define(conf, 'VERSION', VERSION, quote=True)
+    add_to_env_and_define(conf, 'PACKAGE', APPNAME, quote=True)
+    add_to_env_and_define(conf, 'GETTEXT_PACKAGE', APPNAME, quote=True)
+    add_to_env_and_define(conf, 'ENABLE_NLS', 1)
 
-	# Paths
-	opt.add_option('--libdir', type='string', default='',
-		help='object code libraries', dest='libdir')
-	opt.add_option('--libexecdir', type='string', default='',
-		help='program executables', dest='libexecdir')
-	# Actions
-	opt.add_option('--update-po', action='store_true', default=False,
-		help='update the message catalogs for translation', dest='update_po')
-	opt.add_option('--list-plugins', action='store_true', default=False,
-		help='list plugins which can be built', dest='list_plugins')
-	opt.add_option('--write-installer', action='store_true', default=False,
-		help='create Windows installer (maintainer and Win32 only)', dest='write_installer')
-
-	opt.add_option('--enable-plugins', action='store', default='',
-		help='plugins to be built [plugins in CSV format, e.g. "%(1)s,%(2)s"]' % \
-		{ '1' : plugins[0].name, '2' : plugins[1].name }, dest='enable_plugins')
-	opt.add_option('--skip-plugins', action='store', default='',
-		help='plugins which should not be built, ignored when --enable-plugins is set, same format as --enable-plugins' % \
-		{ '1' : plugins[0].name, '2' : plugins[1].name }, dest='skip_plugins')
+    conf.env.append_value('CFLAGS', ['-DHAVE_CONFIG_H'])
 
 
-@taskgen
-@feature('intltool_po')
-def write_linguas_file(self):
-	linguas = ''
-	if 'LINGUAS' in Build.bld.env:
-		files = Build.bld.env['LINGUAS']
-		for po_filename in files.split(' '):
-			if os.path.exists ('po/%s.po' % po_filename):
-				linguas += '%s ' % po_filename
-	else:
-		files = os.listdir('%s/po' % self.path.abspath())
-		files.sort()
-		for f in files:
-			if f.endswith('.po'):
-				linguas += '%s ' % f[:-3]
-	f = open("po/LINGUAS", "w")
-	f.write('# This file is autogenerated. Do not edit.\n%s\n' % linguas)
-	f.close()
+def options(opt):
+    opt.tool_options('compiler_cc')
+    opt.tool_options('intltool')
+
+    plugins = get_plugins()
+
+    # execute plugin specific option code
+    opt.recurse(plugins, mandatory=False)
+
+    # Paths
+    opt.add_option('--libdir', type='string', default='',
+        help='object code libraries', dest='libdir')
+    opt.add_option('--libexecdir', type='string', default='',
+        help='program executables', dest='libexecdir')
+    # Actions
+    opt.add_option('--list-plugins', action='store_true', default=False,
+        help='list plugins which can be built', dest='list_plugins')
+
+    opt.add_option('--enable-plugins', action='store', default='',
+        help='plugins to be built [plugins in CSV format, e.g. "%(1)s,%(2)s"]' % \
+        { '1' : plugins[0], '2' : plugins[1] }, dest='enable_plugins')
+    opt.add_option('--skip-plugins', action='store', default='',
+        help='plugins which should not be built, ignored when --enable-plugins is set, same format as --enable-plugins',
+        dest='skip_plugins')
 
 
 def build(bld):
-	is_win32 = target_is_win32(bld.env)
-	datadir = '${G_PREFIX}/${GEANYPLUGINS_DATADIR}' if is_win32 else '${GEANYPLUGINS_DATADIR}'
+    is_win32 = target_is_win32(bld)
+    enabled_plugins = bld.env['enabled_plugins']
 
-	def build_lua(bld, p, libs):
-		lua_sources = [ 'geanylua/glspi_init.c', 'geanylua/glspi_app.c', 'geanylua/glspi_dlg.c',
-						'geanylua/glspi_doc.c', 'geanylua/glspi_kfile.c', 'geanylua/glspi_run.c',
-						'geanylua/glspi_sci.c', 'geanylua/gsdlg_lua.c' ]
+    if bld.env['INTLTOOL']:
+        install_path = '${G_PREFIX}/share/locale' if is_win32 else '${LOCALEDIR}'
+        bld.new_task_gen(
+            features     = 'linguas intltool_po',
+            podir        = 'po',
+            appname      = APPNAME,
+            install_path = install_path)
 
-		bld.new_task_gen(
-			features		= 'cc cshlib',
-			source			= lua_sources,
-			includes		= '. %s' % p.includes,
-			defines			= 'G_LOG_DOMAIN="%s"' % p.log_domain,
-			target			= 'libgeanylua',
-			uselib			= libs,
-			install_path	= '${G_PREFIX}/lib/geany-plugins/geanylua' if is_win32
-				else '${LIBDIR}/geany-plugins/geanylua'
-		)
+    if is_win32:
+        bld.install_as('${G_PREFIX}/ReadMe.Windows.txt', 'README.windows')
 
-		# install docs
-		docdir = '${G_PREFIX}/doc/plugins/geanylua' if is_win32 else '${DOCDIR}/geanylua'
-		bld.install_files(docdir, 'geanylua/docs/*.html')
-		# install examples (Waf doesn't support installing files recursively, yet)
-		bld.install_files('%s/geany-plugins/geanylua/dialogs' % datadir, 'geanylua/examples/dialogs/*.lua')
-		bld.install_files('%s/geany-plugins/geanylua/edit' % datadir, 'geanylua/examples/edit/*.lua')
-		bld.install_files('%s/geany-plugins/geanylua/info' % datadir, 'geanylua/examples/info/*.lua')
-		bld.install_files('%s/geany-plugins/geanylua/scripting' % datadir, 'geanylua/examples/scripting/*.lua')
-		bld.install_files('%s/geany-plugins/geanylua/work' % datadir, 'geanylua/examples/work/*.lua')
+    # execute plugin specific build code
+    bld.recurse(enabled_plugins)
 
 
-	def build_gendoc(bld):
-		# install docs
-		docdir = '${G_PREFIX}/doc/plugins/geanygendoc' \
-					if is_win32 else '${DOCDIR}/geanygendoc'
-		htmldocdir = '%s/html' % docdir
-		bld.install_files(docdir, 'geanygendoc/docs/manual.rst')
-		bld.install_files(htmldocdir, 'geanygendoc/docs/manual.html')
-		# install data files (Waf doesn't support installing files recursively, yet)
-		bld.install_files('%s/geany-plugins/geanygendoc/filetypes' % datadir, \
-			'geanygendoc/data/filetypes/*.conf')
+def init(ctx):
+    if ctx.options.list_plugins:
+        listplugins(ctx)
 
 
-	def build_debug(bld, p, libs):
-		bld.new_task_gen(
-			features	= 'cc cprogram',
-			source		= [ 'geanygdb/src/ttyhelper.c' ],
-			includes	= '. %s' % p.includes,
-			defines			= 'G_LOG_DOMAIN="%s"' % p.log_domain,
-			target		= 'ttyhelper',
-			uselib		= libs,
-			install_path = '${TTYHELPERDIR}'
-		)
+def listplugins(ctx):
+    """list plugins which can be built"""
+    plugins = get_plugins()
+    Logs.pprint('GREEN', 'The following targets can be chosen with the --enable-plugins option:')
+    Logs.pprint('NORMAL', ' '.join(plugins))
 
-	def install_docs(bld, pname, files):
-		ext = '.txt' if is_win32 else ''
-		docdir = '${G_PREFIX}/doc/plugins/%s' % pname if is_win32 else '${DOCDIR}/%s' % pname
-		for file in files:
-			if os.path.exists(os.path.join(p.name, file)):
-				bld.install_as(
-					'%s/%s%s' % (docdir, uc_first(file, is_win32), ext),
-					'%s/%s' % (pname, file))
-		if pname == 'geanylatex':
-			bld.install_files('%s' % docdir, 'geanylatex/doc/geanylatex.*')
-			bld.install_files('%s/img' % docdir, 'geanylatex/doc/img/*.png')
-		if is_win32:
-			bld.install_as('${G_PREFIX}/ReadMe.Windows.txt', 'README.windows')
-
-	for p in plugins:
-		if not p.name in bld.env['enabled_plugins']:
-			continue
-
-		libs = 'GTK GEANY' # common for all plugins
-		for l in p.libs:   # add plugin specific libs
-			libs += ' %s' % Utils.quote_define_name(l[0])
-
-		if p.name == 'geanylua':
-			build_lua(bld, p, libs) # build additional lib for the lua plugin
-
-		if p.name == 'geanygendoc':
-			build_gendoc(bld) # install data files
-
-		if p.name == 'geanygdb':
-			build_debug(bld, p, libs) # build additional binary for the debug plugin
-
-		t = bld.new_task_gen(
-			features		= 'cc cshlib',
-			source			= p.sources,
-			includes		= '. %s' % p.includes,
-			defines			= 'G_LOG_DOMAIN="%s"' % p.log_domain,
-			target			= p.name,
-			uselib			= libs,
-			install_path	= '${G_PREFIX}/lib' if is_win32 else '${LIBDIR}/geany/'
-		)
-		if not p.sources:
-			for dir in p.includes:
-				t.find_sources_in_dirs(dir)
-
-		install_docs(bld, p.name, 'AUTHORS ChangeLog COPYING NEWS README THANKS TODO'.split())
+    Logs.pprint('GREEN', \
+    '\nTo compile only "%(1)s" and "%(2)s", use "./waf configure --enable-plugins=%(1)s,%(2)s".' % \
+            { '1' : plugins[0], '2' : plugins[1] } )
+    exit(0)
 
 
-	if bld.env['INTLTOOL']:
-			bld.new_task_gen(
-				features	= 'intltool_po',
-				podir		= 'po',
-				appname		= APPNAME,
-				install_path = '${G_PREFIX}/share/locale' if is_win32 else '${LOCALEDIR}'
-			)
+def distclean(ctx):
+    Scripting.distclean(ctx)
+    # remove LINGUAS file as well
+    try:
+        os.unlink(LINGUAS_FILE)
+    except OSError:
+        pass
 
 
-def init():
-	if Options.options.list_plugins:
-		Utils.pprint('GREEN', \
-			'The following targets can be chosen with the --enable-plugins option:')
-		for p in plugins:
-			print p.name,
-		Utils.pprint('GREEN', \
-	'\nTo compile only "%(1)s" and "%(2)s", use "./waf configure --enable-plugins=%(1)s,%(2)s".' % \
-			{ '1' : plugins[0].name, '2' : plugins[1].name } )
-		sys.exit(0)
+@feature('linguas')
+def write_linguas_file(self):
+    if os.path.exists(LINGUAS_FILE):
+        return
+    linguas = ''
+    if 'LINGUAS' in self.env:
+        files = self.env['LINGUAS']
+        for po_filename in files.split(' '):
+            if os.path.exists ('po/%s.po' % po_filename):
+                linguas += '%s ' % po_filename
+    else:
+        files = os.listdir('%s/po' % self.path.abspath())
+        files.sort()
+        for filename in files:
+            if filename.endswith('.po'):
+                linguas += '%s ' % filename[:-3]
+    file_h = open(LINGUAS_FILE, 'w')
+    file_h.write('# This file is autogenerated. Do not edit.\n%s\n' % linguas)
+    file_h.close()
 
 
-def shutdown():
-	if Options.options.write_installer:
-		do_sign = os.path.exists("sign.bat") # private file to sign the binary files, not needed
-		def sign_binary(file):
-			if do_sign:
-				Utils.exec_command('sign.bat %s' % file)
+def create_installer(ctx):
+    """create the Windows installer (maintainer and Win32 only)"""
+    # must be called *after* everything has been installed
+    do_sign = os.path.exists('sign.bat') # private file to sign the binary files, not needed
+    def sign_binary(filename):
+        if do_sign:
+            ctx.exec_command('sign.bat %s' % filename)
 
-		# strip all binaries
-		Utils.pprint('CYAN', 'Stripping %sfiles' % ('and signing binary ' if do_sign else ''))
-		files = glob.glob(os.path.join(Build.bld.env['G_PREFIX'], 'lib', '*.dll'))
-		files.append(Build.bld.env['G_PREFIX'] + '\lib\geany-plugins\geanylua\libgeanylua.dll')
-		for	f in files: # sign the DLL files
-			Utils.exec_command('strip %s' % f)
-			sign_binary(f)
-		# create the installer
-		launch('makensis /V2 /NOCD build/geany-plugins.nsi', 'Creating the installer', 'CYAN')
-		sign_binary('geany-plugins-%s_setup.exe' % VERSION)
-
-	if Options.options.update_po:
-		# the following code was taken from midori's WAF script, thanks
-		potfile = '%s.pot' % (APPNAME)
-		os.chdir('%s/po' % srcdir)
-		try:
-			try:
-				size_old = os.stat(potfile).st_size
-			except:
-				size_old = 0
-			Utils.exec_command('intltool-update --pot -g %s' % APPNAME)
-			if os.stat(potfile).st_size != size_old:
-				Utils.pprint('CYAN', 'Updated POT file.')
-				launch('intltool-update -r -g %s' % APPNAME, 'Updating translations', 'CYAN')
-			else:
-				Utils.pprint('CYAN', 'POT file is up to date.')
-		except:
-			Utils.pprint('RED', 'Failed to generate pot file.')
-		os.chdir('..')
+    # strip all binaries
+    Logs.pprint('CYAN', 'Stripping %sfiles' % ('and signing binary ' if do_sign else ''))
+    # TODO rewrite this using ctx
+    files = glob.glob(os.path.join(ctx.env['G_PREFIX'], 'lib', '*.dll'))
+    files.append(ctx.env['G_PREFIX'] + '\lib\geany-plugins\geanylua\libgeanylua.dll')
+    for filename in files: # sign the DLL files
+        ctx.exec_command('strip %s' % filename)
+        sign_binary(filename)
+    # create the installer
+    launch('makensis /V2 /NOCD build/geany-plugins.nsi', 'Creating the installer', 'CYAN')
+    sign_binary('geany-plugins-%s_setup.exe' % VERSION)
 
 
-# Simple function to execute a command and print its exit status
-def launch(command, status, success_color='GREEN'):
-	ret = 0
-	error_message = ''
-	Utils.pprint(success_color, status)
-	try:
-		ret = Utils.exec_command(command)
-	except OSError, e:
-		ret = 1
-		error_message = ' (%s: %s)' % (str(e), command)
+def updatepo(ctx):
+    """update the message catalogs for internationalization"""
+    potfile = '%s.pot' % APPNAME
+    os.chdir('%s/po' % top)
+    try:
+        try:
+            old_size = os.stat(potfile).st_size
+        except OSError:
+            old_size = 0
+        ctx.exec_command('intltool-update --pot -g %s' % APPNAME)
+        if os.stat(potfile).st_size != old_size:
+            Logs.pprint('CYAN', 'Updated POT file.')
+            launch(ctx, 'intltool-update -r -g %s' % APPNAME, 'Updating translations', 'CYAN')
+        else:
+            Logs.pprint('CYAN', 'POT file is up to date.')
+    except OSError:
+        Logs.pprint('RED', 'Failed to generate pot file.')
+    os.chdir('..')
 
-	if ret != 0:
-		Utils.pprint('RED', '%s failed%s' % (status, error_message))
-
-	return ret
-
-
-def print_message(conf, msg, result, color = 'GREEN'):
-	conf.check_message_1(msg)
-	conf.check_message_2(result, color)
-
-
-def uc_first(s, is_win32):
-	if is_win32:
-		return s.title()
-	return s
-
-
-def target_is_win32(env):
-	if sys.platform == 'win32':
-		return True
-	if env and 'CC' in env:
-		cc = env['CC']
-		if not isinstance(cc, str):
-			cc = ''.join(cc)
-		return cc.find('mingw') != -1
-	return False
