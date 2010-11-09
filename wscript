@@ -140,25 +140,16 @@ def configure_plugins(conf, enabled_plugins):
 def setup_configuration_env(conf):
     # Windows specials
     if target_is_win32(conf):
-        # FIXME
-        if conf.env['PREFIX'] == tempfile.gettempdir():
+        if conf.env['PREFIX'].lower() == tempfile.gettempdir().lower():
             # overwrite default prefix on Windows (tempfile.gettempdir() is the Waf default)
-            conf.define('PREFIX', os.path.join(conf.top, '%s-%s' % (APPNAME, VERSION)), True)
-        # hack: we add the parent directory of the first include directory as this is missing in
-        # list returned from pkg-config
-        conf.env['CPPPATH_GTK'].insert(0, os.path.dirname(conf.env['CPPPATH_GTK'][0]))
-        # we don't need -fPIC when compiling on or for Windows
-        if '-fPIC' in conf.env['shlib_CCFLAGS']:
-            conf.env['shlib_CCFLAGS'].remove('-fPIC')
-        conf.env['cshlib_PATTERN'] = '%s.dll'
-        # TODO shouldn't be necessary
-        #~ conf.env['program_PATTERN'] = '%s.exe'
+            new_prefix = os.path.join(str(conf.root), '%s-%s' % (APPNAME, VERSION))
+            add_to_env_and_define(conf, 'PREFIX', new_prefix, quote=True)
+        conf.env['G_PREFIX'] = conf.env['PREFIX']
         # paths
         add_to_env_and_define(conf, 'PREFIX', '', quote=True)
         add_to_env_and_define(conf, 'LIBDIR', '', quote=True)
         add_to_env_and_define(conf, 'LIBEXECDIR', '', quote=True)
         add_to_env_and_define(conf, 'DOCDIR', 'doc', quote=True)
-        # TODO validate the following both, maybe one can be removed
         conf.define('LOCALEDIR', 'share/locale', 1)
         # overwrite LOCALEDIR to install message catalogues properly
         conf.env['LOCALEDIR'] = os.path.join(conf.env['G_PREFIX'], 'share/locale')
@@ -167,12 +158,9 @@ def setup_configuration_env(conf):
         add_to_env_and_define(conf, 'GEANYPLUGINS_DATADIR', 'share')
     else:
         prefix = conf.env['PREFIX']
+        conf.env['G_PREFIX'] = conf.env['PREFIX']
         # DATADIR and LOCALEDIR are defined by the intltool tool
         # but they are not added to the environment, so we need to
-        #~ datadir = conf.options.datadir
-        #~ if not datadir:
-            #~ datadir = os.path.join(prefix, 'share')
-        #~ conf.env['DATADIR'] = datadir
         add_define_to_env(conf, 'DATADIR')
         add_define_to_env(conf, 'LOCALEDIR')
         conf.env['cshlib_PATTERN'] = '%s.so'
@@ -182,7 +170,6 @@ def setup_configuration_env(conf):
         add_to_env_and_define(conf, 'GEANYPLUGINS_DATADIR', conf.env['DATADIR'], quote=True)
         conf.env['GEANYPLUGINS_DATADIR'] = conf.env['DATADIR']
     # common
-    conf.env['G_PREFIX'] = conf.env['PREFIX']
     pkgdatadir = os.path.join(conf.env['GEANYPLUGINS_DATADIR'], 'geany-plugins')
     pkglibdir = os.path.join(conf.env['LIBDIR'], 'geany-plugins')
     add_to_env_and_define(conf, 'PKGDATADIR', pkgdatadir, quote=True)
