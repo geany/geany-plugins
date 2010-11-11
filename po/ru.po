@@ -3109,7 +3109,7 @@ msgstr ""
 #: ../geanyinsertnum/src/insertnum.c:501
 #, fuzzy
 msgid "Insert Numbers"
-msgstr "Настройки"
+msgstr ""
 
 #: ../geanyinsertnum/src/insertnum.c:33
 msgid "Insert/Fill columns with numbers."
@@ -3118,7 +3118,7 @@ msgstr ""
 #: ../geanyinsertnum/src/insertnum.c:151
 #, fuzzy
 msgid "Counting..."
-msgstr "_Продолжить"
+msgstr ""
 
 #: ../geanyinsertnum/src/insertnum.c:198
 msgid "Preparing..."
@@ -3127,7 +3127,7 @@ msgstr ""
 #: ../geanyinsertnum/src/insertnum.c:204
 #, fuzzy
 msgid "Inserting..."
-msgstr "запущено"
+msgstr ""
 
 #: ../geanyinsertnum/src/insertnum.c:363
 msgid "For base 11 and above"
@@ -3136,17 +3136,17 @@ msgstr ""
 #: ../geanyinsertnum/src/insertnum.c:385
 #, fuzzy
 msgid "_Start:"
-msgstr "_Пауза"
+msgstr ""
 
 #: ../geanyinsertnum/src/insertnum.c:390
 #, fuzzy
 msgid "S_tep:"
-msgstr "Следующая _строка"
+msgstr ""
 
 #: ../geanyinsertnum/src/insertnum.c:396
 #, fuzzy
 msgid "_Base:"
-msgstr "_Пауза"
+msgstr ""
 
 #: ../geanyinsertnum/src/insertnum.c:406
 msgid "Letters:"
@@ -3183,7 +3183,7 @@ msgstr ""
 #: ../geanyinsertnum/src/insertnum.c:494
 #, fuzzy
 msgid "Insert _Numbers"
-msgstr "Настройки"
+msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:89 ../treebrowser/src/treebrowser.c:1315
 msgid "Tree Browser"
@@ -3392,7 +3392,7 @@ msgstr "Показывать подсказки"
 #: ../geanyextrasel/src/extrasel.c:30
 #, fuzzy
 msgid "Extra Selection"
-msgstr "Выбрать шрифт"
+msgstr ""
 
 #: ../geanyextrasel/src/extrasel.c:30
 msgid "Column mode, select to line / matching brace."
