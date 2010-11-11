@@ -34,7 +34,7 @@ the plugin, create a file 'wscript_configure' and put the code into.
 The code of this file itself loosely follows PEP 8 with some exceptions
 (line width 100 characters and some other minor things).
 
-Requires WAF 1.6.0 and Python 2.4 (or later).
+Requires WAF 1.6.1 and Python 2.5 (or later).
 """
 
 import os
@@ -70,6 +70,8 @@ c_preproc.standard_includes = []
 
 
 def configure(conf):
+
+    conf.check_waf_version(mini='1.6.1')
 
     # a C compiler is the very minimum we need
     conf.load('compiler_c')
@@ -212,10 +214,13 @@ def build(bld):
     is_win32 = target_is_win32(bld)
     enabled_plugins = bld.env['enabled_plugins']
 
+    if bld.cmd == 'clean':
+        remove_linguas_file()
+
     if bld.env['INTLTOOL']:
         install_path = '${G_PREFIX}/share/locale' if is_win32 else '${LOCALEDIR}'
         bld.new_task_gen(
-            features     = 'linguas intltool_po',
+            features     = ['linguas', 'intltool_po'],
             podir        = 'po',
             appname      = APPNAME,
             install_path = install_path)
@@ -246,6 +251,10 @@ def listplugins(ctx):
 
 def distclean(ctx):
     Scripting.distclean(ctx)
+    remove_linguas_file()
+
+
+def remove_linguas_file():
     # remove LINGUAS file as well
     try:
         os.unlink(LINGUAS_FILE)
@@ -305,7 +314,8 @@ def updatepo(ctx):
         except OSError:
             old_size = 0
         ctx.exec_command('intltool-update --pot -g %s' % APPNAME)
-        if os.stat(potfile).st_size != old_size:
+        size_new = os.stat(potfile).st_size
+        if size_new != old_size:
             Logs.pprint('CYAN', 'Updated POT file.')
             launch(ctx, 'intltool-update -r -g %s' % APPNAME, 'Updating translations', 'CYAN')
         else:
