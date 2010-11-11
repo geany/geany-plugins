@@ -1,14 +1,20 @@
+2010-11-11  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/extrasel.c:
+   Respect 'Smart' home key (Geany does now).
+   Camel Cased "Extra selection" and "Column mode" menu items.
+
 2010-05-31  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/extrasel.c:
-   Fixed "Goto line and select" with the toolbar visible.
- 
+   Fixed "Select to Line" with the toolbar visible.
+
 2010-05-22  Dimitar Zhekov  <hamster@mbox.contact.bg>
 
  * src/extrasel.c:
    Fixed crash in plugin_cleanup() - patch by Colomban Wendling, thanks.
    Use documents_foreach() if foreach_document() is not available.
- 
+
 2010-05-21  Dimitar Zhekov  <hamster@mbox.contact.bg>
 
  * src/extrasel.c:

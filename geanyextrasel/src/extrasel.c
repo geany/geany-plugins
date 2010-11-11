@@ -28,7 +28,7 @@ GeanyFunctions	*geany_functions;
 PLUGIN_VERSION_CHECK(150)
 
 PLUGIN_SET_INFO(_("Extra Selection"), _("Column mode, select to line / matching brace."),
-		"0.1", "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>");
+		"0.2", "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>");
 
 /* Keybinding(s) */
 enum
@@ -58,12 +58,12 @@ typedef struct _command_key
 
 static const command_key command_keys[] =
 {
+	{ GDK_Up,     GDK_KP_Up,     SCI_PARAUP },
+	{ GDK_Down,   GDK_KP_Down,   SCI_PARADOWN },
 	{ GDK_Left,   GDK_KP_Left,   SCI_WORDLEFT },
 	{ GDK_Right,  GDK_KP_Right,  SCI_WORDRIGHTEND },
 	{ GDK_Home,   GDK_KP_Home,   SCI_DOCUMENTSTART },
 	{ GDK_End,    GDK_KP_End,    SCI_DOCUMENTEND },
-	{ GDK_Up,     GDK_KP_Up,     SCI_PARAUP },
-	{ GDK_Down,   GDK_KP_Down,   SCI_PARADOWN },
 	{ 0, 0, 0 }
 };
 
@@ -104,13 +104,13 @@ static gboolean on_key_press_event(GtkWidget *widget, GdkEventKey *event, G_GNUC
 				{
 					ScintillaObject *sci = doc->editor->sci;
 
-					if (gtk_window_get_focus(GTK_WINDOW(widget)) == sci)
+					if (gtk_window_get_focus(GTK_WINDOW(widget)) == GTK_WIDGET(sci))
 					{
 						column_mode_command(sci, ck->command);
 						return TRUE;
 					}
 				}
-				/* no document or not focused */
+
 				break;
 			}
 		}
@@ -126,47 +126,77 @@ typedef struct _select_key
 	gint rectangle;
 } select_key;
 
-static const select_key select_keys[] =
+/* not #defined in 0.18 */
+#define sci_clear_cmdkey(sci, key) scintilla_send_message((sci), SCI_CLEARCMDKEY, (key), 0)
+#define sci_assign_cmdkey(sci, key, command) \
+	scintilla_send_message((sci), SCI_ASSIGNCMDKEY, (key), (command))
+
+static void assign_select_key(ScintillaObject *sci, const select_key *sk)
 {
-	{ SCK_DOWN  | (SCMOD_SHIFT << 16),  SCI_LINEDOWNEXTEND,   SCI_LINEDOWNRECTEXTEND },
+	if (column_mode)
+	{
+		sci_clear_cmdkey(sci, sk->key | (SCMOD_ALT << 16));
+		sci_assign_cmdkey(sci, sk->key, sk->rectangle);
+	}
+	else
+	{
+		sci_assign_cmdkey(sci, sk->key, sk->stream);
+		sci_assign_cmdkey(sci, sk->key | (SCMOD_ALT << 16), sk->rectangle);
+	}
+}
+
+static select_key select_keys[] =
+{
+	{ SCK_HOME  | (SCMOD_SHIFT << 16),  SCI_NULL,             SCI_NULL },
 	{ SCK_UP    | (SCMOD_SHIFT << 16),  SCI_LINEUPEXTEND,     SCI_LINEUPRECTEXTEND },
+	{ SCK_DOWN  | (SCMOD_SHIFT << 16),  SCI_LINEDOWNEXTEND,   SCI_LINEDOWNRECTEXTEND },
 	{ SCK_LEFT  | (SCMOD_SHIFT << 16),  SCI_CHARLEFTEXTEND,   SCI_CHARLEFTRECTEXTEND  },
 	{ SCK_RIGHT | (SCMOD_SHIFT << 16),  SCI_CHARRIGHTEXTEND,  SCI_CHARRIGHTRECTEXTEND },
-	{ SCK_HOME  | (SCMOD_SHIFT << 16),  SCI_VCHOMEEXTEND,     SCI_VCHOMERECTEXTEND },
 	{ SCK_END   | (SCMOD_SHIFT << 16),  SCI_LINEENDEXTEND,    SCI_LINEENDRECTEXTEND },
 	{ SCK_PRIOR | (SCMOD_SHIFT << 16),  SCI_PAGEUPEXTEND,     SCI_PAGEUPRECTEXTEND },
 	{ SCK_NEXT  | (SCMOD_SHIFT << 16),  SCI_PAGEDOWNEXTEND,   SCI_PAGEDOWNRECTEXTEND },
 	{ 0, 0, 0 }
 };
 
-/* not #defined in 0.18 */
-#define sci_clear_cmdkey(sci, key) scintilla_send_message((sci), SCI_CLEARCMDKEY, (key), 0)
-#define sci_assign_cmdkey(sci, key, command) \
-	scintilla_send_message((sci), SCI_ASSIGNCMDKEY, (key), (command))
-
-static void assign_column_keys(ScintillaObject *sci)
+static void assign_select_keys(ScintillaObject *sci)
 {
 	const select_key *sk;
 
 	for (sk = select_keys; sk->key; sk++)
-	{
-		if (column_mode)
-		{
-			sci_clear_cmdkey(sci, sk->key | (SCMOD_ALT << 16));
-			sci_assign_cmdkey(sci, sk->key, sk->rectangle);
-		}
-		else
-		{
-			sci_assign_cmdkey(sci, sk->key, sk->stream);
-			sci_assign_cmdkey(sci, sk->key | (SCMOD_ALT << 16), sk->rectangle);
-		}
-	}
+		assign_select_key(sci, sk);
 }
 
 static void on_document_switch(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 	G_GNUC_UNUSED gpointer user_data)
 {
-	assign_column_keys(doc->editor->sci);
+	assign_select_keys(doc->editor->sci);
+}
+
+static void update_home_key(void)
+{
+	if (geany_data->editor_prefs->smart_home_key)
+	{
+		select_keys->stream = SCI_VCHOMEEXTEND;
+		select_keys->rectangle = SCI_VCHOMERECTEXTEND;
+	}
+	else
+	{
+		select_keys->stream = SCI_HOMEEXTEND;
+		select_keys->rectangle = SCI_HOMERECTEXTEND;
+	}
+}
+
+static void on_settings_change(G_GNUC_UNUSED GKeyFile *config)
+{
+	update_home_key();
+
+	if (column_mode)
+	{
+		GeanyDocument *doc = document_get_current();
+
+		if (doc)
+			assign_select_key(doc->editor->sci, select_keys);
+	}
 }
 
 PluginCallback plugin_callbacks[] =
@@ -174,6 +204,7 @@ PluginCallback plugin_callbacks[] =
 	{ "document-new", (GCallback) &on_document_switch, FALSE, NULL },
 	{ "document-open", (GCallback) &on_document_switch, FALSE, NULL },
 	{ "document-activate", (GCallback) &on_document_switch, FALSE, NULL },
+	{ "save-settings", (GCallback) &on_settings_change, FALSE, NULL },
 	{ NULL, NULL, FALSE, NULL }
 };
 
@@ -197,7 +228,7 @@ static void on_column_mode_toggled(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_U
 		int anchor = sci_get_anchor(sci);
 		int cursor = sci_get_current_position(sci);
 
-		assign_column_keys(sci);
+		assign_select_keys(sci);
 		if (column_mode && select_mode == SC_SEL_STREAM)
 		{
 			sci_set_selection_mode(sci, SC_SEL_RECTANGLE);
@@ -273,13 +304,13 @@ void plugin_init(G_GNUC_UNUSED GeanyData *data)
 
 	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 
-	main_menu_item = gtk_menu_item_new_with_mnemonic(_("E_xtra selection"));
+	main_menu_item = gtk_menu_item_new_with_mnemonic(_("E_xtra Selection"));
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), main_menu_item);
 	g_signal_connect(main_menu_item, "activate", G_CALLBACK(on_extra_select_activate), NULL);
 	extra_select_menu = gtk_menu_new();
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(main_menu_item), extra_select_menu);
 
-	column_mode_item = gtk_check_menu_item_new_with_mnemonic(_("_Column mode"));
+	column_mode_item = gtk_check_menu_item_new_with_mnemonic(_("_Column Mode"));
 	gtk_container_add(GTK_CONTAINER(extra_select_menu), column_mode_item);
 	g_signal_connect(column_mode_item, "toggled", G_CALLBACK(on_column_mode_toggled), NULL);
 	keybindings_set_item(plugin_key_group, COLUMN_MODE_KB, on_column_mode_key, 0, 0,
@@ -303,6 +334,8 @@ void plugin_init(G_GNUC_UNUSED GeanyData *data)
 	go_to_line1_item = g_object_get_data((gpointer) geany->main_widgets->window,
 		"go_to_line1");
 
+	update_home_key();
+
 	plugin_signal_connect(geany_plugin, G_OBJECT(geany->main_widgets->window),
 		"key-press-event", FALSE, G_CALLBACK(on_key_press_event), NULL);
 }
@@ -318,6 +351,6 @@ void plugin_cleanup(void)
 
 	column_mode = FALSE;
 	foreach_document (i)
-		assign_column_keys(documents[i]->editor->sci);
+		assign_select_keys(documents[i]->editor->sci);
 	gtk_widget_destroy(main_menu_item);
 }
