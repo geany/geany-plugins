@@ -3337,11 +3337,11 @@ msgid "Column mode, select to line / matching brace."
 msgstr ""
 
 #: ../geanyextrasel/src/extrasel.c:265
-msgid "E_xtra selection"
+msgid "E_xtra Selection"
 msgstr ""
 
 #: ../geanyextrasel/src/extrasel.c:271
-msgid "_Column mode"
+msgid "_Column Mode"
 msgstr ""
 
 #: ../geanyextrasel/src/extrasel.c:275

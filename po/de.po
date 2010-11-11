@@ -3532,11 +3532,11 @@ msgid "Column mode, select to line / matching brace."
 msgstr "Spaltenmodus. Auswählen bis zur Zeile/passenden Klammer"
 
 #: ../geanyextrasel/src/extrasel.c:276
-msgid "E_xtra selection"
-msgstr "E_xtra selection"
+msgid "E_xtra Selection"
+msgstr "E_xtra Selection"
 
 #: ../geanyextrasel/src/extrasel.c:282
-msgid "_Column mode"
+msgid "_Column Mode"
 msgstr "_Spaltenmodus"
 
 #: ../geanyextrasel/src/extrasel.c:286
