@@ -42,7 +42,7 @@ AC_DEFUN([GP_STATUS_PRINT],
 ${PACKAGE}-${VERSION}
 
   Build Environment:
-    Geany version:                ${geanyversion}
+    Geany version:                ${GEANY_VERSION}
     Install prefix:               ${prefix}
     Datadir:                      ${expanded_datadir}/${PACKAGE_TARNAME}
     Libdir:                       ${expanded_libdir}/${PACKAGE_TARNAME}
