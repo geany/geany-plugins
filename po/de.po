@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.19\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-23 12:01+0200\n"
-"PO-Revision-Date: 2010-10-23 12:00+0100\n"
+"POT-Creation-Date: 2010-11-16 17:06+0100\n"
+"PO-Revision-Date: 2010-11-16 17:06+0100\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
 "Language: de\n"
@@ -89,7 +89,7 @@ msgstr "XML-Tagging durchführen"
 #: ../addons/src/addons.c:353 ../geanylatex/src/geanylatex.c:202
 #: ../geanysendmail/src/geanysendmail.c:154
 #: ../geanysendmail/src/geanysendmail.c:318 ../geanyvc/src/geanyvc.c:1782
-#: ../spellcheck/src/scplugin.c:141 ../treebrowser/src/treebrowser.c:1658
+#: ../spellcheck/src/scplugin.c:141 ../treebrowser/src/treebrowser.c:1666
 #: ../updatechecker/src/updatechecker.c:248
 msgid "Plugin configuration directory could not be created."
 msgstr ""
@@ -3213,8 +3213,8 @@ msgstr "Seitenleiste _verstecken"
 msgid "Project \"%s\" opened."
 msgstr "Projekt »%s« geöffnet."
 
-#: ../geanyinsertnum/src/insertnum.c:33 ../geanyinsertnum/src/insertnum.c:373
-#: ../geanyinsertnum/src/insertnum.c:501
+#: ../geanyinsertnum/src/insertnum.c:33 ../geanyinsertnum/src/insertnum.c:329
+#: ../geanyinsertnum/src/insertnum.c:460
 msgid "Insert Numbers"
 msgstr "Nummern einfügen"
 
@@ -3222,71 +3222,71 @@ msgstr "Nummern einfügen"
 msgid "Insert/Fill columns with numbers."
 msgstr "Einfügen/Ausfüllen der Spalten mit Nummern"
 
-#: ../geanyinsertnum/src/insertnum.c:151
+#: ../geanyinsertnum/src/insertnum.c:142
 msgid "Counting..."
 msgstr "Zählung läuft..."
 
-#: ../geanyinsertnum/src/insertnum.c:198
+#: ../geanyinsertnum/src/insertnum.c:189
 msgid "Preparing..."
 msgstr "Vorbereitung läuft..."
 
-#: ../geanyinsertnum/src/insertnum.c:204
+#: ../geanyinsertnum/src/insertnum.c:195
 msgid "Inserting..."
 msgstr "Einfügen läuft..."
 
-#: ../geanyinsertnum/src/insertnum.c:363
+#: ../geanyinsertnum/src/insertnum.c:318
 msgid "For base 11 and above"
 msgstr "Für Basis 11 oder höher"
 
-#: ../geanyinsertnum/src/insertnum.c:385
+#: ../geanyinsertnum/src/insertnum.c:341
 msgid "_Start:"
 msgstr "_Start:"
 
-#: ../geanyinsertnum/src/insertnum.c:390
+#: ../geanyinsertnum/src/insertnum.c:346
 msgid "S_tep:"
 msgstr "S_tep:"
 
-#: ../geanyinsertnum/src/insertnum.c:396
+#: ../geanyinsertnum/src/insertnum.c:352
 msgid "_Base:"
 msgstr "_Basis"
 
-#: ../geanyinsertnum/src/insertnum.c:406
+#: ../geanyinsertnum/src/insertnum.c:363
 msgid "Letters:"
 msgstr "Buchstaben:"
 
-#: ../geanyinsertnum/src/insertnum.c:409
+#: ../geanyinsertnum/src/insertnum.c:366
 msgid "_Upper"
 msgstr "_Obere"
 
-#: ../geanyinsertnum/src/insertnum.c:414
+#: ../geanyinsertnum/src/insertnum.c:371
 msgid "_Lower"
 msgstr "_Untere"
 
-#: ../geanyinsertnum/src/insertnum.c:418
+#: ../geanyinsertnum/src/insertnum.c:375
 msgid "Base _prefix"
 msgstr "Basis _Prefix:"
 
-#: ../geanyinsertnum/src/insertnum.c:420
+#: ../geanyinsertnum/src/insertnum.c:377
 msgid "0 for octal, 0x for hex, + for positive decimal"
 msgstr "0 für Oktal, 0x für Hexadezimal, + für positive Dezimalzahlen"
 
-#: ../geanyinsertnum/src/insertnum.c:422
+#: ../geanyinsertnum/src/insertnum.c:379
 msgid "Padding:"
 msgstr "Versatz:"
 
-#: ../geanyinsertnum/src/insertnum.c:424
+#: ../geanyinsertnum/src/insertnum.c:381
 msgid "Sp_ace"
 msgstr "Leer_zeichen"
 
-#: ../geanyinsertnum/src/insertnum.c:427
+#: ../geanyinsertnum/src/insertnum.c:384
 msgid "_Zero"
 msgstr "_Null"
 
-#: ../geanyinsertnum/src/insertnum.c:494
+#: ../geanyinsertnum/src/insertnum.c:453
 msgid "Insert _Numbers"
 msgstr "_Nummern  einfügen"
 
-#: ../treebrowser/src/treebrowser.c:105 ../treebrowser/src/treebrowser.c:1538
+#: ../treebrowser/src/treebrowser.c:105 ../treebrowser/src/treebrowser.c:1546
 msgid "Tree Browser"
 msgstr "Baumnavigator"
 
@@ -3317,108 +3317,122 @@ msgstr "NewDirectory"
 msgid "NewFile"
 msgstr "Datei"
 
-#: ../treebrowser/src/treebrowser.c:926
+#: ../treebrowser/src/treebrowser.c:885
+#, c-format
+msgid ""
+"Target file '%s' exists\n"
+", do you really want to replace it with empty file?"
+msgstr ""
+"Zieldatei »%s« existiert bereits.\n"
+"Möchten Sie diese wirklich mit einer leeren Datei ersetzen?"
+
+#: ../treebrowser/src/treebrowser.c:930
 #, c-format
 msgid "Do you really want to delete '%s' ?"
 msgstr "Soll »%s« wirklich gelöscht werden?"
 
-#: ../treebrowser/src/treebrowser.c:1025 ../treebrowser/src/treebrowser.c:1471
+#: ../treebrowser/src/treebrowser.c:1029 ../treebrowser/src/treebrowser.c:1479
 msgid "Go up"
 msgstr "Aufwärts"
 
-#: ../treebrowser/src/treebrowser.c:1029 ../treebrowser/src/treebrowser.c:1486
+#: ../treebrowser/src/treebrowser.c:1033 ../treebrowser/src/treebrowser.c:1494
 msgid "Set path from document"
 msgstr "Pfad des Dokumentes übernehmen"
 
-#: ../treebrowser/src/treebrowser.c:1033
+#: ../treebrowser/src/treebrowser.c:1037
 msgid "Open externally"
 msgstr "Extern öffnen"
 
-#: ../treebrowser/src/treebrowser.c:1038
+#: ../treebrowser/src/treebrowser.c:1042
 msgid "Open Terminal"
 msgstr "In Terminal ausführen"
 
-#: ../treebrowser/src/treebrowser.c:1042
+#: ../treebrowser/src/treebrowser.c:1046
 msgid "Set as root"
 msgstr "Als Wurzel festlegen"
 
-#: ../treebrowser/src/treebrowser.c:1050
+#: ../treebrowser/src/treebrowser.c:1054
 msgid "Create new directory"
 msgstr "Neues Verzeichnis anlegen"
 
-#: ../treebrowser/src/treebrowser.c:1054
+#: ../treebrowser/src/treebrowser.c:1058
 msgid "Create new file"
 msgstr "Neue Datei erstellen"
 
-#: ../treebrowser/src/treebrowser.c:1058
+#: ../treebrowser/src/treebrowser.c:1062
 msgid "Rename"
 msgstr "Umbenennen"
 
-#: ../treebrowser/src/treebrowser.c:1063
+#: ../treebrowser/src/treebrowser.c:1067
 msgid "Delete"
 msgstr "Löschen"
 
-#: ../treebrowser/src/treebrowser.c:1071 ../treebrowser/src/treebrowser.c:1476
-#: ../treebrowser/src/treebrowser.c:1826
+#: ../treebrowser/src/treebrowser.c:1075 ../treebrowser/src/treebrowser.c:1484
+#: ../treebrowser/src/treebrowser.c:1834
 msgid "Refresh"
 msgstr "Auffrischen"
 
-#: ../treebrowser/src/treebrowser.c:1079
+#: ../treebrowser/src/treebrowser.c:1083
 msgid "Expand all"
 msgstr "Alle ausklappen"
 
-#: ../treebrowser/src/treebrowser.c:1083
+#: ../treebrowser/src/treebrowser.c:1087
 msgid "Collapse all"
 msgstr "Alle einklappen"
 
-#: ../treebrowser/src/treebrowser.c:1090
+#: ../treebrowser/src/treebrowser.c:1094
 #, c-format
 msgid "Close: %s"
 msgstr "%s:  Schließen"
 
-#: ../treebrowser/src/treebrowser.c:1095
+#: ../treebrowser/src/treebrowser.c:1099
 msgid "Copy full path to clipboard"
 msgstr "Den vollständigen Pfad in die Zwischenablage kopieren"
 
-#: ../treebrowser/src/treebrowser.c:1103 ../treebrowser/src/treebrowser.c:1752
+#: ../treebrowser/src/treebrowser.c:1107 ../treebrowser/src/treebrowser.c:1760
 msgid "Show bookmarks"
 msgstr "Lesezeichen anzeigen"
 
-#: ../treebrowser/src/treebrowser.c:1108 ../treebrowser/src/treebrowser.c:1706
+#: ../treebrowser/src/treebrowser.c:1112 ../treebrowser/src/treebrowser.c:1714
 msgid "Show hidden files"
 msgstr "Versteckte Dateien anzeigen"
 
-#: ../treebrowser/src/treebrowser.c:1113
+#: ../treebrowser/src/treebrowser.c:1117
 msgid "Show bars"
 msgstr "Leisten anzeigen"
 
-#: ../treebrowser/src/treebrowser.c:1481
+#: ../treebrowser/src/treebrowser.c:1361
+#, c-format
+msgid "Target file '%s' exists, do you really want to replace it?"
+msgstr "Zieldatei »%s« existiert bereits. Möchten Sie diese wirklich ersetzen?"
+
+#: ../treebrowser/src/treebrowser.c:1489
 msgid "Home"
 msgstr "Ausgabe"
 
-#: ../treebrowser/src/treebrowser.c:1491
+#: ../treebrowser/src/treebrowser.c:1499
 msgid "Track path"
 msgstr "Pfad aufzeichnen"
 
-#: ../treebrowser/src/treebrowser.c:1496
+#: ../treebrowser/src/treebrowser.c:1504
 msgid "Hide bars"
 msgstr "Leisten verbergen"
 
-#: ../treebrowser/src/treebrowser.c:1506
+#: ../treebrowser/src/treebrowser.c:1514
 msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
 "reverse try for example this '!;*.c;*.h;*.cpp'"
 msgstr "Filter (*.c;*.h;*.cpp). Die Nutzung von ! invertiert das Ergebnis."
 
-#: ../treebrowser/src/treebrowser.c:1514
+#: ../treebrowser/src/treebrowser.c:1522
 msgid "Addressbar for example '/projects/my-project'"
 msgstr "Adressleiste. Zum Beispiel »/projects/my-projet«"
 
-#: ../treebrowser/src/treebrowser.c:1670
+#: ../treebrowser/src/treebrowser.c:1678
 msgid "External open command"
 msgstr "Externes öffnen Kommando"
 
-#: ../treebrowser/src/treebrowser.c:1675
+#: ../treebrowser/src/treebrowser.c:1683
 #, c-format
 msgid ""
 "The command to execute when using \"Open with\". You can use %f and %d "
@@ -3432,53 +3446,53 @@ msgstr ""
 "%f wird mit dem Dateinamen ersetzt, der den kompletten Pfad beinhaltet%d "
 "wird mit dem Pfad des Verzeichnisses der aktuellen Datei ersetzt"
 
-#: ../treebrowser/src/treebrowser.c:1683
+#: ../treebrowser/src/treebrowser.c:1691
 msgid "Toolbar"
 msgstr "Werkzeugleiste"
 
-#: ../treebrowser/src/treebrowser.c:1685
+#: ../treebrowser/src/treebrowser.c:1693
 msgid "Hidden"
 msgstr "Versteckt"
 
-#: ../treebrowser/src/treebrowser.c:1686
+#: ../treebrowser/src/treebrowser.c:1694
 msgid "Top"
 msgstr "Spitze"
 
-#: ../treebrowser/src/treebrowser.c:1687
+#: ../treebrowser/src/treebrowser.c:1695
 msgid "Bottom"
 msgstr "Boden"
 
-#: ../treebrowser/src/treebrowser.c:1692
+#: ../treebrowser/src/treebrowser.c:1700
 msgid "If position is changed, the option require plugin restart."
 msgstr ""
 "Bei einer Veränderung der Position, muss das Plugin neu geladen werden."
 
-#: ../treebrowser/src/treebrowser.c:1696
+#: ../treebrowser/src/treebrowser.c:1704
 msgid "Show icons"
 msgstr "Symbole anzeigen"
 
-#: ../treebrowser/src/treebrowser.c:1698
+#: ../treebrowser/src/treebrowser.c:1706
 msgid "None"
 msgstr "Keines"
 
-#: ../treebrowser/src/treebrowser.c:1699
+#: ../treebrowser/src/treebrowser.c:1707
 msgid "Base"
 msgstr "Basis"
 
-#: ../treebrowser/src/treebrowser.c:1700
+#: ../treebrowser/src/treebrowser.c:1708
 msgid "Content-type"
 msgstr "Inhaltsart"
 
-#: ../treebrowser/src/treebrowser.c:1711
+#: ../treebrowser/src/treebrowser.c:1719
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr ""
 "Unter Windows versteckt dies nur Dateien, die mit \".\" (Punkt) beginnen. "
 
-#: ../treebrowser/src/treebrowser.c:1713
+#: ../treebrowser/src/treebrowser.c:1721
 msgid "Hide object files"
 msgstr "Objektdateien verbergen"
 
-#: ../treebrowser/src/treebrowser.c:1718
+#: ../treebrowser/src/treebrowser.c:1726
 msgid ""
 "Don't show generated object files in the file browser, this includes *.o, *."
 "obj. *.so, *.dll, *.a, *.lib"
@@ -3486,40 +3500,40 @@ msgstr ""
 "Keine generierten Objektdateien anzeigen. Dies bezieht *.o, *.obj. *.so, *."
 "dll, *.a, *.lib mit ein."
 
-#: ../treebrowser/src/treebrowser.c:1720
+#: ../treebrowser/src/treebrowser.c:1728
 msgid "Reverse filter"
 msgstr "Filter zurücksetzen"
 
-#: ../treebrowser/src/treebrowser.c:1725
+#: ../treebrowser/src/treebrowser.c:1733
 msgid "Follow current document"
 msgstr "Dem aktuellen Dokument folgen"
 
-#: ../treebrowser/src/treebrowser.c:1730
+#: ../treebrowser/src/treebrowser.c:1738
 msgid "Single click, open document and focus it"
 msgstr "Einfacher Klick, öffne Dokument und fokussiere es"
 
-#: ../treebrowser/src/treebrowser.c:1735
+#: ../treebrowser/src/treebrowser.c:1743
 msgid "Double click open directory"
 msgstr "Doppelklick zum Öffnen des Verzeichnisses"
 
-#: ../treebrowser/src/treebrowser.c:1740
+#: ../treebrowser/src/treebrowser.c:1748
 msgid "On delete file, close it if is opened"
 msgstr "Datei schließen, wenn sie gelöscht wird"
 
 # Gibts für Tooltip nich ne bessere Übersetzung? Sonst würde ich evtl. "Tooltip" auch als Eigennamen deklarieren :D
-#: ../treebrowser/src/treebrowser.c:1745
+#: ../treebrowser/src/treebrowser.c:1753
 msgid "Show tree lines"
 msgstr "Leere Zeilen anzeigen"
 
-#: ../treebrowser/src/treebrowser.c:1820
+#: ../treebrowser/src/treebrowser.c:1828
 msgid "Focus File List"
 msgstr "Dateiliste fokussieren"
 
-#: ../treebrowser/src/treebrowser.c:1822
+#: ../treebrowser/src/treebrowser.c:1830
 msgid "Focus Path Entry"
 msgstr "Pfadeintrag fokusieren"
 
-#: ../treebrowser/src/treebrowser.c:1824
+#: ../treebrowser/src/treebrowser.c:1832
 msgid "Rename Object"
 msgstr "Objekt Umbenennen"
 
@@ -3531,31 +3545,31 @@ msgstr "Extra Selection"
 msgid "Column mode, select to line / matching brace."
 msgstr "Spaltenmodus. Auswählen bis zur Zeile/passenden Klammer"
 
-#: ../geanyextrasel/src/extrasel.c:276
+#: ../geanyextrasel/src/extrasel.c:307
 msgid "E_xtra Selection"
 msgstr "E_xtra Selection"
 
-#: ../geanyextrasel/src/extrasel.c:282
+#: ../geanyextrasel/src/extrasel.c:313
 msgid "_Column Mode"
 msgstr "_Spaltenmodus"
 
-#: ../geanyextrasel/src/extrasel.c:286
+#: ../geanyextrasel/src/extrasel.c:317
 msgid "Column mode"
 msgstr "Spaltenmodus"
 
-#: ../geanyextrasel/src/extrasel.c:288
+#: ../geanyextrasel/src/extrasel.c:319
 msgid "Select to _Line"
 msgstr "Zeile _auswählen"
 
-#: ../geanyextrasel/src/extrasel.c:292
+#: ../geanyextrasel/src/extrasel.c:323
 msgid "Select to line"
 msgstr "Zeile auswählen"
 
-#: ../geanyextrasel/src/extrasel.c:294
+#: ../geanyextrasel/src/extrasel.c:325
 msgid "Select to Matching _Brace"
 msgstr "Bis zur passenden Klammer auswählen"
 
-#: ../geanyextrasel/src/extrasel.c:299
+#: ../geanyextrasel/src/extrasel.c:330
 msgid "Select to matching brace"
 msgstr "Bis zur passenden Klammer auswählen"
 
@@ -3596,6 +3610,65 @@ msgstr "Überprüfung nach Aktualisierungen beim Starten durchführen"
 #: ../updatechecker/src/updatechecker.c:313
 msgid "Check for Updates"
 msgstr "Auf mögliche Aktualisierungen prüfen"
+
+#: ../webhelper/src/gwh-browser.c:463
+msgid "_Zoom"
+msgstr "Vergrößerung"
+
+#: ../webhelper/src/gwh-browser.c:485
+msgid "Full-_content zoom"
+msgstr "Dokument einpassen"
+
+#: ../webhelper/src/gwh-browser.c:496
+#, fuzzy
+msgid "Flip panes orientation"
+msgstr "Seitenausrichtung:"
+
+#: ../webhelper/src/gwh-browser.c:738
+msgid "Back"
+msgstr "Zurück"
+
+#: ../webhelper/src/gwh-browser.c:742
+msgid "Forward"
+msgstr "Weiter"
+
+#: ../webhelper/src/gwh-browser.c:746
+msgid "Cancel loading"
+msgstr "Laden abbrechen"
+
+#: ../webhelper/src/gwh-browser.c:750
+msgid "Reload current page"
+msgstr "Aktuelle Seite neu laden"
+
+#: ../webhelper/src/gwh-browser.c:763 ../webhelper/src/gwh-browser.c:836
+msgid "Web inspector"
+msgstr "Web inspector"
+
+#: ../webhelper/src/gwh-browser.c:764
+msgid "Toggle web inspector"
+msgstr "Webinspektor umschalten"
+
+#: ../webhelper/src/gwh-plugin.c:49
+msgid "Web helper"
+msgstr "Web Helper"
+
+#: ../webhelper/src/gwh-plugin.c:50
+msgid ""
+"Display a preview web page that gets updated upon document saving and "
+"provide web analysis and debugging tools (aka Web Inspector), all using "
+"WebKit."
+msgstr ""
+"Zeigt eine Vorschau für eine Webseite an, die jedes Mal beim Speichern neu "
+"geladen wird. Es bietet dabei analytische Unterstützung sowie ein "
+"Debuggingwerkzeug (Webinspektor) und basiert dabei auf Webkit. "
+
+#: ../webhelper/src/gwh-plugin.c:100
+msgid "Reload upon document saving"
+msgstr "Beim Speichern des Dokumentes neu laden"
+
+#: ../webhelper/src/gwh-plugin.c:176
+msgid "Web preview"
+msgstr "Webvorschau"
 
 #~ msgid "Directory '%s' not exists."
 #~ msgstr "Verzeichnis »%s« existiert nicht."
