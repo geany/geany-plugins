@@ -25,7 +25,7 @@ installed from the sources, you should be ready to go. If you used a
 prepared package e.g. from your distribution you probably need to
 install an additional package, this might be called geany-dev or
 geany-devel. Please note that in order to compile and use this plugin,
-you need Geany 0.19 or later (Geany Plugin API v147 or higher).
+you need Geany 0.20 or later (Geany Plugin API v199 or higher).
 
 Furthermore you need, of course, a C compiler and the Make tool. The
 GNU versions of these tools are recommended.

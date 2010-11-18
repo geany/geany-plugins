@@ -35,7 +35,7 @@ GeanyPlugin		*geany_plugin;
 GeanyData		*geany_data;
 GeanyFunctions	*geany_functions;
 
-PLUGIN_VERSION_CHECK(188)
+PLUGIN_VERSION_CHECK(199)
 
 PLUGIN_SET_TRANSLATABLE_INFO(
 	LOCALEDIR,
@@ -63,12 +63,6 @@ GtkWidget *mailbutton = NULL;
 static GtkWidget *main_menu_item = NULL;
 
 
-static void on_enter_key_pressed_in_entry(G_GNUC_UNUSED GtkWidget *widget, gpointer dialog )
-{
-	gtk_dialog_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
-}
-
-
 /* Callback for sending file as attachment */
 static void
 send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer gdata)
@@ -78,10 +72,6 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
 	gchar	*command = NULL;
 	GError	*error = NULL;
 	GString	*cmd_str = NULL;
-	GtkWidget	*dialog = NULL;
-	GtkWidget 	*label = NULL;
-	GtkWidget 	*entry = NULL;
-	GtkWidget	*vbox = NULL;
 	GKeyFile 	*config = g_key_file_new();
 	gchar 		*config_dir = g_path_get_dirname(config_file);
 	gchar 		*data;
@@ -106,44 +96,22 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
 
 			if ((use_address_dialog == TRUE) && (g_strrstr(mailer, "%r") != NULL))
 			{
-				dialog = gtk_dialog_new_with_buttons(_("Recipient's Address"),
+ 				gchar *input = dialogs_show_input(_("Recipient's Address"),
 										GTK_WINDOW(geany->main_widgets->window),
-										GTK_DIALOG_DESTROY_WITH_PARENT,
-										GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-										GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-										NULL);
-				gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
- 				vbox = ui_dialog_vbox_new(GTK_DIALOG(dialog));
- 				gtk_widget_set_name(dialog, "GeanyDialog");
- 				gtk_box_set_spacing(GTK_BOX(vbox), 10);
+										_("Enter the recipient's e-mail address:"),
+										address);
 
- 				label = gtk_label_new(_("Enter the recipient's e-mail address:"));
- 				gtk_widget_show(label);
- 				gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
- 				entry = gtk_entry_new();
- 				gtk_widget_show(entry);
- 				if (address != NULL)
- 					gtk_entry_set_text(GTK_ENTRY(entry), address);
-
- 				gtk_container_add(GTK_CONTAINER(vbox), label);
- 				gtk_container_add(GTK_CONTAINER(vbox), entry);
- 				gtk_widget_show(vbox);
-
-				g_signal_connect(G_OBJECT(entry), "activate",
-					G_CALLBACK(on_enter_key_pressed_in_entry), dialog);
-
-				if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
+				if (input)
 				{
 					g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
 
 					g_free(address);
- 					address = g_strdup(gtk_entry_get_text(GTK_ENTRY(entry)));
+ 					address = input;
 
  					g_key_file_set_string(config, "tools", "address", address);
  				}
  				else
  				{
-					gtk_widget_destroy(dialog);
 					return;
 				}
 
@@ -173,10 +141,14 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
 				if (! utils_string_replace_all(cmd_str, "%r", address))
  					ui_set_statusbar(FALSE,
 					_("Recipient address placeholder not found. The executed command might have failed."));
+					g_free(address);
 			}
 			else
+			{
 				/* Removes %r if option was not activ but was included into command */
 				utils_string_replace_all(cmd_str, "%r", NULL);
+				g_free(address);
+			}
 
 			utils_string_replace_all(cmd_str, "%b", g_path_get_basename(locale_filename));
 
@@ -190,12 +162,6 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
 
 			g_free(locale_filename);
 			g_free(command);
-
-			if (dialog != NULL)
-			{
-				gtk_widget_destroy(dialog);
-			}
-
 		}
 		else
 		{

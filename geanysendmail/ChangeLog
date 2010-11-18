@@ -1,3 +1,9 @@
+2010-11-19  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Apply a patch by Nick to make usage of new dialogs_show_input() 
+   function from plugin APIv199.
+
+
 2010-09-23  Frank Lanitz  <frank@frank.uvena.de>
 
  * Replace deprecated PLUGIN_KEY_GROUP macro.
