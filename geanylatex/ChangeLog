@@ -1,3 +1,46 @@
+2010-10-30  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Try to fetch BibTeX entries from files inside working dir of file.
+
+
+2010-10-29  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Added a first version of a dialog supporting inserting a bibtex entry.
+
+
+2010-10-24  Frank Lanitz  <frank@frank.uvena.de>
+
+ * Ensure LaTeX menu is added to menubar on loading plugin when there is
+   already an LaTeX-document open.
+
+
+2010-09-26  Frank Lanitz  <frank@frank.uvena.de>
+
+ * Try to backport automatic generation of LINGUAS files into waf script
+   as a backport from Geany-plugins build script.
+ * Add a feature to put a icon for the wizard into Geany's main toolbar.
+
+
+2010-09-20  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Added a feature that inserts capital letters on first letter of a 
+   sentence. This is not working with multibyte characters as German 
+   Umlauts.
+
+
+2010-09-14  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Place LaTeX menu in front of help menu entry.
+
+
+2010-09-12  Frank Lanitz  <frank@frank.uvena.de>
+
+ * Moved LaTeX menu out of Tool menu and put it into generic menubar item.
+   Make this menubar item be triggered by filetype. 
+ * Fix a bug that keeps font size choser from tools menu active even
+   there is no document open.
+
+
 2010-05-15  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * Add a feature which is inserting {} automaticlly once a new line is

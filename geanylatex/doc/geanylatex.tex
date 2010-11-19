@@ -47,7 +47,7 @@ openany,%
 \hypersetup{pdftex=true, colorlinks=true, breaklinks=true, linkcolor=black, urlcolor=darkblue}
 
 \title{Geany\LaTeX{} -- A \LaTeX{} plugin for Geany \\[1.5ex]
-	   \normalsize Version 0.5}
+	   \normalsize Version 0.6svn}
 \author{Frank Lanitz \\ \small{\href{mailto:frank@frank.uvena.de}{frank@frank.uvena.de}}}
 \date{\today}
 
@@ -80,7 +80,8 @@ It implements a couple of hopefully useful functions:
 		  references \textbackslash ref{} and \textbackslash pageref{}
    		  getting suggestions from the document's aux file
 	\item Insertion of special characters through the menu
-	\item Help on BibTeX entries by templates
+	\item Help on BibTeX entries by templates and offering a list of
+		  available references.
 	\item Easy insertion of format patterns like \textbackslash texttt{}
 		  through the menu
 	\item Support of environment insertion by offering a dialog and
@@ -93,7 +94,19 @@ It implements a couple of hopefully useful functions:
 
 \newpage
 \section{News \& ChangeLog}
-\subsection*{Geany\LaTeX{} 0.5 -- 2010-06-13}
+\subsection{Upcoming Geany\LaTeX{} 0.6}
+\begin{itemize}
+	\item Moved \LaTeX{} menu to a separate menu inside Geany main menu
+	\item Added a feature to autocapetlise letters on typing on begin of 
+		  a sentence
+	\item Added a way to put a icon for \LaTeX{}-wizard into Geany's main
+		  toolbar
+	\item Added a dialog for inserting BibTeX references based on
+		  available *.bib-files
+	\item Upgrade plugin API to version 199
+\end{itemize}
+
+\subsection{Geany\LaTeX{} 0.5 -- 2010-06-13}
 \begin{itemize}
 
 	\item Introduced custom templates for \LaTeX-Wizard
@@ -117,9 +130,10 @@ It implements a couple of hopefully useful functions:
 	\item Automatic adding of \{\} after typing of \_{} and \symbol{94}
 	\item Added automatic inserting of \{\} after typing a command and
 		  hitting return in case of none pair is already present
+
 \end{itemize}
 
-\subsection*{GeanyLaTeX{} 0.4 -- 2009-05-26}
+\subsection{Geany\LaTeX{} 0.4 -- 2009-05-26}
 \begin{itemize}
 	\item Added a toolbar with frequently used format commands
 	\item Added a configuration dialog to configure basic options
@@ -152,7 +166,7 @@ installed Geany from the sources, you should be ready to go. If
 you used a prepared package, e.g. from your distribution, you probably
 need to install an additional package, probably called geany-dev
 or geany-devel. Please note that in order to compile and use this
-plugin, you need Geany 0.19svn or later (Geany Plugin API v184 or higher).
+plugin, you need Geany 0.20svn or later (Geany Plugin API v199 or higher).
 
 Furthermore you need, of course, a C compiler and python installed. The
 GNU version of the C compiler is recommended. Furthermore, there should be a
@@ -215,11 +229,13 @@ htlatex geanylatex.tex xhtml -cvalidate -interaction=batchmode
 \end{figure}
 
 After Geany\LaTeX{} has been installed successful the plugin can be
-loaded through Geany's plugin manager and a new sub menu in the Tools
-menu will appear as well as new key bindings will be available inside
-Geany's key binding interface. Inside the sub menu you will find entries
-for functions supported by this version of the plugin. The main menu entry
-will be called something like \texttt{LaTeX}, depending on your locale.
+loaded through Geany's plugin manager. Depending on configuration a
+new menu inside Geany's main menu will appear, an menu entry for the
+\LaTeX{}-wizard will appear inside the Tools menu as well as new key
+bindings will be available inside Geany's key binding interface.
+Inside the new menu you will find entries for functions supported by
+this version of the plugin. The main menu entry will be called
+something like \texttt{LaTeX}, depending on your locale.
 
 Also if the option for showing the toolbar is activated on configuration
 dialog, the toolbar with common used format functions appears on at top
@@ -365,7 +381,8 @@ Both, the inserting labels as well as the inserting reference dialog
 can be accessed by key binding also. See Chapter \ref
 {kb_insert_label} here.
 
-\subsection{BibTeX templates for catalogue entries}
+\subsection{Support for BibTeX}
+\subsubsection{BibTeX templates for catalogue entries}
 Geany\LaTeX{} is offering a number of often used templates for BibTeX
 catalogue entries. They can be access by the plugin submenu in Geany's
 tools menu:
@@ -402,6 +419,23 @@ Year = {},
 }
 \end{lstlisting}
 \end{figure}
+
+\subsubsection{Inserting cite-reference}
+
+Geany\LaTeX{} is searching here for *.bib-files inside the directory
+of current active file. Its filtering for all references inside
+these files and putting it sorted and cleared from duplicated
+entries into the pulldown of the dialog. 
+
+\begin{figure}[h!]
+	\centering{\includegraphics[height=2.5cm]{img/bibtex_reference.png}}
+	\caption{Insert BibTeX reference dialog on Geany\LaTeX{} 0.6}
+\end{figure}
+
+With selecting one of the entries inside the pull down or by typing
+in your own reference name, pushing enter or hitting OK will insert
+a \texttt{\textbackslash{}cite\{\}} into your document with your
+given reference.
 
 \subsection{Replacement of special characters}
 Geany\LaTeX{} is able to replace special characters to their there \TeX\
@@ -513,7 +547,7 @@ check Chapter \ref {sec:hidden_pref_autocompletion_context}, page
 \pageref {sec:hidden_pref_autocompletion_context}.
 
 This feature is by default file type depending, so it will only work
-on \TeX{}-like file types.
+on \TeX{}-like file types as well its turned on by default. 
 
 
 \subsection{Inserting \textbackslash{}usepackage\{\}-entry to header}
@@ -535,13 +569,19 @@ there is any.
 
 \section{Configuration}
 
-GeanyLaTeX{} can be configured in two major ways:
+GeanyLaTeX{} can be configured in three major ways:
 \begin{enumerate}
-\item GeanyLaTeX{}'s configuration dialog
-\item Geany's keybindings interface
+\item GeanyLaTeX{}'s configuration dialog (see chapter \ref{sec:configuration_dialog},
+	page \pageref{sec:configuration_dialog})
+\item Geany's keybindings interface (see chapter \ref{sec:key_bindings},
+	page \pageref{sec:key_bindings})
+\item By hidden preferences which needs to be configured directly inside
+	  configuration file (see chapter \ref{sec:hidden_preferences},
+	page \pageref{sec:hidden_preferences})
 \end{enumerate}
 
 \subsection{GeanyLaTeX{}'s configuration dialog}
+\label{sec:configuration_dialog}
 With version 0.4 the configuration dialog is offering two options which
 can be changed:
 
@@ -560,6 +600,22 @@ of editor widget. Option is turned off by default. Just give it a try.
 	\caption{Plugin toolbar of Geany\LaTeX{} 0.5}
 \end{figure}
 
+
+\subsubsection{Capitalize letters on sentence begin}
+
+If this option is enabled, Geany\LaTeX{} will look for \textsc{.}, 
+\textsc{!} or \textsc{?} followed by a space. The next letter will 
+be inserted in capital letters. Currenty this is not working for 
+multichar letters as German Umlauts as well as the overwriting is 
+not supported very well at this point. In case of you don't want to 
+have the capital version of a letter in a particular case, just hit 
+undo (Ctrl + z in most cases). 
+
+\subsubsection{Add a wizard icon to Geany's main toolbar}
+This adds an icon for Geany\LaTeX{} wizard to Geany's main toolbar
+so its easy to access via mouse even the toolbar of Geany\LaTeX{} is
+not active and the tools menu is a way to far away.
+
 \subsubsection{Modus of autocompletion}
 \label{sec:modus_of_autocompletion}
 Here you can choose, whether the Geany\LaTeX{} should do some
@@ -570,6 +626,7 @@ autocompletion or not. Values are either
 \end{enumerate}
 
 \subsection{Key bindings}
+\label{sec:key_bindings}
 Keybindings which are available:
 
 \begin{table}[H]
@@ -610,13 +667,14 @@ Insert enumerate list & Inserts an enumerate environment as well as a 1\up{st} \
 
 
 \subsection{Hidden preferencess}
+\label{sec:hidden_preferences}
 As not all users need to configure everything on there plugin, Geany
 \LaTeX{} has some hidden preferences which can be set through
 command line.
 
 \subsubsection{Deactivate toolbar items if document is a non \TeX-type}
-
-By defaul, Geany\LaTeX{} is deactivating buttons inside toolbar, which
+\label{deactivate_toolbaritems_with_non_latex}
+By default, Geany\LaTeX{} is deactivating buttons inside toolbar, which
 don't make much sense to be applied on non-\TeX{} file types. As
 this is not always wished, its possible to turn this feature off
 via a hidden preferences.
@@ -638,6 +696,51 @@ glatex_deactivate_toolbaritems_with_non_latex=false
 Setting this option back to true will go back to default behaviour.
 
 Please ensure, you reload the plugin once this option has been changed.
+
+\subsubsection{Remove \LaTeX{} menu if document is a non \TeX-type}
+\label{deactivate_menubarentry_with_non_latex}
+Geany\LaTeX{} is enabling a separate menu inside Geany's main menu.
+On default, its getting activated and deactivated based on the file
+type of the current document. However, from time to time its annying
+to have the menu entry switched maybe each time on switching between
+two documents it can be set to keep even there is no LaTeX document
+activ.
+
+\begin{lstlisting}
+[general]
+glatex_set_koma_active=false
+glatex_set_toolbar_active=true
+
+[menu]
+glatex_deactivate_menubarentry_with_non_latex=false
+\end{lstlisting}
+
+This option might make sense in combination with deactivation of
+toolbar items on changing to a non-\TeX{} document at
+\ref{deactivate_toolbaritems_with_non_latex}, page \pageref
+{deactivate_toolbaritems_with_non_latex}.
+
+\subsubsection{Add \LaTeX{} menu on startup}
+
+In case of you want to see always the \LaTeX{}-menu independent of
+you have a \LaTeX{} document open. To add the menu direct at startup
+time you might set \texttt{glatex\_add\_menu\_on\_startup} inside
+menu section of configuration file to true.
+
+\begin{lstlisting}
+[general]
+glatex_set_koma_active=false
+glatex_set_toolbar_active=true
+
+[menu]
+glatex_deactivate_menubarentry_with_non_latex=false
+glatex_add_menu_on_startup=true
+\end{lstlisting}
+
+This options makes only sense in combination with
+glatex\_deactivate\_menubarentry\_with\_non\_latex
+as described in chapter \ref{deactivate_menubarentry_with_non_latex},
+page \pageref {deactivate_menubarentry_with_non_latex}.
 
 \subsubsection{Size of context for autocompletion}
 \label{sec:hidden_pref_autocompletion_context}

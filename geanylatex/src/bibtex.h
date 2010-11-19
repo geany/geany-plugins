@@ -74,19 +74,18 @@ enum {
 	GLATEX_BIBTEX_N_ENTRIES
 };
 
-extern gchar *glatex_label_types[];
-
 extern const gchar *glatex_label_tooltips[];
-
 extern const gchar *glatex_label_entry_keywords[];
-
 extern const gchar *glatex_label_entry[];
+extern BibTeXType glatex_bibtex_types[];
 
 int glatex_push_bibtex_entry(int style, GeanyDocument *doc);
-
 void glatex_insert_bibtex_entry(G_GNUC_UNUSED GtkMenuItem * menuitem, gpointer gdata);
-
 void glatex_bibtex_write_entry(GPtrArray *entry, gint doctype);
+GPtrArray *glatex_bibtex_init_empty_entry(void);
+void glatex_bibtex_insert_cite(gchar *reference_name, gchar *option);
+void glatex_parse_bib_file(const gchar* file, gpointer combobox);
+LaTeXLabel* glatex_parseLine_bib(const gchar *line);
 
-GPtrArray *glatex_bibtex_init_empty_entry();
+
 #endif

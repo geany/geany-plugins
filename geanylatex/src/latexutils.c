@@ -26,19 +26,18 @@ gchar **glatex_read_file_in_array(const gchar *filename)
 {
 	gchar **result = NULL;
 	gchar *data;
-
-	if (filename == NULL) return NULL;
-
-	g_file_get_contents(filename, &data, NULL, NULL);
-
+	
+	g_return_val_if_fail((filename != NULL), NULL);	
+	g_return_val_if_fail(g_file_get_contents(filename, &data, NULL, NULL), NULL);
+	
 	if (data != NULL)
 	{
+		g_warning("Content eingelesen: \n %s", data);
 		result = g_strsplit_set(data, "\r\n", -1);
+		g_free(data);
+		return result;
 	}
-
-	g_free(data);
-
-	return result;
+	return NULL;
 }
 
 void glatex_usepackage(const gchar *pkg, const gchar *options)
@@ -92,14 +91,14 @@ void glatex_usepackage(const gchar *pkg, const gchar *options)
 }
 
 
-void glatex_enter_key_pressed_in_entry(G_GNUC_UNUSED GtkWidget *widget, gpointer dialog )
+void glatex_enter_key_pressed_in_entry(G_GNUC_UNUSED GtkWidget *widget, gpointer dialog)
 {
 	gtk_dialog_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
 }
 
 
 void
-glatex_insert_string(gchar *string, gboolean reset_position)
+glatex_insert_string(const gchar *string, gboolean reset_position)
 {
 	GeanyDocument *doc = NULL;
 
@@ -119,3 +118,47 @@ glatex_insert_string(gchar *string, gboolean reset_position)
 	}
 }
 
+
+void glatex_replace_special_character()
+{
+	GeanyDocument *doc = NULL;
+	doc = document_get_current();
+
+	if (doc != NULL && sci_has_selection(doc->editor->sci))
+	{
+		guint selection_len;
+		gchar *selection = NULL;
+		GString *replacement = g_string_new(NULL);
+		guint i;
+		gchar *new = NULL;
+		const gchar *entity = NULL;
+		gchar buf[7];
+		gint len;
+
+		selection = sci_get_selection_contents(doc->editor->sci);
+
+		selection_len = strlen(selection);
+
+		for (i = 0; i < selection_len; i++)
+		{
+			len = g_unichar_to_utf8(g_utf8_get_char(selection + i), buf);
+			i = len - 1 + i;
+			buf[len] = '\0';
+			entity = glatex_get_entity(buf);
+
+			if (entity != NULL)
+			{
+			
+				g_string_append(replacement, entity);
+			}
+			else
+			{
+				g_string_append(replacement, buf);
+			}
+		}
+		new = g_string_free(replacement, FALSE);
+		sci_replace_sel(doc->editor->sci, new);
+		g_free(selection);
+		g_free(new);
+	}
+}

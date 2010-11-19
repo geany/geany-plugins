@@ -50,7 +50,7 @@ extern SubMenuTemplate glatex_environment_array[];
 
 extern CategoryName glatex_environment_cat_names[];
 
-void glatex_insert_environment(gchar *environment, gint type);
+void glatex_insert_environment(const gchar *environment, gint type);
 
 void
 glatex_insert_environment_dialog(G_GNUC_UNUSED GtkMenuItem *menuitem,

@@ -28,16 +28,21 @@
 #include "geanylatex.h"
 #include "ctype.h"
 
-PLUGIN_VERSION_CHECK(184)
+PLUGIN_VERSION_CHECK(199)
 
-PLUGIN_SET_INFO(_("GeanyLaTeX"), _("Plugin to provide better LaTeX support"),
-	"0.5", "Frank Lanitz <frank@frank.uvena.de>")
+PLUGIN_SET_TRANSLATABLE_INFO(
+	LOCALEDIR,
+	GETTEXT_PACKAGE,
+	_("GeanyLaTeX"),
+	_("Plugin to provide better LaTeX support"),
+	"0.6pre-1",
+	"Frank Lanitz <frank@frank.uvena.de>")
 
 GeanyPlugin	 *geany_plugin;
 GeanyData	   *geany_data;
 GeanyFunctions  *geany_functions;
 
-
+/* Widgets for plugin */
 static GtkWidget *menu_latex = NULL;
 static GtkWidget *menu_latex_menu = NULL;
 static GtkWidget *menu_latex_wizard = NULL;
@@ -47,6 +52,7 @@ static GtkWidget *menu_latex_ref = NULL;
 static GtkWidget *menu_latex_label = NULL;
 static GtkWidget *menu_latex_bibtex = NULL;
 static GtkWidget *menu_latex_bibtex_submenu = NULL;
+static GtkWidget *menu_latex_insert_bibtex_cite = NULL;
 static GtkWidget *menu_latex_format_insert = NULL;
 static GtkWidget *menu_latex_format_insert_submenu = NULL;
 static GtkWidget *menu_latex_fontsize = NULL;
@@ -58,14 +64,19 @@ static GtkWidget *menu_latex_replacement = NULL;
 static GtkWidget *menu_latex_replacement_submenu = NULL;
 static GtkWidget *menu_latex_replace_selection = NULL;
 static GtkWidget *menu_latex_replace_toggle = NULL;
+static GtkWidget *menu_latex_toolbar_wizard = NULL;
 
 /* Options for plugin */
 static gboolean glatex_set_koma_active = FALSE;
 static gboolean glatex_deactivate_toolbaritems_with_non_latex = TRUE;
+static gboolean glatex_deactivate_menubarentry_with_non_latex = TRUE;
+static gboolean glatex_add_menu_on_startup;
 static gchar *glatex_ref_chapter_string = NULL;
 static gchar *glatex_ref_page_string = NULL;
 static gchar *glatex_ref_all_string = NULL;
 static gboolean glatex_set_toolbar_active = FALSE;
+static gboolean glatex_capitalize_sentence_starts = FALSE;
+static gboolean glatex_wizard_to_generic_toolbar = FALSE;
 
 /* We want to keep this deactivated by default as the
  * user needs to know what he is doing here.... */
@@ -86,12 +97,12 @@ static GtkActionGroup *group;
 static GtkWidget *glatex_toolbar = NULL;
 static GtkWidget *box = NULL;
 
+static GtkToolItem *glatex_wizard_generic_toolbar_item = NULL;
+
 /* Configuration file */
 static gchar *config_file = NULL;
 
 LaTeXWizard glatex_wizard;
-
-PLUGIN_KEY_GROUP(geanylatex, COUNT_KB)
 
 const GtkActionEntry format_icons[] =
 {
@@ -128,11 +139,17 @@ static struct
 	GtkWidget *koma_active;
 	GtkWidget *toolbar_active;
 	GtkWidget *glatex_autocompletion_active;
+	GtkWidget *glatex_capitalize_sentence;
+	GtkWidget *wizard_to_generic_toolbar;
 }
 config_widgets;
 
 /* Some functions*/
 static void toggle_toolbar_items_by_file_type(gint id);
+static void add_menu_to_menubar(void);
+static void remove_menu_from_menubar(void);
+static void add_wizard_to_generic_toolbar(void);
+static void remove_wizard_from_generic_toolbar(void);
 
 
 static GtkWidget *init_toolbar()
@@ -156,6 +173,7 @@ static GtkWidget *init_toolbar()
 	return toolbar;
 }
 
+
 static void
 on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 					  G_GNUC_UNUSED gpointer user_data)
@@ -174,7 +192,11 @@ on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(config_widgets.koma_active));
 		glatex_set_toolbar_active =
 			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(config_widgets.toolbar_active));
-
+		glatex_capitalize_sentence_starts =
+			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(config_widgets.glatex_capitalize_sentence));
+		glatex_wizard_to_generic_toolbar =
+			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(config_widgets.wizard_to_generic_toolbar));
+			
 		/* Check the response code for geanyLaTeX's autocompletion functions.
 		 * Due compatibility with oder Geany versions cass 0 will be treated
 		 * as FALSE, which means autocompletion is deactivated. */
@@ -194,6 +216,11 @@ on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 			glatex_set_toolbar_active);
 		g_key_file_set_boolean(config, "general", "glatex_set_autocompletion",
 			glatex_autocompletion_active);
+		g_key_file_set_boolean(config, "autocompletion", 
+			"glatex_capitalize_sentence_starts", glatex_capitalize_sentence_starts);
+		g_key_file_set_boolean(config, "toolbar", "glatex_wizard_to_generic_toolbar",
+			glatex_wizard_to_generic_toolbar);
+
 
 		if (!g_file_test(config_dir, G_FILE_TEST_IS_DIR)
 			&& utils_mkdir(config_dir, TRUE) != 0)
@@ -230,6 +257,18 @@ on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 		{
 			gtk_widget_hide(glatex_toolbar);
 		}
+
+		/* Add wizard to generic toolbar if requested */
+		if (glatex_wizard_to_generic_toolbar == TRUE &&
+			glatex_wizard_generic_toolbar_item == NULL)
+		{
+			add_wizard_to_generic_toolbar();
+		}
+		else if (glatex_wizard_to_generic_toolbar == FALSE &&
+				 glatex_wizard_generic_toolbar_item != NULL)
+		{
+			remove_wizard_from_generic_toolbar();
+		}
 	}
 }
 
@@ -247,6 +286,10 @@ plugin_configure(GtkDialog * dialog)
 		_("Use KOMA script by default"));
 	config_widgets.toolbar_active = gtk_check_button_new_with_label(
 		_("Show extra plugin toolbar"));
+	config_widgets.glatex_capitalize_sentence = gtk_check_button_new_with_label(
+		_("Capitalize sentense on typing"));
+	config_widgets.wizard_to_generic_toolbar = gtk_check_button_new_with_label(
+		_("Add a wizard icon to Geany's main toolbar"));
 
 	config_widgets.glatex_autocompletion_active = gtk_combo_box_new_text();
 	gtk_combo_box_insert_text(GTK_COMBO_BOX(config_widgets.glatex_autocompletion_active), 0,
@@ -275,6 +318,12 @@ plugin_configure(GtkDialog * dialog)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(config_widgets.toolbar_active),
 		glatex_set_toolbar_active);
 	gtk_box_pack_start(GTK_BOX(vbox), config_widgets.toolbar_active, FALSE, FALSE, 2);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(config_widgets.glatex_capitalize_sentence), 
+		glatex_capitalize_sentence_starts);
+	gtk_box_pack_start(GTK_BOX(vbox), config_widgets.glatex_capitalize_sentence, FALSE, FALSE, 2);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(config_widgets.wizard_to_generic_toolbar),
+		glatex_wizard_to_generic_toolbar);
+	gtk_box_pack_start(GTK_BOX(vbox), config_widgets.wizard_to_generic_toolbar, FALSE, FALSE, 2);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox_autocompletion, FALSE, FALSE, 2);
 
 	gtk_widget_show_all(vbox);
@@ -283,14 +332,14 @@ plugin_configure(GtkDialog * dialog)
 }
 
 /* Functions to toggle the status of plugin */
-void glatex_set_latextoggle_status(gboolean new_status)
+static void glatex_set_latextoggle_status(gboolean new_status)
 {
 	/* No more function at the moment.*/
 	if (toggle_active != new_status)
 		toggle_active = new_status;
 }
 
-void glatex_toggle_status(G_GNUC_UNUSED GtkMenuItem * menuitem)
+static void glatex_toggle_status(G_GNUC_UNUSED GtkMenuItem * menuitem)
 {
 	if (toggle_active == TRUE)
 		glatex_set_latextoggle_status(FALSE);
@@ -305,6 +354,25 @@ static void toggle_toolbar_item(const gchar *path, gboolean new_status)
 		gtk_action_set_sensitive(gtk_ui_manager_get_action(uim, path), new_status);
 	}
 }
+
+static void
+check_for_menu(gint ft_id)
+{
+	if (ft_id == GEANY_FILETYPES_LATEX &&
+		main_menu_item == NULL)
+	{
+		add_menu_to_menubar();
+	}
+	if (ft_id != GEANY_FILETYPES_LATEX &&
+		main_menu_item != NULL)
+	{
+		if (glatex_deactivate_menubarentry_with_non_latex == TRUE)
+		{
+			remove_menu_from_menubar();
+		}
+	}
+}
+
 
 static void activate_toolbar_items()
 {
@@ -364,6 +432,7 @@ static void on_document_activate(G_GNUC_UNUSED GObject *object,
 	if (main_is_realized() == TRUE)
 	{
 		toggle_toolbar_items_by_file_type(doc->file_type->id);
+		check_for_menu(doc->file_type->id);
 	}
 }
 
@@ -380,6 +449,8 @@ static void on_document_new(G_GNUC_UNUSED GObject *object, GeanyDocument *doc,
 }
 
 
+
+
 static void
 on_geany_startup_complete(G_GNUC_UNUSED GObject *obj,
 						  G_GNUC_UNUSED gpointer user_data)
@@ -390,7 +461,16 @@ on_geany_startup_complete(G_GNUC_UNUSED GObject *obj,
 	if (doc != NULL)
 	{
 		toggle_toolbar_items_by_file_type(doc->file_type->id);
+		if (glatex_add_menu_on_startup == TRUE||
+			doc->file_type->id == GEANY_FILETYPES_LATEX)
+		{
+			if (main_menu_item == NULL)
+			{
+				add_menu_to_menubar();
+			}
+		}
 	}
+	
 }
 
 
@@ -403,6 +483,7 @@ static void on_document_filetype_set(G_GNUC_UNUSED GObject *obj, GeanyDocument *
 	if (main_is_realized() == TRUE)
 	{
 		toggle_toolbar_items_by_file_type(doc->file_type->id);
+		check_for_menu(doc->file_type->id);
 	}
 }
 
@@ -414,17 +495,19 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *object, GeanyEditor *edi
 	gint pos;
 
 	g_return_val_if_fail(editor != NULL, FALSE);
-
+	sci = editor->sci;
 	/* Autocompletion for LaTeX specific stuff:
 	 * Introducing \end{} or \endgroup{} after a \begin{}
-	 *
-	 * Function has been taken from Geany's core under terms of GPLv2+
-	 * where it was original developed. */
+
+	 * Function is based on function which was inside
+	 * Geany's core under terms of GPLv2+
+	 * EXtended for GeanyLaTeX with some more autocompletion features
+	 * for e.g. _{} and ^{}.*/
+	 
 	if (glatex_autocompletion_active == TRUE &&
 		!(glatex_autocompletion_only_for_latex == TRUE &&
 		editor->document->file_type->id != GEANY_FILETYPES_LATEX))
 	{
-		sci = editor->sci;
 		pos = sci_get_current_position(sci);
 
 		if (nt->nmhdr.code == SCN_CHARADDED)
@@ -511,7 +594,6 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *object, GeanyEditor *edi
 								}
 								g_free(tmp);
 								g_free(end_construct);
-
 							}
 
 							/* After we have this, we need to ensure basic
@@ -528,18 +610,24 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *object, GeanyEditor *edi
 								indent);
 							g_free(construct);
 						}
+						g_free(buf);
 					}
 
 					/* Now we are handling the case, a new line has been inserted
 					* but no closing braces */
 					else if (glatex_autobraces_active == TRUE)
 					{
-						gint line = sci_get_line_from_position(sci, pos -
-									(editor_get_eol_char_len (editor) + 1));
-						gint line_len = sci_get_line_length(sci, line) -
-									editor_get_eol_char_len (editor);
+						gint line;
+
+						gint line_len;
 						gint i;
 						gchar *buf;
+
+						line = sci_get_line_from_position(sci, pos -
+									(editor_get_eol_char_len (editor) + 1));
+						line_len = sci_get_line_length(sci, line) -
+									editor_get_eol_char_len (editor);
+
 
 						/* Catching current line which has been 'finished'*/
 						buf = sci_get_line(sci, line);
@@ -565,7 +653,8 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *object, GeanyEditor *edi
 							 * would cause a bigger mass. */
 							else if (buf[i] == ' ' ||
 									 buf[i] == '}' ||
-									 buf[i] == '{')
+									 buf[i] == '{' ||
+									 buf[i] == '"')
 							{
 								break;
 							}
@@ -574,8 +663,8 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *object, GeanyEditor *edi
 					}
 					break;
 				} /* Closing case \r or \n */
-			case '_':
-			case '^':
+				case '_':
+				case '^':
 				{
 					if (glatex_autobraces_active == TRUE)
 					{
@@ -583,6 +672,31 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *object, GeanyEditor *edi
 						sci_set_current_position(sci, pos + 1, TRUE);
 					}
 					break;
+				}
+				default: 
+				{
+					if (glatex_capitalize_sentence_starts == TRUE)
+					{
+						if (sci_get_char_at(sci, pos -2) == ' ' &&
+							(sci_get_char_at(sci, pos -3) == '.' ||
+							 sci_get_char_at(sci, pos -3) == '!' ||
+							 sci_get_char_at(sci, pos -3) == '?' ))
+						{
+							gchar *upperLtr = NULL;
+							gchar *selection = NULL;
+							
+							sci_set_selection_start(sci, pos - 1);
+							sci_set_selection_end(sci, pos);
+						
+							selection = sci_get_selection_contents(sci);
+							upperLtr = g_utf8_strup(selection, -1);
+							sci_replace_sel(sci, upperLtr);
+							
+							g_free(upperLtr);
+							g_free(selection);
+						}
+						break;
+					}
 				}
 			} /* Closing switch  */
 			/* later there could be some else ifs for other keywords */
@@ -623,61 +737,21 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *object, GeanyEditor *edi
 }
 
 
-void on_document_close(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
+static void on_document_close(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 					   G_GNUC_UNUSED gpointer user_data)
 {
 	g_return_if_fail(doc != NULL);
 
 	if (doc->index < 2)
 		deactivate_toolbar_items();
+	if (doc->index < 1 && 
+		glatex_deactivate_menubarentry_with_non_latex == TRUE)
+		remove_menu_from_menubar();
 }
 
-
-void glatex_replace_special_character()
-{
-	GeanyDocument *doc = NULL;
-	doc = document_get_current();
-
-	if (doc != NULL && sci_has_selection(doc->editor->sci))
-	{
-		guint selection_len;
-		gchar *selection = NULL;
-		GString *replacement = g_string_new(NULL);
-		guint i;
-		gchar *new = NULL;
-		const gchar *entity = NULL;
-		gchar buf[7];
-		gint len;
-
-		selection = sci_get_selection_contents(doc->editor->sci);
-
-		selection_len = strlen(selection);
-
-		for (i = 0; i < selection_len; i++)
-		{
-			len = g_unichar_to_utf8(g_utf8_get_char(selection + i), buf);
-			i = len - 1 + i;
-			buf[len] = '\0';
-			entity = glatex_get_entity(buf);
-
-			if (entity != NULL)
-			{
-				replacement = g_string_append(replacement, entity);
-			}
-			else
-			{
-				replacement = g_string_append(replacement, buf);
-			}
-		}
-		new = g_string_free(replacement, FALSE);
-		sci_replace_sel(doc->editor->sci, new);
-		g_free(selection);
-		g_free(new);
-	}
-}
 
 /* Called when keys were pressed */
-void glatex_kblatex_toggle(G_GNUC_UNUSED guint key_id)
+static void glatex_kblatex_toggle(G_GNUC_UNUSED guint key_id)
 {
 	if (toggle_active == TRUE)
 		glatex_set_latextoggle_status(FALSE);
@@ -698,7 +772,7 @@ PluginCallback plugin_callbacks[] =
 };
 
 
-inline gchar*
+static inline const gchar*
 get_latex_command(gint tab_index)
 {
 	return glatex_char_array[tab_index].latex;
@@ -717,48 +791,22 @@ void
 glatex_insert_label_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 					   G_GNUC_UNUSED gpointer gdata)
 {
-	GtkWidget *dialog = NULL;
-	GtkWidget *vbox = NULL;
-	GtkWidget *label = NULL;
-	GtkWidget *textbox_label = NULL;
-	GtkWidget *table = NULL;
-
-	dialog = gtk_dialog_new_with_buttons(_("Insert Label"),
-						 GTK_WINDOW(geany->main_widgets->window),
-						 GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_CANCEL,
-						 GTK_RESPONSE_CANCEL, GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-						 NULL);
-	vbox = ui_dialog_vbox_new(GTK_DIALOG(dialog));
-	gtk_widget_set_name(dialog, "GeanyDialog");
-	gtk_box_set_spacing(GTK_BOX(vbox), 10);
-
-	table = gtk_table_new(1, 2, FALSE);
-	gtk_table_set_col_spacings(GTK_TABLE(table), 6);
-	gtk_table_set_row_spacings(GTK_TABLE(table), 6);
-
-	label = gtk_label_new(_("Label name:"));
-	textbox_label = gtk_entry_new();
-
-	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-
-	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
-	gtk_table_attach_defaults(GTK_TABLE(table), textbox_label, 1, 2, 0, 1);
-	gtk_container_add(GTK_CONTAINER(vbox), table);
-
-	g_signal_connect(G_OBJECT(textbox_label), "activate",
-		G_CALLBACK(glatex_enter_key_pressed_in_entry), dialog);
-
-	gtk_widget_show_all(vbox);
-
-	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
+	gchar *input = NULL;
+	
+	input = dialogs_show_input(_("Insert Label"),
+								GTK_WINDOW(geany->main_widgets->window),
+								_("Label name:"),
+								NULL);
+	
+	if (input)
 	{
 		gchar *label_str = NULL;
-		label_str = g_strconcat("\\label{",g_strdup(gtk_entry_get_text(
-			GTK_ENTRY(textbox_label))), "}", NULL);
-		glatex_insert_string(label_str, TRUE);
-	}
 
-	gtk_widget_destroy(dialog);
+		label_str = g_strconcat("\\label{",input , "}", NULL);
+		glatex_insert_string(label_str, TRUE);
+		g_free(input);
+		g_free(label_str);
+	}
 }
 
 
@@ -766,61 +814,31 @@ void
 glatex_insert_command_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 					 G_GNUC_UNUSED gpointer gdata)
 {
-	GtkWidget *dialog;
-	GtkWidget *vbox = NULL;
-	GtkWidget *label_command = NULL;
-	GtkWidget *textbox_command = NULL;
-	GtkWidget *table = NULL;
 
-	dialog = gtk_dialog_new_with_buttons(_("Insert Command"),
-						 GTK_WINDOW(geany->main_widgets->window),
-						 GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_CANCEL,
-						 GTK_RESPONSE_CANCEL, GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-						 NULL);
-	vbox = ui_dialog_vbox_new(GTK_DIALOG(dialog));
-	gtk_widget_set_name(dialog, "GeanyDialog");
-	gtk_box_set_spacing(GTK_BOX(vbox), 10);
-
-	table = gtk_table_new(1, 2, FALSE);
-	gtk_table_set_col_spacings(GTK_TABLE(table), 6);
-	gtk_table_set_row_spacings(GTK_TABLE(table), 6);
-
-	label_command = gtk_label_new(_("Command name:"));
-
-	textbox_command = gtk_entry_new();
-
-	gtk_misc_set_alignment(GTK_MISC(label_command), 0, 0.5);
-
-	gtk_table_attach_defaults(GTK_TABLE(table), label_command, 0, 1, 0, 1);
-	gtk_table_attach_defaults(GTK_TABLE(table), textbox_command, 1, 2, 0, 1);
-	gtk_container_add(GTK_CONTAINER(vbox), table);
-
-	g_signal_connect(G_OBJECT(textbox_command), "activate",
-		G_CALLBACK(glatex_enter_key_pressed_in_entry), dialog);
-
-	gtk_widget_show_all(vbox);
-
-	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
+	gchar *input = NULL;
+	
+	input = dialogs_show_input(_("Insert Command"),
+								GTK_WINDOW(geany->main_widgets->window),
+								_("Command name:"),
+								NULL);
+	
+	if (input)
 	{
 		gchar *cmd_str = NULL;
-		const gchar *cmd = NULL;
 
 		GeanyDocument *doc = document_get_current();
-		cmd = gtk_entry_get_text(GTK_ENTRY(textbox_command));
 
 		sci_start_undo_action(doc->editor->sci);
 
-		cmd_str = g_strdup_printf("\\%s{", cmd);
+		cmd_str = g_strdup_printf("\\%s{", input);
 		glatex_insert_string(cmd_str, TRUE);
 		/* This shall put the cursor inside the braces */
 		glatex_insert_string("}", FALSE);
 
 		sci_end_undo_action(doc->editor->sci);
-
+		g_free(input);
 		g_free(cmd_str);
 	}
-
-	gtk_widget_destroy(dialog);
 }
 
 
@@ -949,7 +967,7 @@ glatex_insert_ref_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 }
 
 
-void glatex_character_create_menu_item(GtkWidget *menu, const gchar *label,
+static void glatex_character_create_menu_item(GtkWidget *menu, const gchar *label,
 									   gint letter, MenuCallback callback)
 {
 	GtkWidget *tmp;
@@ -1008,7 +1026,7 @@ count_menu_cat_entries(CategoryName *tmp)
 }
 
 
-void glatex_sub_menu_init(GtkWidget *base_menu, SubMenuTemplate *menu_template,
+static void glatex_sub_menu_init(GtkWidget *base_menu, SubMenuTemplate *menu_template,
 				   CategoryName *category_name,
 				   MenuCallback callback_function)
 {
@@ -1193,6 +1211,100 @@ void glatex_insert_usepackage_dialog(G_GNUC_UNUSED GtkMenuItem * menuitem,
 
 	gtk_widget_destroy(dialog);
 
+}
+
+void
+on_insert_bibtex_dialog_activate(G_GNUC_UNUSED GtkMenuItem *menuitem,
+								 G_GNUC_UNUSED gpointer gdata)
+{
+	GtkWidget *dialog;
+	GtkWidget *vbox = NULL;
+	GtkWidget *label= NULL;
+	GtkWidget *textbox = NULL;
+	GtkWidget *table = NULL;
+	GtkWidget *tmp_entry = NULL;
+	GtkTreeModel *model = NULL;
+	GeanyDocument *doc = NULL;
+
+	doc = document_get_current();
+
+	dialog = gtk_dialog_new_with_buttons(_("Insert BibTeX Reference"),
+						 GTK_WINDOW(geany->main_widgets->window),
+						 GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_CANCEL,
+						 GTK_RESPONSE_CANCEL, GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+						 NULL);
+	vbox = ui_dialog_vbox_new(GTK_DIALOG(dialog));
+	gtk_widget_set_name(dialog, "GeanyDialog");
+	gtk_box_set_spacing(GTK_BOX(vbox), 10);
+
+	table = gtk_table_new(1, 2, FALSE);
+	gtk_table_set_col_spacings(GTK_TABLE(table), 6);
+	gtk_table_set_row_spacings(GTK_TABLE(table), 6);
+
+	label = gtk_label_new(_("BiBTeX reference name:"));
+	textbox = gtk_combo_box_entry_new_text();
+
+	if (doc->real_path != NULL)
+	{
+		GDir *dir;
+		gchar *tmp_dir;
+		const gchar *filename;
+		
+		tmp_dir = g_path_get_dirname(doc->real_path);
+		dir = g_dir_open(tmp_dir, 0, NULL);
+
+		g_return_if_fail(dir != NULL);
+
+		foreach_dir(filename, dir)
+		{
+			gchar *fullpath = NULL;
+			fullpath = g_build_path(G_DIR_SEPARATOR_S, tmp_dir, filename, NULL);
+		
+			glatex_parse_bib_file(fullpath, textbox);
+			g_free(fullpath);
+		}
+		g_dir_close(dir);
+		model = gtk_combo_box_get_model(GTK_COMBO_BOX(textbox));
+		gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(model),
+			0, GTK_SORT_ASCENDING);
+	}
+
+
+	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+
+	gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
+	gtk_table_attach_defaults(GTK_TABLE(table), textbox, 1, 2, 0, 1);
+	gtk_container_add(GTK_CONTAINER(vbox), table);
+
+	tmp_entry = gtk_bin_get_child(GTK_BIN(textbox));
+	g_signal_connect(G_OBJECT(tmp_entry), "activate",
+		G_CALLBACK(glatex_enter_key_pressed_in_entry), dialog);
+
+	gtk_widget_show_all(vbox);
+
+	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
+	{
+		gchar *ref_string = NULL;
+		GString *template_string = NULL;
+
+		ref_string = g_strdup(gtk_combo_box_get_active_text(
+			GTK_COMBO_BOX(textbox)));
+
+		if (ref_string != NULL)
+		{
+			glatex_bibtex_insert_cite(ref_string, NULL);
+			g_free(ref_string);
+		}
+		else
+		{
+			if (ref_string != NULL)
+				g_free(ref_string);
+			if (template_string != NULL)
+				g_free(template_string);
+		}
+	}
+
+	gtk_widget_destroy(dialog);
 }
 
 
@@ -1431,7 +1543,7 @@ on_wizard_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 			code = glatex_get_template_from_file(tmp->filepath);
 
 			/* Cleaning up template array as there is no usage for anymore */
-			g_ptr_array_foreach (glatex_wizard.template_list, (GFunc)glatex_free_TemplateEntry, NULL);
+			g_ptr_array_foreach (glatex_wizard.template_list, (GFunc)glatex_free_template_entry, NULL);
 			g_ptr_array_free(glatex_wizard.template_list, TRUE);
 		}
 
@@ -1794,61 +1906,67 @@ glatex_wizard_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 	gtk_widget_show_all(dialog);
 }
 
-void init_keybindings()
+static void init_keybindings()
 {
-	/* init keybindins */
-	keybindings_set_item(plugin_key_group, KB_LATEX_WIZARD, glatex_kbwizard,
+	GeanyKeyGroup *key_group;
+	
+	/* init keybindings */
+	key_group = plugin_set_key_group(geany_plugin, "geanylatex", COUNT_KB, NULL);
+	keybindings_set_item(key_group, KB_LATEX_WIZARD, glatex_kbwizard,
 		0, 0, "run_latex_wizard", _("Run LaTeX-Wizard"), menu_latex_wizard);
-	keybindings_set_item(plugin_key_group, KB_LATEX_INSERT_LABEL, glatex_kblabel_insert,
+	keybindings_set_item(key_group, KB_LATEX_INSERT_LABEL, glatex_kblabel_insert,
 		0, 0, "insert_latex_label", _("Insert \\label"), menu_latex_label);
-	keybindings_set_item(plugin_key_group, KB_LATEX_INSERT_REF, glatex_kbref_insert,
+	keybindings_set_item(key_group, KB_LATEX_INSERT_REF, glatex_kbref_insert,
 		0, 0, "insert_latex_ref", _("Insert \\ref"), menu_latex_ref);
-	keybindings_set_item(plugin_key_group, KB_LATEX_INSERT_NEWLINE, glatex_kb_insert_newline,
+	keybindings_set_item(key_group, KB_LATEX_INSERT_NEWLINE, glatex_kb_insert_newline,
 		0, 0, "insert_new_line", _("Insert linebreak \\\\ "), NULL);
-	keybindings_set_item(plugin_key_group, KB_LATEX_INSERT_COMMAND,
+	keybindings_set_item(key_group, KB_LATEX_INSERT_COMMAND,
 		glatex_kb_insert_command_dialog, 0, 0, "latex_insert_command",
 		_("Insert command"), menu_latex_insert_command);
-	keybindings_set_item(plugin_key_group, KB_LATEX_TOGGLE_ACTIVE, glatex_kblatex_toggle,
+	keybindings_set_item(key_group, KB_LATEX_TOGGLE_ACTIVE, glatex_kblatex_toggle,
 		0, 0, "latex_toggle_status", _("Turn input replacement on/off"),
 		menu_latex_replace_toggle);
-	keybindings_set_item(plugin_key_group, KB_LATEX_REPLACE_SPECIAL_CHARS,
+	keybindings_set_item(key_group, KB_LATEX_REPLACE_SPECIAL_CHARS,
 		glatex_kb_replace_special_chars, 0, 0, "latex_replace_chars",
 		_("Replace special characters"), NULL);
-	keybindings_set_item(plugin_key_group, KB_LATEX_ENVIRONMENT_INSERT,
+	keybindings_set_item(key_group, KB_LATEX_ENVIRONMENT_INSERT,
 		glatex_kbref_insert_environment, 0, 0, "latex_insert_environment",
 		_("Run insert environment dialog"), menu_latex_insert_environment);
-	keybindings_set_item(plugin_key_group, KB_LATEX_INSERT_NEWITEM,
+	keybindings_set_item(key_group, KB_LATEX_INSERT_NEWITEM,
 		glatex_kb_insert_newitem, 0, 0, "latex_insert_item", _("Insert \\item"), NULL);
-	keybindings_set_item(plugin_key_group, KB_LATEX_FORMAT_BOLD, glatex_kb_format_bold,
+	keybindings_set_item(key_group, KB_LATEX_FORMAT_BOLD, glatex_kb_format_bold,
 		0, 0, "format_bold", _("Format selection in bold font face"), NULL);
-	keybindings_set_item(plugin_key_group, KB_LATEX_FORMAT_ITALIC, glatex_kb_format_italic,
+	keybindings_set_item(key_group, KB_LATEX_FORMAT_ITALIC, glatex_kb_format_italic,
 		0, 0, "format_italic", _("Format selection in italic font face"), NULL);
-	keybindings_set_item(plugin_key_group, KB_LATEX_FORMAT_TYPEWRITER, glatex_kb_format_typewriter,
+	keybindings_set_item(key_group, KB_LATEX_FORMAT_TYPEWRITER, glatex_kb_format_typewriter,
 		0, 0, "format_typewriter", _("Format selection in typewriter font face"), NULL);
-	keybindings_set_item(plugin_key_group, KB_LATEX_FORMAT_CENTER, glatex_kb_format_centering,
+	keybindings_set_item(key_group, KB_LATEX_FORMAT_CENTER, glatex_kb_format_centering,
 		0, 0, "format_center", _("Format selection centered"), NULL);
-	keybindings_set_item(plugin_key_group, KB_LATEX_FORMAT_LEFT, glatex_kb_format_left,
+	keybindings_set_item(key_group, KB_LATEX_FORMAT_LEFT, glatex_kb_format_left,
 		0, 0, "format_left", _("Format selection left-aligned"), NULL);
-	keybindings_set_item(plugin_key_group, KB_LATEX_FORMAT_RIGHT, glatex_kb_format_right,
+	keybindings_set_item(key_group, KB_LATEX_FORMAT_RIGHT, glatex_kb_format_right,
 		0, 0, "format_right", _("Format selection right-aligned"), NULL);
-	keybindings_set_item(plugin_key_group, KB_LATEX_ENVIRONMENT_INSERT_DESCRIPTION,
+	keybindings_set_item(key_group, KB_LATEX_ENVIRONMENT_INSERT_DESCRIPTION,
 		glatex_kb_insert_description_list, 0, 0, "insert_description_list",
 		_("Insert description list"), NULL);
-	keybindings_set_item(plugin_key_group, KB_LATEX_ENVIRONMENT_INSERT_ITEMIZE,
+	keybindings_set_item(key_group, KB_LATEX_ENVIRONMENT_INSERT_ITEMIZE,
 		glatex_kb_insert_itemize_list, 0, 0, "insert_itemize_list",
 		_("Insert itemize list"), NULL);
-	keybindings_set_item(plugin_key_group, KB_LATEX_ENVIRONMENT_INSERT_ENUMERATE,
+	keybindings_set_item(key_group, KB_LATEX_ENVIRONMENT_INSERT_ENUMERATE,
 		glatex_kb_insert_enumerate_list, 0, 0, "insert_enumerate_list",
 		_("Insert enumerate list"), NULL);
-	keybindings_set_item(plugin_key_group, KB_LATEX_STRUCTURE_LVLUP,
+	keybindings_set_item(key_group, KB_LATEX_STRUCTURE_LVLUP,
 		glatex_kb_structure_lvlup, 0, 0, "structure_lvl_up",
 		_("Set selection one level up"), NULL);
-	keybindings_set_item(plugin_key_group, KB_LATEX_STRUCTURE_LVLDOWN,
+	keybindings_set_item(key_group, KB_LATEX_STRUCTURE_LVLDOWN,
 		glatex_kb_structure_lvldown, 0, 0, "structure_lvl_down",
 		_("Set selection one level down"), NULL);
-	keybindings_set_item(plugin_key_group, KB_LATEX_USEPACKAGE_DIALOG,
+	keybindings_set_item(key_group, KB_LATEX_USEPACKAGE_DIALOG,
 		glatex_kb_usepackage_dialog, 0, 0, "usepackage_dialog",
 		_("Insert \\usepackage{}"), menu_latex_insert_usepackage);
+	keybindings_set_item(key_group, KB_LATEX_INSERT_CITE,
+		glatex_kb_insert_bibtex_cite, 0, 0, "insert_cite_dialog",
+		_("Insert BibTeX reference dialog"), menu_latex_insert_bibtex_cite);
 }
 
 
@@ -1861,7 +1979,7 @@ void plugin_help()
 }
 
 
-void glatex_init_configuration()
+static void glatex_init_configuration()
 {
 	GKeyFile *config = g_key_file_new();
 
@@ -1878,7 +1996,7 @@ void glatex_init_configuration()
 	glatex_set_toolbar_active = utils_get_setting_boolean(config, "general",
 		"glatex_set_toolbar_active", FALSE);
 	glatex_autocompletion_active = utils_get_setting_boolean(config, "general",
-		"glatex_set_autocompletion", FALSE);
+		"glatex_set_autocompletion", TRUE);
 	glatex_autobraces_active = utils_get_setting_boolean(config, "autocompletion",
 		"glatex_set_autobraces", TRUE);
 
@@ -1897,11 +2015,21 @@ void glatex_init_configuration()
 	}
 	/* Increase value by an offset as we add a new line so 2 really means 2 */
 	glatex_autocompletion_context_size = glatex_autocompletion_context_size + 2;
+	
 	glatex_autocompletion_only_for_latex = utils_get_setting_boolean(config, "autocompletion",
 		"glatex_autocompletion_only_for_latex", TRUE);
+	glatex_capitalize_sentence_starts = utils_get_setting_boolean(config, "autocompletion", 
+		"glatex_capitalize_sentence_starts", FALSE);	
 
 	glatex_deactivate_toolbaritems_with_non_latex = utils_get_setting_boolean(config, "toolbar",
 		"glatex_deactivate_toolbaritems_with_non_latex", TRUE);
+	glatex_wizard_to_generic_toolbar = utils_get_setting_boolean(config, "toolbar",
+		"glatex_wizard_to_generic_toolbar", TRUE);
+	glatex_deactivate_menubarentry_with_non_latex = utils_get_setting_boolean(config, "menu",
+		"glatex_deactivate_menubarentry_with_non_latex", TRUE);
+	glatex_add_menu_on_startup = utils_get_setting_boolean(config, "menu", 
+		"glatex_add_menu_on_startup", FALSE);
+	
 	glatex_ref_page_string = utils_get_setting_string(config, "reference",
 		"glatex_reference_page", _("page \\pageref{{{reference}}}"));
 	glatex_ref_chapter_string = utils_get_setting_string(config, "reference",
@@ -1920,19 +2048,48 @@ void glatex_init_configuration()
 }
 
 
-void
-plugin_init(G_GNUC_UNUSED GeanyData * data)
+static void
+add_wizard_to_generic_toolbar()
+{
+	if (glatex_wizard_generic_toolbar_item == NULL)
+	{
+		/* TODO: Find a better icon as this one is used way too often */
+		glatex_wizard_generic_toolbar_item =
+			gtk_tool_button_new_from_stock(GTK_STOCK_NEW);
+		plugin_add_toolbar_item(geany_plugin, glatex_wizard_generic_toolbar_item);
+		gtk_widget_show_all(GTK_WIDGET(glatex_wizard_generic_toolbar_item));
+		g_signal_connect(glatex_wizard_generic_toolbar_item, "clicked",
+				G_CALLBACK(glatex_wizard_activated), NULL);
+	}
+}
+
+
+static void 
+remove_wizard_from_generic_toolbar()
+{
+	if (glatex_wizard_generic_toolbar_item != NULL)
+	{
+		gtk_widget_destroy(GTK_WIDGET(glatex_wizard_generic_toolbar_item));
+		glatex_wizard_generic_toolbar_item = NULL;
+	}
+}
+
+
+static void
+add_menu_to_menubar()
 {
 	GtkWidget *tmp = NULL;
-	gint i;
+	gint i;	
+	GtkMenuShell *menubar;
 
-	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+	/* First we check for the menubar where to add the LaTeX menu */
+	menubar = GTK_MENU_SHELL(
+				ui_lookup_widget(geany->main_widgets->window, "menubar1"));
 
-	glatex_init_configuration();
-	glatex_init_encodings_latex();
-
+	/* Then we build up the menu and finally add it */
 	menu_latex = gtk_menu_item_new_with_mnemonic(_("_LaTeX"));
-	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), menu_latex);
+	gtk_menu_shell_insert(
+		menubar,menu_latex, g_list_length(menubar->children)- 1);
 
 	menu_latex_menu = gtk_menu_new();
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_latex), menu_latex_menu);
@@ -1954,8 +2111,8 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	menu_latex_menu_special_char_submenu = gtk_menu_new();
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_latex_menu_special_char),
 		menu_latex_menu_special_char_submenu);
-	glatex_sub_menu_init(menu_latex_menu_special_char_submenu, glatex_char_array, glatex_cat_names,
-		char_insert_activated);
+	glatex_sub_menu_init(menu_latex_menu_special_char_submenu,
+		glatex_char_array, glatex_cat_names, char_insert_activated);
 
 	menu_latex_ref = gtk_menu_item_new_with_mnemonic(_("Insert _Reference"));
 	ui_widget_set_tooltip_text(menu_latex_ref,
@@ -1987,7 +2144,15 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	g_signal_connect(menu_latex_insert_usepackage, "activate",
 		G_CALLBACK(glatex_insert_usepackage_dialog), NULL);
 
-	menu_latex_bibtex = gtk_menu_item_new_with_mnemonic(_("_BibTeX"));
+	menu_latex_insert_bibtex_cite =
+		gtk_menu_item_new_with_mnemonic(_("Insert B_ibTeX reference"));
+	ui_widget_set_tooltip_text(menu_latex_insert_bibtex_cite, 
+		_("Helps to insert a reference out of BibTeX files"));
+	gtk_container_add(GTK_CONTAINER(menu_latex_menu), menu_latex_insert_bibtex_cite);
+	g_signal_connect(menu_latex_insert_bibtex_cite, "activate",
+		G_CALLBACK(on_insert_bibtex_dialog_activate), NULL);
+
+	menu_latex_bibtex = gtk_menu_item_new_with_mnemonic(_("_BibTeX entries"));
 	gtk_container_add(GTK_CONTAINER(menu_latex_menu), menu_latex_bibtex);
 
 	menu_latex_bibtex_submenu = gtk_menu_new();
@@ -1997,7 +2162,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	for (i = 0; i < GLATEX_BIBTEX_N_TYPES; i++)
 	{
 		tmp = NULL;
-		tmp = gtk_menu_item_new_with_mnemonic(_(glatex_label_types[i]));
+		tmp = gtk_menu_item_new_with_mnemonic(_(glatex_bibtex_types[i].label));
 		gtk_container_add(GTK_CONTAINER(menu_latex_bibtex_submenu), tmp);
 		g_signal_connect(tmp, "activate",
 			G_CALLBACK(glatex_insert_bibtex_entry), GINT_TO_POINTER(i));
@@ -2075,6 +2240,76 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	g_signal_connect(menu_latex_insert_command, "activate",
 		G_CALLBACK(glatex_insert_command_activated), NULL);
 
+	ui_add_document_sensitive(menu_latex_menu_special_char);
+	ui_add_document_sensitive(menu_latex_ref);
+	ui_add_document_sensitive(menu_latex_label);
+	ui_add_document_sensitive(menu_latex_bibtex);
+	ui_add_document_sensitive(menu_latex_format_insert);
+	ui_add_document_sensitive(menu_latex_insert_environment);
+	ui_add_document_sensitive(menu_latex_insert_usepackage);
+	ui_add_document_sensitive(menu_latex_insert_command);
+	ui_add_document_sensitive(menu_latex_fontsize);
+	ui_add_document_sensitive(menu_latex_replacement);
+
+	gtk_widget_show_all(menu_latex);
+	main_menu_item = menu_latex;
+}
+
+
+static void
+remove_menu_from_menubar()
+{
+	if (main_menu_item != NULL)
+	{
+		gtk_widget_destroy(main_menu_item);
+		main_menu_item = NULL;
+	}
+	
+}
+
+
+static void
+remove_menu_from_tools_menu()
+{
+	if (menu_latex_toolbar_wizard != NULL)
+	{
+		gtk_widget_destroy(menu_latex_toolbar_wizard);
+		menu_latex_toolbar_wizard = NULL;
+	}
+}
+
+
+static void
+add_wizard_to_tools_menu()
+{
+	if (menu_latex_toolbar_wizard == NULL)
+	{
+		menu_latex_toolbar_wizard = ui_image_menu_item_new(GTK_STOCK_NEW,
+			_("LaTeX-_Wizard"));
+		gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), menu_latex_toolbar_wizard);
+		ui_widget_set_tooltip_text(menu_latex_toolbar_wizard,
+					 _("Starts a Wizard to easily create LaTeX-documents"));
+		gtk_widget_show_all(menu_latex_toolbar_wizard);
+		g_signal_connect(menu_latex_toolbar_wizard, "activate",
+				 G_CALLBACK(glatex_wizard_activated), NULL);
+	}
+}
+
+
+void
+plugin_init(G_GNUC_UNUSED GeanyData * data)
+{
+	GeanyDocument *doc = NULL;
+
+	doc = document_get_current();
+
+	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+
+	glatex_init_configuration();
+	glatex_init_encodings_latex();
+
+	add_wizard_to_tools_menu();
+
 	init_keybindings();
 
 	/* Check whether the toolbar should be shown or not and do so*/
@@ -2087,27 +2322,35 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 		glatex_toolbar = NULL;
 	}
 
-	ui_add_document_sensitive(menu_latex_menu_special_char);
-	ui_add_document_sensitive(menu_latex_ref);
-	ui_add_document_sensitive(menu_latex_label);
-	ui_add_document_sensitive(menu_latex_bibtex);
-	ui_add_document_sensitive(menu_latex_format_insert);
-	ui_add_document_sensitive(menu_latex_insert_environment);
-	ui_add_document_sensitive(menu_latex_insert_usepackage);
-	ui_add_document_sensitive(menu_latex_insert_command);
-	ui_add_document_sensitive(menu_latex_replacement);
+	if (glatex_wizard_to_generic_toolbar == TRUE)
+	{
+		add_wizard_to_generic_toolbar();
+	}
+	else
+	{
+		glatex_wizard_generic_toolbar_item = NULL;
+	}
 
-	gtk_widget_show_all(menu_latex);
-	main_menu_item = menu_latex;
+	if (doc != NULL)
+	{
+		if ((glatex_add_menu_on_startup == TRUE||
+			doc->file_type->id == GEANY_FILETYPES_LATEX) &&
+			main_menu_item == NULL)
+		{
+			add_menu_to_menubar();
+		}
+	}
+
 }
 
 void
 plugin_cleanup()
 {
-	gtk_widget_destroy(main_menu_item);
 	if (glatex_toolbar != NULL)
 		gtk_widget_destroy(glatex_toolbar);
-
+	remove_menu_from_menubar();
+	remove_menu_from_tools_menu();
+	remove_wizard_from_generic_toolbar();
 	g_free(config_file);
 	g_free(glatex_ref_chapter_string);
 	g_free(glatex_ref_page_string);

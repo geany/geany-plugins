@@ -107,13 +107,13 @@ SubMenuTemplate glatex_char_array[] = {
 	{GREEK_LETTERS, "ϖ", "\\piv" },
 
 	/* German Umlaute */
-	{GERMAN_LETTERS, "ä","\"a"},
-	{GERMAN_LETTERS, "Ä","\"A"},
-	{GERMAN_LETTERS, "ü","\"u"},
-	{GERMAN_LETTERS, "Ü","\"U"},
-	{GERMAN_LETTERS, "ö","\"o"},
-	{GERMAN_LETTERS, "Ö","\"O"},
-	{GERMAN_LETTERS, "ß","\"s"},
+	{GERMAN_LETTERS, "ä","\\\"a"},
+	{GERMAN_LETTERS, "Ä","\\\"A"},
+	{GERMAN_LETTERS, "ü","\\\"u"},
+	{GERMAN_LETTERS, "Ü","\\\"U"},
+	{GERMAN_LETTERS, "ö","\\\"o"},
+	{GERMAN_LETTERS, "Ö","\\\"O"},
+	{GERMAN_LETTERS, "ß","\\\"s"},
 
 	/* Czech characters */
 	{MISC_LETTERS, "ě","\\v{e}"},
@@ -222,7 +222,7 @@ SubMenuTemplate glatex_char_array[] = {
 
 };
 
-gchar *glatex_get_entity(const gchar *letter)
+const gchar *glatex_get_entity(const gchar *letter)
 {
 	if (! utils_str_equal(letter, "\\"))
 	{

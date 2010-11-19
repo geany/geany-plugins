@@ -37,8 +37,7 @@ enum {
 
 extern const gchar *glatex_structure_values[];
 
-void glatex_structure_lvlup();
-
-void glatex_structure_lvldown();
-
+void glatex_structure_lvlup(void);
+void glatex_structure_lvldown(void);
+gint glatex_structure_rotate(gboolean direction, gint start);
 #endif

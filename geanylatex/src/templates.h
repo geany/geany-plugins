@@ -76,9 +76,9 @@ enum {
 \\end{document}\n"
 
 GString *glatex_get_template_from_file(gchar *filepath);
-GPtrArray *glatex_init_custom_templates();
-GList *glatex_get_template_list_from_config_dir();
-void glatex_free_TemplateEntry(TemplateEntry *template, gpointer *data);
+GPtrArray *glatex_init_custom_templates(void);
+GList *glatex_get_template_list_from_config_dir(void);
+void glatex_free_template_entry(TemplateEntry *template, gpointer *data);
 void glatex_add_templates_to_combobox(GPtrArray *templates, GtkWidget *combobox);
 
 #endif

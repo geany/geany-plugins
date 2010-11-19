@@ -157,3 +157,9 @@ void glatex_kb_insert_command_dialog(G_GNUC_UNUSED guint key_id)
 	g_return_if_fail(document_get_current != NULL);
 	glatex_insert_command_activated(NULL, NULL);
 }
+
+void glatex_kb_insert_bibtex_cite(G_GNUC_UNUSED guint key_id)
+{
+	g_return_if_fail(document_get_current != NULL);
+	on_insert_bibtex_dialog_activate(NULL, NULL);
+}

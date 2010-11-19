@@ -25,8 +25,8 @@
 typedef struct
 {
 	gint cat;
-	gchar *label;
-	gchar *latex;
+	const gchar *label;
+	const gchar *latex;
 } SubMenuTemplate;
 
 
@@ -37,12 +37,14 @@ typedef struct
 	gboolean sorted;
 } CategoryName;
 
+
 typedef struct
 {
 	gchar *filepath;
 	gchar *label;
 	GString *template;
 } TemplateEntry;
+
 
 typedef struct
 {
@@ -60,5 +62,18 @@ typedef struct
 	GPtrArray *template_list;
 	gboolean draft_active;
 } LaTeXWizard;
+
+typedef struct
+{
+	gchar *latex;
+	gchar *label;
+} BibTeXType;
+
+typedef struct
+{
+	gchar *label_name;
+	gint page;
+	gchar *chapter;
+} LaTeXLabel;
 
 #endif

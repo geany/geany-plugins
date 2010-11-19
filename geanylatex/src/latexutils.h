@@ -26,6 +26,7 @@
 gchar **glatex_read_file_in_array(const gchar *filename);
 void glatex_usepackage(const gchar *pkg, const gchar *options);
 void glatex_enter_key_pressed_in_entry(G_GNUC_UNUSED GtkWidget *widget, gpointer dialog);
-void glatex_insert_string(gchar *string, gboolean reset_position);
+void glatex_insert_string(const gchar *string, gboolean reset_position);
+void glatex_replace_special_character(void);
 
 #endif

@@ -21,22 +21,25 @@
 
 #include "geanylatex.h"
 #include "bibtex.h"
+#include "datatypes.h"
 
-gchar *glatex_label_types[] = {
-	N_("Article"),
-	N_("Book"),
-	N_("Booklet"),
-	N_("Conference"),
-	N_("Inbook"),
-	N_("Incollection"),
-	N_("Inproceedings"),
-	N_("Manual"),
-	N_("Mastersthesis"),
-	N_("Misc"),
-	N_("PhdThesis"),
-	N_("Proceedings"),
-	N_("Techreport"),
-	N_("Unpublished")};
+BibTeXType glatex_bibtex_types[] = {
+	{ "Article", N_("Article (@Article)")}, 
+	{ "Book", N_("Book (@Book)")},
+	{ "Booklet", N_("Booklet (@Booklet)")},
+	{ "Conference", N_("Conference (@Conference)")},
+	{ "Inbook", N_("Inbook (@Inbook)")},
+	{ "Incollection", N_("Incollection (@Incollection)")},
+	{ "Inproceedings", N_("Inproceedings (@Inproceedings)")},
+	{ "Manual", N_("Manual (@Manual)")},
+	{ "Mastersthesis", N_("Mastersthesis (@Mastersthesis)")},
+	{ "Misc", N_("Misc (@Misc)")},
+	{ "PhdThesis", N_("PhdThesis (@PhdThesis)")},
+	{ "Proceedings", N_("Proceedings (@Proceedings)")},
+	{ "Techreport", N_("Techreport (@Techreport)")},
+	{ "Unpublished", N_("Unpublished (@Unpublished)")},
+	{ NULL, NULL}
+};
 
 
 const gchar *glatex_label_entry[] = {

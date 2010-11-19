@@ -39,11 +39,9 @@
 #include "latexstructure.h"
 #include "latexkeybindings.h"
 
-#ifdef HAVE_LOCALE_H
-# include <locale.h>
-#endif
 
 #include <string.h>
+
 typedef void (*MenuCallback) (G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer gdata);
 
 
@@ -69,9 +67,10 @@ void glatex_insert_label_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 	 G_GNUC_UNUSED gpointer gdata);
 void glatex_insert_ref_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 	 G_GNUC_UNUSED gpointer gdata);
-void glatex_replace_special_character();
+void glatex_replace_special_character(void);
 void glatex_insert_usepackage_dialog(G_GNUC_UNUSED GtkMenuItem * menuitem,
 	 G_GNUC_UNUSED gpointer gdata);
 void glatex_insert_command_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 	 G_GNUC_UNUSED gpointer gdata);
+void on_insert_bibtex_dialog_activate(GtkMenuItem * menuitem, gpointer gdata);
 #endif

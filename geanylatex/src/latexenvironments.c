@@ -60,7 +60,7 @@ gchar *glatex_list_environments [] =
 
 
 /* if type == -1 then we will try to autodetect the type */
-void glatex_insert_environment(gchar *environment, gint type)
+void glatex_insert_environment(const gchar *environment, gint type)
 {
 	GeanyDocument *doc = NULL;
 

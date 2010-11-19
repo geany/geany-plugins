@@ -33,6 +33,6 @@ extern SubMenuTemplate glatex_char_array[];
 
 extern CategoryName glatex_cat_names[];
 
-gchar *glatex_get_entity(const gchar *letter);
+const gchar *glatex_get_entity(const gchar *letter);
 
 #endif

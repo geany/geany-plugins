@@ -24,12 +24,6 @@
 
 #include "geanylatex.h"
 
-typedef struct
-{
-	gchar *label_name;
-	gint page;
-	gchar *chapter;
-} LaTeXLabel;
 
 void glatex_add_Labels(GtkWidget *combobox, GSList *dir);
 

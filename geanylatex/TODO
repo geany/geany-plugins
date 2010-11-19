@@ -10,8 +10,6 @@ Features:
 	* Parsing document for already used ones
 * Improving support for bibTeX
     * Parsing of *.bib
-    * Inserting of \cite
-    * Dialog for inserting bibTeX entries
 * Wizard:
 	* Adding support for diff. letter classes
 	* Adding a way setting variables/values for wizard inside custom
@@ -26,3 +24,7 @@ Features:
 * Make special characters extensible through files
 * Improve behaviour of levelup and leveldown of structures
 * Adding a font size chooser to toolbar
+* Adding support for dtx
+
+Generell:
+* Cleaning up code
