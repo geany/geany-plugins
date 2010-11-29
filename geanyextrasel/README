@@ -5,15 +5,17 @@ About
 -----
 The Extra Selection adds the following functions:
 
-Goto matching brace and select (Select to matching brace).
+Goto matching brace and select (Select to Matching Brace).
 
-Goto line and select (Select to line).
+Goto line and select (Select to Line).
 
 Ctrl-Shift-Alt-Left/Right/Home/End keys - same as Ctrl-Shift, but for
 rectangular selection.
 
 Column mode - while active, all (Ctrl)-Shift-movement keys do rectangle
 selection instead of stream.
+
+Selection with anchor instead of the Shift-movement keys.
 
 "Movement keys" refers to the arrows, Home, End, Page Up and Page Down.
 
@@ -22,7 +24,7 @@ For more information, see the Usage section below.
 
 Requirements
 ------------
-Geany 0.18 or later and the respective headers and development libraries.
+Geany 0.19 or later and the respective headers and development libraries.
 
 
 Installation
@@ -42,17 +44,19 @@ If there are any errors during compilation, check your build environment.
 
 Usage
 -----
-Under Tools -> Extra Selection, there are 3 new items: "Column mode",
-"Select to line" and "Select to matching brace". Normally these should be
-bound to keys, for example Alt-c, Alt-Shift-l and Control-Shift-b. Now:
+Under Tools -> Extra Selection, there are 6 new items: "Column Mode",
+"Select to Line" and "Select to Matching Brace", "Set Anchor", "Select to
+Anchor" and "Rectangle Select to Anchor". Normally these should be bound
+to keys, for example Alt-C, Alt-Shift-L, Ctrl-Shift-B, F12, Shift-F12 and
+Alt-Shift-F12. Now:
 
-1. Position the cursor on an opening brace and invoke "Select to matching
-   brace". The cursor will move to the closing brace, and the braced area
+1. Position the cursor on an opening brace and invoke "Select to Matching
+   Brace". The cursor will move to the closing brace, and the braced area
    will be selected.
 
-2. Position the cursor on line 10, invoke "Select to line" and enter 15.
+2. Position the cursor on line 10, invoke "Select to Line" and enter 15.
    The cursor will move to line 15, and the area between the previous and
-   the new current cursor position will be selected.
+   the current cursor position will be selected.
 
 3. Select a small rectangular area and press Control-Alt-Shift-Right. The
    cursor will move to the next word, extending the rectangurar selection.
@@ -69,26 +73,34 @@ bound to keys, for example Alt-c, Alt-Shift-l and Control-Shift-b. Now:
 
    Unfortunately, holding Alt for rectangular selection has some problems,
    which apply both to the standard Geany keys and these added by the
-   plugin. Under Windows, the Alt-keypad keys generates unicodes, even if
+   plugin. Under Windows, the Alt-keypad keys generate unicodes, even if
    used with Shift or Control. With X11, some Alt-(Ctrl)-(Shift)-movement
    keys may be used by the window manager for moving windows, switching to
    the previous/next desktop etc. So then:
 
-4. Turn "Column mode" on. While active, the (Control)-Shift-movement keys
+4. Turn "Column Mode" on. While active, the (Control)-Shift-movement keys
    will select a rectangle instead of stream, without the need to hold
    Alt (in fact, the (Control)-Alt-Shift-movement keys will be temporarily
    blocked). This way, you will avoid the Alt key problems mentioned
    above, and it's more convenient to select while holding Shift only.
 
+5. Finally, invoke "Set Anchor", navigate to another point in the document
+   and invoke "Select to Anchor" - the result is obvious. Note that the
+   anchor position is set exactly where the insertion cursor is, not on
+   the character right of the cursor (or on the overtype cursor). When the
+   column mode is active, "Rectangle Selection to Anchor" is disabled, and
+   "Select to Anchor" does rectangular selection.
+
 
 Known issues
 ------------
-The column mode is global, not per-document. However, (de)activating it
-will change the selection (if any) to stream/rectangle for the current
-document only.
+If the cursor is on a large line number, converting a stream selection to
+rectangular may cause a noticable delay. This is scintilla-related; with
+the newest scintilla versions (r3465+), the delay is much smaller.
 
-The column mode applies to the movement keys only - not to mouse
-selection, find functions etc.
+If you set the anchor beyond a line end (in the "virtual space"), and edit
+the text before it, the anchor will be moved to the line end. Not a big
+issue, and tracking a virtual position is impossible in scintilla.
 
 
 License

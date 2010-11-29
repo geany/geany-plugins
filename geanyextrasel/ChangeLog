@@ -1,3 +1,27 @@
+2010-11-28  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/extrasel.c:
+   Added "Rectangle Select to Anchor".
+   Changed "Select to anchor" to select rectangle in column mode.
+
+2010-11-27  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/extrasel.c:
+   Added "Set Anchor" and "Select to Anchor".
+   Per-file column mode and anchor position.
+
+2010-11-21  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/extrasel.c:
+   Added virtual spaces support. Increased the required API version
+   to that of Geany 0.19 (the first that includes virtual spaces).
+
+2010-11-20  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/extrasel.c:
+   Fixed Scintilla Shift+movement key convertion of rectangle selection
+   to stream. In theory this is rarely used feature, not a bug.
+
 2010-11-11  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/extrasel.c:
