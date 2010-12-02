@@ -328,7 +328,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_widget_show(pref_widgets.checkbox_icon_to_toolbar);
 
 	pref_widgets.checkbox_use_addressdialog = gtk_check_button_new_with_label(_
-		("Using dialog for entering email address of recipients"));
+		("Use dialog for entering email address of recipients"));
 
 	gtk_button_set_focus_on_click(GTK_BUTTON(pref_widgets.checkbox_use_addressdialog), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pref_widgets.checkbox_use_addressdialog), use_address_dialog);
