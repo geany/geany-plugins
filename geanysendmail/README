@@ -78,6 +78,9 @@ mutt:
 Mozilla Thunderbird at Windows:
 	"C:\Program Files\Mozilla Thunderbird\thunderbird.exe" \
 		-compose to="%r",subject="%b",attachment="%f"
+Evolution:
+	evolution "mailto:?to=%r&attachment=%f"
+	evolution "mailto:?attachment=%f"
 
 In theory it should also work together with tools like Microsoft
 Outlook - Unfortunately the author wasn't able to bring it up
