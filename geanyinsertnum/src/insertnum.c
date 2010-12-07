@@ -28,10 +28,10 @@ GeanyPlugin	*geany_plugin;
 GeanyData	*geany_data;
 GeanyFunctions	*geany_functions;
 
-PLUGIN_VERSION_CHECK(150)
+PLUGIN_VERSION_CHECK(189)
 
 PLUGIN_SET_INFO(_("Insert Numbers"), _("Insert/Fill columns with numbers."),
-		"0.2", "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>");
+	"0.2.1", "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
 
 /* Keybinding(s) */
 enum
@@ -86,7 +86,8 @@ static gboolean can_insert_numbers(void)
 	{
 		ScintillaObject *sci = doc->editor->sci;
 
-		if (sci_has_selection(sci) && sci_get_selection_mode(sci) == SC_SEL_RECTANGLE)
+		if (sci_has_selection(sci) && (sci_get_selection_mode(sci) == SC_SEL_RECTANGLE ||
+			sci_get_selection_mode(sci) == SC_SEL_THIN))
 		{
 			start_pos = sci_get_selection_start(sci);
 			start_line = sci_get_line_from_position(sci, start_pos);
@@ -106,17 +107,10 @@ static void update_display(void)
         	gtk_main_iteration();
 }
 
-/* not included in 0.18 */
-static int sci_point_x_from_position(ScintillaObject *sci, gint position)
-{
-	return scintilla_send_message(sci, SCI_POINTXFROMPOSITION, 0, position);
-}
-
-/* not #defined in 0.18 */
+#define sci_point_x_from_position(sci, position) \
+	scintilla_send_message(sci, SCI_POINTXFROMPOSITION, 0, position)
 #define sci_get_pos_at_line_sel_start(sci, line) \
-	scintilla_send_message((sci), SCI_GETLINESELSTARTPOSITION, (line), 0)
-#define sci_goto_pos(sci, position) \
-	scintilla_send_message((sci), SCI_GOTOPOS, (position), 0)
+	scintilla_send_message(sci, SCI_GETLINESELSTARTPOSITION, line, 0)
 
 static void insert_numbers(gboolean *cancel)
 {
@@ -237,7 +231,7 @@ static void insert_numbers(gboolean *cancel)
 			update_display();
 			if (*cancel)
 			{
-				sci_goto_pos(sci, insert_pos + length);
+				scintilla_send_message(sci, SCI_GOTOPOS, insert_pos + length, 0);
 				break;
 			}
 		}

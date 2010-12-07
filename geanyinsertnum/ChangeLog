@@ -1,3 +1,9 @@
+2010-12-07  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/insertnum.c:
+   Added thin selection support. Increased the required API version
+   to that of Geany 0.19 (the first that includes thin selection).
+
 2010-10-06  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/insertnum.c:
