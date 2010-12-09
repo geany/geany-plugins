@@ -25,7 +25,7 @@
 	* Complete following path from current document view
 	(DONE) Hide object files as native filebroser (*.o;*.a;*.so;*.dll;*.lib..)
 	(DONE) Using font from geany settings for sidebar
-	* Migrating to stash
+	(REJECTED) Migrating to stash
 	(DONE) Adding keybindings for renaming/deleting/refreshing
 	(DONE) Add option to change bars position // requested by <dmaphy>
 	(DONE) Add option to autorename point the newest created objects by the Treebrowser
@@ -36,6 +36,14 @@
 +-------------------------------+
 
 
+09-12-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		Fixed error colors in addressbar when last directory wasn`t existing,
+			but then chrooting.
+		"Right click" menu rearanged to looks more logically
+
+
 01-11-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
@@ -43,7 +51,7 @@
 			target files if they exists.
 
 
-01-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+01-11-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* ChangeLog
 		Revision 1688, Modified Thu Oct 28 21:02:33 2010 UTC by colombanw

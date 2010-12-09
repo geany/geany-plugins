@@ -344,6 +344,35 @@ get_terminal()
 	return terminal;
 }
 
+static gboolean
+treebrowser_checkdir(gchar *directory)
+{
+	gboolean is_dir;
+	static const GdkColor red 	= {0, 0xffff, 0x6666, 0x6666};
+	static const GdkColor white = {0, 0xffff, 0xffff, 0xffff};
+	static gboolean old_value = TRUE;
+
+	is_dir = g_file_test(directory, G_FILE_TEST_IS_DIR);
+	g_return_if_fail(GTK_WIDGET(addressbar) != NULL);
+
+	if (old_value != is_dir)
+	{
+		gtk_widget_modify_base(GTK_WIDGET(addressbar), GTK_STATE_NORMAL, is_dir ? NULL : &red);
+		gtk_widget_modify_text(GTK_WIDGET(addressbar), GTK_STATE_NORMAL, is_dir ? NULL : &white);
+		old_value = is_dir;
+	}
+
+	if (!is_dir)
+	{
+		if (CONFIG_SHOW_BARS == 0)
+			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("%s: no such directory."), directory);
+
+		return FALSE;
+	}
+
+	return is_dir;
+}
+
 static void
 treebrowser_chroot(gchar *directory)
 {
@@ -355,13 +384,8 @@ treebrowser_chroot(gchar *directory)
 	if (!directory || strlen(directory) == 0)
 		directory = "/";
 
-	if (! g_file_test(directory, G_FILE_TEST_IS_DIR))
-	{
-		if (CONFIG_SHOW_BARS == 0)
-			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("%s: no such directory."), directory);
-
+	if (! treebrowser_checkdir(directory))
 		return;
-	}
 
 	treebrowser_bookmarks_set_state();
 
@@ -384,7 +408,7 @@ treebrowser_browse(gchar *directory, gpointer parent)
 	gchar 			*fname;
 	gchar 			*uri;
 
-	directory = g_strconcat(directory, G_DIR_SEPARATOR_S, NULL);
+	directory 		= g_strconcat(directory, G_DIR_SEPARATOR_S, NULL);
 
 	has_parent = parent ? gtk_tree_store_iter_is_valid(treestore, parent) : FALSE;
 	if (has_parent)
@@ -1048,6 +1072,10 @@ create_popup_menu(gchar *name, gchar *uri)
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_set_as_root), uri);
 	gtk_widget_set_sensitive(item, is_dir);
 
+	item = ui_image_menu_item_new(GTK_STOCK_REFRESH, _("Refresh"));
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_refresh), NULL);
+
 	item = gtk_separator_menu_item_new();
 	gtk_container_add(GTK_CONTAINER(menu), item);
 
@@ -1072,25 +1100,6 @@ create_popup_menu(gchar *name, gchar *uri)
 	item = gtk_separator_menu_item_new();
 	gtk_container_add(GTK_CONTAINER(menu), item);
 
-	item = ui_image_menu_item_new(GTK_STOCK_REFRESH, _("Refresh"));
-	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_refresh), NULL);
-
-	item = gtk_separator_menu_item_new();
-	gtk_widget_show(item);
-	gtk_container_add(GTK_CONTAINER(menu), item);
-
-	item = ui_image_menu_item_new(GTK_STOCK_GO_FORWARD, _("Expand all"));
-	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_expand_all), NULL);
-
-	item = ui_image_menu_item_new(GTK_STOCK_GO_BACK, _("Collapse all"));
-	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_collapse_all), NULL);
-
-	item = gtk_separator_menu_item_new();
-	gtk_container_add(GTK_CONTAINER(menu), item);
-
 	item = ui_image_menu_item_new(GTK_STOCK_CLOSE, g_strdup_printf(_("Close: %s"), name));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_close), uri);
@@ -1100,6 +1109,18 @@ create_popup_menu(gchar *name, gchar *uri)
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_copy_uri), uri);
 	gtk_widget_set_sensitive(item, is_exists);
+
+	item = gtk_separator_menu_item_new();
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	gtk_widget_show(item);
+
+	item = ui_image_menu_item_new(GTK_STOCK_GO_FORWARD, _("Expand all"));
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_expand_all), NULL);
+
+	item = ui_image_menu_item_new(GTK_STOCK_GO_BACK, _("Collapse all"));
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_collapse_all), NULL);
 
 	item = gtk_separator_menu_item_new();
 	gtk_container_add(GTK_CONTAINER(menu), item);
@@ -1114,7 +1135,7 @@ create_popup_menu(gchar *name, gchar *uri)
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), CONFIG_SHOW_HIDDEN_FILES);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_show_hidden_files), NULL);
 
-	item = gtk_check_menu_item_new_with_mnemonic(_("Show bars"));
+	item = gtk_check_menu_item_new_with_mnemonic(_("Show toolbars"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), CONFIG_SHOW_BARS ? TRUE : FALSE);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_show_bars), NULL);
@@ -1175,20 +1196,6 @@ static void
 on_addressbar_activate(GtkEntry *entry, gpointer user_data)
 {
 	gchar *directory = gtk_editable_get_chars(GTK_EDITABLE(entry), 0, -1);
-
-	static const GdkColor red 	= {0, 0xffff, 0x6666, 0x6666};
-	static const GdkColor white = {0, 0xffff, 0xffff, 0xffff};
-	static gboolean old_value = TRUE;
-	gboolean success = g_file_test(directory, G_FILE_TEST_IS_DIR);
-
-	g_return_if_fail(GTK_WIDGET(entry) != NULL);
-	if (old_value != success)
-	{
-		gtk_widget_modify_base(GTK_WIDGET(entry), GTK_STATE_NORMAL, success ? NULL : &red);
-		gtk_widget_modify_text(GTK_WIDGET(entry), GTK_STATE_NORMAL, success ? NULL : &white);
-		old_value = success;
-	}
-
 	treebrowser_chroot(directory);
 }
 
