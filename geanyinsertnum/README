@@ -11,7 +11,7 @@ Lines shorter than the current selection are skipped.
 
 Requirements
 ------------
-Geany 0.18 or later and the respective headers and development libraries.
+Geany 0.19 or later and the respective headers and development libraries.
 
 
 Installation
