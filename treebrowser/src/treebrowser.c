@@ -1,5 +1,5 @@
 /*
- *      treebrowser.c
+ *      treebrowser.c - v0.20
  *
  *      Copyright 2010 Adrian Dimitrov <dimitrov.adrian@gmail.com>
  */
@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <glib.h>
+#include <string.h>
 #include <glib/gstdio.h>
 
 #include "geany.h"
@@ -102,9 +103,9 @@ PLUGIN_VERSION_CHECK(188)
 PLUGIN_SET_TRANSLATABLE_INFO(
 	LOCALEDIR,
 	GETTEXT_PACKAGE,
-	_("Tree Browser"),
-	_("Treeview filebrowser plugin."),
-	"0.2" ,
+	_("TreeBrowser"),
+	_("This plugin adds a tree browser to Geany, allowing the user to browse files using a tree view of the directory being browsed."),
+	"0.20" ,
 	"Adrian Dimitrov (dimitrov.adrian@gmail.com)")
 
 
@@ -267,18 +268,29 @@ check_filtered(const gchar *base_name)
 static gboolean
 check_hidden(const gchar *uri)
 {
-	if (CONFIG_SHOW_HIDDEN_FILES)
-		return TRUE;
-
-	if (uri[strlen(uri) - 1] == '~')
-		return FALSE;
-
 	gboolean is_visible = TRUE;
-#ifdef G_OS_WIN32
-# ifdef HAVE_GIO
 	GFile *file;
 	GFileInfo *info;
+	gchar *base_name;
 
+	if (CONFIG_SHOW_HIDDEN_FILES)
+	{
+		g_object_unref(info);
+		g_object_unref(file);
+		g_free(base_name);
+		return TRUE;
+	}
+
+	if (uri[strlen(uri) - 1] == '~')
+	{
+		g_object_unref(info);
+		g_object_unref(file);
+		g_free(base_name);
+		return FALSE;
+	}
+
+#ifdef G_OS_WIN32
+# ifdef HAVE_GIO
 	file = g_file_new_for_path(uri);
 	info = g_file_query_info(file, G_FILE_ATTRIBUTE_STANDARD_IS_HIDDEN, 0, NULL, NULL);
 	if (info)
@@ -290,7 +302,6 @@ check_hidden(const gchar *uri)
 	g_object_unref(file);
 # endif /* HAVE_GIO */
 #else /* G_OS_WIN32 */
-	gchar *base_name;
 
 	base_name = g_path_get_basename(uri);
 	if (base_name[0] == '.')
@@ -353,7 +364,6 @@ treebrowser_checkdir(gchar *directory)
 	static gboolean old_value = TRUE;
 
 	is_dir = g_file_test(directory, G_FILE_TEST_IS_DIR);
-	g_return_if_fail(GTK_WIDGET(addressbar) != NULL);
 
 	if (old_value != is_dir)
 	{
@@ -1443,7 +1453,7 @@ create_view_and_model()
 	ui_widget_modify_font_from_string(view, geany->interface_prefs->tagbar_font);
 
 #if GTK_CHECK_VERSION(2, 10, 0)
-		g_object_set(view, "has-tooltip", TRUE, "tooltip-column", TREEBROWSER_COLUMN_URI, NULL);
+	g_object_set(view, "has-tooltip", TRUE, "tooltip-column", TREEBROWSER_COLUMN_URI, NULL);
 #endif
 
 	gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW(view)), GTK_SELECTION_SINGLE);

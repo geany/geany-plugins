@@ -1,4 +1,4 @@
-.. |(version)| replace:: 0.2
+.. |(version)| replace:: 0.20
 
 Treebrowser plugin
 ==================
@@ -9,14 +9,16 @@ Treebrowser plugin
 About
 =====
 
-Treebrowser is plugin that provide tree like file browser for geany`s sidebar.
-It is on beta state, then all reports are welcome.
+The TreeBrowser plugin for Geany provides an alternate way to browse through
+your files. It displays files and directories in a tree view and has more
+features than the file browser plugin delivered with Geany itself.
 
-.. image:: http://img177.imageshack.us/img177/6403/geanytreebrowser.png
-   :width: 240
+
+.. image:: http://img43.imageshack.us/img43/9053/screenshotsmallq.png
+   :width: 400
    :alt: treebrowser plugin
    :align: right
-   :target: http://img177.imageshack.us/img177/6403/geanytreebrowser.png
+   :target: http://img828.imageshack.us/img828/1351/screenshot1fq.png
 
 
 Features
@@ -25,7 +27,7 @@ Features
  * Project following
  * Basic filesystem functionality
  * GTK bookmarks support
- * Filters in browser
+ * Filterable list
  * Show content-type icons
 
 
@@ -39,26 +41,32 @@ Requirements
 Usage
 =====
 
-After compiling and/or installing treebrowser, start Geany and go to menu
-Tools->Plugin Manager and set checkbox at treebrowser plugin
+After compiling and/or installing TreeBrowser, start Geany and go to menu
+Tools->Plugin Manager and set checkbox at TreeBrowser plugin
 
 
-Download
-========
+Download Source
+===============
 
-treebrowser is part of the combined Geany Plugins release. For more information and downloads, please visit http://plugins.geany.org/geany-plugins/
+Development Source Tarbal: http://geany-plugins.svn.sourceforge.net/viewvc/geany-plugins/trunk/geany-plugins/treebrowser/?view=tar
+
+TreeBrowser is part of the combined Geany Plugins release. For more information and downloads, please visit http://plugins.geany.org/
 
 
-Development Code
-================
+Installation
+============
 
-svn co http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geany-plugins/
+ * Ubuntu/Debian
+    `sudo apt-get install geany-plugin-treebrowser`
+
+ * Fedora
+    `yum install geany-plugins-treebrowser`
 
 
 License
 =======
 
-Treebrowser plugin is distrubuted under the same license as and geany.
+TreeBrowser plugin is distrubuted under the same license as and geany.
 
 
 Ideas, questions, patches and bug reports

@@ -21,7 +21,6 @@
 	(DONE) Saving state of Showbars in config file everytime where is changed
 	(DONE) oneclick document opening
 	(DONE) filter separating ex.: "*.c;*.cpp;*.h"
-	* Fix possible memory leaks (using g_free... where is need)
 	* Complete following path from current document view
 	(DONE) Hide object files as native filebroser (*.o;*.a;*.so;*.dll;*.lib..)
 	(DONE) Using font from geany settings for sidebar
@@ -36,10 +35,29 @@
 +-------------------------------+
 
 
+10-12-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* ChangeLog
+		Update
+	* README
+		Update
+	* src/treebrowser.c
+		Fixed warning: ISO C90 forbids mixed declarations and code (in check_hidden())
+		Fixed warning: 'return' with no value, in function returning non-void (in treebrowser_checkdir())
+		Fixed compilation warning with strlen()
+		Description changed (taken from ubuntu`s repos)
+
+
+10-12-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	Bumped version 0.20
+		Now will following the version number of geany
+
+
 09-12-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
-		Fixed error colors in addressbar when last directory wasn`t existing,
+		Fixed wrong colors in addressbar when last directory wasn`t existing,
 			but then chrooting.
 		"Right click" menu rearanged to looks more logically
 
