@@ -62,6 +62,57 @@ static GwhSettings *G_settings  = NULL;
 
 
 static void
+attach_browser (void)
+{
+  GwhBrowserPosition position;
+  
+  g_object_get (G_settings, "browser-position", &position, NULL);
+  if (position == GWH_BROWSER_POSITION_LEFT) {
+    G_notebook = geany_data->main_widgets->sidebar_notebook;
+  } else {
+    G_notebook = geany_data->main_widgets->message_window_notebook;
+  }
+  G_page_num = gtk_notebook_append_page (GTK_NOTEBOOK (G_notebook), G_browser,
+                                         gtk_label_new (_("Web preview")));
+}
+
+static void
+detach_browser (void)
+{
+  /* remove the page we added. we handle the case where the page were
+   * reordered */
+  if (gtk_notebook_get_nth_page (GTK_NOTEBOOK (G_notebook),
+                                 G_page_num) != G_browser) {
+    gint i;
+    gint n;
+    
+    G_page_num = -1;
+    n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (G_notebook));
+    for (i = 0; i < n; i++) {
+      if (gtk_notebook_get_nth_page (GTK_NOTEBOOK (G_notebook),
+                                     i) == G_browser) {
+        G_page_num = i;
+        break;
+      }
+    }
+  }
+  if (G_page_num >= 0) {
+    gtk_notebook_remove_page (GTK_NOTEBOOK (G_notebook), G_page_num);
+  }
+}
+
+static void
+on_settings_browser_position_notify (GObject     *object,
+                                     GParamSpec  *pspec,
+                                     gpointer     data)
+{
+  g_object_ref (G_browser);
+  detach_browser ();
+  attach_browser ();
+  g_object_unref (G_browser);
+}
+
+static void
 on_document_save (GObject        *obj,
                   GeanyDocument  *doc,
                   gpointer        user_data)
@@ -150,8 +201,6 @@ save_config (void)
 void
 plugin_init (GeanyData *data)
 {
-  gint position;
-  
   /* even though it's not really a good idea to keep all the library we load
    * into memory, this is needed for webkit. first, without this we creash after
    * module unloading, and webkitgtk inserts static data into the GLib
@@ -166,16 +215,11 @@ plugin_init (GeanyData *data)
   g_signal_connect (G_browser, "populate-popup",
                     G_CALLBACK (on_browser_populate_popup), NULL);
   
-  g_object_get (G_OBJECT (G_settings), "browser-position", &position, NULL);
-  if (position == GWH_BROWSER_POSITION_LEFT) {
-    G_notebook = data->main_widgets->sidebar_notebook;
-  } else {
-    G_notebook = data->main_widgets->message_window_notebook;
-  }
-  G_page_num = gtk_notebook_append_page (GTK_NOTEBOOK (G_notebook), G_browser,
-                                         gtk_label_new (_("Web preview")));
-  
+  attach_browser ();
   gtk_widget_show_all (G_browser);
+  
+  g_signal_connect (G_settings, "notify::browser-position",
+                    G_CALLBACK (on_settings_browser_position_notify), NULL);
   
   plugin_signal_connect (geany_plugin, NULL, "document-save", TRUE,
                          G_CALLBACK (on_document_save), NULL);
@@ -184,26 +228,62 @@ plugin_init (GeanyData *data)
 void
 plugin_cleanup (void)
 {
-  /* remove the page we added. we handle the case where the page were
-   * reordered */
-  if (gtk_notebook_get_nth_page (GTK_NOTEBOOK (G_notebook),
-                                 G_page_num) != G_browser) {
-    gint i;
-    gint n;
-    
-    G_page_num = -1;
-    n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (G_notebook));
-    for (i = 0; i < n; i++) {
-      if (gtk_notebook_get_nth_page (GTK_NOTEBOOK (G_notebook),
-                                     i) == G_browser) {
-        G_page_num = i;
-        break;
-      }
-    }
-  }
-  if (G_page_num >= 0) {
-    gtk_notebook_remove_page (GTK_NOTEBOOK (G_notebook), G_page_num);
-  }
+  detach_browser ();
   
   save_config ();
+}
+
+
+typedef struct _GwhConfigDialog GwhConfigDialog;
+struct _GwhConfigDialog
+{
+  GtkWidget *browser_position;
+  GtkWidget *browser_auto_reload;
+};
+
+static void
+on_configure_dialog_response (GtkDialog        *dialog,
+                              gint              response_id,
+                              GwhConfigDialog  *cdialog)
+{
+  switch (response_id) {
+    case GTK_RESPONSE_ACCEPT:
+    case GTK_RESPONSE_APPLY:
+    case GTK_RESPONSE_OK:
+    case GTK_RESPONSE_YES: {
+      gwh_settings_widget_sync (G_settings, cdialog->browser_position);
+      gwh_settings_widget_sync (G_settings, cdialog->browser_auto_reload);
+      break;
+    }
+    
+    default: break;
+  }
+  
+  if (response_id != GTK_RESPONSE_APPLY) {
+    g_free (cdialog);
+  }
+}
+
+
+GtkWidget *
+plugin_configure (GtkDialog *dialog)
+{
+  GtkWidget        *box;
+  GwhConfigDialog  *cdialog;
+  
+  cdialog = g_malloc (sizeof *cdialog);
+  
+  box = gtk_vbox_new (FALSE, 6);
+  cdialog->browser_position = gwh_settings_widget_new (G_settings,
+                                                       "browser-position");
+  gtk_box_pack_start (GTK_BOX (box), cdialog->browser_position, FALSE, TRUE, 0);
+  cdialog->browser_auto_reload = gwh_settings_widget_new (G_settings,
+                                                          "browser-auto-reload");
+  gtk_box_pack_start (GTK_BOX (box), cdialog->browser_auto_reload,
+                      FALSE, TRUE, 0);
+  
+  g_signal_connect (dialog, "response",
+                    G_CALLBACK (on_configure_dialog_response), cdialog);
+  
+  return box;
 }
