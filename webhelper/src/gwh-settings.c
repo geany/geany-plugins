@@ -453,3 +453,205 @@ gwh_settings_load_from_file (GwhSettings *self,
   
   return success;
 }
+
+
+
+
+
+
+
+static GtkWidget *
+gwh_settings_widget_new_boolean (GwhSettings   *self,
+                                 const GValue  *value,
+                                 GParamSpec    *pspec,
+                                 gboolean      *needs_label)
+{
+  GtkWidget *widget;
+  
+  widget = gtk_check_button_new_with_label (g_param_spec_get_nick (pspec));
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget),
+                                g_value_get_boolean (value));
+  *needs_label = FALSE;
+  
+  return widget;
+}
+
+static void
+gwh_settings_widget_sync_boolean (GwhSettings *self,
+                                  GParamSpec  *pspec,
+                                  GtkWidget   *widget)
+{
+  g_object_set (self, pspec->name,
+                gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)),
+                NULL);
+}
+
+static GtkWidget *
+gwh_settings_widget_new_enum (GwhSettings  *self,
+                              const GValue *value,
+                              GParamSpec   *pspec,
+                              gboolean     *needs_label)
+{
+  GtkWidget        *widget;
+  GEnumClass       *enum_class;
+  guint             i;
+  GtkListStore     *store;
+  GtkCellRenderer  *renderer;
+  gint              active = 0;
+  
+  store = gtk_list_store_new (2, G_TYPE_INT, G_TYPE_STRING);
+  enum_class = g_type_class_ref (G_VALUE_TYPE (value));
+  for (i = 0; i < enum_class->n_values; i++) {
+    GtkTreeIter iter;
+    
+    gtk_list_store_append (store, &iter);
+    gtk_list_store_set (store, &iter,
+                        0, enum_class->values[i].value,
+                        1, enum_class->values[i].value_nick,
+                        -1);
+    if (g_value_get_enum (value) == enum_class->values[i].value) {
+      active = i;
+    }
+  }
+  g_type_class_unref (enum_class);
+  
+  widget = gtk_combo_box_new_with_model (GTK_TREE_MODEL (store));
+  renderer = gtk_cell_renderer_text_new ();
+  gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (widget), renderer, TRUE);
+  gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (widget), renderer,
+                                  "text", 1, NULL);
+  gtk_combo_box_set_active (GTK_COMBO_BOX (widget), active);
+  
+  *needs_label = TRUE;
+  
+  return widget;
+}
+
+static void
+gwh_settings_widget_sync_enum (GwhSettings *self,
+                               GParamSpec  *pspec,
+                               GtkWidget   *widget)
+{
+  GtkTreeIter iter;
+  
+  if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (widget), &iter)) {
+    GtkTreeModel *model;
+    gint          val;
+    
+    model = gtk_combo_box_get_model (GTK_COMBO_BOX (widget));
+    gtk_tree_model_get (model, &iter, 0, &val, -1);
+    g_object_set (self, pspec->name, val, NULL);
+  }
+}
+
+static GtkWidget *
+gwh_settings_widget_new_string (GwhSettings  *self,
+                                const GValue *value,
+                                GParamSpec   *pspec,
+                                gboolean     *needs_label)
+{
+  GtkWidget *widget;
+  
+  widget = gtk_entry_new ();
+  gtk_entry_set_text (GTK_ENTRY (widget), g_value_get_string (value));
+  *needs_label = TRUE;
+  
+  return widget;
+}
+
+static void
+gwh_settings_widget_sync_string (GwhSettings *self,
+                                 GParamSpec  *pspec,
+                                 GtkWidget   *widget)
+{
+  g_object_set (self, pspec->name, gtk_entry_get_text (GTK_ENTRY (widget)),
+                NULL);
+}
+
+
+#define KEY_PSPEC   "gwh-settings-configure-pspec"
+#define KEY_WIDGET  "gwh-settings-configure-widget"
+
+GtkWidget *
+gwh_settings_widget_new (GwhSettings *self,
+                         const gchar *prop_name)
+{
+  GtkWidget  *widget      = NULL;
+  GParamSpec *pspec;
+  GValue      value       = {0};
+  gboolean    needs_label = FALSE;
+  
+  g_return_val_if_fail (GWH_IS_SETTINGS (self), NULL);
+  
+  pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (self), prop_name);
+  g_return_val_if_fail (pspec != NULL, NULL);
+  
+  g_value_init (&value, pspec->value_type);
+  g_object_get_property (G_OBJECT (self), prop_name, &value);
+  switch (G_TYPE_FUNDAMENTAL (G_VALUE_TYPE (&value))) {
+    #define HANDLE_TYPE(T, h) \
+      case T: widget = ((h) (self, &value, pspec, &needs_label)); break;
+    
+    HANDLE_TYPE (G_TYPE_BOOLEAN,  gwh_settings_widget_new_boolean)
+    HANDLE_TYPE (G_TYPE_ENUM,     gwh_settings_widget_new_enum)
+    HANDLE_TYPE (G_TYPE_STRING,   gwh_settings_widget_new_string)
+    
+    #undef HANDLE_TYPE
+    
+    default:
+      g_critical ("Unsupported property type \"%s\"",
+                  G_VALUE_TYPE_NAME (&value));
+  }
+  if (widget) {
+    g_object_set_data_full (G_OBJECT (widget), KEY_PSPEC,
+                            g_param_spec_ref (pspec),
+                            (GDestroyNotify)g_param_spec_unref);
+    if (needs_label) {
+      GtkWidget *box;
+      gchar     *label;
+      
+      box = gtk_hbox_new (FALSE, 6);
+      label = g_strdup_printf ("%s:", g_param_spec_get_nick (pspec));
+      gtk_box_pack_start (GTK_BOX (box), gtk_label_new (label), FALSE, TRUE, 0);
+      g_free (label);
+      gtk_box_pack_start (GTK_BOX (box), widget, TRUE, TRUE, 0);
+      g_object_set_data_full (G_OBJECT (box), KEY_WIDGET,
+                              g_object_ref (widget), g_object_unref);
+      widget = box;
+    } else {
+      g_object_set_data_full (G_OBJECT (widget), KEY_WIDGET,
+                              g_object_ref (widget), g_object_unref);
+    }
+    gtk_widget_set_tooltip_text (widget, g_param_spec_get_blurb (pspec));
+  }
+  
+  return widget;
+}
+
+void
+gwh_settings_widget_sync (GwhSettings *self,
+                          GtkWidget   *widget)
+{
+  GParamSpec *pspec;
+  
+  g_return_if_fail (GWH_IS_SETTINGS (self));
+  g_return_if_fail (G_IS_OBJECT (widget));
+  
+  widget = g_object_get_data (G_OBJECT (widget), KEY_WIDGET);
+  g_return_if_fail (GTK_IS_WIDGET (widget));
+  pspec = g_object_get_data (G_OBJECT (widget), KEY_PSPEC);
+  g_return_if_fail (G_IS_PARAM_SPEC (pspec));
+  switch (G_TYPE_FUNDAMENTAL (pspec->value_type)) {
+    #define HANDLE_TYPE(T, h) case T: (h) (self, pspec, widget); break;
+    
+    HANDLE_TYPE (G_TYPE_BOOLEAN,  gwh_settings_widget_sync_boolean)
+    HANDLE_TYPE (G_TYPE_ENUM,     gwh_settings_widget_sync_enum)
+    HANDLE_TYPE (G_TYPE_STRING,   gwh_settings_widget_sync_string)
+    
+    #undef HANDLE_TYPE
+    
+    default:
+      g_critical ("Unsupported property type \"%s\"",
+                  g_type_name (pspec->value_type));
+  }
+}

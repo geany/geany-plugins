@@ -22,6 +22,7 @@
 
 #include <glib.h>
 #include <glib-object.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
@@ -62,6 +63,12 @@ G_GNUC_INTERNAL
 gboolean        gwh_settings_load_from_file           (GwhSettings *self,
                                                        const gchar *filename,
                                                        GError     **error);
+G_GNUC_INTERNAL
+GtkWidget      *gwh_settings_widget_new               (GwhSettings *self,
+                                                       const gchar *prop_name);
+G_GNUC_INTERNAL
+void            gwh_settings_widget_sync              (GwhSettings *self,
+                                                       GtkWidget   *widget);
 
 
 
