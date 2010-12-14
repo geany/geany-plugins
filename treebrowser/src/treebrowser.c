@@ -6,9 +6,9 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <string.h>
 #include <fcntl.h>
 #include <glib.h>
-#include <string.h>
 #include <glib/gstdio.h>
 
 #include "geany.h"
@@ -269,9 +269,12 @@ static gboolean
 check_hidden(const gchar *uri)
 {
 	gboolean is_visible = TRUE;
+	gchar *base_name;
+
+#ifdef G_OS_WIN32
+# ifdef HAVE_GIO
 	GFile *file;
 	GFileInfo *info;
-	gchar *base_name;
 
 	if (CONFIG_SHOW_HIDDEN_FILES)
 	{
@@ -289,8 +292,6 @@ check_hidden(const gchar *uri)
 		return FALSE;
 	}
 
-#ifdef G_OS_WIN32
-# ifdef HAVE_GIO
 	file = g_file_new_for_path(uri);
 	info = g_file_query_info(file, G_FILE_ATTRIBUTE_STANDARD_IS_HIDDEN, 0, NULL, NULL);
 	if (info)
@@ -302,6 +303,18 @@ check_hidden(const gchar *uri)
 	g_object_unref(file);
 # endif /* HAVE_GIO */
 #else /* G_OS_WIN32 */
+
+	if (CONFIG_SHOW_HIDDEN_FILES)
+	{
+		g_free(base_name);
+		return TRUE;
+	}
+
+	if (uri[strlen(uri) - 1] == '~')
+	{
+		g_free(base_name);
+		return FALSE;
+	}
 
 	base_name = g_path_get_basename(uri);
 	if (base_name[0] == '.')

@@ -35,6 +35,11 @@
 +-------------------------------+
 
 
+14-12-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		Fixed nighty compilation error (reported by Enrico Tröger)
+
 10-12-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* ChangeLog
