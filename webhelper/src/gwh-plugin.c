@@ -67,7 +67,7 @@ attach_browser (void)
   GwhBrowserPosition position;
   
   g_object_get (G_settings, "browser-position", &position, NULL);
-  if (position == GWH_BROWSER_POSITION_LEFT) {
+  if (position == GWH_BROWSER_POSITION_SIDEBAR) {
     G_notebook = geany_data->main_widgets->sidebar_notebook;
   } else {
     G_notebook = geany_data->main_widgets->message_window_notebook;

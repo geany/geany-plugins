@@ -191,7 +191,7 @@ gwh_settings_class_init (GwhSettingsClass *klass)
                                                       "Browser position",
                                                       "Position of the browser widget in Geany's UI",
                                                       GWH_TYPE_BROWSER_POSITION,
-                                                      GWH_BROWSER_POSITION_BOTTOM,
+                                                      GWH_BROWSER_POSITION_MESSAGE_WINDOW,
                                                       G_PARAM_READWRITE));
   g_object_class_install_property (object_class, PROP_INSPECTOR_WINDOW_GEOMETRY,
                                    g_param_spec_string ("inspector-window-geometry",
@@ -211,7 +211,7 @@ gwh_settings_init (GwhSettings *self)
   self->priv->browser_auto_reload       = TRUE;
   self->priv->browser_last_uri          = g_strdup ("about:blank");
   self->priv->browser_orientation       = GTK_ORIENTATION_VERTICAL;
-  self->priv->browser_position          = GWH_BROWSER_POSITION_BOTTOM;
+  self->priv->browser_position          = GWH_BROWSER_POSITION_MESSAGE_WINDOW;
   self->priv->inspector_window_geometry = g_strdup ("400x300");
 }
 
