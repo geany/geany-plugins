@@ -510,12 +510,15 @@ static void
 gwh_browser_destroy (GtkObject *object)
 {
   GwhBrowser *self = GWH_BROWSER (object);
+  gchar      *geometry;
   
   /* save the setting now because we can't really set it at the time it changed,
    * but it's not a problem, anyway probably nobody but us is interested by the
    * geometry of our inspector window. */
-  g_object_set (self->priv->settings, "inspector-window-geometry",
-                get_web_inspector_window_geometry (self), NULL);
+  geometry = get_web_inspector_window_geometry (self);
+  g_object_set (self->priv->settings, "inspector-window-geometry", geometry,
+                NULL);
+  g_free (geometry);
   
   /* remove signal handlers that might get called during the destruction phase
    * but that rely on stuff that might already heave been destroyed */
