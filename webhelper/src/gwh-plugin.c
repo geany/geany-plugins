@@ -297,8 +297,8 @@ plugin_init (GeanyData *data)
   attach_browser ();
   gtk_widget_show_all (G_browser);
   
-  g_signal_connect (G_settings, "notify::browser-position",
-                    G_CALLBACK (on_settings_browser_position_notify), NULL);
+  plugin_signal_connect (geany_plugin, G_settings, "notify::browser-position", FALSE,
+                         G_CALLBACK (on_settings_browser_position_notify), NULL);
   
   plugin_signal_connect (geany_plugin, NULL, "document-save", TRUE,
                          G_CALLBACK (on_document_save), NULL);
