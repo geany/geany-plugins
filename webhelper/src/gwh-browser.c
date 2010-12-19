@@ -125,55 +125,18 @@ set_location_icon (GwhBrowser  *self,
 static gchar *
 get_web_inspector_window_geometry (GwhBrowser *self)
 {
-  gint        width;
-  gint        height;
-  gint        x;
-  gint        y;
-  GtkWindow  *window;
-  
-  window = GTK_WINDOW (self->priv->inspector_window);
-  gtk_window_get_size (window, &width, &height);
-  if (gtk_widget_get_visible (GTK_WIDGET (window))) {
-    gtk_window_get_position (window, &x, &y);
-  } else {
-    x = self->priv->inspector_window_x;
-    y = self->priv->inspector_window_y;
-  }
-  
-  return g_strdup_printf ("%dx%d%+d%+d", width, height, x, y);
+  return gwh_get_window_geometry (GTK_WINDOW (self->priv->inspector_window),
+                                  self->priv->inspector_window_x,
+                                  self->priv->inspector_window_y);
 }
 
 static void
 set_web_inspector_window_geometry (GwhBrowser  *self,
                                    const gchar *geometry)
 {
-  gint        width;
-  gint        height;
-  gint        x;
-  gint        y;
-  gchar       dummy;
-  GtkWindow  *window;
-  
-  g_return_if_fail (geometry != NULL);
-  
-  window = GTK_WINDOW (self->priv->inspector_window);
-  gtk_window_get_size (window, &width, &height);
-  gtk_window_get_position (window, &x, &y);
-  switch (sscanf (geometry, "%dx%d%d%d%c", &width, &height, &x, &y, &dummy)) {
-    case 4:
-    case 3:
-      self->priv->inspector_window_x = x;
-      self->priv->inspector_window_y = y;
-      gtk_window_move (window, x, y);
-      /* fallthrough */
-    case 2:
-    case 1:
-      gtk_window_resize (window, width, height);
-      break;
-    
-    default:
-      g_warning ("Invalid window geometry \"%s\"", geometry);
-  }
+  gwh_set_window_geometry (GTK_WINDOW (self->priv->inspector_window),
+                           geometry, &self->priv->inspector_window_x,
+                           &self->priv->inspector_window_y);
 }
 
 /* settings change notifications */

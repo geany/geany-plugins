@@ -22,6 +22,7 @@
 
 #include <glib.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
@@ -29,6 +30,15 @@ G_BEGIN_DECLS
 G_GNUC_INTERNAL
 GdkPixbuf      *gwh_pixbuf_new_from_uri       (const gchar *uri,
                                                GError     **error);
+G_GNUC_INTERNAL
+gchar          *gwh_get_window_geometry       (GtkWindow *window,
+                                               gint       default_x,
+                                               gint       default_y);
+G_GNUC_INTERNAL
+void            gwh_set_window_geometry       (GtkWindow   *window,
+                                               const gchar *geometry,
+                                               gint        *x_,
+                                               gint        *y_);
 
 
 G_END_DECLS

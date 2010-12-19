@@ -72,3 +72,80 @@ gwh_pixbuf_new_from_uri (const gchar *uri,
   
   return pixbuf;
 }
+
+/**
+ * gwh_get_window_geometry:
+ * @window: A #GtkWindow
+ * @default_x: Default position on X if not computable
+ * @default_y: Default position on Y if not computable
+ * 
+ * Gets the XWindow-style geometry of a #GtkWindow
+ * 
+ * Returns: A newly-allocated string representing the window geometry.
+ */
+gchar *
+gwh_get_window_geometry (GtkWindow *window,
+                         gint       default_x,
+                         gint       default_y)
+{
+  gint width;
+  gint height;
+  gint x;
+  gint y;
+  
+  gtk_window_get_size (window, &width, &height);
+  if (gtk_widget_get_visible (GTK_WIDGET (window))) {
+    gtk_window_get_position (window, &x, &y);
+  } else {
+    x = default_x;
+    y = default_y;
+  }
+  
+  return g_strdup_printf ("%dx%d%+d%+d", width, height, x, y);
+}
+
+/**
+ * gwh_set_window_geometry:
+ * @window: A #GtkWindow
+ * @geometry: a XWindow-style geometry
+ * @x_: (out): return location for the window's X coordinate
+ * @y_: (out): return location for the window's Y coordinate
+ * 
+ * Sets the geometry of a window from a XWindow-style geometry.
+ */
+void
+gwh_set_window_geometry (GtkWindow   *window,
+                         const gchar *geometry,
+                         gint        *x_,
+                         gint        *y_)
+{
+  gint            width;
+  gint            height;
+  gint            x;
+  gint            y;
+  gchar           dummy;
+  GdkWindowHints  hints_mask = 0;
+  
+  g_return_if_fail (geometry != NULL);
+  
+  gtk_window_get_size (window, &width, &height);
+  gtk_window_get_position (window, &x, &y);
+  switch (sscanf (geometry, "%dx%d%d%d%c", &width, &height, &x, &y, &dummy)) {
+    case 4:
+    case 3:
+      if (x_) *x_ = x;
+      if (y_) *y_ = y;
+      gtk_window_move (window, x, y);
+      hints_mask |= GDK_HINT_USER_POS;
+      /* fallthrough */
+    case 2:
+    case 1:
+      gtk_window_resize (window, width, height);
+      hints_mask |= GDK_HINT_USER_SIZE;
+      break;
+    
+    default:
+      g_warning ("Invalid window geometry \"%s\"", geometry);
+  }
+  gtk_window_set_geometry_hints (window, NULL, NULL, hints_mask);
+}
