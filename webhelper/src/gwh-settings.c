@@ -45,6 +45,7 @@ struct _GwhSettingsPrivate
   gchar                *browser_last_uri;
   GtkOrientation        browser_orientation;
   GwhBrowserPosition    browser_position;
+  gchar                *browser_separate_window_geometry;
   gchar                *inspector_window_geometry;
 };
 
@@ -55,6 +56,7 @@ enum
   PROP_BROWSER_LAST_URI,
   PROP_BROWSER_ORIENTATION,
   PROP_BROWSER_POSITION,
+  PROP_BROWSER_SEPARATE_WINDOW_GEOMETRY,
   PROP_INSPECTOR_WINDOW_GEOMETRY
 };
 
@@ -82,6 +84,9 @@ gwh_settings_get_property (GObject    *object,
       break;
     case PROP_BROWSER_POSITION:
       g_value_set_enum (value, self->priv->browser_position);
+      break;
+    case PROP_BROWSER_SEPARATE_WINDOW_GEOMETRY:
+      g_value_set_string (value, self->priv->browser_separate_window_geometry);
       break;
     case PROP_INSPECTOR_WINDOW_GEOMETRY:
       g_value_set_string (value, self->priv->inspector_window_geometry);
@@ -112,6 +117,10 @@ gwh_settings_set_property (GObject      *object,
       break;
     case PROP_BROWSER_POSITION:
       self->priv->browser_position = g_value_get_enum (value);
+      break;
+    case PROP_BROWSER_SEPARATE_WINDOW_GEOMETRY:
+      setptr (self->priv->browser_separate_window_geometry,
+              g_value_dup_string (value));
       break;
     case PROP_INSPECTOR_WINDOW_GEOMETRY:
       setptr (self->priv->inspector_window_geometry, g_value_dup_string (value));
@@ -193,6 +202,12 @@ gwh_settings_class_init (GwhSettingsClass *klass)
                                                       GWH_TYPE_BROWSER_POSITION,
                                                       GWH_BROWSER_POSITION_MESSAGE_WINDOW,
                                                       G_PARAM_READWRITE));
+  g_object_class_install_property (object_class, PROP_BROWSER_SEPARATE_WINDOW_GEOMETRY,
+                                   g_param_spec_string ("browser-separate-window-geometry",
+                                                        "Browser separate window geometry",
+                                                        "Last geometry of the separated browser's window",
+                                                        "400x300",
+                                                        G_PARAM_READWRITE));
   g_object_class_install_property (object_class, PROP_INSPECTOR_WINDOW_GEOMETRY,
                                    g_param_spec_string ("inspector-window-geometry",
                                                         "Inspector window geometry",
@@ -212,6 +227,7 @@ gwh_settings_init (GwhSettings *self)
   self->priv->browser_last_uri          = g_strdup ("about:blank");
   self->priv->browser_orientation       = GTK_ORIENTATION_VERTICAL;
   self->priv->browser_position          = GWH_BROWSER_POSITION_MESSAGE_WINDOW;
+  self->priv->browser_separate_window_geometry = g_strdup ("400x300");
   self->priv->inspector_window_geometry = g_strdup ("400x300");
 }
 

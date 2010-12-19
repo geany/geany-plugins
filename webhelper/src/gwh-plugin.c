@@ -29,6 +29,7 @@
 #include <geany.h>
 #include <document.h>
 
+#include "gwh-utils.h"
 #include "gwh-browser.h"
 #include "gwh-settings.h"
 
@@ -55,11 +56,69 @@ PLUGIN_SET_TRANSLATABLE_INFO (
 )
 
 
+enum {
+  CONTAINER_NOTEBOOK,
+  CONTAINER_WINDOW
+};
+
+
 static GtkWidget   *G_browser   = NULL;
-static gint         G_page_num  = 0;
-static GtkWidget   *G_notebook  = NULL;
+static struct {
+  guint       type;
+  GtkWidget  *widget;
+  
+  /* only valid if type == CONTAINER_NOTEBOOK */
+  gint        page_num;
+} G_container;
 static GwhSettings *G_settings  = NULL;
 
+
+static void
+on_separate_window_destroy (GtkWidget  *widget,
+                            gpointer    data)
+{
+  gwh_browser_set_inspector_transient_for (GWH_BROWSER (G_browser), NULL);
+  gtk_container_remove (GTK_CONTAINER (G_container.widget), G_browser);
+}
+
+static gboolean
+on_idle_widget_show (gpointer data)
+{
+  gchar *geometry;
+  
+  gtk_widget_show (data);
+  g_object_get (G_settings, "browser-separate-window-geometry", &geometry, NULL);
+  gwh_set_window_geometry (GTK_WINDOW (data), geometry, NULL, NULL);
+  g_free (geometry);
+  /* present back the Geany's window because it is very unlikely the user
+   * expects the focus on our newly created window at this point, since we
+   * either just loaded the plugin or activated a element from Geany's UI */
+  gtk_window_present (GTK_WINDOW (geany_data->main_widgets->window));
+  
+  return FALSE;
+}
+
+static GtkWidget *
+create_separate_window (void)
+{
+  GtkWidget *window;
+  
+  window = g_object_new (GTK_TYPE_WINDOW,
+                         "type", GTK_WINDOW_TOPLEVEL,
+                         "skip-taskbar-hint", TRUE,
+                         "title", _("Web view"),
+                         "deletable", FALSE,
+                         NULL);
+  g_signal_connect (window, "destroy",
+                    G_CALLBACK (on_separate_window_destroy), NULL);
+  gtk_container_add (GTK_CONTAINER (window), G_browser);
+  gtk_window_set_transient_for (GTK_WINDOW (window),
+                                GTK_WINDOW (geany_data->main_widgets->window));
+  gwh_browser_set_inspector_transient_for (GWH_BROWSER (G_browser),
+                                           GTK_WINDOW (window));
+  
+  return window;
+}
 
 static void
 attach_browser (void)
@@ -67,37 +126,59 @@ attach_browser (void)
   GwhBrowserPosition position;
   
   g_object_get (G_settings, "browser-position", &position, NULL);
-  if (position == GWH_BROWSER_POSITION_SIDEBAR) {
-    G_notebook = geany_data->main_widgets->sidebar_notebook;
+  if (position == GWH_BROWSER_POSITION_SEPARATE_WINDOW) {
+    G_container.type = CONTAINER_WINDOW;
+    G_container.widget = create_separate_window ();
+    /* seems that if a window is shown before it's transient parent, bad stuff
+     * happend. so, show our window a little later. */
+    g_idle_add (on_idle_widget_show, G_container.widget);
   } else {
-    G_notebook = geany_data->main_widgets->message_window_notebook;
+    G_container.type = CONTAINER_NOTEBOOK;
+    if (position == GWH_BROWSER_POSITION_SIDEBAR) {
+      G_container.widget = geany_data->main_widgets->sidebar_notebook;
+    } else {
+      G_container.widget = geany_data->main_widgets->message_window_notebook;
+    }
+    G_container.page_num = gtk_notebook_append_page (GTK_NOTEBOOK (G_container.widget),
+                                                     G_browser,
+                                                     gtk_label_new (_("Web preview")));
+    gwh_browser_set_inspector_transient_for (GWH_BROWSER (G_browser),
+                                             GTK_WINDOW (geany_data->main_widgets->window));
   }
-  G_page_num = gtk_notebook_append_page (GTK_NOTEBOOK (G_notebook), G_browser,
-                                         gtk_label_new (_("Web preview")));
 }
 
 static void
 detach_browser (void)
 {
-  /* remove the page we added. we handle the case where the page were
-   * reordered */
-  if (gtk_notebook_get_nth_page (GTK_NOTEBOOK (G_notebook),
-                                 G_page_num) != G_browser) {
-    gint i;
-    gint n;
+  if (G_container.type == CONTAINER_WINDOW) {
+    gchar *geometry;
     
-    G_page_num = -1;
-    n = gtk_notebook_get_n_pages (GTK_NOTEBOOK (G_notebook));
-    for (i = 0; i < n; i++) {
-      if (gtk_notebook_get_nth_page (GTK_NOTEBOOK (G_notebook),
-                                     i) == G_browser) {
-        G_page_num = i;
-        break;
+    geometry = gwh_get_window_geometry (GTK_WINDOW (G_container.widget), 0, 0);
+    g_object_set (G_settings, "browser-separate-window-geometry", geometry, NULL);
+    g_free (geometry);
+    gtk_widget_destroy (G_container.widget);
+  } else {
+    GtkNotebook  *notebook = GTK_NOTEBOOK (G_container.widget);
+    gint          page_num = G_container.page_num;
+    
+    /* remove the page we added. we handle the case where the page were
+     * reordered */
+    if (gtk_notebook_get_nth_page (notebook, page_num) != G_browser) {
+      gint i;
+      gint n;
+      
+      page_num = -1;
+      n = gtk_notebook_get_n_pages (notebook);
+      for (i = 0; i < n; i++) {
+        if (gtk_notebook_get_nth_page (notebook, i) == G_browser) {
+          page_num = i;
+          break;
+        }
       }
     }
-  }
-  if (G_page_num >= 0) {
-    gtk_notebook_remove_page (GTK_NOTEBOOK (G_notebook), G_page_num);
+    if (page_num >= 0) {
+      gtk_notebook_remove_page (notebook, page_num);
+    }
   }
 }
 
@@ -210,8 +291,6 @@ plugin_init (GeanyData *data)
   load_config ();
   
   G_browser = gwh_browser_new ();
-  gwh_browser_set_inspector_transient_for (GWH_BROWSER (G_browser),
-                                           GTK_WINDOW (data->main_widgets->window));
   g_signal_connect (G_browser, "populate-popup",
                     G_CALLBACK (on_browser_populate_popup), NULL);
   
