@@ -1,8 +1,9 @@
 TODO:
- * Show setting browser-position to the user
- * Integrate to Waf build system
+ * Save & restore the state of the inspector (docked/undocked, visible/hidden)
 
 FIXME:
  * Find why docking the inspector window don't work in the plugin.
    Note that this DOES work when GwhBrowser is used by a test
    application.
+   Moreover, this works when the browser is in its separate window.
+   ...strange.
