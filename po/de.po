@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.20\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-27 00:38+0100\n"
+"POT-Creation-Date: 2010-12-27 02:46+0100\n"
 "PO-Revision-Date: 2010-11-21 13:12+0100\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -234,9 +234,10 @@ msgstr "(Aus dem %s plugin)"
 msgid "Switch header/implementation"
 msgstr "Umschalten zwischen Deklaration und Implementierung"
 
+# c-format
 #: ../codenav/src/switch_head_impl.c:360
 #, c-format
-msgid "%s not found, create it ?"
+msgid "%s not found, create it?"
 msgstr "%s existiert nicht. Neu anlegen?"
 
 #: ../codenav/src/switch_head_impl.c:476
@@ -255,10 +256,6 @@ msgstr "Doc"
 #: ../geanydoc/src/geanydoc.c:50
 msgid "Call documentation viewer on current symbol."
 msgstr "Dokumentation für das aktuelle Wort anzeigen."
-
-#: ../geanydoc/src/geanydoc.c:51
-msgid "Yura Siamshka <yurand2@gmail.com>"
-msgstr "Yura Siamshka <yurand2@gmail.com>"
 
 #: ../geanydoc/src/geanydoc.c:170 ../geanyvc/src/geanyvc.c:405
 msgid "Could not parse the output of command"
@@ -352,7 +349,8 @@ msgstr "Konnte das Arbeitsverzeichnis von GDB nicht finden."
 #: ../geanygdb/src/gdb-io-frame.c:500
 msgid "Field list too long, not all items can be displayed.\n"
 msgstr ""
-"Die Liste der Felder ist zu lang, so dass nicht alle Einträge angezeigt werden können.\n"
+"Die Liste der Felder ist zu lang, so dass nicht alle Einträge angezeigt "
+"werden können.\n"
 
 #: ../geanygdb/src/gdb-io-read.c:240
 msgid "Error starting target process!\n"
@@ -618,7 +616,7 @@ msgid "Keep debug window on top."
 msgstr "Debugger-Fenster im Vordergrund halten."
 
 # Gibts für Tooltip nich ne bessere Übersetzung? Sonst würde ich evtl. "Tooltip" auch als Eigennamen deklarieren :D
-## Keine Ahnung. -- frlan
+# # Keine Ahnung. -- frlan
 #: ../geanygdb/src/gdb-ui-envir.c:202
 msgid "Show tooltips."
 msgstr "Kurzhilfen anzeigen."
@@ -1215,8 +1213,8 @@ msgid ""
 "Global environment overrides and additions. This environment will be merged "
 "with the file-type-specific ones."
 msgstr ""
-"Die globale Umgebung wird überschrieben oder ergänzt: Die Umgebung wird mit den "
-"Dateityp spezifischen Einstellungen zusammen geführt."
+"Die globale Umgebung wird überschrieben oder ergänzt: Die Umgebung wird mit "
+"den Dateityp spezifischen Einstellungen zusammen geführt."
 
 #: ../geanygendoc/src/ggd-tag-utils.c:366
 msgid "Invalid tag"
@@ -3045,11 +3043,12 @@ msgstr ""
 msgid "Lua Script Plugin"
 msgstr "Lua Skript Plugin"
 
+# c-format
 #: ../geanylua/glspi_app.c:19
 #, c-format
 msgid ""
 "%s %s: %s\n"
-"Copyright (c) 2007-2008 "
+"Copyright (c) 2007-2010 "
 msgstr ""
 "%s %s: %s\n"
 "Copyright (c) 2007-2010"
@@ -3336,6 +3335,8 @@ msgid ""
 "This plugin adds a tree browser to Geany, allowing the user to browse files "
 "using a tree view of the directory being browsed."
 msgstr ""
+"Das Plugin fügt eine Baumansicht zum Navigieren durch den Dateibaum in die "
+"Seitenleiste von Geany ein."
 
 #: ../treebrowser/src/treebrowser.c:391
 #, c-format
@@ -3533,7 +3534,8 @@ msgstr "Inhaltsart"
 #: ../treebrowser/src/treebrowser.c:1749
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr ""
-"Unter Windows versteckt dies nur Dateien, die mit einem ».« (Punkt) beginnen. "
+"Unter Windows versteckt dies nur Dateien, die mit einem ».« (Punkt) "
+"beginnen. "
 
 #: ../treebrowser/src/treebrowser.c:1751
 msgid "Hide object files"
@@ -3742,6 +3744,9 @@ msgstr "Webvorschau"
 #: ../webhelper/src/gwh-plugin.c:232
 msgid "Reload upon document saving"
 msgstr "Beim Speichern des Dokumentes neu laden"
+
+#~ msgid "Yura Siamshka <yurand2@gmail.com>"
+#~ msgstr "Yura Siamshka <yurand2@gmail.com>"
 
 #~ msgid "Lionel Fuentes"
 #~ msgstr "Lionel Fuentes"
