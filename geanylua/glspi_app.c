@@ -17,7 +17,7 @@ static gint glspi_pluginver(lua_State* L)
 {
 	lua_pushfstring(L, _(
 "%s %s: %s\n"
-"Copyright (c) 2007-2008 "PLUGIN_AUTHOR", et al.\n"
+"Copyright (c) 2007-2010 "PLUGIN_AUTHOR", et al.\n"
 "Compiled on "__DATE__" at "__TIME__" for Geany API version %d\n"
 "Released under version 2 of the GNU General Public License.\n"
 	),
@@ -624,4 +624,3 @@ void glspi_init_app_funcs(lua_State *L, gchar*script_dir) {
 	glspi_script_dir = script_dir;
 	luaL_register(L, NULL,glspi_app_funcs);
 }
-
