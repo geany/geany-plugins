@@ -357,7 +357,7 @@ menu_item_activate(guint key_id)
 														GTK_DIALOG_MODAL,
 														GTK_MESSAGE_QUESTION,
 														GTK_BUTTONS_OK_CANCEL,
-														_("%s not found, create it ?"), p_str);
+														_("%s not found, create it?"), p_str);
 			gtk_window_set_title(GTK_WINDOW(dialog), "Geany");
 			if(gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_OK)
 			{
