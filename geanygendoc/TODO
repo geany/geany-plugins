@@ -17,3 +17,5 @@
 
 * Add a pop-up menu to the document type selector for common actions (edit,
   clear, etc.).
+
+* Fix file names encoding, it's a complete mess.
