@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-29 15:59+0100\n"
-"PO-Revision-Date: 2010-12-29 11:03+0100\n"
+"POT-Creation-Date: 2010-12-29 17:41+0100\n"
+"PO-Revision-Date: 2010-12-29 17:10+0100\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
 "Language: \n"
@@ -193,6 +193,7 @@ msgid ""
 "%s will be replaced with your current selection. Please keep care on your "
 "selection"
 msgstr ""
+"%s será reemplazado por su selección actual. Tenga cuidado con su selección"
 
 #. All plugins must set name, description, version and author.
 #: ../codenav/src/codenavigation.c:46
@@ -234,7 +235,7 @@ msgid "Switch header/implementation"
 msgstr "Cambiar cabecera/implementación"
 
 #: ../codenav/src/switch_head_impl.c:360
-#, fuzzy, c-format
+#, c-format
 msgid "%s not found, create it?"
 msgstr "No se ha encontrado %s. ¿Desea crearlo?"
 
@@ -881,9 +882,8 @@ msgid "No valid tag at line %d."
 msgstr "No hay etiqueta válida en la línea %d."
 
 #: ../geanygendoc/src/ggd.c:578
-#, fuzzy
 msgid "No tags in the document"
-msgstr "Mostrar tareas de todos los documentos"
+msgstr "No hay etiquetas en el documento"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:112
 msgid "boolean value"
@@ -1077,73 +1077,85 @@ msgstr "No se pudo cargar la configuración: %s"
 msgid "Failed to save configuration: %s"
 msgstr "No se pudo guardar la configuración: %s"
 
-#: ../geanygendoc/src/ggd-plugin.c:313
+#: ../geanygendoc/src/ggd-plugin.c:315
 #, c-format
 msgid "Failed to find configuration file for file type \"%s\": %s"
 msgstr ""
 "No se pudo encontrar el archivo de configuración para el tipo de archivo "
 "«%s» %s"
 
-#: ../geanygendoc/src/ggd-plugin.c:374 ../geanygendoc/src/ggd-plugin.c:385
+#: ../geanygendoc/src/ggd-plugin.c:326
+msgid ""
+"# Configuration for this file type doesn't exist yet.\n"
+"# To create it, just write it in this file and save it. For the description\n"
+"# of the syntax of this file, please refer to the manual.\n"
+msgstr ""
+
+#: ../geanygendoc/src/ggd-plugin.c:335
+#, fuzzy, c-format
+msgid "Failed to load file \"%s\": %s"
+msgstr "No se pudo cargar el tipo de archivo «%s» desde el archivo «%s»: %s"
+
+#: ../geanygendoc/src/ggd-plugin.c:405 ../geanygendoc/src/ggd-plugin.c:416
 msgid "Insert Documentation Comment"
 msgstr "Inserte comentario de documentación"
 
-#: ../geanygendoc/src/ggd-plugin.c:439
+#: ../geanygendoc/src/ggd-plugin.c:470
 msgid "_Document Current Symbol"
 msgstr "_Documentar símbolo actual"
 
-#: ../geanygendoc/src/ggd-plugin.c:440
+#: ../geanygendoc/src/ggd-plugin.c:471
 msgid "Generate documentation for the current symbol"
 msgstr "Generar documentación para el símbolo actual"
 
-#: ../geanygendoc/src/ggd-plugin.c:446
+#: ../geanygendoc/src/ggd-plugin.c:477
 msgid "Document _All Symbols"
 msgstr "Document_ar todos los símbolos"
 
-#: ../geanygendoc/src/ggd-plugin.c:447
+#: ../geanygendoc/src/ggd-plugin.c:478
 msgid "Generate documentation for all symbols in the current document"
 msgstr "Generar documentación para todos los símbolos en el documento actual"
 
-#: ../geanygendoc/src/ggd-plugin.c:457
+#: ../geanygendoc/src/ggd-plugin.c:488
 msgid "_Reload Configuration Files"
 msgstr "_Recargar archivos de configuración"
 
-#: ../geanygendoc/src/ggd-plugin.c:458
+#: ../geanygendoc/src/ggd-plugin.c:489
 msgid "Force reloading of the configuration files"
 msgstr "Forzar la recarga de archivos de configuración"
 
-#: ../geanygendoc/src/ggd-plugin.c:463
+#: ../geanygendoc/src/ggd-plugin.c:494
 msgid "_Edit Current Language Configuration"
 msgstr "_Editar la configuración del lenguaje actual"
 
-#: ../geanygendoc/src/ggd-plugin.c:464
+#: ../geanygendoc/src/ggd-plugin.c:495
 msgid "Open the current language configuration file for editing"
 msgstr "Abrir el archivo de configuración de idioma actual para su edición"
 
-#: ../geanygendoc/src/ggd-plugin.c:474
+#: ../geanygendoc/src/ggd-plugin.c:505
 msgid "Open _Manual"
 msgstr "Abrir _manual"
 
-#: ../geanygendoc/src/ggd-plugin.c:475
+#: ../geanygendoc/src/ggd-plugin.c:506
 msgid "Open the manual in a browser"
 msgstr "Abrir el manual en un navegador"
 
 #. build tools menu item
-#: ../geanygendoc/src/ggd-plugin.c:479
+#: ../geanygendoc/src/ggd-plugin.c:510
 msgid "_Documentation Generator"
 msgstr "Generador de _documentación"
 
 #. General
-#: ../geanygendoc/src/ggd-plugin.c:575
+#: ../geanygendoc/src/ggd-plugin.c:606
 msgid "General"
 msgstr "General"
 
 #. auto-save
-#: ../geanygendoc/src/ggd-plugin.c:580
+#: ../geanygendoc/src/ggd-plugin.c:611
 msgid "_Save file before generating documentation"
 msgstr "_Guardar archivo antes de generar documentación"
 
-#: ../geanygendoc/src/ggd-plugin.c:583
+#: ../geanygendoc/src/ggd-plugin.c:614
 msgid ""
 "Whether the current document should be saved to disc before generating the "
 "documentation. This is a technical detail, but it is currently needed to "
@@ -1160,11 +1172,11 @@ msgstr ""
 "estado de guardado de este documento y no el estado actual."
 
 #. indent
-#: ../geanygendoc/src/ggd-plugin.c:593
+#: ../geanygendoc/src/ggd-plugin.c:624
 msgid "_Indent inserted documentation"
 msgstr "_Aplicar sangría a la documentación insertada"
 
-#: ../geanygendoc/src/ggd-plugin.c:595
+#: ../geanygendoc/src/ggd-plugin.c:626
 msgid ""
 "Whether the inserted documentation should be indented to fit the indentation "
 "at the insertion position."
@@ -1173,12 +1185,12 @@ msgstr ""
 "ajustar la sangría al punto de inserción."
 
 #. Documentation type
-#: ../geanygendoc/src/ggd-plugin.c:602
+#: ../geanygendoc/src/ggd-plugin.c:633
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:140
 msgid "Documentation type"
 msgstr "Tipo de documentación"
 
-#: ../geanygendoc/src/ggd-plugin.c:612
+#: ../geanygendoc/src/ggd-plugin.c:643
 msgid ""
 "Choose the documentation type to use with each file type. The special "
 "language \"All\" on top of the list is used to choose the default "
@@ -1190,11 +1202,11 @@ msgstr ""
 "tienen un tipo especificado."
 
 #. Environ editor
-#: ../geanygendoc/src/ggd-plugin.c:618
+#: ../geanygendoc/src/ggd-plugin.c:649
 msgid "Global environment"
 msgstr "Entorno global"
 
-#: ../geanygendoc/src/ggd-plugin.c:620
+#: ../geanygendoc/src/ggd-plugin.c:651
 msgid ""
 "Global environment overrides and additions. This environment will be merged "
 "with the file-type-specific ones."
@@ -1206,12 +1218,12 @@ msgstr ""
 msgid "Invalid tag"
 msgstr "Etiqueta no válida"
 
-#: ../geanygendoc/src/ggd-utils.c:163 ../geanygendoc/src/ggd-utils.c:174
+#: ../geanygendoc/src/ggd-utils.c:167 ../geanygendoc/src/ggd-utils.c:178
 #, c-format
 msgid "File \"%s\" exists but is not a regular file"
 msgstr "El archivo «%s» existe pero no es un archivo correcto"
 
-#: ../geanygendoc/src/ggd-utils.c:183
+#: ../geanygendoc/src/ggd-utils.c:187
 #, c-format
 msgid "%s: no such file or directory"
 msgstr "%s: no existe el archivo o directorio"
@@ -1221,14 +1233,12 @@ msgid "Language"
 msgstr "Lenguaje"
 
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:151
-#, fuzzy
 msgid "_Change associated documentation type"
-msgstr "_Aplicar sangría a la documentación insertada"
+msgstr "_Cambiar tipo de documentación asociada"
 
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:159
-#, fuzzy
 msgid "_Disassociate documentation type"
-msgstr "tipo de documentación"
+msgstr "_Desasociar tipo de documentación"
 
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:190
 msgid "All"
@@ -1284,62 +1294,59 @@ msgstr "No se ha podido determinar dónde insertar el paquete: «%s»"
 
 #: ../geanylatex/src/bibtexlabels.c:27
 msgid "Article (@Article)"
-msgstr ""
+msgstr "Artículo (@Article)"
 
 #: ../geanylatex/src/bibtexlabels.c:28
 msgid "Book (@Book)"
-msgstr ""
+msgstr "Libro (@Book)"
 
 #: ../geanylatex/src/bibtexlabels.c:29
 msgid "Booklet (@Booklet)"
-msgstr ""
+msgstr "Folleto (@Booklet)"
 
 #: ../geanylatex/src/bibtexlabels.c:30
 msgid "Conference (@Conference)"
-msgstr ""
+msgstr "Conferencia (@Conference)"
 
 #: ../geanylatex/src/bibtexlabels.c:31
 msgid "Inbook (@Inbook)"
-msgstr ""
+msgstr "Cuadernillo (@Inbook)"
 
 #: ../geanylatex/src/bibtexlabels.c:32
-#, fuzzy
 msgid "Incollection (@Incollection)"
-msgstr "Incollection"
+msgstr "Parte de un libro con título propio (@Incollection)"
 
 #: ../geanylatex/src/bibtexlabels.c:33
-#, fuzzy
 msgid "Inproceedings (@Inproceedings)"
-msgstr "Inproceedings"
+msgstr "Artículo de acta de sesiones (@Inproceedings)"
 
 #: ../geanylatex/src/bibtexlabels.c:34
 msgid "Manual (@Manual)"
-msgstr ""
+msgstr "Manual (@Manual)"
 
 #: ../geanylatex/src/bibtexlabels.c:35
-#, fuzzy
 msgid "Mastersthesis (@Mastersthesis)"
-msgstr "Mastersthesis"
+msgstr "Tésis de maestría (@Mastersthesis)"
 
 #: ../geanylatex/src/bibtexlabels.c:36
 msgid "Misc (@Misc)"
-msgstr ""
+msgstr "Misc (@Misc)"
 
 #: ../geanylatex/src/bibtexlabels.c:37
 msgid "PhdThesis (@PhdThesis)"
-msgstr ""
+msgstr "Tésis doctoral (@PhdThesis)"
 
 #: ../geanylatex/src/bibtexlabels.c:38
 msgid "Proceedings (@Proceedings)"
-msgstr ""
+msgstr "Acta de sesiones (@Proceedings)"
 
 #: ../geanylatex/src/bibtexlabels.c:39
 msgid "Techreport (@Techreport)"
-msgstr ""
+msgstr "Informe técnico (@Techreport)"
 
 #: ../geanylatex/src/bibtexlabels.c:40
 msgid "Unpublished (@Unpublished)"
-msgstr ""
+msgstr "Sin publicar (@Unpublished)"
 
 #: ../geanylatex/src/bibtexlabels.c:46
 msgid "Address"
@@ -1595,11 +1602,11 @@ msgstr "Mostrar barra de herramientas de complemento opcional"
 
 #: ../geanylatex/src/geanylatex.c:290
 msgid "Capitalize sentense on typing"
-msgstr ""
+msgstr "Capitalizar frase al escribir"
 
 #: ../geanylatex/src/geanylatex.c:292
 msgid "Add a wizard icon to Geany's main toolbar"
-msgstr ""
+msgstr "Añadir un icono de asistente a la barra de herramientas principal"
 
 #: ../geanylatex/src/geanylatex.c:296
 msgid "Don't care about this inside plugin"
@@ -1666,14 +1673,12 @@ msgid "Package options:"
 msgstr "Opciones del paquete:"
 
 #: ../geanylatex/src/geanylatex.c:1231
-#, fuzzy
 msgid "Insert BibTeX Reference"
-msgstr "Insertar referencia"
+msgstr "Insertar referencia BibTeX"
 
 #: ../geanylatex/src/geanylatex.c:1244
-#, fuzzy
 msgid "BiBTeX reference name:"
-msgstr "Nombre de referencia:"
+msgstr "Nombre de referencia BibTeX:"
 
 #: ../geanylatex/src/geanylatex.c:1668
 msgid "Dear Sir or Madame"
@@ -1849,7 +1854,7 @@ msgstr "Insertar \\ref"
 
 #: ../geanylatex/src/geanylatex.c:1922
 msgid "Insert linebreak \\\\ "
-msgstr "Insertar salto de línea"
+msgstr "Insertar salto de línea \\\\"
 
 #: ../geanylatex/src/geanylatex.c:1925
 msgid "Insert command"
@@ -1920,9 +1925,8 @@ msgid "Insert \\usepackage{}"
 msgstr "Insertar \\usepackage{}"
 
 #: ../geanylatex/src/geanylatex.c:1969
-#, fuzzy
 msgid "Insert BibTeX reference dialog"
-msgstr "Insertar referencia"
+msgstr "Diálogo insertar referencia BibTeX"
 
 #: ../geanylatex/src/geanylatex.c:1976
 msgid ""
@@ -2008,18 +2012,16 @@ msgstr ""
 "actual"
 
 #: ../geanylatex/src/geanylatex.c:2148
-#, fuzzy
 msgid "Insert B_ibTeX reference"
-msgstr "Insertar _referencia"
+msgstr "Insertar referencia B_ibTeX"
 
 #: ../geanylatex/src/geanylatex.c:2150
 msgid "Helps to insert a reference out of BibTeX files"
-msgstr ""
+msgstr "Ayuda a la inserción de referencias de archivos BibTeX"
 
 #: ../geanylatex/src/geanylatex.c:2155
-#, fuzzy
 msgid "_BibTeX entries"
-msgstr "_BibTeX"
+msgstr "Entradas _BibTeX"
 
 #: ../geanylatex/src/geanylatex.c:2171
 msgid "_Format"
@@ -2083,7 +2085,6 @@ msgid "Italic"
 msgstr "Cursiva"
 
 #: ../geanylatex/src/formatpatterns.c:39
-#, fuzzy
 msgid "Bold"
 msgstr "Negrita"
 
@@ -2229,7 +2230,6 @@ msgid "GeanySendMail"
 msgstr "GeanySendMail"
 
 #: ../geanysendmail/src/geanysendmail.c:44
-#, fuzzy
 msgid ""
 "A little plugin to send the currentfile as attachment by user's favorite "
 "mailer"
@@ -2304,9 +2304,8 @@ msgstr ""
 "\tmutt -s \"Sending '\\%b'\" -a \"\\%f\" \"\\%r\""
 
 #: ../geanysendmail/src/geanysendmail.c:323
-#, fuzzy
 msgid "Show toolbar icon"
-msgstr "Mostrar ayuda emergente."
+msgstr "Mostrar icono en la barra de herramientas"
 
 #: ../geanysendmail/src/geanysendmail.c:325
 msgid "Shows a icon in the toolbar to send file more easy."
@@ -2315,9 +2314,9 @@ msgstr ""
 "fácilmente."
 
 #: ../geanysendmail/src/geanysendmail.c:331
-#, fuzzy
 msgid "Use dialog for entering email address of recipients"
-msgstr "Usar un diálogo para introducir los datos de los destinatarios"
+msgstr ""
+"Usar un diálogo para introducir la dirección de correo de los destinatarios"
 
 #: ../geanysendmail/src/geanysendmail.c:354
 msgid "Send file by mail"
@@ -3032,13 +3031,13 @@ msgid "Lua Script Plugin"
 msgstr "Complemento de Script Lua"
 
 #: ../geanylua/glspi_app.c:19
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s %s: %s\n"
 "Copyright (c) 2007-2010 "
 msgstr ""
 "%s %s: %s\n"
-"Copyright (c) 2007-2008 "
+"Copyright (c) 2007-2010 "
 
 #: ../geanylua/glspi_app.c:149
 #, c-format
@@ -3192,7 +3191,6 @@ msgid "Generate file list on load"
 msgstr "Generar lista de archivos al cargar"
 
 #: ../geanyprj/src/menu.c:170
-#, fuzzy
 msgid ""
 "Automatically add files that match project type on project load "
 "automatically. You can't manually add/remove files if you checked this "
@@ -3315,7 +3313,6 @@ msgid "Insert _Numbers"
 msgstr "Insertar _números"
 
 #: ../treebrowser/src/treebrowser.c:106
-#, fuzzy
 msgid "TreeBrowser"
 msgstr "Visor de árbol"
 
@@ -3324,17 +3321,18 @@ msgid ""
 "This plugin adds a tree browser to Geany, allowing the user to browse files "
 "using a tree view of the directory being browsed."
 msgstr ""
+"Este complemento añade un navegador de archivos a Geany, permitiendo al "
+"usuario navegar por sus archivos mediante un árbol de directorios."
 
 #: ../treebrowser/src/treebrowser.c:391
-#, fuzzy, c-format
+#, c-format
 msgid "%s: no such directory."
-msgstr "%s: no existe el archivo o directorio"
+msgstr "%s: no existe el directorio."
 
 #: ../treebrowser/src/treebrowser.c:486 ../treebrowser/src/treebrowser.c:521
 #: ../treebrowser/src/treebrowser.c:620
-#, fuzzy
 msgid "(Empty)"
-msgstr "Vacío"
+msgstr "(Vacío)"
 
 #: ../treebrowser/src/treebrowser.c:863
 #, c-format
@@ -3355,6 +3353,8 @@ msgid ""
 "Target file '%s' exists\n"
 ", do you really want to replace it with empty file?"
 msgstr ""
+"El archivo de destino «%s» existe.\n"
+"¿Está seguro de que desea reemplazarlo con un archivo vacío?"
 
 #: ../treebrowser/src/treebrowser.c:977
 #, c-format
@@ -3408,9 +3408,8 @@ msgid "Close: %s"
 msgstr "Cerrar: %s"
 
 #: ../treebrowser/src/treebrowser.c:1131
-#, fuzzy
 msgid "Copy full path to clipboard"
-msgstr "Copiar ruta completa"
+msgstr "Copiar ruta completa al portapapeles"
 
 #: ../treebrowser/src/treebrowser.c:1140
 msgid "Expand all"
@@ -3429,7 +3428,6 @@ msgid "Show hidden files"
 msgstr "Mostrar archivos ocultos"
 
 #: ../treebrowser/src/treebrowser.c:1161
-#, fuzzy
 msgid "Show toolbars"
 msgstr "Mostrar barras"
 
@@ -3437,6 +3435,7 @@ msgstr "Mostrar barras"
 #, c-format
 msgid "Target file '%s' exists, do you really want to replace it?"
 msgstr ""
+"El archivo de destino «%s» existe. ¿Está seguro de que desea reemplazarlo?"
 
 #: ../treebrowser/src/treebrowser.c:1519
 msgid "Home"
@@ -3486,43 +3485,39 @@ msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1721
 msgid "Toolbar"
-msgstr ""
+msgstr "Barra de herramientas"
 
 #: ../treebrowser/src/treebrowser.c:1723
 msgid "Hidden"
-msgstr ""
+msgstr "Oculta"
 
 #: ../treebrowser/src/treebrowser.c:1724
 msgid "Top"
-msgstr ""
+msgstr "Arriba"
 
 #: ../treebrowser/src/treebrowser.c:1725
 msgid "Bottom"
-msgstr ""
+msgstr "Abajo"
 
 #: ../treebrowser/src/treebrowser.c:1730
-#, fuzzy
 msgid "If position is changed, the option require plugin restart."
-msgstr "Mostrar barras arriba (necesita reiniciar el complemento)"
+msgstr "Si se cambia la posición será necesario reiniciar el complemento."
 
 #: ../treebrowser/src/treebrowser.c:1734
-#, fuzzy
 msgid "Show icons"
-msgstr "Mostrar iconos."
+msgstr "Mostrar iconos"
 
 #: ../treebrowser/src/treebrowser.c:1736
 msgid "None"
-msgstr ""
+msgstr "Ninguno"
 
 #: ../treebrowser/src/treebrowser.c:1737
-#, fuzzy
 msgid "Base"
-msgstr "_Base:"
+msgstr "Base"
 
 #: ../treebrowser/src/treebrowser.c:1738
-#, fuzzy
 msgid "Content-type"
-msgstr "Contenido"
+msgstr "Tipo de contenido"
 
 #: ../treebrowser/src/treebrowser.c:1749
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
@@ -3567,35 +3562,30 @@ msgid "Show tree lines"
 msgstr "Mostrar líneas de árbol"
 
 #: ../treebrowser/src/treebrowser.c:1858
-#, fuzzy
 msgid "Focus File List"
-msgstr "Enfocar lista de tareas"
+msgstr "Enfocar lista de archivos"
 
 #: ../treebrowser/src/treebrowser.c:1860
 msgid "Focus Path Entry"
-msgstr ""
+msgstr "Enfocar entrada de ruta"
 
 #: ../treebrowser/src/treebrowser.c:1862
-#, fuzzy
 msgid "Rename Object"
-msgstr "Renombrar"
+msgstr "Renombrar objeto"
 
 #: ../geanyextrasel/src/extrasel.c:30
 msgid "Extra Selection"
 msgstr "Selección extra"
 
 #: ../geanyextrasel/src/extrasel.c:30
-#, fuzzy
 msgid "Column mode, select to line / brace / anchor."
-msgstr "Modo columna, seleccionar hasta la línea/corchete correspondiente"
+msgstr "Modo columna, seleccionar hasta la línea/corchete/ancla."
 
 #: ../geanyextrasel/src/extrasel.c:481
-#, fuzzy
 msgid "E_xtra Selection"
-msgstr "Selección extra"
+msgstr "Selección e_xtra"
 
 #: ../geanyextrasel/src/extrasel.c:489
-#, fuzzy
 msgid "_Column Mode"
 msgstr "Modo _columna"
 
@@ -3621,48 +3611,45 @@ msgstr "Seleccionar hasta corchete correspondiente"
 
 #: ../geanyextrasel/src/extrasel.c:510
 msgid "_Set Anchor"
-msgstr ""
+msgstr "Fijar an_cla"
 
 #: ../geanyextrasel/src/extrasel.c:514
 msgid "Set anchor"
-msgstr ""
+msgstr "Fijar ancla"
 
 #: ../geanyextrasel/src/extrasel.c:516
-#, fuzzy
 msgid "Select to _Anchor"
-msgstr "Seleccionar hasta _línea"
+msgstr "Seleccionar hasta _ancla"
 
 #: ../geanyextrasel/src/extrasel.c:520
-#, fuzzy
 msgid "Select to anchor"
-msgstr "Seleccionar hasta línea"
+msgstr "Seleccionar hasta ancla"
 
 #: ../geanyextrasel/src/extrasel.c:522
 msgid "_Rectangle Select to Anchor"
-msgstr ""
+msgstr "Seleccionar en _rectángulo hasta ancla"
 
 #: ../geanyextrasel/src/extrasel.c:527
 msgid "Rectangle select to anchor"
-msgstr ""
+msgstr "Seleccionar en rectángulo hasta ancla"
 
 #: ../updatechecker/src/updatechecker.c:36
-#, fuzzy
 msgid "Updatechecker"
-msgstr "_Actualizar"
+msgstr "Comprobador de actualizaciones"
 
 #: ../updatechecker/src/updatechecker.c:37
 msgid ""
 "A plugin which is checking whether there are updates for Geany available."
 msgstr ""
+"Este complemento comprueba si hay actualizaciones disponibles para Geany."
 
 #: ../updatechecker/src/updatechecker.c:185
 msgid "There is a more recent version available"
-msgstr ""
+msgstr "Está disponible una versión más reciente"
 
 #: ../updatechecker/src/updatechecker.c:193
-#, fuzzy
 msgid "No update available"
-msgstr "No está disponible la historia"
+msgstr "No hay actualizaciones disponibles"
 
 #: ../updatechecker/src/updatechecker.c:205
 #, c-format
@@ -3671,56 +3658,57 @@ msgid ""
 "Error code: %d \n"
 "Error message: »%s«"
 msgstr ""
+"No se ha podido conseguir alguna información de la versión.\n"
+"Código de error: %d \n"
+"Mensaje de error: »%s«"
 
 #: ../updatechecker/src/updatechecker.c:271
 msgid "Run updatecheck on startup"
-msgstr ""
+msgstr "Ejecutar comprobación de versión al arrancar"
 
 #: ../updatechecker/src/updatechecker.c:313
 msgid "Check for Updates"
-msgstr ""
+msgstr "Comprobar actualizaciones"
 
 #: ../webhelper/src/gwh-browser.c:426
 msgid "_Zoom"
-msgstr ""
+msgstr "_Zoom"
 
 #: ../webhelper/src/gwh-browser.c:448
 msgid "Full-_content zoom"
-msgstr ""
+msgstr "Zoom a todo el _contenido"
 
 #: ../webhelper/src/gwh-browser.c:459
-#, fuzzy
 msgid "Flip panes orientation"
-msgstr "Orientación de papel:"
+msgstr "Voltear orientación de los paneles"
 
 #: ../webhelper/src/gwh-browser.c:704
 msgid "Back"
-msgstr ""
+msgstr "Atrás"
 
 #: ../webhelper/src/gwh-browser.c:708
 msgid "Forward"
-msgstr ""
+msgstr "Adelante"
 
 #: ../webhelper/src/gwh-browser.c:712
-#, fuzzy
 msgid "Cancel loading"
-msgstr "Codificación:"
+msgstr "Cancelar carga"
 
 #: ../webhelper/src/gwh-browser.c:716
 msgid "Reload current page"
-msgstr ""
+msgstr "Recargar página actual"
 
 #: ../webhelper/src/gwh-browser.c:729 ../webhelper/src/gwh-browser.c:802
 msgid "Web inspector"
-msgstr ""
+msgstr "Inspector web"
 
 #: ../webhelper/src/gwh-browser.c:730
 msgid "Toggle web inspector"
-msgstr ""
+msgstr "Des/activar inspector web"
 
 #: ../webhelper/src/gwh-plugin.c:50
 msgid "Web helper"
-msgstr ""
+msgstr "Ayudante web"
 
 #: ../webhelper/src/gwh-plugin.c:51
 msgid ""
@@ -3728,69 +3716,18 @@ msgid ""
 "provide web analysis and debugging tools (aka Web Inspector), all using "
 "WebKit."
 msgstr ""
+"Muestra una vista previa de la página web que se actualiza al guardar el "
+"documento y proporciona herramientas de análisis y depuración de webs (alias "
+"Inspector web), todo mediante WebKit."
 
 #: ../webhelper/src/gwh-plugin.c:109
 msgid "Web view"
-msgstr ""
+msgstr "Vista web"
 
 #: ../webhelper/src/gwh-plugin.c:144
 msgid "Web preview"
-msgstr ""
+msgstr "Vista previa web"
 
 #: ../webhelper/src/gwh-plugin.c:232
 msgid "Reload upon document saving"
-msgstr ""
-
-#~ msgid "goto_file"
-#~ msgstr "goto_file"
-
-#~ msgid "switch_head_impl"
-#~ msgstr "switch_head_impl"
-
-#~ msgid "Booklet"
-#~ msgstr "Folleto"
-
-#~ msgid "Conference"
-#~ msgstr "Conferencia"
-
-#~ msgid "Inbook"
-#~ msgstr "Inbook"
-
-#~ msgid "Manual"
-#~ msgstr "Manual"
-
-#~ msgid "PhdThesis"
-#~ msgstr "PhdThesis"
-
-#~ msgid "Proceedings"
-#~ msgstr "Proceedings"
-
-#~ msgid "Techreport"
-#~ msgstr "Techreport"
-
-#~ msgid "Unpublished"
-#~ msgstr "No publicado"
-
-#~ msgid "Showing icon in toolbar"
-#~ msgstr "Mostrar icono en la barra de tareas"
-
-#~ msgid "The Geany developer team"
-#~ msgstr "El equipo de desarrollo de Geany"
-
-#~ msgid "Treeview filebrowser plugin."
-#~ msgstr "Complemento de vista de árbol."
-
-#~ msgid "Directory '%s' not exists."
-#~ msgstr "El directorio «%s» no existe"
-
-#~ msgid "Default directory deep to fill"
-#~ msgstr "Profundidad de directorios predeterminada"
-
-#~ msgid "How many folders will opened and store in tree"
-#~ msgstr "Cuántos directorio se abrirán y almacenarán en el árbol"
-
-#~ msgid "On expand, refresh directory view"
-#~ msgstr "Refrescar la vista de directorios al expandir"
-
-#~ msgid "E_xtra selection"
-#~ msgstr "Selección e_xtra"
+msgstr "Recargar un documento al guardar"
