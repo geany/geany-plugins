@@ -3,14 +3,14 @@
 # Copyright (C) 2009 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 # Andrew Janke <a.janke@gmail.com>, 2009
-# Lucas Vieites <lucas@codexion.com>, 2009-2010
+# Lucas Vieites <lucas@codexion.com>, 2009
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 0.20\n"
+"Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-19 15:06+0100\n"
-"PO-Revision-Date: 2010-12-13 12:59+0100\n"
+"POT-Creation-Date: 2010-12-29 15:59+0100\n"
+"PO-Revision-Date: 2010-12-29 11:03+0100\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
 "Language: \n"
@@ -234,8 +234,8 @@ msgid "Switch header/implementation"
 msgstr "Cambiar cabecera/implementación"
 
 #: ../codenav/src/switch_head_impl.c:360
-#, c-format
-msgid "%s not found, create it ?"
+#, fuzzy, c-format
+msgid "%s not found, create it?"
 msgstr "No se ha encontrado %s. ¿Desea crearlo?"
 
 #: ../codenav/src/switch_head_impl.c:476
@@ -1379,7 +1379,7 @@ msgstr "E-print"
 
 #: ../geanylatex/src/bibtexlabels.c:55
 msgid "HowPublished"
-msgstr ""
+msgstr "HowPublished"
 
 #: ../geanylatex/src/bibtexlabels.c:56
 msgid "Institution"
@@ -2097,7 +2097,7 @@ msgstr "Máquina de escribir"
 
 #: ../geanylatex/src/formatpatterns.c:42
 msgid "Small Caps"
-msgstr ""
+msgstr "Versalitas"
 
 #: ../geanylatex/src/formatpatterns.c:43
 msgid "Slanted"
@@ -2109,43 +2109,43 @@ msgstr "Énfasis"
 
 #: ../geanylatex/src/formatpatterns.c:64
 msgid "tiny"
-msgstr ""
+msgstr "tiny"
 
 #: ../geanylatex/src/formatpatterns.c:65
 msgid "scriptsize"
-msgstr ""
+msgstr "scriptsize"
 
 #: ../geanylatex/src/formatpatterns.c:66
 msgid "footnotesize"
-msgstr ""
+msgstr "footnotesize"
 
 #: ../geanylatex/src/formatpatterns.c:67
 msgid "small"
-msgstr ""
+msgstr "small"
 
 #: ../geanylatex/src/formatpatterns.c:68
 msgid "normalsize"
-msgstr ""
+msgstr "normalsize"
 
 #: ../geanylatex/src/formatpatterns.c:69
 msgid "large"
-msgstr ""
+msgstr "large"
 
 #: ../geanylatex/src/formatpatterns.c:70
 msgid "Large"
-msgstr ""
+msgstr "Large"
 
 #: ../geanylatex/src/formatpatterns.c:71
 msgid "LARGE"
-msgstr ""
+msgstr "LARGE"
 
 #: ../geanylatex/src/formatpatterns.c:72
 msgid "huge"
-msgstr ""
+msgstr "huge"
 
 #: ../geanylatex/src/formatpatterns.c:73
 msgid "Huge"
-msgstr ""
+msgstr "Huge"
 
 #: ../geanylatex/src/latexencodings.c:37
 msgid "UTF-8"
@@ -2732,7 +2732,7 @@ msgstr "Ejecutar comprobación ortográfica"
 
 #: ../spellcheck/src/scplugin.c:203
 msgid "Toggle Check While Typing"
-msgstr ""
+msgstr "Conmutar corrección al escribir"
 
 #. initialise the dialog
 #: ../spellcheck/src/scplugin.c:214
@@ -2741,47 +2741,53 @@ msgstr "Seleccionar directorio"
 
 #: ../spellcheck/src/scplugin.c:251
 msgid "Check spelling while typing"
-msgstr ""
+msgstr "Corrección al escribir"
 
 #: ../spellcheck/src/scplugin.c:256
 msgid "Show toolbar item to toggle spell checking"
 msgstr ""
+"Mostrar elemento de barra de herramientas para conmutar la comprobación "
+"ortográfica"
 
 #: ../spellcheck/src/scplugin.c:261
 msgid "Show editor menu item to show spelling suggestions"
-msgstr ""
+msgstr "Mostrar elemento de menú para mostrar sugerencias ortográficas"
 
 #: ../spellcheck/src/scplugin.c:267
 msgid "Print misspelled words and suggestions in the messages window"
-msgstr ""
+msgstr "Mostrar palabras mal escritas y sugerencias en la ventana de mensajes"
 
 #: ../spellcheck/src/scplugin.c:271
 msgid "Language to use for the spell check:"
-msgstr ""
+msgstr "Idioma utilizado para la comprobación ortográfica:"
 
 #: ../spellcheck/src/scplugin.c:285
 msgid "_Directory to look for dictionary files:"
-msgstr ""
+msgstr "_Directorio en el que buscar archivos de diccionario:"
 
 #: ../spellcheck/src/scplugin.c:293
 msgid ""
 "Read additional dictionary files from this directory. For now, this only "
 "works with myspell dictionaries."
 msgstr ""
+"Leer archivos de diccionario adicionales de este directorio. Por ahora "
+"solamente funciona con diccionarios de myspell."
 
 #: ../spellcheck/src/gui.c:56
 msgid "Spell checking while typing is now enabled"
-msgstr ""
+msgstr "Está activada la comprobación ortográfica mientras escribe"
 
 #: ../spellcheck/src/gui.c:58
 msgid "Spell checking while typing is now disabled"
-msgstr ""
+msgstr "Está desactivada la comprobación ortográfica mientras escribe"
 
 #: ../spellcheck/src/gui.c:279
 msgid ""
 "Search term is too long to provide\n"
 "spelling suggestions in the editor menu."
 msgstr ""
+"El término de búsqueda es demasiado largo\n"
+"para proporcionar sugerencias en el menú."
 
 #: ../spellcheck/src/gui.c:284
 msgid "Perform Spell Check"
@@ -2816,7 +2822,7 @@ msgstr "desconocido"
 #: ../spellcheck/src/gui.c:474
 #, c-format
 msgid "Toggle spell check while typing (current language: %s)"
-msgstr ""
+msgstr "Conmutar comprobación ortográfica al escribir (idioma actual: %s)"
 
 #: ../spellcheck/src/gui.c:529
 msgid "Spelling Suggestions"
@@ -2845,6 +2851,8 @@ msgid ""
 "Error in module \"%s\" at function %s():\n"
 " expected type \"%s\" for argument #%d\n"
 msgstr ""
+"Error en el módulo «%s» en la función %s():\n"
+" se esperaba el tipo «%s» para el argumento nº %d\n"
 
 #: ../geanylua/gsdlg_lua.c:108 ../geanylua/glspi.h:124
 #, c-format
@@ -2853,6 +2861,9 @@ msgid ""
 " invalid table in argument #%d:\n"
 " expected type \"%s\" for element #%d\n"
 msgstr ""
+"Error en el módulo «%s» en la función %s():\n"
+" tabla inválida en el argumento nº %d:\n"
+" tipo esperado «%s» para el elemento nº %d\n"
 
 #: ../geanylua/glspi_init.c:390
 msgid "_Lua Scripts"
@@ -2888,6 +2899,8 @@ msgid ""
 "Error in module \"%s\" at function navigate():\n"
 "unknown navigation mode \"%s\" for argument #1.\n"
 msgstr ""
+"Error en el módulo «%s» en la función navigate():\n"
+"modo de navegación desconocido «%s» para el argumento nº 1.\n"
 
 #: ../geanylua/glspi_sci.c:602
 #, c-format
@@ -2895,6 +2908,8 @@ msgid ""
 "Error in module \"%s\" at function %s():\n"
 "API command \"%s\" not implemented.\n"
 msgstr ""
+"Error en el módulo «%s» en la función %s()\n"
+"El comando de API «%s» no está implementado.\n"
 
 #: ../geanylua/glspi_sci.c:613
 #, c-format
@@ -2902,6 +2917,8 @@ msgid ""
 "Error in module \"%s\" at function %s():\n"
 "not enough arguments for command \"%s\".\n"
 msgstr ""
+"Error en el módulo «%s» en la función %s()\n"
+"no hay argumentos suficientes para el comando «%s».\n"
 
 #: ../geanylua/glspi_sci.c:651 ../geanylua/glspi_app.c:397
 #, c-format
@@ -2909,6 +2926,8 @@ msgid ""
 "Error in module \"%s\" at function %s():\n"
 "unknown command \"%s\" given for argument #1.\n"
 msgstr ""
+"Error en el módulo «%s» en la función %s()\n"
+"comando desconocido «%s» para el argumento nº1.\n"
 
 #: ../geanylua/glspi_sci.c:793
 #, c-format
@@ -2917,6 +2936,9 @@ msgid ""
 " invalid table in argument #%d:\n"
 " unknown flag \"%s\" for element #%d\n"
 msgstr ""
+"Error en el módulo «%s» en la función %s()\n"
+" tabla inválida en el argumento nº %d:\n"
+" indicador «%s» desconocido para el elemento nº %d\n"
 
 #: ../geanylua/glspi_sci.c:797
 msgid "<too large to display>"
@@ -2967,6 +2989,8 @@ msgstr ""
 #, c-format
 msgid "%s: Support library ABI mismatch: %d for %s (should be %d)!\n"
 msgstr ""
+"%s: Desajuste en el ABI de la biblioteca auxiliar: %d por %s (debería ser "
+"%d).\n"
 
 #: ../geanylua/geanylua.c:211
 #, c-format
@@ -2988,6 +3012,8 @@ msgid ""
 "Error in module \"%s\" at function %s():\n"
 " expected type \"%s\" or \"%s\" for argument #%d\n"
 msgstr ""
+"Error en el módulo «%s» en la función %s()\n"
+" tipo esperado «%s» o «%s» para el argumento nº %d.\n"
 
 #.
 #. * glspi_ver.c - This file is part of the Lua scripting plugin for the Geany IDE
@@ -3006,10 +3032,10 @@ msgid "Lua Script Plugin"
 msgstr "Complemento de Script Lua"
 
 #: ../geanylua/glspi_app.c:19
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s %s: %s\n"
-"Copyright (c) 2007-2008 "
+"Copyright (c) 2007-2010 "
 msgstr ""
 "%s %s: %s\n"
 "Copyright (c) 2007-2008 "
@@ -3020,6 +3046,8 @@ msgid ""
 "Error in module \"%s\" at function %s():\n"
 "widget \"%s\" not found for argument #1.\n"
 msgstr ""
+"Error en el módulo «%s» en la función %s()\n"
+"no se encuentra el widget «%s» para el argumento nº1.\n"
 
 #: ../geanylua/glspi_app.c:158
 #, c-format
@@ -3052,6 +3080,8 @@ msgid ""
 "Error in module \"%s\" at function pickfile():\n"
 "failed to parse filter string at argument #3.\n"
 msgstr ""
+"Error en el módulo «%s» en la función pickfile()\n"
+"no se ha podido interpretar la cadena del filtro en el eargumento nº 3.\n"
 
 #: ../geanylua/glspi_dlg.c:488
 #, c-format
@@ -3059,6 +3089,8 @@ msgid ""
 "Error in module \"%s\" at function %s():\n"
 "expected string \"open\" or \"save\" for argument #1.\n"
 msgstr ""
+"Error en el módulo «%s» en la función %s()\n"
+"cadena esperada «open» o «save» para el argumento nº 1.\n"
 
 #: ../geanylua/glspi_run.c:112 ../geanylua/glspi_run.c:119
 msgid "Lua script error:"
@@ -3094,27 +3126,27 @@ msgstr "Memoria agotada"
 
 #: ../geanylua/glspi_run.c:484
 msgid "Failed to open script file."
-msgstr ""
+msgstr "No se ha podido abrir el archivo de script."
 
 #: ../geanylua/glspi_run.c:487
 msgid "Unknown error while loading script file."
-msgstr ""
+msgstr "Se ha producido un error desconocido al cargar el archivo de script."
 
 #: ../geanyprj/src/geanyprj.c:33 ../geanyprj/src/sidebar.c:449
 msgid "Project"
-msgstr ""
+msgstr "Proyecto"
 
 #: ../geanyprj/src/geanyprj.c:33
 msgid "Alternative project support."
-msgstr ""
+msgstr "Soporte alternativo de proyectos"
 
 #: ../geanyprj/src/geanyprj.c:34
 msgid "Yura Siamashka <yurand2@gmail.com>"
-msgstr ""
+msgstr "Yura Siamashka <yurand2@gmail.com>"
 
 #: ../geanyprj/src/menu.c:90
 msgid "Project Preferences"
-msgstr ""
+msgstr "Preferencias del proyecto"
 
 #: ../geanyprj/src/menu.c:99 ../geanyprj/src/menu.c:381
 #: ../geanyprj/src/sidebar.c:170
@@ -3147,6 +3179,9 @@ msgid ""
 "path, or an existing directory tree. You can use paths relative to the "
 "project filename."
 msgstr ""
+"La ruta del directorio base de todos los archivos que conforman el proyecto. "
+"Esto puede ser una ruta nueva o un árbol de directorios existentes. Puede "
+"utilizar rutas relativas al archivo del proyecto."
 
 #: ../geanyprj/src/menu.c:161
 msgid "Choose Project Base Path"
@@ -3154,14 +3189,19 @@ msgstr "Elija la ruta base del proyecto"
 
 #: ../geanyprj/src/menu.c:168
 msgid "Generate file list on load"
-msgstr ""
+msgstr "Generar lista de archivos al cargar"
 
 #: ../geanyprj/src/menu.c:170
+#, fuzzy
 msgid ""
 "Automatically add files that match project type on project load "
 "automatically. You can't manually add/remove files if you checked this "
 "option, since your modification will be lost on on next project load"
 msgstr ""
+"Añadir archivos que coinciden con el tipo de projecto automáticamente al "
+"cargarlo. No puede añadir o eliminar archivos manualmente si marca esta "
+"opción ya que sus modificaciones se perderán en la siguiente carga del "
+"proyecto."
 
 #: ../geanyprj/src/menu.c:178
 msgid "Type:"
@@ -3224,7 +3264,7 @@ msgstr "Insertando..."
 
 #: ../geanyinsertnum/src/insertnum.c:312
 msgid "For base 11 and above"
-msgstr ""
+msgstr "Para base 11 y superiores"
 
 #: ../geanyinsertnum/src/insertnum.c:335
 msgid "_Start:"
@@ -3252,15 +3292,15 @@ msgstr "Minúscu_las"
 
 #: ../geanyinsertnum/src/insertnum.c:369
 msgid "Base _prefix"
-msgstr ""
+msgstr "_Prefijo base"
 
 #: ../geanyinsertnum/src/insertnum.c:371
 msgid "0 for octal, 0x for hex, + for positive decimal"
-msgstr ""
+msgstr "0 para octal, 0x para hex, + para decimal positivo"
 
 #: ../geanyinsertnum/src/insertnum.c:373
 msgid "Padding:"
-msgstr ""
+msgstr "Relleno:"
 
 #: ../geanyinsertnum/src/insertnum.c:375
 msgid "Sp_ace"
@@ -3299,15 +3339,15 @@ msgstr "Vacío"
 #: ../treebrowser/src/treebrowser.c:863
 #, c-format
 msgid "Could not execute configured external command '%s' (%s)."
-msgstr ""
+msgstr "No se ha podido ejecutar el comando externo configurado «%s» (%s)."
 
 #: ../treebrowser/src/treebrowser.c:925
 msgid "NewDirectory"
-msgstr ""
+msgstr "NewDirectory"
 
 #: ../treebrowser/src/treebrowser.c:927
 msgid "NewFile"
-msgstr ""
+msgstr "NewFile"
 
 #: ../treebrowser/src/treebrowser.c:932
 #, c-format
@@ -3319,7 +3359,7 @@ msgstr ""
 #: ../treebrowser/src/treebrowser.c:977
 #, c-format
 msgid "Do you really want to delete '%s' ?"
-msgstr ""
+msgstr "¿Está seguro de que desea eliminar «%s»?"
 
 #: ../treebrowser/src/treebrowser.c:1076 ../treebrowser/src/treebrowser.c:1509
 msgid "Go up"
@@ -3339,7 +3379,7 @@ msgstr "Abrir terminal"
 
 #: ../treebrowser/src/treebrowser.c:1093
 msgid "Set as root"
-msgstr ""
+msgstr "Fijar como raíz"
 
 #: ../treebrowser/src/treebrowser.c:1098 ../treebrowser/src/treebrowser.c:1514
 #: ../treebrowser/src/treebrowser.c:1864
@@ -3404,7 +3444,7 @@ msgstr "Inicio"
 
 #: ../treebrowser/src/treebrowser.c:1529
 msgid "Track path"
-msgstr ""
+msgstr "Rastrear ruta"
 
 #: ../treebrowser/src/treebrowser.c:1534
 msgid "Hide bars"
@@ -3415,10 +3455,12 @@ msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
 "reverse try for example this '!;*.c;*.h;*.cpp'"
 msgstr ""
+"Filtro (*.c;*.h;*.cpp), y si quiere un filtro temporal utilice «!», por "
+"ejemplo: '!;*.c;*.h;*.cpp'"
 
 #: ../treebrowser/src/treebrowser.c:1552
 msgid "Addressbar for example '/projects/my-project'"
-msgstr ""
+msgstr "Barra de direcciones, por ejemplo «/proyectos/mi-proyecto»"
 
 #: ../treebrowser/src/treebrowser.c:1576
 msgid "Tree Browser"
@@ -3437,6 +3479,10 @@ msgid ""
 "%d will be replaced with the path name of the selected file without the "
 "filename"
 msgstr ""
+"El comando que se ejecutará al usar «Abrir con». puede utilizar los "
+"comodines %f y %d.\n"
+"%f se reemplazará con el nombre de archivo con la ruta completa\n"
+"%d se reemplazará con la ruta del directorio sin el nombre de archivo"
 
 #: ../treebrowser/src/treebrowser.c:1721
 msgid "Toolbar"
@@ -3455,8 +3501,9 @@ msgid "Bottom"
 msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1730
+#, fuzzy
 msgid "If position is changed, the option require plugin restart."
-msgstr ""
+msgstr "Mostrar barras arriba (necesita reiniciar el complemento)"
 
 #: ../treebrowser/src/treebrowser.c:1734
 #, fuzzy
@@ -3480,16 +3527,20 @@ msgstr "Contenido"
 #: ../treebrowser/src/treebrowser.c:1749
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr ""
+"En Windows esto solamente oculta archivos cuyo nombre empieza con un "
+"«.» (punto)."
 
 #: ../treebrowser/src/treebrowser.c:1751
 msgid "Hide object files"
-msgstr ""
+msgstr "Ocultar archivos objeto"
 
 #: ../treebrowser/src/treebrowser.c:1756
 msgid ""
 "Don't show generated object files in the file browser, this includes *.o, *."
 "obj. *.so, *.dll, *.a, *.lib"
 msgstr ""
+"No mostrar los archivos objeto generados en el visor de archivos, esto "
+"incluye *.o, *.obj. *.so, *.dll, *.a, *.lib"
 
 #: ../treebrowser/src/treebrowser.c:1758
 msgid "Reverse filter"
@@ -3501,15 +3552,15 @@ msgstr "Seguir documento actual"
 
 #: ../treebrowser/src/treebrowser.c:1768
 msgid "Single click, open document and focus it"
-msgstr ""
+msgstr "Una sola pulsación abre el documento y lo enfoca"
 
 #: ../treebrowser/src/treebrowser.c:1773
 msgid "Double click open directory"
-msgstr ""
+msgstr "Doble pulsación para abrir un directorio"
 
 #: ../treebrowser/src/treebrowser.c:1778
 msgid "On delete file, close it if is opened"
-msgstr ""
+msgstr "Al borrar un archivo, cerrarlo si está abierto"
 
 #: ../treebrowser/src/treebrowser.c:1783
 msgid "Show tree lines"
@@ -3534,8 +3585,9 @@ msgid "Extra Selection"
 msgstr "Selección extra"
 
 #: ../geanyextrasel/src/extrasel.c:30
+#, fuzzy
 msgid "Column mode, select to line / brace / anchor."
-msgstr ""
+msgstr "Modo columna, seleccionar hasta la línea/corchete correspondiente"
 
 #: ../geanyextrasel/src/extrasel.c:481
 #, fuzzy
@@ -3725,8 +3777,20 @@ msgstr ""
 #~ msgid "The Geany developer team"
 #~ msgstr "El equipo de desarrollo de Geany"
 
+#~ msgid "Treeview filebrowser plugin."
+#~ msgstr "Complemento de vista de árbol."
+
 #~ msgid "Directory '%s' not exists."
 #~ msgstr "El directorio «%s» no existe"
+
+#~ msgid "Default directory deep to fill"
+#~ msgstr "Profundidad de directorios predeterminada"
+
+#~ msgid "How many folders will opened and store in tree"
+#~ msgstr "Cuántos directorio se abrirán y almacenarán en el árbol"
+
+#~ msgid "On expand, refresh directory view"
+#~ msgstr "Refrescar la vista de directorios al expandir"
 
 #~ msgid "E_xtra selection"
 #~ msgstr "Selección e_xtra"
