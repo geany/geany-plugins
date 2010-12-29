@@ -134,6 +134,10 @@ ggd_copy_file (const gchar *input,
  * Configuration files may be either the system-wide or the user-specific ones,
  * depending on their existence and on the requested permissions.
  * 
+ * If @GGD_PERM_NOCREAT is not given in @perms_req and @GGD_PERM_W is, the file
+ * at the returned path will be copied from the system configuration directory,
+ * or created empty if the system file doesn't exist.
+ * 
  * Returns: The path for the requested configuration file or %NULL if not found.
  */
 gchar *
@@ -193,6 +197,9 @@ ggd_get_config_file (const gchar *name,
         
         g_clear_error (error);
         set_file_error_from_errno (error, errnum, user_dir);
+      } else if (perms_req & GGD_PERM_NOCREAT) {
+        /* just give the user path if user don't want the copy to be done */
+        path = user_path;
       } else {
         GError *gerr = NULL;
         

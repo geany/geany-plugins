@@ -304,19 +304,50 @@ open_current_filetype_conf_handler (GtkWidget  *widget,
   
   doc = document_get_current ();
   if (DOC_VALID (doc)) {
-    gchar  *path;
+    gchar  *path_read;
+    gchar  *path_write;
     GError *err = NULL;
     
-    path = ggd_file_type_manager_get_conf_path (doc->file_type->id,
-                                                GGD_PERM_R | GGD_PERM_W, &err);
-    if (! path) {
+    path_write = ggd_file_type_manager_get_conf_path (doc->file_type->id,
+                                                      GGD_PERM_W | GGD_PERM_NOCREAT,
+                                                      &err);
+    if (! path_write) {
       msgwin_status_add (_("Failed to find configuration file "
                            "for file type \"%s\": %s"),
                          doc->file_type->name, err->message);
       g_error_free (err);
     } else {
-      document_open_file (path, FALSE, NULL, NULL);
-      g_free (path);
+      gchar *text = NULL;
+      
+      path_read = ggd_file_type_manager_get_conf_path (doc->file_type->id,
+                                                       GGD_PERM_R, &err);
+      if (! path_read) {
+        text = g_strdup (_(
+          "# Configuration for this file type doesn't exist yet.\n"
+          "# To create it, just write it in this file and save it. For the description\n"
+          "# of the syntax of this file, please refer to the manual.\n"
+        ));
+      } else {
+        gchar  *content = NULL;
+        gsize   length;
+        
+        if (! g_file_get_contents (path_read, &content, &length, &err)) {
+          g_warning (_("Failed to load file \"%s\": %s"),
+                     path_read, err->message);
+          g_error_free (err);
+        } else {
+          text = encodings_convert_to_utf8 (content, length, NULL);
+          g_free (content);
+        }
+        g_free (path_read);
+      }
+      /* It's no Ruby, but it is the closest one I've found. It has:
+       *  - # comments
+       *  - multi-line double-quoted strings
+       */
+      document_new_file (path_write, filetypes[GEANY_FILETYPES_RUBY], text);
+      g_free (text);
+      g_free (path_write);
     }
   }
 }

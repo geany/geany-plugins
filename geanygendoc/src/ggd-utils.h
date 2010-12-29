@@ -35,13 +35,16 @@ GGD_BEGIN_PLUGIN_API
  * @GGD_PERM_R: Read permission
  * @GGD_PERM_W: Write permission
  * @GGD_PERM_RW: Both read and write permissions
+ * @GGD_PERM_NOCREAT: Don't create new files
  * 
  * Flags representing permissions.
  */
 enum _GgdPerms {
-  GGD_PERM_R    = 1 << 0,
-  GGD_PERM_W    = 1 << 1,
-  GGD_PERM_RW   = GGD_PERM_R | GGD_PERM_W
+  GGD_PERM_R        = 1 << 0,
+  GGD_PERM_W        = 1 << 1,
+  GGD_PERM_RW       = GGD_PERM_R | GGD_PERM_W,
+  /* a bit ugly, it isn't a permission */
+  GGD_PERM_NOCREAT  = 1 << 2
 };
 
 typedef enum _GgdPerms GgdPerms;
