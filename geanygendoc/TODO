@@ -15,7 +15,4 @@
 * Store doctype in a per-document basis? It would be cool, but not sure it is
   possible without re-implementing a lot of document history.
 
-* Add a pop-up menu to the document type selector for common actions (edit,
-  clear, etc.).
-
 * Fix file names encoding, it's a complete mess.
