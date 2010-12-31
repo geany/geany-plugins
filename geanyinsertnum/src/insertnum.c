@@ -363,6 +363,7 @@ static void on_insert_numbers_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GN
 	d.lower = gtk_radio_button_new_from_widget(GTK_RADIO_BUTTON(upper));
 	ui_widget_set_tooltip_text(label, case_tip);
 	label = gtk_label_new_with_mnemonic(_("_Lower"));
+	ui_widget_set_tooltip_text(label, case_tip);
 	gtk_container_add(GTK_CONTAINER(d.lower), label);
 	gtk_table_attach_defaults(table, d.lower, 5, 6, 1, 2);
 
