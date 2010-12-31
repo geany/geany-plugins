@@ -14,5 +14,3 @@
 
 * Store doctype in a per-document basis? It would be cool, but not sure it is
   possible without re-implementing a lot of document history.
-
-* Fix file names encoding, it's a complete mess.

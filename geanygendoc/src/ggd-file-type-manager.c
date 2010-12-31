@@ -106,7 +106,8 @@ ggd_file_type_manager_add_file_type (GgdFileType *filetype)
 }
 
 /* Same as ggd_file_type_manager_get_conf_path() but uses a #GeanyFiletype and
- * doesn't do come safety checks. */
+ * don't do some safety checks.
+ * Returns filename encoded in GLib file names encoding */
 static gchar *
 ggd_file_type_manager_get_conf_path_intern (GeanyFiletype  *geany_ft,
                                             GgdPerms        prems_req,
@@ -134,8 +135,9 @@ ggd_file_type_manager_get_conf_path_intern (GeanyFiletype  *geany_ft,
  * Gets the path to the configuration file of a file type from a given
  * #GeanyFiletype ID.
  * 
- * Returns: A newly allocated path to the requested configuration file that
- *          should be freed with g_free(), or %NULL on error.
+ * Returns: A newly allocated path to the requested configuration file in the
+ *          GLib file names encoding that should be freed with g_free(), or
+ *          %NULL on error.
  */
 gchar *
 ggd_file_type_manager_get_conf_path (filetype_id  id,
@@ -179,9 +181,13 @@ ggd_file_type_manager_load_file_type (filetype_id id)
   } else {
     ft = ggd_file_type_new (id);
     if (! ggd_file_type_load (ft, filename, &err)) {
+      gchar *display_filename;
+      
+      display_filename = g_filename_display_name (filename);
       msgwin_status_add (_("Failed to load file type \"%s\" from file \"%s\": "
                            "%s"),
-                         geany_ft->name, filename, err->message);
+                         geany_ft->name, display_filename, err->message);
+      g_free (display_filename);
       g_error_free (err);
       ggd_file_type_unref (ft), ft = NULL;
     } else {

@@ -541,7 +541,8 @@ ggd_opt_group_load_from_key_file (GgdOptGroup  *group,
 /**
  * ggd_opt_group_load_from_file:
  * @group: A #GgdOptGroup
- * @filename: Name of the file from which load values
+ * @filename: Name of the file from which load values in the GLib file names
+ *            encoding
  * @error: return location for or %NULL to ignore them
  * 
  * Loads values of a #GgdOptGroup from a file.
@@ -583,7 +584,8 @@ ggd_opt_group_write_to_key_file (GgdOptGroup *group,
 /**
  * ggd_opt_group_write_to_file:
  * @group: A #GgdOptGroup
- * @filename: Name of the file in which save the values
+ * @filename: Name of the file in which save the values, in the GLib file names
+ *            encoding
  * @error: Return location for errors or %NULL to ignore them
  * 
  * Writes a #GgdOptGroup to a file.
@@ -616,9 +618,7 @@ ggd_opt_group_write_to_file (GgdOptGroup *group,
   ggd_opt_group_write_to_key_file (group, key_file);
   data = g_key_file_to_data (key_file, &data_length, error);
   if (data) {
-    if (g_file_set_contents (filename, data, data_length, error)) {
-      success = TRUE;
-    }
+    success = g_file_set_contents (filename, data, data_length, error);
   }
   g_key_file_free (key_file);
   

@@ -28,6 +28,7 @@
 #include <errno.h>
 #include <stdio.h> /* for BUFSIZ */
 #include <glib.h>
+#include <glib/gstdio.h>
 #include <gio/gio.h> /* for G_FILE_ERROR and friends */
 #include <geanyplugin.h>
 
@@ -38,22 +39,26 @@
  * set_file_error_from_errno:
  * @error: A #GError
  * @errnum: An errno value
- * @filename: The file name for which the error applies
+ * @filename: The file name for which the error applies in the GLib file names
+ *            encoding
  * 
  * Sets a #GError from an errno value, prefixed with a file's name.
  */
 #define set_file_error_from_errno(error, errnum, filename)                     \
   G_STMT_START {                                                               \
-    gint s_e_f_e_errum = errnum; /* need if @errnum is errno */                \
+    gchar  *s_e_f_e_filename;                                                  \
+    gint    s_e_f_e_errum = errnum; /* need if @errnum is errno */             \
                                                                                \
+    s_e_f_e_filename = g_filename_display_name (filename);                     \
     g_set_error (error, G_FILE_ERROR, g_file_error_from_errno (s_e_f_e_errum), \
-                 "%s: %s", filename, g_strerror (s_e_f_e_errum));              \
+                 "%s: %s", s_e_f_e_filename, g_strerror (s_e_f_e_errum));      \
+    g_free (s_e_f_e_filename);                                                 \
   } G_STMT_END
 
 /*
  * ggd_copy_file:
- * @input: Path of the file to copy
- * @output: Path of the destination
+ * @input: Path of the file to copy, in the GLib file names encoding
+ * @output: Path of the destination, in the GLib file names encoding
  * @exclusive: %FALSE to override the destination if it already exist, %TRUE
  *             otherwise
  * @mode: Mode to use for creating the file
@@ -76,7 +81,7 @@ ggd_copy_file (const gchar *input,
   gboolean  success = FALSE;
   gint      fd_in;
   
-  fd_in = open (input, O_RDONLY);
+  fd_in = g_open (input, O_RDONLY);
   if (fd_in < 0) {
     set_file_error_from_errno (error, errno, input);
   } else {
@@ -85,7 +90,7 @@ ggd_copy_file (const gchar *input,
     
     flags_out = O_WRONLY | O_CREAT | O_TRUNC;
     if (exclusive) flags_out |= O_EXCL;
-    fd_out = open (output, flags_out, mode);
+    fd_out = g_open (output, flags_out, mode);
     if (fd_out < 0) {
       set_file_error_from_errno (error, errno, output);
     } else {
@@ -106,10 +111,14 @@ ggd_copy_file (const gchar *input,
             set_file_error_from_errno (error, errno, output);
             success = FALSE;
           } else if (size_out < size_in) {
+            gchar *display_input;
+            
+            display_input = g_filename_display_name (input);
             g_set_error (error, G_FILE_ERROR, G_FILE_ERROR_FAILED,
                          "%s: failed to write %"G_GSIZE_FORMAT" bytes "
                          "(read %"G_GSIZE_FORMAT", wrote %"G_GSIZE_FORMAT")",
-                         input, size_in - size_out, size_in, size_out);
+                         display_input, size_in - size_out, size_in, size_out);
+            g_free (display_input);
             success = FALSE;
           }
         }
@@ -124,9 +133,9 @@ ggd_copy_file (const gchar *input,
 
 /**
  * ggd_get_config_file:
- * @name: The name of the configuration file to get
+ * @name: The name of the configuration file to get (ASCII string)
  * @section: The name of the configuration section of the file, or %NULL for the
- *           default one
+ *           default one (ASCII string)
  * @perms_req: Requested permissions on the configuration file
  * @error: Return location for errors, or %NULL to ignore them
  * 
@@ -138,7 +147,8 @@ ggd_copy_file (const gchar *input,
  * at the returned path will be copied from the system configuration directory,
  * or created empty if the system file doesn't exist.
  * 
- * Returns: The path for the requested configuration file or %NULL if not found.
+ * Returns: The path for the requested configuration file in the GLib file names
+ *          encoding, or %NULL if path cannot be found.
  */
 gchar *
 ggd_get_config_file (const gchar *name,
@@ -155,6 +165,9 @@ ggd_get_config_file (const gchar *name,
   g_return_val_if_fail (name != NULL, NULL);
   g_return_val_if_fail (error == NULL || *error == NULL, NULL);
   
+  /* here we guess the locale encoding is ASCII-compatible, anyway it's the case
+   * on Windows since we use UTF-8 and on UNIX it would cause too much troubles
+   * everywhere if it is not anyway */
   user_dir = g_build_filename (geany->app->configdir, "plugins",
                                GGD_PLUGIN_CNAME, section, NULL);
   system_dir = g_build_filename (PKGDATADIR, GGD_PLUGIN_CNAME, section, NULL);
@@ -216,7 +229,7 @@ ggd_get_config_file (const gchar *name,
           gint fd;
           
           g_clear_error (&gerr);
-          fd = open (user_path, O_CREAT | O_WRONLY, 0640);
+          fd = g_open (user_path, O_CREAT | O_WRONLY, 0640);
           if (fd < 0) {
             set_file_error_from_errno (&gerr, errno, user_path);
           } else {

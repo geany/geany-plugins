@@ -26,13 +26,14 @@
 
 #include "ggd-file-type-loader.h"
 
-#include <glib.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <errno.h>
+#include <glib.h>
+#include <glib/gstdio.h>
 #include <ctpl/ctpl.h>
 #include <geanyplugin.h>
 
@@ -918,7 +919,7 @@ ggd_conf_load (const gchar *file,
   GList  *list = NULL;
   gint    fd;
   
-  fd = open (file, O_RDONLY, 0);
+  fd = g_open (file, O_RDONLY, 0);
   if (fd < 0) {
     gint errnum = errno;
     
@@ -926,16 +927,19 @@ ggd_conf_load (const gchar *file,
                  "%s", g_strerror (errnum));
   } else {
     GScanner *scanner;
+    gchar    *filename;
     
+    filename = g_filename_display_name (file);
     scanner = g_scanner_new (NULL);
     scanner->config->scan_float = FALSE; /* disable float scanning since it
                                           * prevent dot to be usable alone */
-    scanner->input_name   = file;
+    scanner->input_name   = filename;
     scanner->user_data    = error;
     scanner->msg_handler  = scanner_msg_handler;
     g_scanner_input_file (scanner, fd);
     list = ggd_conf_read (scanner);
     g_scanner_destroy (scanner);
+    g_free (filename);
     close (fd);
   }
   
@@ -946,7 +950,7 @@ ggd_conf_load (const gchar *file,
 /**
  * ggd_file_type_load:
  * @filetype: A #GgdFileType to fill with read settings
- * @file: a file from which load the settings
+ * @file: a file from which load the settings, in the GLib file names encoding
  * @error: Return location for errors, or %NULL to ignore them
  * 
  * Tries to load a file type configuration from a file.
@@ -967,7 +971,7 @@ ggd_file_type_load (GgdFileType *filetype,
   gboolean  success = FALSE;
   gint      fd;
   
-  fd = open (file, O_RDONLY, 0);
+  fd = g_open (file, O_RDONLY, 0);
   if (fd < 0) {
     gint errnum = errno;
     
@@ -975,16 +979,19 @@ ggd_file_type_load (GgdFileType *filetype,
                  "%s", g_strerror (errnum));
   } else {
     GScanner *scanner;
+    gchar    *filename;
     
+    filename = g_filename_display_name (file);
     scanner = g_scanner_new (NULL);
     scanner->config->scan_float = FALSE; /* disable float scanning since it
                                           * prevent dot to be usable alone */
-    scanner->input_name   = file;
+    scanner->input_name   = filename;
     scanner->user_data    = error;
     scanner->msg_handler  = scanner_msg_handler;
     g_scanner_input_file (scanner, fd);
     success = ggd_file_type_read (scanner, filetype);
     g_scanner_destroy (scanner);
+    g_free (filename);
     close (fd);
   }
   

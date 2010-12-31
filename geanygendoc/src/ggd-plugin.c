@@ -231,8 +231,8 @@ load_configuration (void)
 static void
 unload_configuration (void)
 {
-  gchar    *conffile;
-  GError   *err = NULL;
+  gchar  *conffile;
+  GError *err = NULL;
   
   conffile = ggd_get_config_file ("ggd.conf", NULL, GGD_PERM_RW, &err);
   if (conffile) {
@@ -318,6 +318,7 @@ open_current_filetype_conf_handler (GtkWidget  *widget,
       g_error_free (err);
     } else {
       gchar *text = NULL;
+      gchar *path_write_u8;
       
       path_read = ggd_file_type_manager_get_conf_path (doc->file_type->id,
                                                        GGD_PERM_R, &err);
@@ -332,8 +333,12 @@ open_current_filetype_conf_handler (GtkWidget  *widget,
         gsize   length;
         
         if (! g_file_get_contents (path_read, &content, &length, &err)) {
+          gchar *display_path_read;
+          
+          display_path_read = g_filename_display_name (path_read);
           g_warning (_("Failed to load file \"%s\": %s"),
-                     path_read, err->message);
+                     display_path_read, err->message);
+          g_free (display_path_read);
           g_error_free (err);
         } else {
           text = encodings_convert_to_utf8 (content, length, NULL);
@@ -341,11 +346,13 @@ open_current_filetype_conf_handler (GtkWidget  *widget,
         }
         g_free (path_read);
       }
+      path_write_u8 = utils_get_utf8_from_locale (path_write);
       /* It's no Ruby, but it is the closest one I've found. It has:
        *  - # comments
        *  - multi-line double-quoted strings
        */
-      document_new_file (path_write, filetypes[GEANY_FILETYPES_RUBY], text);
+      document_new_file (path_write_u8, filetypes[GEANY_FILETYPES_RUBY], text);
+      g_free (path_write_u8);
       g_free (text);
       g_free (path_write);
     }
