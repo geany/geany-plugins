@@ -1,7 +1,7 @@
 /*
  *      geanysendmail.c
  *
- *      Copyright 2007-2010 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2007-2011 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *      Copyright 2007 Enrico Tröger <enrico(dot)troeger(at)uvena(dot)de>
  *      Copyright 2007, 2008 Nick Treleaven <nick(dot)treleaven(at)btinternet(dot)com>
  *      Copyright 2008, 2009 Timothy Boronczyk <tboronczyk(at)gmail(dot)com>

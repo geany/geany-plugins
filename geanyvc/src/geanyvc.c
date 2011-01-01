@@ -1,7 +1,7 @@
 /*
  *      geanyvc.c - Plugin to geany light IDE to work with vc
  *
- *      Copyright 2007-2010 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2007-2011 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *      Copyright 2007-2009 Enrico Tröger <enrico.troeger@uvena.de>
  *      Copyright 2007 Nick Treleaven <nick.treleaven@btinternet.com>
  *      Copyright 2007-2009 Yura Siamashka <yurand2@gmail.com>

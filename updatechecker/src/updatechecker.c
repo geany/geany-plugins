@@ -1,7 +1,7 @@
 /*
  *      updatechecker.c
  *
- *      Copyright 2010 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2011 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
