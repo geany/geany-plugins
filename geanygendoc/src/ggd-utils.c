@@ -81,7 +81,7 @@ ggd_copy_file (const gchar *input,
   gboolean  success = FALSE;
   gint      fd_in;
   
-  fd_in = g_open (input, O_RDONLY);
+  fd_in = g_open (input, O_RDONLY, 0);
   if (fd_in < 0) {
     set_file_error_from_errno (error, errno, input);
   } else {
