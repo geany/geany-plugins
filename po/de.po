@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.20\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-27 02:46+0100\n"
-"PO-Revision-Date: 2010-11-21 13:12+0100\n"
+"POT-Creation-Date: 2011-01-02 23:16+0100\n"
+"PO-Revision-Date: 2011-01-02 23:15+0100\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
 "Language: de\n"
@@ -216,6 +216,10 @@ msgstr ""
 "- Umschalten zwischen einer .cpp-Datei und der dazu passenden .H-Datei\n"
 "- [Eine Datei über Ihren Namen öffnen -> TODO]"
 
+#: ../codenav/src/codenavigation.c:50
+msgid "Lionel Fuentes"
+msgstr "Lionel Fuentes"
+
 #. Add the menu item, sensitive only when a document is opened
 #: ../codenav/src/goto_file.c:50 ../codenav/src/goto_file.c:64
 msgid "Goto file"
@@ -256,6 +260,10 @@ msgstr "Doc"
 #: ../geanydoc/src/geanydoc.c:50
 msgid "Call documentation viewer on current symbol."
 msgstr "Dokumentation für das aktuelle Wort anzeigen."
+
+#: ../geanydoc/src/geanydoc.c:51
+msgid "Yura Siamshka <yurand2@gmail.com>"
+msgstr "Yura Siamshka <yurand2@gmail.com>"
 
 #: ../geanydoc/src/geanydoc.c:170 ../geanyvc/src/geanyvc.c:405
 msgid "Could not parse the output of command"
@@ -901,152 +909,152 @@ msgstr "Kein gültiger Tag für %d."
 msgid "No tags in the document"
 msgstr "Keine Markierungen im Dokument"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:112
+#: ../geanygendoc/src/ggd-file-type-loader.c:113
 msgid "boolean value"
 msgstr "Boolescher Wert"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:125
+#: ../geanygendoc/src/ggd-file-type-loader.c:126
 #, c-format
 msgid "invalid boolean value \"%s\""
 msgstr "Ungültiger Wahrheitswert: »%s«"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:152
+#: ../geanygendoc/src/ggd-file-type-loader.c:153
 #, c-format
 msgid "invalid template: %s"
 msgstr "Ungültige Vorlage: »%s«"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:173
+#: ../geanygendoc/src/ggd-file-type-loader.c:174
 msgid "position name"
 msgstr "Positionsname"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:180
+#: ../geanygendoc/src/ggd-file-type-loader.c:181
 #, c-format
 msgid "invalid position \"%s\""
 msgstr "Ungültige Position: »%s«"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:199
+#: ../geanygendoc/src/ggd-file-type-loader.c:200
 msgid "policy name"
 msgstr "Regelwerkname"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:206
+#: ../geanygendoc/src/ggd-file-type-loader.c:207
 #, c-format
 msgid "invalid policy \"%s\""
 msgstr "Ungültiges Regelwerk: »%s«"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:225
+#: ../geanygendoc/src/ggd-file-type-loader.c:226
 msgid "merge policy"
 msgstr "Regelwerk zusammenführen"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:232
+#: ../geanygendoc/src/ggd-file-type-loader.c:233
 #, c-format
 msgid "invalid merge policy \"%s\""
 msgstr "Ungültiges Regelwerk zum Zusammenführen: »%s«"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:254
+#: ../geanygendoc/src/ggd-file-type-loader.c:255
 msgid "type"
 msgstr "Typ"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:261
+#: ../geanygendoc/src/ggd-file-type-loader.c:262
 #, c-format
 msgid "invalid type \"%s\""
 msgstr "Ungültiger Typ »%s«"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:323
-#: ../geanygendoc/src/ggd-file-type-loader.c:774
+#: ../geanygendoc/src/ggd-file-type-loader.c:324
+#: ../geanygendoc/src/ggd-file-type-loader.c:775
 #, c-format
 msgid "invalid setting name \"%s\""
 msgstr "Ungültiger Optionenname: »%s«"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:344
-#: ../geanygendoc/src/ggd-file-type-loader.c:355
-#: ../geanygendoc/src/ggd-file-type-loader.c:380
+#: ../geanygendoc/src/ggd-file-type-loader.c:345
+#: ../geanygendoc/src/ggd-file-type-loader.c:356
+#: ../geanygendoc/src/ggd-file-type-loader.c:381
 msgid "setting identifier"
 msgstr "Kennung setzen"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:426
+#: ../geanygendoc/src/ggd-file-type-loader.c:427
 #, c-format
 msgid "Unknown type \"%s\", is it a typo?"
 msgstr "Unbekannter Typ »%s«. Vielleicht ein Tippfehler?"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:441
-#: ../geanygendoc/src/ggd-file-type-loader.c:485
-#: ../geanygendoc/src/ggd-file-type-loader.c:497
-#: ../geanygendoc/src/ggd-file-type-loader.c:535
+#: ../geanygendoc/src/ggd-file-type-loader.c:442
+#: ../geanygendoc/src/ggd-file-type-loader.c:486
+#: ../geanygendoc/src/ggd-file-type-loader.c:498
+#: ../geanygendoc/src/ggd-file-type-loader.c:536
 msgid "match identifier"
 msgstr "Gefundene Kennzeichnung"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:449
+#: ../geanygendoc/src/ggd-file-type-loader.c:450
 #, c-format
 msgid "match identifier is empty"
 msgstr "Gefundene Kennzeichnung ist leer"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:467
+#: ../geanygendoc/src/ggd-file-type-loader.c:468
 msgid "documentation type identifier"
 msgstr "Dokumentationstyp Kennzeichnung"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:571
-#: ../geanygendoc/src/ggd-file-type-loader.c:583
-#: ../geanygendoc/src/ggd-file-type-loader.c:605
+#: ../geanygendoc/src/ggd-file-type-loader.c:572
+#: ../geanygendoc/src/ggd-file-type-loader.c:584
+#: ../geanygendoc/src/ggd-file-type-loader.c:606
 msgid "documentation type"
 msgstr "Dokumentationtyp"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:640
+#: ../geanygendoc/src/ggd-file-type-loader.c:641
 #, c-format
 msgid "invalid regular expression: %s"
 msgstr "Ungültiger Regulärer Ausdruck: %s"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:697
+#: ../geanygendoc/src/ggd-file-type-loader.c:698
 #, c-format
 msgid "invalid environment description: %s"
 msgstr "Ungültige Umgebungsbeschreibung: %s"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:734
-#: ../geanygendoc/src/ggd-file-type-loader.c:745
-#: ../geanygendoc/src/ggd-file-type-loader.c:784
+#: ../geanygendoc/src/ggd-file-type-loader.c:735
+#: ../geanygendoc/src/ggd-file-type-loader.c:746
+#: ../geanygendoc/src/ggd-file-type-loader.c:785
 msgid "setting"
 msgstr "Einstellung"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:812
+#: ../geanygendoc/src/ggd-file-type-loader.c:813
 msgid "section name"
 msgstr "Abschnittsname"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:823
+#: ../geanygendoc/src/ggd-file-type-loader.c:824
 #, c-format
 msgid "duplicated section \"%s\""
 msgstr "Doppelter Abschnitt »%s«"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:832
+#: ../geanygendoc/src/ggd-file-type-loader.c:833
 #, c-format
 msgid "invalid section name \"%s\""
 msgstr "Ungültiger Abschnittsname »%s«"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:845
-#: ../geanygendoc/src/ggd-file-type-loader.c:897
+#: ../geanygendoc/src/ggd-file-type-loader.c:846
+#: ../geanygendoc/src/ggd-file-type-loader.c:898
 #, c-format
 msgid "input is empty"
 msgstr "Die Eingabe ist leer"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:859
+#: ../geanygendoc/src/ggd-file-type-loader.c:860
 #, c-format
 msgid "Parser warning: %s:%u:%u: %s"
 msgstr "Warnung bei der Auswrtung: %s:%u:%u: %s"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:862
+#: ../geanygendoc/src/ggd-file-type-loader.c:863
 #, c-format
 msgid "Parser error: %s:%u:%u: %s"
 msgstr "Fehler bei der Auswertung: %s:%u:%u: %s"
 
-#: ../geanygendoc/src/ggd-file-type-loader.c:866
+#: ../geanygendoc/src/ggd-file-type-loader.c:867
 #, c-format
 msgid "%s:%u:%u: %s"
 msgstr "%s:%u:%u: %s"
 
-#: ../geanygendoc/src/ggd-file-type-manager.c:175
+#: ../geanygendoc/src/ggd-file-type-manager.c:177
 #, c-format
 msgid "File type configuration file for language \"%s\" not found: %s"
 msgstr "Dateityp-Konfigurationsdatei für Sprache »%s« nicht gefunden: %s"
 
-#: ../geanygendoc/src/ggd-file-type-manager.c:182
+#: ../geanygendoc/src/ggd-file-type-manager.c:187
 #, c-format
 msgid "Failed to load file type \"%s\" from file \"%s\": %s"
 msgstr "Konnte Dateityp »%s« nicht von Datei »%s« lasen: %s"
@@ -1091,72 +1099,88 @@ msgstr "Konnte Konfiguration nicht laden: %s"
 msgid "Failed to save configuration: %s"
 msgstr "Konnte Konfiguration nicht speicher: %s"
 
-#: ../geanygendoc/src/ggd-plugin.c:313
+#: ../geanygendoc/src/ggd-plugin.c:315
 #, c-format
 msgid "Failed to find configuration file for file type \"%s\": %s"
 msgstr "Konnte keine Konfigurationsdateien für den Typ »%s« finden: %s "
 
-#: ../geanygendoc/src/ggd-plugin.c:374 ../geanygendoc/src/ggd-plugin.c:385
+#: ../geanygendoc/src/ggd-plugin.c:327
+msgid ""
+"# Configuration for this file type doesn't exist yet.\n"
+"# To create it, just write it in this file and save it. For the description\n"
+"# of the syntax of this file, please refer to the manual.\n"
+msgstr ""
+"# Eine Konfiguration für diese Datei existiert noch nicht. \n"
+"# Um sie zu erstellen, einfach etwas in diese Datei schreiben und "
+"anschließend speichern.\n"
+"# Eine Beschreibung der Syntax dafür gibt es im Handbuch.\n"
+
+#: ../geanygendoc/src/ggd-plugin.c:339
+#, c-format
+msgid "Failed to load file \"%s\": %s"
+msgstr "Konnte die Datei »%s« nicht laden: %s"
+
+#: ../geanygendoc/src/ggd-plugin.c:412 ../geanygendoc/src/ggd-plugin.c:423
 msgid "Insert Documentation Comment"
 msgstr "Dokumentationskommentar einfügen"
 
-#: ../geanygendoc/src/ggd-plugin.c:439
+#: ../geanygendoc/src/ggd-plugin.c:477
 msgid "_Document Current Symbol"
 msgstr "Dokumentation für aktuelles Wort _generieren"
 
-#: ../geanygendoc/src/ggd-plugin.c:440
+#: ../geanygendoc/src/ggd-plugin.c:478
 msgid "Generate documentation for the current symbol"
 msgstr "Dokumentation für das aktuelle Wort generieren."
 
-#: ../geanygendoc/src/ggd-plugin.c:446
+#: ../geanygendoc/src/ggd-plugin.c:484
 msgid "Document _All Symbols"
 msgstr "Dokumentiere _alle Symbole"
 
-#: ../geanygendoc/src/ggd-plugin.c:447
+#: ../geanygendoc/src/ggd-plugin.c:485
 msgid "Generate documentation for all symbols in the current document"
 msgstr ""
 "Erstellt die Dokumentation für alle Symbole des aktuell geöffneten Dokumentes"
 
-#: ../geanygendoc/src/ggd-plugin.c:457
+#: ../geanygendoc/src/ggd-plugin.c:495
 msgid "_Reload Configuration Files"
 msgstr "_Konfigurationsdateien neu laden"
 
-#: ../geanygendoc/src/ggd-plugin.c:458
+#: ../geanygendoc/src/ggd-plugin.c:496
 msgid "Force reloading of the configuration files"
 msgstr "Neuladen der Konfigurationsdateien forcieren. "
 
-#: ../geanygendoc/src/ggd-plugin.c:463
+#: ../geanygendoc/src/ggd-plugin.c:501
 msgid "_Edit Current Language Configuration"
 msgstr "_Aktuelle Spracheinstellungen verändern"
 
-#: ../geanygendoc/src/ggd-plugin.c:464
+#: ../geanygendoc/src/ggd-plugin.c:502
 msgid "Open the current language configuration file for editing"
 msgstr "Öffnet die aktuelle Sprachkonfigurationsdatei zum Verändern"
 
-#: ../geanygendoc/src/ggd-plugin.c:474
+#: ../geanygendoc/src/ggd-plugin.c:512
 msgid "Open _Manual"
 msgstr "_Anleitung öffnen"
 
-#: ../geanygendoc/src/ggd-plugin.c:475
+#: ../geanygendoc/src/ggd-plugin.c:513
 msgid "Open the manual in a browser"
 msgstr "Anleitung im Browser öfnen"
 
 #. build tools menu item
-#: ../geanygendoc/src/ggd-plugin.c:479
+#: ../geanygendoc/src/ggd-plugin.c:517
 msgid "_Documentation Generator"
 msgstr "_Dokumentatinsgenerator"
 
 #. General
-#: ../geanygendoc/src/ggd-plugin.c:575
+#: ../geanygendoc/src/ggd-plugin.c:613
 msgid "General"
 msgstr "Allgemein"
 
 #. auto-save
-#: ../geanygendoc/src/ggd-plugin.c:580
+#: ../geanygendoc/src/ggd-plugin.c:618
 msgid "_Save file before generating documentation"
 msgstr "_Speichere die Datei vor dem Generieren der Dokumentation"
 
-#: ../geanygendoc/src/ggd-plugin.c:583
+#: ../geanygendoc/src/ggd-plugin.c:621
 msgid ""
 "Whether the current document should be saved to disc before generating the "
 "documentation. This is a technical detail, but it is currently needed to "
@@ -1174,11 +1198,11 @@ msgstr ""
 "Basis herangezogen wird."
 
 #. indent
-#: ../geanygendoc/src/ggd-plugin.c:593
+#: ../geanygendoc/src/ggd-plugin.c:631
 msgid "_Indent inserted documentation"
 msgstr "Eingefügte Dokumentation _einrücken"
 
-#: ../geanygendoc/src/ggd-plugin.c:595
+#: ../geanygendoc/src/ggd-plugin.c:633
 msgid ""
 "Whether the inserted documentation should be indented to fit the indentation "
 "at the insertion position."
@@ -1187,12 +1211,12 @@ msgstr ""
 "die aktuelle Position im Text eingliedern soll. "
 
 #. Documentation type
-#: ../geanygendoc/src/ggd-plugin.c:602
+#: ../geanygendoc/src/ggd-plugin.c:640
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:140
 msgid "Documentation type"
 msgstr "Typ der Dokumentation"
 
-#: ../geanygendoc/src/ggd-plugin.c:612
+#: ../geanygendoc/src/ggd-plugin.c:650
 msgid ""
 "Choose the documentation type to use with each file type. The special "
 "language \"All\" on top of the list is used to choose the default "
@@ -1204,11 +1228,11 @@ msgstr ""
 "alle nicht weiter spezifizierten Sprachen genutzt wird. "
 
 #. Environ editor
-#: ../geanygendoc/src/ggd-plugin.c:618
+#: ../geanygendoc/src/ggd-plugin.c:656
 msgid "Global environment"
 msgstr "Globale Umgebung"
 
-#: ../geanygendoc/src/ggd-plugin.c:620
+#: ../geanygendoc/src/ggd-plugin.c:658
 msgid ""
 "Global environment overrides and additions. This environment will be merged "
 "with the file-type-specific ones."
@@ -1220,12 +1244,12 @@ msgstr ""
 msgid "Invalid tag"
 msgstr "Ungültige Markierung"
 
-#: ../geanygendoc/src/ggd-utils.c:163 ../geanygendoc/src/ggd-utils.c:174
+#: ../geanygendoc/src/ggd-utils.c:180 ../geanygendoc/src/ggd-utils.c:191
 #, c-format
 msgid "File \"%s\" exists but is not a regular file"
 msgstr "Die Datei »%s« existiert, scheint aber keine reguläre Datei zu sein."
 
-#: ../geanygendoc/src/ggd-utils.c:183
+#: ../geanygendoc/src/ggd-utils.c:200
 #, c-format
 msgid "%s: no such file or directory"
 msgstr "Die Datei oder das Verzeichnis »%s« gibt es nicht."
@@ -1609,7 +1633,7 @@ msgid "Show extra plugin toolbar"
 msgstr "Zeige Werkzeugliste für das Plugin an"
 
 #: ../geanylatex/src/geanylatex.c:290
-msgid "Capitalize sentense on typing"
+msgid "Capitalize sentence on typing"
 msgstr "Automatische Großschreibung am Satzanfang"
 
 #: ../geanylatex/src/geanylatex.c:292
@@ -1685,7 +1709,7 @@ msgid "Insert BibTeX Reference"
 msgstr "BibTeX-Referenz einfügen"
 
 #: ../geanylatex/src/geanylatex.c:1244
-msgid "BiBTeX reference name:"
+msgid "BibTeX reference name:"
 msgstr "Referenzname:"
 
 #: ../geanylatex/src/geanylatex.c:1668
@@ -2206,32 +2230,32 @@ msgstr "IBM 852 code page"
 msgid "Don't set any encoding"
 msgstr "Keine Zeichenkodierung explizit festlegen"
 
-#: ../geanylipsum/src/geanylipsum.c:38
+#: ../geanylipsum/src/geanylipsum.c:37
 msgid "GeanyLipsum"
 msgstr "GeanyLipsum"
 
-#: ../geanylipsum/src/geanylipsum.c:39
+#: ../geanylipsum/src/geanylipsum.c:38
 msgid "Creating dummy text with Geany"
 msgstr "Platzhaltertexte erstellen mit Geany"
 
-#: ../geanylipsum/src/geanylipsum.c:84
+#: ../geanylipsum/src/geanylipsum.c:83
 msgid "Lipsum-Generator"
 msgstr "Lorem ipsum Generator"
 
-#: ../geanylipsum/src/geanylipsum.c:85
+#: ../geanylipsum/src/geanylipsum.c:84
 msgid "Enter the length of Lipsum text here"
 msgstr "Bitte die Länge des Platzhaltertextes eingeben"
 
 #. Building menu entry
-#: ../geanylipsum/src/geanylipsum.c:161
+#: ../geanylipsum/src/geanylipsum.c:160
 msgid "_Lipsum"
 msgstr "_Lipsum"
 
-#: ../geanylipsum/src/geanylipsum.c:163
+#: ../geanylipsum/src/geanylipsum.c:162
 msgid "Include Pseudotext to your code"
 msgstr "Fügt Platzhaltertexte in das Dokument ein"
 
-#: ../geanylipsum/src/geanylipsum.c:177
+#: ../geanylipsum/src/geanylipsum.c:176
 msgid "Insert Lipsum text"
 msgstr "Fügt Platzhaltertexte ein"
 
@@ -2241,7 +2265,7 @@ msgstr "GeanySendMail"
 
 #: ../geanysendmail/src/geanysendmail.c:44
 msgid ""
-"A little plugin to send the currentfile as attachment by user's favorite "
+"A little plugin to send the current file as attachment by user's favorite "
 "mailer"
 msgstr ""
 "Ein Plugin zum Senden einer Datei als Anhang unter Verwendung eines E-Mail-"
@@ -3254,7 +3278,7 @@ msgid "Project \"%s\" opened."
 msgstr "Projekt »%s« geöffnet."
 
 #: ../geanyinsertnum/src/insertnum.c:33 ../geanyinsertnum/src/insertnum.c:323
-#: ../geanyinsertnum/src/insertnum.c:454
+#: ../geanyinsertnum/src/insertnum.c:455
 msgid "Insert Numbers"
 msgstr "Nummern einfügen"
 
@@ -3302,27 +3326,27 @@ msgstr "_Obere"
 msgid "_Lower"
 msgstr "_Untere"
 
-#: ../geanyinsertnum/src/insertnum.c:369
+#: ../geanyinsertnum/src/insertnum.c:370
 msgid "Base _prefix"
 msgstr "Basis _Prefix:"
 
-#: ../geanyinsertnum/src/insertnum.c:371
+#: ../geanyinsertnum/src/insertnum.c:372
 msgid "0 for octal, 0x for hex, + for positive decimal"
 msgstr "0 für Oktal, 0x für Hexadezimal, + für positive Dezimalzahlen"
 
-#: ../geanyinsertnum/src/insertnum.c:373
+#: ../geanyinsertnum/src/insertnum.c:374
 msgid "Padding:"
 msgstr "Versatz:"
 
-#: ../geanyinsertnum/src/insertnum.c:375
+#: ../geanyinsertnum/src/insertnum.c:376
 msgid "Sp_ace"
 msgstr "Leer_zeichen"
 
-#: ../geanyinsertnum/src/insertnum.c:378
+#: ../geanyinsertnum/src/insertnum.c:379
 msgid "_Zero"
 msgstr "_Null"
 
-#: ../geanyinsertnum/src/insertnum.c:447
+#: ../geanyinsertnum/src/insertnum.c:448
 msgid "Insert _Numbers"
 msgstr "_Nummern einfügen"
 
@@ -3744,12 +3768,6 @@ msgstr "Webvorschau"
 #: ../webhelper/src/gwh-plugin.c:232
 msgid "Reload upon document saving"
 msgstr "Beim Speichern des Dokumentes neu laden"
-
-#~ msgid "Yura Siamshka <yurand2@gmail.com>"
-#~ msgstr "Yura Siamshka <yurand2@gmail.com>"
-
-#~ msgid "Lionel Fuentes"
-#~ msgstr "Lionel Fuentes"
 
 #~ msgid "Showing icon in toolbar"
 #~ msgstr "Symbol in der Werkzeugleiste anzeigen"
