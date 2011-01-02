@@ -41,7 +41,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	LOCALEDIR,
 	GETTEXT_PACKAGE,
 	_("GeanySendMail"),
-	_("A little plugin to send the current"
+	_("A little plugin to send the current "
 	  "file as attachment by user's favorite mailer"),
 	VERSION,
 	"Frank Lanitz <frank@frank.uvena.de>")
