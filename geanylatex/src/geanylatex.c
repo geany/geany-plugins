@@ -196,7 +196,7 @@ on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(config_widgets.glatex_capitalize_sentence));
 		glatex_wizard_to_generic_toolbar =
 			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(config_widgets.wizard_to_generic_toolbar));
-			
+
 		/* Check the response code for geanyLaTeX's autocompletion functions.
 		 * Due compatibility with oder Geany versions cass 0 will be treated
 		 * as FALSE, which means autocompletion is deactivated. */
@@ -216,7 +216,7 @@ on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 			glatex_set_toolbar_active);
 		g_key_file_set_boolean(config, "general", "glatex_set_autocompletion",
 			glatex_autocompletion_active);
-		g_key_file_set_boolean(config, "autocompletion", 
+		g_key_file_set_boolean(config, "autocompletion",
 			"glatex_capitalize_sentence_starts", glatex_capitalize_sentence_starts);
 		g_key_file_set_boolean(config, "toolbar", "glatex_wizard_to_generic_toolbar",
 			glatex_wizard_to_generic_toolbar);
@@ -287,7 +287,7 @@ plugin_configure(GtkDialog * dialog)
 	config_widgets.toolbar_active = gtk_check_button_new_with_label(
 		_("Show extra plugin toolbar"));
 	config_widgets.glatex_capitalize_sentence = gtk_check_button_new_with_label(
-		_("Capitalize sentense on typing"));
+		_("Capitalize sentence on typing"));
 	config_widgets.wizard_to_generic_toolbar = gtk_check_button_new_with_label(
 		_("Add a wizard icon to Geany's main toolbar"));
 
@@ -318,7 +318,7 @@ plugin_configure(GtkDialog * dialog)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(config_widgets.toolbar_active),
 		glatex_set_toolbar_active);
 	gtk_box_pack_start(GTK_BOX(vbox), config_widgets.toolbar_active, FALSE, FALSE, 2);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(config_widgets.glatex_capitalize_sentence), 
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(config_widgets.glatex_capitalize_sentence),
 		glatex_capitalize_sentence_starts);
 	gtk_box_pack_start(GTK_BOX(vbox), config_widgets.glatex_capitalize_sentence, FALSE, FALSE, 2);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(config_widgets.wizard_to_generic_toolbar),
@@ -470,7 +470,7 @@ on_geany_startup_complete(G_GNUC_UNUSED GObject *obj,
 			}
 		}
 	}
-	
+
 }
 
 
@@ -503,7 +503,7 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *object, GeanyEditor *edi
 	 * Geany's core under terms of GPLv2+
 	 * EXtended for GeanyLaTeX with some more autocompletion features
 	 * for e.g. _{} and ^{}.*/
-	 
+
 	if (glatex_autocompletion_active == TRUE &&
 		!(glatex_autocompletion_only_for_latex == TRUE &&
 		editor->document->file_type->id != GEANY_FILETYPES_LATEX))
@@ -673,7 +673,7 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *object, GeanyEditor *edi
 					}
 					break;
 				}
-				default: 
+				default:
 				{
 					if (glatex_capitalize_sentence_starts == TRUE)
 					{
@@ -684,14 +684,14 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *object, GeanyEditor *edi
 						{
 							gchar *upperLtr = NULL;
 							gchar *selection = NULL;
-							
+
 							sci_set_selection_start(sci, pos - 1);
 							sci_set_selection_end(sci, pos);
-						
+
 							selection = sci_get_selection_contents(sci);
 							upperLtr = g_utf8_strup(selection, -1);
 							sci_replace_sel(sci, upperLtr);
-							
+
 							g_free(upperLtr);
 							g_free(selection);
 						}
@@ -744,7 +744,7 @@ static void on_document_close(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 
 	if (doc->index < 2)
 		deactivate_toolbar_items();
-	if (doc->index < 1 && 
+	if (doc->index < 1 &&
 		glatex_deactivate_menubarentry_with_non_latex == TRUE)
 		remove_menu_from_menubar();
 }
@@ -792,12 +792,12 @@ glatex_insert_label_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 					   G_GNUC_UNUSED gpointer gdata)
 {
 	gchar *input = NULL;
-	
+
 	input = dialogs_show_input(_("Insert Label"),
 								GTK_WINDOW(geany->main_widgets->window),
 								_("Label name:"),
 								NULL);
-	
+
 	if (input)
 	{
 		gchar *label_str = NULL;
@@ -816,12 +816,12 @@ glatex_insert_command_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 {
 
 	gchar *input = NULL;
-	
+
 	input = dialogs_show_input(_("Insert Command"),
 								GTK_WINDOW(geany->main_widgets->window),
 								_("Command name:"),
 								NULL);
-	
+
 	if (input)
 	{
 		gchar *cmd_str = NULL;
@@ -1241,7 +1241,7 @@ on_insert_bibtex_dialog_activate(G_GNUC_UNUSED GtkMenuItem *menuitem,
 	gtk_table_set_col_spacings(GTK_TABLE(table), 6);
 	gtk_table_set_row_spacings(GTK_TABLE(table), 6);
 
-	label = gtk_label_new(_("BiBTeX reference name:"));
+	label = gtk_label_new(_("BibTeX reference name:"));
 	textbox = gtk_combo_box_entry_new_text();
 
 	if (doc->real_path != NULL)
@@ -1249,7 +1249,7 @@ on_insert_bibtex_dialog_activate(G_GNUC_UNUSED GtkMenuItem *menuitem,
 		GDir *dir;
 		gchar *tmp_dir;
 		const gchar *filename;
-		
+
 		tmp_dir = g_path_get_dirname(doc->real_path);
 		dir = g_dir_open(tmp_dir, 0, NULL);
 
@@ -1259,7 +1259,7 @@ on_insert_bibtex_dialog_activate(G_GNUC_UNUSED GtkMenuItem *menuitem,
 		{
 			gchar *fullpath = NULL;
 			fullpath = g_build_path(G_DIR_SEPARATOR_S, tmp_dir, filename, NULL);
-		
+
 			glatex_parse_bib_file(fullpath, textbox);
 			g_free(fullpath);
 		}
@@ -1909,7 +1909,7 @@ glatex_wizard_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 static void init_keybindings()
 {
 	GeanyKeyGroup *key_group;
-	
+
 	/* init keybindings */
 	key_group = plugin_set_key_group(geany_plugin, "geanylatex", COUNT_KB, NULL);
 	keybindings_set_item(key_group, KB_LATEX_WIZARD, glatex_kbwizard,
@@ -2015,11 +2015,11 @@ static void glatex_init_configuration()
 	}
 	/* Increase value by an offset as we add a new line so 2 really means 2 */
 	glatex_autocompletion_context_size = glatex_autocompletion_context_size + 2;
-	
+
 	glatex_autocompletion_only_for_latex = utils_get_setting_boolean(config, "autocompletion",
 		"glatex_autocompletion_only_for_latex", TRUE);
-	glatex_capitalize_sentence_starts = utils_get_setting_boolean(config, "autocompletion", 
-		"glatex_capitalize_sentence_starts", FALSE);	
+	glatex_capitalize_sentence_starts = utils_get_setting_boolean(config, "autocompletion",
+		"glatex_capitalize_sentence_starts", FALSE);
 
 	glatex_deactivate_toolbaritems_with_non_latex = utils_get_setting_boolean(config, "toolbar",
 		"glatex_deactivate_toolbaritems_with_non_latex", TRUE);
@@ -2027,9 +2027,9 @@ static void glatex_init_configuration()
 		"glatex_wizard_to_generic_toolbar", TRUE);
 	glatex_deactivate_menubarentry_with_non_latex = utils_get_setting_boolean(config, "menu",
 		"glatex_deactivate_menubarentry_with_non_latex", TRUE);
-	glatex_add_menu_on_startup = utils_get_setting_boolean(config, "menu", 
+	glatex_add_menu_on_startup = utils_get_setting_boolean(config, "menu",
 		"glatex_add_menu_on_startup", FALSE);
-	
+
 	glatex_ref_page_string = utils_get_setting_string(config, "reference",
 		"glatex_reference_page", _("page \\pageref{{{reference}}}"));
 	glatex_ref_chapter_string = utils_get_setting_string(config, "reference",
@@ -2064,7 +2064,7 @@ add_wizard_to_generic_toolbar()
 }
 
 
-static void 
+static void
 remove_wizard_from_generic_toolbar()
 {
 	if (glatex_wizard_generic_toolbar_item != NULL)
@@ -2079,7 +2079,7 @@ static void
 add_menu_to_menubar()
 {
 	GtkWidget *tmp = NULL;
-	gint i;	
+	gint i;
 	GtkMenuShell *menubar;
 
 	/* First we check for the menubar where to add the LaTeX menu */
@@ -2146,7 +2146,7 @@ add_menu_to_menubar()
 
 	menu_latex_insert_bibtex_cite =
 		gtk_menu_item_new_with_mnemonic(_("Insert B_ibTeX reference"));
-	ui_widget_set_tooltip_text(menu_latex_insert_bibtex_cite, 
+	ui_widget_set_tooltip_text(menu_latex_insert_bibtex_cite,
 		_("Helps to insert a reference out of BibTeX files"));
 	gtk_container_add(GTK_CONTAINER(menu_latex_menu), menu_latex_insert_bibtex_cite);
 	g_signal_connect(menu_latex_insert_bibtex_cite, "activate",
@@ -2264,7 +2264,7 @@ remove_menu_from_menubar()
 		gtk_widget_destroy(main_menu_item);
 		main_menu_item = NULL;
 	}
-	
+
 }
 
 
