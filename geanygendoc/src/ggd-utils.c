@@ -94,10 +94,10 @@ ggd_copy_file (const gchar *input,
     if (fd_out < 0) {
       set_file_error_from_errno (error, errno, output);
     } else {
-      char    buf[BUFSIZ];
-      size_t  buf_size = sizeof buf;
-      ssize_t size_in;
-      ssize_t size_out;
+      gchar   buf[BUFSIZ];
+      gsize   buf_size = sizeof buf;
+      gssize  size_in;
+      gssize  size_out;
       
       success = TRUE;
       do {
@@ -115,8 +115,8 @@ ggd_copy_file (const gchar *input,
             
             display_input = g_filename_display_name (input);
             g_set_error (error, G_FILE_ERROR, G_FILE_ERROR_FAILED,
-                         "%s: failed to write %"G_GSIZE_FORMAT" bytes "
-                         "(read %"G_GSIZE_FORMAT", wrote %"G_GSIZE_FORMAT")",
+                         "%s: failed to write %"G_GSSIZE_FORMAT" bytes "
+                         "(read %"G_GSSIZE_FORMAT", wrote %"G_GSSIZE_FORMAT")",
                          display_input, size_in - size_out, size_in, size_out);
             g_free (display_input);
             success = FALSE;
