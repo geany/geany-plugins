@@ -2,12 +2,20 @@ Geany-Plugins 0.20 (t.b.p.s.)
 
     General:
     * Update of waf build system
+    * Add new plugin UpdateChecker
 
     GeanyLaTeX:
     * Move LaTeX-menu to a separate menu inside Geany main menu
     * Add a feature to autocapetlise letters on typing on begin of a sentence
     * Add a way to put a icon for LaTeX-wizard into Geany’s main toolbar
     * Added a dialog for inserting BibTeX references based on available *.bib-files
+
+    GeanySendMail:
+    * Minor code cleanup
+
+    Internationalisation:
+    * New translations:
+    * Update translations:
 
 
 Geany-Plugins 0.19 (June 13, 2010)
