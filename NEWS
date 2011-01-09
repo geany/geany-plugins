@@ -3,6 +3,18 @@ Geany-Plugins 0.20 (t.b.p.s.)
     General:
     * Update of waf build system
     * Add new plugin UpdateChecker
+    * Add new plugin WebHelper.
+
+    GeanyGenDoc:
+    * Bump dependency on CTPL to 0.3.
+    * Add a popup menu for common actions in the documentation type selector.
+    * Fix indentation of inserted documentation blocs.
+    * Documentation type now defaults to Doxygen (rather than nothing).
+    * Add policy PASS to completely ignore a symbol.
+    * Add basic rules for PHP.
+    * Fix build against GTK+ 2.16.
+    * Don't copy the system configuration file to the user's one when hitting
+      "Edit Current Language Configuration", only write it when saving changes.
 
     GeanyLaTeX:
     * Move LaTeX-menu to a separate menu inside Geany main menu
