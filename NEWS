@@ -1,8 +1,8 @@
 Geany-Plugins 0.20 (t.b.p.s.)
 
     General:
-    * Update of waf build system
-    * Add new plugin UpdateChecker
+    * Update of Waf build system.
+    * Add new plugin UpdateChecker.
     * Add new plugin WebHelper.
 
     GeanyExtraSel:
@@ -27,13 +27,13 @@ Geany-Plugins 0.20 (t.b.p.s.)
     * Thin selection support.
 
     GeanyLaTeX:
-    * Move LaTeX-menu to a separate menu inside Geany main menu
-    * Add a feature to autocapetlise letters on typing on begin of a sentence
-    * Add a way to put a icon for LaTeX-wizard into Geany’s main toolbar
-    * Added a dialog for inserting BibTeX references based on available *.bib-files
+    * Move LaTeX-menu to a separate menu inside Geany main menu.
+    * Add a feature to auto-capitalize letters on typing on begin of a sentence.
+    * Add a way to put an icon for LaTeX-wizard into Geany’s main toolbar.
+    * Added a dialog for inserting BibTeX references based on available *.bib-files.
 
     GeanySendMail:
-    * Minor code cleanup
+    * Minor code cleanup.
 
     Internationalisation:
     * New translations:
