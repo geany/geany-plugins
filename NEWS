@@ -39,6 +39,12 @@ Geany-Plugins 0.20 (t.b.p.s.)
     * New translations:
     * Update translations:
 
+    TreeBrowser:
+    * Added bookmarks support.
+    * Added keybindings support.
+    * Added mime type icons in the tree.
+    * Many bugfixes and code improvements.
+
 
 Geany-Plugins 0.19 (June 13, 2010)
 
