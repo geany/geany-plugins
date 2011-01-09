@@ -1,7 +1,7 @@
 /*
  *      scplugin.c - this file is part of Spellcheck, a Geany plugin
  *
- *      Copyright 2008-2010 Enrico Tröger <enrico(dot)troeger(at)uvena(dot)de>
+ *      Copyright 2008-2011 Enrico Tröger <enrico(dot)troeger(at)uvena(dot)de>
  *      Copyright 2008-2010 Nick Treleaven <nick(dot)treleaven(at)btinternet(dot)com>
  *
  *      This program is free software; you can redistribute it and/or modify
