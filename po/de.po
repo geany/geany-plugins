@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.20\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-02 23:16+0100\n"
-"PO-Revision-Date: 2011-01-02 23:15+0100\n"
-"Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
+"POT-Creation-Date: 2011-01-09 02:59+0100\n"
+"PO-Revision-Date: 2011-01-09 02:57+0100\n"
+"Last-Translator: Dominic Hopf <dmaphy@googlemail.com>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -404,12 +404,10 @@ msgstr "(unbekannt)"
 msgid "Program exited normally.\n"
 msgstr "Programm wurde normal beendet.\n"
 
-# TTY temporäres Verzeichnis.. naja :s
 #: ../geanygdb/src/gdb-io-run.c:286
 msgid "tty temporary directory not specified!\n"
 msgstr "Kein temporäres Verzeichnis für TTY festgelegt!\n"
 
-# TTY temporäres Verzeichnis.. naja :s
 #: ../geanygdb/src/gdb-io-run.c:291
 msgid "tty temporary directory not found!\n"
 msgstr "Konnte temporäres Verzeichnis für TTY nicht finden!\n"
@@ -483,6 +481,7 @@ msgid "Killing GDB (pid=%d)\n"
 msgstr "Töte GDB (pid=%d)\n"
 
 # Timeout=Auszeit?
+# Nope. Zeitüberschreitung passt.
 #: ../geanygdb/src/gdb-io-run.c:691
 msgid "Timeout trying to kill GDB.\n"
 msgstr "Zeitüberschreitung beim Versuch GDB zu töten.\n"
@@ -556,7 +555,7 @@ msgstr " Anhalten wenn "
 
 #: ../geanygdb/src/gdb-ui-break.c:188
 msgid " is true. "
-msgstr "ist wahr."
+msgstr "wahr ist."
 
 #: ../geanygdb/src/gdb-ui-break.c:253
 msgid "Add watchpoint"
@@ -623,11 +622,9 @@ msgstr "Einstellungen"
 msgid "Keep debug window on top."
 msgstr "Debugger-Fenster im Vordergrund halten."
 
-# Gibts für Tooltip nich ne bessere Übersetzung? Sonst würde ich evtl. "Tooltip" auch als Eigennamen deklarieren :D
-# # Keine Ahnung. -- frlan
 #: ../geanygdb/src/gdb-ui-envir.c:202
 msgid "Show tooltips."
-msgstr "Kurzhilfen anzeigen."
+msgstr "Tooltips anzeigen."
 
 #: ../geanygdb/src/gdb-ui-envir.c:203
 msgid "Show icons."
@@ -665,9 +662,7 @@ msgstr "Zum vorherigen Dialog zurückkehren."
 msgid "Display additional information about the selected item."
 msgstr "Zusätzliche Information zum ausgewählten Eintrag anzeigen"
 
-# hab ich noch keine Idee zu --Dominic
-# Rahmen Info vielleicht -- Kekstöter
-# Nee, das ist auch nicht so optimal. Was macht das genau? -- frlan
+# Das ist der Titel eines Fensters, welches man wahrscheinlich nicht oder nur selten zu Gesicht bekommt.
 #: ../geanygdb/src/gdb-ui-frame.c:354
 msgid "Frame info"
 msgstr "Rahmeninfo"
@@ -769,7 +764,7 @@ msgstr "Das Debuggen von Objektdateien wird nicht unterstützt."
 
 #: ../geanygdb/src/gdb-ui-main.c:597
 msgid "You don't have permission to execute this file."
-msgstr "Sie haben keine Berechtigungen, um diese Datei auszuführen."
+msgstr "Keine Berechtigungen um die Datei auszuführen."
 
 #: ../geanygdb/src/gdb-ui-main.c:603
 msgid "Debugging of shared libraries is not supported."
@@ -869,7 +864,7 @@ msgstr "Debug"
 #: ../geanygendoc/src/ggd.c:81
 #, c-format
 msgid "Failed to resize memory output stream"
-msgstr "Größe des Speicherausgabestroms konnte nicht geändert werden"
+msgstr "Konnte die Größe des Speicherausgabestroms nicht ändern"
 
 #: ../geanygendoc/src/ggd.c:110
 #, c-format
@@ -996,7 +991,7 @@ msgstr "Dokumentationstyp Kennzeichnung"
 #: ../geanygendoc/src/ggd-file-type-loader.c:584
 #: ../geanygendoc/src/ggd-file-type-loader.c:606
 msgid "documentation type"
-msgstr "Dokumentationtyp"
+msgstr "Dokumentationstyp"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:641
 #, c-format
@@ -1068,8 +1063,8 @@ msgid ""
 "Invalid option or proxy: either the proxy's property or the option type is "
 "incompatible."
 msgstr ""
-"Ungültige Option oder Proxyeinstellung: Entweder, die Proxyeinstellungen "
-"oder der Typ der Option ist nicht kompatibel"
+"Option oder Proxy ungültig: Entweder, die Einstellungen für den Proxy oder "
+"der Typ der Option ist nicht kompatibel"
 
 #: ../geanygendoc/src/ggd-options.c:512
 #, c-format
@@ -1079,7 +1074,7 @@ msgstr "Unbekannter Wert für Typ des Dateieintrages %s:%s"
 #: ../geanygendoc/src/ggd-options.c:516
 #, c-format
 msgid "Error retrieving keyfile entry %s::%s: %s"
-msgstr "Ein Problem beim lesen des Dateeintrages %s::%s: %s ist aufgetreten"
+msgstr "Ein Problem beim Lesen des Dateeintrages %s::%s: %s ist aufgetreten"
 
 #: ../geanygendoc/src/ggd-plugin.c:53
 msgid "Documentation Generator"
@@ -1097,7 +1092,7 @@ msgstr "Konnte Konfiguration nicht laden: %s"
 #: ../geanygendoc/src/ggd-plugin.c:242
 #, c-format
 msgid "Failed to save configuration: %s"
-msgstr "Konnte Konfiguration nicht speicher: %s"
+msgstr "Konnte Konfiguration nicht speichern: %s"
 
 #: ../geanygendoc/src/ggd-plugin.c:315
 #, c-format
@@ -1147,7 +1142,7 @@ msgstr "_Konfigurationsdateien neu laden"
 
 #: ../geanygendoc/src/ggd-plugin.c:496
 msgid "Force reloading of the configuration files"
-msgstr "Neuladen der Konfigurationsdateien forcieren. "
+msgstr "Neuladen der Konfigurationsdateien erzwingen. "
 
 #: ../geanygendoc/src/ggd-plugin.c:501
 msgid "_Edit Current Language Configuration"
@@ -1155,7 +1150,7 @@ msgstr "_Aktuelle Spracheinstellungen verändern"
 
 #: ../geanygendoc/src/ggd-plugin.c:502
 msgid "Open the current language configuration file for editing"
-msgstr "Öffnet die aktuelle Sprachkonfigurationsdatei zum Verändern"
+msgstr "Die aktuelle Sprachkonfigurationsdatei zum Verändern öffnen"
 
 #: ../geanygendoc/src/ggd-plugin.c:512
 msgid "Open _Manual"
@@ -1189,13 +1184,12 @@ msgid ""
 "surprising since the comment will be generated for the last saved state of "
 "this document and not the current one."
 msgstr ""
-"Bestimmt, ob das aktuelle Dokument gespeichert werden soll, bevor die "
-"Dokumentation basierend darauf generiert wird. Dies ist zwar nur ein "
-"technisches Detail, ist aber notwendig, um auf einer aktuellen Symbolliste "
-"arbeiten zu können. Wenn Sie diese Option deaktivieren, könnte es zu "
-"überraschenden Ergebnissen bei der Erstellung der Dokumentation kommen, da "
-"jeweils immer die zuletzt gespeicherte Version des aktuellen Dokumentes als "
-"Basis herangezogen wird."
+"Das aktuelle Dokument speichern, bevor die Dokumentation dafür generiert "
+"wird. Ein technisches Detail, aber notwendig um mit einer aktuellen "
+"Symbolliste arbeiten zu können. Das Deaktivieren dieser Option könnte zu "
+"überraschenden Ergebnissen bei der Erstellung der Dokumentation führen, da "
+"die jeweils zuletzt gespeicherte Version des aktuellen Dokumentes als Basis "
+"genutzt wird."
 
 #. indent
 #: ../geanygendoc/src/ggd-plugin.c:631
@@ -1207,14 +1201,14 @@ msgid ""
 "Whether the inserted documentation should be indented to fit the indentation "
 "at the insertion position."
 msgstr ""
-"Bestimmt, ob die eingefügt Dokumentation eingerückt werden und sich so in "
-"die aktuelle Position im Text eingliedern soll. "
+"Die eingefügte Dokumentation einrücken und somit in die aktuelle Position im "
+"Text eingliedern. "
 
 #. Documentation type
 #: ../geanygendoc/src/ggd-plugin.c:640
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:140
 msgid "Documentation type"
-msgstr "Typ der Dokumentation"
+msgstr "Dokumentationstyp"
 
 #: ../geanygendoc/src/ggd-plugin.c:650
 msgid ""
@@ -1222,10 +1216,9 @@ msgid ""
 "language \"All\" on top of the list is used to choose the default "
 "documentation type, used for all languages that haven't one set."
 msgstr ""
-"Legt den Typ der Dokumentation fest, der bei den jeweiligen Dateitypen "
-"angewendet werden soll. Die spezielle Sprache \"Alle\" an der Spitze der "
-"Liste schaltet die Standardkonfiguration für diesen Punkt, die ebenfalls für "
-"alle nicht weiter spezifizierten Sprachen genutzt wird. "
+"Der Typ der Dokumentation, der bei den jeweiligen Dateitypen angewendet "
+"werden soll. \"Alle\" setzt die Standardkonfiguration, die auch für alle "
+"Sprachen genutzt wird, für die der Dokumentationstyp nicht gesetzt wurde. "
 
 #. Environ editor
 #: ../geanygendoc/src/ggd-plugin.c:656
@@ -1237,8 +1230,8 @@ msgid ""
 "Global environment overrides and additions. This environment will be merged "
 "with the file-type-specific ones."
 msgstr ""
-"Die globale Umgebung wird überschrieben oder ergänzt: Die Umgebung wird mit "
-"den Dateityp spezifischen Einstellungen zusammen geführt."
+"Änderungen oder Ergänzungen für die globale Umgebung. Diese werden mit den "
+"Einstellungen für Dateitypen zusammengeführt."
 
 #: ../geanygendoc/src/ggd-tag-utils.c:366
 msgid "Invalid tag"
@@ -1273,8 +1266,8 @@ msgstr "Alle"
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:191
 msgid "Default documentation type for languages that does not have one set"
 msgstr ""
-"Standardkonfiguration des Dokumentationstyps bei Dokumenten, die keinen "
-"speziellen Typ zugewiesen bekommen haben. "
+"Dokumentationstyp für Dokumenten, denen kein spezieller Typ zugewiesen "
+"wurde. "
 
 #: ../geanylatex/src/latexenvironments.c:25
 msgid "Environments"
@@ -1286,7 +1279,7 @@ msgstr "Formatierungen"
 
 #: ../geanylatex/src/latexenvironments.c:27
 msgid "Document Structure"
-msgstr "Dokumentenstruktur"
+msgstr "Dokumentstruktur"
 
 #: ../geanylatex/src/latexenvironments.c:28
 msgid "Lists"
@@ -1304,6 +1297,7 @@ msgstr "Umgebung einfügen"
 msgid "Environment:"
 msgstr "Umgebung:"
 
+# Irgendwie seh ich doppelt.
 #: ../geanylatex/src/latexutils.c:88
 #, c-format
 msgid ""
@@ -1313,6 +1307,7 @@ msgstr ""
 "Konnte nicht genau feststellen, wohin das Paket »%s« eingefügt werden soll.\n"
 "Bitte das Glück manuell versuchen!"
 
+# Irgendwie seh ich doppelt.
 #: ../geanylatex/src/latexutils.c:90
 #, c-format
 msgid "Could not determine where to insert package: %s"
@@ -1739,8 +1734,7 @@ msgstr "Vorlage:"
 #: ../geanylatex/src/geanylatex.c:1723
 msgid "Set the template which should be used for creating the new document"
 msgstr ""
-"Bestimmt, welche Vorlage zum Erstellen des neuen Dokumentes genutzt werden "
-"soll."
+"Vorlage, welche zum Erstellen des neuen Dokumentes genutzt werden soll."
 
 #: ../geanylatex/src/geanylatex.c:1732
 msgid "Default"
@@ -1791,7 +1785,7 @@ msgstr "Schriftgröße:"
 
 #: ../geanylatex/src/geanylatex.c:1792
 msgid "Set the default font size of your new document"
-msgstr "Setzt die Standardschriftgröße für das neue Dokument"
+msgstr "Die Standardschriftgröße für das neue Dokument"
 
 #. Author
 #: ../geanylatex/src/geanylatex.c:1804
@@ -1803,7 +1797,7 @@ msgid ""
 "Sets the value of the \\author command. In most cases this should be your "
 "name"
 msgstr ""
-"Setzt den Eintrag für den \\author Befehl. Meist sollte hier Ihr Name stehen."
+"Der Eintrag für den \\author Befehl. Meist sollte hier Ihr Name stehen."
 
 #. Date
 #: ../geanylatex/src/geanylatex.c:1821
@@ -1816,8 +1810,9 @@ msgid ""
 "document. Keeping it at \\today is a good decision if you don't need any "
 "fixed date."
 msgstr ""
-"Setzt den Eintrag für den \\date Befehl im Kopf des neuen Dokumentes. In den "
-"meisten Fällen sollte hier »\\today« eine gute Wahl sein."
+"Der Eintrag für den \\date Befehl im Kopf des neuen Dokumentes. Den Wert bei "
+"»\\today« zu belassen sollte eine gute Wahl sein, sofern kein fixes Datum "
+"benötigt wird."
 
 #. Title of the new document
 #: ../geanylatex/src/geanylatex.c:1836
@@ -1836,8 +1831,7 @@ msgstr "Papiergröße:"
 #: ../geanylatex/src/geanylatex.c:1851
 msgid "Choose the paper format for the newly created document"
 msgstr ""
-"Setzt das Papierformat als Argument der Dokumentenklasse für das neue "
-"Dokument"
+"Das Papierformat als Argument der Dokumentenklasse für das neue Dokument"
 
 #. Paper direction
 #: ../geanylatex/src/geanylatex.c:1864
@@ -1847,7 +1841,7 @@ msgstr "Seitenausrichtung:"
 #: ../geanylatex/src/geanylatex.c:1867
 msgid "Choose the paper orientation for the newly created document"
 msgstr ""
-"Setzt die Ausrichtung der Seite (Hoch- oder Querformat)  als Argument der "
+"Die Ausrichtung der Seite (Hoch- oder Querformat) als Argument der "
 "Dokumentenklasse für das neue Dokument"
 
 #: ../geanylatex/src/geanylatex.c:1888
@@ -2271,10 +2265,12 @@ msgstr ""
 "Ein Plugin zum Senden einer Datei als Anhang unter Verwendung eines E-Mail-"
 "Programms."
 
+# Ich sehe doppelt.
 #: ../geanysendmail/src/geanysendmail.c:99
 msgid "Recipient's Address"
 msgstr "E-Mail-Adresse des Empfängers"
 
+# Ich sehe doppelt.
 #: ../geanysendmail/src/geanysendmail.c:101
 msgid "Enter the recipient's e-mail address:"
 msgstr "E-Mail-Adresse des Empfängers:"
@@ -2367,8 +2363,8 @@ msgstr "_Dokument versenden"
 msgid ""
 "Sends the opened file as unzipped attachment by any mailer from your $PATH"
 msgstr ""
-"Sendet ein geöffnetes Dokument als ungepackten Anhang unter Verwendung eines "
-"E-Mail-Programms."
+"Sendet ein geöffnetes Dokument als unkomprimierten Anhang unter Verwendung "
+"eines E-Mail-Programms."
 
 #: ../geanyvc/src/geanyvc.c:51
 msgid "GeanyVC"
@@ -2480,7 +2476,7 @@ msgid ""
 "could cause a big number of annoying \"Do you want to save\"-dialogs."
 msgstr ""
 "Wenn diese Option aktiviert ist, werden alle Dokumente, die durch das Plugin "
-"erzeugt werden, als geändert markiert, sodass z.B. beim Schließen der Datei "
+"erzeugt werden, als geändert markiert, so dass z.B. beim Schließen der Datei "
 "der Speichern Dialog geöffnet wird. Auch wenn diese Option von Zeit zu Zeit "
 "sehr nützlich sein kann, kann Sie ab und an einfach nur stören."
 
@@ -2491,8 +2487,8 @@ msgstr "Hinzufügen von Dateien zur Versionsverwaltung immer bestätigen"
 #: ../geanyvc/src/geanyvc.c:1832
 msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
 msgstr ""
-"Zeigt einen Bestätigungsdialog wenn Dateien zu einem "
-"Versionsverwaltungssystem hinzugefügt werden sollen."
+"Zeigt einen Bestätigungsdialog beim Hinzufügen von Dateien zu einem "
+"Versionsverwaltungssystem."
 
 #: ../geanyvc/src/geanyvc.c:1838
 msgid "Maximize commit dialog"
@@ -2613,11 +2609,11 @@ msgstr "Zeigt die unveränderte Datei an"
 #. add current file
 #: ../geanyvc/src/geanyvc.c:2035
 msgid "_Add to Version Control"
-msgstr "Zur _Versionsverwaltung hinzufügen"
+msgstr "Zur _Versionskontrolle hinzufügen"
 
 #: ../geanyvc/src/geanyvc.c:2037
 msgid "Add file to repository."
-msgstr "Fügt eine Datei dem Repositorium _zu."
+msgstr "Fügt eine Datei zur Versionskontrolle hin_zu."
 
 #. remove current file
 #: ../geanyvc/src/geanyvc.c:2043
@@ -2626,7 +2622,7 @@ msgstr "Aus Versionskontrolle entfernen"
 
 #: ../geanyvc/src/geanyvc.c:2045
 msgid "Remove file from repository."
-msgstr "Entfernt eine Datei aus dem Repositorium."
+msgstr "Entfernt eine Datei aus Versionskontrolle und Repository."
 
 #: ../geanyvc/src/geanyvc.c:2060
 msgid "_Directory"
@@ -3359,8 +3355,7 @@ msgid ""
 "This plugin adds a tree browser to Geany, allowing the user to browse files "
 "using a tree view of the directory being browsed."
 msgstr ""
-"Das Plugin fügt eine Baumansicht zum Navigieren durch den Dateibaum in die "
-"Seitenleiste von Geany ein."
+"Ein Plugin zum Navigieren durch den Verzeichnisbaum auf dem Dateisystem."
 
 #: ../treebrowser/src/treebrowser.c:391
 #, c-format
@@ -3676,17 +3671,15 @@ msgstr "Updatechecker"
 #: ../updatechecker/src/updatechecker.c:37
 msgid ""
 "A plugin which is checking whether there are updates for Geany available."
-msgstr ""
-"Eine Erweiterung, die überprüft, ob für Geany auf dem Server "
-"Aktualisierungen bereitliegen."
+msgstr "Überprüfen ob es Updates für Geany gibt."
 
 #: ../updatechecker/src/updatechecker.c:185
 msgid "There is a more recent version available"
-msgstr "Eine neuere Version ist verfügbar"
+msgstr "Es ist eine aktuellere Version verfügbar"
 
 #: ../updatechecker/src/updatechecker.c:193
 msgid "No update available"
-msgstr "Keine Aktualisierung verfügbar"
+msgstr "Es ist keine Aktualisierung verfügbar"
 
 #: ../updatechecker/src/updatechecker.c:205
 #, c-format
@@ -3701,7 +3694,7 @@ msgstr ""
 
 #: ../updatechecker/src/updatechecker.c:271
 msgid "Run updatecheck on startup"
-msgstr "Überprüfung nach Aktualisierungen beim Starten durchführen"
+msgstr "Prüfe beim Start auf Aktualisierungen"
 
 #: ../updatechecker/src/updatechecker.c:313
 msgid "Check for Updates"
@@ -3737,7 +3730,7 @@ msgstr "Aktuelle Seite neu laden"
 
 #: ../webhelper/src/gwh-browser.c:729 ../webhelper/src/gwh-browser.c:802
 msgid "Web inspector"
-msgstr "Web inspector"
+msgstr "Webinspektor"
 
 #: ../webhelper/src/gwh-browser.c:730
 msgid "Toggle web inspector"
@@ -3759,11 +3752,11 @@ msgstr ""
 
 #: ../webhelper/src/gwh-plugin.c:109
 msgid "Web view"
-msgstr "Webvorschau"
+msgstr "Web Ansicht"
 
 #: ../webhelper/src/gwh-plugin.c:144
 msgid "Web preview"
-msgstr "Webvorschau"
+msgstr "Web Vorschau"
 
 #: ../webhelper/src/gwh-plugin.c:232
 msgid "Reload upon document saving"
