@@ -42,7 +42,7 @@ for faster overview and access.
 
 Mark Word
 ^^^^^^^^^
-When double-clicking a word, all occurences of this word are searched
+When double-clicking a word, all occurrences of this word are searched
 and then highlighted (similar to Geany's 'Mark All' Find option).
 
 Strip trailing blank lines
