@@ -1,0 +1,8 @@
+Most important changes in 0.20:
+
+	* Added bookmarks support
+	* Added keybindings support
+	* Added mime type icons in the tree
+	* Many bugfixes and code improvements
+
+For full list of changes, please look at the ChangeLog.
