@@ -5,6 +5,13 @@ Geany-Plugins 0.20 (t.b.p.s.)
     * Add new plugin UpdateChecker
     * Add new plugin WebHelper.
 
+    GeanyExtraSel:
+    * Respect 'Smart' home key (Geany does now).
+    * Fixed Scintilla Shift+movement key convertion of rectangle selection.
+    * Virtual spaces support.
+    * Per-file column mode.
+    * Added "Set Anchor", "Select to Anchor" and "Rectangle Select to Anchor".
+
     GeanyGenDoc:
     * Bump dependency on CTPL to 0.3.
     * Add a popup menu for common actions in the documentation type selector.
@@ -15,6 +22,9 @@ Geany-Plugins 0.20 (t.b.p.s.)
     * Fix build against GTK+ 2.16.
     * Don't copy the system configuration file to the user's one when hitting
       "Edit Current Language Configuration", only write it when saving changes.
+
+    GeanyInsertNum:
+    * Thin selection support.
 
     GeanyLaTeX:
     * Move LaTeX-menu to a separate menu inside Geany main menu
