@@ -12,6 +12,16 @@ WebHelper is a plugin for Geany that provides some web development facilities,
 such as a web page preview and some debugging tools (web inspector).
 
 
+Prominent features
+------------------
+
+ * A basic web view, allowing to display any web page (using WebKit);
+ * Possible automatic reloading of the web view upon document saving;
+ * A web inspector/debugging tool for the web view's content (including a
+   JavaScript console, a viewer and editor of processed HTML and CSS, a network
+   usage analysis tool and many more, thanks to WebKit).
+
+
 Requirements
 ============
 
@@ -32,8 +42,9 @@ this plugin is part of.
 Usage
 =====
 
-When loaded into Geany, this plugins adds a web view in one of the panels --
-bottom (the default) or left. You can find most of the features from this view.
+When loaded into Geany, this plugins adds a web view in the message window
+(the default), the sidebar or in a separate window. You can find most of the
+features from this view.
 
 
 License
