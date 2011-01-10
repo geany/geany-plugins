@@ -518,7 +518,7 @@ Configuration syntax summary
   setting_section      ::= "settings" "=" setting_list
   
   position             ::= ( "BEFORE" | "AFTER" | "CURSOR" )
-  policy               ::= ( "KEEP" | "FORWARD" )
+  policy               ::= ( "KEEP" | "FORWARD" | "PASS" )
   children             ::= ( "SPLIT" | "MERGE" )
   type                 ::= ( "class" | "enum" | "enumval" | "field" |
                              "function" | "interface" | "member" | "method" |
