@@ -1,9 +1,13 @@
 TODO:
  * Save & restore the state of the inspector (docked/undocked, visible/hidden)
+ * Allow reloading after build? Useful if the web page needs to be compiled
+   manually.
+ * Add possibility to "view current file" in the web view? (probably only useful
+   for plain HTML editing)
 
 FIXME:
  * Find why docking the inspector window don't work in the plugin.
    Note that this DOES work when GwhBrowser is used by a test
    application.
    Moreover, this works when the browser is in its separate window.
-   ...strange.
+   ...strange. A bug in WebKit or WebKitGTK I guess.
