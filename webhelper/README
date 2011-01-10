@@ -15,11 +15,11 @@ such as a web page preview and some debugging tools (web inspector).
 Prominent features
 ------------------
 
- * A basic web view, allowing to display any web page (using WebKit);
- * Possible automatic reloading of the web view upon document saving;
- * A web inspector/debugging tool for the web view's content (including a
-   JavaScript console, a viewer and editor of processed HTML and CSS, a network
-   usage analysis tool and many more, thanks to WebKit).
+* A basic web view, allowing to display any web page (using WebKit);
+* Possible automatic reloading of the web view upon document saving;
+* A web inspector/debugging tool for the web view's content (including a
+  JavaScript console, a viewer and editor of processed HTML and CSS, a network
+  usage analysis tool and many more, thanks to WebKit).
 
 
 Requirements
