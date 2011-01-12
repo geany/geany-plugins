@@ -34,7 +34,7 @@
 
 
 PLUGIN_VERSION_CHECK(163)
-PLUGIN_SET_INFO(_("GeanyGDB"), _("Integrated debugging with GDB."), VERSION, _("Jeff Pohlmeyer, Dominic Hopf"))
+PLUGIN_SET_INFO(_("GeanyGDB"), _("Integrated debugging with GDB."), VERSION, "Jeff Pohlmeyer, Dominic Hopf")
 
 GeanyData *geany_data;
 GeanyFunctions *geany_functions;

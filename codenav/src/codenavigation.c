@@ -47,7 +47,7 @@ PLUGIN_SET_INFO(_("Code navigation"),
 	_(	"This plugin adds features to facilitate navigation between source files.\n"
 		"As for the moment, it implements :\n"
 		"- switching between a .cpp file and the corresponding .h file\n"
-		"- [opening a file by typing its name -> TODO]"), CODE_NAVIGATION_VERSION, _("Lionel Fuentes"))
+		"- [opening a file by typing its name -> TODO]"), CODE_NAVIGATION_VERSION, "Lionel Fuentes")
 
 /* Declare "GeanyKeyGroupInfo plugin_key_group_info[1]" and "GeanyKeyGroup *plugin_key_group",
  * for Geany to find the keybindings */

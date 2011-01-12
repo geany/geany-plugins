@@ -51,7 +51,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	_("GeanyVC"),
 	_("Interface to different Version Control systems."),
 	VERSION,
-	_("Yura Siamashka <yurand2@gmail.com>,\nFrank Lanitz <frank@frank.uvena.de>"));
+	"Yura Siamashka <yurand2@gmail.com>,\nFrank Lanitz <frank@frank.uvena.de>");
 
 /* Some global variables */
 static gboolean set_changed_flag;

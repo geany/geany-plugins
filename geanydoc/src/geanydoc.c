@@ -48,7 +48,7 @@ static GtkWidget *keyb2;
 PLUGIN_VERSION_CHECK(128)
 /* All plugins must set name, description, version and author. */
 	PLUGIN_SET_INFO(_("Doc"), _("Call documentation viewer on current symbol."), VERSION,
-		_("Yura Siamshka <yurand2@gmail.com>"));
+		"Yura Siamshka <yurand2@gmail.com>");
 
 /* Keybinding(s) */
      enum
