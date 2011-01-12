@@ -58,7 +58,7 @@ from build.wafutils import (
 
 
 APPNAME = 'geany-plugins'
-VERSION = '0.20'
+VERSION = '0.21'
 LINGUAS_FILE = 'po/LINGUAS'
 
 top = '.'
@@ -323,4 +323,3 @@ def updatepo(ctx):
     except OSError:
         Logs.pprint('RED', 'Failed to generate pot file.')
     os.chdir('..')
-
