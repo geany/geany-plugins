@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.20\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-09 02:59+0100\n"
+"POT-Creation-Date: 2011-01-12 23:00+0100\n"
 "PO-Revision-Date: 2011-01-09 02:57+0100\n"
 "Last-Translator: Dominic Hopf <dmaphy@googlemail.com>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -216,10 +216,6 @@ msgstr ""
 "- Umschalten zwischen einer .cpp-Datei und der dazu passenden .H-Datei\n"
 "- [Eine Datei über Ihren Namen öffnen -> TODO]"
 
-#: ../codenav/src/codenavigation.c:50
-msgid "Lionel Fuentes"
-msgstr "Lionel Fuentes"
-
 #. Add the menu item, sensitive only when a document is opened
 #: ../codenav/src/goto_file.c:50 ../codenav/src/goto_file.c:64
 msgid "Goto file"
@@ -260,10 +256,6 @@ msgstr "Doc"
 #: ../geanydoc/src/geanydoc.c:50
 msgid "Call documentation viewer on current symbol."
 msgstr "Dokumentation für das aktuelle Wort anzeigen."
-
-#: ../geanydoc/src/geanydoc.c:51
-msgid "Yura Siamshka <yurand2@gmail.com>"
-msgstr "Yura Siamshka <yurand2@gmail.com>"
 
 #: ../geanydoc/src/geanydoc.c:170 ../geanyvc/src/geanyvc.c:405
 msgid "Could not parse the output of command"
@@ -839,10 +831,6 @@ msgstr "GeanyGDB"
 #: ../geanygdb/src/geanygdb.c:37
 msgid "Integrated debugging with GDB."
 msgstr "Debugging mit GDB integriert in Geany"
-
-#: ../geanygdb/src/geanygdb.c:37
-msgid "Jeff Pohlmeyer, Dominic Hopf"
-msgstr "Jeff Pohlmeyer, Dominic Hopf"
 
 #: ../geanygdb/src/geanygdb.c:330
 #, c-format
@@ -1751,11 +1739,11 @@ msgstr "Art des Dokumentes"
 
 #: ../geanylatex/src/geanylatex.c:1748
 msgid "Book"
-msgstr "Buch (Book)"
+msgstr "Buch"
 
 #: ../geanylatex/src/geanylatex.c:1750
 msgid "Article"
-msgstr "Artikel (Article)"
+msgstr "Artikel"
 
 #: ../geanylatex/src/geanylatex.c:1752
 msgid "Report"
@@ -2373,13 +2361,6 @@ msgstr "GeanyVC"
 #: ../geanyvc/src/geanyvc.c:52
 msgid "Interface to different Version Control systems."
 msgstr "Oberfläche für verschiedene Versionskontrollsysteme."
-
-#: ../geanyvc/src/geanyvc.c:54
-msgid ""
-"Yura Siamashka <yurand2@gmail.com>,\n"
-"Frank Lanitz <frank@frank.uvena.de>"
-msgstr ""
-"Yura Siamashka <yurand2@gmail.com>, Frank Lanitz <frank@frank.uvena.de>"
 
 #: ../geanyvc/src/geanyvc.c:464
 #, c-format
@@ -3173,10 +3154,6 @@ msgstr "Projekt"
 msgid "Alternative project support."
 msgstr "Alternative Projektunterstützung."
 
-#: ../geanyprj/src/geanyprj.c:34
-msgid "Yura Siamashka <yurand2@gmail.com>"
-msgstr "Yura Siamashka <yurand2@gmail.com>"
-
 #: ../geanyprj/src/menu.c:90
 msgid "Project Preferences"
 msgstr "Projekteigenschaften"
@@ -3761,6 +3738,24 @@ msgstr "Web Vorschau"
 #: ../webhelper/src/gwh-plugin.c:232
 msgid "Reload upon document saving"
 msgstr "Beim Speichern des Dokumentes neu laden"
+
+#~ msgid "Lionel Fuentes"
+#~ msgstr "Lionel Fuentes"
+
+#~ msgid "Yura Siamshka <yurand2@gmail.com>"
+#~ msgstr "Yura Siamshka <yurand2@gmail.com>"
+
+#~ msgid "Jeff Pohlmeyer, Dominic Hopf"
+#~ msgstr "Jeff Pohlmeyer, Dominic Hopf"
+
+#~ msgid ""
+#~ "Yura Siamashka <yurand2@gmail.com>,\n"
+#~ "Frank Lanitz <frank@frank.uvena.de>"
+#~ msgstr ""
+#~ "Yura Siamashka <yurand2@gmail.com>, Frank Lanitz <frank@frank.uvena.de>"
+
+#~ msgid "Yura Siamashka <yurand2@gmail.com>"
+#~ msgstr "Yura Siamashka <yurand2@gmail.com>"
 
 #~ msgid "Showing icon in toolbar"
 #~ msgstr "Symbol in der Werkzeugleiste anzeigen"
