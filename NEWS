@@ -1,4 +1,4 @@
-Geany-Plugins 0.20 (t.b.p.s.)
+Geany-Plugins 0.20 (2011-01-10)
 
     General:
     * Update of Waf build system.
@@ -36,8 +36,7 @@ Geany-Plugins 0.20 (t.b.p.s.)
     * Minor code cleanup.
 
     Internationalisation:
-    * New translations:
-    * Update translations:
+    * Update translations: de, es, ja, pt, tr
 
     TreeBrowser:
     * Added bookmarks support.
