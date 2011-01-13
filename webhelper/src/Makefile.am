@@ -16,6 +16,7 @@ sources         = gwh-browser.c \
                   gwh-settings.c \
                   gwh-utils.c
 headers         = gwh-browser.h \
+                  gwh-plugin.h \
                   gwh-settings.h \
                   gwh-utils.h
 autogen_sources = gwh-enum-types.c

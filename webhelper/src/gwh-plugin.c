@@ -32,10 +32,7 @@
 #include "gwh-utils.h"
 #include "gwh-browser.h"
 #include "gwh-settings.h"
-
-
-#define PLUGIN_NAME     "Web Helper"
-#define PLUGIN_TARNAME  "web-helper"
+#include "gwh-plugin.h"
 
 
 GeanyPlugin      *geany_plugin;
@@ -51,7 +48,7 @@ PLUGIN_SET_TRANSLATABLE_INFO (
   _("Display a preview web page that gets updated upon document saving and "
     "provide web analysis and debugging tools (aka Web Inspector), all using "
     "WebKit."),
-  "0.1",
+  GWH_PLUGIN_VERSION,
   "Colomban Wendling <ban@herbesfolles.org>"
 )
 
@@ -60,7 +57,6 @@ enum {
   CONTAINER_NOTEBOOK,
   CONTAINER_WINDOW
 };
-
 
 static GtkWidget   *G_browser   = NULL;
 static struct {
@@ -253,7 +249,7 @@ static gchar *
 get_config_filename (void)
 {
   return g_build_filename (geany_data->app->configdir, "plugins",
-                           PLUGIN_TARNAME, PLUGIN_TARNAME".conf", NULL);
+                           GWH_PLUGIN_TARNAME, GWH_PLUGIN_TARNAME".conf", NULL);
 }
 
 static void

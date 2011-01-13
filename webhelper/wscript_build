@@ -32,6 +32,7 @@ sources = [
     'src/gwh-utils.c']
 header = [
     'src/gwh-browser.h',
+    'src/gwh-plugin.h',
     'src/gwh-settings.h',
     'src/gwh-utils.h']
 generated_sources = [
