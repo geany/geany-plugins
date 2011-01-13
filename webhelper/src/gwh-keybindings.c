@@ -69,13 +69,17 @@ gwh_keybindings_handle_event (GtkWidget    *widget,
 {
   guint     mods = event->state & gtk_accelerator_get_default_mod_mask ();
   gboolean  handled = FALSE;
+  guint     keyval = event->keyval;
   guint     i;
   
+  if (mods & GDK_SHIFT_MASK) {
+    keyval = gdk_keyval_to_lower (keyval);
+  }
   for (i = 0; ! handled && i < GWH_KB_COUNT; i++) {
     GeanyKeyBinding *kb;
     
     kb = keybindings_get_item (G_key_group, i);
-    if (kb->key == event->keyval && kb->mods == mods) {
+    if (kb->key == keyval && kb->mods == mods) {
       if (kb->callback) {
         kb->callback (i);
       /* We can't handle key group callback since we can't acces key group
