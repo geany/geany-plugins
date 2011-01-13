@@ -188,6 +188,19 @@ on_settings_inspector_window_geometry_notify (GObject    *object,
   (gtk_widget_get_visible ((self)->priv->inspector_view))
 
 static void
+inspector_set_visible (GwhBrowser *self,
+                       gboolean    visible)
+{
+  if (visible != INSPECTOR_VISIBLE (self)) {
+    if (visible) {
+      webkit_web_inspector_show (self->priv->inspector);
+    } else {
+      webkit_web_inspector_close (self->priv->inspector);
+    }
+  }
+}
+
+static void
 inspector_hide_window (GwhBrowser *self)
 {
   if (gtk_widget_get_visible (self->priv->inspector_window)) {
@@ -281,11 +294,7 @@ static void
 on_item_inspector_toggled (GtkToggleToolButton *button,
                            GwhBrowser          *self)
 {
-  if (gtk_toggle_tool_button_get_active (button)) {
-    webkit_web_inspector_show (self->priv->inspector);
-  } else {
-    webkit_web_inspector_close (self->priv->inspector);
-  }
+  inspector_set_visible (self, gtk_toggle_tool_button_get_active (button));
 }
 
 static void
@@ -940,4 +949,12 @@ gwh_browser_get_inspector_transient_for (GwhBrowser *self)
   g_return_val_if_fail (GWH_IS_BROWSER (self), NULL);
   
   return gtk_window_get_transient_for (GTK_WINDOW (self->priv->inspector_window));
+}
+
+void
+gwh_browser_toggle_inspector (GwhBrowser *self)
+{
+  g_return_if_fail (GWH_IS_BROWSER (self));
+  
+  inspector_set_visible (self, ! INSPECTOR_VISIBLE (self));
 }

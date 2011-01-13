@@ -24,6 +24,7 @@
 #include <glib.h>
 #include <glib/gi18n-lib.h>
 #include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 
 #include <geanyplugin.h>
 #include <geany.h>
@@ -245,6 +246,12 @@ on_browser_populate_popup (GwhBrowser *browser,
                     NULL);
 }
 
+static void
+on_kb_toggle_inspector (guint key_id)
+{
+  gwh_browser_toggle_inspector (GWH_BROWSER (G_browser));
+}
+
 
 static gchar *
 get_config_filename (void)
@@ -312,6 +319,11 @@ plugin_init (GeanyData *data)
   
   plugin_signal_connect (geany_plugin, NULL, "document-save", TRUE,
                          G_CALLBACK (on_document_save), NULL);
+  
+  /* add keybindings */
+  keybindings_set_item (gwh_keybindings_get_group (), GWH_KB_TOGGLE_INSPECTOR,
+                        on_kb_toggle_inspector, GDK_F12, 0, "toggle_inspector",
+                        _("Toggle Web Inspector"), NULL);
 }
 
 void

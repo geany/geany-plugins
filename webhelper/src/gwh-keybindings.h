@@ -30,6 +30,7 @@ G_BEGIN_DECLS
 
 
 enum {
+  GWH_KB_TOGGLE_INSPECTOR,
   GWH_KB_COUNT
 };
 

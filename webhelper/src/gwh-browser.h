@@ -81,6 +81,8 @@ void            gwh_browser_set_inspector_transient_for   (GwhBrowser *self,
                                                            GtkWindow  *window);
 G_GNUC_INTERNAL
 GtkWindow      *gwh_browser_get_inspector_transient_for   (GwhBrowser *self);
+G_GNUC_INTERNAL
+void            gwh_browser_toggle_inspector              (GwhBrowser *self);
 
 
 G_END_DECLS
