@@ -561,6 +561,36 @@ gwh_settings_widget_sync_enum (GwhSettings *self,
 }
 
 static GtkWidget *
+gwh_settings_widget_new_int (GwhSettings  *self,
+                             const GValue *value,
+                             GParamSpec   *pspec,
+                             gboolean     *needs_label)
+{
+  GtkWidget      *button;
+  GtkObject      *adj;
+  GParamSpecInt  *pspec_int = G_PARAM_SPEC_INT (pspec);
+  
+  adj = gtk_adjustment_new ((gdouble)g_value_get_int (value),
+                            (gdouble)pspec_int->minimum,
+                            (gdouble)pspec_int->maximum,
+                            1.0, 10.0, 0.0);
+  button = gtk_spin_button_new (GTK_ADJUSTMENT (adj), 0.0, 0);
+  *needs_label = TRUE;
+  
+  return button;
+}
+
+static void
+gwh_settings_widget_sync_int (GwhSettings *self,
+                              GParamSpec  *pspec,
+                              GtkWidget   *widget)
+{
+  g_object_set (self, pspec->name,
+                gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (widget)),
+                NULL);
+}
+
+static GtkWidget *
 gwh_settings_widget_new_string (GwhSettings  *self,
                                 const GValue *value,
                                 GParamSpec   *pspec,
@@ -610,6 +640,7 @@ gwh_settings_widget_new (GwhSettings *self,
     
     HANDLE_TYPE (G_TYPE_BOOLEAN,  gwh_settings_widget_new_boolean)
     HANDLE_TYPE (G_TYPE_ENUM,     gwh_settings_widget_new_enum)
+    HANDLE_TYPE (G_TYPE_INT,      gwh_settings_widget_new_int)
     HANDLE_TYPE (G_TYPE_STRING,   gwh_settings_widget_new_string)
     
     #undef HANDLE_TYPE
@@ -662,6 +693,7 @@ gwh_settings_widget_sync (GwhSettings *self,
     
     HANDLE_TYPE (G_TYPE_BOOLEAN,  gwh_settings_widget_sync_boolean)
     HANDLE_TYPE (G_TYPE_ENUM,     gwh_settings_widget_sync_enum)
+    HANDLE_TYPE (G_TYPE_INT,      gwh_settings_widget_sync_int)
     HANDLE_TYPE (G_TYPE_STRING,   gwh_settings_widget_sync_string)
     
     #undef HANDLE_TYPE
