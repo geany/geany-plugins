@@ -62,23 +62,22 @@ enum
   NUM_KB
 };
 
-PLUGIN_KEY_GROUP (GGD_PLUGIN_ONAME, NUM_KB)
-
 typedef struct _PluginData
 {
-  GgdOptGroup *config;
+  GgdOptGroup    *config;
+  GeanyKeyGroup  *kb_group;
   
-  gint        editor_menu_popup_line;
+  gint            editor_menu_popup_line;
   
-  GtkWidget  *separator_item;
-  GtkWidget  *edit_menu_item;
-  GtkWidget  *tools_menu_item;
-  gulong      edit_menu_item_hid;
+  GtkWidget      *separator_item;
+  GtkWidget      *edit_menu_item;
+  GtkWidget      *tools_menu_item;
+  gulong          edit_menu_item_hid;
 } PluginData;
 
 #define plugin (&plugin_data)
 static PluginData plugin_data = {
-  NULL, 0, NULL, NULL, NULL, 0l
+  NULL, NULL, 0, NULL, NULL, NULL, 0l
 };
 
 /* global plugin options
@@ -418,7 +417,7 @@ add_edit_menu_item (PluginData *pdata)
   /* make item document-presence sensitive */
   ui_add_document_sensitive (pdata->edit_menu_item);
   /* and attach a keybinding */
-  keybindings_set_item (plugin_key_group, KB_INSERT, insert_comment_keybinding_handler,
+  keybindings_set_item (pdata->kb_group, KB_INSERT, insert_comment_keybinding_handler,
                         GDK_d, GDK_CONTROL_MASK | GDK_SHIFT_MASK,
                         "instert_doc", _("Insert Documentation Comment"),
                         pdata->edit_menu_item);
@@ -543,6 +542,8 @@ destroy_menus (PluginData *pdata)
 void
 plugin_init (GeanyData *data G_GNUC_UNUSED)
 {
+  plugin->kb_group = plugin_set_key_group (geany_plugin, GGD_PLUGIN_CNAME,
+                                           NUM_KB, NULL);
   load_configuration ();
   build_menus (plugin);
   plugin_signal_connect (geany_plugin, NULL, "update-editor-menu", FALSE,
@@ -554,6 +555,7 @@ plugin_cleanup (void)
 {
   destroy_menus (plugin);
   unload_configuration ();
+  plugin->kb_group = NULL;
 }
 
 void
