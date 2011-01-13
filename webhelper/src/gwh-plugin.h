@@ -30,7 +30,7 @@ G_BEGIN_DECLS
 
 #define GWH_PLUGIN_NAME    "Web Helper"
 #define GWH_PLUGIN_TARNAME "web-helper"
-#define GWH_PLUGIN_VERSION "0.1"
+#define GWH_PLUGIN_VERSION "0.2"
 
 
 extern GeanyPlugin     *geany_plugin;
