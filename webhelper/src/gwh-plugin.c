@@ -67,9 +67,32 @@ static struct {
   
   /* only valid if type == CONTAINER_NOTEBOOK */
   gint        page_num;
+  /* only valid if type == CONTAINER_WINDOW */
+  gboolean    visible;
 } G_container;
 static GwhSettings *G_settings  = NULL;
 
+
+static void
+separate_window_set_visible (gboolean visible)
+{
+  if (visible != G_container.visible) {
+    gchar *geometry;
+    
+    G_container.visible = visible;
+    if (visible) {
+      gtk_widget_show (G_container.widget);
+      g_object_get (G_settings, "browser-separate-window-geometry", &geometry, NULL);
+      gwh_set_window_geometry (GTK_WINDOW (G_container.widget), geometry, NULL, NULL);
+      g_free (geometry);
+    } else {
+      geometry = gwh_get_window_geometry (GTK_WINDOW (G_container.widget), 0, 0);
+      g_object_set (G_settings, "browser-separate-window-geometry", geometry, NULL);
+      g_free (geometry);
+      gtk_widget_hide (G_container.widget);
+    }
+  }
+}
 
 static gboolean
 on_separate_window_delete_event (GtkWidget  *widget,
@@ -91,12 +114,7 @@ on_separate_window_destroy (GtkWidget  *widget,
 static gboolean
 on_idle_widget_show (gpointer data)
 {
-  gchar *geometry;
-  
-  gtk_widget_show (data);
-  g_object_get (G_settings, "browser-separate-window-geometry", &geometry, NULL);
-  gwh_set_window_geometry (GTK_WINDOW (data), geometry, NULL, NULL);
-  g_free (geometry);
+  separate_window_set_visible (TRUE);
   /* present back the Geany's window because it is very unlikely the user
    * expects the focus on our newly created window at this point, since we
    * either just loaded the plugin or activated a element from Geany's UI */
@@ -160,11 +178,7 @@ static void
 detach_browser (void)
 {
   if (G_container.type == CONTAINER_WINDOW) {
-    gchar *geometry;
-    
-    geometry = gwh_get_window_geometry (GTK_WINDOW (G_container.widget), 0, 0);
-    g_object_set (G_settings, "browser-separate-window-geometry", geometry, NULL);
-    g_free (geometry);
+    separate_window_set_visible (FALSE); /* saves the geometry */
     gtk_widget_destroy (G_container.widget);
   } else {
     GtkNotebook  *notebook = GTK_NOTEBOOK (G_container.widget);
@@ -252,6 +266,14 @@ on_kb_toggle_inspector (guint key_id)
   gwh_browser_toggle_inspector (GWH_BROWSER (G_browser));
 }
 
+static void
+on_kb_show_hide_separate_window (guint key_id)
+{
+  if (G_container.type == CONTAINER_WINDOW) {
+    separate_window_set_visible (! G_container.visible);
+  }
+}
+
 
 static gchar *
 get_config_filename (void)
@@ -324,6 +346,11 @@ plugin_init (GeanyData *data)
   keybindings_set_item (gwh_keybindings_get_group (), GWH_KB_TOGGLE_INSPECTOR,
                         on_kb_toggle_inspector, GDK_F12, 0, "toggle_inspector",
                         _("Toggle Web Inspector"), NULL);
+  keybindings_set_item (gwh_keybindings_get_group (),
+                        GWH_KB_SHOW_HIDE_SEPARATE_WINDOW,
+                        on_kb_show_hide_separate_window, 0, 0,
+                        "show_hide_separate_window",
+                        _("Show/Hide Web View's Window"), NULL);
 }
 
 void
