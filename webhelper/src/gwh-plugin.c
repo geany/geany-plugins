@@ -73,6 +73,15 @@ static struct {
 static GwhSettings *G_settings  = NULL;
 
 
+static gboolean
+on_separate_window_delete_event (GtkWidget  *widget,
+                                 GdkEvent   *event,
+                                 gpointer    data)
+{
+  /* never honor delete-event */
+  return TRUE;
+}
+
 static void
 on_separate_window_destroy (GtkWidget  *widget,
                             gpointer    data)
@@ -109,6 +118,8 @@ create_separate_window (void)
                          "title", _("Web view"),
                          "deletable", FALSE,
                          NULL);
+  g_signal_connect (window, "delete-event",
+                    G_CALLBACK (on_separate_window_delete_event), NULL);
   g_signal_connect (window, "destroy",
                     G_CALLBACK (on_separate_window_destroy), NULL);
   gtk_container_add (GTK_CONTAINER (window), G_browser);
