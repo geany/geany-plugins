@@ -33,6 +33,7 @@
 #include "gwh-browser.h"
 #include "gwh-settings.h"
 #include "gwh-plugin.h"
+#include "gwh-keybindings.h"
 
 
 GeanyPlugin      *geany_plugin;
@@ -296,6 +297,7 @@ plugin_init (GeanyData *data)
   plugin_module_make_resident (geany_plugin);
   
   load_config ();
+  gwh_keybindings_init ();
   
   G_browser = gwh_browser_new ();
   g_signal_connect (G_browser, "populate-popup",
@@ -317,6 +319,7 @@ plugin_cleanup (void)
 {
   detach_browser ();
   
+  gwh_keybindings_cleanup ();
   save_config ();
 }
 

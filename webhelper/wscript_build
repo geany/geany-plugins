@@ -27,11 +27,13 @@ from build.wafutils import build_plugin
 name = 'WebHelper'
 sources = [
     'src/gwh-browser.c',
+    'src/gwh-keybindings.c',
     'src/gwh-plugin.c',
     'src/gwh-settings.c',
     'src/gwh-utils.c']
 header = [
     'src/gwh-browser.h',
+    'src/gwh-keybindings.h',
     'src/gwh-plugin.h',
     'src/gwh-settings.h',
     'src/gwh-utils.h']

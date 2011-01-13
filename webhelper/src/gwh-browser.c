@@ -29,6 +29,7 @@
 
 #include "gwh-utils.h"
 #include "gwh-settings.h"
+#include "gwh-keybindings.h"
 
 
 #if ! GTK_CHECK_VERSION (2, 18, 0)
@@ -238,6 +239,7 @@ on_inspector_close_window (WebKitWebInspector *inspector,
   inspector_hide_window (self);
   gtk_toggle_tool_button_set_active (GTK_TOGGLE_TOOL_BUTTON (self->priv->item_inspector),
                                      FALSE);
+  gtk_widget_grab_focus (self->priv->web_view);
   
   return TRUE;
 }
@@ -837,6 +839,11 @@ gwh_browser_init (GwhBrowser *self)
                     G_CALLBACK (on_web_view_populate_popup), self);
   g_signal_connect (G_OBJECT (self->priv->web_view), "scroll-event",
                     G_CALLBACK (on_web_view_scroll_event), self);
+  
+  g_signal_connect (self->priv->web_view, "key-press-event",
+                    G_CALLBACK (gwh_keybindings_handle_event), self);
+  g_signal_connect (self->priv->inspector_view, "key-press-event",
+                    G_CALLBACK (gwh_keybindings_handle_event), self);
   
   gtk_widget_grab_focus (self->priv->url_entry);
   

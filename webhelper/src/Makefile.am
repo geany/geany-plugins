@@ -12,10 +12,12 @@ GLIB_MKENUMS = @GLIB_MKENUMS@
 
 
 sources         = gwh-browser.c \
+                  gwh-keybindings.c \
                   gwh-plugin.c \
                   gwh-settings.c \
                   gwh-utils.c
 headers         = gwh-browser.h \
+                  gwh-keybindings.h \
                   gwh-plugin.h \
                   gwh-settings.h \
                   gwh-utils.h
