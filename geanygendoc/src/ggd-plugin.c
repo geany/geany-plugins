@@ -92,7 +92,7 @@ gchar      *GGD_OPT_environ                               = NULL;
 
 /* Gets an element of GGD_OPT_doctype, falling back to GGD_OPT_doctype[0]
  * (default) if the requested element is not set */
-const gchar *
+static const gchar *
 ggd_plugin_get_doctype (filetype_id id)
 {
   const gchar *doctype;

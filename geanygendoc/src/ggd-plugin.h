@@ -59,9 +59,6 @@ extern gboolean   GGD_OPT_indent;
 extern gchar     *GGD_OPT_environ;
 
 
-const gchar    *ggd_plugin_get_doctype    (filetype_id id);
-
-
 GGD_END_PLUGIN_API
 G_END_DECLS
 
