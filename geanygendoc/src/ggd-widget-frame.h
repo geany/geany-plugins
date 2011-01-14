@@ -29,11 +29,11 @@ G_BEGIN_DECLS
 GGD_BEGIN_PLUGIN_API
 
 
-#define GGD_FRAME_TYPE            (ggd_frame_get_type ())
-#define GGD_FRAME(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GGD_FRAME_TYPE, GgdFrame))
-#define GGD_FRAME_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass),  GGD_FRAME_TYPE, GgdFrameClass))
-#define GGD_IS_FRAME(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GGD_FRAME_TYPE))
-#define GGD_IS_FRAME_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass),  GGD_FRAME_TYPE))
+#define GGD_TYPE_FRAME            (ggd_frame_get_type ())
+#define GGD_FRAME(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GGD_TYPE_FRAME, GgdFrame))
+#define GGD_FRAME_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass),  GGD_TYPE_FRAME, GgdFrameClass))
+#define GGD_IS_FRAME(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GGD_TYPE_FRAME))
+#define GGD_IS_FRAME_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass),  GGD_TYPE_FRAME))
 
 
 typedef struct _GgdFrame        GgdFrame;

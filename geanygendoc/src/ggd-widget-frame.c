@@ -92,7 +92,7 @@ static void
 ggd_frame_init (GgdFrame *self)
 {
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            GGD_FRAME_TYPE,
+                                            GGD_TYPE_FRAME,
                                             GgdFramePrivate);
   
   /* set-up the frame attributes */
@@ -115,5 +115,5 @@ ggd_frame_init (GgdFrame *self)
 GtkWidget *
 ggd_frame_new (const gchar *label)
 {
-  return g_object_new (GGD_FRAME_TYPE, "label", label, NULL);
+  return g_object_new (GGD_TYPE_FRAME, "label", label, NULL);
 }

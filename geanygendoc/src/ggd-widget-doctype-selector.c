@@ -103,7 +103,7 @@ ggd_doctype_selector_init (GgdDoctypeSelector *self)
   GtkWidget          *item;
   
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-                                            GGD_DOCTYPE_SELECTOR_TYPE,
+                                            GGD_TYPE_DOCTYPE_SELECTOR,
                                             GgdDoctypeSelectorPrivate);
   /* Set scrolled window properties */
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (self),
@@ -469,7 +469,7 @@ sort_language_column (GtkTreeModel *model,
 GtkWidget *
 ggd_doctype_selector_new (void)
 {
-  return g_object_new (GGD_DOCTYPE_SELECTOR_TYPE, NULL);
+  return g_object_new (GGD_TYPE_DOCTYPE_SELECTOR, NULL);
 }
 
 gboolean

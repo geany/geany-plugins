@@ -29,11 +29,11 @@ G_BEGIN_DECLS
 GGD_BEGIN_PLUGIN_API
 
 
-#define GGD_DOCTYPE_SELECTOR_TYPE            (ggd_doctype_selector_get_type ())
-#define GGD_DOCTYPE_SELECTOR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GGD_DOCTYPE_SELECTOR_TYPE, GgdDoctypeSelector))
-#define GGD_DOCTYPE_SELECTOR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass),  GGD_DOCTYPE_SELECTOR_TYPE, GgdDoctypeSelectorClass))
-#define GGD_IS_DOCTYPE_SELECTOR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GGD_DOCTYPE_SELECTOR_TYPE))
-#define GGD_IS_DOCTYPE_SELECTOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass),  GGD_DOCTYPE_SELECTOR_TYPE))
+#define GGD_TYPE_DOCTYPE_SELECTOR            (ggd_doctype_selector_get_type ())
+#define GGD_DOCTYPE_SELECTOR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GGD_TYPE_DOCTYPE_SELECTOR, GgdDoctypeSelector))
+#define GGD_DOCTYPE_SELECTOR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass),  GGD_TYPE_DOCTYPE_SELECTOR, GgdDoctypeSelectorClass))
+#define GGD_IS_DOCTYPE_SELECTOR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GGD_TYPE_DOCTYPE_SELECTOR))
+#define GGD_IS_DOCTYPE_SELECTOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass),  GGD_TYPE_DOCTYPE_SELECTOR))
 
 
 typedef struct _GgdDoctypeSelector        GgdDoctypeSelector;
