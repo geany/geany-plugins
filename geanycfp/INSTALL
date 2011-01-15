@@ -1,0 +1,23 @@
+These installation instructions are written for a Linux system, but
+should work also on other plattforms as Windows is.
+
+Building the plugin requires Geany 0.20 or above (Geany Plugin API v147
+or higher).
+
+You need the build environment installed as described at:
+http://www.geany.org/manual/reference/howto.html
+
+The following two lines when executed from the shell compile the plugin:
+
+gcc -c geanycfp.c -Wformat=0 -fPIC `pkg-config --cflags geany`
+gcc geanycfp.o -o geanycfp.so -shared `pkg-config --libs geany`
+
+The following line moves it into geany's plugin directory
+
+sudo cp geanycfp.so `pkg-config --variable=libdir geany`/geany/
+
+The following lines clean up files used during compilation:
+
+rm geanycfp.o
+rm geanycfp.so
+

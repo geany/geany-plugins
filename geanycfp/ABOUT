@@ -1,0 +1,66 @@
+geanycfp is a plugin to provide some features found in a Text Editor for Windows
+in Geany. CFP is short for ConText feature parity.
+It provides the following features:
+
+	*  Up to 10 numbered bookmarks per file to make code navigaing easier
+	*  User recordable macros so that users can record and then with a key press
+	   repeat them
+	*  Remembering fold states in code files (this isn't a feature in ConText, but
+	   I find it useful)
+
+Numbered Bookmarks:
+Normaly if you had more than one bookmark, you would have to cycle through them
+until you reached the one you wanted. With this plugin you can go straight to
+the bookmark that you want with a single key combination.
+
+To set a numbered bookmark press Ctrl+Shift+(a number from 0 to 9). You will
+see a marker apear next to the line number. If you press Ctrl+Shift+(a number)
+on a line that already has that bookmark number then it removes the bookmark,
+otherwise it will move the bookmark there if it was set on a different line, or
+create it if it had not already been set.
+
+Only the bookmark with the highest number on a line will be shown, but you can
+have more than one bookmark per line. This plugin does not interfer with regular
+bookmarks. When a file is saved, Geany will remember the numbered bookmarks and
+make sure that they are set the next time you open the file. If the file has
+been changed since you last edited it in geany, when the file is opened it will
+check to see if it should not try to set the bookmarks (as the line numbers may
+have changed, or even not be there anymore), or ignore the warning and try and
+set them where they were last time the file was saved by geany.
+
+Macros:
+These are sequences of actions that can then be repeated with a single key
+combination. So if you had dozens of lines where you wanted to delete the last
+2 characters, you could simple start recording, press End, Backspace,
+Backspace, down line and then stop recording. Then simply trigger the macro and
+it would automaticaly edit the line and move to the next.
+
+Select Record Macro from the Tools menu and you will be prompted with a dialog
+box. You need to specify a key combination that isn't being used, and a name
+for the macro to help you identify it. Then press Record. What you do in the
+editor is then recorded until you select Stop Recording Macro from the Tools
+menu. Simply pressing the specified key combination will re-run the macro.
+
+To edit the macros you already have select Edit Macro from the Tools menu. You
+can select a macro and delete it, or re-record it. You can also click on a
+macro's name and change it, or the key combination and re-define that asuming
+that the new name or key combination are not already in use.
+
+
+You can alter the default behaviur of this plugin by selecting Plugin Manager
+under the Tools menu, selecting this plugin, and cliking Preferences.
+You can change:
+Remember fold state - if this is set then this plugin will remember the state
+    of any folds along with the numbered bookmarks and set them when the file
+    is next loaded.
+Center view when goto bookmark - If this is set it will try to make sure that
+    the numbered bookmark that you are going to is in the center of the screen,
+    otherwise it will simply be on the screen somewhere.
+Save Macros when close Geany - If this is selected then Geany will save any
+    recorded macros and reload them for use the next time you open Geany, if
+    not they will be lost when Geany is closed.
+Ask before replaceing existing Macros - If this is selected then if you try
+    recording a macro over an existing one it will check before over-writing
+    it, giving you the option of trying a different name or key trigger
+    combination, otherwise it will simply erase any existing macros with the
+    same name, or the same key trigger combination.
