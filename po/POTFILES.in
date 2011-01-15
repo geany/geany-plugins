@@ -17,6 +17,9 @@ codenav/src/goto_file.c
 codenav/src/switch_head_impl.c
 codenav/src/utils.c
 
+#geanycfp
+geanycfp/src/geanycfp.c
+
 #geanydoc
 geanydoc/src/geanydoc.c
 
