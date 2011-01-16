@@ -329,7 +329,7 @@ static GSList * ClearMacroList(GSList *gsl)
 		/* check to see if it's a message that has string attached, and free it if so */
 		if(me->message==SCI_REPLACESEL)
 			g_free((void*)(me->lparam));
-		
+
 		g_free((void*)(gslTemp->data));
 		gslTemp=g_slist_next(gslTemp);
 	}
@@ -579,7 +579,7 @@ static gboolean Notification_Handler(GObject *obj, GeanyEditor *editor, SCNotifi
 			  foldingToReApply=g_slist_delete_link(foldingToReApply,gslTemp);
 			  break;
   		}
-  		
+
   		/* move onto next item in foldingToReApply */
 		  gslTemp=g_slist_next(gslTemp);
 	  }
@@ -588,7 +588,7 @@ static gboolean Notification_Handler(GObject *obj, GeanyEditor *editor, SCNotifi
 		if(guFoldData!=NULL)
 		{
 			iLineCount=scintilla_send_message(sci,SCI_GETLINECOUNT,0,0);
-			
+
 			/* go through lines setting fold status */
 			for(i=0,k=0,iBitCounter=0;i<iLineCount;i++)
 			{
@@ -734,7 +734,7 @@ static gchar *GetPretyKeyName(guint keyval,guint state)
 	g_free(cName);
 
 	/* return pretified name */
-	return cPretyName;    
+	return cPretyName;
 }
 
 
@@ -1176,7 +1176,7 @@ be unreliable and will not be loaded.\nPress Ignore to try an load markers anywa
       foldingToReApply=g_slist_prepend(foldingToReApply,fd);
 			break;
 		/* file has changed since Geany last saved but, try to load bookmarks anyway */
-		case GTK_RESPONSE_REJECT: 
+		case GTK_RESPONSE_REJECT:
 			iLineCount=scintilla_send_message(sci,SCI_GETLINECOUNT,0,0);
 			for(i=0;i<10;i++)
 				if(fd->iBookmark[i]!=-1 && fd->iBookmark[i]<iLineCount)
@@ -1471,7 +1471,7 @@ static gboolean Key_Released_CallBack(GtkWidget *widget, GdkEventKey *ev, gpoint
 {
 	GeanyDocument *doc;
 	gint i;
-	Macro *m;    
+	Macro *m;
 
 	m=FindMacroByKey(ev->keyval,ev->state);
 
@@ -1539,7 +1539,7 @@ static gboolean UseableAccel(guint key,guint mod)
 
 	/* now check to see if numbered bookmark key is atempted
 	 * 
-	 * control and number pressed 
+	 * control and number pressed
 	*/
 	if(mod==4)
 	{
@@ -2047,7 +2047,7 @@ void plugin_init(GeanyData *data)
 		if(k==iResults)
 		{
 			g_free(gdkkmkResults);
-			continue; 
+			continue;
 		}
 
 		/* set shift pressed */
@@ -2141,4 +2141,3 @@ void plugin_cleanup(void)
 	/* clean up memory used by macros */
 	ClearAllMacros();
 }
-
