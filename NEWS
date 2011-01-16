@@ -35,14 +35,14 @@ Geany-Plugins 0.20 (2011-01-10)
     GeanySendMail:
     * Minor code cleanup.
 
-    Internationalisation:
-    * Update translations: de, es, ja, pt, tr
-
     TreeBrowser:
     * Added bookmarks support.
     * Added keybindings support.
     * Added mime type icons in the tree.
     * Many bugfixes and code improvements.
+
+    Internationalisation:
+    * Update translations: de, es, ja, pt, tr
 
 
 Geany-Plugins 0.19 (June 13, 2010)
