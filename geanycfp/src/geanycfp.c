@@ -557,7 +557,7 @@ static gboolean Notification_Handler(GObject *obj, GeanyEditor *editor, SCNotifi
 	gchar cTemp[100];
 	MacroEvent *me;
 	ScintillaObject* sci=document_get_current()->editor->sci;
-	int i,k,iFlags,iBitCounter,iLineCount;
+	gint i,k,iFlags,iBitCounter,iLineCount;
 	guchar* guFoldData=NULL;
 	FileData* fdTemp;
 	GSList * gslTemp=foldingToReApply;
@@ -1070,7 +1070,7 @@ static void DefineMarkers(ScintillaObject* sci)
 	gint i;
 	for(i=0;i<10;i++)
 		scintilla_send_message(sci,SCI_MARKERDEFINEPIXMAP,i+BOOKMARK_BASE,
-							(long int)(aszMarkerImages[i]));
+							(glong)(aszMarkerImages[i]));
 }
 
 
@@ -1350,8 +1350,8 @@ void plugin_help(void)
 
 	/* create label */
 	label=gtk_label_new(
-		_("This Plugin implements two useful features.\n\n")
-		_("Firstly it allows you to use 10 numbered bookmarks. Normaly if you had more than one \
+		_("This Plugin implements two useful features.\n\n"
+		"Firstly it allows you to use 10 numbered bookmarks. Normaly if you had more than one \
 bookmark, you would have to cycle through them until you reached the one you wanted. With this \
 plugin you can go straight to the bookmark that you want with a single key combination. To set a \
 numbered bookmark press Ctrl+Shift+a number from 0 to 9. You will see a marker apear next to the \
@@ -1360,8 +1360,8 @@ line number. If you press Ctrl+Shift+a number on a line that already has that bo
 line, or create it if it had not already been set. Only the bookmark with the highest number on a \
 line will be shown, but you can have more than one bookmark per line. This plugin does not \
 interfer with regular bookmarks. When a file is saved, Geany will remember the numbered bookmarks \
-and make sure that they are set the next time you open the file.\n\n")
-		_("Secondly this plugin alows you to record and use your own macros. These are sequences of \
+and make sure that they are set the next time you open the file.\n\n"
+		"Secondly this plugin alows you to record and use your own macros. These are sequences of \
 actions that can then be repeated with a single key combination. So if you had dozens of lines \
 where you wanted to delete the last 2 characters, you could simple start recording, press End, \
 Backspace, Backspace, down line and then stop recording. Then simply trigger the macro and it \
@@ -1372,8 +1372,8 @@ editor is then recorded until you select Stop Recording Macro from the Tools men
  the specified key combination will re-run the macro. To edit the macros you have select Edit \
 Macro from the Tools menu. You can select a macro and delete it, or re-record it. You can also \
 click on a macro's name and change it, or the key combination and re-define that asuming that it's\
- not already in use.\n\n")
-		_("You can alter the default behaviur of this plugin by selecting Plugin Manager under the \
+ not already in use.\n\n"
+		"You can alter the default behaviur of this plugin by selecting Plugin Manager under the \
 Tools menu, selecting this plugin, and cliking Preferences. You can change:\nRemember fold state -\
  if this is set then this plugin will remember the state of any folds along with the numbered \
 bookmarks and set them when the file is next loaded.\nCenter view when goto bookmark - If this is \
