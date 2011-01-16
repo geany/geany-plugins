@@ -561,6 +561,7 @@ static gboolean Notification_Handler(GObject *obj, GeanyEditor *editor, SCNotifi
 	guchar* guFoldData=NULL;
 	FileData* fdTemp;
 	GSList * gslTemp=foldingToReApply;
+	gsize gs;
 
 	/* setting fold states may have been delayed until after folding points were calculated before
 	 * paint so wait for a re-paint and check to see if any folding data needs applying
@@ -574,7 +575,7 @@ static gboolean Notification_Handler(GObject *obj, GeanyEditor *editor, SCNotifi
   		if(utils_str_equal(document_get_current()->file_name,fdTemp->pcFileName)==TRUE)
   		{
   		  /* get fold data */
-			  guFoldData=g_base64_decode(fdTemp->pcFolding,&i);
+			  guFoldData=g_base64_decode(fdTemp->pcFolding,&gs);
 			  /* remove FileData from list needing folds re-applying */
 			  foldingToReApply=g_slist_delete_link(foldingToReApply,gslTemp);
 			  break;
