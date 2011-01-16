@@ -2083,7 +2083,8 @@ void plugin_init(GeanyData *data)
 /* clean up on exiting this plugin */
 void plugin_cleanup(void)
 {
-	gint i,k;
+	gint k;
+	guint i;
 	ScintillaObject* sci;
 	SCIPOINTERHOLDER *sciTemp;
 	SCIPOINTERHOLDER *sciNext;
@@ -2101,7 +2102,9 @@ void plugin_cleanup(void)
 	for(i=0;i<GEANY(documents_array)->len;i++)
 		if(documents[i]->is_valid) {
 			sci=documents[i]->editor->sci;
-			for(k=0;k<9;k++) scintilla_send_message(sci,SCI_MARKERDELETEALL,k,0);
+			for(k=0;k<9;k++)
+			  scintilla_send_message(sci,SCI_MARKERDELETEALL,BOOKMARK_BASE+k,0);
+
 		}
 
 	/* Clear memory used for list of editors */
