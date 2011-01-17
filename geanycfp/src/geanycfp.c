@@ -82,6 +82,7 @@ static SCIPOINTERHOLDER *sciList=NULL;
 static FileData *fdKnownFilesSettings=NULL;
 static gulong key_release_signal_id;
 static GtkWidget *Record_Macro_menu_item=NULL;
+static GtkWidget *Stop_Record_Macro_menu_item=NULL;
 static GtkWidget *Edit_Macro_menu_item=NULL;
 static Macro *RecordingMacro=NULL;
 static GSList *mList=NULL;
@@ -1764,7 +1765,8 @@ static void DoMacroRecording(GtkMenuItem *menuitem, gpointer gdata)
 
 		/* start actual recording */
 		scintilla_send_message(document_get_current()->editor->sci,SCI_STARTRECORD,0,0);
-		gtk_menu_item_set_label(menuitem,_("Stop Recording _Macro"));
+    gtk_widget_hide(Record_Macro_menu_item);
+    gtk_widget_show(Stop_Record_Macro_menu_item);
 	}
 	else {
 		scintilla_send_message(document_get_current()->editor->sci,SCI_STOPRECORD,0,0);
@@ -1774,7 +1776,8 @@ static void DoMacroRecording(GtkMenuItem *menuitem, gpointer gdata)
 		AddMacroToList(RecordingMacro);
 		/* set ready to record new macro (don't free as macro has been saved in macrolist) */
 		RecordingMacro=NULL;
-		gtk_menu_item_set_label(menuitem,_("Record _Macro"));
+    gtk_widget_show(Record_Macro_menu_item);
+    gtk_widget_hide(Stop_Record_Macro_menu_item);
 
 		/* Macros have been changed */
 		bMacrosHaveChanged=TRUE;
@@ -1990,7 +1993,8 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 				FreeMacro(m);
 				/* start actual recording */
 				scintilla_send_message(document_get_current()->editor->sci,SCI_STARTRECORD,0,0);
-				gtk_menu_item_set_label(GTK_MENU_ITEM(Record_Macro_menu_item),_("Stop Recording _Macro"));
+	      gtk_widget_hide(Record_Macro_menu_item);
+	      gtk_widget_show(Stop_Record_Macro_menu_item);
 			}
 
 			/* free memory */
@@ -2006,7 +2010,7 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 /* set up this plugin */
 void plugin_init(GeanyData *data)
 {
-	gint i,k,iResults=0,l;
+	gint i,k,iResults=0;
 	GdkKeymapKey *gdkkmkResults;
 
 	/* Load settings */
@@ -2063,11 +2067,17 @@ void plugin_init(GeanyData *data)
 		g_free(gdkkmkResults);
 	}
 
-	/* add record/stop record menu entry */
+	/* add record macro menu entry */
 	Record_Macro_menu_item=gtk_menu_item_new_with_mnemonic(_("Record _Macro"));
 	gtk_widget_show(Record_Macro_menu_item);
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu),Record_Macro_menu_item);
 	g_signal_connect(Record_Macro_menu_item,"activate",G_CALLBACK(DoMacroRecording),NULL);
+
+	/* add stop record macromenu entry */
+	Stop_Record_Macro_menu_item=gtk_menu_item_new_with_mnemonic(_("Stop Recording _Macro"));
+	gtk_widget_hide(Stop_Record_Macro_menu_item);
+	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu),Stop_Record_Macro_menu_item);
+	g_signal_connect(Stop_Record_Macro_menu_item,"activate",G_CALLBACK(DoMacroRecording),NULL);
 
 	/* add Edit Macro menu entry */
 	Edit_Macro_menu_item=gtk_menu_item_new_with_mnemonic(_("_Edit Macros"));
