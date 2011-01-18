@@ -19,6 +19,7 @@
 #include <sys/stat.h>
 #include <string.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
 
 /* offset for marker numbers used - to bypass markers used by normal bookmarksetc */
 #define BOOKMARK_BASE 10
@@ -493,10 +494,7 @@ static gchar * MakeStringSaveable(gchar *s)
 */
 static MacroEvent * GetMacroEventFromString(gchar **s,gint *k)
 {
-	gint i;
 	MacroEvent *me;
-	gchar *p=(*s);
-	gchar *pTemp;
 
 	me=g_new0(MacroEvent,1);
 	/* get event number */
@@ -576,7 +574,7 @@ static gboolean Notification_Handler(GObject *obj, GeanyEditor *editor, SCNotifi
   		if(utils_str_equal(document_get_current()->file_name,fdTemp->pcFileName)==TRUE)
   		{
   		  /* get fold data */
-			  guFoldData=g_base64_decode(fdTemp->pcFolding,&gs);
+			  guFoldData=g_base64_decode(fdTemp->pcFolding,(gsize*)&gs);
 			  /* remove FileData from list needing folds re-applying */
 			  foldingToReApply=g_slist_delete_link(foldingToReApply,gslTemp);
 			  break;
@@ -1197,7 +1195,7 @@ be unreliable and will not be loaded.\nPress Ignore to try an load markers anywa
 static void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
 	FileData *fdTemp;
-	gint i,iLineCount,iFlags,iBitCounter=0,iBufferLen;
+	gint i,iLineCount,iFlags,iBitCounter=0;
 	ScintillaObject* sci=doc->editor->sci;
 	struct stat sBuf;
 	GByteArray *gbaFoldData=g_byte_array_sized_new(1000);
@@ -1525,6 +1523,7 @@ static gboolean Key_Released_CallBack(GtkWidget *widget, GdkEventKey *ev, gpoint
 static gboolean UseableAccel(guint key,guint mod)
 {
 	gint i,k;
+	guint u,t;
 	GSList *gsl;
 
 	/* check if in use by accelerator groups */
@@ -1532,10 +1531,10 @@ static gboolean UseableAccel(guint key,guint mod)
 	/* loop through all the accelerator groups until we either find one that matches the key (k!=0)
 	 * or we don't (k==0)
 	*/
-	for(i=0,k=0;i<g_slist_length(gsl);i++)
+	for(u=0,k=0;u<g_slist_length(gsl);u++)
 	{
-		gtk_accel_group_query((GtkAccelGroup*)((g_slist_nth(gsl,i))->data),key,mod,&k);
-		if(k!=0)
+		gtk_accel_group_query((GtkAccelGroup*)((g_slist_nth(gsl,u))->data),key,mod,&t);
+		if(t!=0)
 			return FALSE; /* combination in use so don't accept as macro trigger */
 	}
 
