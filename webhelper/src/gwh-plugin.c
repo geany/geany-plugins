@@ -35,6 +35,7 @@
 #include "gwh-settings.h"
 #include "gwh-plugin.h"
 #include "gwh-keybindings.h"
+#include "gwh-enum-types.h"
 
 
 GeanyPlugin      *geany_plugin;
@@ -289,6 +290,46 @@ load_config (void)
   GError *err = NULL;
   
   G_settings = gwh_settings_get_default ();
+  
+  gwh_settings_install_property (G_settings, g_param_spec_boolean (
+    "browser-auto-reload",
+    "Browser auto reload",
+    "Whether the browser reloads itself upon document saving",
+    TRUE,
+    G_PARAM_READWRITE));
+  gwh_settings_install_property (G_settings, g_param_spec_string (
+    "browser-last-uri",
+    "Browser last URI",
+    "Last URI visited by the browser",
+    "about:blank",
+    G_PARAM_READWRITE));
+  gwh_settings_install_property (G_settings, g_param_spec_enum (
+    "browser-orientation",
+    "Browser orientation",
+    "Orientation of the browser widget",
+    GTK_TYPE_ORIENTATION,
+    GTK_ORIENTATION_VERTICAL,
+    G_PARAM_READWRITE));
+  gwh_settings_install_property (G_settings, g_param_spec_enum (
+    "browser-position",
+    "Browser position",
+    "Position of the browser widget in Geany's UI",
+    GWH_TYPE_BROWSER_POSITION,
+    GWH_BROWSER_POSITION_MESSAGE_WINDOW,
+    G_PARAM_READWRITE));
+  gwh_settings_install_property (G_settings, g_param_spec_string (
+    "browser-separate-window-geometry",
+    "Browser separate window geometry",
+    "Last geometry of the separated browser's window",
+    "400x300",
+    G_PARAM_READWRITE));
+  gwh_settings_install_property (G_settings, g_param_spec_string (
+    "inspector-window-geometry",
+    "Inspector window geometry",
+    "Last geometry of the inspector window",
+    "400x300",
+    G_PARAM_READWRITE));
+  
   path = get_config_filename ();
   if (! gwh_settings_load_from_file (G_settings, path, &err)) {
     g_warning ("Failed to load configuration: %s", err->message);

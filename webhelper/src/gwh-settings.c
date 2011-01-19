@@ -22,42 +22,12 @@
 #include <string.h>
 #include <glib.h>
 #include <glib-object.h>
-#include <gtk/gtk.h> /* for GtkOrientation */
-
-#include "gwh-enum-types.h" /* for GwhUiBrowserPosition */
-
-
-/* sets @ptr to @value, freeing @ptr before.
- * note that:
- *  * ptr can be used to compute @value, assignation is done after comuptation
- *  * ptr is used twice, so it must be side-effects-free */
-#define setptr(ptr, value)       \
-  G_STMT_START {                 \
-    gpointer new_ptr = (value);  \
-    g_free (ptr);                \
-    ptr = new_ptr;               \
-  } G_STMT_END
+#include <gtk/gtk.h>
 
 
 struct _GwhSettingsPrivate
 {
-  gboolean              browser_auto_reload;
-  gchar                *browser_last_uri;
-  GtkOrientation        browser_orientation;
-  GwhBrowserPosition    browser_position;
-  gchar                *browser_separate_window_geometry;
-  gchar                *inspector_window_geometry;
-};
-
-enum
-{
-  PROP_0,
-  PROP_BROWSER_AUTO_RELOAD,
-  PROP_BROWSER_LAST_URI,
-  PROP_BROWSER_ORIENTATION,
-  PROP_BROWSER_POSITION,
-  PROP_BROWSER_SEPARATE_WINDOW_GEOMETRY,
-  PROP_INSPECTOR_WINDOW_GEOMETRY
+  GPtrArray *prop_array;
 };
 
 
@@ -72,28 +42,13 @@ gwh_settings_get_property (GObject    *object,
 {
   GwhSettings *self = GWH_SETTINGS (object);
   
-  switch (prop_id) {
-    case PROP_BROWSER_AUTO_RELOAD:
-      g_value_set_boolean (value, self->priv->browser_auto_reload);
-      break;
-    case PROP_BROWSER_LAST_URI:
-      g_value_set_string (value, self->priv->browser_last_uri);
-      break;
-    case PROP_BROWSER_ORIENTATION:
-      g_value_set_enum (value, self->priv->browser_orientation);
-      break;
-    case PROP_BROWSER_POSITION:
-      g_value_set_enum (value, self->priv->browser_position);
-      break;
-    case PROP_BROWSER_SEPARATE_WINDOW_GEOMETRY:
-      g_value_set_string (value, self->priv->browser_separate_window_geometry);
-      break;
-    case PROP_INSPECTOR_WINDOW_GEOMETRY:
-      g_value_set_string (value, self->priv->inspector_window_geometry);
-      break;
+  if (G_LIKELY (prop_id > 0 && prop_id <= self->priv->prop_array->len)) {
+    GValue *prop_value;
     
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+    prop_value = g_ptr_array_index (self->priv->prop_array, prop_id - 1);
+    g_value_copy (prop_value, value);
+  } else {
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
   }
 }
 
@@ -105,29 +60,13 @@ gwh_settings_set_property (GObject      *object,
 {
   GwhSettings *self = GWH_SETTINGS (object);
   
-  switch (prop_id) {
-    case PROP_BROWSER_AUTO_RELOAD:
-      self->priv->browser_auto_reload = g_value_get_boolean (value);
-      break;
-    case PROP_BROWSER_LAST_URI:
-      setptr (self->priv->browser_last_uri, g_value_dup_string (value));
-      break;
-    case PROP_BROWSER_ORIENTATION:
-      self->priv->browser_orientation = g_value_get_enum (value);
-      break;
-    case PROP_BROWSER_POSITION:
-      self->priv->browser_position = g_value_get_enum (value);
-      break;
-    case PROP_BROWSER_SEPARATE_WINDOW_GEOMETRY:
-      setptr (self->priv->browser_separate_window_geometry,
-              g_value_dup_string (value));
-      break;
-    case PROP_INSPECTOR_WINDOW_GEOMETRY:
-      setptr (self->priv->inspector_window_geometry, g_value_dup_string (value));
-      break;
+  if (G_LIKELY (prop_id > 0 && prop_id <= self->priv->prop_array->len)) {
+    GValue *prop_value;
     
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+    prop_value = g_ptr_array_index (self->priv->prop_array, prop_id - 1);
+    g_value_copy (value, prop_value);
+  } else {
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
   }
 }
 
@@ -137,7 +76,7 @@ gwh_settings_constructor (GType                  gtype,
                           GObjectConstructParam *properties)
 {
   static GObject *obj = NULL;
-
+  
   if (G_UNLIKELY (! obj)) {
     obj = G_OBJECT_CLASS (gwh_settings_parent_class)->constructor (gtype,
                                                                    n_properties,
@@ -153,15 +92,21 @@ gwh_settings_constructor (GType                  gtype,
 }
 
 static void
+free_prop_item (gpointer data,
+                gpointer user_data)
+{
+  g_value_unset (data);
+  g_free (data);
+}
+
+static void
 gwh_settings_finalize (GObject *object)
 {
   GwhSettings *self = GWH_SETTINGS (object);
   
-  self->priv->browser_auto_reload = FALSE;
-  setptr (self->priv->browser_last_uri, NULL);
-  self->priv->browser_orientation = 0;
-  self->priv->browser_position = 0;
-  setptr (self->priv->inspector_window_geometry, NULL);
+  g_ptr_array_foreach (self->priv->prop_array, free_prop_item, NULL);
+  g_ptr_array_free (self->priv->prop_array, TRUE);
+  self->priv->prop_array = NULL;
   
   G_OBJECT_CLASS (gwh_settings_parent_class)->finalize (object);
 }
@@ -176,45 +121,6 @@ gwh_settings_class_init (GwhSettingsClass *klass)
   object_class->get_property  = gwh_settings_get_property;
   object_class->set_property  = gwh_settings_set_property;
   
-  g_object_class_install_property (object_class, PROP_BROWSER_AUTO_RELOAD,
-                                   g_param_spec_boolean ("browser-auto-reload",
-                                                         "Browser auto reload",
-                                                         "Whether the browser reloads itself upon document saving",
-                                                         TRUE,
-                                                         G_PARAM_READWRITE));
-  g_object_class_install_property (object_class, PROP_BROWSER_LAST_URI,
-                                   g_param_spec_string ("browser-last-uri",
-                                                        "Browser last URI",
-                                                        "Last URI visited by the browser",
-                                                        "about:blank",
-                                                        G_PARAM_READWRITE));
-  g_object_class_install_property (object_class, PROP_BROWSER_ORIENTATION,
-                                   g_param_spec_enum ("browser-orientation",
-                                                      "Browser orientation",
-                                                      "Orientation of the browser widget",
-                                                      GTK_TYPE_ORIENTATION,
-                                                      GTK_ORIENTATION_VERTICAL,
-                                                      G_PARAM_READWRITE));
-  g_object_class_install_property (object_class, PROP_BROWSER_POSITION,
-                                   g_param_spec_enum ("browser-position",
-                                                      "Browser position",
-                                                      "Position of the browser widget in Geany's UI",
-                                                      GWH_TYPE_BROWSER_POSITION,
-                                                      GWH_BROWSER_POSITION_MESSAGE_WINDOW,
-                                                      G_PARAM_READWRITE));
-  g_object_class_install_property (object_class, PROP_BROWSER_SEPARATE_WINDOW_GEOMETRY,
-                                   g_param_spec_string ("browser-separate-window-geometry",
-                                                        "Browser separate window geometry",
-                                                        "Last geometry of the separated browser's window",
-                                                        "400x300",
-                                                        G_PARAM_READWRITE));
-  g_object_class_install_property (object_class, PROP_INSPECTOR_WINDOW_GEOMETRY,
-                                   g_param_spec_string ("inspector-window-geometry",
-                                                        "Inspector window geometry",
-                                                        "Last geometry of the inspector window",
-                                                        "400x300",
-                                                        G_PARAM_READWRITE));
-  
   g_type_class_add_private (klass, sizeof (GwhSettingsPrivate));
 }
 
@@ -223,12 +129,7 @@ gwh_settings_init (GwhSettings *self)
 {
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GWH_TYPE_SETTINGS,
                                             GwhSettingsPrivate);
-  self->priv->browser_auto_reload       = TRUE;
-  self->priv->browser_last_uri          = g_strdup ("about:blank");
-  self->priv->browser_orientation       = GTK_ORIENTATION_VERTICAL;
-  self->priv->browser_position          = GWH_BROWSER_POSITION_MESSAGE_WINDOW;
-  self->priv->browser_separate_window_geometry = g_strdup ("400x300");
-  self->priv->inspector_window_geometry = g_strdup ("400x300");
+  self->priv->prop_array = g_ptr_array_new ();
 }
 
 
@@ -238,6 +139,86 @@ GwhSettings *
 gwh_settings_get_default (void)
 {
   return g_object_new (GWH_TYPE_SETTINGS, NULL);
+}
+
+static gboolean
+is_pspec_installed (GObject          *obj,
+                    const GParamSpec *pspec)
+{
+  GParamSpec  **pspecs;
+  guint         n_props;
+  guint         i;
+  gboolean      installed = FALSE;
+  
+  pspecs = g_object_class_list_properties (G_OBJECT_GET_CLASS (obj), &n_props);
+  for (i = 0; ! installed && i < n_props; i++) {
+    installed = (pspec->value_type == pspecs[i]->value_type &&
+                 strcmp (pspec->name, pspecs[i]->name) == 0);
+  }
+  g_free (pspecs);
+  
+  return installed;
+}
+
+void
+gwh_settings_install_property (GwhSettings *self,
+                               GParamSpec  *pspec)
+{
+  GValue *value;
+  
+  g_return_if_fail (GWH_IS_SETTINGS (self));
+  g_return_if_fail (G_IS_PARAM_SPEC (pspec));
+  
+  /* a bit hackish, but allows to install the same property twice because the
+   * class will not be destroyed if the plugin gets reloaded. safe since the
+   * object is a singleton that will never de destroyed, and the plugin is
+   * resident, so the object is still valid after a reload. */
+  if (is_pspec_installed (G_OBJECT (self), pspec)) {
+    return;
+  }
+  
+  value = g_value_init (g_malloc0 (sizeof *value), pspec->value_type);
+  switch (G_TYPE_FUNDAMENTAL (pspec->value_type)) {
+    #define HANDLE_BASIC_TYPE(NAME, Name, name)                                \
+      case G_TYPE_##NAME:                                                      \
+        g_value_set_##name (value, ((GParamSpec##Name*)pspec)->default_value); \
+        break;
+    
+    HANDLE_BASIC_TYPE (BOOLEAN, Boolean, boolean)
+    HANDLE_BASIC_TYPE (CHAR,    Char,    char)
+    HANDLE_BASIC_TYPE (UCHAR,   UChar,   uchar)
+    HANDLE_BASIC_TYPE (INT,     Int,     int)
+    HANDLE_BASIC_TYPE (UINT,    UInt,    uint)
+    HANDLE_BASIC_TYPE (LONG,    Long,    long)
+    HANDLE_BASIC_TYPE (ULONG,   ULong,   ulong)
+    HANDLE_BASIC_TYPE (INT64,   Int64,   int64)
+    HANDLE_BASIC_TYPE (UINT64,  UInt64,  uint64)
+    HANDLE_BASIC_TYPE (FLOAT,   Float,   float)
+    HANDLE_BASIC_TYPE (DOUBLE,  Double,  double)
+    HANDLE_BASIC_TYPE (ENUM,    Enum,    enum)
+    HANDLE_BASIC_TYPE (FLAGS,   Flags,   flags)
+    HANDLE_BASIC_TYPE (STRING,  String,  string)
+    
+    #undef HANDLE_BASIC_TYPE
+    
+    case G_TYPE_PARAM:
+    case G_TYPE_BOXED:
+    case G_TYPE_POINTER:
+    case G_TYPE_OBJECT:
+      /* nothing to do with these types, default GValue is fine since they have
+       * no default value */
+      break;
+    
+    default:
+      g_critical ("Unsupported property type \"%s\" for property \"%s\"",
+                  G_VALUE_TYPE_NAME (value), pspec->name);
+      g_value_unset (value);
+      g_free (value);
+      return;
+  }
+  g_ptr_array_add (self->priv->prop_array, value);
+  g_object_class_install_property (G_OBJECT_GET_CLASS (self),
+                                   self->priv->prop_array->len, pspec);
 }
 
 static void
@@ -473,7 +454,7 @@ gwh_settings_load_from_file (GwhSettings *self,
 
 
 
-
+/* display/edit widgets stuff */
 
 
 static GtkWidget *

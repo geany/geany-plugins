@@ -56,6 +56,9 @@ GType           gwh_settings_get_type                 (void) G_GNUC_CONST;
 G_GNUC_INTERNAL
 GwhSettings    *gwh_settings_get_default              (void);
 G_GNUC_INTERNAL
+void            gwh_settings_install_property         (GwhSettings *self,
+                                                       GParamSpec  *pspec);
+G_GNUC_INTERNAL
 gboolean        gwh_settings_save_to_file             (GwhSettings *self,
                                                        const gchar *filename,
                                                        GError     **error);
