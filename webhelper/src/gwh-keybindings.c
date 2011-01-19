@@ -72,7 +72,7 @@ gwh_keybindings_handle_event (GtkWidget    *widget,
   guint     keyval = event->keyval;
   guint     i;
   
-  if ((event->state & GDK_SHIFT_MASK) || (event->state & GDK_LOCK_MASK)) {
+  if (event->state & (GDK_SHIFT_MASK | GDK_LOCK_MASK)) {
     keyval = gdk_keyval_to_lower (keyval);
   }
   for (i = 0; ! handled && i < GWH_KB_COUNT; i++) {
