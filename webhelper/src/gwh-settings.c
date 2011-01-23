@@ -456,9 +456,40 @@ gwh_settings_load_from_file (GwhSettings *self,
 
 /* display/edit widgets stuff */
 
+/*
+ * gwh_settings_widget_<type>_notify:
+ *   calls user's callback with appropriate arguments
+ * gwh_settings_widget_<type>_notify_callback:
+ *   a callback connected to a signal on the widget.
+ *   calls gwh_settings_widget_<type>_notify
+ * gwh_settings_widget_<type>_new:
+ *   creates the widget
+ * gwh_settings_widget_<type>_sync:
+ *   syncs widget's value with its setting
+ */
+
+
+typedef struct _GwhSettingsWidgetNotifyData
+{
+  GwhSettings  *settings;
+  GCallback     callback;
+  gpointer      user_data;
+} GwhSettingsWidgetNotifyData;
+
+
+static void
+gwh_settings_widget_boolean_notify (GObject                      *tbutton,
+                                    GwhSettingsWidgetNotifyData  *data)
+{
+  ((GwhSettingsWidgetBooleanNotify)data->callback) (data->settings,
+                                                    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (tbutton)),
+                                                    data->user_data);
+}
+
+#define gwh_settings_widget_boolean_notify_callback gwh_settings_widget_boolean_notify
 
 static GtkWidget *
-gwh_settings_widget_new_boolean (GwhSettings   *self,
+gwh_settings_widget_boolean_new (GwhSettings   *self,
                                  const GValue  *value,
                                  GParamSpec    *pspec,
                                  gboolean      *needs_label)
@@ -474,7 +505,7 @@ gwh_settings_widget_new_boolean (GwhSettings   *self,
 }
 
 static void
-gwh_settings_widget_sync_boolean (GwhSettings *self,
+gwh_settings_widget_boolean_sync (GwhSettings *self,
                                   GParamSpec  *pspec,
                                   GtkWidget   *widget)
 {
@@ -483,8 +514,26 @@ gwh_settings_widget_sync_boolean (GwhSettings *self,
                 NULL);
 }
 
+static void
+gwh_settings_widget_enum_notify (GObject                     *object,
+                                 GwhSettingsWidgetNotifyData *data)
+{
+  GtkTreeIter   iter;
+  GtkComboBox  *cbox = GTK_COMBO_BOX (object);
+  
+  if (gtk_combo_box_get_active_iter (cbox, &iter)) {
+    gint val;
+    
+    gtk_tree_model_get (gtk_combo_box_get_model (cbox), &iter, 0, &val, -1);
+    ((GwhSettingsWidgetEnumNotify)data->callback) (data->settings, val,
+                                                   data->user_data);
+  }
+}
+
+#define gwh_settings_widget_enum_notify_callback gwh_settings_widget_enum_notify
+
 static GtkWidget *
-gwh_settings_widget_new_enum (GwhSettings  *self,
+gwh_settings_widget_enum_new (GwhSettings  *self,
                               const GValue *value,
                               GParamSpec   *pspec,
                               gboolean     *needs_label)
@@ -525,7 +574,7 @@ gwh_settings_widget_new_enum (GwhSettings  *self,
 }
 
 static void
-gwh_settings_widget_sync_enum (GwhSettings *self,
+gwh_settings_widget_enum_sync (GwhSettings *self,
                                GParamSpec  *pspec,
                                GtkWidget   *widget)
 {
@@ -541,8 +590,19 @@ gwh_settings_widget_sync_enum (GwhSettings *self,
   }
 }
 
+static void
+gwh_settings_widget_int_notify (GObject                     *spin,
+                                GwhSettingsWidgetNotifyData *data)
+{
+  ((GwhSettingsWidgetIntNotify)data->callback) (data->settings,
+                                                gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spin)),
+                                                data->user_data);
+}
+
+#define gwh_settings_widget_int_notify_callback gwh_settings_widget_int_notify
+
 static GtkWidget *
-gwh_settings_widget_new_int (GwhSettings  *self,
+gwh_settings_widget_int_new (GwhSettings  *self,
                              const GValue *value,
                              GParamSpec   *pspec,
                              gboolean     *needs_label)
@@ -562,7 +622,7 @@ gwh_settings_widget_new_int (GwhSettings  *self,
 }
 
 static void
-gwh_settings_widget_sync_int (GwhSettings *self,
+gwh_settings_widget_int_sync (GwhSettings *self,
                               GParamSpec  *pspec,
                               GtkWidget   *widget)
 {
@@ -571,8 +631,25 @@ gwh_settings_widget_sync_int (GwhSettings *self,
                 NULL);
 }
 
+static void
+gwh_settings_widget_string_notify (GObject                     *entry,
+                                   GwhSettingsWidgetNotifyData *data)
+{
+  ((GwhSettingsWidgetStringNotify)data->callback) (data->settings,
+                                                   gtk_entry_get_text (GTK_ENTRY (entry)),
+                                                   data->user_data);
+}
+
+static void
+gwh_settings_widget_string_notify_callback (GObject                     *object,
+                                            GParamSpec                  *pspec,
+                                            GwhSettingsWidgetNotifyData *data)
+{
+  gwh_settings_widget_string_notify (object, data);
+}
+
 static GtkWidget *
-gwh_settings_widget_new_string (GwhSettings  *self,
+gwh_settings_widget_string_new (GwhSettings  *self,
                                 const GValue *value,
                                 GParamSpec   *pspec,
                                 gboolean     *needs_label)
@@ -587,7 +664,7 @@ gwh_settings_widget_new_string (GwhSettings  *self,
 }
 
 static void
-gwh_settings_widget_sync_string (GwhSettings *self,
+gwh_settings_widget_string_sync (GwhSettings *self,
                                  GParamSpec  *pspec,
                                  GtkWidget   *widget)
 {
@@ -599,9 +676,30 @@ gwh_settings_widget_sync_string (GwhSettings *self,
 #define KEY_PSPEC   "gwh-settings-configure-pspec"
 #define KEY_WIDGET  "gwh-settings-configure-widget"
 
+/**
+ * gwh_settings_widget_new_full:
+ * @self: A GwhSettings object
+ * @prop_name: the name of the setting for which create a widget
+ * @setting_changed_callback: a callback to be called when the widget's value
+ *                            changes, or %NULL. The type of the callback
+ *                            is GwhSettingsWidget*Notify, depending of the
+ *                            setting type
+ * @user_data: user data to pass to @callback
+ * @notify_flags: notification flags
+ * 
+ * Creates a widgets to configure the value of a setting @prop_name.
+ * This setting will not be changed automatically, you'll need to call
+ * gwh_settings_widget_sync() when you want to synchronize the widget's value to
+ * the setting.
+ * 
+ * Returns: A #GtkWidget that displays and edit @prop_name.
+ */
 GtkWidget *
-gwh_settings_widget_new (GwhSettings *self,
-                         const gchar *prop_name)
+gwh_settings_widget_new_full (GwhSettings            *self,
+                              const gchar            *prop_name,
+                              GCallback               setting_changed_callback,
+                              gpointer                user_data,
+                              GwhSettingsNotifyFlags  notify_flags)
 {
   GtkWidget  *widget      = NULL;
   GParamSpec *pspec;
@@ -616,13 +714,29 @@ gwh_settings_widget_new (GwhSettings *self,
   g_value_init (&value, pspec->value_type);
   g_object_get_property (G_OBJECT (self), prop_name, &value);
   switch (G_TYPE_FUNDAMENTAL (G_VALUE_TYPE (&value))) {
-    #define HANDLE_TYPE(T, h) \
-      case T: widget = ((h) (self, &value, pspec, &needs_label)); break;
+    #define HANDLE_TYPE(T, t, signal)                                          \
+      case G_TYPE_##T:                                                         \
+        widget = gwh_settings_widget_##t##_new (self, &value, pspec,           \
+                                                &needs_label);                 \
+        if (setting_changed_callback) {                                        \
+          GwhSettingsWidgetNotifyData *data = g_malloc (sizeof *data);         \
+                                                                               \
+          data->settings  = self;                                              \
+          data->callback  = setting_changed_callback;                          \
+          data->user_data = user_data;                                         \
+          g_signal_connect_data (widget, signal,                               \
+                                 G_CALLBACK (gwh_settings_widget_##t##_notify_callback),\
+                                 data, (GClosureNotify)g_free, 0);             \
+          if (notify_flags & GWH_SETTINGS_NOTIFY_ON_CONNEXION) {               \
+            gwh_settings_widget_##t##_notify (G_OBJECT (widget), data);        \
+          }                                                                    \
+        }                                                                      \
+        break;
     
-    HANDLE_TYPE (G_TYPE_BOOLEAN,  gwh_settings_widget_new_boolean)
-    HANDLE_TYPE (G_TYPE_ENUM,     gwh_settings_widget_new_enum)
-    HANDLE_TYPE (G_TYPE_INT,      gwh_settings_widget_new_int)
-    HANDLE_TYPE (G_TYPE_STRING,   gwh_settings_widget_new_string)
+    HANDLE_TYPE (BOOLEAN, boolean,  "toggled")
+    HANDLE_TYPE (ENUM,    enum,     "changed")
+    HANDLE_TYPE (INT,     int,      "value-changed")
+    HANDLE_TYPE (STRING,  string,   "notify::text")
     
     #undef HANDLE_TYPE
     
@@ -656,6 +770,13 @@ gwh_settings_widget_new (GwhSettings *self,
   return widget;
 }
 
+GtkWidget *
+gwh_settings_widget_new (GwhSettings *self,
+                         const gchar *prop_name)
+{
+  return gwh_settings_widget_new_full (self, prop_name, NULL, NULL, 0);
+}
+
 void
 gwh_settings_widget_sync (GwhSettings *self,
                           GtkWidget   *widget)
@@ -670,12 +791,15 @@ gwh_settings_widget_sync (GwhSettings *self,
   pspec = g_object_get_data (G_OBJECT (widget), KEY_PSPEC);
   g_return_if_fail (G_IS_PARAM_SPEC (pspec));
   switch (G_TYPE_FUNDAMENTAL (pspec->value_type)) {
-    #define HANDLE_TYPE(T, h) case T: (h) (self, pspec, widget); break;
+    #define HANDLE_TYPE(T, t)                                                  \
+      case G_TYPE_##T:                                                         \
+        gwh_settings_widget_##t##_sync (self, pspec, widget);                  \
+        break;
     
-    HANDLE_TYPE (G_TYPE_BOOLEAN,  gwh_settings_widget_sync_boolean)
-    HANDLE_TYPE (G_TYPE_ENUM,     gwh_settings_widget_sync_enum)
-    HANDLE_TYPE (G_TYPE_INT,      gwh_settings_widget_sync_int)
-    HANDLE_TYPE (G_TYPE_STRING,   gwh_settings_widget_sync_string)
+    HANDLE_TYPE (BOOLEAN,  boolean)
+    HANDLE_TYPE (ENUM,     enum)
+    HANDLE_TYPE (INT,      int)
+    HANDLE_TYPE (STRING,   string)
     
     #undef HANDLE_TYPE
     

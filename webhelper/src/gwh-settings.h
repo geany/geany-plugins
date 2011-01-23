@@ -34,9 +34,35 @@ G_BEGIN_DECLS
 #define GWH_IS_SETTINGS_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GWH_TYPE_SETTINGS))
 
 
+/**
+ * GwhSettingsNotifyFlags:
+ * @GWH_SETTINGS_NOTIFY_NONE: 0, no flags
+ * @GWH_SETTINGS_NOTIFY_ON_CONNEXION: Call user callback just after widget
+ *                                    creation.
+ * 
+ * Notification flags for gwh_settings_widget_new_full().
+ */
+typedef enum _GwhSettingsNotifyFlags
+{
+  GWH_SETTINGS_NOTIFY_NONE          = 0,
+  GWH_SETTINGS_NOTIFY_ON_CONNEXION  = 1<<0
+} GwhSettingsNotifyFlags;
+
 typedef struct _GwhSettings         GwhSettings;
 typedef struct _GwhSettingsClass    GwhSettingsClass;
 typedef struct _GwhSettingsPrivate  GwhSettingsPrivate;
+typedef void (*GwhSettingsWidgetBooleanNotify)  (GwhSettings *settings,
+                                                 gboolean     value,
+                                                 gpointer     data);
+typedef void (*GwhSettingsWidgetEnumNotify)     (GwhSettings *settings,
+                                                 gint         value,
+                                                 gpointer     data);
+typedef void (*GwhSettingsWidgetIntNotify)      (GwhSettings *settings,
+                                                 gint         value,
+                                                 gpointer     data);
+typedef void (*GwhSettingsWidgetStringNotify)   (GwhSettings *settings,
+                                                 const gchar *value,
+                                                 gpointer     data);
 
 struct _GwhSettings
 {
@@ -66,6 +92,12 @@ G_GNUC_INTERNAL
 gboolean        gwh_settings_load_from_file           (GwhSettings *self,
                                                        const gchar *filename,
                                                        GError     **error);
+G_GNUC_INTERNAL
+GtkWidget      *gwh_settings_widget_new_full          (GwhSettings           *self,
+                                                       const gchar           *prop_name,
+                                                       GCallback              setting_changed_callback,
+                                                       gpointer               user_data,
+                                                       GwhSettingsNotifyFlags notify_flags);
 G_GNUC_INTERNAL
 GtkWidget      *gwh_settings_widget_new               (GwhSettings *self,
                                                        const gchar *prop_name);
