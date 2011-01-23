@@ -20,6 +20,7 @@
 #include "gwh-settings.h"
 
 #include <string.h>
+#include <stdarg.h>
 #include <glib.h>
 #include <glib-object.h>
 #include <gtk/gtk.h>
@@ -777,19 +778,18 @@ gwh_settings_widget_new (GwhSettings *self,
   return gwh_settings_widget_new_full (self, prop_name, NULL, NULL, 0);
 }
 
-void
-gwh_settings_widget_sync (GwhSettings *self,
-                          GtkWidget   *widget)
+static gboolean
+gwh_settings_widget_sync_internal (GwhSettings *self,
+                                   GtkWidget   *widget)
 {
   GParamSpec *pspec;
   
-  g_return_if_fail (GWH_IS_SETTINGS (self));
-  g_return_if_fail (G_IS_OBJECT (widget));
+  g_return_val_if_fail (G_IS_OBJECT (widget), FALSE);
   
   widget = g_object_get_data (G_OBJECT (widget), KEY_WIDGET);
-  g_return_if_fail (GTK_IS_WIDGET (widget));
+  g_return_val_if_fail (GTK_IS_WIDGET (widget), FALSE);
   pspec = g_object_get_data (G_OBJECT (widget), KEY_PSPEC);
-  g_return_if_fail (G_IS_PARAM_SPEC (pspec));
+  g_return_val_if_fail (G_IS_PARAM_SPEC (pspec), FALSE);
   switch (G_TYPE_FUNDAMENTAL (pspec->value_type)) {
     #define HANDLE_TYPE(T, t)                                                  \
       case G_TYPE_##T:                                                         \
@@ -807,4 +807,44 @@ gwh_settings_widget_sync (GwhSettings *self,
       g_critical ("Unsupported property type \"%s\"",
                   g_type_name (pspec->value_type));
   }
+  
+  return TRUE;
+}
+
+/**
+ * gwh_settings_widget_sync_v:
+ * @self: A #GwhSettings object
+ * @...: a %NULL-terminated list of widgets to sync
+ * 
+ * Same as gwh_settings_widget_sync() but emits notifications only after all
+ * widgets got synchronized.
+ */
+void
+gwh_settings_widget_sync_v (GwhSettings *self,
+                            ...)
+{
+  GParamSpec *pspec;
+  GtkWidget  *widget;
+  va_list     ap;
+  
+  g_return_if_fail (GWH_IS_SETTINGS (self));
+  
+  g_object_freeze_notify (G_OBJECT (self));
+  va_start (ap, self);
+  while ((widget = va_arg (ap, GtkWidget*))) {
+    if (! gwh_settings_widget_sync_internal (self, widget)) {
+      break;
+    }
+  }
+  va_end (ap);
+  g_object_thaw_notify (G_OBJECT (self));
+}
+
+void
+gwh_settings_widget_sync (GwhSettings *self,
+                          GtkWidget   *widget)
+{
+  g_return_if_fail (GWH_IS_SETTINGS (self));
+  
+  gwh_settings_widget_sync_internal (self, widget);
 }

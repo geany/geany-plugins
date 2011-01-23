@@ -20,6 +20,7 @@
 #ifndef H_GWH_SETTINGS
 #define H_GWH_SETTINGS
 
+#include <stdarg.h>
 #include <glib.h>
 #include <glib-object.h>
 #include <gtk/gtk.h>
@@ -101,6 +102,9 @@ GtkWidget      *gwh_settings_widget_new_full          (GwhSettings           *se
 G_GNUC_INTERNAL
 GtkWidget      *gwh_settings_widget_new               (GwhSettings *self,
                                                        const gchar *prop_name);
+G_GNUC_INTERNAL
+void            gwh_settings_widget_sync_v            (GwhSettings *self,
+                                                       ...) G_GNUC_NULL_TERMINATED;
 G_GNUC_INTERNAL
 void            gwh_settings_widget_sync              (GwhSettings *self,
                                                        GtkWidget   *widget);
