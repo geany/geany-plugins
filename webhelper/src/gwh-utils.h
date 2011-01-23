@@ -27,6 +27,14 @@
 G_BEGIN_DECLS
 
 
+/* emulates some values of GdkWindowTypeHint */
+typedef enum _GwhWindowType
+{
+  GWH_WINDOW_TYPE_NORMAL  = GDK_WINDOW_TYPE_HINT_NORMAL,
+  GWH_WINDOW_TYPE_UTILITY = GDK_WINDOW_TYPE_HINT_UTILITY
+} GwhWindowType;
+
+
 G_GNUC_INTERNAL
 GdkPixbuf      *gwh_pixbuf_new_from_uri       (const gchar *uri,
                                                GError     **error);

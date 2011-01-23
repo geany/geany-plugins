@@ -41,7 +41,13 @@
 #  define gtk_widget_get_visible(w) \
   (GTK_WIDGET_VISIBLE (w))
 # endif /* defined (gtk_widget_get_visible) */
-#endif
+#endif /* GTK_CHECK_VERSION (2, 18, 0) */
+#if ! GTK_CHECK_VERSION (2, 20, 0)
+# ifndef gtk_widget_get_mapped
+#  define gtk_widget_get_mapped(w) \
+  (GTK_WIDGET_MAPPED ((w)))
+# endif /* defined (gtk_widget_get_mapped) */
+#endif /* GTK_CHECK_VERSION (2, 20, 0) */
 
 
 struct _GwhBrowserPrivate
@@ -177,6 +183,39 @@ on_settings_inspector_window_geometry_notify (GObject    *object,
   g_object_get (object, pspec->name, &geometry, NULL);
   set_web_inspector_window_geometry (self, geometry);
   g_free (geometry);
+}
+
+static void
+on_settings_wm_windows_skip_taskbar_notify (GObject    *object,
+                                            GParamSpec *pspec,
+                                            GwhBrowser *self)
+{
+  gboolean skips_taskbar;
+  
+  g_object_get (object, pspec->name, &skips_taskbar, NULL);
+  gtk_window_set_skip_taskbar_hint (GTK_WINDOW (self->priv->inspector_window),
+                                    skips_taskbar);
+}
+
+static void
+on_settings_wm_windows_type_notify (GObject    *object,
+                                    GParamSpec *pspec,
+                                    GwhBrowser *self)
+{
+  gint      type;
+  gboolean  remap = gtk_widget_get_mapped (self->priv->inspector_window);
+  
+  /* We need to remap the window if we change its type because it's not doable
+   * when mapped. So, hack around. */
+  
+  g_object_get (object, pspec->name, &type, NULL);
+  if (remap) {
+    gtk_widget_unmap (self->priv->inspector_window);
+  }
+  gtk_window_set_type_hint (GTK_WINDOW (self->priv->inspector_window), type);
+  if (remap) {
+    gtk_widget_map (self->priv->inspector_window);
+  }
 }
 
 /* web inspector events handling */
@@ -768,11 +807,40 @@ create_toolbar (GwhBrowser *self)
   return toolbar;
 }
 
+static GtkWidget *
+create_inspector_window (GwhBrowser *self)
+{
+  gboolean skips_taskbar;
+  gboolean window_type;
+  
+  g_object_get (self->priv->settings,
+                "wm-secondary-windows-skip-taskbar", &skips_taskbar,
+                "wm-secondary-windows-type", &window_type,
+                NULL);
+  self->priv->inspector_window_x = self->priv->inspector_window_y = 0;
+  self->priv->inspector_window = g_object_new (GTK_TYPE_WINDOW,
+                                               "type", GTK_WINDOW_TOPLEVEL,
+                                               "skip-taskbar-hint", skips_taskbar,
+                                               "type-hint", window_type,
+                                               "title", _("Web inspector"),
+                                               NULL);
+  g_signal_connect (self->priv->inspector_window, "delete-event",
+                    G_CALLBACK (on_inspector_window_delete_event), self);
+  g_signal_connect (self->priv->settings, "notify::wm-secondary-windows-skip-taskbar",
+                    G_CALLBACK (on_settings_wm_windows_skip_taskbar_notify), self);
+  g_signal_connect (self->priv->settings, "notify::wm-secondary-windows-type",
+                    G_CALLBACK (on_settings_wm_windows_type_notify), self);
+  gtk_container_add (GTK_CONTAINER (self->priv->inspector_window),
+                     self->priv->inspector_view);
+  
+  return self->priv->inspector_window;
+}
+
 static void
 gwh_browser_init (GwhBrowser *self)
 {
-  GtkWidget *scrolled;
-  WebKitWebSettings *wkws;
+  GtkWidget          *scrolled;
+  WebKitWebSettings  *wkws;
   
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GWH_TYPE_BROWSER,
                                             GwhBrowserPrivate);
@@ -806,16 +874,7 @@ gwh_browser_init (GwhBrowser *self)
   gtk_container_add (GTK_CONTAINER (self->priv->inspector_view),
                      self->priv->inspector_web_view);
   
-  self->priv->inspector_window_x = self->priv->inspector_window_y = 0;
-  self->priv->inspector_window = g_object_new (GTK_TYPE_WINDOW,
-                                               "type", GTK_WINDOW_TOPLEVEL,
-                                               "skip-taskbar-hint", TRUE,
-                                               "title", _("Web inspector"),
-                                               NULL);
-  g_signal_connect (self->priv->inspector_window, "delete-event",
-                    G_CALLBACK (on_inspector_window_delete_event), self);
-  gtk_container_add (GTK_CONTAINER (self->priv->inspector_window),
-                     self->priv->inspector_view);
+  self->priv->inspector_window = create_inspector_window (self);
   
   g_signal_connect (self, "notify::orientation",
                     G_CALLBACK (on_orientation_notify), self);

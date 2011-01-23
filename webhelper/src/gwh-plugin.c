@@ -127,21 +127,38 @@ on_idle_widget_show (gpointer data)
 static GtkWidget *
 create_separate_window (void)
 {
-  GtkWidget *window;
+  GtkWidget  *window;
+  gboolean    skips_taskbar;
+  gboolean    is_transient;
+  gint        window_type;
   
+  g_object_get (G_settings,
+                "wm-secondary-windows-skip-taskbar", &skips_taskbar,
+                "wm-secondary-windows-are-transient", &is_transient,
+                "wm-secondary-windows-type", &window_type,
+                NULL);
   window = g_object_new (GTK_TYPE_WINDOW,
                          "type", GTK_WINDOW_TOPLEVEL,
-                         "skip-taskbar-hint", TRUE,
+                         "skip-taskbar-hint", skips_taskbar,
                          "title", _("Web view"),
                          "deletable", FALSE,
+                         "type-hint", window_type,
                          NULL);
   g_signal_connect (window, "delete-event",
                     G_CALLBACK (on_separate_window_delete_event), NULL);
   g_signal_connect (window, "destroy",
                     G_CALLBACK (on_separate_window_destroy), NULL);
   gtk_container_add (GTK_CONTAINER (window), G_browser);
-  gtk_window_set_transient_for (GTK_WINDOW (window),
-                                GTK_WINDOW (geany_data->main_widgets->window));
+  if (is_transient) {
+    gtk_window_set_transient_for (GTK_WINDOW (window),
+                                  GTK_WINDOW (geany_data->main_widgets->window));
+  } else {
+    GList *icons;
+    
+    icons = gtk_window_get_icon_list (GTK_WINDOW (geany_data->main_widgets->window));
+    gtk_window_set_icon_list (GTK_WINDOW (window), icons);
+    g_list_free (icons);
+  }
   gwh_browser_set_inspector_transient_for (GWH_BROWSER (G_browser),
                                            GTK_WINDOW (window));
   
@@ -215,6 +232,20 @@ on_settings_browser_position_notify (GObject     *object,
   detach_browser ();
   attach_browser ();
   g_object_unref (G_browser);
+}
+
+static void
+on_settings_windows_attrs_notify (GObject    *object,
+                                  GParamSpec *pspec,
+                                  gpointer    data)
+{
+  /* recreate the window to apply the new attributes */
+  if (G_container.type == CONTAINER_WINDOW) {
+    g_object_ref (G_browser);
+    detach_browser ();
+    attach_browser ();
+    g_object_unref (G_browser);
+  }
 }
 
 static void
@@ -329,6 +360,25 @@ load_config (void)
     "Last geometry of the inspector window",
     "400x300",
     G_PARAM_READWRITE));
+  gwh_settings_install_property (G_settings, g_param_spec_boolean (
+    "wm-secondary-windows-skip-taskbar",
+    "Secondary windows skip task bar",
+    "Whether to tell the window manager not to show the secondary windows in the task bar",
+    TRUE,
+    G_PARAM_READWRITE));
+  gwh_settings_install_property (G_settings, g_param_spec_boolean (
+    "wm-secondary-windows-are-transient",
+    "Secondary windows are transient",
+    "Whether secondary windows are transient children of their parent",
+    TRUE,
+    G_PARAM_READWRITE));
+  gwh_settings_install_property (G_settings, g_param_spec_enum (
+    "wm-secondary-windows-type",
+    "Secondary windows type",
+    "The type of the secondary windows",
+    GWH_TYPE_WINDOW_TYPE,
+    GWH_WINDOW_TYPE_NORMAL,
+    G_PARAM_READWRITE));
   
   path = get_config_filename ();
   if (! gwh_settings_load_from_file (G_settings, path, &err)) {
@@ -379,6 +429,15 @@ plugin_init (GeanyData *data)
   plugin_signal_connect (geany_plugin, G_OBJECT (G_settings),
                          "notify::browser-position", FALSE,
                          G_CALLBACK (on_settings_browser_position_notify), NULL);
+  plugin_signal_connect (geany_plugin, G_OBJECT (G_settings),
+                         "notify::wm-secondary-windows-skip-taskbar", FALSE,
+                         G_CALLBACK (on_settings_windows_attrs_notify), NULL);
+  plugin_signal_connect (geany_plugin, G_OBJECT (G_settings),
+                         "notify::wm-secondary-windows-are-transient", FALSE,
+                         G_CALLBACK (on_settings_windows_attrs_notify), NULL);
+  plugin_signal_connect (geany_plugin, G_OBJECT (G_settings),
+                         "notify::wm-secondary-windows-type", FALSE,
+                         G_CALLBACK (on_settings_windows_attrs_notify), NULL);
   
   plugin_signal_connect (geany_plugin, NULL, "document-save", TRUE,
                          G_CALLBACK (on_document_save), NULL);
@@ -409,6 +468,10 @@ struct _GwhConfigDialog
 {
   GtkWidget *browser_position;
   GtkWidget *browser_auto_reload;
+  
+  GtkWidget *secondary_windows_skip_taskbar;
+  GtkWidget *secondary_windows_are_transient;
+  GtkWidget *secondary_windows_type;
 };
 
 static void
@@ -421,8 +484,13 @@ on_configure_dialog_response (GtkDialog        *dialog,
     case GTK_RESPONSE_APPLY:
     case GTK_RESPONSE_OK:
     case GTK_RESPONSE_YES: {
-      gwh_settings_widget_sync (G_settings, cdialog->browser_position);
-      gwh_settings_widget_sync (G_settings, cdialog->browser_auto_reload);
+      gwh_settings_widget_sync_v (G_settings,
+                                  cdialog->browser_position,
+                                  cdialog->browser_auto_reload,
+                                  cdialog->secondary_windows_skip_taskbar,
+                                  cdialog->secondary_windows_are_transient,
+                                  cdialog->secondary_windows_type,
+                                  NULL);
       break;
     }
     
@@ -434,26 +502,50 @@ on_configure_dialog_response (GtkDialog        *dialog,
   }
 }
 
-
 GtkWidget *
 plugin_configure (GtkDialog *dialog)
 {
+  GtkWidget        *box1;
   GtkWidget        *box;
+  GtkWidget        *alignment;
   GwhConfigDialog  *cdialog;
   
   cdialog = g_malloc (sizeof *cdialog);
   
-  box = gtk_vbox_new (FALSE, 6);
-  cdialog->browser_position = gwh_settings_widget_new (G_settings,
-                                                       "browser-position");
+  /* Top-level box, containing the different frames */
+  box1 = gtk_vbox_new (FALSE, 12);
+  
+  /* Browser */
+  gtk_box_pack_start (GTK_BOX (box1), ui_frame_new_with_alignment (_("Browser"), &alignment), FALSE, FALSE, 0);
+  box = gtk_vbox_new (FALSE, 0);
+  gtk_container_add (GTK_CONTAINER (alignment), box);
+  /* browser position */
+  cdialog->browser_position = gwh_settings_widget_new (G_settings, "browser-position");
   gtk_box_pack_start (GTK_BOX (box), cdialog->browser_position, FALSE, TRUE, 0);
+  /* auto-reload */
   cdialog->browser_auto_reload = gwh_settings_widget_new (G_settings,
                                                           "browser-auto-reload");
-  gtk_box_pack_start (GTK_BOX (box), cdialog->browser_auto_reload,
-                      FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (box), cdialog->browser_auto_reload, FALSE, TRUE, 0);
+  
+  /* Windows */
+  gtk_box_pack_start (GTK_BOX (box1), ui_frame_new_with_alignment (_("Windows"), &alignment), FALSE, FALSE, 0);
+  box = gtk_vbox_new (FALSE, 0);
+  gtk_container_add (GTK_CONTAINER (alignment), box);
+  /* skip taskbar */
+  cdialog->secondary_windows_skip_taskbar = gwh_settings_widget_new (G_settings,
+                                                                     "wm-secondary-windows-skip-taskbar");
+  gtk_box_pack_start (GTK_BOX (box), cdialog->secondary_windows_skip_taskbar, FALSE, TRUE, 0);
+  /* tranisent */
+  cdialog->secondary_windows_are_transient = gwh_settings_widget_new (G_settings,
+                                                                      "wm-secondary-windows-are-transient");
+  gtk_box_pack_start (GTK_BOX (box), cdialog->secondary_windows_are_transient, FALSE, TRUE, 0);
+  /* type */
+  cdialog->secondary_windows_type = gwh_settings_widget_new (G_settings,
+                                                             "wm-secondary-windows-type");
+  gtk_box_pack_start (GTK_BOX (box), cdialog->secondary_windows_type, FALSE, TRUE, 0);
   
   g_signal_connect (dialog, "response",
                     G_CALLBACK (on_configure_dialog_response), cdialog);
   
-  return box;
+  return box1;
 }
