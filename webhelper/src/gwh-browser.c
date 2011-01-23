@@ -291,7 +291,7 @@ on_inspector_close_window (WebKitWebInspector *inspector,
   inspector_hide_window (self);
   gtk_toggle_tool_button_set_active (GTK_TOGGLE_TOOL_BUTTON (self->priv->item_inspector),
                                      FALSE);
-  gtk_widget_grab_focus (self->priv->web_view);
+  gtk_widget_grab_focus (gtk_widget_get_toplevel (self->priv->web_view));
   
   return TRUE;
 }
