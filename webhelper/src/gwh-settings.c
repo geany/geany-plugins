@@ -506,13 +506,16 @@ gwh_settings_widget_boolean_new (GwhSettings   *self,
 }
 
 static void
-gwh_settings_widget_boolean_sync (GwhSettings *self,
-                                  GParamSpec  *pspec,
-                                  GtkWidget   *widget)
+gwh_settings_widget_boolean_sync (GwhSettings  *self,
+                                  GParamSpec   *pspec,
+                                  const GValue *old_value,
+                                  GtkWidget    *widget)
 {
-  g_object_set (self, pspec->name,
-                gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)),
-                NULL);
+  gboolean val = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
+  
+  if (g_value_get_boolean (old_value) != val) {
+    g_object_set (self, pspec->name, val, NULL);
+  }
 }
 
 static void
@@ -575,9 +578,10 @@ gwh_settings_widget_enum_new (GwhSettings  *self,
 }
 
 static void
-gwh_settings_widget_enum_sync (GwhSettings *self,
-                               GParamSpec  *pspec,
-                               GtkWidget   *widget)
+gwh_settings_widget_enum_sync (GwhSettings   *self,
+                               GParamSpec    *pspec,
+                               const GValue  *old_value,
+                               GtkWidget     *widget)
 {
   GtkTreeIter iter;
   
@@ -587,7 +591,9 @@ gwh_settings_widget_enum_sync (GwhSettings *self,
     
     model = gtk_combo_box_get_model (GTK_COMBO_BOX (widget));
     gtk_tree_model_get (model, &iter, 0, &val, -1);
-    g_object_set (self, pspec->name, val, NULL);
+    if (g_value_get_enum (old_value) != val) {
+      g_object_set (self, pspec->name, val, NULL);
+    }
   }
 }
 
@@ -623,13 +629,16 @@ gwh_settings_widget_int_new (GwhSettings  *self,
 }
 
 static void
-gwh_settings_widget_int_sync (GwhSettings *self,
-                              GParamSpec  *pspec,
-                              GtkWidget   *widget)
+gwh_settings_widget_int_sync (GwhSettings  *self,
+                              GParamSpec   *pspec,
+                              const GValue *old_value,
+                              GtkWidget    *widget)
 {
-  g_object_set (self, pspec->name,
-                gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (widget)),
-                NULL);
+  gint val = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (widget));
+  
+  if (g_value_get_int (old_value) != val) {
+    g_object_set (self, pspec->name, val, NULL);
+  }
 }
 
 static void
@@ -665,12 +674,17 @@ gwh_settings_widget_string_new (GwhSettings  *self,
 }
 
 static void
-gwh_settings_widget_string_sync (GwhSettings *self,
-                                 GParamSpec  *pspec,
-                                 GtkWidget   *widget)
+gwh_settings_widget_string_sync (GwhSettings   *self,
+                                 GParamSpec    *pspec,
+                                 const GValue  *old_value,
+                                 GtkWidget     *widget)
 {
-  g_object_set (self, pspec->name, gtk_entry_get_text (GTK_ENTRY (widget)),
-                NULL);
+  const gchar *val      = gtk_entry_get_text (GTK_ENTRY (widget));
+  const gchar *old_val  = g_value_get_string (old_value);
+  
+  if (g_strcmp0 (old_val, val) != 0) {
+    g_object_set (self, pspec->name, val, NULL);
+  }
 }
 
 
@@ -783,6 +797,7 @@ gwh_settings_widget_sync_internal (GwhSettings *self,
                                    GtkWidget   *widget)
 {
   GParamSpec *pspec;
+  GValue      value = {0};
   
   g_return_val_if_fail (G_IS_OBJECT (widget), FALSE);
   
@@ -790,10 +805,12 @@ gwh_settings_widget_sync_internal (GwhSettings *self,
   g_return_val_if_fail (GTK_IS_WIDGET (widget), FALSE);
   pspec = g_object_get_data (G_OBJECT (widget), KEY_PSPEC);
   g_return_val_if_fail (G_IS_PARAM_SPEC (pspec), FALSE);
+  g_value_init (&value, pspec->value_type);
+  g_object_get_property (G_OBJECT (self), pspec->name, &value);
   switch (G_TYPE_FUNDAMENTAL (pspec->value_type)) {
     #define HANDLE_TYPE(T, t)                                                  \
       case G_TYPE_##T:                                                         \
-        gwh_settings_widget_##t##_sync (self, pspec, widget);                  \
+        gwh_settings_widget_##t##_sync (self, pspec, &value, widget);          \
         break;
     
     HANDLE_TYPE (BOOLEAN,  boolean)
@@ -807,6 +824,7 @@ gwh_settings_widget_sync_internal (GwhSettings *self,
       g_critical ("Unsupported property type \"%s\"",
                   g_type_name (pspec->value_type));
   }
+  g_value_unset (&value);
   
   return TRUE;
 }
