@@ -44,7 +44,7 @@ http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geany-plugi
 If you want to create a patch, please respect the license of
 GeanyLipsum as well as intellectual property of third. Patches that
 should be included to the default distribution must be licensed under
-the same conditions as GeanyLipsum by the copyright owner.
+the same conditions as GeanyLipsum by the copyright owner (GPL2+).
 
 
 Known issues
@@ -71,8 +71,11 @@ able to get a copy by contacting the Free Software Foundation, Inc.,
 Bugs, questions, bugs, homepage
 -------------------------------
 
-If you found any bugs or want to provide a patch, please contact Frank
-Lanitz (frank(at)geany(dot)org). Please also do so, if you got any
-questions and visiting http://frank.uvena.de/en/Geany/geanylipsum
-didn't help you to figure out the answer. Visiting the website is also
-a good start if you want to check for any update on this plugin.
+If you found any bugs or want to provide a patch, please contact
+Frank Lanitz (frank(at)geany(dot)org). Please also do so, if you got
+any questions and visiting http://plugins.geany.org didn't help you
+to figure out the answer. Visiting the website is also a good start
+if you want to check for any update on this plugin.
+
+A more historical page can be found at
+http://frank.uvena.de/en/Geany/geanylipsum
