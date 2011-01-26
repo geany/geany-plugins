@@ -13,6 +13,7 @@ plugins = \
 	geanyprj \
 	geanysendmail \
 	geanyvc \
+	htmltable \
 	pretty-printer \
 	shiftcolumn \
 	spellcheck \

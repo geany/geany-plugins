@@ -83,6 +83,9 @@ geanyvc/src/vc_svk.c
 geanyvc/src/vc_svn.c
 geanyvc/src/utils.c
 
+# htmltable
+htmltable/src/htmltable.c
+
 # Spell Check
 spellcheck/src/speller.c
 spellcheck/src/scplugin.c
