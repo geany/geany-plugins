@@ -21,6 +21,21 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 
+static const gint base64_char_to_int[]=
+{
+  255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
+  255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
+  255,255,255,255,255,255,255,255,255,255,255, 62,255,255,255, 63,
+   52, 53, 54, 55, 56, 57, 58, 59, 60, 61,255,255,255,  0,255,255,
+  255,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14,
+   15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,255,255,255,255,255,
+  255, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+   41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,255,255,255,255,255
+};
+
+static const gchar base64_int_to_char[]=
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
 /* offset for marker numbers used - to bypass markers used by normal bookmarksetc */
 #define BOOKMARK_BASE 10
 
@@ -498,7 +513,7 @@ static MacroEvent * GetMacroEventFromString(gchar **s,gint *k)
 
 	me=g_new0(MacroEvent,1);
 	/* get event number */
-	me->message=g_ascii_strtoll(s[(*k)++],NULL,10);
+	me->message=strtoll(s[(*k)++],NULL,10);
 
 	/* now handle lparam if required */
 	switch(me->message)
@@ -553,14 +568,12 @@ static gchar *MacroEventToString(MacroEvent *me)
 static gboolean Notification_Handler(GObject *obj, GeanyEditor *editor, SCNotification *nt,
                                      gpointer user_data)
 {
-	gchar cTemp[100];
+	gchar *cTemp,*cFoldData=NULL;
 	MacroEvent *me;
 	ScintillaObject* sci=document_get_current()->editor->sci;
-	gint i,k,iFlags,iBitCounter,iLineCount;
-	guchar* guFoldData=NULL;
+	gint i,iBits,iFlags,iBitCounter,iLineCount;
 	FileData* fdTemp;
 	GSList * gslTemp=foldingToReApply;
-	gsize gs;
 
 	/* setting fold states may have been delayed until after folding points were calculated before
 	 * paint so wait for a re-paint and check to see if any folding data needs applying
@@ -574,7 +587,8 @@ static gboolean Notification_Handler(GObject *obj, GeanyEditor *editor, SCNotifi
   		if(utils_str_equal(document_get_current()->file_name,fdTemp->pcFileName)==TRUE)
   		{
   		  /* get fold data */
-			  guFoldData=g_base64_decode(fdTemp->pcFolding,(gsize*)&gs);
+			  cFoldData=fdTemp->pcFolding;
+
 			  /* remove FileData from list needing folds re-applying */
 			  foldingToReApply=g_slist_delete_link(foldingToReApply,gslTemp);
 			  break;
@@ -585,31 +599,33 @@ static gboolean Notification_Handler(GObject *obj, GeanyEditor *editor, SCNotifi
 	  }
 
 		/* if there is folding data then set folds */
-		if(guFoldData!=NULL)
+		if(cFoldData!=NULL)
 		{
 			iLineCount=scintilla_send_message(sci,SCI_GETLINECOUNT,0,0);
 
 			/* go through lines setting fold status */
-			for(i=0,k=0,iBitCounter=0;i<iLineCount;i++)
+			for(i=0,iBitCounter=6;i<iLineCount;i++)
 			{
 				iFlags=scintilla_send_message(sci,SCI_GETFOLDLEVEL,i,0);
 				/* ignore non-folding lines */
 				if((iFlags & SC_FOLDLEVELHEADERFLAG)==0)
-                    continue;
+          continue;
+
+        /* get next 6 fold states if needed */
+				if(iBitCounter==6)
+				{
+				  iBitCounter=0;
+          iBits=base64_char_to_int[(gint)(*cFoldData)];
+          cFoldData++;
+				}
 
 				/* set fold if needed */
-				if(((guFoldData[k]>>iBitCounter)&1)==0)
+				if(((iBits>>iBitCounter)&1)==0)
 					scintilla_send_message(sci,SCI_TOGGLEFOLD,i,0);
 
 				/* increment counter */
 				iBitCounter++;
-				if(iBitCounter<8)
-					continue;
-
-				iBitCounter=0;
-				k++;
 			}
-			g_free(guFoldData);
 		}
 	}
 
@@ -680,8 +696,9 @@ static gboolean Notification_Handler(GObject *obj, GeanyEditor *editor, SCNotifi
 		case SCI_LINEENDDISPLAYEXTEND:
 			break;
 		default:
-			g_sprintf(cTemp,_("Unrecognised message\n%i %i %i"),nt->message,nt->wParam,nt->lParam);
+			cTemp=g_strdup_printf(_("Unrecognised message\n%i %i %i"),nt->message,nt->wParam,nt->lParam);
 			dialogs_show_msgbox(GTK_MESSAGE_INFO,cTemp);
+			g_free(cTemp);
 			return FALSE;
 	}
 	me=g_new0(MacroEvent,1);
@@ -790,7 +807,6 @@ static FileData * GetFileData(gchar *pcFileName)
 		fdTemp=fdTemp->NextNode;
 
 	}
-	retrun NULL;
 }
 
 
@@ -843,7 +859,7 @@ static void SaveSettings(void)
 		{
 			if(fdTemp->iBookmark[i]!=-1)
 			{
-				g_sprintf(pszMarkers,"%d",fdTemp->iBookmark[i]);
+				sprintf(pszMarkers,"%d",fdTemp->iBookmark[i]);
 				while(pszMarkers[0]!=0)
 					pszMarkers++;
 			}
@@ -1006,7 +1022,7 @@ static void LoadSettings(void)
 			/* Bookmark entries are initialized to -1, so only need to parse non-empty slots */
 			if(pcKey[0]!=',' && pcKey[0]!=0)
 			{
-				fdTemp->iBookmark[l]=g_ascii_strtoll(pcKey,NULL,10);
+				fdTemp->iBookmark[l]=strtoll(pcKey,NULL,10);
 				while(pcKey[0]!=0 && pcKey[0]!=',')
 					pcKey++;
 			}
@@ -1220,19 +1236,26 @@ static void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_dat
 		/* remember if folded or not */
 		guiFold|=(iFlags&1)<<iBitCounter;
 		iBitCounter++;
-		if(iBitCounter<8)
+		if(iBitCounter<6)
 			continue;
 
-		/* if have 8 bits then store these */
+		/* if have 6 bits then store these */
 		iBitCounter=0;
+		guiFold=(guint8)base64_int_to_char[guiFold];
 		g_byte_array_append(gbaFoldData,&guiFold,1);
 		guiFold=0;
 	}
 
 	/* flush buffer */
-	if(iBitCounter!=0) g_byte_array_append(gbaFoldData,&guiFold,1);
+	if(iBitCounter!=0)
+	{
+		guiFold=(guint8)base64_int_to_char[guiFold];
+    g_byte_array_append(gbaFoldData,&guiFold,1);
+  }
+
 	/* transfer data to text string */
-	fdTemp->pcFolding=g_base64_encode(gbaFoldData->data,gbaFoldData->len);
+	fdTemp->pcFolding=g_strndup((gchar*)(gbaFoldData->data),gbaFoldData->len);
+
 	/* free byte array space */
 	g_byte_array_free(gbaFoldData,TRUE);
 
@@ -1809,7 +1832,7 @@ static void Name_Render_Edited_CallBack(GtkCellRendererText *cell,gchar *iter_id
 	while(gsl!=NULL)
 	{
 		mTemp=(Macro*)(gsl->data);
-		if(mTemp!=m && g_strcmp0(new_text,mTemp->name)==0)
+		if(mTemp!=m && strcmp(new_text,mTemp->name)==0)
 			return;
 
 		gsl=g_slist_next(gsl);
@@ -1824,7 +1847,8 @@ static void Name_Render_Edited_CallBack(GtkCellRendererText *cell,gchar *iter_id
 	bMacrosHaveChanged=TRUE;
 }
 
-
+/* only allow render edit if GTK high enough version */
+#if GTK_CHECK_VERSION(2,10,0)
 /* handle a change in macro trigger accelerator key in the edit macro dialog */
 static void Accel_Render_Edited_CallBack(GtkCellRendererAccel *cell,gchar *iter_id,guint key,
                                          GdkModifierType mods,guint keycode,gpointer data)
@@ -1872,7 +1896,7 @@ static void Accel_Render_Edited_CallBack(GtkCellRendererAccel *cell,gchar *iter_
 
 	bMacrosHaveChanged=TRUE;
 }
-
+#endif
 
 /* do editing of existing macros */
 static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
@@ -1916,7 +1940,10 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 
 	/* create table */
 	table=gtk_tree_view_new_with_model(GTK_TREE_MODEL(ls));
+/* only allow grid lines if GTK high enough version (cosmetic so no biggie if absent)*/
+#if GTK_CHECK_VERSION(2,10,0)
 	gtk_tree_view_set_grid_lines(GTK_TREE_VIEW(table),GTK_TREE_VIEW_GRID_LINES_BOTH);
+#endif
 
 	/* add columns */
 	renderer=gtk_cell_renderer_text_new();
@@ -1927,8 +1954,15 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 
 	renderer= gtk_cell_renderer_accel_new();
 	column=gtk_tree_view_column_new_with_attributes(_("Key Trigger"),renderer,"text",1,NULL);
+/* only allow render edit if GTK high enough version. Shame to loose this function, but not the
+ * end of the world. I may time permitting write my own custom renderer
+*/
+#if GTK_CHECK_VERSION(2,10,0)
 	g_signal_connect(renderer,"accel-edited",G_CALLBACK(Accel_Render_Edited_CallBack),table);
 	g_object_set(renderer,"editable",TRUE,NULL);
+#else
+	g_object_set(renderer,"editable",FALSE,NULL);
+#endif
 
 	gtk_tree_view_append_column(GTK_TREE_VIEW(table),column);
 
