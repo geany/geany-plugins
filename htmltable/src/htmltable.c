@@ -61,59 +61,68 @@ void convert_to_table(gboolean header)
 		/* Checking whether we do have something we can work on - Returning if not */
 		if (rows != NULL)
 		{
-
 			/* Adding header to replacement */
 			replacement_str = g_string_new("<table>\n");
-
+			if (header == TRUE)
+			{
+				g_string_append(replacement_str, "<thead>\n");
+			}
 			/* Iteration onto rows and building up lines of table for
 			 * replacement */
 
-			if (header == TRUE)
+			/* There is no header at selection. */
+			guint i;
+			guint j;
+			for (i = 0; rows[i] != NULL ; i++)
 			{
-				/* If the first line is given to be a header, we do use
-				 * <thead> and <tbody> inside table for real XHTML */
-			}
-			else
-			{
-				/* There is no header at selection. */
-				guint i;
-				guint j;
-				for (i = 0; rows[i] != NULL ; i++)
+				gchar **columns = NULL;
+				columns = g_strsplit_set(rows[i], "\t", -1);
+				if (i == 1 &&
+					header == TRUE)
 				{
-					gchar **columns = NULL;
-					columns = g_strsplit_set(rows[i], "\t", -1);
-					g_string_append(replacement_str, "\t<tr>\n");
-					for (j = 0; columns[j] != NULL; j++)
-					{
-						g_string_append(replacement_str, "\t\t<td>");
-						g_string_append(replacement_str, columns[j]);
-						g_string_append(replacement_str, "</td>\n");
-					}
-					g_string_append(replacement_str,
-						"\t</tr>\n");
-					g_free(columns);
+					g_string_append(replacement_str, "<tbody>\n");
 				}
+				g_string_append(replacement_str, "\t<tr>\n");
+				for (j = 0; columns[j] != NULL; j++)
+				{
+					g_string_append(replacement_str, "\t\t<td>");
+					g_string_append(replacement_str, columns[j]);
+					g_string_append(replacement_str, "</td>\n");
+				}
+				g_string_append(replacement_str,
+					"\t</tr>\n");
+				if (i == 0 &&
+					header == TRUE)
+				{
+					g_string_append(replacement_str, "</thead>\n");
+				}
+				g_free(columns);
 			}
-
-			/* Adding the footer of table */
-			g_string_append(replacement_str, "</table>\n");
-
-			/* Replacing selection with new table */
-			replacement = g_string_free(replacement_str, FALSE);
-			sci_replace_sel(doc->editor->sci, replacement);
-
-			g_free(rows);
-			g_free(replacement);
 		}
-		else
+
+		/* Adding the footer of table */
+		if (header == TRUE)
 		{
-			/* OK. Something went not as expected.
-			 * We did have a selection but cannot parse it into rows.
-			 * Aborting */
-			g_warning(_("Something went went wrong on parsing selection. Aborting"));
-			return;
+			g_string_append(replacement_str, "</tbody>\n");
 		}
-	} /* Selection was gien -- end
+
+		g_string_append(replacement_str, "</table>\n");
+
+		/* Replacing selection with new table */
+		replacement = g_string_free(replacement_str, FALSE);
+		sci_replace_sel(doc->editor->sci, replacement);
+
+		g_free(rows);
+		g_free(replacement);
+	}
+	else
+	{
+		/* OK. Something went not as expected.
+		 * We did have a selection but cannot parse it into rows.
+		 * Aborting */
+		g_warning(_("Something went went wrong on parsing selection. Aborting"));
+		return;
+	} /* Selection was given -- end
 	   * in case of there was no selection we are just doing nothing */
 	return;
 }
@@ -121,7 +130,7 @@ void convert_to_table(gboolean header)
 void kb_convert_to_table(G_GNUC_UNUSED guint key_id)
 {
 	g_return_if_fail(document_get_current() != NULL);
-	convert_to_table(FALSE);
+	convert_to_table(TRUE);
 }
 
 

@@ -1,3 +1,9 @@
+2011-01-27  Frank Lanitz  <frlan@frank.uvena.de>
+
+ * Support creation of table with <thead> and <tbody>. Use it for the
+   moment as default.
+
+
 2011-01-26  Frank Lanitz  <frank@frank.uvena.de>
 
  * Initial Entry. New plugin: HTMLTable.
