@@ -568,7 +568,7 @@ static gchar *MacroEventToString(MacroEvent *me)
 static gboolean Notification_Handler(GObject *obj, GeanyEditor *editor, SCNotification *nt,
                                      gpointer user_data)
 {
-	gchar *cTemp,*cFoldData=NULL;
+	gchar *cFoldData=NULL;
 	MacroEvent *me;
 	ScintillaObject* sci=document_get_current()->editor->sci;
 	gint i,iBits,iFlags,iBitCounter,iLineCount;
@@ -696,9 +696,8 @@ static gboolean Notification_Handler(GObject *obj, GeanyEditor *editor, SCNotifi
 		case SCI_LINEENDDISPLAYEXTEND:
 			break;
 		default:
-			cTemp=g_strdup_printf(_("Unrecognised message\n%i %i %i"),nt->message,nt->wParam,nt->lParam);
-			dialogs_show_msgbox(GTK_MESSAGE_INFO,cTemp);
-			g_free(cTemp);
+			dialogs_show_msgbox(GTK_MESSAGE_INFO,_("Unrecognised message\n%i %i %i"),nt->message,
+			                    (gint)(nt->wParam),(gint)(nt->lParam));
 			return FALSE;
 	}
 	me=g_new0(MacroEvent,1);
