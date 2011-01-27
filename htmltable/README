@@ -19,11 +19,11 @@ geany-plugins release. Please check README of this package
 Usage
 -----
 
-After installed successfully, load the plugin in Geany's plugin
-manager. This will add a new keybinding into Geany's list of
-keybindings inside the preferences dialog. You might like to set up
-a keybinding for the function. Once this is done, the plugin is
-ready to use.
+After the plugins has been installed successfully, load the plugin 
+via Geany's plugin manager. This will add a new keybinding into 
+Geany's list of keybindings inside the preferences dialog. You might 
+like to set up a keybinding for the function. Once this is done, the 
+plugin is ready to use.
 
 When using the plugin, just mark the area you like to transform and
 push your keybinding. All line endings will be token as end of a row
