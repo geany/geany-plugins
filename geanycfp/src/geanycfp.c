@@ -1156,7 +1156,8 @@ static void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_dat
 
 	/* check to see if file has changed since geany last saved it */
 	fd=GetFileData(doc->file_name);
-	if(stat(doc->file_name,&sBuf)==0 && fd!=NULL && fd->LastChangedTime!=sBuf.st_mtime)
+	if(stat(doc->file_name,&sBuf)==0 && fd!=NULL && fd->LastChangedTime!=-1 && 
+    fd->LastChangedTime!=sBuf.st_mtime)
 	{
 		/* notify user that file has been changed */
 		dialog=gtk_message_dialog_new(GTK_WINDOW(geany->main_widgets->window),
