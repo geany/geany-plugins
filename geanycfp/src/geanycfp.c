@@ -102,7 +102,6 @@ static GtkWidget *Stop_Record_Macro_menu_item=NULL;
 static GtkWidget *Edit_Macro_menu_item=NULL;
 static Macro *RecordingMacro=NULL;
 static GSList *mList=NULL;
-static GSList *foldingToReApply=NULL;
 static gboolean bMacrosHaveChanged=FALSE;
 
 /* default config file */
@@ -568,66 +567,7 @@ static gchar *MacroEventToString(MacroEvent *me)
 static gboolean Notification_Handler(GObject *obj, GeanyEditor *editor, SCNotification *nt,
                                      gpointer user_data)
 {
-	gchar *cFoldData=NULL;
-	MacroEvent *me;
-	ScintillaObject* sci=document_get_current()->editor->sci;
-	gint i,iBits,iFlags,iBitCounter,iLineCount;
-	FileData* fdTemp;
-	GSList * gslTemp=foldingToReApply;
-
-	/* setting fold states may have been delayed until after folding points were calculated before
-	 * paint so wait for a re-paint and check to see if any folding data needs applying
-	*/
-	if(nt->nmhdr.code==SCN_PAINTED)
-	{
-	  /* step through foldingToReApply list looking for current document */
-	  while(gslTemp!=NULL)
-	  {
-		  fdTemp=(FileData*)(gslTemp->data);
-  		if(utils_str_equal(document_get_current()->file_name,fdTemp->pcFileName)==TRUE)
-  		{
-  		  /* get fold data */
-			  cFoldData=fdTemp->pcFolding;
-
-			  /* remove FileData from list needing folds re-applying */
-			  foldingToReApply=g_slist_delete_link(foldingToReApply,gslTemp);
-			  break;
-  		}
-
-  		/* move onto next item in foldingToReApply */
-		  gslTemp=g_slist_next(gslTemp);
-	  }
-
-		/* if there is folding data then set folds */
-		if(cFoldData!=NULL)
-		{
-			iLineCount=scintilla_send_message(sci,SCI_GETLINECOUNT,0,0);
-
-			/* go through lines setting fold status */
-			for(i=0,iBitCounter=6;i<iLineCount;i++)
-			{
-				iFlags=scintilla_send_message(sci,SCI_GETFOLDLEVEL,i,0);
-				/* ignore non-folding lines */
-				if((iFlags & SC_FOLDLEVELHEADERFLAG)==0)
-          continue;
-
-        /* get next 6 fold states if needed */
-				if(iBitCounter==6)
-				{
-				  iBitCounter=0;
-          iBits=base64_char_to_int[(gint)(*cFoldData)];
-          cFoldData++;
-				}
-
-				/* set fold if needed */
-				if(((iBits>>iBitCounter)&1)==0)
-					scintilla_send_message(sci,SCI_TOGGLEFOLD,i,0);
-
-				/* increment counter */
-				iBitCounter++;
-			}
-		}
-	}
+  MacroEvent *me;
 
 	/* ignore non macro recording messages */
 	if(nt->nmhdr.code!=SCN_MACRORECORD)
@@ -1149,6 +1089,8 @@ static void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_dat
 	ScintillaObject* sci=doc->editor->sci;
 	struct stat sBuf;
 	GtkWidget *dialog;
+	gchar *cFoldData=NULL;
+	gint iBits,iFlags,iBitCounter;
 
 	/* ensure have markers set */
 	CheckEditorSetup();
@@ -1186,10 +1128,37 @@ be unreliable and will not be loaded.\nPress Ignore to try an load markers anywa
 			if(fd->pcFolding==NULL || bRememberFolds==FALSE)
 				break;
 
-			/* can't apply fold states as folding points not yet created
-			 * so remember data so that can be applied after first paint when folding points will exist
-			*/
-      foldingToReApply=g_slist_prepend(foldingToReApply,fd);
+      cFoldData=fd->pcFolding;
+
+		  /* first ensure fold positions exist */
+			scintilla_send_message(sci,SCI_COLOURISE,0,-1);
+
+			iLineCount=scintilla_send_message(sci,SCI_GETLINECOUNT,0,0);
+
+			/* go through lines setting fold status */
+			for(i=0,iBitCounter=6;i<iLineCount;i++)
+			{
+				iFlags=scintilla_send_message(sci,SCI_GETFOLDLEVEL,i,0);
+				/* ignore non-folding lines */
+				if((iFlags & SC_FOLDLEVELHEADERFLAG)==0)
+          continue;
+
+        /* get next 6 fold states if needed */
+				if(iBitCounter==6)
+				{
+				  iBitCounter=0;
+          iBits=base64_char_to_int[(gint)(*cFoldData)];
+          cFoldData++;
+				}
+
+				/* set fold if needed */
+				if(((iBits>>iBitCounter)&1)==0)
+					scintilla_send_message(sci,SCI_TOGGLEFOLD,i,0);
+
+				/* increment counter */
+				iBitCounter++;
+			}
+
 			break;
 		/* file has changed since Geany last saved but, try to load bookmarks anyway */
 		case GTK_RESPONSE_REJECT:
