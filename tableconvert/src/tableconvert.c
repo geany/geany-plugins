@@ -118,13 +118,8 @@ void convert_to_table(gboolean header)
 				}
 
 				g_string_append(replacement_str, "</table>\n");
-
-				/* Replacing selection with new table */
-				replacement = g_string_free(replacement_str, FALSE);
-				sci_replace_sel(doc->editor->sci, replacement);
-				g_free(rows);
-				g_free(replacement);
 			}
+
 			else if (doc->file_type->id == GEANY_FILETYPES_LATEX)
 			{
 				guint i;
@@ -156,12 +151,6 @@ void convert_to_table(gboolean header)
 				/* Adding the footer of table */
 
 				g_string_append(replacement_str, "\\end{tabular}\n");
-
-				/* Replacing selection with new table */
-				replacement = g_string_free(replacement_str, FALSE);
-				sci_replace_sel(doc->editor->sci, replacement);
-				g_free(rows);
-				g_free(replacement);
 			}
 		}
 		else
@@ -172,6 +161,16 @@ void convert_to_table(gboolean header)
 			g_warning(_("Something went went wrong on parsing selection. Aborting"));
 			return;
 		}
+
+		/* The replacement should have been prepared at this point. Let's go
+		* on and put it into document and replace selection with it. */
+		if (replacement_str != NULL)
+		{
+			replacement = g_string_free(replacement_str, FALSE);
+			sci_replace_sel(doc->editor->sci, replacement);
+		}
+		g_free(rows);
+		g_free(replacement);
 	}
 	   /* in case of there was no selection we are just doing nothing */
 	return;
