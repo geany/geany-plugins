@@ -6,7 +6,7 @@ Tableconvert
 About
 ------
 Tableconvert is a plugin which helps on converting a tabulator
-separated selection into a HTML-like table.
+separated selection into table.
 
 
 Installation
@@ -26,10 +26,21 @@ like to set up a keybinding for the function. Once this is done, the
 plugin is ready to use.
 
 When using the plugin, just mark the area you like to transform and
-push your keybinding. All line endings will be token as end of a row
-and therefor transformed to <tr> and </tr>. Occurrences of tabulator
-will be interpreted as column separators and replaced by <td> and
-</td>.
+push your keybinding. All line endings will be taken as end of a row
+and therefor transformed to fitting row endings.
+
+Currently the plugin is supporting HTML and LaTeX.
+
+HTML
+^^^^
+When transforming HTML, line endings will be replace with <tr> and
+</tr>. Occurrences of tabulator will be interpreted as column
+separators and replaced by <td> and </td>.
+
+LaTeX
+^^^^^
+In case of working with LaTeX line endings will be replaced with \\
+and tabulators with &.
 
 Rectangle selections are currently not supported and might lead to
 some weird output you didn't expect -- just don't try it if you have
