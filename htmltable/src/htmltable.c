@@ -61,6 +61,9 @@ void convert_to_table(gboolean header)
 		/* Checking whether we do have something we can work on - Returning if not */
 		if (rows != NULL)
 		{
+			guint i;
+			guint j;
+
 			/* Adding header to replacement */
 			replacement_str = g_string_new("<table>\n");
 
@@ -73,8 +76,6 @@ void convert_to_table(gboolean header)
 			/* Iteration onto rows and building up lines of table for
 			 * replacement */
 
-			guint i;
-			guint j;
 			for (i = 0; rows[i] != NULL ; i++)
 			{
 				gchar **columns = NULL;
