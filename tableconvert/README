@@ -6,7 +6,7 @@ Tableconvert
 About
 ------
 Tableconvert is a plugin which helps on converting a tabulator
-separated selection into table.
+separated selection into a table.
 
 
 Installation
@@ -36,6 +36,11 @@ HTML
 When transforming HTML, line endings will be replace with <tr> and
 </tr>. Occurrences of tabulator will be interpreted as column
 separators and replaced by <td> and </td>.
+
+The first line will be treaded as header and surrounded by
+<thead></thead> tags. The rest of the table will be included into
+<tbody></tbody>.
+
 
 LaTeX
 ^^^^^
