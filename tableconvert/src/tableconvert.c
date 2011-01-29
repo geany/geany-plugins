@@ -125,17 +125,55 @@ void convert_to_table(gboolean header)
 				g_free(rows);
 				g_free(replacement);
 			}
+			else if (doc->file_type->id == GEANY_FILETYPES_LATEX)
+			{
+				guint i;
+				guint j;
+
+				/* Adding header to replacement */
+				replacement_str = g_string_new("\\begin{tabular}{}\n");
+
+				/* Iteration onto rows and building up lines of table for
+				* replacement */
+				for (i = 0; rows[i] != NULL ; i++)
+				{
+					gchar **columns = NULL;
+					columns = g_strsplit_set(rows[i], "\t", -1);
+
+					for (j = 0; columns[j] != NULL; j++)
+					{
+						if (j > 0)
+						{
+							g_string_append(replacement_str, "  &  ");
+						}
+						g_string_append(replacement_str, columns[j]);
+					}
+
+					g_string_append(replacement_str, "\\\\\n");
+
+					g_free(columns);
+				}
+				/* Adding the footer of table */
+
+				g_string_append(replacement_str, "\\end{tabular}\n");
+
+				/* Replacing selection with new table */
+				replacement = g_string_free(replacement_str, FALSE);
+				sci_replace_sel(doc->editor->sci, replacement);
+				g_free(rows);
+				g_free(replacement);
+			}
+		}
+		else
+		{
+			/* OK. Something went not as expected.
+			* We did have a selection but cannot parse it into rows.
+			* Aborting */
+			g_warning(_("Something went went wrong on parsing selection. Aborting"));
+			return;
 		}
 	}
-	else
-	{
-		/* OK. Something went not as expected.
-		 * We did have a selection but cannot parse it into rows.
-		 * Aborting */
-		g_warning(_("Something went went wrong on parsing selection. Aborting"));
-		return;
-	} /* Selection was given -- end
-	   * in case of there was no selection we are just doing nothing */
+	   /* in case of there was no selection we are just doing nothing */
 	return;
 }
 

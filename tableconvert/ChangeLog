@@ -1,6 +1,7 @@
 2011-01-29  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * Rename plugin to Tableconvert.
+ * Include logic to transform also lists to LaTeX tabular.
 
 
 2011-01-27  Frank Lanitz  <frlan@frank.uvena.de>
