@@ -1,11 +1,11 @@
-HTMLTable
+Tableconvert
 -----------
 
 .. contents::
 
 About
 ------
-HTMLTable is a plugin which helps on converting a tabulator
+Tableconvert is a plugin which helps on converting a tabulator
 separated selection into a HTML-like table.
 
 
@@ -19,10 +19,10 @@ geany-plugins release. Please check README of this package
 Usage
 -----
 
-After the plugins has been installed successfully, load the plugin 
-via Geany's plugin manager. This will add a new keybinding into 
-Geany's list of keybindings inside the preferences dialog. You might 
-like to set up a keybinding for the function. Once this is done, the 
+After the plugins has been installed successfully, load the plugin
+via Geany's plugin manager. This will add a new keybinding into
+Geany's list of keybindings inside the preferences dialog. You might
+like to set up a keybinding for the function. Once this is done, the
 plugin is ready to use.
 
 When using the plugin, just mark the area you like to transform and
@@ -42,12 +42,12 @@ You can checkout the current source code from the Subversion repository at
 Sourceforge.net. Get the code from:
 
 svn checkout
-http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geany-plugins/htmltable
+http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geany-plugins/tableconvert
 
 If you want to create a patch, please respect the license of
-HTMLTable as well as intellectual property of third. Patches that
+Tableconvert as well as intellectual property of third. Patches that
 should be included to the default distribution must be licensed under
-the same conditions as HTMLTable by the copyright owner (GPL2+).
+the same conditions as Tableconvert by the copyright owner (GPL2+).
 
 
 Known issues
@@ -65,7 +65,7 @@ http://sourceforge.net/tracker/?group_id=222729
 License
 -------
 
-HTMLTable and all its parts is distributed under the terms of the
+Tableconvert and all its parts is distributed under the terms of the
 GNU General Public License as published by the Free Software
 Foundation; either version 2 of the License, or (at your option) any
 later version. A copy of this license can be found in the file COPYING

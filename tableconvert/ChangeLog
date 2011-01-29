@@ -1,3 +1,8 @@
+2011-01-29  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Rename plugin to Tableconvert.
+
+
 2011-01-27  Frank Lanitz  <frlan@frank.uvena.de>
 
  * Support creation of table with <thead> and <tbody>. Use it for the

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# WAF build script for geany-plugins - HTMLTable
+# WAF build script for geany-plugins - Tableconvert
 #
 # Copyright 2010 Enrico Tröger <enrico(dot)troeger(at)uvena(dot)de>
 # Copyright 2111 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
@@ -24,7 +24,7 @@
 from build.wafutils import build_plugin
 
 
-name = 'HTMLTable'
-includes = ['htmltable/src']
+name = 'Tableconvert'
+includes = ['tableconvert/src']
 
 build_plugin(bld, name, includes=includes)

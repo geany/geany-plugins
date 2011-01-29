@@ -13,10 +13,10 @@ plugins = \
 	geanyprj \
 	geanysendmail \
 	geanyvc \
-	htmltable \
 	pretty-printer \
 	shiftcolumn \
 	spellcheck \
+	tableconvert \
 	treebrowser \
 	updatechecker \
 	webhelper

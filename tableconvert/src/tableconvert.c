@@ -1,5 +1,5 @@
 /*
- *	  htmltable.c
+ *	  tableconvert.c
  *
  *	  Copyright 2011 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
@@ -27,8 +27,8 @@ GeanyFunctions  *geany_functions;
 PLUGIN_VERSION_CHECK(200)
 
 PLUGIN_SET_TRANSLATABLE_INFO(
-    LOCALEDIR, GETTEXT_PACKAGE, _("HTMLTable"),
-    _("A little plugin to convert list into HTML-like tables"),
+    LOCALEDIR, GETTEXT_PACKAGE, _("Tableconvert"),
+    _("A little plugin to convert lists into tables"),
     VERSION, "Frank Lanitz <frank@frank.uvena.de>");
 
 enum
