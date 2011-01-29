@@ -77,7 +77,6 @@ void convert_to_table(gboolean header)
 
 				/* Iteration onto rows and building up lines of table for
 				 * replacement */
-
 				for (i = 0; rows[i] != NULL ; i++)
 				{
 					gchar **columns = NULL;
@@ -110,24 +109,23 @@ void convert_to_table(gboolean header)
 					}
 					g_free(columns);
 				}
+
+				/* Adding the footer of table */
+				/* Closing </tbody> if requested */
+				if (header == TRUE)
+				{
+					g_string_append(replacement_str, "</tbody>\n");
+				}
+
+				g_string_append(replacement_str, "</table>\n");
+
+				/* Replacing selection with new table */
+				replacement = g_string_free(replacement_str, FALSE);
+				sci_replace_sel(doc->editor->sci, replacement);
+				g_free(rows);
+				g_free(replacement);
 			}
 		}
-
-		/* Adding the footer of table */
-		/* Closing </tbody> if requested */
-		if (header == TRUE)
-		{
-			g_string_append(replacement_str, "</tbody>\n");
-		}
-
-		g_string_append(replacement_str, "</table>\n");
-
-		/* Replacing selection with new table */
-		replacement = g_string_free(replacement_str, FALSE);
-		sci_replace_sel(doc->editor->sci, replacement);
-
-		g_free(rows);
-		g_free(replacement);
 	}
 	else
 	{
