@@ -73,7 +73,6 @@ void convert_to_table(gboolean header)
 			/* Iteration onto rows and building up lines of table for
 			 * replacement */
 
-			/* There is no header at selection. */
 			guint i;
 			guint j;
 			for (i = 0; rows[i] != NULL ; i++)
