@@ -64,50 +64,52 @@ void convert_to_table(gboolean header)
 			guint i;
 			guint j;
 
-			/* Adding header to replacement */
-			replacement_str = g_string_new("<table>\n");
-
-			/* Adding <thead> if requested */
-			if (header == TRUE)
+			if (doc->file_type->id == GEANY_FILETYPES_HTML)
 			{
-				g_string_append(replacement_str, "<thead>\n");
-			}
+				/* Adding header to replacement */
+				replacement_str = g_string_new("<table>\n");
 
-			/* Iteration onto rows and building up lines of table for
-			 * replacement */
-
-			for (i = 0; rows[i] != NULL ; i++)
-			{
-				gchar **columns = NULL;
-				columns = g_strsplit_set(rows[i], "\t", -1);
-
-				/* Adding <tbody> after first line if header and body
-				 * is requested */
-				if (i == 1 &&
-					header == TRUE)
+				/* Adding <thead> if requested */
+				if (header == TRUE)
 				{
-					g_string_append(replacement_str, "<tbody>\n");
+					g_string_append(replacement_str, "<thead>\n");
 				}
 
-				g_string_append(replacement_str, "\t<tr>\n");
-				for (j = 0; columns[j] != NULL; j++)
+				/* Iteration onto rows and building up lines of table for
+				 * replacement */
+
+				for (i = 0; rows[i] != NULL ; i++)
 				{
-					g_string_append(replacement_str, "\t\t<td>");
-					g_string_append(replacement_str, columns[j]);
-					g_string_append(replacement_str, "</td>\n");
+					gchar **columns = NULL;
+					columns = g_strsplit_set(rows[i], "\t", -1);
+
+					/* Adding <tbody> after first line if header and body
+					 * is requested */
+					if (i == 1 &&
+						header == TRUE)
+					{
+						g_string_append(replacement_str, "<tbody>\n");
+					}
+
+					g_string_append(replacement_str, "\t<tr>\n");
+					for (j = 0; columns[j] != NULL; j++)
+					{
+						g_string_append(replacement_str, "\t\t<td>");
+						g_string_append(replacement_str, columns[j]);
+						g_string_append(replacement_str, "</td>\n");
+					}
+
+					g_string_append(replacement_str, "\t</tr>\n");
+
+					/* Adding closing </thead> after first row if header
+					 * is requested */
+					if (i == 0 &&
+						header == TRUE)
+					{
+						g_string_append(replacement_str, "</thead>\n");
+					}
+					g_free(columns);
 				}
-
-				g_string_append(replacement_str, "\t</tr>\n");
-
-				/* Adding closing </thead> after first row if header
-				 * is requested */
-				if (i == 0 &&
-					header == TRUE)
-				{
-					g_string_append(replacement_str, "</thead>\n");
-				}
-
-				g_free(columns);
 			}
 		}
 
