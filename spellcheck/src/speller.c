@@ -539,6 +539,21 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 			}
 			break;
 		}
+		case SCLEX_CMAKE:
+		{
+			switch (style)
+			{
+				case SCE_CMAKE_DEFAULT:
+				case SCE_CMAKE_COMMENT:
+				case SCE_CMAKE_STRINGDQ:
+				case SCE_CMAKE_STRINGLQ:
+				case SCE_CMAKE_STRINGRQ:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
 #ifdef SCE_PAS_DEFAULT
 		case SCLEX_PASCAL:
 		{
@@ -559,6 +574,7 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 #else
 		case SCLEX_PASCAL:
 #endif
+		case SCLEX_COBOL:
 		case SCLEX_CPP:
 		{
 			switch (style)
@@ -571,22 +587,6 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_C_CHARACTER:
 				case SCE_C_STRINGEOL:
 				case SCE_C_COMMENTLINEDOC:
-					return TRUE;
-				default:
-					return FALSE;
-			}
-			break;
-		}
-		case SCLEX_CMAKE:
-		{
-			switch (style)
-			{
-				case SCE_CMAKE_DEFAULT:
-				case SCE_CMAKE_COMMENT:
-				case SCE_CMAKE_STRINGDQ:
-				case SCE_CMAKE_STRINGLQ:
-				case SCE_CMAKE_STRINGRQ:
-				case SCE_CMAKE_STRINGVAR:
 					return TRUE;
 				default:
 					return FALSE;
@@ -637,8 +637,26 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 			}
 			break;
 		}
-		case SCLEX_FORTRAN:
+		case SCLEX_ERLANG:
+		{
+			switch (style)
+			{
+				case SCE_ERLANG_DEFAULT:
+				case SCE_ERLANG_COMMENT:
+				case SCE_ERLANG_STRING:
+				case SCE_ERLANG_CHARACTER:
+				case SCE_ERLANG_COMMENT_FUNCTION:
+				case SCE_ERLANG_COMMENT_MODULE:
+				case SCE_ERLANG_COMMENT_DOC:
+				case SCE_ERLANG_COMMENT_DOC_MACRO:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
 		case SCLEX_F77:
+		case SCLEX_FORTRAN:
 		{
 			switch (style)
 			{
@@ -647,6 +665,21 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_F_STRING1:
 				case SCE_F_STRING2:
 				case SCE_F_STRINGEOL:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
+		case SCLEX_FORTH:
+		{
+			switch (style)
+			{
+				case SCE_FORTH_DEFAULT:
+				case SCE_FORTH_COMMENT:
+				case SCE_FORTH_COMMENT_ML:
+				case SCE_FORTH_STRING:
+				case SCE_FORTH_LOCALE:
 					return TRUE;
 				default:
 					return FALSE;
@@ -761,6 +794,21 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 			}
 			break;
 		}
+		case SCLEX_LISP:
+		{
+			switch (style)
+			{
+				case SCE_LISP_DEFAULT:
+				case SCE_LISP_COMMENT:
+				case SCE_LISP_STRING:
+				case SCE_LISP_STRINGEOL:
+				case SCE_LISP_MULTI_COMMENT:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
 		case SCLEX_LUA:
 		{
 			switch (style)
@@ -789,6 +837,11 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				default:
 					return FALSE;
 			}
+			break;
+		}
+		case SCLEX_MARKDOWN:
+		{
+			return TRUE;
 			break;
 		}
 		case SCLEX_MATLAB:
@@ -939,6 +992,27 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_TCL_COMMENT:
 				case SCE_TCL_COMMENTLINE:
 				case SCE_TCL_IN_QUOTE:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
+		case SCLEX_TXT2TAGS:
+		{
+			return TRUE;
+			break;
+		}
+		case SCLEX_VERILOG:
+		{
+			switch (style)
+			{
+				case SCE_V_DEFAULT:
+				case SCE_V_COMMENT:
+				case SCE_V_COMMENTLINE:
+				case SCE_V_COMMENTLINEBANG:
+				case SCE_V_STRING:
+				case SCE_V_STRINGEOL:
 					return TRUE;
 				default:
 					return FALSE;
