@@ -556,12 +556,10 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 			}
 			break;
 		}
-
-#endif
-		case SCLEX_CPP:
-#ifndef SCE_PAS_DEFAULT
+#else
 		case SCLEX_PASCAL:
 #endif
+		case SCLEX_CPP:
 		{
 			switch (style)
 			{
