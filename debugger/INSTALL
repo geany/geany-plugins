@@ -14,12 +14,12 @@ Second
 --------------------------------------------------------------------------------
 ./configure
 make
-cp src/.libs/geanydbg.so ~/.config/geany/plugins
+cp src/.libs/debugger.so ~/.config/geany/plugins
 
 
 Third
 --------------------------------------------------------------------------------
-There will soon be a possibility to build geanydbg using waf.
+There will soon be a possibility to build debugger using waf.
 
 
 Fourth

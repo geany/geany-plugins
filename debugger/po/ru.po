@@ -5,7 +5,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: geanydbg 0.01\n"
+"Project-Id-Version: debugger 0.21\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-04 14:13+0300\n"
 "PO-Revision-Date: 2010-12-29 22:39+0300\n"
