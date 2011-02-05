@@ -1,0 +1,212 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: geanydbg 0.01\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-01-04 14:13+0300\n"
+"PO-Revision-Date: 2010-12-29 22:39+0300\n"
+"Last-Translator: Alexander Petukhov <Alexander.Petukhov@promt.ru>\n"
+"Language-Team: Geany <Alexander.Petukhov@mail.ru>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: ..\src\keys.c:45
+msgid "Run / Continue"
+msgstr "Запустить / Продолжить"
+
+#: ..\src\keys.c:46
+msgid "Stop"
+msgstr "Останов"
+
+#: ..\src\keys.c:47
+msgid "Step into"
+msgstr "Шаг в"
+
+#: ..\src\keys.c:48
+msgid "Step over"
+msgstr "Шаг через"
+
+#: ..\src\keys.c:49
+msgid "Step out"
+msgstr "Шаг из"
+
+#: ..\src\keys.c:50
+msgid "Add / Remove breakpoint"
+msgstr "Добавить / Удалить точку останова"
+
+#: ..\src\keys.c:50
+msgid "Run to cursor"
+msgstr "Выполнить до позиции курсора"
+
+#: ..\src\keys.c:50
+msgid "Jump to the currect instruction"
+msgstr "Перейти к текущей инструкции"
+
+#: ../src/bptree.c:350
+msgid "Enabled"
+msgstr "Активна"
+
+#: ../src/bptree.c:358
+msgid "Hit count"
+msgstr "Кол-во пропусков"
+
+#: ../src/bptree.c:371
+msgid "Condition"
+msgstr "Условие"
+
+#: ../src/bptree.c:380 ../src/stree.c:143
+msgid "File"
+msgstr "Файл"
+
+#: ../src/bptree.c:387 ../src/stree.c:151
+msgid "Line"
+msgstr "Строка"
+
+#: ../src/dbm_gdb.c:253
+msgid "Program received a signal"
+msgstr "Программа получила сигнал"
+
+#: ../src/dbm_gdb.c:420
+msgid "Failed to spawn gdb process"
+msgstr "Ошибка запуска GDB"
+
+#: ../src/dbm_gdb.c:453 ../src/dbm_gdb.c:502
+msgid "Error configuring GDB"
+msgstr "Ошибка установки параметров GDB"
+
+#: ../src/dbm_gdb.c:465
+msgid "Error loading file"
+msgstr "Ошибка загрузки файла"
+
+#: ../src/debug.c:162 ../src/tpage.c:266 ../src/tpage.c:329
+msgid "Delete variable?"
+msgstr "Удалить переменную?"
+
+#: ../src/debug.c:432
+msgid "Locals"
+msgstr "Локальные переменные"
+
+#: ../src/debug.c:447
+msgid "Call Stack"
+msgstr "Трассировка"
+
+#: ../src/debug.c:475
+msgid "Debug terminal"
+msgstr "Терминал"
+
+#: ../src/debug.c:492
+msgid "Debugger messages"
+msgstr "Отладочные сообщения"
+
+#: ../src/debug.c:731
+msgid "Watch"
+msgstr "Наблюдение"
+
+#: ../src/debug.c:827
+#, c-format
+msgid ""
+"Breakpoint at %s:%i cannot be set\n"
+"Debugger message: %s"
+msgstr ""
+"Точка останова %s:%i не может быть установлена\n"
+"Сообщение отладчика: %s"
+
+#: ../src/keys.c:69 ../src/plugin.c:45
+msgid "Debugger"
+msgstr "Отладчик"
+
+#: ../src/plugin.c:45
+msgid "Various debuggers integration."
+msgstr "Поддержка отладчиков."
+
+#: ../src/plugin.c:85 ../src/tpage.c:787
+msgid "Target"
+msgstr "Цель"
+
+#: ../src/plugin.c:91
+msgid "Breakpoints"
+msgstr "Точки останова"
+
+#: ../src/plugin.c:107
+msgid "Debug"
+msgstr "Отладка"
+
+#: ../src/stree.c:127
+msgid "Address"
+msgstr "Адрес"
+
+#: ../src/stree.c:135
+msgid "Function"
+msgstr "Функция"
+
+#: ../src/tpage.c:450
+msgid "Config saved successfully"
+msgstr "Настройки сохранены"
+
+#: ../src/tpage.c:487 ../src/tpage.c:572
+msgid "Error reading config file"
+msgstr "Ошибка чтения настроек"
+
+#: ../src/tpage.c:500
+#, c-format
+msgid "Configuration error: debugger module '%s' is not found"
+msgstr "Ошибка конфигурации: модуль отладчика '%s' не найден"
+
+#: ../src/tpage.c:577
+msgid "Some breakpoints can't be set as the files are missed"
+msgstr ""
+"Некоторые точки останова не могут быть установлены, т.к. отсутствуют "
+"соответствующие файлы"
+
+#: ../src/tpage.c:584
+msgid "Config loaded successfully"
+msgstr "Настройки загружены успешно"
+
+#: ../src/tpage.c:620
+msgid "Choose target file"
+msgstr "Выберите файл"
+
+#: ../src/tpage.c:795
+msgid "Browse"
+msgstr "Обзор"
+
+#: ../src/tpage.c:807
+msgid "Debugger:"
+msgstr "Отладчик:"
+
+#: ../src/tpage.c:830
+msgid "Arguments"
+msgstr "Аргументы"
+
+#: ../src/tpage.c:845
+msgid "Environment variables"
+msgstr "Переменные окружения"
+
+#: ../src/tpage.c:863 ../src/vtree.c:104
+msgid "Name"
+msgstr "Имя"
+
+#: ../src/tpage.c:872 ../src/vtree.c:119
+msgid "Value"
+msgstr "Значение"
+
+#: ../src/vtree.c:128
+msgid "Type"
+msgstr "Тип"
+
+#: ../src/watch_model.c:159
+msgid "Can't evaluate expression"
+msgstr "Не могу вычислить выражение"
+
+#: ../src/callbacks.c:165
+msgid "To edit source files stop debugging session"
+msgstr "Остановите отладку чтобы редактировать файлы"

@@ -1,0 +1,63 @@
+dnl Process this file with autoconf to produce a configure script.
+
+AC_INIT([debugger], [0.0.2], [Alexander.Petukhov@mail.ru])
+AM_INIT_AUTOMAKE([1.9 foreign])
+
+AM_CONFIG_HEADER(config.h)
+
+AC_PROG_CC
+
+AC_DISABLE_STATIC
+AM_PROG_LIBTOOL
+LIBTOOL="$LIBTOOL --silent"
+
+AC_PROG_INSTALL
+AC_PROG_INTLTOOL
+
+
+# checking for Geany
+PKG_CHECK_MODULES(GEANY, [geany >= 0.15])
+PKG_CHECK_MODULES(VTE, [vte >= 0.24])
+AC_SUBST(GTK_CFLAGS)
+AC_SUBST(GTK_LIBS)
+
+GEANY_VERSION=`$PKG_CONFIG --modversion geany`
+GTK_VERSION=`$PKG_CONFIG --modversion gtk+-2.0`
+
+
+# i18n
+GETTEXT_PACKAGE=geanydebugger
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [Gettext package.])
+
+ALL_LINGUAS="`sed -e '/^#/d' $srcdir/po/LINGUAS`" # take all languages found in file po/LINGUAS
+
+AM_GLIB_GNU_GETTEXT
+# workaround for intltool bug (http://bugzilla.gnome.org/show_bug.cgi?id=490845)
+if test "x$MSGFMT" = "xno"; then
+	AC_MSG_ERROR([msgfmt not found. Please install the gettext package.])
+fi
+
+# intltool hack to define install_sh on Debian/Ubuntu systems
+if test "x$install_sh" = "x"; then
+	install_sh="`pwd`/install-sh"
+	AC_SUBST(install_sh)
+fi
+
+# get the plugin installed at the correct location for Geany
+# TODO find a way to NOT override --libdir command line option if given
+libdir="`$PKG_CONFIG --variable=libdir geany`/geany"
+
+AC_OUTPUT([
+Makefile
+src/Makefile
+po/Makefile.in
+])
+
+echo "----------------------------------------"
+echo "Install geanydebugger in         : ${libdir}"
+echo "Using Geany versio                 : ${GEANY_VERSION}"
+echo "Using GTK version                   : ${GTK_VERSION}"
+echo ""
+echo "Configuration is done OK."
+echo ""
