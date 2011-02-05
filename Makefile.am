@@ -1,6 +1,7 @@
 plugins = \
 	addons \
 	codenav \
+	debugger \
 	geanycfp \
 	geanydoc \
 	geanyextrasel \
