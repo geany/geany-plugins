@@ -846,7 +846,7 @@ gtk_box_pack_start(GTK_BOX(vb),splitw,FALSE,FALSE,3);
 	ui_widget_set_tooltip_text(sdm._##A,_(D));\
 	g_signal_connect(GTK_OBJECT(sdm._##A), "activate", G_CALLBACK(A##_click), NULL); \
 	keybindings_set_item(plugin_key_group, KB_DEBUG_##A, kb_activate, \
-		0, 0, ""#Q2, _(Q2 ":  " D), sdm._##A);
+		0, 0, ""#Q2, Q2 ":  " D, sdm._##A);
 
 #define DBKEYACT(A,B,C) \
 	case KB_DEBUG_##A: \
