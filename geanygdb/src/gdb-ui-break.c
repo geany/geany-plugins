@@ -166,26 +166,26 @@ edit_click(GtkWidget * w, gpointer p)
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(vbox, hbox, TRUE, TRUE, 0);
 
-	gtk_box_pack_start(GTK_BOX(hbox), gtk_label_new(_(" Break after ")), FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), gtk_label_new(_("Break after ")), FALSE, FALSE, 0);
 	after_entry = gtk_entry_new();
 	if (bpd->bpi->ignore)
 	{
 		gtk_entry_set_text(GTK_ENTRY(after_entry), bpd->bpi->ignore);
 	}
 	gtk_box_pack_start(GTK_BOX(hbox), after_entry, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), gtk_label_new(_(" times. ")), FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), gtk_label_new(_(" times.")), FALSE, FALSE, 0);
 
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(vbox, hbox, TRUE, TRUE, 0);
 
-	gtk_box_pack_start(GTK_BOX(hbox), gtk_label_new(_(" Break when ")), FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), gtk_label_new(_("Break when ")), FALSE, FALSE, 0);
 	condition_entry = gtk_entry_new();
 	if (bpd->bpi->cond)
 	{
 		gtk_entry_set_text(GTK_ENTRY(condition_entry), bpd->bpi->cond);
 	}
 	gtk_box_pack_start(GTK_BOX(hbox), condition_entry, TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), gtk_label_new(_(" is true. ")), FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), gtk_label_new(_(" is true.")), FALSE, FALSE, 0);
 
 	gtk_widget_show_all(dlg);
 	gtk_entry_set_activates_default(GTK_ENTRY(condition_entry), TRUE);
