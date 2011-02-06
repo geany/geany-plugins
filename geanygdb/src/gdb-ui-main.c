@@ -591,6 +591,7 @@ load_click(GtkWidget * btn, gpointer user_data)
 								base_path = g_path_get_dirname(fn);
 								gdbio_send_cmd("-environment-cd %s\n", base_path);
 								g_free(base_path);
+								g_free(ldd);
 							}
 							else
 							{
