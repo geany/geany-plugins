@@ -562,8 +562,8 @@ load_click(GtkWidget * btn, gpointer user_data)
 							{
 								gchar *base_path;
 								gchar *ldd = g_strdup_printf("ldd \"%s\"", fn);
-								FILE *fh = popen(ldd, "r");
-								if (fh)
+								FILE *ph = popen(ldd, "r");
+								if (ph)
 								{
 									ssize_t r = 0;
 									char *buf = NULL;
@@ -571,14 +571,14 @@ load_click(GtkWidget * btn, gpointer user_data)
 									gboolean have_x = FALSE;
 									while (r >= 0)
 									{
-										r = getline(&buf, &len, fh);
+										r = getline(&buf, &len, ph);
 										if (len && buf
 												&& strstr(buf, "libX11.so"))
 										{
 											have_x = TRUE;
 										}
 									}
-									fclose(fh);
+									pclose(ph);
 									gtk_toggle_button_set_active
 											(GTK_TOGGLE_BUTTON(term_chk),
 											!have_x);
@@ -586,7 +586,7 @@ load_click(GtkWidget * btn, gpointer user_data)
 								gdbio_load(fn);
 								if (pipe_chk_active())
 									pipe_click(pipe_chk, NULL);
-									
+
 								/* set working dir after loading */
 								base_path = g_path_get_dirname(fn);
 								gdbio_send_cmd("-environment-cd %s\n", base_path);
