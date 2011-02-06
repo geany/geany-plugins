@@ -1,3 +1,9 @@
+2011-02-06  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * src/insertnum.c:
+   Fix a little memory leak.
+
+
 2010-12-07  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/insertnum.c:

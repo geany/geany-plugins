@@ -239,6 +239,7 @@ static void insert_numbers(gboolean *cancel)
 
 	sci_end_undo_action(sci);
 	g_free(buffer);
+	g_free(line_pos);
 	ui_progress_bar_stop();
 }
 
