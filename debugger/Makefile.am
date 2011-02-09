@@ -1,14 +1,11 @@
-SUBDIRS = src po
+if ENABLE_CODENAV
+include $(top_srcdir)/build/vars.auxfiles.mk
+else
+include $(top_srcdir)/build/vars.docs.mk
+EXTRA_DIST =
+endif
 
-EXTRA_DIST =				\
-	autogen.sh				\
-	makefile.win32			\
-	intltool-extract.in		\
-	intltool-merge.in		\
-	intltool-update.in		\
+SUBDIRS = src
+
+EXTRA_DIST +=				\
 	indent-all.sh
-
-DISTCLEANFILES =			\
-	intltool-extract		\
-	intltool-merge			\
-	intltool-update

@@ -1,5 +1,11 @@
+include $(top_srcdir)/build/vars.build.mk
 
-lib_LTLIBRARIES = debugger.la
+if ENABLE_DEBUGGER
+geanyplugins_LTLIBRARIES = debugger.la
+else
+EXTRA_LTLIBRARIES = debugger.la
+endif
+
 debugger_la_SOURCES = \
 	bptree.c     \
 	bptree.h     \
@@ -32,10 +38,6 @@ debugger_la_SOURCES = \
 	watch_model.c     \
 	watch_model.h     \
 	wtree.c     \
-	wtree.h     
+	wtree.h
 
-debugger_la_LDFLAGS = -module -avoid-version
-debugger_la_LIBADD  = @GEANY_LIBS@  $(INTLLIBS) -lutil
-
-AM_CFLAGS = @GEANY_CFLAGS@ -DLOCALEDIR=\""$(localedir)"\" -DPREFIX=\""$(prefix)"\"
-
+debugger_la_LIBADD = $(COMMONLIBS) -lutil
