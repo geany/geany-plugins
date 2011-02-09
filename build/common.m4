@@ -1,5 +1,7 @@
+
 dnl GP_ARG_DISABLE(PluginName, default)
-dnl - default can either be yes(enabled) or no(disabled)
+dnl - default can either be yes(enabled) or no(disabled), or auto(to be used
+dnl   with GP_CHECK_PLUGIN_DEPS)
 dnl Generates --enable/disable options with help strings
 
 AC_DEFUN([GP_ARG_DISABLE],
