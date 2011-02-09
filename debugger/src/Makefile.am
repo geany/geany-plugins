@@ -41,3 +41,4 @@ debugger_la_SOURCES = \
 	wtree.h
 
 debugger_la_LIBADD = $(COMMONLIBS) -lutil
+debugger_la_CFLAGS = $(AM_CFLAGS) $(VTE_CFLAGS)
