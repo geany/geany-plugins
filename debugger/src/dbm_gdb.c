@@ -251,7 +251,7 @@ GList* read_until_end()
 static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer data)
 {
 	gchar *line;
-	gint length;
+	gsize length;
 	
 	if (G_IO_STATUS_NORMAL != g_io_channel_read_line(src, &line, NULL, &length, NULL))
 		return TRUE;		
@@ -900,7 +900,7 @@ GList* get_stack()
 			strcpy(f->file, "");
 		
 		/* whether source is available */
-		f->have_source = (gboolean)fullname;
+		f->have_source = fullname ? TRUE : FALSE;
 
 		/* line */
 		int line = 0;

@@ -93,7 +93,7 @@ void on_selection_changed(GtkTreeSelection *treeselection, gpointer user_data)
 			-1);
 		
 		/* check if file name is not empty and we have source files for the frame */
-		if (strlen(file) && g_hash_table_lookup(frames, (gpointer)file))
+		if (strlen(file) && GPOINTER_TO_INT(g_hash_table_lookup(frames, (gpointer)file)))
 			callback(file, line);
 		
 		g_free(file);
@@ -203,8 +203,8 @@ void stree_add(frame *f)
                     -1);
     
 	/* remember if we have source for this frame */
-    if (f->have_source && !g_hash_table_lookup(frames, (gpointer)f->file))
-		g_hash_table_insert(frames, g_strdup(f->file), (gpointer)f->have_source);
+    if (f->have_source && !GPOINTER_TO_INT(g_hash_table_lookup(frames, (gpointer)f->file)))
+		g_hash_table_insert(frames, g_strdup(f->file), GINT_TO_POINTER(f->have_source));
 }
 
 /*

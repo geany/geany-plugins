@@ -735,7 +735,7 @@ static void on_debugger_message (gchar* message, gchar *color)
  */
 static void on_debugger_error (gchar* message)
 {
-	dialogs_show_msgbox(GTK_MESSAGE_ERROR, message);
+	dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", message);
 }
 
 /* callbacks structure to pass to debugger module */
@@ -986,7 +986,7 @@ void debug_run()
 					sprintf(msg, _("Breakpoint at %s:%i cannot be set\nDebugger message: %s"),
 						erroneous_break->file, erroneous_break->line, active_module->error_message());
 						
-					dialogs_show_msgbox(GTK_MESSAGE_ERROR, msg);
+					dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", msg);
 						
 					active_module->stop();
 					debug_state = DBS_STOP_REQUESTED;

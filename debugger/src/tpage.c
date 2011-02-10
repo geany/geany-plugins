@@ -247,13 +247,13 @@ void on_render_value(GtkTreeViewColumn *tree_column,
 {
 	/* do not allow to edit value in read only mode */
 	if (page_read_only)
-		g_object_set (cell, "editable", FALSE);
+		g_object_set (cell, "editable", FALSE, NULL);
 	else
 	{
 		/* do not allow to edit value for empty row */
 		GtkTreePath *path = gtk_tree_model_get_path(tree_model, iter);
 		gboolean empty = !gtk_tree_path_compare(path, gtk_tree_row_reference_get_path(empty_row));
-		g_object_set (cell, "editable", entering_new_var || !empty);
+		g_object_set (cell, "editable", entering_new_var || !empty, NULL);
 		gtk_tree_path_free(path);
 	}
 }

@@ -76,7 +76,7 @@ breakpoint* lookup_breakpoint(gchar* file, int line)
 	breakpoint* bp = NULL;
 	GTree* tree = NULL;
 	if (tree = (GTree*)g_hash_table_lookup(files, file))
-		bp = g_tree_lookup(tree, (gconstpointer)line);
+		bp = g_tree_lookup(tree, GINT_TO_POINTER(line));
 
 	return bp;
 }
@@ -91,10 +91,7 @@ breakpoint* lookup_breakpoint(gchar* file, int line)
  */
 gint compare_func(gconstpointer a, gconstpointer b, gpointer user_data)
 {
-	if (a == b)
-		return 0;
-	else
-		return a > b ? 1 : -1; 
+	return GPOINTER_TO_INT(a) - GPOINTER_TO_INT(b);
 }
 
 /*
@@ -120,7 +117,7 @@ void handle_break_new(breakpoint* bp, gboolean success)
 		markers_add_breakpoint(bp);
 	}
 	else
-		dialogs_show_msgbox(GTK_MESSAGE_ERROR, debug_error_message());
+		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", debug_error_message());
 }
 
 /*
@@ -139,10 +136,10 @@ void handle_break_remove(breakpoint* bp, gboolean success)
 		bptree_remove_breakpoint(bp);
 		/* remove from internal storage */
 		GTree *tree = g_hash_table_lookup(files,bp->file);
-		g_tree_remove(tree, (gconstpointer)bp->line);
+		g_tree_remove(tree, GINT_TO_POINTER(bp->line));
 	}
 	else
-		dialogs_show_msgbox(GTK_MESSAGE_ERROR, debug_error_message());
+		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", debug_error_message());
 }
 
 /*
@@ -156,7 +153,7 @@ void handle_hitscount_set(breakpoint* bp, gboolean success)
 	if (success)
 		bptree_set_hitscount(bp->iter, bp->hitscount);
 	else
-		dialogs_show_msgbox(GTK_MESSAGE_ERROR, debug_error_message());
+		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", debug_error_message());
 }
 
 /*
@@ -179,7 +176,7 @@ void handle_condition_set(breakpoint* bp, gboolean success)
 		strcpy(bp->condition, oldcondition);
 		g_free(oldcondition);
 		/* show error message */
-		dialogs_show_msgbox(GTK_MESSAGE_ERROR, debug_error_message());
+		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", debug_error_message());
 	}
 }
 
@@ -298,7 +295,7 @@ void breaks_add(char* file, int line, char* condition, int enabled, int hitscoun
 	}
 	
 	/* insert to internal storage */
-	g_tree_insert(tree, (gpointer)bp->line, (gpointer)bp);
+	g_tree_insert(tree, GINT_TO_POINTER(bp->line), bp);
 
 	/* handle creation instantly if debugger is idle or stopped
 	and request debug module interruption overwise */
@@ -442,7 +439,7 @@ gboolean breaks_is_set(char* file, int line)
 	else
 	{
 		/* lookup for the break in GTree*/
-		gpointer p = g_tree_lookup(tree, (gconstpointer)line);
+		gpointer p = g_tree_lookup(tree, GINT_TO_POINTER(line));
 		return p && ((breakpoint*)p)->enabled;
 	}
 }
