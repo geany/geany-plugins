@@ -3,17 +3,17 @@
 TreeBrowser plugin
 ==================
 
-.. contents::
-
-
-About
-=====
-
 .. image:: http://img43.imageshack.us/img43/9053/screenshotsmallq.png
    :width: 400
    :alt: treebrowser plugin
    :align: right
    :target: http://img828.imageshack.us/img828/1351/screenshot1fq.png
+
+.. contents::
+
+
+About
+=====
 
 The TreeBrowser plugin for Geany provides an alternate way to browse through
 your files. It displays files and directories in a tree view and has more
