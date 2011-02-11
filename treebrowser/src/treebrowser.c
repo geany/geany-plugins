@@ -53,7 +53,11 @@ static gboolean 			flag_on_expand_refresh 		= FALSE;
  * ------------------ */
 
 static gchar 				*CONFIG_FILE 				= NULL;
+#ifdef G_OS_WIN32
 static gchar 				*CONFIG_OPEN_EXTERNAL_CMD 	= "nautilus '%d'";
+#else
+static gchar 				*CONFIG_OPEN_EXTERNAL_CMD 	= "explorer '%d'";
+#endif
 static gboolean 			CONFIG_REVERSE_FILTER 		= FALSE;
 static gboolean 			CONFIG_ONE_CLICK_CHDOC 		= FALSE;
 static gboolean 			CONFIG_SHOW_HIDDEN_FILES 	= FALSE;
@@ -308,7 +312,6 @@ check_hidden(const gchar *filename)
 
 	return FALSE;
 }
-
 
 static gchar*
 get_default_dir()

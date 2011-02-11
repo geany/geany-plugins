@@ -28,11 +28,18 @@
 	(DONE) Adding keybindings for renaming/deleting/refreshing
 	(DONE) Add option to change bars position // requested by <dmaphy>
 	(DONE) Add option to autorename point the newest created objects by the Treebrowser
-
+	* It is impossible to rename file/directory in Windows, dunno why
+	* It is impossible to delete file/directory in Windows, dunno why
 
 +-------------------------------+
 | Development release ChangeLog |
 +-------------------------------+
+
+
+12-02-2011 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		When Windows detected, it is creating config file (if it needen) with Explorer for external viewer
 
 
 10-02-2011 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
