@@ -35,10 +35,19 @@
 +-------------------------------+
 
 
+10-02-2011 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		Added function to close directory childrens (patch by Oliver Marks (#3175562), thanks)
+		Replaced TreeBrowser`s hidden file check with the native filebrowser check (thanks to geany`s team),
+			this may be fixing the bug #3157070 (Treebrowser plugin crashes Geany with files ending in ~)
+
+
 14-12-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
 		Fixed nighty compilation error (reported by Enrico Tröger)
+
 
 10-12-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 

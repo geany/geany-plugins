@@ -18,6 +18,9 @@
 # include <gio/gio.h>
 #endif
 
+#ifdef G_OS_WIN32
+# include <windows.h>
+#endif
 
 /* These items are set by Geany before plugin_init() is called. */
 GeanyPlugin 				*geany_plugin;
@@ -216,13 +219,14 @@ utils_pixbuf_from_path(gchar *path)
 #endif
 }
 
+/* Return: FALSE - if file is filtered and not shown, and TRUE - if file isn`t filtered, and have to be shown */
 static gboolean
 check_filtered(const gchar *base_name)
 {
 	gchar		**filters;
 	guint 		i;
 	gboolean 	temporary_reverse 	= FALSE;
-	const gchar *exts[] 			= {".o", ".obj", ".so", ".dll", ".a", ".lib"};
+	const gchar *exts[] 			= {".o", ".obj", ".so", ".dll", ".a", ".lib", ".la", ".lo", ".pyc"};
 	guint exts_len;
 	const gchar *ext;
 	gboolean	filtered;
@@ -265,65 +269,46 @@ check_filtered(const gchar *base_name)
 	return filtered;
 }
 
-static gboolean
-check_hidden(const gchar *uri)
-{
-	gboolean is_visible = TRUE;
-	gchar *base_name;
-
 #ifdef G_OS_WIN32
-# ifdef HAVE_GIO
-	GFile *file;
-	GFileInfo *info;
-
-	if (CONFIG_SHOW_HIDDEN_FILES)
-	{
-		g_object_unref(info);
-		g_object_unref(file);
-		g_free(base_name);
+static gboolean
+win32_check_hidden(const gchar *filename)
+{
+	DWORD attrs;
+	static wchar_t w_filename[MAX_PATH];
+	MultiByteToWideChar(CP_UTF8, 0, filename, -1, w_filename, sizeof(w_filename));
+	attrs = GetFileAttributesW(w_filename);
+	if (attrs != INVALID_FILE_ATTRIBUTES && attrs & FILE_ATTRIBUTE_HIDDEN)
 		return TRUE;
-	}
-
-	if (uri[strlen(uri) - 1] == '~')
-	{
-		g_object_unref(info);
-		g_object_unref(file);
-		g_free(base_name);
-		return FALSE;
-	}
-
-	file = g_file_new_for_path(uri);
-	info = g_file_query_info(file, G_FILE_ATTRIBUTE_STANDARD_IS_HIDDEN, 0, NULL, NULL);
-	if (info)
-	{
-		if (g_file_info_get_is_hidden(info))
-			is_visible = FALSE;
-		g_object_unref(info);
-	}
-	g_object_unref(file);
-# endif /* HAVE_GIO */
-#else /* G_OS_WIN32 */
-
-	if (CONFIG_SHOW_HIDDEN_FILES)
-	{
-		g_free(base_name);
-		return TRUE;
-	}
-
-	if (uri[strlen(uri) - 1] == '~')
-	{
-		g_free(base_name);
-		return FALSE;
-	}
-
-	base_name = g_path_get_basename(uri);
-	if (base_name[0] == '.')
-		is_visible = FALSE;
-	g_free(base_name);
+	return FALSE;
+}
 #endif
 
-	return is_visible;
+/* Returns: whether name should be hidden. */
+static gboolean
+check_hidden(const gchar *filename)
+{
+	const gchar *base_name = NULL;
+	base_name = g_path_get_basename(filename);
+	gsize len;
+
+	if (! NZV(base_name))
+		return FALSE;
+
+#ifdef G_OS_WIN32
+	if (win32_check_hidden(filename))
+		return TRUE;
+#else
+	if (base_name[0] == '.')
+		return TRUE;
+#endif
+
+	len = strlen(base_name);
+	if (base_name[len - 1] == '~')
+		return TRUE;
+
+	return FALSE;
 }
+
 
 static gchar*
 get_default_dir()
@@ -460,7 +445,7 @@ treebrowser_browse(gchar *directory, gpointer parent)
 			is_dir 		= g_file_test (uri, G_FILE_TEST_IS_DIR);
 			utf8_name 	= utils_get_utf8_from_locale(fname);
 
-			if (check_hidden(uri))
+			if (!check_hidden(uri))
 			{
 				GdkPixbuf *icon = NULL;
 
@@ -1036,6 +1021,27 @@ on_menu_close(GtkMenuItem *menuitem, gchar *uri)
 }
 
 static void
+on_menu_close_children(GtkMenuItem *menuitem, gchar *uri)
+{
+	guint nb_documents = geany->documents_array->len;
+	int i;
+	int uri_len=strlen(uri);
+	for(i=0; i<GEANY(documents_array)->len; i++)
+	{
+		if(documents[i]->is_valid)
+		{
+			/* the docuemnt filename shoudl always be longer than the uri when closing children
+			 * Compare the beginingin of the filename string to see if it matchs the uri*/
+			if(strlen(documents[i]->file_name)>uri_len)
+			{
+				if(strncmp(uri,documents[i]->file_name,uri_len)==0)
+					document_close(documents[i]);
+			}
+		}
+	}
+}
+
+static void
 on_menu_copy_uri(GtkMenuItem *menuitem, gchar *uri)
 {
 	GtkClipboard *cb = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
@@ -1127,6 +1133,11 @@ create_popup_menu(gchar *name, gchar *uri)
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_close), uri);
 	gtk_widget_set_sensitive(item, is_document);
+
+	item = ui_image_menu_item_new(GTK_STOCK_CLOSE, g_strdup_printf(_("Close Child Documents ")));
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_close_children), uri);
+	gtk_widget_set_sensitive(item, is_dir);
 
 	item = ui_image_menu_item_new(GTK_STOCK_COPY, _("Copy full path to clipboard"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
