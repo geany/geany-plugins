@@ -5,4 +5,6 @@ TODO
 * Load the currently viewed source file. Or at least, have some quick way to
   load the current file. (requested by mail)
 * Make it possible to add parameters to the run command
-
+* AVR (avr-gdb) support
+* cris-gdb support
+* maybe generic support for other gdb-compatible or gdb-based debuggers
