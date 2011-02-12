@@ -17,6 +17,25 @@ codenav/src/goto_file.c
 codenav/src/switch_head_impl.c
 codenav/src/utils.c
 
+#debugger
+debugger/src/bptree.c
+debugger/src/breakpoints.c
+debugger/src/dbm_gdb.c
+debugger/src/debug_module.c
+debugger/src/ltree.c
+debugger/src/plugin.c
+debugger/src/tpage.c
+debugger/src/vtree.c
+debugger/src/wtree.c
+debugger/src/breakpoint.c
+debugger/src/callbacks.c
+debugger/src/debug.c
+debugger/src/keys.c
+debugger/src/markers.c
+debugger/src/stree.c
+debugger/src/utils.c
+debugger/src/watch_model.c
+
 #geanycfp
 geanycfp/src/geanycfp.c
 
