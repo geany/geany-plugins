@@ -11,13 +11,13 @@ addons/src/ao_markword.c
 addons/src/ao_blanklines.c
 addons/src/ao_xmltagging.c
 
-#codenav
+# codenav
 codenav/src/codenavigation.c
 codenav/src/goto_file.c
 codenav/src/switch_head_impl.c
 codenav/src/utils.c
 
-#debugger
+# debugger
 debugger/src/bptree.c
 debugger/src/breakpoints.c
 debugger/src/dbm_gdb.c
@@ -36,13 +36,13 @@ debugger/src/stree.c
 debugger/src/utils.c
 debugger/src/watch_model.c
 
-#geanycfp
+# geanycfp
 geanycfp/src/geanycfp.c
 
-#geanydoc
+# geanydoc
 geanydoc/src/geanydoc.c
 
-#geanygdb
+# geanygdb
 geanygdb/src/gdb-io-break.c
 geanygdb/src/gdb-io-envir.c
 geanygdb/src/gdb-io-frame.c
@@ -54,6 +54,9 @@ geanygdb/src/gdb-ui-frame.c
 geanygdb/src/gdb-ui-locn.c
 geanygdb/src/gdb-ui-main.c
 geanygdb/src/geanygdb.c
+
+# GeanyExtraSel
+geanyextrasel/src/extrasel.c
 
 # GeanyGenDoc
 geanygendoc/src/ggd.c
@@ -69,7 +72,10 @@ geanygendoc/src/ggd-utils.c
 geanygendoc/src/ggd-widget-doctype-selector.c
 geanygendoc/src/ggd-widget-frame.c
 
-#geanylatex
+# GeanyInsertnum
+geanyinsertnum/src/insertnum.c
+
+# geanylatex
 geanylatex/src/bibtex.c
 geanylatex/src/formatutils.c
 geanylatex/src/latexenvironments.c
@@ -84,34 +90,10 @@ geanylatex/src/latexencodings.c
 geanylatex/src/latexstructure.c
 geanylatex/src/reftex.c
 
-
-#geanylipsum
+# geanylipsum
 geanylipsum/src/geanylipsum.c
 
-# geanysendmail
-geanysendmail/src/geanysendmail.c
-
-# geanyvc
-geanyvc/src/geanyvc.c
-geanyvc/src/geanyvc.h
-geanyvc/src/vc_bzr.c
-geanyvc/src/vc_cvs.c
-geanyvc/src/vc_git.c
-geanyvc/src/vc_hg.c
-geanyvc/src/vc_svk.c
-geanyvc/src/vc_svn.c
-geanyvc/src/utils.c
-
-
-# Spell Check
-spellcheck/src/speller.c
-spellcheck/src/scplugin.c
-spellcheck/src/gui.c
-
-# Shift Column
-shiftcolumn/src/shiftcolumn.c
-
-# Lua
+# geanyLua
 geanylua/gsdlg_lua.c
 geanylua/glspi_init.c
 geanylua/glspi_sci.c
@@ -133,21 +115,37 @@ geanyprj/src/sidebar.c
 geanyprj/src/utils.c
 geanyprj/src/xproject.c
 
-#Pretty-printer
+# geanysendmail
+geanysendmail/src/geanysendmail.c
+
+# geanyvc
+geanyvc/src/geanyvc.c
+geanyvc/src/geanyvc.h
+geanyvc/src/vc_bzr.c
+geanyvc/src/vc_cvs.c
+geanyvc/src/vc_git.c
+geanyvc/src/vc_hg.c
+geanyvc/src/vc_svk.c
+geanyvc/src/vc_svn.c
+geanyvc/src/utils.c
+
+# Pretty-printer
 pretty-printer/src/PluginEntry.c
 pretty-printer/src/PrettyPrinter.c
 
-# GeanyInsertnum
-geanyinsertnum/src/insertnum.c
+# Spell Check
+spellcheck/src/speller.c
+spellcheck/src/scplugin.c
+spellcheck/src/gui.c
+
+# Shift Column
+shiftcolumn/src/shiftcolumn.c
 
 # Tableconvert
 tableconvert/src/tableconvert.c
 
 # treebrowser
 treebrowser/src/treebrowser.c
-
-# GeanyExtraSel
-geanyextrasel/src/extrasel.c
 
 # UpdateChecker
 updatechecker/src/updatechecker.c
