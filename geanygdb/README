@@ -4,8 +4,10 @@ GeanyGDB Plugin
 
 .. contents::
 
+
 About
 =====
+
 GeanyGDB is a plugin for Geany which provides integrated debugging support
 within Geany via the GNU Debugger (GDB).
 
@@ -15,21 +17,25 @@ GTK2 toolkit.
 The GNU Debugger is a source-level debugger for C, C++, Fortran, Modula 2 and
 Java programs.
 
-It was developed and tested on openSUSE-10.3 with GDB-6.7.50. Other recent
-versions of GDB will probably work, but operating systems other than Linux-PC
-will not work, at least not without some considerable hacking.
+It was developed and tested on openSUSE-10.3 with GDB-6.7.50 by Jeff Pohlmeyer.
+Current maintainer is Dominic Hopf, he develops with current SVN versions on
+current Fedora systems. Other recent versions of GDB will probably work, but
+operating systems other than Linux-PC will not work, at least not without some
+considerable hacking.
 
 
 Current Version
 ===============
+
 GeanyGDB now is part of the Geany-Plugins project. The current version of
-Geany-Plugins is 0.18. The last stable release of GeanyGDB is 0.0.2. You are
+Geany-Plugins is 0.20. The last stable release of GeanyGDB is 0.0.2. You are
 recommended to use the more current versions of GeanyGDB shipped with
 Geany-Plugins.
 
 
 Requirements
 ============
+
 If you like to compile Geany-Plugins yourself, you will need the GTK (>= 2.8.0)
 libraries and header files. You will also need its dependency libraries and header
 files, such as Pango, Glib and ATK. All these files are available at
@@ -50,12 +56,14 @@ And last but not least: GDB.
 
 Installation
 ============
+
 Please consider to compile and/or install the Geany-Plugins project, as GeanyGDB
 now is part of Geany-Plugins.
 
 
 Documentation
 =============
+
 There is no real documentation, but if you hover your mouse over the buttons
 in the GeanyGDBs sidebar panel in Geany the tooltips should give you some idea
 of what to do next. There are also a few "rough draft" notes below:
