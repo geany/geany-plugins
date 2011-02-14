@@ -39,6 +39,12 @@
 
 14-02-2011 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
+	* src/treebrowser.c
+		Try to prevent from potentially frees string literals (reported by kugel)
+
+
+14-02-2011 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
 	* One year release (from the idea to working plugin, thanks for all for the support)
 
 	* src/treebrowser.c

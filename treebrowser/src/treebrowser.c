@@ -223,8 +223,8 @@ utils_pixbuf_from_path(gchar *path)
 #endif
 }
 
-static gchar
-*path_is_in_dir(gchar* src, gchar* find)
+static gchar*
+path_is_in_dir(gchar* src, gchar* find)
 {
 	int i = 0;
 	gchar *diffed_path = "";
@@ -398,17 +398,17 @@ get_default_dir()
 static gchar *
 get_terminal()
 {
-#ifdef G_OS_WIN32
-	return "cmd"
-#else
 	gchar 		*terminal;
+#ifdef G_OS_WIN32
+	terminal = g_strdup("cms");
+#else
 	const gchar *term = g_getenv("TERM");
 	if (term != NULL)
 		terminal = g_strdup(term);
 	else
 		terminal = g_strdup("xterm");
-	return terminal;
 #endif
+	return terminal;
 }
 
 static gboolean
@@ -861,7 +861,6 @@ treebrowser_track_current()
 
 			treebrowser_expand_to_path(froot, path_current);
 
-			g_free(froot);
 		}
 
 		g_strfreev(path_segments);
