@@ -163,7 +163,6 @@ PluginCallback plugin_callbacks[] =
  * TREEBROWSER CORE FUNCTIONS
  * ------------------ */
 
-
 static gboolean
 tree_view_row_expanded_iter(GtkTreeView *tree_view, GtkTreeIter *iter)
 {
@@ -227,10 +226,10 @@ static gchar*
 path_is_in_dir(gchar* src, gchar* find)
 {
 	int i = 0;
+
 	gchar *diffed_path = "";
 	gchar **src_segments = NULL, **find_segments = NULL;
-	guint src_segments_n = 0, find_segments_n = 0;
-	gboolean found = FALSE;
+	guint src_segments_n = 0, find_segments_n = 0, n = 0;
 
 	src_segments = g_strsplit(src, G_DIR_SEPARATOR_S, 0);
 	find_segments = g_strsplit(find, G_DIR_SEPARATOR_S, 0);
@@ -238,41 +237,23 @@ path_is_in_dir(gchar* src, gchar* find)
 	src_segments_n = g_strv_length(src_segments)-1;
 	find_segments_n = g_strv_length(find_segments)-1;
 
-	/*
-	 * If the find is in src
-	 */
-	for (i = 1; i<=find_segments_n; i++)
-	{
-		diffed_path = g_strconcat(diffed_path, G_DIR_SEPARATOR_S, find_segments[i], NULL);
-		if (utils_str_equal(src, diffed_path) == TRUE)
+	n = src_segments_n;
+	if (find_segments_n < n)
+		n = find_segments_n;
+
+	for(i = 1; i<=n; i++)
+		if (g_strcmp0(find_segments[i], src_segments[i])!=0)
 		{
-			found = TRUE;
+			diffed_path = NULL;
 			break;
 		}
-	}
-
-	/* Reversed
-	 *
-	 * If src is in find
-	 */
-	if (!found)
-	{
-		diffed_path = "";
-		for (i = 1; i<=src_segments_n; i++)
-		{
-			diffed_path = g_strconcat(diffed_path, G_DIR_SEPARATOR_S, src_segments[i], NULL);
-			if (utils_str_equal(find, diffed_path) == TRUE)
-			{
-				found = TRUE;
-				break;
-			}
-		}
-	}
+		else
+			diffed_path = g_strconcat(diffed_path, G_DIR_SEPARATOR_S, find_segments[i], NULL);
 
 	g_strfreev(src_segments);
 	g_strfreev(find_segments);
 
-	return (found ? diffed_path : NULL);
+	return diffed_path;
 }
 
 /* Return: FALSE - if file is filtered and not shown, and TRUE - if file isn`t filtered, and have to be shown */
@@ -400,7 +381,7 @@ get_terminal()
 {
 	gchar 		*terminal;
 #ifdef G_OS_WIN32
-	terminal = g_strdup("cms");
+	terminal = g_strdup("cmd");
 #else
 	const gchar *term = g_getenv("TERM");
 	if (term != NULL)
@@ -854,16 +835,16 @@ treebrowser_track_current()
 			froot = path_is_in_dir(addressbar_last_address, g_path_get_dirname(path_current));
 
 			if (froot == NULL)
-				froot = G_DIR_SEPARATOR_S;
+				froot = g_strdup(G_DIR_SEPARATOR_S);
 
 			if (utils_str_equal(froot, addressbar_last_address) != TRUE)
 				treebrowser_chroot(froot);
 
 			treebrowser_expand_to_path(froot, path_current);
-
 		}
 
 		g_strfreev(path_segments);
+		g_free(froot);
 		g_free(path_current);
 
 		return FALSE;
