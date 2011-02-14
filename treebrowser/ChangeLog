@@ -8,6 +8,8 @@
 	(FIXED) Double click on bookmarks, do nothing
 	(FIXED) show/hide hidden files not working on Windows
 	(FIXED) "Go Up" not working if the current path ends with slash // thanks to <dmaphy> for the report
+	* It is impossible to rename file/directory in Windows, dunno why
+	* It is impossible to delete file/directory in Windows, dunno why
 
 
 +---------------------------+
@@ -21,19 +23,29 @@
 	(DONE) Saving state of Showbars in config file everytime where is changed
 	(DONE) oneclick document opening
 	(DONE) filter separating ex.: "*.c;*.cpp;*.h"
-	* Complete following path from current document view
+	(DONE) Complete following path from current document view
 	(DONE) Hide object files as native filebroser (*.o;*.a;*.so;*.dll;*.lib..)
 	(DONE) Using font from geany settings for sidebar
 	(REJECTED) Migrating to stash
 	(DONE) Adding keybindings for renaming/deleting/refreshing
 	(DONE) Add option to change bars position // requested by <dmaphy>
 	(DONE) Add option to autorename point the newest created objects by the Treebrowser
-	* It is impossible to rename file/directory in Windows, dunno why
-	* It is impossible to delete file/directory in Windows, dunno why
+
 
 +-------------------------------+
 | Development release ChangeLog |
 +-------------------------------+
+
+
+14-02-2011 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* One year release (from the idea to working plugin, thanks for all for the support)
+
+	* src/treebrowser.c
+		Completed file tracking functionality, now tracking and files that are not in the cached directories
+			This is the last TODO point from the started idea. Today is it exactly one from the first release.
+		Make default terminal for Windows always be "cmd"
+		Fixed directory separator for when chrooting be G_DIR_SEPARATOR_S not always "/"
 
 
 12-02-2011 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>

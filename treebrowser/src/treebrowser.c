@@ -223,6 +223,58 @@ utils_pixbuf_from_path(gchar *path)
 #endif
 }
 
+static gchar
+*path_is_in_dir(gchar* src, gchar* find)
+{
+	int i = 0;
+	gchar *diffed_path = "";
+	gchar **src_segments = NULL, **find_segments = NULL;
+	guint src_segments_n = 0, find_segments_n = 0;
+	gboolean found = FALSE;
+
+	src_segments = g_strsplit(src, G_DIR_SEPARATOR_S, 0);
+	find_segments = g_strsplit(find, G_DIR_SEPARATOR_S, 0);
+
+	src_segments_n = g_strv_length(src_segments)-1;
+	find_segments_n = g_strv_length(find_segments)-1;
+
+	/*
+	 * If the find is in src
+	 */
+	for (i = 1; i<=find_segments_n; i++)
+	{
+		diffed_path = g_strconcat(diffed_path, G_DIR_SEPARATOR_S, find_segments[i], NULL);
+		if (utils_str_equal(src, diffed_path) == TRUE)
+		{
+			found = TRUE;
+			break;
+		}
+	}
+
+	/* Reversed
+	 *
+	 * If src is in find
+	 */
+	if (!found)
+	{
+		diffed_path = "";
+		for (i = 1; i<=src_segments_n; i++)
+		{
+			diffed_path = g_strconcat(diffed_path, G_DIR_SEPARATOR_S, src_segments[i], NULL);
+			if (utils_str_equal(find, diffed_path) == TRUE)
+			{
+				found = TRUE;
+				break;
+			}
+		}
+	}
+
+	g_strfreev(src_segments);
+	g_strfreev(find_segments);
+
+	return (found ? diffed_path : NULL);
+}
+
 /* Return: FALSE - if file is filtered and not shown, and TRUE - if file isn`t filtered, and have to be shown */
 static gboolean
 check_filtered(const gchar *base_name)
@@ -346,14 +398,17 @@ get_default_dir()
 static gchar *
 get_terminal()
 {
+#ifdef G_OS_WIN32
+	return "cmd"
+#else
 	gchar 		*terminal;
 	const gchar *term = g_getenv("TERM");
-
 	if (term != NULL)
 		terminal = g_strdup(term);
 	else
 		terminal = g_strdup("xterm");
 	return terminal;
+#endif
 }
 
 static gboolean
@@ -387,13 +442,13 @@ treebrowser_checkdir(gchar *directory)
 static void
 treebrowser_chroot(gchar *directory)
 {
-	if (g_str_has_suffix(directory, "/"))
+	if (g_str_has_suffix(directory, G_DIR_SEPARATOR_S))
 		g_strlcpy(directory, directory, strlen(directory));
 
 	gtk_entry_set_text(GTK_ENTRY(addressbar), directory);
 
 	if (!directory || strlen(directory) == 0)
-		directory = "/";
+		directory = G_DIR_SEPARATOR_S;
 
 	if (! treebrowser_checkdir(directory))
 		return;
@@ -737,23 +792,77 @@ gtk_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root)
 }
 
 static gboolean
+treebrowser_expand_to_path(gchar* root, gchar* find)
+{
+	int i = 0, j = 0;
+	gboolean founded = FALSE, global_founded = FALSE;
+	gchar *new = "";
+	gchar **root_segments = NULL, **find_segments = NULL;
+	guint root_segments_n = 0, find_segments_n = 0;
+
+	root_segments = g_strsplit(root, G_DIR_SEPARATOR_S, 0);
+	find_segments = g_strsplit(find, G_DIR_SEPARATOR_S, 0);
+
+	root_segments_n = g_strv_length(root_segments)-1;
+	find_segments_n = g_strv_length(find_segments)-1;
+
+
+	for (i = 1; i<=find_segments_n; i++)
+	{
+		new = g_strconcat(new, G_DIR_SEPARATOR_S, find_segments[i], NULL);
+
+		if (founded)
+		{
+			printf("\n* %s", new);
+			if (treebrowser_search(new, NULL))
+				global_founded = TRUE;
+		}
+		else
+			if (utils_str_equal(root, new) == TRUE)
+				founded = TRUE;
+	}
+
+	g_free(new);
+	g_strfreev(root_segments);
+	g_strfreev(find_segments);
+
+	return global_founded;
+}
+
+static gboolean
 treebrowser_track_current()
 {
 
 	GeanyDocument	*doc 		= document_get_current();
 	gchar 			*path_current;
 	gchar			**path_segments;
+	gchar 			*froot = NULL;
 
 	if (doc != NULL && doc->file_name != NULL && g_path_is_absolute(doc->file_name))
 	{
 		path_current = utils_get_locale_from_utf8(doc->file_name);
 
-		path_segments = g_strsplit(path_current, G_DIR_SEPARATOR_S, 0);
-
-		treebrowser_search(path_current, NULL);
 		/*
-		 * NEED TO REWORK THE CONCEPT
+		 * Checking if the document is in the expanded or collapsed files
 		 */
+		if (! treebrowser_search(path_current, NULL))
+		{
+			/*
+			 * Else we have to chroting to the document`s nearles path
+			 */
+
+			froot = path_is_in_dir(addressbar_last_address, g_path_get_dirname(path_current));
+
+			if (froot == NULL)
+				froot = G_DIR_SEPARATOR_S;
+
+			if (utils_str_equal(froot, addressbar_last_address) != TRUE)
+				treebrowser_chroot(froot);
+
+			treebrowser_expand_to_path(froot, path_current);
+
+			g_free(froot);
+		}
 
 		g_strfreev(path_segments);
 		g_free(path_current);
