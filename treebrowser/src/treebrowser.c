@@ -227,33 +227,39 @@ path_is_in_dir(gchar* src, gchar* find)
 {
 	int i = 0;
 
-	gchar *diffed_path = "";
+	gboolean founded = FALSE;
+	gchar *diffed_path = "", *tmp = NULL;
 	gchar **src_segments = NULL, **find_segments = NULL;
 	guint src_segments_n = 0, find_segments_n = 0, n = 0;
 
 	src_segments = g_strsplit(src, G_DIR_SEPARATOR_S, 0);
 	find_segments = g_strsplit(find, G_DIR_SEPARATOR_S, 0);
 
-	src_segments_n = g_strv_length(src_segments)-1;
-	find_segments_n = g_strv_length(find_segments)-1;
+	src_segments_n = g_strv_length(src_segments);
+	find_segments_n = g_strv_length(find_segments);
 
 	n = src_segments_n;
 	if (find_segments_n < n)
 		n = find_segments_n;
 
-	for(i = 1; i<=n; i++)
-		if (g_strcmp0(find_segments[i], src_segments[i])!=0)
+	for(i = 1; i<n; i++)
+		if (utils_str_equal(find_segments[i], src_segments[i]) != TRUE)
 		{
 			diffed_path = NULL;
 			break;
 		}
 		else
-			diffed_path = g_strconcat(diffed_path, G_DIR_SEPARATOR_S, find_segments[i], NULL);
+		{
+			tmp = g_strconcat(diffed_path, G_DIR_SEPARATOR_S, find_segments[i], NULL);
+			diffed_path = g_strdup(tmp);
+			g_free(tmp);
+			founded = TRUE;
+		}
 
 	g_strfreev(src_segments);
 	g_strfreev(find_segments);
 
-	return diffed_path;
+	return (founded ? diffed_path : NULL);
 }
 
 /* Return: FALSE - if file is filtered and not shown, and TRUE - if file isn`t filtered, and have to be shown */
@@ -794,7 +800,6 @@ treebrowser_expand_to_path(gchar* root, gchar* find)
 
 		if (founded)
 		{
-			printf("\n* %s", new);
 			if (treebrowser_search(new, NULL))
 				global_founded = TRUE;
 		}
