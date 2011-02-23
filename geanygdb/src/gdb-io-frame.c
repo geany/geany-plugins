@@ -182,8 +182,8 @@ var_created(gint seq, gchar ** list, gchar * resp)
 			lv->type = g_strdup(type ? type : "int");
 			lv->value = fmt_val(value);
 			lv->numchild = g_strdup(numchild ? numchild : "0");
+			delete_var(lv->name);
 		}
-		delete_var(lv->name);
 	}
 	if (h)
 		g_hash_table_destroy(h);
