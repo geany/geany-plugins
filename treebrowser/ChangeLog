@@ -37,6 +37,18 @@
 +-------------------------------+
 
 
+23-02-2011 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		Fix an issue with tab switching with unsaved documents.
+		(patch from Frank Lanitz, thanks)
+
+
+14-02-2011 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+
+
 14-02-2011 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
@@ -181,12 +193,14 @@
 	* README
 		Try to add screenshot for the website
 
+
 09-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
 		Fixes possible segfaults with bookmarks in ubuntu 10.10
 	* README
 		Update and fixes website compitables
+
 
 09-10-2010 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 

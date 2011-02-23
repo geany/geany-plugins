@@ -227,7 +227,7 @@ path_is_in_dir(gchar* src, gchar* find)
 {
 	int i = 0;
 
-	gboolean founded = FALSE;
+	gboolean found = FALSE;
 	gchar *diffed_path = "", *tmp = NULL;
 	gchar **src_segments = NULL, **find_segments = NULL;
 	guint src_segments_n = 0, find_segments_n = 0, n = 0;
@@ -244,22 +244,22 @@ path_is_in_dir(gchar* src, gchar* find)
 
 	for(i = 1; i<n; i++)
 		if (utils_str_equal(find_segments[i], src_segments[i]) != TRUE)
-		{
-			diffed_path = NULL;
 			break;
-		}
 		else
 		{
 			tmp = g_strconcat(diffed_path, G_DIR_SEPARATOR_S, find_segments[i], NULL);
 			diffed_path = g_strdup(tmp);
 			g_free(tmp);
-			founded = TRUE;
+			found = TRUE;
 		}
 
 	g_strfreev(src_segments);
 	g_strfreev(find_segments);
 
-	return (founded ? diffed_path : NULL);
+	if (found)
+		return diffed_path;
+	g_free(diffed_path);
+	return NULL;
 }
 
 /* Return: FALSE - if file is filtered and not shown, and TRUE - if file isn`t filtered, and have to be shown */
@@ -821,7 +821,7 @@ treebrowser_track_current()
 
 	GeanyDocument	*doc 		= document_get_current();
 	gchar 			*path_current;
-	gchar			**path_segments;
+	gchar			**path_segments = NULL;
 	gchar 			*froot = NULL;
 
 	if (doc != NULL && doc->file_name != NULL && g_path_is_absolute(doc->file_name))
@@ -1120,18 +1120,17 @@ on_menu_close(GtkMenuItem *menuitem, gchar *uri)
 static void
 on_menu_close_children(GtkMenuItem *menuitem, gchar *uri)
 {
-	guint nb_documents = geany->documents_array->len;
-	int i;
-	int uri_len=strlen(uri);
-	for(i=0; i<GEANY(documents_array)->len; i++)
+	guint i;
+	int uri_len = strlen(uri);
+	for (i=0; i < GEANY(documents_array)->len; i++)
 	{
-		if(documents[i]->is_valid)
+		if (documents[i]->is_valid)
 		{
 			/* the docuemnt filename shoudl always be longer than the uri when closing children
 			 * Compare the beginingin of the filename string to see if it matchs the uri*/
-			if(strlen(documents[i]->file_name)>uri_len)
+			if (strlen(documents[i]->file_name) > uri_len )
 			{
-				if(strncmp(uri,documents[i]->file_name,uri_len)==0)
+				if (strncmp(uri,documents[i]->file_name, uri_len)==0)
 					document_close(documents[i]);
 			}
 		}
