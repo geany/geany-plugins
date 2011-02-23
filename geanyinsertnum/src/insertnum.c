@@ -153,6 +153,7 @@ static void insert_numbers(gboolean *cancel)
 			if (*cancel)
 			{
 				ui_progress_bar_stop();
+				g_free(line_pos);
 				return;
 			}
 		}
