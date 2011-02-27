@@ -131,7 +131,7 @@ switch_head_impl_cleanup()
 static void
 fill_default_languages_list()
 {
-	Language* lang = g_malloc0(sizeof(Language));
+	Language* lang = NULL;
 
 	languages = NULL;
 
