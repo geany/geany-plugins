@@ -1,3 +1,8 @@
+2011-03-05  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * POTFILES.in: Add geanyPG to list translatable files.
+
+
 2011-01-12  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * de.po: Minor adjustment on translation.
