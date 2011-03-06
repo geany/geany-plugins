@@ -1,12 +1,20 @@
-ACLOCAL_AMFLAGS = -I m4
+include $(top_srcdir)/build/vars.build.mk
+include $(top_srcdir)/build/vars.docs.mk
 
-geanypluginsdir 					= $(libdir)/geany
-geanyplugins_LTLIBRARIES	= devhelp.la
+plugin = devhelp
 
-devhelp_la_LDFLAGS 				= -module -avoid-version -shared
-devhelp_la_CPPFLAGS 			= @GTK_CFLAGS@			\
-														@GEANY_CFLAGS@		\
-														@DEVHELP_CFLAGS@	\
-														-DDHPLUG_DATA_DIR=\"$(pkgdatadir)\"
-devhelp_la_LIBADD 				= @GTK_LIBS@ @GEANY_LIBS@ @DEVHELP_LIBS@
-devhelp_la_SOURCES				= plugin.c dh-plugin.c main-notebook.c
+if ENABLE_DEVHELP
+geanyplugins_LTLIBRARIES = devhelp.la
+else
+EXTRA_LTLIBRARIES = devhelp.la
+endif
+
+devhelp_la_SOURCES = \
+	plugin.c \
+	dh-plugin.c \
+	main-notebook.c
+devhelp_la_CFLAGS = \
+	$(AM_CFLAGS) \
+	$(DEVHELP_CFLAGS) \
+	-DDHPLUG_DATA_DIR=\"$(plugindata)\"
+devhelp_la_LIBADD = $(DEVHELP_LIBS)
