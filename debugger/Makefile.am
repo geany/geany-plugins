@@ -7,6 +7,3 @@ endif
 
 SUBDIRS = src
 plugin = debugger
-
-EXTRA_DIST +=				\
-	indent-all.sh
