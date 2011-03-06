@@ -7,6 +7,8 @@ AC_DEFUN([GP_CHECK_GEANYPG],
         AM_PATH_GPGME
     fi
 
+    AM_CONDITIONAL(ENABLE_GEANYPG, test "$enable_geanypg" = "yes")
+
     GP_STATUS_PLUGIN_ADD([GeanyPG], [$enable_geanypg])
     AC_CONFIG_FILES([
         geanypg/Makefile
