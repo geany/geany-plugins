@@ -1,5 +1,6 @@
 include $(top_srcdir)/build/vars.docs.mk
 
+plugin = devhelp
 FILES = \
 	devhelp-plugin.svg \
 	devhelp-plugin-48.png \
