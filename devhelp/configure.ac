@@ -1,0 +1,20 @@
+AC_PREREQ([2.67])
+AC_INIT([geany-devhelp], [0.1], [mbrush@leftclick.ca])
+AC_CONFIG_MACRO_DIR([m4])
+AM_INIT_AUTOMAKE([-Wall])
+LT_INIT
+
+AC_PROG_CC
+AC_PROG_INSTALL
+AC_PROG_MKDIR_P
+AC_PROG_LIBTOOL
+
+PKG_CHECK_MODULES([GTK], [gtk+-2.0])
+PKG_CHECK_MODULES([GEANY], [geany])
+PKG_CHECK_MODULES([DEVHELP], [libdevhelp-1.0])
+
+AM_SILENT_RULES([yes])
+		
+AC_CONFIG_FILES([Makefile data/Makefile src/Makefile])
+AC_OUTPUT
+
