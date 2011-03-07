@@ -1,1 +1,98 @@
+==============
+Devhelp Plugin
+==============
 
+.. contents::
+
+About
+=====
+
+This plugin uses libdevhelp to integrate Devhelp UI components and 
+functionality directly into Geany's user interface.  In case you didn't know,
+Devhelp is an API documentation browser mainly aimed at GNOME-related libraries,
+although there are Devhelp books for a wide range of library APIs.  Check your
+package manager and/or Google and you should have no trouble finding books that
+can be viewed with Devhelp.
+
+Usage
+=====
+
+User Interface Changes
+----------------------
+
+When you load the plugin, two things are added to Geany's UI.  The first is a
+new tab labeled 'Devhelp' in the Sidebar notebook.  Inside this notebook page
+are two sub-tabs; Contents and Search.  Contents lets you browse all of the
+books at once and see their table of contents in a tree view.  Search, not 
+surprisingly lets you search all of the books for a search term.  The second
+UI element that gets added to Geany is the 'Documentation' tab.  Depending on
+your preference choice, this new tab is either found in the main area, where
+it will be next to a new tab called 'Code' which now holds the existing
+documents tabs.  If you choose to, you can also have the 'Documentation' tab
+appear in the bottom message area, allowing you to see the documentation and
+your code at the same time.  There is also a preference for whether you want
+to move the main Sidebar tabs to the bottom position or leave them at your 
+previously selected location.
+
+Keybindings
+-----------
+
+There are three keybindings that can be set using the Geany Preferences dialog.
+The first keybinding is called 'Toggle Devhelp (Contents Tab)' and it will
+activate the Devhelp tab in the Sidebar and it's Contents sub-tab.  The second
+keybinding is called 'Toggle Devhelp (Search Tab)' and does the same thing
+but with the Search tab.  The third keybinding is called 'Search for Current 
+Symbol/Tag' and when activate it will take the word/symbol where the cursor is
+in the current document and search for it, activating both the Devhelp Sidebar
+tab and the Documentation tab for you.
+
+Context Menu
+------------
+
+There's one more way to invoke a search for the current symbol.  If you right
+click on the current document, on a tag/symbol you want help on, the context
+menu that appears will have an item called 'Search Devhelp for "foo"...",
+which, when activated, will do the same thing as the 'Search for Current
+Symbol/Tag' keybinding explained above.
+
+Downloads
+=========
+
+The Devhelp plugin is part of the combined Geany Plugins release. For more
+information and downloads, please visit:
+http://plugins.geany.org/geany-plugins/
+
+Development Code
+================
+
+Get the code from:
+
+    svn checkout http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geany-plugins
+
+
+Dependencies
+============
+
+The Devhelp plugin depends on 'libdevhelp-1.0' and 'webkit-1.0', on top of the
+regular Geany depenedencies (ie glib-2.0, gtk+-2.0, etc).
+
+License
+=======
+
+The Devhelp plugin is distributed under the terms of the GNU General Public 
+License as published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version. You should have received a copy
+of the GNU General Public License along with the Devhelp plugin, in the COPYING
+file.  If not, see <http://www.gnu.org/licenses/>.
+
+Bug Reports and Feature Requests
+================================
+
+To report a bug or ask for a new feature, please use the Geany-Plugins tracker
+on SourceForge: http://sourceforge.net/tracker/?group_id=222729
+
+Contact
+=======
+
+You can email me at <codebrainz@users.sourceforge.net>, or find me on the
+#geany IRC channel on FreeNode, with the nickname 'codebrainz'.
