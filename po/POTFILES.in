@@ -36,6 +36,11 @@ debugger/src/stree.c
 debugger/src/utils.c
 debugger/src/watch_model.c
 
+# devhelp
+devhelp/src/dh-plugin.c
+devhelp/src/main-notebook.c
+devhelp/src/plugin.c
+
 # geanycfp
 geanycfp/src/geanycfp.c
 
