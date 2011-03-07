@@ -1,19 +1,32 @@
+===============
+Geany-Plugins
+===============
+
+Installation
+------------
+
+Building with autotools
+^^^^^^^^^^^^^^^^^^^^^^^
+
 You can use Autotools to build the Geany plugins in this repository.
 
 Usage:
-./configure [arguments] or alternatively ./autogen.sh [arguments]
-make
-sudo make install
+   ./configure [arguments] or alternatively ./autogen.sh [arguments]
+  make
+  sudo make install
 
-This will configure, build and install most of the Geany plugins. There is some
-auto-detection in place which automagically disables some of the plugins if
-there are insufficient build dependencies. The following arguments can tweak the
-behaviour of the configure script:-
+This will configure, build and install most of the Geany plugins.
+There is some auto-detection in place which automagically disables
+some of the plugins if there are insufficient build dependencies.
+The following arguments can tweak the behaviour of the configure
+script:-
 
-=== Options ===
+Options
+=======
 A full listing of all supported options can be found in ./configure --help.
 
-== Enable/Disable Features ==
+Enable/Disable Features
+=======================
 The following options can be passed to ./configure in forms
 --enable-<option>=auto (default), --enable-<option>, --disable-<option>. In all
 cases, --enable-<option>=auto causes the feature to be enabled/disabled
@@ -32,7 +45,8 @@ Example:
 This will force all optional plugins to be enabled even if dependencies are missing.
 
 
-== Other tweaks ==
+Other tweaks
+============
 The following options can be passed to ./configure in the form
 --with-<option>=<argument>.
 
@@ -40,7 +54,20 @@ The following options can be passed to ./configure in the form
 * geany-prefix -- Geany's prefix, used when compiling Geany.
 
 
-== Compiling Individual Plugins ==
-The Geany Plugins project uses a recursive automake build system, which means
-that after running ./configure, you may compile each individual plug-in by cd-ing
-into the respective plug-in directory and compiling it.
+Compiling Individual Plugins
+============================
+
+The Geany Plugins project uses a recursive automake build system,
+which means that after running ./configure, you may compile each
+individual plug-in by cd-ing into the respective plug-in directory
+and compiling it.
+
+Building with waf
+^^^^^^^^^^^^^^^^^
+
+Geany-Plugins can also being build using Python based build system waf.
+For doing this you have similar to building with autotools run three steps:
+
+  ./waf configure
+  ./waf build
+  ./waf install
