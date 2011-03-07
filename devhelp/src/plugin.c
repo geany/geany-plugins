@@ -27,7 +27,7 @@
 #include <devhelp/dh-search.h>
 
 #include "plugin.h"
-#include "dh-plugin.h"
+#include "devhelpplugin.h"
 
 PLUGIN_VERSION_CHECK(200)
 
@@ -62,18 +62,18 @@ static void kb_activate(guint key_id)
 	switch (key_id)
 	{
 		case KB_DEVHELP_TOGGLE_CONTENTS:
-			devhelp_activate_tabs(dev_help_plugin, TRUE);
+			devhelp_plugin_activate_tabs(dev_help_plugin, TRUE);
 			break;
 		case KB_DEVHELP_TOGGLE_SEARCH:
-			devhelp_activate_tabs(dev_help_plugin, FALSE);
+			devhelp_plugin_activate_tabs(dev_help_plugin, FALSE);
 			break;
 		case KB_DEVHELP_SEARCH_SYMBOL:
 		{
-			gchar *current_tag = devhelp_get_current_tag();
+			gchar *current_tag = devhelp_plugin_get_current_tag();
 			if (current_tag == NULL) return;
 			dh_search_set_search_string(
 				DH_SEARCH(dev_help_plugin->search), current_tag, NULL);
-			devhelp_activate_tabs(dev_help_plugin, FALSE);
+			devhelp_plugin_activate_tabs(dev_help_plugin, FALSE);
 			g_free(current_tag);
 			break;
 		}
@@ -100,7 +100,7 @@ configure_dialog_response(GtkDialog *dialog, gint response_id, gpointer user_dat
 {
 	static gboolean message_shown = FALSE;
 	if (response_id == GTK_RESPONSE_OK || response_id == GTK_RESPONSE_APPLY) {
-		store_preferences();
+		plugin_store_preferences();
 		if (!message_shown) 
 		{
 			dialogs_show_msgbox(GTK_MESSAGE_INFO, "Settings for whether to use "
@@ -277,8 +277,8 @@ void plugin_init(GeanyData *data)
 
 	plugin_module_make_resident(geany_plugin);
 
-	config_init();				   
-	load_preferences();
+	plugin_config_init();				   
+	plugin_load_preferences();
 	
 	dev_help_plugin = devhelp_plugin_new(move_sidebar_tabs_bottom,
 										 show_in_msg_window);
@@ -297,10 +297,9 @@ void plugin_init(GeanyData *data)
 
 void plugin_cleanup(void)
 {	
-	store_preferences();
+	plugin_store_preferences();
 	
-	if (dev_help_plugin != NULL)
-		devhelp_plugin_destroy(dev_help_plugin);
+	g_object_unref(dev_help_plugin);
 	
 	g_free(default_config);
 	g_free(user_config);

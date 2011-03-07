@@ -11,7 +11,7 @@ endif
 
 devhelp_la_SOURCES = \
 	plugin.c \
-	dh-plugin.c \
+	devhelpplugin.c \
 	main-notebook.c
 devhelp_la_CFLAGS = \
 	$(AM_CFLAGS) \

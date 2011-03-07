@@ -24,7 +24,7 @@
 
 #include <gtk/gtk.h>
 #include <geanyplugin.h>
-#include "dh-plugin.h"
+#include "devhelpplugin.h"
 
 extern GeanyPlugin	 	*geany_plugin;
 extern GeanyData	   	*geany_data;

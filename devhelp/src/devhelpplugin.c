@@ -1,23 +1,23 @@
-/*
- * dhplug.c - Part of the Geany Devhelp Plugin
- * 
- * Copyright 2010 Matthew Brush <mbrush@leftclick.ca>
- * 
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3 of the License, or
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301, USA.
- */
+//      devhelpplugin.c
+//      
+//      Copyright 2011 Matthew Brush <mbrush@desktop>
+//      
+//      This program is free software; you can redistribute it and/or modify
+//      it under the terms of the GNU General Public License as published by
+//      the Free Software Foundation; either version 2 of the License, or
+//      (at your option) any later version.
+//      
+//      This program is distributed in the hope that it will be useful,
+//      but WITHOUT ANY WARRANTY; without even the implied warranty of
+//      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//      GNU General Public License for more details.
+//      
+//      You should have received a copy of the GNU General Public License
+//      along with this program; if not, write to the Free Software
+//      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+//      MA 02110-1301, USA.
+//      
+//      
 
 #include <gtk/gtk.h>
 #include <geanyplugin.h>
@@ -34,114 +34,76 @@
 #include <webkit/webkitwebview.h>
 
 #include "plugin.h"
-#include "dh-plugin.h"
+#include "devhelpplugin.h"
 #include "main-notebook.h"
 
+
 /* Devhelp base object */
-static DhBase *dhbase = NULL;  
+static DhBase *dhbase = NULL; 
 
-/** 
- * devhelp_clean_word:
- * @param	str	String to clean
- * 
- * Replaces non GEANY_WORDCHARS in str with spaces and then trims whitespace.
- * This function does not allocate a new string, it modifies str in place
- * and returns a pointer to str. 
- * TODO: make this only remove stuff from the start or end of string.
- * 
- * @return Pointer to (cleaned) @str.
- */
-gchar *devhelp_clean_word(gchar *str)
+struct _DevhelpPluginPrivate
 {
-	return g_strstrip(g_strcanon(str, GEANY_WORDCHARS, ' '));
+	/* add your private declarations here */
+	gint tmp;
+};
+
+static void devhelp_plugin_finalize			(GObject *object);
+
+G_DEFINE_TYPE(DevhelpPlugin, devhelp_plugin, G_TYPE_OBJECT)
+
+
+static void devhelp_plugin_class_init(DevhelpPluginClass *klass)
+{
+	GObjectClass *g_object_class;
+
+	g_object_class = G_OBJECT_CLASS(klass);
+
+	g_object_class->finalize = devhelp_plugin_finalize;
+
+	g_type_class_add_private((gpointer)klass, sizeof(DevhelpPluginPrivate));
 }
 
-/**
- * devhelp_get_current_tag:
- * 
- * Gets either the current selection or the word at the current selection.
- * 
- * @return Newly allocated string with current tag or NULL no tag.
- */
-gchar *devhelp_get_current_tag(void)
+
+static void devhelp_plugin_finalize(GObject *object)
 {
-	gint pos;
-	gchar *tag = NULL;
-	GeanyDocument *doc = document_get_current();
+	DevhelpPlugin *self;
+
+	g_return_if_fail(object != NULL);
+	g_return_if_fail(DEVHELP_IS_PLUGIN(object));
+
+	self = DEVHELP_PLUGIN(object);
+
+	gtk_widget_destroy(self->sb_notebook);
 	
-	if (sci_has_selection(doc->editor->sci))
-		return devhelp_clean_word(sci_get_selection_contents(doc->editor->sci));
-	
-	pos = sci_get_current_position(doc->editor->sci);
-	tag = editor_get_word_at_pos(doc->editor, pos, GEANY_WORDCHARS);
-	
-	if (tag == NULL) 
-		return NULL;
-	
-	if (tag[0] == '\0') {
-		g_free(tag);
-		return NULL;
-	}
-	
-	return devhelp_clean_word(tag);
+	gtk_notebook_remove_page(GTK_NOTEBOOK(self->main_notebook),
+								self->webview_tab);
+								
+	if (!self->in_message_window)
+		main_notebook_destroy();
+   
+	gtk_widget_destroy(self->editor_menu_sep);
+	gtk_widget_destroy(self->editor_menu_item);
+   
+	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(
+								geany->main_widgets->sidebar_notebook), 
+								self->orig_sb_tab_pos);
+
+	G_OBJECT_CLASS(devhelp_plugin_parent_class)->finalize(object);
 }
 
-/**
- * devhelp_activate_tabs:
- * @param	dhplug		The current DevhelpPlugin struct.
- * @param	contents	If TRUE then select the devhelp Contents tab
- *						otherwise select the devhelp Search tab.
- * 
- * Toggles devhelp related tabs to be current tabs or back to the
- * previously selected tabs.
- */ 
-void devhelp_activate_tabs(DevhelpPlugin *dhplug, gboolean contents)
-{
-	if (!dhplug->tabs_toggled)
-	{
-		/* toggle state tracking */
-		dhplug->last_main_tab_id = gtk_notebook_get_current_page(
-										GTK_NOTEBOOK(dhplug->main_notebook));
-		dhplug->last_sb_tab_id = gtk_notebook_get_current_page(GTK_NOTEBOOK(
-										geany->main_widgets->sidebar_notebook));
-		dhplug->tabs_toggled = TRUE;
-		
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(
-										geany->main_widgets->sidebar_notebook), 
-			dhplug->sb_notebook_tab);
-		gtk_notebook_set_current_page(
-			GTK_NOTEBOOK(dhplug->main_notebook), dhplug->webview_tab);
-		if (contents)
-			gtk_notebook_set_current_page(GTK_NOTEBOOK(dhplug->sb_notebook), 0);
-		else
-			gtk_notebook_set_current_page(GTK_NOTEBOOK(dhplug->sb_notebook), 1);
-	}
-	else
-	{
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(dhplug->main_notebook), 
-										dhplug->last_main_tab_id);
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(
-										geany->main_widgets->sidebar_notebook),
-										dhplug->last_sb_tab_id);
-		dhplug->tabs_toggled = FALSE;
-	}
-}
 
-void devhelp_plugin_sidebar_tabs_bottom(DevhelpPlugin *dhplug, gboolean bottom)
+static void devhelp_plugin_init(DevhelpPlugin *self)
 {
-	if (bottom)
-		gtk_notebook_set_tab_pos(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook), 
-								 GTK_POS_BOTTOM);
-	else
-		gtk_notebook_set_tab_pos(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook),
-								 dhplug->orig_sb_tab_pos);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE(self,
+		DEVHELP_TYPE_PLUGIN, DevhelpPluginPrivate);
+	
 }
 
 /* Called when the editor menu item is selected */
 static void on_search_help_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
 	DevhelpPlugin *dhplug = user_data;
-	gchar *current_tag = devhelp_get_current_tag();
+	gchar *current_tag = devhelp_plugin_get_current_tag();
 	
 	if (current_tag == NULL)
 		return;
@@ -149,7 +111,7 @@ static void on_search_help_activate(GtkMenuItem *menuitem, gpointer user_data)
 	dh_search_set_search_string (DH_SEARCH(dhplug->search), current_tag, NULL);
 	
 	/* activate devhelp tabs with search tab active */
-	devhelp_activate_tabs(dhplug, FALSE);
+	devhelp_plugin_activate_tabs(dhplug, FALSE);
 	
 	g_free(current_tag);
 }
@@ -164,7 +126,7 @@ static void on_editor_menu_popup(GtkWidget *widget, gpointer user_data)
 	gchar *new_label = NULL;
 	DevhelpPlugin *dhplug = user_data;
 	
-	curword = devhelp_get_current_tag();
+	curword = devhelp_plugin_get_current_tag();
 	if (curword == NULL)
 		gtk_widget_set_sensitive(dhplug->editor_menu_item, FALSE);
 	else {
@@ -197,6 +159,7 @@ static void on_link_clicked(GObject *ignored, DhLink *link, gpointer user_data)
 									plug->webview_tab);
 }
 
+
 /**
  * devhelp_plugin_new:
  * 
@@ -207,24 +170,25 @@ static void on_link_clicked(GObject *ignored, DhLink *link, gpointer user_data)
  * @return A newly allocated DevhelpPlugin struct or null on error.
  */
 DevhelpPlugin *devhelp_plugin_new(gboolean sb_tabs_bottom, gboolean show_in_msgwin)
-{	
+{
 	gchar *homepage_uri;
 	GtkWidget *book_tree_sw, *webview_sw, *contents_label;
 	GtkWidget *search_label, *dh_sidebar_label, *doc_label;
+	DevhelpPlugin *dhplug;
 
+	dhplug = g_object_new(DEVHELP_TYPE_PLUGIN, NULL);
+	
+	if (dhplug == NULL) {
+		g_printerr(_("Cannot create a new Devhelp plugin, out of memory.\n"));
+		return NULL;
+	}
+	
 #ifdef HAVE_BOOK_MANAGER /* for newer api */
 	DhBookManager *book_manager;
 #else
 	GNode *books;
 	GList *keywords;
 #endif
-
-	DevhelpPlugin *dhplug = g_malloc0(sizeof(DevhelpPlugin));
-	
-	if (dhplug == NULL) {
-		g_printerr(_("Cannot create a new Devhelp plugin, out of memory.\n"));
-		return NULL;
-	}
 	
 	if (dhbase == NULL)
 		dhbase = dh_base_new();	
@@ -361,29 +325,114 @@ DevhelpPlugin *devhelp_plugin_new(gboolean sb_tabs_bottom, gboolean show_in_msgw
 	return dhplug;
 }
 
-/**
- * devhelp_plugin_destroy:
- * @param dhplug	The DevhelpPlugin to destroy/free.
+/** 
+ * devhelp_plugin_clean_word:
+ * @param	str	String to clean
  * 
- * Destroys the associated widgets and frees memory for a DevhelpPlugin.  This
- * should be called from Geany's plugin_cleanup() function.
+ * Replaces non GEANY_WORDCHARS in str with spaces and then trims whitespace.
+ * This function does not allocate a new string, it modifies str in place
+ * and returns a pointer to str. 
+ * TODO: make this only remove stuff from the start or end of string.
+ * 
+ * @return Pointer to (cleaned) @str.
  */
-void devhelp_plugin_destroy(DevhelpPlugin *dhplug)
-{	
-	gtk_widget_destroy(dhplug->sb_notebook);
-	
-	gtk_notebook_remove_page(GTK_NOTEBOOK(dhplug->main_notebook),
-								dhplug->webview_tab);
-								
-	if (!dhplug->in_message_window)
-		main_notebook_destroy();
-   
-	gtk_widget_destroy(dhplug->editor_menu_sep);
-	gtk_widget_destroy(dhplug->editor_menu_item);
-   
-	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(
-								geany->main_widgets->sidebar_notebook), 
-								dhplug->orig_sb_tab_pos);
-
-	g_free(dhplug);
+gchar *devhelp_plugin_clean_word(gchar *str)
+{
+	return g_strstrip(g_strcanon(str, GEANY_WORDCHARS, ' '));
 }
+
+/**
+ * devhelp_plugin_get_current_tag:
+ * 
+ * Gets either the current selection or the word at the current selection.
+ * 
+ * @return Newly allocated string with current tag or NULL no tag.
+ */
+gchar *devhelp_plugin_get_current_tag(void)
+{
+	gint pos;
+	gchar *tag = NULL;
+	GeanyDocument *doc = document_get_current();
+	
+	if (sci_has_selection(doc->editor->sci))
+		return devhelp_plugin_clean_word(sci_get_selection_contents(doc->editor->sci));
+	
+	pos = sci_get_current_position(doc->editor->sci);
+	tag = editor_get_word_at_pos(doc->editor, pos, GEANY_WORDCHARS);
+	
+	if (tag == NULL) 
+		return NULL;
+	
+	if (tag[0] == '\0') {
+		g_free(tag);
+		return NULL;
+	}
+	
+	return devhelp_plugin_clean_word(tag);
+}
+
+
+/**
+ * devhelp_plugin_activate_tabs:
+ * @param	dhplug		The current DevhelpPlugin struct.
+ * @param	contents	If TRUE then select the devhelp Contents tab
+ *						otherwise select the devhelp Search tab.
+ * 
+ * Toggles devhelp related tabs to be current tabs or back to the
+ * previously selected tabs.
+ */ 
+void devhelp_plugin_activate_tabs(DevhelpPlugin *dhplug, gboolean contents)
+{
+	if (!dhplug->tabs_toggled)
+	{
+		/* toggle state tracking */
+		dhplug->last_main_tab_id = gtk_notebook_get_current_page(
+										GTK_NOTEBOOK(dhplug->main_notebook));
+		dhplug->last_sb_tab_id = gtk_notebook_get_current_page(GTK_NOTEBOOK(
+										geany->main_widgets->sidebar_notebook));
+		dhplug->tabs_toggled = TRUE;
+		
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(
+										geany->main_widgets->sidebar_notebook), 
+			dhplug->sb_notebook_tab);
+		gtk_notebook_set_current_page(
+			GTK_NOTEBOOK(dhplug->main_notebook), dhplug->webview_tab);
+		if (contents)
+			gtk_notebook_set_current_page(GTK_NOTEBOOK(dhplug->sb_notebook), 0);
+		else
+			gtk_notebook_set_current_page(GTK_NOTEBOOK(dhplug->sb_notebook), 1);
+	}
+	else
+	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(dhplug->main_notebook), 
+										dhplug->last_main_tab_id);
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(
+										geany->main_widgets->sidebar_notebook),
+										dhplug->last_sb_tab_id);
+		dhplug->tabs_toggled = FALSE;
+	}
+}
+
+/**
+ * devhelp_plugin_sidebar_tabs_bottom:
+ * @param dhplug	The current DevhelpPlugin struct.
+ * @param bottom	Whether to move the sidebar tabs to the bottom or not.
+ * 
+ * Changes the sidebar tab position from its default position to the bottom or
+ * vice versa.
+ */
+void devhelp_plugin_sidebar_tabs_bottom(DevhelpPlugin *dhplug, gboolean bottom)
+{
+	if (bottom)
+		gtk_notebook_set_tab_pos(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook), 
+								 GTK_POS_BOTTOM);
+	else
+		gtk_notebook_set_tab_pos(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook),
+								 dhplug->orig_sb_tab_pos);
+}
+
+
+
+
+
+
