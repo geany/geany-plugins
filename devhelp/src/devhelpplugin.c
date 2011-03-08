@@ -122,19 +122,31 @@ static void on_search_help_activate(GtkMenuItem *menuitem, gpointer user_data)
  */
 static void on_editor_menu_popup(GtkWidget *widget, gpointer user_data)
 {
+	gchar *label_tag = NULL;
 	gchar *curword = NULL;
 	gchar *new_label = NULL;
 	DevhelpPlugin *dhplug = user_data;
 	
 	curword = devhelp_plugin_get_current_tag();
+	
 	if (curword == NULL)
 		gtk_widget_set_sensitive(dhplug->editor_menu_item, FALSE);
 	else {
-		gtk_widget_set_sensitive(dhplug->editor_menu_item, TRUE);
-		new_label = g_strdup_printf("Search Devhelp for '%s'", curword);
+		if (strlen(curword) > DHPLUG_MAX_LABEL_TAG) {
+			label_tag = g_strndup(curword, DHPLUG_MAX_LABEL_TAG-3);
+			new_label = g_strdup_printf(_("Search Devhelp for: %s..."), 
+										g_strstrip(label_tag));
+		}
+		else {
+			label_tag = g_strndup(curword, DHPLUG_MAX_LABEL_TAG);
+			new_label = g_strdup_printf(_("Search Devhelp for %s"), 
+										g_strstrip(label_tag));
+		}
 		gtk_menu_item_set_label(GTK_MENU_ITEM(dhplug->editor_menu_item),
 								new_label);
 		g_free(new_label);
+		g_free(label_tag);
+		gtk_widget_set_sensitive(dhplug->editor_menu_item, TRUE);
 	}
 	
 	g_free(curword);	

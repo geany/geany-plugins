@@ -33,6 +33,8 @@ G_BEGIN_DECLS
 
 #define DHPLUG_WEBVIEW_HOME_FILE DHPLUG_DATA_DIR"/home.html"
 
+#define DHPLUG_MAX_LABEL_TAG 30
+
 #define DEVHELP_TYPE_PLUGIN				(devhelp_plugin_get_type())
 #define DEVHELP_PLUGIN(obj)				(G_TYPE_CHECK_INSTANCE_CAST((obj),\
 			DEVHELP_TYPE_PLUGIN, DevhelpPlugin))
