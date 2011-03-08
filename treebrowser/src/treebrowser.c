@@ -975,6 +975,12 @@ on_menu_set_as_root(GtkMenuItem *menuitem, gchar *uri)
 }
 
 static void
+on_menu_find_in_files(GtkMenuItem *menuitem, gchar *uri)
+{
+	search_show_find_in_files_dialog(uri);
+}
+
+static void
 on_menu_create_new_object(GtkMenuItem *menuitem, gchar *type)
 {
 	GtkTreeSelection 	*selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
@@ -1200,6 +1206,11 @@ create_popup_menu(gchar *name, gchar *uri)
 	item = ui_image_menu_item_new(GTK_STOCK_REFRESH, _("Refresh"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_refresh), NULL);
+
+	item = ui_image_menu_item_new(GTK_STOCK_FIND, _("Find in Files"));
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_find_in_files), uri);
+	gtk_widget_set_sensitive(item, is_dir);
 
 	item = gtk_separator_menu_item_new();
 	gtk_container_add(GTK_CONTAINER(menu), item);

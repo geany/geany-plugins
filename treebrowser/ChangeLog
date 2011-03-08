@@ -37,6 +37,12 @@
 +-------------------------------+
 
 
+08-02-2011 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
+
+	* src/treebrowser.c
+		Added "Find in Files" option to right click context
+		(patch by oly, thanks)
+
 23-02-2011 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
 	* src/treebrowser.c
