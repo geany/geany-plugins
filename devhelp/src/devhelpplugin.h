@@ -78,6 +78,8 @@ struct _DevhelpPlugin
 	gboolean sidebar_tab_bottom;
 	gboolean in_message_window;
 	
+	gchar *last_uri;
+	
 	DevhelpPluginPrivate *priv;
 };
 
@@ -88,7 +90,8 @@ struct _DevhelpPluginClass
 
 
 GType devhelp_plugin_get_type (void);
-DevhelpPlugin* devhelp_plugin_new (gboolean sb_tabs_bottom, gboolean show_in_msgwin);
+DevhelpPlugin* 
+devhelp_plugin_new (gboolean sb_tabs_bottom, gboolean show_in_msgwin, gchar *last_uri);
 
 gchar *devhelp_plugin_clean_word(gchar *str);
 gchar *devhelp_plugin_get_current_tag(void);

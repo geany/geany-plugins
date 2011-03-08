@@ -46,6 +46,7 @@ static gchar *default_config = NULL;
 static gchar *user_config = NULL;
 static gboolean move_sidebar_tabs_bottom;
 static gboolean show_in_msg_window;
+static gchar *last_uri = NULL;
 
 /* keybindings */
 enum
@@ -155,6 +156,17 @@ gint plugin_load_preferences()
 		rcode++;
 	}
 	
+	error = NULL;
+	last_uri = g_key_file_get_string(kf, "general", "last_uri", &error);
+	if (error)
+	{
+		g_warning("Unable to load 'last_uri' setting: %s", error->message);
+		g_error_free(error);
+		error = NULL;
+		last_uri = NULL;
+		rcode++;
+	}
+	
 	g_key_file_free(kf);
 	
 	return rcode;	
@@ -174,6 +186,7 @@ gint plugin_store_preferences()
 						   move_sidebar_tabs_bottom);
 	g_key_file_set_boolean(kf, "general", "show_in_message_window",
 						   show_in_msg_window);
+	g_key_file_set_string(kf, "general", "last_uri", dev_help_plugin->last_uri);
 	
 	config_text = g_key_file_to_data(kf, NULL, NULL);
 	g_key_file_free(kf);
@@ -281,7 +294,8 @@ void plugin_init(GeanyData *data)
 	plugin_load_preferences();
 	
 	dev_help_plugin = devhelp_plugin_new(move_sidebar_tabs_bottom,
-										 show_in_msg_window);
+										 show_in_msg_window,
+										 last_uri);
 
 	/* setup keybindings */
 	key_group = plugin_set_key_group(geany_plugin, "devhelp", KB_COUNT, NULL);
@@ -298,7 +312,10 @@ void plugin_init(GeanyData *data)
 void plugin_cleanup(void)
 {	
 	plugin_store_preferences();
-	
+		
+	if (dev_help_plugin->last_uri)
+		g_free(dev_help_plugin->last_uri);
+		
 	g_object_unref(dev_help_plugin);
 	
 	g_free(default_config);

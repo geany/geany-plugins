@@ -163,10 +163,11 @@ static void on_editor_menu_popup(GtkWidget *widget, gpointer user_data)
  */
 static void on_link_clicked(GObject *ignored, DhLink *link, gpointer user_data)
 {
-	gchar *uri = dh_link_get_uri(link);
 	DevhelpPlugin *plug = user_data;
-	webkit_web_view_open(WEBKIT_WEB_VIEW(plug->webview), uri);
-	g_free(uri);
+	if (plug->last_uri)
+		g_free(plug->last_uri);
+	plug->last_uri = dh_link_get_uri(link);
+	webkit_web_view_open(WEBKIT_WEB_VIEW(plug->webview), plug->last_uri);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(plug->main_notebook), 
 									plug->webview_tab);
 }
@@ -181,7 +182,8 @@ static void on_link_clicked(GObject *ignored, DhLink *link, gpointer user_data)
  * 
  * @return A newly allocated DevhelpPlugin struct or null on error.
  */
-DevhelpPlugin *devhelp_plugin_new(gboolean sb_tabs_bottom, gboolean show_in_msgwin)
+DevhelpPlugin*
+devhelp_plugin_new(gboolean sb_tabs_bottom, gboolean show_in_msgwin, gchar *last_uri)
 {
 	gchar *homepage_uri;
 	GtkWidget *book_tree_sw, *webview_sw, *contents_label;
@@ -326,12 +328,14 @@ DevhelpPlugin *devhelp_plugin_new(gboolean sb_tabs_bottom, gboolean show_in_msgw
 									geany->main_widgets->sidebar_notebook));
 	dhplug->tabs_toggled = FALSE;
 	
-	/* load the default homepage for the webview */
-	homepage_uri = g_filename_to_uri(DHPLUG_WEBVIEW_HOME_FILE, NULL, NULL);
-	if (homepage_uri) {
-		webkit_web_view_load_uri(WEBKIT_WEB_VIEW(dhplug->webview), 
-								 homepage_uri);
-		g_free(homepage_uri);
+	dhplug->last_uri = last_uri;
+	if (dhplug->last_uri)
+		webkit_web_view_load_uri(WEBKIT_WEB_VIEW(dhplug->webview), dhplug->last_uri);
+	else {
+		dhplug->last_uri = g_filename_to_uri(DHPLUG_WEBVIEW_HOME_FILE, NULL, NULL);
+		if (dhplug->last_uri) 
+			webkit_web_view_load_uri(WEBKIT_WEB_VIEW(dhplug->webview), 
+									 dhplug->last_uri);
 	}
 	
 	return dhplug;
