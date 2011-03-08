@@ -16,5 +16,5 @@ devhelp_la_SOURCES = \
 devhelp_la_CFLAGS = \
 	$(AM_CFLAGS) \
 	$(DEVHELP_CFLAGS) \
-	-DDHPLUG_DATA_DIR=\"$(plugindata)\"
+	-DDHPLUG_DATA_DIR=\"$(plugindatadir)\"
 devhelp_la_LIBADD = $(DEVHELP_LIBS)
