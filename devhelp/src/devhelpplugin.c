@@ -395,6 +395,8 @@ devhelp_plugin_new(gboolean sb_tabs_bottom, gboolean show_in_msgwin, gchar *last
 					 G_CALLBACK(on_zoom_out_button_clicked),
 					 dhplug);
 	
+	/* TODO: find the right signal, this doesn't work on inter-document
+	 *       links since the page doesn't reload. */
 	g_signal_connect(WEBKIT_WEB_VIEW(dhplug->webview),
 					 "document-load-finished",
 					 G_CALLBACK(on_document_load_finished),
