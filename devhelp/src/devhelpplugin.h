@@ -81,6 +81,9 @@ struct _DevhelpPlugin
 	gchar *last_uri;
 	gfloat zoom_level;
 	
+	GtkToolItem *btn_back;
+	GtkToolItem *btn_forward;
+	
 	DevhelpPluginPrivate *priv;
 };
 

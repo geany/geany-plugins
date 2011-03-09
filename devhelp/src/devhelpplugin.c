@@ -198,6 +198,23 @@ static void on_zoom_out_button_clicked(GtkToolButton *btn, gpointer user_data)
 	plug->zoom_level = webkit_web_view_get_zoom_level(view);
 }
 
+static void on_document_load_finished(WebKitWebView *view, 
+									  WebKitWebFrame *frame, 
+									  gpointer user_data)
+{
+	DevhelpPlugin *plug = user_data;
+	
+	if (webkit_web_view_can_go_back(view))
+		gtk_widget_set_sensitive(GTK_WIDGET(plug->btn_back), TRUE);
+	else
+		gtk_widget_set_sensitive(GTK_WIDGET(plug->btn_back), FALSE);
+	
+	if (webkit_web_view_can_go_forward(view))
+		gtk_widget_set_sensitive(GTK_WIDGET(plug->btn_forward), TRUE);
+	else
+		gtk_widget_set_sensitive(GTK_WIDGET(plug->btn_forward), FALSE);
+}
+
 
 /**
  * devhelp_plugin_new:
@@ -211,11 +228,9 @@ static void on_zoom_out_button_clicked(GtkToolButton *btn, gpointer user_data)
 DevhelpPlugin*
 devhelp_plugin_new(gboolean sb_tabs_bottom, gboolean show_in_msgwin, gchar *last_uri)
 {
-	gchar *homepage_uri;
 	GtkWidget *book_tree_sw, *webview_sw, *contents_label;
-	GtkWidget *search_label, *dh_sidebar_label, *doc_label;
-	GtkWidget *vbox, *toolbar;
-	GtkToolItem *btn_back, *btn_forward, *tb_sep, *btn_zoom_in, *btn_zoom_out;
+	GtkWidget *search_label, *dh_sidebar_label, *doc_label, *vbox, *toolbar;
+	GtkToolItem *btn_zoom_in, *btn_zoom_out, *tb_sep;
 	
 	DevhelpPlugin *dhplug;
 
@@ -313,14 +328,16 @@ devhelp_plugin_new(gboolean sb_tabs_bottom, gboolean show_in_msgwin, gchar *last
 	/* put the webview and toolbar stuff into the main notebook */
 	vbox = gtk_vbox_new(FALSE, 0);
 	toolbar = gtk_toolbar_new();
-	btn_back = gtk_tool_button_new_from_stock(GTK_STOCK_GO_BACK);
-	btn_forward = gtk_tool_button_new_from_stock(GTK_STOCK_GO_FORWARD);
+	dhplug->btn_back = gtk_tool_button_new_from_stock(GTK_STOCK_GO_BACK);
+	dhplug->btn_forward = gtk_tool_button_new_from_stock(GTK_STOCK_GO_FORWARD);
 	btn_zoom_in = gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_IN);
 	btn_zoom_out = gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_OUT);
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(btn_back), -1);
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(btn_forward), -1);
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(btn_zoom_in), -1);
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(btn_zoom_out), -1);
+	tb_sep = gtk_separator_tool_item_new();
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), dhplug->btn_back, -1);
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), dhplug->btn_forward, -1);
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tb_sep, -1);
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), btn_zoom_in, -1);
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), btn_zoom_out, -1);
 	gtk_box_pack_start(GTK_BOX(vbox), toolbar, FALSE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), webview_sw, TRUE, TRUE, 0);
 	gtk_notebook_append_page(GTK_NOTEBOOK(dhplug->main_notebook), vbox, doc_label);
@@ -358,12 +375,12 @@ devhelp_plugin_new(gboolean sb_tabs_bottom, gboolean show_in_msgwin, gchar *last
 					 G_CALLBACK(on_link_clicked), 
 					 dhplug);	
 	
-	g_signal_connect(btn_back,
+	g_signal_connect(dhplug->btn_back,
 					 "clicked",
 					 G_CALLBACK(on_back_button_clicked),
 					 dhplug);
 	
-	g_signal_connect(btn_forward,
+	g_signal_connect(dhplug->btn_forward,
 					 "clicked",
 					 G_CALLBACK(on_forward_button_clicked),
 					 dhplug);
@@ -376,6 +393,11 @@ devhelp_plugin_new(gboolean sb_tabs_bottom, gboolean show_in_msgwin, gchar *last
 	g_signal_connect(btn_zoom_out,
 					 "clicked",
 					 G_CALLBACK(on_zoom_out_button_clicked),
+					 dhplug);
+	
+	g_signal_connect(WEBKIT_WEB_VIEW(dhplug->webview),
+					 "document-load-finished",
+					 G_CALLBACK(on_document_load_finished),
 					 dhplug);
 
 	/* toggle state tracking */
