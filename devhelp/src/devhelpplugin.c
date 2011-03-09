@@ -57,9 +57,7 @@ static void devhelp_plugin_class_init(DevhelpPluginClass *klass)
 	GObjectClass *g_object_class;
 
 	g_object_class = G_OBJECT_CLASS(klass);
-
 	g_object_class->finalize = devhelp_plugin_finalize;
-
 	g_type_class_add_private((gpointer)klass, sizeof(DevhelpPluginPrivate));
 }
 
@@ -172,6 +170,34 @@ static void on_link_clicked(GObject *ignored, DhLink *link, gpointer user_data)
 									plug->webview_tab);
 }
 
+static void on_back_button_clicked(GtkToolButton *btn, gpointer user_data)
+{
+	DevhelpPlugin *plug = user_data;
+	webkit_web_view_go_back(WEBKIT_WEB_VIEW(plug->webview));
+}
+
+static void on_forward_button_clicked(GtkToolButton *btn, gpointer user_data)
+{
+	DevhelpPlugin *plug = user_data;
+	webkit_web_view_go_forward(WEBKIT_WEB_VIEW(plug->webview));
+}
+
+static void on_zoom_in_button_clicked(GtkToolButton *btn, gpointer user_data)
+{
+	DevhelpPlugin *plug = user_data;
+	WebKitWebView *view = WEBKIT_WEB_VIEW(plug->webview);
+	webkit_web_view_zoom_in(view);
+	plug->zoom_level = webkit_web_view_get_zoom_level(view);
+}
+
+static void on_zoom_out_button_clicked(GtkToolButton *btn, gpointer user_data)
+{
+	DevhelpPlugin *plug = user_data;
+	WebKitWebView *view = WEBKIT_WEB_VIEW(plug->webview);
+	webkit_web_view_zoom_out(view);
+	plug->zoom_level = webkit_web_view_get_zoom_level(view);
+}
+
 
 /**
  * devhelp_plugin_new:
@@ -188,6 +214,9 @@ devhelp_plugin_new(gboolean sb_tabs_bottom, gboolean show_in_msgwin, gchar *last
 	gchar *homepage_uri;
 	GtkWidget *book_tree_sw, *webview_sw, *contents_label;
 	GtkWidget *search_label, *dh_sidebar_label, *doc_label;
+	GtkWidget *vbox, *toolbar;
+	GtkToolItem *btn_back, *btn_forward, *tb_sep, *btn_zoom_in, *btn_zoom_out;
+	
 	DevhelpPlugin *dhplug;
 
 	dhplug = g_object_new(DEVHELP_TYPE_PLUGIN, NULL);
@@ -280,12 +309,24 @@ devhelp_plugin_new(gboolean sb_tabs_bottom, gboolean show_in_msgwin, gchar *last
 	dhplug->sb_notebook_tab = gtk_notebook_page_num(
 		GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook),
 		dhplug->sb_notebook);
-
-	/* put the webview stuff into the main notebook */
-	gtk_notebook_append_page(GTK_NOTEBOOK(dhplug->main_notebook),
-		webview_sw, doc_label);
+	
+	/* put the webview and toolbar stuff into the main notebook */
+	vbox = gtk_vbox_new(FALSE, 0);
+	toolbar = gtk_toolbar_new();
+	btn_back = gtk_tool_button_new_from_stock(GTK_STOCK_GO_BACK);
+	btn_forward = gtk_tool_button_new_from_stock(GTK_STOCK_GO_FORWARD);
+	btn_zoom_in = gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_IN);
+	btn_zoom_out = gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_OUT);
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(btn_back), -1);
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(btn_forward), -1);
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(btn_zoom_in), -1);
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(btn_zoom_out), -1);
+	gtk_box_pack_start(GTK_BOX(vbox), toolbar, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), webview_sw, TRUE, TRUE, 0);
+	gtk_notebook_append_page(GTK_NOTEBOOK(dhplug->main_notebook), vbox, doc_label);
 	dhplug->webview_tab = gtk_notebook_page_num(
-							GTK_NOTEBOOK(dhplug->main_notebook), webview_sw);
+							GTK_NOTEBOOK(dhplug->main_notebook), vbox);
+	gtk_widget_show_all(vbox);
 	
 	/* add menu item to editor popup menu */
 	/* todo: make this an image menu item with devhelp icon */
@@ -297,29 +338,45 @@ devhelp_plugin_new(gboolean sb_tabs_bottom, gboolean show_in_msgwin, gchar *last
 	gtk_widget_show(dhplug->editor_menu_item);
 
 	/* connect signals */
-	g_signal_connect(
-			geany->main_widgets->editor_menu, 
-			"show",
-			G_CALLBACK(on_editor_menu_popup), 
-			dhplug);
+	g_signal_connect(geany->main_widgets->editor_menu, 
+					 "show",
+					 G_CALLBACK(on_editor_menu_popup), 
+					 dhplug);
 										
-	g_signal_connect(
-			dhplug->editor_menu_item, 
-			"activate",
-			G_CALLBACK(on_search_help_activate), 
-			dhplug);
+	g_signal_connect(dhplug->editor_menu_item, 
+					 "activate",
+					 G_CALLBACK(on_search_help_activate), 
+					 dhplug);
 										
-	g_signal_connect(
-			dhplug->book_tree, 
-			"link-selected", 
-			G_CALLBACK(on_link_clicked), 
-			dhplug);
+	g_signal_connect(dhplug->book_tree, 
+					 "link-selected", 
+					 G_CALLBACK(on_link_clicked), 
+					 dhplug);
 										
-	g_signal_connect(
-			dhplug->search, 
-			"link-selected",
-			G_CALLBACK(on_link_clicked), 
-			dhplug);	
+	g_signal_connect(dhplug->search, 
+					 "link-selected",
+					 G_CALLBACK(on_link_clicked), 
+					 dhplug);	
+	
+	g_signal_connect(btn_back,
+					 "clicked",
+					 G_CALLBACK(on_back_button_clicked),
+					 dhplug);
+	
+	g_signal_connect(btn_forward,
+					 "clicked",
+					 G_CALLBACK(on_forward_button_clicked),
+					 dhplug);
+	
+	g_signal_connect(btn_zoom_in,
+					 "clicked",
+					 G_CALLBACK(on_zoom_in_button_clicked),
+					 dhplug);
+	
+	g_signal_connect(btn_zoom_out,
+					 "clicked",
+					 G_CALLBACK(on_zoom_out_button_clicked),
+					 dhplug);
 
 	/* toggle state tracking */
 	dhplug->last_main_tab_id = gtk_notebook_get_current_page(

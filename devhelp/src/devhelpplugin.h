@@ -79,6 +79,7 @@ struct _DevhelpPlugin
 	gboolean in_message_window;
 	
 	gchar *last_uri;
+	gfloat zoom_level;
 	
 	DevhelpPluginPrivate *priv;
 };
