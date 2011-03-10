@@ -23,7 +23,8 @@ AC_DEFUN([GP_CHECK_WEBHELPER],
                           glib-2.0 >= ${GLIB_VERSION}
                           gio-2.0 >= ${GIO_VERSION}
                           gdk-pixbuf-2.0 >= ${GDK_PIXBUF_VERSION}
-                          webkit-1.0 >= ${WEBKIT_VERSION}])
+                          webkit-1.0 >= ${WEBKIT_VERSION}
+                          gthread-2.0])
 
 
     GP_STATUS_PLUGIN_ADD([WebHelper], [$enable_webhelper])

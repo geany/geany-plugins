@@ -416,6 +416,11 @@ plugin_init (GeanyData *data)
    * (g_quark_from_static_string() for example) so it's not safe to remove it */
   plugin_module_make_resident (geany_plugin);
   
+  /* webkit uses threads but don't initialize the thread system */
+  if (! g_thread_supported ()) {
+    g_thread_init (NULL);
+  }
+  
   load_config ();
   gwh_keybindings_init ();
   
