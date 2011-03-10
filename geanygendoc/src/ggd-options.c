@@ -458,7 +458,7 @@ ggd_opt_group_set_proxy_gtkobject_full (GgdOptGroup  *group,
 /*
  * ggd_opt_group_manage_key_file:
  * @group: A #GgdOptGroup
- * @read: Whether to read (%TRUE) or write (%FALSE) the group to or from the
+ * @load: Whether to read (%TRUE) or write (%FALSE) the group to or from the
  *        given key file
  * @key_file: A #GKeyFile
  * 
@@ -466,7 +466,7 @@ ggd_opt_group_set_proxy_gtkobject_full (GgdOptGroup  *group,
  */
 static void
 ggd_opt_group_manage_key_file (GgdOptGroup  *group,
-                               gboolean      read,
+                               gboolean      load,
                                GKeyFile     *key_file)
 {
   GgdOptEntry *entry;
@@ -478,7 +478,7 @@ ggd_opt_group_manage_key_file (GgdOptGroup  *group,
       case G_TYPE_BOOLEAN: {
         gboolean *setting = (gboolean *)entry->optvar;
         
-        if (read) {
+        if (load) {
           gboolean v;
           
           v = g_key_file_get_boolean (key_file, group->name, entry->key, &err);
@@ -494,7 +494,7 @@ ggd_opt_group_manage_key_file (GgdOptGroup  *group,
       case G_TYPE_STRING: {
         gchar **setting = (gchar **)entry->optvar;
         
-        if (read) {
+        if (load) {
           gchar *str;
           
           str = g_key_file_get_string (key_file, group->name, entry->key, &err);
@@ -517,7 +517,7 @@ ggd_opt_group_manage_key_file (GgdOptGroup  *group,
                  group->name, entry->key, err->message);
       g_error_free (err);
     } else {
-      if (read) {
+      if (load) {
         ggd_opt_entry_sync_to_proxy (entry);
       }
     }
