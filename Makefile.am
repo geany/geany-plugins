@@ -24,7 +24,7 @@ plugins = \
 	updatechecker \
 	webhelper
 
-ACLOCAL_AMFLAGS = -I build/cache -I build --install
+ACLOCAL_AMFLAGS = -I build/cache -I build -I build/bundled --install
 
 SUBDIRS = \
 	po \
