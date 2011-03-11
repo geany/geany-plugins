@@ -203,21 +203,36 @@ static void on_zoom_out_button_clicked(GtkToolButton * btn,
     plug->zoom_level = webkit_web_view_get_zoom_level(view);
 }
 
+static void update_history_buttons(DevhelpPlugin *dhplug)
+{
+	WebKitWebView *view = WEBKIT_WEB_VIEW(dhplug->webview);
+	
+	gtk_widget_set_sensitive(GTK_WIDGET(dhplug->btn_back),
+		webkit_web_view_can_go_back(view));
+	
+	gtk_widget_set_sensitive(GTK_WIDGET(dhplug->btn_forward),
+		webkit_web_view_can_go_forward(view));
+}
+
 static void on_document_load_finished(WebKitWebView * view,
                                       WebKitWebFrame * frame,
-                                      gpointer user_data)
+                                      DevhelpPlugin *dhplug)
 {
-    DevhelpPlugin *plug = user_data;
+	update_history_buttons(dhplug);
+}
 
-    if (webkit_web_view_can_go_back(view))
-        gtk_widget_set_sensitive(GTK_WIDGET(plug->btn_back), TRUE);
-    else
-        gtk_widget_set_sensitive(GTK_WIDGET(plug->btn_back), FALSE);
+static void on_uri_changed_notify(GObject *object, 
+								  GParamSpec *pspec, 
+								  DevhelpPlugin *dhplug)
+{
+	update_history_buttons(dhplug);
+}
 
-    if (webkit_web_view_can_go_forward(view))
-        gtk_widget_set_sensitive(GTK_WIDGET(plug->btn_forward), TRUE);
-    else
-        gtk_widget_set_sensitive(GTK_WIDGET(plug->btn_forward), FALSE);
+static void on_load_status_changed_notify(GObject *object,
+										  GParamSpec *pspec,
+										  DevhelpPlugin *dhplug)
+{
+	update_history_buttons(dhplug);
 }
 
 
@@ -395,6 +410,14 @@ DevhelpPlugin *devhelp_plugin_new(gboolean sb_tabs_bottom,
     g_signal_connect(WEBKIT_WEB_VIEW(dhplug->webview),
                      "document-load-finished",
                      G_CALLBACK(on_document_load_finished), dhplug);
+    g_signal_connect(WEBKIT_WEB_VIEW(dhplug->webview),
+					 "notify::uri",
+					 G_CALLBACK(on_uri_changed_notify),
+					 dhplug);
+	g_signal_connect(WEBKIT_WEB_VIEW(dhplug->webview),
+					 "notify::load-status",
+					 G_CALLBACK(on_load_status_changed_notify),
+					 dhplug);
 
     /* toggle state tracking */
     dhplug->last_main_tab_id =
