@@ -891,8 +891,6 @@ gwh_browser_init (GwhBrowser *self)
   g_signal_connect (self->priv->inspector, "attach-window",
                     G_CALLBACK (on_inspector_attach_window), self);
   
-  g_signal_connect (G_OBJECT (self->priv->web_view), "notify::load-status",
-                    G_CALLBACK (on_web_view_load_status_notify), self);
   g_signal_connect (G_OBJECT (self->priv->web_view), "notify::progress",
                     G_CALLBACK (on_web_view_progress_notify), self);
   g_signal_connect (G_OBJECT (self->priv->web_view), "notify::uri",
