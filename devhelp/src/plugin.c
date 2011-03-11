@@ -289,6 +289,11 @@ void plugin_init(GeanyData *data)
 	GeanyKeyGroup *key_group;
 
 	plugin_module_make_resident(geany_plugin);
+	
+	if (!g_thread_supported()) 
+	{
+		g_thread_init(NULL);
+	}
 
 	plugin_config_init();				   
 	plugin_load_preferences();
