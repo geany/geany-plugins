@@ -344,6 +344,17 @@ on_url_entry_activate (GtkEntry    *entry,
 }
 
 static void
+update_history (GwhBrowser *self)
+{
+  WebKitWebView  *web_view = WEBKIT_WEB_VIEW (self->priv->web_view);
+  
+  gtk_widget_set_sensitive (GTK_WIDGET (self->priv->item_prev),
+                            webkit_web_view_can_go_back (web_view));
+  gtk_widget_set_sensitive (GTK_WIDGET (self->priv->item_next),
+                            webkit_web_view_can_go_forward (web_view));
+}
+
+static void
 update_load_status (GwhBrowser *self)
 {
   gboolean        loading = FALSE;
@@ -367,10 +378,7 @@ update_load_status (GwhBrowser *self)
   gtk_widget_set_sensitive (GTK_WIDGET (self->priv->item_cancel), loading);
   gtk_widget_set_visible   (GTK_WIDGET (self->priv->item_cancel), loading);
   
-  gtk_widget_set_sensitive (GTK_WIDGET (self->priv->item_prev),
-                            webkit_web_view_can_go_back (web_view));
-  gtk_widget_set_sensitive (GTK_WIDGET (self->priv->item_next),
-                            webkit_web_view_can_go_forward (web_view));
+  update_history (self);
 }
 
 static void
@@ -403,6 +411,7 @@ on_web_view_uri_notify (GObject    *object,
   uri = webkit_web_view_get_uri (WEBKIT_WEB_VIEW (self->priv->web_view));
   gtk_entry_set_text (GTK_ENTRY (self->priv->url_entry), uri);
   g_object_set (self->priv->settings, "browser-last-uri", uri, NULL);
+  update_history (self);
 }
 
 static void
