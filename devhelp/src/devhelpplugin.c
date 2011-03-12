@@ -365,11 +365,20 @@ DevhelpPlugin *devhelp_plugin_new(gboolean sb_tabs_bottom,
     btn_zoom_in = gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_IN);
     btn_zoom_out = gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_OUT);
     tb_sep = gtk_separator_tool_item_new();
+    
+    gtk_widget_set_tooltip_text(GTK_WIDGET(dhplug->btn_back),
+								_("Go back one page"));
+	gtk_widget_set_tooltip_text(GTK_WIDGET(dhplug->btn_forward),
+								_("Go forward one page"));
+	gtk_widget_set_tooltip_text(GTK_WIDGET(btn_zoom_in), _("Zoom in"));
+	gtk_widget_set_tooltip_text(GTK_WIDGET(btn_zoom_out), _("Zoom out"));
+    
     gtk_toolbar_insert(GTK_TOOLBAR(toolbar), dhplug->btn_back, -1);
     gtk_toolbar_insert(GTK_TOOLBAR(toolbar), dhplug->btn_forward, -1);
     gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tb_sep, -1);
     gtk_toolbar_insert(GTK_TOOLBAR(toolbar), btn_zoom_in, -1);
     gtk_toolbar_insert(GTK_TOOLBAR(toolbar), btn_zoom_out, -1);
+    
     gtk_box_pack_start(GTK_BOX(vbox), toolbar, FALSE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), webview_sw, TRUE, TRUE, 0);
     gtk_notebook_append_page(GTK_NOTEBOOK(dhplug->main_notebook), vbox,
@@ -405,8 +414,6 @@ DevhelpPlugin *devhelp_plugin_new(gboolean sb_tabs_bottom,
     g_signal_connect(btn_zoom_out, "clicked",
                      G_CALLBACK(on_zoom_out_button_clicked), dhplug);
 
-    /* TODO: find the right signal, this doesn't work on inter-document
-     *       links since the page doesn't reload. */
     g_signal_connect(WEBKIT_WEB_VIEW(dhplug->webview),
                      "document-load-finished",
                      G_CALLBACK(on_document_load_finished), dhplug);
