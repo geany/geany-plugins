@@ -64,11 +64,11 @@ gboolean main_notebook_needs_destroying(void)
  */
 void main_notebook_destroy(void)
 {	
+	GtkWidget *main_notebook, *doc_nb_parent, *vbox;
+	
 	if (!main_notebook_needs_destroying())
 		return;
 		
-	GtkWidget *main_notebook, *doc_nb_parent, *vbox;
-
 	main_notebook = ui_lookup_widget(geany->main_widgets->window, 
 									"main_notebook");
 
@@ -144,7 +144,7 @@ static GtkWidget *create_main_notebook(void)
 	gtk_notebook_append_page(GTK_NOTEBOOK(main_notebook), doc_nb_box, code_label);
 	gtk_widget_reparent(geany->main_widgets->notebook, vbox);
 	gtk_container_add(GTK_CONTAINER(doc_nb_parent), main_notebook);
-	//gtk_paned_pack2(GTK_PANED(doc_nb_parent), main_notebook, TRUE, TRUE);
+	/*gtk_paned_pack2(GTK_PANED(doc_nb_parent), main_notebook, TRUE, TRUE);*/
 	gtk_widget_show_all(main_notebook);
 	gtk_widget_reparent(geany->main_widgets->notebook, doc_nb_box);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(main_notebook), 0);

@@ -32,8 +32,8 @@ extern GeanyFunctions 	*geany_functions;
 
 extern DevhelpPlugin *dev_help_plugin;
 
-gint plugin_load_preferences();
-gint plugin_store_preferences();
-gboolean plugin_config_init();
+gint plugin_load_preferences(void);
+gint plugin_store_preferences(void);
+gboolean plugin_config_init(void);
 
 #endif

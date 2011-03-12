@@ -1,24 +1,23 @@
-//      devhelpplugin.h
-//      
-//      Copyright 2011 Matthew Brush <mbrush@desktop>
-//      
-//      This program is free software; you can redistribute it and/or modify
-//      it under the terms of the GNU General Public License as published by
-//      the Free Software Foundation; either version 2 of the License, or
-//      (at your option) any later version.
-//      
-//      This program is distributed in the hope that it will be useful,
-//      but WITHOUT ANY WARRANTY; without even the implied warranty of
-//      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//      GNU General Public License for more details.
-//      
-//      You should have received a copy of the GNU General Public License
-//      along with this program; if not, write to the Free Software
-//      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//      MA 02110-1301, USA.
-//      
-//      
-
+/*
+ * devhelpplugin.h
+ * 
+ * Copyright 2011 Matthew Brush <mbrush@leftclick.ca>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ */
 
 #ifndef __DEVHELPPLUGIN_H__
 #define __DEVHELPPLUGIN_H__
@@ -50,24 +49,24 @@ struct _DevhelpPlugin
 {
     GObject parent;
 
-    GtkWidget *book_tree;       /// "Contents" in the sidebar
-    GtkWidget *search;          /// "Search" in the sidebar
-    GtkWidget *sb_notebook;     /// Notebook that holds contents/search
-    gint sb_notebook_tab;       /// Index of tab where devhelp sidebar is
-    GtkWidget *webview;         /// Webkit that shows documentation
-    gint webview_tab;           /// Index of tab that contains the webview
-    GtkWidget *main_notebook;   /// Notebook that holds Geany doc notebook and
-    /// and webkit view
-    GtkWidget *doc_notebook;    /// Geany's document notebook  
-    GtkWidget *editor_menu_item;        /// Item in the editor's context menu 
-    GtkWidget *editor_menu_sep; /// Separator item above menu item
-    gboolean *webview_active;   /// Tracks whether webview stuff is shown
+    GtkWidget *book_tree;       /* "Contents" in the sidebar */
+    GtkWidget *search;          /* "Search" in the sidebar */
+    GtkWidget *sb_notebook;     /* Notebook that holds contents/search */
+    gint sb_notebook_tab;       /* Index of tab where devhelp sidebar is */
+    GtkWidget *webview;         /* Webkit that shows documentation */
+    gint webview_tab;           /* Index of tab that contains the webview */
+    GtkWidget *main_notebook;   /* Notebook that holds Geany doc notebook and
+								 * and webkit view */
+    GtkWidget *doc_notebook;    /* Geany's document notebook   */
+    GtkWidget *editor_menu_item;        /* Item in the editor's context menu */
+    GtkWidget *editor_menu_sep; /* Separator item above menu item */
+    gboolean *webview_active;   /* Tracks whether webview stuff is shown */
 
-    gboolean last_main_tab_id;  /// These track the last id of the tabs
-    gboolean last_sb_tab_id;    ///   before toggling
-    gboolean tabs_toggled;      /// Tracks state of whether to toggle to
-    /// Devhelp or back to code
-    gboolean created_main_nb;   /// Track whether we created the main notebook
+    gboolean last_main_tab_id;  /* These track the last id of the tabs */
+    gboolean last_sb_tab_id;    /*   before toggling */
+    gboolean tabs_toggled;      /* Tracks state of whether to toggle to
+								 * Devhelp or back to code */
+    gboolean created_main_nb;   /* Track whether we created the main notebook */
 
     GtkPositionType orig_sb_tab_pos;
     gboolean sidebar_tab_bottom;

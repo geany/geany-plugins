@@ -162,13 +162,13 @@ static void on_editor_menu_popup(GtkWidget * widget, gpointer user_data)
  * Called when a link in either the contents or search areas on the sidebar 
  * have a link clicked on, meaning to load that file into the webview.
  */
-static void on_link_clicked(GObject * ignored, DhLink * link,
+static void on_link_clicked(GObject * ignored, DhLink * dhlink,
                             gpointer user_data)
 {
     DevhelpPlugin *plug = user_data;
     if (plug->last_uri)
         g_free(plug->last_uri);
-    plug->last_uri = dh_link_get_uri(link);
+    plug->last_uri = dh_link_get_uri(dhlink);
     webkit_web_view_open(WEBKIT_WEB_VIEW(plug->webview), plug->last_uri);
     gtk_notebook_set_current_page(GTK_NOTEBOOK(plug->main_notebook),
                                   plug->webview_tab);

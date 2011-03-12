@@ -247,16 +247,18 @@ gboolean plugin_config_init()
 					  error->message);
 			g_error_free(error);
 			error = NULL;
-			config_text = " ";
 			rcode = FALSE;
 		}
-		if (!g_file_set_contents(user_config, config_text, -1, &error))
+		else
 		{
-			g_warning(_("Unable to write default configuration: %s"),
-					  error->message);
-			g_error_free(error);
-			error = NULL;
-			rcode = FALSE;
+			if (!g_file_set_contents(user_config, config_text, -1, &error))
+			{
+				g_warning(_("Unable to write default configuration: %s"),
+						  error->message);
+				g_error_free(error);
+				error = NULL;
+				rcode = FALSE;
+			}
 		}
 	}
 	
