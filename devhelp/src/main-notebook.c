@@ -74,10 +74,16 @@ void main_notebook_destroy(void)
 
 	doc_nb_parent = gtk_widget_get_parent(main_notebook);
 	
+	/* temporarily disable the notebook to prevent a segfault when
+	 * on_editor_focus_in() calls editor_check_colorize(). */
+	gtk_widget_set_sensitive(geany->main_widgets->notebook, FALSE);	
+	
 	vbox = ui_lookup_widget(geany->main_widgets->window, "vbox1");
 	gtk_widget_reparent(geany->main_widgets->notebook, vbox);
 	gtk_widget_destroy(main_notebook);
 	gtk_widget_reparent(geany->main_widgets->notebook, doc_nb_parent);
+	
+	gtk_widget_set_sensitive(geany->main_widgets->notebook, TRUE);
 }
 
 /**
