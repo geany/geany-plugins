@@ -8,3 +8,5 @@ endif
 
 geanysendmail_la_SOURCES = geanysendmail.c icon.h
 geanysendmail_la_LIBADD = $(COMMONLIBS)
+
+include $(top_srcdir)/build/cppcheck.mk

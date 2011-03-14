@@ -45,3 +45,5 @@ geanygendoc_la_CFLAGS = \
 geanygendoc_la_LIBADD = \
 	$(COMMONLIBS) \
 	$(GEANYGENDOC_LIBS)
+
+include $(top_srcdir)/build/cppcheck.mk

@@ -34,3 +34,5 @@ geanylatex_la_SOURCES = \
 	letters.h
 
 geanylatex_la_LIBADD = $(COMMONLIBS)
+
+include $(top_srcdir)/build/cppcheck.mk

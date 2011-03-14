@@ -8,3 +8,5 @@ endif
 
 geanylipsum_la_SOURCES = geanylipsum.c
 geanylipsum_la_LIBADD = $(COMMONLIBS)
+
+include $(top_srcdir)/build/cppcheck.mk

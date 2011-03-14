@@ -47,3 +47,5 @@ gwh-enum-types.c: $(srcdir)/gwh-enum-types.c.tpl gwh-enum-types.h $(headers) Mak
 	$(AM_V_GEN)$(GLIB_MKENUMS) --template $< $(headers:%=$(srcdir)/%) > $@
 gwh-enum-types.h: $(srcdir)/gwh-enum-types.h.tpl $(headers) Makefile
 	$(AM_V_GEN)$(GLIB_MKENUMS) --template $< $(headers:%=$(srcdir)/%) > $@
+
+include $(top_srcdir)/build/cppcheck.mk

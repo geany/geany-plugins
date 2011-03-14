@@ -27,3 +27,5 @@ addons_la_SOURCES = \
 	ao_xmltagging.c
 
 addons_la_LIBADD = $(COMMONLIBS)
+
+include $(top_srcdir)/build/cppcheck.mk

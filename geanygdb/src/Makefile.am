@@ -32,3 +32,5 @@ geanygdb_la_CFLAGS = $(AM_CFLAGS) -DTTYHELPERDIR=\""$(geanygdbdir)"\"
 geanygdb_la_LIBADD = $(COMMONLIBS)
 
 ttyhelper_SOURCES = ttyhelper.c
+
+include $(top_srcdir)/build/cppcheck.mk

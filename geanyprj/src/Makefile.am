@@ -15,3 +15,5 @@ geanyprj_la_SOURCES = geanyprj.c \
 
 geanyprj_la_CFLAGS = $(AM_CFLAGS)
 geanyprj_la_LIBADD = $(COMMONLIBS)
+
+include $(top_srcdir)/build/cppcheck.mk

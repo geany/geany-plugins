@@ -18,3 +18,5 @@ updatechecker_la_CFLAGS = \
 updatechecker_la_LIBADD = \
 	$(COMMONLIBS) \
 	$(UPDATECHECKER_LIBS)
+
+include $(top_srcdir)/build/cppcheck.mk

@@ -42,3 +42,5 @@ debugger_la_SOURCES = \
 
 debugger_la_LIBADD = $(COMMONLIBS) -lutil
 debugger_la_CFLAGS = $(AM_CFLAGS) $(VTE_CFLAGS)
+
+include $(top_srcdir)/build/cppcheck.mk

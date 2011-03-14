@@ -8,3 +8,5 @@ endif
 
 tableconvert_la_SOURCES = tableconvert.c
 tableconvert_la_LIBADD = $(COMMONLIBS)
+
+include $(top_srcdir)/build/cppcheck.mk

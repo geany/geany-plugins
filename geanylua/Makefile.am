@@ -48,3 +48,5 @@ libgeanylua_la_CFLAGS = $(geanylua_la_CFLAGS)
 libgeanylua_la_LIBADD = $(geanylua_la_LIBADD)
 
 SUBDIRS = docs examples
+
+include $(top_srcdir)/build/cppcheck.mk

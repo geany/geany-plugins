@@ -8,3 +8,5 @@ endif
 
 geanycfp_la_SOURCES = geanycfp.c
 geanycfp_la_LIBADD = $(COMMONLIBS)
+
+include $(top_srcdir)/build/cppcheck.mk

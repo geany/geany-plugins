@@ -25,3 +25,5 @@ geanypg_la_LIBADD = \
 geanypg_la__CFLAGS = \
 	$(AM_CFLAGS) \
 	$(GPGME_CFLAGS)
+
+include $(top_srcdir)/build/cppcheck.mk

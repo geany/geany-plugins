@@ -20,6 +20,7 @@ GP_I18N
 dnl common checks
 GP_CHECK_GEANY(0.20)
 GP_CHECK_UNITTESTS(0.9.4)
+GP_CHECK_CPPCHECK
 
 dnl plugin checks
 GP_CHECK_ADDONS

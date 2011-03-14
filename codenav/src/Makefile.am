@@ -18,3 +18,5 @@ codenav_la_SOURCES = \
 
 codenav_la_LIBADD = $(COMMONLIBS)
 
+
+include $(top_srcdir)/build/cppcheck.mk

@@ -18,3 +18,5 @@ devhelp_la_CFLAGS = \
 	$(DEVHELP_CFLAGS) \
 	-DDHPLUG_DATA_DIR=\"$(plugindatadir)\"
 devhelp_la_LIBADD = $(DEVHELP_LIBS)
+
+include $(top_srcdir)/build/cppcheck.mk

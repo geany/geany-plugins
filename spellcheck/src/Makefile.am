@@ -25,3 +25,5 @@ endif
 spellcheck_la_LIBADD = \
 	$(COMMONLIBS) \
 	$(ENCHANT_LIBS)
+
+include $(top_srcdir)/build/cppcheck.mk

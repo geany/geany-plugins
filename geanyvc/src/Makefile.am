@@ -27,3 +27,5 @@ geanyvc_la_CFLAGS += \
 	$(GTKSPELL_CFLAGS)
 geanyvc_la_LIBADD += $(GTKSPELL_LIBS)
 endif
+
+include $(top_srcdir)/build/cppcheck.mk

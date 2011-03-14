@@ -13,3 +13,5 @@ geanydoc_la_SOURCES = \
 
 geanydoc_la_CFLAGS = $(AM_CFLAGS)
 geanydoc_la_LIBADD = $(COMMONLIBS)
+
+include $(top_srcdir)/build/cppcheck.mk
