@@ -35,14 +35,37 @@ automatically based on whether the dependency exists on your system.
 to fail with an error message if you have missing
 dependencies. --disable-<option> causes the feature to be forcefully disabled.
 
-* geanylua -- the GeanyLua plug-in
+* addons -- the Addons plugin
+* codenav -- the CodeNav plugin
+* debugger -- the Debugger plugin
+* devhelp -- the devhelp plugin
+* geanycfp -- the geanycfp plugin
+* geanydoc -- the GeanyDoc plugin
+* geanyextrasel -- the GeanyExtraSel plugin
+* geanygdb -- the GeanyGDB plugin
+* geanygendoc -- the GeanyGenDoc plugin
+* geanyinsertnum -- the GeanyInsertNum plugin
+* geanylatex -- the GeanyLaTeX plugin
+* geanylipsum -- the GeanyLipsum plugin
+* geanylua -- the GeanyLua plugin
+* geanypg -- the geanypg plugin
+* geanyprj -- the GeanyPrj plugin
+* geanysendmail -- the GeanySendmail plugin
+* geanyvc -- the GeanyVC plugin
 * gtkspell -- GeanyVC's spell-check support
-* spellcheck -- the Spellcheck plug-in
+* pretty_printer -- the pretty-printer plugin
+* shiftcolumn -- the ShiftColumn plugin
+* spellcheck -- the spellcheck plugin
+* treebrowser -- the Treebrowser plugin
+* tableconvert -- the Tableconvert plugin
+* updatechecker -- the Updatechecker plugin
+* webhelper -- the WebHelper plugin
 
 Example:
-./configure --enable-geanylua --enable-gtkspell --enable-spellcheck
+./configure --enable-geanylua --enable-spellcheck
 
-This will force all optional plugins to be enabled even if dependencies are missing.
+This will force force both geanylua and spellcheck plugins to be enabled even
+if some dependencies are missing.
 
 
 Other tweaks
