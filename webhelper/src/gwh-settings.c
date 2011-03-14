@@ -841,7 +841,6 @@ void
 gwh_settings_widget_sync_v (GwhSettings *self,
                             ...)
 {
-  GParamSpec *pspec;
   GtkWidget  *widget;
   va_list     ap;
   
