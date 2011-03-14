@@ -12,6 +12,14 @@ AC_DEFUN([GP_STATUS_FEATURE_ADD],
 "
 ])
 
+dnl add build feature status message, e.g.
+dnl GP_STATUS_BUIL_FEATURE_ADD(build_feature,yes)
+AC_DEFUN([GP_STATUS_BUILD_FEATURE_ADD],
+[
+    build_feature_statusmsg+="$1:$2
+"
+])
+
 dnl indent $1_statusmsg with RHS at col $2
 AC_DEFUN([_GP_STATUS_PRINT_INDENT_],
 [
@@ -49,9 +57,12 @@ ${PACKAGE}-${VERSION}
     Docdir:                       ${expanded_docdir}
     Plugins path:                 ${geanypluginsdir}
 
-  Plugins:
+  Build Features:
 GPEOF
 
+    _GP_STATUS_PRINT_INDENT_(build_feature, 34)
+    echo
+    echo "  Plugins:"
     _GP_STATUS_PRINT_INDENT_(plugins, 34)
     echo
     echo "  Features:"
