@@ -1,0 +1,35 @@
+========================
+Hacking on Geany-Plugins
+========================
+.. contents::
+
+General
+=======
+
+About this file
+---------------
+This file contains some useful information for any plugin developer, and
+especially for new plugin developers.
+
+Building your plugin
+--------------------
+You should first read either `README` or `README.waf` depending on whether
+you want to use Autotools or Waf to build the plugins.
+
+Autotools Build System
+^^^^^^^^^^^^^^^^^^^^^^
+The Autotools build system automatically enables some code checking
+utilities, meant to ease tracking of common programming mistakes, or simply
+to help making everyone's plugin code better.
+They currently are:
+
+* C compiler warnings (can be disabled with the ``--disable-extra-c-warnings``
+  configuration flag) -- this test is (obviouly) run during build;
+* Static code analysis using ``cppcheck`` (can be disabled with the
+  ``--disable-cppcheck`` configuration flag) -- this test is run during
+  ``make check``.
+
+These features are only here to help you writing better code: they are not
+necessarily and always right -- though they try.
+If you think they reports wrong problems, please file a report on the
+appropriate place (either the mailing lists or the geany-plugins bug tracker).

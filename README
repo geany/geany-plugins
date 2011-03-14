@@ -60,6 +60,8 @@ dependencies. --disable-<option> causes the feature to be forcefully disabled.
 * tableconvert -- the Tableconvert plugin
 * updatechecker -- the Updatechecker plugin
 * webhelper -- the WebHelper plugin
+* extra-c-warnings -- extra C Compiler warnings (see also HACKING)
+* cppcheck -- static code analysis using cppcheck (see also HACKING)
 
 Example:
 ./configure --enable-geanylua --enable-spellcheck
