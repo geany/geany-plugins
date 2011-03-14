@@ -6,7 +6,8 @@ AM_CFLAGS = \
 	-DPKGDATADIR=\""$(pkgdatadir)"\" \
 	-DLIBDIR=\""$(libdir)"\" \
 	-DPKGLIBDIR=\""$(pkglibdir)"\" \
-	$(GEANY_CFLAGS)
+	$(GEANY_CFLAGS) \
+	$(GP_CFLAGS)
 
 AM_LDFLAGS = -module -avoid-version
 
