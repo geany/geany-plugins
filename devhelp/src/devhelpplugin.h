@@ -25,22 +25,21 @@
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS
+
 #ifndef DHPLUG_DATA_DIR
 #define DHPLUG_DATA_DIR "/usr/local/share/geany-devhelp"
 #endif
+
 #define DHPLUG_WEBVIEW_HOME_FILE DHPLUG_DATA_DIR"/home.html"
-#define DHPLUG_MAX_LABEL_TAG 30
+#define DHPLUG_MAX_LABEL_TAG 30 /* never search for more than this many chars */
+
 #define DEVHELP_TYPE_PLUGIN				(devhelp_plugin_get_type())
-#define DEVHELP_PLUGIN(obj)				(G_TYPE_CHECK_INSTANCE_CAST((obj),\
-			DEVHELP_TYPE_PLUGIN, DevhelpPlugin))
-#define DEVHELP_PLUGIN_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST((klass),\
-			DEVHELP_TYPE_PLUGIN, DevhelpPluginClass))
-#define DEVHELP_IS_PLUGIN(obj)			(G_TYPE_CHECK_INSTANCE_TYPE((obj),\
-			DEVHELP_TYPE_PLUGIN))
-#define DEVHELP_IS_PLUGIN_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE((klass),\
-			DEVHELP_TYPE_PLUGIN))
-#define DEVHELP_PLUGIN_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj),\
-			DEVHELP_TYPE_PLUGIN, DevhelpPluginClass))
+#define DEVHELP_PLUGIN(obj)				(G_TYPE_CHECK_INSTANCE_CAST((obj), DEVHELP_TYPE_PLUGIN, DevhelpPlugin))
+#define DEVHELP_PLUGIN_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST((klass), DEVHELP_TYPE_PLUGIN, DevhelpPluginClass))
+#define DEVHELP_IS_PLUGIN(obj)			(G_TYPE_CHECK_INSTANCE_TYPE((obj), DEVHELP_TYPE_PLUGIN))
+#define DEVHELP_IS_PLUGIN_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE((klass), DEVHELP_TYPE_PLUGIN))
+#define DEVHELP_PLUGIN_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), DEVHELP_TYPE_PLUGIN, DevhelpPluginClass))
+			
 typedef struct _DevhelpPlugin DevhelpPlugin;
 typedef struct _DevhelpPluginClass DevhelpPluginClass;
 typedef struct _DevhelpPluginPrivate DevhelpPluginPrivate;
@@ -88,14 +87,11 @@ struct _DevhelpPluginClass
 
 
 GType devhelp_plugin_get_type(void);
-DevhelpPlugin *devhelp_plugin_new(gboolean sb_tabs_bottom,
-                                  gboolean show_in_msgwin, gchar * last_uri);
-
+DevhelpPlugin *devhelp_plugin_new(gboolean sb_tabs_bottom, gboolean show_in_msgwin, gchar * last_uri);
 gchar *devhelp_plugin_clean_word(gchar * str);
 gchar *devhelp_plugin_get_current_tag(void);
 void devhelp_plugin_activate_tabs(DevhelpPlugin * dhplug, gboolean contents);
-void devhelp_plugin_sidebar_tabs_bottom(DevhelpPlugin * dhplug,
-                                        gboolean bottom);
+void devhelp_plugin_sidebar_tabs_bottom(DevhelpPlugin * dhplug, gboolean bottom);
 
 G_END_DECLS
 #endif /* __DEVHELPPLUGIN_H__ */

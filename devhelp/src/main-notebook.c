@@ -64,7 +64,7 @@ gboolean main_notebook_needs_destroying(void)
  */
 void main_notebook_destroy(void)
 {	
-	GtkWidget *main_notebook, *doc_nb_parent, *vbox;
+	GtkWidget *main_notebook, *doc_nb_parent, *vbox, *doc_nb;
 	
 	if (!main_notebook_needs_destroying())
 		return;
@@ -73,15 +73,21 @@ void main_notebook_destroy(void)
 									"main_notebook");
 
 	doc_nb_parent = gtk_widget_get_parent(main_notebook);
+	doc_nb = g_object_get_data(G_OBJECT(main_notebook), "doc_notebook");
 	
 	/* temporarily disable the notebook to prevent a segfault when
 	 * on_editor_focus_in() calls editor_check_colorize(). */
-	gtk_widget_set_sensitive(geany->main_widgets->notebook, FALSE);	
-	
+	gtk_widget_set_sensitive(geany->main_widgets->notebook, FALSE);
+
 	vbox = ui_lookup_widget(geany->main_widgets->window, "vbox1");
-	gtk_widget_reparent(geany->main_widgets->notebook, vbox);
-	gtk_widget_destroy(main_notebook);
-	gtk_widget_reparent(geany->main_widgets->notebook, doc_nb_parent);
+	if (GTK_IS_WIDGET(doc_nb) && doc_nb->parent != NULL)
+	{
+		gtk_widget_ref(doc_nb);
+		gtk_container_remove(GTK_CONTAINER(main_notebook), doc_nb);
+		gtk_widget_destroy(main_notebook);
+		gtk_container_add(GTK_CONTAINER(doc_nb_parent), doc_nb);
+		gtk_widget_unref(doc_nb);
+	}
 	
 	gtk_widget_set_sensitive(geany->main_widgets->notebook, TRUE);
 }
@@ -103,6 +109,7 @@ GtkWidget *main_notebook_get(void)
 	else
 		return create_main_notebook();
 }
+
 
 /* we need this since ui_lookup_widget() doesn't seem to realize when
  * the main_notebook widget is destroyed and so keeps returning something
@@ -135,24 +142,40 @@ static gboolean holds_main_notebook(GtkWidget *widget)
  */
 static GtkWidget *create_main_notebook(void)
 {
-	GtkWidget *main_notebook, *doc_nb_box, *doc_nb_parent, *code_label, *vbox;
+	GtkWidget *main_notebook, *doc_nb_box, *doc_nb_parent;
+	GtkWidget *vbox, *doc_nb;
 
 	if (main_notebook_exists())
 		return NULL;
 	
-	code_label = gtk_label_new(_("Code"));
-	main_notebook = gtk_notebook_new();
 	doc_nb_box = gtk_vbox_new(FALSE, 0);
 	vbox = ui_lookup_widget(geany->main_widgets->window, "vbox1");
-	doc_nb_parent = gtk_widget_get_parent(geany->main_widgets->notebook);
 	
+	main_notebook = gtk_notebook_new();
 	gtk_widget_set_name(main_notebook, "main_notebook");
-	gtk_notebook_append_page(GTK_NOTEBOOK(main_notebook), doc_nb_box, code_label);
-	gtk_widget_reparent(geany->main_widgets->notebook, vbox);
+	
+	doc_nb_parent = gtk_widget_get_parent(geany->main_widgets->sidebar_notebook);
+	
+	/* sidebar on left */
+	if (gtk_paned_get_child1(GTK_PANED(doc_nb_parent)) == geany->main_widgets->sidebar_notebook)
+		doc_nb = gtk_paned_get_child2(GTK_PANED(doc_nb_parent));
+	else /* sidebar on right */
+		doc_nb = gtk_paned_get_child1(GTK_PANED(doc_nb_parent));
+
+	gtk_notebook_append_page(GTK_NOTEBOOK(main_notebook), 
+							 doc_nb_box,
+							 gtk_label_new(_("Code")));
+	
+	gtk_widget_ref(doc_nb);
+	gtk_container_remove(GTK_CONTAINER(doc_nb_parent), doc_nb);
+
 	gtk_container_add(GTK_CONTAINER(doc_nb_parent), main_notebook);
-	/*gtk_paned_pack2(GTK_PANED(doc_nb_parent), main_notebook, TRUE, TRUE);*/
 	gtk_widget_show_all(main_notebook);
-	gtk_widget_reparent(geany->main_widgets->notebook, doc_nb_box);
+	
+	gtk_container_add(GTK_CONTAINER(doc_nb_box), doc_nb);
+	gtk_widget_unref(doc_nb);
+	gtk_widget_show_all(doc_nb);
+
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(main_notebook), 0);
 	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(main_notebook), GTK_POS_BOTTOM);
 
