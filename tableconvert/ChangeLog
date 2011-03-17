@@ -1,3 +1,8 @@
+2011-03-17  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Fix an minor issue with shadowing variables.
+
+
 2011-01-29  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * Rename plugin to Tableconvert.

@@ -122,8 +122,6 @@ void convert_to_table(gboolean header)
 
 			else if (doc->file_type->id == GEANY_FILETYPES_LATEX)
 			{
-				guint i;
-				guint j;
 
 				/* Adding header to replacement */
 				replacement_str = g_string_new("\\begin{tabular}{}\n");
