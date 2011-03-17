@@ -58,10 +58,10 @@ enum {
 	LATEX_FONTSIZE_END
 };
 
-extern gchar* glatex_format_pattern[];
+extern const gchar* glatex_format_pattern[];
 extern const gchar *glatex_format_labels[];
 extern const gchar *glatex_fontsize_labels[];
-extern gchar *glatex_fontsize_pattern[];
+extern const gchar *glatex_fontsize_pattern[];
 void glatex_insert_latex_format(GtkMenuItem * menuitem, gpointer gdata);
 void glatex_insert_latex_fontsize(GtkMenuItem * menuitem, gpointer gdata);
 

@@ -51,7 +51,7 @@ SubMenuTemplate glatex_environment_array[] = {
 	{0, NULL, NULL},
 };
 
-gchar *glatex_list_environments [] =
+const gchar *glatex_list_environments [] =
 {
 	"description",
 	"enumerate",

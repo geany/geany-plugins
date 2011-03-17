@@ -85,8 +85,6 @@ GPtrArray* glatex_init_custom_templates()
 /* Frees all elelements of struct */
 void glatex_free_template_entry(TemplateEntry *template, G_GNUC_UNUSED gpointer *data){
 	if (template->label != NULL)
-		g_free(template->label);
-	if (template->label != NULL)
 		g_free(template->filepath);
 	if (template->label != NULL)
 		g_string_free(template->template, TRUE);

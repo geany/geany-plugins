@@ -44,8 +44,8 @@ typedef enum
 typedef struct
 {
 	LaTeXEncodingIndex charset;
-	gchar *name;
-	gchar *latex;
+	const gchar *name;
+	const gchar *latex;
 	gint geany_enc;
 } LaTeXEncodings;
 

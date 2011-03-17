@@ -1,3 +1,9 @@
+2011-03-17  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Attempt to fix a couple of compiling warnings came up with updates 
+   build flags.
+
+
 2011-01-02  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * Correction of some typos (Thanks to André Glória for reporting)

@@ -33,7 +33,7 @@ typedef struct
 typedef struct
 {
 	gint cat;
-	gchar *label;
+	const gchar *label;
 	gboolean sorted;
 } CategoryName;
 
@@ -41,7 +41,7 @@ typedef struct
 typedef struct
 {
 	gchar *filepath;
-	gchar *label;
+	const gchar *label;
 	GString *template;
 } TemplateEntry;
 
@@ -65,15 +65,15 @@ typedef struct
 
 typedef struct
 {
-	gchar *latex;
-	gchar *label;
+	const gchar *latex;
+	const gchar *label;
 } BibTeXType;
 
 typedef struct
 {
-	gchar *label_name;
+	const gchar *label_name;
 	gint page;
-	gchar *chapter;
+	const gchar *chapter;
 } LaTeXLabel;
 
 #endif

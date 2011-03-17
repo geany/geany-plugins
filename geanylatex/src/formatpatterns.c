@@ -21,7 +21,7 @@
 
 #include "geanylatex.h"
 
-gchar* glatex_format_pattern[] = {
+const gchar* glatex_format_pattern[] = {
 	"\\textit",
 	"\\textbf",
 	"\\underline",
@@ -47,7 +47,7 @@ const gchar *glatex_format_labels[] = {
 	N_("Right side oriented")
 };
 
-gchar *glatex_fontsize_pattern[] = {
+const gchar *glatex_fontsize_pattern[] = {
 	"\\tiny",
 	"\\scriptsize",
 	"\\footnotesize",
