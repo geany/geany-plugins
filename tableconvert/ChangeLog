@@ -1,3 +1,8 @@
+2011-03-19  Frank Lanitz  <frlan@frank.uvena.de>
+
+ * Make plugin function available via tools menu.
+
+
 2011-03-17  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * Fix an minor issue with shadowing variables.

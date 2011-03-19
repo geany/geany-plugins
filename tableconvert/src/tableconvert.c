@@ -38,6 +38,8 @@ enum
 };
 
 
+static GtkWidget *main_menu_item = NULL;
+
 void convert_to_table(gboolean header)
 {
 	GeanyDocument *doc = NULL;
@@ -194,11 +196,22 @@ static void init_keybindings(void)
 void plugin_init(GeanyData *data)
 {
 	init_keybindings();
+
 	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+
+	/* Build up menu entry */
+	main_menu_item = gtk_menu_item_new_with_mnemonic(_("_Convert to table"));
+	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), main_menu_item);
+	ui_widget_set_tooltip_text(main_menu_item,
+		_("Converts current marked list to a table."));
+	g_signal_connect(G_OBJECT(main_menu_item), "activate", G_CALLBACK(convert_to_table), TRUE);
+	gtk_widget_show_all(main_menu_item);
+	ui_add_document_sensitive(main_menu_item);
+
 }
 
 
 void plugin_cleanup(void)
 {
-	/* We don't need to do anything here at the moment */
+	gtk_widget_destroy(main_menu_item);
 }
