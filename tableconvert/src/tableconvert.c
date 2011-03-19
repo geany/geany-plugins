@@ -192,6 +192,10 @@ static void init_keybindings(void)
 		_("Convert selection to table"), NULL);
 }
 
+void cb_table_convert(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer gdata)
+{
+	convert_to_table(TRUE);
+}
 
 void plugin_init(GeanyData *data)
 {
@@ -204,10 +208,9 @@ void plugin_init(GeanyData *data)
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), main_menu_item);
 	ui_widget_set_tooltip_text(main_menu_item,
 		_("Converts current marked list to a table."));
-	g_signal_connect(G_OBJECT(main_menu_item), "activate", G_CALLBACK(convert_to_table), TRUE);
+	g_signal_connect(G_OBJECT(main_menu_item), "activate", G_CALLBACK(convert_to_table), NULL);
 	gtk_widget_show_all(main_menu_item);
 	ui_add_document_sensitive(main_menu_item);
-
 }
 
 
