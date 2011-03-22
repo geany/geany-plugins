@@ -66,8 +66,6 @@ static struct {
   guint       type;
   GtkWidget  *widget;
   
-  /* only valid if type == CONTAINER_NOTEBOOK */
-  gint        page_num;
   /* only valid if type == CONTAINER_WINDOW */
   gboolean    visible;
 } G_container;
@@ -184,9 +182,8 @@ attach_browser (void)
     } else {
       G_container.widget = geany_data->main_widgets->message_window_notebook;
     }
-    G_container.page_num = gtk_notebook_append_page (GTK_NOTEBOOK (G_container.widget),
-                                                     G_browser,
-                                                     gtk_label_new (_("Web preview")));
+    gtk_notebook_append_page (GTK_NOTEBOOK (G_container.widget),
+                              G_browser, gtk_label_new (_("Web preview")));
     gwh_browser_set_inspector_transient_for (GWH_BROWSER (G_browser),
                                              GTK_WINDOW (geany_data->main_widgets->window));
   }
@@ -199,27 +196,8 @@ detach_browser (void)
     separate_window_set_visible (FALSE); /* saves the geometry */
     gtk_widget_destroy (G_container.widget);
   } else {
-    GtkNotebook  *notebook = GTK_NOTEBOOK (G_container.widget);
-    gint          page_num = G_container.page_num;
-    
-    /* remove the page we added. we handle the case where the page were
-     * reordered */
-    if (gtk_notebook_get_nth_page (notebook, page_num) != G_browser) {
-      gint i;
-      gint n;
-      
-      page_num = -1;
-      n = gtk_notebook_get_n_pages (notebook);
-      for (i = 0; i < n; i++) {
-        if (gtk_notebook_get_nth_page (notebook, i) == G_browser) {
-          page_num = i;
-          break;
-        }
-      }
-    }
-    if (page_num >= 0) {
-      gtk_notebook_remove_page (notebook, page_num);
-    }
+    gtk_container_remove (GTK_CONTAINER (gtk_widget_get_parent (G_browser)),
+                          G_browser);
   }
 }
 
