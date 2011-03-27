@@ -24,7 +24,6 @@
 from build.wafutils import check_cfg_cached
 
 packages = [
-    ('gthread-2.0','','GTHREAD'),
     ('libsoup-2.4', '2.4.0', 'LIBSOUP')
     ]
 

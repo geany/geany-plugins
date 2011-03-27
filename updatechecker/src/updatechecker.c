@@ -310,13 +310,6 @@ static void init_configuration()
 void plugin_init(GeanyData *data)
 {
     init_configuration();
-    /* soup uses threads but it seems to don't initialize the thread system
-     * Work around baesed on a patch Colomban Wendling and Matthew Brush */
-
-    if (! g_thread_supported ())
-    {
-        g_thread_init (NULL);
-    }
 
     main_menu_item = gtk_menu_item_new_with_mnemonic(_("Check for Updates"));
     gtk_widget_show(main_menu_item);
