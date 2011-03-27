@@ -1,3 +1,8 @@
+2011-03-27  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Make plugin depend on plugin API v203 due some threading changes.
+
+
 2010-08-27  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * src/updatechecker.c: Submit an user agent on request.
@@ -6,16 +11,14 @@
 2010-08-26  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * src/updatechecker.c: Cleaning up the code and removing redundant code
-						as well as fixing a typo. 
+                        as well as fixing a typo.
 
 
 2010-08-23  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
- * src/updatechecker.c: Some adjustments on a couple of strings. 
+ * src/updatechecker.c: Some adjustments on a couple of strings.
 
 
 2010-08-22  Frank Lanitz  <frank@frank.uvena.de>
 
  * Initial release
-
-

@@ -28,7 +28,7 @@ GeanyPlugin     *geany_plugin;
 GeanyData       *geany_data;
 GeanyFunctions  *geany_functions;
 
-PLUGIN_VERSION_CHECK(188)
+PLUGIN_VERSION_CHECK(203)
 
 PLUGIN_SET_TRANSLATABLE_INFO(
     LOCALEDIR,
