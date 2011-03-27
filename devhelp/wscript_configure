@@ -23,8 +23,15 @@
 
 from build.wafutils import check_cfg_cached
 
+packages = [
+    ('gthread-2.0','','GTHREAD'),
+    ('libdevhelp-1.0', '', 'LIBDEVHELP')
+    ]
 
-check_cfg_cached(conf,
-                 package='libdevhelp-1.0',
-                 uselib_store='DEVHELP',
-                 args='--cflags --libs')
+for package_name, package_version, uselib_store in packages:
+    check_cfg_cached(conf,
+                     package=package_name,
+                     atleast_version=package_version,
+                     uselib_store=uselib_store,
+                     mandatory=True,
+                     args='--cflags --libs')
