@@ -26,6 +26,6 @@ from build.wafutils import build_plugin
 
 name = 'Devhelp'
 includes = ['devhelp/src']
-libraries = ['DEVHELP']
+libraries = ['DEVHELP', 'GTHREAD']
 
 build_plugin(bld, name, includes=includes, libraries=libraries)
