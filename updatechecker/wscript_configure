@@ -3,6 +3,7 @@
 # WAF build script for geany-plugins - Update Checker
 #
 # Copyright 2010 Enrico Tröger <enrico(dot)troeger(at)uvena(dot)de>
+# Copyright 2111 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,7 +24,7 @@
 from build.wafutils import check_cfg_cached
 
 packages = [
-    ('gthread-2.0','','GTHREAT'),
+    ('gthread-2.0','','GTHREAD'),
     ('libsoup-2.4', '2.4.0', 'LIBSOUP')
     ]
 
