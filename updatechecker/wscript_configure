@@ -22,10 +22,15 @@
 
 from build.wafutils import check_cfg_cached
 
+packages = [
+    ('gthread-2.0','','GTHREAT'),
+    ('libsoup-2.4', '2.4.0', 'LIBSOUP')
+    ]
 
-check_cfg_cached(conf,
-                 package='libsoup-2.4',
-                 atleast_version='2.4.0',
-                 mandatory=True,
-                 uselib_store='LIBSOUP',
-                 args='--cflags --libs')
+for package_name, package_version, uselib_store in packages:
+    check_cfg_cached(conf,
+                     package=package_name,
+                     atleast_version=package_version,
+                     uselib_store=uselib_store,
+                     mandatory=True,
+                     args='--cflags --libs')
