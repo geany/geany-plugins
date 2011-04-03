@@ -1,27 +1,30 @@
 .. |(version)| replace:: 0.5
 
 =======
-geanyvc
+GeanyVC
 =======
 
 .. contents::
 
+
 About
 =====
 
-geanyvc is plugin that provides a uniform way of accessing the different
+GeanyVC is plugin that provides a uniform way of accessing the different
 version-control systems inside Geany IDE. Only small subset of vc is
 implemented, but, hey, you don't need anything besides diff, log, status,
 revert and commit most time.
 
-In order to use it you need Geany 0.19.
+In order to use it you need Geany 0.19 or above.
 
 Features
 ========
 
-geanyvc currently support the following version control systems:
+GeanyVC currently supports the following version control system features:
 
-Bazaar, GIT, Mercurial, Subversion, SVK::
+
+Bazaar, GIT, Mercurial, Subversion, SVK
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
  * diff file
  * diff directory
@@ -40,7 +43,8 @@ Bazaar, GIT, Mercurial, Subversion, SVK::
  * update
  * commit
 
-CVS::
+CVS
+^^^
 
  * diff file
  * diff directory
@@ -55,72 +59,105 @@ CVS::
  * update
  * commit
 
+
 Requirements
 ============
 
-For compiling the plugin yourself, you will need the GTK (>= 2.6.0) libraries
-and header files. You will also need its dependency libraries and header
-files, such as Pango, Glib and ATK. All these files are available at
-http://www.gtk.org.
-If you like to use spellchecking for your commit
-messages you will also need gtkspell (>=2.0), but this is only optional.
+For compiling the plugin yourself, you will need the GTK (>= 2.8.0)
+libraries and header files. You will also need its dependency
+libraries and header files, such as Pango, Glib and ATK. All these
+files are available at http://www.gtk.org. If you like to use
+spellchecking for your commit messages you will also need gtkspell
+(>=2.0), but this is only optional.
 
-And obviously, you will need have Geany installed. If you have Geany installed
-from the sources, you should be ready to go.
-If you used a prepared package e.g. from your distribution you probably need
-to install an additional package, this might be called geany-dev or geany-devel.
-Please note that in order to compile and use this plugin, you need Geany 0.19
-or later.
+And obviously, you will need to have Geany installed. If you have
+Geany installed from the sources, you should be ready to go. If you
+used a prepared package e.g. from your distribution you probably
+need to install an additional package, this might be called
+geany-dev or geany-devel. Please note that in order to compile and
+use this plugin, you need Geany 0.19 or later.
 
-Furthermore you need, of course, a C compiler and the Make tool.
-The GNU versions of these tools are recommended.
+Furthermore you need, of course, a C compiler and the Make tool. The
+GNU versions of these tools are recommended.
+
+You can also make usaage of Python based build system waf. Please
+check documentation of Geany-Plugins package for details on usage of
+both, autotools and waf.
+
 
 Usage
 =====
 
-After compiling and/or installing geanyvc, start Geany and go to menu
-Tools->Plugin Manager and set checkbox at VC plugin.
+Activation
+^^^^^^^^^^
 
-You can configure the following options:
+After compiling and/or installing GeanyVC, start Geany and go to
+menu Tools->Plugin Manager and activate the checkbox at GeanyVC.
 
-* Set Change flag for document tabs created with pluging.
 
-If this option is activated, every new by the VC-plugin created document tab
-will be marked as changed. Even thus this option is useful in some cases, it
-could cause a big number of sometimes annoying "Do you want to save"-dialogs.
+Configuration
+^^^^^^^^^^^^^
 
-* Confirm adding new files to a VCS
+Using Geany's plugin configuration dialog, you can change some
+options of behavior of plugin.
 
-Shows a confirmation dialog on adding a new (created) file to VCS. If not set
-you will not see dialog "Do you want to add <file>?"
 
-* Maximize commit dialog
+Change flag for document tabs created with pluging
+--------------------------------------------------
+
+If this option is activated, every new by the GeanyVC created
+document tab will be marked as changed. This will cause Geany to ask
+you whether you want to save when closing the document.
+
+Even thus this option is useful in some cases, it could cause a big
+number of sometimes annoying "Do you want to save"-dialogs.
+
+
+Confirm adding new files to a VCS
+---------------------------------
+
+Shows a confirmation dialog on adding a new (created) file to VCS.
+If not set you will not see dialog "Do you want to add <file>?" and
+GeanyVC will add the file without any further questioning.
+
+
+Maximize commit dialog
+----------------------
 
 If this option is activated, commit dialog will fit the full size of your
 monitor. If it is not set commit dialog size will be 700x500.
 
-* Use external diff viewer
 
-If this option is activated and you have **meld**, **kompare**, **kdiff3**,
-**diffuse** or **tkdiff** available from command line, one of these program
-will be used to show differences for "Diff From Current File" command.
+Use external diff viewer
+------------------------
 
-* Enable CVS/GIT/SVN/SVK/Bazaar/Mercurial
+If this option is activated and you have **meld**, **kompare**,
+**kdiff3**, **diffuse** or **tkdiff** available from command line,
+one of these program will be used to show differences for "Diff From
+Current File" command.
 
-geanyvc detect if opened file is in version control by checking directories
-and executing commands from version control systems toolchain. These options
-disable checking for particular version control system. Disabling not
-required ones can speed up things. So it is recommended to activate svk only
-if you want to use it, since it is quiet slow.
+
+Enable CVS/GIT/SVN/SVK/Bazaar/Mercurial
+---------------------------------------
+
+GeanyVC detects if opened file is in version control by checking
+directories and executing commands from version control systems
+toolchain. These options disable checking for particular version
+control system.
+
+Disabling not required ones can speed up things. So it is
+recommended to activate e.g. svk only if you want to use it.
+
 
 License
 =======
 
-geanyvc is distributed under the terms of the GNU General Public License
+GeanyVC is distributed under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2 of the
 License, or (at your option) any later version. A copy of this license
 can be found in the file COPYING included with the source code of this
 program.
+
 
 Ideas, questions, patches and bug reports
 =========================================
@@ -128,35 +165,38 @@ Ideas, questions, patches and bug reports
 If you add something, or fix a bug, please send a patch (in 'diff -u'
 format) to the geany mailing list or to one of the authors listed bellow.
 
+
 Coding
 ======
 
 Use static functions where possible.
 Try to use GLib types and functions - e.g. g_free instead of free and
-try to use only GLib 2.6 and GTK 2.6 functions. At least for the moment,
-we want to keep the minimum requirement for GTK at 2.6.
+try to use only GLib 2.8 and GTK 2.8 functions. At least for the moment,
+we want to keep the minimum requirement for GTK at 2.8.
+
 
 Style
-=====
-
+^^^^^
 The file indent-all.sh contains information about
 the current code style. Run this script before commit.
 
-Download
-========
-
-geanyvc is part of the combined Geany Plugins release.
-For more information and downloads, please visit
-http://plugins.geany.org/geany-plugins/
 
 Development Code
-================
+^^^^^^^^^^^^^^^^
 
 Get the code from::
 
   svn checkout http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geany-plugins
 
+
+Download
+========
+
+GeanyVC is part of the combined Geany Plugins release.
+For more information and downloads, please visit
+http://plugins.geany.org/geany-plugins/
+
 --
-2007-2010 by Yura Siamashka and Frank Lanitz
+2007-2011 by Yura Siamashka and Frank Lanitz
 yurand2(at)gmail(dot)com
 frank(at)frank(dot)uvena(dot)de
