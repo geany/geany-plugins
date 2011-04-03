@@ -514,7 +514,7 @@ static gint
 execute_command(const VC_RECORD * vc, gchar ** std_out, gchar ** std_err, const gchar * filename,
 		gint cmd, GSList * list, const gchar * message)
 {
-	gchar *dir;
+	gchar *dir = NULL;
 	gint ret;
 
 	if (std_out)
