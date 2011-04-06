@@ -1,0 +1,64 @@
+GeanyPG
+-------
+
+About
+------
+
+GeanyPG is a plugin for Geany that allows the user to encrypt, decrypt
+and verify signatures with GnuPG.
+
+Usage
+-----
+
+After installed successfully, load the plugin in Geany's plugin manager
+and a new menu item in the Tools menu will appear.
+
+If any text is selected, only the selected text will be encrypted/
+signed/decrypted. When encrypting a message you can choose to sign at
+the same time.
+If a passphrase is needed, the GPGME library will decide how the user
+is prompted. Usually this will use gpg-agent. If gpg-agent is disabled,
+pinentry (see man 1 pinentry) will be used.
+
+Development
+-----------
+
+You can checkout the current source code from the Subversion repository
+at Sourceforge.net. Get the code from:
+
+svn checkout
+http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geany-plugins/geanypg
+
+If you want to create a patch, please respect the license of GeanyPG as
+well as intellectual property of third parties. Patches that should be
+included to the default distribution must be licensed under the same
+conditions as GeanyPG by the copyright owner (GPL2+).
+
+
+Known issues
+------------
+
+At the moment, the use of pinentry is only supported on unix-like
+systems. On Windows gpg-agent has to be used.
+
+For more recent information all reported issues will be tracked at
+http://sourceforge.net/tracker/?group_id=222729
+
+
+License
+-------
+
+GeanyPG and all its parts is distributed under the terms of the
+GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any
+later version. A copy of this license can be found in the file COPYING
+included with the source code of this program. If not, you will be
+able to get a copy by contacting the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+
+Bugs, questions
+---------------
+
+If you found any bugs or want to provide a patch, please contact Hans
+Alves (alves(dot)h88(at)gmail(dot)com).
