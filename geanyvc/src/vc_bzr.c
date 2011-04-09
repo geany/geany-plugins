@@ -198,14 +198,8 @@ get_commit_files_bzr(const gchar * dir)
 				status = FILE_STATUS_ADDED;
 			else if (*p == '-')
 				status = FILE_STATUS_DELETED;
-			// rename
-			//else if (*p == 'R')
 			else if (*p == '?')
 				status = FILE_STATUS_UNKNOWN;
-			// conflicts
-			//else if (*p == 'C')
-			// pending merge
-			//else if (*p == 'P')
 			pstatus = SECOND_CHAR;
 		}
 		else if (pstatus == SECOND_CHAR)
@@ -214,16 +208,12 @@ get_commit_files_bzr(const gchar * dir)
 				status = FILE_STATUS_ADDED;
 			else if (*p == 'D')
 				status = FILE_STATUS_DELETED;
-			// file kind changed
-			//else if (*p == 'K')
 			else if (*p == 'M')
 				status = FILE_STATUS_MODIFIED;
 			pstatus = THIRD_CHAR;
 		}
 		else if (pstatus == THIRD_CHAR)
 		{
-			// execute bit change
-			//if (*p == '*')
 			pstatus = SKIP_SPACE;
 		}
 		else if (pstatus == SKIP_SPACE)
