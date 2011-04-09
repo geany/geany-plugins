@@ -163,7 +163,7 @@ get_commit_files_bzr(const gchar * dir)
 		FILE_NAME,
 	};
 
-	gchar *txt;
+	gchar *txt = NULL;
 	GSList *ret = NULL;
 	gint pstatus = FIRST_CHAR;
 	const gchar *p;
@@ -172,7 +172,7 @@ get_commit_files_bzr(const gchar * dir)
 	const gchar *start = NULL;
 	CommitItem *item;
 
-	const gchar *status;
+	const gchar *status = NULL;
 	gchar *filename;
 	const char *argv[] = { "bzr", "status", "--short", NULL };
 
