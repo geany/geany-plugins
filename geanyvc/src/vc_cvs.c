@@ -162,7 +162,7 @@ get_commit_files_cvs(const gchar * dir)
 	const gchar *start = NULL;
 	CommitItem *item;
 
-	const gchar *status;
+	const gchar *status = NULL;
 	gchar *filename;
 	const char *argv[] = { "cvs", "-nq", "update", NULL };
 

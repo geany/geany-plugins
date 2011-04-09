@@ -167,7 +167,7 @@ get_commit_files_hg(const gchar * dir)
 	const gchar *start = NULL;
 	CommitItem *item;
 
-	const gchar *status;
+	const gchar *status = NULL;
 	gchar *filename;
 	const char *argv[] = { "hg", "status", NULL };
 
