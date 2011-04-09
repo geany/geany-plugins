@@ -112,7 +112,7 @@ static const VC_COMMAND commands[] = {
 static gchar *
 get_base_dir(const gchar * path)
 {
-	// NOT IMPLEMENTED
+	/* NOT IMPLEMENTED */
 	return g_path_get_dirname(path);
 }
 
@@ -201,7 +201,7 @@ get_commit_files_svk(const gchar * dir)
 
 			if (!status || *(p + 1) != ' ')
 			{
-				// skip unknown status line
+				/* skip unknown status line */
 				while (*p)
 				{
 					p++;

@@ -114,7 +114,8 @@ typedef struct _VC_RECORD
 	const VC_COMMAND *commands;
 	const gchar *program;
 	gchar *(*get_base_dir) (const gchar * path);
-	  gboolean(*in_vc) (const gchar * path);	// check if file in VC
+	/* check if file in VC */
+	gboolean(*in_vc) (const gchar * path);
 	GSList *(*get_commit_files) (const gchar * dir);
 } VC_RECORD;
 
@@ -141,4 +142,4 @@ gchar *get_full_path(const gchar * location, const gchar * path);
 gchar *get_relative_path(const gchar * location, const gchar * path);
 
 
-#endif // __GEANYVC_HEADER__
+#endif /* __GEANYVC_HEADER__ */

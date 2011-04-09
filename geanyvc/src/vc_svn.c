@@ -135,7 +135,7 @@ get_base_dir(const gchar * path)
 		base_prev = base;
 		base = g_path_get_dirname(base);
 
-		// check for svn layout
+		/* check for svn layout */
 		test_dir = g_build_filename(base, "trunk", NULL);
 		if (!g_file_test(test_dir, G_FILE_TEST_IS_DIR))
 		{
@@ -242,7 +242,7 @@ get_commit_files_svn(const gchar * dir)
 
 			if (!status || *(p + 1) != ' ')
 			{
-				// skip unknown status line
+				/* skip unknown status line */
 				while (*p)
 				{
 					p++;

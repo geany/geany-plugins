@@ -466,8 +466,8 @@ execute_custom_command(const gchar * dir, const gchar ** argv, const gchar ** en
 			g_error_free(error);
 		}
 
-		// need to convert output text from the encoding of the original file into
-		// UTF-8 because internally Geany always needs UTF-8
+		/* need to convert output text from the encoding of the original file into
+		   UTF-8 because internally Geany always needs UTF-8 */
 		if (std_out && *std_out)
 		{
 			tmp = g_string_new(*std_out);
@@ -1783,7 +1783,7 @@ on_configure_response(G_GNUC_UNUSED GtkDialog * dialog, gint response,
 		}
 		else
 		{
-			// write config to file
+			/* write config to file */
 			data = g_key_file_to_data(config, NULL, NULL);
 			utils_write_file(config_file, data);
 			g_free(data);
@@ -1942,7 +1942,7 @@ load_config()
 	lang = g_key_file_get_string(config, "VC", "spellchecking_language", &error);
 	if (error != NULL)
 	{
-		// Set default value. Using system standard language.
+		/* Set default value. Using system standard language. */
 		lang = NULL;
 		g_error_free(error);
 		error = NULL;
