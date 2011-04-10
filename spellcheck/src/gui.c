@@ -342,13 +342,13 @@ void sc_gui_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 		gtk_widget_show(menu_item);
 		gtk_container_add(GTK_CONTAINER(sc_info->edit_menu_sub), menu_item);
 		g_signal_connect(menu_item, "activate",
-			G_CALLBACK(menu_addword_item_activate_cb), GINT_TO_POINTER(0));
+			G_CALLBACK(menu_addword_item_activate_cb), GINT_TO_POINTER(FALSE));
 
 		menu_item = image_menu_item_new(GTK_STOCK_REMOVE, _("Ignore All"));
 		gtk_widget_show(menu_item);
 		gtk_container_add(GTK_CONTAINER(sc_info->edit_menu_sub), menu_item);
 		g_signal_connect(menu_item, "activate",
-			G_CALLBACK(menu_addword_item_activate_cb), GINT_TO_POINTER(1));
+			G_CALLBACK(menu_addword_item_activate_cb), GINT_TO_POINTER(TRUE));
 
 		if (suggs != NULL)
 			sc_speller_dict_free_string_list(suggs);
@@ -396,6 +396,12 @@ static gboolean need_delay(void)
 }
 
 
+static gint sci_get_eol_mode(GeanyDocument *doc)
+{
+	return scintilla_send_message(doc->editor->sci, SCI_GETEOLMODE, 0, 0);
+}
+
+
 /* Checks only the last word before the current cursor position -> check as you type. */
 gboolean sc_gui_key_release_cb(GtkWidget *widget, GdkEventKey *ev, gpointer data)
 {
@@ -413,8 +419,7 @@ gboolean sc_gui_key_release_cb(GtkWidget *widget, GdkEventKey *ev, gpointer data
 
 	doc = document_get_current();
 
-	if (ev->keyval == '\r' &&
-		scintilla_send_message(doc->editor->sci, SCI_GETEOLMODE, 0, 0) == SC_EOL_CRLF)
+	if (ev->keyval == '\r' && sci_get_eol_mode(doc) == SC_EOL_CRLF)
 	{	/* prevent double line checking */
 		return FALSE;
 	}

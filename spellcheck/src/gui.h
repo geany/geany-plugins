@@ -43,7 +43,7 @@ void sc_gui_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 
 void sc_gui_update_toolbar(void);
 
-void sc_gui_update_menu();
+void sc_gui_update_menu(void);
 
 void sc_gui_init(void);
 
