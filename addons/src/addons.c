@@ -432,7 +432,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	frame_tasks = gtk_frame_new(NULL);
 	gtk_frame_set_label_widget(GTK_FRAME(frame_tasks), check_tasks);
 	gtk_container_add(GTK_CONTAINER(frame_tasks), vbox_tasks);
-	gtk_box_pack_start(GTK_BOX(vbox), frame_tasks, TRUE, TRUE, 3);
+	gtk_box_pack_start(GTK_BOX(vbox), frame_tasks, FALSE, FALSE, 3);
 
 	check_systray = gtk_check_button_new_with_label(
 		_("Show status icon in the Notification Area"));
