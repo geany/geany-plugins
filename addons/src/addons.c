@@ -40,7 +40,7 @@ GeanyData		*geany_data;
 GeanyFunctions	*geany_functions;
 
 
-PLUGIN_VERSION_CHECK(195)
+PLUGIN_VERSION_CHECK(206)
 PLUGIN_SET_TRANSLATABLE_INFO(
 	LOCALEDIR,
 	GETTEXT_PACKAGE,
@@ -97,6 +97,7 @@ static void ao_document_open_cb(GObject *obj, GeanyDocument *doc, gpointer data)
 static void ao_document_save_cb(GObject *obj, GeanyDocument *doc, gpointer data);
 static void ao_document_before_save_cb(GObject *obj, GeanyDocument *doc, gpointer data);
 static void ao_document_close_cb(GObject *obj, GeanyDocument *doc, gpointer data);
+static void ao_document_reload_cb(GObject *obj, GeanyDocument *doc, gpointer data);
 static void ao_startup_complete_cb(GObject *obj, gpointer data);
 
 gboolean ao_editor_notify_cb(GObject *object, GeanyEditor *editor,
@@ -113,6 +114,8 @@ PluginCallback plugin_callbacks[] =
 	{ "document-close", (GCallback) &ao_document_close_cb, TRUE, NULL },
 	{ "document-activate", (GCallback) &ao_document_activate_cb, TRUE, NULL },
 	{ "document-before-save", (GCallback) &ao_document_before_save_cb, TRUE, NULL },
+	{ "document-reload", (GCallback) &ao_document_reload_cb, TRUE, NULL },
+
 	{ "geany-startup-complete", (GCallback) &ao_startup_complete_cb, TRUE, NULL },
 
 	{ NULL, NULL, FALSE, NULL }
@@ -207,6 +210,14 @@ static void ao_document_before_save_cb(GObject *obj, GeanyDocument *doc, gpointe
 	g_return_if_fail(doc != NULL && doc->is_valid);
 
 	ao_blanklines_on_document_before_save(obj, doc, data);
+}
+
+
+static void ao_document_reload_cb(GObject *obj, GeanyDocument *doc, gpointer data)
+{
+	g_return_if_fail(doc != NULL && doc->is_valid);
+
+	ao_tasks_update(ao_info->tasks, doc);
 }
 
 
