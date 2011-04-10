@@ -40,7 +40,7 @@ GeanyData		*geany_data;
 GeanyFunctions	*geany_functions;
 
 
-PLUGIN_VERSION_CHECK(206)
+PLUGIN_VERSION_CHECK(207)
 PLUGIN_SET_TRANSLATABLE_INFO(
 	LOCALEDIR,
 	GETTEXT_PACKAGE,
@@ -61,12 +61,11 @@ enum
 };
 
 
-
 typedef struct
 {
 	/* general settings */
 	gchar *config_file;
-	gboolean show_toolbar_doclist_item;
+	gboolean enable_doclist;
 	gboolean enable_openuri;
 	gboolean enable_tasks;
 	gboolean enable_systray;
@@ -77,6 +76,8 @@ typedef struct
 
 	gchar *tasks_token_list;
 	gboolean tasks_scan_all_documents;
+
+	DocListSortMode doclist_sort_mode;
 
 	/* instances and variables of components */
 	AoDocList *doclist;
@@ -243,8 +244,10 @@ void plugin_init(GeanyData *data)
 		"plugins", G_DIR_SEPARATOR_S, "addons", G_DIR_SEPARATOR_S, "addons.conf", NULL);
 
 	g_key_file_load_from_file(config, ao_info->config_file, G_KEY_FILE_NONE, NULL);
-	ao_info->show_toolbar_doclist_item = utils_get_setting_boolean(config,
+	ao_info->enable_doclist = utils_get_setting_boolean(config,
 		"addons", "show_toolbar_doclist_item", TRUE);
+	ao_info->doclist_sort_mode = utils_get_setting_integer(config,
+		"addons", "doclist_sort_mode", DOCLIST_SORT_BY_OCCURRENCE);
 	ao_info->enable_openuri = utils_get_setting_boolean(config,
 		"addons", "enable_openuri", FALSE);
 	ao_info->enable_tasks = utils_get_setting_boolean(config,
@@ -266,7 +269,7 @@ void plugin_init(GeanyData *data)
 
 	plugin_module_make_resident(geany_plugin);
 
-	ao_info->doclist = ao_doc_list_new(ao_info->show_toolbar_doclist_item);
+	ao_info->doclist = ao_doc_list_new(ao_info->enable_doclist, ao_info->doclist_sort_mode);
 	ao_info->openuri = ao_open_uri_new(ao_info->enable_openuri);
 	ao_info->systray = ao_systray_new(ao_info->enable_systray);
 	ao_info->bookmarklist = ao_bookmark_list_new(ao_info->enable_bookmarklist);
@@ -298,6 +301,15 @@ static void ao_configure_tasks_toggled_cb(GtkToggleButton *togglebutton, gpointe
 }
 
 
+static void ao_configure_doclist_toggled_cb(GtkToggleButton *togglebutton, gpointer data)
+{
+	gboolean sens = gtk_toggle_button_get_active(togglebutton);
+
+	gtk_widget_set_sensitive(g_object_get_data(G_OBJECT(data), "radio_doclist_name"), sens);
+	gtk_widget_set_sensitive(g_object_get_data(G_OBJECT(data), "radio_doclist_occurrence"), sens);
+}
+
+
 static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer user_data)
 {
 	if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY)
@@ -306,8 +318,14 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 		gchar *data;
 		gchar *config_dir = g_path_get_dirname(ao_info->config_file);
 
-		ao_info->show_toolbar_doclist_item = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
+		ao_info->enable_doclist = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
 			g_object_get_data(G_OBJECT(dialog), "check_doclist"))));
+		if (gtk_toggle_button_get_active(
+				GTK_TOGGLE_BUTTON(g_object_get_data(G_OBJECT(dialog), "radio_doclist_name"))))
+			ao_info->doclist_sort_mode = DOCLIST_SORT_BY_NAME;
+		else
+			ao_info->doclist_sort_mode = DOCLIST_SORT_BY_OCCURRENCE;
+
 		ao_info->enable_openuri = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
 			g_object_get_data(G_OBJECT(dialog), "check_openuri"))));
 		ao_info->enable_tasks = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
@@ -330,7 +348,8 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 
 		g_key_file_load_from_file(config, ao_info->config_file, G_KEY_FILE_NONE, NULL);
 		g_key_file_set_boolean(config, "addons",
-			"show_toolbar_doclist_item", ao_info->show_toolbar_doclist_item);
+			"show_toolbar_doclist_item", ao_info->enable_doclist);
+		g_key_file_set_integer(config, "addons", "doclist_sort_mode", ao_info->doclist_sort_mode);
 		g_key_file_set_boolean(config, "addons", "enable_openuri", ao_info->enable_openuri);
 		g_key_file_set_boolean(config, "addons", "enable_tasks", ao_info->enable_tasks);
 		g_key_file_set_string(config, "addons", "tasks_token_list", ao_info->tasks_token_list);
@@ -345,7 +364,8 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 		g_key_file_set_boolean(config, "addons", "enable_xmltagging",
 			ao_info->enable_xmltagging);
 
-		g_object_set(ao_info->doclist, "enable-doclist", ao_info->show_toolbar_doclist_item, NULL);
+		g_object_set(ao_info->doclist, "enable-doclist", ao_info->enable_doclist, NULL);
+		g_object_set(ao_info->doclist, "sort-mode", ao_info->doclist_sort_mode, NULL);
 		g_object_set(ao_info->openuri, "enable-openuri", ao_info->enable_openuri, NULL);
 		g_object_set(ao_info->systray, "enable-systray", ao_info->enable_systray, NULL);
 		g_object_set(ao_info->bookmarklist, "enable-bookmarklist",
@@ -378,7 +398,9 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 
 GtkWidget *plugin_configure(GtkDialog *dialog)
 {
-	GtkWidget *vbox, *check_doclist, *check_openuri, *check_tasks, *check_systray;
+	GtkWidget *vbox, *check_openuri, *check_tasks, *check_systray;
+	GtkWidget *check_doclist, *vbox_doclist, *frame_doclist;
+	GtkWidget *radio_doclist_name, *radio_doclist_occurrence;
 	GtkWidget *check_bookmarklist, *check_markword, *frame_tasks, *vbox_tasks;
 	GtkWidget *check_tasks_scan_mode, *entry_tasks_tokens, *label_tasks_tokens, *tokens_hbox;
 	GtkWidget *check_blanklines, *check_xmltagging;
@@ -387,9 +409,31 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 
 	check_doclist = gtk_check_button_new_with_label(
 		_("Show toolbar item to show a list of currently open documents"));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_doclist),
-		ao_info->show_toolbar_doclist_item);
-	gtk_box_pack_start(GTK_BOX(vbox), check_doclist, FALSE, FALSE, 3);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_doclist), ao_info->enable_doclist);
+	g_signal_connect(check_doclist, "toggled", G_CALLBACK(ao_configure_doclist_toggled_cb), dialog);
+
+	radio_doclist_name = gtk_radio_button_new_with_mnemonic(NULL, _("Sort documents by _name"));
+	ui_widget_set_tooltip_text(radio_doclist_name,
+		_("Sort the documents in the list by their filename"));
+
+	radio_doclist_occurrence = gtk_radio_button_new_with_mnemonic_from_widget(
+		GTK_RADIO_BUTTON(radio_doclist_name), _("Sort documents by _occurrence"));
+	ui_widget_set_tooltip_text(radio_doclist_name,
+		_("Sort the documents in the order of the document tabs"));
+
+	if (ao_info->doclist_sort_mode == DOCLIST_SORT_BY_NAME)
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_doclist_name), TRUE);
+	else
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_doclist_occurrence), TRUE);
+
+	vbox_doclist = gtk_vbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox_doclist), radio_doclist_name, FALSE, FALSE, 3);
+	gtk_box_pack_start(GTK_BOX(vbox_doclist), radio_doclist_occurrence, TRUE, TRUE, 3);
+
+	frame_doclist = gtk_frame_new(NULL);
+	gtk_frame_set_label_widget(GTK_FRAME(frame_doclist), check_doclist);
+	gtk_container_add(GTK_CONTAINER(frame_doclist), vbox_doclist);
+	gtk_box_pack_start(GTK_BOX(vbox), frame_doclist, FALSE, FALSE, 3);
 
 	check_openuri = gtk_check_button_new_with_label(
 		/* TODO fix the string */
@@ -465,6 +509,8 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_box_pack_start(GTK_BOX(vbox), check_xmltagging, FALSE, FALSE, 3);
 
 	g_object_set_data(G_OBJECT(dialog), "check_doclist", check_doclist);
+	g_object_set_data(G_OBJECT(dialog), "radio_doclist_name", radio_doclist_name);
+	g_object_set_data(G_OBJECT(dialog), "radio_doclist_occurrence", radio_doclist_occurrence);
 	g_object_set_data(G_OBJECT(dialog), "check_openuri", check_openuri);
 	g_object_set_data(G_OBJECT(dialog), "check_tasks", check_tasks);
 	g_object_set_data(G_OBJECT(dialog), "entry_tasks_tokens", entry_tasks_tokens);
@@ -477,6 +523,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	g_signal_connect(dialog, "response", G_CALLBACK(ao_configure_response_cb), NULL);
 
 	ao_configure_tasks_toggled_cb(GTK_TOGGLE_BUTTON(check_tasks), dialog);
+	ao_configure_doclist_toggled_cb(GTK_TOGGLE_BUTTON(check_doclist), dialog);
 
 	gtk_widget_show_all(vbox);
 

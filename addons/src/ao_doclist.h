@@ -40,9 +40,16 @@ G_BEGIN_DECLS
 typedef struct _AoDocList			AoDocList;
 typedef struct _AoDocListClass		AoDocListClass;
 
+typedef enum
+{
+	DOCLIST_SORT_BY_NAME = 1,
+	DOCLIST_SORT_BY_OCCURRENCE = 2
+} DocListSortMode;
+
+
 
 GType		ao_doc_list_get_type		(void);
-AoDocList*	ao_doc_list_new				(gboolean enable);
+AoDocList*	ao_doc_list_new				(gboolean enable, DocListSortMode sort_mode);
 
 G_END_DECLS
 

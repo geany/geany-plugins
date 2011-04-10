@@ -48,13 +48,15 @@ struct _AoDocListClass
 struct _AoDocListPrivate
 {
 	gboolean enable_doclist;
+	DocListSortMode sort_mode;
 	GtkToolItem *toolbar_doclist_button;
 };
 
 enum
 {
 	PROP_0,
-	PROP_ENABLE_DOCLIST
+	PROP_ENABLE_DOCLIST,
+	PROP_SORT_MODE
 };
 enum
 {
@@ -86,6 +88,17 @@ static void ao_doc_list_class_init(AoDocListClass *klass)
 									"enable-doclist",
 									"Whether to show a toolbar item to open a document list",
 									TRUE,
+									G_PARAM_WRITABLE));
+
+	g_object_class_install_property(g_object_class,
+									PROP_SORT_MODE,
+									g_param_spec_int(
+									"sort-mode",
+									"sort-mode",
+									"How to sort the documents in the list",
+									0,
+									G_MAXINT,
+									DOCLIST_SORT_BY_OCCURRENCE,
 									G_PARAM_WRITABLE));
 }
 
@@ -163,14 +176,21 @@ static void ao_toolbar_item_doclist_clicked_cb(GtkWidget *button, gpointer data)
 	static GtkWidget *menu = NULL;
 	GtkWidget *menu_item;
 	GeanyDocument *current_doc = document_get_current();
+	GCompareFunc sort_func;
+	AoDocListPrivate *priv = AO_DOC_LIST_GET_PRIVATE(data);
 
 	if (menu != NULL)
 		gtk_widget_destroy(menu);
 
 	menu = gtk_menu_new();
 
-	ui_menu_add_document_items(GTK_MENU(menu), current_doc,
-		G_CALLBACK(ao_doclist_menu_item_activate_cb));
+	if (priv->sort_mode == DOCLIST_SORT_BY_NAME)
+		sort_func = document_sort_by_display_name;
+	else
+		sort_func = NULL;
+
+	ui_menu_add_document_items_sorted(GTK_MENU(menu), current_doc,
+		G_CALLBACK(ao_doclist_menu_item_activate_cb), sort_func);
 
 	menu_item = gtk_separator_menu_item_new();
 	gtk_widget_show(menu_item);
@@ -217,7 +237,7 @@ static void ao_toolbar_update(AoDocList *self)
 			ui_add_document_sensitive(GTK_WIDGET(priv->toolbar_doclist_button));
 
 			g_signal_connect(priv->toolbar_doclist_button, "clicked",
-				G_CALLBACK(ao_toolbar_item_doclist_clicked_cb), NULL);
+				G_CALLBACK(ao_toolbar_item_doclist_clicked_cb), self);
 		}
 		gtk_widget_show(GTK_WIDGET(priv->toolbar_doclist_button));
 	}
@@ -235,6 +255,9 @@ static void ao_doclist_set_property(GObject *object, guint prop_id,
 			priv->enable_doclist = g_value_get_boolean(value);
 			ao_toolbar_update(AO_DOC_LIST(object));
 			break;
+		case PROP_SORT_MODE:
+			priv->sort_mode = g_value_get_int(value);
+			break;
 		default:
 			G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
 			break;
@@ -250,9 +273,9 @@ static void ao_doc_list_init(AoDocList *self)
 }
 
 
-AoDocList *ao_doc_list_new(gboolean enable)
+AoDocList *ao_doc_list_new(gboolean enable, DocListSortMode sort_mode)
 {
-	return g_object_new(AO_DOC_LIST_TYPE, "enable-doclist", enable, NULL);
+	return g_object_new(AO_DOC_LIST_TYPE, "enable-doclist", enable, "sort-mode", sort_mode, NULL);
 }
 
 
