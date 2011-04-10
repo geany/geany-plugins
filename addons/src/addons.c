@@ -24,6 +24,7 @@
 
 #include "geanyplugin.h"
 
+#include "addons.h"
 #include "ao_blanklines.h"
 #include "ao_doclist.h"
 #include "ao_openuri.h"
