@@ -6,11 +6,7 @@ AC_DEFUN([_GP_CHECK_CFLAG_],
     CFLAGS="$1"
     AC_LANG([C])
     AC_MSG_CHECKING([whether the C compiler understands $CFLAGS])
-    AC_COMPILE_IFELSE([
-int main(void) {
-    return 0;
-}
-],
+    AC_COMPILE_IFELSE([int main(void) {return 0;}],
                       [AC_MSG_RESULT([yes])
                        $2],
                       [AC_MSG_RESULT([no])
