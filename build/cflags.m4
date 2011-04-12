@@ -16,7 +16,7 @@ AC_DEFUN([_GP_CHECK_CFLAG_],
 ])
 
 dnl GP_CHECK_CFLAGS
-dnl Checks for default Geany-Plugis CFLAGS and defines GP_CFLAGS
+dnl Checks for default Geany-Plugins CFLAGS and defines GP_CFLAGS
 AC_DEFUN([GP_CHECK_CFLAGS],
 [
     AC_ARG_ENABLE([extra-c-warnings],
@@ -38,7 +38,7 @@ AC_DEFUN([GP_CHECK_CFLAGS],
                     -Wundef \
                     -Wwrite-strings
         do
-            _GP_CHECK_CFLAG_([$flag], [AS_VAR_APPEND([GP_CFLAGS], [" $flag"])])
+            _GP_CHECK_CFLAG_([$flag], [GP_CFLAGS="${GP_CFLAGS} $flag"])
         done
     ])
     AC_SUBST([GP_CFLAGS])
