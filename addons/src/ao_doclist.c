@@ -176,7 +176,7 @@ static void ao_toolbar_item_doclist_clicked_cb(GtkWidget *button, gpointer data)
 	static GtkWidget *menu = NULL;
 	GtkWidget *menu_item;
 	GeanyDocument *current_doc = document_get_current();
-	GCompareFunc sort_func;
+	GCompareFunc compare_func;
 	AoDocListPrivate *priv = AO_DOC_LIST_GET_PRIVATE(data);
 
 	if (menu != NULL)
@@ -185,12 +185,12 @@ static void ao_toolbar_item_doclist_clicked_cb(GtkWidget *button, gpointer data)
 	menu = gtk_menu_new();
 
 	if (priv->sort_mode == DOCLIST_SORT_BY_NAME)
-		sort_func = document_sort_by_display_name;
+		compare_func = document_compare_by_display_name;
 	else
-		sort_func = NULL;
+		compare_func = NULL;
 
 	ui_menu_add_document_items_sorted(GTK_MENU(menu), current_doc,
-		G_CALLBACK(ao_doclist_menu_item_activate_cb), sort_func);
+		G_CALLBACK(ao_doclist_menu_item_activate_cb), compare_func);
 
 	menu_item = gtk_separator_menu_item_new();
 	gtk_widget_show(menu_item);
