@@ -4,13 +4,14 @@ AC_DEFUN([_GP_CHECK_CFLAG_],
 [
     gp_check_cflag_CFLAGS="$CFLAGS"
     CFLAGS="$1"
-    AC_LANG([C])
     AC_MSG_CHECKING([whether the C compiler understands $CFLAGS])
+    AC_LANG_PUSH(C)
     AC_COMPILE_IFELSE([AC_LANG_SOURCE([int main(void) {return 0;}])],
                       [AC_MSG_RESULT([yes])
                        $2],
                       [AC_MSG_RESULT([no])
                        $3])
+    AC_LANG_POP(C)
     CFLAGS="$gp_check_cflag_CFLAGS"
 ])
 
