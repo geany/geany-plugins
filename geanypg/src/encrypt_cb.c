@@ -43,7 +43,7 @@ void geanypg_encrypt(encrypt_data * ed, gpgme_key_t * recp, int sign)
         err = gpgme_op_encrypt(ed->ctx, recp, 0, plain, cipher);
     if (err != GPG_ERR_NO_ERROR && gpgme_err_code(err) != GPG_ERR_CANCELED)
         geanypg_show_err_msg(err);
-    else
+    else if(gpgme_err_code(err) != GPG_ERR_CANCELED)
     {
         rewind(tempfile);
         geanypg_write_file(tempfile);
