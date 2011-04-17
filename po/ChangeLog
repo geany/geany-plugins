@@ -1,3 +1,9 @@
+2011-04-17  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * POTFILES.in: Add GeanyMacro and GeanyNumberedBookmarks to list of
+                translatable files.
+
+
 2011-03-07  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * POTFILES.in: Add devhelp plugin to list of translatable files.

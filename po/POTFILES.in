@@ -112,6 +112,12 @@ geanylua/glspi_app.c
 geanylua/glspi_dlg.c
 geanylua/glspi_run.c
 
+# GeanyMacro
+geanymacro/src/geanymacro.c
+
+# GeanyNumberedBookmarks
+geanynumberedbookmarks/src/geanynumberedbookmarks.c
+
 # GeanyPG
 geanypg/src/aux.c
 geanypg/src/decrypt_cb.c
