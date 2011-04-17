@@ -1098,7 +1098,7 @@ static void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_dat
 
 	/* check to see if file has changed since geany last saved it */
 	fd=GetFileData(doc->file_name);
-	if(stat(doc->file_name,&sBuf)==0 && fd!=NULL && fd->LastChangedTime!=-1 && 
+	if(stat(doc->file_name,&sBuf)==0 && fd!=NULL && fd->LastChangedTime!=-1 &&
     fd->LastChangedTime!=sBuf.st_mtime)
 	{
 		/* notify user that file has been changed */
@@ -1334,11 +1334,11 @@ void plugin_help(void)
 	GtkWidget *dialog,*label,*scroll;
 
 	/* create dialog box */
-	dialog=gtk_dialog_new();
-	gtk_window_set_title(GTK_WINDOW(dialog),_("ConTEXT feature parity help"));
-
-	/* create buttons */
-	gtk_dialog_add_button(GTK_DIALOG(dialog),_("Ok"),GTK_RESPONSE_OK);
+  dialog=gtk_dialog_new_with_buttons(_("ConTEXT feature parity help"),
+        GTK_WINDOW(geany->main_widgets->window),
+        GTK_DIALOG_DESTROY_WITH_PARENT,
+        GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,
+        NULL);
 
 	/* create label */
 	label=gtk_label_new(
@@ -1531,7 +1531,7 @@ static gboolean UseableAccel(guint key,guint mod)
 	}
 
 	/* now check to see if numbered bookmark key is atempted
-	 * 
+	 *
 	 * control and number pressed
 	*/
 	if(mod==4)
