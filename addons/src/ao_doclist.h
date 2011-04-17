@@ -43,7 +43,8 @@ typedef struct _AoDocListClass		AoDocListClass;
 typedef enum
 {
 	DOCLIST_SORT_BY_NAME = 1,
-	DOCLIST_SORT_BY_OCCURRENCE = 2
+	DOCLIST_SORT_BY_TAB_ORDER = 2,
+	DOCLIST_SORT_BY_TAB_ORDER_REVERSE = 3
 } DocListSortMode;
 
 

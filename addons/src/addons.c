@@ -41,7 +41,7 @@ GeanyData		*geany_data;
 GeanyFunctions	*geany_functions;
 
 
-PLUGIN_VERSION_CHECK(208)
+PLUGIN_VERSION_CHECK(209)
 PLUGIN_SET_TRANSLATABLE_INFO(
 	LOCALEDIR,
 	GETTEXT_PACKAGE,
@@ -248,7 +248,7 @@ void plugin_init(GeanyData *data)
 	ao_info->enable_doclist = utils_get_setting_boolean(config,
 		"addons", "show_toolbar_doclist_item", TRUE);
 	ao_info->doclist_sort_mode = utils_get_setting_integer(config,
-		"addons", "doclist_sort_mode", DOCLIST_SORT_BY_OCCURRENCE);
+		"addons", "doclist_sort_mode", DOCLIST_SORT_BY_TAB_ORDER);
 	ao_info->enable_openuri = utils_get_setting_boolean(config,
 		"addons", "enable_openuri", FALSE);
 	ao_info->enable_tasks = utils_get_setting_boolean(config,
@@ -306,8 +306,12 @@ static void ao_configure_doclist_toggled_cb(GtkToggleButton *togglebutton, gpoin
 {
 	gboolean sens = gtk_toggle_button_get_active(togglebutton);
 
-	gtk_widget_set_sensitive(g_object_get_data(G_OBJECT(data), "radio_doclist_name"), sens);
-	gtk_widget_set_sensitive(g_object_get_data(G_OBJECT(data), "radio_doclist_occurrence"), sens);
+	gtk_widget_set_sensitive(g_object_get_data(G_OBJECT(data),
+		"radio_doclist_name"), sens);
+	gtk_widget_set_sensitive(g_object_get_data(G_OBJECT(data),
+		"radio_doclist_tab_order"), sens);
+	gtk_widget_set_sensitive(g_object_get_data(G_OBJECT(data),
+		"radio_doclist_tab_order_reversed"), sens);
 }
 
 
@@ -321,11 +325,14 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 
 		ao_info->enable_doclist = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
 			g_object_get_data(G_OBJECT(dialog), "check_doclist"))));
-		if (gtk_toggle_button_get_active(
-				GTK_TOGGLE_BUTTON(g_object_get_data(G_OBJECT(dialog), "radio_doclist_name"))))
+		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(g_object_get_data(
+				G_OBJECT(dialog), "radio_doclist_name"))))
 			ao_info->doclist_sort_mode = DOCLIST_SORT_BY_NAME;
+		else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(g_object_get_data(
+				G_OBJECT(dialog), "radio_doclist_tab_order_reversed"))))
+			ao_info->doclist_sort_mode = DOCLIST_SORT_BY_TAB_ORDER_REVERSE;
 		else
-			ao_info->doclist_sort_mode = DOCLIST_SORT_BY_OCCURRENCE;
+			ao_info->doclist_sort_mode = DOCLIST_SORT_BY_TAB_ORDER;
 
 		ao_info->enable_openuri = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
 			g_object_get_data(G_OBJECT(dialog), "check_openuri"))));
@@ -401,7 +408,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 {
 	GtkWidget *vbox, *check_openuri, *check_tasks, *check_systray;
 	GtkWidget *check_doclist, *vbox_doclist, *frame_doclist;
-	GtkWidget *radio_doclist_name, *radio_doclist_occurrence;
+	GtkWidget *radio_doclist_name, *radio_doclist_tab_order, *radio_doclist_tab_order_reversed;
 	GtkWidget *check_bookmarklist, *check_markword, *frame_tasks, *vbox_tasks;
 	GtkWidget *check_tasks_scan_mode, *entry_tasks_tokens, *label_tasks_tokens, *tokens_hbox;
 	GtkWidget *check_blanklines, *check_xmltagging;
@@ -417,19 +424,34 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	ui_widget_set_tooltip_text(radio_doclist_name,
 		_("Sort the documents in the list by their filename"));
 
-	radio_doclist_occurrence = gtk_radio_button_new_with_mnemonic_from_widget(
+	radio_doclist_tab_order = gtk_radio_button_new_with_mnemonic_from_widget(
 		GTK_RADIO_BUTTON(radio_doclist_name), _("Sort documents by _occurrence"));
-	ui_widget_set_tooltip_text(radio_doclist_name,
+	ui_widget_set_tooltip_text(radio_doclist_tab_order,
 		_("Sort the documents in the order of the document tabs"));
 
-	if (ao_info->doclist_sort_mode == DOCLIST_SORT_BY_NAME)
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_doclist_name), TRUE);
-	else
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_doclist_occurrence), TRUE);
+	radio_doclist_tab_order_reversed = gtk_radio_button_new_with_mnemonic_from_widget(
+		GTK_RADIO_BUTTON(radio_doclist_name), _("Sort documents by _occurrence (reversed)"));
+	ui_widget_set_tooltip_text(radio_doclist_tab_order_reversed,
+		_("Sort the documents in the order of the document tabs (reversed)"));
+
+	switch (ao_info->doclist_sort_mode)
+	{
+		case DOCLIST_SORT_BY_NAME:
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_doclist_name), TRUE);
+			break;
+		case DOCLIST_SORT_BY_TAB_ORDER_REVERSE:
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_doclist_tab_order_reversed), TRUE);
+			break;
+		case DOCLIST_SORT_BY_TAB_ORDER:
+		default:
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_doclist_tab_order), TRUE);
+			break;
+	}
 
 	vbox_doclist = gtk_vbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox_doclist), radio_doclist_name, FALSE, FALSE, 3);
-	gtk_box_pack_start(GTK_BOX(vbox_doclist), radio_doclist_occurrence, TRUE, TRUE, 3);
+	gtk_box_pack_start(GTK_BOX(vbox_doclist), radio_doclist_tab_order, TRUE, TRUE, 3);
+	gtk_box_pack_start(GTK_BOX(vbox_doclist), radio_doclist_tab_order_reversed, TRUE, TRUE, 3);
 
 	frame_doclist = gtk_frame_new(NULL);
 	gtk_frame_set_label_widget(GTK_FRAME(frame_doclist), check_doclist);
@@ -511,7 +533,9 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 
 	g_object_set_data(G_OBJECT(dialog), "check_doclist", check_doclist);
 	g_object_set_data(G_OBJECT(dialog), "radio_doclist_name", radio_doclist_name);
-	g_object_set_data(G_OBJECT(dialog), "radio_doclist_occurrence", radio_doclist_occurrence);
+	g_object_set_data(G_OBJECT(dialog), "radio_doclist_tab_order", radio_doclist_tab_order);
+	g_object_set_data(G_OBJECT(dialog), "radio_doclist_tab_order_reversed",
+		radio_doclist_tab_order_reversed);
 	g_object_set_data(G_OBJECT(dialog), "check_openuri", check_openuri);
 	g_object_set_data(G_OBJECT(dialog), "check_tasks", check_tasks);
 	g_object_set_data(G_OBJECT(dialog), "entry_tasks_tokens", entry_tasks_tokens);

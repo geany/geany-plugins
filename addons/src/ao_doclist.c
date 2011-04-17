@@ -98,7 +98,7 @@ static void ao_doc_list_class_init(AoDocListClass *klass)
 									"How to sort the documents in the list",
 									0,
 									G_MAXINT,
-									DOCLIST_SORT_BY_OCCURRENCE,
+									DOCLIST_SORT_BY_TAB_ORDER,
 									G_PARAM_WRITABLE));
 }
 
@@ -184,10 +184,19 @@ static void ao_toolbar_item_doclist_clicked_cb(GtkWidget *button, gpointer data)
 
 	menu = gtk_menu_new();
 
-	if (priv->sort_mode == DOCLIST_SORT_BY_NAME)
-		compare_func = document_compare_by_display_name;
-	else
-		compare_func = NULL;
+	switch (priv->sort_mode)
+	{
+		case DOCLIST_SORT_BY_NAME:
+			compare_func = document_compare_by_display_name;
+			break;
+		case DOCLIST_SORT_BY_TAB_ORDER_REVERSE:
+			compare_func = document_compare_by_tab_order_reverse;
+			break;
+		case DOCLIST_SORT_BY_TAB_ORDER:
+		default:
+			compare_func = document_compare_by_tab_order;
+			break;
+	}
 
 	ui_menu_add_document_items_sorted(GTK_MENU(menu), current_doc,
 		G_CALLBACK(ao_doclist_menu_item_activate_cb), compare_func);
