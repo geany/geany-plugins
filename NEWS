@@ -4,8 +4,6 @@ Geany-Plugins 0.20 (2011-01-10)
     * Update of Waf build system.
     * Add new plugin UpdateChecker.
     * Add new plugin WebHelper.
-    * Add new plugin GeanyMacro
-    * Add new plugin GeanyNumberedBookmarks
 
     GeanyExtraSel:
     * Respect 'Smart' home key (Geany does now).
