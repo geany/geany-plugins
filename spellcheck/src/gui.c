@@ -396,42 +396,10 @@ static gboolean need_delay(void)
 }
 
 
-static gint sci_get_eol_mode(GeanyDocument *doc)
+static void check_line(GeanyDocument *doc, gint line_number)
 {
-	return scintilla_send_message(doc->editor->sci, SCI_GETEOLMODE, 0, 0);
-}
-
-
-/* Checks only the last word before the current cursor position -> check as you type. */
-gboolean sc_gui_key_release_cb(GtkWidget *widget, GdkEventKey *ev, gpointer data)
-{
-	gint line_number;
 	gchar *line;
-	GeanyDocument *doc;
-	GtkWidget *focusw;
 
-	if (! sc_info->check_while_typing)
-		return FALSE;
-
-	/* check only once in a while */
-	if (need_delay())
-		return FALSE;
-
-	doc = document_get_current();
-
-	if (ev->keyval == '\r' && sci_get_eol_mode(doc) == SC_EOL_CRLF)
-	{	/* prevent double line checking */
-		return FALSE;
-	}
-
-	/* bail out if we don't have a document or if we are not in the editor widget */
-	focusw = gtk_window_get_focus(GTK_WINDOW(geany->main_widgets->window));
-	if (doc == NULL || focusw != GTK_WIDGET(doc->editor->sci))
-		return FALSE;
-
-	line_number = sci_get_current_line(doc->editor->sci);
-	if (ev->keyval == '\n' || ev->keyval == '\r')
-		line_number--; /* check previous line if we start a new one */
 	line = sci_get_line(doc->editor->sci, line_number);
 
 	indicator_clear_on_line(doc, line_number);
@@ -440,8 +408,41 @@ gboolean sc_gui_key_release_cb(GtkWidget *widget, GdkEventKey *ev, gpointer data
 		if (sc_info->use_msgwin)
 			msgwin_switch_tab(MSG_MESSAGE, FALSE);
 	}
-
 	g_free(line);
+}
+
+
+static void check_on_text_changed(GeanyDocument *doc, gint position, gint lines_added)
+{
+	gint line_number;
+	gint i;
+
+	/* check only once in a while */
+	if (need_delay())
+		return;
+
+	line_number = sci_get_line_from_position(doc->editor->sci, position);
+	/* Iterating over all lines which changed as indicated by lines_added. lines_added is 0
+	 * if only a lines has changed, in this case set it to 1. Otherwise, iterating over all
+	 * new lines makes spell checking work for pasted text. */
+	lines_added = MAX(1, lines_added);
+	for (i = 0; i < lines_added; i++)
+	{
+		check_line(doc, line_number + i);
+	}
+}
+
+
+gboolean sc_gui_editor_notify(GObject *object, GeanyEditor *editor,
+							  SCNotification *nt, gpointer data)
+{
+	if (! sc_info->check_while_typing)
+		return FALSE;
+
+	if (nt->modificationType & (SC_MOD_INSERTTEXT | SC_MOD_DELETETEXT))
+	{
+		check_on_text_changed(editor->document, nt->position, nt->linesAdded);
+	}
 
 	return FALSE;
 }

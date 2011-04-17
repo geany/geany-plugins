@@ -27,11 +27,6 @@
 #define SC_GUI_H 1
 
 
-
-gboolean sc_gui_key_release_cb(GtkWidget *widget, GdkEventKey *ev, gpointer user_data);
-
-gboolean sc_gui_key_release_cb(GtkWidget *widget, GdkEventKey *ev, gpointer data);
-
 void sc_gui_kb_run_activate_cb(guint key_id);
 
 void sc_gui_kb_toggle_typing_activate_cb(guint key_id);
@@ -40,6 +35,9 @@ void sc_gui_create_edit_menu(void);
 
 void sc_gui_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 								  GeanyDocument *doc, gpointer user_data);
+
+gboolean sc_gui_editor_notify(GObject *object, GeanyEditor *editor,
+							  SCNotification *nt, gpointer data);
 
 void sc_gui_update_toolbar(void);
 

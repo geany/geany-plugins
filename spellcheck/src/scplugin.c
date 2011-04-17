@@ -65,6 +65,7 @@ PLUGIN_KEY_GROUP(spellcheck, KB_COUNT)
 PluginCallback plugin_callbacks[] =
 {
 	{ "update-editor-menu", (GCallback) &sc_gui_update_editor_menu_cb, FALSE, NULL },
+	{ "editor-notify", (GCallback) &sc_gui_editor_notify, FALSE, NULL },
 	{ NULL, NULL, FALSE, NULL }
 };
 
@@ -191,9 +192,6 @@ void plugin_init(GeanyData *data)
 	sc_gui_create_edit_menu();
 	sc_gui_update_menu();
 	gtk_widget_show_all(sc_info->menu_item);
-
-	sc_info->signal_id = g_signal_connect(geany->main_widgets->window,
-			"key-release-event", G_CALLBACK(sc_gui_key_release_cb), NULL);
 
 	/* setup keybindings */
 	keybindings_set_item(plugin_key_group, KB_SPELL_CHECK, sc_gui_kb_run_activate_cb,
@@ -344,8 +342,6 @@ void plugin_help(void)
 
 void plugin_cleanup(void)
 {
-	g_signal_handler_disconnect(geany->main_widgets->window, sc_info->signal_id);
-
 	gtk_widget_destroy(sc_info->edit_menu);
 	gtk_widget_destroy(sc_info->edit_menu_sep);
 	if (sc_info->toolbar_button != NULL)
