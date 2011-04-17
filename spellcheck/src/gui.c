@@ -44,6 +44,15 @@ typedef struct
 } SpellClickInfo;
 static SpellClickInfo clickinfo;
 
+typedef struct
+{
+	GeanyDocument *doc;
+	gint line_number;
+	gint line_count;
+	guint check_while_typing_idle_source_id;
+} CheckLineData;
+static CheckLineData check_line_data;
+
 /* Flag to indicate that a callback function will be triggered by generating the appropriate event
  * but the callback should be ignored. */
 static gboolean sc_ignore_callback = FALSE;
@@ -375,19 +384,49 @@ static void indicator_clear_on_line(GeanyDocument *doc, gint line_number)
 }
 
 
+static gboolean check_lines(gpointer data)
+{
+	GeanyDocument *doc = check_line_data.doc;
+	gchar *line;
+	gint line_number = check_line_data.line_number;
+	gint line_count = check_line_data.line_count;
+	gint i;
+
+	for (i = 0; i < line_count; i++)
+	{
+		line = sci_get_line(doc->editor->sci, line_number);
+		indicator_clear_on_line(doc, line_number);
+		if (sc_speller_process_line(doc, line_number, line) != 0)
+		{
+			if (sc_info->use_msgwin)
+				msgwin_switch_tab(MSG_MESSAGE, FALSE);
+		}
+		g_free(line);
+	}
+	check_line_data.check_while_typing_idle_source_id = 0;
+	return FALSE;
+}
+
+
 static gboolean need_delay(void)
 {
 	static gint64 time_prev = 0; /* time in microseconds */
 	gint64 time_now;
 	GTimeVal t;
-
+	const gint timeout = 500; /* delay in milliseconds */
 	g_get_current_time(&t);
 
 	time_now = ((gint64) t.tv_sec * G_USEC_PER_SEC) + t.tv_usec;
 
 	/* delay keypresses for 0.5 seconds */
-	if (time_now < (time_prev + 500000))
+	if (time_now < (time_prev + (timeout * 1000)))
 		return TRUE;
+
+	if (check_line_data.check_while_typing_idle_source_id == 0)
+	{
+		check_line_data.check_while_typing_idle_source_id =
+			plugin_timeout_add(geany_plugin, timeout, check_lines, NULL);
+	}
 
 	/* set current time for the next key press */
 	time_prev = time_now;
@@ -396,40 +435,28 @@ static gboolean need_delay(void)
 }
 
 
-static void check_line(GeanyDocument *doc, gint line_number)
-{
-	gchar *line;
-
-	line = sci_get_line(doc->editor->sci, line_number);
-
-	indicator_clear_on_line(doc, line_number);
-	if (sc_speller_process_line(doc, line_number, line) != 0)
-	{
-		if (sc_info->use_msgwin)
-			msgwin_switch_tab(MSG_MESSAGE, FALSE);
-	}
-	g_free(line);
-}
-
-
 static void check_on_text_changed(GeanyDocument *doc, gint position, gint lines_added)
 {
 	gint line_number;
-	gint i;
+	gint line_count;
 
-	/* check only once in a while */
-	if (need_delay())
-		return;
-
-	line_number = sci_get_line_from_position(doc->editor->sci, position);
 	/* Iterating over all lines which changed as indicated by lines_added. lines_added is 0
 	 * if only a lines has changed, in this case set it to 1. Otherwise, iterating over all
 	 * new lines makes spell checking work for pasted text. */
-	lines_added = MAX(1, lines_added);
-	for (i = 0; i < lines_added; i++)
-	{
-		check_line(doc, line_number + i);
-	}
+	line_count = MAX(1, lines_added);
+
+	line_number = sci_get_line_from_position(doc->editor->sci, position);
+	/* TODO: storing these information in the global check_line_data struct isn't that good.
+	 * The data gets overwritten when a new line is inserted and so there is a chance that thep
+	 * previous line is not checked to the end. One solution could be to simple maintain a list
+	 * of line numbers which needs to be checked and do this is the timeout handler. */
+	check_line_data.doc = doc;
+	check_line_data.line_number = line_number;
+	check_line_data.line_count = line_count;
+
+	/* check only once in a while */
+	if (! need_delay())
+		check_lines(NULL);
 }
 
 
