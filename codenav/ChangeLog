@@ -1,3 +1,12 @@
+2011-04-23  Frank Lanitz  <frlan@frank.uvena.de>
+
+ * src/switch_head_impl.c:
+   Move debug some output after NULL-pointer check to prevent from
+   NULL-pointer dereferencing.
+
+
+
+
 2009-10-14  Nick Treleaven  <nick(dot)treleaven(at)btinternet(dot)com>
 
  * src/codenavigation.c:
@@ -9,4 +18,3 @@
 
  * src/codenav.c: Initial import
       implementation / header switching works but is not configurable
-

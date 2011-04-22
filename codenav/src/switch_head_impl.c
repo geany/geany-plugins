@@ -221,12 +221,12 @@ menu_item_activate(guint key_id)
 	gchar* p_str = NULL;	/* Local variables, used as temporary buffers */
 	gchar* p_str2 = NULL;
 
-	log_func();
-	log_debug("current_doc->file_name == %s", current_doc->file_name);
-	log_debug("geany->documents_array->len == %d", geany->documents_array->len);
-
 	if(current_doc != NULL && current_doc->file_name != NULL && current_doc->file_name[0] != '\0')
 	{
+		log_func();
+		log_debug("current_doc->file_name == %s", current_doc->file_name);
+		log_debug("geany->documents_array->len == %d", geany->documents_array->len);
+
 		/* Get the basename, e.g. : "/home/me/file.cpp" -> "file.cpp" */
 		basename = g_path_get_basename(current_doc->file_name);
 
