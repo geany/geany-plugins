@@ -5,8 +5,6 @@
    NULL-pointer dereferencing.
 
 
-
-
 2009-10-14  Nick Treleaven  <nick(dot)treleaven(at)btinternet(dot)com>
 
  * src/codenavigation.c:
