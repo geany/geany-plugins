@@ -12,6 +12,7 @@ plugins = \
 	geanylatex \
 	geanylipsum \
 	geanylua \
+	geanymacro \
 	geanypg \
 	geanyprj \
 	geanysendmail \
