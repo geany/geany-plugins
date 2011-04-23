@@ -44,6 +44,7 @@ static void glatex_init_cutom_template_item(gchar *file, GPtrArray *array)
 
 	/* Return if its not a searched file */
 	if (g_str_has_suffix(file,".gtl") == FALSE)
+		g_free(template);
 		return;
 
 	template->filepath = g_strdup(file);
