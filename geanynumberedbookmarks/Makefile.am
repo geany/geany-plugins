@@ -1,4 +1,4 @@
-if ENABLE_GEANYMACRO
+if ENABLE_GEANYNUMBEREDBOOKMARKS
 include $(top_srcdir)/build/vars.auxfiles.mk
 else
 include $(top_srcdir)/build/vars.docs.mk
