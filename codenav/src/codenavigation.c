@@ -108,8 +108,6 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
  */
 void plugin_cleanup(void)
 {
-	GtkWidget* edit_menu = ui_lookup_widget(geany->main_widgets->window, "edit1_menu");
-
 	log_func();
 
 	/* Cleanup the features */
