@@ -1,3 +1,8 @@
+2011-04-25  Frank Lanitz  <frlan@frank.uvena.de>
+
+ * src/shiftcolumn.c: Fix a maybe uninitialized usage of a variable.
+
+
 2009-03-31  Andrew L Janke  <a.janke@gmail.com>
 
  * src/shiftcolumn.c: Check if document is open
@@ -29,5 +34,3 @@
 2009-03-09  Andrew L Janke  <a.janke@gmail.com>
 
  * Actually works now
-
-

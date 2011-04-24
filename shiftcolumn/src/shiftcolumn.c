@@ -101,6 +101,8 @@ static void shift_left_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
          }
 
       startline = sci_get_line_from_position(sci, startpos);
+      /* Setting also start point for 1st line */
+      linepos = sci_get_position_from_line(sci, startline);
       endline = sci_get_line_from_position(sci, endpos);
 
       /* normal mode */
@@ -247,6 +249,7 @@ static void shift_right_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
          }
 
       startline = sci_get_line_from_position(sci, startpos);
+      linepos = sci_get_position_from_line(sci, startline);
       endline = sci_get_line_from_position(sci, endpos);
 
       /* normal mode */
