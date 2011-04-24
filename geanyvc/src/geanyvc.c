@@ -651,7 +651,7 @@ vcdiff_dir_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, gpointer data)
 	doc = document_get_current();
 	g_return_if_fail(doc != NULL && doc->file_name != NULL);
 
-	if (doc && doc->changed && doc->file_name != NULL)
+	if (doc->changed)
 	{
 		document_save_file(doc, FALSE);
 	}
