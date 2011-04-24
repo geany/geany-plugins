@@ -104,7 +104,6 @@ static void shift_left_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
       endline = sci_get_line_from_position(sci, endpos);
 
       /* normal mode */
-      // if(sci_get_selection_mode(sci) == 1){
       if(startline == endline){
 
          /* get the text in question */
@@ -347,22 +346,22 @@ static void shift_right_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
 
 
 static void kb_shift_left(G_GNUC_UNUSED guint key_id){
-   
+
    /* sanity check */
    if (document_get_current() == NULL){
        return;
        }
-   
+
    shift_left_cb(NULL, NULL);
    }
 
 static void kb_shift_right(G_GNUC_UNUSED guint key_id){
-   
+
    /* sanity check */
    if (document_get_current() == NULL){
        return;
        }
-   
+
    shift_right_cb(NULL, NULL);
    }
 
@@ -384,7 +383,7 @@ void plugin_init(G_GNUC_UNUSED GeanyData *data){
        menu_item_shift_right);
    g_signal_connect(menu_item_shift_right, "activate",
        G_CALLBACK(shift_right_cb), NULL);
-   
+
    /* make sure our menu items aren't called when there is no doc open */
    ui_add_document_sensitive(menu_item_shift_right);
    ui_add_document_sensitive(menu_item_shift_left);
