@@ -3646,6 +3646,14 @@ msgstr ""
 msgid "Reload upon document saving"
 msgstr ""
 
+#: ../xmlsnippets/src/xmlsnippets.c:37
+msgid "XML Snippets"
+msgstr "XML Сниппеты"
+
+#: ../xmlsnippets/src/xmlsnippets.c:38
+msgid "Autocompletes XML/HTML tags using snippets."
+msgstr "Автоматически завершает XML/HTML теги с использованием сниппетов."
+
 #, fuzzy
 #~ msgid "Conference"
 #~ msgstr "Настройки"
