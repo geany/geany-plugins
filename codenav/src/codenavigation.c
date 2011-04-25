@@ -31,8 +31,6 @@
 
 /************************* Global variables ***************************/
 
-static GtkWidget* edit_menu_item_separator = NULL;
-
 /* These items are set by Geany before plugin_init() is called. */
 GeanyPlugin		*geany_plugin;
 GeanyData		*geany_data;
@@ -65,13 +63,7 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data);
  */
 void plugin_init(GeanyData *data)
 {
-	GtkWidget* edit_menu = ui_lookup_widget(geany->main_widgets->window, "edit1_menu");
-
 	log_func();
-
-	/* Add a separator to the "Edit" menu : */
-	edit_menu_item_separator = gtk_separator_menu_item_new();
-	gtk_container_add(GTK_CONTAINER(edit_menu), edit_menu_item_separator);
 
 	/* Initialize the features */
 	switch_head_impl_init();
@@ -113,9 +105,6 @@ void plugin_cleanup(void)
 	/* Cleanup the features */
 	goto_file_cleanup();
 	switch_head_impl_cleanup();
-
-	/* Remove the separator in the "Edit" menu */
-	gtk_widget_destroy(edit_menu_item_separator);
 }
 
 /* ---------------------------------------------------------------------
