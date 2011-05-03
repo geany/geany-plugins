@@ -10,6 +10,8 @@ AC_DEFUN([GP_CHECK_GEANYPG],
     fi
 
     AM_CONDITIONAL(ENABLE_GEANYPG, test "$enable_geanypg" = "yes")
+    # necessary for gpgme
+    AC_SYS_LARGEFILE
 
     GP_STATUS_PLUGIN_ADD([GeanyPG], [$enable_geanypg])
     AC_CONFIG_FILES([
