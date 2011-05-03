@@ -22,3 +22,5 @@
 
 
 conf.check_cfg(path='gpgme-config', args='--cflags --libs', package='', uselib_store='GPGME')
+# necessary for gpgme
+conf.check_large_file()
