@@ -375,7 +375,7 @@ save_config (void)
   
   path = get_config_filename ();
   dirname = g_path_get_dirname (path);
-  utils_mkdir (dirname, FALSE);
+  utils_mkdir (dirname, TRUE);
   g_free (dirname);
   if (! gwh_settings_save_to_file (G_settings, path, &err)) {
     g_warning ("Failed to save configuration: %s", err->message);
