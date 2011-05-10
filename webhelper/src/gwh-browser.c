@@ -723,7 +723,7 @@ gwh_browser_class_init (GwhBrowserClass *klass)
   g_object_class_install_property (object_class, PROP_INSPECTOR_TRANSIENT_FOR,
                                    g_param_spec_object ("inspector-transient-for",
                                                         "Inspector transient for",
-                                                        "The parent window of the inspector when detached.",
+                                                        "The parent window of the inspector when detached",
                                                         GTK_TYPE_WINDOW,
                                                         G_PARAM_READWRITE));
   g_object_class_install_property (object_class, PROP_URI,

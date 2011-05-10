@@ -302,58 +302,58 @@ load_config (void)
   
   gwh_settings_install_property (G_settings, g_param_spec_boolean (
     "browser-auto-reload",
-    "Browser auto reload",
-    "Whether the browser reloads itself upon document saving",
+    _("Browser auto reload"),
+    _("Whether the browser reloads itself upon document saving"),
     TRUE,
     G_PARAM_READWRITE));
   gwh_settings_install_property (G_settings, g_param_spec_string (
     "browser-last-uri",
-    "Browser last URI",
-    "Last URI visited by the browser",
+    _("Browser last URI"),
+    _("Last URI visited by the browser"),
     "about:blank",
     G_PARAM_READWRITE));
   gwh_settings_install_property (G_settings, g_param_spec_enum (
     "browser-orientation",
-    "Browser orientation",
-    "Orientation of the browser widget",
+    _("Browser orientation"),
+    _("Orientation of the browser widget"),
     GTK_TYPE_ORIENTATION,
     GTK_ORIENTATION_VERTICAL,
     G_PARAM_READWRITE));
   gwh_settings_install_property (G_settings, g_param_spec_enum (
     "browser-position",
-    "Browser position",
-    "Position of the browser widget in Geany's UI",
+    _("Browser position"),
+    _("Position of the browser widget in Geany's UI"),
     GWH_TYPE_BROWSER_POSITION,
     GWH_BROWSER_POSITION_MESSAGE_WINDOW,
     G_PARAM_READWRITE));
   gwh_settings_install_property (G_settings, g_param_spec_string (
     "browser-separate-window-geometry",
-    "Browser separate window geometry",
-    "Last geometry of the separated browser's window",
+    _("Browser separate window geometry"),
+    _("Last geometry of the separated browser's window"),
     "400x300",
     G_PARAM_READWRITE));
   gwh_settings_install_property (G_settings, g_param_spec_string (
     "inspector-window-geometry",
-    "Inspector window geometry",
-    "Last geometry of the inspector window",
+    _("Inspector window geometry"),
+    _("Last geometry of the inspector window"),
     "400x300",
     G_PARAM_READWRITE));
   gwh_settings_install_property (G_settings, g_param_spec_boolean (
     "wm-secondary-windows-skip-taskbar",
-    "Secondary windows skip task bar",
-    "Whether to tell the window manager not to show the secondary windows in the task bar",
+    _("Secondary windows skip task bar"),
+    _("Whether to tell the window manager not to show the secondary windows in the task bar"),
     TRUE,
     G_PARAM_READWRITE));
   gwh_settings_install_property (G_settings, g_param_spec_boolean (
     "wm-secondary-windows-are-transient",
-    "Secondary windows are transient",
-    "Whether secondary windows are transient children of their parent",
+    _("Secondary windows are transient"),
+    _("Whether secondary windows are transient children of their parent"),
     TRUE,
     G_PARAM_READWRITE));
   gwh_settings_install_property (G_settings, g_param_spec_enum (
     "wm-secondary-windows-type",
-    "Secondary windows type",
-    "The type of the secondary windows",
+    _("Secondary windows type"),
+    _("The type of the secondary windows"),
     GWH_TYPE_WINDOW_TYPE,
     GWH_WINDOW_TYPE_NORMAL,
     G_PARAM_READWRITE));

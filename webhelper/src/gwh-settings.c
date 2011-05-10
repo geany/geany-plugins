@@ -19,9 +19,12 @@
 
 #include "gwh-settings.h"
 
+#include "config.h"
+
 #include <string.h>
 #include <stdarg.h>
 #include <glib.h>
+#include <glib/gi18n-lib.h>
 #include <glib-object.h>
 #include <gtk/gtk.h>
 
@@ -768,7 +771,7 @@ gwh_settings_widget_new_full (GwhSettings            *self,
       gchar     *label;
       
       box = gtk_hbox_new (FALSE, 6);
-      label = g_strdup_printf ("%s:", g_param_spec_get_nick (pspec));
+      label = g_strdup_printf (_("%s:"), g_param_spec_get_nick (pspec));
       gtk_box_pack_start (GTK_BOX (box), gtk_label_new (label), FALSE, TRUE, 0);
       g_free (label);
       gtk_box_pack_start (GTK_BOX (box), widget, TRUE, TRUE, 0);

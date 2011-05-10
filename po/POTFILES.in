@@ -176,6 +176,7 @@ updatechecker/src/updatechecker.c
 # WebHelper
 webhelper/src/gwh-browser.c
 webhelper/src/gwh-plugin.c
+webhelper/src/gwh-settings.c
 
 # XMLSnippets
 xmlsnippets/src/plugin.c
