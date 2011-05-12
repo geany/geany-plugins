@@ -229,7 +229,6 @@ path_is_in_dir(gchar* src, gchar* find)
 {
 	int i = 0;
 
-	gboolean found = FALSE;
 	gchar *diffed_path = NULL, *tmp = NULL;
 	gchar **src_segments = NULL, **find_segments = NULL;
 	guint src_segments_n = 0, find_segments_n = 0, n = 0;
@@ -252,17 +251,13 @@ path_is_in_dir(gchar* src, gchar* find)
 			tmp = g_strconcat(diffed_path == NULL ? "" : diffed_path,
 								G_DIR_SEPARATOR_S, find_segments[i], NULL);
 			g_free(diffed_path);
-			diffed_path = g_strdup(tmp);
-			g_free(tmp);
-			found = TRUE;
+			diffed_path = tmp;
 		}
 
 	g_strfreev(src_segments);
 	g_strfreev(find_segments);
 
-	if (found)
-		return diffed_path;
-	return NULL;
+	return diffed_path;
 }
 
 /* Return: FALSE - if file is filtered and not shown, and TRUE - if file isn`t filtered, and have to be shown */
