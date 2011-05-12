@@ -222,13 +222,15 @@ utils_pixbuf_from_path(gchar *path)
 #endif
 }
 
+
+/* result must be freed */
 static gchar*
 path_is_in_dir(gchar* src, gchar* find)
 {
 	int i = 0;
 
 	gboolean found = FALSE;
-	gchar *diffed_path = "", *tmp = NULL;
+	gchar *diffed_path = NULL, *tmp = NULL;
 	gchar **src_segments = NULL, **find_segments = NULL;
 	guint src_segments_n = 0, find_segments_n = 0, n = 0;
 
@@ -247,7 +249,9 @@ path_is_in_dir(gchar* src, gchar* find)
 			break;
 		else
 		{
-			tmp = g_strconcat(diffed_path, G_DIR_SEPARATOR_S, find_segments[i], NULL);
+			tmp = g_strconcat(diffed_path == NULL ? "" : diffed_path,
+								G_DIR_SEPARATOR_S, find_segments[i], NULL);
+			g_free(diffed_path);
 			diffed_path = g_strdup(tmp);
 			g_free(tmp);
 			found = TRUE;
@@ -258,7 +262,6 @@ path_is_in_dir(gchar* src, gchar* find)
 
 	if (found)
 		return diffed_path;
-	g_free(diffed_path);
 	return NULL;
 }
 
