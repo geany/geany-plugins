@@ -79,7 +79,9 @@ gboolean		devhelp_plugin_get_is_in_msgwin		(DevhelpPlugin *self);
 void			devhelp_plugin_set_is_in_msgwin		(DevhelpPlugin *self, gboolean in_msgwin);
 
 void			devhelp_plugin_activate_ui			(DevhelpPlugin *self, gboolean show_search_tab);
-void			devhelp_plugin_search				(DevhelpPlugin *self, const gchar *term);
+void 			devhelp_plugin_search				(DevhelpPlugin *self, const gchar *term);
+void 			devhelp_plugin_search_books			(DevhelpPlugin *self, const gchar *term);
+void 			devhelp_plugin_search_manpages		(DevhelpPlugin *self, const gchar *term);
 
 const gchar*	devhelp_plugin_get_last_uri			(DevhelpPlugin *self);
 void			devhelp_plugin_set_last_uri			(DevhelpPlugin *self, const gchar *uri);

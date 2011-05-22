@@ -12,7 +12,8 @@ endif
 devhelp_la_SOURCES = \
 	main-notebook.c \
 	devhelpplugin.c \
-	plugin.c
+	plugin.c \
+	manpages.c
 
 noinst_HEADERS = \
 	plugin.h \
