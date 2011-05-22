@@ -10,9 +10,9 @@ EXTRA_LTLIBRARIES = devhelp.la
 endif
 
 devhelp_la_SOURCES = \
-	plugin.c \
+	main-notebook.c \
 	devhelpplugin.c \
-	main-notebook.c
+	plugin.c
 
 noinst_HEADERS = \
 	plugin.h \
