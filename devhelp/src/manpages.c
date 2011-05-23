@@ -111,7 +111,7 @@ static gchar *devhelp_plugin_man(const gchar *filename)
 	}
 
 	pclose(fp);
-	return g_strstrip(text);
+	return text;
 }
 
 
@@ -148,7 +148,7 @@ gchar *devhelp_plugin_manpages_search(const gchar *term, const gchar *section)
 		return NULL;
 	}
 	html_text = g_strdup_printf("<html><head><title>%s</title></head>"
-					"<body><pre>%s</pre></body></html>", term, text+6 /* wtf? */);
+					"<body><pre>%s</pre></body></html>", term, text);
 	g_free(text);
 
 	len = strlen(html_text);

@@ -34,7 +34,8 @@ PLUGIN_VERSION_CHECK(200)
 
 PLUGIN_SET_INFO(
 	_("Devhelp Plugin"),
-	_("Adds built-in Devhelp support."),
+	_("Adds support for looking up documentation in Devhelp, manual pages, and "
+	  "Google Code Search in the integrated viewer."),
 	"1.0", "Matthew Brush <mbrush@leftclick.ca>")
 
 
@@ -52,6 +53,8 @@ enum
 	KB_DEVHELP_TOGGLE_WEBVIEW,
 	KB_DEVHELP_ACTIVATE_DEVHELP,
 	KB_DEVHELP_SEARCH_SYMBOL,
+	KB_DEVHELP_SEARCH_MANPAGES,
+	KB_DEVHELP_SEARCH_CODESEARCH,
 	KB_COUNT
 };
 
@@ -63,6 +66,8 @@ static void on_show_in_msg_window_toggled(GtkToggleButton *togglebutton, struct 
 /* Called when a keybinding is activated */
 static void kb_activate(guint key_id)
 {
+	gchar *current_tag;
+
 	switch (key_id)
 	{
 		case KB_DEVHELP_TOGGLE_CONTENTS:
@@ -79,10 +84,36 @@ static void kb_activate(guint key_id)
 			break;
 		case KB_DEVHELP_SEARCH_SYMBOL:
 		{
-			gchar *current_tag = devhelp_plugin_get_current_tag();
+			current_tag = devhelp_plugin_get_current_tag();
 			if (current_tag == NULL)
 				return;
-			devhelp_plugin_search(plugin.devhelp, current_tag);
+			devhelp_plugin_search_books(plugin.devhelp, current_tag);
+			g_free(current_tag);
+			break;
+		}
+		case KB_DEVHELP_SEARCH_MANPAGES:
+		{
+			current_tag = devhelp_plugin_get_current_tag();
+			if (current_tag == NULL)
+				return;
+			devhelp_plugin_search_manpages(plugin.devhelp, current_tag);
+			g_free(current_tag);
+			break;
+		}
+		case KB_DEVHELP_SEARCH_CODESEARCH:
+		{
+			const gchar *lang = NULL;
+			GeanyDocument *doc;
+
+			if ((current_tag = devhelp_plugin_get_current_tag()) == NULL)
+				return;
+
+			doc = document_get_current();
+			if (doc == NULL || doc->file_type == NULL || doc->file_type->name == NULL)
+				lang = doc->file_type->name;
+
+			devhelp_plugin_search_code(plugin.devhelp, current_tag, lang);
+
 			g_free(current_tag);
 			break;
 		}
@@ -293,15 +324,19 @@ void plugin_init(GeanyData *data)
 	key_group = plugin_set_key_group(geany_plugin, "devhelp", KB_COUNT, NULL);
 
 	keybindings_set_item(key_group, KB_DEVHELP_TOGGLE_CONTENTS, kb_activate,
-		0, 0, "devhelp_toggle_contents", _("Toggle Devhelp (Contents Tab)"), NULL);
+		0, 0, "devhelp_toggle_contents", _("Toggle sidebar contents tab"), NULL);
 	keybindings_set_item(key_group, KB_DEVHELP_TOGGLE_SEARCH, kb_activate,
-		0, 0, "devhelp_toggle_search", _("Toggle Devhelp (Search Tab)"), NULL);
+		0, 0, "devhelp_toggle_search", _("Toggle sidebar search tab"), NULL);
 	keybindings_set_item(key_group, KB_DEVHELP_TOGGLE_WEBVIEW, kb_activate,
-		0, 0, "devhelp_toggle_webview", _("Toggle Devhelp (Documents Tab)"), NULL);
+		0, 0, "devhelp_toggle_webview", _("Toggle documentation tab"), NULL);
 	keybindings_set_item(key_group, KB_DEVHELP_ACTIVATE_DEVHELP, kb_activate,
-		0, 0, "devhelp_activate_all", _("Activate all Devhelp tabs"), NULL);
+		0, 0, "devhelp_activate_all", _("Activate all tabs"), NULL);
 	keybindings_set_item(key_group, KB_DEVHELP_SEARCH_SYMBOL, kb_activate,
-		0, 0, "devhelp_search_symbol", _("Search for Current Symbol/Tag"), NULL);
+		0, 0, "devhelp_search_symbol", _("Search for current tag in Devhelp"), NULL);
+	keybindings_set_item(key_group, KB_DEVHELP_SEARCH_MANPAGES, kb_activate,
+		0, 0, "devhelp_search_manpages", _("Search for current tag in Manual Pages"), NULL);
+	keybindings_set_item(key_group, KB_DEVHELP_SEARCH_CODESEARCH, kb_activate,
+		0, 0, "devhelp_search_codesearch", _("Search for current tag in Google Code Search"), NULL);
 }
 
 
