@@ -28,11 +28,6 @@
 G_BEGIN_DECLS
 
 
-#if HAVE_MAN_PROG == 1
-#define HAVE_MAN
-#endif
-
-
 #ifndef DHPLUG_DATA_DIR
 #define DHPLUG_DATA_DIR "/usr/local/share/geany-devhelp"
 #endif
@@ -87,9 +82,7 @@ void			devhelp_plugin_set_is_in_msgwin		(DevhelpPlugin *self, gboolean in_msgwin
 void			devhelp_plugin_activate_ui			(DevhelpPlugin *self, gboolean show_search_tab);
 void 			devhelp_plugin_search				(DevhelpPlugin *self, const gchar *term);
 void 			devhelp_plugin_search_books			(DevhelpPlugin *self, const gchar *term);
-#ifdef HAVE_MAN
 void 			devhelp_plugin_search_manpages		(DevhelpPlugin *self, const gchar *term);
-#endif
 void			devhelp_plugin_search_code			(DevhelpPlugin *self, const gchar *term, const gchar *lang);
 
 const gchar*	devhelp_plugin_get_last_uri			(DevhelpPlugin *self);
@@ -110,10 +103,8 @@ void			devhelp_plugin_toggle_webview_tab		(DevhelpPlugin *self);
 WebKitWebView*	devhelp_plugin_get_webview				(DevhelpPlugin *self);
 
 
-#ifdef HAVE_MAN
 gchar *devhelp_plugin_manpages_search(const gchar *term, const gchar *section);
 void devhelp_plugin_remove_manpages_temp_files(void);
-#endif
 
 
 void devhelp_plugin_search_code(DevhelpPlugin *self, const gchar *term, const gchar *lang);

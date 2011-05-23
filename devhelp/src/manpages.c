@@ -6,8 +6,6 @@
 
 #include "devhelpplugin.h"
 
-#ifdef HAVE_MAN
-
 
 #define DEVHELP_PLUGIN_MANPAGE_SECTIONS "3:2:1:8:5:4:7:6"
 #define DEVHELP_PLUGIN_MANPAGE_PAGER "col -b"
@@ -165,5 +163,3 @@ void devhelp_plugin_remove_manpages_temp_files(void)
 
 	temp_files = NULL;
 }
-
-#endif /* HAVE_MAN */

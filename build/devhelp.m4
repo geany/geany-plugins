@@ -7,13 +7,6 @@ AC_DEFUN([GP_CHECK_DEVHELP],
     WEBKIT_VERSION=1.1.18
     DEVHELP_VERSION=2.30.1
 
-    AC_CHECK_PROG([MAN], [man], [yes], [no])
-    if [[ x"$MAN" = "xyes" ]]; then
-        AC_SUBST([HAVE_MAN_PROG], 1)
-	else
-		AC_SUBST([HAVE_MAN_PROG], 0)
-	fi
-
     GP_CHECK_PLUGIN_DEPS([devhelp], [DEVHELP],
 						 [gtk+-2.0 >= ${GTK_VERSION}
 						  glib-2.0 >= ${GLIB_VERSION}
