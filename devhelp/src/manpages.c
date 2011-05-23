@@ -8,11 +8,8 @@
 
 #ifdef HAVE_MAN
 
-#define DEVHELP_MANPAGE_NUM_SECTIONS 8
-/* In order of most likely sections */
-static gint sections[DEVHELP_MANPAGE_NUM_SECTIONS] = { 3, 2, 1, 8, 5, 4, 7, 6 };
-
 #define DEVHELP_MANPAGE_BUF_SIZE 4096
+
 
 static GList *temp_files = NULL;
 
@@ -21,61 +18,25 @@ static GList *temp_files = NULL;
 static gchar *find_manpage(const gchar *term, const gchar *section)
 {
 	FILE *fp;
-	gint i, len, retcode=0;
+	gint len, retcode=0;
 	gchar *cmd, buf[PATH_MAX];
 
 	g_return_val_if_fail(term != NULL, NULL);
 
-	if (section != NULL) /* user-specified section */
-	{
-		cmd = g_strdup_printf("man --where %s '%s'", section, term);
-		if ((fp = popen(cmd, "r")) != NULL)
-		{
-			g_free(cmd);
-
-			len = fread(buf, sizeof(gchar), PATH_MAX, fp);
-			retcode = pclose(fp);
-		}
-		g_free(cmd);
-	}
+	if (section == NULL)
+		cmd = g_strdup_printf("man -S 3:2:1:8:5:4:7:6 --where '%s'", term);
 	else
+		cmd = g_strdup_printf("man --where %s '%s'", section, term);
+
+	if ((fp = popen(cmd, "r")) == NULL)
 	{
-
-		/* try in order of most-likely sections */
-		for (i = 0; i < DEVHELP_MANPAGE_NUM_SECTIONS; i++)
-		{
-			cmd = g_strdup_printf("man --where %d '%s'", sections[i], term);
-			if ((fp = popen(cmd, "r")) == NULL)
-			{
-				g_free(cmd);
-				continue;
-			}
-
-			g_free(cmd);
-			len = fread(buf, sizeof(gchar), PATH_MAX, fp);
-			retcode = pclose(fp);
-
-			if (retcode != 0)
-				continue;
-			else
-				break;
-		}
-
-		/* try without section if all else fails */
-		if (retcode != 0)
-		{
-			cmd = g_strdup_printf("man --where '%s'", term);
-			if ((fp = popen(cmd, "r")) == NULL)
-			{
-				g_free(cmd);
-				return NULL;
-			}
-
-			g_free(cmd);
-			len = fread(buf, sizeof(gchar), PATH_MAX, fp);
-			retcode = pclose(fp);
-		}
+		g_free(cmd);
+		return NULL;
 	}
+
+	g_free(cmd);
+	len = fread(buf, sizeof(gchar), PATH_MAX, fp);
+	retcode = pclose(fp);
 
 	buf[PATH_MAX - 1] = '\0';
 
@@ -96,7 +57,7 @@ static gchar *devhelp_plugin_man(const gchar *filename)
 
 	g_return_val_if_fail(filename != NULL, NULL);
 
-	cmd = g_strdup_printf("man \"%s\"", filename);
+	cmd = g_strdup_printf("man -S 3:2:1:8:5:4:7:6 -P\"col -b\" \"%s\"", filename);
 
 	fp = popen(cmd, "r");
 	g_free(cmd);
