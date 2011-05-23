@@ -688,6 +688,13 @@ WebKitWebView* devhelp_plugin_get_webview(DevhelpPlugin *self)
 }
 
 
+gboolean devhelp_plugin_get_have_man(DevhelpPlugin *self)
+{
+	g_return_val_if_fail(self != NULL, FALSE);
+	return self->priv->have_man;
+}
+
+
 /* Activates (brings to top/makes visible) the Devhelp plugin's sidebar tab. */
 static inline void devhelp_plugin_activate_sidebar_tab(DevhelpPlugin *self)
 {

@@ -102,6 +102,8 @@ void			devhelp_plugin_toggle_webview_tab		(DevhelpPlugin *self);
 
 WebKitWebView*	devhelp_plugin_get_webview				(DevhelpPlugin *self);
 
+gboolean		devhelp_plugin_get_have_man				(DevhelpPlugin *self);
+
 
 gchar *devhelp_plugin_manpages_search(const gchar *term, const gchar *section);
 void devhelp_plugin_remove_manpages_temp_files(void);

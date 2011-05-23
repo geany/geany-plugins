@@ -333,8 +333,11 @@ void plugin_init(GeanyData *data)
 		0, 0, "devhelp_activate_all", _("Activate all tabs"), NULL);
 	keybindings_set_item(key_group, KB_DEVHELP_SEARCH_SYMBOL, kb_activate,
 		0, 0, "devhelp_search_symbol", _("Search for current tag in Devhelp"), NULL);
-	keybindings_set_item(key_group, KB_DEVHELP_SEARCH_MANPAGES, kb_activate,
-		0, 0, "devhelp_search_manpages", _("Search for current tag in Manual Pages"), NULL);
+	if (devhelp_plugin_get_have_man(plugin.devhelp))
+	{
+		keybindings_set_item(key_group, KB_DEVHELP_SEARCH_MANPAGES, kb_activate,
+			0, 0, "devhelp_search_manpages", _("Search for current tag in Manual Pages"), NULL);
+	}
 	keybindings_set_item(key_group, KB_DEVHELP_SEARCH_CODESEARCH, kb_activate,
 		0, 0, "devhelp_search_codesearch", _("Search for current tag in Google Code Search"), NULL);
 }
