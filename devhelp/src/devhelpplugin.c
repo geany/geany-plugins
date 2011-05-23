@@ -887,7 +887,7 @@ static void on_search_help_code_activate(GtkMenuItem *menuitem, DevhelpPlugin *s
 		return;
 
 	doc = document_get_current();
-	if (doc == NULL || doc->file_type == NULL || doc->file_type->name == NULL)
+	if (doc != NULL && doc->file_type != NULL && doc->file_type->name != NULL)
 		lang = doc->file_type->name;
 
 	devhelp_plugin_search_code(self, current_tag, lang);

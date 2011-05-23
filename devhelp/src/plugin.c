@@ -291,14 +291,14 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_box_pack_start(GTK_BOX(vbox), check_button, FALSE, TRUE, 0);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_button),
 		devhelp_plugin_get_sidebar_tabs_bottom(plugin.devhelp));
-	g_signal_connect(check_button, "toggled", G_CALLBACK(on_move_sidebar_tabs_toggled), NULL);
+	g_signal_connect(check_button, "toggled", G_CALLBACK(on_move_sidebar_tabs_toggled), &plugin);
 
 	check_button = gtk_check_button_new_with_label(
 						_("Show documentation in message window."));
 	gtk_box_pack_start(GTK_BOX(vbox), check_button, FALSE, TRUE, 0);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_button),
 		devhelp_plugin_get_is_in_msgwin(plugin.devhelp));
-	g_signal_connect(check_button, "toggled", G_CALLBACK(on_show_in_msg_window_toggled), NULL);
+	g_signal_connect(check_button, "toggled", G_CALLBACK(on_show_in_msg_window_toggled), &plugin);
 
 	g_signal_connect(dialog, "response", G_CALLBACK(configure_dialog_response), NULL);
 
