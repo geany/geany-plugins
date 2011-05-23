@@ -8,7 +8,25 @@
 
 #ifdef HAVE_MAN
 
-#define DEVHELP_MANPAGE_BUF_SIZE 4096
+
+#define DEVHELP_MANPAGE_SECTIONS "3:2:1:8:5:4:7:6"
+#define DEVHELP_MANPAGE_PAGER "col -b"
+
+#define DEVHELP_MANPAGE_HTML_TEMPLATE \
+	"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd\">\n" \
+	"<html>\n"									\
+	"  <head>\n"								\
+	"    <title>%s</title>\n"					\
+	"    <style type=\"text/css\">\n"			\
+	"      .man_text {\n"						\
+	"        /*font-family: sans;*/\n"			\
+	"      }\n"									\
+	"    </style>\n"							\
+	"  </head>\n"								\
+	"  <body>\n"								\
+	"    <pre class=\"man_text\">%s</pre>\n"	\
+	"  </body>\n"								\
+	"</html>\n"
 
 
 static GList *temp_files = NULL;
@@ -17,61 +35,59 @@ static GList *temp_files = NULL;
 /* Locates the path to the manpage found for the term and section. */
 static gchar *find_manpage(const gchar *term, const gchar *section)
 {
-	FILE *fp;
-	gint len, retcode=0;
-	gchar *cmd, buf[PATH_MAX];
+	gint retcode=0;
+	gchar *cmd, *text=NULL;
 
 	g_return_val_if_fail(term != NULL, NULL);
 
 	if (section == NULL)
-		cmd = g_strdup_printf("man -S 3:2:1:8:5:4:7:6 --where '%s'", term);
+		cmd = g_strdup_printf("man -S %s --where '%s'",
+					DEVHELP_MANPAGE_SECTIONS, term);
 	else
 		cmd = g_strdup_printf("man --where %s '%s'", section, term);
 
-	if ((fp = popen(cmd, "r")) == NULL)
+	if (!g_spawn_command_line_sync(cmd, &text, NULL, &retcode, NULL))
 	{
 		g_free(cmd);
 		return NULL;
 	}
 
 	g_free(cmd);
-	len = fread(buf, sizeof(gchar), PATH_MAX, fp);
-	retcode = pclose(fp);
 
-	buf[PATH_MAX - 1] = '\0';
-
-	if (strlen(buf) == 0 || retcode != 0)
+	if (retcode != 0)
+	{
+		g_free(text);
 		return NULL;
+	}
 
-	return g_strstrip(g_strdup(buf));
+	return g_strstrip(text);
 }
 
 
 /* Read the text output from man or NULL. */
 static gchar *devhelp_plugin_man(const gchar *filename)
 {
-	FILE *fp;
-	gint size = DEVHELP_MANPAGE_BUF_SIZE;
-	gchar buf[DEVHELP_MANPAGE_BUF_SIZE] = { 0 };
-	gchar *text=NULL, *cmd;
+	gint retcode=0;
+	gchar *cmd, *text=NULL;
 
 	g_return_val_if_fail(filename != NULL, NULL);
 
-	cmd = g_strdup_printf("man -S 3:2:1:8:5:4:7:6 -P\"col -b\" \"%s\"", filename);
+	cmd = g_strdup_printf("man -P\"%s\" \'%s\'", DEVHELP_MANPAGE_PAGER, filename);
 
-	fp = popen(cmd, "r");
-	g_free(cmd);
-	if (fp == NULL)
-		return NULL;
-
-	while (fgets(buf, DEVHELP_MANPAGE_BUF_SIZE-1, fp) != NULL)
+	if (!g_spawn_command_line_sync(cmd, &text, NULL, &retcode, NULL))
 	{
-		text = g_realloc(text, size);
-		strncat(text, buf, DEVHELP_MANPAGE_BUF_SIZE);
-		size += DEVHELP_MANPAGE_BUF_SIZE;
+		g_free(cmd);
+		return NULL;
 	}
 
-	pclose(fp);
+	g_free(cmd);
+
+	if (retcode != 0)
+	{
+		g_free(text);
+		return NULL;
+	}
+
 	return text;
 }
 
@@ -98,7 +114,6 @@ gchar *devhelp_plugin_manpages_search(const gchar *term, const gchar *section)
 	}
 
 	fp = fdopen(fd, "w");
-	fseek(fp, 0, SEEK_SET);
 
 	text = devhelp_plugin_man(man_fn);
 	if (text == NULL)
@@ -108,8 +123,7 @@ gchar *devhelp_plugin_manpages_search(const gchar *term, const gchar *section)
 		fclose(fp);
 		return NULL;
 	}
-	html_text = g_strdup_printf("<html><head><title>%s</title></head>"
-					"<body><pre>%s</pre></body></html>", term, text);
+	html_text = g_strdup_printf(DEVHELP_MANPAGE_HTML_TEMPLATE, term, text);
 	g_free(text);
 
 	len = strlen(html_text);
