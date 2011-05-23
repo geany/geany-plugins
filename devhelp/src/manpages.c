@@ -84,57 +84,6 @@ static gchar *find_manpage(const gchar *term, const gchar *section)
 }
 
 
-/* Finds the full URI to the manpage for term and section. */
-/*
-static gchar *find_manpage_uri(const gchar *term, const gchar *section)
-{
-	gchar *uri, *fn;
-
-	g_return_val_if_fail(term != NULL, NULL);
-
-	fn = find_manpage(term, section);
-	if (fn == NULL)
-		return NULL;
-
-	uri = g_strdup_printf("file://%s", fn);
-	g_free(fn);
-
-	return uri;
-}
-*/
-
-
-/* Read the text output from man2html or NULL. */
-/*
-static gchar *devhelp_plugin_man2html(const gchar *filename)
-{
-	FILE *fp;
-	gint size = DEVHELP_MANPAGE_BUF_SIZE;
-	gchar buf[DEVHELP_MANPAGE_BUF_SIZE] = { 0 };
-	gchar *text=NULL, *cmd;
-
-	g_return_val_if_fail(filename != NULL, NULL);
-
-	cmd = g_strdup_printf("man2html '%s'", filename);
-
-	fp = popen(cmd, "r");
-	g_free(cmd);
-	if (fp == NULL)
-		return NULL;
-
-	while(fgets(buf, DEVHELP_MANPAGE_BUF_SIZE-1, fp) != NULL)
-	{
-		text = g_realloc(text, size);
-		strncat(text, buf, DEVHELP_MANPAGE_BUF_SIZE);
-		size += DEVHELP_MANPAGE_BUF_SIZE;
-	}
-
-	pclose(fp);
-	return text;
-}
-*/
-
-
 /* Read the text output from man or NULL. */
 static gchar *devhelp_plugin_man(const gchar *filename)
 {
