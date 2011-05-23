@@ -37,6 +37,7 @@
 #include "devhelpplugin.h"
 #include "plugin.h"
 #include "manpages.h"
+#include "codesearch.h"
 
 
 struct _DevhelpPluginPrivate
@@ -52,7 +53,6 @@ struct _DevhelpPluginPrivate
 										 *   and webkit view */
     GtkWidget*		doc_notebook;    	/* Geany's document notebook   */
     GtkWidget*		editor_menu_item;	/* Item in the editor's context menu */
-    GtkWidget*		editor_man_menu_item; /* Manpage search menu item in the editor's context menu */
     GtkWidget*		editor_menu_sep;	/* Separator item above menu item */
     gboolean		webview_active;		/* Tracks whether webview stuff is shown */
     gboolean		last_main_tab_id;	/* These track the last id of the tabs */
@@ -83,6 +83,7 @@ static DhBase *dhbase = NULL;
 /* Internal callbacks */
 static void on_search_help_activate(GtkMenuItem * menuitem, DevhelpPlugin *self);
 static void on_search_help_man_activate(GtkMenuItem * menuitem, DevhelpPlugin *self);
+static void on_search_help_code_activate(GtkMenuItem *menuitem, DevhelpPlugin *self);
 static void on_editor_menu_popup(GtkWidget * widget, DevhelpPlugin *self);
 static void on_link_clicked(GObject * ignored, DhLink * dhlink, DevhelpPlugin *self);
 static void on_back_button_clicked(GtkToolButton * btn, DevhelpPlugin *self);
@@ -118,7 +119,6 @@ static void devhelp_plugin_finalize(GObject * object)
 	}
 	gtk_widget_destroy(self->priv->editor_menu_sep);
 	gtk_widget_destroy(self->priv->editor_menu_item);
-	gtk_widget_destroy(self->priv->editor_man_menu_item);
 
 	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook),
 		self->priv->orig_sb_tab_pos);
@@ -180,6 +180,7 @@ static void devhelp_plugin_init_dh(DevhelpPlugin *self)
 /* Initialize the stuff in the editor's context menu */
 static void devhelp_plugin_init_edit_menu(DevhelpPlugin *self)
 {
+	GtkWidget *doc_menu, *devhelp_item, *man_item, *code_item;
 	DevhelpPluginPrivate *p;
 
 	g_return_if_fail(self != NULL);
@@ -187,20 +188,33 @@ static void devhelp_plugin_init_edit_menu(DevhelpPlugin *self)
 	p = self->priv;
 
 	p->editor_menu_sep = gtk_separator_menu_item_new();
-	p->editor_menu_item = gtk_menu_item_new_with_label(_("Search Devhelp for Tag"));
-	p->editor_man_menu_item = gtk_menu_item_new_with_label(_("Search manual pages for Tag"));
+	p->editor_menu_item = gtk_menu_item_new_with_label(_("Search for 'Tag' Documentation in"));
+	doc_menu = gtk_menu_new();
+
+	devhelp_item = gtk_menu_item_new_with_label(_("Devhelp"));
+	man_item = gtk_menu_item_new_with_label(_("Manual Pages"));
+	code_item = gtk_menu_item_new_with_label(_("Google Code"));
+
+	gtk_menu_shell_append(GTK_MENU_SHELL(doc_menu), devhelp_item);
+	gtk_menu_shell_append(GTK_MENU_SHELL(doc_menu), man_item);
+	gtk_menu_shell_append(GTK_MENU_SHELL(doc_menu), code_item);
 
 	g_signal_connect(geany->main_widgets->editor_menu, "show", G_CALLBACK(on_editor_menu_popup), self);
-	g_signal_connect(p->editor_menu_item, "activate", G_CALLBACK(on_search_help_activate), self);
-	g_signal_connect(p->editor_man_menu_item, "activate", G_CALLBACK(on_search_help_man_activate), self);
+	g_signal_connect(devhelp_item, "activate", G_CALLBACK(on_search_help_activate), self);
+	g_signal_connect(man_item, "activate", G_CALLBACK(on_search_help_man_activate), self);
+	g_signal_connect(code_item, "activate", G_CALLBACK(on_search_help_code_activate), self);
+
+	gtk_widget_show(p->editor_menu_sep);
+	gtk_widget_show(devhelp_item);
+	gtk_widget_show(man_item);
+	gtk_widget_show(code_item);
+
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(p->editor_menu_item), doc_menu);
+	gtk_widget_show_all(p->editor_menu_item);
 
 	gtk_menu_shell_append(GTK_MENU_SHELL(geany->main_widgets->editor_menu), p->editor_menu_sep);
 	gtk_menu_shell_append(GTK_MENU_SHELL(geany->main_widgets->editor_menu), p->editor_menu_item);
-	gtk_menu_shell_append(GTK_MENU_SHELL(geany->main_widgets->editor_menu), p->editor_man_menu_item);
 
-	gtk_widget_show(p->editor_menu_sep);
-	gtk_widget_show(p->editor_menu_item);
-	gtk_widget_show(p->editor_man_menu_item);
 }
 
 
@@ -384,7 +398,7 @@ void devhelp_plugin_search_manpages(DevhelpPlugin *self, const gchar *term)
 
 	g_free(man_fn);
 
-	devhelp_plugin_activate_all_tabs(self);
+	devhelp_plugin_activate_webview_tab(self);
 }
 
 
@@ -665,6 +679,13 @@ void devhelp_plugin_set_webview_uri(DevhelpPlugin *self, const gchar *uri)
 }
 
 
+WebKitWebView* devhelp_plugin_get_webview(DevhelpPlugin *self)
+{
+	g_return_val_if_fail(self != NULL, NULL);
+	return WEBKIT_WEB_VIEW(self->priv->webview);
+}
+
+
 /* Activates (brings to top/makes visible) the Devhelp plugin's sidebar tab. */
 static inline void devhelp_plugin_activate_sidebar_tab(DevhelpPlugin *self)
 {
@@ -846,13 +867,34 @@ static void on_search_help_man_activate(GtkMenuItem * menuitem, DevhelpPlugin *s
 }
 
 
+static void on_search_help_code_activate(GtkMenuItem *menuitem, DevhelpPlugin *self)
+{
+	gchar *current_tag;
+	const gchar *lang = NULL;
+	GeanyDocument *doc;
+
+	g_return_if_fail(self != NULL);
+
+	if ((current_tag = devhelp_plugin_get_current_tag()) == NULL)
+		return;
+
+	doc = document_get_current();
+	if (doc == NULL || doc->file_type == NULL || doc->file_type->name == NULL)
+		lang = doc->file_type->name;
+
+	devhelp_plugin_search_code(self, current_tag, lang);
+
+	g_free(current_tag);
+}
+
+
 /*
  * Called when the editor context menu is shown so that the devhelp
  * search item can be disabled if there isn't a selected tag.
  */
 static void on_editor_menu_popup(GtkWidget * widget, DevhelpPlugin *self)
 {
-	gchar *label_tag, *curword, *new_label, *new_man_label;
+	gchar *label_tag, *curword, *new_label;
 
 	g_return_if_fail(self != NULL);
 
@@ -861,23 +903,18 @@ static void on_editor_menu_popup(GtkWidget * widget, DevhelpPlugin *self)
 	if (curword == NULL)
 	{
 		gtk_widget_set_sensitive(self->priv->editor_menu_item, FALSE);
-		gtk_widget_set_sensitive(self->priv->editor_man_menu_item, FALSE);
 		return;
 	}
 
-	label_tag = g_strndup(curword, DHPLUG_MAX_LABEL_TAG);
-	new_label = g_strdup_printf(_("Search Devhelp for: %s..."), g_strstrip(label_tag));
-	new_man_label = g_strdup_printf(_("Search manual pages for: %s..."), label_tag);
+	label_tag = g_strstrip(g_strndup(curword, DHPLUG_MAX_LABEL_TAG));
+	new_label = g_strdup_printf(_("Search for '%s' Documentation in"), label_tag);
 
 	gtk_menu_item_set_label(GTK_MENU_ITEM(self->priv->editor_menu_item), new_label);
-	gtk_menu_item_set_label(GTK_MENU_ITEM(self->priv->editor_man_menu_item), new_man_label);
 
 	g_free(new_label);
-	g_free(new_man_label);
 	g_free(label_tag);
 
 	gtk_widget_set_sensitive(self->priv->editor_menu_item, TRUE);
-	gtk_widget_set_sensitive(self->priv->editor_man_menu_item, TRUE);
 
 	g_free(curword);
 }

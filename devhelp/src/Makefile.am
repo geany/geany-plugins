@@ -13,7 +13,8 @@ devhelp_la_SOURCES = \
 	main-notebook.c \
 	devhelpplugin.c \
 	plugin.c \
-	manpages.c
+	manpages.c \
+	codesearch.c
 
 noinst_HEADERS = \
 	plugin.h \

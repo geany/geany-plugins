@@ -23,6 +23,7 @@
 #define DEVHELP_PLUGIN_COMMON_H
 
 #include <gtk/gtk.h>
+#include <webkit/webkitwebview.h>
 
 G_BEGIN_DECLS
 
@@ -97,6 +98,8 @@ void			devhelp_plugin_activate_all_tabs		(DevhelpPlugin *self);
 void			devhelp_plugin_toggle_search_tab		(DevhelpPlugin *self);
 void			devhelp_plugin_toggle_contents_tab		(DevhelpPlugin *self);
 void			devhelp_plugin_toggle_webview_tab		(DevhelpPlugin *self);
+
+WebKitWebView*	devhelp_plugin_get_webview				(DevhelpPlugin *self);
 
 
 G_END_DECLS
