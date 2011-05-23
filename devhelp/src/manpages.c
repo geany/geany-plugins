@@ -1,10 +1,12 @@
-#ifdef HAVE_MAN
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
 #include <glib.h>
+
+#include "devhelpplugin.h"
+
+#ifdef HAVE_MAN
 
 #define DEVHELP_MANPAGE_NUM_SECTIONS 8
 /* In order of most likely sections */
@@ -119,8 +121,8 @@ gchar *devhelp_plugin_manpages_search(const gchar *term, const gchar *section)
 {
 	FILE *fp;
 	gint fd, len;
-	gchar *man_fn, *tmp_fn, *uri, *text;
-	const gchar *tmpl = "devhelp_manpage_XXXXXX.txt";
+	gchar *man_fn, *tmp_fn, *uri, *text, *html_text;
+	const gchar *tmpl = "devhelp_manpage_XXXXXX.html";
 
 	man_fn = find_manpage(term, section);
 	if (man_fn == NULL)
@@ -145,19 +147,22 @@ gchar *devhelp_plugin_manpages_search(const gchar *term, const gchar *section)
 		fclose(fp);
 		return NULL;
 	}
+	html_text = g_strdup_printf("<html><head><title>%s</title></head>"
+					"<body><pre>%s</pre></body></html>", term, text+6 /* wtf? */);
+	g_free(text);
 
-	len = strlen(text);
-	if (fwrite(text, sizeof(gchar), len, fp) != len)
+	len = strlen(html_text);
+	if (fwrite(html_text, sizeof(gchar), len, fp) != len)
 	{
 		g_free(man_fn);
 		g_free(tmp_fn);
-		g_free(text);
+		g_free(html_text);
 		fclose(fp);
 		return NULL;
 	}
 
 	g_free(man_fn);
-	g_free(text);
+	g_free(html_text);
 	fclose(fp);
 
 	temp_files = g_list_append(temp_files, tmp_fn);
