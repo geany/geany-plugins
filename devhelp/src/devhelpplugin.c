@@ -36,8 +36,6 @@
 #include "main-notebook.h"
 #include "devhelpplugin.h"
 #include "plugin.h"
-#include "manpages.h"
-#include "codesearch.h"
 
 
 struct _DevhelpPluginPrivate
@@ -82,7 +80,9 @@ static DhBase *dhbase = NULL;
 
 /* Internal callbacks */
 static void on_search_help_activate(GtkMenuItem * menuitem, DevhelpPlugin *self);
+#ifdef HAVE_MAN
 static void on_search_help_man_activate(GtkMenuItem * menuitem, DevhelpPlugin *self);
+#endif
 static void on_search_help_code_activate(GtkMenuItem *menuitem, DevhelpPlugin *self);
 static void on_editor_menu_popup(GtkWidget * widget, DevhelpPlugin *self);
 static void on_link_clicked(GObject * ignored, DhLink * dhlink, DevhelpPlugin *self);
@@ -126,7 +126,9 @@ static void devhelp_plugin_finalize(GObject * object)
 	if (self->priv->last_uri != NULL)
 		g_free(self->priv->last_uri);
 
+#ifdef HAVE_MAN
 	devhelp_plugin_remove_manpages_temp_files();
+#endif
 
 	G_OBJECT_CLASS(devhelp_plugin_parent_class)->finalize(object);
 }
@@ -180,7 +182,10 @@ static void devhelp_plugin_init_dh(DevhelpPlugin *self)
 /* Initialize the stuff in the editor's context menu */
 static void devhelp_plugin_init_edit_menu(DevhelpPlugin *self)
 {
-	GtkWidget *doc_menu, *devhelp_item, *man_item, *code_item;
+	GtkWidget *doc_menu, *devhelp_item, *code_item;
+#ifdef HAVE_MAN
+	GtkWidget *man_item;
+#endif
 	DevhelpPluginPrivate *p;
 
 	g_return_if_fail(self != NULL);
@@ -192,29 +197,28 @@ static void devhelp_plugin_init_edit_menu(DevhelpPlugin *self)
 	doc_menu = gtk_menu_new();
 
 	devhelp_item = gtk_menu_item_new_with_label(_("Devhelp"));
-	man_item = gtk_menu_item_new_with_label(_("Manual Pages"));
-	code_item = gtk_menu_item_new_with_label(_("Google Code"));
-
 	gtk_menu_shell_append(GTK_MENU_SHELL(doc_menu), devhelp_item);
-	gtk_menu_shell_append(GTK_MENU_SHELL(doc_menu), man_item);
-	gtk_menu_shell_append(GTK_MENU_SHELL(doc_menu), code_item);
-
-	g_signal_connect(geany->main_widgets->editor_menu, "show", G_CALLBACK(on_editor_menu_popup), self);
 	g_signal_connect(devhelp_item, "activate", G_CALLBACK(on_search_help_activate), self);
-	g_signal_connect(man_item, "activate", G_CALLBACK(on_search_help_man_activate), self);
-	g_signal_connect(code_item, "activate", G_CALLBACK(on_search_help_code_activate), self);
-
-	gtk_widget_show(p->editor_menu_sep);
 	gtk_widget_show(devhelp_item);
+
+#ifdef HAVE_MAN
+	man_item = gtk_menu_item_new_with_label(_("Manual Pages"));
+	gtk_menu_shell_append(GTK_MENU_SHELL(doc_menu), man_item);
+	g_signal_connect(man_item, "activate", G_CALLBACK(on_search_help_man_activate), self);
 	gtk_widget_show(man_item);
+#endif
+
+	code_item = gtk_menu_item_new_with_label(_("Google Code"));
+	gtk_menu_shell_append(GTK_MENU_SHELL(doc_menu), code_item);
+	g_signal_connect(code_item, "activate", G_CALLBACK(on_search_help_code_activate), self);
 	gtk_widget_show(code_item);
 
+	g_signal_connect(geany->main_widgets->editor_menu, "show", G_CALLBACK(on_editor_menu_popup), self);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(p->editor_menu_item), doc_menu);
-	gtk_widget_show_all(p->editor_menu_item);
-
 	gtk_menu_shell_append(GTK_MENU_SHELL(geany->main_widgets->editor_menu), p->editor_menu_sep);
 	gtk_menu_shell_append(GTK_MENU_SHELL(geany->main_widgets->editor_menu), p->editor_menu_item);
-
+	gtk_widget_show(p->editor_menu_sep);
+	gtk_widget_show_all(p->editor_menu_item);
 }
 
 
@@ -382,6 +386,7 @@ void devhelp_plugin_search_books(DevhelpPlugin *self, const gchar *term)
  * @param dhplug	Devhelp plugin
  * @param term		The string to search for
  */
+#ifdef HAVE_MAN
 void devhelp_plugin_search_manpages(DevhelpPlugin *self, const gchar *term)
 {
 	gchar *man_fn;
@@ -400,6 +405,7 @@ void devhelp_plugin_search_manpages(DevhelpPlugin *self, const gchar *term)
 
 	devhelp_plugin_activate_webview_tab(self);
 }
+#endif
 
 
 /**
@@ -852,6 +858,7 @@ static void on_search_help_activate(GtkMenuItem * menuitem, DevhelpPlugin *self)
 
 
 /* Called when the editor menu item is selected */
+#ifdef HAVE_MAN
 static void on_search_help_man_activate(GtkMenuItem * menuitem, DevhelpPlugin *self)
 {
 	gchar *current_tag;
@@ -865,6 +872,7 @@ static void on_search_help_man_activate(GtkMenuItem * menuitem, DevhelpPlugin *s
 
 	g_free(current_tag);
 }
+#endif
 
 
 static void on_search_help_code_activate(GtkMenuItem *menuitem, DevhelpPlugin *self)

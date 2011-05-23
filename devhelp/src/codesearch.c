@@ -2,7 +2,6 @@
 #include <webkit/webkitwebview.h>
 
 #include "devhelpplugin.h"
-#include "codesearch.h"
 
 
 struct LangMapEnt

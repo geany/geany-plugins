@@ -28,6 +28,11 @@
 G_BEGIN_DECLS
 
 
+#if HAVE_MAN_PROG == 1
+#define HAVE_MAN
+#endif
+
+
 #ifndef DHPLUG_DATA_DIR
 #define DHPLUG_DATA_DIR "/usr/local/share/geany-devhelp"
 #endif
@@ -100,6 +105,15 @@ void			devhelp_plugin_toggle_contents_tab		(DevhelpPlugin *self);
 void			devhelp_plugin_toggle_webview_tab		(DevhelpPlugin *self);
 
 WebKitWebView*	devhelp_plugin_get_webview				(DevhelpPlugin *self);
+
+
+#ifdef HAVE_MAN
+gchar *devhelp_plugin_manpages_search(const gchar *term, const gchar *section);
+void devhelp_plugin_remove_manpages_temp_files(void);
+#endif
+
+
+void devhelp_plugin_search_code(DevhelpPlugin *self, const gchar *term, const gchar *lang);
 
 
 G_END_DECLS

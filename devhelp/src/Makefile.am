@@ -24,7 +24,8 @@ noinst_HEADERS = \
 devhelp_la_CFLAGS = \
 	$(AM_CFLAGS) \
 	$(DEVHELP_CFLAGS) \
-	-DDHPLUG_DATA_DIR=\"$(plugindatadir)\"
+	-DDHPLUG_DATA_DIR=\"$(plugindatadir)\" \
+	-DHAVE_MAN_PROG=$(HAVE_MAN_PROG)
 
 devhelp_la_LIBADD = $(DEVHELP_LIBS)
 

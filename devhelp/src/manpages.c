@@ -1,10 +1,10 @@
+#ifdef HAVE_MAN
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
 #include <glib.h>
-
-#include "manpages.h"
 
 #define DEVHELP_MANPAGE_NUM_SECTIONS 8
 /* In order of most likely sections */
@@ -185,3 +185,5 @@ void devhelp_plugin_remove_manpages_temp_files(void)
 
 	temp_files = NULL;
 }
+
+#endif /* HAVE_MAN */
