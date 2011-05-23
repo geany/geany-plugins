@@ -9,10 +9,10 @@
 #ifdef HAVE_MAN
 
 
-#define DEVHELP_MANPAGE_SECTIONS "3:2:1:8:5:4:7:6"
-#define DEVHELP_MANPAGE_PAGER "col -b"
+#define DEVHELP_PLUGIN_MANPAGE_SECTIONS "3:2:1:8:5:4:7:6"
+#define DEVHELP_PLUGIN_MANPAGE_PAGER "col -b"
 
-#define DEVHELP_MANPAGE_HTML_TEMPLATE \
+#define DEVHELP_PLUGIN_MANPAGE_HTML_TEMPLATE \
 	"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd\">\n" \
 	"<html>\n"									\
 	"  <head>\n"								\
@@ -42,7 +42,7 @@ static gchar *find_manpage(const gchar *term, const gchar *section)
 
 	if (section == NULL)
 		cmd = g_strdup_printf("man -S %s --where '%s'",
-					DEVHELP_MANPAGE_SECTIONS, term);
+					DEVHELP_PLUGIN_MANPAGE_SECTIONS, term);
 	else
 		cmd = g_strdup_printf("man --where %s '%s'", section, term);
 
@@ -72,7 +72,7 @@ static gchar *devhelp_plugin_man(const gchar *filename)
 
 	g_return_val_if_fail(filename != NULL, NULL);
 
-	cmd = g_strdup_printf("man -P\"%s\" \'%s\'", DEVHELP_MANPAGE_PAGER, filename);
+	cmd = g_strdup_printf("man -P\"%s\" \'%s\'", DEVHELP_PLUGIN_MANPAGE_PAGER, filename);
 
 	if (!g_spawn_command_line_sync(cmd, &text, NULL, &retcode, NULL))
 	{
@@ -123,7 +123,7 @@ gchar *devhelp_plugin_manpages_search(const gchar *term, const gchar *section)
 		fclose(fp);
 		return NULL;
 	}
-	html_text = g_strdup_printf(DEVHELP_MANPAGE_HTML_TEMPLATE, term, text);
+	html_text = g_strdup_printf(DEVHELP_PLUGIN_MANPAGE_HTML_TEMPLATE, term, text);
 	g_free(text);
 
 	len = strlen(html_text);
