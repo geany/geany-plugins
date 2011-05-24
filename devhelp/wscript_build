@@ -27,5 +27,9 @@ from build.wafutils import build_plugin
 name = 'Devhelp'
 includes = ['devhelp/src']
 libraries = [ 'GTK', 'GLIB', 'GTHREAD', 'LIBDEVHELP', 'WEBKIT' ]
+sources = [ 'src/dhp-codesearch.c',
+			'src/dhp-manpages.c',
+			'src/dhp-object.c',
+			'src/dhp-plugin.c' ]
 
-build_plugin(bld, name, includes=includes, libraries=libraries)
+build_plugin(bld, name, sources=sources, includes=includes, libraries=libraries)
