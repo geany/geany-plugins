@@ -10,16 +10,14 @@ EXTRA_LTLIBRARIES = devhelp.la
 endif
 
 devhelp_la_SOURCES = \
-	main-notebook.c \
-	devhelpplugin.c \
-	plugin.c \
-	manpages.c \
-	codesearch.c
+	dhp-codesearch.c \
+	dhp-manpages.c \
+	dhp-object.c \
+	dhp-plugin.c
 
 noinst_HEADERS = \
-	plugin.h \
-	devhelpplugin.h \
-	main-notebook.h
+	dhp.h \
+	dhp-plugin.h
 
 devhelp_la_CFLAGS = \
 	$(AM_CFLAGS) \

@@ -26,8 +26,8 @@
 #include <geanyplugin.h>
 #include <devhelp/dh-search.h>
 
-#include "plugin.h"
-#include "devhelpplugin.h"
+#include "dhp-plugin.h"
+#include "dhp.h"
 
 
 PLUGIN_VERSION_CHECK(200)
@@ -58,11 +58,6 @@ enum
 	KB_COUNT
 };
 
-
-static void on_move_sidebar_tabs_toggled(GtkToggleButton *togglebutton, struct PluginData *pd);
-static void on_show_in_msg_window_toggled(GtkToggleButton *togglebutton, struct PluginData *pd);
-
-
 /* Called when a keybinding is activated */
 static void kb_activate(guint key_id)
 {
@@ -84,7 +79,7 @@ static void kb_activate(guint key_id)
 			break;
 		case KB_DEVHELP_SEARCH_SYMBOL:
 		{
-			current_tag = devhelp_plugin_get_current_tag();
+			current_tag = devhelp_plugin_get_current_word(plugin.devhelp);
 			if (current_tag == NULL)
 				return;
 			devhelp_plugin_search_books(plugin.devhelp, current_tag);
@@ -93,7 +88,7 @@ static void kb_activate(guint key_id)
 		}
 		case KB_DEVHELP_SEARCH_MANPAGES:
 		{
-			current_tag = devhelp_plugin_get_current_tag();
+			current_tag = devhelp_plugin_get_current_word(plugin.devhelp);
 			if (current_tag == NULL)
 				return;
 			devhelp_plugin_search_manpages(plugin.devhelp, current_tag);
@@ -105,7 +100,7 @@ static void kb_activate(guint key_id)
 			const gchar *lang = NULL;
 			GeanyDocument *doc;
 
-			if ((current_tag = devhelp_plugin_get_current_tag()) == NULL)
+			if ((current_tag = devhelp_plugin_get_current_word(plugin.devhelp)) == NULL)
 				return;
 
 			doc = document_get_current();
@@ -118,121 +113,6 @@ static void kb_activate(guint key_id)
 			break;
 		}
 	}
-}
-
-
-static void configure_dialog_response(GtkDialog *dialog, gint response_id, struct PluginData *pd)
-{
-	static gboolean message_shown = FALSE;
-
-	g_return_if_fail(pd != NULL);
-
-	if (response_id == GTK_RESPONSE_OK || response_id == GTK_RESPONSE_APPLY)
-	{
-		plugin_store_preferences(pd);
-		if (!message_shown)
-		{
-			dialogs_show_msgbox(GTK_MESSAGE_INFO, "Settings for whether to use "
-				"the message window or not will only take effect upon "
-				"reloading the Devhelp plugin or restarting Geany.");
-			message_shown = TRUE;
-		}
-	}
-}
-
-
-gint plugin_load_preferences(struct PluginData *pd)
-{
-	GError *error;
-	GKeyFile *kf;
-	gint rcode=0;
-
-	kf = g_key_file_new();
-
-	error = NULL;
-	if (!g_key_file_load_from_file(kf, pd->user_config, G_KEY_FILE_NONE, &error))
-	{
-		g_warning("Unable to load config file '%s': %s", pd->user_config, error->message);
-		g_error_free(error);
-		g_key_file_free(kf);
-		return ++rcode;
-	}
-
-	/* add new settings here */
-	error = NULL;
-	devhelp_plugin_set_sidebar_tabs_bottom(pd->devhelp,
-		g_key_file_get_boolean(kf, "general", "move_sidebar_tabs_bottom", &error));
-	if (error)
-	{
-		g_warning("Unable to load 'move_sidebar_tabs_bottom' setting: %s",
-				  error->message);
-		g_error_free(error);
-		error = NULL;
-		rcode++;
-	}
-
-	error = NULL;
-	devhelp_plugin_set_is_in_msgwin(pd->devhelp,
-		g_key_file_get_boolean(kf, "general", "show_in_message_window", &error));
-	if (error)
-	{
-		g_warning("Unable to load 'show_in_message_window' setting: %s",
-				  error->message);
-		g_error_free(error);
-		error = NULL;
-		rcode++;
-	}
-
-	error = NULL;
-	gchar *last_uri = g_key_file_get_string(kf, "general", "last_uri", &error);
-	devhelp_plugin_set_webview_uri(pd->devhelp, last_uri);
-	g_free(last_uri);
-	if (error)
-	{
-		g_warning("Unable to load 'last_uri' setting: %s", error->message);
-		g_error_free(error);
-		error = NULL;
-		rcode++;
-	}
-
-	g_key_file_free(kf);
-
-	return rcode;
-}
-
-
-gboolean plugin_store_preferences(struct PluginData *pd)
-{
-	gchar *config_text;
-	GError *error;
-	GKeyFile *kf;
-
-	g_return_val_if_fail(pd != NULL, FALSE);
-
-	kf = g_key_file_new();
-
-	/* add new settings here */
-	g_key_file_set_boolean(kf, "general", "move_sidebar_tabs_bottom",
-		devhelp_plugin_get_sidebar_tabs_bottom(pd->devhelp));
-	g_key_file_set_boolean(kf, "general", "show_in_message_window",
-		devhelp_plugin_get_is_in_msgwin(pd->devhelp));
-	g_key_file_set_string(kf, "general", "last_uri",
-		devhelp_plugin_get_last_uri(pd->devhelp));
-
-	config_text = g_key_file_to_data(kf, NULL, NULL);
-	g_key_file_free(kf);
-
-	error = NULL;
-	if (!g_file_set_contents(pd->user_config, config_text, -1, &error))
-	{
-		g_warning("Unable to save config file '%s': %s", pd->user_config, error->message);
-		g_error_free(error);
-		g_free(config_text);
-		return FALSE;
-	}
-
-	g_free(config_text);
-	return TRUE;
 }
 
 
@@ -282,30 +162,6 @@ gboolean plugin_config_init(struct PluginData *pd)
 }
 
 
-GtkWidget *plugin_configure(GtkDialog *dialog)
-{
-	GtkWidget *vbox = gtk_vbox_new(FALSE, 6);
-
-	GtkWidget *check_button = gtk_check_button_new_with_label(
-								_("Move sidebar notebook tabs to the bottom."));
-	gtk_box_pack_start(GTK_BOX(vbox), check_button, FALSE, TRUE, 0);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_button),
-		devhelp_plugin_get_sidebar_tabs_bottom(plugin.devhelp));
-	g_signal_connect(check_button, "toggled", G_CALLBACK(on_move_sidebar_tabs_toggled), &plugin);
-
-	check_button = gtk_check_button_new_with_label(
-						_("Show documentation in message window."));
-	gtk_box_pack_start(GTK_BOX(vbox), check_button, FALSE, TRUE, 0);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_button),
-		devhelp_plugin_get_is_in_msgwin(plugin.devhelp));
-	g_signal_connect(check_button, "toggled", G_CALLBACK(on_show_in_msg_window_toggled), &plugin);
-
-	g_signal_connect(dialog, "response", G_CALLBACK(configure_dialog_response), NULL);
-
-	return vbox;
-}
-
-
 void plugin_init(GeanyData *data)
 {
 	GeanyKeyGroup *key_group;
@@ -319,7 +175,8 @@ void plugin_init(GeanyData *data)
 
 	plugin.devhelp = devhelp_plugin_new();
 	plugin_config_init(&plugin);
-	plugin_load_preferences(&plugin);
+
+	devhelp_plugin_load_settings(plugin.devhelp, plugin.user_config);
 
 	key_group = plugin_set_key_group(geany_plugin, "devhelp", KB_COUNT, NULL);
 
@@ -333,7 +190,7 @@ void plugin_init(GeanyData *data)
 		0, 0, "devhelp_activate_all", _("Activate all tabs"), NULL);
 	keybindings_set_item(key_group, KB_DEVHELP_SEARCH_SYMBOL, kb_activate,
 		0, 0, "devhelp_search_symbol", _("Search for current tag in Devhelp"), NULL);
-	if (devhelp_plugin_get_have_man(plugin.devhelp))
+	if (devhelp_plugin_get_have_man_prog(plugin.devhelp))
 	{
 		keybindings_set_item(key_group, KB_DEVHELP_SEARCH_MANPAGES, kb_activate,
 			0, 0, "devhelp_search_manpages", _("Search for current tag in Manual Pages"), NULL);
@@ -345,23 +202,8 @@ void plugin_init(GeanyData *data)
 
 void plugin_cleanup(void)
 {
-	plugin_store_preferences(&plugin);
+	devhelp_plugin_store_settings(plugin.devhelp, plugin.user_config);
 	g_object_unref(plugin.devhelp);
 	g_free(plugin.default_config);
 	g_free(plugin.user_config);
 }
-
-
-static void on_move_sidebar_tabs_toggled(GtkToggleButton *togglebutton, struct PluginData *pd)
-{
-	g_return_if_fail(pd != NULL);
-	devhelp_plugin_set_sidebar_tabs_bottom(pd->devhelp, gtk_toggle_button_get_active(togglebutton));
-}
-
-
-static void on_show_in_msg_window_toggled(GtkToggleButton *togglebutton, struct PluginData *pd)
-{
-	g_return_if_fail(pd != NULL);
-	devhelp_plugin_set_is_in_msgwin(pd->devhelp, gtk_toggle_button_get_active(togglebutton));
-}
-

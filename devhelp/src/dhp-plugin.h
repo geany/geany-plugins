@@ -25,7 +25,8 @@
 
 #include <gtk/gtk.h>
 #include <geanyplugin.h>
-#include "devhelpplugin.h"
+
+#include "dhp.h"
 
 
 extern GeanyPlugin	 	*geany_plugin;
@@ -44,8 +45,6 @@ struct PluginData
 extern struct PluginData plugin;
 
 
-gint		plugin_load_preferences		(struct PluginData *pd);
-gint		plugin_store_preferences	(struct PluginData *pd);
 gboolean	plugin_config_init			(struct PluginData *pd);
 
 

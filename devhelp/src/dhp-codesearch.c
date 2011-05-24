@@ -1,7 +1,7 @@
 #include <glib.h>
 #include <webkit/webkitwebview.h>
 
-#include "devhelpplugin.h"
+#include "dhp.h"
 
 
 struct LangMapEnt

@@ -24,8 +24,11 @@
 from build.wafutils import check_cfg_cached
 
 packages = [
+	('gtk+-2.0', '2.16', 'GTK'),
+    ('glib-2.0', '2.16', 'GLIB'),
     ('gthread-2.0','','GTHREAD'),
-    ('libdevhelp-1.0', '', 'LIBDEVHELP')
+    ('libdevhelp-1.0', '2.30.1', 'LIBDEVHELP'),
+    ('webkit-1.0', '1.1.18', 'WEBKIT')
     ]
 
 for package_name, package_version, uselib_store in packages:
