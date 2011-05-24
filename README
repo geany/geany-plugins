@@ -52,6 +52,7 @@ dependencies. --disable-<option> causes the feature to be forcefully disabled.
 * geanyprj -- the GeanyPrj plugin
 * geanysendmail -- the GeanySendmail plugin
 * geanyvc -- the GeanyVC plugin
+* gproject -- the GProject plugin
 * gtkspell -- GeanyVC's spell-check support
 * pretty_printer -- the pretty-printer plugin
 * shiftcolumn -- the ShiftColumn plugin

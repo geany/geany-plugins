@@ -153,6 +153,12 @@ geanyvc/src/vc_svk.c
 geanyvc/src/vc_svn.c
 geanyvc/src/utils.c
 
+# GProject
+gproject/src/gproject-main.c
+gproject/src/gproject-menu.c
+gproject/src/gproject-project.c
+gproject/src/gproject-sidebar.c
+
 # Pretty-printer
 pretty-printer/src/PluginEntry.c
 pretty-printer/src/PrettyPrinter.c
