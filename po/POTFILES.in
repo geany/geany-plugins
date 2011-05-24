@@ -37,6 +37,7 @@ debugger/src/utils.c
 debugger/src/watch_model.c
 
 # devhelp
+devhelp/src/dhp.h
 devhelp/src/dhp-object.c
 devhelp/src/dhp-plugin.c
 devhelp/src/dhp-codesearch.c
