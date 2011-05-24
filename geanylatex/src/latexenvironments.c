@@ -94,7 +94,7 @@ void glatex_insert_environment(const gchar *environment, gint type)
 		}
 		else
 		{
-			gint indent, pos, len;
+			gint indent, pos;
 			GString *tmpstring = NULL;
 			gchar *tmp = NULL;
 			static const GeanyIndentPrefs *indention_prefs = NULL;
@@ -114,8 +114,8 @@ void glatex_insert_environment(const gchar *environment, gint type)
 					}
 				}
 			}
+
 			pos = sci_get_current_position(doc->editor->sci);
-			len = strlen(environment);
 
 			sci_start_undo_action(doc->editor->sci);
 
