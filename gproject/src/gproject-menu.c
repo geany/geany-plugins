@@ -20,7 +20,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <glib/gstdio.h>
 
-#include <geany/geanyplugin.h>
+#include <geanyplugin.h>
 
 #include "gproject-menu.h"
 #include "gproject-project.h"

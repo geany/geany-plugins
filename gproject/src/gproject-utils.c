@@ -19,7 +19,7 @@
 #include <string.h>
 #include <glib.h>
 
-#include <geany/geanyplugin.h>
+#include <geanyplugin.h>
 
 #include "gproject-utils.h"
 

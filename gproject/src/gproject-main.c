@@ -19,7 +19,7 @@
 #include <sys/time.h>
 #include <string.h>
 
-#include <geany/geanyplugin.h>
+#include <geanyplugin.h>
 
 #include "gproject-project.h"
 #include "gproject-sidebar.h"
