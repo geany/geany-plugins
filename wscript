@@ -39,7 +39,7 @@ Requires WAF 1.6.1 and Python 2.5 (or later).
 
 import os
 import tempfile
-from waflib import Logs, Scripting
+from waflib import Logs, Scripting, Utils
 from waflib.Tools import c_preproc
 from waflib.Errors import ConfigurationError
 from waflib.TaskGen import feature
@@ -216,6 +216,8 @@ def build(bld):
 
     if bld.cmd == 'clean':
         remove_linguas_file()
+    if bld.cmd in ('install', 'uninstall'):
+        bld.add_post_fun(_post_install)
 
     if bld.env['INTLTOOL']:
         install_path = '${G_PREFIX}/share/locale' if is_win32 else '${LOCALEDIR}'
@@ -230,6 +232,21 @@ def build(bld):
 
     # execute plugin specific build code
     bld.recurse(enabled_plugins)
+
+
+def _post_install(ctx):
+    is_win32 = target_is_win32(ctx)
+    if is_win32:
+        return
+    theme_dir = Utils.subst_vars('${DATADIR}/icons/hicolor', ctx.env)
+    icon_cache_updated = False
+    if not ctx.options.destdir:
+        ctx.exec_command('gtk-update-icon-cache -q -f -t %s' % theme_dir)
+        Logs.pprint('GREEN', 'GTK icon cache updated.')
+        icon_cache_updated = True
+    if not icon_cache_updated:
+        Logs.pprint('YELLOW', 'Icon cache not updated. After install, run this:')
+        Logs.pprint('YELLOW', 'gtk-update-icon-cache -q -f -t %s' % theme_dir)
 
 
 def init(ctx):
