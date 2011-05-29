@@ -20,10 +20,19 @@
 #
 # $Id$
 
-from build.wafutils import build_plugin
+from build.wafutils import build_plugin, target_is_win32
 
 
 name = 'GProject'
 includes = ['gproject/src']
 
 build_plugin(bld, name, includes=includes)
+
+# Icons
+if target_is_win32(bld):
+    icon_dest = '${GEANYPLUGINS_DATADIR}/icons'
+else:
+    icon_dest = '${GEANYPLUGINS_DATADIR}/icons/hicolor/16x16/apps'
+
+start_dir = bld.path.find_dir('icons')
+bld.install_files(icon_dest, start_dir.ant_glob('*.png'), cwd=start_dir)
