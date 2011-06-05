@@ -118,8 +118,6 @@ static void ao_doc_list_finalize(GObject *object)
 static void ao_popup_position_menu(GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer data)
 {
 	gint wx, wy;
-	gint menu_width;
-	GtkRequisition menu_req;
 	GtkRequisition widget_req;
 	GtkWidget *widget = data;
 	gint widget_height;
@@ -133,9 +131,7 @@ static void ao_popup_position_menu(GtkMenu *menu, gint *x, gint *y, gboolean *pu
 	}
 	else
 		gdk_window_get_origin(widget->window, &wx, &wy);
-	gtk_widget_size_request(GTK_WIDGET(menu), &menu_req);
 	gtk_widget_size_request(widget, &widget_req);
-	menu_width = menu_req.width;
 	widget_height = widget_req.height; /* Better than allocation.height */
 
 	/* Calculate menu position */
