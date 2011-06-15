@@ -1411,7 +1411,7 @@ create_commitDialog(void)
 	gtk_widget_show(btnCancel);
 	gtk_dialog_add_action_widget(GTK_DIALOG(commitDialog), btnCancel, GTK_RESPONSE_CANCEL);
 
-	btnCommit = gtk_button_new_with_mnemonic(_("_Commit"));
+	btnCommit = gtk_button_new_with_mnemonic(_("C_ommit"));
 	gtk_widget_show(btnCommit);
 	gtk_dialog_add_action_widget(GTK_DIALOG(commitDialog), btnCommit, GTK_RESPONSE_APPLY);
 
