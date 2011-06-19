@@ -79,13 +79,13 @@ def configure(conf):
     # common for all plugins
     check_cfg_cached(conf,
                    package='gtk+-2.0',
-                   atleast_version='2.8.0',
+                   atleast_version='2.12.0',
                    uselib_store='GTK',
                    mandatory=True,
                    args='--cflags --libs')
     check_cfg_cached(conf,
                    package='geany',
-                   atleast_version='0.20',
+                   atleast_version='0.21',
                    uselib_store='GEANY',
                    mandatory=True,
                    args='--cflags --libs')
