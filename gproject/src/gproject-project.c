@@ -20,11 +20,12 @@
 #include <gdk/gdkkeysyms.h>
 #include <glib/gstdio.h>
 
-#include <geanyplugin.h>
+#include <geany/geanyplugin.h>
 
 #include "gproject-utils.h"
 #include "gproject-project.h"
 
+extern GeanyPlugin *geany_plugin;
 extern GeanyData *geany_data;
 extern GeanyFunctions *geany_functions;
 
@@ -40,14 +41,31 @@ GPrj *g_prj = NULL;
 
 static PropertyDialogElements *e;
 
+typedef enum {DeferredTagOpAdd, DeferredTagOpRemove} DeferredTagOpType;
 
-static void workspace_remove_tag(gchar *filename, TagObject *obj, gpointer foo)
+typedef struct
 {
-	if (obj->tag)
-	{
-		tm_workspace_remove_object(obj->tag, TRUE, TRUE);
-		obj->tag = NULL;
-	}
+	gchar * filename;
+	DeferredTagOpType type;
+} DeferredTagOp;
+
+static GSList *file_tag_deferred_op_queue = NULL;
+static gboolean flush_queued = FALSE;
+
+
+static void deferred_op_free(DeferredTagOp* op, G_GNUC_UNUSED gpointer user_data)
+{
+	g_free(op->filename);
+	g_free(op);
+}
+
+
+static void deferred_op_queue_clean()
+{
+	g_slist_foreach(file_tag_deferred_op_queue, (GFunc)deferred_op_free, NULL);
+	g_slist_free(file_tag_deferred_op_queue);
+	file_tag_deferred_op_queue = NULL;
+        flush_queued = FALSE;
 }
 
 
@@ -71,6 +89,74 @@ static void workspace_add_tag(gchar *filename, TagObject *obj, gpointer foo)
 		tm_workspace_remove_object(obj->tag, TRUE, TRUE);
 
 	obj->tag = tm_obj;
+}
+
+
+static void workspace_add_file_tag(gchar *filename)
+{
+	TagObject *obj;
+
+	obj = g_hash_table_lookup(g_prj->file_tag_table, filename);
+	if (obj)
+		workspace_add_tag(filename, obj, NULL);
+}
+
+
+static void workspace_remove_tag(gchar *filename, TagObject *obj, gpointer foo)
+{
+	if (obj->tag)
+	{
+		tm_workspace_remove_object(obj->tag, TRUE, TRUE);
+		obj->tag = NULL;
+	}
+}
+
+
+static void workspace_remove_file_tag(gchar *filename)
+{
+	TagObject *obj;
+
+	obj = g_hash_table_lookup(g_prj->file_tag_table, filename);
+	if (obj)
+		workspace_remove_tag(filename, obj, NULL);
+}
+
+
+static void deferred_op_queue_dispatch(DeferredTagOp* op, G_GNUC_UNUSED gpointer user_data)
+{
+	if (op->type == DeferredTagOpAdd)
+		workspace_add_file_tag(op->filename);
+	else if (op->type == DeferredTagOpRemove)
+		workspace_remove_file_tag(op->filename);
+}
+
+
+static gboolean deferred_op_queue_flush(G_GNUC_UNUSED gpointer data)
+{
+	g_slist_foreach(file_tag_deferred_op_queue,
+					(GFunc)deferred_op_queue_dispatch, NULL);
+	deferred_op_queue_clean();
+	flush_queued = FALSE;
+
+	return FALSE; // returning false removes this callback; it is a one-shot
+}
+
+
+static void deferred_op_queue_enqueue(gchar* filename, DeferredTagOpType type)
+{
+	DeferredTagOp * op;
+
+	op = (DeferredTagOp *) g_new0(DeferredTagOp, 1);
+	op->type = type;
+	op->filename = g_strdup(filename);
+
+	file_tag_deferred_op_queue = g_slist_prepend(file_tag_deferred_op_queue,op);
+
+	if (!flush_queued)
+	{
+		flush_queued = TRUE;
+		plugin_idle_add(geany_plugin, (GSourceFunc)deferred_op_queue_flush, NULL);
+	}
 }
 
 
@@ -139,6 +225,8 @@ void gprj_project_rescan()
 		g_hash_table_foreach(g_prj->file_tag_table, (GHFunc)workspace_remove_tag, NULL);
 	g_hash_table_destroy(g_prj->file_tag_table);
 	g_prj->file_tag_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
+
+	deferred_op_queue_clean();
 
 	pattern_list = get_precompiled_patterns(geany_data->app->project->file_patterns);
 
@@ -228,6 +316,8 @@ void gprj_project_open(GKeyFile * key_file)
 	g_prj->generate_tags = FALSE;
 
 	g_prj->file_tag_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
+
+	deferred_op_queue_clean();
 
 	source_patterns = g_key_file_get_string_list(key_file, "gproject", "source_patterns", NULL, NULL);
 	if (!source_patterns)
@@ -368,6 +458,8 @@ void gprj_project_close()
 	if (g_prj->generate_tags)
 		g_hash_table_foreach(g_prj->file_tag_table, (GHFunc)workspace_remove_tag, NULL);
 
+	deferred_op_queue_clean();
+
 	g_free(g_prj->source_patterns);
 	g_free(g_prj->header_patterns);
 	g_free(g_prj->ignored_dirs_patterns);
@@ -381,21 +473,13 @@ void gprj_project_close()
 
 void gprj_project_add_file_tag(gchar *filename)
 {
-	TagObject *obj;
-
-	obj = g_hash_table_lookup(g_prj->file_tag_table, filename);
-	if (obj)
-		workspace_add_tag(filename, obj, NULL);
+	deferred_op_queue_enqueue(filename, DeferredTagOpAdd);
 }
 
 
 void gprj_project_remove_file_tag(gchar *filename)
 {
-	TagObject *obj;
-
-	obj = g_hash_table_lookup(g_prj->file_tag_table, filename);
-	if (obj)
-		workspace_remove_tag(filename, obj, NULL);
+	deferred_op_queue_enqueue(filename, DeferredTagOpRemove);
 }
 
 
