@@ -1,6 +1,12 @@
+2011-06-21  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Deprecate ui_widget_set_tooltip_text() in favor of
+   gtk_widget_set_tooltip_text().
+
+
 2010-11-19  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
- * Apply a patch by Nick to make usage of new dialogs_show_input() 
+ * Apply a patch by Nick to make usage of new dialogs_show_input()
    function from plugin APIv199.
 
 

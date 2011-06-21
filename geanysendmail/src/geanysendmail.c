@@ -321,7 +321,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_misc_set_alignment(GTK_MISC(label2), 0, 0.5);
 
 	pref_widgets.checkbox_icon_to_toolbar = gtk_check_button_new_with_label(_("Show toolbar icon"));
-	ui_widget_set_tooltip_text(pref_widgets.checkbox_icon_to_toolbar,
+	gtk_widget_set_tooltip_text(pref_widgets.checkbox_icon_to_toolbar,
 		_("Shows a icon in the toolbar to send file more easy."));
 	gtk_button_set_focus_on_click(GTK_BUTTON(pref_widgets.checkbox_icon_to_toolbar), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pref_widgets.checkbox_icon_to_toolbar), icon_in_toolbar);
@@ -349,7 +349,6 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 /* Called by Geany to initialize the plugin */
 void plugin_init(GeanyData G_GNUC_UNUSED *data)
 {
-	GtkTooltips *tooltips = NULL;
 	GKeyFile *config = g_key_file_new();
 	gchar *kb_label = _("Send file by mail");
 	GtkWidget *menu_mail = NULL;
@@ -369,8 +368,6 @@ void plugin_init(GeanyData G_GNUC_UNUSED *data)
 
 	g_key_file_free(config);
 
-	tooltips = gtk_tooltips_new();
-
 	add_stock_item();
 	if (icon_in_toolbar == TRUE)
 	{
@@ -380,7 +377,7 @@ void plugin_init(GeanyData G_GNUC_UNUSED *data)
 	/* Build up menu entry */
 	menu_mail = gtk_menu_item_new_with_mnemonic(_("_Mail document"));
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), menu_mail);
-	ui_widget_set_tooltip_text(menu_mail,
+	gtk_widget_set_tooltip_text(menu_mail,
 		_("Sends the opened file as unzipped attachment by any mailer from your $PATH"));
 	g_signal_connect(G_OBJECT(menu_mail), "activate", G_CALLBACK(send_as_attachment), NULL);
 
