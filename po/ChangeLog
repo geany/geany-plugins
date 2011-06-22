@@ -1,6 +1,7 @@
 2011-06-22  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * de.po: Minimal update of German translation.
+ * POTFILES.in: Extend list of files a bit.
 
 
 2011-04-17  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>

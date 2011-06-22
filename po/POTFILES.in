@@ -1,15 +1,15 @@
 # List of source files containing translatable strings.
 
 # Addons
-addons/src/ao_systray.c
-addons/src/ao_tasks.c
-addons/src/ao_openuri.c
-addons/src/addons.c
-addons/src/ao_doclist.c
 addons/src/ao_bookmarklist.c
-addons/src/ao_markword.c
+addons/src/ao_tasks.c
+addons/src/ao_systray.c
 addons/src/ao_blanklines.c
+addons/src/ao_markword.c
 addons/src/ao_xmltagging.c
+addons/src/ao_openuri.c
+addons/src/ao_doclist.c
+addons/src/addons.c
 
 # codenav
 codenav/src/codenavigation.c
@@ -18,23 +18,23 @@ codenav/src/switch_head_impl.c
 codenav/src/utils.c
 
 # debugger
+debugger/src/plugin.c
+debugger/src/vtree.c
+debugger/src/tpage.c
 debugger/src/bptree.c
-debugger/src/breakpoints.c
+debugger/src/breakpoint.c
+debugger/src/wtree.c
+debugger/src/debug.c
 debugger/src/dbm_gdb.c
 debugger/src/debug_module.c
 debugger/src/ltree.c
-debugger/src/plugin.c
-debugger/src/tpage.c
-debugger/src/vtree.c
-debugger/src/wtree.c
-debugger/src/breakpoint.c
-debugger/src/callbacks.c
-debugger/src/debug.c
+debugger/src/utils.c
+debugger/src/stree.c
 debugger/src/keys.c
 debugger/src/markers.c
-debugger/src/stree.c
-debugger/src/utils.c
 debugger/src/watch_model.c
+debugger/src/callbacks.c
+debugger/src/breakpoints.c
 
 # devhelp
 devhelp/src/dhp.h
@@ -47,6 +47,8 @@ devhelp/src/dhp-manpages.c
 geanycfp/src/geanycfp.c
 
 # geanydoc
+geanydoc/tests/unittests.c
+geanydoc/src/config.c
 geanydoc/src/geanydoc.c
 
 # geanygdb
@@ -66,18 +68,18 @@ geanygdb/src/geanygdb.c
 geanyextrasel/src/extrasel.c
 
 # GeanyGenDoc
+geanygendoc/src/ggd-file-type-loader.c
+geanygendoc/src/ggd-doc-type.c
+geanygendoc/src/ggd-tag-utils.c
+geanygendoc/src/ggd-file-type-manager.c
+geanygendoc/src/ggd-plugin.c
+geanygendoc/src/ggd-utils.c
 geanygendoc/src/ggd.c
 geanygendoc/src/ggd-doc-setting.c
-geanygendoc/src/ggd-doc-type.c
 geanygendoc/src/ggd-file-type.c
-geanygendoc/src/ggd-file-type-loader.c
-geanygendoc/src/ggd-file-type-manager.c
-geanygendoc/src/ggd-options.c
-geanygendoc/src/ggd-plugin.c
-geanygendoc/src/ggd-tag-utils.c
-geanygendoc/src/ggd-utils.c
-geanygendoc/src/ggd-widget-doctype-selector.c
 geanygendoc/src/ggd-widget-frame.c
+geanygendoc/src/ggd-options.c
+geanygendoc/src/ggd-widget-doctype-selector.c
 
 # GeanyInsertnum
 geanyinsertnum/src/insertnum.c
@@ -101,17 +103,19 @@ geanylatex/src/reftex.c
 geanylipsum/src/geanylipsum.c
 
 # geanyLua
-geanylua/gsdlg_lua.c
-geanylua/glspi_init.c
-geanylua/glspi_sci.c
-geanylua/gsdlg.c
-geanylua/geanylua.c
-geanylua/glspi_kfile.c
 geanylua/glspi.h
 geanylua/glspi_ver.h
-geanylua/glspi_app.c
-geanylua/glspi_dlg.c
 geanylua/glspi_run.c
+geanylua/glspi_init.c
+geanylua/gsdlg_lua.c
+geanylua/glspi_doc.c
+geanylua/gsdlg.c
+geanylua/glspi_sci.c
+geanylua/glspi_dlg.c
+geanylua/glspi_kfile.c
+geanylua/geanylua.c
+geanylua/glspi_app.c
+
 
 # GeanyMacro
 geanymacro/src/geanymacro.c
@@ -160,8 +164,9 @@ gproject/src/gproject-project.c
 gproject/src/gproject-sidebar.c
 
 # Pretty-printer
-pretty-printer/src/PluginEntry.c
 pretty-printer/src/PrettyPrinter.c
+pretty-printer/src/PluginEntry.c
+pretty-printer/src/ConfigUI.c
 
 # Spell Check
 spellcheck/src/speller.c
@@ -181,9 +186,15 @@ treebrowser/src/treebrowser.c
 updatechecker/src/updatechecker.c
 
 # WebHelper
+webhelper/src/gwh-keybindings.c
+webhelper/src/gwh-enum-types.c
+webhelper/src/gwh-settings.c
+webhelper/src/gwh-utils.c
 webhelper/src/gwh-browser.c
 webhelper/src/gwh-plugin.c
-webhelper/src/gwh-settings.c
 
 # XMLSnippets
 xmlsnippets/src/plugin.c
+xmlsnippets/src/xmlsnippets.c
+xmlsnippets/src/tests.c
+xmlsnippets/src/test-stubs.c
