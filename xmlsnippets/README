@@ -19,13 +19,14 @@ The plugin will automatically catch up snippets supplied with Geany (for
 example, "table").
 
 Notes:
-  * The plugin will only use snippets which body starts with a tag, optionally
-    preceded by whitespace.  This is to prevent erroneus insertion of snippets
-    which you may have defined for, e.g., JavaScript.
-  * If you typed some attributes within a tag which is then automatically
-    completed by the plugin, the attributes will be copied to the first tag
-    of the snippet body.  If that tag already contains attributes,
-    autocompletion will not proceed.
+
+* The plugin will only use snippets which body starts with a tag, optionally
+  preceded by whitespace.  This is to prevent erroneus insertion of snippets
+  which you may have defined for, e.g., JavaScript.
+* If you typed some attributes within a tag which is then automatically
+  completed by the plugin, the attributes will be copied to the first tag
+  of the snippet body.  If that tag already contains attributes,
+  autocompletion will not proceed.
 
 You can use this plugin together with tag autocompletion provided by Geany.
 Tags, for which you defined snippets, will be completed by the plugin;
