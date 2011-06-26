@@ -187,7 +187,6 @@ updatechecker/src/updatechecker.c
 
 # WebHelper
 webhelper/src/gwh-keybindings.c
-webhelper/src/gwh-enum-types.c
 webhelper/src/gwh-settings.c
 webhelper/src/gwh-utils.c
 webhelper/src/gwh-browser.c

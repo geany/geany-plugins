@@ -3,3 +3,5 @@
 #geanyvc
 geanyvc/src/commit.glade
 
+# WebHelper
+webhelper/src/gwh-enum-types.c
