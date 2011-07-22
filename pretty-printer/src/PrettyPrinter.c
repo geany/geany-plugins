@@ -24,7 +24,7 @@
 static void putCharInBuffer(char charToAdd);                     //put a char into the new char buffer
 static void putCharsInBuffer(char* charsToAdd);                  //put the chars into the new char buffer
 static void putNextCharsInBuffer(int nbChars);                   //put the next nbChars of the input buffer into the new buffer
-static int readWhites();                                         //read the next whites into the input buffer
+static int readWhites(gboolean considerLineBreakAsWhite);        //read the next whites into the input buffer
 static char readNextChar();                                      //read the next char into the input buffer;
 static char getNextChar();                                       //returns the next char but do not increase the input buffer index (use readNextChar for that)
 static char getPreviousInsertedChar();                           //returns the last inserted char into the new buffer
@@ -33,6 +33,7 @@ static gboolean isLineBreak(char c);                             //check if the 
 static gboolean isQuote(char c);                                 //check if the specified char is a quote (simple or double)
 static int putNewLine();                                         //put a new line into the new char buffer with the correct number of whites (indentation)
 static gboolean isInlineNodeAllowed();                           //check if it is possible to have an inline node
+static gboolean isOnSingleLine(int skip, char stop1, char stop2);//check if the current node data is on one line (for inlining)
 static void resetBackwardIndentation(gboolean resetLineBreak);   //reset the indentation for the current depth (just reset the index in fact)
                                                              
 //specific parsing functions                                 
@@ -98,7 +99,7 @@ int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* 
     if (xmlPrettyPrinted == NULL) { g_error("Allocation error"); }
     
     //go to the first char
-    readWhites();
+    readWhites(TRUE);
 
     //process the pretty-printing
     processElements();
@@ -148,17 +149,18 @@ PrettyPrintingOptions* createDefaultPrettyPrintingOptions()
     options->newLineChars = "\r\n";
     options->indentChar = ' ';
     options->indentLength = 2;
-    options->oneLineText = TRUE;
+    options->oneLineText = FALSE;
     options->inlineText = TRUE;
-    options->oneLineComment = TRUE;
+    options->oneLineComment = FALSE;
     options->inlineComment = TRUE;
-    options->oneLineCdata = TRUE;
+    options->oneLineCdata = FALSE;
     options->inlineCdata = TRUE;
     options->emptyNodeStripping = TRUE;
     options->emptyNodeStrippingSpace = TRUE;
     options->forceEmptyNodeSplit = FALSE;
     options->trimLeadingWhites = TRUE;
     options->trimTrailingWhites = TRUE;
+    options->commentAlign = TRUE;
     
     return options;
 }
@@ -227,10 +229,12 @@ char readNextChar()
     return inputBuffer[inputBufferIndex++];
 }
 
-int readWhites()
+int readWhites(gboolean considerLineBreakAsWhite)
 {
     int counter = 0;
-    while(isWhite(inputBuffer[inputBufferIndex]))
+    while(isWhite(inputBuffer[inputBufferIndex]) && 
+          (!isLineBreak(inputBuffer[inputBufferIndex]) || 
+           considerLineBreakAsWhite))
     {
         ++counter;
         ++inputBufferIndex;
@@ -327,6 +331,48 @@ gboolean isInlineNodeAllowed()
     return FALSE;
 }
 
+gboolean isOnSingleLine(int skip, char stop1, char stop2)
+{
+    int currentIndex = inputBufferIndex+skip; //skip the n first chars (in comment <!--)
+    gboolean isOnSingleLine = TRUE;
+    
+    char oldChar = inputBuffer[currentIndex];
+    char currentChar = inputBuffer[currentIndex+1];
+    while(isOnSingleLine && oldChar != stop1 && currentChar != stop2)
+    {
+        isOnSingleLine = !isLineBreak(oldChar);
+        
+        ++currentIndex;
+        oldChar = currentChar;
+        currentChar = inputBuffer[currentIndex+1];
+        
+        /**
+         * A line break inside the node has been reached. But we should check
+         * if there is something before the end of the node (otherwise, there
+         * are only spaces and it may be wanted to be considered as a single
+         * line). //TODO externalize an option for that ?
+         */
+        if (!isOnSingleLine)
+        {
+            while(oldChar != stop1 && currentChar != stop2)
+            {
+                //okay there is something else => this is not on one line
+                if (!isWhite(oldChar)) return FALSE;
+              
+                ++currentIndex;
+                oldChar = currentChar;
+                currentChar = inputBuffer[currentIndex+1];
+            }
+            
+            //the end of the node has been reached with only whites. Then
+            //the node can be considered being one single line
+            return TRUE;
+        }
+    }
+    
+    return isOnSingleLine;
+}
+
 void resetBackwardIndentation(gboolean resetLineBreak)
 {
     xmlPrettyPrintedIndex -= (currentDepth*options->indentLength);
@@ -355,7 +401,7 @@ int processElements()
     while (loop && result == PRETTY_PRINTING_SUCCESS)
     {
         //strip unused whites
-        readWhites();
+        readWhites(TRUE);
         
         char nextChar = getNextChar();
         if (nextChar == '\0') { return 0; } //no more data to read
@@ -459,7 +505,7 @@ void processElementAttributes()
     gboolean loop = TRUE;
     while (loop)
     {
-        readWhites(); //strip the whites
+        readWhites(TRUE); //strip the whites
         
         char next = getNextChar(); //don't read the last char (processed afterwards)
         if (next == '/') { loop = FALSE; } /* end of node */
@@ -492,7 +538,7 @@ void processHeader()
         
         while(!isWhite(getNextChar())) { putNextCharsInBuffer(1); }
         
-        readWhites();
+        readWhites(TRUE);
         processElementAttributes(); 
         
         //puts the '?' and '>' chars into the new buffer
@@ -537,7 +583,7 @@ void processNode()
     lastNodeOpen = TRUE;
 
     //process the attributes    
-    readWhites();
+    readWhites(TRUE);
     processElementAttributes();
     
     //process the end of the tag
@@ -642,6 +688,7 @@ void processComment()
 {
     gboolean inlineAllowed = FALSE;
     if (options->inlineComment) { inlineAllowed = isInlineNodeAllowed(); }
+    if (inlineAllowed && !options->oneLineComment) { inlineAllowed = isOnSingleLine(4, '-', '-'); }
     if (inlineAllowed) { resetBackwardIndentation(TRUE); }
     
     putNextCharsInBuffer(4); //add the chars '<!--'
@@ -660,18 +707,45 @@ void processComment()
         {
             putCharInBuffer(nextChar);
             oldChar = nextChar;
-        }
-        else if (!options->oneLineComment) //oh ! there is a line break
-        {
-            readWhites(); //strip the whites and new line
-            putNewLine(); //put a new indentation line
-            oldChar = ' '; //and update the last char
             
-            //TODO manage relative spacing
+            if (!loop && options->commentAlign) //end of comment
+            {
+                //ensures the chars preceding the first '-' are all spaces
+                gboolean rewind = xmlPrettyPrinted[xmlPrettyPrintedIndex-3] == ' ' &&
+                                  xmlPrettyPrinted[xmlPrettyPrintedIndex-4] == ' ' &&
+                                  xmlPrettyPrinted[xmlPrettyPrintedIndex-5] == ' ' &&
+                                  xmlPrettyPrinted[xmlPrettyPrintedIndex-6] == ' ' &&
+                                  xmlPrettyPrinted[xmlPrettyPrintedIndex-7] == ' ';
+                
+                //if all the preceding chars are white, then go for replacement
+                if (rewind)
+                {
+                    xmlPrettyPrintedIndex -= 7; //remove indentation spaces
+                    putCharsInBuffer("--"); //reset the first chars of '-->'
+                }
+            }
+        }
+        else if (!options->oneLineComment && !inlineAllowed) //oh ! there is a line break
+        {
+            int read = readWhites(FALSE); //strip the whites and new line
+            if (nextChar == '\r' && read == 0 && getNextChar() == '\n') //handles the \r\n return line
+            {
+                readNextChar(); 
+                readWhites(FALSE);
+            }
+            
+            //if the comments need to be aligned, just add 5 spaces
+            if (options->commentAlign) 
+            {
+                putNewLine(); //put a new indentation line
+                putCharsInBuffer("     ");
+            }
+            
+            oldChar = ' '; //and update the last char
         }
         else //the comments must be inlined
         {
-            readWhites(); //strip the whites and add a space if needed
+            readWhites(TRUE); //strip the whites and add a space if needed
             if (getPreviousInsertedChar() != ' ') 
             { 
                 putCharInBuffer(' '); 
@@ -699,6 +773,7 @@ void processTextNode()
     //checks if inline is allowed
     gboolean inlineTextAllowed = FALSE;
     if (options->inlineText) { inlineTextAllowed = isInlineNodeAllowed(); }
+    if (inlineTextAllowed && !options->oneLineText) { inlineTextAllowed = isOnSingleLine(0, '<', '/'); }
     if (inlineTextAllowed) { resetBackwardIndentation(TRUE); } //remove previous indentation
     
     //the leading whites are automatically stripped. So we re-add it
@@ -730,9 +805,10 @@ void processTextNode()
         char nextChar = readNextChar();
         if (isLineBreak(nextChar))
         {
-            readWhites();
             if (options->oneLineText)
             { 
+                readWhites(TRUE);
+              
                 //as we can put text on one line, remove the line break 
                 //and replace it by a space but only if the previous 
                 //char wasn't a space
@@ -743,6 +819,13 @@ void processTextNode()
             }
             else 
             {
+                int read = readWhites(FALSE);
+                if (nextChar == '\r' && read == 0 && getNextChar() == '\n') //handles the '\r\n'
+                {
+                   nextChar = readNextChar();
+                   readWhites(FALSE);
+                }
+              
                 //put a new line only if the closing tag is not reached
                 if (getNextChar() != '<') 
                 {   
@@ -796,7 +879,7 @@ void processCDATA()
         }
         else if (!options->oneLineCdata)
         {
-            readWhites(); //strip the whites and new line
+            readWhites(TRUE); //strip the whites and new line
             putNewLine(); //put a new indentation line
             oldChar = ' '; //and update the last char
             
@@ -804,7 +887,7 @@ void processCDATA()
         }
         else //cdata are inlined
         {
-            readWhites(); //strip the whites and add a space if necessary
+            readWhites(TRUE); //strip the whites and add a space if necessary
             if(getPreviousInsertedChar() != ' ') { putCharInBuffer(' '); }
         }
     }
@@ -832,7 +915,7 @@ void processDoctype()
     gboolean loop = TRUE;
     while(loop)
     {
-        readWhites();
+        readWhites(TRUE);
         putCharInBuffer(' '); //only one space for the attributes
         
         int nextChar = readNextChar();
@@ -892,7 +975,7 @@ void processDoctypeElement()
     result = PRETTY_PRINTING_NOT_SUPPORTED_YET;
 }
 
-void printError(char *msg, ...) 
+void printError(char *msg, ...)
 {
     va_list va;
     va_start(va, msg);
@@ -902,7 +985,7 @@ void printError(char *msg, ...)
     //TODO also do a fprintf on stderr ?
     
     printDebugStatus();
-} 
+}
 
 void printDebugStatus()
 {

@@ -41,8 +41,11 @@ static GtkWidget* main_menu_item = NULL; //the main menu of the plugin
 //declaration of the functions
 static void xml_format(GtkMenuItem *menuitem, gpointer gdata);
 static void kb_run_xml_pretty_print(G_GNUC_UNUSED guint key_id);
+static void config_closed(GtkWidget* configWidget, gint response, gpointer data);
+
 void plugin_init(GeanyData *data);
 void plugin_cleanup(void);
+GtkWidget* plugin_configure(GtkDialog * dialog);
 
 //========================================== FUNCTIONS ===================================================================
 
@@ -73,29 +76,25 @@ void plugin_cleanup(void)
     gtk_widget_destroy(main_menu_item);
 }
 
-#ifdef PLUGIN_XMLPP_GUI
-    static void config_closed(GtkWidget* configWidget, gint response, gpointer data);
-
-    GtkWidget* plugin_configure(GtkDialog * dialog)
-    {
-        //creates the configuration widget
-        GtkWidget* widget = createPrettyPrinterConfigUI(dialog);
-        g_signal_connect(dialog, "response", G_CALLBACK(config_closed), NULL);
-        return widget;
-    }
+GtkWidget* plugin_configure(GtkDialog * dialog)
+{
+    //creates the configuration widget
+    GtkWidget* widget = createPrettyPrinterConfigUI(dialog);
+    g_signal_connect(dialog, "response", G_CALLBACK(config_closed), NULL);
+    return widget;
+}
 
 //========================================== LISTENERS ===================================================================
 
-    void config_closed(GtkWidget* configWidget, gint response, gpointer gdata)
+void config_closed(GtkWidget* configWidget, gint response, gpointer gdata)
+{
+    //if the user clicked OK or APPLY, then save the settings
+    if (response == GTK_RESPONSE_OK || 
+        response == GTK_RESPONSE_APPLY)
     {
-        //if the user clicked OK or APPLY, then save the settings
-        if (response == GTK_RESPONSE_OK || 
-            response == GTK_RESPONSE_APPLY)
-        {
-            saveSettings();
-        }
+        saveSettings();
     }
-#endif
+}
 
 static void kb_run_xml_pretty_print(G_GNUC_UNUSED guint key_id)
 {
@@ -124,14 +123,17 @@ static void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     sci_get_text(sco, length, buffer);
 
     //checks if the data is an XML format
-    xmlDoc* xmlDoc = xmlParseDoc((unsigned char*)buffer);
+    xmlDoc* parsedDocument = xmlParseDoc((unsigned char*)buffer);
 
     //this is not a valid xml => exit with an error message
-    if(xmlDoc == NULL) 
+    if(parsedDocument == NULL) 
     {
         dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Unable to parse the content as XML.");
         return;
     }
+
+    //free all
+    xmlFreeDoc(parsedDocument);
 
     //process pretty-printing
     int result = processXMLPrettyPrinting(&buffer, &length, prettyPrintingOptions);
@@ -151,7 +153,4 @@ static void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     //sets the type
     GeanyFiletype* fileType = filetypes_index(GEANY_FILETYPES_XML);
     document_set_filetype(doc, fileType);
-
-    //free all
-    xmlFreeDoc(xmlDoc);
 }

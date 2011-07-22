@@ -18,65 +18,203 @@
 
 #include "ConfigUI.h"
 
-//redefine the variable declared as extern
+//======================= FUNCTIONS ====================================================================
+
+static GtkWidget* createTwoOptionsBox(const char* label, const char* checkBox1, const char* checkBox2, gboolean cb1Active, gboolean cb2Active, GtkWidget** option1, GtkWidget** option2);
+static GtkWidget* createEmptyTextOptions(gboolean emptyNodeStripping, gboolean emptyNodeStrippingSpace, gboolean forceEmptyNodeSplit);
+static GtkWidget* createIndentationOptions(char indentation, int count);
+static GtkWidget* createLineReturnOptions(const char* lineReturn);
+
+//============================================ PRIVATE PROPERTIES ======================================
+
+static GtkWidget* commentOneLine;
+static GtkWidget* commentInline;
+static GtkWidget* textOneLine;
+static GtkWidget* textInline;
+static GtkWidget* cdataOneLine;
+static GtkWidget* cdataInline;
+static GtkWidget* emptyNodeStripping;
+static GtkWidget* emptyNodeStrippingSpace;
+static GtkWidget* emptyNodeSplit;
+static GtkWidget* indentationChar;
+static GtkWidget* indentationCount;
+static GtkWidget* lineBreak;
+
+//============================================= PUBLIC FUNCTIONS ========================================
+
+//redeclaration of extern variable
 PrettyPrintingOptions* prettyPrintingOptions;
 
-GtkWidget* createPrettyPrinterConfigUI(GtkDialog* dialog)
+//Will never be used, just here for example
+GtkWidget* createPrettyPrinterConfigUI(GtkDialog * dialog)     
 {
     //default printing options
     if (prettyPrintingOptions == NULL) { prettyPrintingOptions = createDefaultPrettyPrintingOptions(); }
+    PrettyPrintingOptions* ppo = prettyPrintingOptions;
+
+    GtkWidget* container = gtk_hbox_new(FALSE, 10);
     
-    //TODO create configuration widget
+    GtkWidget* leftBox = gtk_vbox_new(TRUE, 6);
+    GtkWidget* commentOptions = createTwoOptionsBox("Comments", "Put on one line", "Inline if possible", ppo->oneLineComment, ppo->inlineComment, &commentOneLine, &commentInline);
+    GtkWidget* textOptions = createTwoOptionsBox("Text nodes", "Put on one line", "Inline if possible", ppo->oneLineText, ppo->inlineText, &textOneLine, &textInline);
+    GtkWidget* cdataOptions = createTwoOptionsBox("CDATA", "Put on one line", "Inline if possible", ppo->oneLineCdata, ppo->inlineCdata, &cdataOneLine, &cdataInline);
+    GtkWidget* emptyOptions = createEmptyTextOptions(ppo->emptyNodeStripping, ppo->emptyNodeStrippingSpace, ppo->forceEmptyNodeSplit);
+    GtkWidget* indentationOptions = createIndentationOptions(ppo->indentChar, ppo->indentLength);
+    GtkWidget* lineReturnOptions = createLineReturnOptions(ppo->newLineChars);
+
+    gtk_box_pack_start(GTK_BOX(leftBox), commentOptions, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(leftBox), textOptions, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(leftBox), cdataOptions, FALSE, FALSE, 3);
     
-    return NULL;
+    GtkWidget* rightBox = gtk_vbox_new(FALSE, 6);
+    gtk_box_pack_start(GTK_BOX(rightBox), emptyOptions, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(rightBox), indentationOptions, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(rightBox), lineReturnOptions, FALSE, FALSE, 3);
+
+    gtk_box_pack_start(GTK_BOX(container), leftBox, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(container), rightBox, FALSE, FALSE, 3);
+
+    gtk_widget_show_all(container);
+    return container;
 }
 
 void saveSettings()
 {
-    //TODO save settings into a file
+    PrettyPrintingOptions* ppo = prettyPrintingOptions;
+    
+    ppo->oneLineComment = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(commentOneLine));
+    ppo->inlineComment = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(commentInline));
+    ppo->oneLineText = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(textOneLine));
+    ppo->inlineText = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(textInline));
+    ppo->oneLineCdata = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cdataOneLine));
+    ppo->inlineCdata = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cdataInline));
+    
+    ppo->emptyNodeStripping = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(emptyNodeStripping));
+    ppo->emptyNodeStrippingSpace = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(emptyNodeStrippingSpace));
+    ppo->forceEmptyNodeSplit = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(emptyNodeSplit));
+  
+    ppo->indentLength = gtk_spin_button_get_value(GTK_SPIN_BUTTON(indentationCount));
+    ppo->indentChar = gtk_combo_box_get_active(GTK_COMBO_BOX(indentationChar))==0 ? '\t' : ' ';
+    
+    int breakStyle = gtk_combo_box_get_active(GTK_COMBO_BOX(lineBreak));
+    if (breakStyle == 0) ppo->newLineChars = "\r";
+    else if (breakStyle == 1) ppo->newLineChars = "\n";
+    else ppo->newLineChars = "\r\n";
 }
 
+//============================================= PRIVATE FUNCTIONS =======================================
 
-//Will never be used, just here for example
-/*GtkWidget* plugin_configure(GtkDialog * dialog)     
+GtkWidget* createTwoOptionsBox(const char* label, const char* checkBox1, const char* checkBox2, gboolean cb1Active, gboolean cb2Active, GtkWidget** option1, GtkWidget** option2)
 {
-    //default printing options
-    if (prettyPrintingOptions == NULL) { prettyPrintingOptions = createDefaultPrettyPrintingOptions(); }
-    
-    GtkWidget* globalBox = gtk_hbox_new(TRUE, 4);
+    GtkWidget* container = gtk_hbox_new(TRUE, 2);
     GtkWidget* rightBox = gtk_vbox_new(FALSE, 6);
-    GtkWidget* centerBox = gtk_vbox_new(FALSE, 6);
     GtkWidget* leftBox = gtk_vbox_new(FALSE, 6);
     
-    GtkWidget* textLabel = gtk_label_new("Text nodes");
-    GtkWidget* textOneLine =   gtk_check_button_new_with_label("One line");
-    GtkWidget* textInline =   gtk_check_button_new_with_label("Inline");
+    GtkWidget* lbl = gtk_label_new(label);
+    GtkWidget* chb1 = gtk_check_button_new_with_label(checkBox1);
+    GtkWidget* chb2 = gtk_check_button_new_with_label(checkBox2);
     
-    GtkWidget* cdataLabel = gtk_label_new("CDATA nodes");
-    GtkWidget* cdataOneLine =   gtk_check_button_new_with_label("One line");
-    GtkWidget* cdataInline =   gtk_check_button_new_with_label("Inline");
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(chb1), cb1Active);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(chb2), cb2Active);
     
-    GtkWidget* commentLabel = gtk_label_new("Comments");
-    GtkWidget* commentOneLine =   gtk_check_button_new_with_label("One line");
-    GtkWidget* commentInline =   gtk_check_button_new_with_label("Inline");
+    gtk_box_pack_start(GTK_BOX(container), leftBox, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(container), rightBox, FALSE, FALSE, 3);
     
-    gtk_box_pack_start(GTK_BOX(globalBox), leftBox, FALSE, FALSE, 3);
-    gtk_box_pack_start(GTK_BOX(globalBox), centerBox, FALSE, FALSE, 3);
-    gtk_box_pack_start(GTK_BOX(globalBox), rightBox, FALSE, FALSE, 3);
-
-    gtk_box_pack_start(GTK_BOX(leftBox), textLabel, FALSE, FALSE, 3);
-    gtk_box_pack_start(GTK_BOX(centerBox), textOneLine, FALSE, FALSE, 3);
-    gtk_box_pack_start(GTK_BOX(rightBox), textInline, FALSE, FALSE, 3);
-
-    gtk_box_pack_start(GTK_BOX(leftBox), cdataLabel, FALSE, FALSE, 3);
-    gtk_box_pack_start(GTK_BOX(centerBox), cdataOneLine, FALSE, FALSE, 3);
-    gtk_box_pack_start(GTK_BOX(rightBox), cdataInline, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(leftBox), lbl, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(rightBox), chb1, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(rightBox), chb2, FALSE, FALSE, 3);
     
-    gtk_box_pack_start(GTK_BOX(leftBox), commentLabel, FALSE, FALSE, 3);
-    gtk_box_pack_start(GTK_BOX(centerBox), commentOneLine, FALSE, FALSE, 3);
-    gtk_box_pack_start(GTK_BOX(rightBox), commentInline, FALSE, FALSE, 3);
-
-    gtk_widget_show_all(globalBox);
-    return globalBox;
+    *option1 = chb1;
+    *option2 = chb2;
+    
+    return container;
 }
-*/
+
+GtkWidget* createEmptyTextOptions(gboolean optEmptyNodeStripping, gboolean optEmptyNodeStrippingSpace, gboolean optForceEmptyNodeSplit)
+{
+    GtkWidget* container = gtk_hbox_new(FALSE, 2);
+    GtkWidget* rightBox = gtk_vbox_new(FALSE, 6);
+    GtkWidget* leftBox = gtk_vbox_new(FALSE, 6);
+    
+    GtkWidget* lbl = gtk_label_new("Empty nodes");
+    GtkWidget* chb1 = gtk_check_button_new_with_label("Concatenation (<x></x> to <x/>)");
+    GtkWidget* chb2 = gtk_check_button_new_with_label("Spacing (<x/> to <x />)");
+    GtkWidget* chb3 = gtk_check_button_new_with_label("Expansion (<x/> to <x></x>)");
+    
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(chb1), optEmptyNodeStripping);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(chb2), optEmptyNodeStrippingSpace);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(chb3), optForceEmptyNodeSplit);
+    
+    gtk_box_pack_start(GTK_BOX(container), leftBox, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(container), rightBox, FALSE, FALSE, 3);
+    
+    gtk_box_pack_start(GTK_BOX(leftBox), lbl, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(rightBox), chb1, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(rightBox), chb2, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(rightBox), chb3, FALSE, FALSE, 3);
+    
+    emptyNodeStripping = chb1;
+    emptyNodeStrippingSpace = chb2;
+    emptyNodeSplit = chb3;
+    
+    return container;
+}
+
+GtkWidget* createIndentationOptions(char indentation, int count)
+{
+    GtkWidget* container = gtk_hbox_new(FALSE, 20);
+    GtkWidget* rightBox = gtk_hbox_new(FALSE, 6);
+    GtkWidget* leftBox = gtk_vbox_new(FALSE, 6);
+    
+    GtkWidget* lbl = gtk_label_new("Indentation");
+    GtkWidget* comboChar = gtk_combo_box_text_new();
+    GtkWidget* spinIndent = gtk_spin_button_new_with_range(0, 100, 1);
+    
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(comboChar), "Tab");
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(comboChar), "Space");
+    gtk_combo_box_set_active(GTK_COMBO_BOX(comboChar), (indentation == ' ') ? 1 : 0);
+    
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinIndent), count);
+    
+    gtk_box_pack_start(GTK_BOX(leftBox), lbl, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(rightBox), comboChar, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(rightBox), spinIndent, FALSE, FALSE, 3);
+    
+    gtk_box_pack_start(GTK_BOX(container), leftBox, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(container), rightBox, FALSE, FALSE, 3);
+    
+    indentationChar = comboChar;
+    indentationCount = spinIndent;
+    
+    return container;
+}
+
+static GtkWidget* createLineReturnOptions(const char* lineReturn)
+{
+    GtkWidget* container = gtk_hbox_new(FALSE, 25);
+    GtkWidget* rightBox = gtk_hbox_new(FALSE, 6);
+    GtkWidget* leftBox = gtk_vbox_new(FALSE, 6);
+    
+    GtkWidget* lbl = gtk_label_new("Line break");
+    GtkWidget* comboChar = gtk_combo_box_text_new();
+    
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(comboChar), "\\r");
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(comboChar), "\\n");
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(comboChar), "\\r\\n");
+    
+    int active = 0;
+    if (strlen(lineReturn) == 2) active = 2;
+    else if (lineReturn[0] == '\n') active = 1;
+    
+    gtk_combo_box_set_active(GTK_COMBO_BOX(comboChar), active);
+    
+    gtk_box_pack_start(GTK_BOX(leftBox), lbl, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(rightBox), comboChar, FALSE, FALSE, 3);
+    
+    gtk_box_pack_start(GTK_BOX(container), leftBox, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(container), rightBox, FALSE, FALSE, 3);
+    
+    lineBreak = comboChar;
+    
+    return container;
+}

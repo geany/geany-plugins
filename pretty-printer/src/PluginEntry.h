@@ -19,9 +19,6 @@
 #ifndef PLUGIN_ENTRY_H
 #define PLUGIN_ENTRY_H
 
-// This constants will be enabled once the preferences GUI will be finished :)
-//#define PLUGIN_XMLPP_GUI
-
 //========================================== INCLUDES ==========================================================
 
 #include <stdlib.h>
