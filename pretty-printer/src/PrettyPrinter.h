@@ -57,7 +57,8 @@ typedef struct
       gboolean forceEmptyNodeSplit;                                                         //force an empty node to be splitted : <node /> becomes <node></node> (only if emptyNodeStripping = false)
       gboolean trimLeadingWhites;                                                           //trim the leading whites in a text node
       gboolean trimTrailingWhites;                                                          //trim the trailing whites in a text node
-      gboolean commentAlign;                                                                //align the comments: add 5 spaces in indentation (only if oneLineComment = false)
+      gboolean alignComment;                                                                //align the comments. If false, comments are untouched (only if oneLineComment = false)
+      gboolean alignText;                                                                   //align the text in a node. If false, text is untouched (only if oneLineText = false)
 }
 PrettyPrintingOptions;
 

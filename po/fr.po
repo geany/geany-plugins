@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.19\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-22 14:52+0200\n"
+"POT-Creation-Date: 2011-07-22 16:21+0200\n"
 "PO-Revision-Date: 2009-07-20 20:02+0100\n"
 "Last-Translator: Lionel Fuentes <funto66@gmail.com>\n"
 "Language-Team: French <geany-i18n@uvena.de>\n"
@@ -3787,57 +3787,61 @@ msgstr ""
 msgid "Find in Files"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:58
+#: ../pretty-printer/src/ConfigUI.c:61
 msgid "Comments"
 msgstr "Commentaires"
 
-#: ../pretty-printer/src/ConfigUI.c:58 ../pretty-printer/src/ConfigUI.c:59
-#: ../pretty-printer/src/ConfigUI.c:60
+#: ../pretty-printer/src/ConfigUI.c:61 ../pretty-printer/src/ConfigUI.c:62
+#: ../pretty-printer/src/ConfigUI.c:63
 msgid "Put on one line"
 msgstr "Mettre sur une ligne"
 
-#: ../pretty-printer/src/ConfigUI.c:58 ../pretty-printer/src/ConfigUI.c:59
-#: ../pretty-printer/src/ConfigUI.c:60
+#: ../pretty-printer/src/ConfigUI.c:61 ../pretty-printer/src/ConfigUI.c:62
+#: ../pretty-printer/src/ConfigUI.c:63
 msgid "Inline if possible"
 msgstr "Inliner si possible"
 
-#: ../pretty-printer/src/ConfigUI.c:59
+#: ../pretty-printer/src/ConfigUI.c:61 ../pretty-printer/src/ConfigUI.c:62
+msgid "Alignment"
+msgstr "Alignement"
+
+#: ../pretty-printer/src/ConfigUI.c:62
 msgid "Text nodes"
 msgstr "Noeuds texte"
 
-#: ../pretty-printer/src/ConfigUI.c:60
+#: ../pretty-printer/src/ConfigUI.c:63
 msgid "CDATA"
 msgstr "CDATA"
 
-#: ../pretty-printer/src/ConfigUI.c:139
+#: ../pretty-printer/src/ConfigUI.c:191
 msgid "Empty nodes"
 msgstr "Noeuds vides"
 
-#: ../pretty-printer/src/ConfigUI.c:140
+#: ../pretty-printer/src/ConfigUI.c:192
 msgid "Concatenation (<x></x> to <x/>)"
 msgstr "Concatenation (<x></x> to <x/>)"
 
-#: ../pretty-printer/src/ConfigUI.c:141
+#: ../pretty-printer/src/ConfigUI.c:193
 msgid "Spacing (<x/> to <x />)"
 msgstr "Espace (<x/> to <x />)"
 
-#: ../pretty-printer/src/ConfigUI.c:142
+#: ../pretty-printer/src/ConfigUI.c:194
 msgid "Expansion (<x/> to <x></x>)"
 msgstr "Expansion (<x/> to <x></x>)"
 
-#: ../pretty-printer/src/ConfigUI.c:169
+#: ../pretty-printer/src/ConfigUI.c:221
 msgid "Indentation"
 msgstr "Indentation"
 
-#: ../pretty-printer/src/ConfigUI.c:173
+#: ../pretty-printer/src/ConfigUI.c:225
 msgid "Tab"
 msgstr "Tab"
 
-#: ../pretty-printer/src/ConfigUI.c:174
+#: ../pretty-printer/src/ConfigUI.c:226
 msgid "Space"
 msgstr "Espace"
 
-#: ../pretty-printer/src/ConfigUI.c:198
+#: ../pretty-printer/src/ConfigUI.c:250
 msgid "Line break"
 msgstr "Retour de ligne"
 

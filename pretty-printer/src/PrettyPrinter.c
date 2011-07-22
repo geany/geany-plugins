@@ -160,7 +160,8 @@ PrettyPrintingOptions* createDefaultPrettyPrintingOptions()
     defaultOptions->forceEmptyNodeSplit = FALSE;
     defaultOptions->trimLeadingWhites = TRUE;
     defaultOptions->trimTrailingWhites = TRUE;
-    defaultOptions->commentAlign = TRUE;
+    defaultOptions->alignComment = TRUE;
+    defaultOptions->alignText = TRUE;
     
     return defaultOptions;
 }
@@ -701,7 +702,7 @@ void processComment()
             putCharInBuffer(nextChar);
             oldChar = nextChar;
             
-            if (!loop && options->commentAlign) //end of comment
+            if (!loop && options->alignComment) //end of comment
             {
                 //ensures the chars preceding the first '-' are all spaces
                 gboolean onlySpaces = xmlPrettyPrinted[xmlPrettyPrintedIndex-3] == ' ' &&
@@ -720,21 +721,25 @@ void processComment()
         }
         else if (!options->oneLineComment && !inlineAllowed) //oh ! there is a line break
         {
-            int read = readWhites(FALSE); //strip the whites and new line
-            if (nextChar == '\r' && read == 0 && getNextChar() == '\n') //handles the \r\n return line
-            {
-                readNextChar(); 
-                readWhites(FALSE);
-            }
-            
             //if the comments need to be aligned, just add 5 spaces
-            if (options->commentAlign) 
+            if (options->alignComment) 
             {
+                int read = readWhites(FALSE); //strip the whites and new line
+                if (nextChar == '\r' && read == 0 && getNextChar() == '\n') //handles the \r\n return line
+                {
+                    readNextChar(); 
+                    readWhites(FALSE);
+                }
+              
                 putNewLine(); //put a new indentation line
                 putCharsInBuffer("     ");
+                oldChar = ' '; //and update the last char
             }
-            
-            oldChar = ' '; //and update the last char
+            else
+            {
+                putCharInBuffer(nextChar);
+                oldChar = nextChar;
+            }
         }
         else //the comments must be inlined
         {
@@ -767,7 +772,7 @@ void processTextNode()
     gboolean inlineTextAllowed = FALSE;
     if (options->inlineText) { inlineTextAllowed = isInlineNodeAllowed(); }
     if (inlineTextAllowed && !options->oneLineText) { inlineTextAllowed = isOnSingleLine(0, '<', '/'); }
-    if (inlineTextAllowed) { resetBackwardIndentation(TRUE); } //remove previous indentation
+    if (inlineTextAllowed || !options->alignText) { resetBackwardIndentation(TRUE); } //remove previous indentation
     
     //the leading whites are automatically stripped. So we re-add it
     if (!options->trimLeadingWhites)
@@ -810,7 +815,7 @@ void processTextNode()
                     putCharInBuffer(' '); 
                 }
             }
-            else 
+            else if (options->alignComment)
             {
                 int read = readWhites(FALSE);
                 if (nextChar == '\r' && read == 0 && getNextChar() == '\n') //handles the '\r\n'
@@ -824,6 +829,10 @@ void processTextNode()
                 {   
                     putNewLine(); 
                 } 
+            }
+            else
+            {
+                putCharInBuffer(nextChar);
             }
         }
         else
@@ -843,7 +852,7 @@ void processTextNode()
     }
     
     //remove the indentation for the closing tag
-    if (inlineTextAllowed) { appendIndentation = FALSE; }
+    if (inlineTextAllowed || !options->alignText) { appendIndentation = FALSE; }
     
     //there vas no node open
     lastNodeOpen = FALSE;

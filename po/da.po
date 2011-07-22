@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.19\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-22 14:52+0200\n"
+"POT-Creation-Date: 2011-07-22 16:21+0200\n"
 "PO-Revision-Date: 2009-06-11 10:15+0200\n"
 "Last-Translator: Andrew L Janke <a.janke@gmail.com>\n"
 "Language-Team: Danish <geany-i18n@uvena.de>\n"
@@ -3718,57 +3718,61 @@ msgstr ""
 msgid "Find in Files"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:58
+#: ../pretty-printer/src/ConfigUI.c:61
 msgid "Comments"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:58 ../pretty-printer/src/ConfigUI.c:59
-#: ../pretty-printer/src/ConfigUI.c:60
+#: ../pretty-printer/src/ConfigUI.c:61 ../pretty-printer/src/ConfigUI.c:62
+#: ../pretty-printer/src/ConfigUI.c:63
 msgid "Put on one line"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:58 ../pretty-printer/src/ConfigUI.c:59
-#: ../pretty-printer/src/ConfigUI.c:60
+#: ../pretty-printer/src/ConfigUI.c:61 ../pretty-printer/src/ConfigUI.c:62
+#: ../pretty-printer/src/ConfigUI.c:63
 msgid "Inline if possible"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:59
+#: ../pretty-printer/src/ConfigUI.c:61 ../pretty-printer/src/ConfigUI.c:62
+msgid "Alignment"
+msgstr ""
+
+#: ../pretty-printer/src/ConfigUI.c:62
 msgid "Text nodes"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:60
+#: ../pretty-printer/src/ConfigUI.c:63
 msgid "CDATA"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:139
+#: ../pretty-printer/src/ConfigUI.c:191
 msgid "Empty nodes"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:140
+#: ../pretty-printer/src/ConfigUI.c:192
 msgid "Concatenation (<x></x> to <x/>)"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:141
+#: ../pretty-printer/src/ConfigUI.c:193
 msgid "Spacing (<x/> to <x />)"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:142
+#: ../pretty-printer/src/ConfigUI.c:194
 msgid "Expansion (<x/> to <x></x>)"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:169
+#: ../pretty-printer/src/ConfigUI.c:221
 msgid "Indentation"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:173
+#: ../pretty-printer/src/ConfigUI.c:225
 msgid "Tab"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:174
+#: ../pretty-printer/src/ConfigUI.c:226
 msgid "Space"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:198
+#: ../pretty-printer/src/ConfigUI.c:250
 msgid "Line break"
 msgstr ""
 

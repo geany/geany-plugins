@@ -21,6 +21,7 @@
 //======================= FUNCTIONS ====================================================================
 
 static GtkWidget* createTwoOptionsBox(const char* label, const char* checkBox1, const char* checkBox2, gboolean cb1Active, gboolean cb2Active, GtkWidget** option1, GtkWidget** option2);
+static GtkWidget* createThreeOptionsBox(const char* label, const char* checkBox1, const char* checkBox2, const char* checkBox3, gboolean cb1Active, gboolean cb2Active, gboolean cb3Active, GtkWidget** option1, GtkWidget** option2, GtkWidget** option3);
 static GtkWidget* createEmptyTextOptions(gboolean emptyNodeStripping, gboolean emptyNodeStrippingSpace, gboolean forceEmptyNodeSplit);
 static GtkWidget* createIndentationOptions(char indentation, int count);
 static GtkWidget* createLineReturnOptions(const char* lineReturn);
@@ -29,8 +30,10 @@ static GtkWidget* createLineReturnOptions(const char* lineReturn);
 
 static GtkWidget* commentOneLine;
 static GtkWidget* commentInline;
+static GtkWidget* commentAlign;
 static GtkWidget* textOneLine;
 static GtkWidget* textInline;
+static GtkWidget* textAlign;
 static GtkWidget* cdataOneLine;
 static GtkWidget* cdataInline;
 static GtkWidget* emptyNodeStripping;
@@ -54,9 +57,9 @@ GtkWidget* createPrettyPrinterConfigUI(GtkDialog * dialog)
 
     GtkWidget* container = gtk_hbox_new(FALSE, 10);
     
-    GtkWidget* leftBox = gtk_vbox_new(TRUE, 6);
-    GtkWidget* commentOptions = createTwoOptionsBox(_("Comments"), _("Put on one line"), _("Inline if possible"), ppo->oneLineComment, ppo->inlineComment, &commentOneLine, &commentInline);
-    GtkWidget* textOptions = createTwoOptionsBox(_("Text nodes"), _("Put on one line"), _("Inline if possible"), ppo->oneLineText, ppo->inlineText, &textOneLine, &textInline);
+    GtkWidget* leftBox = gtk_vbox_new(FALSE, 6);
+    GtkWidget* commentOptions = createThreeOptionsBox(_("Comments"), _("Put on one line"), _("Inline if possible"), _("Alignment"), ppo->oneLineComment, ppo->inlineComment, ppo->alignComment, &commentOneLine, &commentInline, &commentAlign);
+    GtkWidget* textOptions = createThreeOptionsBox(_("Text nodes"), _("Put on one line"), _("Inline if possible"), _("Alignment"), ppo->oneLineText, ppo->inlineText, ppo->alignText, &textOneLine, &textInline, &textAlign);
     GtkWidget* cdataOptions = createTwoOptionsBox(_("CDATA"), _("Put on one line"), _("Inline if possible"), ppo->oneLineCdata, ppo->inlineCdata, &cdataOneLine, &cdataInline);
     GtkWidget* emptyOptions = createEmptyTextOptions(ppo->emptyNodeStripping, ppo->emptyNodeStrippingSpace, ppo->forceEmptyNodeSplit);
     GtkWidget* indentationOptions = createIndentationOptions(ppo->indentChar, ppo->indentLength);
@@ -84,8 +87,12 @@ void saveSettings()
     
     ppo->oneLineComment = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(commentOneLine));
     ppo->inlineComment = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(commentInline));
+    ppo->alignComment = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(commentAlign));
+    
     ppo->oneLineText = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(textOneLine));
     ppo->inlineText = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(textInline));
+    ppo->alignText = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(textAlign));
+    
     ppo->oneLineCdata = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cdataOneLine));
     ppo->inlineCdata = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cdataInline));
     
@@ -104,7 +111,13 @@ void saveSettings()
 
 //============================================= PRIVATE FUNCTIONS =======================================
 
-GtkWidget* createTwoOptionsBox(const char* label, const char* checkBox1, const char* checkBox2, gboolean cb1Active, gboolean cb2Active, GtkWidget** option1, GtkWidget** option2)
+GtkWidget* createTwoOptionsBox(const char* label, 
+                               const char* checkBox1, 
+                               const char* checkBox2, 
+                               gboolean cb1Active, 
+                               gboolean cb2Active, 
+                               GtkWidget** option1, 
+                               GtkWidget** option2)
 {
     GtkWidget* container = gtk_hbox_new(TRUE, 2);
     GtkWidget* rightBox = gtk_vbox_new(FALSE, 6);
@@ -126,6 +139,45 @@ GtkWidget* createTwoOptionsBox(const char* label, const char* checkBox1, const c
     
     *option1 = chb1;
     *option2 = chb2;
+    
+    return container;
+}
+
+static GtkWidget* createThreeOptionsBox(const char* label, 
+                                        const char* checkBox1, 
+                                        const char* checkBox2, 
+                                        const char* checkBox3, 
+                                        gboolean cb1Active, 
+                                        gboolean cb2Active, 
+                                        gboolean cb3Active, 
+                                        GtkWidget** option1, 
+                                        GtkWidget** option2, 
+                                        GtkWidget** option3)
+{
+    GtkWidget* container = gtk_hbox_new(TRUE, 2);
+    GtkWidget* rightBox = gtk_vbox_new(FALSE, 6);
+    GtkWidget* leftBox = gtk_vbox_new(FALSE, 6);
+    
+    GtkWidget* lbl = gtk_label_new(label);
+    GtkWidget* chb1 = gtk_check_button_new_with_label(checkBox1);
+    GtkWidget* chb2 = gtk_check_button_new_with_label(checkBox2);
+    GtkWidget* chb3 = gtk_check_button_new_with_label(checkBox3);
+    
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(chb1), cb1Active);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(chb2), cb2Active);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(chb3), cb3Active);
+    
+    gtk_box_pack_start(GTK_BOX(container), leftBox, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(container), rightBox, FALSE, FALSE, 3);
+    
+    gtk_box_pack_start(GTK_BOX(leftBox), lbl, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(rightBox), chb1, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(rightBox), chb2, FALSE, FALSE, 3);
+    gtk_box_pack_start(GTK_BOX(rightBox), chb3, FALSE, FALSE, 3);
+    
+    *option1 = chb1;
+    *option2 = chb2;
+    *option3 = chb3;
     
     return container;
 }
