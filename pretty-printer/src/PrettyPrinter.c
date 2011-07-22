@@ -245,28 +245,21 @@ int readWhites(gboolean considerLineBreakAsWhite)
 
 gboolean isQuote(char c)
 {
-    if (c == '\'') return TRUE;
-    if (c == '"') return TRUE;
-    
-    return FALSE;
+    return (c == '\'' ||
+            c == '\"');
 }
 
 gboolean isWhite(char c)
 {
-    if (c == ' ') return TRUE;
-    if (c == '\t') return TRUE;
-    if (c == '\r') return TRUE;
-    if (c == '\n') return TRUE;
-
-    return FALSE;
+    return (c == ' ' ||
+            c == '\t' ||
+            isLineBreak(c));
 }
 
 gboolean isLineBreak(char c)
 {
-    if (c == '\n') return TRUE;
-    if (c == '\r') return TRUE;
-    
-    return FALSE;
+    return (c == '\n' || 
+            c == '\r');
 }
 
 gboolean isInlineNodeAllowed()

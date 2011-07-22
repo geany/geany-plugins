@@ -51,8 +51,11 @@ GtkWidget* plugin_configure(GtkDialog * dialog);
 
 void plugin_init(GeanyData *data)
 {
-    //Initializes the libxml2
+    //initializes the libxml2
     LIBXML_TEST_VERSION
+
+    //mutilanguage support
+    main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 
     //put the menu into the Tools
     main_menu_item = gtk_menu_item_new_with_mnemonic("PrettyPrint XML");

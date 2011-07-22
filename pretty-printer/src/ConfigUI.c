@@ -55,9 +55,9 @@ GtkWidget* createPrettyPrinterConfigUI(GtkDialog * dialog)
     GtkWidget* container = gtk_hbox_new(FALSE, 10);
     
     GtkWidget* leftBox = gtk_vbox_new(TRUE, 6);
-    GtkWidget* commentOptions = createTwoOptionsBox("Comments", "Put on one line", "Inline if possible", ppo->oneLineComment, ppo->inlineComment, &commentOneLine, &commentInline);
-    GtkWidget* textOptions = createTwoOptionsBox("Text nodes", "Put on one line", "Inline if possible", ppo->oneLineText, ppo->inlineText, &textOneLine, &textInline);
-    GtkWidget* cdataOptions = createTwoOptionsBox("CDATA", "Put on one line", "Inline if possible", ppo->oneLineCdata, ppo->inlineCdata, &cdataOneLine, &cdataInline);
+    GtkWidget* commentOptions = createTwoOptionsBox(_("Comments"), _("Put on one line"), _("Inline if possible"), ppo->oneLineComment, ppo->inlineComment, &commentOneLine, &commentInline);
+    GtkWidget* textOptions = createTwoOptionsBox(_("Text nodes"), _("Put on one line"), _("Inline if possible"), ppo->oneLineText, ppo->inlineText, &textOneLine, &textInline);
+    GtkWidget* cdataOptions = createTwoOptionsBox(_("CDATA"), _("Put on one line"), _("Inline if possible"), ppo->oneLineCdata, ppo->inlineCdata, &cdataOneLine, &cdataInline);
     GtkWidget* emptyOptions = createEmptyTextOptions(ppo->emptyNodeStripping, ppo->emptyNodeStrippingSpace, ppo->forceEmptyNodeSplit);
     GtkWidget* indentationOptions = createIndentationOptions(ppo->indentChar, ppo->indentLength);
     GtkWidget* lineReturnOptions = createLineReturnOptions(ppo->newLineChars);
@@ -136,10 +136,10 @@ GtkWidget* createEmptyTextOptions(gboolean optEmptyNodeStripping, gboolean optEm
     GtkWidget* rightBox = gtk_vbox_new(FALSE, 6);
     GtkWidget* leftBox = gtk_vbox_new(FALSE, 6);
     
-    GtkWidget* lbl = gtk_label_new("Empty nodes");
-    GtkWidget* chb1 = gtk_check_button_new_with_label("Concatenation (<x></x> to <x/>)");
-    GtkWidget* chb2 = gtk_check_button_new_with_label("Spacing (<x/> to <x />)");
-    GtkWidget* chb3 = gtk_check_button_new_with_label("Expansion (<x/> to <x></x>)");
+    GtkWidget* lbl = gtk_label_new(_("Empty nodes"));
+    GtkWidget* chb1 = gtk_check_button_new_with_label(_("Concatenation (<x></x> to <x/>)"));
+    GtkWidget* chb2 = gtk_check_button_new_with_label(_("Spacing (<x/> to <x />)"));
+    GtkWidget* chb3 = gtk_check_button_new_with_label(_("Expansion (<x/> to <x></x>)"));
     
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(chb1), optEmptyNodeStripping);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(chb2), optEmptyNodeStrippingSpace);
@@ -166,12 +166,12 @@ GtkWidget* createIndentationOptions(char indentation, int count)
     GtkWidget* rightBox = gtk_hbox_new(FALSE, 6);
     GtkWidget* leftBox = gtk_vbox_new(FALSE, 6);
     
-    GtkWidget* lbl = gtk_label_new("Indentation");
+    GtkWidget* lbl = gtk_label_new(_("Indentation"));
     GtkWidget* comboChar = gtk_combo_box_new_text();
     GtkWidget* spinIndent = gtk_spin_button_new_with_range(0, 100, 1);
     
-    gtk_combo_box_append_text(GTK_COMBO_BOX(comboChar), "Tab");
-    gtk_combo_box_append_text(GTK_COMBO_BOX(comboChar), "Space");
+    gtk_combo_box_append_text(GTK_COMBO_BOX(comboChar), _("Tab"));
+    gtk_combo_box_append_text(GTK_COMBO_BOX(comboChar), _("Space"));
     gtk_combo_box_set_active(GTK_COMBO_BOX(comboChar), (indentation == ' ') ? 1 : 0);
     
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinIndent), count);
@@ -195,7 +195,7 @@ static GtkWidget* createLineReturnOptions(const char* lineReturn)
     GtkWidget* rightBox = gtk_hbox_new(FALSE, 6);
     GtkWidget* leftBox = gtk_vbox_new(FALSE, 6);
     
-    GtkWidget* lbl = gtk_label_new("Line break");
+    GtkWidget* lbl = gtk_label_new(_("Line break"));
     GtkWidget* comboChar = gtk_combo_box_new_text();
     
     gtk_combo_box_append_text(GTK_COMBO_BOX(comboChar), "\\r");
