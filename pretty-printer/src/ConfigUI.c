@@ -167,11 +167,11 @@ GtkWidget* createIndentationOptions(char indentation, int count)
     GtkWidget* leftBox = gtk_vbox_new(FALSE, 6);
     
     GtkWidget* lbl = gtk_label_new("Indentation");
-    GtkWidget* comboChar = gtk_combo_box_text_new();
+    GtkWidget* comboChar = gtk_combo_box_new_text();
     GtkWidget* spinIndent = gtk_spin_button_new_with_range(0, 100, 1);
     
-    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(comboChar), "Tab");
-    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(comboChar), "Space");
+    gtk_combo_box_append_text(GTK_COMBO_BOX(comboChar), "Tab");
+    gtk_combo_box_append_text(GTK_COMBO_BOX(comboChar), "Space");
     gtk_combo_box_set_active(GTK_COMBO_BOX(comboChar), (indentation == ' ') ? 1 : 0);
     
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(spinIndent), count);
@@ -196,11 +196,11 @@ static GtkWidget* createLineReturnOptions(const char* lineReturn)
     GtkWidget* leftBox = gtk_vbox_new(FALSE, 6);
     
     GtkWidget* lbl = gtk_label_new("Line break");
-    GtkWidget* comboChar = gtk_combo_box_text_new();
+    GtkWidget* comboChar = gtk_combo_box_new_text();
     
-    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(comboChar), "\\r");
-    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(comboChar), "\\n");
-    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(comboChar), "\\r\\n");
+    gtk_combo_box_append_text(GTK_COMBO_BOX(comboChar), "\\r");
+    gtk_combo_box_append_text(GTK_COMBO_BOX(comboChar), "\\n");
+    gtk_combo_box_append_text(GTK_COMBO_BOX(comboChar), "\\r\\n");
     
     int active = 0;
     if (strlen(lineReturn) == 2) active = 2;

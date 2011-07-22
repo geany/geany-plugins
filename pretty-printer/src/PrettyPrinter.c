@@ -22,7 +22,7 @@
 
 //xml pretty printing functions
 static void putCharInBuffer(char charToAdd);                     //put a char into the new char buffer
-static void putCharsInBuffer(char* charsToAdd);                  //put the chars into the new char buffer
+static void putCharsInBuffer(const char* charsToAdd);            //put the chars into the new char buffer
 static void putNextCharsInBuffer(int nbChars);                   //put the next nbChars of the input buffer into the new buffer
 static int readWhites(gboolean considerLineBreakAsWhite);        //read the next whites into the input buffer
 static char readNextChar();                                      //read the next char into the input buffer;
@@ -49,7 +49,7 @@ static void processDoctype();                                    //process a DOC
 static void processDoctypeElement();                             //process a DOCTYPE ELEMENT node
                                                              
 //debug function                                             
-static void printError(char *msg, ...);                          //just print a message like the printf method
+static void printError(const char *msg, ...);                    //just print a message like the printf method
 static void printDebugStatus();                                  //just print some variables into the console for debugging
 
 //============================================ PRIVATE PROPERTIES ======================================
@@ -139,30 +139,30 @@ int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* 
 
 PrettyPrintingOptions* createDefaultPrettyPrintingOptions()
 {
-    PrettyPrintingOptions* options = (PrettyPrintingOptions*)malloc(sizeof(PrettyPrintingOptions));
-    if (options == NULL) 
+    PrettyPrintingOptions* defaultOptions = (PrettyPrintingOptions*)malloc(sizeof(PrettyPrintingOptions));
+    if (defaultOptions == NULL) 
     { 
         g_error("Unable to allocate memory for PrettyPrintingOptions");
         return NULL; 
     }
     
-    options->newLineChars = "\r\n";
-    options->indentChar = ' ';
-    options->indentLength = 2;
-    options->oneLineText = FALSE;
-    options->inlineText = TRUE;
-    options->oneLineComment = FALSE;
-    options->inlineComment = TRUE;
-    options->oneLineCdata = FALSE;
-    options->inlineCdata = TRUE;
-    options->emptyNodeStripping = TRUE;
-    options->emptyNodeStrippingSpace = TRUE;
-    options->forceEmptyNodeSplit = FALSE;
-    options->trimLeadingWhites = TRUE;
-    options->trimTrailingWhites = TRUE;
-    options->commentAlign = TRUE;
+    defaultOptions->newLineChars = "\r\n";
+    defaultOptions->indentChar = ' ';
+    defaultOptions->indentLength = 2;
+    defaultOptions->oneLineText = FALSE;
+    defaultOptions->inlineText = TRUE;
+    defaultOptions->oneLineComment = FALSE;
+    defaultOptions->inlineComment = TRUE;
+    defaultOptions->oneLineCdata = FALSE;
+    defaultOptions->inlineCdata = TRUE;
+    defaultOptions->emptyNodeStripping = TRUE;
+    defaultOptions->emptyNodeStrippingSpace = TRUE;
+    defaultOptions->forceEmptyNodeSplit = FALSE;
+    defaultOptions->trimLeadingWhites = TRUE;
+    defaultOptions->trimTrailingWhites = TRUE;
+    defaultOptions->commentAlign = TRUE;
     
-    return options;
+    return defaultOptions;
 }
 
 void putNextCharsInBuffer(int nbChars)
@@ -191,13 +191,13 @@ void putCharInBuffer(char charToAdd)
     ++xmlPrettyPrintedIndex;
 }
 
-void putCharsInBuffer(char* charsToAdd)
+void putCharsInBuffer(const char* charsToAdd)
 {
-    int index = 0;
-    while (charsToAdd[index] != '\0')
+    int currentIndex = 0;
+    while (charsToAdd[currentIndex] != '\0')
     {
-        putCharInBuffer(charsToAdd[index]);
-        ++index;
+        putCharInBuffer(charsToAdd[currentIndex]);
+        ++currentIndex;
     }
 }
 
@@ -278,7 +278,7 @@ gboolean isInlineNodeAllowed()
     int secondChar = inputBuffer[inputBufferIndex+1]; //should be '!'
     int thirdChar = inputBuffer[inputBufferIndex+2]; //should be '-' or '['
     
-    int index = inputBufferIndex+1;
+    int currentIndex = inputBufferIndex+1;
     if (firstChar == '<')
     {
         //another node is being open ==> no inline !
@@ -292,33 +292,33 @@ gboolean isInlineNodeAllowed()
         
         //read until closing
         char oldChar = ' ';
-        index += 3; //that by pass meanless chars
+        currentIndex += 3; //that by pass meanless chars
         gboolean loop = TRUE;
         while (loop)
         {
-            char current = inputBuffer[index];
+            char current = inputBuffer[currentIndex];
             if (current == closingComment && oldChar == closingComment) { loop = FALSE; } //end of comment
             oldChar = current;
-            ++index;
+            ++currentIndex;
         }
         
         //okay now avoid blanks
         // inputBuffer[index] is now '>'
-        ++index;
-        while (isWhite(inputBuffer[index])) { ++index; }
+        ++currentIndex;
+        while (isWhite(inputBuffer[currentIndex])) { ++currentIndex; }
     }
     else
     {
         //this is a text node. Simply loop to the next '<'
-        while (inputBuffer[index] != '<') { ++index; }
+        while (inputBuffer[currentIndex] != '<') { ++currentIndex; }
     }
     
     //check what do we have now
-    char currentChar = inputBuffer[index];
+    char currentChar = inputBuffer[currentIndex];
     if (currentChar == '<')
     {
         //check if that is a closing node
-        currentChar = inputBuffer[index+1];
+        currentChar = inputBuffer[currentIndex+1];
         if (currentChar == '/')
         {
             //as we are in a correct XML (so far...), if the node is 
@@ -334,13 +334,13 @@ gboolean isInlineNodeAllowed()
 gboolean isOnSingleLine(int skip, char stop1, char stop2)
 {
     int currentIndex = inputBufferIndex+skip; //skip the n first chars (in comment <!--)
-    gboolean isOnSingleLine = TRUE;
+    gboolean onSingleLine = TRUE;
     
     char oldChar = inputBuffer[currentIndex];
     char currentChar = inputBuffer[currentIndex+1];
-    while(isOnSingleLine && oldChar != stop1 && currentChar != stop2)
+    while(onSingleLine && oldChar != stop1 && currentChar != stop2)
     {
-        isOnSingleLine = !isLineBreak(oldChar);
+        onSingleLine = !isLineBreak(oldChar);
         
         ++currentIndex;
         oldChar = currentChar;
@@ -352,7 +352,7 @@ gboolean isOnSingleLine(int skip, char stop1, char stop2)
          * are only spaces and it may be wanted to be considered as a single
          * line). //TODO externalize an option for that ?
          */
-        if (!isOnSingleLine)
+        if (!onSingleLine)
         {
             while(oldChar != stop1 && currentChar != stop2)
             {
@@ -370,7 +370,7 @@ gboolean isOnSingleLine(int skip, char stop1, char stop2)
         }
     }
     
-    return isOnSingleLine;
+    return onSingleLine;
 }
 
 void resetBackwardIndentation(gboolean resetLineBreak)
@@ -575,8 +575,8 @@ void processNode()
     int i;
     for (i=0 ; i<nodeNameLength ; ++i)
     {
-        int index = xmlPrettyPrintedIndex-nodeNameLength+i;
-        nodeName[i] = xmlPrettyPrinted[index];
+        int tempIndex = xmlPrettyPrintedIndex-nodeNameLength+i;
+        nodeName[i] = xmlPrettyPrinted[tempIndex];
     }
     
     currentNodeName = nodeName; //set the name for using in other methods
@@ -711,14 +711,14 @@ void processComment()
             if (!loop && options->commentAlign) //end of comment
             {
                 //ensures the chars preceding the first '-' are all spaces
-                gboolean rewind = xmlPrettyPrinted[xmlPrettyPrintedIndex-3] == ' ' &&
-                                  xmlPrettyPrinted[xmlPrettyPrintedIndex-4] == ' ' &&
-                                  xmlPrettyPrinted[xmlPrettyPrintedIndex-5] == ' ' &&
-                                  xmlPrettyPrinted[xmlPrettyPrintedIndex-6] == ' ' &&
-                                  xmlPrettyPrinted[xmlPrettyPrintedIndex-7] == ' ';
+                gboolean onlySpaces = xmlPrettyPrinted[xmlPrettyPrintedIndex-3] == ' ' &&
+                                      xmlPrettyPrinted[xmlPrettyPrintedIndex-4] == ' ' &&
+                                      xmlPrettyPrinted[xmlPrettyPrintedIndex-5] == ' ' &&
+                                      xmlPrettyPrinted[xmlPrettyPrintedIndex-6] == ' ' &&
+                                      xmlPrettyPrinted[xmlPrettyPrintedIndex-7] == ' ';
                 
                 //if all the preceding chars are white, then go for replacement
-                if (rewind)
+                if (onlySpaces)
                 {
                     xmlPrettyPrintedIndex -= 7; //remove indentation spaces
                     putCharsInBuffer("--"); //reset the first chars of '-->'
@@ -975,7 +975,7 @@ void processDoctypeElement()
     result = PRETTY_PRINTING_NOT_SUPPORTED_YET;
 }
 
-void printError(char *msg, ...)
+void printError(const char *msg, ...)
 {
     va_list va;
     va_start(va, msg);

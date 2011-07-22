@@ -25,10 +25,10 @@
 
 //========================================== PLUGIN INFORMATION ==========================================================
 
-PLUGIN_VERSION_CHECK(130);
+PLUGIN_VERSION_CHECK(130)
 PLUGIN_SET_INFO("XML PrettyPrinter", "Formats an XML and makes it human-readable.",
-                "1.11", "Cédric Tabin - http://www.astorm.ch");
-PLUGIN_KEY_GROUP(prettyprinter, 1);
+                "1.2", "Cédric Tabin - http://www.astorm.ch")
+PLUGIN_KEY_GROUP(prettyprinter, 1)
 
 //========================================== DECLARATIONS ================================================================
 
@@ -96,12 +96,12 @@ void config_closed(GtkWidget* configWidget, gint response, gpointer gdata)
     }
 }
 
-static void kb_run_xml_pretty_print(G_GNUC_UNUSED guint key_id)
+void kb_run_xml_pretty_print(G_GNUC_UNUSED guint key_id)
 {
     xml_format(NULL, NULL);
 }
 
-static void xml_format(GtkMenuItem* menuitem, gpointer gdata)
+void xml_format(GtkMenuItem* menuitem, gpointer gdata)
 {
     //retrieves the current document
     GeanyDocument* doc = document_get_current();
