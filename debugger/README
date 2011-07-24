@@ -1,1 +1,45 @@
+Debugger plugin
+======================
+
+About
+-----
+Plugin enables debuggers support in Geany.
+Aiming on support for various debuggers, for now only
+GDB is supported.
+
+Usage
+-----
+Plugin adds a tab to the lower panel that acts in a similar fashion
+like debugger panels found in other IDEs.
+In the "Target" tab you can set up a target executable, command-line arguments and
+environment variables as well.
+Breakpoints tab offers changing existing breakpoints properties (hit count, condition)
+enabling/disabling and removing breakpoints.
+Adding new breakpoins however can be accomplished by clicking document left margin
+as in other IDEs. 
+New watch expressions can be added by dragging a variable or an expression from the editor
+or by clicking the last line in the watch table.
+Target data, breakpoints ans watch expressions can be saved and later loaded using buttons
+on the Target tab.
+Saving settings creates hidden ".debugger" file in the current directory that contains all information mentioned above.
+In order to load your settings navigate to a file from the same folder and press "Load" button from  the "Target" tab.
+Other tabs (Locals, Call Stack, Terminal amd Debugger Messages) act like they are supposed to.
+
+Known issues
+------------
+   * watch expressions that produce long output (containing "..." signs) cause plugin to crash because of parsing error
+   * debugger terminal sometimes stops to show any data while real interaction seems to work
+
+License
+-------
+Debugger plugin is distributed under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2 of the
+License, or (at your option) any later version.  A copy of this license
+can be found in the file COPYING included with the source code of this
+program.
+
+
+Contact me
+-----------------------------------------
+Alexander Petukhov <devel@apetukhov.ru>
 
