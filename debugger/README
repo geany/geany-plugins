@@ -1,5 +1,5 @@
 Debugger plugin
-======================
+===============
 
 About
 -----
@@ -16,7 +16,7 @@ environment variables as well.
 Breakpoints tab offers changing existing breakpoints properties (hit count, condition)
 enabling/disabling and removing breakpoints.
 Adding new breakpoins however can be accomplished by clicking document left margin
-as in other IDEs. 
+as in other IDEs.
 New watch expressions can be added by dragging a variable or an expression from the editor
 or by clicking the last line in the watch table.
 Target data, breakpoints ans watch expressions can be saved and later loaded using buttons
@@ -27,8 +27,8 @@ Other tabs (Locals, Call Stack, Terminal amd Debugger Messages) act like they ar
 
 Known issues
 ------------
-   * watch expressions that produce long output (containing "..." signs) cause plugin to crash because of parsing error
-   * debugger terminal sometimes stops to show any data while real interaction seems to work
+    * watch expressions that produce long output (containing "..." signs) cause plugin to crash because of parsing error
+    * debugger terminal sometimes stops to show any data while real interaction seems to work
 
 License
 -------
@@ -40,6 +40,5 @@ program.
 
 
 Contact me
------------------------------------------
+----------
 Alexander Petukhov <devel@apetukhov.ru>
-
