@@ -39,10 +39,14 @@ GeanyFunctions	*geany_functions;
 
 /* Check that the running Geany supports the plugin API version used below, and check
  * for binary compatibility. */
-PLUGIN_VERSION_CHECK(147)
-
-/* All plugins must set name, description, version and author. */
-PLUGIN_SET_INFO(_("Debugger"), _("Various debuggers integration."), "0.1" , "devel@apetukhov.ru")
+PLUGIN_VERSION_CHECK(209)
+PLUGIN_SET_TRANSLATABLE_INFO(
+	LOCALEDIR,
+	GETTEXT_PACKAGE,
+	_("Debugger"),
+	_("Various debuggers integration."),
+	VERSION,
+	"Alexander Petukhov <devel@apetukhov.ru>")
 
 /* vbox for keeping breaks/stack/watch notebook */
 static GtkWidget *vbox = NULL;
@@ -66,11 +70,9 @@ PluginCallback plugin_callbacks[] =
  * Note: data is the same as geany_data. */
 void plugin_init(GeanyData *data)
 {
-	/* intialize gettext */
-	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
-	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-	textdomain (GETTEXT_PACKAGE);
+    main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 
+	/* main box */
 	vbox = gtk_vbox_new(1, 0);
 	
 	GtkWidget *debug_notebook = gtk_notebook_new ();

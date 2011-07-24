@@ -52,21 +52,20 @@ msgstr ""
 #. file
 #: ../addons/src/ao_tasks.c:407 ../debugger/src/bptree.c:380
 #: ../debugger/src/stree.c:158
-#, fuzzy
 msgid "File"
-msgstr "_Убить"
+msgstr "Файл"
 
 #. line
 #: ../addons/src/ao_tasks.c:418 ../debugger/src/bptree.c:387
 #: ../debugger/src/stree.c:166
 msgid "Line"
-msgstr ""
+msgstr "Строка"
 
 #. Type
 #: ../addons/src/ao_tasks.c:429 ../debugger/src/vtree.c:160
 #: ../geanylatex/src/bibtexlabels.c:68
 msgid "Type"
-msgstr ""
+msgstr "Тип"
 
 #: ../addons/src/ao_tasks.c:440
 msgid "Task"
@@ -269,88 +268,85 @@ msgstr ""
 
 #. All plugins must set name, description, version and author.
 #: ../debugger/src/plugin.c:45 ../debugger/src/keys.c:69
-#, fuzzy
 msgid "Debugger"
 msgstr "Отладчик"
 
 #: ../debugger/src/plugin.c:45
 msgid "Various debuggers integration."
-msgstr ""
+msgstr "Поддержка отладчиков."
 
 #. Target frame
 #: ../debugger/src/plugin.c:85 ../debugger/src/tpage.c:844
 msgid "Target"
-msgstr ""
+msgstr "Цель"
 
 #: ../debugger/src/plugin.c:91 ../geanygdb/src/gdb-ui-break.c:504
 msgid "Breakpoints"
 msgstr "Точки останова"
 
 #: ../debugger/src/plugin.c:107 ../geanygdb/src/geanygdb.c:389
-#, fuzzy
 msgid "Debug"
-msgstr "Отладчик"
+msgstr "Отладка"
 
 #. Name
 #: ../debugger/src/vtree.c:136 ../debugger/src/tpage.c:920
 msgid "Name"
-msgstr ""
+msgstr "Имя"
 
 #. Value
 #: ../debugger/src/vtree.c:151 ../debugger/src/tpage.c:929
 msgid "Value"
-msgstr ""
+msgstr "Значение"
 
 #. if name is empty - offer to delete variable
 #: ../debugger/src/tpage.c:286 ../debugger/src/tpage.c:386
 #: ../debugger/src/debug.c:172
-#, fuzzy
 msgid "Delete variable?"
-msgstr "Локальные переменные"
+msgstr "Удалить переменную?"
 
 #: ../debugger/src/tpage.c:507
 msgid "Config saved successfully"
-msgstr ""
+msgstr "Настройки сохранены"
 
 #: ../debugger/src/tpage.c:544 ../debugger/src/tpage.c:629
 msgid "Error reading config file"
-msgstr ""
+msgstr "Ошибка чтения файла настроек"
 
 #: ../debugger/src/tpage.c:557
 #, c-format
 msgid "Configuration error: debugger module '%s' is not found"
-msgstr ""
+msgstr "Ошибка конфигурации: модуль отладчика '%s' не найден"
 
 #: ../debugger/src/tpage.c:634
 msgid "Some breakpoints can't be set as the files are missed"
 msgstr ""
+"Некоторые точки останова не могут быть установлены, т.к. отсутствуют "
+"соответствующие файлы"
 
 #: ../debugger/src/tpage.c:641
 msgid "Config loaded successfully"
-msgstr ""
+msgstr "Настройки загружены успешно"
 
 #: ../debugger/src/tpage.c:677
 msgid "Choose target file"
-msgstr ""
+msgstr "Выберите файл"
 
 #: ../debugger/src/tpage.c:852
 msgid "Browse"
-msgstr ""
+msgstr "Обзор"
 
 #: ../debugger/src/tpage.c:864
-#, fuzzy
 msgid "Debugger:"
 msgstr "Отладчик"
 
 #. Arguments frame
 #: ../debugger/src/tpage.c:887
 msgid "Arguments"
-msgstr ""
+msgstr "Аргументы"
 
 #: ../debugger/src/tpage.c:902
-#, fuzzy
 msgid "Environment variables"
-msgstr "Параметры окружения"
+msgstr "Переменные окружения"
 
 #. enabled
 #: ../debugger/src/bptree.c:350 ../geanygdb/src/gdb-ui-break.c:163
@@ -360,35 +356,32 @@ msgstr "Включено"
 #. hits count
 #: ../debugger/src/bptree.c:358
 msgid "Hit count"
-msgstr ""
+msgstr "Кол-во пропусков"
 
 #. condition
 #: ../debugger/src/bptree.c:371
 msgid "Condition"
-msgstr ""
+msgstr "Условие"
 
 #: ../debugger/src/debug.c:797
-#, fuzzy
 msgid "Watch"
-msgstr "Точки контроля"
+msgstr "Наблюдение"
 
 #: ../debugger/src/debug.c:811
 msgid "Locals"
-msgstr ""
+msgstr "Локальные переменные"
 
 #: ../debugger/src/debug.c:826
-#, fuzzy
 msgid "Call Stack"
-msgstr "Сте_к"
+msgstr "Трассировка"
 
 #: ../debugger/src/debug.c:856
-#, fuzzy
 msgid "Debug terminal"
-msgstr "Запуск в терминале"
+msgstr "Терминал"
 
 #: ../debugger/src/debug.c:873
 msgid "Debugger messages"
-msgstr ""
+msgstr "Отладочные сообщения"
 
 #: ../debugger/src/debug.c:986
 #, c-format
@@ -396,43 +389,42 @@ msgid ""
 "Breakpoint at %s:%i cannot be set\n"
 "Debugger message: %s"
 msgstr ""
+"Точка останова %s:%i не может быть установлена\n"
+"Сообщение отладчика: %s"
 
 #: ../debugger/src/dbm_gdb.c:332
-#, fuzzy
 msgid "Program received a signal"
-msgstr "Программа возвратила сигнал:"
+msgstr "Программа получила сигнал:"
 
 #: ../debugger/src/dbm_gdb.c:531
 msgid "Failed to spawn gdb process"
-msgstr ""
+msgstr "Ошибка запуска GDB"
 
 #: ../debugger/src/dbm_gdb.c:568
 msgid "Error configuring GDB"
-msgstr ""
+msgstr "Ошибка установки параметров GDB"
 
 #: ../debugger/src/dbm_gdb.c:590
 msgid "Error loading file"
-msgstr ""
+msgstr "Ошибка загрузки файла"
 
 #. adress
 #: ../debugger/src/stree.c:142 ../geanylatex/src/bibtexlabels.c:46
-#, fuzzy
 msgid "Address"
-msgstr "Дополнения"
+msgstr "Адрес"
 
 #. function
 #: ../debugger/src/stree.c:150
-#, fuzzy
 msgid "Function"
-msgstr "Аргументы функции"
+msgstr "Функция"
 
 #: ../debugger/src/watch_model.c:161
 msgid "Can't evaluate expression"
-msgstr ""
+msgstr "Не могу вычислить выражение"
 
 #: ../debugger/src/callbacks.c:165
 msgid "To edit source files stop debugging session"
-msgstr ""
+msgstr "Остановите отладку чтобы редактировать файлы"
 
 #. never search for more than this many chars
 #: ../devhelp/src/dhp.h:38
@@ -4527,6 +4519,38 @@ msgstr "XML Сниппеты"
 #: ../xmlsnippets/src/plugin.c:42
 msgid "Autocompletes XML/HTML tags using snippets."
 msgstr "Автоматически завершает XML/HTML теги с использованием сниппетов."
+
+#: ../debugger/src/keys.c:45
+msgid "Run / Continue"
+msgstr "Запустить / Продолжить"
+
+#: ../debugger/src/keys.c:46
+msgid "Stop"
+msgstr "Останов"
+
+#: ../debugger/src/keys.c:47
+msgid "Step into"
+msgstr "Шаг в"
+
+#: ../debugger/src/keys.c:48
+msgid "Step over"
+msgstr "Шаг через"
+
+#: ../debugger/src/keys.c:49
+msgid "Step out"
+msgstr "Шаг из"
+
+#: ../debugger/src/keys.c:50
+msgid "Add / Remove breakpoint"
+msgstr "Добавить / Удалить точку останова"
+
+#: ../debugger/src/keys.c:50
+msgid "Run to cursor"
+msgstr "Выполнить до позиции курсора"
+
+#: ../debugger/src/keys.c:50
+msgid "Jump to the currect instruction"
+msgstr "Перейти к текущей инструкции"
 
 #, fuzzy
 #~ msgid "Yura Siamshka <yurand2@gmail.com>"

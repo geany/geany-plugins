@@ -66,7 +66,7 @@ gboolean keys_init()
 	/* set keygroup */
 	key_group = plugin_set_key_group(
 		geany_plugin,
-		_("Debugger"),
+		_("Debug"),
 		count - 1,
 		keys_callback);
 
