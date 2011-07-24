@@ -144,9 +144,9 @@ gboolean on_editor_notify(
 				if (value)
 				{
 					/* create and show calltip */
-					gchar msg[1000];
-					sprintf(msg, "%s = %s", word->str, value);
+					gchar* msg = g_strdup_printf("%s = %s", word->str, value) ;
 					scintilla_send_message (editor->sci, SCI_CALLTIPSHOW, nt->position, (long)msg);
+					g_free(msg);
 					g_free(value);
 				}
 			}
