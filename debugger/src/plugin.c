@@ -42,7 +42,7 @@ GeanyFunctions	*geany_functions;
 PLUGIN_VERSION_CHECK(147)
 
 /* All plugins must set name, description, version and author. */
-PLUGIN_SET_INFO(_("Debugger"), _("Various debuggers integration."), "0.1" , "Alexander.Petukhov@mail.ru")
+PLUGIN_SET_INFO(_("Debugger"), _("Various debuggers integration."), "0.1" , "devel@apetukhov.ru")
 
 /* vbox for keeping breaks/stack/watch notebook */
 static GtkWidget *vbox = NULL;
