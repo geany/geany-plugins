@@ -15,6 +15,8 @@ debugger_la_SOURCES = \
 	breakpoints.h     \
 	callbacks.c     \
 	callbacks.h     \
+	calltip.c     \
+	calltip.h     \
 	dbm_gdb.c     \
 	debug.c     \
 	debug.h     \

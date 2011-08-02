@@ -33,6 +33,7 @@
 #include "keys.h"
 #include "tpage.h"
 #include "stree.h"
+#include "markers.h"
 #include "utils.h"
 
 extern GeanyFunctions *geany_functions;
@@ -87,6 +88,9 @@ void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
 	/*set dwell interval*/
 	scintilla_send_message(doc->editor->sci, SCI_SETMOUSEDWELLTIME, 500, 0);
 
+	/* set tab size for calltips */
+	scintilla_send_message(doc->editor->sci, SCI_CALLTIPUSESTYLE, 20, NULL);
+
 	/* set caret policy */
 	scintilla_send_message(doc->editor->sci, SCI_SETYCARETPOLICY, CARET_SLOP | CARET_JUMPS | CARET_EVEN , 3);
 	
@@ -139,15 +143,11 @@ gboolean on_editor_notify(
 
 			if (word->len)
 			{
-				/* evaluate expression */
-				gchar *value = debug_evaluate_expression (word->str);
-				if (value)
+				GString *calltip = debug_get_calltip_for_expression(word->str);
+				if (calltip)
 				{
-					/* create and show calltip */
-					gchar* msg = g_strdup_printf("%s = %s", word->str, value) ;
-					scintilla_send_message (editor->sci, SCI_CALLTIPSHOW, nt->position, (long)msg);
-					g_free(msg);
-					g_free(value);
+					scintilla_send_message (editor->sci, SCI_CALLTIPSHOW, nt->position, (long)calltip->str);
+					g_string_free(calltip, TRUE);
 				}
 			}
 				
@@ -157,6 +157,9 @@ gboolean on_editor_notify(
 		}
 		case SCN_DWELLEND:
 		{
+			if (DBS_STOPPED != debug_get_state ())
+				break;
+
 			scintilla_send_message (editor->sci, SCI_CALLTIPCANCEL, 0, 0);
 			break;
 		}

@@ -1430,16 +1430,16 @@ variable* add_watch(gchar* expression)
 /*
  * remove watch 
  */
-void remove_watch(gchar* path)
+void remove_watch(gchar* internal)
 {
 	GList *iter = watches;
 	while (iter)
 	{
 		variable *var = (variable*)iter->data;
-		if (!strcmp(var->name->str, path))
+		if (!strcmp(var->internal->str, internal))
 		{
 			gchar command[1000];
-			sprintf(command, "-var-delete %s", var->internal->str);
+			sprintf(command, "-var-delete %s", internal);
 			exec_sync_command(command, TRUE, NULL);
 			watches = g_list_delete_link(watches, iter);
 		}

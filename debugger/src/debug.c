@@ -52,6 +52,13 @@ extern GeanyData		*geany_data;
 #include "wtree.h"
 #include "ltree.h"
 #include "tpage.h"
+#include "calltip.h"
+
+/*
+ *  calltip size  
+ */ 
+#define CALLTIP_HEIGHT 20
+#define CALLTIP_WIDTH 200
 
 /* module description structure (name/module pointer) */
 typedef struct _module_description {
@@ -162,6 +169,12 @@ static void on_watch_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 		&iter,
 		W_NAME, &oldvalue,
        -1);
+	gchar *internal = NULL;
+		gtk_tree_model_get (
+		wmodel,
+		&iter,
+		W_INTERNAL, &internal,
+		1);
 
 	/* check if it is empty row */
 	gboolean is_empty_row = !gtk_tree_path_compare (tree_path, wtree_empty_path());
@@ -175,7 +188,7 @@ static void on_watch_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 		 * offer to delete watch */
 		gtk_tree_store_remove(wstore, &iter);
 		if (DBS_STOPPED == debug_state)
-			active_module->remove_watch(oldvalue);
+			active_module->remove_watch(internal);
 	}
 	else if (strcmp(oldvalue, striped))
     {
@@ -192,7 +205,7 @@ static void on_watch_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 		/* if debug is active - remove old watch and add new one */
 		if (DBS_STOPPED == debug_state)
 		{
-			active_module->remove_watch(oldvalue);
+			active_module->remove_watch(internal);
 			variable *newvar = active_module->add_watch(striped);
 			change_watch(GTK_TREE_VIEW(wtree), is_empty_row ? &newiter : &iter, newvar);
 		}
@@ -211,6 +224,7 @@ static void on_watch_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 	/* free resources */
 	gtk_tree_path_free(tree_path);
 	g_free(oldvalue);
+	g_free(internal);
 	g_free(striped);
 }
 
@@ -350,16 +364,16 @@ static gboolean on_watch_key_pressed_callback(GtkWidget *widget, GdkEvent  *even
 				if (DBS_STOPPED == debug_state)
 				{
 
-					gchar *name = NULL;
+					gchar *internal = NULL;
 					gtk_tree_model_get (
 						wmodel,
 						&titer,
-						W_NAME, &name,
+						W_INTERNAL, &internal,
 						-1);
 
-					active_module->remove_watch(name);
+					active_module->remove_watch(internal);
 
-					g_free(name);
+					g_free(internal);
 				}
 
 
@@ -556,8 +570,8 @@ static void on_debugger_stopped ()
 	/* get current stack trace and put in the tree view */
 	GList* stack = active_module->get_stack();
 
-	/* if upper frame has source file - remember file anf line for
-	current instruction marker */
+	/* if upper frame has source file - remember the file and the line for
+	the current instruction marker */
 	frame *f = (frame*)stack->data;
 	if (f->have_source)
 	{
@@ -828,7 +842,7 @@ void debug_init(GtkWidget* nb)
 	/* create debug terminal page */
 	terminal = vte_terminal_new();
 	/* create PTY */
-	int res = openpty(&pty_master, &pty_slave, NULL,
+	openpty(&pty_master, &pty_slave, NULL,
 		    NULL,
 		    NULL);
 	grantpt(pty_master);
@@ -862,7 +876,6 @@ void debug_init(GtkWidget* nb)
 		GTK_POLICY_AUTOMATIC);
 	hadj = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(sview));
 	vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(sview));
-	GtkWidget* viewport = gtk_viewport_new(hadj, vadj);
 	
 	debugger_messages_textview =  gtk_text_view_new();
 	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(debugger_messages_textview), GTK_WRAP_CHAR);
@@ -1141,6 +1154,48 @@ gchar* debug_error_message()
 gchar* debug_evaluate_expression(gchar *expression)
 {
 	return active_module->evaluate_expression(expression);
+}
+
+/*
+ * return list of strings for the calltip
+ * first line is a header, others should be shifted right with tab
+ */
+GString* debug_get_calltip_for_expression(gchar* expression)
+{
+	GString *calltip = NULL;
+
+	variable *var = active_module->add_watch(expression);
+	if (var)
+	{
+		calltip = get_calltip_line(var, TRUE);
+		if (var->has_children)
+		{
+			int lines_left = MAX_CALLTIP_HEIGHT - 1;
+			GList* children = active_module->get_children(var->internal->str); 
+			GList* child = children;
+			while(child && lines_left)
+			{
+				variable *varchild = (variable*)child->data;
+				GString *child_string = get_calltip_line(varchild, FALSE);
+				g_string_append_printf(calltip, "\n%s", child_string->str);
+				g_string_free(child_string, TRUE);
+
+				child = child->next;
+				lines_left--;
+			}
+			if (!lines_left && child)
+			{
+				g_string_append(calltip, "\n\t\t........");
+			}
+			g_list_foreach(children, (GFunc)variable_free, NULL);
+			g_list_free(children);
+		}
+
+		active_module->remove_watch(var->internal->str);
+		variable_free(var);
+	}
+	
+	return calltip;
 }
 
 /*

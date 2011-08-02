@@ -20,6 +20,7 @@
  */
  
 #include "debug_module.h"
+#include "markers.h"
 
 /* debug states enumeration */
 enum dbs {
@@ -53,4 +54,5 @@ gchar*		debug_evaluate_expression(gchar *expression);
 gboolean	debug_current_instruction_have_sources();
 void		debug_jump_to_current_instruction();
 void		debug_on_file_open(GeanyDocument *doc);
+GString* debug_get_calltip_for_expression(gchar* expression);
 
