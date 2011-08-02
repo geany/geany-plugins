@@ -24,17 +24,17 @@
 static void putCharInBuffer(char charToAdd);                     //put a char into the new char buffer
 static void putCharsInBuffer(const char* charsToAdd);            //put the chars into the new char buffer
 static void putNextCharsInBuffer(int nbChars);                   //put the next nbChars of the input buffer into the new buffer
-static int readWhites(gboolean considerLineBreakAsWhite);        //read the next whites into the input buffer
+static int readWhites(bool considerLineBreakAsWhite);            //read the next whites into the input buffer
 static char readNextChar();                                      //read the next char into the input buffer;
 static char getNextChar();                                       //returns the next char but do not increase the input buffer index (use readNextChar for that)
 static char getPreviousInsertedChar();                           //returns the last inserted char into the new buffer
-static gboolean isWhite(char c);                                 //check if the specified char is a white
-static gboolean isLineBreak(char c);                             //check if the specified char is a new line
-static gboolean isQuote(char c);                                 //check if the specified char is a quote (simple or double)
+static bool isWhite(char c);                                     //check if the specified char is a white
+static bool isLineBreak(char c);                                 //check if the specified char is a new line
+static bool isQuote(char c);                                     //check if the specified char is a quote (simple or double)
 static int putNewLine();                                         //put a new line into the new char buffer with the correct number of whites (indentation)
-static gboolean isInlineNodeAllowed();                           //check if it is possible to have an inline node
-static gboolean isOnSingleLine(int skip, char stop1, char stop2);//check if the current node data is on one line (for inlining)
-static void resetBackwardIndentation(gboolean resetLineBreak);   //reset the indentation for the current depth (just reset the index in fact)
+static bool isInlineNodeAllowed();                               //check if it is possible to have an inline node
+static bool isOnSingleLine(int skip, char stop1, char stop2);    //check if the current node data is on one line (for inlining)
+static void resetBackwardIndentation(bool resetLineBreak);       //reset the indentation for the current depth (just reset the index in fact)
                                                              
 //specific parsing functions                                 
 static int processElements();                                    //returns the number of elements processed
@@ -47,7 +47,7 @@ static void processComment();                                    //process a com
 static void processCDATA();                                      //process a CDATA node
 static void processDoctype();                                    //process a DOCTYPE node
 static void processDoctypeElement();                             //process a DOCTYPE ELEMENT node
-                                                             
+
 //debug function                                             
 static void printError(const char *msg, ...);                    //just print a message like the printf method
 static void printDebugStatus();                                  //just print some variables into the console for debugging
@@ -66,8 +66,8 @@ static int inputBufferLength;                                     //input buffer
 static int inputBufferIndex;                                      //input buffer index (position of the next char to read into the input string)
 static int currentDepth;                                          //current depth (for indentation)
 static char* currentNodeName;                                     //current node name
-static gboolean appendIndentation;                                //if the indentation must be added (with a line break before)
-static gboolean lastNodeOpen;                                     //defines if the last action was a not opening or not
+static bool appendIndentation;                                //if the indentation must be added (with a line break before)
+static bool lastNodeOpen;                                     //defines if the last action was a not opening or not
 static PrettyPrintingOptions* options;                            //options of PrettyPrinting
 
 //============================================ GENERAL FUNCTIONS =======================================
@@ -80,7 +80,7 @@ int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* 
     
     //initialize the variables
     result = PRETTY_PRINTING_SUCCESS;
-    gboolean freeOptions = FALSE;
+    bool freeOptions = FALSE;
     if (ppOptions == NULL) { ppOptions = createDefaultPrettyPrintingOptions(); freeOptions = TRUE; }
     options = ppOptions;
     
@@ -96,7 +96,7 @@ int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* 
     
     xmlPrettyPrintedLength = *length;
     xmlPrettyPrinted = (char*)malloc(sizeof(char)*(*length));
-    if (xmlPrettyPrinted == NULL) { g_error("Allocation error"); }
+    if (xmlPrettyPrinted == NULL) { fprintf(stderr, "Allocation error"); return PRETTY_PRINTING_SYSTEM_ERROR; }
     
     //go to the first char
     readWhites(TRUE);
@@ -109,7 +109,7 @@ int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* 
     
     //adjust the final size
     xmlPrettyPrinted = realloc(xmlPrettyPrinted, xmlPrettyPrintedIndex);
-    if (xmlPrettyPrinted == NULL) { g_error("Allocation error"); }
+    if (xmlPrettyPrinted == NULL) { fprintf(stderr, "Allocation error"); return PRETTY_PRINTING_SYSTEM_ERROR; }
     
     //freeing the unused values
     if (freeOptions) { free(options); }
@@ -142,8 +142,8 @@ PrettyPrintingOptions* createDefaultPrettyPrintingOptions()
     PrettyPrintingOptions* defaultOptions = (PrettyPrintingOptions*)malloc(sizeof(PrettyPrintingOptions));
     if (defaultOptions == NULL) 
     { 
-        g_error("Unable to allocate memory for PrettyPrintingOptions");
-        return NULL; 
+        fprintf(stderr, "Unable to allocate memory for PrettyPrintingOptions");
+        return NULL;
     }
     
     defaultOptions->newLineChars = "\r\n";
@@ -184,7 +184,7 @@ void putCharInBuffer(char charToAdd)
         if (charToAdd == '\0') { ++xmlPrettyPrintedLength; }
         else { xmlPrettyPrintedLength += inputBufferLength; }
         xmlPrettyPrinted = (char*)realloc(xmlPrettyPrinted, xmlPrettyPrintedLength);
-        if (xmlPrettyPrinted == NULL) { g_error("Allocation error"); }
+        if (xmlPrettyPrinted == NULL) { fprintf(stderr, "Allocation error"); return; }
     }
     
     //putting the char and increase the index for the next one
@@ -230,7 +230,7 @@ char readNextChar()
     return inputBuffer[inputBufferIndex++];
 }
 
-int readWhites(gboolean considerLineBreakAsWhite)
+int readWhites(bool considerLineBreakAsWhite)
 {
     int counter = 0;
     while(isWhite(inputBuffer[inputBufferIndex]) && 
@@ -244,26 +244,26 @@ int readWhites(gboolean considerLineBreakAsWhite)
     return counter;
 }
 
-gboolean isQuote(char c)
+bool isQuote(char c)
 {
     return (c == '\'' ||
             c == '\"');
 }
 
-gboolean isWhite(char c)
+bool isWhite(char c)
 {
     return (c == ' ' ||
             c == '\t' ||
             isLineBreak(c));
 }
 
-gboolean isLineBreak(char c)
+bool isLineBreak(char c)
 {
     return (c == '\n' || 
             c == '\r');
 }
 
-gboolean isInlineNodeAllowed()
+bool isInlineNodeAllowed()
 {
     //the last action was not an opening => inline not allowed
     if (!lastNodeOpen) { return FALSE; }
@@ -287,7 +287,7 @@ gboolean isInlineNodeAllowed()
         //read until closing
         char oldChar = ' ';
         currentIndex += 3; //that by pass meanless chars
-        gboolean loop = TRUE;
+        bool loop = TRUE;
         while (loop)
         {
             char current = inputBuffer[currentIndex];
@@ -325,10 +325,10 @@ gboolean isInlineNodeAllowed()
     return FALSE;
 }
 
-gboolean isOnSingleLine(int skip, char stop1, char stop2)
+bool isOnSingleLine(int skip, char stop1, char stop2)
 {
     int currentIndex = inputBufferIndex+skip; //skip the n first chars (in comment <!--)
-    gboolean onSingleLine = TRUE;
+    bool onSingleLine = TRUE;
     
     char oldChar = inputBuffer[currentIndex];
     char currentChar = inputBuffer[currentIndex+1];
@@ -367,7 +367,7 @@ gboolean isOnSingleLine(int skip, char stop1, char stop2)
     return onSingleLine;
 }
 
-void resetBackwardIndentation(gboolean resetLineBreak)
+void resetBackwardIndentation(bool resetLineBreak)
 {
     xmlPrettyPrintedIndex -= (currentDepth*options->indentLength);
     if (resetLineBreak) 
@@ -391,7 +391,7 @@ int processElements()
 {
     int counter = 0;
     ++currentDepth;
-    gboolean loop = TRUE;
+    bool loop = TRUE;
     while (loop && result == PRETTY_PRINTING_SUCCESS)
     {
         //strip unused whites
@@ -404,7 +404,7 @@ int processElements()
         if (appendIndentation) { putNewLine(); }
         
         //always append indentation (but need to store the state)
-        gboolean indentBackward = appendIndentation;
+        bool indentBackward = appendIndentation;
         appendIndentation = TRUE; 
         
         //okay what do we have now ?
@@ -496,7 +496,7 @@ void processElementAttributes()
         return; 
     }
     
-    gboolean loop = TRUE;
+    bool loop = TRUE;
     while (loop)
     {
         readWhites(TRUE); //strip the whites
@@ -564,7 +564,7 @@ void processNode()
 
     //store the name
     char* nodeName = (char*)malloc(sizeof(char)*nodeNameLength+1);
-    if (nodeName == NULL) { g_error("Allocation error"); }
+    if (nodeName == NULL) { fprintf(stderr, "Allocation error"); return ; }
     nodeName[nodeNameLength] = '\0';
     int i;
     for (i=0 ; i<nodeNameLength ; ++i)
@@ -680,7 +680,7 @@ void processNode()
 
 void processComment()
 {
-    gboolean inlineAllowed = FALSE;
+    bool inlineAllowed = FALSE;
     if (options->inlineComment) { inlineAllowed = isInlineNodeAllowed(); }
     if (inlineAllowed && !options->oneLineComment) { inlineAllowed = isOnSingleLine(4, '-', '-'); }
     if (inlineAllowed) { resetBackwardIndentation(TRUE); }
@@ -688,7 +688,7 @@ void processComment()
     putNextCharsInBuffer(4); //add the chars '<!--'
     
     char oldChar = '-';
-    gboolean loop = TRUE;
+    bool loop = TRUE;
     while (loop)
     {
         char nextChar = readNextChar();
@@ -705,7 +705,7 @@ void processComment()
             if (!loop && options->alignComment) //end of comment
             {
                 //ensures the chars preceding the first '-' are all spaces
-                gboolean onlySpaces = xmlPrettyPrinted[xmlPrettyPrintedIndex-3] == ' ' &&
+                bool onlySpaces = xmlPrettyPrinted[xmlPrettyPrintedIndex-3] == ' ' &&
                                       xmlPrettyPrinted[xmlPrettyPrintedIndex-4] == ' ' &&
                                       xmlPrettyPrinted[xmlPrettyPrintedIndex-5] == ' ' &&
                                       xmlPrettyPrinted[xmlPrettyPrintedIndex-6] == ' ' &&
@@ -769,7 +769,7 @@ void processComment()
 void processTextNode()
 {
     //checks if inline is allowed
-    gboolean inlineTextAllowed = FALSE;
+    bool inlineTextAllowed = FALSE;
     if (options->inlineText) { inlineTextAllowed = isInlineNodeAllowed(); }
     if (inlineTextAllowed && !options->oneLineText) { inlineTextAllowed = isOnSingleLine(0, '<', '/'); }
     if (inlineTextAllowed || !options->alignText) { resetBackwardIndentation(TRUE); } //remove previous indentation
@@ -860,13 +860,13 @@ void processTextNode()
 
 void processCDATA()
 {
-    gboolean inlineAllowed = FALSE;
+    bool inlineAllowed = FALSE;
     if (options->inlineCdata) { inlineAllowed = isInlineNodeAllowed(); }
     if (inlineAllowed) { resetBackwardIndentation(TRUE); }
     
     putNextCharsInBuffer(9); //putting the '<![CDATA[' into the buffer
     
-    gboolean loop = TRUE;
+    bool loop = TRUE;
     char oldChar = '[';
     while(loop)
     {
@@ -914,7 +914,7 @@ void processDoctype()
 {
     putNextCharsInBuffer(9); //put the '<!DOCTYPE' into the buffer
     
-    gboolean loop = TRUE;
+    bool loop = TRUE;
     while(loop)
     {
         readWhites(TRUE);
@@ -981,20 +981,31 @@ void printError(const char *msg, ...)
 {
     va_list va;
     va_start(va, msg);
+    #ifdef HAVE_GLIB
     g_warning(msg, va);
+    #else
+    fprintf(stderr, msg, va);
+    #endif
     va_end(va);
-    
-    //TODO also do a fprintf on stderr ?
-    
+
     printDebugStatus();
 }
 
 void printDebugStatus()
 {
+    #ifdef HAVE_GLIB
     g_debug("\n===== INPUT =====\n%s\n=================\ninputLength = %d\ninputIndex = %d\noutputLength = %d\noutputIndex = %d\n", 
             inputBuffer, 
             inputBufferLength, 
             inputBufferIndex,
             xmlPrettyPrintedLength,
             xmlPrettyPrintedIndex);
+    #else
+    fprintf(stderr, "\n===== INPUT =====\n%s\n=================\ninputLength = %d\ninputIndex = %d\noutputLength = %d\noutputIndex = %d\n", 
+            inputBuffer, 
+            inputBufferLength, 
+            inputBufferIndex,
+            xmlPrettyPrintedLength,
+            xmlPrettyPrintedIndex);
+    #endif
 }

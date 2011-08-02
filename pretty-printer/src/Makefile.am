@@ -14,7 +14,7 @@ pretty_print_la_SOURCES = \
 	ConfigUI.h \
 	ConfigUI.c
 
-pretty_print_la_CFLAGS = $(AM_CFLAGS) $(LIBXML_CFLAGS)
+pretty_print_la_CFLAGS = $(AM_CFLAGS) $(LIBXML_CFLAGS) -DHAVE_GLIB -DHAVE_LIBXML
 pretty_print_la_LIBADD = $(COMMONLIBS) $(LIBXML_LIBS)
 
 include $(top_srcdir)/build/cppcheck.mk

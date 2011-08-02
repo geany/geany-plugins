@@ -25,7 +25,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
+
+#ifdef HAVE_GLIB
 #include <glib.h>
+#endif
 
 //========================================== DEFINES ===========================================================
 
@@ -33,32 +36,42 @@
 #define PRETTY_PRINTING_INVALID_CHAR_ERROR 1
 #define PRETTY_PRINTING_EMPTY_XML 2
 #define PRETTY_PRINTING_NOT_SUPPORTED_YET 3
+#define PRETTY_PRINTING_SYSTEM_ERROR 4
+
+#ifndef FALSE
+#define FALSE (0)
+#endif
+
+#ifndef TRUE
+#define TRUE !(FALSE)
+#endif
+
+typedef unsigned int bool;
 
 //========================================== STRUCTURES =======================================================
 
 /**
  * The PrettyPrintingOptions struct allows the programmer to tell the
  * PrettyPrinter how it must format the XML output.
- * 
  */
 typedef struct 
 {
       const char* newLineChars;                                                             //char used to generate a new line (generally \r\n)
       char indentChar;                                                                      //char used for indentation
       int indentLength;                                                                     //number of char to use for indentation (by default 2 spaces)
-      gboolean oneLineText;                                                                 //text is put on one line  
-      gboolean inlineText;                                                                  //if possible text are inline (no return after the opening node and before closing node)
-      gboolean oneLineComment;                                                              //comments are put on one line
-      gboolean inlineComment;                                                               //if possible comments are inline (no return after the opening node and before closing node)
-      gboolean oneLineCdata;                                                                //cdata are put on one line
-      gboolean inlineCdata;                                                                 //if possible cdata are inline (no return after the opening node and before closing node)
-      gboolean emptyNodeStripping;                                                          //the empty nodes such <node></node> are set to <node/>
-      gboolean emptyNodeStrippingSpace;                                                     //put a space before the '/>' when a node is stripped
-      gboolean forceEmptyNodeSplit;                                                         //force an empty node to be splitted : <node /> becomes <node></node> (only if emptyNodeStripping = false)
-      gboolean trimLeadingWhites;                                                           //trim the leading whites in a text node
-      gboolean trimTrailingWhites;                                                          //trim the trailing whites in a text node
-      gboolean alignComment;                                                                //align the comments. If false, comments are untouched (only if oneLineComment = false)
-      gboolean alignText;                                                                   //align the text in a node. If false, text is untouched (only if oneLineText = false)
+      bool oneLineText;                                                                     //text is put on one line  
+      bool inlineText;                                                                      //if possible text are inline (no return after the opening node and before closing node)
+      bool oneLineComment;                                                                  //comments are put on one line
+      bool inlineComment;                                                                   //if possible comments are inline (no return after the opening node and before closing node)
+      bool oneLineCdata;                                                                    //cdata are put on one line
+      bool inlineCdata;                                                                     //if possible cdata are inline (no return after the opening node and before closing node)
+      bool emptyNodeStripping;                                                              //the empty nodes such <node></node> are set to <node/>
+      bool emptyNodeStrippingSpace;                                                         //put a space before the '/>' when a node is stripped
+      bool forceEmptyNodeSplit;                                                             //force an empty node to be splitted : <node /> becomes <node></node> (only if emptyNodeStripping = false)
+      bool trimLeadingWhites;                                                               //trim the leading whites in a text node
+      bool trimTrailingWhites;                                                              //trim the trailing whites in a text node
+      bool alignComment;                                                                    //align the comments. If false, comments are untouched (only if oneLineComment = false)
+      bool alignText;                                                                       //align the text in a node. If false, text is untouched (only if oneLineText = false)
 }
 PrettyPrintingOptions;
 
