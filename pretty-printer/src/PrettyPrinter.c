@@ -29,6 +29,7 @@ static char readNextChar();                                      //read the next
 static char getNextChar();                                       //returns the next char but do not increase the input buffer index (use readNextChar for that)
 static char getPreviousInsertedChar();                           //returns the last inserted char into the new buffer
 static bool isWhite(char c);                                     //check if the specified char is a white
+static bool isSpace(char c);                                     //check if the specified char is a space
 static bool isLineBreak(char c);                                 //check if the specified char is a new line
 static bool isQuote(char c);                                     //check if the specified char is a quote (simple or double)
 static int putNewLine();                                         //put a new line into the new char buffer with the correct number of whites (indentation)
@@ -81,9 +82,13 @@ int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* 
     //initialize the variables
     result = PRETTY_PRINTING_SUCCESS;
     bool freeOptions = FALSE;
-    if (ppOptions == NULL) { ppOptions = createDefaultPrettyPrintingOptions(); freeOptions = TRUE; }
-    options = ppOptions;
+    if (ppOptions == NULL) 
+    { 
+        ppOptions = createDefaultPrettyPrintingOptions(); 
+        freeOptions = TRUE; 
+    }
     
+    options = ppOptions;
     currentNodeName = NULL;
     appendIndentation = FALSE;
     lastNodeOpen = FALSE;
@@ -162,6 +167,7 @@ PrettyPrintingOptions* createDefaultPrettyPrintingOptions()
     defaultOptions->trimTrailingWhites = TRUE;
     defaultOptions->alignComment = TRUE;
     defaultOptions->alignText = TRUE;
+    defaultOptions->alignCdata = TRUE;
     
     return defaultOptions;
 }
@@ -252,9 +258,14 @@ bool isQuote(char c)
 
 bool isWhite(char c)
 {
-    return (c == ' ' ||
-            c == '\t' ||
+    return (isSpace(c) ||
             isLineBreak(c));
+}
+
+bool isSpace(char c)
+{
+    return (c == ' ' ||
+            c == '\t');
 }
 
 bool isLineBreak(char c)
@@ -272,13 +283,14 @@ bool isInlineNodeAllowed()
     int secondChar = inputBuffer[inputBufferIndex+1]; //should be '!'
     int thirdChar = inputBuffer[inputBufferIndex+2]; //should be '-' or '['
     
+    //loop through the content up to the next opening/closing node
     int currentIndex = inputBufferIndex+1;
     if (firstChar == '<')
     {
         //another node is being open ==> no inline !
         if (secondChar != '!') { return FALSE; }
         
-        //okay we are in a comment node, so read until it is closed
+        //okay we are in a comment/cdata node, so read until it is closed
         
         //select the closing char
         char closingComment = '-';
@@ -286,12 +298,12 @@ bool isInlineNodeAllowed()
         
         //read until closing
         char oldChar = ' ';
-        currentIndex += 3; //that by pass meanless chars
+        currentIndex += 3; //that bypass meanless chars
         bool loop = TRUE;
         while (loop)
         {
             char current = inputBuffer[currentIndex];
-            if (current == closingComment && oldChar == closingComment) { loop = FALSE; } //end of comment
+            if (current == closingComment && oldChar == closingComment) { loop = FALSE; } //end of comment/cdata
             oldChar = current;
             ++currentIndex;
         }
@@ -316,7 +328,7 @@ bool isInlineNodeAllowed()
         if (currentChar == '/')
         {
             //as we are in a correct XML (so far...), if the node is 
-            //being directly close, the inline is allowed !!!
+            //being directly closed, the inline is allowed !!!
             return TRUE;
         }
     }
@@ -699,17 +711,32 @@ void processComment()
         
         if (!isLineBreak(nextChar)) //the comment simply continues
         {
-            putCharInBuffer(nextChar);
-            oldChar = nextChar;
+            if (options->oneLineComment && isSpace(nextChar))
+            {
+                //removes all the unecessary spaces
+                while(isSpace(getNextChar()))
+                {
+                    nextChar = readNextChar();
+                }
+                putCharInBuffer(' ');
+                oldChar = ' ';
+            }
+            else
+            {
+                //comment is left untouched
+                putCharInBuffer(nextChar);
+                oldChar = nextChar;
+            }
             
             if (!loop && options->alignComment) //end of comment
             {
-                //ensures the chars preceding the first '-' are all spaces
+                //ensures the chars preceding the first '-' are all spaces (there are at least
+                //5 spaces in front of the '-->' for the alignment with '<!--')
                 bool onlySpaces = xmlPrettyPrinted[xmlPrettyPrintedIndex-3] == ' ' &&
-                                      xmlPrettyPrinted[xmlPrettyPrintedIndex-4] == ' ' &&
-                                      xmlPrettyPrinted[xmlPrettyPrintedIndex-5] == ' ' &&
-                                      xmlPrettyPrinted[xmlPrettyPrintedIndex-6] == ' ' &&
-                                      xmlPrettyPrinted[xmlPrettyPrintedIndex-7] == ' ';
+                                  xmlPrettyPrinted[xmlPrettyPrintedIndex-4] == ' ' &&
+                                  xmlPrettyPrinted[xmlPrettyPrintedIndex-5] == ' ' &&
+                                  xmlPrettyPrinted[xmlPrettyPrintedIndex-6] == ' ' &&
+                                  xmlPrettyPrinted[xmlPrettyPrintedIndex-7] == ' ';
                 
                 //if all the preceding chars are white, then go for replacement
                 if (onlySpaces)
@@ -732,7 +759,7 @@ void processComment()
                 }
               
                 putNewLine(); //put a new indentation line
-                putCharsInBuffer("     ");
+                putCharsInBuffer("     "); //align with <!-- 
                 oldChar = ' '; //and update the last char
             }
             else
@@ -744,9 +771,11 @@ void processComment()
         else //the comments must be inlined
         {
             readWhites(TRUE); //strip the whites and add a space if needed
-            if (getPreviousInsertedChar() != ' ') 
+            if (getPreviousInsertedChar() != ' ' &&
+                strncmp(xmlPrettyPrinted+xmlPrettyPrintedIndex-4, "<!--", 4) != 0) //prevents adding a space at the beginning 
             { 
                 putCharInBuffer(' '); 
+                oldChar = ' ';
             }
         }
     }
@@ -772,14 +801,17 @@ void processTextNode()
     bool inlineTextAllowed = FALSE;
     if (options->inlineText) { inlineTextAllowed = isInlineNodeAllowed(); }
     if (inlineTextAllowed && !options->oneLineText) { inlineTextAllowed = isOnSingleLine(0, '<', '/'); }
-    if (inlineTextAllowed || !options->alignText) { resetBackwardIndentation(TRUE); } //remove previous indentation
-    
+    if (inlineTextAllowed || !options->alignText) 
+    { 
+        resetBackwardIndentation(TRUE); //remove previous indentation
+        if (!inlineTextAllowed) { putNewLine(); }
+    } 
+   
     //the leading whites are automatically stripped. So we re-add it
     if (!options->trimLeadingWhites)
     {
         int backwardIndex = inputBufferIndex-1;
-        while (inputBuffer[backwardIndex] == ' ' || 
-               inputBuffer[backwardIndex] == '\t') 
+        while (isSpace(inputBuffer[backwardIndex])) 
         { 
             --backwardIndex; //backward rolling
         } 
@@ -810,12 +842,9 @@ void processTextNode()
                 //as we can put text on one line, remove the line break 
                 //and replace it by a space but only if the previous 
                 //char wasn't a space
-                if (getPreviousInsertedChar() != ' ') 
-                { 
-                    putCharInBuffer(' '); 
-                }
+                if (getPreviousInsertedChar() != ' ') { putCharInBuffer(' '); }
             }
-            else if (options->alignComment)
+            else if (options->alignText)
             {
                 int read = readWhites(FALSE);
                 if (nextChar == '\r' && read == 0 && getNextChar() == '\n') //handles the '\r\n'
@@ -852,7 +881,7 @@ void processTextNode()
     }
     
     //remove the indentation for the closing tag
-    if (inlineTextAllowed || !options->alignText) { appendIndentation = FALSE; }
+    if (inlineTextAllowed) { appendIndentation = FALSE; }
     
     //there vas no node open
     lastNodeOpen = FALSE;
@@ -862,6 +891,7 @@ void processCDATA()
 {
     bool inlineAllowed = FALSE;
     if (options->inlineCdata) { inlineAllowed = isInlineNodeAllowed(); }
+    if (inlineAllowed && !options->oneLineCdata) { inlineAllowed = isOnSingleLine(9, ']', ']'); }
     if (inlineAllowed) { resetBackwardIndentation(TRUE); }
     
     putNextCharsInBuffer(9); //putting the '<![CDATA[' into the buffer
@@ -876,24 +906,93 @@ void processCDATA()
         
         if (!isLineBreak(nextChar)) //the cdata simply continues
         {
-            putCharInBuffer(nextChar);
-            oldChar = nextChar;
-        }
-        else if (!options->oneLineCdata)
-        {
-            readWhites(TRUE); //strip the whites and new line
-            putNewLine(); //put a new indentation line
-            oldChar = ' '; //and update the last char
+            if (options->oneLineCdata && isSpace(nextChar))
+            {
+                //removes all the unecessary spaces
+                while(isSpace(nextChar2))
+                {
+                    nextChar = readNextChar();
+                    nextChar2 = getNextChar();
+                }
+                
+                putCharInBuffer(' ');
+                oldChar = ' ';
+            }
+            else
+            {
+                //comment is left untouched
+                putCharInBuffer(nextChar);
+                oldChar = nextChar;
+            }
             
-            //TODO manage relative spacing
+            if (!loop && options->alignCdata) //end of cdata
+            {
+                //ensures the chars preceding the first '-' are all spaces (there are at least
+                //10 spaces in front of the ']]>' for the alignment with '<![CDATA[')
+                bool onlySpaces = xmlPrettyPrinted[xmlPrettyPrintedIndex-3] == ' ' &&
+                                  xmlPrettyPrinted[xmlPrettyPrintedIndex-4] == ' ' &&
+                                  xmlPrettyPrinted[xmlPrettyPrintedIndex-5] == ' ' &&
+                                  xmlPrettyPrinted[xmlPrettyPrintedIndex-6] == ' ' &&
+                                  xmlPrettyPrinted[xmlPrettyPrintedIndex-7] == ' ' &&
+                                  xmlPrettyPrinted[xmlPrettyPrintedIndex-8] == ' ' &&
+                                  xmlPrettyPrinted[xmlPrettyPrintedIndex-9] == ' ' &&
+                                  xmlPrettyPrinted[xmlPrettyPrintedIndex-10] == ' ' &&
+                                  xmlPrettyPrinted[xmlPrettyPrintedIndex-11] == ' ';
+                
+                //if all the preceding chars are white, then go for replacement
+                if (onlySpaces)
+                {
+                    xmlPrettyPrintedIndex -= 11; //remove indentation spaces
+                    putCharsInBuffer("]]"); //reset the first chars of '-->'
+                }
+            }
+        }
+        else if (!options->oneLineCdata && !inlineAllowed) //line break
+        {
+            //if the cdata need to be aligned, just add 9 spaces
+            if (options->alignCdata) 
+            {
+                int read = readWhites(FALSE); //strip the whites and new line
+                if (nextChar == '\r' && read == 0 && getNextChar() == '\n') //handles the \r\n return line
+                {
+                    readNextChar(); 
+                    readWhites(FALSE);
+                }
+              
+                putNewLine(); //put a new indentation line
+                putCharsInBuffer("         "); //align with <![CDATA[
+                oldChar = ' '; //and update the last char
+            }
+            else
+            {
+                putCharInBuffer(nextChar);
+                oldChar = nextChar;
+            }
         }
         else //cdata are inlined
         {
             readWhites(TRUE); //strip the whites and add a space if necessary
-            if(getPreviousInsertedChar() != ' ') { putCharInBuffer(' '); }
+            if(getPreviousInsertedChar() != ' ' &&
+               strncmp(xmlPrettyPrinted+xmlPrettyPrintedIndex-9, "<![CDATA[", 9) != 0) //prevents adding a space at the beginning 
+            { 
+                putCharInBuffer(' '); 
+                oldChar = ' ';
+            }
         }
     }
     
+    //if the cdata is inline, then all the trailing spaces are removed
+    if (options->oneLineCdata)
+    {
+        xmlPrettyPrintedIndex -= 2; //because of the last ']]' inserted
+        while(isWhite(xmlPrettyPrinted[xmlPrettyPrintedIndex-1]))
+        {
+            --xmlPrettyPrintedIndex;
+        }
+        putCharsInBuffer("]]");
+    }
+    
+    //finalize the cdata
     char lastChar = readNextChar(); //should be '>'
     if (lastChar != '>') 
     { 
@@ -906,7 +1005,7 @@ void processCDATA()
     
     if (inlineAllowed) { appendIndentation = FALSE; }
     
-    //there vas no node open
+    //there was no node open
     lastNodeOpen = FALSE;
 }
 

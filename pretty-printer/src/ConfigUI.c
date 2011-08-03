@@ -20,7 +20,7 @@
 
 //======================= FUNCTIONS ====================================================================
 
-static GtkWidget* createTwoOptionsBox(const char* label, const char* checkBox1, const char* checkBox2, gboolean cb1Active, gboolean cb2Active, GtkWidget** option1, GtkWidget** option2);
+//static GtkWidget* createTwoOptionsBox(const char* label, const char* checkBox1, const char* checkBox2, gboolean cb1Active, gboolean cb2Active, GtkWidget** option1, GtkWidget** option2);
 static GtkWidget* createThreeOptionsBox(const char* label, const char* checkBox1, const char* checkBox2, const char* checkBox3, gboolean cb1Active, gboolean cb2Active, gboolean cb3Active, GtkWidget** option1, GtkWidget** option2, GtkWidget** option3);
 static GtkWidget* createEmptyTextOptions(gboolean emptyNodeStripping, gboolean emptyNodeStrippingSpace, gboolean forceEmptyNodeSplit);
 static GtkWidget* createIndentationOptions(char indentation, int count);
@@ -36,6 +36,7 @@ static GtkWidget* textInline;
 static GtkWidget* textAlign;
 static GtkWidget* cdataOneLine;
 static GtkWidget* cdataInline;
+static GtkWidget* cdataAlign;
 static GtkWidget* emptyNodeStripping;
 static GtkWidget* emptyNodeStrippingSpace;
 static GtkWidget* emptyNodeSplit;
@@ -60,7 +61,7 @@ GtkWidget* createPrettyPrinterConfigUI(GtkDialog * dialog)
     GtkWidget* leftBox = gtk_vbox_new(FALSE, 6);
     GtkWidget* commentOptions = createThreeOptionsBox(_("Comments"), _("Put on one line"), _("Inline if possible"), _("Alignment"), ppo->oneLineComment, ppo->inlineComment, ppo->alignComment, &commentOneLine, &commentInline, &commentAlign);
     GtkWidget* textOptions = createThreeOptionsBox(_("Text nodes"), _("Put on one line"), _("Inline if possible"), _("Alignment"), ppo->oneLineText, ppo->inlineText, ppo->alignText, &textOneLine, &textInline, &textAlign);
-    GtkWidget* cdataOptions = createTwoOptionsBox(_("CDATA"), _("Put on one line"), _("Inline if possible"), ppo->oneLineCdata, ppo->inlineCdata, &cdataOneLine, &cdataInline);
+    GtkWidget* cdataOptions = createThreeOptionsBox(_("CDATA"), _("Put on one line"), _("Inline if possible"), _("Alignment"), ppo->oneLineCdata, ppo->inlineCdata, ppo->alignCdata, &cdataOneLine, &cdataInline, &cdataAlign);
     GtkWidget* emptyOptions = createEmptyTextOptions(ppo->emptyNodeStripping, ppo->emptyNodeStrippingSpace, ppo->forceEmptyNodeSplit);
     GtkWidget* indentationOptions = createIndentationOptions(ppo->indentChar, ppo->indentLength);
     GtkWidget* lineReturnOptions = createLineReturnOptions(ppo->newLineChars);
@@ -95,6 +96,7 @@ void saveSettings()
     
     ppo->oneLineCdata = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cdataOneLine));
     ppo->inlineCdata = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cdataInline));
+    ppo->alignCdata = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cdataAlign));
     
     ppo->emptyNodeStripping = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(emptyNodeStripping));
     ppo->emptyNodeStrippingSpace = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(emptyNodeStrippingSpace));
@@ -111,7 +113,7 @@ void saveSettings()
 
 //============================================= PRIVATE FUNCTIONS =======================================
 
-GtkWidget* createTwoOptionsBox(const char* label, 
+/*GtkWidget* createTwoOptionsBox(const char* label, 
                                const char* checkBox1, 
                                const char* checkBox2, 
                                gboolean cb1Active, 
@@ -141,7 +143,7 @@ GtkWidget* createTwoOptionsBox(const char* label,
     *option2 = chb2;
     
     return container;
-}
+}*/
 
 static GtkWidget* createThreeOptionsBox(const char* label, 
                                         const char* checkBox1, 

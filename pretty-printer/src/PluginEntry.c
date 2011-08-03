@@ -27,7 +27,7 @@
 
 PLUGIN_VERSION_CHECK(130)
 PLUGIN_SET_INFO("XML PrettyPrinter", "Formats an XML and makes it human-readable.",
-                "1.2", "Cédric Tabin - http://www.astorm.ch")
+                PRETTY_PRINTER_VERSION, "Cédric Tabin - http://www.astorm.ch")
 PLUGIN_KEY_GROUP(prettyprinter, 1)
 
 //========================================== DECLARATIONS ================================================================

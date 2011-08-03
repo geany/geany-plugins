@@ -32,6 +32,8 @@
 
 //========================================== DEFINES ===========================================================
 
+#define PRETTY_PRINTER_VERSION "1.3"
+
 #define PRETTY_PRINTING_SUCCESS 0
 #define PRETTY_PRINTING_INVALID_CHAR_ERROR 1
 #define PRETTY_PRINTING_EMPTY_XML 2
@@ -72,6 +74,7 @@ typedef struct
       bool trimTrailingWhites;                                                              //trim the trailing whites in a text node
       bool alignComment;                                                                    //align the comments. If false, comments are untouched (only if oneLineComment = false)
       bool alignText;                                                                       //align the text in a node. If false, text is untouched (only if oneLineText = false)
+      bool alignCdata;                                                                      //align the cdata. If false, cdata is untouched (only if oneLineCdata = false)
 }
 PrettyPrintingOptions;
 
