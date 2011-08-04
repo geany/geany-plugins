@@ -89,7 +89,7 @@ void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
 	scintilla_send_message(doc->editor->sci, SCI_SETMOUSEDWELLTIME, 500, 0);
 
 	/* set tab size for calltips */
-	scintilla_send_message(doc->editor->sci, SCI_CALLTIPUSESTYLE, 20, NULL);
+	scintilla_send_message(doc->editor->sci, SCI_CALLTIPUSESTYLE, 20, (long)NULL);
 
 	/* set caret policy */
 	scintilla_send_message(doc->editor->sci, SCI_SETYCARETPOLICY, CARET_SLOP | CARET_JUMPS | CARET_EVEN , 3);
@@ -143,11 +143,10 @@ gboolean on_editor_notify(
 
 			if (word->len)
 			{
-				GString *calltip = debug_get_calltip_for_expression(word->str);
+				gchar *calltip = debug_get_calltip_for_expression(word->str);
 				if (calltip)
 				{
-					scintilla_send_message (editor->sci, SCI_CALLTIPSHOW, nt->position, (long)calltip->str);
-					g_string_free(calltip, TRUE);
+					scintilla_send_message (editor->sci, SCI_CALLTIPSHOW, nt->position, (long)calltip);
 				}
 			}
 				
