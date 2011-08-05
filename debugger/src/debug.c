@@ -177,7 +177,7 @@ static void on_watch_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 		wmodel,
 		&iter,
 		W_INTERNAL, &internal,
-		1);
+		-1);
 
 	/* check if it is empty row */
 	gboolean is_empty_row = !gtk_tree_path_compare (tree_path, wtree_empty_path());

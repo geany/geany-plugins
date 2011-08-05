@@ -31,5 +31,5 @@ void			breaks_set_hits_count(char* file, int line, int count);
 void			breaks_set_condition(char* file, int line, char* condition);
 void 			breaks_iterate(breaks_iterate_function bif);
 gboolean		breaks_is_set(char* file, int line);
-GtkWidget*		breaks_get_widget();
-GTree*			breaks_get_for_document(char* file);
+GtkWidget*	breaks_get_widget();
+GTree*		breaks_get_for_document(char* file);

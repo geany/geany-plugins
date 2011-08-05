@@ -25,3 +25,4 @@ int						get_header_string_width(gchar *header, int minchars, int char_width);
 GtkTreeViewColumn*		create_column(gchar *name, GtkCellRenderer *renderer, gboolean expandable, gint minwidth, gchar *arg, int value);
 gboolean 				tree_foreach_set_marker(gpointer key, gpointer value, gpointer data);
 GString*				get_word_at_position(ScintillaObject *sci, int position);
+gboolean				tree_foreach_add_to_list(gpointer key, gpointer value, gpointer data);

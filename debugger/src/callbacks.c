@@ -35,6 +35,7 @@
 #include "stree.h"
 #include "markers.h"
 #include "utils.h"
+#include "bptree.h"
 
 extern GeanyFunctions *geany_functions;
 
@@ -165,6 +166,50 @@ gboolean on_editor_notify(
 		case SCN_MODIFYATTEMPTRO:
 		{
 			dialogs_show_msgbox(GTK_MESSAGE_INFO, _("To edit source files stop debugging session"));
+			break;
+		}
+		case SCN_MODIFIED:
+		{
+			if(((SC_MOD_INSERTTEXT & nt->modificationType) || (SC_MOD_DELETETEXT && nt->modificationType)) && nt->linesAdded)
+			{
+				int line = sci_get_line_from_position(editor->sci, nt->position) + 1;
+
+				GTree *breakpoints = breaks_get_for_document(editor->document->file_name);
+				if (breakpoints && g_tree_nnodes(breakpoints))
+				{
+
+					GList *breaks_list = NULL;
+					g_tree_foreach(breakpoints, tree_foreach_add_to_list, &breaks_list);
+
+					GList *iter = breaks_list;
+					while (iter)
+					{
+						breakpoint *bp = (breakpoint*)iter->data;
+
+						if (nt->linesAdded > 0 && bp->line >= line)
+						{
+							bp->line += nt->linesAdded;
+							bptree_update_breakpoint(bp);
+						}
+						else if (nt->linesAdded < 0 && bp->line >= line)
+						{
+							if (bp->line < line - nt->linesAdded)
+							{
+								bptree_remove_breakpoint(bp);
+								breaks_remove(bp->file, bp->line);
+							}
+							else
+							{
+								bp->line += nt->linesAdded;
+								bptree_update_breakpoint(bp);
+							}
+						}
+						iter = iter->next;
+					}
+
+					g_list_free(breaks_list);
+				}
+			}
 			break;
 		}
 	}
