@@ -25,5 +25,7 @@ void markers_add_breakpoint(breakpoint* bp);
 void markers_remove_breakpoint(breakpoint* bp);
 void markers_add_current_instruction(char* file, int line);
 void markers_remove_current_instruction(char* file, int line);
+void markers_add_frame(char* file, int line);
+void markers_remove_frame(char* file, int line);
 
 

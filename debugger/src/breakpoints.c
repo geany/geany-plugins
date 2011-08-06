@@ -183,7 +183,11 @@ void handle_break_remove(breakpoint* bp, gboolean success)
 void handle_hitscount_set(breakpoint* bp, gboolean success)
 {
 	if (success)
+	{
 		bptree_set_hitscount(bp->iter, bp->hitscount);
+		markers_remove_breakpoint(bp);
+		markers_add_breakpoint(bp);
+	}
 	else
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", debug_error_message());
 }
@@ -200,6 +204,8 @@ void handle_condition_set(breakpoint* bp, gboolean success)
 	{
 		/* set condition in breaks tree */
 		bptree_set_condition(bp->iter, bp->condition);
+		markers_remove_breakpoint(bp);
+		markers_add_breakpoint(bp);
 	}
 	else
 	{
@@ -221,16 +227,9 @@ void handle_condition_set(breakpoint* bp, gboolean success)
 void handle_switch(breakpoint* bp, gboolean success)
 {
 	/* remove old and set new marker */
-	if (bp->enabled)
-	{
-		markers_remove_breakpoint_disabled(bp->file, bp->line);
-		markers_add_breakpoint(bp);
-	}
-	else
-	{
-		markers_remove_breakpoint(bp);
-		markers_add_breakpoint_disabled(bp->file, bp->line);
-	}
+	markers_remove_breakpoint(bp);
+	markers_add_breakpoint(bp);
+
 	/* set checkbox in breaks tree */
 	bptree_set_enabled(bp->iter, bp->enabled);
 }

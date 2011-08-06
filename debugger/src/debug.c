@@ -124,13 +124,10 @@ GtkTreeModel *wmodel = NULL;
 static GtkWidget **sensitive_widget[] = {&stree, &wtree, &ltree, NULL};
 
 /* 
- * information about current instruction
- * used to remove markers when stepping forward
+ * current stack for holding
+ * position of ffreames markers
  */
-struct ci {
-	char file[FILENAME_MAX + 1];
-	int line;
-} current_instruction;
+static GList* stack = NULL;
 
 /*
  * pages which are loaded in debugger and therefore, are set readonly
@@ -147,6 +144,44 @@ static module_description modules[] =
 
 /* calltips cache  */
 static GHashTable *calltips = NULL;
+
+/* 
+ * removes stack margin markers
+ */
+ void remove_stack_markers()
+{
+	frame *current = (frame*)stack->data;
+	if (current->have_source)
+	{
+		markers_remove_current_instruction(current->file, current->line);
+	}
+	GList *iter = stack->next;
+	while (iter)
+	{
+		frame *next = (frame*)iter->data;
+		markers_remove_frame(next->file, next->line);
+		iter = iter->next;
+	}
+}
+
+/* 
+ * removes stack margin markers
+ */
+ void add_stack_markers()
+{
+	frame *current = (frame*)stack->data;
+	if (current->have_source)
+	{
+		markers_add_current_instruction(current->file, current->line);
+	}
+	GList *iter = stack->next;
+	while (iter)
+	{
+		frame *next = (frame*)iter->data;
+		markers_add_frame(next->file, next->line);
+		iter = iter->next;
+	}
+}
 
 /* 
  * Handlers for GUI maked changes in watches
@@ -532,15 +567,17 @@ static void on_debugger_run ()
 	debug_state = DBS_RUNNING;
 
 	/* if curren instruction marker was set previously - remove it */
-	if (strlen(current_instruction.file))
+	if (stack)
 	{
-		markers_remove_current_instruction(current_instruction.file, current_instruction.line);
-		strcpy(current_instruction.file, "");
+		remove_stack_markers();
+		g_list_free(stack);
+		stack = NULL;
 	}
 
 	/* disable widgets */
 	enable_sensitive_widgets(FALSE);
 }
+
 
 /* 
  * called from debug module when debugger is being stopped 
@@ -574,18 +611,7 @@ static void on_debugger_stopped ()
 	stree_clear();
 
 	/* get current stack trace and put in the tree view */
-	GList* stack = active_module->get_stack();
-
-	/* if upper frame has source file - remember the file and the line for
-	the current instruction marker */
-	frame *f = (frame*)stack->data;
-	if (f->have_source)
-	{
-		strcpy(current_instruction.file, f->file);
-		current_instruction.line = (int)f->line;
-	}
-	
-	stack = g_list_reverse(stack);
+	stack = active_module->get_stack();
 	
 	GList *iter = stack;
 	while (iter)
@@ -594,8 +620,6 @@ static void on_debugger_stopped ()
 		stree_add(f);
 		iter = g_list_next(iter);
 	}
-	g_list_foreach(stack, (GFunc)g_free, NULL);
-	g_list_free(stack);
 	stree_select_first();
 
 	/* files */
@@ -654,14 +678,19 @@ static void on_debugger_stopped ()
 	GList *watches = active_module->get_watches();
 	update_variables(GTK_TREE_VIEW(wtree), NULL, watches);
 	gtk_tree_view_columns_autosize (GTK_TREE_VIEW(wtree));
-	
-	if (strlen(current_instruction.file))
+
+	if (stack)
 	{
-		/* open current instruction position */
-		editor_open_position(current_instruction.file, current_instruction.line);
+		frame *current = (frame*)stack->data;
+
+		if (current->have_source)
+		{
+			/* open current instruction position */
+			editor_open_position(current->file, current->line);
+		}
 
 		/* add current instruction marker */
-		markers_add_current_instruction(current_instruction.file, current_instruction.line);
+		add_stack_markers();
 	}
 
 	/* enable widgets */
@@ -678,10 +707,11 @@ static void on_debugger_stopped ()
 static void on_debugger_exited (int code)
 {
 	/* remove marker for current instruction if was set */
-	if (strlen(current_instruction.file))
+	if (stack)
 	{
-		markers_remove_current_instruction(current_instruction.file, current_instruction.line);
-		strcpy(current_instruction.file, "");
+		remove_stack_markers();
+		g_list_free(stack);
+		stack = NULL;
 	}
 	
 	/* clear watch page */
@@ -903,9 +933,13 @@ void debug_destroy()
 	close(pty_master);
 	close(pty_slave);
 
-	/* remove current instruction marker if present */
-	if (strlen(current_instruction.file))
-		markers_remove_current_instruction(current_instruction.file, current_instruction.line);
+	/* remove stack markers if present */
+	if (stack)
+	{
+		remove_stack_markers();
+		g_list_free(stack);
+		stack = NULL;
+	}
 }
 
 /*
@@ -1224,7 +1258,8 @@ gchar* debug_get_calltip_for_expression(gchar* expression)
  */
 gboolean debug_current_instruction_have_sources()
 {
-	return strlen(current_instruction.file);
+	frame *current = (frame*)stack->data;
+	return current->have_source ? strlen(current->file) : 0;
 }
 
 /*
@@ -1232,7 +1267,8 @@ gboolean debug_current_instruction_have_sources()
  */
 void debug_jump_to_current_instruction()
 {
-	editor_open_position(current_instruction.file, current_instruction.line);
+	frame *current = (frame*)stack->data;
+	editor_open_position(current->file, current->line);
 }
 
 /*

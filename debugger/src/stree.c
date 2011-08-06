@@ -194,7 +194,7 @@ GtkWidget* stree_get_widget()
 void stree_add(frame *f)
 {
 	GtkTreeIter iter;
-	gtk_list_store_prepend (store, &iter);
+	gtk_list_store_append (store, &iter);
 	gtk_list_store_set (store, &iter,
                     S_ADRESS, f->address,
                     S_FUNCTION, f->function,
