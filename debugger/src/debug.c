@@ -957,6 +957,14 @@ enum dbs debug_get_state()
 }
 
 /*
+ * gets current stack frames lisy
+ */
+GList* debug_get_stack()
+{
+	return stack;
+}
+
+/*
  * gets debug module index from name
  * arguments:
  * 		modulename - debug module name

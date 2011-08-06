@@ -213,8 +213,11 @@ void markers_remove_breakpoint(breakpoint *bp)
 void markers_add_current_instruction(char* file, int line)
 {
 	GeanyDocument *doc = document_find_by_filename(file);
-	sci_set_marker_at_line(doc->editor->sci, line - 1, M_CI_ARROW);
-	sci_set_marker_at_line(doc->editor->sci, line - 1, M_CI_BACKGROUND);
+	if (doc)
+	{
+		sci_set_marker_at_line(doc->editor->sci, line - 1, M_CI_ARROW);
+		sci_set_marker_at_line(doc->editor->sci, line - 1, M_CI_BACKGROUND);
+	}
 }
 
 /*
@@ -223,9 +226,12 @@ void markers_add_current_instruction(char* file, int line)
 void markers_remove_current_instruction(char* file, int line)
 {
 	GeanyDocument *doc = document_find_by_filename(file);
-	sci_delete_marker_at_line(doc->editor->sci, line - 1, M_CI_ARROW);
-	sci_delete_marker_at_line(doc->editor->sci, line - 1, M_CI_BACKGROUND);
-	scintilla_send_message(doc->editor->sci, SCI_SETFOCUS, TRUE, 0);
+	if (doc)
+	{
+		sci_delete_marker_at_line(doc->editor->sci, line - 1, M_CI_ARROW);
+		sci_delete_marker_at_line(doc->editor->sci, line - 1, M_CI_BACKGROUND);
+		scintilla_send_message(doc->editor->sci, SCI_SETFOCUS, TRUE, 0);
+	}
 }
 
 /*
@@ -234,7 +240,10 @@ void markers_remove_current_instruction(char* file, int line)
 void markers_add_frame(char* file, int line)
 {
 	GeanyDocument *doc = document_find_by_filename(file);
-	sci_set_marker_at_line(doc->editor->sci, line - 1, M_FRAME);
+	if (doc)
+	{
+		sci_set_marker_at_line(doc->editor->sci, line - 1, M_FRAME);
+	}
 }
 
 /*
@@ -243,6 +252,9 @@ void markers_add_frame(char* file, int line)
 void markers_remove_frame(char* file, int line)
 {
 	GeanyDocument *doc = document_find_by_filename(file);
-	sci_delete_marker_at_line(doc->editor->sci, line - 1, M_FRAME);
-	scintilla_send_message(doc->editor->sci, SCI_SETFOCUS, TRUE, 0);
+	if (doc)
+	{
+		sci_delete_marker_at_line(doc->editor->sci, line - 1, M_FRAME);
+		scintilla_send_message(doc->editor->sci, SCI_SETFOCUS, TRUE, 0);
+	}
 }

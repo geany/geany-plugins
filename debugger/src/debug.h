@@ -34,25 +34,26 @@ enum dbs {
 /* function type to execute on interrupt */
 typedef void (*bs_callback)(breakpoint*, break_set_activity);
 
-void		debug_init(GtkWidget* nb);
+void			debug_init(GtkWidget* nb);
 enum dbs	debug_get_state();
-void		debug_run();
-void		debug_stop();
-void		debug_step_over();
-void		debug_step_into();
-void		debug_step_out();
-void		debug_execute_until(gchar *file, int line);
-gboolean	debug_set_break(breakpoint* bp, break_set_activity bsa);
-gboolean	debug_remove_break(breakpoint* bp);
-void		debug_request_interrupt(bs_callback cb, breakpoint* bp, break_set_activity flags);
+void			debug_run();
+void			debug_stop();
+void			debug_step_over();
+void			debug_step_into();
+void			debug_step_out();
+void			debug_execute_until(gchar *file, int line);
+gboolean		debug_set_break(breakpoint* bp, break_set_activity bsa);
+gboolean		debug_remove_break(breakpoint* bp);
+void			debug_request_interrupt(bs_callback cb, breakpoint* bp, break_set_activity flags);
 gchar*		debug_error_message();
-GList*		debug_get_modules();
-int			debug_get_module_index(gchar *modulename);
-gboolean	debug_supports_async_breaks();
-void		debug_destroy();
+GList*			debug_get_modules();
+int				debug_get_module_index(gchar *modulename);
+gboolean		debug_supports_async_breaks();
+void			debug_destroy();
 gchar*		debug_evaluate_expression(gchar *expression);
-gboolean	debug_current_instruction_have_sources();
-void		debug_jump_to_current_instruction();
-void		debug_on_file_open(GeanyDocument *doc);
-gchar* debug_get_calltip_for_expression(gchar* expression);
+gboolean		debug_current_instruction_have_sources();
+void			debug_jump_to_current_instruction();
+void			debug_on_file_open(GeanyDocument *doc);
+gchar*		debug_get_calltip_for_expression(gchar* expression);
+GList*			debug_get_stack();
 

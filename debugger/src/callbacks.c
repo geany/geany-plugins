@@ -112,6 +112,31 @@ void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
 		g_list_free(breaks);
 	}
 
+	/* set frames markers if exists */
+	if (DBS_STOPPED == debug_get_state())
+	{
+		GList *iter = debug_get_stack();
+		if (iter)
+		{
+			frame *f = (frame*)iter->data;
+			if (f->have_source && !strcmp(f->file, file))
+			{
+				markers_add_current_instruction(f->file, f->line);
+			}
+
+			iter = iter->next;
+			while (iter)
+			{
+				f = (frame*)iter->data;
+				if (f->have_source && !strcmp(f->file, file))
+				{
+					markers_add_frame(f->file, f->line);
+				}
+				iter = iter->next;
+			}
+		}
+	}
+
 	/* if debug is active - tell the debug module that a file was opened */
 	if (DBS_IDLE != debug_get_state())
 		debug_on_file_open(doc);
