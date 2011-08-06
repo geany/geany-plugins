@@ -195,7 +195,6 @@ gboolean on_editor_notify(
 						{
 							if (bp->line < line - nt->linesAdded)
 							{
-								bptree_remove_breakpoint(bp);
 								breaks_remove(bp->file, bp->line);
 							}
 							else
