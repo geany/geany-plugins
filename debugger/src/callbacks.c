@@ -134,11 +134,14 @@ gboolean on_editor_notify(
 			
 			char* file = editor->document->file_name;
 			int line = sci_get_line_from_position(editor->sci, nt->position) + 1;
-			
-			if (!breaks_is_set(file, line))
+
+			break_state	bs = breaks_get_state(file, line);
+			if (BS_NOT_SET == bs)
 				breaks_add(file, line, NULL, TRUE, 0);
-			else
+			else if (BS_ENABLED == bs)
 				breaks_remove(file, line);
+			else if (BS_DISABLED == bs)
+				breaks_switch(file, line);
 			
 			scintilla_send_message(editor->sci, SCI_SETFOCUS, TRUE, 0);
 			
@@ -261,10 +264,14 @@ gboolean keys_callback(guint key_id)
 			if (doc)
 			{
 				int line = sci_get_current_line(doc->editor->sci) + 1;
-				if (!breaks_is_set(DOC_FILENAME(doc), line))
+				break_state	bs = breaks_get_state(DOC_FILENAME(doc), line);
+				if (BS_NOT_SET == bs)
 					breaks_add(DOC_FILENAME(doc), line, NULL, TRUE, 0);
-				else
+				else if (BS_ENABLED == bs)
 					breaks_remove(DOC_FILENAME(doc), line);
+				else if (BS_DISABLED == bs)
+					breaks_switch(DOC_FILENAME(doc), line);
+				
 				scintilla_send_message(doc->editor->sci, SCI_SETFOCUS, TRUE, 0);
 			}
 			break;

@@ -504,18 +504,22 @@ void breaks_move_to_line(char* file, int line_from, int line_to)
  * 		file - breakpoints filename
  * 		line - breakpoints line
  */
-gboolean breaks_is_set(char* file, int line)
+break_state	breaks_get_state(char* file, int line)
 {
+	break_state bs = BS_NOT_SET;
+	
 	/* first look for the tree for the given file */
 	GTree *tree;
-	if (!(tree = g_hash_table_lookup(files, file)))
-		return FALSE;
-	else
+	if (tree = g_hash_table_lookup(files, file))
 	{
-		/* lookup for the break in GTree*/
-		gpointer p = g_tree_lookup(tree, GINT_TO_POINTER(line));
-		return p && ((breakpoint*)p)->enabled;
+		breakpoint *bp = g_tree_lookup(tree, GINT_TO_POINTER(line));
+		if (bp)
+		{
+			bs = bp->enabled ?  BS_ENABLED : BS_DISABLED;
+		}
 	}
+
+	return bs;
 }
 
 /*

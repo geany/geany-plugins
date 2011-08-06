@@ -799,12 +799,11 @@ int get_break_number(char* file, int line)
 		int num = atoi(bstart);
 		
 		bstart += strlen(bstart) + 1;
-		bstart = strstr(bstart, "fullname=\"") + strlen("fullname=\"");
-		*strchr(bstart, '\"') = '\0';
+		bstart = strstr(bstart, "original-location=\"") + strlen("original-location=\"");
+		*strchr(bstart, ':') = '\0';
 		gchar *fname = bstart;
 		
 		bstart += strlen(bstart) + 1;
-		bstart = strstr(bstart, "line=\"") + strlen("line=\"");
 		*strchr(bstart, '\"') = '\0';
 		int bline = atoi(bstart);
 		
