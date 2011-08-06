@@ -159,7 +159,10 @@ static GHashTable *calltips = NULL;
 	while (iter)
 	{
 		frame *next = (frame*)iter->data;
-		markers_remove_frame(next->file, next->line);
+		if (next->have_source)
+		{
+			markers_remove_frame(next->file, next->line);
+		}
 		iter = iter->next;
 	}
 }
@@ -178,7 +181,10 @@ static GHashTable *calltips = NULL;
 	while (iter)
 	{
 		frame *next = (frame*)iter->data;
-		markers_add_frame(next->file, next->line);
+		if (next->have_source)
+		{
+			markers_add_frame(next->file, next->line);
+		}
 		iter = iter->next;
 	}
 }
