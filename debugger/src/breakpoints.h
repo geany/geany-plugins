@@ -20,16 +20,18 @@
  */
 
 typedef void	(*move_to_line_cb)(char* file, int line);
-typedef void 	(*breaks_iterate_function)(void* bp);
 
 gboolean		breaks_init(move_to_line_cb callback);
 void			breaks_destroy();
 void			breaks_add(char* file, int line, char* condition, int enable, int hitscount);
 void			breaks_remove(char* file, int line);
+void			breaks_remove_all();
 void			breaks_switch(char* file, int line);
 void			breaks_set_hits_count(char* file, int line, int count);
 void			breaks_set_condition(char* file, int line, char* condition);
-void 			breaks_iterate(breaks_iterate_function bif);
+void			breaks_move_to_line(char* file, int line_from, int line_to);
 gboolean		breaks_is_set(char* file, int line);
 GtkWidget*	breaks_get_widget();
-GTree*		breaks_get_for_document(char* file);
+GList*			breaks_get_for_document(char* file);
+GList*			breaks_get_all();
+

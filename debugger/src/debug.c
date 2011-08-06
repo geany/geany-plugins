@@ -772,21 +772,6 @@ dbg_callbacks callbacks = {
 };
 
 /*
- * iterating staff to add breakpoints on startup
- * erroneous_break - pointer to the breakpoint that caused error
- * when setting.
- */
-breakpoint* erroneous_break;
-void set_new_break(void* bp)
-{
-	if (erroneous_break)
-		return;
-	
-	if(!active_module->set_break((breakpoint*)bp, BSA_NEW_BREAK))
-		erroneous_break = (breakpoint*)bp;
-}
-
-/*
  * Interface functions
  */
 
@@ -1000,14 +985,26 @@ void debug_run()
 			if (active_module->load(target, commandline, env, watches))
 			{
 				/* set breaks */
-				erroneous_break = NULL;
-				breaks_iterate(set_new_break);
-				
-				if (erroneous_break)
+
+				GList *breaks = breaks_get_all();
+
+				GList *iter = breaks;
+				while (iter)
 				{
+					breakpoint *bp = (breakpoint*)iter->data;
+					if(!active_module->set_break(bp, BSA_NEW_BREAK))
+					{
+						break;
+					}
+					iter = iter->next;
+				}
+
+				if (iter)
+				{
+					breakpoint *bad_break = (breakpoint*)iter->data;
 					gchar msg[1000];
 					sprintf(msg, _("Breakpoint at %s:%i cannot be set\nDebugger message: %s"),
-						erroneous_break->file, erroneous_break->line, active_module->error_message());
+						bad_break->file, bad_break->line, active_module->error_message());
 						
 					dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", msg);
 						
@@ -1015,6 +1012,8 @@ void debug_run()
 					debug_state = DBS_STOP_REQUESTED;
 					return;
 				}
+
+				g_list_free(breaks);
 				
 				/* set target page - readonly */
 				tpage_set_readonly(TRUE);

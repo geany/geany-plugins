@@ -103,26 +103,6 @@ void editor_open_position(char* file, int line)
 }
 
 /*
- * GTree iteration functions that sets marker for each breakpoint in the tree 
- */
-gboolean tree_foreach_set_marker(gpointer key, gpointer value, gpointer data)
-{
-	breakpoint *bp = (breakpoint*)value;
-	markers_add_breakpoint(bp);
-	return FALSE;
-}
-
-/*
- * GTree iteration functions that adds data to the list supplied in "data" parameter 
- */
-gboolean tree_foreach_add_to_list(gpointer key, gpointer value, gpointer data)
-{
-	GList **list = (GList**)data;
-	*list = g_list_append(*list, value);
-	return FALSE;
-}
-
-/*
  * get word at "position" in Scintilla document
  */
 GString* get_word_at_position(ScintillaObject *sci, int position)

@@ -98,9 +98,19 @@ void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
 	/* check if current path contains config file */
 	tpage_on_document_activate(doc);
 
-	GTree *tree;
-	if (tree = breaks_get_for_document(file))
-		g_tree_foreach(tree, tree_foreach_set_marker, NULL);
+	GList *breaks;
+	if (breaks = breaks_get_for_document(file))
+	{
+		GList *iter = breaks;
+		while (iter)
+		{
+			breakpoint *bp = (breakpoint*)iter->data;
+			markers_add_breakpoint(bp);
+			
+			iter = iter->next;
+		}
+		g_list_free(breaks);
+	}
 
 	/* if debug is active - tell the debug module that a file was opened */
 	if (DBS_IDLE != debug_get_state())
@@ -174,21 +184,17 @@ gboolean on_editor_notify(
 			{
 				int line = sci_get_line_from_position(editor->sci, nt->position) + 1;
 
-				GTree *breakpoints = breaks_get_for_document(editor->document->file_name);
-				if (breakpoints && g_tree_nnodes(breakpoints))
+				GList *breaks = breaks_get_for_document(editor->document->file_name);
+				if (breaks)
 				{
-
-					GList *breaks_list = NULL;
-					g_tree_foreach(breakpoints, tree_foreach_add_to_list, &breaks_list);
-
-					GList *iter = breaks_list;
+					GList *iter = breaks;
 					while (iter)
 					{
 						breakpoint *bp = (breakpoint*)iter->data;
 
 						if (nt->linesAdded > 0 && bp->line >= line)
 						{
-							bp->line += nt->linesAdded;
+							breaks_move_to_line(bp->file, bp->line, bp->line + nt->linesAdded);
 							bptree_update_breakpoint(bp);
 						}
 						else if (nt->linesAdded < 0 && bp->line >= line)
@@ -199,14 +205,14 @@ gboolean on_editor_notify(
 							}
 							else
 							{
-								bp->line += nt->linesAdded;
+								breaks_move_to_line(bp->file, bp->line, bp->line + nt->linesAdded);
 								bptree_update_breakpoint(bp);
 							}
 						}
 						iter = iter->next;
 					}
 
-					g_list_free(breaks_list);
+					g_list_free(breaks);
 				}
 			}
 			break;

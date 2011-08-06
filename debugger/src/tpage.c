@@ -406,15 +406,6 @@ static void on_name_changed(GtkCellRendererText *renderer, gchar *path, gchar *n
 }
 
 /*
- * GList and function to collect breaks from breakpoints page to save in config
- */
-GList *breaks = NULL;
-void collect_breaks(void* bp)
-{
-	breaks = g_list_append(breaks, bp);
-}
-
-/*
  * save config
  */
 void on_save_config(GtkButton *button, gpointer user_data)
@@ -470,7 +461,7 @@ void on_save_config(GtkButton *button, gpointer user_data)
 	while (gtk_tree_model_iter_next(model, &iter));
 
 	/* breakpoints */
-	breaks_iterate(collect_breaks);
+	GList *breaks = breaks_get_all();
 	GList *biter = breaks;
 	while (biter)
 	{
@@ -525,16 +516,6 @@ int readline(FILE *file, gchar *buffer, int buffersize)
 } 
 
 /*
- * function to remove a break when loading config and iterating through
- * existing breaks
- */
-void removebreak(void *p)
-{
-	breakpoint *bp = (breakpoint*)p;
-	breaks_remove(bp->file, bp->line);
-}
-
-/*
  * load config file
  */
 void on_load_config(GtkButton *button, gpointer user_data)
@@ -565,9 +546,9 @@ void on_load_config(GtkButton *button, gpointer user_data)
 	readline(config, arguments, FILENAME_MAX - 1);
 	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview));
 	gtk_text_buffer_set_text(buffer, arguments, -1);
-	
+
 	/* breakpoints and environment variables */
-	breaks_iterate(removebreak);
+	breaks_remove_all();
 	wtree_remove_all();
 	
 	gboolean wrongbreaks = FALSE;
@@ -647,7 +628,7 @@ void on_load_config(GtkButton *button, gpointer user_data)
 void on_clear(GtkButton *button, gpointer user_data)
 {
 	/* breakpoints */
-	breaks_iterate(removebreak);
+	breaks_remove_all();
 
 	/* watches */
 	wtree_remove_all();

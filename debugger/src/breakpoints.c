@@ -44,10 +44,12 @@ GHashTable* files = NULL;
  * Functions for breakpoint iteration support
  */
 
+typedef void 	(*breaks_iterate_function)(void* bp);
+
 /*
  * Iterates through GTree for the particular file
  */
-gboolean tree_foreach(gpointer key, gpointer value, gpointer data)
+gboolean tree_foreach_call_function(gpointer key, gpointer value, gpointer data)
 {
 	((breaks_iterate_function)data)(value);
 	return FALSE;
@@ -56,14 +58,44 @@ gboolean tree_foreach(gpointer key, gpointer value, gpointer data)
 /*
  * Iterates through hash table of GTree-s
  */
-void hash_table_foreach(gpointer key, gpointer value, gpointer user_data)
+void hash_table_foreach_call_function(gpointer key, gpointer value, gpointer user_data)
 {
-	g_tree_foreach((GTree*)value, tree_foreach, user_data);
+	g_tree_foreach((GTree*)value, tree_foreach_call_function, user_data);
+}
+
+/*
+ * Iterates through GTree
+ * adding each item to GList that is passed through data variable
+ */
+gboolean tree_foreach_add_to_list(gpointer key, gpointer value, gpointer data)
+{
+	GList **list = (GList**)data;
+	*list = g_list_append(*list, value);
+	return FALSE;
+}
+
+/*
+ * Iterates through hash table of GTree-s
+ * calling list collection functions on each tree
+ */
+void hash_table_foreach_add_to_list(gpointer key, gpointer value, gpointer user_data)
+{
+	g_tree_foreach((GTree*)value, tree_foreach_add_to_list, user_data);
 }
 
 /*
  * Helper functions
  */
+
+/*
+ * Remove breakpoint while iterating through GTree.
+ * arguments:
+ * 		bp - breakpoint
+ */
+void breaks_remove_internal(breakpoint *bp)
+{
+	handle_break_remove(bp, TRUE);
+}
 
 /*
  * lookup for breakpoint
@@ -260,7 +292,15 @@ gboolean breaks_init(move_to_line_cb cb)
 void breaks_destroy()
 {
 	/* remove all markers */
-	breaks_iterate((breaks_iterate_function)markers_remove_breakpoint);
+	GList *breaks, *iter;
+	breaks = iter = breaks_get_all();
+	while (iter)
+	{
+		markers_remove_breakpoint((breakpoint*)iter->data);
+		iter = iter->next;
+	}
+	g_list_free(breaks);
+	
 	/* free storage */
 	g_hash_table_destroy(files);
 }
@@ -330,6 +370,16 @@ void breaks_remove(char* file, int line)
 		handle_break_remove(bp, DBS_IDLE == state || debug_remove_break(bp));
 	else if (DBS_STOP_REQUESTED != state)
 		debug_request_interrupt(async_callback, bp, BSA_REMOVE);
+}
+
+/*
+ * Removes all breakpoints.
+ * arguments:
+ */
+void breaks_remove_all()
+{
+	g_hash_table_foreach(files, hash_table_foreach_call_function, (gpointer)breaks_remove_internal);
+	g_hash_table_remove_all(files);
 }
 
 /*
@@ -425,6 +475,30 @@ void breaks_set_condition(char* file, int line, char* condition)
 }
 
 /*
+ * Moves a breakpoint from to another line
+ * arguments:
+ * 		file - breakpoints filename
+ * 		line_from - old line number
+ * 		line_to - new line number
+ */
+void breaks_move_to_line(char* file, int line_from, int line_to)
+{
+	/* first look for the tree for the given file */
+	GTree *tree = NULL;
+	if (tree = g_hash_table_lookup(files, file))
+	{
+		/* lookup for the break in GTree*/
+		breakpoint *bp = (breakpoint*)g_tree_lookup(tree, GINT_TO_POINTER(line_from));
+		if (bp)
+		{
+			g_tree_steal(tree, GINT_TO_POINTER(line_from));
+			bp->line = line_to;
+			g_tree_insert(tree, GINT_TO_POINTER(line_to), bp);
+		}
+	}
+}
+
+/*
  * Checks whether breakpoint is set.
  * arguments:
  * 		file - breakpoints filename
@@ -449,9 +523,26 @@ gboolean breaks_is_set(char* file, int line)
  * arguments:
  * 		file - file name to get breaks for 
  */
-GTree *breaks_get_for_document(char* file)
+GList *breaks_get_for_document(char* file)
 {
-	return g_hash_table_lookup(files, file);
+	GList *breaks = NULL;
+	GTree *tree = g_hash_table_lookup(files, file);
+	if (tree)
+	{
+		g_tree_foreach(tree, tree_foreach_add_to_list, &breaks);
+	}
+	return breaks;
+}
+
+/*
+ * Gets all breakpoints
+ * arguments:
+ */
+GList* breaks_get_all()
+{
+	GList *breaks  = NULL;
+	g_hash_table_foreach(files, hash_table_foreach_add_to_list, &breaks);
+	return breaks;
 }
 
 /*
@@ -460,14 +551,4 @@ GTree *breaks_get_for_document(char* file)
 GtkWidget* breaks_get_widget()
 {
 	return bptree_get_widget();
-}
-
-/*
- * Calls specified function on every breakpoint
- * arguments:
- * 		bif - function to call 
- */
-void breaks_iterate(breaks_iterate_function bif)
-{
-	g_hash_table_foreach(files, hash_table_foreach, (gpointer)bif);
 }
