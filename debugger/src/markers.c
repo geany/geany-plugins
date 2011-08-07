@@ -30,19 +30,21 @@ extern GeanyData		*geany_data;
 #include "breakpoint.h"
 #include "breakpoints.h"
 
+#include "xpm/breakpoint.xpm"
+#include "xpm/breakpoint_disabled.xpm"
+#include "xpm/breakpoint_condition.xpm"
+
+#include "xpm/arrow_1_disable.xpm"
+#include "xpm/arrow_1_yellow.xpm"
+
 /* markers identifiers */
 #define M_FIRST									12
 #define M_BP_ENABLED						M_FIRST
 #define M_BP_DISABLED						(M_FIRST + 1)
-#define M_CI_BACKGROUND					(M_FIRST + 2)
-#define M_BP_ENABLED_CONDITIONAL		(M_FIRST + 3)
-#define M_BP_ENABLED_HITS					(M_FIRST + 4)
-#define M_BP_ENABLED_HITS_CONDITIONAL	(M_FIRST + 5)
-#define M_BP_DISABLED_CONDITIONAL		(M_FIRST + 6)
-#define M_BP_DISABLED_HITS					(M_FIRST + 7)
-#define M_BP_DISABLED_HITS_CONDITIONAL	(M_FIRST + 8)
-#define M_CI_ARROW							(M_FIRST + 9)
-#define M_FRAME								(M_FIRST + 10)
+#define M_BP_CONDITIONAL					(M_FIRST + 2)
+#define M_CI_BACKGROUND					(M_FIRST + 3)
+#define M_CI_ARROW							(M_FIRST + 4)
+#define M_FRAME								(M_FIRST + 5)
 
 #define MARKER_PRESENT(mask, marker) (mask && (0x01 << marker))
 
@@ -56,6 +58,9 @@ extern GeanyData		*geany_data;
 #define WHITE			RGB(255,255,255)
 #define PINK				RGB(255,192,203)
 
+#define BP_BACKGROUND	RGB(255,246,33)
+
+
 #define LIGHT_YELLOW	RGB(200,200,0)
 
 /*
@@ -64,40 +69,13 @@ extern GeanyData		*geany_data;
 void markers_set_for_document(ScintillaObject *sci)
 {
 	/* enabled breakpoint */
-	scintilla_send_message(sci, SCI_MARKERDEFINE, M_BP_ENABLED, SC_MARK_ROUNDRECT);
-	scintilla_send_message(sci, SCI_MARKERSETBACK, M_BP_ENABLED, RED);
-	scintilla_send_message(sci, SCI_MARKERSETFORE, M_BP_ENABLED, RED);
+	scintilla_send_message(sci, SCI_MARKERDEFINEPIXMAP, M_BP_ENABLED, (long)breakpoint_xpm);
 	
-	/* enabled breakpoint - condition */
-	scintilla_send_message(sci, SCI_MARKERDEFINE, M_BP_ENABLED_CONDITIONAL, SC_MARK_ROUNDRECT);
-	scintilla_send_message(sci, SCI_MARKERSETBACK, M_BP_ENABLED_CONDITIONAL, BLUE);
-	scintilla_send_message(sci, SCI_MARKERSETFORE, M_BP_ENABLED_CONDITIONAL, BLUE);
-
-	/* enabled breakpoint - hits */
-	scintilla_send_message(sci, SCI_MARKERDEFINE, M_BP_ENABLED_HITS, SC_MARK_ROUNDRECT);
-	scintilla_send_message(sci, SCI_MARKERSETBACK, M_BP_ENABLED_HITS, YELLOW);
-	scintilla_send_message(sci, SCI_MARKERSETFORE, M_BP_ENABLED_HITS, YELLOW);
-
-	/* enabled breakpoint - hits, condition */
-	scintilla_send_message(sci, SCI_MARKERDEFINE, M_BP_ENABLED_HITS_CONDITIONAL, SC_MARK_ROUNDRECT);
-	scintilla_send_message(sci, SCI_MARKERSETBACK, M_BP_ENABLED_HITS_CONDITIONAL, GREEN);
-	scintilla_send_message(sci, SCI_MARKERSETFORE, M_BP_ENABLED_HITS_CONDITIONAL, GREEN);
-
 	/* disabled breakpoint */ 
-	scintilla_send_message(sci, SCI_MARKERDEFINE, M_BP_DISABLED, SC_MARK_ROUNDRECT);
-	scintilla_send_message(sci, SCI_MARKERSETFORE, M_BP_DISABLED, RED);
+	scintilla_send_message(sci, SCI_MARKERDEFINEPIXMAP, M_BP_DISABLED, (long)breakpoint_disabled_xpm);
 
-	/* disabled breakpoint - condition */
-	scintilla_send_message(sci, SCI_MARKERDEFINE, M_BP_DISABLED_CONDITIONAL, SC_MARK_ROUNDRECT);
-	scintilla_send_message(sci, SCI_MARKERSETFORE, M_BP_DISABLED_CONDITIONAL, BLUE);
-
-	/* disabled breakpoint - hits */
-	scintilla_send_message(sci, SCI_MARKERDEFINE, M_BP_DISABLED_HITS, SC_MARK_ROUNDRECT);
-	scintilla_send_message(sci, SCI_MARKERSETFORE, M_BP_DISABLED_HITS, YELLOW);
-
-	/* disabled breakpoint - hits, condition */
-	scintilla_send_message(sci, SCI_MARKERDEFINE, M_BP_DISABLED_HITS_CONDITIONAL, SC_MARK_ROUNDRECT);
-	scintilla_send_message(sci, SCI_MARKERSETFORE, M_BP_DISABLED_HITS_CONDITIONAL, GREEN);
+	/* conditional breakpoint */
+	scintilla_send_message(sci, SCI_MARKERDEFINEPIXMAP, M_BP_CONDITIONAL, (long)breakpoint_condition_xpm);
 
 	/* currect instruction background */
 	scintilla_send_message(sci, SCI_MARKERDEFINE, M_CI_BACKGROUND, SC_MARK_BACKGROUND);
@@ -106,15 +84,10 @@ void markers_set_for_document(ScintillaObject *sci)
 	scintilla_send_message(sci, SCI_MARKERSETALPHA, M_CI_BACKGROUND, 75);
 
 	/* currect instruction arrow */
-	scintilla_send_message(sci, SCI_MARKERDEFINE, M_CI_ARROW, SC_MARK_SHORTARROW);
-	scintilla_send_message(sci, SCI_MARKERSETBACK, M_CI_ARROW, YELLOW);
-	scintilla_send_message(sci, SCI_MARKERSETFORE, M_CI_ARROW, BLACK);
-	scintilla_send_message(sci, SCI_MARKERSETALPHA, M_CI_ARROW, 75);
+	scintilla_send_message(sci, SCI_MARKERDEFINEPIXMAP, M_CI_ARROW, (long)arrow_1_yellow_xpm);
 
 	/* frame marker current */
-	scintilla_send_message(sci, SCI_MARKERDEFINE, M_FRAME, SC_MARK_SHORTARROW);
-	scintilla_send_message(sci, SCI_MARKERSETBACK, M_FRAME, WHITE);
-	scintilla_send_message(sci, SCI_MARKERSETFORE, M_FRAME, BLACK);
+	scintilla_send_message(sci, SCI_MARKERDEFINEPIXMAP, M_FRAME, (long)arrow_1_disable_xpm);
 }
 
 /*
@@ -139,38 +112,18 @@ void markers_add_breakpoint(breakpoint* bp)
 	GeanyDocument *doc = document_find_by_filename(bp->file);
 	if (doc)
 	{
-		int marker;
-		if (bp->enabled)
+		if (!bp->enabled)
 		{
-			if (strlen(bp->condition))
-			{
-				marker = bp->hitscount ? M_BP_ENABLED_HITS_CONDITIONAL : M_BP_ENABLED_CONDITIONAL;
-			}
-			else if (bp->hitscount)
-			{
-				marker = M_BP_ENABLED_HITS;
-			}
-			else
-			{
-				marker = M_BP_ENABLED;
-			}
+			sci_set_marker_at_line(doc->editor->sci, bp->line - 1, M_BP_DISABLED);
+		}
+		else if (strlen(bp->condition) || bp->hitscount)
+		{
+				sci_set_marker_at_line(doc->editor->sci, bp->line - 1, M_BP_CONDITIONAL);
 		}
 		else
 		{
-			if (strlen(bp->condition))
-			{
-				marker = bp->hitscount ? M_BP_DISABLED_HITS_CONDITIONAL : M_BP_DISABLED_CONDITIONAL;
-			}
-			else if (bp->hitscount)
-			{
-				marker = M_BP_DISABLED_HITS;
-			}
-			else
-			{
-				marker = M_BP_DISABLED;
-			}
+				sci_set_marker_at_line(doc->editor->sci, bp->line - 1, M_BP_ENABLED);
 		}
-		sci_set_marker_at_line(doc->editor->sci, bp->line - 1, marker);
 	}
 }
 
@@ -181,13 +134,8 @@ void markers_remove_breakpoint(breakpoint *bp)
 {
 	static int breakpoint_markers[] = {
 		M_BP_ENABLED,
-		M_BP_ENABLED_CONDITIONAL,
-		M_BP_ENABLED_HITS,
-		M_BP_ENABLED_HITS_CONDITIONAL,
 		M_BP_DISABLED,
-		M_BP_DISABLED_CONDITIONAL,
-		M_BP_DISABLED_HITS,
-		M_BP_DISABLED_HITS_CONDITIONAL
+		M_BP_CONDITIONAL
 	};
 
 	GeanyDocument *doc = document_find_by_filename(bp->file);
