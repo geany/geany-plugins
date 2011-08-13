@@ -19,6 +19,7 @@
  * MA 02110-1301, USA.
  */
 
+#include <string.h>
 #include <sys/stat.h> /* for g_mkdir_with_parents, is it portable? */
 
 #include <gtk/gtk.h>
