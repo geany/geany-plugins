@@ -25,6 +25,11 @@
 /* LaTeX plugin */
 /* This plugin improves the work with LaTeX and Geany.*/
 
+
+#ifdef HAVE_CONFIG_H
+# include "config.h" /* for the gettext domain */
+#endif
+
 #include "geanylatex.h"
 #include "ctype.h"
 
