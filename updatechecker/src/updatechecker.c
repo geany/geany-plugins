@@ -24,6 +24,11 @@
 #include "libsoup/soup.h"
 #include "stdlib.h"
 
+#ifdef HAVE_CONFIG_H
+	#include "config.h" /* for the gettext domain */
+#endif
+
+
 GeanyPlugin     *geany_plugin;
 GeanyData       *geany_data;
 GeanyFunctions  *geany_functions;
