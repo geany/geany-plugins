@@ -19,6 +19,10 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+# include "config.h" /* for the gettext domain */
+#endif
+
 #include "ggd-file-type-manager.h"
 
 #include <glib.h>

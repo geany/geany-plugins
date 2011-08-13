@@ -18,6 +18,10 @@
  *  
  */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h" /* for the gettext domain */
+#endif
+
 #include "ggd-widget-doctype-selector.h"
 
 #include <gtk/gtk.h>
