@@ -53,7 +53,8 @@ static void geanypg_toggled_cb(GtkCellRendererToggle * cell_renderer,
 static GtkListStore * geanypg_makelist(gpgme_key_t * key_array, unsigned long nkeys, int addnone)
 {
     GtkTreeIter iter;
-    unsigned long index;
+    unsigned long idx;
+    char empty_string = '\0';
     GtkListStore * list = gtk_list_store_new(N_COLUMNS, G_TYPE_BOOLEAN, G_TYPE_STRING,  G_TYPE_STRING);
     if (addnone)
     {
@@ -64,17 +65,17 @@ static GtkListStore * geanypg_makelist(gpgme_key_t * key_array, unsigned long nk
                            KEYID_COLUMN, "",
                            -1);
     }
-    for (index = 0; index < nkeys; ++index)
+    for (idx = 0; idx < nkeys; ++idx)
     {
-        char * name = (key_array[index]->uids && key_array[index]->uids->name) ? key_array[index]->uids->name : "";
-        char * email = (key_array[index]->uids && key_array[index]->uids->email) ? key_array[index]->uids->email : "";
+        char * name = (key_array[idx]->uids && key_array[idx]->uids->name) ? key_array[idx]->uids->name : &empty_string;
+        char * email = (key_array[idx]->uids && key_array[idx]->uids->email) ? key_array[idx]->uids->email : &empty_string;
         char buffer[strlen(name) + strlen(email) + 7];
         sprintf(buffer, "%s    <%s>", name, email);
         gtk_list_store_append(list, &iter);
         gtk_list_store_set(list, &iter,
                            TOGGLE_COLUMN, FALSE,
                            RECIPIENT_COLUMN, buffer,
-                           KEYID_COLUMN, key_array[index]->subkeys->keyid,
+                           KEYID_COLUMN, key_array[idx]->subkeys->keyid,
                            -1);
     }
     return list;
@@ -127,7 +128,7 @@ static GtkWidget * geanypg_listview(GtkListStore * list, listdata * data)
 int geanypg_encrypt_selection_dialog(encrypt_data * ed, gpgme_key_t ** selected, int * sign)
 {
     GtkWidget * dialog = gtk_dialog_new();
-    unsigned long index, sindex, capacity;
+    unsigned long idx, sidx, capacity;
     int response;
     GtkWidget * contentarea, * listview, * scrollwin, * combobox;
     GtkTreeIter iter;
@@ -165,11 +166,11 @@ int geanypg_encrypt_selection_dialog(encrypt_data * ed, gpgme_key_t ** selected,
         gtk_widget_destroy(dialog);
         return 0;
     }
-    index = gtk_combo_box_get_active(GTK_COMBO_BOX(combobox));
-    if (index && index <= ed->nskeys)
+    idx = gtk_combo_box_get_active(GTK_COMBO_BOX(combobox));
+    if (idx && idx <= ed->nskeys)
     {
         *sign = 1;
-        gpgme_signers_add(ed->ctx, ed->skey_array[index - 1]); // -1 because the first option is `None'
+        gpgme_signers_add(ed->ctx, ed->skey_array[idx - 1]); // -1 because the first option is `None'
     }
     // try to loop all the keys in the list
     // if they are active (the user checked the checkbox in front of the key)
@@ -179,25 +180,25 @@ int geanypg_encrypt_selection_dialog(encrypt_data * ed, gpgme_key_t ** selected,
     {
         capacity = SIZE;
         *selected = (gpgme_key_t*) malloc(SIZE * sizeof(gpgme_key_t));
-        index = 0;
-        sindex = 0;
+        idx = 0;
+        sidx = 0;
         gtk_tree_model_get(GTK_TREE_MODEL(list), &iter, TOGGLE_COLUMN, &active, -1);
         if (active)
-                (*selected)[sindex++] = ed->key_array[index];
+                (*selected)[sidx++] = ed->key_array[idx];
 
         while (gtk_tree_model_iter_next(GTK_TREE_MODEL(list), &iter))
         {
-            ++index;
+            ++idx;
             gtk_tree_model_get(GTK_TREE_MODEL(list), &iter, TOGGLE_COLUMN, &active, -1);
             if (active)
-                (*selected)[sindex++] = ed->key_array[index];
-            if (sindex >= capacity - 1)
+                (*selected)[sidx++] = ed->key_array[idx];
+            if (sidx >= capacity - 1)
             {
                 capacity += SIZE;
                 *selected = (gpgme_key_t*) realloc(*selected, capacity * sizeof(gpgme_key_t));
             }
         }
-        (*selected)[sindex] = NULL;
+        (*selected)[sidx] = NULL;
     }
     else
     {
@@ -212,7 +213,7 @@ int geanypg_encrypt_selection_dialog(encrypt_data * ed, gpgme_key_t ** selected,
 int geanypg_sign_selection_dialog(encrypt_data * ed)
 {
     GtkWidget * dialog = gtk_dialog_new();
-    unsigned long index;
+    unsigned long idx;
     int response;
     GtkWidget * contentarea = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
     GtkWidget * combobox = geanypg_combobox(
@@ -234,10 +235,10 @@ int geanypg_sign_selection_dialog(encrypt_data * ed)
         gtk_widget_destroy(dialog);
         return 0;
     }
-    index = gtk_combo_box_get_active(GTK_COMBO_BOX(combobox));
+    idx = gtk_combo_box_get_active(GTK_COMBO_BOX(combobox));
     gpgme_signers_clear(ed->ctx);
-    if (index < ed->nskeys)
-        gpgme_signers_add(ed->ctx, ed->skey_array[index]);
+    if (idx < ed->nskeys)
+        gpgme_signers_add(ed->ctx, ed->skey_array[idx]);
 
     gtk_widget_destroy(dialog);
     return 1;

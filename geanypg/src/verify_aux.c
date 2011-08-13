@@ -23,17 +23,26 @@
 
 void geanypg_get_keys_with_fp(encrypt_data * ed, char * buffer)
 {
-    unsigned long index, found = 0;
-    for (index = 0; index < ed->nkeys && ! found; ++index)
+    unsigned long idx, found = 0;
+    char empty_string = '\0';
+    for (idx = 0; idx < ed->nkeys && ! found; ++idx)
     {
-        gpgme_subkey_t sub = ed->key_array[index]->subkeys;
+        gpgme_subkey_t sub = ed->key_array[idx]->subkeys;
         while (sub && !found)
         {
             if (sub->fpr && !strncmp(sub->fpr, buffer, 40))
             {
 
-                char * name = (ed->key_array[index]->uids && ed->key_array[index]->uids->name) ? ed->key_array[index]->uids->name : "";
-                char * email = (ed->key_array[index]->uids && ed->key_array[index]->uids->email) ? ed->key_array[index]->uids->email : "";
+                char * name = (ed->key_array[idx]->uids && ed->key_array[idx]->uids->name)
+                               ?
+                               ed->key_array[idx]->uids->name
+                               :
+                               &empty_string;
+                char * email = (ed->key_array[idx]->uids && ed->key_array[idx]->uids->email)
+                                ?
+                                ed->key_array[idx]->uids->email
+                                :
+                                &empty_string;
                 if (strlen(name) + strlen(email) < 500)
                     sprintf(buffer, "%s <%s>", name, email);
                 else
@@ -49,9 +58,9 @@ void geanypg_get_keys_with_fp(encrypt_data * ed, char * buffer)
     }
 }
 
-static const char * geanypg_validity(gpgme_sigsum_t summary)
+static const char * geanypg_validity(gpgme_validity_t validity)
 {
-    switch (summary)
+    switch (validity)
     {
         case GPGME_VALIDITY_UNKNOWN:  return "unknown";
         case GPGME_VALIDITY_UNDEFINED:return "undefined";

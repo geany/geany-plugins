@@ -52,15 +52,15 @@ static void geanypg_read_till(int fd, char delim)
 
 static int geanypg_read(int fd, char delim, int max, char * buffer)
 {
-    int index, rv = 1;
+    int idx, rv = 1;
     char ch = 0;
-    for (index = 0; (index < max - 1) && rv && ch != delim; ++index)
+    for (idx = 0; (idx < max - 1) && rv && ch != delim; ++idx)
     {
         rv = read(fd, &ch, 1);
-        buffer[index] = ch;
+        buffer[idx] = ch;
     }
-    buffer[index ? index - 1 : 0] = 0;
-    return index ? index - 1 : 0;
+    buffer[idx ? idx - 1 : 0] = 0;
+    return idx ? idx - 1 : 0;
 }
 gpgme_error_t geanypg_passphrase_cb(void * hook,
                                     const char * uid_hint,
@@ -89,7 +89,8 @@ gpgme_error_t geanypg_passphrase_cb(void * hook,
     childpid = fork();
     if (!childpid)
     { // pinentry
-        char * argv[] = {"pinentry", NULL};
+        char arg1[] = "pinentry";
+        char * argv[] = {arg1, NULL};
 
         close(outpipe[READ]);
         dup2(outpipe[WRITE], STDOUT_FILENO);

@@ -32,24 +32,24 @@ int geanypg_get_keys(encrypt_data * ed)
 {
     gpgme_error_t err;
     unsigned long size = SIZE;
-    //initialize index to 0
-    unsigned long index = 0;
+    //initialize idx to 0
+    unsigned long idx = 0;
     //allocate array of size 1N
     ed->key_array = (gpgme_key_t*) malloc(SIZE * sizeof(gpgme_key_t));
     err = gpgme_op_keylist_start(ed->ctx, NULL, 0);
     while (!err)
     {
-        err = gpgme_op_keylist_next(ed->ctx, ed->key_array + index);
+        err = gpgme_op_keylist_next(ed->ctx, ed->key_array + idx);
         if (err)
             break;
-        ++index;
-        if (index >= size)
+        ++idx;
+        if (idx >= size)
         {
             size += SIZE;
             ed->key_array = (gpgme_key_t*) realloc(ed->key_array, size * sizeof(gpgme_key_t));
         }
     }
-    ed->nkeys = index;
+    ed->nkeys = idx;
     if (gpg_err_code(err) != GPG_ERR_EOF)
     {
         geanypg_show_err_msg(err);
@@ -62,24 +62,24 @@ int geanypg_get_secret_keys(encrypt_data * ed)
 {
     gpgme_error_t err;
     unsigned long size = SIZE;
-    //initialize index to 0
-    unsigned long index = 0;
+    //initialize idx to 0
+    unsigned long idx = 0;
     //allocate array of size 1N
     ed->skey_array = (gpgme_key_t*) malloc(SIZE * sizeof(gpgme_key_t));
     err = gpgme_op_keylist_start(ed->ctx, NULL, 1);
     while (!err)
     {
-        err = gpgme_op_keylist_next(ed->ctx, ed->skey_array + index);
+        err = gpgme_op_keylist_next(ed->ctx, ed->skey_array + idx);
         if (err)
             break;
-        ++index;
-        if (index >= size)
+        ++idx;
+        if (idx >= size)
         {
             size += SIZE;
             ed->skey_array = (gpgme_key_t*) realloc(ed->skey_array, size * sizeof(gpgme_key_t));
         }
     }
-    ed->nskeys = index;
+    ed->nskeys = idx;
     if (gpg_err_code(err) != GPG_ERR_EOF)
     {
         geanypg_show_err_msg(err);
