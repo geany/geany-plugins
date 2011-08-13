@@ -34,6 +34,9 @@
 #include "ao_tasks.h"
 #include "ao_xmltagging.h"
 
+#ifdef HAVE_CONFIG_H
+# include "config.h" /* for the gettext domain */
+#endif
 
 
 GeanyPlugin		*geany_plugin;
