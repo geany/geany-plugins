@@ -20,6 +20,10 @@
 
 #include "geanyplugin.h"
 
+#ifdef HAVE_CONFIG_H
+	#include "config.h" /* for the gettext domain */
+#endif
+
 #include <string.h>
 #ifdef HAVE_LOCALE_H
 # include <locale.h>
