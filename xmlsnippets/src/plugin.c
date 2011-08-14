@@ -21,6 +21,10 @@
 
 #ifndef TEST
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include "plugin.h"
 #include "xmlsnippets.h"
 #include <SciLexer.h>
