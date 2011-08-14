@@ -7,7 +7,7 @@ EXTRA_LTLIBRARIES = geanypg.la
 endif
 
 geanypg_la_SOURCES = \
-	aux.c \
+	helper_functions.c \
 	encrypt_cb.c \
 	key_selection_dialog.c \
 	sign_cb.c \
