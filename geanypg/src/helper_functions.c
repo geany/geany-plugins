@@ -1,4 +1,4 @@
-//      aux.c
+//      helper_functions.c
 //
 //      Copyright 2011 Hans Alves <alves.h88@gmail.com>
 //
