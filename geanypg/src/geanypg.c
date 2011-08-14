@@ -29,7 +29,10 @@ GeanyFunctions  *geany_functions;
 PLUGIN_VERSION_CHECK(201)
 
 /* All plugins must set name, description, version and author. */
-PLUGIN_SET_INFO(_("GeanyPG"),
+PLUGIN_SET_TRANSLATABLE_INFO(
+                LOCALEDIR,
+                GETTEXT_PACKAGE,
+                "GeanyPG",
                 _("gpg encryption plugin for geany"),
                 "0.1",
                 _("Hans Alves <alves.h88@gmail.com>"))
@@ -40,7 +43,7 @@ static gpgme_error_t geanypg_init_gpgme(void)
 {
     // Initialize the locale environment.
     setlocale(LC_ALL, "");
-    fprintf(stderr, "GEANYPG: Using libgpgme version: %s\n",
+    fprintf(stderr, "GeanyPG: %s %s\n", _("Using libgpgme version:"),
             gpgme_check_version("1.1.0"));
     gpgme_set_locale(NULL, LC_CTYPE, setlocale(LC_CTYPE, NULL));
 #ifdef LC_MESSAGES // only necessary for portability to W32 systems
@@ -53,8 +56,8 @@ gpgme_error_t geanypg_show_err_msg(gpgme_error_t err)
 {
     gchar const * msg = (gchar const *)gpgme_strerror(err);
     gchar const * src = (gchar const *)gpgme_strsource(err);
-    dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Error from %s: %s\n.", src, msg);
-    fprintf(stderr, "GEANYPG: %s\nFrom %s.\n", msg, src);
+    dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s %s: %s\n", _("Error from"), src, msg);
+    fprintf(stderr, "GeanyPG: %s %s: %s\n", _("Error from"), msg, src);
     return err;
 }
 
@@ -72,10 +75,10 @@ void plugin_init(GeanyData *data)
 
     GtkWidget * submenu = gtk_menu_new();
     gtk_widget_show(submenu);
-    GtkWidget * encrypt = gtk_menu_item_new_with_mnemonic("Encrypt");
-    GtkWidget * sign = gtk_menu_item_new_with_mnemonic("Sign");
-    GtkWidget * decrypt = gtk_menu_item_new_with_mnemonic("Decrypt / Verify");
-    GtkWidget * verify = gtk_menu_item_new_with_mnemonic("Verify detached signature");
+    GtkWidget * encrypt = gtk_menu_item_new_with_mnemonic(_("Encrypt"));
+    GtkWidget * sign = gtk_menu_item_new_with_mnemonic(_("Sign"));
+    GtkWidget * decrypt = gtk_menu_item_new_with_mnemonic(_("Decrypt / Verify"));
+    GtkWidget * verify = gtk_menu_item_new_with_mnemonic(_("Verify detached signature"));
 
     gtk_widget_show(encrypt);
     gtk_widget_show(sign);

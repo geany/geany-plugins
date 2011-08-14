@@ -28,7 +28,7 @@ void geanypg_encrypt(encrypt_data * ed, gpgme_key_t * recp, int sign)
     tempfile = tmpfile();
     if (!(tempfile))
     {
-        fprintf(stderr, "GEANYPG: couldn't create tempfile: %s.\n", strerror(errno));
+        fprintf(stderr, "GeanyPG: %s: %s.\n", _("couldn't create tempfile"), strerror(errno));
         return ;
     }
     gpgme_data_new_from_stream(&cipher, tempfile);
@@ -72,7 +72,7 @@ void geanypg_encrypt_cb(GtkMenuItem * menuitem, gpointer user_data)
         {
             if (*recp)
                 geanypg_encrypt(&ed, recp, sign);
-            else if (dialogs_show_question("No recipients were selected,\nuse symetric cipher?"))
+            else if (dialogs_show_question(_("No recipients were selected,\nuse symetric cipher?")))
                 geanypg_encrypt(&ed, NULL, sign);
         }
         if (recp)

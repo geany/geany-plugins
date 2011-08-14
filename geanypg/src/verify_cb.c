@@ -23,7 +23,7 @@ char * geanypg_choose_sig()
 {
     int response;
     char * file = NULL;
-    GtkWidget * dialog = gtk_file_chooser_dialog_new("Open a signature file",
+    GtkWidget * dialog = gtk_file_chooser_dialog_new(_("Open a signature file"),
                                                      GTK_WINDOW(geany->main_widgets->window),
                                                      GTK_FILE_CHOOSER_ACTION_OPEN,
                                                      GTK_STOCK_OPEN, GTK_RESPONSE_OK,
@@ -50,7 +50,7 @@ void geanypg_verify(encrypt_data * ed, char * signame)
     if (err != GPG_ERR_NO_ERROR)
         geanypg_show_err_msg(err);
     else
-        geanypg_handle_signatures(ed);
+        geanypg_handle_signatures(ed, 1);
 
     gpgme_data_release(sig);
     gpgme_data_release(text);

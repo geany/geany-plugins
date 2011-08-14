@@ -147,9 +147,9 @@ int geanypg_encrypt_selection_dialog(encrypt_data * ed, gpgme_key_t ** selected,
 
 
     contentarea = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
-    gtk_box_pack_start(GTK_BOX(contentarea), gtk_label_new("Please select any recipients"), FALSE, FALSE, 5);
+    gtk_box_pack_start(GTK_BOX(contentarea), gtk_label_new(_("Please select any recipients")), FALSE, FALSE, 5);
     gtk_box_pack_start(GTK_BOX(contentarea), scrollwin, TRUE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(contentarea), gtk_label_new("Sign the message as:"), FALSE, FALSE, 5);
+    gtk_box_pack_start(GTK_BOX(contentarea), gtk_label_new(_("Sign the message as:")), FALSE, FALSE, 5);
     gtk_box_pack_start(GTK_BOX(contentarea), combobox, FALSE, FALSE, 0);
 
 
@@ -157,7 +157,7 @@ int geanypg_encrypt_selection_dialog(encrypt_data * ed, gpgme_key_t ** selected,
     gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_OK, GTK_RESPONSE_OK);
     gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 
-    gtk_window_set_title(GTK_WINDOW(dialog), "Select recipients");
+    gtk_window_set_title(GTK_WINDOW(dialog), _("Select recipients"));
     gtk_widget_show_all(dialog);
     // make sure dialog is destroyed when user responds
     response = gtk_dialog_run(GTK_DIALOG(dialog));
@@ -219,7 +219,7 @@ int geanypg_sign_selection_dialog(encrypt_data * ed)
     GtkWidget * combobox = geanypg_combobox(
                                 geanypg_makelist(ed->skey_array, ed->nskeys, 0));
 
-    gtk_box_pack_start(GTK_BOX(contentarea), gtk_label_new("Choose a key to sign with:"), FALSE, FALSE, 5);
+    gtk_box_pack_start(GTK_BOX(contentarea), gtk_label_new(_("Choose a key to sign with:")), FALSE, FALSE, 5);
     gtk_box_pack_start(GTK_BOX(contentarea), combobox, TRUE, TRUE, 0);
 
     // add ok and cancel buttons
@@ -227,7 +227,7 @@ int geanypg_sign_selection_dialog(encrypt_data * ed)
     gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 
     gtk_widget_show_all(dialog);
-    gtk_window_set_title(GTK_WINDOW(dialog), "Select signer");
+    gtk_window_set_title(GTK_WINDOW(dialog), _("Select signer"));
     // make sure dialog is destroyed when user responds
     response = gtk_dialog_run(GTK_DIALOG(dialog));
     if (response == GTK_RESPONSE_CANCEL)

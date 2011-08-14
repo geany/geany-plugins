@@ -77,12 +77,12 @@ gpgme_error_t geanypg_passphrase_cb(void * hook,
 
     if (pipe(outpipe))
     {
-        fprintf(stderr, "GEANYPG: %s\n", strerror(errno));
+        fprintf(stderr, "GeanyPG: %s\n", strerror(errno));
         return gpgme_error_from_errno(errno);
     }
     if (pipe(inpipe))
     {
-        fprintf(stderr, "GEANYPG: %s\n", strerror(errno));
+        fprintf(stderr, "GeanyPG: %s\n", strerror(errno));
         return gpgme_error_from_errno(errno);
     }
 
@@ -100,7 +100,7 @@ gpgme_error_t geanypg_passphrase_cb(void * hook,
 
         execvp(*argv, argv);
         // shouldn't get here
-        fprintf(stderr, "GEANYPG: could not use pinentry.\n%s\n", strerror(errno));
+        fprintf(stderr, "GeanyPG: %s\n%s\n", _("Could not use pinentry."), strerror(errno));
         exit(1); // kill the child
     }
     // GeanpyPG
@@ -112,7 +112,7 @@ gpgme_error_t geanypg_passphrase_cb(void * hook,
     geanypg_read(outpipe[READ], ' ', 2049, readbuffer);
     if (strncmp(readbuffer, "OK", 3))
     {
-        fprintf(stderr, "GEANYPG: unexpected output from pinentry\n");
+        fprintf(stderr, "GeanyPG: %s\n", _("Unexpected output from pinentry."));
         fclose(childin);
         waitpid(childpid, &status, 0);
         close(outpipe[READ]);
@@ -120,16 +120,16 @@ gpgme_error_t geanypg_passphrase_cb(void * hook,
         return gpgme_err_make(GPG_ERR_SOURCE_PINENTRY, GPG_ERR_GENERAL);
     }
     geanypg_read_till(outpipe[READ], '\n'); // read the rest of the first line after OK
-    fprintf(childin, "SETTITLE GeanyPG Passphrase entry\n");
+    fprintf(childin, "SETTITLE GeanyPG %s\n", _("Passphrase entry"));
     fflush(childin);
     geanypg_read_till(outpipe[READ], '\n');
 
-    fprintf(childin, "SETPROMPT%s\n", (uid_hint && *uid_hint ? "" : " Passphrase:"));
+    fprintf(childin, "SETPROMPT%s\n", (uid_hint && *uid_hint ? "" : _(" Passphrase:")));
     fflush(childin);
     geanypg_read_till(outpipe[READ], '\n');
 
     fprintf(childin, "SETDESC %s%s\n",
-                     (uid_hint && *uid_hint ? "Enter passphrase for:%0A" : ""),
+                     (uid_hint && *uid_hint ? _("Enter passphrase for:%0A") : ""),
                      (uid_hint && *uid_hint ? geanypg_getname(uid_hint) : ""));
     fflush(childin);
     geanypg_read_till(outpipe[READ], '\n');
@@ -160,10 +160,10 @@ gpgme_error_t geanypg_passphrase_cb(void * hook,
             geanypg_read(outpipe[READ], ' ', 2049, readbuffer);
             sscanf(readbuffer, "%lu", &errval);
             geanypg_read(outpipe[READ], '\n', 2049, readbuffer);
-            fprintf(stderr, "GEANYPG: pinentry gave error %lu %s\n", errval, readbuffer);
+            fprintf(stderr, "GeanyPG: %s %lu %s\n", _("pinentry gave error"), errval, readbuffer);
         }
         else
-            fprintf(stderr, "GEANYPG: unexpected error from pinentry\n");
+            fprintf(stderr, "GeanyPG: %s\n", _("Unexpected error from pinentry."));
         fclose(childin);
         waitpid(childpid, &status, 0);
         close(outpipe[READ]);
@@ -188,7 +188,7 @@ gpgme_error_t geanypg_passphrase_cb(void *hook,
                                     int prev_was_bad ,
                                     int fd)
 {
-    dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Error, Passphrase input without using gpg-agent is not supported on Windows yet.");
+    dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Error, Passphrase input without using gpg-agent is not supported on Windows yet."));
     return gpgme_err_make(GPG_ERR_SOURCE_PINENTRY, GPG_ERR_CANCELED);
 }
 #endif

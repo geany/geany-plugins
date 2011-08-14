@@ -29,7 +29,7 @@ void geanypg_decrypt_verify(encrypt_data * ed)
     tempfile = tmpfile();
     if (!(tempfile))
     {
-        fprintf(stderr, "GEANYPG: couldn't create tempfile: %s.\n", strerror(errno));
+        fprintf(stderr, "GeanyPG: %s: %s.\n", _("couldn't create tempfile"), strerror(errno));
         return ;
     }
     gpgme_data_new_from_stream(&plain, tempfile);
@@ -51,7 +51,7 @@ void geanypg_decrypt_verify(encrypt_data * ed)
     {
         rewind(tempfile);
         geanypg_write_file(tempfile);
-        geanypg_handle_signatures(ed);
+        geanypg_handle_signatures(ed, 0);
     }
 
     fclose(tempfile);

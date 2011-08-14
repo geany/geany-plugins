@@ -29,7 +29,7 @@ void geanypg_sign(encrypt_data * ed)
     tempfile = tmpfile();
     if (!(tempfile))
     {
-        fprintf(stderr, "GEANYPG: couldn't create tempfile: %s.\n", strerror(errno));
+        fprintf(stderr, "GeanyPG: %s: %s\n", _("couldn't create tempfile"), strerror(errno));
         return ;
     }
     gpgme_data_new_from_stream(&cipher, tempfile);

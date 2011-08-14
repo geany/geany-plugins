@@ -24,6 +24,10 @@
 #include <errno.h>
 #include <locale.h>
 
+#ifdef HAVE_CONFIG_H
+    #include "config.h" /* for the gettext domain */
+#endif
+
 #include <geanyplugin.h>
 #include <Scintilla.h>
 #include <gpgme.h>
@@ -58,7 +62,7 @@ void geanypg_load_buffer(gpgme_data_t * buffer);
 void geanypg_write_file(FILE * file);
 
 // some more auxiliary functions (verify_aux.c)
-void geanypg_handle_signatures(encrypt_data * ed);
+void geanypg_handle_signatures(encrypt_data * ed, int need_error);
 void geanypg_check_sig(encrypt_data * ed, gpgme_signature_t sig);
 
 // dialogs
