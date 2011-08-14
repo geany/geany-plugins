@@ -56,6 +56,13 @@ enum
 	PROP_ENABLE_SYSTRAY
 };
 
+enum
+{
+	WIDGET_OPEN,
+	WIDGET_SAVE_ALL,
+	WIDGET_PREFERENCES
+};
+
 G_DEFINE_TYPE(AoSystray, ao_systray, G_TYPE_OBJECT);
 
 
@@ -126,7 +133,23 @@ static void icon_activate_cb(GtkStatusIcon *status_icon, gpointer data)
 
 static void icon_popup_menu_cmd_clicked_cb(GtkMenuItem *item, gpointer data)
 {
-	g_signal_emit_by_name(ui_lookup_widget(geany->main_widgets->window, data), "activate");
+	GtkWidget *widget;
+	const gchar *widget_name;
+	
+	switch (GPOINTER_TO_INT(data))
+	{
+		case WIDGET_OPEN:
+			widget_name = "menu_open1";
+			break;
+		case WIDGET_SAVE_ALL:
+			widget_name = "menu_save_all1";
+			break;
+		case WIDGET_PREFERENCES:
+			widget_name = "preferences1";
+			break;
+	}
+	widget = ui_lookup_widget(geany->main_widgets->window, widget_name);
+	g_signal_emit_by_name(widget, "activate");
 }
 
 
@@ -179,13 +202,13 @@ static void ao_systray_init(AoSystray *self)
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(priv->popup_menu), item);
 	g_signal_connect(item, "activate",
-		G_CALLBACK(icon_popup_menu_cmd_clicked_cb), "menu_open1");
+		G_CALLBACK(icon_popup_menu_cmd_clicked_cb), GINT_TO_POINTER(WIDGET_OPEN));
 
 	item = gtk_image_menu_item_new_from_stock(GEANY_STOCK_SAVE_ALL, NULL);
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(priv->popup_menu), item);
 	g_signal_connect(item, "activate",
-		G_CALLBACK(icon_popup_menu_cmd_clicked_cb), "menu_save_all1");
+		G_CALLBACK(icon_popup_menu_cmd_clicked_cb), GINT_TO_POINTER(WIDGET_SAVE_ALL));
 
 	item = gtk_separator_menu_item_new();
 	gtk_widget_show(item);
@@ -195,7 +218,7 @@ static void ao_systray_init(AoSystray *self)
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(priv->popup_menu), item);
 	g_signal_connect(item, "activate",
-		G_CALLBACK(icon_popup_menu_cmd_clicked_cb), "preferences1");
+		G_CALLBACK(icon_popup_menu_cmd_clicked_cb), GINT_TO_POINTER(WIDGET_PREFERENCES));
 
 	item = gtk_separator_menu_item_new();
 	gtk_widget_show(item);
