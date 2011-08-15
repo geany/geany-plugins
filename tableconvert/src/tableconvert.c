@@ -45,7 +45,6 @@ enum
 
 static GtkWidget *main_menu_item = NULL;
 
-
 static GString* convert_to_table_html(gchar **rows, gboolean header)
 {
 	guint i;
@@ -165,15 +164,29 @@ void convert_to_table(gboolean header)
 		/* Checking whether we do have something we can work on - Returning if not */
 		if (rows != NULL)
 		{
-			if (doc->file_type->id == GEANY_FILETYPES_HTML)
+			switch (doc->file_type->id)
 			{
-				replacement_str = convert_to_table_html(rows, header);
-			}
-
-			else if (doc->file_type->id == GEANY_FILETYPES_LATEX)
-			{
-				replacement_str = convert_to_table_latex(rows, header);
-			}
+				case GEANY_FILETYPES_NONE:
+				{
+					g_free(rows);
+					g_free(replacement);
+					return;
+				}
+				case GEANY_FILETYPES_HTML:
+				{
+					replacement_str = convert_to_table_html(rows, header);
+					break;
+				}
+				case GEANY_FILETYPES_LATEX:
+				{
+					replacement_str = convert_to_table_latex(rows, header);
+					break;
+				}
+				default:
+				{
+					replacement_str = NULL;
+				}
+			} /* filetype switch */
 		}
 		else
 		{
