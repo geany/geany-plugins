@@ -8,6 +8,24 @@
  * Fixing an bug when using keybindings to insert typewriter format
 
 
+2011-07-28  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Resorting LaTeX menu.
+ * Adding a couple of characters which are used inside LaTeX to special
+   characters menu.
+
+
+2011-04-26  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Add a tooltip to toolbar item.
+
+
+2011-04-12  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Don't add a {} after a command in case of [ has been typed before or []
+   is there. Closes #3285393.
+
+
 2011-03-17  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * Attempt to fix a couple of compiling warnings came up with updates
