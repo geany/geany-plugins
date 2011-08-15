@@ -163,7 +163,7 @@ void convert_to_table(gboolean header)
 			/* OK. Something went not as expected.
 			* We did have a selection but cannot parse it into rows.
 			* Aborting */
-			g_warning(_("Something went went wrong on parsing selection. Aborting"));
+			g_warning(_("Something went wrong on parsing selection. Aborting"));
 			return;
 		}
 
