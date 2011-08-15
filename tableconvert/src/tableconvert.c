@@ -45,6 +45,7 @@ enum
 
 static GtkWidget *main_menu_item = NULL;
 
+
 static GString* convert_to_table_html(gchar **rows, gboolean header)
 {
 	guint i;
@@ -106,6 +107,41 @@ static GString* convert_to_table_html(gchar **rows, gboolean header)
 	return replacement_str;
 }
 
+static GString* convert_to_table_latex(gchar** rows, gboolean header)
+{
+	guint i;
+	guint j;
+	GString *replacement_str = NULL;
+
+	/* Adding header to replacement */
+	replacement_str = g_string_new("\\begin{tabular}{}\n");
+
+	/* Iteration onto rows and building up lines of table for
+	* replacement */
+	for (i = 0; rows[i] != NULL ; i++)
+	{
+		gchar **columns = NULL;
+		columns = g_strsplit_set(rows[i], "\t", -1);
+
+		for (j = 0; columns[j] != NULL; j++)
+		{
+			if (j > 0)
+			{
+				g_string_append(replacement_str, "  &  ");
+			}
+			g_string_append(replacement_str, columns[j]);
+		}
+
+		g_string_append(replacement_str, "\\\\\n");
+
+		g_free(columns);
+	}
+	/* Adding the footer of table */
+
+	g_string_append(replacement_str, "\\end{tabular}\n");
+	return replacement_str;
+}
+
 void convert_to_table(gboolean header)
 {
 	GeanyDocument *doc = NULL;
@@ -136,35 +172,7 @@ void convert_to_table(gboolean header)
 
 			else if (doc->file_type->id == GEANY_FILETYPES_LATEX)
 			{
-				guint i;
-				guint j;
-
-				/* Adding header to replacement */
-				replacement_str = g_string_new("\\begin{tabular}{}\n");
-
-				/* Iteration onto rows and building up lines of table for
-				* replacement */
-				for (i = 0; rows[i] != NULL ; i++)
-				{
-					gchar **columns = NULL;
-					columns = g_strsplit_set(rows[i], "\t", -1);
-
-					for (j = 0; columns[j] != NULL; j++)
-					{
-						if (j > 0)
-						{
-							g_string_append(replacement_str, "  &  ");
-						}
-						g_string_append(replacement_str, columns[j]);
-					}
-
-					g_string_append(replacement_str, "\\\\\n");
-
-					g_free(columns);
-				}
-				/* Adding the footer of table */
-
-				g_string_append(replacement_str, "\\end{tabular}\n");
+				replacement_str = convert_to_table_latex(rows, header);
 			}
 		}
 		else
