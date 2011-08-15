@@ -45,6 +45,68 @@ enum
 
 static GtkWidget *main_menu_item = NULL;
 
+static GString* convert_to_table_html(gchar **rows, gboolean header)
+{
+	guint i;
+	guint j;
+	GString *replacement_str = NULL;
+	//gchar *replacement = NULL;
+
+	/* Adding header to replacement */
+	replacement_str = g_string_new("<table>\n");
+
+	/* Adding <thead> if requested */
+	if (header == TRUE)
+	{
+		g_string_append(replacement_str, "<thead>\n");
+	}
+
+	/* Iteration onto rows and building up lines of table for
+	 * replacement */
+	for (i = 0; rows[i] != NULL ; i++)
+	{
+		gchar **columns = NULL;
+		columns = g_strsplit_set(rows[i], "\t", -1);
+
+		/* Adding <tbody> after first line if header and body
+		 * is requested */
+		if (i == 1 &&
+			header == TRUE)
+		{
+			g_string_append(replacement_str, "<tbody>\n");
+		}
+
+		g_string_append(replacement_str, "\t<tr>\n");
+		for (j = 0; columns[j] != NULL; j++)
+		{
+			g_string_append(replacement_str, "\t\t<td>");
+			g_string_append(replacement_str, columns[j]);
+			g_string_append(replacement_str, "</td>\n");
+		}
+
+		g_string_append(replacement_str, "\t</tr>\n");
+
+		/* Adding closing </thead> after first row if header
+		 * is requested */
+		if (i == 0 &&
+			header == TRUE)
+		{
+			g_string_append(replacement_str, "</thead>\n");
+		}
+		g_free(columns);
+	}
+
+	/* Adding the footer of table */
+	/* Closing </tbody> if requested */
+	if (header == TRUE)
+	{
+		g_string_append(replacement_str, "</tbody>\n");
+	}
+
+	g_string_append(replacement_str, "</table>\n");
+	return replacement_str;
+}
+
 void convert_to_table(gboolean header)
 {
 	GeanyDocument *doc = NULL;
@@ -68,67 +130,15 @@ void convert_to_table(gboolean header)
 		/* Checking whether we do have something we can work on - Returning if not */
 		if (rows != NULL)
 		{
-			guint i;
-			guint j;
-
 			if (doc->file_type->id == GEANY_FILETYPES_HTML)
 			{
-				/* Adding header to replacement */
-				replacement_str = g_string_new("<table>\n");
-
-				/* Adding <thead> if requested */
-				if (header == TRUE)
-				{
-					g_string_append(replacement_str, "<thead>\n");
-				}
-
-				/* Iteration onto rows and building up lines of table for
-				 * replacement */
-				for (i = 0; rows[i] != NULL ; i++)
-				{
-					gchar **columns = NULL;
-					columns = g_strsplit_set(rows[i], "\t", -1);
-
-					/* Adding <tbody> after first line if header and body
-					 * is requested */
-					if (i == 1 &&
-						header == TRUE)
-					{
-						g_string_append(replacement_str, "<tbody>\n");
-					}
-
-					g_string_append(replacement_str, "\t<tr>\n");
-					for (j = 0; columns[j] != NULL; j++)
-					{
-						g_string_append(replacement_str, "\t\t<td>");
-						g_string_append(replacement_str, columns[j]);
-						g_string_append(replacement_str, "</td>\n");
-					}
-
-					g_string_append(replacement_str, "\t</tr>\n");
-
-					/* Adding closing </thead> after first row if header
-					 * is requested */
-					if (i == 0 &&
-						header == TRUE)
-					{
-						g_string_append(replacement_str, "</thead>\n");
-					}
-					g_free(columns);
-				}
-
-				/* Adding the footer of table */
-				/* Closing </tbody> if requested */
-				if (header == TRUE)
-				{
-					g_string_append(replacement_str, "</tbody>\n");
-				}
-
-				g_string_append(replacement_str, "</table>\n");
+				replacement_str = convert_to_table_html(rows, header);
 			}
 
 			else if (doc->file_type->id == GEANY_FILETYPES_LATEX)
 			{
+				guint i;
+				guint j;
 
 				/* Adding header to replacement */
 				replacement_str = g_string_new("\\begin{tabular}{}\n");
