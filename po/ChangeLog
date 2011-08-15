@@ -2,15 +2,18 @@
 
  * de.po: Minimal update of German translation.
 
+
 2011-08-15 Hans Alves <alves(dot)h88(at)gmail(dot)com>
 
  * es.po Minor adjustment on translation.
  * added nl.po with dutch translation of geanypg
 
+
 2011-08-14 Hans Alves <alves(dot)h88(at)gmail(dot)com>
 
  * POTFILES.in changed geanypg/src/aux.c to geanypg/src/helper_functions.c
  * es.po: added spanish translation for geanypg
+
 
 2011-06-22  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
