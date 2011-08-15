@@ -26,7 +26,8 @@
 
 enum
 {
-	GREEK_LETTERS = 0,
+	LATEX_LETTERS = 0,
+	GREEK_LETTERS,
 	GERMAN_LETTERS,
 	MISC_LETTERS,
 	ARROW_CHAR,
@@ -36,6 +37,7 @@ enum
 };
 
 CategoryName glatex_cat_names[] = {
+	{ LATEX_LETTERS, N_("LaTeX letters"), TRUE},
 	{ GREEK_LETTERS, N_("Greek letters"), TRUE},
 	{ GERMAN_LETTERS, N_("German umlauts"), TRUE},
 	{ MISC_LETTERS, N_("Misc"), FALSE},
@@ -51,6 +53,14 @@ CategoryName glatex_cat_names[] = {
  * AAACCCBBB is valid
  * ACABCBACB is _not_ valid and will course trouble */
 SubMenuTemplate glatex_char_array[] = {
+	/* LaTeX characters */
+	{LATEX_LETTERS, "$", "\\$"},
+	{LATEX_LETTERS, "%", "\\%"},
+	{LATEX_LETTERS, "_", "\\_"},
+	{LATEX_LETTERS, "}", "\\}"},
+	{LATEX_LETTERS, "{", "\\{"},
+	{LATEX_LETTERS, "&", "\\&"},
+	{LATEX_LETTERS, "#", "\\#"},
 	/* Greek characters */
 	{GREEK_LETTERS, "Α", "\\Alpha" },
 	{GREEK_LETTERS, "α", "\\alpha" },

@@ -39,13 +39,14 @@ GString *glatex_get_template_from_file(gchar *filepath)
 
 static void glatex_init_cutom_template_item(gchar *file, GPtrArray *array)
 {
-	TemplateEntry *template = g_new0(TemplateEntry, 1);
+	TemplateEntry *template = NULL;
 	gchar *tmp = NULL;
 
 	/* Return if its not a searched file */
 	if (g_str_has_suffix(file,".gtl") == FALSE)
-		g_free(template);
 		return;
+
+	template = g_new0(TemplateEntry, 1);
 
 	template->filepath = g_strdup(file);
 

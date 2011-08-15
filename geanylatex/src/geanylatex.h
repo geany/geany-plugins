@@ -60,6 +60,8 @@ extern GeanyFunctions	*geany_functions;
 #define MAX_MENU_ENTRIES 20
 
 extern LaTeXWizard glatex_wizard;
+extern gboolean glatex_autobraces_active;
+
 gint glatex_count_menu_entries(SubMenuTemplate *tmp, gint categorie);
 void glatex_wizard_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 	 G_GNUC_UNUSED gpointer gdata);

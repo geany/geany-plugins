@@ -27,7 +27,7 @@
 
 
 #ifdef HAVE_CONFIG_H
-# include "config.h" /* for the gettext domain */
+	#include "config.h" /* for the gettext domain */
 #endif
 
 #include "geanylatex.h"
@@ -90,7 +90,6 @@ static gboolean glatex_autocompletion_active = FALSE;
  * and \endgroup{}. */
 static gint glatex_autocompletion_context_size;
 static gboolean glatex_autocompletion_only_for_latex;
-static gboolean glatex_autobraces_active = TRUE;
 
 /* Function will be deactivated, when only loaded */
 static gboolean toggle_active = FALSE;
