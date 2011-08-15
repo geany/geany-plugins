@@ -50,7 +50,6 @@ static GString* convert_to_table_html(gchar **rows, gboolean header)
 	guint i;
 	guint j;
 	GString *replacement_str = NULL;
-	//gchar *replacement = NULL;
 
 	/* Adding header to replacement */
 	replacement_str = g_string_new("<table>\n");
