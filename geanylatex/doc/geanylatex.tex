@@ -2,13 +2,11 @@
 paper=a4,%
 fontsize=11pt,%
 twoside=false,%
-DIV18,
-headsepline,
-plainheadsepline,
-footsepline,
-plainfootsepline,
-%appendixprefix,
-%automark,%
+DIV18,%
+headsepline,%
+plainheadsepline,%
+footsepline,%
+plainfootsepline,%
 bibliography=totoc,%
 listof=totoc,%
 BCOR10mm,%
@@ -18,11 +16,9 @@ openany,%
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{float}
-\usepackage{setspace}
-\usepackage{mathpazo,courier}
-\usepackage{listings,color}
-\usepackage{courier}
-\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{listings}
 \lstset{basicstyle=\ttfamily\scriptsize}
 \lstset{showspaces=false}
 \lstset{showtabs=false}
@@ -47,7 +43,7 @@ openany,%
 \hypersetup{pdftex=true, colorlinks=true, breaklinks=true, linkcolor=black, urlcolor=darkblue}
 
 \title{Geany\LaTeX{} -- A \LaTeX{} plugin for Geany \\[1.5ex]
-	   \normalsize Version 0.6svn preview}
+	   \normalsize Version 0.6svn}
 \author{Frank Lanitz \\ \small{\href{mailto:frank@frank.uvena.de}{frank@frank.uvena.de}}}
 \date{\today}
 
@@ -62,11 +58,13 @@ openany,%
 
 
 \pagenumbering{Roman}
-\maketitle
-\tableofcontents
-\listoftables
-\listoffigures
-\newpage
+\maketitle{}
+\tableofcontents{}
+\listoftables{}
+\listoffigures{}
+\lstlistoflistings{}
+
+\newpage{}
 \pagenumbering{arabic}
 \section{About the plugin}
 
@@ -186,13 +184,11 @@ documentation as there are some specialties you might like to know.}
 Compiling and installing the code is done by the following three
 commands:
 
-\begin{figure}[h!]
-\begin{lstlisting}
+\begin{lstlisting}[caption={Compiling with waf}]
 $ ./waf configure
 $ ./waf build
 $ ./waf install %$
 \end{lstlisting}
-\end{figure}
 
 For more configuration details, run \texttt{./waf --help}
 
@@ -216,11 +212,10 @@ usage of \texttt{pdflatex} (should be delivered with your favorite
 might like to use \texttt{htlatex}. The HTML version of this documentation
 shipped with source tarball has been compiled with
 
-\begin{figure}[h!]
-\begin{lstlisting}
+\begin{lstlisting}[caption={Compiling of documentation}]
 htlatex geanylatex.tex xhtml -cvalidate -interaction=batchmode
 \end{lstlisting}
-\end{figure}
+
 
 \section{Usage}
 \begin{figure}[h!]
@@ -408,8 +403,7 @@ The template will be inserted on position of cursor which will
 no be moved during the process. As an example for a book, this will be
 inserted to the document:
 
-\begin{figure}[h!]
-\begin{lstlisting}
+\begin{lstlisting}[caption={Example of BibTeX entry for a book}]
 @Book{
 Author = {},
 Editor = {},
@@ -418,7 +412,7 @@ Title = {},
 Year = {},
 }
 \end{lstlisting}
-\end{figure}
+
 
 \subsubsection{Inserting cite-reference}
 
@@ -467,22 +461,20 @@ documents. It can be chosen from a pulldown menu and will be inserted at
 current position of cursor. If there is a selection activ, the selection
 will be included into environment.
 
-\begin{figure}[h!]
 \begin{lstlisting}
 \begin{your_environment}
 	... selected text ...
 \end{your_environment}
 \end{lstlisting}
-\end{figure}
 
 In case of an empty (= no selection) an empty environment with
-\begin{figure}[h!]
+
 \begin{lstlisting}
 \begin{your_environment}
 ...
 \end{your_environment}
 \end{lstlisting}
-\end{figure}
+
 
 will be inserted to the document.
 
@@ -566,6 +558,7 @@ there is any.
 	\includegraphics[width=0.4\textwidth]{img/insert_usepackage.png}
 	\caption{Dialog for inserting \textbackslash{}usepackage\{\}}
 \end{figure}
+
 
 \section{Configuration}
 
@@ -662,6 +655,8 @@ Format selection right-alignedm & Formats selected text right-aligned on page (u
 Insert description list & Inserts an description environment as well as a 1\up{st} \textbackslash{}item element.\\\hline
 Insert itemize list & Inserts an itemize environment as well as a 1\up{st} \textbackslash{}item element.\\\hline
 Insert enumerate list & Inserts an enumerate environment as well as a 1\up{st} \textbackslash{}item element.\\\hline
+Insert BibTeX reference dialog & Opens up a dialog which is supporting insertion of BibTeX-references based on \texttt{bib}-files inside current directory.\\\hline
+Toggle autocompletion for \_ and \^ & Controlls whether braces should be inserted after \_ and \^ \ or not.
 \end{tabular}
 \end{table}
 
@@ -684,7 +679,9 @@ into your general.conf file of Geany\LaTeX{} plugin which stats
 \texttt{glatex\_deactivate\_toolbaritems\_with\_non\_latex=false}.
 As a result, your config file could look similar to this:
 
-\begin{lstlisting}
+\begin{lstlisting}[caption={Configuration to enable toolbar buttons if %
+						    no \LaTeX{} is active}]
+
 [general]
 glatex_set_koma_active=false
 glatex_set_toolbar_active=true
@@ -706,7 +703,7 @@ to have the menu entry switched maybe each time on switching between
 two documents it can be set to keep even there is no LaTeX document
 activ.
 
-\begin{lstlisting}
+\begin{lstlisting}[caption={Configuration to keep \LaTeX{} menu inside menubar}]
 [general]
 glatex_set_koma_active=false
 glatex_set_toolbar_active=true
@@ -727,7 +724,7 @@ you have a \LaTeX{} document open. To add the menu direct at startup
 time you might set \texttt{glatex\_add\_menu\_on\_startup} inside
 menu section of configuration file to true.
 
-\begin{lstlisting}
+\begin{lstlisting}[caption={Configuration add \LaTeX{} menu on startup of Geany}]
 [general]
 glatex_set_koma_active=false
 glatex_set_toolbar_active=true
@@ -752,8 +749,7 @@ your configuration file with
 \texttt{glatex\_set\_autocompletion\_contextsize} followed by an integer
 value. An example could look like this:
 
-\begin{figure}[h!]
-\begin{lstlisting}
+\begin{lstlisting}[caption={Example configuration for contextsize of autocompletion}]
 [general]
 glatex_set_koma_active=true
 glatex_set_toolbar_active=false
@@ -762,14 +758,12 @@ glatex_set_autocompletion=true
 [autocompletion]
 glatex_set_autocompletion_contextsize=2
 \end{lstlisting}
-\caption{general.conf example for contextsize}
-\end{figure}
 
 \subsubsection{Apply autocompletion only to \TeX{}-like files}
 With this option, you can force Geany\LaTeX{} to apply all autocompletion functions also to non-\TeX{} file types as for example an C-source code file. As this is only in a very low number of cases a really good idea, the option is by default turned on.
 
-\begin{figure}[h!]
-\begin{lstlisting}
+\begin{lstlisting}[caption={general.conf example for deactivating file %
+						   type specific restrictions for autocompletion}]
 [general]
 glatex_set_koma_active=true
 glatex_set_toolbar_active=false
@@ -778,8 +772,6 @@ glatex_set_autocompletion=true
 [autocompletion]
 glatex_autocompletion_only_for_latex=false
 \end{lstlisting}
-\caption{general.conf example for deactivating file type specific restrictions for autocompletion}
-\end{figure}
 
 \subsubsection{Customized reference strings}
 
@@ -790,7 +782,7 @@ can be changed using a hidden preference by setting
 \texttt{glatex\_reference\_all} inside configuration file as shown inside
 the example configuration snippet.
 
-\begin{lstlisting}
+\begin{lstlisting}[caption={Configuration example for customized reference strings}]
 [general]
 glatex_set_koma_active=true
 glatex_set_toolbar_active=true
@@ -820,7 +812,8 @@ get annoying you can deactivate it by setting \texttt{glatex\_set\_autobraces}
 inside \texttt{[autocompletion]} section of configuration file. An example
 which is turning off the feature might can look like this:
 
-\begin{lstlisting}
+\begin{lstlisting}[caption={Configuration example for autocompletion of %
+							\{\} after \_ and \symbol{94}}]
 [general]
 glatex_set_koma_active=true
 glatex_set_toolbar_active=true
@@ -997,8 +990,7 @@ at different places throughout your document.
 
 A possible snippet for snippets.conf could be:
 
-\begin{figure}[h!]
-\begin{lstlisting}
+\begin{lstlisting}[caption={Minimal snippets.conf for \LaTeX{}}]
 [LaTeX]
 frame=\\begin{frame}\n%ws%\\frametitle{%cursor%}\n%ws%%cursor%\n\\end{frame}
 block=\\begin{block}{%cursor%}\n%ws%%cursor%\n\\end{block}
@@ -1006,7 +998,6 @@ itemize=\\begin{itemize}\n%ws%\\item %cursor%\n\\end{itemize}
 enumerate=\\begin{enumerate}\n%ws%\\item %cursor%\n\\end{enumerate}
 description=\\begin{description}\n%ws%\\item %cursor%\n\\end{description}
 \end{lstlisting}
-\end{figure}
 
 A snapshot of the authors' last version for LaTeX can be found on
 \url{http://www.geany.org/Download/Extras}
@@ -1046,6 +1037,19 @@ function is similar to the \texttt{todo} package but doesn't require
 recompiling of the document. Recognised tags will be inserted to
 another tab in Geany's message widget.\\
 \textbf{Homepage:} \url{http://plugins.geany.org/addons/}
+
+
+\subsubsection{Tableconvert to convert a tabulator separated list into a table}
+
+Its an quiet annyoing problem which happens from time to time: There
+is a list of values e.g. from some experiment which needs to be
+included into your document. The \LaTeX{}-export filter of your
+spreadsheet tool is not very adavanced and you just want to insert a
+couple of lines and have to do it manually.
+
+Tableconvert is offering to convert a tabular separated list into an
+table. The plugin is also offering to convert such a list into a
+\LaTeX{}-like table and therefor is maybe useful on daily work.
 
 \section{License}
 Geany\LaTeX{} and all its parts is distributed under the terms of the
