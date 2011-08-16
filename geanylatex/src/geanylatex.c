@@ -90,6 +90,7 @@ static gboolean glatex_autocompletion_active = FALSE;
  * and \endgroup{}. */
 static gint glatex_autocompletion_context_size;
 static gboolean glatex_autocompletion_only_for_latex;
+gboolean glatex_autobraces_active = TRUE;
 
 /* Function will be deactivated, when only loaded */
 static gboolean toggle_active = FALSE;
