@@ -1,3 +1,14 @@
+2011-08-19  Frank Lanitz  <frlan@frank.uvena.de>
+
+ * Added a function to convert to SQL e.g. for preparing an
+   INSERT-statement.
+
+
+2011-08-15  Frank Lanitz  <frlan@frank.uvena.de>
+
+ * Move filetype specific functions into seperate functions.
+
+
 2011-03-19  Frank Lanitz  <frlan@frank.uvena.de>
 
  * Make plugin function available via tools menu.

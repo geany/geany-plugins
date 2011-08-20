@@ -141,6 +141,48 @@ static GString* convert_to_table_latex(gchar** rows, gboolean header)
 	return replacement_str;
 }
 
+static GString* convert_to_table_sql(gchar** rows)
+{
+	guint i;
+	guint j;
+	GString *replacement_str = NULL;
+
+	/* Adding start */
+	replacement_str = g_string_new("(\n");
+
+	/* Iteration onto rows and building up lines for replacement */
+	for (i = 0; rows[i] != NULL ; i++)
+	{
+		gchar **columns = NULL;
+
+		g_string_append(replacement_str, "\t('");
+		columns = g_strsplit_set(rows[i], "\t", -1);
+
+		for (j = 0; columns[j] != NULL; j++)
+		{
+			if (j > 0)
+			{
+				g_string_append(replacement_str, "','");
+			}
+			g_string_append(replacement_str, columns[j]);
+		}
+
+		if (rows[i+1] != NULL)
+		{
+			g_string_append(replacement_str, "'),\n");
+		}
+		else
+		{
+			g_string_append(replacement_str, "')\n");
+		}
+
+		g_free(columns);
+	}
+	/* Adding the end of table */
+	g_string_append(replacement_str, ")\n");
+	return replacement_str;
+}
+
 void convert_to_table(gboolean header)
 {
 	GeanyDocument *doc = NULL;
@@ -180,6 +222,11 @@ void convert_to_table(gboolean header)
 				case GEANY_FILETYPES_LATEX:
 				{
 					replacement_str = convert_to_table_latex(rows, header);
+					break;
+				}
+				case GEANY_FILETYPES_SQL:
+				{
+					replacement_str = convert_to_table_sql(rows);
 					break;
 				}
 				default:

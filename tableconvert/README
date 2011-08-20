@@ -31,7 +31,10 @@ When using the plugin, just mark the area you like to transform and
 push your keybinding. All line endings will be taken as end of a row
 and therefor transformed to fitting row endings.
 
-Currently the plugin is supporting HTML and LaTeX.
+Currently the plugin is supporting
+* HTML
+* LaTeX
+* SQL
 
 
 HTML
@@ -55,6 +58,26 @@ and tabulators with &.
 Rectangle selections are currently not supported and might lead to
 some weird output you didn't expect -- just don't try it if you have
 heart issues or working on an important document :)
+
+SQL
+^^^
+
+At SQL line endings will be replaced with with closing braces )
+followed by a komma if is not the last line.
+
+Tabulators will be repace with ', ', so in the end, a tabulator
+seperated liste as e.g.
+
+foo	baa
+baa foo
+
+will be transformed to
+
+(
+	('foo', 'baa'),
+	('baa', 'foo')
+)
+
 
 Development
 -----------
