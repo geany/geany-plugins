@@ -35,6 +35,12 @@ debugger/src/markers.c
 debugger/src/watch_model.c
 debugger/src/callbacks.c
 debugger/src/breakpoints.c
+debugger/src/btnpanel.c
+debugger/src/btnpanel.h
+debugger/src/dconfig.c
+debugger/src/dconfig.h
+debugger/src/gui.c
+debugger/src/gui.h
 
 # devhelp
 devhelp/src/dhp.h
