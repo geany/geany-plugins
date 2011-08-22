@@ -39,23 +39,14 @@ extern GeanyData		*geany_data;
 #include "watch_model.h"
 #include "wtree.h"
 #include "debug.h"
+#include "dconfig.h"
+#include "tpage.h"
 
 /* boxes margins */
 #define SPACING 5
 
-/* config file name */
-#define CONFIG_NAME ".debugger"
-
-/* config file markers */
-#define ENVIRONMENT_MARKER	"[ENV]"
-#define BREAKPOINTS_MARKER	"[BREAK]"
-#define WATCH_MARKER		"[WATCH]"
-
-/* maximus config file line length */
-#define MAXLINE 1000
-
 /* environment variables tree view columns minumum width in characters */
-#define MW_NAME		15
+#define MW_NAME	15
 #define MW_VALUE	0
 
 /* environment variables tree view columns */
@@ -71,9 +62,6 @@ gboolean page_read_only = FALSE;
 
 /* flag shows we entered new env variable name and now entering its value */
 gboolean entering_new_var = FALSE;
-
-/* holds config file path for the currently open folder */
-gchar current_path[FILENAME_MAX];
 
 /* reference to the env tree view empty row */
 static GtkTreeRowReference *empty_row = NULL;
@@ -99,11 +87,6 @@ static GtkWidget *cmb_debugger =	NULL;
 
 /* debugger messages text view */
 GtkWidget *textview = NULL;
-
-/* config manipulating buttons */
-GtkWidget *savebtn = NULL;
-GtkWidget *loadbtn = NULL;
-GtkWidget *clearbtn = NULL;
 
 /* env variable name cloumn */
 GtkTreeViewColumn *column_name = NULL;
@@ -268,7 +251,7 @@ static void on_value_changed(GtkCellRendererText *renderer, gchar *path, gchar *
     
 	gboolean empty = !gtk_tree_path_compare(tree_path, gtk_tree_row_reference_get_path(empty_row));
 
-	gboolean res = gtk_tree_model_get_iter (
+	gtk_tree_model_get_iter (
 		 model,
 		 &iter,
 		 tree_path);
@@ -366,7 +349,7 @@ static void on_name_changed(GtkCellRendererText *renderer, gchar *path, gchar *n
     
 	gboolean empty = !gtk_tree_path_compare(tree_path, gtk_tree_row_reference_get_path(empty_row));
 
-	gboolean res = gtk_tree_model_get_iter (
+	gtk_tree_model_get_iter (
 		 model,
 		 &iter,
 		 tree_path);
@@ -405,234 +388,39 @@ static void on_name_changed(GtkCellRendererText *renderer, gchar *path, gchar *n
 	g_free(striped);
 }
 
-/*
- * save config
- */
-void on_save_config(GtkButton *button, gpointer user_data)
+void tpage_read_config()
 {
-	/* open config file */
-	FILE *config = fopen(current_path, "w");
-	
-	/* get target */
-	const gchar *target = gtk_entry_get_text(GTK_ENTRY(targetname));
-	fprintf(config, "%s\n", target);
-	
-	/* debugger type */
-	gchar *debugger = gtk_combo_box_get_active_text(GTK_COMBO_BOX(cmb_debugger));
-	fprintf(config, "%s\n", debugger);
-	
-	/* get command line arguments */
-	GtkTextIter start, end;
-	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview));
-	
-	gtk_text_buffer_get_start_iter(buffer, &start);
-	gtk_text_buffer_get_end_iter(buffer, &end);
-	
-	gchar *args = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
-	gchar** lines = g_strsplit(args, "\n", 0);
-	g_free(args);
-	args = g_strjoinv(" ", lines);
-	g_strfreev(lines);
-	fprintf(config, "%s\n", args);
-	g_free(args);
-
-	/* environment */
-	GtkTreeIter iter;
-	GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(envtree));
-	gtk_tree_model_get_iter_first(model, &iter);
-	do
-	{
-		gchar *name, *value;
-		gtk_tree_model_get (
-			model,
-			&iter,
-			NAME, &name,
-			VALUE, &value,
-		   -1);
-		 if (strlen(name))
-		 {
-			fprintf(config, "%s\n", ENVIRONMENT_MARKER);
-			fprintf(config, "%s\n%s\n", name, value);
-		 }
-		 
-		 g_free(name);
-		 g_free(value);
-	}
-	while (gtk_tree_model_iter_next(model, &iter));
-
-	/* breakpoints */
-	GList *breaks = breaks_get_all();
-	GList *biter = breaks;
-	while (biter)
-	{
-		breakpoint *bp = (breakpoint*)biter->data;
-		
-		fprintf(config, "%s\n", BREAKPOINTS_MARKER);
-		fprintf(config, "%s\n%i\n%i\n%s\n%i\n",
-			bp->file, bp->line, bp->hitscount, bp->condition, bp->enabled);
-				
-		biter = biter->next;
-	}
-	g_list_free(breaks);
-	breaks = NULL;
-	
-	/* watches */
-	GList *watches = wtree_get_watches();
-	biter = watches;
-	while (biter)
-	{
-		gchar *watch = (gchar*)biter->data;
-		
-		fprintf(config, "%s\n", WATCH_MARKER);
-		fprintf(config, "%s\n", watch);
-				
-		biter = biter->next;
-	}
-	g_list_foreach(watches, (GFunc)g_free, NULL);
-	g_list_free(watches);
-	watches = NULL;
-	
-
-	fclose(config);
-
-	dialogs_show_msgbox(GTK_MESSAGE_INFO, _("Config saved successfully"));
-}
-
-/*
- * reads line from a file
- */
-int readline(FILE *file, gchar *buffer, int buffersize)
-{
-	gchar c;
-	int read = 0;
-	while (buffersize && fread(&c, 1, 1, file) && '\n' != c)
-	{
-		buffer[read++] = c;
-		buffersize--;
-	}
-	buffer[read] = '\0';
-
-	return read;
-} 
-
-/*
- * load config file
- */
-void on_load_config(GtkButton *button, gpointer user_data)
-{
-	FILE *config = fopen(current_path, "r");
-	if (!config)
-		dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Error reading config file"));
+	/* remove old values */
+	tpage_clear();
 
 	/* target */
-	gchar target[FILENAME_MAX];
-	readline(config, target, FILENAME_MAX - 1);
-	gtk_entry_set_text(GTK_ENTRY(targetname), target);
-	
+	gtk_entry_set_text(GTK_ENTRY(targetname), dconfig_target_get());
+
 	/* debugger */
-	gchar debugger[FILENAME_MAX];
-	readline(config, debugger, FILENAME_MAX - 1);
-	int index = debug_get_module_index(debugger);
-	if (-1 == index)
-	{
-		dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Configuration error: debugger module \'%s\' is not found"), debugger);
-		gtk_combo_box_set_active(GTK_COMBO_BOX(cmb_debugger), 0);
-	}
-	else
-		gtk_combo_box_set_active(GTK_COMBO_BOX(cmb_debugger), index);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(cmb_debugger), dconfig_module_get());
 
 	/* arguments */
-	gchar arguments[FILENAME_MAX];
-	readline(config, arguments, FILENAME_MAX - 1);
 	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview));
-	gtk_text_buffer_set_text(buffer, arguments, -1);
+	gtk_text_buffer_set_text(buffer, dconfig_args_get(), -1);
 
-	/* breakpoints and environment variables */
-	breaks_remove_all();
-	wtree_remove_all();
-	
-	gboolean wrongbreaks = FALSE;
-	gchar line[MAXLINE];
-	gtk_list_store_clear(store);
-	while (readline(config, line, MAXLINE))
+	/* environment */
+	GList *env = dconfig_env_get();
+	while (env)
 	{
-		if (!strcmp(line, BREAKPOINTS_MARKER))
-		{
-			/* file */
-			gchar file[FILENAME_MAX];
-			readline(config, file, MAXLINE);
-			
-			/* line */
-			int nline;
-			readline(config, line, MAXLINE);
-			sscanf(line, "%d", &nline);
-			
-			/* hitscount */
-			int hitscount;
-			readline(config, line, MAXLINE);
-			sscanf(line, "%d", &hitscount);
+		gchar *name = (gchar*)env->data;
+		env = env->next;
+		gchar *value = (gchar*)env->data;
 
-			/* condition */
-			gchar condition[MAXLINE];
-			readline(config, condition, MAXLINE);
+		GtkTreeIter iter;
+		gtk_list_store_append(store, &iter);
+		gtk_list_store_set(store, &iter, NAME, name, VALUE, value, -1);
 
-			/* enabled */
-			gboolean enabled;
-			readline(config, line, MAXLINE);
-			sscanf(line, "%d", &enabled);
-			
-			/* check whether file is available */
-			struct stat st;
-			if(!stat(file, &st))
-				breaks_add(file, nline, condition, enabled, hitscount);
-			else
-				wrongbreaks = TRUE;
-		}
-		else if (!strcmp(line, ENVIRONMENT_MARKER))
-		{
-			gchar name[MAXLINE], value[1000];
-			readline(config, name, MAXLINE);
-			readline(config, value, MAXLINE);
-			
-			GtkTreeIter iter;
-			gtk_list_store_append(store, &iter);
-			
-			gtk_list_store_set(store, &iter, NAME, name, VALUE, value, -1);
-		}
-		else if (!strcmp(line, WATCH_MARKER))
-		{
-			gchar watch[MAXLINE];
-			readline(config, watch, MAXLINE);
-			wtree_add_watch(watch);
-		}
-		else
-		{
-			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Error reading config file"));
-			break;
-		}
+		env = env->next;
 	}
-	if (wrongbreaks)
-		dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Some breakpoints can't be set as the files are missed"));
-	
-	add_empty_row();
-	
-	fclose(config);
-	
-	if (user_data)
-		dialogs_show_msgbox(GTK_MESSAGE_INFO, _("Config loaded successfully"));
 }
 
-/*
- * clears current configuration
- */
-void on_clear(GtkButton *button, gpointer user_data)
+void tpage_clear()
 {
-	/* breakpoints */
-	breaks_remove_all();
-
-	/* watches */
-	wtree_remove_all();
-	
 	/* target */
 	gtk_entry_set_text(GTK_ENTRY(targetname), "");
 	
@@ -646,7 +434,6 @@ void on_clear(GtkButton *button, gpointer user_data)
 	/* environment variables */
 	gtk_list_store_clear(store);
 	add_empty_row();
-
 }
 
 /*
@@ -701,6 +488,14 @@ int tpage_get_module_index()
 }
 
 /*
+ * get selected debugger name
+ */
+gchar* tpage_get_debugger()
+{
+	return gtk_combo_box_get_active_text(GTK_COMBO_BOX(cmb_debugger));
+}
+
+/*
  * get command line
  */
 gchar* tpage_get_commandline()
@@ -728,13 +523,13 @@ GList* tpage_get_environment()
 	GList *env = NULL;
 	
 	GtkTreeIter iter;
-	GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(envtree));
-	gtk_tree_model_get_iter_first(model, &iter);
+	GtkTreeModel *_model = gtk_tree_view_get_model(GTK_TREE_VIEW(envtree));
+	gtk_tree_model_get_iter_first(_model, &iter);
 	do
 	{
 		gchar *name, *value;
 		gtk_tree_model_get (
-			model,
+			_model,
 			&iter,
 			NAME, &name,
 			VALUE, &value,
@@ -746,45 +541,9 @@ GList* tpage_get_environment()
 			env = g_list_append(env, value);
 		 }
 	}
-	while (gtk_tree_model_iter_next(model, &iter));
+	while (gtk_tree_model_iter_next(_model, &iter));
 	
 	return env;
-}
-
-/*
- * disable load/save config buttons on document close
- */
-void tpage_on_document_close()
-{
-	gtk_widget_set_sensitive(loadbtn, FALSE);
-	gtk_widget_set_sensitive(savebtn, FALSE);
-}
-
-/*
- * enable load/save config buttons on document activate
- * if page is not readonly and have config
- */
-void tpage_on_document_activate(GeanyDocument *doc)
-{
-	if (page_read_only)
-		return;
-	
-	if (!doc || !doc->real_path)
-	{
-		tpage_on_document_close();
-		return;
-	}
-
-	gtk_widget_set_sensitive(savebtn, TRUE);
-	
-	gchar *dirname = g_path_get_dirname(DOC_FILENAME(doc));
-	gchar *config = g_build_path("/", dirname, CONFIG_NAME, NULL);
-	struct stat st;
-	gtk_widget_set_sensitive(loadbtn, !stat(config, &st));
-	
-	strcpy(current_path, config);
-
-	g_free(config);
 }
 
 /*
@@ -796,33 +555,14 @@ void tpage_init()
 	
 	GtkWidget *lbox =		gtk_vbox_new(FALSE, SPACING);
 	GtkWidget *mbox =		gtk_vbox_new(FALSE, SPACING);
-	GtkWidget *rbox =		gtk_vbox_new(FALSE, SPACING);
-	GtkWidget* separator =	gtk_vseparator_new();
 	
-	/* right box with Load/Save buttons */
-	gtk_container_set_border_width(GTK_CONTAINER(rbox), SPACING);
-
-	loadbtn = gtk_button_new_from_stock(GTK_STOCK_OPEN);
-	g_signal_connect(G_OBJECT(loadbtn), "clicked", G_CALLBACK (on_load_config), (gpointer)TRUE);
-
-	savebtn = gtk_button_new_from_stock(GTK_STOCK_SAVE);
-	g_signal_connect(G_OBJECT(savebtn), "clicked", G_CALLBACK (on_save_config), NULL);
-	
-	clearbtn = gtk_button_new_from_stock(GTK_STOCK_CLEAR);
-	g_signal_connect(G_OBJECT(clearbtn), "clicked", G_CALLBACK (on_clear), NULL);
-
-	gtk_box_pack_start(GTK_BOX(rbox), loadbtn, FALSE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(rbox), savebtn, FALSE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(rbox), clearbtn, FALSE, TRUE, 0);
-	
-
 	GtkWidget *hombox =	gtk_hbox_new(TRUE, 0);
 
 	/* left box */
 	gtk_container_set_border_width(GTK_CONTAINER(lbox), SPACING);
 
 	/* Target frame */
-	GtkWidget *frame = gtk_frame_new(_("Target"));
+	GtkWidget *_frame = gtk_frame_new(_("Target"));
 	GtkWidget *vbox = gtk_vbox_new(FALSE, 0);
 
 	/* filename hbox */
@@ -860,12 +600,12 @@ void tpage_init()
 
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
-	gtk_container_add(GTK_CONTAINER(frame), vbox);
+	gtk_container_add(GTK_CONTAINER(_frame), vbox);
 
-	gtk_box_pack_start(GTK_BOX(lbox), frame, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(lbox), _frame, FALSE, FALSE, 0);
 
 	/* Arguments frame */
-	frame = gtk_frame_new(_("Arguments"));
+	_frame = gtk_frame_new(_("Arguments"));
 	hbox = gtk_vbox_new(FALSE, SPACING);
 	gtk_container_set_border_width(GTK_CONTAINER(hbox), SPACING);
 	
@@ -873,14 +613,14 @@ void tpage_init()
 	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview), GTK_WRAP_CHAR);
 	
 	gtk_box_pack_start(GTK_BOX(hbox), textview, TRUE, TRUE, 0);
-	gtk_container_add(GTK_CONTAINER(frame), hbox);
+	gtk_container_add(GTK_CONTAINER(_frame), hbox);
 
-	gtk_box_pack_start(GTK_BOX(lbox), frame, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(lbox), _frame, TRUE, TRUE, 0);
 	
 
 	/* Environment */
 	gtk_container_set_border_width(GTK_CONTAINER(mbox), SPACING);
-	frame = gtk_frame_new(_("Environment variables"));
+	_frame = gtk_frame_new(_("Environment variables"));
 	hbox = gtk_hbox_new(FALSE, SPACING);
 	gtk_container_set_border_width(GTK_CONTAINER(hbox), SPACING);
 
@@ -926,19 +666,13 @@ void tpage_init()
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_MULTIPLE);
 
 	gtk_box_pack_start(GTK_BOX(hbox), envtree, TRUE, TRUE, 0);
-	gtk_container_add(GTK_CONTAINER(frame), hbox);
-	gtk_box_pack_start(GTK_BOX(mbox), frame, TRUE, TRUE, 0);
+	gtk_container_add(GTK_CONTAINER(_frame), hbox);
+	gtk_box_pack_start(GTK_BOX(mbox), _frame, TRUE, TRUE, 0);
 
 
 	gtk_box_pack_start(GTK_BOX(hombox), lbox, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(hombox), mbox, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(page), hombox, TRUE, TRUE, 0);
-
-	gtk_box_pack_start(GTK_BOX(page), separator, FALSE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(page), rbox, FALSE, TRUE, 0);
-
-	/* update Load/Save config button */
-	tpage_on_document_activate(document_get_current());
 }
 
 /*
@@ -950,24 +684,6 @@ GtkWidget* tpage_get_widget()
 }
 
 /*
- * check if there is a config file in current directory
- */
-gboolean tpage_have_config()
-{
-	GeanyDocument *doc = document_get_current();
-	if (!doc)
-		return FALSE;
-	
-	gchar *dirname = g_path_get_dirname(DOC_FILENAME(doc));
-	gchar *config = g_build_path("/", dirname, CONFIG_NAME, NULL);
-	struct stat st;
-	gboolean retval = !stat(config, &st);
-	g_free(config);
-
-	return retval;
-}
-
-/*
  * set the page readonly
  */
 void tpage_set_readonly(gboolean readonly)
@@ -975,18 +691,8 @@ void tpage_set_readonly(gboolean readonly)
 	gtk_editable_set_editable (GTK_EDITABLE (targetname), !readonly);
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (textview), !readonly);
 	g_object_set (renderer_name, "editable", !readonly, NULL);
-	gtk_widget_set_sensitive (loadbtn, tpage_have_config() && !readonly);
-	gtk_widget_set_sensitive (clearbtn, !readonly);
 	gtk_widget_set_sensitive (button_browse, !readonly);
 	gtk_widget_set_sensitive (cmb_debugger, !readonly);
 	
 	page_read_only = readonly;
-}
-
-/*
- * loads config
- */
-void tpage_load_config()
-{
-	on_load_config(NULL, NULL);
 }

@@ -56,4 +56,5 @@ void			debug_jump_to_current_instruction();
 void			debug_on_file_open(GeanyDocument *doc);
 gchar*		debug_get_calltip_for_expression(gchar* expression);
 GList*			debug_get_stack();
+void			debug_restart();
 

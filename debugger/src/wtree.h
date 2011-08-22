@@ -29,5 +29,6 @@ GtkTreePath*	wtree_empty_path();
 GList*			wtree_get_watches();
 void			wtree_remove_all();
 void			wtree_add_watch(gchar *watch);
+void			wtree_read_config();
 
 

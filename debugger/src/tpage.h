@@ -19,14 +19,13 @@
  *      MA 02110-1301, USA.
  */
 
-void		tpage_init();
+void			tpage_init();
 GtkWidget*	tpage_get_widget();
-void		tpage_on_document_activate(GeanyDocument *doc);
-void		tpage_on_document_close();
 gchar*		tpage_get_target();
+gchar*		tpage_get_debugger();
+int				tpage_get_module_index();
 gchar*		tpage_get_commandline();
-GList*		tpage_get_environment();
-void		tpage_set_readonly(gboolean readonly);
-gboolean	tpage_have_config();
-void		tpage_load_config();
-int			tpage_get_module_index();
+GList*			tpage_get_environment();
+void			tpage_set_readonly(gboolean readonly);
+void			tpage_read_config();
+void			tpage_clear();

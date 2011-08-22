@@ -5,5 +5,5 @@ include $(top_srcdir)/build/vars.docs.mk
 EXTRA_DIST =
 endif
 
-SUBDIRS = src
+SUBDIRS = src img
 plugin = debugger

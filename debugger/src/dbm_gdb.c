@@ -26,6 +26,10 @@
 #include <string.h>
 #include <stdlib.h>
 #include <poll.h>
+#include <ctype.h>
+#include <wctype.h>
+#include <unistd.h>
+
 #include <gtk/gtk.h>
 
 #include "breakpoint.h"
@@ -66,7 +70,7 @@ enum sr {
 dbg_callbacks* dbg_cbs;
 
 /* GDB command line arguments*/
-static gchar *gdb_args[] = { "gdb", "-i=mi", NULL };
+static const gchar *gdb_args[] = { "gdb", "-i=mi", NULL };
 
 /* GDB pid*/
 static GPid gdb_pid = 0;
@@ -130,7 +134,7 @@ static void free_start_messages()
  */
 void colorize_message(gchar *message)
 {
-	gchar *color;
+	const gchar *color;
 	if ('=' == *message)
 		color = "rose";
 	else if ('^' == *message)
@@ -228,7 +232,6 @@ GList* read_until_end()
 	while(poll(&pfd, 1, 100))
 	{
 		gchar *line = NULL;
-		GIOStatus st;
 		gsize terminator;
 		GError *err = NULL;
 
@@ -278,7 +281,7 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 	{
 		/* asyncronous record found */
 		char *record = NULL;
-		if (record = strchr(line, ','))
+		if ( (record = strchr(line, ',')) )
 		{
 			*record = '\0';
 			record++;
@@ -380,7 +383,7 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
  * connects reader to output channel and exits
  * after execution
  */ 
-void exec_async_command(gchar* command)
+void exec_async_command(const gchar* command)
 {
 #ifdef DEBUG_OUTPUT
 	dbg_cbs->send_message(command, "red");
@@ -419,7 +422,7 @@ void exec_async_command(gchar* command)
  * i.e. reading output right
  * after execution
  */ 
-result_class exec_sync_command(gchar* command, gboolean wait4prompt, gchar** command_record)
+result_class exec_sync_command(const gchar* command, gboolean wait4prompt, gchar** command_record)
 {
 
 #ifdef DEBUG_OUTPUT
@@ -523,8 +526,7 @@ static gboolean init(dbg_callbacks* callbacks)
 	/* spawn GDB */
 	const gchar *exclude[] = { "LANG", NULL };
 	gchar **gdb_env = utils_copy_environment(exclude, "LANG", "C", NULL);
-	const gchar *env_lang = g_getenv("LANG");
-	if (!g_spawn_async_with_pipes(NULL, gdb_args, gdb_env,
+	if (!g_spawn_async_with_pipes(NULL, (gchar**)gdb_args, gdb_env,
 				     GDB_SPAWN_FLAGS, NULL,
 				     NULL, &gdb_pid, &gdb_in, &gdb_out, NULL, &err))
 	{
@@ -655,7 +657,7 @@ void run(char* terminal_device)
 	GList *iter = start_messages;
 	while (iter)
 	{
-		dbg_cbs->send_message((gchar*)iter->data, "grey");
+		dbg_cbs->send_message((const gchar*)iter->data, "grey");
 		iter = iter->next;
 	}
 	free_start_messages();
@@ -663,6 +665,15 @@ void run(char* terminal_device)
 	exec_async_command("-exec-run &");
 }
 
+/*
+ * starts debugging
+ */
+void restart(char* terminal_device)
+{
+	dbg_cbs->clear_messages();
+	exec_async_command("-exec-run &");
+}
+	
 /*
  * stops GDB
  */
@@ -711,6 +722,41 @@ void execute_until(gchar *file, int line)
 	gchar command[1000];
 	sprintf(command, "-exec-until %s:%i", file, line);
 	exec_async_command(command);
+}
+
+/*
+ * gets breakpoint number by file and line
+ */
+int get_break_number(char* file, int line)
+{
+	gchar* record;
+	exec_sync_command("-break-list", TRUE, &record);
+	
+	gchar* bstart = record;
+	while ( (bstart = strstr(bstart, "bkpt=")) )
+	{
+		bstart += strlen("bkpt={number=\"");
+		*strchr(bstart, '\"') = '\0';
+		int num = atoi(bstart);
+		
+		bstart += strlen(bstart) + 1;
+		bstart = strstr(bstart, "original-location=\"") + strlen("original-location=\"");
+		*strchr(bstart, ':') = '\0';
+		gchar *fname = bstart;
+		
+		bstart += strlen(bstart) + 1;
+		*strchr(bstart, '\"') = '\0';
+		int bline = atoi(bstart);
+		
+		if (!strcmp(fname, file) && bline == line)
+			return num;
+		
+		bstart += strlen(bstart) + 1;
+	} 
+	
+	free(record);
+	
+	return -1;
 }
 
 /*
@@ -781,41 +827,6 @@ gboolean set_break(breakpoint* bp, break_set_activity bsa)
 	}
 	
 	return FALSE;
-}
-
-/*
- * gets breakpoint number by file and line
- */
-int get_break_number(char* file, int line)
-{
-	gchar* record;
-	result_class rc = exec_sync_command("-break-list", TRUE, &record);
-	
-	gchar* bstart = record;
-	while (bstart = strstr(bstart, "bkpt="))
-	{
-		bstart += strlen("bkpt={number=\"");
-		*strchr(bstart, '\"') = '\0';
-		int num = atoi(bstart);
-		
-		bstart += strlen(bstart) + 1;
-		bstart = strstr(bstart, "original-location=\"") + strlen("original-location=\"");
-		*strchr(bstart, ':') = '\0';
-		gchar *fname = bstart;
-		
-		bstart += strlen(bstart) + 1;
-		*strchr(bstart, '\"') = '\0';
-		int bline = atoi(bstart);
-		
-		if (!strcmp(fname, file) && bline == line)
-			return num;
-		
-		bstart += strlen(bstart) + 1;
-	} 
-	
-	free(record);
-	
-	return -1;
 }
 
 /*
@@ -933,7 +944,7 @@ gchar* unescape_hex_values(gchar *src)
 	GString *dest = g_string_new("");
 	
 	gchar *slash;
-	while (slash = strstr(src, "\\x"))
+	while ( (slash = strstr(src, "\\x")) )
 	{
 		/* append what has been missed
 		unescaping it in advance */
@@ -1066,12 +1077,9 @@ gchar *unescape(gchar *text)
  */
 void get_variables (GList *vars)
 {
-	GList *variables;
-	
 	while (vars)
 	{
 		gchar command[1000];
-		result_class rc;
 		
 		variable *var = (variable*)vars->data;
 
@@ -1136,7 +1144,7 @@ void update_files()
 	gchar *record = NULL;
 	exec_sync_command("-file-list-exec-source-files", TRUE, &record);
 	gchar *pos = record;
-	while (pos = strstr(pos, "fullname=\""))
+	while ( (pos = strstr(pos, "fullname=\"")) )
 	{
 		pos += strlen("fullname=\"");
 		*(strchr(pos, '\"')) = '\0';
@@ -1159,7 +1167,6 @@ void update_files()
 void update_watches()
 {
 	gchar command[1000];
-	result_class rc;
 
 	/* delete all GDB variables */
 	GList *iter = watches;
@@ -1355,7 +1362,7 @@ GList* get_children (gchar* path)
 	if (RC_DONE == rc)
 	{
 		pos = record;
-		while (pos = strstr(pos, "child={"))
+		while ( (pos = strstr(pos, "child={")) )
 		{
 			gchar *name, *internal;
 			
@@ -1394,7 +1401,6 @@ GList* get_children (gchar* path)
 variable* add_watch(gchar* expression)
 {
 	gchar command[1000];
-	result_class rc;
 
 	variable *var = variable_new(expression);
 	watches = g_list_append(watches, var);

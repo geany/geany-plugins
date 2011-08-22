@@ -1,5 +1,5 @@
 /*
- *      keys.h
+ *		dconfig.h
  *      
  *      Copyright 2010 Alexander Petukhov <Alexander(dot)Petukhov(at)mail(dot)ru>
  *      
@@ -18,19 +18,17 @@
  *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  *      MA 02110-1301, USA.
  */
+ 
+gboolean 	dconfig_is_found_at(gchar *folder);
+gboolean 	dconfig_load(gchar *folder);
+gboolean	dconfig_save(gchar *folder);
+void		dconfig_clear();
 
-/* hotkeys enumeration */
-enum KEYS
-{
-	KEY_RUN,
-	KEY_STOP,
-	KEY_RESTART,
-	KEY_STEP_OVER,
-	KEY_STEP_INTO,
-	KEY_STEP_OUT,
-	KEY_EXECUTE_UNTIL,
-	KEY_BREAKPOINT,
-	KEY_CURRENT_INSTRUCTION
-};
+gchar*	dconfig_target_get();
+int			dconfig_module_get();
+gchar*	dconfig_args_get();
+GList*		dconfig_env_get();
+GList*		dconfig_breaks_get();
+GList*		dconfig_watches_get();
 
-gboolean keys_init();
+

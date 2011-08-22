@@ -1,10 +1,13 @@
 include $(top_srcdir)/build/vars.build.mk
+include $(top_srcdir)/build/vars.docs.mk
 
 if ENABLE_DEBUGGER
 geanyplugins_LTLIBRARIES = debugger.la
 else
 EXTRA_LTLIBRARIES = debugger.la
 endif
+
+plugin = debugger
 
 debugger_la_SOURCES = \
 	bptree.c     \
@@ -13,15 +16,21 @@ debugger_la_SOURCES = \
 	breakpoint.h     \
 	breakpoints.c     \
 	breakpoints.h     \
+	btnpanel.c     \
+	btnpanel.h     \
 	callbacks.c     \
 	callbacks.h     \
 	calltip.c     \
 	calltip.h     \
 	dbm_gdb.c     \
+	dconfig.h     \
+	dconfig.c     \
 	debug.c     \
 	debug.h     \
 	debug_module.c     \
 	debug_module.h     \
+	gui.h     \
+	gui.c     \
 	keys.c     \
 	keys.h     \
 	ltree.c     \
@@ -43,6 +52,6 @@ debugger_la_SOURCES = \
 	wtree.h
 
 debugger_la_LIBADD = $(COMMONLIBS) -lutil
-debugger_la_CFLAGS = $(AM_CFLAGS) $(VTE_CFLAGS)
+debugger_la_CFLAGS = $(AM_CFLAGS) $(VTE_CFLAGS) -DDBGPLUG_DATA_DIR=\"$(plugindatadir)\" -DPLUGIN_NAME=\"$(plugin)\"
 
 include $(top_srcdir)/build/cppcheck.mk

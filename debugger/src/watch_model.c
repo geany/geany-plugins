@@ -83,7 +83,7 @@ inline static void add_stub(GtkTreeStore *store, GtkTreeIter *parent)
  * mark_changed specifies whether to mark new items as beed changed
  * expand specifies whether to expand to the added children
  */
-inline static append_variables(GtkTreeView *tree, GtkTreeIter *parent, GList *vars,
+inline static void append_variables(GtkTreeView *tree, GtkTreeIter *parent, GList *vars,
 	gboolean mark_changed, gboolean expand)
 {
 	GtkTreeModel *model = gtk_tree_view_get_model(tree);
@@ -398,7 +398,6 @@ void variable_set_name_only(GtkTreeStore *store, GtkTreeIter *iter, gchar *name)
 GList *get_root_items(GtkTreeView *tree)
 {
 	GtkTreeModel *model = gtk_tree_view_get_model(tree);
-	GtkTreeStore *store = GTK_TREE_STORE(model);
 
 	GtkTreeIter child;
 	if(!gtk_tree_model_get_iter_first(model, &child))

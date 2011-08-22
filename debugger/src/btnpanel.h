@@ -1,5 +1,5 @@
 /*
- *      keys.h
+ *      btnpanel.h
  *      
  *      Copyright 2010 Alexander Petukhov <Alexander(dot)Petukhov(at)mail(dot)ru>
  *      
@@ -19,18 +19,9 @@
  *      MA 02110-1301, USA.
  */
 
-/* hotkeys enumeration */
-enum KEYS
-{
-	KEY_RUN,
-	KEY_STOP,
-	KEY_RESTART,
-	KEY_STEP_OVER,
-	KEY_STEP_INTO,
-	KEY_STEP_OUT,
-	KEY_EXECUTE_UNTIL,
-	KEY_BREAKPOINT,
-	KEY_CURRENT_INSTRUCTION
-};
+GtkWidget*	btnpanel_create();
+void 			btnpanel_on_document_close();
+void			btnpanel_on_document_activate(GeanyDocument *doc);
 
-gboolean keys_init();
+void			btnpanel_set_have_config(gboolean haveconfig);
+void			btnpanel_set_debug_state(enum dbs state);

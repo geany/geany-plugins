@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <memory.h>
 #include <stdio.h>
+#include <ctype.h>
 #include <gtk/gtk.h>
 
 #include "breakpoint.h"
@@ -69,7 +70,7 @@ int get_header_string_width(gchar *header, int minchars, int char_width)
 /*
  * create tree view column 
  */
-GtkTreeViewColumn *create_column(gchar *name, GtkCellRenderer *renderer, gboolean expandable, gint minwidth, gchar *arg, int value)
+GtkTreeViewColumn *create_column(gchar *name, GtkCellRenderer *renderer, gboolean expandable, gint minwidth, const char *arg, int value)
 {
 	gtk_cell_renderer_set_padding(renderer, RENDERER_X_PADDING, RENDERER_Y_PADDING);
 	

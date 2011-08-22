@@ -24,7 +24,8 @@ typedef struct _dbg_callbacks {
 	void (*set_run) ();
 	void (*set_stopped) ();
 	void (*set_exited) (int code);
-	void (*send_message) (gchar* message, gchar *color);
+	void (*send_message) (const gchar* message, const gchar *color);
+	void (*clear_messages) ();
 	void (*report_error) (gchar* message);
 } dbg_callbacks;
 
@@ -77,6 +78,7 @@ typedef struct _dbg_module {
 	gboolean (*init) (dbg_callbacks* callbacks);
 	gboolean (*load) (char* file, char* commandline, GList* env, GList *witer);
 	void (*run) (char* terminal_device);
+	void (*restart) ();
 	void (*stop) ();
 	void (*resume) ();
 	void (*step_over) ();
@@ -111,6 +113,7 @@ typedef struct _dbg_module {
 	init, \
 	load, \
 	run, \
+	restart, \
 	stop, \
 	resume, \
 	step_over, \
@@ -131,8 +134,8 @@ typedef struct _dbg_module {
 	error_message, \
 	MODULE_FEATURES }
 
-void		variable_free(variable *var);
+void			variable_free(variable *var);
 variable*	variable_new(gchar *name);
 variable*	variable_new2(gchar *name, gchar *internal);
-variable*	variable_reset(variable *var);
+void			variable_reset(variable *var);
 

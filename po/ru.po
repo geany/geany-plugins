@@ -312,20 +312,25 @@ msgstr "Настройки сохранены"
 msgid "Error reading config file"
 msgstr "Ошибка чтения файла настроек"
 
-#: ../debugger/src/tpage.c:538
-#, c-format
-msgid "Configuration error: debugger module '%s' is not found"
-msgstr "Ошибка конфигурации: модуль отладчика '%s' не найден"
+#: ../debugger/src/btnpanel.c:202
+msgid "Error saving config file"
+msgstr "Ошибка сохранения файла настроек"
 
-#: ../debugger/src/tpage.c:615
-msgid "Some breakpoints can't be set as the files are missed"
-msgstr ""
-"Некоторые точки останова не могут быть установлены, т.к. отсутствуют "
-"соответствующие файлы"
+#: ../debugger/src/btnpanel.c:206
+msgid "Load settings"
+msgstr "Загрузить настройки"
 
-#: ../debugger/src/tpage.c:622
-msgid "Config loaded successfully"
-msgstr "Настройки загружены успешно"
+#: ../debugger/src/btnpanel.c:210
+msgid "Save settings"
+msgstr "Сохранить настройки"
+
+#: ../debugger/src/btnpanel.c:218
+msgid "Tabs"
+msgstr "Табы"
+
+#: ../debugger/src/btnpanel.c:105
+msgid "Clear settings"
+msgstr "Сбросить настройки"
 
 #: ../debugger/src/tpage.c:658
 msgid "Choose target file"
@@ -425,6 +430,14 @@ msgstr "Не могу вычислить выражение"
 #: ../debugger/src/callbacks.c:206
 msgid "To edit source files stop debugging session"
 msgstr "Остановите отладку чтобы редактировать файлы"
+
+#: ../debugger/src/btnpanel.c:281
+msgid "Run"
+msgstr "Запустить"
+
+#: ../debugger/src/btnpanel.c:276
+msgid "Continue"
+msgstr "Продолжить"
 
 #. never search for more than this many chars
 #: ../devhelp/src/dhp.h:38
@@ -4768,29 +4781,32 @@ msgstr "XML Сниппеты"
 msgid "Autocompletes XML/HTML tags using snippets."
 msgstr "Автоматически завершает XML/HTML теги с использованием сниппетов."
 
-#~ msgid "Run / Continue"
-#~ msgstr "Запустить / Продолжить"
+msgid "Run / Continue"
+msgstr "Запустить / Продолжить"
 
-#~ msgid "Stop"
-#~ msgstr "Останов"
+msgid "Restart"
+msgstr "Перезапустить"
 
-#~ msgid "Step into"
-#~ msgstr "Шаг в"
+msgid "Stop"
+msgstr "Останов"
 
-#~ msgid "Step over"
-#~ msgstr "Шаг через"
+msgid "Step into"
+msgstr "Шаг в"
 
-#~ msgid "Step out"
-#~ msgstr "Шаг из"
+msgid "Step over"
+msgstr "Шаг через"
 
-#~ msgid "Add / Remove breakpoint"
-#~ msgstr "Добавить / Удалить точку останова"
+msgid "Step out"
+msgstr "Шаг из"
 
-#~ msgid "Run to cursor"
-#~ msgstr "Выполнить до позиции курсора"
+msgid "Add / Remove breakpoint"
+msgstr "Добавить / Удалить точку останова"
 
-#~ msgid "Jump to the currect instruction"
-#~ msgstr "Перейти к текущей инструкции"
+msgid "Run to cursor"
+msgstr "Выполнить до позиции курсора"
+
+msgid "Jump to the currect instruction"
+msgstr "Перейти к текущей инструкции"
 
 #, fuzzy
 #~ msgid "Yura Siamshka <yurand2@gmail.com>"

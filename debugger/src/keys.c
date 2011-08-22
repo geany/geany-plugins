@@ -44,6 +44,7 @@ typedef struct _keyinfo {
 keyinfo keys[] = {
 	{ "key_debug_run", "Run / Continue", KEY_RUN},
 	{ "key_debug_stop", "Stop", KEY_STOP},
+	{ "key_debug_restart", "Restart", KEY_RESTART},
 	{ "key_debug_step_into", "Step into", KEY_STEP_INTO},
 	{ "key_debug_step_over", "Step over", KEY_STEP_OVER},
 	{ "key_debug_step_out", "Step out", KEY_STEP_OUT},
@@ -71,19 +72,19 @@ gboolean keys_init()
 		keys_callback);
 
 	/* add keys */
-	int index = 0;
-	while (keys[index].key_name)
+	int _index = 0;
+	while (keys[_index].key_name)
 	{
 		keybindings_set_item(
 			key_group,
-			keys[index].key_id,
+			keys[_index].key_id,
 			NULL,
 			0,
 			0,
-			keys[index].key_name,
-			_(keys[index].key_label),
+			keys[_index].key_name,
+			_(keys[_index].key_label),
 			NULL);
-		index++;
+		_index++;
 	}
 	 	
 	return 1;

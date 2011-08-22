@@ -36,6 +36,8 @@
 #include "markers.h"
 #include "utils.h"
 #include "bptree.h"
+#include "btnpanel.h"
+#include "dconfig.h"
 
 extern GeanyFunctions *geany_functions;
 
@@ -50,7 +52,7 @@ extern GeanyFunctions *geany_functions;
  */
 void on_document_close(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
-	tpage_on_document_close();
+	btnpanel_on_document_close();
 }
 
 /*
@@ -58,7 +60,7 @@ void on_document_close(GObject *obj, GeanyDocument *doc, gpointer user_data)
  */
 void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
-	tpage_on_document_activate(doc);
+	btnpanel_on_document_activate(doc);
 }
 
 /*
@@ -73,7 +75,7 @@ void on_document_new(GObject *obj, GeanyDocument *doc, gpointer user_data)
  */
 void on_document_activate(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
-	tpage_on_document_activate(doc);
+	btnpanel_on_document_activate(doc);
 }
 
 /*
@@ -96,10 +98,12 @@ void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
 	scintilla_send_message(doc->editor->sci, SCI_SETYCARETPOLICY, CARET_SLOP | CARET_JUMPS | CARET_EVEN , 3);
 	
 	/* check if current path contains config file */
-	tpage_on_document_activate(doc);
+	gchar *folder = g_path_get_dirname(DOC_FILENAME(doc));
+	btnpanel_set_have_config(dconfig_is_found_at(folder));
+	g_free(folder);
 
 	GList *breaks;
-	if (breaks = breaks_get_for_document(file))
+	if ( (breaks = breaks_get_for_document(file)) )
 	{
 		GList *iter = breaks;
 		while (iter)
@@ -263,6 +267,9 @@ gboolean keys_callback(guint key_id)
 			break;
 		case KEY_STOP:
 			debug_stop();
+			break;
+		case KEY_RESTART:
+			debug_restart();
 			break;
 		case KEY_STEP_OVER:
 			debug_step_over();

@@ -36,6 +36,7 @@ extern GeanyFunctions	*geany_functions;
 #include "markers.h"
 #include "debug.h"
 #include "bptree.h"
+#include "dconfig.h"
 
 /* container for break-for-file g_tree GTree-s */
 GHashTable* files = NULL;
@@ -92,6 +93,7 @@ void hash_table_foreach_add_to_list(gpointer key, gpointer value, gpointer user_
  * arguments:
  * 		bp - breakpoint
  */
+void handle_break_remove(breakpoint* bp, gboolean success);
 void breaks_remove_internal(breakpoint *bp)
 {
 	handle_break_remove(bp, TRUE);
@@ -107,7 +109,7 @@ breakpoint* lookup_breakpoint(gchar* file, int line)
 {
 	breakpoint* bp = NULL;
 	GTree* tree = NULL;
-	if (tree = (GTree*)g_hash_table_lookup(files, file))
+	if ( (tree = (GTree*)g_hash_table_lookup(files, file)) )
 		bp = g_tree_lookup(tree, GINT_TO_POINTER(line));
 
 	return bp;
@@ -484,7 +486,7 @@ void breaks_move_to_line(char* file, int line_from, int line_to)
 {
 	/* first look for the tree for the given file */
 	GTree *tree = NULL;
-	if (tree = g_hash_table_lookup(files, file))
+	if ( (tree = g_hash_table_lookup(files, file)) )
 	{
 		/* lookup for the break in GTree*/
 		breakpoint *bp = (breakpoint*)g_tree_lookup(tree, GINT_TO_POINTER(line_from));
@@ -509,7 +511,7 @@ break_state	breaks_get_state(char* file, int line)
 	
 	/* first look for the tree for the given file */
 	GTree *tree;
-	if (tree = g_hash_table_lookup(files, file))
+	if ( (tree = g_hash_table_lookup(files, file)) )
 	{
 		breakpoint *bp = g_tree_lookup(tree, GINT_TO_POINTER(line));
 		if (bp)
@@ -554,4 +556,22 @@ GList* breaks_get_all()
 GtkWidget* breaks_get_widget()
 {
 	return bptree_get_widget();
+}
+
+/*
+ * Read new breakpoints from dconfig
+ */
+void breaks_read_config()
+{
+	/* clear all breaks */
+	breaks_remove_all();
+
+	GList *list = dconfig_breaks_get();
+
+	while(list)
+	{
+		breakpoint *bp = (breakpoint*)list->data;
+		breaks_add(bp->file, bp->line, bp->condition, bp->enabled, bp->hitscount);
+		list = list->next;
+	}
 }

@@ -64,7 +64,7 @@ void variable_free(variable *var)
 }
 
 /* reset all variable fields (except name) */
-variable *variable_reset(variable *var)
+void variable_reset(variable *var)
 {
 	g_string_assign(var->internal, "");
 	g_string_assign(var->type, "");

@@ -28,6 +28,7 @@
 
 #include "watch_model.h"
 #include "vtree.h"
+#include "dconfig.h"
 
 /* drag types */
 enum
@@ -36,7 +37,7 @@ enum
 };
 static GtkTargetEntry targetentries[] =
 {
-  { "STRING",        0, TARGET_STRING }
+  { (gchar*)"STRING",        0, TARGET_STRING }
 };
 
 /* reference to an empty row */
@@ -112,7 +113,7 @@ GtkTreePath* wtree_empty_path()
 /*
  * iterating function to collect all watches
  */
-gboolean watches_foreach_collect(GtkTreeModel *model, 
+gboolean watches_foreach_collect(GtkTreeModel *_model, 
 	GtkTreePath *path,
     GtkTreeIter *iter,
     gpointer data)
@@ -121,7 +122,7 @@ gboolean watches_foreach_collect(GtkTreeModel *model,
 	{
 		gchar *watch;
 		gtk_tree_model_get (
-			model,
+			_model,
 			iter,
 			W_NAME, &watch,
 			-1);
@@ -197,4 +198,19 @@ void wtree_add_watch(gchar *watch)
 	gtk_tree_store_insert_before(store, &newvar, NULL, &empty);
 
 	variable_set_name_only(store, &newvar, watch);
+}
+
+/*
+ * reads watches from config
+ */
+void wtree_read_config()
+{
+	wtree_remove_all();
+	GList *list = dconfig_watches_get();
+	while(list)
+	{
+		gchar *expression = (gchar*)list->data;
+		wtree_add_watch(expression);
+		list = list->next;
+	}
 }

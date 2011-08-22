@@ -34,6 +34,9 @@
 #include "debug.h"
 #include "tpage.h"
 #include "utils.h"
+#include "btnpanel.h"
+#include "keys.h"
+#include "dconfig.h"
 
 /* These items are set by Geany before plugin_init() is called. */
 GeanyPlugin		*geany_plugin;
@@ -53,7 +56,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	"Alexander Petukhov <devel@apetukhov.ru>")
 
 /* vbox for keeping breaks/stack/watch notebook */
-static GtkWidget *vbox = NULL;
+static GtkWidget *hbox = NULL;
 
 PluginCallback plugin_callbacks[] =
 {
@@ -76,25 +79,27 @@ void plugin_init(GeanyData *data)
 {
     main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 
+	keys_init();
+
 	/* main box */
-	vbox = gtk_vbox_new(1, 0);
+	hbox = gtk_hbox_new(FALSE, 0);
 	
 	GtkWidget *debug_notebook = gtk_notebook_new ();
 	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(debug_notebook), GTK_POS_TOP);
 
-	keys_init();
-	
 	/* add target page */
 	tpage_init();
 	gtk_notebook_append_page(GTK_NOTEBOOK(debug_notebook),
 		tpage_get_widget(),
 		gtk_label_new(_("Target")));
+	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(debug_notebook), tpage_get_widget(), TRUE);
 	
 	/* init brekpoints */
 	breaks_init(editor_open_position);
 	gtk_notebook_append_page(GTK_NOTEBOOK(debug_notebook),
 		breaks_get_widget(),
 		gtk_label_new(_("Breakpoints")));
+	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(debug_notebook), breaks_get_widget(), TRUE);
 		
 	/* init markers */
 	markers_init();
@@ -103,18 +108,18 @@ void plugin_init(GeanyData *data)
 	debug_init(debug_notebook);
 
 	gtk_widget_show_all(debug_notebook);
+
+	GtkWidget* vbox = btnpanel_create();
+
+	gtk_box_pack_start(GTK_BOX(hbox), debug_notebook, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 0);
 	
-	gtk_box_pack_start(GTK_BOX(vbox), debug_notebook, 1, 1, 0);
-	gtk_widget_show_all(vbox);
+	gtk_widget_show_all(hbox);
 	
 	gtk_notebook_append_page(
 		GTK_NOTEBOOK(geany->main_widgets->message_window_notebook),
-		vbox,
+		hbox,
 		gtk_label_new(_("Debug")));
-
-	/* if we have config in current path - load it */
-	if (tpage_have_config())
-		tpage_load_config();
 }
 
 
@@ -127,7 +132,7 @@ void plugin_init(GeanyData *data)
 GtkWidget *plugin_configure(GtkDialog *dialog)
 {
 	/* configuration dialog */
-	vbox = gtk_vbox_new(FALSE, 6);
+	GtkWidget *vbox = gtk_vbox_new(FALSE, 6);
 
 	gtk_widget_show_all(vbox);
 	return vbox;
@@ -153,6 +158,9 @@ void plugin_cleanup(void)
 	/* destroy breaks */
 	breaks_destroy();
 
+	/* clears config */
+	dconfig_clear();
+
 	/* release other allocated strings and objects */
-	gtk_widget_destroy(vbox);
+	gtk_widget_destroy(hbox);
 }

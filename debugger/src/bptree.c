@@ -27,6 +27,7 @@
  * 		bptree_set... if breakpoint has been changed altered/added/removed
  */
 
+#include <stdlib.h>
 #include <memory.h>
 
 #include <gtk/gtk.h>
@@ -83,7 +84,7 @@ move_to_line_cb on_break_clicked = NULL;
 void on_row_double_click(GtkTreeView *tree_view, GtkTreePath *path, GtkTreeViewColumn *column, gpointer user_data)
 {
 	GtkTreeIter iter;
-	gboolean res = gtk_tree_model_get_iter (
+	gtk_tree_model_get_iter (
 		 model,
 		 &iter,
 		 path);
@@ -111,7 +112,7 @@ void on_condition_changed(GtkCellRendererText *renderer, gchar *path, gchar *new
 	GtkTreeIter  iter;
     GtkTreePath *tree_path = gtk_tree_path_new_from_string (path);
 
-	gboolean res = gtk_tree_model_get_iter (
+	gtk_tree_model_get_iter (
 		 model,
 		 &iter,
 		 tree_path);
@@ -147,7 +148,7 @@ void on_hitscount_changed(GtkCellRendererText *renderer, gchar *path, gchar *new
 	GtkTreeIter  iter;
     GtkTreePath *tree_path = gtk_tree_path_new_from_string (path);
 
-	gboolean res = gtk_tree_model_get_iter (
+	gtk_tree_model_get_iter (
 		 model,
 		 &iter,
 		 tree_path);
@@ -182,7 +183,7 @@ void on_activeness_changed(GtkCellRendererToggle *cell_renderer, gchar *path, gp
 	GtkTreeIter  iter;
     GtkTreePath *tree_path = gtk_tree_path_new_from_string (path);
 
-	gboolean res = gtk_tree_model_get_iter (
+	gtk_tree_model_get_iter (
 		 model,
 		 &iter,
 		 tree_path);
@@ -280,9 +281,9 @@ static gboolean on_key_pressed(GtkWidget *widget, GdkEvent *event, gpointer user
 			path = gtk_tree_row_reference_get_path(reference_to_select);
 		else
 		{
-			GtkTreeIter iter;
-			gtk_tree_model_get_iter_first(model, &iter);
-			path = gtk_tree_model_get_path(model, &iter);
+			GtkTreeIter tree_iter;
+			gtk_tree_model_get_iter_first(model, &tree_iter);
+			path = gtk_tree_model_get_path(model, &tree_iter);
 		}
 		
 		/* set selection if any */

@@ -79,7 +79,7 @@ void on_selection_changed(GtkTreeSelection *treeselection, gpointer user_data)
 		GtkTreePath *path = (GtkTreePath*)rows->data;
 		
 		GtkTreeIter iter;
-		gboolean res = gtk_tree_model_get_iter (
+		gtk_tree_model_get_iter (
 			 gtk_tree_view_get_model(GTK_TREE_VIEW(tree)),
 			 &iter,
 			 path);

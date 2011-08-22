@@ -34,8 +34,8 @@ extern GeanyData		*geany_data;
 #include "xpm/breakpoint_disabled.xpm"
 #include "xpm/breakpoint_condition.xpm"
 
-#include "xpm/arrow_1_disable.xpm"
-#include "xpm/arrow_1_yellow.xpm"
+#include "xpm/frame.xpm"
+#include "xpm/frame_current.xpm"
 
 /* markers identifiers */
 #define M_FIRST									12
@@ -84,10 +84,10 @@ void markers_set_for_document(ScintillaObject *sci)
 	scintilla_send_message(sci, SCI_MARKERSETALPHA, M_CI_BACKGROUND, 75);
 
 	/* currect instruction arrow */
-	scintilla_send_message(sci, SCI_MARKERDEFINEPIXMAP, M_CI_ARROW, (long)arrow_1_yellow_xpm);
+	scintilla_send_message(sci, SCI_MARKERDEFINEPIXMAP, M_CI_ARROW, (long)frame_current_xpm);
 
 	/* frame marker current */
-	scintilla_send_message(sci, SCI_MARKERDEFINEPIXMAP, M_FRAME, (long)arrow_1_disable_xpm);
+	scintilla_send_message(sci, SCI_MARKERDEFINEPIXMAP, M_FRAME, (long)frame_xpm);
 }
 
 /*

@@ -1,5 +1,5 @@
 /*
- *      keys.h
+ *      gui.c
  *      
  *      Copyright 2010 Alexander Petukhov <Alexander(dot)Petukhov(at)mail(dot)ru>
  *      
@@ -19,18 +19,8 @@
  *      MA 02110-1301, USA.
  */
 
-/* hotkeys enumeration */
-enum KEYS
-{
-	KEY_RUN,
-	KEY_STOP,
-	KEY_RESTART,
-	KEY_STEP_OVER,
-	KEY_STEP_INTO,
-	KEY_STEP_OUT,
-	KEY_EXECUTE_UNTIL,
-	KEY_BREAKPOINT,
-	KEY_CURRENT_INSTRUCTION
-};
+GtkWidget*	create_button(const gchar *icon, const gchar *tooltip);
+GtkWidget*	create_stock_button(const gchar *stockid, const gchar *tooltip);
+GtkWidget*	create_toggle_button(const gchar *stockid, const gchar *tooltip);
 
-gboolean keys_init();
+void			set_button_image(GtkWidget *btn, const gchar *icon);

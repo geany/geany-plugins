@@ -30,7 +30,11 @@
  */
 
 #include <stdio.h>
+
 #include <stdlib.h>
+int unlockpt(int fildes);
+int grantpt(int fd);
+
 #include <string.h>
 #include <unistd.h>
 #include <pty.h>
@@ -53,6 +57,8 @@ extern GeanyData		*geany_data;
 #include "ltree.h"
 #include "tpage.h"
 #include "calltip.h"
+#include "bptree.h"
+#include "btnpanel.h"
 
 /*
  *  calltip size  
@@ -62,7 +68,7 @@ extern GeanyData		*geany_data;
 
 /* module description structure (name/module pointer) */
 typedef struct _module_description {
-	gchar *title;
+	const gchar *title;
 	dbg_module *module;
 } module_description;
 
@@ -91,6 +97,11 @@ break_set_activity	interrupt_flags;
  * Then this flag is set to TRUE, and debug_request_interrupt function is called
  */
 gboolean exit_pending = FALSE;
+
+/* flag to set when debug restart is requested while debugger is running.
+ * Then this flag is set to TRUE, and debug_request_interrupt function is called
+ */
+gboolean restart_pending = FALSE;
 
 /* debug terminal PTY master/slave file descriptors */
 int pty_master, pty_slave;
@@ -200,8 +211,8 @@ static void on_watch_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 {
 	/* get iterator to the changed row */
 	GtkTreeIter  iter;
-    GtkTreePath *tree_path = gtk_tree_path_new_from_string (path);
-	gboolean res = gtk_tree_model_get_iter (
+	GtkTreePath *tree_path = gtk_tree_path_new_from_string (path);
+	gtk_tree_model_get_iter (
 		 gtk_tree_view_get_model(GTK_TREE_VIEW(wtree)),
 		 &iter,
 		 tree_path);
@@ -257,11 +268,11 @@ static void on_watch_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 		/* if new watch has been added - set selection to the new created row */
 		if (is_empty_row)
 		{
-			GtkTreePath *path = gtk_tree_model_get_path(wmodel, &newiter);
+			GtkTreePath *_path = gtk_tree_model_get_path(wmodel, &newiter);
 			GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(wtree));
 			gtk_tree_selection_unselect_all(selection);
-			gtk_tree_selection_select_path(selection, path);
-			gtk_tree_path_free(path);
+			gtk_tree_selection_select_path(selection, _path);
+			gtk_tree_path_free(_path);
 		}
 	}
 	
@@ -276,7 +287,7 @@ static void on_watch_changed(GtkCellRendererText *renderer, gchar *path, gchar *
  * text has been dragged into the watch tree view
  */
 static void on_watch_dragged_callback(GtkWidget *wgt, GdkDragContext *context, int x, int y,
-	GtkSelectionData *seldata, guint info, guint time,
+	GtkSelectionData *seldata, guint info, guint _time,
     gpointer userdata)
 {
 	/* string that is dragged */
@@ -582,6 +593,9 @@ static void on_debugger_run ()
 
 	/* disable widgets */
 	enable_sensitive_widgets(FALSE);
+
+	/* update buttons panel state */
+	btnpanel_set_debug_state(debug_state);
 }
 
 
@@ -593,6 +607,12 @@ static void on_debugger_stopped ()
 	/* update debug state */
 	debug_state = DBS_STOPPED;
 
+	/* update buttons panel state */
+	if (!interrupt_data)
+	{
+		btnpanel_set_debug_state(debug_state);
+	}
+
 	/* clear calltips cache */
 	g_hash_table_remove_all(calltips);
 
@@ -602,6 +622,15 @@ static void on_debugger_stopped ()
 	{
 		active_module->stop();
 		exit_pending = FALSE;
+		return;
+	}
+
+	/* if the stop was requested for asyncronous exitig -
+	 * stop debug module and exit */
+	if (restart_pending)
+	{
+		active_module->restart();
+		restart_pending = FALSE;
 		return;
 	}
 	
@@ -770,12 +799,15 @@ static void on_debugger_exited (int code)
 
 	/* update debug state */
 	debug_state = DBS_IDLE;
+
+	/* update buttons panel state */
+	btnpanel_set_debug_state(debug_state);
 }
 
 /* 
  * called from debugger module to show a message in  debugger messages pane 
  */
-static void on_debugger_message (gchar* message, gchar *color)
+static void on_debugger_message (const gchar* message, const gchar *color)
 {
 	gchar *msg = g_strdup_printf("%s\n", message);
 
@@ -788,6 +820,18 @@ static void on_debugger_message (gchar* message, gchar *color)
 	g_free(msg);
 
 	gtk_adjustment_set_value(vadj, gtk_adjustment_get_upper(vadj));
+}
+
+/* 
+ * called from debugger module to clear messages tab 
+ */
+static void on_debugger_messages_clear ()
+{
+	/* clear debug messages window */
+	GtkTextIter start, end;
+	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(debugger_messages_textview));
+	gtk_text_buffer_get_bounds(buffer, &start, &end);
+	gtk_text_buffer_delete(buffer, &start, &end);
 }
 
 /* 
@@ -804,6 +848,7 @@ dbg_callbacks callbacks = {
 	on_debugger_stopped,
 	on_debugger_exited,
 	on_debugger_message,
+	on_debugger_messages_clear,
 	on_debugger_error,
 };
 
@@ -881,9 +926,9 @@ void debug_init(GtkWidget* nb)
 	vte_terminal_set_pty(VTE_TERMINAL(terminal), pty_master);
 	GtkWidget *scrollbar = gtk_vscrollbar_new(GTK_ADJUSTMENT(VTE_TERMINAL(terminal)->adjustment));
 	GTK_WIDGET_UNSET_FLAGS(scrollbar, GTK_CAN_FOCUS);
-	GtkWidget *frame = gtk_frame_new(NULL);
+	GtkWidget *_frame = gtk_frame_new(NULL);
 	GtkWidget *hbox = gtk_hbox_new(FALSE, 0);
-	gtk_container_add(GTK_CONTAINER(frame), hbox);
+	gtk_container_add(GTK_CONTAINER(_frame), hbox);
 	gtk_box_pack_start(GTK_BOX(hbox), terminal, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), scrollbar, FALSE, FALSE, 0);
 	/* set the default widget size first to prevent VTE expanding too much,
@@ -897,7 +942,7 @@ void debug_init(GtkWidget* nb)
 	gchar *font = utils_get_setting_string(config, "VTE", "font", "Monospace 10");
 	vte_terminal_set_font_from_string (VTE_TERMINAL(terminal), font);	
 	gtk_notebook_append_page(GTK_NOTEBOOK(debug_notebook),
-		frame,
+		_frame,
 		gtk_label_new(_("Debug terminal")));
 		
 	/* debug messages page */
@@ -971,12 +1016,12 @@ GList* debug_get_stack()
  */
 int debug_get_module_index(gchar *modulename)
 {
-	int index = 0;
-	while (modules[index].title)
+	int _index = 0;
+	while (modules[_index].title)
 	{
-		if (!strcmp(modules[index].title, modulename))
-			return index;
-		index++;
+		if (!strcmp(modules[_index].title, modulename))
+			return _index;
+		_index++;
 	}
 
 	return -1;
@@ -991,7 +1036,7 @@ GList* debug_get_modules()
 	module_description *desc = modules;
 	while (desc->title)
 	{
-		mods = g_list_append(mods, desc->title);
+		mods = g_list_append(mods, (gpointer)desc->title);
 		desc++;
 	}
 	
@@ -1094,6 +1139,25 @@ void debug_run()
 	/* set breaks readonly if current module doesn't support run-time breaks operation */
 	if (!(active_module->features & MF_ASYNC_BREAKS))
 		bptree_set_readonly(TRUE);
+}
+
+/*
+ * restarts debug process
+ */
+void debug_restart()
+{
+	if (DBS_STOPPED == debug_state)
+	{
+		/* stop instantly if not running */
+		active_module->restart();
+		debug_state = DBS_RUN_REQUESTED;
+	}
+	else if (DBS_IDLE != debug_state)
+	{
+		/* if running - request interrupt */
+		restart_pending = TRUE;
+		active_module->request_interrupt();	
+	}
 }
 
 /*
