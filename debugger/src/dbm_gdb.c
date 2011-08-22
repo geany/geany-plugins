@@ -464,7 +464,7 @@ result_class exec_sync_command(const gchar* command, gboolean wait4prompt, gchar
 	}
 #endif
 
-	result_class rc;
+	result_class rc = RC_ERROR;
 	GList *iter = lines;
 
 	while (iter)

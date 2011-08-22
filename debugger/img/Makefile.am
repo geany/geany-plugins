@@ -10,7 +10,6 @@ FILES = \
 	step_out.gif \
 	step_over.gif \
 	stop.gif \
-	tab.gif \
 	tabs.gif
 
 EXTRA_DIST = $(FILES)
