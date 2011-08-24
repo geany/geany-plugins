@@ -38,6 +38,7 @@ enum
 	EXTERNAL_DIFF_COUNT
 };
 
+
 static const gchar *viewers[EXTERNAL_DIFF_COUNT] = { "meld", "kompare", "kdiff3", "diffuse", "tkdiff" };
 
 static gchar *extern_diff_viewer = NULL;
@@ -53,12 +54,13 @@ get_external_diff_viewer()
 	{
 		if (g_find_program_in_path(viewers[i]))
 		{
-			extern_diff_viewer = viewers[i];
-			return extern_diff_viewer;
+			extern_diff_viewer = (gchar *) viewers[i];
+			return viewers[i];
 		}
 	}
 	return NULL;
 }
+
 
 void
 vc_external_diff(const gchar * src, const gchar * dest)
