@@ -454,8 +454,6 @@ static void on_document_new(G_GNUC_UNUSED GObject *object, GeanyDocument *doc,
 }
 
 
-
-
 static void
 on_geany_startup_complete(G_GNUC_UNUSED GObject *obj,
 						  G_GNUC_UNUSED gpointer user_data)
@@ -845,7 +843,6 @@ glatex_insert_command_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 		g_free(cmd_str);
 	}
 }
-
 
 
 void

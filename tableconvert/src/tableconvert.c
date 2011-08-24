@@ -22,7 +22,6 @@
 	#include "config.h" /* for the gettext domain */
 #endif
 
-
 #include "geanyplugin.h"
 
 GeanyPlugin     *geany_plugin;

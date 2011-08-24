@@ -39,7 +39,6 @@
 #include "latexstructure.h"
 #include "latexkeybindings.h"
 
-
 #include <string.h>
 
 typedef void (*MenuCallback) (G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer gdata);
