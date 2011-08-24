@@ -182,7 +182,7 @@ static gboolean
 in_vc_git(const gchar * filename)
 {
 	gint exit_code;
-	gchar *argv[] = { "git", "ls-files", "--", NULL, NULL };
+	const gchar *argv[] = { "git", "ls-files", "--", NULL, NULL };
 	gchar *dir;
 	gchar *base_name;
 	gboolean ret = FALSE;
@@ -253,8 +253,8 @@ static GSList *
 get_commit_files_git(const gchar * file)
 {
 	gint exit_code;
-	gchar *argv[] = { "git", "status", NULL };
-	gchar *env[] = { "PAGES=cat", NULL };
+	const gchar *argv[] = { "git", "status", NULL };
+	const gchar *env[] = { "PAGES=cat", NULL };
 	gchar *std_out = NULL;
 	gchar *base_dir = find_subdir_path(file, ".git");
 	GSList *ret = NULL;

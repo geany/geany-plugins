@@ -119,7 +119,7 @@ static gboolean
 in_vc_bzr(const gchar * filename)
 {
 	gint exit_code;
-	gchar *argv[] = { "bzr", "log", NULL, NULL };
+	const gchar *argv[] = { "bzr", "log", NULL, NULL };
 	gchar *dir;
 	gchar *base_name;
 	gboolean ret = FALSE;

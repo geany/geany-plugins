@@ -38,7 +38,7 @@ enum
 	EXTERNAL_DIFF_COUNT
 };
 
-static gchar *viewers[EXTERNAL_DIFF_COUNT] = { "meld", "kompare", "kdiff3", "diffuse", "tkdiff" };
+static const gchar *viewers[EXTERNAL_DIFF_COUNT] = { "meld", "kompare", "kdiff3", "diffuse", "tkdiff" };
 
 static gchar *extern_diff_viewer = NULL;
 const gchar *

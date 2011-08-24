@@ -167,7 +167,7 @@ static gboolean
 in_vc_svn(const gchar * filename)
 {
 	gint exit_code;
-	gchar *argv[] = { "svn", "info", "--non-interactive", NULL, NULL };
+	const gchar *argv[] = { "svn", "info", "--non-interactive", NULL, NULL };
 	gchar *dir;
 	gchar *base_name;
 	gboolean ret = FALSE;

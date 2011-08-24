@@ -120,7 +120,7 @@ static gboolean
 in_vc_svk(const gchar * filename)
 {
 	gint exit_code;
-	gchar *argv[] = { "svk", "info", NULL, NULL };
+	const gchar *argv[] = { "svk", "info", NULL, NULL };
 	gchar *dir;
 	gchar *base_name = NULL;
 	gboolean ret = FALSE;

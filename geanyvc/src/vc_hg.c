@@ -118,7 +118,7 @@ static gboolean
 in_vc_hg(const gchar * filename)
 {
 	gint exit_code;
-	gchar *argv[] = { "hg", "status", "-mac", NULL, NULL };
+	const gchar *argv[] = { "hg", "status", "-mac", NULL, NULL };
 	gchar *dir;
 	gchar *base_name;
 	gboolean ret = FALSE;
