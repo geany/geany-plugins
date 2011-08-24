@@ -45,11 +45,14 @@ enum
 
 static GtkWidget *main_menu_item = NULL;
 
+
 static GString* convert_to_table_html(gchar **rows, gboolean header)
 {
 	guint i;
 	guint j;
 	GString *replacement_str = NULL;
+
+	g_return_val_if_fail(rows != NULL, NULL);
 
 	/* Adding header to replacement */
 	replacement_str = g_string_new("<table>\n");
@@ -112,6 +115,8 @@ static GString* convert_to_table_latex(gchar** rows, gboolean header)
 	guint j;
 	GString *replacement_str = NULL;
 
+	g_return_val_if_fail(rows != NULL, NULL);
+
 	/* Adding header to replacement */
 	replacement_str = g_string_new("\\begin{tabular}{}\n");
 
@@ -146,6 +151,8 @@ static GString* convert_to_table_sql(gchar** rows)
 	guint i;
 	guint j;
 	GString *replacement_str = NULL;
+
+	g_return_val_if_fail(rows != NULL, NULL);
 
 	/* Adding start */
 	replacement_str = g_string_new("(\n");
