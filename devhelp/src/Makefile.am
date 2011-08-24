@@ -21,9 +21,10 @@ noinst_HEADERS = \
 
 devhelp_la_CFLAGS = \
 	$(AM_CFLAGS) \
+	$(DHPLUG_CFLAGS) \
 	$(DEVHELP_CFLAGS) \
 	-DDHPLUG_DATA_DIR=\"$(plugindatadir)\"
 
-devhelp_la_LIBADD = $(DEVHELP_LIBS)
+devhelp_la_LIBADD = $(DHPLUG_LIBS) $(DEVHELP_LIBS)
 
 include $(top_srcdir)/build/cppcheck.mk
