@@ -27,7 +27,7 @@ packages = [
 	('gtk+-2.0', '2.16', 'GTK'),
     ('glib-2.0', '2.16', 'GLIB'),
     ('gthread-2.0','','GTHREAD'),
-    ('libdevhelp-1.0', '2.30.1', 'LIBDEVHELP'),
+    ('libdevhelp-2.0', '2.32.0', 'LIBDEVHELP'),
     ('webkit-1.0', '1.1.18', 'WEBKIT')
     ]
 
