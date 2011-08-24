@@ -34,14 +34,14 @@ AC_DEFUN([GP_CHECK_DEVHELP],
             [PKG_CHECK_MODULES(
                     [DEVHELP],
                     [libdevhelp-1.0 >= ${DEVHELP1_VERSION}],
-                    [m4_tolower(AS_TR_SH(enable_$1))=yes],
-                    [m4_tolower(AS_TR_SH(enable_$1))=no])
+                    [m4_tolower(AS_TR_SH(enable_devhelp))=yes],
+                    [m4_tolower(AS_TR_SH(enable_devhelp))=no])
             ]
         )
     fi
 
-    AM_CONDITIONAL(m4_toupper(AS_TR_SH(ENABLE_$1)),
-                   test "$m4_tolower(AS_TR_SH(enable_$1))" = yes)
+    AM_CONDITIONAL(m4_toupper(AS_TR_SH(ENABLE_devhelp)),
+                   test "$m4_tolower(AS_TR_SH(enable_devhelp))" = yes)
 
     GP_STATUS_PLUGIN_ADD([DevHelp], [$enable_devhelp])
 
