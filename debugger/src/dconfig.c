@@ -25,6 +25,7 @@
  */
 
 #include <sys/stat.h>
+#include <memory.h>
 
 #include "geanyplugin.h"
 extern GeanyFunctions	*geany_functions;

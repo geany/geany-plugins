@@ -22,9 +22,17 @@
 
 from build.wafutils import build_plugin
 
-
 name = 'Debugger'
 includes = ['debugger/src']
 libraries = ['VTE', 'UTIL']
 
-build_plugin(bld, name, includes=includes, libraries=libraries)
+pludin_datadir = conf.env['GEANYPLUGINS_DATADIR'] + '/geany-plugins/debugger'
+
+defines=[ 'DBGPLUG_DATA_DIR="' + pludin_datadir + '"']
+
+build_plugin(bld, name, includes=includes, libraries=libraries, defines=defines)
+
+# Icons
+start_dir = bld.path.find_dir('img')
+bld.install_files(pludin_datadir, start_dir.ant_glob('*.png'), cwd=start_dir)
+bld.install_files(pludin_datadir, start_dir.ant_glob('*.gif'), cwd=start_dir)

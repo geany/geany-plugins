@@ -47,7 +47,7 @@ variable *variable_new(gchar *name)
 variable *variable_new2(gchar *name, gchar *internal)
 {
 	variable *var = variable_new(name);
-	g_string_append(var->internal, internal);
+	g_string_assign(var->internal, internal);
 	
 	return var;
 }
@@ -67,6 +67,7 @@ void variable_free(variable *var)
 void variable_reset(variable *var)
 {
 	g_string_assign(var->internal, "");
+	g_string_assign(var->expression, "");
 	g_string_assign(var->type, "");
 	g_string_assign(var->value, "");
 	var->has_children = var->evaluated = FALSE;
