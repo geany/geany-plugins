@@ -128,7 +128,7 @@ GtkWidget* vtree_create(watch_render_name on_render_name, watch_expression_chang
 	/* create columns */
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
-	gchar				*header;
+	const gchar			*header;
 	
 	int	char_width = get_char_width(tree);
 

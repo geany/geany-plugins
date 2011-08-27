@@ -29,16 +29,16 @@ typedef void	(*move_to_line_cb)(char* file, int line);
 
 gboolean		breaks_init(move_to_line_cb callback);
 void			breaks_destroy();
-void			breaks_add(char* file, int line, char* condition, int enable, int hitscount);
-void			breaks_remove(char* file, int line);
+void			breaks_add(const char* file, int line, char* condition, int enable, int hitscount);
+void			breaks_remove(const char* file, int line);
 void			breaks_remove_all();
-void			breaks_switch(char* file, int line);
+void			breaks_switch(const char* file, int line);
 void			breaks_set_hits_count(char* file, int line, int count);
 void			breaks_set_condition(char* file, int line, char* condition);
 void			breaks_move_to_line(char* file, int line_from, int line_to);
-break_state	breaks_get_state(char* file, int line);
+break_state	breaks_get_state(const char* file, int line);
 GtkWidget*	breaks_get_widget();
-GList*			breaks_get_for_document(char* file);
+GList*			breaks_get_for_document(const char* file);
 GList*			breaks_get_all();
 void			breaks_read_config();
 

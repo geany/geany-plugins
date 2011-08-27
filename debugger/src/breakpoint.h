@@ -33,4 +33,4 @@ typedef struct _breakpoint {
 } breakpoint;
 
 breakpoint*	break_new();
-breakpoint*	break_new_full(char* file, int line, char* condition, int enabled, int hitscount);
+breakpoint*	break_new_full(const char* file, int line, const char* condition, int enabled, int hitscount);

@@ -41,7 +41,7 @@ void			debug_stop();
 void			debug_step_over();
 void			debug_step_into();
 void			debug_step_out();
-void			debug_execute_until(gchar *file, int line);
+void			debug_execute_until(const gchar *file, int line);
 gboolean		debug_set_break(breakpoint* bp, break_set_activity bsa);
 gboolean		debug_remove_break(breakpoint* bp);
 void			debug_request_interrupt(bs_callback cb, breakpoint* bp, break_set_activity flags);

@@ -68,6 +68,7 @@ PluginCallback plugin_callbacks[] =
 	{ "document_activate", (GCallback) &on_document_activate, FALSE, NULL },
 	{ "document_close", (GCallback) &on_document_close, FALSE, NULL },
 	{ "document_save", (GCallback) &on_document_save, FALSE, NULL },
+	{ "document_before_save", (GCallback) &on_document_before_save, FALSE, NULL },
 	{ "document_new", (GCallback) &on_document_new, FALSE, NULL },
 	
 	{ NULL, NULL, FALSE, NULL }

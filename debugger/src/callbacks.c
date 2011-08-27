@@ -42,66 +42,10 @@
 extern GeanyFunctions *geany_functions;
 
 /*
- * 	Following group of callbacks are used for
- * 	checking of existance of the config file
- * 	and changing buttons state in the target page
+ * 	Set breakpoint and stack markers for a file
  */
-
-/*
- * 	Occures on closing document
- */
-void on_document_close(GObject *obj, GeanyDocument *doc, gpointer user_data)
+void set_markers_for_file(const gchar* file)
 {
-	btnpanel_on_document_close();
-}
-
-/*
- * 	Occures on saving document
- */
-void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
-{
-	btnpanel_on_document_activate(doc);
-}
-
-/*
- * 	Occures on new document creating
- */
-void on_document_new(GObject *obj, GeanyDocument *doc, gpointer user_data)
-{
-}
-
-/*
- * 	Occures on document activating
- */
-void on_document_activate(GObject *obj, GeanyDocument *doc, gpointer user_data)
-{
-	btnpanel_on_document_activate(doc);
-}
-
-/*
- * 	Occures on document opening.
- * 	Used to set breaks markers 
- */
-void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
-{
-	char* file = DOC_FILENAME(doc);
-	/*set markers*/
-	markers_set_for_document(doc->editor->sci);
-
-	/*set dwell interval*/
-	scintilla_send_message(doc->editor->sci, SCI_SETMOUSEDWELLTIME, 500, 0);
-
-	/* set tab size for calltips */
-	scintilla_send_message(doc->editor->sci, SCI_CALLTIPUSESTYLE, 20, (long)NULL);
-
-	/* set caret policy */
-	scintilla_send_message(doc->editor->sci, SCI_SETYCARETPOLICY, CARET_SLOP | CARET_JUMPS | CARET_EVEN , 3);
-	
-	/* check if current path contains config file */
-	gchar *folder = g_path_get_dirname(DOC_FILENAME(doc));
-	btnpanel_set_have_config(dconfig_is_found_at(folder));
-	g_free(folder);
-
 	GList *breaks;
 	if ( (breaks = breaks_get_for_document(file)) )
 	{
@@ -140,6 +84,101 @@ void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
 			}
 		}
 	}
+}
+
+/*
+ * 	Following group of callbacks are used for
+ * 	checking of existance of the config file
+ * 	and changing buttons state in the target page
+ */
+
+/*
+ * 	Occures before document is going to be saved
+ */
+static gboolean _unexisting_file = FALSE;
+void on_document_before_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
+{
+	if (!doc->real_path)
+	{
+		/* we can fall here if we are saving new document
+		 (that doesn't exists on a filesystem) or if we're "Saving As" */
+
+		_unexisting_file = TRUE;
+	}
+}
+
+/*
+ * 	Occures on closing document
+ */
+void on_document_close(GObject *obj, GeanyDocument *doc, gpointer user_data)
+{
+	btnpanel_on_document_close();
+}
+
+/*
+ * 	Occures on saving document
+ */
+void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
+{
+	if (_unexisting_file)
+	{
+		/* if we are saving as - remove all markers at first */
+		markers_remove_all(doc);
+
+		/* next, lets try to find and insert markers for the file, current document is being saved to*/
+		set_markers_for_file(doc->file_name);
+
+		/* if debug is active - tell the debug module that a file was opened */
+		if (DBS_IDLE != debug_get_state())
+			debug_on_file_open(doc);
+		
+		_unexisting_file = FALSE;
+	}
+
+	btnpanel_on_document_activate(doc);
+}
+
+/*
+ * 	Occures on new document creating
+ */
+void on_document_new(GObject *obj, GeanyDocument *doc, gpointer user_data)
+{
+}
+
+/*
+ * 	Occures on document activating
+ */
+void on_document_activate(GObject *obj, GeanyDocument *doc, gpointer user_data)
+{
+	btnpanel_on_document_activate(doc);
+}
+
+/*
+ * 	Occures on document opening.
+ * 	Used to set breaks markers 
+ */
+void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
+{
+	const gchar* file = DOC_FILENAME(doc);
+	/*set markers*/
+	markers_set_for_document(doc->editor->sci);
+
+	/*set dwell interval*/
+	scintilla_send_message(doc->editor->sci, SCI_SETMOUSEDWELLTIME, 500, 0);
+
+	/* set tab size for calltips */
+	scintilla_send_message(doc->editor->sci, SCI_CALLTIPUSESTYLE, 20, (long)NULL);
+
+	/* set caret policy */
+	scintilla_send_message(doc->editor->sci, SCI_SETYCARETPOLICY, CARET_SLOP | CARET_JUMPS | CARET_EVEN , 3);
+	
+	/* set breakpoint and frame markers */
+	set_markers_for_file(file);
+
+	/* check if current path contains config file */
+	gchar *folder = g_path_get_dirname(DOC_FILENAME(doc));
+	btnpanel_set_have_config(dconfig_is_found_at(folder));
+	g_free(folder);
 
 	/* if debug is active - tell the debug module that a file was opened */
 	if (DBS_IDLE != debug_get_state())
@@ -154,6 +193,12 @@ gboolean on_editor_notify(
 	GObject *object, GeanyEditor *editor,
 	SCNotification *nt, gpointer data)
 {
+	if (!editor->document->real_path)
+	{
+		/* no other way to handle removing a file from outside of geany */
+		markers_remove_all(editor->document);
+	}
+	
 	switch (nt->nmhdr.code)
 	{
 		case SCN_MARGINCLICK:

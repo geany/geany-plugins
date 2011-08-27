@@ -837,7 +837,7 @@ static void on_debugger_messages_clear ()
 /* 
  * called from debugger module to show an error message box 
  */
-static void on_debugger_error (gchar* message)
+static void on_debugger_error (const gchar* message)
 {
 	dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", message);
 }
@@ -1209,7 +1209,7 @@ void debug_step_out()
 /*
  * step to position
  */
-void debug_execute_until(gchar *file, int line)
+void debug_execute_until(const gchar *file, int line)
 {
 	if (DBS_STOPPED == debug_state)
 		active_module->execute_until(file, line);
@@ -1355,7 +1355,7 @@ void debug_jump_to_current_instruction()
  */
 void debug_on_file_open(GeanyDocument *doc)
 {
-	gchar *file = DOC_FILENAME(doc);
+	const gchar *file = DOC_FILENAME(doc);
 	if (g_list_find_custom(read_only_pages, (gpointer)file, (GCompareFunc)g_strcmp0))
 		scintilla_send_message(doc->editor->sci, SCI_SETREADONLY, 1, 0);
 }

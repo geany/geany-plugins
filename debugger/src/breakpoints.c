@@ -105,7 +105,7 @@ void breaks_remove_internal(breakpoint *bp)
  * 		file - breakpoints filename
  * 		line - breakpoints line
  */
-breakpoint* lookup_breakpoint(gchar* file, int line)
+breakpoint* lookup_breakpoint(const gchar* file, int line)
 {
 	breakpoint* bp = NULL;
 	GTree* tree = NULL;
@@ -315,7 +315,7 @@ void breaks_destroy()
  * 		enabled - is new breakpoint enabled
  * 		hitscount - breakpoints hitscount
  */
-void breaks_add(char* file, int line, char* condition, int enabled, int hitscount)
+void breaks_add(const char* file, int line, char* condition, int enabled, int hitscount)
 {
 	/* do not process async break manipulation on modules
 	that do not support async interuppt */
@@ -352,7 +352,7 @@ void breaks_add(char* file, int line, char* condition, int enabled, int hitscoun
  * 		file - breakpoints filename
  * 		line - breakpoints line
  */
-void breaks_remove(char* file, int line)
+void breaks_remove(const char* file, int line)
 {
 	/* do not process async break manipulation on modules
 	that do not support async interuppt */
@@ -389,7 +389,7 @@ void breaks_remove_all()
  * 		file - breakpoints filename
  * 		line - breakpoints line
  */
-void breaks_switch(char* file, int line)
+void breaks_switch(const char* file, int line)
 {
 	/* do not process async break manipulation on modules
 	that do not support async interuppt */
@@ -505,7 +505,7 @@ void breaks_move_to_line(char* file, int line_from, int line_to)
  * 		file - breakpoints filename
  * 		line - breakpoints line
  */
-break_state	breaks_get_state(char* file, int line)
+break_state	breaks_get_state(const char* file, int line)
 {
 	break_state bs = BS_NOT_SET;
 	
@@ -528,7 +528,7 @@ break_state	breaks_get_state(char* file, int line)
  * arguments:
  * 		file - file name to get breaks for 
  */
-GList *breaks_get_for_document(char* file)
+GList *breaks_get_for_document(const char* file)
 {
 	GList *breaks = NULL;
 	GTree *tree = g_hash_table_lookup(files, file);

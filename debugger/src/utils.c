@@ -62,7 +62,7 @@ int get_char_width(GtkWidget *widget)
 /*
  * get string width if string length is bigger than minwidth or minwidth * char_width 
  */
-int get_header_string_width(gchar *header, int minchars, int char_width)
+int get_header_string_width(const gchar *header, int minchars, int char_width)
 {
 	return strlen(header) > minchars ? strlen(header) : minchars * char_width;
 }
@@ -70,7 +70,7 @@ int get_header_string_width(gchar *header, int minchars, int char_width)
 /*
  * create tree view column 
  */
-GtkTreeViewColumn *create_column(gchar *name, GtkCellRenderer *renderer, gboolean expandable, gint minwidth, const char *arg, int value)
+GtkTreeViewColumn *create_column(const gchar *name, GtkCellRenderer *renderer, gboolean expandable, gint minwidth, const char *arg, int value)
 {
 	gtk_cell_renderer_set_padding(renderer, RENDERER_X_PADDING, RENDERER_Y_PADDING);
 	
@@ -100,6 +100,10 @@ void editor_open_position(char* file, int line)
 	{
 		sci_goto_line(doc->editor->sci, line - 1, TRUE);
 		scintilla_send_message(doc->editor->sci, SCI_SETFOCUS, TRUE, 0);
+	}
+	else
+	{
+		dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Can't find a source file \"%s\""), file);
 	}
 }
 

@@ -26,7 +26,7 @@ typedef struct _dbg_callbacks {
 	void (*set_exited) (int code);
 	void (*send_message) (const gchar* message, const gchar *color);
 	void (*clear_messages) ();
-	void (*report_error) (gchar* message);
+	void (*report_error) (const gchar* message);
 } dbg_callbacks;
 
 /* type to hold information about a variable */
@@ -84,7 +84,7 @@ typedef struct _dbg_module {
 	void (*step_over) ();
 	void (*step_into) ();
 	void (*step_out) ();
-	void (*execute_until)(gchar *file, int line);
+	void (*execute_until)(const gchar *file, int line);
 
 	gboolean (*set_break) (breakpoint* bp, break_set_activity bsa);
 	gboolean (*remove_break) (breakpoint* bp);

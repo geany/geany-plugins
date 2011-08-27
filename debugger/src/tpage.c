@@ -635,7 +635,7 @@ void tpage_init()
 	g_object_set(envtree, "rules-hint", TRUE, NULL);
 	g_signal_connect(G_OBJECT(envtree), "key-press-event", G_CALLBACK (on_envtree_keypressed), NULL);
 
-	gchar *header;
+	const gchar *header;
 	int	char_width = get_char_width(envtree);
 
 	header = _("Name");

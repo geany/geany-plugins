@@ -343,7 +343,7 @@ gboolean bptree_init(move_to_line_cb cb)
 
 	/* creating columns */
 	GtkTreeViewColumn	*column;
-	gchar				*header;
+	const gchar			*header;
 	
 	int	char_width = get_char_width(tree);
 

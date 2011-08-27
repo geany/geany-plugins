@@ -208,3 +208,16 @@ void markers_remove_frame(char* file, int line)
 		scintilla_send_message(doc->editor->sci, SCI_SETFOCUS, TRUE, 0);
 	}
 }
+
+/*
+ * removes all markers from GeanyDocument
+ */
+void markers_remove_all(GeanyDocument *doc)
+{
+	static int markers[] = { M_BP_ENABLED, M_BP_DISABLED, M_BP_CONDITIONAL, M_CI_BACKGROUND, M_CI_ARROW, M_FRAME };
+	int i = 0, size = sizeof(markers) / sizeof(int);
+	for (; i < size; i++)
+	{
+		scintilla_send_message(doc->editor->sci, SCI_MARKERDELETEALL, markers[i], 0);
+	}
+}

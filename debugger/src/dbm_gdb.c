@@ -717,7 +717,7 @@ void step_out()
 /*
  * execute until
  */
-void execute_until(gchar *file, int line)
+void execute_until(const gchar *file, int line)
 {
 	gchar command[1000];
 	sprintf(command, "-exec-until %s:%i", file, line);
