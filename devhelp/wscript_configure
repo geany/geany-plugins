@@ -21,13 +21,12 @@
 #
 # $Id: wscript_configure 1735 2010-11-09 17:03:40Z eht16 $
 
-from build.wafutils import check_cfg_cached
+from build.wafutils import add_to_env_and_define, check_cfg_cached
 
 packages = [
 	('gtk+-2.0', '2.16', 'GTK'),
     ('glib-2.0', '2.16', 'GLIB'),
     ('gthread-2.0','','GTHREAD'),
-    ('libdevhelp-2.0', '2.32.0', 'LIBDEVHELP'),
     ('webkit-1.0', '1.1.18', 'WEBKIT')
     ]
 
@@ -38,3 +37,25 @@ for package_name, package_version, uselib_store in packages:
                      uselib_store=uselib_store,
                      mandatory=True,
                      args='--cflags --libs')
+
+
+# Use newer libdevhelp-2.0 if present, and fallback on older libdevhelp-1.0
+check_cfg_cached(conf,
+                 package='libdevhelp-2.0',
+                 atleast_version='2.32.0',
+                 uselib_store='LIBDEVHELP',
+                 mandatory=False,
+                 args='--cflags --libs')
+
+if not conf.env['HAVE_LIBDEVHELP'] == 1:
+    # fallback
+    check_cfg_cached(conf,
+                     package='libdevhelp-1.0',
+                     atleast_version='2.30.1',
+                     uselib_store='LIBDEVHELP',
+                     mandatory=False,
+                     args='--cflags --libs')
+else:
+    add_to_env_and_define(conf, 'HAVE_BOOK_MANAGER', 1)
+
+
