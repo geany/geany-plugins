@@ -13,7 +13,7 @@ AC_DEFUN([GP_CHECK_DEVHELP],
     libdevhelp_version=${DEVHELP2_VERSION}
     AS_IF([test "x$enable_devhelp" != "xno"],
           [PKG_CHECK_EXISTS([${libdevhelp_pkg} >= ${libdevhelp_version}],
-                            [],
+                            [AC_DEFINE([HAVE_BOOK_MANAGER], [1], [Use libdevhelp-2.0])],
                             [libdevhelp_pkg=libdevhelp-1.0
                              libdevhelp_version=${DEVHELP1_VERSION}])])
 
