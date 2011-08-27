@@ -79,7 +79,7 @@ static void ao_bookmark_list_finalize  			(GObject *object);
 static void ao_bookmark_list_show				(AoBookmarkList *bm);
 static void ao_bookmark_list_hide				(AoBookmarkList *bm);
 
-G_DEFINE_TYPE(AoBookmarkList, ao_bookmark_list, G_TYPE_OBJECT);
+G_DEFINE_TYPE(AoBookmarkList, ao_bookmark_list, G_TYPE_OBJECT)
 
 
 static void ao_bookmark_list_set_property(GObject *object, guint prop_id,

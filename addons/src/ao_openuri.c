@@ -66,7 +66,7 @@ static void ao_open_uri_set_property		(GObject *object, guint prop_id,
 											 const GValue *value, GParamSpec *pspec);
 
 
-G_DEFINE_TYPE(AoOpenUri, ao_open_uri, G_TYPE_OBJECT);
+G_DEFINE_TYPE(AoOpenUri, ao_open_uri, G_TYPE_OBJECT)
 
 
 
@@ -243,7 +243,7 @@ void ao_open_uri_update_menu(AoOpenUri *openuri, GeanyDocument *doc, gint pos)
 	if (sci_has_selection(doc->editor->sci))
 	{
 		gint len = sci_get_selected_text_length(doc->editor->sci);
-		text = g_malloc0(len + 1);
+		text = g_malloc0((guint)len + 1);
 		sci_get_selected_text(doc->editor->sci, text);
 	}
 	else
@@ -252,7 +252,7 @@ void ao_open_uri_update_menu(AoOpenUri *openuri, GeanyDocument *doc, gint pos)
 	/* TODO be more restrictive when handling selections as there are too many hits by now */
 	if (text != NULL && (ao_uri_has_scheme(text) || ao_uri_is_link(text)))
 	{
-		guint len = strlen(text);
+		gsize len = strlen(text);
 		/* remove trailing dots and colons */
 		if (text[len - 1] == '.' || text[len - 1] == ':')
 			text[len - 1] = '\0';

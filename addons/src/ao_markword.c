@@ -59,7 +59,7 @@ enum
 
 static void ao_mark_word_finalize  			(GObject *object);
 
-G_DEFINE_TYPE(AoMarkWord, ao_mark_word, G_TYPE_OBJECT);
+G_DEFINE_TYPE(AoMarkWord, ao_mark_word, G_TYPE_OBJECT)
 
 
 static void ao_mark_word_set_property(GObject *object, guint prop_id,

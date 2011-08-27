@@ -93,7 +93,7 @@ static void ao_tasks_finalize  			(GObject *object);
 static void ao_tasks_show				(AoTasks *t);
 static void ao_tasks_hide				(AoTasks *t);
 
-G_DEFINE_TYPE(AoTasks, ao_tasks, G_TYPE_OBJECT);
+G_DEFINE_TYPE(AoTasks, ao_tasks, G_TYPE_OBJECT)
 
 
 static void ao_tasks_set_property(GObject *object, guint prop_id,
@@ -551,7 +551,7 @@ static void create_task(AoTasks *t, GeanyDocument *doc, gint line, const gchar *
 
 static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
 {
-	guint lines, line;
+	gint lines, line;
 	gchar *line_buf, *display_name, *task_start;
 	gchar **token;
 	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
@@ -611,7 +611,7 @@ static gboolean ao_tasks_select_task(GtkTreeModel *model, GtkTreePath *path,
 	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(data);
 	gint line, selected_line;
 	gchar *filename = NULL;
-	gchar *selected_filename = NULL;
+	const gchar *selected_filename = NULL;
 	gboolean ret = FALSE;
 
 	if (priv->scan_all_documents)

@@ -63,7 +63,7 @@ enum
 	WIDGET_PREFERENCES
 };
 
-G_DEFINE_TYPE(AoSystray, ao_systray, G_TYPE_OBJECT);
+G_DEFINE_TYPE(AoSystray, ao_systray, G_TYPE_OBJECT)
 
 
 static void ao_systray_finalize(GObject *object)
@@ -134,7 +134,7 @@ static void icon_activate_cb(GtkStatusIcon *status_icon, gpointer data)
 static void icon_popup_menu_cmd_clicked_cb(GtkMenuItem *item, gpointer data)
 {
 	GtkWidget *widget;
-	const gchar *widget_name;
+	const gchar *widget_name = NULL;
 	
 	switch (GPOINTER_TO_INT(data))
 	{

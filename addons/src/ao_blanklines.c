@@ -31,7 +31,7 @@ static void editor_strip_trailing_newlines(GeanyEditor *editor)
 	const gint maxline = sci_get_line_count(editor->sci) - 1;
 	const gint maxpos = sci_get_line_end_position(editor->sci, maxline);
 
-	gint line, start, end, pos;
+	gint line, start, end, pos = 0;
 	gchar ch;
 
 	/*

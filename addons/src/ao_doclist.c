@@ -68,7 +68,7 @@ static void ao_doc_list_finalize  			(GObject *object);
 static void ao_doclist_set_property(GObject *object, guint prop_id,
 									const GValue *value, GParamSpec *pspec);
 
-G_DEFINE_TYPE(AoDocList, ao_doc_list, G_TYPE_OBJECT);
+G_DEFINE_TYPE(AoDocList, ao_doc_list, G_TYPE_OBJECT)
 
 
 static void ao_doc_list_class_init(AoDocListClass *klass)

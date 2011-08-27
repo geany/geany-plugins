@@ -88,7 +88,7 @@ void ao_xmltagging(void)
 			tag = g_strdup(gtk_entry_get_text(GTK_ENTRY(textbox)));
 			if (NZV(tag))
 			{
-				gint end = 0;
+				gsize end = 0;
 				GString *tmp = NULL;
 				const gchar *end_tag;
 
