@@ -2,7 +2,7 @@
  *
  *		dconfig.c
  *      
- *      Copyright 2010 Alexander Petukhov <Alexander(dot)Petukhov(at)mail(dot)ru>
+ *      Copyright 2010 Alexander Petukhov <devel(at)apetukhov.ru>
  *      
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
