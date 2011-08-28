@@ -71,15 +71,15 @@ gboolean	dconfig_save(gchar *folder);
 int readline(FILE *file, gchar *buffer, int buffersize)
 {
 	gchar c;
-	int read = 0;
+	int read_count = 0;
 	while (buffersize && fread(&c, 1, 1, file) && '\n' != c)
 	{
-		buffer[read++] = c;
+		buffer[read_count++] = c;
 		buffersize--;
 	}
-	buffer[read] = '\0';
+	buffer[read_count] = '\0';
 
-	return read;
+	return read_count;
 }
 
 /*
@@ -351,5 +351,5 @@ gboolean dconfig_save(gchar *folder)
 
 	g_free(config_file);
 
-	return (gboolean)config;
+	return config ? TRUE : FALSE;
 }
