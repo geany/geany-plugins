@@ -59,6 +59,7 @@ enum
 };
 
 /* tree view and store handles */
+static GtkWidget		*scrolled_window = NULL;
 static GtkWidget		*tree = NULL;
 static GtkTreeModel		*model = NULL;
 static GtkListStore		*store = NULL;
@@ -358,12 +359,12 @@ gboolean bptree_init(move_to_line_cb cb)
 	/* hits count */
 	header = _("Hit count");
 	hcount_renderer = gtk_cell_renderer_spin_new ();
-    GtkAdjustment* adj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 100000.0, 1.0, 2.0, 2.0));
-    g_object_set (hcount_renderer,
+	GtkAdjustment* adj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 100000.0, 1.0, 2.0, 2.0));
+	g_object_set (hcount_renderer,
 		"editable", TRUE,
 		"adjustment", adj,
         "digits", 0, NULL);
-    g_signal_connect (G_OBJECT (hcount_renderer), "edited", G_CALLBACK (on_hitscount_changed), NULL);
+	g_signal_connect (G_OBJECT (hcount_renderer), "edited", G_CALLBACK (on_hitscount_changed), NULL);
 	column = create_column(header, hcount_renderer, FALSE,
 		get_header_string_width(header, MW_HITSCOUNT, char_width),
 		"text", HITSCOUNT);
@@ -391,6 +392,13 @@ gboolean bptree_init(move_to_line_cb cb)
 		get_header_string_width(header, MW_LINE, char_width),
 		"text", LINE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
+
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (scrolled_window);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_NONE);
+
+	gtk_container_add (GTK_CONTAINER (scrolled_window), tree);
 
 	return TRUE;
 }
@@ -464,7 +472,7 @@ void bptree_set_readonly(gboolean value)
  */
 GtkWidget* bptree_get_widget()
 {
-	return tree;
+	return scrolled_window;
 }
 
 /*

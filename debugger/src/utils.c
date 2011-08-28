@@ -64,7 +64,9 @@ int get_char_width(GtkWidget *widget)
  */
 int get_header_string_width(const gchar *header, int minchars, int char_width)
 {
-	return strlen(header) > minchars ? strlen(header) : minchars * char_width;
+	int header_length = strlen(header);
+	int width = (header_length > minchars ? header_length : minchars) * char_width;
+	return  width;
 }
 
 /*

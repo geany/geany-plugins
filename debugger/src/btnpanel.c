@@ -257,5 +257,12 @@ void btnpanel_set_debug_state(enum dbs state)
 	gtk_widget_set_sensitive(stepoutbtn, DBS_STOPPED == state);
 	gtk_widget_set_sensitive(runcursorbtn, DBS_STOPPED == state);
 
-	gtk_widget_set_sensitive(loadbtn, DBS_IDLE == state);
+	if (DBS_IDLE == state)
+	{
+		btnpanel_on_document_activate(document_get_current());
+	}
+	else
+	{
+		gtk_widget_set_sensitive(loadbtn, FALSE);
+	}
 }
