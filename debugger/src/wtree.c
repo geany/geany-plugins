@@ -199,18 +199,3 @@ void wtree_add_watch(gchar *watch)
 
 	variable_set_name_only(store, &newvar, watch);
 }
-
-/*
- * reads watches from config
- */
-void wtree_read_config()
-{
-	wtree_remove_all();
-	GList *list = dconfig_watches_get();
-	while(list)
-	{
-		gchar *expression = (gchar*)list->data;
-		wtree_add_watch(expression);
-		list = list->next;
-	}
-}

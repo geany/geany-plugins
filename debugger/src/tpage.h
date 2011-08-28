@@ -21,11 +21,21 @@
 
 void			tpage_init();
 GtkWidget*	tpage_get_widget();
+
 gchar*		tpage_get_target();
+void			tpage_set_target(const gchar *newvalue);
+
 gchar*		tpage_get_debugger();
-int				tpage_get_module_index();
+void			tpage_set_debugger(const gchar *newvalue);
+
+int				tpage_get_debug_module_index();
+
 gchar*		tpage_get_commandline();
+void			tpage_set_commandline(const gchar *newvalue);
+
 GList*			tpage_get_environment();
+void			tpage_add_environment(const gchar *name, const gchar *value);
+
 void			tpage_set_readonly(gboolean readonly);
-void			tpage_read_config();
 void			tpage_clear();
+

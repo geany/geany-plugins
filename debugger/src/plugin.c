@@ -40,7 +40,7 @@
 
 /* These items are set by Geany before plugin_init() is called. */
 GeanyPlugin		*geany_plugin;
-GeanyData			*geany_data;
+GeanyData		*geany_data;
 GeanyFunctions	*geany_functions;
 
 
@@ -121,8 +121,10 @@ void plugin_init(GeanyData *data)
 		GTK_NOTEBOOK(geany->main_widgets->message_window_notebook),
 		hbox,
 		gtk_label_new(_("Debug")));
-}
 
+	/* init config */
+	dconfig_init();
+}
 
 
 /* Called by Geany to show the plugin's configure dialog. This function is always called after
@@ -160,7 +162,7 @@ void plugin_cleanup(void)
 	breaks_destroy();
 
 	/* clears config */
-	dconfig_clear();
+	dconfig_destroy();
 
 	/* release other allocated strings and objects */
 	gtk_widget_destroy(hbox);

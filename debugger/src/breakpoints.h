@@ -40,5 +40,4 @@ break_state	breaks_get_state(const char* file, int line);
 GtkWidget*	breaks_get_widget();
 GList*			breaks_get_for_document(const char* file);
 GList*			breaks_get_all();
-void			breaks_read_config();
 

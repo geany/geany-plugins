@@ -149,6 +149,8 @@ void handle_break_new(breakpoint* bp, gboolean success)
 		bptree_add_breakpoint(bp);
 		/* add marker */
 		markers_add_breakpoint(bp);
+		/* mark config for saving */
+		dconfig_set_changed();
 	}
 	else
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", debug_error_message());
@@ -171,6 +173,9 @@ void handle_break_remove(breakpoint* bp, gboolean success)
 		/* remove from internal storage */
 		GTree *tree = g_hash_table_lookup(files,bp->file);
 		g_tree_remove(tree, GINT_TO_POINTER(bp->line));
+
+		/* mark config for saving */
+		dconfig_set_changed();
 	}
 	else
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", debug_error_message());
@@ -189,6 +194,8 @@ void handle_hitscount_set(breakpoint* bp, gboolean success)
 		bptree_set_hitscount(bp->iter, bp->hitscount);
 		markers_remove_breakpoint(bp);
 		markers_add_breakpoint(bp);
+		/* mark config for saving */
+		dconfig_set_changed();
 	}
 	else
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", debug_error_message());
@@ -208,6 +215,8 @@ void handle_condition_set(breakpoint* bp, gboolean success)
 		bptree_set_condition(bp->iter, bp->condition);
 		markers_remove_breakpoint(bp);
 		markers_add_breakpoint(bp);
+		/* mark config for saving */
+		dconfig_set_changed();
 	}
 	else
 	{
@@ -234,6 +243,9 @@ void handle_switch(breakpoint* bp, gboolean success)
 
 	/* set checkbox in breaks tree */
 	bptree_set_enabled(bp->iter, bp->enabled);
+
+	/* mark config for saving */
+	dconfig_set_changed();
 }
 
 /*
@@ -495,6 +507,9 @@ void breaks_move_to_line(char* file, int line_from, int line_to)
 			g_tree_steal(tree, GINT_TO_POINTER(line_from));
 			bp->line = line_to;
 			g_tree_insert(tree, GINT_TO_POINTER(line_to), bp);
+
+			/* mark config for saving */
+			dconfig_set_changed();
 		}
 	}
 }
@@ -556,22 +571,4 @@ GList* breaks_get_all()
 GtkWidget* breaks_get_widget()
 {
 	return bptree_get_widget();
-}
-
-/*
- * Read new breakpoints from dconfig
- */
-void breaks_read_config()
-{
-	/* clear all breaks */
-	breaks_remove_all();
-
-	GList *list = dconfig_breaks_get();
-
-	while(list)
-	{
-		breakpoint *bp = (breakpoint*)list->data;
-		breaks_add(bp->file, bp->line, bp->condition, bp->enabled, bp->hitscount);
-		list = list->next;
-	}
 }

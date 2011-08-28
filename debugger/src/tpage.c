@@ -97,6 +97,22 @@ GtkTreeViewColumn *column_value = NULL;
 GtkCellRenderer *renderer_value = NULL;
 
 /*
+ * tells config to update when target arguments change 
+ */
+void on_arguments_changed(GtkTextBuffer *textbuffer, gpointer user_data)
+{
+	dconfig_set_changed();
+}
+
+/*
+ * tells config to update when target changes 
+ */
+void on_target_changed (GtkEditable *editable, gpointer user_data)
+{
+	dconfig_set_changed();
+}
+
+/*
  * delete selected rows from env variables page 
  */
 void delete_selected_rows()
@@ -193,7 +209,10 @@ gboolean on_envtree_keypressed(GtkWidget *widget, GdkEvent  *event, gpointer use
 	guint keyval = ((GdkEventKey*)event)->keyval;
 	
 	if (GDK_Delete == keyval)
+	{
 		delete_selected_rows();
+		dconfig_set_changed();
+	}
 
 	return GDK_Tab == keyval;
 }
@@ -247,7 +266,7 @@ void on_render_value(GtkTreeViewColumn *tree_column,
 static void on_value_changed(GtkCellRendererText *renderer, gchar *path, gchar *new_text, gpointer user_data)
 {
 	GtkTreeIter  iter;
-    GtkTreePath *tree_path = gtk_tree_path_new_from_string (path);
+	GtkTreePath *tree_path = gtk_tree_path_new_from_string (path);
     
 	gboolean empty = !gtk_tree_path_compare(tree_path, gtk_tree_row_reference_get_path(empty_row));
 
@@ -269,6 +288,8 @@ static void on_value_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 			if (dialogs_show_question(_("Delete variable?")))
 			{
 				delete_selected_rows();
+				dconfig_set_changed();
+
 				gtk_widget_grab_focus(envtree);
 			}
 		}
@@ -290,6 +311,7 @@ static void on_value_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 				add_empty_row();
 			
 			g_object_set (renderer_value, "editable", FALSE, NULL);
+			dconfig_set_changed();
 		}
 		
 		g_free(oldvalue);
@@ -345,7 +367,7 @@ void on_value_editing_cancelled(GtkCellRenderer *renderer, gpointer user_data)
 static void on_name_changed(GtkCellRendererText *renderer, gchar *path, gchar *new_text, gpointer user_data)
 {
 	GtkTreeIter  iter;
-    GtkTreePath *tree_path = gtk_tree_path_new_from_string (path);
+	GtkTreePath *tree_path = gtk_tree_path_new_from_string (path);
     
 	gboolean empty = !gtk_tree_path_compare(tree_path, gtk_tree_row_reference_get_path(empty_row));
 
@@ -369,6 +391,8 @@ static void on_name_changed(GtkCellRendererText *renderer, gchar *path, gchar *n
 		if (!empty && dialogs_show_question(_("Delete variable?")))
 		{
 			delete_selected_rows();
+			dconfig_set_changed();
+
 			gtk_widget_grab_focus(envtree);
 		}
 	}
@@ -381,6 +405,10 @@ static void on_name_changed(GtkCellRendererText *renderer, gchar *path, gchar *n
 			entering_new_var = TRUE;
 			gtk_tree_view_set_cursor_on_cell(GTK_TREE_VIEW(envtree), tree_path, column_value, renderer_value, TRUE);
 		}
+		if (!empty)
+		{
+			dconfig_set_changed();
+		}
 	}
 	
 	gtk_tree_path_free(tree_path);
@@ -388,37 +416,49 @@ static void on_name_changed(GtkCellRendererText *renderer, gchar *path, gchar *n
 	g_free(striped);
 }
 
-void tpage_read_config()
+/*
+ * set target 
+ */
+void tpage_set_target(const gchar *newvalue)
 {
-	/* remove old values */
-	tpage_clear();
-
-	/* target */
-	gtk_entry_set_text(GTK_ENTRY(targetname), dconfig_target_get());
-
-	/* debugger */
-	gtk_combo_box_set_active(GTK_COMBO_BOX(cmb_debugger), dconfig_module_get());
-
-	/* arguments */
-	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview));
-	gtk_text_buffer_set_text(buffer, dconfig_args_get(), -1);
-
-	/* environment */
-	GList *env = dconfig_env_get();
-	while (env)
-	{
-		gchar *name = (gchar*)env->data;
-		env = env->next;
-		gchar *value = (gchar*)env->data;
-
-		GtkTreeIter iter;
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store, &iter, NAME, name, VALUE, value, -1);
-
-		env = env->next;
-	}
+	gtk_entry_set_text(GTK_ENTRY(targetname), newvalue);
 }
 
+/*
+ * set debugger 
+ */
+void tpage_set_debugger(const gchar *newvalue)
+{
+	int module = debug_get_module_index(newvalue);
+	if (-1 == module)
+	{
+		module = 0;
+	}
+	gtk_combo_box_set_active(GTK_COMBO_BOX(cmb_debugger), module);
+}
+
+/*
+ * set command line 
+ */
+void tpage_set_commandline(const gchar *newvalue)
+{
+	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview));
+	gtk_text_buffer_set_text(buffer, newvalue, -1);
+}
+
+/*
+ * add environment variable
+ */
+void tpage_add_environment(const gchar *name, const gchar *value)
+{
+	GtkTreeIter iter;
+	gtk_list_store_prepend(store, &iter);
+	gtk_list_store_set(store, &iter, NAME, name, VALUE, value, -1);
+}
+
+/*
+ * removes all data (clears widgets)
+ */
 void tpage_clear()
 {
 	/* target */
@@ -482,7 +522,7 @@ gchar* tpage_get_target()
 /*
  * get selected debugger module index
  */
-int tpage_get_module_index()
+int tpage_get_debug_module_index()
 {
 	return gtk_combo_box_get_active(GTK_COMBO_BOX(cmb_debugger));
 }
@@ -570,6 +610,8 @@ void tpage_init()
 	gtk_container_set_border_width(GTK_CONTAINER(hbox), SPACING);
 
 	targetname = gtk_entry_new ();
+	g_signal_connect(G_OBJECT(targetname), "changed", G_CALLBACK (on_target_changed), NULL);
+	
 	button_browse = gtk_button_new_with_label(_("Browse"));
 	g_signal_connect(G_OBJECT(button_browse), "clicked", G_CALLBACK (on_target_browse_clicked), NULL);
 	
@@ -611,6 +653,9 @@ void tpage_init()
 	
 	textview = gtk_text_view_new ();
 	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview), GTK_WRAP_CHAR);
+
+	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textview));
+	g_signal_connect(G_OBJECT(buffer), "changed", G_CALLBACK (on_arguments_changed), NULL);
 	
 	gtk_box_pack_start(GTK_BOX(hbox), textview, TRUE, TRUE, 0);
 	gtk_container_add(GTK_CONTAINER(_frame), hbox);

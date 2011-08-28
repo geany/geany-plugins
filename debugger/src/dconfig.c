@@ -49,12 +49,21 @@ extern GeanyPlugin		*geany_plugin;
 /* maximus config file line length */
 #define MAXLINE 1000
 
-static gchar	*target = NULL;
-static int		module = -1; 
-static gchar	*args = NULL;
-static GList	*env = NULL;
-static GList	*breaks = NULL;
-static GList	*watches = NULL;
+/* saving interval */
+#define SAVING_INTERVAL 2000000
+
+/* idle callback staff */
+static GMutex *change_config_mutex;
+static GCond *cond;
+static GThread *saving_thread;
+static gboolean config_changed = FALSE;
+static gboolean loading_or_cleaning = FALSE;
+
+/* the folder, config has been loaded from */
+static gchar *current_folder = NULL;
+
+/* forward declaration */
+gboolean	dconfig_save(gchar *folder);
 
 /*
  * reads line from a file
@@ -71,10 +80,78 @@ int readline(FILE *file, gchar *buffer, int buffersize)
 	buffer[read] = '\0';
 
 	return read;
-} 
+}
 
 /*
- * checks whether a config fileis founs in the folder
+ * function for a config file background saving if changed 
+ */
+gpointer saving_thread_func(gpointer data)
+{
+	GTimeVal interval;
+	GMutex *m = g_mutex_new();
+	do
+	{
+		g_mutex_lock(change_config_mutex);
+		if (config_changed && current_folder)
+		{
+			dconfig_save(current_folder);
+			config_changed = FALSE;
+		}
+		g_mutex_unlock(change_config_mutex);
+
+		g_get_current_time(&interval);
+		g_time_val_add(&interval, SAVING_INTERVAL);
+	}
+	while (!g_cond_timed_wait(cond, m, &interval));
+	g_mutex_free(m);
+	
+	return NULL;
+}
+
+/*
+ * set "changed" flag to save it on "saving_thread" thread
+ */
+void dconfig_set_changed()
+{
+	if (!loading_or_cleaning)
+	{
+		g_mutex_lock(change_config_mutex);
+		config_changed = TRUE;
+		g_mutex_unlock(change_config_mutex);
+	}
+}
+
+/*
+ * init config
+ */
+void dconfig_init()
+{
+	change_config_mutex = g_mutex_new();
+	cond = g_cond_new();
+
+	saving_thread = g_thread_create(saving_thread_func, NULL, TRUE, NULL);
+}
+
+/*
+ * destroys config
+ */
+void dconfig_destroy()
+{
+	g_cond_signal(cond);
+	/* ??? g_thread_join(saving_thread); */	
+	
+	g_mutex_free(change_config_mutex);
+	g_cond_free(cond);
+	
+	if (current_folder)
+	{
+		g_free(current_folder);
+		current_folder = NULL;
+	}
+}
+
+/*
+ * checks whether a config file is founs in the folder
  */
 gboolean 	dconfig_is_found_at(gchar *folder)
 {
@@ -90,40 +167,50 @@ gboolean 	dconfig_is_found_at(gchar *folder)
  */
 gboolean dconfig_load(gchar *folder)
 {
-	dconfig_clear();
+	loading_or_cleaning = TRUE;
+	g_mutex_lock(change_config_mutex);
+
+	tpage_clear();
+	wtree_remove_all();
+	breaks_remove_all();
+	
+	if (current_folder)
+	{
+		g_free(current_folder);
+	}
+	current_folder = g_strdup(folder);
 	
 	gchar *path = g_build_path(G_DIR_SEPARATOR_S, folder, CONFIG_NAME, NULL);
 	FILE *file = fopen(path, "r");
 	if (!file)
 	{
+		config_changed = FALSE;
+
+		loading_or_cleaning = FALSE;
+		g_mutex_unlock(change_config_mutex);
+
 		return FALSE;
 	}
 
 	/* target */
 	gchar buffer[FILENAME_MAX];
-	if(!readline(file, buffer, FILENAME_MAX - 1))
+	if(readline(file, buffer, FILENAME_MAX - 1))
 	{
-		memset(target, 0, FILENAME_MAX * sizeof(gchar));
+		tpage_set_target(buffer);
 	}
-	target = g_strdup(buffer);
 
 	/* debugger */
 	gchar debugger[FILENAME_MAX];
 	if(readline(file, debugger, FILENAME_MAX - 1))
 	{
-		module = debug_get_module_index(debugger);
-		if (-1 == module)
-		{
-			module = 0;
-		}
+		tpage_set_debugger(debugger);
 	}
 		
 	/* arguments */
-	if(!readline(file, buffer, FILENAME_MAX - 1))
+	if(readline(file, buffer, FILENAME_MAX - 1))
 	{
-		memset(buffer, 0, FILENAME_MAX * sizeof(gchar));
+		tpage_set_commandline(buffer);
 	}
-	args = g_strdup(buffer);
 
 	/* breakpoints and environment variables */
 	gchar line[MAXLINE];
@@ -158,8 +245,7 @@ gboolean dconfig_load(gchar *folder)
 			struct stat st;
 			if(!stat(_path, &st))
 			{
-				breakpoint *bp = break_new_full(_path, nline, condition, enabled, hitscount);
-				breaks = g_list_append(breaks, bp);
+				breaks_add(_path, nline, condition, enabled, hitscount);
 			}
 		}
 		else if (!strcmp(line, ENVIRONMENT_MARKER))
@@ -167,8 +253,7 @@ gboolean dconfig_load(gchar *folder)
 			gchar name[MAXLINE], value[1000];
 			if(readline(file, name, MAXLINE) && readline(file, value, MAXLINE))
 			{
-				env = g_list_append(env, name);
-				env = g_list_append(env, value);
+				tpage_add_environment(name, value);
 			}
 		}
 		else if (!strcmp(line, WATCH_MARKER))
@@ -176,10 +261,15 @@ gboolean dconfig_load(gchar *folder)
 			gchar watch[MAXLINE];
 			if(readline(file, watch, MAXLINE))
 			{
-				watches = g_list_append(watches, g_strdup(watch));
+				wtree_add_watch(watch);
 			}
 		}
 	}
+
+	config_changed = FALSE;
+
+	loading_or_cleaning = FALSE;
+	g_mutex_unlock(change_config_mutex);
 	
 	return TRUE;
 }
@@ -262,128 +352,4 @@ gboolean dconfig_save(gchar *folder)
 	g_free(config_file);
 
 	return (gboolean)config;
-}
-
-/*
- * gets target
- */
-gchar* dconfig_target_get()
-{
-	return target;
-}
-
-/*
- * sets target
- */
-void dconfig_target_set(gchar *newvalue)
-{
-	if (target)
-	{
-		g_free(target);
-	}
-	target = newvalue;
-}
-
-/*
- * gets debugger module index
- */
-int dconfig_module_get()
-{
-	return module;
-}
-
-/*
- * sets debugger module index
- */
-void dconfig_module_set(int newvalue)
-{
-	module = newvalue;
-}
-
-/*
- * gets command line arguments
- */
-gchar* dconfig_args_get()
-{
-	return args;
-}
-
-/*
- * sets command line arguments
- */
-void dconfig_args_set(gchar *newvalue)
-{
-	if (args)
-	{
-		g_free(args);
-	}
-	args = newvalue;
-}
-
-/*
- * gets environment variables
- */
-GList* dconfig_env_get()
-{
-	return env;
-}
-
-/*
- * removes all environment variables
- */
-void dconfig_env_clear()
-{
-	g_list_foreach(env, (GFunc)g_free, NULL);
-	g_list_free(env);
-	env = NULL;
-}
-
-/*
- * gets breakpoints
- */
-GList*	dconfig_breaks_get()
-{
-	return breaks;
-}
-
-/*
- * clears breakpoints
- */
-void dconfig_breaks_clear()
-{
-	g_list_foreach(breaks, (GFunc)g_free, NULL);
-	g_list_free(breaks);
-	breaks = NULL;
-}
-
-/*
- * gets watches
- */
-GList* dconfig_watches_get()
-{
-	return watches;
-}
-
-/*
- * clears watches
- */
-void dconfig_watches_clear()
-{
-	g_list_foreach(watches, (GFunc)g_free, NULL);
-	g_list_free(watches);
-	watches = NULL;
-}
-
-/*
- * clears all config values
- */
-void dconfig_clear()
-{
-	dconfig_target_set(NULL);
-	dconfig_module_set(0);
-	dconfig_args_set(NULL);
-	dconfig_env_clear();
-
-	dconfig_breaks_clear();
-	dconfig_watches_clear();
 }

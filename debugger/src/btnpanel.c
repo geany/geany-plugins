@@ -42,9 +42,7 @@ extern GeanyPlugin		*geany_plugin;
 #define CP_BUTTONS_PAD 5
 #define CONFIG_NAME ".debugger"
 
-static GtkWidget *savebtn = NULL;
 static GtkWidget *loadbtn = NULL;
-static GtkWidget *clearbtn = NULL;
 
 static GtkWidget *runbtn = NULL;
 static GtkWidget *restartbtn = NULL;
@@ -76,33 +74,6 @@ void on_config_load(GtkButton *button, gpointer user_data)
 		if (!dconfig_load(folder))
 		{
 			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Error reading config file"));
-		}
-		else
-		{
-			/* update target page */
-			tpage_read_config();
-			/* breakpoints */
-			breaks_read_config();
-			/* watches */
-			wtree_read_config();
-		}
-		g_free(folder);
-	}
-}
-
-/*
- * save config button handler
- */
-void on_config_save(GtkButton *button, gpointer user_data)
-{
-	GeanyDocument *doc = document_get_current();
-	if (doc && doc->real_path)
-	{
-		/* open config file */
-		gchar *folder = g_path_get_dirname(DOC_FILENAME(doc));
-		if (!dconfig_save(folder))
-		{
-			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Error saving config file"));
 		}
 		g_free(folder);
 	}
@@ -203,14 +174,6 @@ GtkWidget* btnpanel_create()
 	g_signal_connect(G_OBJECT(loadbtn), "clicked", G_CALLBACK (on_config_load), (gpointer)TRUE);
 	gtk_box_pack_start(GTK_BOX(vbutton_box), loadbtn, FALSE, TRUE, 0);
 
-	savebtn = create_stock_button(GTK_STOCK_SAVE, _("Save settings"));
-	g_signal_connect(G_OBJECT(savebtn), "clicked", G_CALLBACK (on_config_save), NULL);
-	gtk_box_pack_start(GTK_BOX(vbutton_box), savebtn, FALSE, TRUE, 0);
-	
-	clearbtn = create_stock_button(GTK_STOCK_CLEAR, _("Clear settings"));
-	g_signal_connect(G_OBJECT(clearbtn), "clicked", G_CALLBACK (on_config_clear), NULL);
-	gtk_box_pack_start(GTK_BOX(vbutton_box), clearbtn, FALSE, FALSE, 0);
-
 	gtk_box_pack_start(GTK_BOX(vbox_panels_buttons), vbutton_box, TRUE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), vbox_panels_buttons, TRUE, FALSE, 0);
 
@@ -233,7 +196,6 @@ GtkWidget* btnpanel_create()
 void btnpanel_on_document_close()
 {
 	gtk_widget_set_sensitive(loadbtn, FALSE);
-	gtk_widget_set_sensitive(savebtn, FALSE);
 }
 
 /*
@@ -251,8 +213,6 @@ void btnpanel_on_document_activate(GeanyDocument *doc)
 		return;
 	}
 
-	gtk_widget_set_sensitive(savebtn, TRUE);
-	
 	gchar *dirname = g_path_get_dirname(DOC_FILENAME(doc));
 	gchar *config = g_build_path(G_DIR_SEPARATOR_S, dirname, CONFIG_NAME, NULL);
 	struct stat st;
@@ -298,5 +258,4 @@ void btnpanel_set_debug_state(enum dbs state)
 	gtk_widget_set_sensitive(runcursorbtn, DBS_STOPPED == state);
 
 	gtk_widget_set_sensitive(loadbtn, DBS_IDLE == state);
-	gtk_widget_set_sensitive(clearbtn, DBS_IDLE == state);
 }

@@ -59,6 +59,7 @@ extern GeanyData		*geany_data;
 #include "calltip.h"
 #include "bptree.h"
 #include "btnpanel.h"
+#include "dconfig.h"
 
 /*
  *  calltip size  
@@ -244,6 +245,8 @@ static void on_watch_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 		gtk_tree_store_remove(wstore, &iter);
 		if (DBS_STOPPED == debug_state)
 			active_module->remove_watch(internal);
+
+		dconfig_set_changed();
 	}
 	else if (strcmp(oldvalue, striped))
     {
@@ -274,6 +277,8 @@ static void on_watch_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 			gtk_tree_selection_select_path(selection, _path);
 			gtk_tree_path_free(_path);
 		}
+
+		dconfig_set_changed();
 	}
 	
 	/* free resources */
@@ -339,6 +344,8 @@ static void on_watch_dragged_callback(GtkWidget *wgt, GdkDragContext *context, i
 	}
 	else
 		variable_set_name_only(wstore, &newvar, expression);
+
+	dconfig_set_changed();
 }
 
 /* 
@@ -453,6 +460,8 @@ static gboolean on_watch_key_pressed_callback(GtkWidget *widget, GdkEvent  *even
 		/* free references list */
 		g_list_foreach (references, (GFunc)gtk_tree_row_reference_free, NULL);
 		g_list_free (references);
+
+		dconfig_set_changed();
 	}
 
 	/* free rows list */
@@ -499,6 +508,7 @@ gboolean on_watch_button_pressed_callback(GtkWidget *treeview, GdkEventButton *e
 				else
 					variable_set_name_only(wstore, &newvar, expression);
 
+				dconfig_set_changed();
 			}
 
 			g_free(expression);
@@ -1014,7 +1024,7 @@ GList* debug_get_stack()
  * arguments:
  * 		modulename - debug module name
  */
-int debug_get_module_index(gchar *modulename)
+int debug_get_module_index(const gchar *modulename)
 {
 	int _index = 0;
 	while (modules[_index].title)
@@ -1059,7 +1069,7 @@ void debug_run()
 	if (DBS_IDLE == debug_state)
 	{
 		/* init selected debugger  module */
-	    if((active_module = modules[tpage_get_module_index()].module)->init(&callbacks))
+	    if((active_module = modules[tpage_get_debug_module_index()].module)->init(&callbacks))
 		{
 			/* gets parameters from the target page */
 			gchar *target = g_strstrip(tpage_get_target());

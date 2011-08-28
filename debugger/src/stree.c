@@ -69,6 +69,54 @@ static GtkListStore* store = NULL;
 static gboolean handle_selection = TRUE;
 
 /*
+ *  Handles same tree row click to open frame position
+ */
+static gboolean on_msgwin_button_press(GtkWidget *widget, GdkEventButton *event, gpointer user_data)
+{
+	if (event->type == GDK_BUTTON_PRESS)
+	{
+		GtkTreePath *pressed_path = NULL;
+		if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(tree), (int)event->x, (int)event->y, &pressed_path, NULL, NULL, NULL))
+		{
+			GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
+			GList *rows = gtk_tree_selection_get_selected_rows(selection, &model);
+			GtkTreePath *selected_path = (GtkTreePath*)rows->data;
+
+			if (!gtk_tree_path_compare(pressed_path, selected_path))
+			{
+				GtkTreeIter iter;
+				gtk_tree_model_get_iter (
+					 model,
+					 &iter,
+					 pressed_path);
+
+				gchar *file;
+				int line;
+				gtk_tree_model_get (
+					model,
+					&iter,
+					S_FILEPATH, &file,
+					S_LINE, &line,
+					-1);
+				
+				/* check if file name is not empty and we have source files for the frame */
+				if (strlen(file) && GPOINTER_TO_INT(g_hash_table_lookup(frames, (gpointer)file)))
+					callback(file, line);
+				
+				g_free(file);
+			}
+
+			g_list_foreach (rows, (GFunc) gtk_tree_path_free, NULL);
+			g_list_free (rows);
+
+			gtk_tree_path_free(pressed_path);
+		}
+	}
+
+	return FALSE;
+}
+
+/*
  *  Tree view selection changed callback
  */
 void on_selection_changed(GtkTreeSelection *treeselection, gpointer user_data)
@@ -130,6 +178,10 @@ gboolean stree_init(move_to_line_cb cb)
 	/* connect signals */
 	g_signal_connect(G_OBJECT(gtk_tree_view_get_selection(GTK_TREE_VIEW(tree))), "changed",
 	                 G_CALLBACK (on_selection_changed), NULL);
+
+	/* for clicking on already selected frame */
+	g_signal_connect(tree, "button-press-event",
+					G_CALLBACK(on_msgwin_button_press), NULL);
 
 	/* creating columns */
 	GtkCellRenderer		*renderer;

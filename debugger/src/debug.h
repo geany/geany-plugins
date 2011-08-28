@@ -47,7 +47,7 @@ gboolean		debug_remove_break(breakpoint* bp);
 void			debug_request_interrupt(bs_callback cb, breakpoint* bp, break_set_activity flags);
 gchar*		debug_error_message();
 GList*			debug_get_modules();
-int				debug_get_module_index(gchar *modulename);
+int				debug_get_module_index(const gchar *modulename);
 gboolean		debug_supports_async_breaks();
 void			debug_destroy();
 gchar*		debug_evaluate_expression(gchar *expression);

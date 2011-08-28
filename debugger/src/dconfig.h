@@ -18,17 +18,13 @@
  *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  *      MA 02110-1301, USA.
  */
- 
+
+void		dconfig_init();
+void		dconfig_destroy();
+
 gboolean 	dconfig_is_found_at(gchar *folder);
 gboolean 	dconfig_load(gchar *folder);
-gboolean	dconfig_save(gchar *folder);
-void		dconfig_clear();
 
-gchar*	dconfig_target_get();
-int			dconfig_module_get();
-gchar*	dconfig_args_get();
-GList*		dconfig_env_get();
-GList*		dconfig_breaks_get();
-GList*		dconfig_watches_get();
+void		dconfig_set_changed();
 
 
