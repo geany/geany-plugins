@@ -172,7 +172,6 @@ gboolean stree_init(move_to_line_cb cb)
 	
 	/* set tree view properties */
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(tree), 1);
-	gtk_tree_view_set_grid_lines (GTK_TREE_VIEW(tree), GTK_TREE_VIEW_GRID_LINES_VERTICAL);
 	g_object_set(tree, "rules-hint", TRUE, NULL);
 
 	/* connect signals */

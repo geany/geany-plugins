@@ -25,6 +25,7 @@ enum
    W_NAME,
    W_VALUE,
    W_TYPE,
+   W_LAST_VISIBLE,
    W_INTERNAL,
    W_EXPRESSION,
    W_STUB,

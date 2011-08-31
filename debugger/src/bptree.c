@@ -331,7 +331,6 @@ gboolean bptree_init(move_to_line_cb cb)
 	
 	/* set tree view properties */
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(tree), 1);
-	gtk_tree_view_set_grid_lines (GTK_TREE_VIEW(tree), GTK_TREE_VIEW_GRID_LINES_VERTICAL);
 	/* multiple selection */
 	GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_MULTIPLE);

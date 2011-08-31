@@ -676,7 +676,6 @@ void tpage_init()
 	model = GTK_TREE_MODEL(store);
 	envtree = gtk_tree_view_new_with_model (model);
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(envtree), TRUE);
-	gtk_tree_view_set_grid_lines (GTK_TREE_VIEW(envtree), GTK_TREE_VIEW_GRID_LINES_VERTICAL);
 	g_object_set(envtree, "rules-hint", TRUE, NULL);
 	g_signal_connect(G_OBJECT(envtree), "key-press-event", G_CALLBACK (on_envtree_keypressed), NULL);
 

@@ -34,18 +34,7 @@
 #include "utils.h"
 
 /* columns minumum width in characters */
-#define MW_NAME		20
-#define MW_VALUE	0
-#define MW_TYPE		10
-
-/*
- * on row collapsed handler
- */
-void on_row_collapsed (GtkTreeView *tree_view, GtkTreeIter *iter, GtkTreePath *path, gpointer user_data)
-{
-	/* autosize tree view columns */
-	gtk_tree_view_columns_autosize (GTK_TREE_VIEW(tree_view));
-}
+#define MIN_COLUMN_CHARS 15
 
 /*
  * key pressed event
@@ -111,6 +100,7 @@ GtkWidget* vtree_create(watch_render_name on_render_name, watch_expression_chang
 		G_TYPE_STRING,
 		G_TYPE_STRING,
 		G_TYPE_STRING,
+		G_TYPE_STRING,
 		G_TYPE_INT,
 		G_TYPE_INT);
 	GtkWidget* tree = gtk_tree_view_new_with_model (GTK_TREE_MODEL(store));
@@ -118,11 +108,9 @@ GtkWidget* vtree_create(watch_render_name on_render_name, watch_expression_chang
 	/* set tree view parameters */
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(tree), TRUE);
 	gtk_tree_view_set_enable_tree_lines(GTK_TREE_VIEW(tree), TRUE);
-	gtk_tree_view_set_grid_lines (GTK_TREE_VIEW(tree), GTK_TREE_VIEW_GRID_LINES_VERTICAL);
 	g_object_set(tree, "rules-hint", TRUE, NULL);
 
 	/* connect signals */
-	g_signal_connect(G_OBJECT(tree), "row-collapsed", G_CALLBACK (on_row_collapsed), NULL);
 	g_signal_connect(G_OBJECT(tree), "key-press-event", G_CALLBACK (on_key_pressed), NULL);
 
 	/* create columns */
@@ -130,14 +118,16 @@ GtkWidget* vtree_create(watch_render_name on_render_name, watch_expression_chang
 	GtkTreeViewColumn *column;
 	const gchar			*header;
 	
-	int	char_width = get_char_width(tree);
+	int min_column_with = MIN_COLUMN_CHARS * get_char_width(tree);
 
 	/* Name */
 	header = _("Name");
 	renderer = gtk_cell_renderer_text_new ();
+    g_object_set (renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
 	column = create_column(header, renderer, FALSE,
-		get_header_string_width(header, MW_NAME, char_width),
+		min_column_with,
 		"text", W_NAME);
+	gtk_tree_view_column_set_resizable (column, TRUE);
 	if (on_render_name)
 		gtk_tree_view_column_set_cell_data_func(column, renderer, on_render_name, NULL, NULL);
 	if (on_expression_changed)
@@ -150,18 +140,31 @@ GtkWidget* vtree_create(watch_render_name on_render_name, watch_expression_chang
 	/* Value */
 	header = _("Value");
 	renderer = gtk_cell_renderer_text_new ();
+    g_object_set (renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
 	column = create_column(header, renderer, TRUE,
-		get_header_string_width(header, MW_VALUE, char_width),
+		min_column_with,
 		"text", W_VALUE);
 	gtk_tree_view_column_set_cell_data_func(column, renderer, render_value, NULL, NULL);
+	gtk_tree_view_column_set_resizable (column, TRUE);
+
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
 	/* Type */
 	header = _("Type");
 	renderer = gtk_cell_renderer_text_new ();
+    g_object_set (renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
 	column = create_column(header, renderer, FALSE,
-		get_header_string_width(header, MW_TYPE, char_width),
+		min_column_with,
 		"text", W_TYPE);
+	gtk_tree_view_column_set_resizable (column, TRUE);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
+
+	/* Last invisible column */
+	header = _("");
+	renderer = gtk_cell_renderer_text_new ();
+	column = create_column(header, renderer, FALSE,
+		0,
+		"text", W_LAST_VISIBLE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
 	/* Internal (unvisible column) */

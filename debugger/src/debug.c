@@ -717,12 +717,10 @@ static void on_debugger_stopped ()
 	/* locals */
 	GList *locals = active_module->get_locals();
 	update_variables(GTK_TREE_VIEW(ltree), NULL, locals);
-	gtk_tree_view_columns_autosize (GTK_TREE_VIEW(ltree));
 	
 	/* watches */
 	GList *watches = active_module->get_watches();
 	update_variables(GTK_TREE_VIEW(wtree), NULL, watches);
-	gtk_tree_view_columns_autosize (GTK_TREE_VIEW(wtree));
 
 	if (stack)
 	{
@@ -937,6 +935,7 @@ void debug_init(GtkWidget* nb)
 	GtkWidget *scrollbar = gtk_vscrollbar_new(GTK_ADJUSTMENT(VTE_TERMINAL(terminal)->adjustment));
 	GTK_WIDGET_UNSET_FLAGS(scrollbar, GTK_CAN_FOCUS);
 	GtkWidget *_frame = gtk_frame_new(NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME(_frame), GTK_SHADOW_NONE);
 	GtkWidget *hbox = gtk_hbox_new(FALSE, 0);
 	gtk_container_add(GTK_CONTAINER(_frame), hbox);
 	gtk_box_pack_start(GTK_BOX(hbox), terminal, TRUE, TRUE, 0);

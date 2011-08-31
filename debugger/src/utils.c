@@ -38,10 +38,6 @@ extern GeanyFunctions	*geany_functions;
 /* character to calculate width */
 #define CHAR_TESTED "W"
 
-/* left / right paddings from the header text to the columns border */
-#define RENDERER_X_PADDING 5
-#define RENDERER_Y_PADDING 2
-
 /*
  * get character width in a widget
  */
@@ -74,14 +70,12 @@ int get_header_string_width(const gchar *header, int minchars, int char_width)
  */
 GtkTreeViewColumn *create_column(const gchar *name, GtkCellRenderer *renderer, gboolean expandable, gint minwidth, const char *arg, int value)
 {
-	gtk_cell_renderer_set_padding(renderer, RENDERER_X_PADDING, RENDERER_Y_PADDING);
-	
 	GtkTreeViewColumn *column =
 		gtk_tree_view_column_new_with_attributes (name, renderer, arg, value, NULL);
 
 	if (expandable)
 		gtk_tree_view_column_set_expand(column, expandable);
-	else
+	else if (minwidth)
 		gtk_tree_view_column_set_min_width(column, minwidth);
 	
 	return column;
