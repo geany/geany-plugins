@@ -73,6 +73,8 @@ static PrettyPrintingOptions* options;                            //options of P
 
 //============================================ GENERAL FUNCTIONS =======================================
 
+#define PP_ERROR(format, ...) fprintf(stderr, format "\n", ##__VA_ARGS__); 
+
 int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* ppOptions)
 {
     //empty buffer, nothing to process
@@ -101,7 +103,7 @@ int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* 
     
     xmlPrettyPrintedLength = *length;
     xmlPrettyPrinted = (char*)malloc(sizeof(char)*(*length));
-    if (xmlPrettyPrinted == NULL) { fprintf(stderr, "Allocation error"); return PRETTY_PRINTING_SYSTEM_ERROR; }
+    if (xmlPrettyPrinted == NULL) { PP_ERROR("Allocation error (initialisation)"); return PRETTY_PRINTING_SYSTEM_ERROR; }
     
     //go to the first char
     readWhites(TRUE);
@@ -113,8 +115,9 @@ int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* 
     putCharInBuffer('\0');
     
     //adjust the final size
-    xmlPrettyPrinted = realloc(xmlPrettyPrinted, xmlPrettyPrintedIndex);
-    if (xmlPrettyPrinted == NULL) { fprintf(stderr, "Allocation error"); return PRETTY_PRINTING_SYSTEM_ERROR; }
+    char* reallocated = (char*)realloc(xmlPrettyPrinted, xmlPrettyPrintedIndex); 
+    if (reallocated == NULL) { PP_ERROR("Allocation error (reallocation size is %d)", xmlPrettyPrintedIndex); return PRETTY_PRINTING_SYSTEM_ERROR; }
+    xmlPrettyPrinted = reallocated;
     
     //freeing the unused values
     if (freeOptions) { free(options); }
@@ -147,7 +150,7 @@ PrettyPrintingOptions* createDefaultPrettyPrintingOptions()
     PrettyPrintingOptions* defaultOptions = (PrettyPrintingOptions*)malloc(sizeof(PrettyPrintingOptions));
     if (defaultOptions == NULL) 
     { 
-        fprintf(stderr, "Unable to allocate memory for PrettyPrintingOptions");
+        PP_ERROR("Unable to allocate memory for PrettyPrintingOptions");
         return NULL;
     }
     
@@ -189,8 +192,9 @@ void putCharInBuffer(char charToAdd)
     {
         if (charToAdd == '\0') { ++xmlPrettyPrintedLength; }
         else { xmlPrettyPrintedLength += inputBufferLength; }
-        xmlPrettyPrinted = (char*)realloc(xmlPrettyPrinted, xmlPrettyPrintedLength);
-        if (xmlPrettyPrinted == NULL) { fprintf(stderr, "Allocation error"); return; }
+        char* reallocated = (char*)realloc(xmlPrettyPrinted, xmlPrettyPrintedLength);
+        if (reallocated == NULL) { PP_ERROR("Allocation error (char was %c)", charToAdd); return; }
+        xmlPrettyPrinted = reallocated;
     }
     
     //putting the char and increase the index for the next one
@@ -576,7 +580,7 @@ void processNode()
 
     //store the name
     char* nodeName = (char*)malloc(sizeof(char)*nodeNameLength+1);
-    if (nodeName == NULL) { fprintf(stderr, "Allocation error"); return ; }
+    if (nodeName == NULL) { PP_ERROR("Allocation error (node name length is %d)", nodeNameLength); return ; }
     nodeName[nodeNameLength] = '\0';
     int i;
     for (i=0 ; i<nodeNameLength ; ++i)
@@ -1083,7 +1087,7 @@ void printError(const char *msg, ...)
     #ifdef HAVE_GLIB
     g_warning(msg, va);
     #else
-    fprintf(stderr, msg, va);
+    PP_ERROR(msg, va);
     #endif
     va_end(va);
 
@@ -1100,7 +1104,7 @@ void printDebugStatus()
             xmlPrettyPrintedLength,
             xmlPrettyPrintedIndex);
     #else
-    fprintf(stderr, "\n===== INPUT =====\n%s\n=================\ninputLength = %d\ninputIndex = %d\noutputLength = %d\noutputIndex = %d\n", 
+    PP_ERROR("\n===== INPUT =====\n%s\n=================\ninputLength = %d\ninputIndex = %d\noutputLength = %d\noutputIndex = %d\n", 
             inputBuffer, 
             inputBufferLength, 
             inputBufferIndex,
