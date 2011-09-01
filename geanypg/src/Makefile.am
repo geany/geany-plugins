@@ -22,7 +22,7 @@ geanypg_la_LIBADD = \
 	$(COMMON_LIBS) \
 	$(GPGME_LIBS)
 
-geanypg_la__CFLAGS = \
+geanypg_la_CFLAGS = \
 	$(AM_CFLAGS) \
 	$(GPGME_CFLAGS)
 
