@@ -662,7 +662,7 @@ static void on_debugger_stopped ()
 	while (iter)
 	{
 		frame *f = (frame*)iter->data;
-		stree_add(f);
+		stree_add(f, iter == stack);
 		iter = g_list_next(iter);
 	}
 	stree_select_first();
@@ -1000,6 +1000,8 @@ void debug_destroy()
 		g_list_free(stack);
 		stack = NULL;
 	}
+	
+	stree_destroy();
 }
 
 /*

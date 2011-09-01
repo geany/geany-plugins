@@ -105,14 +105,6 @@ void on_arguments_changed(GtkTextBuffer *textbuffer, gpointer user_data)
 }
 
 /*
- * tells config to update when target changes 
- */
-void on_target_changed (GtkEditable *editable, gpointer user_data)
-{
-	dconfig_set_changed();
-}
-
-/*
  * delete selected rows from env variables page 
  */
 void delete_selected_rows()
@@ -507,6 +499,8 @@ void on_target_browse_clicked(GtkButton *button, gpointer   user_data)
 		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
 		gtk_entry_set_text(GTK_ENTRY(targetname), filename);
 		g_free (filename);
+		
+		dconfig_set_changed();
 	}
 	gtk_widget_destroy (dialog);
 }
@@ -603,6 +597,7 @@ void tpage_init()
 
 	/* Target frame */
 	GtkWidget *_frame = gtk_frame_new(_("Target"));
+	gtk_frame_set_shadow_type(GTK_FRAME(_frame), GTK_SHADOW_NONE);
 	GtkWidget *vbox = gtk_vbox_new(FALSE, 0);
 
 	/* filename hbox */
@@ -610,7 +605,7 @@ void tpage_init()
 	gtk_container_set_border_width(GTK_CONTAINER(hbox), SPACING);
 
 	targetname = gtk_entry_new ();
-	g_signal_connect(G_OBJECT(targetname), "changed", G_CALLBACK (on_target_changed), NULL);
+	gtk_entry_set_editable(GTK_ENTRY(targetname), FALSE);
 	
 	button_browse = gtk_button_new_with_label(_("Browse"));
 	g_signal_connect(G_OBJECT(button_browse), "clicked", G_CALLBACK (on_target_browse_clicked), NULL);
@@ -732,7 +727,6 @@ GtkWidget* tpage_get_widget()
  */
 void tpage_set_readonly(gboolean readonly)
 {
-	gtk_editable_set_editable (GTK_EDITABLE (targetname), !readonly);
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (textview), !readonly);
 	g_object_set (renderer_name, "editable", !readonly, NULL);
 	gtk_widget_set_sensitive (button_browse, !readonly);

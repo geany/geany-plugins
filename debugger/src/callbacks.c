@@ -231,7 +231,7 @@ gboolean on_editor_notify(
 
 			if (word->len)
 			{
-				gchar *calltip = debug_get_calltip_for_expression(word->str);
+				gchar *calltip = NULL;//debug_get_calltip_for_expression(word->str);
 				if (calltip)
 				{
 					scintilla_send_message (editor->sci, SCI_CALLTIPSHOW, nt->position, (long)calltip);

@@ -34,6 +34,8 @@
 #include "breakpoint.h"
 #include "debug_module.h"
 
+#include "xpm/frame_current.xpm"
+
 #include "geanyplugin.h"
 extern GeanyFunctions	*geany_functions;
 extern GeanyPlugin		*geany_plugin;
@@ -44,9 +46,12 @@ extern GeanyPlugin		*geany_plugin;
 #define MW_FILE		0
 #define MW_LINE		4
 
+#define ARROW_PADDING 10
+
 /* Tree view columns */
 enum
 {
+   S_ARROW,
    S_ADRESS,
    S_FUNCTION,
    S_FILEPATH,
@@ -67,6 +72,9 @@ static GtkListStore* store = NULL;
 
 /* flag to indicate whether to handle selection change */
 static gboolean handle_selection = TRUE;
+
+/* pixbuf with the frame arrow */
+GdkPixbuf *arrow_pixbuf = NULL;
 
 /*
  *  Handles same tree row click to open frame position
@@ -159,10 +167,13 @@ void on_selection_changed(GtkTreeSelection *treeselection, gpointer user_data)
 gboolean stree_init(move_to_line_cb cb)
 {
 	callback = cb;
+	
+	arrow_pixbuf = gdk_pixbuf_new_from_xpm_data(frame_current_xpm);
 
 	/* create tree view */
 	store = gtk_list_store_new (
 		S_N_COLUMNS,
+		GDK_TYPE_PIXBUF,
 		G_TYPE_STRING,
 		G_TYPE_STRING,
 		G_TYPE_STRING,
@@ -188,6 +199,13 @@ gboolean stree_init(move_to_line_cb cb)
 	const gchar			*header;
 	
 	int	char_width = get_char_width(tree);
+
+	/* arrow */
+	renderer = gtk_cell_renderer_pixbuf_new ();
+	column = create_column("", renderer, FALSE,
+		gdk_pixbuf_get_width(arrow_pixbuf) + 2 * ARROW_PADDING,
+		"pixbuf", S_ARROW);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
 	/* adress */
 	header = _("Address");
@@ -242,7 +260,7 @@ GtkWidget* stree_get_widget()
 /*
  *	add frame to the tree view
  */
-void stree_add(frame *f)
+void stree_add(frame *f, gboolean first)
 {
 	GtkTreeIter iter;
 	gtk_list_store_append (store, &iter);
@@ -252,6 +270,13 @@ void stree_add(frame *f)
                     S_FILEPATH, f->file,
                     S_LINE, f->line,
                     -1);
+                    
+	if (first)
+	{
+		gtk_list_store_set (store, &iter,
+						S_ARROW, arrow_pixbuf,
+						-1);
+	}
     
 	/* remember if we have source for this frame */
     if (f->have_source && !GPOINTER_TO_INT(g_hash_table_lookup(frames, (gpointer)f->file)))
@@ -283,4 +308,12 @@ void stree_select_first()
 		path);
 	
 	gtk_tree_path_free(path);
+}
+
+/*
+ *	called on plugin exit to free arrow pixbuffer
+ */
+void stree_destroy()
+{
+	g_object_unref(arrow_pixbuf);
 }

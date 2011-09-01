@@ -34,7 +34,7 @@
 #include "utils.h"
 
 /* columns minumum width in characters */
-#define MIN_COLUMN_CHARS 15
+#define MIN_COLUMN_CHARS 20
 
 /*
  * key pressed event
