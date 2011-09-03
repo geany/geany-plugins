@@ -412,7 +412,7 @@ static gboolean on_key_pressed(GtkWidget *widget, GdkEvent *event, gpointer user
 		/* "delete selected rows" */
 
 		/* path to select after deleteing finishes */
-		GtkTreeRowReference *reference_to_select = NULL;
+		//GtkTreeRowReference *reference_to_select = NULL;
 
 		/* get references to rows to keep references actual when altering model */
 		GList *references = NULL;
@@ -466,7 +466,7 @@ static gboolean on_key_pressed(GtkWidget *widget, GdkEvent *event, gpointer user
 		iter = references;
 		while (iter)
 		{
-			GtkTreePath *path = (GtkTreePath*)iter->data;
+			//GtkTreePath *path = (GtkTreePath*)iter->data;
 			if (FALSE)//1 == gtk_tree_path_get_depth(path))
 			{
 			}
