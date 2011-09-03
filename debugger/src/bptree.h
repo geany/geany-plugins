@@ -20,12 +20,14 @@
  */
 
 gboolean		bptree_init(move_to_line_cb callback);
+void			bptree_destroy();
 GtkWidget*		bptree_get_widget();
 void 			bptree_add_breakpoint(breakpoint* bp);
 void 			bptree_update_breakpoint(breakpoint* bp);
 void 			bptree_remove_breakpoint(breakpoint* bp);
-void 			bptree_set_condition(GtkTreeIter iter, gchar* condition);
-void 			bptree_set_hitscount(GtkTreeIter iter, int hitscount);
-void 			bptree_set_enabled(GtkTreeIter iter, gboolean enabled);
-gchar*			bptree_get_condition(GtkTreeIter iter);
+void 			bptree_set_condition(breakpoint* bp);
+void 			bptree_set_hitscount(breakpoint* bp);
+void 			bptree_set_enabled(breakpoint* bp);
+gchar*			bptree_get_condition(breakpoint* bp);
 void 			bptree_set_readonly(gboolean readonly);
+void			bptree_update_file_nodes();

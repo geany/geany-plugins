@@ -36,10 +36,6 @@
 
 #include "xpm/frame_current.xpm"
 
-#include "geanyplugin.h"
-extern GeanyFunctions	*geany_functions;
-extern GeanyPlugin		*geany_plugin;
-
 /* columns minumum width in characters */
 #define MW_ADRESS	10
 #define MW_FUNCTION	10

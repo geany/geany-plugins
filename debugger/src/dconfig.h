@@ -26,5 +26,6 @@ gboolean 	dconfig_is_found_at(gchar *folder);
 gboolean 	dconfig_load(gchar *folder);
 
 void		dconfig_set_changed();
+void		dconfig_set_modifyable(gboolean newstate);
 
 

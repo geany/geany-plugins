@@ -38,6 +38,7 @@ extern GeanyPlugin		*geany_plugin;
 #include "wtree.h"
 #include "breakpoints.h"
 #include "tpage.h"
+#include "bptree.h"
 
 #define CONFIG_NAME ".debugger"
 
@@ -57,7 +58,7 @@ static GMutex *change_config_mutex;
 static GCond *cond;
 static GThread *saving_thread;
 static gboolean config_changed = FALSE;
-static gboolean loading_or_cleaning = FALSE;
+static gboolean modifyable = FALSE;
 
 /* the folder, config has been loaded from */
 static gchar *current_folder = NULL;
@@ -109,11 +110,19 @@ gpointer saving_thread_func(gpointer data)
 }
 
 /*
+ * set "modifyable" flag that shows that a background thread have to save config
+ */
+void dconfig_set_modifyable(gboolean newstate)
+{
+	modifyable = newstate;
+}
+
+/*
  * set "changed" flag to save it on "saving_thread" thread
  */
 void dconfig_set_changed()
 {
-	if (!loading_or_cleaning)
+	if (!modifyable)
 	{
 		g_mutex_lock(change_config_mutex);
 		config_changed = TRUE;
@@ -167,7 +176,7 @@ gboolean 	dconfig_is_found_at(gchar *folder)
  */
 gboolean dconfig_load(gchar *folder)
 {
-	loading_or_cleaning = TRUE;
+	modifyable = TRUE;
 	g_mutex_lock(change_config_mutex);
 
 	tpage_clear();
@@ -186,7 +195,7 @@ gboolean dconfig_load(gchar *folder)
 	{
 		config_changed = FALSE;
 
-		loading_or_cleaning = FALSE;
+		modifyable = FALSE;
 		g_mutex_unlock(change_config_mutex);
 
 		return FALSE;
@@ -265,10 +274,12 @@ gboolean dconfig_load(gchar *folder)
 			}
 		}
 	}
+	
+	bptree_update_file_nodes();
 
 	config_changed = FALSE;
 
-	loading_or_cleaning = FALSE;
+	modifyable = FALSE;
 	g_mutex_unlock(change_config_mutex);
 	
 	return TRUE;

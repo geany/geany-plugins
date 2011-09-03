@@ -191,7 +191,7 @@ void handle_hitscount_set(breakpoint* bp, gboolean success)
 {
 	if (success)
 	{
-		bptree_set_hitscount(bp->iter, bp->hitscount);
+		bptree_set_hitscount(bp);
 		markers_remove_breakpoint(bp);
 		markers_add_breakpoint(bp);
 		/* mark config for saving */
@@ -212,7 +212,7 @@ void handle_condition_set(breakpoint* bp, gboolean success)
 	if (success)
 	{
 		/* set condition in breaks tree */
-		bptree_set_condition(bp->iter, bp->condition);
+		bptree_set_condition(bp);
 		markers_remove_breakpoint(bp);
 		markers_add_breakpoint(bp);
 		/* mark config for saving */
@@ -221,7 +221,7 @@ void handle_condition_set(breakpoint* bp, gboolean success)
 	else
 	{
 		/* revert to old condition (taken from tree) */
-		gchar* oldcondition = bptree_get_condition(bp->iter);
+		gchar* oldcondition = bptree_get_condition(bp);
 		strcpy(bp->condition, oldcondition);
 		g_free(oldcondition);
 		/* show error message */
@@ -242,7 +242,7 @@ void handle_switch(breakpoint* bp, gboolean success)
 	markers_add_breakpoint(bp);
 
 	/* set checkbox in breaks tree */
-	bptree_set_enabled(bp->iter, bp->enabled);
+	bptree_set_enabled(bp);
 
 	/* mark config for saving */
 	dconfig_set_changed();
@@ -316,6 +316,9 @@ void breaks_destroy()
 	
 	/* free storage */
 	g_hash_table_destroy(files);
+	
+	/* destroy breaks tree data */
+	bptree_destroy();
 }
 
 /*
