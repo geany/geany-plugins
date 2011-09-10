@@ -41,6 +41,7 @@ extern GeanyData		*geany_data;
 #include "debug.h"
 #include "dconfig.h"
 #include "tpage.h"
+#include "tabs.h"
 
 /* boxes margins */
 #define SPACING 5
@@ -54,6 +55,7 @@ enum
 {
    NAME,
    VALUE,
+   LAST_VISIBLE,
    N_COLUMNS
 };
 
@@ -65,9 +67,6 @@ gboolean entering_new_var = FALSE;
 
 /* reference to the env tree view empty row */
 static GtkTreeRowReference *empty_row = NULL;
-
-/* page widget */
-static GtkWidget *page =			NULL;
 
 /* target name textentry */
 static GtkWidget *targetname =		NULL;
@@ -585,7 +584,7 @@ GList* tpage_get_environment()
  */
 void tpage_init()
 {
-	page = gtk_hbox_new(FALSE, 0);
+	tab_target = gtk_hbox_new(FALSE, 0);
 	
 	GtkWidget *lbox =		gtk_vbox_new(FALSE, SPACING);
 	GtkWidget *mbox =		gtk_vbox_new(FALSE, SPACING);
@@ -667,35 +666,33 @@ void tpage_init()
 	store = gtk_list_store_new (
 		N_COLUMNS,
 		G_TYPE_STRING,
+		G_TYPE_STRING,
 		G_TYPE_STRING);
+	
 	model = GTK_TREE_MODEL(store);
 	envtree = gtk_tree_view_new_with_model (model);
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(envtree), TRUE);
 	g_object_set(envtree, "rules-hint", TRUE, NULL);
 	g_signal_connect(G_OBJECT(envtree), "key-press-event", G_CALLBACK (on_envtree_keypressed), NULL);
 
-	const gchar *header;
-	int	char_width = get_char_width(envtree);
-
-	header = _("Name");
 	renderer_name = gtk_cell_renderer_text_new ();
 	g_object_set (renderer_name, "editable", TRUE, NULL);
 	g_signal_connect (G_OBJECT (renderer_name), "edited", G_CALLBACK (on_name_changed), NULL);
-	column_name = create_column(header, renderer_name, FALSE,
-		get_header_string_width(header, MW_NAME, char_width),
-		"text", NAME);
+	column_name = gtk_tree_view_column_new_with_attributes (_("Name"), renderer_name, "text", NAME, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (envtree), column_name);
 
-	header = _("Value");
 	renderer_value = gtk_cell_renderer_text_new ();
-	column_value = create_column(header, renderer_value, TRUE,
-		get_header_string_width(header, MW_VALUE, char_width),
-		"text", VALUE);
+	column_name = gtk_tree_view_column_new_with_attributes (_("Value"), renderer_name, "text", VALUE, NULL);
 	g_signal_connect (G_OBJECT (renderer_value), "edited", G_CALLBACK (on_value_changed), NULL);
 	g_signal_connect (G_OBJECT (renderer_value), "editing-started", G_CALLBACK (on_value_editing_started), NULL);
 	g_signal_connect (G_OBJECT (renderer_value), "editing-canceled", G_CALLBACK (on_value_editing_cancelled), NULL);
 	gtk_tree_view_column_set_cell_data_func(column_value, renderer_value, on_render_value, NULL, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (envtree), column_value);
+
+	/* Last invisible column */
+	GtkCellRenderer *renderer = gtk_cell_renderer_text_new ();
+	GtkTreeViewColumn *column = gtk_tree_view_column_new_with_attributes ("", renderer, "text", LAST_VISIBLE, NULL);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (envtree), column);
 
 	/* add empty row */
 	add_empty_row();
@@ -711,15 +708,7 @@ void tpage_init()
 
 	gtk_box_pack_start(GTK_BOX(hombox), lbox, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(hombox), mbox, TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(page), hombox, TRUE, TRUE, 0);
-}
-
-/*
- * get page widget
- */
-GtkWidget* tpage_get_widget()
-{
-	return page;
+	gtk_box_pack_start(GTK_BOX(tab_target), hombox, TRUE, TRUE, 0);
 }
 
 /*

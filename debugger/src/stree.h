@@ -19,10 +19,9 @@
  *      MA 02110-1301, USA.
  */
 
-gboolean	stree_init(move_to_line_cb cb);
-void		stree_destroy();
-GtkWidget*	stree_get_widget();
-void 		stree_add(frame *f, gboolean first);
-void 		stree_clear();
-void 		stree_select_first();
+GtkWidget*	stree_init(move_to_line_cb cb);
+void			stree_destroy();
+void 			stree_add(frame *f, gboolean first);
+void 			stree_clear();
+void 			stree_select_first();
 

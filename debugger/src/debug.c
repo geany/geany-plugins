@@ -60,6 +60,7 @@ extern GeanyData		*geany_data;
 #include "bptree.h"
 #include "btnpanel.h"
 #include "dconfig.h"
+#include "tabs.h"
 
 /*
  *  calltip size  
@@ -109,9 +110,6 @@ int pty_master, pty_slave;
 
 /* debug terminal widget */
 GtkWidget *terminal = NULL;
-
-/* pointer to the debug notebook widget */
-static GtkWidget* debug_notebook = NULL;
 
 /* GtkTextView to put debugger messages */
 static GtkWidget *debugger_messages_textview = NULL;
@@ -867,12 +865,9 @@ dbg_callbacks callbacks = {
 /*
  * init debug related GUI (watch tree view)
  * arguments:
- * 		nb - GtkNotebook to add watch page
  */
-void debug_init(GtkWidget* nb)
+void debug_init()
 {
-	debug_notebook = nb;
-
 	/* create watch page */
 	wtree = wtree_init(on_watch_expanded_callback,
 		on_watch_dragged_callback,
@@ -882,47 +877,37 @@ void debug_init(GtkWidget* nb)
 	wmodel = gtk_tree_view_get_model(GTK_TREE_VIEW(wtree));
 	wstore = GTK_TREE_STORE(wmodel);
 	
-	GtkWidget *sview = gtk_scrolled_window_new(
+	tab_watch = gtk_scrolled_window_new(
 		gtk_tree_view_get_hadjustment(GTK_TREE_VIEW(wtree)),
 		gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(wtree))
 	);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sview),
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(tab_watch),
 		GTK_POLICY_AUTOMATIC,
 		GTK_POLICY_AUTOMATIC);
-	gtk_container_add(GTK_CONTAINER(sview), wtree);
-	gtk_notebook_append_page(GTK_NOTEBOOK(debug_notebook),
-		sview,
-		gtk_label_new(_("Watch")));
+	gtk_container_add(GTK_CONTAINER(tab_watch), wtree);
 
 	/* create locals page */
 	ltree = ltree_init(on_watch_expanded_callback, on_watch_button_pressed_callback);
-	sview = gtk_scrolled_window_new(
+	tab_locals = gtk_scrolled_window_new(
 		gtk_tree_view_get_hadjustment(GTK_TREE_VIEW(ltree)),
 		gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(ltree))
 	);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sview),
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(tab_locals),
 		GTK_POLICY_AUTOMATIC,
 		GTK_POLICY_AUTOMATIC);
-	gtk_container_add(GTK_CONTAINER(sview), ltree);
-	gtk_notebook_append_page(GTK_NOTEBOOK(debug_notebook),
-		sview,
-		gtk_label_new(_("Locals")));
-
+	gtk_container_add(GTK_CONTAINER(tab_locals), ltree);
+	
 	/* create stack trace page */
-	stree_init(editor_open_position);
-	stree = stree_get_widget();
-	sview = gtk_scrolled_window_new(
+	stree = stree_init(editor_open_position);
+	tab_call_stack = gtk_scrolled_window_new(
 		gtk_tree_view_get_hadjustment(GTK_TREE_VIEW(stree )),
 		gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(stree ))
 	);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sview),
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(tab_call_stack),
 		GTK_POLICY_AUTOMATIC,
 		GTK_POLICY_AUTOMATIC);
-	gtk_container_add(GTK_CONTAINER(sview), stree);
-	gtk_notebook_append_page(GTK_NOTEBOOK(debug_notebook),
-		sview,
-		gtk_label_new(_("Call Stack")));
-
+	gtk_container_add(GTK_CONTAINER(tab_call_stack), stree);
+	
 	/* create debug terminal page */
 	terminal = vte_terminal_new();
 	/* create PTY */
@@ -934,10 +919,10 @@ void debug_init(GtkWidget* nb)
 	vte_terminal_set_pty(VTE_TERMINAL(terminal), pty_master);
 	GtkWidget *scrollbar = gtk_vscrollbar_new(GTK_ADJUSTMENT(VTE_TERMINAL(terminal)->adjustment));
 	GTK_WIDGET_UNSET_FLAGS(scrollbar, GTK_CAN_FOCUS);
-	GtkWidget *_frame = gtk_frame_new(NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME(_frame), GTK_SHADOW_NONE);
+	tab_terminal = gtk_frame_new(NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME(tab_terminal), GTK_SHADOW_NONE);
 	GtkWidget *hbox = gtk_hbox_new(FALSE, 0);
-	gtk_container_add(GTK_CONTAINER(_frame), hbox);
+	gtk_container_add(GTK_CONTAINER(tab_terminal), hbox);
 	gtk_box_pack_start(GTK_BOX(hbox), terminal, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), scrollbar, FALSE, FALSE, 0);
 	/* set the default widget size first to prevent VTE expanding too much,
@@ -950,26 +935,20 @@ void debug_init(GtkWidget* nb)
 	g_key_file_load_from_file(config, configfile, G_KEY_FILE_NONE, NULL);
 	gchar *font = utils_get_setting_string(config, "VTE", "font", "Monospace 10");
 	vte_terminal_set_font_from_string (VTE_TERMINAL(terminal), font);	
-	gtk_notebook_append_page(GTK_NOTEBOOK(debug_notebook),
-		_frame,
-		gtk_label_new(_("Debug terminal")));
 		
 	/* debug messages page */
-	sview = gtk_scrolled_window_new(NULL, NULL);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sview),
+	tab_messages = gtk_scrolled_window_new(NULL, NULL);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(tab_messages),
 		GTK_POLICY_AUTOMATIC,
 		GTK_POLICY_AUTOMATIC);
-	hadj = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(sview));
-	vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(sview));
+	hadj = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(tab_messages));
+	vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(tab_messages));
 	
 	debugger_messages_textview =  gtk_text_view_new();
 	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(debugger_messages_textview), GTK_WRAP_CHAR);
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (debugger_messages_textview), FALSE);
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(sview), debugger_messages_textview);
-	gtk_notebook_append_page(GTK_NOTEBOOK(debug_notebook),
-		sview,
-		gtk_label_new(_("Debugger messages")));
-
+	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(tab_messages), debugger_messages_textview);
+	
 	/* create tex tags */
 	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(debugger_messages_textview));
 	gtk_text_buffer_create_tag(buffer, "black", "foreground", "#000000", NULL); 
@@ -980,8 +959,6 @@ void debug_init(GtkWidget* nb)
 	gtk_text_buffer_create_tag(buffer, "yellow", "foreground", "#FFFF00", NULL);
 	gtk_text_buffer_create_tag(buffer, "brown", "foreground", "#BB8915", NULL);
 	gtk_text_buffer_create_tag(buffer, "rose", "foreground", "#BA92B7", NULL);
-
-	gtk_widget_show_all(debug_notebook);
 }
 
 /*

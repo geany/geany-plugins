@@ -20,7 +20,4 @@
  */
  
 void					editor_open_position(char* file, int line);
-int						get_char_width(GtkWidget *widget);
-int						get_header_string_width(const gchar *header, int minchars, int char_width);
-GtkTreeViewColumn*		create_column(const gchar *name, GtkCellRenderer *renderer, gboolean expandable, gint minwidth, const char *arg, int value);
 GString*				get_word_at_position(ScintillaObject *sci, int position);

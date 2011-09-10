@@ -37,6 +37,7 @@ extern GeanyPlugin		*geany_plugin;
 #include "breakpoints.h"
 #include "watch_model.h"
 #include "wtree.h"
+#include "dpaned.h"
 #include "btnpanel.h"
 
 #define CP_BUTTONS_PAD 5
@@ -118,7 +119,7 @@ void on_execute_until(GtkButton *button, gpointer user_data)
 /*
  * create and initialize buttons panel
  */
-GtkWidget* btnpanel_create()
+GtkWidget* btnpanel_create(on_toggle cb)
 {
 	GtkWidget *vbox = gtk_vbox_new(FALSE, CP_BUTTONS_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 7);
@@ -179,6 +180,8 @@ GtkWidget* btnpanel_create()
 
 	vbutton_box = gtk_vbox_new(TRUE, CP_BUTTONS_PAD);
 	tabbtn = create_toggle_button("tabs.gif", _("Tabs"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tabbtn), dpaned_get_tabbed());
+	g_signal_connect(G_OBJECT(tabbtn), "toggled", G_CALLBACK(cb), NULL);
 	gtk_box_pack_start(GTK_BOX(vbox), tabbtn, FALSE, FALSE, 0);
 
 	optbtn = create_stock_button(GTK_STOCK_PREFERENCES, "Настройки");

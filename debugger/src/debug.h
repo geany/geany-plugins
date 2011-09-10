@@ -34,8 +34,8 @@ enum dbs {
 /* function type to execute on interrupt */
 typedef void (*bs_callback)(breakpoint*, break_set_activity);
 
-void			debug_init(GtkWidget* nb);
-enum dbs	debug_get_state();
+void			debug_init();
+enum dbs		debug_get_state();
 void			debug_run();
 void			debug_stop();
 void			debug_step_over();

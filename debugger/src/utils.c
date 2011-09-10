@@ -35,52 +35,6 @@
 #include "geanyplugin.h"
 extern GeanyFunctions	*geany_functions;
 
-/* character to calculate width */
-#define CHAR_TESTED "W"
-
-/*
- * get character width in a widget
- */
-int get_char_width(GtkWidget *widget)
-{
-	PangoLayout *playout = pango_layout_new(gtk_widget_get_pango_context(widget));
-
-	int width, height;
-
-	pango_layout_set_text(playout, CHAR_TESTED, -1);
-	pango_layout_get_pixel_size (playout, &width, &height);
-
-	g_object_unref(playout);
-
-	return width;
-}
-
-/*
- * get string width if string length is bigger than minwidth or minwidth * char_width 
- */
-int get_header_string_width(const gchar *header, int minchars, int char_width)
-{
-	int header_length = strlen(header);
-	int width = (header_length > minchars ? header_length : minchars) * char_width;
-	return  width;
-}
-
-/*
- * create tree view column 
- */
-GtkTreeViewColumn *create_column(const gchar *name, GtkCellRenderer *renderer, gboolean expandable, gint minwidth, const char *arg, int value)
-{
-	GtkTreeViewColumn *column =
-		gtk_tree_view_column_new_with_attributes (name, renderer, arg, value, NULL);
-
-	if (expandable)
-		gtk_tree_view_column_set_expand(column, expandable);
-	else if (minwidth)
-		gtk_tree_view_column_set_min_width(column, minwidth);
-	
-	return column;
-}
-
 /*
  * opens position in a editor 
  */

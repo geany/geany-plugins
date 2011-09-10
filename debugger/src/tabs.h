@@ -1,7 +1,8 @@
 /*
- *		tpage.h
+ *
+ *		tabs.c
  *      
- *	    Copyright 2010 Alexander Petukhov <devel(at)apetukhov.ru>
+ *      Copyright 2010 Alexander Petukhov <devel(at)apetukhov.ru>
  *      
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -19,22 +20,26 @@
  *      MA 02110-1301, USA.
  */
 
-void			tpage_init();
+typedef enum _tab_id
+{
+	TID_TARGET,
+	TID_BREAKS,
+	TID_WATCH,
+	TID_LOCALS,
+	TID_STACK,
+	TID_TERMINAL,
+	TID_MESSAGES
+} tab_id;
 
-gchar*		tpage_get_target();
-void			tpage_set_target(const gchar *newvalue);
+extern GtkWidget *tab_target;
+extern GtkWidget *tab_breaks;
+extern GtkWidget *tab_watch;
+extern GtkWidget *tab_locals;
+extern GtkWidget *tab_call_stack;
+extern GtkWidget *tab_terminal;
+extern GtkWidget *tab_messages;
 
-gchar*		tpage_get_debugger();
-void			tpage_set_debugger(const gchar *newvalue);
-
-int				tpage_get_debug_module_index();
-
-gchar*		tpage_get_commandline();
-void			tpage_set_commandline(const gchar *newvalue);
-
-GList*			tpage_get_environment();
-void			tpage_add_environment(const gchar *name, const gchar *value);
-
-void			tpage_set_readonly(gboolean readonly);
-void			tpage_clear();
+GtkWidget*		tabs_get_tab(tab_id id);
+tab_id			tabs_get_tab_id(GtkWidget* tab);
+const gchar*	tabs_get_label(tab_id id);
 

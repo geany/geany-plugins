@@ -116,17 +116,10 @@ GtkWidget* vtree_create(watch_render_name on_render_name, watch_expression_chang
 	/* create columns */
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
-	const gchar			*header;
 	
-	int min_column_with = MIN_COLUMN_CHARS * get_char_width(tree);
-
 	/* Name */
-	header = _("Name");
 	renderer = gtk_cell_renderer_text_new ();
-    g_object_set (renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
-	column = create_column(header, renderer, FALSE,
-		min_column_with,
-		"text", W_NAME);
+	column = gtk_tree_view_column_new_with_attributes (_("Name"), renderer, "text", W_NAME, NULL);
 	gtk_tree_view_column_set_resizable (column, TRUE);
 	if (on_render_name)
 		gtk_tree_view_column_set_cell_data_func(column, renderer, on_render_name, NULL, NULL);
@@ -138,33 +131,22 @@ GtkWidget* vtree_create(watch_render_name on_render_name, watch_expression_chang
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
 	/* Value */
-	header = _("Value");
 	renderer = gtk_cell_renderer_text_new ();
-    g_object_set (renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
-	column = create_column(header, renderer, TRUE,
-		min_column_with,
-		"text", W_VALUE);
+	column = gtk_tree_view_column_new_with_attributes (_("Value"), renderer, "text", W_VALUE, NULL);
 	gtk_tree_view_column_set_cell_data_func(column, renderer, render_value, NULL, NULL);
 	gtk_tree_view_column_set_resizable (column, TRUE);
 
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
 	/* Type */
-	header = _("Type");
 	renderer = gtk_cell_renderer_text_new ();
-    g_object_set (renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
-	column = create_column(header, renderer, FALSE,
-		min_column_with,
-		"text", W_TYPE);
+	column = gtk_tree_view_column_new_with_attributes (_("Type"), renderer, "text", W_TYPE, NULL);
 	gtk_tree_view_column_set_resizable (column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
 	/* Last invisible column */
-	header = _("");
 	renderer = gtk_cell_renderer_text_new ();
-	column = create_column(header, renderer, FALSE,
-		0,
-		"text", W_LAST_VISIBLE);
+	column = gtk_tree_view_column_new_with_attributes ("", renderer, "text", W_LAST_VISIBLE, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
 	/* Internal (unvisible column) */

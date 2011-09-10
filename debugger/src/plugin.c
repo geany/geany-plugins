@@ -37,6 +37,8 @@
 #include "btnpanel.h"
 #include "keys.h"
 #include "dconfig.h"
+#include "dpaned.h"
+#include "tabs.h"
 
 /* These items are set by Geany before plugin_init() is called. */
 GeanyPlugin		*geany_plugin;
@@ -74,6 +76,12 @@ PluginCallback plugin_callbacks[] =
 	{ NULL, NULL, FALSE, NULL }
 };
 
+void on_paned_mode_changed(GtkToggleButton *button, gpointer user_data)
+{
+	gboolean state = gtk_toggle_button_get_active(button);
+	dpaned_set_tabbed(state);
+}
+
 /* Called by Geany to initialize the plugin.
  * Note: data is the same as geany_data. */
 void plugin_init(GeanyData *data)
@@ -84,37 +92,27 @@ void plugin_init(GeanyData *data)
 
 	/* main box */
 	hbox = gtk_hbox_new(FALSE, 0);
-	
-	GtkWidget *debug_notebook = gtk_notebook_new ();
-	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(debug_notebook), GTK_POS_TOP);
 
 	/* add target page */
 	tpage_init();
-	gtk_notebook_append_page(GTK_NOTEBOOK(debug_notebook),
-		tpage_get_widget(),
-		gtk_label_new(_("Target")));
-	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(debug_notebook), tpage_get_widget(), TRUE);
 	
 	/* init brekpoints */
 	breaks_init(editor_open_position);
-	gtk_notebook_append_page(GTK_NOTEBOOK(debug_notebook),
-		breaks_get_widget(),
-		gtk_label_new(_("Breakpoints")));
-	gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(debug_notebook), breaks_get_widget(), TRUE);
-		
+	
 	/* init markers */
 	markers_init();
 
 	/* init debug */
-	debug_init(debug_notebook);
+	debug_init();
 
-	gtk_widget_show_all(debug_notebook);
+	/* init paned */
+	dpaned_init();
 
-	GtkWidget* vbox = btnpanel_create();
+	GtkWidget* vbox = btnpanel_create(on_paned_mode_changed);
 
-	gtk_box_pack_start(GTK_BOX(hbox), debug_notebook, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), dpaned_get_paned(), TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 0);
-	
+
 	gtk_widget_show_all(hbox);
 	
 	gtk_notebook_append_page(
@@ -163,6 +161,9 @@ void plugin_cleanup(void)
 
 	/* clears config */
 	dconfig_destroy();
+
+	/* clears debug paned data */
+	dpaned_destroy();
 
 	/* release other allocated strings and objects */
 	gtk_widget_destroy(hbox);

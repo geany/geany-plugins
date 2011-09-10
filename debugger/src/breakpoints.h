@@ -37,7 +37,6 @@ void			breaks_set_hits_count(char* file, int line, int count);
 void			breaks_set_condition(char* file, int line, char* condition);
 void			breaks_move_to_line(char* file, int line_from, int line_to);
 break_state	breaks_get_state(const char* file, int line);
-GtkWidget*	breaks_get_widget();
 GList*			breaks_get_for_document(const char* file);
 GList*			breaks_get_all();
 

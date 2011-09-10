@@ -29,6 +29,8 @@ debugger_la_SOURCES = \
 	debug.h     \
 	debug_module.c     \
 	debug_module.h     \
+	dpaned.c     \
+	dpaned.h     \
 	gui.h     \
 	gui.c     \
 	keys.c     \
@@ -40,6 +42,8 @@ debugger_la_SOURCES = \
 	plugin.c     \
 	stree.c     \
 	stree.h     \
+	tabs.c     \
+	tabs.h     \
 	tpage.c     \
 	tpage.h     \
 	utils.c     \

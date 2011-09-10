@@ -21,7 +21,6 @@
 
 gboolean		bptree_init(move_to_line_cb callback);
 void			bptree_destroy();
-GtkWidget*		bptree_get_widget();
 void 			bptree_add_breakpoint(breakpoint* bp);
 void 			bptree_update_breakpoint(breakpoint* bp);
 void 			bptree_remove_breakpoint(breakpoint* bp);

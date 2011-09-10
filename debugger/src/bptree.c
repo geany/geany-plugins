@@ -40,16 +40,11 @@
 #include "bptree.h"
 #include "utils.h"
 #include "dconfig.h"
+#include "tabs.h"
 
 #include "xpm/breakpoint.xpm"
 #include "xpm/breakpoint_disabled.xpm"
 #include "xpm/breakpoint_condition.xpm"
-
-/* columns minumum width in characters */
-#define MW_CONDITION	20
-#define MW_FILE			20
-
-#define ICON_PADDING	10
 
 /* Tree view columns */
 enum
@@ -60,11 +55,11 @@ enum
    HITSCOUNT,
    LINE,
    ENABLED,
+   LAST_VISIBLE,
    N_COLUMNS
 };
 
 /* tree view and store handles */
-static GtkWidget		*scrolled_window = NULL;
 static GtkWidget		*tree = NULL;
 static GtkTreeModel		*model = NULL;
 static GtkTreeStore		*store = NULL;
@@ -655,7 +650,8 @@ gboolean bptree_init(move_to_line_cb cb)
 		G_TYPE_STRING,
 		G_TYPE_INT,
 		G_TYPE_INT,
-		G_TYPE_BOOLEAN);
+		G_TYPE_BOOLEAN,
+		G_TYPE_STRING);
 	model = GTK_TREE_MODEL(store);
 	tree = gtk_tree_view_new_with_model (model);
 	
@@ -671,80 +667,65 @@ gboolean bptree_init(move_to_line_cb cb)
 
 	/* creating columns */
 	GtkTreeViewColumn	*column;
-	const gchar			*header;
-	
-	int	char_width = get_char_width(tree);
 
 	/* icon, file */
-	header = _("File");
 	GtkCellRenderer *renderer = gtk_cell_renderer_text_new ();
-	g_object_set (renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
 	column = gtk_tree_view_column_new();
-	
 	gtk_tree_view_column_pack_end(column, renderer, TRUE);
 	gtk_tree_view_column_set_attributes(column, renderer, "text", FILEPATH, NULL);	
-	
 	GtkCellRenderer *icon_renderer = gtk_cell_renderer_pixbuf_new ();
 	g_object_set(icon_renderer, "follow-state", TRUE, NULL);
 	gtk_tree_view_column_pack_end(column, icon_renderer, FALSE);
 	gtk_tree_view_column_set_attributes(column, icon_renderer, "pixbuf", ICON, NULL);	
+	gtk_tree_view_column_set_title(column, _("Location"));
 	gtk_tree_view_column_set_cell_data_func(column, icon_renderer, on_render, NULL, NULL);
-	
-	gtk_tree_view_column_set_spacing(column, char_width);
-	gtk_tree_view_column_set_expand(column, TRUE);
-
+	gtk_tree_view_column_set_resizable (column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
 	/* condition */
-	header = _("Condition");
 	condition_renderer = gtk_cell_renderer_text_new ();
 	g_object_set (condition_renderer, "editable", TRUE, NULL);
 	g_object_set (condition_renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
 	g_signal_connect (G_OBJECT (condition_renderer), "edited", G_CALLBACK (on_condition_changed), NULL);
-	column = create_column(header, condition_renderer, TRUE,
-		get_header_string_width(header, MW_CONDITION, char_width),
-		"text", CONDITION);
+	column = gtk_tree_view_column_new_with_attributes (_("Condition"), condition_renderer, "text", CONDITION, NULL);
 	gtk_tree_view_column_set_cell_data_func(column, condition_renderer, on_render, (gpointer)TRUE, NULL);
+	gtk_tree_view_column_set_resizable (column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 	
 	/* hits count */
-	header = _("Hit count");
 	hcount_renderer = gtk_cell_renderer_spin_new ();
 	GtkAdjustment* adj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 100000.0, 1.0, 2.0, 2.0));
 	g_object_set (hcount_renderer,
 		"adjustment", adj,
         "digits", 0, NULL);
 	g_signal_connect (G_OBJECT (hcount_renderer), "edited", G_CALLBACK (on_hitscount_changed), NULL);
-	column = create_column(header, hcount_renderer, FALSE,
-		0,
-		"text", HITSCOUNT);
+	column = gtk_tree_view_column_new_with_attributes (_("Hit count"), hcount_renderer, "text", HITSCOUNT, NULL);
 	gtk_tree_view_column_set_cell_data_func(column, hcount_renderer, on_render, (gpointer)TRUE, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 	
 	/* line */
-	header = _("Line");
 	renderer = gtk_cell_renderer_text_new ();
-	column = create_column(header, renderer, FALSE,
-		0,
-		"text", LINE);
+	column = gtk_tree_view_column_new_with_attributes (_("Line"), renderer, "text", LINE, NULL);
 	gtk_tree_view_column_set_visible(column, FALSE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
 	/* enabled */
-	header = _("Enabled");
 	enable_renderer = gtk_cell_renderer_toggle_new ();
 	g_signal_connect (G_OBJECT(enable_renderer), "toggled", G_CALLBACK(on_activeness_changed), NULL);
-	column = create_column(header, enable_renderer, FALSE,
-		0,
-		 "active", ENABLED);
+	column = gtk_tree_view_column_new_with_attributes (_("Enabled"), enable_renderer, "active", ENABLED, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
-	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_widget_show (scrolled_window);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_NONE);
+	/* Last invisible column */
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes ("", renderer, "text", LAST_VISIBLE, NULL);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
-	gtk_container_add (GTK_CONTAINER (scrolled_window), tree);
+	tab_breaks = gtk_scrolled_window_new (NULL, NULL);
+	gtk_widget_show (tab_breaks);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (tab_breaks), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (tab_breaks), GTK_SHADOW_NONE);
+
+	gtk_container_add (GTK_CONTAINER (tab_breaks), tree);
 
 	return TRUE;
 }
@@ -828,15 +809,6 @@ void bptree_set_readonly(gboolean value)
 	readonly = value;
     g_object_set (hcount_renderer, "editable", !readonly, NULL);
     g_object_set (condition_renderer, "editable", !readonly, NULL);
-}
-
-/*
- * get tree view widget
- * return value	- tree view widget
- */
-GtkWidget* bptree_get_widget()
-{
-	return scrolled_window;
 }
 
 /*

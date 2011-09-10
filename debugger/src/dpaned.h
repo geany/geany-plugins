@@ -1,7 +1,8 @@
 /*
- *		tpage.h
+ *
+ *		dpaned.c
  *      
- *	    Copyright 2010 Alexander Petukhov <devel(at)apetukhov.ru>
+ *      Copyright 2010 Alexander Petukhov <devel(at)apetukhov.ru>
  *      
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -19,22 +20,8 @@
  *      MA 02110-1301, USA.
  */
 
-void			tpage_init();
-
-gchar*		tpage_get_target();
-void			tpage_set_target(const gchar *newvalue);
-
-gchar*		tpage_get_debugger();
-void			tpage_set_debugger(const gchar *newvalue);
-
-int				tpage_get_debug_module_index();
-
-gchar*		tpage_get_commandline();
-void			tpage_set_commandline(const gchar *newvalue);
-
-GList*			tpage_get_environment();
-void			tpage_add_environment(const gchar *name, const gchar *value);
-
-void			tpage_set_readonly(gboolean readonly);
-void			tpage_clear();
-
+void		dpaned_init();
+void		dpaned_destroy();
+GtkWidget*	dpaned_get_paned();
+void		dpaned_set_tabbed(gboolean paned);
+gboolean	dpaned_get_tabbed();

@@ -567,11 +567,3 @@ GList* breaks_get_all()
 	g_hash_table_foreach(files, hash_table_foreach_add_to_list, &breaks);
 	return breaks;
 }
-
-/*
- * Get breakpoints widget
- */
-GtkWidget* breaks_get_widget()
-{
-	return bptree_get_widget();
-}

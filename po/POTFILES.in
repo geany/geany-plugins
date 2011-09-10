@@ -30,6 +30,7 @@ debugger/src/debug_module.c
 debugger/src/ltree.c
 debugger/src/utils.c
 debugger/src/stree.c
+debugger/src/tabs.c
 debugger/src/keys.c
 debugger/src/markers.c
 debugger/src/watch_model.c

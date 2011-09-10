@@ -36,13 +36,7 @@
 
 #include "xpm/frame_current.xpm"
 
-/* columns minumum width in characters */
-#define MW_ADRESS	10
-#define MW_FUNCTION	10
-#define MW_FILE		0
-#define MW_LINE		4
-
-#define ARROW_PADDING 10
+#define ARROW_PADDING 7
 
 /* Tree view columns */
 enum
@@ -52,6 +46,7 @@ enum
    S_FUNCTION,
    S_FILEPATH,
    S_LINE,
+   S_LAST_VISIBLE,
    S_N_COLUMNS
 };
 
@@ -65,6 +60,8 @@ static move_to_line_cb callback = NULL;
 static GtkWidget* tree = NULL;
 static GtkTreeModel* model = NULL;
 static GtkListStore* store = NULL;
+
+static GtkCellRenderer *renderer_arrow, *renderer_address, *renderer_funtion, *renderer_file, *renderer_line, *renderer_last;
 
 /* flag to indicate whether to handle selection change */
 static gboolean handle_selection = TRUE;
@@ -160,7 +157,7 @@ void on_selection_changed(GtkTreeSelection *treeselection, gpointer user_data)
  *	arguments:
  * 		cb - callback to call on double click	
  */
-gboolean stree_init(move_to_line_cb cb)
+GtkWidget* stree_init(move_to_line_cb cb)
 {
 	callback = cb;
 	
@@ -173,7 +170,9 @@ gboolean stree_init(move_to_line_cb cb)
 		G_TYPE_STRING,
 		G_TYPE_STRING,
 		G_TYPE_STRING,
-		G_TYPE_INT);
+		G_TYPE_INT,
+		G_TYPE_STRING);
+		
 	model = GTK_TREE_MODEL(store);
 	tree = gtk_tree_view_new_with_model (GTK_TREE_MODEL(store));
 	
@@ -190,49 +189,41 @@ gboolean stree_init(move_to_line_cb cb)
 					G_CALLBACK(on_msgwin_button_press), NULL);
 
 	/* creating columns */
-	GtkCellRenderer		*renderer;
 	GtkTreeViewColumn	*column;
-	const gchar			*header;
-	
-	int	char_width = get_char_width(tree);
 
 	/* arrow */
-	renderer = gtk_cell_renderer_pixbuf_new ();
-	column = create_column("", renderer, FALSE,
-		gdk_pixbuf_get_width(arrow_pixbuf) + 2 * ARROW_PADDING,
-		"pixbuf", S_ARROW);
+	renderer_arrow = gtk_cell_renderer_pixbuf_new ();
+	column = gtk_tree_view_column_new_with_attributes ("", renderer_arrow, "pixbuf", S_ARROW, NULL);
+	gtk_tree_view_column_set_min_width(column, gdk_pixbuf_get_width(arrow_pixbuf) + 2 * ARROW_PADDING);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
-	/* adress */
-	header = _("Address");
-	renderer = gtk_cell_renderer_text_new ();
-	column = create_column(header, renderer, FALSE,
-		get_header_string_width(header, MW_ADRESS, char_width),
-		"text", S_ADRESS);
+	/* address */
+	renderer_address = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes (_("Address"), renderer_address, "text", S_ADRESS, NULL);
+	gtk_tree_view_column_set_resizable (column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
 	/* function */
-	header = _("Function");
-	renderer = gtk_cell_renderer_text_new ();
-	column = create_column(header, renderer, FALSE,
-		get_header_string_width(header, MW_FUNCTION, char_width),
-		"text", S_FUNCTION);
+	renderer_funtion = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes (_("Function"), renderer_funtion, "text", S_FUNCTION, NULL);
+	gtk_tree_view_column_set_resizable (column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 	
 	/* file */
-	header = _("File");
-	renderer = gtk_cell_renderer_text_new ();
-	column = create_column(header, renderer, TRUE,
-		get_header_string_width(header, MW_FILE, char_width),
-		"text", S_FILEPATH);
+	renderer_file = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes (_("File"), renderer_file, "text", S_FILEPATH, NULL);
+	gtk_tree_view_column_set_resizable (column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 	
 	/* line */
-	header = _("Line");
-	renderer = gtk_cell_renderer_text_new ();
-	column = create_column(header, renderer, FALSE,
-		get_header_string_width(header, MW_LINE, char_width),
-		"text", S_LINE);
+	renderer_line = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes (_("Line"), renderer_line, "text", S_LINE, NULL);
+	gtk_tree_view_column_set_resizable (column, TRUE);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
+
+	/* Last invisible column */
+	renderer_last = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes ("", renderer_last, "text", S_LAST_VISIBLE, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
 	/* create frames hash table */
@@ -242,14 +233,6 @@ gboolean stree_init(move_to_line_cb cb)
 		(GDestroyNotify)g_free,
 		NULL);
 		
-	return TRUE;
-}
-
-/*
- *	get stack trace tree view
- */
-GtkWidget* stree_get_widget()
-{
 	return tree;
 }
 

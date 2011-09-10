@@ -38,6 +38,7 @@
 #include "bptree.h"
 #include "btnpanel.h"
 #include "dconfig.h"
+#include "tabs.h"
 
 extern GeanyFunctions *geany_functions;
 
@@ -358,9 +359,9 @@ gboolean keys_callback(guint key_id)
 			if (DBS_STOPPED == debug_get_state() && debug_current_instruction_have_sources())
 			{
 				debug_jump_to_current_instruction();
-				gtk_widget_set_sensitive(stree_get_widget(), FALSE);
+				gtk_widget_set_sensitive(tab_call_stack, FALSE);
 				stree_select_first();
-				gtk_widget_set_sensitive(stree_get_widget(), TRUE);
+				gtk_widget_set_sensitive(tab_call_stack, TRUE);
 			}
 		}
 	}
