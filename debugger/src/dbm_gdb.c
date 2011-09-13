@@ -344,6 +344,8 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 	}
 	else if (g_str_has_prefix (line, "^error"))
 	{
+		dbg_cbs->set_stopped();
+
 		/* removing read callback (will pulling all output left manually) */
 		g_source_remove(gdb_id_out);
 

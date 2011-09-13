@@ -39,6 +39,7 @@
 #include "dconfig.h"
 #include "dpaned.h"
 #include "tabs.h"
+#include "envtree.h"
 
 /* These items are set by Geany before plugin_init() is called. */
 GeanyPlugin		*geany_plugin;
@@ -80,6 +81,7 @@ void on_paned_mode_changed(GtkToggleButton *button, gpointer user_data)
 {
 	gboolean state = gtk_toggle_button_get_active(button);
 	dpaned_set_tabbed(state);
+	tpage_pack_widgets(state);
 }
 
 /* Called by Geany to initialize the plugin.
@@ -107,6 +109,7 @@ void plugin_init(GeanyData *data)
 
 	/* init paned */
 	dpaned_init();
+	tpage_pack_widgets(dpaned_get_tabbed());
 
 	GtkWidget* vbox = btnpanel_create(on_paned_mode_changed);
 
@@ -165,6 +168,9 @@ void plugin_cleanup(void)
 	/* clears debug paned data */
 	dpaned_destroy();
 
+	/* clears anv tree data */
+	envtree_destroy();
+	
 	/* release other allocated strings and objects */
 	gtk_widget_destroy(hbox);
 }

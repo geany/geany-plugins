@@ -140,10 +140,10 @@ const gchar* tabs_get_label(tab_id id)
 			label = _("Call Stack");
 			break;
 		case TID_TERMINAL:
-			label = _("Debug terminal");
+			label = _("Debug Terminal");
 			break;
 		case TID_MESSAGES:
-			label = _("Debugger messages");
+			label = _("Debugger Messages");
 			break;
 	}
 	return label;

@@ -846,6 +846,7 @@ static void on_debugger_messages_clear ()
 static void on_debugger_error (const gchar* message)
 {
 	dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", message);
+	debug_stop();
 }
 
 /* callbacks structure to pass to debugger module */
@@ -945,7 +946,6 @@ void debug_init()
 	vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(tab_messages));
 	
 	debugger_messages_textview =  gtk_text_view_new();
-	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(debugger_messages_textview), GTK_WRAP_CHAR);
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (debugger_messages_textview), FALSE);
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(tab_messages), debugger_messages_textview);
 	

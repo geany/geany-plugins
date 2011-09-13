@@ -31,6 +31,8 @@ debugger_la_SOURCES = \
 	debug_module.h     \
 	dpaned.c     \
 	dpaned.h     \
+	envtree.c     \
+	envtree.h     \
 	gui.h     \
 	gui.c     \
 	keys.c     \
