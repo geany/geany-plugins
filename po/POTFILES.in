@@ -21,6 +21,7 @@ codenav/src/utils.c
 debugger/src/plugin.c
 debugger/src/vtree.c
 debugger/src/tpage.c
+debugger/src/envtree.c
 debugger/src/bptree.c
 debugger/src/breakpoint.c
 debugger/src/wtree.c
