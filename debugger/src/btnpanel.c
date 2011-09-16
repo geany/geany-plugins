@@ -30,11 +30,10 @@ extern GeanyFunctions	*geany_functions;
 extern GeanyPlugin		*geany_plugin;
 
 #include "gui.h"
-#include "breakpoint.h"
+#include "breakpoints.h"
 #include "debug.h"
 #include "dconfig.h"
 #include "tpage.h"
-#include "breakpoints.h"
 #include "watch_model.h"
 #include "wtree.h"
 #include "dpaned.h"

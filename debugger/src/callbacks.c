@@ -27,7 +27,6 @@
 #include <string.h>
 
 #include "geanyplugin.h"
-#include "breakpoint.h"
 #include "breakpoints.h"
 #include "debug.h"
 #include "keys.h"
@@ -289,6 +288,8 @@ gboolean on_editor_notify(
 						}
 						iter = iter->next;
 					}
+					
+					dconfig_set_changed();
 
 					g_list_free(breaks);
 				}

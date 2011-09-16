@@ -34,7 +34,6 @@ extern GeanyFunctions	*geany_functions;
 extern GeanyData		*geany_data;
 
 #include "tabs.h"
-#include "breakpoint.h"
 #include "breakpoints.h"
 #include "debug.h"
 #include "btnpanel.h"
@@ -115,7 +114,7 @@ static void save_config()
 /*
  *	first allocation handler to properly set paned position
  */
-void on_size_allocate(GtkWidget *widget,GdkRectangle *allocation, gpointer   user_data)
+static void on_size_allocate(GtkWidget *widget,GdkRectangle *allocation, gpointer   user_data)
 {
 	DISCONNECT_ALLOCATED_PAGE_SIGNALS();
 

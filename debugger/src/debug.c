@@ -47,10 +47,9 @@ extern GeanyFunctions	*geany_functions;
 extern GeanyData		*geany_data;
 
 #include "tpage.h"
-#include "breakpoint.h"
+#include "breakpoints.h"
 #include "debug.h"
 #include "utils.h"
-#include "breakpoints.h"
 #include "stree.h"
 #include "watch_model.h"
 #include "wtree.h"
@@ -92,8 +91,7 @@ dbg_module *active_module = NULL;
  * after interruption
  */
 bs_callback			interrupt_cb = NULL;
-breakpoint*			interrupt_data = NULL;
-break_set_activity	interrupt_flags;
+gpointer			interrupt_data = NULL;
 
 /* flag to set when debug stop is requested while debugger is running.
  * Then this flag is set to TRUE, and debug_request_interrupt function is called
@@ -645,7 +643,7 @@ static void on_debugger_stopped ()
 	/* check for async activities pending */
 	if (interrupt_data)
 	{
-		interrupt_cb(interrupt_data, interrupt_flags);
+		interrupt_cb(interrupt_data);
 		interrupt_data = NULL;
 		return;
 	}
@@ -1240,11 +1238,10 @@ gboolean debug_remove_break(breakpoint* bp)
  * 		bp - breakpoint to deal with
  * 		flags - whar to do with breakpoint
  */
-void debug_request_interrupt(bs_callback cb, breakpoint* bp, break_set_activity flags)
+void debug_request_interrupt(bs_callback cb, gpointer data)
 {
 	interrupt_cb = cb;
-	interrupt_flags = flags;
-	interrupt_data = bp;
+	interrupt_data = data;
 
 	active_module->request_interrupt();	
 }

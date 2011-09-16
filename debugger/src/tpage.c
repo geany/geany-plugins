@@ -33,7 +33,6 @@
 extern GeanyFunctions	*geany_functions;
 extern GeanyData		*geany_data;
 
-#include "breakpoint.h"
 #include "breakpoints.h"
 #include "utils.h"
 #include "watch_model.h"

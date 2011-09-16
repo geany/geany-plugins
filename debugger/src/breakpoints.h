@@ -19,6 +19,8 @@
  *      MA 02110-1301, USA.
  */
 
+#include "breakpoint.h"
+
 typedef enum _break_state {
 	BS_NOT_SET,
 	BS_ENABLED,
@@ -31,12 +33,14 @@ gboolean		breaks_init(move_to_line_cb callback);
 void			breaks_destroy();
 void			breaks_add(const char* file, int line, char* condition, int enable, int hitscount);
 void			breaks_remove(const char* file, int line);
+void			breaks_remove_list(GList *list);
 void			breaks_remove_all();
-void			breaks_switch(const char* file, int line);
-void			breaks_set_hits_count(char* file, int line, int count);
-void			breaks_set_condition(char* file, int line, char* condition);
-void			breaks_move_to_line(char* file, int line_from, int line_to);
-break_state	breaks_get_state(const char* file, int line);
+void			breaks_switch(const char *file, int line);
+void			breaks_set_hits_count(const char *file, int line, int count);
+void			breaks_set_condition(const char *file, int line, const char* condition);
+void			breaks_set_enabled_for_file(const const char *file, gboolean enabled);
+void			breaks_move_to_line(const char* file, int line_from, int line_to);
+break_state		breaks_get_state(const char* file, int line);
 GList*			breaks_get_for_document(const char* file);
 GList*			breaks_get_all();
-
+breakpoint*		breaks_lookup_breakpoint(const gchar* file, int line);

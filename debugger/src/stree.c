@@ -31,7 +31,6 @@
 
 #include "breakpoints.h"
 #include "utils.h"
-#include "breakpoint.h"
 #include "debug_module.h"
 
 #include "xpm/frame_current.xpm"

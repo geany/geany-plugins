@@ -30,7 +30,6 @@
 #include "geanyplugin.h"
 extern GeanyFunctions	*geany_functions;
 
-#include "breakpoint.h"
 #include "breakpoints.h"
 #include "utils.h"
 #include "markers.h"
@@ -85,35 +84,81 @@ void hash_table_foreach_add_to_list(gpointer key, gpointer value, gpointer user_
 }
 
 /*
+ * functions to perform markers and tree vew operation when breakpoint
+ * is finally updated/added/removed
+ */
+static void on_add(breakpoint *bp)
+{
+	/* add to breakpoints tab */
+	bptree_add_breakpoint(bp);
+	/* add marker */
+	markers_add_breakpoint(bp);
+}
+static void on_remove(breakpoint *bp)
+{
+	/* remove marker */
+	markers_remove_breakpoint(bp);
+	/* remove from breakpoints tab */
+	bptree_remove_breakpoint(bp);
+	/* remove from internal storage */
+	GTree *tree = g_hash_table_lookup(files, bp->file);
+	g_tree_remove(tree, GINT_TO_POINTER(bp->line));
+}
+static void on_set_hits_count(breakpoint *bp)
+{
+	bptree_set_hitscount(bp);
+	markers_remove_breakpoint(bp);
+	markers_add_breakpoint(bp);
+}
+static void on_set_condition(breakpoint* bp)
+{
+	/* set condition in breaks tree */
+	bptree_set_condition(bp);
+	markers_remove_breakpoint(bp);
+	markers_add_breakpoint(bp);
+}
+static void on_switch(breakpoint *bp)
+{
+	/* remove old and set new marker */
+	markers_remove_breakpoint(bp);
+	markers_add_breakpoint(bp);
+	
+	/* set checkbox in breaks tree */
+	bptree_set_enabled(bp);
+}
+static void on_set_enabled_list(GList *breaks, gboolean enabled)
+{
+	GList *iter = breaks;
+	while (iter)
+	{
+		breakpoint *bp = (breakpoint*)iter->data;
+		
+		if (bp->enabled ^ enabled)
+		{
+			bp->enabled = enabled;
+			
+			/* remove old and set new marker */
+			markers_remove_breakpoint(bp);
+			markers_add_breakpoint(bp);
+			
+			/* set checkbox in breaks tree */
+			bptree_set_enabled(bp);
+		}
+		iter = iter->next;
+	}
+}
+static void on_remove_list(GList *list)
+{
+	GList *iter;
+	for (iter = list; iter; iter = iter->next)
+	{
+		on_remove((breakpoint*)iter->data);
+	}
+}
+
+/*
  * Helper functions
  */
-
-/*
- * Remove breakpoint while iterating through GTree.
- * arguments:
- * 		bp - breakpoint
- */
-void handle_break_remove(breakpoint* bp, gboolean success);
-void breaks_remove_internal(breakpoint *bp)
-{
-	handle_break_remove(bp, TRUE);
-}
-
-/*
- * lookup for breakpoint
- * arguments:
- * 		file - breakpoints filename
- * 		line - breakpoints line
- */
-breakpoint* lookup_breakpoint(const gchar* file, int line)
-{
-	breakpoint* bp = NULL;
-	GTree* tree = NULL;
-	if ( (tree = (GTree*)g_hash_table_lookup(files, file)) )
-		bp = g_tree_lookup(tree, GINT_TO_POINTER(line));
-
-	return bp;
-}
 
 /*
  * compare pointers as integers
@@ -129,92 +174,50 @@ gint compare_func(gconstpointer a, gconstpointer b, gpointer user_data)
 }
 
 /*
- * Handlers for breakpoints activities.
- * Are called directly from breaks_set_... functions
- * or from async_callback if break was set asyncronously.
- * 
+ * functions that are called when a breakpoint is altered while debuginng session is active.
+ * Therefore, these functions try to alter break in debug session first and if successful -
+ * do what on_... do or simply call on_... function directly
  */
-
-/*
- * handles new break creation
- * arguments:
- * 		bp		- breakpoint to handle
- * 		success - success of operation
- */
-void handle_break_new(breakpoint* bp, gboolean success)
+static void breaks_add_debug(breakpoint* bp)
 {
-	if (success)
+	if (debug_set_break(bp, BSA_NEW_BREAK))
 	{
-		/* add to breakpoints tab */
-		bptree_add_breakpoint(bp);
-		/* add marker */
-		markers_add_breakpoint(bp);
+		/* add markers, update treeview */
+		on_add(bp);
 		/* mark config for saving */
 		dconfig_set_changed();
 	}
 	else
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", debug_error_message());
 }
-
-/*
- * handles break removing
- * arguments:
- * 		bp		- breakpoint to handle
- * 		success - success of operation
- */
-void handle_break_remove(breakpoint* bp, gboolean success)
+static void breaks_remove_debug(breakpoint* bp)
 {
-	if (success)
+	if (debug_remove_break(bp))
 	{
-		/* remove marker */
-		markers_remove_breakpoint(bp);
-		/* remove from breakpoints tab */
-		bptree_remove_breakpoint(bp);
-		/* remove from internal storage */
-		GTree *tree = g_hash_table_lookup(files,bp->file);
-		g_tree_remove(tree, GINT_TO_POINTER(bp->line));
-
+		/* remove markers, update treeview */
+		on_remove(bp);
 		/* mark config for saving */
 		dconfig_set_changed();
 	}
 	else
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", debug_error_message());
 }
-
-/*
- * handles breakpoints hits count set
- * arguments:
- * 		bp		- breakpoint to handle
- * 		success - success of operation
- */
-void handle_hitscount_set(breakpoint* bp, gboolean success)
+static void breaks_set_hits_count_debug(breakpoint* bp)
 {
-	if (success)
+	if (debug_set_break(bp, BSA_UPDATE_HITS_COUNT))
 	{
-		bptree_set_hitscount(bp);
-		markers_remove_breakpoint(bp);
-		markers_add_breakpoint(bp);
+		on_set_hits_count(bp);
 		/* mark config for saving */
 		dconfig_set_changed();
 	}
 	else
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", debug_error_message());
 }
-
-/*
- * handles breakpoints condition set
- * arguments:
- * 		bp		- breakpoint to handle
- * 		success - success of operation
- */
-void handle_condition_set(breakpoint* bp, gboolean success)
+static void breaks_set_condition_debug(breakpoint* bp)
 {
-	if (success)
+	if (debug_set_break(bp, BSA_UPDATE_CONDITION))
 	{
-		/* set condition in breaks tree */
-		bptree_set_condition(bp);
-		markers_remove_breakpoint(bp);
-		markers_add_breakpoint(bp);
+		on_set_condition(bp);
 		/* mark config for saving */
 		dconfig_set_changed();
 	}
@@ -228,55 +231,80 @@ void handle_condition_set(breakpoint* bp, gboolean success)
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", debug_error_message());
 	}
 }
-
-/*
- * handles breakpoints enabled/disabled switch
- * arguments:
- * 		bp		- breakpoint to handle
- * 		success - success of operation
- */
-void handle_switch(breakpoint* bp, gboolean success)
+static void breaks_switch_debug(breakpoint* bp)
 {
-	/* remove old and set new marker */
-	markers_remove_breakpoint(bp);
-	markers_add_breakpoint(bp);
-
-	/* set checkbox in breaks tree */
-	bptree_set_enabled(bp);
-
-	/* mark config for saving */
-	dconfig_set_changed();
+	if (debug_set_break(bp, BSA_UPDATE_ENABLE))
+	{
+		on_switch(bp);
+		/* mark config for saving */
+		dconfig_set_changed();
+	}
+	else
+	{
+		bp->enabled = !bp->enabled;
+		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", debug_error_message());
+	}
 }
-
-/*
- * Async action callback.
- * Called from debug module, when debugging session is interrupted
- * and ready to perform action specified by "bsa" with "bp" breakpoint
- * (activity type is passed to debug module when calling its "request_interrupt" function
- * and then is passed to "async_callback")
- * arguments:
- * 		bp	- breakpoint to handle
- * 		bsa	- type of activity (remove/add/change property)
- */
-void async_callback(breakpoint* bp, break_set_activity bsa)
+static void breaks_set_disabled_list_debug(GList *list)
 {
-	/* perform requested operation */
-	gboolean success = BSA_REMOVE == bsa ? debug_remove_break(bp) : debug_set_break(bp, bsa);
-	
-	/* handle relevant case */
-	if (BSA_REMOVE == bsa)
-		handle_break_remove(bp, success);
-	else if (BSA_NEW_BREAK == bsa)
-		handle_break_new(bp, success);
-	else if (BSA_UPDATE_ENABLE == bsa)
-		handle_switch(bp, success);
-	else if (BSA_UPDATE_HITS_COUNT == bsa)
-		handle_hitscount_set(bp, success);
-	else if (BSA_UPDATE_CONDITION == bsa)
-		handle_condition_set(bp, success);
-	
-	/* resume debug session */
-	debug_run();
+	GList *iter;
+	for (iter = list; iter; iter = iter->next)
+	{
+		breakpoint *bp = (breakpoint*)iter->data;
+		if (bp->enabled)
+		{
+			bp->enabled = FALSE;
+			if (debug_set_break(bp, BSA_UPDATE_ENABLE))
+			{
+				on_switch(bp);
+			}
+			else
+			{
+				bp->enabled = TRUE;
+			}
+		}
+	}
+	g_list_free(list);
+
+	dconfig_set_changed(TRUE);
+}
+static void breaks_set_enabled_list_debug(GList *list)
+{
+	GList *iter;
+	for (iter = list; iter; iter = iter->next)
+	{
+		breakpoint *bp = (breakpoint*)iter->data;
+		if (!bp->enabled)
+		{
+			bp->enabled = TRUE;
+			if (debug_set_break(bp, BSA_UPDATE_ENABLE))
+			{
+				on_switch(bp);
+			}
+			else
+			{
+				bp->enabled = FALSE;
+			}
+		}
+	}
+	g_list_free(list);
+
+	dconfig_set_changed(TRUE);
+}
+static void breaks_remove_list_debug(GList *list)
+{
+	GList *iter;
+	for (iter = list; iter; iter = iter->next)
+	{
+		breakpoint *bp = (breakpoint*)iter->data;
+		if (debug_remove_break(bp))
+		{
+			on_remove((breakpoint*)iter->data);
+		}
+	}
+	g_list_free(list);
+
+	dconfig_set_changed(TRUE);
 }
 
 /*
@@ -341,7 +369,7 @@ void breaks_add(const char* file, int line, char* condition, int enabled, int hi
 	/* allocate memory */
 	breakpoint* bp = break_new_full(file, line, condition, enabled, hitscount);
 	
-	/* check whether GTree for this file exists and create if not*/
+	/* check whether GTree for this file exists and create if doesn't */
 	GTree *tree;
 	if (!(tree = g_hash_table_lookup(files, bp->file)))
 	{
@@ -355,10 +383,15 @@ void breaks_add(const char* file, int line, char* condition, int enabled, int hi
 
 	/* handle creation instantly if debugger is idle or stopped
 	and request debug module interruption overwise */
-	if (DBS_IDLE == state || DBS_STOPPED == state)
-		handle_break_new(bp, DBS_IDLE == state || debug_set_break(bp, BSA_NEW_BREAK));
+	if (DBS_IDLE == state)
+	{
+		on_add(bp);
+		dconfig_set_changed(TRUE);
+	}
+	else if (DBS_STOPPED == state)
+		breaks_add_debug(bp);
 	else if (DBS_STOP_REQUESTED != state)
-		debug_request_interrupt(async_callback, bp, BSA_NEW_BREAK);
+		debug_request_interrupt((bs_callback)breaks_add_debug, (gpointer)bp);
 }
 
 /*
@@ -377,15 +410,48 @@ void breaks_remove(const char* file, int line)
 
 	/* lookup for breakpoint */
 	breakpoint* bp = NULL;
-	if (!(bp = lookup_breakpoint(file, line)))
+	if (!(bp = breaks_lookup_breakpoint(file, line)))
 		return;
 
 	/* handle removing instantly if debugger is idle or stopped
 	and request debug module interruption overwise */
-	if (DBS_IDLE == state || DBS_STOPPED == state)
-		handle_break_remove(bp, DBS_IDLE == state || debug_remove_break(bp));
+	if (DBS_IDLE == state)
+	{
+		on_remove(bp);
+		dconfig_set_changed(TRUE);
+	}
+	else if (DBS_STOPPED == state)
+		breaks_remove_debug(bp);
 	else if (DBS_STOP_REQUESTED != state)
-		debug_request_interrupt(async_callback, bp, BSA_REMOVE);
+		debug_request_interrupt((bs_callback)breaks_remove_debug, (gpointer)bp);
+}
+
+/*
+ * Remove all breakpoints in the list.
+ * arguments:
+ * 		list - list f breakpoints
+ */
+void breaks_remove_list(GList *list)
+{
+	/* do not process async break manipulation on modules
+	that do not support async interuppt */
+	enum dbs state = debug_get_state();
+	if (DBS_RUNNING == state &&  !debug_supports_async_breaks())
+		return;
+
+	/* handle removing instantly if debugger is idle or stopped
+	and request debug module interruption overwise */
+	if (DBS_IDLE == state)
+	{
+		on_remove_list(list);
+		g_list_free(list);
+		
+		dconfig_set_changed(TRUE);
+	}
+	else if (DBS_STOPPED == state)
+		breaks_remove_list_debug(list);
+	else if (DBS_STOP_REQUESTED != state)
+		debug_request_interrupt((bs_callback)breaks_remove_list_debug, (gpointer)list);
 }
 
 /*
@@ -394,8 +460,38 @@ void breaks_remove(const char* file, int line)
  */
 void breaks_remove_all()
 {
-	g_hash_table_foreach(files, hash_table_foreach_call_function, (gpointer)breaks_remove_internal);
+	g_hash_table_foreach(files, hash_table_foreach_call_function, (gpointer)on_remove);
 	g_hash_table_remove_all(files);
+}
+
+/*
+ * sets all breakpoints fo the file enabled or disabled.
+ * arguments:
+ * 		file - list of breakpoints
+ * 		enabled - anble or disable breakpoints
+ */
+void breaks_set_enabled_for_file(const const char *file, gboolean enabled)
+{
+	/* do not process async break manipulation on modules
+	that do not support async interuppt */
+	enum dbs state = debug_get_state();
+	if (DBS_RUNNING == state &&  !debug_supports_async_breaks())
+		return;
+
+	GList *breaks = breaks_get_for_document(file);
+
+	/* handle switching instantly if debugger is idle or stopped
+	and request debug module interruption overwise */
+	if (DBS_IDLE == state)
+	{
+		on_set_enabled_list(breaks, enabled);
+		g_list_free(breaks);
+		dconfig_set_changed(TRUE);
+	}
+	else if (DBS_STOPPED == state)
+		enabled ? breaks_set_enabled_list_debug(breaks) : breaks_set_disabled_list_debug(breaks);
+	else if (DBS_STOP_REQUESTED != state)
+		debug_request_interrupt((bs_callback)(enabled ? breaks_set_enabled_list_debug : breaks_set_disabled_list_debug), (gpointer)breaks);
 }
 
 /*
@@ -414,7 +510,7 @@ void breaks_switch(const char* file, int line)
 
 	/* lookup for breakpoint */
 	breakpoint* bp = NULL;
-	if (!(bp = lookup_breakpoint(file, line)))
+	if (!(bp = breaks_lookup_breakpoint(file, line)))
 		return;
 	
 	/* change activeness */
@@ -422,10 +518,15 @@ void breaks_switch(const char* file, int line)
 	
 	/* handle switching instantly if debugger is idle or stopped
 	and request debug module interruption overwise */
-	if (DBS_IDLE == state || DBS_STOPPED == state)
-		handle_switch(bp, state == DBS_IDLE || debug_set_break(bp, BSA_UPDATE_ENABLE));
+	if (DBS_IDLE == state)
+	{
+		on_switch(bp);
+		dconfig_set_changed(TRUE);
+	}
+	else if (DBS_STOPPED == state)
+		breaks_switch_debug(bp);
 	else if (DBS_STOP_REQUESTED != state)
-		debug_request_interrupt(async_callback, bp, BSA_UPDATE_ENABLE);
+		debug_request_interrupt((bs_callback)breaks_switch_debug, (gpointer)bp);
 }
 
 /*
@@ -435,7 +536,7 @@ void breaks_switch(const char* file, int line)
  * 		line - breakpoints line
  * 		count - breakpoints hitscount
  */
-void breaks_set_hits_count(char* file, int line, int count)
+void breaks_set_hits_count(const char* file, int line, int count)
 {
 	/* do not process async break manipulation on modules
 	that do not support async interuppt */
@@ -445,7 +546,7 @@ void breaks_set_hits_count(char* file, int line, int count)
 
 	/* lookup for breakpoint */
 	breakpoint* bp = NULL;
-	if (!(bp = lookup_breakpoint(file, line)))
+	if (!(bp = breaks_lookup_breakpoint(file, line)))
 		return;
 	
 	/* change hits count */
@@ -453,10 +554,15 @@ void breaks_set_hits_count(char* file, int line, int count)
 	
 	/* handle setting hits count instantly if debugger is idle or stopped
 	and request debug module interruption overwise */
-	if (state == DBS_IDLE || state == DBS_STOPPED)
-		handle_hitscount_set(bp, state == DBS_IDLE || debug_set_break(bp, BSA_UPDATE_HITS_COUNT));
+	if (state == DBS_IDLE)
+	{
+		on_set_hits_count(bp);
+		dconfig_set_changed(TRUE);
+	}
+	else if(state == DBS_STOPPED)
+		breaks_set_hits_count_debug(bp);
 	else if (state != DBS_STOP_REQUESTED)
-		debug_request_interrupt(async_callback, bp, BSA_UPDATE_HITS_COUNT);
+		debug_request_interrupt((bs_callback)breaks_set_hits_count_debug, (gpointer)bp);
 }
 
 /*
@@ -466,7 +572,7 @@ void breaks_set_hits_count(char* file, int line, int count)
  * 		line - breakpoints line
  * 		condition - breakpoints line
  */
-void breaks_set_condition(char* file, int line, char* condition)
+void breaks_set_condition(const char* file, int line, const char* condition)
 {
 	/* do not process async break manipulation on modules
 	that do not support async interuppt */
@@ -476,7 +582,7 @@ void breaks_set_condition(char* file, int line, char* condition)
 
 	/* lookup for breakpoint */
 	breakpoint* bp = NULL;
-	if (!(bp = lookup_breakpoint(file, line)))
+	if (!(bp = breaks_lookup_breakpoint(file, line)))
 		return;
 	
 	/* change condition */
@@ -484,10 +590,15 @@ void breaks_set_condition(char* file, int line, char* condition)
 	
 	/* handle setting condition instantly if debugger is idle or stopped
 	and request debug module interruption overwise */
-	if (state == DBS_IDLE || state == DBS_STOPPED)
-		handle_condition_set(bp, DBS_IDLE == state || debug_set_break(bp, BSA_UPDATE_CONDITION));
+	if (state == DBS_IDLE)
+	{
+		on_set_condition(bp);
+		dconfig_set_changed(TRUE);
+	}
+	else if (state == DBS_STOPPED)
+		breaks_set_condition_debug(bp);
 	else if (state != DBS_STOP_REQUESTED)
-		debug_request_interrupt(async_callback, bp, BSA_UPDATE_CONDITION);
+		debug_request_interrupt((bs_callback)breaks_set_condition_debug, (gpointer)bp);
 }
 
 /*
@@ -497,7 +608,7 @@ void breaks_set_condition(char* file, int line, char* condition)
  * 		line_from - old line number
  * 		line_to - new line number
  */
-void breaks_move_to_line(char* file, int line_from, int line_to)
+void breaks_move_to_line(const char* file, int line_from, int line_to)
 {
 	/* first look for the tree for the given file */
 	GTree *tree = NULL;
@@ -546,7 +657,7 @@ break_state	breaks_get_state(const char* file, int line)
  * arguments:
  * 		file - file name to get breaks for 
  */
-GList *breaks_get_for_document(const char* file)
+GList* breaks_get_for_document(const char* file)
 {
 	GList *breaks = NULL;
 	GTree *tree = g_hash_table_lookup(files, file);
@@ -555,6 +666,22 @@ GList *breaks_get_for_document(const char* file)
 		g_tree_foreach(tree, tree_foreach_add_to_list, &breaks);
 	}
 	return breaks;
+}
+
+/*
+ * lookup for breakpoint
+ * arguments:
+ * 		file - breakpoints filename
+ * 		line - breakpoints line
+ */
+breakpoint* breaks_lookup_breakpoint(const gchar* file, int line)
+{
+	breakpoint* bp = NULL;
+	GTree* tree = NULL;
+	if ( (tree = (GTree*)g_hash_table_lookup(files, file)) )
+		bp = g_tree_lookup(tree, GINT_TO_POINTER(line));
+
+	return bp;
 }
 
 /*

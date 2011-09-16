@@ -32,7 +32,7 @@ enum dbs {
 };
 
 /* function type to execute on interrupt */
-typedef void (*bs_callback)(breakpoint*, break_set_activity);
+typedef void	(*bs_callback)(gpointer);
 
 void			debug_init();
 enum dbs		debug_get_state();
@@ -44,8 +44,8 @@ void			debug_step_out();
 void			debug_execute_until(const gchar *file, int line);
 gboolean		debug_set_break(breakpoint* bp, break_set_activity bsa);
 gboolean		debug_remove_break(breakpoint* bp);
-void			debug_request_interrupt(bs_callback cb, breakpoint* bp, break_set_activity flags);
-gchar*		debug_error_message();
+void			debug_request_interrupt(bs_callback cb, gpointer data);
+gchar*			debug_error_message();
 GList*			debug_get_modules();
 int				debug_get_module_index(const gchar *modulename);
 gboolean		debug_supports_async_breaks();

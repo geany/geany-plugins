@@ -32,11 +32,10 @@ extern GeanyFunctions	*geany_functions;
 extern GeanyPlugin		*geany_plugin;
 
 #include "dconfig.h"
-#include "breakpoint.h"
+#include "breakpoints.h"
 #include "debug.h"
 #include "watch_model.h"
 #include "wtree.h"
-#include "breakpoints.h"
 #include "tpage.h"
 #include "bptree.h"
 
@@ -107,14 +106,6 @@ gpointer saving_thread_func(gpointer data)
 	g_mutex_free(m);
 	
 	return NULL;
-}
-
-/*
- * set "modifyable" flag that shows that a background thread have to save config
- */
-void dconfig_set_modifyable(gboolean newstate)
-{
-	modifyable = newstate;
 }
 
 /*

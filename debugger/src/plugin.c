@@ -28,7 +28,6 @@
 #endif
 
 #include "geanyplugin.h"
-#include "breakpoint.h"
 #include "breakpoints.h"
 #include "callbacks.h"
 #include "debug.h"
