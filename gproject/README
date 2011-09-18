@@ -73,7 +73,7 @@ Project configuration
 
 Upon project creation, you should define the list of file patterns under the
 Project->Properties Project tab. For instance, for a typical open source C project, 
-use patterns "*.c *h *.am *.ac" to see the source files together with 
+use patterns "\*.c \*h \*.am \*.ac" to see the source files together with 
 automake and autoconf files. After closing the dialog, the files matching the patterns 
 should appear in the sidebar under the Project tab (unless the GProject plugin 
 was loaded after the project - see Known Issues for more details).
