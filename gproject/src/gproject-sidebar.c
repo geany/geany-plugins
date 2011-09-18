@@ -526,7 +526,6 @@ static void load_project()
 	GSList *lst = NULL;
 	GSList *path_list = NULL;
 	GSList *elem, *header_patterns, *source_patterns;
-	GtkTreeModel *model;
 
 	gtk_tree_store_clear(s_file_store);
 
@@ -546,8 +545,6 @@ static void load_project()
 		path_split = g_strsplit_set(elem->data, "/\\", 0);
 		path_list = g_slist_prepend(path_list, path_split);
 	}
-
-	model = GTK_TREE_MODEL(s_file_store);
 
 	if (path_list != NULL)
 		create_branch(0, path_list, NULL, header_patterns, source_patterns);

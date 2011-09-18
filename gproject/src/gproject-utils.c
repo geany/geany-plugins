@@ -138,7 +138,10 @@ void open_file(gchar *utf8_name)
 	doc = document_find_by_filename(utf8_name);
 
 	if (!doc)
-		doc = document_open_file(name, FALSE, NULL, NULL);
+	{
+//		doc = document_open_file(name, FALSE, NULL, NULL);
+		document_open_file(name, FALSE, NULL, NULL);
+	}
 	else
 	{
 		GtkNotebook *notebook;
