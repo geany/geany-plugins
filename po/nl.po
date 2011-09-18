@@ -19,15 +19,15 @@ msgstr ""
 
 #: ../addons/src/ao_bookmarklist.c:179
 msgid "(Empty Line)"
-msgstr ""
+msgstr "(Lege regel)"
 
 #: ../addons/src/ao_bookmarklist.c:304
 msgid "_Remove Bookmark"
-msgstr ""
+msgstr "Verwijder bladwijzer"
 
 #: ../addons/src/ao_bookmarklist.c:330
 msgid "No."
-msgstr "Nee"
+msgstr "Nee."
 
 #: ../addons/src/ao_bookmarklist.c:338 ../devhelp/src/dhp-object.c:498
 msgid "Contents"
@@ -35,7 +35,7 @@ msgstr "Inhoud"
 
 #: ../addons/src/ao_bookmarklist.c:371 ../treebrowser/src/treebrowser.c:607
 msgid "Bookmarks"
-msgstr ""
+msgstr "Bladwijzers"
 
 #. complete update
 #: ../addons/src/ao_tasks.c:368 ../geanyvc/src/geanyvc.c:2254
@@ -44,7 +44,7 @@ msgstr ""
 
 #: ../addons/src/ao_tasks.c:377
 msgid "_Hide Message Window"
-msgstr ""
+msgstr "_Verberg berichtenvenster"
 
 #: ../addons/src/ao_tasks.c:407 ../debugger/src/stree.c:214
 msgid "File"
@@ -67,7 +67,7 @@ msgstr "Taak"
 #: ../addons/src/ao_tasks.c:473
 #, fuzzy
 msgid "Tasks"
-msgstr "Taak"
+msgstr "Taken"
 
 #: ../addons/src/ao_tasks.c:535
 msgid "Context:"
@@ -75,18 +75,19 @@ msgstr ""
 
 #: ../addons/src/ao_xmltagging.c:52
 msgid "XML tagging"
-msgstr ""
+msgstr "XML labelen"
 
 #: ../addons/src/ao_xmltagging.c:63
 msgid "Tag name to be inserted:"
-msgstr ""
+msgstr "In te voegen label naam:"
 
 #: ../addons/src/ao_xmltagging.c:67
 #, c-format
 msgid ""
 "%s will be replaced with your current selection. Please keep care on your "
 "selection"
-msgstr ""
+msgstr "De huidige selectie zal vervangen worden door \"%s\". Houd alstubieft "
+"de selectie in de gaten"
 
 #: ../addons/src/ao_openuri.c:162
 msgid "Open URI"
@@ -94,27 +95,27 @@ msgstr ""
 
 #: ../addons/src/ao_openuri.c:168
 msgid "Copy URI"
-msgstr ""
+msgstr "Kopiëer URI"
 
 #: ../addons/src/ao_doclist.c:204
 msgid "Close Ot_her Documents"
-msgstr ""
+msgstr "Sluit andere documenten"
 
 #: ../addons/src/ao_doclist.c:209
 msgid "C_lose All"
-msgstr "Alles sluiten"
+msgstr "S_luit alle documenten"
 
 #: ../addons/src/ao_doclist.c:239
 msgid "Show Document List"
-msgstr ""
+msgstr "Laat documentlijst zien"
 
 #: ../addons/src/addons.c:52
 msgid "Addons"
-msgstr ""
+msgstr "Toevoegingen"
 
 #: ../addons/src/addons.c:53
 msgid "Various small addons for Geany."
-msgstr ""
+msgstr "Verscheidene kleine toevoegingen voor Geany"
 
 #: ../addons/src/addons.c:290
 msgid "Focus Bookmark List"
@@ -122,15 +123,15 @@ msgstr ""
 
 #: ../addons/src/addons.c:292
 msgid "Focus Tasks List"
-msgstr ""
+msgstr "Focus bladwijzerlijst"
 
 #: ../addons/src/addons.c:294
 msgid "Update Tasks List"
-msgstr ""
+msgstr "Update takenlijst"
 
 #: ../addons/src/addons.c:296
 msgid "Run XML tagging"
-msgstr ""
+msgstr "XML labelen uitvoeren"
 
 #: ../addons/src/addons.c:396 ../geanylatex/src/geanylatex.c:234
 #: ../geanysendmail/src/geanysendmail.c:125
@@ -138,82 +139,86 @@ msgstr ""
 #: ../spellcheck/src/scplugin.c:146 ../treebrowser/src/treebrowser.c:1816
 #: ../updatechecker/src/updatechecker.c:253
 msgid "Plugin configuration directory could not be created."
-msgstr ""
+msgstr "Plug-in configuratiemap kon niet worden aangemaakt."
 
 #: ../addons/src/addons.c:423
 msgid "Show toolbar item to show a list of currently open documents"
-msgstr ""
+msgstr "Laat een toolbar item zien om een lijst met geopende documenten"
+"te tonen"
 
 #: ../addons/src/addons.c:427
 msgid "Sort documents by _name"
-msgstr ""
+msgstr "Sorteer documenten op _naam"
 
 #: ../addons/src/addons.c:429
 msgid "Sort the documents in the list by their filename"
-msgstr ""
+msgstr "Sorteer de documenten in de lijst op hun bestandsnaam"
 
 #: ../addons/src/addons.c:432
 msgid "Sort documents by _occurrence"
-msgstr ""
+msgstr "Sorteer documenten op aantal v_oorkomens"
 
 #: ../addons/src/addons.c:434
 msgid "Sort the documents in the order of the document tabs"
-msgstr ""
+msgstr "Sorteer de documenten in de volgorde van de tabs"
 
 #: ../addons/src/addons.c:437
 msgid "Sort documents by _occurrence (reversed)"
-msgstr ""
+msgstr "Sorteer documenten op aantal v_oorkomens (achteruit)"
 
 #: ../addons/src/addons.c:439
 msgid "Sort the documents in the order of the document tabs (reversed)"
-msgstr ""
+msgstr "Sorteer de documenten in de volgorde van de tabs (achteruit)"
 
 #. TODO fix the string
 #: ../addons/src/addons.c:467
 msgid "Show a 'Open URI' menu item in the editor menu"
-msgstr ""
+msgstr "Laat een 'Open URI' menu item in het editor menu zien"
 
 #: ../addons/src/addons.c:473
 msgid "Show available Tasks in the Messages Window"
-msgstr ""
+msgstr "Laat beschikbare taken in het berichtenvenster zien"
 
 #: ../addons/src/addons.c:479
 msgid "Show tasks of all documents"
-msgstr ""
+msgstr "Laat alle taken van alle documenten zien"
 
 #: ../addons/src/addons.c:483
 msgid ""
 "Whether to show the tasks of all open documents in the list or only those of "
 "the current document."
 msgstr ""
+"Laat de taken van alle open documenten in de lijst zien of alleen die van het "
+"huidige document"
 
 #: ../addons/src/addons.c:490
 msgid "Specify a semicolon separated list of search tokens."
-msgstr ""
+msgstr "Geef een lijst van zoektermen gescheiden door puntkommas"
+
 
 #: ../addons/src/addons.c:492
 msgid "Search tokens:"
-msgstr ""
+msgstr "Zoektermen:"
 
 #: ../addons/src/addons.c:509
 msgid "Show status icon in the Notification Area"
-msgstr ""
+msgstr "Laat het status icoon in het Meldingsgebied"
 
 #: ../addons/src/addons.c:515
 msgid "Show defined bookmarks (marked lines) in the sidebar"
-msgstr ""
+msgstr "Laat bladwijzers (gemarkeerde regels) in de zijbalk zien"
 
 #: ../addons/src/addons.c:521
 msgid "Mark all occurrences of a word when double-clicking it"
-msgstr ""
+msgstr "Markeer alle verschijningen van een gedubbelklikt woord"
 
 #: ../addons/src/addons.c:527
 msgid "Strip trailing blank lines"
-msgstr ""
+msgstr "Verwijder lege regels aan het einde van het bestand"
 
 #: ../addons/src/addons.c:533
 msgid "XML tagging for selection"
-msgstr ""
+msgstr "XML labelen voor selectie"
 
 #. All plugins must set name, description, version and author.
 #: ../codenav/src/codenavigation.c:44
