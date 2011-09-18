@@ -52,7 +52,7 @@ extern GeanyPlugin		*geany_plugin;
 /* saving interval */
 #define SAVING_INTERVAL 2000000
 
-/* idle callback staff */
+/* saving thread staff */
 static GMutex *change_config_mutex;
 static GCond *cond;
 static GThread *saving_thread;
@@ -85,7 +85,7 @@ int readline(FILE *file, gchar *buffer, int buffersize)
 /*
  * function for a config file background saving if changed 
  */
-gpointer saving_thread_func(gpointer data)
+static gpointer saving_thread_func(gpointer data)
 {
 	GTimeVal interval;
 	GMutex *m = g_mutex_new();
@@ -153,7 +153,7 @@ void dconfig_destroy()
 /*
  * checks whether a config file is founs in the folder
  */
-gboolean 	dconfig_is_found_at(gchar *folder)
+gboolean dconfig_is_found_at(gchar *folder)
 {
 	gchar *config = g_build_path(G_DIR_SEPARATOR_S, folder, CONFIG_NAME, NULL);
 	gboolean res = g_file_test(config, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR);

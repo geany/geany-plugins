@@ -38,13 +38,14 @@ extern GeanyData		*geany_data;
 #include "debug.h"
 #include "btnpanel.h"
 #include "stree.h"
+#include "pconfig.h"
 
 #define NOTEBOOK_GROUP 438948394
 #define HPANED_BORDER_WIDTH 4
 
 #define CONNECT_PAGE_SIGNALS(X) \
-	swicth_left_handler_id = g_signal_connect(G_OBJECT(debug_notebook_left), "switch-page", G_CALLBACK(on_change_current_page), NULL); \
-	swicth_right_handler_id = g_signal_connect(G_OBJECT(debug_notebook_right), "switch-page", G_CALLBACK(on_change_current_page), NULL); \
+	switch_left_handler_id = g_signal_connect(G_OBJECT(debug_notebook_left), "switch-page", G_CALLBACK(on_change_current_page), NULL); \
+	switch_right_handler_id = g_signal_connect(G_OBJECT(debug_notebook_right), "switch-page", G_CALLBACK(on_change_current_page), NULL); \
 	g_signal_connect(G_OBJECT(debug_notebook_left), "page-reordered", G_CALLBACK(on_page_reordered), NULL); \
 	g_signal_connect(G_OBJECT(debug_notebook_right), "page-reordered", G_CALLBACK(on_page_reordered), NULL); \
 	add_left_handler_id = g_signal_connect(G_OBJECT(debug_notebook_left), "page-added", G_CALLBACK(on_page_added), NULL); \
@@ -53,8 +54,8 @@ extern GeanyData		*geany_data;
 	remove_right_handler_id = g_signal_connect(G_OBJECT(debug_notebook_right), "page-removed", G_CALLBACK(on_page_removed), NULL);
 
 #define DISCONNECT_PAGE_SIGNALS(X) \
-	g_signal_handler_disconnect(G_OBJECT(debug_notebook_left), swicth_left_handler_id); \
-	g_signal_handler_disconnect(G_OBJECT(debug_notebook_right), swicth_right_handler_id); \
+	g_signal_handler_disconnect(G_OBJECT(debug_notebook_left), switch_left_handler_id); \
+	g_signal_handler_disconnect(G_OBJECT(debug_notebook_right), switch_right_handler_id); \
 	g_signal_handler_disconnect(G_OBJECT(debug_notebook_left), reorder_left_handler_id); \
 	g_signal_handler_disconnect(G_OBJECT(debug_notebook_right), reorder_right_handler_id); \
 	g_signal_handler_disconnect(G_OBJECT(debug_notebook_left), add_left_handler_id); \
@@ -68,12 +69,6 @@ extern GeanyData		*geany_data;
 #define DISCONNECT_ALLOCATED_PAGE_SIGNALS(X) \
 	g_signal_handler_disconnect(G_OBJECT(hpaned), allocate_handler_id); \
 
-/* config file path */
-static gchar *config_path = NULL;
-
-/* config GKeyFile */
-static GKeyFile *key_file = NULL;
-
 /* pane */
 static GtkWidget *hpaned = NULL;
 
@@ -81,35 +76,16 @@ static GtkWidget *hpaned = NULL;
 static GtkWidget *debug_notebook_left = NULL;
 static GtkWidget *debug_notebook_right = NULL;
 
-
 /* notebook signal handler ids */
-
 static gulong allocate_handler_id;
-
-static gulong swicth_left_handler_id;
-static gulong swicth_right_handler_id;
-
+static gulong switch_left_handler_id;
+static gulong switch_right_handler_id;
 static gulong reorder_left_handler_id;
 static gulong reorder_right_handler_id;
-
 static gulong add_left_handler_id;
 static gulong add_right_handler_id;
-
 static gulong remove_left_handler_id;
 static gulong remove_right_handler_id;
-
-/* keeps current tabbed mode */
-static gboolean is_tabbed; 
-
-/*
- *	save config to a file
- */
-static void save_config()
-{
-	gchar *data = g_key_file_to_data(key_file, NULL, NULL);
-	g_file_set_contents(config_path, data, -1, NULL);
-	g_free(data);
-}
 
 /*
  *	first allocation handler to properly set paned position
@@ -127,28 +103,42 @@ static void on_size_allocate(GtkWidget *widget,GdkRectangle *allocation, gpointe
  */
 static void on_page_added(GtkNotebook *notebook, GtkWidget *child, guint page_num, gpointer user_data)
 {
-	gboolean left = (GTK_NOTEBOOK(debug_notebook_left) == notebook);
+	gboolean is_left = (GTK_NOTEBOOK(debug_notebook_left) == notebook);
+	gboolean is_tabbed = pconfig_get_tabbed();
 	
-	const gchar *group = is_tabbed ? "two_panels_mode" : "one_panel_mode";
-	const gchar *tabs_key = is_tabbed ? (left ? "left_tabs" : "right_tabs") : "tabs";
-
+	int *tabs = NULL;
 	gsize length;
-	int *tabs = g_key_file_get_integer_list(key_file, group, tabs_key, &length, NULL);
 
-	int *new_tabs = g_malloc((length + 1) * sizeof(int));
+	if (!is_tabbed)
+		tabs = pconfig_get_tabs(&length);
+	else if (is_left)
+		tabs = pconfig_get_left_tabs(&length);
+	else
+		tabs = pconfig_get_right_tabs(&length);
+	
+	int *array = g_malloc((length + 2) * sizeof(int));
+	int *new_tabs = array + 1;
 	memcpy(new_tabs, tabs, length * sizeof(int));
 	memmove(new_tabs + page_num + 1, new_tabs + page_num, (length - page_num) * sizeof(int)); 
 
-	GtkWidget *page = gtk_notebook_get_nth_page(GTK_NOTEBOOK(left ? debug_notebook_left : debug_notebook_right), page_num);
+	GtkWidget *page = gtk_notebook_get_nth_page(GTK_NOTEBOOK(is_left ? debug_notebook_left : debug_notebook_right), page_num);
 	tab_id id = tabs_get_tab_id(page);
 	new_tabs[page_num] = id;
 	
-	g_key_file_set_integer_list(key_file, group, tabs_key, new_tabs, length + 1);
+	int config_part;
+	if (!is_tabbed)
+		config_part = CP_OT_TABS;
+	else if (is_left)
+		config_part = CP_TT_LTABS;
+	else
+		config_part = CP_TT_RTABS;
 
-	save_config();
+	array[0] = length + 1;
+	memcpy(array + 1, new_tabs, length + 1);
+	pconfig_set(config_part, array, 0);
 
 	g_free(tabs);
-	g_free(new_tabs);
+	g_free(array);
 }
 
 /*
@@ -156,17 +146,21 @@ static void on_page_added(GtkNotebook *notebook, GtkWidget *child, guint page_nu
  */
 static void on_page_reordered(GtkNotebook *notebook, GtkWidget *child, guint page_num, gpointer user_data)
 {
-	gboolean left = (GTK_NOTEBOOK(debug_notebook_left) == notebook);
+	gboolean is_left = (GTK_NOTEBOOK(debug_notebook_left) == notebook);
+	gboolean is_tabbed = pconfig_get_tabbed();
 
-	const gchar *group = is_tabbed ? "two_panels_mode" : "one_panel_mode";
-	const gchar *tabs_key = is_tabbed ? (left ? "left_tabs" : "right_tabs") : "tabs";
-	const gchar *selected_key = is_tabbed ? (left ? "left_selected_tab_index" : "right_selected_tab_index") : "selected_tab_index";
-
+	int *tabs = NULL;
 	gsize length;
-	int *tabs = g_key_file_get_integer_list(key_file, group, tabs_key, &length, NULL);
+
+	if (!is_tabbed)
+		tabs = pconfig_get_tabs(&length);
+	else if (is_left)
+		tabs = pconfig_get_left_tabs(&length);
+	else
+		tabs = pconfig_get_right_tabs(&length);
 
 	int prev_index;
-	GtkWidget *page = gtk_notebook_get_nth_page(GTK_NOTEBOOK(left ? debug_notebook_left : debug_notebook_right), page_num);
+	GtkWidget *page = gtk_notebook_get_nth_page(GTK_NOTEBOOK(is_left ? debug_notebook_left : debug_notebook_right), page_num);
 	tab_id id = tabs_get_tab_id(page);
 	for (prev_index = 0; prev_index < length; prev_index++)
 	{
@@ -184,12 +178,36 @@ static void on_page_reordered(GtkNotebook *notebook, GtkWidget *child, guint pag
 		tabs[i + 1] = tmp;
 	}  
 	
-	g_key_file_set_integer_list(key_file, group, tabs_key, tabs, length);
-	g_key_file_set_integer(key_file, group, selected_key, page_num);
-
-	save_config();
-
+	int config_part_tabs;
+	int config_part_selected_index;
+	if (!is_tabbed)
+	{
+		config_part_tabs = CP_OT_TABS;
+		config_part_selected_index = CP_OT_SELECTED;
+	}
+	else if (is_left)
+	{
+		config_part_tabs = CP_TT_LTABS;
+		config_part_selected_index = CP_TT_LSELECTED;
+	}
+	else
+	{
+		config_part_tabs = CP_TT_RTABS;
+		config_part_selected_index = CP_TT_RSELECTED;
+	}
+	
+	int *array = g_malloc((length + 1) * sizeof(int));
+	array[0] = length;
+	memcpy(array + 1, tabs, length * sizeof(int));
+	
+	pconfig_set(
+		config_part_tabs, array,
+		config_part_selected_index, page_num,
+		0
+	);
+	
 	g_free(tabs);
+	g_free(array);
 }
 
 /*
@@ -197,18 +215,32 @@ static void on_page_reordered(GtkNotebook *notebook, GtkWidget *child, guint pag
  */
 static void on_page_removed(GtkNotebook *notebook, GtkWidget *child, guint page_num, gpointer user_data)
 {
-	gboolean left = (GTK_NOTEBOOK(debug_notebook_left) == notebook);
+	gboolean is_left = (GTK_NOTEBOOK(debug_notebook_left) == notebook);
+	gboolean is_tabbed = pconfig_get_tabbed();
 
-	const gchar *group = is_tabbed ? "two_panels_mode" : "one_panel_mode";
-	const gchar *tabs_key = is_tabbed ? (left ? "left_tabs" : "right_tabs") : "tabs";
-
+	int *tabs = NULL;
 	gsize length;
-	int *tabs = g_key_file_get_integer_list(key_file, group, tabs_key, &length, NULL);
-	memmove(tabs + page_num, tabs + page_num + 1, (length - page_num - 1) * sizeof(int)); 
 
-	g_key_file_set_integer_list(key_file, group, tabs_key, tabs, length - 1);
+	if (!is_tabbed)
+		tabs = pconfig_get_tabs(&length);
+	else if (is_left)
+		tabs = pconfig_get_left_tabs(&length);
+	else
+		tabs = pconfig_get_right_tabs(&length);
+
+	memmove(tabs + page_num, tabs + page_num + 1, (length - page_num - 1) * sizeof(int)); 
+	memmove(tabs + 1, tabs, (length - 1) * sizeof(int)); 
+	tabs[0] = length - 1;
 	
-	save_config();
+	int config_part;
+	if (!is_tabbed)
+		config_part = CP_OT_TABS;
+	else if (is_left)
+		config_part = CP_TT_LTABS;
+	else
+		config_part = CP_TT_RTABS;
+	
+	pconfig_set(config_part, tabs, 0);
 
 	g_free(tabs);
 }
@@ -218,35 +250,20 @@ static void on_page_removed(GtkNotebook *notebook, GtkWidget *child, guint page_
  */
 static gboolean on_change_current_page(GtkNotebook *notebook, gpointer arg1, guint arg2, gpointer user_data)
 {
-	gboolean left = (GTK_NOTEBOOK(debug_notebook_left) == notebook);
+	gboolean is_left = (GTK_NOTEBOOK(debug_notebook_left) == notebook);
+	gboolean is_tabbed = pconfig_get_tabbed();
 
-	const gchar *group = is_tabbed ? "two_panels_mode" : "one_panel_mode";
-	const gchar *selected_key = is_tabbed ? (left ? "left_selected_tab_index" : "right_selected_tab_index") : "selected_tab_index";
-
-	g_key_file_set_integer(key_file, group, selected_key, arg2);
-
-	save_config();
+	int config_part;
+	if (!is_tabbed)
+		config_part = CP_OT_SELECTED;
+	else if (is_left)
+		config_part = CP_TT_LSELECTED;
+	else
+		config_part = CP_TT_RSELECTED;
+	
+	pconfig_set(config_part, (gpointer)arg2, 0);
 
 	return TRUE;
-}
-
-/*
- *	set default values in the GKeyFile
- */
-void dpaned_set_defaults(GKeyFile *kf)
-{
-	g_key_file_set_boolean(key_file, "tabbed_mode", "enabled", FALSE);
-
-	int all_tabs[] = { TID_TARGET, TID_BREAKS, TID_LOCALS, TID_WATCH, TID_STACK, TID_TERMINAL, TID_MESSAGES };
-	g_key_file_set_integer_list(key_file, "one_panel_mode", "tabs", all_tabs, sizeof(all_tabs) / sizeof(int));
-	g_key_file_set_integer(key_file, "one_panel_mode", "selected_tab_index", 0);
-
-	int left_tabs[] = { TID_TARGET, TID_BREAKS, TID_LOCALS, TID_WATCH };
-	g_key_file_set_integer_list(key_file, "two_panels_mode", "left_tabs", left_tabs, sizeof(left_tabs) / sizeof(int));
-	g_key_file_set_integer(key_file, "two_panels_mode", "left_selected_tab_index", 0);
-	int right_tabs[] = { TID_STACK, TID_TERMINAL, TID_MESSAGES };
-	g_key_file_set_integer_list(key_file, "two_panels_mode", "right_tabs", right_tabs, sizeof(right_tabs) / sizeof(int));
-	g_key_file_set_integer(key_file, "two_panels_mode", "right_selected_tab_index", 0);
 }
 
 /*
@@ -259,8 +276,8 @@ void dpaned_init()
 	gtk_container_set_border_width(GTK_CONTAINER(hpaned), HPANED_BORDER_WIDTH);
 	
 	/* create notebooks */
-	debug_notebook_left = gtk_notebook_new ();
-	debug_notebook_right = gtk_notebook_new ();
+	debug_notebook_left = gtk_notebook_new();
+	debug_notebook_right = gtk_notebook_new();
 
 	/* setup notebooks */
 	gtk_notebook_set_scrollable(GTK_NOTEBOOK(debug_notebook_left), TRUE);
@@ -274,29 +291,17 @@ void dpaned_init()
 	gtk_paned_add1(GTK_PANED(hpaned), debug_notebook_left);
 	gtk_paned_add2(GTK_PANED(hpaned), debug_notebook_right);
 
-	/* read config */
-	gchar *config_dir = g_build_path(G_DIR_SEPARATOR_S, geany_data->app->configdir, "plugins", "debugger", NULL);
-	config_path = g_build_path(G_DIR_SEPARATOR_S, config_dir, "debugger.conf", NULL);
-	
-	g_mkdir_with_parents(config_dir, S_IRUSR | S_IWUSR | S_IXUSR);
+	/* load config */
+	pconfig_init();
 
-	key_file = g_key_file_new();
-	if (!g_key_file_load_from_file(key_file, config_path, G_KEY_FILE_NONE, NULL))
-	{
-		dpaned_set_defaults(key_file);
-		gchar *data = g_key_file_to_data(key_file, NULL, NULL);
-		g_file_set_contents(config_path, data, -1, NULL);
-		g_free(data);
-	}
-	
-	is_tabbed = g_key_file_get_boolean(key_file, "tabbed_mode", "enabled", NULL);
+	gboolean is_tabbed = pconfig_get_tabbed();
 	if (is_tabbed)
 	{
 		gsize length;
 		int *tab_ids, i;
 
 		/* left */
-		tab_ids = g_key_file_get_integer_list(key_file, "two_panels_mode", "left_tabs", &length, NULL);
+		tab_ids = pconfig_get_left_tabs(&length);
 		for (i = 0; i < length; i++)
 		{
 			GtkWidget *tab = tabs_get_tab((tab_id)tab_ids[i]);
@@ -309,7 +314,7 @@ void dpaned_init()
 		g_free(tab_ids);
 
 		/* right */
-		tab_ids = g_key_file_get_integer_list(key_file, "two_panels_mode", "right_tabs", &length, NULL);
+		tab_ids = pconfig_get_right_tabs(&length);
 		for (i = 0; i < length; i++)
 		{
 			GtkWidget *tab = tabs_get_tab((tab_id)tab_ids[i]);
@@ -323,10 +328,8 @@ void dpaned_init()
 
 		gtk_widget_show_all(hpaned);
 
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_left),
-			g_key_file_get_integer(key_file, "two_panels_mode", "left_selected_tab_index", NULL));
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_right),
-			g_key_file_get_integer(key_file, "two_panels_mode", "right_selected_tab_index", NULL));
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_left), pconfig_get_left_selected_tab_index());
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_right),pconfig_get_right_selected_tab_index());
 	}
 	else
 	{
@@ -334,7 +337,7 @@ void dpaned_init()
 		gtk_container_remove(GTK_CONTAINER(hpaned), debug_notebook_right);
 		
 		gsize length;
-		int *tab_ids = g_key_file_get_integer_list(key_file, "one_panel_mode", "tabs", &length, NULL);
+		int *tab_ids = pconfig_get_tabs(&length);
 		int i;
 		for (i = 0; i < length; i++)
 		{
@@ -347,12 +350,9 @@ void dpaned_init()
 		}
 
 		gtk_widget_show_all(hpaned);
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_left),
-			g_key_file_get_integer(key_file, "one_panel_mode", "selected_tab_index", NULL));
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_left), pconfig_get_selected_tab_index());
 	}
 		
-	g_free(config_dir);
-
 	CONNECT_PAGE_SIGNALS();
 	CONNECT_ALLOCATED_PAGE_SIGNALS();
 }
@@ -362,10 +362,9 @@ void dpaned_init()
  */
 void dpaned_destroy()
 {
-	g_key_file_free(key_file);
-	g_free(config_path);
-	
 	DISCONNECT_PAGE_SIGNALS();
+	
+	pconfig_destroy();
 }
 
 /*
@@ -381,8 +380,6 @@ GtkWidget* dpaned_get_paned()
  */
 void dpaned_set_tabbed(gboolean tabbed)
 {
-	is_tabbed = tabbed;
-	
 	DISCONNECT_PAGE_SIGNALS();
 	
 	if (!tabbed)
@@ -391,7 +388,7 @@ void dpaned_set_tabbed(gboolean tabbed)
 		gtk_container_remove(GTK_CONTAINER(hpaned), debug_notebook_right);
 		
 		gsize length;
-		int *tab_ids = g_key_file_get_integer_list(key_file, "one_panel_mode", "tabs", &length, NULL);
+		int *tab_ids = pconfig_get_tabs(&length);
 		int i;
 		for (i = 0; i < length; i++)
 		{
@@ -407,8 +404,7 @@ void dpaned_set_tabbed(gboolean tabbed)
 			}
 		}
 
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_left),
-			g_key_file_get_integer(key_file, "one_panel_mode", "selected_tab_index", NULL));
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_left), pconfig_get_selected_tab_index());
 
 		gtk_widget_show_all(hpaned);
 	}
@@ -418,7 +414,7 @@ void dpaned_set_tabbed(gboolean tabbed)
 		g_object_unref(debug_notebook_right);
 
 		gsize length;
-		int *tab_ids = g_key_file_get_integer_list(key_file, "two_panels_mode", "right_tabs", &length, NULL);
+		int *tab_ids = pconfig_get_right_tabs(&length);
 		int i;
 		for (i = 0; i < length; i++)
 		{
@@ -431,19 +427,15 @@ void dpaned_set_tabbed(gboolean tabbed)
 				gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(debug_notebook_right), tab, TRUE);
 		}
 
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_left),
-			g_key_file_get_integer(key_file, "two_panels_mode", "left_selected_tab_index", NULL));
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_right),
-			g_key_file_get_integer(key_file, "two_panels_mode", "right_selected_tab_index", NULL));
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_left), pconfig_get_left_selected_tab_index());
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_right), pconfig_get_right_selected_tab_index());
 
 		gtk_widget_show_all(hpaned);
 	}
 	
 	CONNECT_PAGE_SIGNALS();
 
-	g_key_file_set_boolean(key_file, "tabbed_mode", "enabled", is_tabbed);
-
-	save_config();
+	pconfig_set(CP_TABBED_MODE, (gpointer)tabbed, 0);
 }
 
 /*
@@ -451,5 +443,5 @@ void dpaned_set_tabbed(gboolean tabbed)
  */
 gboolean dpaned_get_tabbed()
 {
-	return is_tabbed;
+	return pconfig_get_tabbed();
 }

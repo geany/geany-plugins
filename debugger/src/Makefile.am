@@ -41,6 +41,8 @@ debugger_la_SOURCES = \
 	ltree.h     \
 	markers.c     \
 	markers.h     \
+	pconfig.c     \
+	pconfig.h     \
 	plugin.c     \
 	stree.c     \
 	stree.h     \
