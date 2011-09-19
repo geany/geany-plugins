@@ -1,6 +1,8 @@
 include $(top_srcdir)/build/vars.build.mk
 include $(top_srcdir)/build/vars.docs.mk
 
+SUBDIRS = xpm
+
 if ENABLE_DEBUGGER
 geanyplugins_LTLIBRARIES = debugger.la
 else

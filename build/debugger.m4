@@ -7,6 +7,7 @@ AC_DEFUN([GP_CHECK_DEBUGGER],
     AC_CONFIG_FILES([
         debugger/Makefile
         debugger/src/Makefile
+        debugger/src/xpm/Makefile
         debugger/img/Makefile
     ])
 ])
