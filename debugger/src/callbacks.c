@@ -169,9 +169,6 @@ void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
 	/* set tab size for calltips */
 	scintilla_send_message(doc->editor->sci, SCI_CALLTIPUSESTYLE, 20, (long)NULL);
 
-	/* set caret policy */
-	scintilla_send_message(doc->editor->sci, SCI_SETYCARETPOLICY, CARET_SLOP | CARET_JUMPS | CARET_EVEN , 3);
-	
 	/* set breakpoint and frame markers */
 	set_markers_for_file(file);
 

@@ -536,6 +536,9 @@ static gboolean init(dbg_callbacks* callbacks)
 		return FALSE;
 	}
 	
+	/* move gdb to it's own process group */
+	setpgid(gdb_pid, 0);
+	
 	/* set handler for gdb process exit event */ 
 	g_child_watch_add(gdb_pid, on_gdb_exit, NULL);
 	gdb_src = g_child_watch_source_new(gdb_pid);

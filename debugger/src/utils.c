@@ -38,22 +38,29 @@ extern GeanyFunctions	*geany_functions;
 /*
  * opens position in a editor 
  */
-void editor_open_position(char* file, int line)
+void editor_open_position(const gchar *filename, int line)
 {
 	GeanyDocument* doc = NULL;
-	gboolean already_open = (doc = document_get_current()) && !strcmp(DOC_FILENAME(doc), file);
+	gboolean already_open = (doc = document_get_current()) && !strcmp(DOC_FILENAME(doc), filename);
 
 	if (!already_open)
-		doc = document_open_file(file, FALSE, NULL, NULL);
+		doc = document_open_file(filename, FALSE, NULL, NULL);
 
 	if (doc)
 	{
+		/* temporarily set debug caret policy */
+		scintilla_send_message(doc->editor->sci, SCI_SETYCARETPOLICY, CARET_SLOP | CARET_JUMPS | CARET_EVEN, 3);
+
 		sci_goto_line(doc->editor->sci, line - 1, TRUE);
+
+		/* revert to default edit caret policy */
+		scintilla_send_message(doc->editor->sci, SCI_SETYCARETPOLICY, CARET_EVEN, 0);
+
 		scintilla_send_message(doc->editor->sci, SCI_SETFOCUS, TRUE, 0);
 	}
 	else
 	{
-		dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Can't find a source file \"%s\""), file);
+		dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Can't find a source file \"%s\""), filename);
 	}
 }
 

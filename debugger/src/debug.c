@@ -645,6 +645,9 @@ static void on_debugger_stopped ()
 	{
 		interrupt_cb(interrupt_data);
 		interrupt_data = NULL;
+		
+		active_module->resume();
+		
 		return;
 	}
 
