@@ -26,5 +26,6 @@ from build.wafutils import build_plugin
 name = 'Pretty-Printer'
 includes = ['pretty-printer/src']
 libraries = ['LIBXML_2_0']
+defines = ['HAVE_GLIB=1']
 
-build_plugin(bld, name, includes=includes, libraries=libraries)
+build_plugin(bld, name, includes=includes, libraries=libraries, defines=defines)
