@@ -32,6 +32,6 @@ extern PrettyPrintingOptions* prettyPrintingOptions;
 //========================================== FUNCTIONS ========================================================
 
 GtkWidget* createPrettyPrinterConfigUI(GtkDialog* dialog);
-void saveSettings();
+void saveSettings(void);
 
 #endif

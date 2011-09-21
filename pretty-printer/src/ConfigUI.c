@@ -82,7 +82,7 @@ GtkWidget* createPrettyPrinterConfigUI(GtkDialog * dialog)
     return container;
 }
 
-void saveSettings()
+void saveSettings(void)
 {
     PrettyPrintingOptions* ppo = prettyPrintingOptions;
     

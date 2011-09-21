@@ -25,33 +25,33 @@ static void putCharInBuffer(char charToAdd);                     //put a char in
 static void putCharsInBuffer(const char* charsToAdd);            //put the chars into the new char buffer
 static void putNextCharsInBuffer(int nbChars);                   //put the next nbChars of the input buffer into the new buffer
 static int readWhites(bool considerLineBreakAsWhite);            //read the next whites into the input buffer
-static char readNextChar();                                      //read the next char into the input buffer;
-static char getNextChar();                                       //returns the next char but do not increase the input buffer index (use readNextChar for that)
-static char getPreviousInsertedChar();                           //returns the last inserted char into the new buffer
+static char readNextChar(void);                                  //read the next char into the input buffer;
+static char getNextChar(void);                                   //returns the next char but do not increase the input buffer index (use readNextChar for that)
+static char getPreviousInsertedChar(void);                       //returns the last inserted char into the new buffer
 static bool isWhite(char c);                                     //check if the specified char is a white
 static bool isSpace(char c);                                     //check if the specified char is a space
 static bool isLineBreak(char c);                                 //check if the specified char is a new line
 static bool isQuote(char c);                                     //check if the specified char is a quote (simple or double)
-static int putNewLine();                                         //put a new line into the new char buffer with the correct number of whites (indentation)
-static bool isInlineNodeAllowed();                               //check if it is possible to have an inline node
+static int putNewLine(void);                                     //put a new line into the new char buffer with the correct number of whites (indentation)
+static bool isInlineNodeAllowed(void);                           //check if it is possible to have an inline node
 static bool isOnSingleLine(int skip, char stop1, char stop2);    //check if the current node data is on one line (for inlining)
 static void resetBackwardIndentation(bool resetLineBreak);       //reset the indentation for the current depth (just reset the index in fact)
                                                              
 //specific parsing functions                                 
-static int processElements();                                    //returns the number of elements processed
-static void processElementAttribute();                           //process on attribute of a node
-static void processElementAttributes();                          //process all the attributes of a node
-static void processHeader();                                     //process the header <?xml version="..." ?>
-static void processNode();                                       //process an XML node
-static void processTextNode();                                   //process a text node
-static void processComment();                                    //process a comment
-static void processCDATA();                                      //process a CDATA node
-static void processDoctype();                                    //process a DOCTYPE node
-static void processDoctypeElement();                             //process a DOCTYPE ELEMENT node
+static int processElements(void);                                //returns the number of elements processed
+static void processElementAttribute(void);                       //process on attribute of a node
+static void processElementAttributes(void);                      //process all the attributes of a node
+static void processHeader(void);                                 //process the header <?xml version="..." ?>
+static void processNode(void);                                   //process an XML node
+static void processTextNode(void);                               //process a text node
+static void processComment(void);                                //process a comment
+static void processCDATA(void);                                  //process a CDATA node
+static void processDoctype(void);                                //process a DOCTYPE node
+static void processDoctypeElement(void);                         //process a DOCTYPE ELEMENT node
 
 //debug function                                             
 static void printError(const char *msg, ...);                    //just print a message like the printf method
-static void printDebugStatus();                                  //just print some variables into the console for debugging
+static void printDebugStatus(void);                              //just print some variables into the console for debugging
 
 //============================================ PRIVATE PROPERTIES ======================================
 
@@ -145,7 +145,7 @@ int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* 
     return result;
 }
 
-PrettyPrintingOptions* createDefaultPrettyPrintingOptions()
+PrettyPrintingOptions* createDefaultPrettyPrintingOptions(void)
 {
     PrettyPrintingOptions* defaultOptions = (PrettyPrintingOptions*)malloc(sizeof(PrettyPrintingOptions));
     if (defaultOptions == NULL) 
@@ -212,12 +212,12 @@ void putCharsInBuffer(const char* charsToAdd)
     }
 }
 
-char getPreviousInsertedChar()
+char getPreviousInsertedChar(void)
 {
     return xmlPrettyPrinted[xmlPrettyPrintedIndex-1];
 }
 
-int putNewLine()
+int putNewLine(void)
 {
     putCharsInBuffer(options->newLineChars);
     int spaces = currentDepth*options->indentLength;
@@ -230,12 +230,12 @@ int putNewLine()
     return spaces;
 }
 
-char getNextChar()
+char getNextChar(void)
 {
     return inputBuffer[inputBufferIndex];
 }
 
-char readNextChar()
+char readNextChar(void)
 {   
     return inputBuffer[inputBufferIndex++];
 }
@@ -278,7 +278,7 @@ bool isLineBreak(char c)
             c == '\r');
 }
 
-bool isInlineNodeAllowed()
+bool isInlineNodeAllowed(void)
 {
     //the last action was not an opening => inline not allowed
     if (!lastNodeOpen) { return FALSE; }
@@ -403,7 +403,7 @@ void resetBackwardIndentation(bool resetLineBreak)
 //-----------------------------------------------------------------------------------------------------------------------------------------
 //#########################################################################################################################################
 
-int processElements()
+int processElements(void)
 {
     int counter = 0;
     ++currentDepth;
@@ -474,7 +474,7 @@ int processElements()
     return counter;
 }
 
-void processElementAttribute()
+void processElementAttribute(void)
 {
     //process the attribute name
     char nextChar = readNextChar();
@@ -502,7 +502,7 @@ void processElementAttribute()
     putCharInBuffer(quote);
 }
 
-void processElementAttributes()
+void processElementAttributes(void)
 {
     char current = getNextChar(); //should not be a white
     if (isWhite(current)) 
@@ -529,7 +529,7 @@ void processElementAttributes()
     }
 }
 
-void processHeader()
+void processHeader(void)
 {
     int firstChar = inputBuffer[inputBufferIndex]; //should be '<'
     int secondChar = inputBuffer[inputBufferIndex+1]; //must be '?'
@@ -556,7 +556,7 @@ void processHeader()
     }
 }
 
-void processNode()
+void processNode(void)
 {
     int opening = readNextChar();
     if (opening != '<') 
@@ -632,7 +632,7 @@ void processNode()
     { 
         //the tag is just closed (maybe some content)
         putNextCharsInBuffer(1); 
-        subElementsProcessed = processElements(TRUE); 
+        subElementsProcessed = processElements();
     } 
     else 
     { 
@@ -694,7 +694,7 @@ void processNode()
     currentNodeName = NULL;
 }
 
-void processComment()
+void processComment(void)
 {
     bool inlineAllowed = FALSE;
     if (options->inlineComment) { inlineAllowed = isInlineNodeAllowed(); }
@@ -799,7 +799,7 @@ void processComment()
     lastNodeOpen = FALSE;
 }
 
-void processTextNode()
+void processTextNode(void)
 {
     //checks if inline is allowed
     bool inlineTextAllowed = FALSE;
@@ -891,7 +891,7 @@ void processTextNode()
     lastNodeOpen = FALSE;
 }
 
-void processCDATA()
+void processCDATA(void)
 {
     bool inlineAllowed = FALSE;
     if (options->inlineCdata) { inlineAllowed = isInlineNodeAllowed(); }
@@ -1013,7 +1013,7 @@ void processCDATA()
     lastNodeOpen = FALSE;
 }
 
-void processDoctype()   
+void processDoctype(void)
 {
     putNextCharsInBuffer(9); //put the '<!DOCTYPE' into the buffer
     
@@ -1074,7 +1074,7 @@ void processDoctype()
     }
 }
 
-void processDoctypeElement()
+void processDoctypeElement(void)
 {
     printError("ELEMENT is currently not supported by PrettyPrinter\n");
     result = PRETTY_PRINTING_NOT_SUPPORTED_YET;
@@ -1094,7 +1094,7 @@ void printError(const char *msg, ...)
     printDebugStatus();
 }
 
-void printDebugStatus()
+void printDebugStatus(void)
 {
     #ifdef HAVE_GLIB
     g_debug("\n===== INPUT =====\n%s\n=================\ninputLength = %d\ninputIndex = %d\noutputLength = %d\noutputIndex = %d\n", 
