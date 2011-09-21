@@ -20,6 +20,9 @@
 
 //======================= FUNCTIONS ====================================================================
 
+//error reporting functions
+static void PP_ERROR(const char* fmt, ...) G_GNUC_PRINTF(1,2);  //prints an error message
+
 //xml pretty printing functions
 static void putCharInBuffer(char charToAdd);                     //put a char into the new char buffer
 static void putCharsInBuffer(const char* charsToAdd);            //put the chars into the new char buffer
@@ -73,7 +76,15 @@ static PrettyPrintingOptions* options;                            //options of P
 
 //============================================ GENERAL FUNCTIONS =======================================
 
-#define PP_ERROR(format, ...) fprintf(stderr, format "\n", ##__VA_ARGS__); 
+static void PP_ERROR(const char* fmt, ...)
+{
+    va_list va;
+    
+    va_start(va, fmt);
+    vfprintf(stderr, fmt, va);
+    putc('\n', stderr);
+    va_end(va);
+}
 
 int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* ppOptions)
 {
