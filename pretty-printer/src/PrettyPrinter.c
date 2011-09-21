@@ -50,7 +50,7 @@ static void processDoctype(void);                                //process a DOC
 static void processDoctypeElement(void);                         //process a DOCTYPE ELEMENT node
 
 //debug function                                             
-static void printError(const char *msg, ...);                    //just print a message like the printf method
+static void printError(const char *msg, ...) G_GNUC_PRINTF(1,2); //just print a message like the printf method
 static void printDebugStatus(void);                              //just print some variables into the console for debugging
 
 //============================================ PRIVATE PROPERTIES ======================================
