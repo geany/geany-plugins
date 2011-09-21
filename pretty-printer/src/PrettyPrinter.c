@@ -1085,9 +1085,10 @@ void printError(const char *msg, ...)
     va_list va;
     va_start(va, msg);
     #ifdef HAVE_GLIB
-    g_warning(msg, va);
+    g_logv(G_LOG_DOMAIN, G_LOG_LEVEL_WARNING, msg, va);
     #else
-    PP_ERROR(msg, va);
+    vfprintf(stderr, msg, va);
+    putc('\n', stderr);
     #endif
     va_end(va);
 
