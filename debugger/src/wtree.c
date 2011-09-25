@@ -29,6 +29,8 @@
 #include "watch_model.h"
 #include "vtree.h"
 #include "dconfig.h"
+#include "breakpoint.h"
+#include "debug_module.h"
 
 /* drag types */
 enum
@@ -65,6 +67,7 @@ static void add_empty_row()
 		W_INTERNAL, "",
 		W_EXPRESSION, "",
 		W_VALUE, "",
+		W_VT, VT_NONE,
 		-1);
 
 	/* save reference */

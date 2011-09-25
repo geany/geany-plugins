@@ -4,4 +4,7 @@ EXTRA_DIST = \
 	breakpoint_disabled.xpm \
 	breakpoint.xpm \
 	frame_current.xpm \
-	frame.xpm
+	frame.xpm \
+	argument.xpm \
+	local.xpm \
+	watch.xpm

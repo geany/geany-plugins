@@ -21,7 +21,7 @@
 
 /*
  *		Variables tree view.
- * 		Base class for locals and watch tree views.
+ * 		Base class for autos and watch tree views.
  */
 
 #include <string.h>
@@ -30,8 +30,12 @@
 
 #include "geanyplugin.h"
 
+#include "breakpoint.h"
+#include "debug_module.h"
 #include "watch_model.h"
 #include "utils.h"
+#include "pixbuf.h"
+
 
 /* columns minumum width in characters */
 #define MIN_COLUMN_CHARS 20
@@ -64,6 +68,42 @@ static gboolean on_key_pressed(GtkWidget *widget, GdkEvent *event, gpointer user
 	return FALSE;
 }
 
+
+/*
+ * value rendere function
+ */
+void render_icon(GtkTreeViewColumn *tree_column,
+	 GtkCellRenderer *cell,
+	 GtkTreeModel *tree_model,
+	 GtkTreeIter *iter,
+	 gpointer data)
+{
+	variable_type vt;
+	gtk_tree_model_get (
+		tree_model,
+		iter,
+		W_VT, &vt,
+		-1);
+
+	if (VT_NONE != vt && VT_CHILD != vt)
+	{
+		g_object_set(cell, "visible", TRUE, NULL);
+
+		GdkPixbuf *pixbuf = NULL;
+		if (VT_ARGUMENT == vt)
+			pixbuf = argument_pixbuf;
+		else if (VT_LOCAL == vt)
+			pixbuf = local_pixbuf;
+		else if (VT_WATCH == vt)
+			pixbuf = watch_pixbuf;
+
+		g_object_set (cell, "pixbuf", (gpointer)pixbuf, NULL);
+	}
+	else
+	{
+		g_object_set(cell, "visible", FALSE, NULL);
+	}
+}
 
 /*
  * value rendere function
@@ -102,13 +142,14 @@ GtkWidget* vtree_create(watch_render_name on_render_name, watch_expression_chang
 		G_TYPE_STRING,
 		G_TYPE_STRING,
 		G_TYPE_INT,
+		G_TYPE_INT,
 		G_TYPE_INT);
 	GtkWidget* tree = gtk_tree_view_new_with_model (GTK_TREE_MODEL(store));
 		
 	/* set tree view parameters */
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(tree), TRUE);
 	gtk_tree_view_set_enable_tree_lines(GTK_TREE_VIEW(tree), TRUE);
-	g_object_set(tree, "rules-hint", TRUE, NULL);
+	gtk_tree_view_set_level_indentation(GTK_TREE_VIEW(tree), 10);
 
 	/* connect signals */
 	g_signal_connect(G_OBJECT(tree), "key-press-event", G_CALLBACK (on_key_pressed), NULL);
@@ -118,8 +159,18 @@ GtkWidget* vtree_create(watch_render_name on_render_name, watch_expression_chang
 	GtkTreeViewColumn *column;
 	
 	/* Name */
+	column = gtk_tree_view_column_new();
+	gtk_tree_view_column_set_title(column, _("Name"));
+	
 	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("Name"), renderer, "text", W_NAME, NULL);
+	gtk_tree_view_column_pack_end(column, renderer, TRUE);
+	gtk_tree_view_column_set_attributes(column, renderer, "text", W_NAME, NULL);	
+	
+	GtkCellRenderer *icon_renderer = gtk_cell_renderer_pixbuf_new ();
+	g_object_set(icon_renderer, "follow-state", TRUE, NULL);
+	gtk_tree_view_column_pack_end(column, icon_renderer, FALSE);
+	gtk_tree_view_column_set_cell_data_func(column, icon_renderer, render_icon, NULL, NULL);
+
 	gtk_tree_view_column_set_resizable (column, TRUE);
 	if (on_render_name)
 		gtk_tree_view_column_set_cell_data_func(column, renderer, on_render_name, NULL, NULL);

@@ -68,6 +68,7 @@ inline static void add_stub(GtkTreeStore *store, GtkTreeIter *parent)
 	    W_EXPRESSION, "",
 		W_STUB, FALSE,
 		W_CHANGED, FALSE,
+		W_VT, VT_NONE,
 		-1);
 	
 	/* set W_STUB flag */
@@ -89,37 +90,94 @@ inline static void append_variables(GtkTreeView *tree, GtkTreeIter *parent, GLis
 	GtkTreeModel *model = gtk_tree_view_get_model(tree);
 	GtkTreeStore *store = GTK_TREE_STORE(model);
 
+	GtkTreeIter child;
+
+	/* get existing rows */
+	GHashTable *ht = NULL;
+	if (gtk_tree_model_iter_n_children(model, parent))
+	{
+		/* collect all existing rows */
+		gtk_tree_model_iter_children(model, &child, parent);
+		
+		ht = g_hash_table_new_full(g_str_hash, g_str_equal, (GDestroyNotify)g_free, (GDestroyNotify)gtk_tree_row_reference_free);
+		
+		do
+		{
+			gchar *name = NULL;
+			gtk_tree_model_get(model, &child, W_NAME, &name, -1);
+			if (name && strlen(name))
+			{
+				GtkTreePath *path = gtk_tree_model_get_path(model, &child);
+				g_hash_table_insert(ht, name, gtk_tree_row_reference_new(model, path));
+				gtk_tree_path_free(path);
+			}
+		}
+		while(gtk_tree_model_iter_next(model, &child));
+	}
+	
+	int current_position = 0;
 	while (vars)
 	{
 		variable *v = vars->data;
 		
-		/* set row */
-		GtkTreeIter child;
-		gtk_tree_store_prepend (store, &child, parent);
-		gtk_tree_store_set (store, &child,
-			W_NAME, v->name->str,
-			W_VALUE, v->value->str,
-			W_TYPE, v->type->str,
-			W_INTERNAL, v->internal->str,
-			W_EXPRESSION, v->expression->str,
-		    W_STUB, v->has_children,
-			W_CHANGED, mark_changed,
-			-1);
-		
-		/* expand to row if we were asked to */
-		if (expand)
+		GtkTreeRowReference *reference = NULL;
+		if (ht && (reference = g_hash_table_lookup (ht, v->name->str)))
 		{
-			GtkTreePath *path = gtk_tree_model_get_path(model, &child);
-			gtk_tree_view_expand_row(tree, path, FALSE);
+			GtkTreePath *path = gtk_tree_row_reference_get_path(reference);
+			if (current_position != gtk_tree_path_get_indices(path)[0])
+			{
+				/* move a row if not at it's place */
+				GtkTreeIter iter;
+				gtk_tree_model_get_iter(model, &iter, path);
+				if (current_position)
+				{
+					GtkTreeIter insert_after;	
+					gtk_tree_model_iter_nth_child(model, &insert_after, parent, current_position - 1);
+					gtk_tree_store_move_after(store, &iter, &insert_after);
+				}
+				else
+				{
+					gtk_tree_store_move_after(store, &iter, NULL);
+				}
+			}
+
 			gtk_tree_path_free(path);
 		}
-		
-		/* add stub if added child also have children */
-		if (v->has_children)
-			add_stub(store, &child);
+		else
+		{
+			gtk_tree_store_insert(store, &child, parent, current_position);
+			gtk_tree_store_set (store, &child,
+				W_NAME, v->name->str,
+				W_VALUE, v->value->str,
+				W_TYPE, v->type->str,
+				W_INTERNAL, v->internal->str,
+				W_EXPRESSION, v->expression->str,
+				W_STUB, v->has_children,
+				W_CHANGED, mark_changed,
+				W_VT, v->vt,
+				-1);
+			
+			/* expand to row if we were asked to */
+			if (expand)
+			{
+				GtkTreePath *path = gtk_tree_model_get_path(model, &child);
+				gtk_tree_view_expand_row(tree, path, FALSE);
+				gtk_tree_path_free(path);
+			}
+			
+			/* add stub if added child also have children */
+			if (v->has_children)
+				add_stub(store, &child);
+		}
 		
 		/* move to next variable */
 		vars = vars->next;
+		current_position++;
+	}
+	
+	if (ht)
+	{
+		g_hash_table_destroy(ht);
 	}
 }
 
@@ -164,6 +222,7 @@ void update_variable(GtkTreeStore *store, GtkTreeIter *iter, variable *var, gboo
 		W_EXPRESSION, var->expression->str,
 		W_STUB, FALSE,
 		W_CHANGED, changed,
+		W_VT, var->vt,
 		-1);
 } 
 
@@ -324,10 +383,7 @@ void update_variables(GtkTreeView *tree, GtkTreeIter *parent, GList *vars)
 				add_stub(store, &child); 
 			}
 			
-			/* 6. Remove variable from "vars" list */
-			vars = g_list_delete_link(vars, var);
-			
-			/* 7. free name, expression */ 
+			/* 6. free name, expression */ 
 			g_free(name);
 			g_free(internal);
 			g_free(value);
@@ -389,6 +445,7 @@ void variable_set_name_only(GtkTreeStore *store, GtkTreeIter *iter, gchar *name)
 		W_EXPRESSION, "",
 		W_STUB, FALSE,
 		W_CHANGED, FALSE,
+		W_VT, VT_WATCH,
 		-1);
 }
 

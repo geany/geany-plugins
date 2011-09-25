@@ -40,10 +40,7 @@
 #include "utils.h"
 #include "dconfig.h"
 #include "tabs.h"
-
-#include "xpm/breakpoint.xpm"
-#include "xpm/breakpoint_disabled.xpm"
-#include "xpm/breakpoint_condition.xpm"
+#include "pixbuf.h"
 
 /* Tree view columns */
 enum
@@ -73,12 +70,6 @@ static gboolean readonly = FALSE;
 
 /* hash table to keep file nodes in the tree */
 static GHashTable *files;
-
-/* pixbufers */
-GdkPixbuf *file_pixbuf = NULL;
-GdkPixbuf *break_pixbuf = NULL;
-GdkPixbuf *break_disabled_pixbuf = NULL;
-GdkPixbuf *break_condition_pixbuf = NULL;
 
 /* callback handler */
 move_to_line_cb on_break_clicked = NULL;
@@ -545,11 +536,6 @@ gboolean bptree_init(move_to_line_cb cb)
 		(GDestroyNotify)gtk_tree_row_reference_free
 	);
 	
-	file_pixbuf = gdk_pixbuf_new_from_xpm_data(breakpoint_xpm);
-	break_pixbuf = gdk_pixbuf_new_from_xpm_data(breakpoint_xpm);
-	break_disabled_pixbuf = gdk_pixbuf_new_from_xpm_data(breakpoint_disabled_xpm);
-	break_condition_pixbuf = gdk_pixbuf_new_from_xpm_data(breakpoint_condition_xpm);
-
 	/* create tree view */
 	store = gtk_tree_store_new (
 		N_COLUMNS,
@@ -645,11 +631,6 @@ gboolean bptree_init(move_to_line_cb cb)
 void bptree_destroy()
 {
 	g_hash_table_destroy(files);
-
-	g_object_unref(file_pixbuf);
-	g_object_unref(break_pixbuf);
-	g_object_unref(break_disabled_pixbuf);
-	g_object_unref(break_condition_pixbuf);
 }
 
 /*

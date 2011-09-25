@@ -1,5 +1,5 @@
 /*
- *      ltree.h
+ *      atree.c
  *      
  *      Copyright 2010 Alexander Petukhov <devel(at)apetukhov.ru>
  *      
@@ -18,6 +18,29 @@
  *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  *      MA 02110-1301, USA.
  */
- 
-GtkWidget* ltree_init(watch_expanded_callback expanded, watch_button_pressed buttonpressed);
 
+/*
+ * 		Contains autos tree view functions.
+ */
+
+#include <gtk/gtk.h>
+
+#include "watch_model.h"
+#include "vtree.h"
+
+/* pointer to a widget */
+static GtkWidget *tree = NULL;
+
+/*
+ * init autos tree, and sets on expanded handler
+ * arguments:
+ * 		expanded - handler to call when tree item is expanded
+ */
+GtkWidget* atree_init(watch_expanded_callback expanded, watch_button_pressed buttonpressed)
+{
+	tree = vtree_create(NULL, NULL);
+	g_signal_connect(G_OBJECT(tree), "row-expanded", G_CALLBACK (expanded), NULL);
+	g_signal_connect(G_OBJECT(tree), "button-press-event", G_CALLBACK (buttonpressed), NULL);
+		
+	return tree;
+}

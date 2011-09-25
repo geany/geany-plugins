@@ -32,8 +32,7 @@
 #include "breakpoints.h"
 #include "utils.h"
 #include "debug_module.h"
-
-#include "xpm/frame_current.xpm"
+#include "pixbuf.h"
 
 #define ARROW_PADDING 7
 
@@ -64,9 +63,6 @@ static GtkCellRenderer *renderer_arrow, *renderer_address, *renderer_funtion, *r
 
 /* flag to indicate whether to handle selection change */
 static gboolean handle_selection = TRUE;
-
-/* pixbuf with the frame arrow */
-GdkPixbuf *arrow_pixbuf = NULL;
 
 /*
  *  Handles same tree row click to open frame position
@@ -159,8 +155,6 @@ void on_selection_changed(GtkTreeSelection *treeselection, gpointer user_data)
 GtkWidget* stree_init(move_to_line_cb cb)
 {
 	callback = cb;
-	
-	arrow_pixbuf = gdk_pixbuf_new_from_xpm_data(frame_current_xpm);
 
 	/* create tree view */
 	store = gtk_list_store_new (
@@ -177,7 +171,6 @@ GtkWidget* stree_init(move_to_line_cb cb)
 	
 	/* set tree view properties */
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(tree), 1);
-	g_object_set(tree, "rules-hint", TRUE, NULL);
 
 	/* connect signals */
 	g_signal_connect(G_OBJECT(gtk_tree_view_get_selection(GTK_TREE_VIEW(tree))), "changed",
@@ -193,7 +186,7 @@ GtkWidget* stree_init(move_to_line_cb cb)
 	/* arrow */
 	renderer_arrow = gtk_cell_renderer_pixbuf_new ();
 	column = gtk_tree_view_column_new_with_attributes ("", renderer_arrow, "pixbuf", S_ARROW, NULL);
-	gtk_tree_view_column_set_min_width(column, gdk_pixbuf_get_width(arrow_pixbuf) + 2 * ARROW_PADDING);
+	gtk_tree_view_column_set_min_width(column, gdk_pixbuf_get_width(frame_current_pixbuf) + 2 * ARROW_PADDING);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
 	/* address */
@@ -252,7 +245,7 @@ void stree_add(frame *f, gboolean first)
 	if (first)
 	{
 		gtk_list_store_set (store, &iter,
-						S_ARROW, arrow_pixbuf,
+						S_ARROW, frame_current_pixbuf,
 						-1);
 	}
     
@@ -293,5 +286,4 @@ void stree_select_first()
  */
 void stree_destroy()
 {
-	g_object_unref(arrow_pixbuf);
 }

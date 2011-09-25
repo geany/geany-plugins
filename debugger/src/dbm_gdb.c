@@ -96,8 +96,8 @@ char err_message[1000];
 /* flag, showing that on debugger stop we have to call a callback */
 gboolean requested_interrupt = FALSE;
 
-/* locals list */
-static GList *locals = NULL;
+/* autos list */
+static GList *autos = NULL;
 
 /* watches list */
 static GList *watches = NULL;
@@ -113,7 +113,7 @@ static gboolean file_refresh_needed = FALSE;
 void stop();
 variable* add_watch(gchar* expression);
 void update_watches();
-void update_locals();
+void update_autos();
 void update_files();
 
 /* list of start messages, to show them in init if initialization is successfull */
@@ -176,10 +176,10 @@ static void on_gdb_exit(GPid pid, gint status, gpointer data)
 	shutdown_channel(&gdb_ch_in);
 	shutdown_channel(&gdb_ch_out);
 	
-	/* delete locals */
-	g_list_foreach(locals, (GFunc)g_free, NULL);
-	g_list_free(locals);
-	locals = NULL;
+	/* delete autos */
+	g_list_foreach(autos, (GFunc)g_free, NULL);
+	g_list_free(autos);
+	autos = NULL;
 	
 	/* delete watches */
 	g_list_foreach(watches, (GFunc)g_free, NULL);
@@ -296,8 +296,8 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 			/* removing read callback (will pulling all output left manually) */
 			g_source_remove(gdb_id_out);
 
-			/* update locals */
-			update_locals();
+			/* update autos */
+			update_autos();
 
 			/* update watches */
 			update_watches();
@@ -633,7 +633,7 @@ gboolean load(char* file, char* commandline, GList* env, GList *witer)
 	{
 		gchar *name = (gchar*)witer->data;
 
-		variable *var = variable_new(name);
+		variable *var = variable_new(name, VT_WATCH);
 		watches = g_list_append(watches, var);
 		
 		witer = witer->next;
@@ -1239,14 +1239,14 @@ void update_watches()
 }
 
 /*
- * updates locals list 
+ * updates autos list 
  */
-void update_locals()
+void update_autos()
 {
 	gchar command[1000];
 
-	/* remove all previous GDB variables for locals */
-	GList *iter = locals;
+	/* remove all previous GDB variables for autos */
+	GList *iter = autos;
 	while (iter)
 	{
 		variable *var = (variable*)iter->data;
@@ -1257,68 +1257,73 @@ void update_locals()
 		iter = iter->next;
 	}
 
-	g_list_foreach(locals, (GFunc)variable_free, NULL);
-	g_list_free(locals);
-	locals = NULL;
+	g_list_foreach(autos, (GFunc)variable_free, NULL);
+	g_list_free(autos);
+	autos = NULL;
 	
-	/* add current locals to the list */
-	gchar *record = NULL;
-	result_class rc = exec_sync_command("-stack-list-locals 0", TRUE, &record);
-	if (RC_DONE != rc)
-		return;
-
+	/* add current autos to the list */
 	GList *unevaluated = NULL;
-
-	gchar *pos = record;
-	while ((pos = strstr(pos, "name=\"")))
+	
+	const char *gdb_commands[] = { "-stack-list-arguments 0 0 0", "-stack-list-locals 0" };
+	int i, size = sizeof (gdb_commands) / sizeof(char*);
+	for (i = 0; i < size; i++)
 	{
-		pos += strlen("name=\"");
-		*(strchr(pos, '\"')) = '\0';
+		gchar *record = NULL;
+		result_class rc = exec_sync_command(gdb_commands[i], TRUE, &record);
+		if (RC_DONE != rc)
+			break;
 
-		variable *var = variable_new(pos);
-
-		/* create new gdb variable */
-		gchar *create_record = NULL;
-		
-		gchar *escaped = g_strescape(pos, NULL);
-		sprintf(command, "-var-create - * \"%s\"", escaped);
-		g_free(escaped);
-
-		/* form new variable */
-		if (RC_DONE == exec_sync_command(command, TRUE, &create_record))
+		gchar *pos = record;
+		while ((pos = strstr(pos, "name=\"")))
 		{
-			gchar *intname = strstr(create_record, "name=\"") + strlen ("name=\"");
-			*strchr(intname, '\"') = '\0';
-			var->evaluated = TRUE;
-			g_string_assign(var->internal, intname);
-			locals = g_list_append(locals, var);
+			pos += strlen("name=\"");
+			*(strchr(pos, '\"')) = '\0';
 
-			g_free(create_record);
+			variable *var = variable_new(pos, i ? VT_LOCAL : VT_ARGUMENT);
+
+			/* create new gdb variable */
+			gchar *create_record = NULL;
+			
+			gchar *escaped = g_strescape(pos, NULL);
+			sprintf(command, "-var-create - * \"%s\"", escaped);
+			g_free(escaped);
+
+			/* form new variable */
+			if (RC_DONE == exec_sync_command(command, TRUE, &create_record))
+			{
+				gchar *intname = strstr(create_record, "name=\"") + strlen ("name=\"");
+				*strchr(intname, '\"') = '\0';
+				var->evaluated = TRUE;
+				g_string_assign(var->internal, intname);
+				autos = g_list_append(autos, var);
+
+				g_free(create_record);
+			}
+			else
+			{
+				var->evaluated = FALSE;
+				g_string_assign(var->internal, "");
+				unevaluated = g_list_append(unevaluated, var);
+			}
+			
+			pos += strlen(pos) + 1;
 		}
-		else
-		{
-			var->evaluated = FALSE;
-			g_string_assign(var->internal, "");
-			unevaluated = g_list_append(unevaluated, var);
-		}
-		
-		pos += strlen(pos) + 1;
+		g_free(record);
 	}
-	g_free(record);
-
-	/* get values for the locals (without incorrect variables) */
-	get_variables(locals);
+	
+	/* get values for the autos (without incorrect variables) */
+	get_variables(autos);
 	
 	/* add incorrect variables */
-	locals = g_list_concat(locals, unevaluated);
+	autos = g_list_concat(autos, unevaluated);
 }
 
 /*
- * get locals list 
+ * get autos list 
  */
-GList* get_locals ()
+GList* get_autos ()
 {
-	return g_list_copy(locals);
+	return g_list_copy(autos);
 }
 
 /*
@@ -1383,7 +1388,7 @@ GList* get_children (gchar* path)
 			
 			name = g_strcompress(pos);
 			
-			variable *var = variable_new2(name, internal);
+			variable *var = variable_new2(name, internal, VT_CHILD);
 			var->evaluated = TRUE;
 			
 			pos += strlen(pos) + 1;
@@ -1407,7 +1412,7 @@ variable* add_watch(gchar* expression)
 {
 	gchar command[1000];
 
-	variable *var = variable_new(expression);
+	variable *var = variable_new(expression, VT_WATCH);
 	watches = g_list_append(watches, var);
 
 	/* try to create a variable */

@@ -34,7 +34,7 @@ extern GeanyData		*geany_data;
 GtkWidget *tab_target = NULL;
 GtkWidget *tab_breaks = NULL;
 GtkWidget *tab_watch = NULL;
-GtkWidget *tab_locals = NULL;
+GtkWidget *tab_autos = NULL;
 GtkWidget *tab_call_stack = NULL;
 GtkWidget *tab_terminal = NULL;
 GtkWidget *tab_messages = NULL;
@@ -59,9 +59,9 @@ tab_id tabs_get_tab_id(GtkWidget* tab)
 	{
 		id = TID_WATCH;
 	}
-	else if (tab_locals == tab)
+	else if (tab_autos == tab)
 	{
-		id = TID_LOCALS;
+		id = TID_AUTOS;
 	}
 	else if (tab_call_stack == tab)
 	{
@@ -98,8 +98,8 @@ GtkWidget* tabs_get_tab(tab_id id)
 		case TID_WATCH:
 			tab = tab_watch;
 			break;
-		case TID_LOCALS:
-			tab = tab_locals;
+		case TID_AUTOS:
+			tab = tab_autos;
 			break;
 		case TID_STACK:
 			tab = tab_call_stack;
@@ -133,8 +133,8 @@ const gchar* tabs_get_label(tab_id id)
 		case TID_WATCH:
 			label = _("Watch");
 			break;
-		case TID_LOCALS:
-			label = _("Locals");
+		case TID_AUTOS:
+			label = _("Autos");
 			break;
 		case TID_STACK:
 			label = _("Call Stack");

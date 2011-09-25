@@ -53,7 +53,7 @@ extern GeanyData		*geany_data;
 #include "stree.h"
 #include "watch_model.h"
 #include "wtree.h"
-#include "ltree.h"
+#include "atree.h"
 #include "tpage.h"
 #include "calltip.h"
 #include "bptree.h"
@@ -119,17 +119,17 @@ static GtkWidget *debugger_messages_textview = NULL;
 static GtkAdjustment *hadj = NULL;
 static GtkAdjustment *vadj = NULL;
 
-/* stack trace/watch/locals CtkTreeView widgets */
+/* stack trace/watch/autos CtkTreeView widgets */
 static GtkWidget *stree = NULL;
 static GtkWidget *wtree = NULL;
-static GtkWidget *ltree = NULL;
+static GtkWidget *atree = NULL;
 
 /* watch tree view model and store */
 GtkTreeStore *wstore = NULL;
 GtkTreeModel *wmodel = NULL;
 
 /* array of widgets, ti enable/disable regard of a debug state */
-static GtkWidget **sensitive_widget[] = {&stree, &wtree, &ltree, NULL};
+static GtkWidget **sensitive_widget[] = {&stree, &wtree, &atree, NULL};
 
 /* 
  * current stack for holding
@@ -468,7 +468,7 @@ static gboolean on_watch_key_pressed_callback(GtkWidget *widget, GdkEvent  *even
 }
 
 /* 
- * mouse button has been pressed while being in watch(locals) tree view
+ * mouse button has been pressed while being in watch(autos) tree view
  */
 gboolean on_watch_button_pressed_callback(GtkWidget *treeview, GdkEventButton *event, gpointer userdata)
 {
@@ -520,7 +520,7 @@ gboolean on_watch_button_pressed_callback(GtkWidget *treeview, GdkEventButton *e
  */
 static void on_watch_expanded_callback(GtkTreeView *tree, GtkTreeIter *iter, GtkTreePath *path, gpointer user_data)
 {
-	/* get tree view model and store as it can be watch or locals tree */
+	/* get tree view model and store as it can be watch or autos tree */
 	GtkTreeModel *model = gtk_tree_view_get_model(tree);
 	GtkTreeStore *store = GTK_TREE_STORE(model);
 	
@@ -713,9 +713,9 @@ static void on_debugger_stopped ()
 	}
 	g_list_free(files);
 
-	/* locals */
-	GList *locals = active_module->get_locals();
-	update_variables(GTK_TREE_VIEW(ltree), NULL, locals);
+	/* autos */
+	GList *autos = active_module->get_autos();
+	update_variables(GTK_TREE_VIEW(atree), NULL, autos);
 	
 	/* watches */
 	GList *watches = active_module->get_watches();
@@ -759,8 +759,8 @@ static void on_debugger_exited (int code)
 	/* clear watch page */
 	clear_watch_values(GTK_TREE_VIEW(wtree));
 	
-	/* clear locals page */
-	gtk_tree_store_clear(GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(ltree))));
+	/* clear autos page */
+	gtk_tree_store_clear(GTK_TREE_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(atree))));
 
 	/* clear stack trace tree */
 	stree_clear();
@@ -888,16 +888,16 @@ void debug_init()
 		GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(tab_watch), wtree);
 
-	/* create locals page */
-	ltree = ltree_init(on_watch_expanded_callback, on_watch_button_pressed_callback);
-	tab_locals = gtk_scrolled_window_new(
-		gtk_tree_view_get_hadjustment(GTK_TREE_VIEW(ltree)),
-		gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(ltree))
+	/* create autos page */
+	atree = atree_init(on_watch_expanded_callback, on_watch_button_pressed_callback);
+	tab_autos = gtk_scrolled_window_new(
+		gtk_tree_view_get_hadjustment(GTK_TREE_VIEW(atree)),
+		gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(atree))
 	);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(tab_locals),
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(tab_autos),
 		GTK_POLICY_AUTOMATIC,
 		GTK_POLICY_AUTOMATIC);
-	gtk_container_add(GTK_CONTAINER(tab_locals), ltree);
+	gtk_container_add(GTK_CONTAINER(tab_autos), atree);
 	
 	/* create stack trace page */
 	stree = stree_init(editor_open_position);

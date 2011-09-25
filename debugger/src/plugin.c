@@ -39,6 +39,7 @@
 #include "dpaned.h"
 #include "tabs.h"
 #include "envtree.h"
+#include "pixbuf.h"
 
 /* These items are set by Geany before plugin_init() is called. */
 GeanyPlugin		*geany_plugin;
@@ -90,6 +91,8 @@ void plugin_init(GeanyData *data)
     main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 
 	keys_init();
+	
+	pixbufs_init();
 
 	/* main box */
 	hbox = gtk_hbox_new(FALSE, 0);
@@ -154,6 +157,8 @@ void plugin_cleanup(void)
 		while (DBS_IDLE != debug_get_state())
 			g_main_context_iteration(NULL,FALSE);
 	}
+
+	pixbufs_destroy();
 
 	/* destroy debug-related stuff */
 	debug_destroy();

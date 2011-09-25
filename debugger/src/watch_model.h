@@ -30,6 +30,7 @@ enum
    W_EXPRESSION,
    W_STUB,
    W_CHANGED,
+   W_VT,
    W_N_COLUMNS
 };
 

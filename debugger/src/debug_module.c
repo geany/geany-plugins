@@ -30,7 +30,7 @@
 #include "debug_module.h"
 
 /* creates new variable */
-variable *variable_new(gchar *name)
+variable *variable_new(gchar *name, variable_type vt)
 {
 	variable *var = g_malloc(sizeof(variable));
 	var->name = g_string_new(name);
@@ -39,14 +39,15 @@ variable *variable_new(gchar *name)
 	var->type = g_string_new("");
 	var->value = g_string_new("");
 	var->has_children = var->evaluated = FALSE;
+	var->vt = vt;
 	
 	return var;
 }
 
 /* creates new variable with internal name */
-variable *variable_new2(gchar *name, gchar *internal)
+variable *variable_new2(gchar *name, gchar *internal, variable_type vt)
 {
-	variable *var = variable_new(name);
+	variable *var = variable_new(name, vt);
 	g_string_assign(var->internal, internal);
 	
 	return var;

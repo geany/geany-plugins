@@ -84,11 +84,11 @@ void pconfig_set_defaults(GKeyFile *kf)
 {
 	g_key_file_set_boolean(key_file, "tabbed_mode", "enabled", FALSE);
 
-	int all_tabs[] = { TID_TARGET, TID_BREAKS, TID_LOCALS, TID_WATCH, TID_STACK, TID_TERMINAL, TID_MESSAGES };
+	int all_tabs[] = { TID_TARGET, TID_BREAKS, TID_AUTOS, TID_WATCH, TID_STACK, TID_TERMINAL, TID_MESSAGES };
 	g_key_file_set_integer_list(key_file, "one_panel_mode", "tabs", all_tabs, sizeof(all_tabs) / sizeof(int));
 	g_key_file_set_integer(key_file, "one_panel_mode", "selected_tab_index", 0);
 
-	int left_tabs[] = { TID_TARGET, TID_BREAKS, TID_LOCALS, TID_WATCH };
+	int left_tabs[] = { TID_TARGET, TID_BREAKS, TID_AUTOS, TID_WATCH };
 	g_key_file_set_integer_list(key_file, "two_panels_mode", "left_tabs", left_tabs, sizeof(left_tabs) / sizeof(int));
 	g_key_file_set_integer(key_file, "two_panels_mode", "left_selected_tab_index", 0);
 	int right_tabs[] = { TID_STACK, TID_TERMINAL, TID_MESSAGES };

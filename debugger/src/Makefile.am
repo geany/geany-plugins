@@ -39,10 +39,12 @@ debugger_la_SOURCES = \
 	gui.c     \
 	keys.c     \
 	keys.h     \
-	ltree.c     \
-	ltree.h     \
+	atree.c     \
+	atree.h     \
 	markers.c     \
 	markers.h     \
+	pixbuf.c     \
+	pixbuf.h     \
 	pconfig.c     \
 	pconfig.h     \
 	plugin.c     \

@@ -1,8 +1,7 @@
 /*
- *
- *		tabs.c
+ *      pixbufs.h
  *      
- *      Copyright 2010 Alexander Petukhov <devel(at)apetukhov.ru>
+ *      Copyright 2011 Alexander Petukhov <devel(at)apetukhov.ru>
  *      
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -20,26 +19,15 @@
  *      MA 02110-1301, USA.
  */
 
-typedef enum _tab_id
-{
-	TID_TARGET,
-	TID_BREAKS,
-	TID_WATCH,
-	TID_AUTOS,
-	TID_STACK,
-	TID_TERMINAL,
-	TID_MESSAGES
-} tab_id;
+extern GdkPixbuf *break_pixbuf;
+extern GdkPixbuf *break_disabled_pixbuf;
+extern GdkPixbuf *break_condition_pixbuf;
 
-extern GtkWidget *tab_target;
-extern GtkWidget *tab_breaks;
-extern GtkWidget *tab_watch;
-extern GtkWidget *tab_autos;
-extern GtkWidget *tab_call_stack;
-extern GtkWidget *tab_terminal;
-extern GtkWidget *tab_messages;
+extern GdkPixbuf *argument_pixbuf;
+extern GdkPixbuf *local_pixbuf;
+extern GdkPixbuf *watch_pixbuf;
 
-GtkWidget*		tabs_get_tab(tab_id id);
-tab_id			tabs_get_tab_id(GtkWidget* tab);
-const gchar*	tabs_get_label(tab_id id);
-
+extern GdkPixbuf *frame_current_pixbuf;
+ 
+void pixbufs_init();
+void pixbufs_destroy();

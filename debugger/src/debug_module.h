@@ -29,6 +29,15 @@ typedef struct _dbg_callbacks {
 	void (*report_error) (const gchar* message);
 } dbg_callbacks;
 
+typedef enum _variable_type {
+	VT_ARGUMENT,
+	VT_LOCAL,
+	VT_WATCH,
+	VT_GLOBAL,
+	VT_CHILD,
+	VT_NONE
+} variable_type;
+
 /* type to hold information about a variable */
 typedef struct _variable {
 	/* variable name */
@@ -46,6 +55,8 @@ typedef struct _variable {
 	gboolean has_children;
 	/* flag indicating whether getting variable value was successfull */
 	gboolean evaluated;
+	/* variable type */
+	variable_type vt;
 } variable;
 
 /* type to hold information about a stack frame */
@@ -90,7 +101,7 @@ typedef struct _dbg_module {
 	gboolean (*remove_break) (breakpoint* bp);
 	GList* (*get_stack) ();
 	
-	GList* (*get_locals) ();
+	GList* (*get_autos) ();
 	GList* (*get_watches) ();
 	
 	GList* (*get_files) ();
@@ -123,7 +134,7 @@ typedef struct _dbg_module {
 	set_break, \
 	remove_break, \
 	get_stack, \
-	get_locals, \
+	get_autos, \
 	get_watches, \
 	get_files, \
 	get_children, \
@@ -135,7 +146,7 @@ typedef struct _dbg_module {
 	MODULE_FEATURES }
 
 void			variable_free(variable *var);
-variable*	variable_new(gchar *name);
-variable*	variable_new2(gchar *name, gchar *internal);
+variable*	variable_new(gchar *name, variable_type vt);
+variable*	variable_new2(gchar *name, gchar *internal, variable_type vt);
 void			variable_reset(variable *var);
 
