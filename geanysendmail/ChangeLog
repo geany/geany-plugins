@@ -2,6 +2,7 @@
 
  * Adding a workaround for a weird issue in connection with
    utils_string_replace_all().
+ * Don't free address variable in case of none address-dialog was shown.
 
 
 
