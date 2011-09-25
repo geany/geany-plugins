@@ -96,7 +96,6 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
 		{
 			locale_filename = utils_get_locale_from_utf8(doc->file_name);
 			cmd_str = g_string_new(mailer);
-
 			if ((use_address_dialog == TRUE) && (g_strrstr(mailer, "%r") != NULL))
 			{
  				gchar *input = dialogs_show_input(_("Recipient's Address"),
@@ -149,8 +148,11 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
 			else
 			{
 				/* Removes %r if option was not activ but was included into command */
-				utils_string_replace_all(cmd_str, "%r", NULL);
+				gchar *tmp_fix;
+				tmp_fix = g_strdup("");
+				utils_string_replace_all(cmd_str, "%r", tmp_fix);
 				g_free(address);
+				g_free(tmp_fix);
 			}
 
 			utils_string_replace_all(cmd_str, "%b", g_path_get_basename(locale_filename));

@@ -1,3 +1,10 @@
+2011-09-25  Frank Lanitz  <frlan@frank.uvena.de>
+
+ * Adding a workaround for a weird issue in connection with
+   utils_string_replace_all().
+
+
+
 2011-06-21  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * Deprecate ui_widget_set_tooltip_text() in favor of
