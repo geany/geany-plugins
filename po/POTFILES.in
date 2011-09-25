@@ -28,7 +28,6 @@ debugger/src/wtree.c
 debugger/src/debug.c
 debugger/src/dbm_gdb.c
 debugger/src/debug_module.c
-debugger/src/ltree.c
 debugger/src/utils.c
 debugger/src/stree.c
 debugger/src/tabs.c
@@ -43,6 +42,11 @@ debugger/src/dconfig.c
 debugger/src/dconfig.h
 debugger/src/gui.c
 debugger/src/gui.h
+debugger/src/pixbuf.c
+debugger/src/pixbuf.h
+debugger/src/atree.h
+debugger/src/atree.c
+
 
 # devhelp
 devhelp/src/dhp.h
