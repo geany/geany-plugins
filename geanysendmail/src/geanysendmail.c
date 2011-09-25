@@ -148,11 +148,8 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
 			else
 			{
 				/* Removes %r if option was not activ but was included into command */
-				gchar *tmp_fix;
-				tmp_fix = g_strdup("");
-				utils_string_replace_all(cmd_str, "%r", tmp_fix);
+				utils_string_replace_all(cmd_str, "%r", "");
 				g_free(address);
-				g_free(tmp_fix);
 			}
 
 			utils_string_replace_all(cmd_str, "%b", g_path_get_basename(locale_filename));
