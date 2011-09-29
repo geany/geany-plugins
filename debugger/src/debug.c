@@ -242,7 +242,7 @@ static void on_watch_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 		if (DBS_STOPPED == debug_state)
 			active_module->remove_watch(internal);
 
-		dconfig_set_changed();
+		config_set_debug_changed();
 	}
 	else if (strcmp(oldvalue, striped))
     {
@@ -274,7 +274,7 @@ static void on_watch_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 			gtk_tree_path_free(_path);
 		}
 
-		dconfig_set_changed();
+		config_set_debug_changed();
 	}
 	
 	/* free resources */
@@ -341,7 +341,7 @@ static void on_watch_dragged_callback(GtkWidget *wgt, GdkDragContext *context, i
 	else
 		variable_set_name_only(wstore, &newvar, expression);
 
-	dconfig_set_changed();
+	config_set_debug_changed();
 }
 
 /* 
@@ -457,7 +457,7 @@ static gboolean on_watch_key_pressed_callback(GtkWidget *widget, GdkEvent  *even
 		g_list_foreach (references, (GFunc)gtk_tree_row_reference_free, NULL);
 		g_list_free (references);
 
-		dconfig_set_changed();
+		config_set_debug_changed();
 	}
 
 	/* free rows list */
@@ -504,7 +504,7 @@ gboolean on_watch_button_pressed_callback(GtkWidget *treeview, GdkEventButton *e
 				else
 					variable_set_name_only(wstore, &newvar, expression);
 
-				dconfig_set_changed();
+				config_set_debug_changed();
 			}
 
 			g_free(expression);
@@ -804,11 +804,11 @@ static void on_debugger_exited (int code)
 	/* enable widgets */
 	enable_sensitive_widgets(TRUE);
 
+	/* update buttons panel state */
+	btnpanel_set_debug_state(DBS_IDLE);
+	
 	/* update debug state */
 	debug_state = DBS_IDLE;
-
-	/* update buttons panel state */
-	btnpanel_set_debug_state(debug_state);
 }
 
 /* 

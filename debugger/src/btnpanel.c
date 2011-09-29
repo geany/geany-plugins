@@ -40,9 +40,6 @@ extern GeanyPlugin		*geany_plugin;
 #include "btnpanel.h"
 
 #define CP_BUTTONS_PAD 5
-#define CONFIG_NAME ".debugger"
-
-static GtkWidget *loadbtn = NULL;
 
 static GtkWidget *runbtn = NULL;
 static GtkWidget *restartbtn = NULL;
@@ -55,44 +52,6 @@ static GtkWidget *runcursorbtn = NULL;
 
 static GtkWidget *tabbtn = NULL;
 static GtkWidget *optbtn = NULL;
-
-static gboolean debugging = FALSE;
-
-/*
- * load config button handler
- */
-void on_config_load(GtkButton *button, gpointer user_data)
-{
-	GeanyDocument *doc = document_get_current();
-	if (!doc && !doc->real_path)
-	{
-		dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Error reading config file"));
-	}
-	else
-	{
-		gchar *folder = g_path_get_dirname(DOC_FILENAME(doc));
-		if (!dconfig_load(folder))
-		{
-			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Error reading config file"));
-		}
-		g_free(folder);
-	}
-}
-
-/*
- * clear config values button handler
- */
-void on_config_clear(GtkButton *button, gpointer user_data)
-{
-	/* target page */
-	tpage_clear();
-
-	/* breakpoints */
-	breaks_remove_all();
-
-	/* watches */
-	wtree_remove_all();
-}
 
 /*
  * calls settings dialog
@@ -121,7 +80,6 @@ void on_execute_until(GtkButton *button, gpointer user_data)
 GtkWidget* btnpanel_create(on_toggle cb)
 {
 	GtkWidget *vbox = gtk_vbox_new(FALSE, CP_BUTTONS_PAD);
-	gtk_container_set_border_width (GTK_CONTAINER (vbox), 7);
 
 	GtkWidget *hbutton_box = gtk_hbox_new(FALSE, CP_BUTTONS_PAD);
 
@@ -167,25 +125,14 @@ GtkWidget* btnpanel_create(on_toggle cb)
 	gtk_box_pack_start(GTK_BOX(hbutton_box), runcursorbtn, FALSE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbutton_box, FALSE, TRUE, 0);
 
-	GtkWidget *vbox_panels_buttons = gtk_vbox_new(FALSE, 0);
-	GtkWidget *vbutton_box = gtk_vbox_new(TRUE, CP_BUTTONS_PAD);
-
-	loadbtn = create_stock_button(GTK_STOCK_OPEN, _("Load settings"));
-	g_signal_connect(G_OBJECT(loadbtn), "clicked", G_CALLBACK (on_config_load), (gpointer)TRUE);
-	gtk_box_pack_start(GTK_BOX(vbutton_box), loadbtn, FALSE, TRUE, 0);
-
-	gtk_box_pack_start(GTK_BOX(vbox_panels_buttons), vbutton_box, TRUE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox), vbox_panels_buttons, TRUE, FALSE, 0);
-
-	vbutton_box = gtk_vbox_new(TRUE, CP_BUTTONS_PAD);
-	tabbtn = create_toggle_button("tabs.gif", _("Tabs"));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tabbtn), dpaned_get_tabbed());
-	g_signal_connect(G_OBJECT(tabbtn), "toggled", G_CALLBACK(cb), NULL);
-	gtk_box_pack_start(GTK_BOX(vbox), tabbtn, FALSE, FALSE, 0);
-
-	optbtn = create_stock_button(GTK_STOCK_PREFERENCES, "Настройки");
+	optbtn = create_stock_button(GTK_STOCK_PREFERENCES, _("Settings"));
 	g_signal_connect(G_OBJECT(optbtn), "clicked", G_CALLBACK (on_settings), NULL);
-	gtk_box_pack_start(GTK_BOX(vbox), optbtn, FALSE, FALSE, 0);
+	gtk_box_pack_end(GTK_BOX(vbox), optbtn, FALSE, FALSE, 0);
+
+	tabbtn = create_toggle_button("tabs.gif", _("Two panel mode"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(tabbtn), config_get_tabbed());
+	g_signal_connect(G_OBJECT(tabbtn), "toggled", G_CALLBACK(cb), NULL);
+	gtk_box_pack_end(GTK_BOX(vbox), tabbtn, FALSE, FALSE, 0);
 
 	btnpanel_set_debug_state(DBS_IDLE);
 
@@ -193,52 +140,10 @@ GtkWidget* btnpanel_create(on_toggle cb)
 }
 
 /*
- * disable load/save config buttons on document close
- */
-void btnpanel_on_document_close()
-{
-	gtk_widget_set_sensitive(loadbtn, FALSE);
-}
-
-/*
- * enable load/save config buttons on document activate
- * if page is not readonly and have config
- */
-void btnpanel_on_document_activate(GeanyDocument *doc)
-{
-	if (debugging)
-		return;
-	
-	if (!doc || !doc->real_path)
-	{
-		btnpanel_on_document_close();
-		return;
-	}
-
-	gchar *dirname = g_path_get_dirname(DOC_FILENAME(doc));
-	gchar *config = g_build_path(G_DIR_SEPARATOR_S, dirname, CONFIG_NAME, NULL);
-	struct stat st;
-	gtk_widget_set_sensitive(loadbtn, !stat(config, &st));
-	
-	g_free(config);
-}
-
-/*
- * set buttons sensitive based on whether it is a config file
- * in the current folder
- */
-void btnpanel_set_have_config(gboolean haveconfig)
-{
-	gtk_widget_set_sensitive(loadbtn, haveconfig);
-}
-
-/*
  * set buttons sensitive based on debugger state
  */
 void btnpanel_set_debug_state(enum dbs state)
 {
-	debugging = (DBS_IDLE != state);
-
 	if (DBS_STOPPED == state)
 	{
 		set_button_image(runbtn, "continue.png");
@@ -258,13 +163,4 @@ void btnpanel_set_debug_state(enum dbs state)
 	gtk_widget_set_sensitive(stepinbtn, DBS_STOPPED == state);
 	gtk_widget_set_sensitive(stepoutbtn, DBS_STOPPED == state);
 	gtk_widget_set_sensitive(runcursorbtn, DBS_STOPPED == state);
-
-	if (DBS_IDLE == state)
-	{
-		btnpanel_on_document_activate(document_get_current());
-	}
-	else
-	{
-		gtk_widget_set_sensitive(loadbtn, FALSE);
-	}
 }

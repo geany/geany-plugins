@@ -185,7 +185,7 @@ static void breaks_add_debug(breakpoint* bp)
 		/* add markers, update treeview */
 		on_add(bp);
 		/* mark config for saving */
-		dconfig_set_changed();
+		config_set_debug_changed();
 	}
 	else
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", debug_error_message());
@@ -197,7 +197,7 @@ static void breaks_remove_debug(breakpoint* bp)
 		/* remove markers, update treeview */
 		on_remove(bp);
 		/* mark config for saving */
-		dconfig_set_changed();
+		config_set_debug_changed();
 	}
 	else
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", debug_error_message());
@@ -208,7 +208,7 @@ static void breaks_set_hits_count_debug(breakpoint* bp)
 	{
 		on_set_hits_count(bp);
 		/* mark config for saving */
-		dconfig_set_changed();
+		config_set_debug_changed();
 	}
 	else
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", debug_error_message());
@@ -219,7 +219,7 @@ static void breaks_set_condition_debug(breakpoint* bp)
 	{
 		on_set_condition(bp);
 		/* mark config for saving */
-		dconfig_set_changed();
+		config_set_debug_changed();
 	}
 	else
 	{
@@ -237,7 +237,7 @@ static void breaks_switch_debug(breakpoint* bp)
 	{
 		on_switch(bp);
 		/* mark config for saving */
-		dconfig_set_changed();
+		config_set_debug_changed();
 	}
 	else
 	{
@@ -266,7 +266,7 @@ static void breaks_set_disabled_list_debug(GList *list)
 	}
 	g_list_free(list);
 
-	dconfig_set_changed(TRUE);
+	config_set_debug_changed();
 }
 static void breaks_set_enabled_list_debug(GList *list)
 {
@@ -289,7 +289,7 @@ static void breaks_set_enabled_list_debug(GList *list)
 	}
 	g_list_free(list);
 
-	dconfig_set_changed(TRUE);
+	config_set_debug_changed();
 }
 static void breaks_remove_list_debug(GList *list)
 {
@@ -304,7 +304,7 @@ static void breaks_remove_list_debug(GList *list)
 	}
 	g_list_free(list);
 
-	dconfig_set_changed(TRUE);
+	config_set_debug_changed();
 }
 
 /*
@@ -386,7 +386,7 @@ void breaks_add(const char* file, int line, char* condition, int enabled, int hi
 	if (DBS_IDLE == state)
 	{
 		on_add(bp);
-		dconfig_set_changed(TRUE);
+		config_set_debug_changed();
 	}
 	else if (DBS_STOPPED == state)
 		breaks_add_debug(bp);
@@ -418,7 +418,7 @@ void breaks_remove(const char* file, int line)
 	if (DBS_IDLE == state)
 	{
 		on_remove(bp);
-		dconfig_set_changed(TRUE);
+		config_set_debug_changed();
 	}
 	else if (DBS_STOPPED == state)
 		breaks_remove_debug(bp);
@@ -446,7 +446,7 @@ void breaks_remove_list(GList *list)
 		on_remove_list(list);
 		g_list_free(list);
 		
-		dconfig_set_changed(TRUE);
+		config_set_debug_changed();
 	}
 	else if (DBS_STOPPED == state)
 		breaks_remove_list_debug(list);
@@ -486,7 +486,7 @@ void breaks_set_enabled_for_file(const const char *file, gboolean enabled)
 	{
 		on_set_enabled_list(breaks, enabled);
 		g_list_free(breaks);
-		dconfig_set_changed(TRUE);
+		config_set_debug_changed();
 	}
 	else if (DBS_STOPPED == state)
 		enabled ? breaks_set_enabled_list_debug(breaks) : breaks_set_disabled_list_debug(breaks);
@@ -521,7 +521,7 @@ void breaks_switch(const char* file, int line)
 	if (DBS_IDLE == state)
 	{
 		on_switch(bp);
-		dconfig_set_changed(TRUE);
+		config_set_debug_changed();
 	}
 	else if (DBS_STOPPED == state)
 		breaks_switch_debug(bp);
@@ -557,7 +557,7 @@ void breaks_set_hits_count(const char* file, int line, int count)
 	if (state == DBS_IDLE)
 	{
 		on_set_hits_count(bp);
-		dconfig_set_changed(TRUE);
+		config_set_debug_changed();
 	}
 	else if(state == DBS_STOPPED)
 		breaks_set_hits_count_debug(bp);
@@ -593,7 +593,7 @@ void breaks_set_condition(const char* file, int line, const char* condition)
 	if (state == DBS_IDLE)
 	{
 		on_set_condition(bp);
-		dconfig_set_changed(TRUE);
+		config_set_debug_changed();
 	}
 	else if (state == DBS_STOPPED)
 		breaks_set_condition_debug(bp);
@@ -623,7 +623,7 @@ void breaks_move_to_line(const char* file, int line_from, int line_to)
 			g_tree_insert(tree, GINT_TO_POINTER(line_to), bp);
 
 			/* mark config for saving */
-			dconfig_set_changed();
+			config_set_debug_changed();
 		}
 	}
 }

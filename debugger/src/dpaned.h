@@ -24,4 +24,3 @@ void		dpaned_init();
 void		dpaned_destroy();
 GtkWidget*	dpaned_get_paned();
 void		dpaned_set_tabbed(gboolean paned);
-gboolean	dpaned_get_tabbed();

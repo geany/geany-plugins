@@ -38,7 +38,7 @@ extern GeanyData		*geany_data;
 #include "debug.h"
 #include "btnpanel.h"
 #include "stree.h"
-#include "pconfig.h"
+#include "dconfig.h"
 
 #define NOTEBOOK_GROUP 438948394
 #define HPANED_BORDER_WIDTH 4
@@ -104,17 +104,17 @@ static void on_size_allocate(GtkWidget *widget,GdkRectangle *allocation, gpointe
 static void on_page_added(GtkNotebook *notebook, GtkWidget *child, guint page_num, gpointer user_data)
 {
 	gboolean is_left = (GTK_NOTEBOOK(debug_notebook_left) == notebook);
-	gboolean is_tabbed = pconfig_get_tabbed();
+	gboolean is_tabbed = config_get_tabbed();
 	
 	int *tabs = NULL;
 	gsize length;
 
 	if (!is_tabbed)
-		tabs = pconfig_get_tabs(&length);
+		tabs = config_get_tabs(&length);
 	else if (is_left)
-		tabs = pconfig_get_left_tabs(&length);
+		tabs = config_get_left_tabs(&length);
 	else
-		tabs = pconfig_get_right_tabs(&length);
+		tabs = config_get_right_tabs(&length);
 	
 	int *array = g_malloc((length + 2) * sizeof(int));
 	int *new_tabs = array + 1;
@@ -135,7 +135,7 @@ static void on_page_added(GtkNotebook *notebook, GtkWidget *child, guint page_nu
 
 	array[0] = length + 1;
 	memcpy(array + 1, new_tabs, length + 1);
-	pconfig_set(config_part, array, 0);
+	config_set_panel(config_part, array, 0);
 
 	g_free(tabs);
 	g_free(array);
@@ -147,17 +147,17 @@ static void on_page_added(GtkNotebook *notebook, GtkWidget *child, guint page_nu
 static void on_page_reordered(GtkNotebook *notebook, GtkWidget *child, guint page_num, gpointer user_data)
 {
 	gboolean is_left = (GTK_NOTEBOOK(debug_notebook_left) == notebook);
-	gboolean is_tabbed = pconfig_get_tabbed();
+	gboolean is_tabbed = config_get_tabbed();
 
 	int *tabs = NULL;
 	gsize length;
 
 	if (!is_tabbed)
-		tabs = pconfig_get_tabs(&length);
+		tabs = config_get_tabs(&length);
 	else if (is_left)
-		tabs = pconfig_get_left_tabs(&length);
+		tabs = config_get_left_tabs(&length);
 	else
-		tabs = pconfig_get_right_tabs(&length);
+		tabs = config_get_right_tabs(&length);
 
 	int prev_index;
 	GtkWidget *page = gtk_notebook_get_nth_page(GTK_NOTEBOOK(is_left ? debug_notebook_left : debug_notebook_right), page_num);
@@ -200,7 +200,7 @@ static void on_page_reordered(GtkNotebook *notebook, GtkWidget *child, guint pag
 	array[0] = length;
 	memcpy(array + 1, tabs, length * sizeof(int));
 	
-	pconfig_set(
+	config_set_panel(
 		config_part_tabs, array,
 		config_part_selected_index, page_num,
 		0
@@ -216,17 +216,17 @@ static void on_page_reordered(GtkNotebook *notebook, GtkWidget *child, guint pag
 static void on_page_removed(GtkNotebook *notebook, GtkWidget *child, guint page_num, gpointer user_data)
 {
 	gboolean is_left = (GTK_NOTEBOOK(debug_notebook_left) == notebook);
-	gboolean is_tabbed = pconfig_get_tabbed();
+	gboolean is_tabbed = config_get_tabbed();
 
 	int *tabs = NULL;
 	gsize length;
 
 	if (!is_tabbed)
-		tabs = pconfig_get_tabs(&length);
+		tabs = config_get_tabs(&length);
 	else if (is_left)
-		tabs = pconfig_get_left_tabs(&length);
+		tabs = config_get_left_tabs(&length);
 	else
-		tabs = pconfig_get_right_tabs(&length);
+		tabs = config_get_right_tabs(&length);
 
 	memmove(tabs + page_num, tabs + page_num + 1, (length - page_num - 1) * sizeof(int)); 
 	memmove(tabs + 1, tabs, (length - 1) * sizeof(int)); 
@@ -240,7 +240,7 @@ static void on_page_removed(GtkNotebook *notebook, GtkWidget *child, guint page_
 	else
 		config_part = CP_TT_RTABS;
 	
-	pconfig_set(config_part, tabs, 0);
+	config_set_panel(config_part, tabs, 0);
 
 	g_free(tabs);
 }
@@ -251,7 +251,7 @@ static void on_page_removed(GtkNotebook *notebook, GtkWidget *child, guint page_
 static gboolean on_change_current_page(GtkNotebook *notebook, gpointer arg1, guint arg2, gpointer user_data)
 {
 	gboolean is_left = (GTK_NOTEBOOK(debug_notebook_left) == notebook);
-	gboolean is_tabbed = pconfig_get_tabbed();
+	gboolean is_tabbed = config_get_tabbed();
 
 	int config_part;
 	if (!is_tabbed)
@@ -261,7 +261,7 @@ static gboolean on_change_current_page(GtkNotebook *notebook, gpointer arg1, gui
 	else
 		config_part = CP_TT_RSELECTED;
 	
-	pconfig_set(config_part, (gpointer)arg2, 0);
+	config_set_panel(config_part, (gpointer)arg2, 0);
 
 	return TRUE;
 }
@@ -273,7 +273,6 @@ void dpaned_init()
 {
 	/* create paned */
 	hpaned = gtk_hpaned_new();
-	gtk_container_set_border_width(GTK_CONTAINER(hpaned), HPANED_BORDER_WIDTH);
 	
 	/* create notebooks */
 	debug_notebook_left = gtk_notebook_new();
@@ -291,17 +290,14 @@ void dpaned_init()
 	gtk_paned_add1(GTK_PANED(hpaned), debug_notebook_left);
 	gtk_paned_add2(GTK_PANED(hpaned), debug_notebook_right);
 
-	/* load config */
-	pconfig_init();
-
-	gboolean is_tabbed = pconfig_get_tabbed();
+	gboolean is_tabbed = config_get_tabbed();
 	if (is_tabbed)
 	{
 		gsize length;
 		int *tab_ids, i;
 
 		/* left */
-		tab_ids = pconfig_get_left_tabs(&length);
+		tab_ids = config_get_left_tabs(&length);
 		for (i = 0; i < length; i++)
 		{
 			GtkWidget *tab = tabs_get_tab((tab_id)tab_ids[i]);
@@ -314,7 +310,7 @@ void dpaned_init()
 		g_free(tab_ids);
 
 		/* right */
-		tab_ids = pconfig_get_right_tabs(&length);
+		tab_ids = config_get_right_tabs(&length);
 		for (i = 0; i < length; i++)
 		{
 			GtkWidget *tab = tabs_get_tab((tab_id)tab_ids[i]);
@@ -328,8 +324,8 @@ void dpaned_init()
 
 		gtk_widget_show_all(hpaned);
 
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_left), pconfig_get_left_selected_tab_index());
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_right),pconfig_get_right_selected_tab_index());
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_left), config_get_left_selected_tab_index());
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_right),config_get_right_selected_tab_index());
 	}
 	else
 	{
@@ -337,7 +333,7 @@ void dpaned_init()
 		gtk_container_remove(GTK_CONTAINER(hpaned), debug_notebook_right);
 		
 		gsize length;
-		int *tab_ids = pconfig_get_tabs(&length);
+		int *tab_ids = config_get_tabs(&length);
 		int i;
 		for (i = 0; i < length; i++)
 		{
@@ -350,7 +346,7 @@ void dpaned_init()
 		}
 
 		gtk_widget_show_all(hpaned);
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_left), pconfig_get_selected_tab_index());
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_left), config_get_selected_tab_index());
 	}
 		
 	CONNECT_PAGE_SIGNALS();
@@ -363,8 +359,6 @@ void dpaned_init()
 void dpaned_destroy()
 {
 	DISCONNECT_PAGE_SIGNALS();
-	
-	pconfig_destroy();
 }
 
 /*
@@ -388,7 +382,7 @@ void dpaned_set_tabbed(gboolean tabbed)
 		gtk_container_remove(GTK_CONTAINER(hpaned), debug_notebook_right);
 		
 		gsize length;
-		int *tab_ids = pconfig_get_tabs(&length);
+		int *tab_ids = config_get_tabs(&length);
 		int i;
 		for (i = 0; i < length; i++)
 		{
@@ -404,7 +398,7 @@ void dpaned_set_tabbed(gboolean tabbed)
 			}
 		}
 
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_left), pconfig_get_selected_tab_index());
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_left), config_get_selected_tab_index());
 
 		gtk_widget_show_all(hpaned);
 	}
@@ -414,7 +408,7 @@ void dpaned_set_tabbed(gboolean tabbed)
 		g_object_unref(debug_notebook_right);
 
 		gsize length;
-		int *tab_ids = pconfig_get_right_tabs(&length);
+		int *tab_ids = config_get_right_tabs(&length);
 		int i;
 		for (i = 0; i < length; i++)
 		{
@@ -427,21 +421,13 @@ void dpaned_set_tabbed(gboolean tabbed)
 				gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(debug_notebook_right), tab, TRUE);
 		}
 
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_left), pconfig_get_left_selected_tab_index());
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_right), pconfig_get_right_selected_tab_index());
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_left), config_get_left_selected_tab_index());
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_right), config_get_right_selected_tab_index());
 
 		gtk_widget_show_all(hpaned);
 	}
 	
 	CONNECT_PAGE_SIGNALS();
 
-	pconfig_set(CP_TABBED_MODE, (gpointer)tabbed, 0);
-}
-
-/*
- *	gets tabbed mode state
- */
-gboolean dpaned_get_tabbed()
-{
-	return pconfig_get_tabbed();
+	config_set_panel(CP_TABBED_MODE, (gpointer)tabbed, 0);
 }

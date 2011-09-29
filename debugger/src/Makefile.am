@@ -25,8 +25,8 @@ debugger_la_SOURCES = \
 	calltip.c     \
 	calltip.h     \
 	dbm_gdb.c     \
-	dconfig.h     \
 	dconfig.c     \
+	dconfig.h     \
 	debug.c     \
 	debug.h     \
 	debug_module.c     \
@@ -45,8 +45,6 @@ debugger_la_SOURCES = \
 	markers.h     \
 	pixbuf.c     \
 	pixbuf.h     \
-	pconfig.c     \
-	pconfig.h     \
 	plugin.c     \
 	stree.c     \
 	stree.h     \

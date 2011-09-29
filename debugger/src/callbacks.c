@@ -108,14 +108,6 @@ void on_document_before_save(GObject *obj, GeanyDocument *doc, gpointer user_dat
 }
 
 /*
- * 	Occures on closing document
- */
-void on_document_close(GObject *obj, GeanyDocument *doc, gpointer user_data)
-{
-	btnpanel_on_document_close();
-}
-
-/*
  * 	Occures on saving document
  */
 void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
@@ -134,8 +126,6 @@ void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
 		
 		_unexisting_file = FALSE;
 	}
-
-	btnpanel_on_document_activate(doc);
 }
 
 /*
@@ -143,14 +133,6 @@ void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
  */
 void on_document_new(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
-}
-
-/*
- * 	Occures on document activating
- */
-void on_document_activate(GObject *obj, GeanyDocument *doc, gpointer user_data)
-{
-	btnpanel_on_document_activate(doc);
 }
 
 /*
@@ -171,11 +153,6 @@ void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
 
 	/* set breakpoint and frame markers */
 	set_markers_for_file(file);
-
-	/* check if current path contains config file */
-	gchar *folder = g_path_get_dirname(DOC_FILENAME(doc));
-	btnpanel_set_have_config(dconfig_is_found_at(folder));
-	g_free(folder);
 
 	/* if debug is active - tell the debug module that a file was opened */
 	if (DBS_IDLE != debug_get_state())
@@ -286,7 +263,7 @@ gboolean on_editor_notify(
 						iter = iter->next;
 					}
 					
-					dconfig_set_changed();
+					config_set_debug_changed();
 
 					g_list_free(breaks);
 				}

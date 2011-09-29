@@ -185,7 +185,7 @@ static gboolean on_envtree_keypressed(GtkWidget *widget, GdkEvent  *event, gpoin
 	if (GDK_Delete == keyval)
 	{
 		delete_selected_rows();
-		dconfig_set_changed();
+		config_set_debug_changed();
 	}
 
 	return GDK_Tab == keyval;
@@ -243,7 +243,7 @@ static void on_value_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 			if (dialogs_show_question(_("Delete variable?")))
 			{
 				delete_selected_rows();
-				dconfig_set_changed();
+				config_set_debug_changed();
 
 				gtk_widget_grab_focus(tree);
 			}
@@ -266,7 +266,7 @@ static void on_value_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 				add_empty_row();
 			
 			g_object_set (renderer_value, "editable", FALSE, NULL);
-			dconfig_set_changed();
+			config_set_debug_changed();
 		}
 		
 		g_free(oldvalue);
@@ -346,7 +346,7 @@ static void on_name_changed(GtkCellRendererText *renderer, gchar *path, gchar *n
 		if (!empty && dialogs_show_question(_("Delete variable?")))
 		{
 			delete_selected_rows();
-			dconfig_set_changed();
+			config_set_debug_changed();
 
 			gtk_widget_grab_focus(tree);
 		}
@@ -362,7 +362,7 @@ static void on_name_changed(GtkCellRendererText *renderer, gchar *path, gchar *n
 		}
 		if (!empty)
 		{
-			dconfig_set_changed();
+			config_set_debug_changed();
 		}
 	}
 	

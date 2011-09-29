@@ -85,7 +85,7 @@ static GtkWidget **widgets[] = {
  */
 static void on_arguments_changed(GtkTextBuffer *textbuffer, gpointer user_data)
 {
-	dconfig_set_changed();
+	config_set_debug_changed();
 }
 
 /*
@@ -120,7 +120,7 @@ static void on_target_browse_clicked(GtkButton *button, gpointer   user_data)
 		gtk_entry_set_text(GTK_ENTRY(target_name), filename);
 		g_free (filename);
 		
-		dconfig_set_changed();
+		config_set_debug_changed();
 	}
 	gtk_widget_destroy (dialog);
 }

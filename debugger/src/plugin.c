@@ -68,11 +68,12 @@ PluginCallback plugin_callbacks[] =
 	 * can prevent Geany from processing the notification. Use this with care. */
 	{ "editor-notify", (GCallback) &on_editor_notify, FALSE, NULL },
 	{ "document_open", (GCallback) &on_document_open, FALSE, NULL },
-	{ "document_activate", (GCallback) &on_document_activate, FALSE, NULL },
-	{ "document_close", (GCallback) &on_document_close, FALSE, NULL },
 	{ "document_save", (GCallback) &on_document_save, FALSE, NULL },
 	{ "document_before_save", (GCallback) &on_document_before_save, FALSE, NULL },
 	{ "document_new", (GCallback) &on_document_new, FALSE, NULL },
+	{ "project_open", (GCallback) &config_on_project_open, FALSE, NULL },
+	{ "project_close", (GCallback) &config_on_project_close, FALSE, NULL },
+	{ "project_save", (GCallback) &config_on_project_save, FALSE, NULL },
 	
 	{ NULL, NULL, FALSE, NULL }
 };
@@ -84,6 +85,7 @@ void on_paned_mode_changed(GtkToggleButton *button, gpointer user_data)
 	tpage_pack_widgets(state);
 }
 
+extern void config_on_project_open(GObject *obj, GKeyFile *config, gpointer user_data);
 /* Called by Geany to initialize the plugin.
  * Note: data is the same as geany_data. */
 void plugin_init(GeanyData *data)
@@ -95,7 +97,8 @@ void plugin_init(GeanyData *data)
 	pixbufs_init();
 
 	/* main box */
-	hbox = gtk_hbox_new(FALSE, 0);
+	hbox = gtk_hbox_new(FALSE, 7);
+	gtk_container_set_border_width(GTK_CONTAINER(hbox), 6);
 
 	/* add target page */
 	tpage_init();
@@ -109,9 +112,12 @@ void plugin_init(GeanyData *data)
 	/* init debug */
 	debug_init();
 
+	/* load config */
+	config_init();
+
 	/* init paned */
 	dpaned_init();
-	tpage_pack_widgets(dpaned_get_tabbed());
+	tpage_pack_widgets(config_get_tabbed());
 
 	GtkWidget* vbox = btnpanel_create(on_paned_mode_changed);
 
@@ -125,10 +131,14 @@ void plugin_init(GeanyData *data)
 		hbox,
 		gtk_label_new(_("Debug")));
 
-	/* init config */
-	dconfig_init();
+	if (geany_data->app->project)
+	{
+		config_update_project_keyfile();
+	}
+	config_set_debug_store(
+		config_get_save_to_project() && geany_data->app->project ? DEBUG_STORE_PROJECT : DEBUG_STORE_PLUGIN
+	);
 }
-
 
 /* Called by Geany to show the plugin's configure dialog. This function is always called after
  * plugin_init() was called.
@@ -137,11 +147,7 @@ void plugin_init(GeanyData *data)
  *       dialog. */
 GtkWidget *plugin_configure(GtkDialog *dialog)
 {
-	/* configuration dialog */
-	GtkWidget *vbox = gtk_vbox_new(FALSE, 6);
-
-	gtk_widget_show_all(vbox);
-	return vbox;
+	return config_plugin_configure(dialog);
 }
 
 
@@ -158,21 +164,11 @@ void plugin_cleanup(void)
 			g_main_context_iteration(NULL,FALSE);
 	}
 
+	config_destroy();
 	pixbufs_destroy();
-
-	/* destroy debug-related stuff */
 	debug_destroy();
-
-	/* destroy breaks */
 	breaks_destroy();
-
-	/* clears config */
-	dconfig_destroy();
-
-	/* clears debug paned data */
 	dpaned_destroy();
-
-	/* clears anv tree data */
 	envtree_destroy();
 	
 	/* release other allocated strings and objects */

@@ -50,11 +50,11 @@ GList*			debug_get_modules();
 int				debug_get_module_index(const gchar *modulename);
 gboolean		debug_supports_async_breaks();
 void			debug_destroy();
-gchar*		debug_evaluate_expression(gchar *expression);
+gchar*			debug_evaluate_expression(gchar *expression);
 gboolean		debug_current_instruction_have_sources();
 void			debug_jump_to_current_instruction();
 void			debug_on_file_open(GeanyDocument *doc);
-gchar*		debug_get_calltip_for_expression(gchar* expression);
+gchar*			debug_get_calltip_for_expression(gchar* expression);
 GList*			debug_get_stack();
 void			debug_restart();
 

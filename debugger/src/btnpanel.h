@@ -22,8 +22,4 @@
 typedef void (*on_toggle)(GtkToggleButton *button, gpointer user_data);
 
 GtkWidget*		btnpanel_create(on_toggle cb);
-void 			btnpanel_on_document_close();
-void			btnpanel_on_document_activate(GeanyDocument *doc);
-
-void			btnpanel_set_have_config(gboolean haveconfig);
 void			btnpanel_set_debug_state(enum dbs state);
