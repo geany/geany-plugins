@@ -2,12 +2,12 @@
 # Copyright (C) 2011 THE geany-plugins'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 # hans <alves.h88@gmail.com>, 2011.
-#
+# Peter Scholtens <peter.scholtens@xs4all.nl>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-15 17:20+0200\n"
+"POT-Creation-Date: 2011-10-02 22:45+0200\n"
 "PO-Revision-Date: 2011-09-13 20:24+0100\n"
 "Last-Translator: Peter Scholtens <peter.scholtens@xs4all.nl>\n"
 "Language-Team: Dutch\n"
@@ -46,16 +46,16 @@ msgstr ""
 msgid "_Hide Message Window"
 msgstr "_Verberg berichtenvenster"
 
-#: ../addons/src/ao_tasks.c:407 ../debugger/src/stree.c:214
+#: ../addons/src/ao_tasks.c:407 ../debugger/src/stree.c:206
 msgid "File"
 msgstr "Bestand"
 
-#: ../addons/src/ao_tasks.c:418 ../debugger/src/bptree.c:708
-#: ../debugger/src/stree.c:220
+#: ../addons/src/ao_tasks.c:418 ../debugger/src/bptree.c:602
+#: ../debugger/src/stree.c:212
 msgid "Line"
 msgstr "Regel"
 
-#: ../addons/src/ao_tasks.c:429 ../debugger/src/vtree.c:143
+#: ../addons/src/ao_tasks.c:429 ../debugger/src/vtree.c:194
 #: ../geanylatex/src/bibtexlabels.c:68
 msgid "Type"
 msgstr ""
@@ -86,8 +86,9 @@ msgstr "In te voegen label naam:"
 msgid ""
 "%s will be replaced with your current selection. Please keep care on your "
 "selection"
-msgstr "De huidige selectie zal vervangen worden door \"%s\". Houd alstubieft "
-"de selectie in de gaten"
+msgstr ""
+"De huidige selectie zal vervangen worden door \"%s\". Houd alstubieft de "
+"selectie in de gaten"
 
 #: ../addons/src/ao_openuri.c:162
 msgid "Open URI"
@@ -134,8 +135,8 @@ msgid "Run XML tagging"
 msgstr "XML labelen uitvoeren"
 
 #: ../addons/src/addons.c:396 ../geanylatex/src/geanylatex.c:234
-#: ../geanysendmail/src/geanysendmail.c:125
-#: ../geanysendmail/src/geanysendmail.c:287 ../geanyvc/src/geanyvc.c:1782
+#: ../geanysendmail/src/geanysendmail.c:124
+#: ../geanysendmail/src/geanysendmail.c:285 ../geanyvc/src/geanyvc.c:1782
 #: ../spellcheck/src/scplugin.c:146 ../treebrowser/src/treebrowser.c:1816
 #: ../updatechecker/src/updatechecker.c:253
 msgid "Plugin configuration directory could not be created."
@@ -143,8 +144,8 @@ msgstr "Plug-in configuratiemap kon niet worden aangemaakt."
 
 #: ../addons/src/addons.c:423
 msgid "Show toolbar item to show a list of currently open documents"
-msgstr "Laat een toolbar item zien om een lijst met geopende documenten"
-"te tonen"
+msgstr ""
+"Laat een toolbar item zien om een lijst met geopende documentente tonen"
 
 #: ../addons/src/addons.c:427
 msgid "Sort documents by _name"
@@ -188,13 +189,12 @@ msgid ""
 "Whether to show the tasks of all open documents in the list or only those of "
 "the current document."
 msgstr ""
-"Laat de taken van alle open documenten in de lijst zien of alleen die van het "
-"huidige document"
+"Laat de taken van alle open documenten in de lijst zien of alleen die van "
+"het huidige document"
 
 #: ../addons/src/addons.c:490
 msgid "Specify a semicolon separated list of search tokens."
 msgstr "Geef een lijst van zoektermen gescheiden door puntkommas"
-
 
 #: ../addons/src/addons.c:492
 msgid "Search tokens:"
@@ -271,75 +271,75 @@ msgstr ""
 msgid "Various debuggers integration."
 msgstr ""
 
-#: ../debugger/src/plugin.c:124 ../debugger/src/keys.c:70
+#: ../debugger/src/plugin.c:132 ../debugger/src/keys.c:70
 #: ../geanygdb/src/geanygdb.c:393
 msgid "Debug"
 msgstr ""
 
-#: ../debugger/src/vtree.c:122 ../debugger/src/envtree.c:393
+#: ../debugger/src/vtree.c:163 ../debugger/src/envtree.c:393
 msgid "Name"
 msgstr ""
 
-#: ../debugger/src/vtree.c:135 ../debugger/src/envtree.c:398
+#: ../debugger/src/vtree.c:186 ../debugger/src/envtree.c:398
 msgid "Value"
 msgstr ""
 
-#: ../debugger/src/tpage.c:98
+#: ../debugger/src/tpage.c:97
 msgid "Choose target file"
 msgstr ""
 
 #. target
-#: ../debugger/src/tpage.c:235
+#: ../debugger/src/tpage.c:234
 msgid "Target:"
 msgstr ""
 
-#: ../debugger/src/tpage.c:238
+#: ../debugger/src/tpage.c:237
 msgid "Browse"
 msgstr ""
 
 #. debugger
-#: ../debugger/src/tpage.c:243
+#: ../debugger/src/tpage.c:242
 msgid "Debugger:"
 msgstr ""
 
 #. arguments
-#: ../debugger/src/tpage.c:256
+#: ../debugger/src/tpage.c:255
 msgid "Command Line Arguments"
 msgstr ""
 
 #. environment
-#: ../debugger/src/tpage.c:267
+#: ../debugger/src/tpage.c:266
 msgid "Environment Variables"
 msgstr ""
 
 #. if name is empty - offer to delete variable
 #: ../debugger/src/envtree.c:243 ../debugger/src/envtree.c:346
-#: ../debugger/src/debug.c:239
+#: ../debugger/src/debug.c:237
 msgid "Delete variable?"
 msgstr ""
 
-#: ../debugger/src/bptree.c:680
+#: ../debugger/src/bptree.c:574
 msgid "Location"
 msgstr ""
 
-#: ../debugger/src/bptree.c:690
+#: ../debugger/src/bptree.c:584
 msgid "Condition"
 msgstr ""
 
-#: ../debugger/src/bptree.c:702
+#: ../debugger/src/bptree.c:596
 msgid "Hit count"
 msgstr ""
 
-#: ../debugger/src/bptree.c:715 ../geanygdb/src/gdb-ui-break.c:163
+#: ../debugger/src/bptree.c:609 ../geanygdb/src/gdb-ui-break.c:163
 msgid "Enabled"
 msgstr ""
 
-#: ../debugger/src/bptree.c:877
+#: ../debugger/src/bptree.c:766
 #, c-format
 msgid "line %i"
 msgstr ""
 
-#: ../debugger/src/debug.c:1087
+#: ../debugger/src/debug.c:1088
 #, c-format
 msgid ""
 "Breakpoint at %s:%i cannot be set\n"
@@ -354,24 +354,24 @@ msgstr ""
 msgid "Failed to spawn gdb process"
 msgstr ""
 
-#: ../debugger/src/dbm_gdb.c:572
+#: ../debugger/src/dbm_gdb.c:575
 msgid "Error configuring GDB"
 msgstr ""
 
-#: ../debugger/src/dbm_gdb.c:594
+#: ../debugger/src/dbm_gdb.c:597
 msgid "Error loading file"
 msgstr ""
 
-#: ../debugger/src/utils.c:56
+#: ../debugger/src/utils.c:63
 #, c-format
 msgid "Can't find a source file \"%s\""
 msgstr ""
 
-#: ../debugger/src/stree.c:202 ../geanylatex/src/bibtexlabels.c:46
+#: ../debugger/src/stree.c:194 ../geanylatex/src/bibtexlabels.c:46
 msgid "Address"
 msgstr ""
 
-#: ../debugger/src/stree.c:208
+#: ../debugger/src/stree.c:200
 msgid "Function"
 msgstr ""
 
@@ -388,7 +388,7 @@ msgid "Watch"
 msgstr ""
 
 #: ../debugger/src/tabs.c:137
-msgid "Locals"
+msgid "Autos"
 msgstr ""
 
 #: ../debugger/src/tabs.c:140
@@ -403,60 +403,59 @@ msgstr ""
 msgid "Debugger Messages"
 msgstr ""
 
-#: ../debugger/src/watch_model.c:161
+#: ../debugger/src/watch_model.c:219
 msgid "Can't evaluate expression"
 msgstr ""
 
-#: ../debugger/src/callbacks.c:256
+#: ../debugger/src/callbacks.c:229
 msgid "To edit source files stop debugging session"
 msgstr ""
 
-#: ../debugger/src/btnpanel.c:70 ../debugger/src/btnpanel.c:77
-msgid "Error reading config file"
-msgstr ""
-
-#: ../debugger/src/btnpanel.c:129 ../debugger/src/btnpanel.c:251
+#: ../debugger/src/btnpanel.c:86 ../debugger/src/btnpanel.c:155
 msgid "Run"
 msgstr ""
 
-#: ../debugger/src/btnpanel.c:137
+#: ../debugger/src/btnpanel.c:94
 #, fuzzy
 msgid "Restart"
 msgstr "Rapport"
 
-#: ../debugger/src/btnpanel.c:140
+#: ../debugger/src/btnpanel.c:97
 msgid "Stop"
 msgstr ""
 
-#: ../debugger/src/btnpanel.c:149
+#: ../debugger/src/btnpanel.c:106
 msgid "Step over"
 msgstr ""
 
-#: ../debugger/src/btnpanel.c:152
+#: ../debugger/src/btnpanel.c:109
 msgid "Step into"
 msgstr ""
 
-#: ../debugger/src/btnpanel.c:161
+#: ../debugger/src/btnpanel.c:118
 msgid "Step out"
 msgstr ""
 
-#: ../debugger/src/btnpanel.c:164
+#: ../debugger/src/btnpanel.c:121
 msgid "Run to cursor"
 msgstr ""
 
-#: ../debugger/src/btnpanel.c:174
-msgid "Load settings"
+#: ../debugger/src/btnpanel.c:128
+msgid "Settings"
 msgstr ""
 
-#: ../debugger/src/btnpanel.c:182
-#, fuzzy
-msgid "Tabs"
-msgstr "Taak"
+#: ../debugger/src/btnpanel.c:132
+msgid "Two panel mode"
+msgstr ""
 
-#: ../debugger/src/btnpanel.c:246
+#: ../debugger/src/btnpanel.c:150
 #, fuzzy
 msgid "Continue"
 msgstr "Inhoud"
+
+#: ../debugger/src/dconfig.c:664
+msgid "Save debug session data to a project"
+msgstr ""
 
 #. never search for more than this many chars
 #: ../devhelp/src/dhp.h:38
@@ -729,7 +728,7 @@ msgstr ""
 #: ../geanycfp/src/geanycfp.c:1949 ../geanymacro/src/geanymacro.c:1188
 #: ../treebrowser/src/treebrowser.c:1233
 msgid "Delete"
-msgstr ""
+msgstr "Verwijder"
 
 #. add record macro menu entry
 #: ../geanycfp/src/geanycfp.c:2073 ../geanymacro/src/geanymacro.c:1313
@@ -3368,7 +3367,7 @@ msgid "Open a signature file"
 msgstr "Open handtekeningsbestand"
 
 #: ../geanyprj/src/geanyprj.c:37 ../geanyprj/src/sidebar.c:449
-#: ../gproject/src/gproject-sidebar.c:828
+#: ../gproject/src/gproject-sidebar.c:825
 msgid "Project"
 msgstr ""
 
@@ -3456,7 +3455,7 @@ msgstr ""
 msgid "Remove File"
 msgstr ""
 
-#: ../geanyprj/src/sidebar.c:238 ../gproject/src/gproject-sidebar.c:809
+#: ../geanyprj/src/sidebar.c:238 ../gproject/src/gproject-sidebar.c:806
 msgid "H_ide Sidebar"
 msgstr ""
 
@@ -3475,50 +3474,50 @@ msgid ""
 "mailer"
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:102
+#: ../geanysendmail/src/geanysendmail.c:101
 msgid "Recipient's Address"
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:104
+#: ../geanysendmail/src/geanysendmail.c:103
 msgid "Enter the recipient's e-mail address:"
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:140
+#: ../geanysendmail/src/geanysendmail.c:139
 msgid "Filename placeholder not found. The executed command might have failed."
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:146
+#: ../geanysendmail/src/geanysendmail.c:145
 msgid ""
 "Recipient address placeholder not found. The executed command might have "
 "failed."
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:162
+#: ../geanysendmail/src/geanysendmail.c:160
 msgid "Could not execute mailer. Please check your configuration."
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:171
+#: ../geanysendmail/src/geanysendmail.c:169
 msgid "Please define a mail client first."
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:176
+#: ../geanysendmail/src/geanysendmail.c:174
 msgid "File has to be saved before sending."
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:192
+#: ../geanysendmail/src/geanysendmail.c:190
 msgid "Mail"
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:223
+#: ../geanysendmail/src/geanysendmail.c:221
 msgid "Send by mail"
 msgstr ""
 
 #. add a label and a text entry to the dialog
-#: ../geanysendmail/src/geanysendmail.c:308
+#: ../geanysendmail/src/geanysendmail.c:306
 msgid "Path and options for the mail client:"
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:316
+#: ../geanysendmail/src/geanysendmail.c:314
 msgid ""
 "Note: \n"
 "\t\\%f will be replaced by your file.\n"
@@ -3529,28 +3528,28 @@ msgid ""
 "\tmutt -s \"Sending '\\%b'\" -a \"\\%f\" \"\\%r\""
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:326
+#: ../geanysendmail/src/geanysendmail.c:324
 msgid "Show toolbar icon"
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:328
+#: ../geanysendmail/src/geanysendmail.c:326
 msgid "Shows a icon in the toolbar to send file more easy."
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:334
+#: ../geanysendmail/src/geanysendmail.c:332
 msgid "Use dialog for entering email address of recipients"
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:356
+#: ../geanysendmail/src/geanysendmail.c:354
 msgid "Send file by mail"
 msgstr ""
 
 #. Build up menu entry
-#: ../geanysendmail/src/geanysendmail.c:381
+#: ../geanysendmail/src/geanysendmail.c:379
 msgid "_Mail document"
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:384
+#: ../geanysendmail/src/geanysendmail.c:382
 msgid ""
 "Sends the opened file as unzipped attachment by any mailer from your $PATH"
 msgstr ""
@@ -3976,7 +3975,7 @@ msgid ""
 msgstr ""
 
 #: ../gproject/src/gproject-sidebar.c:78
-#: ../gproject/src/gproject-sidebar.c:798
+#: ../gproject/src/gproject-sidebar.c:795
 msgid "Find File"
 msgstr ""
 
@@ -3996,32 +3995,32 @@ msgstr ""
 msgid "Search in full path"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:708
+#: ../gproject/src/gproject-sidebar.c:705
 msgid "Reload all"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:717
+#: ../gproject/src/gproject-sidebar.c:714
 #: ../treebrowser/src/treebrowser.c:1260
 msgid "Expand all"
-msgstr ""
+msgstr "Alles uitvouwen"
 
-#: ../gproject/src/gproject-sidebar.c:723
+#: ../gproject/src/gproject-sidebar.c:720
 #: ../treebrowser/src/treebrowser.c:1264
 msgid "Collapse all"
-msgstr ""
+msgstr "Alles samenvouwen"
 
-#: ../gproject/src/gproject-sidebar.c:732
+#: ../gproject/src/gproject-sidebar.c:729
 msgid "Follow active editor"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:780
+#: ../gproject/src/gproject-sidebar.c:777
 msgid "Expand All"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:789
+#: ../gproject/src/gproject-sidebar.c:786
 #: ../treebrowser/src/treebrowser.c:1212
 msgid "Find in Files"
-msgstr ""
+msgstr "Zoek in bestanden"
 
 #: ../pretty-printer/src/ConfigUI.c:62
 msgid "Comments"
@@ -4266,29 +4265,31 @@ msgid ""
 "This plugin adds a tree browser to Geany, allowing the user to browse files "
 "using a tree view of the directory being browsed."
 msgstr ""
+"Deze plug-in voegt een TreeBrowser toe aan Geany, waardoor de gebruiker door "
+"de boomstructuur van de huidige map heen kan bladeren."
 
 #: ../treebrowser/src/treebrowser.c:423
 #, c-format
 msgid "%s: no such directory."
-msgstr ""
+msgstr "%s: map bestaat niet."
 
 #: ../treebrowser/src/treebrowser.c:518 ../treebrowser/src/treebrowser.c:553
 #: ../treebrowser/src/treebrowser.c:652
 msgid "(Empty)"
-msgstr ""
+msgstr "(Leeg)"
 
 #: ../treebrowser/src/treebrowser.c:947
 #, c-format
 msgid "Could not execute configured external command '%s' (%s)."
-msgstr ""
+msgstr "Kon extern geconfigureerde commando '%s' (%s) niet uitvoeren."
 
 #: ../treebrowser/src/treebrowser.c:1015
 msgid "NewDirectory"
-msgstr ""
+msgstr "NieuweMap"
 
 #: ../treebrowser/src/treebrowser.c:1017
 msgid "NewFile"
-msgstr ""
+msgstr "NieuwBestand"
 
 #: ../treebrowser/src/treebrowser.c:1022
 #, c-format
@@ -4296,19 +4297,21 @@ msgid ""
 "Target file '%s' exists\n"
 ", do you really want to replace it with empty file?"
 msgstr ""
+"Doelbestand '%s' bestaat reeds,\n"
+"wil je het echt vervangen door een leeg bestand?"
 
 #: ../treebrowser/src/treebrowser.c:1067
 #, c-format
 msgid "Do you really want to delete '%s' ?"
-msgstr ""
+msgstr "Wil je echt '%s' verwijderen?"
 
 #: ../treebrowser/src/treebrowser.c:1186 ../treebrowser/src/treebrowser.c:1629
 msgid "Go up"
-msgstr ""
+msgstr "Ga naar boven"
 
 #: ../treebrowser/src/treebrowser.c:1190 ../treebrowser/src/treebrowser.c:1644
 msgid "Set path from document"
-msgstr ""
+msgstr "Zet pad van document"
 
 #: ../treebrowser/src/treebrowser.c:1194
 msgid "Open externally"
@@ -4316,81 +4319,83 @@ msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1199
 msgid "Open Terminal"
-msgstr ""
+msgstr "Open terminalvenster"
 
 #: ../treebrowser/src/treebrowser.c:1203
 msgid "Set as root"
-msgstr ""
+msgstr "Stel in als begin"
 
 #: ../treebrowser/src/treebrowser.c:1208 ../treebrowser/src/treebrowser.c:1634
 #: ../treebrowser/src/treebrowser.c:1984
 msgid "Refresh"
-msgstr ""
+msgstr "Ververs"
 
 #: ../treebrowser/src/treebrowser.c:1220
 msgid "Create new directory"
-msgstr ""
+msgstr "Creër nieuwe map"
 
 #: ../treebrowser/src/treebrowser.c:1224
 msgid "Create new file"
-msgstr ""
+msgstr "Creër nieuw bestand"
 
 #: ../treebrowser/src/treebrowser.c:1228
 msgid "Rename"
-msgstr ""
+msgstr "Hernoem"
 
 #: ../treebrowser/src/treebrowser.c:1241
 #, c-format
 msgid "Close: %s"
-msgstr ""
+msgstr "Sluit: %s"
 
 #: ../treebrowser/src/treebrowser.c:1246
 #, c-format
 msgid "Close Child Documents "
-msgstr ""
+msgstr "Sluit "
 
 #: ../treebrowser/src/treebrowser.c:1251
 msgid "Copy full path to clipboard"
-msgstr ""
+msgstr "Kopiëer volledig pad naar klembord"
 
 #: ../treebrowser/src/treebrowser.c:1271 ../treebrowser/src/treebrowser.c:1910
 msgid "Show bookmarks"
-msgstr ""
+msgstr "Laat bladwijzers zien"
 
 #: ../treebrowser/src/treebrowser.c:1276 ../treebrowser/src/treebrowser.c:1864
 msgid "Show hidden files"
-msgstr ""
+msgstr "Laat verborgen bestanden zien"
 
 #: ../treebrowser/src/treebrowser.c:1281
 msgid "Show toolbars"
-msgstr ""
+msgstr "Laat balk met hulpmiddelen zien"
 
 #: ../treebrowser/src/treebrowser.c:1511
 #, c-format
 msgid "Target file '%s' exists, do you really want to replace it?"
-msgstr ""
+msgstr "Doelbestand '%s' bestaat, wil je het echt vervangen?"
 
 #: ../treebrowser/src/treebrowser.c:1639
 msgid "Home"
-msgstr ""
+msgstr "Thuis"
 
 #: ../treebrowser/src/treebrowser.c:1649
 msgid "Track path"
-msgstr ""
+msgstr "Volg pad"
 
 #: ../treebrowser/src/treebrowser.c:1654
 msgid "Hide bars"
-msgstr ""
+msgstr "Verberg balken"
 
 #: ../treebrowser/src/treebrowser.c:1664
 msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
 "reverse try for example this '!;*.c;*.h;*.cpp'"
 msgstr ""
+"Filter (*.c;*.h;*.cpp), en als je tijdelijk andersom wilt filterengebruik "
+"'!' zoals bijvoorbeeld '!;*.c;*.h;*.cpp'"
 
 #: ../treebrowser/src/treebrowser.c:1672
 msgid "Addressbar for example '/projects/my-project'"
-msgstr ""
+msgstr "Adresregel, bijvoorbeeld '/projecten/mijn-project'"
 
 #: ../treebrowser/src/treebrowser.c:1696
 msgid "Tree Browser"
@@ -4398,7 +4403,7 @@ msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1828
 msgid "External open command"
-msgstr ""
+msgstr "Extern commando op te openen"
 
 #: ../treebrowser/src/treebrowser.c:1833
 #, c-format
@@ -4409,96 +4414,104 @@ msgid ""
 "%d will be replaced with the path name of the selected file without the "
 "filename"
 msgstr ""
+"Het commando dat uitgevoerd wordt bij \"Open met\". Je kunt 'wildcards' %f "
+"en %s gebruiken.\n"
+"%f zal vervangen worden door de bestandsnaam inclusief volledig pad\n"
+"%d zal vervangen worden door slechts de padnaam van de geselecteerde bestand."
 
 #: ../treebrowser/src/treebrowser.c:1841
 msgid "Toolbar"
-msgstr ""
+msgstr "Hulpmiddelenbalk"
 
 #: ../treebrowser/src/treebrowser.c:1843
 msgid "Hidden"
-msgstr ""
+msgstr "Verborgen"
 
 #: ../treebrowser/src/treebrowser.c:1844
 msgid "Top"
-msgstr ""
+msgstr "Bovenaan"
 
 #: ../treebrowser/src/treebrowser.c:1845
 msgid "Bottom"
-msgstr ""
+msgstr "Onderaan"
 
 #: ../treebrowser/src/treebrowser.c:1850
 msgid "If position is changed, the option require plugin restart."
-msgstr ""
+msgstr "De plug-in moet herstart worden als de positie gewijzigd is."
 
 #: ../treebrowser/src/treebrowser.c:1854
 msgid "Show icons"
-msgstr ""
+msgstr "Laat pictogrammen zien"
 
 #: ../treebrowser/src/treebrowser.c:1856
 msgid "None"
-msgstr ""
+msgstr "Geen"
 
 #: ../treebrowser/src/treebrowser.c:1857
 msgid "Base"
-msgstr ""
+msgstr "Basis"
 
 #: ../treebrowser/src/treebrowser.c:1858
 msgid "Content-type"
-msgstr ""
+msgstr "Inhouds-type"
 
 #: ../treebrowser/src/treebrowser.c:1869
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
-msgstr ""
+msgstr "Dit verbergt bestanden, in Windows, die beginnen met een '.' (punt)"
 
 #: ../treebrowser/src/treebrowser.c:1871
 msgid "Hide object files"
-msgstr ""
+msgstr "Verberg object bestanden"
 
 #: ../treebrowser/src/treebrowser.c:1876
 msgid ""
 "Don't show generated object files in the file browser, this includes *.o, *."
 "obj. *.so, *.dll, *.a, *.lib"
 msgstr ""
+"Laat geen gegenereerde object bestanden zien in de bestandsbrowser, "
+"waaronder *.o, *.obj. *.so, *.dll, *.a, *.lib"
 
 #: ../treebrowser/src/treebrowser.c:1878
 msgid "Reverse filter"
-msgstr ""
+msgstr "Keer filter om"
 
 #: ../treebrowser/src/treebrowser.c:1883
 msgid "Follow current document"
-msgstr ""
+msgstr "Volg huidige directory"
 
 #: ../treebrowser/src/treebrowser.c:1888
 msgid "Single click, open document and focus it"
-msgstr ""
+msgstr "Enkele klik, open document en zet op de voorgrond"
 
 #: ../treebrowser/src/treebrowser.c:1893
 msgid "Double click open directory"
-msgstr ""
+msgstr "Dubbelklik, open map"
 
 #: ../treebrowser/src/treebrowser.c:1898
 msgid "On delete file, close it if is opened"
-msgstr ""
+msgstr "Sluit bestand af wanneer het wordt verwijderd en nog geopend is."
 
 #: ../treebrowser/src/treebrowser.c:1903
 msgid "Show tree lines"
-msgstr ""
+msgstr "Laat regels van boom zien"
 
 #: ../treebrowser/src/treebrowser.c:1978
+#, fuzzy
 msgid "Focus File List"
-msgstr ""
+msgstr "Voorgrond bestandslijst"
 
 #: ../treebrowser/src/treebrowser.c:1980
+#, fuzzy
 msgid "Focus Path Entry"
-msgstr ""
+msgstr "Voorgrond pad"
 
 #: ../treebrowser/src/treebrowser.c:1982
 msgid "Rename Object"
-msgstr ""
+msgstr "Hernoem object"
 
 #: ../updatechecker/src/updatechecker.c:41
 msgid "Updatechecker"
-msgstr ""
+msgstr "Update controleur"
 
 #: ../updatechecker/src/updatechecker.c:42
 msgid ""
@@ -4692,3 +4705,7 @@ msgstr ""
 #: ../xmlsnippets/src/plugin.c:46
 msgid "Autocompletes XML/HTML tags using snippets."
 msgstr ""
+
+#, fuzzy
+#~ msgid "Tabs"
+#~ msgstr "Taak"

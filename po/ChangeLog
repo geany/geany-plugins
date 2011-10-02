@@ -1,3 +1,9 @@
+2011-10-02  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * nl.po: Update of Dutch translation. Thanks to Peter Scholtens
+          and Hans Alves.
+
+
 2011-09-25  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * POTFILES.in: Update of file list for changes on Debugger-plugin.
@@ -5,7 +11,7 @@
 
 2011-09-15  Frank Lanitz  <frlan@frank.uvena.de>
 
- * nl.po: Update of Dutch translation. Thanks to  Peter Scholtens
+ * nl.po: Update of Dutch translation. Thanks to Peter Scholtens
           and Hans Alves.
 
 
