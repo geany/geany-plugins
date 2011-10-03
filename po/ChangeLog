@@ -1,3 +1,9 @@
+2011-10-03  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * POTFILES.in: Adding another file for devhelp plugin to list of
+                translatable files.
+
+
 2011-10-02  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * nl.po: Update of Dutch translation. Thanks to Peter Scholtens
