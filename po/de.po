@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.20\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-03 10:50+0200\n"
+"POT-Creation-Date: 2011-10-03 16:33+0200\n"
 "PO-Revision-Date: 2011-10-03 10:50+0100\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -352,7 +352,7 @@ msgstr "Aktiviert"
 msgid "line %i"
 msgstr "Zeile %i"
 
-#: ../debugger/src/debug.c:1088
+#: ../debugger/src/debug.c:1087
 #, c-format
 msgid ""
 "Breakpoint at %s:%i cannot be set\n"
@@ -361,20 +361,20 @@ msgstr ""
 "Haltepunkte bei %s:%i kann nicht gesetzt werde\n"
 "Debugger-Nachricht: %s"
 
-#: ../debugger/src/dbm_gdb.c:335
+#: ../debugger/src/dbm_gdb.c:339
 #, fuzzy
 msgid "Program received a signal"
 msgstr "Programm empfing Signal:"
 
-#: ../debugger/src/dbm_gdb.c:535
+#: ../debugger/src/dbm_gdb.c:545
 msgid "Failed to spawn gdb process"
 msgstr "Konnte den gdb-Prozess nicht starten"
 
-#: ../debugger/src/dbm_gdb.c:575
+#: ../debugger/src/dbm_gdb.c:585
 msgid "Error configuring GDB"
 msgstr "Fehler bei der Konfiguration von GDB"
 
-#: ../debugger/src/dbm_gdb.c:597
+#: ../debugger/src/dbm_gdb.c:607
 msgid "Error loading file"
 msgstr "Fehler beim Laden der Datei"
 

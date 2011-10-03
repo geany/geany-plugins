@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-02 22:45+0200\n"
+"POT-Creation-Date: 2011-10-03 16:33+0200\n"
 "PO-Revision-Date: 2011-09-13 20:24+0100\n"
 "Last-Translator: Peter Scholtens <peter.scholtens@xs4all.nl>\n"
 "Language-Team: Dutch\n"
@@ -339,26 +339,26 @@ msgstr ""
 msgid "line %i"
 msgstr ""
 
-#: ../debugger/src/debug.c:1088
+#: ../debugger/src/debug.c:1087
 #, c-format
 msgid ""
 "Breakpoint at %s:%i cannot be set\n"
 "Debugger message: %s"
 msgstr ""
 
-#: ../debugger/src/dbm_gdb.c:335
+#: ../debugger/src/dbm_gdb.c:339
 msgid "Program received a signal"
 msgstr ""
 
-#: ../debugger/src/dbm_gdb.c:535
+#: ../debugger/src/dbm_gdb.c:545
 msgid "Failed to spawn gdb process"
 msgstr ""
 
-#: ../debugger/src/dbm_gdb.c:575
+#: ../debugger/src/dbm_gdb.c:585
 msgid "Error configuring GDB"
 msgstr ""
 
-#: ../debugger/src/dbm_gdb.c:597
+#: ../debugger/src/dbm_gdb.c:607
 msgid "Error loading file"
 msgstr ""
 

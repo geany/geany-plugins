@@ -1,5 +1,6 @@
 2011-10-03  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
+ * *.po: Update of catalogs for string freeze in preparation of 0.21 release.
  * de.po: Update of German translation.
  * POTFILES.in: Adding another file for devhelp plugin to list of
                 translatable files.
