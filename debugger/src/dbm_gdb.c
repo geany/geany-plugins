@@ -251,6 +251,7 @@ GList* read_until_end()
  * asyncronous gdb output reader
  * looks for a stopped event, then notifies "debug" module and removes async handler
  */
+enum dbs debug_get_state();
 static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer data)
 {
 	gchar *line;
@@ -276,7 +277,9 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 		target_pid = atoi(line + strlen("=thread-group-created,id=\""));
 	}
 	else if (g_str_has_prefix(line, "=library-loaded") || g_str_has_prefix(line, "=library-unloaded"))
+	{
 		file_refresh_needed = TRUE;
+	}
 	else if (*line == '*')
 	{
 		/* asyncronous record found */
@@ -296,19 +299,6 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 			/* removing read callback (will pulling all output left manually) */
 			g_source_remove(gdb_id_out);
 
-			/* update autos */
-			update_autos();
-
-			/* update watches */
-			update_watches();
-
-			/* update files */
-			if (file_refresh_needed)
-			{
-				update_files();
-				file_refresh_needed = FALSE;
-			}
-
 			/* looking for a reason to stop */
 			char *next = NULL;
 			char *reason = strstr(record, "reason=\"") + strlen("reason=\"");
@@ -325,8 +315,22 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 			else if (!strcmp(reason, "exited-signalled"))
 				stop_reason = SR_EXITED_SIGNALLED;
 			 	
+			
 			if (SR_BREAKPOINT_HIT == stop_reason || SR_END_STEPPING_RANGE == stop_reason)
 			{
+				/* update autos */
+				update_autos();
+		
+				/* update watches */
+				update_watches();
+		
+				/* update files */
+				if (file_refresh_needed)
+				{
+					update_files();
+					file_refresh_needed = FALSE;
+				}
+
 				dbg_cbs->set_stopped();
 			}
 			else if (stop_reason == SR_SIGNAL_RECIEVED)
@@ -339,15 +343,21 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 				dbg_cbs->set_stopped();
 			}
 			else if (stop_reason == SR_EXITED_NORMALLY || stop_reason == SR_EXITED_SIGNALLED)
+			{
 				stop();
+			}
 		}
 	}
 	else if (g_str_has_prefix (line, "^error"))
 	{
-		dbg_cbs->set_stopped();
-
 		/* removing read callback (will pulling all output left manually) */
 		g_source_remove(gdb_id_out);
+
+		/* set debugger stopped if is running */
+		if (DBS_STOPPED != debug_get_state())
+		{
+			dbg_cbs->set_stopped();
+		}
 
 		/* get message */
 		char *msg = strstr(line, "msg=\"") + strlen("msg=\"");

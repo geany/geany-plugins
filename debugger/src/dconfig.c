@@ -347,7 +347,7 @@ void config_set_panel(int config_part, gpointer config_value, ...)
 		{
 			case CP_TABBED_MODE:
 			{
-				g_key_file_set_boolean(keyfile_plugin, "tabbed_mode", "enabled", (gboolean)config_value);
+				g_key_file_set_boolean(keyfile_plugin, "tabbed_mode", "enabled", *((gboolean*)config_value));
 				break;
 			}
 			case CP_OT_TABS:
@@ -358,7 +358,7 @@ void config_set_panel(int config_part, gpointer config_value, ...)
 			}
 			case CP_OT_SELECTED:
 			{
-				g_key_file_set_integer(keyfile_plugin, "one_panel_mode", "selected_tab_index", (int)config_value);
+				g_key_file_set_integer(keyfile_plugin, "one_panel_mode", "selected_tab_index", *((int*)config_value));
 				break;
 			}
 			case CP_TT_LTABS:
@@ -369,7 +369,7 @@ void config_set_panel(int config_part, gpointer config_value, ...)
 			}
 			case CP_TT_LSELECTED:
 			{
-				g_key_file_set_integer(keyfile_plugin, "two_panels_mode", "left_selected_tab_index", (int)config_value);
+				g_key_file_set_integer(keyfile_plugin, "two_panels_mode", "left_selected_tab_index", *((int*)config_value));
 				break;
 			}
 			case CP_TT_RTABS:
@@ -380,7 +380,7 @@ void config_set_panel(int config_part, gpointer config_value, ...)
 			}
 			case CP_TT_RSELECTED:
 			{
-				g_key_file_set_integer(keyfile_plugin, "two_panels_mode", "right_selected_tab_index", (int)config_value);
+				g_key_file_set_integer(keyfile_plugin, "two_panels_mode", "right_selected_tab_index", *((int*)config_value));
 				break;
 			}
 		}

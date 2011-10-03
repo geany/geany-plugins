@@ -202,7 +202,7 @@ static void on_page_reordered(GtkNotebook *notebook, GtkWidget *child, guint pag
 	
 	config_set_panel(
 		config_part_tabs, array,
-		config_part_selected_index, page_num,
+		config_part_selected_index, &page_num,
 		0
 	);
 	
@@ -261,7 +261,7 @@ static gboolean on_change_current_page(GtkNotebook *notebook, gpointer arg1, gui
 	else
 		config_part = CP_TT_RSELECTED;
 	
-	config_set_panel(config_part, (gpointer)arg2, 0);
+	config_set_panel(config_part, (gpointer)&arg2, 0);
 
 	return TRUE;
 }
@@ -429,5 +429,5 @@ void dpaned_set_tabbed(gboolean tabbed)
 	
 	CONNECT_PAGE_SIGNALS();
 
-	config_set_panel(CP_TABBED_MODE, (gpointer)tabbed, 0);
+	config_set_panel(CP_TABBED_MODE, (gpointer)&tabbed, 0);
 }

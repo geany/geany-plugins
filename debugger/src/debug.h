@@ -22,15 +22,6 @@
 #include "debug_module.h"
 #include "markers.h"
 
-/* debug states enumeration */
-enum dbs {
-	DBS_IDLE,
-	DBS_STOPPED,
-	DBS_STOP_REQUESTED,
-	DBS_RUNNING,
-	DBS_RUN_REQUESTED,
-};
-
 /* function type to execute on interrupt */
 typedef void	(*bs_callback)(gpointer);
 

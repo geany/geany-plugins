@@ -19,6 +19,15 @@
  *      MA 02110-1301, USA.
  */
  
+/* debug states enumeration */
+enum dbs {
+	DBS_IDLE,
+	DBS_STOPPED,
+	DBS_STOP_REQUESTED,
+	DBS_RUNNING,
+	DBS_RUN_REQUESTED,
+};
+
 /* type to hold callbacks to call from debugger modules */
 typedef struct _dbg_callbacks {
 	void (*set_run) ();

@@ -622,7 +622,7 @@ static void on_debugger_stopped ()
 	/* clear calltips cache */
 	g_hash_table_remove_all(calltips);
 
-	/* if the stop was requested for asyncronous exitig -
+	/* if a stop was requested for asyncronous exiting -
 	 * stop debug module and exit */
 	if (exit_pending)
 	{
@@ -631,8 +631,8 @@ static void on_debugger_stopped ()
 		return;
 	}
 
-	/* if the stop was requested for asyncronous exitig -
-	 * stop debug module and exit */
+	/* if a restart was requested for asyncronous exiting -
+	 * restart debug module and exit */
 	if (restart_pending)
 	{
 		active_module->restart();
@@ -847,7 +847,6 @@ static void on_debugger_messages_clear ()
 static void on_debugger_error (const gchar* message)
 {
 	dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", message);
-	debug_stop();
 }
 
 /* callbacks structure to pass to debugger module */
