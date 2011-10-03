@@ -156,7 +156,7 @@ void btnpanel_set_debug_state(enum dbs state)
 	}
 	
 	gtk_widget_set_sensitive(runbtn, DBS_IDLE == state || DBS_STOPPED == state);
-	gtk_widget_set_sensitive(restartbtn, DBS_IDLE != state);
+	gtk_widget_set_sensitive(restartbtn, DBS_STOPPED == state);
 	gtk_widget_set_sensitive(stopbtn, DBS_IDLE != state);
 	
 	gtk_widget_set_sensitive(stepoverbtn, DBS_STOPPED == state);

@@ -98,11 +98,6 @@ gpointer			interrupt_data = NULL;
  */
 gboolean exit_pending = FALSE;
 
-/* flag to set when debug restart is requested while debugger is running.
- * Then this flag is set to TRUE, and debug_request_interrupt function is called
- */
-gboolean restart_pending = FALSE;
-
 /* debug terminal PTY master/slave file descriptors */
 int pty_master, pty_slave;
 
@@ -631,15 +626,6 @@ static void on_debugger_stopped ()
 		return;
 	}
 
-	/* if a restart was requested for asyncronous exiting -
-	 * restart debug module and exit */
-	if (restart_pending)
-	{
-		active_module->restart();
-		restart_pending = FALSE;
-		return;
-	}
-	
 	/* check for async activities pending */
 	if (interrupt_data)
 	{
@@ -1137,14 +1123,9 @@ void debug_restart()
 	if (DBS_STOPPED == debug_state)
 	{
 		/* stop instantly if not running */
+		vte_terminal_reset(VTE_TERMINAL(terminal), TRUE, TRUE);
 		active_module->restart();
 		debug_state = DBS_RUN_REQUESTED;
-	}
-	else if (DBS_IDLE != debug_state)
-	{
-		/* if running - request interrupt */
-		restart_pending = TRUE;
-		active_module->request_interrupt();	
 	}
 }
 
