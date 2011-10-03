@@ -129,19 +129,11 @@ void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
 }
 
 /*
- * 	Occures on new document creating
- */
-void on_document_new(GObject *obj, GeanyDocument *doc, gpointer user_data)
-{
-}
-
-/*
  * 	Occures on document opening.
  * 	Used to set breaks markers 
  */
 void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
-	const gchar* file = DOC_FILENAME(doc);
 	/*set markers*/
 	markers_set_for_document(doc->editor->sci);
 
@@ -152,7 +144,7 @@ void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
 	scintilla_send_message(doc->editor->sci, SCI_CALLTIPUSESTYLE, 20, (long)NULL);
 
 	/* set breakpoint and frame markers */
-	set_markers_for_file(file);
+	set_markers_for_file(DOC_FILENAME(doc));
 
 	/* if debug is active - tell the debug module that a file was opened */
 	if (DBS_IDLE != debug_get_state())
@@ -205,7 +197,7 @@ gboolean on_editor_notify(
 
 			if (word->len)
 			{
-				gchar *calltip = NULL;//debug_get_calltip_for_expression(word->str);
+				gchar *calltip = debug_get_calltip_for_expression(word->str);
 				if (calltip)
 				{
 					scintilla_send_message (editor->sci, SCI_CALLTIPSHOW, nt->position, (long)calltip);

@@ -70,7 +70,6 @@ PluginCallback plugin_callbacks[] =
 	{ "document_open", (GCallback) &on_document_open, FALSE, NULL },
 	{ "document_save", (GCallback) &on_document_save, FALSE, NULL },
 	{ "document_before_save", (GCallback) &on_document_before_save, FALSE, NULL },
-	{ "document_new", (GCallback) &on_document_new, FALSE, NULL },
 	{ "project_open", (GCallback) &config_on_project_open, FALSE, NULL },
 	{ "project_close", (GCallback) &config_on_project_close, FALSE, NULL },
 	{ "project_save", (GCallback) &config_on_project_save, FALSE, NULL },
@@ -138,6 +137,14 @@ void plugin_init(GeanyData *data)
 	config_set_debug_store(
 		config_get_save_to_project() && geany_data->app->project ? DEBUG_STORE_PROJECT : DEBUG_STORE_PLUGIN
 	);
+
+	/* set calltips for all currently opened documents */
+	int i;
+	foreach_document(i)
+	{
+		scintilla_send_message(document_index(i)->editor->sci, SCI_SETMOUSEDWELLTIME, 500, 0);
+		scintilla_send_message(document_index(i)->editor->sci, SCI_CALLTIPUSESTYLE, 20, (long)NULL);
+	}
 }
 
 /* Called by Geany to show the plugin's configure dialog. This function is always called after
