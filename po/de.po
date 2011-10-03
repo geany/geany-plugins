@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.20\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-03 10:05+0200\n"
-"PO-Revision-Date: 2011-10-03 10:05+0100\n"
+"POT-Creation-Date: 2011-10-03 10:50+0200\n"
+"PO-Revision-Date: 2011-10-03 10:50+0100\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
 "Language: de\n"
@@ -277,9 +277,8 @@ msgid "Implementations extensions"
 msgstr "Implementierungserweiterungen"
 
 #: ../debugger/src/plugin.c:56
-#, fuzzy
 msgid "Debugger"
-msgstr "Debug"
+msgstr "Debugger"
 
 #: ../debugger/src/plugin.c:57
 msgid "Various debuggers integration."
@@ -304,49 +303,41 @@ msgstr "Zieldatei auswählen"
 
 #. target
 #: ../debugger/src/tpage.c:234
-#, fuzzy
 msgid "Target:"
-msgstr "large"
+msgstr "Ziel:"
 
 #: ../debugger/src/tpage.c:237
-#, fuzzy
 msgid "Browse"
-msgstr "Durchsuchen..."
+msgstr "Durchsuchen "
 
 #. debugger
 #: ../debugger/src/tpage.c:242
-#, fuzzy
 msgid "Debugger:"
-msgstr "Debug"
+msgstr "Debugger:"
 
 #. arguments
 #: ../debugger/src/tpage.c:255
-#, fuzzy
 msgid "Command Line Arguments"
-msgstr "Befehlsname"
+msgstr "Kommandozeilenargumente"
 
 #. environment
 #: ../debugger/src/tpage.c:266
-#, fuzzy
 msgid "Environment Variables"
-msgstr "Umgebungen"
+msgstr "Umgebungsvariablen"
 
 #. if name is empty - offer to delete variable
 #: ../debugger/src/envtree.c:243 ../debugger/src/envtree.c:346
 #: ../debugger/src/debug.c:237
-#, fuzzy
 msgid "Delete variable?"
-msgstr "Lokale Variablen"
+msgstr "Variable Löschen?"
 
 #: ../debugger/src/bptree.c:574
-#, fuzzy
 msgid "Location"
-msgstr "Ort:"
+msgstr "Position"
 
 #: ../debugger/src/bptree.c:584
-#, fuzzy
 msgid "Condition"
-msgstr "Ausgabe"
+msgstr "Bedingung"
 
 #: ../debugger/src/bptree.c:596
 msgid "Hit count"
@@ -359,7 +350,7 @@ msgstr "Aktiviert"
 #: ../debugger/src/bptree.c:766
 #, c-format
 msgid "line %i"
-msgstr ""
+msgstr "Zeile %i"
 
 #: ../debugger/src/debug.c:1088
 #, c-format
@@ -390,7 +381,7 @@ msgstr "Fehler beim Laden der Datei"
 #: ../debugger/src/utils.c:63
 #, c-format
 msgid "Can't find a source file \"%s\""
-msgstr ""
+msgstr "Kann die Quelldatei »%s« nicht finden."
 
 #: ../debugger/src/stree.c:194 ../geanylatex/src/bibtexlabels.c:46
 msgid "Address"
@@ -401,22 +392,20 @@ msgid "Function"
 msgstr "Funkton"
 
 #: ../debugger/src/tabs.c:128
-#, fuzzy
 msgid "Target"
-msgstr "large"
+msgstr "Ziel"
 
 #: ../debugger/src/tabs.c:131 ../geanygdb/src/gdb-ui-break.c:504
 msgid "Breakpoints"
 msgstr "Haltepunkte"
 
 #: ../debugger/src/tabs.c:134
-#, fuzzy
 msgid "Watch"
-msgstr "Beobachtungspunkte"
+msgstr "Beobachten"
 
 #: ../debugger/src/tabs.c:137
 msgid "Autos"
-msgstr ""
+msgstr "Autos"
 
 #: ../debugger/src/tabs.c:140
 #, fuzzy
@@ -444,22 +433,20 @@ msgstr ""
 "Um die Quelldatei zu editieren, muss das Debugging unterbrochen werden."
 
 #: ../debugger/src/btnpanel.c:86 ../debugger/src/btnpanel.c:155
-#, fuzzy
 msgid "Run"
-msgstr "_Ausführen"
+msgstr "Ausführen"
 
 #: ../debugger/src/btnpanel.c:94
-#, fuzzy
 msgid "Restart"
-msgstr "startet"
+msgstr "Neustarten"
 
 #: ../debugger/src/btnpanel.c:97
 msgid "Stop"
-msgstr ""
+msgstr "Stop"
 
 #: ../debugger/src/btnpanel.c:106
 msgid "Step over"
-msgstr ""
+msgstr "Überspringen"
 
 # noch keine Idee  --Dominic
 #: ../debugger/src/btnpanel.c:109
@@ -480,28 +467,25 @@ msgid "Run to cursor"
 msgstr "Gehe zu Ort"
 
 #: ../debugger/src/btnpanel.c:128
-#, fuzzy
 msgid "Settings"
-msgstr "Einstellung"
+msgstr "Einstellungen"
 
 #: ../debugger/src/btnpanel.c:132
 msgid "Two panel mode"
-msgstr ""
+msgstr "Zwei-Panel-Modus"
 
 #: ../debugger/src/btnpanel.c:150
-#, fuzzy
 msgid "Continue"
-msgstr "Zählung läuft..."
+msgstr "Fortsetzen"
 
 #: ../debugger/src/dconfig.c:664
 msgid "Save debug session data to a project"
-msgstr ""
+msgstr "Speichere die Debug-Session-Daten als Projekt"
 
 #. never search for more than this many chars
 #: ../devhelp/src/dhp.h:38
-#, fuzzy
 msgid "Documentation"
-msgstr "Dokumentationstyp"
+msgstr "Dokumentation"
 
 #: ../devhelp/src/dhp.h:39
 msgid "Code"
@@ -516,9 +500,8 @@ msgid "Devhelp"
 msgstr "Devhelp"
 
 #: ../devhelp/src/dhp-object.c:397
-#, fuzzy
 msgid "Manual Pages"
-msgstr "Handbuch (@Manual)"
+msgstr "Manual-Seiten"
 
 #: ../devhelp/src/dhp-object.c:403
 msgid "Google Code"
@@ -533,19 +516,16 @@ msgid "Go forward one page"
 msgstr "Eine Seite vor"
 
 #: ../devhelp/src/dhp-object.c:449
-#, fuzzy
 msgid "Zoom in"
-msgstr "_Vergrößerung"
+msgstr "Hineinzoomen"
 
 #: ../devhelp/src/dhp-object.c:450
-#, fuzzy
 msgid "Zoom out"
-msgstr "_Vergrößerung"
+msgstr "Herauszoomen"
 
 #: ../devhelp/src/dhp-object.c:501
-#, fuzzy
 msgid "Search"
-msgstr "Suchwörter:"
+msgstr "Suchen"
 
 #: ../devhelp/src/dhp-object.c:1319
 #, fuzzy, c-format
@@ -620,6 +600,8 @@ msgid ""
 "Unrecognised message\n"
 "%i %i %i"
 msgstr ""
+"Unverständliche Nachricht\n"
+"%i %i %i"
 
 #: ../geanycfp/src/geanycfp.c:1109
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:605
@@ -629,6 +611,10 @@ msgid ""
 "be unreliable and will not be loaded.\n"
 "Press Ignore to try an load markers anyway."
 msgstr ""
+"»%s« wurde editiert seit es zum letzten Mal mit Geany gespeichert wurde. Die "
+"Positionen der Markieren könnten verschoben und Irreführend sein und werden "
+"nicht geladen.\n"
+"Drücken Sie »ignorieren« um die Markierungen dennoch zu laden. "
 
 #: ../geanycfp/src/geanycfp.c:1112
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:608
@@ -728,9 +714,8 @@ msgstr "Aufnehmen"
 
 #: ../geanycfp/src/geanycfp.c:1633 ../geanycfp/src/geanycfp.c:1950
 #: ../geanymacro/src/geanymacro.c:871 ../geanymacro/src/geanymacro.c:1189
-#, fuzzy
 msgid "Cancel"
-msgstr "Laden abbrechen"
+msgstr "Abbruch"
 
 #: ../geanycfp/src/geanycfp.c:1640 ../geanymacro/src/geanymacro.c:878
 #, fuzzy
@@ -789,17 +774,18 @@ msgstr "Löschen"
 #. add record macro menu entry
 #: ../geanycfp/src/geanycfp.c:2073 ../geanymacro/src/geanymacro.c:1313
 msgid "Record _Macro"
-msgstr ""
+msgstr "_Makro aufnehmen"
 
+# Doppelter Acc. ist in Ordnung, da Menüpunkte ausgetauscht werden (Stand 2011-10-03)
 #. add stop record macromenu entry
 #: ../geanycfp/src/geanycfp.c:2079 ../geanymacro/src/geanymacro.c:1319
 msgid "Stop Recording _Macro"
-msgstr ""
+msgstr "_Makroaufnehmen unterbrechen"
 
 #. add Edit Macro menu entry
 #: ../geanycfp/src/geanycfp.c:2085 ../geanymacro/src/geanymacro.c:1325
 msgid "_Edit Macros"
-msgstr ""
+msgstr "Makros bearbeiten und löschen"
 
 #. All plugins must set name, description, version and author.
 #: ../geanydoc/src/geanydoc.c:50 ../geanydoc/src/geanydoc.c:347
@@ -1088,9 +1074,8 @@ msgid "Break after "
 msgstr "Anhalten nach"
 
 #: ../geanygdb/src/gdb-ui-break.c:176
-#, fuzzy
 msgid " times."
-msgstr " mal. "
+msgstr " mal."
 
 #: ../geanygdb/src/gdb-ui-break.c:181
 #, fuzzy
@@ -1098,9 +1083,8 @@ msgid "Break when "
 msgstr " Anhalten wenn "
 
 #: ../geanygdb/src/gdb-ui-break.c:188
-#, fuzzy
 msgid " is true."
-msgstr "wahr ist."
+msgstr " ist wahr."
 
 #: ../geanygdb/src/gdb-ui-break.c:253
 msgid "Add watchpoint"
@@ -2743,9 +2727,8 @@ msgid "Inserting costumized command to document"
 msgstr "Benutzerdefiniertes Kommando in Dokument einfügen"
 
 #: ../geanylatex/src/letters.c:40
-#, fuzzy
 msgid "LaTeX letters"
-msgstr "Griechische Buchstaben"
+msgstr "LATeX-Sonderzeichen"
 
 #: ../geanylatex/src/letters.c:41
 msgid "Greek letters"
@@ -3207,7 +3190,7 @@ msgstr "Makros für Geany"
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:678
 msgid "Geany Macros help"
-msgstr ""
+msgstr "Geany Macros Hilfe"
 
 #: ../geanymacro/src/geanymacro.c:686
 msgid ""
@@ -3244,12 +3227,12 @@ msgstr ""
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:63
 msgid "Numbered Bookmarks for Geany"
-msgstr ""
+msgstr "Nummerierte Lesezeichen für Geany"
 
 #. create dialog box
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:814
 msgid "Numbered Bookmarks help"
-msgstr ""
+msgstr "Hilfe"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:822
 msgid ""
@@ -3302,7 +3285,7 @@ msgstr "Hans Alves <alves.h88@gmail.com>"
 
 #: ../geanypg/src/geanypg.c:46
 msgid "Using libgpgme version:"
-msgstr ""
+msgstr "Verwendete libgpgme-Version:"
 
 #: ../geanypg/src/geanypg.c:59 ../geanypg/src/geanypg.c:60
 #, fuzzy
@@ -3374,11 +3357,11 @@ msgstr "Eingeben der Passphrase für Schlüssel: %0A "
 
 #: ../geanypg/src/pinentry.c:163
 msgid "pinentry gave error"
-msgstr ""
+msgstr "pineentry hat einen Fehler gemeldet"
 
 #: ../geanypg/src/pinentry.c:166
 msgid "Unexpected error from pinentry."
-msgstr ""
+msgstr "Unerwarteter Fehler von pinentry"
 
 #: ../geanypg/src/pinentry.c:191
 msgid ""
@@ -3388,7 +3371,7 @@ msgstr ""
 
 #: ../geanypg/src/verify_aux.c:52
 msgid "a key with fingerprint"
-msgstr ""
+msgstr "ein Schlüssel mit Fingerabdruck"
 
 #: ../geanypg/src/verify_aux.c:65 ../spellcheck/src/gui.c:497
 #: ../spellcheck/src/gui.c:508
@@ -3397,17 +3380,15 @@ msgstr "Unbekannt"
 
 #: ../geanypg/src/verify_aux.c:66
 msgid "undefined"
-msgstr ""
+msgstr "unbestimmt"
 
 #: ../geanypg/src/verify_aux.c:67
-#, fuzzy
 msgid "never"
-msgstr "_Zurücksetzen"
+msgstr "niemals"
 
 #: ../geanypg/src/verify_aux.c:68
-#, fuzzy
 msgid "marginal"
-msgstr "_Original"
+msgstr "marginal"
 
 #: ../geanypg/src/verify_aux.c:69
 msgid "full"
@@ -3419,7 +3400,7 @@ msgstr "ultimativ"
 
 #: ../geanypg/src/verify_aux.c:71 ../geanypg/src/verify_aux.c:73
 msgid "[bad validity value]"
-msgstr ""
+msgstr "[schlechter Validierungswert]"
 
 #. buffer should be more than 105 bytes long
 #: ../geanypg/src/verify_aux.c:78
@@ -3459,9 +3440,8 @@ msgid " crl-too-old"
 msgstr "CRL ist zu alt"
 
 #: ../geanypg/src/verify_aux.c:87
-#, fuzzy
 msgid " bad-policy"
-msgstr "Regelwerk zusammenführen"
+msgstr " falsches Regelwerk (bad policy)"
 
 #: ../geanypg/src/verify_aux.c:88
 msgid " sys-error"
@@ -3484,19 +3464,16 @@ msgid ""
 msgstr ""
 
 #: ../geanypg/src/verify_aux.c:118 ../geanypg/src/verify_aux.c:123
-#, fuzzy
 msgid "Unknown\n"
-msgstr "Unbekannt"
+msgstr "Unbekannt\n"
 
 #: ../geanypg/src/verify_aux.c:128 ../geanypg/src/verify_aux.c:135
 #: ../geanypg/src/verify_aux.c:146 ../geanypg/src/verify_aux.c:153
-#, fuzzy
 msgid "[None]"
-msgstr "Keines"
+msgstr "[Kein]"
 
 #: ../geanypg/src/verify_aux.c:133 ../geanypg/src/verify_aux.c:134
 #: ../geanypg/src/verify_aux.c:151 ../geanypg/src/verify_aux.c:152
-#, fuzzy
 msgid "Unknown"
 msgstr "Unbekannt"
 
@@ -3518,7 +3495,7 @@ msgstr "RFU"
 
 #: ../geanypg/src/verify_aux.c:137 ../geanypg/src/verify_aux.c:155
 msgid " wrong-key-usage"
-msgstr ""
+msgstr "Falsche Schlüsselnutzung"
 
 #: ../geanypg/src/verify_aux.c:138 ../geanypg/src/verify_aux.c:155
 msgid " chain-model"
@@ -4228,11 +4205,11 @@ msgstr "Suchwörter:"
 
 #: ../gproject/src/gproject-sidebar.c:117
 msgid "C_ase sensitive"
-msgstr ""
+msgstr "_Groß-/Kleinschreibung beachten"
 
 #: ../gproject/src/gproject-sidebar.c:120
 msgid "Search in full path"
-msgstr ""
+msgstr "Im vollen Pfad suchen"
 
 #: ../gproject/src/gproject-sidebar.c:705
 #, fuzzy
@@ -4287,7 +4264,7 @@ msgstr "Argumente"
 
 #: ../pretty-printer/src/ConfigUI.c:63
 msgid "Text nodes"
-msgstr ""
+msgstr "Textknoten"
 
 #: ../pretty-printer/src/ConfigUI.c:64
 msgid "CDATA"
@@ -4301,15 +4278,15 @@ msgstr "(Leere Zeile)"
 
 #: ../pretty-printer/src/ConfigUI.c:194
 msgid "Concatenation (<x></x> to <x/>)"
-msgstr ""
+msgstr "Zusammenfassung (<x></x> zu <x/>)"
 
 #: ../pretty-printer/src/ConfigUI.c:195
 msgid "Spacing (<x/> to <x />)"
-msgstr ""
+msgstr "Leerzeichen  (<x/> zu <x />)"
 
 #: ../pretty-printer/src/ConfigUI.c:196
 msgid "Expansion (<x/> to <x></x>)"
-msgstr ""
+msgstr "Erweiterung (<x/> zu <x></x>)"
 
 #: ../pretty-printer/src/ConfigUI.c:223
 #, fuzzy
