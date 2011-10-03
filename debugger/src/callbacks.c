@@ -110,6 +110,7 @@ void on_document_before_save(GObject *obj, GeanyDocument *doc, gpointer user_dat
 /*
  * 	Occures on saving document
  */
+void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data);
 void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
 	if (_unexisting_file)
@@ -117,12 +118,8 @@ void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
 		/* if we are saving as - remove all markers at first */
 		markers_remove_all(doc);
 
-		/* next, lets try to find and insert markers for the file, current document is being saved to*/
-		set_markers_for_file(doc->file_name);
-
-		/* if debug is active - tell the debug module that a file was opened */
-		if (DBS_IDLE != debug_get_state())
-			debug_on_file_open(doc);
+		/* do all the markers and calltip stuff that is done on file open */
+		on_document_open(obj, doc, user_data);
 		
 		_unexisting_file = FALSE;
 	}
@@ -169,7 +166,7 @@ gboolean on_editor_notify(
 	{
 		case SCN_MARGINCLICK:
 		{
-			if (1 != nt->margin)
+			if (!editor->document->real_path || 1 != nt->margin)
 				break;
 			
 			char* file = editor->document->file_name;
