@@ -355,8 +355,6 @@ void plugin_init(GeanyData G_GNUC_UNUSED *data)
 	GtkWidget *menu_mail = NULL;
 	GeanyKeyGroup *key_group;
 
-	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
-
 	config_file = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
 		"geanysendmail", G_DIR_SEPARATOR_S, "mail.conf", NULL);
 
