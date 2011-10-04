@@ -1283,7 +1283,6 @@ gchar* debug_get_calltip_for_expression(gchar* expression)
 			}
 
 			active_module->remove_watch(var->internal->str);
-			variable_free(var);
 
 			calltip = g_string_free(calltip_str, FALSE);
 

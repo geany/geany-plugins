@@ -1466,6 +1466,7 @@ void remove_watch(gchar* internal)
 			gchar command[1000];
 			sprintf(command, "-var-delete %s", internal);
 			exec_sync_command(command, TRUE, NULL);
+			variable_free(var);
 			watches = g_list_delete_link(watches, iter);
 		}
 		iter = iter->next;
