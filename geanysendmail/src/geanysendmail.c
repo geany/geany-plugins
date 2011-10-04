@@ -23,16 +23,13 @@
 
 /* A little plugin to send a document as attachment using the preferred mail client */
 
-#include "geanyplugin.h"
-#include "icon.h"
 
 #ifdef HAVE_CONFIG_H
 	#include "config.h" /* for the gettext domain */
 #endif
 
-#ifdef HAVE_LOCALE_H
-# include <locale.h>
-#endif
+#include "geanyplugin.h"
+#include "icon.h"
 
 GeanyPlugin		*geany_plugin;
 GeanyData		*geany_data;

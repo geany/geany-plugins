@@ -1,6 +1,7 @@
 2011-10-04  Frank Lanitz  <frlan@frank.uvena.de>
 
  * Remove not needed call of main_locale_init()
+ * Fix i18n for plugin
 
 
 2011-09-25  Frank Lanitz  <frlan@frank.uvena.de>
@@ -8,7 +9,6 @@
  * Adding a workaround for a weird issue in connection with
    utils_string_replace_all().
  * Don't free address variable in case of none address-dialog was shown.
-
 
 
 2011-06-21  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
