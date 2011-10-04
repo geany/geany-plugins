@@ -1110,24 +1110,34 @@ void get_variables (GList *vars)
 		gchar *expression = unescape(pos);
 		g_string_assign(var->expression, expression);
 		g_free(expression);
+		g_free(record);
 		
 		/* children number */
 		sprintf(command, "-var-info-num-children \"%s\"", varname);
 		exec_sync_command(command, TRUE, &record);
-
 		pos = strstr(record, "numchild=\"") + strlen("numchild=\"");
 		*(strchr(pos, '\"')) = '\0';
 		int numchild = atoi(pos);
 		var->has_children = numchild > 0;
+		g_free(record);
 
 		/* value */
-		sprintf(command, "-var-evaluate-expression \"%s\"", varname);
+		sprintf(command, "-data-evaluate-expression \"%s\"", var->expression->str);
 		exec_sync_command(command, TRUE, &record);
-		pos = strstr(record, "value=\"") + strlen("value=\"");
+		pos = strstr(record, "value=\"");
+		if (!pos)
+		{
+			g_free(record);
+			sprintf(command, "-var-evaluate-expression \"%s\"", varname);
+			exec_sync_command(command, TRUE, &record);
+			pos = strstr(record, "value=\"");
+		}
+		pos +=  + strlen("value=\"");
 		*(strrchr(pos, '\"')) = '\0';
 		gchar *value = unescape(pos);
 		g_string_assign(var->value, value);
 		g_free(value);
+		g_free(record);
 
 		/* type */
 		sprintf(command, "-var-info-type \"%s\"", varname);
