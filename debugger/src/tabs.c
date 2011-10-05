@@ -46,7 +46,7 @@ GtkWidget *tab_messages = NULL;
  */
 tab_id tabs_get_tab_id(GtkWidget* tab)
 {
-	tab_id id;
+	tab_id id = TID_TARGET;
 	if (tab_target == tab)
 	{
 		id = TID_TARGET;
