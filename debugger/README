@@ -1,44 +1,85 @@
+.. |(version)| replace:: 0.21
+
 Debugger plugin
-===============
+==================
+
+.. image:: http://img190.imageshack.us/img190/6752/geanydebugger.png
+   :width: 400
+   :alt: debugger plugin
+   :align: right
+   :target: http://img190.imageshack.us/img190/6752/geanydebugger.png
+
+.. contents::
 
 About
------
-Plugin enables debuggers support in Geany.
-Aiming on support for various debuggers, for now only
-GDB is supported.
+=====
+
+Plugin enables debugging in Geany.
+Currently supports GDB only, but was developed with multiple debuggers support in mind,
+so the other backends support is planned as well.
+
+
+Features
+========
+
+ * Debugger panel
+ * Setting target, environment variables and command line arguments
+ * Breakpoints
+ * Watches, autos
+ * Debug terminal
+ * Debugger messages window
+ * Variables calltips while debugging
+ * Saving debug session data in a Geany project (can be switched through settings)
+ * Double or single panel modes
+ * Hotkeys
+
+
+Requirements
+============
+ * Geany >= 0.21
+ * GTK 2
+ * POSIX API
+
 
 Usage
------
-Plugin adds a tab to the lower panel that acts in a similar fashion
-like debugger panels found in other IDEs.
-In the "Target" tab you can set up a target executable, command-line arguments and
-environment variables as well.
-Breakpoints tab offers changing existing breakpoints properties (hit count, condition)
-enabling/disabling and removing breakpoints.
-Adding new breakpoins however can be accomplished by clicking document left margin
-as in other IDEs.
-New watch expressions can be added by dragging a variable or an expression from the editor
-or by clicking the last line in the watch table.
-Target data, breakpoints ans watch expressions can be saved and later loaded using buttons
-on the Target tab.
-Saving settings creates hidden ".debugger" file in the current directory that contains all information mentioned above.
-In order to load your settings navigate to a file from the same folder and press "Load" button from  the "Target" tab.
-Other tabs (Locals, Call Stack, Terminal amd Debugger Messages) act like they are supposed to.
+=====
 
-Known issues
-------------
-    * watch expressions that produce long output (containing "..." signs) cause plugin to crash because of parsing error
-    * debugger terminal sometimes stops to show any data while real interaction seems to work
+Debugger panel behaves in a way similar to other IDE, so an experienced user won't have problems using it.
+
+Panel space can be divided into two notebooks by pressing a button on the right of a panel.
+
+Debug control buttons also reside on the right end of a panel as well as plugin settings dialog button.
+A user can also control debug process using hotkeys that are configurable through Geany hotkeys dialog.
+
+When exploring children of a watch or an auto variable user can double click any of them to create a distinct
+watch item containing the corresponding expression. 
+
+Download Source
+===============
+
+Development Source Tarbal: http://geany-plugins.svn.sourceforge.net/viewvc/geany-plugins/trunk/geany-plugins/debugger/?view=tar
+
+Debugger is part of the combined Geany Plugins release. For more information and downloads, please visit http://plugins.geany.org/
+
+
+Installation
+============
+
+ The plugin is part from the geany-plugins projects, you can see the plugin`s install page at http://plugins.geany.org/install.html
+
 
 License
--------
-Debugger plugin is distributed under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2 of the
-License, or (at your option) any later version.  A copy of this license
-can be found in the file COPYING included with the source code of this
-program.
+=======
+
+Debugger plugin is distrubuted under the same license as and geany.
 
 
-Contact me
-----------
-Alexander Petukhov <devel@apetukhov.ru>
+Ideas, questions, patches and bug reports
+=========================================
+
+Report them at http://sourceforge.net/tracker/?group_id=222729.
+
+Contacts
+=========================================
+Alexander Petukhov <devel(at)apetukhov(dot)ru>
+
