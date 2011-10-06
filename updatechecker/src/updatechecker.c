@@ -20,7 +20,6 @@
 
 /* A little plugin for regular checks for updates of Geany */
 
-#include <geanyplugin.h>
 #include "libsoup/soup.h"
 #include "stdlib.h"
 
@@ -28,6 +27,7 @@
 	#include "config.h" /* for the gettext domain */
 #endif
 
+#include <geanyplugin.h>
 
 GeanyPlugin     *geany_plugin;
 GeanyData       *geany_data;
