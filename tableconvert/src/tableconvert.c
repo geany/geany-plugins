@@ -289,8 +289,6 @@ void plugin_init(GeanyData *data)
 {
 	init_keybindings();
 
-	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
-
 	/* Build up menu entry */
 	main_menu_item = gtk_menu_item_new_with_mnemonic(_("_Convert to table"));
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), main_menu_item);
