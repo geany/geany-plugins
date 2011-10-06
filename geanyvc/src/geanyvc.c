@@ -30,10 +30,12 @@
 #include <unistd.h>
 
 #include "geanyvc.h"
-#include <geanyplugin.h>
 #include "SciLexer.h"
 
 #include <config.h>
+
+
+#include <geanyplugin.h>
 
 #ifdef USE_GTKSPELL
 #include <gtkspell/gtkspell.h>
