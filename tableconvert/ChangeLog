@@ -3,7 +3,6 @@
  * Fixing some i18n issue.
 
 
-
 2011-08-19  Frank Lanitz  <frlan@frank.uvena.de>
 
  * Added a function to convert to SQL e.g. for preparing an

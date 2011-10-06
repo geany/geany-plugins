@@ -2214,8 +2214,6 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	GtkWidget *menu_vc_dir = NULL;
 	GtkWidget *menu_vc_basedir = NULL;
 
-	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
-
 	config_file =
 		g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
 			    "VC", G_DIR_SEPARATOR_S, "VC.conf", NULL);
