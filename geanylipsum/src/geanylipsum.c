@@ -18,8 +18,6 @@
  *      MA 02110-1301, USA.
  */
 
-#include "geanyplugin.h"
-
 #ifdef HAVE_CONFIG_H
 	#include "config.h" /* for the gettext domain */
 #endif
@@ -29,6 +27,7 @@
 # include <locale.h>
 #endif
 
+#include <geanyplugin.h>
 
 GeanyPlugin		*geany_plugin;
 GeanyData		*geany_data;
