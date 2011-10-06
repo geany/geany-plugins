@@ -19,7 +19,7 @@
 #include <string.h>
 #include <glib.h>
 
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 #include "utils.h"
 
 extern GeanyData *geany_data;

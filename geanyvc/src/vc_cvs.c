@@ -22,7 +22,7 @@
  */
 
 #include <string.h>
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 #include "geanyvc.h"
 
 static const gchar *CVS_CMD_DIFF_FILE[] = { "cvs", "diff", "-u", BASE_FILENAME, NULL };

@@ -25,7 +25,7 @@
 #ifndef GEANYLATEX_H
 #define GEANYLATEX_H
 
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 #include <gtk/gtk.h>
 #include "datatypes.h"
 #include "templates.h"

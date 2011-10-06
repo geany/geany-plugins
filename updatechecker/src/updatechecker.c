@@ -20,7 +20,7 @@
 
 /* A little plugin for regular checks for updates of Geany */
 
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 #include "libsoup/soup.h"
 #include "stdlib.h"
 

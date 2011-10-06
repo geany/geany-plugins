@@ -30,7 +30,7 @@
 #include <unistd.h>
 
 #include "geanyvc.h"
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 #include "SciLexer.h"
 
 #include <config.h>
