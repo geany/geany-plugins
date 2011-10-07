@@ -33,7 +33,10 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-#include "geanyplugin.h"
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
+#include <geanyplugin.h>
 
 #include "breakpoints.h"
 #include "bptree.h"

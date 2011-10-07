@@ -26,7 +26,11 @@
 
 #include <string.h>
 
-#include "geanyplugin.h"
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
+#include <geanyplugin.h>
+
 #include "breakpoints.h"
 #include "debug.h"
 #include "keys.h"

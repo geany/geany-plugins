@@ -42,7 +42,10 @@ int grantpt(int fd);
 #include <gdk/gdkkeysyms.h>
 #include <vte/vte.h>
 
-#include "geanyplugin.h"
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
+#include <geanyplugin.h>
 extern GeanyFunctions	*geany_functions;
 extern GeanyData		*geany_data;
 

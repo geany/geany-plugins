@@ -23,7 +23,11 @@
  * 		Contains hotkeys definition and handlers.
  */
 
-#include "geanyplugin.h"
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
+#include <geanyplugin.h>
+
 extern GeanyFunctions	*geany_functions;
 extern GeanyPlugin		*geany_plugin;
 
@@ -42,15 +46,15 @@ typedef struct _keyinfo {
 
 /* hotkeys list */
 keyinfo keys[] = {
-	{ "key_debug_run", "Run / Continue", KEY_RUN},
-	{ "key_debug_stop", "Stop", KEY_STOP},
-	{ "key_debug_restart", "Restart", KEY_RESTART},
-	{ "key_debug_step_into", "Step into", KEY_STEP_INTO},
-	{ "key_debug_step_over", "Step over", KEY_STEP_OVER},
-	{ "key_debug_step_out", "Step out", KEY_STEP_OUT},
-	{ "key_debug_exec_until", "Run to cursor", KEY_EXECUTE_UNTIL},
-	{ "key_debug_break", "Add / Remove breakpoint", KEY_BREAKPOINT},
-	{ "key_current_instruction", "Jump to the currect instruction", KEY_CURRENT_INSTRUCTION},
+	{ "key_debug_run", N_("Run / Continue"), KEY_RUN},
+	{ "key_debug_stop", N_("Stop"), KEY_STOP},
+	{ "key_debug_restart", N_("Restart"), KEY_RESTART},
+	{ "key_debug_step_into", N_("Step into"), KEY_STEP_INTO},
+	{ "key_debug_step_over", N_("Step over"), KEY_STEP_OVER},
+	{ "key_debug_step_out", N_("Step out"), KEY_STEP_OUT},
+	{ "key_debug_exec_until", N_("Run to cursor"), KEY_EXECUTE_UNTIL},
+	{ "key_debug_break", N_("Add / Remove breakpoint"), KEY_BREAKPOINT},
+	{ "key_current_instruction", N_("Jump to the currect instruction"), KEY_CURRENT_INSTRUCTION},
 	{ NULL, NULL, 0}
 };
 

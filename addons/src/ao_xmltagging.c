@@ -19,7 +19,11 @@
  *	  MA 02110-1301, USA.
  */
 
-#include "geanyplugin.h"
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
+#include <geanyplugin.h>
+
 #include "addons.h"
 #include "ao_xmltagging.h"
 

@@ -29,7 +29,10 @@
 
 #include <glib/gstdio.h>
 
-#include "geanyplugin.h"
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
+#include <geanyplugin.h>
 extern GeanyData *geany_data;
 
 #include "dconfig.h"

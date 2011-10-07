@@ -24,11 +24,13 @@
  * 		Functions for handling variables tree - expanding, refreshing etc.
  */
 
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
+#include <geanyplugin.h>
+
 #include <string.h>
 #include <gtk/gtk.h>
-
-#include <libintl.h>
-#define _(String) gettext (String)
 
 #include "watch_model.h"
 #include "breakpoint.h"

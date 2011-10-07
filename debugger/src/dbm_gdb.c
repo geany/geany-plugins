@@ -30,14 +30,15 @@
 #include <wctype.h>
 #include <unistd.h>
 
-#include <gtk/gtk.h>
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
+#include <geanyplugin.h>
+extern GeanyFunctions	*geany_functions;
+extern GeanyData		*geany_data;
 
 #include "breakpoint.h"
 #include "debug_module.h"
-
-#include "geanyplugin.h"
-extern GeanyFunctions	*geany_functions;
-extern GeanyData		*geany_data;
 
 /* module features */
 #define MODULE_FEATURES MF_ASYNC_BREAKS

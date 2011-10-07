@@ -23,7 +23,10 @@
 #include <glib-object.h>
 #include <string.h>
 
-#include "geanyplugin.h"
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
+#include <geanyplugin.h>
 
 #include "addons.h"
 #include "ao_openuri.h"

@@ -24,10 +24,10 @@
  */
  
 #ifdef HAVE_CONFIG_H
-# include "config.h"
+	#include "config.h"
 #endif
+#include <geanyplugin.h>
 
-#include "geanyplugin.h"
 #include "breakpoints.h"
 #include "callbacks.h"
 #include "debug.h"
@@ -43,7 +43,7 @@
 
 /* These items are set by Geany before plugin_init() is called. */
 GeanyPlugin		*geany_plugin;
-GeanyData		*geany_data;
+GeanyData			*geany_data;
 GeanyFunctions	*geany_functions;
 
 
@@ -89,8 +89,6 @@ extern void config_on_project_open(GObject *obj, GKeyFile *config, gpointer user
  * Note: data is the same as geany_data. */
 void plugin_init(GeanyData *data)
 {
-    main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
-
 	keys_init();
 	
 	pixbufs_init();

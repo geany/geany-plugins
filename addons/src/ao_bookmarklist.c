@@ -24,7 +24,10 @@
 #include <gtk/gtk.h>
 #include <glib-object.h>
 
-#include "geanyplugin.h"
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
+#include <geanyplugin.h>
 
 #include "addons.h"
 #include "ao_bookmarklist.h"
