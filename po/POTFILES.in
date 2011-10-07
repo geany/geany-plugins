@@ -40,8 +40,6 @@ debugger/src/btnpanel.c
 debugger/src/btnpanel.h
 debugger/src/dconfig.c
 debugger/src/dconfig.h
-debugger/src/gui.c
-debugger/src/gui.h
 debugger/src/pixbuf.c
 debugger/src/pixbuf.h
 debugger/src/atree.h
