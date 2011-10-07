@@ -15,6 +15,9 @@ devhelp_la_SOURCES = \
 	dhp-object.c \
 	dhp-plugin.c
 
+EXTRA_DIST = \
+	dhp-settings.c
+
 noinst_HEADERS = \
 	dhp.h \
 	dhp-plugin.h
