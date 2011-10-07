@@ -224,7 +224,7 @@ gboolean on_editor_notify(
 		}
 		case SCN_MODIFIED:
 		{
-			if(((SC_MOD_INSERTTEXT & nt->modificationType) || (SC_MOD_DELETETEXT && nt->modificationType)) && nt->linesAdded)
+			if(((SC_MOD_INSERTTEXT & nt->modificationType) || (SC_MOD_DELETETEXT && nt->modificationType)) && editor->document->file_name && nt->linesAdded)
 			{
 				int line = sci_get_line_from_position(editor->sci, nt->position) + 1;
 
