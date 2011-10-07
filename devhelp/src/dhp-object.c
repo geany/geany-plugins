@@ -22,10 +22,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <gtk/gtk.h>
-#include <geanyplugin.h>
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+#include <geanyplugin.h>
 
 #include <devhelp/dh-base.h>
 #include <devhelp/dh-book-tree.h>

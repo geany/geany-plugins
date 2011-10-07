@@ -24,7 +24,12 @@
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h> /* for keybindings */
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 #include <geanyplugin.h>
+
 #include <devhelp/dh-search.h>
 
 #include "dhp-plugin.h"
