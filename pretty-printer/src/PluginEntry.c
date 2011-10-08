@@ -58,7 +58,7 @@ void plugin_init(GeanyData *data)
     main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 
     //put the menu into the Tools
-    main_menu_item = gtk_menu_item_new_with_mnemonic("PrettyPrint XML");
+    main_menu_item = gtk_menu_item_new_with_mnemonic(_("PrettyPrint XML"));
     ui_add_document_sensitive(main_menu_item);
 
     gtk_widget_show(main_menu_item);
@@ -66,7 +66,7 @@ void plugin_init(GeanyData *data)
 
     //init keybindings
     keybindings_set_item(plugin_key_group, 0, kb_run_xml_pretty_print,
-                         0, 0, "run_pretty_printer_xml", "Run the PrettyPrinter XML", 
+                         0, 0, "run_pretty_printer_xml", _("Run the PrettyPrinter XML"),
                          main_menu_item);
 
     //add activation callback
@@ -92,7 +92,7 @@ GtkWidget* plugin_configure(GtkDialog * dialog)
 void config_closed(GtkWidget* configWidget, gint response, gpointer gdata)
 {
     //if the user clicked OK or APPLY, then save the settings
-    if (response == GTK_RESPONSE_OK || 
+    if (response == GTK_RESPONSE_OK ||
         response == GTK_RESPONSE_APPLY)
     {
         saveSettings();
@@ -109,7 +109,7 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     //retrieves the current document
     GeanyDocument* doc = document_get_current();
     g_return_if_fail(doc != NULL);
-    
+
     GeanyEditor* editor = doc->editor;
     ScintillaObject* sco = editor->sci;
 
@@ -129,9 +129,9 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     xmlDoc* parsedDocument = xmlParseDoc((unsigned char*)buffer);
 
     //this is not a valid xml => exit with an error message
-    if(parsedDocument == NULL) 
+    if(parsedDocument == NULL)
     {
-        dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Unable to parse the content as XML.");
+        dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to parse the content as XML."));
         return;
     }
 
@@ -142,7 +142,7 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     int result = processXMLPrettyPrinting(&buffer, &length, prettyPrintingOptions);
     if (result != PRETTY_PRINTING_SUCCESS)
     {
-        dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Unable to process PrettyPrinting on the specified XML because some features are not supported.\n\nSee Help > Debug messages for more details...");
+        dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to process PrettyPrinting on the specified XML because some features are not supported.\n\nSee Help > Debug messages for more details..."));
         return;
     }
 
