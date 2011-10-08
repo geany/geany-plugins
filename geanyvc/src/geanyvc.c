@@ -29,13 +29,13 @@
 #include <glib/gstdio.h>
 #include <unistd.h>
 
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
+#include <geanyplugin.h>
+
 #include "geanyvc.h"
 #include "SciLexer.h"
-
-#include <config.h>
-
-
-#include <geanyplugin.h>
 
 #ifdef USE_GTKSPELL
 #include <gtkspell/gtkspell.h>

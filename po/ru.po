@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: geany-plugins 0.19\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-07 14:17+0400\n"
-"PO-Revision-Date: 2011-10-08 16:10+0300\n"
+"PO-Revision-Date: 2011-10-09 02:23+0300\n"
 "Last-Translator: Alexander Petukhov <devel@apetukhov.ru>\n"
 "Language-Team: Russian <geany-i18n@uvena.de>\n"
 "Language: ru\n"
@@ -3598,177 +3598,169 @@ msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:51
 msgid "GeanyVC"
-msgstr ""
+msgstr "Контроль версий"
 
 #: ../geanyvc/src/geanyvc.c:52
 msgid "Interface to different Version Control systems."
-msgstr ""
+msgstr "Интерфейс к системам контроля версий."
 
 #: ../geanyvc/src/geanyvc.c:464
 #, c-format
 msgid "geanyvc: s_spawn_sync error: %s"
-msgstr ""
+msgstr "geanyvc: ошибка s_spawn_sync: %s"
 
 #: ../geanyvc/src/geanyvc.c:598
 #: ../geanyvc/src/geanyvc.c:609
 #, c-format
 msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
-msgstr ""
+msgstr "geanyvc: vcdiff_file_activated: Невозможно переименовать '%s' в '%s'"
 
 #: ../geanyvc/src/geanyvc.c:635
 #: ../geanyvc/src/geanyvc.c:685
 msgid "No changes were made."
-msgstr ""
+msgstr "Изменения не были применены."
 
 #: ../geanyvc/src/geanyvc.c:711
 msgid "No history avaible"
-msgstr ""
+msgstr "История не доступна"
 
 #: ../geanyvc/src/geanyvc.c:904
 #: ../geanyvc/src/geanyvc.c:912
 #, c-format
 msgid "Do you really want to revert: %s?"
-msgstr ""
+msgstr "Вы действительно хотите отменить изменения: %s?"
 
 #: ../geanyvc/src/geanyvc.c:920
 #, c-format
 msgid "Do you really want to add: %s?"
-msgstr ""
+msgstr "Вы действительно хотите добавить в репозиторий: %s?"
 
 #: ../geanyvc/src/geanyvc.c:927
 #, c-format
 msgid "Do you really want to remove: %s?"
-msgstr ""
+msgstr "Вы действительно хотите удалиь из репозитория: %s?"
 
 #: ../geanyvc/src/geanyvc.c:950
 msgid "Do you really want to update?"
-msgstr ""
+msgstr "Вы действительно хотите обновить из репозитория: %s?"
 
 #: ../geanyvc/src/geanyvc.c:1213
 msgid "Commit Y/N"
-msgstr ""
+msgstr "Фиксировать изменения Да/Нет"
 
 #: ../geanyvc/src/geanyvc.c:1223
 msgid "Status"
-msgstr ""
+msgstr "Статус"
 
 #: ../geanyvc/src/geanyvc.c:1230
 msgid "Path"
-msgstr ""
+msgstr "Путь"
 
 #: ../geanyvc/src/geanyvc.c:1318
 msgid "Commit"
-msgstr ""
+msgstr "Фиксировать"
 
 #: ../geanyvc/src/geanyvc.c:1360
-#, fuzzy
 msgid "_De-/select all files"
-msgstr "Выбрать шрифт"
+msgstr "Все файлы"
 
 #: ../geanyvc/src/geanyvc.c:1401
 msgid "<b>Commit message:</b>"
-msgstr ""
+msgstr "<b>Комментарий к изменениям:</b>"
 
 #: ../geanyvc/src/geanyvc.c:1414
 msgid "C_ommit"
-msgstr ""
+msgstr "Ф_иксировать изменения"
 
 #: ../geanyvc/src/geanyvc.c:1488
 msgid "Nothing to commit."
-msgstr ""
+msgstr "Отсутствуют локальные изменения."
 
 #: ../geanyvc/src/geanyvc.c:1534
 #, c-format
 msgid "Error initializing spell checking: %s"
-msgstr ""
+msgstr "Ошибка инициализации системы проверки правописания: %s"
 
 #: ../geanyvc/src/geanyvc.c:1546
 #, c-format
 msgid "Error while setting up language for spellchecking. Please check configuration. Error message was: %s"
-msgstr ""
+msgstr "В процессе установки языка для проверки орфографии произошла ошибка. Пожалуйста проверьте настройки. Сообщение об ошибке: %s"
 
 #: ../geanyvc/src/geanyvc.c:1818
 msgid "Set Changed-flag for document tabs created by the plugin"
-msgstr ""
+msgstr "Устанавливать флаг \"изменённый\" для вкладок созданных плагином"
 
 #: ../geanyvc/src/geanyvc.c:1821
 msgid "If this option is activated, every new by the VC-plugin created document tab will be marked as changed. Even this option is useful in some cases, it could cause a big number of annoying \"Do you want to save\"-dialogs."
-msgstr ""
+msgstr "Если эта опция включена, каждый документ созданный плагином будет помечен как модифицированный. Несмотря на то, что данная опция в некоторых случаях полезна, она может вызвать большое количество диалогов сохранения файла."
 
 #: ../geanyvc/src/geanyvc.c:1829
 msgid "Confirm adding new files to a VCS"
-msgstr ""
+msgstr "Подтверждать добавление файлов в репозиторий"
 
 #: ../geanyvc/src/geanyvc.c:1832
 msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
-msgstr ""
+msgstr "Показывать диалог подтверждения при добавлении новых файлов в репозиторий"
 
 #: ../geanyvc/src/geanyvc.c:1838
 msgid "Maximize commit dialog"
-msgstr ""
+msgstr "Разворачивать диалог фиксации изменений"
 
 #: ../geanyvc/src/geanyvc.c:1839
 msgid "Show commit dialog maximize."
-msgstr ""
+msgstr "Максимизировать диалог фиксации изменений "
 
 #: ../geanyvc/src/geanyvc.c:1845
 msgid "Use external diff viewer"
-msgstr ""
+msgstr "Использовать внешнюю программу просмотра разницы"
 
 #: ../geanyvc/src/geanyvc.c:1847
 msgid "Use external diff viewer for file diff."
-msgstr ""
+msgstr "Использовать внешнюю программу просмотра разницы для файла"
 
 #: ../geanyvc/src/geanyvc.c:1853
-#, fuzzy
 msgid "Show VC entries at editor menu"
-msgstr "Показать 'Открыть URI' в меню редактора"
+msgstr "Показывать пункты системы контроля версий в меню редактора"
 
 #: ../geanyvc/src/geanyvc.c:1855
 msgid "Show entries for VC functions inside editor menu"
-msgstr ""
+msgstr "Показывать пункты меню системы контроля версий в меню редактора"
 
 #: ../geanyvc/src/geanyvc.c:1860
-#, fuzzy
 msgid "Enable CVS"
-msgstr "Включено"
+msgstr "CVS"
 
 #: ../geanyvc/src/geanyvc.c:1865
-#, fuzzy
 msgid "Enable GIT"
-msgstr "Включено"
+msgstr "GIT"
 
 #: ../geanyvc/src/geanyvc.c:1870
-#, fuzzy
 msgid "Enable SVN"
-msgstr "Включено"
+msgstr "SVN"
 
 #: ../geanyvc/src/geanyvc.c:1875
-#, fuzzy
 msgid "Enable SVK"
-msgstr "Включено"
+msgstr "SVK"
 
 #: ../geanyvc/src/geanyvc.c:1880
-#, fuzzy
 msgid "Enable Bazaar"
-msgstr "Включено"
+msgstr "Bazaar"
 
 #: ../geanyvc/src/geanyvc.c:1885
 msgid "Enable Mercurial"
-msgstr ""
+msgstr "Mercurial"
 
 #: ../geanyvc/src/geanyvc.c:1891
 msgid "Spellcheck language"
-msgstr ""
+msgstr "Язык проверки орфографии"
 
 #: ../geanyvc/src/geanyvc.c:1980
 msgid "_VC file Actions"
-msgstr ""
+msgstr "Контроль версий"
 
 #: ../geanyvc/src/geanyvc.c:1982
-#, fuzzy
 msgid "_File"
-msgstr "_Убить"
+msgstr "_Файл"
 
 #. Diff of current file
 #. Diff of the current dir
@@ -3777,11 +3769,11 @@ msgstr "_Убить"
 #: ../geanyvc/src/geanyvc.c:2063
 #: ../geanyvc/src/geanyvc.c:2103
 msgid "_Diff"
-msgstr ""
+msgstr "_Разница"
 
 #: ../geanyvc/src/geanyvc.c:1989
 msgid "Make a diff from the current active file"
-msgstr ""
+msgstr "Показать разницу для текущего файла"
 
 #. Revert current file
 #. Revert current dir
@@ -3790,20 +3782,20 @@ msgstr ""
 #: ../geanyvc/src/geanyvc.c:2072
 #: ../geanyvc/src/geanyvc.c:2111
 msgid "_Revert"
-msgstr ""
+msgstr "Отменить изменения"
 
 #: ../geanyvc/src/geanyvc.c:1997
 msgid "Restore pristine working copy file (undo local edits)."
-msgstr ""
+msgstr "Восстановить файл из рабочей копии (отмена локальных изменений)."
 
 #. Blame for current file
 #: ../geanyvc/src/geanyvc.c:2006
 msgid "_Blame"
-msgstr ""
+msgstr "_Изменения"
 
 #: ../geanyvc/src/geanyvc.c:2009
 msgid "Shows the changes made at one file per revision and author."
-msgstr ""
+msgstr "Показать изменения сделанные в файле по номеру ревизии и автору."
 
 #. History/log of current file
 #. History/log of the current dir
@@ -3812,140 +3804,136 @@ msgstr ""
 #: ../geanyvc/src/geanyvc.c:2082
 #: ../geanyvc/src/geanyvc.c:2123
 msgid "_History (log)"
-msgstr ""
+msgstr "_История"
 
 #: ../geanyvc/src/geanyvc.c:2019
 msgid "Shows the log of the current file"
-msgstr ""
+msgstr "Показать лог для текущего файла"
 
 #. base version of the current file
 #: ../geanyvc/src/geanyvc.c:2024
 msgid "_Original"
-msgstr ""
+msgstr "_Оригинал"
 
 #: ../geanyvc/src/geanyvc.c:2027
 msgid "Shows the orignal of the current file"
-msgstr ""
+msgstr "Показать оригинальный файл из рабочей копии"
 
 #. add current file
 #: ../geanyvc/src/geanyvc.c:2035
 msgid "_Add to Version Control"
-msgstr ""
+msgstr "Добавить в репозиторий"
 
 #: ../geanyvc/src/geanyvc.c:2037
 msgid "Add file to repository."
-msgstr ""
+msgstr "Добавить файл в репозиторий"
 
 #. remove current file
 #: ../geanyvc/src/geanyvc.c:2043
 msgid "_Remove from Version Control"
-msgstr ""
+msgstr "Удалить из репозитория"
 
 #: ../geanyvc/src/geanyvc.c:2045
 msgid "Remove file from repository."
-msgstr ""
+msgstr "Удалить файл из репозитория"
 
 #: ../geanyvc/src/geanyvc.c:2060
 msgid "_Directory"
-msgstr ""
+msgstr "_Директория"
 
 #: ../geanyvc/src/geanyvc.c:2066
 msgid "Make a diff from the directory of the current active file"
-msgstr ""
+msgstr "Показать разницу для директории текущего файла"
 
 #: ../geanyvc/src/geanyvc.c:2075
 msgid "Restore original files in the current folder (undo local edits)."
-msgstr ""
+msgstr "Восстановить файлы в текущей директории из рабочей копии"
 
 #: ../geanyvc/src/geanyvc.c:2085
 msgid "Shows the log of the current directory"
-msgstr ""
+msgstr "Показать лог для текущей директории"
 
 #: ../geanyvc/src/geanyvc.c:2099
 msgid "_Base Directory"
-msgstr ""
+msgstr "_Базовая директория"
 
 #: ../geanyvc/src/geanyvc.c:2105
 msgid "Make a diff from the top VC directory"
-msgstr ""
+msgstr "Показать разницу для корневой папки рабочей копии"
 
 #: ../geanyvc/src/geanyvc.c:2113
 msgid "Revert any local edits."
-msgstr ""
+msgstr "Отменить все локальные изменения."
 
 #: ../geanyvc/src/geanyvc.c:2126
 msgid "Shows the log of the top VC directory"
-msgstr ""
+msgstr "Показать лог для корневой папки рабочей копии"
 
 #: ../geanyvc/src/geanyvc.c:2152
 msgid "VC _Commit"
-msgstr ""
+msgstr "Фиксировать изменения"
 
 #: ../geanyvc/src/geanyvc.c:2187
 msgid "Show diff of file"
-msgstr ""
+msgstr "Показать разницу для файла"
 
 #: ../geanyvc/src/geanyvc.c:2189
 msgid "Show diff of directory"
-msgstr ""
+msgstr "Показать разницу для директории"
 
 #: ../geanyvc/src/geanyvc.c:2191
 msgid "Show diff of basedir"
-msgstr ""
+msgstr "Показать разницу для корневой директории"
 
 #: ../geanyvc/src/geanyvc.c:2194
 msgid "Commit changes"
-msgstr ""
+msgstr "Фиксировать локальные изменения"
 
 #: ../geanyvc/src/geanyvc.c:2196
-#, fuzzy
 msgid "Show status"
-msgstr "Показывать подсказки"
+msgstr "Показать статус"
 
 #: ../geanyvc/src/geanyvc.c:2198
 msgid "Revert single file"
-msgstr ""
+msgstr "Отменить изменения для файла"
 
 #: ../geanyvc/src/geanyvc.c:2200
 msgid "Revert directory"
-msgstr ""
+msgstr "Отменить изменения для директории"
 
 #: ../geanyvc/src/geanyvc.c:2202
 msgid "Revert base directory"
-msgstr ""
+msgstr "Отменить изменения для корневой директории"
 
 #: ../geanyvc/src/geanyvc.c:2204
 msgid "Update file"
-msgstr ""
+msgstr "Обновить файл"
 
 #: ../geanyvc/src/geanyvc.c:2226
 msgid "_VC"
-msgstr ""
+msgstr "Контроль версий"
 
 #. Status of basedir
 #: ../geanyvc/src/geanyvc.c:2247
-#, fuzzy
 msgid "_Status"
-msgstr "_Пауза"
+msgstr "_Статус"
 
 #: ../geanyvc/src/geanyvc.c:2249
-#, fuzzy
 msgid "Show status."
-msgstr "Показывать подсказки"
+msgstr "Показать статус "
 
 #: ../geanyvc/src/geanyvc.c:2256
-#, fuzzy
 msgid "Update from remote repository."
-msgstr "Добавить или удалить точку останова."
+msgstr "Обновить из репозитория."
 
 #. Commit all changes
 #: ../geanyvc/src/geanyvc.c:2261
 msgid "_Commit"
-msgstr ""
+msgstr "Ф_иксировать"
 
 #: ../geanyvc/src/geanyvc.c:2263
 msgid "Commit changes."
-msgstr ""
+msgstr "Фиксировать локальные изменения"
 
 #: ../gproject/src/gproject-main.c:33
 #: ../gproject/src/gproject-project.c:445
