@@ -63,7 +63,7 @@ void plugin_init(GeanyData *data)
     main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 
     //put the menu into the Tools
-    main_menu_item = gtk_menu_item_new_with_mnemonic(_("PrettyPrint XML"));
+    main_menu_item = gtk_menu_item_new_with_mnemonic(_("PrettyPrinter XML"));
     ui_add_document_sensitive(main_menu_item);
 
     gtk_widget_show(main_menu_item);
