@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.20\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-03 16:33+0200\n"
+"POT-Creation-Date: 2011-10-09 00:17+0200\n"
 "PO-Revision-Date: 2011-10-03 10:50+0100\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -22,94 +22,94 @@ msgstr ""
 "X-Poedit-Language: German\n"
 
 # what the heck? :D
-#: ../addons/src/ao_bookmarklist.c:179
+#: ../addons/src/ao_bookmarklist.c:182
 msgid "(Empty Line)"
 msgstr "(Leere Zeile)"
 
-#: ../addons/src/ao_bookmarklist.c:304
+#: ../addons/src/ao_bookmarklist.c:307
 msgid "_Remove Bookmark"
 msgstr "Lesezeichen entfernen"
 
-#: ../addons/src/ao_bookmarklist.c:330
+#: ../addons/src/ao_bookmarklist.c:333
 msgid "No."
 msgstr "Nein."
 
-#: ../addons/src/ao_bookmarklist.c:338 ../devhelp/src/dhp-object.c:498
+#: ../addons/src/ao_bookmarklist.c:341 ../devhelp/src/dhp-object.c:499
 msgid "Contents"
 msgstr "Inhalte"
 
-#: ../addons/src/ao_bookmarklist.c:371 ../treebrowser/src/treebrowser.c:607
+#: ../addons/src/ao_bookmarklist.c:374 ../treebrowser/src/treebrowser.c:607
 msgid "Bookmarks"
 msgstr "Lesezeichen"
 
 #. complete update
-#: ../addons/src/ao_tasks.c:368 ../geanyvc/src/geanyvc.c:2254
+#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2254
 msgid "_Update"
 msgstr "_Aktualisieren"
 
-#: ../addons/src/ao_tasks.c:377
+#: ../addons/src/ao_tasks.c:382
 msgid "_Hide Message Window"
 msgstr "Meldungsfenster _verstecken"
 
-#: ../addons/src/ao_tasks.c:407 ../debugger/src/stree.c:206
+#: ../addons/src/ao_tasks.c:412 ../debugger/src/stree.c:208
 msgid "File"
 msgstr "Datei"
 
-#: ../addons/src/ao_tasks.c:418 ../debugger/src/bptree.c:602
-#: ../debugger/src/stree.c:212
+#: ../addons/src/ao_tasks.c:423 ../debugger/src/bptree.c:605
+#: ../debugger/src/stree.c:214
 msgid "Line"
 msgstr "Zeile"
 
-#: ../addons/src/ao_tasks.c:429 ../debugger/src/vtree.c:194
+#: ../addons/src/ao_tasks.c:434 ../debugger/src/vtree.c:197
 #: ../geanylatex/src/bibtexlabels.c:68
 msgid "Type"
 msgstr "Typ"
 
-#: ../addons/src/ao_tasks.c:440
+#: ../addons/src/ao_tasks.c:445
 msgid "Task"
 msgstr "Aufgabe"
 
-#: ../addons/src/ao_tasks.c:473
+#: ../addons/src/ao_tasks.c:478
 msgid "Tasks"
 msgstr "Aufgaben"
 
 # Ironischerweise finde ich den Kontext für diesen String nicht --Dominic
-#: ../addons/src/ao_tasks.c:535
+#: ../addons/src/ao_tasks.c:540
 msgid "Context:"
 msgstr "Kontext:"
 
-#: ../addons/src/ao_xmltagging.c:52
+#: ../addons/src/ao_xmltagging.c:56
 msgid "XML tagging"
 msgstr "XML-Tagging"
 
-#: ../addons/src/ao_xmltagging.c:63
+#: ../addons/src/ao_xmltagging.c:67
 msgid "Tag name to be inserted:"
 msgstr "Tag zum Einfügen:"
 
-#: ../addons/src/ao_xmltagging.c:67
+#: ../addons/src/ao_xmltagging.c:71
 #, c-format
 msgid ""
 "%s will be replaced with your current selection. Please keep care on your "
 "selection"
 msgstr "%s wird mit der jeweils aktuellen Auswahl ersetzt."
 
-#: ../addons/src/ao_openuri.c:162
+#: ../addons/src/ao_openuri.c:165
 msgid "Open URI"
 msgstr "URI öffnen"
 
-#: ../addons/src/ao_openuri.c:168
+#: ../addons/src/ao_openuri.c:171
 msgid "Copy URI"
 msgstr "URI kopieren"
 
-#: ../addons/src/ao_doclist.c:204
+#: ../addons/src/ao_doclist.c:207
 msgid "Close Ot_her Documents"
 msgstr "_Inaktive Dateien schließen"
 
-#: ../addons/src/ao_doclist.c:209
+#: ../addons/src/ao_doclist.c:212
 msgid "C_lose All"
 msgstr "_Alle schließen"
 
-#: ../addons/src/ao_doclist.c:239
+#: ../addons/src/ao_doclist.c:242
 msgid "Show Document List"
 msgstr "Dokumentenliste anzeigen"
 
@@ -138,8 +138,8 @@ msgid "Run XML tagging"
 msgstr "XML-Tagging ausführen"
 
 #: ../addons/src/addons.c:396 ../geanylatex/src/geanylatex.c:234
-#: ../geanysendmail/src/geanysendmail.c:124
-#: ../geanysendmail/src/geanysendmail.c:285 ../geanyvc/src/geanyvc.c:1782
+#: ../geanysendmail/src/geanysendmail.c:121
+#: ../geanysendmail/src/geanysendmail.c:282 ../geanyvc/src/geanyvc.c:1784
 #: ../spellcheck/src/scplugin.c:146 ../treebrowser/src/treebrowser.c:1816
 #: ../updatechecker/src/updatechecker.c:253
 msgid "Plugin configuration directory could not be created."
@@ -226,12 +226,11 @@ msgstr "Leere Zeilen am Ende entfernen"
 msgid "XML tagging for selection"
 msgstr "XML-Tagging für eine Auswahl"
 
-#. All plugins must set name, description, version and author.
-#: ../codenav/src/codenavigation.c:44
+#: ../codenav/src/codenavigation.c:52
 msgid "Code navigation"
 msgstr "Quelltext Navigation"
 
-#: ../codenav/src/codenavigation.c:45
+#: ../codenav/src/codenavigation.c:53
 msgid ""
 "This plugin adds features to facilitate navigation between source files.\n"
 "As for the moment, it implements :\n"
@@ -245,11 +244,11 @@ msgstr ""
 "- [Eine Datei über Ihren Namen öffnen -> TODO]"
 
 #. Add the menu item, sensitive only when a document is opened
-#: ../codenav/src/goto_file.c:50 ../codenav/src/goto_file.c:64
+#: ../codenav/src/goto_file.c:55 ../codenav/src/goto_file.c:69
 msgid "Goto file"
 msgstr "Gehe zu Datei"
 
-#: ../codenav/src/goto_file.c:101
+#: ../codenav/src/goto_file.c:106
 #, c-format
 msgid "(From the %s plugin)"
 msgstr "(Aus dem %s plugin)"
@@ -257,22 +256,22 @@ msgstr "(Aus dem %s plugin)"
 # Diese Übersetzung existiert drei mal.
 #. Add the menu item and make it sensitive only when a document is opened
 #. Frame, which is the returned widget
-#: ../codenav/src/switch_head_impl.c:78 ../codenav/src/switch_head_impl.c:92
-#: ../codenav/src/switch_head_impl.c:452
+#: ../codenav/src/switch_head_impl.c:83 ../codenav/src/switch_head_impl.c:97
+#: ../codenav/src/switch_head_impl.c:457
 msgid "Switch header/implementation"
 msgstr "Umschalten zwischen Deklaration und Implementierung"
 
 # c-format
-#: ../codenav/src/switch_head_impl.c:360
+#: ../codenav/src/switch_head_impl.c:365
 #, c-format
 msgid "%s not found, create it?"
 msgstr "%s existiert nicht. Neu anlegen?"
 
-#: ../codenav/src/switch_head_impl.c:476
+#: ../codenav/src/switch_head_impl.c:481
 msgid "Headers extensions"
 msgstr "Header Erweiterungen"
 
-#: ../codenav/src/switch_head_impl.c:485
+#: ../codenav/src/switch_head_impl.c:490
 msgid "Implementations extensions"
 msgstr "Implementierungserweiterungen"
 
@@ -284,75 +283,75 @@ msgstr "Debugger"
 msgid "Various debuggers integration."
 msgstr "Verschiedene Debugger-Integrationen"
 
-#: ../debugger/src/plugin.c:132 ../debugger/src/keys.c:70
+#: ../debugger/src/plugin.c:129 ../debugger/src/keys.c:74
 #: ../geanygdb/src/geanygdb.c:393
 msgid "Debug"
 msgstr "Debug"
 
-#: ../debugger/src/vtree.c:163 ../debugger/src/envtree.c:393
+#: ../debugger/src/vtree.c:166 ../debugger/src/envtree.c:397
 msgid "Name"
 msgstr "Name"
 
-#: ../debugger/src/vtree.c:186 ../debugger/src/envtree.c:398
+#: ../debugger/src/vtree.c:189 ../debugger/src/envtree.c:402
 msgid "Value"
 msgstr "Wert"
 
-#: ../debugger/src/tpage.c:97
+#: ../debugger/src/tpage.c:101
 msgid "Choose target file"
 msgstr "Zieldatei auswählen"
 
 #. target
-#: ../debugger/src/tpage.c:234
+#: ../debugger/src/tpage.c:238
 msgid "Target:"
 msgstr "Ziel:"
 
-#: ../debugger/src/tpage.c:237
+#: ../debugger/src/tpage.c:241
 msgid "Browse"
 msgstr "Durchsuchen "
 
 #. debugger
-#: ../debugger/src/tpage.c:242
+#: ../debugger/src/tpage.c:246
 msgid "Debugger:"
 msgstr "Debugger:"
 
 #. arguments
-#: ../debugger/src/tpage.c:255
+#: ../debugger/src/tpage.c:259
 msgid "Command Line Arguments"
 msgstr "Kommandozeilenargumente"
 
 #. environment
-#: ../debugger/src/tpage.c:266
+#: ../debugger/src/tpage.c:270
 msgid "Environment Variables"
 msgstr "Umgebungsvariablen"
 
 #. if name is empty - offer to delete variable
-#: ../debugger/src/envtree.c:243 ../debugger/src/envtree.c:346
-#: ../debugger/src/debug.c:237
+#: ../debugger/src/envtree.c:247 ../debugger/src/envtree.c:350
+#: ../debugger/src/debug.c:235
 msgid "Delete variable?"
 msgstr "Variable Löschen?"
 
-#: ../debugger/src/bptree.c:574
+#: ../debugger/src/bptree.c:577
 msgid "Location"
 msgstr "Position"
 
-#: ../debugger/src/bptree.c:584
+#: ../debugger/src/bptree.c:587
 msgid "Condition"
 msgstr "Bedingung"
 
-#: ../debugger/src/bptree.c:596
+#: ../debugger/src/bptree.c:599
 msgid "Hit count"
 msgstr "Anzahl der Treffer"
 
-#: ../debugger/src/bptree.c:609 ../geanygdb/src/gdb-ui-break.c:163
+#: ../debugger/src/bptree.c:612 ../geanygdb/src/gdb-ui-break.c:163
 msgid "Enabled"
 msgstr "Aktiviert"
 
-#: ../debugger/src/bptree.c:766
+#: ../debugger/src/bptree.c:769
 #, c-format
 msgid "line %i"
 msgstr "Zeile %i"
 
-#: ../debugger/src/debug.c:1087
+#: ../debugger/src/debug.c:1076
 #, c-format
 msgid ""
 "Breakpoint at %s:%i cannot be set\n"
@@ -361,124 +360,139 @@ msgstr ""
 "Haltepunkte bei %s:%i kann nicht gesetzt werde\n"
 "Debugger-Nachricht: %s"
 
-#: ../debugger/src/dbm_gdb.c:339
+#: ../debugger/src/dbm_gdb.c:340
 #, fuzzy
 msgid "Program received a signal"
 msgstr "Programm empfing Signal:"
 
-#: ../debugger/src/dbm_gdb.c:545
+#: ../debugger/src/dbm_gdb.c:546
 msgid "Failed to spawn gdb process"
 msgstr "Konnte den gdb-Prozess nicht starten"
 
-#: ../debugger/src/dbm_gdb.c:585
+#: ../debugger/src/dbm_gdb.c:586
 msgid "Error configuring GDB"
 msgstr "Fehler bei der Konfiguration von GDB"
 
-#: ../debugger/src/dbm_gdb.c:607
+#: ../debugger/src/dbm_gdb.c:608
 msgid "Error loading file"
 msgstr "Fehler beim Laden der Datei"
 
-#: ../debugger/src/utils.c:63
+#: ../debugger/src/utils.c:66
 #, c-format
 msgid "Can't find a source file \"%s\""
 msgstr "Kann die Quelldatei »%s« nicht finden."
 
-#: ../debugger/src/stree.c:194 ../geanylatex/src/bibtexlabels.c:46
+#: ../debugger/src/stree.c:196 ../geanylatex/src/bibtexlabels.c:46
 msgid "Address"
 msgstr "Adresse"
 
-#: ../debugger/src/stree.c:200
+#: ../debugger/src/stree.c:202
 msgid "Function"
 msgstr "Funkton"
 
-#: ../debugger/src/tabs.c:128
+#: ../debugger/src/tabs.c:132
 msgid "Target"
 msgstr "Ziel"
 
-#: ../debugger/src/tabs.c:131 ../geanygdb/src/gdb-ui-break.c:504
+#: ../debugger/src/tabs.c:135 ../geanygdb/src/gdb-ui-break.c:504
 msgid "Breakpoints"
 msgstr "Haltepunkte"
 
-#: ../debugger/src/tabs.c:134
+#: ../debugger/src/tabs.c:138
 msgid "Watch"
 msgstr "Beobachten"
 
-#: ../debugger/src/tabs.c:137
+#: ../debugger/src/tabs.c:141
 msgid "Autos"
 msgstr "Autos"
 
-#: ../debugger/src/tabs.c:140
+#: ../debugger/src/tabs.c:144
 #, fuzzy
 msgid "Call Stack"
 msgstr "_Stapel"
 
-#: ../debugger/src/tabs.c:143
+#: ../debugger/src/tabs.c:147
 #, fuzzy
 msgid "Debug Terminal"
 msgstr "In Terminal ausführen"
 
-#: ../debugger/src/tabs.c:146
+#: ../debugger/src/tabs.c:150
 #, fuzzy
 msgid "Debugger Messages"
 msgstr "Debugger-Nachrichten"
 
-#: ../debugger/src/watch_model.c:219
+#: ../debugger/src/keys.c:49
 #, fuzzy
-msgid "Can't evaluate expression"
-msgstr "Ungültiger Regulärer Ausdruck: %s"
+msgid "Run / Continue"
+msgstr "Fortsetzen"
 
-#: ../debugger/src/callbacks.c:229
-msgid "To edit source files stop debugging session"
-msgstr ""
-"Um die Quelldatei zu editieren, muss das Debugging unterbrochen werden."
-
-#: ../debugger/src/btnpanel.c:86 ../debugger/src/btnpanel.c:155
-msgid "Run"
-msgstr "Ausführen"
-
-#: ../debugger/src/btnpanel.c:94
-msgid "Restart"
-msgstr "Neustarten"
-
-#: ../debugger/src/btnpanel.c:97
+#: ../debugger/src/keys.c:50 ../debugger/src/btnpanel.c:101
 msgid "Stop"
 msgstr "Stop"
 
-#: ../debugger/src/btnpanel.c:106
-msgid "Step over"
-msgstr "Überspringen"
+#: ../debugger/src/keys.c:51 ../debugger/src/btnpanel.c:98
+msgid "Restart"
+msgstr "Neustarten"
 
 # noch keine Idee  --Dominic
-#: ../debugger/src/btnpanel.c:109
+#: ../debugger/src/keys.c:52 ../debugger/src/btnpanel.c:113
 #, fuzzy
 msgid "Step into"
 msgstr "%s bei Schritt »%s..%s«"
 
+#: ../debugger/src/keys.c:53 ../debugger/src/btnpanel.c:110
+msgid "Step over"
+msgstr "Überspringen"
+
 # noch keine Idee  --Dominic
-#: ../debugger/src/btnpanel.c:118
+#: ../debugger/src/keys.c:54 ../debugger/src/btnpanel.c:122
 #, fuzzy
 msgid "Step out"
 msgstr "%s bei Schritt »%s..%s«"
 
 # Noch keine Idee hierzu --Dominic
-#: ../debugger/src/btnpanel.c:121
+#: ../debugger/src/keys.c:55 ../debugger/src/btnpanel.c:125
 #, fuzzy
 msgid "Run to cursor"
 msgstr "Gehe zu Ort"
 
-#: ../debugger/src/btnpanel.c:128
+#: ../debugger/src/keys.c:56
+#, fuzzy
+msgid "Add / Remove breakpoint"
+msgstr "Haltepunkte hinzufügen oder entfernen."
+
+#: ../debugger/src/keys.c:57
+#, fuzzy
+msgid "Jump to the currect instruction"
+msgstr "Die momentan ausgeführte Funktion fertig stellen."
+
+#: ../debugger/src/watch_model.c:221
+#, fuzzy
+msgid "Can't evaluate expression"
+msgstr "Ungültiger Regulärer Ausdruck: %s"
+
+#: ../debugger/src/callbacks.c:222
+msgid "To edit source files stop debugging session"
+msgstr ""
+"Um die Quelldatei zu editieren, muss das Debugging unterbrochen werden."
+
+#: ../debugger/src/btnpanel.c:90 ../debugger/src/btnpanel.c:159
+msgid "Run"
+msgstr "Ausführen"
+
+#: ../debugger/src/btnpanel.c:132
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: ../debugger/src/btnpanel.c:132
+#: ../debugger/src/btnpanel.c:136
 msgid "Two panel mode"
 msgstr "Zwei-Panel-Modus"
 
-#: ../debugger/src/btnpanel.c:150
+#: ../debugger/src/btnpanel.c:154
 msgid "Continue"
 msgstr "Fortsetzen"
 
-#: ../debugger/src/dconfig.c:664
+#: ../debugger/src/dconfig.c:667
 msgid "Save debug session data to a project"
 msgstr "Speichere die Debug-Session-Daten als Projekt"
 
@@ -491,52 +505,52 @@ msgstr "Dokumentation"
 msgid "Code"
 msgstr "Code"
 
-#: ../devhelp/src/dhp-object.c:387
+#: ../devhelp/src/dhp-object.c:388
 msgid "Search for 'Tag' Documentation in"
 msgstr "Suche für \"Tag\"-Dokumentation in"
 
-#: ../devhelp/src/dhp-object.c:390 ../devhelp/src/dhp-object.c:507
+#: ../devhelp/src/dhp-object.c:391 ../devhelp/src/dhp-object.c:508
 msgid "Devhelp"
 msgstr "Devhelp"
 
-#: ../devhelp/src/dhp-object.c:397
+#: ../devhelp/src/dhp-object.c:398
 msgid "Manual Pages"
 msgstr "Manual-Seiten"
 
-#: ../devhelp/src/dhp-object.c:403
+#: ../devhelp/src/dhp-object.c:404
 msgid "Google Code"
 msgstr "Google Code"
 
-#: ../devhelp/src/dhp-object.c:447
+#: ../devhelp/src/dhp-object.c:448
 msgid "Go back one page"
 msgstr "Eine Seite nach zurück"
 
-#: ../devhelp/src/dhp-object.c:448
+#: ../devhelp/src/dhp-object.c:449
 msgid "Go forward one page"
 msgstr "Eine Seite vor"
 
-#: ../devhelp/src/dhp-object.c:449
+#: ../devhelp/src/dhp-object.c:450
 msgid "Zoom in"
 msgstr "Hineinzoomen"
 
-#: ../devhelp/src/dhp-object.c:450
+#: ../devhelp/src/dhp-object.c:451
 msgid "Zoom out"
 msgstr "Herauszoomen"
 
-#: ../devhelp/src/dhp-object.c:501
+#: ../devhelp/src/dhp-object.c:502
 msgid "Search"
 msgstr "Suchen"
 
-#: ../devhelp/src/dhp-object.c:1319
+#: ../devhelp/src/dhp-object.c:1320
 #, fuzzy, c-format
 msgid "Search for '%s' Documentation in"
 msgstr "Dokumentationskommentar einfügen"
 
-#: ../devhelp/src/dhp-plugin.c:37
+#: ../devhelp/src/dhp-plugin.c:42
 msgid "Devhelp Plugin"
 msgstr "Devhelp Plugin"
 
-#: ../devhelp/src/dhp-plugin.c:38
+#: ../devhelp/src/dhp-plugin.c:43
 msgid ""
 "Adds support for looking up documentation in Devhelp, manual pages, and "
 "Google Code Search in the integrated viewer."
@@ -545,48 +559,48 @@ msgstr ""
 "Devhelp, Manual-Seiten und Google-Code-Suche über eine integrierte "
 "Oberfläche hinzu."
 
-#: ../devhelp/src/dhp-plugin.c:132
+#: ../devhelp/src/dhp-plugin.c:137
 #, fuzzy, c-format
 msgid "Unable to create config dir at '%s'"
 msgstr "Konnte Konfiguration nicht speichern: %s"
 
-#: ../devhelp/src/dhp-plugin.c:147
+#: ../devhelp/src/dhp-plugin.c:152
 #, fuzzy, c-format
 msgid "Unable to get default configuration: %s"
 msgstr "Konnte Konfiguration nicht laden: %s"
 
-#: ../devhelp/src/dhp-plugin.c:155
+#: ../devhelp/src/dhp-plugin.c:160
 #, fuzzy, c-format
 msgid "Unable to write default configuration: %s"
 msgstr "Konnte Konfiguration nicht laden: %s"
 
-#: ../devhelp/src/dhp-plugin.c:185
+#: ../devhelp/src/dhp-plugin.c:190
 msgid "Toggle sidebar contents tab"
 msgstr ""
 
-#: ../devhelp/src/dhp-plugin.c:187
+#: ../devhelp/src/dhp-plugin.c:192
 #, fuzzy
 msgid "Toggle sidebar search tab"
 msgstr "Webinspektor umschalten"
 
-#: ../devhelp/src/dhp-plugin.c:189
+#: ../devhelp/src/dhp-plugin.c:194
 #, fuzzy
 msgid "Toggle documentation tab"
 msgstr "Dokumentationstyp"
 
-#: ../devhelp/src/dhp-plugin.c:191
+#: ../devhelp/src/dhp-plugin.c:196
 msgid "Activate all tabs"
 msgstr "Alle Reiter aktivieren"
 
-#: ../devhelp/src/dhp-plugin.c:193
+#: ../devhelp/src/dhp-plugin.c:198
 msgid "Search for current tag in Devhelp"
 msgstr "Aktuellen Tag in Devhelp suchen"
 
-#: ../devhelp/src/dhp-plugin.c:197
+#: ../devhelp/src/dhp-plugin.c:202
 msgid "Search for current tag in Manual Pages"
 msgstr "Aktuellen Tag in den Manual-Seiten suchen"
 
-#: ../devhelp/src/dhp-plugin.c:200
+#: ../devhelp/src/dhp-plugin.c:205
 msgid "Search for current tag in Google Code Search"
 msgstr "Aktuellen Tag bei Google-Code-Search suchen"
 
@@ -796,7 +810,7 @@ msgstr "Doc"
 msgid "Call documentation viewer on current symbol."
 msgstr "Dokumentation für das aktuelle Wort anzeigen."
 
-#: ../geanydoc/src/geanydoc.c:170 ../geanyvc/src/geanyvc.c:405
+#: ../geanydoc/src/geanydoc.c:170 ../geanyvc/src/geanyvc.c:407
 msgid "Could not parse the output of command"
 msgstr "Konnte die Ausgabe des Befehls nicht verarbeiten."
 
@@ -2870,32 +2884,32 @@ msgstr "IBM 852 code page"
 msgid "Don't set any encoding"
 msgstr "Keine Zeichenkodierung explizit festlegen"
 
-#: ../geanylipsum/src/geanylipsum.c:41
+#: ../geanylipsum/src/geanylipsum.c:40
 msgid "GeanyLipsum"
 msgstr "GeanyLipsum"
 
-#: ../geanylipsum/src/geanylipsum.c:42
+#: ../geanylipsum/src/geanylipsum.c:41
 msgid "Creating dummy text with Geany"
 msgstr "Platzhaltertexte erstellen mit Geany"
 
-#: ../geanylipsum/src/geanylipsum.c:87
+#: ../geanylipsum/src/geanylipsum.c:86
 msgid "Lipsum-Generator"
 msgstr "Lorem ipsum Generator"
 
-#: ../geanylipsum/src/geanylipsum.c:88
+#: ../geanylipsum/src/geanylipsum.c:87
 msgid "Enter the length of Lipsum text here"
 msgstr "Bitte die Länge des Platzhaltertextes eingeben"
 
 #. Building menu entry
-#: ../geanylipsum/src/geanylipsum.c:164
+#: ../geanylipsum/src/geanylipsum.c:163
 msgid "_Lipsum"
 msgstr "_Lipsum"
 
-#: ../geanylipsum/src/geanylipsum.c:166
+#: ../geanylipsum/src/geanylipsum.c:165
 msgid "Include Pseudotext to your code"
 msgstr "Fügt Platzhaltertexte in das Dokument ein"
 
-#: ../geanylipsum/src/geanylipsum.c:180
+#: ../geanylipsum/src/geanylipsum.c:179
 msgid "Insert Lipsum text"
 msgstr "Fügt Platzhaltertexte ein"
 
@@ -3635,11 +3649,11 @@ msgstr "Seitenleiste _verstecken"
 msgid "Project \"%s\" opened."
 msgstr "Projekt »%s« geöffnet."
 
-#: ../geanysendmail/src/geanysendmail.c:46
+#: ../geanysendmail/src/geanysendmail.c:43
 msgid "GeanySendMail"
 msgstr "GeanySendMail"
 
-#: ../geanysendmail/src/geanysendmail.c:47
+#: ../geanysendmail/src/geanysendmail.c:44
 msgid ""
 "A little plugin to send the current file as attachment by user's favorite "
 "mailer"
@@ -3648,22 +3662,22 @@ msgstr ""
 "Programms."
 
 # Ich sehe doppelt.
-#: ../geanysendmail/src/geanysendmail.c:101
+#: ../geanysendmail/src/geanysendmail.c:98
 msgid "Recipient's Address"
 msgstr "E-Mail-Adresse des Empfängers"
 
 # Ich sehe doppelt.
-#: ../geanysendmail/src/geanysendmail.c:103
+#: ../geanysendmail/src/geanysendmail.c:100
 msgid "Enter the recipient's e-mail address:"
 msgstr "E-Mail-Adresse des Empfängers:"
 
-#: ../geanysendmail/src/geanysendmail.c:139
+#: ../geanysendmail/src/geanysendmail.c:136
 msgid "Filename placeholder not found. The executed command might have failed."
 msgstr ""
 "Konnte den Platzhalter für den Dateinamen (\\%s) nicht finden. Das "
 "angegebene Kommando könnte nicht korrekt ausgeführt worden sein."
 
-#: ../geanysendmail/src/geanysendmail.c:145
+#: ../geanysendmail/src/geanysendmail.c:142
 msgid ""
 "Recipient address placeholder not found. The executed command might have "
 "failed."
@@ -3671,34 +3685,34 @@ msgstr ""
 "Konnte den Platzhalter für den E-Mail-Empfänger nicht finden. Das angegebene "
 "Kommando könnte nicht korrekt ausgeführt worden sein."
 
-#: ../geanysendmail/src/geanysendmail.c:160
+#: ../geanysendmail/src/geanysendmail.c:157
 msgid "Could not execute mailer. Please check your configuration."
 msgstr ""
 "Konnte das E-Mail-Programm nicht aufrufen. Bitte überprüfen Sie Ihre "
 "Einstellungen"
 
-#: ../geanysendmail/src/geanysendmail.c:169
+#: ../geanysendmail/src/geanysendmail.c:166
 msgid "Please define a mail client first."
 msgstr "Bitte ein E-Mail-Programm angeben!"
 
-#: ../geanysendmail/src/geanysendmail.c:174
+#: ../geanysendmail/src/geanysendmail.c:171
 msgid "File has to be saved before sending."
 msgstr "Die Datei muss vor dem Senden gespeichert werden."
 
-#: ../geanysendmail/src/geanysendmail.c:190
+#: ../geanysendmail/src/geanysendmail.c:187
 msgid "Mail"
 msgstr "E-Mail"
 
-#: ../geanysendmail/src/geanysendmail.c:221
+#: ../geanysendmail/src/geanysendmail.c:218
 msgid "Send by mail"
 msgstr "Per E-Mail senden"
 
 #. add a label and a text entry to the dialog
-#: ../geanysendmail/src/geanysendmail.c:306
+#: ../geanysendmail/src/geanysendmail.c:303
 msgid "Path and options for the mail client:"
 msgstr "Pfad und Optionen für das E-Mail-Programm:"
 
-#: ../geanysendmail/src/geanysendmail.c:314
+#: ../geanysendmail/src/geanysendmail.c:311
 msgid ""
 "Note: \n"
 "\t\\%f will be replaced by your file.\n"
@@ -3716,122 +3730,122 @@ msgstr ""
 "\tsylpheed --attach \"\\%f\" --compose \"\\%r\"\n"
 "\tmutt -s \"Sending '\\%b'\" -a \"\\%f\" \"\\%r\""
 
-#: ../geanysendmail/src/geanysendmail.c:324
+#: ../geanysendmail/src/geanysendmail.c:321
 msgid "Show toolbar icon"
 msgstr "Werkzeuglistensymbol anzeigen"
 
-#: ../geanysendmail/src/geanysendmail.c:326
+#: ../geanysendmail/src/geanysendmail.c:323
 msgid "Shows a icon in the toolbar to send file more easy."
 msgstr ""
 "Zeigt ein Symbol in der Werkzeugleiste an, sodass eine Datei einfacher "
 "versendet werden kann."
 
-#: ../geanysendmail/src/geanysendmail.c:332
+#: ../geanysendmail/src/geanysendmail.c:329
 msgid "Use dialog for entering email address of recipients"
 msgstr ""
 "Zeigt einen Dialog zum Eingeben der E-Mail-Adresse des Empfängers der zu "
 "sendenden Datei an"
 
-#: ../geanysendmail/src/geanysendmail.c:354
+#: ../geanysendmail/src/geanysendmail.c:351
 msgid "Send file by mail"
 msgstr "Per Mail senden"
 
 #. Build up menu entry
-#: ../geanysendmail/src/geanysendmail.c:379
+#: ../geanysendmail/src/geanysendmail.c:374
 msgid "_Mail document"
 msgstr "_Dokument versenden"
 
-#: ../geanysendmail/src/geanysendmail.c:382
+#: ../geanysendmail/src/geanysendmail.c:377
 msgid ""
 "Sends the opened file as unzipped attachment by any mailer from your $PATH"
 msgstr ""
 "Sendet ein geöffnetes Dokument als unkomprimierten Anhang unter Verwendung "
 "eines E-Mail-Programms."
 
-#: ../geanyvc/src/geanyvc.c:51
+#: ../geanyvc/src/geanyvc.c:53
 msgid "GeanyVC"
 msgstr "GeanyVC"
 
-#: ../geanyvc/src/geanyvc.c:52
+#: ../geanyvc/src/geanyvc.c:54
 msgid "Interface to different Version Control systems."
 msgstr "Oberfläche für verschiedene Versionskontrollsysteme."
 
-#: ../geanyvc/src/geanyvc.c:464
+#: ../geanyvc/src/geanyvc.c:466
 #, c-format
 msgid "geanyvc: s_spawn_sync error: %s"
 msgstr "geanyvc: s_spawn_sync error: %s"
 
-#: ../geanyvc/src/geanyvc.c:598 ../geanyvc/src/geanyvc.c:609
+#: ../geanyvc/src/geanyvc.c:600 ../geanyvc/src/geanyvc.c:611
 #, c-format
 msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
 msgstr "geanyvc: vcdiff_file_activated: Kann »%s« nicht in »%s« umbenennen."
 
-#: ../geanyvc/src/geanyvc.c:635 ../geanyvc/src/geanyvc.c:685
+#: ../geanyvc/src/geanyvc.c:637 ../geanyvc/src/geanyvc.c:687
 msgid "No changes were made."
 msgstr "Es wurden keine Änderungen vorgenommen."
 
-#: ../geanyvc/src/geanyvc.c:711
+#: ../geanyvc/src/geanyvc.c:713
 msgid "No history avaible"
 msgstr "Keine Historie verfügbar"
 
-#: ../geanyvc/src/geanyvc.c:904 ../geanyvc/src/geanyvc.c:912
+#: ../geanyvc/src/geanyvc.c:906 ../geanyvc/src/geanyvc.c:914
 #, c-format
 msgid "Do you really want to revert: %s?"
 msgstr "Möchten Sie wirklich »%s« zurücksetzen?"
 
-#: ../geanyvc/src/geanyvc.c:920
+#: ../geanyvc/src/geanyvc.c:922
 #, c-format
 msgid "Do you really want to add: %s?"
 msgstr "Möchten Sie wirklich »%s« hinzufügen?"
 
-#: ../geanyvc/src/geanyvc.c:927
+#: ../geanyvc/src/geanyvc.c:929
 #, c-format
 msgid "Do you really want to remove: %s?"
 msgstr "Möchten Sie wirklich »%s« entfernen?"
 
-#: ../geanyvc/src/geanyvc.c:950
+#: ../geanyvc/src/geanyvc.c:952
 msgid "Do you really want to update?"
 msgstr "Möchten Sie wirklich »%s« aktualisieren?"
 
-#: ../geanyvc/src/geanyvc.c:1213
+#: ../geanyvc/src/geanyvc.c:1215
 msgid "Commit Y/N"
 msgstr "Übertragen"
 
-#: ../geanyvc/src/geanyvc.c:1223
+#: ../geanyvc/src/geanyvc.c:1225
 msgid "Status"
 msgstr "Status"
 
-#: ../geanyvc/src/geanyvc.c:1230
+#: ../geanyvc/src/geanyvc.c:1232
 msgid "Path"
 msgstr "Pfad"
 
-#: ../geanyvc/src/geanyvc.c:1318
+#: ../geanyvc/src/geanyvc.c:1320
 msgid "Commit"
 msgstr "Übertragen"
 
-#: ../geanyvc/src/geanyvc.c:1360
+#: ../geanyvc/src/geanyvc.c:1362
 msgid "_De-/select all files"
 msgstr "Alle _Dateien aus- bzw. abwählen"
 
-#: ../geanyvc/src/geanyvc.c:1401
+#: ../geanyvc/src/geanyvc.c:1403
 msgid "<b>Commit message:</b>"
 msgstr "<b>Commitnachricht:</b>"
 
-#: ../geanyvc/src/geanyvc.c:1414
+#: ../geanyvc/src/geanyvc.c:1416
 #, fuzzy
 msgid "C_ommit"
 msgstr "Übertragen"
 
-#: ../geanyvc/src/geanyvc.c:1488
+#: ../geanyvc/src/geanyvc.c:1490
 msgid "Nothing to commit."
 msgstr "Nichts zum Übertragen."
 
-#: ../geanyvc/src/geanyvc.c:1534
+#: ../geanyvc/src/geanyvc.c:1536
 #, c-format
 msgid "Error initializing spell checking: %s"
 msgstr "Fehler beim Initialisieren der Rechtschreibprüfung: %s"
 
-#: ../geanyvc/src/geanyvc.c:1546
+#: ../geanyvc/src/geanyvc.c:1548
 #, c-format
 msgid ""
 "Error while setting up language for spellchecking. Please check "
@@ -3840,11 +3854,11 @@ msgstr ""
 "Fehler beim Auswählen der Sprache für die Rechtschreibprüfung. Bitte "
 "überprüfen Sie Ihre Konfiguration. Fehlermeldung: %s"
 
-#: ../geanyvc/src/geanyvc.c:1818
+#: ../geanyvc/src/geanyvc.c:1820
 msgid "Set Changed-flag for document tabs created by the plugin"
 msgstr "Markiere vom Plugin erstellte Dokumente als geändert"
 
-#: ../geanyvc/src/geanyvc.c:1821
+#: ../geanyvc/src/geanyvc.c:1823
 msgid ""
 "If this option is activated, every new by the VC-plugin created document tab "
 "will be marked as changed. Even this option is useful in some cases, it "
@@ -3855,221 +3869,221 @@ msgstr ""
 "der Speichern Dialog geöffnet wird. Auch wenn diese Option von Zeit zu Zeit "
 "sehr nützlich sein kann, kann Sie ab und an einfach nur stören."
 
-#: ../geanyvc/src/geanyvc.c:1829
+#: ../geanyvc/src/geanyvc.c:1831
 msgid "Confirm adding new files to a VCS"
 msgstr "Hinzufügen von Dateien zur Versionsverwaltung immer bestätigen"
 
-#: ../geanyvc/src/geanyvc.c:1832
+#: ../geanyvc/src/geanyvc.c:1834
 msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
 msgstr ""
 "Zeigt einen Bestätigungsdialog beim Hinzufügen von Dateien zu einem "
 "Versionsverwaltungssystem."
 
-#: ../geanyvc/src/geanyvc.c:1838
+#: ../geanyvc/src/geanyvc.c:1840
 msgid "Maximize commit dialog"
 msgstr "Commit-Dialog maximieren"
 
-#: ../geanyvc/src/geanyvc.c:1839
+#: ../geanyvc/src/geanyvc.c:1841
 msgid "Show commit dialog maximize."
 msgstr "Commit-Dialog beim Anzeigen maximieren"
 
-#: ../geanyvc/src/geanyvc.c:1845
+#: ../geanyvc/src/geanyvc.c:1847
 msgid "Use external diff viewer"
 msgstr "Externes Diff-Programm benutzen"
 
-#: ../geanyvc/src/geanyvc.c:1847
+#: ../geanyvc/src/geanyvc.c:1849
 msgid "Use external diff viewer for file diff."
 msgstr "Externes Diff-Programm benutzen zum Vergleich von zwei Dateien."
 
-#: ../geanyvc/src/geanyvc.c:1853
+#: ../geanyvc/src/geanyvc.c:1855
 msgid "Show VC entries at editor menu"
 msgstr "Funktionen über das Editormenü verfügbar machen"
 
-#: ../geanyvc/src/geanyvc.c:1855
+#: ../geanyvc/src/geanyvc.c:1857
 msgid "Show entries for VC functions inside editor menu"
 msgstr "Zeige Einträge für das Plugin im Editormenü an"
 
-#: ../geanyvc/src/geanyvc.c:1860
+#: ../geanyvc/src/geanyvc.c:1862
 msgid "Enable CVS"
 msgstr "CVS aktivieren"
 
-#: ../geanyvc/src/geanyvc.c:1865
+#: ../geanyvc/src/geanyvc.c:1867
 msgid "Enable GIT"
 msgstr "GIT aktivieren"
 
-#: ../geanyvc/src/geanyvc.c:1870
+#: ../geanyvc/src/geanyvc.c:1872
 msgid "Enable SVN"
 msgstr "SVN aktivieren"
 
-#: ../geanyvc/src/geanyvc.c:1875
+#: ../geanyvc/src/geanyvc.c:1877
 msgid "Enable SVK"
 msgstr "SVK aktivieren"
 
-#: ../geanyvc/src/geanyvc.c:1880
+#: ../geanyvc/src/geanyvc.c:1882
 msgid "Enable Bazaar"
 msgstr "Bazaar aktivieren"
 
-#: ../geanyvc/src/geanyvc.c:1885
+#: ../geanyvc/src/geanyvc.c:1887
 msgid "Enable Mercurial"
 msgstr "Mercurial aktivieren"
 
-#: ../geanyvc/src/geanyvc.c:1891
+#: ../geanyvc/src/geanyvc.c:1893
 msgid "Spellcheck language"
 msgstr "Sprache"
 
-#: ../geanyvc/src/geanyvc.c:1980
+#: ../geanyvc/src/geanyvc.c:1982
 msgid "_VC file Actions"
 msgstr "_VC Datei Operationen"
 
-#: ../geanyvc/src/geanyvc.c:1982
+#: ../geanyvc/src/geanyvc.c:1984
 msgid "_File"
 msgstr "_Datei"
 
 #. Diff of current file
 #. Diff of the current dir
 #. Complete diff of base directory
-#: ../geanyvc/src/geanyvc.c:1986 ../geanyvc/src/geanyvc.c:2063
-#: ../geanyvc/src/geanyvc.c:2103
+#: ../geanyvc/src/geanyvc.c:1988 ../geanyvc/src/geanyvc.c:2065
+#: ../geanyvc/src/geanyvc.c:2105
 msgid "_Diff"
 msgstr "_Unterschiede anzeigen (diff)"
 
-#: ../geanyvc/src/geanyvc.c:1989
+#: ../geanyvc/src/geanyvc.c:1991
 msgid "Make a diff from the current active file"
 msgstr "Erstellt ein Diff für die aktuelle Datei."
 
 #. Revert current file
 #. Revert current dir
 #. Revert everything
-#: ../geanyvc/src/geanyvc.c:1994 ../geanyvc/src/geanyvc.c:2072
-#: ../geanyvc/src/geanyvc.c:2111
+#: ../geanyvc/src/geanyvc.c:1996 ../geanyvc/src/geanyvc.c:2074
+#: ../geanyvc/src/geanyvc.c:2113
 msgid "_Revert"
 msgstr "_Zurücksetzen"
 
-#: ../geanyvc/src/geanyvc.c:1997
+#: ../geanyvc/src/geanyvc.c:1999
 msgid "Restore pristine working copy file (undo local edits)."
 msgstr ""
 "Stellt den ursprünglichen Zustand der Datei wieder her (verwirft lokale "
 "Änderungen)."
 
 #. Blame for current file
-#: ../geanyvc/src/geanyvc.c:2006
+#: ../geanyvc/src/geanyvc.c:2008
 msgid "_Blame"
 msgstr "Ä_nderungsverfolgung (blame)"
 
-#: ../geanyvc/src/geanyvc.c:2009
+#: ../geanyvc/src/geanyvc.c:2011
 msgid "Shows the changes made at one file per revision and author."
 msgstr "Zeigt alle Änderungen einer Datei nach Autor und Revision."
 
 #. History/log of current file
 #. History/log of the current dir
 #. Complete History/Log of base directory
-#: ../geanyvc/src/geanyvc.c:2016 ../geanyvc/src/geanyvc.c:2082
-#: ../geanyvc/src/geanyvc.c:2123
+#: ../geanyvc/src/geanyvc.c:2018 ../geanyvc/src/geanyvc.c:2084
+#: ../geanyvc/src/geanyvc.c:2125
 msgid "_History (log)"
 msgstr "_Versionsgeschichte (log)"
 
-#: ../geanyvc/src/geanyvc.c:2019
+#: ../geanyvc/src/geanyvc.c:2021
 msgid "Shows the log of the current file"
 msgstr "Zeigt die Versionsgeschichte der aktuellen Datei an."
 
 #. base version of the current file
-#: ../geanyvc/src/geanyvc.c:2024
+#: ../geanyvc/src/geanyvc.c:2026
 msgid "_Original"
 msgstr "_Original"
 
-#: ../geanyvc/src/geanyvc.c:2027
+#: ../geanyvc/src/geanyvc.c:2029
 msgid "Shows the orignal of the current file"
 msgstr "Zeigt die unveränderte Datei an"
 
 #. add current file
-#: ../geanyvc/src/geanyvc.c:2035
+#: ../geanyvc/src/geanyvc.c:2037
 msgid "_Add to Version Control"
 msgstr "Zur _Versionskontrolle hinzufügen"
 
-#: ../geanyvc/src/geanyvc.c:2037
+#: ../geanyvc/src/geanyvc.c:2039
 msgid "Add file to repository."
 msgstr "Fügt eine Datei zur Versionskontrolle hin_zu."
 
 #. remove current file
-#: ../geanyvc/src/geanyvc.c:2043
+#: ../geanyvc/src/geanyvc.c:2045
 msgid "_Remove from Version Control"
 msgstr "Aus Versionskontrolle entfernen"
 
-#: ../geanyvc/src/geanyvc.c:2045
+#: ../geanyvc/src/geanyvc.c:2047
 msgid "Remove file from repository."
 msgstr "Entfernt eine Datei aus Versionskontrolle und Repository."
 
-#: ../geanyvc/src/geanyvc.c:2060
+#: ../geanyvc/src/geanyvc.c:2062
 msgid "_Directory"
 msgstr "_Verzeichnis"
 
-#: ../geanyvc/src/geanyvc.c:2066
+#: ../geanyvc/src/geanyvc.c:2068
 msgid "Make a diff from the directory of the current active file"
 msgstr "Erstellt ein Diff für das Verzeichnis der aktuellen Datei."
 
-#: ../geanyvc/src/geanyvc.c:2075
+#: ../geanyvc/src/geanyvc.c:2077
 msgid "Restore original files in the current folder (undo local edits)."
 msgstr ""
 "Stellt den ursprünglichen Zustand der Datei wieder her (verwirft lokale "
 "Änderungen)."
 
-#: ../geanyvc/src/geanyvc.c:2085
+#: ../geanyvc/src/geanyvc.c:2087
 msgid "Shows the log of the current directory"
 msgstr "Zeigt die Versionsgeschichte für das aktuelle Verzeichnis."
 
-#: ../geanyvc/src/geanyvc.c:2099
+#: ../geanyvc/src/geanyvc.c:2101
 msgid "_Base Directory"
 msgstr "_Basisordner"
 
-#: ../geanyvc/src/geanyvc.c:2105
+#: ../geanyvc/src/geanyvc.c:2107
 msgid "Make a diff from the top VC directory"
 msgstr "Erstellt ein Diff für die gesamte Arbeitskopie"
 
-#: ../geanyvc/src/geanyvc.c:2113
+#: ../geanyvc/src/geanyvc.c:2115
 msgid "Revert any local edits."
 msgstr "Alle lokalen Änderungen zurücksetzen"
 
-#: ../geanyvc/src/geanyvc.c:2126
+#: ../geanyvc/src/geanyvc.c:2128
 msgid "Shows the log of the top VC directory"
 msgstr "Zeigt die Versionsgeschichte für die gesamte Arbeitskopie"
 
-#: ../geanyvc/src/geanyvc.c:2152
+#: ../geanyvc/src/geanyvc.c:2154
 msgid "VC _Commit"
 msgstr "VC Über_tragen"
 
-#: ../geanyvc/src/geanyvc.c:2187
+#: ../geanyvc/src/geanyvc.c:2189
 msgid "Show diff of file"
 msgstr "Diff von der aktuellen Datei"
 
-#: ../geanyvc/src/geanyvc.c:2189
+#: ../geanyvc/src/geanyvc.c:2191
 msgid "Show diff of directory"
 msgstr "Zeigt Veränderung des Verzeichnisses an (diff)"
 
-#: ../geanyvc/src/geanyvc.c:2191
+#: ../geanyvc/src/geanyvc.c:2193
 msgid "Show diff of basedir"
 msgstr "Diff vom Grundverzeichnis"
 
-#: ../geanyvc/src/geanyvc.c:2194
+#: ../geanyvc/src/geanyvc.c:2196
 msgid "Commit changes"
 msgstr "Änderungen übertragen"
 
-#: ../geanyvc/src/geanyvc.c:2196
+#: ../geanyvc/src/geanyvc.c:2198
 msgid "Show status"
 msgstr "Status der Arbeitskopie anzeigen"
 
-#: ../geanyvc/src/geanyvc.c:2198
+#: ../geanyvc/src/geanyvc.c:2200
 msgid "Revert single file"
 msgstr "Datei zurücksetzen"
 
-#: ../geanyvc/src/geanyvc.c:2200
+#: ../geanyvc/src/geanyvc.c:2202
 msgid "Revert directory"
 msgstr "Verzeichnis zurücksetzen"
 
-#: ../geanyvc/src/geanyvc.c:2202
+#: ../geanyvc/src/geanyvc.c:2204
 msgid "Revert base directory"
 msgstr "Alle Änderungen verwerfen"
 
-#: ../geanyvc/src/geanyvc.c:2204
+#: ../geanyvc/src/geanyvc.c:2206
 msgid "Update file"
 msgstr "Datei aktualisieren"
 
@@ -4241,26 +4255,54 @@ msgstr "Alle ausklappen"
 msgid "Find in Files"
 msgstr "Im Projekt suchen"
 
-#: ../pretty-printer/src/ConfigUI.c:62
+#: ../pretty-printer/src/PluginEntry.c:37
+msgid "XML PrettyPrinter"
+msgstr "XML PrettyPrinter"
+
+#: ../pretty-printer/src/PluginEntry.c:38
+msgid "Formats an XML and makes it human-readable."
+msgstr "Formatiert XML und macht es damit besser menschenlesbar"
+
+#. put the menu into the Tools
+#: ../pretty-printer/src/PluginEntry.c:63
 #, fuzzy
+msgid "PrettyPrinter XML"
+msgstr "Neuformatierung durchführen"
+
+#: ../pretty-printer/src/PluginEntry.c:71
+msgid "Run the PrettyPrinter XML"
+msgstr "Neuformatierung durchführen"
+
+#: ../pretty-printer/src/PluginEntry.c:136
+msgid "Unable to parse the content as XML."
+msgstr "Konnte den Inhalt nicht als XML interpretieren"
+
+#: ../pretty-printer/src/PluginEntry.c:147
+msgid ""
+"Unable to process PrettyPrinting on the specified XML because some features "
+"are not supported.\n"
+"\n"
+"See Help > Debug messages for more details..."
+msgstr ""
+
+#: ../pretty-printer/src/ConfigUI.c:62
 msgid "Comments"
-msgstr "Inhalte"
+msgstr "Kommentare"
 
 #: ../pretty-printer/src/ConfigUI.c:62 ../pretty-printer/src/ConfigUI.c:63
 #: ../pretty-printer/src/ConfigUI.c:64
 msgid "Put on one line"
-msgstr ""
+msgstr "In eine Zeile zusammenführen"
 
 #: ../pretty-printer/src/ConfigUI.c:62 ../pretty-printer/src/ConfigUI.c:63
 #: ../pretty-printer/src/ConfigUI.c:64
 msgid "Inline if possible"
-msgstr ""
+msgstr "Inline wenn möglich"
 
 #: ../pretty-printer/src/ConfigUI.c:62 ../pretty-printer/src/ConfigUI.c:63
 #: ../pretty-printer/src/ConfigUI.c:64
-#, fuzzy
 msgid "Alignment"
-msgstr "Argumente"
+msgstr "Ausrichtung"
 
 #: ../pretty-printer/src/ConfigUI.c:63
 msgid "Text nodes"
@@ -4272,9 +4314,8 @@ msgstr "CDATA"
 
 # what the heck? :D
 #: ../pretty-printer/src/ConfigUI.c:193
-#, fuzzy
 msgid "Empty nodes"
-msgstr "(Leere Zeile)"
+msgstr "Leere Knoten"
 
 #: ../pretty-printer/src/ConfigUI.c:194
 msgid "Concatenation (<x></x> to <x/>)"
@@ -4289,9 +4330,8 @@ msgid "Expansion (<x/> to <x></x>)"
 msgstr "Erweiterung (<x/> zu <x></x>)"
 
 #: ../pretty-printer/src/ConfigUI.c:223
-#, fuzzy
 msgid "Indentation"
-msgstr "Präsentation"
+msgstr "Einrückung"
 
 #: ../pretty-printer/src/ConfigUI.c:227
 msgid "Tab"
@@ -4484,11 +4524,11 @@ msgid "Convert selection to table"
 msgstr "Auswahl linksbündig formatieren"
 
 #. Build up menu entry
-#: ../tableconvert/src/tableconvert.c:295
+#: ../tableconvert/src/tableconvert.c:293
 msgid "_Convert to table"
 msgstr "In _Tabelle umwandeln"
 
-#: ../tableconvert/src/tableconvert.c:298
+#: ../tableconvert/src/tableconvert.c:296
 msgid "Converts current marked list to a table."
 msgstr "Wandelt die aktuell markierte Liste in eine Tabelle"
 
@@ -5123,18 +5163,11 @@ msgstr ""
 #~ msgid "Display a backtrace of the current call stack."
 #~ msgstr "Eine Ablaufverfolgung des momentanen Stapels anzeigen."
 
-#~ msgid "Add or remove breakpoints."
-#~ msgstr "Haltepunkte hinzufügen oder entfernen."
-
 #~ msgid "Add or remove watchpoints."
 #~ msgstr "Beobachtungspunkte hinzufügen oder entfernen."
 
 #~ msgid "_Finish"
 #~ msgstr "_Beenden"
-
-#, fuzzy
-#~ msgid "Complete the currently executing function."
-#~ msgstr "Die momentan ausgeführte Funktion fertig stellen."
 
 #~ msgid "_Return"
 #~ msgstr "_Zurück"
