@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: geany-plugins 0.19\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-07 14:17+0400\n"
-"PO-Revision-Date: 2011-10-07 18:06+0300\n"
+"PO-Revision-Date: 2011-10-08 14:47+0300\n"
 "Last-Translator: Alexander Petukhov <devel@apetukhov.ru>\n"
 "Language-Team: Russian <geany-i18n@uvena.de>\n"
 "Language: ru\n"
@@ -28,7 +28,7 @@ msgstr "Удалить закладку"
 
 #: ../addons/src/ao_bookmarklist.c:333
 msgid "No."
-msgstr "Нет"
+msgstr "Стр."
 
 #: ../addons/src/ao_bookmarklist.c:341
 #: ../devhelp/src/dhp-object.c:498
@@ -82,7 +82,7 @@ msgstr "Консоль:"
 
 #: ../addons/src/ao_xmltagging.c:56
 msgid "XML tagging"
-msgstr "XML разметка"
+msgstr "Вставка XML тегов"
 
 #: ../addons/src/ao_xmltagging.c:67
 msgid "Tag name to be inserted:"
@@ -135,7 +135,7 @@ msgstr "Обновить список задач"
 
 #: ../addons/src/addons.c:296
 msgid "Run XML tagging"
-msgstr "Запустить парсинг XML"
+msgstr "Вставить XML теги по границам выделенного текста"
 
 #: ../addons/src/addons.c:396
 #: ../geanylatex/src/geanylatex.c:234
@@ -150,11 +150,11 @@ msgstr "Каталог настроек плагинов не может быт�
 
 #: ../addons/src/addons.c:423
 msgid "Show toolbar item to show a list of currently open documents"
-msgstr "Показать в панели инструментов кнопку со списком открытых документов"
+msgstr "Кнопка со списком открытых документов на панели инструментов "
 
 #: ../addons/src/addons.c:427
 msgid "Sort documents by _name"
-msgstr "Сортировать документы по имени"
+msgstr "Сортировать документы по имени файла"
 
 #: ../addons/src/addons.c:429
 msgid "Sort the documents in the list by their filename"
@@ -162,7 +162,7 @@ msgstr "Сортировать документы в списке по имен�
 
 #: ../addons/src/addons.c:432
 msgid "Sort documents by _occurrence"
-msgstr "Сортировать документы по расположению"
+msgstr "Сортировать документы по расположению вкладок"
 
 #: ../addons/src/addons.c:434
 msgid "Sort the documents in the order of the document tabs"
@@ -170,7 +170,7 @@ msgstr "Сортировать документы в порядке распол
 
 #: ../addons/src/addons.c:437
 msgid "Sort documents by _occurrence (reversed)"
-msgstr "Сортировать документы по расположению (обратный порядок)"
+msgstr "Сортировать документы по расположению вкладок (обратный порядок)"
 
 #: ../addons/src/addons.c:439
 msgid "Sort the documents in the order of the document tabs (reversed)"
@@ -179,11 +179,11 @@ msgstr "Сортировать документы в порядке распол
 #. TODO fix the string
 #: ../addons/src/addons.c:467
 msgid "Show a 'Open URI' menu item in the editor menu"
-msgstr "Показать 'Открыть URI' в меню редактора"
+msgstr "Добавить команды 'Открыть URI', 'Копировать URI' в меню редактора"
 
 #: ../addons/src/addons.c:473
 msgid "Show available Tasks in the Messages Window"
-msgstr "Показывать доступные задачи в окне сообщений"
+msgstr "Показывать вкладку со списком задач в окне сообщений"
 
 #: ../addons/src/addons.c:479
 msgid "Show tasks of all documents"
@@ -203,23 +203,23 @@ msgstr "Маркеры поиска:"
 
 #: ../addons/src/addons.c:509
 msgid "Show status icon in the Notification Area"
-msgstr "Показывать иконку состояния в области уведомлений"
+msgstr "Показывать иконку в области уведомлений"
 
 #: ../addons/src/addons.c:515
 msgid "Show defined bookmarks (marked lines) in the sidebar"
-msgstr "Показывать установленные закладки (помеченные строки) в боковой панели"
+msgstr "Показывать список закладок в боковой панели"
 
 #: ../addons/src/addons.c:521
 msgid "Mark all occurrences of a word when double-clicking it"
-msgstr "Помечать все вхождения слова по двойному клику"
+msgstr "Подсвечивать все вхождения слова в документе по двойному клику"
 
 #: ../addons/src/addons.c:527
 msgid "Strip trailing blank lines"
-msgstr "Удалять пустые строки в конце файла"
+msgstr "Удалять пустые строки в конце файла при сохранении"
 
 #: ../addons/src/addons.c:533
 msgid "XML tagging for selection"
-msgstr "XML разметка для выделенного текста"
+msgstr "Вставка XML тегов по границам выделенного текста"
 
 #. All plugins must set name, description, version and author.
 #: ../codenav/src/codenavigation.c:44
@@ -332,7 +332,7 @@ msgstr "Удалить переменную?"
 
 #: ../debugger/src/bptree.c:577
 msgid "Location"
-msgstr "Положение"
+msgstr "Расположение"
 
 #: ../debugger/src/bptree.c:587
 msgid "Condition"
@@ -340,7 +340,7 @@ msgstr "Условие"
 
 #: ../debugger/src/bptree.c:599
 msgid "Hit count"
-msgstr "Кол-во пропусков"
+msgstr "Пропусков"
 
 #: ../debugger/src/bptree.c:612
 #: ../geanygdb/src/gdb-ui-break.c:163
