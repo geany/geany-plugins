@@ -115,6 +115,8 @@ static void ao_tasks_set_property(GObject *object, guint prop_id,
 				ao_tasks_hide(AO_TASKS(object));
 
 			priv->enable_tasks = new_val;
+			if (priv->enable_tasks && main_is_realized() && ! priv->active)
+				ao_tasks_set_active(AO_TASKS(object));
 			break;
 		}
 		case PROP_SCAN_ALL_DOCUMENTS:
