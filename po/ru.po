@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: geany-plugins 0.19\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-07 14:17+0400\n"
-"PO-Revision-Date: 2011-10-08 15:06+0300\n"
+"PO-Revision-Date: 2011-10-08 16:10+0300\n"
 "Last-Translator: Alexander Petukhov <devel@apetukhov.ru>\n"
 "Language-Team: Russian <geany-i18n@uvena.de>\n"
 "Language: ru\n"
@@ -573,13 +573,12 @@ msgid "Toggle sidebar search tab"
 msgstr "Переключиться на вкладку поиска в боковой панели"
 
 #: ../devhelp/src/dhp-plugin.c:189
-#, fuzzy
 msgid "Toggle documentation tab"
-msgstr "Интерактивная документация"
+msgstr "Переключиться на вкладку документации"
 
 #: ../devhelp/src/dhp-plugin.c:191
 msgid "Activate all tabs"
-msgstr "Переключиться на вкладки документации"
+msgstr "Активировать все вкладки документации"
 
 #: ../devhelp/src/dhp-plugin.c:193
 msgid "Search for current tag in Devhelp"

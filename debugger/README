@@ -1,4 +1,4 @@
-Debugger plugin
+Debugger
 ==================
 
 .. image:: http://img52.imageshack.us/img52/4424/geanydebuggersmall.png
@@ -16,7 +16,6 @@ Plugin enables debugging in Geany.
 Currently supports GDB only, but was developed with multiple debuggers support in mind,
 so the other backends support is planned as well.
 
-
 Features
 --------
 
@@ -31,15 +30,6 @@ Features
  * Double or single panel modes
  * Hotkeys
 
-
-Requirements
-------------
-
- * Geany >= 0.21
- * GTK 2
- * POSIX API
-
-
 Usage
 -----
 
@@ -52,6 +42,13 @@ A user can also control debug process using hotkeys that are configurable throug
 
 When exploring children of a watch or an auto variable user can double click any of them to create a distinct
 watch item containing the corresponding expression. 
+
+Requirements
+------------
+
+ * Geany >= 0.21
+ * GTK 2
+ * POSIX API
 
 Contact developers
 ------------------
