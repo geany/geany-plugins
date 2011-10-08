@@ -1,5 +1,3 @@
-.. |(version)| replace:: 0.21
-
 Debugger plugin
 ==================
 
@@ -12,7 +10,7 @@ Debugger plugin
 .. contents::
 
 About
-=====
+-----
 
 Plugin enables debugging in Geany.
 Currently supports GDB only, but was developed with multiple debuggers support in mind,
@@ -20,7 +18,7 @@ so the other backends support is planned as well.
 
 
 Features
-========
+--------
 
  * Debugger panel
  * Setting target, environment variables and command line arguments
@@ -35,14 +33,15 @@ Features
 
 
 Requirements
-============
+------------
+
  * Geany >= 0.21
  * GTK 2
  * POSIX API
 
 
 Usage
-=====
+-----
 
 Debugger panel behaves in a way similar to other IDE, so an experienced user won't have problems using it.
 
@@ -54,32 +53,8 @@ A user can also control debug process using hotkeys that are configurable throug
 When exploring children of a watch or an auto variable user can double click any of them to create a distinct
 watch item containing the corresponding expression. 
 
-Download Source
-===============
+Contact developers
+------------------
 
-Development Source Tarbal: http://geany-plugins.svn.sourceforge.net/viewvc/geany-plugins/trunk/geany-plugins/debugger/?view=tar
-
-Debugger is part of the combined Geany Plugins release. For more information and downloads, please visit http://plugins.geany.org/
-
-
-Installation
-============
-
- The plugin is part from the geany-plugins projects, you can see the plugin`s install page at http://plugins.geany.org/install.html
-
-
-License
-=======
-
-Debugger plugin is distrubuted under the same license as and geany.
-
-
-Ideas, questions, patches and bug reports
-=========================================
-
-Report them at http://sourceforge.net/tracker/?group_id=222729.
-
-Contacts
-=========================================
 Alexander Petukhov <devel(at)apetukhov(dot)ru>
 
