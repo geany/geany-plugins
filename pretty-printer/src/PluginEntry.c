@@ -26,7 +26,7 @@
 //========================================== PLUGIN INFORMATION ==========================================================
 
 PLUGIN_VERSION_CHECK(130)
-PLUGIN_SET_INFO("XML PrettyPrinter", "Formats an XML and makes it human-readable.",
+PLUGIN_SET_TRANSLATABLE_INFO(_("XML PrettyPrinter"), _("Formats an XML and makes it human-readable."),
                 PRETTY_PRINTER_VERSION, "Cédric Tabin - http://www.astorm.ch")
 PLUGIN_KEY_GROUP(prettyprinter, 1)
 
@@ -53,9 +53,6 @@ void plugin_init(GeanyData *data)
 {
     //initializes the libxml2
     LIBXML_TEST_VERSION
-
-    //mutilanguage support
-    main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 
     //put the menu into the Tools
     main_menu_item = gtk_menu_item_new_with_mnemonic(_("PrettyPrint XML"));
