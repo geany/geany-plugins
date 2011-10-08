@@ -20,6 +20,11 @@
  *      MA 02110-1301, USA.
  */
 
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
+#include <geanyplugin.h>
+
 #include "switch_head_impl.h"
 #include "utils.h"
 

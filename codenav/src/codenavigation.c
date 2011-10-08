@@ -25,6 +25,11 @@
  * 2009 Lionel Fuentes.
  */
 
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
+#include <geanyplugin.h>
+
 #include "codenavigation.h"
 #include "switch_head_impl.h"
 #include "goto_file.h"
@@ -41,7 +46,10 @@ GeanyFunctions	*geany_functions;
 PLUGIN_VERSION_CHECK(112)
 
 /* All plugins must set name, description, version and author. */
-PLUGIN_SET_INFO(_("Code navigation"),
+PLUGIN_SET_TRANSLATABLE_INFO(
+	LOCALEDIR,
+	GETTEXT_PACKAGE,
+	_("Code navigation"),
 	_(	"This plugin adds features to facilitate navigation between source files.\n"
 		"As for the moment, it implements :\n"
 		"- switching between a .cpp file and the corresponding .h file\n"

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: geany-plugins 0.19\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-07 14:17+0400\n"
-"PO-Revision-Date: 2011-10-08 14:47+0300\n"
+"PO-Revision-Date: 2011-10-08 15:06+0300\n"
 "Last-Translator: Alexander Petukhov <devel@apetukhov.ru>\n"
 "Language-Team: Russian <geany-i18n@uvena.de>\n"
 "Language: ru\n"
@@ -241,9 +241,8 @@ msgstr ""
 #. Add the menu item, sensitive only when a document is opened
 #: ../codenav/src/goto_file.c:50
 #: ../codenav/src/goto_file.c:64
-#, fuzzy
 msgid "Goto file"
-msgstr "Выбрать шрифт"
+msgstr "Перейти к файлу"
 
 #: ../codenav/src/goto_file.c:101
 #, c-format
