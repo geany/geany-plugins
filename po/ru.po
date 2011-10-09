@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: geany-plugins 0.19\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-07 14:17+0400\n"
-"PO-Revision-Date: 2011-10-09 02:23+0300\n"
+"PO-Revision-Date: 2011-10-09 13:36+0300\n"
 "Last-Translator: Alexander Petukhov <devel@apetukhov.ru>\n"
 "Language-Team: Russian <geany-i18n@uvena.de>\n"
 "Language: ru\n"
@@ -4589,156 +4589,154 @@ msgstr ""
 #: ../webhelper/src/gwh-settings.c:774
 #, c-format
 msgid "%s:"
-msgstr ""
+msgstr "%s:"
 
 #: ../webhelper/src/gwh-browser.c:485
 msgid "_Zoom"
-msgstr ""
+msgstr "_Увеличить"
 
 #: ../webhelper/src/gwh-browser.c:507
 msgid "Full-_content zoom"
-msgstr ""
+msgstr "Изменение масштаба всего содержимого"
 
 #: ../webhelper/src/gwh-browser.c:518
-#, fuzzy
 msgid "Flip panes orientation"
-msgstr "запущено"
+msgstr "Переключить ориентацию панелей"
 
 #: ../webhelper/src/gwh-browser.c:763
 msgid "Back"
-msgstr ""
+msgstr "Назад"
 
 #: ../webhelper/src/gwh-browser.c:767
 msgid "Forward"
-msgstr ""
+msgstr "Вперёд"
 
 #: ../webhelper/src/gwh-browser.c:771
 msgid "Cancel loading"
-msgstr ""
+msgstr "Остановить загрузку"
 
 #: ../webhelper/src/gwh-browser.c:775
 msgid "Reload current page"
-msgstr ""
+msgstr "Перезагрузить страницу"
 
 #: ../webhelper/src/gwh-browser.c:788
 #: ../webhelper/src/gwh-browser.c:834
 msgid "Web inspector"
-msgstr ""
+msgstr "Веб-инспектор"
 
 #: ../webhelper/src/gwh-browser.c:789
 msgid "Toggle web inspector"
-msgstr ""
+msgstr "Показать Веб-инспектор"
 
 #: ../webhelper/src/gwh-plugin.c:50
 msgid "Web helper"
-msgstr ""
+msgstr "Веб ассистент"
 
 #: ../webhelper/src/gwh-plugin.c:51
 msgid "Display a preview web page that gets updated upon document saving and provide web analysis and debugging tools (aka Web Inspector), all using WebKit."
-msgstr ""
+msgstr "Отображает веб-страницу, которая обновляется при сохранении соответствующего ей документа, а также предоставляет инструменты для анализа и отладки (ака Web-инспектор). Использует WebKit."
 
 #: ../webhelper/src/gwh-plugin.c:141
 msgid "Web view"
-msgstr ""
+msgstr "Просмотр Веб"
 
 #: ../webhelper/src/gwh-plugin.c:186
 msgid "Web preview"
-msgstr ""
+msgstr "Просмотр Веб"
 
 #: ../webhelper/src/gwh-plugin.c:265
 msgid "Reload upon document saving"
-msgstr ""
+msgstr "Обновлять страницу при сохранении её документа"
 
 #: ../webhelper/src/gwh-plugin.c:305
 msgid "Browser auto reload"
-msgstr ""
+msgstr "Автообновление страницы"
 
 #: ../webhelper/src/gwh-plugin.c:306
 msgid "Whether the browser reloads itself upon document saving"
-msgstr ""
+msgstr "Перезагружать ли страницу в браузере при сохранении документа"
 
 #: ../webhelper/src/gwh-plugin.c:311
 msgid "Browser last URI"
-msgstr ""
+msgstr "Последний посещённый URI"
 
 #: ../webhelper/src/gwh-plugin.c:312
 msgid "Last URI visited by the browser"
-msgstr ""
+msgstr "Последний URI просмотренный в браузере "
 
 #: ../webhelper/src/gwh-plugin.c:317
-#, fuzzy
 msgid "Browser orientation"
-msgstr "запущено"
+msgstr "Ориентация браузера"
 
 #: ../webhelper/src/gwh-plugin.c:318
 msgid "Orientation of the browser widget"
-msgstr ""
+msgstr "Ориентация окна браузера"
 
 #: ../webhelper/src/gwh-plugin.c:324
 msgid "Browser position"
-msgstr ""
+msgstr "Положение окна браузера"
 
 #: ../webhelper/src/gwh-plugin.c:325
 msgid "Position of the browser widget in Geany's UI"
-msgstr ""
+msgstr "Расположение окна браузера в Geany"
 
 #: ../webhelper/src/gwh-plugin.c:331
 msgid "Browser separate window geometry"
-msgstr ""
+msgstr "Размеры отдельного окна браузера"
 
 #: ../webhelper/src/gwh-plugin.c:332
 msgid "Last geometry of the separated browser's window"
-msgstr ""
+msgstr "Последние сохранённые размеры отдельного окна браузера"
 
 #: ../webhelper/src/gwh-plugin.c:337
 msgid "Inspector window geometry"
-msgstr ""
+msgstr "Размер окна инспектора"
 
 #: ../webhelper/src/gwh-plugin.c:338
 msgid "Last geometry of the inspector window"
-msgstr ""
+msgstr "Последние сохранённые размеры окна инспектора"
 
 #: ../webhelper/src/gwh-plugin.c:343
 msgid "Secondary windows skip task bar"
-msgstr ""
+msgstr "Не показывать окна плагина в панели задач"
 
 #: ../webhelper/src/gwh-plugin.c:344
 msgid "Whether to tell the window manager not to show the secondary windows in the task bar"
-msgstr ""
+msgstr "Дать указание менеджеру окон не показывать окна плагина в панели задач"
 
 #: ../webhelper/src/gwh-plugin.c:349
 msgid "Secondary windows are transient"
-msgstr ""
+msgstr "Окна плагина не перекрывают родительское окно"
 
 #: ../webhelper/src/gwh-plugin.c:350
 msgid "Whether secondary windows are transient children of their parent"
-msgstr ""
+msgstr "Запрещать ли окнам плагина перекрывать родительское окно"
 
 #: ../webhelper/src/gwh-plugin.c:355
 msgid "Secondary windows type"
-msgstr ""
+msgstr "Тип окон"
 
 #: ../webhelper/src/gwh-plugin.c:356
 msgid "The type of the secondary windows"
-msgstr ""
+msgstr "Тип окон плагина"
 
 #: ../webhelper/src/gwh-plugin.c:431
 msgid "Toggle Web Inspector"
-msgstr ""
+msgstr "Включить Веб-инспектор"
 
 #: ../webhelper/src/gwh-plugin.c:436
 msgid "Show/Hide Web View's Window"
-msgstr ""
+msgstr "Показать/Скрыть окно браузера"
 
 #. Browser
 #: ../webhelper/src/gwh-plugin.c:502
 msgid "Browser"
-msgstr ""
+msgstr "Браузер"
 
 #. Windows
 #: ../webhelper/src/gwh-plugin.c:514
 msgid "Windows"
-msgstr ""
+msgstr "Окна"
 
 #: ../xmlsnippets/src/plugin.c:45
 msgid "XML Snippets"
