@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-09 17:44+0200\n"
-"PO-Revision-Date: 2011-10-03 10:50+0100\n"
+"POT-Creation-Date: 2011-10-09 19:10+0200\n"
+"PO-Revision-Date: 2011-10-09 19:10+0100\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
 "Language: de\n"
@@ -635,7 +635,7 @@ msgstr "Status des Code-Faltung merken"
 #: ../geanycfp/src/geanycfp.c:1305
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:794
 msgid "Center view when goto bookmark"
-msgstr ""
+msgstr "Ansicht zentrieren beim Sprung durch ein Lesezeichen"
 
 #: ../geanycfp/src/geanycfp.c:1311 ../geanymacro/src/geanymacro.c:652
 msgid "Save Macros when close Geany"
@@ -728,6 +728,7 @@ msgstr "Makroname:"
 #: ../geanycfp/src/geanycfp.c:1677 ../geanymacro/src/geanymacro.c:915
 msgid "You must define a key trigger combination"
 msgstr ""
+"Sie müssene eine Tastenkombination festlegen, die das Ereignis auslöst."
 
 #: ../geanycfp/src/geanycfp.c:1691 ../geanymacro/src/geanymacro.c:929
 #, c-format
@@ -736,6 +737,9 @@ msgid ""
 " is already in use.\n"
 "Replace?"
 msgstr ""
+"Makroname »%s«\n"
+" wird bereits verwendet.\n"
+"Ersetzen?"
 
 #: ../geanycfp/src/geanycfp.c:1707 ../geanymacro/src/geanymacro.c:945
 #, c-format
@@ -744,6 +748,9 @@ msgid ""
 " is already in use.\n"
 "Replace?"
 msgstr ""
+"Makroauslöser »%s«\n"
+" wird bereits verwendet.\n"
+"Ersetzen?"
 
 #: ../geanycfp/src/geanycfp.c:1887 ../geanymacro/src/geanymacro.c:1126
 msgid "Edit Macros"
@@ -3267,6 +3274,8 @@ msgid ""
 "No recipients were selected,\n"
 "use symetric cipher?"
 msgstr ""
+"Kein Zielschlüssel wurde ausgewählt.\n"
+"Soll ein symmetrischer Cypher genutzt werden?"
 
 #: ../geanypg/src/geanypg.c:36
 msgid "gpg encryption plugin for geany"
@@ -3355,6 +3364,8 @@ msgid ""
 "Error, Passphrase input without using gpg-agent is not supported on Windows "
 "yet."
 msgstr ""
+"Fehler: Passphraseneingabe ohne die Verwendung von gpg-agent ist nicht "
+"unterstützt unter Windows."
 
 #: ../geanypg/src/verify_aux.c:52
 msgid "a key with fingerprint"
@@ -3486,7 +3497,7 @@ msgstr "Falsche Schlüsselnutzung"
 
 #: ../geanypg/src/verify_aux.c:138 ../geanypg/src/verify_aux.c:155
 msgid " chain-model"
-msgstr ""
+msgstr " Ketten-Modell. "
 
 #: ../geanypg/src/verify_aux.c:139 ../geanypg/src/verify_aux.c:156
 msgid "yes"
@@ -3506,11 +3517,11 @@ msgstr "Signatur"
 
 #: ../geanypg/src/verify_aux.c:201
 msgid "Could not find verification results"
-msgstr ""
+msgstr "Konnte keine Ergebnisse der Verifizierung finden. "
 
 #: ../geanypg/src/verify_aux.c:202
 msgid "Error, could not find verification results"
-msgstr ""
+msgstr "Fehler: Konnte keine Resultate der Verifikation finden."
 
 #: ../geanypg/src/verify_cb.c:26
 msgid "Open a signature file"
@@ -4090,7 +4101,7 @@ msgstr "GProject"
 
 #: ../gproject/src/gproject-main.c:34
 msgid "Glob-pattern-based project management plugin for Geany."
-msgstr ""
+msgstr "Global-Muser-basierendes Projektmanagement-Plugin für Geany."
 
 #: ../gproject/src/gproject-menu.c:350
 msgid "Find in Project Files"
@@ -4122,12 +4133,14 @@ msgstr "Ausgewählte Datei öffnen (gproject)"
 
 #: ../gproject/src/gproject-project.c:396
 msgid "Source patterns:"
-msgstr ""
+msgstr "Quellenmuster:"
 
 #: ../gproject/src/gproject-project.c:402
 msgid ""
 "Space separated list of patterns that are used to identify source files."
 msgstr ""
+"Leerzeichengetrennte Liste mit Mustern, die genutzt werden, um Quelldateien "
+"zu identifizieren."
 
 #: ../gproject/src/gproject-project.c:407
 msgid "Header patterns:"
@@ -4138,20 +4151,25 @@ msgid ""
 "Space separated list of patterns that are used to identify headers. Used "
 "mainly for header/source swapping."
 msgstr ""
+"Leerzeichengetrennte Liste mit Mustern, die genutzt werden, um Header zu "
+"identifizieren. Wird hauptsächlich für das Umschalten zwischen Quellen und "
+"Header verwendet."
 
 #: ../gproject/src/gproject-project.c:419
 msgid "Ignored dirs patterns:"
-msgstr ""
+msgstr "Muster für zu ignorierende Verzeichnisse:"
 
 #: ../gproject/src/gproject-project.c:425
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
 msgstr ""
+"Leerzeichengetrennte Liste mit Mustern, die genutzt werden, um Verzeichnisse "
+"zu erkennen, die nicht nach Quelldateien durchsucht werden sollen. "
 
 #: ../gproject/src/gproject-project.c:433
 msgid "Generate tags for all project files"
-msgstr ""
+msgstr "Tags für alle Projektdateien erstellen"
 
 #: ../gproject/src/gproject-project.c:435
 msgid ""
@@ -4159,12 +4177,17 @@ msgid ""
 "opened files. Too slow for big projects (>1000 files) and should be disabled "
 "in this case."
 msgstr ""
+"Erstellt Tags für alle Projektdateien, anstatt nur für die jeweils "
+"geöffneten Dateien. Sehr langsam bei großen Projekten (>1000 Dateien) und "
+"sollte in solch einem Fall deaktiviert werden."
 
 #: ../gproject/src/gproject-project.c:441
 msgid ""
 "Note: set the patterns of files belonging to the project under the Project "
 "tab."
 msgstr ""
+"Anmerkung: Die Muster der Dateien, die zu einem Projekt gehören, können im "
+"Projekttab gesetzt werden."
 
 #: ../gproject/src/gproject-sidebar.c:78
 #: ../gproject/src/gproject-sidebar.c:795
@@ -4203,7 +4226,7 @@ msgstr "Alle einklappen"
 
 #: ../gproject/src/gproject-sidebar.c:729
 msgid "Follow active editor"
-msgstr ""
+msgstr "Aktiven Editor folgen"
 
 #: ../gproject/src/gproject-sidebar.c:777
 msgid "Expand All"
@@ -4242,6 +4265,10 @@ msgid ""
 "\n"
 "See Help > Debug messages for more details..."
 msgstr ""
+"Konnte PrettyPrinter nicht auf das angegebene XML ausführen, da einige "
+"Funktionieren davon nicht unterstützt werden.\n"
+"\n"
+"Siehe Hilfe->Debug-Meldungen für mehr Details. "
 
 #: ../pretty-printer/src/ConfigUI.c:62
 msgid "Comments"
@@ -4845,7 +4872,7 @@ msgstr "Beim Speichern des Dokumentes neu laden"
 
 #: ../webhelper/src/gwh-plugin.c:305
 msgid "Browser auto reload"
-msgstr ""
+msgstr "Automatischen Neuladen des Browser"
 
 #: ../webhelper/src/gwh-plugin.c:306
 msgid "Whether the browser reloads itself upon document saving"
@@ -4855,11 +4882,11 @@ msgstr ""
 
 #: ../webhelper/src/gwh-plugin.c:311
 msgid "Browser last URI"
-msgstr ""
+msgstr "Letztes URI des Browsers"
 
 #: ../webhelper/src/gwh-plugin.c:312
 msgid "Last URI visited by the browser"
-msgstr ""
+msgstr "Letzte vom Browser besuchte URI."
 
 #: ../webhelper/src/gwh-plugin.c:317
 msgid "Browser orientation"
@@ -4871,53 +4898,53 @@ msgstr "Ausrichtung des Browser-Elementes"
 
 #: ../webhelper/src/gwh-plugin.c:324
 msgid "Browser position"
-msgstr ""
+msgstr "Browserposition"
 
 #: ../webhelper/src/gwh-plugin.c:325
 msgid "Position of the browser widget in Geany's UI"
-msgstr ""
+msgstr "Position des Browserfensters innerhalb von Geany"
 
 #: ../webhelper/src/gwh-plugin.c:331
 msgid "Browser separate window geometry"
-msgstr ""
+msgstr "Geometrie des zweiten Fensters"
 
 #: ../webhelper/src/gwh-plugin.c:332
 msgid "Last geometry of the separated browser's window"
-msgstr ""
+msgstr "Letzte Geometrie des zweiten Browserfensters"
 
 #: ../webhelper/src/gwh-plugin.c:337
 msgid "Inspector window geometry"
-msgstr ""
+msgstr "Insepctors Fenstergeometrie"
 
 #: ../webhelper/src/gwh-plugin.c:338
 msgid "Last geometry of the inspector window"
-msgstr ""
+msgstr "Letzte Geometrie des Inspector-Fensters"
 
 #: ../webhelper/src/gwh-plugin.c:343
 msgid "Secondary windows skip task bar"
-msgstr ""
+msgstr "Zweites Fenster ignoriert die Taskleiste"
 
 #: ../webhelper/src/gwh-plugin.c:344
 msgid ""
 "Whether to tell the window manager not to show the secondary windows in the "
 "task bar"
-msgstr ""
+msgstr "Bestimmt, ob das zweite Fenster in der Taskleiste zu sehen sein soll. "
 
 #: ../webhelper/src/gwh-plugin.c:349
 msgid "Secondary windows are transient"
-msgstr ""
+msgstr "Das zweite Fenster ist transient."
 
 #: ../webhelper/src/gwh-plugin.c:350
 msgid "Whether secondary windows are transient children of their parent"
-msgstr ""
+msgstr "Legt fest, ob das zweite Fenster ein Kind des Hauptfensters ist"
 
 #: ../webhelper/src/gwh-plugin.c:355
 msgid "Secondary windows type"
-msgstr ""
+msgstr "Typ des zweiten Fensters"
 
 #: ../webhelper/src/gwh-plugin.c:356
 msgid "The type of the secondary windows"
-msgstr ""
+msgstr "Typ des zweiten Fensters"
 
 #: ../webhelper/src/gwh-plugin.c:431
 msgid "Toggle Web Inspector"
@@ -4925,7 +4952,7 @@ msgstr "Webinspektor umschalten"
 
 #: ../webhelper/src/gwh-plugin.c:436
 msgid "Show/Hide Web View's Window"
-msgstr ""
+msgstr "Zeigt/Versteckt das WebView-Fenster"
 
 #. Browser
 #: ../webhelper/src/gwh-plugin.c:502
@@ -4943,7 +4970,7 @@ msgstr "XML Snippets"
 
 #: ../xmlsnippets/src/plugin.c:46
 msgid "Autocompletes XML/HTML tags using snippets."
-msgstr ""
+msgstr "Autovervollständigt XML/HTML-Tags unter Verwendung von Snippets"
 
 #~ msgid "Config saved successfully"
 #~ msgstr "Konfigurationen wurden erfolgreich gespeichert"
