@@ -1,16 +1,16 @@
 # German translation for geany-plugins
-# Copyright (C) 2009-2010 THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) 2009-2011 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 # Andrew Janke <a.janke@gmail.com>, 2009
-# Frank Lanitz <frank@frank.uvena.de>, 2009-2010
+# Frank Lanitz <frank@frank.uvena.de>, 2009-2011
 # Dominic Hopf <dmaphy@gmail.com>, 2009
 # Michael Spahn <anyone90@googlemail.com>, 2009
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: geany-plugins 0.20\n"
+"Project-Id-Version: geany-plugins 0.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-09 00:17+0200\n"
+"POT-Creation-Date: 2011-10-09 17:44+0200\n"
 "PO-Revision-Date: 2011-10-03 10:50+0100\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -165,9 +165,8 @@ msgid "Sort documents by _occurrence"
 msgstr "Dokumente nach Auftreten sortieren"
 
 #: ../addons/src/addons.c:434
-#, fuzzy
 msgid "Sort the documents in the order of the document tabs"
-msgstr "Zeichensatz für das neue Dokument"
+msgstr "Die Dokumente nach Reihenfolge der geöffneten Tabs sortieren"
 
 #: ../addons/src/addons.c:437
 msgid "Sort documents by _occurrence (reversed)"
@@ -361,9 +360,8 @@ msgstr ""
 "Debugger-Nachricht: %s"
 
 #: ../debugger/src/dbm_gdb.c:340
-#, fuzzy
 msgid "Program received a signal"
-msgstr "Programm empfing Signal:"
+msgstr "Programm empfing ein Signal"
 
 #: ../debugger/src/dbm_gdb.c:546
 msgid "Failed to spawn gdb process"
@@ -407,24 +405,20 @@ msgid "Autos"
 msgstr "Autos"
 
 #: ../debugger/src/tabs.c:144
-#, fuzzy
 msgid "Call Stack"
-msgstr "_Stapel"
+msgstr "Ausführungsstabel"
 
 #: ../debugger/src/tabs.c:147
-#, fuzzy
 msgid "Debug Terminal"
-msgstr "In Terminal ausführen"
+msgstr "Debug-Terminal"
 
 #: ../debugger/src/tabs.c:150
-#, fuzzy
 msgid "Debugger Messages"
 msgstr "Debugger-Nachrichten"
 
 #: ../debugger/src/keys.c:49
-#, fuzzy
 msgid "Run / Continue"
-msgstr "Fortsetzen"
+msgstr "Starten / Fortsetzen"
 
 #: ../debugger/src/keys.c:50 ../debugger/src/btnpanel.c:101
 msgid "Stop"
@@ -435,10 +429,10 @@ msgid "Restart"
 msgstr "Neustarten"
 
 # noch keine Idee  --Dominic
+# Vielleicht besser :) --frlan
 #: ../debugger/src/keys.c:52 ../debugger/src/btnpanel.c:113
-#, fuzzy
 msgid "Step into"
-msgstr "%s bei Schritt »%s..%s«"
+msgstr "Eintreten"
 
 #: ../debugger/src/keys.c:53 ../debugger/src/btnpanel.c:110
 msgid "Step over"
@@ -446,30 +440,25 @@ msgstr "Überspringen"
 
 # noch keine Idee  --Dominic
 #: ../debugger/src/keys.c:54 ../debugger/src/btnpanel.c:122
-#, fuzzy
 msgid "Step out"
-msgstr "%s bei Schritt »%s..%s«"
+msgstr "Aussteigen"
 
 # Noch keine Idee hierzu --Dominic
 #: ../debugger/src/keys.c:55 ../debugger/src/btnpanel.c:125
-#, fuzzy
 msgid "Run to cursor"
-msgstr "Gehe zu Ort"
+msgstr "Bis zum Cursor ausführen"
 
 #: ../debugger/src/keys.c:56
-#, fuzzy
 msgid "Add / Remove breakpoint"
 msgstr "Haltepunkte hinzufügen oder entfernen."
 
 #: ../debugger/src/keys.c:57
-#, fuzzy
 msgid "Jump to the currect instruction"
-msgstr "Die momentan ausgeführte Funktion fertig stellen."
+msgstr "Zur aktuellen Funktion springen"
 
 #: ../debugger/src/watch_model.c:221
-#, fuzzy
 msgid "Can't evaluate expression"
-msgstr "Ungültiger Regulärer Ausdruck: %s"
+msgstr "Konnte Ausdruck nicht prüfen"
 
 #: ../debugger/src/callbacks.c:222
 msgid "To edit source files stop debugging session"
@@ -542,9 +531,9 @@ msgid "Search"
 msgstr "Suchen"
 
 #: ../devhelp/src/dhp-object.c:1320
-#, fuzzy, c-format
+#, c-format
 msgid "Search for '%s' Documentation in"
-msgstr "Dokumentationskommentar einfügen"
+msgstr "Suche nach »%s« in der Dokumentation von"
 
 #: ../devhelp/src/dhp-plugin.c:42
 msgid "Devhelp Plugin"
@@ -560,33 +549,31 @@ msgstr ""
 "Oberfläche hinzu."
 
 #: ../devhelp/src/dhp-plugin.c:137
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create config dir at '%s'"
-msgstr "Konnte Konfiguration nicht speichern: %s"
+msgstr "Konfigurationsverzeichnis unter »%s« konnte nicht erstellt werden."
 
 #: ../devhelp/src/dhp-plugin.c:152
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to get default configuration: %s"
-msgstr "Konnte Konfiguration nicht laden: %s"
+msgstr "Konnte Standardkonfigurationen nicht laden: %s"
 
 #: ../devhelp/src/dhp-plugin.c:160
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to write default configuration: %s"
-msgstr "Konnte Konfiguration nicht laden: %s"
+msgstr "Konnte Standardkonfiguration nicht schreiben: %s"
 
 #: ../devhelp/src/dhp-plugin.c:190
 msgid "Toggle sidebar contents tab"
 msgstr ""
 
 #: ../devhelp/src/dhp-plugin.c:192
-#, fuzzy
 msgid "Toggle sidebar search tab"
-msgstr "Webinspektor umschalten"
+msgstr "Seitenleistensuche umschalten"
 
 #: ../devhelp/src/dhp-plugin.c:194
-#, fuzzy
 msgid "Toggle documentation tab"
-msgstr "Dokumentationstyp"
+msgstr "Dokumentationstab umschalten"
 
 #: ../devhelp/src/dhp-plugin.c:196
 msgid "Activate all tabs"
@@ -637,9 +624,8 @@ msgstr "_Okay"
 
 #: ../geanycfp/src/geanycfp.c:1113
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:609
-#, fuzzy
 msgid "_Ignore"
-msgstr "Alle ignorieren"
+msgstr "_Ignorieren"
 
 #: ../geanycfp/src/geanycfp.c:1299
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:788
@@ -732,14 +718,12 @@ msgid "Cancel"
 msgstr "Abbruch"
 
 #: ../geanycfp/src/geanycfp.c:1640 ../geanymacro/src/geanymacro.c:878
-#, fuzzy
 msgid "Macro Trigger:"
-msgstr "Auslöser für den Zugriff"
+msgstr "Auslöser für das Makro"
 
 #: ../geanycfp/src/geanycfp.c:1654 ../geanymacro/src/geanymacro.c:892
-#, fuzzy
 msgid "Macro Name:"
-msgstr "Name:"
+msgstr "Makroname:"
 
 #: ../geanycfp/src/geanycfp.c:1677 ../geanymacro/src/geanymacro.c:915
 msgid "You must define a key trigger combination"
@@ -762,18 +746,16 @@ msgid ""
 msgstr ""
 
 #: ../geanycfp/src/geanycfp.c:1887 ../geanymacro/src/geanymacro.c:1126
-#, fuzzy
 msgid "Edit Macros"
-msgstr "Beobachtungspunkt bearbeiten"
+msgstr "Makros bearbeiten"
 
 #: ../geanycfp/src/geanycfp.c:1919 ../geanymacro/src/geanymacro.c:1158
 msgid "Macro Name"
 msgstr "Makroname"
 
 #: ../geanycfp/src/geanycfp.c:1925 ../geanymacro/src/geanymacro.c:1164
-#, fuzzy
 msgid "Key Trigger"
-msgstr "Auslöser für den Zugriff"
+msgstr "Auslöser"
 
 #. add buttons
 #: ../geanycfp/src/geanycfp.c:1948 ../geanymacro/src/geanymacro.c:1187
@@ -1083,16 +1065,14 @@ msgid "Edit breakpoint"
 msgstr "Haltepunkt bearbeiten"
 
 #: ../geanygdb/src/gdb-ui-break.c:169
-#, fuzzy
 msgid "Break after "
-msgstr "Anhalten nach"
+msgstr "Anhalten nach "
 
 #: ../geanygdb/src/gdb-ui-break.c:176
 msgid " times."
 msgstr " mal."
 
 #: ../geanygdb/src/gdb-ui-break.c:181
-#, fuzzy
 msgid "Break when "
 msgstr " Anhalten wenn "
 
@@ -3279,9 +3259,8 @@ msgstr ""
 
 #: ../geanypg/src/decrypt_cb.c:32 ../geanypg/src/encrypt_cb.c:31
 #: ../geanypg/src/sign_cb.c:32
-#, fuzzy
 msgid "couldn't create tempfile"
-msgstr "Neue Datei erstellen"
+msgstr "konnte keine temporäre Datei erstellen"
 
 #: ../geanypg/src/encrypt_cb.c:75
 msgid ""
@@ -3302,9 +3281,8 @@ msgid "Using libgpgme version:"
 msgstr "Verwendete libgpgme-Version:"
 
 #: ../geanypg/src/geanypg.c:59 ../geanypg/src/geanypg.c:60
-#, fuzzy
 msgid "Error from"
-msgstr "Fehler:"
+msgstr "Fehler von"
 
 #: ../geanypg/src/geanypg.c:78
 msgid "Encrypt"
@@ -3323,27 +3301,24 @@ msgid "Verify detached signature"
 msgstr "Signatur prüfen"
 
 #: ../geanypg/src/key_selection_dialog.c:150
-#, fuzzy
 msgid "Please select any recipients"
-msgstr "Ausgewählter Beobachtungspunkt entfernen"
+msgstr "Bitte Empfänger auswählen"
 
 #: ../geanypg/src/key_selection_dialog.c:152
 msgid "Sign the message as:"
 msgstr "Nachricht signieren als:"
 
 #: ../geanypg/src/key_selection_dialog.c:160
-#, fuzzy
 msgid "Select recipients"
-msgstr "Verzeichnis auswählen"
+msgstr "Empfänger auswählen"
 
 #: ../geanypg/src/key_selection_dialog.c:222
 msgid "Choose a key to sign with:"
 msgstr "Wählen Sie einen Schlüssel zum Signieren aus."
 
 #: ../geanypg/src/key_selection_dialog.c:230
-#, fuzzy
 msgid "Select signer"
-msgstr "Datei auswählen"
+msgstr "Signierenden Schlüssel auswählen"
 
 #. shouldn't get here
 #: ../geanypg/src/pinentry.c:103
@@ -3360,14 +3335,12 @@ msgid "Passphrase entry"
 msgstr "Passphraseneintrag"
 
 #: ../geanypg/src/pinentry.c:127
-#, fuzzy
 msgid "Passphrase"
-msgstr "Passphrase: "
+msgstr "Passphrase"
 
 #: ../geanypg/src/pinentry.c:132
-#, fuzzy
 msgid "Enter passphrase for"
-msgstr "Eingeben der Passphrase für Schlüssel: %0A "
+msgstr "Eingeben der Passphrase für"
 
 #: ../geanypg/src/pinentry.c:163
 msgid "pinentry gave error"
@@ -3540,9 +3513,8 @@ msgid "Error, could not find verification results"
 msgstr ""
 
 #: ../geanypg/src/verify_cb.c:26
-#, fuzzy
 msgid "Open a signature file"
-msgstr "Datei öffnen"
+msgstr "Eine Signaturendatei öffnen"
 
 #: ../geanyprj/src/geanyprj.c:37 ../geanyprj/src/sidebar.c:449
 #: ../gproject/src/gproject-sidebar.c:825
@@ -3832,9 +3804,8 @@ msgid "<b>Commit message:</b>"
 msgstr "<b>Commitnachricht:</b>"
 
 #: ../geanyvc/src/geanyvc.c:1416
-#, fuzzy
 msgid "C_ommit"
-msgstr "Übertragen"
+msgstr "Über_tragen"
 
 #: ../geanyvc/src/geanyvc.c:1490
 msgid "Nothing to commit."
@@ -4114,45 +4085,40 @@ msgid "Commit changes."
 msgstr "Änderungen übertragen."
 
 #: ../gproject/src/gproject-main.c:33 ../gproject/src/gproject-project.c:445
-#, fuzzy
 msgid "GProject"
-msgstr "Projekt"
+msgstr "GProject"
 
 #: ../gproject/src/gproject-main.c:34
 msgid "Glob-pattern-based project management plugin for Geany."
 msgstr ""
 
 #: ../gproject/src/gproject-menu.c:350
-#, fuzzy
 msgid "Find in Project Files"
-msgstr "Im Projekt suchen"
+msgstr "In Projektdateien suchen"
 
 #: ../gproject/src/gproject-menu.c:356
-#, fuzzy
 msgid "Find in project files"
-msgstr "Im Projekt suchen"
+msgstr "Im Projektdateien suchen"
 
 #: ../gproject/src/gproject-menu.c:360
-#, fuzzy
 msgid "Find Project File"
 msgstr "Im Projekt suchen"
 
 #: ../gproject/src/gproject-menu.c:366
-#, fuzzy
 msgid "Find project file"
-msgstr "Objektdateien verbergen"
+msgstr "Projektdatei finden"
 
 #: ../gproject/src/gproject-menu.c:368
 msgid "Swap Header/Source"
-msgstr ""
+msgstr "Header und Quellen tauschen"
 
 #: ../gproject/src/gproject-menu.c:373
 msgid "Swap header/source"
-msgstr ""
+msgstr "Header und Quellen tauschen"
 
 #: ../gproject/src/gproject-menu.c:379
 msgid "Open Selected File (gproject)"
-msgstr ""
+msgstr "Ausgewählte Datei öffnen (gproject)"
 
 #: ../gproject/src/gproject-project.c:396
 msgid "Source patterns:"
@@ -4164,9 +4130,8 @@ msgid ""
 msgstr ""
 
 #: ../gproject/src/gproject-project.c:407
-#, fuzzy
 msgid "Header patterns:"
-msgstr "Header Erweiterungen"
+msgstr "Header Muster"
 
 #: ../gproject/src/gproject-project.c:413
 msgid ""
@@ -4203,19 +4168,16 @@ msgstr ""
 
 #: ../gproject/src/gproject-sidebar.c:78
 #: ../gproject/src/gproject-sidebar.c:795
-#, fuzzy
 msgid "Find File"
-msgstr "Datei hinzufügen"
+msgstr "Datei finden"
 
 #: ../gproject/src/gproject-sidebar.c:89
-#, fuzzy
 msgid "Search for:"
-msgstr "Suchwörter:"
+msgstr "Suchen nach:"
 
 #: ../gproject/src/gproject-sidebar.c:105
-#, fuzzy
 msgid "Search inside:"
-msgstr "Suchwörter:"
+msgstr "Suchen in:"
 
 #: ../gproject/src/gproject-sidebar.c:117
 msgid "C_ase sensitive"
@@ -4226,9 +4188,8 @@ msgid "Search in full path"
 msgstr "Im vollen Pfad suchen"
 
 #: ../gproject/src/gproject-sidebar.c:705
-#, fuzzy
 msgid "Reload all"
-msgstr "Alle ausklappen"
+msgstr "Alle neuladen"
 
 #: ../gproject/src/gproject-sidebar.c:714
 #: ../treebrowser/src/treebrowser.c:1260
@@ -4245,15 +4206,13 @@ msgid "Follow active editor"
 msgstr ""
 
 #: ../gproject/src/gproject-sidebar.c:777
-#, fuzzy
 msgid "Expand All"
 msgstr "Alle ausklappen"
 
 #: ../gproject/src/gproject-sidebar.c:786
 #: ../treebrowser/src/treebrowser.c:1212
-#, fuzzy
 msgid "Find in Files"
-msgstr "Im Projekt suchen"
+msgstr "In Dateien finden"
 
 #: ../pretty-printer/src/PluginEntry.c:37
 msgid "XML PrettyPrinter"
@@ -4264,20 +4223,19 @@ msgid "Formats an XML and makes it human-readable."
 msgstr "Formatiert XML und macht es damit besser menschenlesbar"
 
 #. put the menu into the Tools
-#: ../pretty-printer/src/PluginEntry.c:63
-#, fuzzy
+#: ../pretty-printer/src/PluginEntry.c:66
 msgid "PrettyPrinter XML"
-msgstr "Neuformatierung durchführen"
+msgstr "PrettyPrinter XML"
 
-#: ../pretty-printer/src/PluginEntry.c:71
+#: ../pretty-printer/src/PluginEntry.c:74
 msgid "Run the PrettyPrinter XML"
 msgstr "Neuformatierung durchführen"
 
-#: ../pretty-printer/src/PluginEntry.c:136
+#: ../pretty-printer/src/PluginEntry.c:139
 msgid "Unable to parse the content as XML."
 msgstr "Konnte den Inhalt nicht als XML interpretieren"
 
-#: ../pretty-printer/src/PluginEntry.c:147
+#: ../pretty-printer/src/PluginEntry.c:150
 msgid ""
 "Unable to process PrettyPrinting on the specified XML because some features "
 "are not supported.\n"
@@ -4519,9 +4477,8 @@ msgid "Something went wrong on parsing selection. Aborting"
 msgstr "Etwas ist beim untersuchen der Auswahl schief gelaufen. Abbruch. "
 
 #: ../tableconvert/src/tableconvert.c:280
-#, fuzzy
 msgid "Convert selection to table"
-msgstr "Auswahl linksbündig formatieren"
+msgstr "Auswahl in Tabelle umwandeln"
 
 #. Build up menu entry
 #: ../tableconvert/src/tableconvert.c:293
@@ -4623,9 +4580,9 @@ msgid "Close: %s"
 msgstr "%s:  Schließen"
 
 #: ../treebrowser/src/treebrowser.c:1246
-#, fuzzy, c-format
+#, c-format
 msgid "Close Child Documents "
-msgstr "_Inaktive Dateien schließen"
+msgstr "Kinderdokumente schließen"
 
 #: ../treebrowser/src/treebrowser.c:1251
 msgid "Copy full path to clipboard"
@@ -4891,9 +4848,10 @@ msgid "Browser auto reload"
 msgstr ""
 
 #: ../webhelper/src/gwh-plugin.c:306
-#, fuzzy
 msgid "Whether the browser reloads itself upon document saving"
-msgstr "Beim Speichern des Dokumentes neu laden"
+msgstr ""
+"Gibt an, ob der verwendete Browser sich automatisch aktualisiert,wenn eine "
+"Datei gespeichert wird"
 
 #: ../webhelper/src/gwh-plugin.c:311
 msgid "Browser last URI"
@@ -4904,14 +4862,12 @@ msgid "Last URI visited by the browser"
 msgstr ""
 
 #: ../webhelper/src/gwh-plugin.c:317
-#, fuzzy
 msgid "Browser orientation"
 msgstr "Seitenausrichtung:"
 
 #: ../webhelper/src/gwh-plugin.c:318
-#, fuzzy
 msgid "Orientation of the browser widget"
-msgstr "Zitatmarke des verweisenden Eintrags"
+msgstr "Ausrichtung des Browser-Elementes"
 
 #: ../webhelper/src/gwh-plugin.c:324
 msgid "Browser position"
@@ -4964,7 +4920,6 @@ msgid "The type of the secondary windows"
 msgstr ""
 
 #: ../webhelper/src/gwh-plugin.c:431
-#, fuzzy
 msgid "Toggle Web Inspector"
 msgstr "Webinspektor umschalten"
 
@@ -4993,7 +4948,6 @@ msgstr ""
 #~ msgid "Config saved successfully"
 #~ msgstr "Konfigurationen wurden erfolgreich gespeichert"
 
-#, fuzzy
 #~ msgid "Error reading config file"
 #~ msgstr "Neuladen der Konfigurationsdateien erzwingen. "
 
