@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: geany-plugins 0.19\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-07 14:17+0400\n"
-"PO-Revision-Date: 2011-10-11 00:04+0300\n"
+"PO-Revision-Date: 2011-10-11 00:50+0300\n"
 "Last-Translator: Alexander Petukhov <devel@apetukhov.ru>\n"
 "Language-Team: Russian <geany-i18n@uvena.de>\n"
 "Language: ru\n"
@@ -3239,9 +3239,8 @@ msgstr ""
 #: ../geanypg/src/verify_aux.c:65
 #: ../spellcheck/src/gui.c:497
 #: ../spellcheck/src/gui.c:508
-#, fuzzy
 msgid "unknown"
-msgstr "(неизвестно)"
+msgstr "неизвестно"
 
 #: ../geanypg/src/verify_aux.c:66
 msgid "undefined"
@@ -4127,136 +4126,134 @@ msgstr ""
 
 #: ../spellcheck/src/speller.c:91
 msgid "Try: "
-msgstr ""
+msgstr "Попробуйте: "
 
 #: ../spellcheck/src/speller.c:170
 msgid "Checking"
-msgstr ""
+msgstr "Идёт проверка"
 
 #: ../spellcheck/src/speller.c:183
 #, c-format
 msgid "Checking file \"%s\" (lines %d to %d using %s):"
-msgstr ""
+msgstr "Проверяется файл \"%s\" (строки с %d по %d используя %s):"
 
 #: ../spellcheck/src/speller.c:193
 #, c-format
 msgid "Checking file \"%s\" (using %s):"
-msgstr ""
+msgstr "Проверяется файл  \"%s\" (используя %s):"
 
 #: ../spellcheck/src/speller.c:220
 msgid "The checked text is spelled correctly."
-msgstr ""
+msgstr "Текст не содержит ошибок."
 
 #: ../spellcheck/src/speller.c:230
 #, c-format
 msgid "The Enchant library couldn't be initialized (%s)."
-msgstr ""
+msgstr "Ошибка инициализации библиотеки Enchant (%s)."
 
 #: ../spellcheck/src/speller.c:231
 msgid "unknown error (maybe the chosen language is not available)"
-msgstr ""
+msgstr "неизвестная ошибка (возможно выбранный язык недоступен)"
 
 #: ../spellcheck/src/scplugin.c:47
 msgid "Spell Check"
-msgstr ""
+msgstr "Проверка орфографии"
 
 #: ../spellcheck/src/scplugin.c:48
 msgid "Checks the spelling of the current document."
-msgstr ""
+msgstr "Проверяет орфографию в текущем документе"
 
 #: ../spellcheck/src/scplugin.c:202
 msgid "Run Spell Check"
-msgstr ""
+msgstr "Запустить проверку орфографии"
 
 #: ../spellcheck/src/scplugin.c:205
 msgid "Toggle Check While Typing"
-msgstr ""
+msgstr "Включить/выключить проверку при набора текста"
 
 #. initialise the dialog
 #: ../spellcheck/src/scplugin.c:216
-#, fuzzy
 msgid "Select Directory"
-msgstr "Выбрать шрифт"
+msgstr "Выбрать директорию"
 
 #: ../spellcheck/src/scplugin.c:253
 msgid "Check spelling while typing"
-msgstr ""
+msgstr "Проверять по мере набора текста"
 
 #: ../spellcheck/src/scplugin.c:258
-#, fuzzy
 msgid "Show toolbar item to toggle spell checking"
-msgstr "Показать в панели инструментов как список текущих открытых документов"
+msgstr "Показывать кнопку проверки орфографии на панели инструментов"
 
 #: ../spellcheck/src/scplugin.c:263
-#, fuzzy
 msgid "Show editor menu item to show spelling suggestions"
-msgstr "Показать в панели инструментов как список текущих открытых документов"
+msgstr "Добавить пункт проверки орфографии в меню редактора"
 
 #: ../spellcheck/src/scplugin.c:269
 msgid "Print misspelled words and suggestions in the messages window"
-msgstr ""
+msgstr "Выводить неправильное слово и список замен в окно сообщений"
 
 #: ../spellcheck/src/scplugin.c:273
 msgid "Language to use for the spell check:"
-msgstr ""
+msgstr "Язык проверки орфографии"
 
 #: ../spellcheck/src/scplugin.c:287
 msgid "_Directory to look for dictionary files:"
-msgstr ""
+msgstr "Папка для поиска файлов словарей"
 
 #: ../spellcheck/src/scplugin.c:295
 msgid "Read additional dictionary files from this directory. For now, this only works with myspell dictionaries."
-msgstr ""
+msgstr "Дополнительные словари из данной папки будут использоваться при проверке. На данный момент работает только со словарями 'myspell'."
 
 #: ../spellcheck/src/gui.c:65
 msgid "Spell checking while typing is now enabled"
-msgstr ""
+msgstr "Проверка орфографии по мере набора текста теперь включена"
 
 #: ../spellcheck/src/gui.c:67
 msgid "Spell checking while typing is now disabled"
-msgstr ""
+msgstr "Проверка орфографии по мере набора текста теперь выключена"
 
 #: ../spellcheck/src/gui.c:288
 msgid ""
 "Search term is too long to provide\n"
 "spelling suggestions in the editor menu."
 msgstr ""
+"Образец поиска слишком длинный для того,\n"
+"чтобы поместить список замен в меню редактора."
 
 #: ../spellcheck/src/gui.c:293
 msgid "Perform Spell Check"
-msgstr ""
+msgstr "Выполнить проверку орфограции"
 
 #: ../spellcheck/src/gui.c:325
 msgid "More..."
-msgstr ""
+msgstr "Больше..."
 
 #: ../spellcheck/src/gui.c:340
 msgid "(No Suggestions)"
-msgstr ""
+msgstr "(нет вариантов)"
 
 #: ../spellcheck/src/gui.c:349
 #, c-format
 msgid "Add \"%s\" to Dictionary"
-msgstr ""
+msgstr "Добавить \"%s\" в словарь"
 
 #: ../spellcheck/src/gui.c:356
-#, fuzzy
 msgid "Ignore All"
-msgstr "З_акрыть все"
+msgstr "Игнорировать всё"
 
 #: ../spellcheck/src/gui.c:496
 #, c-format
 msgid "Default (%s)"
-msgstr ""
+msgstr "По умолчанию (%s)"
 
 #: ../spellcheck/src/gui.c:507
 #, c-format
 msgid "Toggle spell check while typing (current language: %s)"
-msgstr ""
+msgstr "Включить проверку орфографии по мере набора текста (текущий язык: %s)"
 
 #: ../spellcheck/src/gui.c:562
 msgid "Spelling Suggestions"
-msgstr ""
+msgstr "Варианты замены"
 
 #: ../shiftcolumn/src/shiftcolumn.c:49
 msgid "Shift Column"
