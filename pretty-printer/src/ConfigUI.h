@@ -22,7 +22,12 @@
 //========================================== INCLUDES =========================================================
 
 #include <gtk/gtk.h>
+
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
 #include <geanyplugin.h>
+
 #include "PrettyPrinter.h"
 
 //========================================== VARIABLES ========================================================

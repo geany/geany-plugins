@@ -23,7 +23,12 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
 #include <geanyplugin.h>
+
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include "PrettyPrinter.h"
