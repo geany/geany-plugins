@@ -20,16 +20,17 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifdef HAVE_CONFIG_H
-# include "config.h"
-#endif
-
-#include <sys/time.h>
-#include <string.h>
-
 #ifdef HAVE_LOCALE_H
 # include <locale.h>
 #endif
+
+#ifdef HAVE_CONFIG_H
+	#include "config.h" /* for the gettext domain */
+#endif
+#include <geanyplugin.h>
+
+#include <sys/time.h>
+#include <string.h>
 
 #include "geanyprj.h"
 

@@ -22,6 +22,11 @@
 #include <gdk/gdkkeysyms.h>
 #include <string.h>
 
+#ifdef HAVE_CONFIG_H
+	#include "config.h" /* for the gettext domain */
+#endif
+#include <geanyplugin.h>
+
 #include "geanyprj.h"
 
 extern GeanyData *geany_data;

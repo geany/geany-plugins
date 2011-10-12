@@ -21,6 +21,11 @@
 #include <gdk/gdkkeysyms.h>
 #include <glib/gstdio.h>
 
+#ifdef HAVE_CONFIG_H
+	#include "config.h" /* for the gettext domain */
+#endif
+#include <geanyplugin.h>
+
 #include "geanyprj.h"
 
 PluginFields *plugin_fields;

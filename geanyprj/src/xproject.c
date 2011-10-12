@@ -23,6 +23,11 @@
 #include <string.h>
 #include <sys/time.h>
 
+#ifdef HAVE_CONFIG_H
+	#include "config.h" /* for the gettext domain */
+#endif
+#include <geanyplugin.h>
+
 #include "geanyprj.h"
 
 extern GeanyData *geany_data;
