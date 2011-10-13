@@ -1,3 +1,19 @@
+Geany-Plugins 0.21 (t.b.d.s)
+
+    General:
+    * Renew autotools build system
+    * Add new plugin Devhelp
+    * Add new plugin geanycfp
+    * Add new plugin GeanyPG
+    * Add new plugin GeanyMacro
+    * Add new plugin GeanyNumberedBookmarks
+    * Add new plugin Tableconvert
+    * Add new plugin XMLSnippets
+
+    Internationalisation:
+    * Update translations: de, ru, tr
+
+
 Geany-Plugins 0.20 (2011-01-10)
 
     General:
