@@ -2,6 +2,7 @@ Geany-Plugins 0.21 (t.b.d.s)
 
     General:
     * Renew autotools build system
+    * Add new plugin Debugger
     * Add new plugin Devhelp
     * Add new plugin geanycfp
     * Add new plugin GeanyPG
