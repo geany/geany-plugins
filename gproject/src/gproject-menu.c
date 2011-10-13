@@ -20,6 +20,9 @@
 #include <gdk/gdkkeysyms.h>
 #include <glib/gstdio.h>
 
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
 #include <geanyplugin.h>
 
 #include "gproject-menu.h"
