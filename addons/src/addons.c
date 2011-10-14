@@ -294,6 +294,8 @@ void plugin_init(GeanyData *data)
 		0, 0, "update_tasks", _("Update Tasks List"), NULL);
 	keybindings_set_item(key_group, KB_XMLTAGGING, kb_ao_xmltagging,
 		0, 0, "xml_tagging", _("Run XML tagging"), NULL);
+
+	g_key_file_free(config);
 }
 
 

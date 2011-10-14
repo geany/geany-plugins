@@ -72,7 +72,7 @@ static void ao_systray_finalize(GObject *object)
 	AoSystrayPrivate *priv = AO_SYSTRAY_GET_PRIVATE(object);
 
 	g_object_unref(priv->icon);
-	gtk_widget_destroy(priv->popup_menu);
+	g_object_unref(priv->popup_menu);
 #endif
 
 	G_OBJECT_CLASS(ao_systray_parent_class)->finalize(object);
@@ -197,6 +197,7 @@ static void ao_systray_init(AoSystray *self)
 #endif
 
 	priv->popup_menu = gtk_menu_new();
+	g_object_ref_sink(priv->popup_menu);
 
 	item = gtk_image_menu_item_new_from_stock(GTK_STOCK_OPEN, NULL);
 	gtk_widget_show(item);

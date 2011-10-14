@@ -294,7 +294,7 @@ static void ao_tasks_hide(AoTasks *t)
 	}
 	if (priv->popup_menu)
 	{
-		gtk_widget_destroy(priv->popup_menu);
+		g_object_unref(priv->popup_menu);
 		priv->popup_menu = NULL;
 	}
 }
@@ -478,6 +478,7 @@ static void ao_tasks_show(AoTasks *t)
 		gtk_label_new(_("Tasks")));
 
 	priv->popup_menu = create_popup_menu(t);
+	g_object_ref_sink(priv->popup_menu);
 }
 
 
@@ -508,22 +509,23 @@ void ao_tasks_remove(AoTasks *t, GeanyDocument *cur_doc)
 
 	if (gtk_tree_model_get_iter_first(model, &iter))
 	{
-		while (TRUE)
+		gboolean has_next;
+
+		do
 		{
 			gtk_tree_model_get(model, &iter, TLIST_COL_FILENAME, &filename, -1);
 
 			if (utils_str_equal(filename, cur_doc->file_name))
 			{	/* gtk_list_store_remove() manages the iter and set it to the next row */
-				if (! gtk_list_store_remove(priv->store, &iter))
-					break;
+				has_next = gtk_list_store_remove(priv->store, &iter);
 			}
 			else
 			{	/* if we didn't delete the row, we need to manage the iter manually */
-				if (! gtk_tree_model_iter_next(model, &iter))
-					break;
+				has_next = gtk_tree_model_iter_next(model, &iter);
 			}
 			g_free(filename);
 		}
+		while (has_next);
 	}
 }
 
