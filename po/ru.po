@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: geany-plugins 0.19\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-13 00:48+0400\n"
-"PO-Revision-Date: 2011-10-13 11:34+0300\n"
+"PO-Revision-Date: 2011-10-14 11:03+0300\n"
 "Last-Translator: Alexander Petukhov <devel@apetukhov.ru>\n"
 "Language-Team: Russian <geany-i18n@uvena.de>\n"
 "Language: ru\n"
@@ -799,7 +799,6 @@ msgid "Document current word"
 msgstr "Документация на слово под курсором"
 
 #: ../geanydoc/src/geanydoc.c:441
-#, fuzzy
 msgid "Document interactive"
 msgstr "Интерактивная документация"
 
@@ -1410,183 +1409,180 @@ msgstr ""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:117
 msgid "boolean value"
-msgstr ""
+msgstr "булева величина"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:130
 #, c-format
 msgid "invalid boolean value \"%s\""
-msgstr ""
+msgstr "недействительная булева величина \"%s\""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:157
 #, c-format
 msgid "invalid template: %s"
-msgstr ""
+msgstr "недействительный шаблон: %s"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:178
 msgid "position name"
-msgstr ""
+msgstr "имя позиции"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:185
 #, c-format
 msgid "invalid position \"%s\""
-msgstr ""
+msgstr "недействительная позиция: \"%s\""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:204
 msgid "policy name"
-msgstr ""
+msgstr "имя правила"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:211
 #, c-format
 msgid "invalid policy \"%s\""
-msgstr ""
+msgstr "недействительное правило \"%s\""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:230
 msgid "merge policy"
-msgstr ""
+msgstr "правило слияния"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:237
 #, c-format
 msgid "invalid merge policy \"%s\""
-msgstr ""
+msgstr "недействительное правило слияния \"%s\""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:259
 msgid "type"
-msgstr ""
+msgstr "тип"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:266
 #, c-format
 msgid "invalid type \"%s\""
-msgstr ""
+msgstr "недействительный тип \"%s\""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:328
 #: ../geanygendoc/src/ggd-file-type-loader.c:779
 #, c-format
 msgid "invalid setting name \"%s\""
-msgstr ""
+msgstr "недействительное имя установки \"%s\""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:349
 #: ../geanygendoc/src/ggd-file-type-loader.c:360
 #: ../geanygendoc/src/ggd-file-type-loader.c:385
 msgid "setting identifier"
-msgstr ""
+msgstr "идентификатор установки"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:431
 #, c-format
 msgid "Unknown type \"%s\", is it a typo?"
-msgstr ""
+msgstr "Неизвестный тип \"%s\", это действительно имя типа?"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:446
 #: ../geanygendoc/src/ggd-file-type-loader.c:490
 #: ../geanygendoc/src/ggd-file-type-loader.c:502
 #: ../geanygendoc/src/ggd-file-type-loader.c:540
 msgid "match identifier"
-msgstr ""
+msgstr "идентификатор совпадения"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:454
 #, c-format
 msgid "match identifier is empty"
-msgstr ""
+msgstr "идентификатор совпадения пустой"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:472
 msgid "documentation type identifier"
-msgstr ""
+msgstr "идентификатор типа документации"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:576
 #: ../geanygendoc/src/ggd-file-type-loader.c:588
 #: ../geanygendoc/src/ggd-file-type-loader.c:610
 msgid "documentation type"
-msgstr ""
+msgstr "тип документации"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:645
 #, c-format
 msgid "invalid regular expression: %s"
-msgstr ""
+msgstr "Недействительное регулярное выражение: %s"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:702
 #, c-format
 msgid "invalid environment description: %s"
-msgstr ""
+msgstr "Недействительно описание окружения: %s"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:739
 #: ../geanygendoc/src/ggd-file-type-loader.c:750
 #: ../geanygendoc/src/ggd-file-type-loader.c:789
-#, fuzzy
 msgid "setting"
-msgstr "запущено"
+msgstr "установка"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:817
-#, fuzzy
 msgid "section name"
-msgstr "Аргументы функции"
+msgstr "имя секции"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:828
 #, c-format
 msgid "duplicated section \"%s\""
-msgstr ""
+msgstr "дублирующая секция \"%s\""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:837
 #, c-format
 msgid "invalid section name \"%s\""
-msgstr ""
+msgstr "Недействительное имя секции \"%s\""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:850
 #: ../geanygendoc/src/ggd-file-type-loader.c:902
 #, c-format
 msgid "input is empty"
-msgstr ""
+msgstr "вход пустой"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:864
 #, c-format
 msgid "Parser warning: %s:%u:%u: %s"
-msgstr ""
+msgstr "Предупреждение парсера: %s:%u:%u: %s"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:867
 #, c-format
 msgid "Parser error: %s:%u:%u: %s"
-msgstr ""
+msgstr "Ошибка парсера: %s:%u:%u: %s"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:871
 #, c-format
 msgid "%s:%u:%u: %s"
-msgstr ""
+msgstr "%s:%u:%u: %s"
 
 #: ../geanygendoc/src/ggd-tag-utils.c:370
 msgid "Invalid tag"
-msgstr ""
+msgstr "Недействительный тег"
 
 #: ../geanygendoc/src/ggd-file-type-manager.c:181
 #, c-format
 msgid "File type configuration file for language \"%s\" not found: %s"
-msgstr ""
+msgstr "Конфигурация для файлов языка \"%s\" не найдена: %s"
 
 #: ../geanygendoc/src/ggd-file-type-manager.c:191
 #, c-format
 msgid "Failed to load file type \"%s\" from file \"%s\": %s"
-msgstr ""
+msgstr "Невозможно получить типа файла \"%s\" из файла \"%s\": %s"
 
 #: ../geanygendoc/src/ggd-plugin.c:57
-#, fuzzy
 msgid "Documentation Generator"
-msgstr "Интерактивная документация"
+msgstr "Генератор документации"
 
 #: ../geanygendoc/src/ggd-plugin.c:58
 msgid "Generates documentation basis from source code"
-msgstr ""
+msgstr "Генерирует документацию из исходного кода"
 
 #: ../geanygendoc/src/ggd-plugin.c:224
 #, c-format
 msgid "Failed to load configuration: %s"
-msgstr ""
+msgstr "Невозможно загрузить конфигурацию: %s"
 
 #: ../geanygendoc/src/ggd-plugin.c:245
 #, c-format
 msgid "Failed to save configuration: %s"
-msgstr ""
+msgstr "Невозможно сохранить конфигурацию: %s"
 
 #: ../geanygendoc/src/ggd-plugin.c:318
 #, c-format
 msgid "Failed to find configuration file for file type \"%s\": %s"
-msgstr ""
+msgstr "Конфигурация для типа файла \"%s\" не найдена: %s"
 
 #: ../geanygendoc/src/ggd-plugin.c:330
 msgid ""
@@ -1594,200 +1590,194 @@ msgid ""
 "# To create it, just write it in this file and save it. For the description\n"
 "# of the syntax of this file, please refer to the manual.\n"
 msgstr ""
+"# Конфигурация для данного типа файла ещё не существует.\n"
+"# Для её создания, запишите её в этот файл и сохраните его.\n"
+"# Для описания синтаксиса данного файла пожалуйста обратитесь к документации.\n"
 
 #: ../geanygendoc/src/ggd-plugin.c:342
 #, c-format
 msgid "Failed to load file \"%s\": %s"
-msgstr ""
+msgstr "Невозможно загрузить файл \"%s\": %s"
 
 #: ../geanygendoc/src/ggd-plugin.c:415
 #: ../geanygendoc/src/ggd-plugin.c:426
 msgid "Insert Documentation Comment"
-msgstr ""
+msgstr "Вставить комментарий для документации"
 
 #: ../geanygendoc/src/ggd-plugin.c:480
-#, fuzzy
 msgid "_Document Current Symbol"
-msgstr "Документация на слово под курсором"
+msgstr "Документировать текущий символ"
 
 #: ../geanygendoc/src/ggd-plugin.c:481
-#, fuzzy
 msgid "Generate documentation for the current symbol"
-msgstr "Показ документации на слово под курсором."
+msgstr "Генерировать документацию по текущему символу."
 
 #: ../geanygendoc/src/ggd-plugin.c:487
 msgid "Document _All Symbols"
-msgstr ""
+msgstr "Документировать все символы"
 
 #: ../geanygendoc/src/ggd-plugin.c:488
 msgid "Generate documentation for all symbols in the current document"
-msgstr ""
+msgstr "Генерировать документацию по всем символам текущего документа"
 
 #: ../geanygendoc/src/ggd-plugin.c:498
 msgid "_Reload Configuration Files"
-msgstr ""
+msgstr "Перезагрузить конфигурационные файлы"
 
 #: ../geanygendoc/src/ggd-plugin.c:499
 msgid "Force reloading of the configuration files"
-msgstr ""
+msgstr "Принудительно перезагрузить конфигурационные файлы"
 
 #: ../geanygendoc/src/ggd-plugin.c:504
 msgid "_Edit Current Language Configuration"
-msgstr ""
+msgstr "Редактировать конфигурацию для текущего языка "
 
 #: ../geanygendoc/src/ggd-plugin.c:505
 msgid "Open the current language configuration file for editing"
-msgstr ""
+msgstr "Открыть конфигурацию текущего языка для редактирования"
 
 #: ../geanygendoc/src/ggd-plugin.c:515
 msgid "Open _Manual"
-msgstr ""
+msgstr "Открыть руководство"
 
 #: ../geanygendoc/src/ggd-plugin.c:516
 msgid "Open the manual in a browser"
-msgstr ""
+msgstr "Открыть руководство в браузере"
 
 #. build tools menu item
 #: ../geanygendoc/src/ggd-plugin.c:520
-#, fuzzy
 msgid "_Documentation Generator"
-msgstr "Интерактивная документация"
+msgstr "Генерация документации"
 
 #. General
 #: ../geanygendoc/src/ggd-plugin.c:619
 msgid "General"
-msgstr ""
+msgstr "Общие"
 
 #. auto-save
 #: ../geanygendoc/src/ggd-plugin.c:624
 msgid "_Save file before generating documentation"
-msgstr ""
+msgstr "Сохранять файлы перед генерацией документации"
 
 #: ../geanygendoc/src/ggd-plugin.c:627
 msgid "Whether the current document should be saved to disc before generating the documentation. This is a technical detail, but it is currently needed to have an up-to-date tag list. If you disable this option and ask for documentation generation on a modified document, the behavior may be surprising since the comment will be generated for the last saved state of this document and not the current one."
-msgstr ""
+msgstr "Должны ли файлы сохраняться перед началом генерации документации. Это технический момент, но он нужен для поддержания списка тегов актуальным. Если вы выключите эту опцию и запустите генерацию по изменённому документу, поведение может быть непредсказуемым, т.к. комментарии будут генерироваться по последней сохранённой версии."
 
 #. indent
 #: ../geanygendoc/src/ggd-plugin.c:637
 msgid "_Indent inserted documentation"
-msgstr ""
+msgstr "Делать отступы в документации"
 
 #: ../geanygendoc/src/ggd-plugin.c:639
 msgid "Whether the inserted documentation should be indented to fit the indentation at the insertion position."
-msgstr ""
+msgstr "Должна ли вставляемая документация быть выделена сдвигом в позиции вставки."
 
 #. Documentation type
 #: ../geanygendoc/src/ggd-plugin.c:646
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:144
-#, fuzzy
 msgid "Documentation type"
-msgstr "Интерактивная документация"
+msgstr "Тип документации"
 
 #: ../geanygendoc/src/ggd-plugin.c:656
 msgid "Choose the documentation type to use with each file type. The special language \"All\" on top of the list is used to choose the default documentation type, used for all languages that haven't one set."
-msgstr ""
+msgstr "Выберите тип документации для каждого типа файлов. Специальный пункт \"Все\" вверху списка используется для выбора типа документации по умолчанию, используемой для языков для которых тип документации не был задан."
 
 #. Environ editor
 #: ../geanygendoc/src/ggd-plugin.c:662
-#, fuzzy
 msgid "Global environment"
-msgstr "Параметры окружения"
+msgstr "Глобальное окружение"
 
 #: ../geanygendoc/src/ggd-plugin.c:664
 msgid "Global environment overrides and additions. This environment will be merged with the file-type-specific ones."
-msgstr ""
+msgstr "Переопределения и дополнения к глобальному окружению. Будет добавлено к окружению, специфичному для типа файла."
 
 #: ../geanygendoc/src/ggd-utils.c:184
 #: ../geanygendoc/src/ggd-utils.c:195
 #, c-format
 msgid "File \"%s\" exists but is not a regular file"
-msgstr ""
+msgstr "Файл \"%s\" существует, но не является обычным файлом"
 
 #: ../geanygendoc/src/ggd-utils.c:204
 #, c-format
 msgid "%s: no such file or directory"
-msgstr ""
+msgstr "%s: нет такого файла или директории"
 
 #: ../geanygendoc/src/ggd.c:85
 #, c-format
 msgid "Failed to resize memory output stream"
-msgstr ""
+msgstr "Невозможно изменить размер выходного потока"
 
 #: ../geanygendoc/src/ggd.c:114
 #, c-format
 msgid "Argument parsing regular expression did not match (argument list was: \"%s\")"
-msgstr ""
+msgstr "Список аргументы не соответствует регулярному выражению (список аргументов был: \"%s\")"
 
 #: ../geanygendoc/src/ggd.c:248
 #, c-format
 msgid "Failed to add global environment, skipping: %s"
-msgstr ""
+msgstr "Невозможно добавить глобальное окружение, пропускается: %s"
 
 #: ../geanygendoc/src/ggd.c:254
 #, c-format
 msgid "Failed to build comment: %s"
-msgstr ""
+msgstr "Невозможно построить комментарии: %s"
 
 #: ../geanygendoc/src/ggd.c:432
 #, c-format
 msgid "Documentation type \"%s\" does not exist for language \"%s\"."
-msgstr ""
+msgstr "Тип документации \"%s\" не существует для языка \"%s\"."
 
 #: ../geanygendoc/src/ggd.c:487
 #, c-format
 msgid "No setting applies to symbol \"%s\" of type \"%s\" at line %lu."
-msgstr ""
+msgstr "Не существует настроек, применимых к символу \"%s\" типа \"%s\" в строке %lu."
 
 #: ../geanygendoc/src/ggd.c:533
 #, c-format
 msgid "No valid tag at line %d."
-msgstr ""
+msgstr "Строка %d не содержит корректного тега"
 
 #: ../geanygendoc/src/ggd.c:582
-#, fuzzy
 msgid "No tags in the document"
-msgstr "Закрыть _другие документы"
+msgstr "В документе отсутствуют теги"
 
 #: ../geanygendoc/src/ggd-options.c:326
-#, fuzzy
 msgid "Unknown option"
-msgstr "Неизвестный сигнал"
+msgstr "Неизвестная опция"
 
 #: ../geanygendoc/src/ggd-options.c:335
 msgid "Invalid option or proxy: either the proxy's property or the option type is incompatible."
-msgstr ""
+msgstr "Недействительная установка или модуль: свойство модуля или установка несовместимы."
 
 #: ../geanygendoc/src/ggd-options.c:512
 #, c-format
 msgid "Unknown value type for keyfile entry %s::%s"
-msgstr ""
+msgstr "Неизвестный тип для записи в файле конфигурации %s::%s"
 
 #: ../geanygendoc/src/ggd-options.c:516
 #, c-format
 msgid "Error retrieving keyfile entry %s::%s: %s"
-msgstr ""
+msgstr "Невозможно получить запись из файла конфигурации %s::%s: %s"
 
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:135
 msgid "Language"
-msgstr ""
+msgstr "Язык"
 
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:155
-#, fuzzy
 msgid "_Change associated documentation type"
-msgstr "Интерактивная документация"
+msgstr "Изменить ассоциированный тип документа"
 
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:163
-#, fuzzy
 msgid "_Disassociate documentation type"
-msgstr "Интерактивная документация"
+msgstr "Удалить ассоциацию для типа документа"
 
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:194
 msgid "All"
-msgstr ""
+msgstr "Все"
 
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:195
 msgid "Default documentation type for languages that does not have one set"
-msgstr ""
+msgstr "Тип конфигурации по умолчанию для языков для которых тип не задан"
 
 #: ../geanyinsertnum/src/insertnum.c:37
 #: ../geanyinsertnum/src/insertnum.c:329
@@ -1864,9 +1854,8 @@ msgid "Insert _Numbers"
 msgstr ""
 
 #: ../geanylatex/src/latexenvironments.c:25
-#, fuzzy
 msgid "Environments"
-msgstr "Параметры окружения"
+msgstr "Окружение"
 
 #: ../geanylatex/src/latexenvironments.c:26
 msgid "Formating"
