@@ -20,11 +20,37 @@ Geany-Plugins 0.21 (t.b.d.s)
     * Added a dialog for inserting BibTeX references based on available
       *.bib-files
     * Upgrade plugin API to version 199
+    * Ensure to don't insert {} after \^ and \_
+    * Adding a keystroke to toggle inserting {} after ^ and _
+    * Fix an issue with wrong inserted formating using a keybinding
+    * Small update to enable i18n also on Geany >= 0.21
     * Various bugfixes and memory leak fixes.
+
+    GeanyLipsum:
+    * Small update to enable i18n also on Geany >= 0.21
+
+    GeanySendMail:
+    * Some minore cleaning up of code
+    * Fix for an issue with replacing of command string in case of %r
+      has not being used
+    * Don't double free a variable which might ended up inside a segmentation
+      fault when using plugin function more than once.
+    * Small update to enable i18n also on Geany >= 0.21
+
+    GeanyVC:
+    * Some smaller fixes for compiler warnings and memory leaks
+    * Small update to enable i18n also on Geany >= 0.21
 
     Tableconvert:
     * Adding new plugin, helping on converting tabulator separated
       list into table supporting LaTeX, HTML and SQL so far.
+    * Small update to enable i18n also on Geany >= 0.21
+
+    Updatechecker:
+    * Fix an issue with init threads for older GTK/glib versions by
+      updating to Geany API version 203.
+    * Small update to enable i18n also on Geany >= 0.21
+    * Fix a typo inside waf-build system
 
     Internationalisation:
     * Update translations: de, ru, tr
