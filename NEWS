@@ -20,6 +20,11 @@ Geany-Plugins 0.21 (t.b.d.s)
     * Added a dialog for inserting BibTeX references based on available
       *.bib-files
     * Upgrade plugin API to version 199
+    * Various bugfixes and memory leak fixes.
+
+    Tableconvert:
+    * Adding new plugin, helping on converting tabulator separated
+      list into table supporting LaTeX, HTML and SQL so far.
 
     Internationalisation:
     * Update translations: de, ru, tr
