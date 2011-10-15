@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: geany-plugins 0.19\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-13 00:48+0400\n"
-"PO-Revision-Date: 2011-10-14 11:03+0300\n"
+"PO-Revision-Date: 2011-10-15 17:50+0300\n"
 "Last-Translator: Alexander Petukhov <devel@apetukhov.ru>\n"
 "Language-Team: Russian <geany-i18n@uvena.de>\n"
 "Language: ru\n"
@@ -1347,65 +1347,63 @@ msgstr "Отладчик"
 
 #: ../geanyextrasel/src/extrasel.c:34
 msgid "Extra Selection"
-msgstr ""
+msgstr "Расширенное выделение"
 
 #: ../geanyextrasel/src/extrasel.c:34
 msgid "Column mode, select to line / brace / anchor."
-msgstr ""
+msgstr "Режим выделения по столбцам, выделение до строки / скобки / анкера."
 
 #: ../geanyextrasel/src/extrasel.c:485
 msgid "E_xtra Selection"
-msgstr ""
+msgstr "Расширенное выделение"
 
 #: ../geanyextrasel/src/extrasel.c:493
 msgid "_Column Mode"
-msgstr ""
+msgstr "Режим выделения по столбцам"
 
 #: ../geanyextrasel/src/extrasel.c:498
 msgid "Column mode"
-msgstr ""
+msgstr "Режим выделения по столбцам"
 
 #: ../geanyextrasel/src/extrasel.c:500
 msgid "Select to _Line"
-msgstr ""
+msgstr "Выделить до строки"
 
 #: ../geanyextrasel/src/extrasel.c:504
 msgid "Select to line"
-msgstr ""
+msgstr "Выделить до строки"
 
 #: ../geanyextrasel/src/extrasel.c:506
 msgid "Select to Matching _Brace"
-msgstr ""
+msgstr "Выделить до парной скобки"
 
 #: ../geanyextrasel/src/extrasel.c:510
 msgid "Select to matching brace"
-msgstr ""
+msgstr "Выделить до парной скобки"
 
 #: ../geanyextrasel/src/extrasel.c:514
 msgid "_Set Anchor"
-msgstr ""
+msgstr "Установить анкер"
 
 #: ../geanyextrasel/src/extrasel.c:518
 msgid "Set anchor"
-msgstr ""
+msgstr "Установить анкер"
 
 #: ../geanyextrasel/src/extrasel.c:520
-#, fuzzy
 msgid "Select to _Anchor"
-msgstr "Выбрать шрифт"
+msgstr "Выделить до анкера"
 
 #: ../geanyextrasel/src/extrasel.c:524
-#, fuzzy
 msgid "Select to anchor"
-msgstr "Выбрать шрифт"
+msgstr "Выделить до анкера"
 
 #: ../geanyextrasel/src/extrasel.c:526
 msgid "_Rectangle Select to Anchor"
-msgstr ""
+msgstr "Прямоугольное выделение до анкера"
 
 #: ../geanyextrasel/src/extrasel.c:531
 msgid "Rectangle select to anchor"
-msgstr ""
+msgstr "Прямоугольное выделение до анкера"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:117
 msgid "boolean value"
