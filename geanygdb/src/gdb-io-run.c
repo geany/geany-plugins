@@ -21,7 +21,11 @@
 #include <signal.h>
 #include <string.h>
 
-#include "geanyplugin.h"
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
+#include <geanyplugin.h>
+
 extern GeanyFunctions *geany_functions;
 #include "gdb-io-priv.h"
 

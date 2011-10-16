@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: geany-plugins 0.19\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-13 00:48+0400\n"
-"PO-Revision-Date: 2011-10-15 17:50+0300\n"
+"PO-Revision-Date: 2011-10-15 18:00+0300\n"
 "Last-Translator: Alexander Petukhov <devel@apetukhov.ru>\n"
 "Language-Team: Russian <geany-i18n@uvena.de>\n"
 "Language: ru\n"
@@ -892,7 +892,6 @@ msgid "Program exited with code %d [%s]\n"
 msgstr "Программа завершилась с кодом %d [%s].\n"
 
 #: ../geanygdb/src/gdb-io-read.c:627
-#, fuzzy
 msgid "(unknown)"
 msgstr "(неизвестно)"
 
@@ -1032,23 +1031,19 @@ msgid "Edit breakpoint"
 msgstr "Править точку останова"
 
 #: ../geanygdb/src/gdb-ui-break.c:169
-#, fuzzy
 msgid "Break after "
 msgstr "Прервать после"
 
 # ????
 #: ../geanygdb/src/gdb-ui-break.c:176
-#, fuzzy
 msgid " times."
 msgstr " раз."
 
 #: ../geanygdb/src/gdb-ui-break.c:181
-#, fuzzy
 msgid "Break when "
 msgstr " Прервать когда "
 
 #: ../geanygdb/src/gdb-ui-break.c:188
-#, fuzzy
 msgid " is true."
 msgstr " это истина."
 
@@ -1323,7 +1318,7 @@ msgstr "Закрыть все"
 
 #: ../geanygdb/src/geanygdb.c:41
 msgid "GeanyGDB"
-msgstr ""
+msgstr "Отладка с помощью GDB"
 
 #: ../geanygdb/src/geanygdb.c:41
 msgid "Integrated debugging with GDB."
@@ -1341,7 +1336,6 @@ msgid "geanygdb: ttyhelper program not found."
 msgstr "geanygdb: программа ttyhelper, не найдена."
 
 #: ../geanygdb/src/geanygdb.c:382
-#, fuzzy
 msgid "Debu_g"
 msgstr "Отладчик"
 

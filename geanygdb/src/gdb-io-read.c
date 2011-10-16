@@ -24,7 +24,11 @@
 #include <unistd.h>
 #include <stdarg.h>
 
-#include "geanyplugin.h"
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
+#include <geanyplugin.h>
+
 #include "gdb-io-priv.h"
 
 static GSList *source_files = NULL;
