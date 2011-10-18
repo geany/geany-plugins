@@ -710,7 +710,7 @@ vcblame_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer g
 	}
 	else
 	{
-		ui_set_statusbar(FALSE, _("No history avaible"));
+		ui_set_statusbar(FALSE, _("No history available"));
 	}
 }
 
@@ -2026,7 +2026,7 @@ do_current_file_menu(GtkWidget ** parent_menu, gboolean editor_menu)
 	menu_vc_show_file = gtk_menu_item_new_with_mnemonic(_("_Original"));
 	gtk_container_add(GTK_CONTAINER(cur_file_menu), menu_vc_show_file);
 	ui_widget_set_tooltip_text(menu_vc_show_file,
-			     _("Shows the orignal of the current file"));
+			     _("Shows the original of the current file"));
 
 	g_signal_connect(menu_vc_show_file, "activate", G_CALLBACK(vcshow_file_activated), NULL);
 
