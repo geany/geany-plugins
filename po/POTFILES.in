@@ -45,7 +45,6 @@ debugger/src/pixbuf.h
 debugger/src/atree.h
 debugger/src/atree.c
 
-
 # devhelp
 devhelp/src/dhp.h
 devhelp/src/dhp-object.c
@@ -53,9 +52,6 @@ devhelp/src/dhp-plugin.c
 devhelp/src/dhp-codesearch.c
 devhelp/src/dhp-manpages.c
 devhelp/src/dhp-settings.c
-
-# geanycfp
-geanycfp/src/geanycfp.c
 
 # geanydoc
 geanydoc/tests/unittests.c
@@ -126,7 +122,6 @@ geanylua/glspi_dlg.c
 geanylua/glspi_kfile.c
 geanylua/geanylua.c
 geanylua/glspi_app.c
-
 
 # GeanyMacro
 geanymacro/src/geanymacro.c
