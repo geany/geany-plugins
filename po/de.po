@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-09 19:10+0200\n"
+"POT-Creation-Date: 2011-10-19 21:06+0200\n"
 "PO-Revision-Date: 2011-10-09 19:10+0100\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -74,7 +74,7 @@ msgid "Tasks"
 msgstr "Aufgaben"
 
 # Ironischerweise finde ich den Kontext für diesen String nicht --Dominic
-#: ../addons/src/ao_tasks.c:540
+#: ../addons/src/ao_tasks.c:542
 msgid "Context:"
 msgstr "Kontext:"
 
@@ -137,7 +137,7 @@ msgstr "Aufgabenliste aktualisieren"
 msgid "Run XML tagging"
 msgstr "XML-Tagging ausführen"
 
-#: ../addons/src/addons.c:396 ../geanylatex/src/geanylatex.c:234
+#: ../addons/src/addons.c:398 ../geanylatex/src/geanylatex.c:234
 #: ../geanysendmail/src/geanysendmail.c:121
 #: ../geanysendmail/src/geanysendmail.c:282 ../geanyvc/src/geanyvc.c:1784
 #: ../spellcheck/src/scplugin.c:146 ../treebrowser/src/treebrowser.c:1816
@@ -146,50 +146,50 @@ msgid "Plugin configuration directory could not be created."
 msgstr ""
 "Das Konfigurationsverzeichnis für das Plugin konnte nicht erstellt werden."
 
-#: ../addons/src/addons.c:423
+#: ../addons/src/addons.c:425
 msgid "Show toolbar item to show a list of currently open documents"
 msgstr ""
 "Ein Symbol in die Werkzeugleiste hinzufügen, dass eine Liste mit den aktuell "
 "geöffneten Dateien zeigt."
 
-#: ../addons/src/addons.c:427
+#: ../addons/src/addons.c:429
 msgid "Sort documents by _name"
 msgstr "Dokumente nach _Namen sortieren"
 
-#: ../addons/src/addons.c:429
+#: ../addons/src/addons.c:431
 msgid "Sort the documents in the list by their filename"
 msgstr "Sortiert die Dokumente der Liste ihrem Namen nach."
 
-#: ../addons/src/addons.c:432
+#: ../addons/src/addons.c:434
 msgid "Sort documents by _occurrence"
 msgstr "Dokumente nach Auftreten sortieren"
 
-#: ../addons/src/addons.c:434
+#: ../addons/src/addons.c:436
 msgid "Sort the documents in the order of the document tabs"
 msgstr "Die Dokumente nach Reihenfolge der geöffneten Tabs sortieren"
 
-#: ../addons/src/addons.c:437
+#: ../addons/src/addons.c:439
 msgid "Sort documents by _occurrence (reversed)"
 msgstr "Sortiert die Dokumente der Liste ihres Auftretens nach"
 
-#: ../addons/src/addons.c:439
+#: ../addons/src/addons.c:441
 msgid "Sort the documents in the order of the document tabs (reversed)"
 msgstr "Dokumente in Reihenfolge der Reiter sortieren (umgekehrte Reihenfolge)"
 
 #. TODO fix the string
-#: ../addons/src/addons.c:467
+#: ../addons/src/addons.c:469
 msgid "Show a 'Open URI' menu item in the editor menu"
 msgstr "»URI öffnen« Eintrag im Editor-Menü anzeigen"
 
-#: ../addons/src/addons.c:473
+#: ../addons/src/addons.c:475
 msgid "Show available Tasks in the Messages Window"
 msgstr "Verfügbare Aufgaben im Meldungsfenster anzeigen"
 
-#: ../addons/src/addons.c:479
+#: ../addons/src/addons.c:481
 msgid "Show tasks of all documents"
 msgstr "Sämtliche Aufgaben aller (geöffneten) Dokumente anzeigen"
 
-#: ../addons/src/addons.c:483
+#: ../addons/src/addons.c:485
 msgid ""
 "Whether to show the tasks of all open documents in the list or only those of "
 "the current document."
@@ -197,31 +197,31 @@ msgstr ""
 "Bestimmt, ob die Aufgaben aller aktuell geöffneten Dokumente angezeigt "
 "werden sollen oder nur die des derzeit aktiven Dokumentes."
 
-#: ../addons/src/addons.c:490
+#: ../addons/src/addons.c:492
 msgid "Specify a semicolon separated list of search tokens."
 msgstr "Geben Sie eine durch Semikolon getrennte Liste von Suchwörtern ein."
 
-#: ../addons/src/addons.c:492
+#: ../addons/src/addons.c:494
 msgid "Search tokens:"
 msgstr "Suchwörter:"
 
-#: ../addons/src/addons.c:509
+#: ../addons/src/addons.c:511
 msgid "Show status icon in the Notification Area"
 msgstr "Zeige ein Statussymbol im Benachrichtigungsfeld"
 
-#: ../addons/src/addons.c:515
+#: ../addons/src/addons.c:517
 msgid "Show defined bookmarks (marked lines) in the sidebar"
 msgstr "Lesezeichen (markierte Zeilen) in der Seitenleiste anzeigen"
 
-#: ../addons/src/addons.c:521
+#: ../addons/src/addons.c:523
 msgid "Mark all occurrences of a word when double-clicking it"
 msgstr "Bei Doppelklick alle Vorkommen eines Wortes markieren."
 
-#: ../addons/src/addons.c:527
+#: ../addons/src/addons.c:529
 msgid "Strip trailing blank lines"
 msgstr "Leere Zeilen am Ende entfernen"
 
-#: ../addons/src/addons.c:533
+#: ../addons/src/addons.c:535
 msgid "XML tagging for selection"
 msgstr "XML-Tagging für eine Auswahl"
 
@@ -827,26 +827,26 @@ msgstr "Dokumentation für aktuelles Wort öffnen"
 msgid "Document interactive"
 msgstr "Nach Dokumentationswerkzeug für das aktuelle Wort fragen"
 
-#: ../geanygdb/src/gdb-io-break.c:152
+#: ../geanygdb/src/gdb-io-break.c:156
 #, c-format
 msgid "Added breakpoint #%s in %s() at %s:%s\n"
 msgstr "Haltepunkt #%s in %s() bei %s:%s hinzugefügt\n"
 
-#: ../geanygdb/src/gdb-io-break.c:157
+#: ../geanygdb/src/gdb-io-break.c:161
 #, c-format
 msgid "Added breakpoint #%s at %s:%s\n"
 msgstr "Haltepunkt #%s bei %s:%s hinzugefügt\n"
 
 # Beobachtungspunkt oder Haltepunkt?
 # Watchpoint = Beobachtungspunkt, Breakpoint=Haltepunkt, das war meine Intention --Dominic
-#: ../geanygdb/src/gdb-io-break.c:169
+#: ../geanygdb/src/gdb-io-break.c:173
 #, c-format
 msgid "Added write watchpoint #%s for %s\n"
 msgstr "Beobachtungspunkt für Schreibzugriff #%s für %s hinzugefügt.\n"
 
 # Beobachtungspunkt oder Haltepunkt?
 # Watchpoint = Beobachtungspunkt, Breakpoint=Haltepunkt, das war meine Intention --Dominic
-#: ../geanygdb/src/gdb-io-break.c:178
+#: ../geanygdb/src/gdb-io-break.c:182
 #, c-format
 msgid "Added read/write watchpoint #%s for %s\n"
 msgstr ""
@@ -854,51 +854,51 @@ msgstr ""
 
 # Beobachtungspunkt oder Haltepunkt?
 # Watchpoint = Beobachtungspunkt, Breakpoint=Haltepunkt, das war meine Intention --Dominic
-#: ../geanygdb/src/gdb-io-break.c:189
+#: ../geanygdb/src/gdb-io-break.c:193
 #, c-format
 msgid "Added read watchpoint #%s for %s\n"
 msgstr "Beobachtungspunkt #%s für Lesezugriff auf %s hinzugefügt\n"
 
-#: ../geanygdb/src/gdb-io-break.c:236
+#: ../geanygdb/src/gdb-io-break.c:240
 msgid "Watch/breakpoint deleted.\n"
 msgstr "Beobachtungs- bzw. Haltepunkt gelöscht.\n"
 
 # Hinzufügen.. Umschalten.. mh :s
-#: ../geanygdb/src/gdb-io-break.c:260
+#: ../geanygdb/src/gdb-io-break.c:264
 msgid "Failed to toggle breakpoint -\n"
 msgstr "Umschalten des Haltepunktes fehlgeschlagen.\n"
 
-#: ../geanygdb/src/gdb-io-break.c:278
+#: ../geanygdb/src/gdb-io-break.c:282
 msgid "Watch/breakpoint toggled.\n"
 msgstr "Halte- bzw. Beobachtungspunkt umgeschaltet.\n"
 
-#: ../geanygdb/src/gdb-io-break.c:292
+#: ../geanygdb/src/gdb-io-break.c:296
 msgid "Watch/breakpoint modified.\n"
 msgstr "Beobachtungs-/Haltepunkt geändert.\n"
 
-#: ../geanygdb/src/gdb-io-envir.c:132
+#: ../geanygdb/src/gdb-io-envir.c:136
 msgid "Failed to retrieve source search path setting from GDB."
 msgstr "Konnte den Quelltext-Suchpfad für GDB nicht finden."
 
-#: ../geanygdb/src/gdb-io-envir.c:153
+#: ../geanygdb/src/gdb-io-envir.c:157
 msgid "Failed to retrieve executable search path setting from GDB."
 msgstr "Konnte den GDB-Suchpfad für ausführbare Dateien nicht finden."
 
-#: ../geanygdb/src/gdb-io-envir.c:175
+#: ../geanygdb/src/gdb-io-envir.c:179
 msgid "Failed to retrieve working directory setting from GDB."
 msgstr "Konnte das Arbeitsverzeichnis von GDB nicht finden."
 
-#: ../geanygdb/src/gdb-io-frame.c:500
+#: ../geanygdb/src/gdb-io-frame.c:504
 msgid "Field list too long, not all items can be displayed.\n"
 msgstr ""
 "Die Liste der Felder ist zu lang, so dass nicht alle Einträge angezeigt "
 "werden können.\n"
 
-#: ../geanygdb/src/gdb-io-read.c:240
+#: ../geanygdb/src/gdb-io-read.c:244
 msgid "Error starting target process!\n"
 msgstr "Fehler beim Starten des Zielprozess!\n"
 
-#: ../geanygdb/src/gdb-io-read.c:285
+#: ../geanygdb/src/gdb-io-read.c:289
 msgid ""
 "This executable does not appear to contain the required debugging "
 "information."
@@ -906,138 +906,138 @@ msgstr "Die ausführbare Datei scheint keine Debug-Informationen zu enthalten."
 
 # Bitte die Erklärung noch mit hinzufügen: %s's have following meaning (in this order):
 # signal_name, signal_meaning, addr, func, file, line
-#: ../geanygdb/src/gdb-io-read.c:547
+#: ../geanygdb/src/gdb-io-read.c:551
 #, c-format
 msgid "Program received signal %s (%s) at %s in function %s() at %s:%s"
 msgstr "Signal %s (%s) empfangen an %s. Funktion %s() in %s:%s"
 
-#: ../geanygdb/src/gdb-io-read.c:598
+#: ../geanygdb/src/gdb-io-read.c:602
 #, c-format
 msgid "Watchpoint #%s out of scope"
 msgstr "Beobachtungspunkt #%s außerhalb des sichtbaren Bereichs."
 
-#: ../geanygdb/src/gdb-io-read.c:607
+#: ../geanygdb/src/gdb-io-read.c:611
 #, c-format
 msgid "Program exited on signal %s (%s).\n"
 msgstr "Das Programm wurde mit Signal %s (%s) beendet.\n"
 
-#: ../geanygdb/src/gdb-io-read.c:609
+#: ../geanygdb/src/gdb-io-read.c:613
 msgid "Unknown signal"
 msgstr "Unbekanntes Signal"
 
-#: ../geanygdb/src/gdb-io-read.c:626
+#: ../geanygdb/src/gdb-io-read.c:630
 #, c-format
 msgid "Program exited with code %d [%s]\n"
 msgstr "Programm beendete mit Code %d [%s]\n"
 
-#: ../geanygdb/src/gdb-io-read.c:627
+#: ../geanygdb/src/gdb-io-read.c:631
 msgid "(unknown)"
 msgstr "(unbekannt)"
 
-#: ../geanygdb/src/gdb-io-read.c:633
+#: ../geanygdb/src/gdb-io-read.c:637
 msgid "Program exited normally.\n"
 msgstr "Programm wurde normal beendet.\n"
 
-#: ../geanygdb/src/gdb-io-run.c:286
+#: ../geanygdb/src/gdb-io-run.c:290
 msgid "tty temporary directory not specified!\n"
 msgstr "Kein temporäres Verzeichnis für TTY festgelegt!\n"
 
-#: ../geanygdb/src/gdb-io-run.c:291
+#: ../geanygdb/src/gdb-io-run.c:295
 msgid "tty temporary directory not found!\n"
 msgstr "Konnte temporäres Verzeichnis für TTY nicht finden!\n"
 
-#: ../geanygdb/src/gdb-io-run.c:310
+#: ../geanygdb/src/gdb-io-run.c:314
 msgid "tty helper program not specified!\n"
 msgstr "TTY-Helfer-Programm wurde nicht definiert!\n"
 
-#: ../geanygdb/src/gdb-io-run.c:317
+#: ../geanygdb/src/gdb-io-run.c:321
 msgid "tty helper program not found!\n"
 msgstr "Das Terminal-Helfer-Programm (TTY) konnte nicht gefunden werden!\n"
 
 # wtf O.o
-#: ../geanygdb/src/gdb-io-run.c:370
+#: ../geanygdb/src/gdb-io-run.c:374
 #, c-format
 msgid "Attaching to terminal %s\n"
 msgstr "An Terminal %s anhängen\n"
 
-#: ../geanygdb/src/gdb-io-run.c:385
+#: ../geanygdb/src/gdb-io-run.c:389
 msgid "Timeout waiting for TTY name.\n"
 msgstr "Zeitüberschreitung beim Warten auf das Terminal.\n"
 
-#: ../geanygdb/src/gdb-io-run.c:434
+#: ../geanygdb/src/gdb-io-run.c:438
 #, c-format
 msgid "GDB exited (pid=%d)\n"
 msgstr "GDB mit PID %d beendet.\n"
 
-#: ../geanygdb/src/gdb-io-run.c:536
+#: ../geanygdb/src/gdb-io-run.c:540
 #, c-format
 msgid "Target process exited. (pid=%d; %s%s)\n"
 msgstr "Der Zielprozess wurde beendet. (pid=%d; %s%s)\n"
 
-#: ../geanygdb/src/gdb-io-run.c:538
+#: ../geanygdb/src/gdb-io-run.c:542
 msgid "code="
 msgstr "code="
 
-#: ../geanygdb/src/gdb-io-run.c:538
+#: ../geanygdb/src/gdb-io-run.c:542
 msgid "reason:"
 msgstr "Grund:"
 
-#: ../geanygdb/src/gdb-io-run.c:604 ../geanygdb/src/gdb-io-run.c:669
+#: ../geanygdb/src/gdb-io-run.c:608 ../geanygdb/src/gdb-io-run.c:673
 #, c-format
 msgid "Directory %s not found!\n"
 msgstr "Verzeichnis »%s« nicht gefunden!\n"
 
-#: ../geanygdb/src/gdb-io-run.c:609
+#: ../geanygdb/src/gdb-io-run.c:613
 msgid "Shutting down target program.\n"
 msgstr "Beende Zielprogramm.\n"
 
-#: ../geanygdb/src/gdb-io-run.c:616
+#: ../geanygdb/src/gdb-io-run.c:620
 msgid "Killing target program.\n"
 msgstr "Töte Zielprogramm.\n"
 
-#: ../geanygdb/src/gdb-io-run.c:624
+#: ../geanygdb/src/gdb-io-run.c:628
 msgid "Timeout waiting for target process.\n"
 msgstr "Fehler beim Warten auf Beenden des Ziel-Prozess.\n"
 
 # Yeah! .. Wenn man nur einen Hammer hat, sieht jedes Problem wie ein
 # Nagel aus ...
-#: ../geanygdb/src/gdb-io-run.c:627
+#: ../geanygdb/src/gdb-io-run.c:631
 msgid "Using a bigger hammer!\n"
 msgstr "Zücke den großen Hammer!\n"
 
-#: ../geanygdb/src/gdb-io-run.c:641
+#: ../geanygdb/src/gdb-io-run.c:645
 msgid "Waiting for target process to exit.\n"
 msgstr "Warte auf Beenden des Zielprogrammes.\n"
 
-#: ../geanygdb/src/gdb-io-run.c:677
+#: ../geanygdb/src/gdb-io-run.c:681
 #, c-format
 msgid "Killing GDB (pid=%d)\n"
 msgstr "Töte GDB (pid=%d)\n"
 
 # Timeout=Auszeit?
 # Nope. Zeitüberschreitung passt.
-#: ../geanygdb/src/gdb-io-run.c:691
+#: ../geanygdb/src/gdb-io-run.c:695
 msgid "Timeout trying to kill GDB.\n"
 msgstr "Zeitüberschreitung beim Versuch GDB zu töten.\n"
 
-#: ../geanygdb/src/gdb-io-run.c:701
+#: ../geanygdb/src/gdb-io-run.c:705
 msgid "Shutting down GDB\n"
 msgstr "Beende GDB\n"
 
-#: ../geanygdb/src/gdb-io-run.c:714
+#: ../geanygdb/src/gdb-io-run.c:718
 msgid "Waiting for GDB to exit.\n"
 msgstr "Warte auf das Beenden von GDB.\n"
 
-#: ../geanygdb/src/gdb-io-run.c:722
+#: ../geanygdb/src/gdb-io-run.c:726
 msgid "Timeout waiting for GDB to exit.\n"
 msgstr "Zeitüberschreitung beim Beenden von GDB.\n"
 
-#: ../geanygdb/src/gdb-io-run.c:792
+#: ../geanygdb/src/gdb-io-run.c:796
 #, c-format
 msgid "Starting gdb (pid=%d)\n"
 msgstr "Starte gdb (pid=%d)\n"
 
-#: ../geanygdb/src/gdb-io-run.c:854
+#: ../geanygdb/src/gdb-io-run.c:858
 #, c-format
 msgid "Started target process. (pid=%d)\n"
 msgstr "Zielprozess gestartet. (pid=%d)\n"
@@ -1139,8 +1139,8 @@ msgstr ""
 msgid "Select Font"
 msgstr "Schriftart auswählen"
 
-#: ../geanygdb/src/gdb-ui-envir.c:184 ../geanyprj/src/menu.c:412
-#: ../geanyprj/src/sidebar.c:214
+#: ../geanygdb/src/gdb-ui-envir.c:184 ../geanyprj/src/menu.c:417
+#: ../geanyprj/src/sidebar.c:219
 msgid "Preferences"
 msgstr "Einstellungen"
 
@@ -1164,37 +1164,37 @@ msgstr "Schriftart für die Quelltext-Anzeige"
 msgid "Terminal program:"
 msgstr "Terminal-Programm:"
 
-#: ../geanygdb/src/gdb-ui-frame.c:137
+#: ../geanygdb/src/gdb-ui-frame.c:141
 msgid "_Examine"
 msgstr "_Prüfen"
 
-#: ../geanygdb/src/gdb-ui-frame.c:287
+#: ../geanygdb/src/gdb-ui-frame.c:291
 msgid "Object info"
 msgstr "Objektinformationen"
 
-#: ../geanygdb/src/gdb-ui-frame.c:294
+#: ../geanygdb/src/gdb-ui-frame.c:298
 msgid "Elements"
 msgstr "Elemente"
 
-#: ../geanygdb/src/gdb-ui-frame.c:294
+#: ../geanygdb/src/gdb-ui-frame.c:298
 msgid "Fields"
 msgstr "Felder"
 
-#: ../geanygdb/src/gdb-ui-frame.c:302
+#: ../geanygdb/src/gdb-ui-frame.c:306
 msgid "Return to previous dialog."
 msgstr "Zum vorherigen Dialog zurückkehren."
 
-#: ../geanygdb/src/gdb-ui-frame.c:307 ../geanygdb/src/gdb-ui-frame.c:381
+#: ../geanygdb/src/gdb-ui-frame.c:311 ../geanygdb/src/gdb-ui-frame.c:385
 msgid "Display additional information about the selected item."
 msgstr "Zusätzliche Information zum ausgewählten Eintrag anzeigen"
 
 # Das ist der Titel eines Fensters, welches man wahrscheinlich nicht oder nur selten zu Gesicht bekommt.
-#: ../geanygdb/src/gdb-ui-frame.c:354
+#: ../geanygdb/src/gdb-ui-frame.c:358
 msgid "Frame info"
 msgstr "Rahmeninfo"
 
 # Hab ich noch keine Idee zu --Dominic
-#: ../geanygdb/src/gdb-ui-frame.c:357
+#: ../geanygdb/src/gdb-ui-frame.c:361
 #, c-format
 msgid ""
 "\n"
@@ -1203,44 +1203,44 @@ msgstr ""
 "\n"
 "Rahmen #%s in %s() bei %s:%s\n"
 
-#: ../geanygdb/src/gdb-ui-frame.c:367
+#: ../geanygdb/src/gdb-ui-frame.c:371
 msgid "Function arguments"
 msgstr "Funktionsargumente"
 
-#: ../geanygdb/src/gdb-ui-frame.c:371
+#: ../geanygdb/src/gdb-ui-frame.c:375
 msgid "Local variables"
 msgstr "Lokale Variablen"
 
 # :S
-#: ../geanygdb/src/gdb-ui-frame.c:376
+#: ../geanygdb/src/gdb-ui-frame.c:380
 msgid "Return to stack list dialog."
 msgstr "Zurück zum Stapel."
 
-#: ../geanygdb/src/gdb-ui-frame.c:588
+#: ../geanygdb/src/gdb-ui-frame.c:592
 msgid "Stack trace"
 msgstr "Aufrufliste"
 
-#: ../geanygdb/src/gdb-ui-frame.c:605
+#: ../geanygdb/src/gdb-ui-frame.c:609
 msgid "Display additional information about the selected frame."
 msgstr "Zusätzliche Informationen zum ausgewählten Rahmens anzeigen"
 
-#: ../geanygdb/src/gdb-ui-locn.c:63
+#: ../geanygdb/src/gdb-ui-locn.c:67
 msgid "Clea_r"
 msgstr "_Leeren"
 
-#: ../geanygdb/src/gdb-ui-locn.c:78
+#: ../geanygdb/src/gdb-ui-locn.c:82
 msgid "Filename: "
 msgstr "Dateiname: "
 
-#: ../geanygdb/src/gdb-ui-locn.c:91
+#: ../geanygdb/src/gdb-ui-locn.c:95
 msgid "Variable to watch:"
 msgstr "Zu beobachtende Variable:"
 
-#: ../geanygdb/src/gdb-ui-locn.c:92
+#: ../geanygdb/src/gdb-ui-locn.c:96
 msgid "Line number or function name: "
 msgstr "Zeilennummer oder Funktionsname: "
 
-#: ../geanygdb/src/gdb-ui-locn.c:133
+#: ../geanygdb/src/gdb-ui-locn.c:137
 msgid "Access trigger:"
 msgstr "Auslöser für den Zugriff"
 
@@ -2423,8 +2423,8 @@ msgstr "Zeichensatz für das neue Dokument"
 
 #. fontsize
 #: ../geanylatex/src/geanylatex.c:1788
-msgid "Font size:"
-msgstr "Schriftgröße:"
+msgid "Font size"
+msgstr "Schriftgröße"
 
 #: ../geanylatex/src/geanylatex.c:1794
 msgid "Set the default font size of your new document"
@@ -3371,8 +3371,8 @@ msgstr ""
 msgid "a key with fingerprint"
 msgstr "ein Schlüssel mit Fingerabdruck"
 
-#: ../geanypg/src/verify_aux.c:65 ../spellcheck/src/gui.c:497
-#: ../spellcheck/src/gui.c:508
+#: ../geanypg/src/verify_aux.c:65 ../spellcheck/src/gui.c:500
+#: ../spellcheck/src/gui.c:511
 msgid "unknown"
 msgstr "Unbekannt"
 
@@ -3527,45 +3527,45 @@ msgstr "Fehler: Konnte keine Resultate der Verifikation finden."
 msgid "Open a signature file"
 msgstr "Eine Signaturendatei öffnen"
 
-#: ../geanyprj/src/geanyprj.c:37 ../geanyprj/src/sidebar.c:449
-#: ../gproject/src/gproject-sidebar.c:825
+#: ../geanyprj/src/geanyprj.c:38 ../geanyprj/src/sidebar.c:454
+#: ../gproject/src/gproject-sidebar.c:828
 msgid "Project"
 msgstr "Projekt"
 
-#: ../geanyprj/src/geanyprj.c:37
+#: ../geanyprj/src/geanyprj.c:38
 msgid "Alternative project support."
 msgstr "Alternative Projektunterstützung."
 
-#: ../geanyprj/src/menu.c:90
+#: ../geanyprj/src/menu.c:95
 msgid "Project Preferences"
 msgstr "Projekteigenschaften"
 
-#: ../geanyprj/src/menu.c:99 ../geanyprj/src/menu.c:381
-#: ../geanyprj/src/sidebar.c:170
+#: ../geanyprj/src/menu.c:104 ../geanyprj/src/menu.c:386
+#: ../geanyprj/src/sidebar.c:175
 msgid "New Project"
 msgstr "Neues Projekt"
 
-#: ../geanyprj/src/menu.c:108
+#: ../geanyprj/src/menu.c:113
 msgid "C_reate"
 msgstr "_Erstellen"
 
-#: ../geanyprj/src/menu.c:121
+#: ../geanyprj/src/menu.c:126
 msgid "Name:"
 msgstr "Name:"
 
-#: ../geanyprj/src/menu.c:130
+#: ../geanyprj/src/menu.c:135
 msgid "Location:"
 msgstr "Ort:"
 
-#: ../geanyprj/src/menu.c:145
+#: ../geanyprj/src/menu.c:150
 msgid "Choose Project Location"
 msgstr "Projektverzeichnis auswählen"
 
-#: ../geanyprj/src/menu.c:153
+#: ../geanyprj/src/menu.c:158
 msgid "Base path:"
 msgstr "Basisverzeichnis:"
 
-#: ../geanyprj/src/menu.c:158
+#: ../geanyprj/src/menu.c:163
 msgid ""
 "Base directory of all files that make up the project. This can be a new "
 "path, or an existing directory tree. You can use paths relative to the "
@@ -3576,15 +3576,15 @@ msgstr ""
 "sein. Weiter kann der Pfad sowohl in relativer als auch absoluter Form "
 "eingegeben werden."
 
-#: ../geanyprj/src/menu.c:161
+#: ../geanyprj/src/menu.c:166
 msgid "Choose Project Base Path"
 msgstr "Projektbasisverzeichnisses auswählen"
 
-#: ../geanyprj/src/menu.c:168
+#: ../geanyprj/src/menu.c:173
 msgid "Generate file list on load"
 msgstr "Dateiliste beim Laden erzeugen"
 
-#: ../geanyprj/src/menu.c:170
+#: ../geanyprj/src/menu.c:175
 msgid ""
 "Automatically add files that match project type on project load "
 "automatically. You can't manually add/remove files if you checked this "
@@ -3594,40 +3594,40 @@ msgstr ""
 "dem Projekte hinzu. Manuelles Hinzufügen oder Löschen von Dateien ist dann "
 "nicht möglich, Änderungen würden beim nächsten Laden überschrieben werden."
 
-#: ../geanyprj/src/menu.c:178
+#: ../geanyprj/src/menu.c:183
 msgid "Type:"
 msgstr "Typ:"
 
-#: ../geanyprj/src/menu.c:216
+#: ../geanyprj/src/menu.c:221
 #, c-format
 msgid "Project file \"%s\" already exists"
 msgstr "Die Projektdatei »%s« existiert bereits."
 
-#: ../geanyprj/src/menu.c:369
+#: ../geanyprj/src/menu.c:374
 msgid "_Project"
 msgstr "_Projekt"
 
-#: ../geanyprj/src/menu.c:390 ../geanyprj/src/sidebar.c:179
+#: ../geanyprj/src/menu.c:395 ../geanyprj/src/sidebar.c:184
 msgid "Delete Project"
 msgstr "Projekt löschen"
 
-#: ../geanyprj/src/menu.c:401 ../geanyprj/src/sidebar.c:192
+#: ../geanyprj/src/menu.c:406 ../geanyprj/src/sidebar.c:197
 msgid "Add File"
 msgstr "Datei hinzufügen"
 
-#: ../geanyprj/src/menu.c:423 ../geanyprj/src/sidebar.c:227
+#: ../geanyprj/src/menu.c:428 ../geanyprj/src/sidebar.c:232
 msgid "Find in Project"
 msgstr "Im Projekt suchen"
 
-#: ../geanyprj/src/sidebar.c:201
+#: ../geanyprj/src/sidebar.c:206
 msgid "Remove File"
 msgstr "Datei entfernen"
 
-#: ../geanyprj/src/sidebar.c:238 ../gproject/src/gproject-sidebar.c:806
+#: ../geanyprj/src/sidebar.c:243 ../gproject/src/gproject-sidebar.c:809
 msgid "H_ide Sidebar"
 msgstr "Seitenleiste _verstecken"
 
-#: ../geanyprj/src/xproject.c:95
+#: ../geanyprj/src/xproject.c:100
 #, c-format
 msgid "Project \"%s\" opened."
 msgstr "Projekt »%s« geöffnet."
@@ -3768,7 +3768,7 @@ msgid "No changes were made."
 msgstr "Es wurden keine Änderungen vorgenommen."
 
 #: ../geanyvc/src/geanyvc.c:713
-msgid "No history avaible"
+msgid "No history available"
 msgstr "Keine Historie verfügbar"
 
 #: ../geanyvc/src/geanyvc.c:906 ../geanyvc/src/geanyvc.c:914
@@ -3974,7 +3974,7 @@ msgid "_Original"
 msgstr "_Original"
 
 #: ../geanyvc/src/geanyvc.c:2029
-msgid "Shows the orignal of the current file"
+msgid "Shows the original of the current file"
 msgstr "Zeigt die unveränderte Datei an"
 
 #. add current file
@@ -4095,58 +4095,58 @@ msgstr "Über_tragen"
 msgid "Commit changes."
 msgstr "Änderungen übertragen."
 
-#: ../gproject/src/gproject-main.c:33 ../gproject/src/gproject-project.c:445
+#: ../gproject/src/gproject-main.c:36 ../gproject/src/gproject-project.c:448
 msgid "GProject"
 msgstr "GProject"
 
-#: ../gproject/src/gproject-main.c:34
+#: ../gproject/src/gproject-main.c:37
 msgid "Glob-pattern-based project management plugin for Geany."
 msgstr "Global-Muser-basierendes Projektmanagement-Plugin für Geany."
 
-#: ../gproject/src/gproject-menu.c:350
+#: ../gproject/src/gproject-menu.c:353
 msgid "Find in Project Files"
 msgstr "In Projektdateien suchen"
 
-#: ../gproject/src/gproject-menu.c:356
+#: ../gproject/src/gproject-menu.c:359
 msgid "Find in project files"
 msgstr "Im Projektdateien suchen"
 
-#: ../gproject/src/gproject-menu.c:360
+#: ../gproject/src/gproject-menu.c:363
 msgid "Find Project File"
 msgstr "Im Projekt suchen"
 
-#: ../gproject/src/gproject-menu.c:366
+#: ../gproject/src/gproject-menu.c:369
 msgid "Find project file"
 msgstr "Projektdatei finden"
 
-#: ../gproject/src/gproject-menu.c:368
+#: ../gproject/src/gproject-menu.c:371
 msgid "Swap Header/Source"
 msgstr "Header und Quellen tauschen"
 
-#: ../gproject/src/gproject-menu.c:373
+#: ../gproject/src/gproject-menu.c:376
 msgid "Swap header/source"
 msgstr "Header und Quellen tauschen"
 
-#: ../gproject/src/gproject-menu.c:379
+#: ../gproject/src/gproject-menu.c:382
 msgid "Open Selected File (gproject)"
 msgstr "Ausgewählte Datei öffnen (gproject)"
 
-#: ../gproject/src/gproject-project.c:396
+#: ../gproject/src/gproject-project.c:399
 msgid "Source patterns:"
 msgstr "Quellenmuster:"
 
-#: ../gproject/src/gproject-project.c:402
+#: ../gproject/src/gproject-project.c:405
 msgid ""
 "Space separated list of patterns that are used to identify source files."
 msgstr ""
 "Leerzeichengetrennte Liste mit Mustern, die genutzt werden, um Quelldateien "
 "zu identifizieren."
 
-#: ../gproject/src/gproject-project.c:407
+#: ../gproject/src/gproject-project.c:410
 msgid "Header patterns:"
 msgstr "Header Muster"
 
-#: ../gproject/src/gproject-project.c:413
+#: ../gproject/src/gproject-project.c:416
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used "
 "mainly for header/source swapping."
@@ -4155,11 +4155,11 @@ msgstr ""
 "identifizieren. Wird hauptsächlich für das Umschalten zwischen Quellen und "
 "Header verwendet."
 
-#: ../gproject/src/gproject-project.c:419
+#: ../gproject/src/gproject-project.c:422
 msgid "Ignored dirs patterns:"
 msgstr "Muster für zu ignorierende Verzeichnisse:"
 
-#: ../gproject/src/gproject-project.c:425
+#: ../gproject/src/gproject-project.c:428
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
@@ -4167,11 +4167,11 @@ msgstr ""
 "Leerzeichengetrennte Liste mit Mustern, die genutzt werden, um Verzeichnisse "
 "zu erkennen, die nicht nach Quelldateien durchsucht werden sollen. "
 
-#: ../gproject/src/gproject-project.c:433
+#: ../gproject/src/gproject-project.c:436
 msgid "Generate tags for all project files"
 msgstr "Tags für alle Projektdateien erstellen"
 
-#: ../gproject/src/gproject-project.c:435
+#: ../gproject/src/gproject-project.c:438
 msgid ""
 "Generate tag list for all project files instead of only for the currently "
 "opened files. Too slow for big projects (>1000 files) and should be disabled "
@@ -4181,7 +4181,7 @@ msgstr ""
 "geöffneten Dateien. Sehr langsam bei großen Projekten (>1000 Dateien) und "
 "sollte in solch einem Fall deaktiviert werden."
 
-#: ../gproject/src/gproject-project.c:441
+#: ../gproject/src/gproject-project.c:444
 msgid ""
 "Note: set the patterns of files belonging to the project under the Project "
 "tab."
@@ -4189,50 +4189,50 @@ msgstr ""
 "Anmerkung: Die Muster der Dateien, die zu einem Projekt gehören, können im "
 "Projekttab gesetzt werden."
 
-#: ../gproject/src/gproject-sidebar.c:78
-#: ../gproject/src/gproject-sidebar.c:795
+#: ../gproject/src/gproject-sidebar.c:81
+#: ../gproject/src/gproject-sidebar.c:798
 msgid "Find File"
 msgstr "Datei finden"
 
-#: ../gproject/src/gproject-sidebar.c:89
+#: ../gproject/src/gproject-sidebar.c:92
 msgid "Search for:"
 msgstr "Suchen nach:"
 
-#: ../gproject/src/gproject-sidebar.c:105
+#: ../gproject/src/gproject-sidebar.c:108
 msgid "Search inside:"
 msgstr "Suchen in:"
 
-#: ../gproject/src/gproject-sidebar.c:117
+#: ../gproject/src/gproject-sidebar.c:120
 msgid "C_ase sensitive"
 msgstr "_Groß-/Kleinschreibung beachten"
 
-#: ../gproject/src/gproject-sidebar.c:120
+#: ../gproject/src/gproject-sidebar.c:123
 msgid "Search in full path"
 msgstr "Im vollen Pfad suchen"
 
-#: ../gproject/src/gproject-sidebar.c:705
+#: ../gproject/src/gproject-sidebar.c:708
 msgid "Reload all"
 msgstr "Alle neuladen"
 
-#: ../gproject/src/gproject-sidebar.c:714
+#: ../gproject/src/gproject-sidebar.c:717
 #: ../treebrowser/src/treebrowser.c:1260
 msgid "Expand all"
 msgstr "Alle ausklappen"
 
-#: ../gproject/src/gproject-sidebar.c:720
+#: ../gproject/src/gproject-sidebar.c:723
 #: ../treebrowser/src/treebrowser.c:1264
 msgid "Collapse all"
 msgstr "Alle einklappen"
 
-#: ../gproject/src/gproject-sidebar.c:729
+#: ../gproject/src/gproject-sidebar.c:732
 msgid "Follow active editor"
 msgstr "Aktiven Editor folgen"
 
-#: ../gproject/src/gproject-sidebar.c:777
+#: ../gproject/src/gproject-sidebar.c:780
 msgid "Expand All"
 msgstr "Alle ausklappen"
 
-#: ../gproject/src/gproject-sidebar.c:786
+#: ../gproject/src/gproject-sidebar.c:789
 #: ../treebrowser/src/treebrowser.c:1212
 msgid "Find in Files"
 msgstr "In Dateien finden"
@@ -4330,34 +4330,34 @@ msgstr "Leerzeichen"
 msgid "Line break"
 msgstr "Zeilenumbruch"
 
-#: ../spellcheck/src/speller.c:91
+#: ../spellcheck/src/speller.c:94
 msgid "Try: "
 msgstr "Vorschlag: "
 
-#: ../spellcheck/src/speller.c:170
+#: ../spellcheck/src/speller.c:173
 msgid "Checking"
 msgstr "Prüfe"
 
-#: ../spellcheck/src/speller.c:183
+#: ../spellcheck/src/speller.c:186
 #, c-format
 msgid "Checking file \"%s\" (lines %d to %d using %s):"
 msgstr "Prüfe Datei »%s« (Zeilen %d bis %d mit »%s«):"
 
-#: ../spellcheck/src/speller.c:193
+#: ../spellcheck/src/speller.c:196
 #, c-format
 msgid "Checking file \"%s\" (using %s):"
 msgstr "Prüfe Datei »%s« (mit »%s«):"
 
-#: ../spellcheck/src/speller.c:220
+#: ../spellcheck/src/speller.c:223
 msgid "The checked text is spelled correctly."
 msgstr "Der geprüfte Text ist fehlerfrei."
 
-#: ../spellcheck/src/speller.c:230
+#: ../spellcheck/src/speller.c:233
 #, c-format
 msgid "The Enchant library couldn't be initialized (%s)."
 msgstr "Die Enchant-Blibliothek konnte nicht initialisiert werden (%s)."
 
-#: ../spellcheck/src/speller.c:231
+#: ../spellcheck/src/speller.c:234
 msgid "unknown error (maybe the chosen language is not available)"
 msgstr ""
 "unbekannter Fehler (möglicherweise ist die ausgewählte Sprache nicht "
@@ -4418,16 +4418,16 @@ msgstr ""
 "Lese zusätzliche Wörterbücher aus diesem Verzeichnis. (Funktioniert zur Zeit "
 "nur mit myspell-Wörterbüchern)."
 
-#: ../spellcheck/src/gui.c:65
+#: ../spellcheck/src/gui.c:68
 msgid "Spell checking while typing is now enabled"
 msgstr "»Rechtschreibung beim Tippen überprüfen« ist nun eingeschaltet"
 
-#: ../spellcheck/src/gui.c:67
+#: ../spellcheck/src/gui.c:70
 msgid "Spell checking while typing is now disabled"
 msgstr "»Rechtschreibung beim Tippen überprüfen« ist nun ausgeschaltet"
 
 # Mit dem Umbruch kann man an dieser Stelle ggf. ja nochmal spielen
-#: ../spellcheck/src/gui.c:288
+#: ../spellcheck/src/gui.c:291
 msgid ""
 "Search term is too long to provide\n"
 "spelling suggestions in the editor menu."
@@ -4435,40 +4435,40 @@ msgstr ""
 "Der Ausdruck ist zu lang um Vorschläge\n"
 "im Editor Menü anzuzeigen."
 
-#: ../spellcheck/src/gui.c:293
+#: ../spellcheck/src/gui.c:296
 msgid "Perform Spell Check"
 msgstr "Rechtschreibung prüfen"
 
-#: ../spellcheck/src/gui.c:325
+#: ../spellcheck/src/gui.c:328
 msgid "More..."
 msgstr "Mehr ..."
 
-#: ../spellcheck/src/gui.c:340
+#: ../spellcheck/src/gui.c:343
 msgid "(No Suggestions)"
 msgstr "(keine Vorschläge)"
 
-#: ../spellcheck/src/gui.c:349
+#: ../spellcheck/src/gui.c:352
 #, c-format
 msgid "Add \"%s\" to Dictionary"
 msgstr "»%s« zum Wörterbuch hinzufügen"
 
-#: ../spellcheck/src/gui.c:356
+#: ../spellcheck/src/gui.c:359
 msgid "Ignore All"
 msgstr "Alle ignorieren"
 
-#: ../spellcheck/src/gui.c:496
+#: ../spellcheck/src/gui.c:499
 #, c-format
 msgid "Default (%s)"
 msgstr "Vorgabe (%s)"
 
-#: ../spellcheck/src/gui.c:507
+#: ../spellcheck/src/gui.c:510
 #, c-format
 msgid "Toggle spell check while typing (current language: %s)"
 msgstr ""
 "'Rechtschreibung beim Tippen überprüfen' ein-/ausschalten (Aktuelle Sprache: "
 "%s)"
 
-#: ../spellcheck/src/gui.c:562
+#: ../spellcheck/src/gui.c:565
 msgid "Spelling Suggestions"
 msgstr "Rechtschreibvorschläge"
 
