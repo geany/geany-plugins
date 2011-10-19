@@ -51,6 +51,14 @@ Geany-Plugins 0.21 (t.b.d.s)
     * Small update to enable i18n also on Geany >= 0.21
     * Fix a typo inside waf-build system
 
+    WebHelper:
+    * Fix creation of configuration directory in some cases.
+    * Fix missing update of navigation buttons on anchor links.
+    * Fix thread initialization problem.
+    * Fix some issues with keybingins on secondary windows.
+    * Add a keybinding to show/hide web view's window (bug #3156262).
+    * Allow for better configuration of secondary windows.
+
     Internationalisation:
     * Update translations: de, pt, ru, tr
 
