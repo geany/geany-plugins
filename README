@@ -39,7 +39,6 @@ dependencies. --disable-<option> causes the feature to be forcefully disabled.
 * codenav -- the CodeNav plugin
 * debugger -- the Debugger plugin
 * devhelp -- the devhelp plugin
-* geanycfp -- the geanycfp plugin
 * geanydoc -- the GeanyDoc plugin
 * geanyextrasel -- the GeanyExtraSel plugin
 * geanygdb -- the GeanyGDB plugin
