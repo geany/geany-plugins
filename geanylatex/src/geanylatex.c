@@ -1785,7 +1785,7 @@ glatex_wizard_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 	gtk_table_attach_defaults(GTK_TABLE(table), glatex_wizard.encoding_combobox, 1, 2, 2, 3);
 
 	/*  fontsize */
-	label_fontsize = gtk_label_new(_("Font size:"));
+	label_fontsize = gtk_label_new(_("Font size"));
 	glatex_wizard.fontsize_combobox = gtk_combo_box_entry_new_text();
 	gtk_combo_box_append_text(GTK_COMBO_BOX(glatex_wizard.fontsize_combobox),"10pt");
 	gtk_combo_box_append_text(GTK_COMBO_BOX(glatex_wizard.fontsize_combobox),"11pt");
