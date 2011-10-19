@@ -3,7 +3,6 @@ plugins = \
 	codenav \
 	debugger \
 	devhelp \
-	geanycfp \
 	geanydoc \
 	geanyextrasel \
 	geanygdb \
