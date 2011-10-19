@@ -192,6 +192,7 @@ treebrowser/src/treebrowser.c
 updatechecker/src/updatechecker.c
 
 # WebHelper
+webhelper/src/gwh-enum-types.c
 webhelper/src/gwh-keybindings.c
 webhelper/src/gwh-settings.c
 webhelper/src/gwh-utils.c

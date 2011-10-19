@@ -561,7 +561,7 @@ gwh_settings_widget_enum_new (GwhSettings  *self,
     gtk_list_store_append (store, &iter);
     gtk_list_store_set (store, &iter,
                         0, enum_class->values[i].value,
-                        1, enum_class->values[i].value_nick,
+                        1, _(enum_class->values[i].value_nick),
                         -1);
     if (g_value_get_enum (value) == enum_class->values[i].value) {
       active = i;

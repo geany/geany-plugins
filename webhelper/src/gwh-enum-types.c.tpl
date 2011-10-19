@@ -1,6 +1,8 @@
 /*** BEGIN file-header ***/
 #include "gwh-enum-types.h"
 
+#include <glib/gi18n.h>
+
 /*** END file-header ***/
 
 /*** BEGIN file-production ***/
@@ -17,7 +19,7 @@ GType
 /*** END value-header ***/
 
 /*** BEGIN value-production ***/
-      { @VALUENAME@, "@VALUENAME@", "@valuenick@" },
+      { @VALUENAME@, "@VALUENAME@", N_("@valuenick@") },
 /*** END value-production ***/
 
 /*** BEGIN value-tail ***/
