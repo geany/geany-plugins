@@ -381,6 +381,7 @@ save_config (void)
     g_warning ("Failed to save configuration: %s", err->message);
     g_error_free (err);
   }
+  g_free (path);
   g_object_unref (G_settings);
   G_settings = NULL;
 }

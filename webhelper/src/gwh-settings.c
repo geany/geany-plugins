@@ -332,6 +332,7 @@ gwh_settings_save_to_file (GwhSettings *self,
       success = FALSE;
     } else {
       success = g_file_set_contents (filename, data, length, error);
+      g_free (data);
     }
   }
   g_key_file_free (key_file);
