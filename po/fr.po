@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.19\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-13 17:03+0200\n"
-"PO-Revision-Date: 2011-10-14 01:10+0200\n"
+"POT-Creation-Date: 2011-10-20 00:09+0200\n"
+"PO-Revision-Date: 2011-10-20 00:26+0200\n"
 "Last-Translator: Colomban Wendling <ban@herbesfolles.org>\n"
 "Language-Team: French <geany-i18n@uvena.de>\n"
 "Language: fr\n"
@@ -70,7 +70,7 @@ msgstr "Tâche"
 msgid "Tasks"
 msgstr "Tâches"
 
-#: ../addons/src/ao_tasks.c:540
+#: ../addons/src/ao_tasks.c:542
 msgid "Context:"
 msgstr "Contexte :"
 
@@ -133,7 +133,7 @@ msgstr "Mettre la liste de tâches à jour"
 msgid "Run XML tagging"
 msgstr ""
 
-#: ../addons/src/addons.c:396 ../geanylatex/src/geanylatex.c:234
+#: ../addons/src/addons.c:398 ../geanylatex/src/geanylatex.c:234
 #: ../geanysendmail/src/geanysendmail.c:121
 #: ../geanysendmail/src/geanysendmail.c:282 ../geanyvc/src/geanyvc.c:1784
 #: ../spellcheck/src/scplugin.c:146 ../treebrowser/src/treebrowser.c:1816
@@ -141,50 +141,50 @@ msgstr ""
 msgid "Plugin configuration directory could not be created."
 msgstr "Le répertoire de configuration du plugin n'a pas pu être créé."
 
-#: ../addons/src/addons.c:423
+#: ../addons/src/addons.c:425
 msgid "Show toolbar item to show a list of currently open documents"
 msgstr ""
-"Afficher l'élément de barre d'outils pour afficher la liste des "
-"documents ouverts"
+"Afficher l'élément de barre d'outils pour afficher la liste des documents "
+"ouverts"
 
-#: ../addons/src/addons.c:427
+#: ../addons/src/addons.c:429
 msgid "Sort documents by _name"
 msgstr "Trier les documents par _nom"
 
-#: ../addons/src/addons.c:429
+#: ../addons/src/addons.c:431
 msgid "Sort the documents in the list by their filename"
 msgstr "Trier les documents de la liste par le nom du fichier"
 
-#: ../addons/src/addons.c:432
+#: ../addons/src/addons.c:434
 msgid "Sort documents by _occurrence"
 msgstr "Trier les documents par ordre d'_apparition"
 
-#: ../addons/src/addons.c:434
+#: ../addons/src/addons.c:436
 msgid "Sort the documents in the order of the document tabs"
 msgstr "Trier les documents dans l'ordre des onglets"
 
-#: ../addons/src/addons.c:437
+#: ../addons/src/addons.c:439
 msgid "Sort documents by _occurrence (reversed)"
 msgstr "Trier les documents par ordre d'_apparition (inversé)"
 
-#: ../addons/src/addons.c:439
+#: ../addons/src/addons.c:441
 msgid "Sort the documents in the order of the document tabs (reversed)"
 msgstr "Trier les documents dans l'ordre des onglets (inversé)"
 
 #. TODO fix the string
-#: ../addons/src/addons.c:467
+#: ../addons/src/addons.c:469
 msgid "Show a 'Open URI' menu item in the editor menu"
 msgstr "Montrer une commande \"Ouvrir URI\" dans le menu de l'éditeur"
 
-#: ../addons/src/addons.c:473
+#: ../addons/src/addons.c:475
 msgid "Show available Tasks in the Messages Window"
 msgstr "Montrer les tâches disponibles dans la fenêtre des messages"
 
-#: ../addons/src/addons.c:479
+#: ../addons/src/addons.c:481
 msgid "Show tasks of all documents"
 msgstr "Montrer les tâches de tous les documents"
 
-#: ../addons/src/addons.c:483
+#: ../addons/src/addons.c:485
 msgid ""
 "Whether to show the tasks of all open documents in the list or only those of "
 "the current document."
@@ -192,31 +192,31 @@ msgstr ""
 "Choisit s'il faut montrer les tâches de tous les documents ouverts ou "
 "seulement celles du document courant."
 
-#: ../addons/src/addons.c:490
+#: ../addons/src/addons.c:492
 msgid "Specify a semicolon separated list of search tokens."
 msgstr "Liste de mots à chercher, séparés par un point-virgule."
 
-#: ../addons/src/addons.c:492
+#: ../addons/src/addons.c:494
 msgid "Search tokens:"
 msgstr "Mots à rechercher :"
 
-#: ../addons/src/addons.c:509
+#: ../addons/src/addons.c:511
 msgid "Show status icon in the Notification Area"
 msgstr "Montrer l'icône d'état dans la zone de notification"
 
-#: ../addons/src/addons.c:515
+#: ../addons/src/addons.c:517
 msgid "Show defined bookmarks (marked lines) in the sidebar"
 msgstr "Afficher les marque-pages (lignes marquées) dans la barre latérale"
 
-#: ../addons/src/addons.c:521
+#: ../addons/src/addons.c:523
 msgid "Mark all occurrences of a word when double-clicking it"
 msgstr "Marquer toutes les occurrences d'un mot lors d'un double-clic"
 
-#: ../addons/src/addons.c:527
+#: ../addons/src/addons.c:529
 msgid "Strip trailing blank lines"
 msgstr "Supprimer les lignes vides à la fin du document"
 
-#: ../addons/src/addons.c:533
+#: ../addons/src/addons.c:535
 msgid "XML tagging for selection"
 msgstr ""
 
@@ -533,7 +533,7 @@ msgid ""
 "Google Code Search in the integrated viewer."
 msgstr ""
 "Ajoute la possibilité de chercher de la documentation dans DevHelp, les "
-"pages de manuel et sur Google Code Search dans la visionneuse intégrée." 
+"pages de manuel et sur Google Code Search dans la visionneuse intégrée."
 
 #: ../devhelp/src/dhp-plugin.c:137
 #, c-format
@@ -578,197 +578,6 @@ msgstr "Rechercher le symbole courant dans les pages de manuel"
 msgid "Search for current tag in Google Code Search"
 msgstr "Rechercher le symbole courant sur Google Code Search"
 
-#: ../geanycfp/src/geanycfp.c:86
-msgid "ConText Feature parity plugin"
-msgstr ""
-
-#: ../geanycfp/src/geanycfp.c:639 ../geanymacro/src/geanymacro.c:378
-#, c-format
-msgid ""
-"Unrecognised message\n"
-"%i %i %i"
-msgstr ""
-
-#: ../geanycfp/src/geanycfp.c:1109
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:605
-#, c-format
-msgid ""
-"'%s' has been edited since it was last saved by geany. Marker positions may "
-"be unreliable and will not be loaded.\n"
-"Press Ignore to try an load markers anyway."
-msgstr ""
-"Le fichier « %s » a été modifié depuis la dernière fois qu'il a été "
-"enregistré par Geany.  Les positions des marqueurs peut ne pas être correcte "
-"et ne vont pas être chargées.\n"
-"Choisissez « ignorer » pour tenter de charger les marqueurs malgré tout."
-
-#: ../geanycfp/src/geanycfp.c:1112
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:608
-msgid "_Okay"
-msgstr "_Ok"
-
-#: ../geanycfp/src/geanycfp.c:1113
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:609
-msgid "_Ignore"
-msgstr "_Ignorer"
-
-#: ../geanycfp/src/geanycfp.c:1299
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:788
-msgid "remember fold state"
-msgstr ""
-
-#: ../geanycfp/src/geanycfp.c:1305
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:794
-msgid "Center view when goto bookmark"
-msgstr ""
-
-#: ../geanycfp/src/geanycfp.c:1311 ../geanymacro/src/geanymacro.c:652
-msgid "Save Macros when close Geany"
-msgstr ""
-
-#: ../geanycfp/src/geanycfp.c:1317 ../geanymacro/src/geanymacro.c:658
-msgid "Ask before replaceing existing Macros"
-msgstr ""
-
-#. create dialog box
-#: ../geanycfp/src/geanycfp.c:1337
-msgid "ConTEXT feature parity help"
-msgstr ""
-
-#: ../geanycfp/src/geanycfp.c:1345
-msgid ""
-"This Plugin implements two useful features.\n"
-"\n"
-"Firstly it allows you to use 10 numbered bookmarks. Normaly if you had more "
-"than one bookmark, you would have to cycle through them until you reached "
-"the one you wanted. With this plugin you can go straight to the bookmark "
-"that you want with a single key combination. To set a numbered bookmark "
-"press Ctrl+Shift+a number from 0 to 9. You will see a marker apear next to "
-"the line number. If you press Ctrl+Shift+a number on a line that already has "
-"that bookmark number then it removes the bookmark, otherwise it will move "
-"the bookmark there if it was set on a different line, or create it if it had "
-"not already been set. Only the bookmark with the highest number on a line "
-"will be shown, but you can have more than one bookmark per line. This plugin "
-"does not interfer with regular bookmarks. When a file is saved, Geany will "
-"remember the numbered bookmarks and make sure that they are set the next "
-"time you open the file.\n"
-"\n"
-"Secondly this plugin alows you to record and use your own macros. These are "
-"sequences of actions that can then be repeated with a single key "
-"combination. So if you had dozens of lines where you wanted to delete the "
-"last 2 characters, you could simple start recording, press End, Backspace, "
-"Backspace, down line and then stop recording. Then simply trigger the macro "
-"and it would automaticaly edit the line and move to the next. Select Record "
-"Macro from the Tools menu and you will be prompted with a dialog box. You "
-"need to specify a key combination that isn't being used, and a name for the "
-"macro to help you identify it. Then press Record. What you do in the editor "
-"is then recorded until you select Stop Recording Macro from the Tools menu. "
-"Simply pressing the specified key combination will re-run the macro. To edit "
-"the macros you have select Edit Macro from the Tools menu. You can select a "
-"macro and delete it, or re-record it. You can also click on a macro's name "
-"and change it, or the key combination and re-define that asuming that it's "
-"not already in use.\n"
-"\n"
-"You can alter the default behaviur of this plugin by selecting Plugin "
-"Manager under the Tools menu, selecting this plugin, and cliking "
-"Preferences. You can change:\n"
-"Remember fold state - if this is set then this plugin will remember the "
-"state of any folds along with the numbered bookmarks and set them when the "
-"file is next loaded.\n"
-"Center view when goto bookmark - If this is set it will try to make sure "
-"that the numbered bookmark that you are going to is in the center of the "
-"screen, otherwise it will simply be on the screen somewhere.\n"
-"Save Macros when close Geany - If this is selected then Geany will save any "
-"recorded macros and reload them for use the next time you open Geany, if not "
-"they will be lost when Geany is closed.\n"
-"Ask before replaceing existing Macros - If this is selected then if you try "
-"recording a macro over an existing one it will check before over-writing it, "
-"giving you the option of trying a different name or key trigger combination, "
-"otherwise it will simply erase any existing macros with the same name, or "
-"the same key trigger combination."
-msgstr ""
-
-#: ../geanycfp/src/geanycfp.c:1629 ../geanymacro/src/geanymacro.c:867
-#, fuzzy
-msgid "Record Macro"
-msgstr "Enregistrer une macro"
-
-#. create buttons
-#: ../geanycfp/src/geanycfp.c:1632 ../geanymacro/src/geanymacro.c:870
-#, fuzzy
-msgid "Record"
-msgstr "Enregistrer"
-
-#: ../geanycfp/src/geanycfp.c:1633 ../geanycfp/src/geanycfp.c:1950
-#: ../geanymacro/src/geanymacro.c:871 ../geanymacro/src/geanymacro.c:1189
-msgid "Cancel"
-msgstr "Annuler"
-
-#: ../geanycfp/src/geanycfp.c:1640 ../geanymacro/src/geanymacro.c:878
-msgid "Macro Trigger:"
-msgstr ""
-
-#: ../geanycfp/src/geanycfp.c:1654 ../geanymacro/src/geanymacro.c:892
-msgid "Macro Name:"
-msgstr ""
-
-#: ../geanycfp/src/geanycfp.c:1677 ../geanymacro/src/geanymacro.c:915
-msgid "You must define a key trigger combination"
-msgstr ""
-
-#: ../geanycfp/src/geanycfp.c:1691 ../geanymacro/src/geanymacro.c:929
-#, c-format
-msgid ""
-"Macro name \"%s\"\n"
-" is already in use.\n"
-"Replace?"
-msgstr ""
-
-#: ../geanycfp/src/geanycfp.c:1707 ../geanymacro/src/geanymacro.c:945
-#, c-format
-msgid ""
-"Macro trigger \"%s\"\n"
-" is already in use.\n"
-"Replace?"
-msgstr ""
-
-#: ../geanycfp/src/geanycfp.c:1887 ../geanymacro/src/geanymacro.c:1126
-msgid "Edit Macros"
-msgstr ""
-
-#: ../geanycfp/src/geanycfp.c:1919 ../geanymacro/src/geanymacro.c:1158
-msgid "Macro Name"
-msgstr "Nom de la macro"
-
-#: ../geanycfp/src/geanycfp.c:1925 ../geanymacro/src/geanymacro.c:1164
-msgid "Key Trigger"
-msgstr ""
-
-#. add buttons
-#: ../geanycfp/src/geanycfp.c:1948 ../geanymacro/src/geanymacro.c:1187
-msgid "Re-Record"
-msgstr ""
-
-#: ../geanycfp/src/geanycfp.c:1949 ../geanymacro/src/geanymacro.c:1188
-#: ../treebrowser/src/treebrowser.c:1233
-msgid "Delete"
-msgstr "Supprimer"
-
-#. add record macro menu entry
-#: ../geanycfp/src/geanycfp.c:2073 ../geanymacro/src/geanymacro.c:1313
-msgid "Record _Macro"
-msgstr ""
-
-#. add stop record macromenu entry
-#: ../geanycfp/src/geanycfp.c:2079 ../geanymacro/src/geanymacro.c:1319
-msgid "Stop Recording _Macro"
-msgstr ""
-
-#. add Edit Macro menu entry
-#: ../geanycfp/src/geanycfp.c:2085 ../geanymacro/src/geanymacro.c:1325
-msgid "_Edit Macros"
-msgstr ""
-
 #. All plugins must set name, description, version and author.
 #: ../geanydoc/src/geanydoc.c:50 ../geanydoc/src/geanydoc.c:347
 msgid "Doc"
@@ -806,201 +615,201 @@ msgstr ""
 msgid "Document interactive"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-break.c:152
+#: ../geanygdb/src/gdb-io-break.c:156
 #, c-format
 msgid "Added breakpoint #%s in %s() at %s:%s\n"
 msgstr "Ajout d'un point d'arrêt #%s dans %s() à %s:%s\n"
 
-#: ../geanygdb/src/gdb-io-break.c:157
+#: ../geanygdb/src/gdb-io-break.c:161
 #, c-format
 msgid "Added breakpoint #%s at %s:%s\n"
 msgstr "Ajout d'un point d'arrêt #%s à %s:%s\n"
 
-#: ../geanygdb/src/gdb-io-break.c:169
+#: ../geanygdb/src/gdb-io-break.c:173
 #, c-format
 msgid "Added write watchpoint #%s for %s\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-break.c:178
+#: ../geanygdb/src/gdb-io-break.c:182
 #, c-format
 msgid "Added read/write watchpoint #%s for %s\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-break.c:189
+#: ../geanygdb/src/gdb-io-break.c:193
 #, c-format
 msgid "Added read watchpoint #%s for %s\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-break.c:236
+#: ../geanygdb/src/gdb-io-break.c:240
 msgid "Watch/breakpoint deleted.\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-break.c:260
+#: ../geanygdb/src/gdb-io-break.c:264
 msgid "Failed to toggle breakpoint -\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-break.c:278
+#: ../geanygdb/src/gdb-io-break.c:282
 msgid "Watch/breakpoint toggled.\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-break.c:292
+#: ../geanygdb/src/gdb-io-break.c:296
 msgid "Watch/breakpoint modified.\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-envir.c:132
+#: ../geanygdb/src/gdb-io-envir.c:136
 msgid "Failed to retrieve source search path setting from GDB."
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-envir.c:153
+#: ../geanygdb/src/gdb-io-envir.c:157
 msgid "Failed to retrieve executable search path setting from GDB."
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-envir.c:175
+#: ../geanygdb/src/gdb-io-envir.c:179
 msgid "Failed to retrieve working directory setting from GDB."
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-frame.c:500
+#: ../geanygdb/src/gdb-io-frame.c:504
 msgid "Field list too long, not all items can be displayed.\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-read.c:240
+#: ../geanygdb/src/gdb-io-read.c:244
 msgid "Error starting target process!\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-read.c:285
+#: ../geanygdb/src/gdb-io-read.c:289
 msgid ""
 "This executable does not appear to contain the required debugging "
 "information."
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-read.c:547
+#: ../geanygdb/src/gdb-io-read.c:551
 #, c-format
 msgid "Program received signal %s (%s) at %s in function %s() at %s:%s"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-read.c:598
+#: ../geanygdb/src/gdb-io-read.c:602
 #, c-format
 msgid "Watchpoint #%s out of scope"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-read.c:607
+#: ../geanygdb/src/gdb-io-read.c:611
 #, c-format
 msgid "Program exited on signal %s (%s).\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-read.c:609
+#: ../geanygdb/src/gdb-io-read.c:613
 msgid "Unknown signal"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-read.c:626
+#: ../geanygdb/src/gdb-io-read.c:630
 #, c-format
 msgid "Program exited with code %d [%s]\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-read.c:627
+#: ../geanygdb/src/gdb-io-read.c:631
 msgid "(unknown)"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-read.c:633
+#: ../geanygdb/src/gdb-io-read.c:637
 msgid "Program exited normally.\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-run.c:286
+#: ../geanygdb/src/gdb-io-run.c:290
 msgid "tty temporary directory not specified!\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-run.c:291
+#: ../geanygdb/src/gdb-io-run.c:295
 msgid "tty temporary directory not found!\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-run.c:310
+#: ../geanygdb/src/gdb-io-run.c:314
 msgid "tty helper program not specified!\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-run.c:317
+#: ../geanygdb/src/gdb-io-run.c:321
 msgid "tty helper program not found!\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-run.c:370
+#: ../geanygdb/src/gdb-io-run.c:374
 #, c-format
 msgid "Attaching to terminal %s\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-run.c:385
+#: ../geanygdb/src/gdb-io-run.c:389
 msgid "Timeout waiting for TTY name.\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-run.c:434
+#: ../geanygdb/src/gdb-io-run.c:438
 #, c-format
 msgid "GDB exited (pid=%d)\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-run.c:536
+#: ../geanygdb/src/gdb-io-run.c:540
 #, c-format
 msgid "Target process exited. (pid=%d; %s%s)\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-run.c:538
+#: ../geanygdb/src/gdb-io-run.c:542
 msgid "code="
 msgstr "code="
 
-#: ../geanygdb/src/gdb-io-run.c:538
+#: ../geanygdb/src/gdb-io-run.c:542
 msgid "reason:"
 msgstr "raison :"
 
-#: ../geanygdb/src/gdb-io-run.c:604 ../geanygdb/src/gdb-io-run.c:669
+#: ../geanygdb/src/gdb-io-run.c:608 ../geanygdb/src/gdb-io-run.c:673
 #, c-format
 msgid "Directory %s not found!\n"
 msgstr "Répertoire %s introuvable !\n"
 
-#: ../geanygdb/src/gdb-io-run.c:609
+#: ../geanygdb/src/gdb-io-run.c:613
 msgid "Shutting down target program.\n"
 msgstr "Fermeture du programme cible.\n"
 
-#: ../geanygdb/src/gdb-io-run.c:616
+#: ../geanygdb/src/gdb-io-run.c:620
 msgid "Killing target program.\n"
 msgstr "Tue le programme cible.\n"
 
-#: ../geanygdb/src/gdb-io-run.c:624
+#: ../geanygdb/src/gdb-io-run.c:628
 #, fuzzy
 msgid "Timeout waiting for target process.\n"
 msgstr "Timeout alors que l'on attendait le processus cible"
 
-#: ../geanygdb/src/gdb-io-run.c:627
+#: ../geanygdb/src/gdb-io-run.c:631
 msgid "Using a bigger hammer!\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-run.c:641
+#: ../geanygdb/src/gdb-io-run.c:645
 msgid "Waiting for target process to exit.\n"
 msgstr "Attente de la fin du processus cible.\n"
 
-#: ../geanygdb/src/gdb-io-run.c:677
+#: ../geanygdb/src/gdb-io-run.c:681
 #, c-format
 msgid "Killing GDB (pid=%d)\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-run.c:691
+#: ../geanygdb/src/gdb-io-run.c:695
 msgid "Timeout trying to kill GDB.\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-run.c:701
+#: ../geanygdb/src/gdb-io-run.c:705
 msgid "Shutting down GDB\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-run.c:714
+#: ../geanygdb/src/gdb-io-run.c:718
 msgid "Waiting for GDB to exit.\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-run.c:722
+#: ../geanygdb/src/gdb-io-run.c:726
 msgid "Timeout waiting for GDB to exit.\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-run.c:792
+#: ../geanygdb/src/gdb-io-run.c:796
 #, c-format
 msgid "Starting gdb (pid=%d)\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-io-run.c:854
+#: ../geanygdb/src/gdb-io-run.c:858
 #, c-format
 msgid "Started target process. (pid=%d)\n"
 msgstr ""
@@ -1119,79 +928,79 @@ msgstr ""
 msgid "Terminal program:"
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-frame.c:137
+#: ../geanygdb/src/gdb-ui-frame.c:141
 msgid "_Examine"
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-frame.c:287
+#: ../geanygdb/src/gdb-ui-frame.c:291
 msgid "Object info"
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-frame.c:294
+#: ../geanygdb/src/gdb-ui-frame.c:298
 msgid "Elements"
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-frame.c:294
+#: ../geanygdb/src/gdb-ui-frame.c:298
 msgid "Fields"
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-frame.c:302
+#: ../geanygdb/src/gdb-ui-frame.c:306
 msgid "Return to previous dialog."
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-frame.c:307 ../geanygdb/src/gdb-ui-frame.c:381
+#: ../geanygdb/src/gdb-ui-frame.c:311 ../geanygdb/src/gdb-ui-frame.c:385
 msgid "Display additional information about the selected item."
 msgstr "Affiche des informations supplémentaires sur l'élément sélectionné"
 
-#: ../geanygdb/src/gdb-ui-frame.c:354
+#: ../geanygdb/src/gdb-ui-frame.c:358
 msgid "Frame info"
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-frame.c:357
+#: ../geanygdb/src/gdb-ui-frame.c:361
 #, c-format
 msgid ""
 "\n"
 "Frame #%s in %s() at %s:%s\n"
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-frame.c:367
+#: ../geanygdb/src/gdb-ui-frame.c:371
 msgid "Function arguments"
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-frame.c:371
+#: ../geanygdb/src/gdb-ui-frame.c:375
 msgid "Local variables"
 msgstr "Variables locales"
 
-#: ../geanygdb/src/gdb-ui-frame.c:376
+#: ../geanygdb/src/gdb-ui-frame.c:380
 msgid "Return to stack list dialog."
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-frame.c:588
+#: ../geanygdb/src/gdb-ui-frame.c:592
 msgid "Stack trace"
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-frame.c:605
+#: ../geanygdb/src/gdb-ui-frame.c:609
 #, fuzzy
 msgid "Display additional information about the selected frame."
 msgstr "Affiche des informations supplémentaires sur la frame sélectionnée"
 
-#: ../geanygdb/src/gdb-ui-locn.c:63
+#: ../geanygdb/src/gdb-ui-locn.c:67
 msgid "Clea_r"
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-locn.c:78
+#: ../geanygdb/src/gdb-ui-locn.c:82
 msgid "Filename: "
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-locn.c:91
+#: ../geanygdb/src/gdb-ui-locn.c:95
 msgid "Variable to watch:"
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-locn.c:92
+#: ../geanygdb/src/gdb-ui-locn.c:96
 msgid "Line number or function name: "
 msgstr ""
 
-#: ../geanygdb/src/gdb-ui-locn.c:133
+#: ../geanygdb/src/gdb-ui-locn.c:137
 msgid "Access trigger:"
 msgstr ""
 
@@ -1849,8 +1658,7 @@ msgstr "Préfixe de base"
 
 #: ../geanyinsertnum/src/insertnum.c:378
 msgid "0 for octal, 0x for hex, + for positive decimal"
-msgstr ""
-"0 pour octal, 0x pour hexadécimal et + pour les entiers positifs"
+msgstr "0 pour octal, 0x pour hexadécimal et + pour les entiers positifs"
 
 #: ../geanyinsertnum/src/insertnum.c:380
 msgid "Padding:"
@@ -2368,8 +2176,8 @@ msgstr "Définit l'encodage pour votre nouveau document"
 
 #. fontsize
 #: ../geanylatex/src/geanylatex.c:1788
-msgid "Font size:"
-msgstr "Taille de la police :"
+msgid "Font size"
+msgstr "Taille de la police"
 
 #: ../geanylatex/src/geanylatex.c:1794
 msgid "Set the default font size of your new document"
@@ -3133,6 +2941,21 @@ msgstr ""
 msgid "Macros for Geany"
 msgstr "Macros pour Geany"
 
+#: ../geanymacro/src/geanymacro.c:378
+#, c-format
+msgid ""
+"Unrecognised message\n"
+"%i %i %i"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:652
+msgid "Save Macros when close Geany"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:658
+msgid "Ask before replaceing existing Macros"
+msgstr ""
+
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:678
 msgid "Geany Macros help"
@@ -3171,8 +2994,115 @@ msgid ""
 "the same key trigger combination."
 msgstr ""
 
+#: ../geanymacro/src/geanymacro.c:867
+#, fuzzy
+msgid "Record Macro"
+msgstr "Enregistrer une macro"
+
+#. create buttons
+#: ../geanymacro/src/geanymacro.c:870
+#, fuzzy
+msgid "Record"
+msgstr "Enregistrer"
+
+#: ../geanymacro/src/geanymacro.c:871 ../geanymacro/src/geanymacro.c:1189
+msgid "Cancel"
+msgstr "Annuler"
+
+#: ../geanymacro/src/geanymacro.c:878
+msgid "Macro Trigger:"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:892
+msgid "Macro Name:"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:915
+msgid "You must define a key trigger combination"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:929
+#, c-format
+msgid ""
+"Macro name \"%s\"\n"
+" is already in use.\n"
+"Replace?"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:945
+#, c-format
+msgid ""
+"Macro trigger \"%s\"\n"
+" is already in use.\n"
+"Replace?"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:1126
+msgid "Edit Macros"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:1158
+msgid "Macro Name"
+msgstr "Nom de la macro"
+
+#: ../geanymacro/src/geanymacro.c:1164
+msgid "Key Trigger"
+msgstr ""
+
+#. add buttons
+#: ../geanymacro/src/geanymacro.c:1187
+msgid "Re-Record"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:1188 ../treebrowser/src/treebrowser.c:1233
+msgid "Delete"
+msgstr "Supprimer"
+
+#. add record macro menu entry
+#: ../geanymacro/src/geanymacro.c:1313
+msgid "Record _Macro"
+msgstr ""
+
+#. add stop record macromenu entry
+#: ../geanymacro/src/geanymacro.c:1319
+msgid "Stop Recording _Macro"
+msgstr ""
+
+#. add Edit Macro menu entry
+#: ../geanymacro/src/geanymacro.c:1325
+msgid "_Edit Macros"
+msgstr ""
+
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:63
 msgid "Numbered Bookmarks for Geany"
+msgstr ""
+
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:605
+#, c-format
+msgid ""
+"'%s' has been edited since it was last saved by geany. Marker positions may "
+"be unreliable and will not be loaded.\n"
+"Press Ignore to try an load markers anyway."
+msgstr ""
+"Le fichier « %s » a été modifié depuis la dernière fois qu'il a été "
+"enregistré par Geany.  Les positions des marqueurs peut ne pas être correcte "
+"et ne vont pas être chargées.\n"
+"Choisissez « ignorer » pour tenter de charger les marqueurs malgré tout."
+
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:608
+msgid "_Okay"
+msgstr "_Ok"
+
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:609
+msgid "_Ignore"
+msgstr "_Ignorer"
+
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:788
+msgid "remember fold state"
+msgstr ""
+
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:794
+msgid "Center view when goto bookmark"
 msgstr ""
 
 #. create dialog box
@@ -3702,7 +3632,7 @@ msgid "No changes were made."
 msgstr "Aucune modification n'a été effectuée."
 
 #: ../geanyvc/src/geanyvc.c:713
-msgid "No history avaible"
+msgid "No history available"
 msgstr "Pas d'historique disponible"
 
 #: ../geanyvc/src/geanyvc.c:906 ../geanyvc/src/geanyvc.c:914
@@ -3910,8 +3840,8 @@ msgid "_Original"
 msgstr "_Original"
 
 #: ../geanyvc/src/geanyvc.c:2029
-msgid "Shows the orignal of the current file"
-msgstr "Afficher l'original du fichier courant"
+msgid "Shows the original of the current file"
+msgstr "Affiche l'original du fichier courant"
 
 #. add current file
 #: ../geanyvc/src/geanyvc.c:2037
@@ -4714,7 +4644,35 @@ msgstr "Rechercher les mises à jour au lancement"
 msgid "Check for Updates"
 msgstr "Vérifier les mises à jour"
 
-#: ../webhelper/src/gwh-settings.c:774
+#: ../webhelper/src/gwh-enum-types.c:18
+msgid "message-window"
+msgstr "fenêtre de messages"
+
+#: ../webhelper/src/gwh-enum-types.c:19
+msgid "sidebar"
+msgstr "barre latérale"
+
+#: ../webhelper/src/gwh-enum-types.c:20
+msgid "separate-window"
+msgstr "fenêtre séparée"
+
+#: ../webhelper/src/gwh-enum-types.c:35
+msgid "none"
+msgstr "aucune"
+
+#: ../webhelper/src/gwh-enum-types.c:36
+msgid "on-connexion"
+msgstr "à la connexion"
+
+#: ../webhelper/src/gwh-enum-types.c:51
+msgid "normal"
+msgstr "normal"
+
+#: ../webhelper/src/gwh-enum-types.c:52
+msgid "utility"
+msgstr "utilitaire"
+
+#: ../webhelper/src/gwh-settings.c:775
 #, c-format
 msgid "%s:"
 msgstr "%s :"
@@ -4860,21 +4818,21 @@ msgstr "Type des fenêtres secondaires"
 msgid "The type of the secondary windows"
 msgstr "Le type des fenêtres secondaires"
 
-#: ../webhelper/src/gwh-plugin.c:431
+#: ../webhelper/src/gwh-plugin.c:432
 msgid "Toggle Web Inspector"
 msgstr "Basculer l'inspecteur web"
 
-#: ../webhelper/src/gwh-plugin.c:436
+#: ../webhelper/src/gwh-plugin.c:437
 msgid "Show/Hide Web View's Window"
 msgstr "Afficher/cacher la fenêtre du navigateur"
 
 #. Browser
-#: ../webhelper/src/gwh-plugin.c:502
+#: ../webhelper/src/gwh-plugin.c:503
 msgid "Browser"
 msgstr "Navigateur"
 
 #. Windows
-#: ../webhelper/src/gwh-plugin.c:514
+#: ../webhelper/src/gwh-plugin.c:515
 msgid "Windows"
 msgstr "Fenêtres"
 
