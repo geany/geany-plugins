@@ -46,6 +46,10 @@ Geany-Plugins 0.21 (t.b.d.s)
     * Some smaller fixes for compiler warnings and memory leaks
     * Small update to enable i18n also on Geany >= 0.21
 
+    Spell Check:
+    * Reduce artifacts on partially checked words
+    * Improve 'Check as you type' feature, make it more reliably
+
     Tableconvert:
     * Adding new plugin, helping on converting tabulator separated
       list into table supporting LaTeX, HTML and SQL so far.
