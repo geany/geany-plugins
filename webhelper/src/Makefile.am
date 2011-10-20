@@ -24,9 +24,6 @@ headers         = gwh-browser.h \
 autogen_sources = gwh-enum-types.c
 autogen_headers = gwh-enum-types.h
 
-CLEANFILES      = $(autogen_sources) \
-                  $(autogen_headers)
-
 EXTRA_DIST      = gwh-enum-types.c.tpl \
                   gwh-enum-types.h.tpl
 
@@ -43,9 +40,12 @@ webhelper_la_CFLAGS   = $(AM_CFLAGS) \
 webhelper_la_LIBADD   = $(COMMONLIBS) \
                         $(WEBHELPER_LIBS)
 
-gwh-enum-types.c: $(srcdir)/gwh-enum-types.c.tpl gwh-enum-types.h $(headers) Makefile
+# These are generated in $(srcdir) because they are part of the distribution,
+# and should anyway only be regenerated if the .tpl changes, which is a
+# developer thing ,so if should be harmless.
+$(srcdir)/gwh-enum-types.c: $(srcdir)/gwh-enum-types.c.tpl gwh-enum-types.h $(headers)
 	$(AM_V_GEN)$(GLIB_MKENUMS) --template $< $(headers:%=$(srcdir)/%) > $@
-gwh-enum-types.h: $(srcdir)/gwh-enum-types.h.tpl $(headers) Makefile
+$(srcdir)/gwh-enum-types.h: $(srcdir)/gwh-enum-types.h.tpl $(headers)
 	$(AM_V_GEN)$(GLIB_MKENUMS) --template $< $(headers:%=$(srcdir)/%) > $@
 
 include $(top_srcdir)/build/cppcheck.mk
