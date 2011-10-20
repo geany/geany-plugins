@@ -12,7 +12,11 @@
 */
 
 
-#include "geanyplugin.h"
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
+#include <geanyplugin.h>
+
 #include "utils.h"
 #include "Scintilla.h"
 #include <stdlib.h>
@@ -48,7 +52,7 @@ GeanyFunctions  *geany_functions;
 
 PLUGIN_VERSION_CHECK(147)
 
-PLUGIN_SET_INFO("Macros",_("Macros for Geany"),
+PLUGIN_SET_INFO(_("Macros"),_("Macros for Geany"),
                 "0.1","William Fraser <william.fraser@virgin.net>");
 
 /* Plugin user alterable settings */
