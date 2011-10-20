@@ -10,6 +10,12 @@ Geany-Plugins 0.21 (t.b.d.s)
     * Add new plugin Tableconvert
     * Add new plugin XMLSnippets
 
+    Addons:
+    * DocList addon: Add preference to define the order of the documents
+      in the list (#3204573)
+    * Tasks addon: Activate and update the task list when the Tasks
+      addon is enabled
+
     GeanyLaTeX:
     * Moved LaTeX-menu to a separate menu inside Geany main menu
     * Added a feature to autocapetlise letters on typing on begin of a
