@@ -76,6 +76,25 @@ assign a keyboard shortcut in Geany's preferences dialog to perform a
 spell check.
 
 
+Configuring dictionaries on Windows
+-----------------------------------
+On Windows, you might need to install the dictionaries (the files
+containing the information for spell checking) manually.
+First, you need to download the dictionary files for the
+languages you want, e.g. from http://wiki.services.openoffice.org/wiki/Dictionaries.
+Be sure to download the "Spelling" archives from this site. The
+downloaded archive should contain one or more .dic and .aff files.
+
+Once you downloaded the dictionaries, extract them into a folder of
+your choice, e.g. C:\dictionaries. Then open to the Spell Check plugin
+preferences dialog in Geany and choose the folder you just created.
+You may need to restart Geany and then the installed dictionaries should
+be available.
+
+Currently, installing dictionaries into a custom folder only works
+with Myspell/Hunspell dictionaries (http://hunspell.sourceforge.net/).
+
+
 Known issues
 ------------
  * Spell checking with some languages like Hindi might be incorrect, i.e. some
