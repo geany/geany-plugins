@@ -50,6 +50,7 @@ from build.wafutils import (
     get_plugins,
     get_enabled_plugins,
     get_svn_rev,
+    install_docs,
     launch,
     load_intltool_if_available,
     set_lib_dir,
@@ -227,6 +228,8 @@ def build(bld):
             appname      = APPNAME,
             install_path = install_path)
 
+    # install additional docs
+    install_docs(bld, '', ('README', 'NEWS'))
     if is_win32:
         bld.install_as('${G_PREFIX}/ReadMe.Windows.txt', 'README.windows')
 
