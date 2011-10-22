@@ -39,6 +39,7 @@ Requires WAF 1.6.1 and Python 2.5 (or later).
 
 import os
 import tempfile
+from glob import glob
 from waflib import Logs, Scripting, Utils
 from waflib.Tools import c_preproc
 from waflib.Errors import ConfigurationError
@@ -313,14 +314,14 @@ def create_installer(ctx):
 
     # strip all binaries
     Logs.pprint('CYAN', 'Stripping %sfiles' % ('and signing binary ' if do_sign else ''))
-    # TODO rewrite this using ctx
-    files = glob.glob(os.path.join(ctx.env['G_PREFIX'], 'lib', '*.dll'))
-    files.append(ctx.env['G_PREFIX'] + '\lib\geany-plugins\geanylua\libgeanylua.dll')
+    install_dir = '%s-%s' % (APPNAME, VERSION) # should be ctx.env['G_PREFIX']
+    files = glob(os.path.join(install_dir, 'lib', '*.dll'))
+    files.append(os.path.join(install_dir, 'lib\geany-plugins\geanylua\libgeanylua.dll'))
     for filename in files: # sign the DLL files
         ctx.exec_command('strip %s' % filename)
         sign_binary(filename)
     # create the installer
-    launch('makensis /V2 /NOCD build/geany-plugins.nsi', 'Creating the installer', 'CYAN')
+    launch(ctx, 'makensis /V2 /NOCD build/geany-plugins.nsi', 'Creating the installer', 'CYAN')
     sign_binary('geany-plugins-%s_setup.exe' % VERSION)
 
 
