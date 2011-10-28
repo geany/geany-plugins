@@ -4,5 +4,5 @@ else
 include $(top_srcdir)/build/vars.docs.mk
 endif
 
-SUBDIRS = src
+SUBDIRS = src doc
 plugin = geanylatex
