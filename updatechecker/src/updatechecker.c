@@ -81,7 +81,7 @@ static void update_check(gint type)
     gchar *user_agent = g_strconcat("Updatechecker ", VERSION, " at Geany ",
                                      GEANY_VERSION, NULL);
 
-    g_message("Starting checking for updates");
+    g_message("Checking for updates");
     soup = soup_session_async_new_with_options(SOUP_SESSION_USER_AGENT,
             user_agent, NULL);
 

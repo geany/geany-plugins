@@ -1,3 +1,8 @@
+2011-10-27  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
+
+ * Improve wording on debug messages.
+
+
 2011-03-27  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
  * Make plugin depend on plugin API v203 due some threading changes.
