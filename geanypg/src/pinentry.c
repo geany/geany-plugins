@@ -128,7 +128,7 @@ gpgme_error_t geanypg_passphrase_cb(void * hook,
     fflush(childin);
     geanypg_read_till(outpipe[READ], '\n');
 
-    fprintf(childin, "SETDESC %s:%0A%s\n",
+    fprintf(childin, "SETDESC %s: %s\n",
                      (uid_hint && *uid_hint ? _("Enter passphrase for") : ""),
                      (uid_hint && *uid_hint ? geanypg_getname(uid_hint) : ""));
     fflush(childin);
