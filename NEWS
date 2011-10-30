@@ -1,3 +1,9 @@
+Geany Plugins 0.21.1 (2011-10-30)
+
+    General:
+    * Add geanylatex/doc/ to autotools build system
+
+
 Geany-Plugins 0.21 (2011-10-23)
 
     General:
