@@ -33,6 +33,18 @@ new versions. But you can change this by activating this inside
 configuration dialog.
 
 
+Requirements
+------------
+
+Updatechecker depends on a recent version of Geany (0.20 or above)
+as well as on:
+
+* GTK >= 2.12
+* libsoup 2.4 >= 2.4.0
+
+To compile it on your own you will need the devel packages for these.
+
+
 Development
 -----------
 
@@ -73,5 +85,4 @@ Bugs, questions, bugs, homepage
 -------------------------------
 
 If you found any bugs or want to provide a patch, please contact Frank
-Lanitz (frank(at)geany(dot)org). 
-
+Lanitz (frank(at)geany(dot)org).
