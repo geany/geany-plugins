@@ -1,12 +1,12 @@
 include $(top_srcdir)/build/vars.build.mk
 
 if ENABLE_PRETTY_PRINTER
-geanyplugins_LTLIBRARIES = pretty-print.la
+geanyplugins_LTLIBRARIES = pretty-printer.la
 else
-EXTRA_LTLIBRARIES = pretty-print.la
+EXTRA_LTLIBRARIES = pretty-printer.la
 endif
 
-pretty_print_la_SOURCES = \
+pretty_printer_la_SOURCES = \
 	PluginEntry.h \
 	PluginEntry.c \
 	PrettyPrinter.c \
@@ -14,7 +14,7 @@ pretty_print_la_SOURCES = \
 	ConfigUI.h \
 	ConfigUI.c
 
-pretty_print_la_CFLAGS = $(AM_CFLAGS) $(LIBXML_CFLAGS) -DHAVE_GLIB -DHAVE_LIBXML
-pretty_print_la_LIBADD = $(COMMONLIBS) $(LIBXML_LIBS)
+pretty_printer_la_CFLAGS = $(AM_CFLAGS) $(LIBXML_CFLAGS) -DHAVE_GLIB -DHAVE_LIBXML
+pretty_printer_la_LIBADD = $(COMMONLIBS) $(LIBXML_LIBS)
 
 include $(top_srcdir)/build/cppcheck.mk
