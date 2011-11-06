@@ -60,7 +60,7 @@ from build.wafutils import (
 
 
 APPNAME = 'geany-plugins'
-VERSION = '0.21.1'
+VERSION = '1.22'
 LINGUAS_FILE = 'po/LINGUAS'
 
 top = '.'
