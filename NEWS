@@ -31,9 +31,9 @@ Geany-Plugins 0.21 (2011-10-23)
     * Added a dialog for inserting BibTeX references based on available
       *.bib-files
     * Upgrade plugin API to version 199
-    * Ensure to don't insert {} after \^ and \_
-    * Adding a keystroke to toggle inserting {} after ^ and _
-    * Fix an issue with wrong inserted formating using a keybinding
+    * Ensure not to insert {} after \^ and \_
+    * Added a keystroke to toggle inserting {} after ^ and _
+    * Fixed an issue with wrong inserted formating using a keybinding
     * Small update to enable i18n also on Geany >= 0.21
     * Various bugfixes and memory leak fixes.
 
