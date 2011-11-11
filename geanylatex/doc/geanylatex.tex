@@ -162,51 +162,26 @@ libraries and header files. You will also need its dependency
 libraries and header files, such as Pango, Glib and ATK. All these
 files are available at \url{http://www.gtk.org}.
 
-And obviously, you will need to have Geany with its header files
-installed (in case you are compiling the plugin on your own). If you
-installed Geany from the sources, you should be ready to go. If
-you used a prepared package, e.g. from your distribution, you probably
-need to install an additional package, probably called geany-dev
-or geany-devel. Please note that in order to compile and use this
-plugin, you need Geany 0.20svn or later (Geany Plugin API v199 or higher).
+And obviously, you will need to have Geany with its header files 
+installed (in case you are compiling the plugin on your own). If you 
+installed Geany from the sources, you should be ready to go. If you 
+used a prepared package, e.g. from your distribution, you probably 
+need to install an additional package, probably called geany-dev or 
+geany-devel. Please note that in order to compile and use this 
+plugin, you need Geany 0.20svn or later (Geany Plugin API v199 or 
+higher).
 
-Furthermore you need, of course, a C compiler and python installed. The
-GNU version of the C compiler is recommended. Furthermore, there should be a
-working \LaTeX-environment on your System.
+Furthermore you need, of course, a C compiler and python installed. 
+The GNU version of the C compiler is recommended. Furthermore, there 
+should be a working \LaTeX-environment on your System.
 
-There is no special need in RAM or CPU, so the plugin should compile and
-run on all systems Geany is able to run.
+There is no special need in RAM or CPU, so the plugin should compile 
+and run on all systems Geany is able to run.
 
-\section{Installation}
-
-\small{\textbf{Please note:} This section of documentation is only
-valid for the standalone distribution of Geany\LaTeX{}. If you are
-about to use the common geany-plugins project, please check their
-documentation as there are some specialties you might like to know.}
-
+\section{Compiling}
 \subsection{Compiling the plugin}
-Compiling and installing the code is done by the following three
-commands:
-
-\begin{lstlisting}[caption={Compiling with waf}]
-$ ./waf configure
-$ ./waf build
-$ ./waf install %$
-\end{lstlisting}
-
-For more configuration details, run \texttt{./waf --help}
-
-By default, the plugin is installed into the \texttt{lib} subfolder of
-your Geany installation. So if you have installed Geany to
-\texttt{/usr/local/} the plugin will be installed to
-\texttt{/usr/local/lib/geany/}. Translation files will be installed to
-\texttt{/usr/local/share/locale/} in this case.
-
-If there are any errors during compilation, check your build environment
-and try to find the error, otherwise contact one of the
-authors\footnote{Contact data can be found in Chapter \ref{contact},
-page \pageref{contact}.}
-
+For documentation how to compile the plugin, please check the 
+documentation of the geany-plugins combined release. 
 \subsection{Compiling the documentation}
 \label{sec:compiling_of_documentation}
 Sources of this documentation are available throught
