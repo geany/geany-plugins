@@ -392,6 +392,8 @@ show_output(const gchar * std_output, const gchar * name,
 			/* To due the given line is Scintilla's line number, but 
 			 * we need the view line number in this case.  */
 			line = line + 1;
+			if (line < 1)
+				line = 1;
 		}
 		else
 		{
