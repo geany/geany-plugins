@@ -389,11 +389,9 @@ show_output(const gchar * std_output, const gchar * name,
 		if (doc == NULL)
 		{
 			doc = document_new_file(name, ftype, std_output);
-			if (line == 0)
-			{
-				line = 1;
-			}
-				
+			/* To due the given line is Scintilla's line number, but 
+			 * we need the view line number in this case.  */
+			line = line + 1;
 		}
 		else
 		{
