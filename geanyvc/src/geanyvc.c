@@ -375,7 +375,8 @@ get_cmd(const gchar ** argv, const gchar * dir, const gchar * filename, GSList *
 /* name should be in UTF-8, and can have a path. */
 static void
 show_output(const gchar * std_output, const gchar * name,
-	    const gchar * force_encoding, GeanyFiletype * ftype)
+	    const gchar * force_encoding, GeanyFiletype * ftype, 
+	    gint line)
 {
 	gint page;
 	GtkNotebook *book;
@@ -388,6 +389,11 @@ show_output(const gchar * std_output, const gchar * name,
 		if (doc == NULL)
 		{
 			doc = document_new_file(name, ftype, std_output);
+			if (line == 0)
+			{
+				line = 1;
+			}
+				
 		}
 		else
 		{
@@ -400,7 +406,9 @@ show_output(const gchar * std_output, const gchar * name,
 		}
 		document_set_text_changed(doc, set_changed_flag);
 		document_set_encoding(doc, (force_encoding ? force_encoding : "UTF-8"));
-		navqueue_goto_line(cur_doc, doc, 1);
+
+		navqueue_goto_line(cur_doc, doc, line);
+
 	}
 	else
 	{
@@ -626,7 +634,7 @@ vcdiff_file_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpoint
 		else
 		{
 			name = g_strconcat(doc->file_name, ".vc.diff", NULL);
-			show_output(text, name, doc->encoding, NULL);
+			show_output(text, name, doc->encoding, NULL, 0);
 			g_free(text);
 			g_free(name);
 		}
@@ -678,7 +686,7 @@ vcdiff_dir_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, gpointer data)
 	{
 		gchar *name;
 		name = g_strconcat(dir, ".vc.diff", NULL);
-		show_output(text, name, doc->encoding, NULL);
+		show_output(text, name, doc->encoding, NULL, 0);
 		g_free(text);
 		g_free(name);
 	}
@@ -705,7 +713,8 @@ vcblame_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer g
 	execute_command(vc, &text, NULL, doc->file_name, VC_COMMAND_BLAME, NULL, NULL);
 	if (text)
 	{
-		show_output(text, "*VC-BLAME*", NULL, doc->file_type);
+		show_output(text, "*VC-BLAME*", NULL, 
+			doc->file_type, sci_get_current_line(doc->editor->sci));
 		g_free(text);
 	}
 	else
@@ -731,7 +740,7 @@ vclog_file_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointe
 	execute_command(vc, &output, NULL, doc->file_name, VC_COMMAND_LOG_FILE, NULL, NULL);
 	if (output)
 	{
-		show_output(output, "*VC-LOG*", NULL, NULL);
+		show_output(output, "*VC-LOG*", NULL, NULL, 0);
 		g_free(output);
 	}
 }
@@ -755,7 +764,7 @@ vclog_dir_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer
 	execute_command(vc, &text, NULL, base_name, VC_COMMAND_LOG_DIR, NULL, NULL);
 	if (text)
 	{
-		show_output(text, "*VC-LOG*", NULL, NULL);
+		show_output(text, "*VC-LOG*", NULL, NULL, 0);
 		g_free(text);
 	}
 
@@ -782,7 +791,7 @@ vclog_basedir_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpoi
 	execute_command(vc, &text, NULL, basedir, VC_COMMAND_LOG_DIR, NULL, NULL);
 	if (text)
 	{
-		show_output(text, "*VC-LOG*", NULL, NULL);
+		show_output(text, "*VC-LOG*", NULL, NULL, 0);
 		g_free(text);
 	}
 	g_free(basedir);
@@ -813,7 +822,7 @@ vcstatus_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 	execute_command(vc, &text, NULL, base_name, VC_COMMAND_STATUS, NULL, NULL);
 	if (text)
 	{
-		show_output(text, "*VC-STATUS*", NULL, NULL);
+		show_output(text, "*VC-STATUS*", NULL, NULL, 0);
 		g_free(text);
 	}
 
@@ -838,7 +847,7 @@ vcshow_file_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpoint
 	{
 		gchar *name;
 		name = g_strconcat(doc->file_name, ".vc.orig", NULL);
-		show_output(output, name, doc->encoding, doc->file_type);
+		show_output(output, name, doc->encoding, doc->file_type, 0);
 		g_free(name);
 		g_free(output);
 	}
@@ -954,7 +963,7 @@ vcupdate_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 		document_reload_file(doc, NULL);
 
 		if (NZV(text))
-			show_output(text, "*VC-UPDATE*", NULL, NULL);
+			show_output(text, "*VC-UPDATE*", NULL, NULL, 0);
 		g_free(text);
 	}
 }
