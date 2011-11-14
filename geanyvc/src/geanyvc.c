@@ -2232,7 +2232,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	load_config();
 	registrate();
 
-	menu_vc = gtk_image_menu_item_new_with_mnemonic(_("_VC"));
+	menu_vc = gtk_image_menu_item_new_with_mnemonic(_("_Version Control"));
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), menu_vc);
 
 	g_signal_connect(menu_vc, "activate", G_CALLBACK(update_menu_items), NULL);
