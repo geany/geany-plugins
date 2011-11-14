@@ -49,6 +49,8 @@ GeanyFunctions  *geany_functions;
 
 /* Widgets for plugin */
 static GtkWidget *menu_latex = NULL;
+static GtkWidget *menu_bibtex = NULL;
+static GtkWidget *menu_bibtex_menu = NULL;
 static GtkWidget *menu_latex_menu = NULL;
 static GtkWidget *menu_latex_wizard = NULL;
 static GtkWidget *menu_latex_menu_special_char = NULL;
@@ -94,8 +96,6 @@ gboolean glatex_autobraces_active = TRUE;
 
 /* Function will be deactivated, when only loaded */
 static gboolean toggle_active = FALSE;
-
-static GtkWidget *main_menu_item = NULL;
 
 static GtkUIManager *uim;
 static GtkActionGroup *group;
@@ -363,13 +363,13 @@ static void toggle_toolbar_item(const gchar *path, gboolean new_status)
 static void
 check_for_menu(gint ft_id)
 {
-	if (ft_id == GEANY_FILETYPES_LATEX &&
-		main_menu_item == NULL)
+	/* We don't check whether the menu has been added here, as this 
+	 * will is checked by add_menu_to_menubar() anyway */
+	if (ft_id == GEANY_FILETYPES_LATEX)
 	{
 		add_menu_to_menubar();
 	}
-	if (ft_id != GEANY_FILETYPES_LATEX &&
-		main_menu_item != NULL)
+	if (ft_id != GEANY_FILETYPES_LATEX)
 	{
 		if (glatex_deactivate_menubarentry_with_non_latex == TRUE)
 		{
@@ -467,10 +467,7 @@ on_geany_startup_complete(G_GNUC_UNUSED GObject *obj,
 		if (glatex_add_menu_on_startup == TRUE||
 			doc->file_type->id == GEANY_FILETYPES_LATEX)
 		{
-			if (main_menu_item == NULL)
-			{
-				add_menu_to_menubar();
-			}
+			add_menu_to_menubar();
 		}
 	}
 
@@ -2088,185 +2085,214 @@ add_menu_to_menubar()
 	menubar = GTK_MENU_SHELL(
 				ui_lookup_widget(geany->main_widgets->window, "menubar1"));
 
-	/* Then we build up the menu and finally add it */
-	menu_latex = gtk_menu_item_new_with_mnemonic(_("_LaTeX"));
-	gtk_menu_shell_insert(
-		menubar,menu_latex, g_list_length(menubar->children)- 1);
-
-	menu_latex_menu = gtk_menu_new();
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_latex), menu_latex_menu);
-
-	menu_latex_wizard = ui_image_menu_item_new(GTK_STOCK_NEW, _("LaTeX-_Wizard"));
-	gtk_container_add(GTK_CONTAINER(menu_latex_menu), menu_latex_wizard);
-	ui_widget_set_tooltip_text(menu_latex_wizard,
-				 _("Starts a Wizard to easily create LaTeX-documents"));
-
-	g_signal_connect(menu_latex_wizard, "activate",
-			 G_CALLBACK(glatex_wizard_activated), NULL);
-
-	menu_latex_menu_special_char = gtk_menu_item_new_with_mnemonic(_("I_nsert Special Character"));
-	ui_widget_set_tooltip_text(menu_latex_menu_special_char,
-				 _("Helps to use some not very common letters and signs"));
-	gtk_container_add(GTK_CONTAINER(menu_latex_menu),
-		menu_latex_menu_special_char);
-
-	menu_latex_menu_special_char_submenu = gtk_menu_new();
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_latex_menu_special_char),
-		menu_latex_menu_special_char_submenu);
-	glatex_sub_menu_init(menu_latex_menu_special_char_submenu,
-		glatex_char_array, glatex_cat_names, char_insert_activated);
-
-	menu_latex_ref = gtk_menu_item_new_with_mnemonic(_("Insert _Reference"));
-	ui_widget_set_tooltip_text(menu_latex_ref,
-		_("Inserting references to the document"));
-	gtk_container_add(GTK_CONTAINER(menu_latex_menu), menu_latex_ref);
-	g_signal_connect(menu_latex_ref, "activate",
-		G_CALLBACK(glatex_insert_ref_activated), NULL);
-
-	menu_latex_label = gtk_menu_item_new_with_mnemonic(_("Insert _Label"));
-	ui_widget_set_tooltip_text(menu_latex_label,
-		_("Helps at inserting labels to a document"));
-	gtk_container_add(GTK_CONTAINER(menu_latex_menu), menu_latex_label);
-	g_signal_connect(menu_latex_label, "activate",
-		G_CALLBACK(glatex_insert_label_activated), NULL);
-
-	menu_latex_insert_environment = gtk_menu_item_new_with_mnemonic(
-		_("Insert _Environment"));
-	ui_widget_set_tooltip_text(menu_latex_insert_environment,
-		 _("Helps at inserting an environment a document"));
-	gtk_container_add(GTK_CONTAINER(menu_latex_menu), menu_latex_insert_environment);
-	g_signal_connect(menu_latex_insert_environment, "activate",
-		G_CALLBACK(glatex_insert_environment_dialog), NULL);
-
-	menu_latex_insert_usepackage = gtk_menu_item_new_with_mnemonic(
-		_("Insert P_ackage"));
-	ui_widget_set_tooltip_text(menu_latex_insert_usepackage,
-		 _("A small dialog to insert \\usepackage{} into header of current file"));
-	gtk_container_add(GTK_CONTAINER(menu_latex_menu), menu_latex_insert_usepackage);
-	g_signal_connect(menu_latex_insert_usepackage, "activate",
-		G_CALLBACK(glatex_insert_usepackage_dialog), NULL);
-
-	menu_latex_insert_bibtex_cite =
-		gtk_menu_item_new_with_mnemonic(_("Insert B_ibTeX reference"));
-	ui_widget_set_tooltip_text(menu_latex_insert_bibtex_cite,
-		_("Helps to insert a reference out of BibTeX files"));
-	gtk_container_add(GTK_CONTAINER(menu_latex_menu), menu_latex_insert_bibtex_cite);
-	g_signal_connect(menu_latex_insert_bibtex_cite, "activate",
-		G_CALLBACK(on_insert_bibtex_dialog_activate), NULL);
-
-	menu_latex_bibtex = gtk_menu_item_new_with_mnemonic(_("_BibTeX entries"));
-	gtk_container_add(GTK_CONTAINER(menu_latex_menu), menu_latex_bibtex);
-
-	menu_latex_bibtex_submenu = gtk_menu_new();
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_latex_bibtex),
-		menu_latex_bibtex_submenu);
-
-	for (i = 0; i < GLATEX_BIBTEX_N_TYPES; i++)
+	/* First we check whether the LaTeX menu entry already exists */
+	if (menu_latex == NULL)
 	{
-		tmp = NULL;
-		tmp = gtk_menu_item_new_with_mnemonic(_(glatex_bibtex_types[i].label));
-		gtk_container_add(GTK_CONTAINER(menu_latex_bibtex_submenu), tmp);
-		g_signal_connect(tmp, "activate",
-			G_CALLBACK(glatex_insert_bibtex_entry), GINT_TO_POINTER(i));
-	}
+		g_warning("Adding latex foo");
+		/* Build up menu for menubar */
+		menu_latex = gtk_menu_item_new_with_mnemonic(_("_LaTeX"));
+		gtk_menu_shell_insert(
+			menubar, menu_latex, g_list_length(menubar->children)-1);
+	
+		menu_latex_menu = gtk_menu_new();
+		gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_latex), menu_latex_menu);
+		
+		/* Filling up menubar menus */
+		/* LaTeX menu */
+		menu_latex_wizard = ui_image_menu_item_new(GTK_STOCK_NEW, _("LaTeX-_Wizard"));
+		gtk_container_add(GTK_CONTAINER(menu_latex_menu), menu_latex_wizard);
+		ui_widget_set_tooltip_text(menu_latex_wizard,
+					 _("Starts a Wizard to easily create LaTeX-documents"));
+	
+		g_signal_connect(menu_latex_wizard, "activate",
+				 G_CALLBACK(glatex_wizard_activated), NULL);
+	
+		menu_latex_menu_special_char = gtk_menu_item_new_with_mnemonic(_("I_nsert Special Character"));
+		ui_widget_set_tooltip_text(menu_latex_menu_special_char,
+					 _("Helps to use some not very common letters and signs"));
+		gtk_container_add(GTK_CONTAINER(menu_latex_menu),
+			menu_latex_menu_special_char);
+	
+		menu_latex_menu_special_char_submenu = gtk_menu_new();
+		gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_latex_menu_special_char),
+			menu_latex_menu_special_char_submenu);
+		glatex_sub_menu_init(menu_latex_menu_special_char_submenu,
+			glatex_char_array, glatex_cat_names, char_insert_activated);
+	
+		menu_latex_ref = gtk_menu_item_new_with_mnemonic(_("Insert _Reference"));
+		ui_widget_set_tooltip_text(menu_latex_ref,
+			_("Inserting references to the document"));
+		gtk_container_add(GTK_CONTAINER(menu_latex_menu), menu_latex_ref);
+		g_signal_connect(menu_latex_ref, "activate",
+			G_CALLBACK(glatex_insert_ref_activated), NULL);
+	
+		menu_latex_label = gtk_menu_item_new_with_mnemonic(_("Insert _Label"));
+		ui_widget_set_tooltip_text(menu_latex_label,
+			_("Helps at inserting labels to a document"));
+		gtk_container_add(GTK_CONTAINER(menu_latex_menu), menu_latex_label);
+		g_signal_connect(menu_latex_label, "activate",
+			G_CALLBACK(glatex_insert_label_activated), NULL);
+	
+		menu_latex_insert_environment = gtk_menu_item_new_with_mnemonic(
+			_("Insert _Environment"));
+		ui_widget_set_tooltip_text(menu_latex_insert_environment,
+			 _("Helps at inserting an environment a document"));
+		gtk_container_add(GTK_CONTAINER(menu_latex_menu), menu_latex_insert_environment);
+		g_signal_connect(menu_latex_insert_environment, "activate",
+			G_CALLBACK(glatex_insert_environment_dialog), NULL);
+	
+		menu_latex_insert_usepackage = gtk_menu_item_new_with_mnemonic(
+			_("Insert P_ackage"));
+		ui_widget_set_tooltip_text(menu_latex_insert_usepackage,
+			 _("A small dialog to insert \\usepackage{} into header of current file"));
+		gtk_container_add(GTK_CONTAINER(menu_latex_menu), menu_latex_insert_usepackage);
+		g_signal_connect(menu_latex_insert_usepackage, "activate",
+			G_CALLBACK(glatex_insert_usepackage_dialog), NULL);
+	
+		menu_latex_format_insert = gtk_menu_item_new_with_mnemonic(_("_Format"));
+		gtk_container_add(GTK_CONTAINER(menu_bibtex_menu), menu_latex_format_insert);
+	
+		menu_latex_format_insert_submenu = gtk_menu_new();
+		gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_latex_format_insert),
+			menu_latex_format_insert_submenu);
+	
+		for (i = 0; i < LATEX_STYLES_END; i++)
+		{
+			tmp = NULL;
+			tmp = gtk_menu_item_new_with_mnemonic(_(glatex_format_labels[i]));
+			gtk_container_add(GTK_CONTAINER(menu_latex_format_insert_submenu), tmp);
+			g_signal_connect(tmp, "activate",
+				G_CALLBACK(glatex_insert_latex_format), GINT_TO_POINTER(i));
+		}
+	
+		/* Add font size menu */
+		menu_latex_fontsize = gtk_menu_item_new_with_mnemonic(_("F_ont size"));
+		gtk_container_add(GTK_CONTAINER(menu_latex_menu), menu_latex_fontsize);
+	
+		menu_latex_fontsize_submenu = gtk_menu_new();
+		gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_latex_fontsize),
+			menu_latex_fontsize_submenu);
+	
+		for (i = 0; i < LATEX_FONTSIZE_END; i++)
+		{
+			tmp = NULL;
+			tmp = gtk_menu_item_new_with_mnemonic(_(glatex_fontsize_labels[i]));
+			gtk_container_add(GTK_CONTAINER(menu_latex_fontsize_submenu), tmp);
+			g_signal_connect(tmp, "activate",
+				G_CALLBACK(glatex_insert_latex_fontsize), GINT_TO_POINTER(i));
+		}
+	
+		/* Add menuitem for LaTeX replacement functions*/
+		menu_latex_replacement = gtk_menu_item_new_with_mnemonic(
+			_("_Special Character Replacement"));
+		menu_latex_replacement_submenu = gtk_menu_new();
+		gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_latex_replacement),
+			menu_latex_replacement_submenu);
+		gtk_container_add(GTK_CONTAINER(menu_latex_menu), menu_latex_replacement);
+	
+		/* Add menuitem for bulk replacment */
+		menu_latex_replace_selection = gtk_menu_item_new_with_mnemonic(
+			_("Bulk _Replace Special Characters"));
+		ui_widget_set_tooltip_text(menu_latex_replace_selection,
+			_("_Replace selected special characters with TeX substitutes"));
+		gtk_container_add(GTK_CONTAINER(menu_latex_replacement_submenu),
+			menu_latex_replace_selection);
+		g_signal_connect(menu_latex_replace_selection, "activate",
+			G_CALLBACK(glatex_replace_special_character), NULL);
+	
+		/* Add menu entry for toggling input replacment */
+		menu_latex_replace_toggle = gtk_check_menu_item_new_with_mnemonic(
+			_("Toggle _Special Character Replacement"));
+		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(menu_latex_replace_toggle),
+										toggle_active);
+		gtk_container_add(GTK_CONTAINER(menu_latex_replacement_submenu),
+			menu_latex_replace_toggle);
+	
+		g_signal_connect(menu_latex_replace_toggle, "activate",
+						 G_CALLBACK(glatex_toggle_status), NULL);
+	
+		/* Add menu entry for inserting a command */
+		menu_latex_insert_command = gtk_menu_item_new_with_mnemonic(
+			_("Insert _Command"));
+		ui_widget_set_tooltip_text(menu_latex_ref,
+			_("Inserting costumized command to document"));
+		gtk_container_add(GTK_CONTAINER(menu_latex_menu),
+			menu_latex_insert_command);
+		g_signal_connect(menu_latex_insert_command, "activate",
+			G_CALLBACK(glatex_insert_command_activated), NULL);
 
-	menu_latex_format_insert = gtk_menu_item_new_with_mnemonic(_("_Format"));
-	gtk_container_add(GTK_CONTAINER(menu_latex_menu), menu_latex_format_insert);
+		/* Switch document sitiveness for menu entries */
+		ui_add_document_sensitive(menu_latex_menu_special_char);
+		ui_add_document_sensitive(menu_latex_ref);
+		ui_add_document_sensitive(menu_latex_label);
+		ui_add_document_sensitive(menu_latex_format_insert);
+		ui_add_document_sensitive(menu_latex_insert_environment);
+		ui_add_document_sensitive(menu_latex_insert_usepackage);
+		ui_add_document_sensitive(menu_latex_insert_command);
+		ui_add_document_sensitive(menu_latex_fontsize);
+		ui_add_document_sensitive(menu_latex_replacement);
+		
+		
+		gtk_widget_show_all(menu_latex);
+	} /* only execute if menuitem "LaTeX" has not already been inserted 
+	     into menubar before */
 
-	menu_latex_format_insert_submenu = gtk_menu_new();
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_latex_format_insert),
-		menu_latex_format_insert_submenu);
-
-	for (i = 0; i < LATEX_STYLES_END; i++)
+	/* BibTeX menu */
+	if (menu_bibtex == NULL)
 	{
-		tmp = NULL;
-		tmp = gtk_menu_item_new_with_mnemonic(_(glatex_format_labels[i]));
-		gtk_container_add(GTK_CONTAINER(menu_latex_format_insert_submenu), tmp);
-		g_signal_connect(tmp, "activate",
-			G_CALLBACK(glatex_insert_latex_format), GINT_TO_POINTER(i));
-	}
-
-	/* Add font size menu */
-	menu_latex_fontsize = gtk_menu_item_new_with_mnemonic(_("F_ont size"));
-	gtk_container_add(GTK_CONTAINER(menu_latex_menu), menu_latex_fontsize);
-
-	menu_latex_fontsize_submenu = gtk_menu_new();
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_latex_fontsize),
-		menu_latex_fontsize_submenu);
-
-	for (i = 0; i < LATEX_FONTSIZE_END; i++)
-	{
-		tmp = NULL;
-		tmp = gtk_menu_item_new_with_mnemonic(_(glatex_fontsize_labels[i]));
-		gtk_container_add(GTK_CONTAINER(menu_latex_fontsize_submenu), tmp);
-		g_signal_connect(tmp, "activate",
-			G_CALLBACK(glatex_insert_latex_fontsize), GINT_TO_POINTER(i));
-	}
-
-	/* Add menuitem for LaTeX replacement functions*/
-	menu_latex_replacement = gtk_menu_item_new_with_mnemonic(
-		_("_Special Character Replacement"));
-	menu_latex_replacement_submenu = gtk_menu_new();
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_latex_replacement),
-		menu_latex_replacement_submenu);
-	gtk_container_add(GTK_CONTAINER(menu_latex_menu), menu_latex_replacement);
-
-	/* Add menuitem for bulk replacment */
-	menu_latex_replace_selection = gtk_menu_item_new_with_mnemonic(
-		_("Bulk _Replace Special Characters"));
-	ui_widget_set_tooltip_text(menu_latex_replace_selection,
-		_("_Replace selected special characters with TeX substitutes"));
-	gtk_container_add(GTK_CONTAINER(menu_latex_replacement_submenu),
-		menu_latex_replace_selection);
-	g_signal_connect(menu_latex_replace_selection, "activate",
-		G_CALLBACK(glatex_replace_special_character), NULL);
-
-	/* Add menu entry for toggling input replacment */
-	menu_latex_replace_toggle = gtk_check_menu_item_new_with_mnemonic(
-		_("Toggle _Special Character Replacement"));
-	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(menu_latex_replace_toggle),
-									toggle_active);
-	gtk_container_add(GTK_CONTAINER(menu_latex_replacement_submenu),
-		menu_latex_replace_toggle);
-
-	g_signal_connect(menu_latex_replace_toggle, "activate",
-					 G_CALLBACK(glatex_toggle_status), NULL);
-
-	/* Add menu entry for inserting a command */
-	menu_latex_insert_command = gtk_menu_item_new_with_mnemonic(
-		_("Insert _Command"));
-	ui_widget_set_tooltip_text(menu_latex_ref,
-		_("Inserting costumized command to document"));
-	gtk_container_add(GTK_CONTAINER(menu_latex_menu),
-		menu_latex_insert_command);
-	g_signal_connect(menu_latex_insert_command, "activate",
-		G_CALLBACK(glatex_insert_command_activated), NULL);
-
-	ui_add_document_sensitive(menu_latex_menu_special_char);
-	ui_add_document_sensitive(menu_latex_ref);
-	ui_add_document_sensitive(menu_latex_label);
-	ui_add_document_sensitive(menu_latex_bibtex);
-	ui_add_document_sensitive(menu_latex_format_insert);
-	ui_add_document_sensitive(menu_latex_insert_environment);
-	ui_add_document_sensitive(menu_latex_insert_usepackage);
-	ui_add_document_sensitive(menu_latex_insert_command);
-	ui_add_document_sensitive(menu_latex_fontsize);
-	ui_add_document_sensitive(menu_latex_replacement);
-
-	gtk_widget_show_all(menu_latex);
-	main_menu_item = menu_latex;
+		g_warning("Try to add bibtexfoo");
+		
+		menu_bibtex = gtk_menu_item_new_with_mnemonic(_("_BibTeX"));
+		gtk_menu_shell_insert(
+			menubar, menu_bibtex, g_list_length(menubar->children)-1);
+	
+		menu_bibtex_menu = gtk_menu_new();
+		gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_bibtex), menu_bibtex_menu);
+		
+		menu_latex_insert_bibtex_cite =
+			gtk_menu_item_new_with_mnemonic(_("Insert B_ibTeX reference"));
+		ui_widget_set_tooltip_text(menu_latex_insert_bibtex_cite,
+			_("Helps to insert a reference out of BibTeX files"));
+		gtk_container_add(GTK_CONTAINER(menu_bibtex_menu), menu_latex_insert_bibtex_cite);
+		g_signal_connect(menu_latex_insert_bibtex_cite, "activate",
+			G_CALLBACK(on_insert_bibtex_dialog_activate), NULL);
+	
+		menu_latex_bibtex = gtk_menu_item_new_with_mnemonic(_("_BibTeX entries"));
+		gtk_container_add(GTK_CONTAINER(menu_bibtex_menu), menu_latex_bibtex);
+	
+		menu_latex_bibtex_submenu = gtk_menu_new();
+		gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_latex_bibtex),
+			menu_latex_bibtex_submenu);
+	
+		for (i = 0; i < GLATEX_BIBTEX_N_TYPES; i++)
+		{
+			tmp = NULL;
+			tmp = gtk_menu_item_new_with_mnemonic(_(glatex_bibtex_types[i].label));
+			gtk_container_add(GTK_CONTAINER(menu_latex_bibtex_submenu), tmp);
+			g_signal_connect(tmp, "activate",
+				G_CALLBACK(glatex_insert_bibtex_entry), GINT_TO_POINTER(i));
+		}
+		
+		/* Switch document sensitivness */
+		ui_add_document_sensitive(menu_latex_bibtex);
+		
+		gtk_widget_show_all(menu_bibtex);
+	} /* Only insert BibTeX menu if not already done. */
 }
 
-
-static void
-remove_menu_from_menubar()
+/* Removes the menubar menus from menubar if requested and available */
+static void remove_menu_from_menubar()
 {
-	if (main_menu_item != NULL)
+	if (menu_latex != NULL)
 	{
-		gtk_widget_destroy(main_menu_item);
-		main_menu_item = NULL;
+		gtk_widget_destroy(menu_latex);
+		menu_latex = NULL;
 	}
-
+	if (menu_bibtex != NULL)
+	{
+		gtk_widget_destroy(menu_bibtex);
+		menu_bibtex = NULL;
+	}
 }
 
 
@@ -2335,9 +2361,8 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 
 	if (doc != NULL)
 	{
-		if ((glatex_add_menu_on_startup == TRUE||
-			doc->file_type->id == GEANY_FILETYPES_LATEX) &&
-			main_menu_item == NULL)
+		if (glatex_add_menu_on_startup == TRUE||
+			doc->file_type->id == GEANY_FILETYPES_LATEX)
 		{
 			add_menu_to_menubar();
 		}
