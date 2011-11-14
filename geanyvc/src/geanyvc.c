@@ -375,7 +375,7 @@ get_cmd(const gchar ** argv, const gchar * dir, const gchar * filename, GSList *
 /* name should be in UTF-8, and can have a path. */
 static void
 show_output(const gchar * std_output, const gchar * name,
-	    const gchar * force_encoding, GeanyFiletype * ftype, 
+	    const gchar * force_encoding, GeanyFiletype * ftype,
 	    gint line)
 {
 	gint page;
@@ -389,7 +389,7 @@ show_output(const gchar * std_output, const gchar * name,
 		if (doc == NULL)
 		{
 			doc = document_new_file(name, ftype, std_output);
-			/* To due the given line is Scintilla's line number, but 
+			/* To due the given line is Scintilla's line number, but
 			 * we need the view line number in this case.  */
 			line = line + 1;
 			if (line < 1)
@@ -713,7 +713,7 @@ vcblame_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer g
 	execute_command(vc, &text, NULL, doc->file_name, VC_COMMAND_BLAME, NULL, NULL);
 	if (text)
 	{
-		show_output(text, "*VC-BLAME*", NULL, 
+		show_output(text, "*VC-BLAME*", NULL,
 			doc->file_type, sci_get_current_line(doc->editor->sci));
 		g_free(text);
 	}
@@ -2224,6 +2224,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	GtkWidget *menu_vc_file = NULL;
 	GtkWidget *menu_vc_dir = NULL;
 	GtkWidget *menu_vc_basedir = NULL;
+	GtkMenuShell *menubar;
 
 	config_file =
 		g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
@@ -2232,8 +2233,13 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	load_config();
 	registrate();
 
-	menu_vc = gtk_image_menu_item_new_with_mnemonic(_("_Version Control"));
-	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), menu_vc);
+
+	menubar = GTK_MENU_SHELL(
+				ui_lookup_widget(geany->main_widgets->window, "menubar1"));
+
+	menu_vc = gtk_menu_item_new_with_mnemonic(_("_Version Control"));
+	gtk_menu_shell_insert(
+			menubar, menu_vc, g_list_length(menubar->children)-1);
 
 	g_signal_connect(menu_vc, "activate", G_CALLBACK(update_menu_items), NULL);
 
