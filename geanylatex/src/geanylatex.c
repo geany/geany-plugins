@@ -2088,7 +2088,6 @@ add_menu_to_menubar()
 	/* First we check whether the LaTeX menu entry already exists */
 	if (menu_latex == NULL)
 	{
-		g_warning("Adding latex foo");
 		/* Build up menu for menubar */
 		menu_latex = gtk_menu_item_new_with_mnemonic(_("_LaTeX"));
 		gtk_menu_shell_insert(
@@ -2240,8 +2239,6 @@ add_menu_to_menubar()
 	/* BibTeX menu */
 	if (menu_bibtex == NULL)
 	{
-		g_warning("Try to add bibtexfoo");
-		
 		menu_bibtex = gtk_menu_item_new_with_mnemonic(_("_BibTeX"));
 		gtk_menu_shell_insert(
 			menubar, menu_bibtex, g_list_length(menubar->children)-1);
