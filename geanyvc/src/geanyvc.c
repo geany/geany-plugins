@@ -2257,7 +2257,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 		menubar = GTK_MENU_SHELL(
 				ui_lookup_widget(geany->main_widgets->window, "menubar1"));
 
-		menu_vc = gtk_menu_item_new_with_mnemonic(_("_Version Control"));
+		menu_vc = gtk_menu_item_new_with_mnemonic(_("_VC"));
 		gtk_menu_shell_insert(
 			menubar, menu_vc, g_list_length(menubar->children)-1);
 	}
