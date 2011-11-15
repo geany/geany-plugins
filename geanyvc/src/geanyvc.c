@@ -61,6 +61,7 @@ static gboolean set_add_confirmation;
 static gboolean set_maximize_commit_dialog;
 static gboolean set_external_diff;
 static gboolean set_editor_menu_entries;
+static gboolean set_menubar_entry;
 
 static gchar *config_file;
 
@@ -1948,6 +1949,8 @@ load_config()
 		TRUE);
 	enable_hg = utils_get_setting_boolean(config, "VC", "enable_hg",
 		TRUE);
+	set_menubar_entry = utils_get_setting_boolean(config, "VC", "attach_to_menubar",
+		TRUE);
 
 #ifdef USE_GTKSPELL
 	lang = g_key_file_get_string(config, "VC", "spellchecking_language", &error);
@@ -2224,8 +2227,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	GtkWidget *menu_vc_file = NULL;
 	GtkWidget *menu_vc_dir = NULL;
 	GtkWidget *menu_vc_basedir = NULL;
-	GtkMenuShell *menubar;
-
+	
 	config_file =
 		g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
 			    "VC", G_DIR_SEPARATOR_S, "VC.conf", NULL);
@@ -2234,12 +2236,22 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	registrate();
 
 
-	menubar = GTK_MENU_SHELL(
+	if (set_menubar_entry == TRUE)
+	{
+		GtkMenuShell *menubar;
+		
+		menubar = GTK_MENU_SHELL(
 				ui_lookup_widget(geany->main_widgets->window, "menubar1"));
 
-	menu_vc = gtk_menu_item_new_with_mnemonic(_("_Version Control"));
-	gtk_menu_shell_insert(
+		menu_vc = gtk_menu_item_new_with_mnemonic(_("_Version Control"));
+		gtk_menu_shell_insert(
 			menubar, menu_vc, g_list_length(menubar->children)-1);
+	}
+	else
+	{
+		menu_vc = gtk_image_menu_item_new_with_mnemonic(_("_Version Control"));
+		gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), menu_vc);
+	}
 
 	g_signal_connect(menu_vc, "activate", G_CALLBACK(update_menu_items), NULL);
 
