@@ -1719,6 +1719,7 @@ static struct
 	GtkWidget *cb_max_commit;
 	GtkWidget *cb_external_diff;
 	GtkWidget *cb_editor_menu_entries;
+	GtkWidget *cb_attach_to_menubar;
 	GtkWidget *cb_cvs;
 	GtkWidget *cb_git;
 	GtkWidget *cb_svn;
@@ -1747,12 +1748,14 @@ on_configure_response(G_GNUC_UNUSED GtkDialog * dialog, gint response,
 			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.cb_confirm_add));
 		set_maximize_commit_dialog =
 			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.cb_max_commit));
-
+		
 		set_external_diff =
 			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.cb_external_diff));
 
 		set_editor_menu_entries =
 			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.cb_editor_menu_entries));
+		set_menubar_entry =
+			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.cb_attach_to_menubar));
 
 		enable_cvs = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.cb_cvs));
 		enable_git = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.cb_git));
@@ -1774,6 +1777,7 @@ on_configure_response(G_GNUC_UNUSED GtkDialog * dialog, gint response,
 		g_key_file_set_boolean(config, "VC", "set_maximize_commit_dialog",
 				       set_maximize_commit_dialog);
 		g_key_file_set_boolean(config, "VC", "set_editor_menu_entries", set_editor_menu_entries);
+		g_key_file_set_boolean(config, "VC", "attach_to_menubar", set_menubar_entry);
 
 		g_key_file_set_boolean(config, "VC", "enable_cvs", enable_cvs);
 		g_key_file_set_boolean(config, "VC", "enable_git", enable_git);
@@ -1868,6 +1872,16 @@ plugin_configure(GtkDialog * dialog)
 	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_editor_menu_entries), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_editor_menu_entries), set_editor_menu_entries);
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_editor_menu_entries, TRUE, FALSE, 2);
+
+	widgets.cb_attach_to_menubar = gtk_check_button_new_with_label(_("Attach menu to menubar"));
+	ui_widget_set_tooltip_text(widgets.cb_editor_menu_entries,
+			     _("Whether menu for this plugin are getting placed either "
+			       "inside tools menu or directly inside Geany's menubar."
+			       "Will take in account after next start of GeanyVC"));
+	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_attach_to_menubar), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_attach_to_menubar), 
+		set_menubar_entry);
+	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_attach_to_menubar, TRUE, FALSE, 2);
 
 	widgets.cb_cvs = gtk_check_button_new_with_label(_("Enable CVS"));
 	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_cvs), FALSE);
