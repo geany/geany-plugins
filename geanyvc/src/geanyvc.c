@@ -1964,7 +1964,7 @@ load_config()
 	enable_hg = utils_get_setting_boolean(config, "VC", "enable_hg",
 		TRUE);
 	set_menubar_entry = utils_get_setting_boolean(config, "VC", "attach_to_menubar",
-		TRUE);
+		FALSE);
 
 #ifdef USE_GTKSPELL
 	lang = g_key_file_get_string(config, "VC", "spellchecking_language", &error);
