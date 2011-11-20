@@ -19,7 +19,7 @@ geanypg_la_SOURCES = \
 	verify_aux.c
 
 geanypg_la_LIBADD = \
-	$(COMMON_LIBS) \
+	$(COMMONLIBS) \
 	$(GPGME_LIBS)
 
 geanypg_la_CFLAGS = \
