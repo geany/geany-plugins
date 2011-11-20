@@ -688,17 +688,17 @@ void plugin_help(void)
 	/* create label */
 	label=gtk_label_new(
 		_("This Plugin implements Macros in Geany.\n\n"
-		"This plugin alows you to record and use your own macros. These are sequences of \
+		"This plugin allows you to record and use your own macros. These are sequences of \
 actions that can then be repeated with a single key combination. So if you had dozens of lines \
 where you wanted to delete the last 2 characters, you could simple start recording, press End, \
 Backspace, Backspace, down line and then stop recording. Then simply trigger the macro and it \
-would automaticaly edit the line and move to the next. Select Record Macro from the Tools menu \
+would automatically edit the line and move to the next. Select Record Macro from the Tools menu \
 and you will be prompted with a dialog box. You need to specify a key combination that isn't being\
  used, and a name for the macro to help you identify it. Then press Record. What you do in the \
 editor is then recorded until you select Stop Recording Macro from the Tools menu. Simply pressing\
  the specified key combination will re-run the macro. To edit the macros you have select Edit \
 Macro from the Tools menu. You can select a macro and delete it, or re-record it. You can also \
-click on a macro's name and change it, or the key combination and re-define that asuming that it's\
+click on a macro's name and change it, or the key combination and re-define that assuming that it's\
  not already in use.\n\n"
 		"You can alter the default behaviour of this plugin by selecting Plugin Manager under the \
 Tools menu, selecting this plugin, and cliking Preferences. You can change:\nSave Macros when \
