@@ -61,7 +61,7 @@ debugger_la_SOURCES = \
 	wtree.c     \
 	wtree.h
 
-debugger_la_LIBADD = $(COMMONLIBS) -lutil
+debugger_la_LIBADD = $(COMMONLIBS) $(VTE_LIBS) -lutil
 debugger_la_CFLAGS = $(AM_CFLAGS) $(VTE_CFLAGS) -DDBGPLUG_DATA_DIR=\"$(plugindatadir)\" -DPLUGIN_NAME=\"$(plugin)\"
 
 include $(top_srcdir)/build/cppcheck.mk
