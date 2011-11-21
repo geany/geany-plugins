@@ -84,8 +84,11 @@ static void workspace_add_tag(gchar *filename, TagObject *obj, gpointer foo)
 		tm_obj = tm_source_file_new(locale_filename, FALSE, filetypes_detect_from_file(filename)->name);
 		g_free(locale_filename);
 
-		tm_workspace_add_object(tm_obj);
-		tm_source_file_update(tm_obj, TRUE, FALSE, TRUE);
+		if (tm_obj)
+		{
+			tm_workspace_add_object(tm_obj);
+			tm_source_file_update(tm_obj, TRUE, FALSE, TRUE);
+		}
 	}
 
 	if (obj->tag)
@@ -246,8 +249,11 @@ void gprj_project_rescan()
 		obj->tag = NULL;
 
 		path = tm_get_real_path(elem->data);
-		setptr(path, utils_get_utf8_from_locale(path));
-		g_hash_table_insert(g_prj->file_tag_table, path, obj);
+		if (path)
+		{
+			setptr(path, utils_get_utf8_from_locale(path));
+			g_hash_table_insert(g_prj->file_tag_table, path, obj);
+		}
 	}
 
 	if (g_prj->generate_tags)
