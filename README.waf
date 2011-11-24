@@ -18,7 +18,7 @@ Similarly you can also disable certain plugins from the list with
 
 To update the language catalogues of plugins with enabled I18n support, run:
 
-./waf --update-po
+./waf updatepo
 
 
 For more configure options, run
