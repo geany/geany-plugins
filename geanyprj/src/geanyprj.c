@@ -41,6 +41,16 @@ PLUGIN_SET_INFO(_("Project"), _("Alternative project support."), VERSION,
 GeanyData *geany_data;
 GeanyFunctions *geany_functions;
 
+/* Keybinding(s) */
+enum
+{
+	KB_FIND_IN_PROJECT,
+	KB_COUNT
+};
+
+PLUGIN_KEY_GROUP(geanyprj, KB_COUNT)
+
+
 static void
 reload_project()
 {
@@ -114,6 +124,13 @@ PluginCallback plugin_callbacks[] = {
 	{NULL, NULL, FALSE, NULL}
 };
 
+/* Keybinding callback */
+static void
+kb_find_in_project()
+{
+	on_find_in_project(NULL, NULL);
+}
+
 /* Called by Geany to initialize the plugin */
 void
 plugin_init(G_GNUC_UNUSED GeanyData * data)
@@ -124,6 +141,10 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	xproject_init();
 	create_sidebar();
 	reload_project();
+
+	keybindings_set_item(plugin_key_group, KB_FIND_IN_PROJECT,
+		kb_find_in_project, 0, 0, "find_in_project",
+			_("Find a text in geanyprj's project"), NULL);
 }
 
 /* Called by Geany before unloading the plugin. */
