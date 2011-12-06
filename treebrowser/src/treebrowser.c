@@ -1521,6 +1521,7 @@ on_treeview_renamed(GtkCellRenderer *renderer, const gchar *path_string, const g
 		{
 			uri_new = g_strconcat(g_path_get_dirname(uri), G_DIR_SEPARATOR_S, name_new, NULL);
 			if (!(g_file_test(uri_new, G_FILE_TEST_EXISTS) &&
+				strcmp(uri, uri_new) != 0 &&
 				!dialogs_show_question(_("Target file '%s' exists, do you really want to replace it?"), uri_new)))
 			{
 				if (g_rename(uri, uri_new) == 0)
