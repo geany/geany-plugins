@@ -18,7 +18,7 @@ The GNU Debugger is a source-level debugger for C, C++, Fortran, Modula 2 and
 Java programs.
 
 It was developed and tested on openSUSE-10.3 with GDB-6.7.50 by Jeff Pohlmeyer.
-Current maintainer is Dominic Hopf, he develops with current SVN versions on
+Current maintainer is Dominic Hopf, he develops with current Git versions on
 current Fedora systems. Other recent versions of GDB will probably work, but
 operating systems other than Linux-PC will not work, at least not without some
 considerable hacking.
@@ -110,10 +110,10 @@ Current Version
 
 Current versions of Geany-Plugins can be found at http://plugins.geany.org/geany-plugins/.
 
-You can also check out more current sources of Geany-Plugins from SVN, but note
-that SVN checkouts may not run stable.
+You can also check out more current sources of Geany-Plugins from Git, but note
+that Git checkouts may not run stable.
 
-  svn checkout https://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geany-plugins
+  git clone git://github.com/geany/geany-plugins.git
 
 
 Older Versions
