@@ -879,18 +879,18 @@ GList* get_stack()
 	gchar **next = frames + 1;
 	while (*next)
 	{
-		frame *f = malloc(sizeof(frame));
+		frame *f = frame_new();
 		
 		/* adresss */
 		gchar* pos = strstr(*next, "addr=\"") + strlen("addr=\"");
 		*strchr(pos, '\"') = '\0';
-		strcpy(f->address, pos);
+		f->address = g_strdup(pos);
 		pos += strlen(pos) + 1;
 
 		/* function */
 		pos = strstr(pos, "func=\"") + strlen("func=\"");
 		*strchr(pos, '\"') = '\0';
-		strcpy(f->function, pos);
+		f->function = g_strdup(pos);
 		pos += strlen(pos) + 1;
 
 		/* file: fullname | file | from */
@@ -903,7 +903,7 @@ GList* get_stack()
 			fullname += strlen("fullname=\"");
 			pos = fullname;
 			*strchr(pos, '\"') = '\0';
-			strcpy(f->file, pos);
+			f->file = g_strdup(pos);
 			pos += strlen(pos) + 1;
 		}
 		else if (file)
@@ -911,7 +911,7 @@ GList* get_stack()
 			file += strlen("file=\"");
 			pos = file;
 			*strchr(pos, '\"') = '\0';
-			strcpy(f->file, pos);
+			f->file = g_strdup(pos);
 			pos += strlen(pos) + 1;
 		}
 		else if (from)
@@ -919,11 +919,11 @@ GList* get_stack()
 			from += strlen("from=\"");
 			pos = from;
 			*strchr(pos, '\"') = '\0';
-			strcpy(f->file, pos);
+			f->file = g_strdup(pos);
 			pos += strlen(pos) + 1;
 		}
 		else
-			strcpy(f->file, "");
+			f->file = g_strdup("");
 		
 		/* whether source is available */
 		f->have_source = fullname ? TRUE : FALSE;
