@@ -37,23 +37,23 @@ extern GeanyFunctions *geany_functions;
 struct GeanyPrj *g_current_project = NULL;
 static GPtrArray *g_projects = NULL;
 
-static void
-add_tag(G_GNUC_UNUSED gpointer key, gpointer value, G_GNUC_UNUSED gpointer user_data)
+
+static void add_tag(G_GNUC_UNUSED gpointer key, gpointer value, G_GNUC_UNUSED gpointer user_data)
 {
-	debug("%s file=%s\n", __FUNCTION__, (const gchar *) key);
-	tm_workspace_add_object((TMWorkObject *) value);
+	debug("%s file=%s\n", __FUNCTION__, (const gchar *)key);
+	tm_workspace_add_object((TMWorkObject *)value);
 }
 
-static void
-remove_tag(G_GNUC_UNUSED gpointer key, gpointer value, G_GNUC_UNUSED gpointer user_data)
+
+static void remove_tag(G_GNUC_UNUSED gpointer key, gpointer value, G_GNUC_UNUSED gpointer user_data)
 {
-	debug("%s file=%s\n", __FUNCTION__, (const gchar *) key);
-	tm_workspace_remove_object((TMWorkObject *) value, FALSE, FALSE);
+	debug("%s file=%s\n", __FUNCTION__, (const gchar *)key);
+	tm_workspace_remove_object((TMWorkObject *)value, FALSE, FALSE);
 }
+
 
 /* This fonction should keep in sync with geany code */
-void
-xproject_close(gboolean cache)
+void xproject_close(gboolean cache)
 {
 	debug("%s\n", __FUNCTION__);
 
@@ -75,8 +75,7 @@ xproject_close(gboolean cache)
 }
 
 
-void
-xproject_open(const gchar * path)
+void xproject_open(const gchar *path)
 {
 	guint i;
 	struct GeanyPrj *p = NULL;
@@ -86,7 +85,7 @@ xproject_open(const gchar * path)
 	{
 		if (strcmp(path, ((struct GeanyPrj *) g_projects->pdata[i])->path) == 0)
 		{
-			p = (struct GeanyPrj *) g_projects->pdata[i];
+			p = (struct GeanyPrj *)g_projects->pdata[i];
 			g_ptr_array_remove_index(g_projects, i);
 			break;
 		}
@@ -104,8 +103,8 @@ xproject_open(const gchar * path)
 	sidebar_refresh();
 }
 
-void
-xproject_update_tag(const gchar * filename)
+
+void xproject_update_tag(const gchar *filename)
 {
 	guint i;
 	TMWorkObject *tm_obj;
@@ -121,9 +120,7 @@ xproject_update_tag(const gchar * filename)
 
 	for (i = 0; i < g_projects->len; i++)
 	{
-		tm_obj = (TMWorkObject *)
-			g_hash_table_lookup(((struct GeanyPrj *) (g_projects->pdata[i]))->tags,
-					    filename);
+		tm_obj = (TMWorkObject *)g_hash_table_lookup(((struct GeanyPrj *)(g_projects->pdata[i]))->tags, filename);
 		if (tm_obj)
 		{
 			tm_source_file_update(tm_obj, TRUE, FALSE, TRUE);
@@ -131,8 +128,8 @@ xproject_update_tag(const gchar * filename)
 	}
 }
 
-gboolean
-xproject_add_file(const gchar * path)
+
+gboolean xproject_add_file(const gchar *path)
 {
 	TMWorkObject *tm_obj;
 
@@ -154,8 +151,8 @@ xproject_add_file(const gchar * path)
 	return FALSE;
 }
 
-gboolean
-xproject_remove_file(const gchar * path)
+
+gboolean xproject_remove_file(const gchar *path)
 {
 	TMWorkObject *tm_obj;
 
@@ -178,20 +175,20 @@ xproject_remove_file(const gchar * path)
 	return FALSE;
 }
 
-void
-xproject_init()
+
+void xproject_init()
 {
 	g_projects = g_ptr_array_sized_new(10);
 	g_current_project = NULL;
 }
 
-void
-xproject_cleanup()
+
+void xproject_cleanup()
 {
 	guint i;
 	for (i = 0; i < g_projects->len; i++)
 	{
-		geany_project_free(((struct GeanyPrj *) (g_projects->pdata[i])));
+		geany_project_free(((struct GeanyPrj *)(g_projects->pdata[i])));
 	}
 	g_ptr_array_free(g_projects, TRUE);
 	g_projects = NULL;

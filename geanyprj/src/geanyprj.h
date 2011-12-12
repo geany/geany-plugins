@@ -69,68 +69,60 @@ extern GeanyFunctions *geany_functions;
 extern const gchar *project_type_string[NEW_PROJECT_TYPE_SIZE];
 extern void *project_type_filter[NEW_PROJECT_TYPE_SIZE];
 
-// project.c
-struct GeanyPrj *geany_project_new();
-struct GeanyPrj *geany_project_load(const gchar * path);
+
+/* project.c */
+struct GeanyPrj *geany_project_new(void);
+struct GeanyPrj *geany_project_load(const gchar *path);
 void geany_project_free(struct GeanyPrj *prj);
-
 void geany_project_regenerate_file_list(struct GeanyPrj *prj);
-
-gboolean geany_project_add_file(struct GeanyPrj *prj, const gchar * path);
-gboolean geany_project_remove_file(struct GeanyPrj *prj, const gchar * path);
+gboolean geany_project_add_file(struct GeanyPrj *prj, const gchar *path);
+gboolean geany_project_remove_file(struct GeanyPrj *prj, const gchar *path);
 void geany_project_save(struct GeanyPrj *prj);
-
-void geany_project_set_path(struct GeanyPrj *prj, const gchar * path);
-void geany_project_set_name(struct GeanyPrj *prj, const gchar * name);
+void geany_project_set_path(struct GeanyPrj *prj, const gchar *path);
+void geany_project_set_name(struct GeanyPrj *prj, const gchar *name);
 void geany_project_set_type_int(struct GeanyPrj *prj, gint val);
-void geany_project_set_type_string(struct GeanyPrj *prj, const gchar * val);
+void geany_project_set_type_string(struct GeanyPrj *prj, const gchar *val);
 void geany_project_set_regenerate(struct GeanyPrj *prj, gboolean val);
-
-void geany_project_set_description(struct GeanyPrj *prj, const gchar * description);
-void geany_project_set_base_path(struct GeanyPrj *prj, const gchar * base_path);
-void geany_project_set_run_cmd(struct GeanyPrj *prj, const gchar * run_cmd);
-
-void geany_project_set_tags_from_list(struct GeanyPrj *prj, GSList * files);
+void geany_project_set_description(struct GeanyPrj *prj, const gchar *description);
+void geany_project_set_base_path(struct GeanyPrj *prj, const gchar *base_path);
+void geany_project_set_run_cmd(struct GeanyPrj *prj, const gchar *run_cmd);
+void geany_project_set_tags_from_list(struct GeanyPrj *prj, GSList *files);
 
 
-// sidebar.c
-void create_sidebar();
-void destroy_sidebar();
+/* sidebar.c */
+void create_sidebar(void);
+void destroy_sidebar(void);
+void sidebar_refresh(void);
 
-void sidebar_refresh();
 
-
-// xproject.c
-void xproject_init();
-void xproject_open(const gchar * path);
-gboolean xproject_add_file(const gchar * path);
-gboolean xproject_remove_file(const gchar * path);
-void xproject_update_tag(const gchar * filename);
-void xproject_cleanup();
+/* xproject.c */
+void xproject_init(void);
+void xproject_open(const gchar *path);
+gboolean xproject_add_file(const gchar *path);
+gboolean xproject_remove_file(const gchar *path);
+void xproject_update_tag(const gchar *filename);
+void xproject_cleanup(void);
 void xproject_close(gboolean cache);
 
-// menu.h
-void tools_menu_init();
-void tools_menu_uninit();
 
-void on_new_project(GtkMenuItem * menuitem, gpointer user_data);
-void on_preferences(GtkMenuItem * menuitem, gpointer user_data);
-void on_delete_project(GtkMenuItem * menuitem, gpointer user_data);
-void on_add_file(GtkMenuItem * menuitem, gpointer user_data);
-void on_find_in_project(GtkMenuItem * menuitem, gpointer user_data);
+/* menu.h */
+void tools_menu_init(void);
+void tools_menu_uninit(void);
+void on_new_project(GtkMenuItem *menuitem, gpointer user_data);
+void on_preferences(GtkMenuItem *menuitem, gpointer user_data);
+void on_delete_project(GtkMenuItem *menuitem, gpointer user_data);
+void on_add_file(GtkMenuItem *menuitem, gpointer user_data);
+void on_find_in_project(GtkMenuItem *menuitem, gpointer user_data);
 
 
-
-// utils.c
-gchar *find_file_path(const gchar * dir, const gchar * filename);
-gchar *normpath(const gchar * filename);
-gchar *get_full_path(const gchar * location, const gchar * path);
-gchar *get_relative_path(const gchar * location, const gchar * path);
-
-gint config_length(GKeyFile * config, const gchar * section, const gchar * name);
-void save_config(GKeyFile * config, const gchar * path);
-GSList *get_file_list(const gchar * path, guint * length, gboolean(*func) (const gchar *),
-		      GError ** error);
+/* utils.c */
+gchar *find_file_path(const gchar *dir, const gchar *filename);
+gchar *normpath(const gchar *filename);
+gchar *get_full_path(const gchar *location, const gchar *path);
+gchar *get_relative_path(const gchar *location, const gchar *path);
+gint config_length(GKeyFile *config, const gchar *section, const gchar *name);
+void save_config(GKeyFile *config, const gchar *path);
+GSList *get_file_list(const gchar *path, guint *length, gboolean(*func)(const gchar *), GError **error);
 
 
 extern struct GeanyPrj *g_current_project;

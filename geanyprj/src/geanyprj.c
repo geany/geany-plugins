@@ -51,8 +51,7 @@ enum
 PLUGIN_KEY_GROUP(geanyprj, KB_COUNT)
 
 
-static void
-reload_project()
+static void reload_project()
 {
 	gchar *dir;
 	gchar *proj;
@@ -87,8 +86,8 @@ reload_project()
 		g_free(proj);
 }
 
-static void
-on_doc_save(G_GNUC_UNUSED GObject * obj, GeanyDocument * doc, G_GNUC_UNUSED gpointer user_data)
+
+static void on_doc_save(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc, G_GNUC_UNUSED gpointer user_data)
 {
 	gchar *name;
 
@@ -103,19 +102,20 @@ on_doc_save(G_GNUC_UNUSED GObject * obj, GeanyDocument * doc, G_GNUC_UNUSED gpoi
 	xproject_update_tag(doc->file_name);
 }
 
-static void
-on_doc_open(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED GeanyDocument * doc,
-	    G_GNUC_UNUSED gpointer user_data)
+
+static void on_doc_open(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GeanyDocument *doc,
+						G_GNUC_UNUSED gpointer user_data)
 {
 	reload_project();
 }
 
-static void
-on_doc_activate(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED GeanyDocument * doc,
-		G_GNUC_UNUSED gpointer user_data)
+
+static void on_doc_activate(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GeanyDocument *doc,
+							G_GNUC_UNUSED gpointer user_data)
 {
 	reload_project();
 }
+
 
 PluginCallback plugin_callbacks[] = {
 	{"document-open", (GCallback) & on_doc_open, TRUE, NULL},
@@ -124,16 +124,16 @@ PluginCallback plugin_callbacks[] = {
 	{NULL, NULL, FALSE, NULL}
 };
 
+
 /* Keybinding callback */
-static void
-kb_find_in_project()
+static void kb_find_in_project()
 {
 	on_find_in_project(NULL, NULL);
 }
 
+
 /* Called by Geany to initialize the plugin */
-void
-plugin_init(G_GNUC_UNUSED GeanyData * data)
+void plugin_init(G_GNUC_UNUSED GeanyData *data)
 {
 	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 	tools_menu_init();
@@ -147,9 +147,9 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 			_("Find a text in geanyprj's project"), NULL);
 }
 
+
 /* Called by Geany before unloading the plugin. */
-void
-plugin_cleanup()
+void plugin_cleanup()
 {
 	tools_menu_uninit();
 

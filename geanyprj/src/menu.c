@@ -43,7 +43,7 @@ static struct
 	GtkWidget *find_in_files;
 } menu_items;
 
-// simple struct to keep references to the elements of the properties dialog
+/* simple struct to keep references to the elements of the properties dialog */
 typedef struct _PropertyDialogElements
 {
 	GtkWidget *dialog;
@@ -58,8 +58,8 @@ typedef struct _PropertyDialogElements
 	GtkWidget *patterns;
 } PropertyDialogElements;
 
-static PropertyDialogElements *
-build_properties_dialog(gboolean properties)
+
+static PropertyDialogElements *build_properties_dialog(gboolean properties)
 {
 	GtkWidget *vbox;
 	GtkWidget *table;
@@ -197,8 +197,8 @@ build_properties_dialog(gboolean properties)
 	return e;
 }
 
-void
-on_new_project(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
+
+void on_new_project(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
 	PropertyDialogElements *e;
 	gint response;
@@ -245,8 +245,8 @@ on_new_project(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user
 	g_free(e);
 }
 
-void
-on_preferences(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
+
+void on_preferences(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
 	PropertyDialogElements *e;
 	gint response;
@@ -291,8 +291,8 @@ on_preferences(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user
 	g_free(project_dir);
 }
 
-void
-on_delete_project(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
+
+void on_delete_project(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
 	gchar *path;
 	if (!g_current_project)
@@ -308,8 +308,8 @@ on_delete_project(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer u
 	}
 }
 
-void
-on_add_file(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
+
+void on_add_file(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
 	GeanyDocument *doc;
 
@@ -322,8 +322,8 @@ on_add_file(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_da
 	xproject_add_file(doc->file_name);
 }
 
-void
-on_find_in_project(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
+
+void on_find_in_project(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
 	gchar *dir;
 	if (!g_current_project)
@@ -334,8 +334,8 @@ on_find_in_project(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 	g_free(dir);
 }
 
-static void
-update_menu_items()
+
+static void update_menu_items()
 {
 	gboolean cur_file_exists;
 	gboolean badd_file;
@@ -360,8 +360,8 @@ update_menu_items()
 	gtk_widget_set_sensitive(menu_items.find_in_files, g_current_project ? TRUE : FALSE);
 }
 
-void
-tools_menu_init()
+
+void tools_menu_init()
 {
 	GtkWidget *item, *image;
 
@@ -378,9 +378,6 @@ tools_menu_init()
 
 	menu_prj_menu = gtk_menu_new();
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_prj), menu_prj_menu);
-
-	//
-
 
 	image = gtk_image_new_from_stock(GTK_STOCK_NEW, GTK_ICON_SIZE_MENU);
 	item = gtk_image_menu_item_new_with_mnemonic(_("New Project"));
@@ -438,8 +435,8 @@ tools_menu_init()
 	plugin_fields->flags = PLUGIN_IS_DOCUMENT_SENSITIVE;
 }
 
-void
-tools_menu_uninit()
+
+void tools_menu_uninit()
 {
 	gtk_widget_destroy(plugin_fields->menu_item);
 }

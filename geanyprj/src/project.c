@@ -36,8 +36,7 @@ const gchar *project_type_string[NEW_PROJECT_TYPE_SIZE] = {
 	"None"
 };
 
-static gboolean
-project_filter_c_cpp(const gchar * file)
+static gboolean project_filter_c_cpp(const gchar *file)
 {
 	if (filetypes_detect_from_file(file)->id == GEANY_FILETYPES_C ||
 	    filetypes_detect_from_file(file)->id == GEANY_FILETYPES_CPP)
@@ -45,32 +44,32 @@ project_filter_c_cpp(const gchar * file)
 	return FALSE;
 }
 
-static gboolean
-project_filter_c(const gchar * file)
+
+static gboolean project_filter_c(const gchar *file)
 {
 	if (filetypes_detect_from_file(file)->id == GEANY_FILETYPES_C)
 		return TRUE;
 	return FALSE;
 }
 
-static gboolean
-project_filter_python(const gchar * file)
+
+static gboolean project_filter_python(const gchar *file)
 {
 	if (filetypes_detect_from_file(file)->id == GEANY_FILETYPES_PYTHON)
 		return TRUE;
 	return FALSE;
 }
 
-static gboolean
-project_filter_all(const gchar * file)
+
+static gboolean project_filter_all(const gchar *file)
 {
 	if (filetypes_detect_from_file(file)->id != GEANY_FILETYPES_NONE)
 		return TRUE;
 	return FALSE;
 }
 
-static gboolean
-project_filter_none(G_GNUC_UNUSED const gchar * file)
+
+static gboolean project_filter_none(G_GNUC_UNUSED const gchar *file)
 {
 	return FALSE;
 }
@@ -85,14 +84,13 @@ void *project_type_filter[NEW_PROJECT_TYPE_SIZE] = {
 };
 
 
-static void
-free_tag_object(gpointer obj)
+static void free_tag_object(gpointer obj)
 {
 	tm_workspace_remove_object((TMWorkObject *) obj, TRUE, FALSE);
 }
 
-struct GeanyPrj *
-geany_project_new()
+
+struct GeanyPrj *geany_project_new()
 {
 	struct GeanyPrj *ret;
 
@@ -102,8 +100,8 @@ geany_project_new()
 	return ret;
 }
 
-struct GeanyPrj *
-geany_project_load(const gchar * path)
+
+struct GeanyPrj *geany_project_load(const gchar *path)
 {
 	struct GeanyPrj *ret;
 	TMWorkObject *tm_obj = NULL;
@@ -158,7 +156,7 @@ geany_project_load(const gchar * path)
 	}
 	else
 	{
-		// Create tag files
+		/* Create tag files */
 		key = g_strdup_printf("file%d", i);
 		while ((file = g_key_file_get_string(config, "files", key, NULL)))
 		{
@@ -186,22 +184,22 @@ geany_project_load(const gchar * path)
 	return ret;
 }
 
+
 #if !GLIB_CHECK_VERSION(2, 12, 0)
-static gboolean
-get_true(gpointer key, gpointer value, gpointer user_data)
+static gboolean get_true(gpointer key, gpointer value, gpointer user_data)
 {
 	return TRUE;
 }
 
-static void
-g_hash_table_remove_all(GHashTable * hash_table)
+
+static void g_hash_table_remove_all(GHashTable *hash_table)
 {
 	g_hash_table_foreach_remove(hash_table, get_true, NULL);
 }
 #endif
 
-void
-geany_project_regenerate_file_list(struct GeanyPrj *prj)
+
+void geany_project_regenerate_file_list(struct GeanyPrj *prj)
 {
 	GSList *lst;
 
@@ -215,8 +213,8 @@ geany_project_regenerate_file_list(struct GeanyPrj *prj)
 	g_slist_free(lst);
 }
 
-void
-geany_project_set_path(struct GeanyPrj *prj, const gchar * path)
+
+void geany_project_set_path(struct GeanyPrj *prj, const gchar *path)
 {
 	gchar *norm_path = normpath(path);
 	if (prj->path)
@@ -230,22 +228,22 @@ geany_project_set_path(struct GeanyPrj *prj, const gchar * path)
 	prj->path = norm_path;
 }
 
-void
-geany_project_set_name(struct GeanyPrj *prj, const gchar * name)
+
+void geany_project_set_name(struct GeanyPrj *prj, const gchar *name)
 {
 	if (prj->name)
 		g_free(prj->name);
 	prj->name = g_strdup(name);
 }
 
-void
-geany_project_set_type_int(struct GeanyPrj *prj, gint val)
+
+void geany_project_set_type_int(struct GeanyPrj *prj, gint val)
 {
 	prj->type = val;
 }
 
-void
-geany_project_set_type_string(struct GeanyPrj *prj, const gchar * val)
+
+void geany_project_set_type_string(struct GeanyPrj *prj, const gchar *val)
 {
 	guint i;
 
@@ -256,22 +254,22 @@ geany_project_set_type_string(struct GeanyPrj *prj, const gchar * val)
 	}
 }
 
-void
-geany_project_set_regenerate(struct GeanyPrj *prj, gboolean val)
+
+void geany_project_set_regenerate(struct GeanyPrj *prj, gboolean val)
 {
 	prj->regenerate = val;
 }
 
-void
-geany_project_set_description(struct GeanyPrj *prj, const gchar * description)
+
+void geany_project_set_description(struct GeanyPrj *prj, const gchar *description)
 {
 	if (prj->description)
 		g_free(prj->description);
 	prj->description = g_strdup(description);
 }
 
-void
-geany_project_set_base_path(struct GeanyPrj *prj, const gchar * base_path)
+
+void geany_project_set_base_path(struct GeanyPrj *prj, const gchar *base_path)
 {
 	if (prj->base_path)
 		g_free(prj->base_path);
@@ -286,8 +284,8 @@ geany_project_set_base_path(struct GeanyPrj *prj, const gchar * base_path)
 	}
 }
 
-void
-geany_project_set_run_cmd(struct GeanyPrj *prj, const gchar * run_cmd)
+
+void geany_project_set_run_cmd(struct GeanyPrj *prj, const gchar *run_cmd)
 {
 	if (prj->run_cmd)
 		g_free(prj->run_cmd);
@@ -295,9 +293,8 @@ geany_project_set_run_cmd(struct GeanyPrj *prj, const gchar * run_cmd)
 }
 
 
-// list in utf8
-void
-geany_project_set_tags_from_list(struct GeanyPrj *prj, GSList * files)
+/* list in utf8 */
+void geany_project_set_tags_from_list(struct GeanyPrj *prj, GSList *files)
 {
 	GSList *tmp;
 	gchar *locale_filename;
@@ -322,8 +319,7 @@ geany_project_set_tags_from_list(struct GeanyPrj *prj, GSList * files)
 }
 
 
-void
-geany_project_free(struct GeanyPrj *prj)
+void geany_project_free(struct GeanyPrj *prj)
 {
 	debug("%s prj=%p\n", __FUNCTION__, prj);
 	g_return_if_fail(prj);
@@ -344,8 +340,8 @@ geany_project_free(struct GeanyPrj *prj)
 	g_free(prj);
 }
 
-gboolean
-geany_project_add_file(struct GeanyPrj *prj, const gchar * path)
+
+gboolean geany_project_add_file(struct GeanyPrj *prj, const gchar *path)
 {
 	gchar *filename;
 	TMWorkObject *tm_obj = NULL;
@@ -377,15 +373,16 @@ geany_project_add_file(struct GeanyPrj *prj, const gchar * path)
 	return TRUE;
 }
 
+
 struct CFGData
 {
 	struct GeanyPrj *prj;
 	GKeyFile *config;
-	int i;
+	gint i;
 };
 
-static void
-geany_project_save_files(gpointer key, G_GNUC_UNUSED gpointer value, gpointer user_data)
+
+static void geany_project_save_files(gpointer key, G_GNUC_UNUSED gpointer value, gpointer user_data)
 {
 	gchar *fkey;
 	gchar *filename;
@@ -402,8 +399,8 @@ geany_project_save_files(gpointer key, G_GNUC_UNUSED gpointer value, gpointer us
 	}
 }
 
-gboolean
-geany_project_remove_file(struct GeanyPrj *prj, const gchar * path)
+
+gboolean geany_project_remove_file(struct GeanyPrj *prj, const gchar *path)
 {
 	if (!g_hash_table_remove(prj->tags, path))
 	{
@@ -414,8 +411,8 @@ geany_project_remove_file(struct GeanyPrj *prj, const gchar * path)
 	return TRUE;
 }
 
-void
-geany_project_save(struct GeanyPrj *prj)
+
+void geany_project_save(struct GeanyPrj *prj)
 {
 	GKeyFile *config;
 	struct CFGData data;
