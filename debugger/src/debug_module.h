@@ -70,9 +70,9 @@ typedef struct _variable {
 
 /* type to hold information about a stack frame */
 typedef struct _frame {
-	gchar address[11];
-	gchar function[128];
-	gchar file[FILENAME_MAX];
+	gchar *address;
+	gchar *function;
+	gchar *file;
 	gint line;
 	gboolean have_source;
 } frame;
@@ -154,8 +154,10 @@ typedef struct _dbg_module {
 	error_message, \
 	MODULE_FEATURES }
 
-void			variable_free(variable *var);
+void		variable_free(variable *var);
 variable*	variable_new(gchar *name, variable_type vt);
 variable*	variable_new2(gchar *name, gchar *internal, variable_type vt);
-void			variable_reset(variable *var);
+void		variable_reset(variable *var);
 
+frame*	frame_new();
+void		frame_free(frame* f);
