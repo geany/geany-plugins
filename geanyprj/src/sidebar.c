@@ -57,8 +57,7 @@ static struct
 
 
 /* Returns: the full filename in locale encoding. */
-static gchar *
-get_tree_path_filename(GtkTreePath * treepath)
+static gchar *get_tree_path_filename(GtkTreePath *treepath)
 {
 	GtkTreeModel *model = GTK_TREE_MODEL(file_store);
 	GtkTreeIter iter;
@@ -71,9 +70,9 @@ get_tree_path_filename(GtkTreePath * treepath)
 	return name;
 }
 
+
 /* We use documents->open_files() as it's more efficient. */
-static void
-open_selected_files(GList * list)
+static void open_selected_files(GList *list)
 {
 	GSList *files = NULL;
 	GList *item;
@@ -85,12 +84,12 @@ open_selected_files(GList * list)
 		files = g_slist_append(files, fname);
 	}
 	document_open_files(files, FALSE, NULL, NULL);
-	g_slist_foreach(files, (GFunc) g_free, NULL);	// free filenames
+	g_slist_foreach(files, (GFunc)g_free, NULL);	/* free filenames */
 	g_slist_free(files);
 }
 
-static void
-on_open_clicked(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
+
+static void on_open_clicked(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
 	GtkTreeSelection *treesel;
 	GtkTreeModel *model;
@@ -100,21 +99,21 @@ on_open_clicked(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer use
 
 	list = gtk_tree_selection_get_selected_rows(treesel, &model);
 	open_selected_files(list);
-	g_list_foreach(list, (GFunc) gtk_tree_path_free, NULL);
+	g_list_foreach(list, (GFunc)gtk_tree_path_free, NULL);
 	g_list_free(list);
 }
 
-static gboolean
-on_button_press(G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event,
-		G_GNUC_UNUSED gpointer user_data)
+
+static gboolean on_button_press(G_GNUC_UNUSED GtkWidget *widget, GdkEventButton *event,
+								G_GNUC_UNUSED gpointer user_data)
 {
 	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS)
 		on_open_clicked(NULL, NULL);
 	return FALSE;
 }
 
-static GtkWidget *
-make_toolbar()
+
+static GtkWidget *make_toolbar()
 {
 	GtkWidget *toolbar;
 
@@ -125,8 +124,8 @@ make_toolbar()
 	return toolbar;
 }
 
-static void
-remove_selected_files(GList * list)
+
+static void remove_selected_files(GList *list)
 {
 	GList *item;
 	for (item = list; item != NULL; item = g_list_next(item))
@@ -138,8 +137,8 @@ remove_selected_files(GList * list)
 	}
 }
 
-static void
-on_remove_files(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
+
+static void on_remove_files(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
 	GtkTreeSelection *treesel;
 	GtkTreeModel *model;
@@ -153,8 +152,8 @@ on_remove_files(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer use
 	g_list_free(list);
 }
 
-static gboolean
-on_key_press(G_GNUC_UNUSED GtkWidget * widget, GdkEventKey * event, G_GNUC_UNUSED gpointer data)
+
+static gboolean on_key_press(G_GNUC_UNUSED GtkWidget *widget, GdkEventKey *event, G_GNUC_UNUSED gpointer data)
 {
 	if (event->keyval == GDK_Return
 	    || event->keyval == GDK_ISO_Enter
@@ -163,8 +162,8 @@ on_key_press(G_GNUC_UNUSED GtkWidget * widget, GdkEventKey * event, G_GNUC_UNUSE
 	return FALSE;
 }
 
-static GtkWidget *
-create_popup_menu()
+
+static GtkWidget *create_popup_menu()
 {
 	GtkWidget *item, *menu, *image;
 
@@ -252,8 +251,8 @@ create_popup_menu()
 	return menu;
 }
 
-static void
-update_popup_menu(G_GNUC_UNUSED GtkWidget * popup_menu)
+
+static void update_popup_menu(G_GNUC_UNUSED GtkWidget *popup_menu)
 {
 	gboolean cur_file_exists;
 	gboolean badd_file;
@@ -283,10 +282,10 @@ update_popup_menu(G_GNUC_UNUSED GtkWidget * popup_menu)
 	gtk_widget_set_sensitive(popup_items.find_in_files, g_current_project ? TRUE : FALSE);
 }
 
-// delay updating popup menu until the selection has been set
-static gboolean
-on_button_release(G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event,
-		  G_GNUC_UNUSED gpointer user_data)
+
+/* delay updating popup menu until the selection has been set */
+static gboolean on_button_release(G_GNUC_UNUSED GtkWidget *widget, GdkEventButton *event,
+									G_GNUC_UNUSED gpointer user_data)
 {
 	if (event->button == 3)
 	{
@@ -303,8 +302,8 @@ on_button_release(G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event,
 	return FALSE;
 }
 
-static void
-prepare_file_view()
+
+static void prepare_file_view()
 {
 	GtkCellRenderer *text_renderer;
 	GtkTreeViewColumn *column;
@@ -330,7 +329,7 @@ prepare_file_view()
 	gtk_widget_modify_font(file_view, pfd);
 	pango_font_description_free(pfd);
 
-	// selection handling
+	/* selection handling */
 	select = gtk_tree_view_get_selection(GTK_TREE_VIEW(file_view));
 	gtk_tree_selection_set_mode(select, GTK_SELECTION_SINGLE);
 
@@ -342,14 +341,14 @@ prepare_file_view()
 	g_signal_connect(G_OBJECT(file_view), "key-press-event", G_CALLBACK(on_key_press), NULL);
 }
 
-void
-sidebar_clear()
+
+void sidebar_clear()
 {
 	gtk_list_store_clear(file_store);
 }
 
-gint
-mycmp(const gchar * a, const gchar * b)
+
+gint mycmp(const gchar *a, const gchar *b)
 {
 	const gchar *p1 = a;
 	const gchar *p2 = b;
@@ -397,8 +396,8 @@ mycmp(const gchar * a, const gchar * b)
 	return -1;
 }
 
-static void
-add_item(gpointer name, G_GNUC_UNUSED gpointer value, gpointer user_data)
+
+static void add_item(gpointer name, G_GNUC_UNUSED gpointer value, gpointer user_data)
 {
 	gchar *item;
 	GSList **lst = (GSList **) user_data;
@@ -407,9 +406,9 @@ add_item(gpointer name, G_GNUC_UNUSED gpointer value, gpointer user_data)
 	*lst = g_slist_prepend(*lst, item);
 }
 
-// recreate the tree model from current_dir.
-void
-sidebar_refresh()
+
+/* recreate the tree model from current_dir */
+void sidebar_refresh()
 {
 	GtkTreeIter iter;
 	GSList *lst = NULL;
@@ -431,8 +430,8 @@ sidebar_refresh()
 	g_slist_free(lst);
 }
 
-void
-create_sidebar()
+
+void create_sidebar()
 {
 	GtkWidget *scrollwin, *toolbar;
 
@@ -454,8 +453,8 @@ create_sidebar()
 				 file_view_vbox, gtk_label_new(_("Project")));
 }
 
-void
-destroy_sidebar()
+
+void destroy_sidebar()
 {
 	gtk_widget_destroy(file_view_vbox);
 }

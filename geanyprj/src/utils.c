@@ -21,8 +21,7 @@
 
 #include "geanyprj.h"
 
-gchar *
-find_file_path(const gchar * dir, const gchar * filename)
+gchar *find_file_path(const gchar *dir, const gchar *filename)
 {
 	gboolean ret = FALSE;
 	gchar *base;
@@ -52,13 +51,13 @@ find_file_path(const gchar * dir, const gchar * filename)
 	return NULL;
 }
 
+
 /* Normalize a pathname. This collapses redundant separators and up-level references so that A//B, A/./B
  * and A/foo/../B all become A/B. It does not normalize the case. On Windows, it converts forward
  * slashes to backward slashes. It should be understood that this may change the meaning of the
  * path if it contains symbolic links!
  */
-gchar *
-normpath(const gchar * filename)
+gchar *normpath(const gchar *filename)
 {
 	gchar **v;
 	gchar **p;
@@ -116,8 +115,8 @@ normpath(const gchar * filename)
 	return ret;
 }
 
-gchar *
-get_full_path(const gchar * location, const gchar * path)
+
+gchar *get_full_path(const gchar *location, const gchar *path)
 {
 	gchar *dir;
 
@@ -127,8 +126,8 @@ get_full_path(const gchar * location, const gchar * path)
 	return dir;
 }
 
-gchar *
-get_relative_path(const gchar * location, const gchar * path)
+
+gchar *get_relative_path(const gchar *location, const gchar *path)
 {
 	gchar *dir;
 	gint plen;
@@ -161,16 +160,16 @@ get_relative_path(const gchar * location, const gchar * path)
 	return NULL;
 }
 
-void
-save_config(GKeyFile * config, const gchar * path)
+
+void save_config(GKeyFile *config, const gchar *path)
 {
 	gchar *data = g_key_file_to_data(config, NULL, NULL);
 	utils_write_file(path, data);
 	g_free(data);
 }
 
-gint
-config_length(GKeyFile * config, const gchar * section, const gchar * name)
+
+gint config_length(GKeyFile *config, const gchar *section, const gchar *name)
 {
 	gchar *key;
 	gint i = 0;
@@ -193,8 +192,7 @@ config_length(GKeyFile * config, const gchar * section, const gchar * name)
  * Returns: The list or NULL if no files found.
  * length will point to the number of non-NULL data items in the list, unless NULL.
  * error is the location for storing a possible error, or NULL. */
-GSList *
-get_file_list(const gchar * path, guint * length, gboolean(*func) (const gchar *), GError ** error)
+GSList *get_file_list(const gchar *path, guint * length, gboolean(*func)(const gchar *), GError ** error)
 {
 	GSList *list = NULL;
 	guint len = 0;
@@ -240,7 +238,7 @@ get_file_list(const gchar * path, guint * length, gboolean(*func) (const gchar *
 			continue;
 
 		filename = g_build_filename(abs_path, name, NULL);
-		
+
 		if (g_file_test(filename, G_FILE_TEST_IS_SYMLINK))
 		{
 			g_free(filename);
