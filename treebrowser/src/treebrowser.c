@@ -1371,18 +1371,6 @@ on_treeview_mouseclick(GtkWidget *widget, GdkEventButton *event, GtkTreeSelectio
 	GtkTreePath *path;
 	gchar 			*name = "", *uri = "";
 
-	// Get tree path for row that was clicked
-	if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(treeview),
-																	 (gint) event->x, 
-																	 (gint) event->y,
-																	 &path, NULL, NULL, NULL))
-	{
-		// Unselect current selection; select clicked row from path
-		gtk_tree_selection_unselect_all(selection);
-		gtk_tree_selection_select_path(selection, path);
-		gtk_tree_path_free(path);
-	}
-
 	if (gtk_tree_selection_get_selected(selection, &model, &iter))
 		/* FIXME: name and uri should be freed, but they are passed to create_popup_menu()
 		 * that pass them directly to some callbacks, so we can't free them here for now.
@@ -1394,6 +1382,17 @@ on_treeview_mouseclick(GtkWidget *widget, GdkEventButton *event, GtkTreeSelectio
 
 	if (event->button == 3)
 	{
+		// Get tree path for row that was clicked
+		if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(treeview),
+																		 (gint) event->x, 
+																		 (gint) event->y,
+																		 &path, NULL, NULL, NULL))
+		{
+			// Unselect current selection; select clicked row from path
+			gtk_tree_selection_unselect_all(selection);
+			gtk_tree_selection_select_path(selection, path);
+			gtk_tree_path_free(path);
+		}
 		gtk_menu_popup(GTK_MENU(create_popup_menu(name, uri)), NULL, NULL, NULL, NULL, event->button, event->time);
 		return TRUE;
 	}
