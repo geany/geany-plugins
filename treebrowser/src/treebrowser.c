@@ -1032,7 +1032,7 @@ on_menu_create_new_object(GtkMenuItem *menuitem, gchar *type)
 			if (utils_str_equal(type, "directory"))
 				creation_success = (g_mkdir(uri_new, 0755) == 0);
 			else
-				creation_success = (g_creat(uri_new, 0755) != -1);
+				creation_success = (g_creat(uri_new, 0644) != -1);
 
 			if (creation_success)
 			{
