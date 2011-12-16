@@ -23,6 +23,8 @@
  * 		Contains variable structure constructors and destructors.
  */
 
+#include <stdlib.h>
+#include <memory.h>
 
 #include <gtk/gtk.h>
 
@@ -72,4 +74,31 @@ void variable_reset(variable *var)
 	g_string_assign(var->type, "");
 	g_string_assign(var->value, "");
 	var->has_children = var->evaluated = FALSE;
+}
+
+/* creates new frame */
+frame* frame_new()
+{
+	frame *f = (frame*)malloc(sizeof(frame));
+	memset((void*)f, 0, sizeof(frame));
+	return f;
+}
+
+/* frees a frame */
+void frame_free(frame* f)
+{
+	if (f->address)
+	{
+		g_free(f->address);
+	}
+	if (f->function)
+	{
+		g_free(f->function);
+	}
+	if (f->file)
+	{
+		g_free(f->file);
+	}
+	
+	g_free(f);
 }

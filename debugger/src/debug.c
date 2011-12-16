@@ -174,7 +174,7 @@ static GHashTable *calltips = NULL;
 }
 
 /* 
- * removes stack margin markers
+ * add stack margin markers
  */
  void add_stack_markers()
 {
@@ -591,6 +591,7 @@ static void on_debugger_run ()
 	if (stack)
 	{
 		remove_stack_markers();
+		g_list_foreach(stack, (GFunc)frame_free, NULL);
 		g_list_free(stack);
 		stack = NULL;
 	}
@@ -741,6 +742,7 @@ static void on_debugger_exited (int code)
 	if (stack)
 	{
 		remove_stack_markers();
+		g_list_foreach(stack, (GFunc)frame_free, NULL);
 		g_list_free(stack);
 		stack = NULL;
 	}
@@ -963,6 +965,7 @@ void debug_destroy()
 	if (stack)
 	{
 		remove_stack_markers();
+		g_list_foreach(stack, (GFunc)frame_free, NULL);
 		g_list_free(stack);
 		stack = NULL;
 	}
