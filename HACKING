@@ -9,7 +9,9 @@ General
 About this file
 ---------------
 This file contains some useful information for any plugin developer, and
-especially for new plugin developers.
+especially for new plugin developers.  A lot of information inside
+`Geany's HACKING file <http://geany.org/manual/hacking.html>` is useful
+as well, so it's recommended you give it a read.
 
 
 Building your plugin
@@ -42,30 +44,97 @@ Documentation
 
 README
 ^^^^^^
-Inside each plugin folder, that should be a README located.
+Each plugin folder should contain at least a `README` file for
+documentation.
 
 
-Something about the markup being used
-#####################################
+Markup language
+###############
 
-The README is intended to be written in
+The `README` is intended to be written in
 `Restructured Text <http://sphinx.pocoo.org/rest.html>`_
-(as this document is) and therefor should be working e.g. with running
-rst2html or similar tools. The reason for is, that these information are
-getting used by generating content of http://plugins.geany.org.
+(as this document is) and therefore should work with
+``rst2html`` or similar tools. The reason for this is that this
+information is used to generate the content of the
+`Plugins Website <http://plugins.geany.org>`.
 
 
-Content that shall be in
-########################
+Recommended contents
+####################
 
-The documentation should include a minimum on content. This means a
-detailed description on features offered by the plugins and usage of
-this features. But also it should include some basic information
-which is making it easier for the user to get in contact or to find
-help in case of any issues.
+The documentation should include a detailed description on features
+offered by the plugins and usage of those features. It should also
+include some basic information to make it easier for users to get in
+touch with the developer(s) or to find further help in case of any
+issues.  You can use some of the other `README` files to get a
+general idea of what should be in the file, but generally it should
+contain:
 
-* author(s) of plugin and its mail addresses
-* web pages, if there are any beside of http://plugins.geany.org
-* know issues
+* author(s) of plugin and their mail addresses
+* external web site (if any)
+* known issues
 * bug tracker
 * dependencies
+
+
+Committing
+----------
+
+General
+^^^^^^^
+
+* Commit one thing at a time, do small commits. Commits should be
+  meaningful and not too big when possible; multiple small commits are
+  good if there is no good reason to group them.
+* Use meaningful name and email in the Author and Committer fields.
+  This helps knowing who did what and allows to contact the author if
+  there is a good reason to do so (unlikely, but can happen). Using
+  the email address associated with your GitHub account will allows
+  for better integration with the website's hyperlinking to accounts
+  features.
+* When working on a new feature, create a new branch for it. When
+  merging it, use the --no-ff option to make sure a merge commit will
+  be created to better track what happened. However, if the feature
+  only took one commit you might merge it fast-forward since there is
+  not history to keep together.
+
+
+Commit messages
+^^^^^^^^^^^^^^^
+Follow the standard Git formatting:
+
+* No line should use more than about 80 characters (around 72 is best).
+* The first line is the commit's summary and is followed by an empty
+  line. This summary should be one line and one line only, thus less
+  than 80 characters. This summary should not include any punctuation
+  unless really needed. See it as the subject of an email: keep it
+  concise and as precise as you can, but not tool long.
+* If you're working on a specific plugin, prefix the summary line
+  with the lower case name of the plugin (same as the directory name)
+  to make it easier to know which commit affected which plugin without
+  having to thoroughly examine the commit diff itself.  No prefix is
+  needed if the commit is non-plugin specific or affects only files
+  outside of the plugins' directories.
+* Following lines are optional detailed commit information, with
+  paragraphs separated by blank lines. This part should be as long as
+  needed to describe the commit in depth, should use proper
+  punctuation and should include any useful information, like the
+  motivation for the patch and/or any valuable details the diff itself
+  doesn't provide or make clear. Make it as complete as you think
+  it makes sense, but don't include an information that is better
+  explained by the commit's diff.
+
+  It is OK to use ASCII formatting like bullet list using "*" or "-",
+  etc. if useful, but emphasis (bold, italic, underline) should be
+  avoided.
+
+Example::
+
+    Ask the user if spawn fails in utils_open_browser()
+
+    Ask the user to configure a valid browser command if spawning it
+    fails rather than falling back to some arbitrary hardcoded defaults.
+
+    This avoid spawning an unexpected browser when the configured one is
+    wrong, and gives the user a chance to correctly fix the preference.
+
