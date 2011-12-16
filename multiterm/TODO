@@ -1,0 +1,7 @@
+TODO:
+-----
+
+  - Add right-click menu to VTE
+  - Add GUI for preferences
+  - Fix tab style
+  - Support sending editor selection to active (or specific) terminal
