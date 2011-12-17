@@ -82,11 +82,10 @@ will be transformed to
 Development
 -----------
 
-You can checkout the current source code from the Subversion repository at
-Sourceforge.net. Get the code from:
+You can checkout the current source code from the git repository at
+github.com. Get the code by:
 
-svn checkout
-http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geany-plugins/tableconvert
+git clone https://github.com/geany/geany-plugins.git
 
 If you want to create a patch, please respect the license of
 Tableconvert as well as intellectual property of third. Patches that
