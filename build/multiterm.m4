@@ -1,6 +1,6 @@
 AC_DEFUN([GP_CHECK_MULTITERM],
 [
-	AM_PROG_VALAC([0.7.0])
+    AM_PROG_VALAC([0.7.0])
 
     GP_ARG_DISABLE([multiterm], [auto])
     GP_CHECK_PLUGIN_DEPS([multiterm], [MULTITERM], [gtk+-2.0 geany vte])
@@ -9,6 +9,5 @@ AC_DEFUN([GP_CHECK_MULTITERM],
     AC_CONFIG_FILES([
         multiterm/Makefile
         multiterm/src/Makefile
-        multiterm/data/Makefile
     ])
 ])

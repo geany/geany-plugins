@@ -1,4 +1,5 @@
 using Gtk;
+using Gdk;
 using Pango;
 using Vte;
 
@@ -8,6 +9,7 @@ namespace MultiTerm
 	{
 		private Button add_button;
 		private Config cfg;
+		private ContextMenu? context_menu;
 
 		private void on_tab_label_close_clicked(int tab_num)
 		{
@@ -26,24 +28,41 @@ namespace MultiTerm
 
 		private void on_add_button_clicked()
 		{
-			add_terminal(null);
+			foreach (ShellConfig sh in cfg.shell_configs)
+			{
+				if (sh.section.strip() == "shell=default")
+				{
+					add_terminal(sh);
+					return;
+				}
+			}
+			warning("Unable to locate default shell in configuration file");
 		}
 
-		public void add_terminal(ShellConfig? cfg=null)
+		private bool on_terminal_right_click_event(EventButton event)
 		{
-			TabLabel label;
-			Terminal term;
+			if (context_menu == null)
+				context_menu = new ContextMenu(cfg);
+			context_menu.popup(null, null, null, event.button, event.time);
+			return true;
+		}
 
-            if (cfg != null)
-            {
-                term = new Terminal(cfg);
-                label = new TabLabel(cfg.name);
-            }
-            else
-            {
-                term = new Terminal();
-                label = new TabLabel();
-            }
+		private void show_hide_notebook_tabs()
+		{
+			/* TODO: once the context menu is added, make this
+			 * optional in the config file. */
+			/*
+			if (this.get_n_pages() <= 1)
+				this.show_tabs = false;
+			else
+				this.show_tabs = true;
+			*/
+		}
+
+		public Terminal add_terminal(ShellConfig cfg)
+		{
+			TabLabel label = new TabLabel(cfg.name);
+			Terminal term = new Terminal(cfg);
 
 			label.show_all();
 			label.close_clicked.connect(on_tab_label_close_clicked);
@@ -60,23 +79,28 @@ namespace MultiTerm
 			 * from GtkNotebook docs. */
 			this.set_tab_label_packing(term, true, true, PackType.END);
 			this.scrollable = true;
+
+			show_hide_notebook_tabs();
+
+			return term;
 		}
 
 		public void remove_terminal(int tab_num)
 		{
 			this.remove_page(tab_num);
+			show_hide_notebook_tabs();
 		}
 
 		public class Notebook(string config_filename)
 		{
-			Image img;
+			Gtk.Image img;
 			RcStyle style;
-			List<ShellConfig?> list;
-			uint len;
 
 			style = new RcStyle();
 			style.xthickness = 0;
 			style.ythickness = 0;
+
+			img = new Gtk.Image.from_stock(Gtk.Stock.ADD, Gtk.IconSize.MENU);
 
 			add_button = new Button();
 			add_button.modify_style(style);
@@ -84,20 +108,20 @@ namespace MultiTerm
 			add_button.focus_on_click = false;
 			add_button.set_border_width(2);
 			add_button.set_tooltip_text("New terminal");
-			img = new Image.from_stock(Gtk.Stock.ADD, Gtk.IconSize.MENU);
 			add_button.add(img);
 			add_button.clicked.connect(on_add_button_clicked);
 			add_button.show_all();
 			add_button.style_set.connect(on_add_button_style_set);
+
 			this.set_action_widget(add_button, PackType.END);
 
 			cfg = new Config(config_filename);
-			list = cfg.shell_configs;
-			len = list.length();
-			for (int i=0; i < len; i++)
+			//context_menu = new ContextMenu(cfg);
+
+			foreach (ShellConfig sh in cfg.shell_configs)
 			{
-				ShellConfig sh = list.nth_data(i);
-				add_terminal(sh);
+				Terminal term = add_terminal(sh);
+				term.right_click_event.connect(on_terminal_right_click_event);
 			}
 		}
 	}

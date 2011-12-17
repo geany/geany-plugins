@@ -19,9 +19,11 @@ VALAFLAGS = \
 
 multiterm_la_SOURCES = \
 	config.vala \
+	context-menu.vala \
 	defconf.vala \
 	notebook.vala \
 	plugin.vala \
+	shell-config.vala \
 	tab-label.vala \
 	terminal.vala
 
