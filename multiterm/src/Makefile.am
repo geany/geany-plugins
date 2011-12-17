@@ -19,7 +19,6 @@ VALAFLAGS = \
 
 multiterm_la_SOURCES = \
 	config.vala \
-	iterminal.vala \
 	notebook.vala \
 	plugin.vala \
 	tab-label.vala \
