@@ -35,11 +35,10 @@ will always get the wished number of chars inserted.
 Development
 -----------
 
-You can checkout the current source code from the Subversion repository at
-Sourceforge.net. Get the code from:
+You can checkout the current source code from the git repository at
+github.com. Get the code by:
 
-svn checkout
-http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geany-plugins/geanylipsum
+git clone https://github.com/geany/geany-plugins.git
 
 If you want to create a patch, please respect the license of
 GeanyLipsum as well as intellectual property of third. Patches that
