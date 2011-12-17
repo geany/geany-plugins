@@ -7,5 +7,5 @@ endif
 
 AUXFILES += TODO
 
-SUBDIRS = src data
+SUBDIRS = src
 plugin = multiterm

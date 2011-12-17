@@ -25,49 +25,17 @@ public void plugin_set_info(Plugin.Info info)
 
 static string init_config_file()
 {
-	string default_conf = """
-[general]
-# location=sidebar
-location=message_window
-bg_color=#ffffff
-fg_color=#000000
-font=Monospace 9
-
-[shell=default]
-name=Default Shell
-command=
-track_title=true
-
-allow_bold=true
-audible_bell=true
-# one of: system, on, off
-cursor_blink_mode=system
-# one of: ascii_backspace, ascii_delete, delete_sequences, tty
-backspace_binding=auto
-
-#[shell=python]
-#name=Python Shell
-#command=bpython
-#track_title=false
-
-#[shell=irb]
-#name=Ruby Shell
-#command=irb
-#track_title=false
-""";
-
-    string config_dir = Path.build_filename(geany_data.app.config_dir,
+	string config_dir = Path.build_filename(geany_data.app.config_dir,
                             "plugins", "multiterm");
 
     DirUtils.create_with_parents(config_dir, 0755);
 
-	string config_file = Path.build_filename(geany_data.app.config_dir,
-							"plugins", "multiterm", "multiterm.conf");
+	string config_file = Path.build_filename(config_dir, "multiterm.conf");
 
 	try
 	{
 		if (!FileUtils.test(config_file, FileTest.EXISTS | FileTest.IS_REGULAR))
-			FileUtils.set_contents(config_file, default_conf);
+			FileUtils.set_contents(config_file, MultiTerm.default_config);
 	}
 	catch (FileError err)
 	{
