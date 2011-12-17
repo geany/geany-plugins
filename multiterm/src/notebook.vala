@@ -56,8 +56,10 @@ namespace MultiTerm
 
 			this.set_tab_reorderable(term, true);
 
-			/* TODO: check if this is depracated */
+			/* TODO: this is deprecated, try and figure out alternative
+			 * from GtkNotebook docs. */
 			this.set_tab_label_packing(term, true, true, PackType.END);
+			this.scrollable = true;
 		}
 
 		public void remove_terminal(int tab_num)
