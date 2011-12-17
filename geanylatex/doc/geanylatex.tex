@@ -52,7 +52,7 @@ openany,%
 \begin{document}
 
 \dedication{\normalsize \textbf{Note:} Please note that this document has been created on
-\today. If you are using a devel version from SVN, please compile and check
+\today. If you are using a devel version from GIT, please compile and check
 \texttt{doc/geanylatex.tex} from sources. Please check Page \pageref
 {sec:compiling_of_documentation}, Section \ref{sec:compiling_of_documentation} on how to do this. }
 
@@ -94,7 +94,7 @@ It implements a couple of hopefully useful functions:
 \section{News \& ChangeLog}
 \subsection{Geany\LaTeX{} 0.7}
 \begin{itemize}
-	\item None by now. 
+	\item None by now.
 \end{itemize}
 \subsection{Geany\LaTeX{} 0.6 -- 2011-10-15}
 \begin{itemize}
@@ -162,26 +162,26 @@ libraries and header files. You will also need its dependency
 libraries and header files, such as Pango, Glib and ATK. All these
 files are available at \url{http://www.gtk.org}.
 
-And obviously, you will need to have Geany with its header files 
-installed (in case you are compiling the plugin on your own). If you 
-installed Geany from the sources, you should be ready to go. If you 
-used a prepared package, e.g. from your distribution, you probably 
-need to install an additional package, probably called geany-dev or 
-geany-devel. Please note that in order to compile and use this 
-plugin, you need Geany 0.20svn or later (Geany Plugin API v199 or 
+And obviously, you will need to have Geany with its header files
+installed (in case you are compiling the plugin on your own). If you
+installed Geany from the sources, you should be ready to go. If you
+used a prepared package, e.g. from your distribution, you probably
+need to install an additional package, probably called geany-dev or
+geany-devel. Please note that in order to compile and use this
+plugin, you need Geany 0.20svn or later (Geany Plugin API v199 or
 higher).
 
-Furthermore you need, of course, a C compiler and python installed. 
-The GNU version of the C compiler is recommended. Furthermore, there 
+Furthermore you need, of course, a C compiler and python installed.
+The GNU version of the C compiler is recommended. Furthermore, there
 should be a working \LaTeX-environment on your System.
 
-There is no special need in RAM or CPU, so the plugin should compile 
+There is no special need in RAM or CPU, so the plugin should compile
 and run on all systems Geany is able to run.
 
 \section{Compiling}
 \subsection{Compiling the plugin}
-For documentation how to compile the plugin, please check the 
-documentation of the geany-plugins combined release. 
+For documentation how to compile the plugin, please check the
+documentation of the geany-plugins combined release.
 \subsection{Compiling the documentation}
 \label{sec:compiling_of_documentation}
 Sources of this documentation are available throught
@@ -910,11 +910,10 @@ development team so it can be added to archive.
 
 \section{Development}
 \subsection{Development version}
-You can checkout the current source code from the Subversion repository
-at Sourceforge.net. Get the code from:
+You can checkout the current source code from the git-repository
+at github.com. Get the code by clone the repository:
 
-svn checkout
-http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geanylatex
+git clone https://github.com/geany/geany-plugins.git
 
 \subsubsection{Sending a patch}
 \label{sec:sending_a_patch}
