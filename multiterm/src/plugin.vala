@@ -4,12 +4,17 @@ using Geany;
 using MultiTerm;
 
 public Plugin		geany_plugin;
-public Data		geany_data;
+public Data			geany_data;
 public Functions	geany_functions;
 
-public MultiTerm.Notebook nb;
+public MultiTerm.Notebook notebook;
 private Alignment align;
 
+namespace MultiTerm
+{
+	public string config_dir;
+	public string config_file;
+}
 
 public int plugin_version_check(int abi_version)
 {
@@ -25,24 +30,24 @@ public void plugin_set_info(Plugin.Info info)
 
 static string init_config_file()
 {
-	string config_dir = Path.build_filename(geany_data.app.config_dir,
+	MultiTerm.config_dir = Path.build_filename(geany_data.app.config_dir,
                             "plugins", "multiterm");
 
-    DirUtils.create_with_parents(config_dir, 0755);
+    DirUtils.create_with_parents(MultiTerm.config_dir, 0755);
 
-	string config_file = Path.build_filename(config_dir, "multiterm.conf");
+	MultiTerm.config_file = Path.build_filename(MultiTerm.config_dir, "multiterm.conf");
 
 	try
 	{
-		if (!FileUtils.test(config_file, FileTest.EXISTS | FileTest.IS_REGULAR))
-			FileUtils.set_contents(config_file, MultiTerm.default_config);
+		if (!FileUtils.test(MultiTerm.config_file, FileTest.EXISTS | FileTest.IS_REGULAR))
+			FileUtils.set_contents(MultiTerm.config_file, MultiTerm.default_config);
 	}
 	catch (FileError err)
 	{
 		warning("Unable to write default config file: %s", err.message);
 	}
 
-	return config_file;
+	return MultiTerm.config_file;
 }
 
 public void plugin_init(Geany.Data data)
@@ -52,9 +57,9 @@ public void plugin_init(Geany.Data data)
 
 	align = new Alignment(0.5f, 0.5f, 1.0f, 1.0f);
 
-	nb = new MultiTerm.Notebook(init_config_file());
+	notebook = new MultiTerm.Notebook(init_config_file());
 
-	align.add(nb as Gtk.Notebook);
+	align.add(notebook as Gtk.Notebook);
 
 	data.main_widgets.message_window_notebook.append_page(
 			align, new Label("MultiTerm"));
