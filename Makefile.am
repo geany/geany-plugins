@@ -18,6 +18,7 @@ plugins = \
 	geanysendmail \
 	geanyvc \
 	gproject \
+	multiterm \
 	pretty-printer \
 	shiftcolumn \
 	spellcheck \
