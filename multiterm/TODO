@@ -1,0 +1,16 @@
+TODO:
+-----
+
+  - Add right-click menu to VTE
+  - Add GUI for preferences
+  - Make tabs not fill entire space available
+  - Add a terminal-specific right-click menu to each tab
+  - Support sending editor selection to active (or specific) terminal
+  - Get plugin building with Waf build system
+  - When no user config file is present copy
+    `DATADIR/geany-plugins/multiterm/multiterm.conf` to the user's
+    config dir to make a default config file.  Currently the default
+    config is hardcoded.
+  - Support having the main tab be in the sidebar as well as the
+    message window.
+  - Lots of other stuff
