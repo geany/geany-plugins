@@ -58,6 +58,9 @@ external_terminal=xterm
 # tabs when it restarts.
 save_tabs=false
 
+# Whether to show tabs or not
+show_tabs=true
+
 bg_color=#ffffff
 fg_color=#000000
 font=Monospace 9

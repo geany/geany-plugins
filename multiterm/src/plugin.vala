@@ -1,4 +1,3 @@
-
 using Gtk;
 using Geany;
 using MultiTerm;
@@ -7,73 +6,84 @@ public Plugin		geany_plugin;
 public Data			geany_data;
 public Functions	geany_functions;
 
-public MultiTerm.Notebook notebook;
-private Alignment align;
+/* Widgets to clean up when the plugin is unloaded */
+private List<Widget> toplevel_widgets = new List<Widget>();
 
-namespace MultiTerm
-{
-	public string config_dir;
-	public string config_file;
-}
-
+/* Geany calls this to determine min. required API/ABI version */
 public int plugin_version_check(int abi_version)
 {
 	return Plugin.version_check(abi_version, 185);
 }
 
+/* Geany calls this to get some info about the plugin */
 public void plugin_set_info(Plugin.Info info)
 {
 	info.set("MultiTerm",
 			 "Multi-tabbed virtual terminal emulator.",
-			 "0.1", "Matthew Brush <mbrush@leftclick.ca>");
+			 "0.1", "Matthew Brush <matt@geany.org>");
 }
 
-static string init_config_file()
+/* Geany will call this when the plugin is loaded */
+public void plugin_init(Geany.Data data)
 {
-	MultiTerm.config_dir = Path.build_filename(geany_data.app.config_dir,
-                            "plugins", "multiterm");
+	string config_file;
+	string config_dir;
+	Label label;
+	Alignment align;
+	MultiTerm.Notebook notebook;
 
-    DirUtils.create_with_parents(MultiTerm.config_dir, 0755);
+	/* Needed for GObject type system not to freak out about
+	 * unregistering and re-registering new types */
+	geany_plugin.module_make_resident();
 
-	MultiTerm.config_file = Path.build_filename(MultiTerm.config_dir, "multiterm.conf");
-
+	/* Initialize plugin's configuration directory/file */
+	config_dir = Path.build_filename(geany_data.app.config_dir, "plugins", "multiterm");
+	config_file = Path.build_filename(config_dir, "multiterm.conf");
+    DirUtils.create_with_parents(config_dir, 0755);
 	try
 	{
-		if (!FileUtils.test(MultiTerm.config_file, FileTest.EXISTS | FileTest.IS_REGULAR))
-			FileUtils.set_contents(MultiTerm.config_file, MultiTerm.default_config);
+		/* Create a default config file if there isn't one yet */
+		if (!FileUtils.test(config_file, FileTest.EXISTS | FileTest.IS_REGULAR))
+			FileUtils.set_contents(config_file, default_config);
 	}
 	catch (FileError err)
 	{
 		warning("Unable to write default config file: %s", err.message);
 	}
 
-	return MultiTerm.config_file;
-}
-
-public void plugin_init(Geany.Data data)
-{
-	geany_plugin.module_make_resident();
-
-
+	/* Setup the widgets */
 	align = new Alignment(0.5f, 0.5f, 1.0f, 1.0f);
-
-	notebook = new MultiTerm.Notebook(init_config_file());
-
+	notebook = new MultiTerm.Notebook(config_file);
 	align.add(notebook as Gtk.Notebook);
-
-	data.main_widgets.message_window_notebook.append_page(
-			align, new Label("MultiTerm"));
-
 	align.show_all();
+	toplevel_widgets.append(align);
 
-	//align.set_size_request(100,100); 	// for whatever reason, makes
-	//									// it size properly
+	label = new Label("MultiTerm");
+	notebook.set_data<Label>("label", label);
+	notebook.set_data<Gtk.Notebook>("msgwin_notebook", data.main_widgets.message_window_notebook);
+	notebook.set_data<Gtk.Notebook>("sidebar_notebook", data.main_widgets.sidebar_notebook);
 
-	Gtk.Notebook mwnb = (Gtk.Notebook)data.main_widgets.message_window_notebook;
-	mwnb.set_current_page(mwnb.page_num(align));
+	if (notebook.cfg.location == "msgwin")
+	{
+		data.main_widgets.message_window_notebook.append_page(align, label);
+		data.main_widgets.message_window_notebook.set_current_page(
+			data.main_widgets.message_window_notebook.page_num(align));
+	}
+	else
+	{
+		data.main_widgets.sidebar_notebook.append_page(align, label);
+		data.main_widgets.sidebar_notebook.set_current_page(
+			data.main_widgets.sidebar_notebook.page_num(align));
+	}
+
+
+	/* Activate the new MultiTerm tab */
 }
 
+/* Geany will call this when the plugin is unloaded, so be sure to
+ * free/destroy anything needed here */
 public void plugin_cleanup ()
 {
-	align.destroy();
+	foreach (Widget wid in toplevel_widgets)
+		wid.destroy();
 }

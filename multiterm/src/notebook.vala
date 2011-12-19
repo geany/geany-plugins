@@ -8,13 +8,90 @@ namespace MultiTerm
 	public class Notebook : Gtk.Notebook
 	{
 		private Button add_button;
-		private Config cfg;
+		public Config cfg;
 		private ContextMenu? context_menu;
 
 		private void on_tab_label_close_clicked(int tab_num)
 		{
 			if (this.get_n_pages() > 1)
 				this.remove_terminal(tab_num);
+		}
+
+		private void on_show_tabs_activate(bool show_tabs)
+		{
+			this.show_tabs = show_tabs;
+			cfg.show_tabs = show_tabs;
+		}
+
+		private bool on_next_tab_activate()
+		{
+			int n_tabs = this.get_n_pages();
+			int current = this.get_current_page();
+
+			if (current < (n_tabs - 1))
+			{
+				current++;
+				this.set_current_page(current);
+			}
+
+			return (current < (n_tabs - 1)) ? true : false;
+		}
+
+		private bool on_previous_tab_activate()
+		{
+			int current = this.get_current_page();
+
+			if (current > 0)
+			{
+				current--;
+				this.set_current_page(current);
+			}
+
+			return (current > 0) ? true : false;
+		}
+
+		private void on_new_shell_activate(ShellConfig cfg)
+		{
+			add_terminal(cfg);
+		}
+
+		private void on_new_window_activate()
+		{
+			Pid pid;
+			string[] args = { cfg.external_terminal, null };
+
+			try
+			{
+				if (Process.spawn_async(null, args, null, SpawnFlags.SEARCH_PATH, null, out pid))
+					debug("Started external terminal '%s' with pid of '%d'", args[0], pid);
+			}
+			catch (SpawnError err)
+			{
+				warning("Unable to launch external terminal: %s".printf(err.message));
+			}
+		}
+
+		private void on_move_to_location(string location)
+		{
+			Container frame = this.get_parent() as Container;
+			Container parent = frame.get_parent() as Container;
+			Gtk.Notebook new_nb;
+
+			parent.remove(frame);
+
+			if (location == "msgwin")
+			{
+				new_nb = this.get_data<Notebook>("msgwin_notebook");
+				new_nb.append_page(frame, this.get_data<Label>("label"));
+			}
+			else
+			{
+				new_nb = this.get_data<Notebook>("sidebar_notebook");
+				new_nb.append_page(frame, this.get_data<Label>("label"));
+			}
+
+			new_nb.set_current_page(new_nb.page_num(frame));
+			cfg.location = location;
 		}
 
 		private void on_add_button_style_set()
@@ -42,21 +119,17 @@ namespace MultiTerm
 		private bool on_terminal_right_click_event(EventButton event)
 		{
 			if (context_menu == null)
+			{
 				context_menu = new ContextMenu(cfg);
+				context_menu.show_tabs_activate.connect(on_show_tabs_activate);
+				context_menu.next_tab_activate.connect(on_next_tab_activate);
+				context_menu.previous_tab_activate.connect(on_previous_tab_activate);
+				context_menu.new_shell_activate.connect(on_new_shell_activate);
+				context_menu.new_window_activate.connect(on_new_window_activate);
+				context_menu.move_to_location_activate.connect(on_move_to_location);
+			}
 			context_menu.popup(null, null, null, event.button, event.time);
 			return true;
-		}
-
-		private void show_hide_notebook_tabs()
-		{
-			/* TODO: once the context menu is added, make this
-			 * optional in the config file. */
-			/*
-			if (this.get_n_pages() <= 1)
-				this.show_tabs = false;
-			else
-				this.show_tabs = true;
-			*/
 		}
 
 		public Terminal add_terminal(ShellConfig cfg)
@@ -70,17 +143,14 @@ namespace MultiTerm
 
 			term.set_data<TabLabel>("label", label);
 			term.show_all();
+			term.right_click_event.connect(on_terminal_right_click_event);
 
 			this.append_page(term, label);
-
 			this.set_tab_reorderable(term, true);
-
 			/* TODO: this is deprecated, try and figure out alternative
 			 * from GtkNotebook docs. */
 			this.set_tab_label_packing(term, true, true, PackType.END);
 			this.scrollable = true;
-
-			show_hide_notebook_tabs();
 
 			return term;
 		}
@@ -88,13 +158,14 @@ namespace MultiTerm
 		public void remove_terminal(int tab_num)
 		{
 			this.remove_page(tab_num);
-			show_hide_notebook_tabs();
 		}
 
 		public class Notebook(string config_filename)
 		{
 			Gtk.Image img;
 			RcStyle style;
+
+			cfg = new Config(config_filename);
 
 			style = new RcStyle();
 			style.xthickness = 0;
@@ -113,10 +184,11 @@ namespace MultiTerm
 			add_button.show_all();
 			add_button.style_set.connect(on_add_button_style_set);
 
-			this.set_action_widget(add_button, PackType.END);
+			/* TODO: make this button show a list to select which shell
+			 * to open */
+			//this.set_action_widget(add_button, PackType.END);
 
-			cfg = new Config(config_filename);
-			//context_menu = new ContextMenu(cfg);
+			this.show_tabs = cfg.show_tabs;
 
 			foreach (ShellConfig sh in cfg.shell_configs)
 			{

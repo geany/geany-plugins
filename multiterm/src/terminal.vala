@@ -54,9 +54,18 @@ namespace MultiTerm
 
 		public void run_command(string command)
 		{
-			/* TODO: add wrapper for fork_command_full() since this
-			 * function is deprecated */
-			terminal.fork_command(command, null, null, null, true, true, true);
+			Pid pid;
+			string[] argv = { command, null };
+			try
+			{
+				terminal.fork_command_full(PtyFlags.DEFAULT, null, argv, null,
+					SpawnFlags.SEARCH_PATH, null, out pid);
+				//debug("Started terminal with pid of '%d'", pid);
+			}
+			catch (Error err)
+			{
+				warning("Unable to run command: %s", err.message);
+			}
 		}
 
 		private void on_vte_realize()
@@ -79,7 +88,7 @@ namespace MultiTerm
 
 		private void on_child_exited()
 		{
-			terminal.fork_command(this.sh.command, null, null, null, true, true, true);
+			run_command(this.sh.command);
 		}
 
 		private bool on_button_press(EventButton event)
@@ -126,9 +135,7 @@ namespace MultiTerm
 				terminal.set_font_from_string_full("Monospace 9", TerminalAntiAlias.FORCE_ENABLE);
 
 			terminal.realize.connect(on_vte_realize); /* colors can only be set on realize (lame) */
-
-			/* TODO: add wrapper for fork_command_full() since this function is deprecated */
-			terminal.fork_command(this.sh.command, null, null, null, true, true, true);
+			run_command(this.sh.command);
 		}
 
 	}

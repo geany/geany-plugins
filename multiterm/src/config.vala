@@ -71,6 +71,48 @@ namespace MultiTerm
 
 		public string filename { get { return _filename; } }
 
+		public bool show_tabs
+		{
+			get
+			{
+				try { return kf.get_boolean("general", "show_tabs"); }
+				catch (KeyFileError err) { return true; }
+			}
+			set
+			{
+				kf.set_boolean("general", "show_tabs", value);
+				store_eventually();
+			}
+		}
+
+		public string external_terminal
+		{
+			owned get
+			{
+				try { return kf.get_string("general", "external_terminal"); }
+				catch (KeyFileError err) { return "xterm"; }
+			}
+			set
+			{
+				kf.set_string("general", "external_terminal", value);
+				store_eventually();
+			}
+		}
+
+		public string location
+		{
+			owned get
+			{
+				try { return kf.get_string("general", "location"); }
+				catch (KeyFileError err) { return "msgwin"; }
+			}
+			set
+			{
+				kf.set_string("general", "location", value);
+				store_eventually();
+			}
+		}
+
 		public List<ShellConfig> shell_configs { get { return _shell_configs; } }
 	}
 }
