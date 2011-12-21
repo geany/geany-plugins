@@ -22,7 +22,7 @@
 
 
 void ao_wrapwords_init(gchar *, GeanyKeyGroup *);
-void ao_wrapwords_config(GtkButton *, GtkDialog *);
+void ao_wrapwords_config(GtkButton *, GtkWidget *);
 void ao_wrapwords_set_enabled(gboolean, gboolean);
 
 #endif
