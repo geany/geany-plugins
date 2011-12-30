@@ -38,8 +38,13 @@ PLUGIN_VERSION_CHECK(147);
 PLUGIN_SET_INFO(_("Project"), _("Alternative project support."), VERSION,
 		"Yura Siamashka <yurand2@gmail.com>");
 
-GeanyData *geany_data;
+GeanyData      *geany_data;
 GeanyFunctions *geany_functions;
+
+
+static gchar    *config_file;
+static gboolean  display_sidebar = TRUE;
+
 
 /* Keybinding(s) */
 enum
@@ -117,6 +122,27 @@ static void on_doc_activate(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GeanyDocum
 }
 
 
+static void on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, G_GNUC_UNUSED gint response, GtkWidget *checkbox)
+{
+	gboolean old_display_sidebar = display_sidebar;
+
+	display_sidebar = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbox));
+
+	if (display_sidebar ^ old_display_sidebar)
+	{
+		if (display_sidebar)
+		{
+			create_sidebar();
+			sidebar_refresh();
+		}
+		else
+		{
+			destroy_sidebar();
+		}
+	}
+}
+
+
 PluginCallback plugin_callbacks[] = {
 	{"document-open", (GCallback) & on_doc_open, TRUE, NULL},
 	{"document-save", (GCallback) & on_doc_save, TRUE, NULL},
@@ -132,14 +158,64 @@ static void kb_find_in_project()
 }
 
 
+static void load_settings(void)
+{
+	GKeyFile *config = g_key_file_new();
+	GError   *err    = NULL;
+	gboolean  tmp;
+
+	config_file = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
+		"geanyprj", G_DIR_SEPARATOR_S, "geanyprj.conf", NULL);
+	g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
+
+	tmp = g_key_file_get_boolean(config, "geanyprj", "display_sidebar", &err);
+
+	if (err)
+		g_error_free(err);
+	else
+		display_sidebar = tmp;
+
+	g_key_file_free(config);
+}
+
+
+static void save_settings(void)
+{
+	GKeyFile *config = g_key_file_new();
+	gchar    *data;
+	gchar    *config_dir = g_path_get_dirname(config_file);
+
+	g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
+
+	g_key_file_set_boolean(config, "geanyprj", "display_sidebar", display_sidebar);
+
+	if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir(config_dir, TRUE) != 0)
+	{
+		dialogs_show_msgbox(GTK_MESSAGE_ERROR,
+			_("Plugin configuration directory could not be created."));
+	}
+	else
+	{
+		/* write config to file */
+		data = g_key_file_to_data(config, NULL, NULL);
+		utils_write_file(config_file, data);
+		g_free(data);
+	}
+	g_free(config_dir);
+	g_key_file_free(config);
+}
+
+
 /* Called by Geany to initialize the plugin */
 void plugin_init(G_GNUC_UNUSED GeanyData *data)
 {
 	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+	load_settings();
 	tools_menu_init();
 
 	xproject_init();
-	create_sidebar();
+	if (display_sidebar)
+		create_sidebar();
 	reload_project();
 
 	keybindings_set_item(plugin_key_group, KB_FIND_IN_PROJECT,
@@ -148,14 +224,41 @@ void plugin_init(G_GNUC_UNUSED GeanyData *data)
 }
 
 
+/* Called by Geany to show the plugin's configure dialog. This function is always called after
+ * plugin_init() was called.
+ */
+GtkWidget *plugin_configure(GtkDialog *dialog)
+{
+	GtkWidget *vbox;
+	GtkWidget *checkbox;
+
+	vbox = gtk_vbox_new(FALSE, 6);
+
+	checkbox = gtk_check_button_new_with_label(_("Display sidebar"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox), display_sidebar);
+
+	gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+
+	gtk_widget_show_all(vbox);
+
+	/* Connect a callback for when the user clicks a dialog button */
+	g_signal_connect(dialog, "response", G_CALLBACK(on_configure_response), checkbox);
+
+	return vbox;
+}
+
+
 /* Called by Geany before unloading the plugin. */
 void plugin_cleanup()
 {
 	tools_menu_uninit();
+	save_settings();
 
 	if (g_current_project)
 		geany_project_free(g_current_project);
 	g_current_project = NULL;
+
+	g_free(config_file);
 
 	xproject_cleanup();
 	destroy_sidebar();
