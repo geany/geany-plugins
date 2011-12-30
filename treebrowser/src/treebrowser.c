@@ -995,12 +995,15 @@ on_menu_create_new_object(GtkMenuItem *menuitem, gchar *type)
 	if (gtk_tree_selection_get_selected(selection, &model, &iter))
 	{
 		gtk_tree_model_get(model, &iter, TREEBROWSER_COLUMN_URI, &uri, -1);
+		// If not a directory, find parent directory
 		if (! g_file_test(uri, G_FILE_TEST_IS_DIR))
 		{
-			setptr(uri, g_path_get_dirname(uri));
 			path_parent = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
+			// Set iter from parent_path
 			if (gtk_tree_path_up(path_parent) &&
-				gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter, path_parent));
+			  gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter, path_parent))
+				// Set URI from new iter
+				gtk_tree_model_get(model, &iter, TREEBROWSER_COLUMN_URI, &uri, -1);
 			else
 				refresh_root = TRUE;
 		}
@@ -1029,7 +1032,7 @@ on_menu_create_new_object(GtkMenuItem *menuitem, gchar *type)
 			if (utils_str_equal(type, "directory"))
 				creation_success = (g_mkdir(uri_new, 0755) == 0);
 			else
-				creation_success = (g_creat(uri_new, 0755) != -1);
+				creation_success = (g_creat(uri_new, 0644) != -1);
 
 			if (creation_success)
 			{
@@ -1365,6 +1368,7 @@ on_treeview_mouseclick(GtkWidget *widget, GdkEventButton *event, GtkTreeSelectio
 {
 	GtkTreeIter 	iter;
 	GtkTreeModel 	*model;
+	GtkTreePath *path;
 	gchar 			*name = "", *uri = "";
 
 	if (gtk_tree_selection_get_selected(selection, &model, &iter))
@@ -1378,6 +1382,17 @@ on_treeview_mouseclick(GtkWidget *widget, GdkEventButton *event, GtkTreeSelectio
 
 	if (event->button == 3)
 	{
+		// Get tree path for row that was clicked
+		if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(treeview),
+																		 (gint) event->x, 
+																		 (gint) event->y,
+																		 &path, NULL, NULL, NULL))
+		{
+			// Unselect current selection; select clicked row from path
+			gtk_tree_selection_unselect_all(selection);
+			gtk_tree_selection_select_path(selection, path);
+			gtk_tree_path_free(path);
+		}
 		gtk_menu_popup(GTK_MENU(create_popup_menu(name, uri)), NULL, NULL, NULL, NULL, event->button, event->time);
 		return TRUE;
 	}
@@ -1508,6 +1523,7 @@ on_treeview_renamed(GtkCellRenderer *renderer, const gchar *path_string, const g
 		{
 			uri_new = g_strconcat(g_path_get_dirname(uri), G_DIR_SEPARATOR_S, name_new, NULL);
 			if (!(g_file_test(uri_new, G_FILE_TEST_EXISTS) &&
+				strcmp(uri, uri_new) != 0 &&
 				!dialogs_show_question(_("Target file '%s' exists, do you really want to replace it?"), uri_new)))
 			{
 				if (g_rename(uri, uri_new) == 0)
