@@ -783,7 +783,7 @@ gtk_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root)
 static gboolean
 treebrowser_expand_to_path(gchar* root, gchar* find)
 {
-	int i = 0, j = 0;
+	int i = 0;
 	gboolean founded = FALSE, global_founded = FALSE;
 	gchar *new = "";
 	gchar **root_segments = NULL, **find_segments = NULL;
@@ -1384,7 +1384,7 @@ on_treeview_mouseclick(GtkWidget *widget, GdkEventButton *event, GtkTreeSelectio
 	{
 		// Get tree path for row that was clicked
 		if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(treeview),
-																		 (gint) event->x, 
+																		 (gint) event->x,
 																		 (gint) event->y,
 																		 &path, NULL, NULL, NULL))
 		{
