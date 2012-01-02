@@ -23,6 +23,7 @@ P:
 M:
 W:
 S:
+
 debugger
 P:
 M:
@@ -66,16 +67,16 @@ W:
 S:
 
 geanylatex
-P:
-M:
-W:
-S:
+P: Frank Lanitz <frank@frank.uvena.de>
+M: Frank Lanitz <frank@frank.uvena.de>
+W: http://frank.uvena.de/en/Geany/geanylatex/
+S: Supported
 
 geanylipsum
-P:
-M:
-W:
-S:
+P: Frank Lanitz <frank@frank.uvena.de>
+M: Frank Lanitz <frank@frank.uvena.de>
+W: http://plugins.geany.org/geanylipsum.html
+S: Supported
 
 geanylua
 P:
@@ -108,10 +109,10 @@ W:
 S:
 
 geanysendmail
-P:
-M:
-W:
-S:
+P: Frank Lanitz <frank@frank.uvena.de>
+M: Frank Lanitz <frank@frank.uvena.de>
+W: http://plugins.geany.org/geanysendmail.html
+S: Supported
 
 geanyvc
 P:
@@ -150,10 +151,10 @@ W:
 S:
 
 tableconvert
-P:
-M:
-W:
-S:
+P: Frank Lanitz <frank@frank.uvena.de>
+M: Frank Lanitz <frank@frank.uvena.de>
+W: http://plugins.geany.org/tableconvert.html
+S: Supported
 
 treebrowser
 P:
@@ -162,10 +163,10 @@ W:
 S:
 
 updatechecker
-P:
-M:
-W:
-S:
+P: Frank Lanitz <frank@frank.uvena.de>
+M: Frank Lanitz <frank@frank.uvena.de>
+W: http://plugins.geany.org/updatechecker.html
+S: Supported
 
 webhelper
 P:
@@ -174,3 +175,7 @@ W:
 S:
 
 xmlsnippets
+P:
+M:
+W:
+S:
