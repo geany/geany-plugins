@@ -124,7 +124,7 @@ const guint ui_entries_n = G_N_ELEMENTS(format_icons);
 
 
 /* fallback UI definition */
-const gchar *toolbar_markup =
+static const gchar *toolbar_markup =
 "<ui>"
 	"<toolbar name='glatex_format_toolbar'>"
 		"<toolitem action='Wizard'/>"
