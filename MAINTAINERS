@@ -49,10 +49,10 @@ W:
 S:
 
 geanygdb
-P:
-M:
-W:
-S:
+P: Dominic Hopf
+M: Dominic Hopf <dmaphy@googlemail.com>
+W: http://plugins.geany.org/geanygdb.html
+S: Odd Fixes
 
 geanygendoc
 P:
