@@ -122,27 +122,6 @@ static void on_doc_activate(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GeanyDocum
 }
 
 
-static void on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, G_GNUC_UNUSED gint response, GtkWidget *checkbox)
-{
-	gboolean old_display_sidebar = display_sidebar;
-
-	display_sidebar = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbox));
-
-	if (display_sidebar ^ old_display_sidebar)
-	{
-		if (display_sidebar)
-		{
-			create_sidebar();
-			sidebar_refresh();
-		}
-		else
-		{
-			destroy_sidebar();
-		}
-	}
-}
-
-
 PluginCallback plugin_callbacks[] = {
 	{"document-open", (GCallback) & on_doc_open, TRUE, NULL},
 	{"document-save", (GCallback) & on_doc_save, TRUE, NULL},
@@ -206,6 +185,28 @@ static void save_settings(void)
 }
 
 
+static void on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, G_GNUC_UNUSED gint response, GtkWidget *checkbox)
+{
+	gboolean old_display_sidebar = display_sidebar;
+
+	display_sidebar = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbox));
+
+	if (display_sidebar ^ old_display_sidebar)
+	{
+		if (display_sidebar)
+		{
+			create_sidebar();
+			sidebar_refresh();
+		}
+		else
+		{
+			destroy_sidebar();
+		}
+		save_settings();
+	}
+}
+
+
 /* Called by Geany to initialize the plugin */
 void plugin_init(G_GNUC_UNUSED GeanyData *data)
 {
@@ -252,7 +253,6 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 void plugin_cleanup()
 {
 	tools_menu_uninit();
-	save_settings();
 
 	if (g_current_project)
 		geany_project_free(g_current_project);
