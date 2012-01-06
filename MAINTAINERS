@@ -55,10 +55,10 @@ W: http://plugins.geany.org/geanygdb.html
 S: Odd Fixes
 
 geanygendoc
-P:
-M:
-W:
-S:
+P: Colomban Wendling <ban@herbesfolles.org>
+M: Colomban Wendling <ban@herbesfolles.org>
+W: http://plugins.geany.org/geanygendoc.html
+S: Supported
 
 geanyinsertnum
 P:
