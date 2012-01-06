@@ -43,10 +43,10 @@ W:
 S:
 
 geanyextrasel
-P:
-M:
-W:
-S:
+P: Dimitar Zhekov <dimitar.zhekov@gmail.com>
+M: Dimitar Zhekov <dimitar.zhekov@gmail.com>
+W: http://sheckley.users.sourceforge.net
+S: Supported
 
 geanygdb
 P: Dominic Hopf
@@ -61,10 +61,10 @@ W: http://plugins.geany.org/geanygendoc.html
 S: Supported
 
 geanyinsertnum
-P:
-M:
-W:
-S:
+P: Dimitar Zhekov <dimitar.zhekov@gmail.com>
+M: Dimitar Zhekov <dimitar.zhekov@gmail.com>
+W: http://sheckley.users.sourceforge.net
+S: Supported
 
 geanylatex
 P: Frank Lanitz <frank@frank.uvena.de>
