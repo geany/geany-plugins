@@ -121,10 +121,10 @@ W:
 S:
 
 gproject
-P:
-M:
-W:
-S:
+P: Jiří Techet <techet@gmail.com>
+M: Jiří Techet <techet@gmail.com>
+W: http://plugins.geany.org/gproject.html
+S: Supported
 
 multiterm
 P:
