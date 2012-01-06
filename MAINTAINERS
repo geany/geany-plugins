@@ -31,10 +31,10 @@ W:
 S:
 
 devhelp
-P:
-M:
-W:
-S:
+P: Matthew Brush <matt@geany.org>
+M: Matthew Brush <matt@geany.org>
+W: http://plugins.geany.org/devhelp.html
+S: Maintained
 
 geanydoc
 P:
