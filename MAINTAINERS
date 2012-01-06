@@ -127,10 +127,10 @@ W: http://plugins.geany.org/gproject.html
 S: Supported
 
 multiterm
-P:
-M:
-W:
-S:
+P: Matthew Brush <matt@geany.org>
+M: Matthew Brush <matt@geany.org>
+W: http://plugins.geany.org/multiterm.html
+S: Maintained
 
 pretty-printer
 P:
