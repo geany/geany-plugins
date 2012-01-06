@@ -169,10 +169,10 @@ W: http://plugins.geany.org/updatechecker.html
 S: Supported
 
 webhelper
-P:
-M:
-W:
-S:
+P: Colomban Wendling <ban@herbesfolles.org>
+M: Colomban Wendling <ban@herbesfolles.org>
+W: http://plugins.geany.org/geanygendoc.html
+S: Supported
 
 xmlsnippets
 P:
