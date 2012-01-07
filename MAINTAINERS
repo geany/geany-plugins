@@ -175,7 +175,7 @@ W: http://plugins.geany.org/webhelper.html
 S: Supported
 
 xmlsnippets
-P:
-M:
-W:
-S:
+P: Eugene Arshinov <earshinov@gmail.com>
+M: Eugene Arshinov <earshinov@gmail.com>
+W: http://plugins.geany.org/xmlsnippets.html
+S: Maintained
