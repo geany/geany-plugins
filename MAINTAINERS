@@ -13,10 +13,10 @@
 #                 should be using that.
 
 addons
-P:
-M:
-W:
-S:
+P: Enrico Tröger <enrico.troeger@uvena.de>
+M: Enrico Tröger <enrico.troeger@uvena.de>
+W: http://plugins.geany.org/addons.html
+S: Maintained
 
 codenav
 P:
@@ -145,10 +145,10 @@ W:
 S:
 
 spellcheck
-P:
-M:
-W:
-S:
+P: Enrico Tröger <enrico.troeger@uvena.de>
+M: Enrico Tröger <enrico.troeger@uvena.de>
+W: http://plugins.geany.org/spellcheck.html
+S: Maintained
 
 tableconvert
 P: Frank Lanitz <frank@frank.uvena.de>
