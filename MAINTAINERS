@@ -37,10 +37,10 @@ W: http://plugins.geany.org/devhelp.html
 S: Maintained
 
 geanydoc
-P:
-M:
-W:
-S:
+P: Yura Siamashka <yurand2@gmail.com>
+M: Yura Siamashka <yurand2@gmail.com>
+W: http://plugins.geany.org/geanydoc.html
+S: Odd Fixes
 
 geanyextrasel
 P: Dimitar Zhekov <dimitar.zhekov@gmail.com>
@@ -103,10 +103,10 @@ W:
 S:
 
 geanyprj
-P:
-M:
-W:
-S:
+P: Yura Siamashka <yurand2@gmail.com>
+M: Yura Siamashka <yurand2@gmail.com>
+W: http://plugins.geany.org/geanyprj.html
+S: Odd Fixes
 
 geanysendmail
 P: Frank Lanitz <frank@frank.uvena.de>
@@ -115,10 +115,10 @@ W: http://plugins.geany.org/geanysendmail.html
 S: Supported
 
 geanyvc
-P:
-M:
-W:
-S:
+P: Yura Siamashka <yurand2@gmail.com>
+M: Yura Siamashka <yurand2@gmail.com>
+W: http://plugins.geany.org/geanyvc.html
+S: Odd Fixes
 
 gproject
 P: Jiří Techet <techet@gmail.com>
