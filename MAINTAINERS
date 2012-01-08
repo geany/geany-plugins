@@ -2,7 +2,7 @@
 # M: Mail patches to: FullName <address@domain>
 # W: Web-page with status/info
 # S: Status, one of the following:
-#    Supported:   Someone is actually paid to look after this.
+#    Paid:        Someone is actually paid to look after this.
 #    Maintained:  Someone actually looks after it.
 #    Odd Fixes:   It has a maintainer but they don't have time to do
 #                 much other than throw the odd patch in. See below..
@@ -46,7 +46,7 @@ geanyextrasel
 P: Dimitar Zhekov <dimitar.zhekov@gmail.com>
 M: Dimitar Zhekov <dimitar.zhekov@gmail.com>
 W: http://sheckley.users.sourceforge.net
-S: Supported
+S: Maintained
 
 geanygdb
 P: Dominic Hopf
@@ -58,25 +58,25 @@ geanygendoc
 P: Colomban Wendling <ban@herbesfolles.org>
 M: Colomban Wendling <ban@herbesfolles.org>
 W: http://plugins.geany.org/geanygendoc.html
-S: Supported
+S: Maintained
 
 geanyinsertnum
 P: Dimitar Zhekov <dimitar.zhekov@gmail.com>
 M: Dimitar Zhekov <dimitar.zhekov@gmail.com>
 W: http://sheckley.users.sourceforge.net
-S: Supported
+S: Maintained
 
 geanylatex
 P: Frank Lanitz <frank@frank.uvena.de>
 M: Frank Lanitz <frank@frank.uvena.de>
 W: http://frank.uvena.de/en/Geany/geanylatex/
-S: Supported
+S: Maintained
 
 geanylipsum
 P: Frank Lanitz <frank@frank.uvena.de>
 M: Frank Lanitz <frank@frank.uvena.de>
 W: http://plugins.geany.org/geanylipsum.html
-S: Supported
+S: Maintained
 
 geanylua
 P:
@@ -112,7 +112,7 @@ geanysendmail
 P: Frank Lanitz <frank@frank.uvena.de>
 M: Frank Lanitz <frank@frank.uvena.de>
 W: http://plugins.geany.org/geanysendmail.html
-S: Supported
+S: Maintained
 
 geanyvc
 P: Yura Siamashka <yurand2@gmail.com>
@@ -124,7 +124,7 @@ gproject
 P: Jiří Techet <techet@gmail.com>
 M: Jiří Techet <techet@gmail.com>
 W: http://plugins.geany.org/gproject.html
-S: Supported
+S: Maintained
 
 multiterm
 P: Matthew Brush <matt@geany.org>
@@ -154,7 +154,7 @@ tableconvert
 P: Frank Lanitz <frank@frank.uvena.de>
 M: Frank Lanitz <frank@frank.uvena.de>
 W: http://plugins.geany.org/tableconvert.html
-S: Supported
+S: Maintained
 
 treebrowser
 P:
@@ -166,13 +166,13 @@ updatechecker
 P: Frank Lanitz <frank@frank.uvena.de>
 M: Frank Lanitz <frank@frank.uvena.de>
 W: http://plugins.geany.org/updatechecker.html
-S: Supported
+S: Maintained
 
 webhelper
 P: Colomban Wendling <ban@herbesfolles.org>
 M: Colomban Wendling <ban@herbesfolles.org>
 W: http://plugins.geany.org/webhelper.html
-S: Supported
+S: Maintained
 
 xmlsnippets
 P: Eugene Arshinov <earshinov@gmail.com>
