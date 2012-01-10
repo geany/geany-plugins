@@ -1,0 +1,181 @@
+# P: Person
+# M: Mail patches to: FullName <address@domain>
+# W: Web-page with status/info
+# S: Status, one of the following:
+#    Paid:        Someone is actually paid to look after this.
+#    Maintained:  Someone actually looks after it.
+#    Odd Fixes:   It has a maintainer but they don't have time to do
+#                 much other than throw the odd patch in. See below..
+#    Orphan:      No current maintainer [but maybe you could take the
+#                 role as you write your new code].
+#    Obsolete:    Old code. Something tagged obsolete generally means
+#                 it has been replaced by a better system and you
+#                 should be using that.
+
+addons
+P: Enrico Tröger <enrico.troeger@uvena.de>
+M: Enrico Tröger <enrico.troeger@uvena.de>
+W: http://plugins.geany.org/addons.html
+S: Maintained
+
+codenav
+P:
+M:
+W:
+S:
+
+debugger
+P:
+M:
+W:
+S:
+
+devhelp
+P: Matthew Brush <matt@geany.org>
+M: Matthew Brush <matt@geany.org>
+W: http://plugins.geany.org/devhelp.html
+S: Maintained
+
+geanydoc
+P: Yura Siamashka <yurand2@gmail.com>
+M: Yura Siamashka <yurand2@gmail.com>
+W: http://plugins.geany.org/geanydoc.html
+S: Odd Fixes
+
+geanyextrasel
+P: Dimitar Zhekov <dimitar.zhekov@gmail.com>
+M: Dimitar Zhekov <dimitar.zhekov@gmail.com>
+W: http://sheckley.users.sourceforge.net
+S: Maintained
+
+geanygdb
+P: Dominic Hopf
+M: Dominic Hopf <dmaphy@googlemail.com>
+W: http://plugins.geany.org/geanygdb.html
+S: Odd Fixes
+
+geanygendoc
+P: Colomban Wendling <ban@herbesfolles.org>
+M: Colomban Wendling <ban@herbesfolles.org>
+W: http://plugins.geany.org/geanygendoc.html
+S: Maintained
+
+geanyinsertnum
+P: Dimitar Zhekov <dimitar.zhekov@gmail.com>
+M: Dimitar Zhekov <dimitar.zhekov@gmail.com>
+W: http://sheckley.users.sourceforge.net
+S: Maintained
+
+geanylatex
+P: Frank Lanitz <frank@frank.uvena.de>
+M: Frank Lanitz <frank@frank.uvena.de>
+W: http://frank.uvena.de/en/Geany/geanylatex/
+S: Maintained
+
+geanylipsum
+P: Frank Lanitz <frank@frank.uvena.de>
+M: Frank Lanitz <frank@frank.uvena.de>
+W: http://plugins.geany.org/geanylipsum.html
+S: Maintained
+
+geanylua
+P:
+M:
+W:
+S:
+
+geanymacro
+P:
+M:
+W:
+S:
+
+geanynumberedbookmarks
+P:
+M:
+W:
+S:
+
+geanypg
+P:
+M:
+W:
+S:
+
+geanyprj
+P: Yura Siamashka <yurand2@gmail.com>
+M: Yura Siamashka <yurand2@gmail.com>
+W: http://plugins.geany.org/geanyprj.html
+S: Odd Fixes
+
+geanysendmail
+P: Frank Lanitz <frank@frank.uvena.de>
+M: Frank Lanitz <frank@frank.uvena.de>
+W: http://plugins.geany.org/geanysendmail.html
+S: Maintained
+
+geanyvc
+P: Yura Siamashka <yurand2@gmail.com>
+M: Yura Siamashka <yurand2@gmail.com>
+W: http://plugins.geany.org/geanyvc.html
+S: Odd Fixes
+
+gproject
+P: Jiří Techet <techet@gmail.com>
+M: Jiří Techet <techet@gmail.com>
+W: http://plugins.geany.org/gproject.html
+S: Maintained
+
+multiterm
+P: Matthew Brush <matt@geany.org>
+M: Matthew Brush <matt@geany.org>
+W: http://plugins.geany.org/multiterm.html
+S: Maintained
+
+pretty-printer
+P:
+M:
+W:
+S:
+
+shiftcolumn
+P:
+M:
+W:
+S:
+
+spellcheck
+P: Enrico Tröger <enrico.troeger@uvena.de>
+M: Enrico Tröger <enrico.troeger@uvena.de>
+W: http://plugins.geany.org/spellcheck.html
+S: Maintained
+
+tableconvert
+P: Frank Lanitz <frank@frank.uvena.de>
+M: Frank Lanitz <frank@frank.uvena.de>
+W: http://plugins.geany.org/tableconvert.html
+S: Maintained
+
+treebrowser
+P:
+M:
+W:
+S:
+
+updatechecker
+P: Frank Lanitz <frank@frank.uvena.de>
+M: Frank Lanitz <frank@frank.uvena.de>
+W: http://plugins.geany.org/updatechecker.html
+S: Maintained
+
+webhelper
+P: Colomban Wendling <ban@herbesfolles.org>
+M: Colomban Wendling <ban@herbesfolles.org>
+W: http://plugins.geany.org/webhelper.html
+S: Maintained
+
+xmlsnippets
+P: Eugene Arshinov <earshinov@gmail.com>
+M: Eugene Arshinov <earshinov@gmail.com>
+W: http://plugins.geany.org/xmlsnippets.html
+S: Maintained

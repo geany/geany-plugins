@@ -414,6 +414,9 @@ void sidebar_refresh()
 	GSList *lst = NULL;
 	GSList *tmp;
 
+	if (! file_view_vbox)
+		return;
+
 	sidebar_clear();
 
 	if (!g_current_project)
@@ -456,5 +459,6 @@ void create_sidebar()
 
 void destroy_sidebar()
 {
-	gtk_widget_destroy(file_view_vbox);
+	if (file_view_vbox)
+		gtk_widget_destroy(file_view_vbox);
 }
