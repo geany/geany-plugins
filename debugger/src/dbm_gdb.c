@@ -25,7 +25,6 @@
 
 #include <string.h>
 #include <stdlib.h>
-#include <poll.h>
 #include <ctype.h>
 #include <wctype.h>
 #include <unistd.h>
@@ -58,6 +57,14 @@ typedef enum _result_class {
 	RC_ERROR
 } result_class;
 
+/* structure to keep async command data (command line, messages) */
+typedef struct _queue_item {
+	GString *message;
+	GString *command;
+	GString *error_message;
+	gboolean format_error_message;
+} queue_item;
+
 /* enumeration for stop reason */
 enum sr {
 	SR_BREAKPOINT_HIT,
@@ -68,7 +75,7 @@ enum sr {
 } stop_reason;
 
 /* callbacks to use for messaging, error reporting and state change alerting */
-dbg_callbacks* dbg_cbs;
+static dbg_callbacks* dbg_cbs;
 
 /* GDB command line arguments*/
 static const gchar *gdb_args[] = { "gdb", "-i=mi", NULL };
@@ -117,19 +124,6 @@ void update_watches();
 void update_autos();
 void update_files();
 
-/* list of start messages, to show them in init if initialization is successfull */
-GList *start_messages = NULL;
-
-/*
- * frees startup messages list
- */
-static void free_start_messages()
-{
-	g_list_foreach(start_messages, (GFunc)g_free, NULL);
-	g_list_free(start_messages);
-	start_messages = NULL;
-}
-
 /*
  * print message using color, based on message type
  */
@@ -142,6 +136,8 @@ void colorize_message(gchar *message)
 		color = "brown";
 	else if ('*' == *message)
 		color = "blue";
+	else if ('~' == *message)
+		color = "grey";
 	else
 		color = "red";
 	
@@ -198,9 +194,9 @@ static void on_gdb_exit(GPid pid, gint status, gpointer data)
 }
 
 /*
- * reads gdb_out until "(gdb)" string met
+ * reads gdb_out until "(gdb)" prompt met
  */
-GList* read_until_prompt()
+static GList* read_until_prompt()
 {
 	GList *lines = NULL;
 
@@ -219,33 +215,187 @@ GList* read_until_prompt()
 }
 
 /*
- * reads gdb_out until have data (by lines)
+ * write a command to a gdb channel and flush with a newlinw character 
  */
-GList* read_until_end()
+void gdb_input_write_line(const gchar *line)
 {
-	GList *lines = NULL;
-
-	struct pollfd pfd;
-	pfd.fd = gdb_out;
-	pfd.events = POLLIN;
-	pfd.revents = 0;
-
-	while(poll(&pfd, 1, 100))
+	GIOStatus st;
+	GError *err = NULL;
+	gsize count;
+	
+	char command[1000];
+	sprintf(command, "%s\n", line);
+	
+	while (strlen(command))
 	{
-		gchar *line = NULL;
-		gsize terminator;
-		GError *err = NULL;
-
-		if(G_IO_STATUS_NORMAL == g_io_channel_read_line(gdb_ch_out, &line, NULL, &terminator, &err))
+		st = g_io_channel_write_chars(gdb_ch_in, command, strlen(command), &count, &err);
+		strcpy(command, command + count);
+		if (err || (st == G_IO_STATUS_ERROR) || (st == G_IO_STATUS_EOF))
 		{
-			line[terminator] = '\0';
-			lines = g_list_append(lines, line);
+#ifdef DEBUG_OUTPUT
+			dbg_cbs->send_message(err->message, "red");
+#endif
+			break;
 		}
-		else
-			dbg_cbs->report_error(err->message);
 	}
 
-	return lines;
+	st = g_io_channel_flush(gdb_ch_in, &err);
+	if (err || (st == G_IO_STATUS_ERROR) || (st == G_IO_STATUS_EOF))
+	{
+#ifdef DEBUG_OUTPUT
+		dbg_cbs->send_message(err->message, "red");
+#endif
+	}
+}
+
+/*
+ * free memory occupied by a queue item 
+ */
+static void free_queue_item(queue_item *item)
+{
+	g_string_free(item->message, TRUE);
+	g_string_free(item->command, TRUE);
+	g_string_free(item->error_message, TRUE);
+	g_free(item);
+}
+
+/*
+ * free a list of "queue_item" structures 
+ */
+static void free_commands_queue(GList *queue)
+{
+	/* all commands completed */
+	queue = g_list_first(queue);
+	g_list_foreach(queue, (GFunc)free_queue_item, NULL);
+	g_list_free(queue);
+}
+
+/*
+ * add a new command ("queue_item" structure) to a list 
+ */
+static GList* add_to_queue(GList* queue, const gchar *message, const gchar *command, const gchar *error_message, gboolean format_error_message)
+{
+	queue_item *item = (queue_item*)g_malloc(sizeof(queue_item));
+
+	memset((void*)item, 0, sizeof(queue_item));
+
+	if (message)
+	{
+		item->message = g_string_new(message);
+	}
+	item->command = g_string_new(command);
+	if (error_message)
+	{
+		item->error_message = g_string_new(error_message);
+	}
+	item->format_error_message = format_error_message;
+
+	return g_list_append(queue, (gpointer)item);
+} 
+
+/*
+ * asyncronous output reader
+ * reads from startup async commands.
+ * looks for a command completion (normal or abnormal), if noraml - executes next command
+ */
+void exec_async_command(const gchar* command);
+static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpointer data)
+{
+	gchar *line;
+	gsize length;
+	
+	if (G_IO_STATUS_NORMAL != g_io_channel_read_line(src, &line, NULL, &length, NULL))
+		return TRUE;		
+
+	*(line + length) = '\0';
+
+	if ('^' == line[0])
+	{
+		/* got some result */
+
+		g_source_remove(gdb_id_out);
+
+		GList *lines = read_until_prompt();
+		g_list_foreach(lines, (GFunc)g_free, NULL);
+		g_list_free (lines);
+
+		gchar* coma = strchr(line, ',');
+		if (coma)
+		{
+			*coma = '\0';
+			coma++;
+		}
+		else
+			coma = line + strlen(line);
+		
+		GList *commands = (GList*)data;
+
+		if (!strcmp(line, "^done"))
+		{
+			/* command completed succesfully - run next command if exists */
+			if (commands->next)
+			{
+				/* if there are commads left */
+				commands = commands->next;
+				queue_item *item = (queue_item*)commands->data;
+
+				/* send message to debugger messages window */
+				if (item->message)
+				{
+					dbg_cbs->send_message(item->message->str, "grey");
+				}
+
+				gdb_input_write_line(item->command->str);
+
+				gdb_id_out = g_io_add_watch(gdb_ch_out, G_IO_IN, on_read_async_output, commands);
+			}
+			else
+			{
+				/* all commands completed */
+				free_commands_queue(commands);
+
+				/* removing read callback */
+				g_source_remove(gdb_id_out);
+
+				/* update source files list */
+				update_files();
+
+				/* -exec-run */
+				exec_async_command("-exec-run &");
+			}
+		}
+		else
+		{
+			queue_item *item = (queue_item*)commands->data;
+			if(item->error_message)
+			{
+				if (item->format_error_message)
+				{
+					gchar* gdb_msg = g_strcompress(strstr(coma, "msg=\"") + strlen("msg=\""));
+
+					GString *msg = g_string_new("");
+					g_string_printf(msg, item->error_message->str, gdb_msg);
+					dbg_cbs->report_error(msg->str);
+
+					g_free(gdb_msg);
+					g_string_free(msg, FALSE);
+				}
+				else
+				{
+					dbg_cbs->report_error(item->error_message->str);
+				}
+			}
+			
+			/* free commands queue */
+			free_commands_queue(commands);
+
+			stop();
+		}
+	}
+
+	g_free(line);
+
+	return TRUE;
 }
 
 /*
@@ -267,9 +417,16 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 
 	if (!prompt)
 	{
-		gchar *compressed = g_strcompress(line);
-		colorize_message(compressed);
-		g_free(compressed);
+		if ('~' == line[0])
+		{
+			colorize_message(line);
+		}
+		else
+		{
+			gchar *compressed = g_strcompress(line);
+			colorize_message(compressed);
+			g_free(compressed);
+		}
 	}
 		
 	if (!target_pid && g_str_has_prefix(line, "=thread-group-created"))
@@ -302,20 +459,28 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 
 			/* looking for a reason to stop */
 			char *next = NULL;
-			char *reason = strstr(record, "reason=\"") + strlen("reason=\"");
-			next = strstr(reason, "\"") + 1;
-			*(next - 1) = '\0';
-			if (!strcmp(reason, "breakpoint-hit"))
-				stop_reason = SR_BREAKPOINT_HIT;
-			else if (!strcmp(reason, "end-stepping-range"))
+			char *reason = strstr(record, "reason=\"");
+			if (reason)
+			{
+				reason += strlen("reason=\"");
+				next = strstr(reason, "\"") + 1;
+				*(next - 1) = '\0';
+				if (!strcmp(reason, "breakpoint-hit"))
+					stop_reason = SR_BREAKPOINT_HIT;
+				else if (!strcmp(reason, "end-stepping-range"))
+					stop_reason = SR_END_STEPPING_RANGE;
+				else if (!strcmp(reason, "signal-received"))
+					stop_reason = SR_SIGNAL_RECIEVED;
+				else if (!strcmp(reason, "exited-normally"))
+					stop_reason = SR_EXITED_NORMALLY;
+				else if (!strcmp(reason, "exited-signalled"))
+					stop_reason = SR_EXITED_SIGNALLED;
+			}
+			else
+			{
+				/* somehow, sometimes there can be no stop reason */
 				stop_reason = SR_END_STEPPING_RANGE;
-			else if (!strcmp(reason, "signal-received"))
-				stop_reason = SR_SIGNAL_RECIEVED;
-			else if (!strcmp(reason, "exited-normally"))
-				stop_reason = SR_EXITED_NORMALLY;
-			else if (!strcmp(reason, "exited-signalled"))
-				stop_reason = SR_EXITED_SIGNALLED;
-			 	
+			}
 			
 			if (SR_BREAKPOINT_HIT == stop_reason || SR_END_STEPPING_RANGE == stop_reason)
 			{
@@ -401,30 +566,8 @@ void exec_async_command(const gchar* command)
 #ifdef DEBUG_OUTPUT
 	dbg_cbs->send_message(command, "red");
 #endif
-	
-	/* write command to gdb input channel */
-	GIOStatus st;
-	GError *err = NULL;
-	gsize count;
-	
-	char gdb_command[1000];
-	sprintf(gdb_command, "%s\n", command);
-	
-	while (strlen(gdb_command))
-	{
-		st = g_io_channel_write_chars(gdb_ch_in, gdb_command, strlen(gdb_command), &count, &err);
-		strcpy(gdb_command, gdb_command + count);
-		if (err || (st == G_IO_STATUS_ERROR) || (st == G_IO_STATUS_EOF))
-		{
-#ifdef DEBUG_OUTPUT
-			dbg_cbs->send_message("Error sending command", "red");
-#endif
-			break;
-		}
-	}
 
-	/* flush the chanel */
-	st = g_io_channel_flush(gdb_ch_in, &err);
+	gdb_input_write_line(command);
 
 	/* connect read callback to the output chanel */
 	gdb_id_out = g_io_add_watch(gdb_ch_out, G_IO_IN, on_read_from_gdb, NULL);
@@ -443,25 +586,7 @@ result_class exec_sync_command(const gchar* command, gboolean wait4prompt, gchar
 #endif
 
 	/* write command to gdb input channel */
-	GIOStatus st;
-	GError *err = NULL;
-	gsize count;
-	
-	char gdb_command[1000];
-	sprintf(gdb_command, "%s\n", command);
-	while (strlen(gdb_command))
-	{
-		st = g_io_channel_write_chars(gdb_ch_in, gdb_command, strlen(gdb_command), &count, &err);
-		strcpy(gdb_command, gdb_command + count);
-		if (err || (st == G_IO_STATUS_ERROR) || (st == G_IO_STATUS_EOF))
-		{
-#ifdef DEBUG_OUTPUT
-			dbg_cbs->send_message("Error sending command", "red");
-#endif
-			break;
-		}
-	}
-	st = g_io_channel_flush(gdb_ch_in, &err);
+	gdb_input_write_line(command);
 	
 	if (!wait4prompt)
 		return RC_DONE;
@@ -515,8 +640,10 @@ result_class exec_sync_command(const gchar* command, gboolean wait4prompt, gchar
 			else if (!strcmp(line, "^exit"))
 				rc = RC_EXIT;
 		}
-		else
+		else if ('&' != line[0])
+		{
 			colorize_message (line);
+		}
 
 		iter = iter->next;
 	}	
@@ -528,13 +655,13 @@ result_class exec_sync_command(const gchar* command, gboolean wait4prompt, gchar
 }
 
 /*
- * starts gdb and sets its parameners
+ * starts gdb, collects commands and start the first one
  */
-static gboolean init(dbg_callbacks* callbacks)
+gboolean run(const gchar* file, const gchar* commandline, GList* env, GList *witer, GList *biter, const gchar* terminal_device, dbg_callbacks* callbacks)
 {
-	dbg_cbs = callbacks;
-
 	GError *err = NULL;
+
+	dbg_cbs = callbacks;
 
 	/* spawn GDB */
 	const gchar *exclude[] = { "LANG", NULL };
@@ -546,6 +673,7 @@ static gboolean init(dbg_callbacks* callbacks)
 		dbg_cbs->report_error(_("Failed to spawn gdb process"));
 		return FALSE;
 	}
+	g_strfreev(gdb_env);
 	
 	/* move gdb to it's own process group */
 	setpgid(gdb_pid, 0);
@@ -554,90 +682,24 @@ static gboolean init(dbg_callbacks* callbacks)
 	g_child_watch_add(gdb_pid, on_gdb_exit, NULL);
 	gdb_src = g_child_watch_source_new(gdb_pid);
 
-	/* create GIOChanel for reading from gdb */
+	/* create GDB GIO chanels */
 	gdb_ch_in = g_io_channel_unix_new(gdb_in);
-
-	/* create GIOChanel for writing to gdb */
 	gdb_ch_out = g_io_channel_unix_new(gdb_out);
 
 	/* reading starting gdb messages */
 	GList *lines = read_until_prompt();
-
 	GList *line = lines;
 	while (line)
 	{
 		gchar *unescaped = g_strcompress((gchar*)line->data);
 		if (strlen(unescaped))
-			start_messages = g_list_append(start_messages, g_strdup((gchar*)line->data));
-		g_free(unescaped);
+		{
+			colorize_message((gchar*)line->data);
+		}
 		line = line->next;
 	}
-
 	g_list_foreach(lines, (GFunc)g_free, NULL);
 	g_list_free(lines);
-	
-	/* setting asyncronous mode */
-	if (RC_DONE != exec_sync_command("-gdb-set target-async 1", TRUE, NULL) ||
-	/* setting null-stop array printing */
-		RC_DONE != exec_sync_command("-interpreter-exec console \"set print null-stop\"", TRUE, NULL) ||
-	/* enable pretty printing */
-		RC_DONE != exec_sync_command("-enable-pretty-printing", TRUE, NULL))
-	{
-		dbg_cbs->report_error(_("Error configuring GDB"));
-		free_start_messages();
-		return FALSE;
-	}
-	
-	g_strfreev(gdb_env);
-	
-	return TRUE;
-}
-
-/*
- * load file, set command line end environment variables
- */
-gboolean load(char* file, char* commandline, GList* env, GList *witer)
-{
-	/* loading file */
-	GString *command = g_string_new("");
-	g_string_printf(command, "-file-exec-and-symbols %s", file);
-	result_class rc = exec_sync_command(command->str, TRUE, NULL);
-	g_string_free(command, TRUE);
-	if (RC_DONE != rc)
-	{
-		dbg_cbs->report_error(_("Error loading file"));
-		free_start_messages();
-		return FALSE;
-	}
-
-	/* set arguments */
-	command = g_string_new("");
-	g_string_printf(command, "-exec-arguments %s", commandline);
-	exec_sync_command(command->str, TRUE, NULL);
-	g_string_free(command, TRUE);
-	
-	/* set locale */
-	command = g_string_new("");
-	g_string_printf(command, "-gdb-set environment LANG=%s", g_getenv("LANG"));
-	exec_sync_command(command->str, TRUE, NULL);
-	g_string_free(command, TRUE);
-	
-	/* set passed evironment */
-	command = g_string_new("");
-	GList *iter = env;
-	while (iter)
-	{
-		gchar *name = (gchar*)iter->data;
-		iter = iter->next;
-		
-		gchar *value = (gchar*)iter->data;
-	
-		g_string_printf(command, "-gdb-set environment %s=%s", name, value);
-		exec_sync_command(command->str, TRUE, NULL);
-
-		iter = iter->next;
-	}
-	g_string_free(command, TRUE);
 
 	/* add initial watches to the list */
 	while (witer)
@@ -650,35 +712,117 @@ gboolean load(char* file, char* commandline, GList* env, GList *witer)
 		witer = witer->next;
 	}
 
-	/* update source files list */
-	update_files();
+	/* collect commands */
+	GList *commands = NULL;
 
-	return TRUE;
-}
-
-/*
- * starts debugging
- */
-void run(char* terminal_device)
-{
-	/* set debugging terminal */
-	GString *command = g_string_new("-inferior-tty-set ");
-	g_string_append(command, terminal_device);
-	gchar *record = NULL;
-	exec_sync_command(command->str, TRUE, &record);
+	/* loading file */
+	GString *command = g_string_new("");
+	g_string_printf(command, "-file-exec-and-symbols %s", file);
+	commands = add_to_queue(commands, _("~\"Loading target file ...\""), command->str, _("Error loading file"), FALSE);
 	g_string_free(command, TRUE);
-	g_free(record);
 
-	/* print start messages */
-	GList *iter = start_messages;
+	/* setting asyncronous mode */
+	commands = add_to_queue(commands, NULL, "-gdb-set target-async 1", _("Error configuring GDB"), FALSE);
+
+	/* setting null-stop array printing */
+	commands = add_to_queue(commands, NULL, "-interpreter-exec console \"set print null-stop\"", _("Error configuring GDB"), FALSE);
+
+	/* enable pretty printing */
+	commands = add_to_queue(commands, NULL, "-enable-pretty-printing", _("Error configuring GDB"), FALSE);
+
+	/* set locale */
+	command = g_string_new("");
+	g_string_printf(command, "-gdb-set environment LANG=%s", g_getenv("LANG"));
+	commands = add_to_queue(commands, NULL, command->str, NULL, FALSE);
+	g_string_free(command, TRUE);
+
+	/* set arguments */
+	command = g_string_new("");
+	g_string_printf(command, "-exec-arguments %s", commandline);
+	commands = add_to_queue(commands, NULL, command->str, NULL, FALSE);
+	g_string_free(command, TRUE);
+
+	/* set passed evironment */
+	GList *iter = env;
 	while (iter)
 	{
-		dbg_cbs->send_message((const gchar*)iter->data, "grey");
+		gchar *name = (gchar*)iter->data;
+		iter = iter->next;
+		
+		gchar *value = (gchar*)iter->data;
+	
+		command = g_string_new("");
+		g_string_printf(command, "-gdb-set environment %s=%s", name, value);
+
+		commands = add_to_queue(commands, NULL, command->str, NULL, FALSE);
+		g_string_free(command, TRUE);
+
 		iter = iter->next;
 	}
-	free_start_messages();
 
-	exec_async_command("-exec-run &");
+	/* set breaks */
+	int bp_index = 1;
+	while (biter)
+	{
+		breakpoint *bp = (breakpoint*)biter->data;
+		command = g_string_new("");
+		g_string_printf(command, "-break-insert -f %s:%i", bp->file, bp->line);
+
+		GString *error_message = g_string_new("");
+		g_string_printf(error_message, _("Breakpoint at %s:%i cannot be set\nDebugger message: %s"), bp->file, bp->line, "%s");
+		
+		commands = add_to_queue(commands, NULL, command->str, error_message->str, TRUE);
+
+		g_string_free(command, TRUE);
+		g_string_free(error_message, TRUE);
+
+		if (bp->hitscount)
+		{
+			command = g_string_new("");
+			g_string_printf(command, "-break-after %i %i", bp_index, bp->hitscount);
+			commands = add_to_queue(commands, NULL, command->str, error_message->str, TRUE);
+			g_string_free(command, TRUE);
+		}
+		if (strlen(bp->condition))
+		{
+			command = g_string_new("");
+			g_string_printf (command, "-break-condition %i %s", bp_index, bp->condition);
+			commands = add_to_queue(commands, NULL, command->str, error_message->str, TRUE);
+			g_string_free(command, TRUE);
+		}
+		if (!bp->enabled)
+		{
+			command = g_string_new("");
+			g_string_printf (command, "-break-disable %i", bp_index);
+			commands = add_to_queue(commands, NULL, command->str, error_message->str, TRUE);
+			g_string_free(command, TRUE);
+		}
+
+		bp_index++;
+		biter = biter->next;
+	}
+
+	/* set debugging terminal */
+	command = g_string_new("-inferior-tty-set ");
+	g_string_append(command, terminal_device);
+	commands = add_to_queue(commands, NULL, command->str, NULL, FALSE);
+	g_string_free(command, TRUE);
+
+	/* connect read callback to the output chanel */
+	gdb_id_out = g_io_add_watch(gdb_ch_out, G_IO_IN, on_read_async_output, commands);
+
+	queue_item *item = (queue_item*)commands->data;
+
+	/* send message to debugger messages window */
+	if (item->message)
+	{
+		dbg_cbs->send_message(item->message->str, "grey");
+	}
+
+	/* send first command */
+	gdb_input_write_line(item->command->str);
+
+	return TRUE;
 }
 
 /*
@@ -923,7 +1067,9 @@ GList* get_stack()
 			pos += strlen(pos) + 1;
 		}
 		else
+		{
 			f->file = g_strdup("");
+		}
 		
 		/* whether source is available */
 		f->have_source = fullname ? TRUE : FALSE;
