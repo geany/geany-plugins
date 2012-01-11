@@ -95,9 +95,7 @@ typedef enum _break_set_activity {
 /* type to hold pointers to describe a debug module */
 typedef struct _dbg_module {
 	
-	gboolean (*init) (dbg_callbacks* callbacks);
-	gboolean (*load) (char* file, char* commandline, GList* env, GList *witer);
-	void (*run) (char* terminal_device);
+	gboolean (*run) (const gchar* target, const gchar* commandline, GList* env, GList *witer, GList *biter, const gchar* terminal_device, dbg_callbacks* callbacks);
 	void (*restart) ();
 	void (*stop) ();
 	void (*resume) ();
@@ -130,8 +128,6 @@ typedef struct _dbg_module {
 /* helping macroes to declare and define degub module */
 #define DBG_MODULE_DECLARE(name) extern dbg_module dbg_module##name
 #define DBG_MODULE_DEFINE(name) dbg_module dbg_module_##name = { \
-	init, \
-	load, \
 	run, \
 	restart, \
 	stop, \
