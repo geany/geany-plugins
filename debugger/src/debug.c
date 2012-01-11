@@ -144,7 +144,6 @@ static GList *read_only_pages = NULL;
 static module_description modules[] = 
 {
 	{ "GDB", &dbg_module_gdb },
-	/*{ "Bash", &dbg_module_bash },*/
 	{ NULL, NULL }
 };
 
@@ -174,7 +173,7 @@ static GHashTable *calltips = NULL;
 }
 
 /* 
- * add stack margin markers
+ * removes stack margin markers
  */
  void add_stack_markers()
 {
@@ -1038,76 +1037,39 @@ void debug_run()
 {
 	if (DBS_IDLE == debug_state)
 	{
-		/* init selected debugger  module */
-	    if((active_module = modules[tpage_get_debug_module_index()].module)->init(&callbacks))
+		gchar *target = g_strstrip(tpage_get_target());
+		if (!strlen(target))
 		{
-			/* gets parameters from the target page */
-			gchar *target = g_strstrip(tpage_get_target());
-			if (!strlen(target))
-			{
-				g_free(target);
-				return;
-			}
-			gchar *commandline = tpage_get_commandline();
-			GList *env = tpage_get_environment();
-
-			/* collect watches */
-			GList *watches = get_root_items(GTK_TREE_VIEW(wtree));
-
-			/* load file */
-			if (active_module->load(target, commandline, env, watches))
-			{
-				/* set breaks */
-
-				GList *breaks = breaks_get_all();
-
-				GList *iter = breaks;
-				while (iter)
-				{
-					breakpoint *bp = (breakpoint*)iter->data;
-					if(!active_module->set_break(bp, BSA_NEW_BREAK))
-					{
-						break;
-					}
-					iter = iter->next;
-				}
-
-				if (iter)
-				{
-					breakpoint *bad_break = (breakpoint*)iter->data;
-					gchar msg[1000];
-					sprintf(msg, _("Breakpoint at %s:%i cannot be set\nDebugger message: %s"),
-						bad_break->file, bad_break->line, active_module->error_message());
-						
-					dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", msg);
-						
-					active_module->stop();
-					debug_state = DBS_STOP_REQUESTED;
-					return;
-				}
-
-				g_list_free(breaks);
-				
-				/* set target page - readonly */
-				tpage_set_readonly(TRUE);
-				
-				/* run */
-				active_module->run(ttyname(pty_slave));
-
-				/* update debuf state */
-				debug_state = DBS_RUN_REQUESTED;
-			}
-			
-			/* free watch list */
-			g_list_foreach(watches, (GFunc)g_free, NULL);
-			g_list_free(watches);
-
-			/* free target related values */
 			g_free(target);
-			g_free(commandline);
-			g_list_foreach(env, (GFunc)g_free, NULL);
-			g_list_free(env);
+			return;
 		}
+		gchar *commandline = tpage_get_commandline();
+		GList *env = tpage_get_environment();
+		GList *watches = get_root_items(GTK_TREE_VIEW(wtree));
+		GList *breaks = breaks_get_all();
+
+		/* init selected debugger  module */
+		active_module = modules[tpage_get_debug_module_index()].module;
+		if(active_module->run(target, commandline, env, watches, breaks, ttyname(pty_slave), &callbacks))
+		{
+			/* set target page - readonly */
+			tpage_set_readonly(TRUE);
+
+			/* update debuf state */
+			debug_state = DBS_RUN_REQUESTED;
+		}
+
+		/* free stuff */
+		g_free(target);
+		g_free(commandline);
+
+		g_list_foreach(env, (GFunc)g_free, NULL);
+		g_list_free(env);
+
+		g_list_foreach(watches, (GFunc)g_free, NULL);
+		g_list_free(watches);
+
+		g_list_free(breaks);
 	}
 	else if (DBS_STOPPED == debug_state)
 	{
