@@ -25,10 +25,10 @@ W:
 S:
 
 debugger
-P:
-M:
-W:
-S:
+P: Alexander Petukhov <devel@apetukhov.ru>
+M: Alexander Petukhov <devel@apetukhov.ru>
+W: http://plugins.geany.org/debugger.html
+S: Maintained
 
 devhelp
 P: Matthew Brush <matt@geany.org>
