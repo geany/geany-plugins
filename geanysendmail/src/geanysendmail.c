@@ -219,6 +219,7 @@ static void show_icon()
 #endif
 	g_signal_connect (G_OBJECT(mailbutton), "clicked", G_CALLBACK(send_as_attachment), NULL);
 	gtk_widget_show_all (mailbutton);
+	icon_in_toolbar = TRUE;
 }
 
 static void cleanup_icon()
@@ -227,6 +228,7 @@ static void cleanup_icon()
 	{
 		gtk_container_remove(GTK_CONTAINER (geany->main_widgets->toolbar), mailbutton);
 	}
+	icon_in_toolbar = FALSE;
 }
 
 
@@ -238,6 +240,7 @@ static struct
 }
 pref_widgets;
 
+
 static void
 on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, gint response, G_GNUC_UNUSED  gpointer user_data)
 {
@@ -245,25 +248,27 @@ on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, gint response, G_GNUC_UNU
 	{
 		GKeyFile 	*config = g_key_file_new();
 		gchar 		*config_dir = g_path_get_dirname(config_file);
+		gboolean	configure_toogle_status;
 
 		g_free(mailer);
 		mailer = g_strdup(gtk_entry_get_text(GTK_ENTRY(pref_widgets.entry)));
 
-		if (icon_in_toolbar == FALSE &&
-		    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pref_widgets.checkbox_icon_to_toolbar)) == TRUE)
+		configure_toogle_status =
+			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pref_widgets.checkbox_icon_to_toolbar));
+
+		if (icon_in_toolbar ^ configure_toogle_status)
+		/* Only do anything if a status change is needed */
 		{
-			icon_in_toolbar = TRUE;
-			show_icon();
-		}
-		else if (icon_in_toolbar == TRUE &&
-		    gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pref_widgets.checkbox_icon_to_toolbar)) == FALSE)
-		{
-			cleanup_icon();
-			icon_in_toolbar = FALSE;
-		}
-		else
-		{
-			icon_in_toolbar = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pref_widgets.checkbox_icon_to_toolbar));
+			if (icon_in_toolbar == TRUE)
+			{
+				/* We need to remove the toolbar icon */
+				cleanup_icon();
+			}
+			else
+			{
+				/* We need to show the toolbar icon */
+				show_icon();
+			}
 		}
 
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pref_widgets.checkbox_use_addressdialog)) == TRUE)
