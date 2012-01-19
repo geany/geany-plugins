@@ -89,38 +89,35 @@ gboolean on_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data
 	if (sci_get_selected_text_length (sci_obj) < 2)
 		return FALSE;
 
-	if (event->keyval == '(')
+	switch (event->keyval)
 	{
-		insert_chars [0] = '(';
-		insert_chars [2] = ')';
+		case '(':
+			insert_chars [0] = '(';
+			insert_chars [2] = ')';
+			break;
+		case '[':
+			insert_chars [0] = '[';
+			insert_chars [2] = ']';
+			break;
+		case '{':
+			insert_chars [0] = '{';
+			insert_chars [2] = '}';
+			break;
+		case '\'':
+			insert_chars [0] = '\'';
+			insert_chars [2] = '\'';
+			break;
+		case '\"':
+			insert_chars [0] = '\"';
+			insert_chars [2] = '\"';
+			break;
+        case '`':
+            insert_chars [0] = '`';
+            insert_chars [2] = '`';
+			break;
+		default:
+			return FALSE;
 	}
-	else if (event->keyval == '[')
-	{
-		insert_chars [0] = '[';
-		insert_chars [2] = ']';
-	}
-	else if (event->keyval == '{')
-	{
-		insert_chars [0] = '{';
-		insert_chars [2] = '}';
-	}
-	else if (event->keyval == '\'')
-	{
-		insert_chars [0] = '\'';
-		insert_chars [2] = '\'';
-	}
-	else if (event->keyval == '\"')
-	{
-		insert_chars [0] = '\"';
-		insert_chars [2] = '\"';
-	}
-        else if (event->keyval == '`')
-        {
-                insert_chars [0] = '`';
-                insert_chars [2] = '`';
-        }
-	else
-		return FALSE;
 
 	selection_end = sci_get_selection_end (sci_obj);
 
@@ -184,8 +181,10 @@ void configure_response (GtkDialog *dialog, gint response, gpointer char_tree_vi
 	gchar *key_name = g_malloc0 (6);
 	gint i;
 
-	if (response != GTK_RESPONSE_OK && response != GTK_RESPONSE_ACCEPT)
+	if (response != GTK_RESPONSE_OK && response != GTK_RESPONSE_ACCEPT) {
+		g_free (key_name);
 		return;
+	}
 
 	gtk_tree_model_get_iter_first (GTK_TREE_MODEL(chars_list), &char_iter);
 
