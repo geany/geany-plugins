@@ -1,0 +1,18 @@
+BUGS:
+- terminal stops to produce any output after some debug seesions
+- tooltip appears even if a pointer in no longer inside editor window
+
+FEATURES:
+- custom tooltip with sticking facilities
+- use lexer to lookup for a symbol under cursor when presenting a tooltip
+- jump to a frame (change frame that affects locals, watch etc., caused by clicking a frame in the stack trace tab/margin stack marker)
+- geany menu integration
+- toolbar buttons
+- ellipsize file names at the left in stack and breaks windows (buttons to switch full path or file names mode)
+- switch break in the break window through clicking a break icon (add icon for a file)
+- margin context menu
+- step back
+- tree views column width/autowidth
+- attach functionality: dbm_ methods providing target lists, common dialog
+- android support
+- bashdb support
