@@ -26,6 +26,7 @@ Features
  * Highlighting all occurrences of a word when double-clicking it
  * Strip trailing blank lines when saving
  * XMLtagging
+ * Wrap selected text with characters
 
 Usage
 -----
@@ -79,6 +80,17 @@ XML tagging allows to easy tag a selected text, by checking for a
 selection, offering a little dialog for inserting a tag and
 replacing a selection.
 
+*Wrapping selected text*
+^^^^^^^^^^^^^^^^^^^^^^^^
+Provides two methods for wrapping selected text in characters.  If the 'Wrap
+selection automatically' option is checked in Preferences, selected text will
+be surrounded when certain characters are pressed (e.g. highlight a string and 
+press ", the string will be surrounded in double quotes).  Also allows you to 
+define up to eight of your own opening and closing character pairs, which can 
+then be linked to a keybinding (e.g. set [ and ] to be Wrap Pair 1 and the
+keybinding to ctrl+[ , highlight some text and press ctrl+[ to surround the 
+selected text in brackets).
+
 Requirements
 ------------
 
@@ -89,3 +101,4 @@ Contact developers
 ------------------
 
 #geany IRC channel on FreeNode
+
