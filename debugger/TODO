@@ -1,6 +1,7 @@
 BUGS:
 - terminal stops to produce any output after some debug seesions
 - tooltip appears even if a pointer in no longer inside editor window
+- check possible memory leaks on a)gtk_tree_row_reference_get_path b)missing unrefs on tree/list stores
 
 FEATURES:
 - custom tooltip with sticking facilities
