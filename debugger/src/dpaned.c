@@ -46,8 +46,8 @@ extern GeanyData		*geany_data;
 #define CONNECT_PAGE_SIGNALS(X) \
 	switch_left_handler_id = g_signal_connect(G_OBJECT(debug_notebook_left), "switch-page", G_CALLBACK(on_change_current_page), NULL); \
 	switch_right_handler_id = g_signal_connect(G_OBJECT(debug_notebook_right), "switch-page", G_CALLBACK(on_change_current_page), NULL); \
-	g_signal_connect(G_OBJECT(debug_notebook_left), "page-reordered", G_CALLBACK(on_page_reordered), NULL); \
-	g_signal_connect(G_OBJECT(debug_notebook_right), "page-reordered", G_CALLBACK(on_page_reordered), NULL); \
+	reorder_left_handler_id = g_signal_connect(G_OBJECT(debug_notebook_left), "page-reordered", G_CALLBACK(on_page_reordered), NULL); \
+	reorder_right_handler_id = g_signal_connect(G_OBJECT(debug_notebook_right), "page-reordered", G_CALLBACK(on_page_reordered), NULL); \
 	add_left_handler_id = g_signal_connect(G_OBJECT(debug_notebook_left), "page-added", G_CALLBACK(on_page_added), NULL); \
 	add_right_handler_id = g_signal_connect(G_OBJECT(debug_notebook_right), "page-added", G_CALLBACK(on_page_added), NULL); \
 	remove_left_handler_id = g_signal_connect(G_OBJECT(debug_notebook_left), "page-removed", G_CALLBACK(on_page_removed), NULL); \
