@@ -30,25 +30,25 @@ enum
 	NUM_COLUMNS
 };
 
-void wrap_text_action (guint);
+void enclose_text_action (guint);
 gboolean on_key_press (GtkWidget *, GdkEventKey *, gpointer);
 void configure_response (GtkDialog *, gint, gpointer);
-void wrap_chars_changed (GtkCellRendererText *, gchar *, gchar *, gpointer);
+void enclose_chars_changed (GtkCellRendererText *, gchar *, gchar *, gpointer);
 
-gchar *wrap_chars [8];
+gchar *enclose_chars [8];
 gboolean auto_enabled = FALSE;
-gboolean wrap_enabled = FALSE;
+gboolean enclose_enabled = FALSE;
 gchar *config_file;
 GtkListStore *chars_list;
 
 /*
- * Called when a keybinding associated with the plugin is pressed.  Wraps the selected text in
+ * Called when a keybinding associated with the plugin is pressed.  Encloses the selected text in
  * the characters associated with this keybinding.
  */
 
-void wrap_text_action (guint key_id)
+void enclose_text_action (guint key_id)
 {
-	if (!wrap_enabled)
+	if (!enclose_enabled)
 		return;
 
 	gint selection_end;
@@ -62,16 +62,16 @@ void wrap_text_action (guint key_id)
 	selection_end = sci_get_selection_end (sci_obj);
 
 	sci_start_undo_action (sci_obj);
-	insert_chars [0] = *wrap_chars [key_id];
+	insert_chars [0] = *enclose_chars [key_id];
 	sci_insert_text (sci_obj, sci_get_selection_start (sci_obj), insert_chars);
-	insert_chars [0] = *(wrap_chars [key_id] + 1);
+	insert_chars [0] = *(enclose_chars [key_id] + 1);
 	sci_insert_text (sci_obj, selection_end + 1, insert_chars);
 	sci_set_current_position (sci_obj, selection_end + 2, TRUE);
 	sci_end_undo_action (sci_obj);
 }
 
 /*
- * Captures keypresses, if auto-wrapping automatically wraps selected text when certain
+ * Captures keypresses, if auto-enclosing automatically encloses selected text when certain
  * characters are pressed.
  */
 
@@ -131,26 +131,26 @@ gboolean on_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data
 }
 
 /*
- * Loads the wrapping characters from the config file and sets keybindings.
+ * Loads the enclosing characters from the config file and sets keybindings.
  */
 
-void ao_wrapwords_init (gchar *config_file_name, GeanyKeyGroup *key_group)
+void ao_enclose_words_init (gchar *config_file_name, GeanyKeyGroup *key_group)
 {
 	GKeyFile *config = g_key_file_new();
-	gchar *key_name = g_malloc0 (6);
+	gchar *key_name = g_malloc0 (9);
 	gint i;
 
 	config_file = g_strdup (config_file_name);
-	g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
+	g_key_file_load_from_file (config, config_file, G_KEY_FILE_NONE, NULL);
 
-	g_stpcpy (key_name, "Wrap_x");
+	g_stpcpy (key_name, "Enclose_x");
 
 	for (i = 0; i < 8; i++)
 	{
-		key_name [5] = (gchar) (i + '0');
-		wrap_chars [i] = utils_get_setting_string (config, "addons", key_name, "  ");
-		key_name [5] = (gchar) ((i + 1) + '0');
-		keybindings_set_item (key_group, i+4, (GeanyKeyCallback) wrap_text_action, 0, 0, key_name,
+		key_name [8] = (gchar) (i + '0');
+		enclose_chars [i] = utils_get_setting_string (config, "addons", key_name, "  ");
+		key_name [8] = (gchar) ((i + 1) + '0');
+		keybindings_set_item (key_group, i+4, (GeanyKeyCallback) enclose_text_action, 0, 0, key_name,
 			key_name, NULL);
 
 	}
@@ -161,15 +161,15 @@ void ao_wrapwords_init (gchar *config_file_name, GeanyKeyGroup *key_group)
 	g_free (key_name);
 }
 
-void ao_wrapwords_set_enabled (gboolean enabled_w, gboolean enabled_a)
+void ao_enclose_words_set_enabled (gboolean enabled_w, gboolean enabled_a)
 {
 	auto_enabled = enabled_a;
-	wrap_enabled = enabled_w;
+	enclose_enabled = enabled_w;
 }
 
 /*
  * Called when the user closes the plugin preferences dialog.  If the user accepted or ok'd,
- * update the array of wrapping characters and config file with the new wrapping characters
+ * update the array of enclosing characters and config file with the new enclosing characters
  */
 
 void configure_response (GtkDialog *dialog, gint response, gpointer char_tree_view)
@@ -178,7 +178,7 @@ void configure_response (GtkDialog *dialog, gint response, gpointer char_tree_vi
 	GKeyFile *config = g_key_file_new();
 	gchar *config_data = NULL;
 	gchar *prior_char_str, *end_char_str;
-	gchar *key_name = g_malloc0 (6);
+	gchar *key_name = g_malloc0 (9);
 	gint i;
 
 	if (response != GTK_RESPONSE_OK && response != GTK_RESPONSE_ACCEPT) {
@@ -190,19 +190,19 @@ void configure_response (GtkDialog *dialog, gint response, gpointer char_tree_vi
 
 	g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
 
-	g_stpcpy (key_name, "Wrap_x");
+	g_stpcpy (key_name, "Enclose_x");
 
 	for (i = 0; i < 8; i++)
 	{
-		key_name [5] = (gchar) (i + '0');
+		key_name [8] = (gchar) (i + '0');
 
 		gtk_tree_model_get (GTK_TREE_MODEL(chars_list), &char_iter,
 			COLUMN_PRIOR_CHAR, &prior_char_str, COLUMN_END_CHAR, &end_char_str, -1);
-		*wrap_chars [i] = prior_char_str [0];
-		*(wrap_chars [i] + 1) = end_char_str [0];
+		*enclose_chars [i] = prior_char_str [0];
+		*(enclose_chars [i] + 1) = end_char_str [0];
 		gtk_tree_model_iter_next (GTK_TREE_MODEL(chars_list), &char_iter);
 
-		g_key_file_set_string (config, "addons", key_name, wrap_chars [i]);
+		g_key_file_set_string (config, "addons", key_name, enclose_chars [i]);
 	}
 
 	config_data = g_key_file_to_data (config, NULL, NULL);
@@ -217,10 +217,10 @@ void configure_response (GtkDialog *dialog, gint response, gpointer char_tree_vi
 
 /*
  * When the user changes an entry in the preferences dialog, this updates the list of
- * wrapping characters with the new entry
+ * enclosing characters with the new entry
  */
 
-void wrap_chars_changed (GtkCellRendererText *renderer, gchar *path, gchar *new_char_str,
+void enclose_chars_changed (GtkCellRendererText *renderer, gchar *path, gchar *new_char_str,
 	gpointer column_num)
 {
 	GtkTreeIter chars_iter;
@@ -231,10 +231,10 @@ void wrap_chars_changed (GtkCellRendererText *renderer, gchar *path, gchar *new_
 }
 
 /*
- * Dialog box for setting wrap characters
+ * Dialog box for setting enclose characters
  */
 
-void ao_wrapwords_config (GtkButton *button, GtkWidget *config_window)
+void ao_enclose_words_config (GtkButton *button, GtkWidget *config_window)
 {
 	GtkWidget *dialog;
 	GtkWidget *vbox;
@@ -258,11 +258,11 @@ void ao_wrapwords_config (GtkButton *button, GtkWidget *config_window)
 	for (i = 0; i < 8; i++)
 	{
 		gtk_list_store_append (chars_list, &chars_iter);
-		title = g_strdup_printf (_("Wrap combo %d"), i + 1);
+		title = g_strdup_printf (_("Enclose combo %d"), i + 1);
 		gtk_list_store_set (chars_list, &chars_iter, COLUMN_TITLE, title, -1);
-		insert_chars [0] = *wrap_chars [i];
+		insert_chars [0] = *enclose_chars [i];
 		gtk_list_store_set (chars_list, &chars_iter, COLUMN_PRIOR_CHAR, insert_chars, -1);
-		insert_chars [0] = *(wrap_chars [i] + 1);
+		insert_chars [0] = *(enclose_chars [i] + 1);
 		gtk_list_store_set (chars_list, &chars_iter, COLUMN_END_CHAR, insert_chars, -1);
 	}
 
@@ -272,14 +272,14 @@ void ao_wrapwords_config (GtkButton *button, GtkWidget *config_window)
 	g_object_set (renderer, "editable", TRUE, NULL);
 	char_one_column = gtk_tree_view_column_new_with_attributes (_("Opening Character"), renderer,
 		"text", COLUMN_PRIOR_CHAR, NULL);
-	g_signal_connect (renderer, "edited", G_CALLBACK (wrap_chars_changed),
+	g_signal_connect (renderer, "edited", G_CALLBACK (enclose_chars_changed),
 		GINT_TO_POINTER (COLUMN_PRIOR_CHAR));
 
 	renderer = gtk_cell_renderer_text_new ();
 	g_object_set (renderer, "editable", TRUE, NULL);
 	char_two_column = gtk_tree_view_column_new_with_attributes (_("Closing Character"), renderer,
 		"text", COLUMN_END_CHAR, NULL);
-	g_signal_connect (renderer, "edited", G_CALLBACK (wrap_chars_changed),
+	g_signal_connect (renderer, "edited", G_CALLBACK (enclose_chars_changed),
 		GINT_TO_POINTER (COLUMN_END_CHAR));
 
 	gtk_tree_view_append_column (chars_tree_view, label_column);

@@ -77,8 +77,8 @@ typedef struct
 	gboolean enable_bookmarklist;
 	gboolean enable_markword;
 	gboolean enable_xmltagging;
-	gboolean enable_wrapwords;
-	gboolean enable_wrapwords_auto;
+	gboolean enable_enclose_words;
+	gboolean enable_enclose_words_auto;
 	gboolean strip_trailing_blank_lines;
 
 	gchar *tasks_token_list;
@@ -273,10 +273,10 @@ void plugin_init(GeanyData *data)
 		"addons", "strip_trailing_blank_lines", FALSE);
 	ao_info->enable_xmltagging = utils_get_setting_boolean(config, "addons",
 		"enable_xmltagging", FALSE);
-	ao_info->enable_wrapwords = utils_get_setting_boolean(config, "addons",
-		"enable_wrapwords", FALSE);
-	ao_info->enable_wrapwords_auto = utils_get_setting_boolean(config, "addons",
-		"enable_wrapwords_auto", FALSE);
+	ao_info->enable_enclose_words = utils_get_setting_boolean(config, "addons",
+		"enable_enclose_words", FALSE);
+	ao_info->enable_enclose_words_auto = utils_get_setting_boolean(config, "addons",
+		"enable_enclose_words_auto", FALSE);
 
 	plugin_module_make_resident(geany_plugin);
 
@@ -301,8 +301,8 @@ void plugin_init(GeanyData *data)
 	keybindings_set_item(key_group, KB_XMLTAGGING, kb_ao_xmltagging,
 		0, 0, "xml_tagging", _("Run XML tagging"), NULL);
 
-	ao_wrapwords_init(ao_info->config_file, key_group);
-	ao_wrapwords_set_enabled (ao_info->enable_wrapwords, ao_info->enable_wrapwords_auto);
+	ao_enclose_words_init(ao_info->config_file, key_group);
+	ao_enclose_words_set_enabled (ao_info->enable_enclose_words, ao_info->enable_enclose_words_auto);
 
 	g_key_file_free(config);
 }
@@ -368,12 +368,12 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 			g_object_get_data(G_OBJECT(dialog), "check_blanklines"))));
 		ao_info->enable_xmltagging = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
 			g_object_get_data(G_OBJECT(dialog), "check_xmltagging"))));
-		ao_info->enable_wrapwords = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
-			g_object_get_data(G_OBJECT(dialog), "check_wrapwords"))));
-		ao_info->enable_wrapwords_auto = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
-			g_object_get_data(G_OBJECT(dialog), "check_wrapwords_auto"))));
+		ao_info->enable_enclose_words = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
+			g_object_get_data(G_OBJECT(dialog), "check_enclose_words"))));
+		ao_info->enable_enclose_words_auto = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
+			g_object_get_data(G_OBJECT(dialog), "check_enclose_words_auto"))));
 
-		ao_wrapwords_set_enabled (ao_info->enable_wrapwords, ao_info->enable_wrapwords_auto);
+		ao_enclose_words_set_enabled (ao_info->enable_enclose_words, ao_info->enable_enclose_words_auto);
 
 		g_key_file_load_from_file(config, ao_info->config_file, G_KEY_FILE_NONE, NULL);
 		g_key_file_set_boolean(config, "addons",
@@ -392,10 +392,10 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 		  ao_info->strip_trailing_blank_lines);
 		g_key_file_set_boolean(config, "addons", "enable_xmltagging",
 			ao_info->enable_xmltagging);
-		g_key_file_set_boolean(config, "addons", "enable_wrapwords",
-			ao_info->enable_wrapwords);
-		g_key_file_set_boolean(config, "addons", "enable_wrapwords_auto",
-			ao_info->enable_wrapwords_auto);
+		g_key_file_set_boolean(config, "addons", "enable_enclose_words",
+			ao_info->enable_enclose_words);
+		g_key_file_set_boolean(config, "addons", "enable_enclose_words_auto",
+			ao_info->enable_enclose_words_auto);
 
 		g_object_set(ao_info->doclist, "enable-doclist", ao_info->enable_doclist, NULL);
 		g_object_set(ao_info->doclist, "sort-mode", ao_info->doclist_sort_mode, NULL);
@@ -437,7 +437,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	GtkWidget *check_bookmarklist, *check_markword, *frame_tasks, *vbox_tasks;
 	GtkWidget *check_tasks_scan_mode, *entry_tasks_tokens, *label_tasks_tokens, *tokens_hbox;
 	GtkWidget *check_blanklines, *check_xmltagging;
-	GtkWidget *check_wrapwords, *check_wrapwords_auto, *wrapwords_config_button, *wrapwords_hbox;
+	GtkWidget *check_enclose_words, *check_enclose_words_auto, *enclose_words_config_button, *enclose_words_hbox;
 
 	vbox = gtk_vbox_new(FALSE, 6);
 
@@ -557,23 +557,23 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 		ao_info->enable_xmltagging);
 	gtk_box_pack_start(GTK_BOX(vbox), check_xmltagging, FALSE, FALSE, 3);
 
-	check_wrapwords = gtk_check_button_new_with_label(
-		_("Wrap selection on configurable keybindings"));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_wrapwords),
-		ao_info->enable_wrapwords);
+	check_enclose_words = gtk_check_button_new_with_label(
+		_("Enclose selection on configurable keybindings"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_enclose_words),
+		ao_info->enable_enclose_words);
 
-	wrapwords_config_button = gtk_button_new_with_label ("Configure wrap pairs");
-	g_signal_connect(wrapwords_config_button, "clicked", G_CALLBACK(ao_wrapwords_config), dialog);
-	wrapwords_hbox = gtk_hbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(wrapwords_hbox), check_wrapwords, FALSE, FALSE, 3);
-	gtk_box_pack_start(GTK_BOX(wrapwords_hbox), wrapwords_config_button, TRUE, TRUE, 3);
-	gtk_box_pack_start(GTK_BOX(vbox), wrapwords_hbox, FALSE, FALSE, 3);
+	enclose_words_config_button = gtk_button_new_with_label ("Configure enclose pairs");
+	g_signal_connect(enclose_words_config_button, "clicked", G_CALLBACK(ao_enclose_words_config), dialog);
+	enclose_words_hbox = gtk_hbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(enclose_words_hbox), check_enclose_words, FALSE, FALSE, 3);
+	gtk_box_pack_start(GTK_BOX(enclose_words_hbox), enclose_words_config_button, TRUE, TRUE, 3);
+	gtk_box_pack_start(GTK_BOX(vbox), enclose_words_hbox, FALSE, FALSE, 3);
 
-	check_wrapwords_auto = gtk_check_button_new_with_label(
-		_("Wrap selection automatically (without having to press a keybinding)"));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_wrapwords_auto),
-		ao_info->enable_wrapwords_auto);
-	gtk_box_pack_start(GTK_BOX(vbox), check_wrapwords_auto, FALSE, FALSE, 3);
+	check_enclose_words_auto = gtk_check_button_new_with_label(
+		_("Enclose selection automatically (without having to press a keybinding)"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_enclose_words_auto),
+		ao_info->enable_enclose_words_auto);
+	gtk_box_pack_start(GTK_BOX(vbox), check_enclose_words_auto, FALSE, FALSE, 3);
 
 
 	g_object_set_data(G_OBJECT(dialog), "check_doclist", check_doclist);
@@ -590,9 +590,9 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	g_object_set_data(G_OBJECT(dialog), "check_markword", check_markword);
 	g_object_set_data(G_OBJECT(dialog), "check_blanklines", check_blanklines);
 	g_object_set_data(G_OBJECT(dialog), "check_xmltagging", check_xmltagging);
-	g_object_set_data(G_OBJECT(dialog), "check_wrapwords", check_wrapwords);
-	g_object_set_data(G_OBJECT(dialog), "check_wrapwords_auto", check_wrapwords_auto);
-	g_object_set_data(G_OBJECT(dialog), "wrapwords_config_button", wrapwords_config_button);
+	g_object_set_data(G_OBJECT(dialog), "check_enclose_words", check_enclose_words);
+	g_object_set_data(G_OBJECT(dialog), "check_enclose_words_auto", check_enclose_words_auto);
+	g_object_set_data(G_OBJECT(dialog), "enclose_words_config_button", enclose_words_config_button);
 	g_signal_connect(dialog, "response", G_CALLBACK(ao_configure_response_cb), NULL);
 
 	ao_configure_tasks_toggled_cb(GTK_TOGGLE_BUTTON(check_tasks), dialog);
