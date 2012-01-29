@@ -21,9 +21,9 @@
 #define __AO_WRAPWORDS_H__
 
 
-void ao_wrapwords_init(gchar *, GeanyKeyGroup *);
-void ao_wrapwords_config(GtkButton *, GtkWidget *);
-void ao_wrapwords_set_enabled(gboolean, gboolean);
+void ao_enclose_words_init(gchar *, GeanyKeyGroup *);
+void ao_enclose_words_config(GtkButton *, GtkWidget *);
+void ao_enclose_words_set_enabled(gboolean, gboolean);
 
 #endif
 
