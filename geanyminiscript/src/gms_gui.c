@@ -50,7 +50,6 @@
 #include    "prefs.h"
 #include    "utils.h"
 #include    "ui_utils.h"
-#include    "pluginmacros.h"
 
 /* user header */
 #include    "gms_debug.h"
