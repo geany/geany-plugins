@@ -15,7 +15,7 @@ In order to use it you need Geany 0.15.
 
 Features
 ========
-This plugin is a tools to apply a script filter on ::
+This plugin is a tool to apply a script filter on ::
    o the text selection,
    o the current document,
    o all documents of the current session.
