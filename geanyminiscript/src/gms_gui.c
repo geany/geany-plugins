@@ -193,9 +193,9 @@ static void save_prefs_file(
         gms_private_t *this ///< pointer of mini-script data structure
     )
 {
-    GString *gms_pref = g_string_new(getenv("HOME"));
+    GString *gms_pref = g_string_new("");
 
-    g_string_printf(gms_pref , "%s/plugins", this->config_dir,pref_filename );
+    g_string_printf(gms_pref , "%s/plugins", this->config_dir );
 
     if ( g_file_test( this->config_dir, G_FILE_TEST_EXISTS ) != TRUE )
         g_mkdir( this->config_dir, 0755 ) ;
