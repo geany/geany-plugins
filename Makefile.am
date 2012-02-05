@@ -12,6 +12,7 @@ plugins = \
 	geanylipsum \
 	geanylua \
 	geanymacro \
+	geanyminiscript \
 	geanynumberedbookmarks \
 	geanypg \
 	geanyprj \

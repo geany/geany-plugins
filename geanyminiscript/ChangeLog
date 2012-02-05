@@ -1,0 +1,22 @@
+2009-03-02  v0.4
+
+ * config_dir (compatibility with geany 0.16)
+
+
+2009-02-07  v0.3
+
+ * localization
+ * add Tips on each button
+
+
+2009-01-03  v0.2
+
+ * using autotools
+ * adding a help document (./doc/gms_help.pdf)
+ * add a break if a error is happened in the session mode
+ * svn
+
+
+2009-01-02  v0.1
+
+ * initial version

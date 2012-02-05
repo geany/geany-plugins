@@ -1,0 +1,100 @@
+.. |(version)| replace:: 0.1
+
+====
+gms
+====
+
+.. contents::
+
+About
+=====
+
+gms is a Geany Mini-Script filter plugin
+
+In order to use it you need Geany 0.15.
+
+Features
+========
+This plugin is a tools to apply a script filter on ::
+   o the text selection,
+   o the current document,
+   o all documents of the current session.
+
+The filter type can be ::
+   o Unix shell script,
+   o perl script,
+   o python script,
+   o sed commands,
+   o awk script.
+
+The output can be ::
+   o the selection of the current document,
+   o all the current document,
+   o or a new document.
+
+Requirements
+============
+
+For compiling gms you need Geany,GTK2 includes, and GTK2 library.
+
+Furthermore you need, of course, a C compiler and the Make tool; The
+GNU versions of these tools are recommended.
+
+Usage
+=====
+
+After compiling and/or installing gms, start Geany and go to menu
+Tools->Plugin Manager and set checkbox at gms plugin.
+
+You can configure the following options::
+    o Shell path,
+    o Perl path,
+    o Python path,
+    o sed path,
+    o Awk path,
+    o user script .
+
+After configuring, go to menu Tools->Plugin Manager and click to "Mini-script".
+Geany opens a gms dialog box::
+    o With the combobox, you select the script type,
+    o In the text view, you write the filter script.
+    o In the input area, you select the filter input::
+           * current selection
+           * current document
+           * all the session documents
+    o In the output area, you select the filter output::
+           * current document
+           * new document
+    o and you click on the apply button.
+
+License
+=======
+
+gms is distributed under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2 of the
+License, or (at your option) any later version. A copy of this license
+can be found in the file COPYING included with the source code of this
+program.
+
+Ideas, questions, patches and bug reports
+=========================================
+
+If you add something, or fix a bug, please send a patch (in 'diff -u'
+format) to the author listed below.
+
+Coding
+======
+
+Use static functions where possible.
+Try to use GLib types and functions - e.g. g_free instead of free and
+try to use only GLib 2.6 and GTK 2.6 functions. At least for the moment,
+we want to keep the minimum requirement for GTK at 2.6.
+
+Download
+========
+
+The current version is |(version)|, download it here http://
+
+--
+2008-2009 by Pascal BURLOT
+prublot(at)users(dot)sourceforge(dot)net
