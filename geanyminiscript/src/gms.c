@@ -26,16 +26,6 @@
  * the whole document, or all opened documents.
  *
  * note: the script filter could be : Unix shell, perl , python , sed ,awk ...
- *
- * Note: This is not installed by default, but (on *nix) you can build it
- * as follows:
- * make clean ; make
- *
- * Then :
- * make install_local
- *
- * Or copy or symlink the gms.so file to ~/.geany/plugins
- * - it will be loaded at next startup.
  */
 
 #include    <geanyplugin.h>
