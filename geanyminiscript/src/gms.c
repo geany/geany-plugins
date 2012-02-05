@@ -55,7 +55,7 @@ GeanyFunctions  *geany_functions;
 PLUGIN_VERSION_CHECK(100)
 
 /* All plugins must set name, description, version and author. */
-PLUGIN_SET_INFO(_("geany mini-script"), _("GMS (Geany Mini-Script filter plugin)"),
+PLUGIN_SET_INFO(_("Mini Script"), _("A tool to apply a script filter on a text selection or current document(s)"),
                     "0.1" , _("Pascal BURLOT, a Geany user"))
 
 static GtkWidget     *gms_item   = NULL ;
