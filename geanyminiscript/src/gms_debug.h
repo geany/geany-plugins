@@ -39,13 +39,13 @@ extern "C" {
 #define GMS_G_MALLOC0(t,n)      ((t *) g_malloc0(sizeof(t)*n))
 
 //! \brief Macro to free (glib)
-#define GMS_G_FREE(p)   if ( p != NULL ) { g_free(p) ; p=NULL ; }
+#define GMS_G_FREE(p) { g_free(p); p=NULL; }
 
 //! \brief Macro pour la liberation des PangoFontDescription
-#define GMS_FREE_FONTDESC(p) if ( p != NULL ) { pango_font_description_free (p) ;p=NULL ; }
+#define GMS_FREE_FONTDESC(p) if ( p != NULL ) { pango_font_description_free (p); p=NULL; }
 
 //! \brief Macro for freeing a GtkWidget structure
-#define GMS_FREE_WIDGET(p)   if ( p != NULL ) { gtk_widget_destroy(GTK_WIDGET(p)) ;p=NULL ; }
+#define GMS_FREE_WIDGET(p) if ( p != NULL ) { gtk_widget_destroy(GTK_WIDGET(p)); p=NULL; }
 
 
 #ifdef GMS_DEBUG
