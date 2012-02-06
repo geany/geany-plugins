@@ -47,6 +47,7 @@ dependencies. --disable-<option> causes the feature to be forcefully disabled.
 * geanylatex -- the GeanyLaTeX plugin
 * geanylipsum -- the GeanyLipsum plugin
 * geanylua -- the GeanyLua plugin
+* geanyminiscript -- the GeanyMiniScript plugin
 * geanypg -- the geanypg plugin
 * geanyprj -- the GeanyPrj plugin
 * geanysendmail -- the GeanySendmail plugin
