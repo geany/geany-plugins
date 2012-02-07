@@ -127,6 +127,12 @@ geanylua/glspi_app.c
 # GeanyMacro
 geanymacro/src/geanymacro.c
 
+# GeanyMiniScript
+geanyminiscript/src/gms_gui.c
+geanyminiscript/src/gms_gui.h
+geanyminiscript/src/gms.c
+geanyminiscript/src/gms.h
+
 # GeanyNumberedBookmarks
 geanynumberedbookmarks/src/geanynumberedbookmarks.c
 
@@ -205,4 +211,3 @@ xmlsnippets/src/plugin.c
 xmlsnippets/src/xmlsnippets.c
 xmlsnippets/src/tests.c
 xmlsnippets/src/test-stubs.c
-
