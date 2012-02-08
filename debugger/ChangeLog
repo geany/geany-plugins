@@ -1,8 +1,11 @@
-15-10-2011 	Alexander Petukhov <devel@apetukhov.ru>
+09-02-2012 	Alexander Petukhov <devel@apetukhov.ru>
 
-	* first release
+	* switch break in the break window through clicking a break icon, all breaks for a file - by a file checkbox(moved to the left)
 
 08-02-2012 	Alexander Petukhov <devel@apetukhov.ru>
 
 	* fixed a bug: double clicking on a row in watches and autos sometimes caused crash because of wrong args list governor
 
+15-10-2011 	Alexander Petukhov <devel@apetukhov.ru>
+
+	* first release

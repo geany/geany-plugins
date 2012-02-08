@@ -45,10 +45,12 @@
 #include "tabs.h"
 #include "pixbuf.h"
 
+#include "cell_renderers/cellrendererbreakicon.h"
+#include "cell_renderers/cellrenderertoggle.h"
+
 /* Tree view columns */
 enum
 {
-   ICON,
    FILEPATH,
    CONDITION,
    HITSCOUNT,
@@ -64,7 +66,6 @@ static GtkTreeModel		*model = NULL;
 static GtkTreeStore		*store = NULL;
 
 /* column cell renderes */
-static GtkCellRenderer	*enable_renderer;
 static GtkCellRenderer	*hcount_renderer;
 static GtkCellRenderer	*condition_renderer;
 
@@ -149,34 +150,42 @@ static void update_file_node(GtkTreeIter *file_iter)
 }
 
 /* 
- * GtkTreeView cell renderer functions that do not render and make ineditable file rows
+ * hides file checkbox for breaks rows
+ */
+void on_render_enable_for_file(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeModel *tree_model,
+	GtkTreeIter *iter, gpointer data)
+{
+	GtkTreePath *path = gtk_tree_model_get_path(model, iter);
+	g_object_set(cell, "visible", 1 == gtk_tree_path_get_depth(path), NULL);
+	gtk_tree_path_free(path);
+}
+
+/* 
+ * hides break pixbuf for file rows
+ */
+void on_render_enable_break(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeModel *tree_model,
+	GtkTreeIter *iter, gpointer data)
+{
+	GtkTreePath *path = gtk_tree_model_get_path(model, iter);
+	g_object_set(cell, "visible", 1 != gtk_tree_path_get_depth(path), NULL);
+	gtk_tree_path_free(path);
+}
+
+/* 
+ * makes condition and hitscount uneditable and empty for file rows
  */
 void on_render(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeModel *tree_model,
 	GtkTreeIter *iter, gpointer data)
 {
 	GtkTreePath *path = gtk_tree_model_get_path(model, iter);
-	if (data)
+	if (gtk_tree_path_get_depth(path) == 1)
 	{
-		if (gtk_tree_path_get_depth(path) == 1)
-		{
-			g_object_set(cell, "text", "", NULL);
-			g_object_set(cell, "editable", FALSE, NULL);
-		}
-		else
-		{
-			g_object_set(cell, "editable", TRUE, NULL);
-		}
+		g_object_set(cell, "text", "", NULL);
+		g_object_set(cell, "editable", FALSE, NULL);
 	}
 	else
 	{
-		if (gtk_tree_path_get_depth(path) == 1)
-		{
-			g_object_set(cell, "visible", FALSE, NULL);
-		}
-		else
-		{
-			g_object_set(cell, "visible", TRUE, NULL);
-		}
+		g_object_set(cell, "editable", TRUE, NULL);
 	}
 	gtk_tree_path_free(path);
 }
@@ -309,9 +318,9 @@ void on_hitscount_changed(GtkCellRendererText *renderer, gchar *path, gchar *new
 }                                                        
 
 /*
- * "Enabled" checkbox has been clicked
+ * enable / disable all breaks for a file when it's checkbox icon has been clicked
  */
-void on_activeness_changed(GtkCellRendererToggle *cell_renderer, gchar *path, gpointer user_data)
+void on_enable_for_file(GtkCellRendererToggle *cell_renderer, gchar *path, gpointer user_data)
 {
 	/* do not process event is page is readonly (debug is running) */
 	if (readonly)
@@ -341,7 +350,29 @@ void on_activeness_changed(GtkCellRendererToggle *cell_renderer, gchar *path, gp
 
 		g_free(file);
 	}
-	else
+
+	gtk_tree_path_free(tree_path);
+}
+
+/*
+ * enable / disable particulary break when it's icon has been clicked
+ */
+void on_enable_break(CellRendererBreakIcon *cell_renderer, gchar *path, gpointer user_data)
+{
+	/* do not process event is page is readonly (debug is running) */
+	if (readonly)
+		return;
+	
+	GtkTreeIter  iter;
+    GtkTreePath *tree_path = gtk_tree_path_new_from_string (path);
+	
+	gtk_tree_model_get_iter (
+		model,
+		&iter,
+		tree_path);
+    
+    /* check if this is not a file row */
+    if(1 != gtk_tree_path_get_depth(tree_path))
 	{
 		GtkTreeIter parent_iter;
 		gtk_tree_model_iter_parent(model, &parent_iter, &iter);
@@ -494,30 +525,6 @@ static gboolean on_key_pressed(GtkWidget *widget, GdkEvent *event, gpointer user
 }
 
 /*
- * update existing breakpoint icon
- * arguments:
- * 		bp - breakpoint to update
- */
-void bptree_update_break_icon(breakpoint* bp)
-{
-	GdkPixbuf *pixbuf;
-	if (!bp->enabled)
-	{
-		pixbuf = break_disabled_pixbuf;
-	}
-	else if (bp->hitscount || strlen(bp->condition))
-	{
-		pixbuf = break_condition_pixbuf;
-	}
-	else
-	{
-		pixbuf = break_pixbuf;
-	}
-
-	gtk_tree_store_set (store, &bp->iter, ICON, pixbuf, -1);
-}
-
-/*
  * Interface functions
  */
 
@@ -542,7 +549,6 @@ gboolean bptree_init(move_to_line_cb cb)
 	/* create tree view */
 	store = gtk_tree_store_new (
 		N_COLUMNS,
-		GDK_TYPE_PIXBUF,
 		G_TYPE_STRING,
 		G_TYPE_STRING,
 		G_TYPE_INT,
@@ -569,13 +575,29 @@ gboolean bptree_init(move_to_line_cb cb)
 	GtkCellRenderer *renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_pack_end(column, renderer, TRUE);
-	gtk_tree_view_column_set_attributes(column, renderer, "text", FILEPATH, NULL);	
-	GtkCellRenderer *icon_renderer = gtk_cell_renderer_pixbuf_new ();
-	g_object_set(icon_renderer, "follow-state", TRUE, NULL);
-	gtk_tree_view_column_pack_end(column, icon_renderer, FALSE);
-	gtk_tree_view_column_set_attributes(column, icon_renderer, "pixbuf", ICON, NULL);	
+	gtk_tree_view_column_set_attributes(column, renderer, "text", FILEPATH, NULL);
+		
+	/* enable for file */
+	GtkCellRenderer *file_enable_renderer = cell_renderer_toggle_new ();
+	g_signal_connect (G_OBJECT(file_enable_renderer), "toggled", G_CALLBACK(on_enable_for_file), NULL);
+	gtk_tree_view_column_pack_end(column, file_enable_renderer, FALSE);
+	gtk_tree_view_column_set_attributes(column, file_enable_renderer, "active", ENABLED, NULL);
+	gtk_tree_view_column_set_cell_data_func(column, file_enable_renderer, on_render_enable_for_file, NULL, NULL);
+
+	/* enable breakpoint */
+	GtkCellRenderer *break_enable_renderer = cell_renderer_break_icon_new ();
+	g_signal_connect (G_OBJECT(break_enable_renderer), "clicked", G_CALLBACK(on_enable_break), NULL);
+
+	g_object_set(break_enable_renderer, "pixbuf_enabled", (gpointer)break_pixbuf, NULL);
+	g_object_set(break_enable_renderer, "pixbuf_disabled", (gpointer)break_disabled_pixbuf, NULL);
+	g_object_set(break_enable_renderer, "pixbuf_conditional", (gpointer)break_condition_pixbuf, NULL);
+	g_object_set(break_enable_renderer, "pixbuf_file", (gpointer)break_pixbuf, NULL);
+	
+	gtk_tree_view_column_pack_end(column, break_enable_renderer, FALSE);
+	gtk_tree_view_column_set_attributes(column, break_enable_renderer, "enabled", ENABLED, "condition", CONDITION, "hitscount", HITSCOUNT, NULL);
+	gtk_tree_view_column_set_cell_data_func(column, break_enable_renderer, on_render_enable_break, NULL, NULL);
+
 	gtk_tree_view_column_set_title(column, _("Location"));
-	gtk_tree_view_column_set_cell_data_func(column, icon_renderer, on_render, NULL, NULL);
 	gtk_tree_view_column_set_resizable (column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
@@ -585,7 +607,7 @@ gboolean bptree_init(move_to_line_cb cb)
 	g_object_set (condition_renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
 	g_signal_connect (G_OBJECT (condition_renderer), "edited", G_CALLBACK (on_condition_changed), NULL);
 	column = gtk_tree_view_column_new_with_attributes (_("Condition"), condition_renderer, "text", CONDITION, NULL);
-	gtk_tree_view_column_set_cell_data_func(column, condition_renderer, on_render, (gpointer)TRUE, NULL);
+	gtk_tree_view_column_set_cell_data_func(column, condition_renderer, on_render, NULL, NULL);
 	gtk_tree_view_column_set_resizable (column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 	
@@ -604,12 +626,6 @@ gboolean bptree_init(move_to_line_cb cb)
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (_("Line"), renderer, "text", LINE, NULL);
 	gtk_tree_view_column_set_visible(column, FALSE);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
-
-	/* enabled */
-	enable_renderer = gtk_cell_renderer_toggle_new ();
-	g_signal_connect (G_OBJECT(enable_renderer), "toggled", G_CALLBACK(on_activeness_changed), NULL);
-	column = gtk_tree_view_column_new_with_attributes (_("Enabled"), enable_renderer, "active", ENABLED, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
 	/* Last invisible column */
@@ -644,7 +660,6 @@ void bptree_destroy()
 void bptree_set_enabled(breakpoint *bp)
 {
 	gtk_tree_store_set(store, &(bp->iter), ENABLED, bp->enabled, -1);
-	bptree_update_break_icon(bp);
 
 	GtkTreeIter parent;
 	gtk_tree_model_iter_parent(model, &parent, &(bp->iter));
@@ -659,7 +674,6 @@ void bptree_set_enabled(breakpoint *bp)
 void bptree_set_hitscount(breakpoint *bp)
 {
   gtk_tree_store_set(store, &(bp->iter), HITSCOUNT, bp->hitscount, -1);
-  bptree_update_break_icon(bp);
 }
 
 /*
@@ -670,7 +684,6 @@ void bptree_set_hitscount(breakpoint *bp)
 void bptree_set_condition(breakpoint* bp)
 {
   gtk_tree_store_set(store, &(bp->iter), CONDITION, bp->condition, -1);
-  bptree_update_break_icon(bp);
 }
 
 /*
@@ -776,8 +789,6 @@ void bptree_update_breakpoint(breakpoint* bp)
                     LINE, bp->line,
                     -1);
 	
-	bptree_update_break_icon(bp);
-
     g_free(location);
 }
 

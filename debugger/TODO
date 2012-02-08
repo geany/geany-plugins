@@ -11,7 +11,6 @@ FEATURES:
 - geany menu integration
 - toolbar buttons
 - ellipsize file names at the left in stack and breaks windows (buttons to switch full path or file names mode)
-- switch break in the break window through clicking a break icon (add icon for a file)
 - margin context menu
 - step back
 - tree views column width/autowidth

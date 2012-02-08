@@ -59,7 +59,12 @@ debugger_la_SOURCES = \
 	watch_model.c     \
 	watch_model.h     \
 	wtree.c     \
-	wtree.h
+	wtree.h		\
+	cell_renderers/cellrendererbreakicon.c \
+	cell_renderers/cellrendererbreakicon.h \
+	cell_renderers/cellrenderertoggle.c \
+	cell_renderers/cellrenderertoggle.h
+	
 
 debugger_la_LIBADD = $(COMMONLIBS) $(VTE_LIBS) -lutil
 debugger_la_CFLAGS = $(AM_CFLAGS) $(VTE_CFLAGS) -DDBGPLUG_DATA_DIR=\"$(plugindatadir)\" -DPLUGIN_NAME=\"$(plugin)\"
