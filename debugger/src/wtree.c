@@ -64,9 +64,11 @@ static void add_empty_row()
 		W_NAME, "",
 		W_VALUE, "",
 		W_TYPE, "",
+		W_LAST_VISIBLE, "",
 		W_INTERNAL, "",
 		W_EXPRESSION, "",
-		W_VALUE, "",
+		W_STUB, 0,
+		W_CHANGED, 0,
 		W_VT, VT_NONE,
 		-1);
 
@@ -79,7 +81,7 @@ static void add_empty_row()
 /*
  * name column renderer
  */
-void on_render_name(GtkTreeViewColumn *tree_column,
+static void on_render_name(GtkTreeViewColumn *tree_column,
 	 GtkCellRenderer *cell,
 	 GtkTreeModel *tree_model,
 	 GtkTreeIter *iter,

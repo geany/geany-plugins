@@ -483,7 +483,7 @@ gboolean on_watch_button_pressed_callback(GtkWidget *treeview, GdkEventButton *e
 			gchar *expression = NULL;
 			gtk_tree_model_get(model, &iter,
 				W_EXPRESSION, &expression,
-			    NULL);
+			    -1);
 
 			if (strlen(expression))
 			{

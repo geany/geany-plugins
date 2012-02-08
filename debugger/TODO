@@ -5,6 +5,7 @@ BUGS:
 
 FEATURES:
 - custom tooltip with sticking facilities
+- don't hide a tooltip until run hasn't happent, move it if document is being scrolled
 - use lexer to lookup for a symbol under cursor when presenting a tooltip
 - jump to a frame (change frame that affects locals, watch etc., caused by clicking a frame in the stack trace tab/margin stack marker)
 - geany menu integration
@@ -17,3 +18,5 @@ FEATURES:
 - attach functionality: dbm_ methods providing target lists, common dialog
 - android support
 - bashdb support
+- windows support
+- gdb backend step speed
