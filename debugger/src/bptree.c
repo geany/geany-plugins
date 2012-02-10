@@ -150,6 +150,65 @@ static void update_file_node(GtkTreeIter *file_iter)
 }
 
 /* 
+ * shows a tooltip for a file name
+ */
+static gboolean on_query_tooltip(GtkWidget *widget, gint x, gint y, gboolean keyboard_mode, GtkTooltip *tooltip, gpointer user_data)
+{
+	gboolean show = FALSE;
+	int bx, by;
+	gtk_tree_view_convert_widget_to_bin_window_coords(GTK_TREE_VIEW(widget), x, y, &bx, &by);
+
+	GtkTreePath *tpath = NULL;
+	GtkTreeViewColumn *column = NULL;
+	if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(widget), bx, by, &tpath, &column, NULL, NULL))
+	{
+		if (1 == gtk_tree_path_get_depth(tpath) && column == gtk_tree_view_get_column(GTK_TREE_VIEW(widget), FILEPATH))
+		{
+			GtkTreeIter iter;
+			gtk_tree_model_get_iter(model, &iter, tpath);
+			
+			gchar *path = NULL;
+			gtk_tree_model_get(model, &iter, FILEPATH, &path, -1);
+
+			gtk_tooltip_set_text(tooltip, path);
+			
+			gtk_tree_view_set_tooltip_row(GTK_TREE_VIEW(widget), tooltip, tpath);
+
+			show = TRUE;
+		}
+		gtk_tree_path_free(tpath);
+	}
+	
+	return show;
+}
+
+/* 
+ * shows only the file name instead of a full path
+ */
+static void on_render_filename(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeModel *tree_model,
+	GtkTreeIter *iter, gpointer data)
+{
+	gchar *path = NULL;
+	gtk_tree_model_get(model, iter, FILEPATH, &path, -1);
+
+	GtkTreePath *tpath = gtk_tree_model_get_path(model, iter);
+	if (1 != gtk_tree_path_get_depth(tpath))
+	{
+		g_object_set(cell, "text", path, NULL);
+	}
+	else
+	{
+		const gchar *name = g_basename(path);
+		g_object_set(cell, "text", name ? name : path, NULL);
+	}
+	
+	if (path)
+	{
+		g_free(path);
+	}
+}
+
+/* 
  * hides file checkbox for breaks rows
  */
 void on_render_enable_for_file(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeModel *tree_model,
@@ -560,6 +619,7 @@ gboolean bptree_init(move_to_line_cb cb)
 	
 	/* set tree view properties */
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(tree), 1);
+	gtk_widget_set_has_tooltip(GTK_WIDGET(tree), TRUE);
 	/* multiple selection */
 	GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_MULTIPLE);
@@ -567,6 +627,7 @@ gboolean bptree_init(move_to_line_cb cb)
 	/* connect signals */
 	g_signal_connect(G_OBJECT(tree), "key-press-event", G_CALLBACK (on_key_pressed), NULL);
 	g_signal_connect(G_OBJECT(tree), "row-activated", G_CALLBACK (on_row_double_click), NULL);
+	g_signal_connect(G_OBJECT(tree), "query-tooltip", G_CALLBACK (on_query_tooltip), NULL);
 
 	/* creating columns */
 	GtkTreeViewColumn	*column;
@@ -575,7 +636,7 @@ gboolean bptree_init(move_to_line_cb cb)
 	GtkCellRenderer *renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_pack_end(column, renderer, TRUE);
-	gtk_tree_view_column_set_attributes(column, renderer, "text", FILEPATH, NULL);
+	gtk_tree_view_column_set_cell_data_func(column, renderer, on_render_filename, NULL, NULL);
 		
 	/* enable for file */
 	GtkCellRenderer *file_enable_renderer = cell_renderer_toggle_new ();
