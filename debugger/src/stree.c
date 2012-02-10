@@ -66,6 +66,56 @@ static GtkCellRenderer *renderer_arrow, *renderer_address, *renderer_funtion, *r
 /* flag to indicate whether to handle selection change */
 static gboolean handle_selection = TRUE;
 
+/* 
+ * shows a tooltip for a file name
+ */
+static gboolean on_query_tooltip(GtkWidget *widget, gint x, gint y, gboolean keyboard_mode, GtkTooltip *tooltip, gpointer user_data)
+{
+	gboolean show = FALSE;
+	int bx, by;
+	gtk_tree_view_convert_widget_to_bin_window_coords(GTK_TREE_VIEW(widget), x, y, &bx, &by);
+
+	GtkTreePath *tpath = NULL;
+	GtkTreeViewColumn *column = NULL;
+	if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(widget), bx, by, &tpath, &column, NULL, NULL))
+	{
+		if (column == gtk_tree_view_get_column(GTK_TREE_VIEW(widget), S_FILEPATH))
+		{
+			GtkTreeIter iter;
+			gtk_tree_model_get_iter(model, &iter, tpath);
+			
+			gchar *path = NULL;
+			gtk_tree_model_get(model, &iter, S_FILEPATH, &path, -1);
+
+			gtk_tooltip_set_text(tooltip, path);
+			
+			gtk_tree_view_set_tooltip_row(GTK_TREE_VIEW(widget), tooltip, tpath);
+
+			show = TRUE;
+		}
+		gtk_tree_path_free(tpath);
+	}
+	
+	return show;
+}
+
+/* 
+ * shows only the file name instead of a full path
+ */
+static void on_render_filename(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeModel *tree_model,
+	GtkTreeIter *iter, gpointer data)
+{
+	gchar *path = NULL;
+	gtk_tree_model_get(model, iter, S_FILEPATH, &path, -1);
+	const gchar *name = g_basename(path);
+	g_object_set(cell, "text", name ? name : path, NULL);
+	
+	if (path)
+	{
+		g_free(path);
+	}
+}
+
 /*
  *  Handles same tree row click to open frame position
  */
@@ -173,10 +223,11 @@ GtkWidget* stree_init(move_to_line_cb cb)
 	
 	/* set tree view properties */
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(tree), 1);
-
+	gtk_widget_set_has_tooltip(GTK_WIDGET(tree), TRUE);
+	
 	/* connect signals */
-	g_signal_connect(G_OBJECT(gtk_tree_view_get_selection(GTK_TREE_VIEW(tree))), "changed",
-	                 G_CALLBACK (on_selection_changed), NULL);
+	g_signal_connect(G_OBJECT(gtk_tree_view_get_selection(GTK_TREE_VIEW(tree))), "changed", G_CALLBACK (on_selection_changed), NULL);
+	g_signal_connect(G_OBJECT(tree), "query-tooltip", G_CALLBACK (on_query_tooltip), NULL);
 
 	/* for clicking on already selected frame */
 	g_signal_connect(tree, "button-press-event",
@@ -205,9 +256,10 @@ GtkWidget* stree_init(move_to_line_cb cb)
 	
 	/* file */
 	renderer_file = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("File"), renderer_file, "text", S_FILEPATH, NULL);
+	column = gtk_tree_view_column_new_with_attributes (_("File"), renderer_file, NULL);
 	gtk_tree_view_column_set_resizable (column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
+	gtk_tree_view_column_set_cell_data_func(column, renderer_file, on_render_filename, NULL, NULL);
 	
 	/* line */
 	renderer_line = gtk_cell_renderer_text_new ();

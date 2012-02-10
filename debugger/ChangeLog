@@ -1,3 +1,7 @@
+10-02-2012 	Alexander Petukhov <devel@apetukhov.ru>
+
+	* file paths in stack and breaks are truncated to file names, full paths are shown in the tooltips  
+
 09-02-2012 	Alexander Petukhov <devel@apetukhov.ru>
 
 	* switch break in the break window through clicking a break icon, all breaks for a file - by a file checkbox(moved to the left)
