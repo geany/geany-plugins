@@ -1790,6 +1790,8 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 			{
 				m=FindMacroByName(cTemp);
 				EditMacroElements(m);
+				/* Signal that macros have changed (and need to be saved) */
+				bMacrosHaveChanged=TRUE;
 			}
 		
 			/* free memory */
