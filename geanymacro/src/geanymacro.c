@@ -55,103 +55,103 @@ typedef struct
 
 /* list of editor messages this plugin can handle & a description */
 const MacroDetailEntry MacroDetails[]={
-{SCI_CUT,N_("Cut to Clipboard")},
-{SCI_COPY,N_("Copy to Clipboard")},
-{SCI_PASTE,N_("Paste from Clipboard")},
-{SCI_LINECUT,N_("Cut current line to Clipboard")},
-{SCI_LINECOPY,N_("Copy current line to Clipboard")},
+{SCI_CUT,_("Cut to Clipboard")},
+{SCI_COPY,_("Copy to Clipboard")},
+{SCI_PASTE,_("Paste from Clipboard")},
+{SCI_LINECUT,_("Cut current line to Clipboard")},
+{SCI_LINECOPY,_("Copy current line to Clipboard")},
 
-{SCI_DELETEBACK,N_("Delete character to the left")},
-{SCI_CLEAR,N_("Delete character to the right")},
-{SCI_DELETEBACKNOTLINE,N_("Delete character to the left (but not newline)")},
-{SCI_DELWORDLEFT,N_("Delete up to start of word to the Left")},
-{SCI_DELWORDRIGHT,N_("Delete up to start of word to the Right")},
-{SCI_DELWORDRIGHTEND,N_("Delete up to end of word to the Right")},
-{SCI_DELLINELEFT,N_("Delete to begining of line")},
-{SCI_DELLINERIGHT,N_("Delete to end of line")},
-{SCI_LINEDELETE,N_("Delete current line")},
-{SCI_BACKTAB,N_("Backwards Tab (deletes tab if nothing after it)")},
+{SCI_DELETEBACK,_("Delete character to the left")},
+{SCI_CLEAR,_("Delete character to the right")},
+{SCI_DELETEBACKNOTLINE,_("Delete character to the left (but not newline)")},
+{SCI_DELWORDLEFT,_("Delete up to start of word to the Left")},
+{SCI_DELWORDRIGHT,_("Delete up to start of word to the Right")},
+{SCI_DELWORDRIGHTEND,_("Delete up to end of word to the Right")},
+{SCI_DELLINELEFT,_("Delete to begining of line")},
+{SCI_DELLINERIGHT,_("Delete to end of line")},
+{SCI_LINEDELETE,_("Delete current line")},
+{SCI_BACKTAB,_("Backwards Tab (deletes tab if nothing after it)")},
 
-{SCI_LINESCROLLDOWN,N_("Scroll Display down a line")},
-{SCI_LINESCROLLUP,N_("Scroll Display up a line")},
-{SCI_ZOOMIN,N_("Zoom view in")},
-{SCI_ZOOMOUT,N_("Zoom view out")},
+{SCI_LINESCROLLDOWN,_("Scroll Display down a line")},
+{SCI_LINESCROLLUP,_("Scroll Display up a line")},
+{SCI_ZOOMIN,_("Zoom view in")},
+{SCI_ZOOMOUT,_("Zoom view out")},
 
-{SCI_LINEDOWN,N_("Move Cursor Down")},
-{SCI_LINEUP,N_("Move Cursor Up")},
-{SCI_CHARLEFT,N_("Move Cursor Left")},
-{SCI_CHARRIGHT,N_("Move Cursor Right")},
-{SCI_WORDLEFT,N_("Move Cursor to start of Word to the Left")},
-{SCI_WORDRIGHT,N_("Move Cursor to start of Word to the Right")},
-{SCI_WORDPARTLEFT,N_("Move Cursor to start of Part of Word to the Left")},
-{SCI_WORDPARTRIGHT,N_("Move Cursor to start of Part of Word to the Right")},
-{SCI_HOME,N_("Move Cursor to start of line")},
-{SCI_LINEEND,N_("Move Cursor to end of line")},
-{SCI_DOCUMENTSTART,N_("Move Cursor to 1st line of Document")},
-{SCI_DOCUMENTEND,N_("Move Cursor to last line of document")},
-{SCI_PAGEUP,N_("Move Cursor up one Page")},
-{SCI_PAGEDOWN,N_("Move Cursor down one Page")},
-{SCI_HOMEDISPLAY,N_("Move Cursor to fist visible character")},
-{SCI_LINEENDDISPLAY,N_("Move Cursor to last visible character")},
-{SCI_VCHOME,N_("Move Cursor to 1st non-whitespace character of line, or 1st character of line if\
+{SCI_LINEDOWN,_("Move Cursor Down")},
+{SCI_LINEUP,_("Move Cursor Up")},
+{SCI_CHARLEFT,_("Move Cursor Left")},
+{SCI_CHARRIGHT,_("Move Cursor Right")},
+{SCI_WORDLEFT,_("Move Cursor to start of Word to the Left")},
+{SCI_WORDRIGHT,_("Move Cursor to start of Word to the Right")},
+{SCI_WORDPARTLEFT,_("Move Cursor to start of Part of Word to the Left")},
+{SCI_WORDPARTRIGHT,_("Move Cursor to start of Part of Word to the Right")},
+{SCI_HOME,_("Move Cursor to start of line")},
+{SCI_LINEEND,_("Move Cursor to end of line")},
+{SCI_DOCUMENTSTART,_("Move Cursor to 1st line of Document")},
+{SCI_DOCUMENTEND,_("Move Cursor to last line of document")},
+{SCI_PAGEUP,_("Move Cursor up one Page")},
+{SCI_PAGEDOWN,_("Move Cursor down one Page")},
+{SCI_HOMEDISPLAY,_("Move Cursor to fist visible character")},
+{SCI_LINEENDDISPLAY,_("Move Cursor to last visible character")},
+{SCI_VCHOME,_("Move Cursor to 1st non-whitespace character of line, or 1st character of line if\
  already at 1st non-whitespace character")},
-{SCI_PARADOWN,N_("Move Cursor to begining of next paragraph")},
-{SCI_PARAUP,N_("Move Cursor up to beginning of current/previous paragraph")},
-{SCI_WORDLEFTEND,N_("Move Cursor to end of Word to the Left")},
-{SCI_WORDRIGHTEND,N_("Move Cursor to end of Word to the Right")},
+{SCI_PARADOWN,_("Move Cursor to begining of next paragraph")},
+{SCI_PARAUP,_("Move Cursor up to beginning of current/previous paragraph")},
+{SCI_WORDLEFTEND,_("Move Cursor to end of Word to the Left")},
+{SCI_WORDRIGHTEND,_("Move Cursor to end of Word to the Right")},
 
-{SCI_LINEDOWNEXTEND,N_("Move Selection down a line")},
-{SCI_LINEUPEXTEND,N_("Move Selection up a line")},
-{SCI_CHARLEFTEXTEND,N_("Move Selection Left a line")},
-{SCI_CHARRIGHTEXTEND,N_("Move Selection Right a line")},
-{SCI_WORDLEFTEXTEND,N_("Move Selection to start of Word to the Left")},
-{SCI_WORDRIGHTEXTEND,N_("Move Selection to start of Word to the Right")},
-{SCI_WORDPARTLEFTEXTEND,N_("Move Selection to start of Part of Word to the Left")},
-{SCI_WORDPARTRIGHTEXTEND,N_("Move Selection to start of Part of Word to the Right")},
-{SCI_HOMEEXTEND,N_("Move Selection to start of line")},
-{SCI_LINEENDEXTEND,N_("Move Selection to end of line")},
-{SCI_DOCUMENTSTARTEXTEND,N_("Move Selection to start of document")},
-{SCI_DOCUMENTENDEXTEND,N_("Move Selection to end of document")},
-{SCI_PAGEUPEXTEND,N_("Move Selection up one Page")},
-{SCI_PAGEDOWNEXTEND,N_("Move Selection down one Page")},
-{SCI_HOMEDISPLAYEXTEND,N_("Move Selection to fist visible character")},
-{SCI_LINEENDDISPLAYEXTEND,N_("Move Selection to last visible character")},
-{SCI_VCHOMEEXTEND,N_("Move Selection to 1st non-whitespace character of line, or 1st character of\
+{SCI_LINEDOWNEXTEND,_("Move Selection down a line")},
+{SCI_LINEUPEXTEND,_("Move Selection up a line")},
+{SCI_CHARLEFTEXTEND,_("Move Selection Left a line")},
+{SCI_CHARRIGHTEXTEND,_("Move Selection Right a line")},
+{SCI_WORDLEFTEXTEND,_("Move Selection to start of Word to the Left")},
+{SCI_WORDRIGHTEXTEND,_("Move Selection to start of Word to the Right")},
+{SCI_WORDPARTLEFTEXTEND,_("Move Selection to start of Part of Word to the Left")},
+{SCI_WORDPARTRIGHTEXTEND,_("Move Selection to start of Part of Word to the Right")},
+{SCI_HOMEEXTEND,_("Move Selection to start of line")},
+{SCI_LINEENDEXTEND,_("Move Selection to end of line")},
+{SCI_DOCUMENTSTARTEXTEND,_("Move Selection to start of document")},
+{SCI_DOCUMENTENDEXTEND,_("Move Selection to end of document")},
+{SCI_PAGEUPEXTEND,_("Move Selection up one Page")},
+{SCI_PAGEDOWNEXTEND,_("Move Selection down one Page")},
+{SCI_HOMEDISPLAYEXTEND,_("Move Selection to fist visible character")},
+{SCI_LINEENDDISPLAYEXTEND,_("Move Selection to last visible character")},
+{SCI_VCHOMEEXTEND,_("Move Selection to 1st non-whitespace character of line, or 1st character of\
  line if already at 1st non-whitespace character")},
-{SCI_PARADOWNEXTEND,N_("Move Selection to begining of next paragraph")},
-{SCI_PARAUPEXTEND,N_("Move Selection up to beginning of current/previous paragraph")},
-{SCI_WORDLEFTENDEXTEND,N_("Move Selection to end of Word to the Left")},
-{SCI_WORDRIGHTENDEXTEND,N_("Move Selection to end of Word to the Right")},
+{SCI_PARADOWNEXTEND,_("Move Selection to begining of next paragraph")},
+{SCI_PARAUPEXTEND,_("Move Selection up to beginning of current/previous paragraph")},
+{SCI_WORDLEFTENDEXTEND,_("Move Selection to end of Word to the Left")},
+{SCI_WORDRIGHTENDEXTEND,_("Move Selection to end of Word to the Right")},
 
-{SCI_LINEDOWNRECTEXTEND,N_("Move Rectangular Selection down a line")},
-{SCI_LINEUPRECTEXTEND,N_("Move Rectangular Selection up a line")},
-{SCI_CHARLEFTRECTEXTEND,N_("Move Rectangular Selection Left a line")},
-{SCI_CHARRIGHTRECTEXTEND,N_("Move Rectangular Selection Right a line")},
-{SCI_HOMERECTEXTEND,N_("Move Rectangular Selection to start of line")},
-{SCI_LINEENDRECTEXTEND,N_("Move Rectangular Selection to end of line")},
-{SCI_PAGEUPRECTEXTEND,N_("Move Rectangular Selection up one Page")},
-{SCI_PAGEDOWNRECTEXTEND,N_("Move Rectangular Selection down one Page")},
-{SCI_VCHOMERECTEXTEND,N_("Move Rectangular Selection to 1st non-whitespace character of line, or 1st\
+{SCI_LINEDOWNRECTEXTEND,_("Move Rectangular Selection down a line")},
+{SCI_LINEUPRECTEXTEND,_("Move Rectangular Selection up a line")},
+{SCI_CHARLEFTRECTEXTEND,_("Move Rectangular Selection Left a line")},
+{SCI_CHARRIGHTRECTEXTEND,_("Move Rectangular Selection Right a line")},
+{SCI_HOMERECTEXTEND,_("Move Rectangular Selection to start of line")},
+{SCI_LINEENDRECTEXTEND,_("Move Rectangular Selection to end of line")},
+{SCI_PAGEUPRECTEXTEND,_("Move Rectangular Selection up one Page")},
+{SCI_PAGEDOWNRECTEXTEND,_("Move Rectangular Selection down one Page")},
+{SCI_VCHOMERECTEXTEND,_("Move Rectangular Selection to 1st non-whitespace character of line, or 1st\
  character of line if already at 1st non-whitespace character")},
 
-{SCI_CANCEL,N_("Cancel Selection")},
+{SCI_CANCEL,_("Cancel Selection")},
 
-{SCI_EDITTOGGLEOVERTYPE,N_("Toggle Insert/Overwrite mode")},
-{SCI_TAB,N_("Tab")},
-{SCI_NEWLINE,N_("Newline")},
+{SCI_EDITTOGGLEOVERTYPE,_("Toggle Insert/Overwrite mode")},
+{SCI_TAB,_("Tab")},
+{SCI_NEWLINE,_("Newline")},
 
-{SCI_REPLACESEL,N_("Insert/replace with \"\"")},
+{SCI_REPLACESEL,_("Insert/replace with \"\"")},
 
-{SCI_LINETRANSPOSE,N_("Swap current line wih one above")},
-{SCI_LOWERCASE,N_("Change selected text to lowercase")},
-{SCI_UPPERCASE,N_("Change selected text to uppercase")},
+{SCI_LINETRANSPOSE,_("Swap current line wih one above")},
+{SCI_LOWERCASE,_("Change selected text to lowercase")},
+{SCI_UPPERCASE,_("Change selected text to uppercase")},
 
-{SCI_LINEDUPLICATE,N_("Insert duplicate of current line below")},
-{SCI_SELECTIONDUPLICATE,N_("Insert duplicate of selected text after selection. If nothing selected,\
+{SCI_LINEDUPLICATE,_("Insert duplicate of current line below")},
+{SCI_SELECTIONDUPLICATE,_("Insert duplicate of selected text after selection. If nothing selected,\
  duplicate line")},
 
 /* editor commands that don't seem to work well in editing 
- * {SCI_FORMFEED,N_("FormFeed")},
+ * {SCI_FORMFEED,_("FormFeed")},
  *
  * other commands ommited as they don't appear to do anything different to existing commands
 */
@@ -178,7 +178,7 @@ GeanyFunctions  *geany_functions;
 PLUGIN_VERSION_CHECK(147)
 
 PLUGIN_SET_INFO(_("Macros"),_("Macros for Geany"),
-                "1.0","William Fraser <william.fraser@virgin.net>");
+                "0.1","William Fraser <william.fraser@virgin.net>");
 
 /* Plugin user alterable settings */
 static gboolean bSaveMacros=TRUE;
@@ -842,7 +842,7 @@ static gboolean Key_Released_CallBack(GtkWidget *widget, GdkEventKey *ev, gpoint
 */
 static gboolean UseableAccel(guint key,guint mod)
 {
-	gint i,k;
+	gint i;
 	guint u,t;
 	GSList *gsl;
 
@@ -851,7 +851,7 @@ static gboolean UseableAccel(guint key,guint mod)
 	/* loop through all the accelerator groups until we either find one that matches the key (k!=0)
 	 * or we don't (k==0)
 	*/
-	for(u=0,k=0;u<g_slist_length(gsl);u++)
+	for(u=0;u<g_slist_length(gsl);u++)
 	{
 		gtk_accel_group_query((GtkAccelGroup*)((g_slist_nth(gsl,u))->data),key,mod,&t);
 		if(t!=0)
@@ -1306,7 +1306,6 @@ static void DoEditMacroElementsSelectionChanged(GtkTreeSelection *selection,gpoi
 	GtkWidget *button;
 	GtkDialog *dialog;
 	GtkTreePath *tpTemp;
-	gint *indices;
 
 	dialog=GTK_DIALOG(data);
 
