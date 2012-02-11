@@ -84,10 +84,10 @@ W:
 S:
 
 geanymacro
-P:
-M:
-W:
-S:
+P: William Fraser <william.fraser@virgin.net>
+M: William Fraser <william.fraser@virgin.net>
+W: http://plugins.geany.org/geanymacro.html
+S: Maintained
 
 geanyminiscript
 P: Eugene Arshinov <earshinov@gmail.com>
@@ -96,10 +96,10 @@ W:
 S: Maintained
 
 geanynumberedbookmarks
-P:
-M:
-W:
-S:
+P: William Fraser <william.fraser@virgin.net>
+M: William Fraser <william.fraser@virgin.net>
+W: http://plugins.geany.org/geanynumberedbookmarks.html
+S: Maintained
 
 geanypg
 P:

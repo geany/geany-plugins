@@ -46,6 +46,131 @@ typedef struct
 	GSList *MacroEvents;
 } Macro;
 
+/* structure to hold details of Macro for macro editor */
+typedef struct
+{
+	gint message;
+	gchar *description;
+} MacroDetailEntry;
+
+/* list of editor messages this plugin can handle & a description */
+const MacroDetailEntry MacroDetails[]={
+{SCI_CUT,N_("Cut to Clipboard")},
+{SCI_COPY,N_("Copy to Clipboard")},
+{SCI_PASTE,N_("Paste from Clipboard")},
+{SCI_LINECUT,N_("Cut current line to Clipboard")},
+{SCI_LINECOPY,N_("Copy current line to Clipboard")},
+
+{SCI_DELETEBACK,N_("Delete character to the left")},
+{SCI_CLEAR,N_("Delete character to the right")},
+{SCI_DELETEBACKNOTLINE,N_("Delete character to the left (but not newline)")},
+{SCI_DELWORDLEFT,N_("Delete up to start of word to the Left")},
+{SCI_DELWORDRIGHT,N_("Delete up to start of word to the Right")},
+{SCI_DELWORDRIGHTEND,N_("Delete up to end of word to the Right")},
+{SCI_DELLINELEFT,N_("Delete to begining of line")},
+{SCI_DELLINERIGHT,N_("Delete to end of line")},
+{SCI_LINEDELETE,N_("Delete current line")},
+{SCI_BACKTAB,N_("Backwards Tab (deletes tab if nothing after it)")},
+
+{SCI_LINESCROLLDOWN,N_("Scroll Display down a line")},
+{SCI_LINESCROLLUP,N_("Scroll Display up a line")},
+{SCI_ZOOMIN,N_("Zoom view in")},
+{SCI_ZOOMOUT,N_("Zoom view out")},
+
+{SCI_LINEDOWN,N_("Move Cursor Down")},
+{SCI_LINEUP,N_("Move Cursor Up")},
+{SCI_CHARLEFT,N_("Move Cursor Left")},
+{SCI_CHARRIGHT,N_("Move Cursor Right")},
+{SCI_WORDLEFT,N_("Move Cursor to start of Word to the Left")},
+{SCI_WORDRIGHT,N_("Move Cursor to start of Word to the Right")},
+{SCI_WORDPARTLEFT,N_("Move Cursor to start of Part of Word to the Left")},
+{SCI_WORDPARTRIGHT,N_("Move Cursor to start of Part of Word to the Right")},
+{SCI_HOME,N_("Move Cursor to start of line")},
+{SCI_LINEEND,N_("Move Cursor to end of line")},
+{SCI_DOCUMENTSTART,N_("Move Cursor to 1st line of Document")},
+{SCI_DOCUMENTEND,N_("Move Cursor to last line of document")},
+{SCI_PAGEUP,N_("Move Cursor up one Page")},
+{SCI_PAGEDOWN,N_("Move Cursor down one Page")},
+{SCI_HOMEDISPLAY,N_("Move Cursor to fist visible character")},
+{SCI_LINEENDDISPLAY,N_("Move Cursor to last visible character")},
+{SCI_VCHOME,N_("Move Cursor to 1st non-whitespace character of line, or 1st character of line if\
+ already at 1st non-whitespace character")},
+{SCI_PARADOWN,N_("Move Cursor to begining of next paragraph")},
+{SCI_PARAUP,N_("Move Cursor up to beginning of current/previous paragraph")},
+{SCI_WORDLEFTEND,N_("Move Cursor to end of Word to the Left")},
+{SCI_WORDRIGHTEND,N_("Move Cursor to end of Word to the Right")},
+
+{SCI_LINEDOWNEXTEND,N_("Move Selection down a line")},
+{SCI_LINEUPEXTEND,N_("Move Selection up a line")},
+{SCI_CHARLEFTEXTEND,N_("Move Selection Left a line")},
+{SCI_CHARRIGHTEXTEND,N_("Move Selection Right a line")},
+{SCI_WORDLEFTEXTEND,N_("Move Selection to start of Word to the Left")},
+{SCI_WORDRIGHTEXTEND,N_("Move Selection to start of Word to the Right")},
+{SCI_WORDPARTLEFTEXTEND,N_("Move Selection to start of Part of Word to the Left")},
+{SCI_WORDPARTRIGHTEXTEND,N_("Move Selection to start of Part of Word to the Right")},
+{SCI_HOMEEXTEND,N_("Move Selection to start of line")},
+{SCI_LINEENDEXTEND,N_("Move Selection to end of line")},
+{SCI_DOCUMENTSTARTEXTEND,N_("Move Selection to start of document")},
+{SCI_DOCUMENTENDEXTEND,N_("Move Selection to end of document")},
+{SCI_PAGEUPEXTEND,N_("Move Selection up one Page")},
+{SCI_PAGEDOWNEXTEND,N_("Move Selection down one Page")},
+{SCI_HOMEDISPLAYEXTEND,N_("Move Selection to fist visible character")},
+{SCI_LINEENDDISPLAYEXTEND,N_("Move Selection to last visible character")},
+{SCI_VCHOMEEXTEND,N_("Move Selection to 1st non-whitespace character of line, or 1st character of\
+ line if already at 1st non-whitespace character")},
+{SCI_PARADOWNEXTEND,N_("Move Selection to begining of next paragraph")},
+{SCI_PARAUPEXTEND,N_("Move Selection up to beginning of current/previous paragraph")},
+{SCI_WORDLEFTENDEXTEND,N_("Move Selection to end of Word to the Left")},
+{SCI_WORDRIGHTENDEXTEND,N_("Move Selection to end of Word to the Right")},
+
+{SCI_LINEDOWNRECTEXTEND,N_("Move Rectangular Selection down a line")},
+{SCI_LINEUPRECTEXTEND,N_("Move Rectangular Selection up a line")},
+{SCI_CHARLEFTRECTEXTEND,N_("Move Rectangular Selection Left a line")},
+{SCI_CHARRIGHTRECTEXTEND,N_("Move Rectangular Selection Right a line")},
+{SCI_HOMERECTEXTEND,N_("Move Rectangular Selection to start of line")},
+{SCI_LINEENDRECTEXTEND,N_("Move Rectangular Selection to end of line")},
+{SCI_PAGEUPRECTEXTEND,N_("Move Rectangular Selection up one Page")},
+{SCI_PAGEDOWNRECTEXTEND,N_("Move Rectangular Selection down one Page")},
+{SCI_VCHOMERECTEXTEND,N_("Move Rectangular Selection to 1st non-whitespace character of line, or 1st\
+ character of line if already at 1st non-whitespace character")},
+
+{SCI_CANCEL,N_("Cancel Selection")},
+
+{SCI_EDITTOGGLEOVERTYPE,N_("Toggle Insert/Overwrite mode")},
+{SCI_TAB,N_("Tab")},
+{SCI_NEWLINE,N_("Newline")},
+
+{SCI_REPLACESEL,N_("Insert/replace with \"\"")},
+
+{SCI_LINETRANSPOSE,N_("Swap current line wih one above")},
+{SCI_LOWERCASE,N_("Change selected text to lowercase")},
+{SCI_UPPERCASE,N_("Change selected text to uppercase")},
+
+{SCI_LINEDUPLICATE,N_("Insert duplicate of current line below")},
+{SCI_SELECTIONDUPLICATE,N_("Insert duplicate of selected text after selection. If nothing selected,\
+ duplicate line")},
+
+/* editor commands that don't seem to work well in editing 
+ * {SCI_FORMFEED,N_("FormFeed")},
+ *
+ * other commands ommited as they don't appear to do anything different to existing commands
+*/
+{0,NULL}
+};
+
+/* define IDs for dialog buttons */
+enum GEANY_MACRO_BUTTON {
+	GEANY_MACRO_BUTTON_CANCEL,
+	GEANY_MACRO_BUTTON_DELETE,
+	GEANY_MACRO_BUTTON_EDIT,
+	GEANY_MACRO_BUTTON_RERECORD,
+	GEANY_MACRO_BUTTON_UP,
+	GEANY_MACRO_BUTTON_DOWN,
+	GEANY_MACRO_BUTTON_ABOVE,
+	GEANY_MACRO_BUTTON_BELOW,
+	GEANY_MACRO_BUTTON_APPLY
+};
+
 GeanyPlugin     *geany_plugin;
 GeanyData       *geany_data;
 GeanyFunctions  *geany_functions;
@@ -53,7 +178,7 @@ GeanyFunctions  *geany_functions;
 PLUGIN_VERSION_CHECK(147)
 
 PLUGIN_SET_INFO(_("Macros"),_("Macros for Geany"),
-                "0.1","William Fraser <william.fraser@virgin.net>");
+                "1.0","William Fraser <william.fraser@virgin.net>");
 
 /* Plugin user alterable settings */
 static gboolean bSaveMacros=TRUE;
@@ -93,9 +218,9 @@ static GSList * ClearMacroList(GSList *gsl)
 		gslTemp=g_slist_next(gslTemp);
 	}
 
-     g_slist_free(gsl);
+		g_slist_free(gsl);
 
-    return NULL;
+		return NULL;
 }
 
 
@@ -310,78 +435,34 @@ static gchar *MacroEventToString(MacroEvent *me)
 static gboolean Notification_Handler(GObject *obj, GeanyEditor *editor, SCNotification *nt,
                                      gpointer user_data)
 {
-  MacroEvent *me;
+	MacroEvent *me;
+	gint i;
 
 	/* ignore non macro recording messages */
 	if(nt->nmhdr.code!=SCN_MACRORECORD)
 		return FALSE;
 
-	/* probably overkill as should not recieve SCN_MACRORECORD messages unless recording macros */
+	/* probably overkill as should not recieve SCN_MACRORECORD messages unless recording
+	 * macros
+	*/
 	if(RecordingMacro==NULL)
 		return FALSE;
 
 	/* check to see if it's a code we're happy to deal with */
-	switch(nt->message)
+	for(i=0;;i++)
 	{
-		case SCI_REPLACESEL:
-		case SCI_CUT:
-		case SCI_COPY:
-		case SCI_PASTE:
-		case SCI_CLEAR:
-		case SCI_LINEDOWN:
-		case SCI_LINEDOWNEXTEND:
-		case SCI_LINEUP:
-		case SCI_LINEUPEXTEND:
-		case SCI_CHARLEFT:
-		case SCI_CHARLEFTEXTEND:
-		case SCI_CHARRIGHT:
-		case SCI_CHARRIGHTEXTEND:
-		case SCI_WORDLEFT:
-		case SCI_WORDLEFTEXTEND:
-		case SCI_WORDRIGHT:
-		case SCI_WORDRIGHTEXTEND:
-		case SCI_HOME:
-		case SCI_HOMEEXTEND:
-		case SCI_LINEEND:
-		case SCI_LINEENDEXTEND:
-		case SCI_DOCUMENTSTART:
-		case SCI_DOCUMENTSTARTEXTEND:
-		case SCI_DOCUMENTEND:
-		case SCI_DOCUMENTENDEXTEND:
-		case SCI_PAGEUP:
-		case SCI_PAGEUPEXTEND:
-		case SCI_PAGEDOWN:
-		case SCI_PAGEDOWNEXTEND:
-		case SCI_EDITTOGGLEOVERTYPE:
-		case SCI_CANCEL:
-		case SCI_DELETEBACK:
-		case SCI_TAB:
-		case SCI_BACKTAB:
-		case SCI_NEWLINE:
-		case SCI_FORMFEED:
-		case SCI_VCHOME:
-		case SCI_VCHOMEEXTEND:
-		case SCI_ZOOMIN:
-		case SCI_ZOOMOUT:
-		case SCI_DELWORDLEFT:
-		case SCI_DELWORDRIGHT:
-		case SCI_LINECUT:
-		case SCI_LINEDELETE:
-		case SCI_LINETRANSPOSE:
-		case SCI_LOWERCASE:
-		case SCI_UPPERCASE:
-		case SCI_LINESCROLLDOWN:
-		case SCI_LINESCROLLUP:
-		case SCI_DELETEBACKNOTLINE:
-		case SCI_HOMEDISPLAY:
-		case SCI_HOMEDISPLAYEXTEND:
-		case SCI_LINEENDDISPLAY:
-		case SCI_LINEENDDISPLAYEXTEND:
+		/* break if code we can deal with */
+		if(nt->message==MacroDetails[i].message)
 			break;
-		default:
+
+		/* got to end of codes without match: unrecognised */
+		if(MacroDetails[i].description==NULL)
+		{
 			dialogs_show_msgbox(GTK_MESSAGE_INFO,_("Unrecognised message\n%i %i %i"),nt->message,
 			                    (gint)(nt->wParam),(gint)(nt->lParam));
 			return FALSE;
+		}
+
 	}
 	me=g_new0(MacroEvent,1);
 	me->message=nt->message;
@@ -482,7 +563,7 @@ static void SaveSettings(void)
 			* first generate list of all macrodetails
 			*/
 			pszMacroStrings=(gchar **)
-							(g_malloc(sizeof(gchar *)*(g_slist_length(m->MacroEvents)+1)));
+				(g_malloc(sizeof(gchar *)*(g_slist_length(m->MacroEvents)+1)));
 			gslTemp=m->MacroEvents;
 			k=0;
 			while(gslTemp!=NULL)
@@ -679,11 +760,11 @@ void plugin_help(void)
 	GtkWidget *dialog,*label,*scroll;
 
 	/* create dialog box */
-  dialog=gtk_dialog_new_with_buttons(_("Geany Macros help"),
-        GTK_WINDOW(geany->main_widgets->window),
-        GTK_DIALOG_DESTROY_WITH_PARENT,
-        GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,
-        NULL);
+	dialog=gtk_dialog_new_with_buttons(_("Geany Macros help"),
+		GTK_WINDOW(geany->main_widgets->window),
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,
+		NULL);
 
 	/* create label */
 	label=gtk_label_new(
@@ -696,10 +777,15 @@ would automatically edit the line and move to the next. Select Record Macro from
 and you will be prompted with a dialog box. You need to specify a key combination that isn't being\
  used, and a name for the macro to help you identify it. Then press Record. What you do in the \
 editor is then recorded until you select Stop Recording Macro from the Tools menu. Simply pressing\
- the specified key combination will re-run the macro. To edit the macros you have select Edit \
+ the specified key combination will re-run the macro. To edit the macros you have, select Edit \
 Macro from the Tools menu. You can select a macro and delete it, or re-record it. You can also \
 click on a macro's name and change it, or the key combination and re-define that assuming that it's\
- not already in use.\n\n"
+ not already in use. Selecting the edit option allows you to view all the individual elements that \
+make up the macro. You can select a diferent command for each element, move them, add new elements,\
+ delete elements, or if it's replace/insert, you can edit the text that replaces the selected text,\
+ or is inserted.\n\n"
+		"The only thing to bear in mind is that undo and redo actions are not recorded, and\
+ won't be replayed when the macro is re-run.\n\n"
 		"You can alter the default behaviour of this plugin by selecting Plugin Manager under the \
 Tools menu, selecting this plugin, and cliking Preferences. You can change:\nSave Macros when \
 close Geany - If this is selected then Geany will save any recorded macros and reload them for use\
@@ -756,7 +842,7 @@ static gboolean Key_Released_CallBack(GtkWidget *widget, GdkEventKey *ev, gpoint
 */
 static gboolean UseableAccel(guint key,guint mod)
 {
-	gint i,k;
+	gint i;
 	guint u,t;
 	GSList *gsl;
 
@@ -765,7 +851,7 @@ static gboolean UseableAccel(guint key,guint mod)
 	/* loop through all the accelerator groups until we either find one that matches the key (k!=0)
 	 * or we don't (k==0)
 	*/
-	for(u=0,k=0;u<g_slist_length(gsl);u++)
+	for(u=0;u<g_slist_length(gsl);u++)
 	{
 		gtk_accel_group_query((GtkAccelGroup*)((g_slist_nth(gsl,u))->data),key,mod,&t);
 		if(t!=0)
@@ -867,8 +953,10 @@ static gboolean InitializeMacroRecord(void)
 	RecordingMacro->state=0;
 
 	/* create dialog box */
-	dialog=gtk_dialog_new();
-	gtk_window_set_title(GTK_WINDOW(dialog),_("Record Macro"));
+	dialog=gtk_dialog_new_with_buttons(_("Record Macro"),
+		GTK_WINDOW(geany->main_widgets->window),
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		NULL);
 
 	/* create buttons */
 	gtk_dialog_add_button(GTK_DIALOG(dialog),_("Record"),GTK_RESPONSE_OK);
@@ -915,8 +1003,7 @@ static gboolean InitializeMacroRecord(void)
 			*/
 			if(RecordingMacro->keyval==0 && RecordingMacro->state==0)
 			{
-				dialogs_show_msgbox(GTK_MESSAGE_INFO,
-									_("You must define a key trigger combination"));
+				dialogs_show_msgbox(GTK_MESSAGE_INFO,("You must define a key trigger combination"));
 				continue;
 			}
 
@@ -998,8 +1085,8 @@ static void DoMacroRecording(GtkMenuItem *menuitem, gpointer gdata)
 
 		/* start actual recording */
 		scintilla_send_message(document_get_current()->editor->sci,SCI_STARTRECORD,0,0);
-    gtk_widget_hide(Record_Macro_menu_item);
-    gtk_widget_show(Stop_Record_Macro_menu_item);
+		gtk_widget_hide(Record_Macro_menu_item);
+		gtk_widget_show(Stop_Record_Macro_menu_item);
 	}
 	else {
 		scintilla_send_message(document_get_current()->editor->sci,SCI_STOPRECORD,0,0);
@@ -1009,8 +1096,8 @@ static void DoMacroRecording(GtkMenuItem *menuitem, gpointer gdata)
 		AddMacroToList(RecordingMacro);
 		/* set ready to record new macro (don't free as macro has been saved in macrolist) */
 		RecordingMacro=NULL;
-    gtk_widget_show(Record_Macro_menu_item);
-    gtk_widget_hide(Stop_Record_Macro_menu_item);
+		gtk_widget_show(Record_Macro_menu_item);
+		gtk_widget_hide(Stop_Record_Macro_menu_item);
 
 		/* Macros have been changed */
 		bMacrosHaveChanged=TRUE;
@@ -1058,8 +1145,7 @@ static void Name_Render_Edited_CallBack(GtkCellRendererText *cell,gchar *iter_id
 	bMacrosHaveChanged=TRUE;
 }
 
-/* only allow render edit if GTK high enough version */
-#if GTK_CHECK_VERSION(2,10,0)
+
 /* handle a change in macro trigger accelerator key in the edit macro dialog */
 static void Accel_Render_Edited_CallBack(GtkCellRendererAccel *cell,gchar *iter_id,guint key,
                                          GdkModifierType mods,guint keycode,gpointer data)
@@ -1107,7 +1193,462 @@ static void Accel_Render_Edited_CallBack(GtkCellRendererAccel *cell,gchar *iter_
 
 	bMacrosHaveChanged=TRUE;
 }
-#endif
+
+
+static void EditSCIREPLACESELText(GtkTreeModel *model,GtkTreeIter *iter)
+{
+	GtkWidget *dialog,*gtke,*hbox,*gtkl;
+	gchar *cTemp,*cTemp2;
+	gint iReply=GTK_RESPONSE_OK;
+
+	/* create dialog box */
+	dialog=gtk_dialog_new_with_buttons(_("Edit Insert/Replace Text"),
+	                                   GTK_WINDOW(geany->main_widgets->window),
+	                                   GTK_DIALOG_DESTROY_WITH_PARENT,NULL);
+
+	/* create buttons */
+	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Ok"),GTK_RESPONSE_OK);
+	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Cancel"),GTK_RESPONSE_CANCEL);
+
+	/* create box to hold macro name entry box, and label */
+	hbox=gtk_hbox_new(FALSE,0);
+	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox),hbox);
+	gtk_widget_show(hbox);
+
+	gtkl=gtk_label_new(_("Text:"));
+	gtk_box_pack_start(GTK_BOX(hbox),gtkl,FALSE,FALSE,2);
+	gtk_widget_show(gtkl);
+
+	gtke=gtk_entry_new();
+	gtk_tree_model_get(model,iter,3,&cTemp,-1);
+	if(cTemp!=NULL)
+		gtk_entry_set_text(GTK_ENTRY(gtke),cTemp);
+
+	gtk_box_pack_start(GTK_BOX(hbox),gtke,FALSE,FALSE,2);
+	gtk_widget_show(gtke);
+
+	while(iReply==GTK_RESPONSE_OK)
+	{
+		iReply=gtk_dialog_run(GTK_DIALOG(dialog));
+
+		if(iReply==GTK_RESPONSE_OK)
+		{
+			/* handle change in text */
+
+			/* first free old text */
+			gtk_tree_model_get(model,iter,0,&cTemp2,3,&cTemp,-1);
+			g_free(cTemp);
+			g_free(cTemp2);
+
+			/* get new text */
+			cTemp=g_strdup((gchar*)gtk_entry_get_text((GtkEntry*)(gtke)));
+			cTemp2=g_strdup_printf(_("Insert/replace with \"%s\""),cTemp);
+
+			/* set text */
+			gtk_list_store_set(GTK_LIST_STORE(model),iter,0,cTemp2,3,cTemp,-1);
+
+			/* break out of loop */
+			break;
+		}
+
+	}
+
+	/* tidy up */
+	gtk_widget_destroy(dialog);
+}
+
+
+/* handle change in macro event in macro editor */
+static void combo_edited(GtkCellRendererText *cell,gchar *iter_id,gchar *new_text,gpointer data)
+{
+	GtkTreeView *treeview=(GtkTreeView *)data;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	MacroDetailEntry *mde;
+	gint i;
+	gchar *cTemp,*cTemp2;
+
+	/* find MacroDetails that has the setting of new setting */
+	i=0;
+	while(strcmp(MacroDetails[i].description,new_text)!=0)
+		i++;
+
+	/* Get the iterator for treeview*/
+	model=gtk_tree_view_get_model(treeview);
+	gtk_tree_model_get_iter_from_string(model,&iter,iter_id);
+
+	/* get MacroDetail and any additional string for this line */
+	gtk_tree_model_get(model,&iter,0,&cTemp2,2,&mde,3,&cTemp,-1);
+
+	/* handle freeing of string if needed */
+	g_free(cTemp);
+	if(mde->message==SCI_REPLACESEL)
+		g_free(cTemp2);
+
+	/* Update the model */
+	gtk_list_store_set(GTK_LIST_STORE(model),&iter,0,(MacroDetails[i].message==SCI_REPLACESEL?
+	                   g_strdup_printf(_("Insert/replace with \"\"")):MacroDetails[i].description),2,
+	                   &(MacroDetails[i]),3,NULL,-1);
+
+	/* check if changing to or from SCI_REPLACESEL and enable/disable edit button as needed */
+	if(mde->message==SCI_REPLACESEL || MacroDetails[i].message==SCI_REPLACESEL)
+		g_signal_emit_by_name(gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview)),"changed",
+		                      G_TYPE_NONE);
+}
+
+
+/* handle change in selection in DoEditMacro list */
+static void DoEditMacroElementsSelectionChanged(GtkTreeSelection *selection,gpointer data)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter,iter2;
+	MacroDetailEntry *mde;
+	GtkWidget *button;
+	GtkDialog *dialog;
+	GtkTreePath *tpTemp;
+
+	dialog=GTK_DIALOG(data);
+
+	/* check if have item selected & adjust buttons acordingly */
+	if(gtk_tree_selection_get_selected(selection,&model,&iter))
+	{
+		/* get details about this node */
+		gtk_tree_model_get(GTK_TREE_MODEL(model),&iter,2,&mde,-1);
+
+		/* find delete button & enable it*/
+		button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_DELETE);
+		gtk_widget_set_sensitive(button,TRUE);
+
+		/* find edit text button & enable it if looking at a SCI_REPLACESEL item*/
+		button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_EDIT);
+		gtk_widget_set_sensitive(button,mde->message==SCI_REPLACESEL);
+
+		/* get copy of iteraton */
+		iter2=iter;
+		/* if can move to next node then it's not the last. use to set Move down */
+		button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_DOWN);
+		gtk_widget_set_sensitive(button,gtk_tree_model_iter_next(GTK_TREE_MODEL(model),&iter2));
+
+		/* find Move up button & enable/disable it */
+		button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_UP);
+		/* get the path of the current selected line */
+		tpTemp=gtk_tree_model_get_path(GTK_TREE_MODEL(model),&iter);
+		/* if has previous then can be moved up a line */
+		gtk_widget_set_sensitive(button,gtk_tree_path_prev(tpTemp));
+		/* free Tree path */
+		gtk_tree_path_free(tpTemp);
+	}
+	/* no item selected */
+	else
+	{
+		/* find delete button & diable it*/
+		button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_DELETE);
+		gtk_widget_set_sensitive(button,FALSE);
+
+		/* find edit text button & diable it*/
+		button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_EDIT);
+		gtk_widget_set_sensitive(button,FALSE);
+
+		/* find Move up button & diable it*/
+		button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_UP);
+		gtk_widget_set_sensitive(button,FALSE);
+
+		/* find Move Down button & diable it*/
+		button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_DOWN);
+		gtk_widget_set_sensitive(button,FALSE);
+	}
+
+}
+
+
+/* edit individual existing macro */
+static void EditMacroElements(Macro *m)
+{
+	GtkWidget *table,*dialog;
+	GtkTreeViewColumn *column;
+	GtkCellRenderer *renderer;
+	GtkTreeSelection *selection;
+	GtkTreeIter iter,iterNew;
+	GtkListStore *ls;
+	GtkTreePath *gtkPath;
+	gint i;
+	GSList *gsl=m->MacroEvents;
+	gchar *cTitle,*cTemp,*cTemp2;
+	MacroEvent *me;
+	GtkListStore *lsCombo;
+	MacroDetailEntry *mde;
+	gboolean bHaveIter;
+
+	/* create dialog box */
+	cTitle=g_strdup_printf(_("Edit: %s"),m->name);
+	dialog=gtk_dialog_new_with_buttons(cTitle,GTK_WINDOW(geany->main_widgets->window),
+		GTK_DIALOG_DESTROY_WITH_PARENT,NULL);
+
+	/* create store to hold table data (2nd column holds number of macro value)
+	*/
+	ls=gtk_list_store_new(4,G_TYPE_STRING,G_TYPE_UINT,G_TYPE_POINTER,G_TYPE_POINTER);
+
+	while(gsl!=NULL)
+	{
+ 		me=(MacroEvent*)(gsl->data);
+		i=0;
+		while(MacroDetails[i].description!=NULL) {
+			if(MacroDetails[i].message==me->message) break;
+			i++;
+		}
+
+		gtk_list_store_append(ls,&iter);  /*  Acquire an iterator */
+		/* set text, pointer to macro detail, and any ascociated string */
+		gtk_list_store_set(ls,&iter,0,(me->message==SCI_REPLACESEL?
+		                   g_strdup_printf(_("Insert/replace with \"%s\""),(gchar*)(me->lparam)):
+		                   MacroDetails[i].description),2,&(MacroDetails[i]),3,
+		                   (me->message==SCI_REPLACESEL?g_strdup((gchar*)(me->lparam)):NULL),-1);
+		gsl=g_slist_next(gsl);
+	}
+
+	/* create list store for combo renderer */
+	lsCombo=gtk_list_store_new(2,G_TYPE_STRING,G_TYPE_POINTER);
+	i=0;
+	while(MacroDetails[i].description!=NULL) {
+		gtk_list_store_append(lsCombo,&iter);
+		gtk_list_store_set(lsCombo,&iter,0,MacroDetails[i].description,1,&(MacroDetails[i]),-1);
+		i++;
+	}
+
+	/* create combo renderer */
+	renderer=gtk_cell_renderer_combo_new();
+
+	/* add list store */
+	g_object_set(renderer,"model",lsCombo,"editable",TRUE,"has-entry",FALSE,NULL);
+
+	/* create table */
+	table=gtk_tree_view_new_with_model(GTK_TREE_MODEL(ls));
+	gtk_tree_view_set_grid_lines(GTK_TREE_VIEW(table),GTK_TREE_VIEW_GRID_LINES_BOTH);
+
+	/* add column */
+	column=gtk_tree_view_column_new_with_attributes(_("Event"),renderer,"text",0,"text-column",1,
+	                                                NULL);
+	g_signal_connect(renderer,"edited",G_CALLBACK(combo_edited),table);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(table),column);
+
+	/* set selection mode */
+	gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW(table)),
+	                            GTK_SELECTION_SINGLE);
+
+	/* add table to dialog */
+	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox),table);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox),table,FALSE,FALSE,2);
+	gtk_widget_show(table);
+
+	/* add buttons */
+	gtk_dialog_add_button(GTK_DIALOG(dialog),_("Move _Up"),GEANY_MACRO_BUTTON_UP);
+	gtk_dialog_add_button(GTK_DIALOG(dialog),_("Move Do_wn"),GEANY_MACRO_BUTTON_DOWN);
+	gtk_dialog_add_button(GTK_DIALOG(dialog),_("New _Above"),GEANY_MACRO_BUTTON_ABOVE);
+	gtk_dialog_add_button(GTK_DIALOG(dialog),_("New _Below"),GEANY_MACRO_BUTTON_BELOW);
+	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Edit Text"),GEANY_MACRO_BUTTON_EDIT);
+	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Delete"),GEANY_MACRO_BUTTON_DELETE);
+	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Ok"),GEANY_MACRO_BUTTON_APPLY);
+	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Cancel"),GEANY_MACRO_BUTTON_CANCEL);
+
+	/* listen for changes in selection */
+	selection=gtk_tree_view_get_selection(GTK_TREE_VIEW(table));
+	g_signal_connect(G_OBJECT(selection),"changed",G_CALLBACK(DoEditMacroElementsSelectionChanged),
+	                 dialog);
+
+	/* call callback: this will set buttons acordingly */
+	DoEditMacroElementsSelectionChanged(selection,dialog);
+
+	i=GTK_RESPONSE_REJECT;
+	while(i!=GEANY_MACRO_BUTTON_CANCEL)
+	{
+		/* wait for button to be pressed */
+		i=gtk_dialog_run(GTK_DIALOG(dialog));
+
+		/* exit if cancel pressed */
+		if(i==GEANY_MACRO_BUTTON_CANCEL)
+			break;
+
+		/* check if line has been selected */
+		if(gtk_tree_selection_get_selected(selection,NULL,&iter))
+		{
+			/* handle delete element */
+			if(i==GEANY_MACRO_BUTTON_DELETE)
+			{
+				/* see if need to free non-static string */
+				gtk_tree_model_get(GTK_TREE_MODEL(ls),&iter,0,&cTemp,2,&mde,-1);
+				if(mde->message==SCI_REPLACESEL)
+					g_free(cTemp);
+
+				/* remove element */
+				gtk_list_store_remove(ls,&iter);
+
+				/* call callback: this will update buttons acordingly */
+				DoEditMacroElementsSelectionChanged(selection,dialog);
+			}
+
+			/* handle moving element up before element previous to it */
+			if(i==GEANY_MACRO_BUTTON_UP)
+			{
+				/* get path of selected iteration */
+				gtkPath=gtk_tree_model_get_path(GTK_TREE_MODEL(ls),&iter);
+
+				/* move path to previous node & if sucessful try swapping */
+				if(gtk_tree_path_prev(gtkPath)==TRUE)
+				{
+					gtk_tree_model_get_iter(GTK_TREE_MODEL(ls),&iterNew,gtkPath);
+					gtk_list_store_swap(ls,&iter,&iterNew);
+				}
+
+				/* free path of selected iteration */
+				gtk_tree_path_free(gtkPath);
+
+				/* call callback: this will update buttons acordingly */
+				DoEditMacroElementsSelectionChanged(selection,dialog);
+			}
+
+			/* handle move element to after element after it */
+			if(i==GEANY_MACRO_BUTTON_DOWN)
+			{
+				/* create copy of curent position */
+				iterNew=iter;
+
+				/* if there is a node after the current node then swap */
+				if(gtk_tree_model_iter_next(GTK_TREE_MODEL(ls),&iterNew)==TRUE)
+					gtk_list_store_swap(ls,&iter,&iterNew);
+
+				/* call callback: this will update buttons acordingly */
+				DoEditMacroElementsSelectionChanged(selection,dialog);
+			}
+
+			/* handle insert new element before curent element */
+			if(i==GEANY_MACRO_BUTTON_ABOVE)
+			{
+				gtk_list_store_append(ls,&iterNew);
+				gtk_list_store_set(ls,&iterNew,0,MacroDetails[0].description,2,&(MacroDetails[0]),3,NULL,
+				                   -1);
+				gtk_list_store_move_before(ls,&iterNew,&iter);
+
+				/* call callback: this will update buttons acordingly */
+				DoEditMacroElementsSelectionChanged(selection,dialog);
+			}
+
+			/* handle insert new element after curent element */
+			if(i==GEANY_MACRO_BUTTON_BELOW)
+			{
+				gtk_list_store_append(ls,&iterNew);
+				gtk_list_store_set(ls,&iterNew,0,MacroDetails[0].description,2,&(MacroDetails[0]),3,NULL,
+				                   -1);
+				gtk_list_store_move_after(ls,&iterNew,&iter);
+
+				/* call callback: this will update buttons acordingly */
+				DoEditMacroElementsSelectionChanged(selection,dialog);
+			}
+
+			/* handle editing SCI_REPLACESEL text */
+			if(i==GEANY_MACRO_BUTTON_EDIT)
+			{
+				gtk_tree_model_get(GTK_TREE_MODEL(ls),&iter,2,&mde,-1);
+				if(mde->message==SCI_REPLACESEL)
+					EditSCIREPLACESELText(GTK_TREE_MODEL(ls),&iter);
+			}
+
+		} //end of commands that require line to be selected
+		/* if no elements to insert above or below,just insert new element */
+		else if((i==GEANY_MACRO_BUTTON_ABOVE || i==GEANY_MACRO_BUTTON_BELOW) &&
+		        gtk_tree_model_iter_n_children(GTK_TREE_MODEL(ls),NULL)==0)
+		{
+			gtk_list_store_append(ls,&iterNew);
+			gtk_list_store_set(ls,&iterNew,0,MacroDetails[0].description,2,&(MacroDetails[0]),3,NULL,-1);
+
+			/* call callback: this will update buttons acordingly */
+			DoEditMacroElementsSelectionChanged(selection,dialog);
+		}
+
+
+		/* user has hit apply button. check for changes & implement */
+		if(i==GEANY_MACRO_BUTTON_APPLY)
+		{
+			/* clear old macro */
+			m->MacroEvents=ClearMacroList(m->MacroEvents);
+
+			/* go through list adding macro events */
+			bHaveIter=gtk_tree_model_get_iter_first(GTK_TREE_MODEL(ls),&iter);
+			while(bHaveIter)
+			{
+				/* get Macro event for this line */
+				gtk_tree_model_get(GTK_TREE_MODEL(ls),&iter,2,&mde,3,&cTemp,-1);
+
+				/* create new macro event */
+				me=g_new0(MacroEvent,1);
+
+				me->message=mde->message;
+				me->lparam=0;
+
+				/* Special handling for text inserting, duplicate inserted string */
+				if(me->message==SCI_REPLACESEL)
+					me->lparam=(glong)((cTemp!=NULL)?g_strdup(cTemp):g_strdup_printf(""));
+
+				/* more efficient to create reverse list and reverse it at the end */
+				m->MacroEvents=g_slist_prepend(m->MacroEvents,me);
+
+				/* get next event */
+				bHaveIter=gtk_tree_model_iter_next(GTK_TREE_MODEL(ls),&iter);
+			}
+
+			/* was more efficient to record in reverse direction, so now reverse */
+			m->MacroEvents=g_slist_reverse(m->MacroEvents);
+
+			break;
+		}
+
+	} /* end look responding to dialog buttons */
+
+	/* clear any memory allocated for strings */
+	bHaveIter=gtk_tree_model_get_iter_first(GTK_TREE_MODEL(ls),&iter);
+	while(bHaveIter)
+	{
+		/* get Macro event for this line */
+		gtk_tree_model_get(GTK_TREE_MODEL(ls),&iter,0,&cTemp2,2,&mde,3,&cTemp,-1);
+
+		/* free any non-static text */
+		g_free((void*)(cTemp));
+		if(mde->message==SCI_REPLACESEL)
+			g_free(cTemp2);
+
+		/* get next event */
+		bHaveIter=gtk_tree_model_iter_next(GTK_TREE_MODEL(ls),&iter);
+	}
+
+	/* tidy up */
+	gtk_widget_destroy(dialog);
+
+	/* free memory */
+	g_free(cTitle);
+}
+
+
+/* handle change in selection in DoEditMacro list */
+static void DoEditMacroSelectionChanged(GtkTreeSelection *selection,gpointer data)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkWidget *button;
+	GtkDialog *dialog;
+	gboolean bHasItemSelected;
+
+	dialog=GTK_DIALOG(data);
+
+	/* find out if anything has been selected */
+	bHasItemSelected=gtk_tree_selection_get_selected(selection,&model,&iter);
+
+	/* now set button sensitive or not depending if there is something for them to act on */
+	button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_RERECORD);
+	gtk_widget_set_sensitive(button,bHasItemSelected);
+	button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_EDIT);
+	gtk_widget_set_sensitive(button,bHasItemSelected);
+	button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_DELETE);
+	gtk_widget_set_sensitive(button,bHasItemSelected);
+}
 
 
 /* do editing of existing macros */
@@ -1126,8 +1667,8 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 	gboolean bEditable;
 
 	/* create dialog box */
-	dialog=gtk_dialog_new();
-	gtk_window_set_title(GTK_WINDOW(dialog),_("Edit Macros"));
+	dialog=gtk_dialog_new_with_buttons(_("Edit Macros"),GTK_WINDOW(geany->main_widgets->window),
+		GTK_DIALOG_DESTROY_WITH_PARENT,NULL);
 
 	/* create store to hold table data (3rd column holds pointer to macro or NULL if not editable)
 	*/
@@ -1152,10 +1693,7 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 
 	/* create table */
 	table=gtk_tree_view_new_with_model(GTK_TREE_MODEL(ls));
-/* only allow grid lines if GTK high enough version (cosmetic so no biggie if absent)*/
-#if GTK_CHECK_VERSION(2,10,0)
 	gtk_tree_view_set_grid_lines(GTK_TREE_VIEW(table),GTK_TREE_VIEW_GRID_LINES_BOTH);
-#endif
 
 	/* add columns */
 	renderer=gtk_cell_renderer_text_new();
@@ -1166,21 +1704,14 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 
 	renderer= gtk_cell_renderer_accel_new();
 	column=gtk_tree_view_column_new_with_attributes(_("Key Trigger"),renderer,"text",1,NULL);
-/* only allow render edit if GTK high enough version. Shame to loose this function, but not the
- * end of the world. I may time permitting write my own custom renderer
-*/
-#if GTK_CHECK_VERSION(2,10,0)
 	g_signal_connect(renderer,"accel-edited",G_CALLBACK(Accel_Render_Edited_CallBack),table);
 	g_object_set(renderer,"editable",TRUE,NULL);
-#else
-	g_object_set(renderer,"editable",FALSE,NULL);
-#endif
 
 	gtk_tree_view_append_column(GTK_TREE_VIEW(table),column);
 
 	/* set selection mode */
 	gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW(table)),
-								GTK_SELECTION_SINGLE);
+	                            GTK_SELECTION_SINGLE);
 
 	/* add table to dialog */
 	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox),table);
@@ -1188,29 +1719,36 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 	gtk_widget_show(table);
 
 	/* add buttons */
-	gtk_dialog_add_button(GTK_DIALOG(dialog),_("Re-Record"),GTK_RESPONSE_OK);
-	gtk_dialog_add_button(GTK_DIALOG(dialog),_("Delete"),GTK_RESPONSE_REJECT);
-	gtk_dialog_add_button(GTK_DIALOG(dialog),_("Cancel"),GTK_RESPONSE_CANCEL);
+	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Re-Record"),GEANY_MACRO_BUTTON_RERECORD);
+	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Edit"),GEANY_MACRO_BUTTON_EDIT);
+	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Delete"),GEANY_MACRO_BUTTON_DELETE);
+	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Ok"),GEANY_MACRO_BUTTON_CANCEL);
+
+	/* listen for changes in selection */
+	selection=gtk_tree_view_get_selection(GTK_TREE_VIEW(table));
+	g_signal_connect(G_OBJECT(selection),"changed",G_CALLBACK(DoEditMacroSelectionChanged),dialog);
+
+	/* call callback: this will set buttons acordingly */
+	DoEditMacroSelectionChanged(selection,dialog);
 
 	i=GTK_RESPONSE_REJECT;
-	while(i==GTK_RESPONSE_REJECT)
+	while(i==GEANY_MACRO_BUTTON_RERECORD || i==GEANY_MACRO_BUTTON_EDIT ||
+	      i==GEANY_MACRO_BUTTON_DELETE || i==GTK_RESPONSE_REJECT)
 	{
 		/* wait for button to be pressed */
 		i=gtk_dialog_run(GTK_DIALOG(dialog));
 
 		/* exit if not doing any action */
-		if(i!=GTK_RESPONSE_OK && i!=GTK_RESPONSE_REJECT)
+		if(i!=GEANY_MACRO_BUTTON_RERECORD && i!=GEANY_MACRO_BUTTON_EDIT && i!=GEANY_MACRO_BUTTON_DELETE)
 			break;
 
-		/* find out what's been selected */
-		selection=gtk_tree_view_get_selection(GTK_TREE_VIEW(table));
 		/* check if line has been selected */
 		if(gtk_tree_selection_get_selected(selection,NULL,&iter))
 		{
 			/* get macro name */
 			gtk_tree_model_get(GTK_TREE_MODEL(ls),&iter,0,&cTemp,2,&bEditable,-1);
 			/* handle delete macro */
-			if(i==GTK_RESPONSE_REJECT && bEditable)
+			if(i==GEANY_MACRO_BUTTON_DELETE && bEditable)
 			{
 				/* remove from table */
 				gtk_list_store_remove(GTK_LIST_STORE(ls),&iter);
@@ -1220,10 +1758,13 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 				FreeMacro(m);
 				/* Signal that macros have changed (and need to be saved) */
 				bMacrosHaveChanged=TRUE;
+
+				/* call callback: this will update buttons acordingly */
+				DoEditMacroElementsSelectionChanged(selection,dialog);
 			}
 
 			/* handle re-record macro */
-			if(i==GTK_RESPONSE_OK && bEditable)
+			if(i==GEANY_MACRO_BUTTON_RERECORD && bEditable)
 			{
 				m=FindMacroByName(cTemp);
 				/* ensure have empty recording macro */
@@ -1238,10 +1779,19 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 				FreeMacro(m);
 				/* start actual recording */
 				scintilla_send_message(document_get_current()->editor->sci,SCI_STARTRECORD,0,0);
-	      gtk_widget_hide(Record_Macro_menu_item);
-	      gtk_widget_show(Stop_Record_Macro_menu_item);
+				gtk_widget_hide(Record_Macro_menu_item);
+				gtk_widget_show(Stop_Record_Macro_menu_item);
+
+				break;
 			}
 
+			/* handle edit macro */
+			if(i==GEANY_MACRO_BUTTON_EDIT && bEditable)
+			{
+				m=FindMacroByName(cTemp);
+				EditMacroElements(m);
+			}
+		
 			/* free memory */
 			g_free(cTemp);
 		}
