@@ -382,7 +382,6 @@ void stree_clear()
 	
 	gtk_tree_store_clear(store);
 	g_hash_table_remove_all(threads);
-	threads = NULL;
 
 	selection_callback = g_signal_connect(G_OBJECT(gtk_tree_view_get_selection(GTK_TREE_VIEW(tree))), "changed", G_CALLBACK (on_selection_changed), NULL);
 }
@@ -414,11 +413,8 @@ void stree_select_first_frame()
  */
 void stree_destroy()
 {
-	if (threads)
-	{
-		g_hash_table_destroy(threads);
-		threads = NULL;
-	}
+	g_hash_table_destroy(threads);
+	threads = NULL;
 }
 
 /*
