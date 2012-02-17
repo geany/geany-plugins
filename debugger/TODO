@@ -18,4 +18,7 @@ FEATURES:
 - bashdb support
 - windows support
 - gdb backend step speed
-- threads: integrate into existing stack window, add threads callbacks to dbm interface
+- debug callbacks names
+- interrupt thread using stack window
+- custom tooltip on breaks and stack trace windows with code snippet around break or frame
+- font from the geany settings for a message window
