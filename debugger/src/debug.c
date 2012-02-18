@@ -593,6 +593,8 @@ static void on_debugger_run ()
 		g_list_foreach(stack, (GFunc)frame_free, NULL);
 		g_list_free(stack);
 		stack = NULL;
+
+		stree_remove_frames();
 	}
 
 	/* disable widgets */
@@ -606,7 +608,7 @@ static void on_debugger_run ()
 /* 
  * called from debug module when debugger is being stopped 
  */
-static void on_debugger_stopped ()
+static void on_debugger_stopped (int thread_id)
 {
 	/* update debug state */
 	debug_state = DBS_STOPPED;
@@ -641,7 +643,7 @@ static void on_debugger_stopped ()
 	}
 
 	/* clear stack tree view */
-	stree_clear();
+	stree_set_current_thread_id(thread_id);
 
 	/* get current stack trace and put in the tree view */
 	stack = active_module->get_stack();
@@ -650,10 +652,10 @@ static void on_debugger_stopped ()
 	while (iter)
 	{
 		frame *f = (frame*)iter->data;
-		stree_add(f, iter == stack);
+		stree_add(f);
 		iter = g_list_next(iter);
 	}
-	stree_select_first();
+	stree_select_first_frame();
 
 	/* files */
 	GList *files = active_module->get_files();
@@ -839,6 +841,22 @@ static void on_debugger_error (const gchar* message)
 	dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", message);
 }
 
+/* 
+ * called from debugger module when a thead has been removed 
+ */
+static void on_thread_removed(int thread_id)
+{
+	stree_remove_thread(thread_id);
+}
+
+/* 
+ * called from debugger module when a new thead has been added 
+ */
+static void on_thread_added (int thread_id)
+{
+	stree_add_thread(thread_id);
+}
+
 /* callbacks structure to pass to debugger module */
 dbg_callbacks callbacks = {
 	on_debugger_run,
@@ -847,6 +865,8 @@ dbg_callbacks callbacks = {
 	on_debugger_message,
 	on_debugger_messages_clear,
 	on_debugger_error,
+	on_thread_added,
+	on_thread_removed,
 };
 
 /*

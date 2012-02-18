@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: geany-plugins 0.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-21 21:53+0100\n"
+"POT-Creation-Date: 2012-02-18 02:47+0400\n"
 "PO-Revision-Date: 2011-09-13 20:24+0100\n"
 "Last-Translator: Peter Scholtens <peter.scholtens@xs4all.nl>\n"
 "Language-Team: Dutch\n"
@@ -46,16 +46,16 @@ msgstr ""
 msgid "_Hide Message Window"
 msgstr "_Verberg berichtenvenster"
 
-#: ../addons/src/ao_tasks.c:412 ../debugger/src/stree.c:208
+#: ../addons/src/ao_tasks.c:412 ../debugger/src/stree.c:327
 msgid "File"
 msgstr "Bestand"
 
-#: ../addons/src/ao_tasks.c:423 ../debugger/src/bptree.c:605
-#: ../debugger/src/stree.c:214
+#: ../addons/src/ao_tasks.c:423 ../debugger/src/bptree.c:688
+#: ../debugger/src/stree.c:334
 msgid "Line"
 msgstr "Regel"
 
-#: ../addons/src/ao_tasks.c:434 ../debugger/src/vtree.c:197
+#: ../addons/src/ao_tasks.c:434 ../debugger/src/vtree.c:200
 #: ../geanylatex/src/bibtexlabels.c:68
 msgid "Type"
 msgstr "Type"
@@ -97,6 +97,24 @@ msgstr "Open URI"
 msgid "Copy URI"
 msgstr "Kopiëer URI"
 
+#: ../addons/src/ao_wrapwords.c:249
+msgid "Plugins"
+msgstr ""
+
+#: ../addons/src/ao_wrapwords.c:261
+#, c-format
+msgid "Enclose combo %d"
+msgstr ""
+
+#: ../addons/src/ao_wrapwords.c:273
+msgid "Opening Character"
+msgstr ""
+
+#: ../addons/src/ao_wrapwords.c:280
+#, fuzzy
+msgid "Closing Character"
+msgstr "Pijlen"
+
 #: ../addons/src/ao_doclist.c:207
 msgid "Close Ot_her Documents"
 msgstr "Sluit andere documenten"
@@ -117,23 +135,23 @@ msgstr "Toevoegingen"
 msgid "Various small addons for Geany."
 msgstr "Verscheidene kleine toevoegingen voor Geany"
 
-#: ../addons/src/addons.c:290
+#: ../addons/src/addons.c:296
 msgid "Focus Bookmark List"
 msgstr "Focus bladwijzerlijst"
 
-#: ../addons/src/addons.c:292
+#: ../addons/src/addons.c:298
 msgid "Focus Tasks List"
 msgstr "Focus takenlijst"
 
-#: ../addons/src/addons.c:294
+#: ../addons/src/addons.c:300
 msgid "Update Tasks List"
 msgstr "Update takenlijst"
 
-#: ../addons/src/addons.c:296
+#: ../addons/src/addons.c:302
 msgid "Run XML tagging"
 msgstr "XML labelen uitvoeren"
 
-#: ../addons/src/addons.c:398 ../geanylatex/src/geanylatex.c:234
+#: ../addons/src/addons.c:417 ../geanylatex/src/geanylatex.c:234
 #: ../geanyprj/src/geanyprj.c:174 ../geanysendmail/src/geanysendmail.c:121
 #: ../geanysendmail/src/geanysendmail.c:282 ../geanyvc/src/geanyvc.c:1798
 #: ../spellcheck/src/scplugin.c:146 ../treebrowser/src/treebrowser.c:1832
@@ -141,50 +159,50 @@ msgstr "XML labelen uitvoeren"
 msgid "Plugin configuration directory could not be created."
 msgstr "Plug-in configuratiemap kon niet worden aangemaakt."
 
-#: ../addons/src/addons.c:425
+#: ../addons/src/addons.c:445
 msgid "Show toolbar item to show a list of currently open documents"
 msgstr ""
 "Laat een hulpmiddelenbalk item zien om een lijst met geopende documenten te "
 "tonen"
 
-#: ../addons/src/addons.c:429
+#: ../addons/src/addons.c:449
 msgid "Sort documents by _name"
 msgstr "Sorteer documenten op _naam"
 
-#: ../addons/src/addons.c:431
+#: ../addons/src/addons.c:451
 msgid "Sort the documents in the list by their filename"
 msgstr "Sorteer de documenten in de lijst op hun bestandsnaam"
 
-#: ../addons/src/addons.c:434
+#: ../addons/src/addons.c:454
 msgid "Sort documents by _occurrence"
 msgstr "Sorteer documenten op aantal v_oorkomens"
 
-#: ../addons/src/addons.c:436
+#: ../addons/src/addons.c:456
 msgid "Sort the documents in the order of the document tabs"
 msgstr "Sorteer de documenten in de volgorde van de tabs"
 
-#: ../addons/src/addons.c:439
+#: ../addons/src/addons.c:459
 msgid "Sort documents by _occurrence (reversed)"
 msgstr "Sorteer documenten op aantal v_oorkomens (achteruit)"
 
-#: ../addons/src/addons.c:441
+#: ../addons/src/addons.c:461
 msgid "Sort the documents in the order of the document tabs (reversed)"
 msgstr "Sorteer de documenten in de volgorde van de tabs (achteruit)"
 
 #. TODO fix the string
-#: ../addons/src/addons.c:469
+#: ../addons/src/addons.c:489
 msgid "Show a 'Open URI' menu item in the editor menu"
 msgstr "Laat een 'Open URI' menu item in het editor menu zien"
 
-#: ../addons/src/addons.c:475
+#: ../addons/src/addons.c:495
 msgid "Show available Tasks in the Messages Window"
 msgstr "Laat beschikbare taken in het berichtenvenster zien"
 
-#: ../addons/src/addons.c:481
+#: ../addons/src/addons.c:501
 msgid "Show tasks of all documents"
 msgstr "Laat alle taken van alle documenten zien"
 
-#: ../addons/src/addons.c:485
+#: ../addons/src/addons.c:505
 msgid ""
 "Whether to show the tasks of all open documents in the list or only those of "
 "the current document."
@@ -192,33 +210,41 @@ msgstr ""
 "Laat de taken van alle open documenten in de lijst zien of alleen die van "
 "het huidige document"
 
-#: ../addons/src/addons.c:492
+#: ../addons/src/addons.c:512
 msgid "Specify a semicolon separated list of search tokens."
 msgstr "Geef een lijst van zoektermen gescheiden door puntkommas"
 
-#: ../addons/src/addons.c:494
+#: ../addons/src/addons.c:514
 msgid "Search tokens:"
 msgstr "Zoektermen:"
 
-#: ../addons/src/addons.c:511
+#: ../addons/src/addons.c:531
 msgid "Show status icon in the Notification Area"
 msgstr "Laat het status icoon in het Meldingsgebied"
 
-#: ../addons/src/addons.c:517
+#: ../addons/src/addons.c:537
 msgid "Show defined bookmarks (marked lines) in the sidebar"
 msgstr "Laat bladwijzers (gemarkeerde regels) in de zijbalk zien"
 
-#: ../addons/src/addons.c:523
+#: ../addons/src/addons.c:543
 msgid "Mark all occurrences of a word when double-clicking it"
 msgstr "Markeer alle verschijningen van een gedubbelklikt woord"
 
-#: ../addons/src/addons.c:529
+#: ../addons/src/addons.c:549
 msgid "Strip trailing blank lines"
 msgstr "Verwijder lege regels aan het einde van het bestand"
 
-#: ../addons/src/addons.c:535
+#: ../addons/src/addons.c:555
 msgid "XML tagging for selection"
 msgstr "XML labelen voor selectie"
+
+#: ../addons/src/addons.c:561
+msgid "Enclose selection on configurable keybindings"
+msgstr ""
+
+#: ../addons/src/addons.c:573
+msgid "Enclose selection automatically (without having to press a keybinding)"
+msgstr ""
 
 #: ../codenav/src/codenavigation.c:52
 msgid "Code navigation"
@@ -279,11 +305,11 @@ msgstr ""
 msgid "Debug"
 msgstr ""
 
-#: ../debugger/src/vtree.c:166 ../debugger/src/envtree.c:397
+#: ../debugger/src/vtree.c:169 ../debugger/src/envtree.c:397
 msgid "Name"
 msgstr "Naam"
 
-#: ../debugger/src/vtree.c:189 ../debugger/src/envtree.c:402
+#: ../debugger/src/vtree.c:192 ../debugger/src/envtree.c:402
 msgid "Value"
 msgstr "Waarde"
 
@@ -321,52 +347,48 @@ msgstr "Omgevingsvariabelen"
 msgid "Delete variable?"
 msgstr "Verwijder variabele?"
 
-#: ../debugger/src/bptree.c:577
+#: ../debugger/src/bptree.c:661
 msgid "Location"
 msgstr "Lokatie"
 
-#: ../debugger/src/bptree.c:587
+#: ../debugger/src/bptree.c:670
 msgid "Condition"
 msgstr "Conditie"
 
-#: ../debugger/src/bptree.c:599
+#: ../debugger/src/bptree.c:682
 msgid "Hit count"
 msgstr "Aantal hits"
 
-#: ../debugger/src/bptree.c:612 ../geanygdb/src/gdb-ui-break.c:163
-msgid "Enabled"
-msgstr ""
-
-#: ../debugger/src/bptree.c:769
+#: ../debugger/src/bptree.c:843
 #, c-format
 msgid "line %i"
 msgstr "regel %i"
 
-#: ../debugger/src/dbm_gdb.c:505
+#: ../debugger/src/dbm_gdb.c:522
 msgid "Program received a signal"
 msgstr "Programma ontving een signaal"
 
-#: ../debugger/src/dbm_gdb.c:673
+#: ../debugger/src/dbm_gdb.c:694
 msgid "Failed to spawn gdb process"
 msgstr ""
 
-#: ../debugger/src/dbm_gdb.c:721
+#: ../debugger/src/dbm_gdb.c:742
 msgid "~\"Loading target file ...\""
 msgstr ""
 
-#: ../debugger/src/dbm_gdb.c:721
+#: ../debugger/src/dbm_gdb.c:742
 msgid "Error loading file"
 msgstr "Fout gedurende inladen bestand"
 
 #. setting asyncronous mode
 #. setting null-stop array printing
 #. enable pretty printing
-#: ../debugger/src/dbm_gdb.c:725 ../debugger/src/dbm_gdb.c:728
-#: ../debugger/src/dbm_gdb.c:731
+#: ../debugger/src/dbm_gdb.c:746 ../debugger/src/dbm_gdb.c:749
+#: ../debugger/src/dbm_gdb.c:752
 msgid "Error configuring GDB"
 msgstr ""
 
-#: ../debugger/src/dbm_gdb.c:772
+#: ../debugger/src/dbm_gdb.c:793
 #, c-format
 msgid ""
 "Breakpoint at %s:%i cannot be set\n"
@@ -378,13 +400,18 @@ msgstr ""
 msgid "Can't find a source file \"%s\""
 msgstr "Kan bronbestand \"%s\" niet vinden"
 
-#: ../debugger/src/stree.c:196 ../geanylatex/src/bibtexlabels.c:46
+#: ../debugger/src/stree.c:306 ../geanylatex/src/bibtexlabels.c:46
 msgid "Address"
 msgstr "Adres"
 
-#: ../debugger/src/stree.c:202
+#: ../debugger/src/stree.c:321
 msgid "Function"
 msgstr "Functie"
+
+#: ../debugger/src/stree.c:459
+#, c-format
+msgid "Thread %i"
+msgstr ""
 
 #: ../debugger/src/tabs.c:132
 msgid "Target"
@@ -846,6 +873,10 @@ msgstr ""
 
 #: ../geanygdb/src/gdb-ui-break.c:153
 msgid "Edit breakpoint"
+msgstr ""
+
+#: ../geanygdb/src/gdb-ui-break.c:163
+msgid "Enabled"
 msgstr ""
 
 #: ../geanygdb/src/gdb-ui-break.c:169
@@ -2857,35 +2888,369 @@ msgid ""
 "widget \"%s\" has no signal named \"%s\".\n"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:55
+#: ../geanymacro/src/geanymacro.c:58
+#, fuzzy
+msgid "Cut to Clipboard"
+msgstr "Kopiëer volledig pad naar klembord"
+
+#: ../geanymacro/src/geanymacro.c:59
+#, fuzzy
+msgid "Copy to Clipboard"
+msgstr "Kopiëer volledig pad naar klembord"
+
+#: ../geanymacro/src/geanymacro.c:60
+msgid "Paste from Clipboard"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:61
+msgid "Cut current line to Clipboard"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:62
+#, fuzzy
+msgid "Copy current line to Clipboard"
+msgstr "Kopiëer volledig pad naar klembord"
+
+#: ../geanymacro/src/geanymacro.c:64
+msgid "Delete character to the left"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:65
+msgid "Delete character to the right"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:66
+msgid "Delete character to the left (but not newline)"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:67
+msgid "Delete up to start of word to the Left"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:68
+msgid "Delete up to start of word to the Right"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:69
+msgid "Delete up to end of word to the Right"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:70
+msgid "Delete to begining of line"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:71
+#, fuzzy
+msgid "Delete to end of line"
+msgstr "Zet op een regel"
+
+#: ../geanymacro/src/geanymacro.c:72
+msgid "Delete current line"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:73
+msgid "Backwards Tab (deletes tab if nothing after it)"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:75
+msgid "Scroll Display down a line"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:76
+msgid "Scroll Display up a line"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:77
+msgid "Zoom view in"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:78
+msgid "Zoom view out"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:80
+msgid "Move Cursor Down"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:81
+msgid "Move Cursor Up"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:82
+msgid "Move Cursor Left"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:83
+msgid "Move Cursor Right"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:84
+msgid "Move Cursor to start of Word to the Left"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:85
+msgid "Move Cursor to start of Word to the Right"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:86
+msgid "Move Cursor to start of Part of Word to the Left"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:87
+msgid "Move Cursor to start of Part of Word to the Right"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:88
+msgid "Move Cursor to start of line"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:89
+msgid "Move Cursor to end of line"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:90
+msgid "Move Cursor to 1st line of Document"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:91
+msgid "Move Cursor to last line of document"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:92
+msgid "Move Cursor up one Page"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:93
+msgid "Move Cursor down one Page"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:94
+msgid "Move Cursor to fist visible character"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:95
+msgid "Move Cursor to last visible character"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:96
+msgid ""
+"Move Cursor to 1st non-whitespace character of line, or 1st character of "
+"line if already at 1st non-whitespace character"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:98
+msgid "Move Cursor to begining of next paragraph"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:99
+msgid "Move Cursor up to beginning of current/previous paragraph"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:100
+msgid "Move Cursor to end of Word to the Left"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:101
+msgid "Move Cursor to end of Word to the Right"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:103
+msgid "Move Selection down a line"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:104
+msgid "Move Selection up a line"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:105
+msgid "Move Selection Left a line"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:106
+msgid "Move Selection Right a line"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:107
+msgid "Move Selection to start of Word to the Left"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:108
+msgid "Move Selection to start of Word to the Right"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:109
+msgid "Move Selection to start of Part of Word to the Left"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:110
+msgid "Move Selection to start of Part of Word to the Right"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:111
+msgid "Move Selection to start of line"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:112
+msgid "Move Selection to end of line"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:113
+msgid "Move Selection to start of document"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:114
+msgid "Move Selection to end of document"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:115
+msgid "Move Selection up one Page"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:116
+msgid "Move Selection down one Page"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:117
+msgid "Move Selection to fist visible character"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:118
+msgid "Move Selection to last visible character"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:119
+msgid ""
+"Move Selection to 1st non-whitespace character of line, or 1st character of "
+"line if already at 1st non-whitespace character"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:121
+msgid "Move Selection to begining of next paragraph"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:122
+msgid "Move Selection up to beginning of current/previous paragraph"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:123
+msgid "Move Selection to end of Word to the Left"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:124
+msgid "Move Selection to end of Word to the Right"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:126
+msgid "Move Rectangular Selection down a line"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:127
+msgid "Move Rectangular Selection up a line"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:128
+msgid "Move Rectangular Selection Left a line"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:129
+msgid "Move Rectangular Selection Right a line"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:130
+msgid "Move Rectangular Selection to start of line"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:131
+msgid "Move Rectangular Selection to end of line"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:132
+msgid "Move Rectangular Selection up one Page"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:133
+msgid "Move Rectangular Selection down one Page"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:134
+msgid ""
+"Move Rectangular Selection to 1st non-whitespace character of line, or 1st "
+"character of line if already at 1st non-whitespace character"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:137
+msgid "Cancel Selection"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:139
+msgid "Toggle Insert/Overwrite mode"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:140 ../pretty-printer/src/ConfigUI.c:227
+msgid "Tab"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:141
+#, fuzzy
+msgid "Newline"
+msgstr "Onderstreep"
+
+#: ../geanymacro/src/geanymacro.c:143 ../geanymacro/src/geanymacro.c:1290
+#, c-format
+msgid "Insert/replace with \"\""
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:145
+msgid "Swap current line wih one above"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:146
+msgid "Change selected text to lowercase"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:147
+msgid "Change selected text to uppercase"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:149
+msgid "Insert duplicate of current line below"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:150
+msgid ""
+"Insert duplicate of selected text after selection. If nothing selected, "
+"duplicate line"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:180
 msgid "Macros"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:55
+#: ../geanymacro/src/geanymacro.c:180
 msgid "Macros for Geany"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:382
+#: ../geanymacro/src/geanymacro.c:461
 #, c-format
 msgid ""
 "Unrecognised message\n"
 "%i %i %i"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:656
+#: ../geanymacro/src/geanymacro.c:737
 msgid "Save Macros when close Geany"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:662
+#: ../geanymacro/src/geanymacro.c:743
 msgid "Ask before replaceing existing Macros"
 msgstr ""
 
 #. create dialog box
-#: ../geanymacro/src/geanymacro.c:682
+#: ../geanymacro/src/geanymacro.c:763
 msgid "Geany Macros help"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:690
+#: ../geanymacro/src/geanymacro.c:771
 msgid ""
 "This Plugin implements Macros in Geany.\n"
 "\n"
@@ -2900,10 +3265,17 @@ msgid ""
 "macro to help you identify it. Then press Record. What you do in the editor "
 "is then recorded until you select Stop Recording Macro from the Tools menu. "
 "Simply pressing the specified key combination will re-run the macro. To edit "
-"the macros you have select Edit Macro from the Tools menu. You can select a "
+"the macros you have, select Edit Macro from the Tools menu. You can select a "
 "macro and delete it, or re-record it. You can also click on a macro's name "
 "and change it, or the key combination and re-define that assuming that it's "
-"not already in use.\n"
+"not already in use. Selecting the edit option allows you to view all the "
+"individual elements that make up the macro. You can select a diferent "
+"command for each element, move them, add new elements, delete elements, or "
+"if it's replace/insert, you can edit the text that replaces the selected "
+"text, or is inserted.\n"
+"\n"
+"The only thing to bear in mind is that undo and redo actions are not "
+"recorded, and won't be replayed when the macro is re-run.\n"
 "\n"
 "You can alter the default behaviour of this plugin by selecting Plugin "
 "Manager under the Tools menu, selecting this plugin, and cliking "
@@ -2918,32 +3290,29 @@ msgid ""
 "the same key trigger combination."
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:871
+#. create dialog box
+#: ../geanymacro/src/geanymacro.c:956
 msgid "Record Macro"
 msgstr ""
 
 #. create buttons
-#: ../geanymacro/src/geanymacro.c:874
+#: ../geanymacro/src/geanymacro.c:962
 msgid "Record"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:875 ../geanymacro/src/geanymacro.c:1193
+#: ../geanymacro/src/geanymacro.c:963
 msgid "Cancel"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:882
+#: ../geanymacro/src/geanymacro.c:970
 msgid "Macro Trigger:"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:896
+#: ../geanymacro/src/geanymacro.c:984
 msgid "Macro Name:"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:919
-msgid "You must define a key trigger combination"
-msgstr ""
-
-#: ../geanymacro/src/geanymacro.c:933
+#: ../geanymacro/src/geanymacro.c:1020
 #, c-format
 msgid ""
 "Macro name \"%s\"\n"
@@ -2951,7 +3320,7 @@ msgid ""
 "Replace?"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:949
+#: ../geanymacro/src/geanymacro.c:1036
 #, c-format
 msgid ""
 "Macro trigger \"%s\"\n"
@@ -2959,40 +3328,199 @@ msgid ""
 "Replace?"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:1130
+#. create dialog box
+#: ../geanymacro/src/geanymacro.c:1205
+msgid "Edit Insert/Replace Text"
+msgstr ""
+
+#. create buttons
+#: ../geanymacro/src/geanymacro.c:1210 ../geanymacro/src/geanymacro.c:1450
+#: ../geanymacro/src/geanymacro.c:1725
+msgid "_Ok"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:1211 ../geanymacro/src/geanymacro.c:1451
+msgid "_Cancel"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:1218
+msgid "Text:"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:1245 ../geanymacro/src/geanymacro.c:1403
+#, c-format
+msgid "Insert/replace with \"%s\""
+msgstr ""
+
+#. create dialog box
+#: ../geanymacro/src/geanymacro.c:1383
+#, c-format
+msgid "Edit: %s"
+msgstr ""
+
+#. add column
+#: ../geanymacro/src/geanymacro.c:1429
+msgid "Event"
+msgstr ""
+
+#. add buttons
+#: ../geanymacro/src/geanymacro.c:1444
+msgid "Move _Up"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:1445
+msgid "Move Do_wn"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:1446
+msgid "New _Above"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:1447
+msgid "New _Below"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:1448
+msgid "_Edit Text"
+msgstr ""
+
+#: ../geanymacro/src/geanymacro.c:1449 ../geanymacro/src/geanymacro.c:1724
+#, fuzzy
+msgid "_Delete"
+msgstr "Verwijder"
+
+#. create dialog box
+#: ../geanymacro/src/geanymacro.c:1670
 msgid "Edit Macros"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:1162
+#: ../geanymacro/src/geanymacro.c:1700
 msgid "Macro Name"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:1168
+#: ../geanymacro/src/geanymacro.c:1706
 msgid "Key Trigger"
 msgstr ""
 
 #. add buttons
-#: ../geanymacro/src/geanymacro.c:1191
-msgid "Re-Record"
+#: ../geanymacro/src/geanymacro.c:1722
+msgid "_Re-Record"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:1192 ../treebrowser/src/treebrowser.c:1236
-msgid "Delete"
-msgstr "Verwijder"
+#: ../geanymacro/src/geanymacro.c:1723
+msgid "_Edit"
+msgstr ""
 
 #. add record macro menu entry
-#: ../geanymacro/src/geanymacro.c:1317
+#: ../geanymacro/src/geanymacro.c:1869
 msgid "Record _Macro"
 msgstr ""
 
 #. add stop record macromenu entry
-#: ../geanymacro/src/geanymacro.c:1323
+#: ../geanymacro/src/geanymacro.c:1875
 msgid "Stop Recording _Macro"
 msgstr ""
 
 #. add Edit Macro menu entry
-#: ../geanymacro/src/geanymacro.c:1329
+#: ../geanymacro/src/geanymacro.c:1881
 msgid "_Edit Macros"
+msgstr ""
+
+#: ../geanyminiscript/src/gms_gui.c:253
+msgid "Load Mini-Script File"
+msgstr ""
+
+#: ../geanyminiscript/src/gms_gui.c:310
+msgid "Save Mini-Script File"
+msgstr ""
+
+#: ../geanyminiscript/src/gms_gui.c:418
+msgid "Mini-Script Filter"
+msgstr ""
+
+#: ../geanyminiscript/src/gms_gui.c:446
+msgid "Clear the mini-script window"
+msgstr ""
+
+#: ../geanyminiscript/src/gms_gui.c:451
+msgid "Load a mini-script into this window"
+msgstr ""
+
+#: ../geanyminiscript/src/gms_gui.c:456
+msgid "Save the mini-script into a file"
+msgstr ""
+
+#: ../geanyminiscript/src/gms_gui.c:461
+msgid "Display a information about the mini-script plugin"
+msgstr ""
+
+#: ../geanyminiscript/src/gms_gui.c:469
+msgid "select the mini-script type"
+msgstr ""
+
+#. Hbox : Radio bouttons for choosing the input:
+#. selection/current document/all documents of the current session
+#: ../geanyminiscript/src/gms_gui.c:500
+msgid "filter input"
+msgstr ""
+
+#: ../geanyminiscript/src/gms_gui.c:502
+msgid "select the input of mini-script filter"
+msgstr ""
+
+#: ../geanyminiscript/src/gms_gui.c:508
+#, fuzzy
+msgid "selection"
+msgstr "Selecteer een ondertekenaar"
+
+#: ../geanyminiscript/src/gms_gui.c:509
+#, fuzzy
+msgid "document"
+msgstr "Documentatie"
+
+#: ../geanyminiscript/src/gms_gui.c:510
+msgid "session"
+msgstr ""
+
+#. Hbox : Radio bouttons for choosing the output:
+#. current document/ or new document
+#: ../geanyminiscript/src/gms_gui.c:519
+msgid "filter output"
+msgstr ""
+
+#: ../geanyminiscript/src/gms_gui.c:521
+msgid "select the output of mini-script filter"
+msgstr ""
+
+#: ../geanyminiscript/src/gms_gui.c:527
+msgid "Current Doc."
+msgstr ""
+
+#: ../geanyminiscript/src/gms_gui.c:528
+msgid "New Doc."
+msgstr ""
+
+#: ../geanyminiscript/src/gms_gui.c:749
+msgid "script configuration"
+msgstr ""
+
+#. All plugins must set name, description, version and author.
+#: ../geanyminiscript/src/gms.c:58
+msgid "Mini Script"
+msgstr ""
+
+#: ../geanyminiscript/src/gms.c:58
+msgid ""
+"A tool to apply a script filter on a text selection or current document(s)"
+msgstr ""
+
+#: ../geanyminiscript/src/gms.c:59
+msgid "Pascal BURLOT, a Geany user"
+msgstr ""
+
+#. Add an item to the Tools menu
+#: ../geanyminiscript/src/gms.c:278
+msgid "_Mini-Script"
 msgstr ""
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:63
@@ -4100,10 +4628,6 @@ msgstr ""
 msgid "Indentation"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:227
-msgid "Tab"
-msgstr ""
-
 #: ../pretty-printer/src/ConfigUI.c:228
 msgid "Space"
 msgstr ""
@@ -4372,6 +4896,10 @@ msgstr "Creër nieuw bestand"
 #: ../treebrowser/src/treebrowser.c:1231
 msgid "Rename"
 msgstr "Hernoem"
+
+#: ../treebrowser/src/treebrowser.c:1236
+msgid "Delete"
+msgstr "Verwijder"
 
 #: ../treebrowser/src/treebrowser.c:1244
 #, c-format

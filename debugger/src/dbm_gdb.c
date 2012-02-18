@@ -434,6 +434,18 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 		*(strrchr(line, '\"')) = '\0';
 		target_pid = atoi(line + strlen("=thread-group-created,id=\""));
 	}
+	else if (g_str_has_prefix(line, "=thread-created"))
+	{
+		*(strrchr(line, ',') - 1) = '\0';
+		int thread_id = atoi(line + strlen("=thread-created,id=\""));
+		dbg_cbs->add_thread(thread_id);
+	}
+	else if (g_str_has_prefix(line, "=thread-exited"))
+	{
+		*(strrchr(line, ',') - 1) = '\0';
+		int thread_id = atoi(line + strlen("=thread-exited,id=\""));
+		dbg_cbs->remove_thread(thread_id);
+	}
 	else if (g_str_has_prefix(line, "=library-loaded") || g_str_has_prefix(line, "=library-unloaded"))
 	{
 		file_refresh_needed = TRUE;
@@ -482,31 +494,37 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 				stop_reason = SR_END_STEPPING_RANGE;
 			}
 			
-			if (SR_BREAKPOINT_HIT == stop_reason || SR_END_STEPPING_RANGE == stop_reason)
+			if (SR_BREAKPOINT_HIT == stop_reason || SR_END_STEPPING_RANGE == stop_reason || SR_SIGNAL_RECIEVED == stop_reason)
 			{
-				/* update autos */
-				update_autos();
-		
-				/* update watches */
-				update_watches();
-		
-				/* update files */
-				if (file_refresh_needed)
+				gchar *thread_id = strstr(reason + strlen(reason) + 1,"thread-id=\"") + strlen("thread-id=\"");
+				*(strchr(thread_id, '\"')) = '\0'; 
+				
+				if (SR_BREAKPOINT_HIT == stop_reason || SR_END_STEPPING_RANGE == stop_reason)
 				{
-					update_files();
-					file_refresh_needed = FALSE;
-				}
+					/* update autos */
+					update_autos();
+			
+					/* update watches */
+					update_watches();
+			
+					/* update files */
+					if (file_refresh_needed)
+					{
+						update_files();
+						file_refresh_needed = FALSE;
+					}
 
-				dbg_cbs->set_stopped();
-			}
-			else if (stop_reason == SR_SIGNAL_RECIEVED)
-			{
-				if (!requested_interrupt)
-					dbg_cbs->report_error(_("Program received a signal"));
+					dbg_cbs->set_stopped(atoi(thread_id));
+				}
 				else
-					requested_interrupt = FALSE;
-					
-				dbg_cbs->set_stopped();
+				{
+					if (!requested_interrupt)
+						dbg_cbs->report_error(_("Program received a signal"));
+					else
+						requested_interrupt = FALSE;
+						
+					dbg_cbs->set_stopped(atoi(thread_id));
+				}
 			}
 			else if (stop_reason == SR_EXITED_NORMALLY || stop_reason == SR_EXITED_SIGNALLED)
 			{
@@ -522,7 +540,10 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 		/* set debugger stopped if is running */
 		if (DBS_STOPPED != debug_get_state())
 		{
-			dbg_cbs->set_stopped();
+			gchar *thread_id = strstr(line + strlen(line) + 1,"thread-id=\"");
+			*(strchr(thread_id, '\"')) = '\0'; 
+
+			dbg_cbs->set_stopped(atoi(thread_id));
 		}
 
 		/* get message */

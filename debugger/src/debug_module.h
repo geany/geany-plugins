@@ -31,11 +31,13 @@ enum dbs {
 /* type to hold callbacks to call from debugger modules */
 typedef struct _dbg_callbacks {
 	void (*set_run) ();
-	void (*set_stopped) ();
+	void (*set_stopped) (int thread_id);
 	void (*set_exited) (int code);
 	void (*send_message) (const gchar* message, const gchar *color);
 	void (*clear_messages) ();
 	void (*report_error) (const gchar* message);
+	void (*add_thread) (int thread_id);
+	void (*remove_thread) (int thread_id);
 } dbg_callbacks;
 
 typedef enum _variable_type {

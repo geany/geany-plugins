@@ -19,9 +19,16 @@
  *      MA 02110-1301, USA.
  */
 
-GtkWidget*	stree_init(move_to_line_cb cb);
+GtkWidget*		stree_init(move_to_line_cb cb);
 void			stree_destroy();
-void 			stree_add(frame *f, gboolean first);
-void 			stree_clear();
-void 			stree_select_first();
 
+void 			stree_add(frame *f);
+void 			stree_clear();
+
+void 			stree_add_thread(int thread_id);
+void 			stree_remove_thread(int thread_id);
+
+void 			stree_select_first_frame();
+void 			stree_remove_frames();
+
+void			stree_set_current_thread_id(int thread_id);

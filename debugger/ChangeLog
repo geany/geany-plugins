@@ -1,3 +1,7 @@
+18-02-2012 	Alexander Petukhov <devel@apetukhov.ru>
+
+	* threads info added to the stack window
+
 10-02-2012 	Alexander Petukhov <devel@apetukhov.ru>
 
 	* file paths in stack and breaks are truncated to file names, full paths are shown in the tooltips  
