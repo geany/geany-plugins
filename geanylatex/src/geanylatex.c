@@ -93,6 +93,8 @@ static gboolean glatex_autocompletion_active = FALSE;
 static gint glatex_autocompletion_context_size;
 static gboolean glatex_autocompletion_only_for_latex;
 gboolean glatex_autobraces_active = TRUE;
+gboolean glatex_lowercase_on_smallcaps = TRUE;
+
 
 /* Function will be deactivated, when only loaded */
 static gboolean toggle_active = FALSE;

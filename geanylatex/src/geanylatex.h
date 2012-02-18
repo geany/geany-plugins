@@ -60,6 +60,7 @@ extern GeanyFunctions	*geany_functions;
 
 extern LaTeXWizard glatex_wizard;
 extern gboolean glatex_autobraces_active;
+extern gboolean glatex_lowercase_on_smallcaps;
 
 gint glatex_count_menu_entries(SubMenuTemplate *tmp, gint categorie);
 void glatex_wizard_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,

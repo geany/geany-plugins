@@ -39,7 +39,8 @@ void glatex_insert_latex_format(G_GNUC_UNUSED GtkMenuItem * menuitem,
 
 			selection = sci_get_selection_contents(doc->editor->sci);
 
-			if (format == LATEX_SMALLCAPS)
+			if (format == LATEX_SMALLCAPS &&
+				glatex_lowercase_on_smallcaps == TRUE)
 			{
 				gchar *new_selection = NULL;
 				new_selection = g_utf8_strdown(selection, -1);
