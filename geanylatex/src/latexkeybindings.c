@@ -1,7 +1,7 @@
 /*
  *      latexkeybindings.c
  *
- *      Copyright 2009-2011 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2009-2012 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ void glatex_kblabel_insert(G_GNUC_UNUSED guint key_id)
 
 void glatex_kbref_insert(G_GNUC_UNUSED guint key_id)
 {
-	g_return_if_fail(document_get_current != NULL);	
+	g_return_if_fail(document_get_current != NULL);
 	glatex_insert_ref_activated(NULL, NULL);
 }
 

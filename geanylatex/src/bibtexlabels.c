@@ -1,7 +1,7 @@
  /*
  *      bibtexlabels.c
  *
- *      Copyright 2009-2011 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2009-2012 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include "datatypes.h"
 
 BibTeXType glatex_bibtex_types[] = {
-	{ "Article", N_("Article (@Article)")}, 
+	{ "Article", N_("Article (@Article)")},
 	{ "Book", N_("Book (@Book)")},
 	{ "Booklet", N_("Booklet (@Booklet)")},
 	{ "Conference", N_("Conference (@Conference)")},

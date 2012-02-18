@@ -1,7 +1,7 @@
 /*
  *      latexutils.c
  *
- *      Copyright 2009-2011 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2009-2012 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -26,10 +26,10 @@ gchar **glatex_read_file_in_array(const gchar *filename)
 {
 	gchar **result = NULL;
 	gchar *data;
-	
-	g_return_val_if_fail((filename != NULL), NULL);	
+
+	g_return_val_if_fail((filename != NULL), NULL);
 	g_return_val_if_fail(g_file_get_contents(filename, &data, NULL, NULL), NULL);
-	
+
 	if (data != NULL)
 	{
 		g_warning("Content eingelesen: \n %s", data);
@@ -148,7 +148,7 @@ void glatex_replace_special_character()
 
 			if (entity != NULL)
 			{
-			
+
 				g_string_append(replacement, entity);
 			}
 			else
