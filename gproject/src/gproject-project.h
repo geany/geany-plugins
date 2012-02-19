@@ -40,7 +40,7 @@ extern GPrj *g_prj;
 
 void gprj_project_open(GKeyFile * key_file);
 
-void gprj_project_add_properties_tab(GtkWidget *notebook);
+gint gprj_project_add_properties_tab(GtkWidget *notebook);
 
 void gprj_project_close(void);
 

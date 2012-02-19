@@ -32,7 +32,7 @@
 #include "gproject-sidebar.h"
 #include "gproject-menu.h"
 
-PLUGIN_VERSION_CHECK(211);
+PLUGIN_VERSION_CHECK(214);
 PLUGIN_SET_INFO(_("GProject"),
 	_("Glob-pattern-based project management plugin for Geany."),
 	VERSION,
@@ -41,6 +41,9 @@ PLUGIN_SET_INFO(_("GProject"),
 GeanyPlugin *geany_plugin;
 GeanyData *geany_data;
 GeanyFunctions *geany_functions;
+
+
+static gint page_index = -1;
 
 
 void plugin_init(G_GNUC_UNUSED GeanyData * data);
@@ -94,18 +97,33 @@ static void on_build_start(GObject *obj, gpointer user_data)
 }
 
 
-static void on_project_dialog_create(G_GNUC_UNUSED GObject * obj, GtkWidget * notebook,
+static void on_project_dialog_open(G_GNUC_UNUSED GObject * obj, GtkWidget * notebook,
 		G_GNUC_UNUSED gpointer user_data)
 {
-	gprj_project_add_properties_tab(notebook);
+	if (g_prj && page_index == -1)
+		page_index = gprj_project_add_properties_tab(notebook);
 }
 
 
 static void on_project_dialog_confirmed(G_GNUC_UNUSED GObject * obj, GtkWidget * notebook,
 		G_GNUC_UNUSED gpointer user_data)
 {
-	gprj_project_read_properties_tab();
-	gprj_sidebar_update(TRUE);
+	if (g_prj)
+	{
+		gprj_project_read_properties_tab();
+		gprj_sidebar_update(TRUE);
+	}
+}
+
+
+static void on_project_dialog_close(G_GNUC_UNUSED GObject * obj, GtkWidget * notebook,
+		G_GNUC_UNUSED gpointer user_data)
+{
+	if (page_index != -1)
+	{
+		gtk_notebook_remove_page(GTK_NOTEBOOK(notebook), page_index);
+		page_index = -1;
+	}
 }
 
 
@@ -117,6 +135,7 @@ static void on_project_open(G_GNUC_UNUSED GObject * obj, GKeyFile * config,
 	gprj_sidebar_activate(TRUE);
 	gprj_menu_activate_menu_items(TRUE);
 }
+
 
 
 static void on_project_close(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED gpointer user_data)
@@ -149,8 +168,9 @@ PluginCallback plugin_callbacks[] = {
 	{"document-activate", (GCallback) & on_doc_activate, TRUE, NULL},
 	{"document-close", (GCallback) & on_doc_close, TRUE, NULL},
 	{"build-start", (GCallback) & on_build_start, TRUE, NULL},
-	{"project-dialog-create", (GCallback) & on_project_dialog_create, TRUE, NULL},
+	{"project-dialog-open", (GCallback) & on_project_dialog_open, TRUE, NULL},
 	{"project-dialog-confirmed", (GCallback) & on_project_dialog_confirmed, TRUE, NULL},
+	{"project-dialog-close", (GCallback) & on_project_dialog_close, TRUE, NULL},
 	{"project-open", (GCallback) & on_project_open, TRUE, NULL},
 	{"project-close", (GCallback) & on_project_close, TRUE, NULL},
 	{"project-save", (GCallback) & on_project_save, TRUE, NULL},
