@@ -94,7 +94,8 @@ It implements a couple of hopefully useful functions:
 \section{News \& ChangeLog}
 \subsection{Geany\LaTeX{} 0.7}
 \begin{itemize}
-	\item None by now.
+	\item Added a feature to lower selection before inserting
+		\texttt{\textbackslash{}textsc\{\}}
 \end{itemize}
 \subsection{Geany\LaTeX{} 0.6 -- 2011-10-15}
 \begin{itemize}
@@ -538,6 +539,14 @@ there is any.
 	\caption{Dialog for inserting \textbackslash{}usepackage\{\}}
 \end{figure}
 
+\subsection{Lower selection before inserting \textbackslash{}textsc\{\}}
+
+With this feature, converting a normal text to \LaTeX{} is getting a
+bit easier. If you start a document as plain text, with
+abbreviations in it like ABC. You import it into \LaTeX{}, and want
+the abbreviations in small caps. Geany\LaTeX{} converts the
+selection to just use lower case letters. So \texttt{ABC} is becoming
+\texttt{\textbackslash{}textsc\{abc\}} and later \textsc{abc}.
 
 \section{Configuration}
 
