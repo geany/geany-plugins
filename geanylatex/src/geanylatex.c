@@ -93,7 +93,7 @@ static gboolean glatex_autocompletion_active = FALSE;
 static gint glatex_autocompletion_context_size;
 static gboolean glatex_autocompletion_only_for_latex;
 gboolean glatex_autobraces_active = TRUE;
-gboolean glatex_lowercase_on_smallcaps = TRUE;
+gboolean glatex_lowercase_on_smallcaps = FALSE;
 
 
 /* Function will be deactivated, when only loaded */
@@ -2004,6 +2004,8 @@ static void glatex_init_configuration()
 	/* Hidden preferences. Can be set directly via configuration file*/
 	glatex_autocompletion_context_size = utils_get_setting_integer(config, "autocompletion",
 		"glatex_set_autocompletion_contextsize", 5);
+	glatex_lowercase_on_smallcaps = utils_get_setting_boolean(config, "general",
+		"glatex_lowercase_on_smallcaps", FALSE);
 
 	/* Doing some input validation */
 	if (glatex_autocompletion_active == TRUE &&
