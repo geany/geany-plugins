@@ -2011,12 +2011,12 @@ static void glatex_init_configuration()
 		"glatex_set_autocompletion", TRUE);
 	glatex_autobraces_active = utils_get_setting_boolean(config, "autocompletion",
 		"glatex_set_autobraces", TRUE);
+	glatex_lowercase_on_smallcaps = utils_get_setting_boolean(config, "general",
+		"glatex_lowercase_on_smallcaps", FALSE);
 
 	/* Hidden preferences. Can be set directly via configuration file*/
 	glatex_autocompletion_context_size = utils_get_setting_integer(config, "autocompletion",
 		"glatex_set_autocompletion_contextsize", 5);
-	glatex_lowercase_on_smallcaps = utils_get_setting_boolean(config, "general",
-		"glatex_lowercase_on_smallcaps", FALSE);
 
 	/* Doing some input validation */
 	if (glatex_autocompletion_active == TRUE &&
