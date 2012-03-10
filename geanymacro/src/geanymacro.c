@@ -758,6 +758,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 void plugin_help(void)
 {
 	GtkWidget *dialog,*label,*scroll;
+	gchar *cText;
 
 	/* create dialog box */
 	dialog=gtk_dialog_new_with_buttons(_("Geany Macros help"),
@@ -766,45 +767,48 @@ void plugin_help(void)
 		GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,
 		NULL);
 
-	/* create label */
-	label=gtk_label_new(
-		_("This Plugin implements Macros in Geany.\n\n")
-_("This plugin allows you to record and use your own macros. ")
-_("These are sequences of actions that can then be repeated with a single key combination. ")
+/* setup help text */
+	cText=g_strconcat(
+_("This Plugin implements Macros in Geany.\n\n"),
+_("This plugin allows you to record and use your own macros. "),
+_("These are sequences of actions that can then be repeated with a single key combination. "),
 _("So if you had dozens of lines where you wanted to delete the last 2 characters, you could simpl\
-y start recording, press End, Backspace, Backspace, down line and then stop recording. ")
-_("Then simply trigger the macro and it would automatically edit the line and move to the next. ")
-_("Select Record Macro from the Tools menu and you will be prompted with a dialog box. ")
+y start recording, press End, Backspace, Backspace, down line and then stop recording. "),
+_("Then simply trigger the macro and it would automatically edit the line and move to the next. "),
+_("Select Record Macro from the Tools menu and you will be prompted with a dialog box. "),
 _("You need to specify a key combination that isn't being used, and a name for the macro to help y\
-ou identify it. ")
-_("Then press Record. ")
+ou identify it. "),
+_("Then press Record. "),
 _("What you do in the editor is then recorded until you select Stop Recording Macro from the Tools\
- menu. ")
-_("Simply pressing the specified key combination will re-run the macro. ")
-_("To edit the macros you have, select Edit Macro from the Tools menu. ")
-_("You can select a macro and delete it, or re-record it. ")
+ menu. "),
+_("Simply pressing the specified key combination will re-run the macro. "),
+_("To edit the macros you have, select Edit Macro from the Tools menu. "),
+_("You can select a macro and delete it, or re-record it. "),
 _("You can also click on a macro's name and change it, or the key combination and re-define that a\
-ssuming that it's not already in use. ")
+ssuming that it's not already in use. "),
 _("Selecting the edit option allows you to view all the individual elements that make up the macro\
-. ")
+. "),
 _("You can select a diferent command for each element, move them, add new elements, delete element\
 s, or if it's replace/insert, you can edit the text that replaces the selected text, or is inserte\
-d.\n\n")
+d.\n\n"),
 
 _("The only thing to bear in mind is that undo and redo actions are not recorded, and won't be rep\
-layed when the macro is re-run.\n\n")
-
+layed when the macro is re-run.\n\n"),
 
 _("You can alter the default behaviour of this plugin by selecting Plugin Manager under the Tools \
-menu, selecting this plugin, and cliking Preferences. ")
-_("You can change:\n")
+menu, selecting this plugin, and cliking Preferences. "),
+_("You can change:\n"),
 _("Save Macros when close Geany - If this is selected then Geany will save any recorded macros and\
  reload them for use the next time you open Geany, if not they will be lost when Geany is closed.\
-\n")
+\n"),
 _("Ask before replaceing existing Macros - If this is selected then if you try recording a macro o\
 ver an existing one it will check before over-writing it, giving you the option of trying a differ\
 ent name or key trigger combination, otherwise it will simply erase any existing macros with the s\
-ame name, or the same key trigger combination."));
+ame name, or the same key trigger combination."),
+NULL);
+
+	/* create label */
+	label=gtk_label_new(cText);
 	gtk_label_set_line_wrap(GTK_LABEL(label),TRUE);
 	gtk_widget_show(label);
 
@@ -823,6 +827,10 @@ ame name, or the same key trigger combination."));
 	/* display the dialog */
 	gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_destroy(dialog);
+
+	/* free memory */
+	g_free(cText);
+
 }
 
 
