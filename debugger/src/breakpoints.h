@@ -27,7 +27,8 @@ typedef enum _break_state {
 	BS_DISABLED
 } break_state;
 
-typedef void	(*move_to_line_cb)(char* file, int line);
+typedef void	(*move_to_line_cb)(const char* file, int line);
+typedef void	(*select_frame_cb)(int frame_number);
 
 gboolean		breaks_init(move_to_line_cb callback);
 void			breaks_destroy();

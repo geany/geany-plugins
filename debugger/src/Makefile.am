@@ -62,6 +62,8 @@ debugger_la_SOURCES = \
 	wtree.h		\
 	cell_renderers/cellrendererbreakicon.c \
 	cell_renderers/cellrendererbreakicon.h \
+	cell_renderers/cellrendererframeicon.c \
+	cell_renderers/cellrendererframeicon.h \
 	cell_renderers/cellrenderertoggle.c \
 	cell_renderers/cellrenderertoggle.h
 	

@@ -151,46 +151,60 @@ static module_description modules[] =
 static GHashTable *calltips = NULL;
 
 /* 
- * removes stack margin markers
+ * remove stack margin markers
  */
  void remove_stack_markers()
 {
-	frame *current = (frame*)stack->data;
-	if (current->have_source)
+	int active_frame_index = active_module->get_active_frame();
+	
+	GList *iter;
+	int frame_index;
+	for (iter = stack, frame_index = 0; iter; iter = iter->next, frame_index++)
 	{
-		markers_remove_current_instruction(current->file, current->line);
-	}
-	GList *iter = stack->next;
-	while (iter)
-	{
-		frame *next = (frame*)iter->data;
-		if (next->have_source)
+		if (iter)
 		{
-			markers_remove_frame(next->file, next->line);
+			frame *f = (frame*)iter->data;
+			if (f->have_source)
+			{
+				if (active_frame_index == frame_index)
+				{
+					markers_remove_current_instruction(f->file, f->line);
+				}
+				else
+				{
+					markers_remove_frame(f->file, f->line);
+				}
+			}
 		}
-		iter = iter->next;
 	}
 }
 
 /* 
- * removes stack margin markers
+ * add stack margin markers
  */
- void add_stack_markers()
+static void add_stack_markers()
 {
-	frame *current = (frame*)stack->data;
-	if (current->have_source)
+	int active_frame_index = active_module->get_active_frame();
+	
+	GList *iter;
+	int frame_index;
+	for (iter = stack, frame_index = 0; iter; iter = iter->next, frame_index++)
 	{
-		markers_add_current_instruction(current->file, current->line);
-	}
-	GList *iter = stack->next;
-	while (iter)
-	{
-		frame *next = (frame*)iter->data;
-		if (next->have_source)
+		if (iter)
 		{
-			markers_add_frame(next->file, next->line);
+			frame *f = (frame*)iter->data;
+			if (f->have_source)
+			{
+				if (active_frame_index == frame_index)
+				{
+					markers_add_current_instruction(f->file, f->line);
+				}
+				else
+				{
+					markers_add_frame(f->file, f->line);
+				}
+			}
 		}
-		iter = iter->next;
 	}
 }
 
@@ -643,7 +657,7 @@ static void on_debugger_stopped (int thread_id)
 	}
 
 	/* clear stack tree view */
-	stree_set_current_thread_id(thread_id);
+	stree_set_active_thread_id(thread_id);
 
 	/* get current stack trace and put in the tree view */
 	stack = active_module->get_stack();
@@ -806,7 +820,7 @@ static void on_debugger_exited (int code)
 /* 
  * called from debugger module to show a message in  debugger messages pane 
  */
-static void on_debugger_message (const gchar* message, const gchar *color)
+void on_debugger_message (const gchar* message, const gchar *color)
 {
 	gchar *msg = g_strdup_printf("%s\n", message);
 
@@ -873,6 +887,33 @@ dbg_callbacks callbacks = {
  * Interface functions
  */
 
+/* 
+ * called when a frame in the stack tree has been selected 
+ */
+static void on_select_frame(int frame_number)
+{
+	frame *f = (frame*)g_list_nth(stack, active_module->get_active_frame())->data;
+	markers_remove_current_instruction(f->file, f->line);
+	markers_add_frame(f->file, f->line);
+
+	active_module->set_active_frame(frame_number);
+	
+	/* clear calltips cache */
+	g_hash_table_remove_all(calltips);
+	
+	/* autos */
+	GList *autos = active_module->get_autos();
+	update_variables(GTK_TREE_VIEW(atree), NULL, autos);
+	
+	/* watches */
+	GList *watches = active_module->get_watches();
+	update_variables(GTK_TREE_VIEW(wtree), NULL, watches);
+
+	f = (frame*)g_list_nth(stack, frame_number)->data;
+	markers_remove_frame(f->file, f->line);
+	markers_add_current_instruction(f->file, f->line);
+}
+
 /*
  * init debug related GUI (watch tree view)
  * arguments:
@@ -909,7 +950,7 @@ void debug_init()
 	gtk_container_add(GTK_CONTAINER(tab_autos), atree);
 	
 	/* create stack trace page */
-	stree = stree_init(editor_open_position);
+	stree = stree_init(editor_open_position, on_select_frame);
 	tab_call_stack = gtk_scrolled_window_new(
 		gtk_tree_view_get_hadjustment(GTK_TREE_VIEW(stree )),
 		gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(stree ))

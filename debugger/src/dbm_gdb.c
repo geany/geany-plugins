@@ -117,6 +117,9 @@ static GList *files = NULL;
 and it's nessesary to refresh files list */
 static gboolean file_refresh_needed = FALSE;
 
+/* current frame number */
+static int active_frame = 0;
+
 /* forward declarations */
 void stop();
 variable* add_watch(gchar* expression);
@@ -499,6 +502,8 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 				gchar *thread_id = strstr(reason + strlen(reason) + 1,"thread-id=\"") + strlen("thread-id=\"");
 				*(strchr(thread_id, '\"')) = '\0'; 
 				
+				active_frame = 0;
+
 				if (SR_BREAKPOINT_HIT == stop_reason || SR_END_STEPPING_RANGE == stop_reason)
 				{
 					/* update autos */
@@ -1029,6 +1034,29 @@ gboolean remove_break(breakpoint* bp)
 }
 
 /*
+ * get active  frame
+ */
+int get_active_frame()
+{
+	return active_frame;
+}
+
+/*
+ * select frame
+ */
+void set_active_frame(int frame_number)
+{
+	gchar *command = g_strdup_printf("-stack-select-frame %i", frame_number);
+	if (RC_DONE == exec_sync_command(command, TRUE, NULL))
+	{
+		active_frame = frame_number;
+		update_autos();
+		update_watches();
+	}
+	g_free(command);
+}
+
+/*
  * gets stack
  */
 GList* get_stack()
@@ -1452,7 +1480,7 @@ void update_autos()
 	/* add current autos to the list */
 	GList *unevaluated = NULL;
 	
-	const char *gdb_commands[] = { "-stack-list-arguments 0 0 0", "-stack-list-locals 0" };
+	const char *gdb_commands[] = { g_strdup_printf("-stack-list-arguments 0 %i %i", active_frame, active_frame), "-stack-list-locals 0" };
 	int i, size = sizeof (gdb_commands) / sizeof(char*);
 	for (i = 0; i < size; i++)
 	{
@@ -1498,6 +1526,7 @@ void update_autos()
 		}
 		g_free(record);
 	}
+	g_free((void*)gdb_commands[0]);
 	
 	/* get values for the autos (without incorrect variables) */
 	get_variables(autos);
