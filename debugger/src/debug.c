@@ -1355,3 +1355,11 @@ void debug_on_file_open(GeanyDocument *doc)
 	if (g_list_find_custom(read_only_pages, (gpointer)file, (GCompareFunc)g_strcmp0))
 		scintilla_send_message(doc->editor->sci, SCI_SETREADONLY, 1, 0);
 }
+
+/*
+ * get active frame index
+ */
+int debug_get_active_frame()
+{
+	return active_module->get_active_frame();
+}
