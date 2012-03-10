@@ -50,7 +50,7 @@ typedef struct
 typedef struct
 {
 	gint message;
-	gchar *description;
+	const gchar *description;
 } MacroDetailEntry;
 
 /* list of editor messages this plugin can handle & a description */
