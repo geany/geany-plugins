@@ -100,6 +100,8 @@ enum
 	KB_FOCUS_FILE_LIST,
 	KB_FOCUS_PATH_ENTRY,
 	KB_RENAME_OBJECT,
+	KB_CREATE_FILE,
+	KB_CREATE_DIR,
 	KB_REFRESH,
 	KB_COUNT
 };
@@ -147,6 +149,7 @@ static void 	treebrowser_bookmarks_set_state();
 static void 	treebrowser_load_bookmarks();
 static void 	gtk_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root);
 static void 	treebrowser_rename_current();
+static void 	on_menu_create_new_object(GtkMenuItem *menuitem, gchar *type);
 static void 	load_settings();
 static gboolean save_settings();
 
@@ -899,6 +902,13 @@ treebrowser_rename_current()
 		treebrowser_iter_rename(&iter);
 	}
 }
+
+static void
+treebrowser_create_new_current(gchar *type)
+{
+	on_menu_create_new_object(NULL, type);
+}
+
 
 /* ------------------
  * RIGHTCLICK MENU EVENTS
@@ -1966,6 +1976,14 @@ static void kb_activate(guint key_id)
 		case KB_RENAME_OBJECT:
 			treebrowser_rename_current();
 			break;
+			
+		case KB_CREATE_FILE:
+			treebrowser_create_new_current("file");
+			break;
+			
+		case KB_CREATE_DIR:
+			treebrowser_create_new_current("directory");
+			break;
 
 		case KB_REFRESH:
 			on_menu_refresh(NULL, NULL);
@@ -1996,6 +2014,10 @@ plugin_init(GeanyData *data)
 		0, 0, "focus_path_entry", _("Focus Path Entry"), NULL);
 	keybindings_set_item(key_group, KB_RENAME_OBJECT, kb_activate,
 		0, 0, "rename_object", _("Rename Object"), NULL);
+	keybindings_set_item(key_group, KB_CREATE_FILE, kb_activate,
+		0, 0, "create_file", _("Create New File"), NULL);
+	keybindings_set_item(key_group, KB_CREATE_DIR, kb_activate,
+		0, 0, "create_dir", _("Create New Directory"), NULL);
 	keybindings_set_item(key_group, KB_REFRESH, kb_activate,
 		0, 0, "rename_refresh", _("Refresh"), NULL);
 
