@@ -906,9 +906,7 @@ treebrowser_rename_current()
 static void
 treebrowser_create_new_current(gchar *type)
 {
-	GtkMenuItem			*item;
-	
-	on_menu_create_new_object(item, type);
+	on_menu_create_new_object(NULL, type);
 }
 
 
