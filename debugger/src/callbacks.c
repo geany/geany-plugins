@@ -67,24 +67,26 @@ void set_markers_for_file(const gchar* file)
 	/* set frames markers if exists */
 	if (DBS_STOPPED == debug_get_state())
 	{
+		int active_frame_index = debug_get_active_frame();
+		
 		GList *iter = debug_get_stack();
-		if (iter)
+		int frame_index = 0;
+		for (; iter; iter = iter->next, frame_index++)
 		{
-			frame *f = (frame*)iter->data;
-			if (f->have_source && !strcmp(f->file, file))
+			if (iter)
 			{
-				markers_add_current_instruction(f->file, f->line);
-			}
-
-			iter = iter->next;
-			while (iter)
-			{
-				f = (frame*)iter->data;
+				frame *f = (frame*)iter->data;
 				if (f->have_source && !strcmp(f->file, file))
 				{
-					markers_add_frame(f->file, f->line);
+					if (active_frame_index == frame_index)
+					{
+						markers_add_current_instruction(f->file, f->line);
+					}
+					else
+					{
+						markers_add_frame(f->file, f->line);
+					}
 				}
-				iter = iter->next;
 			}
 		}
 	}

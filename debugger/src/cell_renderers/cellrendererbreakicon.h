@@ -54,7 +54,7 @@ struct _CellRendererBreakIconClass
 {
   GtkCellRendererClass parent_class;
 
-  void (*clicked)(GtkCellRendererToggle *cell_renderer_toggle, const gchar *path);
+  void (*clicked)(CellRendererBreakIcon *cell_renderer_toggle, const gchar *path);
 };
 
 GType					cell_renderer_break_icon_get_type(void);

@@ -48,4 +48,5 @@ void			debug_on_file_open(GeanyDocument *doc);
 gchar*			debug_get_calltip_for_expression(gchar* expression);
 GList*			debug_get_stack();
 void			debug_restart();
+int				debug_get_active_frame();
 

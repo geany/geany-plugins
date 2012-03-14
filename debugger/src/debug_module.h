@@ -108,8 +108,12 @@ typedef struct _dbg_module {
 
 	gboolean (*set_break) (breakpoint* bp, break_set_activity bsa);
 	gboolean (*remove_break) (breakpoint* bp);
+
 	GList* (*get_stack) ();
-	
+
+	void (*set_active_frame)(int frame_number);
+	int (*get_active_frame)();
+		
 	GList* (*get_autos) ();
 	GList* (*get_watches) ();
 	
@@ -141,6 +145,8 @@ typedef struct _dbg_module {
 	set_break, \
 	remove_break, \
 	get_stack, \
+	set_active_frame, \
+	get_active_frame, \
 	get_autos, \
 	get_watches, \
 	get_files, \
