@@ -27,6 +27,7 @@ extern GdkPixbuf *argument_pixbuf;
 extern GdkPixbuf *local_pixbuf;
 extern GdkPixbuf *watch_pixbuf;
 
+extern GdkPixbuf *frame_pixbuf;
 extern GdkPixbuf *frame_current_pixbuf;
  
 void pixbufs_init();

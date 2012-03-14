@@ -1,3 +1,7 @@
+10-03-2012 	Alexander Petukhov <devel@apetukhov.ru>
+
+	* switching between frames by clicking a frame arrow in the stack window
+
 18-02-2012 	Alexander Petukhov <devel@apetukhov.ru>
 
 	* threads info added to the stack window

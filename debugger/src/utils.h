@@ -19,5 +19,5 @@
  *      MA 02110-1301, USA.
  */
  
-void					editor_open_position(char* file, int line);
+void					editor_open_position(const char* file, int line);
 GString*				get_word_at_position(ScintillaObject *sci, int position);

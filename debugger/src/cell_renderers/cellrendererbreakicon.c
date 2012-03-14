@@ -205,7 +205,7 @@ static void cell_renderer_break_icon_render(GtkCellRenderer *cell, GdkDrawable *
 {
 	CellRendererBreakIcon *cellbreakpoint = (CellRendererBreakIcon*) cell;
 	
-	GdkPixbuf *pixbuf;
+	GdkPixbuf *pixbuf = NULL;
 	
 	GdkRectangle pix_rect;
 	GdkRectangle draw_rect;
