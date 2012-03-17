@@ -137,13 +137,11 @@ gboolean on_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data
 void ao_enclose_words_init (gchar *config_file_name, GeanyKeyGroup *key_group)
 {
 	GKeyFile *config = g_key_file_new();
-	gchar *key_name = g_malloc0 (9);
+	gchar key_name[] = "Enclose_x";
 	gint i;
 
 	config_file = g_strdup (config_file_name);
 	g_key_file_load_from_file (config, config_file, G_KEY_FILE_NONE, NULL);
-
-	g_stpcpy (key_name, "Enclose_x");
 
 	for (i = 0; i < 8; i++)
 	{
@@ -157,8 +155,6 @@ void ao_enclose_words_init (gchar *config_file_name, GeanyKeyGroup *key_group)
 
 	plugin_signal_connect(geany_plugin, G_OBJECT(geany->main_widgets->window), "key-press-event",
 			FALSE, G_CALLBACK(on_key_press), NULL);
-
-	g_free (key_name);
 }
 
 void ao_enclose_words_set_enabled (gboolean enabled_w, gboolean enabled_a)
@@ -178,19 +174,15 @@ void configure_response (GtkDialog *dialog, gint response, gpointer char_tree_vi
 	GKeyFile *config = g_key_file_new();
 	gchar *config_data = NULL;
 	gchar *prior_char_str, *end_char_str;
-	gchar *key_name = g_malloc0 (9);
+	gchar key_name[] = "Enclose_x";
 	gint i;
 
-	if (response != GTK_RESPONSE_OK && response != GTK_RESPONSE_ACCEPT) {
-		g_free (key_name);
+	if (response != GTK_RESPONSE_OK && response != GTK_RESPONSE_ACCEPT)
 		return;
-	}
 
 	gtk_tree_model_get_iter_first (GTK_TREE_MODEL(chars_list), &char_iter);
 
 	g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
-
-	g_stpcpy (key_name, "Enclose_x");
 
 	for (i = 0; i < 8; i++)
 	{
@@ -211,7 +203,6 @@ void configure_response (GtkDialog *dialog, gint response, gpointer char_tree_vi
 	g_free (prior_char_str);
 	g_free (end_char_str);
 	g_free (config_data);
-	g_free (key_name);
 	g_key_file_free(config);
 }
 
