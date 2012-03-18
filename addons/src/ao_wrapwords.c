@@ -48,12 +48,14 @@ GtkListStore *chars_list;
 
 void enclose_text_action (guint key_id)
 {
+	gint selection_end;
+	gchar insert_chars [2] = {0, 0};
+	ScintillaObject *sci_obj;
+
 	if (!enclose_enabled)
 		return;
 
-	gint selection_end;
-	gchar insert_chars [2] = {0, 0};
-	ScintillaObject *sci_obj = document_get_current ()->editor->sci;
+	sci_obj = document_get_current ()->editor->sci;
 
 	if (sci_get_selected_text_length (sci_obj) < 2)
 		return;
