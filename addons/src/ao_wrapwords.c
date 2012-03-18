@@ -173,9 +173,8 @@ void ao_enclose_words_set_enabled (gboolean enabled_w, gboolean enabled_a)
 void configure_response (GtkDialog *dialog, gint response, gpointer char_tree_view)
 {
 	GtkTreeIter char_iter;
-	GKeyFile *config = g_key_file_new();
+	GKeyFile *config;
 	gchar *config_data = NULL;
-	gchar *prior_char_str, *end_char_str;
 	gchar key_name[] = "Enclose_x";
 	gint i;
 
@@ -184,10 +183,13 @@ void configure_response (GtkDialog *dialog, gint response, gpointer char_tree_vi
 
 	gtk_tree_model_get_iter_first (GTK_TREE_MODEL(chars_list), &char_iter);
 
+	config = g_key_file_new();
 	g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
 
 	for (i = 0; i < 8; i++)
 	{
+		gchar *prior_char_str, *end_char_str;
+
 		key_name [8] = (gchar) (i + '0');
 
 		gtk_tree_model_get (GTK_TREE_MODEL(chars_list), &char_iter,
@@ -197,13 +199,14 @@ void configure_response (GtkDialog *dialog, gint response, gpointer char_tree_vi
 		gtk_tree_model_iter_next (GTK_TREE_MODEL(chars_list), &char_iter);
 
 		g_key_file_set_string (config, "addons", key_name, enclose_chars [i]);
+
+		g_free (prior_char_str);
+		g_free (end_char_str);
 	}
 
 	config_data = g_key_file_to_data (config, NULL, NULL);
 	utils_write_file (config_file, config_data);
 
-	g_free (prior_char_str);
-	g_free (end_char_str);
 	g_free (config_data);
 	g_key_file_free(config);
 }
@@ -236,7 +239,6 @@ void ao_enclose_words_config (GtkButton *button, GtkWidget *config_window)
 	GtkTreeViewColumn *label_column, *char_one_column, *char_two_column;
 	GtkTreeView *chars_tree_view;
 	gchar insert_chars [2] = {0, 0};
-	gchar *title;
 	gint i;
 
 	dialog = gtk_dialog_new_with_buttons(_("Plugins"), GTK_WINDOW(config_window),
@@ -250,13 +252,16 @@ void ao_enclose_words_config (GtkButton *button, GtkWidget *config_window)
 
 	for (i = 0; i < 8; i++)
 	{
+		gchar *title = g_strdup_printf (_("Enclose combo %d"), i + 1);
+
 		gtk_list_store_append (chars_list, &chars_iter);
-		title = g_strdup_printf (_("Enclose combo %d"), i + 1);
 		gtk_list_store_set (chars_list, &chars_iter, COLUMN_TITLE, title, -1);
 		insert_chars [0] = *enclose_chars [i];
 		gtk_list_store_set (chars_list, &chars_iter, COLUMN_PRIOR_CHAR, insert_chars, -1);
 		insert_chars [0] = *(enclose_chars [i] + 1);
 		gtk_list_store_set (chars_list, &chars_iter, COLUMN_END_CHAR, insert_chars, -1);
+
+		g_free(title);
 	}
 
 	label_column = gtk_tree_view_column_new_with_attributes ("", renderer, "text", 0, NULL);
@@ -286,7 +291,5 @@ void ao_enclose_words_config (GtkButton *button, GtkWidget *config_window)
 	g_signal_connect (dialog, "response", G_CALLBACK (configure_response), NULL);
 	while (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT);
 	gtk_widget_destroy (GTK_WIDGET (dialog));
-
-	g_free (title);
 }
 
