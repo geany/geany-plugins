@@ -841,11 +841,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 void plugin_help(void)
 {
 	GtkWidget *dialog,*label,*scroll;
-<<<<<<< HEAD
-	gchar * cText;
-=======
 	gchar *cText;
->>>>>>> 731dea83b9e257e73b952823af7a87791ecddd43
 
 	/* create dialog box */
 	dialog=gtk_dialog_new_with_buttons(_("Geany Macros help"),
@@ -854,11 +850,7 @@ void plugin_help(void)
 		GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,
 		NULL);
 
-<<<<<<< HEAD
 	/* setup help text */
-=======
-/* setup help text */
->>>>>>> 731dea83b9e257e73b952823af7a87791ecddd43
 	cText=g_strconcat(
 _("This Plugin implements Macros in Geany.\n\n"),
 _("This plugin allows you to record and use your own macros. "),
@@ -921,10 +913,6 @@ NULL);
 
 	/* free memory */
 	g_free(cText);
-<<<<<<< HEAD
-=======
-
->>>>>>> 731dea83b9e257e73b952823af7a87791ecddd43
 }
 
 
