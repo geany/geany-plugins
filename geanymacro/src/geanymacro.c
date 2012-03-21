@@ -29,10 +29,7 @@
 typedef struct
 {
 	gint message;
-	/* I'm leaving wparam commented out as this may prove useful if it's used by a Scintilla
-	 * message that's recorded in a macro that I'm not aware of yet
-	*/
-	/*	gulong wparam; */
+	gulong wparam;
 	glong lparam;
 } MacroEvent;
 
@@ -50,7 +47,7 @@ typedef struct
 typedef struct
 {
 	gint message;
-	gchar *description;
+	const gchar *description;
 } MacroDetailEntry;
 
 /* list of editor messages this plugin can handle & a description */
@@ -150,6 +147,10 @@ const MacroDetailEntry MacroDetails[]={
 {SCI_SELECTIONDUPLICATE,N_("Insert duplicate of selected text after selection. If nothing selected,\
  duplicate line")},
 
+{SCI_SEARCHNEXT,"Search for next \"\""},
+{SCI_SEARCHPREV,"Search for previous \"\""},
+{SCI_SEARCHANCHOR,"Set start of search to beginning of selection"},
+
 /* editor commands that don't seem to work well in editing 
  * {SCI_FORMFEED,N_("FormFeed")},
  *
@@ -178,7 +179,7 @@ GeanyFunctions  *geany_functions;
 PLUGIN_VERSION_CHECK(147)
 
 PLUGIN_SET_INFO(_("Macros"),_("Macros for Geany"),
-                "1.0","William Fraser <william.fraser@virgin.net>");
+                "1.1","William Fraser <william.fraser@virgin.net>");
 
 /* Plugin user alterable settings */
 static gboolean bSaveMacros=TRUE;
@@ -207,20 +208,27 @@ static GSList * ClearMacroList(GSList *gsl)
 	MacroEvent *me;
 	GSList * gslTemp=gsl;
 
+	/* free data held in GSLIST structure */
 	while(gslTemp!=NULL)
 	{
 		me=gslTemp->data;
-		/* check to see if it's a message that has string attached, and free it if so */
-		if(me->message==SCI_REPLACESEL)
+		/* check to see if it's a message that has string attached, and free it if so
+		 * lparam might be NULL for SCI_SEARCHNEXT or SCI_SEARCHPREV but g_free is ok
+		 * with this
+		*/
+		if(me->message==SCI_REPLACESEL ||
+		   me->message==SCI_SEARCHNEXT ||
+		   me->message==SCI_SEARCHPREV)
 			g_free((void*)(me->lparam));
 
 		g_free((void*)(gslTemp->data));
 		gslTemp=g_slist_next(gslTemp);
 	}
 
-		g_slist_free(gsl);
+	/* free SLIST structure */
+	g_slist_free(gsl);
 
-		return NULL;
+	return NULL;
 }
 
 
@@ -316,6 +324,7 @@ static void ClearAllMacros(void)
 		FreeMacro((Macro*)(gsl->data));
 		gsl=g_slist_next(gsl);
 	}
+
 	g_slist_free(mList);
 	mList=NULL;
 }
@@ -327,15 +336,46 @@ static void ReplayMacro(Macro *m)
 	MacroEvent *me;
 	GSList *gsl=m->MacroEvents;
 	ScintillaObject* sci=document_get_current()->editor->sci;
+	gchar *clipboardcontents;
+	gboolean bFoundAnchor=FALSE;
 
 	scintilla_send_message(sci,SCI_BEGINUNDOACTION,0,0);
 
 	while(gsl!=NULL)
 	{
 		me=gsl->data;
-/* may be needed if come across any scintilla messages that use wparam */
-/*        scintilla_send_message(sci,me->message,me->wparam,me->lparam); */
-		scintilla_send_message(sci,me->message,0,me->lparam);
+
+		/* make not if anchor has been found */
+		if(me->message==SCI_SEARCHANCHOR)
+			bFoundAnchor=TRUE;
+
+		/* possibility that user edited macros might not have anchor before search */
+		if((me->message==SCI_SEARCHNEXT || me->message==SCI_SEARCHPREV) && 
+		   bFoundAnchor==FALSE)
+		{
+			scintilla_send_message(sci,SCI_SEARCHANCHOR,0,0);
+			bFoundAnchor=TRUE;
+		}
+
+		/* search might use clipboard to look for: check & hanndle */
+		if((me->message==SCI_SEARCHNEXT || me->message==SCI_SEARCHPREV) &&
+		   ((gchar*)me->lparam)==NULL)
+		{
+			clipboardcontents=gtk_clipboard_wait_for_text(gtk_clipboard_get(
+			                  GDK_SELECTION_CLIPBOARD));
+			/* ensure there is something in the clipboard */
+			if(clipboardcontents==NULL)
+			{
+				dialogs_show_msgbox(GTK_MESSAGE_INFO,_("No text in clipboard!"));
+				break;
+			}
+
+			scintilla_send_message(sci,me->message,me->wparam,(glong)clipboardcontents);
+		}
+		else
+			scintilla_send_message(sci,me->message,me->wparam,me->lparam);
+
+		/* move to next macro event */
 		gsl=g_slist_next(gsl);
 	}
 
@@ -382,9 +422,26 @@ static MacroEvent * GetMacroEventFromString(gchar **s,gint *k)
 	/* get event number */
 	me->message=strtoll(s[(*k)++],NULL,10);
 
+	/* default to 0 */
+	me->wparam=0;
+
 	/* now handle lparam if required */
 	switch(me->message)
 	{
+		case SCI_SEARCHNEXT:
+		case SCI_SEARCHPREV:
+			/* get text */
+			me->lparam=(glong)(g_strcompress(s[(*k)++]));
+			/* if text is empty string replace with NULL to signify use clipboard */
+			if((*((gchar*)(me->lparam)))==0)
+			{
+				g_free((gchar*)me->lparam);
+				me->lparam=(glong)NULL;
+			}
+
+			/* get search flags */
+			me->wparam=strtoll(s[(*k)++],NULL,10);
+			break;
 		case SCI_REPLACESEL:
 			/* get text */
 			me->lparam=(glong)(g_strcompress(s[(*k)++]));
@@ -415,6 +472,27 @@ static gchar *MacroEventToString(MacroEvent *me)
 	/* now handle lparam if required */
 	switch(me->message)
 	{
+		case SCI_SEARCHNEXT:
+		case SCI_SEARCHPREV:
+			/* check if string is NULL */
+			if(((gchar*)(me->lparam))==NULL)
+			{
+				/* now merge code and data */
+				szNumberAndData=g_strdup_printf("%s,,%lu",szMacroNumber,me->wparam);
+				/* free memory */
+				g_free(szMacroNumber);
+				return szNumberAndData;
+			}
+
+			/* first get string reprisentation of data */
+			pTemp=MakeStringSaveable((gchar*)(me->lparam));
+			/* now merge code and data */
+			szNumberAndData=g_strdup_printf("%s,%s,%lu",szMacroNumber,pTemp,me->wparam);
+			/* free memory */
+			g_free(szMacroNumber);
+			g_free(pTemp);
+			return szNumberAndData;
+
 		case SCI_REPLACESEL:
 			/* first get string reprisentation of data */
 			pTemp=MakeStringSaveable((gchar*)(me->lparam));
@@ -424,6 +502,7 @@ static gchar *MacroEventToString(MacroEvent *me)
 			g_free(szMacroNumber);
 			g_free(pTemp);
 			return szNumberAndData;
+
 		/* default handler for messages without extra data */
 		default:
 			return szMacroNumber;
@@ -432,8 +511,7 @@ static gchar *MacroEventToString(MacroEvent *me)
 
 
 /* check editor notifications and remember editor events */
-static gboolean Notification_Handler(GObject *obj, GeanyEditor *editor, SCNotification *nt,
-                                     gpointer user_data)
+static gboolean Notification_Handler(GObject *obj,GeanyEditor *ed,SCNotification *nt,gpointer ud)
 {
 	MacroEvent *me;
 	gint i;
@@ -466,9 +544,12 @@ static gboolean Notification_Handler(GObject *obj, GeanyEditor *editor, SCNotifi
 	}
 	me=g_new0(MacroEvent,1);
 	me->message=nt->message;
-/*    me->wparam=nt->wParam; */
-	/* Special handling for text inserting, duplicate inserted string */
-	me->lparam=(me->message==SCI_REPLACESEL)?((glong) g_strdup((gchar *)(nt->lParam))) : nt->lParam;
+	me->wparam=nt->wParam;
+	/* Special handling for text in lparam */
+	me->lparam=(me->message==SCI_SEARCHNEXT ||
+	            me->message==SCI_SEARCHPREV ||
+	            me->message==SCI_REPLACESEL)
+		?((glong) g_strdup((gchar *)(nt->lParam))) : nt->lParam;
 
 	/* more efficient to create reverse list and reverse it at the end */
 	RecordingMacro->MacroEvents=g_slist_prepend(RecordingMacro->MacroEvents,me);
@@ -641,7 +722,7 @@ static void LoadSettings(void)
 
 	/* extract settings */
 	bQueryOverwriteMacros=utils_get_setting_boolean(config,"Settings",
-													"Question_Macro_Overwrite",FALSE);
+	                                                "Question_Macro_Overwrite",FALSE);
 	bSaveMacros=utils_get_setting_boolean(config,"Settings","Save_Macros",FALSE);
 
 	/* extract macros */
@@ -676,8 +757,10 @@ static void LoadSettings(void)
 		g_free(pcTemp);
 		/* now go through macro data generating macros */
 		for(k=0,m->MacroEvents=NULL;pcMacroCommands[k]!=NULL;)
-			m->MacroEvents=g_slist_prepend(m->MacroEvents,GetMacroEventFromString(pcMacroCommands,
-																				&k));
+			m->MacroEvents=g_slist_prepend(m->MacroEvents,
+			                               GetMacroEventFromString(pcMacroCommands,
+		                                       &k));
+
 		/* list created in reverse as more efficient, now turn it around */
 		m->MacroEvents=g_slist_reverse(m->MacroEvents);
 		/* macro now complete, add it to the list */
@@ -758,6 +841,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 void plugin_help(void)
 {
 	GtkWidget *dialog,*label,*scroll;
+	gchar * cText;
 
 	/* create dialog box */
 	dialog=gtk_dialog_new_with_buttons(_("Geany Macros help"),
@@ -766,45 +850,48 @@ void plugin_help(void)
 		GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,
 		NULL);
 
-	/* create label */
-	label=gtk_label_new(
-		_("This Plugin implements Macros in Geany.\n\n")
-_("This plugin allows you to record and use your own macros. ")
-_("These are sequences of actions that can then be repeated with a single key combination. ")
+	/* setup help text */
+	cText=g_strconcat(
+_("This Plugin implements Macros in Geany.\n\n"),
+_("This plugin allows you to record and use your own macros. "),
+_("These are sequences of actions that can then be repeated with a single key combination. "),
 _("So if you had dozens of lines where you wanted to delete the last 2 characters, you could simpl\
-y start recording, press End, Backspace, Backspace, down line and then stop recording. ")
-_("Then simply trigger the macro and it would automatically edit the line and move to the next. ")
-_("Select Record Macro from the Tools menu and you will be prompted with a dialog box. ")
+y start recording, press End, Backspace, Backspace, down line and then stop recording. "),
+_("Then simply trigger the macro and it would automatically edit the line and move to the next. "),
+_("Select Record Macro from the Tools menu and you will be prompted with a dialog box. "),
 _("You need to specify a key combination that isn't being used, and a name for the macro to help y\
-ou identify it. ")
-_("Then press Record. ")
+ou identify it. "),
+_("Then press Record. "),
 _("What you do in the editor is then recorded until you select Stop Recording Macro from the Tools\
- menu. ")
-_("Simply pressing the specified key combination will re-run the macro. ")
-_("To edit the macros you have, select Edit Macro from the Tools menu. ")
-_("You can select a macro and delete it, or re-record it. ")
+ menu. "),
+_("Simply pressing the specified key combination will re-run the macro. "),
+_("To edit the macros you have, select Edit Macro from the Tools menu. "),
+_("You can select a macro and delete it, or re-record it. "),
 _("You can also click on a macro's name and change it, or the key combination and re-define that a\
-ssuming that it's not already in use. ")
+ssuming that it's not already in use. "),
 _("Selecting the edit option allows you to view all the individual elements that make up the macro\
-. ")
+. "),
 _("You can select a diferent command for each element, move them, add new elements, delete element\
 s, or if it's replace/insert, you can edit the text that replaces the selected text, or is inserte\
-d.\n\n")
+d.\n\n"),
 
 _("The only thing to bear in mind is that undo and redo actions are not recorded, and won't be rep\
-layed when the macro is re-run.\n\n")
-
+layed when the macro is re-run.\n\n"),
 
 _("You can alter the default behaviour of this plugin by selecting Plugin Manager under the Tools \
-menu, selecting this plugin, and cliking Preferences. ")
-_("You can change:\n")
+menu, selecting this plugin, and cliking Preferences. "),
+_("You can change:\n"),
 _("Save Macros when close Geany - If this is selected then Geany will save any recorded macros and\
  reload them for use the next time you open Geany, if not they will be lost when Geany is closed.\
-\n")
+\n"),
 _("Ask before replaceing existing Macros - If this is selected then if you try recording a macro o\
 ver an existing one it will check before over-writing it, giving you the option of trying a differ\
 ent name or key trigger combination, otherwise it will simply erase any existing macros with the s\
-ame name, or the same key trigger combination."));
+ame name, or the same key trigger combination."),
+NULL);
+
+	/* create label */
+	label=gtk_label_new(cText);
 	gtk_label_set_line_wrap(GTK_LABEL(label),TRUE);
 	gtk_widget_show(label);
 
@@ -823,6 +910,9 @@ ame name, or the same key trigger combination."));
 	/* display the dialog */
 	gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_destroy(dialog);
+
+	/* free memory */
+	g_free(cText);
 }
 
 
@@ -1206,6 +1296,200 @@ static void Accel_Render_Edited_CallBack(GtkCellRendererAccel *cell,gchar *iter_
 }
 
 
+/* Get Search Description string with search text and flags at end*/
+static gchar * GetSearchDescription(gint message,gchar *text,gint flags)
+{
+	return g_strdup_printf(_("Search %s, looking for %s%s%s.%s%s%s%s%s"),
+		message==SCI_SEARCHNEXT?"forewards":"backwards",
+		text==NULL?"":"\"",
+		text==NULL?"clipboard contents":text,
+		text==NULL?"":"\"",
+		(flags&SCFIND_MATCHCASE)==SCFIND_MATCHCASE?" Match case.":"",
+		(flags&SCFIND_WHOLEWORD)==SCFIND_WHOLEWORD?" Match whole word.":"",
+		(flags&SCFIND_WORDSTART)==SCFIND_WORDSTART?" Match start of word.":"",
+		(flags&SCFIND_REGEXP)==SCFIND_REGEXP?" Search by Regular Expression.":"",
+		(flags&SCFIND_POSIX)==SCFIND_POSIX?" Regular Expression is POSIX.":"");
+}
+
+
+/* handle button presses in the preferences dialog box */
+static void on_search_toggle(GtkToggleButton *cb,gpointer user_data)
+{
+	GtkEntry *gtke;
+	GtkLabel *gtkl;
+	gboolean bUseClipboard;
+
+	/* retreive pointers to entry & label */
+	gtke=(GtkEntry*)(g_object_get_data(G_OBJECT(cb),"GeanyMacros_e"));
+	gtkl=(GtkLabel*)(g_object_get_data(G_OBJECT(cb),"GeanyMacros_l"));
+
+	/* find out what we're searching for */
+	bUseClipboard=gtk_toggle_button_get_active(cb);
+
+	/* set entry & label depending on if we're looking for text or not */
+	gtk_widget_set_sensitive((GtkWidget*)gtke,!bUseClipboard);
+	gtk_widget_set_sensitive((GtkWidget*)gtkl,!bUseClipboard);
+}
+
+
+/* Handle editing of options for search */
+static void EditSearchOptions(GtkTreeModel *model,GtkTreeIter *iter)
+{
+	GtkWidget *dialog,*gtke,*hbox,*gtkl;
+	gchar *cTemp,*cData,*cText,*cTemp2;
+	gint iReply=GTK_RESPONSE_OK,i;
+	GtkWidget *vbox,*gtkcb;
+	GtkWidget *cbA,*cbB,*cbC,*cbD,*cbE,*cbF;
+	MacroDetailEntry *mde;
+	gulong flags;
+
+	/* get MacroDetail and data for this line */
+	gtk_tree_model_get(model,iter,2,&mde,3,&cData,-1);
+
+	/* make cText point to search text */
+	cText=strchr(cData,',');
+	cText++;
+
+	/* get search flags */
+	flags=strtoll(cData,NULL,10);
+
+	/* create dialog box */
+	dialog=gtk_dialog_new_with_buttons(_("Search Options:"),
+	                                   GTK_WINDOW(geany->main_widgets->window),
+	                                   GTK_DIALOG_DESTROY_WITH_PARENT,NULL);
+
+	/* create buttons */
+	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Ok"),GTK_RESPONSE_OK);
+	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Cancel"),GTK_RESPONSE_CANCEL);
+
+	/* create box to hold widgets */
+	vbox=gtk_vbox_new(FALSE, 6);
+	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox),vbox);
+	gtk_widget_show(vbox);
+
+	/* create combobox to hold search direction */
+	gtkcb=gtk_combo_box_new_text();
+	gtk_combo_box_append_text((GtkComboBox*)gtkcb,_("Search Forwards"));
+	gtk_combo_box_append_text((GtkComboBox*)gtkcb,_("Search Backwards"));
+	gtk_combo_box_set_active((GtkComboBox*)gtkcb,(mde->message==SCI_SEARCHNEXT)?0:1);
+	gtk_box_pack_start(GTK_BOX(vbox),gtkcb,FALSE,FALSE,2);
+	gtk_widget_show(gtkcb);
+
+	/* create checkbox to check for search options */
+	cbA=gtk_check_button_new_with_label(_("Seach for contents of clipboard"));
+	/* if search text is empty then to seach for clipboard contents */
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cbA),(*cText)==0);
+	gtk_box_pack_start(GTK_BOX(vbox),cbA,FALSE,FALSE,2);
+	/* ensure we monitor for change in this button */
+	g_signal_connect(cbA,"toggled",G_CALLBACK(on_search_toggle),dialog);
+	gtk_widget_show(cbA);
+
+
+	/* create box to hold search text entry box, and label */
+	hbox=gtk_hbox_new(FALSE,0);
+	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,2);
+	gtk_widget_show(hbox);
+
+	gtkl=gtk_label_new(_("Seach for:"));
+	gtk_box_pack_start(GTK_BOX(hbox),gtkl,FALSE,FALSE,2);
+	gtk_widget_show(gtkl);
+	/* save pointer to label */
+	g_object_set_data(G_OBJECT(cbA),"GeanyMacros_l",gtkl);
+	gtk_widget_set_sensitive((GtkWidget*)gtkl,(*cText)!=0);
+
+	gtke=gtk_entry_new();
+	if((*cText)!=0)
+		gtk_entry_set_text(GTK_ENTRY(gtke),cText);
+
+	gtk_box_pack_start(GTK_BOX(hbox),gtke,FALSE,FALSE,2);
+	gtk_widget_show(gtke);
+	/* save pointer to entry */
+	g_object_set_data(G_OBJECT(cbA),"GeanyMacros_e",gtke);
+	gtk_widget_set_sensitive((GtkWidget*)gtke,(*cText)!=0);
+
+	/* create checkbox to check for search options */
+	cbB=gtk_check_button_new_with_label(_("Seach is case sensitive"));
+	/* if search text is empty then to seach for clipboard contents */
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cbB),(flags&SCFIND_MATCHCASE)==SCFIND_MATCHCASE);
+	gtk_box_pack_start(GTK_BOX(vbox),cbB,FALSE,FALSE,2);
+
+	cbC=gtk_check_button_new_with_label(_("Seach for whole word"));
+	/* if search text is empty then to seach for clipboard contents */
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cbC),(flags&SCFIND_WHOLEWORD)==SCFIND_WHOLEWORD);
+	gtk_box_pack_start(GTK_BOX(vbox),cbC,FALSE,FALSE,2);
+
+	cbD=gtk_check_button_new_with_label(_("Seach for start of word"));
+	/* if search text is empty then to seach for clipboard contents */
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cbD),(flags&SCFIND_WORDSTART)==SCFIND_WORDSTART);
+	gtk_box_pack_start(GTK_BOX(vbox),cbD,FALSE,FALSE,2);
+
+	cbE=gtk_check_button_new_with_label(_("Seach text is regular expression"));
+	/* if search text is empty then to seach for clipboard contents */
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cbE),(flags&SCFIND_REGEXP)==SCFIND_REGEXP);
+	gtk_box_pack_start(GTK_BOX(vbox),cbE,FALSE,FALSE,2);
+
+	cbF=gtk_check_button_new_with_label(_("Seach text is POSIX compatible"));
+	/* if search text is empty then to seach for clipboard contents */
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cbF),(flags&SCFIND_POSIX)==SCFIND_POSIX);
+	gtk_box_pack_start(GTK_BOX(vbox),cbF,FALSE,FALSE,2);
+
+	gtk_widget_show_all(vbox);
+
+	while(iReply==GTK_RESPONSE_OK)
+	{
+		iReply=gtk_dialog_run(GTK_DIALOG(dialog));
+
+		if(iReply==GTK_RESPONSE_OK)
+		{
+			/* handle change in options */
+
+			/* check search direction 0=foreward, 1=backwards */
+			iReply=gtk_combo_box_get_active((GtkComboBox*)gtkcb);
+
+			/* calculate macro detail of relavent detail */
+			i=0;
+			while(MacroDetails[i].message!=SCI_SEARCHNEXT) i++;
+			mde=(MacroDetailEntry *)(&MacroDetails[i+iReply]);
+
+			/* calculate flags */
+			flags=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cbB))?SCFIND_MATCHCASE:0;
+			flags|=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cbC))?SCFIND_WHOLEWORD:0;
+			flags|=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cbD))?SCFIND_WORDSTART:0;
+			flags|=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cbE))?SCFIND_REGEXP:0;
+			flags|=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cbF))?SCFIND_POSIX:0;
+
+			/* get search string or NULL if using clipboard */
+			cText=(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cbA)))?
+			           NULL:(gchar*)gtk_entry_get_text((GtkEntry*)(gtke));
+
+			/* get new data */
+			cData=g_strdup_printf("%lu,%s",flags,(cText==NULL)?"":cText);
+
+			/* get new text */
+			cText=GetSearchDescription(mde->message,cText,flags);
+
+			/* get old data for this line */
+			gtk_tree_model_get(model,iter,0,&cTemp,3,&cTemp2,-1);
+
+			/* set text and macro detail */
+			gtk_list_store_set(GTK_LIST_STORE(model),iter,0,cText,2,mde,3,cData,-1);
+
+			/* free up old text */
+			g_free(cTemp);
+			g_free(cTemp2);
+
+			/* break out of loop */
+			break;
+		}
+
+	}
+
+	/* tidy up */
+	gtk_widget_destroy(dialog);
+}
+
+
+/* Handle editing of text for SCI_REPLACESEL */
 static void EditSCIREPLACESELText(GtkTreeModel *model,GtkTreeIter *iter)
 {
 	GtkWidget *dialog,*gtke,*hbox,*gtkl;
@@ -1278,6 +1562,7 @@ static void combo_edited(GtkCellRendererText *cell,gchar *iter_id,gchar *new_tex
 	MacroDetailEntry *mde;
 	gint i;
 	gchar *cTemp,*cTemp2;
+	gboolean bNeedButtonUpdate=FALSE;
 
 	/* find MacroDetails that has the setting of new setting */
 	i=0;
@@ -1293,16 +1578,35 @@ static void combo_edited(GtkCellRendererText *cell,gchar *iter_id,gchar *new_tex
 
 	/* handle freeing of string if needed */
 	g_free(cTemp);
-	if(mde->message==SCI_REPLACESEL)
+	if(mde->message==SCI_REPLACESEL ||
+	   mde->message==SCI_SEARCHNEXT ||
+	   mde->message==SCI_SEARCHPREV)
+	{
 		g_free(cTemp2);
+		bNeedButtonUpdate=TRUE;
+	}
+
+	/* see what text will have to change into */
+	cTemp=(gchar*)(MacroDetails[i].description);
+	cTemp2=NULL;
+	if(MacroDetails[i].message==SCI_REPLACESEL)
+	{
+		cTemp=g_strdup_printf(_("Insert/replace with \"\""));
+		bNeedButtonUpdate=TRUE;
+	}
+	else if(MacroDetails[i].message==SCI_SEARCHNEXT ||
+	   MacroDetails[i].message==SCI_SEARCHPREV)
+	{
+		cTemp=GetSearchDescription(MacroDetails[i].message,NULL,0);
+		cTemp2=g_strdup("0,");
+		bNeedButtonUpdate=TRUE;
+	}
 
 	/* Update the model */
-	gtk_list_store_set(GTK_LIST_STORE(model),&iter,0,(MacroDetails[i].message==SCI_REPLACESEL?
-	                   g_strdup_printf(_("Insert/replace with \"\"")):MacroDetails[i].description),2,
-	                   &(MacroDetails[i]),3,NULL,-1);
+	gtk_list_store_set(GTK_LIST_STORE(model),&iter,0,cTemp,2,&(MacroDetails[i]),3,cTemp2,-1);
 
 	/* check if changing to or from SCI_REPLACESEL and enable/disable edit button as needed */
-	if(mde->message==SCI_REPLACESEL || MacroDetails[i].message==SCI_REPLACESEL)
+	if(bNeedButtonUpdate)
 		g_signal_emit_by_name(gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview)),"changed",
 		                      G_TYPE_NONE);
 }
@@ -1332,7 +1636,9 @@ static void DoEditMacroElementsSelectionChanged(GtkTreeSelection *selection,gpoi
 
 		/* find edit text button & enable it if looking at a SCI_REPLACESEL item*/
 		button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_EDIT);
-		gtk_widget_set_sensitive(button,mde->message==SCI_REPLACESEL);
+		gtk_widget_set_sensitive(button,mde->message==SCI_REPLACESEL ||
+		                                mde->message==SCI_SEARCHNEXT ||
+		                                mde->message==SCI_SEARCHPREV);
 
 		/* get copy of iteraton */
 		iter2=iter;
@@ -1403,26 +1709,43 @@ static void EditMacroElements(Macro *m)
 	{
  		me=(MacroEvent*)(gsl->data);
 		i=0;
-		while(MacroDetails[i].description!=NULL) {
+		while(MacroDetails[i].description!=NULL)
+		{
 			if(MacroDetails[i].message==me->message) break;
 			i++;
 		}
 
 		gtk_list_store_append(ls,&iter);  /*  Acquire an iterator */
 		/* set text, pointer to macro detail, and any ascociated string */
-		gtk_list_store_set(ls,&iter,0,(me->message==SCI_REPLACESEL?
-		                   g_strdup_printf(_("Insert/replace with \"%s\""),(gchar*)(me->lparam)):
-		                   MacroDetails[i].description),2,&(MacroDetails[i]),3,
-		                   (me->message==SCI_REPLACESEL?g_strdup((gchar*)(me->lparam)):NULL),-1);
+		cTemp=(gchar*)(MacroDetails[i].description);
+		cTemp2=NULL;
+		if(me->message==SCI_REPLACESEL)
+		{
+			cTemp=g_strdup_printf(_("Insert/replace with \"%s\""),
+			                      (gchar*)(me->lparam));
+			cTemp2=g_strdup((gchar*)(me->lparam));
+		}
+		else if(MacroDetails[i].message==SCI_SEARCHNEXT ||
+		        MacroDetails[i].message==SCI_SEARCHPREV)
+		{
+			cTemp=GetSearchDescription(MacroDetails[i].message,(gchar*)(me->lparam),
+			                           me->wparam);
+			cTemp2=g_strdup_printf("%lu,%s",me->wparam,((gchar*)(me->lparam)==NULL)?
+			                       "":((gchar*)(me->lparam)));
+		}
+
+		gtk_list_store_set(ls,&iter,0,cTemp,2,&(MacroDetails[i]),3,cTemp2,-1);
 		gsl=g_slist_next(gsl);
 	}
 
 	/* create list store for combo renderer */
 	lsCombo=gtk_list_store_new(2,G_TYPE_STRING,G_TYPE_POINTER);
 	i=0;
-	while(MacroDetails[i].description!=NULL) {
+	while(MacroDetails[i].description!=NULL)
+	{
 		gtk_list_store_append(lsCombo,&iter);
-		gtk_list_store_set(lsCombo,&iter,0,MacroDetails[i].description,1,&(MacroDetails[i]),-1);
+		gtk_list_store_set(lsCombo,&iter,0,MacroDetails[i].description,1,
+		                   &(MacroDetails[i]),-1);
 		i++;
 	}
 
@@ -1437,8 +1760,8 @@ static void EditMacroElements(Macro *m)
 	gtk_tree_view_set_grid_lines(GTK_TREE_VIEW(table),GTK_TREE_VIEW_GRID_LINES_BOTH);
 
 	/* add column */
-	column=gtk_tree_view_column_new_with_attributes(_("Event"),renderer,"text",0,"text-column",1,
-	                                                NULL);
+	column=gtk_tree_view_column_new_with_attributes(_("Event"),renderer,"text",0,"text-column"
+	                                                ,1,NULL);
 	g_signal_connect(renderer,"edited",G_CALLBACK(combo_edited),table);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(table),column);
 
@@ -1456,15 +1779,15 @@ static void EditMacroElements(Macro *m)
 	gtk_dialog_add_button(GTK_DIALOG(dialog),_("Move Do_wn"),GEANY_MACRO_BUTTON_DOWN);
 	gtk_dialog_add_button(GTK_DIALOG(dialog),_("New _Above"),GEANY_MACRO_BUTTON_ABOVE);
 	gtk_dialog_add_button(GTK_DIALOG(dialog),_("New _Below"),GEANY_MACRO_BUTTON_BELOW);
-	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Edit Text"),GEANY_MACRO_BUTTON_EDIT);
+	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Edit"),GEANY_MACRO_BUTTON_EDIT);
 	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Delete"),GEANY_MACRO_BUTTON_DELETE);
 	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Ok"),GEANY_MACRO_BUTTON_APPLY);
 	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Cancel"),GEANY_MACRO_BUTTON_CANCEL);
 
 	/* listen for changes in selection */
 	selection=gtk_tree_view_get_selection(GTK_TREE_VIEW(table));
-	g_signal_connect(G_OBJECT(selection),"changed",G_CALLBACK(DoEditMacroElementsSelectionChanged),
-	                 dialog);
+	g_signal_connect(G_OBJECT(selection),"changed",
+	                 G_CALLBACK(DoEditMacroElementsSelectionChanged),dialog);
 
 	/* call callback: this will set buttons acordingly */
 	DoEditMacroElementsSelectionChanged(selection,dialog);
@@ -1486,9 +1809,14 @@ static void EditMacroElements(Macro *m)
 			if(i==GEANY_MACRO_BUTTON_DELETE)
 			{
 				/* see if need to free non-static string */
-				gtk_tree_model_get(GTK_TREE_MODEL(ls),&iter,0,&cTemp,2,&mde,-1);
-				if(mde->message==SCI_REPLACESEL)
+				gtk_tree_model_get(GTK_TREE_MODEL(ls),&iter,0,&cTemp,2,&mde,3,&cTemp2,-1);
+				if(mde->message==SCI_REPLACESEL ||
+				   mde->message==SCI_SEARCHNEXT ||
+				   mde->message==SCI_SEARCHPREV)
+				{
 					g_free(cTemp);
+					g_free(cTemp2);
+				}
 
 				/* remove element */
 				gtk_list_store_remove(ls,&iter);
@@ -1561,6 +1889,9 @@ static void EditMacroElements(Macro *m)
 				gtk_tree_model_get(GTK_TREE_MODEL(ls),&iter,2,&mde,-1);
 				if(mde->message==SCI_REPLACESEL)
 					EditSCIREPLACESELText(GTK_TREE_MODEL(ls),&iter);
+				else if(mde->message==SCI_SEARCHNEXT || mde->message==SCI_SEARCHPREV)
+					EditSearchOptions(GTK_TREE_MODEL(ls),&iter);
+
 			}
 
 		} //end of commands that require line to be selected
@@ -1594,10 +1925,21 @@ static void EditMacroElements(Macro *m)
 
 				me->message=mde->message;
 				me->lparam=0;
+				me->wparam=0;
 
 				/* Special handling for text inserting, duplicate inserted string */
 				if(me->message==SCI_REPLACESEL)
-					me->lparam=(glong)((cTemp!=NULL)?g_strdup(cTemp):g_strdup_printf(""));
+					me->lparam=(glong)((cTemp!=NULL)?g_strdup(cTemp):g_strdup(""));
+
+				/* Special handling for search */
+				if(me->message==SCI_SEARCHNEXT || me->message==SCI_SEARCHPREV)
+				{
+					cTemp2=strchr(cTemp,',');
+					cTemp2++;
+
+					me->lparam=(glong)(((*cTemp2)==0)?NULL:g_strdup(cTemp2));
+					me->wparam=strtoll(cTemp,NULL,10);
+				}
 
 				/* more efficient to create reverse list and reverse it at the end */
 				m->MacroEvents=g_slist_prepend(m->MacroEvents,me);
@@ -1623,7 +1965,8 @@ static void EditMacroElements(Macro *m)
 
 		/* free any non-static text */
 		g_free((void*)(cTemp));
-		if(mde->message==SCI_REPLACESEL)
+		if(mde->message==SCI_REPLACESEL || mde->message==SCI_SEARCHNEXT ||
+		   mde->message==SCI_SEARCHPREV)
 			g_free(cTemp2);
 
 		/* get next event */
