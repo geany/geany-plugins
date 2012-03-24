@@ -1771,7 +1771,7 @@ static void EditMacroElements(Macro *m)
 
 	/* add table to dialog */
 	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox),table);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox),table,FALSE,FALSE,2);
+//	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox),table,FALSE,FALSE,2);
 	gtk_widget_show(table);
 
 	/* add buttons */
