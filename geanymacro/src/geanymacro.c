@@ -120,16 +120,16 @@ const MacroDetailEntry MacroDetails[]={
 {SCI_WORDLEFTENDEXTEND,N_("Extend Selection to end of Word to the Left")},
 {SCI_WORDRIGHTENDEXTEND,N_("Extend Selection to end of Word to the Right")},
 
-{SCI_LINEDOWNRECTEXTEND,N_("Move Rectangular Selection down a line")},
-{SCI_LINEUPRECTEXTEND,N_("Move Rectangular Selection up a line")},
-{SCI_CHARLEFTRECTEXTEND,N_("Move Rectangular Selection Left a line")},
-{SCI_CHARRIGHTRECTEXTEND,N_("Move Rectangular Selection Right a line")},
-{SCI_HOMERECTEXTEND,N_("Move Rectangular Selection to start of line")},
-{SCI_LINEENDRECTEXTEND,N_("Move Rectangular Selection to end of line")},
-{SCI_PAGEUPRECTEXTEND,N_("Move Rectangular Selection up one Page")},
-{SCI_PAGEDOWNRECTEXTEND,N_("Move Rectangular Selection down one Page")},
-{SCI_VCHOMERECTEXTEND,N_("Move Rectangular Selection to 1st non-whitespace character of line, or 1st\
- character of line if already at 1st non-whitespace character")},
+{SCI_LINEDOWNRECTEXTEND,N_("Extend Rectangular Selection down a line")},
+{SCI_LINEUPRECTEXTEND,N_("Extend Rectangular Selection up a line")},
+{SCI_CHARLEFTRECTEXTEND,N_("Extend Rectangular Selection Left a line")},
+{SCI_CHARRIGHTRECTEXTEND,N_("Extend Rectangular Selection Right a line")},
+{SCI_HOMERECTEXTEND,N_("Extend Rectangular Selection to start of line")},
+{SCI_LINEENDRECTEXTEND,N_("Extend Rectangular Selection to end of line")},
+{SCI_PAGEUPRECTEXTEND,N_("Extend Rectangular Selection up one Page")},
+{SCI_PAGEDOWNRECTEXTEND,N_("Extend Rectangular Selection down one Page")},
+{SCI_VCHOMERECTEXTEND,N_("Extend Rectangular Selection to 1st non-whitespace character of line, or\
+ 1st character of line if already at 1st non-whitespace character")},
 
 {SCI_CANCEL,N_("Cancel Selection")},
 
