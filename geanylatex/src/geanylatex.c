@@ -93,6 +93,8 @@ static gboolean glatex_autocompletion_active = FALSE;
 static gint glatex_autocompletion_context_size;
 static gboolean glatex_autocompletion_only_for_latex;
 gboolean glatex_autobraces_active = TRUE;
+gboolean glatex_lowercase_on_smallcaps = FALSE;
+
 
 /* Function will be deactivated, when only loaded */
 static gboolean toggle_active = FALSE;
@@ -146,6 +148,7 @@ static struct
 	GtkWidget *glatex_autocompletion_active;
 	GtkWidget *glatex_capitalize_sentence;
 	GtkWidget *wizard_to_generic_toolbar;
+	GtkWidget *lower_selection_on_smallcaps;
 }
 config_widgets;
 
@@ -201,6 +204,8 @@ on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(config_widgets.glatex_capitalize_sentence));
 		glatex_wizard_to_generic_toolbar =
 			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(config_widgets.wizard_to_generic_toolbar));
+		glatex_lowercase_on_smallcaps =
+			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(config_widgets.lower_selection_on_smallcaps));
 
 		/* Check the response code for geanyLaTeX's autocompletion functions.
 		 * Due compatibility with oder Geany versions cass 0 will be treated
@@ -221,6 +226,8 @@ on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 			glatex_set_toolbar_active);
 		g_key_file_set_boolean(config, "general", "glatex_set_autocompletion",
 			glatex_autocompletion_active);
+		g_key_file_set_boolean(config, "general", "glatex_lowercase_on_smallcaps",
+			glatex_lowercase_on_smallcaps);
 		g_key_file_set_boolean(config, "autocompletion",
 			"glatex_capitalize_sentence_starts", glatex_capitalize_sentence_starts);
 		g_key_file_set_boolean(config, "toolbar", "glatex_wizard_to_generic_toolbar",
@@ -295,6 +302,8 @@ plugin_configure(GtkDialog * dialog)
 		_("Capitalize sentence on typing"));
 	config_widgets.wizard_to_generic_toolbar = gtk_check_button_new_with_label(
 		_("Add a wizard icon to Geany's main toolbar"));
+	config_widgets.lower_selection_on_smallcaps = gtk_check_button_new_with_label(
+		_("Lower selection when formating smallcaps (\\textsc{})"));
 
 	config_widgets.glatex_autocompletion_active = gtk_combo_box_new_text();
 	gtk_combo_box_insert_text(GTK_COMBO_BOX(config_widgets.glatex_autocompletion_active), 0,
@@ -310,6 +319,7 @@ plugin_configure(GtkDialog * dialog)
 		tmp = 1;
 	else
 		tmp = 0;
+
 	gtk_combo_box_set_active(GTK_COMBO_BOX(config_widgets.glatex_autocompletion_active), tmp);
 
 	label_autocompletion = gtk_label_new(_("Modus of autocompletion"));
@@ -328,6 +338,9 @@ plugin_configure(GtkDialog * dialog)
 	gtk_box_pack_start(GTK_BOX(vbox), config_widgets.glatex_capitalize_sentence, FALSE, FALSE, 2);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(config_widgets.wizard_to_generic_toolbar),
 		glatex_wizard_to_generic_toolbar);
+	gtk_box_pack_start(GTK_BOX(vbox), config_widgets.lower_selection_on_smallcaps, FALSE, FALSE, 2);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(config_widgets.lower_selection_on_smallcaps),
+		glatex_lowercase_on_smallcaps);
 	gtk_box_pack_start(GTK_BOX(vbox), config_widgets.wizard_to_generic_toolbar, FALSE, FALSE, 2);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox_autocompletion, FALSE, FALSE, 2);
 
@@ -1998,6 +2011,8 @@ static void glatex_init_configuration()
 		"glatex_set_autocompletion", TRUE);
 	glatex_autobraces_active = utils_get_setting_boolean(config, "autocompletion",
 		"glatex_set_autobraces", TRUE);
+	glatex_lowercase_on_smallcaps = utils_get_setting_boolean(config, "general",
+		"glatex_lowercase_on_smallcaps", FALSE);
 
 	/* Hidden preferences. Can be set directly via configuration file*/
 	glatex_autocompletion_context_size = utils_get_setting_integer(config, "autocompletion",

@@ -20,6 +20,7 @@
  */
 
 #include "formatutils.h"
+#include "string.h"
 
 
 void glatex_insert_latex_format(G_GNUC_UNUSED GtkMenuItem * menuitem,
@@ -38,6 +39,15 @@ void glatex_insert_latex_format(G_GNUC_UNUSED GtkMenuItem * menuitem,
 
 			selection = sci_get_selection_contents(doc->editor->sci);
 
+			if (format == LATEX_SMALLCAPS &&
+				glatex_lowercase_on_smallcaps == TRUE)
+			{
+				gchar *new_selection = NULL;
+				new_selection = g_utf8_strdown(selection, -1);
+				g_free(selection);
+				selection = g_strdup(new_selection);
+				g_free(new_selection);
+			}
 			replacement = g_strconcat(glatex_format_pattern[format],"{",
 				selection, "}", NULL);
 
