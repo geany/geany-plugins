@@ -1631,11 +1631,11 @@ static void DoEditMacroElementsSelectionChanged(GtkTreeSelection *selection,gpoi
 		gtk_tree_model_get(GTK_TREE_MODEL(model),&iter,2,&mde,-1);
 
 		/* find delete button & enable it*/
-		button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_DELETE);
+		button=(GtkWidget*)(g_object_get_data(G_OBJECT(dialog),"GeanyMacros_bD"));
 		gtk_widget_set_sensitive(button,TRUE);
 
 		/* find edit text button & enable it if looking at a SCI_REPLACESEL item*/
-		button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_EDIT);
+		button=(GtkWidget*)(g_object_get_data(G_OBJECT(dialog),"GeanyMacros_bC"));
 		gtk_widget_set_sensitive(button,mde->message==SCI_REPLACESEL ||
 		                                mde->message==SCI_SEARCHNEXT ||
 		                                mde->message==SCI_SEARCHPREV);
@@ -1643,11 +1643,11 @@ static void DoEditMacroElementsSelectionChanged(GtkTreeSelection *selection,gpoi
 		/* get copy of iteraton */
 		iter2=iter;
 		/* if can move to next node then it's not the last. use to set Move down */
-		button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_DOWN);
+		button=(GtkWidget*)(g_object_get_data(G_OBJECT(dialog),"GeanyMacros_bB"));
 		gtk_widget_set_sensitive(button,gtk_tree_model_iter_next(GTK_TREE_MODEL(model),&iter2));
 
 		/* find Move up button & enable/disable it */
-		button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_UP);
+		button=(GtkWidget*)(g_object_get_data(G_OBJECT(dialog),"GeanyMacros_bA"));
 		/* get the path of the current selected line */
 		tpTemp=gtk_tree_model_get_path(GTK_TREE_MODEL(model),&iter);
 		/* if has previous then can be moved up a line */
@@ -1659,19 +1659,19 @@ static void DoEditMacroElementsSelectionChanged(GtkTreeSelection *selection,gpoi
 	else
 	{
 		/* find delete button & diable it*/
-		button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_DELETE);
+		button=(GtkWidget*)(g_object_get_data(G_OBJECT(dialog),"GeanyMacros_bD"));
 		gtk_widget_set_sensitive(button,FALSE);
 
 		/* find edit text button & diable it*/
-		button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_EDIT);
+		button=(GtkWidget*)(g_object_get_data(G_OBJECT(dialog),"GeanyMacros_bC"));
 		gtk_widget_set_sensitive(button,FALSE);
 
 		/* find Move up button & diable it*/
-		button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_UP);
+		button=(GtkWidget*)(g_object_get_data(G_OBJECT(dialog),"GeanyMacros_bA"));
 		gtk_widget_set_sensitive(button,FALSE);
 
 		/* find Move Down button & diable it*/
-		button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_DOWN);
+		button=(GtkWidget*)(g_object_get_data(G_OBJECT(dialog),"GeanyMacros_bB"));
 		gtk_widget_set_sensitive(button,FALSE);
 	}
 
@@ -1681,7 +1681,7 @@ static void DoEditMacroElementsSelectionChanged(GtkTreeSelection *selection,gpoi
 /* edit individual existing macro */
 static void EditMacroElements(Macro *m)
 {
-	GtkWidget *table,*dialog;
+	GtkWidget *table,*dialog,*button;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 	GtkTreeSelection *selection;
@@ -1775,12 +1775,16 @@ static void EditMacroElements(Macro *m)
 	gtk_widget_show(table);
 
 	/* add buttons */
-	gtk_dialog_add_button(GTK_DIALOG(dialog),_("Move _Up"),GEANY_MACRO_BUTTON_UP);
-	gtk_dialog_add_button(GTK_DIALOG(dialog),_("Move Do_wn"),GEANY_MACRO_BUTTON_DOWN);
+	button=gtk_dialog_add_button(GTK_DIALOG(dialog),_("Move _Up"),GEANY_MACRO_BUTTON_UP);
+	g_object_set_data(G_OBJECT(dialog),"GeanyMacros_bA",button);
+	button=gtk_dialog_add_button(GTK_DIALOG(dialog),_("Move Do_wn"),GEANY_MACRO_BUTTON_DOWN);
+	g_object_set_data(G_OBJECT(dialog),"GeanyMacros_bB",button);
 	gtk_dialog_add_button(GTK_DIALOG(dialog),_("New _Above"),GEANY_MACRO_BUTTON_ABOVE);
 	gtk_dialog_add_button(GTK_DIALOG(dialog),_("New _Below"),GEANY_MACRO_BUTTON_BELOW);
-	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Edit"),GEANY_MACRO_BUTTON_EDIT);
-	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Delete"),GEANY_MACRO_BUTTON_DELETE);
+	button=gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Edit"),GEANY_MACRO_BUTTON_EDIT);
+	g_object_set_data(G_OBJECT(dialog),"GeanyMacros_bC",button);
+	button=gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Delete"),GEANY_MACRO_BUTTON_DELETE);
+	g_object_set_data(G_OBJECT(dialog),"GeanyMacros_bD",button);
 	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Ok"),GEANY_MACRO_BUTTON_APPLY);
 	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Cancel"),GEANY_MACRO_BUTTON_CANCEL);
 
@@ -1996,11 +2000,11 @@ static void DoEditMacroSelectionChanged(GtkTreeSelection *selection,gpointer dat
 	bHasItemSelected=gtk_tree_selection_get_selected(selection,&model,&iter);
 
 	/* now set button sensitive or not depending if there is something for them to act on */
-	button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_RERECORD);
+	button=(GtkWidget*)(g_object_get_data(G_OBJECT(dialog),"GeanyMacros_bA"));
 	gtk_widget_set_sensitive(button,bHasItemSelected);
-	button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_EDIT);
+	button=(GtkWidget*)(g_object_get_data(G_OBJECT(dialog),"GeanyMacros_bB"));
 	gtk_widget_set_sensitive(button,bHasItemSelected);
-	button=gtk_dialog_get_widget_for_response(dialog,GEANY_MACRO_BUTTON_DELETE);
+	button=(GtkWidget*)(g_object_get_data(G_OBJECT(dialog),"GeanyMacros_bC"));
 	gtk_widget_set_sensitive(button,bHasItemSelected);
 }
 
@@ -2008,7 +2012,7 @@ static void DoEditMacroSelectionChanged(GtkTreeSelection *selection,gpointer dat
 /* do editing of existing macros */
 static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 {
-	GtkWidget *table,*dialog;
+	GtkWidget *table,*dialog,*button;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 	GtkTreeSelection *selection;
@@ -2073,9 +2077,12 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 	gtk_widget_show(table);
 
 	/* add buttons */
-	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Re-Record"),GEANY_MACRO_BUTTON_RERECORD);
-	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Edit"),GEANY_MACRO_BUTTON_EDIT);
-	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Delete"),GEANY_MACRO_BUTTON_DELETE);
+	button=gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Re-Record"),GEANY_MACRO_BUTTON_RERECORD);
+	g_object_set_data(G_OBJECT(dialog),"GeanyMacros_bA",button);
+	button=gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Edit"),GEANY_MACRO_BUTTON_EDIT);
+	g_object_set_data(G_OBJECT(dialog),"GeanyMacros_bB",button);
+	button=gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Delete"),GEANY_MACRO_BUTTON_DELETE);
+	g_object_set_data(G_OBJECT(dialog),"GeanyMacros_bC",button);
 	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Ok"),GEANY_MACRO_BUTTON_CANCEL);
 
 	/* listen for changes in selection */
