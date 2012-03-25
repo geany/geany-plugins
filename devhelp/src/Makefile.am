@@ -10,7 +10,6 @@ EXTRA_LTLIBRARIES = devhelp.la
 endif
 
 devhelp_la_SOURCES = \
-	dhp-codesearch.c \
 	dhp-manpages.c \
 	dhp-object.c \
 	dhp-plugin.c
