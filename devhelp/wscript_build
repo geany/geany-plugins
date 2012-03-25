@@ -23,13 +23,14 @@
 
 from build.wafutils import build_plugin
 
+import glob
 
 name = 'Devhelp'
-includes = ['devhelp/src']
-libraries = [ 'GTK', 'GLIB', 'GTHREAD', 'LIBDEVHELP', 'WEBKIT' ]
-sources = [ 'src/dhp-codesearch.c',
-			'src/dhp-manpages.c',
+includes = [ '../devhelp', 'devhelp/src', 'devhelp/devhelp' ]
+libraries = [ 'GTK', 'GTHREAD', 'WEBKIT', 'LIBWNCK', 'GCONF2', 'ZLIB' ]
+sources = [ 'src/dhp-manpages.c',
 			'src/dhp-object.c',
 			'src/dhp-plugin.c' ]
+sources += glob.glob('devhelp/*.c')
 
 build_plugin(bld, name, sources=sources, includes=includes, libraries=libraries)
