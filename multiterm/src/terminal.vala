@@ -130,9 +130,9 @@ namespace MultiTerm
 			terminal.child_exited.connect(on_child_exited);
 
 			if (this.sh.cfg != null)
-				terminal.set_font_from_string_full(this.sh.font, TerminalAntiAlias.FORCE_ENABLE);
+				terminal.set_font_from_string(this.sh.font);
 			else
-				terminal.set_font_from_string_full("Monospace 9", TerminalAntiAlias.FORCE_ENABLE);
+				terminal.set_font_from_string("Monospace 9");
 
 			terminal.realize.connect(on_vte_realize); /* colors can only be set on realize (lame) */
 			run_command(this.sh.command);

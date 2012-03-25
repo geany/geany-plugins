@@ -35,5 +35,3 @@ multiterm_la_LIBADD = \
 	$(MULTITERM_LIBS)
 
 EXTRA_DIST = multiterm.h
-
-include $(top_srcdir)/build/cppcheck.mk
