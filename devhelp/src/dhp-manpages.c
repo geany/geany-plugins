@@ -120,7 +120,8 @@ static gchar *devhelp_plugin_read_man_text(DevhelpPlugin *self, const gchar *fil
 gchar *devhelp_plugin_manpages_search(DevhelpPlugin *self, const gchar *term, const gchar *section)
 {
 	FILE *fp = NULL;
-	gint fd = -1, len;
+	gint fd = -1;
+	gsize len;
 	gchar *man_fn = NULL, *tmp_fn = NULL, *uri = NULL;
 	gchar *text = NULL, *html_text = NULL;
 	const gchar *tmpl = "devhelp_manpage_XXXXXX.html";
