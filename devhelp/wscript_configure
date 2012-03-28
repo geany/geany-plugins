@@ -42,3 +42,4 @@ for package_name, package_version, uselib_store in packages:
                      args='--cflags --libs')
 
 add_to_env_and_define(conf, 'HAVE_BOOK_MANAGER', 1)
+add_to_env_and_define(conf, 'PACKAGE_VERSION', 1)

@@ -23,14 +23,30 @@
 
 from build.wafutils import build_plugin
 
-import glob
-
 name = 'Devhelp'
 includes = [ '../devhelp', 'devhelp/src', 'devhelp/devhelp' ]
 libraries = [ 'GTK', 'GTHREAD', 'WEBKIT', 'LIBWNCK', 'GCONF2', 'ZLIB' ]
-sources = [ 'src/dhp-manpages.c',
-			'src/dhp-object.c',
-			'src/dhp-plugin.c' ]
-sources += glob.glob('devhelp/*.c')
+sources = [ "devhelp/dh-assistant.c",
+			"devhelp/dh-assistant-view.c",
+			"devhelp/dh-base.c",
+			"devhelp/dh-book.c",
+			"devhelp/dh-book-manager.c",
+			"devhelp/dh-book-tree.c",
+			"devhelp/dh-enum-types.c",
+			"devhelp/dh-error.c",
+			"devhelp/dh-keyword-model.c",
+			"devhelp/dh-link.c",
+			"devhelp/dh-marshal.c",
+			"devhelp/dh-parser.c",
+			"devhelp/dh-preferences.c",
+			"devhelp/dh-search.c",
+			"devhelp/dh-util.c",
+			"devhelp/dh-window.c",
+			"devhelp/eggfindbar.c",
+			"devhelp/ige-conf.c",
+			"devhelp/ige-conf-gconf.c",
+			"src/dhp-manpages.c",
+			"src/dhp-object.c",
+			"src/dhp-plugin.c" ]
 
 build_plugin(bld, name, sources=sources, includes=includes, libraries=libraries)
