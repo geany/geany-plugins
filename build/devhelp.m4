@@ -3,31 +3,26 @@ AC_DEFUN([GP_CHECK_DEVHELP],
     GP_ARG_DISABLE([devhelp], [auto])
 
     GTK_VERSION=2.16
-    GLIB_VERSION=2.16
-    WEBKIT_VERSION=1.1.18
-    DEVHELP1_VERSION=2.30.1
-    DEVHELP2_VERSION=2.32.0
+    WEBKIT_VERSION=1.1.13
+    GCONF_VERSION=2.6.0
+    LIBWNCK_VERSION=2.10.0
 
-    # Use newer libdevhelp-2.0 if present, and fallback on older libdevhelp-1.0
-    libdevhelp_pkg=libdevhelp-2.0
-    libdevhelp_version=${DEVHELP2_VERSION}
-    AS_IF([test "x$enable_devhelp" != "xno"],
-          [PKG_CHECK_EXISTS([${libdevhelp_pkg} >= ${libdevhelp_version}],
-                            [AC_DEFINE([HAVE_BOOK_MANAGER], [1], [Use libdevhelp-2.0])],
-                            [libdevhelp_pkg=libdevhelp-1.0
-                             libdevhelp_version=${DEVHELP1_VERSION}])])
+    AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
+    AC_PATH_PROG(GLIB_MKENUMS, glib-mkenums)
 
     GP_CHECK_PLUGIN_DEPS([devhelp], [DEVHELP],
                          [gtk+-2.0 >= ${GTK_VERSION}
-                          glib-2.0 >= ${GLIB_VERSION}
                           webkit-1.0 >= ${WEBKIT_VERSION}
-                          ${libdevhelp_pkg} >= ${libdevhelp_version}
-                          gthread-2.0])
+                          libwnck-1.0 >= ${LIBWNCK_VERSION}
+                          gconf-2.0 >= ${GCONF_VERSION}
+                          gthread-2.0
+                          zlib])
 
     GP_STATUS_PLUGIN_ADD([DevHelp], [$enable_devhelp])
 
     AC_CONFIG_FILES([
         devhelp/Makefile
+        devhelp/devhelp/Makefile
         devhelp/src/Makefile
         devhelp/data/Makefile
     ])
