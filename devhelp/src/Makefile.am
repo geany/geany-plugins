@@ -10,7 +10,6 @@ EXTRA_LTLIBRARIES = devhelp.la
 endif
 
 devhelp_la_SOURCES = \
-	dhp-codesearch.c \
 	dhp-manpages.c \
 	dhp-object.c \
 	dhp-plugin.c
@@ -24,9 +23,13 @@ noinst_HEADERS = \
 
 devhelp_la_CFLAGS = \
 	$(AM_CFLAGS) \
+	-I$(top_srcdir)/devhelp \
 	$(DEVHELP_CFLAGS) \
-	-DDHPLUG_DATA_DIR=\"$(plugindatadir)\"
+	-DDHPLUG_DATA_DIR=\"$(plugindatadir)\" \
+	-DHAVE_BOOK_MANAGER=1
 
-devhelp_la_LIBADD = $(DEVHELP_LIBS)
+devhelp_la_LIBADD = \
+	$(DEVHELP_LIBS) \
+	$(top_builddir)/devhelp/devhelp/libdevhelp-2.la
 
 include $(top_srcdir)/build/cppcheck.mk

@@ -26,9 +26,11 @@ from build.wafutils import add_to_env_and_define, check_cfg_cached
 
 packages = [
 	('gtk+-2.0', '2.16', 'GTK'),
-    ('glib-2.0', '2.16', 'GLIB'),
     ('gthread-2.0','','GTHREAD'),
-    ('webkit-1.0', '1.1.18', 'WEBKIT')
+    ('webkit-1.0', '1.1.13', 'WEBKIT'),
+    ('libwnck-1.0', '2.10.0', 'LIBWNCK'),
+    ('gconf-2.0', '2.6.0', 'GCONF2'),
+    ('zlib', '', 'ZLIB'),
     ]
 
 for package_name, package_version, uselib_store in packages:
@@ -39,26 +41,5 @@ for package_name, package_version, uselib_store in packages:
                      mandatory=True,
                      args='--cflags --libs')
 
-
-# Use newer libdevhelp-2.0 if present, and fallback on older libdevhelp-1.0
-check_cfg_cached(conf,
-                 package='libdevhelp-2.0',
-                 atleast_version='2.32.0',
-                 uselib_store='LIBDEVHELP',
-                 mandatory=False,
-                 args='--cflags --libs')
-
-
-if conf.env['HAVE_LIBDEVHELP'] == 1:
-    add_to_env_and_define(conf, 'HAVE_BOOK_MANAGER', 1)
-else:
-    # fallback
-    check_cfg_cached(conf,
-                     package='libdevhelp-1.0',
-                     atleast_version='2.30.1',
-                     uselib_store='LIBDEVHELP',
-                     mandatory=False,
-                     args='--cflags --libs')
-    # finally raise an error if we didn't find any suitable devhelp library to disable this plugin
-    if not conf.env['HAVE_LIBDEVHELP'] == 1:
-        raise ConfigurationError('libdevhelp is necessary for the devhelp plugin')
+add_to_env_and_define(conf, 'HAVE_BOOK_MANAGER', 1)
+add_to_env_and_define(conf, 'PACKAGE_VERSION', 1)

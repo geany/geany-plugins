@@ -119,7 +119,6 @@ static DhBase *dhbase = NULL;
 /* Internal callbacks */
 static void on_search_help_activate(GtkMenuItem * menuitem, DevhelpPlugin *self);
 static void on_search_help_man_activate(GtkMenuItem * menuitem, DevhelpPlugin *self);
-static void on_search_help_code_activate(GtkMenuItem *menuitem, DevhelpPlugin *self);
 static void on_editor_menu_popup(GtkWidget * widget, DevhelpPlugin *self);
 static void on_link_clicked(GObject * ignored, DhLink * dhlink, DevhelpPlugin *self);
 static void on_back_button_clicked(GtkToolButton * btn, DevhelpPlugin *self);
@@ -377,7 +376,7 @@ static void devhelp_plugin_init_dh(DevhelpPlugin *self)
 /* Initialize the stuff in the editor's context menu */
 static void devhelp_plugin_init_edit_menu(DevhelpPlugin *self)
 {
-	GtkWidget *doc_menu, *devhelp_item, *code_item, *man_item;
+	GtkWidget *doc_menu, *devhelp_item, *man_item;
 	DevhelpPluginPrivate *p;
 
 	g_return_if_fail(self != NULL);
@@ -400,11 +399,6 @@ static void devhelp_plugin_init_edit_menu(DevhelpPlugin *self)
 		g_signal_connect(man_item, "activate", G_CALLBACK(on_search_help_man_activate), self);
 		gtk_widget_show(man_item);
 	}
-
-	code_item = gtk_menu_item_new_with_label(_("Google Code"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(doc_menu), code_item);
-	g_signal_connect(code_item, "activate", G_CALLBACK(on_search_help_code_activate), self);
-	gtk_widget_show(code_item);
 
 	g_signal_connect(geany->main_widgets->editor_menu, "show", G_CALLBACK(on_editor_menu_popup), self);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(p->editor_menu_item), doc_menu);
@@ -1272,27 +1266,6 @@ static void on_search_help_man_activate(GtkMenuItem * menuitem, DevhelpPlugin *s
 		return;
 
 	devhelp_plugin_search_manpages(self, current_tag);
-
-	g_free(current_tag);
-}
-
-
-static void on_search_help_code_activate(GtkMenuItem *menuitem, DevhelpPlugin *self)
-{
-	gchar *current_tag;
-	const gchar *lang = NULL;
-	GeanyDocument *doc;
-
-	g_return_if_fail(self != NULL);
-
-	if ((current_tag = devhelp_plugin_get_current_word(self)) == NULL)
-		return;
-
-	doc = document_get_current();
-	if (doc != NULL && doc->file_type != NULL && doc->file_type->name != NULL)
-		lang = doc->file_type->name;
-
-	devhelp_plugin_search_code(self, current_tag, lang);
 
 	g_free(current_tag);
 }

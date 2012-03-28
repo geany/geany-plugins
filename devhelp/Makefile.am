@@ -4,5 +4,5 @@ else
 include $(top_srcdir)/build/vars.docs.mk
 endif
 
-SUBDIRS = src data
+SUBDIRS = devhelp src data
 plugin = devhelp
