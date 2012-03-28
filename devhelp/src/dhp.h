@@ -125,10 +125,6 @@ void			devhelp_plugin_add_temp_file				(DevhelpPlugin *self, const gchar *filena
 void			devhelp_plugin_remove_manpages_temp_files	(DevhelpPlugin *self);
 
 
-/* Google Code Search (see codesearch.c) */
-void devhelp_plugin_search_code(DevhelpPlugin *self, const gchar *term, const gchar *lang);
-
-
 /* TODO: make properties for these */
 gboolean devhelp_plugin_get_devhelp_sidebar_visible(DevhelpPlugin *self);
 void devhelp_plugin_set_devhelp_sidebar_visible(DevhelpPlugin *self, gboolean visible);

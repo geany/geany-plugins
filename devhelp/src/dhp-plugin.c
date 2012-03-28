@@ -60,7 +60,6 @@ enum
 	KB_DEVHELP_ACTIVATE_DEVHELP,
 	KB_DEVHELP_SEARCH_SYMBOL,
 	KB_DEVHELP_SEARCH_MANPAGES,
-	KB_DEVHELP_SEARCH_CODESEARCH,
 	KB_COUNT
 };
 
@@ -98,23 +97,6 @@ static void kb_activate(guint key_id)
 			if (current_tag == NULL)
 				return;
 			devhelp_plugin_search_manpages(plugin.devhelp, current_tag);
-			g_free(current_tag);
-			break;
-		}
-		case KB_DEVHELP_SEARCH_CODESEARCH:
-		{
-			const gchar *lang = NULL;
-			GeanyDocument *doc;
-
-			if ((current_tag = devhelp_plugin_get_current_word(plugin.devhelp)) == NULL)
-				return;
-
-			doc = document_get_current();
-			if (doc == NULL || doc->file_type == NULL || doc->file_type->name == NULL)
-				lang = doc->file_type->name;
-
-			devhelp_plugin_search_code(plugin.devhelp, current_tag, lang);
-
 			g_free(current_tag);
 			break;
 		}
@@ -201,8 +183,6 @@ void plugin_init(GeanyData *data)
 		keybindings_set_item(key_group, KB_DEVHELP_SEARCH_MANPAGES, kb_activate,
 			0, 0, "devhelp_search_manpages", _("Search for current tag in Manual Pages"), NULL);
 	}
-	keybindings_set_item(key_group, KB_DEVHELP_SEARCH_CODESEARCH, kb_activate,
-		0, 0, "devhelp_search_codesearch", _("Search for current tag in Google Code Search"), NULL);
 }
 
 
