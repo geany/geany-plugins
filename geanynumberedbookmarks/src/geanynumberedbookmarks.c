@@ -81,7 +81,7 @@ const gchar default_config[] =
 	"[FileData]";
 
 /* Definitions for bookmark images */
-static gchar * aszMarkerImage0[] =
+static const gchar * aszMarkerImage0[] =
 {
 	"17 14 3 1", /* width height colours characters-per-pixel */
 	". c None",
@@ -102,7 +102,7 @@ static gchar * aszMarkerImage0[] =
 	"..B**********B...",
 	"...BBBBBBBBBB...."
 };
-static gchar * aszMarkerImage1[] =
+static const gchar * aszMarkerImage1[] =
 {
 	"17 14 3 1", /* width height colours characters-per-pixel */
 	". c None",
@@ -123,7 +123,7 @@ static gchar * aszMarkerImage1[] =
 	"..B**********B...",
 	"...BBBBBBBBBB...."
 };
-static gchar * aszMarkerImage2[] =
+static const gchar * aszMarkerImage2[] =
 {
 	"17 14 3 1", /* width height colours characters-per-pixel */
 	". c None",
@@ -144,7 +144,7 @@ static gchar * aszMarkerImage2[] =
 	"..B**********B...",
 	"...BBBBBBBBBB...."
 };
-static gchar * aszMarkerImage3[] =
+static const gchar * aszMarkerImage3[] =
 {
 	"17 14 3 1", /* width height colours characters-per-pixel */
 	". c None",
@@ -165,7 +165,7 @@ static gchar * aszMarkerImage3[] =
 	"..B**********B...",
 	"...BBBBBBBBBB...."
 };
-static gchar * aszMarkerImage4[] =
+static const gchar * aszMarkerImage4[] =
 {
 	"17 14 3 1", /* width height colours characters-per-pixel */
 	". c None",
@@ -186,7 +186,7 @@ static gchar * aszMarkerImage4[] =
 	"..B**********B...",
 	"...BBBBBBBBBB...."
 };
-static gchar * aszMarkerImage5[] =
+static const gchar * aszMarkerImage5[] =
 {
 	"17 14 3 1", /* width height colours characters-per-pixel */
 	". c None",
@@ -207,7 +207,7 @@ static gchar * aszMarkerImage5[] =
 	"..B**********B...",
 	"...BBBBBBBBBB...."
 };
-static gchar * aszMarkerImage6[] =
+static const gchar * aszMarkerImage6[] =
 {
 	"17 14 3 1", /* width height colours characters-per-pixel */
 	". c None",
@@ -228,7 +228,7 @@ static gchar * aszMarkerImage6[] =
 	"..B**********B...",
 	"...BBBBBBBBBB...."
 };
-static gchar * aszMarkerImage7[] =
+static const gchar * aszMarkerImage7[] =
 {
 	"17 14 3 1", /* width height colours characters-per-pixel */
 	". c None",
@@ -249,7 +249,7 @@ static gchar * aszMarkerImage7[] =
 	"..B**********B...",
 	"...BBBBBBBBBB...."
 };
-static gchar * aszMarkerImage8[] =
+static const gchar * aszMarkerImage8[] =
 {
 	"17 14 3 1", /* width height colours characters-per-pixel */
 	". c None",
@@ -270,7 +270,7 @@ static gchar * aszMarkerImage8[] =
 	"..B**********B...",
 	"...BBBBBBBBBB...."
 };
-static gchar * aszMarkerImage9[] =
+static const gchar * aszMarkerImage9[] =
 {
 	"17 14 3 1", /* width height colours characters-per-pixel */
 	". c None",
@@ -292,7 +292,7 @@ static gchar * aszMarkerImage9[] =
 	"...BBBBBBBBBB...."
 };
 
-static gchar ** aszMarkerImages[]=
+static const gchar ** aszMarkerImages[]=
 {
 	aszMarkerImage0,aszMarkerImage1,aszMarkerImage2,aszMarkerImage3,aszMarkerImage4,
 	aszMarkerImage5,aszMarkerImage6,aszMarkerImage7,aszMarkerImage8,aszMarkerImage9
@@ -463,7 +463,7 @@ static void LoadSettings(void)
 
 	/* extract settings */
 	bCenterWhenGotoBookmark=utils_get_setting_boolean(config,"Settings",
-													"Center_When_Goto_Bookmark",FALSE);
+	                        "Center_When_Goto_Bookmark",FALSE);
 	bRememberFolds=utils_get_setting_boolean(config,"Settings","Remember_Folds",FALSE);
 
 	/* extract data about files */
@@ -521,7 +521,7 @@ static void DefineMarkers(ScintillaObject* sci)
 	gint i;
 	for(i=0;i<10;i++)
 		scintilla_send_message(sci,SCI_MARKERDEFINEPIXMAP,i+BOOKMARK_BASE,
-							(glong)(aszMarkerImages[i]));
+		                       (glong)(aszMarkerImages[i]));
 }
 
 
@@ -586,7 +586,8 @@ static void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_dat
 	struct stat sBuf;
 	GtkWidget *dialog;
 	gchar *cFoldData=NULL;
-	gint iBits,iFlags,iBitCounter;
+	/* keep compiler happy & initialise iBits: will logically be initiated anyway */
+	gint iBits=0,iFlags,iBitCounter;
 
 	/* ensure have markers set */
 	CheckEditorSetup();
@@ -595,16 +596,16 @@ static void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_dat
 	/* check to see if file has changed since geany last saved it */
 	fd=GetFileData(doc->file_name);
 	if(stat(doc->file_name,&sBuf)==0 && fd!=NULL && fd->LastChangedTime!=-1 &&
-    fd->LastChangedTime!=sBuf.st_mtime)
+	   fd->LastChangedTime!=sBuf.st_mtime)
 	{
 		/* notify user that file has been changed */
 		dialog=gtk_message_dialog_new(GTK_WINDOW(geany->main_widgets->window),
-									GTK_DIALOG_DESTROY_WITH_PARENT,
-									GTK_MESSAGE_ERROR,
-									GTK_BUTTONS_NONE,
-									_("'%s' has been edited since it was last saved by geany. Marker positions may \
-be unreliable and will not be loaded.\nPress Ignore to try an load markers anyway."),
-									doc->file_name);
+		                              GTK_DIALOG_DESTROY_WITH_PARENT,GTK_MESSAGE_ERROR,
+		                              GTK_BUTTONS_NONE,
+		                              _("'%s' has been edited since it was last saved by g\
+		                                eany. Marker positions may be unreliable and will \
+		                                not be loaded.\nPress Ignore to try an load marker\
+		                                s anyway."),doc->file_name);
 		gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Okay"),GTK_RESPONSE_OK);
 		gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Ignore"),GTK_RESPONSE_REJECT);
 		l=gtk_dialog_run(GTK_DIALOG(dialog));
@@ -624,9 +625,9 @@ be unreliable and will not be loaded.\nPress Ignore to try an load markers anywa
 			if(fd->pcFolding==NULL || bRememberFolds==FALSE)
 				break;
 
-      cFoldData=fd->pcFolding;
+			cFoldData=fd->pcFolding;
 
-		  /* first ensure fold positions exist */
+			/* first ensure fold positions exist */
 			scintilla_send_message(sci,SCI_COLOURISE,0,-1);
 
 			iLineCount=scintilla_send_message(sci,SCI_GETLINECOUNT,0,0);
@@ -637,14 +638,14 @@ be unreliable and will not be loaded.\nPress Ignore to try an load markers anywa
 				iFlags=scintilla_send_message(sci,SCI_GETFOLDLEVEL,i,0);
 				/* ignore non-folding lines */
 				if((iFlags & SC_FOLDLEVELHEADERFLAG)==0)
-          continue;
+					continue;
 
-        /* get next 6 fold states if needed */
+				/* get next 6 fold states if needed */
 				if(iBitCounter==6)
 				{
-				  iBitCounter=0;
-          iBits=base64_char_to_int[(gint)(*cFoldData)];
-          cFoldData++;
+					iBitCounter=0;
+					iBits=base64_char_to_int[(gint)(*cFoldData)];
+					cFoldData++;
 				}
 
 				/* set fold if needed */
@@ -715,8 +716,8 @@ static void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_dat
 	if(iBitCounter!=0)
 	{
 		guiFold=(guint8)base64_int_to_char[guiFold];
-    g_byte_array_append(gbaFoldData,&guiFold,1);
-  }
+		g_byte_array_append(gbaFoldData,&guiFold,1);
+	}
 
 	/* transfer data to text string */
 	fdTemp->pcFolding=g_strndup((gchar*)(gbaFoldData->data),gbaFoldData->len);
@@ -745,7 +746,7 @@ PluginCallback plugin_callbacks[] =
 static gint GetLine(ScintillaObject* sci)
 {
 	return scintilla_send_message(sci,SCI_LINEFROMPOSITION,
-								scintilla_send_message(sci,SCI_GETCURRENTPOS,10,0),0);
+	                              scintilla_send_message(sci,SCI_GETCURRENTPOS,10,0),0);
 }
 
 
@@ -765,7 +766,7 @@ static void on_configure_response(GtkDialog *dialog, gint response, gpointer use
 	/* first see if settings are going to change */
 	bSettingsHaveChanged=(bRememberFolds!=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb1)));
 	bSettingsHaveChanged|=(bCenterWhenGotoBookmark!=gtk_toggle_button_get_active(
-														GTK_TOGGLE_BUTTON(cb2)));
+	                       GTK_TOGGLE_BUTTON(cb2)));
 
 	/* set new settings settings */
 	bRememberFolds=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb1));
@@ -811,11 +812,10 @@ void plugin_help(void)
 	GtkWidget *dialog,*label,*scroll;
 
 	/* create dialog box */
-  dialog=gtk_dialog_new_with_buttons(_("Numbered Bookmarks help"),
-        GTK_WINDOW(geany->main_widgets->window),
-        GTK_DIALOG_DESTROY_WITH_PARENT,
-        GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,
-        NULL);
+	dialog=gtk_dialog_new_with_buttons(_("Numbered Bookmarks help"),
+	                                   GTK_WINDOW(geany->main_widgets->window),
+	                                   GTK_DIALOG_DESTROY_WITH_PARENT,
+	                                   GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,NULL);
 
 	/* create label */
 	label=gtk_label_new(
@@ -842,7 +842,7 @@ the screen, otherwise it will simply be on the screen somewhere."));
 	/* create scrolled window to display label */
 	scroll=gtk_scrolled_window_new(NULL,NULL);
 	gtk_scrolled_window_set_policy((GtkScrolledWindow*)scroll,GTK_POLICY_NEVER,
-								GTK_POLICY_AUTOMATIC);
+	                               GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)scroll,label);
 
 	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox),scroll);
@@ -882,6 +882,7 @@ static void GotoBookMark(gint iBookMark)
 	/* make sure view is not beyond start or end of document */
 	if(iLine+iLinesVisible>iLineCount)
 		iLine=iLineCount-iLinesVisible;
+		
 	if(iLine<0)
 		iLine=0;
 
@@ -1019,7 +1020,7 @@ void plugin_init(GeanyData *data)
 
 	/* set key press monitor handle */
 	key_release_signal_id=g_signal_connect(geany->main_widgets->window,"key-release-event",
-										G_CALLBACK(Key_Released_CallBack),NULL);
+	                                       G_CALLBACK(Key_Released_CallBack),NULL);
 }
 
 
@@ -1042,7 +1043,7 @@ void plugin_cleanup(void)
 		if(documents[i]->is_valid) {
 			sci=documents[i]->editor->sci;
 			for(k=0;k<9;k++)
-			  scintilla_send_message(sci,SCI_MARKERDELETEALL,BOOKMARK_BASE+k,0);
+				scintilla_send_message(sci,SCI_MARKERDELETEALL,BOOKMARK_BASE+k,0);
 
 		}
 
