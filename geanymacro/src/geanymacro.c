@@ -151,7 +151,7 @@ const MacroDetailEntry MacroDetails[]={
 {SCI_SEARCHPREV,"Search for previous \"\""},
 {SCI_SEARCHANCHOR,"Set start of search to beginning of selection"},
 
-/* editor commands that don't seem to work well in editing 
+/* editor commands that don't seem to work well in editing
  * {SCI_FORMFEED,N_("FormFeed")},
  *
  * other commands ommited as they don't appear to do anything different to existing commands
@@ -350,7 +350,7 @@ static void ReplayMacro(Macro *m)
 			bFoundAnchor=TRUE;
 
 		/* possibility that user edited macros might not have anchor before search */
-		if((me->message==SCI_SEARCHNEXT || me->message==SCI_SEARCHPREV) && 
+		if((me->message==SCI_SEARCHNEXT || me->message==SCI_SEARCHPREV) &&
 		   bFoundAnchor==FALSE)
 		{
 			scintilla_send_message(sci,SCI_SEARCHANCHOR,0,0);
@@ -2072,7 +2072,6 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 	                            GTK_SELECTION_SINGLE);
 
 	/* add table to dialog */
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox),table);
 	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox),table,FALSE,FALSE,2);
 	gtk_widget_show(table);
 
@@ -2154,7 +2153,7 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 				/* Signal that macros have changed (and need to be saved) */
 				bMacrosHaveChanged=TRUE;
 			}
-		
+
 			/* free memory */
 			g_free(cTemp);
 		}
