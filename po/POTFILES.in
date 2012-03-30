@@ -50,7 +50,6 @@ debugger/src/atree.c
 devhelp/src/dhp.h
 devhelp/src/dhp-object.c
 devhelp/src/dhp-plugin.c
-devhelp/src/dhp-codesearch.c
 devhelp/src/dhp-manpages.c
 devhelp/src/dhp-settings.c
 
