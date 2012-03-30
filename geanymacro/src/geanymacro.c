@@ -510,6 +510,13 @@ static gchar *MacroEventToString(MacroEvent *me)
 }
 
 
+/* Is there a document open in the editor */
+static gboolean DocumentPresent()
+{
+  return (document_get_current()!=NULL);
+}
+
+
 /* check editor notifications and remember editor events */
 static gboolean Notification_Handler(GObject *obj,GeanyEditor *ed,SCNotification *nt,gpointer ud)
 {
@@ -773,13 +780,6 @@ static void LoadSettings(void)
 	g_free(config_file);
 	g_key_file_free(config);
 }
-
-
-PluginCallback plugin_callbacks[] =
-{
-	{ "editor-notify", (GCallback) &Notification_Handler, FALSE, NULL },
-	{ NULL, NULL, FALSE, NULL }
-};
 
 
 /* handle button presses in the preferences dialog box */
@@ -1175,34 +1175,65 @@ static gboolean InitializeMacroRecord(void)
 }
 
 
+/* function to start the macro recording process */
+static void StartRecordingMacro()
+{
+	/* start recording process, but quit if error, or user cancels */
+	if(!InitializeMacroRecord())
+		return;
+
+	/* start actual recording */
+	scintilla_send_message(document_get_current()->editor->sci,SCI_STARTRECORD,0,0);
+	gtk_widget_hide(Record_Macro_menu_item);
+	gtk_widget_show(Stop_Record_Macro_menu_item);
+}
+
+
+/* function to finish recording a macro */
+static void StopRecordingMacro()
+{
+	scintilla_send_message(document_get_current()->editor->sci,SCI_STOPRECORD,0,0);
+	/* Recorded in reverse as more efficient */
+	RecordingMacro->MacroEvents=g_slist_reverse(RecordingMacro->MacroEvents);
+	/* add macro to list */
+	AddMacroToList(RecordingMacro);
+	/* set ready to record new macro (don't free as macro has been saved in macrolist) */
+	RecordingMacro=NULL;
+	gtk_widget_show(Record_Macro_menu_item);
+	gtk_widget_hide(Stop_Record_Macro_menu_item);
+
+	/* Macros have been changed */
+	bMacrosHaveChanged=TRUE;
+}
+
+
+/* check to see if we are recording a macro and stop it if we are */
+static void on_document_close(GObject *obj, GeanyDocument *doc, gpointer user_data)
+{
+	if(RecordingMacro!=NULL)
+		StopRecordingMacro();
+}
+
+
+PluginCallback plugin_callbacks[] =
+{
+	{ "editor-notify", (GCallback) &Notification_Handler, FALSE, NULL },
+	{ "document-close", (GCallback) &on_document_close, FALSE, NULL },
+	{ NULL, NULL, FALSE, NULL }
+};
+
+
 /* handle starting and stopping macro recording */
 static void DoMacroRecording(GtkMenuItem *menuitem, gpointer gdata)
 {
+	/* can't record if in an empty editor */
+	if(!DocumentPresent())
+		return;
+
 	if(RecordingMacro==NULL)
-	{
-		/* start recording process, but quit if error, or user cancels */
-		if(!InitializeMacroRecord())
-			return;
-
-		/* start actual recording */
-		scintilla_send_message(document_get_current()->editor->sci,SCI_STARTRECORD,0,0);
-		gtk_widget_hide(Record_Macro_menu_item);
-		gtk_widget_show(Stop_Record_Macro_menu_item);
-	}
-	else {
-		scintilla_send_message(document_get_current()->editor->sci,SCI_STOPRECORD,0,0);
-		/* Recorded in reverse as more efficient */
-		RecordingMacro->MacroEvents=g_slist_reverse(RecordingMacro->MacroEvents);
-		/* add macro to list */
-		AddMacroToList(RecordingMacro);
-		/* set ready to record new macro (don't free as macro has been saved in macrolist) */
-		RecordingMacro=NULL;
-		gtk_widget_show(Record_Macro_menu_item);
-		gtk_widget_hide(Stop_Record_Macro_menu_item);
-
-		/* Macros have been changed */
-		bMacrosHaveChanged=TRUE;
-	}
+		StartRecordingMacro();
+	else
+		StopRecordingMacro();
 }
 
 
@@ -2125,7 +2156,7 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 			}
 
 			/* handle re-record macro */
-			if(i==GEANY_MACRO_BUTTON_RERECORD && bEditable)
+			if(i==GEANY_MACRO_BUTTON_RERECORD && bEditable && DocumentPresent())
 			{
 				m=FindMacroByName(cTemp);
 				/* ensure have empty recording macro */
@@ -2177,7 +2208,7 @@ void plugin_init(GeanyData *data)
 	/* Calculate what shift '0' to '9 will be (£ is above 3 on uk keyboard, but it's # or ~ on us
 	 * keyboard.)
 	 * there must be an easier way than this of working this out, but I've not figured it out.
-   * This is needed to play nicely with the Geany Numbered Bookmarks plugin
+	 * This is needed to play nicely with the Geany Numbered Bookmarks plugin
 	*/
 
 	/* go through '0' to '9', work out hardware keycode, then find out what shift+this keycode
