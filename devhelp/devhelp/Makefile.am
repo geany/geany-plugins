@@ -1,3 +1,7 @@
+if ENABLE_DEVHELP
+noinst_LTLIBRARIES = libdevhelp-2.la
+endif
+
 dh_headers = \
 	dh-assistant.h \
 	dh-assistant-view.h \
@@ -27,8 +31,6 @@ EXTRA_DIST = \
 	dh-marshal.list \
 	dh-enum-types.c.template \
 	dh-enum-types.h.template
-
-noinst_LTLIBRARIES = libdevhelp-2.la
 
 libdevhelp_2_la_SOURCES = \
 	dh-assistant.c \
