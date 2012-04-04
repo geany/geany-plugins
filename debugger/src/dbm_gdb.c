@@ -72,6 +72,7 @@ enum sr {
 	SR_EXITED_NORMALLY,
 	SR_SIGNAL_RECIEVED,
 	SR_EXITED_SIGNALLED,
+	SR_EXITED_WITH_CODE,
 } stop_reason;
 
 /* callbacks to use for messaging, error reporting and state change alerting */
@@ -490,6 +491,8 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 					stop_reason = SR_EXITED_NORMALLY;
 				else if (!strcmp(reason, "exited-signalled"))
 					stop_reason = SR_EXITED_SIGNALLED;
+				else if (!strcmp(reason, "exited"))
+					stop_reason = SR_EXITED_WITH_CODE;
 			}
 			else
 			{
@@ -531,8 +534,18 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 					dbg_cbs->set_stopped(atoi(thread_id));
 				}
 			}
-			else if (stop_reason == SR_EXITED_NORMALLY || stop_reason == SR_EXITED_SIGNALLED)
+			else if (stop_reason == SR_EXITED_NORMALLY || stop_reason == SR_EXITED_SIGNALLED || stop_reason == SR_EXITED_WITH_CODE)
 			{
+				if (stop_reason == SR_EXITED_WITH_CODE)
+				{
+					gchar *code = strstr(reason + strlen(reason) + 1,"exit-code=\"") + strlen("exit-code=\"");
+					*(strchr(code, '\"')) = '\0';
+					gchar *message = g_strdup_printf(_("Program exited with code \"%i\""), (int)(char)strtol(code, NULL, 8));
+					dbg_cbs->report_error(message);
+
+					g_free(message);
+				}
+
 				stop();
 			}
 		}
@@ -692,13 +705,17 @@ gboolean run(const gchar* file, const gchar* commandline, GList* env, GList *wit
 	/* spawn GDB */
 	const gchar *exclude[] = { "LANG", NULL };
 	gchar **gdb_env = utils_copy_environment(exclude, "LANG", "C", NULL);
-	if (!g_spawn_async_with_pipes(NULL, (gchar**)gdb_args, gdb_env,
+	gchar *working_directory = g_path_get_dirname(file);
+	if (!g_spawn_async_with_pipes(working_directory, (gchar**)gdb_args, gdb_env,
 				     GDB_SPAWN_FLAGS, NULL,
 				     NULL, &gdb_pid, &gdb_in, &gdb_out, NULL, &err))
 	{
 		dbg_cbs->report_error(_("Failed to spawn gdb process"));
+		g_free(working_directory);
+		g_strfreev(gdb_env);
 		return FALSE;
 	}
+	g_free(working_directory);
 	g_strfreev(gdb_env);
 	
 	/* move gdb to it's own process group */
@@ -743,8 +760,8 @@ gboolean run(const gchar* file, const gchar* commandline, GList* env, GList *wit
 
 	/* loading file */
 	GString *command = g_string_new("");
-	g_string_printf(command, "-file-exec-and-symbols %s", file);
-	commands = add_to_queue(commands, _("~\"Loading target file ...\""), command->str, _("Error loading file"), FALSE);
+	g_string_printf(command, "-file-exec-and-symbols \"%s\"", file);
+	commands = add_to_queue(commands, _("~\"Loading target file.\\n\""), command->str, _("Error loading file"), FALSE);
 	g_string_free(command, TRUE);
 
 	/* setting asyncronous mode */
@@ -792,7 +809,7 @@ gboolean run(const gchar* file, const gchar* commandline, GList* env, GList *wit
 	{
 		breakpoint *bp = (breakpoint*)biter->data;
 		command = g_string_new("");
-		g_string_printf(command, "-break-insert -f %s:%i", bp->file, bp->line);
+		g_string_printf(command, "-break-insert -f \"\\\"%s\\\":%i\"", bp->file, bp->line);
 
 		GString *error_message = g_string_new("");
 		g_string_printf(error_message, _("Breakpoint at %s:%i cannot be set\nDebugger message: %s"), bp->file, bp->line, "%s");
@@ -934,8 +951,14 @@ int get_break_number(char* file, int line)
 		*strchr(bstart, '\"') = '\0';
 		int bline = atoi(bstart);
 		
-		if (!strcmp(fname, file) && bline == line)
+		gchar *file_quoted = g_strdup_printf("\\\"%s\\\"", file);
+		int break_found = !strcmp(fname, file_quoted) && bline == line;
+		g_free(file_quoted);
+
+		if (break_found)
+		{
 			return num;
+		}
 		
 		bstart += strlen(bstart) + 1;
 	} 
@@ -957,11 +980,11 @@ gboolean set_break(breakpoint* bp, break_set_activity bsa)
 		gchar *record = NULL;
 		
 		/* 1. insert breakpoint */
-		sprintf (command, "-break-insert %s:%i", bp->file, bp->line);
+		sprintf (command, "-break-insert \"\\\"%s\\\":%i\"", bp->file, bp->line);
 		if (RC_DONE != exec_sync_command(command, TRUE, &record))
 		{
 			g_free(record);
-			sprintf (command, "-break-insert -f %s:%i", bp->file, bp->line);
+			sprintf (command, "-break-insert -f \"\\\"%s\\\":%i\"", bp->file, bp->line);
 			if (RC_DONE != exec_sync_command(command, TRUE, &record))
 			{
 				g_free(record);

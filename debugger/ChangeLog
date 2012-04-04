@@ -1,3 +1,13 @@
+04-04-2012 	Alexander Petukhov <devel@apetukhov.ru>
+
+	* fixing exiting with code case that was unhandled and caused SIGSEGV (gdb)
+	* set current directory to executable's one (gdb)
+	* handling spaces in target and breakpoints filenames (gdb)
+	* fixing memory leaks on gtk_tree_row_reference_get_path and tree/list stores
+	* fixing SIGSEGV when selecting a cell in custom cell renderers using a keyboard
+	* fixing lack of breakpoint/stack frame markers after plugin unload and load
+	* fixing "jump to current instruction" behaviour (does not change an active frame)
+
 10-03-2012 	Alexander Petukhov <devel@apetukhov.ru>
 
 	* switching between frames by clicking a frame arrow in the stack window

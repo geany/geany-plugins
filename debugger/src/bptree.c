@@ -616,6 +616,7 @@ gboolean bptree_init(move_to_line_cb cb)
 		G_TYPE_STRING);
 	model = GTK_TREE_MODEL(store);
 	tree = gtk_tree_view_new_with_model (model);
+	g_object_unref(store);
 	
 	/* set tree view properties */
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(tree), 1);
@@ -802,7 +803,9 @@ void bptree_add_breakpoint(breakpoint* bp)
 	}
 	else
 	{
-		gtk_tree_model_get_iter(model, &file_iter, gtk_tree_row_reference_get_path(file_reference));
+		GtkTreePath *path = gtk_tree_row_reference_get_path(file_reference);
+		gtk_tree_model_get_iter(model, &file_iter, path);
+		gtk_tree_path_free(path);
 	}
 	
 	/* lookup where to insert new row */

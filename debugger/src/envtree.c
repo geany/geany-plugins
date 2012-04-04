@@ -151,6 +151,7 @@ static void delete_selected_rows()
 			gtk_tree_model_get_iter(model, &titer, path);
 			gtk_list_store_remove(store, &titer);
 
+			gtk_tree_path_free(path);
 			iter = iter->next;
 		}
 
@@ -159,6 +160,7 @@ static void delete_selected_rows()
 		GtkTreePath *path = gtk_tree_row_reference_get_path(reference_to_select);
 		gtk_tree_selection_select_path(selection, path);
 		gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(tree), path, NULL, TRUE, 0.5, 0.5);
+		gtk_tree_path_free(path);
 
 		/* free references list */
 		g_list_foreach (references, (GFunc)gtk_tree_row_reference_free, NULL);
@@ -167,6 +169,8 @@ static void delete_selected_rows()
 	
 	/* free selection reference */
 	gtk_tree_row_reference_free(reference_to_select);
+
+	gtk_tree_path_free(empty_path);
 
 	/* free rows list */
 	g_list_foreach (rows, (GFunc)gtk_tree_path_free, NULL);
@@ -213,9 +217,11 @@ static void on_render_value(GtkTreeViewColumn *tree_column,
 	{
 		/* do not allow to edit value for empty row */
 		GtkTreePath *path = gtk_tree_model_get_path(tree_model, iter);
-		gboolean empty = !gtk_tree_path_compare(path, gtk_tree_row_reference_get_path(empty_row));
+		GtkTreePath *empty_path = gtk_tree_row_reference_get_path(empty_row);
+		gboolean empty = !gtk_tree_path_compare(path, empty_path);
 		g_object_set (cell, "editable", entering_new_var || !empty, NULL);
 		gtk_tree_path_free(path);
+		gtk_tree_path_free(empty_path);
 	}
 }
 
@@ -226,8 +232,10 @@ static void on_value_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 {
 	GtkTreeIter  iter;
 	GtkTreePath *tree_path = gtk_tree_path_new_from_string (path);
-    
-	gboolean empty = !gtk_tree_path_compare(tree_path, gtk_tree_row_reference_get_path(empty_row));
+
+    GtkTreePath *empty_path = gtk_tree_row_reference_get_path(empty_row);
+	gboolean empty = !gtk_tree_path_compare(tree_path, empty_path);
+	gtk_tree_path_free(empty_path);
 
 	gtk_tree_model_get_iter (
 		 model,
@@ -300,7 +308,8 @@ static void on_value_editing_cancelled(GtkCellRenderer *renderer, gpointer user_
 {
 	/* check whether escape was pressed when editing
 	new variable value cell */
-	if(!gtk_tree_path_compare(being_edited_value, gtk_tree_row_reference_get_path(empty_row)))
+	GtkTreePath *empty_path = gtk_tree_row_reference_get_path(empty_row);
+	if(!gtk_tree_path_compare(being_edited_value, empty_path))
 	{
 		/* if so - clear name sell */
 		GtkTreeIter iter;
@@ -318,6 +327,7 @@ static void on_value_editing_cancelled(GtkCellRenderer *renderer, gpointer user_
 	g_object_set (renderer_value, "editable", FALSE, NULL);
 
 	gtk_tree_path_free(being_edited_value);
+	gtk_tree_path_free(empty_path);
 }
 
 /*
@@ -327,8 +337,9 @@ static void on_name_changed(GtkCellRendererText *renderer, gchar *path, gchar *n
 {
 	GtkTreeIter  iter;
 	GtkTreePath *tree_path = gtk_tree_path_new_from_string (path);
+	GtkTreePath *empty_path = gtk_tree_row_reference_get_path(empty_row);
     
-	gboolean empty = !gtk_tree_path_compare(tree_path, gtk_tree_row_reference_get_path(empty_row));
+	gboolean empty = !gtk_tree_path_compare(tree_path, empty_path);
 
 	gtk_tree_model_get_iter (
 		 model,
@@ -371,6 +382,7 @@ static void on_name_changed(GtkCellRendererText *renderer, gchar *path, gchar *n
 	}
 	
 	gtk_tree_path_free(tree_path);
+	gtk_tree_path_free(empty_path);
 	g_free(oldvalue);
 	g_free(striped);
 }
@@ -387,6 +399,7 @@ GtkWidget* envtree_init()
 		G_TYPE_STRING);
 	model = GTK_TREE_MODEL(store);
 	tree = gtk_tree_view_new_with_model (model);
+	g_object_unref(store);
 	
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(tree), TRUE);
 	g_signal_connect(G_OBJECT(tree), "key-press-event", G_CALLBACK (on_envtree_keypressed), NULL);

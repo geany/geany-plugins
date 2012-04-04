@@ -136,7 +136,7 @@ static gboolean on_query_tooltip(GtkWidget *widget, gint x, gint y, gboolean key
 			}
 			else if (column == gtk_tree_view_get_column(GTK_TREE_VIEW(widget), S_ADRESS && bx >= start_pos && bx < start_pos + width))
 			{
-				gtk_tooltip_set_text(tooltip, gtk_tree_path_get_indices(tpath)[1] == active_frame_index ? _("Active frame") : _("Switch to a frame"));
+				gtk_tooltip_set_text(tooltip, gtk_tree_path_get_indices(tpath)[1] == active_frame_index ? _("Active frame") : _("Click an arrow to switch to a frame"));
 				gtk_tree_view_set_tooltip_row(GTK_TREE_VIEW(widget), tooltip, tpath);
 				show = TRUE;
 			}
@@ -333,6 +333,7 @@ GtkWidget* stree_init(move_to_line_cb ml, select_frame_cb sf)
 		
 	model = GTK_TREE_MODEL(store);
 	tree = gtk_tree_view_new_with_model (GTK_TREE_MODEL(store));
+	g_object_unref(store);
 	
 	/* set tree view properties */
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(tree), 1);
@@ -411,7 +412,9 @@ void stree_add(frame *f)
 {
 	GtkTreeRowReference *reference = (GtkTreeRowReference*)g_hash_table_lookup(threads, (gpointer)active_thread_id);
 	GtkTreeIter thread_iter;
-	gtk_tree_model_get_iter(model, &thread_iter, gtk_tree_row_reference_get_path(reference));
+	GtkTreePath *path = gtk_tree_row_reference_get_path(reference);
+	gtk_tree_model_get_iter(model, &thread_iter, path);
+	gtk_tree_path_free(path);
 
 	GtkTreeIter frame_iter;
 	gtk_tree_store_insert_before(store, &frame_iter, &thread_iter, 0);
@@ -437,16 +440,22 @@ void stree_clear()
 /*
  *	select first frame in the stack
  */
-void stree_select_first_frame()
+void stree_select_first_frame(gboolean make_active)
 {
 	gtk_tree_view_expand_all(GTK_TREE_VIEW(tree));
 	
 	GtkTreeRowReference *reference = (GtkTreeRowReference*)g_hash_table_lookup(threads, (gpointer)active_thread_id);
 	GtkTreeIter thread_iter, frame_iter;
-	gtk_tree_model_get_iter(model, &thread_iter, gtk_tree_row_reference_get_path(reference));
+	GtkTreePath *active_path = gtk_tree_row_reference_get_path(reference);
+	gtk_tree_model_get_iter(model, &thread_iter, active_path);
+	gtk_tree_path_free(active_path);
 	if(gtk_tree_model_iter_children(model, &frame_iter, &thread_iter))
 	{
-		gtk_tree_store_set (store, &frame_iter, S_ACTIVE, TRUE, -1);
+		if (make_active)
+		{
+			gtk_tree_store_set (store, &frame_iter, S_ACTIVE, TRUE, -1);
+			active_frame_index = 0;
+		}
 
 		GtkTreePath* path = gtk_tree_model_get_path(model, &frame_iter);
 		
@@ -455,8 +464,6 @@ void stree_select_first_frame()
 			path);
 
 		gtk_tree_path_free(path);
-
-		active_frame_index = 0;
 	}
 }
 
@@ -534,6 +541,8 @@ void stree_remove_thread(int thread_id)
 	gtk_tree_store_remove(store, &iter);
 
 	g_hash_table_remove(threads, (gpointer)(glong)thread_id);
+
+	gtk_tree_path_free(tpath);
 }
 
 /*
@@ -543,7 +552,9 @@ void stree_remove_frames()
 {
 	GtkTreeRowReference *reference = (GtkTreeRowReference*)g_hash_table_lookup(threads, (gpointer)active_thread_id);
 	GtkTreeIter thread_iter;
-	gtk_tree_model_get_iter(model, &thread_iter, gtk_tree_row_reference_get_path(reference));
+	GtkTreePath *tpath = gtk_tree_row_reference_get_path(reference);
+	gtk_tree_model_get_iter(model, &thread_iter, tpath);
+	gtk_tree_path_free(tpath);
 
 	GtkTreeIter child;
 	if (gtk_tree_model_iter_children(model, &child, &thread_iter))

@@ -1,9 +1,5 @@
 BUGS:
-- terminal stops to produce any output after some debug seesions
 - tooltip appears even if a pointer in no longer inside editor window
-- check possible memory leaks on a)gtk_tree_row_reference_get_path b)missing unrefs on tree/list stores
-- cell_renderer_toogle SIGSEGV in cell_renderer_toggle_activate when activating a cell using a keyboard (event->button == NULL)
-- debug geany with debugger project. switch frames then step over -> continue instead, then close geany being debugged -> dbm_gdb.c:502 (no step reason, probably the record from the previos step command???)
 
 FEATURES:
 - custom tooltip with sticking facilities
@@ -24,3 +20,4 @@ FEATURES:
 - custom tooltip on breaks and stack trace windows with code snippet around break or frame
 - font from the geany settings for a message window
 - a button in the upper right path of a right notebook for a hiding/showing button panel
+- use left/right keys to collapse/expand in breakpoints tree
