@@ -136,7 +136,7 @@ static gboolean on_query_tooltip(GtkWidget *widget, gint x, gint y, gboolean key
 			}
 			else if (column == gtk_tree_view_get_column(GTK_TREE_VIEW(widget), S_ADRESS && bx >= start_pos && bx < start_pos + width))
 			{
-				gtk_tooltip_set_text(tooltip, gtk_tree_path_get_indices(tpath)[1] == active_frame_index ? _("Active frame") : _("Switch to a frame"));
+				gtk_tooltip_set_text(tooltip, gtk_tree_path_get_indices(tpath)[1] == active_frame_index ? _("Active frame") : _("Click an arrow to switch to a frame"));
 				gtk_tree_view_set_tooltip_row(GTK_TREE_VIEW(widget), tooltip, tpath);
 				show = TRUE;
 			}
@@ -440,7 +440,7 @@ void stree_clear()
 /*
  *	select first frame in the stack
  */
-void stree_select_first_frame()
+void stree_select_first_frame(gboolean make_active)
 {
 	gtk_tree_view_expand_all(GTK_TREE_VIEW(tree));
 	
@@ -451,7 +451,11 @@ void stree_select_first_frame()
 	gtk_tree_path_free(active_path);
 	if(gtk_tree_model_iter_children(model, &frame_iter, &thread_iter))
 	{
-		gtk_tree_store_set (store, &frame_iter, S_ACTIVE, TRUE, -1);
+		if (make_active)
+		{
+			gtk_tree_store_set (store, &frame_iter, S_ACTIVE, TRUE, -1);
+			active_frame_index = 0;
+		}
 
 		GtkTreePath* path = gtk_tree_model_get_path(model, &frame_iter);
 		
@@ -460,8 +464,6 @@ void stree_select_first_frame()
 			path);
 
 		gtk_tree_path_free(path);
-
-		active_frame_index = 0;
 	}
 }
 

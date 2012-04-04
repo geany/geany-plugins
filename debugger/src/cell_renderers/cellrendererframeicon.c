@@ -315,24 +315,32 @@ GType cell_renderer_frame_icon_get_type(void)
 	
 	if(0 == cell_frame_icon_type)
 	{
-		static const GTypeInfo cell_frame_icon_info =
+		if ( (cell_frame_icon_type = g_type_from_name("CellRendererFrameIcon")) )
 		{
-			sizeof (CellRendererFrameIconClass),
-			NULL,                                                     /* base_init */
-			NULL,                                                     /* base_finalize */
-			(GClassInitFunc) cell_renderer_frame_icon_class_init,
-			NULL,                                                     /* class_finalize */
-			NULL,                                                     /* class_data */
-			sizeof (CellRendererFrameIcon),
-			0,                                                        /* n_preallocs */
-			(GInstanceInitFunc) cell_renderer_frame_icon_init,
-		};
-
-		/* Derive from GtkCellRenderer */
-		cell_frame_icon_type = g_type_register_static (GTK_TYPE_CELL_RENDERER,
-			"CellRendererFrameIcon",
-			&cell_frame_icon_info,
-			0);
+			parent_class = g_type_class_peek_static(g_type_parent(cell_frame_icon_type));
+			clicked_signal = g_signal_lookup("clicked", cell_frame_icon_type);
+		}
+		else
+		{
+			static const GTypeInfo cell_frame_icon_info =
+			{
+				sizeof (CellRendererFrameIconClass),
+				NULL,                                                     /* base_init */
+				NULL,                                                     /* base_finalize */
+				(GClassInitFunc) cell_renderer_frame_icon_class_init,
+				NULL,                                                     /* class_finalize */
+				NULL,                                                     /* class_data */
+				sizeof (CellRendererFrameIcon),
+				0,                                                        /* n_preallocs */
+				(GInstanceInitFunc) cell_renderer_frame_icon_init,
+			};
+	
+			/* Derive from GtkCellRenderer */
+			cell_frame_icon_type = g_type_register_static (GTK_TYPE_CELL_RENDERER,
+				"CellRendererFrameIcon",
+				&cell_frame_icon_info,
+				0);
+		}
 	}
 	
 	return cell_frame_icon_type;

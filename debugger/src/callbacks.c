@@ -330,7 +330,7 @@ gboolean keys_callback(guint key_id)
 			{
 				debug_jump_to_current_instruction();
 				gtk_widget_set_sensitive(tab_call_stack, FALSE);
-				stree_select_first_frame();
+				stree_select_first_frame(FALSE);
 				gtk_widget_set_sensitive(tab_call_stack, TRUE);
 			}
 		}

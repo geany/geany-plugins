@@ -1,7 +1,5 @@
 BUGS:
 - tooltip appears even if a pointer in no longer inside editor window
-- when "Jump to current instruction" - two active frame icons in stack view
-- no icons in stack and breaks after unload/load plugin
 
 FEATURES:
 - custom tooltip with sticking facilities

@@ -70,9 +70,9 @@ static void cell_renderer_toggle_class_init (GtkCellRendererToggleClass *class)
  */
 GType cell_renderer_toggle_get_type(void)
 {
-	static GType cell_brekpoint_type = 0;
+	static GType cell_break_toggle_type = 0;
 	
-	if(0 == cell_brekpoint_type)
+	if(0 == cell_break_toggle_type && !(cell_break_toggle_type = g_type_from_name("CellRendererToggle")))
 	{
 		static const GTypeInfo cell_file_info =
 		{
@@ -88,13 +88,13 @@ GType cell_renderer_toggle_get_type(void)
 		};
 
 		/* Derive from GtkToggleCellRenderer */
-		cell_brekpoint_type = g_type_register_static (GTK_TYPE_CELL_RENDERER_TOGGLE,
+		cell_break_toggle_type = g_type_register_static (GTK_TYPE_CELL_RENDERER_TOGGLE,
 			"CellRendererToggle",
 			&cell_file_info,
 			0);
 	}
 	
-	return cell_brekpoint_type;
+	return cell_break_toggle_type;
 }
 
 /*

@@ -679,7 +679,7 @@ static void on_debugger_stopped (int thread_id)
 		stree_add(f);
 		iter = g_list_next(iter);
 	}
-	stree_select_first_frame();
+	stree_select_first_frame(TRUE);
 
 	/* files */
 	GList *files = active_module->get_files();
