@@ -45,8 +45,12 @@ static guint clicked_signal;
 static gint cell_renderer_frame_icon_activate(GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, const gchar *path,
 	GdkRectangle *background_area, GdkRectangle *cell_area, GtkCellRendererState  flags)
 {
-	if (event->button.x >= cell_area->x &&
-		event->button.x < (cell_area->x + cell_area->width))
+	if (!event ||
+		(
+			event->button.x >= cell_area->x &&
+			event->button.x < (cell_area->x + cell_area->width)
+		)
+	)
 	{
 		g_signal_emit (cell, clicked_signal, 0, path);
 	}

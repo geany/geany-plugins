@@ -148,6 +148,7 @@ GtkWidget* vtree_create(watch_render_name on_render_name, watch_expression_chang
 		G_TYPE_INT,
 		G_TYPE_INT);
 	GtkWidget* tree = gtk_tree_view_new_with_model (GTK_TREE_MODEL(store));
+	g_object_unref(store);
 		
 	/* set tree view parameters */
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(tree), TRUE);

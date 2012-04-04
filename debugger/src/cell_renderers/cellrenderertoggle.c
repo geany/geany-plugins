@@ -35,8 +35,12 @@
 static gint cell_renderer_toggle_activate(GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, const gchar *path,
 	GdkRectangle *background_area, GdkRectangle *cell_area, GtkCellRendererState  flags)
 {
-	if (event->button.x >= cell_area->x &&
-		event->button.x < (cell_area->x + cell_area->width))
+	if (!event ||
+		(
+			event->button.x >= cell_area->x &&
+			event->button.x < (cell_area->x + cell_area->width)
+		)
+	)
 	{
 		g_signal_emit_by_name(cell, "toggled", path);
 	}
