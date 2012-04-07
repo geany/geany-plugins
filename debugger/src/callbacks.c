@@ -155,6 +155,21 @@ void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
 }
 
 /*
+ * 	Handles mouse leave event to check if a calltip is still present and hides it if yes 
+ */
+static gint leave_signal;
+static gboolean on_mouse_leave(GtkWidget *widget, GdkEvent *event, gpointer user_data)
+{
+	ScintillaObject *so = (ScintillaObject*)widget;
+	if (scintilla_send_message (so, SCI_CALLTIPACTIVE, 0, 0))
+	{
+		g_signal_handler_disconnect(G_OBJECT(widget), leave_signal);
+		scintilla_send_message (so, SCI_CALLTIPCANCEL, 0, 0);
+	}
+	return FALSE;
+}
+
+/*
  * 	Occures on notify from editor.
  * 	Handles margin click to set/remove breakpoint 
  */
@@ -194,7 +209,7 @@ gboolean on_editor_notify(
 		{
 			if (DBS_STOPPED != debug_get_state ())
 				break;
-			
+
 			/* get a word under the cursor */
 			GString *word = get_word_at_position(editor->sci, nt->position);
 
@@ -203,6 +218,7 @@ gboolean on_editor_notify(
 				gchar *calltip = debug_get_calltip_for_expression(word->str);
 				if (calltip)
 				{
+					leave_signal = g_signal_connect(G_OBJECT(editor->sci), "leave-notify-event", G_CALLBACK(on_mouse_leave), NULL);
 					scintilla_send_message (editor->sci, SCI_CALLTIPSHOW, nt->position, (long)calltip);
 				}
 			}
@@ -216,7 +232,11 @@ gboolean on_editor_notify(
 			if (DBS_STOPPED != debug_get_state ())
 				break;
 
-			scintilla_send_message (editor->sci, SCI_CALLTIPCANCEL, 0, 0);
+			if (scintilla_send_message (editor->sci, SCI_CALLTIPACTIVE, 0, 0))
+			{
+				g_signal_handler_disconnect(G_OBJECT(editor->sci), leave_signal);
+				scintilla_send_message (editor->sci, SCI_CALLTIPCANCEL, 0, 0);
+			}
 			break;
 		}
 		case SCN_MODIFYATTEMPTRO:
