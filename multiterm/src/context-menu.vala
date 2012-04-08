@@ -2,7 +2,7 @@ using Gtk;
 
 namespace MultiTerm
 {
-	public class ContextMenu : Menu
+	public class ContextMenu : Gtk.Menu
 	{
 		public signal void new_shell_activate(ShellConfig sh);
 		public signal void new_window_activate();
@@ -19,12 +19,12 @@ namespace MultiTerm
 			show_tabs_activate(item.active);
 		}
 
-		private void on_next_previous_tab_activate(MenuItem item, bool next)
+		private void on_next_previous_tab_activate(Gtk.MenuItem item, bool next)
 		{
 			item.sensitive = next ? next_tab_activate() : previous_tab_activate();
 		}
 
-		private void on_move_to_location(MenuItem item)
+		private void on_move_to_location(Gtk.MenuItem item)
 		{
 			if (item.get_data<bool>("location_is_msgwin"))
 			{
@@ -49,15 +49,15 @@ namespace MultiTerm
 
 		public ContextMenu(Config? cfg)
 		{
-			Menu menu;
-			MenuItem item;
+			Gtk.Menu menu;
+			Gtk.MenuItem item;
 			ImageMenuItem image_item;
 			CheckMenuItem check_item;
 
-			menu = new Menu();
+			menu = new Gtk.Menu();
 			menu.show();
 
-			item = new MenuItem.with_label("Open Tab");
+			item = new Gtk.MenuItem.with_label("Open Tab");
 			item.set_submenu(menu);
 			item.show();
 			this.append(item);
@@ -66,25 +66,25 @@ namespace MultiTerm
 			for (uint i = 0; i < len; i++)
 			{
 				ShellConfig sh = cfg.shell_configs.nth_data(i);
-				item = new MenuItem.with_label(sh.name);
+				item = new Gtk.MenuItem.with_label(sh.name);
 				item.activate.connect(() => new_shell_activate(sh));
 				menu.append(item);
 				item.show();
 			}
 
-			item = new MenuItem.with_label("Open Window");
+			item = new Gtk.MenuItem.with_label("Open Window");
 			item.activate.connect(() => new_window_activate());
 			this.append(item);
 			item.show();
 
 			add_separator();
 
-			item = new MenuItem.with_label("Next tab");
+			item = new Gtk.MenuItem.with_label("Next tab");
 			item.activate.connect(() => on_next_previous_tab_activate(item, true));
 			//this.append(item);
 			//item.show();
 
-			item = new MenuItem.with_label("Previous tab");
+			item = new Gtk.MenuItem.with_label("Previous tab");
 			item.activate.connect(() => on_next_previous_tab_activate(item, false));
 			//this.append(item);
 			//item.show();
@@ -111,12 +111,12 @@ namespace MultiTerm
 
 			if (cfg.location == "msgwin")
 			{
-				item = new MenuItem.with_label("Move to sidebar");
+				item = new Gtk.MenuItem.with_label("Move to sidebar");
 				item.set_data<bool>("location_is_msgwin", true);
 			}
 			else
 			{
-				item = new MenuItem.with_label("Move to message window");
+				item = new Gtk.MenuItem.with_label("Move to message window");
 				item.set_data<bool>("location_is_msgwin", false);
 			}
 			item.activate.connect(() => on_move_to_location(item));
