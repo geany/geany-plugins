@@ -42,6 +42,7 @@ typedef struct FileData
 {
 	gchar *pcFileName;    /* holds filename */
 	gint iBookmark[10];   /* holds bookmark lines or -1 for not set */
+	gint iBookmarkLinePos[10]; /* holds position of cursor in line */
 	gchar *pcFolding;     /* holds which folds are open and which not */
 	gint LastChangedTime; /* time file was last changed by this editor */
 	struct FileData * NextNode;
@@ -66,6 +67,7 @@ PLUGIN_SET_INFO("Numbered Bookmarks",_("Numbered Bookmarks for Geany"),
 /* Plugin user alterable settings */
 static gboolean bCenterWhenGotoBookmark=TRUE;
 static gboolean bRememberFolds=TRUE;
+static gint PositionInLine=0;
 
 /* internal variables */
 static gint iShiftNumbers[]={41,33,34,163,36,37,94,38,42,40};
@@ -78,6 +80,7 @@ const gchar default_config[] =
 	"[Settings]\n"
 	"Center_When_Goto_Bookmark = true\n"
 	"Remember_Folds = true\n"
+	"Position_In_Line = 0\n"
 	"[FileData]";
 
 /* Definitions for bookmark images */
@@ -318,6 +321,7 @@ static FileData * GetFileData(gchar *pcFileName)
 			for(i=0;i<10;i++)
 				fdKnownFilesSettings->iBookmark[i]=-1;
 
+			/* don't need to initiate iBookmarkLinePos */
 			fdKnownFilesSettings->pcFolding=NULL;
 			fdKnownFilesSettings->LastChangedTime=-1;
 			fdKnownFilesSettings->NextNode=NULL;
@@ -341,6 +345,7 @@ static FileData * GetFileData(gchar *pcFileName)
 				for(i=0;i<10;i++)
 					fdTemp->NextNode->iBookmark[i]=-1;
 
+				/* don't need to initiate iBookmarkLinePos */
 				fdTemp->NextNode->pcFolding=NULL;
 				fdTemp->NextNode->LastChangedTime=-1;
 				fdTemp->NextNode->NextNode=NULL;
@@ -372,6 +377,7 @@ static void SaveSettings(void)
 	/* now set settings */
 	g_key_file_set_boolean(config,"Settings","Center_When_Goto_Bookmark",bCenterWhenGotoBookmark);
 	g_key_file_set_boolean(config,"Settings","Remember_Folds",bRememberFolds);
+	g_key_file_set_integer(config,"Settings","Position_In_Line",PositionInLine);
 
 	/* now save file data */
 	while(fdTemp!=NULL)
@@ -396,6 +402,28 @@ static void SaveSettings(void)
 			if(fdTemp->iBookmark[i]!=-1)
 			{
 				sprintf(pszMarkers,"%d",fdTemp->iBookmark[i]);
+				while(pszMarkers[0]!=0)
+					pszMarkers++;
+			}
+
+			pszMarkers[0]=',';
+			pszMarkers[1]=0;
+			pszMarkers++;
+		}
+		/* don't need a ',' after last position (have '\0' instead) */
+		pszMarkers--;
+		pszMarkers[0]=0;
+		g_key_file_set_string(config,"FileData",cKey,szMarkers);
+
+		/* save positions in bookmarked lines */
+		cKey[0]='E';
+		pszMarkers=szMarkers;
+		pszMarkers[0]=0;
+		for(i=0;i<10;i++)
+		{
+			if(fdTemp->iBookmark[i]!=-1)
+			{
+				sprintf(pszMarkers,"%d",fdTemp->iBookmarkLinePos[i]);
 				while(pszMarkers[0]!=0)
 					pszMarkers++;
 			}
@@ -441,6 +469,7 @@ static void SaveSettings(void)
 static void LoadSettings(void)
 {
 	gchar *pcTemp;
+	gchar *pcTemp2;
 	gchar *pcKey;
 	gint i,l;
 	gchar *config_file=NULL;
@@ -465,6 +494,7 @@ static void LoadSettings(void)
 	bCenterWhenGotoBookmark=utils_get_setting_boolean(config,"Settings",
 	                        "Center_When_Goto_Bookmark",FALSE);
 	bRememberFolds=utils_get_setting_boolean(config,"Settings","Remember_Folds",FALSE);
+	PositionInLine=utils_get_setting_integer(config,"Settings","Position_In_Line",0);
 
 	/* extract data about files */
 	i=0;
@@ -491,21 +521,41 @@ static void LoadSettings(void)
 		/* get bookmarks */
 		pcKey[0]='D';
 		pcTemp=(gchar*)(utils_get_setting_string(config,"FileData",pcKey,NULL));
-		g_free(pcKey);
 		/* pcTemp contains comma seperated numbers (or blank for -1) */
-		pcKey=pcTemp;
+		pcTemp2=pcTemp;
 		if(pcTemp!=NULL) for(l=0;l<10;l++)
 		{
 			/* Bookmark entries are initialized to -1, so only need to parse non-empty slots */
-			if(pcKey[0]!=',' && pcKey[0]!=0)
+			if(pcTemp2[0]!=',' && pcTemp2[0]!=0)
 			{
-				fdTemp->iBookmark[l]=strtoll(pcKey,NULL,10);
-				while(pcKey[0]!=0 && pcKey[0]!=',')
-					pcKey++;
+				fdTemp->iBookmark[l]=strtoll(pcTemp2,NULL,10);
+				while(pcTemp2[0]!=0 && pcTemp2[0]!=',')
+					pcTemp2++;
 			}
 
-			pcKey++;
+			pcTemp2++;
 		}
+		g_free(pcTemp);
+
+		/* get position in bookmarked lines */
+		pcKey[0]='E';
+		pcTemp=(gchar*)(utils_get_setting_string(config,"FileData",pcKey,NULL));
+		g_free(pcKey);
+		/* pcTemp contains comma seperated numbers (or blank for -1) */
+		pcTemp2=pcTemp;
+		if(pcTemp!=NULL) for(l=0;l<10;l++)
+		{
+			/* Bookmark entries are initialized to -1, so only need to parse non-empty slots */
+			if(pcTemp2[0]!=',' && pcTemp2[0]!=0)
+			{
+				fdTemp->iBookmarkLinePos[l]=strtoll(pcTemp2,NULL,10);
+				while(pcTemp2[0]!=0 && pcTemp2[0]!=',')
+					pcTemp2++;
+			}
+
+			pcTemp2++;
+		}
+
 		g_free(pcTemp);
 	}
 
@@ -755,6 +805,7 @@ static void on_configure_response(GtkDialog *dialog, gint response, gpointer use
 {
 	gboolean bSettingsHaveChanged;
 	GtkCheckButton *cb1,*cb2;
+	GtkComboBox *gtkcb;
 
 	if(response!=GTK_RESPONSE_OK && response!=GTK_RESPONSE_APPLY)
 		return;
@@ -762,15 +813,18 @@ static void on_configure_response(GtkDialog *dialog, gint response, gpointer use
 	/* retreive pointers to check boxes */
 	cb1=(GtkCheckButton*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb1"));
 	cb2=(GtkCheckButton*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb2"));
+	gtkcb=(GtkComboBox*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb3"));
 
 	/* first see if settings are going to change */
 	bSettingsHaveChanged=(bRememberFolds!=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb1)));
 	bSettingsHaveChanged|=(bCenterWhenGotoBookmark!=gtk_toggle_button_get_active(
 	                       GTK_TOGGLE_BUTTON(cb2)));
+	bSettingsHaveChanged|=(gtk_combo_box_get_active(gtkcb)!=PositionInLine);
 
 	/* set new settings settings */
 	bRememberFolds=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb1));
 	bCenterWhenGotoBookmark=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb2));
+	PositionInLine=gtk_combo_box_get_active(gtkcb);
 
 	/* now save new settings if they have changed */
 	if(bSettingsHaveChanged)
@@ -782,7 +836,7 @@ static void on_configure_response(GtkDialog *dialog, gint response, gpointer use
 GtkWidget *plugin_configure(GtkDialog *dialog)
 {
 	GtkWidget *vbox;
-	GtkWidget *cb1,*cb2;
+	GtkWidget *cb1,*cb2,*gtkcb;
 
 	vbox=gtk_vbox_new(FALSE, 6);
 
@@ -797,6 +851,15 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_box_pack_start(GTK_BOX(vbox),cb2,FALSE,FALSE,2);
 	/* save pointer to check_button */
 	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb2",cb2);
+
+	gtkcb=gtk_combo_box_new_text();
+	gtk_combo_box_append_text((GtkComboBox*)gtkcb,_("Move to start of line"));
+	gtk_combo_box_append_text((GtkComboBox*)gtkcb,_("Move to remembered position in line"));
+	gtk_combo_box_append_text((GtkComboBox*)gtkcb,_("Move to position in current line"));
+	gtk_combo_box_append_text((GtkComboBox*)gtkcb,_("Move to End of line"));
+	gtk_combo_box_set_active((GtkComboBox*)gtkcb,PositionInLine);
+	gtk_box_pack_start(GTK_BOX(vbox),gtkcb,FALSE,FALSE,2);
+	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb3",gtkcb);
 
 	gtk_widget_show_all(vbox);
 
@@ -860,8 +923,9 @@ the screen, otherwise it will simply be on the screen somewhere."));
 /* goto numbered bookmark */
 static void GotoBookMark(gint iBookMark)
 {
-	gint iLine,iLinesVisible,iLineCount;
+	gint iLine,iLinesVisible,iLineCount,iPosition,iEndOfLine;
 	ScintillaObject* sci=document_get_current()->editor->sci;
+	FileData *fd;
 
 	iLine=scintilla_send_message(sci,SCI_MARKERNEXT,0,1<<(iBookMark+BOOKMARK_BASE));
 
@@ -869,9 +933,42 @@ static void GotoBookMark(gint iBookMark)
 	if(iLine==-1)
 		return;
 
-	/* move to bookmark */
-	scintilla_send_message(sci,SCI_GOTOLINE,iLine,0);
+	/* calculate position we're moving to */
+	/* first get position of start of line we're after */
+	iPosition=scintilla_send_message(sci,SCI_POSITIONFROMLINE,iLine,0);
+	/* adjust for where in line we want to be */
+	iEndOfLine=scintilla_send_message(sci,SCI_GETLINEENDPOSITION,iLine,0);
+	switch(PositionInLine)
+	{
+		/* start of line */
+		case 0:
+			break;
+		/* remembered line position */
+		case 1:
+			fd=GetFileData(document_get_current()->file_name);
+			iPosition+=fd->iBookmarkLinePos[iBookMark];
+			if(iPosition>iEndOfLine)
+				iPosition=iEndOfLine;
 
+			break;
+		/* try to go to position in current line */
+		case 2:
+			iPosition+=scintilla_send_message(sci,SCI_GETCURRENTPOS,0,0)-
+	           	           scintilla_send_message(sci,SCI_POSITIONFROMLINE,GetLine(sci),0);
+			if(iPosition>iEndOfLine)
+				iPosition=iEndOfLine;
+
+			break;
+		/* goto end of line */
+		case 3:
+			iPosition=iEndOfLine;
+			break;
+	}
+
+	/* move to bookmark */
+	scintilla_send_message(sci,SCI_GOTOPOS,iPosition,0);
+
+	/* finnished unless centering on line */
 	if(bCenterWhenGotoBookmark==FALSE)
 		return;
 
@@ -893,17 +990,23 @@ static void GotoBookMark(gint iBookMark)
 /* set (or remove) numbered bookmark */
 static void SetBookMark(gint iBookMark)
 {
-	gint iNewLine,iOldLine;
+	gint iNewLine,iOldLine,iPosInLine;
 	ScintillaObject* sci=document_get_current()->editor->sci;
+	FileData *fd;
 
 	/* see if already such a bookmark present */
 	iOldLine=scintilla_send_message(sci,SCI_MARKERNEXT,0,1<<(iBookMark+BOOKMARK_BASE));
 	iNewLine=GetLine(sci);
+	iPosInLine=scintilla_send_message(sci,SCI_GETCURRENTPOS,0,0)-
+	           scintilla_send_message(sci,SCI_POSITIONFROMLINE,iNewLine,0);
+
 	/* if no marker then simply add one to current line */
 	if(iOldLine==-1)
 	{
 		CheckEditorSetup();
 		scintilla_send_message(sci,SCI_MARKERADD,iNewLine,iBookMark+BOOKMARK_BASE);
+		fd=GetFileData(document_get_current()->file_name);
+		fd->iBookmarkLinePos[iBookMark]=iPosInLine;
 	}
 	/* else either have to remove marker from current line, or move it to current line */
 	else
@@ -911,7 +1014,12 @@ static void SetBookMark(gint iBookMark)
 		/* remove old marker */
 		scintilla_send_message(sci,SCI_MARKERDELETEALL,iBookMark+BOOKMARK_BASE,0);
 		/* add new marker if moving marker */
-		if(iOldLine!=iNewLine) scintilla_send_message(sci,SCI_MARKERADD,iNewLine,iBookMark+BOOKMARK_BASE);
+		if(iOldLine!=iNewLine)
+		{
+			scintilla_send_message(sci,SCI_MARKERADD,iNewLine,iBookMark+BOOKMARK_BASE);
+			fd=GetFileData(document_get_current()->file_name);
+			fd->iBookmarkLinePos[iBookMark]=iPosInLine;
+		}
 	}
 }
 
