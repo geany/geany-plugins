@@ -452,7 +452,9 @@ static void SaveSettings(void)
 		/* don't need a ',' after last position (have '\0' instead) */
 		pszMarkers--;
 		pszMarkers[0]=0;
-		g_key_file_set_string(config,"FileData",cKey,szMarkers);
+		/* only save positions of markers if set. Will contain 9 commas only if none set */
+		if(szMarkers[9]!=0)
+			g_key_file_set_string(config,"FileData",cKey,szMarkers);
 
 		g_free(cKey);
 
