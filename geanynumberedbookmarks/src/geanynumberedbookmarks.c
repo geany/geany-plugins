@@ -382,6 +382,20 @@ static void SaveSettings(void)
 	/* now save file data */
 	while(fdTemp!=NULL)
 	{
+		/* first check if any bookmarks or folds for this file */
+		/* if not can skip it */
+		for(i=0;i<10;i++)
+			if(fdTemp->iBookmark[i]!=-1) break;
+		/* i==10 if no markers set */
+
+		/* skip if no folding data or markers */
+		if(i==10 && fdTemp->pcFolding==NULL)
+		{
+			fdTemp=fdTemp->NextNode;
+			continue;
+		}
+
+		/* now save file data */
 		cKey=g_strdup_printf("A%d",iFiles);
 		/* save filename */
 		g_key_file_set_string(config,"FileData",cKey,fdTemp->pcFileName);
@@ -392,7 +406,8 @@ static void SaveSettings(void)
 
 		/* save last saved time */
 		cKey[0]='C';
-		g_key_file_set_integer(config,"FileData",cKey,fdTemp->LastChangedTime);
+		if(fdTemp->LastChangedTime!=-1)
+			g_key_file_set_integer(config,"FileData",cKey,fdTemp->LastChangedTime);
 		/* save bookmarks */
 		cKey[0]='D';
 		pszMarkers=szMarkers;
@@ -413,7 +428,9 @@ static void SaveSettings(void)
 		/* don't need a ',' after last position (have '\0' instead) */
 		pszMarkers--;
 		pszMarkers[0]=0;
-		g_key_file_set_string(config,"FileData",cKey,szMarkers);
+		/* only save markers if have any set. Will contain 9 commas only if none set */
+		if(szMarkers[9]!=0)
+			g_key_file_set_string(config,"FileData",cKey,szMarkers);
 
 		/* save positions in bookmarked lines */
 		cKey[0]='E';
@@ -732,6 +749,7 @@ static void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_dat
 	struct stat sBuf;
 	GByteArray *gbaFoldData=g_byte_array_sized_new(1000);
 	guint8 guiFold=0;
+	gboolean bHasClosedFold=FALSE;
 
 	/* update markerpos */
 	fdTemp=GetFileData(doc->file_name);
@@ -749,6 +767,8 @@ static void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_dat
 			continue;
 
 		iFlags=scintilla_send_message(sci,SCI_GETFOLDEXPANDED,i,0);
+		/* make note of if any folds closed or not */
+		bHasClosedFold|=((iFlags&1)==0);
 		/* remember if folded or not */
 		guiFold|=(iFlags&1)<<iBitCounter;
 		iBitCounter++;
@@ -769,8 +789,8 @@ static void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_dat
 		g_byte_array_append(gbaFoldData,&guiFold,1);
 	}
 
-	/* transfer data to text string */
-	fdTemp->pcFolding=g_strndup((gchar*)(gbaFoldData->data),gbaFoldData->len);
+	/* transfer data to text string if have closed fold. Default will leave them open*/
+	fdTemp->pcFolding=(!bHasClosedFold)?NULL:g_strndup((gchar*)(gbaFoldData->data),gbaFoldData->len);
 
 	/* free byte array space */
 	g_byte_array_free(gbaFoldData,TRUE);
