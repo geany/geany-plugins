@@ -42,3 +42,9 @@ def try_to_find_lua_package():
 found_lua_package = try_to_find_lua_package()
 if not found_lua_package:
     raise ConfigurationError('You need Lua 5.1 for the GeanyLua plugin')
+
+check_cfg_cached(conf,
+    package='gmodule-2.0',
+    mandatory=True,
+    uselib_store='GMODULE',
+    args='--cflags --libs')

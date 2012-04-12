@@ -28,7 +28,7 @@ sources = ['geanylua.c']
 lua_sources = [ 'glspi_init.c', 'glspi_app.c', 'glspi_dlg.c',
                 'glspi_doc.c', 'glspi_kfile.c', 'glspi_run.c',
                 'glspi_sci.c', 'gsdlg_lua.c' ]
-libraries = ['LUA']
+libraries = ['LUA', 'GMODULE']
 
 build_plugin(bld, name, sources=sources, libraries=libraries)
 
