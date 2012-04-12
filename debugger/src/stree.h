@@ -28,7 +28,7 @@ void 			stree_clear();
 void 			stree_add_thread(int thread_id);
 void 			stree_remove_thread(int thread_id);
 
-void 			stree_select_first_frame();
+void 			stree_select_first_frame(gboolean make_active);
 void 			stree_remove_frames();
 
 void			stree_set_active_thread_id(int thread_id);

@@ -38,10 +38,12 @@ libgeanylua_la_SOURCES = \
 
 geanylua_la_CFLAGS = \
 	$(AM_CFLAGS) \
+	$(GMODULE_CFLAGS) \
 	$(LUA_CFLAGS)
 
 geanylua_la_LIBADD = \
 	$(COMMONLIBS) \
+	$(GMODULE_LIBS) \
 	$(LUA_LIBS)
 
 libgeanylua_la_CFLAGS = $(geanylua_la_CFLAGS)

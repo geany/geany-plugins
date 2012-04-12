@@ -240,7 +240,9 @@ static void on_watch_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 		-1);
 
 	/* check if it is empty row */
-	gboolean is_empty_row = !gtk_tree_path_compare (tree_path, wtree_empty_path());
+	GtkTreePath *empty_path = wtree_empty_path();
+	gboolean is_empty_row = !gtk_tree_path_compare (tree_path, empty_path);
+	gtk_tree_path_free(empty_path);
 
    	gchar *striped = g_strstrip(g_strdup(new_text));
 	if (!strlen(striped) &&
@@ -447,6 +449,8 @@ static gboolean on_watch_key_pressed_callback(GtkWidget *widget, GdkEvent  *even
 
 
 				gtk_tree_store_remove(wstore, &titer);
+
+				gtk_tree_path_free(path);
 			}
 			
 			iter = iter->next;
@@ -455,7 +459,11 @@ static gboolean on_watch_key_pressed_callback(GtkWidget *widget, GdkEvent  *even
 		/* if all (with or without empty row) was selected - set empty row
 		as a path to be selected after deleting */
 		if (!reference_to_select)
-			reference_to_select = gtk_tree_row_reference_new (gtk_tree_view_get_model(GTK_TREE_VIEW(wtree)), wtree_empty_path());
+		{
+			GtkTreePath *path = wtree_empty_path();
+			reference_to_select = gtk_tree_row_reference_new (gtk_tree_view_get_model(GTK_TREE_VIEW(wtree)), path);
+			gtk_tree_path_free(path);
+		}
 
 		/* set selection */
 		gtk_tree_selection_unselect_all(selection);
@@ -470,6 +478,8 @@ static gboolean on_watch_key_pressed_callback(GtkWidget *widget, GdkEvent  *even
 
 		config_set_debug_changed();
 	}
+
+	gtk_tree_path_free(empty_path);
 
 	/* free rows list */
 	g_list_foreach (rows, (GFunc)gtk_tree_path_free, NULL);
@@ -669,7 +679,7 @@ static void on_debugger_stopped (int thread_id)
 		stree_add(f);
 		iter = g_list_next(iter);
 	}
-	stree_select_first_frame();
+	stree_select_first_frame(TRUE);
 
 	/* files */
 	GList *files = active_module->get_files();

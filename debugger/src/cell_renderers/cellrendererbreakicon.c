@@ -261,8 +261,12 @@ static void cell_renderer_break_icon_render(GtkCellRenderer *cell, GdkDrawable *
 static gint cell_renderer_break_icon_activate(GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, const gchar *path,
 	GdkRectangle *background_area, GdkRectangle *cell_area, GtkCellRendererState  flags)
 {
-	if (event->button.x >= cell_area->x &&
-		event->button.x < (cell_area->x + cell_area->width))
+	if (!event ||
+		(
+			event->button.x >= cell_area->x &&
+			event->button.x < (cell_area->x + cell_area->width)
+		)
+	)
 	{
 		g_signal_emit (cell, clicked_signal, 0, path);
 	}
@@ -411,24 +415,32 @@ GType cell_renderer_break_icon_get_type(void)
 	
 	if(0 == cell_break_icon_type)
 	{
-		static const GTypeInfo cell_break_icon_info =
+		if ( (cell_break_icon_type = g_type_from_name("CellRendererBreakIcon")) )
 		{
-			sizeof (CellRendererBreakIconClass),
-			NULL,                                                     /* base_init */
-			NULL,                                                     /* base_finalize */
-			(GClassInitFunc) cell_renderer_break_icon_class_init,
-			NULL,                                                     /* class_finalize */
-			NULL,                                                     /* class_data */
-			sizeof (CellRendererBreakIcon),
-			0,                                                        /* n_preallocs */
-			(GInstanceInitFunc) cell_renderer_break_icon_init,
-		};
-
-		/* Derive from GtkCellRenderer */
-		cell_break_icon_type = g_type_register_static (GTK_TYPE_CELL_RENDERER,
-			"CellRendererBreakIcon",
-			&cell_break_icon_info,
-			0);
+			parent_class = g_type_class_peek_static(g_type_parent(cell_break_icon_type));
+			clicked_signal = g_signal_lookup("clicked", cell_break_icon_type);
+		}
+		else
+		{
+			static const GTypeInfo cell_break_icon_info =
+			{
+				sizeof (CellRendererBreakIconClass),
+				NULL,                                                     /* base_init */
+				NULL,                                                     /* base_finalize */
+				(GClassInitFunc) cell_renderer_break_icon_class_init,
+				NULL,                                                     /* class_finalize */
+				NULL,                                                     /* class_data */
+				sizeof (CellRendererBreakIcon),
+				0,                                                        /* n_preallocs */
+				(GInstanceInitFunc) cell_renderer_break_icon_init,
+			};
+		
+			/* Derive from GtkCellRenderer */
+			cell_break_icon_type = g_type_register_static (GTK_TYPE_CELL_RENDERER,
+				"CellRendererBreakIcon",
+				&cell_break_icon_info,
+				0);
+		}
 	}
 	
 	return cell_break_icon_type;

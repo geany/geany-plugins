@@ -1,26 +1,27 @@
 BUGS:
-- terminal stops to produce any output after some debug seesions
-- tooltip appears even if a pointer in no longer inside editor window
-- check possible memory leaks on a)gtk_tree_row_reference_get_path b)missing unrefs on tree/list stores
-- cell_renderer_toogle SIGSEGV in cell_renderer_toggle_activate when activating a cell using a keyboard (event->button == NULL)
-- debug geany with debugger project. switch frames then step over -> continue instead, then close geany being debugged -> dbm_gdb.c:502 (no step reason, probably the record from the previos step command???)
 
 FEATURES:
-- custom tooltip with sticking facilities
-- don't hide a tooltip until run hasn't happent, move it if document is being scrolled
-- use lexer to lookup for a symbol under cursor when presenting a tooltip
-- geany menu integration
-- toolbar buttons
-- margin context menu
-- step back
-- tree views column width/autowidth
+
+- debug callbacks names (refactoring)
+- gdb backend step speed
+- windows support
+
 - attach functionality: dbm_ methods providing target lists, common dialog
+- interrupt thread using stack window
+- step back
+
+- margin context menu
+- editor context menu (add watch, add/remove breakpoint)
+
+- font from the geany settings for a message window
+- use left/right keys to collapse/expand in breakpoints tree
+- use lexer to lookup for a symbol under cursor when presenting a tooltip
+- a button in the upper right path of a right notebook for a hiding/showing button panel
+- minimum width of the debug panel notebooks
+- tree views column width/autowidth
+- custom tooltip on breaks and stack trace windows with code snippet around break or frame
+- custom tooltip(in an editor in debug mode) with sticking facilities
+- don't hide a tooltip until run hasn't happent, move it if document is being scrolled
+
 - android support
 - bashdb support
-- windows support
-- gdb backend step speed
-- debug callbacks names
-- interrupt thread using stack window
-- custom tooltip on breaks and stack trace windows with code snippet around break or frame
-- font from the geany settings for a message window
-- a button in the upper right path of a right notebook for a hiding/showing button panel

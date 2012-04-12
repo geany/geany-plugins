@@ -1,5 +1,4 @@
 include $(top_srcdir)/build/vars.build.mk
-include $(top_srcdir)/build/vars.docs.mk
 
 plugin = devhelp
 

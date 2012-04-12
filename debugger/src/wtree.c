@@ -99,10 +99,12 @@ static void on_render_name(GtkTreeViewColumn *tree_column,
 GtkTreeIter wtree_empty_row()
 {
 	GtkTreeIter empty;
-	
+
+	GtkTreePath *path = gtk_tree_row_reference_get_path(empty_row);
 	gtk_tree_model_get_iter(gtk_tree_view_get_model(GTK_TREE_VIEW(tree)),
 		&empty,
-		gtk_tree_row_reference_get_path(empty_row));
+		path);
+	gtk_tree_path_free(path);
 	
 	return empty;
 }
