@@ -1,3 +1,12 @@
+08-04-2012 	Alexander Petukhov <devel@apetukhov.ru>
+
+	* fixed a bug with wrong error message when a breakpoint condition/hitscounr can't be set
+	* fixed a bug when gdb exits without a stop reason
+
+07-04-2012 	Alexander Petukhov <devel@apetukhov.ru>
+
+	* fixed a bug with calltips still being shown when a pointer leaves editor window
+
 04-04-2012 	Alexander Petukhov <devel@apetukhov.ru>
 
 	* fixing exiting with code case that was unhandled and caused SIGSEGV (gdb)

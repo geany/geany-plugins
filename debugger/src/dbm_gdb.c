@@ -497,7 +497,7 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 			else
 			{
 				/* somehow, sometimes there can be no stop reason */
-				stop_reason = SR_END_STEPPING_RANGE;
+				stop_reason = SR_EXITED_NORMALLY;
 			}
 			
 			if (SR_BREAKPOINT_HIT == stop_reason || SR_END_STEPPING_RANGE == stop_reason || SR_SIGNAL_RECIEVED == stop_reason)
@@ -817,7 +817,6 @@ gboolean run(const gchar* file, const gchar* commandline, GList* env, GList *wit
 		commands = add_to_queue(commands, NULL, command->str, error_message->str, TRUE);
 
 		g_string_free(command, TRUE);
-		g_string_free(error_message, TRUE);
 
 		if (bp->hitscount)
 		{
@@ -840,6 +839,8 @@ gboolean run(const gchar* file, const gchar* commandline, GList* env, GList *wit
 			commands = add_to_queue(commands, NULL, command->str, error_message->str, TRUE);
 			g_string_free(command, TRUE);
 		}
+
+		g_string_free(error_message, TRUE);
 
 		bp_index++;
 		biter = biter->next;
