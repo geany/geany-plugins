@@ -340,7 +340,7 @@ void plugin_help(void)
 	}
 	g_free(readme);
 */
-	utils_open_browser("http://plugins.geany.org/spellcheck/");
+	utils_open_browser("http://plugins.geany.org/spellcheck.html");
 }
 
 
