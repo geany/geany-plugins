@@ -16,6 +16,7 @@ AC_DEFUN([GP_CHECK_GEANYLUA],
     LUA_VERSION=5.1
     GP_CHECK_PLUGIN_DEPS([GeanyLua], [LUA],
                          [${LUA_PKG_NAME} >= ${LUA_VERSION}])
+    GP_CHECK_PLUGIN_DEPS([GeanyLua], [GMODULE], [gmodule-2.0])
     GP_STATUS_PLUGIN_ADD([GeanyLua], [$enable_geanylua])
 
     AC_CONFIG_FILES([
