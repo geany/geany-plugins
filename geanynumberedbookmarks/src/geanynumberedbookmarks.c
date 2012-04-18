@@ -34,26 +34,18 @@ static const gint base64_char_to_int[]=
 static const gchar base64_int_to_char[]=
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-/* offset for marker numbers used - to bypass markers used by normal bookmarksetc */
-#define BOOKMARK_BASE 10
-
 /* define structures used in this plugin */
 typedef struct FileData
 {
 	gchar *pcFileName;    /* holds filename */
 	gint iBookmark[10];   /* holds bookmark lines or -1 for not set */
+	gint iBookmarkMarkerUsed[10]; /*holds which marker (2-24) is used for this bookmark */
 	gint iBookmarkLinePos[10]; /* holds position of cursor in line */
 	gchar *pcFolding;     /* holds which folds are open and which not */
 	gint LastChangedTime; /* time file was last changed by this editor */
 	struct FileData * NextNode;
 } FileData;
 
-/* structure to hold list of Scintilla objects that have had icons set for bookmarks */
-typedef struct SCIPOINTERHOLDER
-{
-	ScintillaObject* sci;
-	struct SCIPOINTERHOLDER * NextNode;
-} SCIPOINTERHOLDER;
 
 GeanyPlugin     *geany_plugin;
 GeanyData       *geany_data;
@@ -71,7 +63,6 @@ static gint PositionInLine=0;
 
 /* internal variables */
 static gint iShiftNumbers[]={41,33,34,163,36,37,94,38,42,40};
-static SCIPOINTERHOLDER *sciList=NULL;
 static FileData *fdKnownFilesSettings=NULL;
 static gulong key_release_signal_id;
 
@@ -584,61 +575,192 @@ static void LoadSettings(void)
 }
 
 
-/* Define Markers for an editor */
-static void DefineMarkers(ScintillaObject* sci)
-{
-	gint i;
-	for(i=0;i<10;i++)
-		scintilla_send_message(sci,SCI_MARKERDEFINEPIXMAP,i+BOOKMARK_BASE,
-		                       (glong)(aszMarkerImages[i]));
+/* get next free marker number */
+static gint NextFreeMarker(ScintillaObject* sci) {
+	gint i,l,m,k;
+	guint32 markers;
+	FileData *fd;
+
+	markers=(guint32)(g_object_get_data(G_OBJECT(sci),"Geany_Numbered_Bookmarks_Used"));
+
+	/* markers 0 and 1 reserved for bookmarks & errors, 25 onwards for folds */
+	/* find first free marker after last defined marker. Will ensure that new marker */
+	/* is displayed over any previously set markers */
+	for(i=24,m=-1;i>1;i--)
+	{
+		l=scintilla_send_message(sci,SCI_MARKERSYMBOLDEFINED,i,0);
+
+		if(l==SC_MARK_CIRCLE || l==SC_MARK_AVAILABLE)
+		{
+			/* if reached start of user-defined markers then return this */
+			if(i==2)
+				return 2;
+
+			/* found empty marker so make note of it */
+			m=i;
+			/* keep looking for 1st unused marker after last used marker */
+			continue;
+		}
+
+		/* found marker */
+
+		/* if not a numbered bookmark then ignore it */
+		if((markers&(1<<i))==0)
+			continue;
+
+		/* if have found an empty marker higher then return this */
+		if(m!=-1)
+			return m;
+
+		/* no empty markers above last used */
+
+		/* first see if there are any unused markers */
+		while(i>1)
+		{
+			l=scintilla_send_message(sci,SCI_MARKERSYMBOLDEFINED,i,0);
+			if(l==SC_MARK_CIRCLE || l==SC_MARK_AVAILABLE)
+				break;
+
+			i--;
+		}
+
+		/* no empty markers available so return -1 */
+		if(i==1)
+			return -1;
+
+		/* there are empty markers available. Break out of for loop & make them available */
+		break;
+	}
+
+	/* compact used numbered markers */
+	/* move through markers moving numbered bookmarks ones from i to m */
+	for(m=2,i=2;i<25;i++)
+	{
+		/* don't move marker unless it's a numbered bookmark marker */
+		if((markers&(1<<i))==0)
+			continue;
+
+		/* find unused marker */
+		l=scintilla_send_message(sci,SCI_MARKERSYMBOLDEFINED,m,0);
+		while((l!=SC_MARK_CIRCLE && l!=SC_MARK_AVAILABLE) && m<i)
+		{
+			m++;
+			l=scintilla_send_message(sci,SCI_MARKERSYMBOLDEFINED,m,0);
+		}
+
+		/* if can't move marker forward then don't */
+		if(m==i)
+			continue;
+
+		/* move marker from i to m */
+		/* first make note of line number of marker */
+		l=scintilla_send_message(sci,SCI_MARKERNEXT,0,1<<i);
+		/* remove old marker */
+		scintilla_send_message(sci,SCI_MARKERDELETEALL,i,0);
+		scintilla_send_message(sci,SCI_MARKERDEFINE,i,SC_MARK_AVAILABLE);
+
+		/* find bookmark number, put in k */
+		fd=GetFileData(document_get_current()->file_name);
+		for(k=0;k<10;k++)
+			if(fd->iBookmarkMarkerUsed[k]==i)
+				break;
+
+		/* insert new marker */
+		scintilla_send_message(sci,SCI_MARKERDEFINEPIXMAP,m,(glong)(aszMarkerImages[k]));
+		scintilla_send_message(sci,SCI_MARKERADD,l,m);
+
+		/* update markers record */
+		markers-=1<<i;
+		markers|=1<<m;
+
+		/* update record of which bookmark uses which marker */
+		fd->iBookmarkMarkerUsed[k]=m;
+	}
+
+	/* save record of which markers are being used */
+	g_object_set_data(G_OBJECT(sci),"Geany_Numbered_Bookmarks_Used",(gpointer)markers);
+
+
+	/* m should point to last used marker. Next free marker should lie after this */
+	/* find free marker & return it */
+	for(;m<25;m++)
+	{
+		l=scintilla_send_message(sci,SCI_MARKERSYMBOLDEFINED,m,0);
+		if(l==SC_MARK_CIRCLE || l==SC_MARK_AVAILABLE)
+			return m;
+	}	
+
+	/* no empty markers available so return -1 */
+	/* in theory shouldn't get here but leave just in case my logic is flawed */
+	return -1;
 }
 
 
-/* Make sure that have setup markers if not come across this particular editor
- * Keep track of editors we've encountered and set markers for
-*/
-static void CheckEditorSetup(void)
+static void SetMarker(ScintillaObject* sci,gint bookmarkNumber,gint markerNumber,gint line)
 {
-	SCIPOINTERHOLDER *sciTemp;
-	ScintillaObject* sci=document_get_current()->editor->sci;
+	guint32 markers;
+	FileData *fd;
 
-	/* no recorded editors so make note of editor */
-	if(sciList==NULL)
-	{
-		if((sciList=(SCIPOINTERHOLDER *)(g_malloc(sizeof *sciTemp)))!=NULL)
+	/* insert new marker */
+	scintilla_send_message(sci,SCI_MARKERDEFINEPIXMAP,markerNumber,
+	                       (glong)(aszMarkerImages[bookmarkNumber]));
+	scintilla_send_message(sci,SCI_MARKERADD,line,markerNumber);
+
+	/* update record of which bookmark uses which marker */
+	fd=GetFileData(document_get_current()->file_name);
+	fd->iBookmarkMarkerUsed[bookmarkNumber]=markerNumber;
+
+	/* update record of which markers are being used */
+	markers=(guint32)(g_object_get_data(G_OBJECT(sci),"Geany_Numbered_Bookmarks_Used"));
+	markers|=1<<markerNumber;
+	g_object_set_data(G_OBJECT(sci),"Geany_Numbered_Bookmarks_Used",(gpointer)markers);
+}
+
+
+static void DeleteMarker(ScintillaObject* sci,gint bookmarkNumber,gint markerNumber)
+{
+	guint32 markers;
+
+	/* remove marker */
+	scintilla_send_message(sci,SCI_MARKERDELETEALL,markerNumber,0);
+	scintilla_send_message(sci,SCI_MARKERDEFINE,markerNumber,SC_MARK_AVAILABLE);
+
+	/* update record of which markers are being used */
+	markers=(guint32)(g_object_get_data(G_OBJECT(sci),"Geany_Numbered_Bookmarks_Used"));
+	markers-=1<<markerNumber;
+	g_object_set_data(G_OBJECT(sci),"Geany_Numbered_Bookmarks_Used",(gpointer)markers);
+}
+
+
+static void ApplyBookmarks(ScintillaObject* sci,FileData *fd)
+{
+	gint i,iLineCount,m;
+	GtkWidget *dialog;
+
+	iLineCount=scintilla_send_message(sci,SCI_GETLINECOUNT,0,0);
+
+	for(i=0;i<10;i++)
+		if(fd->iBookmark[i]!=-1 && fd->iBookmark[i]<iLineCount)
 		{
-			sciList->sci=sci;
-			sciList->NextNode=NULL;
-			DefineMarkers(sci);
+			m=NextFreeMarker(sci);
+			/* if run out of markers report this */
+			if(m==-1)
+			{
+				dialog=gtk_message_dialog_new(GTK_WINDOW(geany->main_widgets->window),
+				                              GTK_DIALOG_DESTROY_WITH_PARENT,
+				                              GTK_MESSAGE_ERROR,GTK_BUTTONS_NONE,
+				                              _("Unable to apply all markers to \
+				                              '%s' as all being used."),
+				                              document_get_current()->file_name);
+				gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Okay"),GTK_RESPONSE_OK);
+				gtk_dialog_run(GTK_DIALOG(dialog));
+				gtk_widget_destroy(dialog);
+				return;
+			}
+
+			/* otherwise ok to set marker */
+			SetMarker(sci,i,m,fd->iBookmark[i]);
 		}
-
-		return;
-	}
-
-	sciTemp=sciList;
-	while(sciTemp->NextNode!=NULL)
-	{
-		/* if have come across this editor before, then it will have had it's markers set and we
-		 * don't need to do any more
-		*/
-		if(sciTemp->sci==sci)
-			return;
-
-		sciTemp=sciTemp->NextNode;
-	}
-	/* if have come across this editor before, then it will have had it's markers set and we don't
-	 * need to do any more
-	*/
-	if(sciTemp->sci==sci)
-		return;
-
-	/* not come across this editor */
-	if((sciTemp->NextNode=g_malloc(sizeof *sciTemp->NextNode))!=NULL)
-	{
-		sciTemp->NextNode->sci=sci;
-		sciTemp->NextNode->NextNode=NULL;
-		DefineMarkers(sci);
-	}
 }
 
 
@@ -657,10 +779,6 @@ static void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_dat
 	gchar *cFoldData=NULL;
 	/* keep compiler happy & initialise iBits: will logically be initiated anyway */
 	gint iBits=0,iFlags,iBitCounter;
-
-	/* ensure have markers set */
-	CheckEditorSetup();
-	DefineMarkers(sci);
 
 	/* check to see if file has changed since geany last saved it */
 	fd=GetFileData(doc->file_name);
@@ -686,9 +804,7 @@ static void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_dat
 		/* file not changed since Geany last saved it so saved settings should be fine */
 		case GTK_RESPONSE_ACCEPT:
 			/* now set markers */
-			for(i=0;i<10;i++)
-				if(fd->iBookmark[i]!=-1)
-					scintilla_send_message(sci,SCI_MARKERADD,fd->iBookmark[i],i+BOOKMARK_BASE);
+			ApplyBookmarks(sci,fd);
 
 			/* get fold settings if present and want to use them */
 			if(fd->pcFolding==NULL || bRememberFolds==FALSE)
@@ -728,11 +844,7 @@ static void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_dat
 			break;
 		/* file has changed since Geany last saved but, try to load bookmarks anyway */
 		case GTK_RESPONSE_REJECT:
-			iLineCount=scintilla_send_message(sci,SCI_GETLINECOUNT,0,0);
-			for(i=0;i<10;i++)
-				if(fd->iBookmark[i]!=-1 && fd->iBookmark[i]<iLineCount)
-					scintilla_send_message(sci,SCI_MARKERADD,fd->iBookmark[i],i);
-
+			ApplyBookmarks(sci,fd);
 			break;
 		default: /* default - don't try to set markers */
 			break;
@@ -745,7 +857,7 @@ static void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_dat
 */
 static void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
-	FileData *fdTemp;
+	FileData *fd;
 	gint i,iLineCount,iFlags,iBitCounter=0;
 	ScintillaObject* sci=doc->editor->sci;
 	struct stat sBuf;
@@ -754,9 +866,10 @@ static void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_dat
 	gboolean bHasClosedFold=FALSE;
 
 	/* update markerpos */
-	fdTemp=GetFileData(doc->file_name);
+	fd=GetFileData(doc->file_name);
 	for(i=0;i<10;i++)
-		fdTemp->iBookmark[i]=scintilla_send_message(sci,SCI_MARKERNEXT,0,1<<(i+BOOKMARK_BASE));
+		fd->iBookmark[i]=scintilla_send_message(sci,SCI_MARKERNEXT,0,
+		                                        1<<(fd->iBookmarkMarkerUsed[i]));
 
 	/* update fold state */
 	iLineCount=scintilla_send_message(sci,SCI_GETLINECOUNT,0,0);
@@ -792,14 +905,15 @@ static void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_dat
 	}
 
 	/* transfer data to text string if have closed fold. Default will leave them open*/
-	fdTemp->pcFolding=(!bHasClosedFold)?NULL:g_strndup((gchar*)(gbaFoldData->data),gbaFoldData->len);
+	fd->pcFolding=(!bHasClosedFold)?NULL:g_strndup((gchar*)(gbaFoldData->data),
+	                                               gbaFoldData->len);
 
 	/* free byte array space */
 	g_byte_array_free(gbaFoldData,TRUE);
 
 	/* make note of time last saved */
 	if(stat(doc->file_name,&sBuf)==0)
-		fdTemp->LastChangedTime=sBuf.st_mtime;
+		fd->LastChangedTime=sBuf.st_mtime;
 
 	/* save settings */
 	SaveSettings();
@@ -949,7 +1063,9 @@ static void GotoBookMark(gint iBookMark)
 	ScintillaObject* sci=document_get_current()->editor->sci;
 	FileData *fd;
 
-	iLine=scintilla_send_message(sci,SCI_MARKERNEXT,0,1<<(iBookMark+BOOKMARK_BASE));
+	fd=GetFileData(document_get_current()->file_name);
+
+	iLine=scintilla_send_message(sci,SCI_MARKERNEXT,0,1<<(fd->iBookmarkMarkerUsed[iBookMark]));
 
 	/* ignore if no marker placed for requested bookmark */
 	if(iLine==-1)
@@ -967,7 +1083,6 @@ static void GotoBookMark(gint iBookMark)
 			break;
 		/* remembered line position */
 		case 1:
-			fd=GetFileData(document_get_current()->file_name);
 			iPosition+=fd->iBookmarkLinePos[iBookMark];
 			if(iPosition>iEndOfLine)
 				iPosition=iEndOfLine;
@@ -1012,12 +1127,13 @@ static void GotoBookMark(gint iBookMark)
 /* set (or remove) numbered bookmark */
 static void SetBookMark(gint iBookMark)
 {
-	gint iNewLine,iOldLine,iPosInLine;
+	gint iNewLine,iOldLine,iPosInLine,m;
 	ScintillaObject* sci=document_get_current()->editor->sci;
-	FileData *fd;
+	FileData *fd=GetFileData(document_get_current()->file_name);;
+	GtkWidget *dialog;
 
 	/* see if already such a bookmark present */
-	iOldLine=scintilla_send_message(sci,SCI_MARKERNEXT,0,1<<(iBookMark+BOOKMARK_BASE));
+	iOldLine=scintilla_send_message(sci,SCI_MARKERNEXT,0,1<<(fd->iBookmarkMarkerUsed[iBookMark]));
 	iNewLine=GetLine(sci);
 	iPosInLine=scintilla_send_message(sci,SCI_GETCURRENTPOS,0,0)-
 	           scintilla_send_message(sci,SCI_POSITIONFROMLINE,iNewLine,0);
@@ -1025,23 +1141,43 @@ static void SetBookMark(gint iBookMark)
 	/* if no marker then simply add one to current line */
 	if(iOldLine==-1)
 	{
-		CheckEditorSetup();
-		scintilla_send_message(sci,SCI_MARKERADD,iNewLine,iBookMark+BOOKMARK_BASE);
-		fd=GetFileData(document_get_current()->file_name);
+		m=NextFreeMarker(sci);
+		/* if run out of markers report this */
+		if(m==-1)
+		{
+			dialog=gtk_message_dialog_new(GTK_WINDOW(geany->main_widgets->window),
+			                              GTK_DIALOG_DESTROY_WITH_PARENT,
+			                              GTK_MESSAGE_ERROR,GTK_BUTTONS_NONE,
+			                              _("Unable to apply markers as all being used\
+			                              ."));
+			gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Okay"),GTK_RESPONSE_OK);
+			gtk_dialog_run(GTK_DIALOG(dialog));
+			gtk_widget_destroy(dialog);
+			return;
+		}
+		/* otherwise ok to set marker */
+		SetMarker(sci,iBookMark,m,iNewLine);
 		fd->iBookmarkLinePos[iBookMark]=iPosInLine;
 	}
-	/* else either have to remove marker from current line, or move it to current line */
+	/* else if have to remove marker from current line */
+	else if(iOldLine==iNewLine)
+	{
+		DeleteMarker(sci,iBookMark,fd->iBookmarkMarkerUsed[iBookMark]);
+	}
+	/* else have to move it to current line */
 	else
 	{
+		/* go through the process of removing and adding the marker so the marker will */
+		/* have the highest value and be on top */
+
 		/* remove old marker */
-		scintilla_send_message(sci,SCI_MARKERDELETEALL,iBookMark+BOOKMARK_BASE,0);
+		DeleteMarker(sci,iBookMark,fd->iBookmarkMarkerUsed[iBookMark]);
 		/* add new marker if moving marker */
-		if(iOldLine!=iNewLine)
-		{
-			scintilla_send_message(sci,SCI_MARKERADD,iNewLine,iBookMark+BOOKMARK_BASE);
-			fd=GetFileData(document_get_current()->file_name);
-			fd->iBookmarkLinePos[iBookMark]=iPosInLine;
-		}
+		m=NextFreeMarker(sci);
+		/* don't bother checking for failure to find marker as have just released one so */
+		/* there should be one free */
+		SetMarker(sci,iBookMark,m,iNewLine);
+		fd->iBookmarkLinePos[iBookMark]=iPosInLine;
 	}
 }
 
@@ -1160,10 +1296,9 @@ void plugin_cleanup(void)
 	gint k;
 	guint i;
 	ScintillaObject* sci;
-	SCIPOINTERHOLDER *sciTemp;
-	SCIPOINTERHOLDER *sciNext;
 	FileData *fdTemp=fdKnownFilesSettings;
 	FileData *fdTemp2;
+	guint32 markers;
 
 	/* uncouple keypress monitor */
 	g_signal_handler_disconnect(geany->main_widgets->window,key_release_signal_id);
@@ -1172,19 +1307,13 @@ void plugin_cleanup(void)
 	for(i=0;i<GEANY(documents_array)->len;i++)
 		if(documents[i]->is_valid) {
 			sci=documents[i]->editor->sci;
-			for(k=0;k<9;k++)
-				scintilla_send_message(sci,SCI_MARKERDELETEALL,BOOKMARK_BASE+k,0);
+			markers=(guint32)(g_object_get_data(G_OBJECT(sci),
+			                  "Geany_Numbered_Bookmarks_Used"));
+			for(k=2;k<25;k++)
+				if((markers&(1<<k))!=0)
+					scintilla_send_message(sci,SCI_MARKERDELETEALL,k,0);
 
 		}
-
-	/* Clear memory used for list of editors */
-	sciTemp=sciList;
-	while(sciTemp!=NULL)
-	{
-		sciNext=sciTemp->NextNode;
-		free(sciTemp);
-		sciTemp=sciNext;
-	}
 
 	/* Clear memory used to hold file details */
 	while(fdTemp!=NULL)
