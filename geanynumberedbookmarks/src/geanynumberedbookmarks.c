@@ -18,6 +18,7 @@
 #include <string.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
+#include <glib/gstdio.h>
 
 static const gint base64_char_to_int[]=
 {
@@ -60,6 +61,8 @@ PLUGIN_SET_INFO("Numbered Bookmarks",_("Numbered Bookmarks for Geany"),
 static gboolean bCenterWhenGotoBookmark=TRUE;
 static gboolean bRememberFolds=TRUE;
 static gint PositionInLine=0;
+static gint WhereToSaveFileDetails=0;
+static gchar *FileDetailsSuffix; /* initialised when settings loaded */
 
 /* internal variables */
 static gint iShiftNumbers[]={41,33,34,163,36,37,94,38,42,40};
@@ -350,17 +353,108 @@ static FileData * GetFileData(gchar *pcFileName)
 }
 
 
-/* save settings (preferences, file data such as fold states, marker positions) */
-static void SaveSettings(void)
+/* save individual file details. return TRUE if saved, FALSE if doesn't need to be saved */
+static gboolean SaveIndividualSetting(GKeyFile *gkf,FileData *fd,gint iNumber,gchar *Filename)
 {
-	GKeyFile *config = NULL;
-	gchar *config_file = NULL;
-	gchar *data;
-	FileData* fdTemp=fdKnownFilesSettings;
 	gchar *cKey;
 	gchar szMarkers[1000];
 	gchar *pszMarkers;
-	gint i,iFiles=0;
+	gint i;
+
+	/* first check if any bookmarks or folds for this file */
+	/* if not can skip it */
+	for(i=0;i<10;i++)
+		if(fd->iBookmark[i]!=-1) break;
+	/* i==10 if no markers set */
+
+	/* skip if no folding data or markers */
+	if(i==10 && fd->pcFolding==NULL)
+		return FALSE;
+
+	/* now save file data */
+	if(iNumber==-1)
+		cKey=g_strdup("A");
+	else
+		cKey=g_strdup_printf("A%d",iNumber);
+
+	/* save filename */
+	if(Filename!=NULL)
+		g_key_file_set_string(gkf,"FileData",cKey,Filename);
+
+	/* save folding data */
+	cKey[0]='B';
+	if(NZV(fd->pcFolding))
+		g_key_file_set_string(gkf,"FileData",cKey,fd->pcFolding);
+
+	/* save last saved time */
+	cKey[0]='C';
+	if(fd->LastChangedTime!=-1)
+		g_key_file_set_integer(gkf,"FileData",cKey,fd->LastChangedTime);
+
+	/* save bookmarks */
+	cKey[0]='D';
+	pszMarkers=szMarkers;
+	pszMarkers[0]=0;
+	for(i=0;i<10;i++)
+	{
+		if(fd->iBookmark[i]!=-1)
+		{
+			sprintf(pszMarkers,"%d",fd->iBookmark[i]);
+			while(pszMarkers[0]!=0)
+				pszMarkers++;
+		}
+
+		pszMarkers[0]=',';
+		pszMarkers[1]=0;
+		pszMarkers++;
+	}
+
+	/* don't need a ',' after last position (have '\0' instead) */
+	pszMarkers--;
+	pszMarkers[0]=0;
+	/* only save markers if have any set. Will contain 9 commas only if none set */
+	if(szMarkers[9]!=0)
+		g_key_file_set_string(gkf,"FileData",cKey,szMarkers);
+
+	/* save positions in bookmarked lines */
+	cKey[0]='E';
+	pszMarkers=szMarkers;
+	pszMarkers[0]=0;
+	for(i=0;i<10;i++)
+	{
+		if(fd->iBookmark[i]!=-1)
+		{
+			sprintf(pszMarkers,"%d",fd->iBookmarkLinePos[i]);
+			while(pszMarkers[0]!=0)
+				pszMarkers++;
+		}
+
+		pszMarkers[0]=',';
+		pszMarkers[1]=0;
+		pszMarkers++;
+	}
+
+	/* don't need a ',' after last position (have '\0' instead) */
+	pszMarkers--;
+	pszMarkers[0]=0;
+	/* only save positions of markers if set. Will contain 9 commas only if none set */
+	if(szMarkers[9]!=0)
+		g_key_file_set_string(gkf,"FileData",cKey,szMarkers);
+
+	g_free(cKey);
+
+	return TRUE;
+}
+
+
+/* save settings (preferences, file data such as fold states, marker positions) */
+static void SaveSettings(gchar *filename)
+{
+	GKeyFile *config=NULL;
+	gchar *config_file=NULL,*config_dir=NULL;
+	gchar *data;
+	FileData* fdTemp=fdKnownFilesSettings;
+	gint i=0;
 
 	/* create new config from default settings */
 	config=g_key_file_new();
@@ -369,88 +463,17 @@ static void SaveSettings(void)
 	g_key_file_set_boolean(config,"Settings","Center_When_Goto_Bookmark",bCenterWhenGotoBookmark);
 	g_key_file_set_boolean(config,"Settings","Remember_Folds",bRememberFolds);
 	g_key_file_set_integer(config,"Settings","Position_In_Line",PositionInLine);
+	g_key_file_set_integer(config,"Settings","Where_To_Save_File_Details",WhereToSaveFileDetails);
+	if(FileDetailsSuffix!=NULL)
+		g_key_file_set_string(config,"Settings","File_Details_Suffix",FileDetailsSuffix);
 
 	/* now save file data */
 	while(fdTemp!=NULL)
 	{
-		/* first check if any bookmarks or folds for this file */
-		/* if not can skip it */
-		for(i=0;i<10;i++)
-			if(fdTemp->iBookmark[i]!=-1) break;
-		/* i==10 if no markers set */
+		/* if this entry has data needing saveing then save it and increment the counter */
+		if(SaveIndividualSetting(config,fdTemp,i,fdTemp->pcFileName))
+			i++;
 
-		/* skip if no folding data or markers */
-		if(i==10 && fdTemp->pcFolding==NULL)
-		{
-			fdTemp=fdTemp->NextNode;
-			continue;
-		}
-
-		/* now save file data */
-		cKey=g_strdup_printf("A%d",iFiles);
-		/* save filename */
-		g_key_file_set_string(config,"FileData",cKey,fdTemp->pcFileName);
-		/* save folding data */
-		cKey[0]='B';
-		if(NZV(fdTemp->pcFolding))
-			g_key_file_set_string(config,"FileData",cKey,fdTemp->pcFolding);
-
-		/* save last saved time */
-		cKey[0]='C';
-		if(fdTemp->LastChangedTime!=-1)
-			g_key_file_set_integer(config,"FileData",cKey,fdTemp->LastChangedTime);
-		/* save bookmarks */
-		cKey[0]='D';
-		pszMarkers=szMarkers;
-		pszMarkers[0]=0;
-		for(i=0;i<10;i++)
-		{
-			if(fdTemp->iBookmark[i]!=-1)
-			{
-				sprintf(pszMarkers,"%d",fdTemp->iBookmark[i]);
-				while(pszMarkers[0]!=0)
-					pszMarkers++;
-			}
-
-			pszMarkers[0]=',';
-			pszMarkers[1]=0;
-			pszMarkers++;
-		}
-		/* don't need a ',' after last position (have '\0' instead) */
-		pszMarkers--;
-		pszMarkers[0]=0;
-		/* only save markers if have any set. Will contain 9 commas only if none set */
-		if(szMarkers[9]!=0)
-			g_key_file_set_string(config,"FileData",cKey,szMarkers);
-
-		/* save positions in bookmarked lines */
-		cKey[0]='E';
-		pszMarkers=szMarkers;
-		pszMarkers[0]=0;
-		for(i=0;i<10;i++)
-		{
-			if(fdTemp->iBookmark[i]!=-1)
-			{
-				sprintf(pszMarkers,"%d",fdTemp->iBookmarkLinePos[i]);
-				while(pszMarkers[0]!=0)
-					pszMarkers++;
-			}
-
-			pszMarkers[0]=',';
-			pszMarkers[1]=0;
-			pszMarkers++;
-		}
-		/* don't need a ',' after last position (have '\0' instead) */
-		pszMarkers--;
-		pszMarkers[0]=0;
-		/* only save positions of markers if set. Will contain 9 commas only if none set */
-		if(szMarkers[9]!=0)
-			g_key_file_set_string(config,"FileData",cKey,szMarkers);
-
-		g_free(cKey);
-
-		/* point to next FileData entry or NULL if end of chain */
-		iFiles++;
 		fdTemp=fdTemp->NextNode;
 	}
 
@@ -458,41 +481,158 @@ static void SaveSettings(void)
 	data=g_key_file_to_data(config,NULL,NULL);
 
 	/* calculate setting directory name */
-	config_file=g_build_filename(geany->app->configdir,"plugins","Geany_Numbered_Bookmarks",NULL);
+	config_dir=g_build_filename(geany->app->configdir,"plugins","Geany_Numbered_Bookmarks",NULL);
 	/* ensure directory exists */
-	g_mkdir_with_parents(config_file,0755);
+	g_mkdir_with_parents(config_dir,0755);
 
 	/* make config_file hold name of settings file */
-	setptr(config_file,g_build_filename(config_file,"settings.conf",NULL));
+	config_file=g_build_filename(config_dir,"settings.conf",NULL);
 
 	/* write data */
-	utils_write_file(config_file, data);
+	utils_write_file(config_file,data);
+
+	/* free memory */
+	g_free(config_dir);
+	g_free(config_file);
+	g_key_file_free(config);
+	g_free(data);
+
+	/* now consider if not purely saving file settings to main settings file */
+	/* return if not saving data with file */
+	if(filename==NULL || WhereToSaveFileDetails==0)
+		return;
+
+	/* setup keyfile to hold values */
+	config=g_key_file_new();
+
+	/* get pointer to data we're saving */
+	fdTemp=GetFileData(filename);
+
+	/* calculate settings filename */
+	config_file=g_strdup_printf("%s%s",filename,FileDetailsSuffix);
+
+	/* if nothing to save then delete any old data */
+	if(SaveIndividualSetting(config,fdTemp,-1,NULL)==FALSE)
+		g_remove(config_file);
+	/* otherwise save the data */
+	else
+	{
+		/* turn config into data */
+		data=g_key_file_to_data(config,NULL,NULL);
+		/* write data */
+		utils_write_file(config_file,data);
+
+		g_free(data);
+	}
 
 	/* free memory */
 	g_free(config_file);
 	g_key_file_free(config);
-	g_free(data);
+}
+
+
+/* load individual file details. return TRUE if data there, FALSE if there isn't */
+static gboolean LoadIndividualSetting(GKeyFile *gkf,gint iNumber,gchar *Filename)
+{
+	gchar *pcKey=NULL;
+	gchar *pcTemp;
+	gchar *pcTemp2;
+	gint l;
+	FileData *fd=NULL;
+
+	/* if loading from local file then no fiilename in file and no number in key*/
+	if(iNumber==-1)
+	{
+		/* get structure to hold filedetails */
+		fd=GetFileData(Filename);
+
+		/* create key */
+		pcKey=g_strdup("A");
+	}
+	/* if loading from central file then need to extract filename from A key */
+	else
+	{
+		pcKey=g_strdup_printf("A%d",iNumber);
+
+		/* get filename */
+		pcTemp=(gchar*)(utils_get_setting_string(gkf,"FileData",pcKey,NULL));
+		/* if null then have reached end of files */
+		if(pcTemp==NULL)
+		{
+			g_free(pcKey);
+			return FALSE;
+		}
+
+		fd=GetFileData(pcTemp);
+		g_free(pcTemp);
+	}
+
+	/* get folding data */
+	pcKey[0]='B';
+	fd->pcFolding=(gchar*)(utils_get_setting_string(gkf,"FileData",pcKey,NULL));
+	/* load last saved time */
+	pcKey[0]='C';
+	fd->LastChangedTime=utils_get_setting_integer(gkf,"FileData",pcKey,-1);
+	/* get bookmarks */
+	pcKey[0]='D';
+	pcTemp=(gchar*)(utils_get_setting_string(gkf,"FileData",pcKey,NULL));
+	/* pcTemp contains comma seperated numbers (or blank for -1) */
+	pcTemp2=pcTemp;
+	if(pcTemp!=NULL) for(l=0;l<10;l++)
+	{
+		/* Bookmark entries are initialized to -1, so only need to parse non-empty slots */
+		if(pcTemp2[0]!=',' && pcTemp2[0]!=0)
+		{
+			fd->iBookmark[l]=strtoll(pcTemp2,NULL,10);
+			while(pcTemp2[0]!=0 && pcTemp2[0]!=',')
+				pcTemp2++;
+		}
+
+		pcTemp2++;
+	}
+	g_free(pcTemp);
+
+	/* get position in bookmarked lines */
+	pcKey[0]='E';
+	pcTemp=(gchar*)(utils_get_setting_string(gkf,"FileData",pcKey,NULL));
+	/* pcTemp contains comma seperated numbers (or blank for -1) */
+	pcTemp2=pcTemp;
+	if(pcTemp!=NULL) for(l=0;l<10;l++)
+	{
+		/* Bookmark entries are initialized to -1, so only need to parse non-empty slots */
+		if(pcTemp2[0]!=',' && pcTemp2[0]!=0)
+		{
+			fd->iBookmarkLinePos[l]=strtoll(pcTemp2,NULL,10);
+			while(pcTemp2[0]!=0 && pcTemp2[0]!=',')
+				pcTemp2++;
+		}
+
+		pcTemp2++;
+	}
+
+	/* free used memory */
+	g_free(pcTemp);
+	g_free(pcKey);
+
+	return TRUE;
 }
 
 
 /* load settings (preferences, file data, and macro data) */
 static void LoadSettings(void)
 {
-	gchar *pcTemp;
-	gchar *pcTemp2;
-	gchar *pcKey;
-	gint i,l;
+	gint i;
 	gchar *config_file=NULL;
+	gchar *config_dir=NULL;
 	GKeyFile *config=NULL;
-	FileData *fdTemp;
 
-	/* Make config_file hold directory name of settings file */
-	config_file=g_build_filename(geany->app->configdir,"plugins","Geany_Numbered_Bookmarks",NULL);
+	/* Make config_dir hold directory name of settings file */
+	config_dir=g_build_filename(geany->app->configdir,"plugins","Geany_Numbered_Bookmarks",NULL);
 	/* ensure directory exists */
-	g_mkdir_with_parents(config_file,0755);
+	g_mkdir_with_parents(config_dir,0755);
 
 	/* make config_file hold name of settings file */
-	setptr(config_file,g_build_filename(config_file,"settings.conf",NULL));
+	config_file=g_build_filename(config_dir,"settings.conf",NULL);
 
 	/* either load settings file, or create one from default */
 	config=g_key_file_new();
@@ -505,68 +645,40 @@ static void LoadSettings(void)
 	                        "Center_When_Goto_Bookmark",FALSE);
 	bRememberFolds=utils_get_setting_boolean(config,"Settings","Remember_Folds",FALSE);
 	PositionInLine=utils_get_setting_integer(config,"Settings","Position_In_Line",0);
+	WhereToSaveFileDetails=utils_get_setting_integer(config,"Settings",
+	                                                 "Where_To_Save_File_Details",0);
+	FileDetailsSuffix=utils_get_setting_string(config,"Settings","File_Details_Suffix",
+	                                           ".gnbs.conf");
 
 	/* extract data about files */
 	i=0;
-	while(TRUE)
-	{
-		pcKey=g_strdup_printf("A%d",i);
+	while(LoadIndividualSetting(config,i,NULL))
 		i++;
-		/* get filename */
-		pcTemp=(gchar*)(utils_get_setting_string(config,"FileData",pcKey,NULL));
-		/* if null then have reached end of files */
-		if(pcTemp==NULL)
-		{
-			g_free(pcKey);
-			break;
-		}
 
-		fdTemp=GetFileData(pcTemp);
-		/* get folding data */
-		pcKey[0]='B';
-		fdTemp->pcFolding=(gchar*)(utils_get_setting_string(config,"FileData",pcKey,NULL));
-		/* load last saved time */
-		pcKey[0]='C';
-		fdTemp->LastChangedTime=utils_get_setting_integer(config,"FileData",pcKey,-1);
-		/* get bookmarks */
-		pcKey[0]='D';
-		pcTemp=(gchar*)(utils_get_setting_string(config,"FileData",pcKey,NULL));
-		/* pcTemp contains comma seperated numbers (or blank for -1) */
-		pcTemp2=pcTemp;
-		if(pcTemp!=NULL) for(l=0;l<10;l++)
-		{
-			/* Bookmark entries are initialized to -1, so only need to parse non-empty slots */
-			if(pcTemp2[0]!=',' && pcTemp2[0]!=0)
-			{
-				fdTemp->iBookmark[l]=strtoll(pcTemp2,NULL,10);
-				while(pcTemp2[0]!=0 && pcTemp2[0]!=',')
-					pcTemp2++;
-			}
+	/* free memory */
+	g_free(config_dir);
+	g_free(config_file);
+	g_key_file_free(config);
+}
 
-			pcTemp2++;
-		}
-		g_free(pcTemp);
 
-		/* get position in bookmarked lines */
-		pcKey[0]='E';
-		pcTemp=(gchar*)(utils_get_setting_string(config,"FileData",pcKey,NULL));
-		g_free(pcKey);
-		/* pcTemp contains comma seperated numbers (or blank for -1) */
-		pcTemp2=pcTemp;
-		if(pcTemp!=NULL) for(l=0;l<10;l++)
-		{
-			/* Bookmark entries are initialized to -1, so only need to parse non-empty slots */
-			if(pcTemp2[0]!=',' && pcTemp2[0]!=0)
-			{
-				fdTemp->iBookmarkLinePos[l]=strtoll(pcTemp2,NULL,10);
-				while(pcTemp2[0]!=0 && pcTemp2[0]!=',')
-					pcTemp2++;
-			}
+/* try to load localy saved file details */
+static void LoadLocalFileDetails(gchar *filename)
+{
+	gchar *config_file=NULL;
+	GKeyFile *config=NULL;
 
-			pcTemp2++;
-		}
+	/* calculate settings filename */
+	config_file=g_strdup_printf("%s%s",filename,FileDetailsSuffix);
 
-		g_free(pcTemp);
+	/* create keyfile to hold data */
+	config=g_key_file_new();
+
+	/* if can load settings file then extract the info */
+	if(g_key_file_load_from_file(config,config_file,G_KEY_FILE_KEEP_COMMENTS,NULL))
+	{
+		/* load file details */
+		LoadIndividualSetting(config,-1,filename);
 	}
 
 	/* free memory */
@@ -780,6 +892,10 @@ static void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_dat
 	/* keep compiler happy & initialise iBits: will logically be initiated anyway */
 	gint iBits=0,iFlags,iBitCounter;
 
+	/* if saving details in file alongside file we're editing then load it up */
+	if(WhereToSaveFileDetails==1)
+		LoadLocalFileDetails(doc->file_name);
+
 	/* check to see if file has changed since geany last saved it */
 	fd=GetFileData(doc->file_name);
 	if(stat(doc->file_name,&sBuf)==0 && fd!=NULL && fd->LastChangedTime!=-1 &&
@@ -916,7 +1032,7 @@ static void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_dat
 		fd->LastChangedTime=sBuf.st_mtime;
 
 	/* save settings */
-	SaveSettings();
+	SaveSettings(doc->file_name);
 }
 
 
@@ -941,30 +1057,33 @@ static void on_configure_response(GtkDialog *dialog, gint response, gpointer use
 {
 	gboolean bSettingsHaveChanged;
 	GtkCheckButton *cb1,*cb2;
-	GtkComboBox *gtkcb;
+	GtkComboBox *gtkcb1,*gtkcb2;
 
 	if(response!=GTK_RESPONSE_OK && response!=GTK_RESPONSE_APPLY)
 		return;
 
-	/* retreive pointers to check boxes */
+	/* retreive pointers to widgets */
 	cb1=(GtkCheckButton*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb1"));
 	cb2=(GtkCheckButton*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb2"));
-	gtkcb=(GtkComboBox*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb3"));
+	gtkcb1=(GtkComboBox*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb3"));
+	gtkcb2=(GtkComboBox*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb4"));
 
 	/* first see if settings are going to change */
 	bSettingsHaveChanged=(bRememberFolds!=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb1)));
 	bSettingsHaveChanged|=(bCenterWhenGotoBookmark!=gtk_toggle_button_get_active(
 	                       GTK_TOGGLE_BUTTON(cb2)));
-	bSettingsHaveChanged|=(gtk_combo_box_get_active(gtkcb)!=PositionInLine);
+	bSettingsHaveChanged|=(gtk_combo_box_get_active(gtkcb1)!=PositionInLine);
+	bSettingsHaveChanged|=(gtk_combo_box_get_active(gtkcb2)!=WhereToSaveFileDetails);
 
 	/* set new settings settings */
 	bRememberFolds=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb1));
 	bCenterWhenGotoBookmark=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb2));
-	PositionInLine=gtk_combo_box_get_active(gtkcb);
+	PositionInLine=gtk_combo_box_get_active(gtkcb1);
+	WhereToSaveFileDetails=gtk_combo_box_get_active(gtkcb2);
 
 	/* now save new settings if they have changed */
 	if(bSettingsHaveChanged)
-		SaveSettings();
+		SaveSettings(NULL);
 }
 
 
@@ -972,30 +1091,37 @@ static void on_configure_response(GtkDialog *dialog, gint response, gpointer use
 GtkWidget *plugin_configure(GtkDialog *dialog)
 {
 	GtkWidget *vbox;
-	GtkWidget *cb1,*cb2,*gtkcb;
+	GtkWidget *gtkw;
 
 	vbox=gtk_vbox_new(FALSE, 6);
 
-	cb1=gtk_check_button_new_with_label(_("remember fold state"));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cb1),bRememberFolds);
-	gtk_box_pack_start(GTK_BOX(vbox),cb1,FALSE,FALSE,2);
+	gtkw=gtk_check_button_new_with_label(_("remember fold state"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(gtkw),bRememberFolds);
+	gtk_box_pack_start(GTK_BOX(vbox),gtkw,FALSE,FALSE,2);
 	/* save pointer to check_button */
-	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb1",cb1);
+	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb1",gtkw);
 
-	cb2=gtk_check_button_new_with_label(_("Center view when goto bookmark"));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cb2),bCenterWhenGotoBookmark);
-	gtk_box_pack_start(GTK_BOX(vbox),cb2,FALSE,FALSE,2);
+	gtkw=gtk_check_button_new_with_label(_("Center view when goto bookmark"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(gtkw),bCenterWhenGotoBookmark);
+	gtk_box_pack_start(GTK_BOX(vbox),gtkw,FALSE,FALSE,2);
 	/* save pointer to check_button */
-	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb2",cb2);
+	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb2",gtkw);
 
-	gtkcb=gtk_combo_box_new_text();
-	gtk_combo_box_append_text((GtkComboBox*)gtkcb,_("Move to start of line"));
-	gtk_combo_box_append_text((GtkComboBox*)gtkcb,_("Move to remembered position in line"));
-	gtk_combo_box_append_text((GtkComboBox*)gtkcb,_("Move to position in current line"));
-	gtk_combo_box_append_text((GtkComboBox*)gtkcb,_("Move to End of line"));
-	gtk_combo_box_set_active((GtkComboBox*)gtkcb,PositionInLine);
-	gtk_box_pack_start(GTK_BOX(vbox),gtkcb,FALSE,FALSE,2);
-	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb3",gtkcb);
+	gtkw=gtk_combo_box_new_text();
+	gtk_combo_box_append_text((GtkComboBox*)gtkw,_("Move to start of line"));
+	gtk_combo_box_append_text((GtkComboBox*)gtkw,_("Move to remembered position in line"));
+	gtk_combo_box_append_text((GtkComboBox*)gtkw,_("Move to position in current line"));
+	gtk_combo_box_append_text((GtkComboBox*)gtkw,_("Move to End of line"));
+	gtk_combo_box_set_active((GtkComboBox*)gtkw,PositionInLine);
+	gtk_box_pack_start(GTK_BOX(vbox),gtkw,FALSE,FALSE,2);
+	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb3",gtkw);
+
+	gtkw=gtk_combo_box_new_text();
+	gtk_combo_box_append_text((GtkComboBox*)gtkw,_("Save file settings with program settings"));
+	gtk_combo_box_append_text((GtkComboBox*)gtkw,_("Save file settings to filename with suffix"));
+	gtk_combo_box_set_active((GtkComboBox*)gtkw,WhereToSaveFileDetails);
+	gtk_box_pack_start(GTK_BOX(vbox),gtkw,FALSE,FALSE,2);
+	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb4",gtkw);
 
 	gtk_widget_show_all(vbox);
 
@@ -1329,4 +1455,7 @@ void plugin_cleanup(void)
 		g_free(fdTemp);
 		fdTemp=fdTemp2;
 	}
+
+	/* free memory used for settings */
+	g_free(FileDetailsSuffix);
 }
