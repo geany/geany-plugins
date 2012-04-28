@@ -47,7 +47,16 @@ Save file settings... - This allows you the option of saving the settings of a
     or to a file with the same name but a suffix (by default this is ".gnbs.conf")
     in the same directory as the file. This allows the user the ability to
     synchronise the settings for a file along with the file itself across more
-    than one computer.
+    than one computer. The default suffix can be changed by editing the
+    numbered bookmarks pluggin settings file. This will vary from OS to OS but
+    will always be "settings.conf" in a directory called
+    "Geany_Numbered_Bookmarks". On my OS it's
+    ".config/geany/plugins/Geany_Numbered_Bookmarks/settings.conf" in my home
+    directory, but otherwise you'll have to search for it. In the Settings
+    section of the file near the top will be a line
+    "File_Details_Suffix=.gnbs.conf". Simply change this to whatever you would
+    prefer (if geany is running while you edit this file it may over-write your
+    new suffix so best close geany before editing this file).
 Remember normal Bookmarks - If this is set then the plugin will remember
     standard non-numbered bookmarks, and restore them when the file is next
     loaded.
