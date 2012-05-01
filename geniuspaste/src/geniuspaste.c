@@ -69,10 +69,9 @@ static gchar *welcome_text = NULL;
 static gboolean check_button_is_checked = FALSE;
 
 PLUGIN_VERSION_CHECK(147)
-PLUGIN_SET_INFO("GeniusPaste", 
-		"Paste your code on your favorite pastebin",
-		"0.1", 
-		"Enrico Trotta");
+PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, "GeniusPaste",
+    _("Paste your code on your favorite pastebin"),
+    "0.1", "Enrico Trotta");
 
 
 static gint last_indexof(gchar * string, gchar c)
@@ -90,7 +89,7 @@ static void paste(const gchar * website)
 
     GeanyDocument *doc = document_get_current();
     GeanyFiletype *ft = doc->file_type;
-    
+
     GError *error;
 
     gchar *buffer_shell_command;
@@ -108,11 +107,11 @@ static void paste(const gchar * website)
 		"Lua", "OCaml", "PHP", "Perl", "Plain Text",
 		"Python", "Ruby", "Scheme", "Tcl"
     };
-    
+
     const gchar *langs_supported_dpaste[] = { "Bash", "C", "CSS", "Diff",
-		"Django/Jinja", "HTML", "IRC logs", "JavaScript", "PHP", 
+		"Django/Jinja", "HTML", "IRC logs", "JavaScript", "PHP",
 		"Python console session", "Python Traceback", "Python",
-		"Python3", "Restructured Text", "SQL", "Text only" 
+		"Python3", "Restructured Text", "SQL", "Text only"
     };
 
     gint i;
@@ -120,21 +119,21 @@ static void paste(const gchar * website)
     guint status;
     gsize f_lenght;
     gboolean result;
-	
+
     occ_position = last_indexof(f_name, G_DIR_SEPARATOR);
     f_title = f_name + occ_position + 1;
 
     switch (website_selected) {
-		
+
 		case CODEPAD_ORG:
-		
+
 		    for (i = 0; i < G_N_ELEMENTS(langs_supported_codepad); i++) {
 			    if (g_strcmp0(f_type, langs_supported_codepad[i]) == 0)
 				    break;
 			    else
 				    f_type = langs_supported_codepad[8];
 		    }
-		
+
 		    if ((result =
 			    g_file_get_contents(f_path, &f_content, &f_lenght,
 				    &error)) == FALSE) {
@@ -142,7 +141,7 @@ static void paste(const gchar * website)
 					        "Unable to the the content of the file");
 				        g_error_free(error);
 		    }
-		
+
 		    msg = soup_message_new("POST", website);
 		    formdata =
 			    soup_form_encode("lang", f_type, "code", f_content, "submit",
@@ -150,7 +149,7 @@ static void paste(const gchar * website)
 		break;
 
 		case PASTEBIN_COM:
-	
+
 			if ((result =
 				g_file_get_contents(f_path, &f_content, &f_lenght,
 					&error)) == FALSE) {
@@ -158,7 +157,7 @@ static void paste(const gchar * website)
 					  "Unable to the the content of the file");
 				g_error_free(error);
 			}
-			
+
 			msg = soup_message_new("POST", website);
 			formdata =
 			  soup_form_encode("paste_code", f_content, "paste_format",
@@ -167,14 +166,14 @@ static void paste(const gchar * website)
 
 
 		case DPASTE_DE:
-		
+
 			for (i = 0; i < G_N_ELEMENTS(langs_supported_dpaste); i++) {
 				if (g_strcmp0(f_type, langs_supported_dpaste[i]) == 0)
 					break;
 				else
 					f_type = langs_supported_dpaste[15]; // Text only
 			}
-			
+
 			if ((result =
 				g_file_get_contents(f_path, &f_content, &f_lenght,
 				   &error)) == FALSE) {
@@ -182,12 +181,12 @@ static void paste(const gchar * website)
 						"Unable to the the content of the file");
 				g_error_free(error);
 			}
-			
+
 			msg = soup_message_new("POST", website);
 			formdata =
 				soup_form_encode("content", f_content, "title", f_title,
 					"lexer", f_type, NULL);
-		
+
 		break;
 
 		case SPRUNGE_US:
@@ -199,15 +198,15 @@ static void paste(const gchar * website)
 					"Unable to the the content of the file");
 				g_error_free(error);
 			}
-    
+
 			msg = soup_message_new("POST", website);
 			formdata =
 				soup_form_encode("sprunge", f_content, NULL);
-        
+
 		break;
 
 		case PASTEBIN_GEANY_ORG:
-         
+
 			if ((result =
 				g_file_get_contents(f_path, &f_content, &f_lenght,
 				   &error)) == FALSE) {
@@ -215,61 +214,61 @@ static void paste(const gchar * website)
 					"Unable to the the content of the file");
 				g_error_free(error);
 			}
-    
+
 			msg = soup_message_new("POST", website);
 			formdata =
 				soup_form_encode("content", f_content, "author", USERNAME,
 					"title", f_title, "lexer", f_type, NULL);
-        
+
 			break;
-        
+
     }
 
     soup_message_set_request(msg, "application/x-www-form-urlencoded",
 			    SOUP_MEMORY_COPY, formdata, strlen(formdata));
-   
+
     status = soup_session_send_message(session, msg);
 
     if(status == 200) {
 
 	    p_url = msg->response_body->data;
-	
-	    /*  
+
+	    /*
 	     * codepad.org doesn't return only the url of the new snippet pasted
 	     * but an html page. This minimal parser will get the bare url.
 	     */
-	
+
 	    if (website_selected == CODEPAD_ORG) {
 	        temp_body = g_strdup(p_url);
 	        tokens_array = g_strsplit(temp_body, "<a href=\"", 0);
-	
+
 	       /* copy the first 27 chars because the url is composed by 27 characters.
 	        * codepad.org/XXXXXXXX
 	        */
-	        p_url = g_strndup(tokens_array[5], 27); 
-	        
+	        p_url = g_strndup(tokens_array[5], 27);
+
 	        g_free(temp_body);
 	        g_strfreev(tokens_array);
-	
+
 	    } else if(website_selected == DPASTE_DE) {
 	        p_url = g_strndup(p_url + 1, strlen(p_url) - 2);
-	
+
 	    } else if(website_selected == SPRUNGE_US) {
-	
+
 			/* in order to enable the syntax highlightning on sprunge.us
 			 * it is necessary to append at the returned url a question
 			 * mark '?' followed by the file type.
-			 * 
+			 *
 			 * e.g. sprunge.us/xxxx?c
 			 */
-	        p_url[strlen(p_url) - 1] = '\0'; 
+	        p_url[strlen(p_url) - 1] = '\0';
 	        f_type[0] = g_ascii_tolower(f_type[0]);
 	        temp_body = g_strdup_printf("?%s", f_type);
 	        g_strlcat(p_url + 1, temp_body, -1);
 	        p_url = g_strchomp(p_url);
 	        free(temp_body);
 	    }
-	
+
 	    if (check_button_is_checked) {
 		    buffer_shell_command = g_malloc(100 * sizeof(gchar));
 		    sprintf(buffer_shell_command, "%s %s", OPEN_BROWSER, p_url);
@@ -278,18 +277,18 @@ static void paste(const gchar * website)
 	    } else {
 		    dialogs_show_msgbox(GTK_MESSAGE_INFO, "%s", p_url);
 	    }
-	
+
 	    if(website_selected == CODEPAD_ORG || website_selected == DPASTE_DE) {
 	        g_free(p_url);
 	    }
-	    
+
     } else {
         dialogs_show_msgbox(GTK_MESSAGE_INFO, "Unable to paste the code. Check your connection and retry.\n"
             "Error code: %d\n", status);
     }
-    
+
     g_free(f_content);
-        
+
 }
 
 static void item_activate(GtkMenuItem * menuitem, gpointer gdata)
@@ -300,8 +299,8 @@ static void item_activate(GtkMenuItem * menuitem, gpointer gdata)
 static void on_configure_response(GtkDialog * dialog, gint response, gpointer * user_data)
 {
     if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY) {
-		
-	    website_selected = 
+
+	    website_selected =
 			gtk_combo_box_get_active
 				(GTK_COMBO_BOX(widgets.combo));
 
