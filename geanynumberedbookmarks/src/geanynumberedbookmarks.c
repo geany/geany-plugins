@@ -712,13 +712,47 @@ static void LoadLocalFileDetails(gchar *filename)
 }
 
 
+/* Get markers for editor. If not set then initiate */
+static guint32 * GetMarkersUsed(ScintillaObject* sci)
+{
+	guint32 *markers;
+
+	/*fetch pointer to markers */
+	markers=(guint32*)(g_object_get_data(G_OBJECT(sci),"Geany_Numbered_Bookmarks_Used"));
+
+	/* if initialised then return these */
+	if(markers!=NULL)
+		return markers;
+
+	/* initialise markers as none initialised */
+	markers=g_malloc(sizeof(guint32));
+
+	/* if failed to allocate space return NULL */
+	if(markers==NULL)
+		return NULL;
+
+	/*initiate markers */
+	(*markers)=0;
+
+	/* save record of which markers are being used */
+	g_object_set_data(G_OBJECT(sci),"Geany_Numbered_Bookmarks_Used",(gpointer)markers);
+
+	return markers;
+}
+
+
 /* get next free marker number */
-static gint NextFreeMarker(ScintillaObject* sci) {
+static gint NextFreeMarker(ScintillaObject* sci)
+{
 	gint i,l,m,k;
-	guint32 markers;
+	guint32 *markers;
 	FileData *fd;
 
-	markers=(guint32)(g_object_get_data(G_OBJECT(sci),"Geany_Numbered_Bookmarks_Used"));
+	markers=GetMarkersUsed(sci);
+
+	/* fail if can't allocate space for markers */
+	if(markers==NULL)
+		return -1;
 
 	/* markers 0 and 1 reserved for bookmarks & errors, 25 onwards for folds */
 	/* find first free marker after last defined marker. Will ensure that new marker */
@@ -742,7 +776,7 @@ static gint NextFreeMarker(ScintillaObject* sci) {
 		/* found marker */
 
 		/* if not a numbered bookmark then ignore it */
-		if((markers&(1<<i))==0)
+		if(((*markers)&(1<<i))==0)
 			continue;
 
 		/* if have found an empty marker higher then return this */
@@ -774,7 +808,7 @@ static gint NextFreeMarker(ScintillaObject* sci) {
 	for(m=2,i=2;i<25;i++)
 	{
 		/* don't move marker unless it's a numbered bookmark marker */
-		if((markers&(1<<i))==0)
+		if(((*markers)&(1<<i))==0)
 			continue;
 
 		/* find unused marker */
@@ -807,8 +841,8 @@ static gint NextFreeMarker(ScintillaObject* sci) {
 		scintilla_send_message(sci,SCI_MARKERADD,l,m);
 
 		/* update markers record */
-		markers-=1<<i;
-		markers|=1<<m;
+		(*markers)-=1<<i;
+		(*markers)|=1<<m;
 
 		/* update record of which bookmark uses which marker */
 		fd->iBookmarkMarkerUsed[k]=m;
@@ -835,7 +869,7 @@ static gint NextFreeMarker(ScintillaObject* sci) {
 
 static void SetMarker(ScintillaObject* sci,gint bookmarkNumber,gint markerNumber,gint line)
 {
-	guint32 markers;
+	guint32 *markers;
 	FileData *fd;
 
 	/* insert new marker */
@@ -848,23 +882,23 @@ static void SetMarker(ScintillaObject* sci,gint bookmarkNumber,gint markerNumber
 	fd->iBookmarkMarkerUsed[bookmarkNumber]=markerNumber;
 
 	/* update record of which markers are being used */
-	markers=(guint32)(g_object_get_data(G_OBJECT(sci),"Geany_Numbered_Bookmarks_Used"));
-	markers|=1<<markerNumber;
+	markers=GetMarkersUsed(sci);
+	(*markers)|=1<<markerNumber;
 	g_object_set_data(G_OBJECT(sci),"Geany_Numbered_Bookmarks_Used",(gpointer)markers);
 }
 
 
 static void DeleteMarker(ScintillaObject* sci,gint bookmarkNumber,gint markerNumber)
 {
-	guint32 markers;
+	guint32 *markers;
 
 	/* remove marker */
 	scintilla_send_message(sci,SCI_MARKERDELETEALL,markerNumber,0);
 	scintilla_send_message(sci,SCI_MARKERDEFINE,markerNumber,SC_MARK_AVAILABLE);
 
 	/* update record of which markers are being used */
-	markers=(guint32)(g_object_get_data(G_OBJECT(sci),"Geany_Numbered_Bookmarks_Used"));
-	markers-=1<<markerNumber;
+	markers=GetMarkersUsed(sci);
+	(*markers)-=1<<markerNumber;
 	g_object_set_data(G_OBJECT(sci),"Geany_Numbered_Bookmarks_Used",(gpointer)markers);
 }
 
@@ -1503,7 +1537,7 @@ void plugin_cleanup(void)
 	ScintillaObject* sci;
 	FileData *fdTemp=fdKnownFilesSettings;
 	FileData *fdTemp2;
-	guint32 markers;
+	guint32 *markers;
 
 	/* uncouple keypress monitor */
 	g_signal_handler_disconnect(geany->main_widgets->window,key_release_signal_id);
@@ -1512,12 +1546,12 @@ void plugin_cleanup(void)
 	for(i=0;i<GEANY(documents_array)->len;i++)
 		if(documents[i]->is_valid) {
 			sci=documents[i]->editor->sci;
-			markers=(guint32)(g_object_get_data(G_OBJECT(sci),
-			                  "Geany_Numbered_Bookmarks_Used"));
+			markers=GetMarkersUsed(sci);
 			for(k=2;k<25;k++)
-				if((markers&(1<<k))!=0)
+				if(((*markers)&(1<<k))!=0)
 					scintilla_send_message(sci,SCI_MARKERDELETEALL,k,0);
 
+			g_free(markers);
 		}
 
 	/* Clear memory used to hold file details */
