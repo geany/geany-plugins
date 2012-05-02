@@ -1,5 +1,10 @@
 TODO
 ----
+<<<<<<< HEAD
 
     [!] Implement saving/loading of the settings
     [-] Make the geany's pastebin the default pastebin
+=======
+   [!] Implement saving/loading of settings
+   [-] Make the geany's pastebin the default pastebin
+>>>>>>> d6582fb2731265f58dca68297c195a35847d0852

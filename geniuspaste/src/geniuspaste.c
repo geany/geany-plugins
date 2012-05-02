@@ -1,4 +1,3 @@
-
 /*
  *  geniuspaste - paste your code on your favorite pastebin.
  *
