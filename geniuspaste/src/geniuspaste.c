@@ -42,6 +42,9 @@
 #define DPASTE_DE 			3
 #define SPRUNGE_US 			4
 
+#define DEFAULT_TYPE_CODEPAD langs_supported_codepad[8];
+#define DEFAULT_TYPE_DPASTE langs_supported_dpaste[15];
+
 GeanyPlugin *geany_plugin;
 GeanyData *geany_data;
 GeanyFunctions *geany_functions;
@@ -49,11 +52,11 @@ GeanyFunctions *geany_functions;
 static GtkWidget *main_menu_item = NULL;
 
 static const gchar *websites[] = {
-"http://codepad.org",
-"http://pastebin.com/api_public.php",
-"http://pastebin.geany.org/api/",
-"http://dpaste.de/api/",
-"http://sprunge.us/",
+	"http://codepad.org",
+	"http://pastebin.com/api_public.php",
+	"http://pastebin.geany.org/api/",
+	"http://dpaste.de/api/",
+	"http://sprunge.us/",
 };
 
 static struct {
@@ -90,7 +93,7 @@ static void paste(const gchar * website)
     GeanyDocument *doc = document_get_current();
 
     if(doc == NULL) {
-         dialogs_show_msgbox(GTK_MESSAGE_ERROR, "There are no opened documents. Open one and retry.\n");
+		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "There are no opened documents. Open one and retry.\n");
         return;
     }
 
@@ -108,7 +111,19 @@ static void paste(const gchar * website)
     gchar *temp_body;
     gchar **tokens_array;
 
+	const gchar *langs_supported_codepad[] = { "C", "C++", "D", "Haskell",
+		"Lua", "OCaml", "PHP", "Perl", "Plain Text",
+		"Python", "Ruby", "Scheme", "Tcl"
+	};
+	
+	const gchar *langs_supported_dpaste[] = { "Bash", "C", "CSS", "Diff",
+		"Django/Jinja", "HTML", "IRC logs", "JavaScript", "PHP", 
+		"Python console session", "Python Traceback", "Python",
+		"Python3", "Restructured Text", "SQL", "Text only" 
+	};
+    
     gint occ_position;
+    gint i;
     guint status;
     gsize f_lenght;
     gboolean result;
@@ -120,6 +135,13 @@ static void paste(const gchar * website)
 		
 		case CODEPAD_ORG:
 			
+			for (i = 0; i < G_N_ELEMENTS(langs_supported_codepad); i++) {
+			    if (g_strcmp0(f_type, langs_supported_codepad[i]) == 0)
+				    break;
+			    else
+				    f_type = DEFAULT_TYPE_CODEPAD;
+		    }
+		    
 		    result = g_file_get_contents(f_path, &f_content, &f_lenght, &error);
 		    if(result == FALSE) {
 				dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Unable to the the content of the file");
@@ -145,12 +167,19 @@ static void paste(const gchar * website)
 			msg = soup_message_new("POST", website);
 			formdata = soup_form_encode("paste_code", f_content, "paste_format",
 				f_type, "paste_name", f_title, NULL);
+				
 		break;
 	
 	
 		case DPASTE_DE:
 			
-			printf("%s\n", f_type);
+			for (i = 0; i < G_N_ELEMENTS(langs_supported_dpaste); i++) {
+				if (g_strcmp0(f_type, langs_supported_dpaste[i]) == 0)
+					break;
+				else
+					f_type = DEFAULT_TYPE_DPASTE;
+			}
+			
 			result = g_file_get_contents(f_path, &f_content, &f_lenght, &error);
 			if(result == FALSE) {
 				dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Unable to the the content of the file");
@@ -202,10 +231,9 @@ static void paste(const gchar * website)
 		SOUP_MEMORY_COPY, formdata, strlen(formdata));
    
     status = soup_session_send_message(session, msg);
-
+	p_url = g_strdup(msg->response_body->data);
+	
     if(status == SOUP_STATUS_OK) {
-
-	    p_url = g_strdup(msg->response_body->data);
 	
 	    /*  
 	     * codepad.org doesn't return only the url of the new snippet pasted
@@ -221,11 +249,19 @@ static void paste(const gchar * website)
 	        */
 
 			p_url = g_strdup(tokens_array[5]);
-			p_url[indexof(tokens_array[5], '\"')] = '\0';
 			
-	        g_free(temp_body);
+			g_free(temp_body);
 	        g_strfreev(tokens_array);
-	
+	        
+			occ_position = indexof(tokens_array[5], '\"');
+	        if(occ_position != -1) {
+				p_url[occ_position] = '\0';
+			} else {
+				dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Unable to paste the code on codepad.org\n"
+					"Retry or select another pastebin.");
+				return;
+			}
+			
 	    } else if(website_selected == DPASTE_DE) {
 	        p_url = g_strndup(p_url + 1, strlen(p_url) - 2);
 	
@@ -247,7 +283,6 @@ static void paste(const gchar * website)
 	
 	    if (check_button_is_checked) {
 			utils_open_browser(p_url);
-			g_free(p_url);
 	    } else {
 		    dialogs_show_msgbox(GTK_MESSAGE_INFO, "%s", p_url);
 	    }
@@ -257,8 +292,8 @@ static void paste(const gchar * website)
             "Error code: %d\n", status);
     }
     
-    g_free(f_content);
-        
+	g_free(f_content);
+	g_free(p_url);
 }
 
 static void item_activate(GtkMenuItem * menuitem, gpointer gdata)
