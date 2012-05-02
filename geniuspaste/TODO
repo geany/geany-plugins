@@ -1,4 +1,4 @@
 TODO
 ----
-
-    * Make the geany's pastebin the default pastebin
+   [!] Implement saving/loading of settings
+   [-] Make the geany's pastebin the default pastebin
