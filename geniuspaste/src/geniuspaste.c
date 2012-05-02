@@ -1,4 +1,3 @@
-
 /*
  *  geniuspaste - paste your code on your favorite pastebin.
  *
@@ -49,11 +48,11 @@ GeanyFunctions *geany_functions;
 static GtkWidget *main_menu_item = NULL;
 
 static const gchar *websites[] = {
-"http://codepad.org",
-"http://pastebin.com/api_public.php",
-"http://pastebin.geany.org/api/",
-"http://dpaste.de/api/",
-"http://sprunge.us/",
+	"http://codepad.org",
+	"http://pastebin.com/api_public.php",
+	"http://pastebin.geany.org/api/",
+	"http://dpaste.de/api/",
+	"http://sprunge.us/",
 };
 
 static struct {
