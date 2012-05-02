@@ -1,3 +1,4 @@
+
 /*
  *  geniuspaste - paste your code on your favorite pastebin.
  *
@@ -30,9 +31,9 @@
 #include <geanyplugin.h>
 
 #ifdef G_OS_WIN32
-    #define USERNAME        getenv("USERNAME")
+	#define USERNAME        getenv("USERNAME")
 #else
-    #define USERNAME        getenv("USER")
+	#define USERNAME        getenv("USER")
 #endif
 
 #define CODEPAD_ORG 		0
@@ -48,16 +49,16 @@ GeanyFunctions *geany_functions;
 static GtkWidget *main_menu_item = NULL;
 
 static const gchar *websites[] = {
-    "http://codepad.org",
-    "http://pastebin.com/api_public.php",
-    "http://pastebin.geany.org/api/",
-    "http://dpaste.de/api/",
-    "http://sprunge.us/",
+"http://codepad.org",
+"http://pastebin.com/api_public.php",
+"http://pastebin.geany.org/api/",
+"http://dpaste.de/api/",
+"http://sprunge.us/",
 };
 
 static struct {
-    GtkWidget *combo;
-    GtkWidget *check_button;
+	GtkWidget *combo;
+	GtkWidget *check_button;
 } widgets;
 
 static gint website_selected;
@@ -65,9 +66,9 @@ static gboolean check_button_is_checked = FALSE;
 
 PLUGIN_VERSION_CHECK(147)
 PLUGIN_SET_INFO("GeniusPaste", 
-		"Paste your code on your favorite pastebin",
-		"0.1", 
-		"Enrico Trotta");
+	"Paste your code on your favorite pastebin",
+	"0.1", 
+	"Enrico Trotta");
 
 static gint indexof(const gchar * string, gchar c)
 {
@@ -131,7 +132,7 @@ static void paste(const gchar * website)
 				"submit", "Submit", NULL);
 		    
 		break;
-
+	
 		case PASTEBIN_COM:
 	
 			result = g_file_get_contents(f_path, &f_content, &f_lenght, &error);
@@ -145,8 +146,8 @@ static void paste(const gchar * website)
 			formdata = soup_form_encode("paste_code", f_content, "paste_format",
 				f_type, "paste_name", f_title, NULL);
 		break;
-
-
+	
+	
 		case DPASTE_DE:
 			
 			printf("%s\n", f_type);
@@ -165,34 +166,34 @@ static void paste(const gchar * website)
 				"lexer", f_type, NULL);
 		
 		break;
-
+	
 		case SPRUNGE_US:
-
+	
 		    result = g_file_get_contents(f_path, &f_content, &f_lenght, &error);
 		    if(result == FALSE) {
 				dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Unable to the the content of the file");
 				g_error_free(error);
 				return;
 			}
-    
+	
 			msg = soup_message_new("POST", website);
 			formdata = soup_form_encode("sprunge", f_content, NULL);
-        
+		
 		break;
-
+	
 		case PASTEBIN_GEANY_ORG:
-         
+		 
 			result = g_file_get_contents(f_path, &f_content, &f_lenght, &error);
 			if(result == FALSE) {
 				dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Unable to the the content of the file");
 				g_error_free(error);
 				return;
 			}
-    
+	
 			msg = soup_message_new("POST", website);
 			formdata = soup_form_encode("content", f_content, "author", USERNAME,
 				"title", f_title, "lexer", f_type, NULL);
-        
+		
 		break;
         
     }
