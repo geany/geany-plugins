@@ -1,0 +1,44 @@
+GeniusPaste Plugin
+==================
+
+.. contents::
+
+About
+-----
+This plugin allows you to paste your code from Geany in five different
+pastebins. It supports this services:
+
+	* codepad.org
+	* pastebin.com
+	* pastebin.geany.org
+	* dpaste.de
+	* sprunge.us
+
+GeniusPaste detects automatically the syntax of your code and paste it
+with syntax highlighting enabled.
+It also redirects you to the pasted code opening a new browser tab.
+
+Requirements
+------------
+	* GTK+ >= 2.12
+	* libsoup 2.4 >= 2.4.0
+	
+Installation
+------------
+This plugin is part of the geany-plugins project.
+See the README file of that package.
+
+License
+-------
+GeniusPaste is distributed under the terms of the GNU General Public
+License as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. A copy of this
+license can be found in the file COPYING included with the source code
+of this program. If not, you will be able to get a copy by contacting
+the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+Boston, MA 02110-1301, USA.
+
+
+Info, questions and more
+------------------------
+Enrico Trotta <enrico(dot)trt(at)gmail(dot)com>
