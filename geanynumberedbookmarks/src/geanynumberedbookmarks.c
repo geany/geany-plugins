@@ -18,6 +18,7 @@
 #include <string.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
+#include <glib/gstdio.h>
 
 static const gint base64_char_to_int[]=
 {
@@ -34,25 +35,19 @@ static const gint base64_char_to_int[]=
 static const gchar base64_int_to_char[]=
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-/* offset for marker numbers used - to bypass markers used by normal bookmarksetc */
-#define BOOKMARK_BASE 10
-
 /* define structures used in this plugin */
 typedef struct FileData
 {
 	gchar *pcFileName;    /* holds filename */
 	gint iBookmark[10];   /* holds bookmark lines or -1 for not set */
+	gint iBookmarkMarkerUsed[10]; /*holds which marker (2-24) is used for this bookmark */
+	gint iBookmarkLinePos[10]; /* holds position of cursor in line */
 	gchar *pcFolding;     /* holds which folds are open and which not */
 	gint LastChangedTime; /* time file was last changed by this editor */
+	gchar *pcBookmarks;   /* holds non-numbered bookmarks */
 	struct FileData * NextNode;
 } FileData;
 
-/* structure to hold list of Scintilla objects that have had icons set for bookmarks */
-typedef struct SCIPOINTERHOLDER
-{
-	ScintillaObject* sci;
-	struct SCIPOINTERHOLDER * NextNode;
-} SCIPOINTERHOLDER;
 
 GeanyPlugin     *geany_plugin;
 GeanyData       *geany_data;
@@ -61,15 +56,18 @@ GeanyFunctions  *geany_functions;
 PLUGIN_VERSION_CHECK(147)
 
 PLUGIN_SET_INFO("Numbered Bookmarks",_("Numbered Bookmarks for Geany"),
-                "0.1","William Fraser <william.fraser@virgin.net>");
+                "1.0","William Fraser <william.fraser@virgin.net>");
 
 /* Plugin user alterable settings */
 static gboolean bCenterWhenGotoBookmark=TRUE;
 static gboolean bRememberFolds=TRUE;
+static gint PositionInLine=0;
+static gint WhereToSaveFileDetails=0;
+static gchar *FileDetailsSuffix; /* initialised when settings loaded */
+static gboolean bRememberBookmarks=TRUE;
 
 /* internal variables */
 static gint iShiftNumbers[]={41,33,34,163,36,37,94,38,42,40};
-static SCIPOINTERHOLDER *sciList=NULL;
 static FileData *fdKnownFilesSettings=NULL;
 static gulong key_release_signal_id;
 
@@ -78,6 +76,8 @@ const gchar default_config[] =
 	"[Settings]\n"
 	"Center_When_Goto_Bookmark = true\n"
 	"Remember_Folds = true\n"
+	"Position_In_Line = 0\n"
+	"Remember_Bookmarks = true\n"
 	"[FileData]";
 
 /* Definitions for bookmark images */
@@ -292,6 +292,7 @@ static const gchar * aszMarkerImage9[] =
 	"...BBBBBBBBBB...."
 };
 
+
 static const gchar ** aszMarkerImages[]=
 {
 	aszMarkerImage0,aszMarkerImage1,aszMarkerImage2,aszMarkerImage3,aszMarkerImage4,
@@ -318,8 +319,10 @@ static FileData * GetFileData(gchar *pcFileName)
 			for(i=0;i<10;i++)
 				fdKnownFilesSettings->iBookmark[i]=-1;
 
+			/* don't need to initiate iBookmarkLinePos */
 			fdKnownFilesSettings->pcFolding=NULL;
 			fdKnownFilesSettings->LastChangedTime=-1;
+			fdKnownFilesSettings->pcBookmarks=NULL;
 			fdKnownFilesSettings->NextNode=NULL;
 		}
 		return fdKnownFilesSettings;
@@ -341,8 +344,10 @@ static FileData * GetFileData(gchar *pcFileName)
 				for(i=0;i<10;i++)
 					fdTemp->NextNode->iBookmark[i]=-1;
 
+				/* don't need to initiate iBookmarkLinePos */
 				fdTemp->NextNode->pcFolding=NULL;
 				fdTemp->NextNode->LastChangedTime=-1;
+				fdTemp->NextNode->pcBookmarks=NULL;
 				fdTemp->NextNode->NextNode=NULL;
 			}
 			return fdTemp->NextNode;
@@ -354,17 +359,114 @@ static FileData * GetFileData(gchar *pcFileName)
 }
 
 
-/* save settings (preferences, file data such as fold states, marker positions) */
-static void SaveSettings(void)
+/* save individual file details. return TRUE if saved, FALSE if doesn't need to be saved */
+static gboolean SaveIndividualSetting(GKeyFile *gkf,FileData *fd,gint iNumber,gchar *Filename)
 {
-	GKeyFile *config = NULL;
-	gchar *config_file = NULL;
-	gchar *data;
-	FileData* fdTemp=fdKnownFilesSettings;
 	gchar *cKey;
 	gchar szMarkers[1000];
 	gchar *pszMarkers;
-	gint i,iFiles=0;
+	gint i;
+
+	/* first check if any bookmarks or folds for this file */
+	/* if not can skip it */
+	for(i=0;i<10;i++)
+		if(fd->iBookmark[i]!=-1) break;
+	/* i==10 if no markers set */
+
+	/* skip if no folding data or markers */
+	if(i==10 && (bRememberFolds==FALSE || fd->pcFolding==NULL) && 
+	   (bRememberBookmarks==FALSE || fd->pcBookmarks==NULL))
+		return FALSE;
+
+	/* now save file data */
+	if(iNumber==-1)
+		cKey=g_strdup("A");
+	else
+		cKey=g_strdup_printf("A%d",iNumber);
+
+	/* save filename */
+	if(Filename!=NULL)
+		g_key_file_set_string(gkf,"FileData",cKey,Filename);
+
+	/* save folding data */
+	cKey[0]='B';
+	if(fd->pcFolding!=NULL && bRememberFolds==TRUE)
+		g_key_file_set_string(gkf,"FileData",cKey,fd->pcFolding);
+
+	/* save last saved time */
+	cKey[0]='C';
+	if(fd->LastChangedTime!=-1)
+		g_key_file_set_integer(gkf,"FileData",cKey,fd->LastChangedTime);
+
+	/* save bookmarks */
+	cKey[0]='D';
+	pszMarkers=szMarkers;
+	pszMarkers[0]=0;
+	for(i=0;i<10;i++)
+	{
+		if(fd->iBookmark[i]!=-1)
+		{
+			sprintf(pszMarkers,"%d",fd->iBookmark[i]);
+			while(pszMarkers[0]!=0)
+				pszMarkers++;
+		}
+
+		pszMarkers[0]=',';
+		pszMarkers[1]=0;
+		pszMarkers++;
+	}
+
+	/* don't need a ',' after last position (have '\0' instead) */
+	pszMarkers--;
+	pszMarkers[0]=0;
+	/* only save markers if have any set. Will contain 9 commas only if none set */
+	if(szMarkers[9]!=0)
+		g_key_file_set_string(gkf,"FileData",cKey,szMarkers);
+
+	/* save positions in bookmarked lines */
+	cKey[0]='E';
+	pszMarkers=szMarkers;
+	pszMarkers[0]=0;
+	for(i=0;i<10;i++)
+	{
+		if(fd->iBookmark[i]!=-1)
+		{
+			sprintf(pszMarkers,"%d",fd->iBookmarkLinePos[i]);
+			while(pszMarkers[0]!=0)
+				pszMarkers++;
+		}
+
+		pszMarkers[0]=',';
+		pszMarkers[1]=0;
+		pszMarkers++;
+	}
+
+	/* don't need a ',' after last position (have '\0' instead) */
+	pszMarkers--;
+	pszMarkers[0]=0;
+	/* only save positions of markers if set. Will contain 9 commas only if none set */
+	if(szMarkers[9]!=0)
+		g_key_file_set_string(gkf,"FileData",cKey,szMarkers);
+
+	/* save non-numbered bookmarks */
+	cKey[0]='F';
+	if(fd->pcBookmarks!=NULL && bRememberBookmarks==TRUE)
+		g_key_file_set_string(gkf,"FileData",cKey,fd->pcBookmarks);
+
+	g_free(cKey);
+
+	return TRUE;
+}
+
+
+/* save settings (preferences, file data such as fold states, marker positions) */
+static void SaveSettings(gchar *filename)
+{
+	GKeyFile *config=NULL;
+	gchar *config_file=NULL,*config_dir=NULL;
+	gchar *data;
+	FileData* fdTemp=fdKnownFilesSettings;
+	gint i=0;
 
 	/* create new config from default settings */
 	config=g_key_file_new();
@@ -372,47 +474,19 @@ static void SaveSettings(void)
 	/* now set settings */
 	g_key_file_set_boolean(config,"Settings","Center_When_Goto_Bookmark",bCenterWhenGotoBookmark);
 	g_key_file_set_boolean(config,"Settings","Remember_Folds",bRememberFolds);
+	g_key_file_set_integer(config,"Settings","Position_In_Line",PositionInLine);
+	g_key_file_set_integer(config,"Settings","Where_To_Save_File_Details",WhereToSaveFileDetails);
+	g_key_file_set_boolean(config,"Settings","Remember_Bookmarks",bRememberBookmarks);
+	if(FileDetailsSuffix!=NULL)
+		g_key_file_set_string(config,"Settings","File_Details_Suffix",FileDetailsSuffix);
 
 	/* now save file data */
 	while(fdTemp!=NULL)
 	{
-		cKey=g_strdup_printf("A%d",iFiles);
-		/* save filename */
-		g_key_file_set_string(config,"FileData",cKey,fdTemp->pcFileName);
-		/* save folding data */
-		cKey[0]='B';
-		if(NZV(fdTemp->pcFolding))
-			g_key_file_set_string(config,"FileData",cKey,fdTemp->pcFolding);
+		/* if this entry has data needing saveing then save it and increment the counter */
+		if(SaveIndividualSetting(config,fdTemp,i,fdTemp->pcFileName))
+			i++;
 
-		/* save last saved time */
-		cKey[0]='C';
-		g_key_file_set_integer(config,"FileData",cKey,fdTemp->LastChangedTime);
-		/* save bookmarks */
-		cKey[0]='D';
-		pszMarkers=szMarkers;
-		pszMarkers[0]=0;
-		for(i=0;i<10;i++)
-		{
-			if(fdTemp->iBookmark[i]!=-1)
-			{
-				sprintf(pszMarkers,"%d",fdTemp->iBookmark[i]);
-				while(pszMarkers[0]!=0)
-					pszMarkers++;
-			}
-
-			pszMarkers[0]=',';
-			pszMarkers[1]=0;
-			pszMarkers++;
-		}
-		/* don't need a ',' after last position (have '\0' instead) */
-		pszMarkers--;
-		pszMarkers[0]=0;
-		g_key_file_set_string(config,"FileData",cKey,szMarkers);
-
-		g_free(cKey);
-
-		/* point to next FileData entry or NULL if end of chain */
-		iFiles++;
 		fdTemp=fdTemp->NextNode;
 	}
 
@@ -420,40 +494,169 @@ static void SaveSettings(void)
 	data=g_key_file_to_data(config,NULL,NULL);
 
 	/* calculate setting directory name */
-	config_file=g_build_filename(geany->app->configdir,"plugins","Geany_Numbered_Bookmarks",NULL);
+	config_dir=g_build_filename(geany->app->configdir,"plugins","Geany_Numbered_Bookmarks",NULL);
 	/* ensure directory exists */
-	g_mkdir_with_parents(config_file,0755);
+	g_mkdir_with_parents(config_dir,0755);
 
 	/* make config_file hold name of settings file */
-	setptr(config_file,g_build_filename(config_file,"settings.conf",NULL));
+	config_file=g_build_filename(config_dir,"settings.conf",NULL);
 
 	/* write data */
-	utils_write_file(config_file, data);
+	utils_write_file(config_file,data);
+
+	/* free memory */
+	g_free(config_dir);
+	g_free(config_file);
+	g_key_file_free(config);
+	g_free(data);
+
+	/* now consider if not purely saving file settings to main settings file */
+	/* return if not saving data with file */
+	if(filename==NULL || WhereToSaveFileDetails==0)
+		return;
+
+	/* setup keyfile to hold values */
+	config=g_key_file_new();
+
+	/* get pointer to data we're saving */
+	fdTemp=GetFileData(filename);
+
+	/* calculate settings filename */
+	config_file=g_strdup_printf("%s%s",filename,FileDetailsSuffix);
+
+	/* if nothing to save then delete any old data */
+	if(SaveIndividualSetting(config,fdTemp,-1,NULL)==FALSE)
+		g_remove(config_file);
+	/* otherwise save the data */
+	else
+	{
+		/* turn config into data */
+		data=g_key_file_to_data(config,NULL,NULL);
+		/* write data */
+		utils_write_file(config_file,data);
+
+		g_free(data);
+	}
 
 	/* free memory */
 	g_free(config_file);
 	g_key_file_free(config);
-	g_free(data);
+}
+
+
+/* load individual file details. return TRUE if data there, FALSE if there isn't */
+static gboolean LoadIndividualSetting(GKeyFile *gkf,gint iNumber,gchar *Filename)
+{
+	gchar *pcKey=NULL;
+	gchar *pcTemp;
+	gchar *pcTemp2;
+	gint l;
+	FileData *fd=NULL;
+
+	/* if loading from local file then no fiilename in file and no number in key*/
+	if(iNumber==-1)
+	{
+		/* get structure to hold filedetails */
+		fd=GetFileData(Filename);
+
+		/* create key */
+		pcKey=g_strdup("A");
+	}
+	/* if loading from central file then need to extract filename from A key */
+	else
+	{
+		pcKey=g_strdup_printf("A%d",iNumber);
+
+		/* get filename */
+		pcTemp=(gchar*)(utils_get_setting_string(gkf,"FileData",pcKey,NULL));
+		/* if null then have reached end of files */
+		if(pcTemp==NULL)
+		{
+			g_free(pcKey);
+			return FALSE;
+		}
+
+		fd=GetFileData(pcTemp);
+		g_free(pcTemp);
+	}
+
+	/* get folding data */
+	pcKey[0]='B';
+	if(bRememberFolds==TRUE)
+		fd->pcFolding=(gchar*)(utils_get_setting_string(gkf,"FileData",pcKey,NULL));
+	else
+		fd->pcFolding=NULL;
+
+	/* load last saved time */
+	pcKey[0]='C';
+	fd->LastChangedTime=utils_get_setting_integer(gkf,"FileData",pcKey,-1);
+	/* get bookmarks */
+	pcKey[0]='D';
+	pcTemp=(gchar*)(utils_get_setting_string(gkf,"FileData",pcKey,NULL));
+	/* pcTemp contains comma seperated numbers (or blank for -1) */
+	pcTemp2=pcTemp;
+	if(pcTemp!=NULL) for(l=0;l<10;l++)
+	{
+		/* Bookmark entries are initialized to -1, so only need to parse non-empty slots */
+		if(pcTemp2[0]!=',' && pcTemp2[0]!=0)
+		{
+			fd->iBookmark[l]=strtoll(pcTemp2,NULL,10);
+			while(pcTemp2[0]!=0 && pcTemp2[0]!=',')
+				pcTemp2++;
+		}
+
+		pcTemp2++;
+	}
+	g_free(pcTemp);
+
+	/* get position in bookmarked lines */
+	pcKey[0]='E';
+	pcTemp=(gchar*)(utils_get_setting_string(gkf,"FileData",pcKey,NULL));
+	/* pcTemp contains comma seperated numbers (or blank for -1) */
+	pcTemp2=pcTemp;
+	if(pcTemp!=NULL) for(l=0;l<10;l++)
+	{
+		/* Bookmark entries are initialized to -1, so only need to parse non-empty slots */
+		if(pcTemp2[0]!=',' && pcTemp2[0]!=0)
+		{
+			fd->iBookmarkLinePos[l]=strtoll(pcTemp2,NULL,10);
+			while(pcTemp2[0]!=0 && pcTemp2[0]!=',')
+				pcTemp2++;
+		}
+
+		pcTemp2++;
+	}
+
+	/* get non-numbered bookmarks */
+	pcKey[0]='F';
+	if(bRememberBookmarks==TRUE)
+		fd->pcBookmarks=(gchar*)(utils_get_setting_string(gkf,"FileData",pcKey,NULL));
+	else
+		fd->pcBookmarks=NULL;
+
+	/* free used memory */
+	g_free(pcTemp);
+	g_free(pcKey);
+
+	return TRUE;
 }
 
 
 /* load settings (preferences, file data, and macro data) */
 static void LoadSettings(void)
 {
-	gchar *pcTemp;
-	gchar *pcKey;
-	gint i,l;
+	gint i;
 	gchar *config_file=NULL;
+	gchar *config_dir=NULL;
 	GKeyFile *config=NULL;
-	FileData *fdTemp;
 
-	/* Make config_file hold directory name of settings file */
-	config_file=g_build_filename(geany->app->configdir,"plugins","Geany_Numbered_Bookmarks",NULL);
+	/* Make config_dir hold directory name of settings file */
+	config_dir=g_build_filename(geany->app->configdir,"plugins","Geany_Numbered_Bookmarks",NULL);
 	/* ensure directory exists */
-	g_mkdir_with_parents(config_file,0755);
+	g_mkdir_with_parents(config_dir,0755);
 
 	/* make config_file hold name of settings file */
-	setptr(config_file,g_build_filename(config_file,"settings.conf",NULL));
+	config_file=g_build_filename(config_dir,"settings.conf",NULL);
 
 	/* either load settings file, or create one from default */
 	config=g_key_file_new();
@@ -465,48 +668,42 @@ static void LoadSettings(void)
 	bCenterWhenGotoBookmark=utils_get_setting_boolean(config,"Settings",
 	                        "Center_When_Goto_Bookmark",FALSE);
 	bRememberFolds=utils_get_setting_boolean(config,"Settings","Remember_Folds",FALSE);
+	PositionInLine=utils_get_setting_integer(config,"Settings","Position_In_Line",0);
+	WhereToSaveFileDetails=utils_get_setting_integer(config,"Settings",
+	                                                 "Where_To_Save_File_Details",0);
+	bRememberBookmarks=utils_get_setting_boolean(config,"Settings","Remember_Bookmarks",FALSE);
+	FileDetailsSuffix=utils_get_setting_string(config,"Settings","File_Details_Suffix",
+	                                           ".gnbs.conf");
 
 	/* extract data about files */
 	i=0;
-	while(TRUE)
-	{
-		pcKey=g_strdup_printf("A%d",i);
+	while(LoadIndividualSetting(config,i,NULL))
 		i++;
-		/* get filename */
-		pcTemp=(gchar*)(utils_get_setting_string(config,"FileData",pcKey,NULL));
-		/* if null then have reached end of files */
-		if(pcTemp==NULL)
-		{
-			g_free(pcKey);
-			break;
-		}
 
-		fdTemp=GetFileData(pcTemp);
-		/* get folding data */
-		pcKey[0]='B';
-		fdTemp->pcFolding=(gchar*)(utils_get_setting_string(config,"FileData",pcKey,NULL));
-		/* load last saved time */
-		pcKey[0]='C';
-		fdTemp->LastChangedTime=utils_get_setting_integer(config,"FileData",pcKey,-1);
-		/* get bookmarks */
-		pcKey[0]='D';
-		pcTemp=(gchar*)(utils_get_setting_string(config,"FileData",pcKey,NULL));
-		g_free(pcKey);
-		/* pcTemp contains comma seperated numbers (or blank for -1) */
-		pcKey=pcTemp;
-		if(pcTemp!=NULL) for(l=0;l<10;l++)
-		{
-			/* Bookmark entries are initialized to -1, so only need to parse non-empty slots */
-			if(pcKey[0]!=',' && pcKey[0]!=0)
-			{
-				fdTemp->iBookmark[l]=strtoll(pcKey,NULL,10);
-				while(pcKey[0]!=0 && pcKey[0]!=',')
-					pcKey++;
-			}
+	/* free memory */
+	g_free(config_dir);
+	g_free(config_file);
+	g_key_file_free(config);
+}
 
-			pcKey++;
-		}
-		g_free(pcTemp);
+
+/* try to load localy saved file details */
+static void LoadLocalFileDetails(gchar *filename)
+{
+	gchar *config_file=NULL;
+	GKeyFile *config=NULL;
+
+	/* calculate settings filename */
+	config_file=g_strdup_printf("%s%s",filename,FileDetailsSuffix);
+
+	/* create keyfile to hold data */
+	config=g_key_file_new();
+
+	/* if can load settings file then extract the info */
+	if(g_key_file_load_from_file(config,config_file,G_KEY_FILE_KEEP_COMMENTS,NULL))
+	{
+		/* load file details */
+		LoadIndividualSetting(config,-1,filename);
 	}
 
 	/* free memory */
@@ -515,61 +712,225 @@ static void LoadSettings(void)
 }
 
 
-/* Define Markers for an editor */
-static void DefineMarkers(ScintillaObject* sci)
+/* Get markers for editor. If not set then initiate */
+static guint32 * GetMarkersUsed(ScintillaObject* sci)
 {
-	gint i;
-	for(i=0;i<10;i++)
-		scintilla_send_message(sci,SCI_MARKERDEFINEPIXMAP,i+BOOKMARK_BASE,
-		                       (glong)(aszMarkerImages[i]));
+	guint32 *markers;
+
+	/*fetch pointer to markers */
+	markers=(guint32*)(g_object_get_data(G_OBJECT(sci),"Geany_Numbered_Bookmarks_Used"));
+
+	/* if initialised then return these */
+	if(markers!=NULL)
+		return markers;
+
+	/* initialise markers as none initialised */
+	markers=g_malloc(sizeof(guint32));
+
+	/* if failed to allocate space return NULL */
+	if(markers==NULL)
+		return NULL;
+
+	/*initiate markers */
+	(*markers)=0;
+
+	/* save record of which markers are being used */
+	g_object_set_data(G_OBJECT(sci),"Geany_Numbered_Bookmarks_Used",(gpointer)markers);
+
+	return markers;
 }
 
 
-/* Make sure that have setup markers if not come across this particular editor
- * Keep track of editors we've encountered and set markers for
-*/
-static void CheckEditorSetup(void)
+/* get next free marker number */
+static gint NextFreeMarker(ScintillaObject* sci)
 {
-	SCIPOINTERHOLDER *sciTemp;
-	ScintillaObject* sci=document_get_current()->editor->sci;
+	gint i,l,m,k;
+	guint32 *markers;
+	FileData *fd;
 
-	/* no recorded editors so make note of editor */
-	if(sciList==NULL)
+	markers=GetMarkersUsed(sci);
+
+	/* fail if can't allocate space for markers */
+	if(markers==NULL)
+		return -1;
+
+	/* markers 0 and 1 reserved for bookmarks & errors, 25 onwards for folds */
+	/* find first free marker after last defined marker. Will ensure that new marker */
+	/* is displayed over any previously set markers */
+	for(i=24,m=-1;i>1;i--)
 	{
-		if((sciList=(SCIPOINTERHOLDER *)(g_malloc(sizeof *sciTemp)))!=NULL)
+		l=scintilla_send_message(sci,SCI_MARKERSYMBOLDEFINED,i,0);
+
+		if(l==SC_MARK_CIRCLE || l==SC_MARK_AVAILABLE)
 		{
-			sciList->sci=sci;
-			sciList->NextNode=NULL;
-			DefineMarkers(sci);
+			/* if reached start of user-defined markers then return this */
+			if(i==2)
+				return 2;
+
+			/* found empty marker so make note of it */
+			m=i;
+			/* keep looking for 1st unused marker after last used marker */
+			continue;
 		}
 
-		return;
+		/* found marker */
+
+		/* if not a numbered bookmark then ignore it */
+		if(((*markers)&(1<<i))==0)
+			continue;
+
+		/* if have found an empty marker higher then return this */
+		if(m!=-1)
+			return m;
+
+		/* no empty markers above last used */
+
+		/* first see if there are any unused markers */
+		while(i>1)
+		{
+			l=scintilla_send_message(sci,SCI_MARKERSYMBOLDEFINED,i,0);
+			if(l==SC_MARK_CIRCLE || l==SC_MARK_AVAILABLE)
+				break;
+
+			i--;
+		}
+
+		/* no empty markers available so return -1 */
+		if(i==1)
+			return -1;
+
+		/* there are empty markers available. Break out of for loop & make them available */
+		break;
 	}
 
-	sciTemp=sciList;
-	while(sciTemp->NextNode!=NULL)
+	/* compact used numbered markers */
+	/* move through markers moving numbered bookmarks ones from i to m */
+	for(m=2,i=2;i<25;i++)
 	{
-		/* if have come across this editor before, then it will have had it's markers set and we
-		 * don't need to do any more
-		*/
-		if(sciTemp->sci==sci)
-			return;
+		/* don't move marker unless it's a numbered bookmark marker */
+		if(((*markers)&(1<<i))==0)
+			continue;
 
-		sciTemp=sciTemp->NextNode;
+		/* find unused marker */
+		l=scintilla_send_message(sci,SCI_MARKERSYMBOLDEFINED,m,0);
+		while((l!=SC_MARK_CIRCLE && l!=SC_MARK_AVAILABLE) && m<i)
+		{
+			m++;
+			l=scintilla_send_message(sci,SCI_MARKERSYMBOLDEFINED,m,0);
+		}
+
+		/* if can't move marker forward then don't */
+		if(m==i)
+			continue;
+
+		/* move marker from i to m */
+		/* first make note of line number of marker */
+		l=scintilla_send_message(sci,SCI_MARKERNEXT,0,1<<i);
+		/* remove old marker */
+		scintilla_send_message(sci,SCI_MARKERDELETEALL,i,0);
+		scintilla_send_message(sci,SCI_MARKERDEFINE,i,SC_MARK_AVAILABLE);
+
+		/* find bookmark number, put in k */
+		fd=GetFileData(document_get_current()->file_name);
+		for(k=0;k<10;k++)
+			if(fd->iBookmarkMarkerUsed[k]==i)
+				break;
+
+		/* insert new marker */
+		scintilla_send_message(sci,SCI_MARKERDEFINEPIXMAP,m,(glong)(aszMarkerImages[k]));
+		scintilla_send_message(sci,SCI_MARKERADD,l,m);
+
+		/* update markers record */
+		(*markers)-=1<<i;
+		(*markers)|=1<<m;
+
+		/* update record of which bookmark uses which marker */
+		fd->iBookmarkMarkerUsed[k]=m;
 	}
-	/* if have come across this editor before, then it will have had it's markers set and we don't
-	 * need to do any more
-	*/
-	if(sciTemp->sci==sci)
-		return;
 
-	/* not come across this editor */
-	if((sciTemp->NextNode=g_malloc(sizeof *sciTemp->NextNode))!=NULL)
+	/* save record of which markers are being used */
+	g_object_set_data(G_OBJECT(sci),"Geany_Numbered_Bookmarks_Used",(gpointer)markers);
+
+
+	/* m should point to last used marker. Next free marker should lie after this */
+	/* find free marker & return it */
+	for(;m<25;m++)
 	{
-		sciTemp->NextNode->sci=sci;
-		sciTemp->NextNode->NextNode=NULL;
-		DefineMarkers(sci);
-	}
+		l=scintilla_send_message(sci,SCI_MARKERSYMBOLDEFINED,m,0);
+		if(l==SC_MARK_CIRCLE || l==SC_MARK_AVAILABLE)
+			return m;
+	}	
+
+	/* no empty markers available so return -1 */
+	/* in theory shouldn't get here but leave just in case my logic is flawed */
+	return -1;
+}
+
+
+static void SetMarker(ScintillaObject* sci,gint bookmarkNumber,gint markerNumber,gint line)
+{
+	guint32 *markers;
+	FileData *fd;
+
+	/* insert new marker */
+	scintilla_send_message(sci,SCI_MARKERDEFINEPIXMAP,markerNumber,
+	                       (glong)(aszMarkerImages[bookmarkNumber]));
+	scintilla_send_message(sci,SCI_MARKERADD,line,markerNumber);
+
+	/* update record of which bookmark uses which marker */
+	fd=GetFileData(document_get_current()->file_name);
+	fd->iBookmarkMarkerUsed[bookmarkNumber]=markerNumber;
+
+	/* update record of which markers are being used */
+	markers=GetMarkersUsed(sci);
+	(*markers)|=1<<markerNumber;
+	g_object_set_data(G_OBJECT(sci),"Geany_Numbered_Bookmarks_Used",(gpointer)markers);
+}
+
+
+static void DeleteMarker(ScintillaObject* sci,gint bookmarkNumber,gint markerNumber)
+{
+	guint32 *markers;
+
+	/* remove marker */
+	scintilla_send_message(sci,SCI_MARKERDELETEALL,markerNumber,0);
+	scintilla_send_message(sci,SCI_MARKERDEFINE,markerNumber,SC_MARK_AVAILABLE);
+
+	/* update record of which markers are being used */
+	markers=GetMarkersUsed(sci);
+	(*markers)-=1<<markerNumber;
+	g_object_set_data(G_OBJECT(sci),"Geany_Numbered_Bookmarks_Used",(gpointer)markers);
+}
+
+
+static void ApplyBookmarks(ScintillaObject* sci,FileData *fd)
+{
+	gint i,iLineCount,m;
+	GtkWidget *dialog;
+
+	iLineCount=scintilla_send_message(sci,SCI_GETLINECOUNT,0,0);
+
+	for(i=0;i<10;i++)
+		if(fd->iBookmark[i]!=-1 && fd->iBookmark[i]<iLineCount)
+		{
+			m=NextFreeMarker(sci);
+			/* if run out of markers report this */
+			if(m==-1)
+			{
+				dialog=gtk_message_dialog_new(GTK_WINDOW(geany->main_widgets->window),
+				                              GTK_DIALOG_DESTROY_WITH_PARENT,
+				                              GTK_MESSAGE_ERROR,GTK_BUTTONS_NONE,
+_("Unable to apply all markers to '%s' as all being used."),
+				                              document_get_current()->file_name);
+				gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Okay"),GTK_RESPONSE_OK);
+				gtk_dialog_run(GTK_DIALOG(dialog));
+				gtk_widget_destroy(dialog);
+				return;
+			}
+
+			/* otherwise ok to set marker */
+			SetMarker(sci,i,m,fd->iBookmark[i]);
+		}
 }
 
 
@@ -586,12 +947,13 @@ static void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_dat
 	struct stat sBuf;
 	GtkWidget *dialog;
 	gchar *cFoldData=NULL;
+	gchar *pcTemp;
 	/* keep compiler happy & initialise iBits: will logically be initiated anyway */
 	gint iBits=0,iFlags,iBitCounter;
 
-	/* ensure have markers set */
-	CheckEditorSetup();
-	DefineMarkers(sci);
+	/* if saving details in file alongside file we're editing then load it up */
+	if(WhereToSaveFileDetails==1)
+		LoadLocalFileDetails(doc->file_name);
 
 	/* check to see if file has changed since geany last saved it */
 	fd=GetFileData(doc->file_name);
@@ -602,10 +964,8 @@ static void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_dat
 		dialog=gtk_message_dialog_new(GTK_WINDOW(geany->main_widgets->window),
 		                              GTK_DIALOG_DESTROY_WITH_PARENT,GTK_MESSAGE_ERROR,
 		                              GTK_BUTTONS_NONE,
-		                              _("'%s' has been edited since it was last saved by g\
-		                                eany. Marker positions may be unreliable and will \
-		                                not be loaded.\nPress Ignore to try an load marker\
-		                                s anyway."),doc->file_name);
+_("'%s' has been edited since it was last saved by geany. Marker positions may be unreliable and w\
+ill not be loaded.\nPress Ignore to try an load markers anyway."),doc->file_name);
 		gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Okay"),GTK_RESPONSE_OK);
 		gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Ignore"),GTK_RESPONSE_REJECT);
 		l=gtk_dialog_run(GTK_DIALOG(dialog));
@@ -617,53 +977,68 @@ static void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_dat
 		/* file not changed since Geany last saved it so saved settings should be fine */
 		case GTK_RESPONSE_ACCEPT:
 			/* now set markers */
-			for(i=0;i<10;i++)
-				if(fd->iBookmark[i]!=-1)
-					scintilla_send_message(sci,SCI_MARKERADD,fd->iBookmark[i],i+BOOKMARK_BASE);
+			ApplyBookmarks(sci,fd);
 
 			/* get fold settings if present and want to use them */
-			if(fd->pcFolding==NULL || bRememberFolds==FALSE)
-				break;
-
-			cFoldData=fd->pcFolding;
-
-			/* first ensure fold positions exist */
-			scintilla_send_message(sci,SCI_COLOURISE,0,-1);
-
-			iLineCount=scintilla_send_message(sci,SCI_GETLINECOUNT,0,0);
-
-			/* go through lines setting fold status */
-			for(i=0,iBitCounter=6;i<iLineCount;i++)
+			if(fd->pcFolding!=NULL && bRememberFolds==TRUE)
 			{
-				iFlags=scintilla_send_message(sci,SCI_GETFOLDLEVEL,i,0);
-				/* ignore non-folding lines */
-				if((iFlags & SC_FOLDLEVELHEADERFLAG)==0)
-					continue;
+				cFoldData=fd->pcFolding;
 
-				/* get next 6 fold states if needed */
-				if(iBitCounter==6)
+				/* first ensure fold positions exist */
+				scintilla_send_message(sci,SCI_COLOURISE,0,-1);
+
+				iLineCount=scintilla_send_message(sci,SCI_GETLINECOUNT,0,0);
+
+				/* go through lines setting fold status */
+				for(i=0,iBitCounter=6;i<iLineCount;i++)
 				{
-					iBitCounter=0;
-					iBits=base64_char_to_int[(gint)(*cFoldData)];
-					cFoldData++;
+					iFlags=scintilla_send_message(sci,SCI_GETFOLDLEVEL,i,0);
+					/* ignore non-folding lines */
+					if((iFlags & SC_FOLDLEVELHEADERFLAG)==0)
+						continue;
+
+					/* get next 6 fold states if needed */
+					if(iBitCounter==6)
+					{
+						iBitCounter=0;
+						iBits=base64_char_to_int[(gint)(*cFoldData)];
+						cFoldData++;
+					}
+
+					/* set fold if needed */
+					if(((iBits>>iBitCounter)&1)==0)
+						scintilla_send_message(sci,SCI_TOGGLEFOLD,i,0);
+
+					/* increment counter */
+					iBitCounter++;
+				}
+			}
+
+			/* get non-numbered bookmark settings if present and want to use them */
+			if(fd->pcBookmarks!=NULL && bRememberBookmarks==TRUE)
+			{
+				pcTemp=fd->pcBookmarks;
+				while(pcTemp[0]!=0)
+				{
+					/* get next linenumber */
+					i=strtoll(pcTemp,NULL,16);
+					/* set bookmark */
+					scintilla_send_message(sci,SCI_MARKERADD,i,1);
+					/* move to next linenumber */
+					while(pcTemp[0]!=0 && pcTemp[0]!=',')
+						pcTemp++;
+
+					if(pcTemp[0]==',')
+						pcTemp++;
+
 				}
 
-				/* set fold if needed */
-				if(((iBits>>iBitCounter)&1)==0)
-					scintilla_send_message(sci,SCI_TOGGLEFOLD,i,0);
-
-				/* increment counter */
-				iBitCounter++;
 			}
 
 			break;
 		/* file has changed since Geany last saved but, try to load bookmarks anyway */
 		case GTK_RESPONSE_REJECT:
-			iLineCount=scintilla_send_message(sci,SCI_GETLINECOUNT,0,0);
-			for(i=0;i<10;i++)
-				if(fd->iBookmark[i]!=-1 && fd->iBookmark[i]<iLineCount)
-					scintilla_send_message(sci,SCI_MARKERADD,fd->iBookmark[i],i);
-
+			ApplyBookmarks(sci,fd);
 			break;
 		default: /* default - don't try to set markers */
 			break;
@@ -676,61 +1051,101 @@ static void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_dat
 */
 static void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
-	FileData *fdTemp;
+	FileData *fd;
 	gint i,iLineCount,iFlags,iBitCounter=0;
 	ScintillaObject* sci=doc->editor->sci;
 	struct stat sBuf;
-	GByteArray *gbaFoldData=g_byte_array_sized_new(1000);
+	GByteArray *gbaFoldData=NULL;
 	guint8 guiFold=0;
+	gboolean bHasClosedFold=FALSE,bHasBookmark=FALSE;
+	gchar szLine[20];
 
 	/* update markerpos */
-	fdTemp=GetFileData(doc->file_name);
+	fd=GetFileData(doc->file_name);
 	for(i=0;i<10;i++)
-		fdTemp->iBookmark[i]=scintilla_send_message(sci,SCI_MARKERNEXT,0,1<<(i+BOOKMARK_BASE));
+		fd->iBookmark[i]=scintilla_send_message(sci,SCI_MARKERNEXT,0,
+		                                        1<<(fd->iBookmarkMarkerUsed[i]));
 
-	/* update fold state */
-	iLineCount=scintilla_send_message(sci,SCI_GETLINECOUNT,0,0);
-	/* go through each line */
-	for(i=0;i<iLineCount;i++)
+	/* save fold state */
+	if(bRememberFolds==TRUE)
 	{
-		iFlags=scintilla_send_message(sci,SCI_GETFOLDLEVEL,i,0);
-		/* ignore line if not a folding point */
-		if((iFlags & SC_FOLDLEVELHEADERFLAG)==0)
-			continue;
+		gbaFoldData=g_byte_array_sized_new(1000);
 
-		iFlags=scintilla_send_message(sci,SCI_GETFOLDEXPANDED,i,0);
-		/* remember if folded or not */
-		guiFold|=(iFlags&1)<<iBitCounter;
-		iBitCounter++;
-		if(iBitCounter<6)
-			continue;
+		iLineCount=scintilla_send_message(sci,SCI_GETLINECOUNT,0,0);
+		/* go through each line */
+		for(i=0;i<iLineCount;i++)
+		{
+			iFlags=scintilla_send_message(sci,SCI_GETFOLDLEVEL,i,0);
+			/* ignore line if not a folding point */
+			if((iFlags & SC_FOLDLEVELHEADERFLAG)==0)
+				continue;
 
-		/* if have 6 bits then store these */
-		iBitCounter=0;
-		guiFold=(guint8)base64_int_to_char[guiFold];
-		g_byte_array_append(gbaFoldData,&guiFold,1);
-		guiFold=0;
+			iFlags=scintilla_send_message(sci,SCI_GETFOLDEXPANDED,i,0);
+			/* make note of if any folds closed or not */
+			bHasClosedFold|=((iFlags&1)==0);
+			/* remember if folded or not */
+			guiFold|=(iFlags&1)<<iBitCounter;
+			iBitCounter++;
+			if(iBitCounter<6)
+				continue;
+
+			/* if have 6 bits then store these */
+			iBitCounter=0;
+			guiFold=(guint8)base64_int_to_char[guiFold];
+			g_byte_array_append(gbaFoldData,&guiFold,1);
+			guiFold=0;
+		}
+
+		/* flush buffer */
+		if(iBitCounter!=0)
+		{
+			guiFold=(guint8)base64_int_to_char[guiFold];
+			g_byte_array_append(gbaFoldData,&guiFold,1);
+		}
+
+		/* transfer data to text string if have closed fold. Default will leave them open*/
+		fd->pcFolding=(!bHasClosedFold)?NULL:g_strndup((gchar*)(gbaFoldData->data),
+	                                               gbaFoldData->len);
+
+		/* free byte array space */
+		g_byte_array_free(gbaFoldData,TRUE);
 	}
+	else
+		fd->pcFolding=NULL;
 
-	/* flush buffer */
-	if(iBitCounter!=0)
+	/* now save off bookmarks */
+	if(bRememberBookmarks==TRUE)
 	{
-		guiFold=(guint8)base64_int_to_char[guiFold];
-		g_byte_array_append(gbaFoldData,&guiFold,1);
+		gbaFoldData=g_byte_array_sized_new(1000);
+
+		i=0;
+		while((i=scintilla_send_message(sci,SCI_MARKERNEXT,i+1,2))!=-1)
+		{
+			g_sprintf(szLine,"%s%X",bHasBookmark?",":"",i);
+			g_byte_array_append(gbaFoldData,(guint8*)szLine,strlen(szLine));
+
+			/* will be data in byte array to save */
+			bHasBookmark=TRUE;
+		}
+
+		/* transfer data to text string */
+		fd->pcBookmarks=(!bHasBookmark)?NULL:g_strndup((gchar*)(gbaFoldData->data),
+		                 gbaFoldData->len);
+
+		/* free byte array space */
+		g_byte_array_free(gbaFoldData,TRUE);
 	}
+	else
+		fd->pcBookmarks=NULL;
 
-	/* transfer data to text string */
-	fdTemp->pcFolding=g_strndup((gchar*)(gbaFoldData->data),gbaFoldData->len);
 
-	/* free byte array space */
-	g_byte_array_free(gbaFoldData,TRUE);
 
 	/* make note of time last saved */
 	if(stat(doc->file_name,&sBuf)==0)
-		fdTemp->LastChangedTime=sBuf.st_mtime;
+		fd->LastChangedTime=sBuf.st_mtime;
 
 	/* save settings */
-	SaveSettings();
+	SaveSettings(doc->file_name);
 }
 
 
@@ -754,27 +1169,38 @@ static gint GetLine(ScintillaObject* sci)
 static void on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 {
 	gboolean bSettingsHaveChanged;
-	GtkCheckButton *cb1,*cb2;
+	GtkCheckButton *cb1,*cb2,*cb3;
+	GtkComboBox *gtkcb1,*gtkcb2;
 
 	if(response!=GTK_RESPONSE_OK && response!=GTK_RESPONSE_APPLY)
 		return;
 
-	/* retreive pointers to check boxes */
+	/* retreive pointers to widgets */
 	cb1=(GtkCheckButton*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb1"));
 	cb2=(GtkCheckButton*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb2"));
+	gtkcb1=(GtkComboBox*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb3"));
+	gtkcb2=(GtkComboBox*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb4"));
+	cb3=(GtkCheckButton*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb5"));
 
 	/* first see if settings are going to change */
 	bSettingsHaveChanged=(bRememberFolds!=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb1)));
 	bSettingsHaveChanged|=(bCenterWhenGotoBookmark!=gtk_toggle_button_get_active(
 	                       GTK_TOGGLE_BUTTON(cb2)));
+	bSettingsHaveChanged|=(gtk_combo_box_get_active(gtkcb1)!=PositionInLine);
+	bSettingsHaveChanged|=(gtk_combo_box_get_active(gtkcb2)!=WhereToSaveFileDetails);
+	bSettingsHaveChanged|=(bRememberBookmarks!=gtk_toggle_button_get_active(
+	                       GTK_TOGGLE_BUTTON(cb3)));
 
 	/* set new settings settings */
 	bRememberFolds=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb1));
 	bCenterWhenGotoBookmark=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb2));
+	PositionInLine=gtk_combo_box_get_active(gtkcb1);
+	WhereToSaveFileDetails=gtk_combo_box_get_active(gtkcb2);
+	bRememberBookmarks=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb3));
 
 	/* now save new settings if they have changed */
 	if(bSettingsHaveChanged)
-		SaveSettings();
+		SaveSettings(NULL);
 }
 
 
@@ -782,21 +1208,43 @@ static void on_configure_response(GtkDialog *dialog, gint response, gpointer use
 GtkWidget *plugin_configure(GtkDialog *dialog)
 {
 	GtkWidget *vbox;
-	GtkWidget *cb1,*cb2;
+	GtkWidget *gtkw;
 
 	vbox=gtk_vbox_new(FALSE, 6);
 
-	cb1=gtk_check_button_new_with_label(_("remember fold state"));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cb1),bRememberFolds);
-	gtk_box_pack_start(GTK_BOX(vbox),cb1,FALSE,FALSE,2);
+	gtkw=gtk_check_button_new_with_label(_("remember fold state"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(gtkw),bRememberFolds);
+	gtk_box_pack_start(GTK_BOX(vbox),gtkw,FALSE,FALSE,2);
 	/* save pointer to check_button */
-	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb1",cb1);
+	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb1",gtkw);
 
-	cb2=gtk_check_button_new_with_label(_("Center view when goto bookmark"));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cb2),bCenterWhenGotoBookmark);
-	gtk_box_pack_start(GTK_BOX(vbox),cb2,FALSE,FALSE,2);
+	gtkw=gtk_check_button_new_with_label(_("Center view when goto bookmark"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(gtkw),bCenterWhenGotoBookmark);
+	gtk_box_pack_start(GTK_BOX(vbox),gtkw,FALSE,FALSE,2);
 	/* save pointer to check_button */
-	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb2",cb2);
+	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb2",gtkw);
+
+	gtkw=gtk_combo_box_new_text();
+	gtk_combo_box_append_text((GtkComboBox*)gtkw,_("Move to start of line"));
+	gtk_combo_box_append_text((GtkComboBox*)gtkw,_("Move to remembered position in line"));
+	gtk_combo_box_append_text((GtkComboBox*)gtkw,_("Move to position in current line"));
+	gtk_combo_box_append_text((GtkComboBox*)gtkw,_("Move to End of line"));
+	gtk_combo_box_set_active((GtkComboBox*)gtkw,PositionInLine);
+	gtk_box_pack_start(GTK_BOX(vbox),gtkw,FALSE,FALSE,2);
+	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb3",gtkw);
+
+	gtkw=gtk_combo_box_new_text();
+	gtk_combo_box_append_text((GtkComboBox*)gtkw,_("Save file settings with program settings"));
+	gtk_combo_box_append_text((GtkComboBox*)gtkw,_("Save file settings to filename with suffix"));
+	gtk_combo_box_set_active((GtkComboBox*)gtkw,WhereToSaveFileDetails);
+	gtk_box_pack_start(GTK_BOX(vbox),gtkw,FALSE,FALSE,2);
+	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb4",gtkw);
+
+	gtkw=gtk_check_button_new_with_label(_("remember normal Bookmarks"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(gtkw),bRememberBookmarks);
+	gtk_box_pack_start(GTK_BOX(vbox),gtkw,FALSE,FALSE,2);
+	/* save pointer to check_button */
+	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb5",gtkw);
 
 	gtk_widget_show_all(vbox);
 
@@ -819,23 +1267,14 @@ void plugin_help(void)
 
 	/* create label */
 	label=gtk_label_new(
-		_("This Plugin implements Numbered Bookmarks in Geany.\n\n"
-		"It allows you to use 10 numbered bookmarks. Normaly if you had more than one \
-bookmark, you would have to cycle through them until you reached the one you wanted. With this \
-plugin you can go straight to the bookmark that you want with a single key combination. To set a \
-numbered bookmark press Ctrl+Shift+a number from 0 to 9. You will see a marker apear next to the \
-line number. If you press Ctrl+Shift+a number on a line that already has that bookmark number then\
- it removes the bookmark, otherwise it will move the bookmark there if it was set on a different \
-line, or create it if it had not already been set. Only the bookmark with the highest number on a \
-line will be shown, but you can have more than one bookmark per line. This plugin does not \
-interfer with regular bookmarks. When a file is saved, Geany will remember the numbered bookmarks \
-and make sure that they are set the next time you open the file.\n\n"
-		"You can alter the default behaviour of this plugin by selecting Plugin Manager under the \
-Tools menu, selecting this plugin, and cliking Preferences. You can change:\nRemember fold state -\
- if this is set then this plugin will remember the state of any folds along with the numbered \
-bookmarks and set them when the file is next loaded.\nCenter view when goto bookmark - If this is \
-set it will try to make sure that the numbered bookmark that you are going to is in the center of \
-the screen, otherwise it will simply be on the screen somewhere."));
+_("This Plugin implements Numbered Bookmarks in Geany, as well as remembering the state of folds, \
+and positions of standard non-numbered bookmarks when a file is saved.\n\n"
+"It allows you to use up to 10 numbered bookmarks. To set a numbered bookmark press Ctrl+Shift+a n\
+umber from 0 to 9. You will see a marker apear next to the line number. If you press Ctrl+Shift+a \
+number on a line that already has that bookmark number then it removes the bookmark, otherwise it \
+will move the bookmark there if it was set on a different line, or create it if it had not already\
+ been set. Only the most recently set bookmark on a line will be shown, but you can have more than\
+ one bookmark per line. To move to a previously set bookmark, press Ctrl+a number from 0 to 9."));
 	gtk_label_set_line_wrap(GTK_LABEL(label),TRUE);
 	gtk_widget_show(label);
 
@@ -860,18 +1299,53 @@ the screen, otherwise it will simply be on the screen somewhere."));
 /* goto numbered bookmark */
 static void GotoBookMark(gint iBookMark)
 {
-	gint iLine,iLinesVisible,iLineCount;
+	gint iLine,iLinesVisible,iLineCount,iPosition,iEndOfLine;
 	ScintillaObject* sci=document_get_current()->editor->sci;
+	FileData *fd;
 
-	iLine=scintilla_send_message(sci,SCI_MARKERNEXT,0,1<<(iBookMark+BOOKMARK_BASE));
+	fd=GetFileData(document_get_current()->file_name);
+
+	iLine=scintilla_send_message(sci,SCI_MARKERNEXT,0,1<<(fd->iBookmarkMarkerUsed[iBookMark]));
 
 	/* ignore if no marker placed for requested bookmark */
 	if(iLine==-1)
 		return;
 
-	/* move to bookmark */
-	scintilla_send_message(sci,SCI_GOTOLINE,iLine,0);
+	/* calculate position we're moving to */
+	/* first get position of start of line we're after */
+	iPosition=scintilla_send_message(sci,SCI_POSITIONFROMLINE,iLine,0);
+	/* adjust for where in line we want to be */
+	iEndOfLine=scintilla_send_message(sci,SCI_GETLINEENDPOSITION,iLine,0);
+	switch(PositionInLine)
+	{
+		/* start of line */
+		case 0:
+			break;
+		/* remembered line position */
+		case 1:
+			iPosition+=fd->iBookmarkLinePos[iBookMark];
+			if(iPosition>iEndOfLine)
+				iPosition=iEndOfLine;
 
+			break;
+		/* try to go to position in current line */
+		case 2:
+			iPosition+=scintilla_send_message(sci,SCI_GETCURRENTPOS,0,0)-
+	           	           scintilla_send_message(sci,SCI_POSITIONFROMLINE,GetLine(sci),0);
+			if(iPosition>iEndOfLine)
+				iPosition=iEndOfLine;
+
+			break;
+		/* goto end of line */
+		case 3:
+			iPosition=iEndOfLine;
+			break;
+	}
+
+	/* move to bookmark */
+	scintilla_send_message(sci,SCI_GOTOPOS,iPosition,0);
+
+	/* finnished unless centering on line */
 	if(bCenterWhenGotoBookmark==FALSE)
 		return;
 
@@ -893,25 +1367,56 @@ static void GotoBookMark(gint iBookMark)
 /* set (or remove) numbered bookmark */
 static void SetBookMark(gint iBookMark)
 {
-	gint iNewLine,iOldLine;
+	gint iNewLine,iOldLine,iPosInLine,m;
 	ScintillaObject* sci=document_get_current()->editor->sci;
+	FileData *fd=GetFileData(document_get_current()->file_name);;
+	GtkWidget *dialog;
 
 	/* see if already such a bookmark present */
-	iOldLine=scintilla_send_message(sci,SCI_MARKERNEXT,0,1<<(iBookMark+BOOKMARK_BASE));
+	iOldLine=scintilla_send_message(sci,SCI_MARKERNEXT,0,1<<(fd->iBookmarkMarkerUsed[iBookMark]));
 	iNewLine=GetLine(sci);
+	iPosInLine=scintilla_send_message(sci,SCI_GETCURRENTPOS,0,0)-
+	           scintilla_send_message(sci,SCI_POSITIONFROMLINE,iNewLine,0);
+
 	/* if no marker then simply add one to current line */
 	if(iOldLine==-1)
 	{
-		CheckEditorSetup();
-		scintilla_send_message(sci,SCI_MARKERADD,iNewLine,iBookMark+BOOKMARK_BASE);
+		m=NextFreeMarker(sci);
+		/* if run out of markers report this */
+		if(m==-1)
+		{
+			dialog=gtk_message_dialog_new(GTK_WINDOW(geany->main_widgets->window),
+			                              GTK_DIALOG_DESTROY_WITH_PARENT,
+			                              GTK_MESSAGE_ERROR,GTK_BUTTONS_NONE,
+			                              _("Unable to apply markers as all being used."));
+			gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Okay"),GTK_RESPONSE_OK);
+			gtk_dialog_run(GTK_DIALOG(dialog));
+			gtk_widget_destroy(dialog);
+			return;
+		}
+		/* otherwise ok to set marker */
+		SetMarker(sci,iBookMark,m,iNewLine);
+		fd->iBookmarkLinePos[iBookMark]=iPosInLine;
 	}
-	/* else either have to remove marker from current line, or move it to current line */
+	/* else if have to remove marker from current line */
+	else if(iOldLine==iNewLine)
+	{
+		DeleteMarker(sci,iBookMark,fd->iBookmarkMarkerUsed[iBookMark]);
+	}
+	/* else have to move it to current line */
 	else
 	{
+		/* go through the process of removing and adding the marker so the marker will */
+		/* have the highest value and be on top */
+
 		/* remove old marker */
-		scintilla_send_message(sci,SCI_MARKERDELETEALL,iBookMark+BOOKMARK_BASE,0);
+		DeleteMarker(sci,iBookMark,fd->iBookmarkMarkerUsed[iBookMark]);
 		/* add new marker if moving marker */
-		if(iOldLine!=iNewLine) scintilla_send_message(sci,SCI_MARKERADD,iNewLine,iBookMark+BOOKMARK_BASE);
+		m=NextFreeMarker(sci);
+		/* don't bother checking for failure to find marker as have just released one so */
+		/* there should be one free */
+		SetMarker(sci,iBookMark,m,iNewLine);
+		fd->iBookmarkLinePos[iBookMark]=iPosInLine;
 	}
 }
 
@@ -1030,10 +1535,9 @@ void plugin_cleanup(void)
 	gint k;
 	guint i;
 	ScintillaObject* sci;
-	SCIPOINTERHOLDER *sciTemp;
-	SCIPOINTERHOLDER *sciNext;
 	FileData *fdTemp=fdKnownFilesSettings;
 	FileData *fdTemp2;
+	guint32 *markers;
 
 	/* uncouple keypress monitor */
 	g_signal_handler_disconnect(geany->main_widgets->window,key_release_signal_id);
@@ -1042,32 +1546,29 @@ void plugin_cleanup(void)
 	for(i=0;i<GEANY(documents_array)->len;i++)
 		if(documents[i]->is_valid) {
 			sci=documents[i]->editor->sci;
-			for(k=0;k<9;k++)
-				scintilla_send_message(sci,SCI_MARKERDELETEALL,BOOKMARK_BASE+k,0);
+			markers=GetMarkersUsed(sci);
+			for(k=2;k<25;k++)
+				if(((*markers)&(1<<k))!=0)
+					scintilla_send_message(sci,SCI_MARKERDELETEALL,k,0);
 
+			g_free(markers);
 		}
-
-	/* Clear memory used for list of editors */
-	sciTemp=sciList;
-	while(sciTemp!=NULL)
-	{
-		sciNext=sciTemp->NextNode;
-		free(sciTemp);
-		sciTemp=sciNext;
-	}
 
 	/* Clear memory used to hold file details */
 	while(fdTemp!=NULL)
 	{
 		/* free filename */
 		g_free(fdTemp->pcFileName);
-		/* free folding information if present */
-		if(fdTemp->pcFolding!=NULL)
-			g_free(fdTemp->pcFolding);
+		/* free folding & bookmark information if present */
+		g_free(fdTemp->pcFolding);
+		g_free(fdTemp->pcBookmarks);
 
 		fdTemp2=fdTemp->NextNode;
 		/* free memory block  */
 		g_free(fdTemp);
 		fdTemp=fdTemp2;
 	}
+
+	/* free memory used for settings */
+	g_free(FileDetailsSuffix);
 }
