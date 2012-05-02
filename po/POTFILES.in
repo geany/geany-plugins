@@ -208,6 +208,9 @@ geanyvc/src/vc_svk.c
 geanyvc/src/vc_svn.c
 geanyvc/src/utils.c
 
+# GeniusPaste
+geniuspaste/src/geniuspaste.c
+
 # GProject
 gproject/src/gproject-main.c
 gproject/src/gproject-menu.c
