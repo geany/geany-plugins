@@ -67,10 +67,9 @@ static gint website_selected;
 static gboolean check_button_is_checked = FALSE;
 
 PLUGIN_VERSION_CHECK(147)
-PLUGIN_SET_INFO("GeniusPaste",
-                "Paste your code on your favorite pastebin",
-                "0.1",
-                "Enrico Trotta");
+PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, "GeniusPaste",
+    _("Paste your code on your favorite pastebin"), 
+    "0.1", "Enrico Trotta");
 
 static gint indexof(const gchar * string, gchar c)
 {
