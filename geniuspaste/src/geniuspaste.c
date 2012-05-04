@@ -247,11 +247,11 @@ static void paste(const gchar * website)
              */
 
             p_url = g_strdup(tokens_array[5]);
-
+            occ_position = indexof(tokens_array[5], '\"');
+            
             g_free(temp_body);
             g_strfreev(tokens_array);
-
-            occ_position = indexof(tokens_array[5], '\"');
+            
             if(occ_position != -1) {
                 p_url[occ_position] = '\0';
             } else {
