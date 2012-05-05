@@ -230,7 +230,8 @@ static void paste(const gchar * website)
 
     status = soup_session_send_message(session, msg);
     p_url = g_strdup(msg->response_body->data);
-
+    g_free(f_content);
+    
     if(status == SOUP_STATUS_OK) {
 
         /*
@@ -257,6 +258,7 @@ static void paste(const gchar * website)
             } else {
                 dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Unable to paste the code on codepad.org\n"
                                     "Retry or select another pastebin.");
+                g_free(p_url);
                 return;
             }
 
@@ -290,7 +292,6 @@ static void paste(const gchar * website)
                             "Error code: %d\n", status);
     }
 
-    g_free(f_content);
     g_free(p_url);
 }
 
