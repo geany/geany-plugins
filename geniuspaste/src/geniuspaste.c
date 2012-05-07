@@ -24,19 +24,19 @@
 #include <string.h>
 
 #ifdef HAVE_LOCALE_H
-    #include <locale.h>
+#include <locale.h>
 #endif
 
 #ifdef HAVE_CONFIG_H
-    #include "config.h" /* for the gettext domain */
+#include "config.h" /* for the gettext domain */
 #endif
 
 #include <geanyplugin.h>
 
 #ifdef G_OS_WIN32
-    #define USERNAME        getenv("USERNAME")
+#define USERNAME        getenv("USERNAME")
 #else
-    #define USERNAME        getenv("USER")
+#define USERNAME        getenv("USER")
 #endif
 
 #define CODEPAD_ORG 		0
@@ -78,8 +78,8 @@ static gboolean check_button_is_checked = FALSE;
 
 PLUGIN_VERSION_CHECK(147)
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, "GeniusPaste",
-    _("Paste your code on your favorite pastebin"), 
-    "0.2", "Enrico Trotta");
+                             _("Paste your code on your favorite pastebin"),
+                             "0.2", "Enrico Trotta");
 
 static gint indexof(const gchar * string, gchar c)
 {
@@ -95,59 +95,58 @@ static gint last_indexof(const gchar * string, gchar c)
 
 static void load_settings(void)
 {
-	GKeyFile *config = g_key_file_new();
-	GError *err = NULL;
+    GKeyFile *config = g_key_file_new();
+    GError *err = NULL;
     gint tmp_website;
     gboolean tmp_open_browser;
     gchar *tmp_author_name;
 
-	config_file = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
-		"geniuspaste", G_DIR_SEPARATOR_S, "geniuspaste.conf", NULL);
-	g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
+    config_file = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
+                              "geniuspaste", G_DIR_SEPARATOR_S, "geniuspaste.conf", NULL);
+    g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
 
-	tmp_website = g_key_file_get_integer(config, "geniuspaste", "website", &err);
+    tmp_website = g_key_file_get_integer(config, "geniuspaste", "website", &err);
     tmp_open_browser = g_key_file_get_boolean(config, "geniuspaste", "open_browser", &err);
     tmp_author_name = g_key_file_get_string(config, "geniuspaste", "author_name", &err);
 
-	if (err) 
+    if (err)
     {
-		g_error_free(err);
-	} 
-    else 
+        g_error_free(err);
+    }
+    else
     {
-		website_selected = tmp_website;
+        website_selected = tmp_website;
         check_button_is_checked = tmp_open_browser;
         author_name = tmp_author_name;
     }
-	g_key_file_free(config);
+    g_key_file_free(config);
 }
-
 
 static void save_settings(void)
 {
-	GKeyFile *config = g_key_file_new();
-	gchar *data;
-	gchar *config_dir = g_path_get_dirname(config_file);
+    GKeyFile *config = g_key_file_new();
+    gchar *data;
+    gchar *config_dir = g_path_get_dirname(config_file);
 
-	g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
+    g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
 
-	g_key_file_set_integer(config, "geniuspaste", "website", website_selected);
+    g_key_file_set_integer(config, "geniuspaste", "website", website_selected);
     g_key_file_set_boolean(config, "geniuspaste", "open_browser", check_button_is_checked);
     g_key_file_set_string(config, "geniuspaste", "author_name", author_name);
 
-	if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir(config_dir, TRUE) != 0)
-	{
-		dialogs_show_msgbox(GTK_MESSAGE_ERROR,
-			_("Plugin configuration directory could not be created."));
-	}
-	else
-	{
-		data = g_key_file_to_data(config, NULL, NULL);
-		utils_write_file(config_file, data);
-		g_free(data);
-	}
-	g_free(config_dir);
-	g_key_file_free(config);
+    if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir(config_dir, TRUE) != 0)
+    {
+        dialogs_show_msgbox(GTK_MESSAGE_ERROR,
+                            _("Plugin configuration directory could not be created."));
+    }
+    else
+    {
+        data = g_key_file_to_data(config, NULL, NULL);
+        utils_write_file(config_file, data);
+        g_free(data);
+    }
+    g_free(config_dir);
+    g_key_file_free(config);
 }
 
 static void paste(const gchar * website)
@@ -178,17 +177,17 @@ static void paste(const gchar * website)
 
     const gchar *langs_supported_codepad[] =
     {
-            "C", "C++", "D", "Haskell",
-            "Lua", "OCaml", "PHP", "Perl", "Plain Text",
-            "Python", "Ruby", "Scheme", "Tcl"
+        "C", "C++", "D", "Haskell",
+        "Lua", "OCaml", "PHP", "Perl", "Plain Text",
+        "Python", "Ruby", "Scheme", "Tcl"
     };
 
     const gchar *langs_supported_dpaste[] =
     {
-            "Bash", "C", "CSS", "Diff",
-            "Django/Jinja", "HTML", "IRC logs", "JavaScript", "PHP",
-            "Python console session", "Python Traceback", "Python",
-            "Python3", "Restructured Text", "SQL", "Text only"
+        "Bash", "C", "CSS", "Diff",
+        "Django/Jinja", "HTML", "IRC logs", "JavaScript", "PHP",
+        "Python console session", "Python Traceback", "Python",
+        "Python3", "Restructured Text", "SQL", "Text only"
     };
 
     gint occ_position;
@@ -376,12 +375,11 @@ static void paste(const gchar * website)
         {
             dialogs_show_msgbox(GTK_MESSAGE_INFO, "%s", p_url);
         }
-
     }
     else
     {
         dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to paste the code. Check your connection and retry.\n"
-            "Error code: %d\n"), status);
+                            "Error code: %d\n"), status);
     }
 
     g_free(f_content);
@@ -426,10 +424,10 @@ GtkWidget *plugin_configure(GtkDialog * dialog)
     gtk_misc_set_alignment(GTK_MISC(author_label), 0, 0.5);
 
     widgets.author_entry = gtk_entry_new();
-    
+
     if(author_name == NULL)
         author_name = USERNAME;
-    
+
     gtk_entry_set_text(GTK_ENTRY(widgets.author_entry), author_name);
 
     widgets.combo = gtk_combo_box_text_new();
