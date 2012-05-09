@@ -19,9 +19,13 @@
  *  MA 02110-1301, USA.
  */
 
-#include "libsoup/soup.h"
-#include "stdlib.h"
-#include "string.h"
+#include <libsoup/soup.h>
+#include <stdlib.h>
+#include <string.h>
+
+#ifdef HAVE_LOCALE_H
+#include <locale.h>
+#endif
 
 #ifdef HAVE_CONFIG_H
 #include "config.h" /* for the gettext domain */
@@ -50,7 +54,8 @@ GeanyFunctions *geany_functions;
 
 static GtkWidget *main_menu_item = NULL;
 
-static const gchar *websites[] = {
+static const gchar *websites[] =
+{
     "http://codepad.org",
     "http://pastebin.com/api_public.php",
     "http://pastebin.geany.org/api/",
@@ -58,18 +63,23 @@ static const gchar *websites[] = {
     "http://sprunge.us/",
 };
 
-static struct {
+static struct
+{
     GtkWidget *combo;
     GtkWidget *check_button;
+    GtkWidget *author_entry;
 } widgets;
+
+static gchar *config_file = NULL;
+static gchar *author_name = NULL;
 
 static gint website_selected;
 static gboolean check_button_is_checked = FALSE;
 
 PLUGIN_VERSION_CHECK(147)
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, "GeniusPaste",
-    _("Paste your code on your favorite pastebin"), 
-    "0.1", "Enrico Trotta");
+                             _("Paste your code on your favorite pastebin"),
+                             "0.2", "Enrico Trotta");
 
 static gint indexof(const gchar * string, gchar c)
 {
@@ -83,6 +93,62 @@ static gint last_indexof(const gchar * string, gchar c)
     return occ ? occ - string : -1;
 }
 
+static void load_settings(void)
+{
+    GKeyFile *config = g_key_file_new();
+    GError *err = NULL;
+    gint tmp_website;
+    gboolean tmp_open_browser;
+    gchar *tmp_author_name;
+
+    config_file = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
+                              "geniuspaste", G_DIR_SEPARATOR_S, "geniuspaste.conf", NULL);
+    g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
+
+    tmp_website = g_key_file_get_integer(config, "geniuspaste", "website", &err);
+    tmp_open_browser = g_key_file_get_boolean(config, "geniuspaste", "open_browser", &err);
+    tmp_author_name = g_key_file_get_string(config, "geniuspaste", "author_name", &err);
+
+    if (err)
+    {
+        g_error_free(err);
+    }
+    else
+    {
+        website_selected = tmp_website;
+        check_button_is_checked = tmp_open_browser;
+        author_name = tmp_author_name;
+    }
+    g_key_file_free(config);
+}
+
+static void save_settings(void)
+{
+    GKeyFile *config = g_key_file_new();
+    gchar *data;
+    gchar *config_dir = g_path_get_dirname(config_file);
+
+    g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
+
+    g_key_file_set_integer(config, "geniuspaste", "website", website_selected);
+    g_key_file_set_boolean(config, "geniuspaste", "open_browser", check_button_is_checked);
+    g_key_file_set_string(config, "geniuspaste", "author_name", author_name);
+
+    if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir(config_dir, TRUE) != 0)
+    {
+        dialogs_show_msgbox(GTK_MESSAGE_ERROR,
+                            _("Plugin configuration directory could not be created."));
+    }
+    else
+    {
+        data = g_key_file_to_data(config, NULL, NULL);
+        utils_write_file(config_file, data);
+        g_free(data);
+    }
+    g_free(config_dir);
+    g_key_file_free(config);
+}
+
 static void paste(const gchar * website)
 {
     SoupSession *session = soup_session_async_new();
@@ -90,14 +156,14 @@ static void paste(const gchar * website)
 
     GeanyDocument *doc = document_get_current();
 
-    if(doc == NULL) {
-        dialogs_show_msgbox(GTK_MESSAGE_ERROR, "There are no opened documents. Open one and retry.\n");
+    if(doc == NULL)
+    {
+        dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("There are no opened documents. Open one and retry.\n"));
         return;
     }
 
     GeanyFiletype *ft = doc->file_type;
-
-    GError *error;
+    GError *error = NULL;
 
     gchar *f_content;
     gchar *f_type = g_strdup(ft->name);
@@ -109,15 +175,19 @@ static void paste(const gchar * website)
     gchar *temp_body;
     gchar **tokens_array;
 
-    const gchar *langs_supported_codepad[] = { "C", "C++", "D", "Haskell",
-            "Lua", "OCaml", "PHP", "Perl", "Plain Text",
-            "Python", "Ruby", "Scheme", "Tcl"
+    const gchar *langs_supported_codepad[] =
+    {
+        "C", "C++", "D", "Haskell",
+        "Lua", "OCaml", "PHP", "Perl", "Plain Text",
+        "Python", "Ruby", "Scheme", "Tcl"
     };
 
-    const gchar *langs_supported_dpaste[] = { "Bash", "C", "CSS", "Diff",
-            "Django/Jinja", "HTML", "IRC logs", "JavaScript", "PHP",
-            "Python console session", "Python Traceback", "Python",
-            "Python3", "Restructured Text", "SQL", "Text only"
+    const gchar *langs_supported_dpaste[] =
+    {
+        "Bash", "C", "CSS", "Diff",
+        "Django/Jinja", "HTML", "IRC logs", "JavaScript", "PHP",
+        "Python console session", "Python Traceback", "Python",
+        "Python3", "Restructured Text", "SQL", "Text only"
     };
 
     gint occ_position;
@@ -129,11 +199,15 @@ static void paste(const gchar * website)
     occ_position = last_indexof(f_name, G_DIR_SEPARATOR);
     f_title = f_name + occ_position + 1;
 
-    switch (website_selected) {
+    load_settings();
+
+    switch (website_selected)
+    {
 
     case CODEPAD_ORG:
 
-        for (i = 0; i < G_N_ELEMENTS(langs_supported_codepad); i++) {
+        for (i = 0; i < G_N_ELEMENTS(langs_supported_codepad); i++)
+        {
             if (g_strcmp0(f_type, langs_supported_codepad[i]) == 0)
                 break;
             else
@@ -141,8 +215,9 @@ static void paste(const gchar * website)
         }
 
         result = g_file_get_contents(f_path, &f_content, &f_lenght, &error);
-        if(result == FALSE) {
-            dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Unable to the the content of the file");
+        if(result == FALSE)
+        {
+            dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to get the the content of the file"));
             g_error_free(error);
             return;
         }
@@ -156,8 +231,9 @@ static void paste(const gchar * website)
     case PASTEBIN_COM:
 
         result = g_file_get_contents(f_path, &f_content, &f_lenght, &error);
-        if(result == FALSE) {
-            dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Unable to the the content of the file");
+        if(result == FALSE)
+        {
+            dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to get the the content of the file"));
             g_error_free(error);
             return;
         }
@@ -171,7 +247,8 @@ static void paste(const gchar * website)
 
     case DPASTE_DE:
 
-        for (i = 0; i < G_N_ELEMENTS(langs_supported_dpaste); i++) {
+        for (i = 0; i < G_N_ELEMENTS(langs_supported_dpaste); i++)
+        {
             if (g_strcmp0(f_type, langs_supported_dpaste[i]) == 0)
                 break;
             else
@@ -180,7 +257,7 @@ static void paste(const gchar * website)
 
         result = g_file_get_contents(f_path, &f_content, &f_lenght, &error);
         if(result == FALSE) {
-            dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Unable to the the content of the file");
+            dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to get the the content of the file"));
             g_error_free(error);
             return;
         }
@@ -197,8 +274,9 @@ static void paste(const gchar * website)
     case SPRUNGE_US:
 
         result = g_file_get_contents(f_path, &f_content, &f_lenght, &error);
-        if(result == FALSE) {
-            dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Unable to the the content of the file");
+        if(result == FALSE)
+        {
+            dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to get the the content of the file"));
             g_error_free(error);
             return;
         }
@@ -211,14 +289,15 @@ static void paste(const gchar * website)
     case PASTEBIN_GEANY_ORG:
 
         result = g_file_get_contents(f_path, &f_content, &f_lenght, &error);
-        if(result == FALSE) {
-            dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Unable to the the content of the file");
+        if(result == FALSE)
+        {
+            dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to get the the content of the file"));
             g_error_free(error);
             return;
         }
 
         msg = soup_message_new("POST", website);
-        formdata = soup_form_encode("content", f_content, "author", USERNAME,
+        formdata = soup_form_encode("content", f_content, "author", author_name,
                                     "title", f_title, "lexer", f_type, NULL);
 
         break;
@@ -230,16 +309,17 @@ static void paste(const gchar * website)
 
     status = soup_session_send_message(session, msg);
     p_url = g_strdup(msg->response_body->data);
-    g_free(f_content);
-    
-    if(status == SOUP_STATUS_OK) {
+
+    if(status == SOUP_STATUS_OK)
+    {
 
         /*
          * codepad.org doesn't return only the url of the new snippet pasted
          * but an html page. This minimal parser will get the bare url.
          */
 
-        if (website_selected == CODEPAD_ORG) {
+        if (website_selected == CODEPAD_ORG)
+        {
             temp_body = g_strdup(p_url);
             tokens_array = g_strsplit(temp_body, "<a href=\"", 0);
 
@@ -249,23 +329,29 @@ static void paste(const gchar * website)
 
             p_url = g_strdup(tokens_array[5]);
             occ_position = indexof(tokens_array[5], '\"');
-            
+
             g_free(temp_body);
             g_strfreev(tokens_array);
-            
-            if(occ_position != -1) {
+
+            if(occ_position != -1)
+            {
                 p_url[occ_position] = '\0';
-            } else {
-                dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Unable to paste the code on codepad.org\n"
-                                    "Retry or select another pastebin.");
-                g_free(p_url);
+            }
+            else
+            {
+                dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to paste the code on codepad.org\n"
+                                    "Retry or select another pastebin."));
                 return;
             }
 
-        } else if(website_selected == DPASTE_DE) {
+        }
+        else if(website_selected == DPASTE_DE)
+        {
             p_url = g_strndup(p_url + 1, strlen(p_url) - 2);
 
-        } else if(website_selected == SPRUNGE_US) {
+        }
+        else if(website_selected == SPRUNGE_US)
+        {
 
             /* in order to enable the syntax highlightning on sprunge.us
              * it is necessary to append at the returned url a question
@@ -281,17 +367,22 @@ static void paste(const gchar * website)
             g_free(temp_body);
         }
 
-        if (check_button_is_checked) {
+        if (check_button_is_checked)
+        {
             utils_open_browser(p_url);
-        } else {
+        }
+        else
+        {
             dialogs_show_msgbox(GTK_MESSAGE_INFO, "%s", p_url);
         }
-
-    } else {
-        dialogs_show_msgbox(GTK_MESSAGE_ERROR, "Unable to paste the code. Check your connection and retry.\n"
-                            "Error code: %d\n", status);
+    }
+    else
+    {
+        dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to paste the code. Check your connection and retry.\n"
+                            "Error code: %d\n"), status);
     }
 
+    g_free(f_content);
     g_free(p_url);
 }
 
@@ -302,11 +393,19 @@ static void item_activate(GtkMenuItem * menuitem, gpointer gdata)
 
 static void on_configure_response(GtkDialog * dialog, gint response, gpointer * user_data)
 {
-    if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY) {
-        website_selected =  gtk_combo_box_get_active(GTK_COMBO_BOX(widgets.combo));
-
-        if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.check_button))) {
-            check_button_is_checked = TRUE;
+    if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY)
+    {
+        if(g_strcmp0(gtk_entry_get_text(GTK_ENTRY(widgets.author_entry)), "") == 0)
+        {
+            dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("The author name field is empty!"));
+        }
+        else
+        {
+            website_selected = gtk_combo_box_get_active(GTK_COMBO_BOX(widgets.combo));
+            check_button_is_checked = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.check_button));
+            author_name = g_strdup(gtk_entry_get_text(GTK_ENTRY(widgets.author_entry)));
+            save_settings();
+            g_free(author_name);
         }
     }
 }
@@ -314,25 +413,38 @@ static void on_configure_response(GtkDialog * dialog, gint response, gpointer * 
 GtkWidget *plugin_configure(GtkDialog * dialog)
 {
     gint i;
-    GtkWidget *label, *vbox;
+    GtkWidget *label, *vbox, *author_label;
 
     vbox = gtk_vbox_new(FALSE, 6);
 
     label = gtk_label_new(_("Select a pastebin:"));
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 
+    author_label = gtk_label_new(_("Enter the author name:"));
+    gtk_misc_set_alignment(GTK_MISC(author_label), 0, 0.5);
+
+    widgets.author_entry = gtk_entry_new();
+
+    if(author_name == NULL)
+        author_name = USERNAME;
+
+    gtk_entry_set_text(GTK_ENTRY(widgets.author_entry), author_name);
+
     widgets.combo = gtk_combo_box_text_new();
 
     for (i = 0; i < G_N_ELEMENTS(websites); i++)
         gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(widgets.combo), websites[i]);
 
-    gtk_combo_box_set_active(GTK_COMBO_BOX(widgets.combo), 0);
-
-    widgets.check_button = gtk_check_button_new_with_label("show your paste in a new browser tab");
+    widgets.check_button = gtk_check_button_new_with_label(_("Show your paste in a new browser tab"));
 
     gtk_container_add(GTK_CONTAINER(vbox), label);
     gtk_container_add(GTK_CONTAINER(vbox), widgets.combo);
+    gtk_container_add(GTK_CONTAINER(vbox), author_label);
+    gtk_container_add(GTK_CONTAINER(vbox), widgets.author_entry);
     gtk_container_add(GTK_CONTAINER(vbox), widgets.check_button);
+
+    gtk_combo_box_set_active(GTK_COMBO_BOX(widgets.combo), website_selected);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.check_button), check_button_is_checked);
 
     gtk_widget_show_all(vbox);
 
@@ -357,6 +469,8 @@ static void add_menu_item()
 
 void plugin_init(GeanyData * data)
 {
+    load_settings();
+    main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
     add_menu_item();
 }
 
