@@ -195,7 +195,7 @@ static void paste(const gchar * website)
     guint status;
     gsize f_lenght;
     gboolean result;
-    
+
     occ_position = last_indexof(f_name, G_DIR_SEPARATOR);
     if(occ_position == -1)
     {
