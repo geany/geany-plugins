@@ -149,18 +149,12 @@ static void save_settings(void)
     g_key_file_free(config);
 }
 
-static void paste(const gchar * website)
+static void paste(GeanyDocument * doc, const gchar * website)
 {
     SoupSession *session = soup_session_async_new();
     SoupMessage *msg = NULL;
 
-    GeanyDocument *doc = document_get_current();
-
-    if(doc == NULL)
-    {
-        dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("There are no opened documents. Open one and retry.\n"));
-        return;
-    }
+    doc = document_get_current();
 
     GeanyFiletype *ft = doc->file_type;
     GError *error = NULL;
@@ -197,8 +191,13 @@ static void paste(const gchar * website)
     gboolean result;
 
     occ_position = last_indexof(f_name, G_DIR_SEPARATOR);
-    f_title = f_name + occ_position + 1;
+    if(occ_position == -1)
+    {
+        dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to get the file name"));
+        return;
+    }
 
+    f_title = f_name + occ_position + 1;
     load_settings();
 
     switch (website_selected)
@@ -388,7 +387,27 @@ static void paste(const gchar * website)
 
 static void item_activate(GtkMenuItem * menuitem, gpointer gdata)
 {
-    paste(websites[website_selected]);
+    GeanyDocument *doc = document_get_current();
+
+    if(doc == NULL)
+    {
+        dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("There are no opened documents. Open one and retry.\n"));
+        return;
+    }
+    else if(doc->file_name == NULL)
+    {
+        dialogs_show_save_as();
+    }
+    else if(doc->changed)
+    {
+        if(document_save_file(doc, FALSE) == FALSE)
+        {
+            dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to save the current file"));
+            return;
+        }
+    }
+
+    paste(doc, websites[website_selected]);
 }
 
 static void on_configure_response(GtkDialog * dialog, gint response, gpointer * user_data)
