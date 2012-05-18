@@ -10,7 +10,8 @@ Building with autotools
 
 You can use Autotools to build the Geany plugins in this repository.
 
-Usage:
+Usage::
+
    ./configure [arguments] or alternatively ./autogen.sh [arguments]
   make
   sudo make install
@@ -93,7 +94,7 @@ Building with waf
 ^^^^^^^^^^^^^^^^^
 
 Geany-Plugins can also being build using Python based build system waf.
-For doing this you have similar to building with autotools run three steps:
+For doing this you have similar to building with autotools run three steps::
 
   ./waf configure
   ./waf build
