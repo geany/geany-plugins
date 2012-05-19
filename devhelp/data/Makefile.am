@@ -1,4 +1,3 @@
-if ENABLE_DEVHELP
 include $(top_srcdir)/build/vars.docs.mk
 
 plugin = devhelp
@@ -9,5 +8,3 @@ dist_plugindata_DATA = \
 	geany-devhelp-plugin.png \
 	home.html \
 	devhelp.conf
-
-endif

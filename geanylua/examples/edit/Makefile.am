@@ -1,4 +1,3 @@
-if ENABLE_GEANYLUA
 include $(top_srcdir)/build/vars.docs.mk
 
 plugin = geanylua
@@ -11,5 +10,3 @@ dist_edit_DATA = \
 	reverse.lua \
 	right-trim.lua \
 	select-block.lua
-
-endif

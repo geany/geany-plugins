@@ -1,9 +1,7 @@
 include $(top_srcdir)/build/vars.build.mk
 plugin = geniuspaste
 
-if ENABLE_GENIUSPASTE
 geanyplugins_LTLIBRARIES = geniuspaste.la
-endif
 
 geniuspaste_la_SOURCES = geniuspaste.c
 geniuspaste_la_CPPFLAGS = \

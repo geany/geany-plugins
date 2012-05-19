@@ -2,9 +2,7 @@ include $(top_srcdir)/build/vars.build.mk
 
 plugin = devhelp
 
-if ENABLE_DEVHELP
 geanyplugins_LTLIBRARIES = devhelp.la
-endif
 
 devhelp_la_SOURCES = \
 	dhp-manpages.c \

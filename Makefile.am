@@ -1,39 +1,123 @@
-plugins = \
-	addons \
-	codenav \
-	debugger \
-	devhelp \
-	geanydoc \
-	geanyextrasel \
-	geanygdb \
-	geanygendoc \
-	geanyinsertnum \
-	geanylatex \
-	geanylipsum \
-	geanylua \
-	geanymacro \
-	geanyminiscript \
-	geanynumberedbookmarks \
-	geanypg \
-	geanyprj \
-	geanysendmail \
-	geanyvc \
-	gproject \
-	multiterm \
-	pretty-printer \
-	shiftcolumn \
-	spellcheck \
-	tableconvert \
-	treebrowser \
-	updatechecker \
-	webhelper \
-	xmlsnippets
-
 ACLOCAL_AMFLAGS = -I build/cache -I build -I build/bundled --install
 
-SUBDIRS = \
-	po \
-	$(plugins)
+SUBDIRS = po
+
+if ENABLE_ADDONS
+SUBDIRS += addons
+endif
+
+if ENABLE_CODENAV
+SUBDIRS += codenav
+endif
+
+if ENABLE_DEBUGGER
+SUBDIRS += debugger
+endif
+
+if ENABLE_DEVHELP
+SUBDIRS += devhelp
+endif
+
+if ENABLE_GEANYDOC
+SUBDIRS += geanydoc
+endif
+
+if ENABLE_GEANYEXTRASEL
+SUBDIRS += geanyextrasel
+endif
+
+if ENABLE_GEANYGDB
+SUBDIRS += geanygdb
+endif
+
+if ENABLE_GEANYGENDOC
+SUBDIRS += geanygendoc
+endif
+
+if ENABLE_GEANYINSERTNUM
+SUBDIRS += geanyinsertnum
+endif
+
+if ENABLE_GEANYLATEX
+SUBDIRS += geanylatex
+endif
+
+if ENABLE_GEANYLIPSUM
+SUBDIRS += geanylipsum
+endif
+
+if ENABLE_GEANYLUA
+SUBDIRS += geanylua
+endif
+
+if ENABLE_GEANYMACRO
+SUBDIRS += geanymacro
+endif
+
+if ENABLE_GEANYMINISCRIPT
+SUBDIRS += geanyminiscript
+endif
+
+if ENABLE_GEANYNUMBEREDBOOKMARKS
+SUBDIRS += geanynumberedbookmarks
+endif
+
+if ENABLE_GEANYPG
+SUBDIRS += geanypg
+endif
+
+if ENABLE_GEANYPRJ
+SUBDIRS += geanyprj
+endif
+
+if ENABLE_GEANYSENDMAIL
+SUBDIRS += geanysendmail
+endif
+
+if ENABLE_GEANYVC
+SUBDIRS += geanyvc
+endif
+
+if ENABLE_GPROJECT
+SUBDIRS += gproject
+endif
+
+if ENABLE_MULTITERM
+SUBDIRS += multiterm
+endif
+
+if ENABLE_PRETTY_PRINTER
+SUBDIRS += pretty-printer
+endif
+
+if ENABLE_SHIFTCOLUMN
+SUBDIRS += shiftcolumn
+endif
+
+if ENABLE_SPELLCHECK
+SUBDIRS += spellcheck
+endif
+
+if ENABLE_TABLECONVERT
+SUBDIRS += tableconvert
+endif
+
+if ENABLE_TREEBROWSER
+SUBDIRS += treebrowser
+endif
+
+if ENABLE_UPDATECHECKER
+SUBDIRS += updatechecker
+endif
+
+if ENABLE_WEBHELPER
+SUBDIRS += webhelper
+endif
+
+if ENABLE_XMLSNIPPETS
+SUBDIRS += xmlsnippets
+endif
+
 
 EXTRA_DIST = \
 	build/__init__.py \

@@ -1,9 +1,7 @@
 include $(top_srcdir)/build/vars.build.mk
 plugin = geanygendoc
 
-if ENABLE_GEANYGENDOC
 geanyplugins_LTLIBRARIES = geanygendoc.la
-endif
 
 geanygendoc_la_SOURCES = \
 	ggd.c \

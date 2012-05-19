@@ -1,8 +1,6 @@
 include $(top_srcdir)/build/vars.build.mk
 
-if ENABLE_GEANYLATEX
 geanyplugins_LTLIBRARIES = geanylatex.la
-endif
 
 geanylatex_la_SOURCES = \
 	bibtex.c \

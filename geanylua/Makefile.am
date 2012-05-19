@@ -1,19 +1,13 @@
-# don't install docs if disabled
-if ENABLE_GEANYLUA
 include $(top_srcdir)/build/vars.build.mk
 include $(top_srcdir)/build/vars.auxfiles.mk
 
 plugin = geanylua
-endif
 
 EXTRA_DIST = util
 
-# don't build if disabled
-if ENABLE_GEANYLUA
 geanyplugins_LTLIBRARIES = geanylua.la
 geanyluadir = $(pkglibdir)/geanylua
 geanylua_LTLIBRARIES = libgeanylua.la
-endif
 
 geanylua_la_SOURCES = geanylua.c
 libgeanylua_la_SOURCES = \

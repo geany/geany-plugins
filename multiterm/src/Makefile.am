@@ -3,9 +3,7 @@ include $(top_srcdir)/build/vars.docs.mk
 
 plugin = multiterm
 
-if ENABLE_MULTITERM
 geanyplugins_LTLIBRARIES = multiterm.la
-endif
 
 multiterm_la_VALAFLAGS = \
 	--vapidir $(top_srcdir)/multiterm/src/vapi \

@@ -2,7 +2,6 @@ include $(top_srcdir)/build/vars.docs.mk
 
 plugin = debugger
 
-if ENABLE_DEBUGGER
 dist_plugindata_DATA = \
 	continue.png \
 	restart.gif \
@@ -13,4 +12,3 @@ dist_plugindata_DATA = \
 	step_over.gif \
 	stop.gif \
 	tabs.gif
-endif

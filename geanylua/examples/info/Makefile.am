@@ -1,4 +1,3 @@
-if ENABLE_GEANYLUA
 include $(top_srcdir)/build/vars.docs.mk
 
 plugin = geanylua
@@ -10,5 +9,3 @@ dist_exampleinfo_DATA = \
 	file-information.lua \
 	list-open-files.lua \
 	show-filename.lua
-
-endif

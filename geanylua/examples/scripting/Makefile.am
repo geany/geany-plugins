@@ -1,4 +1,3 @@
-if ENABLE_GEANYLUA
 include $(top_srcdir)/build/vars.docs.mk
 
 plugin = geanylua
@@ -9,5 +8,3 @@ dist_scripting_DATA = \
 	open-script.lua \
 	rebuild-menu.lua \
 	show-examples.lua
-
-endif

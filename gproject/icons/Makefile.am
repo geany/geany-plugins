@@ -1,4 +1,3 @@
-if ENABLE_GPROJECT
 icondir = $(datadir)/icons/hicolor/16x16/apps
 
 dist_icon_DATA = \
@@ -21,5 +20,3 @@ update-icon-cache:
 		echo "*** Icon cache not updated.  After (un)install, run this:"; \
 		echo "***   $(gtk_update_icon_cache)"; \
 	fi
-
-endif

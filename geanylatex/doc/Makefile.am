@@ -1,4 +1,3 @@
-if ENABLE_GEANYLATEX
 include $(top_srcdir)/build/vars.docs.mk
 
 dist_plugindoc_DATA = \
@@ -17,5 +16,3 @@ dist_plugindoc_DATA = \
 	img/latexwizard.png \
 	img/plugin_manager.png \
 	img/toolbar.png
-
-endif
