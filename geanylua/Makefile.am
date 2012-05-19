@@ -14,8 +14,6 @@ if ENABLE_GEANYLUA
 geanyplugins_LTLIBRARIES = geanylua.la
 geanyluadir = $(pkglibdir)/geanylua
 geanylua_LTLIBRARIES = libgeanylua.la
-else
-EXTRA_LTLIBRARIES = geanylua.la libgeanylua.la
 endif
 
 geanylua_la_SOURCES = geanylua.c

@@ -3,8 +3,6 @@ plugin = geniuspaste
 
 if ENABLE_GENIUSPASTE
 geanyplugins_LTLIBRARIES = geniuspaste.la
-else
-EXTRA_LTLIBRARIES = geniuspaste.la
 endif
 
 geniuspaste_la_SOURCES = geniuspaste.c

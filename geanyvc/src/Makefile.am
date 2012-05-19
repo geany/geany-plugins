@@ -2,8 +2,6 @@ include $(top_srcdir)/build/vars.build.mk
 
 if ENABLE_GEANYVC
 geanyplugins_LTLIBRARIES = geanyvc.la
-else
-EXTRA_LTLIBRARIES = geanyvc.la
 endif
 
 geanyvc_la_SOURCES = \

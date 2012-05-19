@@ -5,8 +5,6 @@ plugin = multiterm
 
 if ENABLE_MULTITERM
 geanyplugins_LTLIBRARIES = multiterm.la
-else
-EXTRA_LTLIBRARIES = multiterm.la
 endif
 
 multiterm_la_VALAFLAGS = \

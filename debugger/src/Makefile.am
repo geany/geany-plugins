@@ -3,8 +3,6 @@ include $(top_srcdir)/build/vars.docs.mk
 
 if ENABLE_DEBUGGER
 geanyplugins_LTLIBRARIES = debugger.la
-else
-EXTRA_LTLIBRARIES = debugger.la
 endif
 
 plugin = debugger

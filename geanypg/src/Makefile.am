@@ -2,8 +2,6 @@ include $(top_srcdir)/build/vars.build.mk
 
 if ENABLE_GEANYPG
 geanyplugins_LTLIBRARIES = geanypg.la
-else
-EXTRA_LTLIBRARIES = geanypg.la
 endif
 
 geanypg_la_SOURCES = \

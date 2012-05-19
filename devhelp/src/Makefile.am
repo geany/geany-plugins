@@ -4,8 +4,6 @@ plugin = devhelp
 
 if ENABLE_DEVHELP
 geanyplugins_LTLIBRARIES = devhelp.la
-else
-EXTRA_LTLIBRARIES = devhelp.la
 endif
 
 devhelp_la_SOURCES = \

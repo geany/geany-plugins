@@ -2,8 +2,6 @@ include $(top_srcdir)/build/vars.build.mk
 
 if ENABLE_XMLSNIPPETS
 geanyplugins_LTLIBRARIES = xmlsnippets.la
-else
-EXTRA_LTLIBRARIES = xmlsnippets.la
 endif
 
 xmlsnippets_la_SOURCES = \

@@ -3,8 +3,6 @@ plugin = geanygendoc
 
 if ENABLE_GEANYGENDOC
 geanyplugins_LTLIBRARIES = geanygendoc.la
-else
-EXTRA_LTLIBRARIES = geanygendoc.la
 endif
 
 geanygendoc_la_SOURCES = \
