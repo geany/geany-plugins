@@ -18,14 +18,12 @@ geanyvc_la_SOURCES = \
 	vc_svn.c \
 	geanyvc.h
 
-geanyvc_la_CFLAGS = $(AM_CFLAGS)
-geanyvc_la_LIBADD = $(COMMONLIBS)
-
-if USE_GTKSPELL
-geanyvc_la_CFLAGS += \
-	-DUSE_GTKSPELL=1 \
+geanyvc_la_CFLAGS = \
+	$(AM_CFLAGS) \
 	$(GTKSPELL_CFLAGS)
-geanyvc_la_LIBADD += $(GTKSPELL_LIBS)
-endif
+
+geanyvc_la_LIBADD = \
+	$(GTKSPELL_LIBS) \
+	$(COMMONLIBS)
 
 include $(top_srcdir)/build/cppcheck.mk
