@@ -78,6 +78,10 @@ if ENABLE_GEANYVC
 SUBDIRS += geanyvc
 endif
 
+if ENABLE_GENIUSPASTE
+SUBDIRS += geniuspaste
+endif
+
 if ENABLE_GPROJECT
 SUBDIRS += gproject
 endif
