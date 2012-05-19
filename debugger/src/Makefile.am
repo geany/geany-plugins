@@ -1,8 +1,6 @@
 include $(top_srcdir)/build/vars.build.mk
 include $(top_srcdir)/build/vars.docs.mk
 
-SUBDIRS = xpm
-
 if ENABLE_DEBUGGER
 geanyplugins_LTLIBRARIES = debugger.la
 else
@@ -12,6 +10,14 @@ endif
 plugin = debugger
 
 debugger_la_SOURCES = \
+	xpm/breakpoint_condition.xpm     \
+	xpm/breakpoint_disabled.xpm     \
+	xpm/breakpoint.xpm     \
+	xpm/frame_current.xpm     \
+	xpm/frame.xpm     \
+	xpm/argument.xpm     \
+	xpm/local.xpm     \
+	xpm/watch.xpm     \
 	bptree.c     \
 	bptree.h     \
 	breakpoint.c     \
@@ -66,7 +72,6 @@ debugger_la_SOURCES = \
 	cell_renderers/cellrendererframeicon.h \
 	cell_renderers/cellrenderertoggle.c \
 	cell_renderers/cellrenderertoggle.h
-	
 
 debugger_la_LIBADD = $(COMMONLIBS) $(VTE_LIBS) -lutil
 debugger_la_CFLAGS = $(AM_CFLAGS) $(VTE_CFLAGS) -DDBGPLUG_DATA_DIR=\"$(plugindatadir)\" -DPLUGIN_NAME=\"$(plugin)\"
