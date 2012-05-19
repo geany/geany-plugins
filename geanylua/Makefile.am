@@ -4,9 +4,8 @@ include $(top_srcdir)/build/vars.auxfiles.mk
 plugin = geanylua
 else
 include $(top_srcdir)/build/vars.docs.mk
-EXTRA_DIST = $(AUXFILES)
 endif
-EXTRA_DIST += util
+EXTRA_DIST = util
 include $(top_srcdir)/build/vars.build.mk
 
 

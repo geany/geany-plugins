@@ -1,6 +1,13 @@
 include $(top_srcdir)/build/vars.docs.mk
 
-plugindoc_DATA = $(AUXFILES)
+dist_plugindoc_DATA = \
+	README \
+	ChangeLog \
+	NEWS \
+	COPYING \
+	AUTHORS \
+	$(AUXFILES)
+
 EXTRA_DIST = \
 	wscript_build \
 	wscript_configure

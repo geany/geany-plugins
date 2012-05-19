@@ -1,6 +1,7 @@
+if ENABLE_GPROJECT
 icondir = $(datadir)/icons/hicolor/16x16/apps
 
-ICONS = \
+dist_icon_DATA = \
 	gproject-file.png	\
 	gproject-header.png	\
 	gproject-source.png	\
@@ -8,8 +9,6 @@ ICONS = \
 	gproject-collapse.png	\
 	gproject-follow.png	\
 	gproject-refresh.png
-
-EXTRA_DIST = $(ICONS)
 
 gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
 install-data-hook: update-icon-cache
@@ -23,8 +22,4 @@ update-icon-cache:
 		echo "***   $(gtk_update_icon_cache)"; \
 	fi
 
-if ENABLE_GPROJECT
-icon_DATA = $(ICONS)
-else
-EXTRA_DATA = $(ICONS)
 endif
