@@ -6,7 +6,7 @@
 Stylesheet for use with Docutils.
 */
 
-@import url(html4css1.css);
+/*@import url(html4css1.css);*/
 
 html {
 	background-color: #eeeeec;
