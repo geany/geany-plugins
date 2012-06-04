@@ -45,7 +45,7 @@ menu_item_activate(guint key_id);
  * ---------------------------------------------------------------------
  */
 void
-goto_file_init()
+goto_file_init(void)
 {
 	GtkWidget* edit_menu;
 
@@ -77,7 +77,7 @@ goto_file_init()
  * ---------------------------------------------------------------------
  */
 void
-goto_file_cleanup()
+goto_file_cleanup(void)
 {
 	log_func();
 

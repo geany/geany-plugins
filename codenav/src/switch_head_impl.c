@@ -54,7 +54,7 @@ static GSList* languages = NULL;	/* handled languages */
 /********************** Functions for the feature *********************/
 
 static void
-fill_default_languages_list();
+fill_default_languages_list(void);
 
 static void
 menu_item_activate(guint key_id);
@@ -73,7 +73,7 @@ on_configure_cell_edited(GtkCellRendererText* text, gchar* arg1, gchar* arg2, gp
  * ---------------------------------------------------------------------
  */
 void
-switch_head_impl_init()
+switch_head_impl_init(void)
 {
 	GtkWidget* edit_menu;
 
@@ -108,7 +108,7 @@ switch_head_impl_init()
  * ---------------------------------------------------------------------
  */
 void
-switch_head_impl_cleanup()
+switch_head_impl_cleanup(void)
 {
 	GSList* iter = NULL;
 
@@ -136,7 +136,7 @@ switch_head_impl_cleanup()
  * ---------------------------------------------------------------------
  */
 static void
-fill_default_languages_list()
+fill_default_languages_list(void)
 {
 	Language* lang = NULL;
 
@@ -445,7 +445,7 @@ add_language(GtkListStore* list_store, Language* lang)
 
 /* ----- Finally, the configuration widget ----- */
 GtkWidget*
-switch_head_impl_config_widget()
+switch_head_impl_config_widget(void)
 {
 	GtkWidget *frame, *vbox, *tree_view;
 	GtkWidget *hbox_buttons, *add_button, *remove_button;

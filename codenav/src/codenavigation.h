@@ -65,7 +65,7 @@ static void log_debug(const gchar* s, ...)
 #define log_func() g_print("[CODENAV FUNC] : %s", G_STRFUNC)
 #else
 static void log_debug(const gchar* s, ...) {}
-static void log_func() {}
+#define log_func() {}
 #endif
 
 /* IDs for keybindings */
