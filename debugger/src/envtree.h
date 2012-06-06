@@ -19,9 +19,14 @@
  *      MA 02110-1301, USA.
  */
 
+#ifndef ENVTREE_H
+#define ENVTREE_H
+
 GtkWidget*		envtree_init(void);
 void			envtree_destroy(void);
 void			envtree_clear(void);
 void			envtree_set_readonly(gboolean readonly);
 void			envtree_add_environment(const gchar *name, const gchar *value);
 GList*			envpage_get_environment(void);
+
+#endif /* guard */

@@ -19,6 +19,9 @@
  *      MA 02110-1301, USA.
  */
 
+#ifndef DCOFIG_H
+#define DCOFIG_H
+
 #include <stdarg.h>
 
 /* panel config parts */
@@ -65,3 +68,5 @@ void		config_on_project_save(GObject *obj, GKeyFile *config, gpointer user_data)
 void		config_update_project_keyfile(void);
 
 GtkWidget	*config_plugin_configure(GtkDialog *dialog);
+
+#endif /* guard */

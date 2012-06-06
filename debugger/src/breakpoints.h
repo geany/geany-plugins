@@ -19,6 +19,9 @@
  *      MA 02110-1301, USA.
  */
 
+#ifndef BREAKPOINTS_H
+#define BREAKPOINTS_H
+
 #include "breakpoint.h"
 
 typedef enum _break_state {
@@ -45,3 +48,5 @@ break_state		breaks_get_state(const char* file, int line);
 GList*			breaks_get_for_document(const char* file);
 GList*			breaks_get_all(void);
 breakpoint*		breaks_lookup_breakpoint(const gchar* file, int line);
+
+#endif /* guard */

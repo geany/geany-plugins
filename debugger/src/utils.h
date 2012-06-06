@@ -18,6 +18,11 @@
  *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  *      MA 02110-1301, USA.
  */
+
+#ifndef UTILS_H
+#define UTILS_H
  
 void					editor_open_position(const char* file, int line);
 GString*				get_word_at_position(ScintillaObject *sci, int position);
+
+#endif /* guard */

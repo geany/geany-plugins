@@ -18,6 +18,10 @@
  *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  *      MA 02110-1301, USA.
  */
- 
+
+#ifndef ATREE_H
+#define ATREE_H
+
 GtkWidget* atree_init(watch_expanded_callback expanded, watch_button_pressed buttonpressed);
 
+#endif /* guard */

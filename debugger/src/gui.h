@@ -19,8 +19,13 @@
  *      MA 02110-1301, USA.
  */
 
+#ifndef GUI_H
+#define GUI_H
+
 GtkWidget*	create_button(const gchar *icon, const gchar *tooltip);
 GtkWidget*	create_stock_button(const gchar *stockid, const gchar *tooltip);
 GtkWidget*	create_toggle_button(const gchar *stockid, const gchar *tooltip);
 
 void			set_button_image(GtkWidget *btn, const gchar *icon);
+
+#endif /* guard */

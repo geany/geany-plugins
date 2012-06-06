@@ -19,6 +19,9 @@
  *      MA 02110-1301, USA.
  */
 
+#ifndef TPAGE_H
+#define TPAGE_H
+
 void			tpage_init(void);
 
 gchar*		tpage_get_target(void);
@@ -40,3 +43,4 @@ void			tpage_clear(void);
 
 void			tpage_pack_widgets(gboolean tabbed);
 
+#endif /* guard */

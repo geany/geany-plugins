@@ -18,7 +18,10 @@
  *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  *      MA 02110-1301, USA.
  */
- 
+
+#ifndef DEBUG_H
+#define DEBUG_H
+
 #include "debug_module.h"
 #include "markers.h"
 
@@ -50,3 +53,4 @@ GList*			debug_get_stack(void);
 void			debug_restart(void);
 int				debug_get_active_frame(void);
 
+#endif /* guard */

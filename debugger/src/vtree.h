@@ -18,6 +18,10 @@
  *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  *      MA 02110-1301, USA.
  */
- 
- GtkWidget* vtree_create(watch_render_name on_render_name, watch_expression_changed on_expression_changed);
 
+#ifndef VTREE_H
+#define VTREE_H
+
+GtkWidget* vtree_create(watch_render_name on_render_name, watch_expression_changed on_expression_changed);
+
+#endif /* guard */

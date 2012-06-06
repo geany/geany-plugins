@@ -19,7 +19,12 @@
  *      MA 02110-1301, USA.
  */
 
+#ifndef BTNPANEL_H
+#define BTNPANEL_H
+
 typedef void (*on_toggle)(GtkToggleButton *button, gpointer user_data);
 
 GtkWidget*		btnpanel_create(on_toggle cb);
 void			btnpanel_set_debug_state(enum dbs state);
+
+#endif /* guard */

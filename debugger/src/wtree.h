@@ -18,7 +18,10 @@
  *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  *      MA 02110-1301, USA.
  */
- 
+
+#ifndef WTREE_H
+#define WTREE_H
+
 GtkWidget*		wtree_init(watch_expanded_callback expanded,
 	new_watch_dragged dragged,
 	watch_key_pressed keypressed,
@@ -30,4 +33,4 @@ GList*			wtree_get_watches(void);
 void			wtree_remove_all(void);
 void			wtree_add_watch(gchar *watch);
 
-
+#endif /* guard */

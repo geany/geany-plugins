@@ -18,7 +18,10 @@
  *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  *      MA 02110-1301, USA.
  */
- 
+
+#ifndef MARKERS_H
+#define MARKERS_H
+
 void markers_init(void);
 void markers_set_for_document(ScintillaObject *sci);
 void markers_add_breakpoint(breakpoint* bp);
@@ -29,4 +32,4 @@ void markers_add_frame(char* file, int line);
 void markers_remove_frame(char* file, int line);
 void markers_remove_all(GeanyDocument *doc);
 
-
+#endif /* guard */

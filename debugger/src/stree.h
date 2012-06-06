@@ -19,6 +19,9 @@
  *      MA 02110-1301, USA.
  */
 
+#ifndef STREE_H
+#define STREE_H
+
 GtkWidget*		stree_init(move_to_line_cb ml, select_frame_cb sf);
 void			stree_destroy(void);
 
@@ -32,3 +35,5 @@ void 			stree_select_first_frame(gboolean make_active);
 void 			stree_remove_frames(void);
 
 void			stree_set_active_thread_id(int thread_id);
+
+#endif /* guard */

@@ -19,8 +19,13 @@
  *      MA 02110-1301, USA.
  */
 
+#ifndef CALLBACKS_H
+#define CALLBACKS_H
+
 void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data);
 void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data);
 void on_document_before_save(GObject *obj, GeanyDocument *doc, gpointer user_data);
 gboolean on_editor_notify(GObject *object, GeanyEditor *editor, SCNotification *nt, gpointer data);
 gboolean keys_callback(guint key_id);
+
+#endif /* guard */

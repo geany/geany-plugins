@@ -18,7 +18,10 @@
  *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  *      MA 02110-1301, USA.
  */
- 
+
+#ifndef DEBUG_MODULE_H
+#define DEBUG_MODULE_H
+
 /* debug states enumeration */
 enum dbs {
 	DBS_IDLE,
@@ -165,3 +168,5 @@ void		variable_reset(variable *var);
 
 frame*	frame_new(void);
 void		frame_free(frame* f);
+
+#endif /* guard */
