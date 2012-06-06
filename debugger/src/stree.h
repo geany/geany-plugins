@@ -20,15 +20,15 @@
  */
 
 GtkWidget*		stree_init(move_to_line_cb ml, select_frame_cb sf);
-void			stree_destroy();
+void			stree_destroy(void);
 
 void 			stree_add(frame *f);
-void 			stree_clear();
+void 			stree_clear(void);
 
 void 			stree_add_thread(int thread_id);
 void 			stree_remove_thread(int thread_id);
 
 void 			stree_select_first_frame(gboolean make_active);
-void 			stree_remove_frames();
+void 			stree_remove_frames(void);
 
 void			stree_set_active_thread_id(int thread_id);

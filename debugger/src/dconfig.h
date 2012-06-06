@@ -37,31 +37,31 @@ typedef enum _debug_store {
 } debug_store;
 
 
-void		config_init();
-void		config_destroy();
+void		config_init(void);
+void		config_destroy(void);
 
 void		config_set_panel(int config_part, gpointer config_value, ...);
 
-gboolean	config_get_save_to_project();
+gboolean	config_get_save_to_project(void);
 
-gboolean	config_get_tabbed();
+gboolean	config_get_tabbed(void);
 
 int*		config_get_tabs(gsize *length);
-int			config_get_selected_tab_index();
+int			config_get_selected_tab_index(void);
 
 int*		config_get_left_tabs(gsize *length);
-int			config_get_left_selected_tab_index();
+int			config_get_left_selected_tab_index(void);
 
 int*		config_get_right_tabs(gsize *length);
-int			config_get_right_selected_tab_index();
+int			config_get_right_selected_tab_index(void);
 
-void		config_set_debug_changed();
+void		config_set_debug_changed(void);
 void		config_set_debug_store(debug_store store);
 
 void		config_on_project_open(GObject *obj, GKeyFile *config, gpointer user_data);
 void		config_on_project_close(GObject *obj, gpointer user_data);
 void		config_on_project_save(GObject *obj, GKeyFile *config, gpointer user_data);
 
-void		config_update_project_keyfile();
+void		config_update_project_keyfile(void);
 
 GtkWidget	*config_plugin_configure(GtkDialog *dialog);

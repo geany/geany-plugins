@@ -122,11 +122,11 @@ static gboolean file_refresh_needed = FALSE;
 static int active_frame = 0;
 
 /* forward declarations */
-void stop();
+void stop(void);
 variable* add_watch(gchar* expression);
-void update_watches();
-void update_autos();
-void update_files();
+void update_watches(void);
+void update_autos(void);
+void update_files(void);
 
 /*
  * print message using color, based on message type
@@ -200,7 +200,7 @@ static void on_gdb_exit(GPid pid, gint status, gpointer data)
 /*
  * reads gdb_out until "(gdb)" prompt met
  */
-static GList* read_until_prompt()
+static GList* read_until_prompt(void)
 {
 	GList *lines = NULL;
 
@@ -406,7 +406,7 @@ static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpoint
  * asyncronous gdb output reader
  * looks for a stopped event, then notifies "debug" module and removes async handler
  */
-enum dbs debug_get_state();
+enum dbs debug_get_state(void);
 static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer data)
 {
 	gchar *line;
@@ -881,7 +881,7 @@ void restart(char* terminal_device)
 /*
  * stops GDB
  */
-void stop()
+void stop(void)
 {
 	exec_sync_command("-gdb-exit", FALSE, NULL);
 }
@@ -889,7 +889,7 @@ void stop()
 /*
  * resumes GDB
  */
-void resume()
+void resume(void)
 {
 	exec_async_command("-exec-continue");
 }
@@ -897,7 +897,7 @@ void resume()
 /*
  * step over
  */
-void step_over()
+void step_over(void)
 {
 	exec_async_command("-exec-next");
 }
@@ -905,7 +905,7 @@ void step_over()
 /*
  * step into
  */
-void step_into()
+void step_into(void)
 {
 	exec_async_command("-exec-step");
 }
@@ -913,7 +913,7 @@ void step_into()
 /*
  * step out
  */
-void step_out()
+void step_out(void)
 {
 	exec_async_command("-exec-finish");
 }
@@ -1060,7 +1060,7 @@ gboolean remove_break(breakpoint* bp)
 /*
  * get active  frame
  */
-int get_active_frame()
+int get_active_frame(void)
 {
 	return active_frame;
 }
@@ -1083,7 +1083,7 @@ void set_active_frame(int frame_number)
 /*
  * gets stack
  */
-GList* get_stack()
+GList* get_stack(void)
 {
 	gchar* record = NULL;
 	result_class rc = exec_sync_command("-stack-list-frames", TRUE, &record);
@@ -1374,7 +1374,7 @@ void get_variables (GList *vars)
 /*
  * updates files list
  */
-void update_files()
+void update_files(void)
 {
 	if (files)
 	{
@@ -1409,7 +1409,7 @@ void update_files()
 /*
  * updates watches list 
  */
-void update_watches()
+void update_watches(void)
 {
 	gchar command[1000];
 
@@ -1481,7 +1481,7 @@ void update_watches()
 /*
  * updates autos list 
  */
-void update_autos()
+void update_autos(void)
 {
 	gchar command[1000];
 
@@ -1562,7 +1562,7 @@ void update_autos()
 /*
  * get autos list 
  */
-GList* get_autos ()
+GList* get_autos (void)
 {
 	return g_list_copy(autos);
 }
@@ -1570,7 +1570,7 @@ GList* get_autos ()
 /*
  * get watches list 
  */
-GList* get_watches ()
+GList* get_watches (void)
 {
 	return g_list_copy(watches);
 }
@@ -1578,7 +1578,7 @@ GList* get_watches ()
 /*
  * get files list 
  */
-GList* get_files ()
+GList* get_files (void)
 {
 	return g_list_copy(files);
 }
@@ -1731,7 +1731,7 @@ gchar *evaluate_expression(gchar *expression)
 /*
  * request GDB interrupt 
  */
-gboolean request_interrupt()
+gboolean request_interrupt(void)
 {
 #ifdef DEBUG_OUTPUT
 	char msg[1000];
@@ -1748,7 +1748,7 @@ gboolean request_interrupt()
 /*
  * get GDB error messages 
  */
-gchar* error_message()
+gchar* error_message(void)
 {
 	return err_message;
 }

@@ -330,7 +330,7 @@ gboolean breaks_init(move_to_line_cb cb)
 /*
  * Frees breaks related data.
  */
-void breaks_destroy()
+void breaks_destroy(void)
 {
 	/* remove all markers */
 	GList *breaks, *iter;
@@ -458,7 +458,7 @@ void breaks_remove_list(GList *list)
  * Removes all breakpoints.
  * arguments:
  */
-void breaks_remove_all()
+void breaks_remove_all(void)
 {
 	g_hash_table_foreach(files, hash_table_foreach_call_function, (gpointer)on_remove);
 	g_hash_table_remove_all(files);
@@ -688,7 +688,7 @@ breakpoint* breaks_lookup_breakpoint(const gchar* file, int line)
  * Gets all breakpoints
  * arguments:
  */
-GList* breaks_get_all()
+GList* breaks_get_all(void)
 {
 	GList *breaks  = NULL;
 	g_hash_table_foreach(files, hash_table_foreach_add_to_list, &breaks);

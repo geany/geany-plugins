@@ -349,7 +349,7 @@ GType cell_renderer_frame_icon_get_type(void)
 /*
  * creates new renderer
  */
-GtkCellRenderer* cell_renderer_frame_icon_new()
+GtkCellRenderer* cell_renderer_frame_icon_new(void)
 {
   return g_object_new(TYPE_CELL_RENDERER_FRAME_ICON, NULL);
 }

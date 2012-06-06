@@ -709,7 +709,7 @@ gboolean bptree_init(move_to_line_cb cb)
  * destroy breaks tree and associated data
  * arguments:
  */
-void bptree_destroy()
+void bptree_destroy(void)
 {
 	g_hash_table_destroy(files);
 }
@@ -883,7 +883,7 @@ void bptree_remove_breakpoint(breakpoint* bp)
  * updates all file ENABLED checkboxes base on theit children states
  * arguments:
  */
-void bptree_update_file_nodes()
+void bptree_update_file_nodes(void)
 {
 	GtkTreeIter file;
 	if(gtk_tree_model_iter_children(model, &file, NULL))

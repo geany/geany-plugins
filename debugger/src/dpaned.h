@@ -20,7 +20,7 @@
  *      MA 02110-1301, USA.
  */
 
-void		dpaned_init();
-void		dpaned_destroy();
-GtkWidget*	dpaned_get_paned();
+void		dpaned_init(void);
+void		dpaned_destroy(void);
+GtkWidget*	dpaned_get_paned(void);
 void		dpaned_set_tabbed(gboolean paned);

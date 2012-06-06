@@ -269,7 +269,7 @@ static gboolean on_change_current_page(GtkNotebook *notebook, gpointer arg1, gui
 /*
  *	create GUI and check config
  */
-void dpaned_init()
+void dpaned_init(void)
 {
 	/* create paned */
 	hpaned = gtk_hpaned_new();
@@ -356,7 +356,7 @@ void dpaned_init()
 /*
  *	free local data, disconnect signals
  */
-void dpaned_destroy()
+void dpaned_destroy(void)
 {
 	DISCONNECT_PAGE_SIGNALS();
 }
@@ -364,7 +364,7 @@ void dpaned_destroy()
 /*
  *	gets widget
  */
-GtkWidget* dpaned_get_paned()
+GtkWidget* dpaned_get_paned(void)
 {
 	return hpaned;
 }

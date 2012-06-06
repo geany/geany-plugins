@@ -61,7 +61,7 @@ keyinfo keys[] = {
 /* 
  * init hotkeys
  */
-gboolean keys_init()
+gboolean keys_init(void)
 {
 	/* keys count */
 	int count = 0;

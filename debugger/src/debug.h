@@ -25,28 +25,28 @@
 /* function type to execute on interrupt */
 typedef void	(*bs_callback)(gpointer);
 
-void			debug_init();
-enum dbs		debug_get_state();
-void			debug_run();
-void			debug_stop();
-void			debug_step_over();
-void			debug_step_into();
-void			debug_step_out();
+void			debug_init(void);
+enum dbs		debug_get_state(void);
+void			debug_run(void);
+void			debug_stop(void);
+void			debug_step_over(void);
+void			debug_step_into(void);
+void			debug_step_out(void);
 void			debug_execute_until(const gchar *file, int line);
 gboolean		debug_set_break(breakpoint* bp, break_set_activity bsa);
 gboolean		debug_remove_break(breakpoint* bp);
 void			debug_request_interrupt(bs_callback cb, gpointer data);
-gchar*			debug_error_message();
-GList*			debug_get_modules();
+gchar*			debug_error_message(void);
+GList*			debug_get_modules(void);
 int				debug_get_module_index(const gchar *modulename);
-gboolean		debug_supports_async_breaks();
-void			debug_destroy();
+gboolean		debug_supports_async_breaks(void);
+void			debug_destroy(void);
 gchar*			debug_evaluate_expression(gchar *expression);
-gboolean		debug_current_instruction_have_sources();
-void			debug_jump_to_current_instruction();
+gboolean		debug_current_instruction_have_sources(void);
+void			debug_jump_to_current_instruction(void);
 void			debug_on_file_open(GeanyDocument *doc);
 gchar*			debug_get_calltip_for_expression(gchar* expression);
-GList*			debug_get_stack();
-void			debug_restart();
-int				debug_get_active_frame();
+GList*			debug_get_stack(void);
+void			debug_restart(void);
+int				debug_get_active_frame(void);
 

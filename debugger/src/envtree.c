@@ -72,7 +72,7 @@ static GtkCellRenderer *renderer_value = NULL;
 /*
  * adds empty row to env tree view 
  */
-static void add_empty_row()
+static void add_empty_row(void)
 {
 	if (empty_row)
 		gtk_tree_row_reference_free(empty_row);
@@ -93,7 +93,7 @@ static void add_empty_row()
 /*
  * delete selected rows from env variables page 
  */
-static void delete_selected_rows()
+static void delete_selected_rows(void)
 {
 	/* path to select after deleting finishes */
 	GtkTreeRowReference *reference_to_select = NULL;
@@ -390,7 +390,7 @@ static void on_name_changed(GtkCellRendererText *renderer, gchar *path, gchar *n
 /*
  * create env tree view and return a widget 
  */
-GtkWidget* envtree_init()
+GtkWidget* envtree_init(void)
 {
 	store = gtk_list_store_new (
 		N_COLUMNS,
@@ -438,7 +438,7 @@ GtkWidget* envtree_init()
 /*
  * deallocate data 
  */
-void envtree_destroy()
+void envtree_destroy(void)
 {
 	gtk_tree_row_reference_free(empty_row);
 }
@@ -446,7 +446,7 @@ void envtree_destroy()
 /*
  * clear tree 
  */
-void envtree_clear()
+void envtree_clear(void)
 {
 	gtk_list_store_clear(store);
 	add_empty_row();
@@ -455,7 +455,7 @@ void envtree_clear()
 /*
  * get list of environment variables
  */
-GList* envpage_get_environment()
+GList* envpage_get_environment(void)
 {
 	GList *env = NULL;
 	

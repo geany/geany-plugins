@@ -30,11 +30,11 @@ enum dbs {
 
 /* type to hold callbacks to call from debugger modules */
 typedef struct _dbg_callbacks {
-	void (*set_run) ();
+	void (*set_run) (void);
 	void (*set_stopped) (int thread_id);
 	void (*set_exited) (int code);
 	void (*send_message) (const gchar* message, const gchar *color);
-	void (*clear_messages) ();
+	void (*clear_messages) (void);
 	void (*report_error) (const gchar* message);
 	void (*add_thread) (int thread_id);
 	void (*remove_thread) (int thread_id);
@@ -98,26 +98,26 @@ typedef enum _break_set_activity {
 typedef struct _dbg_module {
 	
 	gboolean (*run) (const gchar* target, const gchar* commandline, GList* env, GList *witer, GList *biter, const gchar* terminal_device, dbg_callbacks* callbacks);
-	void (*restart) ();
-	void (*stop) ();
-	void (*resume) ();
-	void (*step_over) ();
-	void (*step_into) ();
-	void (*step_out) ();
+	void (*restart) (void);
+	void (*stop) (void);
+	void (*resume) (void);
+	void (*step_over) (void);
+	void (*step_into) (void);
+	void (*step_out) (void);
 	void (*execute_until)(const gchar *file, int line);
 
 	gboolean (*set_break) (breakpoint* bp, break_set_activity bsa);
 	gboolean (*remove_break) (breakpoint* bp);
 
-	GList* (*get_stack) ();
+	GList* (*get_stack) (void);
 
 	void (*set_active_frame)(int frame_number);
-	int (*get_active_frame)();
+	int (*get_active_frame)(void);
 		
-	GList* (*get_autos) ();
-	GList* (*get_watches) ();
+	GList* (*get_autos) (void);
+	GList* (*get_watches) (void);
 	
-	GList* (*get_files) ();
+	GList* (*get_files) (void);
 
 	GList* (*get_children) (gchar* path);
 	variable* (*add_watch)(gchar* expression);
@@ -125,8 +125,8 @@ typedef struct _dbg_module {
 
 	gchar* (*evaluate_expression)(gchar *expression);
 	
-	gboolean (*request_interrupt) ();
-	gchar* (*error_message) ();
+	gboolean (*request_interrupt) (void);
+	gchar* (*error_message) (void);
 	module_features features;
 	
 } dbg_module;
@@ -163,5 +163,5 @@ variable*	variable_new(gchar *name, variable_type vt);
 variable*	variable_new2(gchar *name, gchar *internal, variable_type vt);
 void		variable_reset(variable *var);
 
-frame*	frame_new();
+frame*	frame_new(void);
 void		frame_free(frame* f);

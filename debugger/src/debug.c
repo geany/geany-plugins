@@ -153,7 +153,7 @@ static GHashTable *calltips = NULL;
 /* 
  * remove stack margin markers
  */
- void remove_stack_markers()
+ void remove_stack_markers(void)
 {
 	int active_frame_index = active_module->get_active_frame();
 	
@@ -182,7 +182,7 @@ static GHashTable *calltips = NULL;
 /* 
  * add stack margin markers
  */
-static void add_stack_markers()
+static void add_stack_markers(void)
 {
 	int active_frame_index = active_module->get_active_frame();
 	
@@ -605,7 +605,7 @@ static void enable_sensitive_widgets(gboolean enable)
 /* 
  * called from debug module when debugger is being run 
  */
-static void on_debugger_run ()
+static void on_debugger_run (void)
 {
 	/* update debug state */
 	debug_state = DBS_RUNNING;
@@ -848,7 +848,7 @@ void on_debugger_message (const gchar* message, const gchar *color)
 /* 
  * called from debugger module to clear messages tab 
  */
-static void on_debugger_messages_clear ()
+static void on_debugger_messages_clear (void)
 {
 	/* clear debug messages window */
 	GtkTextIter start, end;
@@ -928,7 +928,7 @@ static void on_select_frame(int frame_number)
  * init debug related GUI (watch tree view)
  * arguments:
  */
-void debug_init()
+void debug_init(void)
 {
 	/* create watch page */
 	wtree = wtree_init(on_watch_expanded_callback,
@@ -1025,7 +1025,7 @@ void debug_init()
 /*
  * called when plugin is being unloaded to remove current instruction marker
  */
-void debug_destroy()
+void debug_destroy(void)
 {
 	/* close PTY file descriptors */
 	close(pty_master);
@@ -1046,7 +1046,7 @@ void debug_destroy()
 /*
  * gets current debug state
  */
-enum dbs debug_get_state()
+enum dbs debug_get_state(void)
 {
 	return debug_state;
 }
@@ -1054,7 +1054,7 @@ enum dbs debug_get_state()
 /*
  * gets current stack frames lisy
  */
-GList* debug_get_stack()
+GList* debug_get_stack(void)
 {
 	return stack;
 }
@@ -1080,7 +1080,7 @@ int debug_get_module_index(const gchar *modulename)
 /*
  * gets GList with all debug modules pointers
  */
-GList* debug_get_modules()
+GList* debug_get_modules(void)
 {
 	GList *mods = NULL;
 	module_description *desc = modules;
@@ -1096,7 +1096,7 @@ GList* debug_get_modules()
 /*
  * checks whether currently active debug module supports asyncronous breaks
  */
-gboolean debug_supports_async_breaks()
+gboolean debug_supports_async_breaks(void)
 {
 	return active_module->features & MF_ASYNC_BREAKS;
 }
@@ -1104,7 +1104,7 @@ gboolean debug_supports_async_breaks()
 /*
  * starts or continues debug process
  */
-void debug_run()
+void debug_run(void)
 {
 	if (DBS_IDLE == debug_state)
 	{
@@ -1157,7 +1157,7 @@ void debug_run()
 /*
  * restarts debug process
  */
-void debug_restart()
+void debug_restart(void)
 {
 	if (DBS_STOPPED == debug_state)
 	{
@@ -1171,7 +1171,7 @@ void debug_restart()
 /*
  * stops debug process
  */
-void debug_stop()
+void debug_stop(void)
 {
 	if (DBS_STOPPED == debug_state)
 	{
@@ -1190,7 +1190,7 @@ void debug_stop()
 /*
  * step over
  */
-void debug_step_over()
+void debug_step_over(void)
 {
 	if (DBS_STOPPED == debug_state)
 		active_module->step_over();
@@ -1199,7 +1199,7 @@ void debug_step_over()
 /*
  * step into
  */
-void debug_step_into()
+void debug_step_into(void)
 {
 	if (DBS_STOPPED == debug_state)
 		active_module->step_into();
@@ -1208,7 +1208,7 @@ void debug_step_into()
 /*
  * step out
  */
-void debug_step_out()
+void debug_step_out(void)
 {
 	if (DBS_STOPPED == debug_state)
 		active_module->step_out();
@@ -1271,7 +1271,7 @@ void debug_request_interrupt(bs_callback cb, gpointer data)
 /*
  * gets debug modules error message
  */
-gchar* debug_error_message()
+gchar* debug_error_message(void)
 {
 	return 	active_module->error_message();	
 }
@@ -1340,7 +1340,7 @@ gchar* debug_get_calltip_for_expression(gchar* expression)
  * check whether source for the current instruction
  * is avaiable
  */
-gboolean debug_current_instruction_have_sources()
+gboolean debug_current_instruction_have_sources(void)
 {
 	frame *current = (frame*)stack->data;
 	return current->have_source ? strlen(current->file) : 0;
@@ -1349,7 +1349,7 @@ gboolean debug_current_instruction_have_sources()
 /*
  * opens position according to the current instruction
  */
-void debug_jump_to_current_instruction()
+void debug_jump_to_current_instruction(void)
 {
 	frame *current = (frame*)stack->data;
 	editor_open_position(current->file, current->line);
@@ -1369,7 +1369,7 @@ void debug_on_file_open(GeanyDocument *doc)
 /*
  * get active frame index
  */
-int debug_get_active_frame()
+int debug_get_active_frame(void)
 {
 	return active_module->get_active_frame();
 }

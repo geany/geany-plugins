@@ -232,7 +232,7 @@ void tpage_pack_widgets(gboolean tabbed)
 /*
  * create widgets 
  */
-static void tpage_create_widgets()
+static void tpage_create_widgets(void)
 {
 	/* target */
 	target_label = gtk_label_new(_("Target:"));
@@ -316,7 +316,7 @@ void tpage_add_environment(const gchar *name, const gchar *value)
 /*
  * removes all data (clears widgets)
  */
-void tpage_clear()
+void tpage_clear(void)
 {
 	/* target */
 	gtk_entry_set_text(GTK_ENTRY(target_name), "");
@@ -335,7 +335,7 @@ void tpage_clear()
 /*
  * get target file names
  */
-gchar* tpage_get_target()
+gchar* tpage_get_target(void)
 {
 	return g_strdup(gtk_entry_get_text(GTK_ENTRY(target_name)));
 }
@@ -343,7 +343,7 @@ gchar* tpage_get_target()
 /*
  * get selected debugger module index
  */
-int tpage_get_debug_module_index()
+int tpage_get_debug_module_index(void)
 {
 	return gtk_combo_box_get_active(GTK_COMBO_BOX(debugger_cmb));
 }
@@ -351,7 +351,7 @@ int tpage_get_debug_module_index()
 /*
  * get selected debugger name
  */
-gchar* tpage_get_debugger()
+gchar* tpage_get_debugger(void)
 {
 	return gtk_combo_box_get_active_text(GTK_COMBO_BOX(debugger_cmb));
 }
@@ -359,7 +359,7 @@ gchar* tpage_get_debugger()
 /*
  * get command line
  */
-gchar* tpage_get_commandline()
+gchar* tpage_get_commandline(void)
 {
 	GtkTextIter start, end;
 	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(args_textview));
@@ -379,7 +379,7 @@ gchar* tpage_get_commandline()
 /*
  * get list of environment variables
  */
-GList* tpage_get_environment()
+GList* tpage_get_environment(void)
 {
 	return envpage_get_environment();
 }
@@ -387,7 +387,7 @@ GList* tpage_get_environment()
 /*
  * create target page
  */
-void tpage_init()
+void tpage_init(void)
 {
 	tab_target = gtk_vbox_new(FALSE, 0);
 	tpage_create_widgets();

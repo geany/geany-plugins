@@ -77,7 +77,7 @@ void variable_reset(variable *var)
 }
 
 /* creates new frame */
-frame* frame_new()
+frame* frame_new(void)
 {
 	frame *f = (frame*)malloc(sizeof(frame));
 	memset((void*)f, 0, sizeof(frame));

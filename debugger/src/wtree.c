@@ -53,7 +53,7 @@ static GtkTreeStore *store = NULL;
 /*
  * add empty row
  */
-static void add_empty_row()
+static void add_empty_row(void)
 {
 	if (empty_row)
 		gtk_tree_row_reference_free(empty_row);
@@ -96,7 +96,7 @@ static void on_render_name(GtkTreeViewColumn *tree_column,
 /*
  * get iterator to an empty row
  */
-GtkTreeIter wtree_empty_row()
+GtkTreeIter wtree_empty_row(void)
 {
 	GtkTreeIter empty;
 
@@ -112,7 +112,7 @@ GtkTreeIter wtree_empty_row()
 /*
  * get an empty row path
  */
-GtkTreePath* wtree_empty_path()
+GtkTreePath* wtree_empty_path(void)
 {
 	return gtk_tree_row_reference_get_path(empty_row);
 }
@@ -178,7 +178,7 @@ GtkWidget* wtree_init(watch_expanded_callback expanded,
 /*
  * get watches list
  */
-GList *wtree_get_watches()
+GList *wtree_get_watches(void)
 {
 	GList *watches = NULL;
 	gtk_tree_model_foreach(gtk_tree_view_get_model(GTK_TREE_VIEW(tree)), watches_foreach_collect, &watches);
@@ -189,7 +189,7 @@ GList *wtree_get_watches()
 /*
  * remove all watches from the tree view
  */
-void wtree_remove_all()
+void wtree_remove_all(void)
 {
 	gtk_tree_store_clear(store);
 	add_empty_row();

@@ -33,4 +33,4 @@ enum KEYS
 	KEY_CURRENT_INSTRUCTION
 };
 
-gboolean keys_init();
+gboolean keys_init(void);

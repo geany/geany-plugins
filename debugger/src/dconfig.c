@@ -324,7 +324,7 @@ static gpointer saving_thread_func(gpointer data)
 /*
  * set "debug changed" flag to save it on "saving_thread" thread
  */
-void config_set_debug_changed()
+void config_set_debug_changed(void)
 {
 	if (!debug_config_loading)
 	{
@@ -437,7 +437,7 @@ void config_set_panel_defaults(GKeyFile *keyfile)
 /*
  *	initialize
  */
-void config_init()
+void config_init(void)
 {
 	/* read config */
 	gchar *config_dir = g_build_path(G_DIR_SEPARATOR_S, geany_data->app->configdir, "plugins", "debugger", NULL);
@@ -463,7 +463,7 @@ void config_init()
 /*
  *	destroy
  */
-void config_destroy()
+void config_destroy(void)
 {
 	g_cond_signal(cond);
 	/* ??? g_thread_join(saving_thread); */	
@@ -484,12 +484,12 @@ void config_destroy()
  *	config parts getters
  */
 /* saving option */
-gboolean config_get_save_to_project()
+gboolean config_get_save_to_project(void)
 {
 	return g_key_file_get_boolean(keyfile_plugin, "saving_settings", "save_to_project", NULL);
 }
 /* panel config */
-gboolean config_get_tabbed()
+gboolean config_get_tabbed(void)
 {
 	return g_key_file_get_boolean(keyfile_plugin, "tabbed_mode", "enabled", NULL);
 }
@@ -497,7 +497,7 @@ int* config_get_tabs(gsize *length)
 {
 	return g_key_file_get_integer_list(keyfile_plugin, "one_panel_mode", "tabs", length, NULL);
 }
-int config_get_selected_tab_index()
+int config_get_selected_tab_index(void)
 {
 	return g_key_file_get_integer(keyfile_plugin, "one_panel_mode", "selected_tab_index", NULL);
 }
@@ -505,7 +505,7 @@ int* config_get_left_tabs(gsize *length)
 {
 	return g_key_file_get_integer_list(keyfile_plugin, "two_panels_mode", "left_tabs", length, NULL);
 }
-int config_get_left_selected_tab_index()
+int config_get_left_selected_tab_index(void)
 {
 	return g_key_file_get_integer(keyfile_plugin, "two_panels_mode", "left_selected_tab_index", NULL);
 }
@@ -513,7 +513,7 @@ int* config_get_right_tabs(gsize *length)
 {
 	return g_key_file_get_integer_list(keyfile_plugin, "two_panels_mode", "right_tabs", length, NULL);
 }
-int	config_get_right_selected_tab_index()
+int	config_get_right_selected_tab_index(void)
 {
 	return g_key_file_get_integer(keyfile_plugin, "two_panels_mode", "right_selected_tab_index", NULL);
 }
@@ -549,7 +549,7 @@ void config_set_debug_store(debug_store store)
 /*
  *	updates keyfile_project from a current geany project path
  */
-void config_update_project_keyfile()
+void config_update_project_keyfile(void)
 {
 	if (keyfile_project)
 	{

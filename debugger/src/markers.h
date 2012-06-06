@@ -19,7 +19,7 @@
  *      MA 02110-1301, USA.
  */
  
-void markers_init();
+void markers_init(void);
 void markers_set_for_document(ScintillaObject *sci);
 void markers_add_breakpoint(breakpoint* bp);
 void markers_remove_breakpoint(breakpoint* bp);

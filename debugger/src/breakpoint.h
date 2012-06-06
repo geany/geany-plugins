@@ -32,5 +32,5 @@ typedef struct _breakpoint {
 	GtkTreeIter iter;
 } breakpoint;
 
-breakpoint*	break_new();
+breakpoint*	break_new(void);
 breakpoint*	break_new_full(const char* file, int line, const char* condition, int enabled, int hitscount);

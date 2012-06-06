@@ -431,7 +431,7 @@ void stree_add(frame *f)
 /*
  *	clear tree view completely
  */
-void stree_clear()
+void stree_clear(void)
 {
 	gtk_tree_store_clear(store);
 	g_hash_table_remove_all(threads);
@@ -470,7 +470,7 @@ void stree_select_first_frame(gboolean make_active)
 /*
  *	called on plugin exit to free module data
  */
-void stree_destroy()
+void stree_destroy(void)
 {
 	if (threads)
 	{
@@ -548,7 +548,7 @@ void stree_remove_thread(int thread_id)
 /*
  *	remove all frames
  */
-void stree_remove_frames()
+void stree_remove_frames(void)
 {
 	GtkTreeRowReference *reference = (GtkTreeRowReference*)g_hash_table_lookup(threads, (gpointer)active_thread_id);
 	GtkTreeIter thread_iter;
