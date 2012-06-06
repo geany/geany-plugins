@@ -29,13 +29,13 @@
 
 extern GHashTable *completions;
 
-void test_stubs_init();
+void test_stubs_init(void);
 
 const gchar *editor_find_snippet(GeanyEditor *editor, const gchar *snippet_name);
 
 const gchar *utils_find_open_xml_tag_pos(const gchar sel[], gint size);
 
-void test_stubs_finalize();
+void test_stubs_finalize(void);
 
 #endif
 #endif
