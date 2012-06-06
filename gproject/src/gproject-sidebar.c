@@ -319,7 +319,7 @@ static void on_reload_project(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED
 }
 
 
-static void on_open_clicked()
+static void on_open_clicked(void)
 {
 	GtkTreeSelection *treesel;
 	GtkTreeModel *model;
@@ -524,7 +524,7 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 }
 
 
-static void load_project()
+static void load_project(void)
 {
 	GSList *lst = NULL;
 	GSList *path_list = NULL;
@@ -606,7 +606,7 @@ static gboolean find_in_tree(GtkTreeIter *parent, gchar **path_split, gint level
 }
 
 
-static void follow_editor()
+static void follow_editor(void)
 {
 	GtkTreeIter found_iter;
 	gchar *path;
@@ -650,7 +650,7 @@ void gprj_sidebar_update(gboolean reload)
 }
 
 
-void gprj_sidebar_find_file_in_active()
+void gprj_sidebar_find_file_in_active(void)
 {
 	find_file(NULL);
 }
@@ -681,7 +681,7 @@ static gboolean on_button_release(G_GNUC_UNUSED GtkWidget * widget, GdkEventButt
 }
 
 
-void gprj_sidebar_init()
+void gprj_sidebar_init(void)
 {
 	GtkWidget *scrollwin, *toolbar, *item, *image;
 	GtkCellRenderer *renderer;
@@ -829,7 +829,7 @@ void gprj_sidebar_activate(gboolean activate)
 }
 
 
-void gprj_sidebar_cleanup()
+void gprj_sidebar_cleanup(void)
 {
 	gtk_widget_destroy(s_file_view_vbox);
 }

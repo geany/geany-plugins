@@ -340,7 +340,7 @@ static void on_open_selected_file(GtkMenuItem *menuitem, gpointer user_data)
 }
 
 
-void gprj_menu_init()
+void gprj_menu_init(void)
 {
 	GtkWidget *image;
 
@@ -397,7 +397,7 @@ void gprj_menu_activate_menu_items(gboolean activate)
 }
 
 
-void gprj_menu_cleanup()
+void gprj_menu_cleanup(void)
 {
 	gtk_widget_destroy(s_fif_item);
 	gtk_widget_destroy(s_ff_item);

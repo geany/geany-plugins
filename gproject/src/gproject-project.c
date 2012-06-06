@@ -63,7 +63,7 @@ static void deferred_op_free(DeferredTagOp* op, G_GNUC_UNUSED gpointer user_data
 }
 
 
-static void deferred_op_queue_clean()
+static void deferred_op_queue_clean(void)
 {
 	g_slist_foreach(file_tag_deferred_op_queue, (GFunc)deferred_op_free, NULL);
 	g_slist_free(file_tag_deferred_op_queue);
@@ -217,7 +217,7 @@ static GSList *get_file_list(const gchar * path, GSList *patterns, GSList *ignor
 }
 
 
-void gprj_project_rescan()
+void gprj_project_rescan(void)
 {
 	GSList *pattern_list = NULL;
 	GSList *ignored_dirs_list = NULL;
@@ -369,7 +369,7 @@ static gchar **split_patterns(const gchar *str)
 }
 
 
-void gprj_project_read_properties_tab()
+void gprj_project_read_properties_tab(void)
 {
 	gchar **source_patterns, **header_patterns, **ignored_dirs_patterns;
 
@@ -464,7 +464,7 @@ gint gprj_project_add_properties_tab(GtkWidget *notebook)
 }
 
 
-void gprj_project_close()
+void gprj_project_close(void)
 {
 	g_return_if_fail(g_prj);
 
