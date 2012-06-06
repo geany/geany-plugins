@@ -19,7 +19,7 @@
 
 #include "geanypg.h"
 
-char * geanypg_choose_sig()
+char * geanypg_choose_sig(void)
 {
     int response;
     char * file = NULL;
