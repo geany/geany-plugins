@@ -145,13 +145,13 @@ _gtk_cell_layout_get_cells(GtkTreeViewColumn *column)
 
 static void 	project_change_cb(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile *config, G_GNUC_UNUSED gpointer data);
 static void 	treebrowser_browse(gchar *directory, gpointer parent);
-static void 	treebrowser_bookmarks_set_state();
-static void 	treebrowser_load_bookmarks();
+static void 	treebrowser_bookmarks_set_state(void);
+static void 	treebrowser_load_bookmarks(void);
 static void 	gtk_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root);
-static void 	treebrowser_rename_current();
+static void 	treebrowser_rename_current(void);
 static void 	on_menu_create_new_object(GtkMenuItem *menuitem, gchar *type);
-static void 	load_settings();
-static gboolean save_settings();
+static void 	load_settings(void);
+static gboolean save_settings(void);
 
 
 /* ------------------
@@ -358,7 +358,7 @@ check_hidden(const gchar *filename)
 }
 
 static gchar*
-get_default_dir()
+get_default_dir(void)
 {
 	gchar 			*dir;
 	GeanyProject 	*project 	= geany->app->project;
@@ -388,7 +388,7 @@ get_default_dir()
 }
 
 static gchar *
-get_terminal()
+get_terminal(void)
 {
 	gchar 		*terminal;
 #ifdef G_OS_WIN32
@@ -571,7 +571,7 @@ treebrowser_browse(gchar *directory, gpointer parent)
 }
 
 static void
-treebrowser_bookmarks_set_state()
+treebrowser_bookmarks_set_state(void)
 {
 	if (gtk_tree_store_iter_is_valid(treestore, &bookmarks_iter))
 		bookmarks_expanded = tree_view_row_expanded_iter(GTK_TREE_VIEW(treeview), &bookmarks_iter);
@@ -580,7 +580,7 @@ treebrowser_bookmarks_set_state()
 }
 
 static void
-treebrowser_load_bookmarks()
+treebrowser_load_bookmarks(void)
 {
 	gchar 		*bookmarks;
 	gchar 		*contents, *path_full;
@@ -821,7 +821,7 @@ treebrowser_expand_to_path(gchar* root, gchar* find)
 }
 
 static gboolean
-treebrowser_track_current()
+treebrowser_track_current(void)
 {
 
 	GeanyDocument	*doc 		= document_get_current();
@@ -891,7 +891,7 @@ treebrowser_iter_rename(gpointer iter)
 }
 
 static void
-treebrowser_rename_current()
+treebrowser_rename_current(void)
 {
 	GtkTreeSelection 	*selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
 	GtkTreeIter 		iter;
@@ -1307,7 +1307,7 @@ create_popup_menu(gchar *name, gchar *uri)
  * ------------------ */
 
 static void
-on_button_go_up()
+on_button_go_up(void)
 {
 	gchar *uri;
 
@@ -1317,13 +1317,13 @@ on_button_go_up()
 }
 
 static void
-on_button_refresh()
+on_button_refresh(void)
 {
 	treebrowser_chroot(addressbar_last_address);
 }
 
 static void
-on_button_go_home()
+on_button_go_home(void)
 {
 	gchar *uri;
 
@@ -1333,7 +1333,7 @@ on_button_go_home()
 }
 
 static void
-on_button_current_path()
+on_button_current_path(void)
 {
 	gchar *uri;
 
@@ -1343,7 +1343,7 @@ on_button_current_path()
 }
 
 static void
-on_button_hide_bars()
+on_button_hide_bars(void)
 {
 	showbars(FALSE);
 }
@@ -1565,7 +1565,7 @@ on_treeview_renamed(GtkCellRenderer *renderer, const gchar *path_string, const g
 }
 
 static void
-treebrowser_track_current_cb()
+treebrowser_track_current_cb(void)
 {
 	if (CONFIG_FOLLOW_CURRENT_DOC)
 		treebrowser_track_current();
@@ -1585,7 +1585,7 @@ treeview_separator_func(GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
 }
 
 static GtkWidget*
-create_view_and_model()
+create_view_and_model(void)
 {
 
 	GtkWidget 			*view;
@@ -1630,7 +1630,7 @@ create_view_and_model()
 }
 
 static void
-create_sidebar()
+create_sidebar(void)
 {
 	GtkWidget 			*scrollwin;
 	GtkWidget 			*toolbar;
@@ -1747,7 +1747,7 @@ static struct
 } configure_widgets;
 
 static void
-load_settings()
+load_settings(void)
 {
 	GKeyFile *config 	= g_key_file_new();
 
@@ -1770,7 +1770,7 @@ load_settings()
 }
 
 static gboolean
-save_settings()
+save_settings(void)
 {
 	GKeyFile 	*config 		= g_key_file_new();
 	gchar 		*config_dir 	= g_path_get_dirname(CONFIG_FILE);
@@ -2026,7 +2026,7 @@ plugin_init(GeanyData *data)
 }
 
 void
-plugin_cleanup()
+plugin_cleanup(void)
 {
 	g_free(addressbar_last_address);
 	g_free(CONFIG_FILE);
