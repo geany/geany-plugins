@@ -511,7 +511,7 @@ static gchar *MacroEventToString(MacroEvent *me)
 
 
 /* Is there a document open in the editor */
-static gboolean DocumentPresent()
+static gboolean DocumentPresent(void)
 {
   return (document_get_current()!=NULL);
 }
@@ -1176,7 +1176,7 @@ static gboolean InitializeMacroRecord(void)
 
 
 /* function to start the macro recording process */
-static void StartRecordingMacro()
+static void StartRecordingMacro(void)
 {
 	/* start recording process, but quit if error, or user cancels */
 	if(!InitializeMacroRecord())
@@ -1190,7 +1190,7 @@ static void StartRecordingMacro()
 
 
 /* function to finish recording a macro */
-static void StopRecordingMacro()
+static void StopRecordingMacro(void)
 {
 	scintilla_send_message(document_get_current()->editor->sci,SCI_STOPRECORD,0,0);
 	/* Recorded in reverse as more efficient */
