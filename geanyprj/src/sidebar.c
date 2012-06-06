@@ -113,7 +113,7 @@ static gboolean on_button_press(G_GNUC_UNUSED GtkWidget *widget, GdkEventButton 
 }
 
 
-static GtkWidget *make_toolbar()
+static GtkWidget *make_toolbar(void)
 {
 	GtkWidget *toolbar;
 
@@ -163,7 +163,7 @@ static gboolean on_key_press(G_GNUC_UNUSED GtkWidget *widget, GdkEventKey *event
 }
 
 
-static GtkWidget *create_popup_menu()
+static GtkWidget *create_popup_menu(void)
 {
 	GtkWidget *item, *menu, *image;
 
@@ -303,7 +303,7 @@ static gboolean on_button_release(G_GNUC_UNUSED GtkWidget *widget, GdkEventButto
 }
 
 
-static void prepare_file_view()
+static void prepare_file_view(void)
 {
 	GtkCellRenderer *text_renderer;
 	GtkTreeViewColumn *column;
@@ -342,7 +342,7 @@ static void prepare_file_view()
 }
 
 
-void sidebar_clear()
+void sidebar_clear(void)
 {
 	gtk_list_store_clear(file_store);
 }
@@ -408,7 +408,7 @@ static void add_item(gpointer name, G_GNUC_UNUSED gpointer value, gpointer user_
 
 
 /* recreate the tree model from current_dir */
-void sidebar_refresh()
+void sidebar_refresh(void)
 {
 	GtkTreeIter iter;
 	GSList *lst = NULL;
@@ -434,7 +434,7 @@ void sidebar_refresh()
 }
 
 
-void create_sidebar()
+void create_sidebar(void)
 {
 	GtkWidget *scrollwin, *toolbar;
 
@@ -457,7 +457,7 @@ void create_sidebar()
 }
 
 
-void destroy_sidebar()
+void destroy_sidebar(void)
 {
 	if (file_view_vbox)
 		gtk_widget_destroy(file_view_vbox);

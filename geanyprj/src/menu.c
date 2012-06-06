@@ -335,7 +335,7 @@ void on_find_in_project(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpoin
 }
 
 
-static void update_menu_items()
+static void update_menu_items(void)
 {
 	gboolean cur_file_exists;
 	gboolean badd_file;
@@ -361,7 +361,7 @@ static void update_menu_items()
 }
 
 
-void tools_menu_init()
+void tools_menu_init(void)
 {
 	GtkWidget *item, *image;
 
@@ -436,7 +436,7 @@ void tools_menu_init()
 }
 
 
-void tools_menu_uninit()
+void tools_menu_uninit(void)
 {
 	gtk_widget_destroy(plugin_fields->menu_item);
 }

@@ -90,7 +90,7 @@ static void free_tag_object(gpointer obj)
 }
 
 
-struct GeanyPrj *geany_project_new()
+struct GeanyPrj *geany_project_new(void)
 {
 	struct GeanyPrj *ret;
 

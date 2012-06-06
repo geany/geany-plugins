@@ -56,7 +56,7 @@ enum
 PLUGIN_KEY_GROUP(geanyprj, KB_COUNT)
 
 
-static void reload_project()
+static void reload_project(void)
 {
 	gchar *dir;
 	gchar *proj;
@@ -131,7 +131,7 @@ PluginCallback plugin_callbacks[] = {
 
 
 /* Keybinding callback */
-static void kb_find_in_project()
+static void kb_find_in_project(void)
 {
 	on_find_in_project(NULL, NULL);
 }
@@ -250,7 +250,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 
 
 /* Called by Geany before unloading the plugin. */
-void plugin_cleanup()
+void plugin_cleanup(void)
 {
 	tools_menu_uninit();
 
