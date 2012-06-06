@@ -33,7 +33,7 @@ static GSList *breakpoint_list = NULL;
 
 
 static void
-free_breakpoint_list()
+free_breakpoint_list(void)
 {
 	GSList *p;
 	for (p = breakpoint_list; p; p = p->next)

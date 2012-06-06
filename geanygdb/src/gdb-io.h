@@ -116,16 +116,16 @@ typedef void (*GdbEnvironFunc) (const GdbEnvironInfo * env);
 void gdbio_load(const gchar * exe_name);
 
 /* Terminate the debugger ( and the target program, if running ) */
-void gdbio_exit();
+void gdbio_exit(void);
 
 /* Resume execution after a breakpoint or SIGINT, etc... */
-void gdbio_continue();
+void gdbio_continue(void);
 
 /* Complete the current function */
-void gdbio_finish();
+void gdbio_finish(void);
 
 /* Return immediately from the current function */
-void gdbio_return();
+void gdbio_return(void);
 
 /*
   Execute the previously loaded program in the debugger.
@@ -137,11 +137,11 @@ void gdbio_exec_target(gchar * terminal_command);
 
 
 /* Send SIGINT to target */
-void gdbio_pause_target();
+void gdbio_pause_target(void);
 
 
 /* Send SIGKILL to target */
-void gdbio_kill_target();
+void gdbio_kill_target(gboolean force);
 
 
 /* Send a command to GDB */

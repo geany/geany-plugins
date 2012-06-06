@@ -179,7 +179,7 @@ font_click(GtkButton * button, gpointer user_data)
 
 
 void
-gdbui_opts_dlg()
+gdbui_opts_dlg(void)
 {
 	GtkWidget *dlg = gtk_dialog_new_with_buttons(_("Preferences"),
 						     GTK_WINDOW(gdbui_setup.main_window),
@@ -272,7 +272,7 @@ gdbui_opts_dlg()
 
 
 void
-gdbui_opts_init()
+gdbui_opts_init(void)
 {
 	gdbui_setup.options.term_cmd = g_strdup("xterm");
 	gdbui_setup.options.mono_font = g_strdup(MONO_FONT);
@@ -285,7 +285,7 @@ gdbui_opts_init()
 
 
 void
-gdbui_opts_done()
+gdbui_opts_done(void)
 {
 	g_free(gdbui_setup.options.mono_font);
 	gdbui_setup.options.mono_font = NULL;

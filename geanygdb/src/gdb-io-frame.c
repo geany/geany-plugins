@@ -82,7 +82,7 @@ gdbio_free_var_list(GSList * args)
 
 
 static void
-free_lists()
+free_lists(void)
 {
 	gdbio_free_var_list(locals_list);
 	locals_list = NULL;
@@ -98,7 +98,7 @@ free_lists()
 }
 
 static void
-get_arglist()
+get_arglist(void)
 {
 	which_list = &current_frame.args;
 	which_index = &args_index;
@@ -372,12 +372,12 @@ push_list(GSList * p)
 	qpush(&obj_list_queue, p);
 }
 static void
-pop_list()
+pop_list(void)
 {
 	gdbio_free_var_list(qpop(&obj_list_queue));
 }
 static GSList *
-top_list()
+top_list(void)
 {
 	return qtop(obj_list_queue);
 }
@@ -390,12 +390,12 @@ push_var(GdbVar * p)
 	qpush(&obj_var_queue, p);
 }
 static void
-pop_var()
+pop_var(void)
 {
 	gdbio_free_var(qpop(&obj_var_queue));
 }
 static GdbVar *
-top_var()
+top_var(void)
 {
 	return qtop(obj_var_queue);
 }
@@ -412,12 +412,12 @@ push_func(GdbObjectFunc p)
 	qpush(&obj_func_queue, p);
 }
 static void
-pop_func()
+pop_func(void)
 {
 	qpop(&obj_func_queue);
 }
 static GdbObjectFunc
-top_func()
+top_func(void)
 {
 	return qtop(obj_func_queue);
 }
@@ -426,7 +426,7 @@ top_func()
 
 
 static void
-done_top()
+done_top(void)
 {
 	pop_var();
 	pop_list();

@@ -40,7 +40,7 @@ static GSList *frame_list = NULL;
 
 
 static void
-free_frame_list()
+free_frame_list(void)
 {
 	GSList *p;
 	for (p = frame_list; p; p = p->next)

@@ -75,7 +75,7 @@ scan_error(GScanner * scanner, gchar * message, gboolean error)
 
 #define ID_NTH G_CSET_a_2_z G_CSET_A_2_Z G_CSET_DIGITS "_-"
 static GScanner *
-init_scanner()
+init_scanner(void)
 {
 	GScanner *scanner = g_scanner_new(NULL);
 	scanner->msg_handler = scan_error;
@@ -214,7 +214,7 @@ gdblx_parse_results(gchar * results)
 
 
 void
-gdblx_scanner_done()
+gdblx_scanner_done(void)
 {
 	if (scanner)
 	{

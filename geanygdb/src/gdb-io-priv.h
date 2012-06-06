@@ -83,7 +83,7 @@ void gdbio_do_status(GdbStatus s);
 
 void gdbio_target_exited(gchar * reason);
 void gdbio_set_target_pid(GPid pid);
-GPid gdbio_get_target_pid();
+GPid gdbio_get_target_pid(void);
 void gdbio_set_running(gboolean running);
 
 /*

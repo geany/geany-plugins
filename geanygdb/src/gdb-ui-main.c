@@ -1015,7 +1015,7 @@ gdbui_create_widgets(GtkWidget * parent)
 #ifdef STANDALONE
 
 static void
-quit()
+quit(void)
 {
 	gdbio_exit();
 	g_printerr("\n");

@@ -33,7 +33,7 @@ static GdbEnvironInfo env_info = { NULL, NULL, NULL, NULL };
 
 
 static void
-free_env_info()
+free_env_info(void)
 {
 	g_free(env_info.cwd);
 	g_free(env_info.path);

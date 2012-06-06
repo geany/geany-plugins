@@ -74,4 +74,4 @@ void gdblx_dump_table(GHashTable * hash);
   The global scanner object is automatically intialized as soon
   as it is needed, but it must be explicitly destroyed.
 */
-void gdblx_scanner_done();
+void gdblx_scanner_done(void);

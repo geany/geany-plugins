@@ -80,12 +80,12 @@ push_name(const gchar * p)
 	qpush(&obj_name_queue, g_strdup(p));
 }
 static void
-pop_name()
+pop_name(void)
 {
 	g_free(qpop(&obj_name_queue));
 }
 static gchar *
-top_name()
+top_name(void)
 {
 	return qtop(obj_name_queue);
 }
@@ -135,7 +135,7 @@ typedef enum _FrameColumn
 #define MORE_INFO GTK_STOCK_ZOOM_IN
 
 static GtkWidget *
-new_info_btn()
+new_info_btn(void)
 {
 	GtkWidget *rv;
 	rv = gtk_button_new_with_mnemonic(_("_Examine"));

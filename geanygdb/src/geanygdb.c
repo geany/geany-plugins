@@ -51,7 +51,7 @@ static GtkWidget *btmframe;
 static gchar *config_file;
 
 
-static void show_compwin()
+static void show_compwin(void)
 {
 	gint page = gtk_notebook_page_num(msgbook, compwin);
 	gtk_notebook_set_current_page(msgbook, page);
@@ -122,7 +122,7 @@ goto_file_line_cb(const gchar * filename, const gchar * line, const gchar * reas
 
 /*
 static gchar *
-get_current_word()
+get_current_word(void)
 {
 	const gchar *word_chars = NULL;
 	gint pos, linenum, bol, bow, eow;
@@ -170,7 +170,7 @@ word_check_right(gchar c)
 }
 
 static gchar *
-get_current_word()
+get_current_word(void)
 {
 	gchar *txt;
 	GeanyDocument *doc;
@@ -231,7 +231,7 @@ get_current_word()
 
 
 static LocationInfo *
-location_query_cb()
+location_query_cb(void)
 {
 	GeanyDocument *doc = document_get_current();
 	if (!(doc && doc->is_valid))
@@ -258,7 +258,7 @@ location_query_cb()
 
 
 static void
-update_settings_cb()
+update_settings_cb(void)
 {
 	GKeyFile *kf = g_key_file_new();
 	gchar *data;
@@ -400,7 +400,7 @@ plugin_init(GeanyData * data)
 
 
 void
-plugin_cleanup()
+plugin_cleanup(void)
 {
 	gdbio_exit();
 	update_settings_cb();

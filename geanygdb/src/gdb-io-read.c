@@ -53,7 +53,7 @@ free_string_list(GSList ** list)
 
 
 static void
-free_source_list()
+free_source_list(void)
 {
 	free_string_list(&source_files);
 }
@@ -798,7 +798,7 @@ gdbio_consume_response(GString * recv_buf)
 
 
 void
-gdbio_continue()
+gdbio_continue(void)
 {
 	gdbio_send_cmd("-exec-continue\n");
 }
@@ -807,14 +807,14 @@ gdbio_continue()
 
 
 void
-gdbio_return()
+gdbio_return(void)
 {
 	gdbio_send_seq_cmd(return_function, "-exec-return\n");
 }
 
 
 void
-gdbio_finish()
+gdbio_finish(void)
 {
 	gdbio_send_seq_cmd(finish_function, "-exec-finish\n");
 }

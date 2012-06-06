@@ -48,8 +48,8 @@ typedef struct
 
 
 typedef void (*GdbUiLineFunc) (const gchar * filename, const gchar * line, const gchar * reason);
-typedef LocationInfo *(*GdbUiLocationFunc) ();
-typedef void (*GdbUiOptsFunc) ();
+typedef LocationInfo *(*GdbUiLocationFunc) (void);
+typedef void (*GdbUiOptsFunc) (void);
 
 
 
@@ -76,10 +76,10 @@ void gdbui_enable(gboolean enabled);
 
 GtkWidget *gdbui_new_dialog(gchar * title);
 
-void gdbui_opts_init();
-void gdbui_opts_done();
+void gdbui_opts_init(void);
+void gdbui_opts_done(void);
 
-void gdbui_opts_dlg();
+void gdbui_opts_dlg(void);
 
 void gdbui_stack_dlg(const GSList * frame_list);
 void gdbui_break_dlg(gboolean is_watch);

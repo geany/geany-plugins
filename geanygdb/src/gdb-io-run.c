@@ -265,7 +265,7 @@ gdbio_set_running(gboolean running)
 
 
 static void
-kill_xterm()
+kill_xterm(void)
 {
 	if (xterm_pid)
 	{
@@ -567,7 +567,7 @@ gdbio_do_status(GdbStatus s)
 
 
 void
-gdbio_pause_target()
+gdbio_pause_target(void)
 {
 	if (target_pid)
 	{
@@ -650,14 +650,14 @@ gdbio_kill_target(gboolean force)
 }
 
 static gboolean
-have_console()
+have_console(void)
 {
 	return (gdbio_status == GdbLoaded) || (gdbio_status == GdbStopped)
 		|| (gdbio_status == GdbFinished);
 }
 
 void
-gdbio_exit()
+gdbio_exit(void)
 {
 	gdbio_kill_target(!have_console());
 	if (gdbio_pid)
@@ -862,7 +862,7 @@ gdbio_set_target_pid(GPid pid)
 
 
 GPid
-gdbio_get_target_pid()
+gdbio_get_target_pid(void)
 {
 	return target_pid;
 }
