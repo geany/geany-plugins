@@ -22,6 +22,10 @@
 #ifndef ATREE_H
 #define ATREE_H
 
+#include <gtk/gtk.h>
+
+#include "watch_model.h"
+
 GtkWidget* atree_init(watch_expanded_callback expanded, watch_button_pressed buttonpressed);
 
 #endif /* guard */

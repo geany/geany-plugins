@@ -33,6 +33,7 @@
 extern GeanyFunctions	*geany_functions;
 extern GeanyData		*geany_data;
 
+#include "dpaned.h"
 #include "tabs.h"
 #include "breakpoints.h"
 #include "debug.h"

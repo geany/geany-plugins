@@ -31,6 +31,7 @@
 #endif
 #include <geanyplugin.h>
 
+#include "callbacks.h"
 #include "breakpoints.h"
 #include "debug.h"
 #include "keys.h"

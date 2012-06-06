@@ -22,6 +22,11 @@
 #ifndef WTREE_H
 #define WTREE_H
 
+#include <glib.h>
+#include <gtk/gtk.h>
+
+#include "watch_model.h"
+
 GtkWidget*		wtree_init(watch_expanded_callback expanded,
 	new_watch_dragged dragged,
 	watch_key_pressed keypressed,

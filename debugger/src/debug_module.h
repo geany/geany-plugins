@@ -22,6 +22,10 @@
 #ifndef DEBUG_MODULE_H
 #define DEBUG_MODULE_H
 
+#include <glib.h>
+
+#include "breakpoint.h"
+
 /* debug states enumeration */
 enum dbs {
 	DBS_IDLE,

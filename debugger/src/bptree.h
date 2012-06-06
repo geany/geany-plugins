@@ -22,6 +22,11 @@
 #ifndef BPTREE_H
 #define BPTREE_H
 
+#include <glib.h>
+
+#include "breakpoint.h"
+#include "breakpoints.h"
+
 gboolean		bptree_init(move_to_line_cb callback);
 void			bptree_destroy(void);
 void 			bptree_add_breakpoint(breakpoint* bp);

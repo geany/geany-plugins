@@ -22,6 +22,9 @@
 #ifndef WATCH_MODEL_H
 #define WATCH_MODEL_H
 
+#include <glib.h>
+#include <gtk/gtk.h>
+
 /* tree view columns */
 enum
 {

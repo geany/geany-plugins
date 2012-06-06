@@ -22,6 +22,9 @@
 #ifndef ENVTREE_H
 #define ENVTREE_H
 
+#include <glib.h>
+#include <gtk/gtk.h>
+
 GtkWidget*		envtree_init(void);
 void			envtree_destroy(void);
 void			envtree_clear(void);

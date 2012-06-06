@@ -22,6 +22,9 @@
 #ifndef TPAGE_H
 #define TPAGE_H
 
+#include <glib.h>
+#include <gtk/gtk.h>
+
 void			tpage_init(void);
 
 gchar*		tpage_get_target(void);

@@ -26,6 +26,7 @@
 
 #include <gtk/gtk.h>
 
+#include "wtree.h"
 #include "watch_model.h"
 #include "vtree.h"
 #include "dconfig.h"

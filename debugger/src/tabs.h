@@ -23,6 +23,9 @@
 #ifndef TABS_H
 #define TABS_H
 
+#include <glib.h>
+#include <gtk/gtk.h>
+
 typedef enum _tab_id
 {
 	TID_TARGET,

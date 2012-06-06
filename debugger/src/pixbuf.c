@@ -25,6 +25,8 @@
 
 #include <gtk/gtk.h>
 
+#include "pixbuf.h"
+
 #include "xpm/breakpoint.xpm"
 #include "xpm/breakpoint_disabled.xpm"
 #include "xpm/breakpoint_condition.xpm"

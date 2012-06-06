@@ -22,6 +22,9 @@
 #ifndef GUI_H
 #define GUI_H
 
+#include <glib.h>
+#include <gtk/gtk.h>
+
 GtkWidget*	create_button(const gchar *icon, const gchar *tooltip);
 GtkWidget*	create_stock_button(const gchar *stockid, const gchar *tooltip);
 GtkWidget*	create_toggle_button(const gchar *stockid, const gchar *tooltip);

@@ -29,6 +29,7 @@
 extern GeanyFunctions	*geany_functions;
 extern GeanyData		*geany_data;
 
+#include "markers.h"
 #include "breakpoints.h"
 
 #include "xpm/breakpoint.xpm"

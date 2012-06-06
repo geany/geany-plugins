@@ -23,6 +23,8 @@
 #define DCOFIG_H
 
 #include <stdarg.h>
+#include <glib.h>
+#include <gtk/gtk.h>
 
 /* panel config parts */
 #define CP_TABBED_MODE 1

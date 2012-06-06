@@ -22,6 +22,8 @@
 #ifndef KEYS_H
 #define KEYS_H
 
+#include <glib.h>
+
 /* hotkeys enumeration */
 enum KEYS
 {

@@ -22,6 +22,8 @@
 #ifndef PIXBUF_H
 #define PIXBUF_H
 
+#include <gdk-pixbuf/gdk-pixbuf.h>
+
 extern GdkPixbuf *break_pixbuf;
 extern GdkPixbuf *break_disabled_pixbuf;
 extern GdkPixbuf *break_condition_pixbuf;

@@ -22,6 +22,8 @@
 #ifndef UTILS_H
 #define UTILS_H
  
+#include <glib.h>
+
 void					editor_open_position(const char* file, int line);
 GString*				get_word_at_position(ScintillaObject *sci, int position);
 

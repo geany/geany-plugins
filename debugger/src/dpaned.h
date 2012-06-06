@@ -23,6 +23,9 @@
 #ifndef DPANED_H
 #define DPANED_H
 
+#include <glib.h>
+#include <gtk/gtk.h>
+
 void		dpaned_init(void);
 void		dpaned_destroy(void);
 GtkWidget*	dpaned_get_paned(void);

@@ -31,6 +31,7 @@
 #endif
 #include <geanyplugin.h>
 
+#include "stree.h"
 #include "breakpoints.h"
 #include "utils.h"
 #include "debug_module.h"

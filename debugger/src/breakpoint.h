@@ -22,6 +22,9 @@
 #ifndef BREAKPOINT_H
 #define BREAKPOINT_H
 
+#include <glib.h>
+#include <gtk/gtk.h>
+
 /* maximum condition length */
 #define CONDITION_MAX_LENGTH 1024
 

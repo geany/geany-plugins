@@ -22,6 +22,12 @@
 #ifndef STREE_H
 #define STREE_H
 
+#include <glib.h>
+#include <gtk/gtk.h>
+
+#include "breakpoints.h"
+#include "debug_module.h"
+
 GtkWidget*		stree_init(move_to_line_cb ml, select_frame_cb sf);
 void			stree_destroy(void);
 

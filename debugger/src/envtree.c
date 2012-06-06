@@ -35,6 +35,7 @@ extern GeanyPlugin		*geany_plugin;
 
 #include <gdk/gdkkeysyms.h>
 
+#include "envtree.h"
 #include "dconfig.h"
 
 /* environment variables tree view columns */

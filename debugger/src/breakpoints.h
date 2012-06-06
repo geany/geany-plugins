@@ -22,6 +22,8 @@
 #ifndef BREAKPOINTS_H
 #define BREAKPOINTS_H
 
+#include <glib.h>
+
 #include "breakpoint.h"
 
 typedef enum _break_state {

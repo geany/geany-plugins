@@ -22,6 +22,10 @@
 #ifndef VTREE_H
 #define VTREE_H
 
+#include <gtk/gtk.h>
+
+#include "watch_model.h"
+
 GtkWidget* vtree_create(watch_render_name on_render_name, watch_expression_changed on_expression_changed);
 
 #endif /* guard */

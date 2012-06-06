@@ -22,6 +22,8 @@
 #ifndef DEBUG_H
 #define DEBUG_H
 
+#include <glib.h>
+
 #include "debug_module.h"
 #include "markers.h"
 

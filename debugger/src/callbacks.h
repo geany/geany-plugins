@@ -22,6 +22,10 @@
 #ifndef CALLBACKS_H
 #define CALLBACKS_H
 
+#include <glib.h>
+#include <glib-object.h>
+#include "geanyplugin.h"
+
 void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data);
 void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data);
 void on_document_before_save(GObject *obj, GeanyDocument *doc, gpointer user_data);

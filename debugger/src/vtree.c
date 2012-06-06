@@ -33,6 +33,7 @@
 #endif
 #include <geanyplugin.h>
 
+#include "vtree.h"
 #include "breakpoint.h"
 #include "debug_module.h"
 #include "watch_model.h"
