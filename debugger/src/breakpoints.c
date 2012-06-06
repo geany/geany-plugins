@@ -470,7 +470,7 @@ void breaks_remove_all(void)
  * 		file - list of breakpoints
  * 		enabled - anble or disable breakpoints
  */
-void breaks_set_enabled_for_file(const const char *file, gboolean enabled)
+void breaks_set_enabled_for_file(const char *file, gboolean enabled)
 {
 	/* do not process async break manipulation on modules
 	that do not support async interuppt */
