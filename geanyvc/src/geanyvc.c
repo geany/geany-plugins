@@ -113,9 +113,9 @@ static GtkWidget *menu_item_sep = NULL;
 static GtkWidget *menu_entry = NULL;
 
 
-static void registrate();
-static void add_menuitems_to_editor_menu();
-static void remove_menuitems_from_editor_menu();
+static void registrate(void);
+static void add_menuitems_to_editor_menu(void);
+static void remove_menuitems_from_editor_menu(void);
 
 
 /* Doing some basic keybinding stuff */
@@ -1607,7 +1607,7 @@ static GtkWidget *menu_vc_commit = NULL;
 static GtkWidget *menu_vc_show_file = NULL;
 
 static void
-update_menu_items()
+update_menu_items(void)
 {
 	GeanyDocument *doc;
 
@@ -1931,7 +1931,7 @@ plugin_configure(GtkDialog * dialog)
 }
 
 static void
-load_config()
+load_config(void)
 {
 #ifdef USE_GTKSPELL
 	GError *error = NULL;
@@ -1981,7 +1981,7 @@ load_config()
 }
 
 static void
-registrate()
+registrate(void)
 {
 	gchar *path;
 	if (VC)
@@ -2161,7 +2161,7 @@ do_basedir_menu(GtkWidget ** parent_menu)
 }
 
 static void
-add_menuitems_to_editor_menu()
+add_menuitems_to_editor_menu(void)
 {
 	/* Add file menu also to editor menu (at mouse cursor) */
 	if (set_editor_menu_entries == TRUE && editor_menu_vc == NULL)
@@ -2186,7 +2186,7 @@ add_menuitems_to_editor_menu()
 }
 
 static void
-remove_menuitems_from_editor_menu()
+remove_menuitems_from_editor_menu(void)
 {
 	if (editor_menu_vc != NULL)
 	{
@@ -2320,7 +2320,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 
 /* Called by Geany before unloading the plugin. */
 void
-plugin_cleanup()
+plugin_cleanup(void)
 {
 	remove_menuitems_from_editor_menu();
 	gtk_widget_destroy(menu_entry);

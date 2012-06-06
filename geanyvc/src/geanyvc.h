@@ -133,7 +133,7 @@ GSList *get_commit_files_null(const gchar * dir);
 extern const gchar *NO_ENV[];
 
 /* External diff viewer */
-const gchar *get_external_diff_viewer();
+const gchar *get_external_diff_viewer(void);
 void vc_external_diff(const gchar * src, const gchar * dest);
 
 /* utils.c */

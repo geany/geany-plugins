@@ -6,7 +6,7 @@
 #include <gtk/gtk.h>
 #include "geany.h"
 
-extern TCase *utils_test_case_create();
+extern TCase *utils_test_case_create(void);
 
 Suite *
 my_suite(void)
