@@ -486,7 +486,7 @@ GtkWidget *plugin_configure(GtkDialog * dialog)
     return vbox;
 }
 
-static void add_menu_item()
+static void add_menu_item(void)
 {
     GtkWidget *paste_item;
 
