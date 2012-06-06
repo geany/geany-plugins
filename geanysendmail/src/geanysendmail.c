@@ -209,7 +209,7 @@ static void add_stock_item(void)
 }
 
 
-static void show_icon()
+static void show_icon(void)
 {
 	mailbutton = GTK_WIDGET(gtk_tool_button_new_from_stock(GEANYSENDMAIL_STOCK_MAIL));
 	plugin_add_toolbar_item(geany_plugin, GTK_TOOL_ITEM(mailbutton));
@@ -222,7 +222,7 @@ static void show_icon()
 	icon_in_toolbar = TRUE;
 }
 
-static void cleanup_icon()
+static void cleanup_icon(void)
 {
 	if (mailbutton != NULL)
 	{
@@ -393,7 +393,7 @@ void plugin_init(GeanyData G_GNUC_UNUSED *data)
 }
 
 
-void plugin_cleanup()
+void plugin_cleanup(void)
 {
 	gtk_widget_destroy(main_menu_item);
 	cleanup_icon();
