@@ -78,7 +78,7 @@ word_check_right(gchar c)
 }
 
 static gchar *
-current_word()
+current_word(void)
 {
 	gchar *txt;
 	GeanyDocument *doc;
