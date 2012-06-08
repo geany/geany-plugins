@@ -199,8 +199,9 @@ static void on_render_filename(GtkTreeViewColumn *tree_column, GtkCellRenderer *
 	}
 	else
 	{
-		const gchar *name = g_basename(path);
+		gchar *name = g_path_get_basename(path);
 		g_object_set(cell, "text", name ? name : path, NULL);
+		g_free(name);
 	}
 	
 	if (path)

@@ -185,13 +185,13 @@ static void on_render_filename(GtkTreeViewColumn *tree_column, GtkCellRenderer *
 	
 	if (1 != gtk_tree_path_get_depth(tpath))
 	{
-		const gchar *name;
-		gchar *path = NULL;
+		gchar *path = NULL, *name;
 		gtk_tree_model_get(model, iter, S_FILEPATH, &path, -1);
 
-		name = path ? g_basename(path) : NULL;
+		name = path ? g_path_get_basename(path) : NULL;
 		g_object_set(cell, "text", name ? name : path, NULL);
 
+		g_free(name);
 		if (path)
 		{
 			g_free(path);
