@@ -153,7 +153,7 @@ static GHashTable *calltips = NULL;
 /* 
  * remove stack margin markers
  */
- void remove_stack_markers(void)
+static void remove_stack_markers(void)
 {
 	int active_frame_index = active_module->get_active_frame();
 	
@@ -502,7 +502,7 @@ static gboolean on_watch_key_pressed_callback(GtkWidget *widget, GdkEvent  *even
 /* 
  * mouse button has been pressed while being in watch(autos) tree view
  */
-gboolean on_watch_button_pressed_callback(GtkWidget *treeview, GdkEventButton *event, gpointer userdata)
+static gboolean on_watch_button_pressed_callback(GtkWidget *treeview, GdkEventButton *event, gpointer userdata)
 {
     if (event->type == GDK_2BUTTON_PRESS  &&  event->button == 1)
 	{
@@ -844,7 +844,7 @@ static void on_debugger_exited (int code)
 /* 
  * called from debugger module to show a message in  debugger messages pane 
  */
-void on_debugger_message (const gchar* message, const gchar *color)
+static void on_debugger_message (const gchar* message, const gchar *color)
 {
 	gchar *msg = g_strdup_printf("%s\n", message);
 

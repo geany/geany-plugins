@@ -49,7 +49,7 @@ extern GeanyFunctions *geany_functions;
 /*
  * 	Set breakpoint and stack markers for a file
  */
-void set_markers_for_file(const gchar* file)
+static void set_markers_for_file(const gchar* file)
 {
 	GList *breaks;
 	if ( (breaks = breaks_get_for_document(file)) )

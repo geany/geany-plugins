@@ -123,7 +123,7 @@ GtkTreePath* wtree_empty_path(void)
 /*
  * iterating function to collect all watches
  */
-gboolean watches_foreach_collect(GtkTreeModel *_model, 
+static gboolean watches_foreach_collect(GtkTreeModel *_model, 
 	GtkTreePath *path,
     GtkTreeIter *iter,
     gpointer data)

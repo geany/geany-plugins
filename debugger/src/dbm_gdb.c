@@ -122,16 +122,16 @@ static gboolean file_refresh_needed = FALSE;
 static int active_frame = 0;
 
 /* forward declarations */
-void stop(void);
-variable* add_watch(gchar* expression);
-void update_watches(void);
-void update_autos(void);
-void update_files(void);
+static void stop(void);
+static variable* add_watch(gchar* expression);
+static void update_watches(void);
+static void update_autos(void);
+static void update_files(void);
 
 /*
  * print message using color, based on message type
  */
-void colorize_message(gchar *message)
+static void colorize_message(gchar *message)
 {
 	const gchar *color;
 	if ('=' == *message)
@@ -221,7 +221,7 @@ static GList* read_until_prompt(void)
 /*
  * write a command to a gdb channel and flush with a newlinw character 
  */
-void gdb_input_write_line(const gchar *line)
+static void gdb_input_write_line(const gchar *line)
 {
 	GIOStatus st;
 	GError *err = NULL;
@@ -302,7 +302,7 @@ static GList* add_to_queue(GList* queue, const gchar *message, const gchar *comm
  * reads from startup async commands.
  * looks for a command completion (normal or abnormal), if noraml - executes next command
  */
-void exec_async_command(const gchar* command);
+static void exec_async_command(const gchar* command);
 static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpointer data)
 {
 	gchar *line;
@@ -615,7 +615,7 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
  * connects reader to output channel and exits
  * after execution
  */ 
-void exec_async_command(const gchar* command)
+static void exec_async_command(const gchar* command)
 {
 #ifdef DEBUG_OUTPUT
 	dbg_cbs->send_message(command, "red");
@@ -632,7 +632,7 @@ void exec_async_command(const gchar* command)
  * i.e. reading output right
  * after execution
  */ 
-result_class exec_sync_command(const gchar* command, gboolean wait4prompt, gchar** command_record)
+static result_class exec_sync_command(const gchar* command, gboolean wait4prompt, gchar** command_record)
 {
 	GList *lines, *iter;
 	result_class rc;
@@ -708,7 +708,7 @@ result_class exec_sync_command(const gchar* command, gboolean wait4prompt, gchar
 /*
  * starts gdb, collects commands and start the first one
  */
-gboolean run(const gchar* file, const gchar* commandline, GList* env, GList *witer, GList *biter, const gchar* terminal_device, dbg_callbacks* callbacks)
+static gboolean run(const gchar* file, const gchar* commandline, GList* env, GList *witer, GList *biter, const gchar* terminal_device, dbg_callbacks* callbacks)
 {
 	GError *err = NULL;
 	const gchar *exclude[] = { "LANG", NULL };
@@ -888,7 +888,7 @@ gboolean run(const gchar* file, const gchar* commandline, GList* env, GList *wit
 /*
  * starts debugging
  */
-void restart(char* terminal_device)
+static void restart(char* terminal_device)
 {
 	dbg_cbs->clear_messages();
 	exec_async_command("-exec-run &");
@@ -897,7 +897,7 @@ void restart(char* terminal_device)
 /*
  * stops GDB
  */
-void stop(void)
+static void stop(void)
 {
 	exec_sync_command("-gdb-exit", FALSE, NULL);
 }
@@ -905,7 +905,7 @@ void stop(void)
 /*
  * resumes GDB
  */
-void resume(void)
+static void resume(void)
 {
 	exec_async_command("-exec-continue");
 }
@@ -913,7 +913,7 @@ void resume(void)
 /*
  * step over
  */
-void step_over(void)
+static void step_over(void)
 {
 	exec_async_command("-exec-next");
 }
@@ -921,7 +921,7 @@ void step_over(void)
 /*
  * step into
  */
-void step_into(void)
+static void step_into(void)
 {
 	exec_async_command("-exec-step");
 }
@@ -929,7 +929,7 @@ void step_into(void)
 /*
  * step out
  */
-void step_out(void)
+static void step_out(void)
 {
 	exec_async_command("-exec-finish");
 }
@@ -937,7 +937,7 @@ void step_out(void)
 /*
  * execute until
  */
-void execute_until(const gchar *file, int line)
+static void execute_until(const gchar *file, int line)
 {
 	gchar command[1000];
 	sprintf(command, "-exec-until %s:%i", file, line);
@@ -947,7 +947,7 @@ void execute_until(const gchar *file, int line)
 /*
  * gets breakpoint number by file and line
  */
-int get_break_number(char* file, int line)
+static int get_break_number(char* file, int line)
 {
 	gchar *record, *bstart;
 
@@ -993,7 +993,7 @@ int get_break_number(char* file, int line)
 /*
  * set breakpoint
  */
-gboolean set_break(breakpoint* bp, break_set_activity bsa)
+static gboolean set_break(breakpoint* bp, break_set_activity bsa)
 {
 	char command[1000];
 	if (BSA_NEW_BREAK == bsa)
@@ -1066,7 +1066,7 @@ gboolean set_break(breakpoint* bp, break_set_activity bsa)
 /*
  * removes breakpoint
  */
-gboolean remove_break(breakpoint* bp)
+static gboolean remove_break(breakpoint* bp)
 {
 	/* find break number */
 	int number = get_break_number(bp->file, bp->line);
@@ -1086,7 +1086,7 @@ gboolean remove_break(breakpoint* bp)
 /*
  * get active  frame
  */
-int get_active_frame(void)
+static int get_active_frame(void)
 {
 	return active_frame;
 }
@@ -1094,7 +1094,7 @@ int get_active_frame(void)
 /*
  * select frame
  */
-void set_active_frame(int frame_number)
+static void set_active_frame(int frame_number)
 {
 	gchar *command = g_strdup_printf("-stack-select-frame %i", frame_number);
 	if (RC_DONE == exec_sync_command(command, TRUE, NULL))
@@ -1109,7 +1109,7 @@ void set_active_frame(int frame_number)
 /*
  * gets stack
  */
-GList* get_stack(void)
+static GList* get_stack(void)
 {
 	gchar* record = NULL;
 	GList *stack = NULL;
@@ -1204,7 +1204,7 @@ GList* get_stack(void)
  * unescapes hex values (\0xXXX) to readable chars
  * converting it from wide character value to char
  */
-gchar* unescape_hex_values(gchar *src)
+static gchar* unescape_hex_values(gchar *src)
 {
 	GString *dest = g_string_new("");
 	
@@ -1255,7 +1255,7 @@ gchar* unescape_hex_values(gchar *src)
  * checks if pc pointer points to the 
  * valid printable charater
  */
-gboolean isvalidcharacter(gchar *pc, gboolean utf8)
+static gboolean isvalidcharacter(gchar *pc, gboolean utf8)
 {
 	if (utf8)
 		return -1 != g_utf8_get_char_validated(pc, -1);
@@ -1266,7 +1266,7 @@ gboolean isvalidcharacter(gchar *pc, gboolean utf8)
 /*
  * unescapes string, handles octal characters representations
  */
-gchar* unescape_octal_values(gchar *text)
+static gchar* unescape_octal_values(gchar *text)
 {
 	GString *value = g_string_new("");
 	
@@ -1317,7 +1317,7 @@ gchar* unescape_octal_values(gchar *text)
 /*
  * unescapes value string, handles hexidecimal and octal characters representations
  */
-gchar *unescape(gchar *text)
+static gchar *unescape(gchar *text)
 {
 	gchar *retval = NULL;
 
@@ -1342,7 +1342,7 @@ gchar *unescape(gchar *text)
 /*
  * updates variables from vars list 
  */
-void get_variables (GList *vars)
+static void get_variables (GList *vars)
 {
 	while (vars)
 	{
@@ -1409,7 +1409,7 @@ void get_variables (GList *vars)
 /*
  * updates files list
  */
-void update_files(void)
+static void update_files(void)
 {
 	GHashTable *ht = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, NULL);
 	gchar *record = NULL;
@@ -1445,7 +1445,7 @@ void update_files(void)
 /*
  * updates watches list 
  */
-void update_watches(void)
+static void update_watches(void)
 {
 	gchar command[1000];
 	GList *updating = NULL;
@@ -1512,7 +1512,7 @@ void update_watches(void)
 /*
  * updates autos list 
  */
-void update_autos(void)
+static void update_autos(void)
 {
 	gchar command[1000];
 	GList *unevaluated = NULL, *iter;
@@ -1594,7 +1594,7 @@ void update_autos(void)
 /*
  * get autos list 
  */
-GList* get_autos (void)
+static GList* get_autos (void)
 {
 	return g_list_copy(autos);
 }
@@ -1602,7 +1602,7 @@ GList* get_autos (void)
 /*
  * get watches list 
  */
-GList* get_watches (void)
+static GList* get_watches (void)
 {
 	return g_list_copy(watches);
 }
@@ -1610,7 +1610,7 @@ GList* get_watches (void)
 /*
  * get files list 
  */
-GList* get_files (void)
+static GList* get_files (void)
 {
 	return g_list_copy(files);
 }
@@ -1618,7 +1618,7 @@ GList* get_files (void)
 /*
  * get list of children 
  */
-GList* get_children (gchar* path)
+static GList* get_children (gchar* path)
 {
 	GList *children = NULL;
 	
@@ -1683,7 +1683,7 @@ GList* get_children (gchar* path)
 /*
  * add new watch 
  */
-variable* add_watch(gchar* expression)
+static variable* add_watch(gchar* expression)
 {
 	gchar command[1000];
 	gchar *record = NULL, *escaped, *pos;
@@ -1720,7 +1720,7 @@ variable* add_watch(gchar* expression)
 /*
  * remove watch 
  */
-void remove_watch(gchar* internal)
+static void remove_watch(gchar* internal)
 {
 	GList *iter = watches;
 	while (iter)
@@ -1741,7 +1741,7 @@ void remove_watch(gchar* internal)
 /*
  * evaluates given expression and returns the result
  */
-gchar *evaluate_expression(gchar *expression)
+static gchar *evaluate_expression(gchar *expression)
 {
 	gchar *record = NULL, *pos;
 	char command[1000];
@@ -1765,7 +1765,7 @@ gchar *evaluate_expression(gchar *expression)
 /*
  * request GDB interrupt 
  */
-gboolean request_interrupt(void)
+static gboolean request_interrupt(void)
 {
 #ifdef DEBUG_OUTPUT
 	char msg[1000];
@@ -1782,7 +1782,7 @@ gboolean request_interrupt(void)
 /*
  * get GDB error messages 
  */
-gchar* error_message(void)
+static gchar* error_message(void)
 {
 	return err_message;
 }

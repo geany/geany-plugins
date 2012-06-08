@@ -81,7 +81,7 @@ move_to_line_cb on_break_clicked = NULL;
 /* 
  * gets tree row reference for an unsected row at the same depth
  */
-GtkTreeRowReference* get_unselected_sibling(GtkTreePath *path)
+static GtkTreeRowReference* get_unselected_sibling(GtkTreePath *path)
 {
 	GtkTreeRowReference *sibling = NULL;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
@@ -212,7 +212,7 @@ static void on_render_filename(GtkTreeViewColumn *tree_column, GtkCellRenderer *
 /* 
  * hides file checkbox for breaks rows
  */
-void on_render_enable_for_file(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeModel *tree_model,
+static void on_render_enable_for_file(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeModel *tree_model,
 	GtkTreeIter *iter, gpointer data)
 {
 	GtkTreePath *path = gtk_tree_model_get_path(model, iter);
@@ -223,7 +223,7 @@ void on_render_enable_for_file(GtkTreeViewColumn *tree_column, GtkCellRenderer *
 /* 
  * hides break pixbuf for file rows
  */
-void on_render_enable_break(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeModel *tree_model,
+static void on_render_enable_break(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeModel *tree_model,
 	GtkTreeIter *iter, gpointer data)
 {
 	GtkTreePath *path = gtk_tree_model_get_path(model, iter);
@@ -234,7 +234,7 @@ void on_render_enable_break(GtkTreeViewColumn *tree_column, GtkCellRenderer *cel
 /* 
  * makes condition and hitscount uneditable and empty for file rows
  */
-void on_render(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeModel *tree_model,
+static void on_render(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeModel *tree_model,
 	GtkTreeIter *iter, gpointer data)
 {
 	GtkTreePath *path = gtk_tree_model_get_path(model, iter);
@@ -296,7 +296,7 @@ static void on_row_double_click(GtkTreeView *tree_view, GtkTreePath *path, GtkTr
 /*
  * editing "condition" column value finished
  */
-void on_condition_changed(GtkCellRendererText *renderer, gchar *path, gchar *new_text, gpointer user_data)
+static void on_condition_changed(GtkCellRendererText *renderer, gchar *path, gchar *new_text, gpointer user_data)
 {
 	gchar *file;
 	int line;
@@ -335,7 +335,7 @@ void on_condition_changed(GtkCellRendererText *renderer, gchar *path, gchar *new
 /*
  * editing "hitscount" column value finished
  */
-void on_hitscount_changed(GtkCellRendererText *renderer, gchar *path, gchar *new_text, gpointer user_data)
+static void on_hitscount_changed(GtkCellRendererText *renderer, gchar *path, gchar *new_text, gpointer user_data)
 {
 	GtkTreeIter iter, parent_iter;
 	GtkTreePath *tree_path;
@@ -379,7 +379,7 @@ void on_hitscount_changed(GtkCellRendererText *renderer, gchar *path, gchar *new
 /*
  * enable / disable all breaks for a file when it's checkbox icon has been clicked
  */
-void on_enable_for_file(GtkCellRendererToggle *cell_renderer, gchar *path, gpointer user_data)
+static void on_enable_for_file(GtkCellRendererToggle *cell_renderer, gchar *path, gpointer user_data)
 {
 	GtkTreeIter  iter;
 	GtkTreePath *tree_path;
@@ -419,7 +419,7 @@ void on_enable_for_file(GtkCellRendererToggle *cell_renderer, gchar *path, gpoin
 /*
  * enable / disable particulary break when it's icon has been clicked
  */
-void on_enable_break(CellRendererBreakIcon *cell_renderer, gchar *path, gpointer user_data)
+static void on_enable_break(CellRendererBreakIcon *cell_renderer, gchar *path, gpointer user_data)
 {
 	GtkTreeIter  iter;
 	GtkTreePath *tree_path;

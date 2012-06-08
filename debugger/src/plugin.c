@@ -77,7 +77,7 @@ PluginCallback plugin_callbacks[] =
 	{ NULL, NULL, FALSE, NULL }
 };
 
-void on_paned_mode_changed(GtkToggleButton *button, gpointer user_data)
+static void on_paned_mode_changed(GtkToggleButton *button, gpointer user_data)
 {
 	gboolean state = gtk_toggle_button_get_active(button);
 	dpaned_set_tabbed(state);

@@ -213,7 +213,7 @@ void free_variables_list(GList *vars)
 /*
  * updates iterator according to variable
  */
-void update_variable(GtkTreeStore *store, GtkTreeIter *iter, variable *var, gboolean changed)
+static void update_variable(GtkTreeStore *store, GtkTreeIter *iter, variable *var, gboolean changed)
 {
 	gtk_tree_store_set (store, iter,
 		W_NAME, var->name->str,

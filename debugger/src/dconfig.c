@@ -79,7 +79,7 @@ static gboolean panel_config_changed = FALSE;
 /*
  *	creates a copy of a specified keyfile
  */
-GKeyFile *create_copy_keyfile(GKeyFile *keyfile)
+static GKeyFile *create_copy_keyfile(GKeyFile *keyfile)
 {
 	gchar *path, *config_data;
 	GKeyFile *copy;
@@ -102,7 +102,7 @@ GKeyFile *create_copy_keyfile(GKeyFile *keyfile)
 /*
  * loads debug session from a keyfile and updates GUI 
  */
-void debug_load_from_keyfile(GKeyFile *keyfile)
+static void debug_load_from_keyfile(GKeyFile *keyfile)
 {
 	gchar *value;
 	int i, count;
@@ -183,7 +183,7 @@ void debug_load_from_keyfile(GKeyFile *keyfile)
 /*
  * saves debug session to a keyfile using values from GUI 
  */
-void save_to_keyfile(GKeyFile *keyfile)
+static void save_to_keyfile(GKeyFile *keyfile)
 {
 	GList *_env, *watches, *_breaks, *iter;
 	int env_index, watch_index, bp_index;
@@ -409,7 +409,7 @@ void config_set_panel(int config_part, gpointer config_value, ...)
 /*
  *	set default debug session values to a keyfile
  */
-void config_set_debug_defaults(GKeyFile *keyfile)
+static void config_set_debug_defaults(GKeyFile *keyfile)
 {
 	g_key_file_set_string(keyfile, DEBUGGER_GROUP, "target", "");
 	g_key_file_set_string(keyfile, DEBUGGER_GROUP, "debugger", "");
@@ -423,7 +423,7 @@ void config_set_debug_defaults(GKeyFile *keyfile)
 /*
  *	set default panel config values in a GKeyFile
  */
-void config_set_panel_defaults(GKeyFile *keyfile)
+static void config_set_panel_defaults(GKeyFile *keyfile)
 {
 	int all_tabs[] = { TID_TARGET, TID_BREAKS, TID_AUTOS, TID_WATCH, TID_STACK, TID_TERMINAL, TID_MESSAGES };
 	int left_tabs[] = { TID_TARGET, TID_BREAKS, TID_AUTOS, TID_WATCH };

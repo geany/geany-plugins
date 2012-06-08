@@ -49,7 +49,7 @@ typedef void 	(*breaks_iterate_function)(void* bp);
 /*
  * Iterates through GTree for the particular file
  */
-gboolean tree_foreach_call_function(gpointer key, gpointer value, gpointer data)
+static gboolean tree_foreach_call_function(gpointer key, gpointer value, gpointer data)
 {
 	((breaks_iterate_function)data)(value);
 	return FALSE;
@@ -58,7 +58,7 @@ gboolean tree_foreach_call_function(gpointer key, gpointer value, gpointer data)
 /*
  * Iterates through hash table of GTree-s
  */
-void hash_table_foreach_call_function(gpointer key, gpointer value, gpointer user_data)
+static void hash_table_foreach_call_function(gpointer key, gpointer value, gpointer user_data)
 {
 	g_tree_foreach((GTree*)value, tree_foreach_call_function, user_data);
 }
@@ -67,7 +67,7 @@ void hash_table_foreach_call_function(gpointer key, gpointer value, gpointer use
  * Iterates through GTree
  * adding each item to GList that is passed through data variable
  */
-gboolean tree_foreach_add_to_list(gpointer key, gpointer value, gpointer data)
+static gboolean tree_foreach_add_to_list(gpointer key, gpointer value, gpointer data)
 {
 	GList **list = (GList**)data;
 	*list = g_list_append(*list, value);
@@ -78,7 +78,7 @@ gboolean tree_foreach_add_to_list(gpointer key, gpointer value, gpointer data)
  * Iterates through hash table of GTree-s
  * calling list collection functions on each tree
  */
-void hash_table_foreach_add_to_list(gpointer key, gpointer value, gpointer user_data)
+static void hash_table_foreach_add_to_list(gpointer key, gpointer value, gpointer user_data)
 {
 	g_tree_foreach((GTree*)value, tree_foreach_add_to_list, user_data);
 }
@@ -170,7 +170,7 @@ static void on_remove_list(GList *list)
  * 		b -	second integer
  * 		user_data - not used
  */
-gint compare_func(gconstpointer a, gconstpointer b, gpointer user_data)
+static gint compare_func(gconstpointer a, gconstpointer b, gpointer user_data)
 {
 	return GPOINTER_TO_INT(a) - GPOINTER_TO_INT(b);
 }

@@ -76,7 +76,7 @@ static gboolean on_key_pressed(GtkWidget *widget, GdkEvent *event, gpointer user
 /*
  * value rendere function
  */
-void render_icon(GtkTreeViewColumn *tree_column,
+static void render_icon(GtkTreeViewColumn *tree_column,
 	 GtkCellRenderer *cell,
 	 GtkTreeModel *tree_model,
 	 GtkTreeIter *iter,
@@ -113,7 +113,7 @@ void render_icon(GtkTreeViewColumn *tree_column,
 /*
  * value rendere function
  */
-void render_value(GtkTreeViewColumn *tree_column,
+static void render_value(GtkTreeViewColumn *tree_column,
 	 GtkCellRenderer *cell,
 	 GtkTreeModel *tree_model,
 	 GtkTreeIter *iter,
