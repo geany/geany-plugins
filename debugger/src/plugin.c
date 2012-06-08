@@ -84,7 +84,6 @@ static void on_paned_mode_changed(GtkToggleButton *button, gpointer user_data)
 	tpage_pack_widgets(state);
 }
 
-extern void config_on_project_open(GObject *obj, GKeyFile *config, gpointer user_data);
 /* Called by Geany to initialize the plugin.
  * Note: data is the same as geany_data. */
 void plugin_init(GeanyData *data)

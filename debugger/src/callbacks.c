@@ -117,7 +117,6 @@ void on_document_before_save(GObject *obj, GeanyDocument *doc, gpointer user_dat
 /*
  * 	Occures on saving document
  */
-void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data);
 void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
 	if (_unexisting_file)
