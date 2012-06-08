@@ -99,17 +99,14 @@ static void on_render_name(GtkTreeViewColumn *tree_column,
 /*
  * get iterator to an empty row
  */
-GtkTreeIter wtree_empty_row(void)
+void wtree_empty_row(GtkTreeIter *iter)
 {
-	GtkTreeIter empty;
 	GtkTreePath *path = gtk_tree_row_reference_get_path(empty_row);
 
 	gtk_tree_model_get_iter(gtk_tree_view_get_model(GTK_TREE_VIEW(tree)),
-		&empty,
+		iter,
 		path);
 	gtk_tree_path_free(path);
-	
-	return empty;
 }
 
 /*
@@ -206,8 +203,9 @@ void wtree_remove_all(void)
  */
 void wtree_add_watch(gchar *watch)
 {
-	GtkTreeIter newvar;
-	GtkTreeIter empty = wtree_empty_row();
+	GtkTreeIter newvar, empty;
+
+	wtree_empty_row(&empty);
 	gtk_tree_store_insert_before(store, &newvar, NULL, &empty);
 
 	variable_set_name_only(store, &newvar, watch);

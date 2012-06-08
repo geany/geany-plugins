@@ -347,7 +347,9 @@ static void on_watch_dragged_callback(GtkWidget *wgt, GdkDragContext *context, i
 	}
 	else
 	{
-		GtkTreeIter empty = wtree_empty_row();
+		GtkTreeIter empty;
+
+		wtree_empty_row(&empty);
 		gtk_tree_store_insert_before(wstore, &newvar, NULL, &empty);
 	}
 	
@@ -522,8 +524,9 @@ static gboolean on_watch_button_pressed_callback(GtkWidget *treeview, GdkEventBu
 
 			if (strlen(expression))
 			{
-				GtkTreeIter newvar;
-				GtkTreeIter empty = wtree_empty_row();
+				GtkTreeIter newvar, empty;
+
+				wtree_empty_row(&empty);
 				gtk_tree_store_insert_before(wstore, &newvar, NULL, &empty);
 			
 				/* if debugger is active (in stopped condition) - add to run-time watch list

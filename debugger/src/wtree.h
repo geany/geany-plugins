@@ -32,7 +32,7 @@ GtkWidget*		wtree_init(watch_expanded_callback expanded,
 	watch_key_pressed keypressed,
 	watch_expression_changed changed,
 	watch_button_pressed buttonpressed);
-GtkTreeIter		wtree_empty_row(void);
+void			wtree_empty_row(GtkTreeIter *iter);
 GtkTreePath*	wtree_empty_path(void);
 GList*			wtree_get_watches(void);
 void			wtree_remove_all(void);
