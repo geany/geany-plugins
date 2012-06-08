@@ -81,20 +81,14 @@ static gboolean panel_config_changed = FALSE;
  */
 static GKeyFile *create_copy_keyfile(GKeyFile *keyfile)
 {
-	gchar *path, *config_data;
 	GKeyFile *copy;
+	gchar *data;
+	gsize length;
 
-	close(g_file_open_tmp(NULL, &path, NULL));
-	
-	config_data = g_key_file_to_data(keyfile, NULL, NULL);
-	g_file_set_contents(path, config_data, -1, NULL);
-	g_free(config_data);
-	
+	data = g_key_file_to_data(keyfile, &length, NULL);
 	copy = g_key_file_new();
-	g_key_file_load_from_file(copy, path, G_KEY_FILE_NONE, NULL);
-
-	g_remove(path);
-	g_free(path);
+	g_key_file_load_from_data(copy, data, length, G_KEY_FILE_NONE, NULL);
+	g_free(data);
 
 	return copy;
 }
