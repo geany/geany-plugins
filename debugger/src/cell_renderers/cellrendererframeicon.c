@@ -237,9 +237,12 @@ static void cell_renderer_frame_icon_init (CellRendererFrameIcon *cell)
 static void cell_renderer_frame_icon_finalize (GObject *object)
 {
 	CellRendererFrameIcon *cell = (CellRendererFrameIcon*)object;
-	
-	GdkPixbuf *pixbufs[] = { cell->pixbuf_active, cell->pixbuf_highlighted };
+	GdkPixbuf *pixbufs[2];
 	int i;
+	
+	pixbufs[0] = cell->pixbuf_active;
+	pixbufs[1] = cell->pixbuf_highlighted;
+	
 	for(i = 0; i < 2; i++)
 	{
 		if (pixbufs[i])

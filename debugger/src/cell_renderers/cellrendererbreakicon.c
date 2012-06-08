@@ -295,9 +295,14 @@ static void cell_renderer_break_icon_init (CellRendererBreakIcon *cell)
 static void cell_renderer_break_icon_finalize (GObject *object)
 {
 	CellRendererBreakIcon *cell = (CellRendererBreakIcon*)object;
-	
-	GdkPixbuf *pixbufs[] = { cell->pixbuf_enabled, cell->pixbuf_disabled, cell->pixbuf_conditional, cell->pixbuf_file };
+	GdkPixbuf *pixbufs[4];
 	int i;
+	
+	pixbufs[0] = cell->pixbuf_enabled;
+	pixbufs[1] = cell->pixbuf_disabled;
+	pixbufs[2] = cell->pixbuf_conditional;
+	pixbufs[3] = cell->pixbuf_file;
+	
 	for(i = 0; i < 4; i++)
 	{
 		if (pixbufs[i])
