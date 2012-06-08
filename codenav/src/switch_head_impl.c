@@ -54,7 +54,7 @@ static GSList* languages = NULL;	/* handled languages */
 /********************** Functions for the feature *********************/
 
 static void
-fill_default_languages_list();
+fill_default_languages_list(void);
 
 static void
 menu_item_activate(guint key_id);
@@ -73,11 +73,13 @@ on_configure_cell_edited(GtkCellRendererText* text, gchar* arg1, gchar* arg2, gp
  * ---------------------------------------------------------------------
  */
 void
-switch_head_impl_init()
+switch_head_impl_init(void)
 {
+	GtkWidget* edit_menu;
+
 	log_func();
 
-	GtkWidget* edit_menu = ui_lookup_widget(geany->main_widgets->window, "edit1_menu");
+	edit_menu = ui_lookup_widget(geany->main_widgets->window, "edit1_menu");
 
 	/* Add the menu item and make it sensitive only when a document is opened */
 	menu_item = gtk_menu_item_new_with_mnemonic(_("Switch header/implementation"));
@@ -106,7 +108,7 @@ switch_head_impl_init()
  * ---------------------------------------------------------------------
  */
 void
-switch_head_impl_cleanup()
+switch_head_impl_cleanup(void)
 {
 	GSList* iter = NULL;
 
@@ -134,7 +136,7 @@ switch_head_impl_cleanup()
  * ---------------------------------------------------------------------
  */
 static void
-fill_default_languages_list()
+fill_default_languages_list(void)
 {
 	Language* lang = NULL;
 
@@ -356,9 +358,11 @@ menu_item_activate(guint key_id)
 
 		/* Third : if not found, ask the user if he wants to create it or not. */
 		{
+			GtkWidget* dialog;
+
 			p_str = g_strdup_printf("%s.%s", basename_no_extension, (const gchar*)(p_extensions_to_test->data));
 
-			GtkWidget* dialog = gtk_message_dialog_new(	GTK_WINDOW(geany_data->main_widgets->window),
+			dialog = gtk_message_dialog_new(	GTK_WINDOW(geany_data->main_widgets->window),
 														GTK_DIALOG_MODAL,
 														GTK_MESSAGE_QUESTION,
 														GTK_BUTTONS_OK_CANCEL,
@@ -441,7 +445,7 @@ add_language(GtkListStore* list_store, Language* lang)
 
 /* ----- Finally, the configuration widget ----- */
 GtkWidget*
-switch_head_impl_config_widget()
+switch_head_impl_config_widget(void)
 {
 	GtkWidget *frame, *vbox, *tree_view;
 	GtkWidget *hbox_buttons, *add_button, *remove_button;

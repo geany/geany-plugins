@@ -62,11 +62,10 @@ static void log_debug(const gchar* s, ...)
 	va_end(l);
 }
 
-#define log_func() g_print("[CODENAV FUNC] : %s", __func__)	/*	NB : this needs the C99 standard, but is only
-																used when debugging, so no problem :) */
+#define log_func() g_print("[CODENAV FUNC] : %s", G_STRFUNC)
 #else
 static void log_debug(const gchar* s, ...) {}
-static void log_func() {}
+#define log_func() {}
 #endif
 
 /* IDs for keybindings */

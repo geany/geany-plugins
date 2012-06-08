@@ -85,9 +85,9 @@ void plugin_init(GeanyData *data)
  */
 GtkWidget *plugin_configure(GtkDialog *dialog)
 {
-	log_func();
-
 	GtkWidget *vbox;
+
+	log_func();
 
 	vbox = gtk_vbox_new(FALSE, 6);
 
