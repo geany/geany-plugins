@@ -278,11 +278,11 @@ static gint cell_renderer_break_icon_activate(GtkCellRenderer *cell, GdkEvent *e
  */
 static void cell_renderer_break_icon_init (CellRendererBreakIcon *cell)
 {
+	GtkCellRenderer *cell_renderer = (GtkCellRenderer*)cell;
+	
 	cell->enabled = TRUE;
 	cell->condition = NULL;
 	cell->hitscount = 0;
-	
-	GtkCellRenderer *cell_renderer = (GtkCellRenderer*)cell;
 	
 	cell_renderer->mode = GTK_CELL_RENDERER_MODE_ACTIVATABLE;
 

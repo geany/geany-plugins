@@ -84,7 +84,6 @@ move_to_line_cb on_break_clicked = NULL;
 GtkTreeRowReference* get_unselected_sibling(GtkTreePath *path)
 {
 	GtkTreeRowReference *sibling = NULL;
-	
 	GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
 
 	/* move down find first unselected sibling */
@@ -156,18 +155,18 @@ static gboolean on_query_tooltip(GtkWidget *widget, gint x, gint y, gboolean key
 {
 	gboolean show = FALSE;
 	int bx, by;
-	gtk_tree_view_convert_widget_to_bin_window_coords(GTK_TREE_VIEW(widget), x, y, &bx, &by);
-
 	GtkTreePath *tpath = NULL;
 	GtkTreeViewColumn *column = NULL;
+
+	gtk_tree_view_convert_widget_to_bin_window_coords(GTK_TREE_VIEW(widget), x, y, &bx, &by);
 	if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(widget), bx, by, &tpath, &column, NULL, NULL))
 	{
 		if (1 == gtk_tree_path_get_depth(tpath) && column == gtk_tree_view_get_column(GTK_TREE_VIEW(widget), FILEPATH))
 		{
 			GtkTreeIter iter;
-			gtk_tree_model_get_iter(model, &iter, tpath);
-			
 			gchar *path = NULL;
+			
+			gtk_tree_model_get_iter(model, &iter, tpath);
 			gtk_tree_model_get(model, &iter, FILEPATH, &path, -1);
 
 			gtk_tooltip_set_text(tooltip, path);
@@ -189,9 +188,11 @@ static void on_render_filename(GtkTreeViewColumn *tree_column, GtkCellRenderer *
 	GtkTreeIter *iter, gpointer data)
 {
 	gchar *path = NULL;
+	GtkTreePath *tpath;
+
 	gtk_tree_model_get(model, iter, FILEPATH, &path, -1);
 
-	GtkTreePath *tpath = gtk_tree_model_get_path(model, iter);
+	tpath = gtk_tree_model_get_path(model, iter);
 	if (1 != gtk_tree_path_get_depth(tpath))
 	{
 		g_object_set(cell, "text", path, NULL);
@@ -258,21 +259,20 @@ void on_render(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeMod
  */
 static void on_row_double_click(GtkTreeView *tree_view, GtkTreePath *path, GtkTreeViewColumn *column, gpointer user_data)
 {
+	GtkTreeIter iter, parent_iter;
+	gchar *file;
+	int line;
+	
 	if (1 == gtk_tree_path_get_depth(path))
 	{
 		return;
 	}
 	
-	GtkTreeIter iter;
 	gtk_tree_model_get_iter (
 		 model,
 		 &iter,
 		 path);
-    
-    gchar *file;
-	int line;
 	
-	GtkTreeIter parent_iter;
 	gtk_tree_model_iter_parent(model, &parent_iter, &iter);
 	
 	gtk_tree_model_get (
@@ -298,26 +298,25 @@ static void on_row_double_click(GtkTreeView *tree_view, GtkTreePath *path, GtkTr
  */
 void on_condition_changed(GtkCellRendererText *renderer, gchar *path, gchar *new_text, gpointer user_data)
 {
-	GtkTreeIter  iter;
-    GtkTreePath *tree_path = gtk_tree_path_new_from_string (path);
+	gchar *file;
+	int line;
+	gchar* oldcondition;
+	GtkTreeIter iter, parent_iter;
+	GtkTreePath *tree_path = gtk_tree_path_new_from_string (path);
 
 	gtk_tree_model_get_iter (
 		 model,
 		 &iter,
 		 tree_path);
 	
-	GtkTreeIter parent_iter;
 	gtk_tree_model_iter_parent(model, &parent_iter, &iter);
 
-	gchar *file;
 	gtk_tree_model_get (
 		model,
 		&parent_iter,
 		FILEPATH, &file,
 		-1);
 	
-	int line;
-	gchar* oldcondition;
 	gtk_tree_model_get (
 		model,
 		&iter,
@@ -338,30 +337,31 @@ void on_condition_changed(GtkCellRendererText *renderer, gchar *path, gchar *new
  */
 void on_hitscount_changed(GtkCellRendererText *renderer, gchar *path, gchar *new_text, gpointer user_data)
 {
+	GtkTreeIter iter, parent_iter;
+	GtkTreePath *tree_path;
+	gchar *file;
+	int line;
+	gint oldcount;
 	int count = atoi(new_text);
+
 	if (!count && strcmp(new_text, "0"))
 		return;
 
-	GtkTreeIter  iter;
-    GtkTreePath *tree_path = gtk_tree_path_new_from_string (path);
+	tree_path = gtk_tree_path_new_from_string (path);
 
 	gtk_tree_model_get_iter (
 		 model,
 		 &iter,
 		 tree_path);
 
-	GtkTreeIter parent_iter;
 	gtk_tree_model_iter_parent(model, &parent_iter, &iter);
 
-	gchar *file;
 	gtk_tree_model_get (
 		model,
 		&parent_iter,
 		FILEPATH, &file,
 		-1);
 
-	int line;
-	gint oldcount;
 	gtk_tree_model_get (
 		model,
 		&iter,
@@ -381,19 +381,22 @@ void on_hitscount_changed(GtkCellRendererText *renderer, gchar *path, gchar *new
  */
 void on_enable_for_file(GtkCellRendererToggle *cell_renderer, gchar *path, gpointer user_data)
 {
+	GtkTreeIter  iter;
+	GtkTreePath *tree_path;
+	gboolean current_state;
+
 	/* do not process event is page is readonly (debug is running) */
 	if (readonly)
 		return;
 	
-	GtkTreeIter  iter;
-    GtkTreePath *tree_path = gtk_tree_path_new_from_string (path);
+	tree_path = gtk_tree_path_new_from_string (path);
 	
 	gtk_tree_model_get_iter (
 		model,
 		&iter,
 		tree_path);
     
-	gboolean current_state = gtk_cell_renderer_toggle_get_active(cell_renderer);
+	current_state = gtk_cell_renderer_toggle_get_active(cell_renderer);
 
     /* check if this is a file row */
     if(1 == gtk_tree_path_get_depth(tree_path))
@@ -418,12 +421,14 @@ void on_enable_for_file(GtkCellRendererToggle *cell_renderer, gchar *path, gpoin
  */
 void on_enable_break(CellRendererBreakIcon *cell_renderer, gchar *path, gpointer user_data)
 {
+	GtkTreeIter  iter;
+	GtkTreePath *tree_path;
+	
 	/* do not process event is page is readonly (debug is running) */
 	if (readonly)
 		return;
 	
-	GtkTreeIter  iter;
-    GtkTreePath *tree_path = gtk_tree_path_new_from_string (path);
+	tree_path = gtk_tree_path_new_from_string (path);
 	
 	gtk_tree_model_get_iter (
 		model,
@@ -433,11 +438,11 @@ void on_enable_break(CellRendererBreakIcon *cell_renderer, gchar *path, gpointer
     /* check if this is not a file row */
     if(1 != gtk_tree_path_get_depth(tree_path))
 	{
-		GtkTreeIter parent_iter;
-		gtk_tree_model_iter_parent(model, &parent_iter, &iter);
-
 		gchar *file;
 		int line;
+		GtkTreeIter parent_iter;
+
+		gtk_tree_model_iter_parent(model, &parent_iter, &iter);
 
 		gtk_tree_model_get (
 			model,
@@ -463,24 +468,28 @@ void on_enable_break(CellRendererBreakIcon *cell_renderer, gchar *path, gpointer
  */
 static gboolean on_key_pressed(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
+	guint keyval = ((GdkEventKey*)event)->keyval;
+	GtkTreeSelection *selection;
+	GList *rows;
+
 	/* do not process event is page is readonly (debug is running) */
 	if (readonly)
 		return FALSE;
 
-    guint keyval = ((GdkEventKey*)event)->keyval;
-
 	/* get selected rows */
-	GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
-	GList *rows = gtk_tree_selection_get_selected_rows(selection, &model);
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
+	rows = gtk_tree_selection_get_selected_rows(selection, &model);
 	rows = g_list_sort(rows, (GCompareFunc)gtk_tree_path_compare);
 
 	if (keyval == GDK_Delete && rows && g_list_length(rows))
 	{
+		GList *breaks, *iter;
+		GtkTreeRowReference *new_selection = NULL;
+		GtkTreePath *first_path = (GtkTreePath*)rows->data;
+
 		/* "delete selected rows" */
 
 		/* get new selection */
-		GtkTreeRowReference *new_selection = NULL;
-		GtkTreePath *first_path = (GtkTreePath*)rows->data;
 		if (gtk_tree_path_get_depth(first_path) > 1)
 		{
 			new_selection = get_unselected_sibling(first_path);
@@ -498,13 +507,12 @@ static gboolean on_key_pressed(GtkWidget *widget, GdkEvent *event, gpointer user
 		
 		/* collect GList of breakpoints to remove
 		if file row is met - add all unselected breaks to the list as well */
-		GList *iter = rows;
-		GList *breaks = NULL;
-		while (iter)
+		breaks = NULL;
+		for (iter = rows; iter; iter = iter->next)
 		{
 			GtkTreePath *path = (GtkTreePath*)iter->data;
-			
 			GtkTreeIter titer;
+			
 			gtk_tree_model_get_iter(model, &titer, path);
 			
 			if (1 == gtk_tree_path_get_depth(path))
@@ -518,11 +526,12 @@ static gboolean on_key_pressed(GtkWidget *widget, GdkEvent *event, gpointer user
 					{
 						gchar *file = NULL;
 						gint line;
+						breakpoint *bp;
 
 						gtk_tree_model_get(model, &titer, FILEPATH, &file, -1);
 						gtk_tree_model_get(model, &citer, LINE, &line, -1);
 
-						breakpoint *bp = breaks_lookup_breakpoint(file, line);
+						bp = breaks_lookup_breakpoint(file, line);
 						
 						breaks = g_list_append(breaks, bp);
 						
@@ -534,21 +543,22 @@ static gboolean on_key_pressed(GtkWidget *widget, GdkEvent *event, gpointer user
 			else
 			{
 				GtkTreeIter piter;
+				gchar *file = NULL;
+				gint line;
+				breakpoint *bp;
+
 				gtk_tree_model_iter_parent(model, &piter, &titer);
 				
-				gchar *file = NULL;
 				gtk_tree_model_get(model, &piter, FILEPATH, &file, -1);
 
-				gint line;
 				gtk_tree_model_get(model, &titer, LINE, &line, -1);
 
-				breakpoint *bp = breaks_lookup_breakpoint(file, line);
+				bp = breaks_lookup_breakpoint(file, line);
 				
 				breaks = g_list_append(breaks, bp);
 				
 				g_free(file);
 			}
-			iter = iter->next;
 		}
 		
 		if (1 == g_list_length(breaks))
@@ -594,6 +604,10 @@ static gboolean on_key_pressed(GtkWidget *widget, GdkEvent *event, gpointer user
  */
 gboolean bptree_init(move_to_line_cb cb)
 {
+	GtkTreeSelection *selection;
+	GtkTreeViewColumn *column;
+	GtkCellRenderer *renderer;
+
 	/* save double click callback */
 	on_break_clicked = cb;
 	
@@ -622,7 +636,7 @@ gboolean bptree_init(move_to_line_cb cb)
 	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(tree), 1);
 	gtk_widget_set_has_tooltip(GTK_WIDGET(tree), TRUE);
 	/* multiple selection */
-	GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_MULTIPLE);
 	
 	/* connect signals */
@@ -631,33 +645,32 @@ gboolean bptree_init(move_to_line_cb cb)
 	g_signal_connect(G_OBJECT(tree), "query-tooltip", G_CALLBACK (on_query_tooltip), NULL);
 
 	/* creating columns */
-	GtkTreeViewColumn	*column;
 
 	/* icon, file */
-	GtkCellRenderer *renderer = gtk_cell_renderer_text_new ();
+	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_pack_end(column, renderer, TRUE);
 	gtk_tree_view_column_set_cell_data_func(column, renderer, on_render_filename, NULL, NULL);
-		
+
 	/* enable for file */
-	GtkCellRenderer *file_enable_renderer = cell_renderer_toggle_new ();
-	g_signal_connect (G_OBJECT(file_enable_renderer), "toggled", G_CALLBACK(on_enable_for_file), NULL);
-	gtk_tree_view_column_pack_end(column, file_enable_renderer, FALSE);
-	gtk_tree_view_column_set_attributes(column, file_enable_renderer, "active", ENABLED, NULL);
-	gtk_tree_view_column_set_cell_data_func(column, file_enable_renderer, on_render_enable_for_file, NULL, NULL);
+	renderer = cell_renderer_toggle_new ();
+	g_signal_connect (G_OBJECT(renderer), "toggled", G_CALLBACK(on_enable_for_file), NULL);
+	gtk_tree_view_column_pack_end(column, renderer, FALSE);
+	gtk_tree_view_column_set_attributes(column, renderer, "active", ENABLED, NULL);
+	gtk_tree_view_column_set_cell_data_func(column, renderer, on_render_enable_for_file, NULL, NULL);
 
 	/* enable breakpoint */
-	GtkCellRenderer *break_enable_renderer = cell_renderer_break_icon_new ();
-	g_signal_connect (G_OBJECT(break_enable_renderer), "clicked", G_CALLBACK(on_enable_break), NULL);
+	renderer = cell_renderer_break_icon_new ();
+	g_signal_connect (G_OBJECT(renderer), "clicked", G_CALLBACK(on_enable_break), NULL);
 
-	g_object_set(break_enable_renderer, "pixbuf_enabled", (gpointer)break_pixbuf, NULL);
-	g_object_set(break_enable_renderer, "pixbuf_disabled", (gpointer)break_disabled_pixbuf, NULL);
-	g_object_set(break_enable_renderer, "pixbuf_conditional", (gpointer)break_condition_pixbuf, NULL);
-	g_object_set(break_enable_renderer, "pixbuf_file", (gpointer)break_pixbuf, NULL);
+	g_object_set(renderer, "pixbuf_enabled", (gpointer)break_pixbuf, NULL);
+	g_object_set(renderer, "pixbuf_disabled", (gpointer)break_disabled_pixbuf, NULL);
+	g_object_set(renderer, "pixbuf_conditional", (gpointer)break_condition_pixbuf, NULL);
+	g_object_set(renderer, "pixbuf_file", (gpointer)break_pixbuf, NULL);
 	
-	gtk_tree_view_column_pack_end(column, break_enable_renderer, FALSE);
-	gtk_tree_view_column_set_attributes(column, break_enable_renderer, "enabled", ENABLED, "condition", CONDITION, "hitscount", HITSCOUNT, NULL);
-	gtk_tree_view_column_set_cell_data_func(column, break_enable_renderer, on_render_enable_break, NULL, NULL);
+	gtk_tree_view_column_pack_end(column, renderer, FALSE);
+	gtk_tree_view_column_set_attributes(column, renderer, "enabled", ENABLED, "condition", CONDITION, "hitscount", HITSCOUNT, NULL);
+	gtk_tree_view_column_set_cell_data_func(column, renderer, on_render_enable_break, NULL, NULL);
 
 	gtk_tree_view_column_set_title(column, _("Location"));
 	gtk_tree_view_column_set_resizable (column, TRUE);
@@ -675,9 +688,8 @@ gboolean bptree_init(move_to_line_cb cb)
 	
 	/* hits count */
 	hcount_renderer = gtk_cell_renderer_spin_new ();
-	GtkAdjustment* adj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 100000.0, 1.0, 2.0, 2.0));
 	g_object_set (hcount_renderer,
-		"adjustment", adj,
+		"adjustment", gtk_adjustment_new (0.0, 0.0, 100000.0, 1.0, 2.0, 2.0),
         "digits", 0, NULL);
 	g_signal_connect (G_OBJECT (hcount_renderer), "edited", G_CALLBACK (on_hitscount_changed), NULL);
 	column = gtk_tree_view_column_new_with_attributes (_("Hit count"), hcount_renderer, "text", HITSCOUNT, NULL);
@@ -721,9 +733,10 @@ void bptree_destroy(void)
  */
 void bptree_set_enabled(breakpoint *bp)
 {
+	GtkTreeIter parent;
+
 	gtk_tree_store_set(store, &(bp->iter), ENABLED, bp->enabled, -1);
 
-	GtkTreeIter parent;
 	gtk_tree_model_iter_parent(model, &parent, &(bp->iter));
 	update_file_node(&parent);
 }
@@ -756,7 +769,7 @@ void bptree_set_condition(breakpoint* bp)
  */
 gchar* bptree_get_condition(breakpoint *bp)
 {
-    gchar *condition;
+	gchar *condition;
 	gtk_tree_model_get (
 		model,
 		&(bp->iter),
@@ -785,17 +798,20 @@ void bptree_set_readonly(gboolean value)
  */
 void bptree_add_breakpoint(breakpoint* bp)
 {
-	GtkTreeIter file_iter;
+	GtkTreeIter file_iter, iter, child, *sibling = NULL;
 	GtkTreeRowReference *file_reference = (GtkTreeRowReference*)g_hash_table_lookup(files, bp->file);
+
 	if (!file_reference)
 	{
+		GtkTreePath *file_path;
+
 		gtk_tree_store_prepend (store, &file_iter, NULL);
 		gtk_tree_store_set (store, &file_iter,
 						FILEPATH, bp->file,
 						ENABLED, TRUE,
 						-1);
 
-		GtkTreePath *file_path = gtk_tree_model_get_path(model, &file_iter);
+		file_path = gtk_tree_model_get_path(model, &file_iter);
 		file_reference = gtk_tree_row_reference_new(model, file_path);
 		gtk_tree_path_free(file_path);
 
@@ -809,7 +825,6 @@ void bptree_add_breakpoint(breakpoint* bp)
 	}
 	
 	/* lookup where to insert new row */
-	GtkTreeIter child, *sibling = NULL;
 	if(gtk_tree_model_iter_children(model, &child, &file_iter))
 	{
 		do
@@ -829,11 +844,10 @@ void bptree_add_breakpoint(breakpoint* bp)
 		while(gtk_tree_model_iter_next(model, &child));
 	}
 	
-	GtkTreeIter iter;
 	gtk_tree_store_insert_before(store, &iter, &file_iter, sibling);
-    bp->iter = iter;
-    
-    bptree_update_breakpoint(bp);
+	bp->iter = iter;
+	
+	bptree_update_breakpoint(bp);
 }
 
 /*

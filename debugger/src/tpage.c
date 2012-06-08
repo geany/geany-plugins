@@ -97,7 +97,11 @@ static void on_arguments_changed(GtkTextBuffer *textbuffer, gpointer user_data)
  */
 static void on_target_browse_clicked(GtkButton *button, gpointer   user_data)
 {
+	gchar path[FILENAME_MAX];
+	const gchar *prevfile;
+	gchar *prevdir;
 	GtkWidget *dialog;
+
 	dialog = gtk_file_chooser_dialog_new (_("Choose target file"),
 					  NULL,
 					  GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -105,10 +109,8 @@ static void on_target_browse_clicked(GtkButton *button, gpointer   user_data)
 					  GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 					  NULL);
 	
-	gchar path[FILENAME_MAX];
-
-	const gchar *prevfile = gtk_entry_get_text(GTK_ENTRY(target_name));
-	gchar *prevdir = g_path_get_dirname(prevfile);
+	prevfile = gtk_entry_get_text(GTK_ENTRY(target_name));
+	prevdir = g_path_get_dirname(prevfile);
 	if (strcmp(".", prevdir))
 		strcpy(path, prevdir);
 	else
@@ -139,10 +141,12 @@ void tpage_pack_widgets(gboolean tabbed)
 	GList *children = gtk_container_get_children(GTK_CONTAINER(tab_target));
 	if (children)
 	{
+		int i;
+
 		oldroot = (GtkWidget*)children->data;
 		
 		/* unparent widgets */
-		int i = 0;
+		i = 0;
 		while (widgets[i])
 		{
 			g_object_ref(*widgets[i]);
@@ -155,11 +159,13 @@ void tpage_pack_widgets(gboolean tabbed)
 	
 	if (tabbed)
 	{
+		GtkWidget *hbox, *rbox, *lbox;
+
 		root = gtk_vbox_new(FALSE, SPACING);
 		gtk_container_set_border_width(GTK_CONTAINER(root), ROOT_BORDER_WIDTH);
 	
 		/* filename */
-		GtkWidget *hbox = gtk_hbox_new(FALSE, SPACING);
+		hbox = gtk_hbox_new(FALSE, SPACING);
 		gtk_box_pack_start(GTK_BOX(root), hbox, FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), target_label, FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), target_name, TRUE, TRUE, 0);
@@ -170,8 +176,8 @@ void tpage_pack_widgets(gboolean tabbed)
 		gtk_box_pack_start(GTK_BOX(root), hbox, TRUE, TRUE, 0);
 
 		/* lower left and right vboxes */
-		GtkWidget *lbox = gtk_vbox_new(FALSE, SPACING);
-		GtkWidget *rbox = gtk_vbox_new(FALSE, SPACING);
+		lbox = gtk_vbox_new(FALSE, SPACING);
+		rbox = gtk_vbox_new(FALSE, SPACING);
 		gtk_box_pack_start(GTK_BOX(hbox), lbox, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), rbox, TRUE, TRUE, 0);
 
@@ -188,11 +194,13 @@ void tpage_pack_widgets(gboolean tabbed)
 	}
 	else
 	{
+		GtkWidget *lbox, *rbox, *hbox;
+
 		root = gtk_hbox_new(TRUE, SPACING);
 		gtk_container_set_border_width(GTK_CONTAINER(root), ROOT_BORDER_WIDTH);
 
-		GtkWidget *lbox = gtk_vbox_new(FALSE, SPACING);
-		GtkWidget *rbox = gtk_vbox_new(FALSE, SPACING);
+		lbox = gtk_vbox_new(FALSE, SPACING);
+		rbox = gtk_vbox_new(FALSE, SPACING);
 		gtk_box_pack_start(GTK_BOX(root), lbox, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(root), rbox, TRUE, TRUE, 0);
 
@@ -200,7 +208,7 @@ void tpage_pack_widgets(gboolean tabbed)
 		gtk_box_pack_start(GTK_BOX(lbox), env_frame, TRUE, TRUE, 0);
 
 		/* target */
-		GtkWidget *hbox = gtk_hbox_new(FALSE, SPACING);
+		hbox = gtk_hbox_new(FALSE, SPACING);
 		gtk_box_pack_start(GTK_BOX(hbox), target_label, FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), target_name, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), target_button_browse, FALSE, FALSE, 0);
@@ -234,6 +242,11 @@ void tpage_pack_widgets(gboolean tabbed)
  */
 static void tpage_create_widgets(void)
 {
+	GList *modules, *iter;
+	GtkWidget *hbox;
+	GtkTextBuffer *buffer;
+	GtkWidget *tree;
+
 	/* target */
 	target_label = gtk_label_new(_("Target:"));
 	target_name = gtk_entry_new ();
@@ -245,23 +258,21 @@ static void tpage_create_widgets(void)
 	/* debugger */
 	debugger_label = gtk_label_new(_("Debugger:")); 
 	debugger_cmb = gtk_combo_box_new_text();
-	GList *modules = debug_get_modules();
-	GList *iter = modules;
-	while (iter)
+	modules = debug_get_modules();
+	for (iter = modules; iter; iter = iter->next)
 	{
 		gtk_combo_box_append_text(GTK_COMBO_BOX(debugger_cmb), (gchar*)iter->data);
-		iter = iter->next;
 	}
 	g_list_free(modules);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(debugger_cmb), 0);
 
 	/* arguments */
 	args_frame = gtk_frame_new(_("Command Line Arguments"));
-	GtkWidget *hbox = gtk_hbox_new(FALSE, 0);
+	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(hbox), 5);
 	args_textview = gtk_text_view_new ();
 	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(args_textview), GTK_WRAP_CHAR);
-	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(args_textview));
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(args_textview));
 	g_signal_connect(G_OBJECT(buffer), "changed", G_CALLBACK (on_arguments_changed), NULL);
 	gtk_container_add(GTK_CONTAINER(hbox), args_textview);
 	gtk_container_add(GTK_CONTAINER(args_frame), hbox);
@@ -270,7 +281,7 @@ static void tpage_create_widgets(void)
 	env_frame = gtk_frame_new(_("Environment Variables"));
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(hbox), 5);
-	GtkWidget *tree = envtree_init();
+	tree = envtree_init();
 	gtk_container_add(GTK_CONTAINER(hbox), tree);
 	gtk_container_add(GTK_CONTAINER(env_frame), hbox);
 }
@@ -318,6 +329,8 @@ void tpage_add_environment(const gchar *name, const gchar *value)
  */
 void tpage_clear(void)
 {
+	GtkTextBuffer *buffer;
+
 	/* target */
 	gtk_entry_set_text(GTK_ENTRY(target_name), "");
 	
@@ -325,7 +338,7 @@ void tpage_clear(void)
 	gtk_combo_box_set_active(GTK_COMBO_BOX(debugger_cmb), 0);
 
 	/* arguments */
-	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(args_textview));
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(args_textview));
 	gtk_text_buffer_set_text(buffer, "", -1);
 
 	/* environment variables */
@@ -361,14 +374,16 @@ gchar* tpage_get_debugger(void)
  */
 gchar* tpage_get_commandline(void)
 {
+	gchar *args;
+	gchar **lines;
 	GtkTextIter start, end;
 	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(args_textview));
 	
 	gtk_text_buffer_get_start_iter(buffer, &start);
 	gtk_text_buffer_get_end_iter(buffer, &end);
 	
-	gchar *args = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
-	gchar** lines = g_strsplit(args, "\n", 0);
+	args = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
+	lines = g_strsplit(args, "\n", 0);
 	g_free(args);
 	args = g_strjoinv(" ", lines);
 	g_strfreev(lines);

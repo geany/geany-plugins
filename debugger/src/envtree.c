@@ -75,10 +75,12 @@ static GtkCellRenderer *renderer_value = NULL;
  */
 static void add_empty_row(void)
 {
+	GtkTreeIter empty;
+	GtkTreePath *path;
+
 	if (empty_row)
 		gtk_tree_row_reference_free(empty_row);
 	
-	GtkTreeIter empty;
 	gtk_list_store_append (store, &empty);
 	gtk_list_store_set (store, &empty,
 		NAME, "",
@@ -86,7 +88,7 @@ static void add_empty_row(void)
 		-1);
 
 	/* remeber reference */
-	GtkTreePath *path = gtk_tree_model_get_path(GTK_TREE_MODEL(store), &empty);
+	path = gtk_tree_model_get_path(GTK_TREE_MODEL(store), &empty);
 	empty_row = gtk_tree_row_reference_new(GTK_TREE_MODEL(store), path);
 	gtk_tree_path_free(path);
 }
@@ -110,13 +112,14 @@ static void delete_selected_rows(void)
 	if (1 != gtk_tree_selection_count_selected_rows(selection) ||
 	    gtk_tree_path_compare((GtkTreePath*)rows->data, empty_path))
 	{
+		GtkTreePath *path;
 		/* get references to the selected rows and find out what to
 		select after deletion */
 		GList *references = NULL;
 		GList *iter = rows;
 		while (iter)
 		{
-			GtkTreePath *path = (GtkTreePath*)iter->data;
+			path = (GtkTreePath*)iter->data;
 			if (!reference_to_select)
 			{
 				/* select upper sibling of the upper
@@ -145,10 +148,10 @@ static void delete_selected_rows(void)
 		iter = references;
 		while (iter)
 		{
-			GtkTreeRowReference *reference = (GtkTreeRowReference*)iter->data;
-			GtkTreePath *path = gtk_tree_row_reference_get_path(reference);
-
 			GtkTreeIter titer;
+			GtkTreeRowReference *reference = (GtkTreeRowReference*)iter->data;
+			path = gtk_tree_row_reference_get_path(reference);
+
 			gtk_tree_model_get_iter(model, &titer, path);
 			gtk_list_store_remove(store, &titer);
 
@@ -158,7 +161,7 @@ static void delete_selected_rows(void)
 
 		/* set selection */
 		gtk_tree_selection_unselect_all(selection);
-		GtkTreePath *path = gtk_tree_row_reference_get_path(reference_to_select);
+		path = gtk_tree_row_reference_get_path(reference_to_select);
 		gtk_tree_selection_select_path(selection, path);
 		gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(tree), path, NULL, TRUE, 0.5, 0.5);
 		gtk_tree_path_free(path);
@@ -183,13 +186,15 @@ static void delete_selected_rows(void)
  */
 static gboolean on_envtree_keypressed(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
 {
+	guint keyval;
+
 	/* do not allow deleting while debugging */
 	if(page_read_only)
 		return FALSE;
 	
 	/* handling only Delete button pressing
 	that means "delete selected rows" */
-	guint keyval = ((GdkEventKey*)event)->keyval;
+	keyval = ((GdkEventKey*)event)->keyval;
 	
 	if (GDK_Delete == keyval)
 	{
@@ -231,10 +236,10 @@ static void on_render_value(GtkTreeViewColumn *tree_column,
  */
 static void on_value_changed(GtkCellRendererText *renderer, gchar *path, gchar *new_text, gpointer user_data)
 {
+	gchar *striped;
 	GtkTreeIter  iter;
 	GtkTreePath *tree_path = gtk_tree_path_new_from_string (path);
-
-    GtkTreePath *empty_path = gtk_tree_row_reference_get_path(empty_row);
+	GtkTreePath *empty_path = gtk_tree_row_reference_get_path(empty_row);
 	gboolean empty = !gtk_tree_path_compare(tree_path, empty_path);
 	gtk_tree_path_free(empty_path);
 
@@ -243,8 +248,7 @@ static void on_value_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 		 &iter,
 		 tree_path);
 	
-	gchar *striped = g_strstrip(g_strdup(new_text));
-	
+	striped = g_strstrip(g_strdup(new_text));
 	if (!strlen(striped))
 	{
 		/* if new value is empty string, if it's a new row - do nothig
@@ -336,10 +340,10 @@ static void on_value_editing_cancelled(GtkCellRenderer *renderer, gpointer user_
  */
 static void on_name_changed(GtkCellRendererText *renderer, gchar *path, gchar *new_text, gpointer user_data)
 {
+	gchar *oldvalue, *striped;
 	GtkTreeIter  iter;
 	GtkTreePath *tree_path = gtk_tree_path_new_from_string (path);
 	GtkTreePath *empty_path = gtk_tree_row_reference_get_path(empty_row);
-    
 	gboolean empty = !gtk_tree_path_compare(tree_path, empty_path);
 
 	gtk_tree_model_get_iter (
@@ -347,15 +351,13 @@ static void on_name_changed(GtkCellRendererText *renderer, gchar *path, gchar *n
 		 &iter,
 		 tree_path);
 	
-	gchar* oldvalue;
 	gtk_tree_model_get (
 		model,
 		&iter,
 		NAME, &oldvalue,
        -1);
     
-	gchar *striped = g_strstrip(g_strdup(new_text));
-
+	striped = g_strstrip(g_strdup(new_text));
 	if (!strlen(striped))
 	{
 		/* if name is empty - offer to delete variable */
@@ -368,7 +370,7 @@ static void on_name_changed(GtkCellRendererText *renderer, gchar *path, gchar *n
 		}
 	}
 	else if (strcmp(oldvalue, striped))
-    {
+	{
 		gtk_list_store_set(store, &iter, NAME, striped, -1);
 		if (empty)
 		{
@@ -393,6 +395,10 @@ static void on_name_changed(GtkCellRendererText *renderer, gchar *path, gchar *n
  */
 GtkWidget* envtree_init(void)
 {
+	GtkCellRenderer *renderer;
+	GtkTreeViewColumn *column;
+	GtkTreeSelection *selection;
+
 	store = gtk_list_store_new (
 		N_COLUMNS,
 		G_TYPE_STRING,
@@ -422,15 +428,15 @@ GtkWidget* envtree_init(void)
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column_value);
 
 	/* Last invisible column */
-	GtkCellRenderer *renderer = gtk_cell_renderer_text_new ();
-	GtkTreeViewColumn *column = gtk_tree_view_column_new_with_attributes ("", renderer, "text", LAST_VISIBLE, NULL);
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes ("", renderer, "text", LAST_VISIBLE, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
 	/* add empty row */
 	add_empty_row();
 
 	/* set multiple selection */
-	GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_MULTIPLE);
 
 	return tree;

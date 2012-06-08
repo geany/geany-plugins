@@ -89,13 +89,13 @@ inline static void add_stub(GtkTreeStore *store, GtkTreeIter *parent)
 inline static void append_variables(GtkTreeView *tree, GtkTreeIter *parent, GList *vars,
 	gboolean mark_changed, gboolean expand)
 {
+	int current_position = 0;
 	GtkTreeModel *model = gtk_tree_view_get_model(tree);
 	GtkTreeStore *store = GTK_TREE_STORE(model);
-
 	GtkTreeIter child;
+	GHashTable *ht = NULL;
 
 	/* get existing rows */
-	GHashTable *ht = NULL;
 	if (gtk_tree_model_iter_n_children(model, parent))
 	{
 		/* collect all existing rows */
@@ -117,7 +117,6 @@ inline static void append_variables(GtkTreeView *tree, GtkTreeIter *parent, GLis
 		while(gtk_tree_model_iter_next(model, &child));
 	}
 	
-	int current_position = 0;
 	while (vars)
 	{
 		variable *v = vars->data;
@@ -235,13 +234,13 @@ void expand_stub(GtkTreeView *tree, GtkTreeIter *parent, GList *vars)
 {
 	GtkTreeModel *model = gtk_tree_view_get_model(tree);
 	GtkTreeStore *store = GTK_TREE_STORE(model);
+	GtkTreeIter stub;
+	gboolean changed;
 
 	/* remember stub iterator */
-	GtkTreeIter stub;
 	gtk_tree_model_iter_children(model, &stub, parent);
 
 	/* check whether arent has been changed */
-	gboolean changed;
 	gtk_tree_model_get(model, parent,
 		W_CHANGED, &changed,
 		-1);
@@ -306,11 +305,15 @@ void update_variables(GtkTreeView *tree, GtkTreeIter *parent, GList *vars)
 		/* if have children - lets check and update their values */
 		while (TRUE)
 		{
-			/* set variable value
-			1. get the variable params */
 			gchar *name;
 			gchar *internal;
 			gchar *value;
+			GList *var;
+			variable *v;
+			gboolean changed;
+
+			/* set variable value
+			1. get the variable params */
 			
 			gtk_tree_model_get (
 				model,
@@ -325,7 +328,7 @@ void update_variables(GtkTreeView *tree, GtkTreeIter *parent, GList *vars)
 				break;
 			
 			/* 2. find this path is "vars" list */
-			GList *var = lookup_variable(vars, name);
+			var = lookup_variable(vars, name);
 
 			/* 3. check if we have found currect iterator */
 			if (!var)
@@ -342,8 +345,8 @@ void update_variables(GtkTreeView *tree, GtkTreeIter *parent, GList *vars)
 			}
 			
 			/* 4. update variable (type, value) */
-			variable *v = (variable*)var->data;
-			gboolean changed = parent_changed || strcmp(value, v->value->str);
+			v = (variable*)var->data;
+			changed = parent_changed || strcmp(value, v->value->str);
 			update_variable(store, &child, v, changed && v->evaluated);
 			
 			/* 5. if item have children - process them */ 		
@@ -457,12 +460,12 @@ void variable_set_name_only(GtkTreeStore *store, GtkTreeIter *iter, gchar *name)
 GList *get_root_items(GtkTreeView *tree)
 {
 	GtkTreeModel *model = gtk_tree_view_get_model(tree);
-
 	GtkTreeIter child;
+	GList *names = NULL;
+
 	if(!gtk_tree_model_get_iter_first(model, &child))
 		return NULL;
 	
-	GList *names = NULL;
 	do
 	{
 		gchar *name;

@@ -91,9 +91,10 @@ void render_icon(GtkTreeViewColumn *tree_column,
 
 	if (VT_NONE != vt && VT_CHILD != vt)
 	{
+		GdkPixbuf *pixbuf = NULL;
+
 		g_object_set(cell, "visible", TRUE, NULL);
 
-		GdkPixbuf *pixbuf = NULL;
 		if (VT_ARGUMENT == vt)
 			pixbuf = argument_pixbuf;
 		else if (VT_LOCAL == vt)
@@ -137,6 +138,9 @@ void render_value(GtkTreeViewColumn *tree_column,
 GtkWidget* vtree_create(watch_render_name on_render_name, watch_expression_changed on_expression_changed)
 {
 	/* create tree view */
+	GtkCellRenderer *renderer;
+	GtkCellRenderer *icon_renderer;
+	GtkTreeViewColumn *column;
 	GtkTreeStore* store = gtk_tree_store_new (
 		W_N_COLUMNS,
 		G_TYPE_STRING,
@@ -163,8 +167,6 @@ GtkWidget* vtree_create(watch_render_name on_render_name, watch_expression_chang
 	}
 
 	/* create columns */
-	GtkCellRenderer *renderer;
-	GtkTreeViewColumn *column;
 	
 	/* Name */
 	column = gtk_tree_view_column_new();
@@ -174,7 +176,7 @@ GtkWidget* vtree_create(watch_render_name on_render_name, watch_expression_chang
 	gtk_tree_view_column_pack_end(column, renderer, TRUE);
 	gtk_tree_view_column_set_attributes(column, renderer, "text", W_NAME, NULL);	
 	
-	GtkCellRenderer *icon_renderer = gtk_cell_renderer_pixbuf_new ();
+	icon_renderer = gtk_cell_renderer_pixbuf_new ();
 	g_object_set(icon_renderer, "follow-state", TRUE, NULL);
 	gtk_tree_view_column_pack_end(column, icon_renderer, FALSE);
 	gtk_tree_view_column_set_cell_data_func(column, icon_renderer, render_icon, NULL, NULL);

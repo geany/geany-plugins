@@ -222,9 +222,9 @@ static void cell_renderer_frame_icon_render(GtkCellRenderer *cell, GdkDrawable *
  */
 static void cell_renderer_frame_icon_init (CellRendererFrameIcon *cell)
 {
-	cell->active_frame = FALSE;
-	
 	GtkCellRenderer *cell_renderer = (GtkCellRenderer*)cell;
+	
+	cell->active_frame = FALSE;
 	
 	cell_renderer->mode = GTK_CELL_RENDERER_MODE_ACTIVATABLE;
 

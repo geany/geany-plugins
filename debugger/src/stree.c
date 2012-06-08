@@ -106,12 +106,12 @@ static void on_frame_arrow_clicked(CellRendererFrameIcon *cell_renderer, gchar *
  */
 static gboolean on_query_tooltip(GtkWidget *widget, gint x, gint y, gboolean keyboard_mode, GtkTooltip *tooltip, gpointer user_data)
 {
+	GtkTreePath *tpath = NULL;
+	GtkTreeViewColumn *column = NULL;
 	gboolean show = FALSE;
 	int bx, by;
 	gtk_tree_view_convert_widget_to_bin_window_coords(GTK_TREE_VIEW(widget), x, y, &bx, &by);
 
-	GtkTreePath *tpath = NULL;
-	GtkTreeViewColumn *column = NULL;
 	if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(widget), bx, by, &tpath, &column, NULL, NULL))
 	{
 		if (2 == gtk_tree_path_get_depth(tpath))
@@ -121,10 +121,10 @@ static gboolean on_query_tooltip(GtkWidget *widget, gint x, gint y, gboolean key
 			 
 			if (column == gtk_tree_view_get_column(GTK_TREE_VIEW(widget), S_FILEPATH))
 			{
+				gchar *path = NULL;
 				GtkTreeIter iter;
 				gtk_tree_model_get_iter(model, &iter, tpath);
 				
-				gchar *path = NULL;
 				gtk_tree_model_get(model, &iter, S_FILEPATH, &path, -1);
 		
 				gtk_tooltip_set_text(tooltip, path);
@@ -185,10 +185,11 @@ static void on_render_filename(GtkTreeViewColumn *tree_column, GtkCellRenderer *
 	
 	if (1 != gtk_tree_path_get_depth(tpath))
 	{
+		const gchar *name;
 		gchar *path = NULL;
 		gtk_tree_model_get(model, iter, S_FILEPATH, &path, -1);
 
-		const gchar *name = path ? g_basename(path) : NULL;
+		name = path ? g_basename(path) : NULL;
 		g_object_set(cell, "text", name ? name : path, NULL);
 
 		if (path)
@@ -223,13 +224,13 @@ static gboolean on_msgwin_button_press(GtkWidget *widget, GdkEventButton *event,
 
 				if (!gtk_tree_path_compare(pressed_path, selected_path))
 				{
+					gboolean have_source;
 					GtkTreeIter iter;
 					gtk_tree_model_get_iter (
 						 model,
 						 &iter,
 						 pressed_path);
 
-					gboolean have_source;
 					gtk_tree_model_get (
 						model,
 						&iter,
@@ -269,22 +270,26 @@ static gboolean on_msgwin_button_press(GtkWidget *widget, GdkEventButton *event,
  */
 static void on_selection_changed(GtkTreeSelection *treeselection, gpointer user_data)
 {
+	GList *rows;
+	GtkTreePath *path;
+
 	if (!gtk_tree_selection_count_selected_rows(treeselection))
 	{
 		return;
 	}
 	
-	GList *rows = gtk_tree_selection_get_selected_rows(treeselection, &model);
-	GtkTreePath *path = (GtkTreePath*)rows->data;
+	rows = gtk_tree_selection_get_selected_rows(treeselection, &model);
+	path = (GtkTreePath*)rows->data;
 
 	if (2 == gtk_tree_path_get_depth(path))
 	{
+		gboolean have_source;
 		GtkTreeIter iter;
+
 		gtk_tree_model_get_iter (
 			 model,
 			 &iter,
 			 path);
-		gboolean have_source;
 		gtk_tree_model_get (
 			gtk_tree_view_get_model(GTK_TREE_VIEW(tree)),
 			&iter,
@@ -317,6 +322,9 @@ static void on_selection_changed(GtkTreeSelection *treeselection, gpointer user_
  */
 GtkWidget* stree_init(move_to_line_cb ml, select_frame_cb sf)
 {
+	GtkTreeViewColumn *column;
+	GtkCellRenderer *renderer;
+
 	move_to_line = ml;
 	select_frame = sf;
 
@@ -350,8 +358,6 @@ GtkWidget* stree_init(move_to_line_cb ml, select_frame_cb sf)
 	g_signal_connect(G_OBJECT(tree), "query-tooltip", G_CALLBACK (on_query_tooltip), NULL);
 
 	/* creating columns */
-	GtkTreeViewColumn	*column;
-
 	/* address */
 	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_set_title(column, _("Address"));
@@ -364,35 +370,35 @@ GtkWidget* stree_init(move_to_line_cb ml, select_frame_cb sf)
 	gtk_tree_view_column_set_cell_data_func(column, renderer_arrow, on_render_arrow, NULL, NULL);
 	g_signal_connect (G_OBJECT(renderer_arrow), "clicked", G_CALLBACK(on_frame_arrow_clicked), NULL);
 
-	GtkCellRenderer *renderer_address = gtk_cell_renderer_text_new ();
-	gtk_tree_view_column_pack_start(column, renderer_address, TRUE);
-	gtk_tree_view_column_set_attributes(column, renderer_address, "text", S_ADRESS, NULL);
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_column_pack_start(column, renderer, TRUE);
+	gtk_tree_view_column_set_attributes(column, renderer, "text", S_ADRESS, NULL);
 
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
 	/* function */
-	GtkCellRenderer *renderer_function = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("Function"), renderer_function, "text", S_FUNCTION, NULL);
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes (_("Function"), renderer, "text", S_FUNCTION, NULL);
 	gtk_tree_view_column_set_resizable (column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 	
 	/* file */
-	GtkCellRenderer *renderer_file = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("File"), renderer_file, NULL);
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes (_("File"), renderer, NULL);
 	gtk_tree_view_column_set_resizable (column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
-	gtk_tree_view_column_set_cell_data_func(column, renderer_file, on_render_filename, NULL, NULL);
+	gtk_tree_view_column_set_cell_data_func(column, renderer, on_render_filename, NULL, NULL);
 	
 	/* line */
-	GtkCellRenderer *renderer_line = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("Line"), renderer_line, "text", S_LINE, NULL);
-	gtk_tree_view_column_set_cell_data_func(column, renderer_line, on_render_line, NULL, NULL);
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes (_("Line"), renderer, "text", S_LINE, NULL);
+	gtk_tree_view_column_set_cell_data_func(column, renderer, on_render_line, NULL, NULL);
 	gtk_tree_view_column_set_resizable (column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
 	/* Last invisible column */
-	GtkCellRenderer *renderer_last = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes ("", renderer_last, "text", S_LAST_VISIBLE, NULL);
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes ("", renderer, "text", S_LAST_VISIBLE, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
 	/* create threads hash table */
@@ -412,12 +418,12 @@ GtkWidget* stree_init(move_to_line_cb ml, select_frame_cb sf)
 void stree_add(frame *f)
 {
 	GtkTreeRowReference *reference = (GtkTreeRowReference*)g_hash_table_lookup(threads, (gpointer)active_thread_id);
+	GtkTreeIter frame_iter;
 	GtkTreeIter thread_iter;
 	GtkTreePath *path = gtk_tree_row_reference_get_path(reference);
 	gtk_tree_model_get_iter(model, &thread_iter, path);
 	gtk_tree_path_free(path);
 
-	GtkTreeIter frame_iter;
 	gtk_tree_store_insert_before(store, &frame_iter, &thread_iter, 0);
 
 	gtk_tree_store_set (store, &frame_iter,
@@ -443,23 +449,28 @@ void stree_clear(void)
  */
 void stree_select_first_frame(gboolean make_active)
 {
+	GtkTreeRowReference *reference;
+	GtkTreeIter thread_iter, frame_iter;
+	GtkTreePath *active_path;
+
 	gtk_tree_view_expand_all(GTK_TREE_VIEW(tree));
 	
-	GtkTreeRowReference *reference = (GtkTreeRowReference*)g_hash_table_lookup(threads, (gpointer)active_thread_id);
-	GtkTreeIter thread_iter, frame_iter;
-	GtkTreePath *active_path = gtk_tree_row_reference_get_path(reference);
+	reference = (GtkTreeRowReference*)g_hash_table_lookup(threads, (gpointer)active_thread_id);
+	active_path = gtk_tree_row_reference_get_path(reference);
 	gtk_tree_model_get_iter(model, &thread_iter, active_path);
 	gtk_tree_path_free(active_path);
 	if(gtk_tree_model_iter_children(model, &frame_iter, &thread_iter))
 	{
+		GtkTreePath* path;
+
 		if (make_active)
 		{
 			gtk_tree_store_set (store, &frame_iter, S_ACTIVE, TRUE, -1);
 			active_frame_index = 0;
 		}
 
-		GtkTreePath* path = gtk_tree_model_get_path(model, &frame_iter);
-		
+		path = gtk_tree_model_get_path(model, &frame_iter);
+
 		gtk_tree_selection_select_path (
 			gtk_tree_view_get_selection(GTK_TREE_VIEW(tree)),
 			path);
@@ -485,7 +496,11 @@ void stree_destroy(void)
  */
 void stree_add_thread(int thread_id)
 {
+	gchar *thread_label;
+	GtkTreePath *tpath;
+	GtkTreeRowReference *reference;
 	GtkTreeIter thread_iter, new_thread_iter;
+
 	if (gtk_tree_model_get_iter_first(model, &thread_iter))
 	{
 		GtkTreeIter *consecutive = NULL;
@@ -515,15 +530,15 @@ void stree_add_thread(int thread_id)
 		gtk_tree_store_append (store, &new_thread_iter, NULL);
 	}
 
-	gchar *thread_label = g_strdup_printf(_("Thread %i"), thread_id);
+	thread_label = g_strdup_printf(_("Thread %i"), thread_id);
 	gtk_tree_store_set (store, &new_thread_iter,
 					S_ADRESS, thread_label,
 					S_THREAD_ID, thread_id,
 					-1);
 	g_free(thread_label);
 
-	GtkTreePath *tpath = gtk_tree_model_get_path(model, &new_thread_iter);
-	GtkTreeRowReference *reference = gtk_tree_row_reference_new(model, tpath);
+	tpath = gtk_tree_model_get_path(model, &new_thread_iter);
+	reference = gtk_tree_row_reference_new(model, tpath);
 	g_hash_table_insert(threads, (gpointer)(long)thread_id,(gpointer)reference);
 	gtk_tree_path_free(tpath);
 }
@@ -552,12 +567,12 @@ void stree_remove_thread(int thread_id)
 void stree_remove_frames(void)
 {
 	GtkTreeRowReference *reference = (GtkTreeRowReference*)g_hash_table_lookup(threads, (gpointer)active_thread_id);
+	GtkTreeIter child;
 	GtkTreeIter thread_iter;
 	GtkTreePath *tpath = gtk_tree_row_reference_get_path(reference);
 	gtk_tree_model_get_iter(model, &thread_iter, tpath);
 	gtk_tree_path_free(tpath);
 
-	GtkTreeIter child;
 	if (gtk_tree_model_iter_children(model, &child, &thread_iter))
 	{
 		while(gtk_tree_store_remove(GTK_TREE_STORE(model), &child))

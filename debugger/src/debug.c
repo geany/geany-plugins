@@ -219,32 +219,36 @@ static void on_watch_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 {
 	/* get iterator to the changed row */
 	GtkTreeIter  iter;
+	gchar *oldvalue;
+	gchar *internal = NULL;
+	GtkTreePath *empty_path;
 	GtkTreePath *tree_path = gtk_tree_path_new_from_string (path);
+	gboolean is_empty_row;
+	gchar *striped;
+
 	gtk_tree_model_get_iter (
 		 gtk_tree_view_get_model(GTK_TREE_VIEW(wtree)),
 		 &iter,
 		 tree_path);
 	
 	/* get oldvalue */
-	gchar* oldvalue;
 	gtk_tree_model_get (
 		wmodel,
 		&iter,
 		W_NAME, &oldvalue,
-       -1);
-	gchar *internal = NULL;
-		gtk_tree_model_get (
+		-1);
+	gtk_tree_model_get (
 		wmodel,
 		&iter,
 		W_INTERNAL, &internal,
 		-1);
 
 	/* check if it is empty row */
-	GtkTreePath *empty_path = wtree_empty_path();
-	gboolean is_empty_row = !gtk_tree_path_compare (tree_path, empty_path);
+	empty_path = wtree_empty_path();
+	is_empty_row = !gtk_tree_path_compare (tree_path, empty_path);
 	gtk_tree_path_free(empty_path);
 
-   	gchar *striped = g_strstrip(g_strdup(new_text));
+	striped = g_strstrip(g_strdup(new_text));
 	if (!strlen(striped) &&
 		!is_empty_row &&
 		dialogs_show_question(_("Delete variable?")))
@@ -272,8 +276,10 @@ static void on_watch_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 		/* if debug is active - remove old watch and add new one */
 		if (DBS_STOPPED == debug_state)
 		{
+			variable *newvar;
+
 			active_module->remove_watch(internal);
-			variable *newvar = active_module->add_watch(striped);
+			newvar = active_module->add_watch(striped);
 			change_watch(GTK_TREE_VIEW(wtree), is_empty_row ? &newiter : &iter, newvar);
 		}
 		
@@ -306,14 +312,16 @@ static void on_watch_dragged_callback(GtkWidget *wgt, GdkDragContext *context, i
 {
 	/* string that is dragged */
 	gchar *expression = (gchar*)seldata->data;
-	
-	/* lookup for where the text has been dropped */
 	GtkTreePath *path = NULL;
 	GtkTreeViewDropPosition pos;
+	GtkTreePath *empty_path;
+	GtkTreeIter newvar;
+
+	/* lookup for where the text has been dropped */
 	gtk_tree_view_get_dest_row_at_pos(GTK_TREE_VIEW(wtree), x, y, &path, &pos);
 
 	/* if dropped into last row - insert before it */
-	GtkTreePath *empty_path = wtree_empty_path();
+	empty_path = wtree_empty_path();
 	if (!gtk_tree_path_compare(empty_path, path))
 		pos = GTK_TREE_VIEW_DROP_BEFORE;
 	gtk_tree_path_free(empty_path);
@@ -327,7 +335,6 @@ static void on_watch_dragged_callback(GtkWidget *wgt, GdkDragContext *context, i
 	}
 	
 	/* insert new row */
-	GtkTreeIter newvar;
 	if (path)
 	{
 		GtkTreeIter sibling;
@@ -362,18 +369,21 @@ static void on_watch_dragged_callback(GtkWidget *wgt, GdkDragContext *context, i
  */
 static gboolean on_watch_key_pressed_callback(GtkWidget *widget, GdkEvent  *event, gpointer user_data)
 {
+	GtkTreeSelection *selection;
+	GList *rows;
+	GtkTreePath *empty_path;
+
 	/* handling only Delete button pressing
 	 * that means "delete selected rows" */
-	int keyval = ((GdkEventKey*)event)->keyval;
-	if (keyval != GDK_Delete)
+	if (((GdkEventKey*)event)->keyval != GDK_Delete)
 		return FALSE;
 
 	/* get selected rows */
-	GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(wtree));
-	GList *rows = gtk_tree_selection_get_selected_rows(selection, &wmodel);
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(wtree));
+	rows = gtk_tree_selection_get_selected_rows(selection, &wmodel);
 	
 	/* empty row path */
-	GtkTreePath *empty_path = wtree_empty_path();
+	empty_path = wtree_empty_path();
 
 	/* check whether only empty row was selected */
 	if (1 != gtk_tree_selection_count_selected_rows(selection) ||
@@ -381,6 +391,7 @@ static gboolean on_watch_key_pressed_callback(GtkWidget *widget, GdkEvent  *even
 	{
 		/* path reference to select after deleteing finishes */
 		GtkTreeRowReference *reference_to_select = NULL;
+		GtkTreePath *path_to_select;
 
 		/* get references to the rows */
 		GList *references = NULL;
@@ -411,6 +422,7 @@ static gboolean on_watch_key_pressed_callback(GtkWidget *widget, GdkEvent  *even
 			current reference was already deleted */
 			if (gtk_tree_row_reference_valid(reference))
 			{
+				GtkTreeIter titer;
 				GtkTreePath *path = gtk_tree_row_reference_get_path(reference);
 
 				if (!reference_to_select)
@@ -428,7 +440,6 @@ static gboolean on_watch_key_pressed_callback(GtkWidget *widget, GdkEvent  *even
 				}
 
 				/* get iterator */
-				GtkTreeIter titer;
 				gtk_tree_model_get_iter(wmodel, &titer, path);
 
 				/* remove from the debug session, if it's active */
@@ -467,7 +478,7 @@ static gboolean on_watch_key_pressed_callback(GtkWidget *widget, GdkEvent  *even
 
 		/* set selection */
 		gtk_tree_selection_unselect_all(selection);
-		GtkTreePath *path_to_select = gtk_tree_row_reference_get_path(reference_to_select);
+		path_to_select = gtk_tree_row_reference_get_path(reference_to_select);
 		gtk_tree_selection_select_path(selection, path_to_select);
 		gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(widget), path_to_select, NULL, TRUE, 0.5, 0.5);
 		gtk_tree_path_free(path_to_select);	
@@ -500,11 +511,11 @@ gboolean on_watch_button_pressed_callback(GtkWidget *treeview, GdkEventButton *e
 			GTK_TREE_VIEW(treeview),
 		    (int)event->x, (int)event->y, &path, NULL, NULL, NULL))
 		{
+			gchar *expression = NULL;
 			GtkTreeIter iter;
 			GtkTreeModel *model = gtk_tree_view_get_model(GTK_TREE_VIEW(treeview));
 			gtk_tree_model_get_iter (model, &iter, path);
 
-			gchar *expression = NULL;
 			gtk_tree_model_get(model, &iter,
 				W_EXPRESSION, &expression,
 			    -1);
@@ -556,8 +567,10 @@ static void on_watch_expanded_callback(GtkTreeView *tree, GtkTreeIter *iter, Gtk
 	
 	if (only_stub)
 	{
-		/* if item has not been expanded before */
+		GList *children;
 		gchar *internal;
+
+		/* if item has not been expanded before */
 		gtk_tree_model_get (
 			model,
 			iter,
@@ -565,7 +578,7 @@ static void on_watch_expanded_callback(GtkTreeView *tree, GtkTreeIter *iter, Gtk
 			-1);
 		
 		/* get children list */
-		GList *children = active_module->get_children(internal);
+		children = active_module->get_children(internal);
 		
 		/* remove stub and add children */
 		expand_stub(tree, iter, children);
@@ -634,6 +647,8 @@ static void on_debugger_run (void)
  */
 static void on_debugger_stopped (int thread_id)
 {
+	GList *iter, *files, *autos, *watches;
+
 	/* update debug state */
 	debug_state = DBS_STOPPED;
 
@@ -671,18 +686,15 @@ static void on_debugger_stopped (int thread_id)
 
 	/* get current stack trace and put in the tree view */
 	stack = active_module->get_stack();
-	
-	GList *iter = stack;
-	while (iter)
+	for (iter = stack; iter; iter = iter->next)
 	{
 		frame *f = (frame*)iter->data;
 		stree_add(f);
-		iter = g_list_next(iter);
 	}
 	stree_select_first_frame(TRUE);
 
 	/* files */
-	GList *files = active_module->get_files();
+	files = active_module->get_files();
 	/* remove from list and make writable those files,
 	that are not in the current list */
 	iter = read_only_pages;
@@ -690,6 +702,8 @@ static void on_debugger_stopped (int thread_id)
 	{
 		if (!g_list_find_custom(files, iter->data, (GCompareFunc)g_strcmp0))
 		{
+			GList *next;
+
 			/* set document writable */
 			GeanyDocument *doc = document_find_by_real_path((const gchar*)iter->data);
 			if (doc)
@@ -698,7 +712,7 @@ static void on_debugger_stopped (int thread_id)
 			/* free file name */
 			g_free(iter->data);
 			/* save next item pointer */
-			GList *next = iter->next;
+			next = iter->next;
 			/* remove current item */
 			read_only_pages = g_list_delete_link(read_only_pages, iter);
 
@@ -729,11 +743,11 @@ static void on_debugger_stopped (int thread_id)
 	g_list_free(files);
 
 	/* autos */
-	GList *autos = active_module->get_autos();
+	autos = active_module->get_autos();
 	update_variables(GTK_TREE_VIEW(atree), NULL, autos);
 	
 	/* watches */
-	GList *watches = active_module->get_watches();
+	watches = active_module->get_watches();
 	update_variables(GTK_TREE_VIEW(wtree), NULL, watches);
 
 	if (stack)
@@ -763,6 +777,10 @@ static void on_debugger_stopped (int thread_id)
  */
 static void on_debugger_exited (int code)
 {
+	GtkTextIter start, end;
+	GtkTextBuffer *buffer;
+	GList *iter;
+
 	/* remove marker for current instruction if was set */
 	if (stack)
 	{
@@ -785,8 +803,7 @@ static void on_debugger_exited (int code)
 	vte_terminal_reset(VTE_TERMINAL(terminal), TRUE, TRUE);
 
 	/* clear debug messages window */
-	GtkTextIter start, end;
-	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(debugger_messages_textview));
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(debugger_messages_textview));
 	gtk_text_buffer_get_bounds(buffer, &start, &end);
 	gtk_text_buffer_delete(buffer, &start, &end);
 
@@ -798,8 +815,7 @@ static void on_debugger_exited (int code)
 		bptree_set_readonly(FALSE);
 	
 	/* set files that was readonly during debug writable */
-	GList *iter = read_only_pages;
-	while (iter)
+	for (iter = read_only_pages; iter; iter = iter->next)
 	{
 		GeanyDocument *doc = document_find_by_real_path((const gchar*)iter->data);
 		if (doc)
@@ -807,8 +823,6 @@ static void on_debugger_exited (int code)
 
 		/* free file name */
 		g_free(iter->data);
-
-		iter = iter->next;
 	}
 	g_list_free(read_only_pages);
 	read_only_pages = NULL;
@@ -902,6 +916,7 @@ dbg_callbacks callbacks = {
  */
 static void on_select_frame(int frame_number)
 {
+	GList *autos, *watches;
 	frame *f = (frame*)g_list_nth(stack, active_module->get_active_frame())->data;
 	markers_remove_current_instruction(f->file, f->line);
 	markers_add_frame(f->file, f->line);
@@ -912,11 +927,11 @@ static void on_select_frame(int frame_number)
 	g_hash_table_remove_all(calltips);
 	
 	/* autos */
-	GList *autos = active_module->get_autos();
+	autos = active_module->get_autos();
 	update_variables(GTK_TREE_VIEW(atree), NULL, autos);
 	
 	/* watches */
-	GList *watches = active_module->get_watches();
+	watches = active_module->get_watches();
 	update_variables(GTK_TREE_VIEW(wtree), NULL, watches);
 
 	f = (frame*)g_list_nth(stack, frame_number)->data;
@@ -930,6 +945,13 @@ static void on_select_frame(int frame_number)
  */
 void debug_init(void)
 {
+	GtkWidget *scrollbar;
+	GtkWidget *hbox;
+	GKeyFile *config;
+	gchar *configfile;
+	gchar *font;
+	GtkTextBuffer *buffer;
+
 	/* create watch page */
 	wtree = wtree_init(on_watch_expanded_callback,
 		on_watch_dragged_callback,
@@ -979,11 +1001,11 @@ void debug_init(void)
 	grantpt(pty_master);
 	unlockpt(pty_master);
 	vte_terminal_set_pty(VTE_TERMINAL(terminal), pty_master);
-	GtkWidget *scrollbar = gtk_vscrollbar_new(GTK_ADJUSTMENT(VTE_TERMINAL(terminal)->adjustment));
+	scrollbar = gtk_vscrollbar_new(GTK_ADJUSTMENT(VTE_TERMINAL(terminal)->adjustment));
 	GTK_WIDGET_UNSET_FLAGS(scrollbar, GTK_CAN_FOCUS);
 	tab_terminal = gtk_frame_new(NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME(tab_terminal), GTK_SHADOW_NONE);
-	GtkWidget *hbox = gtk_hbox_new(FALSE, 0);
+	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_container_add(GTK_CONTAINER(tab_terminal), hbox);
 	gtk_box_pack_start(GTK_BOX(hbox), terminal, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), scrollbar, FALSE, FALSE, 0);
@@ -992,10 +1014,10 @@ void debug_init(void)
 	gtk_widget_set_size_request(GTK_WIDGET(terminal), 10, 10);
 	vte_terminal_set_size(VTE_TERMINAL(terminal), 30, 1);
 	/* set terminal font. */
-	GKeyFile *config = g_key_file_new();
-	gchar *configfile = g_strconcat(geany_data->app->configdir, G_DIR_SEPARATOR_S, "geany.conf", NULL);
+	config = g_key_file_new();
+	configfile = g_strconcat(geany_data->app->configdir, G_DIR_SEPARATOR_S, "geany.conf", NULL);
 	g_key_file_load_from_file(config, configfile, G_KEY_FILE_NONE, NULL);
-	gchar *font = utils_get_setting_string(config, "VTE", "font", "Monospace 10");
+	font = utils_get_setting_string(config, "VTE", "font", "Monospace 10");
 	vte_terminal_set_font_from_string (VTE_TERMINAL(terminal), font);	
 		
 	/* debug messages page */
@@ -1011,7 +1033,7 @@ void debug_init(void)
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(tab_messages), debugger_messages_textview);
 	
 	/* create tex tags */
-	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(debugger_messages_textview));
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(debugger_messages_textview));
 	gtk_text_buffer_create_tag(buffer, "black", "foreground", "#000000", NULL); 
 	gtk_text_buffer_create_tag(buffer, "grey", "foreground", "#AAAAAA", NULL); 
 	gtk_text_buffer_create_tag(buffer, "red", "foreground", "#FF0000", NULL); 
@@ -1108,16 +1130,19 @@ void debug_run(void)
 {
 	if (DBS_IDLE == debug_state)
 	{
-		gchar *target = g_strstrip(tpage_get_target());
+		gchar *target, *commandline;
+		GList *env, *watches, *breaks;
+
+		target = g_strstrip(tpage_get_target());
 		if (!strlen(target))
 		{
 			g_free(target);
 			return;
 		}
-		gchar *commandline = tpage_get_commandline();
-		GList *env = tpage_get_environment();
-		GList *watches = get_root_items(GTK_TREE_VIEW(wtree));
-		GList *breaks = breaks_get_all();
+		commandline = tpage_get_commandline();
+		env = tpage_get_environment();
+		watches = get_root_items(GTK_TREE_VIEW(wtree));
+		breaks = breaks_get_all();
 
 		/* init selected debugger  module */
 		active_module = modules[tpage_get_debug_module_index()].module;

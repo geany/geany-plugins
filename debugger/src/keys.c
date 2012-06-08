@@ -63,8 +63,10 @@ keyinfo keys[] = {
  */
 gboolean keys_init(void)
 {
+	int _index, count;
+
 	/* keys count */
-	int count = 0;
+	count = 0;
 	while (keys[count++].key_name)
 		;
 	
@@ -76,7 +78,7 @@ gboolean keys_init(void)
 		keys_callback);
 
 	/* add keys */
-	int _index = 0;
+	_index = 0;
 	while (keys[_index].key_name)
 	{
 		keybindings_set_item(
