@@ -888,7 +888,7 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 /*
  * starts debugging
  */
-static void restart(char* terminal_device)
+static void restart(void)
 {
 	dbg_cbs->clear_messages();
 	exec_async_command("-exec-run &");
