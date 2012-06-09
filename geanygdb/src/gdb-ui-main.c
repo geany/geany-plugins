@@ -375,7 +375,7 @@ pipe_click(GtkWidget * w, gpointer user_data)
 
 
 void
-gdbui_set_tip(GtkWidget * w, gchar * tip)
+gdbui_set_tip(GtkWidget * w, const gchar * tip)
 {
 	if (gdbui_setup.options.show_tooltips)
 	{
@@ -390,7 +390,7 @@ gdbui_set_tip(GtkWidget * w, gchar * tip)
 static const gboolean disable_mnemonics = TRUE;
 
 static GtkWidget *
-make_btn(const gchar *text, GtkCallback cb, gchar *img, gchar *tip)
+make_btn(const gchar *text, GtkCallback cb, const gchar *img, const gchar *tip)
 {
 	GtkWidget *button;
 

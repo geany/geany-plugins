@@ -26,7 +26,7 @@
 extern ssize_t getline(char **lineptr, size_t * n, FILE * stream);
 extern const gchar *basename(const gchar * path);
 
-gint gdbio_atoi(gchar * str);
+gint gdbio_atoi(const gchar * str);
 gint gdbio_wait(gint ms);
 
 
@@ -63,14 +63,14 @@ typedef struct
 
 typedef struct
 {
-	gchar *signal_name;
-	gchar *signal_meaning;
-	gchar *addr;
-	gchar *func;
-	gchar *file;
-	gchar *fullname;
-	gchar *line;
-	gchar *from;
+	const gchar *signal_name;
+	const gchar *signal_meaning;
+	const gchar *addr;
+	const gchar *func;
+	const gchar *file;
+	const gchar *fullname;
+	const gchar *line;
+	const gchar *from;
 } GdbSignalInfo;
 
 
@@ -133,7 +133,7 @@ void gdbio_return(void);
   be started first, and the target program will be run
   in the resulting console.
 */
-void gdbio_exec_target(gchar * terminal_command);
+void gdbio_exec_target(const gchar * terminal_command);
 
 
 /* Send SIGINT to target */
@@ -189,7 +189,7 @@ void gdbio_show_stack(GdbListFunc func);
   Passes a GdbFrameInfo pointer and a GSList of GdbVar pointers to func
   representing the state of the local variables at the specified level.
 */
-void gdbio_show_locals(GdbFrameFunc func, gchar * level);
+void gdbio_show_locals(GdbFrameFunc func, const gchar * level);
 
 
 /*

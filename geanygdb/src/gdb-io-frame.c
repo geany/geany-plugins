@@ -154,7 +154,7 @@ delete_var(gchar * varname)
 
 
 static gchar *
-fmt_val(gchar * value)
+fmt_val(const gchar * value)
 {
 	gchar buf[256];
 	if (!value)
@@ -305,7 +305,7 @@ set_current_level(gint seq, gchar ** list, gchar * resp)
 }
 
 void
-gdbio_show_locals(GdbFrameFunc func, gchar * level)
+gdbio_show_locals(GdbFrameFunc func, const gchar * level)
 {
 	free_lists();
 	gdbio_locals_func = func;

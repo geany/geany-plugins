@@ -79,7 +79,7 @@ init_scanner(void)
 {
 	GScanner *scanner = g_scanner_new(NULL);
 	scanner->msg_handler = scan_error;
-	scanner->config->cset_identifier_nth = ID_NTH;
+	scanner->config->cset_identifier_nth = (gchar *) ID_NTH;
 	return scanner;
 }
 
@@ -129,7 +129,7 @@ add_node(GScanner * scanner, gchar ** key, GdbLxValueType type, gpointer data, G
 static GScanner *scanner = NULL;
 
 GHashTable *
-gdblx_parse_results(gchar * results)
+gdblx_parse_results(const gchar * results)
 {
 	gchar *key = NULL;
 	gboolean equals = FALSE;
@@ -310,21 +310,21 @@ gdblx_dump_table(GHashTable * hash)
 
 
 static GdbLxValue *
-find_value(GHashTable * hash, gchar * key, GdbLxValueType type)
+find_value(GHashTable * hash, const gchar * key, GdbLxValueType type)
 {
 	GdbLxValue *v = hash ? g_hash_table_lookup(hash, key) : NULL;
 	return v && v->type == type ? v : NULL;
 }
 
-gchar *
-gdblx_lookup_string(GHashTable * hash, gchar * key)
+const gchar *
+gdblx_lookup_string(GHashTable * hash, const gchar * key)
 {
 	GdbLxValue *v = find_value(hash, key, vt_STRING);
 	return v ? v->string : NULL;
 }
 
 GHashTable *
-gdblx_lookup_hash(GHashTable * hash, gchar * key)
+gdblx_lookup_hash(GHashTable * hash, const gchar * key)
 {
 	GdbLxValue *v = find_value(hash, key, vt_HASH);
 	return v ? v->hash : NULL;
@@ -332,7 +332,7 @@ gdblx_lookup_hash(GHashTable * hash, gchar * key)
 
 
 GSList *
-gdblx_lookup_list(GHashTable * hash, gchar * key)
+gdblx_lookup_list(GHashTable * hash, const gchar * key)
 {
 	GdbLxValue *v = find_value(hash, key, vt_LIST);
 	return v ? v->list : NULL;
@@ -341,8 +341,8 @@ gdblx_lookup_list(GHashTable * hash, gchar * key)
 
 /* True if key exists, it's a string, and its value matches 'expected' */
 gboolean
-gdblx_check_keyval(GHashTable * hash, gchar * key, gchar * expected)
+gdblx_check_keyval(GHashTable * hash, const gchar * key, const gchar * expected)
 {
-	gchar *value = gdblx_lookup_string(hash, key);
+	const gchar *value = gdblx_lookup_string(hash, key);
 	return value && g_str_equal(value, expected);
 }

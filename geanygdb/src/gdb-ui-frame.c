@@ -148,7 +148,7 @@ new_info_btn(void)
 }
 
 GtkWidget *
-gdbui_new_dialog(gchar * title)
+gdbui_new_dialog(const gchar * title)
 {
 	GtkWidget *dlg = gtk_dialog_new();
 	gtk_window_set_transient_for(GTK_WINDOW(dlg), GTK_WINDOW(gdbui_setup.main_window));
@@ -160,7 +160,7 @@ gdbui_new_dialog(gchar * title)
 
 
 static void
-monospace(GtkWidget * label, gchar * line, gchar * text)
+monospace(GtkWidget * label, const gchar * line, const gchar * text)
 {
 	gchar *esc = g_markup_escape_text(text, -1);
 	gchar *mu;
@@ -197,7 +197,7 @@ locals_select_cb(GtkTreeSelection * selection, gpointer data)
 
 
 static GtkWidget *
-make_list(const GSList * list, gchar * title, VarWidgets * vw)
+make_list(const GSList * list, const gchar * title, VarWidgets * vw)
 {
 	GtkTreeIter iter;
 	GtkTreeViewColumn *column;

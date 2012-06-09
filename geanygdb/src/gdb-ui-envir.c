@@ -27,7 +27,7 @@
 
 
 static GtkWidget *
-newlabel(gchar * s)
+newlabel(const gchar * s)
 {
 	GtkWidget *w = gtk_label_new(s);
 	gtk_misc_set_alignment(GTK_MISC(w), 0.0f, 0.0f);

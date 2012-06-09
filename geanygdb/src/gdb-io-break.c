@@ -64,8 +64,15 @@ free_breakpoint_list(void)
 
 
 #define populate(rec, hash, key) \
-  rec->key=gdblx_lookup_string(hash, #key""); \
-  if (rec->key) {rec->key=g_strdup(rec->key);}
+	do \
+	{ \
+		const gchar *populate_key = gdblx_lookup_string(hash, #key""); \
+		if (populate_key) \
+		{ \
+			rec->key = g_strdup(populate_key); \
+		} \
+	} \
+	while (0)
 
 
 

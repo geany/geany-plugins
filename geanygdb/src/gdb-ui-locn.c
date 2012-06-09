@@ -43,7 +43,7 @@ gdbui_free_location_info(LocationInfo * li)
 
 
 LocationInfo *
-gdbui_location_dlg(gchar * title, gboolean is_watch)
+gdbui_location_dlg(const gchar * title, gboolean is_watch)
 {
 	GtkWidget *file_entry = NULL;
 	GtkWidget *line_entry;
@@ -163,7 +163,7 @@ gdbui_location_dlg(gchar * title, gboolean is_watch)
 				rv = g_new0(LocationInfo, 1);
 				if (is_watch)
 				{
-					gchar *opt = "";
+					const gchar *opt = "";
 					if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(opt_r)))
 					{
 						opt = "-r";

@@ -60,7 +60,7 @@ Preprocessor sugar for declaring C variables from hash key names, e.g.
 expands to:
   gchar *somevar = gdblx_lookup_string ( myhash, "somevar" );
 */
-#define HSTR(hash,token) gchar* token = gdblx_lookup_string(hash, #token"")
+#define HSTR(hash,token) const gchar* token = gdblx_lookup_string(hash, #token"")
 #define HTAB(hash,token) GHashTable* token = gdblx_lookup_hash(hash, #token"")
 #define HLST(hash,token) GSList* token = gdblx_lookup_list(hash, #token"")
 
@@ -76,12 +76,12 @@ expands to:
 
 
 
-void gdbio_info_func(gchar * fmt, ...);
-void gdbio_error_func(gchar * fmt, ...);
+void gdbio_info_func(const gchar * fmt, ...);
+void gdbio_error_func(const gchar * fmt, ...);
 void gdbio_do_status(GdbStatus s);
 
 
-void gdbio_target_exited(gchar * reason);
+void gdbio_target_exited(const gchar * reason);
 void gdbio_set_target_pid(GPid pid);
 GPid gdbio_get_target_pid(void);
 void gdbio_set_running(gboolean running);

@@ -36,7 +36,7 @@ extern gint g_unlink(const gchar * filename);
 GdbIoSetup gdbio_setup;
 
 
-static gchar *gdbio_args[] = { "gdb", "--interpreter=mi", "-nx", NULL };
+static const gchar *gdbio_args[] = { "gdb", "--interpreter=mi", "-nx", NULL };
 
 static GPid gdbio_pid = 0;
 static GPid target_pid = 0;
@@ -132,7 +132,7 @@ gdbio_pop_seq(gint seq)
 }
 
 static gboolean
-gerror(gchar * msg, GError ** err)
+gerror(const gchar * msg, GError ** err)
 {
 	if (*err)
 	{
@@ -156,7 +156,7 @@ gerror(gchar * msg, GError ** err)
 
 
 gint
-gdbio_atoi(gchar * str)
+gdbio_atoi(const gchar * str)
 {
 	gchar *tail = NULL;
 	gint rv = strtol(str, &tail, 10);
@@ -165,7 +165,7 @@ gdbio_atoi(gchar * str)
 
 
 void
-gdbio_error_func(gchar * fmt, ...)
+gdbio_error_func(const gchar * fmt, ...)
 {
 	va_list args;
 	gchar *msg;
@@ -185,7 +185,7 @@ gdbio_error_func(gchar * fmt, ...)
 
 
 void
-gdbio_info_func(gchar * fmt, ...)
+gdbio_info_func(const gchar * fmt, ...)
 {
 	va_list args;
 	gchar *msg;
@@ -277,9 +277,9 @@ kill_xterm(void)
 
 
 static gchar *
-start_xterm(gchar * term_cmd)
+start_xterm(const gchar * term_cmd)
 {
-	gchar *term_args[] = { "xterm", "-title", "Debug terminal", "-e", NULL, NULL, NULL };
+	const gchar *term_args[] = { "xterm", "-title", "Debug terminal", "-e", NULL, NULL, NULL };
 	GError *err = NULL;
 	gint i = 0;
 	gchar *tty_name = NULL;
@@ -353,10 +353,10 @@ start_xterm(gchar * term_cmd)
 	}
 	term_args[i] = gdbio_setup.tty_helper;
 	term_args[i + 1] = xterm_tty_file;
-	all = g_strjoinv("\"  \"", term_args);
+	all = g_strjoinv("\"  \"", (gchar **) term_args);
 	gdbio_info_func("\"%s\"\n", all);
 	g_free(all);
-	if (g_spawn_async(NULL, term_args, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, &xterm_pid, &err))
+	if (g_spawn_async(NULL, (gchar **) term_args, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, &xterm_pid, &err))
 	{
 		gchar *contents = NULL;
 		gsize len;
@@ -535,7 +535,7 @@ send_to_gdb(const gchar *data)
 
 
 void
-gdbio_target_exited(gchar * reason)
+gdbio_target_exited(const gchar * reason)
 {
 	gdbio_info_func(_("Target process exited. (pid=%d; %s%s)\n"), target_pid,
 			reason
@@ -789,7 +789,7 @@ gdbio_load(const gchar * exe_name)
 	gchar **gdbio_env = utils_copy_environment(exclude, "LANG", "C", NULL);
 	const gchar *env_lang = g_getenv("LANG");
 	gdbio_exit();
-	if (g_spawn_async_with_pipes(NULL, gdbio_args, gdbio_env,
+	if (g_spawn_async_with_pipes(NULL, (gchar **) gdbio_args, gdbio_env,
 				     GDB_SPAWN_FLAGS, NULL,
 				     NULL, &gdbio_pid, &gdbio_in, &gdbio_out, NULL, &err))
 	{
@@ -828,7 +828,7 @@ gdbio_load(const gchar * exe_name)
 
 
 void
-gdbio_exec_target(gchar * terminal_command)
+gdbio_exec_target(const gchar * terminal_command)
 {
 	if (terminal_command)
 	{

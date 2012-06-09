@@ -297,7 +297,7 @@ gdbio_parse_file_list(gint seq, gchar ** list, gchar * resp)
 
 
 static gboolean
-do_step_func(GHashTable * h, gchar * reason)
+do_step_func(GHashTable * h, const gchar * reason_)
 {
 	HTAB(h, frame);
 	HSTR(frame, fullname);
@@ -306,6 +306,7 @@ do_step_func(GHashTable * h, gchar * reason)
 	{
 		if (gdbio_setup.step_func)
 		{
+			gchar *reason = g_strdup(reason_);
 			gchar *p;
 			for (p = reason; *p; p++)
 			{
@@ -315,6 +316,7 @@ do_step_func(GHashTable * h, gchar * reason)
 				}
 			}
 			gdbio_setup.step_func(fullname, line, reason);
+			g_free(reason);
 		}
 		else
 		{
@@ -384,14 +386,14 @@ return_function(gint seq, gchar ** list, gchar * resp)
 
 
 static void
-watchpoint_trigger(GHashTable * h, GHashTable * wp, gchar * reason)
+watchpoint_trigger(GHashTable * h, GHashTable * wp, const gchar * reason)
 {
 	HTAB(h, value);
 	HSTR(wp, exp);
 	HSTR(wp, number);
 	HSTR(value, new);
 	HSTR(value, old);
-	gchar *readval = gdblx_lookup_string(value, "value");
+	const gchar *readval = gdblx_lookup_string(value, "value");
 	if (new && old)
 	{
 		gdbio_info_func("%s #%s  expression:%s  old-value:%s  new-value:%s\n",
