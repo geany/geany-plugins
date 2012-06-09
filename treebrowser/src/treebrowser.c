@@ -640,13 +640,16 @@ treebrowser_load_bookmarks(void)
 			{
 				if (g_file_test(path_full, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_DIR))
 				{
+					gchar *file_name = g_path_get_basename(path_full);
+
 					gtk_tree_store_append(treestore, &iter, &bookmarks_iter);
 					icon = CONFIG_SHOW_ICONS ? utils_pixbuf_from_stock(GTK_STOCK_DIRECTORY) : NULL;
 					gtk_tree_store_set(treestore, &iter,
 												TREEBROWSER_COLUMN_ICON, 	icon,
-												TREEBROWSER_COLUMN_NAME, 	g_basename(path_full),
+												TREEBROWSER_COLUMN_NAME, 	file_name,
 												TREEBROWSER_COLUMN_URI, 	path_full,
 												-1);
+					g_free(file_name);
 					if (icon)
 						g_object_unref(icon);
 					gtk_tree_store_append(treestore, &iter, &iter);
