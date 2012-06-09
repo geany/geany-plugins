@@ -90,7 +90,7 @@ static gint adjust_argnum(lua_State *L, gint argnum) {
 
 
 /* Pushes an error message onto Lua stack if script passes a wrong arg type */
-static gint fail_arg_type(lua_State *L, const gchar *func, gint argnum, gchar *type)
+static gint fail_arg_type(lua_State *L, const gchar *func, gint argnum, const gchar *type)
 {
 	lua_pushfstring(L, _("Error in module \"%s\" at function %s():\n"
 											" expected type \"%s\" for argument #%d\n"),
@@ -103,7 +103,7 @@ static gint fail_arg_type(lua_State *L, const gchar *func, gint argnum, gchar *t
 
 /*Pushes an error message onto Lua stack if table contains wrong element type*/
 static gint gsdl_fail_elem_type(
-		lua_State *L, const gchar *func, gint argnum, gint idx, gchar *type)
+		lua_State *L, const gchar *func, gint argnum, gint idx, const gchar *type)
 {
 	lua_pushfstring(L, _("Error in module \"%s\" at function %s():\n"
 											" invalid table in argument #%d:\n"

@@ -23,7 +23,7 @@ extern void glspi_init_doc_funcs(lua_State *L);
 /* basic dialog box functions */
 extern void glspi_init_dlg_funcs(lua_State *L, GsDlgRunHook hook);
 /* application functions */
-extern void glspi_init_app_funcs(lua_State *L, gchar*script_dir);
+extern void glspi_init_app_funcs(lua_State *L, const gchar*script_dir);
 /* menu functions */
 void glspi_init_mnu_funcs(lua_State *L);
 
@@ -53,7 +53,7 @@ static void repaint_scintilla(void)
 
 
 /* Internal yes-or-no question box (not used by scripts) */
-static gboolean glspi_show_question(gchar*title, gchar*question, gboolean default_result)
+static gboolean glspi_show_question(const gchar*title, const gchar*question, gboolean default_result)
 {
 	GtkWidget *dialog, *yes_btn, *no_btn;
 	GtkResponseType dv, rv;
@@ -76,7 +76,7 @@ static gboolean glspi_show_question(gchar*title, gchar*question, gboolean defaul
 }
 
 
-static gboolean glspi_goto_error(gchar *fn, gint line)
+static gboolean glspi_goto_error(const gchar *fn, gint line)
 {
 	GeanyDocument *doc=document_open_file(fn, FALSE, NULL, NULL);
 	if (doc) {
@@ -103,7 +103,7 @@ static gboolean glspi_goto_error(gchar *fn, gint line)
 	give the user an option to automatically open the file and scroll to
 	the offending line.
 */
-static void glspi_script_error(gchar *script_file, const gchar *msg, gboolean need_name, gint line)
+static void glspi_script_error(const gchar *script_file, const gchar *msg, gboolean need_name, gint line)
 {
 	GtkWidget *dialog;
 	if (need_name) {
@@ -336,7 +336,7 @@ static gint glspi_traceback(lua_State *L)
 	The set_*_token functions assign default values for module-level variables
 */
 
-static void set_string_token(lua_State *L, gchar*name, gchar*value)
+static void set_string_token(lua_State *L, const gchar*name, const gchar*value)
 {
 	lua_getglobal(L, LUA_MODULE_NAME);
 	if (lua_istable(L, -1)) {
@@ -350,7 +350,7 @@ static void set_string_token(lua_State *L, gchar*name, gchar*value)
 
 
 
-static void set_numeric_token(lua_State *L, gchar*name, gint value)
+static void set_numeric_token(lua_State *L, const gchar*name, gint value)
 {
 	lua_getglobal(L, LUA_MODULE_NAME);
 	if (lua_istable(L, -1)) {
@@ -364,7 +364,7 @@ static void set_numeric_token(lua_State *L, gchar*name, gint value)
 
 
 
-static void set_boolean_token(lua_State *L, gchar*name, gboolean value)
+static void set_boolean_token(lua_State *L, const gchar*name, gboolean value)
 {
 	lua_getglobal(L, LUA_MODULE_NAME);
 	if (lua_istable(L, -1)) {
@@ -378,7 +378,7 @@ static void set_boolean_token(lua_State *L, gchar*name, gboolean value)
 
 
 
-static void set_keyfile_token(lua_State *L, gchar*name, GKeyFile* value)
+static void set_keyfile_token(lua_State *L, const gchar*name, GKeyFile* value)
 {
 	if (!value) {return;}
 	lua_getglobal(L, LUA_MODULE_NAME);
@@ -393,7 +393,7 @@ static void set_keyfile_token(lua_State *L, gchar*name, GKeyFile* value)
 
 
 
-static void show_error(lua_State *L, gchar *script_file)
+static void show_error(lua_State *L, const gchar *script_file)
 {
 	gint line=-1;
 	gchar *fn = glspi_get_error_info(L, &line);
@@ -413,7 +413,7 @@ static void show_error(lua_State *L, gchar *script_file)
 
 
 
-static gint glspi_init_module(lua_State *L, gchar *script_file, gint caller, GKeyFile*proj, gchar*script_dir)
+static gint glspi_init_module(lua_State *L, const gchar *script_file, gint caller, GKeyFile*proj, const gchar*script_dir)
 {
 	luaL_openlib(L, LUA_MODULE_NAME, glspi_timer_funcs, 0);
 	glspi_init_sci_funcs(L);
@@ -450,7 +450,7 @@ gint luaopen_libgeanylua(lua_State *L)
 
 
 /* Load and run the script */
-void glspi_run_script(gchar *script_file, gint caller, GKeyFile*proj, gchar *script_dir)
+void glspi_run_script(const gchar *script_file, gint caller, GKeyFile*proj, const gchar *script_dir)
 {
 	gint status;
 	lua_State *L = glspi_state_new();

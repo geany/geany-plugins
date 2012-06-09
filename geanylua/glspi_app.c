@@ -71,7 +71,7 @@ static gint glspi_project(lua_State* L)
 	}
 }
 
-static gchar *glspi_script_dir = NULL;
+static const gchar *glspi_script_dir = NULL;
 
 static gint glspi_appinfo(lua_State* L)
 {
@@ -192,7 +192,7 @@ static gint glspi_stat(lua_State* L)
 	if (!lua_isstring(L,1)) { return FAIL_STRING_ARG(1); }
 	fn=lua_tostring(L,1);
 	if (sf(fn,&st)==0) {
-		gchar *ft=NULL;
+		const gchar *ft=NULL;
 		switch ( st.st_mode & S_IFMT) {
 			case S_IFBLK:ft="b"; break;
 			case S_IFCHR:ft="c"; break;
@@ -347,7 +347,8 @@ static void glspi_init_key_cmd_hash(void)
 	key_cmd_hash=g_hash_table_new(g_str_hash,g_str_equal);
 	for (i=0;key_cmd_hash_entries[i].name; i++) {
 		g_hash_table_insert(
-			key_cmd_hash,key_cmd_hash_entries[i].name,&key_cmd_hash_entries[i]);
+			key_cmd_hash,(gpointer) key_cmd_hash_entries[i].name,
+			&key_cmd_hash_entries[i]);
 	}
 }
 
@@ -620,7 +621,7 @@ static const struct luaL_reg glspi_app_funcs[] = {
 	{NULL,NULL}
 };
 
-void glspi_init_app_funcs(lua_State *L, gchar*script_dir) {
+void glspi_init_app_funcs(lua_State *L, const gchar*script_dir) {
 	glspi_script_dir = script_dir;
 	luaL_register(L, NULL,glspi_app_funcs);
 }

@@ -561,7 +561,8 @@ static void glspi_init_sci_cmd_hash(void)
 	sci_cmd_hash=g_hash_table_new(g_str_hash,g_str_equal);
 	for (i=0; sci_cmd_hash_entries[i].name; i++) {
 		g_hash_table_insert(
-			sci_cmd_hash,sci_cmd_hash_entries[i].name,&sci_cmd_hash_entries[i]);
+			sci_cmd_hash,
+			(gpointer) sci_cmd_hash_entries[i].name,&sci_cmd_hash_entries[i]);
 	}
 }
 
@@ -596,7 +597,7 @@ static SciCmdHashEntry* lookup_cmd_id(gint cmd)
 
 
 
-static gint glspi_fail_not_implemented(lua_State* L, const gchar*funcname, gchar*cmdname)
+static gint glspi_fail_not_implemented(lua_State* L, const gchar*funcname, const gchar*cmdname)
 {
 	lua_pushfstring(
 		L, _( "Error in module \"%s\" at function %s():\n"
@@ -607,7 +608,7 @@ static gint glspi_fail_not_implemented(lua_State* L, const gchar*funcname, gchar
 }
 
 
-static gint glspi_fail_arg_count(lua_State* L, const gchar*funcname, gchar*cmdname)
+static gint glspi_fail_arg_count(lua_State* L, const gchar*funcname, const gchar*cmdname)
 {
 	lua_pushfstring(
 		L, _( "Error in module \"%s\" at function %s():\n"

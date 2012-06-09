@@ -25,7 +25,7 @@ typedef enum {
 
 
 typedef struct _SciCmdHashEntry {
-	gchar *name;
+	const gchar *name;
 	GlspiType result;
 	gint msgid;
 	GlspiType wparam;
