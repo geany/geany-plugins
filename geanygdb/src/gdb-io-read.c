@@ -34,6 +34,8 @@
 static GSList *source_files = NULL;
 static gboolean starting = FALSE;
 
+static void handle_response_line(gchar * str, gchar ** list);
+
 
 
 static void
@@ -102,9 +104,6 @@ parse_file_list_cb(gpointer data, gpointer user_data)
 	}
 }
 
-
-
-static void handle_response_line(gchar * str, gchar ** list);
 
 
 static void
@@ -225,9 +224,6 @@ gdbio_get_results(gchar * resp, gchar ** list)
 	return NULL;
 }
 
-
-
-static void handle_response_line(gchar * str, gchar ** list);
 
 
 void

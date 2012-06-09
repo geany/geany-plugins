@@ -54,6 +54,8 @@ void gdbio_pop_seq(gint seq);
 */
 GHashTable *gdbio_get_results(gchar * resp, gchar ** list);
 
+void gdbio_parse_file_list(gint seq, gchar ** list, gchar * resp);
+
 /*
 Preprocessor sugar for declaring C variables from hash key names, e.g.
   HSTR(myhash,somevar)

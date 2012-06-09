@@ -742,8 +742,6 @@ gdbio_exit(void)
 
 
 
-void gdbio_parse_file_list(gint seq, gchar ** list, gchar * resp);
-
 static void
 load_target(const gchar * exe_name)
 {
