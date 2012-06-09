@@ -149,7 +149,7 @@ static void 	treebrowser_bookmarks_set_state(void);
 static void 	treebrowser_load_bookmarks(void);
 static void 	gtk_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root);
 static void 	treebrowser_rename_current(void);
-static void 	on_menu_create_new_object(GtkMenuItem *menuitem, gchar *type);
+static void 	on_menu_create_new_object(GtkMenuItem *menuitem, const gchar *type);
 static void 	load_settings(void);
 static gboolean save_settings(void);
 
@@ -907,7 +907,7 @@ treebrowser_rename_current(void)
 }
 
 static void
-treebrowser_create_new_current(gchar *type)
+treebrowser_create_new_current(const gchar *type)
 {
 	on_menu_create_new_object(NULL, type);
 }
@@ -996,7 +996,7 @@ on_menu_find_in_files(GtkMenuItem *menuitem, gchar *uri)
 }
 
 static void
-on_menu_create_new_object(GtkMenuItem *menuitem, gchar *type)
+on_menu_create_new_object(GtkMenuItem *menuitem, const gchar *type)
 {
 	GtkTreeSelection 	*selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
 	GtkTreeIter 		iter;
