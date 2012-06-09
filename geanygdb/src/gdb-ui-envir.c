@@ -191,8 +191,8 @@ gdbui_opts_dlg(void)
 	GtkBox *vbox = GTK_BOX(GTK_DIALOG(dlg)->vbox);
 	GtkWidget *hbox;
 	GtkWidget *font_btn = gtk_button_new();
-//  GtkWidget*font_btn=gtk_button_new_with_label("Choose...");
-// GtkWidget*font_btn=gtk_button_new_from_stock(GTK_STOCK_SELECT_FONT);
+/*	GtkWidget*font_btn=gtk_button_new_with_label("Choose...");
+ GtkWidget*font_btn=gtk_button_new_from_stock(GTK_STOCK_SELECT_FONT);*/
 
 	GtkWidget *font_box = gtk_entry_new();
 	GtkWidget *term_box = gtk_entry_new();

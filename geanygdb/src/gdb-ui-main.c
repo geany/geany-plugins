@@ -825,8 +825,8 @@ entry_activate(GtkWidget * w, gpointer user_data)
 #define split2 split(main_vbox)
 
 
-//#define splitw gtk_widget_new(GTK_TYPE_BIN,NULL)
-//#define splitw gtk_hseparator_new()
+/*#define splitw gtk_widget_new(GTK_TYPE_BIN,NULL)*/
+/*#define splitw gtk_hseparator_new()*/
 #define splitw gtk_hbox_new(FALSE,0)
 
 
@@ -871,8 +871,8 @@ PLUGIN_KEY_GROUP(debug, KB_DEBUG_COUNT)
 
 static void kb_activate(guint key_id)
 {
-	//gtk_notebook_set_current_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook), page_number);
-	//gtk_widget_grab_focus(file_view);
+	/*gtk_notebook_set_current_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook), page_number);
+	gtk_widget_grab_focus(file_view);*/
 	switch (key_id)
 	{
 #define DAENTRY(A,B,C,D) DBKEYACT(A,B,C)
@@ -890,7 +890,7 @@ void gdbui_create_menu(GtkWidget * parent)
 #define DAENTRY(A,B,C,D) MENUENTRY(A,B,C,D);
 	DEBUGACTIONS
 #undef DAENTRY
-//	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (sdm._load), GTK_STOCK_OPEN);
+/*	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (sdm._load), GTK_STOCK_OPEN);*/
 }
 
 void gdbui_create_dview(GtkWidget * parent)

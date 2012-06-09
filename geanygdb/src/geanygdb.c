@@ -76,17 +76,17 @@ warn_message_cb(const gchar * msg)
 
 
 #define NOTEBOOK GTK_NOTEBOOK(geany->main_widgets->notebook)
-//#define DOCS ((document*)(doc_array->data))
+/*#define DOCS ((document*)(doc_array->data))*/
 
-//static gint
-//doc_idx_to_tab_idx(gint idx)
-//{
+/*static gint
+doc_idx_to_tab_idx(gint idx)
+{
 	// FIXME
-//	return 0;
-//	  return (
-//			  (idx>=0) && ((guint)idx<doc_array->len) && DOCS[idx].is_valid
-//	  ) ? gtk_notebook_page_num(NOTEBOOK, GTK_WIDGET(DOCS[idx].sci)):-1;
-//}
+	return 0;
+	  return (
+			  (idx>=0) && ((guint)idx<doc_array->len) && DOCS[idx].is_valid
+	  ) ? gtk_notebook_page_num(NOTEBOOK, GTK_WIDGET(DOCS[idx].sci)):-1;
+}*/
 
 
 static void

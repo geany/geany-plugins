@@ -403,7 +403,7 @@ top_var(void)
 
 
 
-//static GdbObjectFunc gdbio_object_list_func=NULL;
+/*static GdbObjectFunc gdbio_object_list_func=NULL;*/
 
 static GQueue *obj_func_queue = NULL;
 static void
@@ -430,7 +430,7 @@ done_top(void)
 {
 	pop_var();
 	pop_list();
-//  pop_name();
+/*	pop_name();*/
 	pop_func();
 }
 

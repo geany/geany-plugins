@@ -130,7 +130,7 @@ typedef enum _FrameColumn
 } FrameColumn;
 
 
-//#define MORE_INFO GTK_STOCK_GO_FORWARD
+/*#define MORE_INFO GTK_STOCK_GO_FORWARD*/
 
 #define MORE_INFO GTK_STOCK_ZOOM_IN
 
@@ -142,7 +142,7 @@ new_info_btn(void)
 	gtk_button_set_image(GTK_BUTTON(rv),
 			     gtk_image_new_from_stock(MORE_INFO, GTK_ICON_SIZE_BUTTON));
 #if GTK_CHECK_VERSION(2, 10, 0)
-	// gtk_button_set_image_position(GTK_BUTTON(rv), GTK_POS_RIGHT);
+	/*gtk_button_set_image_position(GTK_BUTTON(rv), GTK_POS_RIGHT);*/
 #endif
 	return rv;
 }
@@ -301,7 +301,7 @@ object_func(const GdbVar * obj, const GSList * list)
 
 
 
-//  btn=gtk_dialog_add_button(GTK_DIALOG(vw.dlg)," << _Back ",respGoBack);
+/*	btn=gtk_dialog_add_button(GTK_DIALOG(vw.dlg)," << _Back ",respGoBack);*/
 	btn = gtk_dialog_add_button(GTK_DIALOG(vw.dlg), GTK_STOCK_GO_BACK, respGoBack);
 	gdbui_set_tip(btn, _("Return to previous dialog."));
 	gtk_dialog_set_default_response(GTK_DIALOG(vw.dlg), respGoBack);
@@ -375,7 +375,7 @@ locals_func(const GdbFrameInfo * frame, const GSList * locals)
 	view = make_list(locals, _("Local variables"), &vw);
 	gtk_box_pack_start(vbox, view, TRUE, TRUE, 0);
 
-//  btn=gtk_dialog_add_button(GTK_DIALOG(vw.dlg)," << _Back ",respGoBack);
+/*	btn=gtk_dialog_add_button(GTK_DIALOG(vw.dlg)," << _Back ",respGoBack);*/
 	btn = gtk_dialog_add_button(GTK_DIALOG(vw.dlg), GTK_STOCK_GO_BACK, respGoBack);
 	gdbui_set_tip(btn, _("Return to stack list dialog."));
 
