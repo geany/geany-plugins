@@ -48,8 +48,8 @@ typedef struct
 
 
 typedef void (*GdbUiLineFunc) (const gchar * filename, const gchar * line, const gchar * reason);
-typedef LocationInfo *(*GdbUiLocationFunc) ();
-typedef void (*GdbUiOptsFunc) ();
+typedef LocationInfo *(*GdbUiLocationFunc) (void);
+typedef void (*GdbUiOptsFunc) (void);
 
 
 
@@ -71,19 +71,19 @@ GtkWidget *gdbui_create_widgets(GtkWidget * parent);
 void gdbui_create_menu(GtkWidget * parent);
 void gdbui_create_dview(GtkWidget * parent);
 
-void gdbui_set_tip(GtkWidget * w, gchar * tip);
+void gdbui_set_tip(GtkWidget * w, const gchar * tip);
 void gdbui_enable(gboolean enabled);
 
-GtkWidget *gdbui_new_dialog(gchar * title);
+GtkWidget *gdbui_new_dialog(const gchar * title);
 
-void gdbui_opts_init();
-void gdbui_opts_done();
+void gdbui_opts_init(void);
+void gdbui_opts_done(void);
 
-void gdbui_opts_dlg();
+void gdbui_opts_dlg(void);
 
 void gdbui_stack_dlg(const GSList * frame_list);
 void gdbui_break_dlg(gboolean is_watch);
 void gdbui_env_dlg(const GdbEnvironInfo * env);
 
-LocationInfo *gdbui_location_dlg(gchar * title, gboolean is_watch);
+LocationInfo *gdbui_location_dlg(const gchar * title, gboolean is_watch);
 void gdbui_free_location_info(LocationInfo * li);

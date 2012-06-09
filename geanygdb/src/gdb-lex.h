@@ -47,22 +47,22 @@ typedef struct
 
 
 
-GHashTable *gdblx_parse_results(gchar * resutls);
+GHashTable *gdblx_parse_results(const gchar * resutls);
 
 /*
   The gdblx_lookup_* functions below return NULL if their hash is NULL,
   if the key is not found, or if its value is not of the expected
   return type.
 */
-gchar *gdblx_lookup_string(GHashTable * hash, gchar * key);
-GHashTable *gdblx_lookup_hash(GHashTable * hash, gchar * key);
-GSList *gdblx_lookup_list(GHashTable * hash, gchar * key);
+const gchar *gdblx_lookup_string(GHashTable * hash, const gchar * key);
+GHashTable *gdblx_lookup_hash(GHashTable * hash, const gchar * key);
+GSList *gdblx_lookup_list(GHashTable * hash, const gchar * key);
 
 /*
   Returns TRUE if hash is not NULL, key exists, and key type is vt_STRING,
   and the key's value matches 'expected'.
 */
-gboolean gdblx_check_keyval(GHashTable * hash, gchar * key, gchar * expected);
+gboolean gdblx_check_keyval(GHashTable * hash, const gchar * key, const gchar * expected);
 
 
 /* Dumps a pretty-printed representation of the hash table to stderr */
@@ -74,4 +74,4 @@ void gdblx_dump_table(GHashTable * hash);
   The global scanner object is automatically intialized as soon
   as it is needed, but it must be explicitly destroyed.
 */
-void gdblx_scanner_done();
+void gdblx_scanner_done(void);
