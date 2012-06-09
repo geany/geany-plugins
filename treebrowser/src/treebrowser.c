@@ -791,7 +791,7 @@ treebrowser_expand_to_path(gchar* root, gchar* find)
 {
 	int i = 0;
 	gboolean founded = FALSE, global_founded = FALSE;
-	gchar *new = "";
+	gchar *new = NULL;
 	gchar **root_segments = NULL, **find_segments = NULL;
 	guint root_segments_n = 0, find_segments_n = 0;
 
@@ -804,7 +804,7 @@ treebrowser_expand_to_path(gchar* root, gchar* find)
 
 	for (i = 1; i<=find_segments_n; i++)
 	{
-		new = g_strconcat(new, G_DIR_SEPARATOR_S, find_segments[i], NULL);
+		new = g_strconcat(new ? new : "", G_DIR_SEPARATOR_S, find_segments[i], NULL);
 
 		if (founded)
 		{
