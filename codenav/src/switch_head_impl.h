@@ -27,15 +27,15 @@
 
 /* Initialization */
 void
-switch_head_impl_init();
+switch_head_impl_init(void);
 
 /* Cleanup */
 void
-switch_head_impl_cleanup();
+switch_head_impl_cleanup(void);
 
 /* Configuration widget */
 GtkWidget*
-switch_head_impl_config_widget();
+switch_head_impl_config_widget(void);
 
 /* Write the configuration of the feature */
 void

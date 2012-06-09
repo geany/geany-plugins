@@ -45,11 +45,13 @@ menu_item_activate(guint key_id);
  * ---------------------------------------------------------------------
  */
 void
-goto_file_init()
+goto_file_init(void)
 {
+	GtkWidget* edit_menu;
+
 	log_func();
 
-	GtkWidget* edit_menu = ui_lookup_widget(geany->main_widgets->window, "edit1_menu");
+	edit_menu = ui_lookup_widget(geany->main_widgets->window, "edit1_menu");
 
 	/* Add the menu item, sensitive only when a document is opened */
 	menu_item = gtk_menu_item_new_with_mnemonic(_("Goto file"));
@@ -75,7 +77,7 @@ goto_file_init()
  * ---------------------------------------------------------------------
  */
 void
-goto_file_cleanup()
+goto_file_cleanup(void)
 {
 	log_func();
 
@@ -89,11 +91,12 @@ goto_file_cleanup()
 static void
 menu_item_activate(guint key_id)
 {
+	GtkWidget *dialog;
+
 	log_func();
 
 	/* TODO */
-
-	GtkWidget *dialog = gtk_message_dialog_new(
+	dialog = gtk_message_dialog_new(
 		GTK_WINDOW(geany->main_widgets->window),
 		GTK_DIALOG_DESTROY_WITH_PARENT,
 		GTK_MESSAGE_INFO,

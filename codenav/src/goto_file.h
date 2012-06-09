@@ -27,10 +27,10 @@
 
 /* Initialization */
 void
-goto_file_init();
+goto_file_init(void);
 
 /* Cleanup */
 void
-goto_file_cleanup();
+goto_file_cleanup(void);
 
 #endif /* GOTO_FILE_H */
