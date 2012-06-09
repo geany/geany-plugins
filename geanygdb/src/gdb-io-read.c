@@ -34,6 +34,8 @@
 static GSList *source_files = NULL;
 static gboolean starting = FALSE;
 
+static void handle_response_line(gchar * str, gchar ** list);
+
 
 
 static void
@@ -53,7 +55,7 @@ free_string_list(GSList ** list)
 
 
 static void
-free_source_list()
+free_source_list(void)
 {
 	free_string_list(&source_files);
 }
@@ -102,9 +104,6 @@ parse_file_list_cb(gpointer data, gpointer user_data)
 	}
 }
 
-
-
-static void handle_response_line(gchar * str, gchar ** list);
 
 
 static void
@@ -227,9 +226,6 @@ gdbio_get_results(gchar * resp, gchar ** list)
 
 
 
-static void handle_response_line(gchar * str, gchar ** list);
-
-
 void
 gdbio_set_starting(gboolean s)
 {
@@ -297,7 +293,7 @@ gdbio_parse_file_list(gint seq, gchar ** list, gchar * resp)
 
 
 static gboolean
-do_step_func(GHashTable * h, gchar * reason)
+do_step_func(GHashTable * h, const gchar * reason_)
 {
 	HTAB(h, frame);
 	HSTR(frame, fullname);
@@ -306,6 +302,7 @@ do_step_func(GHashTable * h, gchar * reason)
 	{
 		if (gdbio_setup.step_func)
 		{
+			gchar *reason = g_strdup(reason_);
 			gchar *p;
 			for (p = reason; *p; p++)
 			{
@@ -315,6 +312,7 @@ do_step_func(GHashTable * h, gchar * reason)
 				}
 			}
 			gdbio_setup.step_func(fullname, line, reason);
+			g_free(reason);
 		}
 		else
 		{
@@ -384,14 +382,14 @@ return_function(gint seq, gchar ** list, gchar * resp)
 
 
 static void
-watchpoint_trigger(GHashTable * h, GHashTable * wp, gchar * reason)
+watchpoint_trigger(GHashTable * h, GHashTable * wp, const gchar * reason)
 {
 	HTAB(h, value);
 	HSTR(wp, exp);
 	HSTR(wp, number);
 	HSTR(value, new);
 	HSTR(value, old);
-	gchar *readval = gdblx_lookup_string(value, "value");
+	const gchar *readval = gdblx_lookup_string(value, "value");
 	if (new && old)
 	{
 		gdbio_info_func("%s #%s  expression:%s  old-value:%s  new-value:%s\n",
@@ -621,7 +619,7 @@ handle_results_hash(GHashTable * h, gchar * rectype, gchar ** list)
 			gint ec = -1;
 			if (exit_code)
 			{
-				ec = strtoull(exit_code, &tail, 8);
+				ec = strtoul(exit_code, &tail, 8);
 				if ((!tail) || (*tail))
 				{
 					ec = -1;
@@ -798,7 +796,7 @@ gdbio_consume_response(GString * recv_buf)
 
 
 void
-gdbio_continue()
+gdbio_continue(void)
 {
 	gdbio_send_cmd("-exec-continue\n");
 }
@@ -807,14 +805,14 @@ gdbio_continue()
 
 
 void
-gdbio_return()
+gdbio_return(void)
 {
 	gdbio_send_seq_cmd(return_function, "-exec-return\n");
 }
 
 
 void
-gdbio_finish()
+gdbio_finish(void)
 {
 	gdbio_send_seq_cmd(finish_function, "-exec-finish\n");
 }

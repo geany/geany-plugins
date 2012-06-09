@@ -80,12 +80,12 @@ push_name(const gchar * p)
 	qpush(&obj_name_queue, g_strdup(p));
 }
 static void
-pop_name()
+pop_name(void)
 {
 	g_free(qpop(&obj_name_queue));
 }
 static gchar *
-top_name()
+top_name(void)
 {
 	return qtop(obj_name_queue);
 }
@@ -130,25 +130,25 @@ typedef enum _FrameColumn
 } FrameColumn;
 
 
-//#define MORE_INFO GTK_STOCK_GO_FORWARD
+/*#define MORE_INFO GTK_STOCK_GO_FORWARD*/
 
 #define MORE_INFO GTK_STOCK_ZOOM_IN
 
 static GtkWidget *
-new_info_btn()
+new_info_btn(void)
 {
 	GtkWidget *rv;
 	rv = gtk_button_new_with_mnemonic(_("_Examine"));
 	gtk_button_set_image(GTK_BUTTON(rv),
 			     gtk_image_new_from_stock(MORE_INFO, GTK_ICON_SIZE_BUTTON));
 #if GTK_CHECK_VERSION(2, 10, 0)
-	// gtk_button_set_image_position(GTK_BUTTON(rv), GTK_POS_RIGHT);
+	/*gtk_button_set_image_position(GTK_BUTTON(rv), GTK_POS_RIGHT);*/
 #endif
 	return rv;
 }
 
 GtkWidget *
-gdbui_new_dialog(gchar * title)
+gdbui_new_dialog(const gchar * title)
 {
 	GtkWidget *dlg = gtk_dialog_new();
 	gtk_window_set_transient_for(GTK_WINDOW(dlg), GTK_WINDOW(gdbui_setup.main_window));
@@ -160,7 +160,7 @@ gdbui_new_dialog(gchar * title)
 
 
 static void
-monospace(GtkWidget * label, gchar * line, gchar * text)
+monospace(GtkWidget * label, const gchar * line, const gchar * text)
 {
 	gchar *esc = g_markup_escape_text(text, -1);
 	gchar *mu;
@@ -197,7 +197,7 @@ locals_select_cb(GtkTreeSelection * selection, gpointer data)
 
 
 static GtkWidget *
-make_list(const GSList * list, gchar * title, VarWidgets * vw)
+make_list(const GSList * list, const gchar * title, VarWidgets * vw)
 {
 	GtkTreeIter iter;
 	GtkTreeViewColumn *column;
@@ -301,7 +301,7 @@ object_func(const GdbVar * obj, const GSList * list)
 
 
 
-//  btn=gtk_dialog_add_button(GTK_DIALOG(vw.dlg)," << _Back ",respGoBack);
+/*	btn=gtk_dialog_add_button(GTK_DIALOG(vw.dlg)," << _Back ",respGoBack);*/
 	btn = gtk_dialog_add_button(GTK_DIALOG(vw.dlg), GTK_STOCK_GO_BACK, respGoBack);
 	gdbui_set_tip(btn, _("Return to previous dialog."));
 	gtk_dialog_set_default_response(GTK_DIALOG(vw.dlg), respGoBack);
@@ -375,7 +375,7 @@ locals_func(const GdbFrameInfo * frame, const GSList * locals)
 	view = make_list(locals, _("Local variables"), &vw);
 	gtk_box_pack_start(vbox, view, TRUE, TRUE, 0);
 
-//  btn=gtk_dialog_add_button(GTK_DIALOG(vw.dlg)," << _Back ",respGoBack);
+/*	btn=gtk_dialog_add_button(GTK_DIALOG(vw.dlg)," << _Back ",respGoBack);*/
 	btn = gtk_dialog_add_button(GTK_DIALOG(vw.dlg), GTK_STOCK_GO_BACK, respGoBack);
 	gdbui_set_tip(btn, _("Return to stack list dialog."));
 

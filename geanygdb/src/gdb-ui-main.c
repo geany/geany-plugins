@@ -375,7 +375,7 @@ pipe_click(GtkWidget * w, gpointer user_data)
 
 
 void
-gdbui_set_tip(GtkWidget * w, gchar * tip)
+gdbui_set_tip(GtkWidget * w, const gchar * tip)
 {
 	if (gdbui_setup.options.show_tooltips)
 	{
@@ -390,7 +390,7 @@ gdbui_set_tip(GtkWidget * w, gchar * tip)
 static const gboolean disable_mnemonics = TRUE;
 
 static GtkWidget *
-make_btn(const gchar *text, GtkCallback cb, gchar *img, gchar *tip)
+make_btn(const gchar *text, GtkCallback cb, const gchar *img, const gchar *tip)
 {
 	GtkWidget *button;
 
@@ -825,8 +825,8 @@ entry_activate(GtkWidget * w, gpointer user_data)
 #define split2 split(main_vbox)
 
 
-//#define splitw gtk_widget_new(GTK_TYPE_BIN,NULL)
-//#define splitw gtk_hseparator_new()
+/*#define splitw gtk_widget_new(GTK_TYPE_BIN,NULL)*/
+/*#define splitw gtk_hseparator_new()*/
 #define splitw gtk_hbox_new(FALSE,0)
 
 
@@ -871,8 +871,8 @@ PLUGIN_KEY_GROUP(debug, KB_DEBUG_COUNT)
 
 static void kb_activate(guint key_id)
 {
-	//gtk_notebook_set_current_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook), page_number);
-	//gtk_widget_grab_focus(file_view);
+	/*gtk_notebook_set_current_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook), page_number);
+	gtk_widget_grab_focus(file_view);*/
 	switch (key_id)
 	{
 #define DAENTRY(A,B,C,D) DBKEYACT(A,B,C)
@@ -890,7 +890,7 @@ void gdbui_create_menu(GtkWidget * parent)
 #define DAENTRY(A,B,C,D) MENUENTRY(A,B,C,D);
 	DEBUGACTIONS
 #undef DAENTRY
-//	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (sdm._load), GTK_STOCK_OPEN);
+/*	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (sdm._load), GTK_STOCK_OPEN);*/
 }
 
 void gdbui_create_dview(GtkWidget * parent)
@@ -1015,7 +1015,7 @@ gdbui_create_widgets(GtkWidget * parent)
 #ifdef STANDALONE
 
 static void
-quit()
+quit(void)
 {
 	gdbio_exit();
 	g_printerr("\n");

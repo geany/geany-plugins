@@ -33,7 +33,7 @@ static GSList *breakpoint_list = NULL;
 
 
 static void
-free_breakpoint_list()
+free_breakpoint_list(void)
 {
 	GSList *p;
 	for (p = breakpoint_list; p; p = p->next)
@@ -64,8 +64,15 @@ free_breakpoint_list()
 
 
 #define populate(rec, hash, key) \
-  rec->key=gdblx_lookup_string(hash, #key""); \
-  if (rec->key) {rec->key=g_strdup(rec->key);}
+	do \
+	{ \
+		const gchar *populate_key = gdblx_lookup_string(hash, #key""); \
+		if (populate_key) \
+		{ \
+			rec->key = g_strdup(populate_key); \
+		} \
+	} \
+	while (0)
 
 
 

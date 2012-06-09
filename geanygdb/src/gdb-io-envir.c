@@ -33,7 +33,7 @@ static GdbEnvironInfo env_info = { NULL, NULL, NULL, NULL };
 
 
 static void
-free_env_info()
+free_env_info(void)
 {
 	g_free(env_info.cwd);
 	g_free(env_info.path);
@@ -134,7 +134,7 @@ get_env_dirs(gint seq, gchar ** list, gchar * resp)
 	else
 	{
 		gdbio_info_func(_("Failed to retrieve source search path setting from GDB."));
-//    gdblx_dump_table(h);
+/*		gdblx_dump_table(h);*/
 	}
 	if (h)
 		g_hash_table_destroy(h);
@@ -155,7 +155,7 @@ get_env_path(gint seq, gchar ** list, gchar * resp)
 	else
 	{
 		gdbio_info_func(_("Failed to retrieve executable search path setting from GDB."));
-//    gdblx_dump_table(h);
+/*		gdblx_dump_table(h);*/
 	}
 	if (h)
 		g_hash_table_destroy(h);
@@ -177,7 +177,7 @@ get_env_cwd(gint seq, gchar ** list, gchar * resp)
 	else
 	{
 		gdbio_info_func(_("Failed to retrieve working directory setting from GDB."));
-//    gdblx_dump_table(h);
+/*		gdblx_dump_table(h);*/
 	}
 	if (h)
 		g_hash_table_destroy(h);

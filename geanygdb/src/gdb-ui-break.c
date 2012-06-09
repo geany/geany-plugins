@@ -388,17 +388,17 @@ break_dlg(const GSList * frame_list)
 		const gchar *access_type;
 		BkPtDlgData bpd = { NULL, NULL };
 		gint rowcount = 0;
-		store = gtk_list_store_new(bcNumCols, G_TYPE_STRING,	//bcNumber
-					   G_TYPE_STRING,	//bcEnabled
-					   G_TYPE_STRING,	//bcWhat
-					   G_TYPE_STRING,	//bcFile
-					   G_TYPE_STRING,	//bcLine
-					   G_TYPE_STRING,	//bcFunc
-					   G_TYPE_STRING,	//bcTimes
-					   G_TYPE_STRING,	//bcIgnore
-					   G_TYPE_STRING,	//bcCond
-					   G_TYPE_STRING,	//bcAccess
-					   G_TYPE_POINTER	//bcData
+		store = gtk_list_store_new(bcNumCols, G_TYPE_STRING,	/*bcNumber*/
+					   G_TYPE_STRING,	/*bcEnabled*/
+					   G_TYPE_STRING,	/*bcWhat*/
+					   G_TYPE_STRING,	/*bcFile*/
+					   G_TYPE_STRING,	/*bcLine*/
+					   G_TYPE_STRING,	/*bcFunc*/
+					   G_TYPE_STRING,	/*bcTimes*/
+					   G_TYPE_STRING,	/*bcIgnore*/
+					   G_TYPE_STRING,	/*bcCond*/
+					   G_TYPE_STRING,	/*bcAccess*/
+					   G_TYPE_POINTER	/*bcData*/
 			);
 		for (p = frame_list; p; p = p->next)
 		{

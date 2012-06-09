@@ -26,7 +26,7 @@
 extern ssize_t getline(char **lineptr, size_t * n, FILE * stream);
 extern const gchar *basename(const gchar * path);
 
-gint gdbio_atoi(gchar * str);
+gint gdbio_atoi(const gchar * str);
 gint gdbio_wait(gint ms);
 
 
@@ -63,14 +63,14 @@ typedef struct
 
 typedef struct
 {
-	gchar *signal_name;
-	gchar *signal_meaning;
-	gchar *addr;
-	gchar *func;
-	gchar *file;
-	gchar *fullname;
-	gchar *line;
-	gchar *from;
+	const gchar *signal_name;
+	const gchar *signal_meaning;
+	const gchar *addr;
+	const gchar *func;
+	const gchar *file;
+	const gchar *fullname;
+	const gchar *line;
+	const gchar *from;
 } GdbSignalInfo;
 
 
@@ -116,16 +116,16 @@ typedef void (*GdbEnvironFunc) (const GdbEnvironInfo * env);
 void gdbio_load(const gchar * exe_name);
 
 /* Terminate the debugger ( and the target program, if running ) */
-void gdbio_exit();
+void gdbio_exit(void);
 
 /* Resume execution after a breakpoint or SIGINT, etc... */
-void gdbio_continue();
+void gdbio_continue(void);
 
 /* Complete the current function */
-void gdbio_finish();
+void gdbio_finish(void);
 
 /* Return immediately from the current function */
-void gdbio_return();
+void gdbio_return(void);
 
 /*
   Execute the previously loaded program in the debugger.
@@ -133,15 +133,15 @@ void gdbio_return();
   be started first, and the target program will be run
   in the resulting console.
 */
-void gdbio_exec_target(gchar * terminal_command);
+void gdbio_exec_target(const gchar * terminal_command);
 
 
 /* Send SIGINT to target */
-void gdbio_pause_target();
+void gdbio_pause_target(void);
 
 
 /* Send SIGKILL to target */
-void gdbio_kill_target();
+void gdbio_kill_target(gboolean force);
 
 
 /* Send a command to GDB */
@@ -189,7 +189,7 @@ void gdbio_show_stack(GdbListFunc func);
   Passes a GdbFrameInfo pointer and a GSList of GdbVar pointers to func
   representing the state of the local variables at the specified level.
 */
-void gdbio_show_locals(GdbFrameFunc func, gchar * level);
+void gdbio_show_locals(GdbFrameFunc func, const gchar * level);
 
 
 /*
