@@ -619,7 +619,7 @@ handle_results_hash(GHashTable * h, gchar * rectype, gchar ** list)
 			gint ec = -1;
 			if (exit_code)
 			{
-				ec = strtoull(exit_code, &tail, 8);
+				ec = strtoul(exit_code, &tail, 8);
 				if ((!tail) || (*tail))
 				{
 					ec = -1;

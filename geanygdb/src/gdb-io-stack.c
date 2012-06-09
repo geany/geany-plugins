@@ -112,7 +112,7 @@ merge_stack_args_cb(gpointer data, gpointer user_data)
 		if (level && args)
 		{
 			gchar *tail;
-			gint n = strtoull(level, &tail, 10);
+			gint n = strtoul(level, &tail, 10);
 			GdbFrameInfo *frame = NULL;
 			GSList *p;
 			for (p = frame_list; p; p = p->next)
