@@ -109,7 +109,7 @@ static gint glspi_xsel(lua_State* L)
 {
 	if (lua_gettop(L)>0) {
 		if (lua_isstring(L,1)) {
-			guint len;
+			gsize len;
 			const gchar*txt=lua_tolstring(L,1,&len);
 			gtk_clipboard_set_text(CLIPBOARD,txt,len);
 		} else {
@@ -580,7 +580,7 @@ static gint glspi_keygrab(lua_State* L)
 	if (prompt && doc && doc->is_valid ) {
 		gint fvl=scintilla_send_message(doc->editor->sci,SCI_GETFIRSTVISIBLELINE, 0,0);
 		gint pos=sci_get_position_from_line(doc->editor->sci, fvl+1);
-		scintilla_send_message(doc->editor->sci,SCI_CALLTIPSHOW,pos+3, (gint)prompt);
+		scintilla_send_message(doc->editor->sci,SCI_CALLTIPSHOW,pos+3, (glong)prompt);
 	}
 	gdk_window_add_filter(main_widgets->window->window, keygrab_cb, &km);
 	do {
