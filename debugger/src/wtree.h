@@ -18,16 +18,24 @@
  *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  *      MA 02110-1301, USA.
  */
- 
+
+#ifndef WTREE_H
+#define WTREE_H
+
+#include <glib.h>
+#include <gtk/gtk.h>
+
+#include "watch_model.h"
+
 GtkWidget*		wtree_init(watch_expanded_callback expanded,
 	new_watch_dragged dragged,
 	watch_key_pressed keypressed,
 	watch_expression_changed changed,
 	watch_button_pressed buttonpressed);
-GtkTreeIter		wtree_empty_row();
-GtkTreePath*	wtree_empty_path();
-GList*			wtree_get_watches();
-void			wtree_remove_all();
+void			wtree_empty_row(GtkTreeIter *iter);
+GtkTreePath*	wtree_empty_path(void);
+GList*			wtree_get_watches(void);
+void			wtree_remove_all(void);
 void			wtree_add_watch(gchar *watch);
 
-
+#endif /* guard */

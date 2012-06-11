@@ -25,6 +25,8 @@
 
 #include <gtk/gtk.h>
 
+#include "pixbuf.h"
+
 #include "xpm/breakpoint.xpm"
 #include "xpm/breakpoint_disabled.xpm"
 #include "xpm/breakpoint_condition.xpm"
@@ -50,7 +52,7 @@ GdkPixbuf *frame_current_pixbuf = NULL;
 /*
  * create pixbuffers
  */
-void pixbufs_init()
+void pixbufs_init(void)
 {
 	break_pixbuf = gdk_pixbuf_new_from_xpm_data(breakpoint_xpm);
 	break_disabled_pixbuf = gdk_pixbuf_new_from_xpm_data(breakpoint_disabled_xpm);
@@ -67,7 +69,7 @@ void pixbufs_init()
 /*
  * free pixbuffers
  */
-void pixbufs_destroy()
+void pixbufs_destroy(void)
 {
 	g_object_unref(break_pixbuf);
 	g_object_unref(break_disabled_pixbuf);

@@ -19,6 +19,11 @@
  *      MA 02110-1301, USA.
  */
 
+#ifndef KEYS_H
+#define KEYS_H
+
+#include <glib.h>
+
 /* hotkeys enumeration */
 enum KEYS
 {
@@ -33,4 +38,6 @@ enum KEYS
 	KEY_CURRENT_INSTRUCTION
 };
 
-gboolean keys_init();
+gboolean keys_init(void);
+
+#endif /* guard */

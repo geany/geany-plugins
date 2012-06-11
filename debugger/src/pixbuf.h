@@ -19,6 +19,11 @@
  *      MA 02110-1301, USA.
  */
 
+#ifndef PIXBUF_H
+#define PIXBUF_H
+
+#include <gdk-pixbuf/gdk-pixbuf.h>
+
 extern GdkPixbuf *break_pixbuf;
 extern GdkPixbuf *break_disabled_pixbuf;
 extern GdkPixbuf *break_condition_pixbuf;
@@ -30,5 +35,7 @@ extern GdkPixbuf *watch_pixbuf;
 extern GdkPixbuf *frame_pixbuf;
 extern GdkPixbuf *frame_current_pixbuf;
  
-void pixbufs_init();
-void pixbufs_destroy();
+void pixbufs_init(void);
+void pixbufs_destroy(void);
+
+#endif /* guard */

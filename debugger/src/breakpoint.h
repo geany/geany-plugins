@@ -18,7 +18,13 @@
  *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  *      MA 02110-1301, USA.
  */
- 
+
+#ifndef BREAKPOINT_H
+#define BREAKPOINT_H
+
+#include <glib.h>
+#include <gtk/gtk.h>
+
 /* maximum condition length */
 #define CONDITION_MAX_LENGTH 1024
 
@@ -32,5 +38,7 @@ typedef struct _breakpoint {
 	GtkTreeIter iter;
 } breakpoint;
 
-breakpoint*	break_new();
+breakpoint*	break_new(void);
 breakpoint*	break_new_full(const char* file, int line, const char* condition, int enabled, int hitscount);
+
+#endif /* guard */

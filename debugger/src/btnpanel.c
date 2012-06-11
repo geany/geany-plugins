@@ -60,7 +60,7 @@ static GtkWidget *optbtn = NULL;
 /*
  * calls settings dialog
  */
-void on_settings(GtkButton *button, gpointer user_data)
+static void on_settings(GtkButton *button, gpointer user_data)
 {
 	plugin_show_configure(geany_plugin);
 }
@@ -68,7 +68,7 @@ void on_settings(GtkButton *button, gpointer user_data)
 /*
  * gets current file and line and calls debug function
  */
-void on_execute_until(GtkButton *button, gpointer user_data)
+static void on_execute_until(GtkButton *button, gpointer user_data)
 {
 	GeanyDocument *doc = document_get_current();
 	if (doc)
