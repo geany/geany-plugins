@@ -1,7 +1,7 @@
 /*
  *	  tableconvert.c
  *
- *	  Copyright 2011 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *	  Copyright 2011-2012 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *	  This program is free software; you can redistribute it and/or modify
  *	  it under the terms of the GNU General Public License as published by
@@ -154,7 +154,7 @@ static GString* convert_to_table_sql(gchar** rows)
 	g_return_val_if_fail(rows != NULL, NULL);
 
 	/* Adding start */
-	replacement_str = g_string_new("(\n");
+	replacement_str = g_string_new("");
 
 	/* Iteration onto rows and building up lines for replacement */
 	for (i = 0; rows[i] != NULL ; i++)
@@ -184,8 +184,6 @@ static GString* convert_to_table_sql(gchar** rows)
 
 		g_free(columns);
 	}
-	/* Adding the end of table */
-	g_string_append(replacement_str, ")\n");
 	return replacement_str;
 }
 
