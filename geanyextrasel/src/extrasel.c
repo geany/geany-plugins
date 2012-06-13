@@ -32,7 +32,7 @@ GeanyFunctions	*geany_functions;
 PLUGIN_VERSION_CHECK(189)
 
 PLUGIN_SET_INFO(_("Extra Selection"), _("Column mode, select to line / brace / anchor."),
-	"0.4", "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
+	"0.5", "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
 
 /* Keybinding(s) */
 enum
@@ -54,7 +54,6 @@ static GtkWidget *anchor_rect_select_item;
 static gpointer *go_to_line1_item = NULL;
 
 static gint column_mode = FALSE;
-static gboolean plugin_ignore_callback = FALSE;
 static gint select_anchor = 0, select_space = 0;
 
 /* Common functions / macros */
@@ -112,18 +111,6 @@ static void convert_selection(ScintillaObject *sci, gboolean rectangle)
 		create_selection(sci, sci_get_anchor(sci), sci_get_anchor_space(sci), rectangle);
 }
 
-static void on_extra_select_activate(G_GNUC_UNUSED GtkMenuItem *menuitem,
-	G_GNUC_UNUSED gpointer gdata)
-{
-	if (column_mode != gtk_check_menu_item_get_active(column_mode_item))
-	{
-		plugin_ignore_callback = TRUE;
-		gtk_check_menu_item_set_active(column_mode_item, column_mode);
-		plugin_ignore_callback = FALSE;
-		gtk_widget_set_sensitive(anchor_rect_select_item, !column_mode);
-	}
-}
-
 /* New rectangle selection keys */
 
 typedef struct _command_key
@@ -167,8 +154,8 @@ static void column_mode_command(ScintillaObject *sci, int command)
 	sci_send_command(sci, SCI_CANCEL);
 }
 
-static gboolean on_key_press_event(GtkWidget *widget, GdkEventKey *event, G_GNUC_UNUSED
-	gpointer user_data)
+static gboolean on_key_press_event(GtkWidget *widget, GdkEventKey *event,
+	G_GNUC_UNUSED gpointer gdata)
 {
 	guint mask = GDK_CONTROL_MASK | GDK_SHIFT_MASK | (column_mode ? 0 : GDK_MOD1_MASK);
 	guint state = event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK);
@@ -261,12 +248,12 @@ static void assign_select_keys(ScintillaObject *sci)
 	}
 }
 
-static void on_column_mode_toggled(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED
-	gpointer gdata)
+static void on_column_mode_toggled(G_GNUC_UNUSED GtkMenuItem *menuitem,
+	G_GNUC_UNUSED gpointer gdata)
 {
 	ScintillaObject *sci = scintilla_get_current();
 
-	if (sci && !plugin_ignore_callback)
+	if (sci)
 	{
 		column_mode = gtk_check_menu_item_get_active(column_mode_item);
 		assign_select_keys(sci);
@@ -283,18 +270,19 @@ static void on_column_mode_key(G_GNUC_UNUSED guint key_id)
 }
 
 static void on_document_create(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GeanyDocument *doc,
-	G_GNUC_UNUSED gpointer user_data)
+	G_GNUC_UNUSED gpointer gdata)
 {
-	column_mode = FALSE;
 	select_anchor = select_space = 0;
+	gtk_check_menu_item_set_active(column_mode_item, FALSE);
 }
 
 static void on_document_activate(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
-	G_GNUC_UNUSED gpointer user_data)
+	G_GNUC_UNUSED gpointer gdata)
 {
 	ScintillaObject *sci = doc->editor->sci;
 
 	column_mode = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(sci), "column_mode"));
+	gtk_check_menu_item_set_active(column_mode_item, column_mode);
 	select_anchor = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(sci), "select_anchor"));
 	select_space = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(sci), "select_space"));
 }
@@ -313,16 +301,17 @@ static void update_home_key(void)
 	}
 }
 
-static void on_settings_change(G_GNUC_UNUSED GKeyFile *config)
+static void on_settings_change(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile *keyfile,
+	G_GNUC_UNUSED gpointer gdata)
 {
 	update_home_key();
 
 	if (column_mode)
 	{
-		ScintillaObject *sci = scintilla_get_current();
+		gint i;
 
-		if (sci)
-			assign_select_keys(sci);
+		foreach_document(i)
+			assign_select_keys(documents[i]->editor->sci);
 	}
 }
 
@@ -353,8 +342,8 @@ static void doit_and_select(guint group_id, guint key_id)
 	}
 }
 
-static void on_goto_line_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED
-	gpointer gdata)
+static void on_goto_line_activate(G_GNUC_UNUSED GtkMenuItem *menuitem,
+	G_GNUC_UNUSED gpointer gdata)
 {
 	doit_and_select(GEANY_KEY_GROUP_GOTO, GEANY_KEYS_GOTO_LINE);
 }
@@ -364,8 +353,8 @@ static void on_goto_line_key(G_GNUC_UNUSED guint key_id)
 	on_goto_line_activate(NULL, NULL);
 }
 
-static void on_brace_match_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED
-	gpointer gdata)
+static void on_brace_match_activate(G_GNUC_UNUSED GtkMenuItem *menuitem,
+	G_GNUC_UNUSED gpointer gdata)
 {
 	doit_and_select(GEANY_KEY_GROUP_GOTO, GEANY_KEYS_GOTO_MATCHINGBRACE);
 }
@@ -384,7 +373,7 @@ static void save_selection(ScintillaObject *sci)
 }
 
 static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor,
-	SCNotification *nt, G_GNUC_UNUSED gpointer user_data)
+	SCNotification *nt, G_GNUC_UNUSED gpointer gdata)
 {
 	if (nt->nmhdr.code == SCN_MODIFIED)
 	{
@@ -414,8 +403,8 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor
 	return FALSE;
 }
 
-static void on_set_anchor_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED
-	gpointer gdata)
+static void on_set_anchor_activate(G_GNUC_UNUSED GtkMenuItem *menuitem,
+	G_GNUC_UNUSED gpointer gdata)
 {
 	ScintillaObject *sci = scintilla_get_current();
 
@@ -440,8 +429,8 @@ static void select_to_anchor(gboolean rectangle)
 		create_selection(sci, select_anchor, select_space, rectangle);
 }
 
-static void on_select_to_anchor_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED
-	gpointer gdata)
+static void on_select_to_anchor_activate(G_GNUC_UNUSED GtkMenuItem *menuitem,
+	G_GNUC_UNUSED gpointer gdata)
 {
 	select_to_anchor(column_mode);
 }
@@ -467,11 +456,11 @@ static void on_select_rectangle_key(G_GNUC_UNUSED guint key_id)
 
 PluginCallback plugin_callbacks[] =
 {
-	{ "document-new", (GCallback) &on_document_create, FALSE, NULL },
-	{ "document-open", (GCallback) &on_document_create, FALSE, NULL },
-	{ "document-activate", (GCallback) &on_document_activate, FALSE, NULL },
-	{ "save-settings", (GCallback) &on_settings_change, FALSE, NULL },
-	{ "editor-notify", (GCallback) &on_editor_notify, FALSE, NULL },
+	{ "document-new", G_CALLBACK(on_document_create), FALSE, NULL },
+	{ "document-open", G_CALLBACK(on_document_create), FALSE, NULL },
+	{ "document-activate", G_CALLBACK(on_document_activate), FALSE, NULL },
+	{ "save-settings", G_CALLBACK(on_settings_change), FALSE, NULL },
+	{ "editor-notify", G_CALLBACK(on_editor_notify), FALSE, NULL },
 	{ NULL, NULL, FALSE, NULL }
 };
 
@@ -485,7 +474,6 @@ void plugin_init(G_GNUC_UNUSED GeanyData *data)
 	item = gtk_menu_item_new_with_mnemonic(_("E_xtra Selection"));
 	main_menu_item = item;
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_extra_select_activate), NULL);
 	ui_add_document_sensitive(item);
 	menu = GTK_CONTAINER(gtk_menu_new());
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), GTK_WIDGET(menu));

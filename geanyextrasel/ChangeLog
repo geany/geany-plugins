@@ -1,3 +1,12 @@
+2012-06-13  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/extrasel.c:
+   Fixed on_settings_change() prototype.
+   Fixed on settings changed to reassign the selection keys for all
+   documents, not the current document only.
+   Fixed column mode changes to keep the menu item synced. Simpler,
+   and the accelerator always works.
+
 2010-11-28  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/extrasel.c:
