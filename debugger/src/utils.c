@@ -38,6 +38,8 @@
 #include <geanyplugin.h>
 extern GeanyFunctions	*geany_functions;
 
+#include "utils.h"
+
 /*
  * opens position in a editor 
  */

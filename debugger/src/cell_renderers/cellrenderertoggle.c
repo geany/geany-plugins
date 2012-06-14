@@ -100,7 +100,7 @@ GType cell_renderer_toggle_get_type(void)
 /*
  * creates new renderer
  */
-GtkCellRenderer* cell_renderer_toggle_new()
+GtkCellRenderer* cell_renderer_toggle_new(void)
 {
   return g_object_new(TYPE_CELL_RENDERER_TOGGLE, NULL);
 }

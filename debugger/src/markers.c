@@ -29,6 +29,7 @@
 extern GeanyFunctions	*geany_functions;
 extern GeanyData		*geany_data;
 
+#include "markers.h"
 #include "breakpoints.h"
 
 #include "xpm/breakpoint.xpm"
@@ -94,7 +95,7 @@ void markers_set_for_document(ScintillaObject *sci)
 /*
  * inits markers staff
  */
-void markers_init()
+void markers_init(void)
 {
 	/* set markers in all currently opened documents */
 	int i;

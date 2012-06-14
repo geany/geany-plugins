@@ -49,7 +49,7 @@ typedef void 	(*breaks_iterate_function)(void* bp);
 /*
  * Iterates through GTree for the particular file
  */
-gboolean tree_foreach_call_function(gpointer key, gpointer value, gpointer data)
+static gboolean tree_foreach_call_function(gpointer key, gpointer value, gpointer data)
 {
 	((breaks_iterate_function)data)(value);
 	return FALSE;
@@ -58,7 +58,7 @@ gboolean tree_foreach_call_function(gpointer key, gpointer value, gpointer data)
 /*
  * Iterates through hash table of GTree-s
  */
-void hash_table_foreach_call_function(gpointer key, gpointer value, gpointer user_data)
+static void hash_table_foreach_call_function(gpointer key, gpointer value, gpointer user_data)
 {
 	g_tree_foreach((GTree*)value, tree_foreach_call_function, user_data);
 }
@@ -67,7 +67,7 @@ void hash_table_foreach_call_function(gpointer key, gpointer value, gpointer use
  * Iterates through GTree
  * adding each item to GList that is passed through data variable
  */
-gboolean tree_foreach_add_to_list(gpointer key, gpointer value, gpointer data)
+static gboolean tree_foreach_add_to_list(gpointer key, gpointer value, gpointer data)
 {
 	GList **list = (GList**)data;
 	*list = g_list_append(*list, value);
@@ -78,7 +78,7 @@ gboolean tree_foreach_add_to_list(gpointer key, gpointer value, gpointer data)
  * Iterates through hash table of GTree-s
  * calling list collection functions on each tree
  */
-void hash_table_foreach_add_to_list(gpointer key, gpointer value, gpointer user_data)
+static void hash_table_foreach_add_to_list(gpointer key, gpointer value, gpointer user_data)
 {
 	g_tree_foreach((GTree*)value, tree_foreach_add_to_list, user_data);
 }
@@ -96,12 +96,14 @@ static void on_add(breakpoint *bp)
 }
 static void on_remove(breakpoint *bp)
 {
+	GTree *tree;
+	
 	/* remove marker */
 	markers_remove_breakpoint(bp);
 	/* remove from breakpoints tab */
 	bptree_remove_breakpoint(bp);
 	/* remove from internal storage */
-	GTree *tree = g_hash_table_lookup(files, bp->file);
+	tree = g_hash_table_lookup(files, bp->file);
 	g_tree_remove(tree, GINT_TO_POINTER(bp->line));
 }
 static void on_set_hits_count(breakpoint *bp)
@@ -168,7 +170,7 @@ static void on_remove_list(GList *list)
  * 		b -	second integer
  * 		user_data - not used
  */
-gint compare_func(gconstpointer a, gconstpointer b, gpointer user_data)
+static gint compare_func(gconstpointer a, gconstpointer b, gpointer user_data)
 {
 	return GPOINTER_TO_INT(a) - GPOINTER_TO_INT(b);
 }
@@ -330,7 +332,7 @@ gboolean breaks_init(move_to_line_cb cb)
 /*
  * Frees breaks related data.
  */
-void breaks_destroy()
+void breaks_destroy(void)
 {
 	/* remove all markers */
 	GList *breaks, *iter;
@@ -360,17 +362,19 @@ void breaks_destroy()
  */
 void breaks_add(const char* file, int line, char* condition, int enabled, int hitscount)
 {
+	GTree *tree;
+	breakpoint* bp;
+	enum dbs state = debug_get_state();
+
 	/* do not process async break manipulation on modules
 	that do not support async interuppt */
-	enum dbs state = debug_get_state();
 	if (DBS_RUNNING == state &&  !debug_supports_async_breaks())
 		return;
 	
 	/* allocate memory */
-	breakpoint* bp = break_new_full(file, line, condition, enabled, hitscount);
+	bp = break_new_full(file, line, condition, enabled, hitscount);
 	
 	/* check whether GTree for this file exists and create if doesn't */
-	GTree *tree;
 	if (!(tree = g_hash_table_lookup(files, bp->file)))
 	{
 		char *newfile = g_strdup(bp->file);
@@ -402,14 +406,15 @@ void breaks_add(const char* file, int line, char* condition, int enabled, int hi
  */
 void breaks_remove(const char* file, int line)
 {
+	breakpoint* bp = NULL;
+	enum dbs state = debug_get_state();
+
 	/* do not process async break manipulation on modules
 	that do not support async interuppt */
-	enum dbs state = debug_get_state();
 	if (DBS_RUNNING == state &&  !debug_supports_async_breaks())
 		return;
 
 	/* lookup for breakpoint */
-	breakpoint* bp = NULL;
 	if (!(bp = breaks_lookup_breakpoint(file, line)))
 		return;
 
@@ -458,7 +463,7 @@ void breaks_remove_list(GList *list)
  * Removes all breakpoints.
  * arguments:
  */
-void breaks_remove_all()
+void breaks_remove_all(void)
 {
 	g_hash_table_foreach(files, hash_table_foreach_call_function, (gpointer)on_remove);
 	g_hash_table_remove_all(files);
@@ -470,15 +475,17 @@ void breaks_remove_all()
  * 		file - list of breakpoints
  * 		enabled - anble or disable breakpoints
  */
-void breaks_set_enabled_for_file(const const char *file, gboolean enabled)
+void breaks_set_enabled_for_file(const char *file, gboolean enabled)
 {
+	GList *breaks;
+	enum dbs state = debug_get_state();
+
 	/* do not process async break manipulation on modules
 	that do not support async interuppt */
-	enum dbs state = debug_get_state();
 	if (DBS_RUNNING == state &&  !debug_supports_async_breaks())
 		return;
 
-	GList *breaks = breaks_get_for_document(file);
+	breaks = breaks_get_for_document(file);
 
 	/* handle switching instantly if debugger is idle or stopped
 	and request debug module interruption overwise */
@@ -502,14 +509,15 @@ void breaks_set_enabled_for_file(const const char *file, gboolean enabled)
  */
 void breaks_switch(const char* file, int line)
 {
+	breakpoint* bp = NULL;
+	enum dbs state = debug_get_state();
+
 	/* do not process async break manipulation on modules
 	that do not support async interuppt */
-	enum dbs state = debug_get_state();
 	if (DBS_RUNNING == state &&  !debug_supports_async_breaks())
 		return;
 
 	/* lookup for breakpoint */
-	breakpoint* bp = NULL;
 	if (!(bp = breaks_lookup_breakpoint(file, line)))
 		return;
 	
@@ -538,14 +546,15 @@ void breaks_switch(const char* file, int line)
  */
 void breaks_set_hits_count(const char* file, int line, int count)
 {
+	breakpoint* bp = NULL;
+	enum dbs state = debug_get_state();
+
 	/* do not process async break manipulation on modules
 	that do not support async interuppt */
-	enum dbs state = debug_get_state();
 	if (DBS_RUNNING == state &&  !debug_supports_async_breaks())
 		return;
 
 	/* lookup for breakpoint */
-	breakpoint* bp = NULL;
 	if (!(bp = breaks_lookup_breakpoint(file, line)))
 		return;
 	
@@ -574,14 +583,15 @@ void breaks_set_hits_count(const char* file, int line, int count)
  */
 void breaks_set_condition(const char* file, int line, const char* condition)
 {
+	breakpoint* bp = NULL;
+	enum dbs state = debug_get_state();
+
 	/* do not process async break manipulation on modules
 	that do not support async interuppt */
-	enum dbs state = debug_get_state();
 	if (DBS_RUNNING == state &&  !debug_supports_async_breaks())
 		return;
 
 	/* lookup for breakpoint */
-	breakpoint* bp = NULL;
 	if (!(bp = breaks_lookup_breakpoint(file, line)))
 		return;
 	
@@ -637,9 +647,9 @@ void breaks_move_to_line(const char* file, int line_from, int line_to)
 break_state	breaks_get_state(const char* file, int line)
 {
 	break_state bs = BS_NOT_SET;
+	GTree *tree;
 	
 	/* first look for the tree for the given file */
-	GTree *tree;
 	if ( (tree = g_hash_table_lookup(files, file)) )
 	{
 		breakpoint *bp = g_tree_lookup(tree, GINT_TO_POINTER(line));
@@ -688,7 +698,7 @@ breakpoint* breaks_lookup_breakpoint(const gchar* file, int line)
  * Gets all breakpoints
  * arguments:
  */
-GList* breaks_get_all()
+GList* breaks_get_all(void)
 {
 	GList *breaks  = NULL;
 	g_hash_table_foreach(files, hash_table_foreach_add_to_list, &breaks);
