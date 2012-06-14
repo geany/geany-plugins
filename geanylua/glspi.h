@@ -95,7 +95,7 @@ extern GeanyFunctions *glspi_geany_functions;
 
 #ifdef NEED_FAIL_ARG_TYPE
 /* Pushes an error message onto Lua stack if script passes a wrong arg type */
-static gint glspi_fail_arg_type(lua_State *L, const gchar *func, gint argnum, gchar *type)
+static gint glspi_fail_arg_type(lua_State *L, const gchar *func, gint argnum, const gchar *type)
 {
 	lua_pushfstring(L, _("Error in module \"%s\" at function %s():\n"
 											" expected type \"%s\" for argument #%d\n"),
@@ -109,7 +109,7 @@ static gint glspi_fail_arg_type(lua_State *L, const gchar *func, gint argnum, gc
 #ifdef NEED_FAIL_ARG_TYPES
 /* Same as above, but for two overloaded types, eg "string" OR "number" */
 static gint glspi_fail_arg_types(
-		lua_State *L, const gchar *func, gint argnum, gchar *type1, gchar *type2)
+		lua_State *L, const gchar *func, gint argnum, const gchar *type1, const gchar *type2)
 {
 	lua_pushfstring(L, _("Error in module \"%s\" at function %s():\n"
 											" expected type \"%s\" or \"%s\" for argument #%d\n"),
@@ -123,7 +123,7 @@ static gint glspi_fail_arg_types(
 #ifdef NEED_FAIL_ELEM_TYPE
 /*Pushes an error message onto Lua stack if table contains wrong element type*/
 static gint glspi_fail_elem_type(
-		lua_State *L, const gchar *func, gint argnum, gint idx, gchar *type)
+		lua_State *L, const gchar *func, gint argnum, gint idx, const gchar *type)
 {
 	lua_pushfstring(L, _("Error in module \"%s\" at function %s():\n"
 											" invalid table in argument #%d:\n"

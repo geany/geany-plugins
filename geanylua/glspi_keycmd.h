@@ -11,7 +11,7 @@
 
 
 typedef struct _KeyCmdHashEntry {
-	gchar *name;
+	const gchar *name;
 	guint group;
 	guint key_id;
 } KeyCmdHashEntry;

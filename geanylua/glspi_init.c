@@ -63,7 +63,7 @@ static struct {
 
 
 
-extern void glspi_run_script(gchar *script_file, gint caller, GKeyFile*proj, gchar *script_dir);
+extern void glspi_run_script(const gchar *script_file, gint caller, GKeyFile*proj, const gchar *script_dir);
 
 
 /* Called by Geany, run a script associated with a keybinding. */
@@ -322,7 +322,7 @@ static void assign_accel(GtkWidget*w, char*fn)
 
 
 
-static GtkWidget* new_menu(GtkWidget *parent, gchar* script_dir, gchar*title);
+static GtkWidget* new_menu(GtkWidget *parent, const gchar* script_dir, const gchar*title);
 
 /* GSList "for each" callback to create a menu item for each found script */
 static void init_menu(gpointer data, gpointer user_data)
@@ -363,7 +363,7 @@ static void init_menu(gpointer data, gpointer user_data)
 
 
 
-static GtkWidget* new_menu(GtkWidget *parent, gchar* script_dir, gchar*title)
+static GtkWidget* new_menu(GtkWidget *parent, const gchar* script_dir, const gchar*title)
 {
 	GSList *script_names=utils_get_file_list_full(script_dir, TRUE, TRUE, NULL);
 	if (script_names) {
