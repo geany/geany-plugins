@@ -54,6 +54,7 @@ static GtkWidget *anchor_rect_select_item;
 static gpointer *go_to_line1_item = NULL;
 
 static gint column_mode = FALSE;
+static gint plugin_internal_callback = FALSE;
 static gint select_anchor = 0, select_space = 0;
 
 /* Common functions / macros */
@@ -248,19 +249,22 @@ static void assign_select_keys(ScintillaObject *sci)
 	}
 }
 
-static void on_column_mode_toggled(G_GNUC_UNUSED GtkMenuItem *menuitem,
-	G_GNUC_UNUSED gpointer gdata)
+static void on_column_mode_toggled(G_GNUC_UNUSED GtkMenuItem *menuitem)
 {
 	ScintillaObject *sci = scintilla_get_current();
 
 	if (sci)
 	{
 		column_mode = gtk_check_menu_item_get_active(column_mode_item);
-		assign_select_keys(sci);
-		g_object_set_data(G_OBJECT(sci), "column_mode", GINT_TO_POINTER(column_mode));
-		if (sci_has_selection(sci) && sci_rectangle_selection(sci) != column_mode)
-			convert_selection(sci, column_mode);
 		gtk_widget_set_sensitive(anchor_rect_select_item, !column_mode);
+
+		if (!plugin_internal_callback)
+		{
+			assign_select_keys(sci);
+			g_object_set_data(G_OBJECT(sci), "column_mode", GINT_TO_POINTER(column_mode));
+			if (sci_has_selection(sci) && sci_rectangle_selection(sci) != column_mode)
+				convert_selection(sci, column_mode);
+		}
 	}
 }
 
@@ -273,7 +277,9 @@ static void on_document_create(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GeanyDo
 	G_GNUC_UNUSED gpointer gdata)
 {
 	select_anchor = select_space = 0;
+	plugin_internal_callback = TRUE;
 	gtk_check_menu_item_set_active(column_mode_item, FALSE);
+	plugin_internal_callback = FALSE;
 }
 
 static void on_document_activate(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
@@ -281,8 +287,10 @@ static void on_document_activate(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 {
 	ScintillaObject *sci = doc->editor->sci;
 
+	plugin_internal_callback = TRUE;
 	column_mode = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(sci), "column_mode"));
 	gtk_check_menu_item_set_active(column_mode_item, column_mode);
+	plugin_internal_callback = FALSE;
 	select_anchor = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(sci), "select_anchor"));
 	select_space = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(sci), "select_space"));
 }
@@ -308,7 +316,7 @@ static void on_settings_change(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFil
 
 	if (column_mode)
 	{
-		gint i;
+		guint i;
 
 		foreach_document(i)
 			assign_select_keys(documents[i]->editor->sci);
