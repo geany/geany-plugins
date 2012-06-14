@@ -1668,7 +1668,7 @@ static GList* get_children (gchar* path)
 			
 			pos += strlen(pos) + 1;
 
-			children = g_list_prepend(children, var);
+			children = g_list_append(children, var);
 		
 			g_free(name);
 		}
