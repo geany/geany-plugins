@@ -58,7 +58,7 @@ void geanypg_get_keys_with_fp(encrypt_data * ed, char * buffer)
     }
 }
 
-static const char * geanypg_validity(gpgme_validity_t validity)
+const char * geanypg_validity(gpgme_validity_t validity)
 {
     switch (validity)
     {
