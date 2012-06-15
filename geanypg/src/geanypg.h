@@ -53,7 +53,7 @@ extern GeanyPlugin     *geany_plugin;
 extern GeanyData       *geany_data;
 extern GeanyFunctions  *geany_functions;
 
-// auxiliary functions (aux.c)
+// auxiliary functions (helper_functions.c)
 void geanypg_init_ed(encrypt_data * ed);
 int geanypg_get_keys(encrypt_data * ed);
 int geanypg_get_secret_keys(encrypt_data * ed);
@@ -64,6 +64,7 @@ void geanypg_write_file(FILE * file);
 // some more auxiliary functions (verify_aux.c)
 void geanypg_handle_signatures(encrypt_data * ed, int need_error);
 void geanypg_check_sig(encrypt_data * ed, gpgme_signature_t sig);
+const char * geanypg_validity(gpgme_validity_t validity);
 
 // dialogs
 int geanypg_encrypt_selection_dialog(encrypt_data * ed, gpgme_key_t ** selected, int * sign);
