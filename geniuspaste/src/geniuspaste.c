@@ -352,7 +352,14 @@ static void paste(GeanyDocument * doc, const gchar * website)
         }
         else
         {
-            dialogs_show_msgbox(GTK_MESSAGE_INFO, "%s", p_url);
+            GtkWidget *dlg = gtk_message_dialog_new(GTK_WINDOW(geany->main_widgets->window),
+                GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
+                _("Paste Successful"));
+            gtk_message_dialog_format_secondary_markup(GTK_MESSAGE_DIALOG(dlg),
+                _("Your paste can be found here:\n<a href=\"%s\" "
+                "title=\"Click to open the paste in your browser\">%s</a>"), p_url, p_url);
+            gtk_dialog_run(GTK_DIALOG(dlg));
+            gtk_widget_destroy(dlg);
         }
     }
     else
