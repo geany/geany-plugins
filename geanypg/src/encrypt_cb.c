@@ -23,8 +23,6 @@
 void geanypg_encrypt(encrypt_data * ed, gpgme_key_t * recp, int sign, int flags)
 {   // FACTORIZE
     gpgme_data_t plain, cipher;
-    gpgme_encrypt_result_t result;
-    gpgme_invalid_key_t recipient;
     gpgme_error_t err;
     FILE * tempfile;
     tempfile = tmpfile();
