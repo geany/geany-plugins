@@ -3,7 +3,7 @@ include $(top_srcdir)/build/vars.auxfiles.mk
 
 plugin = geanylua
 
-EXTRA_DIST = util
+EXTRA_DIST += util
 
 geanyplugins_LTLIBRARIES = geanylua.la
 geanyluadir = $(pkglibdir)/geanylua
