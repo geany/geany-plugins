@@ -79,6 +79,9 @@ static gboolean editor_notify_cb(GObject *object, GeanyEditor *editor,
 			if ((style <= SCE_H_XCCOMMENT || highlighting_is_string_style(lexer, style)) &&
 				!highlighting_is_comment_style(lexer, style))
 			{
+				CompletionInfo c;
+				InputInfo i;
+
 				/* Grab the last 512 characters or so */
 				min = pos - sizeof(sel);
 				if (min < 0) min = 0;
@@ -86,8 +89,6 @@ static gboolean editor_notify_cb(GObject *object, GeanyEditor *editor,
 
 				sci_get_text_range(editor->sci, min, pos, sel);
 
-				CompletionInfo c;
-				InputInfo i;
 				if (get_completion(editor, sel, size, &c, &i))
 				{
 					/* Remove typed opening tag */
