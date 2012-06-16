@@ -148,8 +148,6 @@ static gchar *get_paste_text(GeanyDocument *doc, gsize *text_len)
     gsize len;
     gchar *paste_text;
 
-    len = sci_get_selected_text_length(doc->editor->sci);
-
     if (sci_has_selection(doc->editor->sci))
     {
         len = sci_get_selected_text_length(doc->editor->sci) + 1;
