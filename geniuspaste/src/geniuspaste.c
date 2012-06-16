@@ -172,10 +172,8 @@ static void paste(GeanyDocument * doc, const gchar * website)
     SoupSession *session = soup_session_async_new();
     SoupMessage *msg = NULL;
 
-    GeanyFiletype *ft;
-
     gchar *f_content;
-    gchar *f_type;
+    gchar const *f_type;
     gchar *f_title;
     gchar *p_url;
     gchar *formdata = NULL;
@@ -202,8 +200,9 @@ static void paste(GeanyDocument * doc, const gchar * website)
     guint status;
     gsize f_length;
 
-    ft = doc->file_type;
-    f_type = g_strdup(ft->name);
+    g_return_if_fail(doc && doc->is_valid);
+
+    f_type = doc->file_type->name;
 
     if (doc->file_name == NULL)
         f_title = document_get_basename_for_display(doc, -1);
@@ -320,6 +319,7 @@ static void paste(GeanyDocument * doc, const gchar * website)
             {
                 dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to paste the code on codepad.org\n"
                                     "Retry or select another pastebin."));
+                g_free(p_url);
                 return;
             }
 
@@ -338,12 +338,13 @@ static void paste(GeanyDocument * doc, const gchar * website)
              *
              * e.g. sprunge.us/xxxx?c
              */
+            gchar *ft_tmp = g_ascii_strdown(f_type, -1);
             p_url[strlen(p_url) - 1] = '\0';
-            f_type[0] = g_ascii_tolower(f_type[0]);
-            temp_body = g_strdup_printf("?%s", f_type);
+            temp_body = g_strdup_printf("?%s", ft_tmp);
             g_strlcat(p_url + 1, temp_body, -1);
-            p_url = g_strchomp(p_url);
+            p_url = g_strstrip(p_url);
             g_free(temp_body);
+            g_free(ft_tmp);
         }
 
         if (check_button_is_checked)
