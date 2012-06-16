@@ -20,9 +20,11 @@
 
 #include "geanypg.h"
 
-void geanypg_encrypt(encrypt_data * ed, gpgme_key_t * recp, int sign)
+void geanypg_encrypt(encrypt_data * ed, gpgme_key_t * recp, int sign, int flags)
 {   // FACTORIZE
     gpgme_data_t plain, cipher;
+    gpgme_encrypt_result_t result;
+    gpgme_invalid_key_t recipient;
     gpgme_error_t err;
     FILE * tempfile;
     tempfile = tmpfile();
@@ -38,9 +40,9 @@ void geanypg_encrypt(encrypt_data * ed, gpgme_key_t * recp, int sign)
 
     // do the actual encryption
     if (sign)
-        err = gpgme_op_encrypt_sign(ed->ctx, recp, 0, plain, cipher);
+        err = gpgme_op_encrypt_sign(ed->ctx, recp, flags, plain, cipher);
     else
-        err = gpgme_op_encrypt(ed->ctx, recp, 0, plain, cipher);
+        err = gpgme_op_encrypt(ed->ctx, recp, flags, plain, cipher);
     if (err != GPG_ERR_NO_ERROR && gpgme_err_code(err) != GPG_ERR_CANCELED)
         geanypg_show_err_msg(err);
     else if(gpgme_err_code(err) != GPG_ERR_CANCELED)
@@ -70,10 +72,29 @@ void geanypg_encrypt_cb(GtkMenuItem * menuitem, gpointer user_data)
         gpgme_key_t * recp = NULL;
         if (geanypg_encrypt_selection_dialog(&ed, &recp, &sign))
         {
-            if (*recp)
-                geanypg_encrypt(&ed, recp, sign);
-            else if (dialogs_show_question(_("No recipients were selected,\nuse symetric cipher?")))
-                geanypg_encrypt(&ed, NULL, sign);
+            int flags = 0;
+            int abort = 0;
+            gpgme_key_t * key = recp;
+            while (*key)
+            {
+                if ((*key)->owner_trust != GPGME_VALIDITY_ULTIMATE &&
+                    (*key)->owner_trust != GPGME_VALIDITY_FULL     &&
+                    (*key)->owner_trust != GPGME_VALIDITY_MARGINAL)
+                {
+                    if (dialogs_show_question(_("The key with user ID \"%s\" has validity \"%s\".\n\n"
+                        "WARNING: It is NOT certain that the key belongs to the person named in the user ID.\n\n"
+                        "Are you *really* sure you want to use this key anyway?"),
+                        (*key)->uids->uid, geanypg_validity((*key)->owner_trust)))
+                        flags = GPGME_ENCRYPT_ALWAYS_TRUST;
+                    else
+                        abort = 1;
+                }
+                ++key;
+            }
+            if (*recp && !abort)
+                geanypg_encrypt(&ed, recp, sign, flags);
+            else if (!abort && dialogs_show_question(_("No recipients were selected,\nuse symetric cipher?")))
+                geanypg_encrypt(&ed, NULL, sign, flags);
         }
         if (recp)
             free(recp);

@@ -1,0 +1,90 @@
+2012-06-04 Hans Alves  <alves(dot)h88(at)gmail(dot)com>
+
+* Fixed a bug that caused an error message to appear if one of the
+  keys used to encrypt are not trusted.
+
+2011-10-20 Colomban Wendling  <colomban(at)geany(dot)org>
+
+* Fix a typo that broke the build
+
+2011-09-01 Hans Alves  <alves(dot)h88(at)gmail(dot)com>
+
+* Adding documentation
+
+2011-09-01 Hans Alves  <alves(dot)h88(at)gmail(dot)com>
+
+* Applied patch by sardenmff7 to fix bug 3344648
+
+2011-08-15 Hans Alves  <alves(dot)h88(at)gmail(dot)com>
+
+* Removed leading whitespace from a translatable string in pinentry.c
+  updated po/ChangeLog, some minor changes to the spanish translation
+  of geanypg and added a dutch translation
+
+2011-08-14 Hans Alves  <alves(dot)h88(at)gmail(dot)com>
+
+* Added everything necessary for translation of geanypg and a spanish
+  translation. Also fixed a bug, when decrypting don't give an error
+  if no signatures are found.
+
+2011-08-14 Hans Alves  <alves(dot)h88(at)gmail(dot)com>
+
+* changed Makefile.am to work with renamed aux.c
+
+2011-08-14 Hans Alves  <alves(dot)h88(at)gmail(dot)com>
+
+* changed aux.c filename for windows compatibility
+
+2011-08-13 Hans Alves  <alves(dot)h88(at)gmail(dot)com>
+
+* Fixed a bunch of compiler warnings about shadowing the global index
+  variable and discarding const qualifiers (string literals are const)
+  and fixed a function definition (geanypg_validity)  which had a wrong
+  parameter type(gpgme_summary_t instead of gpgme_validity_t).
+
+2011-05-29 Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+* Set eol-style property globally
+
+2011-05-03 Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+* add check for large file support which is necessary for GPGME on 32bit
+  systems
+
+2011-04-14 Hans Alves  <alves(dot)h88(at)gmail(dot)com>
+
+* Don't clear the document if encryption is cancelled.
+
+2011-04-06 Hans Alves  <alves(dot)h88(at)gmail(dot)com>
+
+* Made the README file a bit more useful, and changed the COPYING file
+  to gpl version 2 instead of 3, so it is compatible with what the
+  source refers to and with the rest of the geany-plugins.
+
+2011-03-14 Colomban Wendling  <colomban(at)geany(dot)org>
+
+* Statically analyze source code with cppcheck on `make check`
+
+2011-03-06 Chow Loong Jin  <hyperair(at)ubuntu(dot)com>
+
+* Add ChangeLog, NEWS and README stubs for geanypg
+
+2011-03-06 Chow Loong Jin  <hyperair(at)ubuntu(dot)com>
+
+* Integrate geanypg into build system
+
+2011-03-05 Enrico Tröger  <enrico(dot)troeger(at)uvena(dot)de>
+
+* add Waf build support for new GeanyPG plugin
+
+2011-02-28 Hans Alves  <alves(dot)h88(at)gmail(dot)com>
+
+ * Moved geanypg to the geany-plugins/ directory
+
+2011-02-27 Hans Alves  <alves(dot)h88(at)gmail(dot)com>
+
+ * Added autoconf and automake files and some cleanup
+
+2011-02-26 Hans Alves  <alves(dot)h88(at)gmail(dot)com>
+
+ * Initial commit.

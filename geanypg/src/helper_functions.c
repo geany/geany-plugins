@@ -35,14 +35,22 @@ int geanypg_get_keys(encrypt_data * ed)
     //initialize idx to 0
     unsigned long idx = 0;
     //allocate array of size 1N
+    gpgme_key_t * key;
     ed->key_array = (gpgme_key_t*) malloc(SIZE * sizeof(gpgme_key_t));
     err = gpgme_op_keylist_start(ed->ctx, NULL, 0);
     while (!err)
     {
-        err = gpgme_op_keylist_next(ed->ctx, ed->key_array + idx);
+        key = ed->key_array + idx;
+        err = gpgme_op_keylist_next(ed->ctx, key);
         if (err)
             break;
-        ++idx;
+        if ((*key)->revoked  || // key cannot be used
+            (*key)->expired  ||
+            (*key)->disabled ||
+            (*key)->invalid)
+           gpgme_key_unref(*key);
+        else // key is valid
+            ++idx;
         if (idx >= size)
         {
             size += SIZE;
@@ -65,14 +73,22 @@ int geanypg_get_secret_keys(encrypt_data * ed)
     //initialize idx to 0
     unsigned long idx = 0;
     //allocate array of size 1N
+    gpgme_key_t * key;
     ed->skey_array = (gpgme_key_t*) malloc(SIZE * sizeof(gpgme_key_t));
     err = gpgme_op_keylist_start(ed->ctx, NULL, 1);
     while (!err)
     {
-        err = gpgme_op_keylist_next(ed->ctx, ed->skey_array + idx);
+        key = ed->skey_array + idx;
+        err = gpgme_op_keylist_next(ed->ctx, key);
         if (err)
             break;
-        ++idx;
+        if ((*key)->revoked  || // key cannot be used
+            (*key)->expired  ||
+            (*key)->disabled ||
+            (*key)->invalid)
+           gpgme_key_unref(*key);
+        else // key is valid
+            ++idx;
         if (idx >= size)
         {
             size += SIZE;
