@@ -396,7 +396,12 @@ static void item_activate(GtkMenuItem * menuitem, gpointer gdata)
     }
     else if(doc->file_name == NULL)
     {
-        dialogs_show_save_as();
+        if (dialogs_show_save_as() == FALSE)
+        {
+            dialogs_show_msgbox(GTK_MESSAGE_ERROR,
+                _("A filename is needed and saving the current document was cancelled.\n"));
+            return;
+        }
     }
     else if(doc->changed)
     {
