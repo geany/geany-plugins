@@ -77,18 +77,20 @@ PluginCallback plugin_callbacks[] =
 	{ NULL, NULL, FALSE, NULL }
 };
 
-void on_paned_mode_changed(GtkToggleButton *button, gpointer user_data)
+static void on_paned_mode_changed(GtkToggleButton *button, gpointer user_data)
 {
 	gboolean state = gtk_toggle_button_get_active(button);
 	dpaned_set_tabbed(state);
 	tpage_pack_widgets(state);
 }
 
-extern void config_on_project_open(GObject *obj, GKeyFile *config, gpointer user_data);
 /* Called by Geany to initialize the plugin.
  * Note: data is the same as geany_data. */
 void plugin_init(GeanyData *data)
 {
+	GtkWidget* vbox;
+	int i;
+
 	keys_init();
 	
 	pixbufs_init();
@@ -116,7 +118,7 @@ void plugin_init(GeanyData *data)
 	dpaned_init();
 	tpage_pack_widgets(config_get_tabbed());
 
-	GtkWidget* vbox = btnpanel_create(on_paned_mode_changed);
+	vbox = btnpanel_create(on_paned_mode_changed);
 
 	gtk_box_pack_start(GTK_BOX(hbox), dpaned_get_paned(), TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 0);
@@ -137,7 +139,6 @@ void plugin_init(GeanyData *data)
 	);
 
 	/* set calltips for all currently opened documents */
-	int i;
 	foreach_document(i)
 	{
 		scintilla_send_message(document_index(i)->editor->sci, SCI_SETMOUSEDWELLTIME, 500, 0);

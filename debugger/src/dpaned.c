@@ -33,6 +33,7 @@
 extern GeanyFunctions	*geany_functions;
 extern GeanyData		*geany_data;
 
+#include "dpaned.h"
 #include "tabs.h"
 #include "breakpoints.h"
 #include "debug.h"
@@ -92,9 +93,11 @@ static gulong remove_right_handler_id;
  */
 static void on_size_allocate(GtkWidget *widget,GdkRectangle *allocation, gpointer   user_data)
 {
+	int position;
+
 	DISCONNECT_ALLOCATED_PAGE_SIGNALS();
 
-	int position = (allocation->width - 2 * HPANED_BORDER_WIDTH) * 0.5;
+	position = (allocation->width - 2 * HPANED_BORDER_WIDTH) * 0.5;
 	gtk_paned_set_position(GTK_PANED(hpaned), position);
 }
 
@@ -105,9 +108,11 @@ static void on_page_added(GtkNotebook *notebook, GtkWidget *child, guint page_nu
 {
 	gboolean is_left = (GTK_NOTEBOOK(debug_notebook_left) == notebook);
 	gboolean is_tabbed = config_get_tabbed();
-	
-	int *tabs = NULL;
+	int *tabs = NULL, *array, *new_tabs;
 	gsize length;
+	GtkWidget *page;
+	tab_id id;
+	int config_part;
 
 	if (!is_tabbed)
 		tabs = config_get_tabs(&length);
@@ -116,16 +121,15 @@ static void on_page_added(GtkNotebook *notebook, GtkWidget *child, guint page_nu
 	else
 		tabs = config_get_right_tabs(&length);
 	
-	int *array = g_malloc((length + 2) * sizeof(int));
-	int *new_tabs = array + 1;
+	array = g_malloc((length + 2) * sizeof(int));
+	new_tabs = array + 1;
 	memcpy(new_tabs, tabs, length * sizeof(int));
 	memmove(new_tabs + page_num + 1, new_tabs + page_num, (length - page_num) * sizeof(int)); 
 
-	GtkWidget *page = gtk_notebook_get_nth_page(GTK_NOTEBOOK(is_left ? debug_notebook_left : debug_notebook_right), page_num);
-	tab_id id = tabs_get_tab_id(page);
+	page = gtk_notebook_get_nth_page(GTK_NOTEBOOK(is_left ? debug_notebook_left : debug_notebook_right), page_num);
+	id = tabs_get_tab_id(page);
 	new_tabs[page_num] = id;
 	
-	int config_part;
 	if (!is_tabbed)
 		config_part = CP_OT_TABS;
 	else if (is_left)
@@ -148,9 +152,15 @@ static void on_page_reordered(GtkNotebook *notebook, GtkWidget *child, guint pag
 {
 	gboolean is_left = (GTK_NOTEBOOK(debug_notebook_left) == notebook);
 	gboolean is_tabbed = config_get_tabbed();
-
 	int *tabs = NULL;
 	gsize length;
+	int prev_index;
+	GtkWidget *page;
+	tab_id id;
+	int i, min, max;
+	int config_part_tabs;
+	int config_part_selected_index;
+	int *array;
 
 	if (!is_tabbed)
 		tabs = config_get_tabs(&length);
@@ -159,9 +169,8 @@ static void on_page_reordered(GtkNotebook *notebook, GtkWidget *child, guint pag
 	else
 		tabs = config_get_right_tabs(&length);
 
-	int prev_index;
-	GtkWidget *page = gtk_notebook_get_nth_page(GTK_NOTEBOOK(is_left ? debug_notebook_left : debug_notebook_right), page_num);
-	tab_id id = tabs_get_tab_id(page);
+	page = gtk_notebook_get_nth_page(GTK_NOTEBOOK(is_left ? debug_notebook_left : debug_notebook_right), page_num);
+	id = tabs_get_tab_id(page);
 	for (prev_index = 0; prev_index < length; prev_index++)
 	{
 		if (id == tabs[prev_index])
@@ -170,7 +179,8 @@ static void on_page_reordered(GtkNotebook *notebook, GtkWidget *child, guint pag
 		}
 	}
 
-	int i, min = MIN(prev_index, page_num), max = MAX(prev_index, page_num);
+	min = MIN(prev_index, page_num);
+	max = MAX(prev_index, page_num);
 	for (i = min; i < max; i++)
 	{
 		int tmp = tabs[i];
@@ -178,8 +188,6 @@ static void on_page_reordered(GtkNotebook *notebook, GtkWidget *child, guint pag
 		tabs[i + 1] = tmp;
 	}  
 	
-	int config_part_tabs;
-	int config_part_selected_index;
 	if (!is_tabbed)
 	{
 		config_part_tabs = CP_OT_TABS;
@@ -196,7 +204,7 @@ static void on_page_reordered(GtkNotebook *notebook, GtkWidget *child, guint pag
 		config_part_selected_index = CP_TT_RSELECTED;
 	}
 	
-	int *array = g_malloc((length + 1) * sizeof(int));
+	array = g_malloc((length + 1) * sizeof(int));
 	array[0] = length;
 	memcpy(array + 1, tabs, length * sizeof(int));
 	
@@ -217,9 +225,9 @@ static void on_page_removed(GtkNotebook *notebook, GtkWidget *child, guint page_
 {
 	gboolean is_left = (GTK_NOTEBOOK(debug_notebook_left) == notebook);
 	gboolean is_tabbed = config_get_tabbed();
-
 	int *tabs = NULL;
 	gsize length;
+	int config_part;
 
 	if (!is_tabbed)
 		tabs = config_get_tabs(&length);
@@ -232,7 +240,6 @@ static void on_page_removed(GtkNotebook *notebook, GtkWidget *child, guint page_
 	memmove(tabs + 1, tabs, (length - 1) * sizeof(int)); 
 	tabs[0] = length - 1;
 	
-	int config_part;
 	if (!is_tabbed)
 		config_part = CP_OT_TABS;
 	else if (is_left)
@@ -269,7 +276,7 @@ static gboolean on_change_current_page(GtkNotebook *notebook, gpointer arg1, gui
 /*
  *	create GUI and check config
  */
-void dpaned_init()
+void dpaned_init(void)
 {
 	/* create paned */
 	hpaned = gtk_hpaned_new();
@@ -290,8 +297,7 @@ void dpaned_init()
 	gtk_paned_add1(GTK_PANED(hpaned), debug_notebook_left);
 	gtk_paned_add2(GTK_PANED(hpaned), debug_notebook_right);
 
-	gboolean is_tabbed = config_get_tabbed();
-	if (is_tabbed)
+	if (config_get_tabbed())
 	{
 		gsize length;
 		int *tab_ids, i;
@@ -329,12 +335,13 @@ void dpaned_init()
 	}
 	else
 	{
+		gsize i, length;
+		int *tab_ids;
+
 		g_object_ref(debug_notebook_right);
 		gtk_container_remove(GTK_CONTAINER(hpaned), debug_notebook_right);
 		
-		gsize length;
-		int *tab_ids = config_get_tabs(&length);
-		int i;
+		tab_ids = config_get_tabs(&length);
 		for (i = 0; i < length; i++)
 		{
 			GtkWidget *tab = tabs_get_tab((tab_id)tab_ids[i]);
@@ -356,7 +363,7 @@ void dpaned_init()
 /*
  *	free local data, disconnect signals
  */
-void dpaned_destroy()
+void dpaned_destroy(void)
 {
 	DISCONNECT_PAGE_SIGNALS();
 }
@@ -364,7 +371,7 @@ void dpaned_destroy()
 /*
  *	gets widget
  */
-GtkWidget* dpaned_get_paned()
+GtkWidget* dpaned_get_paned(void)
 {
 	return hpaned;
 }
@@ -378,12 +385,14 @@ void dpaned_set_tabbed(gboolean tabbed)
 	
 	if (!tabbed)
 	{
+		gsize length;
+		int *tab_ids;
+		int i;
+
 		g_object_ref(debug_notebook_right);
 		gtk_container_remove(GTK_CONTAINER(hpaned), debug_notebook_right);
 		
-		gsize length;
-		int *tab_ids = config_get_tabs(&length);
-		int i;
+		tab_ids = config_get_tabs(&length);
 		for (i = 0; i < length; i++)
 		{
 			GtkWidget *tab = tabs_get_tab((tab_id)tab_ids[i]);
@@ -404,12 +413,14 @@ void dpaned_set_tabbed(gboolean tabbed)
 	}
 	else
 	{
+		gsize length;
+		int i;
+		int *tab_ids;
+
 		gtk_paned_add2(GTK_PANED(hpaned), debug_notebook_right);
 		g_object_unref(debug_notebook_right);
 
-		gsize length;
-		int *tab_ids = config_get_right_tabs(&length);
-		int i;
+		tab_ids = config_get_right_tabs(&length);
 		for (i = 0; i < length; i++)
 		{
 			GtkWidget *tab = tabs_get_tab((tab_id)tab_ids[i]);

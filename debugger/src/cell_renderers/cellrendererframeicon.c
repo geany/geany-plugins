@@ -222,9 +222,9 @@ static void cell_renderer_frame_icon_render(GtkCellRenderer *cell, GdkDrawable *
  */
 static void cell_renderer_frame_icon_init (CellRendererFrameIcon *cell)
 {
-	cell->active_frame = FALSE;
-	
 	GtkCellRenderer *cell_renderer = (GtkCellRenderer*)cell;
+	
+	cell->active_frame = FALSE;
 	
 	cell_renderer->mode = GTK_CELL_RENDERER_MODE_ACTIVATABLE;
 
@@ -237,9 +237,12 @@ static void cell_renderer_frame_icon_init (CellRendererFrameIcon *cell)
 static void cell_renderer_frame_icon_finalize (GObject *object)
 {
 	CellRendererFrameIcon *cell = (CellRendererFrameIcon*)object;
-	
-	GdkPixbuf *pixbufs[] = { cell->pixbuf_active, cell->pixbuf_highlighted };
+	GdkPixbuf *pixbufs[2];
 	int i;
+	
+	pixbufs[0] = cell->pixbuf_active;
+	pixbufs[1] = cell->pixbuf_highlighted;
+	
 	for(i = 0; i < 2; i++)
 	{
 		if (pixbufs[i])
@@ -349,7 +352,7 @@ GType cell_renderer_frame_icon_get_type(void)
 /*
  * creates new renderer
  */
-GtkCellRenderer* cell_renderer_frame_icon_new()
+GtkCellRenderer* cell_renderer_frame_icon_new(void)
 {
   return g_object_new(TYPE_CELL_RENDERER_FRAME_ICON, NULL);
 }
