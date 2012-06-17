@@ -29,7 +29,7 @@ msgstr "(Leere Zeile)"
 
 #: ../addons/src/ao_bookmarklist.c:307
 msgid "_Remove Bookmark"
-msgstr "Lesezeichen entfernen"
+msgstr "_Lesezeichen entfernen"
 
 #: ../addons/src/ao_bookmarklist.c:333
 msgid "No."
@@ -2853,7 +2853,7 @@ msgstr "Sonderzeichen _ersetzen"
 
 #: ../geanylatex/src/geanylatex.c:2209
 msgid "Bulk _Replace Special Characters"
-msgstr "Sonderzeichen ersetzen (Auswahl)"
+msgstr "_Sonderzeichen ersetzen (Auswahl)"
 
 #: ../geanylatex/src/geanylatex.c:2211
 msgid "_Replace selected special characters with TeX substitutes"
@@ -2861,7 +2861,7 @@ msgstr "Sonderzeichen mit den _TeX-Entsprechungen ersetzen"
 
 #: ../geanylatex/src/geanylatex.c:2219
 msgid "Toggle _Special Character Replacement"
-msgstr "Ersetzung während Eingabe"
+msgstr "Ersetzung während _Eingabe"
 
 #: ../geanylatex/src/geanylatex.c:2230
 msgid "Insert _Command"
@@ -4059,7 +4059,7 @@ msgstr "_Makroaufnahme beenden"
 #. add Edit Macro menu entry
 #: ../geanymacro/src/geanymacro.c:2272
 msgid "_Edit Macros"
-msgstr "Makros bearbeiten"
+msgstr "Makros _bearbeiten"
 
 #: ../geanyminiscript/src/gms_gui.c:253
 msgid "Load Mini-Script File"
@@ -5038,7 +5038,7 @@ msgstr "Fügt eine Datei zur Versionskontrolle hin_zu."
 #. remove current file
 #: ../geanyvc/src/geanyvc.c:2071
 msgid "_Remove from Version Control"
-msgstr "Aus Versionskontrolle entfernen"
+msgstr "Aus Versionskontrolle _entfernen"
 
 #: ../geanyvc/src/geanyvc.c:2073
 msgid "Remove file from repository."
@@ -5963,7 +5963,7 @@ msgstr "_Vergrößerung"
 
 #: ../webhelper/src/gwh-browser.c:507
 msgid "Full-_content zoom"
-msgstr "Dokument einpassen"
+msgstr "Dokument _einpassen"
 
 #: ../webhelper/src/gwh-browser.c:518
 msgid "Flip panes orientation"
