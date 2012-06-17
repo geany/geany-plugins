@@ -9,9 +9,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: geany-plugins 0.21\n"
+"Project-Id-Version: geany-plugins 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-16 12:03+0200\n"
+"POT-Creation-Date: 2012-06-17 13:45+0200\n"
 "PO-Revision-Date: 2012-06-14 13:02+0200\n"
 "Last-Translator:  Fabian Nowak <timystery@arcor.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -53,19 +53,19 @@ msgstr "_Aktualisieren"
 msgid "_Hide Message Window"
 msgstr "Meldungsfenster _verstecken"
 
-#: ../addons/src/ao_tasks.c:412 ../debugger/src/stree.c:380
+#: ../addons/src/ao_tasks.c:412 ../debugger/src/stree.c:387
 msgid "File"
 msgstr "Datei"
 
-#: ../addons/src/ao_tasks.c:423 ../debugger/src/bptree.c:689
-#: ../debugger/src/stree.c:387
+#: ../addons/src/ao_tasks.c:423 ../debugger/src/bptree.c:702
+#: ../debugger/src/stree.c:394
 msgid "Line"
 msgstr "Zeile"
 
 #. i18n: in the programming language context, if you don't
 #. * have an ESTABLISHED term for it, leave it
 #. * untranslated.
-#: ../addons/src/ao_tasks.c:434 ../debugger/src/vtree.c:201
+#: ../addons/src/ao_tasks.c:434 ../debugger/src/vtree.c:204
 #: ../devhelp/devhelp/dh-link.c:287 ../geanylatex/src/bibtexlabels.c:68
 msgid "Type"
 msgstr "Typ"
@@ -318,101 +318,100 @@ msgstr "Debugger"
 msgid "Various debuggers integration."
 msgstr "Verschiedene Debugger-Integrationen"
 
-#: ../debugger/src/plugin.c:129 ../debugger/src/keys.c:74
+#: ../debugger/src/plugin.c:131 ../debugger/src/keys.c:76
 #: ../geanygdb/src/geanygdb.c:393
 msgid "Debug"
 msgstr "Debug"
 
-#: ../debugger/src/vtree.c:170 ../debugger/src/envtree.c:410
+#: ../debugger/src/vtree.c:173 ../debugger/src/envtree.c:417
 msgid "Name"
 msgstr "Name"
 
-#: ../debugger/src/vtree.c:193 ../debugger/src/envtree.c:415
+#: ../debugger/src/vtree.c:196 ../debugger/src/envtree.c:422
 msgid "Value"
 msgstr "Wert"
 
-#: ../debugger/src/tpage.c:101
+#: ../debugger/src/tpage.c:105
 msgid "Choose target file"
 msgstr "Zieldatei auswählen"
 
 #. target
-#: ../debugger/src/tpage.c:238
+#: ../debugger/src/tpage.c:251
 msgid "Target:"
 msgstr "Ziel:"
 
-#: ../debugger/src/tpage.c:241
+#: ../debugger/src/tpage.c:254
 msgid "Browse"
 msgstr "Durchsuchen "
 
 #. debugger
-#: ../debugger/src/tpage.c:246
+#: ../debugger/src/tpage.c:259
 msgid "Debugger:"
 msgstr "Debugger:"
 
 #. arguments
-#: ../debugger/src/tpage.c:259
+#: ../debugger/src/tpage.c:270
 msgid "Command Line Arguments"
 msgstr "Kommandozeilenargumente"
 
 #. environment
-#: ../debugger/src/tpage.c:270
+#: ../debugger/src/tpage.c:281
 msgid "Environment Variables"
 msgstr "Umgebungsvariablen"
 
 #. if name is empty - offer to delete variable
-#: ../debugger/src/envtree.c:255 ../debugger/src/envtree.c:361
-#: ../debugger/src/debug.c:250
+#: ../debugger/src/envtree.c:260 ../debugger/src/envtree.c:364
+#: ../debugger/src/debug.c:254
 msgid "Delete variable?"
 msgstr "Variable löschen?"
 
-#: ../debugger/src/bptree.c:662
+#: ../debugger/src/bptree.c:676
 msgid "Location"
 msgstr "Position"
 
-#: ../debugger/src/bptree.c:671
+#: ../debugger/src/bptree.c:685
 msgid "Condition"
 msgstr "Bedingung"
 
-#: ../debugger/src/bptree.c:683
+#: ../debugger/src/bptree.c:696
 msgid "Hit count"
 msgstr "Anzahl der Treffer"
 
-#: ../debugger/src/bptree.c:846
+#: ../debugger/src/bptree.c:861
 #, c-format
 msgid "line %i"
 msgstr "Zeile %i"
 
-#: ../debugger/src/dbm_gdb.c:530
+#: ../debugger/src/dbm_gdb.c:542
 msgid "Program received a signal"
 msgstr "Programm empfing ein Signal"
 
-#: ../debugger/src/dbm_gdb.c:543
-#, fuzzy, c-format
+#: ../debugger/src/dbm_gdb.c:558
+#, c-format
 msgid "Program exited with code \"%i\""
-msgstr "Programm beendete mit Code %d [%s]\n"
+msgstr "Programm beendete mit Code »%i«"
 
-#: ../debugger/src/dbm_gdb.c:713
+#: ../debugger/src/dbm_gdb.c:730
 msgid "Failed to spawn gdb process"
 msgstr "Konnte den gdb-Prozess nicht starten"
 
-#: ../debugger/src/dbm_gdb.c:764
-#, fuzzy
+#: ../debugger/src/dbm_gdb.c:778
 msgid "~\"Loading target file.\\n\""
-msgstr "~\"Zieldatei laden ...\""
+msgstr "~\"Zieldatei laden.\\n\""
 
-#: ../debugger/src/dbm_gdb.c:764
+#: ../debugger/src/dbm_gdb.c:778
 msgid "Error loading file"
 msgstr "Fehler beim Laden der Datei"
 
 #. setting asyncronous mode
 #. setting null-stop array printing
 #. enable pretty printing
-#: ../debugger/src/dbm_gdb.c:768 ../debugger/src/dbm_gdb.c:771
-#: ../debugger/src/dbm_gdb.c:774
+#: ../debugger/src/dbm_gdb.c:782 ../debugger/src/dbm_gdb.c:785
+#: ../debugger/src/dbm_gdb.c:788
 msgid "Error configuring GDB"
 msgstr "Fehler bei der Konfiguration von GDB"
 
-#: ../debugger/src/dbm_gdb.c:815
+#: ../debugger/src/dbm_gdb.c:831
 #, c-format
 msgid ""
 "Breakpoint at %s:%i cannot be set\n"
@@ -421,31 +420,31 @@ msgstr ""
 "Haltepunkte bei %s:%i kann nicht gesetzt werden\n"
 "Debugger-Nachricht: %s"
 
-#: ../debugger/src/utils.c:66
+#: ../debugger/src/utils.c:68
 #, c-format
 msgid "Can't find a source file \"%s\""
 msgstr "Kann die Quelldatei »%s« nicht finden."
 
-#: ../debugger/src/stree.c:139
+#: ../debugger/src/stree.c:140
 msgid "Active frame"
-msgstr ""
+msgstr "Aktiver Frame"
 
-#: ../debugger/src/stree.c:139
+#: ../debugger/src/stree.c:140
 msgid "Click an arrow to switch to a frame"
-msgstr ""
+msgstr "Auf einen Pfeil klicken, um zu einem Frame zu wechselb"
 
-#: ../debugger/src/stree.c:356 ../geanylatex/src/bibtexlabels.c:46
+#: ../debugger/src/stree.c:363 ../geanylatex/src/bibtexlabels.c:46
 msgid "Address"
 msgstr "Adresse"
 
 #. i18n: in the programming language context, if you don't
 #. * have an ESTABLISHED term for it, leave it
 #. * untranslated.
-#: ../debugger/src/stree.c:374 ../devhelp/devhelp/dh-link.c:267
+#: ../debugger/src/stree.c:381 ../devhelp/devhelp/dh-link.c:267
 msgid "Function"
 msgstr "Funktion"
 
-#: ../debugger/src/stree.c:517
+#: ../debugger/src/stree.c:533
 #, c-format
 msgid "Thread %i"
 msgstr "Thread %i"
@@ -518,11 +517,11 @@ msgstr "Haltepunkte hinzufügen oder entfernen"
 msgid "Jump to the currect instruction"
 msgstr "Zur aktuellen Funktion springen"
 
-#: ../debugger/src/watch_model.c:221
+#: ../debugger/src/watch_model.c:220
 msgid "Can't evaluate expression"
 msgstr "Konnte Ausdruck nicht prüfen"
 
-#: ../debugger/src/callbacks.c:244
+#: ../debugger/src/callbacks.c:249
 msgid "To edit source files stop debugging session"
 msgstr ""
 "Um die Quelldatei zu editieren, muss das Debugging unterbrochen werden."
@@ -543,7 +542,7 @@ msgstr "Zwei-Panel-Modus"
 msgid "Continue"
 msgstr "Fortsetzen"
 
-#: ../debugger/src/dconfig.c:667
+#: ../debugger/src/dconfig.c:675
 msgid "Save debug session data to a project"
 msgstr "Debug-Session-Daten als Projekt speichern"
 
@@ -652,12 +651,11 @@ msgstr "Aktuellen Tag in den Manual-Seiten suchen"
 #. i18n: Please don't translate "Devhelp".
 #: ../devhelp/devhelp/dh-assistant.c:74
 msgid "Devhelp — Assistant"
-msgstr ""
+msgstr "Devhelp – Assistent"
 
 #: ../devhelp/devhelp/dh-assistant-view.c:336
-#, fuzzy
 msgid "Book:"
-msgstr "Buch"
+msgstr "Buch:"
 
 #. i18n: a documentation book
 #: ../devhelp/devhelp/dh-link.c:255 ../geanylatex/src/geanylatex.c:1760
@@ -666,54 +664,54 @@ msgstr "Buch"
 
 #. i18n: a "page" in a documentation book
 #: ../devhelp/devhelp/dh-link.c:258
-#, fuzzy
 msgid "Page"
-msgstr "Seiten"
+msgstr "Seite"
 
 #. i18n: a search hit in the documentation, could be a
 #. * function, macro, struct, etc
 #: ../devhelp/devhelp/dh-link.c:262
 msgid "Keyword"
-msgstr ""
+msgstr "Schlüsselwort"
 
 #. i18n: in the programming language context, if you don't
 #. * have an ESTABLISHED term for it, leave it
 #. * untranslated.
 #: ../devhelp/devhelp/dh-link.c:272
 msgid "Struct"
-msgstr ""
+msgstr "Struct"
 
 #. i18n: in the programming language context, if you don't
 #. * have an ESTABLISHED term for it, leave it
 #. * untranslated.
 #: ../devhelp/devhelp/dh-link.c:277
-#, fuzzy
 msgid "Macro"
-msgstr "Makros"
+msgstr "Makro"
 
 #. i18n: in the programming language context, if you don't
 #. * have an ESTABLISHED term for it, leave it
 #. * untranslated.
 #: ../devhelp/devhelp/dh-link.c:282
 msgid "Enum"
-msgstr ""
+msgstr "Aufzählung"
 
 #: ../devhelp/devhelp/dh-parser.c:91 ../devhelp/devhelp/dh-parser.c:185
 #: ../devhelp/devhelp/dh-parser.c:249 ../devhelp/devhelp/dh-parser.c:259
 #, c-format
 msgid "Expected '%s', got '%s' at line %d, column %d"
-msgstr ""
+msgstr "»%s« erwartet, »%s« erhalten in Zeile %d, Spalte %d"
 
 #: ../devhelp/devhelp/dh-parser.c:108
 #, c-format
 msgid "Invalid namespace '%s' at line %d, column %d"
-msgstr ""
+msgstr "Ungültiger Namensraum »%s« in Zeile %d, Spalte %d"
 
 #: ../devhelp/devhelp/dh-parser.c:136
 #, c-format
 msgid ""
 "\"title\", \"name\" and \"link\" elements are required at line %d, column %d"
 msgstr ""
+"Die Elemente »title«, »name« und  »link« werden in Zeile %d, Spalte %d "
+"benötigt."
 
 #: ../devhelp/devhelp/dh-parser.c:204
 #, c-format
@@ -721,75 +719,84 @@ msgid ""
 "\"name\" and \"link\" elements are required inside <sub> on line %d, column "
 "%d"
 msgstr ""
+"Die Elemente »name« und  »link« werden innerhalb <sub> in Zeile %d, Spalte "
+"%d benötigt."
 
 #: ../devhelp/devhelp/dh-parser.c:284
 #, c-format
 msgid ""
 "\"name\" and \"link\" elements are required inside '%s' on line %d, column %d"
 msgstr ""
+"Die Elemente »name« und  »link« werden innerhalb »%s« in Zeile %d, Spalte %d "
+"benötigt."
 
 #: ../devhelp/devhelp/dh-parser.c:297
 #, c-format
 msgid "\"type\" element is required inside <keyword> on line %d, column %d"
 msgstr ""
+"Das Element »type« wird innerhalb <keyword> in Zeile %d, Spalte %d benötigt."
 
 #: ../devhelp/devhelp/dh-parser.c:500
 #, c-format
 msgid "Cannot uncompress book '%s': %s"
-msgstr ""
+msgstr "Kann Buch »%s« nicht entpacken: %s"
 
 #: ../devhelp/devhelp/dh-search.c:498
 msgid "All books"
-msgstr ""
+msgstr "Alle Bücher"
 
 #: ../devhelp/devhelp/dh-search.c:620
-#, fuzzy
 msgid "Search in:"
 msgstr "Suchen in:"
 
 #: ../devhelp/devhelp/dh-window.c:98
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 #: ../devhelp/devhelp/dh-window.c:99
 msgid "75%"
-msgstr ""
+msgstr "75%"
 
 #: ../devhelp/devhelp/dh-window.c:100
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 #: ../devhelp/devhelp/dh-window.c:101
 msgid "125%"
-msgstr ""
+msgstr "125%"
 
 #: ../devhelp/devhelp/dh-window.c:102
 msgid "150%"
-msgstr ""
+msgstr "150%"
 
 #: ../devhelp/devhelp/dh-window.c:103
 msgid "175%"
-msgstr ""
+msgstr "175%"
 
 #: ../devhelp/devhelp/dh-window.c:104
 msgid "200%"
-msgstr ""
+msgstr "200%"
 
 #: ../devhelp/devhelp/dh-window.c:105
 msgid "300%"
-msgstr ""
+msgstr "300%"
 
 #: ../devhelp/devhelp/dh-window.c:106
 msgid "400%"
-msgstr ""
+msgstr "400%"
 
 #: ../devhelp/devhelp/dh-window.c:722
 msgid "translator_credits"
 msgstr ""
+"Andrew Janke <a.janke@gmail.com>\n"
+"Frank Lanitz <frank@frank.uvena.de>\n"
+"Dominic Hopf <dmaphy@gmail.com>\n"
+"Michael Spahn <anyone90@googlemail.com>\n"
+"Fabian Nowak <timystery@arcor.de>"
 
 #: ../devhelp/devhelp/dh-window.c:729
 msgid "A developers' help browser for GNOME"
-msgstr ""
+msgstr "Ein Hilfebrowser für Entwickler unter GNOME"
 
 #: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2010
 msgid "_File"
@@ -802,151 +809,135 @@ msgstr "_Bearbeiten"
 
 #: ../devhelp/devhelp/dh-window.c:761
 msgid "_View"
-msgstr ""
+msgstr "_Ansicht"
 
 #: ../devhelp/devhelp/dh-window.c:762
 msgid "_Go"
-msgstr ""
+msgstr "_Gehe zu"
 
 #: ../devhelp/devhelp/dh-window.c:763
 msgid "_Help"
-msgstr ""
+msgstr "_Hilfe"
 
 #. File menu
 #: ../devhelp/devhelp/dh-window.c:766
-#, fuzzy
 msgid "_New Window"
-msgstr "Fenster"
+msgstr "_Neues Fenster"
 
 #: ../devhelp/devhelp/dh-window.c:768
-#, fuzzy
 msgid "New _Tab"
-msgstr "Neu _darüber"
+msgstr "Neuer Rei_ter"
 
 #: ../devhelp/devhelp/dh-window.c:770
 msgid "_Print…"
-msgstr ""
+msgstr "_Drucken…"
 
 #: ../devhelp/devhelp/dh-window.c:782 ../devhelp/devhelp/eggfindbar.c:342
-#, fuzzy
 msgid "Find Next"
-msgstr "Datei suchen"
+msgstr "Nächstes suchen"
 
 #: ../devhelp/devhelp/dh-window.c:784 ../devhelp/devhelp/eggfindbar.c:329
-#, fuzzy
 msgid "Find Previous"
-msgstr "Im Projekt suchen"
+msgstr "Vorheriges suchen"
 
 #: ../devhelp/devhelp/dh-window.c:791
-#, fuzzy
 msgid "Go to the previous page"
-msgstr "Zum vorherigen Dialog zurückkehren."
+msgstr "Zur vorherigen Seite gehen"
 
 #: ../devhelp/devhelp/dh-window.c:794
-#, fuzzy
 msgid "Go to the next page"
-msgstr "Zur nächsten Zeile springen"
+msgstr "Zur nächsten Seite gehen"
 
 #: ../devhelp/devhelp/dh-window.c:797
-#, fuzzy
 msgid "_Contents Tab"
-msgstr "Inhalte"
+msgstr "_Inhalte"
 
 #: ../devhelp/devhelp/dh-window.c:800
-#, fuzzy
 msgid "_Search Tab"
-msgstr "Suchen"
+msgstr "_Suchen"
 
 #. View menu
 #: ../devhelp/devhelp/dh-window.c:804
 msgid "_Larger Text"
-msgstr ""
+msgstr "_Größerer Text"
 
 #: ../devhelp/devhelp/dh-window.c:805
 msgid "Increase the text size"
-msgstr ""
+msgstr "Textgröße erhöhen"
 
 #: ../devhelp/devhelp/dh-window.c:807
 msgid "S_maller Text"
-msgstr ""
+msgstr "_Kleinerer Text"
 
 #: ../devhelp/devhelp/dh-window.c:808
 msgid "Decrease the text size"
-msgstr ""
+msgstr "Textgröße verringern"
 
 #: ../devhelp/devhelp/dh-window.c:810
-#, fuzzy
 msgid "_Normal Size"
-msgstr "normalsize"
+msgstr "_Normale Größe"
 
 #: ../devhelp/devhelp/dh-window.c:811
 msgid "Use the normal text size"
-msgstr ""
+msgstr "Normale Textgröße verwenden"
 
 #: ../devhelp/devhelp/dh-window.c:820
 msgid "Leave fullscreen mode"
-msgstr ""
+msgstr "Vollbildmodus verlassen"
 
 #: ../devhelp/devhelp/dh-window.c:827
 msgid "Display in full screen"
-msgstr ""
+msgstr "Im Vollbildmodus anzeigen"
 
 #. Translators: This refers to text size
 #: ../devhelp/devhelp/dh-window.c:947
-#, fuzzy
 msgid "Larger"
-msgstr "Large"
+msgstr "Größer"
 
 #. Translators: This refers to text size
 #: ../devhelp/devhelp/dh-window.c:950
-#, fuzzy
 msgid "Smaller"
-msgstr "small"
+msgstr "Kleiner"
 
 #. i18n: please don't translate
 #. * "Devhelp", it's a name, not a
 #. * generic word.
 #: ../devhelp/devhelp/dh-window.c:1095
-#, fuzzy
 msgid "About Devhelp"
-msgstr "Devhelp"
+msgstr "Über Devhelp"
 
 #: ../devhelp/devhelp/dh-window.c:1100
-#, fuzzy
 msgid "Preferences…"
-msgstr "Einstellungen"
+msgstr "Einstellungen…"
 
 #: ../devhelp/devhelp/dh-window.c:1330
 msgid "Error opening the requested link."
-msgstr ""
+msgstr "Fehler beim Öffnen des angegebenen Links."
 
 # what the heck? :D
 #: ../devhelp/devhelp/dh-window.c:1649 ../devhelp/devhelp/dh-window.c:1891
-#, fuzzy
 msgid "Empty Page"
-msgstr "Leere Knoten"
+msgstr "Leere Seite"
 
 #: ../devhelp/devhelp/eggfindbar.c:320
 msgid "Find:"
-msgstr ""
+msgstr "Suchen:"
 
 #: ../devhelp/devhelp/eggfindbar.c:333 ../devhelp/devhelp/eggfindbar.c:336
 msgid "Find previous occurrence of the search string"
-msgstr ""
+msgstr "Vorheriges Auftreten des Suchmusters finden"
 
 #: ../devhelp/devhelp/eggfindbar.c:346 ../devhelp/devhelp/eggfindbar.c:349
 msgid "Find next occurrence of the search string"
-msgstr ""
+msgstr "Nächstes Auftreten des Suchmusters finden"
 
 #: ../devhelp/devhelp/eggfindbar.c:358
-#, fuzzy
 msgid "C_ase Sensitive"
 msgstr "_Groß-/Kleinschreibung beachten"
 
 #: ../devhelp/devhelp/eggfindbar.c:362 ../devhelp/devhelp/eggfindbar.c:365
-#, fuzzy
 msgid "Toggle case sensitive search"
-msgstr "Seitenleistensuche umschalten"
+msgstr "»Beachten von Groß-/Kleinschreibung« umschalten"
 
 #. All plugins must set name, description, version and author.
 #: ../geanydoc/src/geanydoc.c:50 ../geanydoc/src/geanydoc.c:347
@@ -1607,7 +1598,7 @@ msgid "invalid boolean value \"%s\""
 msgstr "Ungültiger Wahrheitswert »%s«"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:157
-#, fuzzy, c-format
+#, c-format
 msgid "invalid template: %s"
 msgstr "Ungültige Vorlage »%s«"
 
@@ -1687,12 +1678,12 @@ msgid "documentation type"
 msgstr "Dokumentationstyp"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:645
-#, fuzzy, c-format
+#, c-format
 msgid "invalid regular expression: %s"
 msgstr "Ungültiger regulärer Ausdruck »%s«"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:702
-#, fuzzy, c-format
+#, c-format
 msgid "invalid environment description: %s"
 msgstr "Ungültige Umgebungsbeschreibung »%s«"
 
@@ -2443,6 +2434,8 @@ msgstr "Symbol für LaTeX-Assistent in die Werkzeugliste einfügen"
 #: ../geanylatex/src/geanylatex.c:306
 msgid "Lower selection when formating smallcaps (\\textsc{})"
 msgstr ""
+"Auswahl niedriger machen beim Formatireen von kleinen Kapitälchen (\\textsc"
+"{})"
 
 #: ../geanylatex/src/geanylatex.c:310
 msgid "Don't care about this inside plugin"
@@ -3214,7 +3207,7 @@ msgstr ""
 "Fehler in Modul »%s« in Funktion navigate():\n"
 "Unbekannter Navigationsmodus »%s« für Argument #1.\n"
 
-#: ../geanylua/glspi_sci.c:602
+#: ../geanylua/glspi_sci.c:603
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -3223,7 +3216,7 @@ msgstr ""
 "Fehler in Modul »%s« in Funktion %s():\n"
 "API-Befehl »%s« ist nicht implementiert.\n"
 
-#: ../geanylua/glspi_sci.c:613
+#: ../geanylua/glspi_sci.c:614
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -3232,7 +3225,7 @@ msgstr ""
 "Fehler in Modul »%s« in Funktion %s():\n"
 "Nicht genügend Argumente für den Befehl »%s«.\n"
 
-#: ../geanylua/glspi_sci.c:651 ../geanylua/glspi_app.c:397
+#: ../geanylua/glspi_sci.c:652 ../geanylua/glspi_app.c:398
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -3241,7 +3234,7 @@ msgstr ""
 "Fehler in Modul »%s« in Funktion %s():\n"
 "Unbekannter Befehl »%s« für das Argument #1.\n"
 
-#: ../geanylua/glspi_sci.c:793
+#: ../geanylua/glspi_sci.c:794
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -3252,7 +3245,7 @@ msgstr ""
 "Falsche Tabelle in Argument #%d:\n"
 "Unbekannter Parameter »%s« für Element #%d\n"
 
-#: ../geanylua/glspi_sci.c:797
+#: ../geanylua/glspi_sci.c:798
 msgid "<too large to display>"
 msgstr "<zu groß zum Anzeigen>"
 
@@ -3519,164 +3512,134 @@ msgid "Move Cursor to end of Word to the Right"
 msgstr "Cursor zum Wortende auf der Rechten bewegen"
 
 #: ../geanymacro/src/geanymacro.c:100
-#, fuzzy
 msgid "Extend Selection down a line"
-msgstr "Auswahl eine Zeile nach unten verschieben"
+msgstr "Auswahl eine Zeile nach unten erweitern"
 
 #: ../geanymacro/src/geanymacro.c:101
-#, fuzzy
 msgid "Extend Selection up a line"
-msgstr "Auswahl eine Zeile nach oben verschieben"
+msgstr "Auswahl eine Zeile nach oben erweitern"
 
 #: ../geanymacro/src/geanymacro.c:102
-#, fuzzy
 msgid "Extend Selection Left a line"
-msgstr "Auswahl in einer Zeile nach links verschieben"
+msgstr "Auswahl in einer Zeile nach links erweitern"
 
 #: ../geanymacro/src/geanymacro.c:103
-#, fuzzy
 msgid "Extend Selection Right a line"
-msgstr "Auswahl in einer Zeile nach rechts verschieben"
+msgstr "Auswahl in einer Zeile nach rechts erweitern"
 
 #: ../geanymacro/src/geanymacro.c:104
-#, fuzzy
 msgid "Extend Selection to start of Word to the Left"
-msgstr "Auswahl zu Wortanfang auf der Linken verschieben"
+msgstr "Auswahl bis zu Wortanfang auf der Linken erweitern"
 
 #: ../geanymacro/src/geanymacro.c:105
-#, fuzzy
 msgid "Extend Selection to start of Word to the Right"
-msgstr "Auswahl zu Wortanfang auf der Rechten verschieben"
+msgstr "Auswahl bis zu Wortanfang auf der Rechten erweitern"
 
 #: ../geanymacro/src/geanymacro.c:106
-#, fuzzy
 msgid "Extend Selection to start of Part of Word to the Left"
-msgstr "Auswahl zu Wortteil auf der Linken verschieben"
+msgstr "Auswahl bis zu Wortteil auf der Linken erweitern"
 
 #: ../geanymacro/src/geanymacro.c:107
-#, fuzzy
 msgid "Extend Selection to start of Part of Word to the Right"
-msgstr "Auswahl zu Wortteil auf der Rechten verschieben"
+msgstr "Auswahl bis zu Wortteil auf der Rechten erweitern"
 
 #: ../geanymacro/src/geanymacro.c:108
-#, fuzzy
 msgid "Extend Selection to start of line"
-msgstr "Auswahl zu Zeilenanfang verschieben"
+msgstr "Auswahl bis zu Zeilenanfang erweitern"
 
 #: ../geanymacro/src/geanymacro.c:109
-#, fuzzy
 msgid "Extend Selection to end of line"
-msgstr "Auswahl zu Zeilenende verschieben"
+msgstr "Auswahl bis zu Zeilenende erweitern"
 
 #: ../geanymacro/src/geanymacro.c:110
-#, fuzzy
 msgid "Extend Selection to start of document"
-msgstr "Auswahl zu Dokumentanfang verschieben"
+msgstr "Auswahl bis zu Dokumentanfang erweitern"
 
 #: ../geanymacro/src/geanymacro.c:111
-#, fuzzy
 msgid "Extend Selection to end of document"
-msgstr "Auswahl zu Dokumentende verschieben"
+msgstr "Auswahl bis zu Dokumentende erweitern"
 
 #: ../geanymacro/src/geanymacro.c:112
-#, fuzzy
 msgid "Extend Selection up one Page"
-msgstr "Auswahl eine Seite nach oben verschieben"
+msgstr "Auswahl eine Seite nach oben erweitern"
 
 #: ../geanymacro/src/geanymacro.c:113
-#, fuzzy
 msgid "Extend Selection down one Page"
-msgstr "Auswahl eine Seite nach unten verschieben"
+msgstr "Auswahl eine Seite nach unten erweitern"
 
 #: ../geanymacro/src/geanymacro.c:114
-#, fuzzy
 msgid "Extend Selection to fist visible character"
-msgstr "Auswahl zu erstem sichtbaren Zeichen verschieben"
+msgstr "Auswahl bis zu erstem sichtbaren Zeichen erweitern"
 
 #: ../geanymacro/src/geanymacro.c:115
-#, fuzzy
 msgid "Extend Selection to last visible character"
-msgstr "Auswahl zu letztem sichtbaren Zeichen verschieben"
+msgstr "Auswahl bis zu letztem sichtbaren Zeichen erweitern"
 
 #: ../geanymacro/src/geanymacro.c:116
-#, fuzzy
 msgid ""
 "Extend Selection to 1st non-whitespace character of line, or 1st character "
 "of line if already at 1st non-whitespace character"
 msgstr ""
-"Auswahl zu erstem Zeichen der Zeile verschieben, das kein Whitespace ist, "
-"oder zum ersten Zeichen überhaupt, wenn schon beim ersten Nicht-Whitespace-"
-"Zeichen."
+"Auswahl bis zu erstem Zeichen der Zeile erweitern, das kein Whitespace ist, "
+"oder bis zum ersten Zeichen überhaupt, wenn schon beim ersten Nicht-"
+"Whitespace-Zeichen."
 
 #: ../geanymacro/src/geanymacro.c:118
-#, fuzzy
 msgid "Extend Selection to begining of next paragraph"
-msgstr "Auswahl zu Anfang des nächsten Absatzes verschieben"
+msgstr "Auswahl bis zu Anfang des nächsten Absatzes erweitern"
 
 #: ../geanymacro/src/geanymacro.c:119
-#, fuzzy
 msgid "Extend Selection up to beginning of current/previous paragraph"
-msgstr "Auswahl zu Anfang des aktuellen/vorigen Absatzes verschieben"
+msgstr "Auswahl bis zu Anfang des aktuellen/vorigen Absatzes erweitern"
 
 #: ../geanymacro/src/geanymacro.c:120
-#, fuzzy
 msgid "Extend Selection to end of Word to the Left"
-msgstr "Auswahl zu Wortende an der Linken verschieben"
+msgstr "Auswahl bis zu Wortende an der Linken erweitern"
 
 #: ../geanymacro/src/geanymacro.c:121
-#, fuzzy
 msgid "Extend Selection to end of Word to the Right"
-msgstr "Auswahl zu Wortende an der Rechten verschieben"
+msgstr "Auswahl bis zu Wortende an der Rechten erweitern"
 
 #: ../geanymacro/src/geanymacro.c:123
-#, fuzzy
 msgid "Extend Rectangular Selection down a line"
-msgstr "Rechteckige Auswahl eine Zeile nach unten verschieben"
+msgstr "Rechteckige Auswahl eine Zeile nach unten erweitern"
 
 #: ../geanymacro/src/geanymacro.c:124
-#, fuzzy
 msgid "Extend Rectangular Selection up a line"
-msgstr "Rechteckige Auswahl eine Zeile nach oben verschieben"
+msgstr "Rechteckige Auswahl eine Zeile nach oben erweitern"
 
 #: ../geanymacro/src/geanymacro.c:125
-#, fuzzy
 msgid "Extend Rectangular Selection Left a line"
-msgstr "Rechteckige Auswahl innerhalb einer Zeile nach links verschieben"
+msgstr "Rechteckige Auswahl innerhalb einer Zeile nach links erweitern"
 
 #: ../geanymacro/src/geanymacro.c:126
-#, fuzzy
 msgid "Extend Rectangular Selection Right a line"
-msgstr "Rechteckige Auswahl innerhalb einer Zeile nach rechts verschieben"
+msgstr "Rechteckige Auswahl innerhalb einer Zeile nach rechts erweitern"
 
 #: ../geanymacro/src/geanymacro.c:127
-#, fuzzy
 msgid "Extend Rectangular Selection to start of line"
-msgstr "Rechteckige Auswahl zu Zeilenanfang verschieben"
+msgstr "Rechteckige Auswahl bis zu Zeilenanfang erweitern"
 
 #: ../geanymacro/src/geanymacro.c:128
-#, fuzzy
 msgid "Extend Rectangular Selection to end of line"
-msgstr "Rechteckige Auswahl zu Zeilenende verschieben"
+msgstr "Rechteckige Auswahl bis zu Zeilenende erweitern"
 
 #: ../geanymacro/src/geanymacro.c:129
-#, fuzzy
 msgid "Extend Rectangular Selection up one Page"
-msgstr "Rechteckige Auswahl eine Seite nach oben verschieben"
+msgstr "Rechteckige Auswahl eine Seite nach oben erweitern"
 
 #: ../geanymacro/src/geanymacro.c:130
-#, fuzzy
 msgid "Extend Rectangular Selection down one Page"
-msgstr "Rechteckige Auswahl eine Seite nach unten verschieben"
+msgstr "Rechteckige Auswahl eine Seite nach unten erweitern"
 
 #: ../geanymacro/src/geanymacro.c:131
-#, fuzzy
 msgid ""
 "Extend Rectangular Selection to 1st non-whitespace character of line, or 1st "
 "character of line if already at 1st non-whitespace character"
 msgstr ""
-"Rechteckige Auswahl zu erstem Zeichen der Zeile verschieben, das kein "
-"Whitespace ist, oder zum ersten Zeichen überhaupt, wenn schon beim ersten "
-"Nicht-Whitespace-Zeichen."
+"Rechteckige Auswahl bis zu erstem Zeichen der Zeile erweitern, das kein "
+"Whitespace ist, oder bis zum ersten Zeichen überhaupt, wenn schon beim "
+"ersten Nicht-Whitespace-Zeichen."
 
 #: ../geanymacro/src/geanymacro.c:134
 msgid "Cancel Selection"
@@ -3732,9 +3695,8 @@ msgid "Macros for Geany"
 msgstr "Makros für Geany"
 
 #: ../geanymacro/src/geanymacro.c:369
-#, fuzzy
 msgid "No text in clipboard!"
-msgstr "In die Zwischenablage kopieren"
+msgstr "Kein Text in der Zwischenablage"
 
 #: ../geanymacro/src/geanymacro.c:546
 #, c-format
@@ -3763,16 +3725,21 @@ msgid ""
 "This Plugin implements Macros in Geany.\n"
 "\n"
 msgstr ""
+"Dieses Plugin implementiert Makros in Geany.\n"
+"\n"
 
 #: ../geanymacro/src/geanymacro.c:856
 msgid "This plugin allows you to record and use your own macros. "
 msgstr ""
+"Dieses Plugin ermöglicht das Aufnehmen und Verwenden von eigenen Makros. "
 
 #: ../geanymacro/src/geanymacro.c:857
 msgid ""
 "These are sequences of actions that can then be repeated with a single key "
 "combination. "
 msgstr ""
+"Sequenzen von Aktionen können mittels einer einzelnen Tastenkombination "
+"wiederholt werden. "
 
 #: ../geanymacro/src/geanymacro.c:858
 msgid ""
@@ -3780,58 +3747,77 @@ msgid ""
 "characters, you could simply start recording, press End, Backspace, "
 "Backspace, down line and then stop recording. "
 msgstr ""
+"Wenn Sie z.B. viele Zeilen hätte, wo sie jeweils die letzten 2 Zeichen "
+"löschen wollten, so könnten Sie die Aufnahme starten, »Ende«, »Backspace«, "
+"»Backspace« drücken, eine Zeile runtergehen und dann die Aufnahme beenden. "
 
 #: ../geanymacro/src/geanymacro.c:860
 msgid ""
 "Then simply trigger the macro and it would automatically edit the line and "
 "move to the next. "
 msgstr ""
+"Dann lösen Sie einfach das Makro aus und es wird automatisch die Zeile "
+"bearbeiten und zu der nächsten Zeile runtergehen. "
 
 #: ../geanymacro/src/geanymacro.c:861
 msgid ""
 "Select Record Macro from the Tools menu and you will be prompted with a "
 "dialog box. "
 msgstr ""
+"Wählen Sie »Makro aufzeichnen« aus dem Werkzeugmenü, dann wird ein "
+"Dialogfenster für Sie geöffnet. "
 
 #: ../geanymacro/src/geanymacro.c:862
 msgid ""
 "You need to specify a key combination that isn't being used, and a name for "
 "the macro to help you identify it. "
 msgstr ""
+"Sie müssen eine noch nicht verwendete Tastenkombination angeben und einen "
+"Namen für das Makro, an dem Sie es wiedererkennen können. "
 
 #: ../geanymacro/src/geanymacro.c:864
 msgid "Then press Record. "
-msgstr ""
+msgstr "Dann drücken Sie »Aufnehmen«"
 
 #: ../geanymacro/src/geanymacro.c:865
 msgid ""
 "What you do in the editor is then recorded until you select Stop Recording "
 "Macro from the Tools menu. "
 msgstr ""
+"Was Sie dann im Editor machen, wird alles aufgezeichnet, bis Sie die "
+"Aufnahme über das Werkzeugmenü beenden. "
 
 #: ../geanymacro/src/geanymacro.c:867
 msgid "Simply pressing the specified key combination will re-run the macro. "
 msgstr ""
+"Wenn Sie jetzt die angegebene Tastenkombination drücken, wird das Makro "
+"erneut ausgeführt. "
 
 #: ../geanymacro/src/geanymacro.c:868
 msgid "To edit the macros you have, select Edit Macro from the Tools menu. "
 msgstr ""
+"Zum Bearbeiten der vorhandenen Makros finden Sie im Werkzeugmenü den Eintrag "
+"»Makros bearbeiten«. "
 
 #: ../geanymacro/src/geanymacro.c:869
 msgid "You can select a macro and delete it, or re-record it. "
-msgstr ""
+msgstr "Sie können ein Makro auswählen und es löschen oder neu aufzeichnen. "
 
 #: ../geanymacro/src/geanymacro.c:870
 msgid ""
 "You can also click on a macro's name and change it, or the key combination "
 "and re-define that assuming that it's not already in use. "
 msgstr ""
+"Sie können auch auf einen Makronamen klicken und ihn ändern, oder auf die "
+"Tastenkombination und diese neu definieren, so sie nicht schon vergeben ist. "
 
 #: ../geanymacro/src/geanymacro.c:872
 msgid ""
 "Selecting the edit option allows you to view all the individual elements "
 "that make up the macro. "
 msgstr ""
+"Wenn Sie die Option »Bearbeiten« auswählen, können Sie alle einzelnen "
+"Elemente sehen, welche das Makro ausmachen. "
 
 #: ../geanymacro/src/geanymacro.c:874
 msgid ""
@@ -3840,6 +3826,9 @@ msgid ""
 "that replaces the selected text, or is inserted.\n"
 "\n"
 msgstr ""
+"Sie können einen anderen Befehl für jedes Element auswählen, diese "
+"verschieben,  neue Elemente hinzufügen, alte löschen oder über »Ersetzen/"
+"einfügen« den ausgewählten Text ersetzen bzw. neuen einfügen.\n"
 
 #: ../geanymacro/src/geanymacro.c:878
 msgid ""
@@ -3847,6 +3836,9 @@ msgid ""
 "recorded, and won't be replayed when the macro is re-run.\n"
 "\n"
 msgstr ""
+"Beachten Sie dabei, daß das Rückgängigmachen und Wiederholen von Aktionen "
+"nicht aufgezeichnet wird und entsprechend auch nicht abgespielt wird, wenn "
+"das Makro wieder ausgeführt wird.\n"
 
 #: ../geanymacro/src/geanymacro.c:881
 msgid ""
@@ -3854,10 +3846,13 @@ msgid ""
 "Manager under the Tools menu, selecting this plugin, and cliking "
 "Preferences. "
 msgstr ""
+"Sie können das Standardverhalten des Plugins ändern, indem Sie die "
+"Pluginverwaltung im Werkzeugmenü auswählen, das Plugin auswählen und auf "
+"»Einstellungen« klicken. "
 
 #: ../geanymacro/src/geanymacro.c:883
 msgid "You can change:\n"
-msgstr ""
+msgstr "Sie können verändern:\n"
 
 #: ../geanymacro/src/geanymacro.c:884
 msgid ""
@@ -3865,6 +3860,9 @@ msgid ""
 "recorded macros and reload them for use the next time you open Geany, if not "
 "they will be lost when Geany is closed.\n"
 msgstr ""
+"Makros beim Beenden von Geany speichern – Wählen Sie dies aus, wenn Geany "
+"alle aufgezeichneten Makros speichern und beim nächsten Start von Geany "
+"laden soll. Ansonsten gehen alle Makros beim Beenden von Geany verloren.\n"
 
 #: ../geanymacro/src/geanymacro.c:887
 msgid ""
@@ -3874,6 +3872,10 @@ msgid ""
 "otherwise it will simply erase any existing macros with the same name, or "
 "the same key trigger combination."
 msgstr ""
+"Vor dem Ersetzen von Makros fragen – Vor dem Überschreiben von bereits "
+"vorhandenen Makros wird die Möglichkeit gegeben, einen anderen Namen oder "
+"eine andere Tastenkombination anzugeben. Ansonsten werden vorhandene Makros "
+"mit gleichem Namen oder Tastenkombination einfach gelöscht."
 
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:1057
@@ -3922,13 +3924,12 @@ msgstr ""
 #: ../geanymacro/src/geanymacro.c:1333
 #, c-format
 msgid "Search %s, looking for %s%s%s.%s%s%s%s%s"
-msgstr ""
+msgstr "Suche nach %s, suchen nach %s%s%s.%s%s%s%s%s"
 
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:1388
-#, fuzzy
 msgid "Search Options:"
-msgstr "Suchwörter:"
+msgstr "Suchoptionen:"
 
 #. create buttons
 #: ../geanymacro/src/geanymacro.c:1393 ../geanymacro/src/geanymacro.c:1536
@@ -3942,47 +3943,42 @@ msgid "_Cancel"
 msgstr "_Abbrechen"
 
 #: ../geanymacro/src/geanymacro.c:1403
-#, fuzzy
 msgid "Search Forwards"
-msgstr "Suchen nach:"
+msgstr "Vorwärts suchen"
 
 #: ../geanymacro/src/geanymacro.c:1404
-#, fuzzy
 msgid "Search Backwards"
-msgstr "Suchwörter:"
+msgstr "Rückwärts suchen"
 
 #. create checkbox to check for search options
 #: ../geanymacro/src/geanymacro.c:1410
 msgid "Seach for contents of clipboard"
-msgstr ""
+msgstr "Suchen nach Inhalten in der Zwischenablage"
 
 #: ../geanymacro/src/geanymacro.c:1424
-#, fuzzy
 msgid "Seach for:"
 msgstr "Suchen nach:"
 
 #. create checkbox to check for search options
 #: ../geanymacro/src/geanymacro.c:1442
-#, fuzzy
 msgid "Seach is case sensitive"
-msgstr "_Groß-/Kleinschreibung beachten"
+msgstr "Groß-/Kleinschreibung bei Suche beachten"
 
 #: ../geanymacro/src/geanymacro.c:1447
 msgid "Seach for whole word"
-msgstr ""
+msgstr "Nach ganzem Wort suchen"
 
 #: ../geanymacro/src/geanymacro.c:1452
 msgid "Seach for start of word"
-msgstr ""
+msgstr "Nach Wortanfang suchen"
 
 #: ../geanymacro/src/geanymacro.c:1457
-#, fuzzy
 msgid "Seach text is regular expression"
-msgstr "Ungültiger regulärer Ausdruck »%s«"
+msgstr "Suchtext ist regulärer Ausdruck"
 
 #: ../geanymacro/src/geanymacro.c:1462
 msgid "Seach text is POSIX compatible"
-msgstr ""
+msgstr "Suchtext ist POSIX-kompatibel"
 
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:1531
@@ -4058,12 +4054,12 @@ msgstr "_Makro aufnehmen"
 #. add stop record macromenu entry
 #: ../geanymacro/src/geanymacro.c:2266
 msgid "Stop Recording _Macro"
-msgstr "_Makroaufnehmen unterbrechen"
+msgstr "_Makroaufnahme beenden"
 
 #. add Edit Macro menu entry
 #: ../geanymacro/src/geanymacro.c:2272
 msgid "_Edit Macros"
-msgstr "Makros bearbeiten und löschen"
+msgstr "Makros bearbeiten"
 
 #: ../geanyminiscript/src/gms_gui.c:253
 msgid "Load Mini-Script File"
@@ -4170,6 +4166,8 @@ msgstr "Nummerierte Lesezeichen für Geany"
 #, c-format
 msgid "Unable to apply all markers to '%s' as all being used."
 msgstr ""
+"Kann nicht alle Markierungen auf »%s« anwenden, da schon alle in Verwendung "
+"sind."
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:925
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:969
@@ -4202,39 +4200,37 @@ msgid "Center view when goto bookmark"
 msgstr "Ansicht zentrieren beim Sprung auf ein Lesezeichen"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1228
-#, fuzzy
 msgid "Move to start of line"
-msgstr "Cursor zu Zeilenanfang bewegen"
+msgstr "Zu Zeilenanfang bewegen"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1229
 msgid "Move to remembered position in line"
-msgstr ""
+msgstr "Zu gemerkter Position in der Zeile bewegen"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1230
 msgid "Move to position in current line"
-msgstr ""
+msgstr "Zu Position in aktueller Zeile bewegen"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1231
-#, fuzzy
 msgid "Move to End of line"
-msgstr "Cursor zu Zeilenende bewegen"
+msgstr "Zu Zeilenende bewegen"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1237
 msgid "Save file settings with program settings"
-msgstr ""
+msgstr "Dateieinstellungen mit Programmeinstellungen zusammen speichern"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1238
 msgid "Save file settings to filename with suffix"
-msgstr ""
+msgstr "Dateieinstellungen in Dateinamen mit Endung speichern"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1243
 msgid "remember normal Bookmarks"
-msgstr ""
+msgstr "Normale Lesezeichen merken"
 
 #. create dialog box
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1263
 msgid "Numbered Bookmarks help"
-msgstr "Hilfe"
+msgstr "Hilfe zu »Nummerierte Lesezeichen«"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1270
 msgid ""
@@ -4251,24 +4247,55 @@ msgid ""
 "shown, but you can have more than one bookmark per line. To move to a "
 "previously set bookmark, press Ctrl+a number from 0 to 9."
 msgstr ""
+"Dieses Plugin implementiert nummerierte Lesezeichen in Geany sowie das "
+"Merken der Code-Faltungen und der Positionen der gewöhnlichen, nicht-"
+"nummerierten Lesezeichen, wenn eine Datei gespeichert wird.\n"
+"\n"
+"Es erlaubt bis zu 10 nummerierte Lesezeichen. Um ein nummeriertes "
+"Lesezeichen zu erstellen, geben Sie bitte Strg+Umsch+eine Nummer von 0 bis 9 "
+"ein. Sie werden eine Markierung neben der Zeilennummer sehen. Wenn Sie dies "
+"bei einer Zeile versuchen, die aber schon diese Lesezeichennummer hat, so "
+"wird diese Nummer entfernt. Wenn die Nummer schon auf einer anderen Zeile "
+"gesetzt war, so wird die Nummer verschoben. Wenn die Nummer noch nicht "
+"vergeben war, wird ein Lesezeichen gesetzt. Nur das zuletzt gesetzte "
+"Lesezeichen wird gezeigt, aber Sie können mehrere Lesezeichen pro Zeile "
+"gesetzt haben. Um sich zu einem schon gesetzten Lesezeichen zu bewegen, "
+"geben Sie Strg+eine Nummer von 0 bis 9 ein."
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1391
 msgid "Unable to apply markers as all being used."
 msgstr ""
+"Kann nicht alle Markierungen anwenden, da schon alle in Verwendung sind."
 
 #: ../geanypg/src/decrypt_cb.c:32 ../geanypg/src/encrypt_cb.c:31
 #: ../geanypg/src/sign_cb.c:32
 msgid "couldn't create tempfile"
 msgstr "konnte keine temporäre Datei erstellen"
 
-#: ../geanypg/src/encrypt_cb.c:75
-#, fuzzy
+#: ../geanypg/src/encrypt_cb.c:82
+#, c-format
+msgid ""
+"The key with user ID \"%s\" has validity \"%s\".\n"
+"\n"
+"WARNING: It is NOT certain that the key belongs to the person named in the "
+"user ID.\n"
+"\n"
+"Are you *really* sure you want to use this key anyway?"
+msgstr ""
+"Der Schlüssel mit ID »%s« hat die Gültigkeit »%s«.\n"
+"\n"
+"WARNUNG: Es ist nicht sichergestellt, dass der Schlüssel auch zu der in der "
+"ID genannten Person wirklich gehört.\n"
+"\n"
+"Sind Sie WIRKLICH sicher, dass Sie diesen Schlüssel dennoch verwenden wollen?"
+
+#: ../geanypg/src/encrypt_cb.c:94
 msgid ""
 "No recipients were selected,\n"
 "use symetric cipher?"
 msgstr ""
-"Kein Zielschlüssel wurde ausgewählt.\n"
-"Soll ein symmetrischer Cypher genutzt werden?"
+"Keine Empfänger wurden ausgewählt.\n"
+"Soll eine symmetrische Verschlüsselung genutzt werden?"
 
 #: ../geanypg/src/geanypg.c:36
 msgid "gpg encryption plugin for geany"
@@ -4453,6 +4480,17 @@ msgid ""
 "other flags:%s%s\n"
 "notations .: %s\n"
 msgstr ""
+"Status .................: %s\n"
+"Zusammenfassung ........: %s\n"
+"Fingerabdruck ..........: %s\n"
+"Erzeugt ................: %s, läuft ab ...: %s, Gültigkeit ..: %s\n"
+"Validierungsgrund ......: %s\n"
+"Algor. f. öff. Schlüssel: %s\n"
+"Algor. f. »Digest« .....: %s\n"
+"PKA-Adresse ............: %s\n"
+"PKA-Stelle .............: %s\n"
+"Andere Kennzeichungen ..: %s%s\n"
+"Anmekungen .............: %s\n"
 
 #: ../geanypg/src/verify_aux.c:118 ../geanypg/src/verify_aux.c:123
 msgid "Unknown\n"
@@ -4710,7 +4748,7 @@ msgstr ""
 "\t\\%f wird mit der zu sendenden Datei ersetzt.\t\n"
 "\t\\%r wird mit der E-Mail-Adresse des Empfängers ersetzt.\t\n"
 "\t\\%b wird mit dem reinen Dateinamen der zu sendenden Datei ersetzt.\n"
-"\tEin Beispiel könnte sein:\t\n"
+"\tBeispiele:\t\n"
 "\tsylpheed --attach \"\\%f\" --compose \"\\%r\"\n"
 "\tmutt -s \"Sending '\\%b'\" -a \"\\%f\" \"\\%r\""
 
@@ -4926,7 +4964,7 @@ msgstr "Mercurial aktivieren"
 
 #: ../geanyvc/src/geanyvc.c:1917
 msgid "Spellcheck language"
-msgstr "Sprache"
+msgstr "Sprache:"
 
 #: ../geanyvc/src/geanyvc.c:2008
 msgid "_VC file Actions"
@@ -5085,9 +5123,8 @@ msgid "_VC"
 msgstr "_VC"
 
 #: ../geanyvc/src/geanyvc.c:2266
-#, fuzzy
 msgid "_Version Control"
-msgstr "Zur _Versionskontrolle hinzufügen"
+msgstr "_Versionskontrolle"
 
 #. Status of basedir
 #: ../geanyvc/src/geanyvc.c:2288
@@ -5113,25 +5150,25 @@ msgstr "Änderungen übertragen."
 
 #: ../geniuspaste/src/geniuspaste.c:81
 msgid "Paste your code on your favorite pastebin"
-msgstr ""
+msgstr "Quelltexte bei bevorzugter Code-Ablagestelle hinterlegen"
 
 #: ../geniuspaste/src/geniuspaste.c:196
-#, fuzzy
 msgid "Unable to get the file name"
-msgstr "Konnte den Inhalt nicht als XML interpretieren"
+msgstr "Dateiname nicht erhalten"
 
 #: ../geniuspaste/src/geniuspaste.c:219 ../geniuspaste/src/geniuspaste.c:235
 #: ../geniuspaste/src/geniuspaste.c:259 ../geniuspaste/src/geniuspaste.c:278
 #: ../geniuspaste/src/geniuspaste.c:293
-#, fuzzy
 msgid "Unable to get the the content of the file"
-msgstr "Konnte den Inhalt nicht als XML interpretieren"
+msgstr "Inhalt der Datei kann nicht eingelesen werden"
 
 #: ../geniuspaste/src/geniuspaste.c:341
 msgid ""
 "Unable to paste the code on codepad.org\n"
 "Retry or select another pastebin."
 msgstr ""
+"Kann den Code nicht auf codepad.org ablegen.\n"
+"Versuchen Sie es erneut oder wählen Sie eine andere Ablagestelle aus."
 
 #: ../geniuspaste/src/geniuspaste.c:380
 #, c-format
@@ -5139,37 +5176,39 @@ msgid ""
 "Unable to paste the code. Check your connection and retry.\n"
 "Error code: %d\n"
 msgstr ""
+"Kann den Code nicht ablegen. Überprüfen Sie Ihre Verbindung und versuchen "
+"Sie es erneut.\n"
+"Fehlercode: %d\n"
 
 #: ../geniuspaste/src/geniuspaste.c:394
 msgid "There are no opened documents. Open one and retry.\n"
 msgstr ""
+"Momentan sind keine Dokumente geöffnet. Öffnen Sie eines und versuchen Sie "
+"es erneut.\n"
 
 #: ../geniuspaste/src/geniuspaste.c:405
-#, fuzzy
 msgid "Unable to save the current file"
-msgstr "Konnte den Inhalt nicht als XML interpretieren"
+msgstr "Konnte die aktuelle Datei nicht speichern"
 
 #: ../geniuspaste/src/geniuspaste.c:419
-#, fuzzy
 msgid "The author name field is empty!"
-msgstr "Gefundene Kennzeichnung ist leer"
+msgstr "Der Autorenname ist leer"
 
 #: ../geniuspaste/src/geniuspaste.c:439
-#, fuzzy
 msgid "Select a pastebin:"
-msgstr "Signierenden Schlüssel auswählen"
+msgstr "Code-Ablagestelle:"
 
 #: ../geniuspaste/src/geniuspaste.c:442
 msgid "Enter the author name:"
-msgstr ""
+msgstr "Autorenname:"
 
 #: ../geniuspaste/src/geniuspaste.c:457
 msgid "Show your paste in a new browser tab"
-msgstr ""
+msgstr "Code-Ablage in einem neuen Reiter im Browser zeigen"
 
 #: ../geniuspaste/src/geniuspaste.c:479
 msgid "_Paste it!"
-msgstr ""
+msgstr "_Los!"
 
 #: ../gproject/src/gproject-main.c:36 ../gproject/src/gproject-project.c:455
 msgid "GProject"
@@ -5177,7 +5216,7 @@ msgstr "GProject"
 
 #: ../gproject/src/gproject-main.c:37
 msgid "Glob-pattern-based project management plugin for Geany."
-msgstr "Global-Muser-basierendes Projektmanagement-Plugin für Geany."
+msgstr "Auf dem Global-Muster basierendes Projektmanagement-Plugin für Geany."
 
 #: ../gproject/src/gproject-menu.c:353
 msgid "Find in Project Files"
@@ -5319,7 +5358,7 @@ msgstr "XML PrettyPrinter"
 
 #: ../pretty-printer/src/PluginEntry.c:38
 msgid "Formats an XML and makes it human-readable."
-msgstr "Formatiert XML und macht es damit besser menschenlesbar"
+msgstr "Formatiert XML und macht es damit besser menschenlesbar."
 
 #. put the menu into the Tools
 #: ../pretty-printer/src/PluginEntry.c:66
@@ -5427,7 +5466,7 @@ msgstr "Der geprüfte Text ist fehlerfrei."
 #: ../spellcheck/src/speller.c:233
 #, c-format
 msgid "The Enchant library couldn't be initialized (%s)."
-msgstr "Die Enchant-Blibliothek konnte nicht initialisiert werden (%s)."
+msgstr "Die Enchant-Bibliothek konnte nicht initialisiert werden (%s)."
 
 #: ../spellcheck/src/speller.c:234
 msgid "unknown error (maybe the chosen language is not available)"
@@ -5548,7 +5587,7 @@ msgstr "Auswahl verschieben"
 
 #: ../shiftcolumn/src/shiftcolumn.c:50
 msgid "Shift a selection left and right"
-msgstr "Verschiebt eine Auswahl nach links oder rechts"
+msgstr "Verschiebt eine Auswahl nach links oder rechts."
 
 #: ../shiftcolumn/src/shiftcolumn.c:380 ../shiftcolumn/src/shiftcolumn.c:400
 msgid "Shift Left"
@@ -5564,7 +5603,7 @@ msgstr "Tableconvert"
 
 #: ../tableconvert/src/tableconvert.c:35
 msgid "A little plugin to convert lists into tables"
-msgstr "Ein kleines Plugin, um Listen in Tabellen zu verwandeln"
+msgstr "Ein kleines Plugin zum Verwandeln von Listen in Tabellen."
 
 #. OK. Something went not as expected.
 #. * We did have a selection but cannot parse it into rows.
@@ -5841,14 +5880,12 @@ msgid "Rename Object"
 msgstr "Objekt umbenennen"
 
 #: ../treebrowser/src/treebrowser.c:2018
-#, fuzzy
 msgid "Create New File"
 msgstr "Neue Datei erstellen"
 
 #: ../treebrowser/src/treebrowser.c:2020
-#, fuzzy
 msgid "Create New Directory"
-msgstr "Neues Verzeichnis anlegen"
+msgstr "Neues Verzeichnis erstellen"
 
 #: ../updatechecker/src/updatechecker.c:41
 msgid "Updatechecker"
@@ -5903,8 +5940,9 @@ msgid "none"
 msgstr "keine"
 
 #: ../webhelper/src/gwh-enum-types.c:33
+#, fuzzy
 msgid "on-connexion"
-msgstr ""
+msgstr "bei Verbindung"
 
 #: ../webhelper/src/gwh-enum-types.c:48
 msgid "normal"
@@ -5997,7 +6035,7 @@ msgstr "Letztes URI des Browsers"
 
 #: ../webhelper/src/gwh-plugin.c:312
 msgid "Last URI visited by the browser"
-msgstr "Letzte vom Browser besuchte URI."
+msgstr "Letzte vom Browser besuchte URI"
 
 #: ../webhelper/src/gwh-plugin.c:317
 msgid "Browser orientation"
@@ -6025,11 +6063,11 @@ msgstr "Letzte Geometrie des separaten Browserfensters"
 
 #: ../webhelper/src/gwh-plugin.c:337
 msgid "Inspector window geometry"
-msgstr "Inspectors Fenstergeometrie"
+msgstr "Inspektors Fenstergeometrie"
 
 #: ../webhelper/src/gwh-plugin.c:338
 msgid "Last geometry of the inspector window"
-msgstr "Letzte Geometrie des Inspector-Fensters"
+msgstr "Letzte Geometrie des Inspektor-Fensters"
 
 #: ../webhelper/src/gwh-plugin.c:343
 msgid "Secondary windows skip task bar"
@@ -6064,7 +6102,7 @@ msgstr "Webinspektor umschalten"
 
 #: ../webhelper/src/gwh-plugin.c:437
 msgid "Show/Hide Web View's Window"
-msgstr "Zeigt/Versteckt das WebView-Fenster"
+msgstr "Zeigt/versteckt das WebView-Fenster"
 
 #. Browser
 #: ../webhelper/src/gwh-plugin.c:503
@@ -6082,7 +6120,7 @@ msgstr "XML-Schnipsel"
 
 #: ../xmlsnippets/src/plugin.c:46
 msgid "Autocompletes XML/HTML tags using snippets."
-msgstr "Autovervollständigt XML/HTML-Tags unter Verwendung von Snippets"
+msgstr "Autovervollständigt XML/HTML-Tags unter Verwendung von Schnipseln."
 
 #~ msgid "Google Code"
 #~ msgstr "Google Code"
@@ -6171,13 +6209,11 @@ msgstr "Autovervollständigt XML/HTML-Tags unter Verwendung von Snippets"
 #~ msgid "Locals"
 #~ msgstr "Lokal"
 
-#, fuzzy
 #~ msgid "Couldn't create tempfile"
-#~ msgstr "Neue Datei erstellen"
+#~ msgstr "Temporäre Datei konnte nicht erstellt werden"
 
-#, fuzzy
 #~ msgid "GeanyPG"
-#~ msgstr "GeanyGDB"
+#~ msgstr "GeanyPG"
 
 #~ msgid ":  "
 #~ msgstr ":  "
@@ -6255,12 +6291,10 @@ msgstr "Autovervollständigt XML/HTML-Tags unter Verwendung von Snippets"
 #~ msgid "No update needed"
 #~ msgstr "Keine Aktualisierung notwendig"
 
-#, fuzzy
 #~ msgid "goto_file"
-#~ msgstr "Gehe zu Datei: %1"
+#~ msgstr "Gehe zu _Datei"
 
 # Diese Übersetzung existiert drei mal.
-#, fuzzy
 #~ msgid "switch_head_impl"
 #~ msgstr "Umschalten zwischen Deklaration und Implementierung"
 
@@ -6303,9 +6337,8 @@ msgstr "Autovervollständigt XML/HTML-Tags unter Verwendung von Snippets"
 #~ msgstr "Den nächsten Befehl oder Funktionsaufruf ausführen."
 
 # noch keine Idee  --Dominic
-#, fuzzy
 #~ msgid "Ne_xt in"
-#~ msgstr "_Weitersuchen"
+#~ msgstr "_Weitersuchen in"
 
 #~ msgid "Execute the next machine instruction."
 #~ msgstr "Den nächsten Befehl ausführen."
@@ -6328,7 +6361,6 @@ msgstr "Autovervollständigt XML/HTML-Tags unter Verwendung von Snippets"
 #~ msgid "_Return"
 #~ msgstr "_Zurück"
 
-#, fuzzy
 #~ msgid "Return immediately from the current function."
 #~ msgstr "Unverzüglich von der momentanen Funktion zurückkehren."
 
@@ -6354,7 +6386,6 @@ msgstr "Autovervollständigt XML/HTML-Tags unter Verwendung von Snippets"
 #~ msgid "Switch header / implementation"
 #~ msgstr "Umschalten zwischen Deklaration und Implementierung"
 
-#, fuzzy
 #~ msgid "_History (Log)"
 #~ msgstr "_Versionsgeschichte"
 
@@ -6391,9 +6422,8 @@ msgstr "Autovervollständigt XML/HTML-Tags unter Verwendung von Snippets"
 #~ msgid "Shows the log of the current project"
 #~ msgstr "Zeigt die Versionshistorie vom aktuellen Projekt."
 
-#, fuzzy
 #~ msgid "External Debugger"
-#~ msgstr "Führe externes Debuggingwerkzeug aus"
+#~ msgstr "Externes Debuggingwerkzeug"
 
 #~ msgid "Run external debugger."
 #~ msgstr "Führe externes Debuggingwerkzeug aus"
