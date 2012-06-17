@@ -5208,7 +5208,7 @@ msgstr "Code-Ablage in einem neuen Reiter im Browser zeigen"
 
 #: ../geniuspaste/src/geniuspaste.c:479
 msgid "_Paste it!"
-msgstr "_Los!"
+msgstr "Zu _Pastebin senden"
 
 #: ../gproject/src/gproject-main.c:36 ../gproject/src/gproject-project.c:455
 msgid "GProject"
