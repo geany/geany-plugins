@@ -39,6 +39,13 @@
 #define USERNAME        getenv("USER")
 #endif
 
+/* stay compatible with GTK < 2.24 */
+#if !GTK_CHECK_VERSION(2,24,0)
+#define gtk_combo_box_text_new         gtk_combo_box_new_text
+#define gtk_combo_box_text_append_text gtk_combo_box_append_text
+#define GTK_COMBO_BOX_TEXT             GTK_COMBO_BOX
+#endif
+
 #define CODEPAD_ORG 		0
 #define PASTEBIN_COM 		1
 #define PASTEBIN_GEANY_ORG 	2
