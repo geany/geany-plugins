@@ -75,7 +75,10 @@ static void on_doc_activate(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED GeanyDocu
 static void on_doc_close(G_GNUC_UNUSED GObject * obj, GeanyDocument * doc,
 		G_GNUC_UNUSED gpointer user_data)
 {
-	g_return_if_fail(doc != NULL && doc->file_name != NULL);
+	g_return_if_fail(doc != NULL);
+
+	if (doc->file_name == NULL)
+		return;
 
 	//tags of open files managed by geany - when the file gets closed, we should take care of it
 	if (gprj_project_is_in_project(doc->file_name))
