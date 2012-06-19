@@ -659,8 +659,6 @@ void gprj_sidebar_find_file_in_active()
 static gboolean on_button_release(G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event,
 		  G_GNUC_UNUSED gpointer user_data)
 {
-//	GeanyDocument *doc;
-
 	if (event->button == 3)
 	{
 		GtkTreeSelection *treesel;
@@ -678,10 +676,6 @@ static gboolean on_button_release(G_GNUC_UNUSED GtkWidget * widget, GdkEventButt
 		gtk_menu_popup(GTK_MENU(s_popup_menu.widget), NULL, NULL, NULL, NULL,
 						event->button, event->time);
 	}
-
-//	doc = document_get_current();
-//	if (doc)
-//		gtk_widget_grab_focus(GTK_WIDGET(doc->editor->sci));
 
 	return FALSE;
 }
