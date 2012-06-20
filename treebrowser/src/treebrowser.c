@@ -335,9 +335,9 @@ win32_check_hidden(const gchar *filename)
 static gboolean
 check_hidden(const gchar *filename)
 {
+	gsize len;
 	const gchar *base_name = NULL;
 	base_name = g_path_get_basename(filename);
-	gsize len;
 
 	if (! NZV(base_name))
 		return FALSE;
