@@ -1005,14 +1005,14 @@ on_menu_create_new_object(GtkMenuItem *menuitem, gchar *type)
 	if (gtk_tree_selection_get_selected(selection, &model, &iter))
 	{
 		gtk_tree_model_get(model, &iter, TREEBROWSER_COLUMN_URI, &uri, -1);
-		// If not a directory, find parent directory
+		/* If not a directory, find parent directory */
 		if (! g_file_test(uri, G_FILE_TEST_IS_DIR))
 		{
 			path_parent = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
-			// Set iter from parent_path
+			/* Set iter from parent_path */
 			if (gtk_tree_path_up(path_parent) &&
 			  gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter, path_parent))
-				// Set URI from new iter
+				/* Set URI from new iter */
 				gtk_tree_model_get(model, &iter, TREEBROWSER_COLUMN_URI, &uri, -1);
 			else
 				refresh_root = TRUE;
@@ -1392,13 +1392,13 @@ on_treeview_mouseclick(GtkWidget *widget, GdkEventButton *event, GtkTreeSelectio
 
 	if (event->button == 3)
 	{
-		// Get tree path for row that was clicked
+		/* Get tree path for row that was clicked */
 		if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(treeview),
 																		 (gint) event->x,
 																		 (gint) event->y,
 																		 &path, NULL, NULL, NULL))
 		{
-			// Unselect current selection; select clicked row from path
+			/* Unselect current selection; select clicked row from path */
 			gtk_tree_selection_unselect_all(selection);
 			gtk_tree_selection_select_path(selection, path);
 			gtk_tree_path_free(path);
