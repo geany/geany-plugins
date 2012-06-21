@@ -144,7 +144,7 @@ static gboolean deferred_op_queue_flush(G_GNUC_UNUSED gpointer data)
 	deferred_op_queue_clean();
 	flush_queued = FALSE;
 
-	return FALSE; // returning false removes this callback; it is a one-shot
+	return FALSE; /* returning false removes this callback; it is a one-shot */
 }
 
 

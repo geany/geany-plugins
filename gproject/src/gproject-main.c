@@ -55,7 +55,7 @@ static void on_doc_open(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED GeanyDocument
 {
 	g_return_if_fail(doc != NULL && doc->file_name != NULL);
 
-	//tags of open files managed by geany
+	/* tags of open files managed by geany*/
 	if (gprj_project_is_in_project(doc->file_name))
 		gprj_project_remove_file_tag(doc->file_name);
 
@@ -75,9 +75,13 @@ static void on_doc_activate(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED GeanyDocu
 static void on_doc_close(G_GNUC_UNUSED GObject * obj, GeanyDocument * doc,
 		G_GNUC_UNUSED gpointer user_data)
 {
-	g_return_if_fail(doc != NULL && doc->file_name != NULL);
+	g_return_if_fail(doc != NULL);
 
-	//tags of open files managed by geany - when the file gets closed, we should take care of it
+	if (doc->file_name == NULL)
+		return;
+
+	/* tags of open files managed by geany - when the file gets closed, 
+	 * we should take care of it */
 	if (gprj_project_is_in_project(doc->file_name))
 		gprj_project_add_file_tag(doc->file_name);
 
@@ -152,7 +156,7 @@ static void on_project_save(G_GNUC_UNUSED GObject * obj, GKeyFile * config,
 {
 	if (!g_prj)
 	{
-		//happens when the project is created
+		/* happens when the project is created */
 		gprj_project_open(config);
 		gprj_sidebar_update(TRUE);
 		gprj_sidebar_activate(TRUE);
