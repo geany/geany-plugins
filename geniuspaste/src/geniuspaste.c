@@ -33,6 +33,10 @@
 
 #include <geanyplugin.h>
 
+
+#define PLUGIN_NAME "GeniusPaste"
+#define PLUGIN_VERSION "0.2"
+
 #ifdef G_OS_WIN32
 #define USERNAME        getenv("USERNAME")
 #else
@@ -84,9 +88,9 @@ static gint website_selected;
 static gboolean check_button_is_checked = FALSE;
 
 PLUGIN_VERSION_CHECK(147)
-PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, "GeniusPaste",
+PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, PLUGIN_NAME,
                              _("Paste your code on your favorite pastebin"),
-                             "0.2", "Enrico Trotta");
+                             PLUGIN_VERSION, "Enrico Trotta");
 
 static gint indexof(const gchar * string, gchar c)
 {
@@ -97,29 +101,15 @@ static gint indexof(const gchar * string, gchar c)
 static void load_settings(void)
 {
     GKeyFile *config = g_key_file_new();
-    GError *err = NULL;
-    gint tmp_website;
-    gboolean tmp_open_browser;
-    gchar *tmp_author_name;
 
     config_file = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
                               "geniuspaste", G_DIR_SEPARATOR_S, "geniuspaste.conf", NULL);
     g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
 
-    tmp_website = g_key_file_get_integer(config, "geniuspaste", "website", &err);
-    tmp_open_browser = g_key_file_get_boolean(config, "geniuspaste", "open_browser", &err);
-    tmp_author_name = g_key_file_get_string(config, "geniuspaste", "author_name", &err);
+    website_selected = utils_get_setting_integer(config, "geniuspaste", "website", 2);
+    check_button_is_checked = utils_get_setting_boolean(config, "geniuspaste", "open_browser", FALSE);
+    author_name = utils_get_setting_string(config, "geniuspaste", "author_name", NULL);
 
-    if (err)
-    {
-        g_error_free(err);
-    }
-    else
-    {
-        website_selected = tmp_website;
-        check_button_is_checked = tmp_open_browser;
-        author_name = tmp_author_name;
-    }
     g_key_file_free(config);
 }
 
@@ -174,7 +164,7 @@ static gchar *get_paste_text(GeanyDocument *doc, gsize *text_len)
 
 static void paste(GeanyDocument * doc, const gchar * website)
 {
-    SoupSession *session = soup_session_async_new();
+    SoupSession *session;
     SoupMessage *msg = NULL;
 
     gchar *f_content;
@@ -182,6 +172,7 @@ static void paste(GeanyDocument * doc, const gchar * website)
     gchar *f_title;
     gchar *p_url;
     gchar *formdata = NULL;
+    gchar *user_agent = NULL;
     gchar *temp_body;
     gchar **tokens_array;
 
@@ -287,6 +278,10 @@ static void paste(GeanyDocument * doc, const gchar * website)
 
     }
 
+    user_agent = g_strconcat(PLUGIN_NAME, " ", PLUGIN_VERSION, " / Geany ", GEANY_VERSION, NULL);
+    session = soup_session_async_new_with_options(SOUP_SESSION_USER_AGENT, user_agent, NULL);
+    g_free(user_agent);
+
     soup_message_set_request(msg, "application/x-www-form-urlencoded",
                              SOUP_MEMORY_COPY, formdata, strlen(formdata));
 
@@ -376,6 +371,7 @@ static void paste(GeanyDocument * doc, const gchar * website)
 
     g_free(f_content);
     g_free(p_url);
+    g_object_unref(session);
 }
 
 static void item_activate(GtkMenuItem * menuitem, gpointer gdata)
