@@ -176,6 +176,9 @@ def setup_configuration_env(conf):
     # common
     pkgdatadir = os.path.join(conf.env['GEANYPLUGINS_DATADIR'], 'geany-plugins')
     pkglibdir = os.path.join(conf.env['LIBDIR'], 'geany-plugins')
+    pkgincludedir = os.path.join(conf.env['G_PREFIX'], 'include')
+    add_to_env_and_define(conf, 'INCLUDEDIR', pkgincludedir, quote=True)
+    add_to_env_and_define(conf, 'DATAROOTDIR', conf.env['GEANYPLUGINS_DATADIR'], quote=True)
     add_to_env_and_define(conf, 'PKGDATADIR', pkgdatadir, quote=True)
     add_to_env_and_define(conf, 'PKGLIBDIR', pkglibdir, quote=True)
     add_to_env_and_define(conf, 'VERSION', VERSION, quote=True)
