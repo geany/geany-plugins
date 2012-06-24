@@ -97,29 +97,15 @@ static gint indexof(const gchar * string, gchar c)
 static void load_settings(void)
 {
     GKeyFile *config = g_key_file_new();
-    GError *err = NULL;
-    gint tmp_website;
-    gboolean tmp_open_browser;
-    gchar *tmp_author_name;
 
     config_file = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
                               "geniuspaste", G_DIR_SEPARATOR_S, "geniuspaste.conf", NULL);
     g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
 
-    tmp_website = g_key_file_get_integer(config, "geniuspaste", "website", &err);
-    tmp_open_browser = g_key_file_get_boolean(config, "geniuspaste", "open_browser", &err);
-    tmp_author_name = g_key_file_get_string(config, "geniuspaste", "author_name", &err);
+    website_selected = utils_get_setting_integer(config, "geniuspaste", "website", 2);
+    check_button_is_checked = utils_get_setting_boolean(config, "geniuspaste", "open_browser", FALSE);
+    author_name = utils_get_setting_string(config, "geniuspaste", "author_name", NULL);
 
-    if (err)
-    {
-        g_error_free(err);
-    }
-    else
-    {
-        website_selected = tmp_website;
-        check_button_is_checked = tmp_open_browser;
-        author_name = tmp_author_name;
-    }
     g_key_file_free(config);
 }
 
