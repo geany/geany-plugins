@@ -26,7 +26,7 @@ name = 'Debugger'
 includes = ['debugger/src']
 libraries = ['VTE', 'UTIL']
 
-pludin_datadir = conf.env['GEANYPLUGINS_DATADIR'] + '/geany-plugins/debugger'
+pludin_datadir = '${PKGDATADIR}/debugger'
 
 defines=[ 'DBGPLUG_DATA_DIR="' + pludin_datadir + '"']
 
