@@ -67,7 +67,7 @@ static GtkWidget *main_menu_item = NULL;
 
 static const gchar *websites[] =
 {
-    "http://codepad.org",
+    "http://codepad.org/",
     "http://pastebin.com/api_public.php",
     "http://pastebin.geany.org/api/",
     "http://dpaste.de/api/",
@@ -106,9 +106,9 @@ static void load_settings(void)
                               "geniuspaste", G_DIR_SEPARATOR_S, "geniuspaste.conf", NULL);
     g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
 
-    website_selected = utils_get_setting_integer(config, "geniuspaste", "website", 2);
+    website_selected = utils_get_setting_integer(config, "geniuspaste", "website", PASTEBIN_GEANY_ORG);
     check_button_is_checked = utils_get_setting_boolean(config, "geniuspaste", "open_browser", FALSE);
-    author_name = utils_get_setting_string(config, "geniuspaste", "author_name", NULL);
+    author_name = utils_get_setting_string(config, "geniuspaste", "author_name", USERNAME);
 
     g_key_file_free(config);
 }
@@ -401,7 +401,6 @@ static void on_configure_response(GtkDialog * dialog, gint response, gpointer * 
             check_button_is_checked = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.check_button));
             author_name = g_strdup(gtk_entry_get_text(GTK_ENTRY(widgets.author_entry)));
             save_settings();
-            g_free(author_name);
         }
     }
 }
@@ -433,11 +432,11 @@ GtkWidget *plugin_configure(GtkDialog * dialog)
 
     widgets.check_button = gtk_check_button_new_with_label(_("Show your paste in a new browser tab"));
 
-    gtk_container_add(GTK_CONTAINER(vbox), label);
-    gtk_container_add(GTK_CONTAINER(vbox), widgets.combo);
-    gtk_container_add(GTK_CONTAINER(vbox), author_label);
-    gtk_container_add(GTK_CONTAINER(vbox), widgets.author_entry);
-    gtk_container_add(GTK_CONTAINER(vbox), widgets.check_button);
+    gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), widgets.combo, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), author_label, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), widgets.author_entry, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), widgets.check_button, FALSE, FALSE, 0);
 
     gtk_combo_box_set_active(GTK_COMBO_BOX(widgets.combo), website_selected);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.check_button), check_button_is_checked);
@@ -473,5 +472,6 @@ void plugin_init(GeanyData * data)
 
 void plugin_cleanup(void)
 {
+    g_free(author_name);
     gtk_widget_destroy(main_menu_item);
 }
