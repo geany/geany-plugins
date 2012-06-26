@@ -1,6 +1,6 @@
 TODO
 ----
 
-    [!] Implement saving/loading of the settings
-    [-] Make the geany's pastebin the default pastebin
+    - recent pastes history
+    - URL shortening
 
