@@ -266,6 +266,15 @@ on_inspector_inspect_web_view (WebKitWebInspector *inspector,
                                WebKitWebView      *view,
                                GwhBrowser         *self)
 {
+  if (self->priv->inspector_web_view) {
+    gtk_widget_destroy (self->priv->inspector_web_view);
+  }
+  
+  self->priv->inspector_web_view = webkit_web_view_new ();
+  gtk_widget_show (self->priv->inspector_web_view);
+  gtk_container_add (GTK_CONTAINER (self->priv->inspector_view),
+                     self->priv->inspector_web_view);
+  
   return WEBKIT_WEB_VIEW (self->priv->inspector_web_view);
 }
 
@@ -878,10 +887,7 @@ gwh_browser_init (GwhBrowser *self)
   self->priv->inspector_view = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (self->priv->inspector_view),
                                   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  self->priv->inspector_web_view = webkit_web_view_new ();
-  gtk_widget_show (self->priv->inspector_web_view);
-  gtk_container_add (GTK_CONTAINER (self->priv->inspector_view),
-                     self->priv->inspector_web_view);
+  self->priv->inspector_web_view = NULL;
   
   self->priv->inspector_window = create_inspector_window (self);
   
