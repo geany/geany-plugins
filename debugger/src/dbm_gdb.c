@@ -443,6 +443,11 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 		*(strrchr(line, '\"')) = '\0';
 		target_pid = atoi(line + strlen("=thread-group-created,id=\""));
 	}
+	else if (!target_pid && g_str_has_prefix(line, "=thread-group-started"))
+	{
+		*(strrchr(line, '\"')) = '\0';
+		target_pid = atoi(strrchr(line, '\"') + 2);
+	}
 	else if (g_str_has_prefix(line, "=thread-created"))
 	{
 		int thread_id;
