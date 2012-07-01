@@ -359,7 +359,7 @@ static void paste(GeanyDocument * doc, const gchar * website)
             p_url = g_strdup_printf("http://%s/%s", websites[TINYPASTE_COM], tokens_array[6]);
             
             g_free(temp_body);
-            g_free(tokens_array);
+            g_strfreev(tokens_array);
         }
             
         else if(website_selected == DPASTE_DE)
