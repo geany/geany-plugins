@@ -446,7 +446,7 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 	else if (!target_pid && g_str_has_prefix(line, "=thread-group-started"))
 	{
 		*(strrchr(line, '\"')) = '\0';
-		target_pid = atoi(strrchr(line, '\"') + 2);
+		target_pid = atoi(strrchr(line, '\"') + 1);
 	}
 	else if (g_str_has_prefix(line, "=thread-created"))
 	{
