@@ -38,9 +38,9 @@
 #define PLUGIN_VERSION "0.2"
 
 #ifdef G_OS_WIN32
-#define USERNAME        getenv("USERNAME")
+#define USERNAME        g_getenv("USERNAME")
 #else
-#define USERNAME        getenv("USER")
+#define USERNAME        g_getenv("USER")
 #endif
 
 /* stay compatible with GTK < 2.24 */
@@ -51,7 +51,7 @@
 #endif
 
 #define CODEPAD_ORG 		0
-#define PASTEBIN_COM 		1
+#define TINYPASTE_COM 		1
 #define PASTEBIN_GEANY_ORG 	2
 #define DPASTE_DE 			3
 #define SPRUNGE_US 			4
@@ -67,8 +67,17 @@ static GtkWidget *main_menu_item = NULL;
 
 static const gchar *websites[] =
 {
+    "codepad.org",
+    "tinypaste.com",
+    "pastebin.geany.org",
+    "dpaste.de",
+    "sprunge.us",
+};
+
+static const gchar *websites_api[] =
+{
     "http://codepad.org/",
-    "http://pastebin.com/api_public.php",
+    "http://tinypaste.com/api/create.xml",
     "http://pastebin.geany.org/api/",
     "http://dpaste.de/api/",
     "http://sprunge.us/",
@@ -105,11 +114,11 @@ static void load_settings(void)
     config_file = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
                               "geniuspaste", G_DIR_SEPARATOR_S, "geniuspaste.conf", NULL);
     g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
-
+    
     website_selected = utils_get_setting_integer(config, "geniuspaste", "website", PASTEBIN_GEANY_ORG);
     check_button_is_checked = utils_get_setting_boolean(config, "geniuspaste", "open_browser", FALSE);
     author_name = utils_get_setting_string(config, "geniuspaste", "author_name", USERNAME);
-
+    
     g_key_file_free(config);
 }
 
@@ -136,6 +145,7 @@ static void save_settings(void)
         utils_write_file(config_file, data);
         g_free(data);
     }
+    
     g_free(config_dir);
     g_key_file_free(config);
 }
@@ -206,7 +216,7 @@ static void paste(GeanyDocument * doc, const gchar * website)
         f_title = g_path_get_basename(doc->file_name);
 
     load_settings();
-
+    
     f_content = get_paste_text(doc, &f_length);
     if (f_content == NULL || f_content[0] == '\0')
     {
@@ -228,16 +238,20 @@ static void paste(GeanyDocument * doc, const gchar * website)
         }
 
         msg = soup_message_new("POST", website);
-        formdata = soup_form_encode("lang", f_type, "code", f_content,
-                                    "submit", "Submit", NULL);
+        formdata = soup_form_encode("lang", f_type,
+                                    "code", f_content,
+                                    "submit", "Submit",
+                                    NULL);
 
         break;
 
-    case PASTEBIN_COM:
+    case TINYPASTE_COM:
 
         msg = soup_message_new("POST", website);
-        formdata = soup_form_encode("paste_code", f_content, "paste_format",
-                                    f_type, "paste_name", f_title, NULL);
+        formdata = soup_form_encode("paste", f_content, 
+                                    "title", f_title,
+                                    "is_code", g_strcmp0(f_type, "None") == 0 ? "0" : "1",
+                                    NULL);
 
         break;
 
@@ -256,8 +270,10 @@ static void paste(GeanyDocument * doc, const gchar * website)
         /* apparently dpaste.de detects automatically the syntax of the
          * pasted code so 'lexer' should be unneeded
          */
-        formdata = soup_form_encode("content", f_content, "title", f_title,
-                                    "lexer", f_type, NULL);
+        formdata = soup_form_encode("content", f_content,
+                                    "title", f_title,
+                                    "lexer", f_type,
+                                    NULL);
 
         break;
 
@@ -271,8 +287,11 @@ static void paste(GeanyDocument * doc, const gchar * website)
     case PASTEBIN_GEANY_ORG:
 
         msg = soup_message_new("POST", website);
-        formdata = soup_form_encode("content", f_content, "author", author_name,
-                                    "title", f_title, "lexer", f_type, NULL);
+        formdata = soup_form_encode("content", f_content,
+                                    "author", author_name,
+                                    "title", f_title,
+                                    "lexer", f_type,
+                                    NULL);
 
         break;
 
@@ -324,6 +343,25 @@ static void paste(GeanyDocument * doc, const gchar * website)
             }
 
         }
+        else if(website_selected == TINYPASTE_COM)
+        {
+            /* tinypaste.com returns a XML response which looks
+             * like this:
+             * 
+             * <?xml version="1.0" encoding="utf-8"?>
+             * <result>
+             *      <response>xxxxx</response>
+             * </result>
+             */
+            temp_body = g_strdup(p_url);
+            tokens_array = g_strsplit_set(temp_body, "<>", 0);
+            
+            p_url = g_strdup_printf("http://%s/%s", websites[TINYPASTE_COM], tokens_array[6]);
+            
+            g_free(temp_body);
+            g_strfreev(tokens_array);
+        }
+            
         else if(website_selected == DPASTE_DE)
         {
             p_url = g_strndup(p_url + 1, strlen(p_url) - 2);
@@ -384,7 +422,7 @@ static void item_activate(GtkMenuItem * menuitem, gpointer gdata)
         return;
     }
 
-    paste(doc, websites[website_selected]);
+    paste(doc, websites_api[website_selected]);
 }
 
 static void on_configure_response(GtkDialog * dialog, gint response, gpointer * user_data)
@@ -421,7 +459,7 @@ GtkWidget *plugin_configure(GtkDialog * dialog)
     widgets.author_entry = gtk_entry_new();
 
     if(author_name == NULL)
-        author_name = USERNAME;
+        author_name = g_strdup(USERNAME);
 
     gtk_entry_set_text(GTK_ENTRY(widgets.author_entry), author_name);
 
