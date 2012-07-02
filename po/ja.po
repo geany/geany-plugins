@@ -1,7 +1,7 @@
 # Japanese translations for geany-plugins package.
 # Copyright (C) 2009-2011 THE geany-plugins'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
-# Masami Chikahiro <cmasa.z321@gmail.com>, 2009-2010.
+# Masami Chikahiro <cmasa.z321@gmail.com>, 2009-2012.
 #
 msgid ""
 msgstr ""
@@ -103,22 +103,20 @@ msgstr "URIをコピー"
 
 #: ../addons/src/ao_wrapwords.c:244
 msgid "Plugins"
-msgstr ""
+msgstr "プラグイン"
 
 #: ../addons/src/ao_wrapwords.c:255
 #, c-format
 msgid "Enclose combo %d"
-msgstr ""
+msgstr "括弧の対 %d"
 
 #: ../addons/src/ao_wrapwords.c:271
-#, fuzzy
 msgid "Opening Character"
-msgstr "特殊文字の挿入(_N)"
+msgstr "開く記号"
 
 #: ../addons/src/ao_wrapwords.c:278
-#, fuzzy
 msgid "Closing Character"
-msgstr "矢印記号"
+msgstr "閉じる記号"
 
 #: ../addons/src/ao_doclist.c:207
 msgid "Close Ot_her Documents"
@@ -244,11 +242,11 @@ msgstr "選択用のXMLタグ付け"
 
 #: ../addons/src/addons.c:561
 msgid "Enclose selection on configurable keybindings"
-msgstr ""
+msgstr "定義可能なキー入力によって選択したものに括弧をつける"
 
 #: ../addons/src/addons.c:573
 msgid "Enclose selection automatically (without having to press a keybinding)"
-msgstr ""
+msgstr "自動的に選択したものに括弧をつける(括弧をつけるためのキー入力は不要)"
 
 #: ../codenav/src/codenavigation.c:52
 msgid "Code navigation"
@@ -373,18 +371,17 @@ msgid "Program received a signal"
 msgstr "プログラムはシグナルを受信しました"
 
 #: ../debugger/src/dbm_gdb.c:558
-#, fuzzy, c-format
+#, c-format
 msgid "Program exited with code \"%i\""
-msgstr "プログラムは終了コード %d [%s]で終了。\n"
+msgstr "プログラムは終了コード \"%i\" で終了"
 
 #: ../debugger/src/dbm_gdb.c:730
 msgid "Failed to spawn gdb process"
 msgstr "gdbプロセスの起動に失敗"
 
 #: ../debugger/src/dbm_gdb.c:778
-#, fuzzy
 msgid "~\"Loading target file.\\n\""
-msgstr "対象ファイルを選択"
+msgstr "~\"対象ファイルを読み込み中\\n\""
 
 #: ../debugger/src/dbm_gdb.c:778
 msgid "Error loading file"
@@ -414,11 +411,11 @@ msgstr "ソースファイル \"%s\" がありません"
 
 #: ../debugger/src/stree.c:140
 msgid "Active frame"
-msgstr ""
+msgstr "アクティブなフレーム"
 
 #: ../debugger/src/stree.c:140
 msgid "Click an arrow to switch to a frame"
-msgstr ""
+msgstr "フレームを切り替えるために矢印をクリック"
 
 #: ../debugger/src/stree.c:363 ../geanylatex/src/bibtexlabels.c:46
 msgid "Address"
@@ -434,7 +431,7 @@ msgstr "関数"
 #: ../debugger/src/stree.c:533
 #, c-format
 msgid "Thread %i"
-msgstr ""
+msgstr "スレッド %i"
 
 #: ../debugger/src/tabs.c:132
 msgid "Target"
@@ -632,22 +629,19 @@ msgstr "マニュアル・ページで現在のタグを検索"
 #. i18n: Please don't translate "Devhelp".
 #: ../devhelp/devhelp/dh-assistant.c:74
 msgid "Devhelp — Assistant"
-msgstr ""
+msgstr "Devhelp アシスタント"
 
 #: ../devhelp/devhelp/dh-assistant-view.c:336
-#, fuzzy
 msgid "Book:"
-msgstr "書籍"
+msgstr "書籍:"
 
 #. i18n: a documentation book
 #: ../devhelp/devhelp/dh-link.c:255 ../geanylatex/src/geanylatex.c:1760
-#, fuzzy
 msgid "Book"
 msgstr "書籍"
 
 #. i18n: a "page" in a documentation book
 #: ../devhelp/devhelp/dh-link.c:258
-#, fuzzy
 msgid "Page"
 msgstr "頁"
 
@@ -655,20 +649,19 @@ msgstr "頁"
 #. * function, macro, struct, etc
 #: ../devhelp/devhelp/dh-link.c:262
 msgid "Keyword"
-msgstr ""
+msgstr "キーワード"
 
 #. i18n: in the programming language context, if you don't
 #. * have an ESTABLISHED term for it, leave it
 #. * untranslated.
 #: ../devhelp/devhelp/dh-link.c:272
 msgid "Struct"
-msgstr ""
+msgstr "構造体"
 
 #. i18n: in the programming language context, if you don't
 #. * have an ESTABLISHED term for it, leave it
 #. * untranslated.
 #: ../devhelp/devhelp/dh-link.c:277
-#, fuzzy
 msgid "Macro"
 msgstr "マクロ"
 
@@ -677,24 +670,25 @@ msgstr "マクロ"
 #. * untranslated.
 #: ../devhelp/devhelp/dh-link.c:282
 msgid "Enum"
-msgstr ""
+msgstr "列挙型"
 
 #: ../devhelp/devhelp/dh-parser.c:91 ../devhelp/devhelp/dh-parser.c:185
 #: ../devhelp/devhelp/dh-parser.c:249 ../devhelp/devhelp/dh-parser.c:259
 #, c-format
 msgid "Expected '%s', got '%s' at line %d, column %d"
-msgstr ""
+msgstr "'%s'が必要, '%s' には 行 %d, 列 %d"
 
 #: ../devhelp/devhelp/dh-parser.c:108
 #, c-format
 msgid "Invalid namespace '%s' at line %d, column %d"
-msgstr ""
+msgstr "無効な名前空間 '%s' 行 %d, 列 %d"
 
 #: ../devhelp/devhelp/dh-parser.c:136
 #, c-format
 msgid ""
 "\"title\", \"name\" and \"link\" elements are required at line %d, column %d"
 msgstr ""
+"\"title\", \"name\", \"link\" 要素が必要 行 %d, 列 %d"
 
 #: ../devhelp/devhelp/dh-parser.c:204
 #, c-format
@@ -702,75 +696,76 @@ msgid ""
 "\"name\" and \"link\" elements are required inside <sub> on line %d, column "
 "%d"
 msgstr ""
+"\"name\", \"link\" 要素が <sub> の中に必要 行 %d, 列 %d"
 
 #: ../devhelp/devhelp/dh-parser.c:284
 #, c-format
 msgid ""
 "\"name\" and \"link\" elements are required inside '%s' on line %d, column %d"
 msgstr ""
+"\"name\", \"link\" 要素が '%s' の中に必要 行 %d, 列 %d"
 
 #: ../devhelp/devhelp/dh-parser.c:297
 #, c-format
 msgid "\"type\" element is required inside <keyword> on line %d, column %d"
-msgstr ""
+msgstr "\"type\" 要素が <keyword> の中に必要 行 %d, 列 %d"
 
 #: ../devhelp/devhelp/dh-parser.c:500
 #, c-format
 msgid "Cannot uncompress book '%s': %s"
-msgstr ""
+msgstr "書籍 '%s'を展開できません: %s"
 
 #: ../devhelp/devhelp/dh-search.c:498
 msgid "All books"
-msgstr ""
+msgstr "すべての書籍"
 
 #: ../devhelp/devhelp/dh-search.c:620
-#, fuzzy
 msgid "Search in:"
 msgstr "検索範囲:"
 
 #: ../devhelp/devhelp/dh-window.c:98
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 #: ../devhelp/devhelp/dh-window.c:99
 msgid "75%"
-msgstr ""
+msgstr "75%"
 
 #: ../devhelp/devhelp/dh-window.c:100
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 #: ../devhelp/devhelp/dh-window.c:101
 msgid "125%"
-msgstr ""
+msgstr "125%"
 
 #: ../devhelp/devhelp/dh-window.c:102
 msgid "150%"
-msgstr ""
+msgstr "150%"
 
 #: ../devhelp/devhelp/dh-window.c:103
 msgid "175%"
-msgstr ""
+msgstr "175%"
 
 #: ../devhelp/devhelp/dh-window.c:104
 msgid "200%"
-msgstr ""
+msgstr "200%"
 
 #: ../devhelp/devhelp/dh-window.c:105
 msgid "300%"
-msgstr ""
+msgstr "300%"
 
 #: ../devhelp/devhelp/dh-window.c:106
 msgid "400%"
-msgstr ""
+msgstr "400%"
 
 #: ../devhelp/devhelp/dh-window.c:722
 msgid "translator_credits"
-msgstr ""
+msgstr "translator_credits"
 
 #: ../devhelp/devhelp/dh-window.c:729
 msgid "A developers' help browser for GNOME"
-msgstr ""
+msgstr "GNOMEの開発者向けヘルプブラウザ"
 
 #: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2010
 msgid "_File"
@@ -778,109 +773,98 @@ msgstr "ファイル(_F)"
 
 #: ../devhelp/devhelp/dh-window.c:760 ../geanymacro/src/geanymacro.c:1815
 #: ../geanymacro/src/geanymacro.c:2112
-#, fuzzy
 msgid "_Edit"
-msgstr "編集者"
+msgstr "編集(_E)"
 
 #: ../devhelp/devhelp/dh-window.c:761
 msgid "_View"
-msgstr ""
+msgstr "表示(_V)"
 
 #: ../devhelp/devhelp/dh-window.c:762
 msgid "_Go"
-msgstr ""
+msgstr "移動(_G)"
 
 #: ../devhelp/devhelp/dh-window.c:763
 msgid "_Help"
-msgstr ""
+msgstr "ヘルプ(_H)"
 
 #. File menu
 #: ../devhelp/devhelp/dh-window.c:766
-#, fuzzy
 msgid "_New Window"
-msgstr "ウィンドウ"
+msgstr "新しいウィンドウ(_N)"
 
 #: ../devhelp/devhelp/dh-window.c:768
 msgid "New _Tab"
-msgstr ""
+msgstr "新しいタブ(_T)"
 
 #: ../devhelp/devhelp/dh-window.c:770
 msgid "_Print…"
-msgstr ""
+msgstr "印刷...(_P)"
 
 #: ../devhelp/devhelp/dh-window.c:782 ../devhelp/devhelp/eggfindbar.c:342
-#, fuzzy
 msgid "Find Next"
-msgstr "ファイルを検索"
+msgstr "次を検索"
 
 #: ../devhelp/devhelp/dh-window.c:784 ../devhelp/devhelp/eggfindbar.c:329
-#, fuzzy
 msgid "Find Previous"
-msgstr "プロジェクトファイルを検索"
+msgstr "前を検索"
 
 #: ../devhelp/devhelp/dh-window.c:791
-#, fuzzy
 msgid "Go to the previous page"
-msgstr "前の画面に戻る"
+msgstr "前の頁に移動"
 
 #: ../devhelp/devhelp/dh-window.c:794
-#, fuzzy
 msgid "Go to the next page"
-msgstr "次の行まで実行。"
+msgstr "次の頁に移動"
 
 #: ../devhelp/devhelp/dh-window.c:797
-#, fuzzy
 msgid "_Contents Tab"
-msgstr "内容"
+msgstr "コンテンツタブ(_C)"
 
 #: ../devhelp/devhelp/dh-window.c:800
-#, fuzzy
 msgid "_Search Tab"
-msgstr "検索"
+msgstr "検索タブ(_S)"
 
 #. View menu
 #: ../devhelp/devhelp/dh-window.c:804
 msgid "_Larger Text"
-msgstr ""
+msgstr "文字を大きく(_L)"
 
 #: ../devhelp/devhelp/dh-window.c:805
 msgid "Increase the text size"
-msgstr ""
+msgstr "文字サイズを拡大"
 
 #: ../devhelp/devhelp/dh-window.c:807
 msgid "S_maller Text"
-msgstr ""
+msgstr "文字を小さく(_S)"
 
 #: ../devhelp/devhelp/dh-window.c:808
 msgid "Decrease the text size"
-msgstr ""
+msgstr "文字サイズを縮小"
 
 #: ../devhelp/devhelp/dh-window.c:810
-#, fuzzy
 msgid "_Normal Size"
-msgstr "通常サイズ"
+msgstr "通常サイズ(_N)"
 
 #: ../devhelp/devhelp/dh-window.c:811
 msgid "Use the normal text size"
-msgstr ""
+msgstr "通常の文字サイズを使用"
 
 #: ../devhelp/devhelp/dh-window.c:820
 msgid "Leave fullscreen mode"
-msgstr ""
+msgstr "フルスクリーンモードを解除"
 
 #: ../devhelp/devhelp/dh-window.c:827
 msgid "Display in full screen"
-msgstr ""
+msgstr "フルスクリーンで表示"
 
 #. Translators: This refers to text size
 #: ../devhelp/devhelp/dh-window.c:947
-#, fuzzy
 msgid "Larger"
 msgstr "大"
 
 #. Translators: This refers to text size
 #: ../devhelp/devhelp/dh-window.c:950
-#, fuzzy
 msgid "Smaller"
 msgstr "小"
 
@@ -888,45 +872,40 @@ msgstr "小"
 #. * "Devhelp", it's a name, not a
 #. * generic word.
 #: ../devhelp/devhelp/dh-window.c:1095
-#, fuzzy
 msgid "About Devhelp"
-msgstr "Devhelp"
+msgstr "Devhelpについて"
 
 #: ../devhelp/devhelp/dh-window.c:1100
-#, fuzzy
 msgid "Preferences…"
-msgstr "設定"
+msgstr "設定..."
 
 #: ../devhelp/devhelp/dh-window.c:1330
 msgid "Error opening the requested link."
-msgstr ""
+msgstr "要求したリンクのオープンエラー"
 
 #: ../devhelp/devhelp/dh-window.c:1649 ../devhelp/devhelp/dh-window.c:1891
-#, fuzzy
 msgid "Empty Page"
-msgstr "空ノード"
+msgstr "空の頁"
 
 #: ../devhelp/devhelp/eggfindbar.c:320
 msgid "Find:"
-msgstr ""
+msgstr "検索:"
 
 #: ../devhelp/devhelp/eggfindbar.c:333 ../devhelp/devhelp/eggfindbar.c:336
 msgid "Find previous occurrence of the search string"
-msgstr ""
+msgstr "前に出現した検索文字列を検索"
 
 #: ../devhelp/devhelp/eggfindbar.c:346 ../devhelp/devhelp/eggfindbar.c:349
 msgid "Find next occurrence of the search string"
-msgstr ""
+msgstr "次に出現する検索文字列を検索"
 
 #: ../devhelp/devhelp/eggfindbar.c:358
-#, fuzzy
 msgid "C_ase Sensitive"
 msgstr "大文字小文字を区別(_A)"
 
 #: ../devhelp/devhelp/eggfindbar.c:362 ../devhelp/devhelp/eggfindbar.c:365
-#, fuzzy
 msgid "Toggle case sensitive search"
-msgstr "サイドバー検索タブを切り替え"
+msgstr "大文字小文字の区別を切り替え"
 
 #. All plugins must set name, description, version and author.
 #: ../geanydoc/src/geanydoc.c:50 ../geanydoc/src/geanydoc.c:347
@@ -2068,16 +2047,19 @@ msgid "Could not determine where to insert package: %s"
 msgstr "パッケージをどこに挿入したらよいか分かりません: %s"
 
 #: ../geanylatex/src/bibtexlabels.c:27
+#, fuzzy
 msgid "Article (@Article)"
-msgstr ""
+msgstr "記事 (@Article)"
 
 #: ../geanylatex/src/bibtexlabels.c:28
+#, fuzzy
 msgid "Book (@Book)"
-msgstr ""
+msgstr "書籍 (@Book)"
 
 #: ../geanylatex/src/bibtexlabels.c:29
+#, fuzzy
 msgid "Booklet (@Booklet)"
-msgstr ""
+msgstr "小冊子 (@Booklet)"
 
 #: ../geanylatex/src/bibtexlabels.c:30
 msgid "Conference (@Conference)"
@@ -2096,16 +2078,18 @@ msgid "Inproceedings (@Inproceedings)"
 msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:34
+#, fuzzy
 msgid "Manual (@Manual)"
-msgstr ""
+msgstr "マニュアル (@Manual)"
 
 #: ../geanylatex/src/bibtexlabels.c:35
 msgid "Mastersthesis (@Mastersthesis)"
 msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:36
+#, fuzzy
 msgid "Misc (@Misc)"
-msgstr ""
+msgstr "その他 (@Misc)"
 
 #: ../geanylatex/src/bibtexlabels.c:37
 msgid "PhdThesis (@PhdThesis)"
@@ -2261,7 +2245,7 @@ msgstr "著者の名前, 複数あるときは 'and' で区切ります"
 #: ../geanylatex/src/bibtexlabels.c:106
 #, fuzzy
 msgid "Title of the book, if only part of it is being cited"
-msgstr "Title of the book, if only part of it is being cited"
+msgstr "書籍のタイトル, その一部のみ引用されている場合"
 
 #: ../geanylatex/src/bibtexlabels.c:107
 #, fuzzy
@@ -2294,14 +2278,12 @@ msgid "Publishing method if the method is nonstandard"
 msgstr "出力方法を指定(標準でない方法のとき)"
 
 #: ../geanylatex/src/bibtexlabels.c:113
-#, fuzzy
 msgid "Institution that was involved in the publishing"
-msgstr "Institution that was involved in the publishing"
+msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:114
-#, fuzzy
 msgid "Journal or magazine in which the work was published"
-msgstr "Journal or magazine in which the work was published"
+msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:115
 #, fuzzy
@@ -2309,13 +2291,11 @@ msgid ""
 "Hidden field used for specifying or overriding the alphabetical order of "
 "entries"
 msgstr ""
-"Hidden field used for specifying or overriding the alphabetical order of "
-"entries"
+"項目のアルファベット順を指定したり変更するのに使用する隠し項目"
 
 #: ../geanylatex/src/bibtexlabels.c:116
-#, fuzzy
 msgid "Month of publication or creation if unpublished"
-msgstr "Month of publication or creation if unpublished"
+msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:117
 #, fuzzy
@@ -2330,37 +2310,33 @@ msgstr "学会誌、雑誌、技術レポートの号数"
 #: ../geanylatex/src/bibtexlabels.c:119
 #, fuzzy
 msgid "Sponsor of the conference"
-msgstr "Sponsor of the conference"
+msgstr "会議のスポンサー"
 
 #: ../geanylatex/src/bibtexlabels.c:120
 #, fuzzy
 msgid "Page numbers separated by commas or double-hyphens"
-msgstr "Page numbers separated by commas or double-hyphens"
+msgstr "カンマまたは二重ハイフンで区切られた頁番号"
 
 #: ../geanylatex/src/bibtexlabels.c:121
 #, fuzzy
 msgid "Name of publisher"
-msgstr "Name of publisher"
+msgstr "出版社の名前"
 
 #: ../geanylatex/src/bibtexlabels.c:122
-#, fuzzy
 msgid "School where thesis was written"
-msgstr "School where thesis was written"
+msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:123
-#, fuzzy
 msgid "Series of books in which the book was published"
-msgstr "Series of books in which the book was published"
+msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:124
-#, fuzzy
 msgid "Title of the work"
-msgstr "Title of the work"
+msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:125
-#, fuzzy
 msgid "Type of technical report"
-msgstr "Type of technical report"
+msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:126
 #, fuzzy
@@ -2446,8 +2422,9 @@ msgid "Lower selection when formating smallcaps (\\textsc{})"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:310
+#, fuzzy
 msgid "Don't care about this inside plugin"
-msgstr ""
+msgstr "このプラグインを無視"
 
 #: ../geanylatex/src/geanylatex.c:312
 #, fuzzy
@@ -2455,8 +2432,9 @@ msgid "Always perform autocompletion on LaTeX"
 msgstr "LaTeXで自動補完を常に実行"
 
 #: ../geanylatex/src/geanylatex.c:325
+#, fuzzy
 msgid "Modus of autocompletion"
-msgstr ""
+msgstr "自動補完モード"
 
 #: ../geanylatex/src/geanylatex.c:809
 #, fuzzy
@@ -2501,7 +2479,7 @@ msgstr "ページ参照(_P)"
 #: ../geanylatex/src/geanylatex.c:926
 #, fuzzy
 msgid "_Add both"
-msgstr "ブレークポイントを追加"
+msgstr "両方追加(_A)"
 
 #: ../geanylatex/src/geanylatex.c:1123
 #, fuzzy
@@ -2855,7 +2833,6 @@ msgstr ""
 
 #. Build up menu for menubar
 #: ../geanylatex/src/geanylatex.c:2107
-#, fuzzy
 msgid "_LaTeX"
 msgstr "_LaTeX"
 
@@ -3103,62 +3080,50 @@ msgid "Huge"
 msgstr "特大"
 
 #: ../geanylatex/src/latexencodings.c:37
-#, fuzzy
 msgid "UTF-8"
 msgstr "UTF-8"
 
 #: ../geanylatex/src/latexencodings.c:38
-#, fuzzy
 msgid "US-ASCII"
 msgstr "US-ASCII"
 
 #: ../geanylatex/src/latexencodings.c:39
-#, fuzzy
 msgid "ISO-8859-1 (Latin-1)"
 msgstr "ISO-8859-1 (Latin-1)"
 
 #: ../geanylatex/src/latexencodings.c:41
-#, fuzzy
 msgid "ISO-8859-2 (Latin-2)"
 msgstr "ISO-8859-2 (Latin-2)"
 
 #: ../geanylatex/src/latexencodings.c:43
-#, fuzzy
 msgid "ISO-8859-3 (Latin-3)"
 msgstr "ISO-8859-3 (Latin-3)"
 
 #: ../geanylatex/src/latexencodings.c:45
-#, fuzzy
 msgid "ISO-8859-4 (Latin-4)"
 msgstr "ISO-8859-4 (Latin-4)"
 
 #: ../geanylatex/src/latexencodings.c:47
-#, fuzzy
 msgid "ISO-8859-5 (Latin-5)"
 msgstr "ISO-8859-5 (Latin-5)"
 
 #: ../geanylatex/src/latexencodings.c:49
-#, fuzzy
 msgid "ISO-8859-9 (Latin-9)"
 msgstr "ISO-8859-9 (Latin-9)"
 
 #: ../geanylatex/src/latexencodings.c:51
-#, fuzzy
 msgid "ISO-8859-10 (Latin-10)"
 msgstr "ISO-8859-10 (Latin-10)"
 
 #: ../geanylatex/src/latexencodings.c:53
-#, fuzzy
 msgid "IBM 850 code page"
 msgstr "IBM 850 コードページ"
 
 #: ../geanylatex/src/latexencodings.c:55
-#, fuzzy
 msgid "IBM 852 code page"
 msgstr "IBM 852 コードページ"
 
 #: ../geanylatex/src/latexencodings.c:57
-#, fuzzy
 msgid "Don't set any encoding"
 msgstr "コードページなし"
 
@@ -3477,373 +3442,341 @@ msgstr ""
 "ウィジェット \"%s\" にシグナル名 \"%s\"がありません\n"
 
 #: ../geanymacro/src/geanymacro.c:55
-#, fuzzy
 msgid "Cut to Clipboard"
-msgstr "完全パスをクリップボードにコピー"
+msgstr "クリップボードに切り取り"
 
 #: ../geanymacro/src/geanymacro.c:56
-#, fuzzy
 msgid "Copy to Clipboard"
-msgstr "完全パスをクリップボードにコピー"
+msgstr "クリップボードにコピー"
 
 #: ../geanymacro/src/geanymacro.c:57
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "クリップボードから貼り付け"
 
 #: ../geanymacro/src/geanymacro.c:58
 msgid "Cut current line to Clipboard"
-msgstr ""
+msgstr "現在の行をクリップボードに切り取り"
 
 #: ../geanymacro/src/geanymacro.c:59
-#, fuzzy
 msgid "Copy current line to Clipboard"
-msgstr "完全パスをクリップボードにコピー"
+msgstr "現在の行をクリップボードにコピー"
 
 #: ../geanymacro/src/geanymacro.c:61
 msgid "Delete character to the left"
-msgstr ""
+msgstr "左の文字を削除"
 
 #: ../geanymacro/src/geanymacro.c:62
 msgid "Delete character to the right"
-msgstr ""
+msgstr "右の文字を削除"
 
 #: ../geanymacro/src/geanymacro.c:63
 msgid "Delete character to the left (but not newline)"
-msgstr ""
+msgstr "左の文字を削除(改行は削除しない)"
 
 #: ../geanymacro/src/geanymacro.c:64
 msgid "Delete up to start of word to the Left"
-msgstr ""
+msgstr "左の単語の始まりまで削除"
 
 #: ../geanymacro/src/geanymacro.c:65
 msgid "Delete up to start of word to the Right"
-msgstr ""
+msgstr "右の単語の始まりまで削除"
 
 #: ../geanymacro/src/geanymacro.c:66
 msgid "Delete up to end of word to the Right"
-msgstr ""
+msgstr "右の単語の終わりまで削除"
 
 #: ../geanymacro/src/geanymacro.c:67
-#, fuzzy
 msgid "Delete to begining of line"
-msgstr "行番号指定選択"
+msgstr "削除開始行"
 
 #: ../geanymacro/src/geanymacro.c:68
-#, fuzzy
 msgid "Delete to end of line"
-msgstr "行番号指定選択"
+msgstr "削除終了行"
 
 #: ../geanymacro/src/geanymacro.c:69
-#, fuzzy
 msgid "Delete current line"
-msgstr "行番号指定選択"
+msgstr "現在の行を削除"
 
 #: ../geanymacro/src/geanymacro.c:70
 msgid "Backwards Tab (deletes tab if nothing after it)"
-msgstr ""
+msgstr "後方タブ(後ろに何もないときはタブを削除)"
 
 #: ../geanymacro/src/geanymacro.c:72
 msgid "Scroll Display down a line"
-msgstr ""
+msgstr "1行下スクロール"
 
 #: ../geanymacro/src/geanymacro.c:73
 msgid "Scroll Display up a line"
-msgstr ""
+msgstr "1行上スクロール"
 
 #: ../geanymacro/src/geanymacro.c:74
-#, fuzzy
 msgid "Zoom view in"
 msgstr "拡大表示"
 
 #: ../geanymacro/src/geanymacro.c:75
-#, fuzzy
 msgid "Zoom view out"
 msgstr "縮小表示"
 
 #: ../geanymacro/src/geanymacro.c:77
 msgid "Move Cursor Down"
-msgstr ""
+msgstr "カーソルを下に移動"
 
 #: ../geanymacro/src/geanymacro.c:78
 msgid "Move Cursor Up"
-msgstr ""
+msgstr "カーソルを上に移動"
 
 #: ../geanymacro/src/geanymacro.c:79
 msgid "Move Cursor Left"
-msgstr ""
+msgstr "カーソルを左に移動"
 
 #: ../geanymacro/src/geanymacro.c:80
 msgid "Move Cursor Right"
-msgstr ""
+msgstr "カーソルを右に移動"
 
 #: ../geanymacro/src/geanymacro.c:81
 msgid "Move Cursor to start of Word to the Left"
-msgstr ""
+msgstr "カーソルを左の単語の始まりに移動"
 
 #: ../geanymacro/src/geanymacro.c:82
 msgid "Move Cursor to start of Word to the Right"
-msgstr ""
+msgstr "カーソルを右の単語の始まりに移動"
 
 #: ../geanymacro/src/geanymacro.c:83
 msgid "Move Cursor to start of Part of Word to the Left"
-msgstr ""
+msgstr "カーソルを左の単語の部分の始まりに移動"
 
 #: ../geanymacro/src/geanymacro.c:84
 msgid "Move Cursor to start of Part of Word to the Right"
-msgstr ""
+msgstr "カーソルを右の単語の部分の始まりに移動"
 
 #: ../geanymacro/src/geanymacro.c:85
 msgid "Move Cursor to start of line"
-msgstr ""
+msgstr "カーソルを行の始まりに移動"
 
 #: ../geanymacro/src/geanymacro.c:86
 msgid "Move Cursor to end of line"
-msgstr ""
+msgstr "カーソルを行の終わりに移動"
 
 #: ../geanymacro/src/geanymacro.c:87
 msgid "Move Cursor to 1st line of Document"
-msgstr ""
+msgstr "カーソルを文書の先頭の行に移動"
 
 #: ../geanymacro/src/geanymacro.c:88
-#, fuzzy
 msgid "Move Cursor to last line of document"
-msgstr "文書にタグはありません"
+msgstr "カーソルを文書の最後の行に移動"
 
 #: ../geanymacro/src/geanymacro.c:89
 msgid "Move Cursor up one Page"
-msgstr ""
+msgstr "カーソルを１頁上に移動"
 
 #: ../geanymacro/src/geanymacro.c:90
 msgid "Move Cursor down one Page"
-msgstr ""
+msgstr "カーソルを１頁下に移動"
 
 #: ../geanymacro/src/geanymacro.c:91
 msgid "Move Cursor to fist visible character"
-msgstr ""
+msgstr "カーソルを最初に表示されている文字に移動"
 
 #: ../geanymacro/src/geanymacro.c:92
 msgid "Move Cursor to last visible character"
-msgstr ""
+msgstr "カーソルを最後に表示されている文字に移動"
 
 #: ../geanymacro/src/geanymacro.c:93
 msgid ""
 "Move Cursor to 1st non-whitespace character of line, or 1st character of "
 "line if already at 1st non-whitespace character"
 msgstr ""
+"カーソルを行の最初の空白でない文字に移動, カーソルが既に最初の空白でない文字"
+"にあるときは行の先頭に移動"
 
 #: ../geanymacro/src/geanymacro.c:95
 msgid "Move Cursor to begining of next paragraph"
-msgstr ""
+msgstr "カーソルを次の段落の始まりに移動"
 
 #: ../geanymacro/src/geanymacro.c:96
 msgid "Move Cursor up to beginning of current/previous paragraph"
-msgstr ""
+msgstr "カーソルを現在/前の段落の始まりに移動"
 
 #: ../geanymacro/src/geanymacro.c:97
 msgid "Move Cursor to end of Word to the Left"
-msgstr ""
+msgstr "カーソルを左の単語の終わりに移動"
 
 #: ../geanymacro/src/geanymacro.c:98
 msgid "Move Cursor to end of Word to the Right"
-msgstr ""
+msgstr "カーソルを右の単語の終わりに移動"
 
 #: ../geanymacro/src/geanymacro.c:100
-#, fuzzy
 msgid "Extend Selection down a line"
-msgstr "選択範囲をテーブルに変換"
+msgstr "選択範囲を１行下に拡大"
 
 #: ../geanymacro/src/geanymacro.c:101
-#, fuzzy
 msgid "Extend Selection up a line"
-msgstr "選択範囲をテーブルに変換"
+msgstr "選択範囲を１行上に拡大"
 
 #: ../geanymacro/src/geanymacro.c:102
-#, fuzzy
 msgid "Extend Selection Left a line"
-msgstr "選択範囲をテーブルに変換"
+msgstr "選択範囲を１行左に拡大"
 
 #: ../geanymacro/src/geanymacro.c:103
-#, fuzzy
 msgid "Extend Selection Right a line"
-msgstr "右寄せ "
+msgstr "選択範囲を１行右に拡大"
 
 #: ../geanymacro/src/geanymacro.c:104
-#, fuzzy
 msgid "Extend Selection to start of Word to the Left"
-msgstr "選択範囲をテーブルに変換"
+msgstr "選択範囲を左の単語の始まりまで拡大"
 
 #: ../geanymacro/src/geanymacro.c:105
-#, fuzzy
 msgid "Extend Selection to start of Word to the Right"
-msgstr "選択範囲をテーブルに変換"
+msgstr "選択範囲を右の単語の始まりまで拡大"
 
 #: ../geanymacro/src/geanymacro.c:106
-#, fuzzy
 msgid "Extend Selection to start of Part of Word to the Left"
-msgstr "選択範囲をテーブルに変換"
+msgstr "選択範囲を左の単語の部分の始まりまで拡大"
 
 #: ../geanymacro/src/geanymacro.c:107
-#, fuzzy
 msgid "Extend Selection to start of Part of Word to the Right"
-msgstr "選択範囲をテーブルに変換"
+msgstr "選択範囲を右の単語の部分の始まりまで拡大"
 
 #: ../geanymacro/src/geanymacro.c:108
-#, fuzzy
 msgid "Extend Selection to start of line"
-msgstr "選択範囲をテーブルに変換"
+msgstr "選択範囲を行の始まりまで拡大"
 
 #: ../geanymacro/src/geanymacro.c:109
-#, fuzzy
 msgid "Extend Selection to end of line"
-msgstr "選択範囲をテーブルに変換"
+msgstr "選択範囲を行の終わりまで拡大"
 
 #: ../geanymacro/src/geanymacro.c:110
-#, fuzzy
 msgid "Extend Selection to start of document"
-msgstr "選択範囲をテーブルに変換"
+msgstr "選択範囲を文書の始まりまで拡大"
 
 #: ../geanymacro/src/geanymacro.c:111
-#, fuzzy
 msgid "Extend Selection to end of document"
-msgstr "文書にタグはありません"
+msgstr "選択範囲を文書の終わりまで拡大"
 
 #: ../geanymacro/src/geanymacro.c:112
-#, fuzzy
 msgid "Extend Selection up one Page"
-msgstr "選択範囲をテーブルに変換"
+msgstr "選択範囲を１頁上に拡大"
 
 #: ../geanymacro/src/geanymacro.c:113
-#, fuzzy
 msgid "Extend Selection down one Page"
-msgstr "選択範囲をテーブルに変換"
+msgstr "選択範囲を１頁下に拡大"
 
 #: ../geanymacro/src/geanymacro.c:114
-#, fuzzy
 msgid "Extend Selection to fist visible character"
-msgstr "選択範囲をテーブルに変換"
+msgstr "選択範囲を最初に表示されている文字まで拡大"
 
 #: ../geanymacro/src/geanymacro.c:115
-#, fuzzy
 msgid "Extend Selection to last visible character"
-msgstr "選択範囲をテーブルに変換"
+msgstr "選択範囲を最後に表示されている文字まで拡大"
 
 #: ../geanymacro/src/geanymacro.c:116
 msgid ""
 "Extend Selection to 1st non-whitespace character of line, or 1st character "
 "of line if already at 1st non-whitespace character"
 msgstr ""
+"選択範囲を行の最初の空白でない文字まで拡大, カーソルが既に最初の空白でない文字"
+"にあるときは行の先頭まで拡大"
 
 #: ../geanymacro/src/geanymacro.c:118
-#, fuzzy
 msgid "Extend Selection to begining of next paragraph"
-msgstr "選択範囲をテーブルに変換"
+msgstr "選択範囲を次の段落の始まりまで拡大"
 
 #: ../geanymacro/src/geanymacro.c:119
 msgid "Extend Selection up to beginning of current/previous paragraph"
-msgstr ""
+msgstr "選択範囲を現在/前の段落の始まりまで拡大"
 
 #: ../geanymacro/src/geanymacro.c:120
-#, fuzzy
 msgid "Extend Selection to end of Word to the Left"
-msgstr "文書にタグはありません"
+msgstr "選択範囲を左の単語の終わりまで拡大"
 
 #: ../geanymacro/src/geanymacro.c:121
-#, fuzzy
 msgid "Extend Selection to end of Word to the Right"
-msgstr "文書にタグはありません"
+msgstr "選択範囲を右の単語の終わりまで拡大"
 
 #: ../geanymacro/src/geanymacro.c:123
-#, fuzzy
 msgid "Extend Rectangular Selection down a line"
-msgstr "アンカーで矩形選択(_R)"
+msgstr "矩形選択を１行下に拡大"
 
 #: ../geanymacro/src/geanymacro.c:124
-#, fuzzy
 msgid "Extend Rectangular Selection up a line"
-msgstr "右寄せ "
+msgstr "矩形選択を１行上に拡大"
 
 #: ../geanymacro/src/geanymacro.c:125
-#, fuzzy
 msgid "Extend Rectangular Selection Left a line"
-msgstr "右寄せ "
+msgstr "矩形選択を１行左に拡大"
 
 #: ../geanymacro/src/geanymacro.c:126
-#, fuzzy
 msgid "Extend Rectangular Selection Right a line"
-msgstr "右寄せ "
+msgstr "矩形選択を１行右に拡大"
 
 #: ../geanymacro/src/geanymacro.c:127
-#, fuzzy
 msgid "Extend Rectangular Selection to start of line"
-msgstr "選択範囲をテーブルに変換"
+msgstr "矩形選択を行の始まりまで拡大"
 
 #: ../geanymacro/src/geanymacro.c:128
-#, fuzzy
 msgid "Extend Rectangular Selection to end of line"
-msgstr "アンカーで矩形選択(_R)"
+msgstr "矩形選択を行の終わりまで拡大"
 
 #: ../geanymacro/src/geanymacro.c:129
-#, fuzzy
 msgid "Extend Rectangular Selection up one Page"
-msgstr "選択範囲をテーブルに変換"
+msgstr "矩形選択を１頁上に拡大"
 
 #: ../geanymacro/src/geanymacro.c:130
-#, fuzzy
 msgid "Extend Rectangular Selection down one Page"
-msgstr "アンカーで矩形選択(_R)"
+msgstr "矩形選択を１頁下に拡大"
 
 #: ../geanymacro/src/geanymacro.c:131
 msgid ""
 "Extend Rectangular Selection to 1st non-whitespace character of line, or 1st "
 "character of line if already at 1st non-whitespace character"
 msgstr ""
+"矩形選択を行の最初の空白でない文字まで拡大, カーソルが既に最初の空白でない文字"
+"にあるときは行の先頭まで拡大"
 
 #: ../geanymacro/src/geanymacro.c:134
-#, fuzzy
 msgid "Cancel Selection"
-msgstr "特殊な選択"
+msgstr "選択を解除"
 
 #: ../geanymacro/src/geanymacro.c:136
 msgid "Toggle Insert/Overwrite mode"
-msgstr ""
+msgstr "挿入/上書きモードを切替"
 
 #: ../geanymacro/src/geanymacro.c:137 ../pretty-printer/src/ConfigUI.c:227
 msgid "Tab"
 msgstr "タブ"
 
 #: ../geanymacro/src/geanymacro.c:138
-#, fuzzy
 msgid "Newline"
-msgstr "下線"
+msgstr "改行"
 
 #: ../geanymacro/src/geanymacro.c:140 ../geanymacro/src/geanymacro.c:1625
 #, c-format
 msgid "Insert/replace with \"\""
-msgstr ""
+msgstr "\"\" を挿入/置換"
 
 #: ../geanymacro/src/geanymacro.c:142
 msgid "Swap current line wih one above"
-msgstr ""
+msgstr "現在の行と上の行を交換"
 
 #: ../geanymacro/src/geanymacro.c:143
-#, fuzzy
 msgid "Change selected text to lowercase"
-msgstr "選択した文字を斜体に設定"
+msgstr "選択した文字を小文字に変換"
 
 #: ../geanymacro/src/geanymacro.c:144
-#, fuzzy
 msgid "Change selected text to uppercase"
-msgstr "選択した文字を太字に設定"
+msgstr "選択した文字を大文字に変換"
 
 #: ../geanymacro/src/geanymacro.c:146
 msgid "Insert duplicate of current line below"
-msgstr ""
+msgstr "現在の行を下にコピー"
 
 #: ../geanymacro/src/geanymacro.c:147
 msgid ""
 "Insert duplicate of selected text after selection. If nothing selected, "
 "duplicate line"
 msgstr ""
+"選択された文字列を下にコピー。"
+"選択されていなかったら、現在の行を下にコピー"
 
 #: ../geanymacro/src/geanymacro.c:181
 msgid "Macros"
@@ -3854,9 +3787,8 @@ msgid "Macros for Geany"
 msgstr "Geanyマクロ"
 
 #: ../geanymacro/src/geanymacro.c:369
-#, fuzzy
 msgid "No text in clipboard!"
-msgstr "完全パスをクリップボードにコピー"
+msgstr "クリップボードに文字がありません!"
 
 #: ../geanymacro/src/geanymacro.c:546
 #, c-format
@@ -3885,16 +3817,19 @@ msgid ""
 "This Plugin implements Macros in Geany.\n"
 "\n"
 msgstr ""
+"このプラグインは Geany にマクロを実装します.\n"
+"\n"
 
 #: ../geanymacro/src/geanymacro.c:856
 msgid "This plugin allows you to record and use your own macros. "
-msgstr ""
+msgstr "このプラグインはあなたの操作を記録し、マクロとして使用することができます. "
 
 #: ../geanymacro/src/geanymacro.c:857
 msgid ""
 "These are sequences of actions that can then be repeated with a single key "
 "combination. "
 msgstr ""
+"いくつかの操作を記録して、キーの組み合わせに割り当てて繰り返すことができます. "
 
 #: ../geanymacro/src/geanymacro.c:858
 msgid ""
@@ -3902,58 +3837,68 @@ msgid ""
 "characters, you could simply start recording, press End, Backspace, "
 "Backspace, down line and then stop recording. "
 msgstr ""
+"最後の２文字を削除したいテキストファイルがあるときは、"
+"マクロの記録を開始し、Endキー,BSキー,BSキーの順に押し、下の行に移動して"
+"マクロの記録を終了します. "
 
 #: ../geanymacro/src/geanymacro.c:860
 msgid ""
 "Then simply trigger the macro and it would automatically edit the line and "
 "move to the next. "
 msgstr ""
+"後はマクロを呼び出すだけで、行末の２文字を削除して次の行にカーソルが移動します. "
 
 #: ../geanymacro/src/geanymacro.c:861
 msgid ""
 "Select Record Macro from the Tools menu and you will be prompted with a "
 "dialog box. "
 msgstr ""
+"ツールメニューのマクロを記録コマンドを選択すると、ダイアログボックスが表示されます. "
 
 #: ../geanymacro/src/geanymacro.c:862
 msgid ""
 "You need to specify a key combination that isn't being used, and a name for "
 "the macro to help you identify it. "
 msgstr ""
+"未使用のキーの組み合わせを指定し, マクロの名前を入力してください. "
 
 #: ../geanymacro/src/geanymacro.c:864
 msgid "Then press Record. "
-msgstr ""
+msgstr "次に記録ボタンを押します."
 
 #: ../geanymacro/src/geanymacro.c:865
 msgid ""
 "What you do in the editor is then recorded until you select Stop Recording "
 "Macro from the Tools menu. "
 msgstr ""
+"ツールメニューのマクロの記録を停止コマンドを指定するまで、あなたが行った操作が"
+"マクロとして記録されます. "
 
 #: ../geanymacro/src/geanymacro.c:867
 msgid "Simply pressing the specified key combination will re-run the macro. "
-msgstr ""
+msgstr "先に指定したキーの組み合わせによってマクロを実行します. "
 
 #: ../geanymacro/src/geanymacro.c:868
 msgid "To edit the macros you have, select Edit Macro from the Tools menu. "
-msgstr ""
+msgstr "定義済みのマクロを編集するには、ツールメニューからマクロの編集を選びます. "
 
 #: ../geanymacro/src/geanymacro.c:869
 msgid "You can select a macro and delete it, or re-record it. "
-msgstr ""
+msgstr "マクロを選択して削除するか、再び操作を記録することができます. "
 
 #: ../geanymacro/src/geanymacro.c:870
 msgid ""
 "You can also click on a macro's name and change it, or the key combination "
 "and re-define that assuming that it's not already in use. "
 msgstr ""
+"マクロ名をクリックして名前を変更することや、キーの組み合わせを変更することも可能です. "
 
 #: ../geanymacro/src/geanymacro.c:872
 msgid ""
 "Selecting the edit option allows you to view all the individual elements "
 "that make up the macro. "
 msgstr ""
+"編集オプションを選択して、マクロを定義している個々の操作を確認できます. "
 
 #: ../geanymacro/src/geanymacro.c:874
 msgid ""
@@ -3962,6 +3907,9 @@ msgid ""
 "that replaces the selected text, or is inserted.\n"
 "\n"
 msgstr ""
+"個々の操作に別のコマンドを指定したり,操作の順序を変更したり、新しい操作を"
+"追加したり、操作を削除したりすることも可能です。選択した文字や挿入した文字を"
+"編集することも可能です。\n\n"
 
 #: ../geanymacro/src/geanymacro.c:878
 msgid ""
@@ -3969,6 +3917,8 @@ msgid ""
 "recorded, and won't be replayed when the macro is re-run.\n"
 "\n"
 msgstr ""
+"注意してほしいことは、UNDO REDO 操作は記録できないことです. "
+"マクロを実行するときに UNDO REDO 操作は動作しません.\n\n"
 
 #: ../geanymacro/src/geanymacro.c:881
 msgid ""
@@ -3976,10 +3926,13 @@ msgid ""
 "Manager under the Tools menu, selecting this plugin, and cliking "
 "Preferences. "
 msgstr ""
+"このプラグインの既定の動作を変更することも可能です.ツールメニューの"
+"プラグインマネージャを選択し,このプラグインを選択して、設定ボタンを"
+"クリックしてください. "
 
 #: ../geanymacro/src/geanymacro.c:883
 msgid "You can change:\n"
-msgstr ""
+msgstr "変更可能な項目:\n"
 
 #: ../geanymacro/src/geanymacro.c:884
 msgid ""
@@ -3987,6 +3940,8 @@ msgid ""
 "recorded macros and reload them for use the next time you open Geany, if not "
 "they will be lost when Geany is closed.\n"
 msgstr ""
+"Geanyを閉じるときにマクロを保存 - 選択すると、記録したマクロをファイルに保存し"
+"次回の起動時にマクロを読み込みます。選択しないとGeany終了時にマクロは破棄されます.\n"
 
 #: ../geanymacro/src/geanymacro.c:887
 msgid ""
@@ -3996,6 +3951,9 @@ msgid ""
 "otherwise it will simply erase any existing macros with the same name, or "
 "the same key trigger combination."
 msgstr ""
+"既存のマクロを置き換える前に確認する - 選択すると既存のマクロを上書きする前に"
+"確認メッセージが表示されます, 選択しないと同じ名前やキーの組み合わせでマクロ"
+"を記録すると以前のマクロは直ちに削除されます."
 
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:1057
@@ -4044,117 +4002,107 @@ msgstr ""
 #: ../geanymacro/src/geanymacro.c:1333
 #, c-format
 msgid "Search %s, looking for %s%s%s.%s%s%s%s%s"
-msgstr ""
+msgstr "%s を検索, %s%s%s を検索中.%s%s%s%s%s"
 
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:1388
-#, fuzzy
 msgid "Search Options:"
-msgstr "検索文字列:"
+msgstr "検索オプション:"
 
 #. create buttons
 #: ../geanymacro/src/geanymacro.c:1393 ../geanymacro/src/geanymacro.c:1536
 #: ../geanymacro/src/geanymacro.c:1819 ../geanymacro/src/geanymacro.c:2116
-#, fuzzy
 msgid "_Ok"
 msgstr "了解(_O)"
 
 #: ../geanymacro/src/geanymacro.c:1394 ../geanymacro/src/geanymacro.c:1537
 #: ../geanymacro/src/geanymacro.c:1820
-#, fuzzy
 msgid "_Cancel"
-msgstr "キャンセル"
+msgstr "キャンセル(_C)"
 
 #: ../geanymacro/src/geanymacro.c:1403
-#, fuzzy
 msgid "Search Forwards"
-msgstr "検索文字列:"
+msgstr "前方検索"
 
 #: ../geanymacro/src/geanymacro.c:1404
-#, fuzzy
 msgid "Search Backwards"
-msgstr "検索文字列:"
+msgstr "後方検索"
 
 #. create checkbox to check for search options
 #: ../geanymacro/src/geanymacro.c:1410
 msgid "Seach for contents of clipboard"
-msgstr ""
+msgstr "クリップボードの内容を検索"
 
 #: ../geanymacro/src/geanymacro.c:1424
-#, fuzzy
 msgid "Seach for:"
 msgstr "検索文字列:"
 
 #. create checkbox to check for search options
 #: ../geanymacro/src/geanymacro.c:1442
-#, fuzzy
 msgid "Seach is case sensitive"
-msgstr "大文字小文字を区別(_A)"
+msgstr "大文字小文字を区別して検索"
 
 #: ../geanymacro/src/geanymacro.c:1447
 msgid "Seach for whole word"
-msgstr ""
+msgstr "完全な単語を検索"
 
 #: ../geanymacro/src/geanymacro.c:1452
 msgid "Seach for start of word"
-msgstr ""
+msgstr "単語の部分を検索"
 
 #: ../geanymacro/src/geanymacro.c:1457
-#, fuzzy
 msgid "Seach text is regular expression"
-msgstr "無効な正規表現: %s"
+msgstr "検索文字列は正規表現です"
 
 #: ../geanymacro/src/geanymacro.c:1462
 msgid "Seach text is POSIX compatible"
-msgstr ""
+msgstr "検索文字列はPOSIX互換です"
 
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:1531
 msgid "Edit Insert/Replace Text"
-msgstr ""
+msgstr "挿入/置き換え文字列を編集"
 
 #: ../geanymacro/src/geanymacro.c:1544
-#, fuzzy
 msgid "Text:"
-msgstr "コンテキスト:"
+msgstr "文字列:"
 
 #: ../geanymacro/src/geanymacro.c:1571 ../geanymacro/src/geanymacro.c:1755
 #, c-format
 msgid "Insert/replace with \"%s\""
-msgstr ""
+msgstr "\"%s\"を挿入/で置き換え"
 
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:1731
-#, fuzzy, c-format
+#, c-format
 msgid "Edit: %s"
-msgstr "マクロを修正"
+msgstr "編集: %s"
 
 #. add column
 #: ../geanymacro/src/geanymacro.c:1794
 msgid "Event"
-msgstr ""
+msgstr "イベント"
 
 #. add buttons
 #: ../geanymacro/src/geanymacro.c:1809
 msgid "Move _Up"
-msgstr ""
+msgstr "上に移動(_U)"
 
 #: ../geanymacro/src/geanymacro.c:1811
 msgid "Move Do_wn"
-msgstr ""
+msgstr "下に移動(_W)"
 
 #: ../geanymacro/src/geanymacro.c:1813
 msgid "New _Above"
-msgstr ""
+msgstr "上に追加(_A)"
 
 #: ../geanymacro/src/geanymacro.c:1814
 msgid "New _Below"
-msgstr ""
+msgstr "下に追加(_B)"
 
 #: ../geanymacro/src/geanymacro.c:1817 ../geanymacro/src/geanymacro.c:2114
-#, fuzzy
 msgid "_Delete"
-msgstr "削除"
+msgstr "削除(_D)"
 
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:2059
@@ -4171,9 +4119,8 @@ msgstr "マクロ・キー"
 
 #. add buttons
 #: ../geanymacro/src/geanymacro.c:2110
-#, fuzzy
 msgid "_Re-Record"
-msgstr "再び記録"
+msgstr "再び記録(_R)"
 
 #. add record macro menu entry
 #: ../geanymacro/src/geanymacro.c:2260
@@ -4192,104 +4139,99 @@ msgstr "マクロを修正(_E)"
 
 #: ../geanyminiscript/src/gms_gui.c:253
 msgid "Load Mini-Script File"
-msgstr ""
+msgstr "ミニスクリプトファイルを読み込み"
 
 #: ../geanyminiscript/src/gms_gui.c:310
 msgid "Save Mini-Script File"
-msgstr ""
+msgstr "ミニスクリプトファイルを保存"
 
 #: ../geanyminiscript/src/gms_gui.c:418
 msgid "Mini-Script Filter"
-msgstr ""
+msgstr "ミニスクリプト フィルタ"
 
 #: ../geanyminiscript/src/gms_gui.c:446
 msgid "Clear the mini-script window"
-msgstr ""
+msgstr "ミニスクリプト ウィンドウをクリア"
 
 #: ../geanyminiscript/src/gms_gui.c:451
 msgid "Load a mini-script into this window"
-msgstr ""
+msgstr "ミニスクリプトをウィンドウに読み込み"
 
 #: ../geanyminiscript/src/gms_gui.c:456
 msgid "Save the mini-script into a file"
-msgstr ""
+msgstr "ミニスクリプトをファイルに保存"
 
 #: ../geanyminiscript/src/gms_gui.c:461
-#, fuzzy
 msgid "Display a information about the mini-script plugin"
-msgstr "選択した項目の詳細な情報を表示する"
+msgstr "ミニスクリプト プラグインの詳細な情報を表示する"
 
 #: ../geanyminiscript/src/gms_gui.c:469
 msgid "select the mini-script type"
-msgstr ""
+msgstr "ミニスクリプト種類を選択"
 
 #. Hbox : Radio bouttons for choosing the input:
 #. selection/current document/all documents of the current session
 #: ../geanyminiscript/src/gms_gui.c:500
 msgid "filter input"
-msgstr ""
+msgstr "入力フィルタ"
 
 #: ../geanyminiscript/src/gms_gui.c:502
 msgid "select the input of mini-script filter"
-msgstr ""
+msgstr "ミニスクリプト入力フィルタを選択"
 
 #: ../geanyminiscript/src/gms_gui.c:508
-#, fuzzy
 msgid "selection"
-msgstr "フォントを選択"
+msgstr "選択"
 
 #: ../geanyminiscript/src/gms_gui.c:509
-#, fuzzy
 msgid "document"
-msgstr "文書をメールとして送信(_M)"
+msgstr "文書"
 
 #: ../geanyminiscript/src/gms_gui.c:510
 msgid "session"
-msgstr ""
+msgstr "セッション"
 
 #. Hbox : Radio bouttons for choosing the output:
 #. current document/ or new document
 #: ../geanyminiscript/src/gms_gui.c:519
 msgid "filter output"
-msgstr ""
+msgstr "出力フィルタ"
 
 #: ../geanyminiscript/src/gms_gui.c:521
 msgid "select the output of mini-script filter"
-msgstr ""
+msgstr "ミニスクリプト出力フィルタを選択"
 
 #: ../geanyminiscript/src/gms_gui.c:527
 msgid "Current Doc."
-msgstr ""
+msgstr "現在の文書"
 
 #: ../geanyminiscript/src/gms_gui.c:528
-#, fuzzy
 msgid "New Doc."
-msgstr "新規プロジェクト"
+msgstr "新規文書"
 
 #: ../geanyminiscript/src/gms_gui.c:749
-#, fuzzy
 msgid "script configuration"
-msgstr "設定の読み込みに失敗: %s"
+msgstr "スクリプトの設定"
 
 #. All plugins must set name, description, version and author.
 #: ../geanyminiscript/src/gms.c:58
-#, fuzzy
 msgid "Mini Script"
-msgstr "Lua スクリプト"
+msgstr "ミニスクリプト"
 
 #: ../geanyminiscript/src/gms.c:58
 msgid ""
 "A tool to apply a script filter on a text selection or current document(s)"
 msgstr ""
+"選択文字列や現在の文書にスクリプト フィルタを適用するツール"
 
 #: ../geanyminiscript/src/gms.c:59
 msgid "Pascal BURLOT, a Geany user"
-msgstr ""
+msgstr "Pascal BURLOT, Geanyユーザ"
 
 #. Add an item to the Tools menu
 #: ../geanyminiscript/src/gms.c:278
 msgid "_Mini-Script"
-msgstr ""
+msgstr "ミニスクリプト(_M)"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:58
 msgid "Numbered Bookmarks for Geany"
@@ -4298,7 +4240,7 @@ msgstr "番号指定ブックマーク"
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:923
 #, c-format
 msgid "Unable to apply all markers to '%s' as all being used."
-msgstr ""
+msgstr "すべて使用中のためマーカを '%s'に適用できません."
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:925
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:969
@@ -4330,34 +4272,32 @@ msgid "Center view when goto bookmark"
 msgstr "ブックマークに移動したときに画面の中心にする"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1228
-#, fuzzy
 msgid "Move to start of line"
-msgstr "選択範囲をテーブルに変換"
+msgstr "行の始まりに移動"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1229
 msgid "Move to remembered position in line"
-msgstr ""
+msgstr "行の記録された位置に移動"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1230
 msgid "Move to position in current line"
-msgstr ""
+msgstr "現在の行の位置に移動"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1231
-#, fuzzy
 msgid "Move to End of line"
-msgstr "選択範囲をテーブルに変換"
+msgstr "行の終わりに移動"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1237
 msgid "Save file settings with program settings"
-msgstr ""
+msgstr "プログラムの設定を保存"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1238
 msgid "Save file settings to filename with suffix"
-msgstr ""
+msgstr "ファイルに設定を保存"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1243
 msgid "remember normal Bookmarks"
-msgstr ""
+msgstr "通常のブックマークを保存"
 
 #. create dialog box
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1263
@@ -4379,10 +4319,17 @@ msgid ""
 "shown, but you can have more than one bookmark per line. To move to a "
 "previously set bookmark, press Ctrl+a number from 0 to 9."
 msgstr ""
+"このプラグインは番号指定ブックマークを提供します.ブックマークを設定するには、"
+"CtrlキーとShiftキーを押しながら、0から9のキーを押してください. 行番号の隣に"
+"マーカが表示されます.マーカの行でCtrl+Shift+数字キーを押すと、そのマーカは"
+"削除されます.別の行でCtrl+Shift+数字キーを押すと、その行が新しいマーカ位置に"
+"なります.ある行にマーカが複数設定されているときは,最後に指定したマーカ番号が"
+"表示されますが,設定された他のマーカも有効です."
+"以前設定したマーカを移動するには、Ctrlキーと0から9のキーを押します."
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1391
 msgid "Unable to apply markers as all being used."
-msgstr ""
+msgstr "すべて使用中のためマーカを適用できません"
 
 #: ../geanypg/src/decrypt_cb.c:32 ../geanypg/src/encrypt_cb.c:31
 #: ../geanypg/src/sign_cb.c:32
@@ -4414,7 +4361,7 @@ msgstr "gpg暗号化プラグイン"
 
 #: ../geanypg/src/geanypg.c:38
 msgid "Hans Alves <alves.h88@gmail.com>"
-msgstr ""
+msgstr "Hans Alves <alves.h88@gmail.com>"
 
 #: ../geanypg/src/geanypg.c:46
 msgid "Using libgpgme version:"
@@ -4529,8 +4476,9 @@ msgid "ultimate"
 msgstr ""
 
 #: ../geanypg/src/verify_aux.c:71 ../geanypg/src/verify_aux.c:73
+#, fuzzy
 msgid "[bad validity value]"
-msgstr ""
+msgstr "[正当性が保証できない]"
 
 #. buffer should be more than 105 bytes long
 #: ../geanypg/src/verify_aux.c:78
@@ -4549,8 +4497,9 @@ msgid " red"
 msgstr " 赤"
 
 #: ../geanypg/src/verify_aux.c:81
+#, fuzzy
 msgid " revoked"
-msgstr ""
+msgstr "取り消し"
 
 #: ../geanypg/src/verify_aux.c:82
 #, fuzzy
@@ -4570,12 +4519,12 @@ msgstr " キー紛失"
 #: ../geanypg/src/verify_aux.c:85
 #, fuzzy
 msgid " crl-missing"
-msgstr " crl紛失"
+msgstr " 証明書失効リスト(crl)紛失"
 
 #: ../geanypg/src/verify_aux.c:86
 #, fuzzy
 msgid " crl-too-old"
-msgstr " crlが古い"
+msgstr " 証明書失効リスト(crl)が古い"
 
 #: ../geanypg/src/verify_aux.c:87
 #, fuzzy
@@ -4621,36 +4570,44 @@ msgid "Unknown"
 msgstr "不明"
 
 #: ../geanypg/src/verify_aux.c:136 ../geanypg/src/verify_aux.c:154
+#, fuzzy
 msgid "n/a"
-msgstr ""
+msgstr "n/a"
 
 #: ../geanypg/src/verify_aux.c:136 ../geanypg/src/verify_aux.c:154
+#, fuzzy
 msgid "bad"
-msgstr ""
+msgstr "不正"
 
 #: ../geanypg/src/verify_aux.c:136 ../geanypg/src/verify_aux.c:154
+#, fuzzy
 msgid "okay"
-msgstr ""
+msgstr "了解"
 
 #: ../geanypg/src/verify_aux.c:136 ../geanypg/src/verify_aux.c:154
+#, fuzzy
 msgid "RFU"
-msgstr ""
+msgstr "RFU"
 
 #: ../geanypg/src/verify_aux.c:137 ../geanypg/src/verify_aux.c:155
+#, fuzzy
 msgid " wrong-key-usage"
-msgstr ""
+msgstr " キー不正"
 
 #: ../geanypg/src/verify_aux.c:138 ../geanypg/src/verify_aux.c:155
+#, fuzzy
 msgid " chain-model"
-msgstr ""
+msgstr " チェインモデル"
 
 #: ../geanypg/src/verify_aux.c:139 ../geanypg/src/verify_aux.c:156
+#, fuzzy
 msgid "yes"
-msgstr ""
+msgstr "はい"
 
 #: ../geanypg/src/verify_aux.c:139 ../geanypg/src/verify_aux.c:156
+#, fuzzy
 msgid "no"
-msgstr ""
+msgstr "いいえ"
 
 #: ../geanypg/src/verify_aux.c:175
 msgid "Found a signature from"
@@ -4683,12 +4640,11 @@ msgstr "別のプロジェクト管理プラグイン"
 
 #: ../geanyprj/src/geanyprj.c:224
 msgid "Find a text in geanyprj's project"
-msgstr ""
+msgstr "geanyprjプロジェクトの文字検索"
 
 #: ../geanyprj/src/geanyprj.c:238
-#, fuzzy
 msgid "Display sidebar"
-msgstr "サイドバー"
+msgstr "サイドバー表示"
 
 #: ../geanyprj/src/menu.c:95
 msgid "Project Preferences"
@@ -5027,7 +4983,7 @@ msgstr "エディタメニュー内にVCの機能を表示"
 
 #: ../geanyvc/src/geanyvc.c:1876
 msgid "Attach menu to menubar"
-msgstr ""
+msgstr "メニューをメニューバーに追加"
 
 #: ../geanyvc/src/geanyvc.c:1878
 msgid ""
@@ -5035,6 +4991,9 @@ msgid ""
 "directly inside Geany's menubar.Will take in account after next start of "
 "GeanyVC"
 msgstr ""
+"このプラグインのメニューがツールメニューの中に表示されるか"
+"Geanyのメニューバーに追加されるかを指定。"
+"GeanyVCの次回起動時に有効になります。"
 
 #: ../geanyvc/src/geanyvc.c:1886
 msgid "Enable CVS"
@@ -5217,9 +5176,8 @@ msgid "_VC"
 msgstr "_VC"
 
 #: ../geanyvc/src/geanyvc.c:2266
-#, fuzzy
 msgid "_Version Control"
-msgstr "バージョン管理に追加(_A)"
+msgstr "バージョン管理(_V)"
 
 #. Status of basedir
 #: ../geanyvc/src/geanyvc.c:2288
@@ -5245,21 +5203,23 @@ msgstr "変更を反映"
 
 #: ../geniuspaste/src/geniuspaste.c:92
 msgid "Paste your code on your favorite pastebin"
-msgstr ""
+msgstr "お気に入りのpastebinからコードを貼り付け"
 
 #: ../geniuspaste/src/geniuspaste.c:213
 msgid "Refusing to create blank paste"
-msgstr ""
+msgstr "空の貼り付けを作成するのを禁じる"
 
 #: ../geniuspaste/src/geniuspaste.c:320
 msgid ""
 "Unable to paste the code on codepad.org\n"
 "Retry or select another pastebin."
 msgstr ""
+"codepad.orgのコードの貼り付けができません\n"
+"もう一度実行するか他のpastebinを指定する."
 
 #: ../geniuspaste/src/geniuspaste.c:358
 msgid "Paste Successful"
-msgstr ""
+msgstr "貼り付けに成功しました"
 
 #: ../geniuspaste/src/geniuspaste.c:360
 #, c-format
@@ -5267,6 +5227,8 @@ msgid ""
 "Your paste can be found here:\n"
 "<a href=\"%s\" title=\"Click to open the paste in your browser\">%s</a>"
 msgstr ""
+"あなたの貼りつけたものはここで見つかりました:\n"
+"<a href=\"%s\" title=\"クリックして、ブラウザで表示\">%s</a>"
 
 #: ../geniuspaste/src/geniuspaste.c:368
 #, c-format
@@ -5274,32 +5236,32 @@ msgid ""
 "Unable to paste the code. Check your connection and retry.\n"
 "Error code: %d\n"
 msgstr ""
+"コードの貼り付けができません. インターネット接続を確認してもう一度実行.\n"
+"エラーコード: %d\n"
 
 #: ../geniuspaste/src/geniuspaste.c:383
 msgid "There are no opened documents. Open one and retry.\n"
-msgstr ""
+msgstr "開いている文書がありません.文書を開いてもう一度実行.\n"
 
 #: ../geniuspaste/src/geniuspaste.c:396
-#, fuzzy
 msgid "The author name field is empty!"
-msgstr "IDの照合結果は空です"
+msgstr "作者名項目は空です!"
 
 #: ../geniuspaste/src/geniuspaste.c:415
-#, fuzzy
 msgid "Select a pastebin:"
-msgstr "署名者を選択"
+msgstr "pastebinを選択"
 
 #: ../geniuspaste/src/geniuspaste.c:418
 msgid "Enter the author name:"
-msgstr ""
+msgstr "作者名を入力"
 
 #: ../geniuspaste/src/geniuspaste.c:433
 msgid "Show your paste in a new browser tab"
-msgstr ""
+msgstr "新しいブラウザタブに貼りつけたものを表示"
 
 #: ../geniuspaste/src/geniuspaste.c:455
 msgid "_Paste it!"
-msgstr ""
+msgstr "貼り付け!(_P)"
 
 #: ../gproject/src/gproject-main.c:36 ../gproject/src/gproject-project.c:455
 msgid "GProject"
@@ -5495,7 +5457,7 @@ msgstr "文字ノード"
 
 #: ../pretty-printer/src/ConfigUI.c:64
 msgid "CDATA"
-msgstr ""
+msgstr "CDATA"
 
 #: ../pretty-printer/src/ConfigUI.c:193
 msgid "Empty nodes"
@@ -5960,12 +5922,10 @@ msgid "Rename Object"
 msgstr "オブジェクトの名前変更"
 
 #: ../treebrowser/src/treebrowser.c:2021
-#, fuzzy
 msgid "Create New File"
 msgstr "ファイルを作成"
 
 #: ../treebrowser/src/treebrowser.c:2023
-#, fuzzy
 msgid "Create New Directory"
 msgstr "ディレクトリを作成"
 
@@ -6433,15 +6393,15 @@ msgstr "スニペットを使用してXML/HTMLタグを自動補完"
 
 #, fuzzy
 #~ msgid "Error reading config file"
-#~ msgstr "設定ファイルを再読み込みします"
+#~ msgstr "設定ファイル読み込みエラー"
 
 #, fuzzy
 #~ msgid "Couldn't create tempfile"
-#~ msgstr "ファイルを作成"
+#~ msgstr "一時ファイルを作成できません"
 
 #, fuzzy
 #~ msgid "GeanyPG"
-#~ msgstr "GeanyGDB"
+#~ msgstr "GeanyPG"
 
 #~ msgid "Lionel Fuentes"
 #~ msgstr "Lionel Fuentes"
