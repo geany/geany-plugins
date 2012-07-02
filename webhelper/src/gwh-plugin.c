@@ -339,6 +339,12 @@ load_config (void)
     "400x300",
     G_PARAM_READWRITE));
   gwh_settings_install_property (G_settings, g_param_spec_boolean (
+    "inspector-detached",
+    _("Inspector detached"),
+    _("Whether the inspector is in a separate window or docked in the browser"),
+    FALSE,
+    G_PARAM_READWRITE));
+  gwh_settings_install_property (G_settings, g_param_spec_boolean (
     "wm-secondary-windows-skip-taskbar",
     _("Secondary windows skip task bar"),
     _("Whether to tell the window manager not to show the secondary windows in the task bar"),
