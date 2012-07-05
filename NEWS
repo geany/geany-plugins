@@ -58,7 +58,7 @@ Geany Plugins 1.22 (unreleased)
     * Fix SQL tables generation
 
     TreeBrowser:
-    * Fix permissions on new files
+    * Fix permissions on new files (#3415045)
     * Add "create new file" and "create new directory" keybindings
 
     WebHelper:
