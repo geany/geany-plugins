@@ -486,7 +486,8 @@ treebrowser_browse(gchar *directory, gpointer parent)
 		treebrowser_bookmarks_set_state();
 	}
 
-	gtk_tree_store_iter_clear_nodes(parent, FALSE);
+	if (parent)
+		gtk_tree_store_iter_clear_nodes(parent, FALSE);
 
 	list = utils_get_file_list(directory, NULL, NULL);
 	if (list != NULL)
