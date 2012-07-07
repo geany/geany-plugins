@@ -342,6 +342,9 @@ check_hidden(const gchar *filename)
 	if (! NZV(base_name))
 		return FALSE;
 
+	if (CONFIG_SHOW_HIDDEN_FILES)
+		return FALSE;
+
 #ifdef G_OS_WIN32
 	if (win32_check_hidden(filename))
 		return TRUE;
