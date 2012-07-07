@@ -5,7 +5,7 @@ Geany Plugins 1.22 (unreleased)
     * Add new plugin GeanyMiniScript
     * Add new plugin GeniusPaste
     * Add new plugin MultiTerm
-    * Disable GeanyGDB by default
+    * Disable GeanyGDB by default on build with autotools
 
     Addons:
     * Add word wrapping addon
@@ -64,6 +64,9 @@ Geany Plugins 1.22 (unreleased)
     WebHelper:
     * Fix crash with recent versions of WebKitGTK
     * Save and restore inspector docking state
+    
+    Internationalisation:
+    * Update translations: de, ja, nl, tr
 
 
 Geany Plugins 0.21.1 (2011-10-30)
