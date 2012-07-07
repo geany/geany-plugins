@@ -104,8 +104,3 @@ For doing this you have similar to building with autotools run three steps::
   ./waf configure
   ./waf build
   ./waf install
-  
-By default all plguins are available, having dependencies satisfied. 
-However, if you like to either enable or disable a particular plugin 
-you can use ./waf configure --enable <pluginname> or ./waf configure 
---skip <pluginname>
