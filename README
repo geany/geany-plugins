@@ -5,6 +5,8 @@ Geany-Plugins
 Installation
 ------------
 
+You can build the plugins using either autotools or waf. 
+
 Building with autotools
 ^^^^^^^^^^^^^^^^^^^^^^^
 
