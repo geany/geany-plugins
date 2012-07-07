@@ -99,7 +99,7 @@ static gboolean check_button_is_checked = FALSE;
 PLUGIN_VERSION_CHECK(147)
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, PLUGIN_NAME,
                              _("Paste your code on your favorite pastebin"),
-                             PLUGIN_VERSION, "Enrico Trotta");
+                             PLUGIN_VERSION, "Enrico Trotta <enrico.trt@gmail.com>");
 
 static gint indexof(const gchar * string, gchar c)
 {
