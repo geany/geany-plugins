@@ -84,11 +84,11 @@ replacing a selection.
 ^^^^^^^^^^^^^^^^^^^^^^^^
 Provides two methods for enclosing selected text in characters.  If the 'Enclose
 selection automatically' option is checked in Preferences, selected text will
-be surrounded when certain characters are pressed (e.g. highlight a string and 
-press ", the string will be surrounded in double quotes).  Also allows you to 
-define up to eight of your own opening and closing character pairs, which can 
+be surrounded when certain characters are pressed (e.g. highlight a string and
+press ", the string will be surrounded in double quotes).  Also allows you to
+define up to eight of your own opening and closing character pairs, which can
 then be linked to a keybinding (e.g. set [ and ] to be Enclose Pair 1 and the
-keybinding to ctrl+[ , highlight some text and press ctrl+[ to surround the 
+keybinding to ctrl+[ , highlight some text and press ctrl+[ to surround the
 selected text in brackets).
 
 Requirements
