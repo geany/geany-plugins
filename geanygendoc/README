@@ -1,4 +1,3 @@
-===========
 GeanyGenDoc
 ===========
 
@@ -30,28 +29,6 @@ You may also want the following packages that enables extra features:
 
 * Docutils (http://docutils.sourceforge.net/) -- or another implementation of
   rst2html -- is needed to (re)generate the HTML manual.
-
-
-Installation
-============
-
-Compiling and installing the plugin is done by running the following
-commands from the top-level directory (it is the parent of the one
-containing this file if you're building GeanyGenDoc as part of Geany-plugins):
-
-::
-
- $ ./configure
- $ make
- $ make install
-
-For more configuration details, run
-
-::
-
- $ ./configure --help
-
-For detailed instructions, see the INSTALL file.
 
 
 Usage
