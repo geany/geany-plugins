@@ -682,30 +682,31 @@ treebrowser_search(gchar *uri, gpointer parent)
 	GtkTreePath 	*path;
 	gchar 			*uri_current;
 
-	gtk_tree_model_iter_children(GTK_TREE_MODEL(treestore), &iter, parent);
-
-	do
+	if (gtk_tree_model_iter_children(GTK_TREE_MODEL(treestore), &iter, parent))
 	{
-		if (gtk_tree_model_iter_has_child(GTK_TREE_MODEL(treestore), &iter))
-			if (treebrowser_search(uri, &iter))
-				return TRUE;
-
-		gtk_tree_model_get(GTK_TREE_MODEL(treestore), &iter, TREEBROWSER_COLUMN_URI, &uri_current, -1);
-
-		if (utils_str_equal(uri, uri_current) == TRUE)
+		do
 		{
-			path = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
-			gtk_tree_view_expand_to_path(GTK_TREE_VIEW(treeview), path);
-			gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(treeview), path, TREEBROWSER_COLUMN_ICON, FALSE, 0, 0);
-			gtk_tree_view_set_cursor(GTK_TREE_VIEW(treeview), path, treeview_column_text, FALSE);
-			gtk_tree_path_free(path);
-			g_free(uri_current);
-			return TRUE;
-		}
-		else
-			g_free(uri_current);
+			if (gtk_tree_model_iter_has_child(GTK_TREE_MODEL(treestore), &iter))
+				if (treebrowser_search(uri, &iter))
+					return TRUE;
 
-	} while(gtk_tree_model_iter_next(GTK_TREE_MODEL(treestore), &iter));
+			gtk_tree_model_get(GTK_TREE_MODEL(treestore), &iter, TREEBROWSER_COLUMN_URI, &uri_current, -1);
+
+			if (utils_str_equal(uri, uri_current) == TRUE)
+			{
+				path = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
+				gtk_tree_view_expand_to_path(GTK_TREE_VIEW(treeview), path);
+				gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(treeview), path, TREEBROWSER_COLUMN_ICON, FALSE, 0, 0);
+				gtk_tree_view_set_cursor(GTK_TREE_VIEW(treeview), path, treeview_column_text, FALSE);
+				gtk_tree_path_free(path);
+				g_free(uri_current);
+				return TRUE;
+			}
+			else
+				g_free(uri_current);
+
+		} while (gtk_tree_model_iter_next(GTK_TREE_MODEL(treestore), &iter));
+	}
 
 	return FALSE;
 }
