@@ -83,6 +83,13 @@ Known issues
               loaded again.
 
 
+Requirements
+------------
+
+ * GTK >= 2.8.0
+ * Geany >= 0.21
+
+
 Ideas, questions, patches and bug reports
 -----------------------------------------
 Send it to me at enrico(dot)troeger(at)uvena(dot)de
