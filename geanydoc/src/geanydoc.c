@@ -171,7 +171,7 @@ show_output(const gchar * std_output, const gchar * name, const gchar * force_en
 	}
 }
 
-void
+static void
 show_doc(const gchar * word, gint cmd_num)
 {
 	GeanyDocument *doc;
@@ -325,7 +325,7 @@ create_Interactive(void)
 	return dialog;
 }
 
-GtkWidget *
+static GtkWidget *
 create_Configure(void)
 {
 	GtkWidget *Configure;
