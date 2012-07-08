@@ -352,7 +352,7 @@ static void gms_cb_info(
                                 GTK_DIALOG_DESTROY_WITH_PARENT,
                                 GTK_MESSAGE_INFO,
                                 GTK_BUTTONS_CLOSE,
-                                _(geany_info),NULL );
+                                "%s", _(geany_info) );
                                 
     gtk_dialog_run(GTK_DIALOG(dlg));
     GMS_FREE_WIDGET(dlg);

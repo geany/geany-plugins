@@ -149,7 +149,7 @@ static gint run_filter( ScintillaObject *sci )
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_ERROR,
                         GTK_BUTTONS_CLOSE,
-                        result,NULL);
+                        "%s", result);
 
         gtk_dialog_run(GTK_DIALOG(dlg));
         gtk_widget_destroy(GTK_WIDGET(dlg)) ;
