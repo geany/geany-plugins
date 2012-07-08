@@ -184,7 +184,7 @@ static void add_stock_item(void)
 	GtkIconSet *icon_set;
 	GtkIconFactory *factory = gtk_icon_factory_new();
 	GtkIconTheme *theme = gtk_icon_theme_get_default();
-	GtkStockItem item = { GEANYSENDMAIL_STOCK_MAIL, _("Mail"), 0, 0, GETTEXT_PACKAGE };
+	GtkStockItem item = { GEANYSENDMAIL_STOCK_MAIL, N_("Mail"), 0, 0, GETTEXT_PACKAGE };
 
 	if (gtk_icon_theme_has_icon(theme, "mail-message-new"))
 	{
