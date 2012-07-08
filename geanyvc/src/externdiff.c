@@ -25,8 +25,6 @@
 
 extern GeanyFunctions *geany_functions;
 
-const gchar *get_external_diff_viewer(void);
-
 
 enum
 {
