@@ -133,12 +133,9 @@ void geanypg_load_buffer(gpgme_data_t * buffer)
 {
     /* gpgme_data_new_from_mem(buffer, text, size, 0); */
     GeanyDocument * doc = document_get_current();
-    /* SCI_GETSELECTIONSTART-SCI_GETSELECTIONEND */
     char * data = NULL;
-    unsigned long sstart = scintilla_send_message(doc->editor->sci, SCI_GETSELECTIONSTART, 0, 0);
-    unsigned long send = scintilla_send_message(doc->editor->sci, SCI_GETSELECTIONEND, 0, 0);
     unsigned long size = 0;
-    if (sstart - send)
+    if (sci_has_selection(doc->editor->sci))
     {
         size = scintilla_send_message(doc->editor->sci, SCI_GETSELTEXT, 0, 0);
         data = (char *) malloc(size + 1);
@@ -164,7 +161,7 @@ void geanypg_write_file(FILE * file)
     unsigned long size;
     char buffer[BUFSIZE] = {0};
     GeanyDocument * doc = document_get_current();
-    if (abs(sci_get_selection_start(doc->editor->sci) - sci_get_selection_end(doc->editor->sci)))
+    if (sci_has_selection(doc->editor->sci))
     {   /* replace selected text
          * clear selection, cursor should be at the end or beginneng of the selection */
         scintilla_send_message(doc->editor->sci, SCI_REPLACESEL, 0, (sptr_t)"");
