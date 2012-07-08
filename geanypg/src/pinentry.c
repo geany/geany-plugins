@@ -45,17 +45,18 @@ static void geanypg_read_till(int fd, char delim)
     while (1)
     {
         char val;
-        unsigned long rv = read(fd, &val, 1);
-        if (!rv || val == delim)
+        ssize_t rv = read(fd, &val, 1);
+        if (rv <= 0 || val == delim)
             break;
     }
 }
 
 static int geanypg_read(int fd, char delim, int max, char * buffer)
 {
-    int idx, rv = 1;
+    int idx;
+    ssize_t rv = 1;
     char ch = 0;
-    for (idx = 0; (idx < max - 1) && rv && ch != delim; ++idx)
+    for (idx = 0; (idx < max - 1) && rv > 0 && ch != delim; ++idx)
     {
         rv = read(fd, &ch, 1);
         buffer[idx] = ch;
@@ -146,8 +147,8 @@ gpgme_error_t geanypg_passphrase_cb(void * hook,
         while (1)
         {
             char val;
-            register unsigned long rv = read(outpipe[READ], &val, 1);
-            if (!rv || val == '\n')
+            register ssize_t rv = read(outpipe[READ], &val, 1);
+            if (rv <= 0 || val == '\n')
             {
                 while (!write(fd, "\n", 1));
                 break;
