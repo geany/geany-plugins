@@ -66,8 +66,6 @@ static PropertyDialogElements *build_properties_dialog(gboolean properties)
 	GtkWidget *button;
 	GtkWidget *bbox;
 	GtkWidget *label;
-	GtkTooltips *tooltips =
-		GTK_TOOLTIPS(ui_lookup_widget(geany->main_widgets->window, "tooltips"));
 	PropertyDialogElements *e;
 	gchar *dir = NULL;
 	gchar *basename = NULL;
@@ -158,10 +156,10 @@ static PropertyDialogElements *build_properties_dialog(gboolean properties)
 	gtk_misc_set_alignment(GTK_MISC(label), 1, 0);
 
 	e->base_path = gtk_entry_new();
-	gtk_tooltips_set_tip(tooltips, e->base_path,
+	ui_widget_set_tooltip_text(e->base_path,
 			     _("Base directory of all files that make up the project. "
 			       "This can be a new path, or an existing directory tree. "
-			       "You can use paths relative to the project filename."), NULL);
+			       "You can use paths relative to the project filename."));
 	bbox = ui_path_box_new(_("Choose Project Base Path"),
 			       GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER, GTK_ENTRY(e->base_path));
 	gtk_entry_set_text(GTK_ENTRY(e->base_path), dir);
@@ -170,11 +168,11 @@ static PropertyDialogElements *build_properties_dialog(gboolean properties)
 
 	label = gtk_label_new("");
 	e->regenerate = gtk_check_button_new_with_label(_("Generate file list on load"));
-	gtk_tooltips_set_tip(tooltips, e->regenerate,
+	ui_widget_set_tooltip_text(e->regenerate,
 			     _("Automatically add files that match project type on project load "
 			       "automatically. You can't manually add/remove files if "
 			       "you checked this option, since your modification will be lost on "
-			       "on next project load"), NULL);
+			       "on next project load"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(e->regenerate), TRUE);
 	ui_table_add_row(GTK_TABLE(table), 3, label, e->regenerate, NULL);
 
@@ -366,9 +364,6 @@ void tools_menu_init(void)
 
 	GtkWidget *menu_prj = NULL;
 	GtkWidget *menu_prj_menu = NULL;
-	GtkTooltips *tooltips = NULL;
-
-	tooltips = gtk_tooltips_new();
 
 	menu_prj = gtk_image_menu_item_new_with_mnemonic(_("_Project"));
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), menu_prj);
