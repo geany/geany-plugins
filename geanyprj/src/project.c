@@ -72,7 +72,7 @@ static gboolean project_filter_none(G_GNUC_UNUSED const gchar *file)
 }
 
 
-void *project_type_filter[NEW_PROJECT_TYPE_SIZE] = {
+gboolean (*project_type_filter[NEW_PROJECT_TYPE_SIZE]) (const gchar *) = {
 	project_filter_all,
 	project_filter_c_cpp,
 	project_filter_c,
