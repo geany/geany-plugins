@@ -1615,11 +1615,11 @@ on_wizard_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 				gchar* author_string = NULL;
 				if (documentclass_int == 3)
 				{
-					utils_string_replace_all(code, "{AUTHOR}", "\% \\signature{}\n");
+					utils_string_replace_all(code, "{AUTHOR}", "% \\signature{}\n");
 				}
 				else
 				{
-					utils_string_replace_all(code, "{AUTHOR}", "\% \\author{}\n");
+					utils_string_replace_all(code, "{AUTHOR}", "% \\author{}\n");
 				}
 				utils_string_replace_all(code, "{AUTHOR}", author_string);
 				if (author != NULL)
@@ -1639,7 +1639,7 @@ on_wizard_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 			}
 			else
 			{
-				utils_string_replace_all(code, "{DATE}", "\% \\date{}\n");
+				utils_string_replace_all(code, "{DATE}", "% \\date{}\n");
 				if (date != NULL)
 				{
 					g_free(date);
@@ -1666,11 +1666,11 @@ on_wizard_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 			{
 				if (documentclass_int == 3)
 				{
-					utils_string_replace_all(code, "{TITLE}", "\% \\subject{} \n");
+					utils_string_replace_all(code, "{TITLE}", "% \\subject{} \n");
 				}
 				else
 				{
-					utils_string_replace_all(code, "{TITLE}", "\% \\title{} \n");
+					utils_string_replace_all(code, "{TITLE}", "% \\title{} \n");
 				}
 				if (title != NULL)
 				{
