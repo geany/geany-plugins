@@ -247,7 +247,10 @@ void geany_project_set_type_string(struct GeanyPrj *prj, const gchar *val)
 	for (i = 0; i < sizeof(project_type_string) / sizeof(project_type_string[0]); i++)
 	{
 		if (strcmp(val, project_type_string[i]) == 0)
-			return geany_project_set_type_int(prj, i);
+		{
+			geany_project_set_type_int(prj, i);
+			return;
+		}
 	}
 }
 
