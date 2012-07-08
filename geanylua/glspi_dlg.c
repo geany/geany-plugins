@@ -19,8 +19,6 @@
 #define DIALOG_FLAGS GTK_DIALOG_DESTROY_WITH_PARENT|GTK_DIALOG_MODAL
 
 
-typedef void (*GsDlgRunHook) (gboolean running, gpointer user_data);
-
 static GsDlgRunHook glspi_pause_timer = NULL;
 
 

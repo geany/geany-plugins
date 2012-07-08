@@ -61,11 +61,6 @@ static struct {
 #define KS local_data.keybind_scripts
 
 
-
-
-extern void glspi_run_script(const gchar *script_file, gint caller, GKeyFile*proj, const gchar *script_dir);
-
-
 /* Called by Geany, run a script associated with a keybinding. */
 static void kb_activate(guint key_id)
 {
@@ -182,10 +177,6 @@ static void hotkey_init(void)
 
 
 
-
-/* Pass TRUE to create hashes, FALSE to destroy them */
-extern void glspi_set_sci_cmd_hash(gboolean create);
-extern void glspi_set_key_cmd_hash(gboolean create);
 
 static void on_doc_new(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {

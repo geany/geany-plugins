@@ -135,3 +135,26 @@ static gint glspi_fail_elem_type(
 #endif
 
 
+typedef void (*GsDlgRunHook) (gboolean running, gpointer user_data);
+typedef gint (*KeyfileAssignFunc) (lua_State *L, GKeyFile*kf);
+
+
+/* application functions */
+void glspi_init_app_funcs(lua_State *L, const gchar*script_dir);
+/* basic dialog box functions */
+void glspi_init_dlg_funcs(lua_State *L, GsDlgRunHook hook);
+/* document functions */
+void glspi_init_doc_funcs(lua_State *L);
+void glspi_init_kfile_module(lua_State *L, KeyfileAssignFunc *func);
+/* menu functions */
+void glspi_init_mnu_funcs(lua_State *L);
+/* editor functions */
+void glspi_init_sci_funcs(lua_State *L);
+/* custom dialogs module */
+void glspi_init_gsdlg_module(lua_State *L, GsDlgRunHook hook, GtkWindow *toplevel);
+void glspi_run_script(const gchar *script_file, gint caller, GKeyFile*proj, const gchar *script_dir);
+
+/* Pass TRUE to create hashes, FALSE to destroy them */
+void glspi_set_sci_cmd_hash(gboolean create);
+void glspi_set_key_cmd_hash(gboolean create);
+

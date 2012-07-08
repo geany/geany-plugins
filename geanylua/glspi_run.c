@@ -8,29 +8,7 @@
 #include "glspi.h"
 
 
-typedef gint (*KeyfileAssignFunc) (lua_State *L, GKeyFile*kf);
-
-
-
-typedef void (*GsDlgRunHook) (gboolean running, gpointer user_data);
-
-/* custom dialogs module */
-extern void glspi_init_gsdlg_module(lua_State *L, GsDlgRunHook hook, GtkWindow *toplevel);
-/* editor functions */
-extern void glspi_init_sci_funcs(lua_State *L);
-/* document functions */
-extern void glspi_init_doc_funcs(lua_State *L);
-/* basic dialog box functions */
-extern void glspi_init_dlg_funcs(lua_State *L, GsDlgRunHook hook);
-/* application functions */
-extern void glspi_init_app_funcs(lua_State *L, const gchar*script_dir);
-/* menu functions */
-void glspi_init_mnu_funcs(lua_State *L);
-
 static KeyfileAssignFunc glspi_kfile_assign=NULL;
-
-void glspi_init_kfile_module(lua_State *L, KeyfileAssignFunc *func);
-
 
 
 /*
