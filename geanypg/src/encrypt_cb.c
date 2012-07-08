@@ -21,7 +21,7 @@
 
 #include "geanypg.h"
 
-void geanypg_encrypt(encrypt_data * ed, gpgme_key_t * recp, int sign, int flags)
+static void geanypg_encrypt(encrypt_data * ed, gpgme_key_t * recp, int sign, int flags)
 {   /* FACTORIZE */
     gpgme_data_t plain, cipher;
     gpgme_error_t err;

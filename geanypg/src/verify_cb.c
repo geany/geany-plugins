@@ -20,7 +20,7 @@
 
 #include "geanypg.h"
 
-char * geanypg_choose_sig(void)
+static char * geanypg_choose_sig(void)
 {
     int response;
     char * file = NULL;
@@ -38,7 +38,7 @@ char * geanypg_choose_sig(void)
     return file;
 }
 
-void geanypg_verify(encrypt_data * ed, char * signame)
+static void geanypg_verify(encrypt_data * ed, char * signame)
 {
     gpgme_data_t sig, text;
     gpgme_error_t err;

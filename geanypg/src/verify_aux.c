@@ -22,7 +22,7 @@
 #include "geanypg.h"
 
 
-void geanypg_get_keys_with_fp(encrypt_data * ed, char * buffer)
+static void geanypg_get_keys_with_fp(encrypt_data * ed, char * buffer)
 {
     unsigned long idx, found = 0;
     char empty_string = '\0';

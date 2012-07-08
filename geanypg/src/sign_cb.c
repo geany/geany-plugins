@@ -21,7 +21,7 @@
 
 #include "geanypg.h"
 
-void geanypg_sign(encrypt_data * ed)
+static void geanypg_sign(encrypt_data * ed)
 {
     gpgme_data_t plain, cipher;
     gpgme_error_t err;
