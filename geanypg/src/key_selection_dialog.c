@@ -135,10 +135,11 @@ int geanypg_encrypt_selection_dialog(encrypt_data * ed, gpgme_key_t ** selected,
     GtkTreeIter iter;
     listdata data;
     gboolean active;
+    GtkListStore * list;
 
     *sign = 0;
 
-    GtkListStore * list = geanypg_makelist(ed->key_array, ed->nkeys, 0);
+    list = geanypg_makelist(ed->key_array, ed->nkeys, 0);
     listview = geanypg_listview(list, &data);
     scrollwin = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrollwin),

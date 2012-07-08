@@ -56,8 +56,9 @@ static void geanypg_sign(encrypt_data * ed)
 void geanypg_sign_cb(GtkMenuItem * menuitem, gpointer user_data)
 {
     encrypt_data ed;
+    gpgme_error_t err;
     geanypg_init_ed(&ed);
-    gpgme_error_t err = gpgme_new(&ed.ctx);
+    err = gpgme_new(&ed.ctx);
     if (err && geanypg_show_err_msg(err))
         return;
     ed.key_array = NULL;

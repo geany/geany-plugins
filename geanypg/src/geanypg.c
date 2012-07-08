@@ -64,6 +64,12 @@ gpgme_error_t geanypg_show_err_msg(gpgme_error_t err)
 
 void plugin_init(GeanyData *data)
 {
+    GtkWidget * submenu;
+    GtkWidget * encrypt;
+    GtkWidget * sign;
+    GtkWidget * decrypt;
+    GtkWidget * verify;
+
     gpgme_error_t err = geanypg_init_gpgme();
     if (err)
     {
@@ -74,12 +80,12 @@ void plugin_init(GeanyData *data)
     main_menu_item = gtk_menu_item_new_with_mnemonic("GeanyPG");
     gtk_widget_show(main_menu_item);
 
-    GtkWidget * submenu = gtk_menu_new();
+    submenu = gtk_menu_new();
     gtk_widget_show(submenu);
-    GtkWidget * encrypt = gtk_menu_item_new_with_mnemonic(_("Encrypt"));
-    GtkWidget * sign = gtk_menu_item_new_with_mnemonic(_("Sign"));
-    GtkWidget * decrypt = gtk_menu_item_new_with_mnemonic(_("Decrypt / Verify"));
-    GtkWidget * verify = gtk_menu_item_new_with_mnemonic(_("Verify detached signature"));
+    encrypt = gtk_menu_item_new_with_mnemonic(_("Encrypt"));
+    sign = gtk_menu_item_new_with_mnemonic(_("Sign"));
+    decrypt = gtk_menu_item_new_with_mnemonic(_("Decrypt / Verify"));
+    verify = gtk_menu_item_new_with_mnemonic(_("Verify detached signature"));
 
     gtk_widget_show(encrypt);
     gtk_widget_show(sign);

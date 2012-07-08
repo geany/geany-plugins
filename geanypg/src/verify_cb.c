@@ -62,8 +62,9 @@ void geanypg_verify_cb(GtkMenuItem * menuitem, gpointer user_data)
 {
     char * sigfile = NULL;
     encrypt_data ed;
+    gpgme_error_t err;
     geanypg_init_ed(&ed);
-    gpgme_error_t err = gpgme_new(&ed.ctx);
+    err = gpgme_new(&ed.ctx);
     if (err && geanypg_show_err_msg(err))
         return;
     gpgme_set_protocol(ed.ctx, GPGME_PROTOCOL_OpenPGP);
