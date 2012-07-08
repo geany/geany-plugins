@@ -33,7 +33,7 @@ PLUGIN_VERSION_CHECK(200)
 PLUGIN_SET_TRANSLATABLE_INFO(
     LOCALEDIR, GETTEXT_PACKAGE, _("Tableconvert"),
     _("A little plugin to convert lists into tables"),
-    VERSION, "Frank Lanitz <frank@frank.uvena.de>");
+    VERSION, "Frank Lanitz <frank@frank.uvena.de>")
 
 enum
 {
