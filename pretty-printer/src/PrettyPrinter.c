@@ -18,63 +18,63 @@
 
 #include "PrettyPrinter.h"
 
-//======================= FUNCTIONS ====================================================================
+/*======================= FUNCTIONS ====================================================================*/
 
-//error reporting functions
-static void PP_ERROR(const char* fmt, ...) G_GNUC_PRINTF(1,2);  //prints an error message
+/* error reporting functions */
+static void PP_ERROR(const char* fmt, ...) G_GNUC_PRINTF(1,2);  /* prints an error message */
 
-//xml pretty printing functions
-static void putCharInBuffer(char charToAdd);                     //put a char into the new char buffer
-static void putCharsInBuffer(const char* charsToAdd);            //put the chars into the new char buffer
-static void putNextCharsInBuffer(int nbChars);                   //put the next nbChars of the input buffer into the new buffer
-static int readWhites(bool considerLineBreakAsWhite);            //read the next whites into the input buffer
-static char readNextChar(void);                                  //read the next char into the input buffer;
-static char getNextChar(void);                                   //returns the next char but do not increase the input buffer index (use readNextChar for that)
-static char getPreviousInsertedChar(void);                       //returns the last inserted char into the new buffer
-static bool isWhite(char c);                                     //check if the specified char is a white
-static bool isSpace(char c);                                     //check if the specified char is a space
-static bool isLineBreak(char c);                                 //check if the specified char is a new line
-static bool isQuote(char c);                                     //check if the specified char is a quote (simple or double)
-static int putNewLine(void);                                     //put a new line into the new char buffer with the correct number of whites (indentation)
-static bool isInlineNodeAllowed(void);                           //check if it is possible to have an inline node
-static bool isOnSingleLine(int skip, char stop1, char stop2);    //check if the current node data is on one line (for inlining)
-static void resetBackwardIndentation(bool resetLineBreak);       //reset the indentation for the current depth (just reset the index in fact)
+/* xml pretty printing functions */
+static void putCharInBuffer(char charToAdd);                     /* put a char into the new char buffer */
+static void putCharsInBuffer(const char* charsToAdd);            /* put the chars into the new char buffer */
+static void putNextCharsInBuffer(int nbChars);                   /* put the next nbChars of the input buffer into the new buffer */
+static int readWhites(bool considerLineBreakAsWhite);            /* read the next whites into the input buffer */
+static char readNextChar(void);                                  /* read the next char into the input buffer; */
+static char getNextChar(void);                                   /* returns the next char but do not increase the input buffer index (use readNextChar for that) */
+static char getPreviousInsertedChar(void);                       /* returns the last inserted char into the new buffer */
+static bool isWhite(char c);                                     /* check if the specified char is a white */
+static bool isSpace(char c);                                     /* check if the specified char is a space */
+static bool isLineBreak(char c);                                 /* check if the specified char is a new line */
+static bool isQuote(char c);                                     /* check if the specified char is a quote (simple or double) */
+static int putNewLine(void);                                     /* put a new line into the new char buffer with the correct number of whites (indentation) */
+static bool isInlineNodeAllowed(void);                           /* check if it is possible to have an inline node */
+static bool isOnSingleLine(int skip, char stop1, char stop2);    /* check if the current node data is on one line (for inlining) */
+static void resetBackwardIndentation(bool resetLineBreak);       /* reset the indentation for the current depth (just reset the index in fact) */
                                                              
-//specific parsing functions                                 
-static int processElements(void);                                //returns the number of elements processed
-static void processElementAttribute(void);                       //process on attribute of a node
-static void processElementAttributes(void);                      //process all the attributes of a node
-static void processHeader(void);                                 //process the header <?xml version="..." ?>
-static void processNode(void);                                   //process an XML node
-static void processTextNode(void);                               //process a text node
-static void processComment(void);                                //process a comment
-static void processCDATA(void);                                  //process a CDATA node
-static void processDoctype(void);                                //process a DOCTYPE node
-static void processDoctypeElement(void);                         //process a DOCTYPE ELEMENT node
+/* specific parsing functions */
+static int processElements(void);                                /* returns the number of elements processed */
+static void processElementAttribute(void);                       /* process on attribute of a node */
+static void processElementAttributes(void);                      /* process all the attributes of a node */
+static void processHeader(void);                                 /* process the header <?xml version="..." ?> */
+static void processNode(void);                                   /* process an XML node */
+static void processTextNode(void);                               /* process a text node */
+static void processComment(void);                                /* process a comment */
+static void processCDATA(void);                                  /* process a CDATA node */
+static void processDoctype(void);                                /* process a DOCTYPE node */
+static void processDoctypeElement(void);                         /* process a DOCTYPE ELEMENT node */
 
-//debug function                                             
-static void printError(const char *msg, ...) G_GNUC_PRINTF(1,2); //just print a message like the printf method
-static void printDebugStatus(void);                              //just print some variables into the console for debugging
+/* debug function */
+static void printError(const char *msg, ...) G_GNUC_PRINTF(1,2); /* just print a message like the printf method */
+static void printDebugStatus(void);                              /* just print some variables into the console for debugging */
 
-//============================================ PRIVATE PROPERTIES ======================================
+/*============================================ PRIVATE PROPERTIES ======================================*/
 
-//those are variables that are shared by the functions and
-//shouldn't be altered.
+/* those are variables that are shared by the functions and
+ * shouldn't be altered. */
 
-static int result;                                                //result of the pretty printing
-static char* xmlPrettyPrinted;                                    //new buffer for the formatted XML
-static int xmlPrettyPrintedLength;                                //buffer size
-static int xmlPrettyPrintedIndex;                                 //buffer index (position of the next char to insert)
-static char* inputBuffer;                                         //input buffer
-static int inputBufferLength;                                     //input buffer size
-static int inputBufferIndex;                                      //input buffer index (position of the next char to read into the input string)
-static int currentDepth;                                          //current depth (for indentation)
-static char* currentNodeName;                                     //current node name
-static bool appendIndentation;                                //if the indentation must be added (with a line break before)
-static bool lastNodeOpen;                                     //defines if the last action was a not opening or not
-static PrettyPrintingOptions* options;                            //options of PrettyPrinting
+static int result;                                                /* result of the pretty printing */
+static char* xmlPrettyPrinted;                                    /* new buffer for the formatted XML */
+static int xmlPrettyPrintedLength;                                /* buffer size */
+static int xmlPrettyPrintedIndex;                                 /* buffer index (position of the next char to insert) */
+static char* inputBuffer;                                         /* input buffer */
+static int inputBufferLength;                                     /* input buffer size */
+static int inputBufferIndex;                                      /* input buffer index (position of the next char to read into the input string) */
+static int currentDepth;                                          /* current depth (for indentation) */
+static char* currentNodeName;                                     /* current node name */
+static bool appendIndentation;                                /* if the indentation must be added (with a line break before) */
+static bool lastNodeOpen;                                     /* defines if the last action was a not opening or not */
+static PrettyPrintingOptions* options;                            /* options of PrettyPrinting */
 
-//============================================ GENERAL FUNCTIONS =======================================
+/*============================================ GENERAL FUNCTIONS =======================================*/
 
 static void PP_ERROR(const char* fmt, ...)
 {
@@ -88,11 +88,11 @@ static void PP_ERROR(const char* fmt, ...)
 
 int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* ppOptions)
 {
-    //empty buffer, nothing to process
+    /* empty buffer, nothing to process */
     if (*length == 0) { return PRETTY_PRINTING_EMPTY_XML; }
     if (buffer == NULL || *buffer == NULL) { return PRETTY_PRINTING_EMPTY_XML; }
     
-    //initialize the variables
+    /* initialize the variables */
     result = PRETTY_PRINTING_SUCCESS;
     bool freeOptions = FALSE;
     if (ppOptions == NULL) 
@@ -116,43 +116,43 @@ int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* 
     xmlPrettyPrinted = (char*)malloc(sizeof(char)*(*length));
     if (xmlPrettyPrinted == NULL) { PP_ERROR("Allocation error (initialisation)"); return PRETTY_PRINTING_SYSTEM_ERROR; }
     
-    //go to the first char
+    /* go to the first char */
     readWhites(TRUE);
 
-    //process the pretty-printing
+    /* process the pretty-printing */
     processElements();
     
-    //close the buffer
+    /* close the buffer */
     putCharInBuffer('\0');
     
-    //adjust the final size
+    /* adjust the final size */
     char* reallocated = (char*)realloc(xmlPrettyPrinted, xmlPrettyPrintedIndex); 
     if (reallocated == NULL) { PP_ERROR("Allocation error (reallocation size is %d)", xmlPrettyPrintedIndex); return PRETTY_PRINTING_SYSTEM_ERROR; }
     xmlPrettyPrinted = reallocated;
     
-    //freeing the unused values
+    /* freeing the unused values */
     if (freeOptions) { free(options); }
     
-    //if success, then update the values
+    /* if success, then update the values */
     if (result == PRETTY_PRINTING_SUCCESS)
     {
         free(*buffer);
         *buffer = xmlPrettyPrinted;
-        *length = xmlPrettyPrintedIndex-2; //the '\0' is not in the length
+        *length = xmlPrettyPrintedIndex-2; /* the '\0' is not in the length */
     }
-    //else clean the other values
+    /* else clean the other values */
     else
     {
         free(xmlPrettyPrinted);
     }
     
-    //updating the pointers for the using into the caller function
-    xmlPrettyPrinted = NULL; //avoid reference
-    inputBuffer = NULL; //avoid reference
-    currentNodeName = NULL; //avoid reference
-    options = NULL; //avoid reference
+    /* updating the pointers for the using into the caller function */
+    xmlPrettyPrinted = NULL; /* avoid reference */
+    inputBuffer = NULL; /* avoid reference */
+    currentNodeName = NULL; /* avoid reference */
+    options = NULL; /* avoid reference */
     
-    //and finally the result
+    /* and finally the result */
     return result;
 }
 
@@ -198,7 +198,7 @@ void putNextCharsInBuffer(int nbChars)
 
 void putCharInBuffer(char charToAdd)
 {
-    //check if the buffer is full and reallocation if needed
+    /* check if the buffer is full and reallocation if needed */
     if (xmlPrettyPrintedIndex >= xmlPrettyPrintedLength)
     {
         if (charToAdd == '\0') { ++xmlPrettyPrintedLength; }
@@ -208,7 +208,7 @@ void putCharInBuffer(char charToAdd)
         xmlPrettyPrinted = reallocated;
     }
     
-    //putting the char and increase the index for the next one
+    /* putting the char and increase the index for the next one */
     xmlPrettyPrinted[xmlPrettyPrintedIndex] = charToAdd;
     ++xmlPrettyPrintedIndex;
 }
@@ -291,70 +291,70 @@ bool isLineBreak(char c)
 
 bool isInlineNodeAllowed(void)
 {
-    //the last action was not an opening => inline not allowed
+    /* the last action was not an opening => inline not allowed */
     if (!lastNodeOpen) { return FALSE; }
     
-    int firstChar = getNextChar(); //should be '<' or we are in a text node
-    int secondChar = inputBuffer[inputBufferIndex+1]; //should be '!'
-    int thirdChar = inputBuffer[inputBufferIndex+2]; //should be '-' or '['
+    int firstChar = getNextChar(); /* should be '<' or we are in a text node */
+    int secondChar = inputBuffer[inputBufferIndex+1]; /* should be '!' */
+    int thirdChar = inputBuffer[inputBufferIndex+2]; /* should be '-' or '[' */
     
-    //loop through the content up to the next opening/closing node
-    int currentIndex = inputBufferIndex+1;
+    /* loop through the content up to the next opening/closing node */
+    currentIndex = inputBufferIndex+1;
     if (firstChar == '<')
     {
-        //another node is being open ==> no inline !
+        /* another node is being open ==> no inline ! */
         if (secondChar != '!') { return FALSE; }
         
-        //okay we are in a comment/cdata node, so read until it is closed
+        /* okay we are in a comment/cdata node, so read until it is closed */
         
-        //select the closing char
+        /* select the closing char */
         char closingComment = '-';
         if (thirdChar == '[') { closingComment = ']'; }
         
-        //read until closing
+        /* read until closing */
         char oldChar = ' ';
-        currentIndex += 3; //that bypass meanless chars
+        currentIndex += 3; /* that bypass meanless chars */
         bool loop = TRUE;
         while (loop)
         {
             char current = inputBuffer[currentIndex];
-            if (current == closingComment && oldChar == closingComment) { loop = FALSE; } //end of comment/cdata
+            if (current == closingComment && oldChar == closingComment) { loop = FALSE; } /* end of comment/cdata */
             oldChar = current;
             ++currentIndex;
         }
         
-        //okay now avoid blanks
-        // inputBuffer[index] is now '>'
+        /* okay now avoid blanks */
+        /*  inputBuffer[index] is now '>' */
         ++currentIndex;
         while (isWhite(inputBuffer[currentIndex])) { ++currentIndex; }
     }
     else
     {
-        //this is a text node. Simply loop to the next '<'
+        /* this is a text node. Simply loop to the next '<' */
         while (inputBuffer[currentIndex] != '<') { ++currentIndex; }
     }
     
-    //check what do we have now
-    char currentChar = inputBuffer[currentIndex];
+    /* check what do we have now */
+    currentChar = inputBuffer[currentIndex];
     if (currentChar == '<')
     {
-        //check if that is a closing node
+        /* check if that is a closing node */
         currentChar = inputBuffer[currentIndex+1];
         if (currentChar == '/')
         {
-            //as we are in a correct XML (so far...), if the node is 
-            //being directly closed, the inline is allowed !!!
+            /* as we are in a correct XML (so far...), if the node is  */
+            /* being directly closed, the inline is allowed !!! */
             return TRUE;
         }
     }
     
-    //inline not allowed...
+    /* inline not allowed... */
     return FALSE;
 }
 
 bool isOnSingleLine(int skip, char stop1, char stop2)
 {
-    int currentIndex = inputBufferIndex+skip; //skip the n first chars (in comment <!--)
+    int currentIndex = inputBufferIndex+skip; /* skip the n first chars (in comment <!--) */
     bool onSingleLine = TRUE;
     
     char oldChar = inputBuffer[currentIndex];
@@ -377,7 +377,7 @@ bool isOnSingleLine(int skip, char stop1, char stop2)
         {
             while(oldChar != stop1 && currentChar != stop2)
             {
-                //okay there is something else => this is not on one line
+                /* okay there is something else => this is not on one line */
                 if (!isWhite(oldChar)) return FALSE;
               
                 ++currentIndex;
@@ -385,8 +385,8 @@ bool isOnSingleLine(int skip, char stop1, char stop2)
                 currentChar = inputBuffer[currentIndex+1];
             }
             
-            //the end of the node has been reached with only whites. Then
-            //the node can be considered being one single line
+            /* the end of the node has been reached with only whites. Then
+             * the node can be considered being one single line */
             return TRUE;
         }
     }
@@ -404,15 +404,15 @@ void resetBackwardIndentation(bool resetLineBreak)
     }
 }
 
-//#########################################################################################################################################
-//-----------------------------------------------------------------------------------------------------------------------------------------
+/*#########################################################################################################################################*/
+/*-----------------------------------------------------------------------------------------------------------------------------------------*/
                                                                                                 
-//-----------------------------------------------------------------------------------------------------------------------------------------
-//=============================================================== NODE FUNCTIONS ==========================================================
-//-----------------------------------------------------------------------------------------------------------------------------------------
+/*-----------------------------------------------------------------------------------------------------------------------------------------*/
+/*=============================================================== NODE FUNCTIONS ==========================================================*/
+/*-----------------------------------------------------------------------------------------------------------------------------------------*/
                                                                                                 
-//-----------------------------------------------------------------------------------------------------------------------------------------
-//#########################################################################################################################################
+/*-----------------------------------------------------------------------------------------------------------------------------------------*/
+/*#########################################################################################################################################*/
 
 int processElements(void)
 {
@@ -421,36 +421,36 @@ int processElements(void)
     bool loop = TRUE;
     while (loop && result == PRETTY_PRINTING_SUCCESS)
     {
-        //strip unused whites
+        /* strip unused whites */
         readWhites(TRUE);
         
         char nextChar = getNextChar();
-        if (nextChar == '\0') { return 0; } //no more data to read
+        if (nextChar == '\0') { return 0; } /* no more data to read */
         
-        //put a new line with indentation
+        /* put a new line with indentation */
         if (appendIndentation) { putNewLine(); }
         
-        //always append indentation (but need to store the state)
+        /* always append indentation (but need to store the state) */
         bool indentBackward = appendIndentation;
         appendIndentation = TRUE; 
         
-        //okay what do we have now ?
+        /* okay what do we have now ? */
         if (nextChar != '<')
         { 
-            //a simple text node
+            /* a simple text node */
             processTextNode(); 
             ++counter; 
         } 
-        else //some more check are needed
+        else /* some more check are needed */
         {
             nextChar = inputBuffer[inputBufferIndex+1];
             if (nextChar == '!') 
             {
                 char oneMore = inputBuffer[inputBufferIndex+2];
-                if (oneMore == '-') { processComment(); ++counter; } //a comment
-                else if (oneMore == '[') { processCDATA(); ++counter; } //cdata
-                else if (oneMore == 'D') { processDoctype(); ++counter; } //doctype <!DOCTYPE ... >
-                else if (oneMore == 'E') { processDoctypeElement(); ++counter; } //doctype element <!ELEMENT ... >
+                if (oneMore == '-') { processComment(); ++counter; } /* a comment */
+                else if (oneMore == '[') { processCDATA(); ++counter; } /* cdata */
+                else if (oneMore == 'D') { processDoctype(); ++counter; } /* doctype <!DOCTYPE ... > */
+                else if (oneMore == 'E') { processDoctypeElement(); ++counter; } /* doctype element <!ELEMENT ... > */
                 else 
                 { 
                     printError("processElements : Invalid char '%c' afer '<!'", oneMore); 
@@ -459,22 +459,22 @@ int processElements(void)
             } 
             else if (nextChar == '/')
             { 
-                //close a node => stop the loop !!
+                /* close a node => stop the loop !! */
                 loop = FALSE; 
                 if (indentBackward) 
                 { 
-                    //INDEX HACKING
+                    /* INDEX HACKING */
                     xmlPrettyPrintedIndex -= options->indentLength; 
                 } 
             }
             else if (nextChar == '?')
             {
-                //this is a header
+                /* this is a header */
                 processHeader();
             }
             else 
             {
-                //a new node is open
+                /* a new node is open */
                 processNode();
                 ++counter;
             } 
@@ -487,7 +487,7 @@ int processElements(void)
 
 void processElementAttribute(void)
 {
-    //process the attribute name
+    /* process the attribute name */
     char nextChar = readNextChar();
     while (nextChar != '=')
     {
@@ -495,13 +495,13 @@ void processElementAttribute(void)
         nextChar = readNextChar();
     }
     
-    putCharInBuffer(nextChar); //that's the '='
+    putCharInBuffer(nextChar); /* that's the '=' */
     
-    //read the simple quote or double quote and put it into the buffer
+    /* read the simple quote or double quote and put it into the buffer */
     char quote = readNextChar();
     putCharInBuffer(quote); 
     
-    //process until the last quote
+    /* process until the last quote */
     char value = readNextChar();
     while(value != quote)
     {
@@ -509,13 +509,13 @@ void processElementAttribute(void)
         value = readNextChar();
     }
     
-    //simply add the last quote
+    /* simply add the last quote */
     putCharInBuffer(quote);
 }
 
 void processElementAttributes(void)
 {
-    char current = getNextChar(); //should not be a white
+    char current = getNextChar(); /* should not be a white */
     if (isWhite(current)) 
     { 
         printError("processElementAttributes : first char shouldn't be a white"); 
@@ -526,15 +526,15 @@ void processElementAttributes(void)
     bool loop = TRUE;
     while (loop)
     {
-        readWhites(TRUE); //strip the whites
+        readWhites(TRUE); /* strip the whites */
         
-        char next = getNextChar(); //don't read the last char (processed afterwards)
+        char next = getNextChar(); /* don't read the last char (processed afterwards) */
         if (next == '/') { loop = FALSE; } /* end of node */
         else if (next == '>') { loop = FALSE; } /* end of tag */
         else if (next == '?') { loop = FALSE; } /* end of header */
         else 
         { 
-            putCharInBuffer(' '); //put only one space to separate attributes
+            putCharInBuffer(' '); /* put only one space to separate attributes */
             processElementAttribute(); 
         }
     }
@@ -542,8 +542,8 @@ void processElementAttributes(void)
 
 void processHeader(void)
 {
-    int firstChar = inputBuffer[inputBufferIndex]; //should be '<'
-    int secondChar = inputBuffer[inputBufferIndex+1]; //must be '?'
+    int firstChar = inputBuffer[inputBufferIndex]; /* should be '<' */
+    int secondChar = inputBuffer[inputBufferIndex+1]; /* must be '?' */
     
     if (firstChar != '<') 
     { 
@@ -554,7 +554,7 @@ void processHeader(void)
     
     if (secondChar == '?')
     { 
-        //puts the '<' and '?' chars into the new buffer
+        /* puts the '<' and '?' chars into the new buffer */
         putNextCharsInBuffer(2); 
         
         while(!isWhite(getNextChar())) { putNextCharsInBuffer(1); }
@@ -562,7 +562,7 @@ void processHeader(void)
         readWhites(TRUE);
         processElementAttributes(); 
         
-        //puts the '?' and '>' chars into the new buffer
+        /* puts the '?' and '>' chars into the new buffer */
         putNextCharsInBuffer(2); 
     }
 }
@@ -579,17 +579,17 @@ void processNode(void)
     
     putCharInBuffer(opening);
     
-    //read the node name
+    /* read the node name */
     int nodeNameLength = 0;
     while (!isWhite(getNextChar()) && 
-           getNextChar() != '>' &&  //end of the tag
-           getNextChar() != '/') //tag is being closed
+           getNextChar() != '>' &&  /* end of the tag */
+           getNextChar() != '/') /* tag is being closed */
     {
         putNextCharsInBuffer(1);
         ++nodeNameLength;
     }
 
-    //store the name
+    /* store the name */
     char* nodeName = (char*)malloc(sizeof(char)*nodeNameLength+1);
     if (nodeName == NULL) { PP_ERROR("Allocation error (node name length is %d)", nodeNameLength); return ; }
     nodeName[nodeNameLength] = '\0';
@@ -600,34 +600,34 @@ void processNode(void)
         nodeName[i] = xmlPrettyPrinted[tempIndex];
     }
     
-    currentNodeName = nodeName; //set the name for using in other methods
+    currentNodeName = nodeName; /* set the name for using in other methods */
     lastNodeOpen = TRUE;
 
-    //process the attributes    
+    /* process the attributes     */
     readWhites(TRUE);
     processElementAttributes();
     
-    //process the end of the tag
+    /* process the end of the tag */
     int subElementsProcessed = 0;
-    char nextChar = getNextChar(); //should be either '/' or '>'
-    if (nextChar == '/') //the node is being closed immediatly
+    char nextChar = getNextChar(); /* should be either '/' or '>' */
+    if (nextChar == '/') /* the node is being closed immediatly */
     { 
-        //closing node directly
+        /* closing node directly */
         if (options->emptyNodeStripping || !options->forceEmptyNodeSplit)
         {
             if (options->emptyNodeStrippingSpace) { putCharInBuffer(' '); }
             putNextCharsInBuffer(2); 
         }
-        //split the closing nodes
+        /* split the closing nodes */
         else
         {
-            readNextChar(); //removing '/'
-            readNextChar(); //removing '>'
+            readNextChar(); /* removing '/' */
+            readNextChar(); /* removing '>' */
             
             putCharInBuffer('>');
             if (!options->inlineText) 
             {
-                //no inline text => new line !
+                /* no inline text => new line ! */
                 putNewLine(); 
             } 
             
@@ -641,7 +641,7 @@ void processNode(void)
     }
     else if (nextChar == '>') 
     { 
-        //the tag is just closed (maybe some content)
+        /* the tag is just closed (maybe some content) */
         putNextCharsInBuffer(1); 
         subElementsProcessed = processElements();
     } 
@@ -652,8 +652,8 @@ void processNode(void)
         return; 
     }
     
-    //if the code reaches this area, then the processElements has been called and we must
-    //close the opening tag
+    /* if the code reaches this area, then the processElements has been called and we must
+     * close the opening tag */
     char closeChar = getNextChar();
     if (closeChar != '<') 
     { 
@@ -669,37 +669,37 @@ void processNode(void)
     }
     while(closeChar != '>');
     
-    //there is no elements
+    /* there is no elements */
     if (subElementsProcessed == 0)
     {
-        //the node will be stripped
+        /* the node will be stripped */
         if (options->emptyNodeStripping)
         {
-            //because we have '<nodeName ...></nodeName>'
+            /* because we have '<nodeName ...></nodeName>' */
             xmlPrettyPrintedIndex -= nodeNameLength+4; 
             resetBackwardIndentation(TRUE);
             
             if (options->emptyNodeStrippingSpace) { putCharInBuffer(' '); }
             putCharsInBuffer("/>");
         }
-        //the closing tag will be put on the same line
+        /* the closing tag will be put on the same line */
         else if (options->inlineText)
         {
-            //correct the index because we have '</nodeName>'
+            /* correct the index because we have '</nodeName>' */
             xmlPrettyPrintedIndex -= nodeNameLength+3; 
             resetBackwardIndentation(TRUE);
             
-            //rewrite the node name
+            /* rewrite the node name */
             putCharsInBuffer("</");
             putCharsInBuffer(currentNodeName);
             putCharInBuffer('>');
         }
     }
     
-    //the node is closed
+    /* the node is closed */
     lastNodeOpen = FALSE;
     
-    //freeeeeeee !!!
+    /* freeeeeeee !!! */
     free(nodeName);
     nodeName = NULL;
     currentNodeName = NULL;
@@ -712,23 +712,23 @@ void processComment(void)
     if (inlineAllowed && !options->oneLineComment) { inlineAllowed = isOnSingleLine(4, '-', '-'); }
     if (inlineAllowed) { resetBackwardIndentation(TRUE); }
     
-    putNextCharsInBuffer(4); //add the chars '<!--'
+    putNextCharsInBuffer(4); /* add the chars '<!--' */
     
     char oldChar = '-';
     bool loop = TRUE;
     while (loop)
     {
         char nextChar = readNextChar();
-        if (oldChar == '-' && nextChar == '-') //comment is being closed
+        if (oldChar == '-' && nextChar == '-') /* comment is being closed */
         {
             loop = FALSE;
         }
         
-        if (!isLineBreak(nextChar)) //the comment simply continues
+        if (!isLineBreak(nextChar)) /* the comment simply continues */
         {
             if (options->oneLineComment && isSpace(nextChar))
             {
-                //removes all the unecessary spaces
+                /* removes all the unecessary spaces */
                 while(isSpace(getNextChar()))
                 {
                     nextChar = readNextChar();
@@ -738,44 +738,44 @@ void processComment(void)
             }
             else
             {
-                //comment is left untouched
+                /* comment is left untouched */
                 putCharInBuffer(nextChar);
                 oldChar = nextChar;
             }
             
-            if (!loop && options->alignComment) //end of comment
+            if (!loop && options->alignComment) /* end of comment */
             {
-                //ensures the chars preceding the first '-' are all spaces (there are at least
-                //5 spaces in front of the '-->' for the alignment with '<!--')
+                /* ensures the chars preceding the first '-' are all spaces (there are at least
+                 * 5 spaces in front of the '-->' for the alignment with '<!--') */
                 bool onlySpaces = xmlPrettyPrinted[xmlPrettyPrintedIndex-3] == ' ' &&
                                   xmlPrettyPrinted[xmlPrettyPrintedIndex-4] == ' ' &&
                                   xmlPrettyPrinted[xmlPrettyPrintedIndex-5] == ' ' &&
                                   xmlPrettyPrinted[xmlPrettyPrintedIndex-6] == ' ' &&
                                   xmlPrettyPrinted[xmlPrettyPrintedIndex-7] == ' ';
                 
-                //if all the preceding chars are white, then go for replacement
+                /* if all the preceding chars are white, then go for replacement */
                 if (onlySpaces)
                 {
-                    xmlPrettyPrintedIndex -= 7; //remove indentation spaces
-                    putCharsInBuffer("--"); //reset the first chars of '-->'
+                    xmlPrettyPrintedIndex -= 7; /* remove indentation spaces */
+                    putCharsInBuffer("--"); /* reset the first chars of '-->' */
                 }
             }
         }
-        else if (!options->oneLineComment && !inlineAllowed) //oh ! there is a line break
+        else if (!options->oneLineComment && !inlineAllowed) /* oh ! there is a line break */
         {
-            //if the comments need to be aligned, just add 5 spaces
+            /* if the comments need to be aligned, just add 5 spaces */
             if (options->alignComment) 
             {
-                int read = readWhites(FALSE); //strip the whites and new line
-                if (nextChar == '\r' && read == 0 && getNextChar() == '\n') //handles the \r\n return line
+                int read = readWhites(FALSE); /* strip the whites and new line */
+                if (nextChar == '\r' && read == 0 && getNextChar() == '\n') /* handles the \r\n return line */
                 {
                     readNextChar(); 
                     readWhites(FALSE);
                 }
               
-                putNewLine(); //put a new indentation line
-                putCharsInBuffer("     "); //align with <!-- 
-                oldChar = ' '; //and update the last char
+                putNewLine(); /* put a new indentation line */
+                putCharsInBuffer("     "); /* align with <!--  */
+                oldChar = ' '; /* and update the last char */
             }
             else
             {
@@ -783,11 +783,11 @@ void processComment(void)
                 oldChar = nextChar;
             }
         }
-        else //the comments must be inlined
+        else /* the comments must be inlined */
         {
-            readWhites(TRUE); //strip the whites and add a space if needed
+            readWhites(TRUE); /* strip the whites and add a space if needed */
             if (getPreviousInsertedChar() != ' ' &&
-                strncmp(xmlPrettyPrinted+xmlPrettyPrintedIndex-4, "<!--", 4) != 0) //prevents adding a space at the beginning 
+                strncmp(xmlPrettyPrinted+xmlPrettyPrintedIndex-4, "<!--", 4) != 0) /* prevents adding a space at the beginning  */
             { 
                 putCharInBuffer(' '); 
                 oldChar = ' ';
@@ -795,7 +795,7 @@ void processComment(void)
         }
     }
     
-    char lastChar = readNextChar(); //should be '>'
+    char lastChar = readNextChar(); /* should be '>' */
     if (lastChar != '>') 
     { 
         printError("processComment : last char must be '>' (not '%c')", lastChar); 
@@ -806,36 +806,36 @@ void processComment(void)
     
     if (inlineAllowed) { appendIndentation = FALSE; }
     
-    //there vas no node open
+    /* there vas no node open */
     lastNodeOpen = FALSE;
 }
 
 void processTextNode(void)
 {
-    //checks if inline is allowed
+    /* checks if inline is allowed */
     bool inlineTextAllowed = FALSE;
     if (options->inlineText) { inlineTextAllowed = isInlineNodeAllowed(); }
     if (inlineTextAllowed && !options->oneLineText) { inlineTextAllowed = isOnSingleLine(0, '<', '/'); }
     if (inlineTextAllowed || !options->alignText) 
     { 
-        resetBackwardIndentation(TRUE); //remove previous indentation
+        resetBackwardIndentation(TRUE); /* remove previous indentation */
         if (!inlineTextAllowed) { putNewLine(); }
     } 
    
-    //the leading whites are automatically stripped. So we re-add it
+    /* the leading whites are automatically stripped. So we re-add it */
     if (!options->trimLeadingWhites)
     {
         int backwardIndex = inputBufferIndex-1;
         while (isSpace(inputBuffer[backwardIndex])) 
         { 
-            --backwardIndex; //backward rolling
+            --backwardIndex; /* backward rolling */
         } 
         
-        //now the input[backwardIndex] IS NOT a white. So we go to 
-        //the next char...
+        /* now the input[backwardIndex] IS NOT a white. So we go to
+         * the next char... */
         ++backwardIndex;
         
-        //and then re-add the whites
+        /* and then re-add the whites */
         while (inputBuffer[backwardIndex] == ' ' || 
                inputBuffer[backwardIndex] == '\t') 
         {
@@ -844,7 +844,7 @@ void processTextNode(void)
         }
     }
     
-    //process the text into the node
+    /* process the text into the node */
     while(getNextChar() != '<')
     {
         char nextChar = readNextChar();
@@ -854,21 +854,21 @@ void processTextNode(void)
             { 
                 readWhites(TRUE);
               
-                //as we can put text on one line, remove the line break 
-                //and replace it by a space but only if the previous 
-                //char wasn't a space
+                /* as we can put text on one line, remove the line break 
+                 * and replace it by a space but only if the previous 
+                 * char wasn't a space */
                 if (getPreviousInsertedChar() != ' ') { putCharInBuffer(' '); }
             }
             else if (options->alignText)
             {
                 int read = readWhites(FALSE);
-                if (nextChar == '\r' && read == 0 && getNextChar() == '\n') //handles the '\r\n'
+                if (nextChar == '\r' && read == 0 && getNextChar() == '\n') /* handles the '\r\n' */
                 {
                    nextChar = readNextChar();
                    readWhites(FALSE);
                 }
               
-                //put a new line only if the closing tag is not reached
+                /* put a new line only if the closing tag is not reached */
                 if (getNextChar() != '<') 
                 {   
                     putNewLine(); 
@@ -885,7 +885,7 @@ void processTextNode(void)
         }
     }
     
-    //strip the trailing whites
+    /* strip the trailing whites */
     if (options->trimTrailingWhites)
     {
         while(getPreviousInsertedChar() == ' ' || 
@@ -895,10 +895,10 @@ void processTextNode(void)
         }
     }
     
-    //remove the indentation for the closing tag
+    /* remove the indentation for the closing tag */
     if (inlineTextAllowed) { appendIndentation = FALSE; }
     
-    //there vas no node open
+    /* there vas no node open */
     lastNodeOpen = FALSE;
 }
 
@@ -909,7 +909,7 @@ void processCDATA(void)
     if (inlineAllowed && !options->oneLineCdata) { inlineAllowed = isOnSingleLine(9, ']', ']'); }
     if (inlineAllowed) { resetBackwardIndentation(TRUE); }
     
-    putNextCharsInBuffer(9); //putting the '<![CDATA[' into the buffer
+    putNextCharsInBuffer(9); /* putting the '<![CDATA[' into the buffer */
     
     bool loop = TRUE;
     char oldChar = '[';
@@ -917,13 +917,13 @@ void processCDATA(void)
     {
         char nextChar = readNextChar();
         char nextChar2 = getNextChar();
-        if (oldChar == ']' && nextChar == ']' && nextChar2 == '>') { loop = FALSE; } //end of cdata
+        if (oldChar == ']' && nextChar == ']' && nextChar2 == '>') { loop = FALSE; } /* end of cdata */
         
-        if (!isLineBreak(nextChar)) //the cdata simply continues
+        if (!isLineBreak(nextChar)) /* the cdata simply continues */
         {
             if (options->oneLineCdata && isSpace(nextChar))
             {
-                //removes all the unecessary spaces
+                /* removes all the unecessary spaces */
                 while(isSpace(nextChar2))
                 {
                     nextChar = readNextChar();
@@ -935,15 +935,15 @@ void processCDATA(void)
             }
             else
             {
-                //comment is left untouched
+                /* comment is left untouched */
                 putCharInBuffer(nextChar);
                 oldChar = nextChar;
             }
             
-            if (!loop && options->alignCdata) //end of cdata
+            if (!loop && options->alignCdata) /* end of cdata */
             {
-                //ensures the chars preceding the first '-' are all spaces (there are at least
-                //10 spaces in front of the ']]>' for the alignment with '<![CDATA[')
+                /* ensures the chars preceding the first '-' are all spaces (there are at least
+                 * 10 spaces in front of the ']]>' for the alignment with '<![CDATA[') */
                 bool onlySpaces = xmlPrettyPrinted[xmlPrettyPrintedIndex-3] == ' ' &&
                                   xmlPrettyPrinted[xmlPrettyPrintedIndex-4] == ' ' &&
                                   xmlPrettyPrinted[xmlPrettyPrintedIndex-5] == ' ' &&
@@ -954,29 +954,29 @@ void processCDATA(void)
                                   xmlPrettyPrinted[xmlPrettyPrintedIndex-10] == ' ' &&
                                   xmlPrettyPrinted[xmlPrettyPrintedIndex-11] == ' ';
                 
-                //if all the preceding chars are white, then go for replacement
+                /* if all the preceding chars are white, then go for replacement */
                 if (onlySpaces)
                 {
-                    xmlPrettyPrintedIndex -= 11; //remove indentation spaces
-                    putCharsInBuffer("]]"); //reset the first chars of '-->'
+                    xmlPrettyPrintedIndex -= 11; /* remove indentation spaces */
+                    putCharsInBuffer("]]"); /* reset the first chars of '-->' */
                 }
             }
         }
-        else if (!options->oneLineCdata && !inlineAllowed) //line break
+        else if (!options->oneLineCdata && !inlineAllowed) /* line break */
         {
-            //if the cdata need to be aligned, just add 9 spaces
+            /* if the cdata need to be aligned, just add 9 spaces */
             if (options->alignCdata) 
             {
-                int read = readWhites(FALSE); //strip the whites and new line
-                if (nextChar == '\r' && read == 0 && getNextChar() == '\n') //handles the \r\n return line
+                int read = readWhites(FALSE); /* strip the whites and new line */
+                if (nextChar == '\r' && read == 0 && getNextChar() == '\n') /* handles the \r\n return line */
                 {
                     readNextChar(); 
                     readWhites(FALSE);
                 }
               
-                putNewLine(); //put a new indentation line
-                putCharsInBuffer("         "); //align with <![CDATA[
-                oldChar = ' '; //and update the last char
+                putNewLine(); /* put a new indentation line */
+                putCharsInBuffer("         "); /* align with <![CDATA[ */
+                oldChar = ' '; /* and update the last char */
             }
             else
             {
@@ -984,11 +984,11 @@ void processCDATA(void)
                 oldChar = nextChar;
             }
         }
-        else //cdata are inlined
+        else /* cdata are inlined */
         {
-            readWhites(TRUE); //strip the whites and add a space if necessary
+            readWhites(TRUE); /* strip the whites and add a space if necessary */
             if(getPreviousInsertedChar() != ' ' &&
-               strncmp(xmlPrettyPrinted+xmlPrettyPrintedIndex-9, "<![CDATA[", 9) != 0) //prevents adding a space at the beginning 
+               strncmp(xmlPrettyPrinted+xmlPrettyPrintedIndex-9, "<![CDATA[", 9) != 0) /* prevents adding a space at the beginning  */
             { 
                 putCharInBuffer(' '); 
                 oldChar = ' ';
@@ -996,10 +996,10 @@ void processCDATA(void)
         }
     }
     
-    //if the cdata is inline, then all the trailing spaces are removed
+    /* if the cdata is inline, then all the trailing spaces are removed */
     if (options->oneLineCdata)
     {
-        xmlPrettyPrintedIndex -= 2; //because of the last ']]' inserted
+        xmlPrettyPrintedIndex -= 2; /* because of the last ']]' inserted */
         while(isWhite(xmlPrettyPrinted[xmlPrettyPrintedIndex-1]))
         {
             --xmlPrettyPrintedIndex;
@@ -1007,8 +1007,8 @@ void processCDATA(void)
         putCharsInBuffer("]]");
     }
     
-    //finalize the cdata
-    char lastChar = readNextChar(); //should be '>'
+    /* finalize the cdata */
+    lastChar = readNextChar(); /* should be '>' */
     if (lastChar != '>') 
     { 
         printError("processCDATA : last char must be '>' (not '%c')", lastChar); 
@@ -1020,38 +1020,38 @@ void processCDATA(void)
     
     if (inlineAllowed) { appendIndentation = FALSE; }
     
-    //there was no node open
+    /* there was no node open */
     lastNodeOpen = FALSE;
 }
 
 void processDoctype(void)
 {
-    putNextCharsInBuffer(9); //put the '<!DOCTYPE' into the buffer
+    putNextCharsInBuffer(9); /* put the '<!DOCTYPE' into the buffer */
     
     bool loop = TRUE;
     while(loop)
     {
         readWhites(TRUE);
-        putCharInBuffer(' '); //only one space for the attributes
+        putCharInBuffer(' '); /* only one space for the attributes */
         
         int nextChar = readNextChar();
         while(!isWhite(nextChar) && 
-              !isQuote(nextChar) &&  //begins a quoted text
-              nextChar != '=' && //begins an attribute
-              nextChar != '>' &&  //end of doctype
-              nextChar != '[') //inner <!ELEMENT> types
+              !isQuote(nextChar) &&  /* begins a quoted text */
+              nextChar != '=' && /* begins an attribute */
+              nextChar != '>' &&  /* end of doctype */
+              nextChar != '[') /* inner <!ELEMENT> types */
         {
             putCharInBuffer(nextChar);
             nextChar = readNextChar();
         }
         
-        if (isWhite(nextChar)) {} //do nothing, just let the next loop do the job
+        if (isWhite(nextChar)) {} /* do nothing, just let the next loop do the job */
         else if (isQuote(nextChar) || nextChar == '=')
         {
             if (nextChar == '=')
             {
                 putCharInBuffer(nextChar);
-                nextChar = readNextChar(); //now we should have a quote
+                nextChar = readNextChar(); /* now we should have a quote */
                 
                 if (!isQuote(nextChar)) 
                 { 
@@ -1061,7 +1061,7 @@ void processDoctype(void)
                 }
             }
             
-            //simply process the content
+            /* simply process the content */
             char quote = nextChar;
             do
             {
@@ -1069,14 +1069,14 @@ void processDoctype(void)
                 nextChar = readNextChar();
             }
             while (nextChar != quote);
-            putCharInBuffer(nextChar); //now the last char is the last quote
+            putCharInBuffer(nextChar); /* now the last char is the last quote */
         }
-        else if (nextChar == '>') //end of doctype
+        else if (nextChar == '>') /* end of doctype */
         {
             putCharInBuffer(nextChar);
             loop = FALSE;
         }
-        else //the char is a '[' => not supported yet
+        else /* the char is a '[' => not supported yet */
         {
             printError("DOCTYPE inner ELEMENT is currently not supported by PrettyPrinter\n");
             result = PRETTY_PRINTING_NOT_SUPPORTED_YET;

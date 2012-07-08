@@ -18,15 +18,15 @@
 
 #include "ConfigUI.h"
 
-//======================= FUNCTIONS ====================================================================
+/*======================= FUNCTIONS ====================================================================*/
 
-//static GtkWidget* createTwoOptionsBox(const char* label, const char* checkBox1, const char* checkBox2, gboolean cb1Active, gboolean cb2Active, GtkWidget** option1, GtkWidget** option2);
+/*static GtkWidget* createTwoOptionsBox(const char* label, const char* checkBox1, const char* checkBox2, gboolean cb1Active, gboolean cb2Active, GtkWidget** option1, GtkWidget** option2);*/
 static GtkWidget* createThreeOptionsBox(const char* label, const char* checkBox1, const char* checkBox2, const char* checkBox3, gboolean cb1Active, gboolean cb2Active, gboolean cb3Active, GtkWidget** option1, GtkWidget** option2, GtkWidget** option3);
 static GtkWidget* createEmptyTextOptions(gboolean emptyNodeStripping, gboolean emptyNodeStrippingSpace, gboolean forceEmptyNodeSplit);
 static GtkWidget* createIndentationOptions(char indentation, int count);
 static GtkWidget* createLineReturnOptions(const char* lineReturn);
 
-//============================================ PRIVATE PROPERTIES ======================================
+/*============================================ PRIVATE PROPERTIES ======================================*/
 
 static GtkWidget* commentOneLine;
 static GtkWidget* commentInline;
@@ -44,15 +44,15 @@ static GtkWidget* indentationChar;
 static GtkWidget* indentationCount;
 static GtkWidget* lineBreak;
 
-//============================================= PUBLIC FUNCTIONS ========================================
+/*============================================= PUBLIC FUNCTIONS ========================================*/
 
-//redeclaration of extern variable
+/* redeclaration of extern variable */
 PrettyPrintingOptions* prettyPrintingOptions;
 
-//Will never be used, just here for example
+/* Will never be used, just here for example */
 GtkWidget* createPrettyPrinterConfigUI(GtkDialog * dialog)     
 {
-    //default printing options
+    /* default printing options */
     if (prettyPrintingOptions == NULL) { prettyPrintingOptions = createDefaultPrettyPrintingOptions(); }
     PrettyPrintingOptions* ppo = prettyPrintingOptions;
 
@@ -111,7 +111,7 @@ void saveSettings(void)
     else ppo->newLineChars = "\r\n";
 }
 
-//============================================= PRIVATE FUNCTIONS =======================================
+/*============================================= PRIVATE FUNCTIONS =======================================*/
 
 /*GtkWidget* createTwoOptionsBox(const char* label, 
                                const char* checkBox1, 

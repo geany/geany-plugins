@@ -19,7 +19,7 @@
 #ifndef PRETTY_PRINTER_H
 #define PRETTY_PRINTER_H
 
-//========================================== INCLUDES ==========================================================
+/*========================================== INCLUDES ==========================================================*/
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
@@ -34,7 +34,7 @@
 #include <glib.h>
 #endif
 
-//========================================== DEFINES ===========================================================
+/*========================================== DEFINES ===========================================================*/
 
 #define PRETTY_PRINTER_VERSION "1.3"
 
@@ -54,7 +54,7 @@
 
 typedef unsigned int bool;
 
-//========================================== STRUCTURES =======================================================
+/*========================================== STRUCTURES =======================================================*/
 
 /**
  * The PrettyPrintingOptions struct allows the programmer to tell the
@@ -62,29 +62,29 @@ typedef unsigned int bool;
  */
 typedef struct 
 {
-      const char* newLineChars;                                                             //char used to generate a new line (generally \r\n)
-      char indentChar;                                                                      //char used for indentation
-      int indentLength;                                                                     //number of char to use for indentation (by default 2 spaces)
-      bool oneLineText;                                                                     //text is put on one line  
-      bool inlineText;                                                                      //if possible text are inline (no return after the opening node and before closing node)
-      bool oneLineComment;                                                                  //comments are put on one line
-      bool inlineComment;                                                                   //if possible comments are inline (no return after the opening node and before closing node)
-      bool oneLineCdata;                                                                    //cdata are put on one line
-      bool inlineCdata;                                                                     //if possible cdata are inline (no return after the opening node and before closing node)
-      bool emptyNodeStripping;                                                              //the empty nodes such <node></node> are set to <node/>
-      bool emptyNodeStrippingSpace;                                                         //put a space before the '/>' when a node is stripped
-      bool forceEmptyNodeSplit;                                                             //force an empty node to be splitted : <node /> becomes <node></node> (only if emptyNodeStripping = false)
-      bool trimLeadingWhites;                                                               //trim the leading whites in a text node
-      bool trimTrailingWhites;                                                              //trim the trailing whites in a text node
-      bool alignComment;                                                                    //align the comments. If false, comments are untouched (only if oneLineComment = false)
-      bool alignText;                                                                       //align the text in a node. If false, text is untouched (only if oneLineText = false)
-      bool alignCdata;                                                                      //align the cdata. If false, cdata is untouched (only if oneLineCdata = false)
+      const char* newLineChars;                                                             /* char used to generate a new line (generally \r\n) */
+      char indentChar;                                                                      /* char used for indentation */
+      int indentLength;                                                                     /* number of char to use for indentation (by default 2 spaces) */
+      bool oneLineText;                                                                     /* text is put on one line   */
+      bool inlineText;                                                                      /* if possible text are inline (no return after the opening node and before closing node) */
+      bool oneLineComment;                                                                  /* comments are put on one line */
+      bool inlineComment;                                                                   /* if possible comments are inline (no return after the opening node and before closing node) */
+      bool oneLineCdata;                                                                    /* cdata are put on one line */
+      bool inlineCdata;                                                                     /* if possible cdata are inline (no return after the opening node and before closing node) */
+      bool emptyNodeStripping;                                                              /* the empty nodes such <node></node> are set to <node/> */
+      bool emptyNodeStrippingSpace;                                                         /* put a space before the '/>' when a node is stripped */
+      bool forceEmptyNodeSplit;                                                             /* force an empty node to be splitted : <node /> becomes <node></node> (only if emptyNodeStripping = false) */
+      bool trimLeadingWhites;                                                               /* trim the leading whites in a text node */
+      bool trimTrailingWhites;                                                              /* trim the trailing whites in a text node */
+      bool alignComment;                                                                    /* align the comments. If false, comments are untouched (only if oneLineComment = false) */
+      bool alignText;                                                                       /* align the text in a node. If false, text is untouched (only if oneLineText = false) */
+      bool alignCdata;                                                                      /* align the cdata. If false, cdata is untouched (only if oneLineCdata = false) */
 }
 PrettyPrintingOptions;
 
-//========================================== FUNCTIONS =========================================================
+/*========================================== FUNCTIONS =========================================================*/
 
-int processXMLPrettyPrinting(char** xml, int* length, PrettyPrintingOptions* ppOptions);    //process the pretty-printing on a valid xml string (no check done !!!). The ppOptions ARE NOT FREE-ED after processing. The method returns 0 if the pretty-printing has been done.
-PrettyPrintingOptions* createDefaultPrettyPrintingOptions(void);                            //creates a default PrettyPrintingOptions object
+int processXMLPrettyPrinting(char** xml, int* length, PrettyPrintingOptions* ppOptions);    /* process the pretty-printing on a valid xml string (no check done !!!). The ppOptions ARE NOT FREE-ED after processing. The method returns 0 if the pretty-printing has been done. */
+PrettyPrintingOptions* createDefaultPrettyPrintingOptions(void);                            /* creates a default PrettyPrintingOptions object */
 
 #endif
