@@ -181,7 +181,6 @@ static const VC_COMMAND commands[VC_COMMAND_COUNT] = {
 static gboolean
 in_vc_git(const gchar * filename)
 {
-	gint exit_code;
 	const gchar *argv[] = { "git", "ls-files", "--", NULL, NULL };
 	gchar *dir;
 	gchar *base_name;
@@ -198,8 +197,8 @@ in_vc_git(const gchar * filename)
 	base_name = g_path_get_basename(filename);
 	argv[3] = base_name;
 
-	exit_code = execute_custom_command(dir, (const gchar **) argv, NULL, &std_output, NULL,
-					   dir, NULL, NULL);
+	execute_custom_command(dir, (const gchar **) argv, NULL, &std_output, NULL,
+			       dir, NULL, NULL);
 	if (NZV(std_output))
 	{
 		ret = TRUE;
@@ -252,7 +251,6 @@ parse_git_status(GSList * lst, const gchar * base_dir, const gchar * txt, const 
 static GSList *
 get_commit_files_git(const gchar * file)
 {
-	gint exit_code;
 	const gchar *argv[] = { "git", "status", NULL };
 	const gchar *env[] = { "PAGES=cat", NULL };
 	gchar *std_out = NULL;
@@ -261,9 +259,8 @@ get_commit_files_git(const gchar * file)
 
 	g_return_val_if_fail(base_dir, NULL);
 
-	exit_code =
-		execute_custom_command(base_dir, (const gchar **) argv, (const gchar **) env,
-				       &std_out, NULL, base_dir, NULL, NULL);
+	execute_custom_command(base_dir, (const gchar **) argv, (const gchar **) env,
+			       &std_out, NULL, base_dir, NULL, NULL);
 	g_return_val_if_fail(std_out, NULL);
 
 	ret = parse_git_status(ret, base_dir, std_out, "modified:", FILE_STATUS_MODIFIED);

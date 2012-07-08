@@ -166,7 +166,6 @@ get_base_dir(const gchar * path)
 static gboolean
 in_vc_svn(const gchar * filename)
 {
-	gint exit_code;
 	const gchar *argv[] = { "svn", "info", "--non-interactive", NULL, NULL };
 	gchar *dir;
 	gchar *base_name;
@@ -183,8 +182,8 @@ in_vc_svn(const gchar * filename)
 	base_name = g_path_get_basename(filename);
 	argv[3] = base_name;
 
-	exit_code = execute_custom_command(dir, (const gchar **) argv, NULL, &std_output, NULL,
-					   dir, NULL, NULL);
+	execute_custom_command(dir, (const gchar **) argv, NULL, &std_output, NULL,
+			       dir, NULL, NULL);
 	if (NZV(std_output))
 	{
 		ret = TRUE;

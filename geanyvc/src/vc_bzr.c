@@ -118,7 +118,6 @@ get_base_dir(const gchar * path)
 static gboolean
 in_vc_bzr(const gchar * filename)
 {
-	gint exit_code;
 	const gchar *argv[] = { "bzr", "log", NULL, NULL };
 	gchar *dir;
 	gchar *base_name;
@@ -135,8 +134,8 @@ in_vc_bzr(const gchar * filename)
 	base_name = g_path_get_basename(filename);
 	argv[2] = base_name;
 
-	exit_code = execute_custom_command(dir, (const gchar **) argv, NULL, &std_output, NULL,
-					   filename, NULL, NULL);
+	execute_custom_command(dir, (const gchar **) argv, NULL, &std_output, NULL,
+			       filename, NULL, NULL);
 
 	if (NZV(std_output))
 	{
