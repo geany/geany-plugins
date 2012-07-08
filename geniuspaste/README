@@ -5,18 +5,30 @@ GeniusPaste Plugin
 
 About
 -----
-This plugin allows you to paste your code from Geany in five different
-pastebins. It supports this services:
+This plugin allows the user to paste the code from Geany into five different
+pastebins. At the moment it supports this services:
 
 	* codepad.org
-	* pastebin.com
+	* tinypaste.com
 	* pastebin.geany.org
 	* dpaste.de
 	* sprunge.us
 
-GeniusPaste detects automatically the syntax of your code and paste it
+GeniusPaste detects automatically the syntax of the code and paste it
 with syntax highlighting enabled.
-It also redirects you to the pasted code opening a new browser tab.
+It can also display the pasted code opening a new browser tab.
+
+Issues
+------
+The API of the pastebin services can be updated in every moment. It
+may happen that GeniusPaste plugin could use an outdated API that meanwhile
+has been deprecated.
+
+If you get a unexpected API response during the paste process (practically
+if the plugin doesn't return a link to the pasted code) write a email to me
+and warn me about the changes:
+
+<enrico(dot)trt(at)gmail(dot)com>
 
 Requirements
 ------------
@@ -37,8 +49,3 @@ license can be found in the file COPYING included with the source code
 of this program. If not, you will be able to get a copy by contacting
 the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 Boston, MA 02110-1301, USA.
-
-
-Info, questions and more
-------------------------
-Enrico Trotta <enrico(dot)trt(at)gmail(dot)com>
