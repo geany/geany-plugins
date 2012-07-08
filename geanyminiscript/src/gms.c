@@ -219,7 +219,7 @@ static void item_activate(GtkMenuItem *menuitem, gpointer gdata)
                     select_entirely_doc(  sci  ) ;
                     create_selection_2_input_file(sci) ;
                     if ( run_filter( sci ) )
-						break ; // if error then stop the loop
+						break ; /* if error then stop the loop */
                 }
             }
             delete_tmp_files() ;

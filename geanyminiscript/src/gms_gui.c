@@ -61,42 +61,42 @@
  *  Local Macro and new local type definition
  */
 
-//! \brief Number of script type
+/*! \brief Number of script type */
 #define GMS_NB_TYPE_SCRIPT  6
-//! \brief Number of char of the line buffer
+/*! \brief Number of char of the line buffer */
 #define GMS_MAX_LINE        127
 
-//! \brief macro uset to cast a gms_handle_t  to a gms_private_t pointer
+/*! \brief macro uset to cast a gms_handle_t  to a gms_private_t pointer */
 #define GMS_PRIVATE(p) ((gms_private_t *) p)
 
-//! \brief definition of gui data structure
+/*! \brief definition of gui data structure */
 typedef struct {
-    GtkWidget   *dlg          ; //!< Dialog widget
-    GtkWidget   *cb_st        ; //!< Script type combobox
-    GtkWidget   *t_script     ; //!< script text
-    GtkWidget   *rb_select    ; //!< radio button : filtering the selection
-    GtkWidget   *rb_doc       ; //!< radio button : filtering the current document
-    GtkWidget   *rb_session   ; //!< radio button : filtering all documents of the current session
-    GtkWidget   *rb_cdoc      ; //!< radio button : the filter output is in the current document
-    GtkWidget   *rb_ndoc      ; //!< radio button : the filter output is in the current document
+    GtkWidget   *dlg          ; /*!< Dialog widget */
+    GtkWidget   *cb_st        ; /*!< Script type combobox */
+    GtkWidget   *t_script     ; /*!< script text */
+    GtkWidget   *rb_select    ; /*!< radio button : filtering the selection */
+    GtkWidget   *rb_doc       ; /*!< radio button : filtering the current document */
+    GtkWidget   *rb_session   ; /*!< radio button : filtering all documents of the current session */
+    GtkWidget   *rb_cdoc      ; /*!< radio button : the filter output is in the current document */
+    GtkWidget   *rb_ndoc      ; /*!< radio button : the filter output is in the current document */
 
-    GtkWidget   *e_script[GMS_NB_TYPE_SCRIPT] ; //!< entry for script configuration
-    GtkTooltips *tips         ; //!< tips of button of the top bar
+    GtkWidget   *e_script[GMS_NB_TYPE_SCRIPT] ; /*!< entry for script configuration */
+    GtkTooltips *tips         ; /*!< tips of button of the top bar */
     PangoFontDescription *fontdesc;
 } gms_gui_t  ;
 
-//! \brief definition of mini-script data structure
+/*! \brief definition of mini-script data structure */
 typedef struct {
-    int         id ;                             //!< ID of the instance
-	gchar      *config_dir  ;                    //!< path of configuration files
-    GString    *cmd         ;                    //!< Command string of filtering
-    GtkWidget  *mw          ;                    //!< MainWindow of Geany
-    gms_gui_t   w           ;                    //!< Widgets of minis-script gui
-    GString    *input_name  ;                    //!< filename of the filter input
-    GString    *filter_name ;                    //!< filter filename
-    GString    *output_name ;                    //!< filename of the filter output
-    GString    *error_name  ;                    //!< errors filename
-    GString    *script_cmd[GMS_NB_TYPE_SCRIPT];  //!< array of script command names
+    int         id ;                             /*!< ID of the instance */
+	gchar      *config_dir  ;                    /*!< path of configuration files */
+    GString    *cmd         ;                    /*!< Command string of filtering */
+    GtkWidget  *mw          ;                    /*!< MainWindow of Geany */
+    gms_gui_t   w           ;                    /*!< Widgets of minis-script gui */
+    GString    *input_name  ;                    /*!< filename of the filter input */
+    GString    *filter_name ;                    /*!< filter filename */
+    GString    *output_name ;                    /*!< filename of the filter output */
+    GString    *error_name  ;                    /*!< errors filename */
+    GString    *script_cmd[GMS_NB_TYPE_SCRIPT];  /*!< array of script command names */
 } gms_private_t  ;
 /*
  * *****************************************************************************
@@ -107,25 +107,25 @@ typedef struct {
  * *****************************************************************************
  *  Local variables
  */
-static unsigned char inst_cnt = 0  ; //!< counter of instance
-static gchar bufline[GMS_MAX_LINE+1]; //!< buffer used to read the configuration file
+static unsigned char inst_cnt = 0  ; /*!< counter of instance */
+static gchar bufline[GMS_MAX_LINE+1]; /*!< buffer used to read the configuration file */
 
-static const gchar pref_filename[]   = "gms.rc"    ; //!< preferences filename
-static const gchar prefix_filename[] = "/tmp/gms"  ; //!< prefix filename
-static const gchar in_ext[]          = ".in"       ; //!< filename extension for the input file
-static const gchar out_ext[]         = ".out"      ; //!< filename extension for the output file
-static const gchar filter_ext[]      = ".filter"   ; //!< filename extension for the filter file
-static const gchar error_ext[]       = ".error"    ; //!< filename extension for the error file
+static const gchar pref_filename[]   = "gms.rc"    ; /*!< preferences filename */
+static const gchar prefix_filename[] = "/tmp/gms"  ; /*!< prefix filename */
+static const gchar in_ext[]          = ".in"       ; /*!< filename extension for the input file */
+static const gchar out_ext[]         = ".out"      ; /*!< filename extension for the output file */
+static const gchar filter_ext[]      = ".filter"   ; /*!< filename extension for the filter file */
+static const gchar error_ext[]       = ".error"    ; /*!< filename extension for the error file */
 
-///< \brief It's the default script command
+/**< \brief It's the default script command */
 static const gchar *default_script_cmd[GMS_NB_TYPE_SCRIPT] = {
     "${SHELL} ", "perl ", "python ", "sed -f ", "awk -f ", "cat - "  };
 
-///< \brief It's the label for the script command combobox
+/**< \brief It's the label for the script command combobox */
 const gchar *label_script_cmd[GMS_NB_TYPE_SCRIPT] = {
     "Shell", "Perl", "Python", "Sed", "Awk", "User" };
 
-///< \brief It's the information message about geany mini script
+/**< \brief It's the information message about geany mini script */
 const char *geany_info = "<b>GMS : Geany Mini-Script filter Plugin</b>\n"
 "This plugin is a tool to apply a script filter on :\n"
 "   o the text selection,\n"
@@ -158,7 +158,7 @@ const char *geany_info = "<b>GMS : Geany Mini-Script filter Plugin</b>\n"
  * \brief the function loads the preferences file
  */
 static void load_prefs_file(
-    gms_private_t *this  ///< pointer of mini-script data structure
+    gms_private_t *this  /**< pointer of mini-script data structure */
     )
 {
     GString *gms_pref = g_string_new("") ;
@@ -190,7 +190,7 @@ static void load_prefs_file(
  * \brief the function saves the preferences file
  */
 static void save_prefs_file(
-        gms_private_t *this ///< pointer of mini-script data structure
+        gms_private_t *this /**< pointer of mini-script data structure */
     )
 {
     GString *gms_pref = g_string_new("");
@@ -380,28 +380,28 @@ static GtkWidget  *new_button_from_stock( gboolean withtext, const gchar *stock_
  * \brief the function initializes the mini-script gui structure.
  */
 gms_handle_t gms_new(
-    GtkWidget *mw         , ///< Geany Main windows
-    gchar     *font       , ///< Geany editor font
-    gint       tabs       , ///< Geany editor tabstop
-    gchar     *config_dir   ///< Geany Configuration Path
+    GtkWidget *mw         , /**< Geany Main windows */
+    gchar     *font       , /**< Geany editor font */
+    gint       tabs       , /**< Geany editor tabstop */
+    gchar     *config_dir   /**< Geany Configuration Path */
     )
 {
     gms_private_t *this = GMS_G_MALLOC0(gms_private_t,1);
 
     if ( this != NULL )
     {
-        GtkBox     *vb_dlg        ; //!< vbox of dialog box
-        GtkWidget  *hb_st         ; //!< Hbox for script type
-        GtkWidget  *b_open        ; //!< button for loading a existing script
-        GtkWidget  *b_save        ; //!< button for saving the current script
-        GtkWidget  *b_new         ; //!< button for erasing the script text box
-        GtkWidget  *b_info        ; //!< button for info box
-        GtkWidget  *sb_script     ; //!< Scroll box for script text
-        GtkWidget  *hb_rb         ; //!< Hbox for radio buttons
-        GtkWidget  *f_rbi         ; //!< frame for radio buttons : input filter
-        GtkWidget  *hb_rbi        ; //!< Hbox for radio buttons
-        GtkWidget  *f_rbo         ; //!< frame for radio buttons : input filter
-        GtkWidget  *hb_rbo        ; //!< Hbox for radio buttons
+        GtkBox     *vb_dlg        ; /*!< vbox of dialog box */
+        GtkWidget  *hb_st         ; /*!< Hbox for script type */
+        GtkWidget  *b_open        ; /*!< button for loading a existing script */
+        GtkWidget  *b_save        ; /*!< button for saving the current script */
+        GtkWidget  *b_new         ; /*!< button for erasing the script text box */
+        GtkWidget  *b_info        ; /*!< button for info box */
+        GtkWidget  *sb_script     ; /*!< Scroll box for script text */
+        GtkWidget  *hb_rb         ; /*!< Hbox for radio buttons */
+        GtkWidget  *f_rbi         ; /*!< frame for radio buttons : input filter */
+        GtkWidget  *hb_rbi        ; /*!< Hbox for radio buttons */
+        GtkWidget  *f_rbo         ; /*!< frame for radio buttons : input filter */
+        GtkWidget  *hb_rbo        ; /*!< Hbox for radio buttons */
 
         PangoTabArray* tabsarray  ;
         GdkScreen  *ecran  = gdk_screen_get_default();
@@ -435,7 +435,7 @@ gms_handle_t gms_new(
  
         this->w.tips = gtk_tooltips_new ();
         
-     // Hbox : type de script
+     /* Hbox : type de script */
         hb_st = gtk_hbox_new (FALSE, 0);
         gtk_container_set_border_width (GTK_CONTAINER (hb_st), 0);
         gtk_box_pack_start( vb_dlg , hb_st, FALSE, FALSE, 0);
@@ -468,7 +468,7 @@ gms_handle_t gms_new(
         GTK_WIDGET_SET_FLAGS (this->w.cb_st, GTK_CAN_DEFAULT);
         gtk_tooltips_set_tip (GTK_TOOLTIPS (this->w.tips), this->w.cb_st, _("select the mini-script type"), "");
 
-    // Scroll Box : script
+    /* Scroll Box : script */
         sb_script =  gtk_scrolled_window_new (NULL,NULL);
         gtk_container_set_border_width (GTK_CONTAINER (sb_script), 0);
         gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sb_script),
@@ -479,7 +479,7 @@ gms_handle_t gms_new(
         this->w.fontdesc = pango_font_description_from_string(font);
         gtk_widget_modify_font( this->w.t_script, this->w.fontdesc );
         gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW (sb_script), this->w.t_script);
-        { // find the width of the space character
+        { /* find the width of the space character */
             gint largeur,hauteur ;
             PangoLayout *layout = gtk_widget_create_pango_layout (this->w.t_script, " ");
             pango_layout_set_font_description (layout, this->w.fontdesc);
@@ -490,13 +490,13 @@ gms_handle_t gms_new(
         tabsarray = pango_tab_array_new_with_positions ( 1,  TRUE  , PANGO_TAB_LEFT, tabs ) ;
         gtk_text_view_set_tabs(GTK_TEXT_VIEW(this->w.t_script),tabsarray);
 
-    // Hbox : Radio bouttons for choosing the input/output:
+    /* Hbox : Radio bouttons for choosing the input/output: */
         hb_rb = gtk_hbox_new (FALSE, 0);
         gtk_container_set_border_width (GTK_CONTAINER (hb_rb), 0);
         gtk_box_pack_start( vb_dlg, hb_rb, FALSE, FALSE, 0);
 
-    // Hbox : Radio bouttons for choosing the input:
-    //                   selection/current document/all documents of the current session
+    /* Hbox : Radio bouttons for choosing the input:
+     *                   selection/current document/all documents of the current session */
         f_rbi = gtk_frame_new (_("filter input") );
         gtk_box_pack_start( GTK_BOX (hb_rb), f_rbi, FALSE, FALSE, 0);
         gtk_tooltips_set_tip (GTK_TOOLTIPS (this->w.tips), f_rbi, _("select the input of mini-script filter"), "");
@@ -514,8 +514,8 @@ gms_handle_t gms_new(
         gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(this->w.rb_doc) ,TRUE) ;
 
 
-    // Hbox : Radio bouttons for choosing the output:
-    //                   current document/ or new document
+    /* Hbox : Radio bouttons for choosing the output:
+     *                   current document/ or new document */
         f_rbo = gtk_frame_new (_("filter output") );
         gtk_box_pack_start( GTK_BOX(hb_rb), f_rbo, FALSE, FALSE, 0);
         gtk_tooltips_set_tip (GTK_TOOLTIPS (this->w.tips), f_rbo, _("select the output of mini-script filter"), "");
@@ -567,7 +567,7 @@ gms_handle_t gms_new(
  */
 
 void gms_delete(
-    gms_handle_t *hnd  ///< handle of mini-script data structure
+    gms_handle_t *hnd  /**< handle of mini-script data structure */
     )
 {
     if ( hnd != NULL )
@@ -595,7 +595,7 @@ void gms_delete(
  * \brief the function runs the mini-script dialog.
  */
 int gms_dlg(
-    gms_handle_t hnd ///< handle of mini-script data structure
+    gms_handle_t hnd /**< handle of mini-script data structure */
     )
 {
     gms_private_t *this = GMS_PRIVATE( hnd ) ;
@@ -618,7 +618,7 @@ int gms_dlg(
  * \brief the function get the input mode.
  */
 gms_input_t  gms_get_input_mode(
-    gms_handle_t hnd ///< handle of mini-script data structure
+    gms_handle_t hnd /**< handle of mini-script data structure */
     )
 {
     gms_private_t *this = GMS_PRIVATE( hnd ) ;
@@ -636,7 +636,7 @@ gms_input_t  gms_get_input_mode(
  * \brief the function get the output mode.
  */
 gms_output_t  gms_get_output_mode(
-    gms_handle_t hnd ///< handle of mini-script data structure
+    gms_handle_t hnd /**< handle of mini-script data structure */
     )
 {
     gms_private_t *this = GMS_PRIVATE( hnd ) ;
@@ -652,7 +652,7 @@ gms_output_t  gms_get_output_mode(
  * \brief the function get the input filename for filter input.
  */
 gchar *gms_get_in_filename(
-    gms_handle_t hnd ///< handle of mini-script data structure
+    gms_handle_t hnd /**< handle of mini-script data structure */
     )
 {
     gms_private_t *this = GMS_PRIVATE( hnd ) ;
@@ -663,7 +663,7 @@ gchar *gms_get_in_filename(
  * \brief the function get the output filename for filter result.
  */
 gchar *gms_get_out_filename(
-    gms_handle_t hnd ///< handle of mini-script data structure
+    gms_handle_t hnd /**< handle of mini-script data structure */
     )
 {
     gms_private_t *this = GMS_PRIVATE( hnd ) ;
@@ -683,7 +683,7 @@ gchar *gms_get_filter_filename( gms_handle_t hnd )
  * \brief the function get the error filename for filter script.
  */
 gchar *gms_get_error_filename(
-    gms_handle_t hnd ///< handle of mini-script data structure
+    gms_handle_t hnd /**< handle of mini-script data structure */
     )
 {
     gms_private_t *this = GMS_PRIVATE( hnd ) ;
@@ -694,7 +694,7 @@ gchar *gms_get_error_filename(
  * \brief the function creates the filter file.
  */
 void  gms_create_filter_file(
-    gms_handle_t hnd ///< handle of mini-script data structure
+    gms_handle_t hnd /**< handle of mini-script data structure */
     )
 {
     gms_private_t *this = GMS_PRIVATE( hnd ) ;
@@ -714,7 +714,7 @@ void  gms_create_filter_file(
  * \brief the function creates the command string.
  */
 gchar *gms_get_str_command(
-    gms_handle_t hnd ///< handle of mini-script data structure
+    gms_handle_t hnd /**< handle of mini-script data structure */
     )
 {
     gms_private_t *this = GMS_PRIVATE( hnd ) ;
@@ -734,15 +734,15 @@ gchar *gms_get_str_command(
  */
 
 GtkWidget   *gms_configure_gui(
-    gms_handle_t hnd ///< handle of mini-script data structure
+    gms_handle_t hnd /**< handle of mini-script data structure */
     )
 {
     gms_private_t *this = GMS_PRIVATE( hnd ) ;
 
     volatile gint ii ;
-    GtkWidget *vb_pref        ; //!< vbox for mini-script configuration
-    GtkWidget  *f_script      ; //!< frame for configuration script
-    GtkWidget  *t_script      ; //!< table for configuration script
+    GtkWidget *vb_pref        ; /*!< vbox for mini-script configuration */
+    GtkWidget  *f_script      ; /*!< frame for configuration script */
+    GtkWidget  *t_script      ; /*!< table for configuration script */
     GtkWidget  *w ;
 
     vb_pref= gtk_vbox_new(FALSE, 6);
