@@ -79,6 +79,7 @@ void plugin_init(GeanyData *data)
     /* Create a new menu item and show it */
     main_menu_item = gtk_menu_item_new_with_mnemonic("GeanyPG");
     gtk_widget_show(main_menu_item);
+    ui_add_document_sensitive(main_menu_item);
 
     submenu = gtk_menu_new();
     gtk_widget_show(submenu);
