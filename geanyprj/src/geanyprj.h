@@ -51,7 +51,7 @@ enum
 
 struct GeanyPrj
 {
-	gchar *path;		///< path to disk file
+	gchar *path;		/**< path to disk file */
 
 	gchar *name;
 	gchar *description;
@@ -61,7 +61,7 @@ struct GeanyPrj
 	gboolean regenerate;
 	gint type;
 
-	GHashTable *tags;	///< project tags
+	GHashTable *tags;	/**< project tags */
 };
 
 extern GeanyFunctions *geany_functions;
