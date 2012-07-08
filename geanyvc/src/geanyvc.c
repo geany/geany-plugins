@@ -46,14 +46,14 @@ GeanyFunctions *geany_functions;
 GeanyPlugin		*geany_plugin;
 
 
-PLUGIN_VERSION_CHECK(188);
+PLUGIN_VERSION_CHECK(188)
 PLUGIN_SET_TRANSLATABLE_INFO(
 	LOCALEDIR,
 	GETTEXT_PACKAGE,
 	_("GeanyVC"),
 	_("Interface to different Version Control systems."),
 	VERSION,
-	"Yura Siamashka <yurand2@gmail.com>,\nFrank Lanitz <frank@frank.uvena.de>");
+	"Yura Siamashka <yurand2@gmail.com>,\nFrank Lanitz <frank@frank.uvena.de>")
 
 /* Some global variables */
 static gboolean set_changed_flag;
@@ -82,7 +82,7 @@ static GSList *VC = NULL;
 /* absolute path dirname of file */
 const gchar ABS_DIRNAME[] = "*ABS_DIRNAME*";
 /* absolute path filename of file */
-const gchar ABS_FILENAME[] = "*ABS_FILENAME*";;
+const gchar ABS_FILENAME[] = "*ABS_FILENAME*";
 
 /* path to directory from base vc directory */
 const gchar BASE_DIRNAME[] = "*BASE_DIRNAME*";
