@@ -255,6 +255,8 @@ static void update_popup_menu(G_GNUC_UNUSED GtkWidget *popup_menu)
 	gboolean cur_file_exists;
 	gboolean badd_file;
 	GeanyDocument *doc;
+	GtkTreeSelection *treesel;
+	gboolean bremove_file;
 
 	doc = document_get_current();
 
@@ -264,8 +266,8 @@ static void update_popup_menu(G_GNUC_UNUSED GtkWidget *popup_menu)
 		!g_current_project->regenerate &&
 		cur_file_exists && !g_hash_table_lookup(g_current_project->tags, doc->file_name);
 
-	GtkTreeSelection *treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(file_view));
-	gboolean bremove_file = (g_current_project ? TRUE : FALSE) &&
+	treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(file_view));
+	bremove_file = (g_current_project ? TRUE : FALSE) &&
 		!g_current_project->regenerate &&
 		(gtk_tree_selection_count_selected_rows(treesel) > 0);
 
