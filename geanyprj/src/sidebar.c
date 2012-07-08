@@ -342,13 +342,13 @@ static void prepare_file_view(void)
 }
 
 
-void sidebar_clear(void)
+static void sidebar_clear(void)
 {
 	gtk_list_store_clear(file_store);
 }
 
 
-gint mycmp(const gchar *a, const gchar *b)
+static gint mycmp(const gchar *a, const gchar *b)
 {
 	const gchar *p1 = a;
 	const gchar *p2 = b;
