@@ -52,25 +52,36 @@ PrettyPrintingOptions* prettyPrintingOptions;
 /* Will never be used, just here for example */
 GtkWidget* createPrettyPrinterConfigUI(GtkDialog * dialog)     
 {
+    PrettyPrintingOptions* ppo;
+    GtkWidget* container;
+    GtkWidget* leftBox;
+    GtkWidget* rightBox;
+    GtkWidget* commentOptions;
+    GtkWidget* textOptions;
+    GtkWidget* cdataOptions;
+    GtkWidget* emptyOptions;
+    GtkWidget* indentationOptions;
+    GtkWidget* lineReturnOptions;
+    
     /* default printing options */
     if (prettyPrintingOptions == NULL) { prettyPrintingOptions = createDefaultPrettyPrintingOptions(); }
-    PrettyPrintingOptions* ppo = prettyPrintingOptions;
+    ppo = prettyPrintingOptions;
 
-    GtkWidget* container = gtk_hbox_new(FALSE, 10);
+    container = gtk_hbox_new(FALSE, 10);
     
-    GtkWidget* leftBox = gtk_vbox_new(FALSE, 6);
-    GtkWidget* commentOptions = createThreeOptionsBox(_("Comments"), _("Put on one line"), _("Inline if possible"), _("Alignment"), ppo->oneLineComment, ppo->inlineComment, ppo->alignComment, &commentOneLine, &commentInline, &commentAlign);
-    GtkWidget* textOptions = createThreeOptionsBox(_("Text nodes"), _("Put on one line"), _("Inline if possible"), _("Alignment"), ppo->oneLineText, ppo->inlineText, ppo->alignText, &textOneLine, &textInline, &textAlign);
-    GtkWidget* cdataOptions = createThreeOptionsBox(_("CDATA"), _("Put on one line"), _("Inline if possible"), _("Alignment"), ppo->oneLineCdata, ppo->inlineCdata, ppo->alignCdata, &cdataOneLine, &cdataInline, &cdataAlign);
-    GtkWidget* emptyOptions = createEmptyTextOptions(ppo->emptyNodeStripping, ppo->emptyNodeStrippingSpace, ppo->forceEmptyNodeSplit);
-    GtkWidget* indentationOptions = createIndentationOptions(ppo->indentChar, ppo->indentLength);
-    GtkWidget* lineReturnOptions = createLineReturnOptions(ppo->newLineChars);
+    leftBox = gtk_vbox_new(FALSE, 6);
+    commentOptions = createThreeOptionsBox(_("Comments"), _("Put on one line"), _("Inline if possible"), _("Alignment"), ppo->oneLineComment, ppo->inlineComment, ppo->alignComment, &commentOneLine, &commentInline, &commentAlign);
+    textOptions = createThreeOptionsBox(_("Text nodes"), _("Put on one line"), _("Inline if possible"), _("Alignment"), ppo->oneLineText, ppo->inlineText, ppo->alignText, &textOneLine, &textInline, &textAlign);
+    cdataOptions = createThreeOptionsBox(_("CDATA"), _("Put on one line"), _("Inline if possible"), _("Alignment"), ppo->oneLineCdata, ppo->inlineCdata, ppo->alignCdata, &cdataOneLine, &cdataInline, &cdataAlign);
+    emptyOptions = createEmptyTextOptions(ppo->emptyNodeStripping, ppo->emptyNodeStrippingSpace, ppo->forceEmptyNodeSplit);
+    indentationOptions = createIndentationOptions(ppo->indentChar, ppo->indentLength);
+    lineReturnOptions = createLineReturnOptions(ppo->newLineChars);
 
     gtk_box_pack_start(GTK_BOX(leftBox), commentOptions, FALSE, FALSE, 3);
     gtk_box_pack_start(GTK_BOX(leftBox), textOptions, FALSE, FALSE, 3);
     gtk_box_pack_start(GTK_BOX(leftBox), cdataOptions, FALSE, FALSE, 3);
     
-    GtkWidget* rightBox = gtk_vbox_new(FALSE, 6);
+    rightBox = gtk_vbox_new(FALSE, 6);
     gtk_box_pack_start(GTK_BOX(rightBox), emptyOptions, FALSE, FALSE, 3);
     gtk_box_pack_start(GTK_BOX(rightBox), indentationOptions, FALSE, FALSE, 3);
     gtk_box_pack_start(GTK_BOX(rightBox), lineReturnOptions, FALSE, FALSE, 3);
@@ -84,6 +95,7 @@ GtkWidget* createPrettyPrinterConfigUI(GtkDialog * dialog)
 
 void saveSettings(void)
 {
+    int breakStyle;
     PrettyPrintingOptions* ppo = prettyPrintingOptions;
     
     ppo->oneLineComment = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(commentOneLine));
@@ -105,7 +117,7 @@ void saveSettings(void)
     ppo->indentLength = gtk_spin_button_get_value(GTK_SPIN_BUTTON(indentationCount));
     ppo->indentChar = gtk_combo_box_get_active(GTK_COMBO_BOX(indentationChar))==0 ? '\t' : ' ';
     
-    int breakStyle = gtk_combo_box_get_active(GTK_COMBO_BOX(lineBreak));
+    breakStyle = gtk_combo_box_get_active(GTK_COMBO_BOX(lineBreak));
     if (breakStyle == 0) ppo->newLineChars = "\r";
     else if (breakStyle == 1) ppo->newLineChars = "\n";
     else ppo->newLineChars = "\r\n";
@@ -252,11 +264,12 @@ static GtkWidget* createLineReturnOptions(const char* lineReturn)
     GtkWidget* lbl = gtk_label_new(_("Line break"));
     GtkWidget* comboChar = gtk_combo_box_new_text();
     
+    int active = 0;
+    
     gtk_combo_box_append_text(GTK_COMBO_BOX(comboChar), "\\r");
     gtk_combo_box_append_text(GTK_COMBO_BOX(comboChar), "\\n");
     gtk_combo_box_append_text(GTK_COMBO_BOX(comboChar), "\\r\\n");
     
-    int active = 0;
     if (strlen(lineReturn) == 2) active = 2;
     else if (lineReturn[0] == '\n') active = 1;
     

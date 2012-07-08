@@ -88,13 +88,16 @@ static void PP_ERROR(const char* fmt, ...)
 
 int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* ppOptions)
 {
+    bool freeOptions;
+    char* reallocated;
+    
     /* empty buffer, nothing to process */
     if (*length == 0) { return PRETTY_PRINTING_EMPTY_XML; }
     if (buffer == NULL || *buffer == NULL) { return PRETTY_PRINTING_EMPTY_XML; }
     
     /* initialize the variables */
     result = PRETTY_PRINTING_SUCCESS;
-    bool freeOptions = FALSE;
+    freeOptions = FALSE;
     if (ppOptions == NULL) 
     { 
         ppOptions = createDefaultPrettyPrintingOptions(); 
@@ -126,7 +129,7 @@ int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* 
     putCharInBuffer('\0');
     
     /* adjust the final size */
-    char* reallocated = (char*)realloc(xmlPrettyPrinted, xmlPrettyPrintedIndex); 
+    reallocated = (char*)realloc(xmlPrettyPrinted, xmlPrettyPrintedIndex); 
     if (reallocated == NULL) { PP_ERROR("Allocation error (reallocation size is %d)", xmlPrettyPrintedIndex); return PRETTY_PRINTING_SYSTEM_ERROR; }
     xmlPrettyPrinted = reallocated;
     
@@ -201,9 +204,11 @@ void putCharInBuffer(char charToAdd)
     /* check if the buffer is full and reallocation if needed */
     if (xmlPrettyPrintedIndex >= xmlPrettyPrintedLength)
     {
+        char* reallocated;
+        
         if (charToAdd == '\0') { ++xmlPrettyPrintedLength; }
         else { xmlPrettyPrintedLength += inputBufferLength; }
-        char* reallocated = (char*)realloc(xmlPrettyPrinted, xmlPrettyPrintedLength);
+        reallocated = (char*)realloc(xmlPrettyPrinted, xmlPrettyPrintedLength);
         if (reallocated == NULL) { PP_ERROR("Allocation error (char was %c)", charToAdd); return; }
         xmlPrettyPrinted = reallocated;
     }
@@ -230,9 +235,11 @@ char getPreviousInsertedChar(void)
 
 int putNewLine(void)
 {
-    putCharsInBuffer(options->newLineChars);
-    int spaces = currentDepth*options->indentLength;
+    int spaces;
     int i;
+    
+    putCharsInBuffer(options->newLineChars);
+    spaces = currentDepth*options->indentLength;
     for(i=0 ; i<spaces ; ++i)
     {
         putCharInBuffer(options->indentChar);
@@ -291,30 +298,37 @@ bool isLineBreak(char c)
 
 bool isInlineNodeAllowed(void)
 {
+    int firstChar;
+    int secondChar;
+    int thirdChar;
+    int currentIndex;
+    char currentChar;
+    
     /* the last action was not an opening => inline not allowed */
     if (!lastNodeOpen) { return FALSE; }
     
-    int firstChar = getNextChar(); /* should be '<' or we are in a text node */
-    int secondChar = inputBuffer[inputBufferIndex+1]; /* should be '!' */
-    int thirdChar = inputBuffer[inputBufferIndex+2]; /* should be '-' or '[' */
+    firstChar = getNextChar(); /* should be '<' or we are in a text node */
+    secondChar = inputBuffer[inputBufferIndex+1]; /* should be '!' */
+    thirdChar = inputBuffer[inputBufferIndex+2]; /* should be '-' or '[' */
     
     /* loop through the content up to the next opening/closing node */
     currentIndex = inputBufferIndex+1;
     if (firstChar == '<')
     {
+        char closingComment = '-';
+        char oldChar = ' ';
+        bool loop = TRUE;
+        
         /* another node is being open ==> no inline ! */
         if (secondChar != '!') { return FALSE; }
         
         /* okay we are in a comment/cdata node, so read until it is closed */
         
         /* select the closing char */
-        char closingComment = '-';
         if (thirdChar == '[') { closingComment = ']'; }
         
         /* read until closing */
-        char oldChar = ' ';
         currentIndex += 3; /* that bypass meanless chars */
-        bool loop = TRUE;
         while (loop)
         {
             char current = inputBuffer[currentIndex];
@@ -417,21 +431,24 @@ void resetBackwardIndentation(bool resetLineBreak)
 int processElements(void)
 {
     int counter = 0;
-    ++currentDepth;
     bool loop = TRUE;
+    ++currentDepth;
     while (loop && result == PRETTY_PRINTING_SUCCESS)
     {
+        bool indentBackward;
+        char nextChar;
+        
         /* strip unused whites */
         readWhites(TRUE);
         
-        char nextChar = getNextChar();
+        nextChar = getNextChar();
         if (nextChar == '\0') { return 0; } /* no more data to read */
         
         /* put a new line with indentation */
         if (appendIndentation) { putNewLine(); }
         
         /* always append indentation (but need to store the state) */
-        bool indentBackward = appendIndentation;
+        indentBackward = appendIndentation;
         appendIndentation = TRUE; 
         
         /* okay what do we have now ? */
@@ -487,6 +504,8 @@ int processElements(void)
 
 void processElementAttribute(void)
 {
+    char quote;
+    char value;
     /* process the attribute name */
     char nextChar = readNextChar();
     while (nextChar != '=')
@@ -498,11 +517,11 @@ void processElementAttribute(void)
     putCharInBuffer(nextChar); /* that's the '=' */
     
     /* read the simple quote or double quote and put it into the buffer */
-    char quote = readNextChar();
+    quote = readNextChar();
     putCharInBuffer(quote); 
     
     /* process until the last quote */
-    char value = readNextChar();
+    value = readNextChar();
     while(value != quote)
     {
         putCharInBuffer(value);
@@ -515,6 +534,7 @@ void processElementAttribute(void)
 
 void processElementAttributes(void)
 {
+    bool loop = TRUE;
     char current = getNextChar(); /* should not be a white */
     if (isWhite(current)) 
     { 
@@ -523,12 +543,13 @@ void processElementAttributes(void)
         return; 
     }
     
-    bool loop = TRUE;
     while (loop)
     {
+        char next;
+        
         readWhites(TRUE); /* strip the whites */
         
-        char next = getNextChar(); /* don't read the last char (processed afterwards) */
+        next = getNextChar(); /* don't read the last char (processed afterwards) */
         if (next == '/') { loop = FALSE; } /* end of node */
         else if (next == '>') { loop = FALSE; } /* end of tag */
         else if (next == '?') { loop = FALSE; } /* end of header */
@@ -569,6 +590,12 @@ void processHeader(void)
 
 void processNode(void)
 {
+    char closeChar;
+    int subElementsProcessed = 0;
+    char nextChar;
+    char* nodeName;
+    int nodeNameLength = 0;
+    int i;
     int opening = readNextChar();
     if (opening != '<') 
     { 
@@ -580,7 +607,6 @@ void processNode(void)
     putCharInBuffer(opening);
     
     /* read the node name */
-    int nodeNameLength = 0;
     while (!isWhite(getNextChar()) && 
            getNextChar() != '>' &&  /* end of the tag */
            getNextChar() != '/') /* tag is being closed */
@@ -590,10 +616,9 @@ void processNode(void)
     }
 
     /* store the name */
-    char* nodeName = (char*)malloc(sizeof(char)*nodeNameLength+1);
+    nodeName = (char*)malloc(sizeof(char)*nodeNameLength+1);
     if (nodeName == NULL) { PP_ERROR("Allocation error (node name length is %d)", nodeNameLength); return ; }
     nodeName[nodeNameLength] = '\0';
-    int i;
     for (i=0 ; i<nodeNameLength ; ++i)
     {
         int tempIndex = xmlPrettyPrintedIndex-nodeNameLength+i;
@@ -608,8 +633,8 @@ void processNode(void)
     processElementAttributes();
     
     /* process the end of the tag */
-    int subElementsProcessed = 0;
-    char nextChar = getNextChar(); /* should be either '/' or '>' */
+    subElementsProcessed = 0;
+    nextChar = getNextChar(); /* should be either '/' or '>' */
     if (nextChar == '/') /* the node is being closed immediatly */
     { 
         /* closing node directly */
@@ -654,7 +679,7 @@ void processNode(void)
     
     /* if the code reaches this area, then the processElements has been called and we must
      * close the opening tag */
-    char closeChar = getNextChar();
+    closeChar = getNextChar();
     if (closeChar != '<') 
     { 
         printError("processNode : Invalid character '%c' for closing tag (should be '<')", closeChar); 
@@ -707,6 +732,9 @@ void processNode(void)
 
 void processComment(void)
 {
+    char lastChar;
+    bool loop = TRUE;
+    char oldChar;
     bool inlineAllowed = FALSE;
     if (options->inlineComment) { inlineAllowed = isInlineNodeAllowed(); }
     if (inlineAllowed && !options->oneLineComment) { inlineAllowed = isOnSingleLine(4, '-', '-'); }
@@ -714,8 +742,7 @@ void processComment(void)
     
     putNextCharsInBuffer(4); /* add the chars '<!--' */
     
-    char oldChar = '-';
-    bool loop = TRUE;
+    oldChar = '-';
     while (loop)
     {
         char nextChar = readNextChar();
@@ -795,7 +822,7 @@ void processComment(void)
         }
     }
     
-    char lastChar = readNextChar(); /* should be '>' */
+    lastChar = readNextChar(); /* should be '>' */
     if (lastChar != '>') 
     { 
         printError("processComment : last char must be '>' (not '%c')", lastChar); 
@@ -904,6 +931,9 @@ void processTextNode(void)
 
 void processCDATA(void)
 {
+    char lastChar;
+    bool loop = TRUE;
+    char oldChar;
     bool inlineAllowed = FALSE;
     if (options->inlineCdata) { inlineAllowed = isInlineNodeAllowed(); }
     if (inlineAllowed && !options->oneLineCdata) { inlineAllowed = isOnSingleLine(9, ']', ']'); }
@@ -911,8 +941,7 @@ void processCDATA(void)
     
     putNextCharsInBuffer(9); /* putting the '<![CDATA[' into the buffer */
     
-    bool loop = TRUE;
-    char oldChar = '[';
+    oldChar = '[';
     while(loop)
     {
         char nextChar = readNextChar();
@@ -1026,15 +1055,18 @@ void processCDATA(void)
 
 void processDoctype(void)
 {
+    bool loop = TRUE;
+    
     putNextCharsInBuffer(9); /* put the '<!DOCTYPE' into the buffer */
     
-    bool loop = TRUE;
     while(loop)
     {
+        int nextChar;
+        
         readWhites(TRUE);
         putCharInBuffer(' '); /* only one space for the attributes */
         
-        int nextChar = readNextChar();
+        nextChar = readNextChar();
         while(!isWhite(nextChar) && 
               !isQuote(nextChar) &&  /* begins a quoted text */
               nextChar != '=' && /* begins an attribute */
@@ -1048,6 +1080,8 @@ void processDoctype(void)
         if (isWhite(nextChar)) {} /* do nothing, just let the next loop do the job */
         else if (isQuote(nextChar) || nextChar == '=')
         {
+            char quote;
+            
             if (nextChar == '=')
             {
                 putCharInBuffer(nextChar);
@@ -1062,7 +1096,7 @@ void processDoctype(void)
             }
             
             /* simply process the content */
-            char quote = nextChar;
+            quote = nextChar;
             do
             {
                 putCharInBuffer(nextChar);

@@ -113,25 +113,34 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
 {
     /* retrieves the current document */
     GeanyDocument* doc = document_get_current();
+    GeanyEditor* editor;
+    ScintillaObject* sco;
+    int length;
+    char* buffer;
+    xmlDoc* parsedDocument;
+    int result;
+    int xOffset;
+    GeanyFiletype* fileType;
+    
     g_return_if_fail(doc != NULL);
 
-    GeanyEditor* editor = doc->editor;
-    ScintillaObject* sco = editor->sci;
+    editor = doc->editor;
+    sco = editor->sci;
 
     /* default printing options */
     if (prettyPrintingOptions == NULL) { prettyPrintingOptions = createDefaultPrettyPrintingOptions(); }
 
     /* prepare the buffer that will contain the text
      * from the scintilla object */
-    int length = sci_get_length(sco)+1;
-    char* buffer = (char*)malloc(length*sizeof(char));
+    length = sci_get_length(sco)+1;
+    buffer = (char*)malloc(length*sizeof(char));
     if (buffer == NULL) { exit(-1); } /* malloc error */
 
     /* retrieves the text */
     sci_get_text(sco, length, buffer);
 
     /* checks if the data is an XML format */
-    xmlDoc* parsedDocument = xmlParseDoc((unsigned char*)buffer);
+    parsedDocument = xmlParseDoc((unsigned char*)buffer);
 
     /* this is not a valid xml => exit with an error message */
     if(parsedDocument == NULL)
@@ -144,7 +153,7 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     xmlFreeDoc(parsedDocument);
 
     /* process pretty-printing */
-    int result = processXMLPrettyPrinting(&buffer, &length, prettyPrintingOptions);
+    result = processXMLPrettyPrinting(&buffer, &length, prettyPrintingOptions);
     if (result != PRETTY_PRINTING_SUCCESS)
     {
         dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to process PrettyPrinting on the specified XML because some features are not supported.\n\nSee Help > Debug messages for more details..."));
@@ -155,10 +164,10 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     sci_set_text(sco, buffer);
 
     /* set the line */
-    int xOffset = scintilla_send_message(sco, SCI_GETXOFFSET, 0, 0);
+    xOffset = scintilla_send_message(sco, SCI_GETXOFFSET, 0, 0);
     scintilla_send_message(sco, SCI_LINESCROLL, -xOffset, 0); /* TODO update with the right function-call for geany-0.19 */
 
     /* sets the type */
-    GeanyFiletype* fileType = filetypes_index(GEANY_FILETYPES_XML);
+    fileType = filetypes_index(GEANY_FILETYPES_XML);
     document_set_filetype(doc, fileType);
 }
