@@ -70,14 +70,14 @@ static GtkListStore * geanypg_makelist(gpgme_key_t * key_array, unsigned long nk
     {
         char * name = (key_array[idx]->uids && key_array[idx]->uids->name) ? key_array[idx]->uids->name : &empty_string;
         char * email = (key_array[idx]->uids && key_array[idx]->uids->email) ? key_array[idx]->uids->email : &empty_string;
-        char buffer[strlen(name) + strlen(email) + 7];
-        sprintf(buffer, "%s    <%s>", name, email);
+        gchar * buffer = g_strdup_printf("%s    <%s>", name, email);
         gtk_list_store_append(list, &iter);
         gtk_list_store_set(list, &iter,
                            TOGGLE_COLUMN, FALSE,
                            RECIPIENT_COLUMN, buffer,
                            KEYID_COLUMN, key_array[idx]->subkeys->keyid,
                            -1);
+        g_free(buffer);
     }
     return list;
 }

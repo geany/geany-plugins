@@ -159,22 +159,25 @@ void geanypg_load_buffer(gpgme_data_t * buffer)
 
 void geanypg_write_file(FILE * file)
 {
-    unsigned bufsize = 2048;
+#define BUFSIZE 2048
+
     unsigned long size;
-    char buffer[bufsize];
+    char buffer[BUFSIZE] = {0};
     GeanyDocument * doc = document_get_current();
     if (abs(sci_get_selection_start(doc->editor->sci) - sci_get_selection_end(doc->editor->sci)))
     {   /* replace selected text
          * clear selection, cursor should be at the end or beginneng of the selection */
         scintilla_send_message(doc->editor->sci, SCI_REPLACESEL, 0, (sptr_t)"");
-        while ((size = fread(buffer, 1, bufsize, file)))
+        while ((size = fread(buffer, 1, BUFSIZE, file)))
             /* add at the cursor */
             scintilla_send_message(doc->editor->sci, SCI_ADDTEXT, (uptr_t) size, (sptr_t) buffer);
     }
     else
     {   /* replace complete document */
         scintilla_send_message(doc->editor->sci, SCI_CLEARALL, 0, 0);
-        while ((size = fread(buffer, 1, bufsize, file)))
+        while ((size = fread(buffer, 1, BUFSIZE, file)))
             scintilla_send_message(doc->editor->sci, SCI_APPENDTEXT, (uptr_t) size, (sptr_t) buffer);
     }
+
+#undef BUFSIZE
 }
