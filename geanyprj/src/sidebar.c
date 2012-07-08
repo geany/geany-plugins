@@ -29,8 +29,6 @@
 
 #include "geanyprj.h"
 
-extern GeanyData *geany_data;
-extern GeanyFunctions *geany_functions;
 
 static GtkWidget *file_view_vbox;
 static GtkWidget *file_view;

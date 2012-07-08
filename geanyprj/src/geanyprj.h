@@ -64,6 +64,7 @@ struct GeanyPrj
 	GHashTable *tags;	/**< project tags */
 };
 
+extern GeanyData *geany_data;
 extern GeanyFunctions *geany_functions;
 
 extern const gchar *project_type_string[NEW_PROJECT_TYPE_SIZE];

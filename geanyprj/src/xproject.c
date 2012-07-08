@@ -30,9 +30,6 @@
 
 #include "geanyprj.h"
 
-extern GeanyData *geany_data;
-extern GeanyFunctions *geany_functions;
-
 
 struct GeanyPrj *g_current_project = NULL;
 static GPtrArray *g_projects = NULL;

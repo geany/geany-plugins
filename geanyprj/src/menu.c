@@ -29,7 +29,6 @@
 #include "geanyprj.h"
 
 PluginFields *plugin_fields;
-extern GeanyData *geany_data;
 
 static struct
 {
