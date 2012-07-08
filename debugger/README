@@ -1,11 +1,11 @@
 Debugger
 ==================
 
-.. image:: http://img52.imageshack.us/img52/4424/geanydebuggersmall.png
+.. image:: http://img804.imageshack.us/img804/1429/debuggersmall.png
    :width: 400
    :alt: debugger plugin
    :align: right
-   :target: http://img839.imageshack.us/img839/6752/geanydebugger.png
+   :target: http://img685.imageshack.us/img685/9610/debugger.png
 
 .. contents::
 
@@ -25,6 +25,8 @@ Features
  * Watches, autos
  * Debug terminal
  * Debugger messages window
+ * Threads and stack info
+ * Switching frames in the stack trace window
  * Variables calltips while debugging
  * Saving debug session data in a Geany project (can be switched through settings)
  * Double or single panel modes

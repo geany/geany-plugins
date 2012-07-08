@@ -1,6 +1,7 @@
 BUGS:
 - panel buttons status change only after loading target file
 - markers dissapear after refreshing a file (in other encoding for example) 
+- markers are not restored aftre refresh as CODEPAGE action
 
 FEATURES:
 

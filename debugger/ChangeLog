@@ -1,3 +1,7 @@
+14-06-2012 	Alexander Petukhov <devel@apetukhov.ru>
+
+	* fixed reverse children order in watch/autos
+
 08-04-2012 	Alexander Petukhov <devel@apetukhov.ru>
 
 	* fixed a bug with wrong error message when a breakpoint condition/hitscounr can't be set
