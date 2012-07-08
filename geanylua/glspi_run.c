@@ -113,12 +113,12 @@ static void glspi_script_error(const gchar *script_file, const gchar *msg, gbool
 		gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(dialog),
 				"%s:\n%s", script_file, msg);
 	} else {
-		GtkWidget *open_btn, *cancel_btn;
+		GtkWidget *open_btn;
 		dialog=gtk_message_dialog_new(GTK_WINDOW(main_widgets->window),
 			GTK_DIALOG_DESTROY_WITH_PARENT|GTK_DIALOG_MODAL,
 			GTK_MESSAGE_ERROR, GTK_BUTTONS_NONE, _("Lua script error:"));
 		gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(dialog), "%s", msg);
-		cancel_btn=gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+		gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 		open_btn=gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT);
 		gtk_widget_grab_default(open_btn);
 	}
