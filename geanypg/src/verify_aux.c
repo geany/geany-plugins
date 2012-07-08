@@ -1,27 +1,28 @@
-//      verify_aux.c
-//
-//      Copyright 2011 Hans Alves <alves.h88@gmail.com>
-//
-//      This program is free software; you can redistribute it and/or modify
-//      it under the terms of the GNU General Public License as published by
-//      the Free Software Foundation; either version 2 of the License, or
-//      (at your option) any later version.
-//
-//      This program is distributed in the hope that it will be useful,
-//      but WITHOUT ANY WARRANTY; without even the implied warranty of
-//      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//      GNU General Public License for more details.
-//
-//      You should have received a copy of the GNU General Public License
-//      along with this program; if not, write to the Free Software
-//      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//      MA 02110-1301, USA.
+/*      verify_aux.c
+ *
+ *      Copyright 2011 Hans Alves <alves.h88@gmail.com>
+ *
+ *      This program is free software; you can redistribute it and/or modify
+ *      it under the terms of the GNU General Public License as published by
+ *      the Free Software Foundation; either version 2 of the License, or
+ *      (at your option) any later version.
+ *
+ *      This program is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU General Public License for more details.
+ *
+ *      You should have received a copy of the GNU General Public License
+ *      along with this program; if not, write to the Free Software
+ *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ *      MA 02110-1301, USA.
+ */
 
 
 #include "geanypg.h"
 
 
-void geanypg_get_keys_with_fp(encrypt_data * ed, char * buffer)
+static void geanypg_get_keys_with_fp(encrypt_data * ed, char * buffer)
 {
     unsigned long idx, found = 0;
     char empty_string = '\0';
@@ -47,7 +48,7 @@ void geanypg_get_keys_with_fp(encrypt_data * ed, char * buffer)
                     sprintf(buffer, "%s <%s>", name, email);
                 else
                 {
-                    char tmp[62];
+                    char tmp[62] = {0};
                     strncpy(tmp, buffer, 41);
                     sprintf(buffer, "%s %s", _("a key with fingerprint"), tmp);
                 }
@@ -74,7 +75,7 @@ const char * geanypg_validity(gpgme_validity_t validity)
 }
 
 static char * geanypg_summary(gpgme_sigsum_t summary, char * buffer)
-{ // buffer should be more than 105 bytes long
+{ /* buffer should be more than 105 bytes long */
   if (summary & GPGME_SIGSUM_VALID)       strcat(buffer, _(" valid"));
   if (summary & GPGME_SIGSUM_GREEN)       strcat(buffer, _(" green"));
   if (summary & GPGME_SIGSUM_RED)         strcat(buffer, _(" red"));
@@ -106,11 +107,11 @@ static char * geanypg_result(gpgme_signature_t sig)
       "other flags:%s%s\n"
       "notations .: %s\n");
     char * buffer;
-    char summary[128];
+    char summary[128] = {0};
     const char * pubkey = gpgme_pubkey_algo_name(sig->pubkey_algo);
     const char * hash = gpgme_hash_algo_name(sig->hash_algo);
-    char created[64];
-    char expires[64];
+    char created[64] = {0};
+    char expires[64] = {0};
     size_t buffer_size;
     if (sig->timestamp)
         strncpy(created, ctime((time_t*)&sig->timestamp), 64);
@@ -136,7 +137,7 @@ static char * geanypg_result(gpgme_signature_t sig)
         strlen(sig->pka_trust == 0 ? _("n/a") : sig->pka_trust == 1 ? _("bad") : sig->pka_trust == 2 ? _("okay"): _("RFU")) +
         strlen(sig->wrong_key_usage ? _(" wrong-key-usage") : "") +
         strlen(sig->chain_model ? _(" chain-model") : "") +
-        strlen(sig->notations ? _("yes") : _("no")) + 1; // and a trailing \0
+        strlen(sig->notations ? _("yes") : _("no")) + 1; /* and a trailing \0 */
 
     buffer = (char *)calloc(buffer_size, 1);
     memset(summary, 0, 128);
@@ -160,12 +161,13 @@ void geanypg_check_sig(encrypt_data * ed, gpgme_signature_t sig)
 {
     GtkWidget * dialog;
     gpgme_sigsum_t summary;
-    char buffer[512];
+    char buffer[512] = {0};
+    char * result;
     strncpy(buffer, sig->fpr, 40);
     buffer[40] = 0;
     geanypg_get_keys_with_fp(ed, buffer);
     summary = sig->summary;
-    char * result = geanypg_result(sig);
+    result = geanypg_result(sig);
 
     dialog = gtk_message_dialog_new_with_markup(GTK_WINDOW(geany->main_widgets->window),
                                                 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
