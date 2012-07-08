@@ -1,21 +1,22 @@
-//      geanypg.c
-//
-//      Copyright 2011 Hans Alves <alves.h88@gmail.com>
-//
-//      This program is free software; you can redistribute it and/or modify
-//      it under the terms of the GNU General Public License as published by
-//      the Free Software Foundation; either version 2 of the License, or
-//      (at your option) any later version.
-//
-//      This program is distributed in the hope that it will be useful,
-//      but WITHOUT ANY WARRANTY; without even the implied warranty of
-//      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//      GNU General Public License for more details.
-//
-//      You should have received a copy of the GNU General Public License
-//      along with this program; if not, write to the Free Software
-//      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//      MA 02110-1301, USA.
+/*      geanypg.c
+ *
+ *      Copyright 2011 Hans Alves <alves.h88@gmail.com>
+ *
+ *      This program is free software; you can redistribute it and/or modify
+ *      it under the terms of the GNU General Public License as published by
+ *      the Free Software Foundation; either version 2 of the License, or
+ *      (at your option) any later version.
+ *
+ *      This program is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU General Public License for more details.
+ *
+ *      You should have received a copy of the GNU General Public License
+ *      along with this program; if not, write to the Free Software
+ *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ *      MA 02110-1301, USA.
+ */
 
 #include "geanypg.h"
 
@@ -41,12 +42,12 @@ static GtkWidget * main_menu_item = NULL;
 
 static gpgme_error_t geanypg_init_gpgme(void)
 {
-    // Initialize the locale environment.
+    /* Initialize the locale environment. */
     setlocale(LC_ALL, "");
     fprintf(stderr, "GeanyPG: %s %s\n", _("Using libgpgme version:"),
             gpgme_check_version("1.1.0"));
     gpgme_set_locale(NULL, LC_CTYPE, setlocale(LC_CTYPE, NULL));
-#ifdef LC_MESSAGES // only necessary for portability to W32 systems
+#ifdef LC_MESSAGES /* only necessary for portability to W32 systems */
     gpgme_set_locale(NULL, LC_MESSAGES, setlocale(LC_MESSAGES, NULL));
 #endif
     return gpgme_engine_check_version(GPGME_PROTOCOL_OpenPGP);
@@ -69,7 +70,7 @@ void plugin_init(GeanyData *data)
         geanypg_show_err_msg(err);
         return;
     }
-    // Create a new menu item and show it
+    /* Create a new menu item and show it */
     main_menu_item = gtk_menu_item_new_with_mnemonic("GeanyPG");
     gtk_widget_show(main_menu_item);
 
@@ -92,12 +93,12 @@ void plugin_init(GeanyData *data)
 
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(main_menu_item), submenu);
 
-    // Attach the new menu item to the Tools menu
+    /* Attach the new menu item to the Tools menu */
     gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu),
         main_menu_item);
 
-    // Connect the menu item with a callback function
-    // which is called when the item is clicked
+    /* Connect the menu item with a callback function
+     * which is called when the item is clicked */
     g_signal_connect(encrypt, "activate", G_CALLBACK(geanypg_encrypt_cb), NULL);
     g_signal_connect(sign,    "activate", G_CALLBACK(geanypg_sign_cb), NULL);
     g_signal_connect(decrypt, "activate", G_CALLBACK(geanypg_decrypt_cb), NULL);

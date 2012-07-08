@@ -1,21 +1,22 @@
-//      helper_functions.c
-//
-//      Copyright 2011 Hans Alves <alves.h88@gmail.com>
-//
-//      This program is free software; you can redistribute it and/or modify
-//      it under the terms of the GNU General Public License as published by
-//      the Free Software Foundation; either version 2 of the License, or
-//      (at your option) any later version.
-//
-//      This program is distributed in the hope that it will be useful,
-//      but WITHOUT ANY WARRANTY; without even the implied warranty of
-//      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//      GNU General Public License for more details.
-//
-//      You should have received a copy of the GNU General Public License
-//      along with this program; if not, write to the Free Software
-//      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//      MA 02110-1301, USA.
+/*      helper_functions.c
+ *
+ *      Copyright 2011 Hans Alves <alves.h88@gmail.com>
+ *
+ *      This program is free software; you can redistribute it and/or modify
+ *      it under the terms of the GNU General Public License as published by
+ *      the Free Software Foundation; either version 2 of the License, or
+ *      (at your option) any later version.
+ *
+ *      This program is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU General Public License for more details.
+ *
+ *      You should have received a copy of the GNU General Public License
+ *      along with this program; if not, write to the Free Software
+ *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ *      MA 02110-1301, USA.
+ */
 
 
 #include "geanypg.h"
@@ -32,9 +33,9 @@ int geanypg_get_keys(encrypt_data * ed)
 {
     gpgme_error_t err;
     unsigned long size = SIZE;
-    //initialize idx to 0
+    /* initialize idx to 0 */
     unsigned long idx = 0;
-    //allocate array of size 1N
+    /* allocate array of size 1N */
     gpgme_key_t * key;
     ed->key_array = (gpgme_key_t*) malloc(SIZE * sizeof(gpgme_key_t));
     err = gpgme_op_keylist_start(ed->ctx, NULL, 0);
@@ -44,12 +45,12 @@ int geanypg_get_keys(encrypt_data * ed)
         err = gpgme_op_keylist_next(ed->ctx, key);
         if (err)
             break;
-        if ((*key)->revoked  || // key cannot be used
+        if ((*key)->revoked  || /* key cannot be used */
             (*key)->expired  ||
             (*key)->disabled ||
             (*key)->invalid)
            gpgme_key_unref(*key);
-        else // key is valid
+        else /* key is valid */
             ++idx;
         if (idx >= size)
         {
@@ -70,9 +71,9 @@ int geanypg_get_secret_keys(encrypt_data * ed)
 {
     gpgme_error_t err;
     unsigned long size = SIZE;
-    //initialize idx to 0
+    /* initialize idx to 0 */
     unsigned long idx = 0;
-    //allocate array of size 1N
+    /* allocate array of size 1N */
     gpgme_key_t * key;
     ed->skey_array = (gpgme_key_t*) malloc(SIZE * sizeof(gpgme_key_t));
     err = gpgme_op_keylist_start(ed->ctx, NULL, 1);
@@ -82,12 +83,12 @@ int geanypg_get_secret_keys(encrypt_data * ed)
         err = gpgme_op_keylist_next(ed->ctx, key);
         if (err)
             break;
-        if ((*key)->revoked  || // key cannot be used
+        if ((*key)->revoked  || /* key cannot be used */
             (*key)->expired  ||
             (*key)->disabled ||
             (*key)->invalid)
            gpgme_key_unref(*key);
-        else // key is valid
+        else /* key is valid */
             ++idx;
         if (idx >= size)
         {
@@ -130,9 +131,9 @@ void geanypg_release_keys(encrypt_data * ed)
 
 void geanypg_load_buffer(gpgme_data_t * buffer)
 {
-    //gpgme_data_new_from_mem(buffer, text, size, 0);
+    /* gpgme_data_new_from_mem(buffer, text, size, 0); */
     GeanyDocument * doc = document_get_current();
-    //SCI_GETSELECTIONSTART-SCI_GETSELECTIONEND
+    /* SCI_GETSELECTIONSTART-SCI_GETSELECTIONEND */
     char * data = NULL;
     unsigned long sstart = scintilla_send_message(doc->editor->sci, SCI_GETSELECTIONSTART, 0, 0);
     unsigned long send = scintilla_send_message(doc->editor->sci, SCI_GETSELECTIONEND, 0, 0);
@@ -151,7 +152,7 @@ void geanypg_load_buffer(gpgme_data_t * buffer)
         scintilla_send_message(doc->editor->sci, SCI_GETTEXT, (uptr_t)(size + 1), (sptr_t)data);
         gpgme_data_new_from_mem(buffer, data, size, 1);
     }
-    if (data) // if there is no text data may still be NULL
+    if (data) /* if there is no text data may still be NULL */
         free(data);
     gpgme_data_set_encoding(*buffer, GPGME_DATA_ENCODING_BINARY);
 }
@@ -163,15 +164,15 @@ void geanypg_write_file(FILE * file)
     char buffer[bufsize];
     GeanyDocument * doc = document_get_current();
     if (abs(sci_get_selection_start(doc->editor->sci) - sci_get_selection_end(doc->editor->sci)))
-    {   // replace selected text
-        // clear selection, cursor should be at the end or beginneng of the selection
+    {   /* replace selected text
+         * clear selection, cursor should be at the end or beginneng of the selection */
         scintilla_send_message(doc->editor->sci, SCI_REPLACESEL, 0, (sptr_t)"");
         while ((size = fread(buffer, 1, bufsize, file)))
-            // add at the cursor
+            /* add at the cursor */
             scintilla_send_message(doc->editor->sci, SCI_ADDTEXT, (uptr_t) size, (sptr_t) buffer);
     }
     else
-    {   //replace complete document
+    {   /* replace complete document */
         scintilla_send_message(doc->editor->sci, SCI_CLEARALL, 0, 0);
         while ((size = fread(buffer, 1, bufsize, file)))
             scintilla_send_message(doc->editor->sci, SCI_APPENDTEXT, (uptr_t) size, (sptr_t) buffer);

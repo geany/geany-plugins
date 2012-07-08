@@ -1,21 +1,22 @@
-//      pinentry.c
-//
-//      Copyright 2011 Hans Alves <alves.h88@gmail.com>
-//
-//      This program is free software; you can redistribute it and/or modify
-//      it under the terms of the GNU General Public License as published by
-//      the Free Software Foundation; either version 2 of the License, or
-//      (at your option) any later version.
-//
-//      This program is distributed in the hope that it will be useful,
-//      but WITHOUT ANY WARRANTY; without even the implied warranty of
-//      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//      GNU General Public License for more details.
-//
-//      You should have received a copy of the GNU General Public License
-//      along with this program; if not, write to the Free Software
-//      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//      MA 02110-1301, USA.
+/*      pinentry.c
+ *
+ *      Copyright 2011 Hans Alves <alves.h88@gmail.com>
+ *
+ *      This program is free software; you can redistribute it and/or modify
+ *      it under the terms of the GNU General Public License as published by
+ *      the Free Software Foundation; either version 2 of the License, or
+ *      (at your option) any later version.
+ *
+ *      This program is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU General Public License for more details.
+ *
+ *      You should have received a copy of the GNU General Public License
+ *      along with this program; if not, write to the Free Software
+ *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ *      MA 02110-1301, USA.
+ */
 
 #include "geanypg.h"
 
@@ -72,7 +73,7 @@ gpgme_error_t geanypg_passphrase_cb(void * hook,
     int inpipe[2];
     int childpid;
     int status;
-    char readbuffer[2080]; // pinentry should at least support passphrases of up to 2048 characters
+    char readbuffer[2080]; /* pinentry should at least support passphrases of up to 2048 characters */
     FILE * childin;
 
     if (pipe(outpipe))
@@ -88,7 +89,7 @@ gpgme_error_t geanypg_passphrase_cb(void * hook,
 
     childpid = fork();
     if (!childpid)
-    { // pinentry
+    { /* pinentry */
         char arg1[] = "pinentry";
         char * argv[] = {arg1, NULL};
 
@@ -99,16 +100,16 @@ gpgme_error_t geanypg_passphrase_cb(void * hook,
         dup2(inpipe[READ], STDIN_FILENO);
 
         execvp(*argv, argv);
-        // shouldn't get here
+        /* shouldn't get here */
         fprintf(stderr, "GeanyPG: %s\n%s\n", _("Could not use pinentry."), strerror(errno));
-        exit(1); // kill the child
+        exit(1); /* kill the child */
     }
-    // GeanpyPG
+    /* GeanpyPG */
     close(outpipe[WRITE]);
     close(inpipe[READ]);
     childin = fdopen(inpipe[WRITE], "w");
 
-    // To understand what's happening here, read the pinentry documentation
+    /* To understand what's happening here, read the pinentry documentation */
     geanypg_read(outpipe[READ], ' ', 2049, readbuffer);
     if (strncmp(readbuffer, "OK", 3))
     {
@@ -119,7 +120,7 @@ gpgme_error_t geanypg_passphrase_cb(void * hook,
         close(fd);
         return gpgme_err_make(GPG_ERR_SOURCE_PINENTRY, GPG_ERR_GENERAL);
     }
-    geanypg_read_till(outpipe[READ], '\n'); // read the rest of the first line after OK
+    geanypg_read_till(outpipe[READ], '\n'); /* read the rest of the first line after OK */
     fprintf(childin, "SETTITLE GeanyPG %s\n", _("Passphrase entry"));
     fflush(childin);
     geanypg_read_till(outpipe[READ], '\n');

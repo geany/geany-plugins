@@ -1,23 +1,24 @@
-//      key_selection_dialog.c
-//
-//      Copyright 2011 Hans Alves <alves.h88@gmail.com>
-//
-//      This program is free software; you can redistribute it and/or modify
-//      it under the terms of the GNU General Public License as published by
-//      the Free Software Foundation; either version 2 of the License, or
-//      (at your option) any later version.
-//
-//      This program is distributed in the hope that it will be useful,
-//      but WITHOUT ANY WARRANTY; without even the implied warranty of
-//      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//      GNU General Public License for more details.
-//
-//      You should have received a copy of the GNU General Public License
-//      along with this program; if not, write to the Free Software
-//      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-//      MA 02110-1301, USA.
+/*      key_selection_dialog.c
+ *
+ *      Copyright 2011 Hans Alves <alves.h88@gmail.com>
+ *
+ *      This program is free software; you can redistribute it and/or modify
+ *      it under the terms of the GNU General Public License as published by
+ *      the Free Software Foundation; either version 2 of the License, or
+ *      (at your option) any later version.
+ *
+ *      This program is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU General Public License for more details.
+ *
+ *      You should have received a copy of the GNU General Public License
+ *      along with this program; if not, write to the Free Software
+ *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ *      MA 02110-1301, USA.
+ */
 
-// something about premature optimization, it still needs to be done
+/* something about premature optimization, it still needs to be done */
 
 #include "geanypg.h"
 
@@ -96,7 +97,7 @@ static GtkWidget * geanypg_listview(GtkListStore * list, listdata * data)
     GtkTreeViewColumn * column;
     GtkCellRenderer * togglerenderer, * textrenderer;
     GtkWidget * listview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(list));
-    // checkbox column
+    /* checkbox column */
     togglerenderer = gtk_cell_renderer_toggle_new();
     g_signal_connect(G_OBJECT(togglerenderer), "toggled", G_CALLBACK(geanypg_toggled_cb), NULL);
     column = gtk_tree_view_column_new_with_attributes("?",
@@ -107,7 +108,7 @@ static GtkWidget * geanypg_listview(GtkListStore * list, listdata * data)
     data->store = list;
     data->column = TOGGLE_COLUMN;
     g_signal_connect(G_OBJECT(togglerenderer), "toggled", G_CALLBACK(geanypg_toggled_cb), (gpointer) data);
-    // recipient column
+    /* recipient column */
     textrenderer = gtk_cell_renderer_text_new();
     column = gtk_tree_view_column_new_with_attributes("recipient",
                                                       textrenderer,
@@ -115,7 +116,7 @@ static GtkWidget * geanypg_listview(GtkListStore * list, listdata * data)
                                                       NULL);
     gtk_tree_view_column_set_resizable(column, TRUE);
     gtk_tree_view_append_column(GTK_TREE_VIEW(listview), column);
-    // keyid column
+    /* keyid column */
     column = gtk_tree_view_column_new_with_attributes("keyid",
                                                       textrenderer,
                                                       "text", KEYID_COLUMN,
@@ -153,13 +154,13 @@ int geanypg_encrypt_selection_dialog(encrypt_data * ed, gpgme_key_t ** selected,
     gtk_box_pack_start(GTK_BOX(contentarea), combobox, FALSE, FALSE, 0);
 
 
-    // add ok and cancel buttons
+    /* add ok and cancel buttons */
     gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_OK, GTK_RESPONSE_OK);
     gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 
     gtk_window_set_title(GTK_WINDOW(dialog), _("Select recipients"));
     gtk_widget_show_all(dialog);
-    // make sure dialog is destroyed when user responds
+    /* make sure dialog is destroyed when user responds */
     response = gtk_dialog_run(GTK_DIALOG(dialog));
     if (response == GTK_RESPONSE_CANCEL)
     {
@@ -170,12 +171,12 @@ int geanypg_encrypt_selection_dialog(encrypt_data * ed, gpgme_key_t ** selected,
     if (idx && idx <= ed->nskeys)
     {
         *sign = 1;
-        gpgme_signers_add(ed->ctx, ed->skey_array[idx - 1]); // -1 because the first option is `None'
+        gpgme_signers_add(ed->ctx, ed->skey_array[idx - 1]); /* -1 because the first option is `None' */
     }
-    // try to loop all the keys in the list
-    // if they are active (the user checked the checkbox in front of the key)
-    // add it to the selected array, finaly make sure that the array
-    // is NULL terminated
+    /* try to loop all the keys in the list
+     * if they are active (the user checked the checkbox in front of the key)
+     * add it to the selected array, finaly make sure that the array
+     * is NULL terminated */
     if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(list), &iter))
     {
         capacity = SIZE;
@@ -222,13 +223,13 @@ int geanypg_sign_selection_dialog(encrypt_data * ed)
     gtk_box_pack_start(GTK_BOX(contentarea), gtk_label_new(_("Choose a key to sign with:")), FALSE, FALSE, 5);
     gtk_box_pack_start(GTK_BOX(contentarea), combobox, TRUE, TRUE, 0);
 
-    // add ok and cancel buttons
+    /* add ok and cancel buttons */
     gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_OK, GTK_RESPONSE_OK);
     gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 
     gtk_widget_show_all(dialog);
     gtk_window_set_title(GTK_WINDOW(dialog), _("Select signer"));
-    // make sure dialog is destroyed when user responds
+    /* make sure dialog is destroyed when user responds */
     response = gtk_dialog_run(GTK_DIALOG(dialog));
     if (response == GTK_RESPONSE_CANCEL)
     {
