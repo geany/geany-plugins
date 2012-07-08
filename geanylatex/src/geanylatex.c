@@ -40,7 +40,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	GETTEXT_PACKAGE,
 	_("GeanyLaTeX"),
 	_("Plugin to provide better LaTeX support"),
-	"0.7git",
+	"0.7",
 	"Frank Lanitz <frank@frank.uvena.de>")
 
 GeanyPlugin	 *geany_plugin;
