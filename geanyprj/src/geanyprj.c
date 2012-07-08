@@ -131,7 +131,7 @@ PluginCallback plugin_callbacks[] = {
 
 
 /* Keybinding callback */
-static void kb_find_in_project(void)
+static void kb_find_in_project(guint key_id)
 {
 	on_find_in_project(NULL, NULL);
 }
