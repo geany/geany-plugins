@@ -187,7 +187,7 @@ static GString* convert_to_table_sql(gchar** rows)
 	return replacement_str;
 }
 
-void convert_to_table(gboolean header)
+static void convert_to_table(gboolean header)
 {
 	GeanyDocument *doc = NULL;
 	doc = document_get_current();
@@ -262,7 +262,7 @@ void convert_to_table(gboolean header)
 	return;
 }
 
-void kb_convert_to_table(G_GNUC_UNUSED guint key_id)
+static void kb_convert_to_table(G_GNUC_UNUSED guint key_id)
 {
 	g_return_if_fail(document_get_current() != NULL);
 	convert_to_table(TRUE);
@@ -278,7 +278,7 @@ static void init_keybindings(void)
 		_("Convert selection to table"), NULL);
 }
 
-void cb_table_convert(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer gdata)
+static void cb_table_convert(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer gdata)
 {
 	convert_to_table(TRUE);
 }
