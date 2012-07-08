@@ -32,11 +32,11 @@
 #include "gproject-sidebar.h"
 #include "gproject-menu.h"
 
-PLUGIN_VERSION_CHECK(214);
+PLUGIN_VERSION_CHECK(214)
 PLUGIN_SET_INFO(_("GProject"),
 	_("Glob-pattern-based project management plugin for Geany."),
 	VERSION,
-	"Jiri Techet <techet@gmail.com>");
+	"Jiri Techet <techet@gmail.com>")
 
 GeanyPlugin *geany_plugin;
 GeanyData *geany_data;

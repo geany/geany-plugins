@@ -44,7 +44,7 @@ enum
 	KB_COUNT
 };
 
-PLUGIN_KEY_GROUP(gproject, KB_COUNT);
+PLUGIN_KEY_GROUP(gproject, KB_COUNT)
 
 
 static GtkWidget *s_fif_item, *s_ff_item, *s_shs_item, *s_sep_item, *s_context_osf_item, *s_context_sep_item;
