@@ -48,7 +48,7 @@ static void geanypg_get_keys_with_fp(encrypt_data * ed, char * buffer)
                     sprintf(buffer, "%s <%s>", name, email);
                 else
                 {
-                    char tmp[62];
+                    char tmp[62] = {0};
                     strncpy(tmp, buffer, 41);
                     sprintf(buffer, "%s %s", _("a key with fingerprint"), tmp);
                 }
@@ -107,11 +107,11 @@ static char * geanypg_result(gpgme_signature_t sig)
       "other flags:%s%s\n"
       "notations .: %s\n");
     char * buffer;
-    char summary[128];
+    char summary[128] = {0};
     const char * pubkey = gpgme_pubkey_algo_name(sig->pubkey_algo);
     const char * hash = gpgme_hash_algo_name(sig->hash_algo);
-    char created[64];
-    char expires[64];
+    char created[64] = {0};
+    char expires[64] = {0};
     size_t buffer_size;
     if (sig->timestamp)
         strncpy(created, ctime((time_t*)&sig->timestamp), 64);
@@ -161,7 +161,7 @@ void geanypg_check_sig(encrypt_data * ed, gpgme_signature_t sig)
 {
     GtkWidget * dialog;
     gpgme_sigsum_t summary;
-    char buffer[512];
+    char buffer[512] = {0};
     char * result;
     strncpy(buffer, sig->fpr, 40);
     buffer[40] = 0;

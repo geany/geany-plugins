@@ -73,7 +73,7 @@ gpgme_error_t geanypg_passphrase_cb(void * hook,
     int inpipe[2];
     int childpid;
     int status;
-    char readbuffer[2080]; /* pinentry should at least support passphrases of up to 2048 characters */
+    char readbuffer[2080] = {0}; /* pinentry should at least support passphrases of up to 2048 characters */
     FILE * childin;
 
     if (pipe(outpipe))
