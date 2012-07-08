@@ -91,7 +91,9 @@ gpgme_error_t geanypg_passphrase_cb(void * hook,
     if (!childpid)
     { /* pinentry */
         char arg1[] = "pinentry";
-        char * argv[] = {arg1, NULL};
+        char * argv[] = {NULL, NULL};
+
+        argv[0] = arg1;
 
         close(outpipe[READ]);
         dup2(outpipe[WRITE], STDOUT_FILENO);
