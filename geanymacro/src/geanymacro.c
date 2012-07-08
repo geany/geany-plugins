@@ -1802,7 +1802,7 @@ static void EditMacroElements(Macro *m)
 
 	/* add table to dialog */
 	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox),table);
-//	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox),table,FALSE,FALSE,2);
+/*	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox),table,FALSE,FALSE,2);*/
 	gtk_widget_show(table);
 
 	/* add buttons */
@@ -1929,7 +1929,7 @@ static void EditMacroElements(Macro *m)
 
 			}
 
-		} //end of commands that require line to be selected
+		} /* end of commands that require line to be selected */
 		/* if no elements to insert above or below,just insert new element */
 		else if((i==GEANY_MACRO_BUTTON_ABOVE || i==GEANY_MACRO_BUTTON_BELOW) &&
 		        gtk_tree_model_iter_n_children(GTK_TREE_MODEL(ls),NULL)==0)
