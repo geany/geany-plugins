@@ -1,28 +1,41 @@
  
 /* start css.sty */
+.cmr-10{font-size:90%;}
+.cmmi-10{font-size:90%;font-style: italic;}
+.cmsy-5{font-size:45%;}
 .cmsy-10{font-size:90%;}
-.pplr7t-x-x-109{}
+.cmr-10x-x-109{}
 .cmssbx-10x-x-109{ font-family: sans-serif; font-weight: bold;}
 .cmssbx-10x-x-109{ font-family: sans-serif; font-weight: bold;}
 .cmssbx-10x-x-207{font-size:188%; font-family: sans-serif; font-weight: bold;}
 .cmssbx-10x-x-207{ font-family: sans-serif; font-weight: bold;}
-.pplr7t-x-x-144{font-size:130%;}
-.pplr7t-{font-size:90%;}
-.pplr7t-x-x-80{font-size:72%;}
-.zplmr7m-{font-size:90%;font-style: italic;}
-.zplmr7t-{font-size:90%;}
-.pplb7t-x-x-109{font-weight: bold;}
-.pplb7t-x-x-109{font-weight: bold;}
-.pcrr7t-x-x-109{font-family: monospace;}
+.cmr-12x-x-120{font-size:130%;}
+.cmbx-10x-x-109{ font-weight: bold;}
+.cmbx-10x-x-109{ font-weight: bold;}
+.cmtt-10x-x-109{font-family: monospace;}
+.cmtt-10x-x-109{font-family: monospace;}
+.cmtt-10x-x-109{font-family: monospace;}
+.cmtt-10x-x-109{font-family: monospace;}
 .cmsy-10x-x-109{}
-.pplb7t-{font-size:90%;font-weight: bold;}
-.pplb7t-{font-weight: bold;}
-.zplmr7y-x-x-60{font-size:54%;}
-.pcrr7t-{font-size:90%;font-family: monospace;}
-.pcrr7t-x-x-80{font-size:72%;font-family: monospace;}
-.pplr7t-x-x-90{font-size:81%;}
-.pplrc7t-{font-size:90%;}
-.pcrr7t-x-x-90{font-size:81%;font-family: monospace;}
+.cmbx-10{font-size:90%; font-weight: bold;}
+.cmbx-10{ font-weight: bold;}
+.cmtt-10{font-size:90%;font-family: monospace;}
+.cmtt-10{font-family: monospace;}
+.cmtt-10{font-family: monospace;}
+.cmtt-10{font-family: monospace;}
+.cmtt-8{font-size:72%;font-family: monospace;}
+.cmtt-8{font-family: monospace;}
+.cmtt-8{font-family: monospace;}
+.cmtt-8{font-family: monospace;}
+.cmr-8{font-size:72%;}
+.cmsy-6{font-size:54%;}
+.cmcsc-10{font-size:90%;}
+.cmr-9{font-size:81%;}
+.cmtt-9{font-size:81%;font-family: monospace;}
+.cmtt-9{font-family: monospace;}
+.cmtt-9{font-family: monospace;}
+.cmtt-9{font-family: monospace;}
+.small-caps{font-variant: small-caps; }
 p.noindent { text-indent: 0em }
 td p.noindent { text-indent: 0em; margin-top:0em; }
 p.nopar { text-indent: 0em; }
@@ -131,10 +144,10 @@ div.author{white-space: nowrap;}
 .abstract p {margin-left:5%; margin-right:5%;}
 div.abstract {width:100%;}
 span.footnote-mark sup.textsuperscript, span.footnote-mark a sup.textsuperscript{ font-size:80%; }
+.figure img.graphics {margin-left:10%;}
 .lstlisting .label{margin-right:0.5em; }
 div.lstlisting{font-family: monospace; white-space: nowrap; margin-top:0.5em; margin-bottom:0.5em; }
 div.lstinputlisting{ font-family: monospace; white-space: nowrap; }
 .lstinputlisting .label{margin-right:0.5em;}
-.figure img.graphics {margin-left:10%;}
 /* end css.sty */
 
