@@ -161,6 +161,7 @@ void geanypg_write_file(FILE * file)
     unsigned long size;
     char buffer[BUFSIZE] = {0};
     GeanyDocument * doc = document_get_current();
+    sci_start_undo_action(doc->editor->sci);
     if (sci_has_selection(doc->editor->sci))
     {   /* replace selected text
          * clear selection, cursor should be at the end or beginneng of the selection */
@@ -175,6 +176,7 @@ void geanypg_write_file(FILE * file)
         while ((size = fread(buffer, 1, BUFSIZE, file)))
             scintilla_send_message(doc->editor->sci, SCI_APPENDTEXT, (uptr_t) size, (sptr_t) buffer);
     }
+    sci_end_undo_action(doc->editor->sci);
 
 #undef BUFSIZE
 }
