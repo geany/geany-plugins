@@ -179,7 +179,7 @@ GeanyFunctions  *geany_functions;
 PLUGIN_VERSION_CHECK(147)
 
 PLUGIN_SET_INFO(_("Macros"),_("Macros for Geany"),
-                "1.1","William Fraser <william.fraser@virgin.net>");
+                "1.1","William Fraser <william.fraser@virgin.net>")
 
 /* Plugin user alterable settings */
 static gboolean bSaveMacros=TRUE;
