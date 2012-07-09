@@ -2405,7 +2405,7 @@ msgstr "Symbol für LaTeX-Assistent in die Werkzeugliste einfügen"
 
 #: ../geanylatex/src/geanylatex.c:306
 msgid "Lower selection when formating smallcaps (\\textsc{})"
-msgstr "Auswahl niedriger machen beim Formatireen von kleinen Kapitälchen (\\textsc{})"
+msgstr "Auswahl im Kleinbuchstaben umwandeln zur Benutzung von kleinen Kapitälchen (\\textsc{})"
 
 #: ../geanylatex/src/geanylatex.c:310
 msgid "Don't care about this inside plugin"
