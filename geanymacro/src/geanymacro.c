@@ -64,7 +64,7 @@ const MacroDetailEntry MacroDetails[]={
 {SCI_DELWORDLEFT,N_("Delete up to start of word to the Left")},
 {SCI_DELWORDRIGHT,N_("Delete up to start of word to the Right")},
 {SCI_DELWORDRIGHTEND,N_("Delete up to end of word to the Right")},
-{SCI_DELLINELEFT,N_("Delete to begining of line")},
+{SCI_DELLINELEFT,N_("Delete to beginning of line")},
 {SCI_DELLINERIGHT,N_("Delete to end of line")},
 {SCI_LINEDELETE,N_("Delete current line")},
 {SCI_BACKTAB,N_("Backwards Tab (deletes tab if nothing after it)")},
@@ -92,7 +92,7 @@ const MacroDetailEntry MacroDetails[]={
 {SCI_LINEENDDISPLAY,N_("Move Cursor to last visible character")},
 {SCI_VCHOME,N_("Move Cursor to 1st non-whitespace character of line, or 1st character of line if\
  already at 1st non-whitespace character")},
-{SCI_PARADOWN,N_("Move Cursor to begining of next paragraph")},
+{SCI_PARADOWN,N_("Move Cursor to beginning of next paragraph")},
 {SCI_PARAUP,N_("Move Cursor up to beginning of current/previous paragraph")},
 {SCI_WORDLEFTEND,N_("Move Cursor to end of Word to the Left")},
 {SCI_WORDRIGHTEND,N_("Move Cursor to end of Word to the Right")},
@@ -115,7 +115,7 @@ const MacroDetailEntry MacroDetails[]={
 {SCI_LINEENDDISPLAYEXTEND,N_("Extend Selection to last visible character")},
 {SCI_VCHOMEEXTEND,N_("Extend Selection to 1st non-whitespace character of line, or 1st character of\
  line if already at 1st non-whitespace character")},
-{SCI_PARADOWNEXTEND,N_("Extend Selection to begining of next paragraph")},
+{SCI_PARADOWNEXTEND,N_("Extend Selection to beginning of next paragraph")},
 {SCI_PARAUPEXTEND,N_("Extend Selection up to beginning of current/previous paragraph")},
 {SCI_WORDLEFTENDEXTEND,N_("Extend Selection to end of Word to the Left")},
 {SCI_WORDRIGHTENDEXTEND,N_("Extend Selection to end of Word to the Right")},
