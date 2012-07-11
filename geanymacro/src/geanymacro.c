@@ -88,7 +88,7 @@ const MacroDetailEntry MacroDetails[]={
 {SCI_DOCUMENTEND,N_("Move Cursor to last line of document")},
 {SCI_PAGEUP,N_("Move Cursor up one Page")},
 {SCI_PAGEDOWN,N_("Move Cursor down one Page")},
-{SCI_HOMEDISPLAY,N_("Move Cursor to fist visible character")},
+{SCI_HOMEDISPLAY,N_("Move Cursor to first visible character")},
 {SCI_LINEENDDISPLAY,N_("Move Cursor to last visible character")},
 {SCI_VCHOME,N_("Move Cursor to 1st non-whitespace character of line, or 1st character of line if\
  already at 1st non-whitespace character")},
