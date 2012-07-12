@@ -1,5 +1,6 @@
 include $(top_srcdir)/build/vars.docs.mk
 
+plugin = geanylatex
 dist_plugindoc_DATA = \
 	geanylatex2.html \
 	geanylatex3.html \
