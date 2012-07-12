@@ -296,6 +296,8 @@ static void paste(GeanyDocument * doc, const gchar * website)
 
     }
 
+    g_free(f_content);
+
     user_agent = g_strconcat(PLUGIN_NAME, " ", PLUGIN_VERSION, " / Geany ", GEANY_VERSION, NULL);
     session = soup_session_async_new_with_options(SOUP_SESSION_USER_AGENT, user_agent, NULL);
     g_free(user_agent);
@@ -305,6 +307,9 @@ static void paste(GeanyDocument * doc, const gchar * website)
 
     status = soup_session_send_message(session, msg);
     p_url = g_strdup(msg->response_body->data);
+
+    g_object_unref(session);
+    g_object_unref(msg);
 
     if(status == SOUP_STATUS_OK)
     {
@@ -400,10 +405,7 @@ static void paste(GeanyDocument * doc, const gchar * website)
                             "Error code: %d\n"), status);
     }
 
-    g_free(f_content);
     g_free(p_url);
-    g_object_unref(session);
-    g_object_unref(msg);
 }
 
 static void item_activate(GtkMenuItem * menuitem, gpointer gdata)
