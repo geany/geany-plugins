@@ -183,7 +183,6 @@ static void paste(GeanyDocument * doc, const gchar * website)
     gchar *p_url;
     gchar *formdata = NULL;
     gchar *user_agent = NULL;
-    gchar *temp_body;
     gchar **tokens_array;
 
     const gchar *langs_supported_codepad[] =
@@ -302,7 +301,7 @@ static void paste(GeanyDocument * doc, const gchar * website)
     g_free(user_agent);
 
     soup_message_set_request(msg, "application/x-www-form-urlencoded",
-                             SOUP_MEMORY_COPY, formdata, strlen(formdata));
+                             SOUP_MEMORY_TAKE, formdata, strlen(formdata));
 
     status = soup_session_send_message(session, msg);
     p_url = g_strdup(msg->response_body->data);
@@ -317,17 +316,15 @@ static void paste(GeanyDocument * doc, const gchar * website)
 
         if (website_selected == CODEPAD_ORG)
         {
-            temp_body = g_strdup(p_url);
-            tokens_array = g_strsplit(temp_body, "<a href=\"", 0);
+            tokens_array = g_strsplit(p_url, "<a href=\"", 0);
 
             /* cuts the string when it finds the first occurrence of '/'
              * It shoud work even if codepad would change its url.
              */
 
-            p_url = g_strdup(tokens_array[5]);
+            SETPTR(p_url, g_strdup(tokens_array[5]));
             occ_position = indexof(tokens_array[5], '\"');
 
-            g_free(temp_body);
             g_strfreev(tokens_array);
 
             if(occ_position != -1)
@@ -353,18 +350,16 @@ static void paste(GeanyDocument * doc, const gchar * website)
              *      <response>xxxxx</response>
              * </result>
              */
-            temp_body = g_strdup(p_url);
-            tokens_array = g_strsplit_set(temp_body, "<>", 0);
+            tokens_array = g_strsplit_set(p_url, "<>", 0);
             
-            p_url = g_strdup_printf("http://%s/%s", websites[TINYPASTE_COM], tokens_array[6]);
+            SETPTR(p_url, g_strdup_printf("http://%s/%s", websites[TINYPASTE_COM], tokens_array[6]));
             
-            g_free(temp_body);
             g_strfreev(tokens_array);
         }
             
         else if(website_selected == DPASTE_DE)
         {
-            p_url = g_strndup(p_url + 1, strlen(p_url) - 2);
+            SETPTR(p_url, g_strndup(p_url + 1, strlen(p_url) - 2));
 
         }
         else if(website_selected == SPRUNGE_US)
@@ -377,8 +372,8 @@ static void paste(GeanyDocument * doc, const gchar * website)
              * e.g. sprunge.us/xxxx?c
              */
             gchar *ft_tmp = g_ascii_strdown(f_type, -1);
-            temp_body = g_strstrip(p_url);
-            p_url = g_strdup_printf("%s?%s", temp_body, ft_tmp);
+            gchar *temp_body = g_strstrip(p_url);
+            SETPTR(p_url, g_strdup_printf("%s?%s", temp_body, ft_tmp));
             g_free(temp_body);
             g_free(ft_tmp);
         }
@@ -408,6 +403,7 @@ static void paste(GeanyDocument * doc, const gchar * website)
     g_free(f_content);
     g_free(p_url);
     g_object_unref(session);
+    g_object_unref(msg);
 }
 
 static void item_activate(GtkMenuItem * menuitem, gpointer gdata)
@@ -435,7 +431,7 @@ static void on_configure_response(GtkDialog * dialog, gint response, gpointer * 
         {
             website_selected = gtk_combo_box_get_active(GTK_COMBO_BOX(widgets.combo));
             check_button_is_checked = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.check_button));
-            author_name = g_strdup(gtk_entry_get_text(GTK_ENTRY(widgets.author_entry)));
+            SETPTR(author_name, g_strdup(gtk_entry_get_text(GTK_ENTRY(widgets.author_entry))));
             save_settings();
         }
     }
