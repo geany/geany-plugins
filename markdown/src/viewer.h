@@ -41,7 +41,8 @@ void markdown_viewer_set_template(MarkdownViewer *viewer, MarkdownTemplate *tmpl
 void markdown_viewer_show(MarkdownViewer *viewer);
 void markdown_viewer_hide(MarkdownViewer *viewer);
 
-void markdown_viewer_update_content(MarkdownViewer *viewer, const gchar *text);
+void markdown_viewer_update_content(MarkdownViewer *viewer, const gchar *text,
+  const gchar *encoding);
 
 G_END_DECLS
 

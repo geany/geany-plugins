@@ -109,7 +109,8 @@ void on_viewer_load_status_notify(GObject *obj, GParamSpec *pspec, MarkdownViewe
   }
 }
 
-void markdown_viewer_update_content(MarkdownViewer *viewer, const gchar *text)
+void markdown_viewer_update_content(MarkdownViewer *viewer, const gchar *text,
+  const gchar *encoding)
 {
   g_return_if_fail(viewer);
   gchar *html = markdown_to_html(text);
@@ -122,7 +123,8 @@ void markdown_viewer_update_content(MarkdownViewer *viewer, const gchar *text)
       markdown_template_get_filename(viewer->template));
     g_signal_connect(viewer->webview, "notify::load-status",
       G_CALLBACK(on_viewer_load_status_notify), viewer);
-    webkit_web_view_load_string(viewer->webview, new_text, "text/html", "UTF-8", base_uri);
+    webkit_web_view_load_string(viewer->webview, new_text, "text/html",
+      encoding, base_uri);
     g_free(new_text);
     g_free(base_uri);
   }

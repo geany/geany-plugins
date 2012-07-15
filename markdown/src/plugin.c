@@ -228,14 +228,14 @@ static gboolean on_idle_handler(MarkdownPlugin *plugin)
   /* Only handle valid Markdown documents */
   if (!DOC_VALID(doc) || g_strcmp0(doc->file_type->name, "Markdown") != 0) {
     markdown_viewer_update_content(plugin->viewer,
-      _("The current document does not have a Markdown filetype."));
+      _("The current document does not have a Markdown filetype."), "UTF-8");
     plugin->handler_ids.update_view = 0;
     return FALSE;
   }
 
   md_text = (gchar*) scintilla_send_message(doc->editor->sci,
     SCI_GETCHARACTERPOINTER, 0, 0);
-  markdown_viewer_update_content(plugin->viewer, md_text);
+  markdown_viewer_update_content(plugin->viewer, md_text, doc->encoding);
 
   plugin->handler_ids.update_view = 0;
 
