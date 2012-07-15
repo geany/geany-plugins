@@ -53,3 +53,8 @@ Position
 This option specifies which notebook the Markdown preview tab will appear in.
 The two choices are `Sidebar` or `Message Window` for Geany's sidebar and
 message window notebooks, respectively.
+
+Acknowledgements
+----------------
+This product includes software developed by
+David Loren Parsons <http://www.pell.portland.or.us/~orc>
