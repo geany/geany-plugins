@@ -1,3 +1,10 @@
 
-deftmpldir = $(pkgdatadir)/markdown/templates/Alternate
-deftmpl_DATA = index.html
+alttmpldir = $(pkgdatadir)/markdown/templates/Alternate
+alttmpl_DATA = \
+	index.html \
+	alternate.css \
+	background.png \
+	Kreon.ttf \
+	LICENSE.kreon \
+	Pointfree.ttf \
+	LICENSE.pointfree
