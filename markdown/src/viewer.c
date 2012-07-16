@@ -19,11 +19,13 @@
  * MA 02110-1301, USA.
  */
 
-#include <geanyplugin.h>
+#include <string.h>
+#include <stdio.h>
 #include <gtk/gtk.h>
 #include <webkit/webkitwebview.h>
+#include <geanyplugin.h>
+#include "markdown.h"
 #include "viewer.h"
-#include "md.h"
 #include "conf.h"
 
 #define MARKDOWN_VIEWER_TAB_LABEL _("Markdown Preview")
@@ -97,7 +99,27 @@ void on_viewer_load_status_notify(GObject *obj, GParamSpec *pspec, MarkdownViewe
   }
 }
 
+static gchar *
+markdown_to_html(const gchar *md_text)
+{
+  Document *md;
+  gchar *result = NULL;
 
+  if (!md_text)
+    return g_strdup("");
+
+  md = mkd_string(md_text, strlen(md_text), 0);
+  if (md) {
+    if (mkd_compile(md, 0)) {
+      gchar *res = NULL;
+      mkd_document(md, &res);
+      result = g_strdup(res);
+    }
+    mkd_cleanup(md);
+  }
+
+  return result;
+}
 
 static gchar *
 str_replace(const gchar *haystack, const gchar *needle, const gchar *repl)

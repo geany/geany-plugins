@@ -6,13 +6,11 @@ geanyplugins_LTLIBRARIES = markdown.la
 
 markdown_la_SOURCES = \
 	conf.c \
-	md.c \
 	plugin.c \
 	viewer.c
 
 noinst_HEADERS = \
 	conf.h \
-	md.h \
 	viewer.h
 
 markdown_la_CFLAGS = \
