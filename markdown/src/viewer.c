@@ -103,11 +103,11 @@ static gchar *
 str_replace(const gchar *haystack, const gchar *needle, const gchar *repl)
 {
   gchar *out_str, **parts;
-  
+
   parts = g_strsplit(haystack, needle, 0);
   out_str = g_strjoinv(repl, parts);
   g_strfreev(parts);
-  
+
   return out_str;
 }
 
@@ -121,7 +121,7 @@ markdown_viewer_replace(const gchar *html_text, MarkdownConfig *config)
   gchar *font_name = NULL, *code_font_name = NULL;
   gchar *bg_color = NULL, *fg_color = NULL;
   guint code_font_point_size = 0;
-  
+
   g_object_get(config,
                "view-pos", &view_pos,
                "font-name", &font_name,
@@ -131,10 +131,10 @@ markdown_viewer_replace(const gchar *html_text, MarkdownConfig *config)
                "bg-color", &bg_color,
                "fg-color", &fg_color,
                NULL);
-  
+
   font_pt_size = g_strdup_printf("%d", font_point_size);
   code_font_pt_size = g_strdup_printf("%d", code_font_point_size);
-  
+
   tmp = str_replace(markdown_config_get_template_text(config),
     "@@font_name@@", font_name);
   out_str = tmp;
@@ -150,16 +150,16 @@ markdown_viewer_replace(const gchar *html_text, MarkdownConfig *config)
   g_free(out_str); out_str = tmp;
   tmp = str_replace(out_str, "@@markdown@@", html_text);
   g_free(out_str); out_str = tmp;
-  
+
   g_free(font_name);
   g_free(code_font_name);
   g_free(font_pt_size);
   g_free(code_font_pt_size);
   g_free(bg_color);
   g_free(fg_color);
-  
+
   /*g_debug("Replaced:\n%s", out_str);*/
-  
+
   return out_str;
 }
 

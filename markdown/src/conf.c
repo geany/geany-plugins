@@ -1,24 +1,24 @@
 /*
  * markdownconfig.c
- * 
+ *
  * Copyright 2012 Matthew Brush <mbrush@codebrainz.ca>
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
- * 
- * 
+ *
+ *
  */
 
 #include <string.h>
@@ -109,17 +109,17 @@ static gboolean on_idle_timeout(MarkdownConfig *conf)
   return FALSE;
 }
 
-static void 
+static void
 init_conf_file(MarkdownConfig *conf)
 {
   GError *error = NULL;
   gchar *def_tmpl, *dirn;
-  
+
   dirn = g_path_get_dirname(conf->priv->filename);
   if (!g_file_test(dirn, G_FILE_TEST_IS_DIR)) {
     g_mkdir_with_parents(dirn, 0755);
   }
-  
+
   if (!g_file_test(conf->priv->filename, G_FILE_TEST_EXISTS)) {
     if (!g_file_set_contents(conf->priv->filename, DEFAULT_CONF, -1, &error)) {
       g_warning("Unable to write default configuration file: %s", error->message);
@@ -135,7 +135,7 @@ init_conf_file(MarkdownConfig *conf)
       g_error_free(error); error = NULL;
     }
   }
-  
+
   g_free(dirn);
   g_free(def_tmpl);
 }
@@ -145,14 +145,14 @@ markdown_config_load_template_text(MarkdownConfig *conf)
 {
   GError *error = NULL;
   gchar *tmpl_file = NULL;
-  
+
   g_object_get(conf, "template-file", &tmpl_file, NULL);
-  
+
   g_free(conf->priv->tmpl_text);
   conf->priv->tmpl_text = NULL;
   conf->priv->tmpl_text_len = 0;
-  
-  if (!g_file_get_contents(tmpl_file, &(conf->priv->tmpl_text), 
+
+  if (!g_file_get_contents(tmpl_file, &(conf->priv->tmpl_text),
       &(conf->priv->tmpl_text_len), &error))
   {
     g_warning("Error reading template file: %s", error->message);
@@ -165,11 +165,11 @@ markdown_config_set_property(GObject *obj, guint prop_id, const GValue *value, G
 {
   gboolean save_later = FALSE;
   MarkdownConfig *conf = MARKDOWN_CONFIG(obj);
-  
+
   /* FIXME: Prevent writing to keyfile until it's ready */
   if (!conf->priv->initialized)
     return;
-  
+
   switch (prop_id) {
     case PROP_TEMPLATE_FILE:
       g_key_file_set_string(conf->priv->kf, "general", "template",
@@ -208,7 +208,7 @@ markdown_config_set_property(GObject *obj, guint prop_id, const GValue *value, G
       save_later = TRUE;
       break;
     case PROP_VIEW_POS:
-      g_key_file_set_integer(conf->priv->kf, "view", "position", 
+      g_key_file_set_integer(conf->priv->kf, "view", "position",
         (gint) g_value_get_uint(value));
       save_later = TRUE;
       break;
@@ -216,7 +216,7 @@ markdown_config_set_property(GObject *obj, guint prop_id, const GValue *value, G
       G_OBJECT_WARN_INVALID_PROPERTY_ID(obj, prop_id, pspec);
       break;
   }
-  
+
   if (save_later && conf->priv->handle == 0) {
     conf->priv->handle = g_idle_add((GSourceFunc) on_idle_timeout, conf);
   }
@@ -228,15 +228,15 @@ markdown_config_get_string_key(MarkdownConfig *conf, const gchar *group,
 {
   gchar *out_str;
   GError *error = NULL;
-  
+
   out_str = g_key_file_get_string(conf->priv->kf, group, key, &error);
   if (error) {
     g_debug("Config read failed: %s", error->message);
     g_error_free(error); error = NULL;
     out_str = g_strdup(default_value);
   }
-  
-  return out_str; 
+
+  return out_str;
 }
 
 static guint
@@ -245,22 +245,22 @@ markdown_config_get_uint_key(MarkdownConfig *conf, const gchar *group,
 {
   guint out_uint;
   GError *error = NULL;
-  
+
   out_uint = (guint) g_key_file_get_integer(conf->priv->kf, group, key, &error);
   if (error) {
     g_debug("Config read failed: %s", error->message);
     g_error_free(error); error = NULL;
     out_uint = 12;
   }
-  
-  return out_uint; 
+
+  return out_uint;
 }
 
 static void
 markdown_config_get_property(GObject *obj, guint prop_id, GValue *value, GParamSpec *pspec)
 {
   MarkdownConfig *conf = MARKDOWN_CONFIG(obj);
-  
+
   switch (prop_id) {
     case PROP_TEMPLATE_FILE:
     {
@@ -364,10 +364,10 @@ markdown_config_class_init(MarkdownConfigClass *klass)
   md_props[PROP_FG_COLOR] = g_param_spec_string("fg-color", "ForegroundColor",
     "Foreground colour of the page", "#000000", G_PARAM_READWRITE);
   md_props[PROP_VIEW_POS] = g_param_spec_uint("view-pos", "ViewPosition",
-    "Notebook where the view will be positioned", 0, 
+    "Notebook where the view will be positioned", 0,
     MARKDOWN_CONFIG_VIEW_POS_MAX-1, (guint) MARKDOWN_CONFIG_VIEW_POS_SIDEBAR,
     G_PARAM_READWRITE);
-  
+
   g_object_class_install_properties(g_object_class, PROP_LAST, md_props);
 }
 
@@ -380,7 +380,7 @@ markdown_config_finalize(GObject *object)
   g_return_if_fail(MARKDOWN_IS_CONFIG(object));
 
   self = MARKDOWN_CONFIG(object);
-  
+
   if (self->priv->handle != 0) {
     g_source_remove(self->priv->handle);
     markdown_config_save(self);
@@ -404,9 +404,9 @@ markdown_config_new(const gchar *filename)
 {
   MarkdownConfig *conf = g_object_new(MARKDOWN_TYPE_CONFIG, NULL);
   GError *error = NULL;
-  
+
   g_return_val_if_fail(filename, conf);
-  
+
   strncpy(conf->priv->filename, filename, PATH_MAX);
   init_conf_file(conf);
   conf->priv->kf = g_key_file_new();
@@ -416,7 +416,7 @@ markdown_config_new(const gchar *filename)
     g_warning("Error loading configuration file: %s", error->message);
     g_error_free(error); error = NULL;
   }
-  
+
   conf->priv->initialized = TRUE;
 
   return conf;
@@ -429,17 +429,17 @@ markdown_config_save(MarkdownConfig *conf)
   gsize len;
   gboolean success = FALSE;
   GError *error = NULL;
-  
+
   contents = g_key_file_to_data(conf->priv->kf, &len, &error);
-  
+
   g_debug("Saving: %s\n%s", conf->priv->filename, contents);
-  
+
   if (error) {
     g_warning("Error getting config data as string: %s", error->message);
     g_error_free(error); error = NULL;
     return success;
   }
-  
+
   success = g_file_set_contents(conf->priv->filename, contents, len, &error);
   g_free(contents);
 
@@ -447,7 +447,7 @@ markdown_config_save(MarkdownConfig *conf)
     g_warning("Error writing config data to disk: %s", error->message);
     g_error_free(error); error = NULL;
   }
-  
+
   return success;
 }
 
@@ -464,7 +464,7 @@ color_button_get_color(GtkColorButton *color_button)
   g = color.green / 256;
   b = color.blue / 256;
   color_str = g_strdup_printf("#%02x%02x%02x", r, g, b);
-  
+
   return color_str;
 }
 
@@ -473,7 +473,7 @@ get_font_info(const gchar *font_desc, gchar **font_name, guint *font_size)
 {
   gboolean success = FALSE;
   PangoFontDescription *pfd;
-  
+
   pfd = pango_font_description_from_string(font_desc);
   if (pfd) {
     *font_name = g_strdup(pango_font_description_get_family(pfd));
@@ -481,7 +481,7 @@ get_font_info(const gchar *font_desc, gchar **font_name, guint *font_size)
     success = TRUE;
     pango_font_description_free(pfd);
   }
-  
+
   return success;
 }
 
@@ -496,21 +496,21 @@ on_dialog_response(MarkdownConfig *conf, gint response_id, GtkDialog *dialog)
     guint fnt_size = 0, code_fnt_size = 0;
     const gchar *font_desc;
     MarkdownConfigViewPos view_pos;
-    
+
     view_pos = pos_sidebar ? MARKDOWN_CONFIG_VIEW_POS_SIDEBAR : MARKDOWN_CONFIG_VIEW_POS_MSGWIN;
-    
+
     bg_color = color_button_get_color(GTK_COLOR_BUTTON(conf->priv->widgets.bg_color_button));
     fg_color = color_button_get_color(GTK_COLOR_BUTTON(conf->priv->widgets.fg_color_button));
 
     font_desc = gtk_font_button_get_font_name(GTK_FONT_BUTTON(conf->priv->widgets.font_button));
     get_font_info(font_desc, &fnt, &fnt_size);
-    
+
     font_desc = gtk_font_button_get_font_name(GTK_FONT_BUTTON(conf->priv->widgets.code_font_button));
     get_font_info(font_desc, &code_fnt, &code_fnt_size);
-    
+
     tmpl_file = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(conf->priv->widgets.tmpl_file_button));
-    
-    g_object_set(conf, 
+
+    g_object_set(conf,
                  "font-name", fnt,
                  "font-point-size", fnt_size,
                  "code-font-name", code_fnt,
@@ -520,7 +520,7 @@ on_dialog_response(MarkdownConfig *conf, gint response_id, GtkDialog *dialog)
                  "fg-color", fg_color,
                  "template-file", tmpl_file,
                  NULL);
-    
+
     g_free(fnt);
     g_free(code_fnt);
     g_free(bg_color);
@@ -535,7 +535,7 @@ GtkWidget *markdown_config_gui(MarkdownConfig *conf, GtkDialog *dialog)
   GtkWidget *table, *label, *hbox, *wid;
   gchar *tmpl_file=NULL, *fnt=NULL, *code_fnt=NULL, *bg=NULL, *fg=NULL;
   guint view_pos=0, fnt_sz=0, code_fnt_sz=0;
-  
+
   g_object_get(conf,
                "view-pos", &view_pos,
                "font-name", &fnt,
@@ -546,19 +546,19 @@ GtkWidget *markdown_config_gui(MarkdownConfig *conf, GtkDialog *dialog)
                "fg-color", &fg,
                "template-file", &tmpl_file,
                NULL);
-  
+
   table = gtk_table_new(6, 2, FALSE);
   gtk_table_set_col_spacings(GTK_TABLE(table), 6);
   gtk_table_set_row_spacings(GTK_TABLE(table), 6);
   conf->priv->widgets.table = table;
-  
+
   { /* POSITION OF VIEW */
     label = gtk_label_new(_("Position:"));
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
     gtk_table_attach(GTK_TABLE(table), label, 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
-    
+
     hbox = gtk_hbox_new(FALSE, 6);
-    
+
     wid = gtk_radio_button_new_with_label(grp, _("Sidebar"));
     grp = gtk_radio_button_get_group(GTK_RADIO_BUTTON(wid));
     gtk_box_pack_start(GTK_BOX(hbox), wid, FALSE, TRUE, 0);
@@ -566,7 +566,7 @@ GtkWidget *markdown_config_gui(MarkdownConfig *conf, GtkDialog *dialog)
     if (((MarkdownConfigViewPos) view_pos) == MARKDOWN_CONFIG_VIEW_POS_SIDEBAR) {
       gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(wid), TRUE);
     }
-    
+
     wid = gtk_radio_button_new_with_label(grp, _("Message Window"));
     grp = gtk_radio_button_get_group(GTK_RADIO_BUTTON(wid));
     gtk_box_pack_start(GTK_BOX(hbox), wid, FALSE, TRUE, 0);
@@ -574,85 +574,85 @@ GtkWidget *markdown_config_gui(MarkdownConfig *conf, GtkDialog *dialog)
     if (((MarkdownConfigViewPos) view_pos) == MARKDOWN_CONFIG_VIEW_POS_MSGWIN) {
       gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(wid), TRUE);
     }
-    
+
     gtk_table_attach(GTK_TABLE(table), hbox, 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
   }
-  
+
   { /* FONT BUTTON */
     gchar *font_desc;
-    
+
     label = gtk_label_new(_("Font:"));
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
     gtk_table_attach(GTK_TABLE(table), label, 0, 1, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
-    
+
     font_desc = g_strdup_printf("%s %d", fnt, fnt_sz);
     wid = gtk_font_button_new_with_font(font_desc);
     conf->priv->widgets.font_button = wid;
     g_free(font_desc);
-    
+
     gtk_table_attach(GTK_TABLE(table), wid, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND,
       GTK_FILL, 0, 0);
-    
+
     g_free(fnt);
   }
-  
+
   { /* CODE FONT BUTTON */
     gchar *font_desc;
-    
+
     label = gtk_label_new(_("Code Font:"));
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
     gtk_table_attach(GTK_TABLE(table), label, 0, 1, 2, 3, GTK_FILL, GTK_FILL, 0, 0);
-    
+
     font_desc = g_strdup_printf("%s %d", code_fnt, code_fnt_sz);
     wid = gtk_font_button_new_with_font(font_desc);
     conf->priv->widgets.code_font_button = wid;
     g_free(font_desc);
-    
+
     gtk_table_attach(GTK_TABLE(table), wid, 1, 2, 2, 3, GTK_FILL | GTK_EXPAND,
       GTK_FILL, 0, 0);
-    
+
     g_free(code_fnt);
   }
-  
+
   { /* BG COLOR */
     GdkColor bgclr;
-    
+
     label = gtk_label_new(_("BG Color:"));
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
     gtk_table_attach(GTK_TABLE(table), label, 0, 1, 3, 4, GTK_FILL, GTK_FILL, 0, 0);
-    
+
     gdk_color_parse(bg, &bgclr);
-    
+
     wid = gtk_color_button_new_with_color(&bgclr);
     conf->priv->widgets.bg_color_button = wid;
     gtk_table_attach(GTK_TABLE(table), wid, 1, 2, 3, 4, GTK_FILL | GTK_EXPAND,
       GTK_FILL, 0, 0);
-    
+
     g_free(bg);
   }
-  
+
   { /* FG COLOR */
     GdkColor fgclr;
-    
+
     label = gtk_label_new(_("FG Color:"));
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
     gtk_table_attach(GTK_TABLE(table), label, 0, 1, 4, 5, GTK_FILL, GTK_FILL, 0, 0);
-    
+
     gdk_color_parse(fg, &fgclr);
-    
+
     wid = gtk_color_button_new_with_color(&fgclr);
     conf->priv->widgets.fg_color_button = wid;
     gtk_table_attach(GTK_TABLE(table), wid, 1, 2, 4, 5, GTK_FILL | GTK_EXPAND,
-      GTK_FILL, 0, 0); 
-    
+      GTK_FILL, 0, 0);
+
     g_free(fg);
   }
-  
+
   { /* TEMPLATE FILE */
     label = gtk_label_new(_("Template:"));
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
     gtk_table_attach(GTK_TABLE(table), label, 0, 1, 5, 6, GTK_FILL, GTK_FILL, 0, 0);
-    
+
     wid = gtk_file_chooser_button_new(_("Select Template File"),
       GTK_FILE_CHOOSER_ACTION_OPEN);
     conf->priv->widgets.tmpl_file_button = wid;
@@ -662,15 +662,15 @@ GtkWidget *markdown_config_gui(MarkdownConfig *conf, GtkDialog *dialog)
     }
     gtk_table_attach(GTK_TABLE(table), wid, 1, 2, 5, 6, GTK_FILL | GTK_EXPAND,
       GTK_FILL, 0, 0);
-    
+
     g_free(tmpl_file);
   }
-  
+
   g_signal_connect_swapped(dialog, "response", G_CALLBACK(on_dialog_response), conf);
-  
+
   gtk_widget_show_all(table);
-  
-  return table;  
+
+  return table;
 }
 
 const gchar *

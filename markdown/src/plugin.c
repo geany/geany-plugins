@@ -61,7 +61,7 @@ static gboolean on_editor_notify(GObject *obj, GeanyEditor *editor, SCNotificati
 static void on_document_signal(GObject *obj, GeanyDocument *doc, MarkdownPlugin *plugin);
 static void on_document_filetype_set(GObject *obj, GeanyDocument *doc, GeanyFiletype *ft_old, MarkdownPlugin *plugin);
 
-static void 
+static void
 on_conf_prop_notify(GObject *obj, GParamSpec *pspec, MarkdownPlugin *plugin)
 {
   handle_update_later(plugin);
@@ -76,7 +76,7 @@ void plugin_init(GeanyData *data)
   conf_fn = g_build_filename(geany->app->configdir, "plugins", "markdown", "markdown.conf", NULL);
   markdown_plugin.config = markdown_config_new(conf_fn);
   g_free(conf_fn);
-  
+
   g_signal_connect(markdown_plugin.config, "notify",
     G_CALLBACK(on_conf_prop_notify), &markdown_plugin);
 
@@ -134,7 +134,7 @@ static gboolean on_idle_handler(MarkdownPlugin *plugin)
   MarkdownConfigViewPos view_pos;
 
   g_object_get(plugin->config, "view-pos", &view_pos, NULL);
-  
+
   switch (view_pos) {
     case MARKDOWN_CONFIG_VIEW_POS_MSGWIN:
       markdown_viewer_set_notebook(plugin->viewer,

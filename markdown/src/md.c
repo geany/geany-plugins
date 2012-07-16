@@ -28,7 +28,7 @@ gchar *markdown_to_html(const gchar *md_text)
 {
   Document *md;
   gchar *result = NULL;
-  
+
   if (!md_text)
     return g_strdup("");
 
