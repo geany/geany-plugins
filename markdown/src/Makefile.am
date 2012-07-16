@@ -20,6 +20,7 @@ markdown_la_CFLAGS = \
 	$(MARKDOWN_CFLAGS) \
 	-DMARKDOWN_DATA_DIR=\"$(pkgdatadir)/markdown\" \
 	-DMARKDOWN_DOC_DIR=\"$(docdir)/markdown\" \
+	-DMARKDOWN_HELP_FILE=\"$(docdir)/markdown/html/help.html\" \
 	-I$(top_srcdir)/markdown/discount
 
 markdown_la_LIBADD = \

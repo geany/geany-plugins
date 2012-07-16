@@ -41,6 +41,9 @@ PLUGIN_SET_INFO("Markdown",
 #ifndef MARKDOWN_DOC_DIR
 #  define MARKDOWN_DOC_DIR "/usr/local/share/doc/geany-plugins/markdown"
 #endif
+#ifndef MARKDOWN_HELP_FILE
+#  define MARKDOWN_HELP_FILE MARKDOWN_DOC_DIR "/html/help.html"
+#endif
 
 /* Global data */
 typedef struct MarkdownPlugin {
@@ -124,6 +127,13 @@ void plugin_cleanup(void)
 GtkWidget *plugin_configure(GtkDialog *dialog)
 {
   return markdown_config_gui(markdown_plugin.config, dialog);
+}
+
+void plugin_help(void)
+{
+  gchar *uri = g_strdup_printf("file://%s", MARKDOWN_HELP_FILE);
+  utils_open_browser(uri);
+  g_free(uri);
 }
 
 /* Update markdown preview when idle. */
