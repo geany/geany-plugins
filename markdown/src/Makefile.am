@@ -8,15 +8,11 @@ markdown_la_SOURCES = \
 	conf.c \
 	md.c \
 	plugin.c \
-	tmpl.c \
-	tmplmgr.c \
 	viewer.c
 
 noinst_HEADERS = \
 	conf.h \
 	md.h \
-	tmpl.h \
-	tmplmgr.h \
 	viewer.h
 
 markdown_la_CFLAGS = \

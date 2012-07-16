@@ -24,6 +24,7 @@
 #include <webkit/webkitwebview.h>
 #include "viewer.h"
 #include "md.h"
+#include "conf.h"
 
 #define MARKDOWN_VIEWER_TAB_LABEL _("Markdown Preview")
 
@@ -31,7 +32,6 @@ struct MarkdownViewer {
   GtkScrolledWindow *scrolled_win; /* The GtkScrolledWindow containing the WebKitView */
   WebKitWebView     *webview;      /* The Webkit preview widget */
   GtkNotebook       *notebook;     /* Either the sidebar notebook or the msgwin notebook */
-  MarkdownTemplate  *template;     /* The active preview template */
   gdouble old_pos; /* Position before reload, used to reset scroll pos. */
 };
 
@@ -83,21 +83,9 @@ void markdown_viewer_set_notebook(MarkdownViewer *viewer, GtkNotebook *nb)
   page_num = gtk_notebook_append_page(viewer->notebook, GTK_WIDGET(viewer->scrolled_win),
     gtk_label_new(MARKDOWN_VIEWER_TAB_LABEL));
 
-  /*gtk_notebook_set_current_page(viewer->notebook, page_num);*/
+  gtk_notebook_set_current_page(viewer->notebook, page_num);
 
   g_object_unref(G_OBJECT(viewer->scrolled_win));
-}
-
-MarkdownTemplate *markdown_viewer_get_template(MarkdownViewer *viewer)
-{
-  g_return_val_if_fail(viewer, NULL);
-  return viewer->template;
-}
-
-void markdown_viewer_set_template(MarkdownViewer *viewer, MarkdownTemplate *tmpl)
-{
-  g_return_if_fail(viewer && tmpl);
-  viewer->template = tmpl;
 }
 
 void on_viewer_load_status_notify(GObject *obj, GParamSpec *pspec, MarkdownViewer *viewer)
@@ -109,18 +97,83 @@ void on_viewer_load_status_notify(GObject *obj, GParamSpec *pspec, MarkdownViewe
   }
 }
 
-void markdown_viewer_update_content(MarkdownViewer *viewer, const gchar *text,
-  const gchar *encoding)
+
+
+static gchar *
+str_replace(const gchar *haystack, const gchar *needle, const gchar *repl)
+{
+  gchar *out_str, **parts;
+  
+  parts = g_strsplit(haystack, needle, 0);
+  out_str = g_strjoinv(repl, parts);
+  g_strfreev(parts);
+  
+  return out_str;
+}
+
+static gchar *
+markdown_viewer_replace(const gchar *html_text, MarkdownConfig *config)
+{
+  MarkdownConfigViewPos view_pos;
+  guint font_point_size = 0;
+  gchar *out_str, *tmp;
+  gchar *font_pt_size, *code_font_pt_size;
+  gchar *font_name = NULL, *code_font_name = NULL;
+  gchar *bg_color = NULL, *fg_color = NULL;
+  guint code_font_point_size = 0;
+  
+  g_object_get(config,
+               "view-pos", &view_pos,
+               "font-name", &font_name,
+               "code-font-name", &code_font_name,
+               "font-point-size", &font_point_size,
+               "code-font-point-size", &code_font_point_size,
+               "bg-color", &bg_color,
+               "fg-color", &fg_color,
+               NULL);
+  
+  font_pt_size = g_strdup_printf("%d", font_point_size);
+  code_font_pt_size = g_strdup_printf("%d", code_font_point_size);
+  
+  tmp = str_replace(markdown_config_get_template_text(config),
+    "@@font_name@@", font_name);
+  out_str = tmp;
+  tmp = str_replace(out_str, "@@code_font_name@@", code_font_name);
+  g_free(out_str); out_str = tmp;
+  tmp = str_replace(out_str, "@@font_point_size@@", font_pt_size);
+  g_free(out_str); out_str = tmp;
+  tmp = str_replace(out_str, "@@code_font_point_size@@", code_font_pt_size);
+  g_free(out_str); out_str = tmp;
+  tmp = str_replace(out_str, "@@bg_color@@", bg_color);
+  g_free(out_str); out_str = tmp;
+  tmp = str_replace(out_str, "@@fg_color@@", fg_color);
+  g_free(out_str); out_str = tmp;
+  tmp = str_replace(out_str, "@@markdown@@", html_text);
+  g_free(out_str); out_str = tmp;
+  
+  g_free(font_name);
+  g_free(code_font_name);
+  g_free(font_pt_size);
+  g_free(code_font_pt_size);
+  g_free(bg_color);
+  g_free(fg_color);
+  
+  /*g_debug("Replaced:\n%s", out_str);*/
+  
+  return out_str;
+}
+
+void markdown_viewer_load_markdown_string(MarkdownViewer *viewer,
+  const gchar *md_str, const gchar *encoding, MarkdownConfig *config)
 {
   g_return_if_fail(viewer);
-  gchar *html = markdown_to_html(text);
-  gchar *new_text = markdown_template_replace(viewer->template, html, NULL);
+  gchar *html = markdown_to_html(md_str);
+  gchar *new_text = markdown_viewer_replace(html, config);
   GtkAdjustment *vadj = gtk_scrolled_window_get_vadjustment(viewer->scrolled_win);
   viewer->old_pos = gtk_adjustment_get_value(vadj);
   g_free(html);
   if (new_text) {
-    gchar *base_uri = g_strdup_printf("file://%s",
-      markdown_template_get_filename(viewer->template));
+    gchar *base_uri = g_strdup_printf("file://.");
     g_signal_connect(viewer->webview, "notify::load-status",
       G_CALLBACK(on_viewer_load_status_notify), viewer);
     webkit_web_view_load_string(viewer->webview, new_text, "text/html",

@@ -25,7 +25,7 @@
 G_BEGIN_DECLS
 
 #include <gtk/gtk.h>
-#include "tmpl.h"
+#include "conf.h"
 
 typedef struct MarkdownViewer MarkdownViewer;
 
@@ -35,14 +35,11 @@ void markdown_viewer_free(MarkdownViewer *viewer);
 GtkNotebook *markdown_viewer_get_notebook(MarkdownViewer *viewer);
 void markdown_viewer_set_notebook(MarkdownViewer *viewer, GtkNotebook *nb);
 
-MarkdownTemplate *markdown_viewer_get_template(MarkdownViewer *viewer);
-void markdown_viewer_set_template(MarkdownViewer *viewer, MarkdownTemplate *tmpl);
-
 void markdown_viewer_show(MarkdownViewer *viewer);
 void markdown_viewer_hide(MarkdownViewer *viewer);
 
-void markdown_viewer_update_content(MarkdownViewer *viewer, const gchar *text,
-  const gchar *encoding);
+void markdown_viewer_load_markdown_string(MarkdownViewer *viewer,
+  const gchar *md_str, const gchar *encoding, MarkdownConfig *config);
 
 G_END_DECLS
 
