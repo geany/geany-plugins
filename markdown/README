@@ -153,8 +153,16 @@ License
 -------
 
 The Markdown plugin is licensed under the GNU General Public License,
-version 2 or (at your option) later versions. For the full text of the
-license, please visit http://www.gnu.org/licenses/gpl-2.0.html.
+version 2. For the full text of the license, please visit
+http://www.gnu.org/licenses/gpl-2.0.html. The GPL license covers all code
+and files *not* in the ``discount`` directory.
+
+All code inside the ``discount`` directory is under a BSD-style license
+(see the ``discount/COPYRIGHT`` file) and all contributions to this code
+*will* remain under this license. This will make it easier to integrate
+improvements to Discount back upstream if it ever makes sense. So far the
+only changes are superficial to allow it to build with the Geany-Plugins
+build system and to prevent some compiler warnings.
 
 Authors
 -------
