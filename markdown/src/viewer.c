@@ -299,11 +299,18 @@ static gchar *
 markdown_viewer_get_html(MarkdownViewer *self)
 {
   gchar *md_as_html, *html = NULL;
+
+  /* Ensure the internal buffer is created */
+  if (!self->priv->text) {
+    update_internal_text(self, "");
+  }
+
   md_as_html = mkd_compile_document(self->priv->text->str, 0);
   if (md_as_html) {
     html = template_replace(self, md_as_html);
     g_free(md_as_html);
   }
+
   return html;
 }
 

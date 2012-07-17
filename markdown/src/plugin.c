@@ -62,10 +62,12 @@ static void on_view_pos_notify(GObject *obj, GParamSpec *pspec, MarkdownViewer *
 /* Main plugin entry point on plugin load. */
 void plugin_init(GeanyData *data)
 {
+  gint page_num;
   gchar *conf_fn;
   MarkdownConfig *conf;
   MarkdownConfigViewPos view_pos;
   GtkWidget *viewer;
+  GtkNotebook *nb;
 
   /* Setup the config object which is needed by the view. */
   conf_fn = g_build_filename(geany->app->configdir, "plugins", "markdown",
@@ -84,16 +86,17 @@ void plugin_init(GeanyData *data)
     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
   if (view_pos == MARKDOWN_CONFIG_VIEW_POS_MSGWIN) {
-    gtk_notebook_append_page(
-      GTK_NOTEBOOK(geany->main_widgets->message_window_notebook),
+    nb = GTK_NOTEBOOK(geany->main_widgets->message_window_notebook);
+    page_num = gtk_notebook_append_page(nb,
       g_scrolled_win, gtk_label_new(MARKDOWN_PREVIEW_LABEL));
   } else {
-    gtk_notebook_append_page(
-      GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook),
+    nb = GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook);
+    page_num = gtk_notebook_append_page(nb,
       g_scrolled_win, gtk_label_new(MARKDOWN_PREVIEW_LABEL));
   }
 
   gtk_widget_show_all(g_scrolled_win);
+  gtk_notebook_set_current_page(nb, page_num);
 
   g_signal_connect(conf, "notify::view-pos", G_CALLBACK(on_view_pos_notify), viewer);
 
@@ -112,6 +115,8 @@ void plugin_init(GeanyData *data)
   /* Prevent segfault in plugin when it registers GTypes and gets unloaded
    * and when reloaded tries to re-register the GTypes. */
   plugin_module_make_resident(geany_plugin);
+
+  update_markdown_viewer(MARKDOWN_VIEWER(viewer));
 }
 
 /* Cleanup resources on plugin unload. */
@@ -225,4 +230,6 @@ on_view_pos_notify(GObject *obj, GParamSpec *pspec, MarkdownViewer *viewer)
   gtk_notebook_set_current_page(newnb, page_num);
 
   g_object_unref(g_scrolled_win); /* The new notebook owns it now */
+
+  update_markdown_viewer(viewer);
 }
