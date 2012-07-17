@@ -44,174 +44,185 @@ PLUGIN_SET_INFO("Markdown",
 #ifndef MARKDOWN_HELP_FILE
 #  define MARKDOWN_HELP_FILE MARKDOWN_DOC_DIR "/html/help.html"
 #endif
+#define MARKDOWN_HELP_FILE_URI "file://" MARKDOWN_HELP_FILE
+
+#define MARKDOWN_PREVIEW_LABEL _("Markdown Preview")
 
 /* Global data */
-typedef struct MarkdownPlugin {
-  struct {
-    guint update_view;
-    guint save_conf;
-  } handler_ids;
-  GtkWidget *menu_item;
-  MarkdownViewer *viewer;
-  MarkdownConfig *config;
-} MarkdownPlugin;
-MarkdownPlugin markdown_plugin = { { 0, 0 }, NULL, NULL, NULL };
+static MarkdownViewer *g_viewer = NULL;
+static GtkWidget *g_scrolled_win = NULL;
 
 /* Forward declarations */
-static gboolean on_idle_handler(MarkdownPlugin *plugin);
-static void handle_update_later(MarkdownPlugin *plugin);
-static gboolean on_editor_notify(GObject *obj, GeanyEditor *editor, SCNotification *notif, MarkdownPlugin *plugin);
-static void on_document_signal(GObject *obj, GeanyDocument *doc, MarkdownPlugin *plugin);
-static void on_document_filetype_set(GObject *obj, GeanyDocument *doc, GeanyFiletype *ft_old, MarkdownPlugin *plugin);
-
-static void
-on_conf_prop_notify(GObject *obj, GParamSpec *pspec, MarkdownPlugin *plugin)
-{
-  handle_update_later(plugin);
-}
+static void update_markdown_viewer(MarkdownViewer *viewer);
+static gboolean on_editor_notify(GObject *obj, GeanyEditor *editor, SCNotification *notif, MarkdownViewer *viewer);
+static void on_document_signal(GObject *obj, GeanyDocument *doc, MarkdownViewer *viewer);
+static void on_document_filetype_set(GObject *obj, GeanyDocument *doc, GeanyFiletype *ft_old, MarkdownViewer *viewer);
+static void on_view_pos_notify(GObject *obj, GParamSpec *pspec, MarkdownViewer *viewer);
 
 /* Main plugin entry point on plugin load. */
 void plugin_init(GeanyData *data)
 {
   gchar *conf_fn;
+  MarkdownConfig *conf;
   MarkdownConfigViewPos view_pos;
+  GtkWidget *viewer;
 
-  conf_fn = g_build_filename(geany->app->configdir, "plugins", "markdown", "markdown.conf", NULL);
-  markdown_plugin.config = markdown_config_new(conf_fn);
+  /* Setup the config object which is needed by the view. */
+  conf_fn = g_build_filename(geany->app->configdir, "plugins", "markdown",
+    "markdown.conf", NULL);
+  conf = markdown_config_new(conf_fn);
   g_free(conf_fn);
 
-  g_signal_connect(markdown_plugin.config, "notify",
-    G_CALLBACK(on_conf_prop_notify), &markdown_plugin);
+  viewer = markdown_viewer_new(conf);
+  /* store as global for plugin_cleanup() */
+  g_viewer = MARKDOWN_VIEWER(viewer);
+  view_pos = markdown_config_get_view_pos(conf);
 
-  g_object_get(markdown_plugin.config, "view-pos", &view_pos, NULL);
+  g_scrolled_win = gtk_scrolled_window_new(NULL, NULL);
+  gtk_container_add(GTK_CONTAINER(g_scrolled_win), viewer);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(g_scrolled_win),
+    GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-  switch (view_pos) {
-    case MARKDOWN_CONFIG_VIEW_POS_MSGWIN:
-      markdown_plugin.viewer = markdown_viewer_new(
-        GTK_NOTEBOOK(geany->main_widgets->message_window_notebook));
-      break;
-    case MARKDOWN_CONFIG_VIEW_POS_SIDEBAR:
-    default:
-      markdown_plugin.viewer = markdown_viewer_new(
-        GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook));
-      break;
+  if (view_pos == MARKDOWN_CONFIG_VIEW_POS_MSGWIN) {
+    gtk_notebook_append_page(
+      GTK_NOTEBOOK(geany->main_widgets->message_window_notebook),
+      g_scrolled_win, gtk_label_new(MARKDOWN_PREVIEW_LABEL));
+  } else {
+    gtk_notebook_append_page(
+      GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook),
+      g_scrolled_win, gtk_label_new(MARKDOWN_PREVIEW_LABEL));
   }
 
-  plugin_signal_connect(geany_plugin, NULL, "editor-notify", TRUE,
-    G_CALLBACK(on_editor_notify), &markdown_plugin);
-  plugin_signal_connect(geany_plugin, NULL, "document-activate", TRUE,
-    G_CALLBACK(on_document_signal), &markdown_plugin);
-  plugin_signal_connect(geany_plugin, NULL, "document-filetype-set", TRUE,
-    G_CALLBACK(on_document_filetype_set), &markdown_plugin);
-  plugin_signal_connect(geany_plugin, NULL, "document-new", TRUE,
-    G_CALLBACK(on_document_signal), &markdown_plugin);
-  plugin_signal_connect(geany_plugin, NULL, "document-open", TRUE,
-    G_CALLBACK(on_document_signal), &markdown_plugin);
-  plugin_signal_connect(geany_plugin, NULL, "document-reload", TRUE,
-    G_CALLBACK(on_document_signal), &markdown_plugin);
+  gtk_widget_show_all(g_scrolled_win);
 
-  handle_update_later(&markdown_plugin);
+  g_signal_connect(conf, "notify::view-pos", G_CALLBACK(on_view_pos_notify), viewer);
 
-  /* Prevent segmentation fault when plugin is reloaded. */
+#define MD_PSC(sig, cb) \
+  plugin_signal_connect(geany_plugin, NULL, (sig), TRUE, G_CALLBACK(cb), viewer)
+  /* Geany takes care of disconnecting these for us when the plugin is unloaded,
+   * the macro is just to make the code smaller/clearer. */
+  MD_PSC("editor-notify", on_editor_notify);
+  MD_PSC("document-activate", on_document_signal);
+  MD_PSC("document-filetype-set", on_document_filetype_set);
+  MD_PSC("document-new", on_document_signal);
+  MD_PSC("document-open", on_document_signal);
+  MD_PSC("document-reload", on_document_signal);
+#undef MD_PSC
+
+  /* Prevent segfault in plugin when it registers GTypes and gets unloaded
+   * and when reloaded tries to re-register the GTypes. */
   plugin_module_make_resident(geany_plugin);
 }
 
 /* Cleanup resources on plugin unload. */
 void plugin_cleanup(void)
 {
-  g_object_unref(markdown_plugin.config);
-  markdown_viewer_free(markdown_plugin.viewer);
-  return;
+  gtk_widget_destroy(g_scrolled_win);
 }
 
+/* Called to show the preferences GUI. */
 GtkWidget *plugin_configure(GtkDialog *dialog)
 {
-  return markdown_config_gui(markdown_plugin.config, dialog);
+  MarkdownConfig *conf = NULL;
+  g_object_get(g_viewer, "config", &conf, NULL);
+  return markdown_config_gui(conf, dialog);
 }
 
+/* Called to show the plugin's help */
 void plugin_help(void)
 {
-  gchar *uri = g_strdup_printf("file://%s", MARKDOWN_HELP_FILE);
-  utils_open_browser(uri);
-  g_free(uri);
+  utils_open_browser(MARKDOWN_HELP_FILE_URI);
 }
 
-/* Update markdown preview when idle. */
-static gboolean on_idle_handler(MarkdownPlugin *plugin)
+/* All of the various signal handlers call this function to update the
+ * MarkdownViewer on specific events. This causes a bunch of memory
+ * allocations, re-compiles the Markdown to HTML, reformats the HTML
+ * template, copies the HTML into the webview and causes it to (eventually)
+ * be redrawn. Only call it when really needed, like when the scintilla
+ * editor's text contents change and not on other editor events.
+ */
+static void
+update_markdown_viewer(MarkdownViewer *viewer)
 {
-  gchar *md_text;
   GeanyDocument *doc = document_get_current();
-  MarkdownConfigViewPos view_pos;
 
-  g_object_get(plugin->config, "view-pos", &view_pos, NULL);
-
-  switch (view_pos) {
-    case MARKDOWN_CONFIG_VIEW_POS_MSGWIN:
-      markdown_viewer_set_notebook(plugin->viewer,
-        GTK_NOTEBOOK(geany->main_widgets->message_window_notebook));
-      break;
-    case MARKDOWN_CONFIG_VIEW_POS_SIDEBAR:
-    default:
-      markdown_viewer_set_notebook(plugin->viewer,
-        GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook));
-      break;
+  if (DOC_VALID(doc) && g_strcmp0(doc->file_type->name, "Markdown") == 0) {
+    gchar *text;
+    text = (gchar*) scintilla_send_message(doc->editor->sci, SCI_GETCHARACTERPOINTER, 0, 0);
+    markdown_viewer_set_markdown(viewer, text, doc->encoding);
+  } else {
+    markdown_viewer_set_markdown(viewer,
+      _("The current document does not have a Markdown filetype."), "UTF-8");
   }
 
-  /* Only handle valid Markdown documents */
-  if (!DOC_VALID(doc) || g_strcmp0(doc->file_type->name, "Markdown") != 0) {
-    markdown_viewer_load_markdown_string(plugin->viewer,
-      _("The current document does not have a Markdown filetype."), "UTF-8",
-      plugin->config);
-    plugin->handler_ids.update_view = 0;
-    return FALSE;
-  }
-
-  md_text = (gchar*) scintilla_send_message(doc->editor->sci,
-    SCI_GETCHARACTERPOINTER, 0, 0);
-  markdown_viewer_load_markdown_string(plugin->viewer, md_text,
-    doc->encoding, plugin->config);
-
-  plugin->handler_ids.update_view = 0;
-
-  return FALSE;
+  markdown_viewer_queue_update(viewer);
 }
 
-/* Queue update of the markdown view later if an update isn't queued. */
-static void handle_update_later(MarkdownPlugin *plugin)
-{
-  if (plugin->handler_ids.update_view == 0) {
-    plugin->handler_ids.update_view = plugin_idle_add(geany_plugin,
-      (GSourceFunc) on_idle_handler, plugin);
-  }
-}
+/* Return TRUE if event is a buffer modification that inserts or deletes
+ * text and which caused a text changed length greater than 0. */
+#define IS_MOD_NOTIF(nt) (nt->nmhdr.code == SCN_MODIFIED && \
+                          nt->length > 0 && ( \
+                          (nt->modificationType & SC_MOD_INSERTTEXT) || \
+                          (nt->modificationType & SC_MOD_DELETETEXT)))
 
 /* Queue update of the markdown preview on editor text change. */
 static gboolean on_editor_notify(GObject *obj, GeanyEditor *editor,
-  SCNotification *notif, MarkdownPlugin *plugin)
+  SCNotification *notif, MarkdownViewer *viewer)
 {
-  GeanyDocument *doc = document_get_current();
-
-  if (DOC_VALID(doc) && g_strcmp0(doc->file_type->name, "Markdown") == 0 &&
-      notif->nmhdr.code == SCN_MODIFIED &&
-      ((notif->modificationType & SC_MOD_INSERTTEXT) || (notif->modificationType & SC_MOD_DELETETEXT)) &&
-      notif->length > 0)
-  {
-    handle_update_later(plugin);
+  if (IS_MOD_NOTIF(notif)) {
+    update_markdown_viewer(viewer);
   }
-
-  return FALSE;
+  return FALSE; /* Allow others to handle this event too */
 }
 
 /* Queue update of the markdown preview on document signals (new, open,
  * activate, etc.) */
-static void on_document_signal(GObject *obj, GeanyDocument *doc, MarkdownPlugin *plugin)
+static void on_document_signal(GObject *obj, GeanyDocument *doc, MarkdownViewer *viewer)
 {
-  handle_update_later(plugin);
+  update_markdown_viewer(viewer);
 }
 
 /* Queue update of the markdown preview when a document's filetype is set */
 static void on_document_filetype_set(GObject *obj, GeanyDocument *doc, GeanyFiletype *ft_old,
-  MarkdownPlugin *plugin)
+  MarkdownViewer *viewer)
 {
-  handle_update_later(plugin);
+  update_markdown_viewer(viewer);
+}
+
+/* Move the MarkdownViewer to the correct notebook when the view position
+ * is changed. */
+static void
+on_view_pos_notify(GObject *obj, GParamSpec *pspec, MarkdownViewer *viewer)
+{
+  gint page_num;
+  GtkNotebook *newnb;
+  GtkNotebook *snb = GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook);
+  GtkNotebook *mnb = GTK_NOTEBOOK(geany->main_widgets->message_window_notebook);
+  MarkdownConfigViewPos view_pos;
+
+  g_object_ref(g_scrolled_win); /* Prevent it from being destroyed */
+
+  /* Remove the tab from whichever notebook its in (sidebar or msgwin) */
+  page_num = gtk_notebook_page_num(snb, g_scrolled_win);
+  if (page_num >= 0) {
+    gtk_notebook_remove_page(snb, page_num);
+  } else {
+    page_num = gtk_notebook_page_num(mnb, g_scrolled_win);
+    if (page_num >= 0) {
+      gtk_notebook_remove_page(mnb, page_num);
+    } else {
+      g_warning("Unable to relocate the Markdown preview tab: not found");
+    }
+  }
+
+  /* Check the user preference to get the new notebook */
+  view_pos = markdown_config_get_view_pos(MARKDOWN_CONFIG(obj));
+  newnb = (view_pos == MARKDOWN_CONFIG_VIEW_POS_MSGWIN) ? mnb : snb;
+
+  page_num = gtk_notebook_append_page(newnb, g_scrolled_win,
+    gtk_label_new(MARKDOWN_PREVIEW_LABEL));
+
+  gtk_notebook_set_current_page(newnb, page_num);
+
+  g_object_unref(g_scrolled_win); /* The new notebook owns it now */
 }

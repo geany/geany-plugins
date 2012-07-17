@@ -1,5 +1,5 @@
 /*
- * markdownconfig.c
+ * config.c - Part of the Geany Markdown plugin
  *
  * Copyright 2012 Matthew Brush <mbrush@codebrainz.ca>
  *
@@ -83,6 +83,7 @@ struct _MarkdownConfigPrivate
   gchar filename[PATH_MAX];
   GKeyFile *kf;
   guint handle;
+  guint dlg_handle;
   gboolean initialized;
   gchar *tmpl_text;
   gsize tmpl_text_len;
@@ -432,7 +433,7 @@ markdown_config_save(MarkdownConfig *conf)
 
   contents = g_key_file_to_data(conf->priv->kf, &len, &error);
 
-  g_debug("Saving: %s\n%s", conf->priv->filename, contents);
+  //g_debug("Saving: %s\n%s", conf->priv->filename, contents);
 
   if (error) {
     g_warning("Error getting config data as string: %s", error->message);
@@ -666,7 +667,8 @@ GtkWidget *markdown_config_gui(MarkdownConfig *conf, GtkDialog *dialog)
     g_free(tmpl_file);
   }
 
-  g_signal_connect_swapped(dialog, "response", G_CALLBACK(on_dialog_response), conf);
+  conf->priv->dlg_handle = g_signal_connect_swapped(dialog, "response",
+    G_CALLBACK(on_dialog_response), conf);
 
   gtk_widget_show_all(table);
 
@@ -681,4 +683,25 @@ markdown_config_get_template_text(MarkdownConfig *conf)
     markdown_config_load_template_text(conf);
   }
   return (const gchar *) conf->priv->tmpl_text;
+}
+
+gchar *
+markdown_config_get_dirname(MarkdownConfig *conf)
+{
+  g_return_val_if_fail(conf, NULL);
+  return g_path_get_dirname(conf->priv->filename);
+}
+
+MarkdownConfigViewPos markdown_config_get_view_pos(MarkdownConfig *conf)
+{
+  guint view_pos;
+  g_return_val_if_fail(MARKDOWN_IS_CONFIG(conf), MARKDOWN_CONFIG_VIEW_POS_SIDEBAR);
+  g_object_get(conf, "view-pos", &view_pos, NULL);
+  return (MarkdownConfigViewPos) view_pos;
+}
+
+void markdown_config_set_view_pos(MarkdownConfig *conf, MarkdownConfigViewPos view_pos)
+{
+  g_return_if_fail(MARKDOWN_IS_CONFIG(conf));
+  g_object_set(conf, "view-pos", view_pos, NULL);
 }

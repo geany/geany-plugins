@@ -1,5 +1,5 @@
 /*
- * markdownconfig.h
+ * config.h - Part of the Geany Markdown plugin
  *
  * Copyright 2012 Matthew Brush <mbrush@codebrainz.ca>
  *
@@ -21,15 +21,13 @@
  *
  */
 
-
-#ifndef __MARKDOWNCONFIG_H__
-#define __MARKDOWNCONFIG_H__
+#ifndef MARKDOWN_CONF_H
+#define MARKDOWN_CONF_H 1
 
 #include <gtk/gtk.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
-
 
 #define MARKDOWN_TYPE_CONFIG             (markdown_config_get_type ())
 #define MARKDOWN_CONFIG(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), MARKDOWN_TYPE_CONFIG, MarkdownConfig))
@@ -59,14 +57,18 @@ struct _MarkdownConfigClass
   GObjectClass parent_class;
 };
 
-
 GType markdown_config_get_type(void);
 MarkdownConfig *markdown_config_new(const gchar *filename);
 gboolean markdown_config_save(MarkdownConfig *conf);
 GtkWidget *markdown_config_gui(MarkdownConfig *conf, GtkDialog *dialog);
 
 const gchar *markdown_config_get_template_text(MarkdownConfig *conf);
+gchar *markdown_config_get_dirname(MarkdownConfig *conf);
+
+/* Property accessors */
+MarkdownConfigViewPos markdown_config_get_view_pos(MarkdownConfig *conf);
+void markdown_config_set_view_pos(MarkdownConfig *conf, MarkdownConfigViewPos view_pos);
 
 G_END_DECLS
 
-#endif /* __MARKDOWNCONFIG_H__ */
+#endif /* MARKDOWN_CONF_H */

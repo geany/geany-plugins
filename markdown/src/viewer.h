@@ -22,25 +22,41 @@
 #ifndef MARKDOWN_VIEWER_H
 #define MARKDOWN_VIEWER_H 1
 
+#include <gtk/gtk.h>
+#include <webkit/webkitwebview.h>
+
 G_BEGIN_DECLS
 
-#include <gtk/gtk.h>
 #include "conf.h"
 
-typedef struct MarkdownViewer MarkdownViewer;
+#define MARKDOWN_TYPE_VIEWER             (markdown_viewer_get_type ())
+#define MARKDOWN_VIEWER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), MARKDOWN_TYPE_VIEWER, MarkdownViewer))
+#define MARKDOWN_VIEWER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), MARKDOWN_TYPE_VIEWER, MarkdownViewerClass))
+#define MARKDOWN_IS_VIEWER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MARKDOWN_TYPE_VIEWER))
+#define MARKDOWN_IS_VIEWER_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), MARKDOWN_TYPE_VIEWER))
+#define MARKDOWN_VIEWER_GET_CLASS(obj)   (G_TYPE_INSTANCE_GET_CLASS ((obj), MARKDOWN_TYPE_VIEWER, MarkdownViewerClass))
 
-MarkdownViewer *markdown_viewer_new(GtkNotebook *notebook);
-void markdown_viewer_free(MarkdownViewer *viewer);
+typedef struct _MarkdownViewer         MarkdownViewer;
+typedef struct _MarkdownViewerClass    MarkdownViewerClass;
+typedef struct _MarkdownViewerPrivate  MarkdownViewerPrivate;
 
-GtkNotebook *markdown_viewer_get_notebook(MarkdownViewer *viewer);
-void markdown_viewer_set_notebook(MarkdownViewer *viewer, GtkNotebook *nb);
+struct _MarkdownViewer
+{
+  WebKitWebView parent;
+  MarkdownViewerPrivate *priv;
+};
 
-void markdown_viewer_show(MarkdownViewer *viewer);
-void markdown_viewer_hide(MarkdownViewer *viewer);
+struct _MarkdownViewerClass
+{
+  WebKitWebViewClass parent_class;
+};
 
-void markdown_viewer_load_markdown_string(MarkdownViewer *viewer,
-  const gchar *md_str, const gchar *encoding, MarkdownConfig *config);
+GType markdown_viewer_get_type(void);
+GtkWidget *markdown_viewer_new(MarkdownConfig *conf);
+void markdown_viewer_set_markdown(MarkdownViewer *self, const gchar *text,
+  const gchar *encoding);
+void markdown_viewer_queue_update(MarkdownViewer *self);
 
 G_END_DECLS
 
-#endif /* MARKDOWN_VIEWER_H */
+#endif /* __MARKDOWNVIEWER_H__ */
