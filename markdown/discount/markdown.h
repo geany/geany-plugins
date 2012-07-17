@@ -19,7 +19,7 @@ typedef struct footnote {
 } Footnote;
 
 /* each input line is read into a Line, which contains the line,
- * the offset of the first non-space character [this assumes 
+ * the offset of the first non-space character [this assumes
  * that all tabs will be expanded to spaces!], and a pointer to
  * the next line.
  */
@@ -144,6 +144,7 @@ typedef struct document {
     Callback_data cb;		/* callback functions & private data */
 } Document;
 
+extern char *mkd_compile_document(const char *, DWORD);
 
 extern int  mkd_firstnonblank(Line *);
 extern int  mkd_compile(Document *, DWORD);
@@ -155,6 +156,7 @@ extern int  mkd_generatecss(Document *, FILE *);
 extern int  mkd_xml(char *, int , char **);
 extern int  mkd_generatexml(char *, int, FILE *);
 extern void mkd_cleanup(Document *);
+extern char *mkd_cleanup_return_buffer(Document *, long*);
 extern int  mkd_line(char *, int, char **, DWORD);
 extern int  mkd_generateline(char *, int, FILE*, DWORD);
 #define mkd_text mkd_generateline
@@ -180,6 +182,7 @@ extern void ___mkd_freefootnote(Footnote *);
 extern void ___mkd_freefootnotes(MMIOT *);
 extern void ___mkd_initmmiot(MMIOT *, void *);
 extern void ___mkd_freemmiot(MMIOT *, void *);
+extern char* ___mkd_freemmiot_return_buffer(MMIOT *, void *, long*);
 extern void ___mkd_freeLineRange(Line *, Line *);
 extern void ___mkd_xml(char *, int, FILE *);
 extern void ___mkd_reparse(char *, int, int, MMIOT*);

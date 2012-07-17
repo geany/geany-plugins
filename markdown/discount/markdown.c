@@ -125,11 +125,11 @@ isopentag(Line *p)
 	 * the !-- doesn't need to end in a whitespace
 	 */
 	return &comment;
-    
+
     /* find how long the tag is so we can check to see if
      * it's a block-level tag
      */
-    for ( i=1; i < len && T(p->text)[i] != '>' 
+    for ( i=1; i < len && T(p->text)[i] != '>'
 		       && T(p->text)[i] != '/'
 		       && !isspace(T(p->text)[i]); ++i )
 	;
@@ -193,7 +193,7 @@ checkline(Line *l)
     l->flags |= CHECKED;
     l->kind = chk_text;
     l->count = 0;
-    
+
     if (l->dle >= 4) { l->kind=chk_code; return; }
 
     for ( eol = S(l->text); eol > l->dle && isspace(T(l->text)[eol-1]); --eol )
@@ -261,10 +261,10 @@ htmlblock(Paragraph *p, struct kw *tag, int *unclosed)
     int i, closing, depth=0;
 
     *unclosed = 0;
-    
+
     if ( tag == &comment )
 	return commentblock(p, unclosed);
-    
+
     if ( tag->selfclose ) {
 	ret = f.t->next;
 	f.t->next = 0;
@@ -286,7 +286,7 @@ htmlblock(Paragraph *p, struct kw *tag, int *unclosed)
 		    }
 		}
 	    }
-	    else { 
+	    else {
 		if ( closing = (c == '/') ) c = flogetc(&f);
 
 		for ( i=0; i < tag->size; c=flogetc(&f) ) {
@@ -369,7 +369,7 @@ static int
 issetext(Line *t, int *htyp)
 {
     Line *n;
-    
+
     /* check for setext-style HEADER
      *                        ======
      */
@@ -407,10 +407,10 @@ static inline int
 end_of_block(Line *t)
 {
     int dummy;
-    
+
     if ( !t )
 	return 0;
-	
+
     return ( (S(t->text) <= t->dle) || ishr(t) || ishdr(t, &dummy) );
 }
 
@@ -448,11 +448,11 @@ static Line*
 is_extra_dt(Line *t, int *clip)
 {
 #if USE_EXTRA_DL
-    
+
     if ( t && t->next && T(t->text)[0] != '='
 		      && T(t->text)[S(t->text)-1] != '=') {
 	Line *x;
-    
+
 	if ( iscode(t) || end_of_block(t) )
 	    return 0;
 
@@ -460,7 +460,7 @@ is_extra_dt(Line *t, int *clip)
 	    *clip = x->dle+2;
 	    return t;
 	}
-	
+
 	if ( x=is_extra_dt(t->next, clip) )
 	    return x;
     }
@@ -488,7 +488,7 @@ islist(Line *t, int *clip, DWORD flags, int *list_type)
 {
     int i, j;
     char *q;
-    
+
     if ( end_of_block(t) )
 	return 0;
 
@@ -539,7 +539,7 @@ headerblock(Paragraph *pp, int htyp)
 	    /* p->text is header, p->next->text is -'s or ='s
 	     */
 	    pp->hnumber = (T(p->next->text)[0] == '=') ? 1 : 2;
-	    
+
 	    ret = p->next->next;
 	    ___mkd_freeLine(p->next);
 	    p->next = 0;
@@ -614,7 +614,7 @@ fencedcodeblock(ParagraphRoot *d, Line **ptr)
     Paragraph *ret;
 
     first = (*ptr);
-    
+
     /* don't allow zero-length code fences
      */
     if ( (first->next == 0) || iscodefence(first->next, first->count) )
@@ -744,7 +744,7 @@ isdivmarker(Line *p, int start, DWORD flags)
  * it just takes ^> to start a quote, following lines, if quoted,
  * assume that the prefix is ``> ''.   This means that code needs
  * to be indented *5* spaces from the leading '>', but *4* spaces
- * from the start of the line.   This does not appear to be 
+ * from the start of the line.   This does not appear to be
  * documented in the reference implementation, but it's the
  * way the markdown sample web form at Daring Fireball works.
  */
@@ -782,14 +782,14 @@ quoteblock(Paragraph *p, DWORD flags)
     if ( isdivmarker(p->text,0,flags) ) {
 	char *prefix = "class";
 	int i;
-	
+
 	q = p->text;
 	p->text = p->text->next;
 
 	if ( (i = szmarkerclass(1+T(q->text))) == 3 )
 	    /* and this would be an "%id:" prefix */
 	    prefix="id";
-	    
+
 	if ( p->ident = malloc(4+strlen(prefix)+S(q->text)) )
 	    sprintf(p->ident, "%s=\"%.*s\"", prefix, S(q->text)-(i+2),
 						     T(q->text)+(i+1) );
@@ -861,7 +861,7 @@ definition_block(Paragraph *top, int clip, MMIOT *f, int kind)
 {
     ParagraphRoot d = { 0, 0 };
     Paragraph *p;
-    Line *q = top->text, *text = 0, *labels; 
+    Line *q = top->text, *text = 0, *labels;
     int z, para;
 
     while (( labels = q )) {
@@ -874,8 +874,8 @@ definition_block(Paragraph *top, int clip, MMIOT *f, int kind)
 
 	if (( para = (text != q->next) ))
 	    ___mkd_freeLineRange(q, text);
-	
-	q->next = 0; 
+
+	q->next = 0;
 	if ( kind == 1 /* discount dl */ )
 	    for ( q = labels; q; q = q->next ) {
 		CLIP(q->text, 0, 1);
@@ -901,7 +901,7 @@ definition_block(Paragraph *top, int clip, MMIOT *f, int kind)
 	    anchor.next = text;
 	    ___mkd_freeLineRange(&anchor,q);
 	    text = q;
-	    
+
 	}
 
 	if ( kind == 2 && is_extra_dd(q) )
@@ -922,7 +922,7 @@ enumerated_block(Paragraph *top, int clip, MMIOT *f, int list_class)
     int para = 0, z;
 
     while (( text = q )) {
-	
+
 	p = Pp(&d, text, LISTITEM);
 	text = listitem(p, clip, f->flags, 0);
 
@@ -973,7 +973,7 @@ addfootnote(Line *p, MMIOT* f)
     Line *np = p->next;
 
     Footnote *foot = &EXPAND(*f->footnotes);
-    
+
     CREATE(foot->tag);
     CREATE(foot->link);
     CREATE(foot->title);
@@ -1201,14 +1201,14 @@ compile(Line *ptr, int toplevel, MMIOT *f)
     while ( ptr ) {
 	if ( iscode(ptr) ) {
 	    p = Pp(&d, ptr, CODE);
-	    
+
 	    if ( f->flags & MKD_1_COMPAT) {
 		/* HORRIBLE STANDARDS KLUDGE: the first line of every block
 		 * has trailing whitespace trimmed off.
 		 */
 		___mkd_tidy(&p->text->text);
 	    }
-	    
+
 	    ptr = codeblock(p);
 	}
 #if WITH_FENCED_CODE
@@ -1276,10 +1276,10 @@ int
 mkd_compile(Document *doc, DWORD flags)
 {
     if ( !doc )
-	return 0;
+      return 0;
 
     if ( doc->compiled )
-	return 1;
+      return 1;
 
     doc->compiled = 1;
     memset(doc->ctx, 0, sizeof(MMIOT) );
@@ -1300,3 +1300,15 @@ mkd_compile(Document *doc, DWORD flags)
     return 1;
 }
 
+char *mkd_compile_document(const char *s, DWORD flags)
+{
+  char *ptr = NULL;
+  Document *doc;
+
+  doc = mkd_string(s, strlen(s), flags);
+  mkd_compile(doc, 0);
+  mkd_document(doc, &ptr);
+  ptr = mkd_cleanup_return_buffer(doc, NULL);
+
+  return ptr;
+}

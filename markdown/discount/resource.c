@@ -107,14 +107,33 @@ ___mkd_initmmiot(MMIOT *f, void *footnotes)
 void
 ___mkd_freemmiot(MMIOT *f, void *footnotes)
 {
-    if ( f ) {
-	DELETE(f->in);
-	DELETE(f->out);
-	DELETE(f->Q);
-	if ( f->footnotes != footnotes )
-	    ___mkd_freefootnotes(f);
-	memset(f, 0, sizeof *f);
-    }
+  if ( f ) {
+    DELETE(f->in);
+    DELETE(f->out);
+    DELETE(f->Q);
+    if ( f->footnotes != footnotes )
+      ___mkd_freefootnotes(f);
+    memset(f, 0, sizeof *f);
+  }
+}
+
+/* free the contents of a MMIOT except the output buffer, but leave the
+ * object alone. return the output buffer to the caller. */
+char *
+___mkd_freemmiot_return_buffer(MMIOT *f, void *footnotes, long *out_len)
+{
+  char *ptr = NULL;
+  if ( f ) {
+    DELETE(f->in);
+    ptr = T(f->out);        /* save pointer */
+    if (out_len)
+      *out_len = S(f->out); /* save length */
+    DELETE(f->Q);
+    if ( f->footnotes != footnotes )
+      ___mkd_freefootnotes(f);
+    memset(f, 0, sizeof *f);
+  }
+  return ptr;
 }
 
 
@@ -140,18 +159,41 @@ ___mkd_freeLineRange(Line *anchor, Line *stop)
 void
 mkd_cleanup(Document *doc)
 {
-    if ( doc && (doc->magic == VALID_DOCUMENT) ) {
-	if ( doc->ctx ) {
-	    ___mkd_freemmiot(doc->ctx, 0);
-	    free(doc->ctx);
-	}
-
-	if ( doc->code) ___mkd_freeParagraph(doc->code);
-	if ( doc->title) ___mkd_freeLine(doc->title);
-	if ( doc->author) ___mkd_freeLine(doc->author);
-	if ( doc->date) ___mkd_freeLine(doc->date);
-	if ( T(doc->content) ) ___mkd_freeLines(T(doc->content));
-	memset(doc, 0, sizeof doc[0]);
-	free(doc);
+  if ( doc && (doc->magic == VALID_DOCUMENT) ) {
+    if ( doc->ctx ) {
+        ___mkd_freemmiot(doc->ctx, 0);
+        free(doc->ctx);
     }
+
+    if ( doc->code) ___mkd_freeParagraph(doc->code);
+    if ( doc->title) ___mkd_freeLine(doc->title);
+    if ( doc->author) ___mkd_freeLine(doc->author);
+    if ( doc->date) ___mkd_freeLine(doc->date);
+    if ( T(doc->content) ) ___mkd_freeLines(T(doc->content));
+    memset(doc, 0, sizeof doc[0]);
+    free(doc);
+  }
+}
+
+char *
+mkd_cleanup_return_buffer(Document *doc, long *out_len)
+{
+  char *ptr = NULL;
+
+  if ( doc && (doc->magic == VALID_DOCUMENT) ) {
+    if ( doc->ctx ) {
+        ptr = ___mkd_freemmiot_return_buffer(doc->ctx, 0, out_len);
+        free(doc->ctx);
+    }
+
+    if ( doc->code) ___mkd_freeParagraph(doc->code);
+    if ( doc->title) ___mkd_freeLine(doc->title);
+    if ( doc->author) ___mkd_freeLine(doc->author);
+    if ( doc->date) ___mkd_freeLine(doc->date);
+    if ( T(doc->content) ) ___mkd_freeLines(T(doc->content));
+    memset(doc, 0, sizeof doc[0]);
+    free(doc);
+  }
+
+  return ptr;
 }

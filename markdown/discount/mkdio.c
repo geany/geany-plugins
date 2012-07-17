@@ -24,11 +24,11 @@ new_Document()
     Document *ret = calloc(sizeof(Document), 1);
 
     if ( ret ) {
-	if (( ret->ctx = calloc(sizeof(MMIOT), 1) )) {
-	    ret->magic = VALID_DOCUMENT;
-	    return ret;
-	}
-	free(ret);
+      if (( ret->ctx = calloc(sizeof(MMIOT), 1) )) {
+          ret->magic = VALID_DOCUMENT;
+          return ret;
+      }
+      free(ret);
     }
     return 0;
 }
@@ -50,22 +50,22 @@ queue(Document* a, Cstring *line)
     ATTACH(a->content, p);
 
     while ( size-- ) {
-	if ( (c = *str++) == '\t' ) {
-	    /* expand tabs into ->tabstop spaces.  We use ->tabstop
-	     * because the ENTIRE FREAKING COMPUTER WORLD uses editors
-	     * that don't do ^T/^D, but instead use tabs for indentation,
-	     * and, of course, set their tabs down to 4 spaces 
-	     */
-	    do {
-		EXPAND(p->text) = ' ';
-	    } while ( ++xp % a->tabstop );
-	}
-	else if ( c >= ' ' ) {
-	    if ( c == '|' )
-		p->flags |= PIPECHAR;
-	    EXPAND(p->text) = c;
-	    ++xp;
-	}
+      if ( (c = *str++) == '\t' ) {
+          /* expand tabs into ->tabstop spaces.  We use ->tabstop
+           * because the ENTIRE FREAKING COMPUTER WORLD uses editors
+           * that don't do ^T/^D, but instead use tabs for indentation,
+           * and, of course, set their tabs down to 4 spaces
+           */
+          do {
+            EXPAND(p->text) = ' ';
+          } while ( ++xp % a->tabstop );
+      }
+      else if ( c >= ' ' ) {
+        if ( c == '|' )
+          p->flags |= PIPECHAR;
+        EXPAND(p->text) = c;
+        ++xp;
+      }
     }
     EXPAND(p->text) = 0;
     S(p->text)--;
@@ -102,37 +102,37 @@ populate(getc_func getc, void* ctx, int flags)
     CREATE(line);
 
     while ( (c = (*getc)(ctx)) != EOF ) {
-	if ( c == '\n' ) {
-	    if ( pandoc != EOF && pandoc < 3 ) {
-		if ( S(line) && (T(line)[0] == '%') )
-		    pandoc++;
-		else
-		    pandoc = EOF;
-	    }
-	    queue(a, &line);
-	    S(line) = 0;
-	}
-	else if ( isprint(c) || isspace(c) || (c & 0x80) )
-	    EXPAND(line) = c;
+      if ( c == '\n' ) {
+          if ( pandoc != EOF && pandoc < 3 ) {
+        if ( S(line) && (T(line)[0] == '%') )
+            pandoc++;
+        else
+            pandoc = EOF;
+          }
+          queue(a, &line);
+          S(line) = 0;
+      }
+      else if ( isprint(c) || isspace(c) || (c & 0x80) )
+        EXPAND(line) = c;
     }
 
     if ( S(line) )
-	queue(a, &line);
+      queue(a, &line);
 
     DELETE(line);
 
     if ( (pandoc == 3) && !(flags & (MKD_NOHEADER|MKD_STRICT)) ) {
-	/* the first three lines started with %, so we have a header.
-	 * clip the first three lines out of content and hang them
-	 * off header.
-	 */
-	Line *headers = T(a->content);
+      /* the first three lines started with %, so we have a header.
+       * clip the first three lines out of content and hang them
+       * off header.
+       */
+      Line *headers = T(a->content);
 
-	a->title = headers;             header_dle(a->title);
-	a->author= headers->next;       header_dle(a->author);
-	a->date  = headers->next->next; header_dle(a->date);
+      a->title = headers;             header_dle(a->title);
+      a->author= headers->next;       header_dle(a->author);
+      a->date  = headers->next->next; header_dle(a->date);
 
-	T(a->content) = headers->next->next->next;
+      T(a->content) = headers->next->next->next;
     }
 
     return a;
@@ -227,7 +227,7 @@ mkd_string_to_anchor(char *s, int len, mkd_sta_function_t outchar,
     char *line;
 
     size = mkd_line(s, len, &line, IS_LABEL);
-    
+
     if ( labelformat && (size>0) && !isalpha(line[0]) )
 	(*outchar)('L',out);
     for ( i=0; i < size ; i++ ) {
@@ -241,7 +241,7 @@ mkd_string_to_anchor(char *s, int len, mkd_sta_function_t outchar,
 	else
 	    (*outchar)(c,out);
     }
-	
+
     if (line)
 	free(line);
 }
@@ -266,13 +266,13 @@ mkd_line(char *bfr, int size, char **res, DWORD flags)
 {
     MMIOT f;
     int len;
-    
+
     mkd_parse_line(bfr, size, &f, flags);
 
     if ( len = S(f.out) ) {
 	/* kludge alert;  we know that T(f.out) is malloced memory,
 	 * so we can just steal it away.   This is awful -- there
-	 * should be an opaque method that transparently moves 
+	 * should be an opaque method that transparently moves
 	 * the pointer out of the embedded Cstring.
 	 */
 	EXPAND(f.out) = 0;
