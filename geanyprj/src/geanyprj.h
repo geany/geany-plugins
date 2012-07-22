@@ -68,7 +68,7 @@ extern GeanyData *geany_data;
 extern GeanyFunctions *geany_functions;
 
 extern const gchar *project_type_string[NEW_PROJECT_TYPE_SIZE];
-gboolean (*project_type_filter[NEW_PROJECT_TYPE_SIZE]) (const gchar *);
+extern gboolean (*project_type_filter[NEW_PROJECT_TYPE_SIZE]) (const gchar *);
 
 
 /* project.c */
