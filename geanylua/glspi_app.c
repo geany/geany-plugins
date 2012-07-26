@@ -580,7 +580,7 @@ static gint glspi_keygrab(lua_State* L)
 	if (prompt && doc && doc->is_valid ) {
 		gint fvl=scintilla_send_message(doc->editor->sci,SCI_GETFIRSTVISIBLELINE, 0,0);
 		gint pos=sci_get_position_from_line(doc->editor->sci, fvl+1);
-		scintilla_send_message(doc->editor->sci,SCI_CALLTIPSHOW,pos+3, (glong)prompt);
+		scintilla_send_message(doc->editor->sci,SCI_CALLTIPSHOW,pos+3, (sptr_t)prompt);
 	}
 	gdk_window_add_filter(main_widgets->window->window, keygrab_cb, &km);
 	do {
