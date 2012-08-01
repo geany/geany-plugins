@@ -40,7 +40,7 @@ PLUGIN_VERSION_CHECK(195)
 PLUGIN_SET_TRANSLATABLE_INFO (
   LOCALEDIR, GETTEXT_PACKAGE,
   _("Commander"),
-  _("Provides a command panel for quick access to actions"),
+  _("Provides a command panel for quick access to actions, files and more"),
   VERSION,
   "Colomban Wendling <ban@herbesfolles.org>"
 )
@@ -63,10 +63,17 @@ struct {
   NULL, NULL, NULL
 };
 
+typedef enum {
+  COL_TYPE_MENU_ITEM,
+  COL_TYPE_FILE
+} ColType;
+
 enum {
   COL_LABEL,
   COL_PATH,
+  COL_TYPE,
   COL_WIDGET,
+  COL_DOCUMENT,
   COL_COUNT
 };
 
@@ -182,12 +189,22 @@ filter_visible_func (GtkTreeModel  *model,
                      GtkTreeIter   *iter,
                      gpointer       dummy)
 {
-  gboolean  visible = FALSE;
-  gchar    *text;
+  gboolean      visible = TRUE;
+  gchar        *text;
+  gint          type;
+  const gchar  *key = gtk_entry_get_text (GTK_ENTRY (plugin_data.entry));
   
-  gtk_tree_model_get (model, iter, COL_PATH, &text, -1);
-  visible = key_matches (gtk_entry_get_text (GTK_ENTRY (plugin_data.entry)),
-                         text);
+  gtk_tree_model_get (model, iter, COL_PATH, &text, COL_TYPE, &type, -1);
+  if (g_str_has_prefix (key, "f:")) {
+    key += 2;
+    visible = type == COL_TYPE_FILE;
+  } else if (g_str_has_prefix (key, "c:")) {
+    key += 2;
+    visible = type == COL_TYPE_MENU_ITEM;
+  }
+  if (visible) {
+    visible = key_matches (key, text);
+  }
   g_free (text);
   
   return visible;
@@ -221,21 +238,35 @@ on_panel_key_press_event (GtkWidget    *widget,
       GtkTreeIter       iter;
       GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (plugin_data.view));
       GtkTreeModel     *model;
-      GtkMenuItem      *item = NULL;
       
       if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-        gtk_tree_model_get (model, &iter, COL_WIDGET, &item, -1);
-      }
-      
-      if (! item || ! GTK_IS_MENU_ITEM (item)) {
-        g_warn_if_reached ();
-      } else {
-        gtk_menu_item_activate (item);
+        gint type;
+        
+        gtk_tree_model_get (model, &iter, COL_TYPE, &type, -1);
+        
+        switch (type) {
+          case COL_TYPE_FILE: {
+            GeanyDocument  *doc;
+            gint            page;
+            
+            gtk_tree_model_get (model, &iter, COL_DOCUMENT, &doc, -1);
+            page = document_get_notebook_page (doc);
+            gtk_notebook_set_current_page (GTK_NOTEBOOK (geany_data->main_widgets->notebook),
+                                           page);
+            break;
+          }
+          
+          case COL_TYPE_MENU_ITEM: {
+            GtkMenuItem *item;
+            
+            gtk_tree_model_get (model, &iter, COL_WIDGET, &item, -1);
+            gtk_menu_item_activate (item);
+            g_object_unref (item);
+            
+            break;
+          }
+        }
         gtk_widget_hide (widget);
-      }
-       
-      if (item) {
-        g_object_unref (item);
       }
       
       return TRUE;
@@ -361,6 +392,7 @@ store_populate_menu_items (GtkListStore  *store,
         gtk_list_store_insert_with_values (store, NULL, -1,
                                            COL_LABEL, label,
                                            COL_PATH, path,
+                                           COL_TYPE, COL_TYPE_MENU_ITEM,
                                            COL_WIDGET, node->data,
                                            -1);
         
@@ -406,6 +438,48 @@ fill_store (GtkListStore *store)
   store_populate_menu_items (store, GTK_MENU_SHELL (menubar), NULL);
 }
 
+/* we reset all file items not to have to monitor the open/close/renames/etc */
+static void
+reset_file_items (GtkListStore *store)
+{
+  GtkTreeIter iter;
+  guint       i;
+  
+  /* remove old items */
+  if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (store), &iter)) {
+    gboolean has_next = TRUE;
+    
+    while (has_next) {
+      gint type;
+      
+      gtk_tree_model_get (GTK_TREE_MODEL (store), &iter, COL_TYPE, &type, -1);
+      if (type == COL_TYPE_FILE) {
+        has_next = gtk_list_store_remove (store, &iter);
+      } else {
+        has_next = gtk_tree_model_iter_next (GTK_TREE_MODEL (store), &iter);
+      }
+    }
+  }
+  
+  /* and add new ones */
+  foreach_document (i) {
+    gchar *basename = g_path_get_basename (DOC_FILENAME (documents[i]));
+    gchar *label = g_markup_printf_escaped ("<big>%s</big>\n"
+                                            "<small><i>%s</i></small>",
+                                            basename,
+                                            DOC_FILENAME (documents[i]));
+    
+    gtk_list_store_insert_with_values (store, NULL, -1,
+                                       COL_LABEL, label,
+                                       COL_PATH, DOC_FILENAME (documents[i]),
+                                       COL_TYPE, COL_TYPE_FILE,
+                                       COL_DOCUMENT, documents[i],
+                                       -1);
+    g_free (basename);
+    g_free (label);
+  }
+}
+
 static void
 create_panel (void)
 {
@@ -440,7 +514,9 @@ create_panel (void)
   plugin_data.store = gtk_list_store_new (COL_COUNT,
                                           G_TYPE_STRING,
                                           G_TYPE_STRING,
-                                          GTK_TYPE_WIDGET);
+                                          G_TYPE_INT,
+                                          GTK_TYPE_WIDGET,
+                                          G_TYPE_POINTER);
   fill_store (plugin_data.store);
   
   plugin_data.filter = gtk_tree_model_filter_new (GTK_TREE_MODEL (plugin_data.store),
@@ -478,8 +554,21 @@ create_panel (void)
 static void
 on_kb_show_panel (guint key_id)
 {
+  GtkTreeView *view = GTK_TREE_VIEW (plugin_data.view);
+  
+  reset_file_items (plugin_data.store);
+  
   gtk_widget_show (plugin_data.panel);
   gtk_widget_grab_focus (plugin_data.entry);
+  
+  if (! gtk_tree_selection_get_selected (gtk_tree_view_get_selection (view),
+                                         NULL, NULL)) {
+    GtkTreeIter iter;
+    
+    if (gtk_tree_model_get_iter_first (plugin_data.sort, &iter)) {
+      tree_view_set_active_cell (GTK_TREE_VIEW (plugin_data.view), &iter);
+    }
+  }
 }
 
 static gboolean
