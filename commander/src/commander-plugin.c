@@ -233,6 +233,10 @@ on_panel_key_press_event (GtkWidget    *widget,
         gtk_menu_item_activate (item);
         gtk_widget_hide (widget);
       }
+       
+      if (item) {
+        g_object_unref (item);
+      }
       
       return TRUE;
     }
