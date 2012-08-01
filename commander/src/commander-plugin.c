@@ -416,6 +416,9 @@ create_panel (void)
                                     "default-height", 200,
                                     "transient-for", geany_data->main_widgets->window,
                                     "window-position", GTK_WIN_POS_CENTER_ON_PARENT,
+                                    "type-hint", GDK_WINDOW_TYPE_HINT_DIALOG,
+                                    "skip-taskbar-hint", TRUE,
+                                    "skip-pager-hint", TRUE,
                                     NULL);
   g_signal_connect (plugin_data.panel, "focus-out-event",
                     G_CALLBACK (gtk_widget_hide), NULL);
