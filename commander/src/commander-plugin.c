@@ -64,8 +64,9 @@ struct {
 };
 
 typedef enum {
-  COL_TYPE_MENU_ITEM,
-  COL_TYPE_FILE
+  COL_TYPE_MENU_ITEM  = 1 << 0,
+  COL_TYPE_FILE       = 1 << 1,
+  COL_TYPE_ANY        = 0xffff
 } ColType;
 
 enum {
@@ -160,6 +161,27 @@ key_dist (const gchar *key_,
   return dist;
 }
 
+static const gchar *
+get_key (gint *type_)
+{
+  gint          type  = COL_TYPE_ANY;
+  const gchar  *key   = gtk_entry_get_text (GTK_ENTRY (plugin_data.entry));
+  
+  if (g_str_has_prefix (key, "f:")) {
+    key += 2;
+    type = COL_TYPE_FILE;
+  } else if (g_str_has_prefix (key, "c:")) {
+    key += 2;
+    type = COL_TYPE_MENU_ITEM;
+  }
+  
+  if (type_) {
+    *type_ = type;
+  }
+  
+  return key;
+}
+
 static gint
 sort_func (GtkTreeModel  *model,
            GtkTreeIter   *a,
@@ -170,7 +192,7 @@ sort_func (GtkTreeModel  *model,
   gint          distb;
   gchar        *patha;
   gchar        *pathb;
-  const gchar  *key = gtk_entry_get_text (GTK_ENTRY (plugin_data.entry));
+  const gchar  *key = get_key (NULL);
   
   gtk_tree_model_get (model, a, COL_PATH, &patha, -1);
   gtk_tree_model_get (model, b, COL_PATH, &pathb, -1);
@@ -189,20 +211,14 @@ filter_visible_func (GtkTreeModel  *model,
                      GtkTreeIter   *iter,
                      gpointer       dummy)
 {
-  gboolean      visible = TRUE;
+  gboolean      visible = FALSE;
   gchar        *text;
   gint          type;
-  const gchar  *key = gtk_entry_get_text (GTK_ENTRY (plugin_data.entry));
+  gint          key_type;
+  const gchar  *key = get_key (&key_type);
   
   gtk_tree_model_get (model, iter, COL_PATH, &text, COL_TYPE, &type, -1);
-  if (g_str_has_prefix (key, "f:")) {
-    key += 2;
-    visible = type == COL_TYPE_FILE;
-  } else if (g_str_has_prefix (key, "c:")) {
-    key += 2;
-    visible = type == COL_TYPE_MENU_ITEM;
-  }
-  if (visible) {
+  if (type & key_type) {
     visible = key_matches (key, text);
   }
   g_free (text);
