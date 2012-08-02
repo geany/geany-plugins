@@ -56,13 +56,12 @@ struct {
   GtkWidget    *entry;
   GtkWidget    *view;
   GtkListStore *store;
-  GtkTreeModel *filter;
   GtkTreeModel *sort;
   
   GtkTreePath  *last_path;
 } plugin_data = {
   NULL, NULL, NULL,
-  NULL, NULL, NULL,
+  NULL, NULL,
   NULL
 };
 
@@ -81,36 +80,6 @@ enum {
   COL_COUNT
 };
 
-
-static gboolean
-key_matches (const gchar *key_,
-             const gchar *text_)
-{
-  gchar    *text;
-  gchar    *key;
-  gchar    *text_p;
-  gchar    *key_p;
-  gboolean  result;
-  
-  text_p  = text  = g_utf8_casefold (text_, -1);
-  key_p   = key   = g_utf8_casefold (key_, -1);
-  
-  while (*key_p && *text_p) {
-    if (*text_p == *key_p) {
-      text_p ++;
-      key_p ++;
-    } else {
-      text_p ++;
-    }
-  }
-  
-  result = *key_p == 0;
-  
-  g_free (text);
-  g_free (key);
-  
-  return result;
-}
 
 /* TODO: improve this algorithm for better matches.
  * what's needed is probably not to simply eat a letter when it matches, but
@@ -207,26 +176,6 @@ sort_func (GtkTreeModel  *model,
   g_free (pathb);
   
   return dista - distb;
-}
-
-static gboolean
-filter_visible_func (GtkTreeModel  *model,
-                     GtkTreeIter   *iter,
-                     gpointer       dummy)
-{
-  gboolean      visible = FALSE;
-  gchar        *text;
-  gint          type;
-  gint          key_type;
-  const gchar  *key = get_key (&key_type);
-  
-  gtk_tree_model_get (model, iter, COL_PATH, &text, COL_TYPE, &type, -1);
-  if (type & key_type) {
-    visible = key_matches (key, text);
-  }
-  g_free (text);
-  
-  return visible;
 }
 
 static void
@@ -354,12 +303,20 @@ on_entry_text_notify (GObject    *object,
                       GParamSpec *pspec,
                       gpointer    dummy)
 {
-  GtkTreeIter iter;
+  GtkTreeIter   iter;
+  GtkTreeView  *view  = GTK_TREE_VIEW (plugin_data.view);
+  GtkTreeModel *model = gtk_tree_view_get_model (view);
   
-  gtk_tree_model_filter_refilter (GTK_TREE_MODEL_FILTER (plugin_data.filter));
+  /* we force re-sorting the whole model from how it was before, and the
+   * back to the new filter.  this is somewhat hackish but since we don't
+   * know the original sorting order, and GtkTreeSortable don't have a
+   * resort() API anyway. */
+  gtk_tree_model_sort_reset_default_sort_func (GTK_TREE_MODEL_SORT (model));
+  gtk_tree_sortable_set_default_sort_func (GTK_TREE_SORTABLE (model),
+                                           sort_func, NULL, NULL);
   
-  if (gtk_tree_model_get_iter_first (plugin_data.sort, &iter)) {
-    tree_view_set_active_cell (GTK_TREE_VIEW (plugin_data.view), &iter);
+  if (gtk_tree_model_get_iter_first (model, &iter)) {
+    tree_view_set_active_cell (view, &iter);
   }
 }
 
@@ -540,7 +497,7 @@ on_panel_show (GtkWidget *widget,
                                          NULL, NULL)) {
     GtkTreeIter iter;
     
-    if (gtk_tree_model_get_iter_first (plugin_data.sort, &iter)) {
+    if (gtk_tree_model_get_iter_first (gtk_tree_view_get_model (view), &iter)) {
       tree_view_set_active_cell (GTK_TREE_VIEW (plugin_data.view), &iter);
     }
   }
@@ -633,16 +590,10 @@ create_panel (void)
                                           GTK_TYPE_WIDGET,
                                           G_TYPE_POINTER);
   
-  plugin_data.filter = gtk_tree_model_filter_new (GTK_TREE_MODEL (plugin_data.store),
-                                                  NULL);
-  gtk_tree_model_filter_set_visible_func (GTK_TREE_MODEL_FILTER (plugin_data.filter),
-                                          filter_visible_func, NULL, NULL);
-  
-  plugin_data.sort = gtk_tree_model_sort_new_with_model (plugin_data.filter);
-  gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (plugin_data.sort),
-                                   COL_PATH, sort_func, NULL, NULL);
+  plugin_data.sort = gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (plugin_data.store));
   gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (plugin_data.sort),
-                                        COL_PATH, GTK_SORT_ASCENDING);
+                                        GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID,
+                                        GTK_SORT_ASCENDING);
   
   scroll = g_object_new (GTK_TYPE_SCROLLED_WINDOW,
                          "hscrollbar-policy", GTK_POLICY_AUTOMATIC,
