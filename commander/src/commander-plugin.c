@@ -58,9 +58,12 @@ struct {
   GtkListStore *store;
   GtkTreeModel *filter;
   GtkTreeModel *sort;
+  
+  GtkTreePath  *last_path;
 } plugin_data = {
   NULL, NULL, NULL,
-  NULL, NULL, NULL
+  NULL, NULL, NULL,
+  NULL
 };
 
 typedef enum {
@@ -471,36 +474,14 @@ find_menubar (GtkContainer *container)
 static void
 fill_store (GtkListStore *store)
 {
-  GtkWidget *menubar;
-  
-  menubar = find_menubar (GTK_CONTAINER (geany_data->main_widgets->window));
-  store_populate_menu_items (store, GTK_MENU_SHELL (menubar), NULL);
-}
-
-/* we reset all file items not to have to monitor the open/close/renames/etc */
-static void
-reset_file_items (GtkListStore *store)
-{
-  GtkTreeIter iter;
+  GtkWidget  *menubar;
   guint       i;
   
-  /* remove old items */
-  if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (store), &iter)) {
-    gboolean has_next = TRUE;
-    
-    while (has_next) {
-      gint type;
-      
-      gtk_tree_model_get (GTK_TREE_MODEL (store), &iter, COL_TYPE, &type, -1);
-      if (type == COL_TYPE_FILE) {
-        has_next = gtk_list_store_remove (store, &iter);
-      } else {
-        has_next = gtk_tree_model_iter_next (GTK_TREE_MODEL (store), &iter);
-      }
-    }
-  }
+  /* menu items */
+  menubar = find_menubar (GTK_CONTAINER (geany_data->main_widgets->window));
+  store_populate_menu_items (store, GTK_MENU_SHELL (menubar), NULL);
   
-  /* and add new ones */
+  /* open files */
   foreach_document (i) {
     gchar *basename = g_path_get_basename (DOC_FILENAME (documents[i]));
     gchar *label = g_markup_printf_escaped ("<big>%s</big>\n"
@@ -516,6 +497,52 @@ reset_file_items (GtkListStore *store)
                                        -1);
     g_free (basename);
     g_free (label);
+  }
+}
+
+static void
+on_panel_hide (GtkWidget *widget,
+               gpointer   dummy)
+{
+  GtkTreeView  *view = GTK_TREE_VIEW (plugin_data.view);
+  GtkTreeModel *model;
+  GtkTreeIter   iter;
+  
+  if (plugin_data.last_path) {
+    gtk_tree_path_free (plugin_data.last_path);
+    plugin_data.last_path = NULL;
+  }
+  if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (view),
+                                       &model, &iter)) {
+    plugin_data.last_path = gtk_tree_model_get_path (model, &iter);
+  }
+  
+  gtk_list_store_clear (plugin_data.store);
+}
+
+static void
+on_panel_show (GtkWidget *widget,
+               gpointer   dummy)
+{
+  GtkTreeView *view = GTK_TREE_VIEW (plugin_data.view);
+  
+  fill_store (plugin_data.store);
+  
+  gtk_widget_grab_focus (plugin_data.entry);
+  
+  if (plugin_data.last_path) {
+    gtk_tree_selection_select_path (gtk_tree_view_get_selection (view),
+                                    plugin_data.last_path);
+    gtk_tree_view_scroll_to_cell (view, plugin_data.last_path, NULL,
+                                  TRUE, 0.5, 0.5);
+  }
+  if (! gtk_tree_selection_get_selected (gtk_tree_view_get_selection (view),
+                                         NULL, NULL)) {
+    GtkTreeIter iter;
+    
+    if (gtk_tree_model_get_iter_first (plugin_data.sort, &iter)) {
+      tree_view_set_active_cell (GTK_TREE_VIEW (plugin_data.view), &iter);
+    }
   }
 }
 
@@ -580,6 +607,10 @@ create_panel (void)
                                     NULL);
   g_signal_connect (plugin_data.panel, "focus-out-event",
                     G_CALLBACK (gtk_widget_hide), NULL);
+  g_signal_connect (plugin_data.panel, "show",
+                    G_CALLBACK (on_panel_show), NULL);
+  g_signal_connect (plugin_data.panel, "hide",
+                    G_CALLBACK (on_panel_hide), NULL);
   g_signal_connect (plugin_data.panel, "key-press-event",
                     G_CALLBACK (on_panel_key_press_event), NULL);
   
@@ -601,7 +632,6 @@ create_panel (void)
                                           G_TYPE_INT,
                                           GTK_TYPE_WIDGET,
                                           G_TYPE_POINTER);
-  fill_store (plugin_data.store);
   
   plugin_data.filter = gtk_tree_model_filter_new (GTK_TREE_MODEL (plugin_data.store),
                                                   NULL);
@@ -633,29 +663,13 @@ create_panel (void)
                     G_CALLBACK (on_view_row_activated), NULL);
   gtk_container_add (GTK_CONTAINER (scroll), plugin_data.view);
   
-  on_entry_text_notify (G_OBJECT (plugin_data.entry), NULL, NULL);
-  
   gtk_widget_show_all (frame);
 }
 
 static void
 on_kb_show_panel (guint key_id)
 {
-  GtkTreeView *view = GTK_TREE_VIEW (plugin_data.view);
-  
-  reset_file_items (plugin_data.store);
-  
   gtk_widget_show (plugin_data.panel);
-  gtk_widget_grab_focus (plugin_data.entry);
-  
-  if (! gtk_tree_selection_get_selected (gtk_tree_view_get_selection (view),
-                                         NULL, NULL)) {
-    GtkTreeIter iter;
-    
-    if (gtk_tree_model_get_iter_first (plugin_data.sort, &iter)) {
-      tree_view_set_active_cell (GTK_TREE_VIEW (plugin_data.view), &iter);
-    }
-  }
 }
 
 static gboolean
@@ -685,5 +699,8 @@ plugin_cleanup (void)
 {
   if (plugin_data.panel) {
     gtk_widget_destroy (plugin_data.panel);
+  }
+  if (plugin_data.last_path) {
+    gtk_tree_path_free (plugin_data.last_path);
   }
 }
