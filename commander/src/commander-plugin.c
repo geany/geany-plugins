@@ -19,16 +19,13 @@
 
 #include "config.h"
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <string.h>
 #include <glib.h>
 #include <glib/gi18n-lib.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
 #include <geanyplugin.h>
-#include <geany.h>
-#include <document.h>
 
 
 GeanyPlugin      *geany_plugin;
