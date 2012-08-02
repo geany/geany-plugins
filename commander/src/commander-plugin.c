@@ -154,30 +154,6 @@ get_key (gint *type_)
   return key;
 }
 
-static gint
-sort_func (GtkTreeModel  *model,
-           GtkTreeIter   *a,
-           GtkTreeIter   *b,
-           gpointer       dummy)
-{
-  gint          dista;
-  gint          distb;
-  gchar        *patha;
-  gchar        *pathb;
-  const gchar  *key = get_key (NULL);
-  
-  gtk_tree_model_get (model, a, COL_PATH, &patha, -1);
-  gtk_tree_model_get (model, b, COL_PATH, &pathb, -1);
-  
-  dista = key_dist (key, patha);
-  distb = key_dist (key, pathb);
-  
-  g_free (patha);
-  g_free (pathb);
-  
-  return dista - distb;
-}
-
 static void
 tree_view_set_active_cell (GtkTreeView *view,
                            GtkTreeIter *iter)
@@ -245,78 +221,6 @@ tree_view_move_focus (GtkTreeView    *view,
     tree_view_set_active_cell (view, &iter);
   } else {
     gtk_widget_error_bell (GTK_WIDGET (view));
-  }
-}
-
-static gboolean
-on_panel_key_press_event (GtkWidget    *widget,
-                          GdkEventKey  *event,
-                          gpointer      dummy)
-{
-  switch (event->keyval) {
-    case GDK_KEY_Escape:
-      gtk_widget_hide (widget);
-      return TRUE;
-    
-    case GDK_KEY_Tab:
-      /* avoid leaving the entry */
-      return TRUE;
-    
-    case GDK_KEY_Return:
-    case GDK_KEY_KP_Enter:
-    case GDK_KEY_ISO_Enter: {
-      GtkTreeIter       iter;
-      GtkTreeView      *view      = GTK_TREE_VIEW (plugin_data.view);
-      GtkTreeSelection *selection = gtk_tree_view_get_selection (view);
-      GtkTreeModel     *model;
-      
-      if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-        GtkTreePath *path = gtk_tree_model_get_path (model, &iter);
-        gtk_tree_view_row_activated (view, path, NULL);
-        gtk_tree_path_free (path);
-      }
-      
-      return TRUE;
-    }
-    
-    case GDK_KEY_Page_Up:
-    case GDK_KEY_Page_Down:
-      tree_view_move_focus (GTK_TREE_VIEW (plugin_data.view),
-                            GTK_MOVEMENT_PAGES,
-                            event->keyval == GDK_KEY_Page_Up ? -1 : 1);
-      return TRUE;
-    
-    case GDK_KEY_Up:
-    case GDK_KEY_Down: {
-      tree_view_move_focus (GTK_TREE_VIEW (plugin_data.view),
-                            GTK_MOVEMENT_DISPLAY_LINES,
-                            event->keyval == GDK_KEY_Up ? -1 : 1);
-      return TRUE;
-    }
-  }
-  
-  return FALSE;
-}
-
-static void
-on_entry_text_notify (GObject    *object,
-                      GParamSpec *pspec,
-                      gpointer    dummy)
-{
-  GtkTreeIter   iter;
-  GtkTreeView  *view  = GTK_TREE_VIEW (plugin_data.view);
-  GtkTreeModel *model = gtk_tree_view_get_model (view);
-  
-  /* we force re-sorting the whole model from how it was before, and the
-   * back to the new filter.  this is somewhat hackish but since we don't
-   * know the original sorting order, and GtkTreeSortable don't have a
-   * resort() API anyway. */
-  gtk_tree_model_sort_reset_default_sort_func (GTK_TREE_MODEL_SORT (model));
-  gtk_tree_sortable_set_default_sort_func (GTK_TREE_SORTABLE (model),
-                                           sort_func, NULL, NULL);
-  
-  if (gtk_tree_model_get_iter_first (model, &iter)) {
-    tree_view_set_active_cell (view, &iter);
   }
 }
 
@@ -454,6 +358,102 @@ fill_store (GtkListStore *store)
                                        -1);
     g_free (basename);
     g_free (label);
+  }
+}
+
+static gint
+sort_func (GtkTreeModel  *model,
+           GtkTreeIter   *a,
+           GtkTreeIter   *b,
+           gpointer       dummy)
+{
+  gint          dista;
+  gint          distb;
+  gchar        *patha;
+  gchar        *pathb;
+  const gchar  *key = get_key (NULL);
+  
+  gtk_tree_model_get (model, a, COL_PATH, &patha, -1);
+  gtk_tree_model_get (model, b, COL_PATH, &pathb, -1);
+  
+  dista = key_dist (key, patha);
+  distb = key_dist (key, pathb);
+  
+  g_free (patha);
+  g_free (pathb);
+  
+  return dista - distb;
+}
+
+static gboolean
+on_panel_key_press_event (GtkWidget    *widget,
+                          GdkEventKey  *event,
+                          gpointer      dummy)
+{
+  switch (event->keyval) {
+    case GDK_KEY_Escape:
+      gtk_widget_hide (widget);
+      return TRUE;
+    
+    case GDK_KEY_Tab:
+      /* avoid leaving the entry */
+      return TRUE;
+    
+    case GDK_KEY_Return:
+    case GDK_KEY_KP_Enter:
+    case GDK_KEY_ISO_Enter: {
+      GtkTreeIter       iter;
+      GtkTreeView      *view      = GTK_TREE_VIEW (plugin_data.view);
+      GtkTreeSelection *selection = gtk_tree_view_get_selection (view);
+      GtkTreeModel     *model;
+      
+      if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+        GtkTreePath *path = gtk_tree_model_get_path (model, &iter);
+        gtk_tree_view_row_activated (view, path, NULL);
+        gtk_tree_path_free (path);
+      }
+      
+      return TRUE;
+    }
+    
+    case GDK_KEY_Page_Up:
+    case GDK_KEY_Page_Down:
+      tree_view_move_focus (GTK_TREE_VIEW (plugin_data.view),
+                            GTK_MOVEMENT_PAGES,
+                            event->keyval == GDK_KEY_Page_Up ? -1 : 1);
+      return TRUE;
+    
+    case GDK_KEY_Up:
+    case GDK_KEY_Down: {
+      tree_view_move_focus (GTK_TREE_VIEW (plugin_data.view),
+                            GTK_MOVEMENT_DISPLAY_LINES,
+                            event->keyval == GDK_KEY_Up ? -1 : 1);
+      return TRUE;
+    }
+  }
+  
+  return FALSE;
+}
+
+static void
+on_entry_text_notify (GObject    *object,
+                      GParamSpec *pspec,
+                      gpointer    dummy)
+{
+  GtkTreeIter   iter;
+  GtkTreeView  *view  = GTK_TREE_VIEW (plugin_data.view);
+  GtkTreeModel *model = gtk_tree_view_get_model (view);
+  
+  /* we force re-sorting the whole model from how it was before, and the
+   * back to the new filter.  this is somewhat hackish but since we don't
+   * know the original sorting order, and GtkTreeSortable don't have a
+   * resort() API anyway. */
+  gtk_tree_model_sort_reset_default_sort_func (GTK_TREE_MODEL_SORT (model));
+  gtk_tree_sortable_set_default_sort_func (GTK_TREE_SORTABLE (model),
+                                           sort_func, NULL, NULL);
+  
+  if (gtk_tree_model_get_iter_first (model, &iter)) {
+    tree_view_set_active_cell (view, &iter);
   }
 }
 
