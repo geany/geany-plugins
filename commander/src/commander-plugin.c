@@ -232,6 +232,10 @@ on_panel_key_press_event (GtkWidget    *widget,
       gtk_widget_hide (widget);
       return TRUE;
     
+    case GDK_KEY_Tab:
+      /* avoid leaving the entry */
+      return TRUE;
+    
     case GDK_KEY_Return:
     case GDK_KEY_KP_Enter:
     case GDK_KEY_ISO_Enter: {
@@ -542,6 +546,7 @@ create_panel (void)
   gtk_box_pack_start (GTK_BOX (box), scroll, TRUE, TRUE, 0);
   
   plugin_data.view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (plugin_data.sort));
+  gtk_widget_set_can_focus (plugin_data.view, FALSE);
   gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (plugin_data.view), FALSE);
   cell = gtk_cell_renderer_text_new ();
   g_object_set (cell, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
