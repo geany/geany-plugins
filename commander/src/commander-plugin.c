@@ -314,37 +314,14 @@ on_panel_key_press_event (GtkWidget    *widget,
     case GDK_KEY_KP_Enter:
     case GDK_KEY_ISO_Enter: {
       GtkTreeIter       iter;
-      GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (plugin_data.view));
+      GtkTreeView      *view      = GTK_TREE_VIEW (plugin_data.view);
+      GtkTreeSelection *selection = gtk_tree_view_get_selection (view);
       GtkTreeModel     *model;
       
       if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-        gint type;
-        
-        gtk_tree_model_get (model, &iter, COL_TYPE, &type, -1);
-        
-        switch (type) {
-          case COL_TYPE_FILE: {
-            GeanyDocument  *doc;
-            gint            page;
-            
-            gtk_tree_model_get (model, &iter, COL_DOCUMENT, &doc, -1);
-            page = document_get_notebook_page (doc);
-            gtk_notebook_set_current_page (GTK_NOTEBOOK (geany_data->main_widgets->notebook),
-                                           page);
-            break;
-          }
-          
-          case COL_TYPE_MENU_ITEM: {
-            GtkMenuItem *item;
-            
-            gtk_tree_model_get (model, &iter, COL_WIDGET, &item, -1);
-            gtk_menu_item_activate (item);
-            g_object_unref (item);
-            
-            break;
-          }
-        }
-        gtk_widget_hide (widget);
+        GtkTreePath *path = gtk_tree_model_get_path (model, &iter);
+        gtk_tree_view_row_activated (view, path, NULL);
+        gtk_tree_path_free (path);
       }
       
       return TRUE;
@@ -543,6 +520,46 @@ reset_file_items (GtkListStore *store)
 }
 
 static void
+on_view_row_activated (GtkTreeView       *view,
+                       GtkTreePath       *path,
+                       GtkTreeViewColumn *column,
+                       gpointer           dummy)
+{
+  GtkTreeModel *model = gtk_tree_view_get_model (view);
+  GtkTreeIter   iter;
+  
+  if (gtk_tree_model_get_iter (model, &iter, path)) {
+    gint type;
+    
+    gtk_tree_model_get (model, &iter, COL_TYPE, &type, -1);
+    
+    switch (type) {
+      case COL_TYPE_FILE: {
+        GeanyDocument  *doc;
+        gint            page;
+        
+        gtk_tree_model_get (model, &iter, COL_DOCUMENT, &doc, -1);
+        page = document_get_notebook_page (doc);
+        gtk_notebook_set_current_page (GTK_NOTEBOOK (geany_data->main_widgets->notebook),
+                                       page);
+        break;
+      }
+      
+      case COL_TYPE_MENU_ITEM: {
+        GtkMenuItem *item;
+        
+        gtk_tree_model_get (model, &iter, COL_WIDGET, &item, -1);
+        gtk_menu_item_activate (item);
+        g_object_unref (item);
+        
+        break;
+      }
+    }
+    gtk_widget_hide (plugin_data.panel);
+  }
+}
+
+static void
 create_panel (void)
 {
   GtkWidget          *frame;
@@ -612,6 +629,8 @@ create_panel (void)
                                                   "markup", COL_LABEL,
                                                   NULL);
   gtk_tree_view_append_column (GTK_TREE_VIEW (plugin_data.view), col);
+  g_signal_connect (plugin_data.view, "row-activated",
+                    G_CALLBACK (on_view_row_activated), NULL);
   gtk_container_add (GTK_CONTAINER (scroll), plugin_data.view);
   
   on_entry_text_notify (G_OBJECT (plugin_data.entry), NULL, NULL);
