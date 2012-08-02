@@ -371,13 +371,23 @@ sort_func (GtkTreeModel  *model,
   gint          distb;
   gchar        *patha;
   gchar        *pathb;
-  const gchar  *key = get_key (NULL);
+  gint          typea;
+  gint          typeb;
+  gint          type;
+  const gchar  *key = get_key (&type);
   
-  gtk_tree_model_get (model, a, COL_PATH, &patha, -1);
-  gtk_tree_model_get (model, b, COL_PATH, &pathb, -1);
+  gtk_tree_model_get (model, a, COL_PATH, &patha, COL_TYPE, &typea, -1);
+  gtk_tree_model_get (model, b, COL_PATH, &pathb, COL_TYPE, &typeb, -1);
   
   dista = key_dist (key, patha);
   distb = key_dist (key, pathb);
+  
+  if (! (typea & type)) {
+    dista += 0xf000;
+  }
+  if (! (typeb & type)) {
+    distb += 0xf000;
+  }
   
   g_free (patha);
   g_free (pathb);
