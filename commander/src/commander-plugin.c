@@ -483,6 +483,7 @@ reset_file_items (GtkListStore *store)
 static void
 create_panel (void)
 {
+  GtkWidget          *frame;
   GtkWidget          *box;
   GtkWidget          *scroll;
   GtkTreeViewColumn  *col;
@@ -503,8 +504,12 @@ create_panel (void)
   g_signal_connect (plugin_data.panel, "key-press-event",
                     G_CALLBACK (on_panel_key_press_event), NULL);
   
+  frame = gtk_frame_new (NULL);
+  gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
+  gtk_container_add (GTK_CONTAINER (plugin_data.panel), frame);
+  
   box = gtk_vbox_new (FALSE, 0);
-  gtk_container_add (GTK_CONTAINER (plugin_data.panel), box);
+  gtk_container_add (GTK_CONTAINER (frame), box);
   
   plugin_data.entry = gtk_entry_new ();
   g_signal_connect (plugin_data.entry, "notify::text",
@@ -548,7 +553,7 @@ create_panel (void)
   
   on_entry_text_notify (G_OBJECT (plugin_data.entry), NULL, NULL);
   
-  gtk_widget_show_all (box);
+  gtk_widget_show_all (frame);
 }
 
 static void
