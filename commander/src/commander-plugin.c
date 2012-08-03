@@ -78,56 +78,55 @@ enum {
 };
 
 
-/* TODO: improve this algorithm for better matches.
- * what's needed is probably not to simply eat a letter when it matches, but
- * rather give it a chance to provide an heavier match... whatever, be smart. */
+#define SEPARATORS        " -_/\\\"'"
+#define IS_SEPARATOR(c)   (strchr (SEPARATORS, (c)))
+#define next_separator(p) (strpbrk (p, SEPARATORS))
+
+/* TODO: be more tolerant regarding unmatched character in the needle.
+ * Right now, we implicitly accept unmatched characters at the end of the
+ * needle but absolutely not at the start.  e.g. "xpy" won't match "python" at
+ * all, though "pyx" will. */
+static inline gint
+get_score (const gchar *needle,
+           const gchar *haystack)
+{
+  if (needle == NULL || haystack == NULL ||
+      *needle == '\0' || *haystack == '\0') {
+    return 0;
+  }
+  
+  if (IS_SEPARATOR (*haystack)) {
+    return get_score (needle, haystack + 1);
+  }
+
+  if (IS_SEPARATOR (*needle)) {
+    return get_score (needle + 1, next_separator (haystack));
+  }
+
+  if (*needle == *haystack) {
+    gint a = get_score (needle + 1, haystack + 1) + 1;
+    gint b = get_score (needle, next_separator (haystack));
+    
+    return MAX (a, b);
+  } else {
+    return get_score (needle, next_separator (haystack));
+  }
+}
+
 static gint
-key_dist (const gchar *key_,
-          const gchar *text_)
+key_score (const gchar *key_,
+           const gchar *text_)
 {
   gchar  *text  = g_utf8_casefold (text_, -1);
   gchar  *key   = g_utf8_casefold (key_, -1);
-  gint    dist  = 0;
+  gint    score;
   
-#if 0
-  const gchar  *text_p = text;
-  const gchar  *key_p  = key;
-  gint          weight = 0;
-  
-  while (*key_p && *text_p) {
-    if (*text_p == *key_p) {
-      text_p ++;
-      key_p ++;
-      weight ++;
-      dist -= weight * 2;
-    } else {
-      text_p ++;
-      dist ++;
-      weight = 0;
-    }
-#else /* rather search end to start because end of paths are more interesting */
-  const gchar  *text_p = text + strlen (text) - 1;
-  const gchar  *key_p  = key  + strlen (key)  - 1;
-  gint          weight = 0;
-  
-  while (key_p >= key && text_p >= text) {
-    if (*text_p == *key_p) {
-      text_p --;
-      key_p --;
-      weight ++;
-      dist -= weight * 2;
-    } else {
-      text_p --;
-      dist ++;
-      weight = 0;
-    }
-  }
-#endif
+  score = get_score (key, text);
   
   g_free (text);
   g_free (key);
   
-  return dist;
+  return score;
 }
 
 static const gchar *
@@ -364,8 +363,8 @@ sort_func (GtkTreeModel  *model,
            GtkTreeIter   *b,
            gpointer       dummy)
 {
-  gint          dista;
-  gint          distb;
+  gint          scorea;
+  gint          scoreb;
   gchar        *patha;
   gchar        *pathb;
   gint          typea;
@@ -376,20 +375,20 @@ sort_func (GtkTreeModel  *model,
   gtk_tree_model_get (model, a, COL_PATH, &patha, COL_TYPE, &typea, -1);
   gtk_tree_model_get (model, b, COL_PATH, &pathb, COL_TYPE, &typeb, -1);
   
-  dista = key_dist (key, patha);
-  distb = key_dist (key, pathb);
+  scorea = key_score (key, patha);
+  scoreb = key_score (key, pathb);
   
   if (! (typea & type)) {
-    dista += 0xf000;
+    scorea -= 0xf000;
   }
   if (! (typeb & type)) {
-    distb += 0xf000;
+    scoreb -= 0xf000;
   }
   
   g_free (patha);
   g_free (pathb);
   
-  return dista - distb;
+  return scoreb - scorea;
 }
 
 static gboolean
