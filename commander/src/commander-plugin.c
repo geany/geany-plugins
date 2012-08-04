@@ -661,3 +661,9 @@ plugin_cleanup (void)
     gtk_tree_path_free (plugin_data.last_path);
   }
 }
+
+void
+plugin_help (void)
+{
+  utils_open_browser (DOCDIR "/" PLUGIN "/README");
+}
