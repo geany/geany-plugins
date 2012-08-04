@@ -175,14 +175,13 @@ get_key (gint *type_)
 }
 
 static void
-tree_view_set_active_cell (GtkTreeView *view,
-                           GtkTreeIter *iter)
+tree_view_set_cursor_from_iter (GtkTreeView *view,
+                                GtkTreeIter *iter)
 {
   GtkTreePath *path;
   
   path = gtk_tree_model_get_path (gtk_tree_view_get_model (view), iter);
-  gtk_tree_selection_select_iter (gtk_tree_view_get_selection (view), iter);
-  gtk_tree_view_scroll_to_cell (view, path, NULL, FALSE, 0.0, 0.0);
+  gtk_tree_view_set_cursor (view, path, NULL, FALSE);
   gtk_tree_path_free (path);
 }
 
@@ -191,12 +190,13 @@ tree_view_move_focus (GtkTreeView    *view,
                       GtkMovementStep step,
                       gint            amount)
 {
-  GtkTreeIter       iter;
-  GtkTreeSelection *selection = gtk_tree_view_get_selection (view);
-  GtkTreeModel     *model = gtk_tree_view_get_model (view);
-  gboolean          valid = FALSE;
+  GtkTreeIter   iter;
+  GtkTreePath  *path;
+  GtkTreeModel *model = gtk_tree_view_get_model (view);
+  gboolean      valid = FALSE;
   
-  if (! gtk_tree_selection_get_selected (selection, NULL, &iter)) {
+  gtk_tree_view_get_cursor (view, &path, NULL);
+  if (! path) {
     valid = gtk_tree_model_get_iter_first (model, &iter);
   } else {
     switch (step) {
@@ -215,32 +215,44 @@ tree_view_move_focus (GtkTreeView    *view,
       case GTK_MOVEMENT_PAGES:
         /* FIXME: move by page */
       case GTK_MOVEMENT_DISPLAY_LINES:
+        gtk_tree_model_get_iter (model, &iter, path);
         if (amount > 0) {
           while ((valid = gtk_tree_model_iter_next (model, &iter)) &&
                  --amount > 0)
             ;
         } else if (amount < 0) {
-          GtkTreePath *path = gtk_tree_model_get_path (model, &iter);
-          
           while ((valid = gtk_tree_path_prev (path)) && --amount > 0)
             ;
           
           if (valid) {
             gtk_tree_model_get_iter (model, &iter, path);
           }
-          gtk_tree_path_free (path);
         }
         break;
       
       default:
         g_assert_not_reached ();
     }
+    gtk_tree_path_free (path);
   }
   
   if (valid) {
-    tree_view_set_active_cell (view, &iter);
+    tree_view_set_cursor_from_iter (view, &iter);
   } else {
     gtk_widget_error_bell (GTK_WIDGET (view));
+  }
+}
+
+static void
+tree_view_activate_focused_row (GtkTreeView *view)
+{
+  GtkTreePath        *path;
+  GtkTreeViewColumn  *column;
+  
+  gtk_tree_view_get_cursor (view, &path, &column);
+  if (path) {
+    gtk_tree_view_row_activated (view, path, column);
+    gtk_tree_path_free (path);
   }
 }
 
@@ -431,20 +443,9 @@ on_panel_key_press_event (GtkWidget    *widget,
     
     case GDK_KEY_Return:
     case GDK_KEY_KP_Enter:
-    case GDK_KEY_ISO_Enter: {
-      GtkTreeIter       iter;
-      GtkTreeView      *view      = GTK_TREE_VIEW (plugin_data.view);
-      GtkTreeSelection *selection = gtk_tree_view_get_selection (view);
-      GtkTreeModel     *model;
-      
-      if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-        GtkTreePath *path = gtk_tree_model_get_path (model, &iter);
-        gtk_tree_view_row_activated (view, path, NULL);
-        gtk_tree_path_free (path);
-      }
-      
+    case GDK_KEY_ISO_Enter:
+      tree_view_activate_focused_row (GTK_TREE_VIEW (plugin_data.view));
       return TRUE;
-    }
     
     case GDK_KEY_Page_Up:
     case GDK_KEY_Page_Down:
@@ -483,7 +484,7 @@ on_entry_text_notify (GObject    *object,
                                            sort_func, NULL, NULL);
   
   if (gtk_tree_model_get_iter_first (model, &iter)) {
-    tree_view_set_active_cell (view, &iter);
+    tree_view_set_cursor_from_iter (view, &iter);
   }
 }
 
@@ -492,17 +493,12 @@ on_panel_hide (GtkWidget *widget,
                gpointer   dummy)
 {
   GtkTreeView  *view = GTK_TREE_VIEW (plugin_data.view);
-  GtkTreeModel *model;
-  GtkTreeIter   iter;
   
   if (plugin_data.last_path) {
     gtk_tree_path_free (plugin_data.last_path);
     plugin_data.last_path = NULL;
   }
-  if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (view),
-                                       &model, &iter)) {
-    plugin_data.last_path = gtk_tree_model_get_path (model, &iter);
-  }
+  gtk_tree_view_get_cursor (view, &plugin_data.last_path, NULL);
   
   gtk_list_store_clear (plugin_data.store);
 }
@@ -511,6 +507,7 @@ static void
 on_panel_show (GtkWidget *widget,
                gpointer   dummy)
 {
+  GtkTreePath *path;
   GtkTreeView *view = GTK_TREE_VIEW (plugin_data.view);
   
   fill_store (plugin_data.store);
@@ -518,17 +515,19 @@ on_panel_show (GtkWidget *widget,
   gtk_widget_grab_focus (plugin_data.entry);
   
   if (plugin_data.last_path) {
-    gtk_tree_selection_select_path (gtk_tree_view_get_selection (view),
-                                    plugin_data.last_path);
+    gtk_tree_view_set_cursor (view, plugin_data.last_path, NULL, FALSE);
     gtk_tree_view_scroll_to_cell (view, plugin_data.last_path, NULL,
                                   TRUE, 0.5, 0.5);
   }
-  if (! gtk_tree_selection_get_selected (gtk_tree_view_get_selection (view),
-                                         NULL, NULL)) {
+  /* make sure the cursor is set (e.g. if plugin_data.last_path wasn't valid) */
+  gtk_tree_view_get_cursor (view, &path, NULL);
+  if (path) {
+    gtk_tree_path_free (path);
+  } else {
     GtkTreeIter iter;
     
     if (gtk_tree_model_get_iter_first (gtk_tree_view_get_model (view), &iter)) {
-      tree_view_set_active_cell (GTK_TREE_VIEW (plugin_data.view), &iter);
+      tree_view_set_cursor_from_iter (GTK_TREE_VIEW (plugin_data.view), &iter);
     }
   }
 }
