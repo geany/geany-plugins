@@ -489,6 +489,13 @@ on_entry_text_notify (GObject    *object,
 }
 
 static void
+on_entry_activate (GtkEntry  *entry,
+                   gpointer   dummy)
+{
+  tree_view_activate_focused_row (GTK_TREE_VIEW (plugin_data.view));
+}
+
+static void
 on_panel_hide (GtkWidget *widget,
                gpointer   dummy)
 {
@@ -610,6 +617,8 @@ create_panel (void)
   plugin_data.entry = gtk_entry_new ();
   g_signal_connect (plugin_data.entry, "notify::text",
                     G_CALLBACK (on_entry_text_notify), NULL);
+  g_signal_connect (plugin_data.entry, "activate",
+                    G_CALLBACK (on_entry_activate), NULL);
   gtk_box_pack_start (GTK_BOX (box), plugin_data.entry, FALSE, TRUE, 0);
   
   plugin_data.store = gtk_list_store_new (COL_COUNT,
