@@ -43,6 +43,30 @@ PLUGIN_SET_TRANSLATABLE_INFO (
 )
 
 
+/* GTK compatibility functions/macros */
+
+#if ! GTK_CHECK_VERSION (2, 18, 0)
+# define gtk_widget_get_visible(w) \
+  (GTK_WIDGET_VISIBLE (w))
+# define gtk_widget_set_can_focus(w) \
+  (GTK_WIDGET_SET_FLAGS ((w), GTK_CAN_FOCUS))
+#endif
+
+#if ! GTK_CHECK_VERSION (2, 21, 8)
+# define GDK_KEY_Down       GDK_Down
+# define GDK_KEY_Escape     GDK_Escape
+# define GDK_KEY_ISO_Enter  GDK_ISO_Enter
+# define GDK_KEY_KP_Enter   GDK_KP_Enter
+# define GDK_KEY_Page_Down  GDK_Page_Down
+# define GDK_KEY_Page_Up    GDK_Page_Up
+# define GDK_KEY_Return     GDK_Return
+# define GDK_KEY_Tab        GDK_Tab
+# define GDK_KEY_Up         GDK_Up
+#endif
+
+
+/* Plugin */
+
 enum {
   KB_SHOW_PANEL,
   KB_COUNT
