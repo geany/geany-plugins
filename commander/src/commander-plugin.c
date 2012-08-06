@@ -355,7 +355,7 @@ find_menubar (GtkContainer *container)
   for (node = children; ! menubar && node; node = node->next) {
     if (GTK_IS_MENU_BAR (node->data)) {
       menubar = node->data;
-    } else if GTK_IS_CONTAINER (node->data) {
+    } else if (GTK_IS_CONTAINER (node->data)) {
       menubar = find_menubar (node->data);
     }
   }
