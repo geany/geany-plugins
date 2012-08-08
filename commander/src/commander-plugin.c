@@ -48,8 +48,15 @@ PLUGIN_SET_TRANSLATABLE_INFO (
 #if ! GTK_CHECK_VERSION (2, 18, 0)
 # define gtk_widget_get_visible(w) \
   (GTK_WIDGET_VISIBLE (w))
-# define gtk_widget_set_can_focus(w) \
-  (GTK_WIDGET_SET_FLAGS ((w), GTK_CAN_FOCUS))
+# define gtk_widget_set_can_focus(w, v)               \
+  G_STMT_START {                                      \
+    GtkWidget *widget = (w);                          \
+    if (v) {                                          \
+      GTK_WIDGET_SET_FLAGS (widget, GTK_CAN_FOCUS);   \
+    } else {                                          \
+      GTK_WIDGET_UNSET_FLAGS (widget, GTK_CAN_FOCUS); \
+    }                                                 \
+  } G_STMT_END
 #endif
 
 #if ! GTK_CHECK_VERSION (2, 21, 8)
