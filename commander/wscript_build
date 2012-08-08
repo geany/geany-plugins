@@ -29,9 +29,11 @@ sources = [
     'src/commander-plugin.c']
 
 libraries = ['GTK', 'GLIB']
+defines = ['PLUGIN="%s"' % name.lower()]
 features = ['glib2']
 
 task = build_plugin(bld, name,
     sources=sources,
     libraries=libraries,
+    defines=defines,
     features=features)
