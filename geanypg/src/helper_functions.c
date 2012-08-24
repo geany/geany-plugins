@@ -137,7 +137,7 @@ void geanypg_load_buffer(gpgme_data_t * buffer)
     unsigned long size = 0;
     if (sci_has_selection(doc->editor->sci))
     {
-        size = scintilla_send_message(doc->editor->sci, SCI_GETSELTEXT, 0, 0);
+        size = scintilla_send_message(doc->editor->sci, SCI_GETSELTEXT, 0, 0) - 1;
         data = (char *) malloc(size + 1);
         scintilla_send_message(doc->editor->sci, SCI_GETSELTEXT, 0, (sptr_t)data);
         gpgme_data_new_from_mem(buffer, data, size, 1);
@@ -157,7 +157,6 @@ void geanypg_load_buffer(gpgme_data_t * buffer)
 void geanypg_write_file(FILE * file)
 {
 #define BUFSIZE 2048
-
     unsigned long size;
     char buffer[BUFSIZE] = {0};
     GeanyDocument * doc = document_get_current();
@@ -177,6 +176,5 @@ void geanypg_write_file(FILE * file)
             scintilla_send_message(doc->editor->sci, SCI_APPENDTEXT, (uptr_t) size, (sptr_t) buffer);
     }
     sci_end_undo_action(doc->editor->sci);
-
 #undef BUFSIZE
 }
