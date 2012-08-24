@@ -2,6 +2,7 @@
 
 * Fixed bug 3557458 which caused a 0 byte to be added to the text
   when encrypting a selection.
+  Fixed some compiler warnings.
 
 2012-06-04 Hans Alves  <alves(dot)h88(at)gmail(dot)com>
 
