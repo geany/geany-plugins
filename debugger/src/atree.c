@@ -25,6 +25,7 @@
 
 #include <gtk/gtk.h>
 
+#include "atree.h"
 #include "watch_model.h"
 #include "vtree.h"
 

@@ -1,10 +1,6 @@
 include $(top_srcdir)/build/vars.build.mk
 
-if ENABLE_PRETTY_PRINTER
 geanyplugins_LTLIBRARIES = pretty-printer.la
-else
-EXTRA_LTLIBRARIES = pretty-printer.la
-endif
 
 pretty_printer_la_SOURCES = \
 	PluginEntry.h \

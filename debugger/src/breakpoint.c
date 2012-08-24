@@ -30,7 +30,7 @@
 /*
  * create new empty breakpoint
  */
-breakpoint* break_new()
+breakpoint* break_new(void)
 {
 	breakpoint* bp = (breakpoint*)g_malloc(sizeof(breakpoint));
 	memset(bp, 0 , sizeof(breakpoint));

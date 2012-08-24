@@ -59,7 +59,7 @@ static gint select_anchor = 0, select_space = 0;
 
 /* Common functions / macros */
 
-ScintillaObject *scintilla_get_current(void)
+static ScintillaObject *scintilla_get_current(void)
 {
 	GeanyDocument *doc = document_get_current();
 	return doc ? doc->editor->sci : NULL;

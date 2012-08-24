@@ -20,6 +20,12 @@
  *      MA 02110-1301, USA.
  */
 
+#ifndef TABS_H
+#define TABS_H
+
+#include <glib.h>
+#include <gtk/gtk.h>
+
 typedef enum _tab_id
 {
 	TID_TARGET,
@@ -43,3 +49,4 @@ GtkWidget*		tabs_get_tab(tab_id id);
 tab_id			tabs_get_tab_id(GtkWidget* tab);
 const gchar*	tabs_get_label(tab_id id);
 
+#endif /* guard */

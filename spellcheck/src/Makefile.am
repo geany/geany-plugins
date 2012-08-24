@@ -1,10 +1,6 @@
 include $(top_srcdir)/build/vars.build.mk
 
-if ENABLE_SPELLCHECK
 geanyplugins_LTLIBRARIES = spellcheck.la
-else
-EXTRA_LTLIBRARIES = spellcheck.la
-endif
 
 spellcheck_la_SOURCES = \
 	scplugin.h \

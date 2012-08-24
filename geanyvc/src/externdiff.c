@@ -25,8 +25,6 @@
 
 extern GeanyFunctions *geany_functions;
 
-const gchar *get_external_diff_viewer(void);
-
 
 enum
 {
@@ -43,7 +41,7 @@ static const gchar *viewers[EXTERNAL_DIFF_COUNT] = { "meld", "kompare", "kdiff3"
 
 static gchar *extern_diff_viewer = NULL;
 const gchar *
-get_external_diff_viewer()
+get_external_diff_viewer(void)
 {
 	gint i;
 

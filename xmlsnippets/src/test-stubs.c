@@ -31,12 +31,12 @@
 
 GHashTable *completions;
 
-void test_stubs_init()
+void test_stubs_init(void)
 {
   completions = g_hash_table_new(g_str_hash, g_str_equal);
 }
 
-void test_stubs_finalize()
+void test_stubs_finalize(void)
 {
   g_hash_table_destroy(completions);
 }

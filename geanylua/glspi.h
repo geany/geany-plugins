@@ -95,7 +95,7 @@ extern GeanyFunctions *glspi_geany_functions;
 
 #ifdef NEED_FAIL_ARG_TYPE
 /* Pushes an error message onto Lua stack if script passes a wrong arg type */
-static gint glspi_fail_arg_type(lua_State *L, const gchar *func, gint argnum, gchar *type)
+static gint glspi_fail_arg_type(lua_State *L, const gchar *func, gint argnum, const gchar *type)
 {
 	lua_pushfstring(L, _("Error in module \"%s\" at function %s():\n"
 											" expected type \"%s\" for argument #%d\n"),
@@ -109,7 +109,7 @@ static gint glspi_fail_arg_type(lua_State *L, const gchar *func, gint argnum, gc
 #ifdef NEED_FAIL_ARG_TYPES
 /* Same as above, but for two overloaded types, eg "string" OR "number" */
 static gint glspi_fail_arg_types(
-		lua_State *L, const gchar *func, gint argnum, gchar *type1, gchar *type2)
+		lua_State *L, const gchar *func, gint argnum, const gchar *type1, const gchar *type2)
 {
 	lua_pushfstring(L, _("Error in module \"%s\" at function %s():\n"
 											" expected type \"%s\" or \"%s\" for argument #%d\n"),
@@ -123,7 +123,7 @@ static gint glspi_fail_arg_types(
 #ifdef NEED_FAIL_ELEM_TYPE
 /*Pushes an error message onto Lua stack if table contains wrong element type*/
 static gint glspi_fail_elem_type(
-		lua_State *L, const gchar *func, gint argnum, gint idx, gchar *type)
+		lua_State *L, const gchar *func, gint argnum, gint idx, const gchar *type)
 {
 	lua_pushfstring(L, _("Error in module \"%s\" at function %s():\n"
 											" invalid table in argument #%d:\n"
@@ -134,4 +134,27 @@ static gint glspi_fail_elem_type(
 }
 #endif
 
+
+typedef void (*GsDlgRunHook) (gboolean running, gpointer user_data);
+typedef gint (*KeyfileAssignFunc) (lua_State *L, GKeyFile*kf);
+
+
+/* application functions */
+void glspi_init_app_funcs(lua_State *L, const gchar*script_dir);
+/* basic dialog box functions */
+void glspi_init_dlg_funcs(lua_State *L, GsDlgRunHook hook);
+/* document functions */
+void glspi_init_doc_funcs(lua_State *L);
+void glspi_init_kfile_module(lua_State *L, KeyfileAssignFunc *func);
+/* menu functions */
+void glspi_init_mnu_funcs(lua_State *L);
+/* editor functions */
+void glspi_init_sci_funcs(lua_State *L);
+/* custom dialogs module */
+void glspi_init_gsdlg_module(lua_State *L, GsDlgRunHook hook, GtkWindow *toplevel);
+void glspi_run_script(const gchar *script_file, gint caller, GKeyFile*proj, const gchar *script_dir);
+
+/* Pass TRUE to create hashes, FALSE to destroy them */
+void glspi_set_sci_cmd_hash(gboolean create);
+void glspi_set_key_cmd_hash(gboolean create);
 

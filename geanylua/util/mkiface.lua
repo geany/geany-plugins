@@ -122,7 +122,7 @@ print("\tSLT_LAST\n} GlspiType;\n\n")
 
 
 print("typedef struct _SciCmdHashEntry {")
-print("\tgchar *name;")
+print("\tconst gchar *name;")
 print("\tGlspiType result;")
 print("\tgint msgid;")
 print("\tGlspiType wparam;")

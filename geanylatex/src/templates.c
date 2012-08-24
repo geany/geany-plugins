@@ -60,7 +60,7 @@ static void glatex_init_cutom_template_item(gchar *file, GPtrArray *array)
 }
 
 
-GPtrArray* glatex_init_custom_templates()
+GPtrArray* glatex_init_custom_templates(void)
 {
 	gchar *tmp_basedir = NULL;
 	GSList *file_list = NULL;

@@ -340,7 +340,7 @@ do_insert_comment (GeanyDocument   *doc,
   
   comment = get_comment (ft, setting, doc, tag, &cursor_offset);
   if (comment) {
-    gint pos;
+    gint pos = 0;
     
     switch (setting->position) {
       case GGD_POS_AFTER:
@@ -518,8 +518,8 @@ ggd_insert_comment (GeanyDocument  *doc,
   gboolean          success = FALSE;
   const TMTag      *tag = NULL;
   GPtrArray        *tag_array = NULL;
-  GgdFileType      *filetype;
-  GgdDocType       *doctype;
+  GgdFileType      *filetype = NULL;
+  GgdDocType       *doctype = NULL;
   
   g_return_val_if_fail (DOC_VALID (doc), FALSE);
   
@@ -573,8 +573,8 @@ ggd_insert_all_comments (GeanyDocument *doc,
                          const gchar   *doc_type)
 {
   gboolean      success = FALSE;
-  GgdFileType  *filetype;
-  GgdDocType   *doctype;
+  GgdFileType  *filetype = NULL;
+  GgdDocType   *doctype = NULL;
   
   g_return_val_if_fail (DOC_VALID (doc), FALSE);
   

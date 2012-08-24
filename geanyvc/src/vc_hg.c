@@ -42,70 +42,70 @@ static const gchar *HG_CMD_UPDATE[] = { "hg", "pull", CMD_SEPARATOR, "hg", "upda
 
 static const VC_COMMAND commands[] = {
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = HG_CMD_DIFF_FILE,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		HG_CMD_DIFF_FILE,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = HG_CMD_DIFF_DIR,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		HG_CMD_DIFF_DIR,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = HG_CMD_REVERT_FILE,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		HG_CMD_REVERT_FILE,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_BASE,
-	 .command = HG_CMD_REVERT_DIR,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_BASE,
+		HG_CMD_REVERT_DIR,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = HG_CMD_STATUS,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		HG_CMD_STATUS,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = HG_CMD_ADD,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		HG_CMD_ADD,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = HG_CMD_REMOVE,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		HG_CMD_REMOVE,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = HG_CMD_LOG_FILE,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		HG_CMD_LOG_FILE,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = HG_CMD_LOG_DIR,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		HG_CMD_LOG_DIR,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = HG_CMD_COMMIT,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		HG_CMD_COMMIT,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = HG_CMD_BLAME,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		HG_CMD_BLAME,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = HG_CMD_SHOW,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		HG_CMD_SHOW,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_BASE,
-	 .command = HG_CMD_UPDATE,
-	 .env = NULL,
-	 .function = NULL}
+		VC_COMMAND_STARTDIR_BASE,
+		HG_CMD_UPDATE,
+		NULL,
+		NULL}
 };
 
 static gchar *
@@ -117,7 +117,6 @@ get_base_dir(const gchar * path)
 static gboolean
 in_vc_hg(const gchar * filename)
 {
-	gint exit_code;
 	const gchar *argv[] = { "hg", "status", "-mac", NULL, NULL };
 	gchar *dir;
 	gchar *base_name;
@@ -134,8 +133,8 @@ in_vc_hg(const gchar * filename)
 	base_name = g_path_get_basename(filename);
 	argv[3] = base_name;
 
-	exit_code = execute_custom_command(dir, (const gchar **) argv, NULL, &std_output, NULL,
-					   dir, NULL, NULL);
+	execute_custom_command(dir, (const gchar **) argv, NULL, &std_output, NULL,
+			       dir, NULL, NULL);
 	if (NZV(std_output))
 	{
 		ret = TRUE;
@@ -236,9 +235,9 @@ get_commit_files_hg(const gchar * dir)
 }
 
 VC_RECORD VC_HG = {
-	.commands = commands,
-	.program = "hg",
-	.get_base_dir = get_base_dir,
-	.in_vc = in_vc_hg,
-	.get_commit_files = get_commit_files_hg,
+	commands,
+	"hg",
+	get_base_dir,
+	in_vc_hg,
+	get_commit_files_hg,
 };

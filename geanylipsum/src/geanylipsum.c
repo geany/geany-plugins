@@ -40,7 +40,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	_("GeanyLipsum"),
 	_("Creating dummy text with Geany"),
 	"0.4.3",
-	"Frank Lanitz <frank@frank.uvena.de>");
+	"Frank Lanitz <frank@frank.uvena.de>")
 
 static GtkWidget *main_menu_item = NULL;
 static gchar *lipsum = NULL;

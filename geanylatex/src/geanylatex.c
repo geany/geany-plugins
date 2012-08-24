@@ -40,7 +40,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	GETTEXT_PACKAGE,
 	_("GeanyLaTeX"),
 	_("Plugin to provide better LaTeX support"),
-	"0.7git",
+	"0.7",
 	"Frank Lanitz <frank@frank.uvena.de>")
 
 GeanyPlugin	 *geany_plugin;
@@ -160,7 +160,7 @@ static void add_wizard_to_generic_toolbar(void);
 static void remove_wizard_from_generic_toolbar(void);
 
 
-static GtkWidget *init_toolbar()
+static GtkWidget *init_toolbar(void)
 {
 	GtkWidget *toolbar = NULL;
 
@@ -392,7 +392,7 @@ check_for_menu(gint ft_id)
 }
 
 
-static void activate_toolbar_items()
+static void activate_toolbar_items(void)
 {
 	if (uim == NULL)
 	{
@@ -408,7 +408,7 @@ static void activate_toolbar_items()
 	gtk_ui_manager_ensure_update(uim);
 }
 
-static void deactivate_toolbar_items()
+static void deactivate_toolbar_items(void)
 {
 	if (uim == NULL)
 	{
@@ -1615,11 +1615,11 @@ on_wizard_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 				gchar* author_string = NULL;
 				if (documentclass_int == 3)
 				{
-					utils_string_replace_all(code, "{AUTHOR}", "\% \\signature{}\n");
+					utils_string_replace_all(code, "{AUTHOR}", "% \\signature{}\n");
 				}
 				else
 				{
-					utils_string_replace_all(code, "{AUTHOR}", "\% \\author{}\n");
+					utils_string_replace_all(code, "{AUTHOR}", "% \\author{}\n");
 				}
 				utils_string_replace_all(code, "{AUTHOR}", author_string);
 				if (author != NULL)
@@ -1639,7 +1639,7 @@ on_wizard_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 			}
 			else
 			{
-				utils_string_replace_all(code, "{DATE}", "\% \\date{}\n");
+				utils_string_replace_all(code, "{DATE}", "% \\date{}\n");
 				if (date != NULL)
 				{
 					g_free(date);
@@ -1666,11 +1666,11 @@ on_wizard_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 			{
 				if (documentclass_int == 3)
 				{
-					utils_string_replace_all(code, "{TITLE}", "\% \\subject{} \n");
+					utils_string_replace_all(code, "{TITLE}", "% \\subject{} \n");
 				}
 				else
 				{
-					utils_string_replace_all(code, "{TITLE}", "\% \\title{} \n");
+					utils_string_replace_all(code, "{TITLE}", "% \\title{} \n");
 				}
 				if (title != NULL)
 				{
@@ -1918,7 +1918,7 @@ glatex_wizard_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 	gtk_widget_show_all(dialog);
 }
 
-static void init_keybindings()
+static void init_keybindings(void)
 {
 	GeanyKeyGroup *key_group;
 
@@ -1982,7 +1982,7 @@ static void init_keybindings()
 }
 
 
-void plugin_help()
+void plugin_help(void)
 {
 	dialogs_show_msgbox(GTK_MESSAGE_INFO,
 		_("GeanyLaTeX is a plugin to improve support for LaTeX in Geany."
@@ -1991,7 +1991,7 @@ void plugin_help()
 }
 
 
-static void glatex_init_configuration()
+static void glatex_init_configuration(void)
 {
 	GKeyFile *config = g_key_file_new();
 
@@ -2063,7 +2063,7 @@ static void glatex_init_configuration()
 
 
 static void
-add_wizard_to_generic_toolbar()
+add_wizard_to_generic_toolbar(void)
 {
 	if (glatex_wizard_generic_toolbar_item == NULL)
 	{
@@ -2079,7 +2079,7 @@ add_wizard_to_generic_toolbar()
 
 
 static void
-remove_wizard_from_generic_toolbar()
+remove_wizard_from_generic_toolbar(void)
 {
 	if (glatex_wizard_generic_toolbar_item != NULL)
 	{
@@ -2090,7 +2090,7 @@ remove_wizard_from_generic_toolbar()
 
 
 static void
-add_menu_to_menubar()
+add_menu_to_menubar(void)
 {
 	GtkWidget *tmp = NULL;
 	gint i;
@@ -2293,7 +2293,7 @@ add_menu_to_menubar()
 }
 
 /* Removes the menubar menus from menubar if requested and available */
-static void remove_menu_from_menubar()
+static void remove_menu_from_menubar(void)
 {
 	if (menu_latex != NULL)
 	{
@@ -2309,7 +2309,7 @@ static void remove_menu_from_menubar()
 
 
 static void
-remove_menu_from_tools_menu()
+remove_menu_from_tools_menu(void)
 {
 	if (menu_latex_toolbar_wizard != NULL)
 	{
@@ -2320,7 +2320,7 @@ remove_menu_from_tools_menu()
 
 
 static void
-add_wizard_to_tools_menu()
+add_wizard_to_tools_menu(void)
 {
 	if (menu_latex_toolbar_wizard == NULL)
 	{
@@ -2383,7 +2383,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 }
 
 void
-plugin_cleanup()
+plugin_cleanup(void)
 {
 	if (glatex_toolbar != NULL)
 		gtk_widget_destroy(glatex_toolbar);

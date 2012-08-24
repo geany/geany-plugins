@@ -119,7 +119,7 @@ glatex_insert_string(const gchar *string, gboolean reset_position)
 }
 
 
-void glatex_replace_special_character()
+void glatex_replace_special_character(void)
 {
 	GeanyDocument *doc = NULL;
 	doc = document_get_current();

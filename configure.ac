@@ -1,6 +1,6 @@
 AC_PREREQ([2.61])
 dnl Don't forget when updating version number to do GP_CHECK_GEANY also
-AC_INIT([geany-plugins], [1.22])
+AC_INIT([geany-plugins], [1.23])
 AM_INIT_AUTOMAKE([1.8 foreign dist-bzip2 tar-ustar])
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
@@ -18,7 +18,7 @@ IT_PROG_INTLTOOL([0.35.0])
 GP_I18N
 
 dnl common checks
-GP_CHECK_GEANY(0.21)
+GP_CHECK_GEANY(1.23)
 GP_CHECK_UNITTESTS(0.9.4)
 GP_CHECK_CPPCHECK
 GP_CHECK_CFLAGS
@@ -26,6 +26,7 @@ GP_CHECK_CFLAGS
 dnl plugin checks
 GP_CHECK_ADDONS
 GP_CHECK_CODENAV
+GP_CHECK_COMMANDER
 GP_CHECK_DEBUGGER
 GP_CHECK_DEVHELP
 GP_CHECK_GEANYDOC

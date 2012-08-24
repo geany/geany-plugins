@@ -293,7 +293,7 @@ PluginCallback plugin_callbacks[] =
 };
 
 
-static void init_configuration()
+static void init_configuration(void)
 {
     GKeyFile *config = g_key_file_new();
 

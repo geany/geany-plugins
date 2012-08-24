@@ -44,7 +44,7 @@ enum
 	KB_COUNT
 };
 
-PLUGIN_KEY_GROUP(gproject, KB_COUNT);
+PLUGIN_KEY_GROUP(gproject, KB_COUNT)
 
 
 static GtkWidget *s_fif_item, *s_ff_item, *s_shs_item, *s_sep_item, *s_context_osf_item, *s_context_sep_item;
@@ -340,7 +340,7 @@ static void on_open_selected_file(GtkMenuItem *menuitem, gpointer user_data)
 }
 
 
-void gprj_menu_init()
+void gprj_menu_init(void)
 {
 	GtkWidget *image;
 
@@ -397,7 +397,7 @@ void gprj_menu_activate_menu_items(gboolean activate)
 }
 
 
-void gprj_menu_cleanup()
+void gprj_menu_cleanup(void)
 {
 	gtk_widget_destroy(s_fif_item);
 	gtk_widget_destroy(s_ff_item);

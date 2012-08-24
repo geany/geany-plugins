@@ -5,6 +5,8 @@ Geany-Plugins
 Installation
 ------------
 
+You can build the plugins using either autotools or waf. 
+
 Building with autotools
 ^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -36,13 +38,15 @@ automatically based on whether the dependency exists on your system.
 to fail with an error message if you have missing
 dependencies. --disable-<option> causes the feature to be forcefully disabled.
 
+Avaialble plugins are:
+
 * addons -- the Addons plugin
 * codenav -- the CodeNav plugin
 * debugger -- the Debugger plugin
 * devhelp -- the devhelp plugin
 * geanydoc -- the GeanyDoc plugin
 * geanyextrasel -- the GeanyExtraSel plugin
-* geanygdb -- the GeanyGDB plugin
+* geanygdb -- the GeanyGDB plugin (disabled by default)
 * geanygendoc -- the GeanyGenDoc plugin
 * geanyinsertnum -- the GeanyInsertNum plugin
 * geanylatex -- the GeanyLaTeX plugin
@@ -53,6 +57,7 @@ dependencies. --disable-<option> causes the feature to be forcefully disabled.
 * geanyprj -- the GeanyPrj plugin
 * geanysendmail -- the GeanySendmail plugin
 * geanyvc -- the GeanyVC plugin
+* geniuspaste -- the paste to a pastebin plugin
 * gproject -- the GProject plugin
 * gtkspell -- GeanyVC's spell-check support
 * pretty_printer -- the pretty-printer plugin

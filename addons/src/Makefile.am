@@ -1,10 +1,6 @@
 include $(top_srcdir)/build/vars.build.mk
 
-if ENABLE_ADDONS
 geanyplugins_LTLIBRARIES = addons.la
-else
-EXTRA_LTLIBRARIES = addons.la
-endif
 
 addons_la_SOURCES = \
 	addons.h \

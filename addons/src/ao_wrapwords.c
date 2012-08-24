@@ -155,6 +155,8 @@ void ao_enclose_words_init (gchar *config_file_name, GeanyKeyGroup *key_group)
 
 	}
 
+	g_key_file_free(config);
+
 	plugin_signal_connect(geany_plugin, G_OBJECT(geany->main_widgets->window), "key-press-event",
 			FALSE, G_CALLBACK(on_key_press), NULL);
 }

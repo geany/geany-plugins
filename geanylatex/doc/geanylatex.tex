@@ -92,7 +92,7 @@ It implements a couple of hopefully useful functions:
 
 \newpage
 \section{News \& ChangeLog}
-\subsection{Geany\LaTeX{} 0.7}
+\subsection{Geany\LaTeX{} 0.7 -- 2012-07-08}
 \begin{itemize}
 	\item Added a feature to lower selection before inserting
 		\texttt{\textbackslash{}textsc\{\}}
@@ -169,7 +169,7 @@ installed Geany from the sources, you should be ready to go. If you
 used a prepared package, e.g. from your distribution, you probably
 need to install an additional package, probably called geany-dev or
 geany-devel. Please note that in order to compile and use this
-plugin, you need Geany 0.20svn or later (Geany Plugin API v199 or
+plugin, you need Geany 0.21 or later (Geany Plugin API v199 or
 higher).
 
 Furthermore you need, of course, a C compiler and python installed.
@@ -190,12 +190,15 @@ Sources of this documentation are available throught
 usage of \texttt{pdflatex} (should be delivered with your favorite
 \LaTeX{} distribution) is recommended. For compiling into HTML format you
 might like to use \texttt{htlatex}. The HTML version of this documentation
-shipped with source tarball has been compiled with
+shipped with source tarball has been compiled with:
 
 \begin{lstlisting}[caption={Compiling of documentation}]
 htlatex geanylatex.tex xhtml -cvalidate -interaction=batchmode
 \end{lstlisting}
 
+\texttt{htlatex} most likely can be found in a package called \texttt{tex4ht}
+-- At least it's called like that on Debian based operating 
+systems. 
 
 \section{Usage}
 \begin{figure}[h!]

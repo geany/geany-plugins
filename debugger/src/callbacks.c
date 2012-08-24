@@ -31,6 +31,7 @@
 #endif
 #include <geanyplugin.h>
 
+#include "callbacks.h"
 #include "breakpoints.h"
 #include "debug.h"
 #include "keys.h"
@@ -48,7 +49,7 @@ extern GeanyFunctions *geany_functions;
 /*
  * 	Set breakpoint and stack markers for a file
  */
-void set_markers_for_file(const gchar* file)
+static void set_markers_for_file(const gchar* file)
 {
 	GList *breaks;
 	if ( (breaks = breaks_get_for_document(file)) )
@@ -116,7 +117,6 @@ void on_document_before_save(GObject *obj, GeanyDocument *doc, gpointer user_dat
 /*
  * 	Occures on saving document
  */
-void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data);
 void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
 	if (_unexisting_file)
@@ -187,13 +187,17 @@ gboolean on_editor_notify(
 	{
 		case SCN_MARGINCLICK:
 		{
+			char* file;
+			int line;
+			break_state bs;
+
 			if (!editor->document->real_path || 1 != nt->margin)
 				break;
 			
-			char* file = editor->document->file_name;
-			int line = sci_get_line_from_position(editor->sci, nt->position) + 1;
+			file = editor->document->file_name;
+			line = sci_get_line_from_position(editor->sci, nt->position) + 1;
 
-			break_state	bs = breaks_get_state(file, line);
+			bs = breaks_get_state(file, line);
 			if (BS_NOT_SET == bs)
 				breaks_add(file, line, NULL, TRUE, 0);
 			else if (BS_ENABLED == bs)
@@ -207,12 +211,13 @@ gboolean on_editor_notify(
 		}
 		case SCN_DWELLSTART:
 		{
+			GString *word;
+
 			if (DBS_STOPPED != debug_get_state ())
 				break;
 
 			/* get a word under the cursor */
-			GString *word = get_word_at_position(editor->sci, nt->position);
-
+			word = get_word_at_position(editor->sci, nt->position);
 			if (word->len)
 			{
 				gchar *calltip = debug_get_calltip_for_expression(word->str);

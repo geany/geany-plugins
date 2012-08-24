@@ -60,7 +60,7 @@ gint glatex_structure_rotate(gboolean direction, gint start)
 }
 
 
-void glatex_structure_lvlup()
+void glatex_structure_lvlup(void)
 {
 	gint i;
 	GeanyDocument *doc = NULL;
@@ -103,7 +103,7 @@ void glatex_structure_lvlup()
 		g_string_free(haystack, TRUE);
 }
 
-void glatex_structure_lvldown()
+void glatex_structure_lvldown(void)
 {
 	gint i;
 	GeanyDocument *doc = NULL;

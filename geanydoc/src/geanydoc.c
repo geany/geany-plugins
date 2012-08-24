@@ -48,7 +48,7 @@ static GtkWidget *keyb2;
 PLUGIN_VERSION_CHECK(128)
 /* All plugins must set name, description, version and author. */
 	PLUGIN_SET_INFO(_("Doc"), _("Call documentation viewer on current symbol."), VERSION,
-		"Yura Siamshka <yurand2@gmail.com>");
+		"Yura Siamshka <yurand2@gmail.com>")
 
 /* Keybinding(s) */
      enum
@@ -58,7 +58,7 @@ PLUGIN_VERSION_CHECK(128)
 	     KB_COUNT
      };
 
-PLUGIN_KEY_GROUP(doc_chars, KB_COUNT);
+PLUGIN_KEY_GROUP(doc_chars, KB_COUNT)
 
      GtkWidget *create_Interactive(void);
 
@@ -78,7 +78,7 @@ word_check_right(gchar c)
 }
 
 static gchar *
-current_word()
+current_word(void)
 {
 	gchar *txt;
 	GeanyDocument *doc;
@@ -171,7 +171,7 @@ show_output(const gchar * std_output, const gchar * name, const gchar * force_en
 	}
 }
 
-void
+static void
 show_doc(const gchar * word, gint cmd_num)
 {
 	GeanyDocument *doc;
@@ -325,7 +325,7 @@ create_Interactive(void)
 	return dialog;
 }
 
-GtkWidget *
+static GtkWidget *
 create_Configure(void)
 {
 	GtkWidget *Configure;

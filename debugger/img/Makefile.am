@@ -1,7 +1,8 @@
 include $(top_srcdir)/build/vars.docs.mk
 
 plugin = debugger
-FILES = \
+
+dist_plugindata_DATA = \
 	continue.png \
 	restart.gif \
 	run.gif \
@@ -11,11 +12,3 @@ FILES = \
 	step_over.gif \
 	stop.gif \
 	tabs.gif
-
-EXTRA_DIST = $(FILES)
-
-if ENABLE_DEBUGGER
-plugindata_DATA = $(FILES)
-else
-EXTRA_DATA = $(FILES)
-endif

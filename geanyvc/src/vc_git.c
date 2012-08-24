@@ -112,76 +112,75 @@ static const gchar *GIT_ENV_UPDATE[] = { "PAGER=cat", NULL };
 
 static const VC_COMMAND commands[VC_COMMAND_COUNT] = {
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = GIT_CMD_DIFF_FILE,
-	 .env = GIT_ENV_DIFF_FILE,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		GIT_CMD_DIFF_FILE,
+		GIT_ENV_DIFF_FILE,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = GIT_CMD_DIFF_DIR,
-	 .env = GIT_ENV_DIFF_DIR,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		GIT_CMD_DIFF_DIR,
+		GIT_ENV_DIFF_DIR,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = GIT_CMD_REVERT_FILE,
-	 .env = GIT_ENV_REVERT_FILE,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		GIT_CMD_REVERT_FILE,
+		GIT_ENV_REVERT_FILE,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_BASE,
-	 .command = GIT_CMD_REVERT_DIR,
-	 .env = GIT_ENV_REVERT_DIR,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_BASE,
+		GIT_CMD_REVERT_DIR,
+		GIT_ENV_REVERT_DIR,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = GIT_CMD_STATUS,
-	 .env = GIT_ENV_STATUS,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		GIT_CMD_STATUS,
+		GIT_ENV_STATUS,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = GIT_CMD_ADD,
-	 .env = GIT_ENV_ADD,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		GIT_CMD_ADD,
+		GIT_ENV_ADD,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = GIT_CMD_REMOVE,
-	 .env = GIT_ENV_REMOVE,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		GIT_CMD_REMOVE,
+		GIT_ENV_REMOVE,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = GIT_CMD_LOG_FILE,
-	 .env = GIT_ENV_LOG_FILE,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		GIT_CMD_LOG_FILE,
+		GIT_ENV_LOG_FILE,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = GIT_CMD_LOG_DIR,
-	 .env = GIT_ENV_LOG_DIR,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		GIT_CMD_LOG_DIR,
+		GIT_ENV_LOG_DIR,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = NULL,
-	 .env = NULL,
-	 .function = git_commit},
+		VC_COMMAND_STARTDIR_FILE,
+		NULL,
+		NULL,
+		git_commit},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = GIT_CMD_BLAME,
-	 .env = GIT_ENV_BLAME,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		GIT_CMD_BLAME,
+		GIT_ENV_BLAME,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = NULL,
-	 .env = GIT_ENV_SHOW,
-	 .function = git_show},
+		VC_COMMAND_STARTDIR_FILE,
+		NULL,
+		GIT_ENV_SHOW,
+		git_show},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_BASE,
-	 .command = GIT_CMD_UPDATE,
-	 .env = GIT_ENV_UPDATE,
-	 .function = NULL}
+		VC_COMMAND_STARTDIR_BASE,
+		GIT_CMD_UPDATE,
+		GIT_ENV_UPDATE,
+		NULL}
 };
 
 static gboolean
 in_vc_git(const gchar * filename)
 {
-	gint exit_code;
 	const gchar *argv[] = { "git", "ls-files", "--", NULL, NULL };
 	gchar *dir;
 	gchar *base_name;
@@ -198,8 +197,8 @@ in_vc_git(const gchar * filename)
 	base_name = g_path_get_basename(filename);
 	argv[3] = base_name;
 
-	exit_code = execute_custom_command(dir, (const gchar **) argv, NULL, &std_output, NULL,
-					   dir, NULL, NULL);
+	execute_custom_command(dir, (const gchar **) argv, NULL, &std_output, NULL,
+			       dir, NULL, NULL);
 	if (NZV(std_output))
 	{
 		ret = TRUE;
@@ -252,7 +251,6 @@ parse_git_status(GSList * lst, const gchar * base_dir, const gchar * txt, const 
 static GSList *
 get_commit_files_git(const gchar * file)
 {
-	gint exit_code;
 	const gchar *argv[] = { "git", "status", NULL };
 	const gchar *env[] = { "PAGES=cat", NULL };
 	gchar *std_out = NULL;
@@ -261,9 +259,8 @@ get_commit_files_git(const gchar * file)
 
 	g_return_val_if_fail(base_dir, NULL);
 
-	exit_code =
-		execute_custom_command(base_dir, (const gchar **) argv, (const gchar **) env,
-				       &std_out, NULL, base_dir, NULL, NULL);
+	execute_custom_command(base_dir, (const gchar **) argv, (const gchar **) env,
+			       &std_out, NULL, base_dir, NULL, NULL);
 	g_return_val_if_fail(std_out, NULL);
 
 	ret = parse_git_status(ret, base_dir, std_out, "modified:", FILE_STATUS_MODIFIED);
@@ -277,9 +274,9 @@ get_commit_files_git(const gchar * file)
 }
 
 VC_RECORD VC_GIT = {
-	.commands = commands,
-	.program = "git",
-	.get_base_dir = get_base_dir,
-	.in_vc = in_vc_git,
-	.get_commit_files = get_commit_files_git,
+	commands,
+	"git",
+	get_base_dir,
+	in_vc_git,
+	get_commit_files_git,
 };

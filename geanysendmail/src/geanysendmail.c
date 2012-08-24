@@ -184,7 +184,7 @@ static void add_stock_item(void)
 	GtkIconSet *icon_set;
 	GtkIconFactory *factory = gtk_icon_factory_new();
 	GtkIconTheme *theme = gtk_icon_theme_get_default();
-	GtkStockItem item = { GEANYSENDMAIL_STOCK_MAIL, _("Mail"), 0, 0, GETTEXT_PACKAGE };
+	GtkStockItem item = { GEANYSENDMAIL_STOCK_MAIL, N_("Mail"), 0, 0, GETTEXT_PACKAGE };
 
 	if (gtk_icon_theme_has_icon(theme, "mail-message-new"))
 	{
@@ -209,7 +209,7 @@ static void add_stock_item(void)
 }
 
 
-static void show_icon()
+static void show_icon(void)
 {
 	mailbutton = GTK_WIDGET(gtk_tool_button_new_from_stock(GEANYSENDMAIL_STOCK_MAIL));
 	plugin_add_toolbar_item(geany_plugin, GTK_TOOL_ITEM(mailbutton));
@@ -222,7 +222,7 @@ static void show_icon()
 	icon_in_toolbar = TRUE;
 }
 
-static void cleanup_icon()
+static void cleanup_icon(void)
 {
 	if (mailbutton != NULL)
 	{
@@ -313,12 +313,12 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	if (mailer != NULL)
 		gtk_entry_set_text(GTK_ENTRY(pref_widgets.entry), mailer);
 
-	label2 = gtk_label_new(_("Note: \n\t\%f will be replaced by your file."\
-		"\n\t\%r will be replaced by recipient's email address."\
-		"\n\t\%b will be replaced by basename of a file"\
+	label2 = gtk_label_new(_("Note: \n\t%f will be replaced by your file."\
+		"\n\t%r will be replaced by recipient's email address."\
+		"\n\t%b will be replaced by basename of a file"\
 		"\n\tExamples:"\
-		"\n\tsylpheed --attach \"\%f\" --compose \"\%r\""\
-		"\n\tmutt -s \"Sending \'\%b\'\" -a \"\%f\" \"\%r\""));
+		"\n\tsylpheed --attach \"%f\" --compose \"%r\""\
+		"\n\tmutt -s \"Sending \'%b\'\" -a \"%f\" \"%r\""));
 	gtk_label_set_selectable(GTK_LABEL(label2), TRUE);
 	gtk_widget_show(label2);
 	gtk_misc_set_alignment(GTK_MISC(label2), 0, 0.5);
@@ -393,7 +393,7 @@ void plugin_init(GeanyData G_GNUC_UNUSED *data)
 }
 
 
-void plugin_cleanup()
+void plugin_cleanup(void)
 {
 	gtk_widget_destroy(main_menu_item);
 	cleanup_icon();

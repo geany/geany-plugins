@@ -1,6 +1,7 @@
 include $(top_srcdir)/build/vars.docs.mk
 
-docfiles = \
+plugin = geanylatex
+dist_plugindoc_DATA = \
 	geanylatex2.html \
 	geanylatex3.html \
 	geanylatex4.html \
@@ -16,9 +17,3 @@ docfiles = \
 	img/latexwizard.png \
 	img/plugin_manager.png \
 	img/toolbar.png
-
-EXTRA_DIST = $(docfiles)
-
-if ENABLE_GEANYLATEX
-plugindoc_DATA = $(docfiles)
-endif

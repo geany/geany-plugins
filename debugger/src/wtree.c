@@ -26,6 +26,7 @@
 
 #include <gtk/gtk.h>
 
+#include "wtree.h"
 #include "watch_model.h"
 #include "vtree.h"
 #include "dconfig.h"
@@ -53,12 +54,14 @@ static GtkTreeStore *store = NULL;
 /*
  * add empty row
  */
-static void add_empty_row()
+static void add_empty_row(void)
 {
+	GtkTreeIter empty;
+	GtkTreePath *path;
+
 	if (empty_row)
 		gtk_tree_row_reference_free(empty_row);
 	
-	GtkTreeIter empty;
 	gtk_tree_store_prepend (store, &empty, NULL);
 	gtk_tree_store_set (store, &empty,
 		W_NAME, "",
@@ -73,7 +76,7 @@ static void add_empty_row()
 		-1);
 
 	/* save reference */
-	GtkTreePath *path = gtk_tree_model_get_path(GTK_TREE_MODEL(store), &empty);
+	path = gtk_tree_model_get_path(GTK_TREE_MODEL(store), &empty);
 	empty_row = gtk_tree_row_reference_new(GTK_TREE_MODEL(store), path);
 	gtk_tree_path_free(path);
 }
@@ -96,23 +99,20 @@ static void on_render_name(GtkTreeViewColumn *tree_column,
 /*
  * get iterator to an empty row
  */
-GtkTreeIter wtree_empty_row()
+void wtree_empty_row(GtkTreeIter *iter)
 {
-	GtkTreeIter empty;
-
 	GtkTreePath *path = gtk_tree_row_reference_get_path(empty_row);
+
 	gtk_tree_model_get_iter(gtk_tree_view_get_model(GTK_TREE_VIEW(tree)),
-		&empty,
+		iter,
 		path);
 	gtk_tree_path_free(path);
-	
-	return empty;
 }
 
 /*
  * get an empty row path
  */
-GtkTreePath* wtree_empty_path()
+GtkTreePath* wtree_empty_path(void)
 {
 	return gtk_tree_row_reference_get_path(empty_row);
 }
@@ -120,7 +120,7 @@ GtkTreePath* wtree_empty_path()
 /*
  * iterating function to collect all watches
  */
-gboolean watches_foreach_collect(GtkTreeModel *_model, 
+static gboolean watches_foreach_collect(GtkTreeModel *_model, 
 	GtkTreePath *path,
     GtkTreeIter *iter,
     gpointer data)
@@ -128,13 +128,14 @@ gboolean watches_foreach_collect(GtkTreeModel *_model,
 	if (gtk_tree_path_compare(path, wtree_empty_path()) &&  1 == gtk_tree_path_get_depth(path))
 	{
 		gchar *watch;
+		GList **watches = (GList**)data;
+
 		gtk_tree_model_get (
 			_model,
 			iter,
 			W_NAME, &watch,
 			-1);
 		
-		GList **watches = (GList**)data;
 		*watches = g_list_append(*watches, watch);
 	}
     
@@ -150,6 +151,8 @@ GtkWidget* wtree_init(watch_expanded_callback expanded,
 	watch_expression_changed changed,
 	watch_button_pressed buttonpressed)
 {
+	GtkTreeSelection *selection;
+
 	tree = vtree_create(on_render_name, changed);
 	model = gtk_tree_view_get_model(GTK_TREE_VIEW(tree));
 	store = GTK_TREE_STORE(model);
@@ -169,7 +172,7 @@ GtkWidget* wtree_init(watch_expanded_callback expanded,
 	add_empty_row();
 
 	/* set multiple selection */
-	GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
 	gtk_tree_selection_set_mode(selection, GTK_SELECTION_MULTIPLE);
 
 	return tree;
@@ -178,7 +181,7 @@ GtkWidget* wtree_init(watch_expanded_callback expanded,
 /*
  * get watches list
  */
-GList *wtree_get_watches()
+GList *wtree_get_watches(void)
 {
 	GList *watches = NULL;
 	gtk_tree_model_foreach(gtk_tree_view_get_model(GTK_TREE_VIEW(tree)), watches_foreach_collect, &watches);
@@ -189,7 +192,7 @@ GList *wtree_get_watches()
 /*
  * remove all watches from the tree view
  */
-void wtree_remove_all()
+void wtree_remove_all(void)
 {
 	gtk_tree_store_clear(store);
 	add_empty_row();
@@ -200,8 +203,9 @@ void wtree_remove_all()
  */
 void wtree_add_watch(gchar *watch)
 {
-	GtkTreeIter newvar;
-	GtkTreeIter empty = wtree_empty_row();
+	GtkTreeIter newvar, empty;
+
+	wtree_empty_row(&empty);
 	gtk_tree_store_insert_before(store, &newvar, NULL, &empty);
 
 	variable_set_name_only(store, &newvar, watch);

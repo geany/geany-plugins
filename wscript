@@ -60,7 +60,7 @@ from build.wafutils import (
 
 
 APPNAME = 'geany-plugins'
-VERSION = '1.22'
+VERSION = '1.23'
 LINGUAS_FILE = 'po/LINGUAS'
 
 top = '.'
@@ -81,13 +81,13 @@ def configure(conf):
     # common for all plugins
     check_cfg_cached(conf,
                    package='gtk+-2.0',
-                   atleast_version='2.12.0',
+                   atleast_version='2.16.0',
                    uselib_store='GTK',
                    mandatory=True,
                    args='--cflags --libs')
     check_cfg_cached(conf,
                    package='geany',
-                   atleast_version='0.21',
+                   atleast_version='1.23',
                    uselib_store='GEANY',
                    mandatory=True,
                    args='--cflags --libs')
@@ -176,6 +176,9 @@ def setup_configuration_env(conf):
     # common
     pkgdatadir = os.path.join(conf.env['GEANYPLUGINS_DATADIR'], 'geany-plugins')
     pkglibdir = os.path.join(conf.env['LIBDIR'], 'geany-plugins')
+    pkgincludedir = os.path.join(conf.env['G_PREFIX'], 'include')
+    add_to_env_and_define(conf, 'INCLUDEDIR', pkgincludedir, quote=True)
+    add_to_env_and_define(conf, 'DATAROOTDIR', conf.env['GEANYPLUGINS_DATADIR'], quote=True)
     add_to_env_and_define(conf, 'PKGDATADIR', pkgdatadir, quote=True)
     add_to_env_and_define(conf, 'PKGLIBDIR', pkglibdir, quote=True)
     add_to_env_and_define(conf, 'VERSION', VERSION, quote=True)

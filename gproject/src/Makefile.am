@@ -1,10 +1,7 @@
 include $(top_srcdir)/build/vars.build.mk
 
-if ENABLE_GPROJECT
 geanyplugins_LTLIBRARIES = gproject.la
-else
-EXTRA_LTLIBRARIES = gproject.la
-endif
+
 gproject_la_SOURCES = \
 	gproject-main.c \
 	gproject-project.h \

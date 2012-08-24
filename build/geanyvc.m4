@@ -13,12 +13,14 @@ AC_DEFUN([GP_CHECK_GEANYVC],
     elif [[ x"$enable_gtkspell" = "xyes" ]]; then
         PKG_CHECK_MODULES(GTKSPELL, [gtkspell-2.0])
     fi
+    if [[ x"$enable_gtkspell" = "xyes" ]]; then
+        AC_DEFINE(USE_GTKSPELL, 1, [GtkSpell support])
+    fi
 
     if [[ "$enable_gtkspell" = yes -a "$enable_geanyvc" = no ]]; then
        AC_MSG_WARN([GtkSpell support for GeanyVC enabled, but GeanyVC itself not enabled.])
     fi
 
-    AM_CONDITIONAL(USE_GTKSPELL, test $enable_gtkspell = yes)
     GP_STATUS_FEATURE_ADD([GeanyVC GtkSpell support], [$enable_gtkspell])
 
     AC_CONFIG_FILES([

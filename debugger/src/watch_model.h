@@ -19,6 +19,12 @@
  *      MA 02110-1301, USA.
  */
 
+#ifndef WATCH_MODEL_H
+#define WATCH_MODEL_H
+
+#include <glib.h>
+#include <gtk/gtk.h>
+
 /* tree view columns */
 enum
 {
@@ -49,3 +55,5 @@ void	change_watch(GtkTreeView *tree, GtkTreeIter *iter, gpointer var);
 void	free_variables_list(GList *vars);
 void	variable_set_name_only(GtkTreeStore *store, GtkTreeIter *iter, gchar *name);
 void	expand_stub(GtkTreeView *tree, GtkTreeIter *parent, GList *vars);
+
+#endif /* guard */

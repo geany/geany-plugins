@@ -120,7 +120,7 @@ static void update_doc( ScintillaObject *sci, gchar * contents )
 /**
  * \brief the function deletes the tempory files
  */
-static void delete_tmp_files()
+static void delete_tmp_files(void)
 {
     if( g_file_test( gms_get_in_filename(gms_hnd),G_FILE_TEST_EXISTS) == TRUE )
         g_unlink( gms_get_in_filename(gms_hnd) ) ;
@@ -149,7 +149,7 @@ static gint run_filter( ScintillaObject *sci )
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_ERROR,
                         GTK_BUTTONS_CLOSE,
-                        result,NULL);
+                        "%s", result);
 
         gtk_dialog_run(GTK_DIALOG(dlg));
         gtk_widget_destroy(GTK_WIDGET(dlg)) ;
@@ -219,7 +219,7 @@ static void item_activate(GtkMenuItem *menuitem, gpointer gdata)
                     select_entirely_doc(  sci  ) ;
                     create_selection_2_input_file(sci) ;
                     if ( run_filter( sci ) )
-						break ; // if error then stop the loop
+						break ; /* if error then stop the loop */
                 }
             }
             delete_tmp_files() ;

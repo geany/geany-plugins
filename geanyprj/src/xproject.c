@@ -30,9 +30,6 @@
 
 #include "geanyprj.h"
 
-extern GeanyData *geany_data;
-extern GeanyFunctions *geany_functions;
-
 
 struct GeanyPrj *g_current_project = NULL;
 static GPtrArray *g_projects = NULL;
@@ -176,14 +173,14 @@ gboolean xproject_remove_file(const gchar *path)
 }
 
 
-void xproject_init()
+void xproject_init(void)
 {
 	g_projects = g_ptr_array_sized_new(10);
 	g_current_project = NULL;
 }
 
 
-void xproject_cleanup()
+void xproject_cleanup(void)
 {
 	guint i;
 	for (i = 0; i < g_projects->len; i++)

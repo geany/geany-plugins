@@ -27,9 +27,9 @@
 
 /* from config.c */
 
-void config_init();
-void config_uninit();
-GKeyFile *config_clone();
+void config_init(void);
+void config_uninit(void);
+GKeyFile *config_clone(void);
 void config_set(GKeyFile * cfg);
 gchar *config_get_command(const gchar * lang, gint cmd_num, gboolean * intern);
 

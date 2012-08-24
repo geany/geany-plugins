@@ -30,20 +30,20 @@
 #include <string.h>
 
 
-static void init();
-static void finalize();
+static void init(void);
+static void finalize(void);
 static gboolean test(gint ordinal, const gchar *input, const gchar *completion_needed);
-static void fill_completions();
-static gboolean run_tests();
+static void fill_completions(void);
+static gboolean run_tests(void);
 
 
-static void init()
+static void init(void)
 {
   test_stubs_init();
   fill_completions();
 }
 
-static void finalize()
+static void finalize(void)
 {
   test_stubs_finalize();
 }
@@ -97,7 +97,7 @@ static gboolean test(gint ordinal, const gchar *input, const gchar *completion_n
 }
 
 
-static void fill_completions()
+static void fill_completions(void)
 {
   g_hash_table_insert(completions, "ai", "<a><img/></a>");
   g_hash_table_insert(completions, "empty", "");
@@ -112,7 +112,7 @@ static void fill_completions()
   g_hash_table_insert(completions, "cursor", "<cursor%cursor%>");
 }
 
-static gboolean run_tests()
+static gboolean run_tests(void)
 {
 	gboolean success = TRUE;
 

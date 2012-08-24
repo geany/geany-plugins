@@ -16,17 +16,8 @@ Geany 0.19 or later and the respective headers and development libraries.
 
 Installation
 ------------
-Compiling and installing the code is done by the following three
-commands:
-
-$ ./waf configure
-$ ./waf build
-$ ./waf install
-
-For more configuration details run
-$ ./waf --help
-
-If there are any errors during compilation, check your build environment.
+This plugin is part of the geany-plugins project.
+See the README file of that package.
 
 
 Usage

@@ -467,7 +467,7 @@ static gint glspi_copy(lua_State* L)
 			if (!lua_isstring(L,1)) {return FAIL_STRING_ARG(1);}
 			content=lua_tostring(L,1);
 			len=strlen(content);
-			if (len) { scintilla_send_message(doc->editor->sci,SCI_COPYTEXT,len,(gint)content); }
+			if (len) { scintilla_send_message(doc->editor->sci,SCI_COPYTEXT,len,(glong)content); }
 			push_number(L, len);
 			return 1;
 		default:
@@ -561,7 +561,8 @@ static void glspi_init_sci_cmd_hash(void)
 	sci_cmd_hash=g_hash_table_new(g_str_hash,g_str_equal);
 	for (i=0; sci_cmd_hash_entries[i].name; i++) {
 		g_hash_table_insert(
-			sci_cmd_hash,sci_cmd_hash_entries[i].name,&sci_cmd_hash_entries[i]);
+			sci_cmd_hash,
+			(gpointer) sci_cmd_hash_entries[i].name,&sci_cmd_hash_entries[i]);
 	}
 }
 
@@ -596,7 +597,7 @@ static SciCmdHashEntry* lookup_cmd_id(gint cmd)
 
 
 
-static gint glspi_fail_not_implemented(lua_State* L, const gchar*funcname, gchar*cmdname)
+static gint glspi_fail_not_implemented(lua_State* L, const gchar*funcname, const gchar*cmdname)
 {
 	lua_pushfstring(
 		L, _( "Error in module \"%s\" at function %s():\n"
@@ -607,7 +608,7 @@ static gint glspi_fail_not_implemented(lua_State* L, const gchar*funcname, gchar
 }
 
 
-static gint glspi_fail_arg_count(lua_State* L, const gchar*funcname, gchar*cmdname)
+static gint glspi_fail_arg_count(lua_State* L, const gchar*funcname, const gchar*cmdname)
 {
 	lua_pushfstring(
 		L, _( "Error in module \"%s\" at function %s():\n"
@@ -625,8 +626,8 @@ static gint glspi_fail_arg_count(lua_State* L, const gchar*funcname, gchar*cmdna
 
 static gint glspi_scintilla(lua_State* L)
 {
-	gint wparam=0;
-	gint lparam=0;
+	uptr_t wparam=0;
+	sptr_t lparam=0;
 	SciCmdHashEntry*he=NULL;
 	gint argc=lua_gettop(L);
 	gchar*resultbuf=NULL;
@@ -672,7 +673,7 @@ static gint glspi_scintilla(lua_State* L)
 			break;
 		case SLT_STRING:
 			if (!lua_isstring(L,2)) {return FAIL_STRING_ARG(2); };
-			wparam=GPOINTER_TO_INT(lua_tostring(L,2));
+			wparam=(uptr_t)lua_tostring(L,2);
 		break;
 		case SLT_CELLS: return FAIL_API;
 		case SLT_BOOL:
@@ -695,7 +696,7 @@ static gint glspi_scintilla(lua_State* L)
 		break;
 		case SLT_STRING:
 			if (!lua_isstring(L,3)) {return FAIL_STRING_ARG(2); };
-			lparam=GPOINTER_TO_INT(lua_tostring(L,3));
+			lparam=(sptr_t)lua_tostring(L,3);
 		break;
 		case SLT_CELLS: return FAIL_API;
 		case SLT_BOOL:
@@ -720,7 +721,7 @@ static gint glspi_scintilla(lua_State* L)
 			bufsize=scintilla_send_message(doc->editor->sci, he->msgid, wparam, 0);
 			if (bufsize) {
 				resultbuf=g_malloc0((guint)(bufsize+1));
-				lparam=GPOINTER_TO_INT(resultbuf);
+				lparam=(sptr_t)resultbuf;
 			} else {
 				lua_pushnil(L);
 				return 1;
@@ -801,7 +802,7 @@ static gint glspi_find(lua_State* L)
 		lua_pop(L, 1);
 	}
 
-	if (scintilla_send_message(doc->editor->sci,SCI_FINDTEXT,flags,GPOINTER_TO_INT(&ttf))!=-1) {
+	if (scintilla_send_message(doc->editor->sci,SCI_FINDTEXT,flags,(sptr_t)&ttf)!=-1) {
 		push_number(L,ttf.chrgText.cpMin);
 		push_number(L,ttf.chrgText.cpMax);
 		g_free(ttf.lpstrText);

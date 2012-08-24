@@ -18,6 +18,9 @@ codenav/src/goto_file.c
 codenav/src/switch_head_impl.c
 codenav/src/utils.c
 
+# commander
+commander/src/commander-plugin.c
+
 # debugger
 debugger/src/plugin.c
 debugger/src/vtree.c

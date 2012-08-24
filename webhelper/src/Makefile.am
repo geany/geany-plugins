@@ -1,11 +1,7 @@
 include $(top_srcdir)/build/vars.build.mk
 plugin = webhelper
 
-if ENABLE_WEBHELPER
 geanyplugins_LTLIBRARIES = webhelper.la
-else
-EXTRA_LTLIBRARIES = webhelper.la
-endif
 
 
 GLIB_MKENUMS = @GLIB_MKENUMS@

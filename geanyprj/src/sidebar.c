@@ -29,8 +29,6 @@
 
 #include "geanyprj.h"
 
-extern GeanyData *geany_data;
-extern GeanyFunctions *geany_functions;
 
 static GtkWidget *file_view_vbox;
 static GtkWidget *file_view;
@@ -113,7 +111,7 @@ static gboolean on_button_press(G_GNUC_UNUSED GtkWidget *widget, GdkEventButton 
 }
 
 
-static GtkWidget *make_toolbar()
+static GtkWidget *make_toolbar(void)
 {
 	GtkWidget *toolbar;
 
@@ -163,7 +161,7 @@ static gboolean on_key_press(G_GNUC_UNUSED GtkWidget *widget, GdkEventKey *event
 }
 
 
-static GtkWidget *create_popup_menu()
+static GtkWidget *create_popup_menu(void)
 {
 	GtkWidget *item, *menu, *image;
 
@@ -257,6 +255,8 @@ static void update_popup_menu(G_GNUC_UNUSED GtkWidget *popup_menu)
 	gboolean cur_file_exists;
 	gboolean badd_file;
 	GeanyDocument *doc;
+	GtkTreeSelection *treesel;
+	gboolean bremove_file;
 
 	doc = document_get_current();
 
@@ -266,8 +266,8 @@ static void update_popup_menu(G_GNUC_UNUSED GtkWidget *popup_menu)
 		!g_current_project->regenerate &&
 		cur_file_exists && !g_hash_table_lookup(g_current_project->tags, doc->file_name);
 
-	GtkTreeSelection *treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(file_view));
-	gboolean bremove_file = (g_current_project ? TRUE : FALSE) &&
+	treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(file_view));
+	bremove_file = (g_current_project ? TRUE : FALSE) &&
 		!g_current_project->regenerate &&
 		(gtk_tree_selection_count_selected_rows(treesel) > 0);
 
@@ -303,7 +303,7 @@ static gboolean on_button_release(G_GNUC_UNUSED GtkWidget *widget, GdkEventButto
 }
 
 
-static void prepare_file_view()
+static void prepare_file_view(void)
 {
 	GtkCellRenderer *text_renderer;
 	GtkTreeViewColumn *column;
@@ -342,13 +342,13 @@ static void prepare_file_view()
 }
 
 
-void sidebar_clear()
+static void sidebar_clear(void)
 {
 	gtk_list_store_clear(file_store);
 }
 
 
-gint mycmp(const gchar *a, const gchar *b)
+static gint mycmp(const gchar *a, const gchar *b)
 {
 	const gchar *p1 = a;
 	const gchar *p2 = b;
@@ -408,7 +408,7 @@ static void add_item(gpointer name, G_GNUC_UNUSED gpointer value, gpointer user_
 
 
 /* recreate the tree model from current_dir */
-void sidebar_refresh()
+void sidebar_refresh(void)
 {
 	GtkTreeIter iter;
 	GSList *lst = NULL;
@@ -434,7 +434,7 @@ void sidebar_refresh()
 }
 
 
-void create_sidebar()
+void create_sidebar(void)
 {
 	GtkWidget *scrollwin, *toolbar;
 
@@ -457,7 +457,7 @@ void create_sidebar()
 }
 
 
-void destroy_sidebar()
+void destroy_sidebar(void)
 {
 	if (file_view_vbox)
 		gtk_widget_destroy(file_view_vbox);

@@ -51,7 +51,7 @@ enum
 
 struct GeanyPrj
 {
-	gchar *path;		///< path to disk file
+	gchar *path;		/**< path to disk file */
 
 	gchar *name;
 	gchar *description;
@@ -61,13 +61,14 @@ struct GeanyPrj
 	gboolean regenerate;
 	gint type;
 
-	GHashTable *tags;	///< project tags
+	GHashTable *tags;	/**< project tags */
 };
 
+extern GeanyData *geany_data;
 extern GeanyFunctions *geany_functions;
 
 extern const gchar *project_type_string[NEW_PROJECT_TYPE_SIZE];
-extern void *project_type_filter[NEW_PROJECT_TYPE_SIZE];
+extern gboolean (*project_type_filter[NEW_PROJECT_TYPE_SIZE]) (const gchar *);
 
 
 /* project.c */

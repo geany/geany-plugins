@@ -158,7 +158,7 @@ END_TEST;
 
 
 TCase *
-utils_test_case_create()
+utils_test_case_create(void)
 {
 	TCase *tc_utils = tcase_create("utils");
 	tcase_add_test(tc_utils, test_get_relative_path);

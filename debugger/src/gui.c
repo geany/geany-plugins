@@ -25,6 +25,8 @@
 
 #include <gtk/gtk.h>
 
+#include "gui.h"
+
 /*
  * 	creates a button with an icon from file and a tooltip 
  */

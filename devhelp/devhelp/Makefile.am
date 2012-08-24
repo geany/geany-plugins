@@ -1,6 +1,4 @@
-if ENABLE_DEVHELP
 noinst_LTLIBRARIES = libdevhelp-2.la
-endif
 
 dh_headers = \
 	dh-assistant.h \

@@ -56,7 +56,7 @@ static GKeyFile *config = NULL;
 static gchar *config_file = NULL;
 
 void
-config_init()
+config_init(void)
 {
 	config_file = g_build_filename(geany->app->configdir, "plugins", "geanydoc", NULL);
 	utils_mkdir(config_file, TRUE);
@@ -72,7 +72,7 @@ config_init()
 }
 
 void
-config_uninit()
+config_uninit(void)
 {
 	g_free(config_file);
 	config_file = NULL;
@@ -81,7 +81,7 @@ config_uninit()
 }
 
 GKeyFile *
-config_clone()
+config_clone(void)
 {
 	GKeyFile *ret;
 	gchar *txt = g_key_file_to_data(config, NULL, NULL);

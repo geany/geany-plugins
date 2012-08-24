@@ -56,7 +56,7 @@ GeanyFunctions  *geany_functions;
 PLUGIN_VERSION_CHECK(147)
 
 PLUGIN_SET_INFO("Numbered Bookmarks",_("Numbered Bookmarks for Geany"),
-                "1.0","William Fraser <william.fraser@virgin.net>");
+                "1.0","William Fraser <william.fraser@virgin.net>")
 
 /* Plugin user alterable settings */
 static gboolean bCenterWhenGotoBookmark=TRUE;
@@ -1369,7 +1369,7 @@ static void SetBookMark(gint iBookMark)
 {
 	gint iNewLine,iOldLine,iPosInLine,m;
 	ScintillaObject* sci=document_get_current()->editor->sci;
-	FileData *fd=GetFileData(document_get_current()->file_name);;
+	FileData *fd=GetFileData(document_get_current()->file_name);
 	GtkWidget *dialog;
 
 	/* see if already such a bookmark present */

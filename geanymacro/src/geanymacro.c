@@ -64,7 +64,7 @@ const MacroDetailEntry MacroDetails[]={
 {SCI_DELWORDLEFT,N_("Delete up to start of word to the Left")},
 {SCI_DELWORDRIGHT,N_("Delete up to start of word to the Right")},
 {SCI_DELWORDRIGHTEND,N_("Delete up to end of word to the Right")},
-{SCI_DELLINELEFT,N_("Delete to begining of line")},
+{SCI_DELLINELEFT,N_("Delete to beginning of line")},
 {SCI_DELLINERIGHT,N_("Delete to end of line")},
 {SCI_LINEDELETE,N_("Delete current line")},
 {SCI_BACKTAB,N_("Backwards Tab (deletes tab if nothing after it)")},
@@ -88,11 +88,11 @@ const MacroDetailEntry MacroDetails[]={
 {SCI_DOCUMENTEND,N_("Move Cursor to last line of document")},
 {SCI_PAGEUP,N_("Move Cursor up one Page")},
 {SCI_PAGEDOWN,N_("Move Cursor down one Page")},
-{SCI_HOMEDISPLAY,N_("Move Cursor to fist visible character")},
+{SCI_HOMEDISPLAY,N_("Move Cursor to first visible character")},
 {SCI_LINEENDDISPLAY,N_("Move Cursor to last visible character")},
 {SCI_VCHOME,N_("Move Cursor to 1st non-whitespace character of line, or 1st character of line if\
  already at 1st non-whitespace character")},
-{SCI_PARADOWN,N_("Move Cursor to begining of next paragraph")},
+{SCI_PARADOWN,N_("Move Cursor to beginning of next paragraph")},
 {SCI_PARAUP,N_("Move Cursor up to beginning of current/previous paragraph")},
 {SCI_WORDLEFTEND,N_("Move Cursor to end of Word to the Left")},
 {SCI_WORDRIGHTEND,N_("Move Cursor to end of Word to the Right")},
@@ -115,7 +115,7 @@ const MacroDetailEntry MacroDetails[]={
 {SCI_LINEENDDISPLAYEXTEND,N_("Extend Selection to last visible character")},
 {SCI_VCHOMEEXTEND,N_("Extend Selection to 1st non-whitespace character of line, or 1st character of\
  line if already at 1st non-whitespace character")},
-{SCI_PARADOWNEXTEND,N_("Extend Selection to begining of next paragraph")},
+{SCI_PARADOWNEXTEND,N_("Extend Selection to beginning of next paragraph")},
 {SCI_PARAUPEXTEND,N_("Extend Selection up to beginning of current/previous paragraph")},
 {SCI_WORDLEFTENDEXTEND,N_("Extend Selection to end of Word to the Left")},
 {SCI_WORDRIGHTENDEXTEND,N_("Extend Selection to end of Word to the Right")},
@@ -179,7 +179,7 @@ GeanyFunctions  *geany_functions;
 PLUGIN_VERSION_CHECK(147)
 
 PLUGIN_SET_INFO(_("Macros"),_("Macros for Geany"),
-                "1.1","William Fraser <william.fraser@virgin.net>");
+                "1.1","William Fraser <william.fraser@virgin.net>")
 
 /* Plugin user alterable settings */
 static gboolean bSaveMacros=TRUE;
@@ -511,7 +511,7 @@ static gchar *MacroEventToString(MacroEvent *me)
 
 
 /* Is there a document open in the editor */
-static gboolean DocumentPresent()
+static gboolean DocumentPresent(void)
 {
   return (document_get_current()!=NULL);
 }
@@ -1176,7 +1176,7 @@ static gboolean InitializeMacroRecord(void)
 
 
 /* function to start the macro recording process */
-static void StartRecordingMacro()
+static void StartRecordingMacro(void)
 {
 	/* start recording process, but quit if error, or user cancels */
 	if(!InitializeMacroRecord())
@@ -1190,7 +1190,7 @@ static void StartRecordingMacro()
 
 
 /* function to finish recording a macro */
-static void StopRecordingMacro()
+static void StopRecordingMacro(void)
 {
 	scintilla_send_message(document_get_current()->editor->sci,SCI_STOPRECORD,0,0);
 	/* Recorded in reverse as more efficient */
@@ -1802,7 +1802,7 @@ static void EditMacroElements(Macro *m)
 
 	/* add table to dialog */
 	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox),table);
-//	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox),table,FALSE,FALSE,2);
+/*	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox),table,FALSE,FALSE,2);*/
 	gtk_widget_show(table);
 
 	/* add buttons */
@@ -1929,7 +1929,7 @@ static void EditMacroElements(Macro *m)
 
 			}
 
-		} //end of commands that require line to be selected
+		} /* end of commands that require line to be selected */
 		/* if no elements to insert above or below,just insert new element */
 		else if((i==GEANY_MACRO_BUTTON_ABOVE || i==GEANY_MACRO_BUTTON_BELOW) &&
 		        gtk_tree_model_iter_n_children(GTK_TREE_MODEL(ls),NULL)==0)

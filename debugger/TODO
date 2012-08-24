@@ -1,4 +1,7 @@
 BUGS:
+- panel buttons status change only after loading target file
+- markers dissapear after refreshing a file (in other encoding for example) 
+- markers are not restored aftre refresh as CODEPAGE action
 
 FEATURES:
 
@@ -13,6 +16,7 @@ FEATURES:
 - margin context menu
 - editor context menu (add watch, add/remove breakpoint)
 
+- refresh tooltip when stopping after step/run is tooltip is active
 - font from the geany settings for a message window
 - use left/right keys to collapse/expand in breakpoints tree
 - use lexer to lookup for a symbol under cursor when presenting a tooltip

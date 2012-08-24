@@ -3,18 +3,14 @@ include $(top_srcdir)/build/vars.docs.mk
 
 plugin = multiterm
 
-if ENABLE_MULTITERM
 geanyplugins_LTLIBRARIES = multiterm.la
-else
-EXTRA_LTLIBRARIES = multiterm.la
-endif
 
-VALAFLAGS = \
+multiterm_la_VALAFLAGS = \
 	--vapidir $(top_srcdir)/multiterm/src/vapi \
 	--pkg gtk+-2.0 \
 	--pkg geany \
 	--pkg vte \
-	--header=multiterm.h \
+	--header multiterm.h \
 	--use-header
 
 multiterm_la_SOURCES = \
@@ -33,5 +29,3 @@ multiterm_la_CFLAGS = \
 
 multiterm_la_LIBADD = \
 	$(MULTITERM_LIBS)
-
-EXTRA_DIST = multiterm.h

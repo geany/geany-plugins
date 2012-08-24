@@ -19,8 +19,6 @@
 #define DIALOG_FLAGS GTK_DIALOG_DESTROY_WITH_PARENT|GTK_DIALOG_MODAL
 
 
-typedef void (*GsDlgRunHook) (gboolean running, gpointer user_data);
-
 static GsDlgRunHook glspi_pause_timer = NULL;
 
 
@@ -116,7 +114,7 @@ static gint glspi_choose(lua_State* L)
 	const gchar *arg1=NULL;
 	gint i, n;
 	GtkResponseType rv;
-	GtkWidget*dialog, *ok_btn, *cancel_btn, *tree, *scroll;
+	GtkWidget*dialog, *ok_btn, *tree, *scroll;
 	GtkListStore *store;
 	GtkTreeIter iter;
 	GtkTreeSelection *select;
@@ -148,7 +146,7 @@ static gint glspi_choose(lua_State* L)
 	dialog = new_dlg(GTK_MESSAGE_OTHER, GTK_BUTTONS_NONE, arg1, NULL);
 	ok_btn=gtk_dialog_add_button(GTK_DIALOG(dialog),
 			GTK_STOCK_OK, GTK_RESPONSE_OK);
-	cancel_btn=gtk_dialog_add_button(GTK_DIALOG(dialog),
+	gtk_dialog_add_button(GTK_DIALOG(dialog),
 			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 	gtk_widget_grab_default(ok_btn);
 	set_dialog_title(L,dialog);
@@ -271,7 +269,7 @@ static gint glspi_input(lua_State* L)
 	const gchar *arg1=NULL;
 	const gchar *arg2=NULL;
 	GtkResponseType rv;
-	GtkWidget*dialog, *entry, *ok_btn, *cancel_btn;
+	GtkWidget*dialog, *entry, *ok_btn;
 
 	switch (lua_gettop(L)) {
 		case 0: break;
@@ -291,7 +289,7 @@ static gint glspi_input(lua_State* L)
 	dialog = new_dlg(GTK_MESSAGE_OTHER, GTK_BUTTONS_NONE, arg1, NULL);
 	ok_btn=gtk_dialog_add_button(GTK_DIALOG(dialog),
 			GTK_STOCK_OK, GTK_RESPONSE_OK);
-	cancel_btn=gtk_dialog_add_button(GTK_DIALOG(dialog),
+	gtk_dialog_add_button(GTK_DIALOG(dialog),
 			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 	gtk_widget_grab_default(ok_btn);
 	entry=gtk_entry_new();

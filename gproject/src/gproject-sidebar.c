@@ -319,7 +319,7 @@ static void on_reload_project(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED
 }
 
 
-static void on_open_clicked()
+static void on_open_clicked(void)
 {
 	GtkTreeSelection *treesel;
 	GtkTreeModel *model;
@@ -351,7 +351,7 @@ static void on_open_clicked()
 			
 			if (!icon)
 			{
-				// help string doesn't have icon
+				/* help string doesn't have icon */
 				return;
 			}
 
@@ -524,7 +524,7 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 }
 
 
-static void load_project()
+static void load_project(void)
 {
 	GSList *lst = NULL;
 	GSList *path_list = NULL;
@@ -606,7 +606,7 @@ static gboolean find_in_tree(GtkTreeIter *parent, gchar **path_split, gint level
 }
 
 
-static void follow_editor()
+static void follow_editor(void)
 {
 	GtkTreeIter found_iter;
 	gchar *path;
@@ -650,7 +650,7 @@ void gprj_sidebar_update(gboolean reload)
 }
 
 
-void gprj_sidebar_find_file_in_active()
+void gprj_sidebar_find_file_in_active(void)
 {
 	find_file(NULL);
 }
@@ -659,8 +659,6 @@ void gprj_sidebar_find_file_in_active()
 static gboolean on_button_release(G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event,
 		  G_GNUC_UNUSED gpointer user_data)
 {
-//	GeanyDocument *doc;
-
 	if (event->button == 3)
 	{
 		GtkTreeSelection *treesel;
@@ -679,15 +677,11 @@ static gboolean on_button_release(G_GNUC_UNUSED GtkWidget * widget, GdkEventButt
 						event->button, event->time);
 	}
 
-//	doc = document_get_current();
-//	if (doc)
-//		gtk_widget_grab_focus(GTK_WIDGET(doc->editor->sci));
-
 	return FALSE;
 }
 
 
-void gprj_sidebar_init()
+void gprj_sidebar_init(void)
 {
 	GtkWidget *scrollwin, *toolbar, *item, *image;
 	GtkCellRenderer *renderer;
@@ -697,7 +691,7 @@ void gprj_sidebar_init()
 
 	s_file_view_vbox = gtk_vbox_new(FALSE, 0);
 
-	// *** toolbar ***
+	/**** toolbar ****/
 
 	toolbar = gtk_toolbar_new();
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar), GTK_ICON_SIZE_MENU);
@@ -735,7 +729,7 @@ void gprj_sidebar_init()
 
 	gtk_box_pack_start(GTK_BOX(s_file_view_vbox), toolbar, FALSE, FALSE, 0);
 
-	// *** tree view ***
+	/**** tree view ****/
 
 	s_file_view = gtk_tree_view_new();
 
@@ -771,7 +765,7 @@ void gprj_sidebar_init()
 	g_signal_connect(G_OBJECT(s_file_view), "key-press-event",
 			G_CALLBACK(on_key_press), NULL);
 
-	// *** popup menu ***
+	/**** popup menu ****/
 
 	s_popup_menu.widget = gtk_menu_new();
 
@@ -815,7 +809,7 @@ void gprj_sidebar_init()
 				 G_CALLBACK(keybindings_send_command),
 				 GINT_TO_POINTER(GEANY_KEYS_VIEW_SIDEBAR));
 
-	// *** the rest ***
+	/**** the rest ****/
 
 	scrollwin = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin),
@@ -835,7 +829,7 @@ void gprj_sidebar_activate(gboolean activate)
 }
 
 
-void gprj_sidebar_cleanup()
+void gprj_sidebar_cleanup(void)
 {
 	gtk_widget_destroy(s_file_view_vbox);
 }

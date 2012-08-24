@@ -1,6 +1,6 @@
 AC_DEFUN([GP_CHECK_GEANYGDB],
 [
-    GP_ARG_DISABLE([GeanyGDB], [yes])
+    GP_ARG_DISABLE([GeanyGDB], [no])
     GP_STATUS_PLUGIN_ADD([GeanyGDB], [$enable_geanygdb])
     AC_CHECK_HEADERS([elf.h])
     AC_CHECK_HEADERS([elf_abi.h])

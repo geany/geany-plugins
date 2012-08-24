@@ -42,70 +42,70 @@ static const gchar *BZR_CMD_UPDATE[] = { "bzr", "pull", NULL };
 
 static const VC_COMMAND commands[] = {
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = BZR_CMD_DIFF_FILE,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		BZR_CMD_DIFF_FILE,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = BZR_CMD_DIFF_DIR,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		BZR_CMD_DIFF_DIR,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = BZR_CMD_REVERT_FILE,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		BZR_CMD_REVERT_FILE,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_BASE,
-	 .command = BZR_CMD_REVERT_DIR,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_BASE,
+		BZR_CMD_REVERT_DIR,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = BZR_CMD_STATUS,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		BZR_CMD_STATUS,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = BZR_CMD_ADD,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		BZR_CMD_ADD,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = BZR_CMD_REMOVE,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		BZR_CMD_REMOVE,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = BZR_CMD_LOG_FILE,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		BZR_CMD_LOG_FILE,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = BZR_CMD_LOG_DIR,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		BZR_CMD_LOG_DIR,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = BZR_CMD_COMMIT,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		BZR_CMD_COMMIT,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = BZR_CMD_BLAME,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		BZR_CMD_BLAME,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_FILE,
-	 .command = BZR_CMD_SHOW,
-	 .env = NULL,
-	 .function = NULL},
+		VC_COMMAND_STARTDIR_FILE,
+		BZR_CMD_SHOW,
+		NULL,
+		NULL},
 	{
-	 .startdir = VC_COMMAND_STARTDIR_BASE,
-	 .command = BZR_CMD_UPDATE,
-	 .env = NULL,
-	 .function = NULL}
+		VC_COMMAND_STARTDIR_BASE,
+		BZR_CMD_UPDATE,
+		NULL,
+		NULL}
 };
 
 
@@ -118,7 +118,6 @@ get_base_dir(const gchar * path)
 static gboolean
 in_vc_bzr(const gchar * filename)
 {
-	gint exit_code;
 	const gchar *argv[] = { "bzr", "log", NULL, NULL };
 	gchar *dir;
 	gchar *base_name;
@@ -135,8 +134,8 @@ in_vc_bzr(const gchar * filename)
 	base_name = g_path_get_basename(filename);
 	argv[2] = base_name;
 
-	exit_code = execute_custom_command(dir, (const gchar **) argv, NULL, &std_output, NULL,
-					   filename, NULL, NULL);
+	execute_custom_command(dir, (const gchar **) argv, NULL, &std_output, NULL,
+			       filename, NULL, NULL);
 
 	if (NZV(std_output))
 	{
@@ -253,9 +252,9 @@ get_commit_files_bzr(const gchar * dir)
 }
 
 VC_RECORD VC_BZR = {
-	.commands = commands,
-	.program = "bzr",
-	.get_base_dir = get_base_dir,
-	.in_vc = in_vc_bzr,
-	.get_commit_files = get_commit_files_bzr,
+	commands,
+	"bzr",
+	get_base_dir,
+	in_vc_bzr,
+	get_commit_files_bzr,
 };
