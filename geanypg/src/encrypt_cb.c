@@ -24,8 +24,6 @@
 static void geanypg_encrypt(encrypt_data * ed, gpgme_key_t * recp, int sign, int flags)
 {   /* FACTORIZE */
     gpgme_data_t plain, cipher;
-    gpgme_encrypt_result_t result;
-    gpgme_invalid_key_t recipient;
     gpgme_error_t err;
     FILE * tempfile;
     tempfile = tmpfile();
@@ -75,7 +73,7 @@ void geanypg_encrypt_cb(GtkMenuItem * menuitem, gpointer user_data)
         if (geanypg_encrypt_selection_dialog(&ed, &recp, &sign))
         {
             int flags = 0;
-            int abort = 0;
+            int stop = 0;
             gpgme_key_t * key = recp;
             while (*key)
             {
@@ -89,13 +87,13 @@ void geanypg_encrypt_cb(GtkMenuItem * menuitem, gpointer user_data)
                         (*key)->uids->uid, geanypg_validity((*key)->owner_trust)))
                         flags = GPGME_ENCRYPT_ALWAYS_TRUST;
                     else
-                        abort = 1;
+                        stop = 1;
                 }
                 ++key;
             }
-            if (*recp && !abort)
+            if (*recp && !stop)
                 geanypg_encrypt(&ed, recp, sign, flags);
-            else if (!abort && dialogs_show_question(_("No recipients were selected,\nuse symetric cipher?")))
+            else if (!stop && dialogs_show_question(_("No recipients were selected,\nuse symetric cipher?")))
                 geanypg_encrypt(&ed, NULL, sign, flags);
         }
         if (recp)

@@ -160,13 +160,11 @@ static char * geanypg_result(gpgme_signature_t sig)
 void geanypg_check_sig(encrypt_data * ed, gpgme_signature_t sig)
 {
     GtkWidget * dialog;
-    gpgme_sigsum_t summary;
     char buffer[512] = {0};
     char * result;
     strncpy(buffer, sig->fpr, 40);
     buffer[40] = 0;
     geanypg_get_keys_with_fp(ed, buffer);
-    summary = sig->summary;
     result = geanypg_result(sig);
 
     dialog = gtk_message_dialog_new_with_markup(GTK_WINDOW(geany->main_widgets->window),

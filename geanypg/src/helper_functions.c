@@ -165,7 +165,6 @@ void geanypg_write_file(FILE * file)
     {   /* replace selected text
          * clear selection, cursor should be at the end or beginneng of the selection */
         scintilla_send_message(doc->editor->sci, SCI_REPLACESEL, 0, (sptr_t)"");
-
         while ((size = fread(buffer, 1, BUFSIZE, file)))
             /* add at the cursor */
             scintilla_send_message(doc->editor->sci, SCI_ADDTEXT, (uptr_t) size, (sptr_t) buffer);
