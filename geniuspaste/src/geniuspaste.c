@@ -377,9 +377,8 @@ static void paste(GeanyDocument * doc, const gchar * website)
              * e.g. sprunge.us/xxxx?c
              */
             gchar *ft_tmp = g_ascii_strdown(f_type, -1);
-            gchar *temp_body = g_strstrip(p_url);
-            SETPTR(p_url, g_strdup_printf("%s?%s", temp_body, ft_tmp));
-            g_free(temp_body);
+            g_strstrip(p_url);
+            SETPTR(p_url, g_strdup_printf("%s?%s", p_url, ft_tmp));
             g_free(ft_tmp);
         }
 
