@@ -309,7 +309,13 @@ void devhelp_plugin_store_settings(DevhelpPlugin *self, const gchar *filename)
     g_key_file_set_boolean(kf, "doc_providers", "man_pages", self->priv->use_man);
     g_key_file_set_boolean(kf, "doc_providers", "codesearch", self->priv->use_codesearch);
 
-    g_key_file_set_boolean(kf, "devhelp", "show_devhelp_sidebar", gtk_widget_get_visible(self->priv->sb_notebook));
+    g_key_file_set_boolean(kf, "devhelp", "show_devhelp_sidebar",
+#if GTK_CHECK_VERSION(2,18,0)
+      gtk_widget_get_visible(self->priv->sb_notebook)
+#else
+      GTK_WIDGET_VISIBLE(self->priv->sb_notebook)
+#endif
+    );
     g_key_file_set_boolean(kf, "devhelp", "set_sidebar_tabs_bottom", devhelp_plugin_get_sidebar_tabs_bottom(self));
     g_key_file_set_boolean(kf, "devhelp", "focus_sidebar_on_search", self->priv->focus_sidebar_on_search);
 
