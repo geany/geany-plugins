@@ -88,7 +88,7 @@ static GPid gdb_pid = 0;
 static GPid target_pid = 0;
 
 /* GSource to watch GDB exit */
-static GSource *gdb_src;
+static guint gdb_src_id;
 
 /* channels for GDB input/output */
 static gint gdb_in;
@@ -192,7 +192,7 @@ static void on_gdb_exit(GPid pid, gint status, gpointer data)
 	g_list_free(files);
 	files = NULL;
 	
-	g_source_destroy(gdb_src);
+	g_source_remove(gdb_src_id);
 	
 	dbg_cbs->set_exited(0);
 }
@@ -442,6 +442,11 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 	{
 		*(strrchr(line, '\"')) = '\0';
 		target_pid = atoi(line + strlen("=thread-group-created,id=\""));
+	}
+	else if (!target_pid && g_str_has_prefix(line, "=thread-group-started"))
+	{
+		*(strrchr(line, '\"')) = '\0';
+		target_pid = atoi(strrchr(line, '\"') + 1);
 	}
 	else if (g_str_has_prefix(line, "=thread-created"))
 	{
@@ -739,8 +744,7 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	setpgid(gdb_pid, 0);
 	
 	/* set handler for gdb process exit event */ 
-	g_child_watch_add(gdb_pid, on_gdb_exit, NULL);
-	gdb_src = g_child_watch_source_new(gdb_pid);
+	gdb_src_id = g_child_watch_add(gdb_pid, on_gdb_exit, NULL);
 
 	/* create GDB GIO chanels */
 	gdb_ch_in = g_io_channel_unix_new(gdb_in);
