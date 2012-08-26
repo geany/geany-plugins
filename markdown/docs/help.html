@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.8.1: http://docutils.sourceforge.net/" />
+<title>Markdown</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7056 2011-06-17 10:50:48Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="markdown">
+<h1 class="title">Markdown</h1>
+
+<a class="reference external image-reference" href="plugin.png"><img alt="The Markdown plugin in action" class="align-center" src="plugin_small.png" /></a>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#about" id="id2">About</a></li>
+<li><a class="reference internal" href="#features" id="id3">Features</a></li>
+<li><a class="reference internal" href="#usage" id="id4">Usage</a><ul>
+<li><a class="reference internal" href="#preferences" id="id5"><em>Preferences</em></a></li>
+<li><a class="reference internal" href="#custom-templates" id="id6"><em>Custom Templates</em></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#requirements" id="id7">Requirements</a></li>
+<li><a class="reference internal" href="#license" id="id8">License</a></li>
+<li><a class="reference internal" href="#authors" id="id9">Authors</a></li>
+<li><a class="reference internal" href="#contact" id="id10">Contact</a></li>
+</ul>
+</div>
+<div class="section" id="about">
+<h1><a class="toc-backref" href="#id2">About</a></h1>
+<p>This plugin provides a real-time preview of rendered Markdown, that is,
+<a class="reference external" href="http://daringfireball.net/projects/markdown">Markdown</a> converted to HTML
+and inserted into an HTML template and loaded into a
+<a class="reference external" href="http://www.webkit.org">WebKit</a> view.</p>
+</div>
+<div class="section" id="features">
+<h1><a class="toc-backref" href="#id3">Features</a></h1>
+<blockquote>
+<ul class="simple">
+<li>Allows placing the preview in the sidebar or message window areas</li>
+<li>Updates the preview on-the-fly as you type, automatically.</li>
+<li>Allows simple customization of fonts and colours and complete control
+with custom template files.</li>
+</ul>
+</blockquote>
+</div>
+<div class="section" id="usage">
+<h1><a class="toc-backref" href="#id4">Usage</a></h1>
+<p>The preview is active by default for all documents with a Markdown filetype
+set. To set a document's filetype, choose from the menus:</p>
+<a class="reference external image-reference" href="set_filetype.png"><img alt="Choosing Document-&gt;Set Filetype-&gt;Markup Languages-&gt;Markdown source file" class="align-center" src="set_filetype.png" /></a>
+<p>Other than that the operation should be fully automatic. Use the Plugin
+Preferences mechanism to customize some settings as described below.</p>
+<p>For more information on Markdown syntax, read the
+<a class="reference external" href="http://daringfireball.net/projects/markdown/syntax">Markdown Syntax Documentation</a>.</p>
+<div class="section" id="preferences">
+<h2><a class="toc-backref" href="#id5"><em>Preferences</em></a></h2>
+<a class="reference external image-reference" href="settings.png"><img alt="The Markdown plugin's preferences GUI" class="align-center" src="settings.png" /></a>
+<p>Using Geany's normal Plugin Preferences mechanism, you can customize some
+important settings related to the Markdown preview. The preferences dialog
+allows changing the following settings:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Name</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>Position</td>
+<td>The area of Geany's UI to put the preview view, currently either
+in the sidebar or message window (bottom) areas.</td>
+</tr>
+<tr><td>Font</td>
+<td>The regular body font of the preview.</td>
+</tr>
+<tr><td>Code Font</td>
+<td>The font to use for the code tags (monospaced) font of the preview.</td>
+</tr>
+<tr><td>BG Color</td>
+<td>The preview's background color.</td>
+</tr>
+<tr><td>FG Color</td>
+<td>The preview's foreground (text) color.</td>
+</tr>
+<tr><td>Template</td>
+<td>The file containing the HTML template for the preview.</td>
+</tr>
+</tbody>
+</table>
+<p>There's two ways to access the Plugin settings, one is through the
+Plugin Manager using the buttons highlighted below:</p>
+<a class="reference external image-reference" href="plugin_mgr.png"><img alt="The Plugin Manager dialog showing the Help and Preferences buttons." class="align-center" src="plugin_mgr.png" /></a>
+<p>Clicking the <tt class="docutils literal">Help</tt> button opens this document in HTML format in your web
+browser. The other way to access the plugin's preferences is through the
+<tt class="docutils literal">Edit</tt> menu as pictured below:</p>
+<a class="reference external image-reference" href="plugin_prefs.png"><img alt="Accessing plugin preferences from the Edit menu." class="align-center" src="plugin_prefs.png" /></a>
+</div>
+<div class="section" id="custom-templates">
+<h2><a class="toc-backref" href="#id6"><em>Custom Templates</em></a></h2>
+<p>You can provide a custom HTML template file which contains the substitution
+strings that get replaced at run-time. The following substitution strings
+are available:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="37%" />
+<col width="63%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Substitution String</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal">&#64;&#64;markdown&#64;&#64;</tt></td>
+<td>The most important substitution string and
+gets replaced with the HTML generated from the
+editor's Markdown buffer. Not having this one
+in the template makes the plugin completely
+useless.</td>
+</tr>
+<tr><td><tt class="docutils literal">&#64;&#64;font_name&#64;&#64;</tt></td>
+<td>The normal font family.</td>
+</tr>
+<tr><td><tt class="docutils literal">&#64;&#64;code_font_name&#64;&#64;</tt></td>
+<td>The code/monospace font family.</td>
+</tr>
+<tr><td><tt class="docutils literal">&#64;&#64;font_point_size&#64;&#64;</tt></td>
+<td>The size in points of the normal font.</td>
+</tr>
+<tr><td><tt class="docutils literal">&#64;&#64;code_font_point_size&#64;&#64;</tt></td>
+<td>The size in points of the code/monospace font.</td>
+</tr>
+<tr><td><tt class="docutils literal">&#64;&#64;bg_color&#64;&#64;</tt></td>
+<td>The background color in hex/HTML color notation.</td>
+</tr>
+<tr><td><tt class="docutils literal">&#64;&#64;fg_color&#64;&#64;</tt></td>
+<td>The foreground (text) color in hex/HTML color
+notation.</td>
+</tr>
+</tbody>
+</table>
+<p>The default template file (at the time of writing) contains the following
+HTML code:</p>
+<pre class="literal-block">
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+      body {
+        font-family: &#64;&#64;font_name&#64;&#64;;
+        font-size: &#64;&#64;font_point_size&#64;&#64;pt;
+        background-color: &#64;&#64;bg_color&#64;&#64;;
+        color: &#64;&#64;fg_color&#64;&#64;;
+      }
+      code {
+        font-family: &#64;&#64;code_font_name&#64;&#64;;
+        font-size: &#64;&#64;code_font_point_size&#64;&#64;pt;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &#64;&#64;markdown&#64;&#64;
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+<p>As you can see it's just normal HTML/CSS and you can tweak it to make the
+preview contents look exactly how you want. The preview view is a WebKit
+browser, the same one used by <a class="reference external" href="http://google.com/chrome">Google's Chrome Browser</a> and <a class="reference external" href="http://apple.com/safari">Apple's Safari Browser</a> as well as numerous others, and it supports many
+modern features such as HTML5 and CSS3 support (at least partially).</p>
+<p>If you mess up the default <tt class="docutils literal">template.html</tt> file, just delete it and the
+default one will be recreated the next time the Markdown plugin is reloaded
+(for example when Geany restarts).</p>
+</div>
+</div>
+<div class="section" id="requirements">
+<h1><a class="toc-backref" href="#id7">Requirements</a></h1>
+<p>The plugin depends on the following libraries:</p>
+<blockquote>
+<ul class="simple">
+<li><a class="reference external" href="http://www.gtk.org">GTK+</a> 2.16 or greater</li>
+<li><a class="reference external" href="http://webkitgtk.org">WebKitGTK+</a> 1.1.18 or greater</li>
+</ul>
+</blockquote>
+</div>
+<div class="section" id="license">
+<h1><a class="toc-backref" href="#id8">License</a></h1>
+<p>The Markdown plugin is licensed under the GNU General Public License,
+version 2. For the full text of the license, please visit
+<a class="reference external" href="http://www.gnu.org/licenses/gpl-2.0.html">http://www.gnu.org/licenses/gpl-2.0.html</a>. The GPL license covers all code
+and files <em>not</em> in the <tt class="docutils literal">discount</tt> directory.</p>
+<p>All code inside the <tt class="docutils literal">discount</tt> directory is under a BSD-style license
+(see the <tt class="docutils literal">discount/COPYRIGHT</tt> file) and all contributions to this code
+<em>will</em> remain under this license. This will make it easier to integrate
+improvements to Discount back upstream if it ever makes sense. So far the
+only changes are superficial to allow it to build with the Geany-Plugins
+build system and to prevent some compiler warnings.</p>
+</div>
+<div class="section" id="authors">
+<h1><a class="toc-backref" href="#id9">Authors</a></h1>
+<p>The Geany Markdown plugin is written and maintained by:</p>
+<pre class="literal-block">
+Matthew Brush &lt;matt(at)geany(dot)org&gt;
+</pre>
+<p>The plugin includes the Discount Markdown library, developed by:</p>
+<pre class="literal-block">
+David Loren Parsons &lt;http://www.pell.portland.or.us/~orc&gt;
+</pre>
+</div>
+<div class="section" id="contact">
+<h1><a class="toc-backref" href="#id10">Contact</a></h1>
+<p>You can email me at <tt class="docutils literal">matt(at)geany(dot)org</tt>, or find me on the
+<tt class="docutils literal">#geany</tt> IRC channel on FreeNode, with the nickname <tt class="docutils literal">codebrainz</tt>.</p>
+</div>
+</div>
+</body>
+</html>
