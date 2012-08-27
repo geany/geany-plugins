@@ -83,7 +83,7 @@ struct _MarkdownConfigPrivate
   gchar filename[PATH_MAX];
   GKeyFile *kf;
   guint handle;
-  guint dlg_handle;
+  gulong dlg_handle;
   gboolean initialized;
   gchar *tmpl_text;
   gsize tmpl_text_len;
@@ -433,7 +433,7 @@ markdown_config_save(MarkdownConfig *conf)
 
   contents = g_key_file_to_data(conf->priv->kf, &len, &error);
 
-  //g_debug("Saving: %s\n%s", conf->priv->filename, contents);
+  /*g_debug("Saving: %s\n%s", conf->priv->filename, contents);*/
 
   if (error) {
     g_warning("Error getting config data as string: %s", error->message);
@@ -452,7 +452,7 @@ markdown_config_save(MarkdownConfig *conf)
   return success;
 }
 
-gchar *
+static gchar *
 color_button_get_color(GtkColorButton *color_button)
 {
   GdkColor color;
