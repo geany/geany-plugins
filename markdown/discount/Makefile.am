@@ -3,6 +3,7 @@ noinst_LTLIBRARIES = libdiscount.la
 libdiscount_la_SOURCES = \
 	amalloc.c \
 	amalloc.h \
+	blocktags \
 	basename.c \
 	config.h \
 	Csio.c \
