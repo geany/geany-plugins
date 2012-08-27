@@ -1,0 +1,67 @@
+# -*- coding: utf-8 -*-
+#
+# WAF build script for geany-plugins - Markdown
+#
+# Copyright 2011 Enrico Tröger <enrico(dot)troeger(at)uvena(dot)de>
+# Copyright 2011 Frank Lanitz <frnk(at)frank(dot)uvena(dot)de>
+# Copyright 2012 Colomban Wendling <ban(at)herbesfolles(dot)org>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+from build.wafutils import build_plugin
+from waflib.Utils import subst_vars
+
+name = 'Markdown'
+includes = [ 'src', 'discount' ]
+defines = [ subst_vars('MARKDOWN_DATA_DIR="${PKGDATADIR}/markdown"', bld.env),
+            subst_vars('MARKDOWN_DOC_DIR="${DOCDIR}/markdown"', bld.env),
+            subst_vars('MARKDOWN_HELP_FILE="${DOCDIR}/markdown/html/help.html"', bld.env) ]
+libraries = [ 'GTK', 'GTHREAD', 'WEBKIT' ]
+sources = [ "discount/amalloc.c",
+            "discount/basename.c",
+            "discount/Csio.c",
+            "discount/css.c",
+            "discount/docheader.c",
+            "discount/dumptree.c",
+            "discount/emmatch.c",
+            "discount/flags.c",
+            "discount/generate.c",
+            "discount/html5.c",
+            "discount/markdown.c",
+            "discount/mkdio.c",
+            "discount/resource.c",
+            "discount/setup.c",
+            "discount/tags.c",
+            "discount/toc.c",
+            "discount/version.c",
+            "discount/xml.c",
+            "discount/xmlpage.c",
+            "src/conf.c",
+            "src/plugin.c",
+            "src/viewer.c" ]
+
+build_plugin(bld, name, sources=sources, includes=includes, libraries=libraries, defines=defines)
+
+# install docs
+helpfiles = [ 'docs/help.html',
+              'docs/plugin.png',
+              'docs/plugin_mgr.png',
+              'docs/plugin_prefs.png',
+              'docs/plugin_small.png',
+              'docs/set_filetype.png',
+              'docs/settings.png' ]
+
+docdir = '${G_PREFIX}/doc/plugins' if target_is_win32(bld) else '${DOCDIR}'
+bld.install_files('%s/markdown/html' % docdir, helpfiles)
