@@ -26,8 +26,20 @@ from build.wafutils import build_plugin, target_is_win32
 name = 'GeanyGenDoc'
 includes = ['geanygendoc/src']
 libraries = ['CTPL']
+sources = [ 'src/ggd.c',
+			'src/ggd-doc-setting.c',
+			'src/ggd-doc-type.c',
+			'src/ggd-file-type.c',
+			'src/ggd-file-type-loader.c',
+			'src/ggd-file-type-manager.c',
+			'src/ggd-tag-utils.c',
+			'src/ggd-options.c',
+			'src/ggd-plugin.c',
+			'src/ggd-utils.c',
+			'src/ggd-widget-frame.c',
+			'src/ggd-widget-doctype-selector.c' ]
 
-build_plugin(bld, name, includes=includes, libraries=libraries)
+build_plugin(bld, name, sources=sources, includes=includes, libraries=libraries)
 
 is_win32 = target_is_win32(bld)
 
