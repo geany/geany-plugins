@@ -39,9 +39,9 @@ enum
 struct _MarkdownViewerPrivate
 {
   MarkdownConfig *conf;
-  guint load_handle;
+  gulong load_handle;
   guint update_handle;
-  guint prop_handle;
+  gulong prop_handle;
   GString *text;
   gchar enc[MD_ENC_MAX];
   gdouble vscroll_pos;
