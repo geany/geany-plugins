@@ -1,6 +1,6 @@
 
 helpdir = $(docdir)/markdown/html
-help_DATA = \
+dist_help_DATA = \
 	help.html \
 	plugin.png \
 	plugin_mgr.png \
