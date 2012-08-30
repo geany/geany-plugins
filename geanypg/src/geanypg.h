@@ -18,6 +18,8 @@
  *      MA 02110-1301, USA.
  */
 
+#ifndef GEANYPG_H
+#define GEANYPG_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -84,3 +86,5 @@ gpgme_error_t geanypg_passphrase_cb(void *hook,
                                     const char *passphrase_info,
                                     int prev_was_bad ,
                                     int fd);
+
+#endif
