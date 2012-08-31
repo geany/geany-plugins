@@ -220,6 +220,11 @@ gproject/src/gproject-menu.c
 gproject/src/gproject-project.c
 gproject/src/gproject-sidebar.c
 
+# Markdown 
+markdown/src/conf.c
+markdown/src/plugin.c
+
+
 # Pretty-printer
 pretty-printer/src/PrettyPrinter.c
 pretty-printer/src/PluginEntry.c

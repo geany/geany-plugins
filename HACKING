@@ -9,7 +9,7 @@ General
 About this file
 ---------------
 This file contains some useful information for any plugin developer, and
-especially for new plugin developers.  A lot of information inside
+especially for new plugin developers. A lot of information inside
 `Geany's HACKING file <http://geany.org/manual/hacking.html>` is useful
 as well, so it's recommended you give it a read.
 
@@ -33,10 +33,12 @@ They currently are:
   ``--disable-cppcheck`` configuration flag) -- this test is run during
   ``make check``.
 
-These features are only here to help you writing better code: they are not
-necessarily and always right -- though they try.
-If you think they reports wrong problems, please file a report on the
-appropriate place (either the mailing lists or the geany-plugins bug tracker).
+These features are only here to help you writing better code: they 
+are not necessarily and always right -- though they try. However 
+it's highly recommended to make usage of them and fix maybe occuring 
+issues before submitting a patch. If you think they reports wrong 
+problems, please file a report on the appropriate place (either the 
+mailing lists or the geany-plugins bug tracker). 
 
 
 Documentation
@@ -44,6 +46,7 @@ Documentation
 
 README
 ^^^^^^
+
 Each plugin folder should contain at least a `README` file for
 documentation.
 
@@ -51,12 +54,11 @@ documentation.
 Markup language
 ###############
 
-The `README` is intended to be written in
-`Restructured Text <http://sphinx.pocoo.org/rest.html>`_
-(as this document is) and therefore should work with
-``rst2html`` or similar tools. The reason for this is that this
-information is used to generate the content of the
-`Plugins Website <http://plugins.geany.org>`.
+The `README` is intended to be written in `Restructured Text 
+<http://sphinx.pocoo.org/rest.html>`_ (as this document is) and 
+therefore should work with ``rst2html`` or similar tools. The reason 
+for this is that this information is used to generate the content of 
+the `Plugins Website <http://plugins.geany.org>`.
 
 
 Recommended contents
@@ -101,6 +103,7 @@ General
 
 Commit messages
 ^^^^^^^^^^^^^^^
+
 Follow the standard Git formatting:
 
 * No line should use more than about 80 characters (around 72 is best).
@@ -138,3 +141,19 @@ Example::
     This avoid spawning an unexpected browser when the configured one is
     wrong, and gives the user a chance to correctly fix the preference.
 
+Coding and Plugin structure
+===========================
+
+I18n/l10n
+---------
+
+Geany-Plugins is supporting localisation of your plugin. To make 
+usage of it, there needs to be done:
+
+* Mark each string which should be translatable with the gettext macro 
+  ``_()`` or ``N_()`` for static strings. As an example the string 
+  ``"Hello World"`` might become ``_("Hello World")``.
+* Add files with translateable strings into ``po/POTFILES.in``. You 
+  should group them for your plugin as done for the other. Each files 
+  needs to be put into one line with complete relative	 path from 
+  plugin root directory. E.g. ``myplugin/src/myplugin.c``

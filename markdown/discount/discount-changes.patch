@@ -1,0 +1,1006 @@
+Only in discount/: blocktags
+Only in discount/: config.h
+Only in discount-2.1.3/: configure.inc
+Only in discount-2.1.3/: configure.sh
+diff -ru discount-2.1.3/cstring.h discount/cstring.h
+--- discount-2.1.3/cstring.h	2012-01-16 13:08:52.000000000 -0800
++++ discount/cstring.h	2012-07-16 02:46:53.027807216 -0700
+@@ -42,7 +42,7 @@
+ 				 : malloc(sizeof T(t)[0] * ((t).alloc += sz))), \
+ 		    (p), sizeof(T(t)[0])*(sz))
+ 
+-#define PREFIX(t,p,sz)	\
++#define MDPREFIX(t,p,sz)	\
+ 	    RESERVE( (t), (sz) ); \
+ 	    if ( S(t) ) { memmove(T(t)+(sz), T(t), S(t)); } \
+ 	    memcpy( T(t), (p), (sz) ); \
+Only in discount/: .deps
+Only in discount/: discount-changes.patch
+diff -ru discount-2.1.3/emmatch.c discount/emmatch.c
+--- discount-2.1.3/emmatch.c	2012-01-16 13:08:52.000000000 -0800
++++ discount/emmatch.c	2012-07-16 02:46:53.031807216 -0700
+@@ -141,7 +141,7 @@
+ 
+ 	emblock(f, first, e);
+ 
+-	PREFIX(start->b_text, emtags[match-1].open, emtags[match-1].size-1);
++	MDPREFIX(start->b_text, emtags[match-1].open, emtags[match-1].size-1);
+ 	SUFFIX(end->b_post, emtags[match-1].close, emtags[match-1].size);
+ 
+ 	emmatch(f, first, last);
+diff -ru discount-2.1.3/generate.c discount/generate.c
+--- discount-2.1.3/generate.c	2012-01-16 13:08:52.000000000 -0800
++++ discount/generate.c	2012-07-16 17:56:36.659229192 -0700
+@@ -115,7 +115,7 @@
+ Qchar(int c, MMIOT *f)
+ {
+     block *cur;
+-    
++
+     if ( S(f->Q) == 0 ) {
+ 	cur = &EXPAND(f->Q);
+ 	memset(cur, 0, sizeof *cur);
+@@ -125,7 +125,7 @@
+ 	cur = &T(f->Q)[S(f->Q)-1];
+ 
+     EXPAND(cur->b_text) = c;
+-    
++
+ }
+ 
+ 
+@@ -188,7 +188,7 @@
+     MMIOT sub;
+ 
+     ___mkd_initmmiot(&sub, f->footnotes);
+-    
++
+     sub.flags = f->flags | flags;
+     sub.cb = f->cb;
+     sub.ref_prefix = f->ref_prefix;
+@@ -196,10 +196,10 @@
+     push(bfr, size, &sub);
+     EXPAND(sub.in) = 0;
+     S(sub.in)--;
+-    
++
+     text(&sub);
+     ___mkd_emblock(&sub);
+-    
++
+     Qwrite(T(sub.out), S(sub.out), f);
+ 
+     ___mkd_freemmiot(&sub, f->footnotes);
+@@ -223,7 +223,7 @@
+ 	    if ( !( ispunct(c) || isspace(c) ) )
+ 		Qchar('\\', f);
+ 	}
+-	
++
+ 	if ( c == '&' )
+ 	    Qstring("&amp;", f);
+ 	else if ( c == '<' )
+@@ -355,7 +355,7 @@
+ /* extract a <...>-encased url from the input stream.
+  * (markdown 1.0.2b8 compatibility; older versions
+  * of markdown treated the < and > as syntactic
+- * sugar that didn't have to be there.  1.0.2b8 
++ * sugar that didn't have to be there.  1.0.2b8
+  * requires a closing >, and then falls into the
+  * title or closing )
+  */
+@@ -385,13 +385,13 @@
+ 	good=1;
+     else if ( image && (c == '=') && linkysize(f,p) )
+ 	good=1;
+-    else 
++    else
+ 	good=( c == ')' );
+ 
+     if ( good ) {
+ 	if ( peek(f, 1) == ')' )
+ 	    pull(f);
+-	    
++
+ 	___mkd_tidy(&p->link);
+     }
+ 
+@@ -437,12 +437,12 @@
+     }
+     if ( peek(f, 1) == ')' )
+ 	pull(f);
+-	
++
+     ___mkd_tidy(&p->link);
+-    
++
+     if ( mayneedtotrim && (T(p->link)[S(p->link)-1] == '>') )
+ 	--S(p->link);
+-    
++
+     return 1;
+ }
+ 
+@@ -453,12 +453,12 @@
+ static struct _protocol {
+     char *name;
+     int   nlen;
+-} protocol[] = { 
++} protocol[] = {
+ #define _aprotocol(x)	{ x, (sizeof x)-1 }
+-    _aprotocol( "https:" ), 
+-    _aprotocol( "http:" ), 
++    _aprotocol( "https:" ),
++    _aprotocol( "http:" ),
+     _aprotocol( "news:" ),
+-    _aprotocol( "ftp:" ), 
++    _aprotocol( "ftp:" ),
+ #undef _aprotocol
+ };
+ #define NRPROTOCOLS	(sizeof protocol / sizeof protocol[0])
+@@ -479,7 +479,7 @@
+ 
+ /*
+  * all the tag types that linkylinky can produce are
+- * defined by this structure. 
++ * defined by this structure.
+  */
+ typedef struct linkytype {
+     char      *pat;
+@@ -538,12 +538,12 @@
+ printlinkyref(MMIOT *f, linkytype *tag, char *link, int size)
+ {
+     char *edit;
+-    
++
+     if ( f->flags & IS_LABEL )
+ 	return;
+-    
++
+     Qstring(tag->link_pfx, f);
+-	
++
+     if ( tag->kind & IS_URL ) {
+ 	if ( f->cb && f->cb->e_url && (edit = (*f->cb->e_url)(link, size, f->cb->e_data)) ) {
+ 	    puturl(edit, strlen(edit), f, 0);
+@@ -583,7 +583,7 @@
+ {
+     if ( ref->flags & REFERENCED )
+ 	return 0;
+-	
++
+     if ( f->flags & IS_LABEL )
+     	___mkd_reparse(T(text), S(text), linkt.flags, f);
+     else {
+@@ -659,7 +659,7 @@
+     int start = mmiottell(f);
+     Cstring name;
+     Footnote key, *ref;
+-		
++
+     int status = 0;
+     int extra_footnote = 0;
+ 
+@@ -677,7 +677,7 @@
+ 
+ 	    if ( isspace(peek(f,1)) )
+ 		pull(f);
+-	    
++
+ 	    if ( peek(f,1) == '[' ) {
+ 		pull(f);	/* consume leading '[' */
+ 		goodlink = linkylabel(f, &key.tag);
+@@ -692,7 +692,7 @@
+ 		if ( (f->flags & MKD_EXTRA_FOOTNOTE) && (!image) && S(name) && T(name)[0] == '^' )
+ 		    extra_footnote = 1;
+ 	    }
+-	    
++
+ 	    if ( goodlink ) {
+ 		if ( !S(key.tag) ) {
+ 		    DELETE(key.tag);
+@@ -737,7 +737,7 @@
+     }
+ }
+ 
+- 
++
+ /*
+  * convert an email address to a string of nonsense
+  */
+@@ -775,7 +775,7 @@
+ {
+     int size, count, c;
+     int subsize=0, subtick=0;
+-    
++
+     *endticks = ticks;
+     for (size = 0; (c=peek(f,size+ticks)) != EOF; size ++) {
+ 	if ( (c == tickchar) && ( count = nrticks(size+ticks,tickchar,f)) ) {
+@@ -836,7 +836,7 @@
+ 
+     if ( size > 1 && peek(f, size-1) == ' ' ) --size;
+     if ( peek(f,i) == ' ' ) ++i, --size;
+-    
++
+     Qstring("<code>", f);
+     code(f, cursor(f)+(i-1), size);
+     Qstring("</code>", f);
+@@ -873,17 +873,17 @@
+ maybe_address(char *p, int size)
+ {
+     int ok = 0;
+-    
++
+     for ( ;size && (isalnum(*p) || strchr("._-+*", *p)); ++p, --size)
+ 	;
+ 
+     if ( ! (size && *p == '@') )
+ 	return 0;
+-    
++
+     --size, ++p;
+ 
+     if ( size && *p == '.' ) return 0;
+-    
++
+     for ( ;size && (isalnum(*p) || strchr("._-+", *p)); ++p, --size )
+ 	if ( *p == '.' && size > 1 ) ok = 1;
+ 
+@@ -902,7 +902,7 @@
+     int address= 0;
+     int mailto = 0;
+     char *text = cursor(f);
+-    
++
+     if ( f->flags & MKD_NOLINKS ) return 0;
+ 
+     if ( (size > 7) && strncasecmp(text, "mailto:", 7) == 0 ) {
+@@ -912,10 +912,10 @@
+ 	address = 1;
+ 	mailto = 7; 	/* 7 is the length of "mailto:"; we need this */
+     }
+-    else 
++    else
+ 	address = maybe_address(text, size);
+ 
+-    if ( address ) { 
++    if ( address ) {
+ 	Qstring("<a href=\"", f);
+ 	if ( !mailto ) {
+ 	    /* supply a mailto: protocol if one wasn't attached */
+@@ -982,7 +982,7 @@
+ 		    return 0;
+ 		else
+ 		    size++;
+-	    
++
+ 	    if ( forbidden_tag(f) )
+ 		return 0;
+ 
+@@ -996,7 +996,7 @@
+ 	    return 1;
+ 	}
+     }
+-    
++
+     return 0;
+ }
+ 
+@@ -1226,7 +1226,7 @@
+ 		    else
+ 			Qchar(c, f);
+ 		    break;
+-			
++
+ 	case '!':   if ( peek(f,1) == '[' ) {
+ 			pull(f);
+ 			if ( tag_text(f) || !linkylinky(1, f) )
+@@ -1296,7 +1296,7 @@
+ 			Qem(f,c,rep);
+ 		    }
+ 		    break;
+-	
++
+ 	case '~':   if ( (f->flags & (MKD_NOSTRIKETHROUGH|MKD_TAGTEXT|MKD_STRICT)) || ! tickhandler(f,c,2,0, delspan) )
+ 			Qchar(c, f);
+ 		    break;
+@@ -1317,7 +1317,7 @@
+ 				}
+ 				Qchar(c, f);
+ 				break;
+-				
++
+ 		    case ':': case '|':
+ 				if ( f->flags & MKD_NOTABLES ) {
+ 				    Qchar('\\', f);
+@@ -1326,7 +1326,7 @@
+ 				}
+ 				Qchar(c, f);
+ 				break;
+-				
++
+ 		    case '>': case '#': case '.': case '-':
+ 		    case '+': case '{': case '}': case ']':
+ 		    case '!': case '[': case '*': case '_':
+@@ -1413,7 +1413,7 @@
+     ___mkd_tidy(&p->text);
+     if ( T(p->text)[S(p->text)-1] == '|' )
+ 	--S(p->text);
+-    
++
+     Qstring("<tr>\n", f);
+     while ( idx < S(p->text) ) {
+ 	first = idx;
+@@ -1474,7 +1474,7 @@
+     for (p=T(dash->text), start=dash->dle; start < S(dash->text); ) {
+ 	char first, last;
+ 	int end;
+-	
++
+ 	last=first=0;
+ 	for (end=start ; (end < S(dash->text)) && p[end] != '|'; ++ end ) {
+ 	    if ( p[end] == '\\' )
+@@ -1569,10 +1569,10 @@
+ printhtml(Line *t, MMIOT *f)
+ {
+     int blanks;
+-    
++
+     for ( blanks=0; t ; t = t->next )
+ 	if ( S(t->text) ) {
+-	    for ( ; blanks; --blanks ) 
++	    for ( ; blanks; --blanks )
+ 		Qchar('\n', f);
+ 
+ 	    Qwrite(T(t->text), S(t->text), f);
+@@ -1651,7 +1651,7 @@
+ display(Paragraph *p, MMIOT *f)
+ {
+     if ( !p ) return 0;
+-    
++
+     switch ( p->typ ) {
+     case STYLE:
+     case WHITESPACE:
+@@ -1660,15 +1660,15 @@
+     case HTML:
+ 	printhtml(p->text, f);
+ 	break;
+-	
++
+     case CODE:
+ 	printcode(p->text, f);
+ 	break;
+-	
++
+     case QUOTE:
+ 	htmlify(p->down, p->ident ? "div" : "blockquote", p->ident, f);
+ 	break;
+-	
++
+     case UL:
+     case OL:
+     case AL:
+@@ -1694,7 +1694,7 @@
+     case SOURCE:
+ 	htmlify(p->down, 0, 0, f);
+ 	break;
+-	
++
+     default:
+ 	printblock(p, f);
+ 	break;
+@@ -1715,7 +1715,7 @@
+ 	return;
+ 
+     Csprintf(&m->out, "\n<div class=\"footnotes\">\n<hr/>\n<ol>\n");
+-    
++
+     for ( i=1; i <= m->reference; i++ ) {
+ 	for ( j=0; j < S(*m->footnotes); j++ ) {
+ 	    t = &T(*m->footnotes)[j];
+@@ -1740,22 +1740,23 @@
+ mkd_document(Document *p, char **res)
+ {
+     int size;
+-    
++
+     if ( p && p->compiled ) {
+-	if ( ! p->html ) {
+-	    htmlify(p->code, 0, 0, p->ctx);
+-	    if ( p->ctx->flags & MKD_EXTRA_FOOTNOTE )
+-		mkd_extra_footnotes(p->ctx);
+-	    p->html = 1;
+-	}
+ 
+-	size = S(p->ctx->out);
+-	
+-	if ( (size == 0) || T(p->ctx->out)[size-1] )
+-	    EXPAND(p->ctx->out) = 0;
+-	
+-	*res = T(p->ctx->out);
+-	return size;
++      if ( ! p->html ) {
++          htmlify(p->code, 0, 0, p->ctx);
++          if ( p->ctx->flags & MKD_EXTRA_FOOTNOTE )
++            mkd_extra_footnotes(p->ctx);
++          p->html = 1;
++      }
++
++      size = S(p->ctx->out);
++
++      if ( (size == 0) || T(p->ctx->out)[size-1] )
++          EXPAND(p->ctx->out) = 0;
++
++      *res = T(p->ctx->out);
++      return size;
+     }
+     return EOF;
+ }
+Only in discount-2.1.3/: INSTALL
+Only in discount-2.1.3/: main.c
+Only in discount-2.1.3/: Makefile.in
+Only in discount-2.1.3/: makepage.1
+Only in discount-2.1.3/: makepage.c
+Only in discount-2.1.3/: markdown.1
+Only in discount-2.1.3/: markdown.3
+Only in discount-2.1.3/: markdown.7
+diff -ru discount-2.1.3/markdown.c discount/markdown.c
+--- discount-2.1.3/markdown.c	2012-01-16 13:08:52.000000000 -0800
++++ discount/markdown.c	2012-07-16 19:52:23.619155626 -0700
+@@ -125,11 +125,11 @@
+ 	 * the !-- doesn't need to end in a whitespace
+ 	 */
+ 	return &comment;
+-    
++
+     /* find how long the tag is so we can check to see if
+      * it's a block-level tag
+      */
+-    for ( i=1; i < len && T(p->text)[i] != '>' 
++    for ( i=1; i < len && T(p->text)[i] != '>'
+ 		       && T(p->text)[i] != '/'
+ 		       && !isspace(T(p->text)[i]); ++i )
+ 	;
+@@ -193,7 +193,7 @@
+     l->flags |= CHECKED;
+     l->kind = chk_text;
+     l->count = 0;
+-    
++
+     if (l->dle >= 4) { l->kind=chk_code; return; }
+ 
+     for ( eol = S(l->text); eol > l->dle && isspace(T(l->text)[eol-1]); --eol )
+@@ -261,10 +261,10 @@
+     int i, closing, depth=0;
+ 
+     *unclosed = 0;
+-    
++
+     if ( tag == &comment )
+ 	return commentblock(p, unclosed);
+-    
++
+     if ( tag->selfclose ) {
+ 	ret = f.t->next;
+ 	f.t->next = 0;
+@@ -286,7 +286,7 @@
+ 		    }
+ 		}
+ 	    }
+-	    else { 
++	    else {
+ 		if ( closing = (c == '/') ) c = flogetc(&f);
+ 
+ 		for ( i=0; i < tag->size; c=flogetc(&f) ) {
+@@ -369,7 +369,7 @@
+ issetext(Line *t, int *htyp)
+ {
+     Line *n;
+-    
++
+     /* check for setext-style HEADER
+      *                        ======
+      */
+@@ -407,10 +407,10 @@
+ end_of_block(Line *t)
+ {
+     int dummy;
+-    
++
+     if ( !t )
+ 	return 0;
+-	
++
+     return ( (S(t->text) <= t->dle) || ishr(t) || ishdr(t, &dummy) );
+ }
+ 
+@@ -448,11 +448,11 @@
+ is_extra_dt(Line *t, int *clip)
+ {
+ #if USE_EXTRA_DL
+-    
++
+     if ( t && t->next && T(t->text)[0] != '='
+ 		      && T(t->text)[S(t->text)-1] != '=') {
+ 	Line *x;
+-    
++
+ 	if ( iscode(t) || end_of_block(t) )
+ 	    return 0;
+ 
+@@ -460,7 +460,7 @@
+ 	    *clip = x->dle+2;
+ 	    return t;
+ 	}
+-	
++
+ 	if ( x=is_extra_dt(t->next, clip) )
+ 	    return x;
+     }
+@@ -488,7 +488,7 @@
+ {
+     int i, j;
+     char *q;
+-    
++
+     if ( end_of_block(t) )
+ 	return 0;
+ 
+@@ -514,7 +514,7 @@
+ 		return AL;
+ 	    }
+ 
+-	    strtoul(T(t->text)+t->dle, &q, 10);
++	    unsigned long res = strtoul(T(t->text)+t->dle, &q, 10);
+ 	    if ( (q > T(t->text)+t->dle) && (q == T(t->text) + (j-1)) ) {
+ 		j = nextnonblank(t,j);
+ 		*clip = (j > 4) ? 4 : j;
+@@ -539,7 +539,7 @@
+ 	    /* p->text is header, p->next->text is -'s or ='s
+ 	     */
+ 	    pp->hnumber = (T(p->next->text)[0] == '=') ? 1 : 2;
+-	    
++
+ 	    ret = p->next->next;
+ 	    ___mkd_freeLine(p->next);
+ 	    p->next = 0;
+@@ -614,7 +614,7 @@
+     Paragraph *ret;
+ 
+     first = (*ptr);
+-    
++
+     /* don't allow zero-length code fences
+      */
+     if ( (first->next == 0) || iscodefence(first->next, first->count) )
+@@ -744,7 +744,7 @@
+  * it just takes ^> to start a quote, following lines, if quoted,
+  * assume that the prefix is ``> ''.   This means that code needs
+  * to be indented *5* spaces from the leading '>', but *4* spaces
+- * from the start of the line.   This does not appear to be 
++ * from the start of the line.   This does not appear to be
+  * documented in the reference implementation, but it's the
+  * way the markdown sample web form at Daring Fireball works.
+  */
+@@ -782,14 +782,14 @@
+     if ( isdivmarker(p->text,0,flags) ) {
+ 	char *prefix = "class";
+ 	int i;
+-	
++
+ 	q = p->text;
+ 	p->text = p->text->next;
+ 
+ 	if ( (i = szmarkerclass(1+T(q->text))) == 3 )
+ 	    /* and this would be an "%id:" prefix */
+ 	    prefix="id";
+-	    
++
+ 	if ( p->ident = malloc(4+strlen(prefix)+S(q->text)) )
+ 	    sprintf(p->ident, "%s=\"%.*s\"", prefix, S(q->text)-(i+2),
+ 						     T(q->text)+(i+1) );
+@@ -861,7 +861,7 @@
+ {
+     ParagraphRoot d = { 0, 0 };
+     Paragraph *p;
+-    Line *q = top->text, *text = 0, *labels; 
++    Line *q = top->text, *text = 0, *labels;
+     int z, para;
+ 
+     while (( labels = q )) {
+@@ -874,8 +874,8 @@
+ 
+ 	if (( para = (text != q->next) ))
+ 	    ___mkd_freeLineRange(q, text);
+-	
+-	q->next = 0; 
++
++	q->next = 0;
+ 	if ( kind == 1 /* discount dl */ )
+ 	    for ( q = labels; q; q = q->next ) {
+ 		CLIP(q->text, 0, 1);
+@@ -901,7 +901,7 @@
+ 	    anchor.next = text;
+ 	    ___mkd_freeLineRange(&anchor,q);
+ 	    text = q;
+-	    
++
+ 	}
+ 
+ 	if ( kind == 2 && is_extra_dd(q) )
+@@ -922,7 +922,7 @@
+     int para = 0, z;
+ 
+     while (( text = q )) {
+-	
++
+ 	p = Pp(&d, text, LISTITEM);
+ 	text = listitem(p, clip, f->flags, 0);
+ 
+@@ -973,7 +973,7 @@
+     Line *np = p->next;
+ 
+     Footnote *foot = &EXPAND(*f->footnotes);
+-    
++
+     CREATE(foot->tag);
+     CREATE(foot->link);
+     CREATE(foot->title);
+@@ -1201,14 +1201,14 @@
+     while ( ptr ) {
+ 	if ( iscode(ptr) ) {
+ 	    p = Pp(&d, ptr, CODE);
+-	    
++
+ 	    if ( f->flags & MKD_1_COMPAT) {
+ 		/* HORRIBLE STANDARDS KLUDGE: the first line of every block
+ 		 * has trailing whitespace trimmed off.
+ 		 */
+ 		___mkd_tidy(&p->text->text);
+ 	    }
+-	    
++
+ 	    ptr = codeblock(p);
+ 	}
+ #if WITH_FENCED_CODE
+@@ -1276,10 +1276,10 @@
+ mkd_compile(Document *doc, DWORD flags)
+ {
+     if ( !doc )
+-	return 0;
++      return 0;
+ 
+     if ( doc->compiled )
+-	return 1;
++      return 1;
+ 
+     doc->compiled = 1;
+     memset(doc->ctx, 0, sizeof(MMIOT) );
+@@ -1300,3 +1300,15 @@
+     return 1;
+ }
+ 
++char *mkd_compile_document(const char *s, DWORD flags)
++{
++  char *ptr = NULL;
++  Document *doc;
++
++  doc = mkd_string(s, strlen(s), flags);
++  mkd_compile(doc, 0);
++  mkd_document(doc, &ptr);
++  ptr = mkd_cleanup_return_buffer(doc, NULL);
++
++  return ptr;
++}
+diff -ru discount-2.1.3/markdown.h discount/markdown.h
+--- discount-2.1.3/markdown.h	2012-01-16 13:08:52.000000000 -0800
++++ discount/markdown.h	2012-07-16 19:52:01.611155862 -0700
+@@ -19,7 +19,7 @@
+ } Footnote;
+ 
+ /* each input line is read into a Line, which contains the line,
+- * the offset of the first non-space character [this assumes 
++ * the offset of the first non-space character [this assumes
+  * that all tabs will be expanded to spaces!], and a pointer to
+  * the next line.
+  */
+@@ -144,6 +144,7 @@
+     Callback_data cb;		/* callback functions & private data */
+ } Document;
+ 
++extern char *mkd_compile_document(const char *, DWORD);
+ 
+ extern int  mkd_firstnonblank(Line *);
+ extern int  mkd_compile(Document *, DWORD);
+@@ -155,6 +156,7 @@
+ extern int  mkd_xml(char *, int , char **);
+ extern int  mkd_generatexml(char *, int, FILE *);
+ extern void mkd_cleanup(Document *);
++extern char *mkd_cleanup_return_buffer(Document *, long*);
+ extern int  mkd_line(char *, int, char **, DWORD);
+ extern int  mkd_generateline(char *, int, FILE*, DWORD);
+ #define mkd_text mkd_generateline
+@@ -180,6 +182,7 @@
+ extern void ___mkd_freefootnotes(MMIOT *);
+ extern void ___mkd_initmmiot(MMIOT *, void *);
+ extern void ___mkd_freemmiot(MMIOT *, void *);
++extern char* ___mkd_freemmiot_return_buffer(MMIOT *, void *, long*);
+ extern void ___mkd_freeLineRange(Line *, Line *);
+ extern void ___mkd_xml(char *, int, FILE *);
+ extern void ___mkd_reparse(char *, int, int, MMIOT*);
+Only in discount-2.1.3/: mkd2html.1
+Only in discount-2.1.3/: mkd2html.c
+Only in discount-2.1.3/: mkd-callbacks.3
+Only in discount-2.1.3/: mkd-extensions.7
+Only in discount-2.1.3/: mkd-functions.3
+diff -ru discount-2.1.3/mkdio.c discount/mkdio.c
+--- discount-2.1.3/mkdio.c	2012-01-16 13:08:52.000000000 -0800
++++ discount/mkdio.c	2012-07-16 18:03:40.619224702 -0700
+@@ -24,11 +24,11 @@
+     Document *ret = calloc(sizeof(Document), 1);
+ 
+     if ( ret ) {
+-	if (( ret->ctx = calloc(sizeof(MMIOT), 1) )) {
+-	    ret->magic = VALID_DOCUMENT;
+-	    return ret;
+-	}
+-	free(ret);
++      if (( ret->ctx = calloc(sizeof(MMIOT), 1) )) {
++          ret->magic = VALID_DOCUMENT;
++          return ret;
++      }
++      free(ret);
+     }
+     return 0;
+ }
+@@ -50,22 +50,22 @@
+     ATTACH(a->content, p);
+ 
+     while ( size-- ) {
+-	if ( (c = *str++) == '\t' ) {
+-	    /* expand tabs into ->tabstop spaces.  We use ->tabstop
+-	     * because the ENTIRE FREAKING COMPUTER WORLD uses editors
+-	     * that don't do ^T/^D, but instead use tabs for indentation,
+-	     * and, of course, set their tabs down to 4 spaces 
+-	     */
+-	    do {
+-		EXPAND(p->text) = ' ';
+-	    } while ( ++xp % a->tabstop );
+-	}
+-	else if ( c >= ' ' ) {
+-	    if ( c == '|' )
+-		p->flags |= PIPECHAR;
+-	    EXPAND(p->text) = c;
+-	    ++xp;
+-	}
++      if ( (c = *str++) == '\t' ) {
++          /* expand tabs into ->tabstop spaces.  We use ->tabstop
++           * because the ENTIRE FREAKING COMPUTER WORLD uses editors
++           * that don't do ^T/^D, but instead use tabs for indentation,
++           * and, of course, set their tabs down to 4 spaces
++           */
++          do {
++            EXPAND(p->text) = ' ';
++          } while ( ++xp % a->tabstop );
++      }
++      else if ( c >= ' ' ) {
++        if ( c == '|' )
++          p->flags |= PIPECHAR;
++        EXPAND(p->text) = c;
++        ++xp;
++      }
+     }
+     EXPAND(p->text) = 0;
+     S(p->text)--;
+@@ -102,37 +102,37 @@
+     CREATE(line);
+ 
+     while ( (c = (*getc)(ctx)) != EOF ) {
+-	if ( c == '\n' ) {
+-	    if ( pandoc != EOF && pandoc < 3 ) {
+-		if ( S(line) && (T(line)[0] == '%') )
+-		    pandoc++;
+-		else
+-		    pandoc = EOF;
+-	    }
+-	    queue(a, &line);
+-	    S(line) = 0;
+-	}
+-	else if ( isprint(c) || isspace(c) || (c & 0x80) )
+-	    EXPAND(line) = c;
++      if ( c == '\n' ) {
++          if ( pandoc != EOF && pandoc < 3 ) {
++        if ( S(line) && (T(line)[0] == '%') )
++            pandoc++;
++        else
++            pandoc = EOF;
++          }
++          queue(a, &line);
++          S(line) = 0;
++      }
++      else if ( isprint(c) || isspace(c) || (c & 0x80) )
++        EXPAND(line) = c;
+     }
+ 
+     if ( S(line) )
+-	queue(a, &line);
++      queue(a, &line);
+ 
+     DELETE(line);
+ 
+     if ( (pandoc == 3) && !(flags & (MKD_NOHEADER|MKD_STRICT)) ) {
+-	/* the first three lines started with %, so we have a header.
+-	 * clip the first three lines out of content and hang them
+-	 * off header.
+-	 */
+-	Line *headers = T(a->content);
++      /* the first three lines started with %, so we have a header.
++       * clip the first three lines out of content and hang them
++       * off header.
++       */
++      Line *headers = T(a->content);
++
++      a->title = headers;             header_dle(a->title);
++      a->author= headers->next;       header_dle(a->author);
++      a->date  = headers->next->next; header_dle(a->date);
+ 
+-	a->title = headers;             header_dle(a->title);
+-	a->author= headers->next;       header_dle(a->author);
+-	a->date  = headers->next->next; header_dle(a->date);
+-
+-	T(a->content) = headers->next->next->next;
++      T(a->content) = headers->next->next->next;
+     }
+ 
+     return a;
+@@ -227,7 +227,7 @@
+     char *line;
+ 
+     size = mkd_line(s, len, &line, IS_LABEL);
+-    
++
+     if ( labelformat && (size>0) && !isalpha(line[0]) )
+ 	(*outchar)('L',out);
+     for ( i=0; i < size ; i++ ) {
+@@ -241,7 +241,7 @@
+ 	else
+ 	    (*outchar)(c,out);
+     }
+-	
++
+     if (line)
+ 	free(line);
+ }
+@@ -266,13 +266,13 @@
+ {
+     MMIOT f;
+     int len;
+-    
++
+     mkd_parse_line(bfr, size, &f, flags);
+ 
+     if ( len = S(f.out) ) {
+ 	/* kludge alert;  we know that T(f.out) is malloced memory,
+ 	 * so we can just steal it away.   This is awful -- there
+-	 * should be an opaque method that transparently moves 
++	 * should be an opaque method that transparently moves
+ 	 * the pointer out of the embedded Cstring.
+ 	 */
+ 	EXPAND(f.out) = 0;
+Only in discount/: mkdio.h
+Only in discount-2.1.3/: mkdio.h.in
+Only in discount-2.1.3/: mkd-line.3
+Only in discount-2.1.3/: mktags.c
+Only in discount-2.1.3/: pgm_options.c
+Only in discount-2.1.3/: pgm_options.h
+Only in discount-2.1.3/: Plan9
+Only in discount-2.1.3/: README
+diff -ru discount-2.1.3/resource.c discount/resource.c
+--- discount-2.1.3/resource.c	2012-01-16 13:08:52.000000000 -0800
++++ discount/resource.c	2012-07-16 18:40:37.947201222 -0700
+@@ -107,14 +107,33 @@
+ void
+ ___mkd_freemmiot(MMIOT *f, void *footnotes)
+ {
+-    if ( f ) {
+-	DELETE(f->in);
+-	DELETE(f->out);
+-	DELETE(f->Q);
+-	if ( f->footnotes != footnotes )
+-	    ___mkd_freefootnotes(f);
+-	memset(f, 0, sizeof *f);
+-    }
++  if ( f ) {
++    DELETE(f->in);
++    DELETE(f->out);
++    DELETE(f->Q);
++    if ( f->footnotes != footnotes )
++      ___mkd_freefootnotes(f);
++    memset(f, 0, sizeof *f);
++  }
++}
++
++/* free the contents of a MMIOT except the output buffer, but leave the
++ * object alone. return the output buffer to the caller. */
++char *
++___mkd_freemmiot_return_buffer(MMIOT *f, void *footnotes, long *out_len)
++{
++  char *ptr = NULL;
++  if ( f ) {
++    DELETE(f->in);
++    ptr = T(f->out);        /* save pointer */
++    if (out_len)
++      *out_len = S(f->out); /* save length */
++    DELETE(f->Q);
++    if ( f->footnotes != footnotes )
++      ___mkd_freefootnotes(f);
++    memset(f, 0, sizeof *f);
++  }
++  return ptr;
+ }
+ 
+ 
+@@ -140,18 +159,41 @@
+ void
+ mkd_cleanup(Document *doc)
+ {
+-    if ( doc && (doc->magic == VALID_DOCUMENT) ) {
+-	if ( doc->ctx ) {
+-	    ___mkd_freemmiot(doc->ctx, 0);
+-	    free(doc->ctx);
+-	}
+-
+-	if ( doc->code) ___mkd_freeParagraph(doc->code);
+-	if ( doc->title) ___mkd_freeLine(doc->title);
+-	if ( doc->author) ___mkd_freeLine(doc->author);
+-	if ( doc->date) ___mkd_freeLine(doc->date);
+-	if ( T(doc->content) ) ___mkd_freeLines(T(doc->content));
+-	memset(doc, 0, sizeof doc[0]);
+-	free(doc);
++  if ( doc && (doc->magic == VALID_DOCUMENT) ) {
++    if ( doc->ctx ) {
++        ___mkd_freemmiot(doc->ctx, 0);
++        free(doc->ctx);
++    }
++
++    if ( doc->code) ___mkd_freeParagraph(doc->code);
++    if ( doc->title) ___mkd_freeLine(doc->title);
++    if ( doc->author) ___mkd_freeLine(doc->author);
++    if ( doc->date) ___mkd_freeLine(doc->date);
++    if ( T(doc->content) ) ___mkd_freeLines(T(doc->content));
++    memset(doc, 0, sizeof doc[0]);
++    free(doc);
++  }
++}
++
++char *
++mkd_cleanup_return_buffer(Document *doc, long *out_len)
++{
++  char *ptr = NULL;
++
++  if ( doc && (doc->magic == VALID_DOCUMENT) ) {
++    if ( doc->ctx ) {
++        ptr = ___mkd_freemmiot_return_buffer(doc->ctx, 0, out_len);
++        free(doc->ctx);
+     }
++
++    if ( doc->code) ___mkd_freeParagraph(doc->code);
++    if ( doc->title) ___mkd_freeLine(doc->title);
++    if ( doc->author) ___mkd_freeLine(doc->author);
++    if ( doc->date) ___mkd_freeLine(doc->date);
++    if ( T(doc->content) ) ___mkd_freeLines(T(doc->content));
++    memset(doc, 0, sizeof doc[0]);
++    free(doc);
++  }
++
++  return ptr;
+ }
+Only in discount-2.1.3/: tests
+Only in discount-2.1.3/: theme.1
+Only in discount-2.1.3/: theme.c
+Only in discount-2.1.3/: tools
+Only in discount-2.1.3/: VERSION
+Only in discount/: version.c
+Only in discount-2.1.3/: version.c.in
