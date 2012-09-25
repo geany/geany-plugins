@@ -33,12 +33,12 @@ They currently are:
   ``--disable-cppcheck`` configuration flag) -- this test is run during
   ``make check``.
 
-These features are only here to help you writing better code: they 
-are not necessarily and always right -- though they try. However 
-it's highly recommended to make usage of them and fix maybe occuring 
-issues before submitting a patch. If you think they reports wrong 
-problems, please file a report on the appropriate place (either the 
-mailing lists or the geany-plugins bug tracker). 
+These features are only here to help you writing better code: they
+are not necessarily and always right -- though they try. However
+it's highly recommended to make usage of them and fix maybe occuring
+issues before submitting a patch. If you think they reports wrong
+problems, please file a report on the appropriate place (either the
+mailing lists or the geany-plugins bug tracker).
 
 
 Documentation
@@ -54,10 +54,10 @@ documentation.
 Markup language
 ###############
 
-The `README` is intended to be written in `Restructured Text 
-<http://sphinx.pocoo.org/rest.html>`_ (as this document is) and 
-therefore should work with ``rst2html`` or similar tools. The reason 
-for this is that this information is used to generate the content of 
+The `README` is intended to be written in `Restructured Text
+<http://sphinx.pocoo.org/rest.html>`_ (as this document is) and
+therefore should work with ``rst2html`` or similar tools. The reason
+for this is that this information is used to generate the content of
 the `Plugins Website <http://plugins.geany.org>`.
 
 
@@ -144,16 +144,109 @@ Example::
 Coding and Plugin structure
 ===========================
 
+Structure of a plugin
+---------------------
+
+Your plugin shall be structured like this:
+
+- yourplugin
+    - src/
+    - data/
+    - doc/
+
+Where you put all your source code inside the src-folder, all
+additional data like scripts should be put into a seperate
+data-folder and content for plugin documentation fit into the folder
+doc.
+
+Adding a new plugin to autotools build system
+---------------------------------------------
+
+configure.ac
+^^^^^^^^^^^^
+
+Add an entry into configure.ac for your plugin. The entry should look like
+``GP_CHECK_YOURFANCYPLUGINNAME``
+
+Makefile.am
+^^^^^^^^^^^
+
+Add an entry into Makefile.am where to find the sources of your plugin.
+This entry shall look like this::
+
+ if ENABLE_YOURFANCYPLUGINNAME
+ SUBDIRS += yourfancyplugin
+ endif
+
+
+build-subfolder
+^^^^^^^^^^^^^^^
+
+To build your plugin you will also need to add an m4-script inside
+the ``build`` subfolder of the geany-plugin sources. The file should
+be called ``yourfancypluginname.m4`` and contain the definition of the M4
+macro that checks for your plugin's dependencies and generates its
+build files, which macro is called from configure.ac::
+
+ AC_DEFUN([GP_CHECK_YOURFANCYPLUGINNAME],
+ [
+     GP_ARG_DISABLE([yourfancypluginname], [yes])
+     GP_STATUS_PLUGIN_ADD([yourfancypluginname], [$enable_yourfancxpluginname])
+     AC_CONFIG_FILES([
+         yourplugin/Makefile
+         yourplugin/src/Makefile
+     ])
+ ])
+
+
+Makefile inside your plugin folder
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Makefile inside your plugin folder can be seperated at least
+into two parts: The first part is located inside the root folder of
+your plugin, whereas the second one is located inside src/ of your
+plugin.
+
+
+Plugin-root
+###########
+
+The file should be called ``Makefile.am`` and contains the entry
+point for really building your plugin. The easiest version could look
+similar to this::
+
+    include $(top_srcdir)/build/vars.auxfiles.mk
+    SUBDIRS = src
+    plugin = yourfancypluginname
+
+
+src-folder
+###########
+
+The ``Makefile.am`` inside the src-Folder is containing the
+informationen how to build the sources. An example could look like::
+
+    include $(top_srcdir)/build/vars.build.mk
+
+    yourfancypluginname_LTLIBRARIES = yourfancypluginname.la
+
+    yourfancypluginname_la_SOURCES = yourfancypluginname.c
+    yourfancypluginname_la_LIBADD = $(COMMONLIBS)
+
+    include $(top_srcdir)/build/cppcheck.mk
+
+
+
 I18n/l10n
 ---------
 
-Geany-Plugins is supporting localisation of your plugin. To make 
+Geany-Plugins is supporting localisation of your plugin. To make
 usage of it, there needs to be done:
 
-* Mark each string which should be translatable with the gettext macro 
-  ``_()`` or ``N_()`` for static strings. As an example the string 
+* Mark each string which should be translatable with the gettext macro
+  ``_()`` or ``N_()`` for static strings. As an example the string
   ``"Hello World"`` might become ``_("Hello World")``.
-* Add files with translateable strings into ``po/POTFILES.in``. You 
-  should group them for your plugin as done for the other. Each files 
-  needs to be put into one line with complete relative	 path from 
+* Add files with translateable strings into ``po/POTFILES.in``. You
+  should group them for your plugin as done for the other. Each files
+  needs to be put into one line with complete relative	 path from
   plugin root directory. E.g. ``myplugin/src/myplugin.c``
