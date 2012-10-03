@@ -37,7 +37,11 @@ int grantpt(int fd);
 
 #include <string.h>
 #include <unistd.h>
-#include <pty.h>
+#ifdef __OPENBSD__
+	#include <termios.h>
+#else
+	#include <pty.h>
+#endif
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <vte/vte.h>
