@@ -86,6 +86,9 @@ gboolean on_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data
 	if (!auto_enabled)
 		return FALSE;
 
+	if (document_get_current () == NULL)
+		return FALSE;
+
 	sci_obj = document_get_current ()->editor->sci;
 
 	if (sci_get_selected_text_length (sci_obj) < 2)
