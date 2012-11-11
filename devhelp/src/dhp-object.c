@@ -400,7 +400,8 @@ static void devhelp_plugin_init_edit_menu(DevhelpPlugin *self)
 		gtk_widget_show(man_item);
 	}
 
-	g_signal_connect(geany->main_widgets->editor_menu, "show", G_CALLBACK(on_editor_menu_popup), self);
+	plugin_signal_connect(geany_plugin, G_OBJECT(geany->main_widgets->editor_menu), "show", TRUE,
+		G_CALLBACK(on_editor_menu_popup), self);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(p->editor_menu_item), doc_menu);
 	gtk_menu_shell_append(GTK_MENU_SHELL(geany->main_widgets->editor_menu), p->editor_menu_sep);
 	gtk_menu_shell_append(GTK_MENU_SHELL(geany->main_widgets->editor_menu), p->editor_menu_item);
