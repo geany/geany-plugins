@@ -54,12 +54,6 @@ M: Dimitar Zhekov <dimitar.zhekov@gmail.com>
 W: http://sheckley.users.sourceforge.net
 S: Maintained
 
-geanygdb
-P: Dominic Hopf
-M: Dominic Hopf <dmaphy@googlemail.com>
-W: http://plugins.geany.org/geanygdb.html
-S: Odd Fixes
-
 geanygendoc
 P: Colomban Wendling <ban@herbesfolles.org>
 M: Colomban Wendling <ban@herbesfolles.org>

@@ -100,19 +100,6 @@ geanydoc/tests/unittests.c
 geanydoc/src/config.c
 geanydoc/src/geanydoc.c
 
-# geanygdb
-geanygdb/src/gdb-io-break.c
-geanygdb/src/gdb-io-envir.c
-geanygdb/src/gdb-io-frame.c
-geanygdb/src/gdb-io-read.c
-geanygdb/src/gdb-io-run.c
-geanygdb/src/gdb-ui-break.c
-geanygdb/src/gdb-ui-envir.c
-geanygdb/src/gdb-ui-frame.c
-geanygdb/src/gdb-ui-locn.c
-geanygdb/src/gdb-ui-main.c
-geanygdb/src/geanygdb.c
-
 # GeanyExtraSel
 geanyextrasel/src/extrasel.c
 

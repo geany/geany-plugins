@@ -30,10 +30,6 @@ if ENABLE_GEANYEXTRASEL
 SUBDIRS += geanyextrasel
 endif
 
-if ENABLE_GEANYGDB
-SUBDIRS += geanygdb
-endif
-
 if ENABLE_GEANYGENDOC
 SUBDIRS += geanygendoc
 endif
