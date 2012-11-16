@@ -8,9 +8,9 @@ About
 =====
 
 GProject is an extension of Geany's project management displaying a tree of files
-belonging to the project in the sidebar. In addition, it enables quick swapping 
-between header and source files, searching project files by name and more. The plugin 
-was created with big projects in mind so everything works fast enough even with 
+belonging to the project in the sidebar. In addition, it enables quick swapping
+between header and source files, searching project files by name and more. The plugin
+was created with big projects in mind so everything works fast enough even with
 projects consisting of hundreds of thousands of files.
 
 Why was it created?
@@ -20,15 +20,15 @@ A project in Geany is completely file-agnostic when it comes to the question of
 what files are stored in the project. In principle the information that Geany stores
 for every project is:
 
- * project's base directory
- * build settings
- * list of open files
+* project's base directory
+* build settings
+* list of open files
 
 This approach is fine for smaller projects where most of the project files
 are stored in a single directory but doesn't work very well with projects consisting
 of many deeply nested directories containing thousands of files. For such projects
 an expandable tree showing the project files is a better alternative making it much
-easier to to navigate between different project directories. 
+easier to to navigate between different project directories.
 
 Why are files belonging to a project defined by patterns?
 ---------------------------------------------------------
@@ -38,8 +38,8 @@ of thousands files and many developers working on them. Files are created, delet
 and moved quite frequently and after each change the project has to be updated manually.
 Instead, GProject defines a list of files belonging to the project implicitly using:
 
- * project's base directory
- * a list of glob-like patterns
+* project's base directory
+* a list of glob-like patterns
 
 Every file under the base directory matching the patterns is included into the project
 and updating the file list is as simple as pressing the refresh button.
@@ -50,20 +50,20 @@ What are the differences between GProject and GeanyPrj?
 There is another project-management Geany plugin - GeanyPrj. GProject and GeanyPrj differ
 in several aspects:
 
- * GProject is an extension of Geany's project so every Geany project is a GProject
-   at the same time and vice versa. On the other hand, GeanyPrj project is a separate
-   project so if you want to set build properties for a GeanyPrj project, you have to
-   set up a second Geany project in parallel.
- * Because GeanyPrj is a separate project management plugin, it can do some things that
-   GProject cannot - in particular, it can manage several projects in parallel.
-   If you need to switch between several projects, GeanyPrj might be a better option 
-   for you. Alternatively, you can open several Geany instances for different projects
-   to work on several projects in parallel using GProject.
- * GProject displays full tree in the sidebar while GeanyPrj displays only two-level
-   tree (full directory name as a parent and a list of files under the directory).
- * GProject has configurable patterns while patterns in GeanyPrj are hard-coded
- * GProject offers header/source swapping
- * GProject offers finding project files by name
+* GProject is an extension of Geany's project so every Geany project is a GProject
+  at the same time and vice versa. On the other hand, GeanyPrj project is a separate
+  project so if you want to set build properties for a GeanyPrj project, you have to
+  set up a second Geany project in parallel.
+* Because GeanyPrj is a separate project management plugin, it can do some things that
+  GProject cannot - in particular, it can manage several projects in parallel.
+  If you need to switch between several projects, GeanyPrj might be a better option
+  for you. Alternatively, you can open several Geany instances for different projects
+  to work on several projects in parallel using GProject.
+* GProject displays full tree in the sidebar while GeanyPrj displays only two-level
+  tree (full directory name as a parent and a list of files under the directory).
+* GProject has configurable patterns while patterns in GeanyPrj are hard-coded
+* GProject offers header/source swapping
+* GProject offers finding project files by name
 
 Usage
 =====
@@ -72,16 +72,16 @@ Project configuration
 ---------------------
 
 Upon project creation, you should define the list of file patterns under the
-Project->Properties Project tab. For instance, for a typical open source C project, 
-use patterns "\*.c \*h \*.am \*.ac" to see the source files together with 
-automake and autoconf files. After closing the dialog, the files matching the patterns 
-should appear in the sidebar under the Project tab (unless the GProject plugin 
+Project->Properties Project tab. For instance, for a typical open source C project,
+use patterns "\*.c \*h \*.am \*.ac" to see the source files together with
+automake and autoconf files. After closing the dialog, the files matching the patterns
+should appear in the sidebar under the Project tab (unless the GProject plugin
 was loaded after the project - see Known Issues for more details).
 
 Additional settings is available from the GProject tab under the Project properties
 dialog. You can define patterns to distinguish between header and source files for
 C-like languages. This information is used for header/source swapping and also for
-giving different icons to headers and sources in the sidebar (therefore, this settings 
+giving different icons to headers and sources in the sidebar (therefore, this settings
 can be also used for other types of languages if you want to give different file
 types different icons).
 
@@ -100,35 +100,35 @@ The sidebar contains a tree of files belonging to the project. Directories can b
 by double-clicking them; the same action is used to open files. When a sidebar item
 is right-clicked, a context menu appears:
 
- * Expand all - recursively expands all the subdirectories of the given directory
- * Find in files - opens the Find in files dialog and sets the search directory
-   to the clicked directory
- * Find file - opens the Find file dialog and sets the search directory to the
-   clicked directory
+* Expand all - recursively expands all the subdirectories of the given directory
+* Find in files - opens the Find in files dialog and sets the search directory
+  to the clicked directory
+* Find file - opens the Find file dialog and sets the search directory to the
+  clicked directory
 
 The following actions can be invoked from the sidebar's toolbar:
 
- * Reload all - reloads the project file tree. This is useful when files were added or
-   removed from the project.
- * Expand all - recursively expands all the directories 
- * Collapse all - recursively collapses all the directories 
- * Follow active editor - automatically selects the current file in the sidebar 
-   when the user switches to another file. It auto-expands the tree to reveal the selected 
-   file.
+* Reload all - reloads the project file tree. This is useful when files were added or
+  removed from the project.
+* Expand all - recursively expands all the directories
+* Collapse all - recursively collapses all the directories
+* Follow active editor - automatically selects the current file in the sidebar
+  when the user switches to another file. It auto-expands the tree to reveal the selected
+  file.
 
 Project menu entries
 --------------------
 
 GProject adds some extra entries under the Project menu:
 
- * Find in Project Files - opens the Find in files dialog and sets the search directory
-   to the base directory of the project
- * Find Project File - opens the Find file dialog and sets the search directory to the
-   base directory of the project
- * Swap Header/Source - if the current file matches one of the source patterns from
-   the properties, it opens a project file with the same base name (without extension)
-   matching header patterns (and vice versa). If the files are already open, it
-   just switches the document tabs. Nothing happens if no matching file is found.
+* Find in Project Files - opens the Find in files dialog and sets the search directory
+  to the base directory of the project
+* Find Project File - opens the Find file dialog and sets the search directory to the
+  base directory of the project
+* Swap Header/Source - if the current file matches one of the source patterns from
+  the properties, it opens a project file with the same base name (without extension)
+  matching header patterns (and vice versa). If the files are already open, it
+  just switches the document tabs. Nothing happens if no matching file is found.
 
 Each of these entries can be assigned a key binding under Edit->Preferences->Keybindings.
 
@@ -136,35 +136,35 @@ Find file dialog
 ----------------
 
 The Find file dialog can be invoked either from the Project menu or from the
-sidebar's context menu. Searches are performed recursively, starting from the 
+sidebar's context menu. Searches are performed recursively, starting from the
 "Search inside" directory. All files having the searched string as a substring of their
-name are displayed in the Messages window. Clicking the file name opens the file. 
+name are displayed in the Messages window. Clicking the file name opens the file.
 The following search properties are configurable:
 
- * Case sensitive - specifies whether the searches should be case-sensitive
- * Search in full path - when not checked, the search is performed in the file
-   name only (excluding path); when checked, the search is performed in the full path
+* Case sensitive - specifies whether the searches should be case-sensitive
+* Search in full path - when not checked, the search is performed in the file
+  name only (excluding path); when checked, the search is performed in the full path
 
 Editor context menu
 -------------------
 
 GProject adds an extra entry into the context menu of the editor:
 
- * Open Selected File (GProject) - contrary to the Open Selected File entry present
-   in Geany it also searches for the file in project files
+* Open Selected File (GProject) - contrary to the Open Selected File entry present
+  in Geany it also searches for the file in project files
 
 Known issues
 ============
 
- * When the plugin is loaded from the Plugin Manager for the first time and a project 
-   is already open, no files are displayed in the sidebar. The workaround is to
-   reload the project in this case. The issue is caused by Geany only passing the project
-   configuration file to a plugin when the project is loaded, which isn't the case when 
-   the plugin is loaded.
- * There might be some issues with UTF8 file names - the testing has been very
-   limited. 
- * GProject hasn't been tested under Windows so probably not everything works there.
-   Patches are welcome. 
+* When the plugin is loaded from the Plugin Manager for the first time and a project
+  is already open, no files are displayed in the sidebar. The workaround is to
+  reload the project in this case. The issue is caused by Geany only passing the project
+  configuration file to a plugin when the project is loaded, which isn't the case when
+  the plugin is loaded.
+* There might be some issues with UTF8 file names - the testing has been very
+  limited.
+* GProject hasn't been tested under Windows so probably not everything works there.
+  Patches are welcome.
 
 License
 =======

@@ -19,10 +19,10 @@ and inserted into an HTML template and loaded into a
 Features
 --------
 
- * Allows placing the preview in the sidebar or message window areas
- * Updates the preview on-the-fly as you type, automatically.
- * Allows simple customization of fonts and colours and complete control
-   with custom template files.
+* Allows placing the preview in the sidebar or message window areas
+* Updates the preview on-the-fly as you type, automatically.
+* Allows simple customization of fonts and colours and complete control
+  with custom template files.
 
 Usage
 -----
@@ -146,8 +146,8 @@ Requirements
 
 The plugin depends on the following libraries:
 
- * `GTK+ <http://www.gtk.org>`_ 2.16 or greater
- * `WebKitGTK+ <http://webkitgtk.org>`_ 1.1.18 or greater
+* `GTK+ <http://www.gtk.org>`_ 2.16 or greater
+* `WebKitGTK+ <http://webkitgtk.org>`_ 1.1.18 or greater
 
 License
 -------
