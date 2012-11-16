@@ -81,7 +81,7 @@ selection, offering a little dialog for inserting a tag and
 replacing a selection.
 
 *Enclosing selected text*
-^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^
 Provides two methods for enclosing selected text in characters.  If the 'Enclose
 selection automatically' option is checked in Preferences, selected text will
 be surrounded when certain characters are pressed (e.g. highlight a string and
