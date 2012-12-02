@@ -515,7 +515,7 @@ on_web_view_populate_popup (WebKitWebView *view,
   #define ADD_SEPARATOR(menu) \
     item = gtk_separator_menu_item_new (); \
     gtk_widget_show (item); \
-    gtk_menu_append (menu, item)
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item)
   
   ADD_SEPARATOR (menu);
   
@@ -524,23 +524,23 @@ on_web_view_populate_popup (WebKitWebView *view,
   item = gtk_menu_item_new_with_mnemonic (_("_Zoom"));
   gtk_widget_show (item);
   gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), submenu);
-  gtk_menu_append (menu, item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   /* zoom in */
   item = gtk_image_menu_item_new_from_stock (GTK_STOCK_ZOOM_IN, NULL);
   g_signal_connect_swapped (item, "activate",
                             G_CALLBACK (webkit_web_view_zoom_in), view);
-  gtk_menu_append (GTK_MENU (submenu), item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
   /* zoom out */
   item = gtk_image_menu_item_new_from_stock (GTK_STOCK_ZOOM_OUT, NULL);
   g_signal_connect_swapped (item, "activate",
                             G_CALLBACK (webkit_web_view_zoom_out), view);
-  gtk_menu_append (GTK_MENU (submenu), item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
   /* zoom 1:1 */
   ADD_SEPARATOR (submenu);
   item = gtk_image_menu_item_new_from_stock (GTK_STOCK_ZOOM_100, NULL);
   g_signal_connect (item, "activate",
                     G_CALLBACK (on_item_zoom_100_activate), self);
-  gtk_menu_append (GTK_MENU (submenu), item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
   /* full content zoom */
   ADD_SEPARATOR (submenu);
   item = gtk_check_menu_item_new_with_mnemonic (_("Full-_content zoom"));
@@ -548,7 +548,7 @@ on_web_view_populate_popup (WebKitWebView *view,
                                   webkit_web_view_get_full_content_zoom (view));
   g_signal_connect (item, "activate",
                     G_CALLBACK (on_item_full_content_zoom_activate), self);
-  gtk_menu_append (GTK_MENU (submenu), item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
   /* show zoom sumbenu */
   gtk_widget_show_all (submenu);
   
@@ -558,7 +558,7 @@ on_web_view_populate_popup (WebKitWebView *view,
   g_signal_connect (item, "activate",
                     G_CALLBACK (on_item_flip_orientation_activate), self);
   gtk_widget_show (item);
-  gtk_menu_append (menu, item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   if (! INSPECTOR_VISIBLE (self) || INSPECTOR_DETACHED (self)) {
     gtk_widget_set_sensitive (item, FALSE);
   }

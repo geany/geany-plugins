@@ -258,14 +258,14 @@ on_browser_populate_popup (GwhBrowser *browser,
   
   item = gtk_separator_menu_item_new ();
   gtk_widget_show (item);
-  gtk_menu_append (menu, item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   
   g_object_get (G_OBJECT (G_settings), "browser-auto-reload", &auto_reload,
                 NULL);
   item = gtk_check_menu_item_new_with_mnemonic (_("Reload upon document saving"));
   gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), auto_reload);
   gtk_widget_show (item);
-  gtk_menu_append (menu, item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect (item, "toggled", G_CALLBACK (on_item_auto_reload_toggled),
                     NULL);
 }
