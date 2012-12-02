@@ -30,6 +30,7 @@
 #include "gwh-utils.h"
 #include "gwh-settings.h"
 #include "gwh-keybindings.h"
+#include "gwh-plugin.h"
 
 
 #if ! GTK_CHECK_VERSION (2, 18, 0)
@@ -883,6 +884,25 @@ create_inspector_window (GwhBrowser *self)
 }
 
 static void
+on_web_view_hovering_over_link (WebKitWebView *view,
+                                gchar         *title,
+                                gchar         *uri,
+                                GwhBrowser    *self)
+{
+  static guint id = 0;
+  
+  if (id == 0) {
+    id = gtk_statusbar_get_context_id (GTK_STATUSBAR (ui_widgets.statusbar),
+                                       "gwh-browser-hovered-link");
+  }
+  
+  gtk_statusbar_pop (GTK_STATUSBAR (ui_widgets.statusbar), id);
+  if (uri && *uri) {
+    gtk_statusbar_push (GTK_STATUSBAR (ui_widgets.statusbar), id, uri);
+  }
+}
+
+static void
 gwh_browser_init (GwhBrowser *self)
 {
   GtkWidget          *scrolled;
@@ -956,6 +976,8 @@ gwh_browser_init (GwhBrowser *self)
                     G_CALLBACK (on_web_view_populate_popup), self);
   g_signal_connect (G_OBJECT (self->priv->web_view), "scroll-event",
                     G_CALLBACK (on_web_view_scroll_event), self);
+  g_signal_connect (G_OBJECT (self->priv->web_view), "hovering-over-link",
+                    G_CALLBACK (on_web_view_hovering_over_link), self);
   
   g_signal_connect (self->priv->web_view, "key-press-event",
                     G_CALLBACK (gwh_keybindings_handle_event), self);
