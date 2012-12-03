@@ -75,6 +75,8 @@ struct _GwhBrowserPrivate
   GtkToolItem  *item_cancel;
   GtkToolItem  *item_reload;
   GtkToolItem  *item_inspector;
+  
+  gchar        *hovered_link;
 };
 
 enum {
@@ -645,6 +647,7 @@ gwh_browser_finalize (GObject *object)
     g_object_unref (self->priv->default_icon);
   }
   g_object_unref (self->priv->settings);
+  g_free (self->priv->hovered_link);
   
   G_OBJECT_CLASS (gwh_browser_parent_class)->finalize (object);
 }
@@ -883,11 +886,8 @@ create_inspector_window (GwhBrowser *self)
   return self->priv->inspector_window;
 }
 
-static void
-on_web_view_hovering_over_link (WebKitWebView *view,
-                                gchar         *title,
-                                gchar         *uri,
-                                GwhBrowser    *self)
+static guint
+get_statusbar_context_id (GtkStatusbar *statusbar)
 {
   static guint id = 0;
   
@@ -896,10 +896,59 @@ on_web_view_hovering_over_link (WebKitWebView *view,
                                        "gwh-browser-hovered-link");
   }
   
-  gtk_statusbar_pop (GTK_STATUSBAR (ui_widgets.statusbar), id);
-  if (uri && *uri) {
-    gtk_statusbar_push (GTK_STATUSBAR (ui_widgets.statusbar), id, uri);
+  return id;
+}
+
+static void
+on_web_view_hovering_over_link (WebKitWebView *view,
+                                gchar         *title,
+                                gchar         *uri,
+                                GwhBrowser    *self)
+{
+  GtkStatusbar *statusbar = GTK_STATUSBAR (ui_widgets.statusbar);
+  
+  if (self->priv->hovered_link) {
+    gtk_statusbar_pop (statusbar, get_statusbar_context_id (statusbar));
+    g_free (self->priv->hovered_link);
+    self->priv->hovered_link = NULL;
   }
+  if (uri && *uri) {
+    self->priv->hovered_link = g_strdup (uri);
+    gtk_statusbar_push (statusbar, get_statusbar_context_id (statusbar),
+                        self->priv->hovered_link);
+  }
+}
+
+static void
+on_web_view_leave_notify_event (GtkWidget        *widget,
+                                GdkEventCrossing *event,
+                                GwhBrowser       *self)
+{
+  if (self->priv->hovered_link) {
+    GtkStatusbar *statusbar = GTK_STATUSBAR (ui_widgets.statusbar);
+    
+    gtk_statusbar_pop (statusbar, get_statusbar_context_id (statusbar));
+  }
+}
+
+static void
+on_web_view_enter_notify_event (GtkWidget        *widget,
+                                GdkEventCrossing *event,
+                                GwhBrowser       *self)
+{
+  if (self->priv->hovered_link) {
+    GtkStatusbar *statusbar = GTK_STATUSBAR (ui_widgets.statusbar);
+    
+    gtk_statusbar_push (statusbar, get_statusbar_context_id (statusbar),
+                        self->priv->hovered_link);
+  }
+}
+
+static void
+on_web_view_realize (GtkWidget  *widget,
+                     GwhBrowser *self)
+{
+  gtk_widget_add_events (widget, GDK_LEAVE_NOTIFY_MASK | GDK_ENTER_NOTIFY_MASK);
 }
 
 static void
@@ -947,6 +996,8 @@ gwh_browser_init (GwhBrowser *self)
                                     : self->priv->paned),
                      self->priv->inspector_view);
   
+  self->priv->hovered_link = NULL;
+  
   g_signal_connect (self, "notify::orientation",
                     G_CALLBACK (on_orientation_notify), self);
   
@@ -978,6 +1029,12 @@ gwh_browser_init (GwhBrowser *self)
                     G_CALLBACK (on_web_view_scroll_event), self);
   g_signal_connect (G_OBJECT (self->priv->web_view), "hovering-over-link",
                     G_CALLBACK (on_web_view_hovering_over_link), self);
+  g_signal_connect (G_OBJECT (self->priv->web_view), "leave-notify-event",
+                    G_CALLBACK (on_web_view_leave_notify_event), self);
+  g_signal_connect (G_OBJECT (self->priv->web_view), "enter-notify-event",
+                    G_CALLBACK (on_web_view_enter_notify_event), self);
+  g_signal_connect_after (self->priv->web_view, "realize",
+                          G_CALLBACK (on_web_view_realize), self);
   
   g_signal_connect (self->priv->web_view, "key-press-event",
                     G_CALLBACK (gwh_keybindings_handle_event), self);
