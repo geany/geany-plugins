@@ -61,6 +61,7 @@ Avaialble plugins are:
 * gproject -- the GProject plugin
 * gtkspell -- GeanyVC's spell-check support
 * pretty_printer -- the pretty-printer plugin
+* scope -- the Scope plugin
 * shiftcolumn -- the ShiftColumn plugin
 * spellcheck -- the spellcheck plugin
 * treebrowser -- the Treebrowser plugin

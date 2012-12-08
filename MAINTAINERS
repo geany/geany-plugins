@@ -156,6 +156,12 @@ M:
 W:
 S:
 
+scope
+P: Dimitar Zhekov <dimitar.zhekov@gmail.com>
+M: Dimitar Zhekov <dimitar.zhekov@gmail.com>
+W: http://sheckley.users.sourceforge.net
+S: Maintained
+
 shiftcolumn
 P:
 M:

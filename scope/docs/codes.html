@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Codes</title>
+    <style type="text/css">
+	.tab { padding-left:1em; }
+	.nowrap { white-space:nowrap; }
+    </style>
+</head>
+
+<body>
+
+<table>
+
+<tr><td class="nowrap">command</td>
+	<td class="tab">sent by</td>
+	<td class="tab">receive action</td></tr>
+
+<tr><td class="nowrap">&nbsp;</td><td class="tab">&nbsp;</td><td class="tab">&nbsp;</td></tr>
+
+<tr><td class="nowrap">016source</td>
+	<td class="tab">program startup</td>
+	<td class="tab">apply breaks/inspects, send autorun commands</td></tr>
+
+<tr><td class="nowrap">015-file-exec-and-symbols</td>
+	<td class="tab">program startup</td>
+	<td class="tab">same as 016 if no run script, otherwise nop</td></tr>
+
+<tr><td class="nowrap">&nbsp;</td><td class="tab">&nbsp;</td><td class="tab">&nbsp;</td></tr>
+
+<tr><td class="nowrap">02[01]&lt;scid&gt;-break-disable</td>
+	<td class="tab">un/check break enabled column</td>
+	<td class="tab">set breakpoint enabled column, remark breakpoint</td></tr>
+
+<tr><td class="nowrap">022&lt;id&gt;-break-after</td>
+	<td class="tab">breakpoint <em>Ignore</em> column edited</td>
+	<td class="tab">&lt;id&gt;-break-info</td></tr>
+
+<tr><td class="nowrap">022&lt;id&gt;-break-condition</td>
+	<td class="tab">breakpoint <em>Condition</em> column edited</td>
+	<td class="tab">-''-</td></tr>
+
+<tr><td class="nowrap">022&lt;id&gt;-break-commands</td>
+	<td class="tab">breakpoint <em>Script</em> column edited</td>
+	<td class="tab">-''-</td></tr>
+
+<tr><td class="nowrap">023&lt;id&gt;-break-delete</td>
+	<td class="tab"><em>Delete</em> or un-<em>Toggle breakpoint</em></td>
+	<td class="tab">remove breakpoint from the list or clear id</td></tr>
+
+<tr><td class="nowrap">02-break-list</td>
+	<td class="tab"><em>Refresh</em> breakpoints</td>
+	<td class="tab">full breakpoint list refresh (without token is partial)</td></tr>
+
+<tr><td class="nowrap">02-break-insert -t</td>
+	<td class="tab">Insert <em>Temporary breakpoint at</em></td>
+	<td class="tab">mark for discard</td></tr>
+
+<tr><td class="nowrap">020-break-insert -t</td>
+	<td class="tab"><em>Run to Cursor</em> in scope mode</td>
+	<td class="tab">mark for discard and -exec-continue</td></tr>
+
+<tr><td class="nowrap">02&lt;scid&gt;-break-insert/watch</td>
+	<td class="tab"><em>Apply</em> watch, initial break apply</td>
+	<td class="tab">send watch ignore, condition and break/watch script</td></tr>
+
+<tr><td class="nowrap">025&lt;id&gt;-break-delete</td>
+	<td class="tab">re-<em>Apply</em> breakpoint (obsolete)</td>
+	<td class="tab">apply breakpoint (after being deleted in gdb)</td></tr>
+
+<tr><td class="nowrap">02&lt;tid&gt;-stack-list-frames</td>
+	<td class="tab"><em>Refresh</em> stack</td>
+	<td class="tab">clear stack list and load stack frames into it</td></tr>
+
+<tr><td class="nowrap">02&lt;tid&gt;-stack-list-arguments</td>
+	<td class="tab"><em>Refresh</em> stack</td>
+	<td class="tab">fill stack <em>Arguments</em> column</td></tr>
+
+<tr><td class="nowrap">02&lt;tid&gt;&lt;fid&gt;-stack-list-variables</td>
+	<td class="tab"><em>Refresh</em> locals</td>
+	<td class="tab">clear locals list and load local variables into it</td></tr>
+
+<tr><td class="nowrap">&nbsp;</td><td class="tab">&nbsp;</td><td class="tab">&nbsp;</td></tr>
+
+<tr><td class="nowrap">03&lt;scid&gt;-data-evaluate-expression</td>
+	<td class="tab">tooltip hover</td>
+	<td class="tab">display tooltip or process error</td></tr>
+
+<tr><td class="nowrap">&nbsp;</td><td class="tab">&nbsp;</td><td class="tab">&nbsp;</td></tr>
+
+<tr><td class="nowrap">04-break-list</td>
+	<td class="tab">views idle update</td>
+	<td class="tab">same as 02-break-list</td></tr>
+
+<tr><td class="nowrap">04-thread-info &lt;id&gt;</td>
+	<td class="tab">thread created -&gt; fetch target id</td>
+	<td class="tab">load thread info into list</td></tr>
+
+<tr><td class="nowrap">04-thread-info</td>
+	<td class="tab">views idle update</td>
+	<td class="tab">(partial) thread list refresh</td></tr>
+
+<tr><td class="nowrap">04-data-disassemble</td>
+	<td class="tab">views idle update</td>
+	<td class="tab">(print instruction in debug console)</td></tr>
+
+<tr><td class="nowrap">04-var-update</td>
+	<td class="tab">views idle update</td>
+	<td class="tab">(partial) inspects update</td></tr>
+
+<tr><td class="nowrap">04&lt;tid&gt;-stack-list-frames</td>
+	<td class="tab">views idle update</td>
+	<td class="tab">same as 02&lt;tid&gt;-stack-list-frames</td></tr>
+
+<tr><td class="nowrap">04&lt;tid&gt;-stack-list-arguments</td>
+	<td class="tab">views idle update</td>
+	<td class="tab">same as 02&lt;tid&gt;-stack-list-arguments</td></tr>
+
+<tr><td class="nowrap">04&lt;tid&gt;&lt;fid&gt;-stack-list-variables</td>
+	<td class="tab">views idle update</td>
+	<td class="tab">same as 02&lt;tid&gt;-stack-list-variables</td></tr>
+
+<tr><td class="nowrap">&nbsp;</td><td class="tab">&nbsp;</td><td class="tab">&nbsp;</td></tr>
+
+<tr><td class="nowrap">05</td>
+	<td class="tab">gdb startup if autorun</td>
+	<td class="tab">-exec-run if active breaks &amp; no errors</td></tr>
+
+<tr><td class="nowrap">-''-</td>
+	<td class="tab">after temp break insert <em>location</em></td>
+	<td class="tab">-''-</td></tr>
+
+<tr><td class="nowrap">-''-</td>
+	<td class="tab">after temp break insert <em>first loc</em></td>
+	<td class="tab">-''-</td></tr>
+
+<tr><td class="nowrap">05-list-features</td>
+	<td class="tab">first time gdb startup</td>
+	<td class="tab">check for breakpoint-notifications</td>
+
+<tr><td class="nowrap">&nbsp;</td><td class="tab">&nbsp;</td><td class="tab">&nbsp;</td></tr>
+
+<tr><td class="nowrap">06&lt;scid&gt;-data-evaluate-expression</td>
+	<td class="tab">watch <em>Add</em>, <em>Refresh</em></td>
+	<td class="tab">set watch <em>Value</em> column to value or error</td></tr>
+
+<tr><td class="nowrap">&nbsp;</td><td class="tab">&nbsp;</td><td class="tab">&nbsp;</td></tr>
+
+<tr><td class="nowrap">07-list-target-features</td>
+	<td class="tab">each gdb startup</td>
+	<td class="tab">check for async</td></tr>
+
+<tr><td class="nowrap">07&lt;scid&gt;-var-create</td>
+	<td class="tab">auto/manual inspect <em>Apply</em></td>
+	<td class="tab">set format if non-native, expand if automatic</td></tr>
+
+<tr><td class="nowrap">07&lt;scid&gt;-var-set-format</td>
+	<td class="tab">change inspect <em>Format</em></td>
+	<td class="tab">update inspect value and format</td></tr>
+
+<tr><td class="nowrap">07&lt;start&gt;&lt;scid&gt;-var-list-children</td>
+	<td class="tab">auto/manual <em>Expand</em> inspect</td>
+	<td class="tab">insert children, set range if needed</td></tr>
+
+<tr><td class="nowrap">07&lt;scid&gt;-var-assign</td>
+	<td class="tab">inspect value column edited</td>
+	<td class="tab">update inspect value</td></tr>
+
+<tr><td class="nowrap">070&lt;scid&gt;-var-delete</td>
+	<td class="tab">un-<em>Apply</em> inspect</td>
+	<td class="tab">delete all children, clear columns</td></tr>
+
+<tr><td class="nowrap">071&lt;scid&gt;-var-delete</td>
+	<td class="tab"><em>Delete</em> inspect</td>
+	<td class="tab">remove inspect from the tree</td></tr>
+
+<tr><td class="nowrap">&nbsp;</td><td class="tab">&nbsp;</td><td class="tab">&nbsp;</td></tr>
+
+<tr><td class="nowrap">08-gdb-set</td>
+	<td class="tab">local <em>Modify</em> / <em>Value</em> column edited</td>
+	<td class="tab">mark locals as dirty</td></tr>
+
+<tr><td class="nowrap">08&lt;tid&gt;-gdb-set</td>
+	<td class="tab">08 for arg1 local variable</td>
+	<td class="tab">08 plus -stack-list-arguments --thread &lt;tid&gt;</td></tr>
+
+<tr><td class="nowrap">&nbsp;</td><td class="tab">&nbsp;</td><td class="tab">&nbsp;</td></tr>
+
+<tr><td class="nowrap">09&lt;scid&gt;-gdb-set</td>
+	<td class="tab">watch <em>Modify</em> / <em>Value</em> column edited</td>
+	<td class="tab">06&lt;scid&gt;-data-evaluate-expression</td></tr>
+
+<tr><td class="nowrap">09&lt;scid&gt;-data-evaluate-expression</td>
+	<td class="tab">popup <em>Evaluate/Modify</em></td>
+	<td class="tab">command dialog with -gdb-set var expr=value</td></tr>
+
+</table>
+
+</body>
+</html>
