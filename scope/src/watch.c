@@ -236,8 +236,8 @@ void watches_delete_all(void)
 static gboolean watch_load(GKeyFile *config, const char *section)
 {
 	gchar *expr = utils_key_file_get_string(config, section, "expr");
-	gint hb_mode = g_key_file_get_integer(config, section, "hb_mode", NULL);
-	gint mr_mode = g_key_file_get_integer(config, section, "mr_mode", NULL);
+	gint hb_mode = g_key_file_get_integer(config, section, "hbit", NULL);
+	gint mr_mode = g_key_file_get_integer(config, section, "member", NULL);
 	gboolean enabled = g_key_file_get_boolean(config, section, "enabled", NULL);
 	gboolean valid = FALSE;
 
@@ -271,8 +271,8 @@ static gboolean watch_save(GKeyFile *config, const char *section, GtkTreeIter *i
 	gtk_tree_model_get(model, iter, WATCH_EXPR, &expr, WATCH_HB_MODE, &hb_mode,
 		WATCH_MR_MODE, &mr_mode, WATCH_ENABLED, &enabled, -1);
 	g_key_file_set_string(config, section, "expr", expr);
-	g_key_file_set_integer(config, section, "hb_mode", hb_mode);
-	g_key_file_set_integer(config, section, "mr_mode", mr_mode);
+	g_key_file_set_integer(config, section, "hbit", hb_mode);
+	g_key_file_set_integer(config, section, "member", mr_mode);
 	g_key_file_set_boolean(config, section, "enabled", enabled);
 	return TRUE;
 }

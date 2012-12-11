@@ -480,8 +480,8 @@ static void parse_mode_free(ParseMode *pm)
 static gboolean parse_mode_load(GKeyFile *config, const char *section)
 {
 	char *name = utils_key_file_get_string(config, section, "name");
-	gint hb_mode = g_key_file_get_integer(config, section, "hb_mode", NULL);
-	gint mr_mode = g_key_file_get_integer(config, section, "mr_mode", NULL);
+	gint hb_mode = g_key_file_get_integer(config, section, "hbit", NULL);
+	gint mr_mode = g_key_file_get_integer(config, section, "member", NULL);
 
 	if (name && (unsigned) hb_mode < HB_COUNT && (unsigned) mr_mode < MR_MODIFY)
 	{
@@ -500,8 +500,8 @@ static gboolean parse_mode_load(GKeyFile *config, const char *section)
 static gboolean parse_mode_save(GKeyFile *config, const char *section, ParseMode *pm)
 {
 	g_key_file_set_string(config, section, "name", pm->name);
-	g_key_file_set_integer(config, section, "hb_mode", pm->hb_mode);
-	g_key_file_set_integer(config, section, "mr_mode", pm->mr_mode);
+	g_key_file_set_integer(config, section, "hbit", pm->hb_mode);
+	g_key_file_set_integer(config, section, "member", pm->mr_mode);
 	return TRUE;
 }
 
@@ -585,12 +585,12 @@ gboolean parse_variable(GArray *nodes, ParseVariable *var, const char *children)
 void parse_load(GKeyFile *config)
 {
 	array_clear(parse_modes, (GFreeFunc) parse_mode_free);
-	utils_load(config, "parse_mode", parse_mode_load);
+	utils_load(config, "parse", parse_mode_load);
 }
 
 void parse_save(GKeyFile *config)
 {
-	array_save(parse_modes, config, "parse_mode", (ASaveFunc) parse_mode_save);
+	array_save(parse_modes, config, "parse", (ASaveFunc) parse_mode_save);
 }
 
 void parse_init(void)

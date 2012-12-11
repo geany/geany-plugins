@@ -701,7 +701,7 @@ static gboolean inspect_load(GKeyFile *config, const char *section)
 {
 	char *name = utils_key_file_get_string(config, section, "name");
 	gchar *expr = utils_key_file_get_string(config, section, "expr");
-	gint hb_mode = g_key_file_get_integer(config, section, "hb_mode", NULL);
+	gint hb_mode = g_key_file_get_integer(config, section, "hbit", NULL);
 	char *frame = utils_key_file_get_string(config, section, "frame");
 	gboolean run_apply = g_key_file_get_boolean(config, section, "run_apply", NULL);
 	gint start = g_key_file_get_integer(config, section, "start", NULL);
@@ -749,7 +749,7 @@ static gboolean inspect_save(GKeyFile *config, const char *section, GtkTreeIter 
 		INSPECT_FORMAT, &format, -1);
 	g_key_file_set_string(config, section, "name", name);
 	g_key_file_set_string(config, section, "expr", expr);
-	g_key_file_set_integer(config, section, "hb_mode", hb_mode);
+	g_key_file_set_integer(config, section, "hbit", hb_mode);
 	g_key_file_set_string(config, section, "frame", frame);
 	g_key_file_set_boolean(config, section, "run_apply", run_apply);
 	g_key_file_set_integer(config, section, "start", start);
