@@ -14,6 +14,7 @@
 #include <fcntl.h>
 #include <glib.h>
 #include <glib/gstdio.h>
+#include <gdk/gdkkeysyms.h>
 
 #include "geany.h"
 #include "geanyplugin.h"
@@ -1418,6 +1419,18 @@ on_treeview_mouseclick(GtkWidget *widget, GdkEventButton *event, GtkTreeSelectio
 	return FALSE;
 }
 
+static gboolean
+on_treeview_keypress(GtkWidget *widget, GdkEventKey *event)
+{
+	if (event->keyval == GDK_KEY_BackSpace)
+	{
+		on_button_go_up();
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static void
 on_treeview_changed(GtkWidget *widget, gpointer user_data)
 {
@@ -1721,6 +1734,7 @@ create_sidebar(void)
 	g_signal_connect(treeview, 			"row-activated", 		G_CALLBACK(on_treeview_row_activated), 			NULL);
 	g_signal_connect(treeview, 			"row-collapsed", 		G_CALLBACK(on_treeview_row_collapsed), 			NULL);
 	g_signal_connect(treeview, 			"row-expanded", 		G_CALLBACK(on_treeview_row_expanded), 			NULL);
+	g_signal_connect(treeview, 			"key-release-event", 		G_CALLBACK(on_treeview_keypress), 			NULL);
 	g_signal_connect(addressbar, 		"activate", 			G_CALLBACK(on_addressbar_activate), 			NULL);
 	g_signal_connect(filter, 			"activate", 			G_CALLBACK(on_filter_activate), 				NULL);
 
