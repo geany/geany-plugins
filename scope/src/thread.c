@@ -773,7 +773,7 @@ static void on_thread_show_core(const MenuItem *menu_item)
 #define DS_INTRABLE (DS_ACTIVE | DS_EXTRA_2)
 #define DS_TERMABLE (DS_ACTIVE | DS_EXTRA_2)
 #define DS_SIGNABLE (DS_ACTIVE | DS_EXTRA_2)
-#define DS_VIEWABLE (DS_BASICS | DS_EXTRA_3)
+#define DS_VIEWABLE (DS_ACTIVE | DS_EXTRA_3)
 
 static MenuItem thread_menu_items[] =
 {

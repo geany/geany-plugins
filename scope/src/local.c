@@ -64,7 +64,13 @@ static const TreeCell local_cells[] =
 	{ NULL, NULL }
 };
 
-static void local_node_variable(const ParseNode *node, const char *name)
+typedef struct _LocalData
+{
+	char *name;
+	gboolean entry;
+} LocalData;
+
+static void local_node_variable(const ParseNode *node, const LocalData *ld)
 {
 	iff (node->type == PT_ARRAY, "variables: contains value")
 	{
@@ -76,14 +82,14 @@ static void local_node_variable(const ParseNode *node, const char *name)
 			GtkTreeIter iter;
 			const char *arg1 = parse_find_value(nodes, "arg");
 
-			//if (!arg1 || show entry arguments || !g_str_has_suffix(var.name, "@entry"))
+			if (!arg1 || ld->entry || !g_str_has_suffix(var.name, "@entry"))
 			{
 				gtk_list_store_append(store, &iter);
 				gtk_list_store_set(store, &iter, LOCAL_NAME, var.name, LOCAL_DISPLAY,
 					var.display, LOCAL_VALUE, var.value, LOCAL_HB_MODE, var.hb_mode,
 					LOCAL_MR_MODE, var.mr_mode, LOCAL_ARG1, arg1, -1);
 
-				if (name && !strcmp(var.name, name))
+				if (!g_strcmp0(var.name, ld->name))
 					gtk_tree_selection_select_iter(selection, &iter);
 			}
 			parse_variable_free(&var);
@@ -101,16 +107,17 @@ void on_local_variables(GArray *nodes)
 	{
 		char *name = NULL;
 		GtkTreeIter iter;
+		LocalData ld = { NULL, stack_entry() };
 
 		if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 		{
-			gtk_tree_model_get(model, &iter, LOCAL_NAME, &name, -1);
+			gtk_tree_model_get(model, &iter, LOCAL_NAME, &ld.name, -1);
 			name = g_strdup(name);
 		}
 
 		locals_clear();
-		array_foreach(parse_lead_array(nodes), (GFunc) local_node_variable, name);
-		g_free(name);
+		array_foreach(parse_lead_array(nodes), (GFunc) local_node_variable, &ld);
+		g_free(ld.name);
 	}
 }
 
@@ -131,7 +138,7 @@ void locals_clear(void)
 static void local_send_update(char token)
 {
 	debug_send_format(F, "0%c%c%s%s-stack-list-variables 1", token,
-		'0' + strlen(thread_id) - 1, thread_id, frame_id);
+		'0' + (int) strlen(thread_id) - 1, thread_id, frame_id);
 }
 
 gboolean locals_update(void)

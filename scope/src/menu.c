@@ -234,7 +234,7 @@ void menu_mode_update(GtkTreeSelection *selection, gint new_mode, gboolean hbit)
 	gtk_tree_selection_get_selected(selection, &model, &iter);
 	gtk_tree_model_get(model, &iter, COLUMN_NAME, &name, -1);
 	menu_mode_update_iter(model, &iter, new_mode, hbit);
-	parse_mode_update(name, new_mode, hbit);
+	parse_mode_update(name, hbit ? MODE_HBIT : MODE_MEMBER, new_mode);
 
 	if (hbit)
 	{

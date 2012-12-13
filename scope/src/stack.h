@@ -24,6 +24,7 @@ extern const char *frame_id;
 void on_stack_frames(GArray *nodes);
 void on_stack_arguments(GArray *nodes);
 
+gboolean stack_entry(void);
 void stack_clear(void);
 gboolean stack_update(void);
 

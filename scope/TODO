@@ -1,7 +1,5 @@
 wscript_*
 
-per-function [ ] Show @entry arguments
-
 evaluate expressions with quotes
 
 various tests, source code checks etc.

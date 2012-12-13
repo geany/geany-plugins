@@ -385,11 +385,11 @@ marker for enabled breakpoint will be used for that line.</p>
 
 <p><b><a name="stack">Stack</a></b></p>
 
-<p>The stack will be updated slightly faster if you keep it unsorted or ordered by frame #
-ascending.</p>
-
 <p>The function arguments are subject to 8-bit text conversion. Their individual modes may be
 set via <em>Locals</em>.</p>
+
+<p><em>Show @entry</em> - display any @entry arguments for the current function. Applies to
+<em>Locals</em> too.</p>
 
 <p><b><a name="local">Locals</a></b></p>
 
@@ -550,6 +550,8 @@ them has Scope enabled. Otherwise, the list of programs and their settings may b
 <p>A disabled check button or check menu item means that the respective functionality is
 unavailable; it doesn't matter if the interface element is checked or not.</p>
 
+<p>All subpages will be updated faster if you keep them unsorted.</p>
+
 <p><b><a name="editing_values">Editing values</a></b></p>
 
 <div>GDB often displays values in format unsuitable for assigning. So when editing a value,
@@ -575,13 +577,13 @@ assigned like that.<br>
 with backslash will fail. If parsing errors are detected when editing the <em>Value</em>
 column, the entire value will be cleared - but that is not guaranteed to work either.</p>
 
-<p><b><a name="keeping_modes">Editing values</a></b></p>
+<p><b><a name="keeping_modes">Keeping modes</a></b></p>
 
-<p>The 7-bit and .names modes for temporary objects, such as local variables, are not saved.
-However, there is a global list with names and modes, and whenever you change a mode, it's
-saved in that list. When a temporary object is created, Scope searches the list, and sets the
+<p>The 7-bit, .names etc. modes for temporary objects, such as local variables, are not saved.
+However, there is a global list with names and modes, and when you change a mode, it's saved
+in that list. Then, when a temporary object is created, Scope searches the list, and sets the
 modes (if any) for that object. For inspect children, the displayed names are used (including
-numbers for array elements), not the not the fully qualified names.</p>
+numbers for array elements), not the fully qualified names.</p>
 
 <p><b><a name="xos4_colors">Sample dark colors</a></b></p>
 
@@ -668,7 +670,7 @@ later version.</p>
 
 <b><a name="copyright">Copyright</a></b>
 
-<p>Scope 0.75, Copyright (C) 2012 Dimitar Toshkov Zhekov</p>
+<p>Scope 0.76, Copyright (C) 2012 Dimitar Toshkov Zhekov</p>
 
 <p>The menu and toolbar icons are from <a href="http://netbeans.org">Netbeans</a>, except for
 BreakPoint.</p>

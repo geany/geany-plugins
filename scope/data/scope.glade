@@ -651,6 +651,18 @@
       </object>
     </child>
     <child>
+      <object class="GtkCheckMenuItem" id="stack_show_entry">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">Show _@entry</property>
+        <property name="use_underline">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="stack_separator2">
+        <property name="visible">True</property>
+      </object>
+    </child>
+    <child>
       <object class="GtkCheckMenuItem" id="stack_show_address">
         <property name="visible">True</property>
         <property name="label" translatable="yes">Show _Address</property>
@@ -1186,6 +1198,8 @@
       <column type="gchararray"/>
       <!-- column-name stack_store_addr -->
       <column type="gchararray"/>
+      <!-- column-name stack_store_entry -->
+      <column type="gboolean"/>
     </columns>
   </object>
   <object class="GtkListStore" id="local_store">

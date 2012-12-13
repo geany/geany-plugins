@@ -29,7 +29,8 @@ enum
 	STACK_BASE_NAME,
 	STACK_FUNC,
 	STACK_ARGS,
-	STACK_ADDR
+	STACK_ADDR,
+	STACK_ENTRY
 };
 
 static GtkListStore *store;
@@ -53,7 +54,8 @@ static void stack_node_location(const ParseNode *node, const char *fid)
 			gtk_list_store_append(store, &iter);
 			gtk_list_store_set(store, &iter, STACK_ID, id, STACK_FILE, loc.file,
 				STACK_LINE, loc.line, STACK_BASE_NAME, loc.base_name, STACK_FUNC,
-				loc.func, STACK_ARGS, NULL, STACK_ADDR, loc.addr, -1);
+				loc.func, STACK_ARGS, NULL, STACK_ADDR, loc.addr, STACK_ENTRY,
+				loc.func ? parse_mode_find(loc.func)->entry : TRUE, -1);
 			parse_location_free(&loc);
 
 			if (!g_strcmp0(id, fid))
@@ -86,23 +88,30 @@ void on_stack_frames(GArray *nodes)
 	}
 }
 
-static void append_argument_variable(const ParseNode *node, GString *string)
+typedef struct _StackData
+{
+	GString *string;
+	gboolean entry;
+} StackData;
+
+static void append_argument_variable(const ParseNode *node, const StackData *sd)
 {
 	iff (node->type == PT_ARRAY, "args: contains value")
 	{
 		ParseVariable var;
 
-		if (parse_variable((GArray *) node->value, &var, NULL)) //&&
-			//(show entry arguments || !g_str_has_suffix(var.name, "@entry")))
+		if (parse_variable((GArray *) node->value, &var, NULL) &&
+			(sd->entry || !g_str_has_suffix(var.name, "@entry")))
 		{
-			if (string->len)
-				g_string_append(string, ", ");
+			if (sd->string->len)
+				g_string_append(sd->string, ", ");
+
 			if (option_argument_names)
 			{
-				g_string_append_printf(string,
+				g_string_append_printf(sd->string,
 					option_long_mr_format ? "%s = " : "%s=", var.name);
 			}
-			g_string_append(string, var.display);
+			g_string_append(sd->string, var.display);
 			parse_variable_free(&var);
 		}
 	}
@@ -139,11 +148,13 @@ static void stack_node_arguments(const ParseNode *node, ArgsData *ad)
 
 			iff (ad->valid, "%s: level not found", id)
 			{
-				GString *string = g_string_sized_new(0xFF);
+				StackData sd;
 
-				array_foreach(nodes, (GFunc) append_argument_variable, string);
-				gtk_list_store_set(store, &ad->iter, STACK_ARGS, string->str, -1);
-				g_string_free(string, TRUE);
+				sd.string = g_string_sized_new(0xFF);
+				gtk_tree_model_get(model, &ad->iter, STACK_ENTRY, &sd.entry, -1);
+				array_foreach(nodes, (GFunc) append_argument_variable, &sd);
+				gtk_list_store_set(store, &ad->iter, STACK_ARGS, sd.string->str, -1);
+				g_string_free(sd.string, TRUE);
 				ad->valid = ad->sorted && gtk_tree_model_iter_next(model, &ad->iter);
 			}
 		}
@@ -163,6 +174,16 @@ void on_stack_arguments(GArray *nodes)
 
 	if (!g_strcmp0(parse_grab_token(nodes), thread_id))
 		array_foreach(parse_lead_array(nodes), (GFunc) stack_node_arguments, &ad);
+}
+
+gboolean stack_entry(void)
+{
+	GtkTreeIter iter;
+	gboolean entry;
+
+	gtk_tree_selection_get_selected(selection, NULL, &iter);
+	gtk_tree_model_get(model, &iter, STACK_ENTRY, &entry, -1);
+	return entry;
 }
 
 void stack_clear(void)
@@ -225,29 +246,78 @@ static void on_stack_show_address(const MenuItem *menu_item)
 	view_column_set_visible("stack_addr_column", stack_show_address);
 }
 
+static void on_stack_show_entry(const MenuItem *menu_item)
+{
+	gboolean entry = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menu_item->widget));
+	GtkTreeIter iter;
+	const char *func;
+	guint count = 0;
+
+	view_dirty(VIEW_LOCALS);
+	gtk_tree_selection_get_selected(selection, NULL, &iter);
+	gtk_tree_model_get(model, &iter, STACK_FUNC, &func, -1);
+	parse_mode_update(func, MODE_ENTRY, entry);
+	gtk_tree_model_get_iter_first(model, &iter);
+	do
+	{
+		const char *func1;
+		
+		gtk_tree_model_get(model, &iter, STACK_FUNC, &func1, -1);
+		if (!strcmp(func, func1))
+		{
+			gtk_list_store_set(store, &iter, STACK_ENTRY, entry, -1);
+			count++;
+		}
+	} while (gtk_tree_model_iter_next(model, &iter));
+
+	if (count == 1)
+	{
+		debug_send_format(T, "04%s-stack-list-arguments 1 %s %s", thread_id, frame_id,
+			frame_id);
+	}
+	else
+		debug_send_format(T, "04%s-stack-list-arguments 1", thread_id);
+}
+
 #define DS_FRESHABLE (DS_DEBUG | DS_EXTRA_1)
-#define DS_VIEWABLE (DS_BASICS | DS_EXTRA_2)
+#define DS_ENTRABLE (DS_ACTIVE | DS_EXTRA_2)
+#define DS_VIEWABLE (DS_ACTIVE | DS_EXTRA_3)
 
 static MenuItem stack_menu_items[] =
 {
 	{ "stack_refresh",      on_stack_refresh,      DS_FRESHABLE, NULL, NULL },
 	{ "stack_unsorted",     on_stack_unsorted,     DS_SORTABLE,  NULL, NULL },
 	{ "stack_view_source",  on_stack_view_source,  DS_VIEWABLE,  NULL, NULL },
+	{ "stack_show_entry",   on_stack_show_entry,   DS_ENTRABLE,  NULL, NULL },
 	{ "stack_show_address", on_stack_show_address, 0,            NULL, &stack_show_address },
 	{ NULL, NULL, 0, NULL, NULL }
 };
 
 static guint stack_menu_extra_state(void)
 {
-	return ((thread_id != NULL) << DS_INDEX_1) |
-		(gtk_tree_selection_get_selected(selection, NULL, NULL) << DS_INDEX_2);
+	GtkTreeIter iter;
+	const char *func = NULL;
+
+	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
+		gtk_tree_model_get(model, &iter, STACK_FUNC, &func, -1);
+
+	return ((thread_id != NULL) << DS_INDEX_1) | ((func != NULL) << DS_INDEX_2) |
+		((frame_id != NULL) << DS_INDEX_3);
 }
 
 static MenuInfo stack_menu_info = { stack_menu_items, stack_menu_extra_state, 0 };
 
 static void on_stack_menu_show(G_GNUC_UNUSED GtkWidget *widget, const MenuItem *menu_item)
 {
-	menu_item_set_active(menu_item, stack_show_address);
+	GtkTreeIter iter;
+
+	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
+	{
+		gboolean entry;
+		gtk_tree_model_get(model, &iter, STACK_ENTRY, &entry, -1);
+		menu_item_set_active(menu_item, entry);
+	}
+	menu_item_set_active(menu_item + 1, stack_show_address);
 }
 
 void stack_init(void)
@@ -270,5 +340,5 @@ void stack_init(void)
 		stack_seek_selected);
 	g_signal_connect(selection, "changed", G_CALLBACK(on_stack_selection_changed), NULL);
 	g_signal_connect(menu, "show", G_CALLBACK(on_stack_menu_show),
-		(gpointer) menu_item_find(stack_menu_items, "stack_show_address"));
+		(gpointer) menu_item_find(stack_menu_items, "stack_show_entry"));
 }

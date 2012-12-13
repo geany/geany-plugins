@@ -1,3 +1,6 @@
+modifying a local function argument refreshes all stack frames - it may be
+a struct or reference argument in other frames
+
 the only way to fix unnecessary inspect drop target expansion is to block
 INTO, so deriving GtkTreeStore and altering GtkTreeDragDest make no sense
 

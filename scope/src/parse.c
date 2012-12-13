@@ -482,6 +482,7 @@ static gboolean parse_mode_load(GKeyFile *config, const char *section)
 	char *name = utils_key_file_get_string(config, section, "name");
 	gint hb_mode = g_key_file_get_integer(config, section, "hbit", NULL);
 	gint mr_mode = g_key_file_get_integer(config, section, "member", NULL);
+	gboolean entry = g_key_file_get_boolean(config, section, "entry", NULL);
 
 	if (name && (unsigned) hb_mode < HB_COUNT && (unsigned) mr_mode < MR_MODIFY)
 	{
@@ -490,6 +491,7 @@ static gboolean parse_mode_load(GKeyFile *config, const char *section)
 		pm->name = name;
 		pm->hb_mode = hb_mode;
 		pm->mr_mode = mr_mode;
+		pm->entry = entry;
 		return TRUE;
 	}
 
@@ -502,10 +504,11 @@ static gboolean parse_mode_save(GKeyFile *config, const char *section, ParseMode
 	g_key_file_set_string(config, section, "name", pm->name);
 	g_key_file_set_integer(config, section, "hbit", pm->hb_mode);
 	g_key_file_set_integer(config, section, "member", pm->mr_mode);
+	g_key_file_set_boolean(config, section, "entry", pm->entry);
 	return TRUE;
 }
 
-static ParseMode parse_mode_default = { NULL, HB_DEFAULT, MR_DEFAULT };
+static ParseMode parse_mode_default = { NULL, HB_DEFAULT, MR_DEFAULT, TRUE };
 
 char *parse_mode_reentry(const char *name)
 {
@@ -526,7 +529,7 @@ const ParseMode *parse_mode_find(const char *name)
 	return pm ? pm : &parse_mode_default;
 }
 
-void parse_mode_update(const char *name, gint new_mode, gboolean hbit)
+void parse_mode_update(const char *name, gint mode, gint value)
 {
 	char *pm_name = parse_mode_pm_name(name);
 	ParseMode *pm = (ParseMode *) array_find(parse_modes, pm_name, FALSE);
@@ -537,19 +540,23 @@ void parse_mode_update(const char *name, gint new_mode, gboolean hbit)
 		pm->name = strdup(pm_name);
 		pm->hb_mode = HB_DEFAULT;
 		pm->mr_mode = MR_DEFAULT;
+		pm->entry = TRUE;
 	}
 	g_free(pm_name);
 
-	if (hbit)
-		pm->hb_mode = new_mode;
-	else
-		pm->mr_mode = new_mode;
-
-	if (pm->hb_mode == HB_DEFAULT && pm->mr_mode == MR_DEFAULT)
+	switch (mode)
 	{
-		array_remove(parse_modes, pm);
-		pm = &parse_mode_default;
+		case MODE_HBIT : pm->hb_mode = value; break;
+		case MODE_MEMBER : pm->mr_mode = value; break;
+		default :
+		{
+			g_assert(mode == MODE_ENTRY);
+			pm->entry = value;
+		}
 	}
+
+	if (pm->hb_mode == HB_DEFAULT && pm->mr_mode == MR_DEFAULT && pm->entry == TRUE)
+		array_remove(parse_modes, pm);
 }
 
 gboolean parse_variable(GArray *nodes, ParseVariable *var, const char *children)

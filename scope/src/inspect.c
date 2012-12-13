@@ -158,7 +158,7 @@ static void inspect_expand(GtkTreeIter *iter)
 	gtk_tree_model_get(model, iter, INSPECT_VAR1, &var1, INSPECT_START, &start,
 		INSPECT_COUNT, &count, INSPECT_NUMCHILD, &numchild, -1);
 	s = g_strdup_printf("%d", start);
-	debug_send_format(N, "07%c%d%d-var-list-children 1 %s %d %d", '0' + strlen(s) - 1,
+	debug_send_format(N, "07%c%d%d-var-list-children 1 %s %d %d", '0' + (int) strlen(s) - 1,
 		start, scid, var1, start, count ? start + count : numchild);
 	g_free(s);
 }
@@ -914,7 +914,7 @@ static void on_inspect_hbit_update(const MenuItem *menu_item)
 	gtk_tree_selection_get_selected(selection, NULL, &iter);
 	gtk_tree_model_get(model, &iter, INSPECT_EXPR, &expr, INSPECT_NAME, &name, -1);
 	inspect_hbit_update_iter(&iter, hb_mode);
-	parse_mode_update(expr, hb_mode, TRUE);
+	parse_mode_update(expr, MODE_HBIT, hb_mode);
 
 	if (name)
 	{

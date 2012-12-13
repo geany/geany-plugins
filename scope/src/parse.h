@@ -82,11 +82,19 @@ enum
 	MR_EDITVC
 };
 
+enum
+{
+	MODE_HBIT,
+	MODE_MEMBER,
+	MODE_ENTRY
+};
+
 typedef struct _ParseMode
 {
 	char *name;
 	gint hb_mode;
 	gint mr_mode;
+	gboolean entry;
 } ParseMode;
 
 typedef struct _ParseVariable
@@ -104,7 +112,7 @@ typedef struct _ParseVariable
 
 char *parse_mode_reentry(const char *name);
 const ParseMode *parse_mode_find(const char *name);
-void parse_mode_update(const char *name, gint new_mode, gboolean hbit);
+void parse_mode_update(const char *name, gint mode, gint value);
 gboolean parse_variable(GArray *nodes, ParseVariable *var, const char *children);
 #define parse_variable_free(var) g_free((var)->display)
 

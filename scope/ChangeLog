@@ -1,1 +1,11 @@
+2011-12-13  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
+ * data/scope.glade, src/local.c, src/parse.c, src/parse.h,
+   src/stack.c, src/stack.h:
+   Per-function display of @entry arguments.
+ * src/inspect.c, src/menu.c:
+   Small per-function @entry arguments related changes.
+ * src/inspect.c, src/local.c
+   (int) strlen(...) to avoid format warnings.
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.76, small fixes and clarifications.
