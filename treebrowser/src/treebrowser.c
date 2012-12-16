@@ -1422,7 +1422,7 @@ on_treeview_mouseclick(GtkWidget *widget, GdkEventButton *event, GtkTreeSelectio
 static gboolean
 on_treeview_keypress(GtkWidget *widget, GdkEventKey *event)
 {
-	if (event->keyval == GDK_KEY_BackSpace)
+	if (event->keyval == GDK_BackSpace)
 	{
 		on_button_go_up();
 		return TRUE;
