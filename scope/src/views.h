@@ -30,6 +30,7 @@ typedef enum _ViewIndex
 	VIEW_CONSOLE,
 	VIEW_INSPECT,
 	VIEW_TOOLTIP,
+	VIEW_POPMENU,
 	VIEW_COUNT
 } ViewIndex;
 

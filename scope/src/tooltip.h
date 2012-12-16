@@ -24,6 +24,8 @@ void on_tooltip_value(GArray *nodes);
 
 void tooltip_attach(GeanyEditor *editor);
 void tooltip_remove(GeanyEditor *editor);
+
+void tooltip_clear(void);
 gboolean tooltip_update(void);
 
 void tooltip_finalize(void);

@@ -237,7 +237,7 @@ static void append_script_command(const ParseNode *node, GString *string)
 	iff (node->type == PT_VALUE, "script: contains array")
 	{
 		gchar *display = utils_get_display_from_7bit((char *) node->value, HB_DEFAULT);
-		gchar *s;
+		const gchar *s;
 
 		if (string->len)
 			g_string_append_c(string, ' ');

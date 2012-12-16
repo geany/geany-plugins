@@ -19,14 +19,14 @@
 
 #ifndef MENU_H
 
-typedef struct _MenuItem
+struct _MenuItem
 {
 	const char *name;
 	void (*callback)(const MenuItem *menu_item);
 	guint state;
 	GtkWidget *widget;  /* automatic */
 	gpointer gdata;
-} MenuItem;
+};
 
 typedef struct _MenuInfo
 {
@@ -96,6 +96,7 @@ typedef struct _MenuKey
 } MenuKey;
 
 void menu_set_popup_keybindings(guint item);
+void menu_clear(void);
 void menu_update_state(DebugState state);
 
 void menu_init(void);

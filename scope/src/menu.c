@@ -334,12 +334,15 @@ static void menu_evaluate_modify(const gchar *expr, const char *value, const gch
 {
 	gchar *display = parse_get_display_from_7bit(value, hb_mode, mr_mode);
 	gchar *text = g_strdup_printf("%s = %s", expr, display ? display : "");
+	GtkTextIter iter;
 
 	g_free(display);
 	gtk_window_set_title(GTK_WINDOW(modify_dialog), title);
 	gtk_widget_grab_focus(modify_value);
 	gtk_text_buffer_set_text(modify_text, text, -1);
 	g_free(text);
+	gtk_text_buffer_get_iter_at_offset(modify_text, &iter, g_utf8_strlen(expr, -1) + 3);
+	gtk_text_buffer_place_cursor(modify_text, &iter);
 	modify_dialog_update_state(debug_state());
 
 	if (gtk_dialog_run(GTK_DIALOG(modify_dialog)) == GTK_RESPONSE_ACCEPT)
@@ -491,6 +494,11 @@ void menu_set_popup_keybindings(guint item)
 		keybindings_set_item(plugin_key_group, item, on_popup_key, 0, 0, menu_key->name,
 			_(menu_key->label), popup_menu_items[item].widget);
 	}
+}
+
+void menu_clear(void)
+{
+	scid_gen = 0;
 }
 
 void menu_update_state(DebugState state)

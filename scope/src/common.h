@@ -24,7 +24,6 @@ extern GeanyData *geany_data;
 extern GeanyFunctions *geany_functions;
 
 typedef struct _MenuItem MenuItem;
-typedef enum _ViewIndex ViewIndex;
 
 #include "break.h"
 #include "conterm.h"

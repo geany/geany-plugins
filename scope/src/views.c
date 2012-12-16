@@ -42,7 +42,8 @@ static ViewInfo views[VIEW_COUNT] =
 	{ FALSE, watches_clear,  watches_update,  TRUE,  DS_DEBUG },
 	{ FALSE, NULL,           dc_update,       FALSE, DS_DEBUG },
 	{ FALSE, inspects_clear, inspects_update, FALSE, DS_DEBUG },
-	{ FALSE, NULL,           tooltip_update,  FALSE, DS_SENDABLE }
+	{ FALSE, tooltip_clear,  tooltip_update,  FALSE, DS_SENDABLE },
+	{ FALSE, menu_clear,     NULL,            FALSE, 0 }
 };
 
 void view_dirty(ViewIndex index)

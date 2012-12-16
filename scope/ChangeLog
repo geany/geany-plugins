@@ -1,4 +1,20 @@
-2011-12-13  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+2012-12-16  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/common.h, src/menu.h:
+   Fixed forward declarations (though my gcc accepts them).
+ * src/menu.c, src/tooltip.c, src/views.c, src/views.h:
+   Clear scid_gen on program exit. No real risk of overflow,
+   but smaller values look better in Debug Console.
+ * src/menu.c:
+   Position cursor in modify dialog after " = ".
+ * src/tooltip.c:
+   Reset internal variables on program exit.
+ * src/debug.c:
+   Escape "\ in evaluate expressions.
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.77.
+
+2012-12-13  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * data/scope.glade, src/local.c, src/parse.c, src/parse.h,
    src/stack.c, src/stack.h:

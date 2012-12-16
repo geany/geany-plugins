@@ -177,6 +177,13 @@ void tooltip_remove(GeanyEditor *editor)
 	}
 }
 
+void tooltip_clear(void)
+{
+	scid_gen = 0;
+	last_pos = -1;
+	peek_pos = -1;
+}
+
 gboolean tooltip_update(void)
 {
 	if (option_editor_tooltips)
