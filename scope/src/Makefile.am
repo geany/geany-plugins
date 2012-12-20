@@ -44,7 +44,7 @@ scope_la_SOURCES = \
 	watch.c \
 	watch.h
 
-scope_la_LIBADD = $(COMMONLIBS) $(VTE_LIBS) -lutil
+scope_la_LIBADD = $(COMMONLIBS) $(VTE_LIBS) $(PTY_LIBS)
 
 scope_la_CFLAGS = $(AM_CFLAGS) $(VTE_CFLAGS) \
 	-DPLUGINDATADIR=\"$(plugindatadir)\" \

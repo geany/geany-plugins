@@ -7,6 +7,13 @@ AC_DEFUN([GP_CHECK_SCOPE],
 
     GP_STATUS_PLUGIN_ADD([Scope], [$enable_scope])
 
+    case "$host_os" in
+        cygwin* | mingw* | win32*) PTY_LIBS="" ;;
+        *) PTY_LIBS="-lutil" ;;
+    esac
+
+    AC_SUBST(PTY_LIBS)
+
     AC_CONFIG_FILES([
         scope/Makefile
         scope/data/Makefile

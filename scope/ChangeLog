@@ -1,3 +1,8 @@
+2012-12-18  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * build/scope.m4, scope/src/Makefile.am:
+   No -lutil under win32.
+
 2012-12-16  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/common.h, src/menu.h:

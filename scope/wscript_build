@@ -25,13 +25,17 @@ from build.wafutils import build_plugin, target_is_win32
 
 name = 'Scope'
 includes = ['scope/src']
-if not target_is_win32(bld) :
+
+if target_is_win32(bld):
+	datadir = '${G_PREFIX}/${GEANYPLUGINS_DATADIR}'
+	docdir = '${G_PREFIX}/doc/plugins/scope'
+else:
+	datadir = '${GEANYPLUGINS_DATADIR}'
+	docdir = '${DOCDIR}/scope'
 	libraries = ['VTE', 'UTIL']
 
-datadir = '${G_PREFIX}/${GEANYPLUGINS_DATADIR}' if is_win32 else '${GEANYPLUGINS_DATADIR}'
-docdir = '${G_PREFIX}/doc/plugins/scope' if is_win32 else '${DOCDIR}/scope'
 htmldocdir = '%s/html' % docdir
-defines=[ 'PLUGINDATADIR="' + datadir + '"', 'PLUGINHTMLDOCDIR="' + htmldocdir + '"']
+defines = [ 'PLUGINDATADIR="' + datadir + '"', 'PLUGINHTMLDOCDIR="' + htmldocdir + '"']
 
 build_plugin(bld, name, includes=includes, libraries=libraries, defines=defines)
 

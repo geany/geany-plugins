@@ -1,5 +1,3 @@
-wscript_*
-
 various tests, source code checks etc.
 
 ask user for terminate debugging on build actions
