@@ -46,7 +46,6 @@ const void *parse_find_node_type(GArray *nodes, const char *name, ParseNodeType 
 const char *parse_grab_token(GArray *nodes);  /* removes from nodes */
 #define parse_lead_array(nodes) ((GArray *) ((ParseNode *) nodes->data)->value)
 #define parse_lead_value(nodes) ((char *) ((ParseNode *) nodes->data)->value)
-#define parse_lead_locale(nodes) utils_7bit_to_locale(parse_lead_value((nodes), (name)))
 
 gchar *parse_find_error(GArray *nodes);
 void on_error(GArray *nodes);

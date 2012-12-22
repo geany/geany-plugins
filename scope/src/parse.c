@@ -63,7 +63,7 @@ static const ParseRoute parse_routes[] =
 	{ "=thread-group-removed,id=\"",  on_thread_group_removed, '\0', '\0', 1 },
 	{ "=breakpoint-created,bkpt={",   on_break_created,        '\0', '\0', 1 },
 	{ "=breakpoint-modified,bkpt={",  on_break_created,        '\0', '\0', 1 },
-	{ "=breakpoint-deleted,id=",      on_break_deleted,        '\0', '\0', 1 },
+	{ "=breakpoint-deleted,id=\"",    on_break_deleted,        '\0', '\0', 1 },
 	{ "^done,bkpt={",                 on_break_inserted,       '\0', '\0', 1 },
 	{ "^done,wpt={",                  on_break_inserted,       '\0', '\0', 1 },
 	{ "^done,hw-awpt={",              on_break_inserted,       '\0', '\0', 1 },

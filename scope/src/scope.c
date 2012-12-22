@@ -489,7 +489,7 @@ void plugin_init(G_GNUC_UNUSED GeanyData *gdata)
 
 	if (!gtk_builder_add_from_file(builder, gladefile, &gerror))
 	{
-		msgwin_status_add(_("Scope: %s: %s."), gladefile, gerror->message);
+		msgwin_status_add(_("Scope: %s."), gerror->message);
 		g_error_free(gerror);
 		g_object_unref(builder);
 		builder = NULL;

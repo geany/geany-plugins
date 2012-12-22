@@ -236,7 +236,7 @@ static void on_recent_menu_item_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, co
 		}
 		else
 		{
-			message = g_strdup_printf(_("Could not load debug settings file %s (%s)."),
+			message = g_strdup_printf(_("Could not load debug settings file %s: %s."),
 				configfile, gerror->message);
 			g_error_free(gerror);
 		}
