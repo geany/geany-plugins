@@ -1,3 +1,11 @@
+2012-12-23  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * docs/scope.html, src/prefs.c, src/prefs.h, src/thread.c:
+   Added option "keep_exec_point" to keep the execution point marker
+   and Threads location columns when a thread execution is resumed.
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.78.
+
 2012-12-22  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * NEWS:

@@ -211,17 +211,19 @@ static void thread_iter_unmark(GtkTreeIter *iter, gpointer gdata)
 	gtk_tree_model_get(model, iter, THREAD_FILE, &file, THREAD_LINE, &line, THREAD_STATE,
 		&state, -1);
 	stopped = !strcmp(state, STOPPED);
-	thread_prompt += gdata ? !stopped : -stopped;
-	utils_mark(file, line, FALSE, MARKER_EXECUTE);
+	thread_prompt += gdata ? -stopped : !stopped;
+
+	if (GPOINTER_TO_INT(gdata) != 2)
+		utils_mark(file, line, FALSE, MARKER_EXECUTE);
 }
 
 static void thread_iter_running(GtkTreeIter *iter, const char *tid)
 {
-	thread_iter_unmark(iter, NULL);
+	thread_iter_unmark(iter, GINT_TO_POINTER(TRUE + pref_keep_exec_point));
 
-	gtk_list_store_set(store, iter, THREAD_FILE, NULL, THREAD_LINE, 0, THREAD_STATE,
-		RUNNING, THREAD_BASE_NAME, NULL, THREAD_FUNC, NULL, THREAD_ADDR, NULL,
-		THREAD_CORE, NULL, -1);
+	gtk_list_store_set(store, iter, THREAD_STATE, RUNNING, pref_keep_exec_point ? -1 :
+		THREAD_FILE, NULL, THREAD_LINE, 0, THREAD_BASE_NAME, NULL, THREAD_FUNC, NULL,
+		THREAD_ADDR, NULL, THREAD_CORE, NULL, -1);
 
 	if (thread_id)
 	{
@@ -279,7 +281,7 @@ static void thread_parse_frame(GArray *frame, const char *tid, GtkTreeIter *iter
 	if (!loc.addr)
 		loc.addr = "??";
 
-	thread_iter_unmark(iter, GINT_TO_POINTER(TRUE));
+	thread_iter_unmark(iter, NULL);
 	gtk_list_store_set(store, iter, THREAD_FILE, loc.file, THREAD_LINE, loc.line,
 		THREAD_STATE, STOPPED, THREAD_BASE_NAME, loc.base_name, THREAD_FUNC, loc.func,
 		THREAD_ADDR, loc.addr, -1);
@@ -467,7 +469,7 @@ void on_thread_exited(GArray *nodes)
 		{
 			gboolean was_selected = !g_strcmp0(tid, thread_id);
 
-			thread_iter_unmark(&iter, NULL);
+			thread_iter_unmark(&iter, GINT_TO_POINTER(TRUE));
 			gtk_list_store_remove(store, &iter);
 			if (was_selected && thread_select_on_exited)
 				auto_select_thread();
@@ -557,7 +559,7 @@ void threads_mark(GeanyDocument *doc)
 
 void threads_clear(void)
 {
-	model_foreach(model, (GFunc) thread_iter_unmark, NULL);
+	model_foreach(model, (GFunc) thread_iter_unmark, GINT_TO_POINTER(TRUE));
 	array_clear(thread_groups, (GFreeFunc) thread_group_free);
 	gtk_list_store_clear(store);
 	thread_count = 0;
@@ -829,8 +831,8 @@ void thread_init(void)
 		GTK_TREE_VIEW_COLUMN(get_object("thread_base_name_column")));
 
 	thread_groups = array_new(ThreadGroup, 0x10);
-	RUNNING = _("running");
-	STOPPED = _("stopped");
+	RUNNING = _("Running");
+	STOPPED = _("Stopped");
 	g_signal_connect(tree, "key-press-event", G_CALLBACK(on_view_key_press),
 		thread_seek_selected);
 	g_signal_connect(tree, "button-press-event", G_CALLBACK(on_view_button_1_press),

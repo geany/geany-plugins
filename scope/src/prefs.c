@@ -36,6 +36,7 @@ gboolean pref_async_break_bugs;
 #endif
 
 gboolean pref_auto_view_source;
+gboolean pref_keep_exec_point;
 gint pref_visual_beep_length;
 #ifdef G_OS_UNIX
 gboolean pref_debug_console_vte;
@@ -271,6 +272,7 @@ void prefs_init(void)
 	stash_group_add_boolean(group, &pref_async_break_bugs, "async_break_bugs", TRUE);
 #endif
 	stash_group_add_boolean(group, &pref_auto_view_source, "auto_view_source", FALSE);
+	stash_group_add_boolean(group, &pref_keep_exec_point, "keep_exec_point", FALSE);
 	stash_group_add_integer(group, &pref_visual_beep_length, "visual_beep_length", 25);
 #ifdef G_OS_UNIX
 	stash_group_add_boolean(group, &pref_debug_console_vte, "debug_console_vte", TRUE);

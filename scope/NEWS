@@ -1,3 +1,8 @@
+Scope 0.78 (2012-12-23)
+
+   * Added option "keep_exec_point" to keep the execution point marker
+     and Threads location columns when a thread execution is resumed.
+
 Scope 0.77 (2012-12-16)
 
    * Support for " and \ in evaluate expressions.

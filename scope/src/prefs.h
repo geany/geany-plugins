@@ -29,6 +29,7 @@ extern gboolean pref_async_break_bugs;
 #endif
 
 extern gboolean pref_auto_view_source;
+extern gboolean pref_keep_exec_point;
 extern gint pref_visual_beep_length;
 #ifdef G_OS_UNIX
 extern gboolean pref_debug_console_vte;
