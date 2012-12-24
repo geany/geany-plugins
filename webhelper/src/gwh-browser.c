@@ -30,6 +30,7 @@
 #include "gwh-utils.h"
 #include "gwh-settings.h"
 #include "gwh-keybindings.h"
+#include "gwh-plugin.h"
 
 
 #if ! GTK_CHECK_VERSION (2, 18, 0)
@@ -74,6 +75,8 @@ struct _GwhBrowserPrivate
   GtkToolItem  *item_cancel;
   GtkToolItem  *item_reload;
   GtkToolItem  *item_inspector;
+  
+  gchar        *hovered_link;
 };
 
 enum {
@@ -515,7 +518,7 @@ on_web_view_populate_popup (WebKitWebView *view,
   #define ADD_SEPARATOR(menu) \
     item = gtk_separator_menu_item_new (); \
     gtk_widget_show (item); \
-    gtk_menu_append (menu, item)
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item)
   
   ADD_SEPARATOR (menu);
   
@@ -524,23 +527,23 @@ on_web_view_populate_popup (WebKitWebView *view,
   item = gtk_menu_item_new_with_mnemonic (_("_Zoom"));
   gtk_widget_show (item);
   gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), submenu);
-  gtk_menu_append (menu, item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   /* zoom in */
   item = gtk_image_menu_item_new_from_stock (GTK_STOCK_ZOOM_IN, NULL);
   g_signal_connect_swapped (item, "activate",
                             G_CALLBACK (webkit_web_view_zoom_in), view);
-  gtk_menu_append (GTK_MENU (submenu), item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
   /* zoom out */
   item = gtk_image_menu_item_new_from_stock (GTK_STOCK_ZOOM_OUT, NULL);
   g_signal_connect_swapped (item, "activate",
                             G_CALLBACK (webkit_web_view_zoom_out), view);
-  gtk_menu_append (GTK_MENU (submenu), item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
   /* zoom 1:1 */
   ADD_SEPARATOR (submenu);
   item = gtk_image_menu_item_new_from_stock (GTK_STOCK_ZOOM_100, NULL);
   g_signal_connect (item, "activate",
                     G_CALLBACK (on_item_zoom_100_activate), self);
-  gtk_menu_append (GTK_MENU (submenu), item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
   /* full content zoom */
   ADD_SEPARATOR (submenu);
   item = gtk_check_menu_item_new_with_mnemonic (_("Full-_content zoom"));
@@ -548,7 +551,7 @@ on_web_view_populate_popup (WebKitWebView *view,
                                   webkit_web_view_get_full_content_zoom (view));
   g_signal_connect (item, "activate",
                     G_CALLBACK (on_item_full_content_zoom_activate), self);
-  gtk_menu_append (GTK_MENU (submenu), item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
   /* show zoom sumbenu */
   gtk_widget_show_all (submenu);
   
@@ -558,7 +561,7 @@ on_web_view_populate_popup (WebKitWebView *view,
   g_signal_connect (item, "activate",
                     G_CALLBACK (on_item_flip_orientation_activate), self);
   gtk_widget_show (item);
-  gtk_menu_append (menu, item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   if (! INSPECTOR_VISIBLE (self) || INSPECTOR_DETACHED (self)) {
     gtk_widget_set_sensitive (item, FALSE);
   }
@@ -644,6 +647,7 @@ gwh_browser_finalize (GObject *object)
     g_object_unref (self->priv->default_icon);
   }
   g_object_unref (self->priv->settings);
+  g_free (self->priv->hovered_link);
   
   G_OBJECT_CLASS (gwh_browser_parent_class)->finalize (object);
 }
@@ -882,6 +886,71 @@ create_inspector_window (GwhBrowser *self)
   return self->priv->inspector_window;
 }
 
+static guint
+get_statusbar_context_id (GtkStatusbar *statusbar)
+{
+  static guint id = 0;
+  
+  if (id == 0) {
+    id = gtk_statusbar_get_context_id (GTK_STATUSBAR (ui_widgets.statusbar),
+                                       "gwh-browser-hovered-link");
+  }
+  
+  return id;
+}
+
+static void
+on_web_view_hovering_over_link (WebKitWebView *view,
+                                gchar         *title,
+                                gchar         *uri,
+                                GwhBrowser    *self)
+{
+  GtkStatusbar *statusbar = GTK_STATUSBAR (ui_widgets.statusbar);
+  
+  if (self->priv->hovered_link) {
+    gtk_statusbar_pop (statusbar, get_statusbar_context_id (statusbar));
+    g_free (self->priv->hovered_link);
+    self->priv->hovered_link = NULL;
+  }
+  if (uri && *uri) {
+    self->priv->hovered_link = g_strdup (uri);
+    gtk_statusbar_push (statusbar, get_statusbar_context_id (statusbar),
+                        self->priv->hovered_link);
+  }
+}
+
+static void
+on_web_view_leave_notify_event (GtkWidget        *widget,
+                                GdkEventCrossing *event,
+                                GwhBrowser       *self)
+{
+  if (self->priv->hovered_link) {
+    GtkStatusbar *statusbar = GTK_STATUSBAR (ui_widgets.statusbar);
+    
+    gtk_statusbar_pop (statusbar, get_statusbar_context_id (statusbar));
+  }
+}
+
+static void
+on_web_view_enter_notify_event (GtkWidget        *widget,
+                                GdkEventCrossing *event,
+                                GwhBrowser       *self)
+{
+  if (self->priv->hovered_link) {
+    GtkStatusbar *statusbar = GTK_STATUSBAR (ui_widgets.statusbar);
+    
+    gtk_statusbar_push (statusbar, get_statusbar_context_id (statusbar),
+                        self->priv->hovered_link);
+  }
+}
+
+static void
+on_web_view_realize (GtkWidget  *widget,
+                     GwhBrowser *self)
+{
+  gtk_widget_add_events (widget, GDK_LEAVE_NOTIFY_MASK | GDK_ENTER_NOTIFY_MASK);
+}
+
 static void
 gwh_browser_init (GwhBrowser *self)
 {
@@ -927,6 +996,8 @@ gwh_browser_init (GwhBrowser *self)
                                     : self->priv->paned),
                      self->priv->inspector_view);
   
+  self->priv->hovered_link = NULL;
+  
   g_signal_connect (self, "notify::orientation",
                     G_CALLBACK (on_orientation_notify), self);
   
@@ -956,6 +1027,14 @@ gwh_browser_init (GwhBrowser *self)
                     G_CALLBACK (on_web_view_populate_popup), self);
   g_signal_connect (G_OBJECT (self->priv->web_view), "scroll-event",
                     G_CALLBACK (on_web_view_scroll_event), self);
+  g_signal_connect (G_OBJECT (self->priv->web_view), "hovering-over-link",
+                    G_CALLBACK (on_web_view_hovering_over_link), self);
+  g_signal_connect (G_OBJECT (self->priv->web_view), "leave-notify-event",
+                    G_CALLBACK (on_web_view_leave_notify_event), self);
+  g_signal_connect (G_OBJECT (self->priv->web_view), "enter-notify-event",
+                    G_CALLBACK (on_web_view_enter_notify_event), self);
+  g_signal_connect_after (self->priv->web_view, "realize",
+                          G_CALLBACK (on_web_view_realize), self);
   
   g_signal_connect (self->priv->web_view, "key-press-event",
                     G_CALLBACK (gwh_keybindings_handle_event), self);
