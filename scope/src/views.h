@@ -34,8 +34,6 @@ typedef enum _ViewIndex
 	VIEW_COUNT
 } ViewIndex;
 
-#define DS_SORTABLE 0
-
 void view_dirty(ViewIndex index);
 void views_clear(void);
 void views_update(DebugState state);

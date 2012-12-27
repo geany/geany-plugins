@@ -68,9 +68,7 @@ const char *frame_id = NULL;
 
 void on_stack_frames(GArray *nodes)
 {
-	const char *token = parse_grab_token(nodes);
-
-	if (!g_strcmp0(token, thread_id))
+	if (!g_strcmp0(parse_grab_token(nodes), thread_id))
 	{
 		char *fid = g_strdup(frame_id);
 
@@ -163,17 +161,34 @@ static void stack_node_arguments(const ParseNode *node, ArgsData *ad)
 
 void on_stack_arguments(GArray *nodes)
 {
-	gint column_id;
-	GtkSortType order;
-	ArgsData ad;
-
-	gtk_tree_sortable_get_sort_column_id(sortable, &column_id, &order);
-	ad.sorted = column_id == GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID ||
-		(column_id == STACK_ID && order == GTK_SORT_ASCENDING);
-	ad.valid = ad.sorted && gtk_tree_model_get_iter_first(model, &ad.iter);
-
 	if (!g_strcmp0(parse_grab_token(nodes), thread_id))
+	{
+		gint column_id;
+		GtkSortType order;
+		ArgsData ad;
+
+		gtk_tree_sortable_get_sort_column_id(sortable, &column_id, &order);
+		ad.sorted = column_id == GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID ||
+			(column_id == STACK_ID && order == GTK_SORT_ASCENDING);
+		ad.valid = ad.sorted && gtk_tree_model_get_iter_first(model, &ad.iter);
 		array_foreach(parse_lead_array(nodes), (GFunc) stack_node_arguments, &ad);
+	}
+}
+
+void on_stack_follow(GArray *nodes)
+{
+	if (!g_strcmp0(parse_grab_token(nodes), thread_id))
+	{
+		const char *id = parse_find_value(parse_lead_array(nodes), "level");
+
+		iff (id, "no level")
+		{
+			GtkTreeIter iter;
+
+			iff (model_find(model, &iter, STACK_ID, id), "%s: level not found", id)
+				gtk_tree_selection_select_iter(selection, &iter);
+		}
+	}
 }
 
 gboolean stack_entry(void)
@@ -225,6 +240,16 @@ static void stack_seek_selected(gboolean focus)
 static void on_stack_refresh(G_GNUC_UNUSED const MenuItem *menu_item)
 {
 	stack_send_update('2');
+}
+
+static void on_stack_synchronize(const MenuItem *menu_item)
+{
+	if (menu_item)
+		thread_query_frame('2');
+	else if (frame_id)
+		debug_send_format(T, "-stack-select-frame %s", frame_id);
+	else
+		plugin_blink();
 }
 
 static void on_stack_unsorted(G_GNUC_UNUSED const MenuItem *menu_item)
@@ -279,30 +304,33 @@ static void on_stack_show_entry(const MenuItem *menu_item)
 		debug_send_format(T, "04%s-stack-list-arguments 1", thread_id);
 }
 
-#define DS_FRESHABLE (DS_DEBUG | DS_EXTRA_1)
-#define DS_ENTRABLE (DS_ACTIVE | DS_EXTRA_2)
-#define DS_VIEWABLE (DS_ACTIVE | DS_EXTRA_3)
+#define DS_VIEWABLE (DS_ACTIVE | DS_EXTRA_2)
+#define DS_ENTRABLE (DS_ACTIVE | DS_EXTRA_3)
 
 static MenuItem stack_menu_items[] =
 {
-	{ "stack_refresh",      on_stack_refresh,      DS_FRESHABLE, NULL, NULL },
-	{ "stack_unsorted",     on_stack_unsorted,     DS_SORTABLE,  NULL, NULL },
-	{ "stack_view_source",  on_stack_view_source,  DS_VIEWABLE,  NULL, NULL },
-	{ "stack_show_entry",   on_stack_show_entry,   DS_ENTRABLE,  NULL, NULL },
-	{ "stack_show_address", on_stack_show_address, 0,            NULL, &stack_show_address },
+	{ "stack_refresh",      on_stack_refresh,      DS_DEBUG,    NULL, NULL },
+	{ "stack_unsorted",     on_stack_unsorted,     0,           NULL, NULL },
+	{ "stack_view_source",  on_stack_view_source,  DS_VIEWABLE, NULL, NULL },
+	{ "stack_synchronize",  on_stack_synchronize,  DS_DEBUG,    NULL, NULL },
+	{ "stack_show_entry",   on_stack_show_entry,   DS_ENTRABLE, NULL, NULL },
+	{ "stack_show_address", on_stack_show_address, 0,           NULL, &stack_show_address },
 	{ NULL, NULL, 0, NULL, NULL }
 };
 
 static guint stack_menu_extra_state(void)
 {
 	GtkTreeIter iter;
-	const char *func = NULL;
 
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
-		gtk_tree_model_get(model, &iter, STACK_FUNC, &func, -1);
+	{
+		const char *file, *func;
 
-	return ((thread_id != NULL) << DS_INDEX_1) | ((func != NULL) << DS_INDEX_2) |
-		((frame_id != NULL) << DS_INDEX_3);
+		gtk_tree_model_get(model, &iter, STACK_FILE, &file, STACK_FUNC, &func, -1);
+		return ((file != NULL) << DS_INDEX_2) | ((func != NULL) << DS_INDEX_3);
+	}
+
+	return 0;
 }
 
 static MenuInfo stack_menu_info = { stack_menu_items, stack_menu_extra_state, 0 };
@@ -318,6 +346,12 @@ static void on_stack_menu_show(G_GNUC_UNUSED GtkWidget *widget, const MenuItem *
 		menu_item_set_active(menu_item, entry);
 	}
 	menu_item_set_active(menu_item + 1, stack_show_address);
+}
+
+static void on_stack_synchronize_button_release(GtkWidget *widget, GdkEventButton *event,
+	GtkWidget *menu)
+{
+	menu_shift_button_release(widget, event, menu, on_stack_synchronize);
 }
 
 void stack_init(void)
@@ -339,6 +373,9 @@ void stack_init(void)
 	g_signal_connect(tree, "button-press-event", G_CALLBACK(on_view_button_1_press),
 		stack_seek_selected);
 	g_signal_connect(selection, "changed", G_CALLBACK(on_stack_selection_changed), NULL);
+
 	g_signal_connect(menu, "show", G_CALLBACK(on_stack_menu_show),
 		(gpointer) menu_item_find(stack_menu_items, "stack_show_entry"));
+	g_signal_connect(get_widget("stack_synchronize"), "button-release-event",
+		G_CALLBACK(on_stack_synchronize_button_release), menu);
 }

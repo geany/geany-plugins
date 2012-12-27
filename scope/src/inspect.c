@@ -940,8 +940,6 @@ static void on_inspect_delete(G_GNUC_UNUSED const MenuItem *menu_item)
 		gtk_tree_store_remove(store, &iter);
 }
 
-#define DS_FRESHABLE DS_SENDABLE
-#define DS_INSPECTABLE DS_NOT_BUSY
 #define DS_EDITABLE (DS_BASICS | DS_EXTRA_2)
 #define DS_APPLIABLE (DS_SENDABLE | DS_EXTRA_3)
 #define DS_EXPANDABLE (DS_SENDABLE | DS_EXTRA_4)
@@ -956,13 +954,13 @@ static void on_inspect_delete(G_GNUC_UNUSED const MenuItem *menu_item)
 
 static MenuItem inspect_menu_items[] =
 {
-	{ "inspect_refresh",   on_inspect_refresh,        DS_FRESHABLE,   NULL, NULL },
-	{ "inspect_add",       on_inspect_add,            DS_INSPECTABLE, NULL, NULL },
-	{ "inspect_edit",      on_inspect_edit,           DS_EDITABLE,    NULL, NULL },
-	{ "inspect_apply",     on_inspect_apply,          DS_APPLIABLE,   NULL, NULL },
-	{ "inspect_expand",    on_inspect_expand,         DS_EXPANDABLE,  NULL, NULL },
-	{ "inspect_copy",      on_inspect_copy,           DS_COPYABLE,    NULL, NULL },
-	{ "inspect_format",    on_inspect_format_display, DS_FORMATABLE,  NULL, NULL },
+	{ "inspect_refresh",   on_inspect_refresh,        DS_SENDABLE,   NULL, NULL },
+	{ "inspect_add",       on_inspect_add,            DS_NOT_BUSY,   NULL, NULL },
+	{ "inspect_edit",      on_inspect_edit,           DS_EDITABLE,   NULL, NULL },
+	{ "inspect_apply",     on_inspect_apply,          DS_APPLIABLE,  NULL, NULL },
+	{ "inspect_expand",    on_inspect_expand,         DS_EXPANDABLE, NULL, NULL },
+	{ "inspect_copy",      on_inspect_copy,           DS_COPYABLE,   NULL, NULL },
+	{ "inspect_format",    on_inspect_format_display, DS_FORMATABLE, NULL, NULL },
 	FORMAT_ITEM("natural", FORMAT_NATURAL),
 	FORMAT_ITEM("decimal", FORMAT_DECIMAL),
 	FORMAT_ITEM("hex",     FORMAT_HEX),

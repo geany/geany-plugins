@@ -1,3 +1,27 @@
+2012-12-27  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * data/scope.glade, docs/codes.html, docs/scope.html, src/parse.c,
+   src/stack.c, src/stack.h, src/thread.c, src/thread.h, src/views.c:
+   Easier sync between GDB/Scope thread/frame.
+
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.79.
+
+
+2012-12-26  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * data/scope.glade, docs/codes.html, src/break.c, src/inspect.c,
+   src/local.c, src/menu.c, src/stack.c, src/thread.c, src/views.h,
+   src/watch.c:
+   Small fixes, simplified menu action debug states.
+
+
+2012-12-24  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/thread.c:
+   Limit TerminateProcess() exit code to UINT_MAX, not NSIG.
+
+
 2012-12-23  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * docs/scope.html, src/prefs.c, src/prefs.h, src/thread.c:
@@ -5,6 +29,7 @@
    and Threads location columns when a thread execution is resumed.
  * docs/scope.html, src/scope.c:
    Increased version to 0.78.
+
 
 2012-12-22  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
@@ -18,11 +43,13 @@
    Removed parse_lead_locale(), not used.
  * src/program.c, src/scope.c:
    Unified error message format.
+
  
 2012-12-18  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * build/scope.m4, scope/src/Makefile.am:
    No -lutil under win32.
+
 
 2012-12-16  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
@@ -39,6 +66,7 @@
    Escape "\ in evaluate expressions.
  * docs/scope.html, src/scope.c:
    Increased version to 0.77.
+
 
 2012-12-13  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 

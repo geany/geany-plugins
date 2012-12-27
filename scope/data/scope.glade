@@ -461,6 +461,13 @@
       </object>
     </child>
     <child>
+      <object class="GtkMenuItem" id="thread_synchronize">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">S_ynchronize</property>
+        <property name="use_underline">True</property>
+      </object>
+    </child>
+    <child>
       <object class="GtkImageMenuItem" id="thread_interrupt">
         <property name="label" translatable="yes">_Interrupt</property>
         <property name="visible">True</property>
@@ -515,6 +522,13 @@
               <object class="GtkCheckMenuItem" id="thread_select_on_exited">
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">_Exited</property>
+                <property name="use_underline">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkCheckMenuItem" id="thread_select_follow">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">_Follow</property>
                 <property name="use_underline">True</property>
               </object>
             </child>
@@ -651,9 +665,16 @@
       </object>
     </child>
     <child>
+      <object class="GtkMenuItem" id="stack_synchronize">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">S_ynchronize</property>
+        <property name="use_underline">True</property>
+      </object>
+    </child>
+    <child>
       <object class="GtkCheckMenuItem" id="stack_show_entry">
         <property name="visible">True</property>
-        <property name="label" translatable="yes">Show _@entry</property>
+        <property name="label" translatable="yes">_Show @entry</property>
         <property name="use_underline">True</property>
       </object>
     </child>

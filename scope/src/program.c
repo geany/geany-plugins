@@ -418,6 +418,7 @@ void program_init(void)
 	extern gboolean thread_select_on_running;
 	extern gboolean thread_select_on_stopped;
 	extern gboolean thread_select_on_exited;
+	extern gboolean thread_select_follow;
 
 	program_dialog = dialog_connect("program_dialog");
 	program_page_vbox = get_widget("program_page_vbox");
@@ -525,6 +526,7 @@ void program_init(void)
 	stash_group_add_boolean(group, &thread_select_on_running, "select_on_running", FALSE);
 	stash_group_add_boolean(group, &thread_select_on_stopped, "select_on_stopped", TRUE);
 	stash_group_add_boolean(group, &thread_select_on_exited, "select_on_exited", TRUE);
+	stash_group_add_boolean(group, &thread_select_follow, "select_follow", TRUE);
 	stash_group_add_boolean(group, &thread_show_group, "show_group", TRUE);
 	stash_group_add_boolean(group, &thread_show_core, "show_core", TRUE);
 	thread_group = group;

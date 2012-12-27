@@ -353,8 +353,6 @@ static void on_watch_delete(G_GNUC_UNUSED const MenuItem *menu_item)
 	}
 }
 
-#define DS_FRESHABLE DS_SENDABLE
-#define DS_WATCHABLE 0
 #define DS_COPYABLE (DS_BASICS | DS_EXTRA_1)
 #define DS_MODIFYABLE (DS_SENDABLE | DS_EXTRA_1)
 #define DS_INSPECTABLE (DS_NOT_BUSY | DS_EXTRA_1)
@@ -363,9 +361,9 @@ static void on_watch_delete(G_GNUC_UNUSED const MenuItem *menu_item)
 
 static MenuItem watch_menu_items[] =
 {
-	{ "watch_refresh",    on_watch_refresh,  DS_FRESHABLE,   NULL, NULL },
-	{ "watch_unsorted",   on_watch_unsorted, DS_SORTABLE,    NULL, NULL },
-	{ "watch_add",        on_watch_add,      DS_WATCHABLE,   NULL, NULL },
+	{ "watch_refresh",    on_watch_refresh,  DS_SENDABLE,    NULL, NULL },
+	{ "watch_unsorted",   on_watch_unsorted, 0,              NULL, NULL },
+	{ "watch_add",        on_watch_add,      0,              NULL, NULL },
 	{ "watch_copy",       on_watch_copy,     DS_COPYABLE,    NULL, NULL },
 	{ "watch_modify",     on_watch_modify,   DS_MODIFYABLE,  NULL, NULL },
 	{ "watch_inspect",    on_watch_inspect,  DS_INSPECTABLE, NULL, NULL },

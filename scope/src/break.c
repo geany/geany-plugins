@@ -1238,7 +1238,7 @@ static void on_break_view_source(G_GNUC_UNUSED const MenuItem *menu_item)
 static MenuItem break_menu_items[] =
 {
 	{ "break_refresh",     on_break_refresh,     DS_SENDABLE,  NULL, NULL },
-	{ "break_unsorted",    on_break_unsorted,    DS_SORTABLE,  NULL, NULL },
+	{ "break_unsorted",    on_break_unsorted,    0,            NULL, NULL },
 	{ "break_view_source", on_break_view_source, DS_VIEWABLE,  NULL, NULL },
 	{ "break_insert",      on_break_insert,      DS_SENDABLE,  NULL, NULL },
 	{ "break_watch",       on_break_watch,       DS_SENDABLE,  NULL, NULL },

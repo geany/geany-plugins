@@ -279,6 +279,11 @@ you want to kill the program only, switch to <em>Threads</em> and use <em>Termin
 
 <p>Commands starting with 0&lt;digit&gt; are used internally by Scope and will be blocked.</p>
 
+<p>Scope tries to keep track of the current gdb thread, and to emit a -thread-select command
+on <em>Send</em>/<em>Busy</em> if the gdb thread does not match the one (if any) selected in
+<em>Threads</em>. Tracking the current gdb frame asynchronously is impossible, so you must use
+a gdb frame selection command or --frame for the non-zero frames.</p>
+
 <p>Writing a full combo box for multi-line text is outside the scope of this project.</p>
 
 <p><b><a name="reset markers">Reset Markers</a></b></p>
@@ -322,6 +327,9 @@ combined with <em>Auto Hide</em> on multi-thread-group programs.</td></tr>
 <p><em>Refresh</em> - will not append or remove threads, only update the currently listed
 ones.</p>
 
+<p><em>Synchronize</em> - refresh and select the current gdb thread. Shift-click:
+-thread-select.</p>
+
 <p><em>Interrupt</em> - *nix: SIGINT, win~1: DebugBreakProcess.</p>
 
 <p><em>Terminate</em> - *nix: SIGTERM, win~1: TerminateProcess.</p>
@@ -329,7 +337,7 @@ ones.</p>
 <p>Both <em>Interrupt</em> and <em>Terminate</em> require an extra <em>Step</em> deliver a
 signal/*process to a stopped thread, and an extra <em>Step</em> to terminate a process.</p>
 
-<div><em>Re-select on</em>:</div>
+<div><em>Select on</em>:</div>
 <table border="0">
 <tr><td class="tab"><em>Running</em></td><td class="tab">Select a stopped thread (if any) when
 the current thread becomes running. Useful when starting/stopping lots of threads, but may be
@@ -339,6 +347,8 @@ stopped thread exists, it'll be selected on each step.</td></tr>
 there is no stopped thread already selected).</td></tr>
 <tr><td class="tab"><em>Exited</em></td><td class="tab">Select a stopped thread (if any) when
 the current thread is exited.</td></tr>
+<tr><td class="tab"><em>Follow</em></td><td class="tab">Follow gdb =thread-selected. It'll be
+better to clear the other options.</td></tr>
 </table>
 
 <p><b><a name="break">Breakpoints</a></b></p>
@@ -361,7 +371,7 @@ ignore for passcount), not the tracepoint-specific commands.</p>
 <p><em>Apply on run</em> is off by default for watchpoints, because they are often related to
 a local expression.</p>
 
-<p>Shift-Clicking <em>Apply</em> applies the breakpoint for the currently selected thread
+<p>Shift-clicking <em>Apply</em> applies the breakpoint for the currently selected thread
 only.</p>
 
 <p>GDB may report an error for invalid <em>Condition</em> and/or <em>Script</em>, but still
@@ -387,6 +397,8 @@ marker for enabled breakpoint will be used for that line.</p>
 
 <p>The function arguments are subject to 8-bit text conversion. Their individual modes may be
 set via <em>Locals</em>.</p>
+
+<p><em>Synchronize</em> - select the current gdb frame. Shift-click: -stack-select-frame.</p>
 
 <p><em>Show @entry</em> - display any @entry arguments reported by gdb for the selected frame
 function. Depends on GDB &quot;print entry-values&quot;. Applies to <em>Locals</em> too.</p>
@@ -673,7 +685,7 @@ later version.</p>
 
 <b><a name="copyright">Copyright</a></b>
 
-<p>Scope 0.78, Copyright (C) 2012 Dimitar Toshkov Zhekov</p>
+<p>Scope 0.79, Copyright (C) 2012 Dimitar Toshkov Zhekov</p>
 
 <p>The menu and toolbar icons are from <a href="http://netbeans.org">Netbeans</a>, except for
 BreakPoint.</p>

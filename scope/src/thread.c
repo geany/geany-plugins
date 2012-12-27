@@ -28,6 +28,7 @@
 #include <signal.h>
 #else
 #define WINVER 0x0501
+#include <limits.h>
 #include <windows.h>
 #endif
 
@@ -235,12 +236,10 @@ static void thread_iter_running(GtkTreeIter *iter, const char *tid)
 	}
 }
 
-/* select a stopped thread when the current thread becomes running */
 gboolean thread_select_on_running;
-/* select a thread when it stops (unless already at stopped thread) */
 gboolean thread_select_on_stopped;
-/* select a stopped thread when the current thread exits */
 gboolean thread_select_on_exited;
+gboolean thread_select_follow;
 
 void on_thread_running(GArray *nodes)
 {
@@ -421,6 +420,22 @@ void on_thread_stopped(GArray *nodes)
 		view_dirty(VIEW_BREAKS);
 }
 
+static char *gdb_thread = NULL;
+
+static void set_gdb_thread(const char *tid, gboolean select)
+{
+	g_free(gdb_thread);
+	gdb_thread = g_strdup(tid);
+
+	if (select)
+	{
+		GtkTreeIter iter;
+
+		if (find_thread(gdb_thread, &iter))
+			gtk_tree_selection_select_iter(selection, &iter);
+	}
+}
+
 void on_thread_created(GArray *nodes)
 {
 	const char *tid = parse_find_value(nodes, "id");
@@ -454,6 +469,9 @@ void on_thread_created(GArray *nodes)
 			if (group && group->pid)
 				gtk_list_store_set(store, &iter, THREAD_PID, group->pid, -1);
 		}
+
+		if (thread_count == 1)
+			set_gdb_thread(tid, TRUE);
 	}
 }
 
@@ -465,6 +483,9 @@ void on_thread_exited(GArray *nodes)
 	{
 		GtkTreeIter iter;
 
+		if (!g_strcmp0(tid, gdb_thread))
+			set_gdb_thread(NULL, FALSE);
+		
 		if (find_thread(tid, &iter))
 		{
 			gboolean was_selected = !g_strcmp0(tid, thread_id);
@@ -488,6 +509,11 @@ void on_thread_exited(GArray *nodes)
 			on_debug_auto_exit();
 		}
 	}
+}
+
+void on_thread_selected(GArray *nodes)
+{
+	set_gdb_thread(parse_lead_value(nodes), thread_select_follow);
 }
 
 static void thread_parse(GArray *nodes, const char *tid, gboolean stopped)
@@ -530,9 +556,27 @@ static void thread_node_parse(const ParseNode *node, G_GNUC_UNUSED gpointer gdat
 	}
 }
 
+static const char *thread_info_parse(GArray *nodes, gboolean select)
+{
+	const char *tid = parse_find_value(nodes, "current-thread-id");
+
+	array_foreach(parse_lead_array(nodes), (GFunc) thread_node_parse, NULL);
+
+	if (tid)
+		set_gdb_thread(tid, select);
+
+	return tid;
+}
+
 void on_thread_info(GArray *nodes)
 {
-	array_foreach(parse_lead_array(nodes), (GFunc) thread_node_parse, NULL);
+	thread_info_parse(nodes, thread_select_follow);
+}
+
+void on_thread_follow(GArray *nodes)
+{
+	if (!thread_info_parse(nodes, TRUE))
+		dc_error("no current tid");
 }
 
 void on_thread_frame(GArray *nodes)
@@ -562,6 +606,7 @@ void threads_clear(void)
 	model_foreach(model, (GFunc) thread_iter_unmark, GINT_TO_POINTER(TRUE));
 	array_clear(thread_groups, (GFreeFunc) thread_group_free);
 	gtk_list_store_clear(store);
+	set_gdb_thread(NULL, FALSE);
 	thread_count = 0;
 }
 
@@ -588,6 +633,17 @@ gboolean threads_update(void)
 {
 	debug_send_command(N, "04-thread-info");
 	return TRUE;
+}
+
+void thread_query_frame(char token)
+{
+	debug_send_format(T, "0%c%s-stack-info-frame", token, thread_id);
+}
+
+void thread_synchronize(void)
+{
+	if (thread_id && g_strcmp0(thread_id, gdb_thread))
+		debug_send_format(N, "04-thread-select %s", thread_id);
 }
 
 static void on_thread_selection_changed(GtkTreeSelection *selection,
@@ -621,7 +677,7 @@ static void on_thread_selection_changed(GtkTreeSelection *selection,
 			thread_state = THREAD_STOPPED;
 
 			if (debug_state() & DS_DEBUG)
-				thread_query_frame();
+				thread_query_frame('4');
 			else
 				thread_state = THREAD_QUERY_FRAME;
 		}
@@ -661,6 +717,16 @@ static void on_thread_view_source(G_GNUC_UNUSED const MenuItem *menu_item)
 	thread_seek_selected(FALSE);
 }
 
+static void on_thread_synchronize(const MenuItem *menu_item)
+{
+	if (menu_item)
+		debug_send_command(N, "02-thread-info");
+	else if (thread_id)
+		debug_send_format(N, "-thread-select %s", thread_id);
+	else
+		plugin_blink();
+}
+
 #ifdef G_OS_UNIX
 static void send_signal(int sig)
 {
@@ -696,11 +762,13 @@ static void on_thread_send_signal(G_GNUC_UNUSED const MenuItem *menu_item)
 {
 	gdouble value = 1;
 
-	if (dialogs_show_input_numeric(_("Send Signal"), _("Enter signal #:"), &value, 1, NSIG, 1))
+	if (dialogs_show_input_numeric(_("Send Signal"), _("Enter signal #:"), &value, 1, NSIG,
+		1))
+	{
 		send_signal(value);
+	}
 }
 #else  /* G_OS_UNIX */
-
 static HANDLE iter_to_handle(GtkTreeIter *iter)
 {
 	const char *pid;
@@ -735,7 +803,7 @@ static void on_thread_terminate(G_GNUC_UNUSED const MenuItem *menu_item)
 	gdouble value = 1;
 
 	if (dialogs_show_input_numeric(_("Terminate Process"), _("Enter exit code:"), &value, 1,
-		NSIG, 1))
+		UINT_MAX, 1))
 	{
 		GtkTreeIter iter;
 
@@ -772,25 +840,27 @@ static void on_thread_show_core(const MenuItem *menu_item)
 	view_column_set_visible("thread_core_column", thread_show_core);
 }
 
-#define DS_INTRABLE (DS_ACTIVE | DS_EXTRA_2)
-#define DS_TERMABLE (DS_ACTIVE | DS_EXTRA_2)
-#define DS_SIGNABLE (DS_ACTIVE | DS_EXTRA_2)
-#define DS_VIEWABLE (DS_ACTIVE | DS_EXTRA_3)
+#define DS_VIEWABLE (DS_ACTIVE | DS_EXTRA_2)
+#define DS_INTRABLE (DS_ACTIVE | DS_EXTRA_3)
+#define DS_TERMABLE (DS_ACTIVE | DS_EXTRA_3)
+#define DS_SIGNABLE (DS_ACTIVE | DS_EXTRA_3)
 
 static MenuItem thread_menu_items[] =
 {
 	{ "thread_refresh",           on_thread_refresh,        DS_SENDABLE, NULL, NULL },
-	{ "thread_unsorted",          on_thread_unsorted,       DS_SORTABLE, NULL, NULL },
+	{ "thread_unsorted",          on_thread_unsorted,       0,           NULL, NULL },
 	{ "thread_view_source",       on_thread_view_source,    DS_VIEWABLE, NULL, NULL },
+	{ "thread_synchronize",       on_thread_synchronize,    DS_SENDABLE, NULL, NULL },
 	{ "thread_interrupt",         on_thread_interrupt,      DS_INTRABLE, NULL, NULL },
 	{ "thread_terminate",         on_thread_terminate,      DS_TERMABLE, NULL, NULL },
 #ifdef G_OS_UNIX
 	{ "thread_send_signal",       on_thread_send_signal,    DS_SIGNABLE, NULL, NULL },
 #endif
-	{ "thread_auto_select",       on_menu_display_booleans, 0, NULL, GINT_TO_POINTER(3) },
+	{ "thread_auto_select",       on_menu_display_booleans, 0, NULL, GINT_TO_POINTER(4) },
 	{ "thread_select_on_running", on_menu_update_boolean, 0, NULL, &thread_select_on_running },
 	{ "thread_select_on_stopped", on_menu_update_boolean, 0, NULL, &thread_select_on_stopped },
 	{ "thread_select_on_exited",  on_menu_update_boolean, 0, NULL, &thread_select_on_exited },
+	{ "thread_select_follow",     on_menu_update_boolean, 0, NULL, &thread_select_follow },
 	{ "thread_show_columns",      on_menu_display_booleans, 0, NULL, GINT_TO_POINTER(2) },
 	{ "thread_show_group",        on_thread_show_group,   0, NULL, &thread_show_group },
 	{ "thread_show_core",         on_thread_show_core,    0, NULL, &thread_show_core },
@@ -806,7 +876,7 @@ static guint thread_menu_extra_state(void)
 		const char *pid, *file;
 
 		gtk_tree_model_get(model, &iter, THREAD_PID, &pid, THREAD_FILE, &file, -1);
-		return ((pid && atoi(pid) > 0) << DS_INDEX_2) | ((file != NULL) << DS_INDEX_3);
+		return ((file != NULL) << DS_INDEX_2) | ((utils_atoi0(pid) > 0) << DS_INDEX_3);
 	}
 
 	return 0;
@@ -814,9 +884,16 @@ static guint thread_menu_extra_state(void)
 
 static MenuInfo thread_menu_info = { thread_menu_items, thread_menu_extra_state, 0 };
 
+static void on_thread_synchronize_button_release(GtkWidget *widget, GdkEventButton *event,
+	GtkWidget *menu)
+{
+	menu_shift_button_release(widget, event, menu, on_thread_synchronize);
+}
+
 void thread_init(void)
 {
 	GtkTreeView *tree = view_create("thread_view", &model, &selection);
+	GtkWidget *menu = menu_select("thread_menu", &thread_menu_info, selection);
 
 	store = GTK_LIST_STORE(model);
 	sortable = GTK_TREE_SORTABLE(model);
@@ -837,8 +914,10 @@ void thread_init(void)
 		thread_seek_selected);
 	g_signal_connect(tree, "button-press-event", G_CALLBACK(on_view_button_1_press),
 		thread_seek_selected);
+
 	g_signal_connect(selection, "changed", G_CALLBACK(on_thread_selection_changed), NULL);
-	menu_select("thread_menu", &thread_menu_info, selection);
+	g_signal_connect(get_widget("thread_synchronize"), "button-release-event",
+		G_CALLBACK(on_thread_synchronize_button_release), menu);
 #ifndef G_OS_UNIX
 	gtk_widget_hide(get_widget("thread_send_signal"));
 #endif
@@ -848,4 +927,5 @@ void thread_finalize(void)
 {
 	model_foreach(model, (GFunc) thread_iter_unmark, NULL);
 	array_free(thread_groups, (GFreeFunc) thread_group_free);
+	set_gdb_thread(NULL, FALSE);
 }

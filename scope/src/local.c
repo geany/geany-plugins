@@ -230,7 +230,7 @@ static void on_local_mr_mode(const MenuItem *menu_item)
 static MenuItem local_menu_items[] =
 {
 	{ "local_refresh",    on_local_refresh,  DS_FRESHABLE,   NULL, NULL },
-	{ "local_unsorted",   on_local_unsorted, DS_SORTABLE,    NULL, NULL },
+	{ "local_unsorted",   on_local_unsorted, 0,              NULL, NULL },
 	{ "local_copy",       on_local_copy,     DS_COPYABLE,    NULL, NULL },
 	{ "local_modify",     on_local_modify,   DS_MODIFYABLE,  NULL, NULL },
 	{ "local_watch",      on_local_watch,    DS_WATCHABLE,   NULL, NULL },

@@ -98,7 +98,7 @@ void views_update(DebugState state)
 		if (thread_state == THREAD_QUERY_FRAME)
 		{
 			if (!views[VIEW_THREADS].dirty)
-				thread_query_frame();
+				thread_query_frame('4');
 
 			thread_state = THREAD_STOPPED;
 		}
@@ -119,7 +119,7 @@ void views_update(DebugState state)
 		if (thread_state == THREAD_QUERY_FRAME)
 		{
 			if (view_current != VIEW_THREADS || !views[VIEW_THREADS].dirty)
-				thread_query_frame();
+				thread_query_frame('4');
 
 			thread_state = THREAD_STOPPED;
 		}
@@ -437,7 +437,6 @@ static void on_command_insert_button_clicked(G_GNUC_UNUSED GtkButton *button, gp
 	gtk_text_buffer_insert_at_cursor(command_text, text->str, -1);
 	g_string_free(text, TRUE);
 	gtk_widget_grab_focus(command_view);
-
 }
 
 static void on_command_send_button_clicked(G_GNUC_UNUSED GtkButton *button,
@@ -447,6 +446,7 @@ static void on_command_send_button_clicked(G_GNUC_UNUSED GtkButton *button,
 	const gchar *start;
 	char *locale;
 
+	thread_synchronize();
 	utils_str_replace_all(&text, "\n", " ");
 	start = utils_skip_spaces(text);
 	locale = gtk_toggle_button_get_active(command_locale) ?

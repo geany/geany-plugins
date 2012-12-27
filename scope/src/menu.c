@@ -441,14 +441,12 @@ static void on_popup_inspect(G_GNUC_UNUSED const MenuItem *menu_item)
 }
 
 #define DS_EVALUATE (DS_SENDABLE | DS_EXTRA_1)
-#define DS_WATCHABLE 0
-#define DS_INSPECTABLE DS_NOT_BUSY
 
 static MenuItem popup_menu_items[] =
 {
-	{ "popup_evaluate", on_popup_evaluate, DS_EVALUATE,  NULL, NULL },
-	{ "popup_watch",    on_popup_watch,    DS_WATCHABLE, NULL, NULL },
-	{ "popup_inspect",  on_popup_inspect,  DS_WATCHABLE, NULL, NULL },
+	{ "popup_evaluate", on_popup_evaluate, DS_EVALUATE, NULL, NULL },
+	{ "popup_watch",    on_popup_watch,    0,           NULL, NULL },
+	{ "popup_inspect",  on_popup_inspect,  DS_NOT_BUSY, NULL, NULL },
 	{ NULL, NULL, 0, NULL, NULL }
 };
 
