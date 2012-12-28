@@ -10,7 +10,7 @@ AC_DEFUN([GP_CHECK_GEANYLUA],
 
         for L in lua5.1 lua51 lua-5.1 lua; do
             PKG_CHECK_EXISTS([$L],
-                [LUA_PKG_NAME=$L],[])
+                [LUA_PKG_NAME=$L]; break,[])
         done])
 
     LUA_VERSION=5.1
