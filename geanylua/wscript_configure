@@ -23,7 +23,7 @@
 from waflib.Errors import ConfigurationError
 from build.wafutils import check_cfg_cached
 
-package_names = ['lua', 'lua5.1', 'lua51', 'lua-5.1']
+package_names = ['lua5.1', 'lua51', 'lua-5.1', 'lua']
 
 def try_to_find_lua_package():
     # try various package names as distributions like to use different ones
