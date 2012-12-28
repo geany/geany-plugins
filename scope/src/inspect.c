@@ -701,13 +701,14 @@ static gboolean inspect_load(GKeyFile *config, const char *section)
 {
 	char *name = utils_key_file_get_string(config, section, "name");
 	gchar *expr = utils_key_file_get_string(config, section, "expr");
-	gint hb_mode = g_key_file_get_integer(config, section, "hbit", NULL);
+	gint hb_mode = utils_get_setting_integer(config, section, "hbit", HB_DEFAULT);
 	char *frame = utils_key_file_get_string(config, section, "frame");
-	gboolean run_apply = g_key_file_get_boolean(config, section, "run_apply", NULL);
-	gint start = g_key_file_get_integer(config, section, "start", NULL);
-	gint count = g_key_file_get_integer(config, section, "count", NULL);
-	gboolean expand = g_key_file_get_boolean(config, section, "expand", NULL);
-	gint format = g_key_file_get_integer(config, section, "format", NULL);
+	gboolean run_apply = utils_get_setting_boolean(config, section, "run_apply", FALSE);
+	gint start = utils_get_setting_integer(config, section, "start", 0);
+	gint count = utils_get_setting_integer(config, section, "count", option_inspect_count);
+	gboolean expand = utils_get_setting_boolean(config, section, "expand",
+		option_inspect_expand);
+	gint format = utils_get_setting_integer(config, section, "format", FORMAT_NATURAL);
 	gboolean valid = FALSE;
 
 	if (name && inspect_name_valid(name) && expr && (unsigned) hb_mode < HB_COUNT &&

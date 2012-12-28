@@ -534,7 +534,7 @@ gboolean utils_key_file_write_to_file(GKeyFile *config, const char *configfile)
 
 gchar *utils_key_file_get_string(GKeyFile *config, const char *section, const char *key)
 {
-	gchar *string = g_key_file_get_string(config, section, key, NULL);
+	gchar *string = utils_get_setting_string(config, section, key, NULL);
 
 	if (!validate_column(string, TRUE))
 	{

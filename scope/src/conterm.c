@@ -485,14 +485,12 @@ void conterm_init(void)
 	{
 		static const char *const colors[NFD] = { "#00C0C0", "#C0C0C0", "#C00000",
 			"#C0C0C0", "#C000C0" };
-		PangoFontDescription *font_desc = pango_font_description_from_string(pref_vte_font);
 		guint i;
 
 		console = get_widget("debug_console");
 		gtk_widget_modify_base(console, GTK_STATE_NORMAL, &pref_vte_colour_back);
 		gtk_widget_modify_cursor(console, &pref_vte_colour_fore, &pref_vte_colour_back);
-		gtk_widget_modify_font(console, font_desc);
-		pango_font_description_free(font_desc);
+		ui_widget_modify_font_from_string(console, pref_vte_font);
 
 		debug_context = GTK_TEXT_VIEW(console);
 		dc_output = context_output;

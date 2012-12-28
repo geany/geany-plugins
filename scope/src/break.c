@@ -986,12 +986,13 @@ static gboolean break_load(GKeyFile *config, const char *section)
 	char *strings[STRING_COUNT];
 	gboolean valid = FALSE;
 
-	line = g_key_file_get_integer(config, section, "line", NULL);
-	type = g_key_file_get_integer(config, section, "type", NULL);
-	enabled = g_key_file_get_boolean(config, section, "enabled", NULL);
-	pending = g_key_file_get_boolean(config, section, "pending", NULL);
-	run_apply = g_key_file_get_boolean(config, section, "run_apply", NULL);
-	temporary = g_key_file_get_boolean(config, section, "temporary", NULL);
+	line = utils_get_setting_integer(config, section, "line", 0);
+	type = utils_get_setting_integer(config, section, "type", 0);
+	enabled = utils_get_setting_boolean(config, section, "enabled", TRUE);
+	pending = utils_get_setting_boolean(config, section, "pending", FALSE);
+	run_apply = utils_get_setting_boolean(config, section, "run_apply",
+		strchr(BP_BORTS, type) != NULL);
+	temporary = utils_get_setting_boolean(config, section, "temporary", FALSE);
 	for (i = 0; i < STRING_COUNT; i++)
 		strings[i] = utils_key_file_get_string(config, section, string_names[i]);
 

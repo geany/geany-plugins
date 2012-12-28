@@ -60,8 +60,8 @@ static void recent_program_free(RecentProgram *program)
 
 static gboolean recent_program_load(GKeyFile *config, const char *section)
 {
-	gchar *name = g_key_file_get_string(config, section, "name", NULL);
-	gint id = g_key_file_get_integer(config, section, "id", NULL);
+	gchar *name = utils_get_setting_string(config, section, "name", NULL);
+	gint id = utils_get_setting_integer(config, section, "id", 0);
 
 	if (name && *name && id > 0 && (recent_bitmap & (1 << id)) == 0 &&
 		recent_programs->len < RECENT_COUNT)

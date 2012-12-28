@@ -236,9 +236,9 @@ void watches_delete_all(void)
 static gboolean watch_load(GKeyFile *config, const char *section)
 {
 	gchar *expr = utils_key_file_get_string(config, section, "expr");
-	gint hb_mode = g_key_file_get_integer(config, section, "hbit", NULL);
-	gint mr_mode = g_key_file_get_integer(config, section, "member", NULL);
-	gboolean enabled = g_key_file_get_boolean(config, section, "enabled", NULL);
+	gint hb_mode = utils_get_setting_integer(config, section, "hbit", HB_DEFAULT);
+	gint mr_mode = utils_get_setting_integer(config, section, "member", MR_DEFAULT);
+	gboolean enabled = utils_get_setting_boolean(config, section, "enabled", TRUE);
 	gboolean valid = FALSE;
 
 	if (expr && (unsigned) hb_mode < HB_COUNT && (unsigned) mr_mode < MR_MODIFY)

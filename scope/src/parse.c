@@ -484,9 +484,9 @@ static void parse_mode_free(ParseMode *pm)
 static gboolean parse_mode_load(GKeyFile *config, const char *section)
 {
 	char *name = utils_key_file_get_string(config, section, "name");
-	gint hb_mode = g_key_file_get_integer(config, section, "hbit", NULL);
-	gint mr_mode = g_key_file_get_integer(config, section, "member", NULL);
-	gboolean entry = g_key_file_get_boolean(config, section, "entry", NULL);
+	gint hb_mode = utils_get_setting_integer(config, section, "hbit", HB_DEFAULT);
+	gint mr_mode = utils_get_setting_integer(config, section, "member", MR_DEFAULT);
+	gboolean entry = utils_get_setting_boolean(config, section, "entry", TRUE);
 
 	if (name && (unsigned) hb_mode < HB_COUNT && (unsigned) mr_mode < MR_MODIFY)
 	{
@@ -559,7 +559,7 @@ void parse_mode_update(const char *name, gint mode, gint value)
 		}
 	}
 
-	if (pm->hb_mode == HB_DEFAULT && pm->mr_mode == MR_DEFAULT && pm->entry == TRUE)
+	if (pm->hb_mode == HB_DEFAULT && pm->mr_mode == MR_DEFAULT && pm->entry)
 		array_remove(parse_modes, pm);
 }
 
