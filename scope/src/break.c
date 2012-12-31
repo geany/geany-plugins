@@ -412,7 +412,7 @@ static void break_node_parse(const ParseNode *node, BreakData *bd)
 					BREAK_DISCARD, !persist, -1);
 
 				if (persist)
-					gtk_tree_selection_select_iter(selection, iter);
+					utils_tree_set_cursor(selection, iter, 0.5);
 
 				g_free(original);
 				g_free(display);
@@ -940,7 +940,7 @@ void on_break_toggle(G_GNUC_UNUSED const MenuItem *menu_item)
 		break_relocate(&iter, doc->real_path, doc_line);
 		gtk_list_store_set(store, &iter, BREAK_SCID, ++scid_gen, BREAK_TYPE, 'b',
 			BREAK_ENABLED, TRUE, BREAK_RUN_APPLY, TRUE, -1);
-		gtk_tree_selection_select_iter(selection, &iter);
+		utils_tree_set_cursor(selection, &iter, 0.5);
 		sci_set_marker_at_line(doc->editor->sci, doc_line - 1, MARKER_BREAKPT + TRUE);
 	}
 }

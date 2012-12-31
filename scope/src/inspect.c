@@ -169,7 +169,7 @@ static void on_jump_to_menu_item_activate(GtkMenuItem *menuitem, G_GNUC_UNUSED g
 	const gchar *expr = gtk_menu_item_get_label(menuitem);
 
 	if (model_find(model, &iter, INSPECT_EXPR, expr))
-		gtk_tree_selection_select_iter(selection, &iter);
+		utils_tree_set_cursor(selection, &iter, 0);
 }
 
 static GtkWidget *jump_to_item;
@@ -632,7 +632,7 @@ void inspect_add(const gchar *text)
 		gtk_tree_store_set(store, &iter, INSPECT_HB_MODE, pm->hb_mode, INSPECT_SCID,
 			++scid_gen, INSPECT_FORMAT, FORMAT_NATURAL, INSPECT_COUNT,
 			option_inspect_count, INSPECT_EXPAND, option_inspect_expand, -1);
-		gtk_tree_selection_select_iter(selection, &iter);
+		utils_tree_set_cursor(selection, &iter, -1);
 
 		if (debug_state() & DS_DEBUG)
 			inspect_apply(&iter);

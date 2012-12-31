@@ -210,7 +210,7 @@ void watch_add(const gchar *text)
 		gtk_list_store_append(store, &iter);
 		gtk_list_store_set(store, &iter, WATCH_EXPR, expr, WATCH_HB_MODE, pm->hb_mode,
 			WATCH_MR_MODE, pm->mr_mode, WATCH_SCID, ++scid_gen, WATCH_ENABLED, TRUE, -1);
-		gtk_tree_selection_select_iter(selection, &iter);
+		utils_tree_set_cursor(selection, &iter, 0.5);
 
 		if (debug_state() & DS_DEBUG)
 			watch_fetch(&iter);

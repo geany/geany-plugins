@@ -186,7 +186,7 @@ void on_stack_follow(GArray *nodes)
 			GtkTreeIter iter;
 
 			iff (model_find(model, &iter, STACK_ID, id), "%s: level not found", id)
-				gtk_tree_selection_select_iter(selection, &iter);
+				utils_tree_set_cursor(selection, &iter, 0.5);
 		}
 	}
 }

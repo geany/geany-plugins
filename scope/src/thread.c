@@ -182,7 +182,7 @@ static void auto_select_thread(void)
 
 	if (model_find(model, &iter, THREAD_STATE, STOPPED))
 	{
-		gtk_tree_selection_select_iter(selection, &iter);
+		utils_tree_set_cursor(selection, &iter, -1);
 		view_seek_selected(selection, FALSE, SK_EXECUTE);
 	}
 }
@@ -409,7 +409,7 @@ void on_thread_stopped(GArray *nodes)
 
 	if (thread_select_on_stopped && thread_state <= THREAD_RUNNING && sd.found)
 	{
-		gtk_tree_selection_select_iter(selection, &sd.iter);
+		utils_tree_set_cursor(selection, &sd.iter, -1);
 		view_seek_selected(selection, FALSE, SK_EXECUTE);
 	}
 
@@ -432,7 +432,7 @@ static void set_gdb_thread(const char *tid, gboolean select)
 		GtkTreeIter iter;
 
 		if (find_thread(gdb_thread, &iter))
-			gtk_tree_selection_select_iter(selection, &iter);
+			utils_tree_set_cursor(selection, &iter, -1);
 	}
 }
 
