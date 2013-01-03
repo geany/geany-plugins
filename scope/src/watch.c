@@ -62,11 +62,6 @@ static void watch_iter_update(GtkTreeIter *iter, gpointer gdata)
 		g_free(debug_send_evaluate('6', scid, expr));
 }
 
-static void watch_fetch(GtkTreeIter *iter)
-{
-	watch_iter_update(iter, GINT_TO_POINTER(TRUE));
-}
-
 static void on_watch_expr_edited(G_GNUC_UNUSED GtkCellRendererText *renderer,
 	gchar *path_str, gchar *new_text, G_GNUC_UNUSED gpointer gdata)
 {
@@ -88,7 +83,7 @@ static void on_watch_expr_edited(G_GNUC_UNUSED GtkCellRendererText *renderer,
 				pm->mr_mode, -1);
 
 			if (enabled && (debug_state() & DS_DEBUG))
-				watch_fetch(&iter);
+				watch_iter_update(&iter, GINT_TO_POINTER(TRUE));
 		}
 	}
 }
@@ -96,23 +91,8 @@ static void on_watch_expr_edited(G_GNUC_UNUSED GtkCellRendererText *renderer,
 static void on_watch_display_edited(G_GNUC_UNUSED GtkCellRendererText *renderer,
 	gchar *path_str, gchar *new_text, G_GNUC_UNUSED gpointer gdata)
 {
-	if (validate_column(new_text, TRUE))
-	{
-		if (debug_state() & DS_SENDABLE)
-		{
-			GtkTreeIter iter;
-			gint scid;
-			char *format;
-
-			gtk_tree_model_get_iter_from_string(model, &iter, path_str);
-			gtk_tree_model_get(model, &iter, WATCH_SCID, &scid, -1);
-			format = g_strdup_printf("09%d%s", scid, "-gdb-set var %s=%s");
-			view_display_edited(model, &iter, new_text, format);
-			g_free(format);
-		}
-		else
-			plugin_beep();
-	}
+	view_display_edited(model, debug_state() & DS_SENDABLE, path_str, "07-gdb-set var %s=%s",
+		new_text);
 }
 
 static const TreeCell watch_cells[] =
@@ -169,15 +149,6 @@ void on_watch_error(GArray *nodes)
 	watch_set(nodes, parse_find_error(nodes), NULL);
 }
 
-void on_watch_modified(GArray *nodes)
-{
-	const char *token = parse_grab_token(nodes);
-	GtkTreeIter iter;
-
-	iff (model_find(model, &iter, WATCH_SCID, token), "%s: w_scid not found", token)
-		watch_fetch(&iter);
-}
-
 static void watch_iter_clear(GtkTreeIter *iter, G_GNUC_UNUSED gpointer gdata)
 {
 	gtk_list_store_set(store, iter, WATCH_DISPLAY, NULL, WATCH_VALUE, NULL, -1);
@@ -190,7 +161,7 @@ void watches_clear(void)
 
 gboolean watches_update(void)
 {
-	if (view_stack_update())
+	if (view_select_frame())
 		return FALSE;
 
 	model_foreach(model, (GFunc) watch_iter_update, GPOINTER_TO_INT(FALSE));
@@ -213,7 +184,7 @@ void watch_add(const gchar *text)
 		utils_tree_set_cursor(selection, &iter, 0.5);
 
 		if (debug_state() & DS_DEBUG)
-			watch_fetch(&iter);
+			watch_iter_update(&iter, NULL);
 	}
 
 	g_free(expr);
@@ -311,15 +282,7 @@ static void on_watch_copy(const MenuItem *menu_item)
 
 static void on_watch_modify(const MenuItem *menu_item)
 {
-	GtkTreeIter iter;
-	gint scid;
-	char *prefix;
-
-	gtk_tree_selection_get_selected(selection, NULL, &iter);
-	gtk_tree_model_get(model, &iter, WATCH_SCID, &scid, -1);
-	prefix = g_strdup_printf("09%d", scid);
-	menu_modify(model, &iter, prefix, menu_item ? MR_MODIFY : MR_MODSTR);
-	g_free(prefix);
+	menu_modify(selection, menu_item);
 }
 
 static void on_watch_inspect(G_GNUC_UNUSED const MenuItem *menu_item)

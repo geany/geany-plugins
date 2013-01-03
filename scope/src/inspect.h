@@ -23,7 +23,6 @@ void on_inspect_variable(GArray *nodes);
 void on_inspect_format(GArray *nodes);
 void on_inspect_children(GArray *nodes);
 void on_inspect_ndeleted(GArray *nodes);
-void on_inspect_value(GArray *nodes);
 void on_inspect_path_expr(GArray *nodes);
 void on_inspect_changelist(GArray *nodes);
 void on_inspect_signal(const char *name);

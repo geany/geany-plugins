@@ -20,7 +20,6 @@
 #ifndef LOCAL_H
 
 void on_local_variables(GArray *nodes);
-void on_local_modified(GArray *nodes);
 
 void locals_clear(void);
 gboolean locals_update(void);

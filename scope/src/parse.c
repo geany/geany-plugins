@@ -40,6 +40,11 @@ static void on_quiet_error(G_GNUC_UNUSED GArray *nodes)
 	plugin_blink();
 }
 
+static void on_data_modified(G_GNUC_UNUSED GArray *nodes)
+{
+	views_data_dirty();
+}
+
 typedef struct _ParseRoute
 {
 	const char *prefix;
@@ -81,8 +86,7 @@ static const ParseRoute parse_routes[] =
 	{ "^done,line=\"",                on_debug_list_source,    '2',  '\0', 2 },
 	{ "^done,value=\"",               on_tooltip_value,        '3',  '\0', 1 },
 	{ "^done,value=\"",               on_watch_value,          '6',  '\0', 1 },
-	{ "^done,value=\"",               on_inspect_value,        '7',  '\0', 1 },
-	{ "^done,value=\"",               on_menu_evaluate_value,  '9',  '\0', 1 },
+	{ "^done,value=\"",               on_menu_evaluate_value,  '8',  '\0', 1 },
 	{ "^done,name=\"",                on_inspect_variable,     '7',  '\0', 1 },
 	{ "^done,format=\"",              on_inspect_format,       '7',  '\0', 1 },
 	{ "^done,numchild=\"",            on_inspect_children,     '7',  '\0', 2 },
@@ -95,8 +99,7 @@ static const ParseRoute parse_routes[] =
 	{ "^done",                        on_debug_loaded,         '1',  '\0', 0 },
 	{ "^done",                        on_break_done,           '2',  '\0', 0 },
 	{ "^done",                        on_debug_auto_run,       '5',  '\0', 0 },
-	{ "^done",                        on_local_modified,       '8',  '\0', 0 },
-	{ "^done",                        on_watch_modified,       '9',  '\0', 0 },
+	{ "^done",                        on_data_modified,        '7',  '\0', 0 },
 	{ "^error,",                      on_debug_load_error,     '1',  '\n', 0 },
 	{ "^error,",                      on_tooltip_error,        '3',  '\0', 0 },
 	{ "^error",                       on_quiet_error,          '4',  '\0', 0 },

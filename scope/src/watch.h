@@ -21,7 +21,6 @@
 
 void on_watch_value(GArray *nodes);
 void on_watch_error(GArray *nodes);
-void on_watch_modified(GArray *nodes);
 
 void watches_clear(void);
 gboolean watches_update(void);

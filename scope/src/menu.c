@@ -360,15 +360,19 @@ static void menu_evaluate_modify(const gchar *expr, const char *value, const gch
 	}
 }
 
-void menu_modify(GtkTreeModel *model, GtkTreeIter *iter, const char *prefix, gint mr_mode)
+void menu_modify(GtkTreeSelection *selection, const MenuItem *menu_item)
 {
+	GtkTreeModel *model;
+	GtkTreeIter iter;
 	const gchar *name;
 	const char *value;
 	gint hb_mode;
 
-	gtk_tree_model_get(model, iter, COLUMN_NAME, &name, COLUMN_VALUE, &value, COLUMN_HB_MODE,
+	gtk_tree_selection_get_selected(selection, &model, &iter);
+	gtk_tree_model_get(model, &iter, COLUMN_NAME, &name, COLUMN_VALUE, &value, COLUMN_HB_MODE,
 		&hb_mode, -1);
-	menu_evaluate_modify(name, value, _("Modify"), hb_mode, mr_mode, prefix);
+	menu_evaluate_modify(name, value, _("Modify"), hb_mode, menu_item ? MR_MODIFY : MR_MODSTR,
+		"07");
 }
 
 void menu_inspect(GtkTreeSelection *selection)
@@ -422,7 +426,7 @@ static void on_popup_evaluate(const MenuItem *menu_item)
 
 	g_free(input);
 	eval_mr_mode = menu_item ? MR_MODIFY : MR_MODSTR;
-	input = debug_send_evaluate('9', ++scid_gen, expr);
+	input = debug_send_evaluate('8', ++scid_gen, expr);
 	g_free(expr);
 }
 

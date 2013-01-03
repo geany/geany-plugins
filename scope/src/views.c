@@ -51,6 +51,15 @@ void view_dirty(ViewIndex index)
 	views[index].dirty = TRUE;
 }
 
+void views_data_dirty(void)
+{
+	view_dirty(VIEW_STACK);
+	view_dirty(VIEW_LOCALS);
+	view_dirty(VIEW_WATCHES);
+	view_dirty(VIEW_INSPECT);
+	view_dirty(VIEW_TOOLTIP);
+}
+
 static void view_update_unconditional(ViewIndex index, DebugState state)
 {
 	ViewInfo *view = views + index;
@@ -132,9 +141,9 @@ void views_update(DebugState state)
 	}
 }
 
-gboolean view_stack_update(void)
+gboolean view_select_frame(void)
 {
-	if (views[VIEW_STACK].dirty)
+	if (g_strcmp0(frame_id, "0") && views[VIEW_STACK].dirty)
 	{
 		DebugState state = thread_state >= THREAD_STOPPED ? DS_DEBUG : DS_READY;
 		view_update_unconditional(VIEW_STACK, state);
@@ -312,18 +321,29 @@ void view_set_line_data_func(const char *column, const char *cell, gint column_i
 		GINT_TO_POINTER(column_id), NULL);
 }
 
-void view_display_edited(GtkTreeModel *model, GtkTreeIter *iter, const gchar *new_text,
-	const char *format)
+void view_display_edited(GtkTreeModel *model, gboolean condition, const gchar *path_str,
+	const char *format, gchar *new_text)
 {
-	const char *name;
-	gint hb_mode;
-	char *locale;
+	if (validate_column(new_text, TRUE))
+	{
+		if (condition)
+		{
+			GtkTreeIter iter;
+			const char *name;
+			gint hb_mode;
+			char *locale;
 
-	gtk_tree_model_get(model, iter, COLUMN_NAME, &name, COLUMN_HB_MODE, &hb_mode, -1);
-	locale = utils_get_locale_from_display(new_text, hb_mode);
-	utils_str_replace_all(&locale, "\n", " ");
-	debug_send_format(F, format, name, locale);
-	g_free(locale);
+			gtk_tree_model_get_iter_from_string(model, &iter, path_str);
+			gtk_tree_model_get(model, &iter, COLUMN_NAME, &name, COLUMN_HB_MODE,
+				&hb_mode, -1);
+			locale = utils_get_locale_from_display(new_text, hb_mode);
+			utils_str_replace_all(&locale, "\n", " ");
+			debug_send_format(F, format, name, locale);
+			g_free(locale);
+		}
+		else
+			plugin_blink();
+	}
 }
 
 void view_column_set_visible(const char *name, gboolean visible)

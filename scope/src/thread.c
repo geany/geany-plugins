@@ -326,11 +326,7 @@ static void thread_iter_stopped(GtkTreeIter *iter, StopData *sd)
 		if (!addr)
 			thread_state = THREAD_QUERY_FRAME;
 
-		view_dirty(VIEW_STACK);
-		view_dirty(VIEW_LOCALS);
-		view_dirty(VIEW_WATCHES);
-		view_dirty(VIEW_INSPECT);
-		view_dirty(VIEW_TOOLTIP);
+		views_data_dirty();
 	}
 	else if (!addr)
 		view_dirty(VIEW_THREADS);
@@ -688,11 +684,7 @@ static void on_thread_selection_changed(GtkTreeSelection *selection,
 		thread_state = THREAD_BLANK;
 	}
 
-	view_dirty(VIEW_STACK);
-	view_dirty(VIEW_LOCALS);
-	view_dirty(VIEW_WATCHES);
-	view_dirty(VIEW_INSPECT);
-	view_dirty(VIEW_TOOLTIP);
+	views_data_dirty();
 	update_state(debug_state());
 }
 

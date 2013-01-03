@@ -38,24 +38,8 @@ static GtkTreeSelection *selection;
 static void on_local_display_edited(G_GNUC_UNUSED GtkCellRendererText *renderer,
 	gchar *path_str, gchar *new_text, G_GNUC_UNUSED gpointer gdata)
 {
-	if (validate_column(new_text, TRUE))
-	{
-		if (thread_state >= THREAD_STOPPED && frame_id)
-		{
-			GtkTreeIter iter;
-			const char *arg1;
-			char *format;
-
-			gtk_tree_model_get_iter_from_string(model, &iter, path_str);
-			gtk_tree_model_get(model, &iter, LOCAL_ARG1, &arg1, -1);
-			format = g_strdup_printf("08%s%s", arg1 ? thread_id : "",
-				"-gdb-set var %s=%s");
-			view_display_edited(model, &iter, new_text, format);
-			g_free(format);
-		}
-		else
-			plugin_beep();
-	}
+	view_display_edited(model, thread_state >= THREAD_STOPPED && frame_id, path_str,
+		"07-gdb-set var %s=%s", new_text);
 }
 
 static const TreeCell local_cells[] =
@@ -121,15 +105,6 @@ void on_local_variables(GArray *nodes)
 	}
 }
 
-void on_local_modified(GArray *nodes)
-{
-	const char *token = parse_grab_token(nodes);
-
-	view_dirty(VIEW_LOCALS);
-	if (!g_strcmp0(token, thread_id))
-		debug_send_format(T, "04%s-stack-list-arguments 1", token);
-}
-
 void locals_clear(void)
 {
 	gtk_list_store_clear(store);
@@ -143,7 +118,7 @@ static void local_send_update(char token)
 
 gboolean locals_update(void)
 {
-	if (view_stack_update())
+	if (view_select_frame())
 		return FALSE;
 
 	if (frame_id)
@@ -177,17 +152,9 @@ static void on_local_copy(const MenuItem *menu_item)
 	menu_copy(selection, menu_item);
 }
 
-static void on_local_modify(G_GNUC_UNUSED const MenuItem *menu_item)
+static void on_local_modify(const MenuItem *menu_item)
 {
-	GtkTreeIter iter;
-	const char *arg1;
-	char *prefix;
-
-	gtk_tree_selection_get_selected(selection, NULL, &iter);
-	gtk_tree_model_get(model, &iter, LOCAL_ARG1, &arg1, -1);
-	prefix = g_strdup_printf("08%s", arg1 ? thread_id : "");
-	menu_modify(model, &iter, prefix, menu_item ? MR_MODIFY : MR_MODSTR);
-	g_free(prefix);
+	menu_modify(selection, menu_item);
 }
 
 static void on_local_watch(G_GNUC_UNUSED const MenuItem *menu_item)

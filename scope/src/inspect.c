@@ -408,25 +408,6 @@ void on_inspect_ndeleted(GArray *nodes)
 	}
 }
 
-void on_inspect_value(GArray *nodes)
-{
-	const char *token = parse_grab_token(nodes);
-	GtkTreeIter iter;
-
-	if (inspect_find(&iter, FALSE, token))
-	{
-		const char *value = parse_lead_value(nodes);
-		gint hb_mode;
-		gchar *display;
-
-		gtk_tree_model_get(model, &iter, INSPECT_HB_MODE, &hb_mode, -1);
-		display = utils_get_display_from_7bit(value, hb_mode);
-		gtk_tree_store_set(store, &iter, INSPECT_DISPLAY, display, INSPECT_VALUE, value,
-			-1);
-		g_free(display);
-	}
-}
-
 void on_inspect_path_expr(GArray *nodes)
 {
 	const char *token = parse_grab_token(nodes);
@@ -642,22 +623,8 @@ void inspect_add(const gchar *text)
 static void on_inspect_display_edited(G_GNUC_UNUSED GtkCellRendererText *renderer,
 	gchar *path_str, gchar *new_text, G_GNUC_UNUSED gpointer gdata)
 {
-	if (validate_column(new_text, TRUE))
-	{
-		if (debug_state() & DS_SENDABLE)
-		{
-			GtkTreeIter iter;
-			char *format;
-
-			gtk_tree_model_get_iter_from_string(model, &iter, path_str);
-			format = g_strdup_printf("07%d%s", inspect_get_scid(&iter),
-				"-var-assign %s %s");
-			view_display_edited(model, &iter, new_text, format);
-			g_free(format);
-		}
-		else
-			plugin_beep();
-	}
+	view_display_edited(model, debug_state() & DS_SENDABLE, path_str, "07-var-assign %s %s",
+		new_text);
 }
 
 static const TreeCell inspect_cells[] =

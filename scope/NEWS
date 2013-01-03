@@ -1,3 +1,12 @@
+Scope 0.80 (2013-01-02)
+
+   * Mark all data views for update when a value is modified.
+     Simpler and more reliable; generates a bit larger gdb traffic.
+
+   * Select, focus and align tree elements as needed instead of simply
+     selecting.
+
+
 Scope 0.79 (2012-12-27)
 
    * Easier sync between Scope/GDB thread/frame.

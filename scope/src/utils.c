@@ -780,13 +780,13 @@ void utils_enter_to_clicked(GtkWidget *widget, GtkWidget *button)
 	g_signal_connect(widget, "key-press-event", G_CALLBACK(on_widget_key_press), button);
 }
 
-void utils_tree_set_cursor(GtkTreeSelection *selection, GtkTreeIter *iter, gdouble align)
+void utils_tree_set_cursor(GtkTreeSelection *selection, GtkTreeIter *iter, gdouble alignment)
 {
 	GtkTreeView *tree = gtk_tree_selection_get_tree_view(selection);
 	GtkTreePath *path = gtk_tree_model_get_path(gtk_tree_view_get_model(tree), iter);
 
-	if (align >= 0)
-		gtk_tree_view_scroll_to_cell(tree, path, NULL, TRUE, align, 0);
+	if (alignment >= 0)
+		gtk_tree_view_scroll_to_cell(tree, path, NULL, TRUE, alignment, 0);
 
 	gtk_tree_view_set_cursor(tree, path, NULL, FALSE);
 	gtk_tree_path_free(path);

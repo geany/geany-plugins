@@ -1,5 +1,4 @@
-modifying a local function argument refreshes all stack frames - it may be
-a struct or reference argument in other frames
+"^done,value=\"", '7' matches 07-var-assign, handled later as "^done", '7'
 
 the only way to fix unnecessary inspect drop target expansion is to block
 INTO, so deriving GtkTreeStore and altering GtkTreeDragDest make no sense

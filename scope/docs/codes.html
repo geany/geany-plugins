@@ -177,9 +177,17 @@
 	<td class="tab">auto/manual <em>Expand</em> inspect</td>
 	<td class="tab">insert children, set range if needed</td></tr>
 
-<tr><td class="nowrap">07&lt;scid&gt;-var-assign</td>
-	<td class="tab">inspect value column edited</td>
-	<td class="tab">update inspect value</td></tr>
+<tr><td class="nowrap">07-var-assign</td>
+	<td class="tab">inspect <em>Value</em> column edited</td>
+	<td class="tab">mark data views as dirty</td></tr>
+
+<tr><td class="nowrap">07-gdb-set</td>
+	<td class="tab">local <em>Modify</em> / <em>Value</em> column edited</td>
+	<td class="tab">-''-</td></tr>
+
+<tr><td class="nowrap">-''-</td>
+	<td class="tab">watch <em>Modify</em> / <em>Value</em> column edited</td>
+	<td class="tab">-''-</td></tr>
 
 <tr><td class="nowrap">070&lt;scid&gt;-var-delete</td>
 	<td class="tab">un-<em>Apply</em> inspect</td>
@@ -191,21 +199,7 @@
 
 <tr><td class="nowrap">&nbsp;</td><td class="tab">&nbsp;</td><td class="tab">&nbsp;</td></tr>
 
-<tr><td class="nowrap">08-gdb-set</td>
-	<td class="tab">local <em>Modify</em> / <em>Value</em> column edited</td>
-	<td class="tab">mark locals as dirty</td></tr>
-
-<tr><td class="nowrap">08&lt;tid&gt;-gdb-set</td>
-	<td class="tab">08 for arg1 local variable</td>
-	<td class="tab">08 plus -stack-list-arguments --thread &lt;tid&gt;</td></tr>
-
-<tr><td class="nowrap">&nbsp;</td><td class="tab">&nbsp;</td><td class="tab">&nbsp;</td></tr>
-
-<tr><td class="nowrap">09&lt;scid&gt;-gdb-set</td>
-	<td class="tab">watch <em>Modify</em> / <em>Value</em> column edited</td>
-	<td class="tab">06&lt;scid&gt;-data-evaluate-expression</td></tr>
-
-<tr><td class="nowrap">09&lt;scid&gt;-data-evaluate-expression</td>
+<tr><td class="nowrap">08&lt;scid&gt;-data-evaluate-expression</td>
 	<td class="tab">popup <em>Evaluate/Modify</em></td>
 	<td class="tab">command dialog with -gdb-set var expr=value</td></tr>
 

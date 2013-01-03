@@ -1,3 +1,18 @@
+2013-01-02  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * docs/codes.html, src/inspect.c, src/inspect.h, src/local.c,
+   src/local.h, src/menu.c, src/menu.h, src/parse.c, src/views.c,
+   src/views.h, src/watch.c, src/watch.h:
+   Unified/simplified all "modified" tokens. The original version was
+   an overkill, and did not update all possible value references.
+
+ * src/thread.c:
+   Small "modified" tokens unification related changes.
+
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.80.
+
+
 2012-12-30  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/break.c, src/inspect.c, src/stack.c, src/thread.c, src/utils.c,

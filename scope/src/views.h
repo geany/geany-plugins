@@ -35,9 +35,10 @@ typedef enum _ViewIndex
 } ViewIndex;
 
 void view_dirty(ViewIndex index);
+void views_data_dirty(void);
 void views_clear(void);
 void views_update(DebugState state);
-gboolean view_stack_update(void);
+gboolean view_select_frame(void);
 void view_inspect_update(void);
 
 void on_view_changed(GtkNotebook *notebook, gpointer page, gint page_num, gpointer gdata);
@@ -68,8 +69,8 @@ GtkTreeView *view_connect(const char *name, GtkTreeModel **model, GtkTreeSelecti
 	gtk_tree_sortable_set_sort_func((sortable), (column), (compare), \
 		GINT_TO_POINTER(column), NULL)
 void view_set_line_data_func(const char *column, const char *cell, gint column_id);
-void view_display_edited(GtkTreeModel *model, GtkTreeIter *iter, const gchar *new_text,
-	const char *format);
+void view_display_edited(GtkTreeModel *model, gboolean condition, const gchar *path_str,
+	const char *format, gchar *new_text);
 
 void view_column_set_visible(const char *name, gboolean visible);
 void view_seek_selected(GtkTreeSelection *selection, gboolean focus, SeekerType seeker);
