@@ -1,3 +1,13 @@
+2013-01-03  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/debug.c, src/scope.c
+   Ask user whether to terminate debugging on build actions.
+
+ * src/debug.c:
+   Ignore "Auto run/exit" on Terminate if neither an executable nor a
+   load script is specified.
+
+
 2013-01-02  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * docs/codes.html, src/inspect.c, src/inspect.h, src/local.c,

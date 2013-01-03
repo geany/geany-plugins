@@ -1,17 +1,11 @@
 various tests, source code checks etc.
 
-ask user for terminate debugging on build actions
-
-sync gdb thread/frame with the selected ones?
-
-forbid deselect for threads and stack?
-
 add clear icon to entries? not very useful
 
 test inspect new_numchild and in_scope changes
 	(but with C, these do not seem to change)
 
-don't remove [index] along if member names?
+don't remove [index] along with member names?
 
 Format (natural, decimal...) for Watches?
 

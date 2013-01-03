@@ -651,14 +651,14 @@ void on_debug_step_out(G_GNUC_UNUSED const MenuItem *menu_item)
 	debug_send_thread("-exec-finish");
 }
 
-void on_debug_terminate(G_GNUC_UNUSED const MenuItem *menu_item)
+void on_debug_terminate(const MenuItem *menu_item)
 {
 	switch (debug_state())
 	{
 		case DS_DEBUG :
 		case DS_READY :
 		{
-			if (!program_auto_run_exit)
+			if (menu_item && !debug_auto_exit)
 			{
 				debug_send_command(N, "kill");
 				break;

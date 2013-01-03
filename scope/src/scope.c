@@ -389,6 +389,15 @@ static void on_geany_startup_complete(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED 
 		program_context_changed();
 }
 
+static void on_build_start(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED gpointer gdata)
+{
+	if (debug_state() != DS_INACTIVE && dialogs_show_question(_("Build action activated. "
+		"Terminate debugging?")))
+	{
+		on_debug_terminate(NULL);
+	}
+}
+
 typedef struct _ScopeCallback  /* we don't want callbacks on builder init failure */
 {
 	const char *name;
@@ -407,6 +416,7 @@ static const ScopeCallback scope_callbacks[] =
 	{ "project-open",             G_CALLBACK(on_project_open) },
 	{ "project-close",            G_CALLBACK(on_project_close) },
 	{ "geany-startup-complete",   G_CALLBACK(on_geany_startup_complete) },
+	{ "build-start",              G_CALLBACK(on_build_start) },
 	{ NULL, NULL }
 };
 
