@@ -29,6 +29,13 @@
 #include <gtk/gtk.h>
 
 
+#if ! GTK_CHECK_VERSION (3, 0, 0)
+/* make gtk_adjustment_new() return a real GtkAdjustment, not a GtkObject */
+# define gtk_adjustment_new(v, l, u, si, pi, ps) \
+  (GtkAdjustment *) (gtk_adjustment_new ((v), (l), (u), (si), (pi), (ps)))
+#endif
+
+
 struct _GwhSettingsPrivate
 {
   GPtrArray *prop_array;
@@ -619,14 +626,14 @@ gwh_settings_widget_int_new (GwhSettings  *self,
                              gboolean     *needs_label)
 {
   GtkWidget      *button;
-  GtkObject      *adj;
+  GtkAdjustment  *adj;
   GParamSpecInt  *pspec_int = G_PARAM_SPEC_INT (pspec);
   
   adj = gtk_adjustment_new ((gdouble)g_value_get_int (value),
                             (gdouble)pspec_int->minimum,
                             (gdouble)pspec_int->maximum,
                             1.0, 10.0, 0.0);
-  button = gtk_spin_button_new (GTK_ADJUSTMENT (adj), 0.0, 0);
+  button = gtk_spin_button_new (adj, 0.0, 0);
   *needs_label = TRUE;
   
   return button;

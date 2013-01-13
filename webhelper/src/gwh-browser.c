@@ -49,6 +49,12 @@
   (GTK_WIDGET_MAPPED ((w)))
 # endif /* defined (gtk_widget_get_mapped) */
 #endif /* GTK_CHECK_VERSION (2, 20, 0) */
+#if GTK_CHECK_VERSION (3, 0, 0)
+/* alias GtkObject, we implement the :destroy signal */
+# define GtkObject          GtkWidget
+# define GtkObjectClass     GtkWidgetClass
+# define GTK_OBJECT_CLASS   GTK_WIDGET_CLASS
+#endif /* GTK_CHECK_VERSION (3, 0, 0) */
 
 
 struct _GwhBrowserPrivate
