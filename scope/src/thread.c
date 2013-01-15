@@ -481,7 +481,7 @@ void on_thread_exited(GArray *nodes)
 
 		if (!g_strcmp0(tid, gdb_thread))
 			set_gdb_thread(NULL, FALSE);
-		
+
 		if (find_thread(tid, &iter))
 		{
 			gboolean was_selected = !g_strcmp0(tid, thread_id);
@@ -897,7 +897,7 @@ void thread_init(void)
 	view_set_sort_func(sortable, THREAD_TARGET_ID, thread_ident_compare);
 	gtk_widget_set_has_tooltip(GTK_WIDGET(tree), TRUE);
 	g_signal_connect(tree, "query-tooltip", G_CALLBACK(on_view_query_tooltip),
-		GTK_TREE_VIEW_COLUMN(get_object("thread_base_name_column")));
+		get_column("thread_base_name_column"));
 
 	thread_groups = array_new(ThreadGroup, 0x10);
 	RUNNING = _("Running");

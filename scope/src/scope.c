@@ -32,7 +32,7 @@ GeanyFunctions *geany_functions;
 PLUGIN_VERSION_CHECK(215)
 
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, _("Scope Debugger"),
-	_("Simple GDB front-end."), "0.80" , "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
+	_("Simple GDB front-end."), "0.82" , "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
 
 /* Keybinding(s) */
 enum
@@ -553,6 +553,7 @@ void plugin_init(G_GNUC_UNUSED GeanyData *gdata)
 	watch_init();
 	stack_init();
 	local_init();
+	memory_init();
 	menu_init();
 	menu_set_popup_keybindings(item);
 
@@ -572,7 +573,7 @@ void plugin_init(G_GNUC_UNUSED GeanyData *gdata)
 	}
 
 	toolbar_update_state(DS_INACTIVE);
-	watches_update_state(DS_INACTIVE);
+	views_update_state(DS_INACTIVE);
 	scope_configure();
 
 	g_signal_connect(debug_panel, "switch-page", G_CALLBACK(on_view_changed), NULL);
@@ -588,7 +589,6 @@ void plugin_cleanup(void)
 		return;
 
 	gtk_widget_destroy(debug_item);
-	gtk_widget_destroy(debug_statusbar);
 	gtk_widget_destroy(debug_panel);
 
 	for (item = toolbar_items; item->index != -1; item++)
@@ -601,12 +601,15 @@ void plugin_cleanup(void)
 	inspect_finalize();
 	thread_finalize();
 	break_finalize();
-	utils_finalize();
+	memory_finalize();
+	menu_finalize();
 	views_finalize();
-	debug_finalize();
+	utils_finalize();
 	parse_finalize();
 	prefs_finalize();
-	menu_finalize();
+	debug_finalize();
+	gtk216_finalize();
 
+	gtk_widget_destroy(debug_statusbar);
 	g_object_unref(builder);
 }

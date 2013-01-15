@@ -1,3 +1,10 @@
+Scope 0.82 (2013-01-15)
+
+    * Added Memory subpage.
+
+    * Fixed compatibility with glib-2.20.
+
+
 Scope 0.80 (2013-01-02)
 
    * Mark all data views for update when a value is modified.

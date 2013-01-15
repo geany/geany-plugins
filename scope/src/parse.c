@@ -93,6 +93,7 @@ static const ParseRoute parse_routes[] =
 	{ "^done,ndeleted=\"",            on_inspect_ndeleted,     '7',  '\0', 0 },
 	{ "^done,path_expr=\"",           on_inspect_path_expr,    '4',  '\0', 1 },
 	{ "^done,changelist=[",           on_inspect_changelist,   '\0', '\0', 1 },
+	{ "^done,memory=[",               on_memory_read_bytes,    '\0', '\0', 1 },
 	{ "^done,features=[",             on_break_features,       '5',  '\0', 1 },
 	{ "^done,features=[",             on_target_features,      '7',  '\0', 1 },
 	{ "^running",                     on_debug_loaded,         '1',  '\0', 0 },

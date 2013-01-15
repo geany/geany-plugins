@@ -748,9 +748,6 @@ void debug_finalize(void)
 	{
 		signal(SIGINT, SIG_DFL);
 		g_source_remove(source_id);
-		/* avoid faults in g_main_context_dispatch() */
-		while (gtk_events_pending())
-			gtk_main_iteration();
 	}
 
 	if (gdb_state != INACTIVE)
@@ -758,8 +755,11 @@ void debug_finalize(void)
 		gint count = 0;
 
 		if (kill(gdb_pid, SIGKILL) == 0)
-			while (waitpid(gdb_pid, NULL, WNOHANG) == 0 && count++ <= pref_gdb_wait_death)
+		{
+			g_usleep(G_USEC_PER_SEC / 1000);
+			while (waitpid(gdb_pid, NULL, WNOHANG) == 0 && count++ < pref_gdb_wait_death)
 				g_usleep(G_USEC_PER_SEC / 100);
+		}
 
 		free_gdb();  /* may be still alive, but we can't do anything more */
 		statusbar_update_state(DS_INACTIVE);

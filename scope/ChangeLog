@@ -1,6 +1,47 @@
+2013-01-15  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * data/scope.glade, docs/codes.html, docs/scope.html, src/common.h,
+   src/Makefile.am, src/memory.c, src/memory.h, src/parse.c,
+   src/prefs.c, src/prefs.h, src/scope.c, src/views.c, src/views.h:
+   Added Memory subpage.
+ * data/scope.glade, src/conterm.c:
+   GtkTextView "debug_console" -> "debug_context".
+ * src/break.c, src/gtk216.c, src/scope.h, src/stack.c, src/thread.c,
+   src/views.c:
+   GTK_TREE_COLUMN(get_object(name)) -> get_column(name).
+ * src/conterm.c, src/menu.c, src/views.c:
+   Handle GDK_KP_Insert/GDK_KP_Delete/GTK_ISO_Space.
+ * src/conterm.c:
+   Don't invoke console on Ctrl/Alt/Mod ASCII characters.
+   Don't set debug_context properties already defined in scope.glade.
+ * src/conterm.h:
+   Properly declare dc_output/dc_output_nl as extern.
+ * src/debug.c, src/scope.c:
+   Invoke finalizers in (hopefully) proper order instead of processing
+   pending gtk+ events on finalize.
+ * src/debug.c:
+   Small initial wait for gdb kill in finalize instead of waiting
+   gdb_wait_death + 1.
+ * src/gtk216.c, src/gtk216.h, src/scope.c:
+   Emulate g_array_get_element_size() under glib 2.20.
+ * src/menu.c, src/plugme.c, src/utils.c, src/utils.h, src/views.c:
+   utils_str_replace_all() -> utils_strchrepl().
+ * src/scope.c:
+   Properly initialize inspects state.
+ * src/stack.c:
+   Select and focus the current frame instead of simply selecting.
+ * src/tooltip.c:
+   Unlimited toolbar length on pref_tooltips_length = 0, as described
+   in scope.html.
+ * src/utils.c:
+   Invoke g_array_get_element_size() only once in array_save().
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.82.
+
+
 2013-01-03  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
- * src/debug.c, src/scope.c
+ * src/debug.c, src/scope.c:
    Ask user whether to terminate debugging on build actions.
 
  * src/debug.c:

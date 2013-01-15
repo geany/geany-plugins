@@ -214,7 +214,7 @@ static void on_break_column_edited(G_GNUC_UNUSED GtkCellRendererText *renderer,
 }
 
 static void on_break_ignore_editing_started(G_GNUC_UNUSED GtkCellRenderer *cell,
-	GtkCellEditable *editable, G_GNUC_UNUSED const gchar *path, gpointer G_GNUC_UNUSED gdata)
+	GtkCellEditable *editable, G_GNUC_UNUSED const gchar *path, G_GNUC_UNUSED gpointer gdata)
 {
 	if (GTK_IS_EDITABLE(editable))
 		validator_attach(GTK_EDITABLE(editable), VALIDATOR_NUMERIC);
@@ -1295,14 +1295,13 @@ static void on_break_apply_button_release(GtkWidget *widget, GdkEventButton *eve
 
 void break_init(void)
 {
-	GObject *break_type_column = get_object("break_type_column");
 	GtkWidget *menu;
 	guint i;
 
 	tree = view_connect("break_view", &model, &selection, break_cells, "break_window", NULL);
 	store = GTK_LIST_STORE(model);
 	sortable = GTK_TREE_SORTABLE(store);
-	gtk_tree_view_column_set_cell_data_func(GTK_TREE_VIEW_COLUMN(break_type_column),
+	gtk_tree_view_column_set_cell_data_func(get_column("break_type_column"),
 		GTK_CELL_RENDERER(get_object("break_type")), break_type_set_data_func, NULL, NULL);
 	g_signal_connect(get_object("break_ignore"), "editing-started",
 		G_CALLBACK(on_break_ignore_editing_started), NULL);
@@ -1315,7 +1314,7 @@ void break_init(void)
 	g_signal_connect(selection, "changed", G_CALLBACK(on_break_selection_changed), NULL);
 	gtk_widget_set_has_tooltip(GTK_WIDGET(tree), TRUE);
 	g_signal_connect(tree, "query-tooltip", G_CALLBACK(on_break_query_tooltip),
-		GTK_TREE_VIEW_COLUMN(get_object("break_display_column")));
+		get_column("break_display_column"));
 
 	menu = menu_select("break_menu", &break_menu_info, selection);
 	g_signal_connect(tree, "key-press-event", G_CALLBACK(on_break_key_press), NULL);

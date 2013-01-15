@@ -397,7 +397,7 @@ void on_inspect_ndeleted(GArray *nodes)
 	iff (*token <= '1', "%s: invalid i_oper", token)
 	{
 		GtkTreeIter iter;
-		
+
 		if (inspect_find(&iter, FALSE, token + 1))
 		{
 			if (*token == '0')

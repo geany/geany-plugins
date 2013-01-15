@@ -113,6 +113,27 @@ const gchar *utils_skip_spaces(const gchar *text)
 	return text;
 }
 
+void utils_strchrepl(char *text, char c, char rep)
+{
+	char *p = text;
+
+	while (*text)
+	{
+		if (*text == c)
+		{
+			if (rep)
+				*text = rep;
+		}
+		else if (!rep)
+			*p++ = *text;
+
+		text++;
+	}
+
+	if (!rep)
+		*p = '\0';
+}
+
 gchar *array_append(GArray *array)
 {
 	g_array_set_size(array, array->len + 1);
@@ -194,8 +215,9 @@ void array_save(GArray *array, GKeyFile *config, const gchar *prefix, ASaveFunc 
 {
 	guint i, n = 0;
 	gchar *data = array->data;
+	guint size = g_array_get_element_size(array);
 
-	for (i = 0; i < array->len; i++, data += g_array_get_element_size(array))
+	for (i = 0; i < array->len; i++, data += size)
 	{
 		char *section = g_strdup_printf("%s_%d", prefix, n);
 		n += save_func(config, section, data);
@@ -663,7 +685,7 @@ static void on_insert_text(GtkEditable *editable, gchar *new_text, gint new_text
 	G_GNUC_UNUSED gint *position, gpointer gdata)
 {
 	gboolean valid = TRUE;
-	
+
 	if (new_text_length == -1)
 		new_text_length = (gint) strlen(new_text);
 

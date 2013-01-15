@@ -59,7 +59,7 @@ static void stack_node_location(const ParseNode *node, const char *fid)
 			parse_location_free(&loc);
 
 			if (!g_strcmp0(id, fid))
-				gtk_tree_selection_select_iter(selection, &iter);
+				utils_tree_set_cursor(selection, &iter, -1);
 		}
 	}
 }
@@ -81,7 +81,7 @@ void on_stack_frames(GArray *nodes)
 			GtkTreeIter iter;
 
 			if (gtk_tree_model_get_iter_first(model, &iter))
-				gtk_tree_selection_select_iter(selection, &iter);
+				utils_tree_set_cursor(selection, &iter, -1);
 		}
 	}
 }
@@ -286,7 +286,7 @@ static void on_stack_show_entry(const MenuItem *menu_item)
 	do
 	{
 		const char *func1;
-		
+
 		gtk_tree_model_get(model, &iter, STACK_FUNC, &func1, -1);
 		if (!strcmp(func, func1))
 		{
@@ -366,7 +366,7 @@ void stack_init(void)
 	view_set_line_data_func("stack_line_column", "stack_line", STACK_LINE);
 	gtk_widget_set_has_tooltip(GTK_WIDGET(tree), TRUE);
 	g_signal_connect(tree, "query-tooltip", G_CALLBACK(on_view_query_tooltip),
-		GTK_TREE_VIEW_COLUMN(get_object("stack_base_name_column")));
+		get_column("stack_base_name_column"));
 
 	g_signal_connect(tree, "key-press-event", G_CALLBACK(on_view_key_press),
 		stack_seek_selected);

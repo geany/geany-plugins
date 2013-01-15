@@ -56,7 +56,7 @@ static void tooltip_set(gchar *text)
 
 	if (show)
 	{
-		if (strlen(output) > (guint) pref_tooltips_length + 3)
+		if (pref_tooltips_length && strlen(output) > (size_t) pref_tooltips_length + 3)
 			strcpy(output + pref_tooltips_length, "...");
 
 		tooltip_trigger();

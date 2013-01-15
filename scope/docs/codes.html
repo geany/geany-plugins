@@ -41,11 +41,11 @@
 
 <tr><td class="nowrap">022&lt;id&gt;-break-condition</td>
 	<td class="tab">breakpoint <em>Condition</em> column edited</td>
-	<td class="tab">-''-</td></tr>
+	<td class="tab">&lt;id&gt;-break-info</td></tr>
 
 <tr><td class="nowrap">022&lt;id&gt;-break-commands</td>
 	<td class="tab">breakpoint <em>Script</em> column edited</td>
-	<td class="tab">-''-</td></tr>
+	<td class="tab">&lt;id&gt;-break-info</td></tr>
 
 <tr><td class="nowrap">023&lt;id&gt;-break-delete</td>
 	<td class="tab"><em>Delete</em> or un-<em>Toggle breakpoint</em></td>
@@ -131,6 +131,10 @@
 	<td class="tab">views idle update</td>
 	<td class="tab">same as 02&lt;tid&gt;-stack-list-variables</td></tr>
 
+<tr><td class="nowrap">04-data-read-memory-bytes</td>
+	<td class="tab">views idle update</td>
+	<td class="tab">fill <em>Memory</em> with data</td></tr>
+
 <tr><td class="nowrap">04&lt;tid&gt;-stack-info-frame</td>
 	<td class="tab">at stopped thread without address</td>
 	<td class="tab">fill the thread columns</td></tr>
@@ -141,13 +145,13 @@
 	<td class="tab">gdb startup if autorun</td>
 	<td class="tab">-exec-run if active breaks &amp; no errors</td></tr>
 
-<tr><td class="nowrap">-''-</td>
+<tr><td class="nowrap">05</td>
 	<td class="tab">after temp break insert <em>location</em></td>
-	<td class="tab">-''-</td></tr>
+	<td class="tab">-exec-run if active breaks &amp; no errors</td></tr>
 
-<tr><td class="nowrap">-''-</td>
+<tr><td class="nowrap">05</td>
 	<td class="tab">after temp break insert <em>1st loc</em></td>
-	<td class="tab">-''-</td></tr>
+	<td class="tab">-exec-run if active breaks &amp; no errors</td></tr>
 
 <tr><td class="nowrap">05-list-features</td>
 	<td class="tab">first time gdb startup</td>
@@ -183,11 +187,15 @@
 
 <tr><td class="nowrap">07-gdb-set</td>
 	<td class="tab">local <em>Modify</em> / <em>Value</em> column edited</td>
-	<td class="tab">-''-</td></tr>
+	<td class="tab">mark data views as dirty</td></tr>
 
-<tr><td class="nowrap">-''-</td>
+<tr><td class="nowrap">07-gdb-set</td>
 	<td class="tab">watch <em>Modify</em> / <em>Value</em> column edited</td>
-	<td class="tab">-''-</td></tr>
+	<td class="tab">mark data views as dirty</td></tr>
+
+<tr><td class="nowrap">07-data-write-memory-bytes</td>
+	<td class="tab">memory hex values column edited</td>
+	<td class="tab">mark data views as dirty</td></tr>
 
 <tr><td class="nowrap">070&lt;scid&gt;-var-delete</td>
 	<td class="tab">un-<em>Apply</em> inspect</td>

@@ -40,6 +40,7 @@ static ViewInfo views[VIEW_COUNT] =
 	{ FALSE, stack_clear,    stack_update,    TRUE,  DS_DEBUG },
 	{ FALSE, locals_clear,   locals_update,   TRUE,  DS_DEBUG },
 	{ FALSE, watches_clear,  watches_update,  TRUE,  DS_DEBUG },
+	{ FALSE, memory_clear,   memory_update,   FALSE, DS_SENDABLE },
 	{ FALSE, NULL,           dc_update,       FALSE, DS_DEBUG },
 	{ FALSE, inspects_clear, inspects_update, FALSE, DS_DEBUG },
 	{ FALSE, tooltip_clear,  tooltip_update,  FALSE, DS_SENDABLE },
@@ -56,6 +57,7 @@ void views_data_dirty(void)
 	view_dirty(VIEW_STACK);
 	view_dirty(VIEW_LOCALS);
 	view_dirty(VIEW_WATCHES);
+	view_dirty(VIEW_MEMORY);
 	view_dirty(VIEW_INSPECT);
 	view_dirty(VIEW_TOOLTIP);
 }
@@ -171,7 +173,7 @@ gboolean on_view_key_press(G_GNUC_UNUSED GtkWidget *widget, GdkEventKey *event,
 	/* from msgwindow.c */
 	gboolean enter_or_return = ui_is_keyval_enter_or_return(event->keyval);
 
-	if (enter_or_return || event->keyval == GDK_space)
+	if (enter_or_return || event->keyval == GDK_space || event->keyval == GDK_KP_Space)
 		seeker(enter_or_return);
 
 	return FALSE;
@@ -316,7 +318,7 @@ static void view_line_cell_data_func(G_GNUC_UNUSED GtkTreeViewColumn *column,
 
 void view_set_line_data_func(const char *column, const char *cell, gint column_id)
 {
-	gtk_tree_view_column_set_cell_data_func(GTK_TREE_VIEW_COLUMN(get_object(column)),
+	gtk_tree_view_column_set_cell_data_func(get_column(column),
 		GTK_CELL_RENDERER(get_object(cell)), view_line_cell_data_func,
 		GINT_TO_POINTER(column_id), NULL);
 }
@@ -337,7 +339,7 @@ void view_display_edited(GtkTreeModel *model, gboolean condition, const gchar *p
 			gtk_tree_model_get(model, &iter, COLUMN_NAME, &name, COLUMN_HB_MODE,
 				&hb_mode, -1);
 			locale = utils_get_locale_from_display(new_text, hb_mode);
-			utils_str_replace_all(&locale, "\n", " ");
+			utils_strchrepl(locale, '\n', ' ');
 			debug_send_format(F, format, name, locale);
 			g_free(locale);
 		}
@@ -348,7 +350,7 @@ void view_display_edited(GtkTreeModel *model, gboolean condition, const gchar *p
 
 void view_column_set_visible(const char *name, gboolean visible)
 {
-	gtk_tree_view_column_set_visible(GTK_TREE_VIEW_COLUMN(get_object(name)), visible);
+	gtk_tree_view_column_set_visible(get_column(name), visible);
 }
 
 void view_seek_selected(GtkTreeSelection *selection, gboolean focus, SeekerType seeker)
@@ -467,7 +469,8 @@ static void on_command_send_button_clicked(G_GNUC_UNUSED GtkButton *button,
 	char *locale;
 
 	thread_synchronize();
-	utils_str_replace_all(&text, "\n", " ");
+	utils_strchrepl(text, '\n', ' ');
+	gtk_text_buffer_set_text(command_text, text, -1);
 	start = utils_skip_spaces(text);
 	locale = gtk_toggle_button_get_active(command_locale) ?
 		utils_get_locale_from_utf8(start) : strdup(start);

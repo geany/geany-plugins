@@ -205,19 +205,3 @@ GtkWidget *plugme_ui_add_config_file_menu_item(const gchar *real_path, const gch
 
 	return item;
 }
-
-#ifndef utils_str_replace_all
-void utils_str_replace_all(gchar **haystack, const gchar *needle, const gchar *replacement)
-{
-	GString *str;
-
-	g_return_if_fail(*haystack != NULL);
-
-	str = g_string_new(*haystack);
-
-	g_free(*haystack);
-	utils_string_replace_all(str, needle, replacement);
-
-	*haystack = g_string_free(str, FALSE);
-}
-#endif  /* utils_str_replace_all */

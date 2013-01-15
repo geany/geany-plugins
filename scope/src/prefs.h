@@ -50,6 +50,9 @@ extern gint pref_tooltips_fail_action;
 extern gint pref_tooltips_send_delay;
 extern gint pref_tooltips_length;
 
+extern gint pref_memory_bytes_per_line;
+extern gchar *pref_memory_font;
+
 #ifdef G_OS_UNIX
 extern gboolean pref_terminal_padding;
 extern gint pref_terminal_window_x;

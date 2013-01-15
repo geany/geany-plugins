@@ -31,6 +31,7 @@ typedef struct _MenuItem MenuItem;
 #include "gtk216.h"
 #include "inspect.h"
 #include "local.h"
+#include "memory.h"
 #include "menu.h"
 #include "parse.h"
 #include "plugme.h"

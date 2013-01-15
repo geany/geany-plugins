@@ -58,6 +58,9 @@ gint pref_tooltips_fail_action;
 gint pref_tooltips_send_delay;
 gint pref_tooltips_length;
 
+gint pref_memory_bytes_per_line;
+gchar *pref_memory_font;
+
 #ifdef G_OS_UNIX
 static gboolean pref_terminal_save_pos;
 gboolean pref_terminal_padding;
@@ -265,7 +268,7 @@ void prefs_init(void)
 	group = stash_group_new("scope");
 	stash_group_add_string(group, &pref_gdb_executable, "gdb_executable", "gdb");
 	stash_group_add_boolean(group, &pref_gdb_async_mode, "gdb_async_mode", FALSE);
-	stash_group_add_integer(group, &pref_gdb_buffer_length, "gdb_buffer_length", 0x3FFF);
+	stash_group_add_integer(group, &pref_gdb_buffer_length, "gdb_buffer_length", 16383);
 	stash_group_add_integer(group, &pref_gdb_wait_death, "gdb_wait_death", 20);
 #ifndef G_OS_UNIX
 	stash_group_add_integer(group, &pref_gdb_send_interval, "gdb_send_interval", 5);
@@ -289,7 +292,9 @@ void prefs_init(void)
 	stash_group_add_integer(group, &pref_show_toolbar_items, "show_toolbar_items", 0xFF);
 	stash_group_add_integer(group, &pref_tooltips_fail_action, "tooltips_fail_action", 25);
 	stash_group_add_integer(group, &pref_tooltips_send_delay, "tooltips_send_delay", 25);
-	stash_group_add_integer(group, &pref_tooltips_length, "tooltips_length", 0x7FF);
+	stash_group_add_integer(group, &pref_tooltips_length, "tooltips_length", 2048);
+	stash_group_add_integer(group, &pref_memory_bytes_per_line, "memory_line_bytes", 16);
+	stash_group_add_string(group, &pref_memory_font, "memory_font", "");
 	scope_group = group;
 
 #ifdef stash_tree_setup

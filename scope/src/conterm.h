@@ -30,8 +30,8 @@ extern gboolean terminal_show_on_error;
 #endif  /* G_OS_UNIX */
 
 /* pseudo-fd; 3 = prompt, 4 = scope error */
-void (*dc_output)(int fd, const char *text, gint length);
-void (*dc_output_nl)(int fd, const char *text, gint length);
+extern void (*dc_output)(int fd, const char *text, gint length);
+extern void (*dc_output_nl)(int fd, const char *text, gint length);
 void dc_error(const char *format, ...) G_GNUC_PRINTF(1, 2);
 
 void dc_clear(void);

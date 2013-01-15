@@ -349,10 +349,13 @@ static void on_console_clear(G_GNUC_UNUSED const MenuItem *menu_item)
 static gboolean on_console_key_press(G_GNUC_UNUSED GtkWidget *widget,
 	GdkEventKey *event, G_GNUC_UNUSED gpointer gdata)
 {
-	if (event->keyval == GDK_Insert || (event->keyval >= 0x21 && event->keyval <= 0x7F))
+	gboolean insert = event->keyval == GDK_Insert || event->keyval == GDK_KP_Insert;
+
+	if (insert || (event->keyval >= 0x21 && event->keyval <= 0x7F &&
+		event->state <= GDK_SHIFT_MASK))
 	{
 		char command[2] = { event->keyval, '\0' };
-		view_command_line(event->keyval == GDK_Insert ? NULL : command, NULL, NULL, TRUE);
+		view_command_line(insert ? NULL : command, NULL, NULL, TRUE);
 	}
 
 	return FALSE;
@@ -487,7 +490,7 @@ void conterm_init(void)
 			"#C0C0C0", "#C000C0" };
 		guint i;
 
-		console = get_widget("debug_console");
+		console = get_widget("debug_context");
 		gtk_widget_modify_base(console, GTK_STATE_NORMAL, &pref_vte_colour_back);
 		gtk_widget_modify_cursor(console, &pref_vte_colour_fore, &pref_vte_colour_back);
 		ui_widget_modify_font_from_string(console, pref_vte_font);
@@ -495,12 +498,8 @@ void conterm_init(void)
 		debug_context = GTK_TEXT_VIEW(console);
 		dc_output = context_output;
 		dc_output_nl = context_output_nl;
-		gtk_text_view_set_editable(debug_context, FALSE);
-		gtk_text_view_set_wrap_mode(debug_context, GTK_WRAP_CHAR);
-		gtk_text_view_set_left_margin(debug_context, 2);
-		gtk_text_view_set_right_margin(debug_context, 2);
-
 		context = gtk_text_view_get_buffer(debug_context);
+
 		for (i = 0; i < NFD; i++)
 		{
 			fd_tags[i] = gtk_text_buffer_create_tag(context, NULL, "foreground",

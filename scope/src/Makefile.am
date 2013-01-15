@@ -19,6 +19,8 @@ scope_la_SOURCES = \
 	inspect.h \
 	local.c \
 	local.h \
+	memory.c \
+	memory.h \
 	menu.c \
 	menu.h \
 	parse.c \

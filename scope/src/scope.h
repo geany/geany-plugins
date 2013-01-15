@@ -25,6 +25,7 @@ void statusbar_update_state(DebugState state);
 void update_state(DebugState state);
 GObject *get_object(const char *name);
 GtkWidget *get_widget(const char *name);
+#define get_column(name) GTK_TREE_VIEW_COLUMN(get_object(name))
 #define find_widget(parent, name) GTK_WIDGET(g_object_get_data(G_OBJECT(parent), (name)))
 void open_debug_panel(void);
 void scope_configure(void);

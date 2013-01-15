@@ -65,9 +65,9 @@ gboolean menu_insert_delete(const GdkEventKey *event, const MenuInfo *menu_info,
 {
 	const char *name;
 
-	if (event->keyval == GDK_Insert)
+	if (event->keyval == GDK_Insert || event->keyval == GDK_KP_Insert)
 		name = insert_name;
-	else if (event->keyval == GDK_Delete)
+	else if (event->keyval == GDK_Delete || event->keyval == GDK_KP_Delete)
 		name = delete_name;
 	else
 		return FALSE;
@@ -348,7 +348,7 @@ static void menu_evaluate_modify(const gchar *expr, const char *value, const gch
 	if (gtk_dialog_run(GTK_DIALOG(modify_dialog)) == GTK_RESPONSE_ACCEPT)
 	{
 		text = utils_text_buffer_get_text(modify_text, -1);
-		utils_str_replace_all(&text, "\n", " ");
+		utils_strchrepl(text, '\n', ' ');
 
 		if (validate_column(text, TRUE))
 		{
