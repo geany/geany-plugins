@@ -1,3 +1,30 @@
+2013-01-20  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/debug.c:
+   Reduced dependency of win32 waitpid()/kill() emulation on glib.
+ * src/thread.c:
+   Change frame id to 0 or none immediately after thread change.
+ * src/stack.c:
+   Select frame 0 instead of the first available if the current frame
+   is no longer valid.
+ * src/local.c, src/views.c, src/views.h, src/watch.c:
+   Skip stack update if frame 0 for watches only.
+ * src/stack.c:
+   Select and focus only if the current frame is not valid any more.
+ * docs/scope.html:
+   Added tips about Memory.
+ * src/memory.c:
+   Distinguish between memory Clear and auto clear.
+   Fixed menu extra state bug.
+ * src/views.c:
+   Mark memory as auto clear.
+ * src/break.c, src/inspect.c, src/local.c, src/menu.c, src/stack.c,
+   src/thread.c, src/views.c, src/utils.c, src/watch.c:
+   Free string values returned by gtk_tree_model_get().
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.83.
+
+
 2013-01-15  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * data/scope.glade, docs/codes.html, docs/scope.html, src/common.h,
@@ -43,23 +70,16 @@
 
  * src/debug.c, src/scope.c:
    Ask user whether to terminate debugging on build actions.
-
  * src/debug.c:
    Ignore "Auto run/exit" on Terminate if neither an executable nor a
    load script is specified.
-
-
-2013-01-02  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
-
  * docs/codes.html, src/inspect.c, src/inspect.h, src/local.c,
    src/local.h, src/menu.c, src/menu.h, src/parse.c, src/views.c,
    src/views.h, src/watch.c, src/watch.h:
    Unified/simplified all "modified" tokens. The original version was
    an overkill, and did not update all possible value references.
-
  * src/thread.c:
    Small "modified" tokens unification related changes.
-
  * docs/scope.html, src/scope.c:
    Increased version to 0.80.
 
@@ -140,7 +160,7 @@
  * src/common.h, src/menu.h:
    Fixed forward declarations (though my gcc accepts them).
  * src/menu.c, src/tooltip.c, src/views.c, src/views.h:
-   Clear scid_gen on program exit. No real risk of overflow,
+   Clear scid_gen on program exit. No real risk of overflow, 
    but smaller values look better in Debug Console.
  * src/menu.c:
    Position cursor in modify dialog after " = ".

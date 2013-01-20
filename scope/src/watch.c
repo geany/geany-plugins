@@ -51,7 +51,7 @@ static void on_watch_enabled_toggled(G_GNUC_UNUSED GtkCellRendererToggle *render
 
 static void watch_iter_update(GtkTreeIter *iter, gpointer gdata)
 {
-	const gchar *expr;
+	gchar *expr;
 	gint scid;
 	gboolean enabled;
 
@@ -60,6 +60,7 @@ static void watch_iter_update(GtkTreeIter *iter, gpointer gdata)
 
 	if (enabled || GPOINTER_TO_INT(gdata))
 		g_free(debug_send_evaluate('6', scid, expr));
+	g_free(expr);
 }
 
 static void on_watch_expr_edited(G_GNUC_UNUSED GtkCellRendererText *renderer,
@@ -68,7 +69,7 @@ static void on_watch_expr_edited(G_GNUC_UNUSED GtkCellRendererText *renderer,
 	if (validate_column(new_text, TRUE))
 	{
 		GtkTreeIter iter;
-		const gchar *expr;
+		gchar *expr;
 		gboolean enabled;
 
 		gtk_tree_model_get_iter_from_string(model, &iter, path_str);
@@ -85,6 +86,7 @@ static void on_watch_expr_edited(G_GNUC_UNUSED GtkCellRendererText *renderer,
 			if (enabled && (debug_state() & DS_DEBUG))
 				watch_iter_update(&iter, GINT_TO_POINTER(TRUE));
 		}
+		g_free(expr);
 	}
 }
 
@@ -161,7 +163,7 @@ void watches_clear(void)
 
 gboolean watches_update(void)
 {
-	if (view_select_frame())
+	if (g_strcmp0(frame_id, "0") && view_stack_update())
 		return FALSE;
 
 	model_foreach(model, (GFunc) watch_iter_update, GPOINTER_TO_INT(FALSE));
@@ -241,7 +243,7 @@ static gboolean watch_save(GKeyFile *config, const char *section, GtkTreeIter *i
 
 	gtk_tree_model_get(model, iter, WATCH_EXPR, &expr, WATCH_HB_MODE, &hb_mode,
 		WATCH_MR_MODE, &mr_mode, WATCH_ENABLED, &enabled, -1);
-	g_key_file_set_string(config, section, "expr", expr);
+	utils_key_file_set_string(config, section, "expr", expr);
 	g_key_file_set_integer(config, section, "hbit", hb_mode);
 	g_key_file_set_integer(config, section, "member", mr_mode);
 	g_key_file_set_boolean(config, section, "enabled", enabled);
@@ -267,12 +269,13 @@ static void on_watch_unsorted(G_GNUC_UNUSED const MenuItem *menu_item)
 static void on_watch_add(G_GNUC_UNUSED const MenuItem *menu_item)
 {
 	GtkTreeIter iter;
-	const gchar *expr = NULL;
+	gchar *expr = NULL;
 
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 		gtk_tree_model_get(model, &iter, WATCH_EXPR, &expr, -1);
 
 	watch_add(expr);
+	g_free(expr);
 }
 
 static void on_watch_copy(const MenuItem *menu_item)

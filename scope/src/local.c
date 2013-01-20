@@ -89,15 +89,11 @@ void on_local_variables(GArray *nodes)
 	if (thread_id && frame_id && len == strlen(thread_id) &&
 		!memcmp(++token, thread_id, len) && !strcmp(token + len, frame_id))
 	{
-		char *name = NULL;
 		GtkTreeIter iter;
 		LocalData ld = { NULL, stack_entry() };
 
 		if (gtk_tree_selection_get_selected(selection, NULL, &iter))
-		{
 			gtk_tree_model_get(model, &iter, LOCAL_NAME, &ld.name, -1);
-			name = g_strdup(name);
-		}
 
 		locals_clear();
 		array_foreach(parse_lead_array(nodes), (GFunc) local_node_variable, &ld);
@@ -118,7 +114,7 @@ static void local_send_update(char token)
 
 gboolean locals_update(void)
 {
-	if (view_select_frame())
+	if (view_stack_update())
 		return FALSE;
 
 	if (frame_id)
@@ -160,11 +156,12 @@ static void on_local_modify(const MenuItem *menu_item)
 static void on_local_watch(G_GNUC_UNUSED const MenuItem *menu_item)
 {
 	GtkTreeIter iter;
-	const char *name;
+	char *name;
 
 	gtk_tree_selection_get_selected(selection, NULL, &iter);
 	gtk_tree_model_get(model, &iter, LOCAL_NAME, &name, -1);
 	watch_add(name);
+	g_free(name);
 }
 
 static void on_local_inspect(G_GNUC_UNUSED const MenuItem *menu_item)

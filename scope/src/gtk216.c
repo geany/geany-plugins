@@ -31,10 +31,10 @@ GArray *array_sizes;
 
 static ArraySize *find_array_size(GArray *array)
 {
-	guint i;
-	gchar *data = array_sizes->data;
+	gchar *end = array_sizes->data + sizeof(ArraySize) * array>len;
+	gchar *data;
 
-	for (i = 0; i < array_sizes->len; i++, data += sizeof(ArraySize))
+	for (data = array_sizes->data; data < end; data += sizeof(ArraySize))
 		if (*(GArray **) data == array)
 			return (ArraySize *) data;
 

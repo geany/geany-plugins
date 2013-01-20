@@ -40,7 +40,7 @@ static ViewInfo views[VIEW_COUNT] =
 	{ FALSE, stack_clear,    stack_update,    TRUE,  DS_DEBUG },
 	{ FALSE, locals_clear,   locals_update,   TRUE,  DS_DEBUG },
 	{ FALSE, watches_clear,  watches_update,  TRUE,  DS_DEBUG },
-	{ FALSE, memory_clear,   memory_update,   FALSE, DS_SENDABLE },
+	{ FALSE, memory_clear,   memory_update,   TRUE,  DS_SENDABLE },
 	{ FALSE, NULL,           dc_update,       FALSE, DS_DEBUG },
 	{ FALSE, inspects_clear, inspects_update, FALSE, DS_DEBUG },
 	{ FALSE, tooltip_clear,  tooltip_update,  FALSE, DS_SENDABLE },
@@ -143,9 +143,9 @@ void views_update(DebugState state)
 	}
 }
 
-gboolean view_select_frame(void)
+gboolean view_stack_update(void)
 {
-	if (g_strcmp0(frame_id, "0") && views[VIEW_STACK].dirty)
+	if (views[VIEW_STACK].dirty)
 	{
 		DebugState state = thread_state >= THREAD_STOPPED ? DS_DEBUG : DS_READY;
 		view_update_unconditional(VIEW_STACK, state);
@@ -199,7 +199,7 @@ gboolean on_view_query_tooltip(GtkWidget *widget, gint x, gint y, gboolean keybo
 
 	if (gtk_tree_view_get_tooltip_context(tree, &x, &y, keyboard_tip, NULL, NULL, &iter))
 	{
-		const char *file;
+		char *file;
 
 		gtk_tree_view_set_tooltip_cell(tree, tooltip, NULL, base_name_column, NULL);
 		gtk_tree_model_get(gtk_tree_view_get_model(tree), &iter, COLUMN_FILE, &file, -1);
@@ -209,6 +209,7 @@ gboolean on_view_query_tooltip(GtkWidget *widget, gint x, gint y, gboolean keybo
 			gchar *utf8 = utils_get_utf8_from_locale(file);
 
 			gtk_tooltip_set_text(tooltip, utf8);
+			g_free(file);
 			g_free(utf8);
 			return TRUE;
 		}
@@ -250,7 +251,7 @@ static void on_display_editing_started(G_GNUC_UNUSED GtkCellRenderer *cell,
 	GtkCellEditable *editable, const gchar *path_str, GtkTreeModel *model)
 {
 	GtkTreeIter iter;
-	const char *value;
+	char *value;
 	gint hb_mode;
 
 	g_assert(GTK_IS_EDITABLE(editable));
@@ -259,6 +260,7 @@ static void on_display_editing_started(G_GNUC_UNUSED GtkCellRenderer *cell,
 	/* scrolling editable to the proper position is left as an exercise for the reader */
 	g_signal_connect(editable, "map-event", G_CALLBACK(on_display_editable_map_event),
 		parse_get_display_from_7bit(value, hb_mode, MR_EDITVC));
+	g_free(value);
 }
 
 GtkTreeView *view_connect(const char *name, GtkTreeModel **model, GtkTreeSelection **selection,
@@ -331,7 +333,7 @@ void view_display_edited(GtkTreeModel *model, gboolean condition, const gchar *p
 		if (condition)
 		{
 			GtkTreeIter iter;
-			const char *name;
+			char *name;
 			gint hb_mode;
 			char *locale;
 
@@ -341,6 +343,7 @@ void view_display_edited(GtkTreeModel *model, gboolean condition, const gchar *p
 			locale = utils_get_locale_from_display(new_text, hb_mode);
 			utils_strchrepl(locale, '\n', ' ');
 			debug_send_format(F, format, name, locale);
+			g_free(name);
 			g_free(locale);
 		}
 		else
@@ -357,14 +360,19 @@ void view_seek_selected(GtkTreeSelection *selection, gboolean focus, SeekerType 
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	const char *file;
-	gint line;
 
 	if (gtk_tree_selection_get_selected(selection, &model, &iter))
 	{
+		char *file;
+		gint line;
+
 		gtk_tree_model_get(model, &iter, COLUMN_FILE, &file, COLUMN_LINE, &line, -1);
+
 		if (file)
+		{
 			utils_seek(file, line, focus, seeker);
+			g_free(file);
+		}
 	}
 }
 
@@ -428,7 +436,7 @@ static void on_command_history_changed(GtkComboBox *command_history,
 
 	if (gtk_combo_box_get_active_iter(command_history, &iter))
 	{
-		const gchar *text;
+		gchar *text;
 		gboolean locale;
 
 		gtk_tree_model_get(command_model, &iter, COMMAND_TEXT, &text, COMMAND_LOCALE,
@@ -437,24 +445,29 @@ static void on_command_history_changed(GtkComboBox *command_history,
 		gtk_toggle_button_set_active(command_locale, locale);
 		gtk_widget_grab_focus(command_view);
 		gtk_combo_box_set_active_iter(command_history, NULL);
+		g_free(text);
 	}
 }
 
 static void on_command_insert_button_clicked(G_GNUC_UNUSED GtkButton *button, gpointer gdata)
 {
-	const char *prefix, *id;
+	const char *prefix;
+	char *id;
 	GString *text = g_string_new("--");
 
 	switch (GPOINTER_TO_INT(gdata))
 	{
-		case 't' : prefix = "thread"; id = thread_id; break;
+		case 't' : prefix = "thread"; id = g_strdup(thread_id); break;
 		case 'g' : prefix = "group"; id = thread_group_id(); break;
-		default : prefix = "frame"; id = frame_id;
+		default : prefix = "frame"; id = g_strdup(frame_id);
 	}
 
 	g_string_append_printf(text, "%s ", prefix);
 	if (id)
+	{
 		g_string_append_printf(text, "%s ", id);
+		g_free(id);
+	}
 	gtk_text_buffer_delete_selection(command_text, FALSE, TRUE);
 	gtk_text_buffer_insert_at_cursor(command_text, text->str, -1);
 	g_string_free(text, TRUE);

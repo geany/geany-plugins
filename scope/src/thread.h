@@ -34,9 +34,9 @@ typedef enum _ThreadState
 	THREAD_AT_ASSEMBLER
 } ThreadState;
 
-extern const char *thread_id;  /* gdb id, NULL if none selected */
+extern char *thread_id;
 extern ThreadState thread_state;
-const char *thread_group_id(void);
+char *thread_group_id(void);
 
 void on_thread_running(GArray *nodes);
 void on_thread_stopped(GArray *nodes);

@@ -39,7 +39,7 @@ void view_dirty(ViewIndex index);
 void views_data_dirty(void);
 void views_clear(void);
 void views_update(DebugState state);
-gboolean view_select_frame(void);
+gboolean view_stack_update(void);
 void view_inspect_update(void);
 
 void on_view_changed(GtkNotebook *notebook, gpointer page, gint page_num, gpointer gdata);

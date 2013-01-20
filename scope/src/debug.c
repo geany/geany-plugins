@@ -31,9 +31,7 @@
 #else  /* G_OS_UNIX */
 #include <windows.h>
 
-#define WNOHANG 0
-
-static int waitpid(GPid pid, int *stat_loc, G_GNUC_UNUSED int options)
+static int waitpid(HANDLE pid, int *stat_loc)
 {
 	DWORD status;
 
@@ -49,10 +47,11 @@ static int waitpid(GPid pid, int *stat_loc, G_GNUC_UNUSED int options)
 
 	return -1;
 }
+#define waitpid(pid, stat_loc, options) waitpid((pid), (stat_loc))
 
 #define SIGKILL 9
 
-static int kill(GPid pid, int sig)
+static int kill(HANDLE pid, int sig)
 {
 	return TerminateProcess(pid, sig) ? 0 : -1;
 }

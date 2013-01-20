@@ -50,7 +50,7 @@ enum
 static gint break_id_compare(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b,
 	G_GNUC_UNUSED gpointer gdata)
 {
-	const char *s1, *s2;
+	char *s1, *s2;
 	gint result;
 
 	gtk_tree_model_get(model, a, BREAK_ID, &s1, -1);
@@ -67,6 +67,8 @@ static gint break_id_compare(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b
 		result = atoi(p1 + (*p1 == '.')) - atoi(p2 + (*p2 == '.'));
 	}
 
+	g_free(s1);
+	g_free(s2);
 	return result;
 }
 
@@ -136,13 +138,14 @@ static gint scid_gen = 0;
 
 static void break_mark(GtkTreeIter *iter, gboolean mark)
 {
-	const char *file;
+	char *file;
 	gint line;
 	gboolean enabled;
 
 	gtk_tree_model_get(model, iter, BREAK_FILE, &file, BREAK_LINE, &line, BREAK_ENABLED,
 		&enabled, -1);
 	utils_mark(file, line, mark, MARKER_BREAKPT + enabled);
+	g_free(file);
 }
 
 static void break_enable(GtkTreeIter *iter, gboolean enable)
@@ -157,7 +160,7 @@ static void on_break_enabled_toggled(G_GNUC_UNUSED GtkCellRendererToggle *render
 {
 	GtkTreeIter iter;
 	DebugState state = debug_state();
-	const char *id;
+	char *id;
 	gint scid;
 	gboolean enabled;
 
@@ -177,6 +180,8 @@ static void on_break_enabled_toggled(G_GNUC_UNUSED GtkCellRendererToggle *render
 	}
 	else
 		plugin_beep();
+
+	g_free(id);
 }
 
 #define EDITCOLS 3
@@ -193,7 +198,7 @@ static void on_break_column_edited(G_GNUC_UNUSED GtkCellRendererText *renderer,
 	gint index = GPOINTER_TO_INT(gdata) - 1;
 	const gchar *set_text = validate_column(new_text, index > 0);
 	GtkTreeIter iter;
-	const char *id;
+	char *id;
 	char type;
 
 	gtk_tree_model_get_iter_from_string(model, &iter, path_str);
@@ -211,6 +216,8 @@ static void on_break_column_edited(G_GNUC_UNUSED GtkCellRendererText *renderer,
 		gtk_list_store_set(store, &iter, index + BREAK_IGNORE, set_text, -1);
 	else
 		plugin_beep();
+
+	g_free(id);
 }
 
 static void on_break_ignore_editing_started(G_GNUC_UNUSED GtkCellRenderer *cell,
@@ -273,7 +280,7 @@ typedef struct _BreakData
 
 static void break_iter_applied(GtkTreeIter *iter, const char *id)
 {
-	const gchar *columns[EDITCOLS];
+	gchar *columns[EDITCOLS];
 	gboolean enabled;
 	char type;
 	gint index;
@@ -284,7 +291,11 @@ static void break_iter_applied(GtkTreeIter *iter, const char *id)
 	if (strchr(BP_BORTS, type))
 	{
 		if (strchr(BP_BREAKS, type))
+		{
+			g_free(columns[0]);
 			columns[0] = NULL;
+		}
+		g_free(columns[1]);
 		columns[1] = NULL;
 	}
 	else if (!enabled)
@@ -300,6 +311,7 @@ static void break_iter_applied(GtkTreeIter *iter, const char *id)
 				locale);
 			g_free(locale);
 		}
+		g_free(columns[index]);
 	}
 }
 
@@ -497,9 +509,9 @@ static void break_apply(GtkTreeIter *iter, gboolean thread)
 	GString *command = g_string_sized_new(0x1FF);
 	gint scid;
 	char type;
-	const char *ignore, *location;
+	char *ignore, *location;
 	gboolean enabled, pending, temporary;
-	const gchar *cond;
+	gchar *cond;
 	gboolean borts;
 
 	gtk_tree_model_get(model, iter, BREAK_SCID, &scid, BREAK_TYPE, &type, BREAK_ENABLED,
@@ -547,6 +559,9 @@ static void break_apply(GtkTreeIter *iter, gboolean thread)
 	g_string_append_printf(command, " %s", location);
 	debug_send_command(F, command->str);
 	g_string_free(command, TRUE);
+	g_free(ignore);
+	g_free(location);
+	g_free(cond);
 }
 
 static void break_clear(GtkTreeIter *iter)
@@ -573,7 +588,7 @@ static gboolean break_remove_all(const char *pref, gboolean force)
 
 	while (valid)
 	{
-		const char *id;
+		char *id;
 		gboolean discard;
 
 		gtk_tree_model_get(model, &iter, BREAK_ID, &id, BREAK_DISCARD, &discard, -1);
@@ -585,12 +600,14 @@ static gboolean break_remove_all(const char *pref, gboolean force)
 			if (discard || force)
 			{
 				valid = break_remove(&iter);
+				g_free(id);
 				continue;
 			}
 
 			break_clear(&iter);
 		}
 
+		g_free(id);
 		valid = gtk_tree_model_iter_next(model, &iter);
 	}
 
@@ -641,21 +658,23 @@ static void breaks_missing(void)
 
 	while (valid)
 	{
-		const char *id;
+		char *id;
 		gboolean discard, missing;
 
 		gtk_tree_model_get(model, &iter, BREAK_ID, &id, BREAK_DISCARD, &discard,
 			BREAK_MISSING, &missing, -1);
+		g_free(id);
 
 		if (id && missing)
 		{
 			if (discard)
 			{
 				valid = break_remove(&iter);
+				g_free(id);
 				continue;
 			}
-			else
-				break_clear(&iter);
+
+			break_clear(&iter);
 		}
 
 		valid = gtk_tree_model_iter_next(model, &iter);
@@ -739,7 +758,7 @@ void on_break_features(GArray *nodes)
 
 static void break_delete(GtkTreeIter *iter)
 {
-	const char *id;
+	char *id;
 
 	gtk_tree_model_get(model, iter, BREAK_ID, &id, -1);
 
@@ -747,11 +766,13 @@ static void break_delete(GtkTreeIter *iter)
 		break_remove(iter);
 	else
 		debug_send_format(N, "023%s-break-delete %s", id, id);
+
+	g_free(id);
 }
 
 static void break_iter_mark(GtkTreeIter *iter, GeanyDocument *doc)
 {
-	const char *file;
+	char *file;
 	gint line;
 	gboolean enabled;
 
@@ -760,6 +781,7 @@ static void break_iter_mark(GtkTreeIter *iter, GeanyDocument *doc)
 
 	if (line && !utils_filenamecmp(file, doc->real_path))
 		sci_set_marker_at_line(doc->editor->sci, line - 1, MARKER_BREAKPT + enabled);
+	g_free(file);
 }
 
 void breaks_mark(GeanyDocument *doc)
@@ -843,10 +865,10 @@ void breaks_delta(ScintillaObject *sci, const char *real_path, gint start, gint 
 
 	while (valid)
 	{
-		const char *file;
+		char *file;
 		gint line;
 		gboolean enabled;
-		const char *location;
+		char *location;
 
 		gtk_tree_model_get(model, &iter, BREAK_FILE, &file, BREAK_LINE, &line,
 			BREAK_ENABLED, &enabled, BREAK_LOCATION, &location, -1);
@@ -872,21 +894,26 @@ void breaks_delta(ScintillaObject *sci, const char *real_path, gint start, gint 
 			{
 				sci_delete_marker_at_line(sci, start, MARKER_BREAKPT + enabled);
 				valid = gtk_list_store_remove(store, &iter);
+				g_free(file);
+				g_free(location);
 				continue;
 			}
 		}
 
+		g_free(file);
+		g_free(location);
 		valid = gtk_tree_model_iter_next(model, &iter);
 	}
 }
 
 static void break_iter_check(GtkTreeIter *iter, guint *active)
 {
-	const char *id;
+	char *id;
 	gboolean enabled;
 
 	gtk_tree_model_get(model, iter, BREAK_ID, &id, BREAK_ENABLED, &enabled, -1);
 	*active += enabled && id;
+	g_free(id);
 }
 
 guint breaks_active(void)
@@ -902,11 +929,11 @@ void on_break_toggle(G_GNUC_UNUSED const MenuItem *menu_item)
 	gint doc_line = utils_current_line(doc);
 	GtkTreeIter iter, iter1;
 	gboolean valid = gtk_tree_model_get_iter_first(model, &iter);
-	const char *found = NULL;
+	gint found = 0;
 
 	while (valid)
 	{
-		const char *id, *file;
+		char *id, *file;
 		gint line;
 
 		gtk_tree_model_get(model, &iter, BREAK_ID, &id, BREAK_FILE, &file, BREAK_LINE,
@@ -914,19 +941,23 @@ void on_break_toggle(G_GNUC_UNUSED const MenuItem *menu_item)
 
 		if (line == doc_line && !utils_filenamecmp(file, doc->real_path))
 		{
-			if (found && atoi(found) != utils_atoi0(id))
+			if (found && found != utils_atoi0(id))
 			{
 				dialogs_show_msgbox(GTK_MESSAGE_INFO,
 					_("There are two or more breakpoints at %s:%d.\n"
 					"Use the breakpoint list to remove the exact one."),
 					doc->file_name, doc_line);
+				g_free(id);
+				g_free(file);
 				return;
 			}
 
-			found = id ? id : "-1";
+			found = id ? atoi(id) : -1;
 			iter1 = iter;
 		}
 
+		g_free(id);
+		g_free(file);
 		valid = gtk_tree_model_iter_next(model, &iter);
 	}
 
@@ -1030,22 +1061,26 @@ void breaks_load(GKeyFile *config)
 
 static gboolean break_save(GKeyFile *config, const char *section, GtkTreeIter *iter)
 {
-	guint i;
-	gint line;
-	char type;
-	gboolean enabled, pending, discard, run_apply, temporary;
-	const char *strings[STRING_COUNT];
+	gboolean discard;
 
-	gtk_tree_model_get(model, iter, BREAK_FILE, &strings[STRING_FILE], BREAK_LINE, &line,
-		BREAK_TYPE, &type, BREAK_ENABLED, &enabled, BREAK_DISPLAY,
-		&strings[STRING_DISPLAY], BREAK_FUNC, &strings[STRING_FUNC], BREAK_IGNORE,
-		&strings[STRING_IGNORE], BREAK_COND, &strings[STRING_COND], BREAK_SCRIPT,
-		&strings[STRING_SCRIPT], BREAK_PENDING, &pending, BREAK_DISCARD, &discard,
-		BREAK_LOCATION, &strings[STRING_LOCATION], BREAK_RUN_APPLY, &run_apply,
-		BREAK_TEMPORARY, &temporary, -1);
+	gtk_tree_model_get(model, iter, BREAK_DISCARD, &discard, -1);
 
 	if (!discard)
 	{
+		guint i;
+		gint line;
+		char type;
+		gboolean enabled, pending, run_apply, temporary;
+		char *strings[STRING_COUNT];
+
+		gtk_tree_model_get(model, iter, BREAK_FILE, &strings[STRING_FILE], BREAK_LINE,
+			&line, BREAK_TYPE, &type, BREAK_ENABLED, &enabled, BREAK_DISPLAY,
+			&strings[STRING_DISPLAY], BREAK_FUNC, &strings[STRING_FUNC], BREAK_IGNORE,
+			&strings[STRING_IGNORE], BREAK_COND, &strings[STRING_COND], BREAK_SCRIPT,
+			&strings[STRING_SCRIPT], BREAK_PENDING, &pending, BREAK_LOCATION,
+			&strings[STRING_LOCATION], BREAK_RUN_APPLY, &run_apply, BREAK_TEMPORARY,
+			&temporary, -1);
+
 		if (line)
 			g_key_file_set_integer(config, section, "line", line);
 		else
@@ -1059,7 +1094,7 @@ static gboolean break_save(GKeyFile *config, const char *section, GtkTreeIter *i
 		for (i = 0; i < STRING_COUNT; i++)
 		{
 			if (strings[i])
-				g_key_file_set_string(config, section, string_names[i], strings[i]);
+				utils_key_file_set_string(config, section, string_names[i], strings[i]);
 			else
 				g_key_file_remove_key(config, section, string_names[i], NULL);
 		}
@@ -1089,7 +1124,7 @@ static void on_break_selection_changed(GtkTreeSelection *selection,
 
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-		const char *id;
+		char *id;
 		gboolean editable;
 		gint index;
 
@@ -1097,6 +1132,7 @@ static void on_break_selection_changed(GtkTreeSelection *selection,
 		editable = !id || !strchr(id, '.');
 		for (index = 0; index < EDITCOLS; index++)
 			g_object_set(block_cells[index], "editable", editable, NULL);
+		g_free(id);
 	}
 }
 
@@ -1124,13 +1160,16 @@ static gboolean on_break_query_tooltip(G_GNUC_UNUSED GtkWidget *widget, gint x, 
 			if (line)
 				g_string_append_printf(text, ":%d", line);
 			has_tip = TRUE;
+			g_free(file);
 		}
+		
 		if (func)
 		{
 			if (has_tip)
 				g_string_append(text, ", ");
 			g_string_append(text, func);
 			has_tip = TRUE;
+			g_free(func);
 		}
 
 		gtk_tooltip_set_text(tooltip, text->str);
@@ -1255,9 +1294,11 @@ static guint break_menu_extra_state(void)
 
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-		const char *id, *file;
+		char *id, *file;
 
 		gtk_tree_model_get(model, &iter, BREAK_ID, &id, BREAK_FILE, &file, -1);
+		g_free(id);
+		g_free(file);
 
 		return (!id << DS_INDEX_1) | ((file != NULL) << DS_INDEX_2) |
 			((!id || !strchr(id, '.')) << DS_INDEX_3);

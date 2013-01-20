@@ -41,7 +41,7 @@ static void on_memory_bytes_edited(G_GNUC_UNUSED GtkCellRendererText *renderer, 
 	if (*new_text && (debug_state() & DS_SENDABLE))
 	{
 		GtkTreeIter iter;
-		const char *addr, *bytes;
+		char *addr, *bytes;
 		guint i;
 
 		gtk_tree_model_get_iter_from_string(model, &iter, path_str);
@@ -58,6 +58,9 @@ static void on_memory_bytes_edited(G_GNUC_UNUSED GtkCellRendererText *renderer, 
 			utils_strchrepl(new_text, ' ', '\0');
 			debug_send_format(T, "07-data-write-memory-bytes 0x%s%s", addr, new_text);
 		}
+
+		g_free(addr);
+		g_free(bytes);
 	}
 	else
 		plugin_blink();
@@ -232,12 +235,10 @@ void on_memory_read_bytes(GArray *nodes)
 		char *addr = NULL;
 
 		if (gtk_tree_selection_get_selected(selection, NULL, &iter))
-		{
 			gtk_tree_model_get(model, &iter, MEMORY_ADDR, &addr, -1);
-			addr = strdup(addr);
-		}
 
-		memory_clear();
+		gtk_list_store_clear(store);
+		memory_count = 0;
 
 		if (pref_memory_bytes_per_line != back_bytes_per_line)
 		{
@@ -261,7 +262,6 @@ void on_memory_read_bytes(GArray *nodes)
 void memory_clear(void)
 {
 	gtk_list_store_clear(store);
-	memory_count = 0;
 }
 
 gboolean memory_update(void)
@@ -304,8 +304,8 @@ static void on_memory_copy(G_GNUC_UNUSED const MenuItem *menu_item)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	const char *addr, *bytes;
-	const gchar *ascii;
+	char *addr, *bytes;
+	gchar *ascii;
 	gchar *string;
 
 	gtk_tree_selection_get_selected(selection, &model, &iter);
@@ -314,12 +314,16 @@ static void on_memory_copy(G_GNUC_UNUSED const MenuItem *menu_item)
 	string = g_strdup_printf("%s%s%s", addr, bytes, ascii);
 	gtk_clipboard_set_text(gtk_widget_get_clipboard(menu_item->widget,
 		GDK_SELECTION_CLIPBOARD), string, -1);
+	g_free(addr);
+	g_free(bytes);
+	g_free(ascii);
 	g_free(string);
 }
 
 static void on_memory_clear(G_GNUC_UNUSED const MenuItem *menu_item)
 {
-	memory_clear();
+	gtk_list_store_clear(store);
+	memory_count = 0;
 }
 
 static void on_memory_group_display(const MenuItem *menu_item)
@@ -364,7 +368,7 @@ static MenuItem memory_menu_items[] =
 static guint memory_menu_extra_state(void)
 {
 	return (gtk_tree_selection_get_selected(selection, NULL, NULL) << DS_INDEX_1) |
-		(memory_count != 0) << DS_INDEX_1;
+		(memory_count != 0) << DS_INDEX_2;
 }
 
 static MenuInfo memory_menu_info = { memory_menu_items, memory_menu_extra_state, 0 };

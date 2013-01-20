@@ -59,12 +59,12 @@ static void stack_node_location(const ParseNode *node, const char *fid)
 			parse_location_free(&loc);
 
 			if (!g_strcmp0(id, fid))
-				utils_tree_set_cursor(selection, &iter, -1);
+				gtk_tree_selection_select_iter(selection, &iter);
 		}
 	}
 }
 
-const char *frame_id = NULL;
+char *frame_id = NULL;
 
 void on_stack_frames(GArray *nodes)
 {
@@ -80,7 +80,7 @@ void on_stack_frames(GArray *nodes)
 		{
 			GtkTreeIter iter;
 
-			if (gtk_tree_model_get_iter_first(model, &iter))
+			if (model_find(model, &iter, STACK_ID, "0"))
 				utils_tree_set_cursor(selection, &iter, -1);
 		}
 	}
@@ -135,10 +135,11 @@ static void stack_node_arguments(const ParseNode *node, ArgsData *ad)
 		{
 			if (ad->valid)
 			{
-				const char *fid;
+				char *fid;
 
 				gtk_tree_model_get(model, &ad->iter, STACK_ID, &fid, -1);
 				ad->valid = !strcmp(id, fid);
+				g_free(fid);
 			}
 
 			if (!ad->valid)
@@ -223,6 +224,8 @@ static void on_stack_selection_changed(GtkTreeSelection *selection,
 {
 	GtkTreeIter iter;
 
+	g_free(frame_id);
+
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 		gtk_tree_model_get(model, &iter, STACK_ID, &frame_id, -1);
 	else
@@ -271,31 +274,41 @@ static void on_stack_show_address(const MenuItem *menu_item)
 	view_column_set_visible("stack_addr_column", stack_show_address);
 }
 
+typedef struct _EntryData
+{
+	char *func;
+	gboolean entry;
+	gint count;
+} EntryData;
+
+static void stack_iter_show_entry(GtkTreeIter *iter, EntryData *ed)
+{
+	char *func;
+
+	gtk_tree_model_get(model, iter, STACK_FUNC, &func, -1);
+
+	if (func && !strcmp(func, ed->func))
+	{
+		gtk_list_store_set(store, iter, STACK_ENTRY, ed->entry, -1);
+		ed->count++;
+	}
+	g_free(func);
+}
+
 static void on_stack_show_entry(const MenuItem *menu_item)
 {
-	gboolean entry = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menu_item->widget));
+	EntryData ed = { NULL,
+		gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menu_item->widget)), 0 };
 	GtkTreeIter iter;
-	const char *func;
-	guint count = 0;
 
 	view_dirty(VIEW_LOCALS);
 	gtk_tree_selection_get_selected(selection, NULL, &iter);
-	gtk_tree_model_get(model, &iter, STACK_FUNC, &func, -1);
-	parse_mode_update(func, MODE_ENTRY, entry);
-	gtk_tree_model_get_iter_first(model, &iter);
-	do
-	{
-		const char *func1;
+	gtk_tree_model_get(model, &iter, STACK_FUNC, &ed.func, -1);
+	parse_mode_update(ed.func, MODE_ENTRY, ed.entry);
+	model_foreach(model, (GFunc) stack_iter_show_entry, &ed);
+	g_free(ed.func);
 
-		gtk_tree_model_get(model, &iter, STACK_FUNC, &func1, -1);
-		if (!strcmp(func, func1))
-		{
-			gtk_list_store_set(store, &iter, STACK_ENTRY, entry, -1);
-			count++;
-		}
-	} while (gtk_tree_model_iter_next(model, &iter));
-
-	if (count == 1)
+	if (ed.count == 1)
 	{
 		debug_send_format(T, "04%s-stack-list-arguments 1 %s %s", thread_id, frame_id,
 			frame_id);
@@ -324,9 +337,11 @@ static guint stack_menu_extra_state(void)
 
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-		const char *file, *func;
+		char *file, *func;
 
 		gtk_tree_model_get(model, &iter, STACK_FILE, &file, STACK_FUNC, &func, -1);
+		g_free(file);
+		g_free(func);
 		return ((file != NULL) << DS_INDEX_2) | ((func != NULL) << DS_INDEX_3);
 	}
 
@@ -378,4 +393,9 @@ void stack_init(void)
 		(gpointer) menu_item_find(stack_menu_items, "stack_show_entry"));
 	g_signal_connect(get_widget("stack_synchronize"), "button-release-event",
 		G_CALLBACK(on_stack_synchronize_button_release), menu);
+}
+
+void stack_finalize(void)
+{
+	g_free(frame_id);
 }

@@ -1,3 +1,7 @@
+when switching to stack...memory and update is not possible, the subpage
+contents will be kept if an update command for this page was sent on the
+last thread stop/changed; otherwise it'll be cleared
+
 "^done,value=\"", '7' matches 07-var-assign, handled later as "^done", '7'
 
 the only way to fix unnecessary inspect drop target expansion is to block

@@ -92,13 +92,16 @@ static gboolean inspect_find_recursive(GtkTreeIter *iter, gint i, const char *ke
 		}
 		else
 		{
-			const char *var1;
+			char *var1;
 			size_t len;
+			gboolean match;
 
 			gtk_tree_model_get(model, iter, INSPECT_VAR1, &var1, -1);
 			len = var1 ? strlen(var1) : 0;
+			match = var1 && !strncmp(key, var1, len);
+			g_free(var1);
 
-			if (var1 && !strncmp(key, var1, len))
+			if (match)
 			{
 				if (key[len] == '\0')
 					return TRUE;
@@ -150,9 +153,8 @@ static gint inspect_get_scid(GtkTreeIter *iter)
 
 static void inspect_expand(GtkTreeIter *iter)
 {
-	const char *var1;
+	char *var1, *s;
 	gint scid, start, count, numchild;
-	gchar *s;
 
 	scid = inspect_get_scid(iter);
 	gtk_tree_model_get(model, iter, INSPECT_VAR1, &var1, INSPECT_START, &start,
@@ -160,6 +162,7 @@ static void inspect_expand(GtkTreeIter *iter)
 	s = g_strdup_printf("%d", start);
 	debug_send_format(N, "07%c%d%d-var-list-children 1 %s %d %d", '0' + (int) strlen(s) - 1,
 		start, scid, var1, start, count ? start + count : numchild);
+	g_free(var1);
 	g_free(s);
 }
 
@@ -174,7 +177,7 @@ static void on_jump_to_menu_item_activate(GtkMenuItem *menuitem, G_GNUC_UNUSED g
 
 static GtkWidget *jump_to_item;
 static GtkContainer *jump_to_menu;
-static const gchar *jump_to_expr;
+static gchar *jump_to_expr = NULL;
 
 static void on_inspect_row_inserted(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
 	G_GNUC_UNUSED gpointer gdata)
@@ -184,6 +187,7 @@ static void on_inspect_row_inserted(GtkTreeModel *model, GtkTreePath *path, GtkT
 		GtkWidget *item;
 		const gint *index = gtk_tree_path_get_indices(path);
 
+		g_free(jump_to_expr);
 		gtk_tree_model_get(model, iter, INSPECT_EXPR, &jump_to_expr, -1);
 		item = gtk_menu_item_new_with_label(jump_to_expr ? jump_to_expr : "");
 		gtk_widget_show(item);
@@ -343,8 +347,7 @@ void on_inspect_children(GArray *nodes)
 
 		if (inspect_find(&iter, FALSE, token + size))
 		{
-			gint from, numchild, end;
-			const char *var1;
+			gint from;
 			GtkTreePath *path = gtk_tree_model_get_path(model, &iter);
 
 			token[size] = '\0';
@@ -355,6 +358,9 @@ void on_inspect_children(GArray *nodes)
 				append_stub(&iter, _("no children in range"), FALSE);
 			else
 			{
+				gint numchild, end;
+				char *var1;
+
 				if (from)
 					append_ellipsis(&iter, FALSE);
 
@@ -369,6 +375,7 @@ void on_inspect_children(GArray *nodes)
 					debug_send_format(N, "04-var-set-update-range %s %d %d", var1,
 						from, end);
 				}
+				g_free(var1);
 
 				if (nodes->len ? end < numchild : !from)
 					append_ellipsis(&iter, FALSE);
@@ -470,14 +477,16 @@ void on_inspect_changelist(GArray *nodes)
 static void inspect_apply(GtkTreeIter *iter)
 {
 	gint scid;
-	const gchar *expr;
-	const char *name, *frame;
-	char *locale;
+	gchar *expr;
+	char *name, *frame, *locale;
 
 	gtk_tree_model_get(model, iter, INSPECT_EXPR, &expr, INSPECT_SCID, &scid,
 		INSPECT_NAME, &name, INSPECT_FRAME, &frame, -1);
 	locale = utils_get_locale_from_utf8(expr);
 	debug_send_format(F, "07%d-var-create %s %s %s", scid, name, frame, locale);
+	g_free(expr);
+	g_free(name);
+	g_free(frame);
 	g_free(locale);
 }
 
@@ -489,9 +498,10 @@ void on_inspect_signal(const char *name)
 	{
 		iff (model_find(model, &iter, INSPECT_NAME, name), "%s: var not found", name)
 		{
-			const char *var1;
+			char *var1;
 
 			gtk_tree_model_get(model, &iter, INSPECT_VAR1, &var1, -1);
+			g_free(var1);
 
 			iff (!var1, "%s: already applied", name)
 				inspect_apply(&iter);
@@ -521,7 +531,7 @@ gboolean inspects_current(void)
 
 static void inspect_iter_apply(GtkTreeIter *iter, G_GNUC_UNUSED gpointer gdata)
 {
-	const char *frame;
+	char *frame;
 	gboolean run_apply;
 
 	gtk_tree_model_get(model, iter, INSPECT_FRAME, &frame, INSPECT_RUN_APPLY, &run_apply,
@@ -529,6 +539,7 @@ static void inspect_iter_apply(GtkTreeIter *iter, G_GNUC_UNUSED gpointer gdata)
 
 	if (run_apply && !isdigit(*frame))
 		inspect_apply(iter);
+	g_free(frame);
 }
 
 void inspects_apply(void)
@@ -640,7 +651,7 @@ void inspects_update_state(DebugState state)
 	static gboolean last_active = FALSE;
 	gboolean active = state != DS_INACTIVE;
 	GtkTreeIter iter;
-	const char *var1 = NULL;
+	char *var1 = NULL;
 	gint numchild = 0;
 
 	if ((state & DS_SENDABLE) && gtk_tree_selection_get_selected(selection, NULL, &iter))
@@ -649,6 +660,7 @@ void inspects_update_state(DebugState state)
 			-1);
 	}
 	g_object_set(inspect_display, "editable", var1 && !numchild, NULL);
+	g_free(var1);
 
 	if (active != last_active)
 	{
@@ -707,18 +719,18 @@ void inspects_load(GKeyFile *config)
 static gboolean inspect_save(GKeyFile *config, const char *section, GtkTreeIter *iter)
 {
 	gint hb_mode, start, count, format;
-	const char *name, *frame;
-	const gchar *expr;
+	char *name, *frame;
+	gchar *expr;
 	gboolean run_apply, expand;
 
 	gtk_tree_model_get(model, iter, INSPECT_EXPR, &expr, INSPECT_HB_MODE, &hb_mode,
 		INSPECT_NAME, &name, INSPECT_FRAME, &frame, INSPECT_RUN_APPLY, &run_apply,
 		INSPECT_START, &start, INSPECT_COUNT, &count, INSPECT_EXPAND, &expand,
 		INSPECT_FORMAT, &format, -1);
-	g_key_file_set_string(config, section, "name", name);
-	g_key_file_set_string(config, section, "expr", expr);
+	utils_key_file_set_string(config, section, "name", name);
+	utils_key_file_set_string(config, section, "expr", expr);
 	g_key_file_set_integer(config, section, "hbit", hb_mode);
-	g_key_file_set_string(config, section, "frame", frame);
+	utils_key_file_set_string(config, section, "frame", frame);
 	g_key_file_set_boolean(config, section, "run_apply", run_apply);
 	g_key_file_set_integer(config, section, "start", start);
 	g_key_file_set_integer(config, section, "count", count);
@@ -740,26 +752,25 @@ static void on_inspect_refresh(G_GNUC_UNUSED const MenuItem *menu_item)
 static void on_inspect_add(G_GNUC_UNUSED const MenuItem *menu_item)
 {
 	GtkTreeIter iter;
-	const gchar *expr = NULL;
+	gchar *expr = NULL;
 
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 		gtk_tree_model_get(model, &iter, INSPECT_PATH_EXPR, &expr, -1);
 
 	inspect_add(expr);
+	g_free(expr);
 }
 
 static void on_inspect_edit(G_GNUC_UNUSED const MenuItem *menu_item)
 {
 	GtkTreeIter iter;
-	const gchar *expr;
-	char *name;
-	const char *frame;
+	gchar *expr;
+	char *name, *frame;
 	gboolean run_apply;
 
 	gtk_tree_selection_get_selected(selection, NULL, &iter);
 	gtk_tree_model_get(model, &iter, INSPECT_EXPR, &expr, INSPECT_NAME, &name,
 		INSPECT_FRAME, &frame, INSPECT_RUN_APPLY, &run_apply, -1);
-	name = strdup(name);
 	gtk_tree_store_set(store, &iter, INSPECT_NAME, "-", -1);  /* for duplicate name check */
 
 	gtk_entry_set_text(inspect_expr, expr);
@@ -770,26 +781,32 @@ static void on_inspect_edit(G_GNUC_UNUSED const MenuItem *menu_item)
 
 	if (gtk_dialog_run(GTK_DIALOG(inspect_dialog)) == GTK_RESPONSE_ACCEPT)
 	{
+		g_free(jump_to_expr);
 		jump_to_expr = NULL;
 		inspect_dialog_store(&iter);
 	}
 	else
 		gtk_tree_store_set(store, &iter, INSPECT_NAME, name, -1);
 
+	g_free(expr);
 	g_free(name);
+	g_free(frame);
 }
 
 static void on_inspect_apply(G_GNUC_UNUSED const MenuItem *menu_item)
 {
 	GtkTreeIter iter;
-	const char *var1;
+	char *var1;
 	gint scid;
 
 	gtk_tree_selection_get_selected(selection, NULL, &iter);
 	gtk_tree_model_get(model, &iter, INSPECT_SCID, &scid, INSPECT_VAR1, &var1, -1);
 
 	if (var1)
+	{
 		debug_send_format(N, "070%d-var-delete %s", scid, var1);
+		g_free(var1);
+	}
 	else
 		inspect_apply(&iter);
 }
@@ -802,7 +819,7 @@ static GtkToggleButton *expand_automatic;
 static void on_inspect_expand(G_GNUC_UNUSED const MenuItem *menu_item)
 {
 	GtkTreeIter iter;
-	const char *name;
+	char *name;
 	gint start, count;
 	gboolean expand;
 
@@ -813,6 +830,7 @@ static void on_inspect_expand(G_GNUC_UNUSED const MenuItem *menu_item)
 	gtk_spin_button_set_value(expand_count, count);
 	gtk_toggle_button_set_active(expand_automatic, expand);
 	gtk_widget_set_sensitive(GTK_WIDGET(expand_automatic), name != NULL);
+	g_free(name);
 
 	if (gtk_dialog_run(GTK_DIALOG(expand_dialog)) == GTK_RESPONSE_ACCEPT)
 	{
@@ -842,7 +860,7 @@ static void on_inspect_format_update(const MenuItem *menu_item)
 {
 	GtkTreeIter iter;
 	gint format = GPOINTER_TO_INT(menu_item->gdata);
-	const char *var1;
+	char *var1;
 
 	gtk_tree_selection_get_selected(selection, NULL, &iter);
 	gtk_tree_model_get(model, &iter, INSPECT_VAR1, &var1, -1);
@@ -851,6 +869,7 @@ static void on_inspect_format_update(const MenuItem *menu_item)
 	{
 		debug_send_format(N, "07%d-var-set-format %s %s", inspect_get_scid(&iter), var1,
 			inspect_formats[format]);
+		g_free(var1);
 	}
 	else
 		gtk_tree_store_set(store, &iter, INSPECT_FORMAT, format, -1);
@@ -863,20 +882,21 @@ static void on_inspect_hbit_display(const MenuItem *menu_item)
 
 static void inspect_hbit_update_iter(GtkTreeIter *iter, gint hb_mode)
 {
-	const char *value;
+	char *value;
 	gchar *display;
 
 	gtk_tree_model_get(model, iter, INSPECT_VALUE, &value, -1);
 	display = utils_get_display_from_7bit(value, hb_mode);
 	gtk_tree_store_set(store, iter, INSPECT_HB_MODE, hb_mode, value ? INSPECT_DISPLAY : -1,
 		display, -1);
+	g_free(value);
 	g_free(display);
 }
 
 static void on_inspect_hbit_update(const MenuItem *menu_item)
 {
 	GtkTreeIter iter;
-	const char *expr, *name;
+	char *expr, *name;
 	gint hb_mode = GPOINTER_TO_INT(menu_item->gdata);
 
 	gtk_tree_selection_get_selected(selection, NULL, &iter);
@@ -892,18 +912,24 @@ static void on_inspect_hbit_update(const MenuItem *menu_item)
 			inspect_hbit_update_iter(&iter, hb_mode);
 		g_free(reverse);
 	}
+
+	g_free(expr);
+	g_free(name);
 }
 
 static void on_inspect_delete(G_GNUC_UNUSED const MenuItem *menu_item)
 {
 	GtkTreeIter iter;
-	const char *var1;
+	char *var1;
 
 	gtk_tree_selection_get_selected(selection, NULL, &iter);
 	gtk_tree_model_get(model, &iter, INSPECT_VAR1, &var1, -1);
 
 	if (var1)
+	{
 		debug_send_format(N, "071%d-var-delete %s", inspect_get_scid(&iter), var1);
+		g_free(var1);
+	}
 	else
 		gtk_tree_store_remove(store, &iter);
 }
@@ -942,19 +968,20 @@ static MenuItem inspect_menu_items[] =
 static guint inspect_menu_extra_state(void)
 {
 	GtkTreeIter iter;
-	guint state = gtk_tree_selection_get_selected(selection, NULL, &iter) << DS_INDEX_1;
 
-	if (state)
+	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-		const char *var1, *name;
+		char *var1, *name;
 		gint numchild;
 
 		gtk_tree_model_get(model, &iter, INSPECT_VAR1, &var1, INSPECT_NAME, &name,
 			INSPECT_NUMCHILD, &numchild, -1);
+		g_free(var1);
+		g_free(name);
 
 		if (name || var1)
 		{
-			return state | ((name && !var1) << DS_INDEX_2) |
+			return (1 << DS_INDEX_1) | ((name && !var1) << DS_INDEX_2) |
 				((name != NULL) << DS_INDEX_3) | ((numchild != 0) << DS_INDEX_4);
 		}
 	}
@@ -968,7 +995,7 @@ static void on_inspect_selection_changed(G_GNUC_UNUSED GtkTreeSelection *selecti
 	G_GNUC_UNUSED gpointer gdata)
 {
 	GtkTreeIter iter;
-	const char *name = NULL;
+	char *name = NULL;
 
 	if (gtk_widget_get_visible(inspect_dialog))
 		gtk_widget_hide(inspect_dialog);
@@ -977,20 +1004,22 @@ static void on_inspect_selection_changed(G_GNUC_UNUSED GtkTreeSelection *selecti
 
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 		gtk_tree_model_get(model, &iter, INSPECT_NAME, &name, -1);
-	gtk_tree_view_set_reorderable(tree, name != NULL);
 
+	gtk_tree_view_set_reorderable(tree, name != NULL);
 	inspects_update_state(debug_state());
+	g_free(name);
 }
 
 static gboolean inspect_test_expand_row(G_GNUC_UNUSED GtkTreeView *tree_view,
 	GtkTreeIter *iter, G_GNUC_UNUSED GtkTreePath *path, G_GNUC_UNUSED gpointer gdata)
 {
 	GtkTreeIter child;
-	const char *var1;
+	char *var1;
 	gboolean expand;
 
 	gtk_tree_model_iter_children(model, &child, iter);
 	gtk_tree_model_get(model, &child, INSPECT_VAR1, &var1, INSPECT_EXPAND, &expand, -1);
+	g_free(var1);
 
 	if (var1 || !expand)
 		return FALSE;
@@ -1038,11 +1067,12 @@ gboolean on_inspect_drag_motion(G_GNUC_UNUSED GtkWidget *widget,
 	if (gtk_tree_view_get_dest_row_at_pos(tree, x, y, &path, &pos))
 	{
 		GtkTreeIter iter;
-		const char *name;
+		char *name;
 
 		gtk_tree_model_get_iter(model, &iter, path);
 		gtk_tree_path_free(path);
 		gtk_tree_model_get(model, &iter, INSPECT_NAME, &name, -1);
+		g_free(name);
 
 		if (!name || pos == GTK_TREE_VIEW_DROP_INTO_OR_BEFORE ||
 			pos == GTK_TREE_VIEW_DROP_INTO_OR_AFTER)
@@ -1060,7 +1090,7 @@ static void on_inspect_menu_show(G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED 
 
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-		const char *var1, *path_expr;
+		char *var1, *path_expr;
 
 		gtk_tree_model_get(model, &iter, INSPECT_VAR1, &var1, INSPECT_PATH_EXPR,
 			&path_expr, -1);
@@ -1071,6 +1101,9 @@ static void on_inspect_menu_show(G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED 
 			debug_send_format(N, "04%d-var-info-path-expression %s",
 				inspect_get_scid(&iter), var1);
 		}
+
+		g_free(var1);
+		g_free(path_expr);
 	}
 }
 
@@ -1137,4 +1170,5 @@ void inspect_finalize(void)
 	gtk_widget_destroy(inspect_page);
 	gtk_widget_destroy(inspect_dialog);
 	gtk_widget_destroy(expand_dialog);
+	g_free(jump_to_expr);
 }

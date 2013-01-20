@@ -208,7 +208,7 @@ static void menu_mode_update_iter(GtkTreeModel *model, GtkTreeIter *iter, gint n
 	gboolean hbit)
 {
 	gint hb_mode, mr_mode;
-	const char *value;
+	char *value;
 	gchar *display;
 
 	gtk_tree_model_get(model, iter, COLUMN_VALUE, &value, COLUMN_HB_MODE, &hb_mode,
@@ -222,6 +222,7 @@ static void menu_mode_update_iter(GtkTreeModel *model, GtkTreeIter *iter, gint n
 	display = parse_get_display_from_7bit(value, hb_mode, mr_mode);
 	gtk_list_store_set(GTK_LIST_STORE(model), iter, COLUMN_HB_MODE, hb_mode,
 		COLUMN_MR_MODE, mr_mode, value ? COLUMN_DISPLAY : -1, display, -1);
+	g_free(value);
 	g_free(display);
 }
 
@@ -229,7 +230,7 @@ void menu_mode_update(GtkTreeSelection *selection, gint new_mode, gboolean hbit)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	const char *name;
+	char *name;
 
 	gtk_tree_selection_get_selected(selection, &model, &iter);
 	gtk_tree_model_get(model, &iter, COLUMN_NAME, &name, -1);
@@ -244,6 +245,7 @@ void menu_mode_update(GtkTreeSelection *selection, gint new_mode, gboolean hbit)
 			menu_mode_update_iter(model, &iter, new_mode, TRUE);
 		g_free(reverse);
 	}
+	g_free(name);
 }
 
 void menu_mber_display(GtkTreeSelection *selection, const MenuItem *menu_item)
@@ -298,8 +300,8 @@ void menu_copy(GtkTreeSelection *selection, const MenuItem *menu_item)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	const gchar *name, *display;
-	const char *value;
+	gchar *name, *display;
+	char *value;
 	GString *string;
 
 	gtk_tree_selection_get_selected(selection, &model, &iter);
@@ -312,6 +314,10 @@ void menu_copy(GtkTreeSelection *selection, const MenuItem *menu_item)
 
 	gtk_clipboard_set_text(gtk_widget_get_clipboard(menu_item->widget,
 		GDK_SELECTION_CLIPBOARD), string->str, string->len);
+
+	g_free(name);
+	g_free(display);
+	g_free(value);
 	g_string_free(string, TRUE);
 }
 
@@ -364,8 +370,8 @@ void menu_modify(GtkTreeSelection *selection, const MenuItem *menu_item)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	const gchar *name;
-	const char *value;
+	gchar *name;
+	char *value;
 	gint hb_mode;
 
 	gtk_tree_selection_get_selected(selection, &model, &iter);
@@ -373,17 +379,20 @@ void menu_modify(GtkTreeSelection *selection, const MenuItem *menu_item)
 		&hb_mode, -1);
 	menu_evaluate_modify(name, value, _("Modify"), hb_mode, menu_item ? MR_MODIFY : MR_MODSTR,
 		"07");
+	g_free(name);
+	g_free(value);
 }
 
 void menu_inspect(GtkTreeSelection *selection)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	const char *name;
+	char *name;
 
 	gtk_tree_selection_get_selected(selection, &model, &iter);
 	gtk_tree_model_get(model, &iter, COLUMN_NAME, &name, -1);
 	inspect_add(name);
+	g_free(name);
 }
 
 void on_menu_display_booleans(const MenuItem *menu_item)

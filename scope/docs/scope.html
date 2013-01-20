@@ -47,6 +47,7 @@
 		<li><a href="#stack">Stack</a></li>
 		<li><a href="#local">Locals</a></li>
 		<li><a href="#watch">Watches</a></li>
+		<li><a href="#memory">Memory</a></li>
 		<li><a href="#local_watch">Locals/Watches</a></li>
 		<li><a href="#console">Debug Console</a></li>
 	</ul></li>
@@ -425,6 +426,19 @@ Any char[] arrays will still be displayed as arrays.</p>
 <p><em>Show .names</em> - display member names. Shift+Click resets it to the value specified
 in <em>Setup Program</em>.</p>
 
+<p><b><a name="memory">Memory</a></b></p>
+
+<p><em>Group by</em> is for visual convinience only and ignores endian.</p>
+
+<p>Groups are not wrapped, so with <em>Group by</em> &gt; 1, less than
+<em>memory_line_bytes</em> may be displayed.</p>
+
+<p>A maximum of 16K may be displayed (128 lines * 128 bytes); <em>gdb_buffer_length</em> also
+limits the size.</p>
+
+<p><em>Memory</em> empty but <em>Clear</em> available means that the subpage can not be
+updated ATM; if you explicitly <em>Clear</em> it, no further updates will take place.</p>
+
 <p><b><a name="console">Debug Console</a></b></p>
 
 <div><table>
@@ -536,6 +550,9 @@ used by the tooltips, or decrease it if they appear slower than your gtk+ settin
 
 <p><em>pref_tooltips_length</em> - maximum length of a tooltip message, 0 = unlimited.
 Default = 2048.</p>
+
+<p><em>memory_line_bytes</em></p> - maximum bytes per <em>Memory</em> line</p>.
+
 
 <p>[terminal] (*nix only)</p>
 
@@ -686,7 +703,7 @@ later version.</p>
 
 <b><a name="copyright">Copyright</a></b>
 
-<p>Scope 0.82, Copyright (C) 2013 Dimitar Toshkov Zhekov</p>
+<p>Scope 0.83, Copyright (C) 2013 Dimitar Toshkov Zhekov</p>
 
 <p>The menu and toolbar icons are from <a href="http://netbeans.org">Netbeans</a>, except for
 BreakPoint.</p>

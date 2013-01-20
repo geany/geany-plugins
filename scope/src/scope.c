@@ -32,7 +32,7 @@ GeanyFunctions *geany_functions;
 PLUGIN_VERSION_CHECK(215)
 
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, _("Scope Debugger"),
-	_("Simple GDB front-end."), "0.82" , "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
+	_("Simple GDB front-end."), "0.83" , "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
 
 /* Keybinding(s) */
 enum
@@ -602,6 +602,7 @@ void plugin_cleanup(void)
 	thread_finalize();
 	break_finalize();
 	memory_finalize();
+	stack_finalize();
 	menu_finalize();
 	views_finalize();
 	utils_finalize();

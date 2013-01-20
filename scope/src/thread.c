@@ -140,10 +140,12 @@ enum
 static gint thread_ident_compare(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b,
 	gpointer gdata)
 {
-	const char *s1, *s2;
+	char *s1, *s2;
+	gint result;
 
 	gtk_tree_model_get(model, a, GPOINTER_TO_INT(gdata), &s1, -1);
 	gtk_tree_model_get(model, b, GPOINTER_TO_INT(gdata), &s2, -1);
+	result = g_strcmp0(s1, s2);
 
 	if (s1 && s2)
 	{
@@ -153,10 +155,12 @@ static gint thread_ident_compare(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIte
 		for (p2 = s2; *p2 && !isdigit(*p2); p2++);
 
 		if (p1 - s1 == p2 - s2 && !memcmp(s1, s2, p1 - s1))
-			return atoi(p1) - atoi(p2);
+			result = atoi(p1) - atoi(p2);
 	}
 
-	return g_strcmp0(s1, s2);
+	g_free(s1);
+	g_free(s2);
+	return result;
 }
 
 static GtkListStore *store;
@@ -188,14 +192,14 @@ static void auto_select_thread(void)
 }
 
 guint thread_count = 0;
-const char *thread_id = NULL;
+char *thread_id = NULL;
 ThreadState thread_state = THREAD_BLANK;
 guint thread_prompt = 0;
 
-const char *thread_group_id(void)
+char *thread_group_id(void)
 {
 	GtkTreeIter iter;
-	const char *gid = NULL;
+	char *gid = NULL;
 
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 		gtk_tree_model_get(model, &iter, THREAD_GROUP_ID, &gid, -1);
@@ -205,7 +209,8 @@ const char *thread_group_id(void)
 
 static void thread_iter_unmark(GtkTreeIter *iter, gpointer gdata)
 {
-	const char *file, *state;
+	char *file;
+	gchar *state;
 	gint line;
 	gboolean stopped;
 
@@ -216,6 +221,9 @@ static void thread_iter_unmark(GtkTreeIter *iter, gpointer gdata)
 
 	if (GPOINTER_TO_INT(gdata) != 2)
 		utils_mark(file, line, FALSE, MARKER_EXECUTE);
+
+	g_free(file);
+	g_free(state);
 }
 
 static void thread_iter_running(GtkTreeIter *iter, const char *tid)
@@ -228,11 +236,15 @@ static void thread_iter_running(GtkTreeIter *iter, const char *tid)
 
 	if (thread_id)
 	{
-		if (!tid)
-			gtk_tree_model_get(model, iter, THREAD_ID, &tid, -1);
+		char *tid1 = g_strdup(tid);
 
-		if (!strcmp(tid, thread_id))
+		if (!tid1)
+			gtk_tree_model_get(model, iter, THREAD_ID, &tid1, -1);
+
+		if (!strcmp(tid1, thread_id))
 			thread_state = THREAD_RUNNING;
+
+		g_free(tid1);
 	}
 }
 
@@ -313,10 +325,12 @@ typedef struct _StopData
 
 static void thread_iter_stopped(GtkTreeIter *iter, StopData *sd)
 {
-	const char *tid = sd->tid, *state, *addr;
+	char *tid = g_strdup(sd->tid), *addr;
+	gchar *state;
 
 	gtk_tree_model_get(model, iter, THREAD_STATE, &state, THREAD_ADDR, &addr,
 		tid ? -1 : THREAD_ID, &tid, -1);
+
 	if (strcmp(state, STOPPED))
 		thread_prompt++;
 	gtk_list_store_set(store, iter, THREAD_STATE, STOPPED, -1);
@@ -336,6 +350,10 @@ static void thread_iter_stopped(GtkTreeIter *iter, StopData *sd)
 		sd->iter = *iter;
 		sd->found = TRUE;
 	}
+
+	g_free(tid);
+	g_free(state);
+	g_free(addr);
 }
 
 static void thread_node_stopped(const ParseNode *node, StopData *sd)
@@ -527,11 +545,12 @@ static void thread_parse(GArray *nodes, const char *tid, gboolean stopped)
 		}
 		else
 		{
-			const gchar *state;
+			gchar *state;
 
 			gtk_tree_model_get(model, &iter, THREAD_STATE, &state, -1);
 			if (strcmp(state, RUNNING))
 				thread_iter_running(&iter, tid);
+			g_free(state);
 		}
 
 		thread_parse_extra(nodes, &iter, "target-id", THREAD_TARGET_ID);
@@ -582,13 +601,14 @@ void on_thread_frame(GArray *nodes)
 
 static void thread_iter_mark(GtkTreeIter *iter, GeanyDocument *doc)
 {
-	const char *file;
+	char *file;
 	gint line;
 
 	gtk_tree_model_get(model, iter, THREAD_FILE, &file, THREAD_LINE, &line, -1);
 
 	if (line && !utils_filenamecmp(file, doc->real_path))
 		sci_set_marker_at_line(doc->editor->sci, line - 1, MARKER_EXECUTE);
+	g_free(file);
 }
 
 void threads_mark(GeanyDocument *doc)
@@ -613,7 +633,7 @@ void threads_delta(ScintillaObject *sci, const char *real_path, gint start, gint
 
 	while (valid)
 	{
-		const char *file;
+		char *file;
 		gint line;
 
 		gtk_tree_model_get(model, &iter, THREAD_FILE, &file, THREAD_LINE, &line, -1);
@@ -621,6 +641,7 @@ void threads_delta(ScintillaObject *sci, const char *real_path, gint start, gint
 		if (--line >= 0 && start <= line && !utils_filenamecmp(file, real_path))
 			utils_move_mark(sci, line, start, delta, MARKER_EXECUTE);
 
+		g_free(file);
 		valid = gtk_tree_model_iter_next(model, &iter);
 	}
 }
@@ -647,17 +668,22 @@ static void on_thread_selection_changed(GtkTreeSelection *selection,
 {
 	GtkTreeIter iter;
 
+	free(thread_id);
+	free(frame_id);
+
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-		const gchar *state;
+		gchar *state;
 		gint line;
-		const char *addr;
+		char *addr;
 
 		gtk_tree_model_get(model, &iter, THREAD_ID, &thread_id, THREAD_STATE, &state,
 			THREAD_LINE, &line, THREAD_ADDR, &addr, -1);
 
 		if (strcmp(state, STOPPED))
+		{
 			thread_state = *state ? THREAD_RUNNING : THREAD_BLANK;
+		}
 		else if (addr)
 		{
 			if (line)
@@ -677,10 +703,14 @@ static void on_thread_selection_changed(GtkTreeSelection *selection,
 			else
 				thread_state = THREAD_QUERY_FRAME;
 		}
+
+		frame_id = strdup("0");
+		g_free(state);
+		g_free(addr);
 	}
 	else
 	{
-		thread_id = NULL;
+		thread_id = frame_id = NULL;
 		thread_state = THREAD_BLANK;
 	}
 
@@ -726,11 +756,12 @@ static void send_signal(int sig)
 
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-		const char *pid;
+		char *pid;
 
 		gtk_tree_model_get(model, &iter, THREAD_PID, &pid, -1);
 		if (kill(atoi(pid), sig) == -1)
 			show_errno("kill(pid)");
+		g_free(pid);
 	}
 	else
 		plugin_beep();
@@ -763,7 +794,7 @@ static void on_thread_send_signal(G_GNUC_UNUSED const MenuItem *menu_item)
 #else  /* G_OS_UNIX */
 static HANDLE iter_to_handle(GtkTreeIter *iter)
 {
-	const char *pid;
+	char *pid;
 	HANDLE hid;
 
 	gtk_tree_model_get(model, iter, THREAD_PID, &pid, -1);
@@ -771,6 +802,7 @@ static HANDLE iter_to_handle(GtkTreeIter *iter)
 	if (!hid)
 		show_errno("OpenProcess");
 
+	g_free(pid);
 	return hid;
 }
 
@@ -833,8 +865,6 @@ static void on_thread_show_core(const MenuItem *menu_item)
 }
 
 #define DS_VIEWABLE (DS_ACTIVE | DS_EXTRA_2)
-#define DS_INTRABLE (DS_ACTIVE | DS_EXTRA_3)
-#define DS_TERMABLE (DS_ACTIVE | DS_EXTRA_3)
 #define DS_SIGNABLE (DS_ACTIVE | DS_EXTRA_3)
 
 static MenuItem thread_menu_items[] =
@@ -843,8 +873,8 @@ static MenuItem thread_menu_items[] =
 	{ "thread_unsorted",          on_thread_unsorted,       0,           NULL, NULL },
 	{ "thread_view_source",       on_thread_view_source,    DS_VIEWABLE, NULL, NULL },
 	{ "thread_synchronize",       on_thread_synchronize,    DS_SENDABLE, NULL, NULL },
-	{ "thread_interrupt",         on_thread_interrupt,      DS_INTRABLE, NULL, NULL },
-	{ "thread_terminate",         on_thread_terminate,      DS_TERMABLE, NULL, NULL },
+	{ "thread_interrupt",         on_thread_interrupt,      DS_SIGNABLE, NULL, NULL },
+	{ "thread_terminate",         on_thread_terminate,      DS_SIGNABLE, NULL, NULL },
 #ifdef G_OS_UNIX
 	{ "thread_send_signal",       on_thread_send_signal,    DS_SIGNABLE, NULL, NULL },
 #endif
@@ -865,10 +895,14 @@ static guint thread_menu_extra_state(void)
 
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-		const char *pid, *file;
+		char *pid, *file;
+		gboolean has_pid;
 
 		gtk_tree_model_get(model, &iter, THREAD_PID, &pid, THREAD_FILE, &file, -1);
-		return ((file != NULL) << DS_INDEX_2) | ((utils_atoi0(pid) > 0) << DS_INDEX_3);
+		has_pid = utils_atoi0(pid) > 0;
+		g_free(pid);
+		g_free(file);
+		return ((file != NULL) << DS_INDEX_2) | (has_pid << DS_INDEX_3);
 	}
 
 	return 0;
@@ -920,4 +954,5 @@ void thread_finalize(void)
 	model_foreach(model, (GFunc) thread_iter_unmark, NULL);
 	array_free(thread_groups, (GFreeFunc) thread_group_free);
 	set_gdb_thread(NULL, FALSE);
+	free(thread_id);
 }

@@ -146,16 +146,16 @@ gchar *array_find(GArray *array, const char *key, G_GNUC_UNUSED gboolean filenam
 gchar *array_find(GArray *array, const char *key, gboolean filename)
 #endif
 {
-	guint i;
-	gchar *data = array->data;
 	guint size = g_array_get_element_size(array);
+	gchar *end = array->data + size * array->len;
+	gchar *data;
 #ifdef G_OS_UNIX
 	int (*const compare)(const char *s1, const char *s2) = strcmp;
 #else
 	int (*compare)(const char *s1, const char *s2) = filename ? utils_str_casecmp : strcmp;
 #endif
 
-	for (i = 0; i < array->len; i++, data += size)
+	for (data = array->data; data < end; data += size)
 		if (!compare(*(const char **) data, key))
 			return data;
 
@@ -164,11 +164,11 @@ gchar *array_find(GArray *array, const char *key, gboolean filename)
 
 void array_foreach(GArray *array, GFunc each_func, gpointer gdata)
 {
-	guint i;
-	gchar *data = array->data;
 	guint size = g_array_get_element_size(array);
+	gchar *end = array->data + size * array->len;
+	gchar *data;
 
-	for (i = 0; i < array->len; i++, data += size)
+	for (data = array->data; data < end; data += size)
 		each_func(data, gdata);
 }
 
@@ -213,11 +213,12 @@ static void utils_clear_sections(GKeyFile *config, const char *prefix, guint i)
 
 void array_save(GArray *array, GKeyFile *config, const gchar *prefix, ASaveFunc save_func)
 {
-	guint i, n = 0;
-	gchar *data = array->data;
 	guint size = g_array_get_element_size(array);
+	gchar *end = array->data + size * array->len;
+	gchar *data;
+	guint n = 0;
 
-	for (i = 0; i < array->len; i++, data += size)
+	for (data = array->data; data < end; data += size)
 	{
 		char *section = g_strdup_printf("%s_%d", prefix, n);
 		n += save_func(config, section, data);
@@ -235,15 +236,24 @@ gboolean model_find(GtkTreeModel *model, GtkTreeIter *iter, guint column, const 
 
 	while (valid)
 	{
+		gboolean match;
 		union
 		{
-			const gchar *s;
+			gchar *s;
 			gint i;
 		} data;
 
 		gtk_tree_model_get(model, iter, column, &data, -1);
 
-		if (string ? g_strcmp0(data.s, key) == 0 : data.i == i)
+		if (string)
+		{
+			match = !g_strcmp0(data.s, key);
+			g_free(data.s);
+		}
+		else
+			match = data.i == i;
+
+		if (match)
 			return TRUE;
 
 		valid = gtk_tree_model_iter_next(model, iter);
@@ -285,18 +295,26 @@ void model_save(GtkTreeModel *model, GKeyFile *config, const gchar *prefix,
 
 gint model_string_compare(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gint column)
 {
-	const gchar *s1, *s2;
+	gchar *s1, *s2;
+	gint result;
 
 	gtk_tree_model_get(model, a, column, &s1, -1);
 	gtk_tree_model_get(model, b, column, &s2, -1);
-	return g_strcmp0(s1, s2);
+	result = g_strcmp0(s1, s2);
+	g_free(s1);
+	g_free(s2);
+	return result;
 }
 
-static int model_atoint(GtkTreeModel *model, GtkTreeIter *iter, gpointer gdata)
+static gint model_atoint(GtkTreeModel *model, GtkTreeIter *iter, gpointer gdata)
 {
-	const gchar *s;
+	gchar *s;
+	gint i;
+
 	gtk_tree_model_get(model, iter, GPOINTER_TO_INT(gdata), &s, -1);
-	return utils_atoi0(s);
+	i = utils_atoi0(s);
+	g_free(s);
+	return i;
 }
 
 gint model_gint_compare(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer gdata)
@@ -565,6 +583,13 @@ gchar *utils_key_file_get_string(GKeyFile *config, const char *section, const ch
 	}
 
 	return string;
+}
+
+void utils_key_file_set_string(GKeyFile *config, const char *section, const char *key,
+	char *value)
+{
+	g_key_file_set_string(config, section, key, value);
+	g_free(value);
 }
 
 gchar *utils_get_utf8_basename(const char *file)

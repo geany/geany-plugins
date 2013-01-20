@@ -87,6 +87,8 @@ void utils_remark(GeanyDocument *doc);  /* NULL -> nop */
 guint utils_parse_sci_color(const gchar *string);
 gboolean utils_key_file_write_to_file(GKeyFile *config, const char *configfile);
 gchar *utils_key_file_get_string(GKeyFile *config, const char *section, const char *key);
+void utils_key_file_set_string(GKeyFile *config, const char *section, const char *key,
+	char *value);  /* frees value */
 gchar *utils_get_utf8_basename(const char *file);
 
 char *utils_7bit_to_locale(char *text);  /* == text */
