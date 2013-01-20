@@ -117,7 +117,7 @@ static GString* convert_to_table_latex(gchar** rows, gboolean header)
 	g_return_val_if_fail(rows != NULL, NULL);
 
 	/* Adding header to replacement */
-	replacement_str = g_string_new("\\begin{tabular}{}\n");
+	replacement_str = g_string_new("\\begin{table}[h]\n\\begin{tabular}{}\n");
 
 	/* Iteration onto rows and building up lines of table for
 	* replacement */
@@ -141,7 +141,7 @@ static GString* convert_to_table_latex(gchar** rows, gboolean header)
 	}
 	/* Adding the footer of table */
 
-	g_string_append(replacement_str, "\\end{tabular}\n");
+	g_string_append(replacement_str, "\\end{tabular}\n\\end{table}");
 	return replacement_str;
 }
 
