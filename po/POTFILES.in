@@ -223,6 +223,7 @@ scope/src/break.c
 scope/src/conterm.c
 scope/src/debug.c
 scope/src/inspect.c
+scope/src/memory.c
 scope/src/menu.c
 scope/src/parse.c
 scope/src/plugme.c
