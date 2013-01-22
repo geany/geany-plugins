@@ -25,6 +25,7 @@ from build.wafutils import build_plugin, target_is_win32
 
 name = 'Scope'
 includes = ['scope/src']
+libraries = []
 
 if target_is_win32(bld):
 	datadir = '${G_PREFIX}/${GEANYPLUGINS_DATADIR}'
