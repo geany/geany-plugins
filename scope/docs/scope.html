@@ -325,7 +325,8 @@ combined with <em>Auto Hide</em> on multi-thread-group programs.</td></tr>
 
 <p><b><a name="threads">Threads</a></b></p>
 
-<p><em>Refresh</em> - will not append or remove threads, only update the currently listed
+<p>The thread list is updated by asynchronous gdb messages. Normally you should not need to
+refresh it, and <em>Refresh</em> won't append or remove threads, only update the current
 ones.</p>
 
 <p><em>Synchronize</em> - refresh and select the current gdb thread. Shift-click:

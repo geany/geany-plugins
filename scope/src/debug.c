@@ -22,7 +22,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "common.h"
+#include <glibconfig.h>
 
 #ifdef G_OS_UNIX
 #include <sys/types.h>
@@ -31,31 +31,42 @@
 #else  /* G_OS_UNIX */
 #include <windows.h>
 
-static int waitpid(HANDLE pid, int *stat_loc)
+#define WNOHANG 0
+
+static int waitpid(HANDLE pid, int *stat_loc, int options)
 {
-	DWORD status;
-
-	if (GetExitCodeProcess(pid, &status))
+	if (options == WNOHANG)
 	{
-		if (status == STILL_ACTIVE)
-			return 0;
+		DWORD status;
 
-		if (stat_loc)
-			*stat_loc = status;
-		return 1;
+		if (GetExitCodeProcess(pid, &status))
+		{
+			if (status == STILL_ACTIVE)
+				return 0;
+
+			if (stat_loc)
+				*stat_loc = status;
+			return 1;
+		}
 	}
 
+	errno = EINVAL;
 	return -1;
 }
-#define waitpid(pid, stat_loc, options) waitpid((pid), (stat_loc))
 
 #define SIGKILL 9
 
 static int kill(HANDLE pid, int sig)
 {
-	return TerminateProcess(pid, sig) ? 0 : -1;
+	if (TerminateProcess(pid, sig))
+		return 0;
+
+	errno = EINVAL;
+	return -1;
 }
 #endif  /* G_OS_UNIX */
+
+#include "common.h"
 
 extern guint thread_count;
 extern guint thread_prompt;

@@ -1162,7 +1162,7 @@ static gboolean on_break_query_tooltip(G_GNUC_UNUSED GtkWidget *widget, gint x, 
 			has_tip = TRUE;
 			g_free(file);
 		}
-		
+
 		if (func)
 		{
 			if (has_tip)

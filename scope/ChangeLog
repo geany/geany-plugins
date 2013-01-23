@@ -1,3 +1,12 @@
+2013-01-22  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/debug.c:
+   Win32 waitpid()/kill() emulation depends on glibconfig.h only and
+   sets errno = EINVAL on error.
+ * wscript_build:
+   Define empty libraries for win32 only.
+
+
 2013-01-20  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/debug.c:
