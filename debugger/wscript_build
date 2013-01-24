@@ -23,7 +23,10 @@
 from build.wafutils import build_plugin
 
 name = 'Debugger'
-includes = ['debugger/src']
+
+includes = ['debugger/src', 'debugger/src/cell_renderers', 
+            'debugger/src/xpm']
+
 libraries = ['VTE', 'UTIL']
 
 pludin_datadir = '${PKGDATADIR}/debugger'
