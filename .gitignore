@@ -23,6 +23,8 @@ Makefile.in
 /build/cache
 /build-aux/
 /build-stamp
+/debugger/localwin32.mk
+/debugger/config.h
 /geanygdb/src/ttyhelper
 /codenames
 /config.guess

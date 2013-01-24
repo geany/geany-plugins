@@ -1,0 +1,25 @@
+CP = copy /y
+/ := $(strip \)
+
+# $/ is used as a portable directory separator
+# strip is used to prevent line wrap
+/ := $(strip \)
+DESTDIR = C:/Program Files/Geany
+-include localwin32.mk
+
+ifndef GEANY
+	GEANY="$DESTDIR"
+endif
+
+DBGPLUG_DATA_DIR="$(GEANY)/share/geany-plugins/debugger"
+
+ifdef MSYS
+	CP = cp
+	RM = rm -f
+	/ = /
+endif
+
+all:
+	$(CP) *.png $(DBGPLUG_DATA_DIR)
+	$(CP) *.gif $(DBGPLUG_DATA_DIR)
+

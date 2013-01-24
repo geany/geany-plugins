@@ -37,10 +37,21 @@ int grantpt(int fd);
 
 #include <string.h>
 #include <unistd.h>
-#include <pty.h>
+
+#if defined _WIN32 || __MINGW32__ || _WIN64 || __MINGW64___
+	#define G_OS_WIN32
+#endif
+
+#ifndef G_OS_WIN32
+	#include <pty.h>
+#endif
+
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
-#include <vte/vte.h>
+
+#ifndef G_OS_WIN32
+	#include <vte/vte.h>
+#endif
 
 #ifdef HAVE_CONFIG_H
 	#include "config.h"
@@ -101,11 +112,13 @@ gpointer			interrupt_data = NULL;
  */
 gboolean exit_pending = FALSE;
 
-/* debug terminal PTY master/slave file descriptors */
-int pty_master, pty_slave;
+#ifndef G_OS_WIN32
+	/* debug terminal PTY master/slave file descriptors */
+	int pty_master, pty_slave;
 
-/* debug terminal widget */
-GtkWidget *terminal = NULL;
+	/* debug terminal widget */
+	GtkWidget *terminal = NULL;
+#endif
 
 /* GtkTextView to put debugger messages */
 static GtkWidget *debugger_messages_textview = NULL;
@@ -802,9 +815,11 @@ static void on_debugger_exited (int code)
 	/* clear stack trace tree */
 	stree_clear();
 
-	/* clear debug terminal */
-	vte_terminal_reset(VTE_TERMINAL(terminal), TRUE, TRUE);
-
+	#ifndef G_OS_WIN32
+		/* clear debug terminal */
+		vte_terminal_reset(VTE_TERMINAL(terminal), TRUE, TRUE);
+	#endif
+	
 	/* clear debug messages window */
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(debugger_messages_textview));
 	gtk_text_buffer_get_bounds(buffer, &start, &end);
@@ -995,33 +1010,37 @@ void debug_init(void)
 		GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(tab_call_stack), stree);
 	
-	/* create debug terminal page */
-	terminal = vte_terminal_new();
-	/* create PTY */
-	openpty(&pty_master, &pty_slave, NULL,
-		    NULL,
-		    NULL);
-	grantpt(pty_master);
-	unlockpt(pty_master);
-	vte_terminal_set_pty(VTE_TERMINAL(terminal), pty_master);
-	scrollbar = gtk_vscrollbar_new(GTK_ADJUSTMENT(VTE_TERMINAL(terminal)->adjustment));
-	GTK_WIDGET_UNSET_FLAGS(scrollbar, GTK_CAN_FOCUS);
-	tab_terminal = gtk_frame_new(NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME(tab_terminal), GTK_SHADOW_NONE);
-	hbox = gtk_hbox_new(FALSE, 0);
-	gtk_container_add(GTK_CONTAINER(tab_terminal), hbox);
-	gtk_box_pack_start(GTK_BOX(hbox), terminal, TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox), scrollbar, FALSE, FALSE, 0);
-	/* set the default widget size first to prevent VTE expanding too much,
-	 * sometimes causing the hscrollbar to be too big or out of view. */
-	gtk_widget_set_size_request(GTK_WIDGET(terminal), 10, 10);
-	vte_terminal_set_size(VTE_TERMINAL(terminal), 30, 1);
-	/* set terminal font. */
-	config = g_key_file_new();
-	configfile = g_strconcat(geany_data->app->configdir, G_DIR_SEPARATOR_S, "geany.conf", NULL);
-	g_key_file_load_from_file(config, configfile, G_KEY_FILE_NONE, NULL);
-	font = utils_get_setting_string(config, "VTE", "font", "Monospace 10");
-	vte_terminal_set_font_from_string (VTE_TERMINAL(terminal), font);	
+	#ifndef G_OS_WIN32
+	
+		/* create debug terminal page */
+		terminal = vte_terminal_new();
+		/* create PTY */
+		openpty(&pty_master, &pty_slave, NULL,
+				NULL,
+				NULL);
+		grantpt(pty_master);
+		unlockpt(pty_master);
+		vte_terminal_set_pty(VTE_TERMINAL(terminal), pty_master);
+		scrollbar = gtk_vscrollbar_new(GTK_ADJUSTMENT(VTE_TERMINAL(terminal)->adjustment));
+		GTK_WIDGET_UNSET_FLAGS(scrollbar, GTK_CAN_FOCUS);
+		tab_terminal = gtk_frame_new(NULL);
+		gtk_frame_set_shadow_type (GTK_FRAME(tab_terminal), GTK_SHADOW_NONE);
+		hbox = gtk_hbox_new(FALSE, 0);
+		gtk_container_add(GTK_CONTAINER(tab_terminal), hbox);
+		gtk_box_pack_start(GTK_BOX(hbox), terminal, TRUE, TRUE, 0);
+		gtk_box_pack_start(GTK_BOX(hbox), scrollbar, FALSE, FALSE, 0);
+		/* set the default widget size first to prevent VTE expanding too much,
+		 * sometimes causing the hscrollbar to be too big or out of view. */
+		gtk_widget_set_size_request(GTK_WIDGET(terminal), 10, 10);
+		vte_terminal_set_size(VTE_TERMINAL(terminal), 30, 1);
+		/* set terminal font. */
+		config = g_key_file_new();
+		configfile = g_strconcat(geany_data->app->configdir, G_DIR_SEPARATOR_S, "geany.conf", NULL);
+		g_key_file_load_from_file(config, configfile, G_KEY_FILE_NONE, NULL);
+		font = utils_get_setting_string(config, "VTE", "font", "Monospace 10");
+		vte_terminal_set_font_from_string (VTE_TERMINAL(terminal), font);
+			
+	#endif
 		
 	/* debug messages page */
 	tab_messages = gtk_scrolled_window_new(NULL, NULL);
@@ -1052,10 +1071,14 @@ void debug_init(void)
  */
 void debug_destroy(void)
 {
-	/* close PTY file descriptors */
-	close(pty_master);
-	close(pty_slave);
-
+	#ifndef G_OS_WIN32
+	
+		/* close PTY file descriptors */
+		close(pty_master);
+		close(pty_slave);
+	
+	#endif
+	
 	/* remove stack markers if present */
 	if (stack)
 	{
@@ -1149,7 +1172,13 @@ void debug_run(void)
 
 		/* init selected debugger  module */
 		active_module = modules[tpage_get_debug_module_index()].module;
-		if(active_module->run(target, commandline, env, watches, breaks, ttyname(pty_slave), &callbacks))
+		const gchar *terminal_device = NULL;
+		
+		#ifndef G_OS_WIN32
+			terminal_device = ttyname(pty_slave);
+		#endif
+		
+		if(active_module->run(target, commandline, env, watches, breaks, terminal_device, &callbacks))
 		{
 			/* set target page - readonly */
 			tpage_set_readonly(TRUE);
@@ -1189,8 +1218,13 @@ void debug_restart(void)
 {
 	if (DBS_STOPPED == debug_state)
 	{
-		/* stop instantly if not running */
-		vte_terminal_reset(VTE_TERMINAL(terminal), TRUE, TRUE);
+		#ifndef G_OS_WIN32
+		
+			/* stop instantly if not running */
+			vte_terminal_reset(VTE_TERMINAL(terminal), TRUE, TRUE);
+		
+		#endif
+		
 		active_module->restart();
 		debug_state = DBS_RUN_REQUESTED;
 	}
