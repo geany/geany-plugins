@@ -22,7 +22,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#include <glibconfig.h>
+#include <glib.h>
 
 #ifdef G_OS_UNIX
 #include <sys/types.h>
