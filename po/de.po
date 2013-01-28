@@ -2,7 +2,7 @@
 # Copyright (C) 2009-2011 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 # Andrew Janke <a.janke@gmail.com>, 2009
-# Frank Lanitz <frank@frank.uvena.de>, 2009-2012
+# Frank Lanitz <frank@frank.uvena.de>, 2009-2013
 # Dominic Hopf <dmaphy@gmail.com>, 2009
 # Michael Spahn <anyone90@googlemail.com>, 2009
 # Fabian Nowak <timystery@arcor.de>, 2012
@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-09 14:44+0200\n"
-"PO-Revision-Date: 2012-07-09 15:06+0100\n"
+"POT-Creation-Date: 2013-01-28 21:33+0100\n"
+"PO-Revision-Date: 2013-01-28 21:37+0100\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
 "Language: de\n"
@@ -36,13 +36,13 @@ msgid "No."
 msgstr "Nein."
 
 #: ../addons/src/ao_bookmarklist.c:341
-#: ../devhelp/src/dhp-object.c:493
+#: ../devhelp/src/dhp-object.c:494
 #: ../devhelp/devhelp/dh-window.c:1142
 msgid "Contents"
 msgstr "Inhalte"
 
 #: ../addons/src/ao_bookmarklist.c:374
-#: ../treebrowser/src/treebrowser.c:614
+#: ../treebrowser/src/treebrowser.c:615
 msgid "Bookmarks"
 msgstr "Lesezeichen"
 
@@ -111,20 +111,20 @@ msgstr "URI öffnen"
 msgid "Copy URI"
 msgstr "URI kopieren"
 
-#: ../addons/src/ao_wrapwords.c:244
+#: ../addons/src/ao_wrapwords.c:249
 msgid "Plugins"
 msgstr "Erweiterungen"
 
-#: ../addons/src/ao_wrapwords.c:255
+#: ../addons/src/ao_wrapwords.c:260
 #, c-format
 msgid "Enclose combo %d"
 msgstr "Kombination %d miteinschließen"
 
-#: ../addons/src/ao_wrapwords.c:271
+#: ../addons/src/ao_wrapwords.c:276
 msgid "Opening Character"
 msgstr "Zeichen am Anfang"
 
-#: ../addons/src/ao_wrapwords.c:278
+#: ../addons/src/ao_wrapwords.c:283
 msgid "Closing Character"
 msgstr "Zeichen am eNDE"
 
@@ -172,7 +172,7 @@ msgstr "XML-Tagging ausführen"
 #: ../geanyvc/src/geanyvc.c:1798
 #: ../geniuspaste/src/geniuspaste.c:140
 #: ../spellcheck/src/scplugin.c:146
-#: ../treebrowser/src/treebrowser.c:1850
+#: ../treebrowser/src/treebrowser.c:1880
 #: ../updatechecker/src/updatechecker.c:253
 msgid "Plugin configuration directory could not be created."
 msgstr "Das Konfigurationsverzeichnis für das Plugin konnte nicht erstellt werden."
@@ -308,6 +308,20 @@ msgstr "Header-Erweiterungen"
 msgid "Implementations extensions"
 msgstr "Implementierungserweiterungen"
 
+#: ../commander/src/commander-plugin.c:39
+#, fuzzy
+msgid "Commander"
+msgstr "Befehl 0:"
+
+#: ../commander/src/commander-plugin.c:40
+msgid "Provides a command panel for quick access to actions, files and more"
+msgstr ""
+
+#: ../commander/src/commander-plugin.c:686
+#, fuzzy
+msgid "Show Command Panel"
+msgstr "Befehlsname"
+
 #: ../debugger/src/plugin.c:56
 msgid "Debugger"
 msgstr "Debugger"
@@ -318,7 +332,8 @@ msgstr "Verschiedene Debugger-Integrationen"
 
 #: ../debugger/src/plugin.c:131
 #: ../debugger/src/keys.c:76
-#: ../geanygdb/src/geanygdb.c:393
+#: ../scope/data/scope.glade.h:125
+#: ../scope/src/scope.c:225
 msgid "Debug"
 msgstr "Debug"
 
@@ -384,20 +399,20 @@ msgstr "Anzahl der Treffer"
 msgid "line %i"
 msgstr "Zeile %i"
 
-#: ../debugger/src/dbm_gdb.c:542
+#: ../debugger/src/dbm_gdb.c:547
 msgid "Program received a signal"
 msgstr "Programm empfing ein Signal"
 
-#: ../debugger/src/dbm_gdb.c:558
+#: ../debugger/src/dbm_gdb.c:563
 #, c-format
 msgid "Program exited with code \"%i\""
 msgstr "Programm beendete mit Code »%i«"
 
-#: ../debugger/src/dbm_gdb.c:730
+#: ../debugger/src/dbm_gdb.c:735
 msgid "Failed to spawn gdb process"
 msgstr "Konnte den gdb-Prozess nicht starten"
 
-#: ../debugger/src/dbm_gdb.c:778
+#: ../debugger/src/dbm_gdb.c:782
 msgid ""
 "~\"Loading target file.\\n"
 "\""
@@ -405,20 +420,20 @@ msgstr ""
 "~\"Zieldatei laden.\\n"
 "\""
 
-#: ../debugger/src/dbm_gdb.c:778
+#: ../debugger/src/dbm_gdb.c:782
 msgid "Error loading file"
 msgstr "Fehler beim Laden der Datei"
 
 #. setting asyncronous mode
 #. setting null-stop array printing
 #. enable pretty printing
-#: ../debugger/src/dbm_gdb.c:782
-#: ../debugger/src/dbm_gdb.c:785
-#: ../debugger/src/dbm_gdb.c:788
+#: ../debugger/src/dbm_gdb.c:786
+#: ../debugger/src/dbm_gdb.c:789
+#: ../debugger/src/dbm_gdb.c:792
 msgid "Error configuring GDB"
 msgstr "Fehler bei der Konfiguration von GDB"
 
-#: ../debugger/src/dbm_gdb.c:831
+#: ../debugger/src/dbm_gdb.c:835
 #, c-format
 msgid ""
 "Breakpoint at %s:%i cannot be set\n"
@@ -463,7 +478,7 @@ msgid "Target"
 msgstr "Ziel"
 
 #: ../debugger/src/tabs.c:135
-#: ../geanygdb/src/gdb-ui-break.c:504
+#: ../scope/data/scope.glade.h:69
 msgid "Breakpoints"
 msgstr "Haltepunkte"
 
@@ -505,23 +520,27 @@ msgstr "Neustarten"
 # Vielleicht besser :) --frlan
 #: ../debugger/src/keys.c:52
 #: ../debugger/src/btnpanel.c:113
+#: ../scope/src/scope.c:67
 msgid "Step into"
 msgstr "Eintreten"
 
 #: ../debugger/src/keys.c:53
 #: ../debugger/src/btnpanel.c:110
+#: ../scope/src/scope.c:68
 msgid "Step over"
 msgstr "Überspringen"
 
 # noch keine Idee  --Dominic
 #: ../debugger/src/keys.c:54
 #: ../debugger/src/btnpanel.c:122
+#: ../scope/src/scope.c:69
 msgid "Step out"
 msgstr "Aussteigen"
 
 # Noch keine Idee hierzu --Dominic
 #: ../debugger/src/keys.c:55
 #: ../debugger/src/btnpanel.c:125
+#: ../scope/src/scope.c:65
 msgid "Run to cursor"
 msgstr "Bis zum Cursor ausführen"
 
@@ -578,7 +597,7 @@ msgstr "Nach \"Tag\"-Dokumentation suchen in"
 #. i18n: Please don't translate "Devhelp" (it's marked as translatable
 #. * for transliteration only)
 #: ../devhelp/src/dhp-object.c:390
-#: ../devhelp/src/dhp-object.c:502
+#: ../devhelp/src/dhp-object.c:503
 #: ../devhelp/devhelp/dh-window.c:727
 #: ../devhelp/devhelp/dh-window.c:1034
 #: ../devhelp/devhelp/dh-window.c:1863
@@ -589,28 +608,28 @@ msgstr "Devhelp"
 msgid "Manual Pages"
 msgstr "Manual-Seiten"
 
-#: ../devhelp/src/dhp-object.c:442
+#: ../devhelp/src/dhp-object.c:443
 msgid "Go back one page"
 msgstr "Eine Seite nach zurück"
 
-#: ../devhelp/src/dhp-object.c:443
+#: ../devhelp/src/dhp-object.c:444
 msgid "Go forward one page"
 msgstr "Eine Seite vor"
 
-#: ../devhelp/src/dhp-object.c:444
+#: ../devhelp/src/dhp-object.c:445
 msgid "Zoom in"
 msgstr "Hineinzoomen"
 
-#: ../devhelp/src/dhp-object.c:445
+#: ../devhelp/src/dhp-object.c:446
 msgid "Zoom out"
 msgstr "Herauszoomen"
 
-#: ../devhelp/src/dhp-object.c:496
+#: ../devhelp/src/dhp-object.c:497
 #: ../devhelp/devhelp/dh-window.c:1152
 msgid "Search"
 msgstr "Suchen"
 
-#: ../devhelp/src/dhp-object.c:1293
+#: ../devhelp/src/dhp-object.c:1305
 #, c-format
 msgid "Search for '%s' Documentation in"
 msgstr "Nach »%s« suchen in der Dokumentation von"
@@ -991,556 +1010,6 @@ msgstr "Dokumentation für aktuelles Wort öffnen"
 #: ../geanydoc/src/geanydoc.c:441
 msgid "Document interactive"
 msgstr "Nach Dokumentationswerkzeug für das aktuelle Wort fragen"
-
-#: ../geanygdb/src/gdb-io-break.c:163
-#, c-format
-msgid "Added breakpoint #%s in %s() at %s:%s\n"
-msgstr "Haltepunkt #%s in %s() bei %s:%s hinzugefügt\n"
-
-#: ../geanygdb/src/gdb-io-break.c:168
-#, c-format
-msgid "Added breakpoint #%s at %s:%s\n"
-msgstr "Haltepunkt #%s bei %s:%s hinzugefügt\n"
-
-# Beobachtungspunkt oder Haltepunkt?
-# Watchpoint = Beobachtungspunkt, Breakpoint=Haltepunkt, das war meine Intention --Dominic
-#: ../geanygdb/src/gdb-io-break.c:180
-#, c-format
-msgid "Added write watchpoint #%s for %s\n"
-msgstr "Beobachtungspunkt für Schreibzugriff #%s für %s hinzugefügt.\n"
-
-# Beobachtungspunkt oder Haltepunkt?
-# Watchpoint = Beobachtungspunkt, Breakpoint=Haltepunkt, das war meine Intention --Dominic
-#: ../geanygdb/src/gdb-io-break.c:189
-#, c-format
-msgid "Added read/write watchpoint #%s for %s\n"
-msgstr "Beobachtungspunkt #%s für Lese- und Schreibzugriff auf %s hinzugefügt\n"
-
-# Beobachtungspunkt oder Haltepunkt?
-# Watchpoint = Beobachtungspunkt, Breakpoint=Haltepunkt, das war meine Intention --Dominic
-#: ../geanygdb/src/gdb-io-break.c:200
-#, c-format
-msgid "Added read watchpoint #%s for %s\n"
-msgstr "Beobachtungspunkt #%s für Lesezugriff auf %s hinzugefügt\n"
-
-#: ../geanygdb/src/gdb-io-break.c:247
-msgid "Watch/breakpoint deleted.\n"
-msgstr "Beobachtungs- bzw. Haltepunkt gelöscht.\n"
-
-# Hinzufügen.. Umschalten.. mh :s
-#: ../geanygdb/src/gdb-io-break.c:271
-msgid "Failed to toggle breakpoint -\n"
-msgstr "Umschalten des Haltepunktes fehlgeschlagen.\n"
-
-#: ../geanygdb/src/gdb-io-break.c:289
-msgid "Watch/breakpoint toggled.\n"
-msgstr "Halte- bzw. Beobachtungspunkt umgeschaltet.\n"
-
-#: ../geanygdb/src/gdb-io-break.c:303
-msgid "Watch/breakpoint modified.\n"
-msgstr "Beobachtungs-/Haltepunkt geändert.\n"
-
-#: ../geanygdb/src/gdb-io-envir.c:136
-msgid "Failed to retrieve source search path setting from GDB."
-msgstr "Konnte den Quelltext-Suchpfad für GDB nicht finden."
-
-#: ../geanygdb/src/gdb-io-envir.c:157
-msgid "Failed to retrieve executable search path setting from GDB."
-msgstr "Konnte den GDB-Suchpfad für ausführbare Dateien nicht finden."
-
-#: ../geanygdb/src/gdb-io-envir.c:179
-msgid "Failed to retrieve working directory setting from GDB."
-msgstr "Konnte das Arbeitsverzeichnis von GDB nicht finden."
-
-#: ../geanygdb/src/gdb-io-frame.c:504
-msgid "Field list too long, not all items can be displayed.\n"
-msgstr "Die Liste der Felder ist zu lang, so dass nicht alle Einträge angezeigt werden können.\n"
-
-#: ../geanygdb/src/gdb-io-read.c:240
-msgid "Error starting target process!\n"
-msgstr "Fehler beim Starten des Zielprozesses!\n"
-
-#: ../geanygdb/src/gdb-io-read.c:285
-msgid "This executable does not appear to contain the required debugging information."
-msgstr "Die ausführbare Datei scheint keine Debug-Informationen zu enthalten."
-
-# Bitte die Erklärung noch mit hinzufügen: %s's have following meaning (in this order):
-# signal_name, signal_meaning, addr, func, file, line
-#: ../geanygdb/src/gdb-io-read.c:549
-#, c-format
-msgid "Program received signal %s (%s) at %s in function %s() at %s:%s"
-msgstr "Signal %s (%s) empfangen an %s. Funktion %s() in %s:%s"
-
-#: ../geanygdb/src/gdb-io-read.c:600
-#, c-format
-msgid "Watchpoint #%s out of scope"
-msgstr "Beobachtungspunkt #%s außerhalb des sichtbaren Bereichs."
-
-#: ../geanygdb/src/gdb-io-read.c:609
-#, c-format
-msgid "Program exited on signal %s (%s).\n"
-msgstr "Das Programm wurde mit Signal %s (%s) beendet.\n"
-
-#: ../geanygdb/src/gdb-io-read.c:611
-msgid "Unknown signal"
-msgstr "Unbekanntes Signal"
-
-#: ../geanygdb/src/gdb-io-read.c:628
-#, c-format
-msgid "Program exited with code %d [%s]\n"
-msgstr "Programm beendete mit Code %d [%s]\n"
-
-#: ../geanygdb/src/gdb-io-read.c:629
-msgid "(unknown)"
-msgstr "(unbekannt)"
-
-#: ../geanygdb/src/gdb-io-read.c:635
-msgid "Program exited normally.\n"
-msgstr "Programm wurde normal beendet.\n"
-
-#: ../geanygdb/src/gdb-io-run.c:290
-msgid "tty temporary directory not specified!\n"
-msgstr "Kein temporäres Verzeichnis für TTY festgelegt!\n"
-
-#: ../geanygdb/src/gdb-io-run.c:295
-msgid "tty temporary directory not found!\n"
-msgstr "Konnte temporäres Verzeichnis für TTY nicht finden!\n"
-
-#: ../geanygdb/src/gdb-io-run.c:314
-msgid "tty helper program not specified!\n"
-msgstr "TTY-Helfer-Programm wurde nicht definiert!\n"
-
-#: ../geanygdb/src/gdb-io-run.c:321
-msgid "tty helper program not found!\n"
-msgstr "Das Terminal-Helfer-Programm (TTY) konnte nicht gefunden werden!\n"
-
-# wtf O.o
-#: ../geanygdb/src/gdb-io-run.c:374
-#, c-format
-msgid "Attaching to terminal %s\n"
-msgstr "An Terminal %s anhängen\n"
-
-#: ../geanygdb/src/gdb-io-run.c:389
-msgid "Timeout waiting for TTY name.\n"
-msgstr "Zeitüberschreitung beim Warten auf das Terminal.\n"
-
-#: ../geanygdb/src/gdb-io-run.c:438
-#, c-format
-msgid "GDB exited (pid=%d)\n"
-msgstr "GDB mit PID %d beendet.\n"
-
-#: ../geanygdb/src/gdb-io-run.c:540
-#, c-format
-msgid "Target process exited. (pid=%d; %s%s)\n"
-msgstr "Der Zielprozess wurde beendet. (pid=%d; %s%s)\n"
-
-#: ../geanygdb/src/gdb-io-run.c:542
-msgid "code="
-msgstr "code="
-
-#: ../geanygdb/src/gdb-io-run.c:542
-msgid "reason:"
-msgstr "Grund:"
-
-#: ../geanygdb/src/gdb-io-run.c:608
-#: ../geanygdb/src/gdb-io-run.c:673
-#, c-format
-msgid "Directory %s not found!\n"
-msgstr "Verzeichnis »%s« nicht gefunden!\n"
-
-#: ../geanygdb/src/gdb-io-run.c:613
-msgid "Shutting down target program.\n"
-msgstr "Beende Zielprogramm.\n"
-
-#: ../geanygdb/src/gdb-io-run.c:620
-msgid "Killing target program.\n"
-msgstr "Töte Zielprogramm.\n"
-
-#: ../geanygdb/src/gdb-io-run.c:628
-msgid "Timeout waiting for target process.\n"
-msgstr "Fehler beim Warten auf Beenden des Ziel-Prozesses.\n"
-
-# Yeah! .. Wenn man nur einen Hammer hat, sieht jedes Problem wie ein
-# Nagel aus ...
-#: ../geanygdb/src/gdb-io-run.c:631
-msgid "Using a bigger hammer!\n"
-msgstr "Zücke den großen Hammer!\n"
-
-#: ../geanygdb/src/gdb-io-run.c:645
-msgid "Waiting for target process to exit.\n"
-msgstr "Warte auf Beenden des Zielprogrammes.\n"
-
-#: ../geanygdb/src/gdb-io-run.c:681
-#, c-format
-msgid "Killing GDB (pid=%d)\n"
-msgstr "Töte GDB (pid=%d)\n"
-
-# Timeout=Auszeit?
-# Nope. Zeitüberschreitung passt.
-#: ../geanygdb/src/gdb-io-run.c:695
-msgid "Timeout trying to kill GDB.\n"
-msgstr "Zeitüberschreitung beim Versuch, GDB zu töten.\n"
-
-#: ../geanygdb/src/gdb-io-run.c:705
-msgid "Shutting down GDB\n"
-msgstr "Beende GDB\n"
-
-#: ../geanygdb/src/gdb-io-run.c:718
-msgid "Waiting for GDB to exit.\n"
-msgstr "Warte auf das Beenden von GDB.\n"
-
-#: ../geanygdb/src/gdb-io-run.c:726
-msgid "Timeout waiting for GDB to exit.\n"
-msgstr "Zeitüberschreitung beim Beenden von GDB.\n"
-
-#: ../geanygdb/src/gdb-io-run.c:794
-#, c-format
-msgid "Starting gdb (pid=%d)\n"
-msgstr "Starte gdb (pid=%d)\n"
-
-#: ../geanygdb/src/gdb-io-run.c:856
-#, c-format
-msgid "Started target process. (pid=%d)\n"
-msgstr "Zielprozess gestartet. (pid=%d)\n"
-
-#: ../geanygdb/src/gdb-ui-break.c:119
-#, c-format
-msgid "No %s selected"
-msgstr "Kein %s ausgewählt"
-
-#: ../geanygdb/src/gdb-ui-break.c:119
-msgid "watchpoint"
-msgstr "Beobachtungspunkt"
-
-#: ../geanygdb/src/gdb-ui-break.c:119
-msgid "breakpoint"
-msgstr "Haltepunkt"
-
-#: ../geanygdb/src/gdb-ui-break.c:125
-msgid "Delete selected watchpoint?"
-msgstr "Ausgewählter Beobachtungspunkt entfernen"
-
-#: ../geanygdb/src/gdb-ui-break.c:125
-msgid "Delete selected breakpoint?"
-msgstr "Ausgewählten Haltepunkt löschen?"
-
-#: ../geanygdb/src/gdb-ui-break.c:153
-msgid "Edit watchpoint"
-msgstr "Beobachtungspunkt bearbeiten"
-
-#: ../geanygdb/src/gdb-ui-break.c:153
-msgid "Edit breakpoint"
-msgstr "Haltepunkt bearbeiten"
-
-#: ../geanygdb/src/gdb-ui-break.c:163
-msgid "Enabled"
-msgstr "Aktiviert"
-
-#: ../geanygdb/src/gdb-ui-break.c:169
-msgid "Break after "
-msgstr "Anhalten nach "
-
-#: ../geanygdb/src/gdb-ui-break.c:176
-msgid " times."
-msgstr " mal."
-
-#: ../geanygdb/src/gdb-ui-break.c:181
-msgid "Break when "
-msgstr " Anhalten wenn "
-
-#: ../geanygdb/src/gdb-ui-break.c:188
-msgid " is true."
-msgstr " ist wahr."
-
-#: ../geanygdb/src/gdb-ui-break.c:253
-msgid "Add watchpoint"
-msgstr "Beobachtungspunkt hinzufügen"
-
-#: ../geanygdb/src/gdb-ui-break.c:253
-msgid "Add breakpoint"
-msgstr "Haltepunkt hinzufügen"
-
-#: ../geanygdb/src/gdb-ui-break.c:504
-msgid "Watchpoints"
-msgstr "Beobachtungspunkte"
-
-#: ../geanygdb/src/gdb-ui-envir.c:94
-msgid "Environment settings"
-msgstr "Umgebungseinstellungen"
-
-#: ../geanygdb/src/gdb-ui-envir.c:116
-msgid ""
-"\n"
-" Command-line arguments passed to target program:"
-msgstr ""
-"\n"
-"Kommandozeilenargumente für das Zielprogramm:"
-
-#: ../geanygdb/src/gdb-ui-envir.c:117
-msgid ""
-"\n"
-" Search path for source files:"
-msgstr ""
-"\n"
-"Suchpfad für Quelltexte:"
-
-#: ../geanygdb/src/gdb-ui-envir.c:118
-msgid ""
-"\n"
-" Working directory for target program:"
-msgstr ""
-"\n"
-"Arbeitsverzeichnis für das Zielprogramm:"
-
-#: ../geanygdb/src/gdb-ui-envir.c:119
-msgid ""
-"\n"
-" Search path for executables:"
-msgstr ""
-"\n"
-"Suchpfad für ausführbare Dateien:"
-
-#: ../geanygdb/src/gdb-ui-envir.c:162
-#: ../geanylua/gsdlg.c:226
-msgid "Select Font"
-msgstr "Schriftart auswählen"
-
-#: ../geanygdb/src/gdb-ui-envir.c:184
-#: ../geanyprj/src/menu.c:408
-#: ../geanyprj/src/sidebar.c:216
-msgid "Preferences"
-msgstr "Einstellungen"
-
-#: ../geanygdb/src/gdb-ui-envir.c:200
-msgid "Keep debug window on top."
-msgstr "Debugger-Fenster im Vordergrund halten."
-
-#: ../geanygdb/src/gdb-ui-envir.c:202
-msgid "Show tooltips."
-msgstr "Tooltips anzeigen."
-
-#: ../geanygdb/src/gdb-ui-envir.c:203
-msgid "Show icons."
-msgstr "Symbole anzeigen."
-
-#: ../geanygdb/src/gdb-ui-envir.c:208
-msgid "Font for source code listings:"
-msgstr "Schriftart für die Quelltext-Anzeige"
-
-#: ../geanygdb/src/gdb-ui-envir.c:220
-msgid "Terminal program:"
-msgstr "Terminal-Programm:"
-
-#: ../geanygdb/src/gdb-ui-frame.c:141
-msgid "_Examine"
-msgstr "_Prüfen"
-
-#: ../geanygdb/src/gdb-ui-frame.c:291
-msgid "Object info"
-msgstr "Objektinformationen"
-
-#: ../geanygdb/src/gdb-ui-frame.c:298
-msgid "Elements"
-msgstr "Elemente"
-
-#: ../geanygdb/src/gdb-ui-frame.c:298
-msgid "Fields"
-msgstr "Felder"
-
-#: ../geanygdb/src/gdb-ui-frame.c:306
-msgid "Return to previous dialog."
-msgstr "Zum vorherigen Dialog zurückkehren."
-
-#: ../geanygdb/src/gdb-ui-frame.c:311
-#: ../geanygdb/src/gdb-ui-frame.c:385
-msgid "Display additional information about the selected item."
-msgstr "Zusätzliche Information zum ausgewählten Eintrag anzeigen"
-
-# Das ist der Titel eines Fensters, welches man wahrscheinlich nicht oder nur selten zu Gesicht bekommt.
-#: ../geanygdb/src/gdb-ui-frame.c:358
-msgid "Frame info"
-msgstr "Rahmeninfo"
-
-# Hab ich noch keine Idee zu --Dominic
-#: ../geanygdb/src/gdb-ui-frame.c:361
-#, c-format
-msgid ""
-"\n"
-"Frame #%s in %s() at %s:%s\n"
-msgstr ""
-"\n"
-"Rahmen #%s in %s() bei %s:%s\n"
-
-#: ../geanygdb/src/gdb-ui-frame.c:371
-msgid "Function arguments"
-msgstr "Funktionsargumente"
-
-#: ../geanygdb/src/gdb-ui-frame.c:375
-msgid "Local variables"
-msgstr "Lokale Variablen"
-
-# :S
-#: ../geanygdb/src/gdb-ui-frame.c:380
-msgid "Return to stack list dialog."
-msgstr "Zurück zum Stapel."
-
-#: ../geanygdb/src/gdb-ui-frame.c:592
-msgid "Stack trace"
-msgstr "Aufrufliste"
-
-#: ../geanygdb/src/gdb-ui-frame.c:609
-msgid "Display additional information about the selected frame."
-msgstr "Zusätzliche Informationen zum ausgewählten Rahmen anzeigen"
-
-#: ../geanygdb/src/gdb-ui-locn.c:67
-msgid "Clea_r"
-msgstr "_Leeren"
-
-#: ../geanygdb/src/gdb-ui-locn.c:82
-msgid "Filename: "
-msgstr "Dateiname: "
-
-#: ../geanygdb/src/gdb-ui-locn.c:95
-msgid "Variable to watch:"
-msgstr "Zu beobachtende Variable:"
-
-#: ../geanygdb/src/gdb-ui-locn.c:96
-msgid "Line number or function name: "
-msgstr "Zeilennummer oder Funktionsname: "
-
-#: ../geanygdb/src/gdb-ui-locn.c:137
-msgid "Access trigger:"
-msgstr "Auslöser für den Zugriff:"
-
-#: ../geanygdb/src/gdb-ui-main.c:176
-msgid "(no program)"
-msgstr "(kein Programm)"
-
-#: ../geanygdb/src/gdb-ui-main.c:190
-msgid "loaded"
-msgstr "geladen"
-
-#: ../geanygdb/src/gdb-ui-main.c:195
-msgid "starting"
-msgstr "startet"
-
-#: ../geanygdb/src/gdb-ui-main.c:202
-msgid "running"
-msgstr "läuft"
-
-#: ../geanygdb/src/gdb-ui-main.c:223
-msgid "stopped"
-msgstr "unterbrochen"
-
-#: ../geanygdb/src/gdb-ui-main.c:237
-msgid "terminated"
-msgstr "abgebrochen"
-
-#: ../geanygdb/src/gdb-ui-main.c:274
-msgid "paused"
-msgstr "pausiert"
-
-#: ../geanygdb/src/gdb-ui-main.c:283
-msgid "Program received signal:"
-msgstr "Programm erhielt Signal:"
-
-#: ../geanygdb/src/gdb-ui-main.c:352
-msgid "Error:"
-msgstr "Fehler:"
-
-#: ../geanygdb/src/gdb-ui-main.c:528
-msgid "Select executable to debug"
-msgstr "Zielprogrammdatei auswählen"
-
-#: ../geanygdb/src/gdb-ui-main.c:560
-msgid "Debugging of object files is not supported."
-msgstr "Das Debuggen von Objektdateien wird nicht unterstützt."
-
-#: ../geanygdb/src/gdb-ui-main.c:602
-msgid "You don't have permission to execute this file."
-msgstr "Keine Berechtigungen, die Datei auszuführen."
-
-#: ../geanygdb/src/gdb-ui-main.c:608
-msgid "Debugging of shared libraries is not supported."
-msgstr "Das Debuggen von Bibliotheken wird nicht unterstützt."
-
-#: ../geanygdb/src/gdb-ui-main.c:613
-msgid "Debugging of core files id not supported."
-msgstr "Das Debuggen von Core-Dateien wird nicht unterstützt."
-
-#: ../geanygdb/src/gdb-ui-main.c:618
-msgid "Target file must be ELF 32-bit x86 executable."
-msgstr "Die Zieldatei muss im ELF 32-bit x86 Format vorliegen."
-
-#: ../geanygdb/src/gdb-ui-main.c:624
-msgid "You don't have permission to read this file."
-msgstr "Sie haben keine Berechtigungen, diese Datei zu lesen."
-
-# Noch keine Idee hierzu --Dominic
-#: ../geanygdb/src/gdb-ui-main.c:741
-msgid "Run to location"
-msgstr "Gehe zu Ort"
-
-#: ../geanygdb/src/gdb-ui-main.c:920
-msgid "no program"
-msgstr "Kein Programm"
-
-#: ../geanygdb/src/gdb-ui-main.c:975
-msgid "Run in terminal"
-msgstr "In Terminal ausführen"
-
-#: ../geanygdb/src/gdb-ui-main.c:977
-msgid "Execute target program inside a terminal window."
-msgstr "Zielprogramm in einem Terminal ausführen"
-
-#: ../geanygdb/src/gdb-ui-main.c:980
-msgid "Ignore SIGPIPE"
-msgstr "SIGPIPE ignorieren"
-
-#: ../geanygdb/src/gdb-ui-main.c:982
-msgid ""
-"Don't pause execution when target gets a SIGPIPE signal.\n"
-"(Useful for certain networking applications.)"
-msgstr ""
-"Die Ausführung des Programms nicht unterbrechen, wenn das Signal SIGPIPE empfangen wird.\n"
-"(Nützlich bei einigen Netzwerkanwendungen)"
-
-#: ../geanygdb/src/gdb-ui-main.c:989
-msgid "Console:"
-msgstr "Konsole:"
-
-#: ../geanygdb/src/gdb-ui-main.c:990
-msgid "Send a GDB command directly to the debugger."
-msgstr "Sendet einen GDB-Befehl direkt an den Debugger."
-
-#: ../geanygdb/src/gdb-ui-main.c:1046
-msgid "_Quit"
-msgstr "_Beenden"
-
-#: ../geanygdb/src/gdb-ui-main.c:1046
-msgid "Exit everything"
-msgstr "Alles beenden"
-
-#: ../geanygdb/src/geanygdb.c:41
-msgid "GeanyGDB"
-msgstr "GeanyGDB"
-
-#: ../geanygdb/src/geanygdb.c:41
-msgid "Integrated debugging with GDB."
-msgstr "Debugging mit GDB integriert in Geany"
-
-#: ../geanygdb/src/geanygdb.c:334
-#, c-format
-msgid "Plugin configuration directory (%s) could not be created."
-msgstr "Plugin-Konfigurationsverzeichnis (%s) konnte nicht erstellt werden."
-
-#: ../geanygdb/src/geanygdb.c:351
-msgid "geanygdb: ttyhelper program not found."
-msgstr "GeanyGDB: TTY-Helfer-Programm nicht gefunden."
-
-#: ../geanygdb/src/geanygdb.c:382
-msgid "Debu_g"
-msgstr "Debu_g"
 
 #: ../geanyextrasel/src/extrasel.c:34
 msgid "Extra Selection"
@@ -2077,7 +1546,7 @@ msgid "Environment:"
 msgstr "Umgebung:"
 
 # Irgendwie seh ich doppelt.
-#: ../geanylatex/src/latexutils.c:88
+#: ../geanylatex/src/latexutils.c:87
 #, c-format
 msgid ""
 "Could not determine where to insert package: %s\n"
@@ -2087,7 +1556,7 @@ msgstr ""
 "Bitte das Glück manuell versuchen!"
 
 # Irgendwie seh ich doppelt.
-#: ../geanylatex/src/latexutils.c:90
+#: ../geanylatex/src/latexutils.c:89
 #, c-format
 msgid "Could not determine where to insert package: %s"
 msgstr "Konnte nicht genau feststellen, wohin das Paket »%s« eingefügt werden soll."
@@ -2499,7 +1968,9 @@ msgstr "LaTeX-Assistent"
 #. Templates
 #. *  Adds custom templates if there are any. If there are none just
 #. *  adds default one
+#. TEMPLATE FILE
 #: ../geanylatex/src/geanylatex.c:1731
+#: ../markdown/src/conf.c:653
 msgid "Template:"
 msgstr "Vorlage:"
 
@@ -2787,6 +2258,7 @@ msgid "A small dialog to insert \\usepackage{} into header of current file"
 msgstr "Eine kleine Hilfe, um \\usepackage{} in den Kopf des Dokumentes einzufügen."
 
 #: ../geanylatex/src/geanylatex.c:2166
+#: ../scope/data/scope.glade.h:58
 msgid "_Format"
 msgstr "_Format"
 
@@ -3141,6 +2613,10 @@ msgstr "Farbe auswählen"
 msgid "Choose..."
 msgstr "Auswählen..."
 
+#: ../geanylua/gsdlg.c:226
+msgid "Select Font"
+msgstr "Schriftart auswählen"
+
 #: ../geanylua/gsdlg.c:253
 msgid "Select..."
 msgstr "Auswählen..."
@@ -3338,7 +2814,8 @@ msgid "Delete up to end of word to the Right"
 msgstr "Bis zum Ende des rechtsseitigen Wortes löschen"
 
 #: ../geanymacro/src/geanymacro.c:67
-msgid "Delete to begining of line"
+#, fuzzy
+msgid "Delete to beginning of line"
 msgstr "Bis zum Anfang der Zeile löschen"
 
 #: ../geanymacro/src/geanymacro.c:68
@@ -3426,7 +2903,8 @@ msgid "Move Cursor down one Page"
 msgstr "Cursor eine Seite nach unten bewegen"
 
 #: ../geanymacro/src/geanymacro.c:91
-msgid "Move Cursor to fist visible character"
+#, fuzzy
+msgid "Move Cursor to first visible character"
 msgstr "Cursor zu erstem sichtbaren Zeichen bewegen"
 
 #: ../geanymacro/src/geanymacro.c:92
@@ -3438,7 +2916,8 @@ msgid "Move Cursor to 1st non-whitespace character of line, or 1st character of 
 msgstr "Cursor zu erstem Zeichen der Zeile bewegen, das kein Whitespace ist, oder zum ersten Zeichen überhaupt, wenn schon beim ersten Nicht-Whitespace-Zeichen."
 
 #: ../geanymacro/src/geanymacro.c:95
-msgid "Move Cursor to begining of next paragraph"
+#, fuzzy
+msgid "Move Cursor to beginning of next paragraph"
 msgstr "Cursor zum Anfang des Absatzes bewegen"
 
 #: ../geanymacro/src/geanymacro.c:96
@@ -3522,7 +3001,8 @@ msgid "Extend Selection to 1st non-whitespace character of line, or 1st characte
 msgstr "Auswahl bis zu erstem Zeichen der Zeile erweitern, das kein Whitespace ist, oder bis zum ersten Zeichen überhaupt, wenn schon beim ersten Nicht-Whitespace-Zeichen."
 
 #: ../geanymacro/src/geanymacro.c:118
-msgid "Extend Selection to begining of next paragraph"
+#, fuzzy
+msgid "Extend Selection to beginning of next paragraph"
 msgstr "Auswahl bis zu Anfang des nächsten Absatzes erweitern"
 
 #: ../geanymacro/src/geanymacro.c:119
@@ -4225,8 +3705,8 @@ msgid "a key with fingerprint"
 msgstr "ein Schlüssel mit Fingerabdruck"
 
 #: ../geanypg/src/verify_aux.c:66
-#: ../spellcheck/src/gui.c:500
-#: ../spellcheck/src/gui.c:511
+#: ../spellcheck/src/gui.c:522
+#: ../spellcheck/src/gui.c:533
 msgid "unknown"
 msgstr "Unbekannt"
 
@@ -4386,19 +3866,19 @@ msgstr "ja"
 msgid "no"
 msgstr "nein"
 
-#: ../geanypg/src/verify_aux.c:177
+#: ../geanypg/src/verify_aux.c:175
 msgid "Found a signature from"
 msgstr "Unterschrift von: "
 
-#: ../geanypg/src/verify_aux.c:180
+#: ../geanypg/src/verify_aux.c:178
 msgid "Signature"
 msgstr "Signatur"
 
-#: ../geanypg/src/verify_aux.c:203
+#: ../geanypg/src/verify_aux.c:201
 msgid "Could not find verification results"
 msgstr "Konnte keine Ergebnisse der Verifizierung finden. "
 
-#: ../geanypg/src/verify_aux.c:204
+#: ../geanypg/src/verify_aux.c:202
 msgid "Error, could not find verification results"
 msgstr "Fehler: Konnte keine Resultate der Verifikation finden."
 
@@ -4439,6 +3919,7 @@ msgid "C_reate"
 msgstr "_Erstellen"
 
 #: ../geanyprj/src/menu.c:123
+#: ../scope/data/scope.glade.h:116
 msgid "Name:"
 msgstr "Name:"
 
@@ -4492,6 +3973,11 @@ msgstr "Projekt löschen"
 #: ../geanyprj/src/sidebar.c:194
 msgid "Add File"
 msgstr "Datei hinzufügen"
+
+#: ../geanyprj/src/menu.c:408
+#: ../geanyprj/src/sidebar.c:216
+msgid "Preferences"
+msgstr "Einstellungen"
 
 #: ../geanyprj/src/menu.c:419
 #: ../geanyprj/src/sidebar.c:229
@@ -4957,11 +4443,11 @@ msgstr "Änderungen übertragen."
 msgid "Paste your code on your favorite pastebin"
 msgstr "Quelltexte bei bevorzugter Code-Ablagestelle hinterlegen"
 
-#: ../geniuspaste/src/geniuspaste.c:223
+#: ../geniuspaste/src/geniuspaste.c:222
 msgid "Refusing to create blank paste"
 msgstr "Ein leeres Dokument kann nicht hochgeladen werden."
 
-#: ../geniuspaste/src/geniuspaste.c:339
+#: ../geniuspaste/src/geniuspaste.c:341
 msgid ""
 "Unable to paste the code on codepad.org\n"
 "Retry or select another pastebin."
@@ -4969,18 +4455,18 @@ msgstr ""
 "Kann den Code nicht auf codepad.org ablegen.\n"
 "Versuchen Sie es erneut oder wählen Sie eine andere Ablagestelle aus."
 
-#: ../geniuspaste/src/geniuspaste.c:394
+#: ../geniuspaste/src/geniuspaste.c:393
 msgid "Paste Successful"
 msgstr "Das Hochladen war erfolgreich."
 
-#: ../geniuspaste/src/geniuspaste.c:396
+#: ../geniuspaste/src/geniuspaste.c:395
 #, c-format
 msgid ""
 "Your paste can be found here:\n"
 "<a href=\"%s\" title=\"Click to open the paste in your browser\">%s</a>"
 msgstr "Der gesendete Inhalt kann jetzt hier betrachtet werden: <a href=\"%s\" title=\"Klicken, um im Browser betrachtet zu werden\">%s</a>"
 
-#: ../geniuspaste/src/geniuspaste.c:404
+#: ../geniuspaste/src/geniuspaste.c:403
 #, c-format
 msgid ""
 "Unable to paste the code. Check your connection and retry.\n"
@@ -4989,27 +4475,27 @@ msgstr ""
 "Kann den Code nicht ablegen. Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.\n"
 "Fehlercode: %d\n"
 
-#: ../geniuspaste/src/geniuspaste.c:419
+#: ../geniuspaste/src/geniuspaste.c:416
 msgid "There are no opened documents. Open one and retry.\n"
 msgstr "Momentan sind keine Dokumente geöffnet. Öffnen Sie eines und versuchen Sie es erneut.\n"
 
-#: ../geniuspaste/src/geniuspaste.c:432
+#: ../geniuspaste/src/geniuspaste.c:429
 msgid "The author name field is empty!"
 msgstr "Der Autorenname ist leer"
 
-#: ../geniuspaste/src/geniuspaste.c:451
+#: ../geniuspaste/src/geniuspaste.c:448
 msgid "Select a pastebin:"
 msgstr "Code-Ablagestelle:"
 
-#: ../geniuspaste/src/geniuspaste.c:454
+#: ../geniuspaste/src/geniuspaste.c:451
 msgid "Enter the author name:"
 msgstr "Autorenname:"
 
-#: ../geniuspaste/src/geniuspaste.c:469
+#: ../geniuspaste/src/geniuspaste.c:466
 msgid "Show your paste in a new browser tab"
 msgstr "Code-Ablage in einem neuen Reiter im Browser zeigen"
 
-#: ../geniuspaste/src/geniuspaste.c:491
+#: ../geniuspaste/src/geniuspaste.c:488
 msgid "_Paste it!"
 msgstr "Zu _Pastebin senden"
 
@@ -5112,12 +4598,12 @@ msgid "Reload all"
 msgstr "Alle neuladen"
 
 #: ../gproject/src/gproject-sidebar.c:711
-#: ../treebrowser/src/treebrowser.c:1281
+#: ../treebrowser/src/treebrowser.c:1282
 msgid "Expand all"
 msgstr "Alle ausklappen"
 
 #: ../gproject/src/gproject-sidebar.c:717
-#: ../treebrowser/src/treebrowser.c:1285
+#: ../treebrowser/src/treebrowser.c:1286
 msgid "Collapse all"
 msgstr "Alle einklappen"
 
@@ -5130,9 +4616,58 @@ msgid "Expand All"
 msgstr "Alle ausklappen"
 
 #: ../gproject/src/gproject-sidebar.c:783
-#: ../treebrowser/src/treebrowser.c:1233
+#: ../treebrowser/src/treebrowser.c:1234
 msgid "Find in Files"
 msgstr "In Dateien finden"
+
+#. POSITION OF VIEW
+#: ../markdown/src/conf.c:557
+#, fuzzy
+msgid "Position:"
+msgstr "Bedingung"
+
+#: ../markdown/src/conf.c:563
+#, fuzzy
+msgid "Sidebar"
+msgstr "Seitenleiste"
+
+#: ../markdown/src/conf.c:571
+#, fuzzy
+msgid "Message Window"
+msgstr "Meldungsfenster _verstecken"
+
+#: ../markdown/src/conf.c:585
+msgid "Font:"
+msgstr "Schriftart:"
+
+#: ../markdown/src/conf.c:603
+msgid "Code Font:"
+msgstr "Editor-Schriftart"
+
+#: ../markdown/src/conf.c:621
+msgid "BG Color:"
+msgstr "Hintergrundfarbe:"
+
+#: ../markdown/src/conf.c:638
+msgid "FG Color:"
+msgstr "Vordergrundfarbe"
+
+#: ../markdown/src/conf.c:657
+#, fuzzy
+msgid "Select Template File"
+msgstr "Auswählen bis Zeile"
+
+#: ../markdown/src/plugin.c:33
+msgid "Real-time Markdown preview"
+msgstr "Echtzeit Markdown-Vorschau"
+
+#: ../markdown/src/plugin.c:49
+msgid "Markdown Preview"
+msgstr "Markdown-Vorschau"
+
+#: ../markdown/src/plugin.c:160
+msgid "The current document does not have a Markdown filetype."
+msgstr "Das aktuelle Dokument ist nicht vom Markdown-Dateityp."
 
 #: ../pretty-printer/src/PluginEntry.c:37
 msgid "XML PrettyPrinter"
@@ -5224,6 +4759,875 @@ msgstr "Leerzeichen"
 msgid "Line break"
 msgstr "Zeilenumbruch"
 
+#: ../scope/data/scope.glade.h:1
+msgid "Debu_g"
+msgstr "Debu_g"
+
+#: ../scope/data/scope.glade.h:2
+msgid "_Setup Program"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:3
+#, fuzzy
+msgid "Recent _Programs"
+msgstr "Kein Programm"
+
+#: ../scope/data/scope.glade.h:4
+#, fuzzy
+msgid "_Run/Continue"
+msgstr "Starten / Fortsetzen"
+
+# Noch keine Idee hierzu --Dominic
+#: ../scope/data/scope.glade.h:5
+#, fuzzy
+msgid "Run to _Cursor"
+msgstr "Bis zum Cursor ausführen"
+
+# Noch keine Idee hierzu --Dominic
+#: ../scope/data/scope.glade.h:6
+#, fuzzy
+msgid "Run to _Source"
+msgstr "Bis zum Cursor ausführen"
+
+# noch keine Idee  --Dominic
+# Vielleicht besser :) --frlan
+#: ../scope/data/scope.glade.h:7
+#, fuzzy
+msgid "Step _Into"
+msgstr "Eintreten"
+
+#: ../scope/data/scope.glade.h:8
+#, fuzzy
+msgid "Step _Over"
+msgstr "Überspringen"
+
+# noch keine Idee  --Dominic
+#: ../scope/data/scope.glade.h:9
+#, fuzzy
+msgid "Step O_ut"
+msgstr "Aussteigen"
+
+#: ../scope/data/scope.glade.h:10
+#, fuzzy
+msgid "_Terminate"
+msgstr "abgebrochen"
+
+#: ../scope/data/scope.glade.h:11
+#, fuzzy
+msgid "Toggle _Breakpoint"
+msgstr "Haltepunkte"
+
+#: ../scope/data/scope.glade.h:12
+#, fuzzy
+msgid "_GDB Command"
+msgstr "Befehl 0:"
+
+#: ../scope/data/scope.glade.h:13
+#, fuzzy
+msgid "_More"
+msgstr "Weitere"
+
+#: ../scope/data/scope.glade.h:14
+#, fuzzy
+msgid "_Show Terminal"
+msgstr "In Terminal ausführen"
+
+#: ../scope/data/scope.glade.h:15
+msgid "_Reset Markers"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:16
+msgid "_Cleanup Files"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:17
+msgid "_Feed"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:18
+#, fuzzy
+msgid "_Window"
+msgstr "Fenster"
+
+#: ../scope/data/scope.glade.h:19
+msgid "_Auto Show"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:20
+msgid "Auto _Hide"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:21
+msgid "Show on _Error"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:22
+msgid "_Unsorted"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:23
+msgid "_View Source"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:24
+msgid "S_ynchronize"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:25
+msgid "_Interrupt"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:26
+msgid "_Send Signal"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:27
+#, fuzzy
+msgid "S_elect on"
+msgstr "Schriftart auswählen"
+
+#: ../scope/data/scope.glade.h:28
+#, fuzzy
+msgid "_Running"
+msgstr "läuft"
+
+#: ../scope/data/scope.glade.h:29
+#, fuzzy
+msgid "_Stopped"
+msgstr "unterbrochen"
+
+#: ../scope/data/scope.glade.h:30
+msgid "_Exited"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:31
+msgid "_Follow"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:32
+#, fuzzy
+msgid "_Columns"
+msgstr "_Spaltenmodus"
+
+#: ../scope/data/scope.glade.h:33
+msgid "Show _Group"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:34
+#, fuzzy
+msgid "Show _Core"
+msgstr "Werkzeugleisten anzeigen"
+
+#: ../scope/data/scope.glade.h:35
+#, fuzzy
+msgid "Add _Break"
+msgstr "Haltepunkt hinzufügen"
+
+#: ../scope/data/scope.glade.h:36
+#, fuzzy
+msgid "Add _Watch"
+msgstr "Beobachten"
+
+#: ../scope/data/scope.glade.h:37
+msgid "Apply on _Run"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:38
+msgid "_Show @entry"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:39
+#, fuzzy
+msgid "Show _Address"
+msgstr "Adresse"
+
+#: ../scope/data/scope.glade.h:40
+msgid "_Modify"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:41
+#, fuzzy
+msgid "_Watch"
+msgstr "Beobachten"
+
+#: ../scope/data/scope.glade.h:42
+msgid "_Inspect"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:43
+msgid "_8-bit mode"
+msgstr "8-bit-Modus"
+
+#: ../scope/data/scope.glade.h:44
+#, fuzzy
+msgid "_Default"
+msgstr "Vorgabe"
+
+#: ../scope/data/scope.glade.h:45
+msgid "_7 bit"
+msgstr "_7 bit"
+
+#: ../scope/data/scope.glade.h:46
+#, fuzzy
+msgid "_Locale"
+msgstr "Lokal"
+
+#: ../scope/data/scope.glade.h:47
+#, fuzzy
+msgid "_UTF-8"
+msgstr "UTF-8"
+
+#: ../scope/data/scope.glade.h:48
+#, fuzzy
+msgid "_Show .names"
+msgstr "Symbole anzeigen:"
+
+#: ../scope/data/scope.glade.h:49
+msgid "R_ead"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:50
+msgid "_Group by"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:51
+msgid "_1"
+msgstr "_1"
+
+#: ../scope/data/scope.glade.h:52
+msgid "_2"
+msgstr "_2"
+
+#: ../scope/data/scope.glade.h:53
+msgid "_4"
+msgstr "_4"
+
+#: ../scope/data/scope.glade.h:54
+msgid "_8"
+msgstr "_8"
+
+#: ../scope/data/scope.glade.h:55
+msgid "_Jump To"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:56
+msgid "_Apply"
+msgstr "_Anwenden"
+
+#: ../scope/data/scope.glade.h:57
+#, fuzzy
+msgid "_Expand"
+msgstr "Alle ausklappen"
+
+#: ../scope/data/scope.glade.h:59
+msgid "_Natural"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:60
+msgid "_Decimal"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:61
+msgid "_Hex"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:62
+msgid "_Octal"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:63
+msgid "_binary"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:64
+msgid "_Evaluate/Modify"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:65
+msgid "_Watch Expression"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:66
+#, fuzzy
+msgid "_Inspect Variable"
+msgstr "Umgebungsvariablen"
+
+#: ../scope/data/scope.glade.h:67
+#, fuzzy
+msgid "Program Terminal"
+msgstr "Debug-Terminal"
+
+#: ../scope/data/scope.glade.h:68
+#, fuzzy
+msgid "Threads"
+msgstr "Thread %i"
+
+#: ../scope/data/scope.glade.h:70
+#, fuzzy
+msgid "Stack"
+msgstr "Ausführungsstapel"
+
+#: ../scope/data/scope.glade.h:71
+msgid "Locals"
+msgstr "Lokal"
+
+#: ../scope/data/scope.glade.h:72
+#, fuzzy
+msgid "Watches"
+msgstr "Beobachten"
+
+#: ../scope/data/scope.glade.h:73
+msgid "Memory"
+msgstr "Speicher"
+
+#: ../scope/data/scope.glade.h:74
+#, fuzzy
+msgid "Debug Console"
+msgstr "Konsole:"
+
+#: ../scope/data/scope.glade.h:75
+#, fuzzy
+msgid "Enter gdb command:"
+msgstr "Befehl einfügen"
+
+#: ../scope/data/scope.glade.h:76
+#, fuzzy
+msgid "Convert _UTF-8 to locale"
+msgstr "In _Tabelle umwandeln"
+
+#: ../scope/data/scope.glade.h:77
+#, fuzzy
+msgid "_Thread"
+msgstr "Thread %i"
+
+#: ../scope/data/scope.glade.h:78
+msgid "_Group"
+msgstr ""
+
+# Das ist der Titel eines Fensters, welches man wahrscheinlich nicht oder nur selten zu Gesicht bekommt.
+#: ../scope/data/scope.glade.h:79
+#, fuzzy
+msgid "_Frame"
+msgstr "Rahmeninfo"
+
+#: ../scope/data/scope.glade.h:80
+#, fuzzy
+msgid "Setup Program"
+msgstr "Kein Programm"
+
+#: ../scope/data/scope.glade.h:81
+msgid "_Executable:"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:82
+#, fuzzy
+msgid "_Arguments:"
+msgstr "Argumente"
+
+#: ../scope/data/scope.glade.h:83
+#, fuzzy
+msgid "En_vironment:"
+msgstr "Umgebung:"
+
+#: ../scope/data/scope.glade.h:84
+msgid "_Working dir:"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:85
+#, fuzzy
+msgid "_Load script:"
+msgstr "_Lua-Skripte"
+
+#: ../scope/data/scope.glade.h:86
+msgid "Auto _run program/exit gdb"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:87
+msgid "_Non-stop mode"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:88
+msgid "_Temporary breakpoint at:"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:89
+msgid "_Delete all breakpoints, watches and inspects"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:90
+#: ../scope/src/prefs.c:337
+#, fuzzy
+msgid "Program"
+msgstr "Kein Programm"
+
+#: ../scope/data/scope.glade.h:91
+#, fuzzy
+msgid "Open on"
+msgstr "URI öffnen"
+
+#: ../scope/data/scope.glade.h:92
+msgid "g_db load"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:93
+msgid "p_rogram start"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:94
+#, fuzzy
+msgid "Update all _views"
+msgstr "Aufgabenliste aktualisieren"
+
+#: ../scope/data/scope.glade.h:95
+msgid "<b>Panel</b>"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:96
+msgid "Default 8-bit text mode:"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:97
+msgid ""
+"_7-bit \\n"
+"nn"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:98
+#, fuzzy
+msgid "Display"
+msgstr "In Seitenleiste zeigen"
+
+#: ../scope/data/scope.glade.h:99
+#, fuzzy
+msgid "_member"
+msgstr "Nummer"
+
+#: ../scope/data/scope.glade.h:100
+#, fuzzy
+msgid "and"
+msgstr "schlecht"
+
+#: ../scope/data/scope.glade.h:101
+#, fuzzy
+msgid "_argument"
+msgstr "Argumente"
+
+#: ../scope/data/scope.glade.h:102
+#, fuzzy
+msgid "names"
+msgstr "Umbenennen"
+
+#: ../scope/data/scope.glade.h:103
+msgid "<b>Values</b>"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:104
+#, fuzzy
+msgid "E_xpand on apply"
+msgstr "Alle ausklappen"
+
+#: ../scope/data/scope.glade.h:105
+msgid "S_how"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:106
+msgid "children"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:107
+msgid "<b>Inspect</b>"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:108
+msgid "Show =li_brary messages"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:109
+#, fuzzy
+msgid "Show _tooltips"
+msgstr "Tooltips anzeigen."
+
+#: ../scope/data/scope.glade.h:110
+msgid "<b>Others</b>"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:111
+#, fuzzy
+msgid "Options"
+msgstr "Suchoptionen:"
+
+#: ../scope/data/scope.glade.h:112
+#, fuzzy
+msgid "_Import"
+msgstr "Bericht"
+
+#: ../scope/data/scope.glade.h:113
+#, fuzzy
+msgid "Enter assignment expression:"
+msgstr "Konnte Ausdruck nicht prüfen"
+
+#: ../scope/data/scope.glade.h:114
+#, fuzzy
+msgid "Inspect"
+msgstr "Webinspektor"
+
+#: ../scope/data/scope.glade.h:115
+#, fuzzy
+msgid "Object:"
+msgstr "Objektinformationen"
+
+#: ../scope/data/scope.glade.h:117
+msgid "-"
+msgstr "-"
+
+#: ../scope/data/scope.glade.h:118
+#, fuzzy
+msgid "Frame:"
+msgstr "Name:"
+
+#: ../scope/data/scope.glade.h:119
+msgid "@"
+msgstr "@"
+
+#: ../scope/data/scope.glade.h:120
+msgid "_Apply on run"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:121
+#, fuzzy
+msgid "Expand"
+msgstr "Alle ausklappen"
+
+#: ../scope/data/scope.glade.h:122
+#, fuzzy
+msgid "Start:"
+msgstr "_Start:"
+
+#: ../scope/data/scope.glade.h:123
+msgid "Count:"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:124
+#, fuzzy
+msgid "_Expand on apply"
+msgstr "Alle ausklappen"
+
+#: ../scope/src/break.c:947
+#, c-format
+msgid ""
+"There are two or more breakpoints at %s:%d.\n"
+"Use the breakpoint list to remove the exact one."
+msgstr ""
+
+#: ../scope/src/break.c:1200
+#, fuzzy
+msgid "Add Breakpoint"
+msgstr "Haltepunkt hinzufügen"
+
+#: ../scope/src/break.c:1215
+#, fuzzy
+msgid "Add Watchpoint"
+msgstr "Beobachtungspunkt hinzufügen"
+
+#: ../scope/src/conterm.c:106
+#, fuzzy
+msgid "Feed Terminal"
+msgstr "In Terminal ausführen"
+
+#: ../scope/src/conterm.c:106
+msgid "Enter char # (0..255):"
+msgstr ""
+
+#: ../scope/src/conterm.c:466
+#: ../scope/src/scope.c:502
+#, fuzzy, c-format
+msgid "Scope: %s."
+msgstr "»%s« schließen"
+
+#: ../scope/src/debug.c:115
+#: ../scope/src/debug.c:120
+#: ../scope/src/utils.c:37
+#, fuzzy, c-format
+msgid "%s: %s."
+msgstr "%s:%u:%u: %s"
+
+#: ../scope/src/debug.c:363
+#, c-format
+msgid "GDB died unexpectedly with status %d."
+msgstr ""
+
+#: ../scope/src/debug.c:365
+#, fuzzy
+msgid "Program terminated."
+msgstr "abgebrochen"
+
+#: ../scope/src/debug.c:468
+msgid "No breakpoints. Hanging."
+msgstr ""
+
+#: ../scope/src/debug.c:596
+#: ../scope/src/thread.c:97
+#, fuzzy, c-format
+msgid "%s."
+msgstr "%s:"
+
+#: ../scope/src/inspect.c:77
+#, fuzzy
+msgid "..."
+msgstr "Mehr ..."
+
+#: ../scope/src/inspect.c:326
+#, fuzzy
+msgid "invalid data"
+msgstr "Ungültige Markierung"
+
+#: ../scope/src/inspect.c:358
+msgid "no children in range"
+msgstr ""
+
+#: ../scope/src/inspect.c:442
+#, fuzzy
+msgid "out of scope"
+msgstr "Beobachtungspunkt #%s außerhalb des sichtbaren Bereichs."
+
+#: ../scope/src/inspect.c:590
+msgid "Duplicate inspect variable name."
+msgstr ""
+
+#: ../scope/src/memory.c:299
+msgid "Read Memory"
+msgstr ""
+
+#: ../scope/src/memory.c:408
+msgid "Scope: pointer size > 8, Data disabled."
+msgstr ""
+
+#: ../scope/src/menu.c:380
+msgid "Modify"
+msgstr "Benachrichten"
+
+#: ../scope/src/menu.c:490
+msgid "Evaluate/modify"
+msgstr ""
+
+#: ../scope/src/menu.c:491
+#, fuzzy
+msgid "Watch expression"
+msgstr "Konnte Ausdruck nicht prüfen"
+
+#: ../scope/src/menu.c:492
+#, fuzzy
+msgid "Inspect variable"
+msgstr "Variable löschen?"
+
+#: ../scope/src/parse.c:416
+msgid "Undefined GDB error."
+msgstr "Nicht definierter GDB-Fehler."
+
+#: ../scope/src/plugme.c:81
+#, fuzzy
+msgid "Select Folder"
+msgstr "Farbe auswählen"
+
+#: ../scope/src/plugme.c:81
+#, fuzzy
+msgid "Select File"
+msgstr "Datei auswählen"
+
+#: ../scope/src/prefs.c:338
+#, fuzzy
+msgid "Breaks"
+msgstr "Haltepunkte"
+
+#: ../scope/src/prefs.c:339
+#, fuzzy
+msgid "Console"
+msgstr "Konsole:"
+
+#: ../scope/src/prefs.c:347
+#: ../scope/src/utils.c:570
+#, c-format
+msgid "Scope: %s: %s."
+msgstr ""
+
+#: ../scope/src/prefs.c:352
+#, fuzzy
+msgid "Scope: created configuration file."
+msgstr "Neuladen der Konfigurationsdateien erzwingen."
+
+#: ../scope/src/program.c:231
+#, c-format
+msgid "Loaded debug settings for %s."
+msgstr ""
+
+#: ../scope/src/program.c:239
+#, fuzzy, c-format
+msgid "Could not load debug settings file %s: %s."
+msgstr "Konnte die Datei »%s« nicht laden: %s"
+
+#: ../scope/src/program.c:359
+#, fuzzy, c-format
+msgid ""
+"%s: %s.\n"
+"\n"
+"Continue?"
+msgstr "Fortsetzen"
+
+#: ../scope/src/program.c:394
+msgid "Delete all breakpoints, watches and inspects?"
+msgstr ""
+
+#: ../scope/src/program.c:501
+msgid "as _Name=value"
+msgstr ""
+
+#: ../scope/src/program.c:502
+msgid "as _Name = value"
+msgstr ""
+
+#: ../scope/src/scope.c:34
+#, fuzzy
+msgid "Scope Debugger"
+msgstr "Debugger"
+
+#: ../scope/src/scope.c:35
+msgid "Simple GDB front-end."
+msgstr ""
+
+#: ../scope/src/scope.c:63
+#, fuzzy
+msgid "Setup program"
+msgstr "Kein Programm"
+
+#: ../scope/src/scope.c:64
+#, fuzzy
+msgid "Run/continue"
+msgstr "Starten / Fortsetzen"
+
+# Noch keine Idee hierzu --Dominic
+#: ../scope/src/scope.c:66
+#, fuzzy
+msgid "Run to source"
+msgstr "Bis zum Cursor ausführen"
+
+#: ../scope/src/scope.c:70
+#, fuzzy
+msgid "Terminate"
+msgstr "abgebrochen"
+
+#: ../scope/src/scope.c:71
+#, fuzzy
+msgid "Toggle breakpoint"
+msgstr "Haltepunkt"
+
+#: ../scope/src/scope.c:73
+#: ../scope/src/scope.c:76
+#, fuzzy
+msgid "GDB command"
+msgstr "Befehl einfügen"
+
+#: ../scope/src/scope.c:74
+#, fuzzy
+msgid "Show terminal"
+msgstr "In Terminal ausführen"
+
+#: ../scope/src/scope.c:225
+msgid "Busy"
+msgstr ""
+
+#: ../scope/src/scope.c:225
+msgid "Ready"
+msgstr "Fertig"
+
+#: ../scope/src/scope.c:226
+msgid "Hang"
+msgstr ""
+
+#: ../scope/src/scope.c:226
+msgid "Assem"
+msgstr ""
+
+#: ../scope/src/scope.c:226
+msgid "Load"
+msgstr "Laden"
+
+#: ../scope/src/scope.c:394
+msgid "Build action activated. Terminate debugging?"
+msgstr ""
+
+#: ../scope/src/thread.c:58
+#, c-format
+msgid "Thread group %s started."
+msgstr ""
+
+#: ../scope/src/thread.c:76
+#, fuzzy
+msgid "Thread group "
+msgstr "Thread %i"
+
+#: ../scope/src/thread.c:88
+msgid " exited"
+msgstr ""
+
+#: ../scope/src/thread.c:91
+#, c-format
+msgid " with exit code %s"
+msgstr ""
+
+#: ../scope/src/thread.c:788
+#, fuzzy
+msgid "Send Signal"
+msgstr "Per E-Mail senden"
+
+#: ../scope/src/thread.c:788
+msgid "Enter signal #:"
+msgstr ""
+
+#: ../scope/src/thread.c:829
+msgid "Terminate Process"
+msgstr "Prozess töten"
+
+#: ../scope/src/thread.c:829
+msgid "Enter exit code:"
+msgstr ""
+
+#: ../scope/src/thread.c:937
+#, fuzzy
+msgid "Running"
+msgstr "läuft"
+
+#: ../scope/src/thread.c:938
+#, fuzzy
+msgid "Stopped"
+msgstr "unterbrochen"
+
+#: ../scope/src/utils.c:44
+#, c-format
+msgid "%s: error %lu."
+msgstr ""
+
+#: ../scope/src/utils.c:358
+#, c-format
+msgid "Scope: error reading [%s]."
+msgstr ""
+
+#: ../scope/src/views.c:505
+msgid "…"
+msgstr ""
+
+#: ../scope/src/views.c:528
+msgid "_Send"
+msgstr ""
+
+#: ../scope/src/views.c:528
+msgid "_Busy"
+msgstr ""
+
+#: ../scope/src/views.c:535
+#, fuzzy
+msgid "GDB Command"
+msgstr "Befehl 0:"
+
 #: ../spellcheck/src/speller.c:94
 msgid "Try: "
 msgstr "Vorschlag: "
@@ -5304,16 +5708,16 @@ msgstr "_Verzeichnis mit Übersetzungsdateien:"
 msgid "Read additional dictionary files from this directory. For now, this only works with myspell dictionaries."
 msgstr "Liest zusätzliche Wörterbücher aus diesem Verzeichnis. (Funktioniert zur Zeit nur mit myspell-Wörterbüchern)."
 
-#: ../spellcheck/src/gui.c:68
+#: ../spellcheck/src/gui.c:76
 msgid "Spell checking while typing is now enabled"
 msgstr "»Rechtschreibung beim Tippen überprüfen« ist nun eingeschaltet"
 
-#: ../spellcheck/src/gui.c:70
+#: ../spellcheck/src/gui.c:78
 msgid "Spell checking while typing is now disabled"
 msgstr "»Rechtschreibung beim Tippen überprüfen« ist nun ausgeschaltet"
 
 # Mit dem Umbruch kann man an dieser Stelle ggf. ja nochmal spielen
-#: ../spellcheck/src/gui.c:291
+#: ../spellcheck/src/gui.c:313
 msgid ""
 "Search term is too long to provide\n"
 "spelling suggestions in the editor menu."
@@ -5321,38 +5725,38 @@ msgstr ""
 "Der Ausdruck ist zu lang, um Vorschläge\n"
 "im Editormenü anzeigen zu können."
 
-#: ../spellcheck/src/gui.c:296
+#: ../spellcheck/src/gui.c:318
 msgid "Perform Spell Check"
 msgstr "Rechtschreibung prüfen"
 
-#: ../spellcheck/src/gui.c:328
+#: ../spellcheck/src/gui.c:350
 msgid "More..."
 msgstr "Mehr ..."
 
-#: ../spellcheck/src/gui.c:343
+#: ../spellcheck/src/gui.c:365
 msgid "(No Suggestions)"
 msgstr "(keine Vorschläge)"
 
-#: ../spellcheck/src/gui.c:352
+#: ../spellcheck/src/gui.c:374
 #, c-format
 msgid "Add \"%s\" to Dictionary"
 msgstr "»%s« zum Wörterbuch hinzufügen"
 
-#: ../spellcheck/src/gui.c:359
+#: ../spellcheck/src/gui.c:381
 msgid "Ignore All"
 msgstr "Alle ignorieren"
 
-#: ../spellcheck/src/gui.c:499
+#: ../spellcheck/src/gui.c:521
 #, c-format
 msgid "Default (%s)"
 msgstr "Vorgabe (%s)"
 
-#: ../spellcheck/src/gui.c:510
+#: ../spellcheck/src/gui.c:532
 #, c-format
 msgid "Toggle spell check while typing (current language: %s)"
 msgstr "»Rechtschreibung beim Tippen überprüfen« ein-/ausschalten (Aktuelle Sprache: %s)"
 
-#: ../spellcheck/src/gui.c:565
+#: ../spellcheck/src/gui.c:587
 msgid "Spelling Suggestions"
 msgstr "Rechtschreibvorschläge"
 
@@ -5385,56 +5789,56 @@ msgstr "Ein kleines Plugin zum Verwandeln von Listen in Tabellen."
 #. OK. Something went not as expected.
 #. * We did have a selection but cannot parse it into rows.
 #. * Aborting
-#: ../tableconvert/src/tableconvert.c:247
+#: ../tableconvert/src/tableconvert.c:253
 msgid "Something went wrong on parsing selection. Aborting"
 msgstr "Etwas ist beim Untersuchen der Auswahl schiefgelaufen. Abbruch."
 
-#: ../tableconvert/src/tableconvert.c:278
+#: ../tableconvert/src/tableconvert.c:284
 msgid "Convert selection to table"
 msgstr "Auswahl in Tabelle umwandeln"
 
 #. Build up menu entry
-#: ../tableconvert/src/tableconvert.c:291
+#: ../tableconvert/src/tableconvert.c:297
 msgid "_Convert to table"
 msgstr "In _Tabelle umwandeln"
 
-#: ../tableconvert/src/tableconvert.c:294
+#: ../tableconvert/src/tableconvert.c:300
 msgid "Converts current marked list to a table."
 msgstr "Wandelt die aktuell markierte Liste in eine Tabelle"
 
-#: ../treebrowser/src/treebrowser.c:119
+#: ../treebrowser/src/treebrowser.c:120
 msgid "TreeBrowser"
 msgstr "Baumnavigator"
 
-#: ../treebrowser/src/treebrowser.c:120
+#: ../treebrowser/src/treebrowser.c:121
 msgid "This plugin adds a tree browser to Geany, allowing the user to browse files using a tree view of the directory being browsed."
 msgstr "Ein Plugin zum Navigieren durch den Verzeichnisbaum auf dem Dateisystem."
 
-#: ../treebrowser/src/treebrowser.c:429
+#: ../treebrowser/src/treebrowser.c:430
 #, c-format
 msgid "%s: no such directory."
 msgstr "Das Verzeichnis »%s« existiert nicht"
 
-#: ../treebrowser/src/treebrowser.c:525
-#: ../treebrowser/src/treebrowser.c:560
-#: ../treebrowser/src/treebrowser.c:662
+#: ../treebrowser/src/treebrowser.c:526
+#: ../treebrowser/src/treebrowser.c:561
+#: ../treebrowser/src/treebrowser.c:663
 msgid "(Empty)"
 msgstr "(leer)"
 
-#: ../treebrowser/src/treebrowser.c:965
+#: ../treebrowser/src/treebrowser.c:966
 #, c-format
 msgid "Could not execute configured external command '%s' (%s)."
 msgstr "Konnte das eingestellte externe Werkzeug »%s« nicht ausführen (%s)."
 
-#: ../treebrowser/src/treebrowser.c:1036
+#: ../treebrowser/src/treebrowser.c:1037
 msgid "NewDirectory"
 msgstr "Neues Verzeichnis"
 
-#: ../treebrowser/src/treebrowser.c:1038
+#: ../treebrowser/src/treebrowser.c:1039
 msgid "NewFile"
 msgstr "Neue Datei"
 
-#: ../treebrowser/src/treebrowser.c:1043
+#: ../treebrowser/src/treebrowser.c:1044
 #, c-format
 msgid ""
 "Target file '%s' exists\n"
@@ -5443,117 +5847,117 @@ msgstr ""
 "Zieldatei »%s« existiert bereits.\n"
 "Möchten Sie diese wirklich mit einer leeren Datei ersetzen?"
 
-#: ../treebrowser/src/treebrowser.c:1088
+#: ../treebrowser/src/treebrowser.c:1089
 #, c-format
 msgid "Do you really want to delete '%s' ?"
 msgstr "Soll »%s« wirklich gelöscht werden?"
 
-#: ../treebrowser/src/treebrowser.c:1207
-#: ../treebrowser/src/treebrowser.c:1663
+#: ../treebrowser/src/treebrowser.c:1208
+#: ../treebrowser/src/treebrowser.c:1692
 msgid "Go up"
 msgstr "Aufwärts"
 
-#: ../treebrowser/src/treebrowser.c:1211
-#: ../treebrowser/src/treebrowser.c:1678
+#: ../treebrowser/src/treebrowser.c:1212
+#: ../treebrowser/src/treebrowser.c:1707
 msgid "Set path from document"
 msgstr "Pfad des Dokumentes übernehmen"
 
-#: ../treebrowser/src/treebrowser.c:1215
+#: ../treebrowser/src/treebrowser.c:1216
 msgid "Open externally"
 msgstr "Extern öffnen"
 
-#: ../treebrowser/src/treebrowser.c:1220
+#: ../treebrowser/src/treebrowser.c:1221
 msgid "Open Terminal"
 msgstr "In Terminal ausführen"
 
-#: ../treebrowser/src/treebrowser.c:1224
+#: ../treebrowser/src/treebrowser.c:1225
 msgid "Set as root"
 msgstr "Als Wurzel festlegen"
 
-#: ../treebrowser/src/treebrowser.c:1229
-#: ../treebrowser/src/treebrowser.c:1668
-#: ../treebrowser/src/treebrowser.c:2030
+#: ../treebrowser/src/treebrowser.c:1230
+#: ../treebrowser/src/treebrowser.c:1697
+#: ../treebrowser/src/treebrowser.c:2060
 msgid "Refresh"
 msgstr "Auffrischen"
 
-#: ../treebrowser/src/treebrowser.c:1241
+#: ../treebrowser/src/treebrowser.c:1242
 msgid "Create new directory"
 msgstr "Neues Verzeichnis anlegen"
 
-#: ../treebrowser/src/treebrowser.c:1245
+#: ../treebrowser/src/treebrowser.c:1246
 msgid "Create new file"
 msgstr "Neue Datei erstellen"
 
-#: ../treebrowser/src/treebrowser.c:1249
+#: ../treebrowser/src/treebrowser.c:1250
 msgid "Rename"
 msgstr "Umbenennen"
 
-#: ../treebrowser/src/treebrowser.c:1254
+#: ../treebrowser/src/treebrowser.c:1255
 msgid "Delete"
 msgstr "Löschen"
 
-#: ../treebrowser/src/treebrowser.c:1262
+#: ../treebrowser/src/treebrowser.c:1263
 #, c-format
 msgid "Close: %s"
 msgstr "»%s« schließen"
 
-#: ../treebrowser/src/treebrowser.c:1267
+#: ../treebrowser/src/treebrowser.c:1268
 #, c-format
 msgid "Close Child Documents "
 msgstr "Kinderdokumente schließen"
 
-#: ../treebrowser/src/treebrowser.c:1272
+#: ../treebrowser/src/treebrowser.c:1273
 msgid "Copy full path to clipboard"
 msgstr "Den vollständigen Pfad in die Zwischenablage kopieren"
 
-#: ../treebrowser/src/treebrowser.c:1292
-#: ../treebrowser/src/treebrowser.c:1944
+#: ../treebrowser/src/treebrowser.c:1293
+#: ../treebrowser/src/treebrowser.c:1974
 msgid "Show bookmarks"
 msgstr "Lesezeichen anzeigen"
 
-#: ../treebrowser/src/treebrowser.c:1297
-#: ../treebrowser/src/treebrowser.c:1898
+#: ../treebrowser/src/treebrowser.c:1298
+#: ../treebrowser/src/treebrowser.c:1928
 msgid "Show hidden files"
 msgstr "Versteckte Dateien anzeigen"
 
-#: ../treebrowser/src/treebrowser.c:1302
+#: ../treebrowser/src/treebrowser.c:1303
 msgid "Show toolbars"
 msgstr "Werkzeugleisten anzeigen"
 
-#: ../treebrowser/src/treebrowser.c:1545
+#: ../treebrowser/src/treebrowser.c:1574
 #, c-format
 msgid "Target file '%s' exists, do you really want to replace it?"
 msgstr "Zieldatei »%s« existiert bereits. Möchten Sie diese wirklich ersetzen?"
 
-#: ../treebrowser/src/treebrowser.c:1673
+#: ../treebrowser/src/treebrowser.c:1702
 msgid "Home"
 msgstr "Ausgabe"
 
-#: ../treebrowser/src/treebrowser.c:1683
+#: ../treebrowser/src/treebrowser.c:1712
 msgid "Track path"
 msgstr "Pfad aufzeichnen"
 
-#: ../treebrowser/src/treebrowser.c:1688
+#: ../treebrowser/src/treebrowser.c:1717
 msgid "Hide bars"
 msgstr "Leisten verbergen"
 
-#: ../treebrowser/src/treebrowser.c:1698
+#: ../treebrowser/src/treebrowser.c:1727
 msgid "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' reverse try for example this '!;*.c;*.h;*.cpp'"
 msgstr "Filter (*.c;*.h;*.cpp). Die Nutzung von ! invertiert das Ergebnis."
 
-#: ../treebrowser/src/treebrowser.c:1706
+#: ../treebrowser/src/treebrowser.c:1735
 msgid "Addressbar for example '/projects/my-project'"
 msgstr "Adressleiste. Zum Beispiel »/projects/my-project«"
 
-#: ../treebrowser/src/treebrowser.c:1730
+#: ../treebrowser/src/treebrowser.c:1760
 msgid "Tree Browser"
 msgstr "Baumnavigator"
 
-#: ../treebrowser/src/treebrowser.c:1862
+#: ../treebrowser/src/treebrowser.c:1892
 msgid "External open command"
 msgstr "Externer Öffnen-Befehl"
 
-#: ../treebrowser/src/treebrowser.c:1867
+#: ../treebrowser/src/treebrowser.c:1897
 #, c-format
 msgid ""
 "The command to execute when using \"Open with\". You can use %f and %d wildcards.\n"
@@ -5564,95 +5968,95 @@ msgstr ""
 "%f wird mit dem Dateinamen ersetzt, der den kompletten Pfad beinhaltet.\n"
 "%d wird mit dem Pfad des Verzeichnisses der aktuellen Datei ersetzt."
 
-#: ../treebrowser/src/treebrowser.c:1875
+#: ../treebrowser/src/treebrowser.c:1905
 msgid "Toolbar"
 msgstr "Werkzeugleiste:"
 
-#: ../treebrowser/src/treebrowser.c:1877
+#: ../treebrowser/src/treebrowser.c:1907
 msgid "Hidden"
 msgstr "Versteckt"
 
-#: ../treebrowser/src/treebrowser.c:1878
+#: ../treebrowser/src/treebrowser.c:1908
 msgid "Top"
 msgstr "Oben"
 
-#: ../treebrowser/src/treebrowser.c:1879
+#: ../treebrowser/src/treebrowser.c:1909
 msgid "Bottom"
 msgstr "Unten"
 
-#: ../treebrowser/src/treebrowser.c:1884
+#: ../treebrowser/src/treebrowser.c:1914
 msgid "If position is changed, the option require plugin restart."
 msgstr "Bei einer Veränderung der Position muss das Plugin neu geladen werden."
 
-#: ../treebrowser/src/treebrowser.c:1888
+#: ../treebrowser/src/treebrowser.c:1918
 msgid "Show icons"
 msgstr "Symbole anzeigen:"
 
-#: ../treebrowser/src/treebrowser.c:1890
+#: ../treebrowser/src/treebrowser.c:1920
 msgid "None"
 msgstr "Keines"
 
-#: ../treebrowser/src/treebrowser.c:1891
+#: ../treebrowser/src/treebrowser.c:1921
 msgid "Base"
 msgstr "Basis"
 
-#: ../treebrowser/src/treebrowser.c:1892
+#: ../treebrowser/src/treebrowser.c:1922
 msgid "Content-type"
 msgstr "Inhaltsart"
 
-#: ../treebrowser/src/treebrowser.c:1903
+#: ../treebrowser/src/treebrowser.c:1933
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr "Unter Windows versteckt dies nur Dateien, die mit einem ».« (Punkt) beginnen. "
 
-#: ../treebrowser/src/treebrowser.c:1905
+#: ../treebrowser/src/treebrowser.c:1935
 msgid "Hide object files"
 msgstr "Objektdateien verbergen"
 
-#: ../treebrowser/src/treebrowser.c:1910
+#: ../treebrowser/src/treebrowser.c:1940
 msgid "Don't show generated object files in the file browser, this includes *.o, *.obj. *.so, *.dll, *.a, *.lib"
 msgstr "Keine generierten Objektdateien anzeigen. Dies bezieht *.o, *.obj. *.so, *.dll, *.a, *.lib mit ein."
 
-#: ../treebrowser/src/treebrowser.c:1912
+#: ../treebrowser/src/treebrowser.c:1942
 msgid "Reverse filter"
 msgstr "Filter zurücksetzen"
 
-#: ../treebrowser/src/treebrowser.c:1917
+#: ../treebrowser/src/treebrowser.c:1947
 msgid "Follow current document"
 msgstr "Dem aktuellen Dokument folgen"
 
-#: ../treebrowser/src/treebrowser.c:1922
+#: ../treebrowser/src/treebrowser.c:1952
 msgid "Single click, open document and focus it"
 msgstr "Einzelklick öffnet Dokument und fokussiert es"
 
-#: ../treebrowser/src/treebrowser.c:1927
+#: ../treebrowser/src/treebrowser.c:1957
 msgid "Double click open directory"
 msgstr "Doppelklick öffnet ein Verzeichnis"
 
-#: ../treebrowser/src/treebrowser.c:1932
+#: ../treebrowser/src/treebrowser.c:1962
 msgid "On delete file, close it if is opened"
 msgstr "Datei schließen, wenn sie gelöscht wird"
 
-#: ../treebrowser/src/treebrowser.c:1937
+#: ../treebrowser/src/treebrowser.c:1967
 msgid "Show tree lines"
 msgstr "Leere Zeilen anzeigen"
 
-#: ../treebrowser/src/treebrowser.c:2020
+#: ../treebrowser/src/treebrowser.c:2050
 msgid "Focus File List"
 msgstr "Dateiliste fokussieren"
 
-#: ../treebrowser/src/treebrowser.c:2022
+#: ../treebrowser/src/treebrowser.c:2052
 msgid "Focus Path Entry"
 msgstr "Pfadeintrag fokussieren"
 
-#: ../treebrowser/src/treebrowser.c:2024
+#: ../treebrowser/src/treebrowser.c:2054
 msgid "Rename Object"
 msgstr "Objekt umbenennen"
 
-#: ../treebrowser/src/treebrowser.c:2026
+#: ../treebrowser/src/treebrowser.c:2056
 msgid "Create New File"
 msgstr "Neue Datei erstellen"
 
-#: ../treebrowser/src/treebrowser.c:2028
+#: ../treebrowser/src/treebrowser.c:2058
 msgid "Create New Directory"
 msgstr "Neues Verzeichnis erstellen"
 
@@ -5724,40 +6128,40 @@ msgstr "Werkzeug"
 msgid "%s:"
 msgstr "%s:"
 
-#: ../webhelper/src/gwh-browser.c:524
+#: ../webhelper/src/gwh-browser.c:528
 msgid "_Zoom"
 msgstr "_Vergrößerung"
 
-#: ../webhelper/src/gwh-browser.c:546
+#: ../webhelper/src/gwh-browser.c:550
 msgid "Full-_content zoom"
 msgstr "Dokument _einpassen"
 
-#: ../webhelper/src/gwh-browser.c:557
+#: ../webhelper/src/gwh-browser.c:561
 msgid "Flip panes orientation"
 msgstr "Seitenausrichtung umschalten"
 
-#: ../webhelper/src/gwh-browser.c:802
+#: ../webhelper/src/gwh-browser.c:808
 msgid "Back"
 msgstr "Zurück"
 
-#: ../webhelper/src/gwh-browser.c:806
+#: ../webhelper/src/gwh-browser.c:812
 msgid "Forward"
 msgstr "Weiter"
 
-#: ../webhelper/src/gwh-browser.c:810
+#: ../webhelper/src/gwh-browser.c:816
 msgid "Cancel loading"
 msgstr "Laden abbrechen"
 
-#: ../webhelper/src/gwh-browser.c:814
+#: ../webhelper/src/gwh-browser.c:820
 msgid "Reload current page"
 msgstr "Aktuelle Seite neu laden"
 
-#: ../webhelper/src/gwh-browser.c:827
-#: ../webhelper/src/gwh-browser.c:873
+#: ../webhelper/src/gwh-browser.c:833
+#: ../webhelper/src/gwh-browser.c:879
 msgid "Web inspector"
 msgstr "Webinspektor"
 
-#: ../webhelper/src/gwh-browser.c:828
+#: ../webhelper/src/gwh-browser.c:834
 msgid "Toggle web inspector"
 msgstr "Webinspektor umschalten"
 
@@ -5887,183 +6291,8 @@ msgstr "XML-Schnipsel"
 msgid "Autocompletes XML/HTML tags using snippets."
 msgstr "Autovervollständigt XML/HTML-Tags unter Verwendung von Schnipseln."
 
-#~ msgid "Unable to get the file name"
-#~ msgstr "Dateiname nicht erhalten"
+#~ msgid "Added breakpoint #%s in %s() at %s:%s\n"
+#~ msgstr "Haltepunkt #%s in %s() bei %s:%s hinzugefügt\n"
 
-#~ msgid "Unable to get the the content of the file"
-#~ msgstr "Inhalt der Datei kann nicht eingelesen werden"
-
-#~ msgid "Unable to save the current file"
-#~ msgstr "Konnte die aktuelle Datei nicht speichern"
-
-#~ msgid "Google Code"
-#~ msgstr "Google Code"
-
-#~ msgid "Search for current tag in Google Code Search"
-#~ msgstr "Aktuellen Tag bei Google-Code-Search suchen"
-
-#~ msgid "_Edit Text"
-#~ msgstr "Text _bearbeiten"
-
-#~ msgid ""
-#~ "This Plugin implements Numbered Bookmarks in Geany.\n"
-#~ "\n"
-#~ "It allows you to use 10 numbered bookmarks. Normaly if you had more than "
-#~ "one bookmark, you would have to cycle through them until you reached the "
-#~ "one you wanted. With this plugin you can go straight to the bookmark that "
-#~ "you want with a single key combination. To set a numbered bookmark press "
-#~ "Ctrl+Shift+a number from 0 to 9. You will see a marker apear next to the "
-#~ "line number. If you press Ctrl+Shift+a number on a line that already has "
-#~ "that bookmark number then it removes the bookmark, otherwise it will move "
-#~ "the bookmark there if it was set on a different line, or create it if it "
-#~ "had not already been set. Only the bookmark with the highest number on a "
-#~ "line will be shown, but you can have more than one bookmark per line. "
-#~ "This plugin does not interfer with regular bookmarks. When a file is "
-#~ "saved, Geany will remember the numbered bookmarks and make sure that they "
-#~ "are set the next time you open the file.\n"
-#~ "\n"
-#~ "You can alter the default behaviour of this plugin by selecting Plugin "
-#~ "Manager under the Tools menu, selecting this plugin, and cliking "
-#~ "Preferences. You can change:\n"
-#~ "Remember fold state - if this is set then this plugin will remember the "
-#~ "state of any folds along with the numbered bookmarks and set them when "
-#~ "the file is next loaded.\n"
-#~ "Center view when goto bookmark - If this is set it will try to make sure "
-#~ "that the numbered bookmark that you are going to is in the center of the "
-#~ "screen, otherwise it will simply be on the screen somewhere."
-#~ msgstr ""
-#~ "Dieses Plugin stellt nummerierte Lesezeichen in Geany bereit.\n"
-#~ "\n"
-#~ "Es ermöglicht die Verwendung von 10 nummerierten Lesezeichen. "
-#~ "Normalerweise muss man bei mehr als einem Lesezeichen durch alle "
-#~ "Lesezeichen durchgehen, bis das gewünschte erreicht ist. Mit diesem "
-#~ "Plugin kann man mittels einer einzelnen Tastenkombination direkt zu dem "
-#~ "gewünschten Lesezeichen gehen. Um ein nummeriertes Lesezeichen zu "
-#~ "erstellen, geben Sie bitte Strg+Umsch+eine Nummer von 0 bis 9 ein. Sie "
-#~ "werden einen Kennzeichner neben der Zeilennummer sehen. Wenn Sie dies bei "
-#~ "einer Zeile versuchen, die aber schon diese Lesezeichennummer hat, so "
-#~ "wird sie entfernt, ansonsten geändert. Nur das Lesezeichen mit der "
-#~ "höchsten Nummer wird gezeigt, aber Sie können mehrere Lesezeichen pro "
-#~ "Zeile gesetzt haben. Dieses Plugin stört die normalen Lesezeichen nicht. "
-#~ "Wenn eine Datei gespeichert wird, merkt sich Geany die nummerierten "
-#~ "Lesezeichen und stellt sicher, dass sie beim nächsten Öffnen der Datei "
-#~ "geladen und gesetzt werden.\n"
-#~ "\n"
-#~ "Sie können das Vorgabeverhalten des Plugins einstellen, indem Sie die "
-#~ "Plugin-Verwaltung im Menü »Werkzeuge« wählen, dann dieses Plugin, und "
-#~ "dann die Einstellungen anklicken. Sie können dort folgendes ändern:\n"
-#~ "  - Code-Faltung merken – Das Plugin kann sich den Zustand von Code-"
-#~ "Faltung merken neben den nummerierten Lesezeichen und diese beim nächsten "
-#~ "Laden auch wieder setzen.\n"
-#~ " - Sicht zentrieren beim Abrufen eines Lesezeichens – Das ausgewählte "
-#~ "Lesezeichen wird in die Mitte des Bildschirms platziert."
-
-#~ msgid "You must define a key trigger combination"
-#~ msgstr ""
-#~ "Sie müssene eine Tastenkombination festlegen, die das Ereignis auslöst."
-
-#~ msgid "Config saved successfully"
-#~ msgstr "Konfigurationen wurden erfolgreich gespeichert"
-
-#~ msgid "Error reading config file"
-#~ msgstr "Neuladen der Konfigurationsdateien erzwingen. "
-
-#~ msgid "Configuration error: debugger module '%s' is not found"
-#~ msgstr "Problem bei Konfiguration: Debugger-Modul »%s« nicht gefunden"
-
-#~ msgid "Some breakpoints can't be set as the files are missed"
-#~ msgstr "Einige Haltepunkte konnten nicht gesetzt werden, da Dateien fehlen."
-
-#~ msgid "Config loaded successfully"
-#~ msgstr "Konfiguration erfolgreich geladen"
-
-#~ msgid "Arguments"
-#~ msgstr "Argumente"
-
-#~ msgid "Locals"
-#~ msgstr "Lokal"
-
-#~ msgid "Couldn't create tempfile"
-#~ msgstr "Temporäre Datei konnte nicht erstellt werden"
-
-#~ msgid "GeanyPG"
-#~ msgstr "GeanyPG"
-
-#~ msgid ":  "
-#~ msgstr ":  "
-
-#~ msgid "Lionel Fuentes"
-#~ msgstr "Lionel Fuentes"
-
-#~ msgid "Yura Siamshka <yurand2@gmail.com>"
-#~ msgstr "Yura Siamshka <yurand2@gmail.com>"
-
-#~ msgid "Jeff Pohlmeyer, Dominic Hopf"
-#~ msgstr "Jeff Pohlmeyer, Dominic Hopf"
-
-#~ msgid ""
-#~ "Yura Siamashka <yurand2@gmail.com>,\n"
-#~ "Frank Lanitz <frank@frank.uvena.de>"
-#~ msgstr ""
-#~ "Yura Siamashka <yurand2@gmail.com>, Frank Lanitz <frank@frank.uvena.de>"
-
-#~ msgid "Yura Siamashka <yurand2@gmail.com>"
-#~ msgstr "Yura Siamashka <yurand2@gmail.com>"
-
-#~ msgid "Showing icon in toolbar"
-#~ msgstr "Symbol in der Werkzeugleiste anzeigen"
-
-#~ msgid "Treeview filebrowser plugin."
-#~ msgstr "Baumnavigations-Plugin"
-
-#~ msgid "Booklet"
-#~ msgstr "Broschüre (@Booklet)"
-
-#~ msgid "Conference"
-#~ msgstr "Konferenzbeitrag (@Conference)"
-
-#~ msgid "Inbook"
-#~ msgstr "Buchkapitel (@Inbook)"
-
-#~ msgid "PhdThesis"
-#~ msgstr "Doktorarbeit (@PhdThesis)"
-
-#~ msgid "Proceedings"
-#~ msgstr "Konferenzband (@Proceedings)"
-
-#~ msgid "Techreport"
-#~ msgstr "Technischer Bericht (@Techreport)"
-
-#~ msgid "Unpublished"
-#~ msgstr "Unveröffentlichtes (@Unpublished)"
-
-#~ msgid "Directory '%s' not exists."
-#~ msgstr "Verzeichnis »%s« existiert nicht."
-
-#~ msgid "Default directory deep to fill"
-#~ msgstr "Standardverzeichnistiefe"
-
-#~ msgid "How many folders will opened and store in tree"
-#~ msgstr "Wie viele Ordner sollen im Baum geöffnet und gehalten werden?"
-
-#~ msgid "On expand, refresh directory view"
-#~ msgstr "Wenn aufgeklappt, die Verzeichnisbaum aktualisieren."
-
-#~ msgid ""
-#~ "There is a more recent version availble. Please check http://www.geany."
-#~ "org for updates."
-#~ msgstr ""
-#~ "Eine neue Version wurde gefunden und kann von http://www.geany.org "
-#~ "heruntergeladen werden. "
-
-#~ msgid "Starting checking for updates"
-#~ msgstr "Beginne mit der Prüfung auf Aktualisierungen"
-
-#~ msgid "Connection error. Code: %d; Message: %s"
-#~ msgstr "Verbindungsproblem. Code: %d; Botschaft: %s"
-
-#~ msgid "No update needed"
-#~ msgstr "Keine Aktualisierung notwendig"
-
-#~ msgid "goto_file"
-#~ msgstr "Gehe zu _Datei"
+#~ msgid "Added breakpoint #%s at %s:%s\n"
+#~ msgstr "Haltepunkt #%s bei %s:%s hinzugefügt\n"
