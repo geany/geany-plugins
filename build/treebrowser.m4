@@ -1,6 +1,7 @@
 AC_DEFUN([GP_CHECK_TREEBROWSER],
 [
     GP_ARG_DISABLE([Treebrowser], [auto])
+    GP_CHECK_PLUGIN_GTK2_ONLY([Treebrowser])
     if [[ "$enable_treebrowser" != no ]]; then
         AC_CHECK_FUNC([creat],
             [enable_treebrowser=yes],

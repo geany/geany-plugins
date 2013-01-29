@@ -1,6 +1,7 @@
 AC_DEFUN([GP_CHECK_SPELLCHECK],
 [
     GP_ARG_DISABLE([spellcheck], [auto])
+    GP_CHECK_PLUGIN_GTK2_ONLY([spellcheck])
 
     ENCHANT_VERSION=1.3
     OPT_ENCHANT_VERSION=1.5
