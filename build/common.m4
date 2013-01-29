@@ -18,6 +18,13 @@ dnl Checks whether modules exist using PKG_CHECK_MODULES, and enables/disables
 dnl plugins appropriately if enable_$plugin=auto
 AC_DEFUN([GP_CHECK_PLUGIN_DEPS],
 [
+    AC_REQUIRE([GP_CHECK_GTK_VERSION])
+
+    gtk_dep=m4_bmatch([$3], [gtk\+-2\.0], [2], [gtk\+-3\.0], [3], [0])
+    if test $gtk_dep -ne 0; then
+        GP_CHECK_PLUGIN_GTKN_ONLY([$1], [$gtk_dep])
+    fi
+
     if test "$m4_tolower(AS_TR_SH(enable_$1))" = "yes"; then
         PKG_CHECK_MODULES([$2], [$3])
     elif test "$m4_tolower(AS_TR_SH(enable_$1))" = "auto"; then
