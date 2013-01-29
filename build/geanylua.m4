@@ -17,7 +17,7 @@ AC_DEFUN([GP_CHECK_GEANYLUA],
     GP_CHECK_PLUGIN_DEPS([GeanyLua], [LUA],
                          [${LUA_PKG_NAME} >= ${LUA_VERSION}])
     GP_CHECK_PLUGIN_DEPS([GeanyLua], [GMODULE], [gmodule-2.0])
-    GP_STATUS_PLUGIN_ADD([GeanyLua], [$enable_geanylua])
+    GP_COMMIT_PLUGIN_STATUS([GeanyLua])
 
     AC_CONFIG_FILES([
         geanylua/examples/edit/Makefile

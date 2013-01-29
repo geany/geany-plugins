@@ -21,7 +21,7 @@ AC_DEFUN([GP_CHECK_TREEBROWSER],
         [have_gio=no])
 
     AM_CONDITIONAL(ENABLE_TREEBROWSER, test "x$enable_treebrowser" = "xyes")
-    GP_STATUS_PLUGIN_ADD([TreeBrowser], [$enable_treebrowser])
+    GP_COMMIT_PLUGIN_STATUS([TreeBrowser])
     GP_STATUS_FEATURE_ADD([TreeBrowser GIO support], [$have_gio])
 
     AC_CONFIG_FILES([

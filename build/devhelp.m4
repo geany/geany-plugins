@@ -18,7 +18,7 @@ AC_DEFUN([GP_CHECK_DEVHELP],
                           gthread-2.0
                           zlib])
 
-    GP_STATUS_PLUGIN_ADD([DevHelp], [$enable_devhelp])
+    GP_COMMIT_PLUGIN_STATUS([DevHelp])
 
     AC_CONFIG_FILES([
         devhelp/Makefile
