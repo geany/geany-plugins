@@ -19,7 +19,7 @@
 
 #include "common.h"
 
-#if !GLIB_CHECK_VERSION(2, 20, 0)
+#if !GLIB_CHECK_VERSION(2, 22, 0)
 /* :-( */
 typedef struct _ArraySize
 {
@@ -65,7 +65,7 @@ gchar *scope_array_free(GArray *array, gboolean free_segment)
 
 	return g_array_free(array, free_segment);
 }
-#endif  /* GLIB 2.20.0 */
+#endif  /* GLIB 2.22.0 */
 
 #if !GTK_CHECK_VERSION(2, 18, 0)
 void gtk_widget_set_visible(GtkWidget *widget, gboolean visible)
@@ -124,14 +124,14 @@ void gtk216_init(void)
 	for (scd = sort_column_ids; scd->id; scd++)
 		gtk_tree_view_column_set_sort_column_id(get_column(scd->id), scd->sort_column_id);
 
-#if !GLIB_CHECK_VERSION(2, 20, 0)
+#if !GLIB_CHECK_VERSION(2, 22, 0)
 	array_sizes = g_array_sized_new(FALSE, FALSE, sizeof(ArraySize), 0x10);
 #endif
 }
 
 void gtk216_finalize(void)
 {
-#if !GLIB_CHECK_VERSION(2, 20, 0)
+#if !GLIB_CHECK_VERSION(2, 22, 0)
 	g_array_free(array_sizes, TRUE);
 #endif
 }

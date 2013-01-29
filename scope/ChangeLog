@@ -1,3 +1,10 @@
+2013-01-29  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/gtk216.c, src/gtk216.h:
+   Enable g_array_get_element_size() emulation for glib < 2.22 instead
+   of glib < 2.20.
+
+
 2013-01-22  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/debug.c:
