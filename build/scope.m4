@@ -1,6 +1,6 @@
 AC_DEFUN([GP_CHECK_SCOPE],
 [
-    GP_ARG_DISABLE([Scope], [yes])
+    GP_ARG_DISABLE([Scope], [auto])
 
     GP_CHECK_PLUGIN_DEPS([scope], [VTE],
                          [vte >= 0.17])
