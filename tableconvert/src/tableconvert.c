@@ -1,7 +1,7 @@
 /*
  *	  tableconvert.c
  *
- *	  Copyright 2011-2012 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *	  Copyright 2011-2013 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *	  This program is free software; you can redistribute it and/or modify
  *	  it under the terms of the GNU General Public License as published by
@@ -41,11 +41,70 @@ enum
 	COUNT_KB
 };
 
+typedef struct {
+	const gchar *start;
+	const gchar *header_start;
+	const gchar *header_stop;
+	const gchar *body_start;
+	const gchar *body_end;
+	const gchar *columnsplit;
+	const gchar *linestart;
+	const gchar *lineend;
+	const gchar *linesplit;
+	const gchar *end;
+} TableConvertRule;
+
+enum {
+	TC_LATEX = 0,
+	TC_HTML,
+	TC_SQL
+};
+
+TableConvertRule tablerules[] = {
+	/* LaTeX */
+	{
+		"\\begin{table}[h]\n\\begin{tabular}{}\n",
+		"",
+		"",
+		"",
+		"",
+		" & ",
+		"\t",
+		"\\\\",
+		"\n",
+		"\\end{tabular}\n\\end{table}"
+	},
+	/* HTML */
+	{
+		"<table>\n",
+		"<thead>\n",
+		"</thead>\n",
+		"<tbody\n\t<tr>\n\t\t<td>",
+		"</td>\n</tr>\n</tbody>",
+		"</td>\n\t<td>",
+		"<tr>\n\t<td>",
+		"</td>\n</tr>",
+		"\n",
+		"\n</table>"
+	},
+	/* SQL */
+	{
+		"",
+		"",
+		"",
+		"",
+		"",
+		",",
+		"\t(",
+		")",
+		",\n",
+		";"
+	}
+};
 
 static GtkWidget *main_menu_item = NULL;
 
-
-static GString* convert_to_table_html(gchar **rows, gboolean header)
+static GString* convert_to_table_worker(gchar **rows, gboolean header, gint type)
 {
 	guint i;
 	guint j;
@@ -53,13 +112,14 @@ static GString* convert_to_table_html(gchar **rows, gboolean header)
 
 	g_return_val_if_fail(rows != NULL, NULL);
 
-	/* Adding header to replacement */
-	replacement_str = g_string_new("<table>\n");
+	/* Adding start of table to replacement */
+	replacement_str = g_string_new(tablerules[type].start);
 
-	/* Adding <thead> if requested */
+	/* Adding special header if requested
+	 * e.g. <thead> */
 	if (header == TRUE)
 	{
-		g_string_append(replacement_str, "<thead>\n");
+		g_string_append(replacement_str, tablerules[type].header_start);
 	}
 
 	/* Iteration onto rows and building up lines of table for
@@ -69,121 +129,35 @@ static GString* convert_to_table_html(gchar **rows, gboolean header)
 		gchar **columns = NULL;
 		columns = g_strsplit_set(rows[i], "\t", -1);
 
-		/* Adding <tbody> after first line if header and body
-		 * is requested */
-		if (i == 1 &&
-			header == TRUE)
-		{
-			g_string_append(replacement_str, "<tbody>\n");
-		}
-
-		g_string_append(replacement_str, "\t<tr>\n");
-		for (j = 0; columns[j] != NULL; j++)
-		{
-			g_string_append(replacement_str, "\t\t<td>");
-			g_string_append(replacement_str, columns[j]);
-			g_string_append(replacement_str, "</td>\n");
-		}
-
-		g_string_append(replacement_str, "\t</tr>\n");
-
-		/* Adding closing </thead> after first row if header
-		 * is requested */
 		if (i == 0 &&
 			header == TRUE)
 		{
-			g_string_append(replacement_str, "</thead>\n");
+			g_string_append(replacement_str, tablerules[type].header_stop);
 		}
-		g_free(columns);
-	}
 
-	/* Adding the footer of table */
-	/* Closing </tbody> if requested */
-	if (header == TRUE)
-	{
-		g_string_append(replacement_str, "</tbody>\n");
-	}
-
-	g_string_append(replacement_str, "</table>\n");
-	return replacement_str;
-}
-
-static GString* convert_to_table_latex(gchar** rows, gboolean header)
-{
-	guint i;
-	guint j;
-	GString *replacement_str = NULL;
-
-	g_return_val_if_fail(rows != NULL, NULL);
-
-	/* Adding header to replacement */
-	replacement_str = g_string_new("\\begin{table}[h]\n\\begin{tabular}{}\n");
-
-	/* Iteration onto rows and building up lines of table for
-	* replacement */
-	for (i = 0; rows[i] != NULL ; i++)
-	{
-		gchar **columns = NULL;
-		columns = g_strsplit_set(rows[i], "\t", -1);
+		g_string_append(replacement_str, tablerules[type].linestart);
 
 		for (j = 0; columns[j] != NULL; j++)
 		{
 			if (j > 0)
 			{
-				g_string_append(replacement_str, "  &  ");
+				g_string_append(replacement_str, tablerules[type].columnsplit);
 			}
 			g_string_append(replacement_str, columns[j]);
 		}
 
-		g_string_append(replacement_str, "\\\\\n");
-
-		g_free(columns);
-	}
-	/* Adding the footer of table */
-
-	g_string_append(replacement_str, "\\end{tabular}\n\\end{table}");
-	return replacement_str;
-}
-
-static GString* convert_to_table_sql(gchar** rows)
-{
-	guint i;
-	guint j;
-	GString *replacement_str = NULL;
-
-	g_return_val_if_fail(rows != NULL, NULL);
-
-	/* Adding start */
-	replacement_str = g_string_new("");
-
-	/* Iteration onto rows and building up lines for replacement */
-	for (i = 0; rows[i] != NULL ; i++)
-	{
-		gchar **columns = NULL;
-
-		g_string_append(replacement_str, "\t('");
-		columns = g_strsplit_set(rows[i], "\t", -1);
-
-		for (j = 0; columns[j] != NULL; j++)
-		{
-			if (j > 0)
-			{
-				g_string_append(replacement_str, "','");
-			}
-			g_string_append(replacement_str, columns[j]);
-		}
+		g_string_append(replacement_str, tablerules[type].lineend);
 
 		if (rows[i+1] != NULL)
 		{
-			g_string_append(replacement_str, "'),\n");
+			g_string_append(replacement_str, tablerules[type].linesplit);
 		}
-		else
-		{
-			g_string_append(replacement_str, "')\n");
-		}
-
-		g_free(columns);
+		g_strfreev(columns);
 	}
+
+	/* Adding the footer of table */
+
+	g_string_append(replacement_str, tablerules[type].end);
 	return replacement_str;
 }
 
@@ -220,17 +194,17 @@ static void convert_to_table(gboolean header)
 				}
 				case GEANY_FILETYPES_HTML:
 				{
-					replacement_str = convert_to_table_html(rows, header);
+					replacement_str = convert_to_table_worker(rows, header, TC_HTML);
 					break;
 				}
 				case GEANY_FILETYPES_LATEX:
 				{
-					replacement_str = convert_to_table_latex(rows, header);
+					replacement_str = convert_to_table_worker(rows, header, TC_LATEX);
 					break;
 				}
 				case GEANY_FILETYPES_SQL:
 				{
-					replacement_str = convert_to_table_sql(rows);
+					replacement_str = convert_to_table_worker(rows, header, TC_SQL);
 					break;
 				}
 				default:
@@ -255,7 +229,7 @@ static void convert_to_table(gboolean header)
 			replacement = g_string_free(replacement_str, FALSE);
 			sci_replace_sel(doc->editor->sci, replacement);
 		}
-		g_free(rows);
+		g_strfreev(rows);
 		g_free(replacement);
 	}
 	   /* in case of there was no selection we are just doing nothing */
@@ -292,7 +266,7 @@ void plugin_init(GeanyData *data)
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), main_menu_item);
 	ui_widget_set_tooltip_text(main_menu_item,
 		_("Converts current marked list to a table."));
-	g_signal_connect(G_OBJECT(main_menu_item), "activate", G_CALLBACK(convert_to_table), NULL);
+	g_signal_connect(G_OBJECT(main_menu_item), "activate", G_CALLBACK(cb_table_convert), NULL);
 	gtk_widget_show_all(main_menu_item);
 	ui_add_document_sensitive(main_menu_item);
 }
