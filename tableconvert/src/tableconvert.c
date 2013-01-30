@@ -63,12 +63,12 @@ enum {
 TableConvertRule tablerules[] = {
 	/* LaTeX */
 	{
-		"\\begin{table}[h]\n\\begin{tabular}{}\n", 
-		"", 
-		"", 
-		"", 
-		"", 
-		" & ", 
+		"\\begin{table}[h]\n\\begin{tabular}{}\n",
+		"",
+		"",
+		"",
+		"",
+		" & ",
 		"\t",
 		"\\\\",
 		"\n",
@@ -76,11 +76,11 @@ TableConvertRule tablerules[] = {
 	},
 	/* HTML */
 	{
-		"<table>\n", 
-		"<thead>\n", 
-		"</thead>\n", 
-		"<tbody\n\t<tr>\n\t\t<td>", 
-		"</td>\n</tr>\n</tbody>", 
+		"<table>\n",
+		"<thead>\n",
+		"</thead>\n",
+		"<tbody\n\t<tr>\n\t\t<td>",
+		"</td>\n</tr>\n</tbody>",
 		"</td>\n\t<td>",
 		"<tr>\n\t<td>",
 		"</td>\n</tr>",
@@ -89,15 +89,15 @@ TableConvertRule tablerules[] = {
 	},
 	/* SQL */
 	{
-		"",   
-		"",   
-		"",   
-		"",   
-		"",   
-		",",  
+		"",
+		"",
+		"",
+		"",
+		"",
+		",",
 		"\t(",
-		")",  
-		",\n",	
+		")",
+		",\n",
 		";"
 	}
 };
@@ -111,11 +111,11 @@ static GString* convert_to_table_worker(gchar **rows, gboolean header, gint type
 	GString *replacement_str = NULL;
 
 	g_return_val_if_fail(rows != NULL, NULL);
-	
+
 	/* Adding start of table to replacement */
 	replacement_str = g_string_new(tablerules[type].start);
 
-	/* Adding special header if requested 
+	/* Adding special header if requested
 	 * e.g. <thead> */
 	if (header == TRUE)
 	{
@@ -128,7 +128,7 @@ static GString* convert_to_table_worker(gchar **rows, gboolean header, gint type
 	{
 		gchar **columns = NULL;
 		columns = g_strsplit_set(rows[i], "\t", -1);
-		
+
 		if (i == 0 &&
 			header == TRUE)
 		{
@@ -136,7 +136,7 @@ static GString* convert_to_table_worker(gchar **rows, gboolean header, gint type
 		}
 
 		g_string_append(replacement_str, tablerules[type].linestart);
-		
+
 		for (j = 0; columns[j] != NULL; j++)
 		{
 			if (j > 0)
@@ -147,16 +147,16 @@ static GString* convert_to_table_worker(gchar **rows, gboolean header, gint type
 		}
 
 		g_string_append(replacement_str, tablerules[type].lineend);
-		
+
 		if (rows[i+1] != NULL)
 		{
 			g_string_append(replacement_str, tablerules[type].linesplit);
 		}
 		g_strfreev(columns);
 	}
-	
+
 	/* Adding the footer of table */
-	
+
 	g_string_append(replacement_str, tablerules[type].end);
 	return replacement_str;
 }
@@ -266,7 +266,7 @@ void plugin_init(GeanyData *data)
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), main_menu_item);
 	ui_widget_set_tooltip_text(main_menu_item,
 		_("Converts current marked list to a table."));
-	g_signal_connect(G_OBJECT(main_menu_item), "activate", G_CALLBACK(convert_to_table), NULL);
+	g_signal_connect(G_OBJECT(main_menu_item), "activate", G_CALLBACK(cb_table_convert), NULL);
 	gtk_widget_show_all(main_menu_item);
 	ui_add_document_sensitive(main_menu_item);
 }
