@@ -152,7 +152,7 @@ static GString* convert_to_table_worker(gchar **rows, gboolean header, gint type
 		{
 			g_string_append(replacement_str, tablerules[type].linesplit);
 		}
-		g_free(columns);
+		g_strfreev(columns);
 	}
 	
 	/* Adding the footer of table */
@@ -229,7 +229,7 @@ static void convert_to_table(gboolean header)
 			replacement = g_string_free(replacement_str, FALSE);
 			sci_replace_sel(doc->editor->sci, replacement);
 		}
-		g_free(rows);
+		g_strfreev(rows);
 		g_free(replacement);
 	}
 	   /* in case of there was no selection we are just doing nothing */
