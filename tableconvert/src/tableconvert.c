@@ -79,8 +79,8 @@ TableConvertRule tablerules[] = {
 		"<table>\n",
 		"<thead>\n",
 		"</thead>\n",
-		"<tbody\n\t<tr>\n\t\t<td>",
-		"</td>\n</tr>\n</tbody>",
+		"<tbody>\n",
+		"\n</tbody>",
 		"</td>\n\t<td>",
 		"<tr>\n\t<td>",
 		"</td>\n</tr>",
@@ -102,9 +102,10 @@ TableConvertRule tablerules[] = {
 	}
 };
 
+
 static GtkWidget *main_menu_item = NULL;
 
-static GString* convert_to_table_worker(gchar **rows, gboolean header, gint type)
+static gchar* convert_to_table_worker(gchar **rows, gboolean header, TableConvertRule *rule)
 {
 	guint i;
 	guint j;
@@ -113,52 +114,61 @@ static GString* convert_to_table_worker(gchar **rows, gboolean header, gint type
 	g_return_val_if_fail(rows != NULL, NULL);
 
 	/* Adding start of table to replacement */
-	replacement_str = g_string_new(tablerules[type].start);
+	replacement_str = g_string_new(rule->start);
 
 	/* Adding special header if requested
 	 * e.g. <thead> */
 	if (header == TRUE)
 	{
-		g_string_append(replacement_str, tablerules[type].header_start);
+		g_string_append(replacement_str, rule->header_start);
 	}
 
 	/* Iteration onto rows and building up lines of table for
 	 * replacement */
-	for (i = 0; rows[i] != NULL ; i++)
+	for (i = 0; rows[i] != NULL; i++)
 	{
 		gchar **columns = NULL;
 		columns = g_strsplit_set(rows[i], "\t", -1);
 
-		if (i == 0 &&
+		if (i == 1 &&
 			header == TRUE)
 		{
-			g_string_append(replacement_str, tablerules[type].header_stop);
+			g_string_append(replacement_str, rule->header_stop);
+			/* We are assuming, that if someone inserts a head, 
+			 * only in this case we will insert some special body. 
+			 * Might needs to be discussed further */
+			g_string_append(replacement_str, rule->body_start);
 		}
 
-		g_string_append(replacement_str, tablerules[type].linestart);
+		g_string_append(replacement_str, rule->linestart);
 
 		for (j = 0; columns[j] != NULL; j++)
 		{
 			if (j > 0)
 			{
-				g_string_append(replacement_str, tablerules[type].columnsplit);
+				g_string_append(replacement_str, rule->columnsplit);
 			}
 			g_string_append(replacement_str, columns[j]);
 		}
 
-		g_string_append(replacement_str, tablerules[type].lineend);
+		g_string_append(replacement_str, rule->lineend);
 
 		if (rows[i+1] != NULL)
 		{
-			g_string_append(replacement_str, tablerules[type].linesplit);
+			g_string_append(replacement_str, rule->linesplit);
 		}
 		g_strfreev(columns);
 	}
 
+	if (header == TRUE)
+	{
+		g_string_append(replacement_str, rule->body_end);
+	}
+	
 	/* Adding the footer of table */
+	g_string_append(replacement_str, rule->end);
 
-	g_string_append(replacement_str, tablerules[type].end);
-	return replacement_str;
+	return g_string_free(replacement_str, FALSE);
 }
 
 static void convert_to_table(gboolean header)
@@ -172,7 +182,6 @@ static void convert_to_table(gboolean header)
 	{
 		gchar *selection = NULL;
 		gchar **rows = NULL;
-		GString *replacement_str = NULL;
 		gchar *replacement = NULL;
 
 		/* Actually grabbing selection and splitting it into single
@@ -188,45 +197,49 @@ static void convert_to_table(gboolean header)
 			{
 				case GEANY_FILETYPES_NONE:
 				{
-					g_free(rows);
-					g_free(replacement);
+					g_strfreev(rows);
 					return;
 				}
 				case GEANY_FILETYPES_HTML:
 				{
-					replacement_str = convert_to_table_worker(rows, header, TC_HTML);
+					replacement = convert_to_table_worker(rows,
+						header,
+						&tablerules[TC_HTML]);
 					break;
 				}
 				case GEANY_FILETYPES_LATEX:
 				{
-					replacement_str = convert_to_table_worker(rows, header, TC_LATEX);
+					replacement = convert_to_table_worker(rows,
+						header,
+						&tablerules[TC_LATEX]);
 					break;
 				}
 				case GEANY_FILETYPES_SQL:
 				{
-					replacement_str = convert_to_table_worker(rows, header, TC_SQL);
+					replacement = convert_to_table_worker(rows,
+						header,
+						&tablerules[TC_SQL]);
 					break;
 				}
 				default:
 				{
-					replacement_str = NULL;
+					/* We just don't do anything */
 				}
 			} /* filetype switch */
 		}
 		else
 		{
 			/* OK. Something went not as expected.
-			* We did have a selection but cannot parse it into rows.
-			* Aborting */
+			 * We did have a selection but cannot parse it into rows.
+			 * Aborting */
 			g_warning(_("Something went wrong on parsing selection. Aborting"));
 			return;
 		}
 
 		/* The replacement should have been prepared at this point. Let's go
-		* on and put it into document and replace selection with it. */
-		if (replacement_str != NULL)
+		 * on and put it into document and replace selection with it. */
+		if (replacement != NULL)
 		{
-			replacement = g_string_free(replacement_str, FALSE);
 			sci_replace_sel(doc->editor->sci, replacement);
 		}
 		g_strfreev(rows);
@@ -236,9 +249,11 @@ static void convert_to_table(gboolean header)
 	return;
 }
 
+
 static void kb_convert_to_table(G_GNUC_UNUSED guint key_id)
 {
 	g_return_if_fail(document_get_current() != NULL);
+
 	convert_to_table(TRUE);
 }
 
