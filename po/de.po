@@ -4018,7 +4018,7 @@ msgstr "E-Mail-Adresse des Empfängers:"
 
 #: ../geanysendmail/src/geanysendmail.c:136
 msgid "Filename placeholder not found. The executed command might have failed."
-msgstr "Konnte den Platzhalter für den Dateinamen (\\%s) nicht finden. Der angegebene Befehl könnte nicht korrekt ausgeführt worden sein."
+msgstr "Konnte den Platzhalter für den Dateinamen nicht finden. Der angegebene Befehl könnte nicht korrekt ausgeführt worden sein."
 
 #: ../geanysendmail/src/geanysendmail.c:142
 msgid "Recipient address placeholder not found. The executed command might have failed."
