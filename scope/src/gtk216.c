@@ -31,7 +31,7 @@ GArray *array_sizes;
 
 static ArraySize *find_array_size(GArray *array)
 {
-	gchar *end = array_sizes->data + sizeof(ArraySize) * array>len;
+	gchar *end = array_sizes->data + sizeof(ArraySize) * array->len;
 	gchar *data;
 
 	for (data = array_sizes->data; data < end; data += sizeof(ArraySize))
