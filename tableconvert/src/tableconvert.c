@@ -105,7 +105,8 @@ TableConvertRule tablerules[] = {
 
 static GtkWidget *main_menu_item = NULL;
 
-static gchar* convert_to_table_worker(gchar **rows, gboolean header, TableConvertRule *rule)
+static gchar* convert_to_table_worker(gchar **rows, gboolean header, 
+	const TableConvertRule *rule)
 {
 	guint i;
 	guint j;
