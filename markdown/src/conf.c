@@ -64,7 +64,7 @@
 
 enum
 {
-  PROP_0,
+  PROP_0 = 0,
   PROP_TEMPLATE_FILE,
   PROP_FONT_NAME,
   PROP_CODE_FONT_NAME,
@@ -242,7 +242,7 @@ markdown_config_get_string_key(MarkdownConfig *conf, const gchar *group,
 
 static guint
 markdown_config_get_uint_key(MarkdownConfig *conf, const gchar *group,
-  const gchar *key, uint default_value)
+  const gchar *key, guint default_value)
 {
   guint out_uint;
   GError *error = NULL;
@@ -251,7 +251,7 @@ markdown_config_get_uint_key(MarkdownConfig *conf, const gchar *group,
   if (error) {
     g_debug("Config read failed: %s", error->message);
     g_error_free(error); error = NULL;
-    out_uint = 12;
+    out_uint = default_value;
   }
 
   return out_uint;
@@ -339,6 +339,19 @@ markdown_config_get_property(GObject *obj, guint prop_id, GValue *value, GParamS
 }
 
 static void
+markdown_install_class_properties(GObjectClass *gclass, guint n_pspecs,
+  GParamSpec **pspecs)
+{
+#if GLIB_CHECK_VERSION(2, 26, 0)
+  g_object_class_install_properties(gclass, n_pspecs, pspecs);
+#else
+  guint i;
+  for (i = 1; i < n_pspecs; i++)
+    g_object_class_install_property(gclass, i, pspecs[i]);
+#endif
+}
+
+static void
 markdown_config_class_init(MarkdownConfigClass *klass)
 {
   GObjectClass *g_object_class;
@@ -369,7 +382,7 @@ markdown_config_class_init(MarkdownConfigClass *klass)
     MARKDOWN_CONFIG_VIEW_POS_MAX-1, (guint) MARKDOWN_CONFIG_VIEW_POS_SIDEBAR,
     G_PARAM_READWRITE);
 
-  g_object_class_install_properties(g_object_class, PROP_LAST, md_props);
+  markdown_install_class_properties(g_object_class, PROP_LAST, md_props);
 }
 
 
