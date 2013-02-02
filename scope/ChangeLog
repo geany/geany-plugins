@@ -1,8 +1,21 @@
+2013-01-31  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/gtk216.c:
+   Fixed typo in get array element size emulation.
+
+
 2013-01-29  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/gtk216.c, src/gtk216.h:
    Enable g_array_get_element_size() emulation for glib < 2.22 instead
    of glib < 2.20.
+
+
+2013-01-26  YosefOr  <yosefor3@walla.com>
+
+ * src/debug.c:
+   Reverted glibconfig.h include for win32 waitpid()/kill() emulation
+   to glib.h, the new glib versions don't allow individual includes.
 
 
 2013-01-22  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
@@ -12,6 +25,12 @@
    sets errno = EINVAL on error.
  * wscript_build:
    Define empty libraries for win32 only.
+
+
+2013-01-22  Vadim Kochan  <vadim4j@gmail.com>
+
+ * wscript_build:
+   Define default empty libriaries.
 
 
 2013-01-20  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
