@@ -1407,8 +1407,8 @@ static void EditSearchOptions(GtkTreeModel *model,GtkTreeIter *iter)
 	gtk_widget_show(gtkcb);
 
 	/* create checkbox to check for search options */
-	cbA=gtk_check_button_new_with_label(_("Seach for contents of clipboard"));
-	/* if search text is empty then to seach for clipboard contents */
+	cbA=gtk_check_button_new_with_label(_("Search for contents of clipboard"));
+	/* if search text is empty then to search for clipboard contents */
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cbA),(*cText)==0);
 	gtk_box_pack_start(GTK_BOX(vbox),cbA,FALSE,FALSE,2);
 	/* ensure we monitor for change in this button */
@@ -1421,7 +1421,7 @@ static void EditSearchOptions(GtkTreeModel *model,GtkTreeIter *iter)
 	gtk_box_pack_start(GTK_BOX(vbox),hbox,FALSE,FALSE,2);
 	gtk_widget_show(hbox);
 
-	gtkl=gtk_label_new(_("Seach for:"));
+	gtkl=gtk_label_new(_("Search for:"));
 	gtk_box_pack_start(GTK_BOX(hbox),gtkl,FALSE,FALSE,2);
 	gtk_widget_show(gtkl);
 	/* save pointer to label */
@@ -1439,28 +1439,28 @@ static void EditSearchOptions(GtkTreeModel *model,GtkTreeIter *iter)
 	gtk_widget_set_sensitive((GtkWidget*)gtke,(*cText)!=0);
 
 	/* create checkbox to check for search options */
-	cbB=gtk_check_button_new_with_label(_("Seach is case sensitive"));
-	/* if search text is empty then to seach for clipboard contents */
+	cbB=gtk_check_button_new_with_label(_("Search is case sensitive"));
+	/* if search text is empty then to search for clipboard contents */
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cbB),(flags&SCFIND_MATCHCASE)==SCFIND_MATCHCASE);
 	gtk_box_pack_start(GTK_BOX(vbox),cbB,FALSE,FALSE,2);
 
-	cbC=gtk_check_button_new_with_label(_("Seach for whole word"));
-	/* if search text is empty then to seach for clipboard contents */
+	cbC=gtk_check_button_new_with_label(_("Search for whole word"));
+	/* if search text is empty then to search for clipboard contents */
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cbC),(flags&SCFIND_WHOLEWORD)==SCFIND_WHOLEWORD);
 	gtk_box_pack_start(GTK_BOX(vbox),cbC,FALSE,FALSE,2);
 
-	cbD=gtk_check_button_new_with_label(_("Seach for start of word"));
-	/* if search text is empty then to seach for clipboard contents */
+	cbD=gtk_check_button_new_with_label(_("Search for start of word"));
+	/* if search text is empty then to search for clipboard contents */
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cbD),(flags&SCFIND_WORDSTART)==SCFIND_WORDSTART);
 	gtk_box_pack_start(GTK_BOX(vbox),cbD,FALSE,FALSE,2);
 
-	cbE=gtk_check_button_new_with_label(_("Seach text is regular expression"));
-	/* if search text is empty then to seach for clipboard contents */
+	cbE=gtk_check_button_new_with_label(_("Search text is regular expression"));
+	/* if search text is empty then to search for clipboard contents */
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cbE),(flags&SCFIND_REGEXP)==SCFIND_REGEXP);
 	gtk_box_pack_start(GTK_BOX(vbox),cbE,FALSE,FALSE,2);
 
-	cbF=gtk_check_button_new_with_label(_("Seach text is POSIX compatible"));
-	/* if search text is empty then to seach for clipboard contents */
+	cbF=gtk_check_button_new_with_label(_("Search text is POSIX compatible"));
+	/* if search text is empty then to search for clipboard contents */
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cbF),(flags&SCFIND_POSIX)==SCFIND_POSIX);
 	gtk_box_pack_start(GTK_BOX(vbox),cbF,FALSE,FALSE,2);
 
