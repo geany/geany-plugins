@@ -246,7 +246,7 @@ void ao_enclose_words_config (GtkButton *button, GtkWidget *config_window)
 	gchar insert_chars [2] = {0, 0};
 	gint i;
 
-	dialog = gtk_dialog_new_with_buttons(_("Plugins"), GTK_WINDOW(config_window),
+	dialog = gtk_dialog_new_with_buttons(_("Enclose Characters"), GTK_WINDOW(config_window),
 						GTK_DIALOG_DESTROY_WITH_PARENT, "Accept", GTK_RESPONSE_ACCEPT,
 						"Cancel", GTK_RESPONSE_CANCEL, "OK", GTK_RESPONSE_OK, NULL);
 
