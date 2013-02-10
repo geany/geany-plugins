@@ -118,15 +118,15 @@ msgstr "Erweiterungen"
 #: ../addons/src/ao_wrapwords.c:260
 #, c-format
 msgid "Enclose combo %d"
-msgstr "Kombination %d miteinschließen"
+msgstr "Begrenzungspaar %d"
 
 #: ../addons/src/ao_wrapwords.c:276
 msgid "Opening Character"
-msgstr "Zeichen am Anfang"
+msgstr "Startzeichen"
 
 #: ../addons/src/ao_wrapwords.c:283
 msgid "Closing Character"
-msgstr "Zeichen am eNDE"
+msgstr "Stopzeichen"
 
 #: ../addons/src/ao_doclist.c:207
 msgid "Close Ot_her Documents"
@@ -142,7 +142,7 @@ msgstr "Dokumentenliste anzeigen"
 
 #: ../addons/src/addons.c:52
 msgid "Addons"
-msgstr "Addons"
+msgstr "Erweiterungen"
 
 #: ../addons/src/addons.c:53
 msgid "Various small addons for Geany."
@@ -205,10 +205,9 @@ msgstr "Dokumente nach A_uftreten sortieren (umgekehrt)"
 msgid "Sort the documents in the order of the document tabs (reversed)"
 msgstr "Sortiert die Dokumente nach Reihenfolge der geöffneten Reiter (umgekehrte Reihenfolge)."
 
-#. TODO fix the string
 #: ../addons/src/addons.c:489
 msgid "Show a 'Open URI' menu item in the editor menu"
-msgstr "Eintrag »URI öffnen« im Editor-Menü"
+msgstr "Eintrag »URI öffnen« im Editor-Menü anzeigen"
 
 #: ../addons/src/addons.c:495
 msgid "Show available Tasks in the Messages Window"
