@@ -42,11 +42,11 @@ Avaialble plugins are:
 
 * addons -- the Addons plugin
 * codenav -- the CodeNav plugin
+* commander -- the Commander plugin
 * debugger -- the Debugger plugin
 * devhelp -- the devhelp plugin
 * geanydoc -- the GeanyDoc plugin
 * geanyextrasel -- the GeanyExtraSel plugin
-* geanygdb -- the GeanyGDB plugin (disabled by default)
 * geanygendoc -- the GeanyGenDoc plugin
 * geanyinsertnum -- the GeanyInsertNum plugin
 * geanylatex -- the GeanyLaTeX plugin
@@ -60,6 +60,7 @@ Avaialble plugins are:
 * geniuspaste -- the paste to a pastebin plugin
 * gproject -- the GProject plugin
 * gtkspell -- GeanyVC's spell-check support
+* markdown -- the Markdown plugin
 * pretty_printer -- the pretty-printer plugin
 * scope -- the Scope plugin
 * shiftcolumn -- the ShiftColumn plugin
