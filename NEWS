@@ -4,26 +4,26 @@ Geany Plugins 1.23 (xxxx-xx-xx)
 	* Add new plugin Commander
 	* Add new plugin markdown
 	* Add new plugin Scope
-	* Removing plugin geanyGDB 
+	* Removing plugin geanyGDB
 	* Improvement of error handling in autogen.sh
 	* Improvement of general documentation
 	* Buildfix with waf on Windows-Systems
-	
+
 	Addons:
 	* Fixing of memory leaks
 	* Little rewordings
-	
+
 	Devhelp:
 	* Fix API-calls for older GTK-versions
 	* Fix a signal to avoid crash on closing of Geany
-	
+
 	GeanyGenDoc:
 	* Improvement of waf-build
-	
+
 	GeanyLaTeX:
 	* Fix installation path for documentation.
 
-	GeanyLua: 
+	GeanyLua:
 	* Update of Scintilla bindings to 3.2.0
 	* Improve pointer->int casts
 	* Revisiting mechanism to find Lua-package on configuration-time
@@ -36,7 +36,7 @@ Geany Plugins 1.23 (xxxx-xx-xx)
 
 	GeanyPrj:
 	* Buildfix for function not marked as external
-	
+
 	GeniusPaste:
 	* Fixing of memory leaks
 	* Fixing of a invalid memory free
@@ -126,7 +126,7 @@ Geany Plugins 1.22 (2012-07-10)
     WebHelper:
     * Fix crash with recent versions of WebKitGTK
     * Save and restore inspector docking state
-    
+
     Internationalisation:
     * Update translations: de, ja, nl, tr
 
