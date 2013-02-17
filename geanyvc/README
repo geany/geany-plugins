@@ -23,38 +23,38 @@ Features
 *Bazaar, GIT, Mercurial, Subversion, SVK*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
- * diff file
- * diff directory
- * diff base directory
- * blame
- * log file
- * log directory
- * log base directory
- * status
- * revert file
- * revert directory
- * revert base directory
- * show unmodified original file
- * add file
- * remove file
- * update
- * commit
+* diff file
+* diff directory
+* diff base directory
+* blame
+* log file
+* log directory
+* log base directory
+* status
+* revert file
+* revert directory
+* revert base directory
+* show unmodified original file
+* add file
+* remove file
+* update
+* commit
 
 *CVS*
 ^^^^^
 
- * diff file
- * diff directory
- * diff base directory
- * log file
- * log directory
- * log base directory
- * status
- * revert file
- * revert directory
- * revert base directory
- * update
- * commit
+* diff file
+* diff directory
+* diff base directory
+* log file
+* log directory
+* log base directory
+* status
+* revert file
+* revert directory
+* revert base directory
+* update
+* commit
  
 Usage
 -----
@@ -116,9 +116,9 @@ recommended to activate e.g. svk only if you want to use it.
 Requirements
 ------------
 
- * GTK >= 2.8.0
- * gtkspell >=2.0 for a spell checking
- * Geany >= 0.19
+* GTK >= 2.8.0
+* gtkspell >=2.0 for a spell checking
+* Geany >= 0.19
  
 Contact developers
 ------------------

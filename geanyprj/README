@@ -59,11 +59,11 @@ selected type. If it is unchecked you should manually select files you want to b
 
 Type - This is type of files that needed to be parsed by tagmanager.
 
- * All - All files that is known to Geany
- * C/C++ - This match any C or C++ files (.c, .cpp, .cxx, .h etc.)
- * C - This match only C files  (.c, .h)
- * Python - This match python files (.py)
- * None - This doesn't match any files
+* All - All files that is known to Geany
+* C/C++ - This match any C or C++ files (.c, .cpp, .cxx, .h etc.)
+* C - This match only C files  (.c, .h)
+* Python - This match python files (.py)
+* None - This doesn't match any files
 
 
 Example of usage

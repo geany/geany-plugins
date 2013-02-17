@@ -15,7 +15,7 @@ AC_DEFUN([GP_CHECK_GEANYPG],
     # necessary for gpgme
     AC_SYS_LARGEFILE
 
-    GP_STATUS_PLUGIN_ADD([GeanyPG], [$enable_geanypg])
+    GP_COMMIT_PLUGIN_STATUS([GeanyPG])
     AC_CONFIG_FILES([
         geanypg/Makefile
         geanypg/src/Makefile

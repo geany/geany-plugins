@@ -6,7 +6,7 @@ AC_DEFUN([GP_CHECK_COMMANDER],
                          [gtk+-2.0 >= 2.16
                           glib-2.0 >= 2.4])
 
-    GP_STATUS_PLUGIN_ADD([Commander], [$enable_commander])
+    GP_COMMIT_PLUGIN_STATUS([Commander])
 
     AC_CONFIG_FILES([
         commander/Makefile

@@ -1,0 +1,220 @@
+2013-01-31  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/gtk216.c:
+   Fixed typo in get array element size emulation.
+
+
+2013-01-29  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/gtk216.c, src/gtk216.h:
+   Enable g_array_get_element_size() emulation for glib < 2.22 instead
+   of glib < 2.20.
+
+
+2013-01-26  YosefOr  <yosefor3@walla.com>
+
+ * src/debug.c:
+   Reverted glibconfig.h include for win32 waitpid()/kill() emulation
+   to glib.h, the new glib versions don't allow individual includes.
+
+
+2013-01-22  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/debug.c:
+   Win32 waitpid()/kill() emulation depends on glibconfig.h only and
+   sets errno = EINVAL on error.
+ * wscript_build:
+   Define empty libraries for win32 only.
+
+
+2013-01-22  Vadim Kochan  <vadim4j@gmail.com>
+
+ * wscript_build:
+   Define default empty libriaries.
+
+
+2013-01-20  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/debug.c:
+   Reduced dependency of win32 waitpid()/kill() emulation on glib.
+ * src/thread.c:
+   Change frame id to 0 or none immediately after thread change.
+ * src/stack.c:
+   Select frame 0 instead of the first available if the current frame
+   is no longer valid.
+ * src/local.c, src/views.c, src/views.h, src/watch.c:
+   Skip stack update if frame 0 for watches only.
+ * src/stack.c:
+   Select and focus only if the current frame is not valid any more.
+ * docs/scope.html:
+   Added tips about Memory.
+ * src/memory.c:
+   Distinguish between memory Clear and auto clear.
+   Fixed menu extra state bug.
+ * src/views.c:
+   Mark memory as auto clear.
+ * src/break.c, src/inspect.c, src/local.c, src/menu.c, src/stack.c,
+   src/thread.c, src/views.c, src/utils.c, src/watch.c:
+   Free string values returned by gtk_tree_model_get().
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.83.
+
+
+2013-01-15  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * data/scope.glade, docs/codes.html, docs/scope.html, src/common.h,
+   src/Makefile.am, src/memory.c, src/memory.h, src/parse.c,
+   src/prefs.c, src/prefs.h, src/scope.c, src/views.c, src/views.h:
+   Added Memory subpage.
+ * data/scope.glade, src/conterm.c:
+   GtkTextView "debug_console" -> "debug_context".
+ * src/break.c, src/gtk216.c, src/scope.h, src/stack.c, src/thread.c,
+   src/views.c:
+   GTK_TREE_COLUMN(get_object(name)) -> get_column(name).
+ * src/conterm.c, src/menu.c, src/views.c:
+   Handle GDK_KP_Insert/GDK_KP_Delete/GTK_ISO_Space.
+ * src/conterm.c:
+   Don't invoke console on Ctrl/Alt/Mod ASCII characters.
+   Don't set debug_context properties already defined in scope.glade.
+ * src/conterm.h:
+   Properly declare dc_output/dc_output_nl as extern.
+ * src/debug.c, src/scope.c:
+   Invoke finalizers in (hopefully) proper order instead of processing
+   pending gtk+ events on finalize.
+ * src/debug.c:
+   Small initial wait for gdb kill in finalize instead of waiting
+   gdb_wait_death + 1.
+ * src/gtk216.c, src/gtk216.h, src/scope.c:
+   Emulate g_array_get_element_size() under glib 2.20.
+ * src/menu.c, src/plugme.c, src/utils.c, src/utils.h, src/views.c:
+   utils_str_replace_all() -> utils_strchrepl().
+ * src/scope.c:
+   Properly initialize inspects state.
+ * src/stack.c:
+   Select and focus the current frame instead of simply selecting.
+ * src/tooltip.c:
+   Unlimited toolbar length on pref_tooltips_length = 0, as described
+   in scope.html.
+ * src/utils.c:
+   Invoke g_array_get_element_size() only once in array_save().
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.82.
+
+
+2013-01-03  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/debug.c, src/scope.c:
+   Ask user whether to terminate debugging on build actions.
+ * src/debug.c:
+   Ignore "Auto run/exit" on Terminate if neither an executable nor a
+   load script is specified.
+ * docs/codes.html, src/inspect.c, src/inspect.h, src/local.c,
+   src/local.h, src/menu.c, src/menu.h, src/parse.c, src/views.c,
+   src/views.h, src/watch.c, src/watch.h:
+   Unified/simplified all "modified" tokens. The original version was
+   an overkill, and did not update all possible value references.
+ * src/thread.c:
+   Small "modified" tokens unification related changes.
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.80.
+
+
+2012-12-30  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/break.c, src/inspect.c, src/stack.c, src/thread.c, src/utils.c,
+   src/utils.h, src/watch.c:
+   Select, focus and align tree elements instead of simply selecting.
+
+
+2012-12-28  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/break.c, src/inspect.c, src/parse.c, src/program.c,
+   src/watch.c:
+   g_key_file_get_*() -> utils_get_setting_*(), provide reasonable
+   defaults for some settings on load error.
+
+ * src/conterm.c:
+   gtk_widget_modify_font() -> ui_widget_modify_font_from_string().
+
+
+2012-12-27  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * data/scope.glade, docs/codes.html, docs/scope.html, src/parse.c,
+   src/stack.c, src/stack.h, src/thread.c, src/thread.h, src/views.c:
+   Easier sync between GDB/Scope thread/frame.
+
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.79.
+
+
+2012-12-26  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * data/scope.glade, docs/codes.html, src/break.c, src/inspect.c,
+   src/local.c, src/menu.c, src/stack.c, src/thread.c, src/views.h,
+   src/watch.c:
+   Small fixes, simplified menu action debug states.
+
+
+2012-12-24  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/thread.c:
+   Limit TerminateProcess() exit code to UINT_MAX, not NSIG.
+
+
+2012-12-23  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * docs/scope.html, src/prefs.c, src/prefs.h, src/thread.c:
+   Added option "keep_exec_point" to keep the execution point marker
+   and Threads location columns when a thread execution is resumed.
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.78.
+
+
+2012-12-22  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * NEWS:
+   Real NEWS.
+ * docs/scope.html:
+   Small clarification.
+ * src/parse.c:
+   Fixed breakpoint-deleted id format.
+ * src/parse.h:
+   Removed parse_lead_locale(), not used.
+ * src/program.c, src/scope.c:
+   Unified error message format.
+
+ 
+2012-12-18  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * build/scope.m4, scope/src/Makefile.am:
+   No -lutil under win32.
+
+
+2012-12-16  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/common.h, src/menu.h:
+   Fixed forward declarations (though my gcc accepts them).
+ * src/menu.c, src/tooltip.c, src/views.c, src/views.h:
+   Clear scid_gen on program exit. No real risk of overflow, 
+   but smaller values look better in Debug Console.
+ * src/menu.c:
+   Position cursor in modify dialog after " = ".
+ * src/tooltip.c:
+   Reset internal variables on program exit.
+ * src/debug.c:
+   Escape "\ in evaluate expressions.
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.77.
+
+
+2012-12-13  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * data/scope.glade, src/local.c, src/parse.c, src/parse.h,
+   src/stack.c, src/stack.h:
+   Per-function display of @entry arguments.
+ * src/inspect.c, src/menu.c:
+   Small per-function @entry arguments related changes.
+ * src/inspect.c, src/local.c
+   (int) strlen(...) to avoid format warnings.
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.76, small fixes and clarifications.

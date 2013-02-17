@@ -13,7 +13,7 @@ AC_DEFUN([GP_CHECK_MULTITERM],
                      [AC_MSG_ERROR([valac not found])])])
     ])
     GP_CHECK_PLUGIN_DEPS([multiterm], [MULTITERM], [gtk+-2.0 geany vte])
-    GP_STATUS_PLUGIN_ADD([MultiTerm], [$enable_multiterm])
+    GP_COMMIT_PLUGIN_STATUS([MultiTerm])
 
     AC_CONFIG_FILES([
         multiterm/Makefile

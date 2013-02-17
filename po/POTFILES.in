@@ -100,19 +100,6 @@ geanydoc/tests/unittests.c
 geanydoc/src/config.c
 geanydoc/src/geanydoc.c
 
-# geanygdb
-geanygdb/src/gdb-io-break.c
-geanygdb/src/gdb-io-envir.c
-geanygdb/src/gdb-io-frame.c
-geanygdb/src/gdb-io-read.c
-geanygdb/src/gdb-io-run.c
-geanygdb/src/gdb-ui-break.c
-geanygdb/src/gdb-ui-envir.c
-geanygdb/src/gdb-ui-frame.c
-geanygdb/src/gdb-ui-locn.c
-geanygdb/src/gdb-ui-main.c
-geanygdb/src/geanygdb.c
-
 # GeanyExtraSel
 geanyextrasel/src/extrasel.c
 
@@ -229,6 +216,23 @@ markdown/src/plugin.c
 pretty-printer/src/PrettyPrinter.c
 pretty-printer/src/PluginEntry.c
 pretty-printer/src/ConfigUI.c
+
+# Scope
+scope/data/scope.glade
+scope/src/break.c
+scope/src/conterm.c
+scope/src/debug.c
+scope/src/inspect.c
+scope/src/memory.c
+scope/src/menu.c
+scope/src/parse.c
+scope/src/plugme.c
+scope/src/prefs.c
+scope/src/program.c
+scope/src/scope.c
+scope/src/thread.c
+scope/src/utils.c
+scope/src/views.c
 
 # Spell Check
 spellcheck/src/speller.c

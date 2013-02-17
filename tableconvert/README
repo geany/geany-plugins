@@ -59,6 +59,10 @@ Rectangle selections are currently not supported and might lead to
 some weird output you didn't expect -- just don't try it if you have
 heart issues or working on an important document :)
 
+However, after you transformed your selection to a table you might 
+want to update the number and orientation of columns at begin of 
+tabular-environment.
+
 SQL
 ^^^
 

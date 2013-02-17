@@ -86,6 +86,9 @@ gboolean on_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data
 	if (!auto_enabled)
 		return FALSE;
 
+	if (document_get_current () == NULL)
+		return FALSE;
+
 	sci_obj = document_get_current ()->editor->sci;
 
 	if (sci_get_selected_text_length (sci_obj) < 2)
@@ -243,7 +246,7 @@ void ao_enclose_words_config (GtkButton *button, GtkWidget *config_window)
 	gchar insert_chars [2] = {0, 0};
 	gint i;
 
-	dialog = gtk_dialog_new_with_buttons(_("Plugins"), GTK_WINDOW(config_window),
+	dialog = gtk_dialog_new_with_buttons(_("Enclose Characters"), GTK_WINDOW(config_window),
 						GTK_DIALOG_DESTROY_WITH_PARENT, "Accept", GTK_RESPONSE_ACCEPT,
 						"Cancel", GTK_RESPONSE_CANCEL, "OK", GTK_RESPONSE_OK, NULL);
 

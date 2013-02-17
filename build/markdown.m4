@@ -10,7 +10,7 @@ AC_DEFUN([GP_CHECK_MARKDOWN],
                           webkit-1.0 >= ${WEBKIT_VERSION}
                           gthread-2.0])
 
-    GP_STATUS_PLUGIN_ADD([Markdown], [$enable_markdown])
+    GP_COMMIT_PLUGIN_STATUS([Markdown])
 
     AC_CONFIG_FILES([
         markdown/Makefile

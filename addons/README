@@ -18,15 +18,15 @@ plugin but might still useful for people.
 Features
 --------
 
- * Toolbar button with a list of open files
- * Open and Copy URI found in a document command
- * Task list in a message window
- * Bookmark list in a sidebar
- * Status icon in the notification area
- * Highlighting all occurrences of a word when double-clicking it
- * Strip trailing blank lines when saving
- * XMLtagging
- * Enclose selected text with characters
+* Toolbar button with a list of open files
+* Open and Copy URI found in a document command
+* Task list in a message window
+* Bookmark list in a sidebar
+* Status icon in the notification area
+* Highlighting all occurrences of a word when double-clicking it
+* Strip trailing blank lines when saving
+* XMLtagging
+* Enclose selected text with characters
 
 Usage
 -----
@@ -81,7 +81,7 @@ selection, offering a little dialog for inserting a tag and
 replacing a selection.
 
 *Enclosing selected text*
-^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^
 Provides two methods for enclosing selected text in characters.  If the 'Enclose
 selection automatically' option is checked in Preferences, selected text will
 be surrounded when certain characters are pressed (e.g. highlight a string and
@@ -94,8 +94,8 @@ selected text in brackets).
 Requirements
 ------------
 
- * GTK >= 2.8.0
- * Geany >= 0.21
+* GTK >= 2.8.0
+* Geany >= 0.21
 
 Contact developers
 ------------------

@@ -19,18 +19,18 @@ so the other backends support is planned as well.
 Features
 --------
 
- * Debugger panel
- * Setting target, environment variables and command line arguments
- * Breakpoints
- * Watches, autos
- * Debug terminal
- * Debugger messages window
- * Threads and stack info
- * Switching frames in the stack trace window
- * Variables calltips while debugging
- * Saving debug session data in a Geany project (can be switched through settings)
- * Double or single panel modes
- * Hotkeys
+* Debugger panel
+* Setting target, environment variables and command line arguments
+* Breakpoints
+* Watches, autos
+* Debug terminal
+* Debugger messages window
+* Threads and stack info
+* Switching frames in the stack trace window
+* Variables calltips while debugging
+* Saving debug session data in a Geany project (can be switched through settings)
+* Double or single panel modes
+* Hotkeys
 
 Usage
 -----
@@ -48,9 +48,9 @@ watch item containing the corresponding expression.
 Requirements
 ------------
 
- * Geany >= 0.21
- * GTK 2
- * POSIX API
+* Geany >= 0.21
+* GTK 2
+* POSIX API
 
 Contact developers
 ------------------

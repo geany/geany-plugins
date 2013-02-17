@@ -21,18 +21,22 @@
 # $Id: wscript_build 1735 2010-11-09 17:03:40Z eht16 $
 
 from build.wafutils import build_plugin
+from waflib.Utils import subst_vars
 
 name = 'Debugger'
-includes = ['debugger/src']
+
+includes = ['debugger/src', 'debugger/src/cell_renderers', 
+            'debugger/src/xpm']
+
 libraries = ['VTE', 'UTIL']
 
-pludin_datadir = '${PKGDATADIR}/debugger'
+plugin_datadir = '${PKGDATADIR}/debugger'
 
-defines=[ 'DBGPLUG_DATA_DIR="' + pludin_datadir + '"']
+defines=[ subst_vars('DBGPLUG_DATA_DIR="' + plugin_datadir + '"', bld.env) ]
 
 build_plugin(bld, name, includes=includes, libraries=libraries, defines=defines)
 
 # Icons
 start_dir = bld.path.find_dir('img')
-bld.install_files(pludin_datadir, start_dir.ant_glob('*.png'), cwd=start_dir)
-bld.install_files(pludin_datadir, start_dir.ant_glob('*.gif'), cwd=start_dir)
+bld.install_files(plugin_datadir, start_dir.ant_glob('*.png'), cwd=start_dir)
+bld.install_files(plugin_datadir, start_dir.ant_glob('*.gif'), cwd=start_dir)

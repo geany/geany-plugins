@@ -5,7 +5,7 @@ AC_DEFUN([GP_CHECK_PRETTYPRINTER],
     GP_ARG_DISABLE([pretty-printer], [auto])
     GP_CHECK_PLUGIN_DEPS([pretty-printer], [LIBXML],
                          [libxml-2.0 >= ${LIBXML_VERSION}])
-    GP_STATUS_PLUGIN_ADD([Pretty Printer], [$enable_pretty_printer])
+    GP_COMMIT_PLUGIN_STATUS([Pretty Printer])
 
     AC_CONFIG_FILES([
         pretty-printer/Makefile

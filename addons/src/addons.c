@@ -485,8 +485,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_box_pack_start(GTK_BOX(vbox), frame_doclist, FALSE, FALSE, 3);
 
 	check_openuri = gtk_check_button_new_with_label(
-		/* TODO fix the string */
-		_("Show a 'Open URI' menu item in the editor menu"));
+		_("Show an 'Open URI' item in the editor menu"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_openuri),
 		ao_info->enable_openuri);
 	gtk_box_pack_start(GTK_BOX(vbox), check_openuri, FALSE, FALSE, 3);

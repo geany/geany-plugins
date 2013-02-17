@@ -61,6 +61,14 @@ static CheckLineData check_line_data;
 static gboolean sc_ignore_callback = FALSE;
 
 
+static void perform_check(GeanyDocument *doc);
+
+
+static void clear_spellcheck_error_markers(GeanyDocument *doc)
+{
+	editor_indicator_clear(doc->editor, GEANY_INDICATOR_ERROR);
+}
+
 
 static void print_typing_changed_message(void)
 {
@@ -73,13 +81,27 @@ static void print_typing_changed_message(void)
 
 static void toolbar_item_toggled_cb(GtkToggleToolButton *button, gpointer user_data)
 {
+	gboolean check_while_typing_changed, check_while_typing;
+
 	if (sc_ignore_callback)
 		return;
 
-	sc_info->check_while_typing = gtk_toggle_tool_button_get_active(button);
+	check_while_typing = gtk_toggle_tool_button_get_active(button);
+	check_while_typing_changed = check_while_typing != sc_info->check_while_typing;
+	sc_info->check_while_typing = check_while_typing;
 
 	print_typing_changed_message();
 
+	/* force a rescan of the document if 'check while typing' has been turned on and clean
+	 * errors if it has been turned off */
+	if (check_while_typing_changed)
+	{
+		GeanyDocument *doc = document_get_current();
+		if (sc_info->check_while_typing)
+			perform_check(doc);
+		else
+			clear_spellcheck_error_markers(doc);
+	}
 }
 
 
@@ -232,7 +254,7 @@ static GtkWidget *init_editor_submenu(void)
 
 static void perform_check(GeanyDocument *doc)
 {
-	editor_indicator_clear(doc->editor, GEANY_INDICATOR_ERROR);
+	clear_spellcheck_error_markers(doc);
 
 	if (sc_info->use_msgwin)
 	{

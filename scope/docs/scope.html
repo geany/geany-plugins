@@ -1,0 +1,715 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Scope</title>
+    <style type="text/css">
+	.tab { padding-left:1em; }
+	.tab1 { padding-left:1.5em; }
+	.tab2 { padding-left:2em; }
+    </style>
+</head>
+
+<body>
+
+<center><h2>Scope</h2></center>
+
+<center><h3>A simple GDB front-end</h3></center>
+
+<p align="right">&quot;We are like dwarfs sitting on the shoulders of giants.&quot;<br>
+-- Bernard of Chartres</p>
+
+<hr>
+
+<h3>Contents</h3>
+<ul>
+<li><a href="#about">About</a></li>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#quick_start">Quick start</a></li>
+<li><a href="#interface">Interface</a><ul>
+	<li><a href="#debug_menu">Debug menu</a><ul>
+		<li><a href="#set_program">Setup Program</a></li>
+		<li><a href="#run_continue">Run/Continue</a></li>
+		<li><a href="#goto_cursor">Run to cursor</a></li>
+		<li><a href="#goto_source">Run to source</a></li>
+		<li><a href="#step_into_over">Step Into / Step Over</a></li>
+		<li><a href="#terminate">Terminate</a></li>
+		<li><a href="#gdb_command">GDB Command</a>
+		<li><a href="#reset_markers">Reset Markers</a></li>
+		<li><a href="#cleanup_files">Cleanup Files</a></li>
+	</ul></li>
+	<li><a href="#debug_panel">Debug panel</a><ul>
+		<li><a href="#terminal">Program Terminal</a></li>
+		<li><a href="#threads">Threads</a></li>
+		<li><a href="#break">Breakpoints</a></li>
+		<li><a href="#stack">Stack</a></li>
+		<li><a href="#local">Locals</a></li>
+		<li><a href="#watch">Watches</a></li>
+		<li><a href="#memory">Memory</a></li>
+		<li><a href="#local_watch">Locals/Watches</a></li>
+		<li><a href="#console">Debug Console</a></li>
+	</ul></li>
+	<li><a href="#inspect">Inspect page</a></li>
+</ul></li>
+<li><a href="#preferences">Preferences</a></li>
+<li><a href="#notes">Notes</a><ul>
+	<li><a href="#editing_values">Editing values</a></li>
+	<li><a href="#keeping_modes">Keeping modes</a></li>
+	<li><a href="#xos4_colors">Sample dark colors</a></li>
+</ul></li>
+<li><a href="#pre_faq">Pre-FAQ</a>
+<li><a href="#bugs">Bugs</a></li>
+<li><a href="#todo">TODO</a></li>
+<li><a href="#not_todo">Not TODO</a></li>
+<li><a href="#legal_info">Legal information</a><ul>
+	<li><a href="#license">License</a></li>
+	<li><a href="#copyright">Copyright</a></li>
+</ul></li>
+</ul>
+
+<hr>
+
+<h3><a name="about">About</a></h3>
+
+<p>Scope is a graphical <a href="http://www.gnu.org/software/gdb">GDB</a> front-end with the
+normal functions you would expect (stepping, breakpoints...), and a few notable features:</p>
+<ul>
+<li>The comminication between Scope and gdb is asynchronous.</li>
+<li>You can enter any gdb command, at any time (of course, for the command to be executed,
+gdb must be[come] available).</li>
+<li>All gdb I/O (along with some other messages) is displayed in a terminal-like "Debug
+Console".<br>
+Whenever you find the GUI lacking, simply switch to that console and work directly with
+gdb.</li>
+<li>7-bit/Locale/UTF-8 support for values.</li>
+</ul>
+
+<p>Scope is currently implemented as a <a href="http://www.geany.org">Geany</a> plugin.</p>
+
+<p>&quot;Source files&quot; refers to the file types supported by gdb: C/C++, D, Objective C,
+Fortran, Java, Pascal, Assembler and Ada (ATM).</p>
+
+<p>Trivial topics that require neither description nor comment are not included in this
+document.</p>
+
+<hr>
+
+<h3><a name="requirements">Requirements</a></h3>
+
+<p>Geany 1.22 or later and the respective libraries, including VTE under *nix.</p>
+
+<p>GDB 7.3 or later.</p>
+
+<p>win~1: XP or later.</p>
+
+<p>GDB manual (recommended).</p>
+
+<hr>
+
+<h3><a name="quick_start">Quick start</a></h3>
+
+<p>From the main Geany menu, invoke <em>Debug --&gt; Setup Program</em> (or <em>Tools --&gt;
+Debug --&gt; Setup Program</em>, if there's no <em>Debug</em> in the main menu).<br>
+Choose some small executable file compiled with gdb debug information.<br>
+Check <em>Temporary breakpoint at</em> and press <em>OK</em>.<br>
+Invoke <em>Debug --&gt; Run/Continue</em>.</p>
+
+<div>If everything went all right, several things will happen:</div>
+<div class="tab">
+- A colored <em>Load</em> label will appear shortly on the right of Geany status bar<br>
+- The message window will be shown (if hidden) and the <em>Debug</em> page will be focused<br>
+- The cursor be positioned at the first line of code, opening the corresponding source file if
+neccessary<br>
+- The first line of code will be marked with brown arrow in the markers margin, or with brown
+background<br>
+- All source files will be marked as read-only (their tabs will turn green)<br>
+- The <em>Load</em> label will be replaced with a color-less <em>Debug</em>.
+</div>
+
+<p>That's it, you are debugging. Try the other Debug menu commands, select the Debug subpages
+from the lower Geany panel etc.</p>
+
+<hr>
+
+<h3><a name="interface">Interface</a></h3>
+
+<p>Consists of:</p>
+
+<ul>
+<li>Debug menu in the main Geany menu, containing the most commonly used commands (running,
+stepping, toggle breakpoint etc.) If Scope can't access the main menu, it'll place Debug under
+Tools.</li>
+<li>Debug page in the lower panel, with subpages that display the program output, threads,
+breakpoints etc.</li>
+<li>Inspect page in the side panel.</li>
+<li>Toolbar items - identical to their Debug menu counterparts.</li>
+<li>Command Dialog - to enter gdb commands. Will be closed automatically if gdb exits.</li>
+<li>A small label on the right of your Geany status bar, which displays the current debugging
+state. The possible states are:
+<table border="0">
+<tr><td>(no&nbsp;label)</td><td class="tab">[N]</td><td class="tab">Not debugging.</td></tr>
+<tr><td><em>Busy</em><td class="tab">[B]</td><td class="tab">Scope and/or gdb is busy. Any
+debugging information may be outdated.<br>
+<tr><td><em>Ready</em><td class="tab">[R]</td><td class="tab">GDB is ready to accept commands,
+but there is no thread selected, or the currently selected thread is running. The execution
+and stack-related commands will be disabled. Other commands may fail to execute, depending on
+your target.</td></tr>
+<tr><td><em>Debug</em></td><td class="tab">[D]</td><td class="tab">A stopped thread is
+selected, and gdb is ready to accept commands. This is the normal debugging state.</td></tr>
+<tr><td><em>Assem</em><td class="tab">[D]</td><td class="tab">Like <em>Debug</em>, but the
+source location can not be determined. The stepping menu commands will do assembler steps, and
+the current assembler instruction will be shown in the debug console each time the thread is
+stopped.</td></tr>
+<tr><td><em>Hang</em></td><td class="tab">[H]</td><td class="tab">GDB is loaded, but the
+program is not started yet, or is already terminated. Scope will automatically switch to this
+state in some situations.</td></tr>
+<tr><td>(blinking)</td><td class="tab"></td><td class="tab">Loading a program, signal
+received, error parsing gdb output, the requested action can not be performed in the current
+debug state etc.</td></tr>
+</table>
+The bracketed letters are used to indicate the states supported by a command. For example,
+[RH] means "available in Ready and Hang states only". Debug and Assem are states are almost
+identical in this aspect and share [D].</li>
+</ul>
+
+<h3><a name="debug_menu">Debug menu</a></h3>
+
+<p><b><a name="set_program">Setup Program</a></b></p>
+
+<p>You can use non-existent <em>Executable</em>, <em>Working dir</em> and <em>Run Script</em>,
+and create them later.</p>
+
+<p><em>Arguments</em> are in gdb syntax.</p>
+
+<p><em>Environment</em> is one var=value per line.</p>
+
+<p><em>Load script</em> is a gdb script file to be executed when gdb is loaded, before
+running the program (see <a href="#run_continue">Run/Continue</a>). If this script contains a
+gdb run command, it should contain at least one breakpoint command as well, because all Scope
+breakpoints are applied after the program is loaded - and it may be loaded by the script.</p>
+
+<p><em><a name="auto_run_exit">Auto run program/exit gdb</a></em> - with this box unchecked,
+the first <a href="#run_continue">Run/Continue</a> will load and setup the program without
+running it; and when the program terminates, gdb will not be unloaded. This is useful if you
+want to run a program several times without reloading, for example to run it unmodified with
+different sets of input data.</p>
+
+<p><em>Non-stop mode</em> - gdb non-stop mode. You'd better activate gdb asynchronous mode
+from Scope preferences to take advantage of this.</p>
+
+<p><em>Temporary breakpoint at</em> - set a temporary breakpoint after the program is loaded.
+If you leave the text field empty, Scope will try to detect the 1st line of code and place a
+breakpoint on it. Any breakpoint options and location are allowed, for example <em>main</em>
+for C/C++ programs. Since setting a breakpoint requires a program, temporary breakpoint will
+be disabled if both <em>Executable</em> and <em>Load script</em> are empty.</p>
+
+<p><em>Delete all breakpoints, watches and inspects</em> - usually when setting up a new
+program. Scope will ask you to confirm.</p>
+
+<p><em>Update all views</em> - update all relevant debug subpages when the current thread
+stops, or a different thread is selected. By default, only the current subpage is updated.</p>
+
+<p>Using <em>Locale</em> text mode requires the same code page for Geany/Scope and the program
+being debugged.</p>
+
+<p>Unchecking <em>Display member and argument names</em> or using <em>Name=value</em> are not
+guaranteed to work; single-quoted strings ending with backslash will fail. GDB &quot;set
+print&quot; commands also affect display.</p>
+
+<p><em>Import</em> - get <em>Executable</em> and <em>Working dir</em> from the second Geany
+<em>Execute</em> command (from <em>Tools -> Set Build Commands</em>).</p>
+
+<p>When you start Geany, or open/close a project, Scope will try to load the debugging
+settings for a program that matches the second <em>Execute</em> command, if any [N]. The
+command will not be expanded. Letter case will be ignored under win~1.</p>
+
+<p><b><a name="run_continue">Run/Continue</a></b> [NHD]</p>
+
+<div>Not debugging state (first run):</div>
+<div class="tab">
+- Checks the <em>Program</em> and <em>Working dir</em>, if any - they must exist and be
+user-executable at this point<br>
+- Checks the <em>Load script</em>, if any - it must exist and be readable<br>
+- Loads gdb<br>
+- Setups the asynchronous and/or non-stop modes<br>
+- Loads the <em>Program</em>, if any<br>
+- Executes the <em>Load script</em>, if any<br>
+- If either a program was loaded, or a load script was executed without errors:<br>
+	<div class="tab1">
+	&bull; applies any breakpoints and inspects marked as <em>Apply on Run</em><br>
+	&bull; applies the temporary breakpoint, if any<br>
+	&bull; runs the program if, and only if:
+		<div class="tab2">
+		- <em>Auto run/exit</em> is checked<br>
+		- at least 1 breakpoint was applied<br>
+		- there were no errors in any of the previous steps.
+		</div>
+	</div>
+</div>
+
+<p>Hang state: -exec-run. The temporary breakpoint, if any, will not be applied.<br>
+Debug/Assem: -exec-continue.</p>
+
+<p><b><a name="goto_cursor">Run to Cursor</a></b> [D]</p>
+
+<p>scope_goto_cursor=0: -exec-until with the current filename:line<br>
+scope_goto_cursor=1: set temporary breakpoint at the current position and -exec-continue.</p>
+
+<p><b><a name="goto_source">Run to Source</a></b> [D]</p>
+
+<p>Assem state only: -exec-step. See gdb step description.</p>
+
+<p><a name="step_into"><b>Step Into</b> / <b>Step Over</b></a> [D]</p>
+
+<p>Debug state: -exec-step / -exec-next.<br>
+Assem state: -exec-step-instruction / -exec-next-instruction.</p>
+
+<p><b><a name="terminate">Terminate</a></b> [^N]</p>
+
+<p>Busy state: kill gdb, even if <a href="#auto_run_exit">Auto Run/exit is unchecked</a>. If
+you want to kill the program only, switch to <em>Threads</em> and use <em>Terminate</em> or
+<em>Send Signal</em>.</p>
+
+<p>Debug or Ready state with <em>Auto Run/Exit</em> off: gdb kill command.</p>
+
+<p>Otherwise: -gdb-exit.</p>
+
+<p><b><a name="gdb_command">GDB Command</a></b> [^N]</p>
+
+<p>Commands starting with 0&lt;digit&gt; are used internally by Scope and will be blocked.</p>
+
+<p>Scope tries to keep track of the current gdb thread, and to emit a -thread-select command
+on <em>Send</em>/<em>Busy</em> if the gdb thread does not match the one (if any) selected in
+<em>Threads</em>. Tracking the current gdb frame asynchronously is impossible, so you must use
+a gdb frame selection command or --frame for the non-zero frames.</p>
+
+<p>Writing a full combo box for multi-line text is outside the scope of this project.</p>
+
+<p><b><a name="reset markers">Reset Markers</a></b></p>
+
+<p>Synchronizes the breakpoint and execution point markers for the current file with the Scope
+data. They can become out of sync if you <em>Save as</em> a file with markers, set a source
+file type to non-source and edit it, and possibly in other situations.</p>
+
+<p><b><a name="cleanup files">Cleanup Files</a></b></p>
+
+<p>While debugging a program, Scope will automatically open the source files required to show
+the current execution point(s). This command closes such files.</p>
+
+<h3><a name="debug_panel">Debug panel</a></h3>
+
+<p>The sort orders and column widths are not saved. However, the breakpoints and watches are
+saved in their current order.</p>
+
+<p>Sorting by file name (including breakpoint location) uses the full locale name, so the
+order may be different from the displayed UTF-8 base names.</p>
+
+<p><b><a name="terminal">Program Terminal</a></b></p>
+
+<p>Will be disabled if a pseudo-tty can not be created.</p>
+
+<p>May be displayed either in a Debug panel tab or as a separate window.</p>
+
+<div><em>Window</em>:</div>
+<table border="0">
+<tr><td class="tab"><em>Auto show</em></td><td class="tab">Switch to separate window display
+on program startup (when the first thread is created).</td></tr>
+<tr><td class="tab"><em>Auto hide</em></td><td class="tab">Switch to Debug panel tab display
+on program shutdown (when the last thread is exited).</td></tr>
+<tr><td class="tab"><em>Show&nbsp;on&nbsp;Error</em></td><td class="tab">Switch to separate
+window display when a thread group is exited with a non-zero status.<br>Not reliable if
+combined with <em>Auto Hide</em> on multi-thread-group programs.</td></tr>
+</table>
+
+<p><b><a name="threads">Threads</a></b></p>
+
+<p>The thread list is updated by asynchronous gdb messages. Normally you should not need to
+refresh it, and <em>Refresh</em> won't append or remove threads, only update the current
+ones.</p>
+
+<p><em>Synchronize</em> - refresh and select the current gdb thread. Shift-click:
+-thread-select.</p>
+
+<p><em>Interrupt</em> - *nix: SIGINT, win~1: DebugBreakProcess.</p>
+
+<p><em>Terminate</em> - *nix: SIGTERM, win~1: TerminateProcess.</p>
+
+<p>Both <em>Interrupt</em> and <em>Terminate</em> require an extra <em>Step</em> deliver a
+signal/*process to a stopped thread, and an extra <em>Step</em> to terminate a process.</p>
+
+<div><em>Select on</em>:</div>
+<table border="0">
+<tr><td class="tab"><em>Running</em></td><td class="tab">Select a stopped thread (if any) when
+the current thread becomes running. Useful when starting/stopping lots of threads, but may be
+annoying in other situations - for example, if you are single-stepping a thread, and another
+stopped thread exists, it'll be selected on each step.</td></tr>
+<tr><td class="tab"><em>Stopped</em></td><td class="tab">Select a thread when it stops (if
+there is no stopped thread already selected).</td></tr>
+<tr><td class="tab"><em>Exited</em></td><td class="tab">Select a stopped thread (if any) when
+the current thread is exited.</td></tr>
+<tr><td class="tab"><em>Follow</em></td><td class="tab">Follow gdb =thread-selected. It'll be
+better to clear the other options.</td></tr>
+</table>
+
+<p><b><a name="break">Breakpoints</a></b></p>
+
+<p>There is no dialog for adding/editing breakpoints. You can use <em>Debug -&gt; Toggle
+Breakpoint</em>, edit the <em>Ignore</em>, <em>Condition</em> and <em>Script</em> columns, or
+invoke <em>Add Break / Add Watch</em> [HRD], which brings up the command dialog.</p>
+
+<div>Only points created with MI commands are kept in the list permanently.<br>
+Due to MI limitations:</div>
+<div class="tab">
+- The catchpoints are displayed incompletely<br>
+- Disposition "dis" is ignored, and "del" is saved for breakpoints and tracepoints only<br>
+- The difference between software and hardware watchpoints is ignored, but gdb will create
+hardware watchpoints as needed.</div>
+
+<p>For tracepoints, only the generic breakpoint commands and attributes are supported (with
+ignore for passcount), not the tracepoint-specific commands.</p>
+
+<p><em>Apply on run</em> is off by default for watchpoints, because they are often related to
+a local expression.</p>
+
+<p>Shift-clicking <em>Apply</em> applies the breakpoint for the currently selected thread
+only.</p>
+
+<p>GDB may report an error for invalid <em>Condition</em> and/or <em>Script</em>, but still
+accept them, and continue to emit errors each time they are evaluated.</p>
+
+<p>The breakpoint line markers, <em>View Source</em> and double-click use the last known file
+name and line, as displayed in <em>Location or expr</em>. They may change when a breakpoint is
+applied or resolved.</p>
+
+<p>With gdb 7.4 and later, the breakpoint list is updated by asynchronous gdb messages (except
+for <em>async_break_bugs</em>). Use <em>Refresh</em> to fully refresh it.</p>
+
+<p><em>Condition</em>, <em>Script</em> and watchpoint <em>expr</em> use the default 8-bit text
+mode.</p>
+
+<p>For multi-address breakpoints, the individual locations are not loaded or saved, and are
+deleted as soon as the program is unloaded, so you may prefer to turn <em>Auto run/exit</em>
+off when using them. When a breakpoint is disabled, GDB treats all it's locations as disabled,
+despite their individual state. However, with at least enabled location for a file:line, the
+marker for enabled breakpoint will be used for that line.</p>
+
+<p><b><a name="stack">Stack</a></b></p>
+
+<p>The function arguments are subject to 8-bit text conversion. Their individual modes may be
+set via <em>Locals</em>.</p>
+
+<p><em>Synchronize</em> - select the current gdb frame. Shift-click: -stack-select-frame.</p>
+
+<p><em>Show @entry</em> - display any @entry arguments reported by gdb for the selected frame
+function. Depends on GDB &quot;print entry-values&quot;. Applies to <em>Locals</em> too.</p>
+
+<p><b><a name="local">Locals</a></b></p>
+
+<p>The first column is &quot;1&quot; for arguments, empty for local variables.</p>
+
+<p><b><a name="watch">Watches</a></b></p>
+
+<p>This is a flat list of expressions, evaluated each time the current thread stops or changes
+(subject to <em>update_all_views</em>), in the context of the current thread and frame. Unlike
+<em>Inspect</em>, any gdb-evaluatable expressions may be used, there is no need to apply 
+them.</p>
+
+<p><b><a name="local_watch">Locals/Watches</a></b></p>
+
+<p><em>Modify</em> is useful for setting individual array / structure elements.</p>
+
+<p>Shift-clicking <em>Modify</em> displays strings as &quot;TEXT&quot; instead of 0xADDR, and
+characters as 'C' instead of VALUE (see <a href="#editing_values">Editing values</a>).<br>
+Any char[] arrays will still be displayed as arrays.</p>
+
+<p><em>Show .names</em> - display member names. Shift+Click resets it to the value specified
+in <em>Setup Program</em>.</p>
+
+<p><b><a name="memory">Memory</a></b></p>
+
+<p><em>Group by</em> is for visual convinience only and ignores endian.</p>
+
+<p>Groups are not wrapped, so with <em>Group by</em> &gt; 1, less than
+<em>memory_line_bytes</em> may be displayed.</p>
+
+<p>A maximum of 16K may be displayed (128 lines * 128 bytes); <em>gdb_buffer_length</em> also
+limits the size.</p>
+
+<p><em>Memory</em> empty but <em>Clear</em> available means that the subpage can not be
+updated ATM; if you explicitly <em>Clear</em> it, no further updates will take place.</p>
+
+<p><b><a name="console">Debug Console</a></b></p>
+
+<div><table>
+<tr><td>Red</td><td class="tab">gdb stderr (or sometimes exec) error messages</td></tr>
+<tr><td>Gray</td><td class="tab">normal gdb messages</td></tr>
+<tr><td>Cyan</td><td class="tab">commands send to gdb</td></tr>
+<tr><td>Magenta</td><td class="tab">Scope messages, mostly parsing errors</td></tr>
+</table></div>
+
+<p>Typing a graphical ascii character or pressing Insert brings up the command dialog.</p>
+
+<p>Note that whether the last displayed line is a gdb prompt is <b>not</b> a proper indicator
+if GDB is ready to receive commands. For example, in synchronous mode, GDB displays a prompt
+immediately resuming the program execution; or the prompt may be followed by asynchronous
+messages. The Scope state (Busy, Debug etc.) is more accurate.</p>
+
+<p><b><a name="inspect">Inspect Page</a></b></p>
+
+<p>All -var-* commands except -var-update will be ignored when entered from the command line,
+because their output does not provide enough information to identify the variable object.</p>
+
+<p><em>Jump To</em> lists the top-level variables, which is useful if you have a lot of
+children displayed. It's disabled while gdb is inactive, because all variables are collapsed
+anyway.</p>
+
+<p>Double-click or Return applies/unapplies a variable.</p>
+
+<p><em>Add</em> will try to apply the variable object immediately, <em>Edit</em> will
+not. <em>Apply on run</em> is off by default, because the variables are often local.</p>
+
+<p><em>Expand</em> is primary to change the expansion options. After a variable is applied,
+you can expand it simply by using the keyboard or mouse, like with any other gtk+ tree.</p>
+
+<p>The command &quot;echo ^(Scope)#07<em>name</em>&quot; will try to expand the variable
+<em>name</em>. You can include such commands in your breakpoint scripts. The name must start
+will a letter (&quot;-&quot; will not do).</p>
+
+<p>When modifying variables, gdb interprets "TEXT" as the identifier TEXT.</p>
+
+<p>The format and 7-bit mode are saved only for the top-level variables, not for children (but
+see <a href="#keeping_modes">Keeping modes</a>).</p>
+
+<h3><a name="preferences">Preferences</a></h3>
+
+<p>Once again, trivial items are not included.</p>
+
+<p>[scope]</p>
+
+<p><em>gdb_buffer_length</em> - the maximum length of a single gdb output message. Longer
+messages will be cut, and an "overflow" will be displayed in the debug console, possibly
+followed by a few other parsing errors. Default = 16383. Actual value is (the nearest larger
+power of 2) - 1, for example 16384 becomes 65535.
+
+<p><em>gdb_wait_death</em> - hundreds of seconds to wait(3) gdb death on scope unload.
+Default = 20. When closing Geany, gdb will be destroyed by the operating system.</p>
+
+<p><em>gdb_send_interval</em> (win~1 only) - interval on which to retry sending commands to
+gdb if it's input buffer is full, in hundreds of seconds. Default = 5. The actual value may be
+larger, for example Scope may be activated only 10 times per second if Geany is idle.</p>
+
+<p><em>async_break_bugs</em> (win~1 only) - whether gdb escapes slashes twice in the
+asynchronous break messages. If true, only <tt>=breakpoint-deleted</tt> will be handled.</p>
+
+<p><em>auto_view_source</em> - seek in source on single click in threads, breakpoints
+and stack.</p>
+
+<p><em>keep_exec_point</em> - do not clear the execution point marker and <em>Threads</em>
+location columns when a thread execution is resumed.</p>
+
+<p><em>visual_beep_length</em> - hundreds of seconds to flash the state label on Scope
+errors. Default = 25.</p>
+
+<p><em>debug_console_vte</em> (*nix only) - use vte terminal for the debug console. The
+alternative is a GtkTextView based console, which has a few quirks, but consumes less CPU
+power. That can be useful if you use the console a lot, and have a slow CPU or a limited power
+supply. The win~1 version of Scope always uses GtkTextView.</p>
+
+<p><em>sci_marker_first</em> - Scope uses markers 17..19 by default; they may be changed to
+avoid conflicts with other plugins.</p>
+
+<p><em>sci_caret_policy</em>, <em>sci_caret_slop</em> - Scintilla Y caret policy when
+moving/scrolling to show the current execution point (does not affect the normal navigation
+and editing). Default policy = CARET_SLOP | CARET_JUMPS | CARET_EVEN, slop = 3.<br>
+See ScintillaDoc.html#SCI_SETYCARETPOLICY and Scintilla.h for more information.</p>
+
+<p><em>unmark_current_line</em> - disable the current line highlighting while debugging.
+Useful if the current line background covers the breakpoint or execution point backgrounds.
+Affects the source files only.</p>
+
+<p><em>seek_with_navqueue</em> - use Geany navqueue when seeking in source.</p>
+
+<p><em>panel_tab_pos</em> - see GtkPositionType. Some tab names will be shortened in Left
+and Right.</p>
+
+<p><em>show_recent_items</em> - number of items to display in <em>Debug --&gt; Recent
+Programs</em>. Default = 10, maximum = 28. Note that Scope will always keep the settings
+for the last 28 programs; on project open/close and Geany startup, settings which are not
+visible in the menu may be loaded.</p>
+
+<p><em>show_toolbar_items</em> - bitmask: 1 = Run/Continue, 2 = Goto Cursor, 4 = Goto
+Source, 8 = Step Into, 16 = Step Over, 32 = Step Out, 64 = Terminate and 128 = Toggle
+Breakpoint.</p>
+
+<p><em>tooltips_fail_action</em> - 1 = blink on tooltip evaluate errors, 2 = display them as
+tooltips.</p>
+
+<p><em>tooltips_send_delay</em> - increase this setting to reduce the CPU time and GDB traffic
+used by the tooltips, or decrease it if they appear slower than your gtk+ setting.</p>
+
+<p><em>pref_tooltips_length</em> - maximum length of a tooltip message, 0 = unlimited.
+Default = 2048.</p>
+
+<p><em>memory_line_bytes</em></p> - maximum bytes per <em>Memory</em> line</p>.
+
+
+<p>[terminal] (*nix only)</p>
+
+<p><em>width</em>, <em>height</em> - VTE widget (not terminal window) size</p>
+
+<p><em>save_pos</em> - auto save window position and widget size</p>
+
+<p><em>padding</em> - whether <em>width</em> and <em>height</em> include the extra VTE widget
+padding. If <em>save_pos</em> is active, it will save them with the padding.</p>
+
+<p>[disabled_break], [enabled_break], [execution_line]</p>
+
+<p><em>mark</em> - Scintilla mark. See Scintilla.h: SC_MARK_.</p>
+
+<h3><a name="notes">Notes</a></h3>
+
+<p>Changes in Geany VTE preferences will be applied when Scope is restarted.</p>
+
+<p>Locale/UTF-8 conversion is fully supported for values only. Filenames not matching your
+locale and non-ascii identifiers are not guaranteed to work.</p>
+
+<p>When editing a column while the program is running, it's value will be updated after/if the
+respective gdb command is executed.</p>
+
+<p>If you use multiply Geany instances with session management, make sure that only one of
+them has Scope enabled. Otherwise, the list of programs and their settings may break.</p>
+
+<p>A disabled check button or check menu item means that the respective functionality is
+unavailable; it doesn't matter if the interface element is checked or not.</p>
+
+<p>All subpages will be updated faster if you keep them unsorted.</p>
+
+<p><b><a name="editing_values">Editing values</a></b></p>
+
+<div>GDB often displays values in format unsuitable for assigning. So when editing a value,
+Scope will try to:</div>
+<div class="tab">
+- Cut any member names, because <em>set foo = { i = 4, c = 'x' }</em> actually means
+<em>i = 4; c = 'x'; foo = {4, 'x'}</em><br>
+- Cut any array indexes<br>
+- Cut 0xADDR &quot;TEXT&quot; to 0xADDR. Leaving both is invalid, and &quot;TEXT&quot; always
+creates a new string pointer<br>
+- Cut VAL 'C' to VAL. Again, leaving both is invalid<br>
+- Detect &lt;repeats, &lt;optimized etc. and clear the entire value if editing via the
+<em>Value</em> column<br>
+- Convert char[] arrays displayed as string to character array, because a string always
+includes a trailing '\0', so a char[4] may be displayed as &quot;TEXT&quot;, but can not be
+assigned like that.<br>
+&nbsp;&nbsp;Note that UTF-8 texts will be converted to 8-bit character arrays.
+</div>
+
+<p>Of course, you can still enter a &quot;TEXT&quot; or a 'C'haracter.</p>
+
+<p>The above steps are not guaranteed to work; in particular, single-quoted strings ending
+with backslash will fail. If parsing errors are detected when editing the <em>Value</em>
+column, the entire value will be cleared - but that is not guaranteed to work either.</p>
+
+<p><b><a name="keeping_modes">Keeping modes</a></b></p>
+
+<p>The 7-bit, .names etc. modes for temporary objects, such as local variables, are not saved.
+However, there is a global list with names and modes, and when you change a mode, it's saved
+in that list. Then, when a temporary object is created, Scope searches the list, and sets the
+modes (if any) for that object. For inspect children, the displayed names are used (including
+numbers for array elements), not the fully qualified names.</p>
+
+<p><b><a name="xos4_colors">Sample dark colors</a></b></p>
+
+<pre>
+[disabled_break]
+mark=0
+alpha=256
+fore=#008000
+back=#005000
+
+[enabled_break]
+mark=0
+alpha=256
+fore=#0000E0
+back=#000068
+
+[execution_line]
+mark=4
+alpha=256
+fore=#F0F000
+back=#707000
+</pre>
+
+<h3><a name="pre_faq">Pre-FAQ</a></h3>
+
+<p>Questions which are likely to be asked frequently:</p>
+
+<p>Q. How about tree lists in <em>Locals</em> and <em>Watches</em>?</p>
+
+<p>A. They operate with the entire struct/array values, so creating tree lists would be
+completely artificial. Some front ends automatically create/delete gdb variables for the
+locals as they come into/go out of scope, or even or each step, but I'm not willing to do
+that. The watches can not be represented with variables (see <em>Watches</em>). So, use
+<em>Inspect</em> for tree lists.</p>
+
+<p>Why isn't <em>Interrupt</em> implemented as -exec-interrupt?</p>
+
+<p>Because it requires a gdb prompt, and see <em>Bugs</em>. Of course, using target-specific
+functions has it's own drawbacks, but you can always try to send an -exec-interrupt from the
+GDB command line if you need it.</p>
+
+<p>Q. Why not leave the member names (array indexes) while editing a value?</p>
+
+<p>A. They must be removed before sending the value to GDB. Leaving them while editing gives
+the false impression that you can assign selectively, while in fact omitting a &quot;foo =
+value, &quot; <em>moves</em> all values left by 1, and changing a name or index has
+<em>no</em> effect.</p>
+
+<h3><a name="bugs">Bugs</a></h3>
+
+<p>For some reason, -exec-interrupt under Linux (*nix?) signals gdb and Geany, but not the
+program/thread. The other Geany debugger plugin has the same problem.</p>
+
+<p>Report bugs to &lt;dimitar.zhekov@gmail.com&gt;</p>
+
+<h3><a name="todo">TODO</a></h3>
+
+<p>See TODO.</p>
+
+<h3><a name="not_todo">Not TODO</a></h3>
+
+<table cellpadding="0" cellspacing="0">
+<tr><td>"The master programmer knows when to leave things in their simple form."</td></tr>
+<tr><td align="right">-- Eloquent Javascript</td></tr>
+</table>
+
+<div>Things that will not be implemented in Scope:</div>
+<ul>
+<li>Support for debuggers other than GDB</li>
+<li>&quot;Proper GObject-ification&quot;</li>
+<li>Combined subpages, such as <a href="http://projects.gnome.org/nemiver">Nemiver</a> Context
+</li>
+<li>GUI for functions that don't really need it.</li>
+<li>Anything that requires parsing non-MI output.</li>
+</ul>
+
+<h3><a name="legal_info">Legal information</a></h3>
+
+<b><a name="license">License</a></b>
+
+<p>Scope is distributed under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at your option) any
+later version.</p>
+
+<b><a name="copyright">Copyright</a></b>
+
+<p>Scope 0.83, Copyright (C) 2013 Dimitar Toshkov Zhekov</p>
+
+<p>The menu and toolbar icons are from <a href="http://netbeans.org">Netbeans</a>, except for
+BreakPoint.</p>
+
+<p><b>The End</b></p>
+
+</body>
+</html>

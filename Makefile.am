@@ -30,10 +30,6 @@ if ENABLE_GEANYEXTRASEL
 SUBDIRS += geanyextrasel
 endif
 
-if ENABLE_GEANYGDB
-SUBDIRS += geanygdb
-endif
-
 if ENABLE_GEANYGENDOC
 SUBDIRS += geanygendoc
 endif
@@ -100,6 +96,10 @@ endif
 
 if ENABLE_PRETTY_PRINTER
 SUBDIRS += pretty-printer
+endif
+
+if ENABLE_SCOPE
+SUBDIRS += scope
 endif
 
 if ENABLE_SHIFTCOLUMN

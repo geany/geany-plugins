@@ -14,6 +14,7 @@
 #include <fcntl.h>
 #include <glib.h>
 #include <glib/gstdio.h>
+#include <gdk/gdkkeysyms.h>
 
 #include "geany.h"
 #include "geanyplugin.h"
@@ -1418,6 +1419,34 @@ on_treeview_mouseclick(GtkWidget *widget, GdkEventButton *event, GtkTreeSelectio
 	return FALSE;
 }
 
+static gboolean
+on_treeview_keypress(GtkWidget *widget, GdkEventKey *event)
+{
+	if (event->keyval == GDK_space)
+	{
+		GtkTreeIter		iter;
+		GtkTreeModel	*model;
+		GtkTreePath		*path;
+
+		if (gtk_tree_selection_get_selected(gtk_tree_view_get_selection(GTK_TREE_VIEW(widget)), &model, &iter))
+		{
+			path = gtk_tree_model_get_path(model, &iter);
+			if (gtk_tree_view_row_expanded(GTK_TREE_VIEW(widget), path))
+				gtk_tree_view_collapse_row(GTK_TREE_VIEW(widget), path);
+			else
+				gtk_tree_view_expand_row(GTK_TREE_VIEW(widget), path, FALSE);
+			return TRUE;
+		}
+	}
+	if (event->keyval == GDK_BackSpace)
+	{
+		on_button_go_up();
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static void
 on_treeview_changed(GtkWidget *widget, gpointer user_data)
 {
@@ -1721,6 +1750,7 @@ create_sidebar(void)
 	g_signal_connect(treeview, 			"row-activated", 		G_CALLBACK(on_treeview_row_activated), 			NULL);
 	g_signal_connect(treeview, 			"row-collapsed", 		G_CALLBACK(on_treeview_row_collapsed), 			NULL);
 	g_signal_connect(treeview, 			"row-expanded", 		G_CALLBACK(on_treeview_row_expanded), 			NULL);
+	g_signal_connect(treeview, 			"key-press-event", 		G_CALLBACK(on_treeview_keypress), 			NULL);
 	g_signal_connect(addressbar, 		"activate", 			G_CALLBACK(on_addressbar_activate), 			NULL);
 	g_signal_connect(filter, 			"activate", 			G_CALLBACK(on_filter_activate), 				NULL);
 

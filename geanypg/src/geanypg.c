@@ -93,10 +93,10 @@ void plugin_init(GeanyData *data)
     gtk_widget_show(decrypt);
     gtk_widget_show(verify);
 
-    gtk_menu_append(GTK_MENU(submenu), encrypt);
-    gtk_menu_append(GTK_MENU(submenu), sign);
-    gtk_menu_append(GTK_MENU(submenu), decrypt);
-    gtk_menu_append(GTK_MENU(submenu), verify);
+    gtk_menu_shell_append(GTK_MENU_SHELL(submenu), encrypt);
+    gtk_menu_shell_append(GTK_MENU_SHELL(submenu), sign);
+    gtk_menu_shell_append(GTK_MENU_SHELL(submenu), decrypt);
+    gtk_menu_shell_append(GTK_MENU_SHELL(submenu), verify);
 
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(main_menu_item), submenu);
 

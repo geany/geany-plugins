@@ -5,7 +5,7 @@ AC_DEFUN([GP_CHECK_GENIUSPASTE],
     GP_CHECK_PLUGIN_DEPS([GeniusPaste], GENIUSPASTE,
                          [libsoup-2.4 >= 2.4.0])
 
-    GP_STATUS_PLUGIN_ADD([GeniusPaste], [$enable_geniuspaste])
+    GP_COMMIT_PLUGIN_STATUS([GeniusPaste])
 
     AC_CONFIG_FILES([
         geniuspaste/Makefile

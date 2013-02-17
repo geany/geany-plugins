@@ -17,7 +17,7 @@ AC_DEFUN([GP_CHECK_GEANYGENDOC],
     AC_SUBST([RST2HTML])
     AM_CONDITIONAL([BUILD_RST], [test "x$RST2HTML" != "xno"])
 
-    GP_STATUS_PLUGIN_ADD([GeanyGenDoc], [$enable_geanygendoc])
+    GP_COMMIT_PLUGIN_STATUS([GeanyGenDoc])
 
     AC_CONFIG_FILES([
         geanygendoc/Makefile

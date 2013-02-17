@@ -21,9 +21,9 @@ which can be used for the spell check.
 Features
 --------
 
- * Check spelling while typing
- * Highlight spelling mistakes
- * Editor-menu integration
+* Check spelling while typing
+* Highlight spelling mistakes
+* Editor-menu integration
 
 
 Usage
@@ -44,50 +44,50 @@ http://extensions.services.openoffice.org/en/dictionaries.
 Be sure to download the "Spelling" archives from this site. The
 downloaded archive should contain one or more .dic and .aff files.
 
-Instructions::
+Instructions:
 
-    1. Download the archive you want to use
-    2. The downloaded archive with the extension .oxt is actually a ZIP
-       archive, so extract it as usual (e.g. with 7-Zip or another ZIP
-       unpacker). Extract the contents into a folder of your choice,
-       e.g. C:\dictionaries
-    3. Then open to the Spell Check plugin preferences dialog in Geany and
-       choose the folder you just created. You may need to restart Geany
-       and then the installed dictionaries should be available
+1. Download the archive you want to use
+2. The downloaded archive with the extension .oxt is actually a ZIP
+   archive, so extract it as usual (e.g. with 7-Zip or another ZIP
+   unpacker). Extract the contents into a folder of your choice,
+   e.g. C:\dictionaries
+3. Then open to the Spell Check plugin preferences dialog in Geany and
+   choose the folder you just created. You may need to restart Geany
+   and then the installed dictionaries should be available
 
 
 Known issues
 ------------
- * Spell checking with some languages like Hindi might be incorrect, i.e. some
-   words are incorrectly marked as correctly spelled or marked incorrectly
-   as misspelled.
- * Crashes of Geany when loading the Spell Check plugin after it was unloaded.
-   This can happen when you are using a dictionary from the Zemberek provider
-   of Enchant (mostly Turkish dictionaries).
-   It can also happen when you tried to use a non-existing
-   dictionary and the Zemberek provider is installed on your system.
-   To avoid these crashes you have the following options:
+* Spell checking with some languages like Hindi might be incorrect, i.e. some
+  words are incorrectly marked as correctly spelled or marked incorrectly
+  as misspelled.
+* Crashes of Geany when loading the Spell Check plugin after it was unloaded.
+  This can happen when you are using a dictionary from the Zemberek provider
+  of Enchant (mostly Turkish dictionaries).
+  It can also happen when you tried to use a non-existing
+  dictionary and the Zemberek provider is installed on your system.
+  To avoid these crashes you have the following options:
 
-     * Do not load the plugin after it was unloaded, restart Geany first
-     * Do not use any of the dictionaries provided by the Zemberek provider
-     * Update your Enchant version at least to 1.4.3 (once it is released)
-     * Uninstall the Zemberek provider
+  * Do not load the plugin after it was unloaded, restart Geany first
+  * Do not use any of the dictionaries provided by the Zemberek provider
+  * Update your Enchant version at least to 1.4.3 (once it is released)
+  * Uninstall the Zemberek provider
 
   Background:
-              These crashes are all related to the Zemberek provider in Enchant.
-              In version 1.4.2 and prior of Enchant, this provider/backend always
-              claimed to support any given invalid dictionary name and so it was
-              active and caused these crashes on load after unload of the plugin.
-              This provider is DBus-based and uses the GObject type
-              registration system which is not really capable of being unloaded and
-              loaded again.
+             These crashes are all related to the Zemberek provider in Enchant.
+             In version 1.4.2 and prior of Enchant, this provider/backend always
+             claimed to support any given invalid dictionary name and so it was
+             active and caused these crashes on load after unload of the plugin.
+             This provider is DBus-based and uses the GObject type
+             registration system which is not really capable of being unloaded and
+             loaded again.
 
 
 Requirements
 ------------
 
- * GTK >= 2.8.0
- * Geany >= 0.21
+* GTK >= 2.8.0
+* Geany >= 0.21
 
 
 Ideas, questions, patches and bug reports

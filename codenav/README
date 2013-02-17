@@ -11,8 +11,8 @@ This plugin adds some facilities for navigating in the code.
 Features
 --------
 
- * switch between header and implementation
- * go to a file by typing its name
+* switch between header and implementation
+* go to a file by typing its name
  
 Usage
 -----
@@ -24,7 +24,7 @@ change the keyboard shortcuts in Geany's preferences dialog.
 Requirements
 ------------
 
- * GTK >= 2.8.0
+* GTK >= 2.8.0
  
 Contact developers
 ------------------

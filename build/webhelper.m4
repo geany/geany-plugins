@@ -27,7 +27,7 @@ AC_DEFUN([GP_CHECK_WEBHELPER],
                           gthread-2.0])
 
 
-    GP_STATUS_PLUGIN_ADD([WebHelper], [$enable_webhelper])
+    GP_COMMIT_PLUGIN_STATUS([WebHelper])
 
     AC_CONFIG_FILES([
         webhelper/Makefile

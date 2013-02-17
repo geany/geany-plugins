@@ -22,9 +22,9 @@ be viewed with Devhelp.
 Features
 --------
 
- * search in Devhelp
- * search in 'man' pages
- * search in Google Code Search
+* search in Devhelp
+* search in 'man' pages
+* search in Google Code Search
  
 Usage
 -----
@@ -104,9 +104,9 @@ activated, will perform the same searches as described above.
 Requirements
 ------------
 
- * GTK >= 2.16
- * libwebkitgtk >= 1.1.18
- * libdevhelp 1.0 >= 2.30.1 or libdevhelp 2.0 >= 2.32.0
+* GTK >= 2.16
+* libwebkitgtk >= 1.1.18
+* libdevhelp 1.0 >= 2.30.1 or libdevhelp 2.0 >= 2.32.0
  
 Contact developers
 ------------------
