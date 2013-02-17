@@ -103,10 +103,10 @@ W: http://plugins.geany.org/geanynumberedbookmarks.html
 S: Maintained
 
 geanypg
-P:
-M:
-W:
-S:
+P: Hans Alves <alves.h88@gmail.com>
+M: Hans Alves <alves.h88@gmail.com>
+W: http://plugins.geany.org/geanypg.html
+S: Odd Fixes
 
 geanyprj
 P: Yura Siamashka <yurand2@gmail.com>
