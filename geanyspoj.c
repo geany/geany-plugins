@@ -41,7 +41,8 @@ void spoj_preferences_load_doit(void)
 	gchar doc_fn[40],user_ent[30],pwd_ent[30],probid_ent[30];
 int active_choice;
 
-FILE *f=fopen("/home/mj/code/datafile.txt","r"); /*the path where the data is stored like username,password etc.*/
+FILE *f=fopen(g_build_path(G_DIR_SEPARATOR_S, geany->app->configdir, "plugins", "spojplugin",
+    "datafile.txt", NULL),"r"); /*the path where the data is stored like username,password etc.*/
 if(!f)
 {
 
@@ -61,7 +62,8 @@ return;
 
 static void spoj_save_doit(GtkWidget *save_button, gpointer gdata)
 {
-FILE *da=fopen("/home/mj/code/datafile.txt","w");/*the path where the data is stored like username,password etc.*/
+FILE *da=fopen(g_build_path(G_DIR_SEPARATOR_S, geany->app->configdir, "plugins", "spojplugin",
+    "datafile.txt", NULL) ,"w");/*the path where the data is stored like username,password etc.*/
 if(!da)
 {
 fprintf(da, "%s %s %s %d", 
@@ -111,7 +113,10 @@ case 3:{strcpy(lang,"10");break;}//python
 case 4:{strcpy(lang,"12");break;}//brainfuck
 };
 //presently built only for probids c,c++,python and brainfuck will extend it later
-GString *expression=gstring_new("python /home/mj/code/y.py ");
+
+GString *expression=gstring_new("python ");
+g_string_append(expression,g_build_path(G_DIR_SEPARATOR_S, geany->app->configdir, "plugins", "spojplugin",
+    "y.py", NULL));
 g_string_append(expression,user_ent);
 g_string_append(expression," ");
 g_string_append(expression,pwd_ent);
