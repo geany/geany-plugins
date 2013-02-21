@@ -1137,7 +1137,7 @@
             <child>
               <object class="GtkRadioMenuItem" id="inspect_format_binary">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">_binary</property>
+                <property name="label" translatable="yes">_Binary</property>
                 <property name="use_underline">True</property>
                 <property name="group">inspect_format_natural</property>
               </object>

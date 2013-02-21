@@ -231,11 +231,13 @@ static void on_inspect_row_deleted(GtkTreeModel *model, GtkTreePath *path,
 
 static const MenuItem *apply_item;
 
-static void inspect_redisplay(GtkTreeIter *iter, ParseVariable *var)
+static gchar *inspect_redisplay(GtkTreeIter *iter, const char *value, gchar *display)
 {
-	gtk_tree_model_get(model, iter, INSPECT_HB_MODE, &var->hb_mode, -1);
-	g_free(var->display);
-	var->display = utils_get_display_from_7bit(var->value, var->hb_mode);
+	gint hb_mode;
+
+	gtk_tree_model_get(model, iter, INSPECT_HB_MODE, &hb_mode, -1);
+	g_free(display);
+	return value && *value ? utils_get_display_from_7bit(value, hb_mode) : g_strdup("??");
 }
 
 static gint inspect_variable_store(GtkTreeIter *iter, const ParseVariable *var)
@@ -244,9 +246,8 @@ static gint inspect_variable_store(GtkTreeIter *iter, const ParseVariable *var)
 	gboolean expand;
 
 	gtk_tree_model_get(model, iter, INSPECT_EXPAND, &expand, INSPECT_FORMAT, &format, -1);
-	gtk_tree_store_set(store, iter, INSPECT_VAR1, var->name, INSPECT_DISPLAY,
-		var->display ? var->display : "??", INSPECT_VALUE, var->value, INSPECT_NUMCHILD,
-		var->numchild, -1);
+	gtk_tree_store_set(store, iter, INSPECT_VAR1, var->name, INSPECT_DISPLAY, var->display,
+		INSPECT_VALUE, var->value, INSPECT_NUMCHILD, var->numchild, -1);
 
 	if (var->numchild)
 	{
@@ -272,7 +273,7 @@ void on_inspect_variable(GArray *nodes)
 		gint format;
 
 		parse_variable(nodes, &var, "numchild");
-		inspect_redisplay(&iter, &var);
+		var.display = inspect_redisplay(&iter, var.value, var.display);
 		remove_children(&iter);
 
 		if ((format = inspect_variable_store(&iter, &var)) != FORMAT_NATURAL)
@@ -298,18 +299,15 @@ void on_inspect_format(GArray *nodes)
 		if (!strcmp(inspect_formats[format], s))
 			break;
 
-	iff (value && format < FORMAT_COUNT, "no value or bad format")
+	iff (format < FORMAT_COUNT, "bad format")
 	{
 		const char *token = parse_grab_token(nodes);
 		GtkTreeIter iter;
 
 		if (inspect_find(&iter, FALSE, token))
 		{
-			gchar *display;
-			gint hb_mode;
+			gchar *display = inspect_redisplay(&iter, value, NULL);
 
-			gtk_tree_model_get(model, &iter, INSPECT_HB_MODE, &hb_mode, -1);
-			display = utils_get_display_from_7bit(value, hb_mode);
 			gtk_tree_store_set(store, &iter, INSPECT_DISPLAY, display, INSPECT_VALUE,
 				&value, INSPECT_FORMAT, format, -1);
 			g_free(display);
@@ -449,7 +447,7 @@ static void inspect_node_change(const ParseNode *node, G_GNUC_UNUSED gpointer gd
 			}
 			else
 			{
-				inspect_redisplay(&iter, &var);
+				var.display = inspect_redisplay(&iter, var.value, var.display);
 
 				if (var.children)
 				{
@@ -458,9 +456,8 @@ static void inspect_node_change(const ParseNode *node, G_GNUC_UNUSED gpointer gd
 				}
 				else
 				{
-					gtk_tree_store_set(store, &iter, INSPECT_DISPLAY,
-						var.display ? var.display : "??", INSPECT_VALUE,
-						var.value, -1);
+					gtk_tree_store_set(store, &iter, INSPECT_DISPLAY, var.display,
+						INSPECT_VALUE, var.value, -1);
 				}
 			}
 		}
@@ -882,15 +879,19 @@ static void on_inspect_hbit_display(const MenuItem *menu_item)
 
 static void inspect_hbit_update_iter(GtkTreeIter *iter, gint hb_mode)
 {
-	char *value;
-	gchar *display;
+	char *var1, *value;
 
-	gtk_tree_model_get(model, iter, INSPECT_VALUE, &value, -1);
-	display = utils_get_display_from_7bit(value, hb_mode);
-	gtk_tree_store_set(store, iter, INSPECT_HB_MODE, hb_mode, value ? INSPECT_DISPLAY : -1,
-		display, -1);
+	gtk_tree_model_get(model, iter, INSPECT_VAR1, &var1, INSPECT_VALUE, &value, -1);
+	gtk_tree_store_set(store, iter, INSPECT_HB_MODE, hb_mode, -1);
+
+	if (var1)
+	{
+		gchar *display = inspect_redisplay(iter, value, NULL);
+		gtk_tree_store_set(store, iter, INSPECT_DISPLAY, display, -1);
+		g_free(display);
+	}
+	g_free(var1);
 	g_free(value);
-	g_free(display);
 }
 
 static void on_inspect_hbit_update(const MenuItem *menu_item)

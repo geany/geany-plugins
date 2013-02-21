@@ -290,7 +290,7 @@ void prefs_init(void)
 	stash_group_add_integer(group, &pref_panel_tab_pos, "panel_tab_pos", GTK_POS_TOP);
 	stash_group_add_integer(group, &pref_show_recent_items, "show_recent_items", 10);
 	stash_group_add_integer(group, &pref_show_toolbar_items, "show_toolbar_items", 0xFF);
-	stash_group_add_integer(group, &pref_tooltips_fail_action, "tooltips_fail_action", 25);
+	stash_group_add_integer(group, &pref_tooltips_fail_action, "tooltips_fail_action", 0);
 	stash_group_add_integer(group, &pref_tooltips_send_delay, "tooltips_send_delay", 25);
 	stash_group_add_integer(group, &pref_tooltips_length, "tooltips_length", 2048);
 	stash_group_add_integer(group, &pref_memory_bytes_per_line, "memory_line_bytes", 16);

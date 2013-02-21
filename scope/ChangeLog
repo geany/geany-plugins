@@ -1,3 +1,17 @@
+2013-02-21  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/inspect.c:
+   Unified inspect display, fixing empty "value" looking identical to
+   unapplied variable.
+ * src/prefs.c:
+   Fixed the default value for tooltips_fail_action.
+ * scope.glade:
+   Inspect -> Format -> s/binary/Binary/.
+ * scope.html:
+   Small fixes.
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.84.
+
 2013-01-31  Enrico Tröger  <enrico.troeger@uvena.de>
 
  * src/gtk216.c:
