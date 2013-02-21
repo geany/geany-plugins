@@ -186,9 +186,15 @@ static void ao_systray_init(AoSystray *self)
 #if GTK_CHECK_VERSION(2, 10, 0)
 	AoSystrayPrivate *priv = AO_SYSTRAY_GET_PRIVATE(self);
 	GtkWidget *item;
+	const gchar *icon_name;
 
-	priv->icon = gtk_status_icon_new_from_pixbuf(gtk_window_get_icon(
-		GTK_WINDOW(geany->main_widgets->window)));
+	priv->icon = gtk_status_icon_new();
+	icon_name = gtk_window_get_icon_name(GTK_WINDOW(geany->main_widgets->window));
+	if (icon_name) /* Geany >= 1.23 */
+		gtk_status_icon_set_from_icon_name(priv->icon, icon_name);
+	else /* Geany <= 1.23 */
+		gtk_status_icon_set_from_pixbuf(priv->icon, gtk_window_get_icon(
+			GTK_WINDOW(geany->main_widgets->window)));
 
 #if GTK_CHECK_VERSION(2, 16, 0)
 	gtk_status_icon_set_tooltip_text(priv->icon, "Geany");
