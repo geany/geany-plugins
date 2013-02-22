@@ -10,29 +10,26 @@ PLUGIN_VERSION_CHECK(211)
 PLUGIN_SET_INFO("SPOJ Submissions", "Tool to submit spoj problem submissions from geany itself!",
                 "1.0", "Mayank Jha <mayank25080562@gmail.com>");
 
-static GtkWidget *window;
-static GtkWidget *main_menu_item = NULL;
-static GtkWidget *user_label;
-static GtkWidget *pwd_label;
-static GtkWidget *probid_label;
-static GtkWidget *language_label;
-static GtkWidget *server_label;
+ GtkWidget *window;
+ GtkWidget *main_menu_item = NULL;
+ GtkWidget *user_label;
+ GtkWidget *pwd_label;
+ GtkWidget *probid_label;
+GtkWidget *language_label;
+GtkWidget *server_label;
 
-static GtkWidget *user_entry;
-static GtkWidget *pwd_entry;
-static GtkWidget *probid_entry;
+GtkWidget *user_entry;
+GtkWidget *pwd_entry;
+GtkWidget *probid_entry;
+GtkWidget *language_box;
+GtkWidget *server_box;
+GtkComboBox *combo_box;
 
-static GtkWidget *language_box;
-static GtkWidget *server_box;
-static GtkComboBox *combo_box;
+ GtkWidget *submit_button;
+ GtkWidget *save_button;
+ GtkWidget *table;
 
-
-static GtkWidget *submit_button;
-static GtkWidget *save_button;
-
-static GtkWidget *table;
-
-static void item_activate_cb(GtkMenuItem *menuitem, gpointer gdata)
+void item_activate_cb(GtkMenuItem *menuitem, gpointer gdata)
 {
    gtk_widget_show_all(window);
 }
