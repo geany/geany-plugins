@@ -1,5 +1,11 @@
 2013-02-21  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
+ * docs/scope.html:
+   Explained the "signal `project-before-save' is invalid" warning.
+
+
+2013-02-21  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
  * src/inspect.c:
    Unified inspect display, fixing empty "value" looking identical to
    unapplied variable.
@@ -11,6 +17,7 @@
    Small fixes.
  * docs/scope.html, src/scope.c:
    Increased version to 0.84.
+
 
 2013-01-31  Enrico Tröger  <enrico.troeger@uvena.de>
 

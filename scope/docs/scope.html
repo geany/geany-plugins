@@ -552,7 +552,7 @@ used by the tooltips, or decrease it if they appear slower than your gtk+ settin
 <p><em>pref_tooltips_length</em> - maximum length of a tooltip message, 0 = unlimited.
 Default = 2048.</p>
 
-<p><em>memory_line_bytes</em></p> - maximum bytes per <em>Memory</em> line.</p>
+<p><em>memory_line_bytes</em> - maximum bytes per <em>Memory</em> line.</p>
 
 
 <p>[terminal] (*nix only)</p>
@@ -665,6 +665,17 @@ GDB command line if you need it.</p>
 the false impression that you can assign selectively, while in fact omitting a &quot;foo =
 value, &quot; <em>moves</em> all values left by 1, and changing a name or index has
 <em>no</em> effect.</p>
+
+<p>Q. A "signal `project-before-save' is invalid" warning is displayed on Geany startup, and
+an "assertion `handler_id > 0' failed" message on quit.</p>
+
+<p>A. Your Geany does not support this signal. Either apply the patch from Geany sourceforge
+patch tracker <a href="http://sourceforge.net/tracker/?func=detail&amp;aid=3594050&amp;
+group_id=153444&amp;atid=787793">ID 3594050</a> and recompile it, or make sure to
+<em>Terminate</em> the debugged program before quitting Geany or switching to another project.
+Otherwise, your source files will be marked as read-only when the current project is reopened.
+Of course, you can awlays unlock them manually (via <em>Document --&gt; Read Only</em>),
+so it's nothing serious.</p>
 
 <h3><a name="bugs">Bugs</a></h3>
 
