@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.23\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-17 10:32+0100\n"
+"POT-Creation-Date: 2013-02-23 14:32+0100\n"
 "PO-Revision-Date: 2011-10-21 14:08+0100\n"
 "Last-Translator: Masami Chikahiro <cmasa.z321@gmail.com>\n"
 "Language-Team: Japanese\n"
@@ -5081,7 +5081,8 @@ msgid "_Octal"
 msgstr "8進(_O)"
 
 #: ../scope/data/scope.glade.h:63
-msgid "_binary"
+#, fuzzy
+msgid "_Binary"
 msgstr "バイナリ(_B)"
 
 #: ../scope/data/scope.glade.h:64
@@ -5377,19 +5378,19 @@ msgstr "%s."
 msgid "..."
 msgstr "..."
 
-#: ../scope/src/inspect.c:326
+#: ../scope/src/inspect.c:324
 msgid "invalid data"
 msgstr "無効なデータ"
 
-#: ../scope/src/inspect.c:358
+#: ../scope/src/inspect.c:356
 msgid "no children in range"
 msgstr "範囲に子がありません"
 
-#: ../scope/src/inspect.c:442
+#: ../scope/src/inspect.c:440
 msgid "out of scope"
 msgstr "スコープ範囲外"
 
-#: ../scope/src/inspect.c:590
+#: ../scope/src/inspect.c:587
 msgid "Duplicate inspect variable name."
 msgstr "検査変数名が重複."
 

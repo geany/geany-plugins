@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.23\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-16 09:34+0100\n"
+"POT-Creation-Date: 2013-02-23 14:32+0100\n"
 "PO-Revision-Date: 2013-02-15 15:30+0100\n"
 "Last-Translator: Lucas Vieites <lucas@codexion.com>\n"
 "Language-Team:  <en@li.org>\n"
@@ -5162,7 +5162,7 @@ msgid "_Octal"
 msgstr ""
 
 #: ../scope/data/scope.glade.h:63
-msgid "_binary"
+msgid "_Binary"
 msgstr ""
 
 #: ../scope/data/scope.glade.h:64
@@ -5494,21 +5494,21 @@ msgstr "%s:"
 msgid "..."
 msgstr "Más..."
 
-#: ../scope/src/inspect.c:326
+#: ../scope/src/inspect.c:324
 #, fuzzy
 msgid "invalid data"
 msgstr "Etiqueta no válida"
 
-#: ../scope/src/inspect.c:358
+#: ../scope/src/inspect.c:356
 msgid "no children in range"
 msgstr ""
 
-#: ../scope/src/inspect.c:442
+#: ../scope/src/inspect.c:440
 #, fuzzy
 msgid "out of scope"
 msgstr "Punto de vigilancia #%s fuera de rango"
 
-#: ../scope/src/inspect.c:590
+#: ../scope/src/inspect.c:587
 msgid "Duplicate inspect variable name."
 msgstr ""
 
