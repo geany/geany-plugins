@@ -44,8 +44,8 @@ if(!f)
 {
 
 fscanf(f,"%s %s %s %d",doc_fn,user_ent,pwd_ent,&active_choice);
-gtk_entry_set_text(GTK_ENTRY(user_entry),(doc_fn));
-gtk_entry_set_text(GTK_ENTRY(pwd_entry),(user_ent));
+gtk_entry_set_text(GTK_ENTRY(user_entry),(user_ent));
+gtk_entry_set_text(GTK_ENTRY(pwd_entry),(pwd_ent));
 gtk_entry_set_text(GTK_ENTRY(probid_entry),(probid_ent));;
 gtk_combo_box_set_active(GTK_COMBO_BOX(language_box),active_choice);
 
