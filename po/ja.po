@@ -209,7 +209,7 @@ msgid ""
 "the current document."
 msgstr ""
 "現在の文書のタスクだけを表示するか、すべての文書のタスクを表示するかを選びま"
-"す"
+"す。"
 
 #: ../addons/src/addons.c:511
 msgid "Specify a semicolon separated list of search tokens."
@@ -602,7 +602,7 @@ msgid ""
 "Google Code Search in the integrated viewer."
 msgstr ""
 "Devhelp, マニュアル・ページ, Google コード・サーチからの検索結果を統合された"
-"ビューアに表示する機能を提供します."
+"ビューアに表示する機能を提供します。"
 
 #: ../devhelp/src/dhp-plugin.c:119
 #, c-format
@@ -1201,9 +1201,9 @@ msgid ""
 "# To create it, just write it in this file and save it. For the description\n"
 "# of the syntax of this file, please refer to the manual.\n"
 msgstr ""
-"# このファイル種類の設定ファイルがまだありません.\n"
-"# 作成するには、このファイルに適切な内容を記述し、保存するだけです.\n"
-"# このファイルの説明部分の構文については、マニュアルを参照してください.\n"
+"# このファイル種類の設定ファイルがまだありません。\n"
+"# 作成するには、このファイルに適切な内容を記述し、保存します。\n"
+"# このファイルの説明部分の構文については、マニュアルを参照してください。\n"
 
 #: ../geanygendoc/src/ggd-plugin.c:342
 #, c-format
@@ -1278,10 +1278,10 @@ msgid ""
 "surprising since the comment will be generated for the last saved state of "
 "this document and not the current one."
 msgstr ""
-"現在の文書からヘルプ文書を生成する前にディスクに保存するかどうかを指定します."
-"技術的な側面から見ると,タグ一覧が更新されます.このオプションを無効にし,更新さ"
-"れた文書からヘルプ文書を生成すると,現在の文書ではなく,最後に保存された状態か"
-"らコメントが生成されます."
+"現在の文書からヘルプ文書を生成する前にディスクに保存するかどうかを指定します。"
+"技術的な側面から見ると、タグ一覧が更新されます。このオプションを無効にし、更新さ"
+"れた文書からヘルプ文書を生成すると、現在の文書ではなく、最後に保存された状態か"
+"らコメントが生成されます。"
 
 #. indent
 #: ../geanygendoc/src/ggd-plugin.c:637
@@ -1383,7 +1383,7 @@ msgid ""
 "incompatible."
 msgstr ""
 "オプションまたはプロキシーが無効: プロキシーのプロパティかオプションの種類が"
-"正しくありません."
+"正しくありません。"
 
 #: ../geanygendoc/src/ggd-options.c:512
 #, c-format
@@ -1466,7 +1466,7 @@ msgstr "小文字(_L)"
 
 #: ../geanyinsertnum/src/insertnum.c:376
 msgid "Base _prefix"
-msgstr "接頭語(_P)"
+msgstr "基数の接頭語(_P)"
 
 #: ../geanyinsertnum/src/insertnum.c:378
 msgid "0 for octal, 0x for hex, + for positive decimal"
@@ -1692,11 +1692,11 @@ msgstr "注釈付き論文の注釈"
 
 #: ../geanylatex/src/bibtexlabels.c:105
 msgid "Name(s) of the author(s), separated by 'and' if more than one"
-msgstr "著者の名前, 複数あるときは 'and' で区切ります"
+msgstr "著者の名前、複数あるときは 'and' で区切ります"
 
 #: ../geanylatex/src/bibtexlabels.c:106
 msgid "Title of the book, if only part of it is being cited"
-msgstr "書籍のタイトル, その一部のみ引用されている場合"
+msgstr "書籍のタイトル、その一部のみ引用されている場合"
 
 #: ../geanylatex/src/bibtexlabels.c:107
 msgid "Chapter number"
@@ -1712,7 +1712,7 @@ msgstr "本の版数 (\"初版\" や \"第2版\"のような)"
 
 #: ../geanylatex/src/bibtexlabels.c:110
 msgid "Name(s) of the editor(s), separated by 'and' if more than one"
-msgstr "編集者の名前, 複数いるときは 'and' で区切ります"
+msgstr "編集者の名前、複数のときは 'and' で区切ります"
 
 #: ../geanylatex/src/bibtexlabels.c:111
 msgid "Specification of electronic publication"
@@ -1926,7 +1926,7 @@ msgstr "文末の定型句(regardsなど)"
 
 #: ../geanylatex/src/geanylatex.c:1689
 msgid "No template assigned. Aborting"
-msgstr "テンプレートが割り当てられていません.終了します"
+msgstr "テンプレートが割り当てられていません。終了します"
 
 #. Building the wizard-dialog and showing it
 #: ../geanylatex/src/geanylatex.c:1716
@@ -2211,7 +2211,7 @@ msgstr "参照を挿入(_R)"
 
 #: ../geanylatex/src/geanylatex.c:2138
 msgid "Inserting references to the document"
-msgstr "文書に参照を挿入します。"
+msgstr "文書に参照を挿入します"
 
 #: ../geanylatex/src/geanylatex.c:2143
 msgid "Insert _Label"
@@ -2219,7 +2219,7 @@ msgstr "ラベルを挿入(_L)"
 
 #: ../geanylatex/src/geanylatex.c:2145
 msgid "Helps at inserting labels to a document"
-msgstr "文書にラベルを挿入します。"
+msgstr "文書にラベルを挿入します"
 
 #: ../geanylatex/src/geanylatex.c:2151
 msgid "Insert _Environment"
@@ -2227,7 +2227,7 @@ msgstr "環境を挿入(_E)"
 
 #: ../geanylatex/src/geanylatex.c:2153
 msgid "Helps at inserting an environment a document"
-msgstr "文書に環境を挿入します。"
+msgstr "文書に環境を挿入します"
 
 #: ../geanylatex/src/geanylatex.c:2159
 msgid "Insert P_ackage"
@@ -2269,7 +2269,7 @@ msgstr "コマンドを挿入(_C)"
 
 #: ../geanylatex/src/geanylatex.c:2232
 msgid "Inserting costumized command to document"
-msgstr "文書にコマンドを挿入します。"
+msgstr "文書にカスタムコマンドを挿入します"
 
 #: ../geanylatex/src/geanylatex.c:2257
 msgid "_BibTeX"
@@ -2454,7 +2454,7 @@ msgstr "_Lipsum"
 
 #: ../geanylipsum/src/geanylipsum.c:165
 msgid "Include Pseudotext to your code"
-msgstr "あなたの文書にダミーテキストを追加します。"
+msgstr "あなたの文書にダミーテキストを追加します"
 
 #: ../geanylipsum/src/geanylipsum.c:179
 msgid "Insert Lipsum text"
@@ -2557,7 +2557,7 @@ msgstr "     ==>> %s: '%s' からメニューを構築\n"
 
 #: ../geanylua/glspi_init.c:527
 msgid "Nothing to configure!"
-msgstr "設定するものはありません。"
+msgstr "設定するものはありません!"
 
 #: ../geanylua/glspi_init.c:529
 #, c-format
@@ -2676,7 +2676,7 @@ msgid ""
 "failed to parse filter string at argument #3.\n"
 msgstr ""
 "モジュール \"%s\" が関数 pickfile() でエラー:\n"
-"引数 #3 のフィルタ文字列の解析に失敗\n"
+"引数 #3 のフィルタ文字列の解析に失敗。\n"
 
 #: ../geanylua/glspi_dlg.c:486
 #, c-format
@@ -2685,7 +2685,7 @@ msgid ""
 "expected string \"open\" or \"save\" for argument #1.\n"
 msgstr ""
 "モジュール \"%s\" が関数 %s() でエラー:\n"
-"引数 #1には文字列 \"open\" または \"save\" が必要です\n"
+"引数 #1には文字列 \"open\" または \"save\" が必要です。\n"
 
 #: ../geanylua/geanylua.c:163
 #, c-format
@@ -2747,7 +2747,7 @@ msgid ""
 "widget \"%s\" has no signal named \"%s\".\n"
 msgstr ""
 "モジュール \"%s\" が関数 %s() 引数 #2 でエラー:\n"
-"ウィジェット \"%s\" にシグナル名 \"%s\"がありません\n"
+"ウィジェット \"%s\" にシグナル名 \"%s\"がありません。\n"
 
 #: ../geanymacro/src/geanymacro.c:55
 msgid "Cut to Clipboard"
@@ -3124,13 +3124,13 @@ msgid ""
 "This Plugin implements Macros in Geany.\n"
 "\n"
 msgstr ""
-"このプラグインは Geany にマクロを実装します.\n"
+"このプラグインは Geany にマクロを実装します。\n"
 "\n"
 
 #: ../geanymacro/src/geanymacro.c:856
 msgid "This plugin allows you to record and use your own macros. "
 msgstr ""
-"このプラグインはあなたの操作を記録し、マクロとして使用することができます. "
+"このプラグインはあなたの操作を記録し、マクロとして使用することができます。"
 
 #: ../geanymacro/src/geanymacro.c:857
 msgid ""
@@ -3138,7 +3138,7 @@ msgid ""
 "combination. "
 msgstr ""
 "いくつかの操作を記録して、キーの組み合わせに割り当てて繰り返すことができま"
-"す. "
+"す。"
 
 #: ../geanymacro/src/geanymacro.c:858
 msgid ""
@@ -3147,7 +3147,7 @@ msgid ""
 "Backspace, down line and then stop recording. "
 msgstr ""
 "最後の２文字を削除したいテキストファイルがあるときは、マクロの記録を開始し、"
-"Endキー,BSキー,BSキーの順に押し、下の行に移動してマクロの記録を終了します. "
+"Endキー,BSキー,BSキーの順に押し、下の行に移動してマクロの記録を終了します。"
 
 #: ../geanymacro/src/geanymacro.c:860
 msgid ""
@@ -3155,7 +3155,7 @@ msgid ""
 "move to the next. "
 msgstr ""
 "後はマクロを呼び出すだけで、行末の２文字を削除して次の行にカーソルが移動しま"
-"す. "
+"す。"
 
 #: ../geanymacro/src/geanymacro.c:861
 msgid ""
@@ -3163,17 +3163,17 @@ msgid ""
 "dialog box. "
 msgstr ""
 "ツールメニューのマクロを記録コマンドを選択すると、ダイアログボックスが表示さ"
-"れます. "
+"れます。"
 
 #: ../geanymacro/src/geanymacro.c:862
 msgid ""
 "You need to specify a key combination that isn't being used, and a name for "
 "the macro to help you identify it. "
-msgstr "未使用のキーの組み合わせを指定し, マクロの名前を入力してください. "
+msgstr "未使用のキーの組み合わせを指定し, マクロの名前を入力してください。"
 
 #: ../geanymacro/src/geanymacro.c:864
 msgid "Then press Record. "
-msgstr "次に記録ボタンを押します."
+msgstr "次に記録ボタンを押します。"
 
 #: ../geanymacro/src/geanymacro.c:865
 msgid ""
@@ -3181,20 +3181,20 @@ msgid ""
 "Macro from the Tools menu. "
 msgstr ""
 "ツールメニューのマクロの記録を停止コマンドを指定するまで、あなたが行った操作"
-"がマクロとして記録されます. "
+"がマクロとして記録されます。"
 
 #: ../geanymacro/src/geanymacro.c:867
 msgid "Simply pressing the specified key combination will re-run the macro. "
-msgstr "先に指定したキーの組み合わせによってマクロを実行します. "
+msgstr "先に指定したキーの組み合わせによってマクロを実行します。"
 
 #: ../geanymacro/src/geanymacro.c:868
 msgid "To edit the macros you have, select Edit Macro from the Tools menu. "
 msgstr ""
-"定義済みのマクロを編集するには、ツールメニューからマクロの編集を選びます. "
+"定義済みのマクロを編集するには、ツールメニューからマクロの編集を選びます。"
 
 #: ../geanymacro/src/geanymacro.c:869
 msgid "You can select a macro and delete it, or re-record it. "
-msgstr "マクロを選択して削除するか、再び操作を記録することができます. "
+msgstr "マクロを選択して削除するか、再び操作を記録することができます。"
 
 #: ../geanymacro/src/geanymacro.c:870
 msgid ""
@@ -3202,14 +3202,14 @@ msgid ""
 "and re-define that assuming that it's not already in use. "
 msgstr ""
 "マクロ名をクリックして名前を変更することや、キーの組み合わせを変更することも"
-"可能です. "
+"可能です。"
 
 #: ../geanymacro/src/geanymacro.c:872
 msgid ""
 "Selecting the edit option allows you to view all the individual elements "
 "that make up the macro. "
 msgstr ""
-"編集オプションを選択して、マクロを定義している個々の操作を確認できます. "
+"編集オプションを選択して、マクロを定義している個々の操作を確認できます。"
 
 #: ../geanymacro/src/geanymacro.c:874
 msgid ""
@@ -3218,9 +3218,9 @@ msgid ""
 "that replaces the selected text, or is inserted.\n"
 "\n"
 msgstr ""
-"個々の操作に別のコマンドを指定したり,操作の順序を変更したり、新しい操作を追加"
-"したり、操作を削除したりすることも可能です。選択した文字や挿入した文字を編集"
-"することも可能です。\n"
+"個々の操作に別のコマンドを指定、操作の順序を変更、新しい操作を追加、"
+"操作の削除も可能です。選択した文字や挿入した文字の編集"
+"も可能です。\n"
 "\n"
 
 #: ../geanymacro/src/geanymacro.c:878
@@ -3229,8 +3229,8 @@ msgid ""
 "recorded, and won't be replayed when the macro is re-run.\n"
 "\n"
 msgstr ""
-"注意してほしいことは、UNDO REDO 操作は記録できないことです. マクロを実行する"
-"ときに UNDO REDO 操作は動作しません.\n"
+"注意してほしいことは、UNDO REDO 操作は記録できないことです。マクロを実行する"
+"ときに UNDO REDO 操作は動作しません。\n"
 "\n"
 
 #: ../geanymacro/src/geanymacro.c:881
@@ -3239,9 +3239,9 @@ msgid ""
 "Manager under the Tools menu, selecting this plugin, and cliking "
 "Preferences. "
 msgstr ""
-"このプラグインの既定の動作を変更することも可能です.ツールメニューのプラグイン"
-"マネージャを選択し,このプラグインを選択して、設定ボタンをクリックしてくださ"
-"い. "
+"このプラグインの既定の動作を変更することも可能です。ツールメニューのプラグイン"
+"マネージャを選択し、このプラグインを選択して、設定ボタンをクリックしてくださ"
+"い。"
 
 #: ../geanymacro/src/geanymacro.c:883
 msgid "You can change:\n"
@@ -3255,7 +3255,7 @@ msgid ""
 msgstr ""
 "Geanyを閉じるときにマクロを保存 - 選択すると、記録したマクロをファイルに保存"
 "し次回の起動時にマクロを読み込みます。選択しないとGeany終了時にマクロは破棄さ"
-"れます.\n"
+"れます。\n"
 
 #: ../geanymacro/src/geanymacro.c:887
 msgid ""
@@ -3266,8 +3266,8 @@ msgid ""
 "the same key trigger combination."
 msgstr ""
 "既存のマクロを置き換える前に確認する - 選択すると既存のマクロを上書きする前に"
-"確認メッセージが表示されます, 選択しないと同じ名前やキーの組み合わせでマクロ"
-"を記録すると以前のマクロは直ちに削除されます."
+"確認メッセージが表示されます。選択しないと同じ名前やキーの組み合わせでマクロ"
+"を記録すると以前のマクロは直ちに削除されます。"
 
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:1057
@@ -3316,7 +3316,7 @@ msgstr ""
 #: ../geanymacro/src/geanymacro.c:1333
 #, c-format
 msgid "Search %s, looking for %s%s%s.%s%s%s%s%s"
-msgstr "%s を検索, %s%s%s を検索中.%s%s%s%s%s"
+msgstr "%s を検索、 %s%s%s を検索中。 %s%s%s%s%s"
 
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:1388
@@ -3553,7 +3553,7 @@ msgstr "番号指定ブックマーク"
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:923
 #, c-format
 msgid "Unable to apply all markers to '%s' as all being used."
-msgstr "すべて使用中のためマーカを '%s'に適用できません."
+msgstr "すべて使用中のためマーカを '%s'に適用できません"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:925
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:969
@@ -3568,9 +3568,9 @@ msgid ""
 "be unreliable and will not be loaded.\n"
 "Press Ignore to try an load markers anyway."
 msgstr ""
-"'%s' はgeanyで保存してから変更されています. マーカの位置は信用できないので"
-"ロードしません.\n"
-"無視をクリックするとマーカを強制的にロードします."
+"'%s' はgeanyで保存してから変更されています。マーカの位置は信用できないので"
+"ロードしません。\n"
+"無視をクリックするとマーカを強制的にロードします。"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:970
 msgid "_Ignore"
@@ -3632,13 +3632,13 @@ msgid ""
 "shown, but you can have more than one bookmark per line. To move to a "
 "previously set bookmark, press Ctrl+a number from 0 to 9."
 msgstr ""
-"このプラグインは番号指定ブックマークを提供します.ブックマークを設定するには、"
-"CtrlキーとShiftキーを押しながら、0から9のキーを押してください. 行番号の隣に"
-"マーカが表示されます.マーカの行でCtrl+Shift+数字キーを押すと、そのマーカは削"
-"除されます.別の行でCtrl+Shift+数字キーを押すと、その行が新しいマーカ位置にな"
-"ります.ある行にマーカが複数設定されているときは,最後に指定したマーカ番号が表"
-"示されますが,設定された他のマーカも有効です.以前設定したマーカを移動するに"
-"は、Ctrlキーと0から9のキーを押します."
+"このプラグインは番号指定ブックマークを提供します。ブックマークを設定するには、"
+"CtrlキーとShiftキーを押しながら、0から9のキーを押してください。行番号の隣に"
+"マーカが表示されます。マーカの行でCtrl+Shift+数字キーを押すと、そのマーカは削"
+"除されます。別の行でCtrl+Shift+数字キーを押すと、その行が新しいマーカ位置にな"
+"ります。ある行にマーカが複数設定されているときは、最後に指定したマーカ番号が表"
+"示されますが、設定された他のマーカも有効です。以前設定したマーカを移動するに"
+"は、Ctrlキーと0から9のキーを押します。"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1391
 msgid "Unable to apply markers as all being used."
@@ -3659,9 +3659,9 @@ msgid ""
 "\n"
 "Are you *really* sure you want to use this key anyway?"
 msgstr ""
-"ユーザ ID \"%s\" を持つキーの正当性は \"%s\" です.\n"
+"ユーザ ID \"%s\" を持つキーの正当性は \"%s\" です。\n"
 "\n"
-"警告: ユーザ ID にある人物のキーかどうか確認できません.\n"
+"警告: ユーザ ID にある人物のキーかどうか確認できません。\n"
 "\n"
 "あなたはこのキーを *本当に* 使用しますか?"
 
@@ -3670,7 +3670,7 @@ msgid ""
 "No recipients were selected,\n"
 "use symetric cipher?"
 msgstr ""
-"受信者が選択されていません,\n"
+"受信者が選択されていません。\n"
 "対象鍵暗号を使用しますか?"
 
 #: ../geanypg/src/geanypg.c:37
@@ -3728,7 +3728,7 @@ msgstr "署名者を選択"
 #. shouldn't get here
 #: ../geanypg/src/pinentry.c:107
 msgid "Could not use pinentry."
-msgstr "pinentryを使用できません."
+msgstr "pinentryを使用できません"
 
 #: ../geanypg/src/pinentry.c:119
 msgid "Unexpected output from pinentry."
@@ -3760,8 +3760,8 @@ msgid ""
 "Error, Passphrase input without using gpg-agent is not supported on Windows "
 "yet."
 msgstr ""
-"エラー, Windowsでは pgp-agent を使用しないパスフレーズ入力をまだサポートして"
-"いません."
+"エラー。Windowsでは pgp-agent を使用しないパスフレーズ入力をまだサポートして"
+"いません。"
 
 #: ../geanypg/src/verify_aux.c:53
 msgid "a key with fingerprint"
@@ -4544,12 +4544,12 @@ msgid ""
 "Unable to paste the code. Check your connection and retry.\n"
 "Error code: %d\n"
 msgstr ""
-"コードの貼り付けができません. インターネット接続を確認してもう一度実行.\n"
+"コードの貼り付けができません。インターネット接続を確認してもう一度実行します。\n"
 "エラーコード: %d\n"
 
 #: ../geniuspaste/src/geniuspaste.c:416
 msgid "There are no opened documents. Open one and retry.\n"
-msgstr "開いている文書がありません.文書を開いてもう一度実行.\n"
+msgstr "開いている文書がありません。文書を開いてもう一度実行します。\n"
 
 #: ../geniuspaste/src/geniuspaste.c:429
 msgid "The author name field is empty!"
@@ -4625,8 +4625,8 @@ msgid ""
 "Space separated list of patterns that are used to identify headers. Used "
 "mainly for header/source swapping."
 msgstr ""
-"空白で区切られたヘッダファイルとして使用するファイルパターンのリストヘッダ/"
-"ソースの交換に使用します."
+"空白で区切られたヘッダファイルとして使用するファイルパターンのリストヘッダ。"
+"ソースの交換に使用します。"
 
 #: ../gproject/src/gproject-project.c:429
 msgid "Ignored dirs patterns:"
@@ -4658,7 +4658,7 @@ msgstr ""
 msgid ""
 "Note: set the patterns of files belonging to the project under the Project "
 "tab."
-msgstr "注: プロジェクトタブにプロジェクトに所属するファイルのパターンを設定."
+msgstr "注: プロジェクトタブにプロジェクトに所属するファイルのパターンを設定します"
 
 #: ../gproject/src/gproject-sidebar.c:81
 #: ../gproject/src/gproject-sidebar.c:792
@@ -4777,7 +4777,7 @@ msgid ""
 "\n"
 "See Help > Debug messages for more details..."
 msgstr ""
-"いくつかの機能がサポートされていないため、指定したXMLの整形に失敗しました.\n"
+"いくつかの機能がサポートされていないため、指定したXMLの整形に失敗しました。\n"
 "\n"
 "詳細は ヘルプ > デバッグメッセージを確認してください..."
 
@@ -5081,9 +5081,8 @@ msgid "_Octal"
 msgstr "8進(_O)"
 
 #: ../scope/data/scope.glade.h:63
-#, fuzzy
 msgid "_Binary"
-msgstr "バイナリ(_B)"
+msgstr "2進(_B)"
 
 #: ../scope/data/scope.glade.h:64
 msgid "_Evaluate/Modify"
@@ -5327,8 +5326,8 @@ msgid ""
 "There are two or more breakpoints at %s:%d.\n"
 "Use the breakpoint list to remove the exact one."
 msgstr ""
-"%s:%d に複数のブレークポイントがあります.\n"
-"ブレークポイントリストより1つに変更してください."
+"%s:%d に複数のブレークポイントがあります。\n"
+"ブレークポイントリストより1つに変更してください。"
 
 #: ../scope/src/break.c:1200
 msgid "Add Breakpoint"
@@ -5359,15 +5358,15 @@ msgstr "%s: %s."
 #: ../scope/src/debug.c:363
 #, c-format
 msgid "GDB died unexpectedly with status %d."
-msgstr "GDBは予期しないステータス %d で終了しました."
+msgstr "GDBは予期しないステータス %d で終了しました。"
 
 #: ../scope/src/debug.c:365
 msgid "Program terminated."
-msgstr "プログラムは終了しました."
+msgstr "プログラムは終了しました。"
 
 #: ../scope/src/debug.c:468
 msgid "No breakpoints. Hanging."
-msgstr "ブレークポイントがありません. 中止."
+msgstr "ブレークポイントがありません。中止。"
 
 #: ../scope/src/debug.c:596 ../scope/src/thread.c:97
 #, c-format
@@ -5392,7 +5391,7 @@ msgstr "スコープ範囲外"
 
 #: ../scope/src/inspect.c:587
 msgid "Duplicate inspect variable name."
-msgstr "検査変数名が重複."
+msgstr "検査変数名が重複"
 
 #: ../scope/src/memory.c:299
 msgid "Read Memory"
@@ -5400,7 +5399,7 @@ msgstr "メモリを読み込み"
 
 #: ../scope/src/memory.c:408
 msgid "Scope: pointer size > 8, Data disabled."
-msgstr "スコープ: ポインタサイズ > 8, データ無効."
+msgstr "スコープ: ポインタサイズ > 8, データ無効"
 
 #: ../scope/src/menu.c:380
 msgid "Modify"
@@ -5420,7 +5419,7 @@ msgstr "変数を検査"
 
 #: ../scope/src/parse.c:416
 msgid "Undefined GDB error."
-msgstr "未定義GDBエラー."
+msgstr "未定義GDBエラー"
 
 #: ../scope/src/plugme.c:81
 msgid "Select Folder"
@@ -5450,7 +5449,7 @@ msgstr "スコープ: 設定ファイルを生成しました。"
 #: ../scope/src/program.c:231
 #, c-format
 msgid "Loaded debug settings for %s."
-msgstr "%s 用のデバッグ設定を読み込みました."
+msgstr "%s 用のデバッグ設定を読み込みました"
 
 #: ../scope/src/program.c:239
 #, c-format
@@ -5543,7 +5542,7 @@ msgstr "ビルドがアクティブになりました.デバッグを終了し�
 #: ../scope/src/thread.c:58
 #, c-format
 msgid "Thread group %s started."
-msgstr "スレッドグループ %s を開始しました."
+msgstr "スレッドグループ %s を開始しました。"
 
 #: ../scope/src/thread.c:76
 msgid "Thread group "
@@ -5585,12 +5584,12 @@ msgstr "停止"
 #: ../scope/src/utils.c:44
 #, c-format
 msgid "%s: error %lu."
-msgstr "%s: エラー %lu."
+msgstr "%s: エラー %lu。"
 
 #: ../scope/src/utils.c:358
 #, c-format
 msgid "Scope: error reading [%s]."
-msgstr "スコープ: [%s] 読み込み中にエラー."
+msgstr "スコープ: [%s] 読み込み中にエラー。"
 
 #: ../scope/src/views.c:505
 msgid "…"
@@ -5949,10 +5948,10 @@ msgid ""
 "%d will be replaced with the path name of the selected file without the "
 "filename"
 msgstr ""
-"\"他のプログラムで開く\" を使うときに実行されるコマンド. ワイルドカード%f と "
-"%d を使用できます\n"
-"%f は完全パスを含むファイル名に置き換えられます\n"
-"%d は選択したファイルがあるパス名に置き換えられます"
+"\"他のプログラムで開く\" を使うときに実行されるコマンド。ワイルドカード%f と "
+"%d を使用できます。\n"
+"%f は完全パスを含むファイル名に置き換えられます。\n"
+"%d は選択したファイルがあるパス名に置き換えられます。"
 
 #: ../treebrowser/src/treebrowser.c:1905
 msgid "Toolbar"
@@ -6004,7 +6003,7 @@ msgid ""
 "obj. *.so, *.dll, *.a, *.lib"
 msgstr ""
 "ファイルブラウザにオブジェクトファイルを表示しません。除外されるファイルは *."
-"o, *.obj. *.so, *.dll, *.a, *.lib です"
+"o, *.obj. *.so, *.dll, *.a, *.lib です。"
 
 #: ../treebrowser/src/treebrowser.c:1942
 msgid "Reverse filter"
