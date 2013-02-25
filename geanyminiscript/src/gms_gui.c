@@ -25,6 +25,7 @@
  * \file  gms_gui.c
  * \brief it is the graphical user interface of the geany miniscript plugin
  */
+#include    "config.h"
 #include    "geany.h"
 
 #include    <glib/gstdio.h>
@@ -126,7 +127,7 @@ const gchar *label_script_cmd[GMS_NB_TYPE_SCRIPT] = {
     "Shell", "Perl", "Python", "Sed", "Awk", "User" };
 
 /**< \brief It's the information message about geany mini script */
-const char *geany_info = "<b>GMS : Geany Mini-Script filter Plugin</b>\n"
+const char *geany_info = N_("<b>GMS : Geany Mini-Script filter Plugin</b>\n"
 "This plugin is a tool to apply a script filter on :\n"
 "   o the text selection,\n"
 "   o the current document,\n"
@@ -147,7 +148,7 @@ const char *geany_info = "<b>GMS : Geany Mini-Script filter Plugin</b>\n"
 "it and/or modify it under the terms of the GNU \n"
 "General Public License as published by the Free\n"
 "Software Foundation; either version 2 of the License,\n"
-"or (at your option) any later version." ;
+"or (at your option) any later version.");
 
 /*
  * *****************************************************************************

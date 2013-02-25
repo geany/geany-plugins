@@ -28,16 +28,14 @@
  * note: the script filter could be : Unix shell, perl , python , sed ,awk ...
  */
 
+#include    "config.h"
+
 #include    <geanyplugin.h>
 
 /* headers */
 #include    <stdlib.h>
 #include    <glib.h>
 #include    <glib/gstdio.h>
-
-#ifdef HAVE_LOCALE_H
-#include    <locale.h>
-#endif
 
 /* user header */
 #include    "gms.h"
@@ -55,8 +53,11 @@ GeanyFunctions  *geany_functions;
 PLUGIN_VERSION_CHECK(100)
 
 /* All plugins must set name, description, version and author. */
-PLUGIN_SET_INFO(_("Mini Script"), _("A tool to apply a script filter on a text selection or current document(s)"),
-                    "0.1" , _("Pascal BURLOT, a Geany user"))
+PLUGIN_SET_TRANSLATABLE_INFO(
+    LOCALEDIR, GETTEXT_PACKAGE,
+    _("Mini Script"),
+    _("A tool to apply a script filter on a text selection or current document(s)"),
+    "0.1" , _("Pascal BURLOT, a Geany user"))
 
 static GtkWidget     *gms_item   = NULL ;
 static gms_handle_t gms_hnd     = NULL ;
@@ -231,34 +232,6 @@ static void item_activate(GtkMenuItem *menuitem, gpointer gdata)
 
 }
 
- /**
- * \brief the function initializes the localization for the gms plugin
- */
-static void locale_init(void)
-{
-#ifdef ENABLE_NLS
-	gchar *locale_dir = NULL;
-
-#ifdef HAVE_LOCALE_H
-	setlocale(LC_ALL, "");
-#endif
-
-#ifdef G_OS_WIN32
-	gchar *install_dir = g_win32_get_package_installation_directory("geany", NULL);
-	/* e.g. C:\Program Files\geany\lib\locale */
-	locale_dir = g_strconcat(install_dir, "\\share\\locale", NULL);
-	g_free(install_dir);
-#else
-	locale_dir = g_strdup(LOCALEDIR);
-#endif
-
-	bindtextdomain(GETTEXT_PACKAGE, locale_dir);
-	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
-	textdomain(GETTEXT_PACKAGE);
-	g_free(locale_dir);
-#endif
-}
-
 
 /**
  * \brief Called by Geany to initialize the plugin.
@@ -266,8 +239,6 @@ static void locale_init(void)
  */
 void plugin_init(GeanyData *data)
 {
-    locale_init();
-
     gms_hnd = gms_new(geany->main_widgets->window,
                     data->interface_prefs->editor_font ,
                     data->editor_prefs->indentation->width,
