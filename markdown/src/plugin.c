@@ -19,6 +19,7 @@
  * MA 02110-1301, USA.
  */
 
+#include "config.h"
 #include <geanyplugin.h>
 #include "viewer.h"
 #include "conf.h"
@@ -29,10 +30,11 @@ GeanyFunctions *geany_functions;
 
 PLUGIN_VERSION_CHECK(211)
 
-PLUGIN_SET_INFO("Markdown",
-                _("Real-time Markdown preview"),
-                "0.01",
-                "Matthew Brush <mbrush@codebrainz.ca>")
+PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
+                             "Markdown",
+                             _("Real-time Markdown preview"),
+                             "0.01",
+                             "Matthew Brush <mbrush@codebrainz.ca>")
 
 /* Should be defined by build system, this is just a fallback */
 #ifndef MARKDOWN_DATA_DIR
