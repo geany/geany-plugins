@@ -349,11 +349,12 @@ static void gms_cb_info(
 {
     gms_private_t *this = GMS_PRIVATE(data) ;
 
-    GtkWidget *dlg = gtk_message_dialog_new_with_markup( GTK_WINDOW(this->mw),
+    GtkWidget *dlg = gtk_message_dialog_new(GTK_WINDOW(this->mw),
                                 GTK_DIALOG_DESTROY_WITH_PARENT,
                                 GTK_MESSAGE_INFO,
                                 GTK_BUTTONS_CLOSE,
-                                "%s", _(geany_info) );
+                                NULL);
+    gtk_message_dialog_set_markup(GTK_MESSAGE_DIALOG(dlg), _(geany_info));
                                 
     gtk_dialog_run(GTK_DIALOG(dlg));
     GMS_FREE_WIDGET(dlg);
