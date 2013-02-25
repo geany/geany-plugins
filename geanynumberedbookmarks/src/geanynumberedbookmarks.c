@@ -10,6 +10,7 @@
 */
 
 
+#include "config.h"
 #include "geanyplugin.h"
 #include "utils.h"
 #include "Scintilla.h"
@@ -55,8 +56,11 @@ GeanyFunctions  *geany_functions;
 
 PLUGIN_VERSION_CHECK(147)
 
-PLUGIN_SET_INFO("Numbered Bookmarks",_("Numbered Bookmarks for Geany"),
-                "1.0","William Fraser <william.fraser@virgin.net>")
+PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
+                             "Numbered Bookmarks",
+                             _("Numbered Bookmarks for Geany"),
+                             "1.0",
+                             "William Fraser <william.fraser@virgin.net>")
 
 /* Plugin user alterable settings */
 static gboolean bCenterWhenGotoBookmark=TRUE;
