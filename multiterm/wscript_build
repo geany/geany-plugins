@@ -40,6 +40,10 @@ def build_vala_plugin(ctx, name, sources, vapi_dirs=None, packages=None,
 
     install_path = '${G_PREFIX}/lib' if target_is_win32(ctx) else '${LIBDIR}/geany/'
 
+    # so that generated C files have a #include "multiterm" line
+    # path of that file needs to be added to the include paths for CC too
+    ctx.env.append_value('VALAFLAGS', '--use-header')
+
     task = ctx.shlib(packages = packages,
                      features = features,
                      target = plugin_name,
@@ -47,7 +51,8 @@ def build_vala_plugin(ctx, name, sources, vapi_dirs=None, packages=None,
                      vapi_dirs = vapi_dirs,
                      use = libraries,
                      vala_defines = [ 'G_LOG_DOMAIN="%s"' % log_domain ],
-                     install_path = install_path)
+                     install_path = install_path,
+                     cflags = [ '-Imultiterm'] )
 
     install_docs(ctx, plugin_name,
         'AUTHORS ChangeLog COPYING NEWS README THANKS TODO'.split())
