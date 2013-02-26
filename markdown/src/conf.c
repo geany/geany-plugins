@@ -81,7 +81,7 @@ static GParamSpec *md_props[PROP_LAST] = { NULL };
 
 struct _MarkdownConfigPrivate
 {
-  gchar filename[PATH_MAX];
+  gchar *filename;
   GKeyFile *kf;
   guint handle;
   gulong dlg_handle;
@@ -401,6 +401,7 @@ markdown_config_finalize(GObject *object)
     markdown_config_save(self);
   }
 
+  g_free(self->priv->filename);
   g_key_file_free(self->priv->kf);
 
   G_OBJECT_CLASS(markdown_config_parent_class)->finalize (object);
@@ -422,7 +423,7 @@ markdown_config_new(const gchar *filename)
 
   g_return_val_if_fail(filename, conf);
 
-  strncpy(conf->priv->filename, filename, PATH_MAX);
+  conf->priv->filename = g_strdup(filename);
   init_conf_file(conf);
   conf->priv->kf = g_key_file_new();
   if (!g_key_file_load_from_file(conf->priv->kf, conf->priv->filename,
