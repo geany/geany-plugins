@@ -90,6 +90,10 @@ if ENABLE_MARKDOWN
 SUBDIRS += markdown
 endif
 
+if ENABLE_NUMCONVERT
+SUBDIRS += numconvert
+endif
+
 if ENABLE_MULTITERM
 SUBDIRS += multiterm
 endif

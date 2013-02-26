@@ -1,0 +1,8 @@
+TODO:
+-----
+
+ - More conversion possibilities (including oddball formats)
+ - Fixed point numbers.
+ - Floating point numbers are completely unsupported at present.
+ - Setting for the preferred bit width of the conversion results.
+ - Perhaps a dialog with convert-as-you-type style preview (?)
