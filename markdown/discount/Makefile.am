@@ -5,7 +5,7 @@ libdiscount_la_SOURCES = \
 	amalloc.h \
 	blocktags \
 	basename.c \
-	config.h \
+	discount-config.h \
 	Csio.c \
 	css.c \
 	cstring.h \

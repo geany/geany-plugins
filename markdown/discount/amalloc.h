@@ -5,7 +5,7 @@
 #ifndef AMALLOC_D
 #define AMALLOC_D
 
-#include "config.h"
+#include "discount-config.h"
 
 #ifdef USE_AMALLOC
 

@@ -11,7 +11,7 @@
 #include <time.h>
 #include <ctype.h>
 
-#include "config.h"
+#include "discount-config.h"
 
 #include "cstring.h"
 #include "markdown.h"

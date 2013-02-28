@@ -1,4 +1,4 @@
-#include "config.h"
+#include "discount-config.h"
 
 char markdown_version[] = VERSION
 #if 4 != 4

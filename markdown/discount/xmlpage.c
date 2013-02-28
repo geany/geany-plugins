@@ -5,7 +5,7 @@
  * The redistribution terms are provided in the COPYRIGHT file that must
  * be distributed with this source code.
  */
-#include "config.h"
+#include "discount-config.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
