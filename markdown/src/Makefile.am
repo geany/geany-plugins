@@ -19,10 +19,10 @@ markdown_la_CFLAGS = \
 	-DMARKDOWN_DATA_DIR=\"$(pkgdatadir)/markdown\" \
 	-DMARKDOWN_DOC_DIR=\"$(docdir)/markdown\" \
 	-DMARKDOWN_HELP_FILE=\"$(docdir)/markdown/html/help.html\" \
-	-I$(top_srcdir)/markdown/discount
+	-I$(top_srcdir)/markdown/peg-markdown
 
 markdown_la_LIBADD = \
 	$(MARKDOWN_LIBS) \
-	$(top_builddir)/markdown/discount/libdiscount.la
+	$(top_builddir)/markdown/peg-markdown/libpegmarkdown.la
 
 include $(top_srcdir)/build/cppcheck.mk

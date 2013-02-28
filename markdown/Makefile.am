@@ -1,4 +1,5 @@
 include $(top_srcdir)/build/vars.auxfiles.mk
 
-SUBDIRS = discount src docs
+SUBDIRS = peg-markdown src docs
+
 plugin = markdown

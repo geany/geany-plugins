@@ -17,5 +17,7 @@ AC_DEFUN([GP_CHECK_MARKDOWN],
         markdown/discount/Makefile
         markdown/src/Makefile
         markdown/docs/Makefile
+        markdown/peg-markdown/Makefile
+        markdown/peg-markdown/peg-0.1.9/Makefile
     ])
 ])

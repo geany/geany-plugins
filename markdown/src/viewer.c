@@ -19,9 +19,10 @@
  * MA 02110-1301, USA.
  */
 
+#include <string.h>
 #include <gtk/gtk.h>
 #include <webkit/webkitwebview.h>
-#include "markdown.h"
+#include "markdown_lib.h"
 #include "viewer.h"
 #include "conf.h"
 
@@ -304,8 +305,8 @@ markdown_viewer_get_html(MarkdownViewer *self)
   if (!self->priv->text) {
     update_internal_text(self, "");
   }
-
-  md_as_html = mkd_compile_document(self->priv->text->str, 0);
+  
+  md_as_html = markdown_to_string(self->priv->text->str, 0, HTML_FORMAT);
   if (md_as_html) {
     html = template_replace(self, md_as_html);
     g_free(md_as_html);
