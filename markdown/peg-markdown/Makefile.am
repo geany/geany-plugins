@@ -17,3 +17,5 @@ LEG = peg-0.1.9/leg
 
 markdown_parser.c: markdown_parser.leg $(LEG)
 	$(AM_V_GEN)$(LEG) -o $@ $<
+
+EXTRA_DIST = markdown_parser.leg

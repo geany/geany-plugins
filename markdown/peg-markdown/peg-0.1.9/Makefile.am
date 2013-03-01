@@ -7,5 +7,4 @@ leg_SOURCES = \
 	tree.h \
 	version.h
 
-EXTRA_DIST = \
-	leg.leg
+EXTRA_DIST = leg.leg
