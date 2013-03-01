@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Geany-plugins 1.23\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-02-25 05:19+0000\n"
-"PO-Revision-Date: 2013-02-25 14:49+0100\n"
+"PO-Revision-Date: 2013-02-26 12:07+0100\n"
 "Last-Translator: Lucas Vieites <lucas@codexion.com>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -741,7 +741,7 @@ msgstr ""
 #: ../devhelp/devhelp/dh-parser.c:500
 #, c-format
 msgid "Cannot uncompress book '%s': %s"
-msgstr "No se ha podidi descomprimir el libro «%s»: %s"
+msgstr "No se ha podido descomprimir el libro «%s»: %s"
 
 #: ../devhelp/devhelp/dh-search.c:498
 msgid "All books"
@@ -790,8 +790,8 @@ msgstr "400%"
 #: ../devhelp/devhelp/dh-window.c:722
 msgid "translator_credits"
 msgstr ""
-"Andrew Janke <a.janke@gmail.com>, 2009Lucas Vieites <lucas.vieites@gmail."
-"com>, 2009 - 2012"
+"Andrew Janke <a.janke@gmail.com>, 2009\n"
+"Lucas Vieites <lucas.vieites@gmail.com>, 2009 - 2012"
 
 #: ../devhelp/devhelp/dh-window.c:729
 msgid "A developers' help browser for GNOME"
@@ -5080,7 +5080,7 @@ msgstr "Configurar programa"
 
 #: ../scope/data/scope.glade.h:43
 msgid "Show =li_brary messages"
-msgstr "Mostrar mensajes de biblioteca"
+msgstr "Mostrar mensajes de bib_lioteca"
 
 #: ../scope/data/scope.glade.h:44
 msgid "Show _Address"
@@ -5128,7 +5128,7 @@ msgstr "Hilos"
 
 #: ../scope/data/scope.glade.h:55
 msgid "Toggle _Breakpoint"
-msgstr "Intercambiar punto de ruptura"
+msgstr "Intercam_biar punto de ruptura"
 
 #: ../scope/data/scope.glade.h:56
 msgid "Update all _views"
