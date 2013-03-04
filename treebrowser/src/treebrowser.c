@@ -791,11 +791,10 @@ gtk_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root)
 {
 	GtkTreeIter i;
 
-	while (gtk_tree_model_iter_children(GTK_TREE_MODEL(treestore), &i, iter))
+	if (gtk_tree_model_iter_children(GTK_TREE_MODEL(treestore), &i, iter))
 	{
-		if (gtk_tree_model_iter_has_child(GTK_TREE_MODEL(treestore), &i))
-			gtk_tree_store_iter_clear_nodes(&i, TRUE);
-		gtk_tree_store_remove(GTK_TREE_STORE(treestore), &i);
+		while (gtk_tree_store_remove(GTK_TREE_STORE(treestore), &i))
+			/* do nothing */;
 	}
 	if (delete_root)
 		gtk_tree_store_remove(GTK_TREE_STORE(treestore), iter);
