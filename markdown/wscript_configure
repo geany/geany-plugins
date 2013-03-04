@@ -33,3 +33,10 @@ for package_name, package_version, uselib_store in packages:
                      uselib_store=uselib_store,
                      mandatory=True,
                      args='--cflags --libs')
+
+conf.check(header_name='mkdio.h',
+           mandatory=True)
+
+conf.check(lib='markdown',
+           uselib_store='DISCOUNT',
+           mandatory=True)

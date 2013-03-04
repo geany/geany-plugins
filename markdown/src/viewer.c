@@ -19,9 +19,15 @@
  * MA 02110-1301, USA.
  */
 
+#include "config.h"
+#include <string.h>
 #include <gtk/gtk.h>
 #include <webkit/webkitwebview.h>
-#include "markdown.h"
+#ifndef FULL_PRICE
+# include <mkdio.h>
+#else
+# include "markdown_lib.h"
+#endif
 #include "viewer.h"
 #include "conf.h"
 
@@ -305,10 +311,30 @@ markdown_viewer_get_html(MarkdownViewer *self)
     update_internal_text(self, "");
   }
 
-  md_as_html = mkd_compile_document(self->priv->text->str, 0);
-  if (md_as_html) {
-    html = template_replace(self, md_as_html);
-    g_free(md_as_html);
+  {
+#ifndef FULL_PRICE  /* this version using Discount markdown library
+                     * is faster but may invoke endless discussions
+                     * about the GPL and licenses similar to (but the
+                     * same as) the old BSD 4-clause license being
+                     * incompatible */
+    MMIOT *doc;
+    doc = mkd_string(self->priv->text->str, self->priv->text->len, 0);
+    mkd_compile(doc, 0);
+    if (mkd_document(doc, &md_as_html) != EOF) {
+      html = template_replace(self, md_as_html);
+    }
+    mkd_cleanup(doc);
+#else /* this version is slower but is unquestionably GPL-friendly
+       * and the lib also has much more readable/maintainable code */
+
+    md_as_html = markdown_to_string(self->priv->text->str, 0, HTML_FORMAT);
+    if (md_as_html) {
+      html = template_replace(self, md_as_html);
+      g_free(md_as_html); /* TODO: become 100% convinced this wasn't
+                           * malloc()'d outside of GLIB functions with
+                           * libc allocator (probably same anyway). */
+    }
+#endif
   }
 
   return html;

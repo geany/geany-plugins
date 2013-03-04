@@ -24,31 +24,12 @@ from build.wafutils import build_plugin
 from waflib.Utils import subst_vars
 
 name = 'Markdown'
-includes = [ 'src', 'discount' ]
+includes = [ 'src' ]
 defines = [ subst_vars('MARKDOWN_DATA_DIR="${PKGDATADIR}/markdown"', bld.env),
             subst_vars('MARKDOWN_DOC_DIR="${DOCDIR}/markdown"', bld.env),
             subst_vars('MARKDOWN_HELP_FILE="${DOCDIR}/markdown/html/help.html"', bld.env) ]
-libraries = [ 'GTK', 'GTHREAD', 'WEBKIT' ]
-sources = [ "discount/amalloc.c",
-            "discount/basename.c",
-            "discount/Csio.c",
-            "discount/css.c",
-            "discount/docheader.c",
-            "discount/dumptree.c",
-            "discount/emmatch.c",
-            "discount/flags.c",
-            "discount/generate.c",
-            "discount/html5.c",
-            "discount/markdown.c",
-            "discount/mkdio.c",
-            "discount/resource.c",
-            "discount/setup.c",
-            "discount/tags.c",
-            "discount/toc.c",
-            "discount/version.c",
-            "discount/xml.c",
-            "discount/xmlpage.c",
-            "src/conf.c",
+libraries = [ 'GTK', 'GTHREAD', 'WEBKIT', 'DISCOUNT' ]
+sources = [ "src/conf.c",
             "src/plugin.c",
             "src/viewer.c" ]
 
