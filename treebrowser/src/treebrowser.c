@@ -57,12 +57,14 @@ static gboolean 			flag_on_expand_refresh 		= FALSE;
  *  CONFIG VARS
  * ------------------ */
 
-static gchar 				*CONFIG_FILE 				= NULL;
 #ifdef G_OS_WIN32
-static gchar 				*CONFIG_OPEN_EXTERNAL_CMD 	= "nautilus '%d'";
+# define CONFIG_OPEN_EXTERNAL_CMD_DEFAULT "nautilus '%d'"
 #else
-static gchar 				*CONFIG_OPEN_EXTERNAL_CMD 	= "explorer '%d'";
+# define CONFIG_OPEN_EXTERNAL_CMD_DEFAULT "explorer '%d'"
 #endif
+
+static gchar 				*CONFIG_FILE 				= NULL;
+static gchar 				*CONFIG_OPEN_EXTERNAL_CMD 	= NULL;
 static gboolean 			CONFIG_REVERSE_FILTER 		= FALSE;
 static gboolean 			CONFIG_ONE_CLICK_CHDOC 		= FALSE;
 static gboolean 			CONFIG_SHOW_HIDDEN_FILES 	= FALSE;
@@ -440,7 +442,7 @@ treebrowser_chroot(const gchar *dir)
 {
 	gchar *directory;
 
-	if (g_str_has_suffix(directory, G_DIR_SEPARATOR_S))
+	if (g_str_has_suffix(dir, G_DIR_SEPARATOR_S))
 		directory = g_strndup(dir, strlen(dir)-1);
 	else
 		directory = g_strdup(dir);
@@ -1798,7 +1800,7 @@ load_settings(void)
 
 	g_key_file_load_from_file(config, CONFIG_FILE, G_KEY_FILE_NONE, NULL);
 
-	CONFIG_OPEN_EXTERNAL_CMD 		=  utils_get_setting_string(config, "treebrowser", "open_external_cmd", 	CONFIG_OPEN_EXTERNAL_CMD);
+	CONFIG_OPEN_EXTERNAL_CMD 		=  utils_get_setting_string(config, "treebrowser", "open_external_cmd", 	CONFIG_OPEN_EXTERNAL_CMD_DEFAULT);
 	CONFIG_REVERSE_FILTER 			= utils_get_setting_boolean(config, "treebrowser", "reverse_filter", 		CONFIG_REVERSE_FILTER);
 	CONFIG_ONE_CLICK_CHDOC 			= utils_get_setting_boolean(config, "treebrowser", "one_click_chdoc", 		CONFIG_ONE_CLICK_CHDOC);
 	CONFIG_SHOW_HIDDEN_FILES 		= utils_get_setting_boolean(config, "treebrowser", "show_hidden_files", 	CONFIG_SHOW_HIDDEN_FILES);
