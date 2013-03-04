@@ -1402,12 +1402,6 @@ on_treeview_mouseclick(GtkWidget *widget, GdkEventButton *event, GtkTreeSelectio
 		GtkWidget *menu;
 		gchar *name = NULL, *uri = NULL;
 
-		if (gtk_tree_selection_get_selected(selection, &model, &iter))
-			gtk_tree_model_get(GTK_TREE_MODEL(treestore), &iter,
-								TREEBROWSER_COLUMN_NAME, &name,
-								TREEBROWSER_COLUMN_URI, &uri,
-								-1);
-
 		/* Get tree path for row that was clicked */
 		if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(treeview),
 																		 (gint) event->x,
@@ -1419,6 +1413,13 @@ on_treeview_mouseclick(GtkWidget *widget, GdkEventButton *event, GtkTreeSelectio
 			gtk_tree_selection_select_path(selection, path);
 			gtk_tree_path_free(path);
 		}
+
+		if (gtk_tree_selection_get_selected(selection, &model, &iter))
+			gtk_tree_model_get(GTK_TREE_MODEL(treestore), &iter,
+								TREEBROWSER_COLUMN_NAME, &name,
+								TREEBROWSER_COLUMN_URI, &uri,
+								-1);
+
 		menu = create_popup_menu(name != NULL ? name : "", uri != NULL ? uri : "");
 		gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, event->button, event->time);
 
