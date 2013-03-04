@@ -1014,10 +1014,9 @@ static void
 on_menu_create_new_object(GtkMenuItem *menuitem, const gchar *type)
 {
 	GtkTreeSelection 	*selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
-	GtkTreeIter 		iter;
+	GtkTreeIter 		iter, iter_parent;
 	GtkTreeModel 		*model;
 	gchar 				*uri, *uri_new = NULL;
-	GtkTreePath 		*path_parent;
 	gboolean 			refresh_root = FALSE;
 
 	if (gtk_tree_selection_get_selected(selection, &model, &iter))
@@ -1026,12 +1025,13 @@ on_menu_create_new_object(GtkMenuItem *menuitem, const gchar *type)
 		/* If not a directory, find parent directory */
 		if (! g_file_test(uri, G_FILE_TEST_IS_DIR))
 		{
-			path_parent = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
-			/* Set iter from parent_path */
-			if (gtk_tree_path_up(path_parent) &&
-			  gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter, path_parent))
-				/* Set URI from new iter */
-				gtk_tree_model_get(model, &iter, TREEBROWSER_COLUMN_URI, &uri, -1);
+			if (gtk_tree_model_iter_parent(GTK_TREE_MODEL(treestore), &iter_parent, &iter))
+			{
+				iter = iter_parent;
+				/* Set URI from parent iter */
+				g_free(uri);
+				gtk_tree_model_get(model, &iter_parent, TREEBROWSER_COLUMN_URI, &uri, -1);
+			}
 			else
 				refresh_root = TRUE;
 		}
@@ -1085,9 +1085,8 @@ on_menu_delete(GtkMenuItem *menuitem, gpointer *user_data)
 {
 
 	GtkTreeSelection 	*selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
-	GtkTreeIter 		iter;
+	GtkTreeIter 		iter, iter_parent;
 	GtkTreeModel 		*model;
-	GtkTreePath 		*path_parent;
 	gchar 				*uri, *uri_parent;
 
 	if (! gtk_tree_selection_get_selected(selection, &model, &iter))
@@ -1102,17 +1101,10 @@ on_menu_delete(GtkMenuItem *menuitem, gpointer *user_data)
 
 		uri_parent = g_path_get_dirname(uri);
 		fs_remove(uri, TRUE);
-		path_parent = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
-		if (gtk_tree_path_up(path_parent))
-		{
-			if (gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter, path_parent))
-				treebrowser_browse(uri_parent, &iter);
-			else
-				treebrowser_browse(uri_parent, NULL);
-		}
+		if (gtk_tree_model_iter_parent(GTK_TREE_MODEL(treestore), &iter_parent, &iter))
+			treebrowser_browse(uri_parent, &iter_parent);
 		else
 			treebrowser_browse(uri_parent, NULL);
-		gtk_tree_path_free(path_parent);
 		g_free(uri_parent);
 	}
 	g_free(uri);
@@ -1566,8 +1558,7 @@ on_treeview_renamed(GtkCellRenderer *renderer, const gchar *path_string, const g
 	GtkTreeViewColumn 	*column;
 	GList 				*renderers;
 	GtkTreeIter 		iter, iter_parent;
-	gchar 				*uri, *uri_new;
-	GtkTreePath 		*path_parent;
+	gchar 				*uri, *uri_new, *dirname;
 
 	column 		= gtk_tree_view_get_column(GTK_TREE_VIEW(treeview), 0);
 	renderers 	= _gtk_cell_layout_get_cells(column);
@@ -1580,31 +1571,32 @@ on_treeview_renamed(GtkCellRenderer *renderer, const gchar *path_string, const g
 		gtk_tree_model_get(GTK_TREE_MODEL(treestore), &iter, TREEBROWSER_COLUMN_URI, &uri, -1);
 		if (uri)
 		{
-			uri_new = g_strconcat(g_path_get_dirname(uri), G_DIR_SEPARATOR_S, name_new, NULL);
+			dirname = g_path_get_dirname(uri);
+			uri_new = g_strconcat(dirname, G_DIR_SEPARATOR_S, name_new, NULL);
+			g_free(dirname);
 			if (!(g_file_test(uri_new, G_FILE_TEST_EXISTS) &&
 				strcmp(uri, uri_new) != 0 &&
 				!dialogs_show_question(_("Target file '%s' exists, do you really want to replace it?"), uri_new)))
 			{
 				if (g_rename(uri, uri_new) == 0)
 				{
+					dirname = g_path_get_dirname(uri_new);
 					gtk_tree_store_set(treestore, &iter,
 									TREEBROWSER_COLUMN_NAME, name_new,
 									TREEBROWSER_COLUMN_URI, uri_new,
 									-1);
-					path_parent = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
-					if (gtk_tree_path_up(path_parent))
-					{
-						if (gtk_tree_model_get_iter(GTK_TREE_MODEL(treestore), &iter_parent, path_parent))
-							treebrowser_browse(g_path_get_dirname(uri_new), &iter_parent);
-						else
-							treebrowser_browse(g_path_get_dirname(uri_new), NULL);
-					}
+					if (gtk_tree_model_iter_parent(GTK_TREE_MODEL(treestore), &iter_parent, &iter))
+						treebrowser_browse(dirname, &iter_parent);
 					else
-						treebrowser_browse(g_path_get_dirname(uri_new), NULL);
+						treebrowser_browse(dirname, NULL);
+					g_free(dirname);
 
 					if (!g_file_test(uri, G_FILE_TEST_IS_DIR))
-						if (document_close(document_find_by_filename(uri)))
+					{
+						GeanyDocument *doc = document_find_by_filename(uri);
+						if (doc && document_close(doc))
 							document_open_file(uri_new, FALSE, NULL, NULL);
+					}
 				}
 			}
 			g_free(uri_new);
