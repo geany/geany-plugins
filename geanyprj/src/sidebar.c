@@ -307,7 +307,7 @@ static void prepare_file_view(void)
 {
 	GtkCellRenderer *text_renderer;
 	GtkTreeViewColumn *column;
-	GtkTreeSelection *select;
+	GtkTreeSelection *selection;
 	PangoFontDescription *pfd;
 
 	file_store = gtk_list_store_new(FILEVIEW_N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING);
@@ -330,8 +330,8 @@ static void prepare_file_view(void)
 	pango_font_description_free(pfd);
 
 	/* selection handling */
-	select = gtk_tree_view_get_selection(GTK_TREE_VIEW(file_view));
-	gtk_tree_selection_set_mode(select, GTK_SELECTION_SINGLE);
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(file_view));
+	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
 
 	g_signal_connect(G_OBJECT(file_view), "button-release-event",
 			 G_CALLBACK(on_button_release), NULL);
@@ -347,7 +347,7 @@ static void sidebar_clear(void)
 	gtk_list_store_clear(file_store);
 }
 
-
+#if 0
 static gint mycmp(const gchar *a, const gchar *b)
 {
 	const gchar *p1 = a;
@@ -395,7 +395,7 @@ static gint mycmp(const gchar *a, const gchar *b)
 		return 1;
 	return -1;
 }
-
+#endif
 
 static void add_item(gpointer name, G_GNUC_UNUSED gpointer value, gpointer user_data)
 {

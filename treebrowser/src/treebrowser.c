@@ -235,7 +235,7 @@ utils_pixbuf_from_path(gchar *path)
 static gchar*
 path_is_in_dir(gchar* src, gchar* find)
 {
-	int i = 0;
+	guint i = 0;
 
 	gchar *diffed_path = NULL, *tmp = NULL;
 	gchar **src_segments = NULL, **find_segments = NULL;
@@ -436,23 +436,30 @@ treebrowser_checkdir(gchar *directory)
 }
 
 static void
-treebrowser_chroot(gchar *directory)
+treebrowser_chroot(const gchar *dir)
 {
+	gchar *directory;
+
 	if (g_str_has_suffix(directory, G_DIR_SEPARATOR_S))
-		g_strlcpy(directory, directory, strlen(directory));
+		directory = g_strndup(dir, strlen(dir)-1);
+	else
+		directory = g_strdup(dir);
 
 	gtk_entry_set_text(GTK_ENTRY(addressbar), directory);
 
 	if (!directory || strlen(directory) == 0)
-		directory = G_DIR_SEPARATOR_S;
+		setptr(directory, g_strdup(G_DIR_SEPARATOR_S));
 
 	if (! treebrowser_checkdir(directory))
+	{
+		g_free(directory);
 		return;
+	}
 
 	treebrowser_bookmarks_set_state();
 
 	gtk_tree_store_clear(treestore);
-	setptr(addressbar_last_address, g_strdup(directory));
+	setptr(addressbar_last_address, directory);
 
 	treebrowser_browse(addressbar_last_address, NULL);
 	treebrowser_load_bookmarks();
@@ -795,7 +802,7 @@ gtk_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root)
 static gboolean
 treebrowser_expand_to_path(gchar* root, gchar* find)
 {
-	int i = 0;
+	guint i = 0;
 	gboolean founded = FALSE, global_founded = FALSE;
 	gchar *new = NULL;
 	gchar **root_segments = NULL, **find_segments = NULL;
@@ -1151,16 +1158,16 @@ static void
 on_menu_close_children(GtkMenuItem *menuitem, gchar *uri)
 {
 	guint i;
-	int uri_len = strlen(uri);
+	size_t uri_len = strlen(uri);
 	for (i=0; i < GEANY(documents_array)->len; i++)
 	{
 		if (documents[i]->is_valid)
 		{
 			/* the docuemnt filename shoudl always be longer than the uri when closing children
 			 * Compare the beginingin of the filename string to see if it matchs the uri*/
-			if (strlen(documents[i]->file_name) > uri_len )
+			if (strlen(documents[i]->file_name) > uri_len)
 			{
-				if (strncmp(uri,documents[i]->file_name, uri_len)==0)
+				if (strncmp(uri, documents[i]->file_name, uri_len)==0)
 					document_close(documents[i]);
 			}
 		}
@@ -1197,7 +1204,7 @@ on_menu_show_bars(GtkMenuItem *menuitem, gpointer *user_data)
 }
 
 static GtkWidget*
-create_popup_menu(gchar *name, gchar *uri)
+create_popup_menu(const gchar *name, const gchar *uri)
 {
 	GtkWidget *item, *menu = gtk_menu_new();
 
@@ -1215,16 +1222,16 @@ create_popup_menu(gchar *name, gchar *uri)
 
 	item = ui_image_menu_item_new(GTK_STOCK_OPEN, _("Open externally"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_open_externally), uri);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_open_externally), (gpointer)uri);
 	gtk_widget_set_sensitive(item, is_exists);
 
 	item = ui_image_menu_item_new("utilities-terminal", _("Open Terminal"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_open_terminal), uri);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_open_terminal), (gpointer)uri);
 
 	item = ui_image_menu_item_new(GTK_STOCK_GOTO_TOP, _("Set as root"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_set_as_root), uri);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_set_as_root), (gpointer)uri);
 	gtk_widget_set_sensitive(item, is_dir);
 
 	item = ui_image_menu_item_new(GTK_STOCK_REFRESH, _("Refresh"));
@@ -1233,7 +1240,7 @@ create_popup_menu(gchar *name, gchar *uri)
 
 	item = ui_image_menu_item_new(GTK_STOCK_FIND, _("Find in Files"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_find_in_files), uri);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_find_in_files), (gpointer)uri);
 	gtk_widget_set_sensitive(item, is_dir);
 
 	item = gtk_separator_menu_item_new();
@@ -1241,11 +1248,11 @@ create_popup_menu(gchar *name, gchar *uri)
 
 	item = ui_image_menu_item_new(GTK_STOCK_ADD, _("Create new directory"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_create_new_object), "directory");
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_create_new_object), (gpointer)"directory");
 
 	item = ui_image_menu_item_new(GTK_STOCK_NEW, _("Create new file"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_create_new_object), "file");
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_create_new_object), (gpointer)"file");
 
 	item = ui_image_menu_item_new(GTK_STOCK_SAVE_AS, _("Rename"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
@@ -1262,17 +1269,17 @@ create_popup_menu(gchar *name, gchar *uri)
 
 	item = ui_image_menu_item_new(GTK_STOCK_CLOSE, g_strdup_printf(_("Close: %s"), name));
 	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_close), uri);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_close), (gpointer)uri);
 	gtk_widget_set_sensitive(item, is_document);
 
 	item = ui_image_menu_item_new(GTK_STOCK_CLOSE, g_strdup_printf(_("Close Child Documents ")));
 	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_close_children), uri);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_close_children), (gpointer)uri);
 	gtk_widget_set_sensitive(item, is_dir);
 
 	item = ui_image_menu_item_new(GTK_STOCK_COPY, _("Copy full path to clipboard"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_copy_uri), uri);
+	g_signal_connect(item, "activate", G_CALLBACK(on_menu_copy_uri), (gpointer)uri);
 	gtk_widget_set_sensitive(item, is_exists);
 
 	item = gtk_separator_menu_item_new();
@@ -1388,7 +1395,7 @@ on_treeview_mouseclick(GtkWidget *widget, GdkEventButton *event, GtkTreeSelectio
 	GtkTreeIter 	iter;
 	GtkTreeModel 	*model;
 	GtkTreePath *path;
-	gchar 			*name = "", *uri = "";
+	const gchar 			*name = "", *uri = "";
 
 	if (gtk_tree_selection_get_selected(selection, &model, &iter))
 		/* FIXME: name and uri should be freed, but they are passed to create_popup_menu()

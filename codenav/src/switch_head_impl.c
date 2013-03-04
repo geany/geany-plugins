@@ -219,7 +219,7 @@ menu_item_activate(guint key_id)
 	GSList* iter_lang = NULL;
 	GSList* iter_ext = NULL;
 	GSList* iter_filename = NULL;
-	gint i=0;
+	guint i=0;
 
 	gchar* dirname = NULL;
 	gchar* basename = NULL;
@@ -570,7 +570,7 @@ static void
 on_configure_cell_edited(GtkCellRendererText* text, gchar* arg1, gchar* arg2, gpointer data)
 {
 	/* TODO !! */
-	Column col = (Column)(GPOINTER_TO_INT(data));
+	/* Column col = (Column)(GPOINTER_TO_INT(data)); */
 	log_debug("arg1 == %s, arg2 == %s\n", arg1, arg2);
 }
 

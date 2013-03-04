@@ -122,7 +122,7 @@ static void on_swap_header_source(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_U
 	{
 		gboolean swapped;
 		GSList *elem, *list = NULL;
-		gint i;
+		guint i;
 
 		foreach_document(i)
 		{
