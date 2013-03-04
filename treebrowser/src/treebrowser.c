@@ -1224,16 +1224,16 @@ create_popup_menu(const gchar *name, const gchar *uri)
 
 	item = ui_image_menu_item_new(GTK_STOCK_OPEN, _("Open externally"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_open_externally), (gpointer)uri);
+	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_open_externally), g_strdup(uri), (GClosureNotify)g_free, 0);
 	gtk_widget_set_sensitive(item, is_exists);
 
 	item = ui_image_menu_item_new("utilities-terminal", _("Open Terminal"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_open_terminal), (gpointer)uri);
+	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_open_terminal), g_strdup(uri), (GClosureNotify)g_free, 0);
 
 	item = ui_image_menu_item_new(GTK_STOCK_GOTO_TOP, _("Set as root"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_set_as_root), (gpointer)uri);
+	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_set_as_root), g_strdup(uri), (GClosureNotify)g_free, 0);
 	gtk_widget_set_sensitive(item, is_dir);
 
 	item = ui_image_menu_item_new(GTK_STOCK_REFRESH, _("Refresh"));
@@ -1242,7 +1242,7 @@ create_popup_menu(const gchar *name, const gchar *uri)
 
 	item = ui_image_menu_item_new(GTK_STOCK_FIND, _("Find in Files"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_find_in_files), (gpointer)uri);
+	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_find_in_files), g_strdup(uri), (GClosureNotify)g_free, 0);
 	gtk_widget_set_sensitive(item, is_dir);
 
 	item = gtk_separator_menu_item_new();
@@ -1271,17 +1271,17 @@ create_popup_menu(const gchar *name, const gchar *uri)
 
 	item = ui_image_menu_item_new(GTK_STOCK_CLOSE, g_strdup_printf(_("Close: %s"), name));
 	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_close), (gpointer)uri);
+	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_close), g_strdup(uri), (GClosureNotify)g_free, 0);
 	gtk_widget_set_sensitive(item, is_document);
 
 	item = ui_image_menu_item_new(GTK_STOCK_CLOSE, g_strdup_printf(_("Close Child Documents ")));
 	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_close_children), (gpointer)uri);
+	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_close_children), g_strdup(uri), (GClosureNotify)g_free, 0);
 	gtk_widget_set_sensitive(item, is_dir);
 
 	item = ui_image_menu_item_new(GTK_STOCK_COPY, _("Copy full path to clipboard"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_copy_uri), (gpointer)uri);
+	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_copy_uri), g_strdup(uri), (GClosureNotify)g_free, 0);
 	gtk_widget_set_sensitive(item, is_exists);
 
 	item = gtk_separator_menu_item_new();
@@ -1394,22 +1394,20 @@ on_filter_clear(GtkEntry *entry, gint icon_pos, GdkEvent *event, gpointer data)
 static gboolean
 on_treeview_mouseclick(GtkWidget *widget, GdkEventButton *event, GtkTreeSelection *selection)
 {
-	GtkTreeIter 	iter;
-	GtkTreeModel 	*model;
-	GtkTreePath *path;
-	const gchar 			*name = "", *uri = "";
-
-	if (gtk_tree_selection_get_selected(selection, &model, &iter))
-		/* FIXME: name and uri should be freed, but they are passed to create_popup_menu()
-		 * that pass them directly to some callbacks, so we can't free them here for now.
-		 * Gotta find a way out... */
-		gtk_tree_model_get(GTK_TREE_MODEL(treestore), &iter,
-							TREEBROWSER_COLUMN_NAME, &name,
-							TREEBROWSER_COLUMN_URI, &uri,
-							-1);
-
 	if (event->button == 3)
 	{
+		GtkTreeIter 	iter;
+		GtkTreeModel 	*model;
+		GtkTreePath *path;
+		GtkWidget *menu;
+		gchar *name = NULL, *uri = NULL;
+
+		if (gtk_tree_selection_get_selected(selection, &model, &iter))
+			gtk_tree_model_get(GTK_TREE_MODEL(treestore), &iter,
+								TREEBROWSER_COLUMN_NAME, &name,
+								TREEBROWSER_COLUMN_URI, &uri,
+								-1);
+
 		/* Get tree path for row that was clicked */
 		if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(treeview),
 																		 (gint) event->x,
@@ -1421,7 +1419,11 @@ on_treeview_mouseclick(GtkWidget *widget, GdkEventButton *event, GtkTreeSelectio
 			gtk_tree_selection_select_path(selection, path);
 			gtk_tree_path_free(path);
 		}
-		gtk_menu_popup(GTK_MENU(create_popup_menu(name, uri)), NULL, NULL, NULL, NULL, event->button, event->time);
+		menu = create_popup_menu(name != NULL ? name : "", uri != NULL ? uri : "");
+		gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, event->button, event->time);
+
+		g_free(name);
+		g_free(uri);
 		return TRUE;
 	}
 
