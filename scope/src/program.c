@@ -151,7 +151,7 @@ static void save_program_settings(void)
 		if (!recent)
 		{
 			recent = (RecentProgram *) array_append(recent_programs);
-			recent->name = strdup(program_name);
+			recent->name = g_strdup(program_name);
 
 			for (recent->id = 1; recent->id < RECENT_COUNT; recent->id++)
 				if ((recent_bitmap & (1 << recent->id)) == 0)

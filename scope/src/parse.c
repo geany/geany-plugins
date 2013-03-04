@@ -545,7 +545,7 @@ void parse_mode_update(const char *name, gint mode, gint value)
 	if (!pm)
 	{
 		pm = (ParseMode *) array_append(parse_modes);
-		pm->name = strdup(pm_name);
+		pm->name = g_strdup(pm_name);
 		pm->hb_mode = HB_DEFAULT;
 		pm->mr_mode = MR_DEFAULT;
 		pm->entry = TRUE;

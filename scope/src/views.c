@@ -486,7 +486,7 @@ static void on_command_send_button_clicked(G_GNUC_UNUSED GtkButton *button,
 	gtk_text_buffer_set_text(command_text, text, -1);
 	start = utils_skip_spaces(text);
 	locale = gtk_toggle_button_get_active(command_locale) ?
-		utils_get_locale_from_utf8(start) : strdup(start);
+		utils_get_locale_from_utf8(start) : g_strdup(start);
 	debug_send_command(N, locale);
 	g_free(locale);
 	gtk_widget_hide(command_dialog);
@@ -495,7 +495,7 @@ static void on_command_send_button_clicked(G_GNUC_UNUSED GtkButton *button,
 	{
 		GtkTreePath *path;
 		GtkTreeIter iter;
-		gchar *display = strdup(start);
+		gchar *display = g_strdup(start);
 
 		/* from ui_combo_box_add_to_history() */
 		if (model_find(command_model, &iter, COMMAND_TEXT, start))

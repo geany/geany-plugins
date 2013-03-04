@@ -63,8 +63,8 @@ void on_thread_group_started(GArray *nodes)
 
 		if (group)
 		{
-			free(group->pid);
-			group->pid = strdup(pid);
+			g_free(group->pid);
+			group->pid = g_strdup(pid);
 		}
 	}
 }
@@ -79,7 +79,7 @@ void on_thread_group_exited(GArray *nodes)
 	if (group && group->pid)
 	{
 		g_string_append(status, group->pid);
-		free(group->pid);
+		g_free(group->pid);
 		group->pid = NULL;
 	}
 	else
@@ -101,14 +101,14 @@ void on_thread_group_exited(GArray *nodes)
 void on_thread_group_added(GArray *nodes)
 {
 	ThreadGroup *group = (ThreadGroup *) array_append(thread_groups);
-	group->gid = strdup(parse_lead_value(nodes));
+	group->gid = g_strdup(parse_lead_value(nodes));
 	group->pid = NULL;
 }
 
 static void thread_group_free(ThreadGroup *group)
 {
-	free(group->gid);
-	free(group->pid);
+	g_free(group->gid);
+	g_free(group->pid);
 }
 
 void on_thread_group_removed(GArray *nodes)
@@ -668,8 +668,8 @@ static void on_thread_selection_changed(GtkTreeSelection *selection,
 {
 	GtkTreeIter iter;
 
-	free(thread_id);
-	free(frame_id);
+	g_free(thread_id);
+	g_free(frame_id);
 
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
@@ -704,7 +704,7 @@ static void on_thread_selection_changed(GtkTreeSelection *selection,
 				thread_state = THREAD_QUERY_FRAME;
 		}
 
-		frame_id = strdup("0");
+		frame_id = g_strdup("0");
 		g_free(state);
 		g_free(addr);
 	}
@@ -954,5 +954,5 @@ void thread_finalize(void)
 	model_foreach(model, (GFunc) thread_iter_unmark, NULL);
 	array_free(thread_groups, (GFreeFunc) thread_group_free);
 	set_gdb_thread(NULL, FALSE);
-	free(thread_id);
+	g_free(thread_id);
 }
