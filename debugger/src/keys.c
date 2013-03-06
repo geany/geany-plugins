@@ -54,7 +54,7 @@ keyinfo keys[] = {
 	{ "key_debug_step_out", N_("Step out"), KEY_STEP_OUT},
 	{ "key_debug_exec_until", N_("Run to cursor"), KEY_EXECUTE_UNTIL},
 	{ "key_debug_break", N_("Add / Remove breakpoint"), KEY_BREAKPOINT},
-	{ "key_current_instruction", N_("Jump to the currect instruction"), KEY_CURRENT_INSTRUCTION},
+	{ "key_current_instruction", N_("Jump to the current instruction"), KEY_CURRENT_INSTRUCTION},
 	{ NULL, NULL, 0}
 };
 
