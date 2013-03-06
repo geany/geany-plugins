@@ -1,8 +1,8 @@
 # Dutch translations for geany-plugins package.
 # Copyright (C) 2011 THE geany-plugins'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
+# Peter Scholtens <peter.scholtens@xs4all.nl>, 2011, 2013
 # hans <alves.h88@gmail.com>, 2011.
-# Peter Scholtens <peter.scholtens@xs4all.nl>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.23\n"
@@ -74,7 +74,7 @@ msgstr "Taken"
 
 #: ../addons/src/ao_tasks.c:542
 msgid "Context:"
-msgstr ""
+msgstr "Context:"
 
 #: ../addons/src/ao_xmltagging.c:56
 msgid "XML tagging"
@@ -102,23 +102,21 @@ msgid "Copy URI"
 msgstr "Kopiëer URI"
 
 #: ../addons/src/ao_wrapwords.c:249
-#, fuzzy
 msgid "Enclose Characters"
-msgstr "Pijlen"
+msgstr "Omsluitkarakters"
 
 #: ../addons/src/ao_wrapwords.c:260
 #, c-format
 msgid "Enclose combo %d"
-msgstr ""
+msgstr "Omsluit combinatie %d"
 
 #: ../addons/src/ao_wrapwords.c:276
 msgid "Opening Character"
-msgstr ""
+msgstr "Omsluitkarakter"
 
 #: ../addons/src/ao_wrapwords.c:283
-#, fuzzy
 msgid "Closing Character"
-msgstr "Pijlen"
+msgstr "Afsluitkarakter"
 
 #: ../addons/src/ao_doclist.c:207
 msgid "Close Ot_her Documents"
@@ -196,7 +194,6 @@ msgid "Sort the documents in the order of the document tabs (reversed)"
 msgstr "Sorteer de documenten in de volgorde van de tabs (achteruit)"
 
 #: ../addons/src/addons.c:488
-#, fuzzy
 msgid "Show an 'Open URI' item in the editor menu"
 msgstr "Laat een 'Open URI' menu item in het editor menu zien"
 
@@ -276,7 +273,7 @@ msgstr "Ga naar bestand"
 #: ../codenav/src/goto_file.c:109
 #, c-format
 msgid "(From the %s plugin)"
-msgstr ""
+msgstr "(Van plug-in %s)"
 
 #. Add the menu item and make it sensitive only when a document is opened
 #. Frame, which is the returned widget
@@ -397,9 +394,8 @@ msgid "Failed to spawn gdb process"
 msgstr ""
 
 #: ../debugger/src/dbm_gdb.c:782
-#, fuzzy
 msgid "~\"Loading target file.\\n\""
-msgstr "Kies doelbestand"
+msgstr "~\"Laad doelbestand.\\n\""
 
 #: ../debugger/src/dbm_gdb.c:782
 msgid "Error loading file"
@@ -513,7 +509,7 @@ msgstr "Ga door tot cursor"
 
 #: ../debugger/src/keys.c:56
 msgid "Add / Remove breakpoint"
-msgstr ""
+msgstr "Voeg breekpunt toe (of verwijder)"
 
 #: ../debugger/src/keys.c:57
 msgid "Jump to the currect instruction"
@@ -538,7 +534,7 @@ msgstr "Laad instellingen"
 
 #: ../debugger/src/btnpanel.c:136
 msgid "Two panel mode"
-msgstr ""
+msgstr "Dubbel paneelmodus"
 
 #: ../debugger/src/btnpanel.c:154
 msgid "Continue"
@@ -653,9 +649,8 @@ msgid "Devhelp — Assistant"
 msgstr ""
 
 #: ../devhelp/devhelp/dh-assistant-view.c:336
-#, fuzzy
 msgid "Book:"
-msgstr "Boek"
+msgstr "Boek:"
 
 #. i18n: a documentation book
 #: ../devhelp/devhelp/dh-link.c:255 ../geanylatex/src/geanylatex.c:1760
@@ -665,13 +660,13 @@ msgstr "Boek"
 #. i18n: a "page" in a documentation book
 #: ../devhelp/devhelp/dh-link.c:258
 msgid "Page"
-msgstr ""
+msgstr "Pagina"
 
 #. i18n: a search hit in the documentation, could be a
 #. * function, macro, struct, etc
 #: ../devhelp/devhelp/dh-link.c:262
 msgid "Keyword"
-msgstr ""
+msgstr "Sleutelwoord"
 
 #. i18n: in the programming language context, if you don't
 #. * have an ESTABLISHED term for it, leave it
@@ -794,7 +789,7 @@ msgstr "Bestand"
 #: ../devhelp/devhelp/dh-window.c:760 ../geanymacro/src/geanymacro.c:1815
 #: ../geanymacro/src/geanymacro.c:2112
 msgid "_Edit"
-msgstr ""
+msgstr "Wijzig"
 
 #: ../devhelp/devhelp/dh-window.c:761
 msgid "_View"
@@ -822,32 +817,28 @@ msgid "_Print…"
 msgstr ""
 
 #: ../devhelp/devhelp/dh-window.c:782 ../devhelp/devhelp/eggfindbar.c:342
-#, fuzzy
 msgid "Find Next"
-msgstr "Zoek bestand"
+msgstr "Zoek volgende"
 
 #: ../devhelp/devhelp/dh-window.c:784 ../devhelp/devhelp/eggfindbar.c:329
 msgid "Find Previous"
-msgstr ""
+msgstr "Zoek vorige"
 
 #: ../devhelp/devhelp/dh-window.c:791
 msgid "Go to the previous page"
 msgstr ""
 
 #: ../devhelp/devhelp/dh-window.c:794
-#, fuzzy
 msgid "Go to the next page"
-msgstr "Ga een bladzijde vooruit"
+msgstr "Ga naar volgende bladzijde"
 
 #: ../devhelp/devhelp/dh-window.c:797
-#, fuzzy
 msgid "_Contents Tab"
-msgstr "Inhoud"
+msgstr "Inhoudstab"
 
 #: ../devhelp/devhelp/dh-window.c:800
-#, fuzzy
 msgid "_Search Tab"
-msgstr "Zoek"
+msgstr "Zoektab"
 
 #. View menu
 #: ../devhelp/devhelp/dh-window.c:804
@@ -856,58 +847,56 @@ msgstr ""
 
 #: ../devhelp/devhelp/dh-window.c:805
 msgid "Increase the text size"
-msgstr ""
+msgstr "Vergroot de tekst"
 
 #: ../devhelp/devhelp/dh-window.c:807
 msgid "S_maller Text"
-msgstr ""
+msgstr "Kleine tekst"
 
 #: ../devhelp/devhelp/dh-window.c:808
 msgid "Decrease the text size"
-msgstr ""
+msgstr "Verklein de tekst"
 
 #: ../devhelp/devhelp/dh-window.c:810
 msgid "_Normal Size"
-msgstr ""
+msgstr "Normale grootte"
 
 #: ../devhelp/devhelp/dh-window.c:811
 msgid "Use the normal text size"
-msgstr ""
+msgstr "Gebruik de normale tekst grootte"
 
 #: ../devhelp/devhelp/dh-window.c:820
 msgid "Leave fullscreen mode"
-msgstr ""
+msgstr "Verlaat de fullscreen modus"
 
 #: ../devhelp/devhelp/dh-window.c:827
 msgid "Display in full screen"
-msgstr ""
+msgstr "Toon in fullscreen modus"
 
 #. Translators: This refers to text size
 #: ../devhelp/devhelp/dh-window.c:947
-#, fuzzy
 msgid "Larger"
-msgstr "Doel"
+msgstr "Groter"
 
 #. Translators: This refers to text size
 #: ../devhelp/devhelp/dh-window.c:950
 msgid "Smaller"
-msgstr ""
+msgstr "Kleiner"
 
 #. i18n: please don't translate
 #. * "Devhelp", it's a name, not a
 #. * generic word.
 #: ../devhelp/devhelp/dh-window.c:1095
-#, fuzzy
 msgid "About Devhelp"
-msgstr "Ontwikkelaars informatie"
+msgstr "Over Devhelp"
 
 #: ../devhelp/devhelp/dh-window.c:1100
 msgid "Preferences…"
-msgstr ""
+msgstr "Voorkeuren…"
 
 #: ../devhelp/devhelp/dh-window.c:1330
 msgid "Error opening the requested link."
-msgstr ""
+msgstr "Fout bij het openen van de gevraagde link"
 
 #: ../devhelp/devhelp/dh-window.c:1649 ../devhelp/devhelp/dh-window.c:1891
 #, fuzzy
@@ -916,15 +905,15 @@ msgstr "(Lege regel)"
 
 #: ../devhelp/devhelp/eggfindbar.c:320
 msgid "Find:"
-msgstr ""
+msgstr "Zoek:"
 
 #: ../devhelp/devhelp/eggfindbar.c:333 ../devhelp/devhelp/eggfindbar.c:336
 msgid "Find previous occurrence of the search string"
-msgstr ""
+msgstr "Zoek vorige verschijning van de zoekstring"
 
 #: ../devhelp/devhelp/eggfindbar.c:346 ../devhelp/devhelp/eggfindbar.c:349
 msgid "Find next occurrence of the search string"
-msgstr ""
+msgstr "Zoek volgende verschijning van de zoekstring"
 
 #: ../devhelp/devhelp/eggfindbar.c:358
 #, fuzzy
@@ -1244,27 +1233,27 @@ msgstr ""
 
 #: ../geanygendoc/src/ggd-plugin.c:498
 msgid "_Reload Configuration Files"
-msgstr ""
+msgstr "Herlaad configuratie bestanden"
 
 #: ../geanygendoc/src/ggd-plugin.c:499
 msgid "Force reloading of the configuration files"
-msgstr ""
+msgstr "Forceer herladen van configuratiebestanden"
 
 #: ../geanygendoc/src/ggd-plugin.c:504
 msgid "_Edit Current Language Configuration"
-msgstr ""
+msgstr "Wijzig huidige taalconfiguratie"
 
 #: ../geanygendoc/src/ggd-plugin.c:505
 msgid "Open the current language configuration file for editing"
-msgstr ""
+msgstr "Open het huidige taalconfiguratiebestand om te wijzigen"
 
 #: ../geanygendoc/src/ggd-plugin.c:515
 msgid "Open _Manual"
-msgstr ""
+msgstr "Open handleiding"
 
 #: ../geanygendoc/src/ggd-plugin.c:516
 msgid "Open the manual in a browser"
-msgstr ""
+msgstr "Open de handleiding in een browser"
 
 #. build tools menu item
 #: ../geanygendoc/src/ggd-plugin.c:520
@@ -1274,7 +1263,7 @@ msgstr ""
 #. General
 #: ../geanygendoc/src/ggd-plugin.c:619
 msgid "General"
-msgstr ""
+msgstr "Algemeen"
 
 #. auto-save
 #: ../geanygendoc/src/ggd-plugin.c:624
@@ -2701,69 +2690,65 @@ msgid ""
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:55
-#, fuzzy
 msgid "Cut to Clipboard"
-msgstr "Kopiëer volledig pad naar klembord"
+msgstr "Knip naar klembord"
 
 #: ../geanymacro/src/geanymacro.c:56
-#, fuzzy
 msgid "Copy to Clipboard"
-msgstr "Kopiëer volledig pad naar klembord"
+msgstr "Kopiëer naar klembord"
 
 #: ../geanymacro/src/geanymacro.c:57
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "Plak van klembord"
 
 #: ../geanymacro/src/geanymacro.c:58
 msgid "Cut current line to Clipboard"
-msgstr ""
+msgstr "Knip huidige regel naar klembord"
 
 #: ../geanymacro/src/geanymacro.c:59
-#, fuzzy
 msgid "Copy current line to Clipboard"
-msgstr "Kopiëer volledig pad naar klembord"
+msgstr "Kopiëer huidige regel naar klembord"
 
 #: ../geanymacro/src/geanymacro.c:61
 msgid "Delete character to the left"
-msgstr ""
+msgstr "Verwijder karakter aan linkerzijde"
 
 #: ../geanymacro/src/geanymacro.c:62
 msgid "Delete character to the right"
-msgstr ""
+msgstr "Verwijder karakter aan rechterzijde"
 
 #: ../geanymacro/src/geanymacro.c:63
 msgid "Delete character to the left (but not newline)"
-msgstr ""
+msgstr "Verwijder karakter aan linkerzijde (maar geen nieuwe regel)"
 
 #: ../geanymacro/src/geanymacro.c:64
 msgid "Delete up to start of word to the Left"
-msgstr ""
+msgstr "Verwijder tot aan het begin van het woord aan de linkerzijde"
 
 #: ../geanymacro/src/geanymacro.c:65
 msgid "Delete up to start of word to the Right"
-msgstr ""
+msgstr "Verwijder tot aan het begin van het woord aan de rechterzijde"
 
 #: ../geanymacro/src/geanymacro.c:66
 msgid "Delete up to end of word to the Right"
-msgstr ""
+msgstr "Verwijder tot aan het eind van het woord aan de rechterzijde"
 
 #: ../geanymacro/src/geanymacro.c:67
-#, fuzzy
 msgid "Delete to beginning of line"
-msgstr "Zet op een regel"
+msgstr "Verwijder tot aan het begin van de regel"
 
 #: ../geanymacro/src/geanymacro.c:68
 #, fuzzy
 msgid "Delete to end of line"
-msgstr "Zet op een regel"
+msgstr "Verwijder tot aan het eind van de regel"
 
 #: ../geanymacro/src/geanymacro.c:69
 msgid "Delete current line"
-msgstr ""
+msgstr "Verwijder huidige regel"
 
 #: ../geanymacro/src/geanymacro.c:70
 msgid "Backwards Tab (deletes tab if nothing after it)"
-msgstr ""
+msgstr "Achterwaardse tab (verwijderd tab als er niets op volgt)"
 
 #: ../geanymacro/src/geanymacro.c:72
 msgid "Scroll Display down a line"
@@ -3232,9 +3217,8 @@ msgstr ""
 
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:1388
-#, fuzzy
 msgid "Search Options:"
-msgstr "Zoektermen:"
+msgstr "Zoekopties:"
 
 #. create buttons
 #: ../geanymacro/src/geanymacro.c:1393 ../geanymacro/src/geanymacro.c:1536
@@ -3248,20 +3232,17 @@ msgid "_Cancel"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:1403
-#, fuzzy
 msgid "Search Forwards"
-msgstr "Zoek naar:"
+msgstr "Zoek voorwaarts"
 
 #: ../geanymacro/src/geanymacro.c:1404
-#, fuzzy
 msgid "Search Backwards"
-msgstr "Zoektermen:"
+msgstr "Zoek achterwaarts"
 
 #. create checkbox to check for search options
 #: ../geanymacro/src/geanymacro.c:1410
-#, fuzzy
 msgid "Search for contents of clipboard"
-msgstr "Kopiëer volledig pad naar klembord"
+msgstr "Zoek naar inoud van klembord"
 
 #: ../geanymacro/src/geanymacro.c:1424 ../gproject/src/gproject-sidebar.c:92
 msgid "Search for:"
@@ -3269,27 +3250,24 @@ msgstr "Zoek naar:"
 
 #. create checkbox to check for search options
 #: ../geanymacro/src/geanymacro.c:1442
-#, fuzzy
 msgid "Search is case sensitive"
-msgstr "Hoofdlettergevoelig"
+msgstr "Zoeken is hoofdlettergevoelig"
 
 #: ../geanymacro/src/geanymacro.c:1447
-#, fuzzy
 msgid "Search for whole word"
-msgstr "Zoek naar:"
+msgstr "Zoek naar gehele woord:"
 
 #: ../geanymacro/src/geanymacro.c:1452
-#, fuzzy
 msgid "Search for start of word"
-msgstr "Zoek naar:"
+msgstr "Zoek naar begin van een woord:"
 
 #: ../geanymacro/src/geanymacro.c:1457
 msgid "Search text is regular expression"
-msgstr ""
+msgstr "Zoektekst is een reguliere expressie"
 
 #: ../geanymacro/src/geanymacro.c:1462
 msgid "Search text is POSIX compatible"
-msgstr ""
+msgstr "Zoeken gebeurt POSIX compatibel"
 
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:1531
@@ -3506,20 +3484,20 @@ msgstr ""
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1228
 #, fuzzy
 msgid "Move to start of line"
-msgstr "Zet op een regel"
+msgstr "Ga naar begin van de regel"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1229
 msgid "Move to remembered position in line"
-msgstr ""
+msgstr "Ga naar bewaarde positie op de regel"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1230
 msgid "Move to position in current line"
-msgstr ""
+msgstr "Ga naar positie in huidige regel"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1231
 #, fuzzy
 msgid "Move to End of line"
-msgstr "Zet op een regel"
+msgstr "Ga naar het eind van de regel"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1237
 msgid "Save file settings with program settings"
@@ -3858,51 +3836,53 @@ msgstr ""
 
 #: ../geanyprj/src/geanyprj.c:238
 msgid "Display sidebar"
-msgstr ""
+msgstr "Zijbalk weergeven"
 
 #: ../geanyprj/src/menu.c:92
 msgid "Project Preferences"
-msgstr ""
+msgstr "Project voorkeuren"
 
 #: ../geanyprj/src/menu.c:101 ../geanyprj/src/menu.c:377
 #: ../geanyprj/src/sidebar.c:172
 msgid "New Project"
-msgstr ""
+msgstr "Nieuw project"
 
 #: ../geanyprj/src/menu.c:110
 msgid "C_reate"
-msgstr ""
+msgstr "Creër"
 
 #: ../geanyprj/src/menu.c:123 ../scope/data/scope.glade.h:116
 msgid "Name:"
-msgstr ""
+msgstr "Naam:"
 
 #: ../geanyprj/src/menu.c:132
 msgid "Location:"
-msgstr ""
+msgstr "Lokatie:"
 
 #: ../geanyprj/src/menu.c:147
 msgid "Choose Project Location"
-msgstr ""
+msgstr "Kies projektlokatie"
 
 #: ../geanyprj/src/menu.c:155
 msgid "Base path:"
-msgstr ""
+msgstr "Basismap:"
 
 #: ../geanyprj/src/menu.c:160
 msgid ""
 "Base directory of all files that make up the project. This can be a new "
 "path, or an existing directory tree. You can use paths relative to the "
 "project filename."
-msgstr ""
+msgstr "Basismap van alle bestanden die samen het project vormen. Dit kan "
+"zowel een nieuw of bestaande map zijn. Je kunt de paden relatief kiezen"
+"ten opzichte van het projektbestand."
 
 #: ../geanyprj/src/menu.c:163
 msgid "Choose Project Base Path"
-msgstr ""
+msgstr "Kies basismap voor project"
 
 #: ../geanyprj/src/menu.c:170
 msgid "Generate file list on load"
-msgstr ""
+msgstr "Genereer bestandenlijst bij inladen"
 
 #: ../geanyprj/src/menu.c:172
 msgid ""
@@ -3913,45 +3893,45 @@ msgstr ""
 
 #: ../geanyprj/src/menu.c:180
 msgid "Type:"
-msgstr ""
+msgstr "Type:"
 
 #: ../geanyprj/src/menu.c:218
 #, c-format
 msgid "Project file \"%s\" already exists"
-msgstr ""
+msgstr "Project bestand \"%s\" bestaat al"
 
 #: ../geanyprj/src/menu.c:368
 msgid "_Project"
-msgstr ""
+msgstr "Project"
 
 #: ../geanyprj/src/menu.c:386 ../geanyprj/src/sidebar.c:181
 msgid "Delete Project"
-msgstr ""
+msgstr "Verwijder project"
 
 #: ../geanyprj/src/menu.c:397 ../geanyprj/src/sidebar.c:194
 msgid "Add File"
-msgstr ""
+msgstr "Voeg bestand toe"
 
 #: ../geanyprj/src/menu.c:408 ../geanyprj/src/sidebar.c:216
 msgid "Preferences"
-msgstr ""
+msgstr "Voorkeuren"
 
 #: ../geanyprj/src/menu.c:419 ../geanyprj/src/sidebar.c:229
 msgid "Find in Project"
-msgstr ""
+msgstr "Zoek in project"
 
 #: ../geanyprj/src/sidebar.c:203
 msgid "Remove File"
-msgstr ""
+msgstr "Verwijder bestand"
 
 #: ../geanyprj/src/sidebar.c:240 ../gproject/src/gproject-sidebar.c:803
 msgid "H_ide Sidebar"
-msgstr ""
+msgstr "Verberg zijbalk"
 
 #: ../geanyprj/src/xproject.c:96
 #, c-format
 msgid "Project \"%s\" opened."
-msgstr ""
+msgstr "Projekt \"%s\" geopend."
 
 #: ../geanysendmail/src/geanysendmail.c:43
 msgid "GeanySendMail"
@@ -4581,7 +4561,7 @@ msgstr ""
 
 #: ../gproject/src/gproject-sidebar.c:774
 msgid "Expand All"
-msgstr "Alles uitbouwen"
+msgstr "Alles uitvouwen"
 
 #: ../gproject/src/gproject-sidebar.c:783
 #: ../treebrowser/src/treebrowser.c:1234
@@ -5550,37 +5530,37 @@ msgstr ""
 #: ../spellcheck/src/speller.c:186
 #, c-format
 msgid "Checking file \"%s\" (lines %d to %d using %s):"
-msgstr ""
+msgstr "Controleert bestand \"%s\" (regels %d t/m %d dmv. %s):"
 
 #: ../spellcheck/src/speller.c:196
 #, c-format
 msgid "Checking file \"%s\" (using %s):"
-msgstr ""
+msgstr "Controleert bestand \"%s\" (dmv. %s):"
 
 #: ../spellcheck/src/speller.c:223
 msgid "The checked text is spelled correctly."
-msgstr ""
+msgstr "The gecontroleerde tekst is korrekt gespeld"
 
 #: ../spellcheck/src/speller.c:233
 #, c-format
 msgid "The Enchant library couldn't be initialized (%s)."
-msgstr ""
+msgstr "De Enchant bibliotheek kon niet geïnitialiseerd worden (%s)"
 
 #: ../spellcheck/src/speller.c:234
 msgid "unknown error (maybe the chosen language is not available)"
-msgstr ""
+msgstr "onbekende fout (misschien is de gekozen taal niet beschikbaar)"
 
 #: ../spellcheck/src/scplugin.c:47
 msgid "Spell Check"
-msgstr ""
+msgstr "Spellingscontrole"
 
 #: ../spellcheck/src/scplugin.c:48
 msgid "Checks the spelling of the current document."
-msgstr ""
+msgstr "Controleert de spelling in het huidige bestand"
 
 #: ../spellcheck/src/scplugin.c:202
 msgid "Run Spell Check"
-msgstr ""
+msgstr "Draai spellingscontrole"
 
 #: ../spellcheck/src/scplugin.c:205
 msgid "Toggle Check While Typing"
@@ -5589,11 +5569,11 @@ msgstr ""
 #. initialise the dialog
 #: ../spellcheck/src/scplugin.c:216
 msgid "Select Directory"
-msgstr ""
+msgstr "Kies map:"
 
 #: ../spellcheck/src/scplugin.c:253
 msgid "Check spelling while typing"
-msgstr ""
+msgstr "Controleer spelling gedurende het typen"
 
 #: ../spellcheck/src/scplugin.c:258
 msgid "Show toolbar item to toggle spell checking"
@@ -5605,15 +5585,15 @@ msgstr ""
 
 #: ../spellcheck/src/scplugin.c:269
 msgid "Print misspelled words and suggestions in the messages window"
-msgstr ""
+msgstr "Geef verkeerd gespelde woorden en suggesties in berichtenvenster weer"
 
 #: ../spellcheck/src/scplugin.c:273
 msgid "Language to use for the spell check:"
-msgstr ""
+msgstr "Te gebruiken taal voor spellingscontrole:"
 
 #: ../spellcheck/src/scplugin.c:287
 msgid "_Directory to look for dictionary files:"
-msgstr ""
+msgstr "Map om maar woordenboekbestanden te zoeken:"
 
 #: ../spellcheck/src/scplugin.c:295
 msgid ""
@@ -5623,38 +5603,38 @@ msgstr ""
 
 #: ../spellcheck/src/gui.c:76
 msgid "Spell checking while typing is now enabled"
-msgstr ""
+msgstr "Spellingscontrole gedurende het typen is aangeschakeld"
 
 #: ../spellcheck/src/gui.c:78
 msgid "Spell checking while typing is now disabled"
-msgstr ""
+msgstr "Spellingscontrole gedurende het typen is uitgeschakeld"
 
 #: ../spellcheck/src/gui.c:313
 msgid ""
 "Search term is too long to provide\n"
 "spelling suggestions in the editor menu."
-msgstr ""
+msgstr "Zoekterm is te lang om suggesties te genereren in editor menu"
 
 #: ../spellcheck/src/gui.c:318
 msgid "Perform Spell Check"
-msgstr ""
+msgstr "Voer spellingscontrole uit"
 
 #: ../spellcheck/src/gui.c:350
 msgid "More..."
-msgstr ""
+msgstr "Meer..."
 
 #: ../spellcheck/src/gui.c:365
 msgid "(No Suggestions)"
-msgstr ""
+msgstr "(Geen suggesties)"
 
 #: ../spellcheck/src/gui.c:374
 #, c-format
 msgid "Add \"%s\" to Dictionary"
-msgstr ""
+msgstr "Voeg \"%s\" aan woordenboek toe"
 
 #: ../spellcheck/src/gui.c:381
 msgid "Ignore All"
-msgstr ""
+msgstr "Negeer alles"
 
 #: ../spellcheck/src/gui.c:521
 #, c-format
@@ -5668,7 +5648,7 @@ msgstr ""
 
 #: ../spellcheck/src/gui.c:587
 msgid "Spelling Suggestions"
-msgstr ""
+msgstr "Spellingssuggesties"
 
 #: ../shiftcolumn/src/shiftcolumn.c:49
 msgid "Shift Column"
@@ -6074,7 +6054,7 @@ msgstr ""
 
 #: ../webhelper/src/gwh-browser.c:820
 msgid "Reload current page"
-msgstr ""
+msgstr "Herlaad huidige bladzijde"
 
 #: ../webhelper/src/gwh-browser.c:833 ../webhelper/src/gwh-browser.c:879
 msgid "Web inspector"
