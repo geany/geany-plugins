@@ -33,6 +33,22 @@ sources = [ "src/conf.c",
             "src/plugin.c",
             "src/viewer.c" ]
 
+sources_peg_markdown = [ "peg-markdown/markdown_lib.c",
+                         "peg-markdown/markdown_output.c",
+                         "peg-markdown/markdown_parser.c",
+                         "peg-markdown/odf.c",
+                         "peg-markdown/parsing_functions.c",
+                         "peg-markdown/utility_functions.c" ]
+
+# if we didn't find the Discount/libmarkdown library, use the embedded peg-markdown library
+if not bld.env['LIB_DISCOUNT']:
+    # tell the code about what we want
+    defines.append('FULL_PRICE=1')
+    # add peg-markdown
+    includes.append('peg-markdown')
+    sources.extend(sources_peg_markdown)
+
+
 build_plugin(bld, name, sources=sources, includes=includes, libraries=libraries, defines=defines)
 
 # install docs
