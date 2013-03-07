@@ -21,28 +21,32 @@
 # $Id$
 
 from build.wafutils import build_plugin, target_is_win32
+from waflib.Utils import subst_vars
 
 
 name = 'Scope'
 includes = ['scope/src']
 
 if target_is_win32(bld):
-	datadir = '${G_PREFIX}/${GEANYPLUGINS_DATADIR}'
-	docdir = '${G_PREFIX}/doc/plugins/scope'
+	datadir = '${GEANYPLUGINS_DATADIR}/geany-plugins/scope'
+	docdir = 'doc/plugins/scope'
+	prefix = '${G_PREFIX}/'
 	libraries = []
 else:
-	datadir = '${GEANYPLUGINS_DATADIR}'
+	datadir = '${GEANYPLUGINS_DATADIR}/geany-plugins/scope'
 	docdir = '${DOCDIR}/scope'
+	prefix = ''
 	libraries = ['VTE', 'UTIL']
 
 htmldocdir = '%s/html' % docdir
-defines = [ 'PLUGINDATADIR="' + datadir + '"', 'PLUGINHTMLDOCDIR="' + htmldocdir + '"']
+defines = [ subst_vars('PLUGINDATADIR="' + datadir + '"', bld.env),
+			subst_vars('PLUGINHTMLDOCDIR="' + htmldocdir + '"', bld.env)]
 
 build_plugin(bld, name, includes=includes, libraries=libraries, defines=defines)
 
-bld.install_files(htmldocdir, 'docs/codes.html')
-bld.install_files(htmldocdir, 'docs/scope.html')
+bld.install_files('%s%s' % (prefix, htmldocdir), 'docs/codes.html')
+bld.install_files('%s%s' % (prefix, htmldocdir), 'docs/scope.html')
 
 start_dir = bld.path.find_dir('data')
-bld.install_files(datadir, start_dir.ant_glob('*.png'), cwd=start_dir)
-bld.install_files(datadir, 'data/scope.glade')
+bld.install_files('%s%s' % (prefix, datadir), start_dir.ant_glob('*.png'), cwd=start_dir)
+bld.install_files('%s%s' % (prefix, datadir), 'data/scope.glade')
