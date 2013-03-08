@@ -1,16 +1,15 @@
 # Catalon translation of geany-plugins
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-# Toni Garcia-Navarro <topi@elpiset.net>, 2009
+# Toni Garcia-Navarro <topi@elpiset.net>, 2009 - 2013
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.23\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-23 14:32+0100\n"
-"PO-Revision-Date: 2009-10-18 20:24+0100\n"
+"POT-Creation-Date: 2013-03-03 05:19+0000\n"
+"PO-Revision-Date: 2013-03-07 23:48+0100\n"
 "Last-Translator: Toni Garcia-Navarro <topi@elpiset.net>\n"
 "Language-Team: ca <topi@elpiset.net>\n"
 "Language: \n"
@@ -21,56 +20,61 @@ msgstr ""
 
 #: ../addons/src/ao_bookmarklist.c:182
 msgid "(Empty Line)"
-msgstr ""
+msgstr "(Línia Buida)"
 
 #: ../addons/src/ao_bookmarklist.c:307
 msgid "_Remove Bookmark"
-msgstr ""
+msgstr "_Suprimeix l'adreça d'interès"
 
 #: ../addons/src/ao_bookmarklist.c:333
 msgid "No."
-msgstr ""
+msgstr "No."
 
-#: ../addons/src/ao_bookmarklist.c:341 ../devhelp/src/dhp-object.c:494
+#: ../addons/src/ao_bookmarklist.c:341
+#: ../devhelp/src/dhp-object.c:494
 #: ../devhelp/devhelp/dh-window.c:1142
 msgid "Contents"
-msgstr ""
+msgstr "Continguts"
 
-#: ../addons/src/ao_bookmarklist.c:374 ../treebrowser/src/treebrowser.c:615
+#: ../addons/src/ao_bookmarklist.c:374
+#: ../treebrowser/src/treebrowser.c:615
 msgid "Bookmarks"
-msgstr ""
+msgstr "Marcadors"
 
 #. complete update
-#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2295
+#: ../addons/src/ao_tasks.c:373
+#: ../geanyvc/src/geanyvc.c:2295
 msgid "_Update"
-msgstr ""
+msgstr "Act_ualitza"
 
 #: ../addons/src/ao_tasks.c:382
 msgid "_Hide Message Window"
-msgstr ""
+msgstr "_Amaga la Finestra de Missatges"
 
-#: ../addons/src/ao_tasks.c:412 ../debugger/src/stree.c:387
-#, fuzzy
+#: ../addons/src/ao_tasks.c:412
+#: ../debugger/src/stree.c:387
 msgid "File"
-msgstr "_Fitxer"
+msgstr "Fitxer"
 
-#: ../addons/src/ao_tasks.c:423 ../debugger/src/bptree.c:702
+#: ../addons/src/ao_tasks.c:423
+#: ../debugger/src/bptree.c:702
 #: ../debugger/src/stree.c:394
 msgid "Line"
-msgstr ""
+msgstr "Línia"
 
 #. i18n: in the programming language context, if you don't
 #. * have an ESTABLISHED term for it, leave it
 #. * untranslated.
-#: ../addons/src/ao_tasks.c:434 ../debugger/src/vtree.c:204
-#: ../devhelp/devhelp/dh-link.c:287 ../geanylatex/src/bibtexlabels.c:68
+#: ../addons/src/ao_tasks.c:434
+#: ../debugger/src/vtree.c:204
+#: ../devhelp/devhelp/dh-link.c:287
+#: ../geanylatex/src/bibtexlabels.c:68
 msgid "Type"
 msgstr "Tipus"
 
 #: ../addons/src/ao_tasks.c:445
-#, fuzzy
 msgid "Task"
-msgstr "Tasques"
+msgstr "Tasca"
 
 #: ../addons/src/ao_tasks.c:478
 msgid "Tasks"
@@ -78,7 +82,7 @@ msgstr "Tasques"
 
 #: ../addons/src/ao_tasks.c:542
 msgid "Context:"
-msgstr ""
+msgstr "Context:"
 
 #: ../addons/src/ao_xmltagging.c:56
 msgid "XML tagging"
@@ -86,13 +90,11 @@ msgstr ""
 
 #: ../addons/src/ao_xmltagging.c:67
 msgid "Tag name to be inserted:"
-msgstr ""
+msgstr "Nom de la etiqueta a inserir:"
 
 #: ../addons/src/ao_xmltagging.c:71
 #, c-format
-msgid ""
-"%s will be replaced with your current selection. Please keep care on your "
-"selection"
+msgid "%s will be replaced with your current selection. Please keep care on your selection"
 msgstr ""
 
 #: ../addons/src/ao_openuri.c:165
@@ -104,9 +106,8 @@ msgid "Copy URI"
 msgstr "Copia localització (URI)"
 
 #: ../addons/src/ao_wrapwords.c:249
-#, fuzzy
 msgid "Enclose Characters"
-msgstr "Caràcters de fletxa"
+msgstr ""
 
 #: ../addons/src/ao_wrapwords.c:260
 #, c-format
@@ -114,14 +115,12 @@ msgid "Enclose combo %d"
 msgstr ""
 
 #: ../addons/src/ao_wrapwords.c:276
-#, fuzzy
 msgid "Opening Character"
-msgstr "Insereix Caràcter E_special HTML"
+msgstr ""
 
 #: ../addons/src/ao_wrapwords.c:283
-#, fuzzy
 msgid "Closing Character"
-msgstr "Caràcters de fletxa"
+msgstr ""
 
 #: ../addons/src/ao_doclist.c:207
 msgid "Close Ot_her Documents"
@@ -159,10 +158,14 @@ msgstr ""
 msgid "Run XML tagging"
 msgstr ""
 
-#: ../addons/src/addons.c:417 ../geanylatex/src/geanylatex.c:241
-#: ../geanyprj/src/geanyprj.c:174 ../geanysendmail/src/geanysendmail.c:121
-#: ../geanysendmail/src/geanysendmail.c:287 ../geanyvc/src/geanyvc.c:1798
-#: ../geniuspaste/src/geniuspaste.c:140 ../spellcheck/src/scplugin.c:146
+#: ../addons/src/addons.c:417
+#: ../geanylatex/src/geanylatex.c:241
+#: ../geanyprj/src/geanyprj.c:174
+#: ../geanysendmail/src/geanysendmail.c:121
+#: ../geanysendmail/src/geanysendmail.c:287
+#: ../geanyvc/src/geanyvc.c:1798
+#: ../geniuspaste/src/geniuspaste.c:140
+#: ../spellcheck/src/scplugin.c:146
 #: ../treebrowser/src/treebrowser.c:1880
 #: ../updatechecker/src/updatechecker.c:253
 msgid "Plugin configuration directory could not be created."
@@ -174,7 +177,7 @@ msgstr "Mostra la barra d'eines per a mostrar la llista de documents oberts"
 
 #: ../addons/src/addons.c:449
 msgid "Sort documents by _name"
-msgstr ""
+msgstr "Ordena els documents per _nom"
 
 #: ../addons/src/addons.c:451
 msgid "Sort the documents in the list by their filename"
@@ -182,7 +185,7 @@ msgstr ""
 
 #: ../addons/src/addons.c:454
 msgid "Sort documents by _occurrence"
-msgstr ""
+msgstr "Ordena els documents per _ocurrències"
 
 #: ../addons/src/addons.c:456
 msgid "Sort the documents in the order of the document tabs"
@@ -197,7 +200,6 @@ msgid "Sort the documents in the order of the document tabs (reversed)"
 msgstr ""
 
 #: ../addons/src/addons.c:488
-#, fuzzy
 msgid "Show an 'Open URI' item in the editor menu"
 msgstr "Mostra un ítem 'Obre localització (URI)' al menú d'edició"
 
@@ -210,9 +212,7 @@ msgid "Show tasks of all documents"
 msgstr ""
 
 #: ../addons/src/addons.c:504
-msgid ""
-"Whether to show the tasks of all open documents in the list or only those of "
-"the current document."
+msgid "Whether to show the tasks of all open documents in the list or only those of the current document."
 msgstr ""
 
 #: ../addons/src/addons.c:511
@@ -264,10 +264,10 @@ msgid ""
 msgstr ""
 
 #. Add the menu item, sensitive only when a document is opened
-#: ../codenav/src/goto_file.c:57 ../codenav/src/goto_file.c:71
-#, fuzzy
+#: ../codenav/src/goto_file.c:57
+#: ../codenav/src/goto_file.c:71
 msgid "Goto file"
-msgstr "Ves a la línia..."
+msgstr "Ves al fitxer"
 
 #: ../codenav/src/goto_file.c:109
 #, c-format
@@ -276,13 +276,14 @@ msgstr "(Connector %s)"
 
 #. Add the menu item and make it sensitive only when a document is opened
 #. Frame, which is the returned widget
-#: ../codenav/src/switch_head_impl.c:85 ../codenav/src/switch_head_impl.c:99
+#: ../codenav/src/switch_head_impl.c:85
+#: ../codenav/src/switch_head_impl.c:99
 #: ../codenav/src/switch_head_impl.c:461
 msgid "Switch header/implementation"
 msgstr "Canvia entre capçalera/implementació"
 
 #: ../codenav/src/switch_head_impl.c:369
-#, fuzzy, c-format
+#, c-format
 msgid "%s not found, create it?"
 msgstr "No s'ha trobat %s, voleu crear-lo?"
 
@@ -295,40 +296,41 @@ msgid "Implementations extensions"
 msgstr ""
 
 #: ../commander/src/commander-plugin.c:39
-#, fuzzy
 msgid "Commander"
-msgstr "Ordre 0:"
+msgstr ""
 
 #: ../commander/src/commander-plugin.c:40
 msgid "Provides a command panel for quick access to actions, files and more"
 msgstr ""
 
 #: ../commander/src/commander-plugin.c:686
-#, fuzzy
 msgid "Show Command Panel"
-msgstr "Ordre 0:"
+msgstr ""
 
 #: ../debugger/src/plugin.c:56
 msgid "Debugger"
-msgstr ""
+msgstr "Depurador"
 
 #: ../debugger/src/plugin.c:57
 msgid "Various debuggers integration."
 msgstr ""
 
-#: ../debugger/src/plugin.c:131 ../debugger/src/keys.c:76
-#: ../scope/data/scope.glade.h:125 ../scope/src/scope.c:225
+#: ../debugger/src/plugin.c:131
+#: ../debugger/src/keys.c:76
+#: ../scope/data/scope.glade.h:16
+#: ../scope/src/scope.c:225
 msgid "Debug"
-msgstr ""
+msgstr "Depuració"
 
-#: ../debugger/src/vtree.c:173 ../debugger/src/envtree.c:417
-#, fuzzy
+#: ../debugger/src/vtree.c:173
+#: ../debugger/src/envtree.c:417
 msgid "Name"
-msgstr "Nom:"
+msgstr "Nom"
 
-#: ../debugger/src/vtree.c:196 ../debugger/src/envtree.c:422
+#: ../debugger/src/vtree.c:196
+#: ../debugger/src/envtree.c:422
 msgid "Value"
-msgstr ""
+msgstr "Valor"
 
 #: ../debugger/src/tpage.c:105
 msgid "Choose target file"
@@ -336,86 +338,83 @@ msgstr ""
 
 #. target
 #: ../debugger/src/tpage.c:251
-#, fuzzy
 msgid "Target:"
-msgstr "LaTeX"
+msgstr "Objectiu:"
 
 #: ../debugger/src/tpage.c:254
 msgid "Browse"
-msgstr ""
+msgstr "Navega"
 
 #. debugger
 #: ../debugger/src/tpage.c:259
 msgid "Debugger:"
-msgstr ""
+msgstr "Depurador:"
 
 #. arguments
 #: ../debugger/src/tpage.c:270
-#, fuzzy
 msgid "Command Line Arguments"
-msgstr "Ordre 0:"
+msgstr "Arguments de la Línia d'Ordres"
 
 #. environment
 #: ../debugger/src/tpage.c:281
-#, fuzzy
 msgid "Environment Variables"
-msgstr "Paràmetres d'entorn"
+msgstr "Variables d'Entorn"
 
 #. if name is empty - offer to delete variable
-#: ../debugger/src/envtree.c:260 ../debugger/src/envtree.c:364
+#: ../debugger/src/envtree.c:260
+#: ../debugger/src/envtree.c:364
 #: ../debugger/src/debug.c:254
-#, fuzzy
 msgid "Delete variable?"
-msgstr "Elimina el Pojecte"
+msgstr "Elimina la variable?"
 
 #: ../debugger/src/bptree.c:676
-#, fuzzy
 msgid "Location"
-msgstr "Ubicació:"
+msgstr "Ubicació"
 
 #: ../debugger/src/bptree.c:685
-#, fuzzy
 msgid "Condition"
-msgstr "Navegació del codi"
+msgstr "Condició"
 
 #: ../debugger/src/bptree.c:696
 msgid "Hit count"
-msgstr ""
+msgstr "Recompte"
 
 #: ../debugger/src/bptree.c:861
 #, c-format
 msgid "line %i"
-msgstr ""
+msgstr "línia %i"
 
 #: ../debugger/src/dbm_gdb.c:547
-#, fuzzy
 msgid "Program received a signal"
-msgstr "El programa ha finalitzat normalment.\n"
+msgstr "El programa ha rebut un senyal"
 
 #: ../debugger/src/dbm_gdb.c:563
 #, c-format
 msgid "Program exited with code \"%i\""
-msgstr ""
+msgstr "El programa ha sortit amb el codi d'error \"%i\""
 
 #: ../debugger/src/dbm_gdb.c:735
 msgid "Failed to spawn gdb process"
 msgstr ""
 
 #: ../debugger/src/dbm_gdb.c:782
-msgid "~\"Loading target file.\\n\""
+msgid ""
+"~\"Loading target file.\\n"
+"\""
 msgstr ""
 
 #: ../debugger/src/dbm_gdb.c:782
 msgid "Error loading file"
-msgstr ""
+msgstr "S'ha produït un error en carregar el fitxer"
 
 #. setting asyncronous mode
 #. setting null-stop array printing
 #. enable pretty printing
-#: ../debugger/src/dbm_gdb.c:786 ../debugger/src/dbm_gdb.c:789
+#: ../debugger/src/dbm_gdb.c:786
+#: ../debugger/src/dbm_gdb.c:789
 #: ../debugger/src/dbm_gdb.c:792
 msgid "Error configuring GDB"
-msgstr ""
+msgstr "S'ha produït un error en configurar GDB"
 
 #: ../debugger/src/dbm_gdb.c:835
 #, c-format
@@ -437,31 +436,32 @@ msgstr ""
 msgid "Click an arrow to switch to a frame"
 msgstr ""
 
-#: ../debugger/src/stree.c:363 ../geanylatex/src/bibtexlabels.c:46
+#: ../debugger/src/stree.c:363
+#: ../geanylatex/src/bibtexlabels.c:46
 msgid "Address"
 msgstr "Adreça"
 
 #. i18n: in the programming language context, if you don't
 #. * have an ESTABLISHED term for it, leave it
 #. * untranslated.
-#: ../debugger/src/stree.c:381 ../devhelp/devhelp/dh-link.c:267
-#, fuzzy
+#: ../debugger/src/stree.c:381
+#: ../devhelp/devhelp/dh-link.c:267
 msgid "Function"
-msgstr "Arguments de la funció"
+msgstr "Funció"
 
 #: ../debugger/src/stree.c:533
 #, c-format
 msgid "Thread %i"
-msgstr ""
+msgstr "Fil %i"
 
 #: ../debugger/src/tabs.c:132
-#, fuzzy
 msgid "Target"
-msgstr "LaTeX"
+msgstr "Objectiu"
 
-#: ../debugger/src/tabs.c:135 ../scope/data/scope.glade.h:69
+#: ../debugger/src/tabs.c:135
+#: ../scope/data/scope.glade.h:12
 msgid "Breakpoints"
-msgstr ""
+msgstr "Punts de ruptura"
 
 #: ../debugger/src/tabs.c:138
 msgid "Watch"
@@ -473,58 +473,61 @@ msgstr ""
 
 #: ../debugger/src/tabs.c:144
 msgid "Call Stack"
-msgstr ""
+msgstr "Pila de crides"
 
 #: ../debugger/src/tabs.c:147
-#, fuzzy
 msgid "Debug Terminal"
-msgstr "Executa en el terminal"
+msgstr ""
 
 #: ../debugger/src/tabs.c:150
 msgid "Debugger Messages"
-msgstr ""
+msgstr "Missatges del Depurador"
 
 #: ../debugger/src/keys.c:49
 msgid "Run / Continue"
-msgstr ""
+msgstr "Executa / Continua"
 
-#: ../debugger/src/keys.c:50 ../debugger/src/btnpanel.c:101
+#: ../debugger/src/keys.c:50
+#: ../debugger/src/btnpanel.c:101
 msgid "Stop"
-msgstr ""
+msgstr "Atura"
 
-#: ../debugger/src/keys.c:51 ../debugger/src/btnpanel.c:98
+#: ../debugger/src/keys.c:51
+#: ../debugger/src/btnpanel.c:98
 msgid "Restart"
-msgstr ""
+msgstr "Reinicia"
 
-#: ../debugger/src/keys.c:52 ../debugger/src/btnpanel.c:113
+#: ../debugger/src/keys.c:52
+#: ../debugger/src/btnpanel.c:113
 #: ../scope/src/scope.c:67
-#, fuzzy
 msgid "Step into"
-msgstr "Pas _Avant"
+msgstr "Pas avant"
 
-#: ../debugger/src/keys.c:53 ../debugger/src/btnpanel.c:110
+#: ../debugger/src/keys.c:53
+#: ../debugger/src/btnpanel.c:110
 #: ../scope/src/scope.c:68
 msgid "Step over"
 msgstr ""
 
-#: ../debugger/src/keys.c:54 ../debugger/src/btnpanel.c:122
+#: ../debugger/src/keys.c:54
+#: ../debugger/src/btnpanel.c:122
 #: ../scope/src/scope.c:69
-#, fuzzy
 msgid "Step out"
-msgstr "Pas _Avant"
+msgstr "Pas enrere"
 
-#: ../debugger/src/keys.c:55 ../debugger/src/btnpanel.c:125
+#: ../debugger/src/keys.c:55
+#: ../debugger/src/btnpanel.c:125
 #: ../scope/src/scope.c:65
 msgid "Run to cursor"
 msgstr ""
 
 #: ../debugger/src/keys.c:56
 msgid "Add / Remove breakpoint"
-msgstr ""
+msgstr "Afegeix / Suprimeix el punt de ruptura"
 
 #: ../debugger/src/keys.c:57
 msgid "Jump to the currect instruction"
-msgstr ""
+msgstr "Salta a la instrucció actual"
 
 #: ../debugger/src/watch_model.c:220
 msgid "Can't evaluate expression"
@@ -534,22 +537,22 @@ msgstr ""
 msgid "To edit source files stop debugging session"
 msgstr ""
 
-#: ../debugger/src/btnpanel.c:90 ../debugger/src/btnpanel.c:159
-#, fuzzy
+#: ../debugger/src/btnpanel.c:90
+#: ../debugger/src/btnpanel.c:159
 msgid "Run"
-msgstr "_Executa"
+msgstr "Executa"
 
 #: ../debugger/src/btnpanel.c:132
 msgid "Settings"
-msgstr ""
+msgstr "Preferències"
 
 #: ../debugger/src/btnpanel.c:136
 msgid "Two panel mode"
-msgstr ""
+msgstr "Mode de dos quadres"
 
 #: ../debugger/src/btnpanel.c:154
 msgid "Continue"
-msgstr ""
+msgstr "Continua"
 
 #: ../debugger/src/dconfig.c:675
 msgid "Save debug session data to a project"
@@ -557,13 +560,12 @@ msgstr ""
 
 #. never search for more than this many chars
 #: ../devhelp/src/dhp.h:38
-#, fuzzy
 msgid "Documentation"
-msgstr "Estructura del Document"
+msgstr "Documentació"
 
 #: ../devhelp/src/dhp.h:39
 msgid "Code"
-msgstr ""
+msgstr "Codi"
 
 #: ../devhelp/src/dhp-object.c:387
 msgid "Search for 'Tag' Documentation in"
@@ -571,65 +573,66 @@ msgstr ""
 
 #. i18n: Please don't translate "Devhelp" (it's marked as translatable
 #. * for transliteration only)
-#: ../devhelp/src/dhp-object.c:390 ../devhelp/src/dhp-object.c:503
-#: ../devhelp/devhelp/dh-window.c:727 ../devhelp/devhelp/dh-window.c:1034
+#: ../devhelp/src/dhp-object.c:390
+#: ../devhelp/src/dhp-object.c:503
+#: ../devhelp/devhelp/dh-window.c:727
+#: ../devhelp/devhelp/dh-window.c:1034
 #: ../devhelp/devhelp/dh-window.c:1863
 msgid "Devhelp"
 msgstr ""
 
 #: ../devhelp/src/dhp-object.c:397
 msgid "Manual Pages"
-msgstr ""
+msgstr "Pàgines del Manual"
 
 #: ../devhelp/src/dhp-object.c:443
 msgid "Go back one page"
-msgstr ""
+msgstr "Retrocedeix una pàgina"
 
 #: ../devhelp/src/dhp-object.c:444
 msgid "Go forward one page"
-msgstr ""
+msgstr "Avança una pàgina"
 
 #: ../devhelp/src/dhp-object.c:445
 msgid "Zoom in"
-msgstr ""
+msgstr "Apropa"
 
 #: ../devhelp/src/dhp-object.c:446
 msgid "Zoom out"
-msgstr ""
+msgstr "Allunya"
 
-#: ../devhelp/src/dhp-object.c:497 ../devhelp/devhelp/dh-window.c:1152
+#: ../devhelp/src/dhp-object.c:497
+#: ../devhelp/devhelp/dh-window.c:1152
 msgid "Search"
-msgstr ""
+msgstr "Cerca"
 
 #: ../devhelp/src/dhp-object.c:1305
-#, fuzzy, c-format
+#, c-format
 msgid "Search for '%s' Documentation in"
-msgstr "Insereix Entorn"
+msgstr ""
 
 #: ../devhelp/src/dhp-plugin.c:42
 msgid "Devhelp Plugin"
 msgstr ""
 
 #: ../devhelp/src/dhp-plugin.c:43
-msgid ""
-"Adds support for looking up documentation in Devhelp, manual pages, and "
-"Google Code Search in the integrated viewer."
+msgid "Adds support for looking up documentation in Devhelp, manual pages, and Google Code Search in the integrated viewer."
 msgstr ""
 
 #: ../devhelp/src/dhp-plugin.c:119
 #, c-format
 msgid "Unable to create config dir at '%s'"
-msgstr ""
+msgstr "No s'ha pogut crear el directori de configuració '%s'"
 
 #: ../devhelp/src/dhp-plugin.c:134
 #, c-format
 msgid "Unable to get default configuration: %s"
-msgstr ""
+msgstr "No s'ha pogut obtenir la configuració per defecte: %s"
 
 #: ../devhelp/src/dhp-plugin.c:142
 #, c-format
 msgid "Unable to write default configuration: %s"
-msgstr ""
+msgstr "No s'ha pogut escriure la configuració per defecte: %s"
 
 #: ../devhelp/src/dhp-plugin.c:172
 msgid "Toggle sidebar contents tab"
@@ -640,13 +643,12 @@ msgid "Toggle sidebar search tab"
 msgstr ""
 
 #: ../devhelp/src/dhp-plugin.c:176
-#, fuzzy
 msgid "Toggle documentation tab"
-msgstr "Estructura del Document"
+msgstr ""
 
 #: ../devhelp/src/dhp-plugin.c:178
 msgid "Activate all tabs"
-msgstr ""
+msgstr "Activa totes les pestanyes"
 
 #: ../devhelp/src/dhp-plugin.c:180
 msgid "Search for current tag in Devhelp"
@@ -659,78 +661,76 @@ msgstr ""
 #. i18n: Please don't translate "Devhelp".
 #: ../devhelp/devhelp/dh-assistant.c:74
 msgid "Devhelp — Assistant"
-msgstr ""
+msgstr "Devhelp - Auxiliar"
 
 #: ../devhelp/devhelp/dh-assistant-view.c:336
 msgid "Book:"
-msgstr ""
+msgstr "Llibre:"
 
 #. i18n: a documentation book
-#: ../devhelp/devhelp/dh-link.c:255 ../geanylatex/src/geanylatex.c:1760
+#: ../devhelp/devhelp/dh-link.c:255
+#: ../geanylatex/src/geanylatex.c:1760
 msgid "Book"
-msgstr ""
+msgstr "Llibre"
 
 #. i18n: a "page" in a documentation book
 #: ../devhelp/devhelp/dh-link.c:258
 msgid "Page"
-msgstr ""
+msgstr "Pàgina"
 
 #. i18n: a search hit in the documentation, could be a
 #. * function, macro, struct, etc
 #: ../devhelp/devhelp/dh-link.c:262
 msgid "Keyword"
-msgstr ""
+msgstr "Paraula Clau"
 
 #. i18n: in the programming language context, if you don't
 #. * have an ESTABLISHED term for it, leave it
 #. * untranslated.
 #: ../devhelp/devhelp/dh-link.c:272
 msgid "Struct"
-msgstr ""
+msgstr "Struct"
 
 #. i18n: in the programming language context, if you don't
 #. * have an ESTABLISHED term for it, leave it
 #. * untranslated.
 #: ../devhelp/devhelp/dh-link.c:277
-#, fuzzy
 msgid "Macro"
-msgstr "Nom:"
+msgstr "Macro"
 
 #. i18n: in the programming language context, if you don't
 #. * have an ESTABLISHED term for it, leave it
 #. * untranslated.
 #: ../devhelp/devhelp/dh-link.c:282
 msgid "Enum"
-msgstr ""
+msgstr "Enum"
 
-#: ../devhelp/devhelp/dh-parser.c:91 ../devhelp/devhelp/dh-parser.c:185
-#: ../devhelp/devhelp/dh-parser.c:249 ../devhelp/devhelp/dh-parser.c:259
+#: ../devhelp/devhelp/dh-parser.c:91
+#: ../devhelp/devhelp/dh-parser.c:185
+#: ../devhelp/devhelp/dh-parser.c:249
+#: ../devhelp/devhelp/dh-parser.c:259
 #, c-format
 msgid "Expected '%s', got '%s' at line %d, column %d"
-msgstr ""
+msgstr "S'esperava '%s', però s'ha obtingut '%s' a la línia %d, columna %d"
 
 #: ../devhelp/devhelp/dh-parser.c:108
 #, c-format
 msgid "Invalid namespace '%s' at line %d, column %d"
-msgstr ""
+msgstr "L'espai de noms '%s' no és vàlid a la línia %d, columna %d"
 
 #: ../devhelp/devhelp/dh-parser.c:136
 #, c-format
-msgid ""
-"\"title\", \"name\" and \"link\" elements are required at line %d, column %d"
+msgid "\"title\", \"name\" and \"link\" elements are required at line %d, column %d"
 msgstr ""
 
 #: ../devhelp/devhelp/dh-parser.c:204
 #, c-format
-msgid ""
-"\"name\" and \"link\" elements are required inside <sub> on line %d, column "
-"%d"
+msgid "\"name\" and \"link\" elements are required inside <sub> on line %d, column %d"
 msgstr ""
 
 #: ../devhelp/devhelp/dh-parser.c:284
 #, c-format
-msgid ""
-"\"name\" and \"link\" elements are required inside '%s' on line %d, column %d"
+msgid "\"name\" and \"link\" elements are required inside '%s' on line %d, column %d"
 msgstr ""
 
 #: ../devhelp/devhelp/dh-parser.c:297
@@ -741,51 +741,51 @@ msgstr ""
 #: ../devhelp/devhelp/dh-parser.c:500
 #, c-format
 msgid "Cannot uncompress book '%s': %s"
-msgstr ""
+msgstr "No s'ha pogut descomprimir el llibre '%s': %s"
 
 #: ../devhelp/devhelp/dh-search.c:498
 msgid "All books"
-msgstr ""
+msgstr "Tots els llibres"
 
 #: ../devhelp/devhelp/dh-search.c:620
 msgid "Search in:"
-msgstr ""
+msgstr "Cerca a:"
 
 #: ../devhelp/devhelp/dh-window.c:98
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 #: ../devhelp/devhelp/dh-window.c:99
 msgid "75%"
-msgstr ""
+msgstr "75%"
 
 #: ../devhelp/devhelp/dh-window.c:100
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 #: ../devhelp/devhelp/dh-window.c:101
 msgid "125%"
-msgstr ""
+msgstr "125%"
 
 #: ../devhelp/devhelp/dh-window.c:102
 msgid "150%"
-msgstr ""
+msgstr "150%"
 
 #: ../devhelp/devhelp/dh-window.c:103
 msgid "175%"
-msgstr ""
+msgstr "175%"
 
 #: ../devhelp/devhelp/dh-window.c:104
 msgid "200%"
-msgstr ""
+msgstr "200%"
 
 #: ../devhelp/devhelp/dh-window.c:105
 msgid "300%"
-msgstr ""
+msgstr "300%"
 
 #: ../devhelp/devhelp/dh-window.c:106
 msgid "400%"
-msgstr ""
+msgstr "400%"
 
 #: ../devhelp/devhelp/dh-window.c:722
 msgid "translator_credits"
@@ -793,165 +793,168 @@ msgstr ""
 
 #: ../devhelp/devhelp/dh-window.c:729
 msgid "A developers' help browser for GNOME"
-msgstr ""
+msgstr "Un navegador d'ajuda per a desenvolupadors per al GNOME"
 
-#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2010
+#: ../devhelp/devhelp/dh-window.c:759
+#: ../geanyvc/src/geanyvc.c:2010
 msgid "_File"
 msgstr "_Fitxer"
 
-#: ../devhelp/devhelp/dh-window.c:760 ../geanymacro/src/geanymacro.c:1815
+#: ../devhelp/devhelp/dh-window.c:760
+#: ../geanymacro/src/geanymacro.c:1815
 #: ../geanymacro/src/geanymacro.c:2112
-#, fuzzy
 msgid "_Edit"
-msgstr "Editor"
+msgstr "_Edita"
 
 #: ../devhelp/devhelp/dh-window.c:761
 msgid "_View"
-msgstr ""
+msgstr "_Visualitza"
 
 #: ../devhelp/devhelp/dh-window.c:762
 msgid "_Go"
-msgstr ""
+msgstr "_Vés"
 
 #: ../devhelp/devhelp/dh-window.c:763
 msgid "_Help"
-msgstr ""
+msgstr "_Ajuda"
 
 #. File menu
 #: ../devhelp/devhelp/dh-window.c:766
 msgid "_New Window"
-msgstr ""
+msgstr "Finestra _Nova"
 
 #: ../devhelp/devhelp/dh-window.c:768
 msgid "New _Tab"
-msgstr ""
+msgstr "_Pestanya Nova"
 
 #: ../devhelp/devhelp/dh-window.c:770
 msgid "_Print…"
-msgstr ""
+msgstr "Im_primir..."
 
-#: ../devhelp/devhelp/dh-window.c:782 ../devhelp/devhelp/eggfindbar.c:342
-#, fuzzy
+#: ../devhelp/devhelp/dh-window.c:782
+#: ../devhelp/devhelp/eggfindbar.c:342
 msgid "Find Next"
-msgstr "Afegeix un Fitxer"
+msgstr "Cerca el Següent"
 
-#: ../devhelp/devhelp/dh-window.c:784 ../devhelp/devhelp/eggfindbar.c:329
-#, fuzzy
+#: ../devhelp/devhelp/dh-window.c:784
+#: ../devhelp/devhelp/eggfindbar.c:329
 msgid "Find Previous"
-msgstr "Cerca en el Projecte"
+msgstr "Cerca l'Anterior"
 
 #: ../devhelp/devhelp/dh-window.c:791
-#, fuzzy
 msgid "Go to the previous page"
-msgstr "Torna al diàleg anterior."
+msgstr "Vés a la pàgina anterior"
 
 #: ../devhelp/devhelp/dh-window.c:794
-#, fuzzy
 msgid "Go to the next page"
-msgstr "Salta a la línia següent."
+msgstr "Vés a la pàgina següent"
 
 #: ../devhelp/devhelp/dh-window.c:797
 msgid "_Contents Tab"
-msgstr ""
+msgstr "Pestanya de _Continguts"
 
 #: ../devhelp/devhelp/dh-window.c:800
 msgid "_Search Tab"
-msgstr ""
+msgstr "Pestanya de _Cerca"
 
 #. View menu
 #: ../devhelp/devhelp/dh-window.c:804
 msgid "_Larger Text"
-msgstr ""
+msgstr "Text Més _Gran"
 
 #: ../devhelp/devhelp/dh-window.c:805
 msgid "Increase the text size"
-msgstr ""
+msgstr "Incrementa la mida del text"
 
 #: ../devhelp/devhelp/dh-window.c:807
 msgid "S_maller Text"
-msgstr ""
+msgstr "Text Més _Petit"
 
 #: ../devhelp/devhelp/dh-window.c:808
 msgid "Decrease the text size"
-msgstr ""
+msgstr "Redueix la mida del text"
 
 #: ../devhelp/devhelp/dh-window.c:810
 msgid "_Normal Size"
-msgstr ""
+msgstr "Mida _Normal"
 
 #: ../devhelp/devhelp/dh-window.c:811
 msgid "Use the normal text size"
-msgstr ""
+msgstr "Utilitza la mida normal del text"
 
 #: ../devhelp/devhelp/dh-window.c:820
 msgid "Leave fullscreen mode"
-msgstr ""
+msgstr "Surt de pantalla completa"
 
 #: ../devhelp/devhelp/dh-window.c:827
 msgid "Display in full screen"
-msgstr ""
+msgstr "Mostra en mode de pantalla completa"
 
 #. Translators: This refers to text size
 #: ../devhelp/devhelp/dh-window.c:947
-#, fuzzy
 msgid "Larger"
-msgstr "LaTeX"
+msgstr "Més gran"
 
 #. Translators: This refers to text size
 #: ../devhelp/devhelp/dh-window.c:950
 msgid "Smaller"
-msgstr ""
+msgstr "Més xicotet"
 
 #. i18n: please don't translate
 #. * "Devhelp", it's a name, not a
 #. * generic word.
 #: ../devhelp/devhelp/dh-window.c:1095
 msgid "About Devhelp"
-msgstr ""
+msgstr "Quant al Devhelp"
 
 #: ../devhelp/devhelp/dh-window.c:1100
-#, fuzzy
 msgid "Preferences…"
-msgstr "Preferències"
+msgstr "Preferències..."
 
 #: ../devhelp/devhelp/dh-window.c:1330
 msgid "Error opening the requested link."
-msgstr ""
+msgstr "S'ha produït un error en obrir l'enllaç."
 
-#: ../devhelp/devhelp/dh-window.c:1649 ../devhelp/devhelp/dh-window.c:1891
+#: ../devhelp/devhelp/dh-window.c:1649
+#: ../devhelp/devhelp/dh-window.c:1891
 msgid "Empty Page"
-msgstr ""
+msgstr "Pàgina Buida"
 
 #: ../devhelp/devhelp/eggfindbar.c:320
 msgid "Find:"
-msgstr ""
+msgstr "Cerca:"
 
-#: ../devhelp/devhelp/eggfindbar.c:333 ../devhelp/devhelp/eggfindbar.c:336
+#: ../devhelp/devhelp/eggfindbar.c:333
+#: ../devhelp/devhelp/eggfindbar.c:336
 msgid "Find previous occurrence of the search string"
-msgstr ""
+msgstr "Cerca l'anterior ocurrència de la cadena de cerca"
 
-#: ../devhelp/devhelp/eggfindbar.c:346 ../devhelp/devhelp/eggfindbar.c:349
+#: ../devhelp/devhelp/eggfindbar.c:346
+#: ../devhelp/devhelp/eggfindbar.c:349
 msgid "Find next occurrence of the search string"
-msgstr ""
+msgstr "Cerca la següent ocurrència de cadena de cerca"
 
 #: ../devhelp/devhelp/eggfindbar.c:358
 msgid "C_ase Sensitive"
-msgstr ""
+msgstr "_Diferencia entre Majúscules i Minúscules"
 
-#: ../devhelp/devhelp/eggfindbar.c:362 ../devhelp/devhelp/eggfindbar.c:365
+#: ../devhelp/devhelp/eggfindbar.c:362
+#: ../devhelp/devhelp/eggfindbar.c:365
 msgid "Toggle case sensitive search"
-msgstr ""
+msgstr "Commuta a una cerca que distingeixi entre majúscules i minúscules"
 
 #. All plugins must set name, description, version and author.
-#: ../geanydoc/src/geanydoc.c:50 ../geanydoc/src/geanydoc.c:347
+#: ../geanydoc/src/geanydoc.c:50
+#: ../geanydoc/src/geanydoc.c:347
 msgid "Doc"
-msgstr ""
+msgstr "Document"
 
 #: ../geanydoc/src/geanydoc.c:50
 msgid "Call documentation viewer on current symbol."
 msgstr ""
 
-#: ../geanydoc/src/geanydoc.c:170 ../geanyvc/src/geanyvc.c:416
+#: ../geanydoc/src/geanydoc.c:170
+#: ../geanyvc/src/geanyvc.c:416
 msgid "Could not parse the output of command"
 msgstr "No s'ha pogut llegir l'eixida de l'ordre"
 
@@ -969,7 +972,7 @@ msgstr "Ordre 1:"
 
 #: ../geanydoc/src/geanydoc.c:393
 msgid "%w will be replaced with current word\n"
-msgstr ""
+msgstr "%w serà reemplaçat per la paraula actual\n"
 
 #: ../geanydoc/src/geanydoc.c:440
 msgid "Document current word"
@@ -977,12 +980,11 @@ msgstr ""
 
 #: ../geanydoc/src/geanydoc.c:441
 msgid "Document interactive"
-msgstr ""
+msgstr "Document interactiu"
 
 #: ../geanyextrasel/src/extrasel.c:34
-#, fuzzy
 msgid "Extra Selection"
-msgstr "Tria la font"
+msgstr "Selecció Addicional"
 
 #: ../geanyextrasel/src/extrasel.c:34
 msgid "Column mode, select to line / brace / anchor."
@@ -990,33 +992,31 @@ msgstr ""
 
 #: ../geanyextrasel/src/extrasel.c:482
 msgid "E_xtra Selection"
-msgstr ""
+msgstr "Selecció A_ddicional"
 
 #: ../geanyextrasel/src/extrasel.c:489
 msgid "_Column Mode"
-msgstr ""
+msgstr "Modalitat de _Columna"
 
 #: ../geanyextrasel/src/extrasel.c:494
 msgid "Column mode"
-msgstr ""
+msgstr "Modalitat de columna"
 
 #: ../geanyextrasel/src/extrasel.c:496
-#, fuzzy
 msgid "Select to _Line"
-msgstr "Tria la font"
+msgstr "Selecciona Fins a la _Línia"
 
 #: ../geanyextrasel/src/extrasel.c:500
-#, fuzzy
 msgid "Select to line"
-msgstr "Tria la font"
+msgstr "Selecciona fins a la línia"
 
 #: ../geanyextrasel/src/extrasel.c:502
 msgid "Select to Matching _Brace"
-msgstr ""
+msgstr "Vés al Parèntesi _Corresponent"
 
 #: ../geanyextrasel/src/extrasel.c:506
 msgid "Select to matching brace"
-msgstr ""
+msgstr "Vés al parèntesi corresponent"
 
 #: ../geanyextrasel/src/extrasel.c:510
 msgid "_Set Anchor"
@@ -1027,14 +1027,12 @@ msgid "Set anchor"
 msgstr ""
 
 #: ../geanyextrasel/src/extrasel.c:516
-#, fuzzy
 msgid "Select to _Anchor"
-msgstr "Tria la font"
+msgstr ""
 
 #: ../geanyextrasel/src/extrasel.c:520
-#, fuzzy
 msgid "Select to anchor"
-msgstr "Tria la font"
+msgstr ""
 
 #: ../geanyextrasel/src/extrasel.c:522
 msgid "_Rectangle Select to Anchor"
@@ -1046,17 +1044,17 @@ msgstr ""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:117
 msgid "boolean value"
-msgstr ""
+msgstr "valor booleà"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:130
 #, c-format
 msgid "invalid boolean value \"%s\""
-msgstr ""
+msgstr "valor booleà no vàlid \"%s\""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:157
 #, c-format
 msgid "invalid template: %s"
-msgstr ""
+msgstr "plantilla no vàlida: %s"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:178
 msgid "position name"
@@ -1069,16 +1067,16 @@ msgstr ""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:204
 msgid "policy name"
-msgstr ""
+msgstr "nom de política"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:211
 #, c-format
 msgid "invalid policy \"%s\""
-msgstr ""
+msgstr "política no vàlida \"%s\""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:230
 msgid "merge policy"
-msgstr ""
+msgstr "uneix polítiques"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:237
 #, c-format
@@ -1086,14 +1084,13 @@ msgid "invalid merge policy \"%s\""
 msgstr ""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:259
-#, fuzzy
 msgid "type"
-msgstr "Tipus"
+msgstr "tipus"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:266
 #, c-format
 msgid "invalid type \"%s\""
-msgstr ""
+msgstr "tipus no vàlid \"%s\""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:328
 #: ../geanygendoc/src/ggd-file-type-loader.c:779
@@ -1122,7 +1119,7 @@ msgstr ""
 #: ../geanygendoc/src/ggd-file-type-loader.c:454
 #, c-format
 msgid "match identifier is empty"
-msgstr ""
+msgstr "l'identificador és buit"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:472
 msgid "documentation type identifier"
@@ -1137,7 +1134,7 @@ msgstr ""
 #: ../geanygendoc/src/ggd-file-type-loader.c:645
 #, c-format
 msgid "invalid regular expression: %s"
-msgstr ""
+msgstr "expressió regular no vàlida: %s"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:702
 #, c-format
@@ -1151,9 +1148,8 @@ msgid "setting"
 msgstr ""
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:817
-#, fuzzy
 msgid "section name"
-msgstr "Arguments de la funció"
+msgstr "nom de la secció"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:828
 #, c-format
@@ -1184,7 +1180,7 @@ msgstr ""
 #: ../geanygendoc/src/ggd-file-type-loader.c:871
 #, c-format
 msgid "%s:%u:%u: %s"
-msgstr ""
+msgstr "%s:%u:%u: %s"
 
 #: ../geanygendoc/src/ggd-tag-utils.c:370
 msgid "Invalid tag"
@@ -1202,7 +1198,7 @@ msgstr ""
 
 #: ../geanygendoc/src/ggd-plugin.c:57
 msgid "Documentation Generator"
-msgstr ""
+msgstr "Generador de Documentació"
 
 #: ../geanygendoc/src/ggd-plugin.c:58
 msgid "Generates documentation basis from source code"
@@ -1211,17 +1207,17 @@ msgstr ""
 #: ../geanygendoc/src/ggd-plugin.c:224
 #, c-format
 msgid "Failed to load configuration: %s"
-msgstr ""
+msgstr "No s'ha pogut carregar la configuració: %s"
 
 #: ../geanygendoc/src/ggd-plugin.c:245
 #, c-format
 msgid "Failed to save configuration: %s"
-msgstr ""
+msgstr "No s'ha pogut desar la configuració: %s"
 
 #: ../geanygendoc/src/ggd-plugin.c:318
 #, c-format
 msgid "Failed to find configuration file for file type \"%s\": %s"
-msgstr ""
+msgstr "No s'ha pogut trobar un fitxer de configuració per al tipus de fitxer \"%s\": %s"
 
 #: ../geanygendoc/src/ggd-plugin.c:330
 msgid ""
@@ -1233,12 +1229,12 @@ msgstr ""
 #: ../geanygendoc/src/ggd-plugin.c:342
 #, c-format
 msgid "Failed to load file \"%s\": %s"
-msgstr ""
+msgstr "No s'ha pogut carregar el fitxer \"%s\": %s"
 
-#: ../geanygendoc/src/ggd-plugin.c:415 ../geanygendoc/src/ggd-plugin.c:426
-#, fuzzy
+#: ../geanygendoc/src/ggd-plugin.c:415
+#: ../geanygendoc/src/ggd-plugin.c:426
 msgid "Insert Documentation Comment"
-msgstr "Insereix Entorn"
+msgstr ""
 
 #: ../geanygendoc/src/ggd-plugin.c:480
 msgid "_Document Current Symbol"
@@ -1258,7 +1254,7 @@ msgstr ""
 
 #: ../geanygendoc/src/ggd-plugin.c:498
 msgid "_Reload Configuration Files"
-msgstr ""
+msgstr "Actualitza els Fitxe_rs de Configuració"
 
 #: ../geanygendoc/src/ggd-plugin.c:499
 msgid "Force reloading of the configuration files"
@@ -1274,35 +1270,29 @@ msgstr ""
 
 #: ../geanygendoc/src/ggd-plugin.c:515
 msgid "Open _Manual"
-msgstr ""
+msgstr "Obre el _Manual"
 
 #: ../geanygendoc/src/ggd-plugin.c:516
 msgid "Open the manual in a browser"
-msgstr ""
+msgstr "Obre el manual en línia en un navegador"
 
 #. build tools menu item
 #: ../geanygendoc/src/ggd-plugin.c:520
 msgid "_Documentation Generator"
-msgstr ""
+msgstr "Generador de _Documentació"
 
 #. General
 #: ../geanygendoc/src/ggd-plugin.c:619
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #. auto-save
 #: ../geanygendoc/src/ggd-plugin.c:624
 msgid "_Save file before generating documentation"
-msgstr ""
+msgstr "De_sar el fitxer abans de generar la documentació"
 
 #: ../geanygendoc/src/ggd-plugin.c:627
-msgid ""
-"Whether the current document should be saved to disc before generating the "
-"documentation. This is a technical detail, but it is currently needed to "
-"have an up-to-date tag list. If you disable this option and ask for "
-"documentation generation on a modified document, the behavior may be "
-"surprising since the comment will be generated for the last saved state of "
-"this document and not the current one."
+msgid "Whether the current document should be saved to disc before generating the documentation. This is a technical detail, but it is currently needed to have an up-to-date tag list. If you disable this option and ask for documentation generation on a modified document, the behavior may be surprising since the comment will be generated for the last saved state of this document and not the current one."
 msgstr ""
 
 #. indent
@@ -1311,56 +1301,47 @@ msgid "_Indent inserted documentation"
 msgstr ""
 
 #: ../geanygendoc/src/ggd-plugin.c:639
-msgid ""
-"Whether the inserted documentation should be indented to fit the indentation "
-"at the insertion position."
+msgid "Whether the inserted documentation should be indented to fit the indentation at the insertion position."
 msgstr ""
 
 #. Documentation type
 #: ../geanygendoc/src/ggd-plugin.c:646
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:144
-#, fuzzy
 msgid "Documentation type"
-msgstr "Estructura del Document"
+msgstr "Tipus de documentació"
 
 #: ../geanygendoc/src/ggd-plugin.c:656
-msgid ""
-"Choose the documentation type to use with each file type. The special "
-"language \"All\" on top of the list is used to choose the default "
-"documentation type, used for all languages that haven't one set."
+msgid "Choose the documentation type to use with each file type. The special language \"All\" on top of the list is used to choose the default documentation type, used for all languages that haven't one set."
 msgstr ""
 
 #. Environ editor
 #: ../geanygendoc/src/ggd-plugin.c:662
-#, fuzzy
 msgid "Global environment"
-msgstr "Entorn:"
+msgstr "Entorn global"
 
 #: ../geanygendoc/src/ggd-plugin.c:664
-msgid ""
-"Global environment overrides and additions. This environment will be merged "
-"with the file-type-specific ones."
+msgid "Global environment overrides and additions. This environment will be merged with the file-type-specific ones."
 msgstr ""
 
-#: ../geanygendoc/src/ggd-utils.c:184 ../geanygendoc/src/ggd-utils.c:195
+#: ../geanygendoc/src/ggd-utils.c:184
+#: ../geanygendoc/src/ggd-utils.c:195
 #, c-format
 msgid "File \"%s\" exists but is not a regular file"
-msgstr ""
+msgstr "El fitxer \"%s\" existeix però no és un fitxer normal"
 
 #: ../geanygendoc/src/ggd-utils.c:204
 #, c-format
 msgid "%s: no such file or directory"
-msgstr ""
+msgstr "%s: no existeix el fitxer o directori"
 
 #: ../geanygendoc/src/ggd.c:85
 #, c-format
 msgid "Failed to resize memory output stream"
-msgstr ""
+msgstr "Ha fallat el redimensionament de la memòria del flux de sortida"
 
 #: ../geanygendoc/src/ggd.c:114
 #, c-format
-msgid ""
-"Argument parsing regular expression did not match (argument list was: \"%s\")"
+msgid "Argument parsing regular expression did not match (argument list was: \"%s\")"
 msgstr ""
 
 #: ../geanygendoc/src/ggd.c:248
@@ -1389,19 +1370,15 @@ msgid "No valid tag at line %d."
 msgstr ""
 
 #: ../geanygendoc/src/ggd.c:582
-#, fuzzy
 msgid "No tags in the document"
-msgstr "Tanca Altres _Documents"
+msgstr ""
 
 #: ../geanygendoc/src/ggd-options.c:326
-#, fuzzy
 msgid "Unknown option"
-msgstr "Senyal desconeguda"
+msgstr "Opció desconeguda"
 
 #: ../geanygendoc/src/ggd-options.c:335
-msgid ""
-"Invalid option or proxy: either the proxy's property or the option type is "
-"incompatible."
+msgid "Invalid option or proxy: either the proxy's property or the option type is incompatible."
 msgstr ""
 
 #: ../geanygendoc/src/ggd-options.c:512
@@ -1416,31 +1393,29 @@ msgstr ""
 
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:135
 msgid "Language"
-msgstr ""
+msgstr "Llenguatge"
 
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:155
-#, fuzzy
 msgid "_Change associated documentation type"
-msgstr "Estructura del Document"
+msgstr ""
 
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:163
-#, fuzzy
 msgid "_Disassociate documentation type"
-msgstr "Estructura del Document"
+msgstr ""
 
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:194
 msgid "All"
-msgstr ""
+msgstr "Tots"
 
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:195
 msgid "Default documentation type for languages that does not have one set"
 msgstr ""
 
-#: ../geanyinsertnum/src/insertnum.c:37 ../geanyinsertnum/src/insertnum.c:329
+#: ../geanyinsertnum/src/insertnum.c:37
+#: ../geanyinsertnum/src/insertnum.c:329
 #: ../geanyinsertnum/src/insertnum.c:461
-#, fuzzy
 msgid "Insert Numbers"
-msgstr "Insereix Etiqueta"
+msgstr "Insereix Números"
 
 #: ../geanyinsertnum/src/insertnum.c:37
 msgid "Insert/Fill columns with numbers."
@@ -1448,49 +1423,47 @@ msgstr ""
 
 #: ../geanyinsertnum/src/insertnum.c:140
 msgid "Counting..."
-msgstr ""
+msgstr "Comptant..."
 
 #: ../geanyinsertnum/src/insertnum.c:188
 msgid "Preparing..."
-msgstr ""
+msgstr "S'està preparant..."
 
 #: ../geanyinsertnum/src/insertnum.c:194
 msgid "Inserting..."
-msgstr ""
+msgstr "Inserint..."
 
 #: ../geanyinsertnum/src/insertnum.c:318
 msgid "For base 11 and above"
 msgstr ""
 
 #: ../geanyinsertnum/src/insertnum.c:341
-#, fuzzy
 msgid "_Start:"
-msgstr "_Estat"
+msgstr "_Inici:"
 
 #: ../geanyinsertnum/src/insertnum.c:346
 msgid "S_tep:"
-msgstr ""
+msgstr "_Pas:"
 
 #: ../geanyinsertnum/src/insertnum.c:352
-#, fuzzy
 msgid "_Base:"
-msgstr "Directori base:"
+msgstr "_Base:"
 
 #: ../geanyinsertnum/src/insertnum.c:363
 msgid "Letters:"
-msgstr ""
+msgstr "Cartes:"
 
 #: ../geanyinsertnum/src/insertnum.c:366
 msgid "_Upper"
-msgstr ""
+msgstr "S_uperior"
 
 #: ../geanyinsertnum/src/insertnum.c:371
 msgid "_Lower"
-msgstr ""
+msgstr "_Inferior"
 
 #: ../geanyinsertnum/src/insertnum.c:376
 msgid "Base _prefix"
-msgstr ""
+msgstr "Prefix base"
 
 #: ../geanyinsertnum/src/insertnum.c:378
 msgid "0 for octal, 0x for hex, + for positive decimal"
@@ -1498,7 +1471,7 @@ msgstr ""
 
 #: ../geanyinsertnum/src/insertnum.c:380
 msgid "Padding:"
-msgstr ""
+msgstr "Separació:"
 
 #: ../geanyinsertnum/src/insertnum.c:382
 msgid "Sp_ace"
@@ -1506,20 +1479,19 @@ msgstr ""
 
 #: ../geanyinsertnum/src/insertnum.c:385
 msgid "_Zero"
-msgstr ""
+msgstr "_Zero"
 
 #: ../geanyinsertnum/src/insertnum.c:454
-#, fuzzy
 msgid "Insert _Numbers"
-msgstr "Insereix E_tiqueta"
+msgstr "Insereix _Números"
 
 #: ../geanylatex/src/latexenvironments.c:25
 msgid "Environments"
-msgstr ""
+msgstr "Entorns"
 
 #: ../geanylatex/src/latexenvironments.c:26
 msgid "Formating"
-msgstr ""
+msgstr "Format"
 
 #: ../geanylatex/src/latexenvironments.c:27
 msgid "Document Structure"
@@ -1527,11 +1499,11 @@ msgstr "Estructura del Document"
 
 #: ../geanylatex/src/latexenvironments.c:28
 msgid "Lists"
-msgstr ""
+msgstr "Llistes"
 
 #: ../geanylatex/src/latexenvironments.c:29
 msgid "Math"
-msgstr ""
+msgstr "Matemàtiques"
 
 #: ../geanylatex/src/latexenvironments.c:194
 msgid "Insert Environment"
@@ -1555,11 +1527,11 @@ msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:27
 msgid "Article (@Article)"
-msgstr ""
+msgstr "Article (@Article)"
 
 #: ../geanylatex/src/bibtexlabels.c:28
 msgid "Book (@Book)"
-msgstr ""
+msgstr "Llibre (@Llibre)"
 
 #: ../geanylatex/src/bibtexlabels.c:29
 msgid "Booklet (@Booklet)"
@@ -1567,7 +1539,7 @@ msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:30
 msgid "Conference (@Conference)"
-msgstr ""
+msgstr "Conferència (@Conferència)"
 
 #: ../geanylatex/src/bibtexlabels.c:31
 msgid "Inbook (@Inbook)"
@@ -1583,7 +1555,7 @@ msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:34
 msgid "Manual (@Manual)"
-msgstr ""
+msgstr "Manual (@Manual)"
 
 #: ../geanylatex/src/bibtexlabels.c:35
 msgid "Mastersthesis (@Mastersthesis)"
@@ -1591,7 +1563,7 @@ msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:36
 msgid "Misc (@Misc)"
-msgstr ""
+msgstr "Miscel·lània (@Miscel·lània)"
 
 #: ../geanylatex/src/bibtexlabels.c:37
 msgid "PhdThesis (@PhdThesis)"
@@ -1607,7 +1579,7 @@ msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:40
 msgid "Unpublished (@Unpublished)"
-msgstr ""
+msgstr "No publicat (@No publicat)"
 
 #: ../geanylatex/src/bibtexlabels.c:47
 msgid "Annote"
@@ -1615,7 +1587,7 @@ msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:48
 msgid "Author"
-msgstr ""
+msgstr "Autor"
 
 #: ../geanylatex/src/bibtexlabels.c:49
 msgid "Booktitle"
@@ -1631,7 +1603,7 @@ msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:52
 msgid "Edition"
-msgstr ""
+msgstr "Edició"
 
 #: ../geanylatex/src/bibtexlabels.c:53
 msgid "Editor"
@@ -1647,11 +1619,11 @@ msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:56
 msgid "Institution"
-msgstr ""
+msgstr "Institució"
 
 #: ../geanylatex/src/bibtexlabels.c:57
 msgid "Journal"
-msgstr ""
+msgstr "Diari"
 
 #: ../geanylatex/src/bibtexlabels.c:58
 msgid "Key"
@@ -1659,47 +1631,47 @@ msgstr "Tecla"
 
 #: ../geanylatex/src/bibtexlabels.c:59
 msgid "Month"
-msgstr ""
+msgstr "Mes"
 
 #: ../geanylatex/src/bibtexlabels.c:60
 msgid "Note"
-msgstr ""
+msgstr "Nota"
 
 #: ../geanylatex/src/bibtexlabels.c:61
 msgid "Number"
-msgstr ""
+msgstr "Número"
 
 #: ../geanylatex/src/bibtexlabels.c:62
 msgid "Organization"
-msgstr ""
+msgstr "Organització"
 
 #: ../geanylatex/src/bibtexlabels.c:63
 msgid "Pages"
-msgstr ""
+msgstr "Pàgines"
 
 #: ../geanylatex/src/bibtexlabels.c:64
 msgid "Publisher"
-msgstr ""
+msgstr "Editor"
 
 #: ../geanylatex/src/bibtexlabels.c:65
 msgid "School"
-msgstr ""
+msgstr "Escola"
 
 #: ../geanylatex/src/bibtexlabels.c:66
 msgid "Series"
-msgstr ""
+msgstr "Series"
 
 #: ../geanylatex/src/bibtexlabels.c:67
 msgid "Title"
-msgstr ""
+msgstr "Títol"
 
 #: ../geanylatex/src/bibtexlabels.c:69
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: ../geanylatex/src/bibtexlabels.c:70
 msgid "Volume"
-msgstr ""
+msgstr "Volum"
 
 #: ../geanylatex/src/bibtexlabels.c:71
 msgid "Year"
@@ -1723,7 +1695,7 @@ msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:107
 msgid "Chapter number"
-msgstr ""
+msgstr "Número de capítol"
 
 #: ../geanylatex/src/bibtexlabels.c:108
 msgid "Citation key of the cross-referenced entry"
@@ -1754,9 +1726,7 @@ msgid "Journal or magazine in which the work was published"
 msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:115
-msgid ""
-"Hidden field used for specifying or overriding the alphabetical order of "
-"entries"
+msgid "Hidden field used for specifying or overriding the alphabetical order of entries"
 msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:116
@@ -1805,25 +1775,23 @@ msgstr "Adreça d'Internet:"
 
 #: ../geanylatex/src/bibtexlabels.c:127
 msgid "Number of the volume"
-msgstr ""
+msgstr "Número de volum"
 
 #: ../geanylatex/src/bibtexlabels.c:128
 msgid "Year of publication or creation if unpublished"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:41
-#, fuzzy
 msgid "GeanyLaTeX"
-msgstr "LaTeX"
+msgstr "GeanyLaTeX"
 
 #: ../geanylatex/src/geanylatex.c:42
 msgid "Plugin to provide better LaTeX support"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:116
-#, fuzzy
 msgid "Runs LaTeX wizard"
-msgstr "Executa l'assistent per a LaTeX"
+msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:117
 msgid "Marks selected text as italic"
@@ -1837,15 +1805,18 @@ msgstr ""
 msgid "Underlines selected text"
 msgstr "Subratlla el text seleccionat"
 
-#: ../geanylatex/src/geanylatex.c:120 ../geanylatex/src/formatpatterns.c:45
+#: ../geanylatex/src/geanylatex.c:120
+#: ../geanylatex/src/formatpatterns.c:45
 msgid "Centered"
-msgstr ""
+msgstr "Centrat"
 
-#: ../geanylatex/src/geanylatex.c:121 ../geanylatex/src/formatpatterns.c:46
+#: ../geanylatex/src/geanylatex.c:121
+#: ../geanylatex/src/formatpatterns.c:46
 msgid "Left side oriented"
 msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:122 ../geanylatex/src/formatpatterns.c:47
+#: ../geanylatex/src/geanylatex.c:122
+#: ../geanylatex/src/formatpatterns.c:47
 msgid "Right side oriented"
 msgstr ""
 
@@ -1859,7 +1830,7 @@ msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:302
 msgid "Capitalize sentence on typing"
-msgstr ""
+msgstr "Escriu en majúscules la primera lletra de la frase"
 
 #: ../geanylatex/src/geanylatex.c:304
 msgid "Add a wizard icon to Geany's main toolbar"
@@ -1890,14 +1861,12 @@ msgid "Label name:"
 msgstr "Nom de l'etiqueta:"
 
 #: ../geanylatex/src/geanylatex.c:833
-#, fuzzy
 msgid "Insert Command"
-msgstr "Insereix Entorn"
+msgstr "Insereix una Ordre"
 
 #: ../geanylatex/src/geanylatex.c:835
-#, fuzzy
 msgid "Command name:"
-msgstr "Ordre 0:"
+msgstr "Nom de l'ordre:"
 
 #: ../geanylatex/src/geanylatex.c:878
 msgid "Insert Reference"
@@ -1928,27 +1897,24 @@ msgid "Add additional package"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1192
-#, fuzzy
 msgid "Package name:"
-msgstr "Nom de l'etiqueta:"
+msgstr "Nom del paquet:"
 
 #: ../geanylatex/src/geanylatex.c:1195
 msgid "Package options:"
-msgstr ""
+msgstr "Opcions del paquet:"
 
 #: ../geanylatex/src/geanylatex.c:1243
-#, fuzzy
 msgid "Insert BibTeX Reference"
-msgstr "Insereix Referència"
+msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1256
-#, fuzzy
 msgid "BibTeX reference name:"
-msgstr "Nom de la referència:"
+msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1680
 msgid "Dear Sir or Madame"
-msgstr ""
+msgstr "Benvolgut / Benvolguda"
 
 #: ../geanylatex/src/geanylatex.c:1681
 msgid "With kind regards"
@@ -1967,9 +1933,10 @@ msgstr "Assitent LaTeX"
 #. *  Adds custom templates if there are any. If there are none just
 #. *  adds default one
 #. TEMPLATE FILE
-#: ../geanylatex/src/geanylatex.c:1731 ../markdown/src/conf.c:666
+#: ../geanylatex/src/geanylatex.c:1731
+#: ../markdown/src/conf.c:668
 msgid "Template:"
-msgstr ""
+msgstr "Plantilla:"
 
 #: ../geanylatex/src/geanylatex.c:1735
 msgid "Set the template which should be used for creating the new document"
@@ -1977,7 +1944,7 @@ msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1744
 msgid "Default"
-msgstr ""
+msgstr "Predeterminat"
 
 #. Documentclass
 #: ../geanylatex/src/geanylatex.c:1755
@@ -1990,19 +1957,19 @@ msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1762
 msgid "Article"
-msgstr ""
+msgstr "Article"
 
 #: ../geanylatex/src/geanylatex.c:1764
 msgid "Report"
-msgstr ""
+msgstr "Informe"
 
 #: ../geanylatex/src/geanylatex.c:1766
 msgid "Letter"
-msgstr ""
+msgstr "Carta (8,5 x 11 polzades)"
 
 #: ../geanylatex/src/geanylatex.c:1768
 msgid "Presentation"
-msgstr ""
+msgstr "Presentació"
 
 #. Encoding
 #: ../geanylatex/src/geanylatex.c:1778
@@ -2011,13 +1978,12 @@ msgstr "Codificació:"
 
 #: ../geanylatex/src/geanylatex.c:1782
 msgid "Set the encoding for your new document"
-msgstr ""
+msgstr "Definiu la codificació per al nou document"
 
 #. fontsize
 #: ../geanylatex/src/geanylatex.c:1798
-#, fuzzy
 msgid "Font size"
-msgstr "Mida de la font:"
+msgstr "Mida de la font"
 
 #: ../geanylatex/src/geanylatex.c:1804
 msgid "Set the default font size of your new document"
@@ -2026,12 +1992,10 @@ msgstr ""
 #. Author
 #: ../geanylatex/src/geanylatex.c:1816
 msgid "Author:"
-msgstr ""
+msgstr "Autor:"
 
 #: ../geanylatex/src/geanylatex.c:1819
-msgid ""
-"Sets the value of the \\author command. In most cases this should be your "
-"name"
+msgid "Sets the value of the \\author command. In most cases this should be your name"
 msgstr ""
 
 #. Date
@@ -2040,16 +2004,13 @@ msgid "Date:"
 msgstr "Data:"
 
 #: ../geanylatex/src/geanylatex.c:1836
-msgid ""
-"Sets the value of the \\date command inside header of your new created LaTeX-"
-"document. Keeping it at \\today is a good decision if you don't need any "
-"fixed date."
+msgid "Sets the value of the \\date command inside header of your new created LaTeX-document. Keeping it at \\today is a good decision if you don't need any fixed date."
 msgstr ""
 
 #. Title of the new document
 #: ../geanylatex/src/geanylatex.c:1848
 msgid "Title:"
-msgstr ""
+msgstr "Títol:"
 
 #: ../geanylatex/src/geanylatex.c:1851
 msgid "Sets the title of your new document."
@@ -2066,9 +2027,8 @@ msgstr ""
 
 #. Paper direction
 #: ../geanylatex/src/geanylatex.c:1876
-#, fuzzy
 msgid "Paper Orientation:"
-msgstr "Mida del paper:"
+msgstr "Orientació del Paper:"
 
 #: ../geanylatex/src/geanylatex.c:1879
 msgid "Choose the paper orientation for the newly created document"
@@ -2081,8 +2041,7 @@ msgstr ""
 #: ../geanylatex/src/geanylatex.c:1902
 msgid ""
 "Uses the KOMA-script classes by Markus Kohm.\n"
-"Keep in mind: To compile your document these classes have to be installed "
-"before."
+"Keep in mind: To compile your document these classes have to be installed before."
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1909
@@ -2090,9 +2049,7 @@ msgid "Use draft mode"
 msgstr "Usa mode d'esborrany"
 
 #: ../geanylatex/src/geanylatex.c:1911
-msgid ""
-"Set the draft flag inside new created documents to get documents with a "
-"number of debugging helpers"
+msgid "Set the draft flag inside new created documents to get documents with a number of debugging helpers"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1928
@@ -2112,9 +2069,8 @@ msgid "Insert linebreak \\\\ "
 msgstr "Insereix salt de línia \\\\"
 
 #: ../geanylatex/src/geanylatex.c:1937
-#, fuzzy
 msgid "Insert command"
-msgstr "Insereix Entorn"
+msgstr "Insereix una ordre"
 
 #: ../geanylatex/src/geanylatex.c:1939
 msgid "Turn input replacement on/off"
@@ -2161,14 +2117,12 @@ msgid "Insert description list"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1966
-#, fuzzy
 msgid "Insert itemize list"
-msgstr "Insereix \\item"
+msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1969
-#, fuzzy
 msgid "Insert enumerate list"
-msgstr "Insereix text Lipsum"
+msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1972
 msgid "Set selection one level up"
@@ -2179,14 +2133,12 @@ msgid "Set selection one level down"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1978
-#, fuzzy
 msgid "Insert \\usepackage{}"
-msgstr "Insereix \\label"
+msgstr "Insereix \\usepackage{}"
 
 #: ../geanylatex/src/geanylatex.c:1981
-#, fuzzy
 msgid "Insert BibTeX reference dialog"
-msgstr "Insereix Referència"
+msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1988
 msgid ""
@@ -2196,18 +2148,18 @@ msgid ""
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:2026
-msgid ""
-"glatex_set_autocompletion_contextsize has been initialized with an invalid "
-"value. Default value taken. Please check your configuration file"
+msgid "glatex_set_autocompletion_contextsize has been initialized with an invalid value. Default value taken. Please check your configuration file"
 msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:2048 ../geanylatex/src/geanylatex.c:2055
+#: ../geanylatex/src/geanylatex.c:2048
+#: ../geanylatex/src/geanylatex.c:2055
 msgid "page \\pageref{{{reference}}}"
-msgstr ""
+msgstr "pàgina \\pageref{{{reference}}}"
 
-#: ../geanylatex/src/geanylatex.c:2052 ../geanylatex/src/geanylatex.c:2059
+#: ../geanylatex/src/geanylatex.c:2052
+#: ../geanylatex/src/geanylatex.c:2059
 msgid "\\ref{{{reference}}}, page \\pageref{{{reference}}}"
-msgstr ""
+msgstr "\\ref{{{reference}}}, pàgina \\pageref{{{reference}}}"
 
 #. Build up menu for menubar
 #: ../geanylatex/src/geanylatex.c:2107
@@ -2216,18 +2168,19 @@ msgstr "_LaTeX"
 
 #. Filling up menubar menus
 #. LaTeX menu
-#: ../geanylatex/src/geanylatex.c:2116 ../geanylatex/src/geanylatex.c:2328
+#: ../geanylatex/src/geanylatex.c:2116
+#: ../geanylatex/src/geanylatex.c:2328
 msgid "LaTeX-_Wizard"
 msgstr "_Assistent LaTeX"
 
-#: ../geanylatex/src/geanylatex.c:2119 ../geanylatex/src/geanylatex.c:2331
+#: ../geanylatex/src/geanylatex.c:2119
+#: ../geanylatex/src/geanylatex.c:2331
 msgid "Starts a Wizard to easily create LaTeX-documents"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:2124
-#, fuzzy
 msgid "I_nsert Special Character"
-msgstr "Insereix Caràcter E_special HTML"
+msgstr "I_nsereix Caràcter E_special"
 
 #: ../geanylatex/src/geanylatex.c:2126
 msgid "Helps to use some not very common letters and signs"
@@ -2258,23 +2211,22 @@ msgid "Helps at inserting an environment a document"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:2159
-#, fuzzy
 msgid "Insert P_ackage"
-msgstr "Insereix E_tiqueta"
+msgstr "Insereix P_aquet"
 
 #: ../geanylatex/src/geanylatex.c:2161
 msgid "A small dialog to insert \\usepackage{} into header of current file"
 msgstr ""
 
-#: ../geanylatex/src/geanylatex.c:2166 ../scope/data/scope.glade.h:58
+#: ../geanylatex/src/geanylatex.c:2166
+#: ../scope/data/scope.glade.h:82
 msgid "_Format"
 msgstr "_Format"
 
 #. Add font size menu
 #: ../geanylatex/src/geanylatex.c:2183
-#, fuzzy
 msgid "F_ont size"
-msgstr "Mida de la font:"
+msgstr "Mida de la font"
 
 #: ../geanylatex/src/geanylatex.c:2201
 msgid "_Special Character Replacement"
@@ -2285,32 +2237,28 @@ msgid "Bulk _Replace Special Characters"
 msgstr "Reemplaçament en _Massa de Caràcters Especial HTML"
 
 #: ../geanylatex/src/geanylatex.c:2211
-#, fuzzy
 msgid "_Replace selected special characters with TeX substitutes"
-msgstr "Reemplaça els caràcters especials HTML"
+msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:2219
 msgid "Toggle _Special Character Replacement"
 msgstr "Activa/Desactiva el Reemplaçament de Caràcters Especials HTML"
 
 #: ../geanylatex/src/geanylatex.c:2230
-#, fuzzy
 msgid "Insert _Command"
-msgstr "Insereix _Entorn"
+msgstr "Insereix _Ordre"
 
 #: ../geanylatex/src/geanylatex.c:2232
-#, fuzzy
 msgid "Inserting costumized command to document"
-msgstr "Insereix referències al document"
+msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:2257
 msgid "_BibTeX"
-msgstr ""
+msgstr "_BibTeX"
 
 #: ../geanylatex/src/geanylatex.c:2265
-#, fuzzy
 msgid "Insert B_ibTeX reference"
-msgstr "Insereix _Referència"
+msgstr "Insereix referència B_ibTeX"
 
 #: ../geanylatex/src/geanylatex.c:2267
 msgid "Helps to insert a reference out of BibTeX files"
@@ -2321,9 +2269,8 @@ msgid "_BibTeX entries"
 msgstr ""
 
 #: ../geanylatex/src/letters.c:40
-#, fuzzy
 msgid "LaTeX letters"
-msgstr "Caràcters grecs"
+msgstr ""
 
 #: ../geanylatex/src/letters.c:41
 msgid "Greek letters"
@@ -2335,7 +2282,7 @@ msgstr ""
 
 #: ../geanylatex/src/letters.c:43
 msgid "Misc"
-msgstr ""
+msgstr "Miscel·lània"
 
 #: ../geanylatex/src/letters.c:44
 msgid "Arrow characters"
@@ -2343,27 +2290,27 @@ msgstr "Caràcters de fletxa"
 
 #: ../geanylatex/src/letters.c:45
 msgid "Relational"
-msgstr ""
+msgstr "Relacional"
 
 #: ../geanylatex/src/letters.c:46
 msgid "Binary operation"
-msgstr ""
+msgstr "Operació binària"
 
 #: ../geanylatex/src/formatpatterns.c:38
 msgid "Italic"
-msgstr ""
+msgstr "Cursiva"
 
 #: ../geanylatex/src/formatpatterns.c:39
 msgid "Bold"
-msgstr ""
+msgstr "Negreta"
 
 #: ../geanylatex/src/formatpatterns.c:40
 msgid "Underline"
-msgstr ""
+msgstr "Subratllat"
 
 #: ../geanylatex/src/formatpatterns.c:41
 msgid "Typewriter"
-msgstr ""
+msgstr "Mecanografiat"
 
 #: ../geanylatex/src/formatpatterns.c:42
 msgid "Small Caps"
@@ -2375,24 +2322,23 @@ msgstr ""
 
 #: ../geanylatex/src/formatpatterns.c:44
 msgid "Emphasis"
-msgstr ""
+msgstr "Emfatitzat"
 
 #: ../geanylatex/src/formatpatterns.c:64
 msgid "tiny"
-msgstr ""
+msgstr "diminuta"
 
 #: ../geanylatex/src/formatpatterns.c:65
 msgid "scriptsize"
 msgstr ""
 
 #: ../geanylatex/src/formatpatterns.c:66
-#, fuzzy
 msgid "footnotesize"
-msgstr "Mida de la font:"
+msgstr "footnotesize"
 
 #: ../geanylatex/src/formatpatterns.c:67
 msgid "small"
-msgstr ""
+msgstr "petit"
 
 #: ../geanylatex/src/formatpatterns.c:68
 msgid "normalsize"
@@ -2400,32 +2346,31 @@ msgstr ""
 
 #: ../geanylatex/src/formatpatterns.c:69
 msgid "large"
-msgstr ""
+msgstr "gran"
 
 #: ../geanylatex/src/formatpatterns.c:70
-#, fuzzy
 msgid "Large"
-msgstr "LaTeX"
+msgstr "Gran"
 
 #: ../geanylatex/src/formatpatterns.c:71
 msgid "LARGE"
-msgstr ""
+msgstr "GRAN"
 
 #: ../geanylatex/src/formatpatterns.c:72
 msgid "huge"
-msgstr ""
+msgstr "enorme"
 
 #: ../geanylatex/src/formatpatterns.c:73
 msgid "Huge"
-msgstr ""
+msgstr "Enorme"
 
 #: ../geanylatex/src/latexencodings.c:37
 msgid "UTF-8"
-msgstr ""
+msgstr "UTF-8"
 
 #: ../geanylatex/src/latexencodings.c:38
 msgid "US-ASCII"
-msgstr ""
+msgstr "US-ASCII"
 
 #: ../geanylatex/src/latexencodings.c:39
 msgid "ISO-8859-1 (Latin-1)"
@@ -2453,15 +2398,15 @@ msgstr "ISO-8859-9 (Latin-9)"
 
 #: ../geanylatex/src/latexencodings.c:51
 msgid "ISO-8859-10 (Latin-10)"
-msgstr ""
+msgstr "ISO-8859-10 (Latin-10)"
 
 #: ../geanylatex/src/latexencodings.c:53
 msgid "IBM 850 code page"
-msgstr ""
+msgstr "Codi de pàgina IBM 850"
 
 #: ../geanylatex/src/latexencodings.c:55
 msgid "IBM 852 code page"
-msgstr ""
+msgstr "Codi de pàgina IBM 852"
 
 #: ../geanylatex/src/latexencodings.c:57
 msgid "Don't set any encoding"
@@ -2469,7 +2414,7 @@ msgstr ""
 
 #: ../geanylipsum/src/geanylipsum.c:40
 msgid "GeanyLipsum"
-msgstr ""
+msgstr "GeanyLipsum"
 
 #: ../geanylipsum/src/geanylipsum.c:41
 msgid "Creating dummy text with Geany"
@@ -2481,12 +2426,12 @@ msgstr ""
 
 #: ../geanylipsum/src/geanylipsum.c:87
 msgid "Enter the length of Lipsum text here"
-msgstr ""
+msgstr "Introduïu la longitud del text Lipsum"
 
 #. Building menu entry
 #: ../geanylipsum/src/geanylipsum.c:163
 msgid "_Lipsum"
-msgstr ""
+msgstr "_Lipsum"
 
 #: ../geanylipsum/src/geanylipsum.c:165
 msgid "Include Pseudotext to your code"
@@ -2496,7 +2441,8 @@ msgstr ""
 msgid "Insert Lipsum text"
 msgstr "Insereix text Lipsum"
 
-#: ../geanylua/glspi.h:100 ../geanylua/gsdlg_lua.c:95
+#: ../geanylua/glspi.h:100
+#: ../geanylua/gsdlg_lua.c:95
 #: ../geanylua/glspi_kfile.c:54
 #, c-format
 msgid ""
@@ -2511,7 +2457,8 @@ msgid ""
 " expected type \"%s\" or \"%s\" for argument #%d\n"
 msgstr ""
 
-#: ../geanylua/glspi.h:128 ../geanylua/gsdlg_lua.c:108
+#: ../geanylua/glspi.h:128
+#: ../geanylua/gsdlg_lua.c:108
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2525,7 +2472,7 @@ msgstr ""
 #.
 #: ../geanylua/glspi_ver.h:7
 msgid "Lua Script"
-msgstr ""
+msgstr "Script Lua"
 
 #: ../geanylua/glspi_ver.h:9
 msgid "Write and run Lua scripts for custom commands."
@@ -2535,13 +2482,14 @@ msgstr ""
 msgid "Lua Script Plugin"
 msgstr ""
 
-#: ../geanylua/glspi_run.c:90 ../geanylua/glspi_run.c:97
+#: ../geanylua/glspi_run.c:90
+#: ../geanylua/glspi_run.c:97
 msgid "Lua script error:"
 msgstr ""
 
 #: ../geanylua/glspi_run.c:197
 msgid "Script timeout"
-msgstr ""
+msgstr "Temps excedit"
 
 #: ../geanylua/glspi_run.c:198
 msgid ""
@@ -2563,11 +2511,11 @@ msgstr ""
 
 #: ../geanylua/glspi_run.c:459
 msgid "Out of memory."
-msgstr ""
+msgstr "Sense memòria."
 
 #: ../geanylua/glspi_run.c:462
 msgid "Failed to open script file."
-msgstr ""
+msgstr "No s'ha pogut obrir el fitxer de script."
 
 #: ../geanylua/glspi_run.c:465
 msgid "Unknown error while loading script file."
@@ -2575,7 +2523,7 @@ msgstr ""
 
 #: ../geanylua/glspi_init.c:381
 msgid "_Lua Scripts"
-msgstr ""
+msgstr "Scripts _Lua"
 
 #: ../geanylua/glspi_init.c:428
 #, c-format
@@ -2596,7 +2544,8 @@ msgid ""
 "to add your own custom configuration dialog."
 msgstr ""
 
-#: ../geanylua/gsdlg.c:103 ../geanylua/glspi_dlg.c:420
+#: ../geanylua/gsdlg.c:103
+#: ../geanylua/glspi_dlg.c:420
 msgid "Open file"
 msgstr "Obre un Fitxer"
 
@@ -2606,11 +2555,11 @@ msgstr "Selecciona un Fitxer"
 
 #: ../geanylua/gsdlg.c:154
 msgid "Browse..."
-msgstr ""
+msgstr "Navega..."
 
 #: ../geanylua/gsdlg.c:175
 msgid "Select Color"
-msgstr ""
+msgstr "Selecciona un Color"
 
 #: ../geanylua/gsdlg.c:205
 msgid "Choose..."
@@ -2645,7 +2594,8 @@ msgid ""
 "not enough arguments for command \"%s\".\n"
 msgstr ""
 
-#: ../geanylua/glspi_sci.c:652 ../geanylua/glspi_app.c:398
+#: ../geanylua/glspi_sci.c:652
+#: ../geanylua/glspi_app.c:398
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2749,23 +2699,23 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:55
 msgid "Cut to Clipboard"
-msgstr ""
+msgstr "Retalla al Porta-retalls"
 
 #: ../geanymacro/src/geanymacro.c:56
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "Copia al Porta-retalls"
 
 #: ../geanymacro/src/geanymacro.c:57
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "Enganxa el Contingut del Porta-retalls"
 
 #: ../geanymacro/src/geanymacro.c:58
 msgid "Cut current line to Clipboard"
-msgstr ""
+msgstr "Retalla la línia actual al Porta-retalls"
 
 #: ../geanymacro/src/geanymacro.c:59
 msgid "Copy current line to Clipboard"
-msgstr ""
+msgstr "Copia la línia actual al Porta-retalls"
 
 #: ../geanymacro/src/geanymacro.c:61
 msgid "Delete character to the left"
@@ -2792,19 +2742,16 @@ msgid "Delete up to end of word to the Right"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:67
-#, fuzzy
 msgid "Delete to beginning of line"
-msgstr "Tria la font"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:68
-#, fuzzy
 msgid "Delete to end of line"
-msgstr "Tria la font"
+msgstr "Suprimeix fins al final de la línia"
 
 #: ../geanymacro/src/geanymacro.c:69
-#, fuzzy
 msgid "Delete current line"
-msgstr "Tria la font"
+msgstr "Suprimeix la línia actual"
 
 #: ../geanymacro/src/geanymacro.c:70
 msgid "Backwards Tab (deletes tab if nothing after it)"
@@ -2812,11 +2759,11 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:72
 msgid "Scroll Display down a line"
-msgstr ""
+msgstr "Desplaça cap a baix la vista en una línia"
 
 #: ../geanymacro/src/geanymacro.c:73
 msgid "Scroll Display up a line"
-msgstr ""
+msgstr "Desplaça cap a dalt la vista en una línia"
 
 #: ../geanymacro/src/geanymacro.c:74
 msgid "Zoom view in"
@@ -2828,27 +2775,27 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:77
 msgid "Move Cursor Down"
-msgstr ""
+msgstr "Mou el Cursor una Línia Avall"
 
 #: ../geanymacro/src/geanymacro.c:78
 msgid "Move Cursor Up"
-msgstr ""
+msgstr "Mou el Cursor una Línia Amunt"
 
 #: ../geanymacro/src/geanymacro.c:79
 msgid "Move Cursor Left"
-msgstr ""
+msgstr "Mou el Cursor cap a l'Esquerra"
 
 #: ../geanymacro/src/geanymacro.c:80
 msgid "Move Cursor Right"
-msgstr ""
+msgstr "Mou el Cursor cap a la Dreta"
 
 #: ../geanymacro/src/geanymacro.c:81
 msgid "Move Cursor to start of Word to the Left"
-msgstr ""
+msgstr "Mou el Cursor a l'inici de la Paraula de l'Esquerra"
 
 #: ../geanymacro/src/geanymacro.c:82
 msgid "Move Cursor to start of Word to the Right"
-msgstr ""
+msgstr "Mou el Cursor a l'inici de la Paraula de la Dreta"
 
 #: ../geanymacro/src/geanymacro.c:83
 msgid "Move Cursor to start of Part of Word to the Left"
@@ -2860,48 +2807,43 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:85
 msgid "Move Cursor to start of line"
-msgstr ""
+msgstr "Mou el Cursor a l'inici de la línia."
 
 #: ../geanymacro/src/geanymacro.c:86
 msgid "Move Cursor to end of line"
-msgstr ""
+msgstr "Mou el Cursor al final de la línia"
 
 #: ../geanymacro/src/geanymacro.c:87
 msgid "Move Cursor to 1st line of Document"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:88
-#, fuzzy
 msgid "Move Cursor to last line of document"
-msgstr "Tanca Altres _Documents"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:89
 msgid "Move Cursor up one Page"
-msgstr ""
+msgstr "Mou el Cursor una Pàgina Amunt"
 
 #: ../geanymacro/src/geanymacro.c:90
 msgid "Move Cursor down one Page"
-msgstr ""
+msgstr "Mou el Cursor una Pàgina Avall"
 
 #: ../geanymacro/src/geanymacro.c:91
-#, fuzzy
 msgid "Move Cursor to first visible character"
-msgstr "Tanca Altres _Documents"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:92
 msgid "Move Cursor to last visible character"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:93
-msgid ""
-"Move Cursor to 1st non-whitespace character of line, or 1st character of "
-"line if already at 1st non-whitespace character"
+msgid "Move Cursor to 1st non-whitespace character of line, or 1st character of line if already at 1st non-whitespace character"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:95
-#, fuzzy
 msgid "Move Cursor to beginning of next paragraph"
-msgstr "Tria la font"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:96
 msgid "Move Cursor up to beginning of current/previous paragraph"
@@ -2909,41 +2851,35 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:97
 msgid "Move Cursor to end of Word to the Left"
-msgstr ""
+msgstr "Mou el Cursor al final de la Paraula de l'Esquerra"
 
 #: ../geanymacro/src/geanymacro.c:98
 msgid "Move Cursor to end of Word to the Right"
-msgstr ""
+msgstr "Mou el Cursor al final de la Paraula de la Dreta"
 
 #: ../geanymacro/src/geanymacro.c:100
-#, fuzzy
 msgid "Extend Selection down a line"
-msgstr "Tria la font"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:101
-#, fuzzy
 msgid "Extend Selection up a line"
-msgstr "Tria la font"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:102
-#, fuzzy
 msgid "Extend Selection Left a line"
-msgstr "Tria la font"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:103
-#, fuzzy
 msgid "Extend Selection Right a line"
-msgstr "Tria la font"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:104
-#, fuzzy
 msgid "Extend Selection to start of Word to the Left"
-msgstr "Tria la font"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:105
-#, fuzzy
 msgid "Extend Selection to start of Word to the Right"
-msgstr "Tria la font"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:106
 msgid "Extend Selection to start of Part of Word to the Left"
@@ -2954,34 +2890,28 @@ msgid "Extend Selection to start of Part of Word to the Right"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:108
-#, fuzzy
 msgid "Extend Selection to start of line"
-msgstr "Tria la font"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:109
-#, fuzzy
 msgid "Extend Selection to end of line"
-msgstr "Tria la font"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:110
-#, fuzzy
 msgid "Extend Selection to start of document"
-msgstr "Tanca Altres _Documents"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:111
-#, fuzzy
 msgid "Extend Selection to end of document"
-msgstr "Tanca Altres _Documents"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:112
-#, fuzzy
 msgid "Extend Selection up one Page"
-msgstr "Tria la font"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:113
-#, fuzzy
 msgid "Extend Selection down one Page"
-msgstr "Tria la font"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:114
 msgid "Extend Selection to fist visible character"
@@ -2992,59 +2922,48 @@ msgid "Extend Selection to last visible character"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:116
-msgid ""
-"Extend Selection to 1st non-whitespace character of line, or 1st character "
-"of line if already at 1st non-whitespace character"
+msgid "Extend Selection to 1st non-whitespace character of line, or 1st character of line if already at 1st non-whitespace character"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:118
-#, fuzzy
 msgid "Extend Selection to beginning of next paragraph"
-msgstr "Tria la font"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:119
 msgid "Extend Selection up to beginning of current/previous paragraph"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:120
-#, fuzzy
 msgid "Extend Selection to end of Word to the Left"
-msgstr "Tanca Altres _Documents"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:121
-#, fuzzy
 msgid "Extend Selection to end of Word to the Right"
-msgstr "Tanca Altres _Documents"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:123
-#, fuzzy
 msgid "Extend Rectangular Selection down a line"
-msgstr "Tria la font"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:124
-#, fuzzy
 msgid "Extend Rectangular Selection up a line"
-msgstr "Tria la font"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:125
-#, fuzzy
 msgid "Extend Rectangular Selection Left a line"
-msgstr "Tria la font"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:126
-#, fuzzy
 msgid "Extend Rectangular Selection Right a line"
-msgstr "Tria la font"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:127
-#, fuzzy
 msgid "Extend Rectangular Selection to start of line"
-msgstr "Tria la font"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:128
-#, fuzzy
 msgid "Extend Rectangular Selection to end of line"
-msgstr "Tria la font"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:129
 msgid "Extend Rectangular Selection up one Page"
@@ -3055,29 +2974,28 @@ msgid "Extend Rectangular Selection down one Page"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:131
-msgid ""
-"Extend Rectangular Selection to 1st non-whitespace character of line, or 1st "
-"character of line if already at 1st non-whitespace character"
+msgid "Extend Rectangular Selection to 1st non-whitespace character of line, or 1st character of line if already at 1st non-whitespace character"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:134
-#, fuzzy
 msgid "Cancel Selection"
-msgstr "Tria la font"
+msgstr "Cancel·la la la Selecció"
 
 #: ../geanymacro/src/geanymacro.c:136
 msgid "Toggle Insert/Overwrite mode"
-msgstr ""
+msgstr "Commuta entre el mode d'Inserció i el mode de Sobreescriptura"
 
-#: ../geanymacro/src/geanymacro.c:137 ../pretty-printer/src/ConfigUI.c:239
+#: ../geanymacro/src/geanymacro.c:137
+#: ../pretty-printer/src/ConfigUI.c:239
 msgid "Tab"
-msgstr ""
+msgstr "Tabulador"
 
 #: ../geanymacro/src/geanymacro.c:138
 msgid "Newline"
-msgstr ""
+msgstr "Línia nova"
 
-#: ../geanymacro/src/geanymacro.c:140 ../geanymacro/src/geanymacro.c:1625
+#: ../geanymacro/src/geanymacro.c:140
+#: ../geanymacro/src/geanymacro.c:1625
 #, c-format
 msgid "Insert/replace with \"\""
 msgstr ""
@@ -3088,25 +3006,23 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:143
 msgid "Change selected text to lowercase"
-msgstr ""
+msgstr "Canvia el text seleccionat a minúscules"
 
 #: ../geanymacro/src/geanymacro.c:144
 msgid "Change selected text to uppercase"
-msgstr ""
+msgstr "Canvia el text seleccionat a majúscules"
 
 #: ../geanymacro/src/geanymacro.c:146
 msgid "Insert duplicate of current line below"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:147
-msgid ""
-"Insert duplicate of selected text after selection. If nothing selected, "
-"duplicate line"
+msgid "Insert duplicate of selected text after selection. If nothing selected, duplicate line"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:181
 msgid "Macros"
-msgstr ""
+msgstr "Macros"
 
 #: ../geanymacro/src/geanymacro.c:181
 msgid "Macros for Geany"
@@ -3147,34 +3063,23 @@ msgid "This plugin allows you to record and use your own macros. "
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:857
-msgid ""
-"These are sequences of actions that can then be repeated with a single key "
-"combination. "
+msgid "These are sequences of actions that can then be repeated with a single key combination. "
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:858
-msgid ""
-"So if you had dozens of lines where you wanted to delete the last 2 "
-"characters, you could simply start recording, press End, Backspace, "
-"Backspace, down line and then stop recording. "
+msgid "So if you had dozens of lines where you wanted to delete the last 2 characters, you could simply start recording, press End, Backspace, Backspace, down line and then stop recording. "
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:860
-msgid ""
-"Then simply trigger the macro and it would automatically edit the line and "
-"move to the next. "
+msgid "Then simply trigger the macro and it would automatically edit the line and move to the next. "
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:861
-msgid ""
-"Select Record Macro from the Tools menu and you will be prompted with a "
-"dialog box. "
+msgid "Select Record Macro from the Tools menu and you will be prompted with a dialog box. "
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:862
-msgid ""
-"You need to specify a key combination that isn't being used, and a name for "
-"the macro to help you identify it. "
+msgid "You need to specify a key combination that isn't being used, and a name for the macro to help you identify it. "
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:864
@@ -3182,9 +3087,7 @@ msgid "Then press Record. "
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:865
-msgid ""
-"What you do in the editor is then recorded until you select Stop Recording "
-"Macro from the Tools menu. "
+msgid "What you do in the editor is then recorded until you select Stop Recording Macro from the Tools menu. "
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:867
@@ -3200,37 +3103,27 @@ msgid "You can select a macro and delete it, or re-record it. "
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:870
-msgid ""
-"You can also click on a macro's name and change it, or the key combination "
-"and re-define that assuming that it's not already in use. "
+msgid "You can also click on a macro's name and change it, or the key combination and re-define that assuming that it's not already in use. "
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:872
-msgid ""
-"Selecting the edit option allows you to view all the individual elements "
-"that make up the macro. "
+msgid "Selecting the edit option allows you to view all the individual elements that make up the macro. "
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:874
 msgid ""
-"You can select a diferent command for each element, move them, add new "
-"elements, delete elements, or if it's replace/insert, you can edit the text "
-"that replaces the selected text, or is inserted.\n"
+"You can select a diferent command for each element, move them, add new elements, delete elements, or if it's replace/insert, you can edit the text that replaces the selected text, or is inserted.\n"
 "\n"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:878
 msgid ""
-"The only thing to bear in mind is that undo and redo actions are not "
-"recorded, and won't be replayed when the macro is re-run.\n"
+"The only thing to bear in mind is that undo and redo actions are not recorded, and won't be replayed when the macro is re-run.\n"
 "\n"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:881
-msgid ""
-"You can alter the default behaviour of this plugin by selecting Plugin "
-"Manager under the Tools menu, selecting this plugin, and cliking "
-"Preferences. "
+msgid "You can alter the default behaviour of this plugin by selecting Plugin Manager under the Tools menu, selecting this plugin, and cliking Preferences. "
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:883
@@ -3238,44 +3131,34 @@ msgid "You can change:\n"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:884
-msgid ""
-"Save Macros when close Geany - If this is selected then Geany will save any "
-"recorded macros and reload them for use the next time you open Geany, if not "
-"they will be lost when Geany is closed.\n"
+msgid "Save Macros when close Geany - If this is selected then Geany will save any recorded macros and reload them for use the next time you open Geany, if not they will be lost when Geany is closed.\n"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:887
-msgid ""
-"Ask before replaceing existing Macros - If this is selected then if you try "
-"recording a macro over an existing one it will check before over-writing it, "
-"giving you the option of trying a different name or key trigger combination, "
-"otherwise it will simply erase any existing macros with the same name, or "
-"the same key trigger combination."
+msgid "Ask before replaceing existing Macros - If this is selected then if you try recording a macro over an existing one it will check before over-writing it, giving you the option of trying a different name or key trigger combination, otherwise it will simply erase any existing macros with the same name, or the same key trigger combination."
 msgstr ""
 
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:1057
 msgid "Record Macro"
-msgstr ""
+msgstr "Enregistra una Macro"
 
 #. create buttons
 #: ../geanymacro/src/geanymacro.c:1063
 msgid "Record"
-msgstr ""
+msgstr "Registre"
 
 #: ../geanymacro/src/geanymacro.c:1064
-#, fuzzy
 msgid "Cancel"
-msgstr "Codificació:"
+msgstr "Cancel·la"
 
 #: ../geanymacro/src/geanymacro.c:1071
 msgid "Macro Trigger:"
-msgstr ""
+msgstr "Disparador de Macros:"
 
 #: ../geanymacro/src/geanymacro.c:1085
-#, fuzzy
 msgid "Macro Name:"
-msgstr "Nom:"
+msgstr "Nom de la Macro:"
 
 #: ../geanymacro/src/geanymacro.c:1121
 #, c-format
@@ -3284,6 +3167,9 @@ msgid ""
 " is already in use.\n"
 "Replace?"
 msgstr ""
+"El nom de macro \"%s\"\n"
+" ja està en ús.\n"
+"Voleu reemplaçar-lo?"
 
 #: ../geanymacro/src/geanymacro.c:1137
 #, c-format
@@ -3300,60 +3186,61 @@ msgstr ""
 
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:1388
-#, fuzzy
 msgid "Search Options:"
-msgstr "_Opcions"
+msgstr "Opcions de Cerca:"
 
 #. create buttons
-#: ../geanymacro/src/geanymacro.c:1393 ../geanymacro/src/geanymacro.c:1536
-#: ../geanymacro/src/geanymacro.c:1819 ../geanymacro/src/geanymacro.c:2116
+#: ../geanymacro/src/geanymacro.c:1393
+#: ../geanymacro/src/geanymacro.c:1536
+#: ../geanymacro/src/geanymacro.c:1819
+#: ../geanymacro/src/geanymacro.c:2116
 msgid "_Ok"
-msgstr ""
+msgstr "_D'acord"
 
-#: ../geanymacro/src/geanymacro.c:1394 ../geanymacro/src/geanymacro.c:1537
+#: ../geanymacro/src/geanymacro.c:1394
+#: ../geanymacro/src/geanymacro.c:1537
 #: ../geanymacro/src/geanymacro.c:1820
-#, fuzzy
 msgid "_Cancel"
-msgstr "Codificació:"
+msgstr "_Cancel·la"
 
 #: ../geanymacro/src/geanymacro.c:1403
 msgid "Search Forwards"
-msgstr ""
+msgstr "Cerca Endavant"
 
 #: ../geanymacro/src/geanymacro.c:1404
 msgid "Search Backwards"
-msgstr ""
+msgstr "Cerca E_nrere"
 
 #. create checkbox to check for search options
 #: ../geanymacro/src/geanymacro.c:1410
 msgid "Search for contents of clipboard"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:1424 ../gproject/src/gproject-sidebar.c:92
+#: ../geanymacro/src/geanymacro.c:1424
+#: ../gproject/src/gproject-sidebar.c:92
 msgid "Search for:"
-msgstr ""
+msgstr "Cerca:"
 
 #. create checkbox to check for search options
 #: ../geanymacro/src/geanymacro.c:1442
 msgid "Search is case sensitive"
-msgstr ""
+msgstr "La cerca diferencia majúscules i minúscules"
 
 #: ../geanymacro/src/geanymacro.c:1447
 msgid "Search for whole word"
-msgstr ""
+msgstr "Cerca només paraules completes"
 
 #: ../geanymacro/src/geanymacro.c:1452
-#, fuzzy
 msgid "Search for start of word"
-msgstr "Insereix Entorn"
+msgstr "Concorda al començament de la paraula"
 
 #: ../geanymacro/src/geanymacro.c:1457
 msgid "Search text is regular expression"
-msgstr ""
+msgstr "El text de cerca és una expressió regular"
 
 #: ../geanymacro/src/geanymacro.c:1462
 msgid "Search text is POSIX compatible"
-msgstr ""
+msgstr "El text de cerca és compatible POSIX"
 
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:1531
@@ -3362,9 +3249,10 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:1544
 msgid "Text:"
-msgstr ""
+msgstr "Text:"
 
-#: ../geanymacro/src/geanymacro.c:1571 ../geanymacro/src/geanymacro.c:1755
+#: ../geanymacro/src/geanymacro.c:1571
+#: ../geanymacro/src/geanymacro.c:1755
 #, c-format
 msgid "Insert/replace with \"%s\""
 msgstr ""
@@ -3373,21 +3261,21 @@ msgstr ""
 #: ../geanymacro/src/geanymacro.c:1731
 #, c-format
 msgid "Edit: %s"
-msgstr ""
+msgstr "Edita: %s"
 
 #. add column
 #: ../geanymacro/src/geanymacro.c:1794
 msgid "Event"
-msgstr ""
+msgstr "Esdeveniment"
 
 #. add buttons
 #: ../geanymacro/src/geanymacro.c:1809
 msgid "Move _Up"
-msgstr ""
+msgstr "Mou Am_unt"
 
 #: ../geanymacro/src/geanymacro.c:1811
 msgid "Move Do_wn"
-msgstr ""
+msgstr "Mou A_vall"
 
 #: ../geanymacro/src/geanymacro.c:1813
 msgid "New _Above"
@@ -3397,19 +3285,19 @@ msgstr ""
 msgid "New _Below"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:1817 ../geanymacro/src/geanymacro.c:2114
-#, fuzzy
+#: ../geanymacro/src/geanymacro.c:1817
+#: ../geanymacro/src/geanymacro.c:2114
 msgid "_Delete"
-msgstr "Elimina el Pojecte"
+msgstr "_Elimina"
 
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:2059
 msgid "Edit Macros"
-msgstr ""
+msgstr "Edita les Macros"
 
 #: ../geanymacro/src/geanymacro.c:2089
 msgid "Macro Name"
-msgstr ""
+msgstr "Nom de la Macro"
 
 #: ../geanymacro/src/geanymacro.c:2095
 msgid "Key Trigger"
@@ -3423,208 +3311,218 @@ msgstr ""
 #. add record macro menu entry
 #: ../geanymacro/src/geanymacro.c:2260
 msgid "Record _Macro"
-msgstr ""
+msgstr "Enregistra una _Macro"
 
 #. add stop record macromenu entry
 #: ../geanymacro/src/geanymacro.c:2266
 msgid "Stop Recording _Macro"
-msgstr ""
+msgstr "Atura l'Enregistrament de la _Macro"
 
 #. add Edit Macro menu entry
 #: ../geanymacro/src/geanymacro.c:2272
 msgid "_Edit Macros"
+msgstr "_Edita les Macros"
+
+#. *< \brief It's the information message about geany mini script
+#: ../geanyminiscript/src/gms_gui.c:130
+msgid ""
+"<b>GMS : Geany Mini-Script filter Plugin</b>\n"
+"This plugin is a tool to apply a script filter on :\n"
+"   o the text selection,\n"
+"   o the current document,\n"
+"   o all documents of the current session.\n"
+"\n"
+"The filter type can be : \n"
+"   o Unix shell script, \n"
+"   o perl script, \n"
+"   o python script, \n"
+"   o sed commands,\n"
+"   o awk script.\n"
+"\n"
+"<b>AUTHOR</b>\n"
+"   Written by Pascal BURLOT (December,2008)\n"
+"\n"
+"<b>LICENSE:</b>\n"
+"This program is free software; you can redistribute\n"
+"it and/or modify it under the terms of the GNU \n"
+"General Public License as published by the Free\n"
+"Software Foundation; either version 2 of the License,\n"
+"or (at your option) any later version."
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:253
+#: ../geanyminiscript/src/gms_gui.c:254
 msgid "Load Mini-Script File"
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:310
+#: ../geanyminiscript/src/gms_gui.c:311
 msgid "Save Mini-Script File"
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:418
+#: ../geanyminiscript/src/gms_gui.c:420
 msgid "Mini-Script Filter"
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:446
+#: ../geanyminiscript/src/gms_gui.c:448
 msgid "Clear the mini-script window"
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:451
+#: ../geanyminiscript/src/gms_gui.c:453
 msgid "Load a mini-script into this window"
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:456
+#: ../geanyminiscript/src/gms_gui.c:458
 msgid "Save the mini-script into a file"
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:461
+#: ../geanyminiscript/src/gms_gui.c:463
 msgid "Display a information about the mini-script plugin"
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:469
+#: ../geanyminiscript/src/gms_gui.c:471
 msgid "select the mini-script type"
 msgstr ""
 
 #. Hbox : Radio bouttons for choosing the input:
 #. *                   selection/current document/all documents of the current session
-#: ../geanyminiscript/src/gms_gui.c:500
+#: ../geanyminiscript/src/gms_gui.c:502
 msgid "filter input"
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:502
+#: ../geanyminiscript/src/gms_gui.c:504
 msgid "select the input of mini-script filter"
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:508
-#, fuzzy
-msgid "selection"
-msgstr "Tria la font"
-
-#: ../geanyminiscript/src/gms_gui.c:509
-#, fuzzy
-msgid "document"
-msgstr "Estructura del Document"
-
 #: ../geanyminiscript/src/gms_gui.c:510
+msgid "selection"
+msgstr "selecció"
+
+#: ../geanyminiscript/src/gms_gui.c:511
+msgid "document"
+msgstr "document"
+
+#: ../geanyminiscript/src/gms_gui.c:512
 msgid "session"
-msgstr ""
+msgstr "sessió"
 
 #. Hbox : Radio bouttons for choosing the output:
 #. *                   current document/ or new document
-#: ../geanyminiscript/src/gms_gui.c:519
+#: ../geanyminiscript/src/gms_gui.c:521
 msgid "filter output"
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:521
+#: ../geanyminiscript/src/gms_gui.c:523
 msgid "select the output of mini-script filter"
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:527
+#: ../geanyminiscript/src/gms_gui.c:529
 msgid "Current Doc."
 msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:528
-#, fuzzy
+#: ../geanyminiscript/src/gms_gui.c:530
 msgid "New Doc."
-msgstr "Projecte Nou"
+msgstr ""
 
-#: ../geanyminiscript/src/gms_gui.c:749
+#: ../geanyminiscript/src/gms_gui.c:751
 msgid "script configuration"
 msgstr ""
 
-#. All plugins must set name, description, version and author.
 #: ../geanyminiscript/src/gms.c:58
 msgid "Mini Script"
 msgstr ""
 
-#: ../geanyminiscript/src/gms.c:58
-msgid ""
-"A tool to apply a script filter on a text selection or current document(s)"
+#: ../geanyminiscript/src/gms.c:59
+msgid "A tool to apply a script filter on a text selection or current document(s)"
 msgstr ""
 
-#: ../geanyminiscript/src/gms.c:59
+#: ../geanyminiscript/src/gms.c:60
 msgid "Pascal BURLOT, a Geany user"
-msgstr ""
+msgstr "Pascal BURLOT, un usuari de Geany"
 
 #. Add an item to the Tools menu
-#: ../geanyminiscript/src/gms.c:278
+#: ../geanyminiscript/src/gms.c:249
 msgid "_Mini-Script"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:58
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:61
 msgid "Numbered Bookmarks for Geany"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:923
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:927
 #, c-format
 msgid "Unable to apply all markers to '%s' as all being used."
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:925
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:969
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1392
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:929
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:973
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1396
 msgid "_Okay"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:967
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:971
 #, c-format
 msgid ""
-"'%s' has been edited since it was last saved by geany. Marker positions may "
-"be unreliable and will not be loaded.\n"
+"'%s' has been edited since it was last saved by geany. Marker positions may be unreliable and will not be loaded.\n"
 "Press Ignore to try an load markers anyway."
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:970
-#, fuzzy
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:974
 msgid "_Ignore"
-msgstr "Ignora-ho Tot"
+msgstr "_Ignora"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1215
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1219
 msgid "remember fold state"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1221
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1225
 msgid "Center view when goto bookmark"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1228
-#, fuzzy
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1232
 msgid "Move to start of line"
-msgstr "Tria la font"
+msgstr "Vés a l'inici de la línia"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1229
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1233
 msgid "Move to remembered position in line"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1230
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1234
 msgid "Move to position in current line"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1231
-#, fuzzy
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1235
 msgid "Move to End of line"
-msgstr "Tria la font"
+msgstr "Vés al Final de la Línia"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1237
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1241
 msgid "Save file settings with program settings"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1238
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1242
 msgid "Save file settings to filename with suffix"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1243
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1247
 msgid "remember normal Bookmarks"
 msgstr ""
 
 #. create dialog box
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1263
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1267
 msgid "Numbered Bookmarks help"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1270
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1274
 msgid ""
-"This Plugin implements Numbered Bookmarks in Geany, as well as remembering "
-"the state of folds, and positions of standard non-numbered bookmarks when a "
-"file is saved.\n"
+"This Plugin implements Numbered Bookmarks in Geany, as well as remembering the state of folds, and positions of standard non-numbered bookmarks when a file is saved.\n"
 "\n"
-"It allows you to use up to 10 numbered bookmarks. To set a numbered bookmark "
-"press Ctrl+Shift+a number from 0 to 9. You will see a marker apear next to "
-"the line number. If you press Ctrl+Shift+a number on a line that already has "
-"that bookmark number then it removes the bookmark, otherwise it will move "
-"the bookmark there if it was set on a different line, or create it if it had "
-"not already been set. Only the most recently set bookmark on a line will be "
-"shown, but you can have more than one bookmark per line. To move to a "
-"previously set bookmark, press Ctrl+a number from 0 to 9."
+"It allows you to use up to 10 numbered bookmarks. To set a numbered bookmark press Ctrl+Shift+a number from 0 to 9. You will see a marker apear next to the line number. If you press Ctrl+Shift+a number on a line that already has that bookmark number then it removes the bookmark, otherwise it will move the bookmark there if it was set on a different line, or create it if it had not already been set. Only the most recently set bookmark on a line will be shown, but you can have more than one bookmark per line. To move to a previously set bookmark, press Ctrl+a number from 0 to 9."
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1391
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1395
 msgid "Unable to apply markers as all being used."
 msgstr ""
 
-#: ../geanypg/src/decrypt_cb.c:33 ../geanypg/src/encrypt_cb.c:32
+#: ../geanypg/src/decrypt_cb.c:33
+#: ../geanypg/src/encrypt_cb.c:32
 #: ../geanypg/src/sign_cb.c:33
 msgid "couldn't create tempfile"
 msgstr ""
@@ -3634,8 +3532,7 @@ msgstr ""
 msgid ""
 "The key with user ID \"%s\" has validity \"%s\".\n"
 "\n"
-"WARNING: It is NOT certain that the key belongs to the person named in the "
-"user ID.\n"
+"WARNING: It is NOT certain that the key belongs to the person named in the user ID.\n"
 "\n"
 "Are you *really* sure you want to use this key anyway?"
 msgstr ""
@@ -3658,49 +3555,46 @@ msgstr ""
 msgid "Using libgpgme version:"
 msgstr ""
 
-#: ../geanypg/src/geanypg.c:60 ../geanypg/src/geanypg.c:61
-#, fuzzy
+#: ../geanypg/src/geanypg.c:60
+#: ../geanypg/src/geanypg.c:61
 msgid "Error from"
-msgstr "Error:"
+msgstr ""
 
 #: ../geanypg/src/geanypg.c:86
 msgid "Encrypt"
-msgstr ""
+msgstr "Encripta"
 
 #: ../geanypg/src/geanypg.c:87
 msgid "Sign"
-msgstr ""
+msgstr "Signa"
 
 #: ../geanypg/src/geanypg.c:88
 msgid "Decrypt / Verify"
-msgstr ""
+msgstr "Desencripta / Verifica"
 
 #: ../geanypg/src/geanypg.c:89
 msgid "Verify detached signature"
 msgstr ""
 
 #: ../geanypg/src/key_selection_dialog.c:152
-#, fuzzy
 msgid "Please select any recipients"
-msgstr "Voleu eliminar el watchpoint seleccionat?"
+msgstr ""
 
 #: ../geanypg/src/key_selection_dialog.c:154
 msgid "Sign the message as:"
-msgstr ""
+msgstr "Signa el missatge com a:"
 
 #: ../geanypg/src/key_selection_dialog.c:162
-#, fuzzy
 msgid "Select recipients"
-msgstr "Selecciona el Directori"
+msgstr "Selecciona els destinataris"
 
 #: ../geanypg/src/key_selection_dialog.c:224
 msgid "Choose a key to sign with:"
 msgstr ""
 
 #: ../geanypg/src/key_selection_dialog.c:232
-#, fuzzy
 msgid "Select signer"
-msgstr "Selecciona un Fitxer"
+msgstr "Selecciona el signador"
 
 #. shouldn't get here
 #: ../geanypg/src/pinentry.c:107
@@ -3718,11 +3612,11 @@ msgstr ""
 
 #: ../geanypg/src/pinentry.c:131
 msgid "Passphrase"
-msgstr ""
+msgstr "Contrasenya"
 
 #: ../geanypg/src/pinentry.c:136
 msgid "Enter passphrase for"
-msgstr ""
+msgstr "Introduïu la contrasenya per a"
 
 #: ../geanypg/src/pinentry.c:167
 msgid "pinentry gave error"
@@ -3733,88 +3627,88 @@ msgid "Unexpected error from pinentry."
 msgstr ""
 
 #: ../geanypg/src/pinentry.c:195
-msgid ""
-"Error, Passphrase input without using gpg-agent is not supported on Windows "
-"yet."
+msgid "Error, Passphrase input without using gpg-agent is not supported on Windows yet."
 msgstr ""
 
 #: ../geanypg/src/verify_aux.c:53
 msgid "a key with fingerprint"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:66 ../spellcheck/src/gui.c:522
+#: ../geanypg/src/verify_aux.c:66
+#: ../spellcheck/src/gui.c:522
 #: ../spellcheck/src/gui.c:533
 msgid "unknown"
 msgstr "desconegut"
 
 #: ../geanypg/src/verify_aux.c:67
 msgid "undefined"
-msgstr ""
+msgstr "indefinit"
 
 #: ../geanypg/src/verify_aux.c:68
 msgid "never"
-msgstr ""
+msgstr "mai"
 
 #: ../geanypg/src/verify_aux.c:69
 msgid "marginal"
-msgstr ""
+msgstr "marginal"
 
 #: ../geanypg/src/verify_aux.c:70
 msgid "full"
-msgstr ""
+msgstr "complet"
 
 #: ../geanypg/src/verify_aux.c:71
 msgid "ultimate"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:72 ../geanypg/src/verify_aux.c:74
+#: ../geanypg/src/verify_aux.c:72
+#: ../geanypg/src/verify_aux.c:74
 msgid "[bad validity value]"
 msgstr ""
 
 #. buffer should be more than 105 bytes long
 #: ../geanypg/src/verify_aux.c:79
 msgid " valid"
-msgstr ""
+msgstr "vàlid"
 
 #: ../geanypg/src/verify_aux.c:80
 msgid " green"
-msgstr ""
+msgstr "verd"
 
 #: ../geanypg/src/verify_aux.c:81
 msgid " red"
-msgstr ""
+msgstr "roig"
 
 #: ../geanypg/src/verify_aux.c:82
 msgid " revoked"
-msgstr ""
+msgstr " rebutjat"
 
 #: ../geanypg/src/verify_aux.c:83
 msgid " key-expired"
-msgstr ""
+msgstr " clau-expirada"
 
 #: ../geanypg/src/verify_aux.c:84
 msgid " sig-expired"
-msgstr ""
+msgstr " signatura-expirada"
 
 #: ../geanypg/src/verify_aux.c:85
 msgid " key-missing"
-msgstr ""
+msgstr " clau-mancant"
 
 #: ../geanypg/src/verify_aux.c:86
 msgid " crl-missing"
-msgstr ""
+msgstr " crl-mancant"
 
 #: ../geanypg/src/verify_aux.c:87
 msgid " crl-too-old"
-msgstr ""
+msgstr " crl-massa-antiga"
 
 #: ../geanypg/src/verify_aux.c:88
 msgid " bad-policy"
-msgstr ""
+msgstr " política-incorrecta"
 
 #: ../geanypg/src/verify_aux.c:89
 msgid " sys-error"
-msgstr ""
+msgstr " error-de-sistema"
 
 #: ../geanypg/src/verify_aux.c:96
 #, c-format
@@ -3832,61 +3726,72 @@ msgid ""
 "notations .: %s\n"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:119 ../geanypg/src/verify_aux.c:124
-#, fuzzy
+#: ../geanypg/src/verify_aux.c:119
+#: ../geanypg/src/verify_aux.c:124
 msgid "Unknown\n"
-msgstr "desconegut"
+msgstr "Desconegut\n"
 
-#: ../geanypg/src/verify_aux.c:129 ../geanypg/src/verify_aux.c:136
-#: ../geanypg/src/verify_aux.c:147 ../geanypg/src/verify_aux.c:154
+#: ../geanypg/src/verify_aux.c:129
+#: ../geanypg/src/verify_aux.c:136
+#: ../geanypg/src/verify_aux.c:147
+#: ../geanypg/src/verify_aux.c:154
 msgid "[None]"
-msgstr ""
+msgstr "[Cap]"
 
-#: ../geanypg/src/verify_aux.c:134 ../geanypg/src/verify_aux.c:135
-#: ../geanypg/src/verify_aux.c:152 ../geanypg/src/verify_aux.c:153
-#, fuzzy
+#: ../geanypg/src/verify_aux.c:134
+#: ../geanypg/src/verify_aux.c:135
+#: ../geanypg/src/verify_aux.c:152
+#: ../geanypg/src/verify_aux.c:153
 msgid "Unknown"
-msgstr "desconegut"
+msgstr "Desconegut"
 
-#: ../geanypg/src/verify_aux.c:137 ../geanypg/src/verify_aux.c:155
+#: ../geanypg/src/verify_aux.c:137
+#: ../geanypg/src/verify_aux.c:155
 msgid "n/a"
-msgstr ""
+msgstr "n/d"
 
-#: ../geanypg/src/verify_aux.c:137 ../geanypg/src/verify_aux.c:155
+#: ../geanypg/src/verify_aux.c:137
+#: ../geanypg/src/verify_aux.c:155
 msgid "bad"
-msgstr ""
+msgstr "incorrecte"
 
-#: ../geanypg/src/verify_aux.c:137 ../geanypg/src/verify_aux.c:155
+#: ../geanypg/src/verify_aux.c:137
+#: ../geanypg/src/verify_aux.c:155
 msgid "okay"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:137 ../geanypg/src/verify_aux.c:155
+#: ../geanypg/src/verify_aux.c:137
+#: ../geanypg/src/verify_aux.c:155
 msgid "RFU"
 msgstr ""
 
-#: ../geanypg/src/verify_aux.c:138 ../geanypg/src/verify_aux.c:156
+#: ../geanypg/src/verify_aux.c:138
+#: ../geanypg/src/verify_aux.c:156
 msgid " wrong-key-usage"
-msgstr ""
+msgstr " us-de-clau-incorrecte"
 
-#: ../geanypg/src/verify_aux.c:139 ../geanypg/src/verify_aux.c:156
+#: ../geanypg/src/verify_aux.c:139
+#: ../geanypg/src/verify_aux.c:156
 msgid " chain-model"
-msgstr ""
+msgstr " model-de-cadena"
 
-#: ../geanypg/src/verify_aux.c:140 ../geanypg/src/verify_aux.c:157
+#: ../geanypg/src/verify_aux.c:140
+#: ../geanypg/src/verify_aux.c:157
 msgid "yes"
-msgstr ""
+msgstr "sí"
 
-#: ../geanypg/src/verify_aux.c:140 ../geanypg/src/verify_aux.c:157
+#: ../geanypg/src/verify_aux.c:140
+#: ../geanypg/src/verify_aux.c:157
 msgid "no"
-msgstr ""
+msgstr "no"
 
 #: ../geanypg/src/verify_aux.c:175
 msgid "Found a signature from"
-msgstr ""
+msgstr "S'ha trobat una signatura de"
 
 #: ../geanypg/src/verify_aux.c:178
 msgid "Signature"
-msgstr ""
+msgstr "Signatura"
 
 #: ../geanypg/src/verify_aux.c:201
 msgid "Could not find verification results"
@@ -3897,11 +3802,11 @@ msgid "Error, could not find verification results"
 msgstr ""
 
 #: ../geanypg/src/verify_cb.c:27
-#, fuzzy
 msgid "Open a signature file"
-msgstr "Obre un Fitxer"
+msgstr "Obre un fitxer de signatura"
 
-#: ../geanyprj/src/geanyprj.c:38 ../geanyprj/src/sidebar.c:456
+#: ../geanyprj/src/geanyprj.c:38
+#: ../geanyprj/src/sidebar.c:456
 #: ../gproject/src/gproject-sidebar.c:822
 msgid "Project"
 msgstr "Projecte"
@@ -3916,13 +3821,14 @@ msgstr ""
 
 #: ../geanyprj/src/geanyprj.c:238
 msgid "Display sidebar"
-msgstr ""
+msgstr "Mostra la barra lateral"
 
 #: ../geanyprj/src/menu.c:92
 msgid "Project Preferences"
 msgstr "Preferències del Projecte"
 
-#: ../geanyprj/src/menu.c:101 ../geanyprj/src/menu.c:377
+#: ../geanyprj/src/menu.c:101
+#: ../geanyprj/src/menu.c:377
 #: ../geanyprj/src/sidebar.c:172
 msgid "New Project"
 msgstr "Projecte Nou"
@@ -3931,7 +3837,8 @@ msgstr "Projecte Nou"
 msgid "C_reate"
 msgstr "C_rea"
 
-#: ../geanyprj/src/menu.c:123 ../scope/data/scope.glade.h:116
+#: ../geanyprj/src/menu.c:123
+#: ../scope/data/scope.glade.h:29
 msgid "Name:"
 msgstr "Nom:"
 
@@ -3948,14 +3855,8 @@ msgid "Base path:"
 msgstr "Directori base:"
 
 #: ../geanyprj/src/menu.c:160
-msgid ""
-"Base directory of all files that make up the project. This can be a new "
-"path, or an existing directory tree. You can use paths relative to the "
-"project filename."
-msgstr ""
-"Directori base per a tots els fitxers que formen part del projecte. Pot ser "
-"un directori nou, o un ja existent. Podeu usar directoris relatius al fitxer "
-"de projecte."
+msgid "Base directory of all files that make up the project. This can be a new path, or an existing directory tree. You can use paths relative to the project filename."
+msgstr "Directori base per a tots els fitxers que formen part del projecte. Pot ser un directori nou, o un ja existent. Podeu usar directoris relatius al fitxer de projecte."
 
 #: ../geanyprj/src/menu.c:163
 msgid "Choose Project Base Path"
@@ -3966,10 +3867,7 @@ msgid "Generate file list on load"
 msgstr ""
 
 #: ../geanyprj/src/menu.c:172
-msgid ""
-"Automatically add files that match project type on project load "
-"automatically. You can't manually add/remove files if you checked this "
-"option, since your modification will be lost on on next project load"
+msgid "Automatically add files that match project type on project load automatically. You can't manually add/remove files if you checked this option, since your modification will be lost on on next project load"
 msgstr ""
 
 #: ../geanyprj/src/menu.c:180
@@ -3979,25 +3877,29 @@ msgstr "Tipus:"
 #: ../geanyprj/src/menu.c:218
 #, c-format
 msgid "Project file \"%s\" already exists"
-msgstr "El projecte '%s' ja existeix"
+msgstr "El projecte \"%s\" ja existeix"
 
 #: ../geanyprj/src/menu.c:368
 msgid "_Project"
 msgstr "_Projecte"
 
-#: ../geanyprj/src/menu.c:386 ../geanyprj/src/sidebar.c:181
+#: ../geanyprj/src/menu.c:386
+#: ../geanyprj/src/sidebar.c:181
 msgid "Delete Project"
 msgstr "Elimina el Pojecte"
 
-#: ../geanyprj/src/menu.c:397 ../geanyprj/src/sidebar.c:194
+#: ../geanyprj/src/menu.c:397
+#: ../geanyprj/src/sidebar.c:194
 msgid "Add File"
 msgstr "Afegeix un Fitxer"
 
-#: ../geanyprj/src/menu.c:408 ../geanyprj/src/sidebar.c:216
+#: ../geanyprj/src/menu.c:408
+#: ../geanyprj/src/sidebar.c:216
 msgid "Preferences"
 msgstr "Preferències"
 
-#: ../geanyprj/src/menu.c:419 ../geanyprj/src/sidebar.c:229
+#: ../geanyprj/src/menu.c:419
+#: ../geanyprj/src/sidebar.c:229
 msgid "Find in Project"
 msgstr "Cerca en el Projecte"
 
@@ -4005,7 +3907,8 @@ msgstr "Cerca en el Projecte"
 msgid "Remove File"
 msgstr "Elimina un Fitxer"
 
-#: ../geanyprj/src/sidebar.c:240 ../gproject/src/gproject-sidebar.c:803
+#: ../geanyprj/src/sidebar.c:240
+#: ../gproject/src/gproject-sidebar.c:803
 msgid "H_ide Sidebar"
 msgstr "Amaga la Barra _Lateral"
 
@@ -4019,9 +3922,7 @@ msgid "GeanySendMail"
 msgstr ""
 
 #: ../geanysendmail/src/geanysendmail.c:44
-msgid ""
-"A little plugin to send the current file as attachment by user's favorite "
-"mailer"
+msgid "A little plugin to send the current file as attachment by user's favorite mailer"
 msgstr ""
 
 #: ../geanysendmail/src/geanysendmail.c:98
@@ -4030,16 +3931,14 @@ msgstr "Adreça del Destinatari"
 
 #: ../geanysendmail/src/geanysendmail.c:100
 msgid "Enter the recipient's e-mail address:"
-msgstr ""
+msgstr "Introduïu l'adreça electrònica del destinatari:"
 
 #: ../geanysendmail/src/geanysendmail.c:136
 msgid "Filename placeholder not found. The executed command might have failed."
 msgstr ""
 
 #: ../geanysendmail/src/geanysendmail.c:142
-msgid ""
-"Recipient address placeholder not found. The executed command might have "
-"failed."
+msgid "Recipient address placeholder not found. The executed command might have failed."
 msgstr ""
 
 #: ../geanysendmail/src/geanysendmail.c:157
@@ -4079,9 +3978,8 @@ msgid ""
 msgstr ""
 
 #: ../geanysendmail/src/geanysendmail.c:326
-#, fuzzy
 msgid "Show toolbar icon"
-msgstr "Mostra consells."
+msgstr "Mostra les icones de les barres d'eines"
 
 #: ../geanysendmail/src/geanysendmail.c:328
 msgid "Shows a icon in the toolbar to send file more easy."
@@ -4098,11 +3996,10 @@ msgstr "Envia el fitxer per correu"
 #. Build up menu entry
 #: ../geanysendmail/src/geanysendmail.c:379
 msgid "_Mail document"
-msgstr ""
+msgstr "Envia el docu_ment per correu electrònic"
 
 #: ../geanysendmail/src/geanysendmail.c:382
-msgid ""
-"Sends the opened file as unzipped attachment by any mailer from your $PATH"
+msgid "Sends the opened file as unzipped attachment by any mailer from your $PATH"
 msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:53
@@ -4118,20 +4015,23 @@ msgstr ""
 msgid "geanyvc: s_spawn_sync error: %s"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:609 ../geanyvc/src/geanyvc.c:620
+#: ../geanyvc/src/geanyvc.c:609
+#: ../geanyvc/src/geanyvc.c:620
 #, c-format
 msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:646 ../geanyvc/src/geanyvc.c:696
+#: ../geanyvc/src/geanyvc.c:646
+#: ../geanyvc/src/geanyvc.c:696
 msgid "No changes were made."
-msgstr ""
+msgstr "No s'han fet canvis."
 
 #: ../geanyvc/src/geanyvc.c:723
 msgid "No history available"
-msgstr ""
+msgstr "No hi ha cap historial disponible"
 
-#: ../geanyvc/src/geanyvc.c:916 ../geanyvc/src/geanyvc.c:924
+#: ../geanyvc/src/geanyvc.c:916
+#: ../geanyvc/src/geanyvc.c:924
 #, c-format
 msgid "Do you really want to revert: %s?"
 msgstr "Esteu segurs de voler revertir: %s?"
@@ -4164,7 +4064,7 @@ msgstr "Directori base"
 
 #: ../geanyvc/src/geanyvc.c:1330
 msgid "Commit"
-msgstr ""
+msgstr "Confirmació"
 
 #: ../geanyvc/src/geanyvc.c:1372
 msgid "_De-/select all files"
@@ -4189,9 +4089,7 @@ msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:1558
 #, c-format
-msgid ""
-"Error while setting up language for spellchecking. Please check "
-"configuration. Error message was: %s"
+msgid "Error while setting up language for spellchecking. Please check configuration. Error message was: %s"
 msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:1834
@@ -4199,10 +4097,7 @@ msgid "Set Changed-flag for document tabs created by the plugin"
 msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:1837
-msgid ""
-"If this option is activated, every new by the VC-plugin created document tab "
-"will be marked as changed. Even this option is useful in some cases, it "
-"could cause a big number of annoying \"Do you want to save\"-dialogs."
+msgid "If this option is activated, every new by the VC-plugin created document tab will be marked as changed. Even this option is useful in some cases, it could cause a big number of annoying \"Do you want to save\"-dialogs."
 msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:1845
@@ -4239,13 +4134,10 @@ msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:1876
 msgid "Attach menu to menubar"
-msgstr ""
+msgstr "Annexar el menú a la barra d'eines"
 
 #: ../geanyvc/src/geanyvc.c:1878
-msgid ""
-"Whether menu for this plugin are getting placed either inside tools menu or "
-"directly inside Geany's menubar.Will take in account after next start of "
-"GeanyVC"
+msgid "Whether menu for this plugin are getting placed either inside tools menu or directly inside Geany's menubar.Will take in account after next start of GeanyVC"
 msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:1886
@@ -4283,10 +4175,11 @@ msgstr ""
 #. Diff of current file
 #. Diff of the current dir
 #. Complete diff of base directory
-#: ../geanyvc/src/geanyvc.c:2014 ../geanyvc/src/geanyvc.c:2091
+#: ../geanyvc/src/geanyvc.c:2014
+#: ../geanyvc/src/geanyvc.c:2091
 #: ../geanyvc/src/geanyvc.c:2131
 msgid "_Diff"
-msgstr ""
+msgstr "_Diferències"
 
 #: ../geanyvc/src/geanyvc.c:2017
 msgid "Make a diff from the current active file"
@@ -4295,10 +4188,11 @@ msgstr ""
 #. Revert current file
 #. Revert current dir
 #. Revert everything
-#: ../geanyvc/src/geanyvc.c:2022 ../geanyvc/src/geanyvc.c:2100
+#: ../geanyvc/src/geanyvc.c:2022
+#: ../geanyvc/src/geanyvc.c:2100
 #: ../geanyvc/src/geanyvc.c:2139
 msgid "_Revert"
-msgstr ""
+msgstr "_Reverteix"
 
 #: ../geanyvc/src/geanyvc.c:2025
 msgid "Restore pristine working copy file (undo local edits)."
@@ -4316,7 +4210,8 @@ msgstr ""
 #. History/log of current file
 #. History/log of the current dir
 #. Complete History/Log of base directory
-#: ../geanyvc/src/geanyvc.c:2044 ../geanyvc/src/geanyvc.c:2110
+#: ../geanyvc/src/geanyvc.c:2044
+#: ../geanyvc/src/geanyvc.c:2110
 #: ../geanyvc/src/geanyvc.c:2151
 msgid "_History (log)"
 msgstr ""
@@ -4328,7 +4223,7 @@ msgstr ""
 #. base version of the current file
 #: ../geanyvc/src/geanyvc.c:2052
 msgid "_Original"
-msgstr ""
+msgstr "_Original"
 
 #: ../geanyvc/src/geanyvc.c:2055
 msgid "Shows the original of the current file"
@@ -4390,15 +4285,15 @@ msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:2215
 msgid "Show diff of file"
-msgstr ""
+msgstr "Mostra diferències entre fitxers"
 
 #: ../geanyvc/src/geanyvc.c:2217
 msgid "Show diff of directory"
-msgstr ""
+msgstr "Mostra diferències entre directoris"
 
 #: ../geanyvc/src/geanyvc.c:2219
 msgid "Show diff of basedir"
-msgstr ""
+msgstr "Mostra diferències entre directoris base"
 
 #: ../geanyvc/src/geanyvc.c:2222
 msgid "Commit changes"
@@ -4422,7 +4317,7 @@ msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:2232
 msgid "Update file"
-msgstr ""
+msgstr "Actualitza el fitxer"
 
 #: ../geanyvc/src/geanyvc.c:2260
 msgid "_VC"
@@ -4430,7 +4325,7 @@ msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:2266
 msgid "_Version Control"
-msgstr ""
+msgstr "Control de _Versions"
 
 #. Status of basedir
 #: ../geanyvc/src/geanyvc.c:2288
@@ -4442,18 +4337,17 @@ msgid "Show status."
 msgstr "Mostra l'estat."
 
 #: ../geanyvc/src/geanyvc.c:2297
-#, fuzzy
 msgid "Update from remote repository."
-msgstr "Afegeix el fitxer al repositori."
+msgstr "Actualitza des dels repositoris."
 
 #. Commit all changes
 #: ../geanyvc/src/geanyvc.c:2302
 msgid "_Commit"
-msgstr ""
+msgstr "Publica els _canvis"
 
 #: ../geanyvc/src/geanyvc.c:2304
 msgid "Commit changes."
-msgstr ""
+msgstr "Publica els canvis."
 
 #: ../geniuspaste/src/geniuspaste.c:101
 msgid "Paste your code on your favorite pastebin"
@@ -4493,16 +4387,15 @@ msgstr ""
 
 #: ../geniuspaste/src/geniuspaste.c:429
 msgid "The author name field is empty!"
-msgstr ""
+msgstr "El camp del nom de l'autor és buit!"
 
 #: ../geniuspaste/src/geniuspaste.c:448
-#, fuzzy
 msgid "Select a pastebin:"
-msgstr "Selecciona un Fitxer"
+msgstr ""
 
 #: ../geniuspaste/src/geniuspaste.c:451
 msgid "Enter the author name:"
-msgstr ""
+msgstr "Introduïu el nom de l'autor: "
 
 #: ../geniuspaste/src/geniuspaste.c:466
 msgid "Show your paste in a new browser tab"
@@ -4512,34 +4405,30 @@ msgstr ""
 msgid "_Paste it!"
 msgstr ""
 
-#: ../gproject/src/gproject-main.c:36 ../gproject/src/gproject-project.c:455
-#, fuzzy
+#: ../gproject/src/gproject-main.c:36
+#: ../gproject/src/gproject-project.c:455
 msgid "GProject"
-msgstr "Projecte"
+msgstr ""
 
 #: ../gproject/src/gproject-main.c:37
 msgid "Glob-pattern-based project management plugin for Geany."
 msgstr ""
 
 #: ../gproject/src/gproject-menu.c:353
-#, fuzzy
 msgid "Find in Project Files"
-msgstr "Cerca en el Projecte"
+msgstr "Cerca en els Fitxers del Projecte"
 
 #: ../gproject/src/gproject-menu.c:359
-#, fuzzy
 msgid "Find in project files"
-msgstr "Cerca en el Projecte"
+msgstr "Cerca en els fitxers del projecte"
 
 #: ../gproject/src/gproject-menu.c:363
-#, fuzzy
 msgid "Find Project File"
-msgstr "Cerca en el Projecte"
+msgstr "Cerca el Fitxer del Projecte"
 
 #: ../gproject/src/gproject-menu.c:369
-#, fuzzy
 msgid "Find project file"
-msgstr "Selecciona un Fitxer"
+msgstr "Cerca el fitxer del projecte"
 
 #: ../gproject/src/gproject-menu.c:371
 msgid "Swap Header/Source"
@@ -4555,21 +4444,18 @@ msgstr ""
 
 #: ../gproject/src/gproject-project.c:406
 msgid "Source patterns:"
-msgstr ""
+msgstr "Patrons de fitxers de codi font:"
 
 #: ../gproject/src/gproject-project.c:412
-msgid ""
-"Space separated list of patterns that are used to identify source files."
+msgid "Space separated list of patterns that are used to identify source files."
 msgstr ""
 
 #: ../gproject/src/gproject-project.c:417
 msgid "Header patterns:"
-msgstr ""
+msgstr "Patrons de fitxers de capçalera:"
 
 #: ../gproject/src/gproject-project.c:423
-msgid ""
-"Space separated list of patterns that are used to identify headers. Used "
-"mainly for header/source swapping."
+msgid "Space separated list of patterns that are used to identify headers. Used mainly for header/source swapping."
 msgstr ""
 
 #: ../gproject/src/gproject-project.c:429
@@ -4577,9 +4463,7 @@ msgid "Ignored dirs patterns:"
 msgstr ""
 
 #: ../gproject/src/gproject-project.c:435
-msgid ""
-"Space separated list of patterns that are used to identify directories that "
-"are not scanned for source files."
+msgid "Space separated list of patterns that are used to identify directories that are not scanned for source files."
 msgstr ""
 
 #: ../gproject/src/gproject-project.c:443
@@ -4587,23 +4471,17 @@ msgid "Generate tags for all project files"
 msgstr ""
 
 #: ../gproject/src/gproject-project.c:445
-msgid ""
-"Generate tag list for all project files instead of only for the currently "
-"opened files. Too slow for big projects (>1000 files) and should be disabled "
-"in this case."
+msgid "Generate tag list for all project files instead of only for the currently opened files. Too slow for big projects (>1000 files) and should be disabled in this case."
 msgstr ""
 
 #: ../gproject/src/gproject-project.c:451
-msgid ""
-"Note: set the patterns of files belonging to the project under the Project "
-"tab."
+msgid "Note: set the patterns of files belonging to the project under the Project tab."
 msgstr ""
 
 #: ../gproject/src/gproject-sidebar.c:81
 #: ../gproject/src/gproject-sidebar.c:792
-#, fuzzy
 msgid "Find File"
-msgstr "Afegeix un Fitxer"
+msgstr ""
 
 #: ../gproject/src/gproject-sidebar.c:108
 msgid "Search inside:"
@@ -4611,7 +4489,7 @@ msgstr ""
 
 #: ../gproject/src/gproject-sidebar.c:120
 msgid "C_ase sensitive"
-msgstr ""
+msgstr "Sensible a m_ajúscules"
 
 #: ../gproject/src/gproject-sidebar.c:123
 msgid "Search in full path"
@@ -4619,18 +4497,17 @@ msgstr ""
 
 #: ../gproject/src/gproject-sidebar.c:702
 msgid "Reload all"
-msgstr ""
+msgstr "Actualitza tot"
 
 #: ../gproject/src/gproject-sidebar.c:711
 #: ../treebrowser/src/treebrowser.c:1282
 msgid "Expand all"
-msgstr ""
+msgstr "Expandeix-ho tot"
 
 #: ../gproject/src/gproject-sidebar.c:717
 #: ../treebrowser/src/treebrowser.c:1286
-#, fuzzy
 msgid "Collapse all"
-msgstr "_Tanca-ho Tot"
+msgstr "Tanca-ho Tot"
 
 #: ../gproject/src/gproject-sidebar.c:726
 msgid "Follow active editor"
@@ -4638,59 +4515,55 @@ msgstr ""
 
 #: ../gproject/src/gproject-sidebar.c:774
 msgid "Expand All"
-msgstr ""
+msgstr "Expandeix-ho Tot"
 
 #: ../gproject/src/gproject-sidebar.c:783
 #: ../treebrowser/src/treebrowser.c:1234
-#, fuzzy
 msgid "Find in Files"
-msgstr "Cerca en el Projecte"
+msgstr "Cerca en els Fitxers"
 
 #. POSITION OF VIEW
-#: ../markdown/src/conf.c:570
-#, fuzzy
+#: ../markdown/src/conf.c:572
 msgid "Position:"
-msgstr "Navegació del codi"
+msgstr "Posició:"
 
-#: ../markdown/src/conf.c:576
-#, fuzzy
+#: ../markdown/src/conf.c:578
 msgid "Sidebar"
-msgstr "Amaga la Barra _Lateral"
+msgstr "Barra Lateral"
 
-#: ../markdown/src/conf.c:584
+#: ../markdown/src/conf.c:586
 msgid "Message Window"
-msgstr ""
+msgstr "Finestra de missatges"
 
-#: ../markdown/src/conf.c:598
+#: ../markdown/src/conf.c:600
 msgid "Font:"
-msgstr ""
+msgstr "Font:"
 
-#: ../markdown/src/conf.c:616
+#: ../markdown/src/conf.c:618
 msgid "Code Font:"
-msgstr ""
+msgstr "Tipus de Lletra per a Codi:"
 
-#: ../markdown/src/conf.c:634
+#: ../markdown/src/conf.c:636
 msgid "BG Color:"
-msgstr ""
+msgstr "Color del Fons:"
 
-#: ../markdown/src/conf.c:651
+#: ../markdown/src/conf.c:653
 msgid "FG Color:"
+msgstr "Color del Primer Pla:"
+
+#: ../markdown/src/conf.c:672
+msgid "Select Template File"
 msgstr ""
 
-#: ../markdown/src/conf.c:670
-#, fuzzy
-msgid "Select Template File"
-msgstr "Tria la font"
-
-#: ../markdown/src/plugin.c:33
+#: ../markdown/src/plugin.c:35
 msgid "Real-time Markdown preview"
 msgstr ""
 
-#: ../markdown/src/plugin.c:49
+#: ../markdown/src/plugin.c:51
 msgid "Markdown Preview"
 msgstr ""
 
-#: ../markdown/src/plugin.c:160
+#: ../markdown/src/plugin.c:162
 msgid "The current document does not have a Markdown filetype."
 msgstr ""
 
@@ -4717,30 +4590,32 @@ msgstr ""
 
 #: ../pretty-printer/src/PluginEntry.c:159
 msgid ""
-"Unable to process PrettyPrinting on the specified XML because some features "
-"are not supported.\n"
+"Unable to process PrettyPrinting on the specified XML because some features are not supported.\n"
 "\n"
 "See Help > Debug messages for more details..."
 msgstr ""
 
 #: ../pretty-printer/src/ConfigUI.c:73
 msgid "Comments"
-msgstr ""
+msgstr "Comentaris"
 
-#: ../pretty-printer/src/ConfigUI.c:73 ../pretty-printer/src/ConfigUI.c:74
+#: ../pretty-printer/src/ConfigUI.c:73
+#: ../pretty-printer/src/ConfigUI.c:74
 #: ../pretty-printer/src/ConfigUI.c:75
 msgid "Put on one line"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:73 ../pretty-printer/src/ConfigUI.c:74
+#: ../pretty-printer/src/ConfigUI.c:73
+#: ../pretty-printer/src/ConfigUI.c:74
 #: ../pretty-printer/src/ConfigUI.c:75
 msgid "Inline if possible"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:73 ../pretty-printer/src/ConfigUI.c:74
+#: ../pretty-printer/src/ConfigUI.c:73
+#: ../pretty-printer/src/ConfigUI.c:74
 #: ../pretty-printer/src/ConfigUI.c:75
 msgid "Alignment"
-msgstr ""
+msgstr "Alineació"
 
 #: ../pretty-printer/src/ConfigUI.c:74
 msgid "Text nodes"
@@ -4767,524 +4642,504 @@ msgid "Expansion (<x/> to <x></x>)"
 msgstr ""
 
 #: ../pretty-printer/src/ConfigUI.c:235
-#, fuzzy
 msgid "Indentation"
-msgstr "Navegació del codi"
+msgstr "Sagnat"
 
 #: ../pretty-printer/src/ConfigUI.c:240
 msgid "Space"
-msgstr ""
+msgstr "Espai"
 
 #: ../pretty-printer/src/ConfigUI.c:264
 msgid "Line break"
-msgstr ""
+msgstr "Salt de línia"
 
 #: ../scope/data/scope.glade.h:1
-msgid "Debu_g"
-msgstr ""
+msgid "-"
+msgstr "-"
 
 #: ../scope/data/scope.glade.h:2
-msgid "_Setup Program"
-msgstr ""
+msgid "<b>Inspect</b>"
+msgstr "<b>Inspecciona</b>"
 
 #: ../scope/data/scope.glade.h:3
-#, fuzzy
-msgid "Recent _Programs"
-msgstr "cap programa"
+msgid "<b>Others</b>"
+msgstr "<B>Altres</b>"
 
 #: ../scope/data/scope.glade.h:4
-msgid "_Run/Continue"
-msgstr ""
+msgid "<b>Panel</b>"
+msgstr "<b>Quadre</b>"
 
 #: ../scope/data/scope.glade.h:5
-msgid "Run to _Cursor"
-msgstr ""
+msgid "<b>Values</b>"
+msgstr "<b>Valors</b>"
 
 #: ../scope/data/scope.glade.h:6
-msgid "Run to _Source"
-msgstr ""
+msgid "@"
+msgstr "@"
 
 #: ../scope/data/scope.glade.h:7
-#, fuzzy
-msgid "Step _Into"
-msgstr "Pas _Avant"
-
-#: ../scope/data/scope.glade.h:8
-msgid "Step _Over"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:9
-#, fuzzy
-msgid "Step O_ut"
-msgstr "Pas _Avant"
-
-#: ../scope/data/scope.glade.h:10
-#, fuzzy
-msgid "_Terminate"
-msgstr "Executa en el terminal"
-
-#: ../scope/data/scope.glade.h:11
-msgid "Toggle _Breakpoint"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:12
-#, fuzzy
-msgid "_GDB Command"
-msgstr "Ordre 0:"
-
-#: ../scope/data/scope.glade.h:13
-#, fuzzy
-msgid "_More"
-msgstr "Més"
-
-#: ../scope/data/scope.glade.h:14
-#, fuzzy
-msgid "_Show Terminal"
-msgstr "Executa en el terminal"
-
-#: ../scope/data/scope.glade.h:15
-msgid "_Reset Markers"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:16
-msgid "_Cleanup Files"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:17
-msgid "_Feed"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:18
-msgid "_Window"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:19
-msgid "_Auto Show"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:20
-msgid "Auto _Hide"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:21
-msgid "Show on _Error"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:22
-msgid "_Unsorted"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:23
-msgid "_View Source"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:24
-msgid "S_ynchronize"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:25
-msgid "_Interrupt"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:26
-msgid "_Send Signal"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:27
-#, fuzzy
-msgid "S_elect on"
-msgstr "Tria la font"
-
-#: ../scope/data/scope.glade.h:28
-msgid "_Running"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:29
-msgid "_Stopped"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:30
-msgid "_Exited"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:31
-msgid "_Follow"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:32
-msgid "_Columns"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:33
-msgid "Show _Group"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:34
-#, fuzzy
-msgid "Show _Core"
-msgstr "Mostra l'estat"
-
-#: ../scope/data/scope.glade.h:35
 msgid "Add _Break"
 msgstr ""
 
-#: ../scope/data/scope.glade.h:36
+#: ../scope/data/scope.glade.h:8
 msgid "Add _Watch"
-msgstr ""
+msgstr "Afegeix Punt de _Vigilància"
 
-#: ../scope/data/scope.glade.h:37
+#: ../scope/data/scope.glade.h:9
 msgid "Apply on _Run"
 msgstr ""
 
-#: ../scope/data/scope.glade.h:38
-msgid "_Show @entry"
-msgstr ""
+#: ../scope/data/scope.glade.h:10
+msgid "Auto _Hide"
+msgstr "_Ocultar Automàticament"
 
-#: ../scope/data/scope.glade.h:39
-#, fuzzy
-msgid "Show _Address"
-msgstr "Adreça"
-
-#: ../scope/data/scope.glade.h:40
-msgid "_Modify"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:41
-msgid "_Watch"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:42
-msgid "_Inspect"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:43
-msgid "_8-bit mode"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:44
-msgid "_Default"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:45
-msgid "_7 bit"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:46
-msgid "_Locale"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:47
-msgid "_UTF-8"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:48
-#, fuzzy
-msgid "_Show .names"
-msgstr "Mostra icones."
-
-#: ../scope/data/scope.glade.h:49
-msgid "R_ead"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:50
-msgid "_Group by"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:51
-msgid "_1"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:52
-msgid "_2"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:53
-msgid "_4"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:54
-msgid "_8"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:55
-msgid "_Jump To"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:56
-msgid "_Apply"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:57
-msgid "_Expand"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:59
-msgid "_Natural"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:60
-msgid "_Decimal"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:61
-msgid "_Hex"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:62
-msgid "_Octal"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:63
-msgid "_Binary"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:64
-msgid "_Evaluate/Modify"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:65
-msgid "_Watch Expression"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:66
-#, fuzzy
-msgid "_Inspect Variable"
-msgstr "Paràmetres d'entorn"
-
-#: ../scope/data/scope.glade.h:67
-#, fuzzy
-msgid "Program Terminal"
-msgstr "Executa en el terminal"
-
-#: ../scope/data/scope.glade.h:68
-msgid "Threads"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:70
-msgid "Stack"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:71
-msgid "Locals"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:72
-msgid "Watches"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:73
-msgid "Memory"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:74
-msgid "Debug Console"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:75
-#, fuzzy
-msgid "Enter gdb command:"
-msgstr "Insereix Entorn"
-
-#: ../scope/data/scope.glade.h:76
-msgid "Convert _UTF-8 to locale"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:77
-msgid "_Thread"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:78
-msgid "_Group"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:79
-msgid "_Frame"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:80
-#, fuzzy
-msgid "Setup Program"
-msgstr "cap programa"
-
-#: ../scope/data/scope.glade.h:81
-msgid "_Executable:"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:82
-msgid "_Arguments:"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:83
-#, fuzzy
-msgid "En_vironment:"
-msgstr "Entorn:"
-
-#: ../scope/data/scope.glade.h:84
-msgid "_Working dir:"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:85
-msgid "_Load script:"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:86
+#: ../scope/data/scope.glade.h:11
 msgid "Auto _run program/exit gdb"
 msgstr ""
 
-#: ../scope/data/scope.glade.h:87
-msgid "_Non-stop mode"
+#: ../scope/data/scope.glade.h:13
+msgid "Convert _UTF-8 to locale"
 msgstr ""
 
-#: ../scope/data/scope.glade.h:88
-msgid "_Temporary breakpoint at:"
+#: ../scope/data/scope.glade.h:14
+msgid "Count:"
+msgstr "Recompte:"
+
+#: ../scope/data/scope.glade.h:15
+msgid "Debu_g"
 msgstr ""
 
-#: ../scope/data/scope.glade.h:89
-msgid "_Delete all breakpoints, watches and inspects"
-msgstr ""
+#: ../scope/data/scope.glade.h:17
+msgid "Debug Console"
+msgstr "Consola de Depuració"
 
-#: ../scope/data/scope.glade.h:90 ../scope/src/prefs.c:337
-#, fuzzy
-msgid "Program"
-msgstr "cap programa"
-
-#: ../scope/data/scope.glade.h:91
-#, fuzzy
-msgid "Open on"
-msgstr "Obre una localització (URI)"
-
-#: ../scope/data/scope.glade.h:92
-msgid "g_db load"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:93
-msgid "p_rogram start"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:94
-msgid "Update all _views"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:95
-msgid "<b>Panel</b>"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:96
+#: ../scope/data/scope.glade.h:18
 msgid "Default 8-bit text mode:"
 msgstr ""
 
-#: ../scope/data/scope.glade.h:97
-msgid "_7-bit \\nnn"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:98
+#: ../scope/data/scope.glade.h:19
 msgid "Display"
-msgstr ""
+msgstr "Visualització"
 
-#: ../scope/data/scope.glade.h:99
-msgid "_member"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:100
-msgid "and"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:101
-msgid "_argument"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:102
-#, fuzzy
-msgid "names"
-msgstr "Nom de fitxer:"
-
-#: ../scope/data/scope.glade.h:103
-msgid "<b>Values</b>"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:104
+#: ../scope/data/scope.glade.h:20
 msgid "E_xpand on apply"
 msgstr ""
 
-#: ../scope/data/scope.glade.h:105
-msgid "S_how"
-msgstr ""
+#: ../scope/data/scope.glade.h:21
+msgid "En_vironment:"
+msgstr "En_torn:"
 
-#: ../scope/data/scope.glade.h:106
-msgid "children"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:107
-msgid "<b>Inspect</b>"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:108
-msgid "Show =li_brary messages"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:109
-#, fuzzy
-msgid "Show _tooltips"
-msgstr "Mostra consells."
-
-#: ../scope/data/scope.glade.h:110
-msgid "<b>Others</b>"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:111
-#, fuzzy
-msgid "Options"
-msgstr "_Opcions"
-
-#: ../scope/data/scope.glade.h:112
-msgid "_Import"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:113
+#: ../scope/data/scope.glade.h:22
 msgid "Enter assignment expression:"
 msgstr ""
 
-#: ../scope/data/scope.glade.h:114
-msgid "Inspect"
+#: ../scope/data/scope.glade.h:23
+msgid "Enter gdb command:"
 msgstr ""
 
-#: ../scope/data/scope.glade.h:115
-#, fuzzy
-msgid "Object:"
-msgstr "Informació de l'objecte"
+#: ../scope/data/scope.glade.h:24
+msgid "Expand"
+msgstr "Expandeix"
 
-#: ../scope/data/scope.glade.h:117
-msgid "-"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:118
-#, fuzzy
+#: ../scope/data/scope.glade.h:25
 msgid "Frame:"
-msgstr "Nom:"
+msgstr "Fotograma:"
 
-#: ../scope/data/scope.glade.h:119
-msgid "@"
+#: ../scope/data/scope.glade.h:26
+msgid "Inspect"
+msgstr "Inspecciona"
+
+#: ../scope/data/scope.glade.h:27
+msgid "Locals"
+msgstr "Locals"
+
+#: ../scope/data/scope.glade.h:28
+msgid "Memory"
+msgstr "Memòria"
+
+#: ../scope/data/scope.glade.h:30
+msgid "Object:"
+msgstr "Objecte:"
+
+#: ../scope/data/scope.glade.h:31
+msgid "Open on"
+msgstr "Obre a"
+
+#: ../scope/data/scope.glade.h:32
+msgid "Options"
+msgstr "Opcions"
+
+#: ../scope/data/scope.glade.h:33
+#: ../scope/src/prefs.c:337
+msgid "Program"
+msgstr "Programa"
+
+#: ../scope/data/scope.glade.h:34
+msgid "Program Terminal"
+msgstr "Programa del Terminal"
+
+#: ../scope/data/scope.glade.h:35
+msgid "R_ead"
 msgstr ""
 
-#: ../scope/data/scope.glade.h:120
+#: ../scope/data/scope.glade.h:36
+msgid "Recent _Programs"
+msgstr "_Programes Recents"
+
+#: ../scope/data/scope.glade.h:37
+msgid "Run to _Cursor"
+msgstr "Executa fins al _Cursor"
+
+#: ../scope/data/scope.glade.h:38
+msgid "Run to _Source"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:39
+msgid "S_elect on"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:40
+msgid "S_how"
+msgstr "_Mostra"
+
+#: ../scope/data/scope.glade.h:41
+msgid "S_ynchronize"
+msgstr "S_incronitza"
+
+#: ../scope/data/scope.glade.h:42
+msgid "Setup Program"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:43
+msgid "Show =li_brary messages"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:44
+msgid "Show _Address"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:45
+msgid "Show _Core"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:46
+msgid "Show _Group"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:47
+msgid "Show _tooltips"
+msgstr "Mostra _consells"
+
+#: ../scope/data/scope.glade.h:48
+msgid "Show on _Error"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:49
+msgid "Stack"
+msgstr "Pila"
+
+#: ../scope/data/scope.glade.h:50
+msgid "Start:"
+msgstr "Inici:"
+
+#: ../scope/data/scope.glade.h:51
+msgid "Step O_ut"
+msgstr "Pas _Avant"
+
+#: ../scope/data/scope.glade.h:52
+msgid "Step _Into"
+msgstr "Pas _Enrere"
+
+#: ../scope/data/scope.glade.h:53
+msgid "Step _Over"
+msgstr "Passa al _Següent"
+
+#: ../scope/data/scope.glade.h:54
+msgid "Threads"
+msgstr "Fils d'execució"
+
+#: ../scope/data/scope.glade.h:55
+msgid "Toggle _Breakpoint"
+msgstr "Commuta el Punt de _Ruptura"
+
+#: ../scope/data/scope.glade.h:56
+msgid "Update all _views"
+msgstr "Actualitza _totes les vistes"
+
+#: ../scope/data/scope.glade.h:57
+msgid "Watches"
+msgstr "Punts de vigilància"
+
+#: ../scope/data/scope.glade.h:58
+msgid "_1"
+msgstr "_1"
+
+#: ../scope/data/scope.glade.h:59
+msgid "_2"
+msgstr "_2"
+
+#: ../scope/data/scope.glade.h:60
+msgid "_4"
+msgstr "_4"
+
+#: ../scope/data/scope.glade.h:61
+msgid "_7 bit"
+msgstr "_7 bit"
+
+#: ../scope/data/scope.glade.h:62
+msgid ""
+"_7-bit \\n"
+"nn"
+msgstr ""
+"_7-bit \\n"
+"nn"
+
+#: ../scope/data/scope.glade.h:63
+msgid "_8"
+msgstr "_8"
+
+#: ../scope/data/scope.glade.h:64
+msgid "_8-bit mode"
+msgstr "_8-bit mode"
+
+#: ../scope/data/scope.glade.h:65
+msgid "_Apply"
+msgstr "_Aplica"
+
+#: ../scope/data/scope.glade.h:66
 msgid "_Apply on run"
 msgstr ""
 
-#: ../scope/data/scope.glade.h:121
-msgid "Expand"
+#: ../scope/data/scope.glade.h:67
+msgid "_Arguments:"
+msgstr "_Arguments:"
+
+#: ../scope/data/scope.glade.h:68
+msgid "_Auto Show"
 msgstr ""
 
+#: ../scope/data/scope.glade.h:69
+msgid "_Binary"
+msgstr "_Binari"
+
+#: ../scope/data/scope.glade.h:70
+msgid "_Cleanup Files"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:71
+msgid "_Columns"
+msgstr "_Columnes"
+
+#: ../scope/data/scope.glade.h:72
+msgid "_Decimal"
+msgstr "_Decimal"
+
+#: ../scope/data/scope.glade.h:73
+msgid "_Default"
+msgstr "Per _defecte"
+
+#: ../scope/data/scope.glade.h:74
+msgid "_Delete all breakpoints, watches and inspects"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:75
+msgid "_Evaluate/Modify"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:76
+msgid "_Executable:"
+msgstr "_Executable:"
+
+#: ../scope/data/scope.glade.h:77
+msgid "_Exited"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:78
+msgid "_Expand"
+msgstr "_Expandeix"
+
+#: ../scope/data/scope.glade.h:79
+msgid "_Expand on apply"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:80
+msgid "_Feed"
+msgstr "_Canal"
+
+#: ../scope/data/scope.glade.h:81
+msgid "_Follow"
+msgstr "Se_gueix"
+
+#: ../scope/data/scope.glade.h:83
+msgid "_Frame"
+msgstr "_Marc"
+
+#: ../scope/data/scope.glade.h:84
+msgid "_GDB Command"
+msgstr "Ordre _GDB"
+
+#: ../scope/data/scope.glade.h:85
+msgid "_Group"
+msgstr "_Grup"
+
+#: ../scope/data/scope.glade.h:86
+msgid "_Group by"
+msgstr "A_grupa per"
+
+#: ../scope/data/scope.glade.h:87
+msgid "_Hex"
+msgstr "_Hex"
+
+#: ../scope/data/scope.glade.h:88
+msgid "_Import"
+msgstr "_Importa"
+
+#: ../scope/data/scope.glade.h:89
+msgid "_Inspect"
+msgstr "_Inspecciona"
+
+#: ../scope/data/scope.glade.h:90
+msgid "_Inspect Variable"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:91
+msgid "_Interrupt"
+msgstr "_Interromp"
+
+#: ../scope/data/scope.glade.h:92
+msgid "_Jump To"
+msgstr "_Vés a"
+
+#: ../scope/data/scope.glade.h:93
+msgid "_Load script:"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:94
+msgid "_Locale"
+msgstr "_Localització"
+
+#: ../scope/data/scope.glade.h:95
+msgid "_Modify"
+msgstr "_Modifica"
+
+#: ../scope/data/scope.glade.h:96
+msgid "_More"
+msgstr "_Més"
+
+#: ../scope/data/scope.glade.h:97
+msgid "_Natural"
+msgstr "_Natural"
+
+#: ../scope/data/scope.glade.h:98
+msgid "_Non-stop mode"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:99
+msgid "_Octal"
+msgstr "_Octal"
+
+#: ../scope/data/scope.glade.h:100
+msgid "_Reset Markers"
+msgstr "Elimina les Ma_rques"
+
+#: ../scope/data/scope.glade.h:101
+msgid "_Run/Continue"
+msgstr "E_xecuta/Continua"
+
+#: ../scope/data/scope.glade.h:102
+msgid "_Running"
+msgstr "En e_xecució"
+
+#: ../scope/data/scope.glade.h:103
+msgid "_Send Signal"
+msgstr "En_via Senyal"
+
+#: ../scope/data/scope.glade.h:104
+msgid "_Setup Program"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:105
+msgid "_Show .names"
+msgstr "_Mostra .noms"
+
+#: ../scope/data/scope.glade.h:106
+msgid "_Show @entry"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:107
+msgid "_Show Terminal"
+msgstr "_Mostra el terminal"
+
+#: ../scope/data/scope.glade.h:108
+msgid "_Stopped"
+msgstr "A_turat"
+
+#: ../scope/data/scope.glade.h:109
+msgid "_Temporary breakpoint at:"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:110
+msgid "_Terminate"
+msgstr "_Finalitza"
+
+#: ../scope/data/scope.glade.h:111
+msgid "_Thread"
+msgstr "_Fil d'execució"
+
+#: ../scope/data/scope.glade.h:112
+msgid "_UTF-8"
+msgstr "_UTF-8"
+
+#: ../scope/data/scope.glade.h:113
+msgid "_Unsorted"
+msgstr "Sense _ordre"
+
+#: ../scope/data/scope.glade.h:114
+msgid "_View Source"
+msgstr "_Visualitza el Codi Font"
+
+#: ../scope/data/scope.glade.h:115
+msgid "_Watch"
+msgstr "_Mira"
+
+#: ../scope/data/scope.glade.h:116
+msgid "_Watch Expression"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:117
+msgid "_Window"
+msgstr "_Finestra"
+
+#: ../scope/data/scope.glade.h:118
+msgid "_Working dir:"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:119
+msgid "_argument"
+msgstr "_argument"
+
+#: ../scope/data/scope.glade.h:120
+msgid "_member"
+msgstr "_membre"
+
+#: ../scope/data/scope.glade.h:121
+msgid "and"
+msgstr "i"
+
 #: ../scope/data/scope.glade.h:122
-#, fuzzy
-msgid "Start:"
-msgstr "_Estat"
+msgid "children"
+msgstr "fills"
 
 #: ../scope/data/scope.glade.h:123
-msgid "Count:"
+msgid "g_db load"
 msgstr ""
 
 #: ../scope/data/scope.glade.h:124
-msgid "_Expand on apply"
+msgid "names"
+msgstr "noms"
+
+#: ../scope/data/scope.glade.h:125
+msgid "p_rogram start"
 msgstr ""
 
 #: ../scope/src/break.c:947
@@ -5296,30 +5151,32 @@ msgstr ""
 
 #: ../scope/src/break.c:1200
 msgid "Add Breakpoint"
-msgstr ""
+msgstr "Afegeix Punt de Ruptura"
 
 #: ../scope/src/break.c:1215
 msgid "Add Watchpoint"
-msgstr ""
+msgstr "Afegeix Punt de Vigilància"
 
 #: ../scope/src/conterm.c:106
-#, fuzzy
 msgid "Feed Terminal"
-msgstr "Executa en el terminal"
+msgstr ""
 
 #: ../scope/src/conterm.c:106
 msgid "Enter char # (0..255):"
 msgstr ""
 
-#: ../scope/src/conterm.c:466 ../scope/src/scope.c:502
-#, fuzzy, c-format
+#: ../scope/src/conterm.c:466
+#: ../scope/src/scope.c:502
+#, c-format
 msgid "Scope: %s."
-msgstr "_Tanca-ho Tot"
+msgstr ""
 
-#: ../scope/src/debug.c:115 ../scope/src/debug.c:120 ../scope/src/utils.c:37
-#, fuzzy, c-format
+#: ../scope/src/debug.c:115
+#: ../scope/src/debug.c:120
+#: ../scope/src/utils.c:37
+#, c-format
 msgid "%s: %s."
-msgstr "_Tanca-ho Tot"
+msgstr "%s: %s."
 
 #: ../scope/src/debug.c:363
 #, c-format
@@ -5327,23 +5184,22 @@ msgid "GDB died unexpectedly with status %d."
 msgstr ""
 
 #: ../scope/src/debug.c:365
-#, fuzzy
 msgid "Program terminated."
-msgstr "El programa ha finalitzat normalment.\n"
+msgstr "El programa ha finalitzat."
 
 #: ../scope/src/debug.c:468
 msgid "No breakpoints. Hanging."
 msgstr ""
 
-#: ../scope/src/debug.c:596 ../scope/src/thread.c:97
+#: ../scope/src/debug.c:596
+#: ../scope/src/thread.c:97
 #, c-format
 msgid "%s."
 msgstr ""
 
 #: ../scope/src/inspect.c:77
-#, fuzzy
 msgid "..."
-msgstr "Més..."
+msgstr "..."
 
 #: ../scope/src/inspect.c:324
 msgid "invalid data"
@@ -5371,34 +5227,31 @@ msgstr ""
 
 #: ../scope/src/menu.c:380
 msgid "Modify"
-msgstr ""
+msgstr "Modifica"
 
 #: ../scope/src/menu.c:490
 msgid "Evaluate/modify"
-msgstr ""
+msgstr "Avalua/modifica"
 
 #: ../scope/src/menu.c:491
 msgid "Watch expression"
 msgstr ""
 
 #: ../scope/src/menu.c:492
-#, fuzzy
 msgid "Inspect variable"
-msgstr "Elimina el Pojecte"
+msgstr "Inspecciona la variable"
 
 #: ../scope/src/parse.c:416
 msgid "Undefined GDB error."
 msgstr ""
 
 #: ../scope/src/plugme.c:81
-#, fuzzy
 msgid "Select Folder"
-msgstr "Tria la font"
+msgstr "Selecciona Directory"
 
 #: ../scope/src/plugme.c:81
-#, fuzzy
 msgid "Select File"
-msgstr "Selecciona un Fitxer"
+msgstr "Selecciona Fitxer"
 
 #: ../scope/src/prefs.c:338
 msgid "Breaks"
@@ -5406,9 +5259,10 @@ msgstr ""
 
 #: ../scope/src/prefs.c:339
 msgid "Console"
-msgstr ""
+msgstr "Consola"
 
-#: ../scope/src/prefs.c:347 ../scope/src/utils.c:570
+#: ../scope/src/prefs.c:347
+#: ../scope/src/utils.c:570
 #, c-format
 msgid "Scope: %s: %s."
 msgstr ""
@@ -5456,57 +5310,53 @@ msgid "Simple GDB front-end."
 msgstr ""
 
 #: ../scope/src/scope.c:63
-#, fuzzy
 msgid "Setup program"
-msgstr "cap programa"
+msgstr ""
 
 #: ../scope/src/scope.c:64
 msgid "Run/continue"
-msgstr ""
+msgstr "Executa/continua"
 
 #: ../scope/src/scope.c:66
 msgid "Run to source"
 msgstr ""
 
 #: ../scope/src/scope.c:70
-#, fuzzy
 msgid "Terminate"
-msgstr "Executa en el terminal"
+msgstr "Finalitza"
 
 #: ../scope/src/scope.c:71
 msgid "Toggle breakpoint"
-msgstr ""
+msgstr "Commuta el punt de ruptura"
 
-#: ../scope/src/scope.c:73 ../scope/src/scope.c:76
-#, fuzzy
+#: ../scope/src/scope.c:73
+#: ../scope/src/scope.c:76
 msgid "GDB command"
-msgstr "Insereix Entorn"
+msgstr "ordre GDB"
 
 #: ../scope/src/scope.c:74
-#, fuzzy
 msgid "Show terminal"
-msgstr "Executa en el terminal"
+msgstr "Mostra el terminal"
 
 #: ../scope/src/scope.c:225
 msgid "Busy"
-msgstr ""
+msgstr "Ocupat"
 
 #: ../scope/src/scope.c:225
 msgid "Ready"
-msgstr ""
+msgstr "Preparat"
 
 #: ../scope/src/scope.c:226
 msgid "Hang"
-msgstr ""
+msgstr "Penja"
 
 #: ../scope/src/scope.c:226
 msgid "Assem"
 msgstr ""
 
 #: ../scope/src/scope.c:226
-#, fuzzy
 msgid "Load"
-msgstr "_Carrega"
+msgstr "Carrega"
 
 #: ../scope/src/scope.c:394
 msgid "Build action activated. Terminate debugging?"
@@ -5523,17 +5373,16 @@ msgstr ""
 
 #: ../scope/src/thread.c:88
 msgid " exited"
-msgstr ""
+msgstr " ha sortit"
 
 #: ../scope/src/thread.c:91
 #, c-format
 msgid " with exit code %s"
-msgstr ""
+msgstr " amb el codi %s"
 
 #: ../scope/src/thread.c:788
-#, fuzzy
 msgid "Send Signal"
-msgstr "Envia per correu"
+msgstr "Envia Senyal"
 
 #: ../scope/src/thread.c:788
 msgid "Enter signal #:"
@@ -5549,16 +5398,16 @@ msgstr ""
 
 #: ../scope/src/thread.c:937
 msgid "Running"
-msgstr ""
+msgstr "En execució"
 
 #: ../scope/src/thread.c:938
 msgid "Stopped"
-msgstr ""
+msgstr "Aturat"
 
 #: ../scope/src/utils.c:44
 #, c-format
 msgid "%s: error %lu."
-msgstr ""
+msgstr "%s: error %lu."
 
 #: ../scope/src/utils.c:358
 #, c-format
@@ -5567,28 +5416,27 @@ msgstr ""
 
 #: ../scope/src/views.c:505
 msgid "…"
-msgstr ""
+msgstr "…"
 
 #: ../scope/src/views.c:528
 msgid "_Send"
-msgstr ""
+msgstr "_Envia"
 
 #: ../scope/src/views.c:528
 msgid "_Busy"
-msgstr ""
+msgstr "_Ocupat"
 
 #: ../scope/src/views.c:535
-#, fuzzy
 msgid "GDB Command"
-msgstr "Ordre 0:"
+msgstr "Ordre GDB"
 
 #: ../spellcheck/src/speller.c:94
 msgid "Try: "
-msgstr ""
+msgstr "Prova:"
 
 #: ../spellcheck/src/speller.c:173
 msgid "Checking"
-msgstr ""
+msgstr "Verificant"
 
 #: ../spellcheck/src/speller.c:186
 #, c-format
@@ -5615,15 +5463,15 @@ msgstr ""
 
 #: ../spellcheck/src/scplugin.c:47
 msgid "Spell Check"
-msgstr ""
+msgstr "Verifica l'Ortografia"
 
 #: ../spellcheck/src/scplugin.c:48
 msgid "Checks the spelling of the current document."
-msgstr ""
+msgstr "Comprova l'ortografia del document actual."
 
 #: ../spellcheck/src/scplugin.c:202
 msgid "Run Spell Check"
-msgstr ""
+msgstr "Executa la Comprovació Ortogràfica"
 
 #: ../spellcheck/src/scplugin.c:205
 msgid "Toggle Check While Typing"
@@ -5636,7 +5484,7 @@ msgstr "Selecciona el Directori"
 
 #: ../spellcheck/src/scplugin.c:253
 msgid "Check spelling while typing"
-msgstr ""
+msgstr "Verifica l'ortografia a mesura que escric"
 
 #: ../spellcheck/src/scplugin.c:258
 msgid "Show toolbar item to toggle spell checking"
@@ -5656,12 +5504,10 @@ msgstr ""
 
 #: ../spellcheck/src/scplugin.c:287
 msgid "_Directory to look for dictionary files:"
-msgstr ""
+msgstr "_Directori per als fitxers de diccionari:"
 
 #: ../spellcheck/src/scplugin.c:295
-msgid ""
-"Read additional dictionary files from this directory. For now, this only "
-"works with myspell dictionaries."
+msgid "Read additional dictionary files from this directory. For now, this only works with myspell dictionaries."
 msgstr ""
 
 #: ../spellcheck/src/gui.c:76
@@ -5680,7 +5526,7 @@ msgstr ""
 
 #: ../spellcheck/src/gui.c:318
 msgid "Perform Spell Check"
-msgstr ""
+msgstr "Realitza la Comprovació Ortogràfica"
 
 #: ../spellcheck/src/gui.c:350
 msgid "More..."
@@ -5693,7 +5539,7 @@ msgstr "(No hi ha suggerències)"
 #: ../spellcheck/src/gui.c:374
 #, c-format
 msgid "Add \"%s\" to Dictionary"
-msgstr ""
+msgstr "Afegeix \"%s\" al Diccionari"
 
 #: ../spellcheck/src/gui.c:381
 msgid "Ignore All"
@@ -5702,7 +5548,7 @@ msgstr "Ignora-ho Tot"
 #: ../spellcheck/src/gui.c:521
 #, c-format
 msgid "Default (%s)"
-msgstr ""
+msgstr "Predeterminat (%s)"
 
 #: ../spellcheck/src/gui.c:532
 #, c-format
@@ -5711,21 +5557,23 @@ msgstr ""
 
 #: ../spellcheck/src/gui.c:587
 msgid "Spelling Suggestions"
-msgstr ""
+msgstr "Suggeriments d'Ortografia"
 
 #: ../shiftcolumn/src/shiftcolumn.c:49
 msgid "Shift Column"
-msgstr ""
+msgstr "Desplaça la Columna"
 
 #: ../shiftcolumn/src/shiftcolumn.c:50
 msgid "Shift a selection left and right"
 msgstr ""
 
-#: ../shiftcolumn/src/shiftcolumn.c:380 ../shiftcolumn/src/shiftcolumn.c:400
+#: ../shiftcolumn/src/shiftcolumn.c:380
+#: ../shiftcolumn/src/shiftcolumn.c:400
 msgid "Shift Left"
 msgstr ""
 
-#: ../shiftcolumn/src/shiftcolumn.c:387 ../shiftcolumn/src/shiftcolumn.c:402
+#: ../shiftcolumn/src/shiftcolumn.c:387
+#: ../shiftcolumn/src/shiftcolumn.c:402
 msgid "Shift Right"
 msgstr ""
 
@@ -5746,12 +5594,12 @@ msgstr ""
 
 #: ../tableconvert/src/tableconvert.c:268
 msgid "Convert selection to table"
-msgstr ""
+msgstr "Converteix la selecció en una taula"
 
 #. Build up menu entry
 #: ../tableconvert/src/tableconvert.c:281
 msgid "_Convert to table"
-msgstr ""
+msgstr "_Converteix en taula"
 
 #: ../tableconvert/src/tableconvert.c:284
 msgid "Converts current marked list to a table."
@@ -5762,35 +5610,32 @@ msgid "TreeBrowser"
 msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:121
-msgid ""
-"This plugin adds a tree browser to Geany, allowing the user to browse files "
-"using a tree view of the directory being browsed."
+msgid "This plugin adds a tree browser to Geany, allowing the user to browse files using a tree view of the directory being browsed."
 msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:430
 #, c-format
 msgid "%s: no such directory."
-msgstr ""
+msgstr "%s: no existeix el directori."
 
-#: ../treebrowser/src/treebrowser.c:526 ../treebrowser/src/treebrowser.c:561
+#: ../treebrowser/src/treebrowser.c:526
+#: ../treebrowser/src/treebrowser.c:561
 #: ../treebrowser/src/treebrowser.c:663
 msgid "(Empty)"
-msgstr ""
+msgstr "(Buit)"
 
 #: ../treebrowser/src/treebrowser.c:966
 #, c-format
 msgid "Could not execute configured external command '%s' (%s)."
-msgstr ""
+msgstr "No s'ha pogut executar l'ordre externa '%s' (%s)."
 
 #: ../treebrowser/src/treebrowser.c:1037
-#, fuzzy
 msgid "NewDirectory"
-msgstr "_Directori"
+msgstr "NouDirectori"
 
 #: ../treebrowser/src/treebrowser.c:1039
-#, fuzzy
 msgid "NewFile"
-msgstr "_Fitxer"
+msgstr "NouFitxer"
 
 #: ../treebrowser/src/treebrowser.c:1044
 #, c-format
@@ -5800,105 +5645,101 @@ msgid ""
 msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1089
-#, fuzzy, c-format
+#, c-format
 msgid "Do you really want to delete '%s' ?"
-msgstr "Esteu segurs de voler revertir: %s?"
+msgstr "Esteu segurs de voler eliminar '%s'?"
 
-#: ../treebrowser/src/treebrowser.c:1208 ../treebrowser/src/treebrowser.c:1692
+#: ../treebrowser/src/treebrowser.c:1208
+#: ../treebrowser/src/treebrowser.c:1692
 msgid "Go up"
-msgstr ""
+msgstr "Vés cap a dalt"
 
-#: ../treebrowser/src/treebrowser.c:1212 ../treebrowser/src/treebrowser.c:1707
+#: ../treebrowser/src/treebrowser.c:1212
+#: ../treebrowser/src/treebrowser.c:1707
 msgid "Set path from document"
-msgstr ""
+msgstr "Especifica el directori pel document"
 
 #: ../treebrowser/src/treebrowser.c:1216
 msgid "Open externally"
-msgstr ""
+msgstr "Obre externament"
 
 #: ../treebrowser/src/treebrowser.c:1221
-#, fuzzy
 msgid "Open Terminal"
-msgstr "Executa en el terminal"
+msgstr "Obre el terminal"
 
 #: ../treebrowser/src/treebrowser.c:1225
 msgid "Set as root"
-msgstr ""
+msgstr "Instal·la com a superusuari"
 
-#: ../treebrowser/src/treebrowser.c:1230 ../treebrowser/src/treebrowser.c:1697
+#: ../treebrowser/src/treebrowser.c:1230
+#: ../treebrowser/src/treebrowser.c:1697
 #: ../treebrowser/src/treebrowser.c:2060
 msgid "Refresh"
-msgstr ""
+msgstr "Actualitza"
 
 #: ../treebrowser/src/treebrowser.c:1242
-#, fuzzy
 msgid "Create new directory"
-msgstr "Directori _Base"
+msgstr "Crea un directori nou"
 
 #: ../treebrowser/src/treebrowser.c:1246
 msgid "Create new file"
-msgstr ""
+msgstr "Crea un nou fitxer"
 
 #: ../treebrowser/src/treebrowser.c:1250
-#, fuzzy
 msgid "Rename"
-msgstr "Nom de fitxer:"
+msgstr "Reanomena"
 
 #: ../treebrowser/src/treebrowser.c:1255
-#, fuzzy
 msgid "Delete"
-msgstr "Elimina el Pojecte"
+msgstr "Elimina"
 
 #: ../treebrowser/src/treebrowser.c:1263
-#, fuzzy, c-format
+#, c-format
 msgid "Close: %s"
-msgstr "_Tanca-ho Tot"
+msgstr "Tanca: %s"
 
 #: ../treebrowser/src/treebrowser.c:1268
-#, fuzzy, c-format
+#, c-format
 msgid "Close Child Documents "
-msgstr "Tanca Altres _Documents"
+msgstr "Tanca els Documents Fills"
 
 #: ../treebrowser/src/treebrowser.c:1273
 msgid "Copy full path to clipboard"
-msgstr ""
+msgstr "Copia la ruta completa al porta-retalls"
 
-#: ../treebrowser/src/treebrowser.c:1293 ../treebrowser/src/treebrowser.c:1974
+#: ../treebrowser/src/treebrowser.c:1293
+#: ../treebrowser/src/treebrowser.c:1974
 msgid "Show bookmarks"
-msgstr ""
+msgstr "Mostra les adreces d'interès"
 
-#: ../treebrowser/src/treebrowser.c:1298 ../treebrowser/src/treebrowser.c:1928
+#: ../treebrowser/src/treebrowser.c:1298
+#: ../treebrowser/src/treebrowser.c:1928
 msgid "Show hidden files"
-msgstr ""
+msgstr "Mostra els fitxers ocults"
 
 #: ../treebrowser/src/treebrowser.c:1303
-#, fuzzy
 msgid "Show toolbars"
-msgstr "Mostra l'estat"
+msgstr "Mostra les barres d'eines"
 
 #: ../treebrowser/src/treebrowser.c:1574
 #, c-format
 msgid "Target file '%s' exists, do you really want to replace it?"
-msgstr ""
+msgstr "Ja existeix un fitxer anomenat \"%s\", voleu reemplaçar-lo?"
 
 #: ../treebrowser/src/treebrowser.c:1702
 msgid "Home"
-msgstr ""
+msgstr "Inici"
 
 #: ../treebrowser/src/treebrowser.c:1712
-#, fuzzy
 msgid "Track path"
-msgstr "Directori base:"
+msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1717
-#, fuzzy
 msgid "Hide bars"
-msgstr "Amaga la Barra _Lateral"
+msgstr "Amaga les barres"
 
 #: ../treebrowser/src/treebrowser.c:1727
-msgid ""
-"Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
-"reverse try for example this '!;*.c;*.h;*.cpp'"
+msgid "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' reverse try for example this '!;*.c;*.h;*.cpp'"
 msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1735
@@ -5911,79 +5752,74 @@ msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1892
 msgid "External open command"
-msgstr ""
+msgstr "Ordre externa per obrir"
 
 #: ../treebrowser/src/treebrowser.c:1897
 #, c-format
 msgid ""
-"The command to execute when using \"Open with\". You can use %f and %d "
-"wildcards.\n"
+"The command to execute when using \"Open with\". You can use %f and %d wildcards.\n"
 "%f will be replaced with the filename including full path\n"
-"%d will be replaced with the path name of the selected file without the "
-"filename"
+"%d will be replaced with the path name of the selected file without the filename"
 msgstr ""
+"L'ordre a executar quan s'usa \"Obre amb\". Podeu usar els comodins %f i %d.\n"
+"%f serà substituit amb el nom del fitxer, incloent la ruta completa\n"
+"%d serà substituit amb la ruta completa, sense el nom del fitxer"
 
 #: ../treebrowser/src/treebrowser.c:1905
 msgid "Toolbar"
-msgstr ""
+msgstr "Barra d'Eines"
 
 #: ../treebrowser/src/treebrowser.c:1907
 msgid "Hidden"
-msgstr ""
+msgstr "Ocult"
 
 #: ../treebrowser/src/treebrowser.c:1908
 msgid "Top"
-msgstr ""
+msgstr "Part superior"
 
 #: ../treebrowser/src/treebrowser.c:1909
 msgid "Bottom"
-msgstr ""
+msgstr "Part inferior"
 
 #: ../treebrowser/src/treebrowser.c:1914
 msgid "If position is changed, the option require plugin restart."
 msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1918
-#, fuzzy
 msgid "Show icons"
-msgstr "Mostra icones."
+msgstr "Mostra les icones"
 
 #: ../treebrowser/src/treebrowser.c:1920
 msgid "None"
-msgstr ""
+msgstr "Cap"
 
 #: ../treebrowser/src/treebrowser.c:1921
-#, fuzzy
 msgid "Base"
-msgstr "Directori base:"
+msgstr "Base"
 
 #: ../treebrowser/src/treebrowser.c:1922
 msgid "Content-type"
-msgstr ""
+msgstr "Tipus de continguts"
 
 #: ../treebrowser/src/treebrowser.c:1933
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1935
-#, fuzzy
 msgid "Hide object files"
-msgstr "Selecciona un Fitxer"
+msgstr "Amaga els fitxers objecte"
 
 #: ../treebrowser/src/treebrowser.c:1940
-msgid ""
-"Don't show generated object files in the file browser, this includes *.o, *."
-"obj. *.so, *.dll, *.a, *.lib"
+msgid "Don't show generated object files in the file browser, this includes *.o, *.obj. *.so, *.dll, *.a, *.lib"
 msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1942
-#, fuzzy
 msgid "Reverse filter"
-msgstr "Elimina un Fitxer"
+msgstr "Inverteix el filtre"
 
 #: ../treebrowser/src/treebrowser.c:1947
 msgid "Follow current document"
-msgstr ""
+msgstr "Segueix el document actual"
 
 #: ../treebrowser/src/treebrowser.c:1952
 msgid "Single click, open document and focus it"
@@ -5991,57 +5827,51 @@ msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1957
 msgid "Double click open directory"
-msgstr ""
+msgstr "Doble clic obre els directoris"
 
 #: ../treebrowser/src/treebrowser.c:1962
 msgid "On delete file, close it if is opened"
 msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1967
-#, fuzzy
 msgid "Show tree lines"
-msgstr "Mostra consells."
+msgstr "Mostra les línies de l'arbre"
 
 #: ../treebrowser/src/treebrowser.c:2050
-#, fuzzy
 msgid "Focus File List"
-msgstr "El fitxer ja existeix"
+msgstr "Enfoca la Llista de Fitxers"
 
 #: ../treebrowser/src/treebrowser.c:2052
 msgid "Focus Path Entry"
 msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:2054
-#, fuzzy
 msgid "Rename Object"
-msgstr "Nom de fitxer:"
+msgstr "Reanomena Objecte"
 
 #: ../treebrowser/src/treebrowser.c:2056
-#, fuzzy
 msgid "Create New File"
-msgstr "Directori _Base"
+msgstr "Crea un Fitxer Nou"
 
 #: ../treebrowser/src/treebrowser.c:2058
-#, fuzzy
 msgid "Create New Directory"
-msgstr "Directori _Base"
+msgstr "Crea un Directori Nou"
 
 #: ../updatechecker/src/updatechecker.c:41
 msgid "Updatechecker"
 msgstr ""
 
 #: ../updatechecker/src/updatechecker.c:42
-msgid ""
-"A plugin which is checking whether there are updates for Geany available."
+msgid "A plugin which is checking whether there are updates for Geany available."
 msgstr ""
 
 #: ../updatechecker/src/updatechecker.c:190
 msgid "There is a more recent version available"
-msgstr ""
+msgstr "Hi ha disponible una versió més recent disponible"
 
 #: ../updatechecker/src/updatechecker.c:198
 msgid "No update available"
-msgstr ""
+msgstr "No hi ha cap actualització disponible"
 
 #: ../updatechecker/src/updatechecker.c:210
 #, c-format
@@ -6053,103 +5883,97 @@ msgstr ""
 
 #: ../updatechecker/src/updatechecker.c:276
 msgid "Run updatecheck on startup"
-msgstr ""
+msgstr "Executa updatecheck a l'inici"
 
 #: ../updatechecker/src/updatechecker.c:319
 msgid "Check for Updates"
-msgstr ""
+msgstr "Comprova si hi ha Actualitzacions"
 
 #: ../webhelper/src/gwh-enum-types.c:15
 msgid "message-window"
-msgstr ""
+msgstr "finestra-de-missatges"
 
 #: ../webhelper/src/gwh-enum-types.c:16
-#, fuzzy
 msgid "sidebar"
-msgstr "Amaga la Barra _Lateral"
+msgstr "barra lateral"
 
 #: ../webhelper/src/gwh-enum-types.c:17
 msgid "separate-window"
-msgstr ""
+msgstr "finestra-separada"
 
 #: ../webhelper/src/gwh-enum-types.c:32
 msgid "none"
-msgstr ""
+msgstr "cap"
 
 #: ../webhelper/src/gwh-enum-types.c:33
 msgid "on-connexion"
-msgstr ""
+msgstr "en-connexió"
 
 #: ../webhelper/src/gwh-enum-types.c:48
-#, fuzzy
 msgid "normal"
-msgstr "_Format"
+msgstr "normal"
 
 #: ../webhelper/src/gwh-enum-types.c:49
 msgid "utility"
-msgstr ""
+msgstr "utilitat"
 
 #: ../webhelper/src/gwh-settings.c:775
 #, c-format
 msgid "%s:"
-msgstr ""
+msgstr "%s:"
 
 #: ../webhelper/src/gwh-browser.c:528
 msgid "_Zoom"
-msgstr ""
+msgstr "_Zoom"
 
 #: ../webhelper/src/gwh-browser.c:550
 msgid "Full-_content zoom"
 msgstr ""
 
 #: ../webhelper/src/gwh-browser.c:561
-#, fuzzy
 msgid "Flip panes orientation"
-msgstr "Mida del paper:"
+msgstr "Canvia la orientació dels panells"
 
 #: ../webhelper/src/gwh-browser.c:808
 msgid "Back"
-msgstr ""
+msgstr "Enrere"
 
 #: ../webhelper/src/gwh-browser.c:812
 msgid "Forward"
-msgstr ""
+msgstr "Reenvia"
 
 #: ../webhelper/src/gwh-browser.c:816
-#, fuzzy
 msgid "Cancel loading"
-msgstr "Codificació:"
+msgstr "Cancel·la la càrrega"
 
 #: ../webhelper/src/gwh-browser.c:820
 msgid "Reload current page"
-msgstr ""
+msgstr "Actualitza la pàgina actual"
 
-#: ../webhelper/src/gwh-browser.c:833 ../webhelper/src/gwh-browser.c:879
+#: ../webhelper/src/gwh-browser.c:833
+#: ../webhelper/src/gwh-browser.c:879
 msgid "Web inspector"
-msgstr ""
+msgstr "Inspector web"
 
 #: ../webhelper/src/gwh-browser.c:834
 msgid "Toggle web inspector"
-msgstr ""
+msgstr "Habilita l'inspector web"
 
 #: ../webhelper/src/gwh-plugin.c:50
 msgid "Web helper"
 msgstr ""
 
 #: ../webhelper/src/gwh-plugin.c:51
-msgid ""
-"Display a preview web page that gets updated upon document saving and "
-"provide web analysis and debugging tools (aka Web Inspector), all using "
-"WebKit."
+msgid "Display a preview web page that gets updated upon document saving and provide web analysis and debugging tools (aka Web Inspector), all using WebKit."
 msgstr ""
 
 #: ../webhelper/src/gwh-plugin.c:141
 msgid "Web view"
-msgstr ""
+msgstr "Vista Web"
 
 #: ../webhelper/src/gwh-plugin.c:186
 msgid "Web preview"
-msgstr ""
+msgstr "Previsualització Web"
 
 #: ../webhelper/src/gwh-plugin.c:265
 msgid "Reload upon document saving"
@@ -6172,9 +5996,8 @@ msgid "Last URI visited by the browser"
 msgstr ""
 
 #: ../webhelper/src/gwh-plugin.c:317
-#, fuzzy
 msgid "Browser orientation"
-msgstr "Mida del paper:"
+msgstr "Orientació del navegador"
 
 #: ../webhelper/src/gwh-plugin.c:318
 msgid "Orientation of the browser widget"
@@ -6182,7 +6005,7 @@ msgstr ""
 
 #: ../webhelper/src/gwh-plugin.c:324
 msgid "Browser position"
-msgstr ""
+msgstr "Posició de l'explorador"
 
 #: ../webhelper/src/gwh-plugin.c:325
 msgid "Position of the browser widget in Geany's UI"
@@ -6217,9 +6040,7 @@ msgid "Secondary windows skip task bar"
 msgstr ""
 
 #: ../webhelper/src/gwh-plugin.c:350
-msgid ""
-"Whether to tell the window manager not to show the secondary windows in the "
-"task bar"
+msgid "Whether to tell the window manager not to show the secondary windows in the task bar"
 msgstr ""
 
 #: ../webhelper/src/gwh-plugin.c:355
@@ -6240,21 +6061,21 @@ msgstr ""
 
 #: ../webhelper/src/gwh-plugin.c:438
 msgid "Toggle Web Inspector"
-msgstr ""
+msgstr "Habilita l'Inspector Web"
 
 #: ../webhelper/src/gwh-plugin.c:443
 msgid "Show/Hide Web View's Window"
-msgstr ""
+msgstr "Mostra/amaga la Finestra de Vista Web"
 
 #. Browser
 #: ../webhelper/src/gwh-plugin.c:509
 msgid "Browser"
-msgstr ""
+msgstr "Explorador"
 
 #. Windows
 #: ../webhelper/src/gwh-plugin.c:521
 msgid "Windows"
-msgstr ""
+msgstr "Finestres"
 
 #: ../xmlsnippets/src/plugin.c:45
 msgid "XML Snippets"
