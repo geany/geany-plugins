@@ -2053,7 +2053,7 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 	GSList *gsl=mList;
 	Macro *m;
 	gchar *cTemp;
-	gboolean bEditable;
+	gpointer bEditable;
 
 	/* create dialog box */
 	dialog=gtk_dialog_new_with_buttons(_("Edit Macros"),GTK_WINDOW(geany->main_widgets->window),
