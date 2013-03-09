@@ -147,9 +147,9 @@ const MacroDetailEntry MacroDetails[]={
 {SCI_SELECTIONDUPLICATE,N_("Insert duplicate of selected text after selection. If nothing selected,\
  duplicate line")},
 
-{SCI_SEARCHNEXT,"Search for next \"\""},
-{SCI_SEARCHPREV,"Search for previous \"\""},
-{SCI_SEARCHANCHOR,"Set start of search to beginning of selection"},
+{SCI_SEARCHNEXT,N_("Search for next \"\"")},
+{SCI_SEARCHPREV,N_("Search for previous \"\"")},
+{SCI_SEARCHANCHOR,N_("Set start of search to beginning of selection")},
 
 /* editor commands that don't seem to work well in editing
  * {SCI_FORMFEED,N_("FormFeed")},
@@ -1597,7 +1597,7 @@ static void combo_edited(GtkCellRendererText *cell,gchar *iter_id,gchar *new_tex
 
 	/* find MacroDetails that has the setting of new setting */
 	i=0;
-	while(strcmp(MacroDetails[i].description,new_text)!=0)
+	while(strcmp(_(MacroDetails[i].description),new_text)!=0)
 		i++;
 
 	/* Get the iterator for treeview*/
@@ -1618,7 +1618,7 @@ static void combo_edited(GtkCellRendererText *cell,gchar *iter_id,gchar *new_tex
 	}
 
 	/* see what text will have to change into */
-	cTemp=(gchar*)(MacroDetails[i].description);
+	cTemp=(gchar*)(_(MacroDetails[i].description));
 	cTemp2=NULL;
 	if(MacroDetails[i].message==SCI_REPLACESEL)
 	{
@@ -1748,7 +1748,7 @@ static void EditMacroElements(Macro *m)
 
 		gtk_list_store_append(ls,&iter);  /*  Acquire an iterator */
 		/* set text, pointer to macro detail, and any ascociated string */
-		cTemp=(gchar*)(MacroDetails[i].description);
+		cTemp=(gchar*)_(MacroDetails[i].description);
 		cTemp2=NULL;
 		if(me->message==SCI_REPLACESEL)
 		{
@@ -1775,7 +1775,7 @@ static void EditMacroElements(Macro *m)
 	while(MacroDetails[i].description!=NULL)
 	{
 		gtk_list_store_append(lsCombo,&iter);
-		gtk_list_store_set(lsCombo,&iter,0,MacroDetails[i].description,1,
+		gtk_list_store_set(lsCombo,&iter,0,_(MacroDetails[i].description),1,
 		                   &(MacroDetails[i]),-1);
 		i++;
 	}
@@ -1898,7 +1898,7 @@ static void EditMacroElements(Macro *m)
 			if(i==GEANY_MACRO_BUTTON_ABOVE)
 			{
 				gtk_list_store_append(ls,&iterNew);
-				gtk_list_store_set(ls,&iterNew,0,MacroDetails[0].description,2,&(MacroDetails[0]),3,NULL,
+				gtk_list_store_set(ls,&iterNew,0,_(MacroDetails[0].description),2,&(MacroDetails[0]),3,NULL,
 				                   -1);
 				gtk_list_store_move_before(ls,&iterNew,&iter);
 
@@ -1910,7 +1910,7 @@ static void EditMacroElements(Macro *m)
 			if(i==GEANY_MACRO_BUTTON_BELOW)
 			{
 				gtk_list_store_append(ls,&iterNew);
-				gtk_list_store_set(ls,&iterNew,0,MacroDetails[0].description,2,&(MacroDetails[0]),3,NULL,
+				gtk_list_store_set(ls,&iterNew,0,_(MacroDetails[0].description),2,&(MacroDetails[0]),3,NULL,
 				                   -1);
 				gtk_list_store_move_after(ls,&iterNew,&iter);
 
@@ -1935,7 +1935,7 @@ static void EditMacroElements(Macro *m)
 		        gtk_tree_model_iter_n_children(GTK_TREE_MODEL(ls),NULL)==0)
 		{
 			gtk_list_store_append(ls,&iterNew);
-			gtk_list_store_set(ls,&iterNew,0,MacroDetails[0].description,2,&(MacroDetails[0]),3,NULL,-1);
+			gtk_list_store_set(ls,&iterNew,0,_(MacroDetails[0].description),2,&(MacroDetails[0]),3,NULL,-1);
 
 			/* call callback: this will update buttons acordingly */
 			DoEditMacroElementsSelectionChanged(selection,dialog);
