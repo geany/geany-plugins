@@ -2053,7 +2053,6 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 	GSList *gsl=mList;
 	Macro *m;
 	gchar *cTemp;
-	gpointer bEditable;
 
 	/* create dialog box */
 	dialog=gtk_dialog_new_with_buttons(_("Edit Macros"),GTK_WINDOW(geany->main_widgets->window),
@@ -2137,14 +2136,13 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 		if(gtk_tree_selection_get_selected(selection,NULL,&iter))
 		{
 			/* get macro name */
-			gtk_tree_model_get(GTK_TREE_MODEL(ls),&iter,0,&cTemp,2,&bEditable,-1);
+			gtk_tree_model_get(GTK_TREE_MODEL(ls),&iter,2,&m,-1);
 			/* handle delete macro */
-			if(i==GEANY_MACRO_BUTTON_DELETE && bEditable)
+			if(i==GEANY_MACRO_BUTTON_DELETE && m)
 			{
 				/* remove from table */
 				gtk_list_store_remove(GTK_LIST_STORE(ls),&iter);
 				/* remove macro */
-				m=FindMacroByName(cTemp);
 				RemoveMacroFromList(m);
 				FreeMacro(m);
 				/* Signal that macros have changed (and need to be saved) */
@@ -2155,9 +2153,8 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 			}
 
 			/* handle re-record macro */
-			if(i==GEANY_MACRO_BUTTON_RERECORD && bEditable && DocumentPresent())
+			if(i==GEANY_MACRO_BUTTON_RERECORD && m && DocumentPresent())
 			{
-				m=FindMacroByName(cTemp);
 				/* ensure have empty recording macro */
 				FreeMacro(RecordingMacro);
 				RecordingMacro=CreateMacro();
@@ -2177,16 +2174,12 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 			}
 
 			/* handle edit macro */
-			if(i==GEANY_MACRO_BUTTON_EDIT && bEditable)
+			if(i==GEANY_MACRO_BUTTON_EDIT && m)
 			{
-				m=FindMacroByName(cTemp);
 				EditMacroElements(m);
 				/* Signal that macros have changed (and need to be saved) */
 				bMacrosHaveChanged=TRUE;
 			}
-
-			/* free memory */
-			g_free(cTemp);
 		}
 
 	}
