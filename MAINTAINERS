@@ -21,7 +21,7 @@ codenav
 P:
 M:
 W:
-S:
+S: Orphan
 
 commander
 P: Colomban Wendling <ban@herbesfolles.org>
@@ -82,7 +82,7 @@ geanylua
 P:
 M:
 W:
-S:
+S: Orphan
 
 geanymacro
 P: William Fraser <william.fraser@virgin.net>
@@ -154,7 +154,7 @@ pretty-printer
 P:
 M:
 W:
-S:
+S: Orphan
 
 scope
 P: Dimitar Zhekov <dimitar.zhekov@gmail.com>
@@ -166,7 +166,7 @@ shiftcolumn
 P:
 M:
 W:
-S:
+S: Orphan
 
 spellcheck
 P: Enrico Tröger <enrico.troeger@uvena.de>
@@ -184,7 +184,7 @@ treebrowser
 P:
 M:
 W:
-S:
+S: Orphan
 
 updatechecker
 P: Frank Lanitz <frank@frank.uvena.de>
