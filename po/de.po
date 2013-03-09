@@ -113,7 +113,7 @@ msgstr "URI kopieren"
 
 #: ../addons/src/ao_wrapwords.c:249
 msgid "Enclose Characters"
-msgstr "Stopzeichen"
+msgstr "Begrenzungszeichen"
 
 #: ../addons/src/ao_wrapwords.c:260
 #, c-format
@@ -3299,27 +3299,22 @@ msgstr "Suchen nach:"
 
 #. create checkbox to check for search options
 #: ../geanymacro/src/geanymacro.c:1442
-#, fuzzy
 msgid "Search is case sensitive"
 msgstr "Groß-/Kleinschreibung bei Suche beachten"
 
 #: ../geanymacro/src/geanymacro.c:1447
-#, fuzzy
 msgid "Search for whole word"
 msgstr "Nach ganzem Wort suchen"
 
 #: ../geanymacro/src/geanymacro.c:1452
-#, fuzzy
 msgid "Search for start of word"
 msgstr "Nach Wortanfang suchen"
 
 #: ../geanymacro/src/geanymacro.c:1457
-#, fuzzy
 msgid "Search text is regular expression"
 msgstr "Suchtext ist regulärer Ausdruck"
 
 #: ../geanymacro/src/geanymacro.c:1462
-#, fuzzy
 msgid "Search text is POSIX compatible"
 msgstr "Suchtext ist POSIX-kompatibel"
 
@@ -3328,7 +3323,6 @@ msgstr "Suchtext ist POSIX-kompatibel"
 msgid "Edit Insert/Replace Text"
 msgstr "Text zum Einfügen/Ersetzen bearbeiten"
 
-# Ironischerweise finde ich den Kontext für diesen String nicht --Dominic
 #: ../geanymacro/src/geanymacro.c:1544
 msgid "Text:"
 msgstr "Text:"
@@ -4651,9 +4645,8 @@ msgid "Sidebar"
 msgstr "Seitenleiste"
 
 #: ../markdown/src/conf.c:586
-#, fuzzy
 msgid "Message Window"
-msgstr "Meldungsfenster _verstecken"
+msgstr "Meldungsfenster"
 
 #: ../markdown/src/conf.c:600
 msgid "Font:"
@@ -4672,9 +4665,8 @@ msgid "FG Color:"
 msgstr "Vordergrundfarbe"
 
 #: ../markdown/src/conf.c:672
-#, fuzzy
 msgid "Select Template File"
-msgstr "Auswählen bis Zeile"
+msgstr "Vorlagendatei auswählen"
 
 #: ../markdown/src/plugin.c:35
 msgid "Real-time Markdown preview"
@@ -4787,14 +4779,12 @@ msgid "_Setup Program"
 msgstr ""
 
 #: ../scope/data/scope.glade.h:3
-#, fuzzy
 msgid "Recent _Programs"
-msgstr "Kein Programm"
+msgstr "Aktuelles _Programm"
 
 #: ../scope/data/scope.glade.h:4
-#, fuzzy
 msgid "_Run/Continue"
-msgstr "Starten / Fortsetzen"
+msgstr "Starten / _Fortsetzen"
 
 # Noch keine Idee hierzu --Dominic
 #: ../scope/data/scope.glade.h:5
@@ -4802,70 +4792,62 @@ msgid "Run to _Cursor"
 msgstr "Bis zum Cursor ausführen"
 
 # Noch keine Idee hierzu --Dominic
+# Ich auch nicht -- frlan
 #: ../scope/data/scope.glade.h:6
-#, fuzzy
 msgid "Run to _Source"
 msgstr "Bis zum Cursor ausführen"
 
 # noch keine Idee  --Dominic
 # Vielleicht besser :) --frlan
 #: ../scope/data/scope.glade.h:7
-#, fuzzy
 msgid "Step _Into"
-msgstr "Eintreten"
+msgstr "E_intreten"
 
 #: ../scope/data/scope.glade.h:8
-#, fuzzy
 msgid "Step _Over"
-msgstr "Überspringen"
+msgstr "Ü_berspringen"
 
 # noch keine Idee  --Dominic
 #: ../scope/data/scope.glade.h:9
-#, fuzzy
 msgid "Step O_ut"
-msgstr "Aussteigen"
+msgstr "A_ussteigen"
 
 #: ../scope/data/scope.glade.h:10
-#, fuzzy
 msgid "_Terminate"
-msgstr "abgebrochen"
+msgstr "_Abbrechen"
 
 #: ../scope/data/scope.glade.h:11
-#, fuzzy
 msgid "Toggle _Breakpoint"
-msgstr "Haltepunkte"
+msgstr "Haltepunkte _umschalten"
 
 #: ../scope/data/scope.glade.h:12
-#, fuzzy
 msgid "_GDB Command"
-msgstr "Befehl 0:"
+msgstr "_GDB-Kommando"
 
 #: ../scope/data/scope.glade.h:13
-#, fuzzy
+
 msgid "_More"
-msgstr "Weitere"
+msgstr "_Weitere"
 
 #: ../scope/data/scope.glade.h:14
-#, fuzzy
 msgid "_Show Terminal"
-msgstr "In Terminal ausführen"
+msgstr "Terminal anzeigen"
 
 #: ../scope/data/scope.glade.h:15
 msgid "_Reset Markers"
-msgstr ""
+msgstr "_Markierungen zurücksetzen"
 
 #: ../scope/data/scope.glade.h:16
 msgid "_Cleanup Files"
-msgstr ""
+msgstr "_Dateien aufräumen"
 
 #: ../scope/data/scope.glade.h:17
 msgid "_Feed"
 msgstr ""
 
 #: ../scope/data/scope.glade.h:18
-#, fuzzy
 msgid "_Window"
-msgstr "Fenster"
+msgstr "_Fenster"
 
 #: ../scope/data/scope.glade.h:19
 msgid "_Auto Show"
@@ -4900,19 +4882,17 @@ msgid "_Send Signal"
 msgstr "Signal _senden"
 
 #: ../scope/data/scope.glade.h:27
-#, fuzzy
 msgid "S_elect on"
-msgstr "Schriftart auswählen"
+msgstr ""
 
 #: ../scope/data/scope.glade.h:28
-#, fuzzy
+
 msgid "_Running"
-msgstr "läuft"
+msgstr "_läuft"
 
 #: ../scope/data/scope.glade.h:29
-#, fuzzy
 msgid "_Stopped"
-msgstr "unterbrochen"
+msgstr "_unterbrochen"
 
 #: ../scope/data/scope.glade.h:30
 msgid "_Exited"
@@ -4923,23 +4903,20 @@ msgid "_Follow"
 msgstr "_Verfolgen"
 
 #: ../scope/data/scope.glade.h:32
-#, fuzzy
 msgid "_Columns"
-msgstr "_Spaltenmodus"
+msgstr "_Spalten"
 
 #: ../scope/data/scope.glade.h:33
 msgid "Show _Group"
 msgstr "_Gruppe zeigen"
 
 #: ../scope/data/scope.glade.h:34
-#, fuzzy
 msgid "Show _Core"
-msgstr "Werkzeugleisten anzeigen"
+msgstr "_Kern anzeigen "
 
 #: ../scope/data/scope.glade.h:35
-#, fuzzy
 msgid "Add _Break"
-msgstr "Haltepunkt hinzufügen"
+msgstr "Haltepunkt _hinzufügen"
 
 #: ../scope/data/scope.glade.h:36
 #, fuzzy
@@ -4986,27 +4963,24 @@ msgid "_7 bit"
 msgstr "_7 bit"
 
 #: ../scope/data/scope.glade.h:46
-#, fuzzy
 msgid "_Locale"
 msgstr "Lokal"
 
 #: ../scope/data/scope.glade.h:47
-#, fuzzy
 msgid "_UTF-8"
-msgstr "UTF-8"
+msgstr "_UTF-8"
 
 #: ../scope/data/scope.glade.h:48
-#, fuzzy
 msgid "_Show .names"
-msgstr "Symbole anzeigen:"
+msgstr ".names anzeigen"
 
 #: ../scope/data/scope.glade.h:49
 msgid "R_ead"
-msgstr ""
+msgstr "L_esen"
 
 #: ../scope/data/scope.glade.h:50
 msgid "_Group by"
-msgstr ""
+msgstr "_Gruppieren über"
 
 #: ../scope/data/scope.glade.h:51
 msgid "_1"
@@ -5026,7 +5000,7 @@ msgstr "_8"
 
 #: ../scope/data/scope.glade.h:55
 msgid "_Jump To"
-msgstr ""
+msgstr "_Springen zu"
 
 #: ../scope/data/scope.glade.h:56
 msgid "_Apply"
@@ -5066,19 +5040,16 @@ msgid "_Watch Expression"
 msgstr ""
 
 #: ../scope/data/scope.glade.h:66
-#, fuzzy
 msgid "_Inspect Variable"
-msgstr "Umgebungsvariablen"
+msgstr ""
 
 #: ../scope/data/scope.glade.h:67
-#, fuzzy
 msgid "Program Terminal"
-msgstr "Debug-Terminal"
+msgstr ""
 
 #: ../scope/data/scope.glade.h:68
-#, fuzzy
 msgid "Threads"
-msgstr "Thread %i"
+msgstr "Zweige"
 
 #: ../scope/data/scope.glade.h:70
 #, fuzzy
@@ -5114,19 +5085,16 @@ msgid "Convert _UTF-8 to locale"
 msgstr "In _Tabelle umwandeln"
 
 #: ../scope/data/scope.glade.h:77
-#, fuzzy
 msgid "_Thread"
-msgstr "Thread %i"
+msgstr "Thread"
 
 #: ../scope/data/scope.glade.h:78
 msgid "_Group"
 msgstr "_Gruppe"
 
-# Das ist der Titel eines Fensters, welches man wahrscheinlich nicht oder nur selten zu Gesicht bekommt.
 #: ../scope/data/scope.glade.h:79
-#, fuzzy
 msgid "_Frame"
-msgstr "Rahmeninfo"
+msgstr "_Rahmen"
 
 #: ../scope/data/scope.glade.h:80
 #, fuzzy
@@ -5143,18 +5111,16 @@ msgid "_Arguments:"
 msgstr "Argumente"
 
 #: ../scope/data/scope.glade.h:83
-#, fuzzy
 msgid "En_vironment:"
-msgstr "Umgebung:"
+msgstr "U_mgebung:"
 
 #: ../scope/data/scope.glade.h:84
 msgid "_Working dir:"
 msgstr "_Arbeitsverzeichnis:"
 
 #: ../scope/data/scope.glade.h:85
-#, fuzzy
 msgid "_Load script:"
-msgstr "_Lua-Skripte"
+msgstr "Skript laden:"
 
 #: ../scope/data/scope.glade.h:86
 msgid "Auto _run program/exit gdb"
@@ -5174,9 +5140,8 @@ msgstr ""
 
 #: ../scope/data/scope.glade.h:90
 #: ../scope/src/prefs.c:337
-#, fuzzy
 msgid "Program"
-msgstr "Kein Programm"
+msgstr "Programm"
 
 #: ../scope/data/scope.glade.h:91
 #, fuzzy
