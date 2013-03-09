@@ -571,7 +571,7 @@ static gboolean Notification_Handler(GObject *obj,GeanyEditor *ed,SCNotification
 static gchar *GetPretyKeyName(guint keyval,guint state)
 {
 	gboolean bAlt,bCtrl,bShift;
-	gchar *cTemp;
+	const gchar *cTemp;
 	gchar *cName;
 	gchar *cPretyName;
 
@@ -1562,9 +1562,8 @@ static void EditSCIREPLACESELText(GtkTreeModel *model,GtkTreeIter *iter)
 			/* handle change in text */
 
 			/* first free old text */
-			gtk_tree_model_get(model,iter,0,&cTemp2,3,&cTemp,-1);
+			gtk_tree_model_get(model,iter,3,&cTemp,-1);
 			g_free(cTemp);
-			g_free(cTemp2);
 
 			/* get new text */
 			cTemp=g_strdup((gchar*)gtk_entry_get_text((GtkEntry*)(gtke)));
@@ -1572,6 +1571,8 @@ static void EditSCIREPLACESELText(GtkTreeModel *model,GtkTreeIter *iter)
 
 			/* set text */
 			gtk_list_store_set(GTK_LIST_STORE(model),iter,0,cTemp2,3,cTemp,-1);
+
+			g_free(cTemp2);
 
 			/* break out of loop */
 			break;
@@ -1618,7 +1619,6 @@ static void combo_edited(GtkCellRendererText *cell,gchar *iter_id,gchar *new_tex
 	}
 
 	/* see what text will have to change into */
-	cTemp=(gchar*)(_(MacroDetails[i].description));
 	cTemp2=NULL;
 	if(MacroDetails[i].message==SCI_REPLACESEL)
 	{
@@ -1632,9 +1632,13 @@ static void combo_edited(GtkCellRendererText *cell,gchar *iter_id,gchar *new_tex
 		cTemp2=g_strdup("0,");
 		bNeedButtonUpdate=TRUE;
 	}
+	else
+		cTemp=g_strdup(_(MacroDetails[i].description));
 
 	/* Update the model */
 	gtk_list_store_set(GTK_LIST_STORE(model),&iter,0,cTemp,2,&(MacroDetails[i]),3,cTemp2,-1);
+
+	g_free(cTemp);
 
 	/* check if changing to or from SCI_REPLACESEL and enable/disable edit button as needed */
 	if(bNeedButtonUpdate)
@@ -1748,7 +1752,6 @@ static void EditMacroElements(Macro *m)
 
 		gtk_list_store_append(ls,&iter);  /*  Acquire an iterator */
 		/* set text, pointer to macro detail, and any ascociated string */
-		cTemp=(gchar*)_(MacroDetails[i].description);
 		cTemp2=NULL;
 		if(me->message==SCI_REPLACESEL)
 		{
@@ -1764,9 +1767,13 @@ static void EditMacroElements(Macro *m)
 			cTemp2=g_strdup_printf("%lu,%s",me->wparam,((gchar*)(me->lparam)==NULL)?
 			                       "":((gchar*)(me->lparam)));
 		}
+		else
+			cTemp=g_strdup(_(MacroDetails[i].description));
 
 		gtk_list_store_set(ls,&iter,0,cTemp,2,&(MacroDetails[i]),3,cTemp2,-1);
 		gsl=g_slist_next(gsl);
+
+		g_free(cTemp);
 	}
 
 	/* create list store for combo renderer */
