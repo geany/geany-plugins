@@ -11,16 +11,18 @@ About
 
 gms is a Geany Mini-Script filter plugin
 
-In order to use it you need Geany 0.15.
+In order to use it you need Geany 0.15 or later.
 
 Features
 ========
 This plugin is a tool to apply a script filter on ::
+
    o the text selection,
    o the current document,
    o all documents of the current session.
 
 The filter type can be ::
+
    o Unix shell script,
    o perl script,
    o python script,
@@ -28,6 +30,7 @@ The filter type can be ::
    o awk script.
 
 The output can be ::
+
    o the selection of the current document,
    o all the current document,
    o or a new document.
@@ -47,6 +50,7 @@ After compiling and/or installing gms, start Geany and go to menu
 Tools->Plugin Manager and set checkbox at gms plugin.
 
 You can configure the following options::
+
     o Shell path,
     o Perl path,
     o Python path,
@@ -54,8 +58,8 @@ You can configure the following options::
     o Awk path,
     o user script .
 
-After configuring, go to menu Tools->Plugin Manager and click to "Mini-script".
-Geany opens a gms dialog box::
+After configuring, go to menu Tools->Plugin Manager and click to "Mini-script". Geany opens a gms dialog box::
+
     o With the combobox, you select the script type,
     o In the text view, you write the filter script.
     o In the input area, you select the filter input::
@@ -93,7 +97,7 @@ we want to keep the minimum requirement for GTK at 2.6.
 Download
 ========
 
-The current version is |(version)|, download it here http://
+The current version is |(version)|
 
 --
 2008-2009 by Pascal BURLOT
