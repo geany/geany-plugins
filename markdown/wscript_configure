@@ -36,13 +36,10 @@ for package_name, package_version, uselib_store in packages:
                      mandatory=True,
                      args='--cflags --libs')
 
-try:
-    # try Discount/libmarkdown
-    conf.check(header_name='mkdio.h',
-           mandatory=True)
+# try Discount/libmarkdown
+conf.check(header_name='mkdio.h',
+       mandatory=False)
+if conf.env['HAVE_MKDIO_H']:
     conf.check(lib='markdown',
            uselib_store='DISCOUNT',
-           mandatory=True)
-except ConfigurationError:
-    # fallback to embedded peg-markdown
-    pass
+           mandatory=False)
