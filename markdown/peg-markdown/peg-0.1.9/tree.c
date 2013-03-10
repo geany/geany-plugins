@@ -1,6 +1,6 @@
 /* Copyright (c) 2007 by Ian Piumarta
  * All rights reserved.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the 'Software'),
  * to deal in the Software without restriction, including without limitation
@@ -10,9 +10,9 @@
  * permission notice appear in all copies of the Software.  Acknowledgement
  * of the use of this Software in supporting documentation would be
  * appreciated but is not required.
- * 
+ *
  * THE SOFTWARE IS PROVIDED 'AS IS'.  USE ENTIRELY AT YOUR OWN RISK.
- * 
+ *
  * Last edited: 2007-05-15 10:32:09 by piumarta on emilia
  */
 
@@ -77,7 +77,7 @@ Node *beginRule(Node *rule)
 void Rule_setExpression(Node *node, Node *expression)
 {
   assert(node);
-#ifdef DEBUG
+#ifdef LEG_DEBUG
   Node_print(node);  fprintf(stderr, " [%d]<- ", node->type);  Node_print(expression);  fprintf(stderr, "\n");
 #endif
   assert(Rule == node->type);
@@ -252,7 +252,7 @@ static Node  *stack[1024];
 static Node **stackPointer= stack;
 
 
-#ifdef DEBUG
+#ifdef LEG_DEBUG
 static void dumpStack(void)
 {
   Node **p;
@@ -269,7 +269,7 @@ Node *push(Node *node)
 {
   assert(node);
   assert(stackPointer < stack + 1023);
-#ifdef DEBUG
+#ifdef LEG_DEBUG
   dumpStack();  fprintf(stderr, " PUSH ");  Node_print(node);  fprintf(stderr, "\n");
 #endif
   return *++stackPointer= node;
@@ -284,7 +284,7 @@ Node *top(void)
 Node *pop(void)
 {
   assert(stackPointer > stack);
-#ifdef DEBUG
+#ifdef LEG_DEBUG
   dumpStack();  fprintf(stderr, " POP\n");
 #endif
   return *stackPointer--;
