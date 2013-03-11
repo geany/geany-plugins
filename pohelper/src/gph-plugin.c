@@ -52,6 +52,8 @@ PLUGIN_SET_TRANSLATABLE_INFO (
 
 
 enum {
+  GPH_KB_GOTO_PREV,
+  GPH_KB_GOTO_NEXT,
   GPH_KB_GOTO_PREV_UNTRANSLATED,
   GPH_KB_GOTO_NEXT_UNTRANSLATED,
   GPH_KB_GOTO_PREV_FUZZY,
@@ -283,6 +285,35 @@ find_next_fuzzy (GeanyDocument *doc)
 /* goto */
 
 static void
+goto_prev (GeanyDocument *doc)
+{
+  if (doc_is_po (doc)) {
+    gint pos = sci_get_current_position (doc->editor->sci);
+    
+    pos = find_style (doc->editor->sci, SCE_PO_MSGID, pos, 0);
+    if (pos >= 0) {
+      pos = find_message (doc, pos, 0);
+      if (pos >= 0) {
+        editor_goto_pos (doc->editor, pos, FALSE);
+      }
+    }
+  }
+}
+
+static void
+goto_next (GeanyDocument *doc)
+{
+  if (doc_is_po (doc)) {
+    gint pos = find_message (doc, sci_get_current_position (doc->editor->sci),
+                             sci_get_length (doc->editor->sci));
+    
+    if (pos >= 0) {
+      editor_goto_pos (doc->editor, pos, FALSE);
+    }
+  }
+}
+
+static void
 goto_prev_untranslated (GeanyDocument *doc)
 {
   if (doc_is_po (doc)) {
@@ -406,6 +437,18 @@ on_document_save (GObject        *obj,
       g_free (translator);
     }
   }
+}
+
+static void
+on_kb_goto_prev (guint key_id)
+{
+  goto_prev (document_get_current ());
+}
+
+static void
+on_kb_goto_next (guint key_id)
+{
+  goto_next (document_get_current ());
 }
 
 static void
@@ -896,6 +939,16 @@ plugin_init (GeanyData *data)
   /* add keybindings */
   group = plugin_set_key_group (geany_plugin, "pohelper", GPH_KB_COUNT, NULL);
   
+  keybindings_set_item (group, GPH_KB_GOTO_PREV,
+                        on_kb_goto_prev, 0, 0,
+                        "goto-prev",
+                        _("Go to previous string"),
+                        NULL);
+  keybindings_set_item (group, GPH_KB_GOTO_NEXT,
+                        on_kb_goto_next, 0, 0,
+                        "goto-next",
+                        _("Go to next string"),
+                        NULL);
   keybindings_set_item (group, GPH_KB_GOTO_PREV_UNTRANSLATED,
                         on_kb_goto_prev_untranslated, 0, 0,
                         "goto-prev-untranslated",
