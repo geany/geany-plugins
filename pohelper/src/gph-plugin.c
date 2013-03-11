@@ -19,7 +19,6 @@
 
 /*
  * TODO:
- * * add keybinding to toggle fuzzyness
  * * allow to configure whether to update the metadata upon save
  * * add a menu in the UI
  */
@@ -61,6 +60,7 @@ enum {
   GPH_KB_GOTO_NEXT_UNTRANSLATED_OR_FUZZY,
   GPH_KB_PASTE_UNTRANSLATED,
   GPH_KB_REFLOW,
+  GPH_KB_TOGGLE_FUZZY,
   GPH_KB_COUNT
 };
 
@@ -708,6 +708,183 @@ on_kb_reflow (guint key_id)
   }
 }
 
+/* returns the first non-default style on the line, or the default style if
+ * there is no other on that line */
+static gint
+find_first_non_default_style_on_line (ScintillaObject  *sci,
+                                      gint              line)
+{
+  gint pos = sci_get_position_from_line (sci, line);
+  gint end = sci_get_line_end_position (sci, line);
+  gint style;
+  
+  do {
+    style = sci_get_style_at (sci, pos++);
+  } while (style == SCE_PO_DEFAULT && pos < end);
+  
+  return style;
+}
+
+/* parse flags line @line and puts the read flags in @flags
+ * a flags line looks like:
+ * #, flag-1, flag-2, flag-2, ... */
+static void
+parse_flags_line (ScintillaObject  *sci,
+                  gint              line,
+                  GPtrArray        *flags)
+{
+  gint start = sci_get_position_from_line (sci, line);
+  gint end = sci_get_line_end_position (sci, line);
+  gint pos;
+  gint ws, we;
+  gint ch;
+  
+  pos = start;
+  /* skip leading space and markers */
+  while (pos <= end && ((ch = sci_get_char_at (sci, pos)) == '#' ||
+                        ch == ',' || g_ascii_isspace (ch))) {
+    pos++;
+  }
+  /* and read the flags */
+  for (ws = we = pos; pos <= end; pos++) {
+    ch = sci_get_char_at (sci, pos);
+    
+    if (ch == ',' || g_ascii_isspace (ch) || pos >= end) {
+      if (ws < we) {
+        g_ptr_array_add (flags, sci_get_contents_range (sci, ws, we + 1));
+      }
+      ws = pos + 1;
+    } else {
+      we = pos;
+    }
+  }
+}
+
+/* adds or remove @flag from @flags.  returns whether the flag was added */
+static gboolean
+toggle_flag (GPtrArray   *flags,
+             const gchar *flag)
+{
+  gboolean add = TRUE;
+  guint i;
+  
+  /* search for the flag and remove it */
+  for (i = 0; i < flags->len; i++) {
+    if (strcmp (g_ptr_array_index (flags, i), flag) == 0) {
+      g_ptr_array_remove_index (flags, i);
+      add = FALSE;
+      break;
+    }
+  }
+  /* if it wasntt there, add it */
+  if (add) {
+    g_ptr_array_add (flags, g_strdup (flag));
+  }
+  
+  return add;
+}
+
+/* writes a flags line at @pos containgin @flags */
+static void
+write_flags (ScintillaObject *sci,
+             gint             pos,
+             GPtrArray       *flags)
+{
+  if (flags->len > 0) {
+    guint i;
+    
+    sci_start_undo_action (sci);
+    sci_insert_text (sci, pos, "#");
+    pos ++;
+    for (i = 0; i < flags->len; i++) {
+      const gchar *flag = g_ptr_array_index (flags, i);
+      
+      sci_insert_text (sci, pos, ", ");
+      pos += 2;
+      sci_insert_text (sci, pos, flag);
+      pos += (gint) strlen (flag);
+    }
+    sci_insert_text (sci, pos, "\n");
+    sci_end_undo_action (sci);
+  }
+}
+
+static void
+delete_line (ScintillaObject *sci,
+             gint             line)
+{
+  gint pos = sci_get_position_from_line (sci, line);
+  gint length = sci_get_line_length (sci, line);
+  
+  scintilla_send_message (sci, SCI_DELETERANGE, (uptr_t) pos, (sptr_t) length);
+}
+
+static void
+on_kb_toggle_fuzziness (guint key_id)
+{
+  GeanyDocument *doc = document_get_current ();
+  
+  if (doc_is_po (doc)) {
+    ScintillaObject *sci = doc->editor->sci;
+    gint pos = sci_get_current_position (sci);
+    gint line = sci_get_line_from_position (sci, pos);
+    gint style = find_first_non_default_style_on_line (sci, line);
+    
+    /* find the msgid for the current line */
+    while (line > 0 &&
+           (style == SCE_PO_MSGID_TEXT ||
+            style == SCE_PO_MSGSTR ||
+            style == SCE_PO_MSGSTR_TEXT)) {
+      line--;
+      style = find_first_non_default_style_on_line (sci, line);
+    }
+    while (line < sci_get_line_count (sci) &&
+           (style == SCE_PO_COMMENT ||
+            style == SCE_PO_PROGRAMMER_COMMENT ||
+            style == SCE_PO_REFERENCE ||
+            style == SCE_PO_FLAGS ||
+            style == SCE_PO_FUZZY)) {
+      line++;
+      style = find_first_non_default_style_on_line (sci, line);
+    }
+    
+    if (style == SCE_PO_MSGID) {
+      gint msgid_line = line;
+      GPtrArray *flags = g_ptr_array_new ();
+      
+      sci_start_undo_action (sci);
+      
+      if (line > 0) {
+        /* search for an existing flags line */
+        do {
+          line--;
+          style = find_first_non_default_style_on_line (sci, line);
+        } while (line > 0 &&
+                 (style == SCE_PO_COMMENT ||
+                  style == SCE_PO_PROGRAMMER_COMMENT ||
+                  style == SCE_PO_REFERENCE));
+        
+        if (style == SCE_PO_FLAGS || style == SCE_PO_FUZZY) {
+          /* ok we got a line with flags, parse them and remove them */
+          parse_flags_line (sci, line, flags);
+          delete_line (sci, line);
+        } else {
+          /* no flags, add the line */
+          line = msgid_line;
+        }
+      }
+      
+      toggle_flag (flags, "fuzzy");
+      write_flags (sci, sci_get_position_from_line (sci, line), flags);
+      
+      sci_end_undo_action (sci);
+      
+      g_ptr_array_foreach (flags, (GFunc) g_free, NULL);
+      g_ptr_array_free (flags, TRUE);
+    }
+  }
+}
+
 void
 plugin_init (GeanyData *data)
 {
@@ -758,6 +935,11 @@ plugin_init (GeanyData *data)
                         on_kb_reflow, 0, 0,
                         "reflow",
                         _("Reflow the translated string"),
+                        NULL);
+  keybindings_set_item (group, GPH_KB_TOGGLE_FUZZY,
+                        on_kb_toggle_fuzziness, 0, 0,
+                        "toggle-fuzziness",
+                        _("Toggle fuzziness of the translated string"),
                         NULL);
 }
 

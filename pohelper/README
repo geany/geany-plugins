@@ -18,6 +18,7 @@ Features
 
 * Navigation between untranslated or fuzzy messages;
 * Reformatting of the translation (reflow);
+* Toggling the fuzziness of a translation;
 * Pasting of the untranslated string to the translation;
 * Automatic updating of the translation metadata.
 
