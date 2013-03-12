@@ -212,6 +212,7 @@ markdown/src/conf.c
 markdown/src/plugin.c
 
 # PoHelper
+[type: gettext/glade]pohelper/data/menus.ui
 pohelper/src/gph-plugin.c
 
 # Pretty-printer

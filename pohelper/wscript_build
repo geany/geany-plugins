@@ -20,7 +20,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 
-from build.wafutils import build_plugin
+from build.wafutils import build_plugin, target_is_win32
 
 
 name = 'PoHelper'
@@ -31,3 +31,8 @@ includes = ['src']
 build_plugin(bld, name,
     sources=sources,
     includes=includes)
+
+# install UI file
+prefix = '${G_PREFIX}/' if target_is_win32(bld) else ''
+datadir = '${GEANYPLUGINS_DATADIR}/geany-plugins/%s' % (name.lower())
+bld.install_files('%s%s' % (prefix, datadir), 'data/menus.ui')

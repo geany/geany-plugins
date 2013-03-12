@@ -42,9 +42,11 @@ this plugin is part of.
 Usage
 =====
 
-First enbale the plugin the the Plugin Manager of Geany.  The, you will be able
-to configure keybindings for the various actions this plugin provides under
-the Keybindings section of the Geany preferences.
+First enbale the plugin the the Plugin Manager of Geany.  Once enabled,
+the plugin adds a new menu under "Tools -> Translation Helper" giving
+access to the various actions it provides.  You can of course configure
+keybindings for each actions under the Keybindings section of the Geany
+preferences.
 
 
 License

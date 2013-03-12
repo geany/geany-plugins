@@ -20,7 +20,6 @@
 /*
  * TODO:
  * * allow to configure whether to update the metadata upon save
- * * add a menu in the UI
  */
 
 #include "config.h"
@@ -44,7 +43,7 @@ PLUGIN_VERSION_CHECK (211) /* FIXME: what's the version really required? */
 
 PLUGIN_SET_TRANSLATABLE_INFO (
   LOCALEDIR, GETTEXT_PACKAGE,
-  _("Translation helper"),
+  _("Translation Helper"),
   _("Improves support for GetText translation files."),
   "0.1",
   "Colomban Wendling <ban@herbesfolles.org>"
@@ -65,6 +64,11 @@ enum {
   GPH_KB_TOGGLE_FUZZY,
   GPH_KB_COUNT
 };
+
+
+static struct Plugin {
+  GtkWidget *menu_item;
+} plugin;
 
 
 #define doc_is_po(doc) (DOC_VALID (doc) && \
@@ -960,75 +964,119 @@ on_kb_toggle_fuzziness (guint key_id)
   }
 }
 
+static const struct Action {
+  guint             id;
+  const gchar      *name;
+  GeanyKeyCallback  callback;
+  const gchar      *label;
+  const gchar      *widget;
+} G_actions[] = {
+  { GPH_KB_GOTO_PREV, "goto-prev",
+    on_kb_goto_prev,
+    N_("Go to previous string"), "previous_string" },
+  { GPH_KB_GOTO_NEXT, "goto-next",
+    on_kb_goto_next,
+    N_("Go to next string"), "next_string" },
+  { GPH_KB_GOTO_PREV_UNTRANSLATED, "goto-prev-untranslated",
+    on_kb_goto_prev_untranslated,
+    N_("Go to previous untranslated string"), "previous_untranslated" },
+  { GPH_KB_GOTO_NEXT_UNTRANSLATED, "goto-next-untranslated",
+    on_kb_goto_next_untranslated,
+    N_("Go to next untranslated string"), "next_untranslated" },
+  { GPH_KB_GOTO_PREV_FUZZY, "goto-prev-fuzzy",
+    on_kb_goto_prev_fuzzy,
+    N_("Go to previous fuzzily translated string"), "previous_fuzzy" },
+  { GPH_KB_GOTO_NEXT_FUZZY, "goto-next-fuzzy",
+    on_kb_goto_next_fuzzy,
+    N_("Go to next fuzzily translated string"), "next_fuzzy" },
+  { GPH_KB_GOTO_PREV_UNTRANSLATED_OR_FUZZY, "goto-prev-untranslated-or-fuzzy",
+    on_kb_goto_prev_untranslated_or_fuzzy,
+    N_("Go to previous untranslated or fuzzy string"),
+    "previous_untranslated_or_fuzzy" },
+  { GPH_KB_GOTO_NEXT_UNTRANSLATED_OR_FUZZY, "goto-next-untranslated-or-fuzzy",
+    on_kb_goto_next_untranslated_or_fuzzy,
+    N_("Go to next untranslated or fuzzy string"),
+    "next_untranslated_or_fuzzy" },
+  { GPH_KB_PASTE_UNTRANSLATED, "paste-untranslated",
+    on_kb_paste_untranslated,
+    N_("Paste original untranslated string to translation"),
+    "paste_message_as_translation" },
+  { GPH_KB_REFLOW, "reflow",
+    on_kb_reflow,
+    N_("Reflow the current translation string"), "reflow_translation" },
+  { GPH_KB_TOGGLE_FUZZY, "toggle-fuzziness",
+    on_kb_toggle_fuzziness,
+    N_("Toggle current translation fuzziness"), "toggle_fuzziness" }
+};
+
+static void
+on_widget_kb_activate (GtkMenuItem   *widget,
+                       struct Action *action)
+{
+  action->callback (action->id);
+}
+
 void
 plugin_init (GeanyData *data)
 {
   GeanyKeyGroup *group;
+  GtkBuilder *builder;
+  GError *error = NULL;
+  guint i;
   
+  builder = gtk_builder_new ();
+  gtk_builder_set_translation_domain (builder, GETTEXT_PACKAGE);
+  if (! gtk_builder_add_from_file (builder, PKGDATADIR"/pohelper/menus.ui",
+                                   &error)) {
+    g_critical (_("Failed to load UI definition, please check your "
+                  "installation. The error was: %s"), error->message);
+    g_error_free (error);
+    g_object_unref (builder);
+    builder = NULL;
+    plugin.menu_item = NULL;
+  } else {
+    plugin.menu_item = GTK_WIDGET (gtk_builder_get_object (builder, "root_item"));
+    gtk_menu_shell_append (GTK_MENU_SHELL (geany->main_widgets->tools_menu),
+                           plugin.menu_item);
+  }
+  
+  /* signal handlers */
   plugin_signal_connect (geany_plugin, NULL, "document-before-save", TRUE,
                          G_CALLBACK (on_document_save), NULL);
   
   /* add keybindings */
   group = plugin_set_key_group (geany_plugin, "pohelper", GPH_KB_COUNT, NULL);
   
-  keybindings_set_item (group, GPH_KB_GOTO_PREV,
-                        on_kb_goto_prev, 0, 0,
-                        "goto-prev",
-                        _("Go to previous string"),
-                        NULL);
-  keybindings_set_item (group, GPH_KB_GOTO_NEXT,
-                        on_kb_goto_next, 0, 0,
-                        "goto-next",
-                        _("Go to next string"),
-                        NULL);
-  keybindings_set_item (group, GPH_KB_GOTO_PREV_UNTRANSLATED,
-                        on_kb_goto_prev_untranslated, 0, 0,
-                        "goto-prev-untranslated",
-                        _("Go to previous untranslated string"),
-                        NULL);
-  keybindings_set_item (group, GPH_KB_GOTO_NEXT_UNTRANSLATED,
-                        on_kb_goto_next_untranslated, 0, 0,
-                        "goto-next-untranslated",
-                        _("Go to next untranslated string"),
-                        NULL);
-  keybindings_set_item (group, GPH_KB_GOTO_PREV_FUZZY,
-                        on_kb_goto_prev_fuzzy, 0, 0,
-                        "goto-prev-fuzzy",
-                        _("Go to previous fuzzily translated string"),
-                        NULL);
-  keybindings_set_item (group, GPH_KB_GOTO_NEXT_FUZZY,
-                        on_kb_goto_next_fuzzy, 0, 0,
-                        "goto-next-fuzzy",
-                        _("Go to next fuzzily translated string"),
-                        NULL);
-  keybindings_set_item (group, GPH_KB_GOTO_PREV_UNTRANSLATED_OR_FUZZY,
-                        on_kb_goto_prev_untranslated_or_fuzzy, 0, 0,
-                        "goto-prev-untranslated-or-fuzzy",
-                        _("Go to previous untranslated or fuzzy string"),
-                        NULL);
-  keybindings_set_item (group, GPH_KB_GOTO_NEXT_UNTRANSLATED_OR_FUZZY,
-                        on_kb_goto_next_untranslated_or_fuzzy, 0, 0,
-                        "goto-next-untranslated-or-fuzzy",
-                        _("Go to next untranslated or fuzzy string"),
-                        NULL);
-  keybindings_set_item (group, GPH_KB_PASTE_UNTRANSLATED,
-                        on_kb_paste_untranslated, 0, 0,
-                        "paste-untranslated",
-                        _("Paste original untranslated string to translation"),
-                        NULL);
-  keybindings_set_item (group, GPH_KB_REFLOW,
-                        on_kb_reflow, 0, 0,
-                        "reflow",
-                        _("Reflow the translated string"),
-                        NULL);
-  keybindings_set_item (group, GPH_KB_TOGGLE_FUZZY,
-                        on_kb_toggle_fuzziness, 0, 0,
-                        "toggle-fuzziness",
-                        _("Toggle fuzziness of the translated string"),
-                        NULL);
+  for (i = 0; i < G_N_ELEMENTS (G_actions); i++) {
+    GtkWidget *widget = NULL;
+    
+    if (builder && G_actions[i].widget) {
+      GObject *obj = gtk_builder_get_object (builder, G_actions[i].widget);
+      
+      if (! obj || ! GTK_IS_MENU_ITEM (obj)) {
+        g_critical (_("Cannot find widget \"%s\" in the UI definition, "
+                      "please check your installation."), G_actions[i].widget);
+      } else {
+        widget = GTK_WIDGET (obj);
+        g_signal_connect (widget, "activate",
+                          G_CALLBACK (on_widget_kb_activate),
+                          (gpointer) &G_actions[i]);
+      }
+    }
+    
+    keybindings_set_item (group, G_actions[i].id, G_actions[i].callback, 0, 0,
+                          G_actions[i].name, _(G_actions[i].label), widget);
+  }
+  
+  if (builder) {
+    g_object_unref (builder);
+  }
 }
 
 void
 plugin_cleanup (void)
 {
+  if (plugin.menu_item) {
+    gtk_widget_destroy (plugin.menu_item);
+  }
 }

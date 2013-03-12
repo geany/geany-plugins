@@ -6,6 +6,7 @@ AC_DEFUN([GP_CHECK_POHELPER],
 
     AC_CONFIG_FILES([
         pohelper/Makefile
+        pohelper/data/Makefile
         pohelper/src/Makefile
     ])
 ])
