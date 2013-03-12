@@ -410,6 +410,35 @@ regex_replace (ScintillaObject *sci,
   return FALSE;
 }
 
+/* escapes @str so it is valid to put it inside a message
+ * escapes '\b', '\f', '\n', '\r', '\t', '\v', '\' and '"'
+ * unlike g_strescape(), it doesn't escape non-ASCII characters so keeps
+ * all of UTF-8 */
+static gchar *
+escape_string (const gchar *str)
+{
+  gchar *new = g_malloc (strlen (str) * 2 + 1);
+  gchar *p;
+  
+  for (p = new; *str; str++) {
+    switch (*str) {
+      case '\b': *p++ = '\\'; *p++ = 'b'; break;
+      case '\f': *p++ = '\\'; *p++ = 'f'; break;
+      case '\n': *p++ = '\\'; *p++ = 'n'; break;
+      case '\r': *p++ = '\\'; *p++ = 'r'; break;
+      case '\t': *p++ = '\\'; *p++ = 't'; break;
+      case '\v': *p++ = '\\'; *p++ = 'v'; break;
+      case '\\': *p++ = '\\'; *p++ = '\\'; break;
+      case '"':  *p++ = '\\'; *p++ = '"'; break;
+      default:
+        *p++ = *str;
+    }
+  }
+  *p = 0;
+  
+  return new;
+}
+
 static void
 on_document_save (GObject        *obj,
                   GeanyDocument  *doc,
@@ -419,14 +448,15 @@ on_document_save (GObject        *obj,
     gboolean update_header = TRUE; /* FIXME: make this configurable */
     
     if (update_header) {
+      gchar *name = escape_string (geany_data->template_prefs->developer);
+      gchar *mail = escape_string (geany_data->template_prefs->mail);
       gchar *date;
       gchar *translator;
       
       date = utils_get_date_time ("\"PO-Revision-Date: %Y-%m-%d %H:%M%z\\n\"",
                                   NULL);
       translator = g_strdup_printf ("\"Last-Translator: %s <%s>\\n\"",
-                                    geany_data->template_prefs->developer,
-                                    geany_data->template_prefs->mail);
+                                    name, mail);
       
       sci_start_undo_action (doc->editor->sci);
       regex_replace (doc->editor->sci, "^\"PO-Revision-Date: .*\"$", date);
@@ -435,6 +465,8 @@ on_document_save (GObject        *obj,
       
       g_free (date);
       g_free (translator);
+      g_free (name);
+      g_free (mail);
     }
   }
 }
