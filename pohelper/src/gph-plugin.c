@@ -684,7 +684,6 @@ get_msgstr_text_at (GeanyDocument  *doc,
 
 /* cuts @str in human-readable chunks for max @len.
  * cuts first at \n, then at spaces and punctuation */
-/* FIXME: support utf-8 */
 static gchar **
 split_msg (const gchar *str,
            gint         len)
@@ -699,6 +698,7 @@ split_msg (const gchar *str,
     while (*str) {
       const gchar *nl = strstr (str, "\\n");
       const gchar *p = strpbrk (str, " \t\v\r\n?!,.;:");
+      glong chunk_len = g_utf8_strlen (chunk->str, (gssize) chunk->len);
       
       if (nl)
         nl += 2;
@@ -708,12 +708,12 @@ split_msg (const gchar *str,
       else /* if there is no separator, use the end of the string */
         p = strchr (str, 0);
       
-      if (nl && (chunk->len + nl - str <= len ||
+      if (nl && ((chunk_len + g_utf8_strlen (str, nl - str)) <= len ||
                  (nl < p && chunk->len == 0))) {
         g_string_append_len (chunk, str, nl - str);
         str = nl;
         break;
-      } else if (chunk->len + p - str <= len ||
+      } else if ((chunk_len + g_utf8_strlen (str, p - str)) <= len ||
                  chunk->len == 0) {
         g_string_append_len (chunk, str, p - str);
         str = p;
@@ -743,7 +743,7 @@ on_kb_reflow (guint key_id)
     if (msgstr) {
       gint start = find_msgstr_start_at (doc, pos);
       gint end = find_msgstr_end_at (doc, pos);
-      glong len = g_utf8_strlen (msgstr->str, msgstr->len);
+      glong len = g_utf8_strlen (msgstr->str, (gssize) msgstr->len);
       /* FIXME: line_break_column isn't supposedly public */
       gint line_len = geany_data->editor_prefs->line_break_column;
       gint msgstr_kw_len;
