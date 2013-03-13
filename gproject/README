@@ -187,7 +187,7 @@ Development Code
 
 Get the code from::
 
-  svn checkout http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geany-plugins
+    git clone https://github.com/geany/geany-plugins.git
 
 Ideas, questions, patches and bug reports
 =========================================

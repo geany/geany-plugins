@@ -24,9 +24,9 @@ There will soon be a possibility to build debugger using waf.
 
 Fourth
 --------------------------------------------------------------------------------
-Building much of the available plugins from svn by doing this:
+Building much of the available plugins from git by doing this:
 
-svn co https://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk geany-plugins
+git clone https://github.com/geany/geany-plugins.git
 cd geany-plugins
 ./waf configure
 ./waf build -p -k

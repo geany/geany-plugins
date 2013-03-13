@@ -15,7 +15,7 @@ It allow either place output of these commands in geany buffer \*DOC\* or just
 execute external program. Geanydoc is intended to be used for searching documentation
 API in different sources.
 
-In order to use it you need Geany >= 0.16 or svn version.
+In order to use it you need Geany >= 0.16.
 
 Usage
 =====
