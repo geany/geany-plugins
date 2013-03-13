@@ -1,0 +1,73 @@
+==================
+Translation Helper
+==================
+
+.. contents::
+
+
+About
+=====
+
+Translation Helper is a plugin for Geany that improves the support for
+GetText translation files, by providing various features specific to this
+format and to translators.
+
+
+Features
+--------
+
+* Navigation between all, untranslated or fuzzy messages;
+* Reformatting of the translation (reflow);
+* Toggling the fuzziness of a translation;
+* Pasting of the untranslated string to the translation;
+* Automatic updating of the translation metadata.
+
+
+Requirements
+============
+
+This plugin only requires GLib, GTK and Geany to work.  If you intent to build
+it yourself, you will need to get the development files of these programs and
+libraries.  You can find these packages at http://www.geany.org/ and
+http://www.gtk.org/.
+
+
+Installation
+============
+
+For detailed instructions, see the INSTALL file of the Geany-Plugins package
+this plugin is part of.
+
+
+Usage
+=====
+
+First enbale the plugin the the Plugin Manager of Geany.  Once enabled,
+the plugin adds a new menu under "Tools -> Translation Helper" giving
+access to the various actions it provides.  You can of course configure
+keybindings for each actions under the Keybindings section of the Geany
+preferences.
+
+
+License
+=======
+
+Translation Helper is distributed under the terms of the GNU General Public
+License as published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version. You should have received a copy
+of the GNU General Public License along with WebHelper.  If not, see
+<http://www.gnu.org/licenses/>.
+
+
+Contact
+=======
+
+You can email me at <ban(at)herbesfolles(dot)org>, and I may also be on the
+#geany channel on FreeNode, under the `b4n` nickname.
+
+
+Bug reports and feature requests
+--------------------------------
+
+To report a bug or ask for a new feature, please use the Geany-Plugins tracker
+on SourceForge: http://sourceforge.net/tracker/?group_id=222729
