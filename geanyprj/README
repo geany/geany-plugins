@@ -132,8 +132,7 @@ Development Code
 
 Get the code from::
 
-  svn checkout http://geany-plugins.svn.sourceforge.net/svnroot/geany-plugins/trunk/geany-plugins
-
+	https://github.com/geany/geany-plugins
 
 2007-2008 by Yura Siamashka
 yurand2(at)gmail(dot)com
