@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-naming-policy toplevel-contextual -->
+  <object class="GtkImage" id="image1">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-go-back</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image2">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-go-forward</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image3">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-go-back</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image4">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-go-forward</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image5">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-go-back</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image6">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-go-forward</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image7">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-go-back</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image8">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-go-forward</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="image9">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-paste</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkMenuItem" id="root_item">
+    <property name="use_action_appearance">False</property>
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="label" translatable="yes">_Translation Helper</property>
+    <property name="use_underline">True</property>
+    <child type="submenu">
+      <object class="GtkMenu" id="menu">
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkImageMenuItem" id="previous_string">
+            <property name="label" translatable="yes">_Previous String</property>
+            <property name="use_action_appearance">False</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="tooltip_text" translatable="yes">Go to previous string</property>
+            <property name="use_underline">True</property>
+            <property name="image">image1</property>
+            <property name="use_stock">False</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkImageMenuItem" id="next_string">
+            <property name="label" translatable="yes">_Next String</property>
+            <property name="use_action_appearance">False</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="tooltip_text" translatable="yes">Go to next string</property>
+            <property name="use_underline">True</property>
+            <property name="image">image2</property>
+            <property name="use_stock">False</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkSeparatorMenuItem" id="separator1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkImageMenuItem" id="previous_untranslated">
+            <property name="label" translatable="yes">Pre_vious Untranslated</property>
+            <property name="use_action_appearance">False</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="tooltip_text" translatable="yes">Go to previous untranslated string</property>
+            <property name="use_underline">True</property>
+            <property name="image">image3</property>
+            <property name="use_stock">False</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkImageMenuItem" id="next_untranslated">
+            <property name="label" translatable="yes">Next _Untranslated</property>
+            <property name="use_action_appearance">False</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="tooltip_text" translatable="yes">Go to next untranslated string</property>
+            <property name="use_underline">True</property>
+            <property name="image">image4</property>
+            <property name="use_stock">False</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkSeparatorMenuItem" id="separator2">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkImageMenuItem" id="previous_fuzzy">
+            <property name="label" translatable="yes">Previous Fu_zzy</property>
+            <property name="use_action_appearance">False</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="tooltip_text" translatable="yes">Go to previous fuzzily translated string</property>
+            <property name="use_underline">True</property>
+            <property name="image">image5</property>
+            <property name="use_stock">False</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkImageMenuItem" id="next_fuzzy">
+            <property name="label" translatable="yes">Next _Fuzzy</property>
+            <property name="use_action_appearance">False</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="tooltip_text" translatable="yes">Go to next fuzzily translated string</property>
+            <property name="use_underline">True</property>
+            <property name="image">image6</property>
+            <property name="use_stock">False</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkSeparatorMenuItem" id="separator3">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkImageMenuItem" id="previous_untranslated_or_fuzzy">
+            <property name="label" translatable="yes">Previous Untranslated or Fuzz_y</property>
+            <property name="use_action_appearance">False</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="tooltip_text" translatable="yes">Go to previous untranslated or fuzzy string</property>
+            <property name="use_underline">True</property>
+            <property name="image">image7</property>
+            <property name="use_stock">False</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkImageMenuItem" id="next_untranslated_or_fuzzy">
+            <property name="label" translatable="yes">Next Untranslated _or Fuzzy</property>
+            <property name="use_action_appearance">False</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="tooltip_text" translatable="yes">Go to next untranslated or fuzzy string</property>
+            <property name="use_underline">True</property>
+            <property name="image">image8</property>
+            <property name="use_stock">False</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkSeparatorMenuItem" id="separator4">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkMenuItem" id="toggle_fuzziness">
+            <property name="use_action_appearance">False</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="tooltip_text" translatable="yes">Toggle current translation fuzziness</property>
+            <property name="label" translatable="yes">_Toggle Fuzziness</property>
+            <property name="use_underline">True</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkImageMenuItem" id="paste_message_as_translation">
+            <property name="label" translatable="yes">Paste _Message as Translation</property>
+            <property name="use_action_appearance">False</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="tooltip_text" translatable="yes">Paste the original untranslated string to the translation</property>
+            <property name="use_underline">True</property>
+            <property name="image">image9</property>
+            <property name="use_stock">False</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkMenuItem" id="reflow_translation">
+            <property name="use_action_appearance">False</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="tooltip_text" translatable="yes">Reflow the current translation string</property>
+            <property name="label" translatable="yes">_Reflow Translation</property>
+            <property name="use_underline">True</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkSeparatorMenuItem" id="separator5">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkCheckMenuItem" id="update_headers_upon_save">
+            <property name="use_action_appearance">False</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="tooltip_text" translatable="yes">Whether to update the translation headers (author, revision date, ...) upon file save</property>
+            <property name="label" translatable="yes">Update _Headers Upon Save</property>
+            <property name="use_underline">True</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
