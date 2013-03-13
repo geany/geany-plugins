@@ -69,12 +69,14 @@ static struct Plugin {
   GdkColor color_fuzzy;
   GdkColor color_untranslated;
   
+  GeanyKeyGroup *key_group;
   GtkWidget *menu_item;
 } plugin = {
   TRUE,
   { 0, 0x7373, 0xd2d2, 0x1616 }, /* tango mid green */
   { 0, 0xeded, 0xd4d4, 0x0000 }, /* tango mid yellow */
   { 0, 0xcccc, 0x0000, 0x0000 }, /* tango mid red */
+  NULL,
   NULL
 };
 
@@ -533,10 +535,20 @@ on_document_save (GObject        *obj,
 }
 
 static void
-update_menus (GeanyDocument *doc)
+update_menu_items_sensitivity (GeanyDocument *doc)
 {
-  if (plugin.menu_item) {
-    gtk_widget_set_sensitive (plugin.menu_item, doc_is_po (doc));
+  gboolean sensitive = doc_is_po (doc);
+  guint i;
+  
+  /* since all the document-sensitive items have keybindings and all
+   * keybinginds that have a widget are document-sensitive, just walk
+   * the keybindings list to fetch the widgets */
+  for (i = 0; i < GPH_KB_COUNT; i++) {
+    GeanyKeyBinding *kb = keybindings_get_item (plugin.key_group, i);
+    
+    if (kb->menu_item) {
+      gtk_widget_set_sensitive (kb->menu_item, sensitive);
+    }
   }
 }
 
@@ -545,7 +557,7 @@ on_document_activate (GObject        *obj,
                       GeanyDocument  *doc,
                       gpointer        user_data)
 {
-  update_menus (doc);
+  update_menu_items_sensitivity (doc);
 }
 
 static void
@@ -554,7 +566,7 @@ on_document_filetype_set (GObject        *obj,
                           GeanyFiletype  *old_ft,
                           gpointer        user_data)
 {
-  update_menus (doc);
+  update_menu_items_sensitivity (doc);
 }
 
 static void
@@ -562,7 +574,13 @@ on_document_close (GObject       *obj,
                    GeanyDocument *doc,
                    gpointer       user_data)
 {
-  update_menus (NULL);
+  GtkNotebook *nb = GTK_NOTEBOOK (geany_data->main_widgets->notebook);
+  
+  /* the :document-close signal is emitted before a document gets closed,
+   * so there always still is the current document open (hence the < 2) */
+  if (gtk_notebook_get_n_pages (nb) < 2) {
+    update_menu_items_sensitivity (NULL);
+  }
 }
 
 static void
@@ -1675,7 +1693,6 @@ save_config (void)
 void
 plugin_init (GeanyData *data)
 {
-  GeanyKeyGroup *group;
   GtkBuilder *builder;
   GError *error = NULL;
   guint i;
@@ -1717,7 +1734,8 @@ plugin_init (GeanyData *data)
                          G_CALLBACK (on_document_save), NULL);
   
   /* add keybindings */
-  group = plugin_set_key_group (geany_plugin, "pohelper", GPH_KB_COUNT, NULL);
+  plugin.key_group = plugin_set_key_group (geany_plugin, "pohelper",
+                                           GPH_KB_COUNT, NULL);
   
   for (i = 0; i < G_N_ELEMENTS (G_actions); i++) {
     GtkWidget *widget = NULL;
@@ -1736,9 +1754,12 @@ plugin_init (GeanyData *data)
       }
     }
     
-    keybindings_set_item (group, G_actions[i].id, G_actions[i].callback, 0, 0,
-                          G_actions[i].name, _(G_actions[i].label), widget);
+    keybindings_set_item (plugin.key_group, G_actions[i].id,
+                          G_actions[i].callback, 0, 0, G_actions[i].name,
+                          _(G_actions[i].label), widget);
   }
+  /* initial items sensitivity update */
+  update_menu_items_sensitivity (document_get_current ());
   
   if (builder) {
     g_object_unref (builder);
