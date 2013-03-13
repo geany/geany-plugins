@@ -217,6 +217,22 @@
             <property name="use_underline">True</property>
           </object>
         </child>
+        <child>
+          <object class="GtkSeparatorMenuItem" id="separator5">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkCheckMenuItem" id="update_headers_upon_save">
+            <property name="use_action_appearance">False</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="tooltip_text" translatable="yes">Whether to update the translation headers (author, revision date, ...) upon file save</property>
+            <property name="label" translatable="yes">Update _Headers Upon Save</property>
+            <property name="use_underline">True</property>
+          </object>
+        </child>
       </object>
     </child>
   </object>

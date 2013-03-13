@@ -17,11 +17,6 @@
  *  
  */
 
-/*
- * TODO:
- * * allow to configure whether to update the metadata upon save
- */
-
 #include "config.h"
 
 #include <string.h>
@@ -67,8 +62,13 @@ enum {
 
 
 static struct Plugin {
+  gboolean update_headers;
+  
   GtkWidget *menu_item;
-} plugin;
+} plugin = {
+  TRUE,
+  NULL
+};
 
 
 #define doc_is_po(doc) (DOC_VALID (doc) && \
@@ -448,30 +448,26 @@ on_document_save (GObject        *obj,
                   GeanyDocument  *doc,
                   gpointer        user_data)
 {
-  if (doc_is_po (doc)) {
-    gboolean update_header = TRUE; /* FIXME: make this configurable */
+  if (doc_is_po (doc) && plugin.update_headers) {
+    gchar *name = escape_string (geany_data->template_prefs->developer);
+    gchar *mail = escape_string (geany_data->template_prefs->mail);
+    gchar *date;
+    gchar *translator;
     
-    if (update_header) {
-      gchar *name = escape_string (geany_data->template_prefs->developer);
-      gchar *mail = escape_string (geany_data->template_prefs->mail);
-      gchar *date;
-      gchar *translator;
-      
-      date = utils_get_date_time ("\"PO-Revision-Date: %Y-%m-%d %H:%M%z\\n\"",
-                                  NULL);
-      translator = g_strdup_printf ("\"Last-Translator: %s <%s>\\n\"",
-                                    name, mail);
-      
-      sci_start_undo_action (doc->editor->sci);
-      regex_replace (doc->editor->sci, "^\"PO-Revision-Date: .*\"$", date);
-      regex_replace (doc->editor->sci, "^\"Last-Translator: .*\"$", translator);
-      sci_end_undo_action (doc->editor->sci);
-      
-      g_free (date);
-      g_free (translator);
-      g_free (name);
-      g_free (mail);
-    }
+    date = utils_get_date_time ("\"PO-Revision-Date: %Y-%m-%d %H:%M%z\\n\"",
+                                NULL);
+    translator = g_strdup_printf ("\"Last-Translator: %s <%s>\\n\"",
+                                  name, mail);
+    
+    sci_start_undo_action (doc->editor->sci);
+    regex_replace (doc->editor->sci, "^\"PO-Revision-Date: .*\"$", date);
+    regex_replace (doc->editor->sci, "^\"Last-Translator: .*\"$", translator);
+    sci_end_undo_action (doc->editor->sci);
+    
+    g_free (date);
+    g_free (translator);
+    g_free (name);
+    g_free (mail);
   }
 }
 
@@ -1016,6 +1012,100 @@ on_widget_kb_activate (GtkMenuItem   *widget,
   action->callback (action->id);
 }
 
+static void
+on_update_headers_upon_save_toggled (GtkCheckMenuItem  *item,
+                                     gpointer           data)
+{
+  plugin.update_headers = gtk_check_menu_item_get_active (item);
+}
+
+static gchar *
+get_config_filename (void)
+{
+  return g_build_filename (geany_data->app->configdir, "plugins",
+                           "pohelper", "pohelper.conf", NULL);
+}
+
+/* loads @filename in @kf and return %FALSE if failed, emitting a warning
+ * unless the file was simply missing */
+static gboolean
+load_keyfile (GKeyFile     *kf,
+              const gchar  *filename,
+              GKeyFileFlags flags)
+{
+  GError *error = NULL;
+  
+  if (! g_key_file_load_from_file (kf, filename, flags, &error)) {
+    if (error->domain != G_FILE_ERROR || error->code != G_FILE_ERROR_NOENT) {
+      g_warning (_("Failed to load configuration file: %s"), error->message);
+    }
+    g_error_free (error);
+    
+    return FALSE;
+  }
+  
+  return TRUE;
+}
+
+/* writes @kf in @filename, possibly creating directories to be able to write
+ * in @filename */
+static gboolean
+write_keyfile (GKeyFile    *kf,
+               const gchar *filename)
+{
+  gchar *dirname = g_path_get_dirname (filename);
+  GError *error = NULL;
+  gint err;
+  gchar *data;
+  gsize length;
+  gboolean success = FALSE;
+  
+  data = g_key_file_to_data (kf, &length, NULL);
+  if ((err = utils_mkdir (dirname, TRUE)) != 0) {
+    g_critical (_("Failed to create configuration directory \"%s\": %s"),
+                dirname, g_strerror (err));
+  } else if (! g_file_set_contents (filename, data, (gssize) length, &error)) {
+    g_critical (_("Failed to save configuration file: %s"), error->message);
+    g_error_free (error);
+  } else {
+    success = TRUE;
+  }
+  g_free (data);
+  g_free (dirname);
+  
+  return success;
+}
+
+static void
+load_config (void)
+{
+  gchar *filename = get_config_filename ();
+  GKeyFile *kf = g_key_file_new ();
+  
+  if (load_keyfile (kf, filename, G_KEY_FILE_NONE)) {
+    plugin.update_headers = utils_get_setting_boolean (kf, "general",
+                                                       "update-headers",
+                                                       plugin.update_headers);
+  }
+  g_key_file_free (kf);
+  g_free (filename);
+}
+
+static void
+save_config (void)
+{
+  gchar *filename = get_config_filename ();
+  GKeyFile *kf = g_key_file_new ();
+  
+  load_keyfile (kf, filename, G_KEY_FILE_KEEP_COMMENTS);
+  g_key_file_set_boolean (kf, "general", "update-headers",
+                          plugin.update_headers);
+  write_keyfile (kf, filename);
+  
+  g_key_file_free (kf);
+  g_free (filename);
+}
+
 void
 plugin_init (GeanyData *data)
 {
@@ -1023,6 +1113,8 @@ plugin_init (GeanyData *data)
   GtkBuilder *builder;
   GError *error = NULL;
   guint i;
+  
+  load_config ();
   
   builder = gtk_builder_new ();
   gtk_builder_set_translation_domain (builder, GETTEXT_PACKAGE);
@@ -1035,9 +1127,17 @@ plugin_init (GeanyData *data)
     builder = NULL;
     plugin.menu_item = NULL;
   } else {
+    GObject *obj;
+    
     plugin.menu_item = GTK_WIDGET (gtk_builder_get_object (builder, "root_item"));
     gtk_menu_shell_append (GTK_MENU_SHELL (geany->main_widgets->tools_menu),
                            plugin.menu_item);
+    
+    obj = gtk_builder_get_object (builder, "update_headers_upon_save");
+    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (obj),
+                                    plugin.update_headers);
+    g_signal_connect (obj, "toggled",
+                      G_CALLBACK (on_update_headers_upon_save_toggled), NULL);
   }
   
   /* signal handlers */
@@ -1079,4 +1179,6 @@ plugin_cleanup (void)
   if (plugin.menu_item) {
     gtk_widget_destroy (plugin.menu_item);
   }
+  
+  save_config ();
 }
