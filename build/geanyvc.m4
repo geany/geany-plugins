@@ -1,6 +1,7 @@
 AC_DEFUN([GP_CHECK_GEANYVC],
 [
-    GP_ARG_DISABLE([GeanyVC], [yes])
+    GP_ARG_DISABLE([GeanyVC], [auto])
+    GP_CHECK_PLUGIN_GTK2_ONLY([GeanyVC])
     GP_COMMIT_PLUGIN_STATUS([GeanyVC])
     AC_ARG_ENABLE(gtkspell,
         AC_HELP_STRING([--enable-gtkspell=ARG],

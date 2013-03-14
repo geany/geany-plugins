@@ -50,7 +50,7 @@ AC_DEFUN([GP_STATUS_PRINT],
 ${PACKAGE}-${VERSION}
 
   Build Environment:
-    Geany version:                ${GEANY_VERSION}
+    Geany version:                ${GEANY_VERSION} (GTK${GP_GTK_VERSION_MAJOR})
     Install prefix:               ${prefix}
     Datadir:                      ${expanded_datadir}/${PACKAGE_TARNAME}
     Libdir:                       ${expanded_libdir}/${PACKAGE_TARNAME}
