@@ -82,7 +82,7 @@ static void populate_dict_combo(GtkComboBox *combo)
 	gtk_list_store_clear(GTK_LIST_STORE(model));
 	for (i = 0; i < sc_info->dicts->len; i++)
 	{
-		gtk_combo_box_append_text(GTK_COMBO_BOX(combo), g_ptr_array_index(sc_info->dicts, i));
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combo), g_ptr_array_index(sc_info->dicts, i));
 
 		if (utils_str_equal(g_ptr_array_index(sc_info->dicts, i), sc_info->default_language))
 			gtk_combo_box_set_active(GTK_COMBO_BOX(combo), i);
@@ -102,7 +102,7 @@ static void configure_response_cb(GtkDialog *dialog, gint response, gpointer use
 		gchar *config_dir = g_path_get_dirname(sc_info->config_file);
 		GtkComboBox *combo = GTK_COMBO_BOX(g_object_get_data(G_OBJECT(dialog), "combo"));
 
-		setptr(sc_info->default_language, gtk_combo_box_get_active_text(combo));
+		setptr(sc_info->default_language, gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(combo)));
 #ifdef HAVE_ENCHANT_1_5
 		setptr(sc_info->dictionary_dir, g_strdup(gtk_entry_get_text(GTK_ENTRY(
 			g_object_get_data(G_OBJECT(dialog), "dict_dir")))));
@@ -274,7 +274,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 	gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 3);
 
-	combo = gtk_combo_box_new_text();
+	combo = gtk_combo_box_text_new();
 	populate_dict_combo(GTK_COMBO_BOX(combo));
 
 	if (sc_info->dicts->len > 20)
@@ -305,7 +305,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_container_add(GTK_CONTAINER(button), image);
 
 	hbox = gtk_hbox_new(FALSE, 6);
-	gtk_box_pack_start_defaults(GTK_BOX(hbox), entry_dir);
+	gtk_box_pack_start(GTK_BOX(hbox), entry_dir, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
