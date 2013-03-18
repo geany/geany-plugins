@@ -24,6 +24,7 @@
 	#include "config.h"
 #endif
 #include <geanyplugin.h>
+#include <gtkcompat.h>
 
 #include "gproject-utils.h"
 #include "gproject-project.h"
@@ -92,7 +93,7 @@ static gint show_dialog_find_file(gchar *path, gchar **pattern, gboolean *case_s
 		label = gtk_label_new(_("Search for:"));
 		gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 		gtk_size_group_add_widget(size_group, label);
-		s_fif_dialog.combo = gtk_combo_box_entry_new_text();
+		s_fif_dialog.combo = gtk_combo_box_text_new_with_entry();
 		entry = gtk_bin_get_child(GTK_BIN(s_fif_dialog.combo));
 		gtk_entry_set_width_chars(GTK_ENTRY(entry), 40);
 		gtk_label_set_mnemonic_widget(GTK_LABEL(label), entry);
@@ -146,7 +147,7 @@ static gint show_dialog_find_file(gchar *path, gchar **pattern, gboolean *case_s
 		*pattern = g_strconcat("*", str, "*", NULL);
 		*case_sensitive = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s_fif_dialog.case_sensitive));
 		*full_path = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s_fif_dialog.full_path));
-		ui_combo_box_add_to_history(GTK_COMBO_BOX_ENTRY(s_fif_dialog.combo), str, 0);
+		ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(s_fif_dialog.combo), str, 0);
 	}
 
 	gtk_widget_hide(s_fif_dialog.widget);
@@ -348,7 +349,7 @@ static void on_open_clicked(void)
 			gchar *icon;
 
 			gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_ICON, &icon, -1);
-			
+
 			if (!icon)
 			{
 				/* help string doesn't have icon */
@@ -765,6 +766,8 @@ void gprj_sidebar_init(void)
 	g_signal_connect(G_OBJECT(s_file_view), "key-press-event",
 			G_CALLBACK(on_key_press), NULL);
 
+	gtk_box_pack_start(GTK_BOX(s_file_view_vbox), s_file_view, TRUE, TRUE, 0);
+
 	/**** popup menu ****/
 
 	s_popup_menu.widget = gtk_menu_new();
@@ -815,7 +818,6 @@ void gprj_sidebar_init(void)
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin),
 				       GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(scrollwin), s_file_view);
-	gtk_container_add(GTK_CONTAINER(s_file_view_vbox), scrollwin);
 
 	gtk_widget_show_all(s_file_view_vbox);
 	gtk_notebook_append_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook),
