@@ -29,6 +29,11 @@
 G_BEGIN_DECLS
 GGD_BEGIN_PLUGIN_API
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+# define GtkObject GtkWidget
+# define GTK_OBJECT GTK_WIDGET
+#endif
+
 
 /**
  * GgdOptGroup:
