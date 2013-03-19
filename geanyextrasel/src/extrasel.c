@@ -32,7 +32,7 @@ GeanyFunctions	*geany_functions;
 PLUGIN_VERSION_CHECK(189)
 
 PLUGIN_SET_INFO(_("Extra Selection"), _("Column mode, select to line / brace / anchor."),
-	"0.5", "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
+	"0.51", "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
 
 /* Keybinding(s) */
 enum
