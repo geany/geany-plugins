@@ -7,11 +7,13 @@ geanyplugins_LTLIBRARIES = markdown.la
 markdown_la_SOURCES = \
 	conf.c \
 	plugin.c \
-	viewer.c
+	viewer.c \
+	markdown-gtk-compat.c
 
 noinst_HEADERS = \
 	conf.h \
-	viewer.h
+	viewer.h \
+	markdown-gtk-compat.h
 
 markdown_la_CFLAGS = \
 	$(AM_CFLAGS) \
