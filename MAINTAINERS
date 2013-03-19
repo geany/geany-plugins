@@ -156,6 +156,12 @@ M:
 W:
 S: Orphan
 
+pohelper
+P: Colomban Wendling <ban@herbesfolles.org>
+M: Colomban Wendling <ban@herbesfolles.org>
+W: http://plugins.geany.org/pohelper.html
+S: Maintained
+
 scope
 P: Dimitar Zhekov <dimitar.zhekov@gmail.com>
 M: Dimitar Zhekov <dimitar.zhekov@gmail.com>
