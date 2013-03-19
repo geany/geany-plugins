@@ -12,7 +12,11 @@ AC_DEFUN([GP_CHECK_MULTITERM],
                      [enable_multiterm=no],
                      [AC_MSG_ERROR([valac not found])])])
     ])
-    GP_CHECK_PLUGIN_DEPS([multiterm], [MULTITERM], [gtk+-2.0 geany vte])
+
+    GP_CHECK_GTK3([vte_package=vte-2.90], [vte_package=vte])
+
+    GP_CHECK_PLUGIN_DEPS([multiterm], [MULTITERM], [$vte_package])
+
     GP_COMMIT_PLUGIN_STATUS([MultiTerm])
 
     AC_CONFIG_FILES([

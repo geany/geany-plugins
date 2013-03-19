@@ -56,7 +56,6 @@ namespace MultiTerm
 			set
 			{
 				Gdk.Color color = Gdk.Color();
-				Gdk.Colormap.get_system().alloc_color(color, true, true);
 				Gdk.Color.parse(value, out color);
 				terminal.set_color_background(color);
 			}
@@ -67,7 +66,6 @@ namespace MultiTerm
 			set
 			{
 				Gdk.Color color = Gdk.Color();
-				Gdk.Colormap.get_system().alloc_color(color, true, true);
 				Gdk.Color.parse(value, out color);
 				terminal.set_color_foreground(color);
 			}
@@ -137,7 +135,11 @@ namespace MultiTerm
 			terminal.set_size_request(100, 100); // stupid
 			terminal.show_all();
 
+#if MULTITERM_GTK3
+			vsb = new VScrollbar(terminal.get_vadjustment());
+#else
 			vsb = new VScrollbar(terminal.get_adjustment());
+#endif
 			hbox = new HBox(false, 0);
 
 			hbox.pack_start(terminal, true, true, 0);

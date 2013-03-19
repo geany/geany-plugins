@@ -6,12 +6,20 @@ plugin = multiterm
 geanyplugins_LTLIBRARIES = multiterm.la
 
 multiterm_la_VALAFLAGS = \
-	--vapidir $(top_srcdir)/multiterm/src/vapi \
-	--pkg gtk+-2.0 \
+	--vapidir $(top_srcdir)/multiterm/src/vapi
+
+if GP_GTK3
+multiterm_la_VALAFLAGS += \
+	--pkg geany-gtk3 \
+	--pkg gtk+-3.0 \
+	--pkg vte-2.90 \
+	-D MULTITERM_GTK3
+else
+multiterm_la_VALAFLAGS += \
 	--pkg geany \
-	--pkg vte \
-	--header multiterm.h \
-	--use-header
+	--pkg gtk+-2.0 \
+	--pkg vte
+endif
 
 multiterm_la_SOURCES = \
 	config.vala \
