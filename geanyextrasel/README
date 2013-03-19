@@ -3,11 +3,14 @@ Extra Selection Plugin
 
 About
 -----
-The Extra Selection adds the following functions:
+The Extra Selection plugin adds the following functions to Geany:
 
 Goto matching brace and select (Select to Matching Brace).
 
 Goto line and select (Select to Line).
+
+Toggle the current selection type between stream and rectangular
+(without changing column mode, can be invoked while drag-selecting).
 
 Ctrl-Shift-Alt-Left/Right/Home/End keys - same as Ctrl-Shift, but for
 rectangular selection.
@@ -16,6 +19,8 @@ Column mode - while active, all (Ctrl)-Shift-movement keys do rectangle
 selection instead of stream.
 
 Selection with anchor instead of the Shift-movement keys.
+
+--
 
 "Movement keys" refers to the arrows, Home, End, Page Up and Page Down.
 
@@ -35,11 +40,11 @@ See the README file of that package.
 
 Usage
 -----
-Under Tools -> Extra Selection, there are 6 new items: "Column Mode",
-"Select to Line" and "Select to Matching Brace", "Set Anchor", "Select to
-Anchor" and "Rectangle Select to Anchor". Normally these should be bound
-to keys, for example Alt-C, Alt-Shift-L, Ctrl-Shift-B, F12, Shift-F12 and
-Alt-Shift-F12. Now:
+Under Tools -> Extra Selection, there are 7 new items: "Column Mode",
+"Select to Line", "Select to Matching Brace", "Toggle Rectangular/Stream",
+"Set Anchor", "Select to Anchor" and "Rectangle Select to Anchor".
+Normally these should be bound to keys, for example Alt-C, Alt-Shift-L,
+Ctrl-Shift-B, Ctrl+2, F12, Shift-F12 and Alt-Shift-F12. Now:
 
 1. Position the cursor on an opening brace and invoke "Select to Matching
    Brace". The cursor will move to the closing brace, and the braced area

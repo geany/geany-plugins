@@ -1,7 +1,11 @@
+2013-03-19  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/extrasel.c:
+   Added "Toggle Rectangular/Stream".
+
 2012-06-13  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/extrasel.c:
-
    Fixed the prototype of on_column_mode_toggled().
    Partially restored ignore_callback to avoid delay on document
    activation.
@@ -9,7 +13,6 @@
 2012-06-13  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/extrasel.c:
-
    Fixed on_settings_change() prototype.
    Fixed on settings changed to reassign the selection keys for all
    documents, not the current document only.
