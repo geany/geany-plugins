@@ -110,16 +110,6 @@ void devhelp_plugin_load_settings(DevhelpPlugin *self, const gchar *filename)
 				devhelp_plugin_set_use_man(self, value);
 		}
 
-		if (g_key_file_has_key(kf, "doc_providers", "codesearch", NULL))
-		{
-			error = NULL;
-			value = g_key_file_get_boolean(kf, "doc_providers", "codesearch", &error);
-			if (error != NULL)
-				g_error_free(error);
-			else
-				devhelp_plugin_set_use_codesearch(self, value);
-		}
-
 	} /* doc_providers group */
 
 	if (g_key_file_has_group(kf, "devhelp"))
@@ -209,52 +199,6 @@ void devhelp_plugin_load_settings(DevhelpPlugin *self, const gchar *filename)
 
 	} /* man_pages group */
 
-	if (g_key_file_has_group(kf, "codesearch"))
-	{
-		gchar *uri;
-
-		if (g_key_file_has_key(kf, "codesearch", "base_uri", NULL))
-		{
-			error = NULL;
-			uri = g_key_file_get_string(kf, "codesearch", "base_uri", &error);
-			if (error != NULL)
-				g_error_free(error);
-			else if (strlen(uri) == 0)
-				g_free(uri);
-			else
-			{
-				g_free(self->priv->codesearch_base_uri);
-				self->priv->codesearch_base_uri = uri;
-			}
-		}
-
-		if (g_key_file_has_key(kf, "codesearch", "uri_params", NULL))
-		{
-			error = NULL;
-			uri = g_key_file_get_string(kf, "codesearch", "uri_params", &error);
-			if (error != NULL)
-				g_error_free(error);
-			else if (strlen(uri) == 0)
-				g_free(uri);
-			else
-			{
-				g_free(self->priv->codesearch_params);
-				self->priv->codesearch_params = uri;
-			}
-		}
-
-		if (g_key_file_has_key(kf, "codesearch", "use_lang_for_search", NULL))
-		{
-			error = NULL;
-			value = g_key_file_get_boolean(kf, "codesearch", "use_lang_for_search", &error);
-			if (error != NULL)
-				g_error_free(error);
-			else
-				self->priv->codesearch_use_lang = value;
-		}
-
-	} /* codesearch group */
-
 	if (g_key_file_has_group(kf, "misc"))
 	{
 		gint pos;
@@ -307,7 +251,6 @@ void devhelp_plugin_store_settings(DevhelpPlugin *self, const gchar *filename)
 
     g_key_file_set_boolean(kf, "doc_providers", "devhelp", self->priv->use_devhelp);
     g_key_file_set_boolean(kf, "doc_providers", "man_pages", self->priv->use_man);
-    g_key_file_set_boolean(kf, "doc_providers", "codesearch", self->priv->use_codesearch);
 
     g_key_file_set_boolean(kf, "devhelp", "show_devhelp_sidebar",
 #if GTK_CHECK_VERSION(2,18,0)
@@ -322,10 +265,6 @@ void devhelp_plugin_store_settings(DevhelpPlugin *self, const gchar *filename)
     g_key_file_set_string(kf, "man_pages", "prog_path", self->priv->man_prog_path);
     g_key_file_set_string(kf, "man_pages", "page_prog", self->priv->man_pager_prog);
     g_key_file_set_string(kf, "man_pages", "section_order", self->priv->man_section_order);
-
-    g_key_file_set_string(kf, "codesearch", "base_uri", self->priv->codesearch_base_uri);
-    g_key_file_set_string(kf, "codesearch", "uri_params", self->priv->codesearch_params != NULL ? self->priv->codesearch_params : "");
-    g_key_file_set_boolean(kf, "codesearch", "use_lang_for_search", self->priv->codesearch_use_lang);
 
     switch(self->priv->main_nb_tab_pos)
     {

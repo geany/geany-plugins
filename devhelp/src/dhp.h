@@ -132,8 +132,6 @@ gboolean devhelp_plugin_get_use_devhelp(DevhelpPlugin *self);
 void devhelp_plugin_set_use_devhelp(DevhelpPlugin *self, gboolean use);
 gboolean devhelp_plugin_get_use_man(DevhelpPlugin *self);
 void devhelp_plugin_set_use_man(DevhelpPlugin *self, gboolean use);
-gboolean devhelp_plugin_get_use_codesearch(DevhelpPlugin *self);
-void devhelp_plugin_set_use_codesearch(DevhelpPlugin *self, gboolean use);
 
 
 G_END_DECLS

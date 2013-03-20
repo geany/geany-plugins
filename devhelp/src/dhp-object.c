@@ -86,15 +86,10 @@ struct _DevhelpPluginPrivate
 	gchar*		custom_homepage;
 	gboolean	use_devhelp;
 	gboolean	use_man;
-	gboolean	use_codesearch;
 
 	gchar*		man_prog_path;
 	gchar*		man_pager_prog;
 	gchar*		man_section_order;
-
-	gchar*		codesearch_base_uri;
-	gchar*		codesearch_params;
-	gboolean	codesearch_use_lang;
 
     GtkPositionType main_nb_tab_pos;
 };
@@ -244,8 +239,6 @@ static void devhelp_plugin_finalize(GObject * object)
 	g_free(self->priv->man_prog_path);
 	g_free(self->priv->man_pager_prog);
 	g_free(self->priv->man_section_order);
-	g_free(self->priv->codesearch_base_uri);
-	g_free(self->priv->codesearch_params);
 	g_free(self->priv->custom_homepage);
 
 	G_OBJECT_CLASS(devhelp_plugin_parent_class)->finalize(object);
@@ -552,15 +545,10 @@ static void devhelp_plugin_init(DevhelpPlugin * self)
 	p->custom_homepage = NULL;
 	p->use_devhelp = TRUE;
 	p->use_man = TRUE;
-	p->use_codesearch = TRUE;
 
 	p->man_prog_path = g_find_program_in_path("man");
 	p->man_pager_prog = g_strdup("col -b");
 	p->man_section_order = g_strdup("3:2:1:8:5:4:7:6");
-
-	p->codesearch_base_uri = g_strdup("http://www.google.com/codesearch");
-	p->codesearch_params = NULL;
-	p->codesearch_use_lang = TRUE;
 
     p->main_nb_tab_pos = GTK_POS_BOTTOM;
 
@@ -1106,23 +1094,6 @@ void devhelp_plugin_set_use_man(DevhelpPlugin *self, gboolean use)
 	/* TODO: hide edit menu items and keybindings */
 	/* TODO: if no providers, hide webview */
 }
-
-
-gboolean devhelp_plugin_get_use_codesearch(DevhelpPlugin *self)
-{
-	g_return_val_if_fail(DEVHELP_IS_PLUGIN(self), FALSE);
-	return self->priv->use_codesearch;
-}
-
-
-void devhelp_plugin_set_use_codesearch(DevhelpPlugin *self, gboolean use)
-{
-	g_return_if_fail(DEVHELP_IS_PLUGIN(self));
-	self->priv->use_codesearch = use;
-	/* TODO: hide edit menu items and keybindings */
-	/* TODO: if no providers, hide webview */
-}
-
 
 /* Activates (brings to top/makes visible) the Devhelp plugin's sidebar tab. */
 static inline void devhelp_plugin_activate_sidebar_tab(DevhelpPlugin *self)
