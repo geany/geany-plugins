@@ -619,6 +619,7 @@ ggd_opt_group_write_to_file (GgdOptGroup *group,
   data = g_key_file_to_data (key_file, &data_length, error);
   if (data) {
     success = g_file_set_contents (filename, data, data_length, error);
+    g_free (data);
   }
   g_key_file_free (key_file);
   
