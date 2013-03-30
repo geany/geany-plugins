@@ -19,6 +19,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 
+import os
 from build.wafutils import target_is_win32, install_docs
 
 def build_vala_plugin(ctx, name, sources, vapi_dirs=None, packages=None,
@@ -43,6 +44,10 @@ def build_vala_plugin(ctx, name, sources, vapi_dirs=None, packages=None,
     # so that generated C files have a #include "multiterm" line
     # path of that file needs to be added to the include paths for CC too
     ctx.env.append_value('VALAFLAGS', '--use-header')
+    # work around waf bug: cannot have absolute paths in vapi_dirs
+    # so add it manually to VALAFLAGS
+    geany_vapi = os.path.join(bld.env['DATAROOTDIR'], 'vala', 'vapi')
+    ctx.env.append_value('VALAFLAGS', '--vapidir=%(geany_vapi)s' % vars())
 
     task = ctx.shlib(packages = packages,
                      features = features,

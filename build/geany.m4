@@ -34,10 +34,19 @@ AC_DEFUN([GP_CHECK_GEANY],
 
     GP_GEANY_PKG_CONFIG_PATH_PUSH
 
+	# after PKG_CONFIG_PATH to infer datadir from libdir (libdir existed first)
+    AC_ARG_WITH([geany-datadir],
+        AC_HELP_STRING([--with-geany-datadir=PATH],
+            [Set Geany's installation datadir [[default=auto]]]),
+        [geany_datadir=${withval}],
+        [geany_datadir=$(${PKG_CONFIG} --variable=datadir geany)])
+
     PKG_CHECK_MODULES([GEANY], [geany >= $1])
     geanypluginsdir=$geany_libdir/geany
+    geanyvapidir=$geany_datadir/vala/vapi
     GEANY_VERSION=$(${PKG_CONFIG} --modversion geany)
     AC_SUBST([geanypluginsdir])
+    AC_SUBST([geanyvapidir])
     AC_SUBST([GEANY_VERSION])
 
     GP_GEANY_PKG_CONFIG_PATH_POP
