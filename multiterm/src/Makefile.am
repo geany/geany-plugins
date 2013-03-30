@@ -23,6 +23,9 @@ multiterm_la_SOURCES = \
 	tab-label.vala \
 	terminal.vala
 
+CLEANFILES = $(multiterm_la_SOURCES:.vala=.c) \
+	multiterm_la_vala.stamp
+
 multiterm_la_CFLAGS = \
 	$(AM_CFLAGS) \
 	$(MULTITERM_CFLAGS)
