@@ -71,6 +71,5 @@ sources = [ 'src/config.vala', 'src/context-menu.vala', 'src/defconf.vala',
     'src/tab-label.vala', 'src/terminal.vala']
 packages = [ 'gtk+-2.0', 'glib-2.0', 'vte', 'geany' ]
 libraries = [ 'GTK', 'GLIB', 'VTE', 'GEANY' ]
-vapi_dirs = [ 'src/vapi' ]
 
-build_vala_plugin(bld, name, sources, vapi_dirs, packages, libraries)
+build_vala_plugin(bld, name, sources, None, packages, libraries)
