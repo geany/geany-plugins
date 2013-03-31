@@ -56,7 +56,7 @@
 #include    "gms_debug.h"
 #include    "gms.h"
 #include    "gms_gui.h"
-  
+
 /*
  * *****************************************************************************
  *  Local Macro and new local type definition
@@ -82,7 +82,6 @@ typedef struct {
     GtkWidget   *rb_ndoc      ; /*!< radio button : the filter output is in the current document */
 
     GtkWidget   *e_script[GMS_NB_TYPE_SCRIPT] ; /*!< entry for script configuration */
-    GtkTooltips *tips         ; /*!< tips of button of the top bar */
     PangoFontDescription *fontdesc;
 } gms_gui_t  ;
 
@@ -200,7 +199,7 @@ static void save_prefs_file(
 
     if ( g_file_test( this->config_dir, G_FILE_TEST_EXISTS ) != TRUE )
         g_mkdir( this->config_dir, 0755 ) ;
-		
+
     if ( g_file_test( gms_pref->str, G_FILE_TEST_EXISTS ) != TRUE )
         g_mkdir( gms_pref->str, 0755 ) ;
 
@@ -250,7 +249,7 @@ static void gms_cb_load(
 {
     gms_private_t *this = GMS_PRIVATE(data) ;
     GtkWidget    *p_dialog ;
-    
+
     p_dialog = gtk_file_chooser_dialog_new (_("Load Mini-Script File"),
                                     GTK_WINDOW(this->mw) ,
                                     GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -307,7 +306,7 @@ static void gms_cb_save(
 {
     gms_private_t *this = GMS_PRIVATE(data) ;
     GtkWidget    *p_dialog ;
-    
+
     p_dialog = gtk_file_chooser_dialog_new (_("Save Mini-Script File"),
                                     GTK_WINDOW(this->mw) ,
                                     GTK_FILE_CHOOSER_ACTION_SAVE,
@@ -355,7 +354,7 @@ static void gms_cb_info(
                                 GTK_BUTTONS_CLOSE,
                                 NULL);
     gtk_message_dialog_set_markup(GTK_MESSAGE_DIALOG(dlg), _(geany_info));
-                                
+
     gtk_dialog_run(GTK_DIALOG(dlg));
     GMS_FREE_WIDGET(dlg);
 }
@@ -424,7 +423,7 @@ gms_handle_t gms_new(
                         GTK_STOCK_EXECUTE,GTK_RESPONSE_APPLY,
                         NULL
                          ) ;
-        vb_dlg   = GTK_BOX (GTK_DIALOG(this->w.dlg)->vbox)  ;
+        vb_dlg   = GTK_BOX (gtk_dialog_get_content_area(GTK_DIALOG(this->w.dlg)))  ;
 
         if ( width > 800 )
             width = 800 ;
@@ -434,9 +433,7 @@ gms_handle_t gms_new(
 
         gtk_window_set_default_size( GTK_WINDOW(this->w.dlg) , width/2 , height/2 ) ;
 
- 
-        this->w.tips = gtk_tooltips_new ();
-        
+
      /* Hbox : type de script */
         hb_st = gtk_hbox_new (FALSE, 0);
         gtk_container_set_border_width (GTK_CONTAINER (hb_st), 0);
@@ -445,30 +442,30 @@ gms_handle_t gms_new(
         b_new   = new_button_from_stock( mode_txt_icon, GTK_STOCK_CLEAR  ) ;
         gtk_box_pack_start( GTK_BOX (hb_st), b_new, FALSE, FALSE, 0);
         g_signal_connect (G_OBJECT (b_new), "clicked",G_CALLBACK (gms_cb_new), (gpointer) this );
-        gtk_tooltips_set_tip (GTK_TOOLTIPS (this->w.tips), b_new, _("Clear the mini-script window") , "");
+        gtk_widget_set_tooltip_text(b_new, _("Clear the mini-script window"));
 
         b_open   = new_button_from_stock( mode_txt_icon, GTK_STOCK_OPEN  ) ;
         gtk_box_pack_start( GTK_BOX (hb_st), b_open, FALSE, FALSE, 0);
         g_signal_connect (G_OBJECT (b_open), "clicked",G_CALLBACK (gms_cb_load), (gpointer) this );
-        gtk_tooltips_set_tip (GTK_TOOLTIPS (this->w.tips), b_open, _("Load a mini-script into this window"), "");
+        gtk_widget_set_tooltip_text(b_open, _("Load a mini-script into this window"));
 
         b_save   = new_button_from_stock( mode_txt_icon, GTK_STOCK_SAVE_AS  ) ;
         gtk_box_pack_start( GTK_BOX (hb_st),b_save, FALSE, FALSE, 0);
         g_signal_connect (G_OBJECT (b_save), "clicked",G_CALLBACK (gms_cb_save), (gpointer) this );
-        gtk_tooltips_set_tip (GTK_TOOLTIPS (this->w.tips), b_save, _("Save the mini-script into a file"), "");
+        gtk_widget_set_tooltip_text(b_save, _("Save the mini-script into a file"));
 
         b_info   = new_button_from_stock( mode_txt_icon, GTK_STOCK_INFO  ) ;
         gtk_box_pack_end( GTK_BOX (hb_st), b_info, FALSE, FALSE, 0);
         g_signal_connect (G_OBJECT (b_info), "clicked",G_CALLBACK (gms_cb_info), (gpointer) this );
-        gtk_tooltips_set_tip (GTK_TOOLTIPS (this->w.tips), b_info, _("Display a information about the mini-script plugin"), "");
+        gtk_widget_set_tooltip_text(b_info, _("Display a information about the mini-script plugin"));
 
-        this->w.cb_st = gtk_combo_box_new_text() ;
+        this->w.cb_st = gtk_combo_box_text_new() ;
         for ( i=0;i<GMS_NB_TYPE_SCRIPT ; i++ )
-           gtk_combo_box_append_text( GTK_COMBO_BOX(this->w.cb_st), label_script_cmd[i] ) ;
-        gtk_combo_box_set_active(GTK_COMBO_BOX(this->w.cb_st), 0 );
+           gtk_combo_box_text_append_text( GTK_COMBO_BOX_TEXT(this->w.cb_st), label_script_cmd[i] ) ;
+        gtk_combo_box_set_active(GTK_COMBO_BOX(this->w.cb_st), 0);
         gtk_box_pack_start(GTK_BOX(hb_st), this->w.cb_st, FALSE, FALSE, 0);
-        GTK_WIDGET_SET_FLAGS (this->w.cb_st, GTK_CAN_DEFAULT);
-        gtk_tooltips_set_tip (GTK_TOOLTIPS (this->w.tips), this->w.cb_st, _("select the mini-script type"), "");
+        gtk_widget_set_can_default(this->w.cb_st, TRUE);
+        gtk_widget_set_tooltip_text(this->w.cb_st, _("select the mini-script type"));
 
     /* Scroll Box : script */
         sb_script =  gtk_scrolled_window_new (NULL,NULL);
@@ -501,7 +498,7 @@ gms_handle_t gms_new(
      *                   selection/current document/all documents of the current session */
         f_rbi = gtk_frame_new (_("filter input") );
         gtk_box_pack_start( GTK_BOX (hb_rb), f_rbi, FALSE, FALSE, 0);
-        gtk_tooltips_set_tip (GTK_TOOLTIPS (this->w.tips), f_rbi, _("select the input of mini-script filter"), "");
+        gtk_widget_set_tooltip_text(f_rbi, _("select the input of mini-script filter"));
 
         hb_rbi = gtk_hbox_new (FALSE, 0);
         gtk_container_set_border_width (GTK_CONTAINER (hb_rbi), 0);
@@ -520,7 +517,7 @@ gms_handle_t gms_new(
      *                   current document/ or new document */
         f_rbo = gtk_frame_new (_("filter output") );
         gtk_box_pack_start( GTK_BOX(hb_rb), f_rbo, FALSE, FALSE, 0);
-        gtk_tooltips_set_tip (GTK_TOOLTIPS (this->w.tips), f_rbo, _("select the output of mini-script filter"), "");
+        gtk_widget_set_tooltip_text(f_rbo, _("select the output of mini-script filter"));
 
         hb_rbo = gtk_hbox_new (FALSE, 0);
         gtk_container_set_border_width (GTK_CONTAINER(hb_rbo), 0);
@@ -588,7 +585,7 @@ void gms_delete(
 
         for ( i=0;i<GMS_NB_TYPE_SCRIPT ; i++ )
             g_string_free(this->script_cmd[i] ,flag) ;
-        
+
         GMS_G_FREE( this )  ;
     }
 }
