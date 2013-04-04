@@ -689,6 +689,7 @@ void gprj_sidebar_init(void)
 	GtkTreeViewColumn *column;
 	GtkTreeSelection *sel;
 	PangoFontDescription *pfd;
+	GList *focus_chain = NULL;
 
 	s_file_view_vbox = gtk_vbox_new(FALSE, 0);
 
@@ -814,6 +815,8 @@ void gprj_sidebar_init(void)
 
 	/**** the rest ****/
 
+	focus_chain = g_list_prepend(focus_chain, s_file_view);
+	gtk_container_set_focus_chain(GTK_CONTAINER(s_file_view_vbox), focus_chain);
 	scrollwin = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin),
 				       GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
