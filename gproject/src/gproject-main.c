@@ -66,8 +66,6 @@ static void on_doc_open(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED GeanyDocument
 static void on_doc_activate(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED GeanyDocument * doc,
 		G_GNUC_UNUSED gpointer user_data)
 {
-	g_return_if_fail(doc != NULL && doc->file_name != NULL);
-
 	gprj_sidebar_update(FALSE);
 }
 
