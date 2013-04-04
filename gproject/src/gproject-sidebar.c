@@ -767,8 +767,6 @@ void gprj_sidebar_init(void)
 	g_signal_connect(G_OBJECT(s_file_view), "key-press-event",
 			G_CALLBACK(on_key_press), NULL);
 
-	gtk_box_pack_start(GTK_BOX(s_file_view_vbox), s_file_view, TRUE, TRUE, 0);
-
 	/**** popup menu ****/
 
 	s_popup_menu.widget = gtk_menu_new();
@@ -821,6 +819,7 @@ void gprj_sidebar_init(void)
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin),
 				       GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(scrollwin), s_file_view);
+	gtk_box_pack_start(GTK_BOX(s_file_view_vbox), scrollwin, TRUE, TRUE, 0);
 
 	gtk_widget_show_all(s_file_view_vbox);
 	gtk_notebook_append_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook),
