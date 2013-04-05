@@ -1,7 +1,6 @@
 AC_DEFUN([GP_CHECK_GEANYLUA],
 [
     GP_ARG_DISABLE([GeanyLua], [auto])
-    GP_CHECK_PLUGIN_GTK2_ONLY([GeanyLua])
 
     AC_ARG_WITH([lua-pkg],
         AC_HELP_STRING([--with-lua-pkg=ARG],

@@ -23,8 +23,8 @@ static void repaint_scintilla(void)
 {
 	GeanyDocument* doc=document_get_current();
 	if ( doc && doc->is_valid ) {
-		gdk_window_invalidate_rect(GTK_WIDGET(doc->editor->sci)->window, NULL, TRUE);
-		gdk_window_process_updates(GTK_WIDGET(doc->editor->sci)->window, TRUE);
+		gdk_window_invalidate_rect(gtk_widget_get_window(GTK_WIDGET(doc->editor->sci)), NULL, TRUE);
+		gdk_window_process_updates(gtk_widget_get_window(GTK_WIDGET(doc->editor->sci)), TRUE);
 	}
 }
 
@@ -209,8 +209,8 @@ static void debug_hook(lua_State *L, lua_Debug *ar)
 			}
 		}
 		if (si->counter > 100000) {
-			gdk_window_invalidate_rect(main_widgets->window->window, NULL, TRUE);
-			gdk_window_process_updates(main_widgets->window->window, TRUE);
+			gdk_window_invalidate_rect(gtk_widget_get_window(main_widgets->window), NULL, TRUE);
+			gdk_window_process_updates(gtk_widget_get_window(main_widgets->window), TRUE);
 			si->counter=0;
 		} else si->counter++;
 	}

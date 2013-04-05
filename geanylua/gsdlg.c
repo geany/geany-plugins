@@ -70,7 +70,7 @@ void gsdlg_textarea(GtkDialog *dlg, GsDlgStr key, GsDlgStr value, GsDlgStr label
 	frm=gtk_frame_new(label);
 	gtk_frame_set_shadow_type(GTK_FRAME(frm), GTK_SHADOW_ETCHED_IN);
 	gtk_container_add(GTK_CONTAINER(frm),sw);
-	gtk_container_add(GTK_CONTAINER(dlg->vbox),frm);
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(dlg)),frm);
 	g_object_set_data_full(G_OBJECT(tv), TextKey, g_strdup(key), g_free);
 }
 
@@ -159,7 +159,7 @@ void gsdlg_file(GtkDialog *dlg, GsDlgStr key, GsDlgStr value, GsDlgStr label)
 	frm=gtk_frame_new(label);
 	gtk_frame_set_shadow_type(GTK_FRAME(frm), GTK_SHADOW_ETCHED_IN);
 	gtk_container_add(GTK_CONTAINER(frm),hbox);
-	gtk_container_add(GTK_CONTAINER(dlg->vbox),frm);
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(dlg)),frm);
 	g_object_set_data_full(G_OBJECT(input), TextKey, g_strdup(key), g_free);
 }
 
@@ -177,13 +177,13 @@ static void color_btn_clicked(GtkButton *button, gpointer user_data)
 	cn=gtk_entry_get_text(GTK_ENTRY(user_data));
 	if (cn && *cn && gdk_color_parse(cn,&rgb)) {
 		gtk_color_selection_set_current_color(
-			GTK_COLOR_SELECTION(GTK_COLOR_SELECTION_DIALOG(dlg)->colorsel), &rgb);
+			GTK_COLOR_SELECTION(gtk_color_selection_dialog_get_color_selection(dlg)), &rgb);
 	}
 	resp=gtk_dialog_run(GTK_DIALOG(dlg));
 	if (resp == GTK_RESPONSE_OK) {
 		gchar *rv=NULL;
 		gtk_color_selection_get_current_color(
-			GTK_COLOR_SELECTION(GTK_COLOR_SELECTION_DIALOG(dlg)->colorsel), &rgb);
+			GTK_COLOR_SELECTION(gtk_color_selection_dialog_get_color_selection(dlg)), &rgb);
 		rv=g_strdup_printf("#%2.2X%2.2X%2.2X",rgb.red/256,rgb.green/256,rgb.blue/256);
 		gtk_entry_set_text(GTK_ENTRY(user_data), rv);
 		g_free(rv);
@@ -211,7 +211,7 @@ void gsdlg_color(GtkDialog *dlg, GsDlgStr key, GsDlgStr value, GsDlgStr prompt)
 	}
 	gtk_box_pack_start(GTK_BOX(hbox), input,TRUE,TRUE,1);
 	gtk_box_pack_start(GTK_BOX(hbox), btn,FALSE,FALSE,1);
-	gtk_container_add(GTK_CONTAINER(dlg->vbox),hbox);
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(dlg)),hbox);
 	g_object_set_data_full(G_OBJECT(input), TextKey, g_strdup(key), g_free);
 }
 
@@ -259,7 +259,7 @@ void gsdlg_font(GtkDialog *dlg, GsDlgStr key, GsDlgStr value, GsDlgStr prompt)
 	}
 	gtk_box_pack_start(GTK_BOX(hbox), input,TRUE,TRUE,1);
 	gtk_box_pack_start(GTK_BOX(hbox), btn,FALSE,FALSE,1);
-	gtk_container_add(GTK_CONTAINER(dlg->vbox),hbox);
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(dlg)),hbox);
 	g_object_set_data_full(G_OBJECT(input), TextKey, g_strdup(key), g_free);
 }
 
@@ -278,7 +278,7 @@ static void gsdlg_entry(GtkDialog *dlg, GsDlgStr key, GsDlgStr value, GsDlgStr p
 	gtk_box_pack_start(GTK_BOX(hbox), label,FALSE,FALSE,1);
 	gtk_box_pack_start(GTK_BOX(hbox), input,TRUE,TRUE,1);
 	gtk_entry_set_visibility(GTK_ENTRY(input), !masked);
-	gtk_container_add(GTK_CONTAINER(dlg->vbox),hbox);
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(dlg)),hbox);
 	g_object_set_data_full(G_OBJECT(input), TextKey, g_strdup(key), g_free);
 }
 
@@ -303,7 +303,7 @@ void gsdlg_checkbox(GtkDialog *dlg, GsDlgStr key, gboolean value, GsDlgStr label
 	cb=gtk_check_button_new_with_label(label);
 	g_object_set_data_full(G_OBJECT(cb),TextKey,g_strdup(key), g_free);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cb),value);
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dlg)->vbox),cb);
+	gtk_container_add(GTK_CONTAINER(GTK_CONTAINER(gtk_dialog_get_content_area(dlg))),cb);
 }
 
 
@@ -334,7 +334,7 @@ static GtkWidget *find_widget_by_key(GtkDialog *dlg, GType type, GsDlgStr key)
 	g_return_val_if_fail(dlg, NULL);
 	kv.key=key;
 	kv.type=type;
-	gtk_container_foreach(GTK_CONTAINER(GTK_DIALOG(dlg)->vbox),find_widget_by_key_cb,&kv);
+	gtk_container_foreach(GTK_CONTAINER(GTK_CONTAINER(gtk_dialog_get_content_area(dlg))),find_widget_by_key_cb,&kv);
 	return kv.value;
 }
 
@@ -371,7 +371,7 @@ void gsdlg_group(GtkDialog *dlg, GsDlgStr key, GsDlgStr value, GsDlgStr label)
 		frm=gtk_frame_new(label);
 		vbox=gtk_vbox_new(FALSE,FALSE);
 		gtk_container_add(GTK_CONTAINER(frm),vbox);
-		gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dlg)->vbox),frm);
+		gtk_container_add(GTK_CONTAINER(GTK_CONTAINER(gtk_dialog_get_content_area(dlg))),frm);
 	}
 
 	/* Frame holds keyname, vbox holds default value */
@@ -450,11 +450,11 @@ void gsdlg_select(GtkDialog *dlg, GsDlgStr key, GsDlgStr value, GsDlgStr label)
 		hbox=gtk_hbox_new(FALSE,FALSE);
 		cw=g_malloc0(sizeof(ComboWidgets));
 		g_object_set_data_full(G_OBJECT(hbox),DataKey,cw,g_free);
-		cw->combo=gtk_combo_box_new_text();
+		cw->combo=gtk_combo_box_text_new();
 		cw->label=gtk_label_new(label);
 		gtk_box_pack_start(GTK_BOX(hbox), cw->label,FALSE,FALSE,4);
 		gtk_box_pack_start(GTK_BOX(hbox), cw->combo,TRUE,TRUE,1);
-		gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dlg)->vbox),hbox);
+		gtk_container_add(GTK_CONTAINER(GTK_CONTAINER(gtk_dialog_get_content_area(dlg))),hbox);
 	}
 	/* Hbox holds keyname, combo holds default value */
 	g_object_set_data_full(G_OBJECT(hbox),  TextKey, g_strdup(key), g_free);
@@ -481,7 +481,7 @@ void gsdlg_option(GtkDialog *dlg, GsDlgStr key, GsDlgStr value, GsDlgStr label)
 	values=g_object_steal_data(G_OBJECT(cw->combo), DataKey);
 	values=g_slist_append(values, g_strdup(value));
 	g_object_set_data_full(G_OBJECT(cw->combo), DataKey, values, destroy_slist_and_data);
-	gtk_combo_box_append_text(GTK_COMBO_BOX(cw->combo), label);
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(cw->combo), label);
 	defval=g_object_get_data(G_OBJECT(cw->combo), TextKey);
 	if (value && defval && g_str_equal(value,defval)) {
 		select_combo(cw->combo,value);
@@ -496,7 +496,7 @@ void gsdlg_label(GtkDialog *dlg, GsDlgStr text)
 	GtkWidget *lab=NULL;
 	g_return_if_fail(dlg);
 	lab=gtk_label_new(text);
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dlg)->vbox), lab);
+	gtk_container_add(GTK_CONTAINER(GTK_CONTAINER(gtk_dialog_get_content_area(dlg))), lab);
 	gtk_misc_set_alignment(GTK_MISC(lab), 0.0f, 0.0f);
 }
 
@@ -505,7 +505,7 @@ void gsdlg_label(GtkDialog *dlg, GsDlgStr text)
 void gsdlg_hr(GtkDialog *dlg)
 {
 	g_return_if_fail(dlg);
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dlg)->vbox), gtk_hseparator_new());
+	gtk_container_add(GTK_CONTAINER(GTK_CONTAINER(gtk_dialog_get_content_area(dlg))), gtk_hseparator_new());
 }
 
 
@@ -534,7 +534,7 @@ GtkDialog *gsdlg_new(GsDlgStr title, GsDlgStr*btns)
 	for (i=0; btns[i]; i++) {
 		gtk_dialog_add_button(GTK_DIALOG(dlg),btns[i],i);
 	}
-	gtk_box_set_spacing(GTK_BOX(GTK_DIALOG(dlg)->vbox), 4);
+	gtk_box_set_spacing(GTK_BOX(GTK_CONTAINER(gtk_dialog_get_content_area(dlg))), 4);
 	gtk_container_set_border_width(GTK_CONTAINER(dlg), 4);
 	gtk_window_set_title(GTK_WINDOW(dlg),title);
 	return dlg;
@@ -605,7 +605,7 @@ GHashTable* gsdlg_run(GtkDialog *dlg, gint *btn, gpointer user_data)
 	if (gsdlg_run_hook) { gsdlg_run_hook(FALSE,user_data); }
 	if (*btn<0) *btn=-1;
 	results=g_hash_table_new_full(g_str_hash,g_str_equal,g_free,g_free);
-	gtk_container_foreach(GTK_CONTAINER(GTK_DIALOG(dlg)->vbox),widgets_foreach,results);
+	gtk_container_foreach(GTK_CONTAINER(GTK_CONTAINER(gtk_dialog_get_content_area(dlg))),widgets_foreach,results);
 	gtk_widget_hide(GTK_WIDGET(dlg));
 	return results;
 }

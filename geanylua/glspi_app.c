@@ -582,7 +582,7 @@ static gint glspi_keygrab(lua_State* L)
 		gint pos=sci_get_position_from_line(doc->editor->sci, fvl+1);
 		scintilla_send_message(doc->editor->sci,SCI_CALLTIPSHOW,pos+3, (sptr_t)prompt);
 	}
-	gdk_window_add_filter(main_widgets->window->window, keygrab_cb, &km);
+	gdk_window_add_filter(gtk_widget_get_window(main_widgets->window), keygrab_cb, &km);
 	do {
 		while (gtk_events_pending()) {
 			if (km.group==2) { break; }
@@ -592,7 +592,7 @@ static gint glspi_keygrab(lua_State* L)
 		dosleep();
 	} while (km.group!=2);
 
-	gdk_window_remove_filter(main_widgets->window->window, keygrab_cb, &km);
+	gdk_window_remove_filter(gtk_widget_get_window(main_widgets->window), keygrab_cb, &km);
 	if (prompt && doc && doc->is_valid) {
 	sci_send_command(doc->editor->sci, SCI_CALLTIPCANCEL);
 	}
