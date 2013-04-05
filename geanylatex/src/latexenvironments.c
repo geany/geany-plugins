@@ -206,12 +206,12 @@ glatex_insert_environment_dialog(G_GNUC_UNUSED GtkMenuItem *menuitem,
 	gtk_table_set_row_spacings(GTK_TABLE(table), 6);
 
 	label_env = gtk_label_new(_("Environment:"));
-	textbox_env = gtk_combo_box_entry_new_text();
+	textbox_env = gtk_combo_box_text_new_with_entry();
 
 	max = glatex_count_menu_entries(glatex_environment_array, -1);
 	for (i = 0; i < max; i++)
 	{
-		gtk_combo_box_append_text(GTK_COMBO_BOX(textbox_env),
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(textbox_env),
 								  glatex_environment_array[i].label);
 	}
 
@@ -235,8 +235,8 @@ glatex_insert_environment_dialog(G_GNUC_UNUSED GtkMenuItem *menuitem,
 	{
 		gchar *env_string = NULL;
 
-		env_string = g_strdup(gtk_combo_box_get_active_text(
-			GTK_COMBO_BOX(textbox_env)));
+		env_string = g_strdup(gtk_combo_box_text_get_active_text(
+			GTK_COMBO_BOX_TEXT(textbox_env)));
 
 		if (env_string != NULL)
 		{

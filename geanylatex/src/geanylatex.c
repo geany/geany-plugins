@@ -304,10 +304,10 @@ plugin_configure(GtkDialog * dialog)
 	config_widgets.lower_selection_on_smallcaps = gtk_check_button_new_with_label(
 		_("Lower selection when formatting smallcaps (\\textsc{})"));
 
-	config_widgets.glatex_autocompletion_active = gtk_combo_box_new_text();
-	gtk_combo_box_insert_text(GTK_COMBO_BOX(config_widgets.glatex_autocompletion_active), 0,
+	config_widgets.glatex_autocompletion_active = gtk_combo_box_text_new();
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(config_widgets.glatex_autocompletion_active), 0,
 		_("Don't care about this inside plugin"));
-	gtk_combo_box_insert_text(GTK_COMBO_BOX(config_widgets.glatex_autocompletion_active), 1,
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(config_widgets.glatex_autocompletion_active), 1,
 		_("Always perform autocompletion on LaTeX"));
 
 	/* Configuration for auto completion feature */
@@ -912,7 +912,7 @@ glatex_insert_ref_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 	gtk_table_set_row_spacings(GTK_TABLE(table), 6);
 
 	label_ref = gtk_label_new(_("Reference name:"));
-	textbox_ref = gtk_combo_box_entry_new_text();
+	textbox_ref = gtk_combo_box_text_new_with_entry();
 
 	if (doc->real_path != NULL)
 	{
@@ -964,8 +964,8 @@ glatex_insert_ref_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 		gchar *ref_string = NULL;
 		GString *template_string = NULL;
 
-		ref_string = g_strdup(gtk_combo_box_get_active_text(
-			GTK_COMBO_BOX(textbox_ref)));
+		ref_string = g_strdup(gtk_combo_box_text_get_active_text(
+			GTK_COMBO_BOX_TEXT(textbox_ref)));
 
 		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio1)) == TRUE)
 		{
@@ -1277,7 +1277,7 @@ on_insert_bibtex_dialog_activate(G_GNUC_UNUSED GtkMenuItem *menuitem,
 	gtk_table_set_row_spacings(GTK_TABLE(table), 6);
 
 	label = gtk_label_new(_("BibTeX reference name:"));
-	textbox = gtk_combo_box_entry_new_text();
+	textbox = gtk_combo_box_text_new_with_entry();
 
 	if (doc->real_path != NULL)
 	{
@@ -1325,8 +1325,8 @@ on_insert_bibtex_dialog_activate(G_GNUC_UNUSED GtkMenuItem *menuitem,
 		gchar *ref_string = NULL;
 		GString *template_string = NULL;
 
-		ref_string = g_strdup(gtk_combo_box_get_active_text(
-			GTK_COMBO_BOX(textbox)));
+		ref_string = g_strdup(gtk_combo_box_text_get_active_text(
+			GTK_COMBO_BOX_TEXT(textbox)));
 
 		if (ref_string != NULL)
 		{
@@ -1388,8 +1388,8 @@ on_wizard_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 			enc_latex_char = g_strconcat("\\usepackage[",
 				latex_encodings[encoding_int].latex,"]{inputenc}\n", NULL);
 		}
-		fontsize = gtk_combo_box_get_active_text(
-			GTK_COMBO_BOX(glatex_wizard.fontsize_combobox));
+		fontsize = gtk_combo_box_text_get_active_text(
+			GTK_COMBO_BOX_TEXT(glatex_wizard.fontsize_combobox));
 		author = g_strdup(gtk_entry_get_text(GTK_ENTRY(glatex_wizard.author_textbox)));
 		date = g_strdup(gtk_entry_get_text(GTK_ENTRY(glatex_wizard.date_textbox)));
 		title = g_strdup(gtk_entry_get_text(GTK_ENTRY(glatex_wizard.title_textbox)));
@@ -1753,7 +1753,7 @@ glatex_wizard_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 	 *  adds default one */
 	label_template = gtk_label_new(_("Template:"));
 
-	glatex_wizard.template_combobox = gtk_combo_box_new_text();
+	glatex_wizard.template_combobox = gtk_combo_box_text_new();
 	gtk_widget_set_tooltip_text(glatex_wizard.template_combobox,
 		_("Set the template which should be used for creating the new document"));
 	gtk_misc_set_alignment(GTK_MISC(label_template), 0, 0.5);
@@ -1763,7 +1763,7 @@ glatex_wizard_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 
 	/*  Adding default/build in templates to pull down and set the generic
 	 * 	one as default */
-	gtk_combo_box_insert_text(GTK_COMBO_BOX(glatex_wizard.template_combobox),
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(glatex_wizard.template_combobox),
 		LATEX_WIZARD_TEMPLATE_DEFAULT, _("Default"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(glatex_wizard.template_combobox),
 		LATEX_WIZARD_TEMPLATE_DEFAULT);
@@ -1776,18 +1776,18 @@ glatex_wizard_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 
 	/*  Documentclass */
 	label_documentclass = gtk_label_new(_("Documentclass:"));
-	glatex_wizard.documentclass_combobox = gtk_combo_box_new_text();
+	glatex_wizard.documentclass_combobox = gtk_combo_box_text_new();
 	gtk_widget_set_tooltip_text(glatex_wizard.documentclass_combobox,
 		_("Choose the kind of document you want to write"));
-	gtk_combo_box_insert_text(GTK_COMBO_BOX(glatex_wizard.documentclass_combobox), 0,
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(glatex_wizard.documentclass_combobox), 0,
 		_("Book"));
-	gtk_combo_box_insert_text(GTK_COMBO_BOX(glatex_wizard.documentclass_combobox), 1,
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(glatex_wizard.documentclass_combobox), 1,
 		_("Article"));
-	gtk_combo_box_insert_text(GTK_COMBO_BOX(glatex_wizard.documentclass_combobox), 2,
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(glatex_wizard.documentclass_combobox), 2,
 		_("Report"));
-	gtk_combo_box_insert_text(GTK_COMBO_BOX(glatex_wizard.documentclass_combobox), 3,
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(glatex_wizard.documentclass_combobox), 3,
 		_("Letter"));
-	gtk_combo_box_insert_text(GTK_COMBO_BOX(glatex_wizard.documentclass_combobox), 4,
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(glatex_wizard.documentclass_combobox), 4,
 		_("Presentation"));
 
 	gtk_combo_box_set_active(GTK_COMBO_BOX(glatex_wizard.documentclass_combobox), 0);
@@ -1800,12 +1800,12 @@ glatex_wizard_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 	/*  Encoding */
 	label_encoding = gtk_label_new(_("Encoding:"));
 
-	glatex_wizard.encoding_combobox = gtk_combo_box_new_text();
+	glatex_wizard.encoding_combobox = gtk_combo_box_text_new();
 	gtk_widget_set_tooltip_text(glatex_wizard.encoding_combobox,
 		_("Set the encoding for your new document"));
 	for (i = 0; i < LATEX_ENCODINGS_MAX; i++)
 	{
-		gtk_combo_box_insert_text(GTK_COMBO_BOX(glatex_wizard.encoding_combobox), i,
+		gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(glatex_wizard.encoding_combobox), i,
 					  latex_encodings[i].name);
 	}
 
@@ -1819,10 +1819,10 @@ glatex_wizard_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 
 	/*  fontsize */
 	label_fontsize = gtk_label_new(_("Font size"));
-	glatex_wizard.fontsize_combobox = gtk_combo_box_entry_new_text();
-	gtk_combo_box_append_text(GTK_COMBO_BOX(glatex_wizard.fontsize_combobox),"10pt");
-	gtk_combo_box_append_text(GTK_COMBO_BOX(glatex_wizard.fontsize_combobox),"11pt");
-	gtk_combo_box_append_text(GTK_COMBO_BOX(glatex_wizard.fontsize_combobox),"12pt");
+	glatex_wizard.fontsize_combobox = gtk_combo_box_text_new_with_entry();
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(glatex_wizard.fontsize_combobox),"10pt");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(glatex_wizard.fontsize_combobox),"11pt");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(glatex_wizard.fontsize_combobox),"12pt");
 	gtk_widget_set_tooltip_text(glatex_wizard.fontsize_combobox,
 		_("Set the default font size of your new document"));
 
@@ -1881,12 +1881,12 @@ glatex_wizard_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 
 	/*  Papersize */
 	label_papersize = gtk_label_new(_("Paper size:"));
-	glatex_wizard.papersize_combobox = gtk_combo_box_new_text();
+	glatex_wizard.papersize_combobox = gtk_combo_box_text_new();
 	gtk_widget_set_tooltip_text(glatex_wizard.papersize_combobox,
 		_("Choose the paper format for the newly created document"));
-	gtk_combo_box_insert_text(GTK_COMBO_BOX(glatex_wizard.papersize_combobox), 0, "A4");
-	gtk_combo_box_insert_text(GTK_COMBO_BOX(glatex_wizard.papersize_combobox), 1, "A5");
-	gtk_combo_box_insert_text(GTK_COMBO_BOX(glatex_wizard.papersize_combobox), 2, "A6");
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(glatex_wizard.papersize_combobox), 0, "A4");
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(glatex_wizard.papersize_combobox), 1, "A5");
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(glatex_wizard.papersize_combobox), 2, "A6");
 
 	gtk_combo_box_set_active(GTK_COMBO_BOX(glatex_wizard.papersize_combobox), 0);
 
@@ -1897,12 +1897,12 @@ glatex_wizard_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 
 	/* Paper direction */
 	label_orientation = gtk_label_new(_("Paper Orientation:"));
-	glatex_wizard.orientation_combobox = gtk_combo_box_new_text();
+	glatex_wizard.orientation_combobox = gtk_combo_box_text_new();
 	gtk_widget_set_tooltip_text(glatex_wizard.orientation_combobox,
 		_("Choose the paper orientation for the newly created document"));
-	gtk_combo_box_insert_text(GTK_COMBO_BOX(glatex_wizard.orientation_combobox), 0, "Default");
-	gtk_combo_box_insert_text(GTK_COMBO_BOX(glatex_wizard.orientation_combobox), 1, "Portrait");
-	gtk_combo_box_insert_text(GTK_COMBO_BOX(glatex_wizard.orientation_combobox), 2, "Landscape");
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(glatex_wizard.orientation_combobox), 0, "Default");
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(glatex_wizard.orientation_combobox), 1, "Portrait");
+	gtk_combo_box_text_insert_text(GTK_COMBO_BOX_TEXT(glatex_wizard.orientation_combobox), 2, "Landscape");
 
 	gtk_combo_box_set_active(GTK_COMBO_BOX(glatex_wizard.orientation_combobox), 0);
 
@@ -2118,6 +2118,7 @@ add_menu_to_menubar(void)
 	GtkWidget *tmp = NULL;
 	gint i;
 	GtkMenuShell *menubar;
+	GList *menubar_children;
 
 	/* First we check for the menubar where to add the LaTeX menu */
 	menubar = GTK_MENU_SHELL(
@@ -2128,8 +2129,9 @@ add_menu_to_menubar(void)
 	{
 		/* Build up menu for menubar */
 		menu_latex = gtk_menu_item_new_with_mnemonic(_("_LaTeX"));
+		menubar_children = gtk_container_get_children(GTK_CONTAINER(menubar));
 		gtk_menu_shell_insert(
-			menubar, menu_latex, g_list_length(menubar->children)-1);
+			menubar, menu_latex, g_list_length(menubar_children)-1);
 
 		menu_latex_menu = gtk_menu_new();
 		gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_latex), menu_latex_menu);
@@ -2278,8 +2280,9 @@ add_menu_to_menubar(void)
 	if (menu_bibtex == NULL)
 	{
 		menu_bibtex = gtk_menu_item_new_with_mnemonic(_("_BibTeX"));
+		menubar_children = gtk_container_get_children(GTK_CONTAINER(menubar));
 		gtk_menu_shell_insert(
-			menubar, menu_bibtex, g_list_length(menubar->children)-1);
+			menubar, menu_bibtex, g_list_length(menubar_children)-1);
 
 		menu_bibtex_menu = gtk_menu_new();
 		gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_bibtex), menu_bibtex_menu);
