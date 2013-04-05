@@ -1906,10 +1906,10 @@ plugin_configure(GtkDialog *dialog)
 
 	hbox = gtk_hbox_new(FALSE, 0);
 	label = gtk_label_new(_("Toolbar"));
-	configure_widgets.SHOW_BARS = gtk_combo_box_new_text();
-	gtk_combo_box_append_text( GTK_COMBO_BOX(configure_widgets.SHOW_BARS), _("Hidden"));
-	gtk_combo_box_append_text( GTK_COMBO_BOX(configure_widgets.SHOW_BARS), _("Top"));
-	gtk_combo_box_append_text( GTK_COMBO_BOX(configure_widgets.SHOW_BARS), _("Bottom"));
+	configure_widgets.SHOW_BARS = gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text( GTK_COMBO_BOX_TEXT(configure_widgets.SHOW_BARS), _("Hidden"));
+	gtk_combo_box_text_append_text( GTK_COMBO_BOX_TEXT(configure_widgets.SHOW_BARS), _("Top"));
+	gtk_combo_box_text_append_text( GTK_COMBO_BOX_TEXT(configure_widgets.SHOW_BARS), _("Bottom"));
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(hbox), configure_widgets.SHOW_BARS, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
@@ -1919,10 +1919,10 @@ plugin_configure(GtkDialog *dialog)
 
 	hbox = gtk_hbox_new(FALSE, 0);
 	label = gtk_label_new(_("Show icons"));
-	configure_widgets.SHOW_ICONS = gtk_combo_box_new_text();
-	gtk_combo_box_append_text( GTK_COMBO_BOX(configure_widgets.SHOW_ICONS), _("None"));
-	gtk_combo_box_append_text( GTK_COMBO_BOX(configure_widgets.SHOW_ICONS), _("Base"));
-	gtk_combo_box_append_text( GTK_COMBO_BOX(configure_widgets.SHOW_ICONS), _("Content-type"));
+	configure_widgets.SHOW_ICONS = gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text( GTK_COMBO_BOX_TEXT(configure_widgets.SHOW_ICONS), _("None"));
+	gtk_combo_box_text_append_text( GTK_COMBO_BOX_TEXT(configure_widgets.SHOW_ICONS), _("Base"));
+	gtk_combo_box_text_append_text( GTK_COMBO_BOX_TEXT(configure_widgets.SHOW_ICONS), _("Content-type"));
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(hbox), configure_widgets.SHOW_ICONS, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
@@ -2017,11 +2017,11 @@ static void kb_activate(guint key_id)
 		case KB_RENAME_OBJECT:
 			treebrowser_rename_current();
 			break;
-			
+
 		case KB_CREATE_FILE:
 			treebrowser_create_new_current("file");
 			break;
-			
+
 		case KB_CREATE_DIR:
 			treebrowser_create_new_current("directory");
 			break;
