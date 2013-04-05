@@ -140,11 +140,8 @@ plugin_init(G_GNUC_UNUSED GeanyData *data)
 {
 	GtkWidget *menu_lipsum = NULL;
 	GKeyFile *config = g_key_file_new();
-	GtkTooltips *tooltips = NULL;
 	gchar *config_file = NULL;
 	GeanyKeyGroup *key_group;
-
-	tooltips = gtk_tooltips_new();
 
 	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 
@@ -161,8 +158,7 @@ plugin_init(G_GNUC_UNUSED GeanyData *data)
 
 	/* Building menu entry */
 	menu_lipsum = gtk_image_menu_item_new_with_mnemonic(_("_Lipsum"));
-	gtk_tooltips_set_tip(tooltips, menu_lipsum,
-			     _("Include Pseudotext to your code"), NULL);
+	gtk_widget_set_tooltip_text(menu_lipsum, _("Include Pseudotext to your code"));
 	gtk_widget_show(menu_lipsum);
 	g_signal_connect((gpointer) menu_lipsum, "activate",
 			 G_CALLBACK(lipsum_activated), NULL);
