@@ -138,16 +138,22 @@ M: Jiří Techet <techet@gmail.com>
 W: http://plugins.geany.org/gproject.html
 S: Maintained
 
-markdown 
+markdown
 P: Matthew Brush <matt@geany.org>
 M: Matthew Brush <matt@geany.org>
-W: 
+W:
 S: Maintained
 
 multiterm
 P: Matthew Brush <matt@geany.org>
 M: Matthew Brush <matt@geany.org>
 W: http://plugins.geany.org/multiterm.html
+S: Maintained
+
+pairtaghighlighter
+P: Volodymyr Kononenko <vm@kononenko.ws>
+M: Volodymyr Kononenko <vm@kononenko.ws>
+W:
 S: Maintained
 
 pretty-printer
