@@ -1,7 +1,7 @@
 /*
  *      geanylipsum.c
  *
- *      Copyright 2008-2011 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2008-2013 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	GETTEXT_PACKAGE,
 	_("GeanyLipsum"),
 	_("Creating dummy text with Geany"),
-	"0.4.3",
+	"0.4.4",
 	"Frank Lanitz <frank@frank.uvena.de>")
 
 static GtkWidget *main_menu_item = NULL;
@@ -48,7 +48,7 @@ static const gchar *default_loremipsum = "\
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy\
 eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam\
 voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet \
-clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
+clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. ";
 
 
 /* Doing some basic keybinding stuff */
@@ -120,8 +120,9 @@ lipsum_activated(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer gda
 			g_free(missing_text);
 		}
 		for (i = 0; i < x; i++)
+		{
 			insert_string(doc, lipsum);
-
+		}
 		sci_end_undo_action(doc->editor->sci);
 	}
 }
