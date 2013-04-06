@@ -1,3 +1,17 @@
+2013-04-06  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/insertnum.c:
+   Fixed some space indentation.
+   Changes to use GtkGrid under GTK+ 3.
+   Defined GTK_COMPAT_H to avoid inclusion of gtkcompat.h and
+   defined the macros required for GTK+ 2/3 compatibility.
+
+2013-04-06  Quentin Glidic <sardemff7+git@sardemff7.net>
+
+ * src/insertnum.c:
+   Changes to compile with GTK+ 3: GtkComboBoxText and
+   gtk_widget_set_can_default().
+
 2011-02-23  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/insertnum.c:
@@ -23,4 +37,4 @@
 2010-03-12  Dimitar Zhekov  <hamster@mbox.contact.bg>
 
  * src/insertnum.c:
-   Small changes to compile with GTK 2.8 / Win32.
+   Small changes to compile with GTK+ 2.8 / Win32.
