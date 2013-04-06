@@ -190,7 +190,7 @@ build files, which macro is called from configure.ac::
 
  AC_DEFUN([GP_CHECK_YOURFANCYPLUGINNAME],
  [
-     GP_ARG_DISABLE([yourfancypluginname], [yes])
+     GP_ARG_DISABLE([yourfancypluginname], [auto])
      GP_STATUS_PLUGIN_ADD([yourfancypluginname], [$enable_yourfancxpluginname])
      AC_CONFIG_FILES([
          yourplugin/Makefile
