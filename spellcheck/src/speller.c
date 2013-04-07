@@ -267,7 +267,7 @@ gchar *sc_speller_get_default_lang(void)
 		{	/* if we have something like de_DE.UTF-8, strip everything from the period to the end */
 			gchar *period = strchr(lang, '.');
 			if (period != NULL)
-				result = g_strndup(lang, g_utf8_pointer_to_offset(lang, period));
+				result = g_strndup(lang, period - lang);
 		}
 	}
 	else
