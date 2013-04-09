@@ -130,7 +130,7 @@ namespace MultiTerm
 			HBox hbox;
 
 			this.sh = sh;
-            if (this.sh.command.strip() == "")
+			if (this.sh.command.strip() == "")
 				this.sh.command = "sh";
 
 			terminal = new Vte.Terminal();
@@ -151,9 +151,35 @@ namespace MultiTerm
 			terminal.child_exited.connect(on_child_exited);
 
 			if (this.sh.cfg != null)
+			{
 				terminal.set_font_from_string(this.sh.font);
+				terminal.set_allow_bold(this.sh.allow_bold);
+				terminal.set_audible_bell(this.sh.audible_bell);
+				terminal.set_cursor_blink_mode(this.sh.cursor_blink_mode);
+				terminal.set_cursor_shape(this.sh.cursor_shape);
+				terminal.set_backspace_binding(this.sh.backspace_binding);
+				terminal.set_mouse_autohide(this.sh.pointer_autohide);
+				terminal.set_scroll_on_keystroke(this.sh.scroll_on_keystroke);
+				terminal.set_scroll_on_output(this.sh.scroll_on_output);
+				terminal.set_scrollback_lines(this.sh.scrollback_lines);
+				terminal.set_visible_bell(this.sh.visible_bell);
+				terminal.set_word_chars(this.sh.word_chars);
+			}
 			else
+			{
 				terminal.set_font_from_string("Monospace 9");
+				terminal.set_allow_bold(true);
+				terminal.set_audible_bell(true);
+				terminal.set_cursor_blink_mode(TerminalCursorBlinkMode.SYSTEM);
+				terminal.set_cursor_shape(TerminalCursorShape.BLOCK);
+				terminal.set_backspace_binding(TerminalEraseBinding.AUTO);
+				terminal.set_mouse_autohide(false);
+				terminal.set_scroll_on_keystroke(true);
+				terminal.set_scroll_on_output(false);
+				terminal.set_scrollback_lines(512);
+				terminal.set_visible_bell(false);
+				terminal.set_word_chars("");
+			}
 
 			terminal.realize.connect(on_vte_realize); /* colors can only be set on realize (lame) */
 			run_command(this.sh.command);

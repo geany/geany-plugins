@@ -102,14 +102,6 @@ command=
 # Make the tab's label track the VTE title
 track_title=true
 
-# Save and restore the current working directory each close/open
-track_cwd=true
-
-# Stores the CWD to change to on loading, blank for no change dir.
-# If track_cwd is set to true, this value will be automatically updated
-# otherwise this same value will be changed to each load.
-terminal_cwd=
-
 # Background color, foreground color and font for the VTE
 bg_color=#ffffff
 fg_color=#000000
@@ -130,17 +122,20 @@ font=Monospace 9
 #cursor_shape=block
 
 # Controls how erasing characters is handled, one of:
-#   auto, ascii_backspace, ascii_delete, delete_sequences, tty
+#   auto, ascii_backspace, ascii_delete, delete_sequence, tty
 #backspace_binding=auto
 
 # Whether to hide the mouse pointer on key press if it's in the
-# terminal window pointer_autohide=false
+# terminal window
+#pointer_autohide=false
 
 # Scroll to the prompt at the bottom of the scrollback buffer on key
-# press scroll_on_keystroke=true
+# press
+#scroll_on_keystroke=true
 
 # Scroll to the bottom of the scrollback buffer when the child sends
-# output scroll_on_output=false
+# output
+#scroll_on_output=false
 
 # The number of lines to keep in the scrollback buffer
 #scrollback_lines=512
@@ -155,7 +150,7 @@ font=Monospace 9
 # the word-chars characters as parts of words, and all other
 # characters as word separators. Ranges of characters can be
 # specified by separating them with a hyphen.
-#word_chars=
+word_chars=-A-Za-z0-9,./\\?%&#:_
 
 
 #=======================================================================
