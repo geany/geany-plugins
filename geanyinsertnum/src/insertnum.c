@@ -26,8 +26,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define GTK_COMPAT_H
 #include "geanyplugin.h"
+
+#ifndef GTK_COMPAT_H
+#define GtkComboBoxText GtkComboBox
+#define GTK_COMBO_BOX_TEXT GTK_COMBO_BOX
+#define gtk_combo_box_text_new_with_entry gtk_combo_box_entry_new_text
+#define gtk_combo_box_text_append_text gtk_combo_box_append_text
+#endif
 
 GeanyPlugin	*geany_plugin;
 GeanyData	*geany_data;
@@ -308,13 +314,6 @@ static void set_entry(GtkWidget *entry, gint maxlen, GtkWidget *label, const gch
 	gtk_label_set_mnemonic_widget(GTK_LABEL(label), entry);
 	ui_widget_set_tooltip_text(entry, tooltip);
 }
-
-#if !GTK_CHECK_VERSION(2, 24, 0)
-#define GtkComboBoxText GtkComboBox
-#define GTK_COMBO_BOX_TEXT GTK_COMBO_BOX
-#define gtk_combo_box_text_new_with_entry gtk_combo_box_entry_new_text
-#define gtk_combo_box_text_append_text gtk_combo_box_append_text
-#endif
 
 #if !GTK_CHECK_VERSION(3, 0, 0)
 #define GtkGrid GtkTable

@@ -1,6 +1,13 @@
 2013-04-06  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/insertnum.c:
+   Undefined GTK_COMPAT_H and fixed compilation with
+   Geany >= 2013-03-11 && gtk+ <= 2.22. Let's hope it won't
+   break anything.
+
+2013-04-06  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/insertnum.c:
    Fixed some space indentation.
    Changes to use GtkGrid under GTK+ 3.
    Defined GTK_COMPAT_H to avoid inclusion of gtkcompat.h and
