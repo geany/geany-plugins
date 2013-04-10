@@ -1,4 +1,10 @@
-2013-04-06  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+2013-10-06  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/insertnum.c:
+   Small improvements, increased the maximum number of lines
+   to 250000.
+
+2013-10-06  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/insertnum.c:
    Undefined GTK_COMPAT_H and fixed compilation with

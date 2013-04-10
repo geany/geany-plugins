@@ -59,7 +59,7 @@ PLUGIN_KEY_GROUP(insert_numbers, COUNT_KB)
 #define RANGE_MAX 2147483647
 #define RANGE_LEN 11
 #define RANGE_TOOLTIP "-2147483648..2147483647"
-#define MAX_LINES 100000
+#define MAX_LINES 250000
 
 typedef struct _InsertNumbersDialog
 {
@@ -71,7 +71,6 @@ typedef struct _InsertNumbersDialog
 
 typedef gboolean (*entry_valid)(const gchar *text);
 
-static GObject *tools1_menu = NULL;
 static GtkWidget *main_menu_item = NULL;
 static gint start_pos, start_line;
 static gint end_pos, end_line;
@@ -335,13 +334,6 @@ static void on_insert_numbers_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GN
 	gchar *base_text;
 	gint result;
 
-	if (!can_insert_numbers())
-	{
-		if (!tools1_menu)
-			plugin_beep();	/* no visual feedback, so beep */
-		return;
-	}
-
 	d.dialog = gtk_dialog_new_with_buttons(_("Insert Numbers"),
 		GTK_WINDOW(geany->main_widgets->window),
 		GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -465,10 +457,11 @@ static void on_insert_numbers_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GN
 
 static void on_insert_numbers_key(G_GNUC_UNUSED guint key_id)
 {
-	on_insert_numbers_activate(NULL, NULL);
+	if (can_insert_numbers())
+		on_insert_numbers_activate(NULL, NULL);
 }
 
-static void on_tools1_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer gdata)
+static void on_tools_show(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer gdata)
 {
 	gtk_widget_set_sensitive(main_menu_item, can_insert_numbers());
 }
@@ -490,14 +483,8 @@ void plugin_init(G_GNUC_UNUSED GeanyData *data)
 	keybindings_set_item(plugin_key_group, INSERT_NUMBERS_KB, on_insert_numbers_key,
 		0, 0, "insert_numbers", _("Insert Numbers"), main_menu_item);
 
-	/* an "update-tools-menu" or something would have been nice */
-	tools1_menu = G_OBJECT(g_object_get_data((gpointer) geany->main_widgets->window,
-		"tools1"));
-	if (tools1_menu)
-	{
-		plugin_signal_connect(geany_plugin, tools1_menu, "activate", FALSE,
-			(GCallback) on_tools1_activate, NULL);
-	}
+	plugin_signal_connect(geany_plugin, G_OBJECT(geany->main_widgets->tools_menu), "show",
+		FALSE, (GCallback) on_tools_show, NULL);
 }
 
 void plugin_cleanup(void)
