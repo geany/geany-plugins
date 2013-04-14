@@ -199,17 +199,17 @@ gboolean on_view_query_tooltip(GtkWidget *widget, gint x, gint y, gboolean keybo
 
 	if (gtk_tree_view_get_tooltip_context(tree, &x, &y, keyboard_tip, NULL, NULL, &iter))
 	{
-		char *file;
+		const char *file;
 
 		gtk_tree_view_set_tooltip_cell(tree, tooltip, NULL, base_name_column, NULL);
-		gtk_tree_model_get(gtk_tree_view_get_model(tree), &iter, COLUMN_FILE, &file, -1);
+		scp_tree_store_get((ScpTreeStore *) gtk_tree_view_get_model(tree), &iter,
+			COLUMN_FILE, &file, -1);
 
 		if (file)
 		{
 			gchar *utf8 = utils_get_utf8_from_locale(file);
 
 			gtk_tooltip_set_text(tooltip, utf8);
-			g_free(file);
 			g_free(utf8);
 			return TRUE;
 		}
@@ -218,11 +218,11 @@ gboolean on_view_query_tooltip(GtkWidget *widget, gint x, gint y, gboolean keybo
 	return FALSE;
 }
 
-GtkTreeView *view_create(const char *name, GtkTreeModel **model, GtkTreeSelection **selection)
+GtkTreeView *view_create(const char *name, ScpTreeStore **store, GtkTreeSelection **selection)
 {
 	GtkTreeView *tree = GTK_TREE_VIEW(get_widget(name));
 
-	*model = gtk_tree_view_get_model(tree);
+	*store = SCP_TREE_STORE(gtk_tree_view_get_model(tree));
 	*selection = gtk_tree_view_get_selection(tree);
 	return tree;
 }
@@ -248,28 +248,27 @@ static gboolean on_display_editable_map_event(GtkWidget *widget, G_GNUC_UNUSED G
 }
 
 static void on_display_editing_started(G_GNUC_UNUSED GtkCellRenderer *cell,
-	GtkCellEditable *editable, const gchar *path_str, GtkTreeModel *model)
+	GtkCellEditable *editable, const gchar *path_str, ScpTreeStore *store)
 {
 	GtkTreeIter iter;
-	char *value;
+	const char *value;
 	gint hb_mode;
 
 	g_assert(GTK_IS_EDITABLE(editable));
-	gtk_tree_model_get_iter_from_string(model, &iter, path_str);
-	gtk_tree_model_get(model, &iter, COLUMN_VALUE, &value, COLUMN_HB_MODE, &hb_mode, -1);
+	scp_tree_store_get_iter_from_string(store, &iter, path_str);
+	scp_tree_store_get(store, &iter, COLUMN_VALUE, &value, COLUMN_HB_MODE, &hb_mode, -1);
 	/* scrolling editable to the proper position is left as an exercise for the reader */
 	g_signal_connect(editable, "map-event", G_CALLBACK(on_display_editable_map_event),
 		parse_get_display_from_7bit(value, hb_mode, MR_EDITVC));
-	g_free(value);
 }
 
-GtkTreeView *view_connect(const char *name, GtkTreeModel **model, GtkTreeSelection **selection,
+GtkTreeView *view_connect(const char *name, ScpTreeStore **store, GtkTreeSelection **selection,
 	const TreeCell *cell_info, const char *window, GObject **display)
 {
 	guint i;
 	GtkScrolledWindow *scrolled = GTK_SCROLLED_WINDOW(get_widget(window));
 	GtkAdjustment *hadjustment = gtk_scrolled_window_get_hadjustment(scrolled);
-	GtkTreeView *tree = view_create(name, model, selection);
+	GtkTreeView *tree = view_create(name, store, selection);
 
 	for (i = 0; cell_info->name; cell_info++, i++)
 	{
@@ -288,7 +287,7 @@ GtkTreeView *view_connect(const char *name, GtkTreeModel **model, GtkTreeSelecti
 			if (display && i == 0)
 			{
 				g_signal_connect(cell, "editing-started",
-					G_CALLBACK(on_display_editing_started), *model);
+					G_CALLBACK(on_display_editing_started), *store);
 				*display = G_OBJECT(cell);
 			}
 		}
@@ -325,7 +324,7 @@ void view_set_line_data_func(const char *column, const char *cell, gint column_i
 		GINT_TO_POINTER(column_id), NULL);
 }
 
-void view_display_edited(GtkTreeModel *model, gboolean condition, const gchar *path_str,
+void view_display_edited(ScpTreeStore *store, gboolean condition, const gchar *path_str,
 	const char *format, gchar *new_text)
 {
 	if (validate_column(new_text, TRUE))
@@ -333,17 +332,16 @@ void view_display_edited(GtkTreeModel *model, gboolean condition, const gchar *p
 		if (condition)
 		{
 			GtkTreeIter iter;
-			char *name;
+			const char *name;
 			gint hb_mode;
 			char *locale;
 
-			gtk_tree_model_get_iter_from_string(model, &iter, path_str);
-			gtk_tree_model_get(model, &iter, COLUMN_NAME, &name, COLUMN_HB_MODE,
+			scp_tree_store_get_iter_from_string(store, &iter, path_str);
+			scp_tree_store_get(store, &iter, COLUMN_NAME, &name, COLUMN_HB_MODE,
 				&hb_mode, -1);
 			locale = utils_get_locale_from_display(new_text, hb_mode);
 			utils_strchrepl(locale, '\n', ' ');
 			debug_send_format(F, format, name, locale);
-			g_free(name);
 			g_free(locale);
 		}
 		else
@@ -358,21 +356,18 @@ void view_column_set_visible(const char *name, gboolean visible)
 
 void view_seek_selected(GtkTreeSelection *selection, gboolean focus, SeekerType seeker)
 {
-	GtkTreeModel *model;
+	ScpTreeStore *store;
 	GtkTreeIter iter;
 
-	if (gtk_tree_selection_get_selected(selection, &model, &iter))
+	if (scp_tree_selection_get_selected(selection, &store, &iter))
 	{
-		char *file;
+		const char *file;
 		gint line;
 
-		gtk_tree_model_get(model, &iter, COLUMN_FILE, &file, COLUMN_LINE, &line, -1);
+		scp_tree_store_get(store, &iter, COLUMN_FILE, &file, COLUMN_LINE, &line, -1);
 
 		if (file)
-		{
 			utils_seek(file, line, focus, seeker);
-			g_free(file);
-		}
 	}
 }
 
@@ -388,8 +383,7 @@ static GtkWidget *command_view;
 static GObject *command_cell;
 static GtkTextBuffer *command_text;
 static GtkComboBox *command_history;
-static GtkTreeModel *command_model;
-static GtkListStore *command_store;
+static ScpTreeStore *command_store;
 static GtkToggleButton *command_locale;
 static GtkWidget *command_send;
 
@@ -408,7 +402,7 @@ gboolean on_command_dialog_configure(G_GNUC_UNUSED GtkWidget *widget,
 	gint width;
 
 #if GTK_CHECK_VERSION(2, 24, 0)
-	width = gdk_window_get_width(command_view->window);
+	width = gdk_window_get_width(gtk_widget_get_window(command_view));
 #else
 	gint height;
 	gdk_drawable_get_size(GDK_DRAWABLE(command_view->window), &width, &height);
@@ -423,7 +417,7 @@ static void on_command_history_size_request(G_GNUC_UNUSED GtkWidget *widget,
 	static gint empty_height;
 	GtkTreeIter iter;
 
-	if (gtk_tree_model_get_iter_first(command_model, &iter))
+	if (scp_tree_store_get_iter_first(command_store, &iter))
 		requisition->height = empty_height;
 	else
 		empty_height = requisition->height;
@@ -436,38 +430,35 @@ static void on_command_history_changed(GtkComboBox *command_history,
 
 	if (gtk_combo_box_get_active_iter(command_history, &iter))
 	{
-		gchar *text;
+		const gchar *text;
 		gboolean locale;
 
-		gtk_tree_model_get(command_model, &iter, COMMAND_TEXT, &text, COMMAND_LOCALE,
+		scp_tree_store_get(command_store, &iter, COMMAND_TEXT, &text, COMMAND_LOCALE,
 			&locale, -1);
 		gtk_text_buffer_set_text(command_text, text, -1);
 		gtk_toggle_button_set_active(command_locale, locale);
 		gtk_widget_grab_focus(command_view);
 		gtk_combo_box_set_active_iter(command_history, NULL);
-		g_free(text);
 	}
 }
 
 static void on_command_insert_button_clicked(G_GNUC_UNUSED GtkButton *button, gpointer gdata)
 {
 	const char *prefix;
-	char *id;
+	const char *id;
 	GString *text = g_string_new("--");
 
 	switch (GPOINTER_TO_INT(gdata))
 	{
-		case 't' : prefix = "thread"; id = g_strdup(thread_id); break;
+		case 't' : prefix = "thread"; id = thread_id; break;
 		case 'g' : prefix = "group"; id = thread_group_id(); break;
-		default : prefix = "frame"; id = g_strdup(frame_id);
+		default : prefix = "frame"; id = frame_id;
 	}
 
 	g_string_append_printf(text, "%s ", prefix);
 	if (id)
-	{
 		g_string_append_printf(text, "%s ", id);
-		g_free(id);
-	}
+
 	gtk_text_buffer_delete_selection(command_text, FALSE, TRUE);
 	gtk_text_buffer_insert_at_cursor(command_text, text->str, -1);
 	g_string_free(text, TRUE);
@@ -498,20 +489,20 @@ static void on_command_send_button_clicked(G_GNUC_UNUSED GtkButton *button,
 		gchar *display = g_strdup(start);
 
 		/* from ui_combo_box_add_to_history() */
-		if (model_find(command_model, &iter, COMMAND_TEXT, start))
-			gtk_list_store_remove(command_store, &iter);
+		if (store_find(command_store, &iter, COMMAND_TEXT, start))
+			scp_tree_store_remove(command_store, &iter);
 
 		if (strlen(display) >= 273)
 			strcpy(display + 270, _("\342\200\246"));  /* For translators: ellipsis */
 
-		gtk_list_store_prepend(command_store, &iter);
-		gtk_list_store_set(command_store, &iter, COMMAND_DISPLAY, display, COMMAND_TEXT,
+		scp_tree_store_prepend(command_store, &iter, NULL);
+		scp_tree_store_set(command_store, &iter, COMMAND_DISPLAY, display, COMMAND_TEXT,
 			start, COMMAND_LOCALE, gtk_toggle_button_get_active(command_locale), -1);
 		g_free(display);
 
 		path = gtk_tree_path_new_from_indices(15, -1);
-		if (gtk_tree_model_get_iter(command_model, &iter, path))
-			gtk_list_store_remove(command_store, &iter);
+		if (scp_tree_store_get_iter(command_store, &iter, path))
+			scp_tree_store_remove(command_store, &iter);
 		gtk_tree_path_free(path);
 	}
 
@@ -579,8 +570,7 @@ void views_init(void)
 	command_text = gtk_text_view_get_buffer(GTK_TEXT_VIEW(command_view));
 	g_signal_connect(command_text, "changed", G_CALLBACK(on_command_text_changed), NULL);
 	command_history = GTK_COMBO_BOX(get_widget("command_history"));
-	command_model = gtk_combo_box_get_model(command_history);
-	command_store = GTK_LIST_STORE(command_model);
+	command_store = SCP_TREE_STORE(gtk_combo_box_get_model(command_history));
 	command_cell = get_object("command_cell");
 	g_signal_connect(command_dialog, "configure-event",
 		G_CALLBACK(on_command_dialog_configure), NULL);

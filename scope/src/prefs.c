@@ -198,43 +198,6 @@ char *prefs_file_name(void)
 	return g_build_filename(geany->app->configdir, "plugins", "scope", "scope.conf", NULL);
 }
 
-#ifdef stash_tree_setup
-static void on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
-	gpointer gdata)
-{
-	if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY)
-	{
-		char *configfile = prefs_file_name();
-
-		stash_tree_update(GTK_TREE_VIEW(gdata));
-		prefs_configure();
-		scope_configure();
-		stash_group_save_to_file(scope_group, configfile, G_KEY_FILE_KEEP_COMMENTS);
-		g_free(configfile);
-	}
-}
-
-static GPtrArray *pref_groups;
-
-GtkWidget *plugin_configure(GtkDialog *dialog)
-{
-	GtkWidget *vbox = gtk_vbox_new(FALSE, 6);
-	GtkWidget *window = gtk_scrolled_window_new(NULL, NULL);
-	GtkTreeView *tree = GTK_TREE_VIEW(gtk_tree_view_new());
-
-	gtk_box_pack_start(GTK_BOX(vbox), window, TRUE, TRUE, 0);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(window), GTK_POLICY_AUTOMATIC,
-		GTK_POLICY_AUTOMATIC);
-	gtk_container_add(GTK_CONTAINER(window), GTK_WIDGET(tree));
-	stash_tree_setup(pref_groups, tree);
-	stash_tree_display(tree);
-	g_signal_connect(dialog, "response", G_CALLBACK(on_configure_response), tree);
-	gtk_widget_show_all(vbox);
-
-	return vbox;
-}
-#endif  /* stash_tree_setup */
-
 static void on_document_save(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 	G_GNUC_UNUSED gpointer gdata)
 {
@@ -296,12 +259,6 @@ void prefs_init(void)
 	stash_group_add_integer(group, &pref_memory_bytes_per_line, "memory_line_bytes", 16);
 	stash_group_add_string(group, &pref_memory_font, "memory_font", "");
 	scope_group = group;
-
-#ifdef stash_tree_setup
-	pref_groups = g_ptr_array_new();
-	stash_group_set_various(group, TRUE);
-	g_ptr_array_add(pref_groups, group);
-#endif
 
 	config_item = ui_add_config_file_menu_item(configfile, NULL, NULL);
 	plugin_signal_connect(geany_plugin, NULL, "document-save", FALSE,
@@ -395,8 +352,4 @@ void prefs_finalize(void)
 	utils_stash_group_free(terminal_group);
 	for (i = 0; i < MARKER_COUNT; i++)
 		utils_stash_group_free(marker_group[i]);
-
-#ifdef stash_tree_setup
-	g_ptr_array_free(pref_groups, TRUE);
-#endif
 }

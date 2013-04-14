@@ -31,8 +31,7 @@ enum
 	MEMORY_ASCII
 };
 
-static GtkListStore *store;
-static GtkTreeModel *model;
+static ScpTreeStore *store;
 static GtkTreeSelection *selection;
 
 static void on_memory_bytes_edited(G_GNUC_UNUSED GtkCellRendererText *renderer, gchar *path_str,
@@ -41,11 +40,11 @@ static void on_memory_bytes_edited(G_GNUC_UNUSED GtkCellRendererText *renderer, 
 	if (*new_text && (debug_state() & DS_SENDABLE))
 	{
 		GtkTreeIter iter;
-		char *addr, *bytes;
+		const char *addr, *bytes;
 		guint i;
 
-		gtk_tree_model_get_iter_from_string(model, &iter, path_str);
-		gtk_tree_model_get(model, &iter, MEMORY_ADDR, &addr, MEMORY_BYTES, &bytes, -1);
+		scp_tree_store_get_iter_from_string(store, &iter, path_str);
+		scp_tree_store_get(store, &iter, MEMORY_ADDR, &addr, MEMORY_BYTES, &bytes, -1);
 
 		for (i = 0; bytes[i]; i++)
 			if (!(isxdigit(bytes[i]) ? isxdigit(new_text[i]) : new_text[i] == ' '))
@@ -58,9 +57,6 @@ static void on_memory_bytes_edited(G_GNUC_UNUSED GtkCellRendererText *renderer, 
 			utils_strchrepl(new_text, ' ', '\0');
 			debug_send_format(T, "07-data-write-memory-bytes 0x%s%s", addr, new_text);
 		}
-
-		g_free(addr);
-		g_free(bytes);
 	}
 	else
 		plugin_blink();
@@ -153,7 +149,7 @@ static void write_block(guint64 start, const char *contents, guint count)
 		GString *ascii = g_string_new(" ");
 		gint n = 0;
 
-		gtk_list_store_append(store, &iter);
+		scp_tree_store_append(store, &iter, NULL);
 
 		while (n < bytes_per_line)
 		{
@@ -189,7 +185,7 @@ static void write_block(guint64 start, const char *contents, guint count)
 				g_string_append_c(bytes, ' ');
 		}
 
-		gtk_list_store_set(store, &iter, MEMORY_ADDR, addr, MEMORY_BYTES, bytes->str,
+		scp_tree_store_set(store, &iter, MEMORY_ADDR, addr, MEMORY_BYTES, bytes->str,
 			MEMORY_ASCII, ascii->str, -1);
 
 		g_free(addr);
@@ -235,9 +231,9 @@ void on_memory_read_bytes(GArray *nodes)
 		char *addr = NULL;
 
 		if (gtk_tree_selection_get_selected(selection, NULL, &iter))
-			gtk_tree_model_get(model, &iter, MEMORY_ADDR, &addr, -1);
+			gtk_tree_model_get((GtkTreeModel *) store, &iter, MEMORY_ADDR, &addr, -1);
 
-		gtk_list_store_clear(store);
+		store_clear(store);
 		memory_count = 0;
 
 		if (pref_memory_bytes_per_line != back_bytes_per_line)
@@ -252,7 +248,7 @@ void on_memory_read_bytes(GArray *nodes)
 
 		if (addr)
 		{
-			if (model_find(model, &iter, MEMORY_ADDR, addr))
+			if (store_find(store, &iter, MEMORY_ADDR, addr))
 				utils_tree_set_cursor(selection, &iter, -1);
 			g_free(addr);
 		}
@@ -261,7 +257,7 @@ void on_memory_read_bytes(GArray *nodes)
 
 void memory_clear(void)
 {
-	gtk_list_store_clear(store);
+	store_clear(store);
 }
 
 gboolean memory_update(void)
@@ -302,27 +298,23 @@ static void on_memory_read(G_GNUC_UNUSED const MenuItem *menu_item)
 
 static void on_memory_copy(G_GNUC_UNUSED const MenuItem *menu_item)
 {
-	GtkTreeModel *model;
 	GtkTreeIter iter;
-	char *addr, *bytes;
-	gchar *ascii;
+	const char *addr, *bytes;
+	const gchar *ascii;
 	gchar *string;
 
-	gtk_tree_selection_get_selected(selection, &model, &iter);
-	gtk_tree_model_get(model, &iter, MEMORY_ADDR, &addr, MEMORY_BYTES, &bytes,
+	gtk_tree_selection_get_selected(selection, NULL, &iter);
+	scp_tree_store_get(store, &iter, MEMORY_ADDR, &addr, MEMORY_BYTES, &bytes,
 		MEMORY_ASCII, &ascii, -1);
 	string = g_strdup_printf("%s%s%s", addr, bytes, ascii);
 	gtk_clipboard_set_text(gtk_widget_get_clipboard(menu_item->widget,
 		GDK_SELECTION_CLIPBOARD), string, -1);
-	g_free(addr);
-	g_free(bytes);
-	g_free(ascii);
 	g_free(string);
 }
 
 static void on_memory_clear(G_GNUC_UNUSED const MenuItem *menu_item)
 {
-	gtk_list_store_clear(store);
+	store_clear(store);
 	memory_count = 0;
 }
 
@@ -387,10 +379,9 @@ static gboolean on_memory_key_press(G_GNUC_UNUSED GtkWidget *widget, GdkEventKey
 
 void memory_init(void)
 {
-	GtkWidget *tree = GTK_WIDGET(view_connect("memory_view", &model, &selection,
+	GtkWidget *tree = GTK_WIDGET(view_connect("memory_view", &store, &selection,
 		memory_cells, "memory_window", NULL));
 
-	store = GTK_LIST_STORE(model);
 	memory_font = *pref_memory_font ? pref_memory_font : pref_vte_font;
 	ui_widget_modify_font_from_string(tree, memory_font);
 	g_signal_connect(get_object("memory_bytes"), "editing-started",
@@ -405,7 +396,7 @@ void memory_init(void)
 
 	if (pointer_size > MAX_POINTER_SIZE)
 	{
-		msgwin_status_add(_("Scope: pointer size > 8, Data disabled."));
+		msgwin_status_add(_("Scope: pointer size > %d, Data disabled."), MAX_POINTER_SIZE);
 		gtk_widget_hide(tree);
 	}
 	else

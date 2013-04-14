@@ -95,7 +95,7 @@ typedef struct _MenuKey
 	const gchar *label;
 } MenuKey;
 
-void menu_set_popup_keybindings(guint item);
+void menu_set_popup_keybindings(GeanyKeyGroup *scope_key_group, guint item);
 void menu_clear(void);
 void menu_update_state(DebugState state);
 

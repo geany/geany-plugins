@@ -228,111 +228,65 @@ void array_save(GArray *array, GKeyFile *config, const gchar *prefix, ASaveFunc 
 	utils_clear_sections(config, prefix, n);
 }
 
-gboolean model_find(GtkTreeModel *model, GtkTreeIter *iter, guint column, const char *key)
+gboolean store_find(ScpTreeStore *store, GtkTreeIter *iter, guint column, const char *key)
 {
-	gboolean string = gtk_tree_model_get_column_type(model, column) == G_TYPE_STRING;
-	gboolean valid = gtk_tree_model_get_iter_first(model, iter);
-	gint i = atoi(key);
+	if (scp_tree_store_get_column_type(store, column) == G_TYPE_STRING)
+		return scp_tree_store_search(store, FALSE, FALSE, iter, NULL, column, key);
 
-	while (valid)
-	{
-		gboolean match;
-		union
-		{
-			gchar *s;
-			gint i;
-		} data;
-
-		gtk_tree_model_get(model, iter, column, &data, -1);
-
-		if (string)
-		{
-			match = !g_strcmp0(data.s, key);
-			g_free(data.s);
-		}
-		else
-			match = data.i == i;
-
-		if (match)
-			return TRUE;
-
-		valid = gtk_tree_model_iter_next(model, iter);
-	}
-
-	return FALSE;
+	return scp_tree_store_search(store, FALSE, FALSE, iter, NULL, column, atoi(key));
 }
 
-void model_foreach(GtkTreeModel *model, GFunc each_func, gpointer gdata)
+void store_foreach(ScpTreeStore *store, GFunc each_func, gpointer gdata)
 {
 	GtkTreeIter iter;
-	gboolean valid = gtk_tree_model_get_iter_first(model, &iter);
+	gboolean valid = scp_tree_store_get_iter_first(store, &iter);
 
 	while (valid)
 	{
 		each_func(&iter, gdata);
-		valid = gtk_tree_model_iter_next(model, &iter);
+		valid = scp_tree_store_iter_next(store, &iter);
 	}
 }
 
-void model_save(GtkTreeModel *model, GKeyFile *config, const gchar *prefix,
+void store_save(ScpTreeStore *store, GKeyFile *config, const gchar *prefix,
 	gboolean (*save_func)(GKeyFile *config, const char *section, GtkTreeIter *iter))
 {
 	guint i = 0;
 	GtkTreeIter iter;
-	gboolean valid = gtk_tree_model_get_iter_first(model, &iter);
+	gboolean valid = scp_tree_store_get_iter_first(store, &iter);
 
 	while (valid)
 	{
 		char *section = g_strdup_printf("%s_%d", prefix, i);
 
 		i += save_func(config, section, &iter);
-		valid = gtk_tree_model_iter_next(model, &iter);
+		valid = scp_tree_store_iter_next(store, &iter);
 		g_free(section);
 	}
 
 	utils_clear_sections(config, prefix, i);
 }
 
-gint model_string_compare(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gint column)
+gint store_gint_compare(ScpTreeStore *store, GtkTreeIter *a, GtkTreeIter *b, gpointer gdata)
 {
 	gchar *s1, *s2;
-	gint result;
 
-	gtk_tree_model_get(model, a, column, &s1, -1);
-	gtk_tree_model_get(model, b, column, &s2, -1);
-	result = g_strcmp0(s1, s2);
-	g_free(s1);
-	g_free(s2);
-	return result;
+	scp_tree_store_get(store, a, GPOINTER_TO_INT(gdata), &s1, -1);
+	scp_tree_store_get(store, b, GPOINTER_TO_INT(gdata), &s2, -1);
+	return utils_atoi0(s1) - utils_atoi0(s2);
 }
 
-static gint model_atoint(GtkTreeModel *model, GtkTreeIter *iter, gpointer gdata)
-{
-	gchar *s;
-	gint i;
-
-	gtk_tree_model_get(model, iter, GPOINTER_TO_INT(gdata), &s, -1);
-	i = utils_atoi0(s);
-	g_free(s);
-	return i;
-}
-
-gint model_gint_compare(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer gdata)
-{
-	return model_atoint(model, a, gdata) - model_atoint(model, b, gdata);
-}
-
-gint model_seek_compare(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b,
+gint store_seek_compare(ScpTreeStore *store, GtkTreeIter *a, GtkTreeIter *b,
 	G_GNUC_UNUSED gpointer gdata)
 {
-	gint result = model_string_compare(model, a, b, COLUMN_FILE);
+	gint result = scp_tree_store_compare_func(store, a, b, GINT_TO_POINTER(COLUMN_FILE));
 
 	if (!result)
 	{
 		gint i1, i2;
 
-		gtk_tree_model_get(model, a, COLUMN_LINE, &i1, -1);
-		gtk_tree_model_get(model, b, COLUMN_LINE, &i2, -1);
+		scp_tree_store_get(store, a, COLUMN_LINE, &i1, -1);
+		scp_tree_store_get(store, b, COLUMN_LINE, &i2, -1);
 		result = i1 - i2;
 	}
 
@@ -583,13 +537,6 @@ gchar *utils_key_file_get_string(GKeyFile *config, const char *section, const ch
 	}
 
 	return string;
-}
-
-void utils_key_file_set_string(GKeyFile *config, const char *section, const char *key,
-	char *value)
-{
-	g_key_file_set_string(config, section, key, value);
-	g_free(value);
 }
 
 gchar *utils_get_utf8_basename(const char *file)

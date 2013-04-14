@@ -47,14 +47,14 @@ enum
 	BREAK_MISSING
 };
 
-static gint break_id_compare(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b,
+static gint break_id_compare(ScpTreeStore *store, GtkTreeIter *a, GtkTreeIter *b,
 	G_GNUC_UNUSED gpointer gdata)
 {
-	char *s1, *s2;
+	const char *s1, *s2;
 	gint result;
 
-	gtk_tree_model_get(model, a, BREAK_ID, &s1, -1);
-	gtk_tree_model_get(model, b, BREAK_ID, &s2, -1);
+	scp_tree_store_get(store, a, BREAK_ID, &s1, -1);
+	scp_tree_store_get(store, b, BREAK_ID, &s2, -1);
 	result = utils_atoi0(s1) - utils_atoi0(s2);
 
 	if (!result && s1 && s2)
@@ -67,16 +67,15 @@ static gint break_id_compare(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b
 		result = atoi(p1 + (*p1 == '.')) - atoi(p2 + (*p2 == '.'));
 	}
 
-	g_free(s1);
-	g_free(s2);
 	return result;
 }
 
-static gint break_location_compare(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b,
+static gint break_location_compare(ScpTreeStore *store, GtkTreeIter *a, GtkTreeIter *b,
 	G_GNUC_UNUSED gpointer gdata)
 {
-	gint result = model_seek_compare(model, a, b, NULL);
-	return result ? result : model_string_compare(model, a, b, BREAK_LOCATION);
+	gint result = store_seek_compare(store, a, b, NULL);
+	return result ? result : scp_tree_store_compare_func(store, a, b,
+		GINT_TO_POINTER(BREAK_LOCATION));
 }
 
 static const char
@@ -130,28 +129,25 @@ static void break_type_set_data_func(G_GNUC_UNUSED GtkTreeViewColumn *column,
 	g_string_free(string, TRUE);
 }
 
-static GtkListStore *store;
-static GtkTreeModel *model;
-static GtkTreeSortable *sortable;
+static ScpTreeStore *store;
 static GtkTreeSelection *selection;
 static gint scid_gen = 0;
 
 static void break_mark(GtkTreeIter *iter, gboolean mark)
 {
-	char *file;
+	const char *file;
 	gint line;
 	gboolean enabled;
 
-	gtk_tree_model_get(model, iter, BREAK_FILE, &file, BREAK_LINE, &line, BREAK_ENABLED,
+	scp_tree_store_get(store, iter, BREAK_FILE, &file, BREAK_LINE, &line, BREAK_ENABLED,
 		&enabled, -1);
 	utils_mark(file, line, mark, MARKER_BREAKPT + enabled);
-	g_free(file);
 }
 
 static void break_enable(GtkTreeIter *iter, gboolean enable)
 {
 	break_mark(iter, FALSE);
-	gtk_list_store_set(store, iter, BREAK_ENABLED, enable, -1);
+	scp_tree_store_set(store, iter, BREAK_ENABLED, enable, -1);
 	break_mark(iter, TRUE);
 }
 
@@ -160,12 +156,12 @@ static void on_break_enabled_toggled(G_GNUC_UNUSED GtkCellRendererToggle *render
 {
 	GtkTreeIter iter;
 	DebugState state = debug_state();
-	char *id;
+	const char *id;
 	gint scid;
 	gboolean enabled;
 
-	gtk_tree_model_get_iter_from_string(model, &iter, path_str);
-	gtk_tree_model_get(model, &iter, BREAK_ID, &id, BREAK_SCID, &scid, BREAK_ENABLED,
+	scp_tree_store_get_iter_from_string(store, &iter, path_str);
+	scp_tree_store_get(store, &iter, BREAK_ID, &id, BREAK_SCID, &scid, BREAK_ENABLED,
 		&enabled, -1);
 	enabled ^= TRUE;
 
@@ -180,8 +176,6 @@ static void on_break_enabled_toggled(G_GNUC_UNUSED GtkCellRendererToggle *render
 	}
 	else
 		plugin_beep();
-
-	g_free(id);
 }
 
 #define EDITCOLS 3
@@ -198,11 +192,11 @@ static void on_break_column_edited(G_GNUC_UNUSED GtkCellRendererText *renderer,
 	gint index = GPOINTER_TO_INT(gdata) - 1;
 	const gchar *set_text = validate_column(new_text, index > 0);
 	GtkTreeIter iter;
-	char *id;
+	const char *id;
 	char type;
 
-	gtk_tree_model_get_iter_from_string(model, &iter, path_str);
-	gtk_tree_model_get(model, &iter, BREAK_ID, &id, BREAK_TYPE, &type, -1);
+	scp_tree_store_get_iter_from_string(store, &iter, path_str);
+	scp_tree_store_get(store, &iter, BREAK_ID, &id, BREAK_TYPE, &type, -1);
 
 	if (id && (debug_state() & DS_SENDABLE))
 	{
@@ -213,11 +207,9 @@ static void on_break_column_edited(G_GNUC_UNUSED GtkCellRendererText *renderer,
 		g_free(locale);
 	}
 	else if (!id)
-		gtk_list_store_set(store, &iter, index + BREAK_IGNORE, set_text, -1);
+		scp_tree_store_set(store, &iter, index + BREAK_IGNORE, set_text, -1);
 	else
 		plugin_beep();
-
-	g_free(id);
 }
 
 static void on_break_ignore_editing_started(G_GNUC_UNUSED GtkCellRenderer *cell,
@@ -280,22 +272,19 @@ typedef struct _BreakData
 
 static void break_iter_applied(GtkTreeIter *iter, const char *id)
 {
-	gchar *columns[EDITCOLS];
+	const gchar *columns[EDITCOLS];
 	gboolean enabled;
 	char type;
 	gint index;
 
-	gtk_tree_model_get(model, iter, BREAK_ENABLED, &enabled, BREAK_IGNORE, &columns[0],
+	scp_tree_store_get(store, iter, BREAK_ENABLED, &enabled, BREAK_IGNORE, &columns[0],
 		BREAK_COND, &columns[1], BREAK_SCRIPT, &columns[2], BREAK_TYPE, &type, -1);
 
 	if (strchr(BP_BORTS, type))
 	{
 		if (strchr(BP_BREAKS, type))
-		{
-			g_free(columns[0]);
 			columns[0] = NULL;
-		}
-		g_free(columns[1]);
+
 		columns[1] = NULL;
 	}
 	else if (!enabled)
@@ -311,7 +300,6 @@ static void break_iter_applied(GtkTreeIter *iter, const char *id)
 				locale);
 			g_free(locale);
 		}
-		g_free(columns[index]);
 	}
 }
 
@@ -365,7 +353,7 @@ static void break_node_parse(const ParseNode *node, BreakData *bd)
 			const ParseNode *script = parse_find_node(nodes, "script");
 			GtkTreeIter iter1;
 
-			if (model_find(model, &iter1, BREAK_ID, id))
+			if (store_find(store, &iter1, BREAK_ID, id))
 			{
 				bd->iter = iter1;
 				break_mark(iter, FALSE);
@@ -411,14 +399,15 @@ static void break_node_parse(const ParseNode *node, BreakData *bd)
 					utils_get_display_from_locale(location, HB_DEFAULT);
 
 				if (leading)
-					gtk_list_store_append(store, iter);
+					scp_tree_store_append(store, iter, NULL);
 				else
 				{
-					gtk_list_store_insert_after(store, &iter1, iter);
+					scp_tree_store_insert(store, &iter1, NULL,
+						scp_tree_store_iter_tell(store, iter) + 1);
 					bd->iter = iter1;
 				}
 
-				gtk_list_store_set(store, iter, BREAK_SCID, ++scid_gen, BREAK_TYPE,
+				scp_tree_store_set(store, iter, BREAK_SCID, ++scid_gen, BREAK_TYPE,
 					type, BREAK_DISPLAY, display, BREAK_PENDING, pending,
 					BREAK_LOCATION, location, BREAK_RUN_APPLY, leading && borts,
 					BREAK_DISCARD, !persist, -1);
@@ -444,11 +433,11 @@ static void break_node_parse(const ParseNode *node, BreakData *bd)
 						(GFunc) append_script_command, string);
 				}
 
-				gtk_list_store_set(store, iter, BREAK_SCRIPT, string->str, -1);
+				scp_tree_store_set(store, iter, BREAK_SCRIPT, string->str, -1);
 				g_string_free(string, TRUE);
 			}
 			else
-				gtk_list_store_set(store, iter, BREAK_SCRIPT, NULL, -1);
+				scp_tree_store_set(store, iter, BREAK_SCRIPT, NULL, -1);
 		}
 
 		if (borts || bd->stage != BG_APPLY)
@@ -457,13 +446,13 @@ static void break_node_parse(const ParseNode *node, BreakData *bd)
 				HB_DEFAULT);
 			const char *ignore = parse_find_value(nodes, "ignore");
 
-			gtk_list_store_set(store, iter, BREAK_ENABLED, enabled, BREAK_COND, cond,
+			scp_tree_store_set(store, iter, BREAK_ENABLED, enabled, BREAK_COND, cond,
 				strchr(BP_BREAKS, type) || bd->stage != BG_APPLY ? BREAK_IGNORE : -1,
 				ignore ? ignore : parse_find_value(nodes, "pass"), -1);
 			g_free(cond);
 		}
 
-		gtk_list_store_set(store, iter, BREAK_ID, id, BREAK_FILE, loc.file, BREAK_LINE,
+		scp_tree_store_set(store, iter, BREAK_ID, id, BREAK_FILE, loc.file, BREAK_LINE,
 			loc.line, BREAK_FUNC, loc.func, BREAK_ADDR, loc.addr, BREAK_TIMES,
 			utils_atoi0(times), BREAK_MISSING, FALSE, BREAK_TEMPORARY, temporary, -1);
 
@@ -491,7 +480,7 @@ void on_break_inserted(GArray *nodes)
 			bd.stage = BG_GOTO;
 		else if (*token)
 		{
-			iff (model_find(model, &bd.iter, BREAK_SCID, token), "%s: b_scid not found",
+			iff (store_find(store, &bd.iter, BREAK_SCID, token), "%s: b_scid not found",
 				token)
 			{
 				bd.stage = BG_APPLY;
@@ -509,12 +498,12 @@ static void break_apply(GtkTreeIter *iter, gboolean thread)
 	GString *command = g_string_sized_new(0x1FF);
 	gint scid;
 	char type;
-	char *ignore, *location;
+	const char *ignore, *location;
 	gboolean enabled, pending, temporary;
-	gchar *cond;
+	const gchar *cond;
 	gboolean borts;
 
-	gtk_tree_model_get(model, iter, BREAK_SCID, &scid, BREAK_TYPE, &type, BREAK_ENABLED,
+	scp_tree_store_get(store, iter, BREAK_SCID, &scid, BREAK_TYPE, &type, BREAK_ENABLED,
 		&enabled, BREAK_IGNORE, &ignore, BREAK_COND, &cond, BREAK_LOCATION, &location,
 		BREAK_PENDING, &pending, BREAK_TEMPORARY, &temporary, -1);
 
@@ -559,39 +548,36 @@ static void break_apply(GtkTreeIter *iter, gboolean thread)
 	g_string_append_printf(command, " %s", location);
 	debug_send_command(F, command->str);
 	g_string_free(command, TRUE);
-	g_free(ignore);
-	g_free(location);
-	g_free(cond);
 }
 
 static void break_clear(GtkTreeIter *iter)
 {
 	char type;
 
-	gtk_tree_model_get(model, iter, BREAK_TYPE, &type, -1);
-	gtk_list_store_set(store, iter, BREAK_ID, NULL, BREAK_ADDR, NULL,
+	scp_tree_store_get(store, iter, BREAK_TYPE, &type, -1);
+	scp_tree_store_set(store, iter, BREAK_ID, NULL, BREAK_ADDR, NULL,
 		strchr(BP_BORTS, type) ? -1 : BREAK_TEMPORARY, FALSE, -1);
 }
 
 static gboolean break_remove(GtkTreeIter *iter)
 {
 	break_mark(iter, FALSE);
-	return gtk_list_store_remove(store, iter);
+	return scp_tree_store_remove(store, iter);
 }
 
 static gboolean break_remove_all(const char *pref, gboolean force)
 {
 	GtkTreeIter iter;
 	int len = strlen(pref);
-	gboolean valid = gtk_tree_model_get_iter_first(model, &iter);
+	gboolean valid = scp_tree_store_get_iter_first(store, &iter);
 	gboolean found = FALSE;
 
 	while (valid)
 	{
-		char *id;
+		const char *id;
 		gboolean discard;
 
-		gtk_tree_model_get(model, &iter, BREAK_ID, &id, BREAK_DISCARD, &discard, -1);
+		scp_tree_store_get(store, &iter, BREAK_ID, &id, BREAK_DISCARD, &discard, -1);
 
 		if (id && !strncmp(id, pref, len) && strchr(".", id[len]))
 		{
@@ -600,15 +586,13 @@ static gboolean break_remove_all(const char *pref, gboolean force)
 			if (discard || force)
 			{
 				valid = break_remove(&iter);
-				g_free(id);
 				continue;
 			}
 
 			break_clear(&iter);
 		}
 
-		g_free(id);
-		valid = gtk_tree_model_iter_next(model, &iter);
+		valid = scp_tree_store_iter_next(store, &iter);
 	}
 
 	return found;
@@ -624,7 +608,7 @@ void on_break_done(GArray *nodes)
 		case '0' :
 		case '1' :
 		{
-			iff (model_find(model, &iter, BREAK_SCID, token + 1), "%s: b_scid not found",
+			iff (store_find(store, &iter, BREAK_SCID, token + 1), "%s: b_scid not found",
 				token)
 			{
 				break_enable(&iter, *token == '1');
@@ -648,36 +632,34 @@ void on_break_done(GArray *nodes)
 
 static void break_iter_missing(GtkTreeIter *iter, G_GNUC_UNUSED gpointer gdata)
 {
-	gtk_list_store_set(store, iter, BREAK_MISSING, TRUE, -1);
+	scp_tree_store_set(store, iter, BREAK_MISSING, TRUE, -1);
 }
 
 static void breaks_missing(void)
 {
 	GtkTreeIter iter;
-	gboolean valid = gtk_tree_model_get_iter_first(model, &iter);
+	gboolean valid = scp_tree_store_get_iter_first(store, &iter);
 
 	while (valid)
 	{
-		char *id;
+		const char *id;
 		gboolean discard, missing;
 
-		gtk_tree_model_get(model, &iter, BREAK_ID, &id, BREAK_DISCARD, &discard,
+		scp_tree_store_get(store, &iter, BREAK_ID, &id, BREAK_DISCARD, &discard,
 			BREAK_MISSING, &missing, -1);
-		g_free(id);
 
 		if (id && missing)
 		{
 			if (discard)
 			{
 				valid = break_remove(&iter);
-				g_free(id);
 				continue;
 			}
 
 			break_clear(&iter);
 		}
 
-		valid = gtk_tree_model_iter_next(model, &iter);
+		valid = scp_tree_store_iter_next(store, &iter);
 	}
 }
 
@@ -689,7 +671,7 @@ void on_break_list(GArray *nodes)
 		BreakData bd;
 
 		if (refresh)
-			model_foreach(model, (GFunc) break_iter_missing, NULL);
+			store_foreach(store, (GFunc) break_iter_missing, NULL);
 
 		bd.stage = BG_DISCARD;
 		array_foreach(nodes, (GFunc) break_node_parse, &bd);
@@ -714,7 +696,7 @@ void on_break_stopped(GArray *nodes)
 			{
 				GtkTreeIter iter;
 
-				if (model_find(model, &iter, BREAK_ID, id))
+				if (store_find(store, &iter, BREAK_ID, id))
 					break_enable(&iter, FALSE);
 			}
 			else if (!strcmp(disp, "del"))
@@ -758,74 +740,71 @@ void on_break_features(GArray *nodes)
 
 static void break_delete(GtkTreeIter *iter)
 {
-	char *id;
+	const char *id;
 
-	gtk_tree_model_get(model, iter, BREAK_ID, &id, -1);
+	scp_tree_store_get(store, iter, BREAK_ID, &id, -1);
 
 	if (debug_state() == DS_INACTIVE || !id)
 		break_remove(iter);
 	else
 		debug_send_format(N, "023%s-break-delete %s", id, id);
-
-	g_free(id);
 }
 
 static void break_iter_mark(GtkTreeIter *iter, GeanyDocument *doc)
 {
-	char *file;
+	const char *file;
 	gint line;
 	gboolean enabled;
 
-	gtk_tree_model_get(model, iter, BREAK_FILE, &file, BREAK_LINE, &line,
+	scp_tree_store_get(store, iter, BREAK_FILE, &file, BREAK_LINE, &line,
 		BREAK_ENABLED, &enabled, -1);
 
 	if (line && !utils_filenamecmp(file, doc->real_path))
 		sci_set_marker_at_line(doc->editor->sci, line - 1, MARKER_BREAKPT + enabled);
-	g_free(file);
 }
 
 void breaks_mark(GeanyDocument *doc)
 {
 	if (doc->real_path)
-		model_foreach(model, (GFunc) break_iter_mark, doc);
+		store_foreach(store, (GFunc) break_iter_mark, doc);
 }
 
 void breaks_clear(void)
 {
 	GtkTreeIter iter;
-	gboolean valid = gtk_tree_model_get_iter_first(model, &iter);
+	gboolean valid = scp_tree_store_get_iter_first(store, &iter);
 
 	while (valid)
 	{
 		gboolean discard;
 
-		gtk_tree_model_get(model, &iter, BREAK_DISCARD, &discard, -1);
+		scp_tree_store_get(store, &iter, BREAK_DISCARD, &discard, -1);
 
 		if (discard)
 			valid = break_remove(&iter);
 		else
 		{
 			break_clear(&iter);
-			valid = gtk_tree_model_iter_next(model, &iter);
+			valid = scp_tree_store_iter_next(store, &iter);
 		}
 	}
 }
 
 static void break_iter_reset(GtkTreeIter *iter, G_GNUC_UNUSED gpointer gdata)
 {
-	gtk_list_store_set(store, iter, BREAK_TIMES, 0, -1);
+	scp_tree_store_set(store, iter, BREAK_TIMES, 0, -1);
 }
 
 void breaks_reset(void)
 {
-	model_foreach(model, (GFunc) break_iter_reset, NULL);
+	store_foreach(store, (GFunc) break_iter_reset, NULL);
 }
 
 static void break_iter_apply(GtkTreeIter *iter, G_GNUC_UNUSED gpointer gdata)
 {
 	gboolean run_apply;
 
-	gtk_tree_model_get(model, iter, BREAK_RUN_APPLY, &run_apply, -1);
+	scp_tree_store_get(store, iter, BREAK_RUN_APPLY, &run_apply, -1);
 
 	if (run_apply)
 		break_apply(iter, FALSE);
@@ -833,7 +812,7 @@ static void break_iter_apply(GtkTreeIter *iter, G_GNUC_UNUSED gpointer gdata)
 
 void breaks_apply(void)
 {
-	model_foreach(model, (GFunc) break_iter_apply, NULL);
+	store_foreach(store, (GFunc) break_iter_apply, NULL);
 }
 
 void breaks_query_async(GString *commands)
@@ -850,7 +829,7 @@ static void break_relocate(GtkTreeIter *iter, const char *real_path, gint line)
 	char *location = g_strdup_printf("%s:%d", real_path, line);
 	gchar *display = utils_get_utf8_basename(location);
 
-	gtk_list_store_set(store, iter, BREAK_FILE, real_path, BREAK_LINE, line, BREAK_DISPLAY,
+	scp_tree_store_set(store, iter, BREAK_FILE, real_path, BREAK_LINE, line, BREAK_DISPLAY,
 		display, BREAK_LOCATION, location, -1);
 
 	g_free(display);
@@ -861,16 +840,16 @@ void breaks_delta(ScintillaObject *sci, const char *real_path, gint start, gint 
 	gboolean active)
 {
 	GtkTreeIter iter;
-	gboolean valid = gtk_tree_model_get_iter_first(model, &iter);
+	gboolean valid = scp_tree_store_get_iter_first(store, &iter);
 
 	while (valid)
 	{
-		char *file;
+		const char *file;
 		gint line;
 		gboolean enabled;
-		char *location;
+		const char *location;
 
-		gtk_tree_model_get(model, &iter, BREAK_FILE, &file, BREAK_LINE, &line,
+		scp_tree_store_get(store, &iter, BREAK_FILE, &file, BREAK_LINE, &line,
 			BREAK_ENABLED, &enabled, BREAK_LOCATION, &location, -1);
 
 		if (--line >= 0 && start <= line && !utils_filenamecmp(file, real_path))
@@ -888,38 +867,33 @@ void breaks_delta(ScintillaObject *sci, const char *real_path, gint start, gint 
 				if (split && isdigit(split[1]))
 					break_relocate(&iter, real_path, line);
 				else
-					gtk_list_store_set(store, &iter, BREAK_LINE, line, -1);
+					scp_tree_store_set(store, &iter, BREAK_LINE, line, -1);
 			}
 			else
 			{
 				sci_delete_marker_at_line(sci, start, MARKER_BREAKPT + enabled);
-				valid = gtk_list_store_remove(store, &iter);
-				g_free(file);
-				g_free(location);
+				valid = scp_tree_store_remove(store, &iter);
 				continue;
 			}
 		}
 
-		g_free(file);
-		g_free(location);
-		valid = gtk_tree_model_iter_next(model, &iter);
+		valid = scp_tree_store_iter_next(store, &iter);
 	}
 }
 
 static void break_iter_check(GtkTreeIter *iter, guint *active)
 {
-	char *id;
+	const char *id;
 	gboolean enabled;
 
-	gtk_tree_model_get(model, iter, BREAK_ID, &id, BREAK_ENABLED, &enabled, -1);
+	scp_tree_store_get(store, iter, BREAK_ID, &id, BREAK_ENABLED, &enabled, -1);
 	*active += enabled && id;
-	g_free(id);
 }
 
 guint breaks_active(void)
 {
 	guint active = 0;
-	model_foreach(model, (GFunc) break_iter_check, &active);
+	store_foreach(store, (GFunc) break_iter_check, &active);
 	return active;
 }
 
@@ -928,15 +902,15 @@ void on_break_toggle(G_GNUC_UNUSED const MenuItem *menu_item)
 	GeanyDocument *doc = document_get_current();
 	gint doc_line = utils_current_line(doc);
 	GtkTreeIter iter, iter1;
-	gboolean valid = gtk_tree_model_get_iter_first(model, &iter);
+	gboolean valid = scp_tree_store_get_iter_first(store, &iter);
 	gint found = 0;
 
 	while (valid)
 	{
-		char *id, *file;
+		const char *id, *file;
 		gint line;
 
-		gtk_tree_model_get(model, &iter, BREAK_ID, &id, BREAK_FILE, &file, BREAK_LINE,
+		scp_tree_store_get(store, &iter, BREAK_ID, &id, BREAK_FILE, &file, BREAK_LINE,
 			&line, -1);
 
 		if (line == doc_line && !utils_filenamecmp(file, doc->real_path))
@@ -947,8 +921,6 @@ void on_break_toggle(G_GNUC_UNUSED const MenuItem *menu_item)
 					_("There are two or more breakpoints at %s:%d.\n"
 					"Use the breakpoint list to remove the exact one."),
 					doc->file_name, doc_line);
-				g_free(id);
-				g_free(file);
 				return;
 			}
 
@@ -956,9 +928,7 @@ void on_break_toggle(G_GNUC_UNUSED const MenuItem *menu_item)
 			iter1 = iter;
 		}
 
-		g_free(id);
-		g_free(file);
-		valid = gtk_tree_model_iter_next(model, &iter);
+		valid = scp_tree_store_iter_next(store, &iter);
 	}
 
 	if (found)
@@ -967,10 +937,9 @@ void on_break_toggle(G_GNUC_UNUSED const MenuItem *menu_item)
 		debug_send_format(N, "-break-insert %s:%d", doc->real_path, doc_line);
 	else
 	{
-		gtk_list_store_append(store, &iter);
+		scp_tree_store_append_with_values(store, &iter, NULL, BREAK_SCID, ++scid_gen,
+			BREAK_TYPE, 'b', BREAK_ENABLED, TRUE, BREAK_RUN_APPLY, TRUE, -1);
 		break_relocate(&iter, doc->real_path, doc_line);
-		gtk_list_store_set(store, &iter, BREAK_SCID, ++scid_gen, BREAK_TYPE, 'b',
-			BREAK_ENABLED, TRUE, BREAK_RUN_APPLY, TRUE, -1);
 		utils_tree_set_cursor(selection, &iter, 0.5);
 		sci_set_marker_at_line(doc->editor->sci, doc_line - 1, MARKER_BREAKPT + TRUE);
 	}
@@ -989,8 +958,8 @@ static void break_iter_unmark(GtkTreeIter *iter, G_GNUC_UNUSED gpointer gdata)
 
 void breaks_delete_all(void)
 {
-	model_foreach(model, (GFunc) break_iter_unmark, NULL);
-	gtk_list_store_clear(store);
+	store_foreach(store, (GFunc) break_iter_unmark, NULL);
+	store_clear(store);
 	scid_gen = 0;
 }
 
@@ -1035,14 +1004,14 @@ static gboolean break_load(GKeyFile *config, const char *section)
 		if (!strings[STRING_FILE])
 			line = 0;
 
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store, &iter, BREAK_FILE, strings[STRING_FILE], BREAK_LINE,
-			line, BREAK_SCID, ++scid_gen, BREAK_TYPE, type, BREAK_ENABLED, enabled,
-			BREAK_DISPLAY, strings[STRING_DISPLAY], BREAK_FUNC, strings[STRING_FUNC],
-			BREAK_IGNORE, ignore, BREAK_COND, strings[STRING_COND], BREAK_SCRIPT,
-			strings[STRING_SCRIPT], BREAK_PENDING, pending, BREAK_LOCATION,
-			strings[STRING_LOCATION], BREAK_RUN_APPLY, run_apply, BREAK_TEMPORARY,
-			temporary, -1);
+		scp_tree_store_append_with_values(store, &iter, NULL, BREAK_FILE,
+			strings[STRING_FILE], BREAK_LINE, line, BREAK_SCID, ++scid_gen, BREAK_TYPE,
+			type, BREAK_ENABLED, enabled, BREAK_DISPLAY, strings[STRING_DISPLAY],
+			BREAK_FUNC, strings[STRING_FUNC], BREAK_IGNORE, ignore, BREAK_COND,
+			strings[STRING_COND], BREAK_SCRIPT, strings[STRING_SCRIPT], BREAK_PENDING,
+			pending, BREAK_LOCATION, strings[STRING_LOCATION], BREAK_RUN_APPLY,
+			run_apply, BREAK_TEMPORARY, temporary, -1);
+
 		break_mark(&iter, TRUE);
 		valid = TRUE;
 	}
@@ -1063,7 +1032,7 @@ static gboolean break_save(GKeyFile *config, const char *section, GtkTreeIter *i
 {
 	gboolean discard;
 
-	gtk_tree_model_get(model, iter, BREAK_DISCARD, &discard, -1);
+	scp_tree_store_get(store, iter, BREAK_DISCARD, &discard, -1);
 
 	if (!discard)
 	{
@@ -1071,9 +1040,9 @@ static gboolean break_save(GKeyFile *config, const char *section, GtkTreeIter *i
 		gint line;
 		char type;
 		gboolean enabled, pending, run_apply, temporary;
-		char *strings[STRING_COUNT];
+		const char *strings[STRING_COUNT];
 
-		gtk_tree_model_get(model, iter, BREAK_FILE, &strings[STRING_FILE], BREAK_LINE,
+		scp_tree_store_get(store, iter, BREAK_FILE, &strings[STRING_FILE], BREAK_LINE,
 			&line, BREAK_TYPE, &type, BREAK_ENABLED, &enabled, BREAK_DISPLAY,
 			&strings[STRING_DISPLAY], BREAK_FUNC, &strings[STRING_FUNC], BREAK_IGNORE,
 			&strings[STRING_IGNORE], BREAK_COND, &strings[STRING_COND], BREAK_SCRIPT,
@@ -1094,7 +1063,7 @@ static gboolean break_save(GKeyFile *config, const char *section, GtkTreeIter *i
 		for (i = 0; i < STRING_COUNT; i++)
 		{
 			if (strings[i])
-				utils_key_file_set_string(config, section, string_names[i], strings[i]);
+				g_key_file_set_string(config, section, string_names[i], strings[i]);
 			else
 				g_key_file_remove_key(config, section, string_names[i], NULL);
 		}
@@ -1112,7 +1081,7 @@ static gboolean break_save(GKeyFile *config, const char *section, GtkTreeIter *i
 
 void breaks_save(GKeyFile *config)
 {
-	model_save(model, config, "break", break_save);
+	store_save(store, config, "break", break_save);
 }
 
 static GObject *block_cells[EDITCOLS];
@@ -1124,15 +1093,14 @@ static void on_break_selection_changed(GtkTreeSelection *selection,
 
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-		char *id;
+		const char *id;
 		gboolean editable;
 		gint index;
 
-		gtk_tree_model_get(model, &iter, BREAK_ID, &id, -1);
+		scp_tree_store_get(store, &iter, BREAK_ID, &id, -1);
 		editable = !id || !strchr(id, '.');
 		for (index = 0; index < EDITCOLS; index++)
 			g_object_set(block_cells[index], "editable", editable, NULL);
-		g_free(id);
 	}
 }
 
@@ -1146,12 +1114,12 @@ static gboolean on_break_query_tooltip(G_GNUC_UNUSED GtkWidget *widget, gint x, 
 
 	if (gtk_tree_view_get_tooltip_context(tree, &x, &y, keyboard_tip, NULL, NULL, &iter))
 	{
-		char *file, *func;
+		const char *file, *func;
 		gint line;
 		GString *text = g_string_sized_new(0xFF);
 
 		gtk_tree_view_set_tooltip_cell(tree, tooltip, NULL, break_display_column, NULL);
-		gtk_tree_model_get(model, &iter, BREAK_FILE, &file, BREAK_LINE, &line, BREAK_FUNC,
+		scp_tree_store_get(store, &iter, BREAK_FILE, &file, BREAK_LINE, &line, BREAK_FUNC,
 			&func, -1);
 
 		if (file)
@@ -1160,7 +1128,6 @@ static gboolean on_break_query_tooltip(G_GNUC_UNUSED GtkWidget *widget, gint x, 
 			if (line)
 				g_string_append_printf(text, ":%d", line);
 			has_tip = TRUE;
-			g_free(file);
 		}
 
 		if (func)
@@ -1169,7 +1136,6 @@ static gboolean on_break_query_tooltip(G_GNUC_UNUSED GtkWidget *widget, gint x, 
 				g_string_append(text, ", ");
 			g_string_append(text, func);
 			has_tip = TRUE;
-			g_free(func);
 		}
 
 		gtk_tooltip_set_text(tooltip, text->str);
@@ -1186,7 +1152,7 @@ static void on_break_refresh(G_GNUC_UNUSED const MenuItem *menu_item)
 
 static void on_break_unsorted(G_GNUC_UNUSED const MenuItem *menu_item)
 {
-	gtk_tree_sortable_set_sort_column_id(sortable, BREAK_SCID, GTK_SORT_ASCENDING);
+	scp_tree_store_set_sort_column_id(store, BREAK_SCID, GTK_SORT_ASCENDING);
 }
 
 static void on_break_insert(G_GNUC_UNUSED const MenuItem *menu_item)
@@ -1233,7 +1199,7 @@ static void on_break_run_apply(const MenuItem *menu_item)
 	GtkTreeIter iter;
 
 	gtk_tree_selection_get_selected(selection, NULL, &iter);
-	gtk_list_store_set(store, &iter, BREAK_RUN_APPLY,
+	scp_tree_store_set(store, &iter, BREAK_RUN_APPLY,
 		gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menu_item->widget)), -1);
 }
 
@@ -1294,11 +1260,9 @@ static guint break_menu_extra_state(void)
 
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-		char *id, *file;
+		const char *id, *file;
 
-		gtk_tree_model_get(model, &iter, BREAK_ID, &id, BREAK_FILE, &file, -1);
-		g_free(id);
-		g_free(file);
+		scp_tree_store_get(store, &iter, BREAK_ID, &id, BREAK_FILE, &file, -1);
 
 		return (!id << DS_INDEX_1) | ((file != NULL) << DS_INDEX_2) |
 			((!id || !strchr(id, '.')) << DS_INDEX_3);
@@ -1323,7 +1287,7 @@ static void on_break_menu_show(G_GNUC_UNUSED GtkWidget *widget, const MenuItem *
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
 		gboolean run_apply;
-		gtk_tree_model_get(model, &iter, BREAK_RUN_APPLY, &run_apply, -1);
+		scp_tree_store_get(store, &iter, BREAK_RUN_APPLY, &run_apply, -1);
 		menu_item_set_active(menu_item, run_apply);
 	}
 }
@@ -1339,16 +1303,14 @@ void break_init(void)
 	GtkWidget *menu;
 	guint i;
 
-	tree = view_connect("break_view", &model, &selection, break_cells, "break_window", NULL);
-	store = GTK_LIST_STORE(model);
-	sortable = GTK_TREE_SORTABLE(store);
+	tree = view_connect("break_view", &store, &selection, break_cells, "break_window", NULL);
 	gtk_tree_view_column_set_cell_data_func(get_column("break_type_column"),
 		GTK_CELL_RENDERER(get_object("break_type")), break_type_set_data_func, NULL, NULL);
 	g_signal_connect(get_object("break_ignore"), "editing-started",
 		G_CALLBACK(on_break_ignore_editing_started), NULL);
-	view_set_sort_func(sortable, BREAK_ID, break_id_compare);
-	view_set_sort_func(sortable, BREAK_IGNORE, model_gint_compare);
-	view_set_sort_func(sortable, BREAK_LOCATION, break_location_compare);
+	view_set_sort_func(store, BREAK_ID, break_id_compare);
+	view_set_sort_func(store, BREAK_IGNORE, store_gint_compare);
+	view_set_sort_func(store, BREAK_LOCATION, break_location_compare);
 
 	for (i = 0; i < EDITCOLS; i++)
 		block_cells[i] = get_object(break_cells[i + 1].name);
@@ -1369,5 +1331,5 @@ void break_init(void)
 
 void break_finalize(void)
 {
-	model_foreach(model, (GFunc) break_iter_unmark, NULL);
+	store_foreach(store, (GFunc) break_iter_unmark, NULL);
 }

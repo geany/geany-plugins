@@ -1227,64 +1227,66 @@
       </object>
     </child>
   </object>
-  <object class="GtkListStore" id="thread_store">
+  <object class="ScpTreeStore" id="thread_store">
+    <property name="sublevels">False</property>
     <columns>
       <!-- column-name thread_store_id -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name thread_store_file -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name thread_store_line -->
       <column type="gint"/>
       <!-- column-name thread_store_pid -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name thread_store_group_id -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name thread_store_state -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name thread_store_base_name -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name thread_store_func -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name thread_store_addr -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name thread_store_target_id -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name thread_store_core -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
     </columns>
   </object>
-  <object class="GtkListStore" id="break_store">
+  <object class="ScpTreeStore" id="break_store">
+    <property name="sublevels">False</property>
     <columns>
       <!-- column-name break_store_id -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name break_store_file -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name break_store_line -->
       <column type="gint"/>
       <!-- column-name break_store_scid -->
       <column type="gint"/>
       <!-- column-name break_store_type -->
-      <column type="gchar"/>
+      <column type="gchar" utf8_collate="false"/>
       <!-- column-name break_store_enabled -->
       <column type="gboolean"/>
       <!-- column-name break_store_display -->
       <column type="gchararray"/>
       <!-- column-name break_store_func -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name break_store_addr -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name break_store_times -->
       <column type="gint"/>
       <!-- column-name break_store_ignore -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name break_store_cond -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name break_store_script -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name break_store_pending -->
       <column type="gboolean"/>
       <!-- column-name break_store_location -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name break_store_run_apply -->
       <column type="gboolean"/>
       <!-- column-name break_store_temporary -->
@@ -1295,50 +1297,53 @@
       <column type="gboolean"/>
     </columns>
   </object>
-  <object class="GtkListStore" id="stack_store">
+  <object class="ScpTreeStore" id="stack_store">
+    <property name="sublevels">False</property>
     <columns>
       <!-- column-name stack_store_id -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name stack_store_file -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name stack_store_line -->
       <column type="gint"/>
       <!-- column-name stack_store_base_name -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name stack_store_func -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name stack_store_args -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name stack_store_addr -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name stack_store_entry -->
       <column type="gboolean"/>
     </columns>
   </object>
-  <object class="GtkListStore" id="local_store">
+  <object class="ScpTreeStore" id="local_store">
+    <property name="sublevels">False</property>
     <columns>
       <!-- column-name local_store_name -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name local_store_display -->
       <column type="gchararray"/>
       <!-- column-name local_store_value -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name local_store_hb_mode -->
       <column type="gint"/>
       <!-- column-name local_store_mr_mode -->
       <column type="gint"/>
       <!-- column-name local_store_arg1 -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
     </columns>
   </object>
-  <object class="GtkListStore" id="watch_store">
+  <object class="ScpTreeStore" id="watch_store">
+    <property name="sublevels">False</property>
     <columns>
       <!-- column-name watch_store_expr -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name watch_store_display -->
       <column type="gchararray"/>
       <!-- column-name watch_store_value -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name watch_store_hb_mode -->
       <column type="gint"/>
       <!-- column-name watch_store_mr_mode -->
@@ -1349,34 +1354,37 @@
       <column type="gboolean"/>
     </columns>
   </object>
-  <object class="GtkListStore" id="memory_store">
+  <object class="ScpTreeStore" id="memory_store">
+    <property name="sublevels">False</property>
     <columns>
       <!-- column-name memory_store_addr -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name memory_store_bytes -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name memory_store_ascii -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
     </columns>
   </object>
-  <object class="GtkTreeStore" id="inspect_store">
+  <object class="ScpTreeStore" id="inspect_store">
+    <property name="sublevels">True</property>
+    <property name="sublevel-reserved">100</property>
     <columns>
       <!-- column-name inspect_store_var1 -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name inspect_store_display -->
       <column type="gchararray"/>
       <!-- column-name inspect_store_value -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name inspect_store_hb_mode -->
       <column type="gint"/>
       <!-- column-name inspect_store_scid -->
       <column type="gint"/>
       <!-- column-name inspect_store_expr -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name inspect_store_name -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name inspect_store_frame -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name inspect_store_run_apply -->
       <column type="gboolean"/>
       <!-- column-name inspect_store_start -->
@@ -1390,15 +1398,16 @@
       <!-- column-name inspect_store_format -->
       <column type="gint"/>
       <!-- column-name inspect_store_path_expr -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
     </columns>
   </object>
-  <object class="GtkListStore" id="command_store">
+  <object class="ScpTreeStore" id="command_store">
+    <property name="sublevels">False</property>
     <columns>
       <!-- column-name command_store_display -->
       <column type="gchararray"/>
       <!-- column-name command_store_text -->
-      <column type="gchararray"/>
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name command_store_locale -->
       <column type="gboolean"/>
     </columns>

@@ -1,3 +1,13 @@
+Scope 0.87 (2013-04-14)
+
+    * Switched to ScpTreeStore.
+
+    * Added GTK+ 3 support.
+
+    * Removed the stash_tree based scope configuration page in
+      Edit -> Plugin Preferences - required a patched Geany.
+
+
 Scope 0.82 (2013-01-15)
 
     * Added Memory subpage.

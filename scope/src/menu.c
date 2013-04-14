@@ -204,14 +204,14 @@ void menu_mode_display(GtkTreeSelection *selection, const MenuItem *menu_item, g
 	menu_item_set_active(menu_item + mode + 1, TRUE);
 }
 
-static void menu_mode_update_iter(GtkTreeModel *model, GtkTreeIter *iter, gint new_mode,
+static void menu_mode_update_iter(ScpTreeStore *store, GtkTreeIter *iter, gint new_mode,
 	gboolean hbit)
 {
 	gint hb_mode, mr_mode;
-	char *value;
+	const char *value;
 	gchar *display;
 
-	gtk_tree_model_get(model, iter, COLUMN_VALUE, &value, COLUMN_HB_MODE, &hb_mode,
+	scp_tree_store_get(store, iter, COLUMN_VALUE, &value, COLUMN_HB_MODE, &hb_mode,
 		COLUMN_MR_MODE, &mr_mode, -1);
 
 	if (hbit)
@@ -220,32 +220,30 @@ static void menu_mode_update_iter(GtkTreeModel *model, GtkTreeIter *iter, gint n
 		mr_mode = new_mode;
 
 	display = parse_get_display_from_7bit(value, hb_mode, mr_mode);
-	gtk_list_store_set(GTK_LIST_STORE(model), iter, COLUMN_HB_MODE, hb_mode,
-		COLUMN_MR_MODE, mr_mode, value ? COLUMN_DISPLAY : -1, display, -1);
-	g_free(value);
+	scp_tree_store_set(store, iter, COLUMN_HB_MODE, hb_mode, COLUMN_MR_MODE, mr_mode,
+		value ? COLUMN_DISPLAY : -1, display, -1);
 	g_free(display);
 }
 
 void menu_mode_update(GtkTreeSelection *selection, gint new_mode, gboolean hbit)
 {
-	GtkTreeModel *model;
+	ScpTreeStore *store;
 	GtkTreeIter iter;
-	char *name;
+	const char *name;
 
-	gtk_tree_selection_get_selected(selection, &model, &iter);
-	gtk_tree_model_get(model, &iter, COLUMN_NAME, &name, -1);
-	menu_mode_update_iter(model, &iter, new_mode, hbit);
+	scp_tree_selection_get_selected(selection, &store, &iter);
+	scp_tree_store_get(store, &iter, COLUMN_NAME, &name, -1);
+	menu_mode_update_iter(store, &iter, new_mode, hbit);
 	parse_mode_update(name, hbit ? MODE_HBIT : MODE_MEMBER, new_mode);
 
 	if (hbit)
 	{
 		char *reverse = parse_mode_reentry(name);
 
-		if (model_find(model, &iter, COLUMN_NAME, reverse))
-			menu_mode_update_iter(model, &iter, new_mode, TRUE);
+		if (store_find(store, &iter, COLUMN_NAME, reverse))
+			menu_mode_update_iter(store, &iter, new_mode, TRUE);
 		g_free(reverse);
 	}
-	g_free(name);
 }
 
 void menu_mber_display(GtkTreeSelection *selection, const MenuItem *menu_item)
@@ -298,14 +296,14 @@ void menu_mber_button_release(GtkTreeSelection *selection, GtkWidget *item,
 
 void menu_copy(GtkTreeSelection *selection, const MenuItem *menu_item)
 {
-	GtkTreeModel *model;
+	ScpTreeStore *store;
 	GtkTreeIter iter;
-	gchar *name, *display;
-	char *value;
+	const gchar *name, *display;
+	const char *value;
 	GString *string;
 
-	gtk_tree_selection_get_selected(selection, &model, &iter);
-	gtk_tree_model_get(model, &iter, COLUMN_NAME, &name, COLUMN_DISPLAY, &display,
+	scp_tree_selection_get_selected(selection, &store, &iter);
+	scp_tree_store_get(store, &iter, COLUMN_NAME, &name, COLUMN_DISPLAY, &display,
 		COLUMN_VALUE, &value, -1);
 	string = g_string_new(name);
 
@@ -315,9 +313,6 @@ void menu_copy(GtkTreeSelection *selection, const MenuItem *menu_item)
 	gtk_clipboard_set_text(gtk_widget_get_clipboard(menu_item->widget,
 		GDK_SELECTION_CLIPBOARD), string->str, string->len);
 
-	g_free(name);
-	g_free(display);
-	g_free(value);
 	g_string_free(string, TRUE);
 }
 
@@ -368,31 +363,28 @@ static void menu_evaluate_modify(const gchar *expr, const char *value, const gch
 
 void menu_modify(GtkTreeSelection *selection, const MenuItem *menu_item)
 {
-	GtkTreeModel *model;
+	ScpTreeStore *store;
 	GtkTreeIter iter;
-	gchar *name;
-	char *value;
+	const gchar *name;
+	const char *value;
 	gint hb_mode;
 
-	gtk_tree_selection_get_selected(selection, &model, &iter);
-	gtk_tree_model_get(model, &iter, COLUMN_NAME, &name, COLUMN_VALUE, &value, COLUMN_HB_MODE,
+	scp_tree_selection_get_selected(selection, &store, &iter);
+	scp_tree_store_get(store, &iter, COLUMN_NAME, &name, COLUMN_VALUE, &value, COLUMN_HB_MODE,
 		&hb_mode, -1);
 	menu_evaluate_modify(name, value, _("Modify"), hb_mode, menu_item ? MR_MODIFY : MR_MODSTR,
 		"07");
-	g_free(name);
-	g_free(value);
 }
 
 void menu_inspect(GtkTreeSelection *selection)
 {
-	GtkTreeModel *model;
+	ScpTreeStore *store;
 	GtkTreeIter iter;
-	char *name;
+	const char *name;
 
-	gtk_tree_selection_get_selected(selection, &model, &iter);
-	gtk_tree_model_get(model, &iter, COLUMN_NAME, &name, -1);
+	scp_tree_selection_get_selected(selection, &store, &iter);
+	scp_tree_store_get(store, &iter, COLUMN_NAME, &name, -1);
 	inspect_add(name);
-	g_free(name);
 }
 
 void on_menu_display_booleans(const MenuItem *menu_item)
@@ -492,9 +484,8 @@ static MenuKey popup_menu_keys[] =
 	{ "inspect",  N_("Inspect variable") }
 };
 
-void menu_set_popup_keybindings(guint item)
+void menu_set_popup_keybindings(GeanyKeyGroup *scope_key_group, guint item)
 {
-	extern GeanyKeyGroup *plugin_key_group;
 	const MenuKey *menu_key = popup_menu_keys;
 	const MenuItem *menu_item;
 
@@ -502,7 +493,7 @@ void menu_set_popup_keybindings(guint item)
 
 	for (menu_item = popup_menu_items; menu_item->name; menu_item++, menu_key++, item++)
 	{
-		keybindings_set_item(plugin_key_group, item, on_popup_key, 0, 0, menu_key->name,
+		keybindings_set_item(scope_key_group, item, on_popup_key, 0, 0, menu_key->name,
 			_(menu_key->label), popup_menu_items[item].widget);
 	}
 }

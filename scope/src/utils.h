@@ -43,13 +43,13 @@ void array_save(GArray *array, GKeyFile *config, const char *prefix, ASaveFunc s
 #define iff(expr, ...) if (G_UNLIKELY(!(expr))) dc_error(__VA_ARGS__); else
 #define utils_atoi0(s) ((s) ? atoi(s) : 0)  /* note: 2 references to s */
 
-gboolean model_find(GtkTreeModel *model, GtkTreeIter *iter, guint column, const char *key);
-void model_foreach(GtkTreeModel *model, GFunc each_func, gpointer gdata);
-void model_save(GtkTreeModel *model, GKeyFile *config, const char *prefix,
+gboolean store_find(ScpTreeStore *store, GtkTreeIter *iter, guint column, const char *key);
+void store_foreach(ScpTreeStore *store, GFunc each_func, gpointer gdata);
+void store_save(ScpTreeStore *store, GKeyFile *config, const char *prefix,
 	gboolean (*save_func)(GKeyFile *config, const char *section, GtkTreeIter *iter));
-gint model_string_compare(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gint column);
-gint model_gint_compare(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer gdata);
-gint model_seek_compare(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer gdata);
+gint store_gint_compare(ScpTreeStore *store, GtkTreeIter *a, GtkTreeIter *b, gpointer gdata);
+gint store_seek_compare(ScpTreeStore *store, GtkTreeIter *a, GtkTreeIter *b, gpointer gdata);
+#define store_clear(store) scp_tree_store_clear_children((store), NULL, FALSE)
 
 void utils_load(GKeyFile *config, const char *prefix,
 	gboolean (*load_func)(GKeyFile *config, const char *section));
@@ -87,8 +87,6 @@ void utils_remark(GeanyDocument *doc);  /* NULL -> nop */
 guint utils_parse_sci_color(const gchar *string);
 gboolean utils_key_file_write_to_file(GKeyFile *config, const char *configfile);
 gchar *utils_key_file_get_string(GKeyFile *config, const char *section, const char *key);
-void utils_key_file_set_string(GKeyFile *config, const char *section, const char *key,
-	char *value);  /* frees value */
 gchar *utils_get_utf8_basename(const char *file);
 
 char *utils_7bit_to_locale(char *text);  /* == text */

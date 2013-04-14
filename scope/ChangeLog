@@ -1,3 +1,26 @@
+2013-04-04  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * data/scope.glade, src/Makefile.am, src/break.c, src/common.h,
+   src/inspect.c, src/local.c, src/memory.c, src/menu.c, src/scope.c,
+   src/stack.c, src/store.h, src/store/scptreedata.c,
+   src/store/scptreedata.h, src/store/scptreestore.c,
+   src/store/scptreestore.h, src/thread.c, src/utils.c, src/utils.h,
+   src/views.c, src/views.h, src/watch.c, wscript_build:
+   Switched from GtkList/TreeStore to ScpTreeStore.
+ * src/stack.c, src/watch.c:
+   Removed search optimizations, ScpTreeStore is fast enough.
+ * src/menu.c, src/menu.h, src/scope.c:
+   PLUGIN_KEY_GROUP() -> plugin_set_key_group().
+ * src/prefs.c:
+   Removed the stash_tree based plugin_configure(). Looked nice, but
+   there is no indication that stash_tree will be included in the
+   plugin API.
+ * src/scope.c, src/tooltip.c, src/views.c:
+   Changes to support GTK+ 3.
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.87.
+
+
 2013-03-07  Enrico Tröger  <enrico.troeger@uvena.de>
 
  * wscript_build
@@ -48,7 +71,7 @@
 
  * src/debug.c:
    Reverted glibconfig.h include for win32 waitpid()/kill() emulation
-   to glib.h, the new glib versions don't allow individual includes.
+   to glib.h - the new glib versions don't allow individual includes.
 
 
 2013-01-22  Dimitar Zhekov  <dimitar.zhekov@gmail.com>

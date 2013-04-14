@@ -25,7 +25,7 @@ from waflib.Utils import subst_vars
 
 
 name = 'Scope'
-includes = ['scope/src']
+includes = ['scope/src', 'scope/src/store']
 
 if target_is_win32(bld):
 	datadir = '${GEANYPLUGINS_DATADIR}/geany-plugins/scope'

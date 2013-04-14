@@ -39,6 +39,7 @@ typedef struct _MenuItem MenuItem;
 #include "program.h"
 #include "stack.h"
 #include "scope.h"
+#include "store.h"
 #include "thread.h"
 #include "tooltip.h"
 #include "utils.h"

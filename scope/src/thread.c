@@ -137,15 +137,13 @@ enum
 	THREAD_CORE
 };
 
-static gint thread_ident_compare(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b,
+static gint thread_ident_compare(ScpTreeStore *store, GtkTreeIter *a, GtkTreeIter *b,
 	gpointer gdata)
 {
-	char *s1, *s2;
-	gint result;
+	const char *s1, *s2;
 
-	gtk_tree_model_get(model, a, GPOINTER_TO_INT(gdata), &s1, -1);
-	gtk_tree_model_get(model, b, GPOINTER_TO_INT(gdata), &s2, -1);
-	result = g_strcmp0(s1, s2);
+	scp_tree_store_get(store, a, GPOINTER_TO_INT(gdata), &s1, -1);
+	scp_tree_store_get(store, b, GPOINTER_TO_INT(gdata), &s2, -1);
 
 	if (s1 && s2)
 	{
@@ -155,22 +153,18 @@ static gint thread_ident_compare(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIte
 		for (p2 = s2; *p2 && !isdigit(*p2); p2++);
 
 		if (p1 - s1 == p2 - s2 && !memcmp(s1, s2, p1 - s1))
-			result = atoi(p1) - atoi(p2);
+			return atoi(p1) - atoi(p2);
 	}
 
-	g_free(s1);
-	g_free(s2);
-	return result;
+	return g_strcmp0(s1, s2);
 }
 
-static GtkListStore *store;
-static GtkTreeModel *model;
-static GtkTreeSortable *sortable;
+static ScpTreeStore *store;
 static GtkTreeSelection *selection;
 
 static gboolean find_thread(const char *tid, GtkTreeIter *iter)
 {
-	if (G_LIKELY(model_find(model, iter, THREAD_ID, tid)))
+	if (G_LIKELY(store_find(store, iter, THREAD_ID, tid)))
 		return TRUE;
 
 	dc_error("%s: tid not found", tid);
@@ -184,7 +178,7 @@ static void auto_select_thread(void)
 {
 	GtkTreeIter iter;
 
-	if (model_find(model, &iter, THREAD_STATE, STOPPED))
+	if (store_find(store, &iter, THREAD_STATE, STOPPED))
 	{
 		utils_tree_set_cursor(selection, &iter, -1);
 		view_seek_selected(selection, FALSE, SK_EXECUTE);
@@ -192,59 +186,52 @@ static void auto_select_thread(void)
 }
 
 guint thread_count = 0;
-char *thread_id = NULL;
+const char *thread_id = NULL;
 ThreadState thread_state = THREAD_BLANK;
 guint thread_prompt = 0;
 
-char *thread_group_id(void)
+const char *thread_group_id(void)
 {
 	GtkTreeIter iter;
-	char *gid = NULL;
+	const char *gid = NULL;
 
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
-		gtk_tree_model_get(model, &iter, THREAD_GROUP_ID, &gid, -1);
+		scp_tree_store_get(store, &iter, THREAD_GROUP_ID, &gid, -1);
 
 	return gid;
 }
 
 static void thread_iter_unmark(GtkTreeIter *iter, gpointer gdata)
 {
-	char *file;
-	gchar *state;
+	const char *file;
+	const gchar *state;
 	gint line;
 	gboolean stopped;
 
-	gtk_tree_model_get(model, iter, THREAD_FILE, &file, THREAD_LINE, &line, THREAD_STATE,
+	scp_tree_store_get(store, iter, THREAD_FILE, &file, THREAD_LINE, &line, THREAD_STATE,
 		&state, -1);
 	stopped = !strcmp(state, STOPPED);
 	thread_prompt += gdata ? -stopped : !stopped;
 
 	if (GPOINTER_TO_INT(gdata) != 2)
 		utils_mark(file, line, FALSE, MARKER_EXECUTE);
-
-	g_free(file);
-	g_free(state);
 }
 
 static void thread_iter_running(GtkTreeIter *iter, const char *tid)
 {
 	thread_iter_unmark(iter, GINT_TO_POINTER(TRUE + pref_keep_exec_point));
 
-	gtk_list_store_set(store, iter, THREAD_STATE, RUNNING, pref_keep_exec_point ? -1 :
+	scp_tree_store_set(store, iter, THREAD_STATE, RUNNING, pref_keep_exec_point ? -1 :
 		THREAD_FILE, NULL, THREAD_LINE, 0, THREAD_BASE_NAME, NULL, THREAD_FUNC, NULL,
 		THREAD_ADDR, NULL, THREAD_CORE, NULL, -1);
 
 	if (thread_id)
 	{
-		char *tid1 = g_strdup(tid);
+		if (!tid)
+			scp_tree_store_get(store, iter, THREAD_ID, &tid, -1);
 
-		if (!tid1)
-			gtk_tree_model_get(model, iter, THREAD_ID, &tid1, -1);
-
-		if (!strcmp(tid1, thread_id))
+		if (!strcmp(tid, thread_id))
 			thread_state = THREAD_RUNNING;
-
-		g_free(tid1);
 	}
 }
 
@@ -262,7 +249,7 @@ void on_thread_running(GArray *nodes)
 		gboolean was_stopped = thread_state >= THREAD_STOPPED;
 
 		if (!strcmp(tid, "all"))
-			model_foreach(model, (GFunc) thread_iter_running, NULL);
+			store_foreach(store, (GFunc) thread_iter_running, NULL);
 		else
 		{
 			GtkTreeIter iter;
@@ -281,7 +268,7 @@ static void thread_parse_extra(GArray *nodes, GtkTreeIter *iter, const char *nam
 	const char *value = parse_find_value(nodes, name);
 
 	if (value)
-		gtk_list_store_set(store, iter, column, value, -1);
+		scp_tree_store_set(store, iter, column, value, -1);
 }
 
 static void thread_parse_frame(GArray *frame, const char *tid, GtkTreeIter *iter)
@@ -293,7 +280,7 @@ static void thread_parse_frame(GArray *frame, const char *tid, GtkTreeIter *iter
 		loc.addr = "??";
 
 	thread_iter_unmark(iter, NULL);
-	gtk_list_store_set(store, iter, THREAD_FILE, loc.file, THREAD_LINE, loc.line,
+	scp_tree_store_set(store, iter, THREAD_FILE, loc.file, THREAD_LINE, loc.line,
 		THREAD_STATE, STOPPED, THREAD_BASE_NAME, loc.base_name, THREAD_FUNC, loc.func,
 		THREAD_ADDR, loc.addr, -1);
 
@@ -325,15 +312,15 @@ typedef struct _StopData
 
 static void thread_iter_stopped(GtkTreeIter *iter, StopData *sd)
 {
-	char *tid = g_strdup(sd->tid), *addr;
-	gchar *state;
+	const char *tid = sd->tid, *addr;
+	const gchar *state;
 
-	gtk_tree_model_get(model, iter, THREAD_STATE, &state, THREAD_ADDR, &addr,
+	scp_tree_store_get(store, iter, THREAD_STATE, &state, THREAD_ADDR, &addr,
 		tid ? -1 : THREAD_ID, &tid, -1);
 
 	if (strcmp(state, STOPPED))
 		thread_prompt++;
-	gtk_list_store_set(store, iter, THREAD_STATE, STOPPED, -1);
+	scp_tree_store_set(store, iter, THREAD_STATE, STOPPED, -1);
 
 	if (!g_strcmp0(tid, thread_id))
 	{
@@ -350,10 +337,6 @@ static void thread_iter_stopped(GtkTreeIter *iter, StopData *sd)
 		sd->iter = *iter;
 		sd->found = TRUE;
 	}
-
-	g_free(tid);
-	g_free(state);
-	g_free(addr);
 }
 
 static void thread_node_stopped(const ParseNode *node, StopData *sd)
@@ -405,7 +388,7 @@ void on_thread_stopped(GArray *nodes)
 			const char *tid = (const char *) stopped->value;
 
 			if (!strcmp(tid, "all"))
-				model_foreach(model, (GFunc) thread_iter_stopped, &sd);
+				store_foreach(store, (GFunc) thread_iter_stopped, &sd);
 			else
 			{
 				GtkTreeIter iter;
@@ -454,7 +437,6 @@ void on_thread_created(GArray *nodes)
 {
 	const char *tid = parse_find_value(nodes, "id");
 	const char *gid = parse_find_value(nodes, "group-id");
-	GtkTreeIter iter;
 
 	if (!thread_count++)
 	{
@@ -471,17 +453,19 @@ void on_thread_created(GArray *nodes)
 
 	iff (tid, "no tid")
 	{
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store, &iter, THREAD_ID, tid, THREAD_STATE, "", -1);
+		GtkTreeIter iter;
+
+		scp_tree_store_append_with_values(store, &iter, NULL, THREAD_ID, tid, THREAD_STATE,
+			"", -1);
 		debug_send_format(N, "04-thread-info %s", tid);
 
 		if (gid)
 		{
 			ThreadGroup *group = find_thread_group(gid);
 
-			gtk_list_store_set(store, &iter, THREAD_GROUP_ID, gid, -1);
+			scp_tree_store_set(store, &iter, THREAD_GROUP_ID, gid, -1);
 			if (group && group->pid)
-				gtk_list_store_set(store, &iter, THREAD_PID, group->pid, -1);
+				scp_tree_store_set(store, &iter, THREAD_PID, group->pid, -1);
 		}
 
 		if (thread_count == 1)
@@ -505,7 +489,7 @@ void on_thread_exited(GArray *nodes)
 			gboolean was_selected = !g_strcmp0(tid, thread_id);
 
 			thread_iter_unmark(&iter, GINT_TO_POINTER(TRUE));
-			gtk_list_store_remove(store, &iter);
+			scp_tree_store_remove(store, &iter);
 			if (was_selected && thread_select_on_exited)
 				auto_select_thread();
 		}
@@ -545,12 +529,11 @@ static void thread_parse(GArray *nodes, const char *tid, gboolean stopped)
 		}
 		else
 		{
-			gchar *state;
+			const gchar *state;
 
-			gtk_tree_model_get(model, &iter, THREAD_STATE, &state, -1);
+			scp_tree_store_get(store, &iter, THREAD_STATE, &state, -1);
 			if (strcmp(state, RUNNING))
 				thread_iter_running(&iter, tid);
-			g_free(state);
 		}
 
 		thread_parse_extra(nodes, &iter, "target-id", THREAD_TARGET_ID);
@@ -601,27 +584,26 @@ void on_thread_frame(GArray *nodes)
 
 static void thread_iter_mark(GtkTreeIter *iter, GeanyDocument *doc)
 {
-	char *file;
+	const char *file;
 	gint line;
 
-	gtk_tree_model_get(model, iter, THREAD_FILE, &file, THREAD_LINE, &line, -1);
+	scp_tree_store_get(store, iter, THREAD_FILE, &file, THREAD_LINE, &line, -1);
 
 	if (line && !utils_filenamecmp(file, doc->real_path))
 		sci_set_marker_at_line(doc->editor->sci, line - 1, MARKER_EXECUTE);
-	g_free(file);
 }
 
 void threads_mark(GeanyDocument *doc)
 {
 	if (doc->real_path)
-		model_foreach(model, (GFunc) thread_iter_mark, doc);
+		store_foreach(store, (GFunc) thread_iter_mark, doc);
 }
 
 void threads_clear(void)
 {
-	model_foreach(model, (GFunc) thread_iter_unmark, GINT_TO_POINTER(TRUE));
+	store_foreach(store, (GFunc) thread_iter_unmark, GINT_TO_POINTER(TRUE));
 	array_clear(thread_groups, (GFreeFunc) thread_group_free);
-	gtk_list_store_clear(store);
+	store_clear(store);
 	set_gdb_thread(NULL, FALSE);
 	thread_count = 0;
 }
@@ -629,20 +611,19 @@ void threads_clear(void)
 void threads_delta(ScintillaObject *sci, const char *real_path, gint start, gint delta)
 {
 	GtkTreeIter iter;
-	gboolean valid = gtk_tree_model_get_iter_first(model, &iter);
+	gboolean valid = scp_tree_store_get_iter_first(store, &iter);
 
 	while (valid)
 	{
-		char *file;
+		const char *file;
 		gint line;
 
-		gtk_tree_model_get(model, &iter, THREAD_FILE, &file, THREAD_LINE, &line, -1);
+		scp_tree_store_get(store, &iter, THREAD_FILE, &file, THREAD_LINE, &line, -1);
 
 		if (--line >= 0 && start <= line && !utils_filenamecmp(file, real_path))
 			utils_move_mark(sci, line, start, delta, MARKER_EXECUTE);
 
-		g_free(file);
-		valid = gtk_tree_model_iter_next(model, &iter);
+		valid = scp_tree_store_iter_next(store, &iter);
 	}
 }
 
@@ -668,16 +649,13 @@ static void on_thread_selection_changed(GtkTreeSelection *selection,
 {
 	GtkTreeIter iter;
 
-	g_free(thread_id);
-	g_free(frame_id);
-
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-		gchar *state;
+		const gchar *state;
 		gint line;
-		char *addr;
+		const char *addr;
 
-		gtk_tree_model_get(model, &iter, THREAD_ID, &thread_id, THREAD_STATE, &state,
+		scp_tree_store_get(store, &iter, THREAD_ID, &thread_id, THREAD_STATE, &state,
 			THREAD_LINE, &line, THREAD_ADDR, &addr, -1);
 
 		if (strcmp(state, STOPPED))
@@ -704,9 +682,7 @@ static void on_thread_selection_changed(GtkTreeSelection *selection,
 				thread_state = THREAD_QUERY_FRAME;
 		}
 
-		frame_id = g_strdup("0");
-		g_free(state);
-		g_free(addr);
+		frame_id = "0";
 	}
 	else
 	{
@@ -730,7 +706,7 @@ static void on_thread_refresh(G_GNUC_UNUSED const MenuItem *menu_item)
 
 static void on_thread_unsorted(G_GNUC_UNUSED const MenuItem *menu_item)
 {
-	gtk_tree_sortable_set_sort_column_id(sortable, GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID,
+	scp_tree_store_set_sort_column_id(store, GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID,
 		GTK_SORT_ASCENDING);
 }
 
@@ -756,12 +732,11 @@ static void send_signal(int sig)
 
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-		char *pid;
+		const char *pid;
 
-		gtk_tree_model_get(model, &iter, THREAD_PID, &pid, -1);
+		scp_tree_store_get(store, &iter, THREAD_PID, &pid, -1);
 		if (kill(atoi(pid), sig) == -1)
 			show_errno("kill(pid)");
-		g_free(pid);
 	}
 	else
 		plugin_beep();
@@ -794,15 +769,14 @@ static void on_thread_send_signal(G_GNUC_UNUSED const MenuItem *menu_item)
 #else  /* G_OS_UNIX */
 static HANDLE iter_to_handle(GtkTreeIter *iter)
 {
-	char *pid;
+	const char *pid;
 	HANDLE hid;
 
-	gtk_tree_model_get(model, iter, THREAD_PID, &pid, -1);
+	scp_tree_store_get(store, iter, THREAD_PID, &pid, -1);
 	hid = OpenProcess(PROCESS_ALL_ACCESS, FALSE, atoi(pid));
 	if (!hid)
 		show_errno("OpenProcess");
 
-	g_free(pid);
 	return hid;
 }
 
@@ -895,14 +869,10 @@ static guint thread_menu_extra_state(void)
 
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-		char *pid, *file;
-		gboolean has_pid;
+		const char *pid, *file;
 
-		gtk_tree_model_get(model, &iter, THREAD_PID, &pid, THREAD_FILE, &file, -1);
-		has_pid = utils_atoi0(pid) > 0;
-		g_free(pid);
-		g_free(file);
-		return ((file != NULL) << DS_INDEX_2) | (has_pid << DS_INDEX_3);
+		scp_tree_store_get(store, &iter, THREAD_PID, &pid, THREAD_FILE, &file, -1);
+		return ((file != NULL) << DS_INDEX_2) | ((utils_atoi0(pid) > 0) << DS_INDEX_3);
 	}
 
 	return 0;
@@ -918,17 +888,15 @@ static void on_thread_synchronize_button_release(GtkWidget *widget, GdkEventButt
 
 void thread_init(void)
 {
-	GtkTreeView *tree = view_create("thread_view", &model, &selection);
+	GtkTreeView *tree = view_create("thread_view", &store, &selection);
 	GtkWidget *menu = menu_select("thread_menu", &thread_menu_info, selection);
 
-	store = GTK_LIST_STORE(model);
-	sortable = GTK_TREE_SORTABLE(model);
-	view_set_sort_func(sortable, THREAD_ID, model_gint_compare);
-	view_set_sort_func(sortable, THREAD_FILE, model_seek_compare);
+	view_set_sort_func(store, THREAD_ID, store_gint_compare);
+	view_set_sort_func(store, THREAD_FILE, store_seek_compare);
 	view_set_line_data_func("thread_line_column", "thread_line", THREAD_LINE);
-	view_set_sort_func(sortable, THREAD_PID, thread_ident_compare);
-	view_set_sort_func(sortable, THREAD_GROUP_ID, thread_ident_compare);
-	view_set_sort_func(sortable, THREAD_TARGET_ID, thread_ident_compare);
+	view_set_sort_func(store, THREAD_PID, thread_ident_compare);
+	view_set_sort_func(store, THREAD_GROUP_ID, thread_ident_compare);
+	view_set_sort_func(store, THREAD_TARGET_ID, thread_ident_compare);
 	gtk_widget_set_has_tooltip(GTK_WIDGET(tree), TRUE);
 	g_signal_connect(tree, "query-tooltip", G_CALLBACK(on_view_query_tooltip),
 		get_column("thread_base_name_column"));
@@ -951,8 +919,7 @@ void thread_init(void)
 
 void thread_finalize(void)
 {
-	model_foreach(model, (GFunc) thread_iter_unmark, NULL);
+	store_foreach(store, (GFunc) thread_iter_unmark, NULL);
 	array_free(thread_groups, (GFreeFunc) thread_group_free);
 	set_gdb_thread(NULL, FALSE);
-	g_free(thread_id);
 }

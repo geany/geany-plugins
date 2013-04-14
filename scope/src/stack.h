@@ -19,7 +19,7 @@
 
 #ifndef STACK_H
 
-extern char *frame_id;
+extern const char *frame_id;
 
 void on_stack_frames(GArray *nodes);
 void on_stack_arguments(GArray *nodes);
@@ -30,7 +30,6 @@ void stack_clear(void);
 gboolean stack_update(void);
 
 void stack_init(void);
-void stack_finalize(void);
 
 #define STACK_H 1
 #endif

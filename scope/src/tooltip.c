@@ -25,7 +25,13 @@
 static void tooltip_trigger(void)
 {
 	GdkDisplay *display = gdk_display_get_default();
+#if GTK_CHECK_VERSION(3, 0, 0)
+	GdkDeviceManager *manager = gdk_display_get_device_manager(display);
+	GdkDevice *device = gdk_device_manager_get_client_pointer(manager);
+	GdkWindow *window = gdk_device_get_window_at_position(device, NULL, NULL);
+#else
 	GdkWindow *window = gdk_display_get_window_at_pointer(display, NULL, NULL);
+#endif
 	GeanyDocument *doc = document_get_current();
 
 	if (doc && window)

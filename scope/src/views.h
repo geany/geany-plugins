@@ -62,15 +62,15 @@ typedef struct _TreeCell
 	GCallback callback;
 } TreeCell;
 
-GtkTreeView *view_create(const char *name, GtkTreeModel **model, GtkTreeSelection **selection);
-GtkTreeView *view_connect(const char *name, GtkTreeModel **model, GtkTreeSelection **selection,
+GtkTreeView *view_create(const char *name, ScpTreeStore **store, GtkTreeSelection **selection);
+GtkTreeView *view_connect(const char *name, ScpTreeStore **store, GtkTreeSelection **selection,
 	const TreeCell *cell_info, const char *window, GObject **display);
 /* note: 2 references to column */
-#define view_set_sort_func(sortable, column, compare) \
-	gtk_tree_sortable_set_sort_func((sortable), (column), (compare), \
-		GINT_TO_POINTER(column), NULL)
+#define view_set_sort_func(store, column, compare) \
+	scp_tree_store_set_sort_func((store), (column), (GtkTreeIterCompareFunc) (compare), \
+	GINT_TO_POINTER(column), NULL)
 void view_set_line_data_func(const char *column, const char *cell, gint column_id);
-void view_display_edited(GtkTreeModel *model, gboolean condition, const gchar *path_str,
+void view_display_edited(ScpTreeStore *store, gboolean condition, const gchar *path_str,
 	const char *format, gchar *new_text);
 
 void view_column_set_visible(const char *name, gboolean visible);
