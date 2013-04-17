@@ -81,16 +81,13 @@ static gboolean inspect_find_recursive(GtkTreeIter *iter, gint i, const char *ke
 		}
 		else
 		{
-			char *var1;
+			const char *var1;
 			size_t len;
-			gboolean match;
 
 			scp_tree_store_get(store, iter, INSPECT_VAR1, &var1, -1);
 			len = var1 ? strlen(var1) : 0;
-			match = var1 && !strncmp(key, var1, len);
-			g_free(var1);
 
-			if (match)
+			if (var1 && !strncmp(key, var1, len))
 			{
 				if (key[len] == '\0')
 					return TRUE;
@@ -143,8 +140,8 @@ static gint inspect_get_scid(GtkTreeIter *iter)
 static void inspect_expand(GtkTreeIter *iter)
 {
 	const char *var1;
-	char *s;
 	gint scid, start, count, numchild;
+	char *s;
 
 	scid = inspect_get_scid(iter);
 	scp_tree_store_get(store, iter, INSPECT_VAR1, &var1, INSPECT_START, &start,
