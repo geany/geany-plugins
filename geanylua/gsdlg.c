@@ -25,8 +25,9 @@
 #include "gsdlg.h"
 #endif
 
-#include <glib/gi18n.h>
 #include <stdlib.h>
+
+#include "geanyplugin.h"
 
 #ifdef G_OS_WIN32
 #define realpath(src,dst) _fullpath((dst),(src),_MAX_PATH)
