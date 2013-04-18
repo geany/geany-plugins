@@ -239,6 +239,7 @@ scope/src/scope.c
 scope/src/thread.c
 scope/src/utils.c
 scope/src/views.c
+scope/src/store/scptreestore.c
 
 # Spell Check
 spellcheck/src/speller.c
