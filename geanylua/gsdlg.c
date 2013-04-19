@@ -64,7 +64,7 @@ void gsdlg_textarea(GtkDialog *dlg, GsDlgStr key, GsDlgStr value, GsDlgStr label
 		gtk_text_buffer_set_text (tb, value, -1);
 	}
 	sw=gtk_scrolled_window_new(NULL, NULL);
-	gtk_widget_set_usize(sw, gdk_screen_get_width(gdk_screen_get_default())/3,
+	gtk_widget_set_size_request(sw, gdk_screen_get_width(gdk_screen_get_default())/3,
 		gdk_screen_get_height(gdk_screen_get_default())/10);
 	gtk_container_add(GTK_CONTAINER(sw),tv);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
@@ -169,22 +169,24 @@ void gsdlg_file(GtkDialog *dlg, GsDlgStr key, GsDlgStr value, GsDlgStr label)
 static void color_btn_clicked(GtkButton *button, gpointer user_data)
 {
 	GtkWidget*dlg;
+	GtkColorSelectionDialog *csdlg;
 	const gchar *cn=NULL;
 	gint resp;
 	GdkColor rgb;
 
 	dlg=gtk_color_selection_dialog_new (_("Select Color"));
+	csdlg=GTK_COLOR_SELECTION_DIALOG(dlg);
 	make_modal(dlg, gtk_widget_get_toplevel(GTK_WIDGET(user_data)));
 	cn=gtk_entry_get_text(GTK_ENTRY(user_data));
 	if (cn && *cn && gdk_color_parse(cn,&rgb)) {
 		gtk_color_selection_set_current_color(
-			GTK_COLOR_SELECTION(gtk_color_selection_dialog_get_color_selection(dlg)), &rgb);
+			GTK_COLOR_SELECTION(gtk_color_selection_dialog_get_color_selection(csdlg)), &rgb);
 	}
 	resp=gtk_dialog_run(GTK_DIALOG(dlg));
 	if (resp == GTK_RESPONSE_OK) {
 		gchar *rv=NULL;
 		gtk_color_selection_get_current_color(
-			GTK_COLOR_SELECTION(gtk_color_selection_dialog_get_color_selection(dlg)), &rgb);
+			GTK_COLOR_SELECTION(gtk_color_selection_dialog_get_color_selection(csdlg)), &rgb);
 		rv=g_strdup_printf("#%2.2X%2.2X%2.2X",rgb.red/256,rgb.green/256,rgb.blue/256);
 		gtk_entry_set_text(GTK_ENTRY(user_data), rv);
 		g_free(rv);
@@ -446,7 +448,7 @@ void gsdlg_select(GtkDialog *dlg, GsDlgStr key, GsDlgStr value, GsDlgStr label)
 	hbox=find_widget_by_key(dlg,GTK_TYPE_HBOX, key);
 	if (hbox) {
 		cw=g_object_get_data(G_OBJECT(hbox), DataKey);
-		gtk_label_set(GTK_LABEL(cw->label), label);
+		gtk_label_set_text(GTK_LABEL(cw->label), label);
 	} else {
 		hbox=gtk_hbox_new(FALSE,FALSE);
 		cw=g_malloc0(sizeof(ComboWidgets));
