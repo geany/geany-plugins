@@ -89,7 +89,7 @@ static void highlight_tag(gint openingBracket, gint closingBracket)
     scintilla_send_message(sci, SCI_SETINDICATORCURRENT, INDICATOR_TAGMATCH, 0);
     scintilla_send_message(sci, SCI_INDICSETSTYLE,
                             INDICATOR_TAGMATCH, INDIC_ROUNDBOX);
-    scintilla_send_message(sci, SCI_INDICSETFORE, 0, 0x00d000); // green
+    scintilla_send_message(sci, SCI_INDICSETFORE, 0, 0x00d000); /* green */
     scintilla_send_message(sci, SCI_INDICSETALPHA, INDICATOR_TAGMATCH, 60);
     scintilla_send_message(sci, SCI_INDICATORFILLRANGE,
                             openingBracket, closingBracket-openingBracket+1);
