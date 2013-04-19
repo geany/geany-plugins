@@ -18,6 +18,10 @@
  *      MA 02110-1301, USA.
  */
 
+/* for fdopen() */
+#define _POSIX_SOURCE 1
+#define _POSIX_C_SOURCE 1
+
 #include "geanypg.h"
 
 static const char * geanypg_getname(const char * uid_hint)
