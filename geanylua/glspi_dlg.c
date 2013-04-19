@@ -479,10 +479,10 @@ static gint glspi_pickfile(lua_State* L)
 	if (argc >= 1) {
 		if  (lua_isstring(L,1))	{
 			const gchar*tmp=lua_tostring(L,1);
-			if (strcasecmp(tmp,"save")==0) {
+			if (g_ascii_strcasecmp(tmp,"save")==0) {
 				save=TRUE;
 			} else
-			if ( (*tmp != '\0') && (strcasecmp(tmp,"open")!=0) ) {
+			if ( (*tmp != '\0') && (g_ascii_strcasecmp(tmp,"open")!=0) ) {
 				lua_pushfstring(L, _("Error in module \"%s\" at function %s():\n"
 							"expected string \"open\" or \"save\" for argument #1.\n"),
 							LUA_MODULE_NAME, &__FUNCTION__[6]);

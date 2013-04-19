@@ -4,8 +4,10 @@
  * See the file "geanylua.c" for copyright information.
  */
 
+#define _BSD_SOURCE /* for stat() and lstat() */
 #include <sys/stat.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <errno.h>
 
 
@@ -171,10 +173,7 @@ static gint glspi_signal(lua_State* L) {
 
 #ifdef G_OS_WIN32
 #define lstat stat
-#define realpath(src,dst) _fullpath((dst),(src),_MAX_PATH)
 #include <io.h>
-#else
-#include <unistd.h>
 #endif
 
 typedef int (*statfunc) (const char *fn, struct stat *st);
@@ -252,7 +251,6 @@ static gint glspi_dirname(lua_State* L)
 
 
 
-
 static gint glspi_fullpath(lua_State* L)
 {
 	if (lua_gettop(L)>=1) {
@@ -260,10 +258,10 @@ static gint glspi_fullpath(lua_State* L)
 		const gchar *fn=NULL;
 		if (!lua_isstring(L,1)) { return FAIL_STRING_ARG(1); }
 		fn=lua_tostring(L,1);
-		rp=realpath(fn,NULL);
+		rp=tm_get_real_path(fn);
 		if (rp) {
 			lua_pushstring(L,rp);
-			free(rp);
+			g_free(rp);
 			return 1;
 		}
 	}
@@ -443,7 +441,6 @@ static guint My_Alt_R=0;
 
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
-#include <sys/time.h>
 
 
 #define IsShift ( (My_Shift_L == ev->xkey.keycode) || (My_Shift_R == ev->xkey.keycode) )
@@ -489,13 +486,7 @@ static GdkFilterReturn keygrab_cb(GdkXEvent *xevent, GdkEvent *event, gpointer d
 	return GDK_FILTER_CONTINUE;
 }
 
-static void dosleep(void)
-{
-	struct timespec req, rem;
-	req.tv_sec=0;
-	req.tv_nsec=1000;
-	nanosleep(&req, &rem);
-}
+#define dosleep() g_usleep(1)
 
 #else
 #include <windows.h>

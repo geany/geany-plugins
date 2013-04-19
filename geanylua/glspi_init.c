@@ -151,7 +151,7 @@ static void hotkey_init(void)
 					p=strchr(label,'_');
 					if (p) { *p=' ';}
 					p=strrchr(label, '.');
-					if (p && (strcasecmp(p, ".lua")==0)) {
+					if (p && (g_ascii_strcasecmp(p, ".lua")==0)) {
 						*p='\0';
 					}
 					name=g_strdup_printf("lua_script_%d", i+1);
@@ -321,7 +321,7 @@ static void init_menu(gpointer data, gpointer user_data)
 	g_return_if_fail(data && user_data);
 	if (g_file_test(data,G_FILE_TEST_IS_REGULAR)) {
 		gchar *dot = strrchr(data, '.');
-		if ( dot && (((gpointer)dot)>data) && (strcasecmp(dot, ".lua")==0) ) {
+		if ( dot && (((gpointer)dot)>data) && (g_ascii_strcasecmp(dot, ".lua")==0) ) {
 			GtkWidget *item;
 			gchar*label=strrchr(data,DIR_SEP[0]);
 			gchar *tmp=NULL;
@@ -342,7 +342,7 @@ static void init_menu(gpointer data, gpointer user_data)
 		if (g_file_test(data,G_FILE_TEST_IS_DIR)) {
 			gchar*label=strrchr(data,DIR_SEP[0]);
 			if (label) { label++; } else { label=data; }
-			if ((strcasecmp(label,"events")!=0)&&(strcasecmp(label,"support")!=0)) {
+			if ((g_ascii_strcasecmp(label,"events")!=0)&&(g_ascii_strcasecmp(label,"support")!=0)) {
 				label=g_strdup(label);
 				fixup_label(label);
 				new_menu(user_data, data, label); /* Recursive */

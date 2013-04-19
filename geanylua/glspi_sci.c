@@ -337,49 +337,49 @@ static gint glspi_lines(lua_State* L)
 
 static gint get_sci_nav_cmd(const gchar*str, gboolean fwd, gboolean sel, gboolean rect)
 {
-	if (strncasecmp(str, "char", 4) == 0) {
+	if (g_ascii_strncasecmp(str, "char", 4) == 0) {
 		if (fwd) {
 			return sel?(rect?SCI_CHARRIGHTRECTEXTEND:SCI_CHARRIGHTEXTEND):SCI_CHARRIGHT;
 		} else {
 			return sel?(rect?SCI_CHARLEFTRECTEXTEND:SCI_CHARLEFTEXTEND):SCI_CHARLEFT;
 		}
-	} else if (strncasecmp(str, "word", 4) == 0) {
+	} else if (g_ascii_strncasecmp(str, "word", 4) == 0) {
 		if (fwd) {
 			return sel?SCI_WORDRIGHTEXTEND:SCI_WORDRIGHT;
 		} else {
 			return sel?SCI_WORDLEFTEXTEND:SCI_WORDLEFT;
 		}
-	} else if (strncasecmp(str, "part", 4) == 0) {
+	} else if (g_ascii_strncasecmp(str, "part", 4) == 0) {
 		if (fwd) {
 			return sel?SCI_WORDPARTRIGHTEXTEND:SCI_WORDPARTRIGHT;
 		} else {
 			return sel?SCI_WORDPARTLEFTEXTEND:SCI_WORDPARTLEFT;
 		}
-	} else if (strncasecmp(str, "edge", 4) == 0) {
+	} else if (g_ascii_strncasecmp(str, "edge", 4) == 0) {
 		if (fwd) {
 			return sel?(rect?SCI_LINEENDRECTEXTEND:SCI_LINEENDEXTEND):SCI_LINEEND;
 		} else {
 			return sel?(rect?SCI_HOMERECTEXTEND:SCI_HOMEEXTEND):SCI_HOME;
 		}
-	} else if (strncasecmp(str, "line", 4) == 0) {
+	} else if (g_ascii_strncasecmp(str, "line", 4) == 0) {
 		if (fwd) {
 			return sel?(rect?SCI_LINEDOWNRECTEXTEND:SCI_LINEDOWNEXTEND):SCI_LINEDOWN;
 		} else {
 			return sel?(rect?SCI_LINEUPRECTEXTEND:SCI_LINEUPEXTEND):SCI_LINEUP;
 		}
-	} else if (strncasecmp(str, "para", 4) == 0) {
+	} else if (g_ascii_strncasecmp(str, "para", 4) == 0) {
 		if (fwd) {
 			return sel?SCI_PARADOWNEXTEND:SCI_PARADOWN;
 		} else {
 			return sel?SCI_PARAUPEXTEND:SCI_PARAUP;
 		}
-	} else if (strncasecmp(str, "page", 4) == 0) {
+	} else if (g_ascii_strncasecmp(str, "page", 4) == 0) {
 		if (fwd) {
 			return sel?(rect?SCI_PAGEDOWNRECTEXTEND:SCI_PAGEDOWNEXTEND):SCI_PAGEDOWN;
 		} else {
 			return sel?(rect?SCI_PAGEUPRECTEXTEND:SCI_PAGEUPEXTEND):SCI_PAGEUP;
 		}
-	} else if (strncasecmp(str, "body", 4) == 0) {
+	} else if (g_ascii_strncasecmp(str, "body", 4) == 0) {
 		if (fwd) {
 			return sel?SCI_DOCUMENTENDEXTEND:SCI_DOCUMENTEND;
 		} else {
@@ -780,15 +780,15 @@ static gint glspi_find(lua_State* L)
 		lua_rawgeti(L,4,i);
 		if (lua_isstring(L, -1)) {
 			const gchar*flagname=lua_tostring(L,-1);
-			if (strcasecmp(flagname, "matchcase")==0){
+			if (g_ascii_strcasecmp(flagname, "matchcase")==0){
 				flags += SCFIND_MATCHCASE;
-			} else if (strcasecmp(flagname, "wholeword")==0) {
+			} else if (g_ascii_strcasecmp(flagname, "wholeword")==0) {
 				flags += SCFIND_WHOLEWORD;
-			} else if (strcasecmp(flagname, "wordstart")==0) {
+			} else if (g_ascii_strcasecmp(flagname, "wordstart")==0) {
 				flags += SCFIND_WORDSTART;
-			} else if (strcasecmp(flagname, "regexp")==0) {
+			} else if (g_ascii_strcasecmp(flagname, "regexp")==0) {
 				flags += SCFIND_REGEXP;
-			} else if (strcasecmp(flagname, "posix")==0) {
+			} else if (g_ascii_strcasecmp(flagname, "posix")==0) {
 				flags += SCFIND_POSIX;
 			} else {
 				lua_pushfstring(L, _("Error in module \"%s\" at function %s():\n"
