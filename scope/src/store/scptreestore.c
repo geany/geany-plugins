@@ -44,12 +44,12 @@
 
 typedef struct _AElem AElem;
 
-typedef struct _AElem
+struct _AElem
 {
 	AElem *parent;
 	GPtrArray *children;
 	ScpTreeData data[1];
-} AElem;
+};
 
 struct _ScpTreeStorePrivate
 {
