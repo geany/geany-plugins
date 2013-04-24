@@ -44,6 +44,7 @@ from waflib import Logs, Scripting, Utils
 from waflib.Tools import c_preproc
 from waflib.Errors import ConfigurationError
 from waflib.TaskGen import feature
+from waflib.Tools.compiler_c import c_compiler
 from build.wafutils import (
     add_define_to_env,
     add_to_env_and_define,
@@ -190,6 +191,10 @@ def setup_configuration_env(conf):
 
 
 def options(opt):
+    # Disable MSVC detetion on win32: building Geany-Plugins with MSVC is currently not supported
+    # If anyone wants to add support for building with MSVC, this hack should be removed.
+    c_compiler['win32'] = ['gcc']
+
     opt.tool_options('compiler_cc')
     opt.tool_options('intltool')
 
