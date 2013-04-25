@@ -18,14 +18,20 @@
  * License along with this library. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <string.h>
 #include <gtk/gtk.h>
 
 #include "scptreedata.h"
 #include "scptreestore.h"
 
-#ifndef P_
-#define P_
+#if defined(ENABLE_NLS) && defined(GETTEXT_PACKAGE) && GTK_CHECK_VERSION(2, 18, 0)
+#define P_(String) g_dgettext(GETTEXT_PACKAGE "-properties", (String))
+#else
+#define P_(String) (String)
 #endif
 
 #if !GLIB_CHECK_VERSION(2, 30, 0)

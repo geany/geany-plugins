@@ -69,7 +69,7 @@ void scp_tree_store_set_valist(ScpTreeStore *store, GtkTreeIter *iter, va_list a
 void scp_tree_store_set(ScpTreeStore *store, GtkTreeIter *iter, ...);<br>
 gboolean <a href="#scp_tree_store_remove">scp_tree_store_remove</a>(ScpTreeStore *store,
 GtkTreeIter *iter);<br>
-void <a href="scp_tree_store_insert">scp_tree_store_insert</a>(ScpTreeStore *store, GtkTreeIter
+void <a href="#scp_tree_store_insert">scp_tree_store_insert</a>(ScpTreeStore *store, GtkTreeIter
 *iter, GtkTreeIter *parent, gint position);<br>
 #define scp_tree_store_prepend(store, iter, parent)<br>
 #define scp_tree_store_append(store, iter, parent)<br>
@@ -350,7 +350,7 @@ when the last row from that level is removed. Default = <tt>FALSE</tt>.</p>
 <p>The arrays are allocated when the first row at that level is being inserted. Setting
 &quot;-reserved&quot; has no effect on any currently allocated arrays. The top-level array is
 discarded only when the store is finalized. Thus, setting &quot;toplevel-reserved&quot; after
-at least row was inserted in the store has no effect.</p>
+at least one row was inserted in the store has no effect.</p>
 
 <h3><a name="notes">Notes</a></h3>
 
@@ -533,8 +533,8 @@ suitable for a few operations, but you should not rely on that and check for pat
 <tr><td>top-level quick sort double</td><td>10000</td><td>0.112</td><td>0.022</td><td></td></tr>
 <tr><td>top-level quick sort string</td><td>10000</td><td>0.720</td><td>0.580</td><td></td></tr>
 <tr><td>sublevel 1 insert</td><td>10000</td><td>1.152</td><td>0.132</td><td></td></tr>
-<tr><td>sublevel 1 set</td><td>10000</td><td>1.730</td><td></td><td>0.116</td></tr>
-<tr><td>sublevel 1 remove</td><td>10000</td><td>1.364</td><td>0.128</td><td>0.128</td></tr>
+<tr><td>sublevel 1 set</td><td>10000</td><td>1.730</td><td>0.116</td><td></td></tr>
+<tr><td>sublevel 1 remove</td><td>10000</td><td>1.364</td><td>0.128</td><td></td></tr>
 <tr><td>sublevel 1 insert with values</td><td>10000</td><td>1.427</td><td>0.146</td><td></td></tr>
 <tr><td>sublevel 1 quick sort double</td><td>10000</td><td>0.170</td><td>0.034</td><td></td></tr>
 <tr><td>sublevel 1 quick sort string</td><td>10000</td><td>1.114</td><td>0.893</td><td></td></tr>
@@ -553,27 +553,27 @@ suitable for a few operations, but you should not rely on that and check for pat
 <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
 <tr><td>pre/apppend + set</td><td>250</td><td>0.019</td><td>0.003</td><td></td></tr>
 <tr><td>pre/append with values</td><td>250</td><td>0.015</td><td>0.001</td><td></td></tr>
-<tr><td>binary search</td><td>250</td><td>n/a</td><td>0.001</td><td>250</td></tr>
+<tr><td>binary search</td><td>250</td><td>n/a</td><td>0.000</td><td>250</td></tr>
 <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
 <tr><td>pre/apppend + set</td><td>500</td><td>0.068</td><td>0.007</td><td></td></tr>
 <tr><td>pre/append with values</td><td>500</td><td>0.054</td><td>0.003</td><td></td></tr>
-<tr><td>binary search</td><td>500</td><td>n/a</td><td>0.006</td><td>500</td></tr>
+<tr><td>binary search</td><td>500</td><td>n/a</td><td>0.000</td><td>500</td></tr>
 <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
 <tr><td>pre/apppend + set</td><td>1000</td><td>0.225</td><td>0.015</td><td></td></tr>
 <tr><td>pre/append with values</td><td>1000</td><td>0.203</td><td>0.006</td><td></td></tr>
-<tr><td>binary search</td><td>1000</td><td>n/a</td><td>0.023</td><td>1000</td></tr>
+<tr><td>binary search</td><td>1000</td><td>n/a</td><td>0.001</td><td>1000</td></tr>
 <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
 <tr><td>pre/apppend + set</td><td>2500</td><td>1.474</td><td>0.044</td><td></td></tr>
 <tr><td>pre/append with values</td><td>2500</td><td>1.324</td><td>0.015</td><td></td></tr>
-<tr><td>binary search</td><td>2500</td><td>n/a</td><td>0.147</td><td>2500</td></tr>
+<tr><td>binary search</td><td>2500</td><td>n/a</td><td>0.002</td><td>2500</td></tr>
 <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
 <tr><td>pre/apppend + set</td><td>5000</td><td>6.432</td><td>0.115</td><td></td></tr>
 <tr><td>pre/append with values</td><td>5000</td><td>5.624</td><td>0.035</td><td></td></tr>
-<tr><td>binary search</td><td>5000</td><td>n/a</td><td>0.595</td><td>5000</td></tr>
+<tr><td>binary search</td><td>5000</td><td>n/a</td><td>0.004</td><td>5000</td></tr>
 <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
 <tr><td>pre/apppend + set</td><td>10000</td><td>26.967</td><td>0.335</td><td></td></tr>
 <tr><td>pre/append with values</td><td>10000</td><td>23.803</td><td>0.081</td><td></td></tr>
-<tr><td>binary search</td><td>10000</td><td>n/a</td><td>3.704</td><td>10000</td></tr>
+<tr><td>binary search</td><td>10000</td><td>n/a</td><td>0.009</td><td>10000</td></tr>
 
 <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
 <tr><th>Store sorted by string</th><th>Row count</th><th>GtkTreeStore</th>
@@ -645,7 +645,7 @@ are from GtkTreeStore.</p>
 <p>ScpTreeStore was initially written for the Scope plugin of Geany light IDE, which relies
 heavily on stores.</p>
 
-<p><b>ScpTreeStore 0.82, Copyright (C) 2013 Dimitar Toshkov Zhekov</b></p>
+<p><b>ScpTreeStore 0.83, Copyright (C) 2013 Dimitar Toshkov Zhekov</b></p>
 
 <p>ScpTreeStore is distributed under the terms of the GNU General Public License as published
 by the Free Software Foundation; either version 2 of the License, or (at your option) any
