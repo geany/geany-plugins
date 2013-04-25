@@ -1,3 +1,12 @@
+2013-04-25  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/break.c, src/utils.c:
+   Small improvements.
+ * src/store/scptreestore.c:
+   Added i18n for gtk+ >= 2.18.
+ * src/store/scptreestore.html:
+   ScpTreeStore documentation fixes.
+
 2013-04-04  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * data/scope.glade, src/Makefile.am, src/break.c, src/common.h,

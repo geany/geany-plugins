@@ -741,7 +741,6 @@ char *debug_send_evaluate(char token, gint scid, const gchar *expr)
 
 	debug_send_format(F, "0%c%d-data-evaluate-expression \"%s\"", token, scid, string->str);
 	g_string_free(string, TRUE);
-
 	return locale;
 }
 

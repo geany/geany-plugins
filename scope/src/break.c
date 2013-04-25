@@ -57,17 +57,12 @@ static gint break_id_compare(ScpTreeStore *store, GtkTreeIter *a, GtkTreeIter *b
 	scp_tree_store_get(store, b, BREAK_ID, &s2, -1);
 	result = utils_atoi0(s1) - utils_atoi0(s2);
 
-	if (!result && s1 && s2)
-	{
-		const char *p1, *p2;
+	if (result || !s1 || !s2)
+		return result;
 
-		for (p1 = s1; isdigit(*p1); p1++);
-		for (p2 = s2; isdigit(*p2); p2++);
-
-		result = atoi(p1 + (*p1 == '.')) - atoi(p2 + (*p2 == '.'));
-	}
-
-	return result;
+	while (isdigit(*s1)) s1++;
+	while (isdigit(*s2)) s2++;
+	return atoi(s1 + (*s1 == '.')) - atoi(s2 + (*s2 == '.'));
 }
 
 static gint break_location_compare(ScpTreeStore *store, GtkTreeIter *a, GtkTreeIter *b,
@@ -1099,6 +1094,7 @@ static void on_break_selection_changed(GtkTreeSelection *selection,
 
 		scp_tree_store_get(store, &iter, BREAK_ID, &id, -1);
 		editable = !id || !strchr(id, '.');
+
 		for (index = 0; index < EDITCOLS; index++)
 			g_object_set(block_cells[index], "editable", editable, NULL);
 	}

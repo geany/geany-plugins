@@ -269,7 +269,7 @@ void store_save(ScpTreeStore *store, GKeyFile *config, const gchar *prefix,
 
 gint store_gint_compare(ScpTreeStore *store, GtkTreeIter *a, GtkTreeIter *b, gpointer gdata)
 {
-	gchar *s1, *s2;
+	const gchar *s1, *s2;
 
 	scp_tree_store_get(store, a, GPOINTER_TO_INT(gdata), &s1, -1);
 	scp_tree_store_get(store, b, GPOINTER_TO_INT(gdata), &s2, -1);
