@@ -79,7 +79,8 @@ def _build_peg_markdown():
         features        = ['c'],
         use             = libraries,
         target          = 'markdown_parser.c',
-        source          = 'peg-markdown/markdown_parser.leg')
+        source          = 'peg-markdown/markdown_parser.leg',
+        includes        = ['peg-markdown'])
 
     # tell the code about what we want
     defines.append('FULL_PRICE=1')
