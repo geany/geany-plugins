@@ -1,3 +1,9 @@
+2013-05-02  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * data/scope.glade, src/thread.c:
+   GArray thread_groups -> ScpTreeStore.
+
+
 2013-04-25  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/break.c, src/utils.c:
@@ -6,6 +12,7 @@
    Added i18n for gtk+ >= 2.18.
  * src/store/scptreestore.html:
    ScpTreeStore documentation fixes.
+
 
 2013-04-04  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 

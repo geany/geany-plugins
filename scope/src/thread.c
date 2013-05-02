@@ -32,40 +32,27 @@
 #include <windows.h>
 #endif
 
-typedef struct _ThreadGroup
+enum
 {
-	char *gid;
-	char *pid;
-} ThreadGroup;
+	GROUP_ID,
+	GROUP_PID
+};
 
-static GArray *thread_groups = NULL;
-
-static ThreadGroup *find_thread_group(const char *gid)
-{
-	ThreadGroup *group = (ThreadGroup *) array_find(thread_groups, gid, FALSE);
-
-	if (G_UNLIKELY(!group))
-		dc_error("%s: gid not found", gid);
-
-	return group;
-}
+static ScpTreeStore *groups = NULL;
 
 void on_thread_group_started(GArray *nodes)
 {
 	const char *gid = parse_lead_value(nodes);
 	const char *pid = parse_find_value(nodes, "pid");
 
-	ui_set_statusbar(TRUE, _("Thread group %s started."), pid ? pid : gid ? gid : "");
+	ui_set_statusbar(TRUE, _("Thread group %s started."), pid ? pid : gid);
 
 	iff (pid, "no pid")
 	{
-		ThreadGroup *group = find_thread_group(gid);
+		GtkTreeIter iter;
 
-		if (group)
-		{
-			g_free(group->pid);
-			group->pid = g_strdup(pid);
-		}
+		iff (store_find(groups, &iter, GROUP_ID, gid), "%s: gid not found", gid)
+			scp_tree_store_set(groups, &iter, GROUP_PID, pid, -1);
 	}
 }
 
@@ -74,16 +61,24 @@ void on_thread_group_exited(GArray *nodes)
 	const char *gid = parse_lead_value(nodes);
 	const char *exit_code = parse_find_value(nodes, "exit-code");
 	GString *status = g_string_new(_("Thread group "));
-	ThreadGroup *group = find_thread_group(gid);
+	GtkTreeIter iter;
 
-	if (group && group->pid)
+	if (store_find(groups, &iter, GROUP_ID, gid))
 	{
-		g_string_append(status, group->pid);
-		g_free(group->pid);
-		group->pid = NULL;
+		const char *pid;
+
+		scp_tree_store_get(groups, &iter, GROUP_PID, &pid, -1);
+		if (pid)
+		{
+			g_string_append(status, pid);
+			scp_tree_store_set(groups, &iter, GROUP_PID, NULL, -1);
+		}
 	}
 	else
+	{
+		dc_error("%s: gid not found", gid);
 		g_string_append(status, gid);
+	}
 
 	g_string_append(status, _(" exited"));
 	if (exit_code)
@@ -100,26 +95,18 @@ void on_thread_group_exited(GArray *nodes)
 
 void on_thread_group_added(GArray *nodes)
 {
-	ThreadGroup *group = (ThreadGroup *) array_append(thread_groups);
-	group->gid = g_strdup(parse_lead_value(nodes));
-	group->pid = NULL;
-}
-
-static void thread_group_free(ThreadGroup *group)
-{
-	g_free(group->gid);
-	g_free(group->pid);
+	GtkTreeIter iter;
+	scp_tree_store_append(groups, &iter, NULL);
+	scp_tree_store_set(groups, &iter, GROUP_ID, parse_lead_value(nodes), -1);
 }
 
 void on_thread_group_removed(GArray *nodes)
 {
-	ThreadGroup *group = find_thread_group(parse_lead_value(nodes));
+	const char *gid = parse_lead_value(nodes);
+	GtkTreeIter iter;
 
-	if (group)
-	{
-		thread_group_free(group);
-		array_remove(thread_groups, group);
-	}
+	iff (store_find(groups, &iter, GROUP_ID, gid), "%s: gid not found", gid)
+		scp_tree_store_remove(groups, &iter);
 }
 
 enum
@@ -454,19 +441,15 @@ void on_thread_created(GArray *nodes)
 	iff (tid, "no tid")
 	{
 		GtkTreeIter iter;
+		const char *pid = NULL;
+
+		iff (gid, "no gid")
+			iff (store_find(groups, &iter, GROUP_ID, gid), "%s: gid not found", gid)
+				scp_tree_store_get(groups, &iter, GROUP_PID, &pid, -1);
 
 		scp_tree_store_append_with_values(store, &iter, NULL, THREAD_ID, tid, THREAD_STATE,
-			"", -1);
+			"", THREAD_GROUP_ID, gid, THREAD_PID, pid, -1);
 		debug_send_format(N, "04-thread-info %s", tid);
-
-		if (gid)
-		{
-			ThreadGroup *group = find_thread_group(gid);
-
-			scp_tree_store_set(store, &iter, THREAD_GROUP_ID, gid, -1);
-			if (group && group->pid)
-				scp_tree_store_set(store, &iter, THREAD_PID, group->pid, -1);
-		}
 
 		if (thread_count == 1)
 			set_gdb_thread(tid, TRUE);
@@ -602,7 +585,7 @@ void threads_mark(GeanyDocument *doc)
 void threads_clear(void)
 {
 	store_foreach(store, (GFunc) thread_iter_unmark, GINT_TO_POINTER(TRUE));
-	array_clear(thread_groups, (GFreeFunc) thread_group_free);
+	store_clear(groups);
 	store_clear(store);
 	set_gdb_thread(NULL, FALSE);
 	thread_count = 0;
@@ -901,7 +884,8 @@ void thread_init(void)
 	g_signal_connect(tree, "query-tooltip", G_CALLBACK(on_view_query_tooltip),
 		get_column("thread_base_name_column"));
 
-	thread_groups = array_new(ThreadGroup, 0x10);
+	groups = SCP_TREE_STORE(get_object("thread_group_store"));
+	scp_tree_store_set_sort_column_id(groups, GROUP_ID, GTK_SORT_ASCENDING);
 	RUNNING = _("Running");
 	STOPPED = _("Stopped");
 	g_signal_connect(tree, "key-press-event", G_CALLBACK(on_view_key_press),
@@ -920,6 +904,5 @@ void thread_init(void)
 void thread_finalize(void)
 {
 	store_foreach(store, (GFunc) thread_iter_unmark, NULL);
-	array_free(thread_groups, (GFreeFunc) thread_group_free);
 	set_gdb_thread(NULL, FALSE);
 }

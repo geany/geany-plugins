@@ -1227,6 +1227,15 @@
       </object>
     </child>
   </object>
+  <object class="ScpTreeStore" id="thread_group_store">
+    <property name="sublevels">False</property>
+    <columns>
+      <!-- column-name thread_group_store_id -->
+      <column type="gchararray" utf8_collate="false"/>
+      <!-- column-name thread_group_store_pid -->
+      <column type="gchararray" utf8_collate="false"/>
+    </columns>
+  </object>
   <object class="ScpTreeStore" id="thread_store">
     <property name="sublevels">False</property>
     <columns>
