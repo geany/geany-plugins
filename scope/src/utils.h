@@ -29,17 +29,6 @@ gboolean utils_check_path(const char *pathname, gboolean file, int mode);  /* ""
 const gchar *utils_skip_spaces(const gchar *text);
 void utils_strchrepl(char *text, char c, char repl);
 
-#define array_new(type, start) g_array_sized_new(FALSE, FALSE, sizeof(type), (start))
-gchar *array_append(GArray *array);
-gchar *array_find(GArray *array, const char *key, gboolean filename);
-void array_foreach(GArray *array, GFunc each_func, gpointer gdata);
-guint array_index(GArray *array, const void *data);
-void array_remove(GArray *array, const void *data);
-void array_clear(GArray *array, GFreeFunc free_func);
-void array_free(GArray *array, GFreeFunc free_func);
-typedef gboolean (*ASaveFunc)(GKeyFile *config, const char *section, void *data);
-void array_save(GArray *array, GKeyFile *config, const char *prefix, ASaveFunc save_func);
-
 #define iff(expr, ...) if (G_UNLIKELY(!(expr))) dc_error(__VA_ARGS__); else
 #define utils_atoi0(s) ((s) ? atoi(s) : 0)  /* note: 2 references to s */
 

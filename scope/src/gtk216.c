@@ -19,54 +19,6 @@
 
 #include "common.h"
 
-#if !GLIB_CHECK_VERSION(2, 22, 0)
-/* :-( */
-typedef struct _ArraySize
-{
-	GArray *array;
-	guint element_size;
-} ArraySize;
-
-GArray *array_sizes;
-
-static ArraySize *find_array_size(GArray *array)
-{
-	gchar *end = array_sizes->data + sizeof(ArraySize) * array_sizes->len;
-	gchar *data;
-
-	for (data = array_sizes->data; data < end; data += sizeof(ArraySize))
-		if (*(GArray **) data == array)
-			return (ArraySize *) data;
-
-	return NULL;
-}
-
-#undef g_array_sized_new
-GArray *scope_array_sized_new(gboolean zero_terminated, gboolean clear, guint element_size,
-	guint reserved_size)
-{
-	GArray *array = g_array_sized_new(zero_terminated, clear, element_size, reserved_size);
-	ArraySize array_size = { array, element_size };
-
-	g_array_append_val(array_sizes, array_size);
-	return array;
-}
-
-guint scope_array_get_element_size(GArray *array)
-{
-	return find_array_size(array)->element_size;
-}
-
-#undef g_array_free
-gchar *scope_array_free(GArray *array, gboolean free_segment)
-{
-	g_array_remove_index(array_sizes,
-		find_array_size(array) - (ArraySize *) array_sizes->data);
-
-	return g_array_free(array, free_segment);
-}
-#endif  /* GLIB 2.22.0 */
-
 #if !GTK_CHECK_VERSION(2, 18, 0)
 void gtk_widget_set_visible(GtkWidget *widget, gboolean visible)
 {
@@ -123,15 +75,4 @@ void gtk216_init(void)
 
 	for (scd = sort_column_ids; scd->id; scd++)
 		gtk_tree_view_column_set_sort_column_id(get_column(scd->id), scd->sort_column_id);
-
-#if !GLIB_CHECK_VERSION(2, 22, 0)
-	array_sizes = g_array_sized_new(FALSE, FALSE, sizeof(ArraySize), 0x10);
-#endif
-}
-
-void gtk216_finalize(void)
-{
-#if !GLIB_CHECK_VERSION(2, 22, 0)
-	g_array_free(array_sizes, TRUE);
-#endif
 }

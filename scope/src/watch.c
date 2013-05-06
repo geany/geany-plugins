@@ -75,11 +75,9 @@ static void on_watch_expr_edited(G_GNUC_UNUSED GtkCellRendererText *renderer,
 
 		if (strcmp(new_text, expr))
 		{
-			const ParseMode *pm = parse_mode_find(new_text);
-
 			scp_tree_store_set(store, &iter, WATCH_EXPR, new_text, WATCH_DISPLAY, NULL,
-				WATCH_VALUE, NULL, WATCH_HB_MODE, pm->hb_mode, WATCH_MR_MODE,
-				pm->mr_mode, -1);
+				WATCH_VALUE, NULL, WATCH_HB_MODE, parse_mode_get(new_text, MODE_HBIT),
+				WATCH_MR_MODE, parse_mode_get(new_text, MODE_MEMBER), -1);
 
 			if (enabled && (debug_state() & DS_DEBUG))
 				watch_iter_update(&iter, GINT_TO_POINTER(TRUE));
@@ -131,7 +129,7 @@ void on_watch_value(GArray *nodes)
 
 void on_watch_error(GArray *nodes)
 {
-	watch_set(nodes, parse_find_error(nodes), NULL);
+	watch_set(nodes, parse_get_error(nodes), NULL);
 }
 
 static void watch_iter_clear(GtkTreeIter *iter, G_GNUC_UNUSED gpointer gdata)
@@ -160,12 +158,12 @@ void watch_add(const gchar *text)
 
 	if (validate_column(expr, TRUE))
 	{
-		const ParseMode *pm = parse_mode_find(expr);
 		GtkTreeIter iter;
 
 		scp_tree_store_append_with_values(store, &iter, NULL, WATCH_EXPR, expr,
-			WATCH_HB_MODE, pm->hb_mode, WATCH_MR_MODE, pm->mr_mode, WATCH_SCID,
-			++scid_gen, WATCH_ENABLED, TRUE, -1);
+			WATCH_HB_MODE, parse_mode_get(expr, MODE_HBIT), WATCH_MR_MODE,
+			parse_mode_get(expr, MODE_MEMBER), WATCH_SCID, ++scid_gen, WATCH_ENABLED,
+			TRUE, -1);
 		utils_tree_set_cursor(selection, &iter, 0.5);
 
 		if (debug_state() & DS_DEBUG)
@@ -198,9 +196,7 @@ static gboolean watch_load(GKeyFile *config, const char *section)
 
 	if (expr && (unsigned) hb_mode < HB_COUNT && (unsigned) mr_mode < MR_MODIFY)
 	{
-		GtkTreeIter iter;
-
-		scp_tree_store_append_with_values(store, &iter, NULL, WATCH_EXPR, expr,
+		scp_tree_store_append_with_values(store, NULL, NULL, WATCH_EXPR, expr,
 			WATCH_HB_MODE, hb_mode, WATCH_MR_MODE, mr_mode, WATCH_SCID, ++scid_gen,
 			WATCH_ENABLED, enabled, -1);
 		valid = TRUE;

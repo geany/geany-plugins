@@ -32,6 +32,7 @@ typedef struct _ParseNode
 	void *value;
 } ParseNode;
 
+void parse_foreach(GArray *nodes, GFunc func, gpointer gdata);
 char *parse_string(char *text, char newline);
 void parse_message(char *message, const char *token);
 gchar *parse_get_display_from_7bit(const char *text, gint hb_mode, gint mr_mode);
@@ -43,11 +44,11 @@ const void *parse_find_node_type(GArray *nodes, const char *name, ParseNodeType 
 #define parse_find_locale(nodes, name) utils_7bit_to_locale(parse_find_value((nodes), (name)))
 #define parse_find_array(nodes, name) \
 	((GArray *) parse_find_node_type((nodes), (name), PT_ARRAY))
-const char *parse_grab_token(GArray *nodes);  /* removes from nodes */
+const char *parse_grab_token(GArray *nodes);  /* removes token from nodes */
 #define parse_lead_array(nodes) ((GArray *) ((ParseNode *) nodes->data)->value)
 #define parse_lead_value(nodes) ((char *) ((ParseNode *) nodes->data)->value)
 
-gchar *parse_find_error(GArray *nodes);
+gchar *parse_get_error(GArray *nodes);
 void on_error(GArray *nodes);
 
 typedef struct _ParseLocation
@@ -110,7 +111,7 @@ typedef struct _ParseVariable
 } ParseVariable;
 
 char *parse_mode_reentry(const char *name);
-const ParseMode *parse_mode_find(const char *name);
+gint parse_mode_get(const char *name, gint mode);
 void parse_mode_update(const char *name, gint mode, gint value);
 gboolean parse_variable(GArray *nodes, ParseVariable *var, const char *children);
 #define parse_variable_free(var) g_free((var)->display)

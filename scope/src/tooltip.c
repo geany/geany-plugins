@@ -76,7 +76,7 @@ void on_tooltip_error(GArray *nodes)
 	if (atoi(parse_grab_token(nodes)) == scid_gen)
 	{
 		if (pref_tooltips_fail_action == 1)
-			tooltip_set(parse_find_error(nodes));
+			tooltip_set(parse_get_error(nodes));
 		else
 		{
 			tooltip_set(NULL);
@@ -92,9 +92,8 @@ void on_tooltip_value(GArray *nodes)
 {
 	if (atoi(parse_grab_token(nodes)) == scid_gen)
 	{
-		const ParseMode *pm = parse_mode_find(input);
-		tooltip_set(parse_get_display_from_7bit(parse_lead_value(nodes), pm->hb_mode,
-			pm->mr_mode));
+		tooltip_set(parse_get_display_from_7bit(parse_lead_value(nodes),
+			parse_mode_get(input, MODE_HBIT), parse_mode_get(input, MODE_MEMBER)));
 	}
 }
 

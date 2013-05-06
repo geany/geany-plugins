@@ -52,8 +52,8 @@ static void stack_node_location(const ParseNode *node, const char *fid)
 			scp_tree_store_append_with_values(store, &iter, NULL, STACK_ID, id,
 				STACK_FILE, loc.file, STACK_LINE, loc.line, STACK_BASE_NAME,
 				loc.base_name, STACK_FUNC, loc.func, STACK_ARGS, NULL, STACK_ADDR,
-				loc.addr, STACK_ENTRY, !loc.func || parse_mode_find(loc.func)->entry,
-				-1);
+				loc.addr, STACK_ENTRY, !loc.func ||
+				parse_mode_get(loc.func, MODE_ENTRY), -1);
 			parse_location_free(&loc);
 
 			if (!g_strcmp0(id, fid))
@@ -71,7 +71,7 @@ void on_stack_frames(GArray *nodes)
 		char *fid = g_strdup(frame_id);
 
 		stack_clear();
-		array_foreach(parse_lead_array(nodes), (GFunc) stack_node_location, fid);
+		parse_foreach(parse_lead_array(nodes), (GFunc) stack_node_location, fid);
 		g_free(fid);
 
 		if (!frame_id)
@@ -132,7 +132,7 @@ static void stack_node_arguments(const ParseNode *node, G_GNUC_UNUSED gpointer g
 
 				sd.string = g_string_sized_new(0xFF);
 				scp_tree_store_get(store, &iter, STACK_ENTRY, &sd.entry, -1);
-				array_foreach(nodes, (GFunc) append_argument_variable, &sd);
+				parse_foreach(nodes, (GFunc) append_argument_variable, &sd);
 				scp_tree_store_set(store, &iter, STACK_ARGS, sd.string->str, -1);
 				g_string_free(sd.string, TRUE);
 			}
@@ -143,7 +143,7 @@ static void stack_node_arguments(const ParseNode *node, G_GNUC_UNUSED gpointer g
 void on_stack_arguments(GArray *nodes)
 {
 	if (!g_strcmp0(parse_grab_token(nodes), thread_id))
-		array_foreach(parse_lead_array(nodes), (GFunc) stack_node_arguments, NULL);
+		parse_foreach(parse_lead_array(nodes), (GFunc) stack_node_arguments, NULL);
 }
 
 void on_stack_follow(GArray *nodes)

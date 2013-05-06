@@ -424,7 +424,7 @@ static void break_node_parse(const ParseNode *node, BreakData *bd)
 					append_script_command(script, string);
 				else
 				{
-					array_foreach((GArray *) script->value,
+					parse_foreach((GArray *) script->value,
 						(GFunc) append_script_command, string);
 				}
 
@@ -485,7 +485,7 @@ void on_break_inserted(GArray *nodes)
 			bd.stage = BG_DISCARD;
 	}
 
-	array_foreach(nodes, (GFunc) break_node_parse, &bd);
+	parse_foreach(nodes, (GFunc) break_node_parse, &bd);
 }
 
 static void break_apply(GtkTreeIter *iter, gboolean thread)
@@ -669,7 +669,7 @@ void on_break_list(GArray *nodes)
 			store_foreach(store, (GFunc) break_iter_missing, NULL);
 
 		bd.stage = BG_DISCARD;
-		array_foreach(nodes, (GFunc) break_node_parse, &bd);
+		parse_foreach(nodes, (GFunc) break_node_parse, &bd);
 
 		if (refresh)
 			breaks_missing();
@@ -710,7 +710,7 @@ void on_break_created(GArray *nodes)
 	{
 		BreakData bd;
 		bd.stage = BG_DISCARD;
-		array_foreach(nodes, (GFunc) break_node_parse, &bd);
+		parse_foreach(nodes, (GFunc) break_node_parse, &bd);
 	}
 
 	break_async = TRUE;
@@ -730,7 +730,7 @@ static void break_feature_node_check(const ParseNode *node, G_GNUC_UNUSED gpoint
 
 void on_break_features(GArray *nodes)
 {
-	array_foreach(parse_lead_array(nodes), (GFunc) break_feature_node_check, NULL);
+	parse_foreach(parse_lead_array(nodes), (GFunc) break_feature_node_check, NULL);
 }
 
 static void break_delete(GtkTreeIter *iter)

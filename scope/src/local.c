@@ -95,7 +95,7 @@ void on_local_variables(GArray *nodes)
 			gtk_tree_model_get((GtkTreeModel *) store, &iter, LOCAL_NAME, &ld.name, -1);
 
 		locals_clear();
-		array_foreach(parse_lead_array(nodes), (GFunc) local_node_variable, &ld);
+		parse_foreach(parse_lead_array(nodes), (GFunc) local_node_variable, &ld);
 		g_free(ld.name);
 	}
 }

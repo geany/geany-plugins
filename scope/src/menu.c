@@ -412,11 +412,10 @@ void on_menu_evaluate_value(GArray *nodes)
 {
 	if (atoi(parse_grab_token(nodes)) == scid_gen && !gtk_widget_get_visible(modify_dialog))
 	{
-		const ParseMode *pm = parse_mode_find(input);
 		gchar *expr = utils_get_utf8_from_locale(input);
 
 		menu_evaluate_modify(expr, parse_lead_value(nodes), "Evaluate/Modify",
-			pm->hb_mode, eval_mr_mode, NULL);
+			parse_mode_get(input, MODE_HBIT), eval_mr_mode, NULL);
 		g_free(expr);
 	}
 }

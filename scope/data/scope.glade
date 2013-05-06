@@ -1227,6 +1227,28 @@
       </object>
     </child>
   </object>
+  <object class="ScpTreeStore" id="recent_program_store">
+    <property name="sublevels">False</property>
+    <columns>
+      <!-- column-name recent_program_store_name -->
+      <column type="gchararray" utf8_collate="false"/>
+      <!-- column-name recent_program_store_id -->
+      <column type="gint"/>
+    </columns>
+  </object>
+  <object class="ScpTreeStore" id="parse_mode_store">
+    <property name="sublevels">False</property>
+    <columns>
+      <!-- column-name parse_mode_store_hbit -->
+      <column type="gint"/>
+      <!-- column-name parse_mode_store_member -->
+      <column type="gint"/>
+      <!-- column-name parse_mode_store_entry -->
+      <column type="gboolean"/>
+      <!-- column-name parse_mode_store_name -->
+      <column type="gchararray" utf8_collate="false"/>
+    </columns>
+  </object>
   <object class="ScpTreeStore" id="thread_group_store">
     <property name="sublevels">False</property>
     <columns>

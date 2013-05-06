@@ -1,3 +1,15 @@
+2013-05-04  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * data/scope.glade, src/break.c, src/gtk216.c, src/gtk216.h,
+   src/inspect.c, src/local.c, src/memory.c, src/menu.c, src/parse.c,
+   src/parse.h, src/program.c, src/scope.c, src/stack.c, src/thread.c,
+   src/tooltip.c, src/utils.c, src/utils.h, src/watch.c:
+   GArray parse_modes -> ScpTreeStore.
+   GArray recent_programs -> ScpTreeStore.
+   Removed get array element size emulation.
+   Removed all array utility functions.
+
+
 2013-05-02  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * data/scope.glade, src/thread.c:
@@ -46,7 +58,7 @@
 2013-03-07  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/gtk216.c:
-   Fixed a bug in array size emulation
+   Fixed a bug in array size emulation.
 
 
 2013-02-21  Dimitar Zhekov  <dimitar.zhekov@gmail.com>

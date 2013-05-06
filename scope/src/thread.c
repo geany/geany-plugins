@@ -388,7 +388,7 @@ void on_thread_stopped(GArray *nodes)
 			}
 		}
 		else
-			array_foreach((GArray *) stopped->value, (GFunc) thread_node_stopped, &sd);
+			parse_foreach((GArray *) stopped->value, (GFunc) thread_node_stopped, &sd);
 	}
 
 	if (thread_select_on_stopped && thread_state <= THREAD_RUNNING && sd.found)
@@ -541,7 +541,7 @@ static const char *thread_info_parse(GArray *nodes, gboolean select)
 {
 	const char *tid = parse_find_value(nodes, "current-thread-id");
 
-	array_foreach(parse_lead_array(nodes), (GFunc) thread_node_parse, NULL);
+	parse_foreach(parse_lead_array(nodes), (GFunc) thread_node_parse, NULL);
 
 	if (tid)
 		set_gdb_thread(tid, select);

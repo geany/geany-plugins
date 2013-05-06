@@ -351,7 +351,7 @@ void on_inspect_children(GArray *nodes)
 				scp_tree_store_get(store, &iter, INSPECT_VAR1, &var1,
 					INSPECT_NUMCHILD, &numchild, -1);
 
-				array_foreach(nodes, (GFunc) inspect_node_append, &iter);
+				parse_foreach(nodes, (GFunc) inspect_node_append, &iter);
 				end = from + nodes->len;
 
 				if (nodes->len && (from || end < numchild))
@@ -453,7 +453,7 @@ static void inspect_node_change(const ParseNode *node, G_GNUC_UNUSED gpointer gd
 
 void on_inspect_changelist(GArray *nodes)
 {
-	array_foreach(parse_lead_array(nodes), (GFunc) inspect_node_change, NULL);
+	parse_foreach(parse_lead_array(nodes), (GFunc) inspect_node_change, NULL);
 }
 
 static void inspect_apply(GtkTreeIter *iter)
@@ -593,11 +593,11 @@ void inspect_add(const gchar *text)
 	{
 		GtkTreeIter iter;
 		const gchar *expr = gtk_entry_get_text(inspect_expr);
-		const ParseMode *pm = parse_mode_find(expr);
 
-		scp_tree_store_append_with_values(store, &iter, NULL, INSPECT_HB_MODE, pm->hb_mode,
-			INSPECT_SCID, ++scid_gen, INSPECT_FORMAT, FORMAT_NATURAL, INSPECT_COUNT,
-			option_inspect_count, INSPECT_EXPAND, option_inspect_expand, -1);
+		scp_tree_store_append_with_values(store, &iter, NULL, INSPECT_HB_MODE,
+			parse_mode_get(expr, MODE_HBIT), INSPECT_SCID, ++scid_gen, INSPECT_FORMAT,
+			FORMAT_NATURAL, INSPECT_COUNT, option_inspect_count, INSPECT_EXPAND,
+			option_inspect_expand, -1);
 		inspect_dialog_store(&iter);
 		utils_tree_set_cursor(selection, &iter, -1);
 

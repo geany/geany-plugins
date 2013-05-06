@@ -134,100 +134,6 @@ void utils_strchrepl(char *text, char c, char rep)
 		*p = '\0';
 }
 
-gchar *array_append(GArray *array)
-{
-	g_array_set_size(array, array->len + 1);
-	return array->data + g_array_get_element_size(array) * (array->len - 1);
-}
-
-#ifdef G_OS_UNIX
-gchar *array_find(GArray *array, const char *key, G_GNUC_UNUSED gboolean filename)
-#else
-gchar *array_find(GArray *array, const char *key, gboolean filename)
-#endif
-{
-	guint size = g_array_get_element_size(array);
-	gchar *end = array->data + size * array->len;
-	gchar *data;
-#ifdef G_OS_UNIX
-	int (*const compare)(const char *s1, const char *s2) = strcmp;
-#else
-	int (*compare)(const char *s1, const char *s2) = filename ? utils_str_casecmp : strcmp;
-#endif
-
-	for (data = array->data; data < end; data += size)
-		if (!compare(*(const char **) data, key))
-			return data;
-
-	return NULL;
-}
-
-void array_foreach(GArray *array, GFunc each_func, gpointer gdata)
-{
-	guint size = g_array_get_element_size(array);
-	gchar *end = array->data + size * array->len;
-	gchar *data;
-
-	for (data = array->data; data < end; data += size)
-		each_func(data, gdata);
-}
-
-guint array_index(GArray *array, gconstpointer element)
-{
-	return ((const gchar *) element - array->data) / g_array_get_element_size(array);
-}
-
-void array_remove(GArray *array, gconstpointer element)
-{
-	g_array_remove_index(array, array_index(array, element));
-}
-
-static void array_free_element(gpointer element, GFreeFunc free_func)
-{
-	free_func(element);
-}
-
-void array_clear(GArray *array, GFreeFunc free_func)
-{
-	array_foreach(array, (GFunc) array_free_element, free_func);
-	g_array_set_size(array, 0);
-}
-
-void array_free(GArray *array, GFreeFunc free_func)
-{
-	array_foreach(array, (GFunc) array_free_element, free_func);
-	g_array_free(array, TRUE);
-}
-
-static void utils_clear_sections(GKeyFile *config, const char *prefix, guint i)
-{
-	gboolean valid;
-
-	do
-	{
-		char *section = g_strdup_printf("%s_%d", prefix, i++);
-		valid = g_key_file_remove_group(config, section, NULL);
-		g_free(section);
-	} while (valid);
-}
-
-void array_save(GArray *array, GKeyFile *config, const gchar *prefix, ASaveFunc save_func)
-{
-	guint size = g_array_get_element_size(array);
-	gchar *end = array->data + size * array->len;
-	gchar *data;
-	guint n = 0;
-
-	for (data = array->data; data < end; data += size)
-	{
-		char *section = g_strdup_printf("%s_%d", prefix, n);
-		n += save_func(config, section, data);
-		g_free(section);
-	}
-
-	utils_clear_sections(config, prefix, n);
-}
-
 gboolean store_find(ScpTreeStore *store, GtkTreeIter *iter, guint column, const char *key)
 {
 	if (scp_tree_store_get_column_type(store, column) == G_TYPE_STRING)
@@ -264,7 +170,12 @@ void store_save(ScpTreeStore *store, GKeyFile *config, const gchar *prefix,
 		g_free(section);
 	}
 
-	utils_clear_sections(config, prefix, i);
+	do
+	{
+		char *section = g_strdup_printf("%s_%d", prefix, i++);
+		valid = g_key_file_remove_group(config, section, NULL);
+		g_free(section);
+	} while (valid);
 }
 
 gint store_gint_compare(ScpTreeStore *store, GtkTreeIter *a, GtkTreeIter *b, gpointer gdata)

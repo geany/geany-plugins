@@ -19,19 +19,6 @@
 
 #ifndef GTK216_H
 
-#if !GLIB_CHECK_VERSION(2, 22, 0)
-GArray *scope_array_sized_new(gboolean zero_terminated, gboolean clear, guint element_size,
-	guint reserved_size);
-#define g_array_sized_new(zero_terminated, clear, element_size, reserved_size) \
-	scope_array_sized_new((zero_terminated), (clear), (element_size), (reserved_size))
-#define g_array_new(zero_terminated, clear, elt_size) \
-	g_array_sized_new((zero_terminated), (clear), (elt_size), 0)
-guint scope_array_get_element_size(GArray *array);
-#define g_array_get_element_size(array) scope_array_get_element_size(array)
-gchar *scope_array_free(GArray *array, gboolean free_segment);
-#define g_array_free(array, free_segment) scope_array_free((array), (free_segment))
-#endif  /* GLIB 2.22.0 */
-
 #if !GTK_CHECK_VERSION(2, 18, 0)
 #define gtk_widget_get_visible(widget) GTK_WIDGET_VISIBLE(widget)
 #define gtk_widget_get_sensitive(widget) GTK_WIDGET_SENSITIVE(widget)

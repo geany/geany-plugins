@@ -41,48 +41,44 @@ static void stash_group_destroy(StashGroup *group, G_GNUC_UNUSED gpointer gdata)
 	utils_stash_group_free(group);
 }
 
-typedef struct _RecentProgram
+enum
 {
-	gchar *name;
-	guint id;
-} RecentProgram;
+	PROGRAM_NAME,
+	PROGRAM_ID    /* 1-based */
+};
 
 #define RECENT_COUNT 28
 
-static GArray *recent_programs;
+static ScpTreeStore *recent_programs;
 static guint recent_bitmap;
 static GtkWidget *recent_menu;
-
-static void recent_program_free(RecentProgram *program)
-{
-	g_free(program->name);
-}
 
 static gboolean recent_program_load(GKeyFile *config, const char *section)
 {
 	gchar *name = utils_get_setting_string(config, section, "name", NULL);
 	gint id = utils_get_setting_integer(config, section, "id", 0);
+	gboolean valid = FALSE;
 
-	if (name && *name && id > 0 && (recent_bitmap & (1 << id)) == 0 &&
-		recent_programs->len < RECENT_COUNT)
+	if (name && id > 0 && id <= RECENT_COUNT && (recent_bitmap & (1 << id)) == 0)
 	{
-		RecentProgram *recent = (RecentProgram *) array_append(recent_programs);
-
-		recent->name = name;
-		recent->id = id;
+		scp_tree_store_append_with_values(recent_programs, NULL, NULL, PROGRAM_NAME, name,
+			PROGRAM_ID, id, -1);
 		recent_bitmap |= 1 << id;
-		return TRUE;
+		valid = TRUE;
 	}
 
 	g_free(name);
-	return FALSE;
+	return valid;
 }
 
-static gboolean recent_program_save(GKeyFile *config, const char *section,
-	RecentProgram *recent)
+static gboolean recent_program_save(GKeyFile *config, const char *section, GtkTreeIter *iter)
 {
-	g_key_file_set_string(config, section, "name", recent->name);
-	g_key_file_set_integer(config, section, "id", recent->id);
+	const gchar *name;
+	gint id;
+
+	scp_tree_store_get(recent_programs, iter, PROGRAM_NAME, &name, PROGRAM_ID, &id, -1);
+	g_key_file_set_string(config, section, "name", name);
+	g_key_file_set_integer(config, section, "id", id);
 	return TRUE;
 }
 
@@ -95,15 +91,18 @@ static void on_recent_menu_item_activate(GtkMenuItem *menuitem, const gchar *nam
 
 static gint recent_menu_count;
 
-static void recent_menu_item_create(RecentProgram *recent, G_GNUC_UNUSED gpointer gdata)
+static void recent_menu_item_create(GtkTreeIter *iter, G_GNUC_UNUSED gpointer gdata)
 {
 	if (recent_menu_count < pref_show_recent_items)
 	{
-		GtkWidget *item = gtk_menu_item_new_with_label(recent->name);
+		const gchar *name;
+		GtkWidget *item;
 
+		scp_tree_store_get(recent_programs, iter, PROGRAM_NAME, &name, -1);
+		item = gtk_menu_item_new_with_label(name);
 		gtk_menu_shell_append(GTK_MENU_SHELL(recent_menu), item);
 		g_signal_connect(item, "activate", G_CALLBACK(on_recent_menu_item_activate),
-			recent->name);
+			(gpointer) name);
 		recent_menu_count++;
 	}
 }
@@ -112,7 +111,7 @@ static void recent_menu_create(void)
 {
 	gtk_container_foreach(GTK_CONTAINER(recent_menu), recent_menu_item_destroy, NULL);
 	recent_menu_count = 0;
-	array_foreach(recent_programs, (GFunc) recent_menu_item_create, NULL);
+	store_foreach(recent_programs, (GFunc) recent_menu_item_create, NULL);
 	gtk_widget_show_all(GTK_WIDGET(recent_menu));
 }
 
@@ -136,6 +135,23 @@ gboolean program_non_stop_mode;
 gboolean program_temp_breakpoint;
 gchar *program_temp_break_location;
 
+static gboolean program_find(GtkTreeIter *iter, const char *name)
+{
+	gboolean valid = scp_tree_store_get_iter_first(recent_programs, iter);
+
+	while (valid)
+	{
+		const char *name1;
+
+		scp_tree_store_get(recent_programs, iter, PROGRAM_NAME, &name1, -1);
+		if (!utils_filenamecmp(name1, name))
+			break;
+		valid = scp_tree_store_iter_next(recent_programs, iter);
+	}
+
+	return valid;
+}
+
 static void save_program_settings(void)
 {
 	const gchar *program_name = *program_executable ? program_executable :
@@ -143,24 +159,38 @@ static void save_program_settings(void)
 
 	if (*program_name)
 	{
-		RecentProgram *recent = (RecentProgram *) array_find(recent_programs, program_name,
-			TRUE);
+		GtkTreeIter iter;
+		gint id;
 		GKeyFile *config = g_key_file_new();
 		char *configfile;
 
-		if (!recent)
+		if (program_find(&iter, program_name))
 		{
-			recent = (RecentProgram *) array_append(recent_programs);
-			recent->name = g_strdup(program_name);
+			scp_tree_store_get(recent_programs, &iter, PROGRAM_ID, &id, -1);
+			scp_tree_store_move(recent_programs, &iter, 0);
+		}
+		else
+		{
+			if (scp_tree_store_iter_nth_child(recent_programs, &iter, NULL,
+				RECENT_COUNT - 1))
+			{
+				scp_tree_store_get(recent_programs, &iter, PROGRAM_ID, &id, -1);
+				scp_tree_store_remove(recent_programs, &iter);
+			}
+			else
+			{
+				for (id = 1; id < RECENT_COUNT; id++)
+					if ((recent_bitmap & (1 << id)) == 0)
+						break;
 
-			for (recent->id = 1; recent->id < RECENT_COUNT; recent->id++)
-				if ((recent_bitmap & (1 << recent->id)) == 0)
-					break;
+				recent_bitmap |= 1 << id;
+			}
 
-			recent_bitmap |= 1 << recent->id;
+			scp_tree_store_prepend_with_values(recent_programs, &iter, NULL,
+				PROGRAM_NAME, program_name, PROGRAM_ID, id, -1);
 		}
 
-		configfile = recent_file_name(recent->id);
+		configfile = recent_file_name(id);
 		stash_foreach((GFunc) stash_group_save_to_key_file, config);
 		breaks_save(config);
 		watches_save(config);
@@ -169,16 +199,6 @@ static void save_program_settings(void)
 		utils_key_file_write_to_file(config, configfile);
 		g_free(configfile);
 		g_key_file_free(config);
-
-		g_array_insert_vals(recent_programs, 0, ++recent, 1);
-		array_remove(recent_programs, recent);
-		recent_menu_create();
-
-		if (recent_programs->len > RECENT_COUNT)
-		{
-			recent_bitmap &= ~(1 << recent->id);
-			array_remove(recent_programs, recent);
-		}
 	}
 }
 
@@ -207,20 +227,24 @@ static void program_configure(void)
 
 static void on_recent_menu_item_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, const gchar *name)
 {
-	RecentProgram *recent = (RecentProgram *) array_find(recent_programs, name, TRUE);
+	GtkTreeIter iter;
 
-	if (recent && utils_filenamecmp(recent->name, *program_executable ? program_executable :
-		program_load_script))
+	if (utils_filenamecmp(name, *program_executable ? program_executable :
+		program_load_script) && program_find(&iter, name))
 	{
-		char *configfile = recent_file_name(recent->id);
+		gint id;
+		char *configfile;
 		GKeyFile *config = g_key_file_new();
 		GError *gerror = NULL;
 		gchar *message;
 
+		scp_tree_store_get(recent_programs, &iter, PROGRAM_ID, &id, -1);
+		configfile = recent_file_name(id);
+
 		if (g_key_file_load_from_file(config, configfile, G_KEY_FILE_NONE, &gerror))
 		{
+			scp_tree_store_move(recent_programs, &iter, 0);
 			save_program_settings();
-			recent = (RecentProgram *) array_find(recent_programs, name, TRUE);
 			stash_foreach((GFunc) stash_group_load_from_key_file, config);
 			if ((unsigned) option_inspect_expand > EXPAND_MAX)
 				option_inspect_expand = 100;
@@ -228,9 +252,9 @@ static void on_recent_menu_item_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, co
 			watches_load(config);
 			inspects_load(config);
 			parse_load(config);
-			message = g_strdup_printf(_("Loaded debug settings for %s."), recent->name);
-			g_array_insert_vals(recent_programs, 0, ++recent, 1);
-			array_remove(recent_programs, recent);
+			message = g_strdup_printf(_("Loaded debug settings for %s."), name);
+			program_find(&iter, name);
+			scp_tree_store_move(recent_programs, &iter, 0);
 			recent_menu_create();
 			program_configure();
 		}
@@ -387,6 +411,7 @@ static void on_program_ok_button_clicked(G_GNUC_UNUSED GtkButton *button,
 		g_free(program_environment);
 		program_environment = utils_text_buffer_get_text(environment, -1);
 		save_program_settings();
+		recent_menu_create();
 		program_configure();
 		gtk_widget_hide(program_dialog);
 
@@ -531,7 +556,7 @@ void program_init(void)
 	stash_group_add_boolean(group, &thread_show_core, "show_core", TRUE);
 	thread_group = group;
 
-	recent_programs = array_new(RecentProgram, RECENT_COUNT + 2);
+	recent_programs = SCP_TREE_STORE(get_object("recent_program_store"));
 	recent_bitmap = 0;
 	recent_menu = get_widget("program_recent_menu");
 }
@@ -543,12 +568,11 @@ void program_finalize(void)
 
 	save_program_settings();
 	g_key_file_load_from_file(config, configfile, G_KEY_FILE_NONE, NULL);
-	array_save(recent_programs, config, "recent", (ASaveFunc) recent_program_save);
+	store_save(recent_programs, config, "recent", recent_program_save);
 	utils_key_file_write_to_file(config, configfile);
 	g_key_file_free(config);
 	g_free(configfile);
 
-	array_free(recent_programs, (GFreeFunc) recent_program_free);
 	gtk_widget_destroy(program_dialog);
 	stash_foreach((GFunc) stash_group_destroy, NULL);
 }

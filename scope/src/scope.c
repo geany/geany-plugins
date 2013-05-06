@@ -623,7 +623,6 @@ void plugin_cleanup(void)
 	parse_finalize();
 	prefs_finalize();
 	debug_finalize();
-	gtk216_finalize();
 
 	gtk_widget_destroy(debug_statusbar);
 	g_object_unref(builder);

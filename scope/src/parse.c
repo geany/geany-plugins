@@ -23,6 +23,24 @@
 
 #include "common.h"
 
+static void parse_node_free(ParseNode *node, G_GNUC_UNUSED gpointer gdata)
+{
+	if (node->type == PT_ARRAY)
+	{
+		parse_foreach((GArray *) node->value, (GFunc) parse_node_free, NULL);
+		g_array_free((GArray *) node->value, TRUE);
+	}
+}
+
+void parse_foreach(GArray *nodes, GFunc func, gpointer gdata)
+{
+	const ParseNode *node = (const ParseNode *) nodes->data;
+	const ParseNode *end = node + nodes->len;
+
+	for (; node < end; node++)
+		func((gpointer) node, gdata);
+}
+
 static void target_feature_node_check(const ParseNode *node, G_GNUC_UNUSED gpointer gdata)
 {
 	if (!strcmp((const char *) node->value, "async"))
@@ -32,7 +50,7 @@ static void target_feature_node_check(const ParseNode *node, G_GNUC_UNUSED gpoin
 static void on_target_features(GArray *nodes)
 {
 	pref_gdb_async_mode = FALSE;
-	array_foreach(parse_lead_array(nodes), (GFunc) target_feature_node_check, NULL);
+	parse_foreach(parse_lead_array(nodes), (GFunc) target_feature_node_check, NULL);
 }
 
 static void on_quiet_error(G_GNUC_UNUSED GArray *nodes)
@@ -109,21 +127,6 @@ static const ParseRoute parse_routes[] =
 	{ NULL, NULL, '\0', '\0', 0 }
 };
 
-static void parse_array_append(GArray *nodes, const char *name, ParseNodeType type, void *value)
-{
-	ParseNode *node = (ParseNode *) array_append(nodes);
-
-	node->name = name;
-	node->type = type;
-	node->value = value;
-}
-
-static void parse_node_free(ParseNode *node)
-{
-	if (node->type == PT_ARRAY)
-		array_free((GArray *) node->value, (GFreeFunc) parse_node_free);
-}
-
 static char *parse_error(const char *text)
 {
 	dc_error("%s", text);
@@ -189,7 +192,8 @@ static char *parse_text(GArray *nodes, char *text, char end, char newline)
 
 			if (!text && !newline)
 			{
-				array_clear(nodes, (GFreeFunc) parse_node_free);
+				parse_foreach(nodes, (GFunc) parse_node_free, NULL);
+				g_array_set_size(nodes, 0);
 				return NULL;
 			}
 		}
@@ -203,7 +207,7 @@ static char *parse_text(GArray *nodes, char *text, char end, char newline)
 			if (!brace && *text != '[')
 				return parse_error("\" { or [ expected");
 
-			array = array_new(ParseNode, 0x10);
+			array = g_array_new(FALSE, FALSE, sizeof(ParseNode));
 			node.type = PT_ARRAY;
 			node.value = array;
 
@@ -235,7 +239,7 @@ void parse_message(char *message, const char *token)
 
 	if (route->callback)
 	{
-		GArray *nodes = array_new(ParseNode, 0x10);
+		GArray *nodes = g_array_new(FALSE, FALSE, sizeof(ParseNode));
 		const char *comma = strchr(route->prefix, ',');
 
 		if (comma)
@@ -244,12 +248,16 @@ void parse_message(char *message, const char *token)
 		iff (nodes->len >= route->args, "missing argument(s)")
 		{
 			if (token)
-				parse_array_append(nodes, "=token", PT_VALUE, (char *) token + 1);
+			{
+				ParseNode node = { "=token", PT_VALUE, (char *) token + 1 };
+				g_array_append_val(nodes, node);
+			}
 
 			route->callback(nodes);
 		}
 
-		array_free(nodes, (GFreeFunc) parse_node_free);
+		parse_foreach(nodes, (GFunc) parse_node_free, NULL);
+		g_array_free(nodes, TRUE);
 	}
 }
 
@@ -379,7 +387,14 @@ gchar *parse_get_display_from_7bit(const char *text, gint hb_mode, gint mr_mode)
 
 const ParseNode *parse_find_node(GArray *nodes, const char *name)
 {
-	return (const ParseNode *) array_find(nodes, name, FALSE);
+	const ParseNode *node = (const ParseNode *) nodes->data;
+	const ParseNode *end = node + nodes->len;
+
+	for (; node < end; node++)
+		if (!strcmp(node->name, name))
+			return node;
+
+	return NULL;
 }
 
 const void *parse_find_node_type(GArray *nodes, const char *name, ParseNodeType type)
@@ -403,13 +418,13 @@ const char *parse_grab_token(GArray *nodes)
 	if (node)
 	{
 		token = (const char *) node->value;
-		array_remove(nodes, node);
+		g_array_remove_index(nodes, node - (const ParseNode *) nodes->data);
 	}
 
 	return token;
 }
 
-gchar *parse_find_error(GArray *nodes)
+gchar *parse_get_error(GArray *nodes)
 {
 	gchar *error = parse_find_value(nodes, "msg");
 	return error && *error ? utils_get_utf8_from_locale(error) :
@@ -431,7 +446,7 @@ static gboolean errors_show(G_GNUC_UNUSED gpointer gdata)
 
 void on_error(GArray *nodes)
 {
-	gchar *error = parse_find_error(nodes);
+	gchar *error = parse_get_error(nodes);
 
 	if (errors_id)
 		g_string_append_c(errors, '\n');
@@ -478,12 +493,8 @@ void parse_location(GArray *nodes, ParseLocation *loc)
 		loc->line = 0;
 }
 
-static GArray *parse_modes;
-
-static void parse_mode_free(ParseMode *pm)
-{
-	g_free(pm->name);
-}
+static ScpTreeStore *parse_modes;
+enum { MODE_NAME = MODE_ENTRY + 1 };
 
 static gboolean parse_mode_load(GKeyFile *config, const char *section)
 {
@@ -491,32 +502,37 @@ static gboolean parse_mode_load(GKeyFile *config, const char *section)
 	gint hb_mode = utils_get_setting_integer(config, section, "hbit", HB_DEFAULT);
 	gint mr_mode = utils_get_setting_integer(config, section, "member", MR_DEFAULT);
 	gboolean entry = utils_get_setting_boolean(config, section, "entry", TRUE);
+	gboolean valid = FALSE;
 
 	if (name && (unsigned) hb_mode < HB_COUNT && (unsigned) mr_mode < MR_MODIFY)
 	{
-		ParseMode *pm = (ParseMode *) array_append(parse_modes);
-
-		pm->name = name;
-		pm->hb_mode = hb_mode;
-		pm->mr_mode = mr_mode;
-		pm->entry = entry;
-		return TRUE;
+		scp_tree_store_append_with_values(parse_modes, NULL, NULL, MODE_NAME, name,
+			MODE_HBIT, hb_mode, MODE_MEMBER, mr_mode, MODE_ENTRY, entry, -1);
+		valid = TRUE;
 	}
 
 	g_free(name);
-	return FALSE;
+	return valid;
 }
 
-static gboolean parse_mode_save(GKeyFile *config, const char *section, ParseMode *pm)
+static gboolean parse_mode_save(GKeyFile *config, const char *section, GtkTreeIter *iter)
 {
-	g_key_file_set_string(config, section, "name", pm->name);
-	g_key_file_set_integer(config, section, "hbit", pm->hb_mode);
-	g_key_file_set_integer(config, section, "member", pm->mr_mode);
-	g_key_file_set_boolean(config, section, "entry", pm->entry);
+	const char *name;
+	gint hb_mode, mr_mode;
+	gboolean entry;
+
+	scp_tree_store_get(parse_modes, iter, MODE_NAME, &name, MODE_HBIT, &hb_mode,
+		MODE_MEMBER, &mr_mode, MODE_ENTRY, &entry, -1);
+
+	if (hb_mode == HB_DEFAULT && mr_mode == MR_DEFAULT && entry)
+		return FALSE;
+
+	g_key_file_set_string(config, section, "name", name);
+	g_key_file_set_integer(config, section, "hbit", hb_mode);
+	g_key_file_set_integer(config, section, "member", mr_mode);
+	g_key_file_set_boolean(config, section, "entry", entry);
 	return TRUE;
 }
-
-static ParseMode parse_mode_default = { NULL, HB_DEFAULT, MR_DEFAULT, TRUE };
 
 char *parse_mode_reentry(const char *name)
 {
@@ -529,42 +545,34 @@ static char *parse_mode_pm_name(const char *name)
 	return g_strndup(name, strlen(name) - (g_str_has_suffix(name, "@entry") ? 6 : 0));
 }
 
-const ParseMode *parse_mode_find(const char *name)
+gint parse_mode_get(const char *name, gint mode)
 {
 	char *pm_name = parse_mode_pm_name(name);
-	ParseMode *pm = (ParseMode *) array_find(parse_modes, pm_name, FALSE);
+	GtkTreeIter iter;
+	gint value;
+
+	if (store_find(parse_modes, &iter, MODE_NAME, pm_name))
+		scp_tree_store_get(parse_modes, &iter, mode, &value, -1);
+	else
+		value = mode == MODE_HBIT ? HB_DEFAULT : mode == MODE_MEMBER ? MR_DEFAULT : TRUE;
+
 	g_free(pm_name);
-	return pm ? pm : &parse_mode_default;
+	return value;
 }
 
 void parse_mode_update(const char *name, gint mode, gint value)
 {
 	char *pm_name = parse_mode_pm_name(name);
-	ParseMode *pm = (ParseMode *) array_find(parse_modes, pm_name, FALSE);
+	GtkTreeIter iter;
 
-	if (!pm)
+	if (!store_find(parse_modes, &iter, MODE_NAME, name))
 	{
-		pm = (ParseMode *) array_append(parse_modes);
-		pm->name = g_strdup(pm_name);
-		pm->hb_mode = HB_DEFAULT;
-		pm->mr_mode = MR_DEFAULT;
-		pm->entry = TRUE;
+		scp_tree_store_append_with_values(parse_modes, &iter, NULL, MODE_NAME, pm_name,
+			MODE_HBIT, HB_DEFAULT, MODE_MEMBER, MR_DEFAULT, MODE_ENTRY, TRUE, -1);
 	}
+
 	g_free(pm_name);
-
-	switch (mode)
-	{
-		case MODE_HBIT : pm->hb_mode = value; break;
-		case MODE_MEMBER : pm->mr_mode = value; break;
-		default :
-		{
-			g_assert(mode == MODE_ENTRY);
-			pm->entry = value;
-		}
-	}
-
-	if (pm->hb_mode == HB_DEFAULT && pm->mr_mode == MR_DEFAULT && pm->entry)
-		array_remove(parse_modes, pm);
+	scp_tree_store_set(parse_modes, &iter, mode, value, -1);
 }
 
 gboolean parse_variable(GArray *nodes, ParseVariable *var, const char *children)
@@ -573,8 +581,6 @@ gboolean parse_variable(GArray *nodes, ParseVariable *var, const char *children)
 
 	iff (name, "no name")
 	{
-		const ParseMode *pm = parse_mode_find(name);
-
 		var->name = name;
 		var->value = parse_find_value(nodes, "value");
 		var->expr = NULL;
@@ -586,11 +592,9 @@ gboolean parse_variable(GArray *nodes, ParseVariable *var, const char *children)
 			var->numchild = utils_atoi0(var->children);
 		}
 
-		pm = parse_mode_find(var->expr ? var->expr : name);
-		var->hb_mode = pm->hb_mode;
-		var->mr_mode = pm->mr_mode;
-		var->display = parse_get_display_from_7bit(var->value, pm->hb_mode, pm->mr_mode);
-
+		var->hb_mode = parse_mode_get(var->expr ? var->expr : name, MODE_HBIT);
+		var->mr_mode = parse_mode_get(var->expr ? var->expr : name, MODE_MEMBER);
+		var->display = parse_get_display_from_7bit(var->value, var->hb_mode, var->mr_mode);
 		return TRUE;
 	}
 
@@ -599,23 +603,23 @@ gboolean parse_variable(GArray *nodes, ParseVariable *var, const char *children)
 
 void parse_load(GKeyFile *config)
 {
-	array_clear(parse_modes, (GFreeFunc) parse_mode_free);
+	store_clear(parse_modes);
 	utils_load(config, "parse", parse_mode_load);
 }
 
 void parse_save(GKeyFile *config)
 {
-	array_save(parse_modes, config, "parse", (ASaveFunc) parse_mode_save);
+	store_save(parse_modes, config, "parse", parse_mode_save);
 }
 
 void parse_init(void)
 {
 	errors = g_string_sized_new(MAXLEN);
-	parse_modes = array_new(ParseMode, 0x10);
+	parse_modes = SCP_TREE_STORE(get_object("parse_mode_store"));
+	scp_tree_store_set_sort_column_id(parse_modes, MODE_NAME, GTK_SORT_ASCENDING);
 }
 
 void parse_finalize(void)
 {
 	g_string_free(errors, TRUE);
-	array_free(parse_modes, (GFreeFunc) parse_mode_free);
 }

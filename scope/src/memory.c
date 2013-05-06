@@ -243,7 +243,7 @@ void on_memory_read_bytes(GArray *nodes)
 			gtk_tree_view_column_queue_resize(get_column("memory_ascii_column"));
 		}
 
-		array_foreach(parse_lead_array(nodes), (GFunc) memory_node_read,
+		parse_foreach(parse_lead_array(nodes), (GFunc) memory_node_read,
 			GINT_TO_POINTER(TRUE));
 
 		if (addr)
@@ -345,11 +345,11 @@ static void on_memory_group_update(const MenuItem *menu_item)
 
 static MenuItem memory_menu_items[] =
 {
-	{ "memory_refresh", on_memory_refresh,       DS_FRESHABLE,  NULL, NULL },
-	{ "memory_read",    on_memory_read,          DS_SENDABLE,   NULL, NULL },
-	{ "memory_copy",    on_memory_copy,          DS_COPYABLE,   NULL, NULL },
-	{ "memory_clear",   on_memory_clear,         DS_CLEARABLE,  NULL, NULL },
-	{ "memory_group",   on_memory_group_display, DS_SENDABLE,   NULL, NULL },
+	{ "memory_refresh", on_memory_refresh,       DS_FRESHABLE, NULL, NULL },
+	{ "memory_read",    on_memory_read,          DS_SENDABLE,  NULL, NULL },
+	{ "memory_copy",    on_memory_copy,          DS_COPYABLE,  NULL, NULL },
+	{ "memory_clear",   on_memory_clear,         DS_CLEARABLE, NULL, NULL },
+	{ "memory_group",   on_memory_group_display, DS_SENDABLE,  NULL, NULL },
 	GROUP_ITEM("1", 0),
 	GROUP_ITEM("2", 1),
 	GROUP_ITEM("4", 2),
