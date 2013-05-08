@@ -1,3 +1,14 @@
+2013-05-08  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/conterm.c:
+   Insert or typing into console brings up the command dialog only if
+   gdb is loaded.
+ * src/store/scptreestore.html:
+   Note that ScpTreeStore can not be currently used with Glade.
+ * src/view.c:
+   Small improvements.
+
+
 2013-05-04  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * data/scope.glade, src/break.c, src/gtk216.c, src/gtk216.h,

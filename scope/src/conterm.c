@@ -351,11 +351,12 @@ static gboolean on_console_key_press(G_GNUC_UNUSED GtkWidget *widget,
 {
 	gboolean insert = event->keyval == GDK_Insert || event->keyval == GDK_KP_Insert;
 
-	if (insert || (event->keyval >= 0x21 && event->keyval <= 0x7F &&
-		event->state <= GDK_SHIFT_MASK))
+	if ((insert || (event->keyval >= 0x21 && event->keyval <= 0x7F &&
+		event->state <= GDK_SHIFT_MASK)) && (debug_state() & DS_ACTIVE))
 	{
 		char command[2] = { event->keyval, '\0' };
 		view_command_line(insert ? NULL : command, NULL, NULL, TRUE);
+		return TRUE;
 	}
 
 	return FALSE;

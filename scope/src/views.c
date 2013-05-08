@@ -26,6 +26,7 @@
 typedef struct _ViewInfo
 {
 	gboolean dirty;
+	gboolean data;
 	void (*clear)(void);
 	gboolean (*update)(void);
 	gboolean flush;
@@ -34,17 +35,17 @@ typedef struct _ViewInfo
 
 static ViewInfo views[VIEW_COUNT] =
 {
-	{ FALSE, NULL,           NULL,            FALSE, 0 },
-	{ FALSE, threads_clear,  threads_update,  FALSE, DS_SENDABLE },
-	{ FALSE, breaks_clear,   breaks_update,   FALSE, DS_SENDABLE },
-	{ FALSE, stack_clear,    stack_update,    TRUE,  DS_DEBUG },
-	{ FALSE, locals_clear,   locals_update,   TRUE,  DS_DEBUG },
-	{ FALSE, watches_clear,  watches_update,  TRUE,  DS_DEBUG },
-	{ FALSE, memory_clear,   memory_update,   TRUE,  DS_SENDABLE },
-	{ FALSE, NULL,           dc_update,       FALSE, DS_DEBUG },
-	{ FALSE, inspects_clear, inspects_update, FALSE, DS_DEBUG },
-	{ FALSE, tooltip_clear,  tooltip_update,  FALSE, DS_SENDABLE },
-	{ FALSE, menu_clear,     NULL,            FALSE, 0 }
+	{ FALSE, FALSE, NULL,           NULL,            FALSE, 0 },
+	{ FALSE, FALSE, threads_clear,  threads_update,  FALSE, DS_SENDABLE },
+	{ FALSE, FALSE, breaks_clear,   breaks_update,   FALSE, DS_SENDABLE },
+	{ FALSE, TRUE,  stack_clear,    stack_update,    TRUE,  DS_DEBUG },
+	{ FALSE, TRUE,  locals_clear,   locals_update,   TRUE,  DS_DEBUG },
+	{ FALSE, TRUE,  watches_clear,  watches_update,  TRUE,  DS_DEBUG },
+	{ FALSE, TRUE,  memory_clear,   memory_update,   TRUE,  DS_SENDABLE },
+	{ FALSE, FALSE, NULL,           dc_update,       FALSE, DS_DEBUG },
+	{ FALSE, TRUE,  inspects_clear, inspects_update, FALSE, DS_DEBUG },
+	{ FALSE, TRUE,  tooltip_clear,  tooltip_update,  FALSE, DS_SENDABLE },
+	{ FALSE, FALSE, menu_clear,     NULL,            FALSE, 0 }
 };
 
 void view_dirty(ViewIndex index)
@@ -54,12 +55,11 @@ void view_dirty(ViewIndex index)
 
 void views_data_dirty(void)
 {
-	view_dirty(VIEW_STACK);
-	view_dirty(VIEW_LOCALS);
-	view_dirty(VIEW_WATCHES);
-	view_dirty(VIEW_MEMORY);
-	view_dirty(VIEW_INSPECT);
-	view_dirty(VIEW_TOOLTIP);
+	ViewIndex i;
+
+	for (i = 0; i < VIEW_COUNT; i++)
+		if (views[i].data)
+			view_dirty(i);
 }
 
 static void view_update_unconditional(ViewIndex index, DebugState state)
@@ -523,6 +523,8 @@ static void command_line_update_state(DebugState state)
 void view_command_line(const gchar *text, const gchar *title, const gchar *seek,
 	gboolean seek_after)
 {
+	GtkTextIter start, end;
+
 	gtk_window_set_title(GTK_WINDOW(command_dialog), title ? title : _("GDB Command"));
 	gtk_widget_grab_focus(command_view);
 
@@ -539,6 +541,9 @@ void view_command_line(const gchar *text, const gchar *title, const gchar *seek,
 
 	on_command_text_changed(command_text, NULL);
 	command_line_update_state(debug_state());
+	gtk_text_buffer_get_start_iter(command_text, &start);
+	gtk_text_buffer_get_end_iter(command_text, &end);
+	gtk_text_buffer_select_range(command_text, &start, &end);
 	gtk_combo_box_set_active_iter(command_history, NULL);
 	gtk_dialog_run(GTK_DIALOG(command_dialog));
 }
