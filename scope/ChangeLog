@@ -7,6 +7,8 @@
    Note that ScpTreeStore can not be currently used with Glade.
  * src/view.c:
    Small improvements.
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.87.
 
 
 2013-05-04  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
