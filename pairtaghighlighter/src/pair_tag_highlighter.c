@@ -344,6 +344,12 @@ void plugin_init(GeanyData *data)
 
 void plugin_cleanup(void)
 {
-    clear_previous_highlighting(highlightedBrackets[0], highlightedBrackets[1]);
-    clear_previous_highlighting(highlightedBrackets[2], highlightedBrackets[3]);
+    GeanyDocument *doc = document_get_current();
+
+    if (doc)
+    {
+        sci = doc->editor->sci;
+        clear_previous_highlighting(highlightedBrackets[0], highlightedBrackets[1]);
+        clear_previous_highlighting(highlightedBrackets[2], highlightedBrackets[3]);
+    }
 }
