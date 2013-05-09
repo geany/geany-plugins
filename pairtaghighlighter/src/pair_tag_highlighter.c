@@ -24,8 +24,6 @@ GeanyPlugin     *geany_plugin;
 GeanyData       *geany_data;
 GeanyFunctions  *geany_functions;
 
-static ScintillaObject *sci;
-
 /* Is needed for clearing highlighting after moving cursor out
  * from the tag */
 static gint highlightedBrackets[] = {0, 0, 0, 0};
@@ -43,7 +41,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, _("Pair Tag Highlighter
  * FALSE - to the left
  * from the current cursor position to the start of the line.
  */
-static gint findBracket(gint position, gint endOfSearchPos,
+static gint findBracket(ScintillaObject *sci, gint position, gint endOfSearchPos,
                         gchar searchedBracket, gchar breakBracket, gboolean direction)
 {
     gint foundBracket = -1;
@@ -84,7 +82,7 @@ static gint findBracket(gint position, gint endOfSearchPos,
 }
 
 
-static void highlight_tag(gint openingBracket, gint closingBracket)
+static void highlight_tag(ScintillaObject *sci, gint openingBracket, gint closingBracket)
 {
     scintilla_send_message(sci, SCI_SETINDICATORCURRENT, INDICATOR_TAGMATCH, 0);
     scintilla_send_message(sci, SCI_INDICSETSTYLE,
@@ -96,14 +94,14 @@ static void highlight_tag(gint openingBracket, gint closingBracket)
 }
 
 
-static void clear_previous_highlighting(gint rangeStart, gint rangeEnd)
+static void clear_previous_highlighting(ScintillaObject *sci, gint rangeStart, gint rangeEnd)
 {
     scintilla_send_message(sci, SCI_SETINDICATORCURRENT, INDICATOR_TAGMATCH, 0);
     scintilla_send_message(sci, SCI_INDICATORCLEARRANGE, rangeStart, rangeEnd+1);
 }
 
 
-static gboolean is_tag_self_closing(gint closingBracket)
+static gboolean is_tag_self_closing(ScintillaObject *sci, gint closingBracket)
 {
     gboolean isTagSelfClosing = FALSE;
     gchar charBeforeBracket = sci_get_char_at(sci, closingBracket-1);
@@ -114,7 +112,7 @@ static gboolean is_tag_self_closing(gint closingBracket)
 }
 
 
-static gboolean is_tag_opening(gint openingBracket)
+static gboolean is_tag_opening(ScintillaObject *sci, gint openingBracket)
 {
     gboolean isTagOpening = TRUE;
     gchar charAfterBracket = sci_get_char_at(sci, openingBracket+1);
@@ -125,7 +123,7 @@ static gboolean is_tag_opening(gint openingBracket)
 }
 
 
-static void get_tag_name(gint openingBracket, gint closingBracket,
+static void get_tag_name(ScintillaObject *sci, gint openingBracket, gint closingBracket,
                     gchar tagName[], gboolean isTagOpening)
 {
     gint nameStart = openingBracket + (TRUE == isTagOpening ? 1 : 2);
@@ -144,7 +142,7 @@ static void get_tag_name(gint openingBracket, gint closingBracket,
 }
 
 
-static void findMatchingOpeningTag(gchar *tagName, gint openingBracket)
+static void findMatchingOpeningTag(ScintillaObject *sci, gchar *tagName, gint openingBracket)
 {
     gint pos;
     gint openingTagsCount = 0;
@@ -155,16 +153,16 @@ static void findMatchingOpeningTag(gchar *tagName, gint openingBracket)
         /* are we inside tag? */
         gint lineNumber = sci_get_line_from_position(sci, pos);
         gint lineStart = sci_get_position_from_line(sci, lineNumber);
-        gint matchingOpeningBracket = findBracket(pos, lineStart, '<', '\0', FALSE);
-        gint matchingClosingBracket = findBracket(pos, lineStart, '>', '\0', FALSE);
+        gint matchingOpeningBracket = findBracket(sci, pos, lineStart, '<', '\0', FALSE);
+        gint matchingClosingBracket = findBracket(sci, pos, lineStart, '>', '\0', FALSE);
 
         if(-1 != matchingOpeningBracket && -1 != matchingClosingBracket
             && (matchingClosingBracket > matchingOpeningBracket))
         {
             /* we are inside of some tag. Let us check what tag*/
             gchar matchingTagName[MAX_TAG_NAME];
-            gboolean isMatchingTagOpening = is_tag_opening(matchingOpeningBracket);
-            get_tag_name(matchingOpeningBracket, matchingClosingBracket,
+            gboolean isMatchingTagOpening = is_tag_opening(sci, matchingOpeningBracket);
+            get_tag_name(sci, matchingOpeningBracket, matchingClosingBracket,
                             matchingTagName, isMatchingTagOpening);
             if(strcmp(tagName, matchingTagName) == 0)
             {
@@ -186,7 +184,7 @@ static void findMatchingOpeningTag(gchar *tagName, gint openingBracket)
         if(openingTagsCount == closingTagsCount)
         {
             /* matching tag is found */
-            highlight_tag(matchingOpeningBracket, matchingClosingBracket);
+            highlight_tag(sci, matchingOpeningBracket, matchingClosingBracket);
             highlightedBrackets[2] = matchingOpeningBracket;
             highlightedBrackets[3] = matchingClosingBracket;
             break;
@@ -195,7 +193,7 @@ static void findMatchingOpeningTag(gchar *tagName, gint openingBracket)
 }
 
 
-static void findMatchingClosingTag(gchar *tagName, gint closingBracket)
+static void findMatchingClosingTag(ScintillaObject *sci, gchar *tagName, gint closingBracket)
 {
     gint pos;
     gint linesInDocument = sci_get_line_count(sci);
@@ -208,16 +206,16 @@ static void findMatchingClosingTag(gchar *tagName, gint closingBracket)
         /* are we inside tag? */
         gint lineNumber = sci_get_line_from_position(sci, pos);
         gint lineEnd = sci_get_line_end_position(sci, lineNumber);
-        gint matchingOpeningBracket = findBracket(pos, endOfDocument, '<', '\0', TRUE);
-        gint matchingClosingBracket = findBracket(pos, endOfDocument, '>', '\0', TRUE);
+        gint matchingOpeningBracket = findBracket(sci, pos, endOfDocument, '<', '\0', TRUE);
+        gint matchingClosingBracket = findBracket(sci, pos, endOfDocument, '>', '\0', TRUE);
 
         if(-1 != matchingOpeningBracket && -1 != matchingClosingBracket
             && (matchingClosingBracket > matchingOpeningBracket))
         {
             /* we are inside of some tag. Let us check what tag*/
             gchar matchingTagName[64];
-            gboolean isMatchingTagOpening = is_tag_opening(matchingOpeningBracket);
-            get_tag_name(matchingOpeningBracket, matchingClosingBracket,
+            gboolean isMatchingTagOpening = is_tag_opening(sci, matchingOpeningBracket);
+            get_tag_name(sci, matchingOpeningBracket, matchingClosingBracket,
                             matchingTagName, isMatchingTagOpening);
             if(strcmp(tagName, matchingTagName) == 0)
             {
@@ -239,7 +237,7 @@ static void findMatchingClosingTag(gchar *tagName, gint closingBracket)
         if(openingTagsCount == closingTagsCount)
         {
             /* matching tag is found */
-            highlight_tag(matchingOpeningBracket, matchingClosingBracket);
+            highlight_tag(sci, matchingOpeningBracket, matchingClosingBracket);
             highlightedBrackets[2] = matchingOpeningBracket;
             highlightedBrackets[3] = matchingClosingBracket;
             break;
@@ -248,33 +246,33 @@ static void findMatchingClosingTag(gchar *tagName, gint closingBracket)
 }
 
 
-static void findMatchingTag(gint openingBracket, gint closingBracket)
+static void findMatchingTag(ScintillaObject *sci, gint openingBracket, gint closingBracket)
 {
     gchar tagName[MAX_TAG_NAME];
-    gboolean isTagOpening = is_tag_opening(openingBracket);
-    get_tag_name(openingBracket, closingBracket, tagName, isTagOpening);
+    gboolean isTagOpening = is_tag_opening(sci, openingBracket);
+    get_tag_name(sci, openingBracket, closingBracket, tagName, isTagOpening);
 
     if(TRUE == isTagOpening)
-        findMatchingClosingTag(tagName, closingBracket);
+        findMatchingClosingTag(sci, tagName, closingBracket);
     else
-        findMatchingOpeningTag(tagName, openingBracket);
+        findMatchingOpeningTag(sci, tagName, openingBracket);
 }
 
 
-static void run_tag_highlighter(void)
+static void run_tag_highlighter(ScintillaObject *sci)
 {
     gint position = sci_get_current_position(sci);
     gint lineNumber = sci_get_current_line(sci);
     gint lineStart = sci_get_position_from_line(sci, lineNumber);
     gint lineEnd = sci_get_line_end_position(sci, lineNumber);
-    gint openingBracket = findBracket(position, lineStart, '<', '>', FALSE);
-    gint closingBracket = findBracket(position, lineEnd, '>', '<', TRUE);
+    gint openingBracket = findBracket(sci, position, lineStart, '<', '>', FALSE);
+    gint closingBracket = findBracket(sci, position, lineEnd, '>', '<', TRUE);
     int i;
 
     if(-1 == openingBracket || -1 == closingBracket)
     {
-        clear_previous_highlighting(highlightedBrackets[0], highlightedBrackets[1]);
-        clear_previous_highlighting(highlightedBrackets[2], highlightedBrackets[3]);
+        clear_previous_highlighting(sci, highlightedBrackets[0], highlightedBrackets[1]);
+        clear_previous_highlighting(sci, highlightedBrackets[2], highlightedBrackets[3]);
         for(i=0; i<3; i++)
             highlightedBrackets[i] = 0;
         return;
@@ -285,8 +283,8 @@ static void run_tag_highlighter(void)
     if(openingBracket != highlightedBrackets[0] ||
         closingBracket != highlightedBrackets[1])
     {
-        clear_previous_highlighting(highlightedBrackets[0], highlightedBrackets[1]);
-        clear_previous_highlighting(highlightedBrackets[2], highlightedBrackets[3]);
+        clear_previous_highlighting(sci, highlightedBrackets[0], highlightedBrackets[1]);
+        clear_previous_highlighting(sci, highlightedBrackets[2], highlightedBrackets[3]);
     }
 
     highlightedBrackets[0] = openingBracket;
@@ -294,11 +292,11 @@ static void run_tag_highlighter(void)
 
     /* Highlight current tag. Matching tag will be highlighted from
      * findMatchingTag() functiong */
-    highlight_tag(openingBracket, closingBracket);
+    highlight_tag(sci, openingBracket, closingBracket);
 
     /* Find matching tag only if a tag is not self-closing */
-    if(FALSE == is_tag_self_closing(closingBracket))
-        findMatchingTag(openingBracket, closingBracket);
+    if(FALSE == is_tag_self_closing(sci, closingBracket))
+        findMatchingTag(sci, openingBracket, closingBracket);
 }
 
 
@@ -308,10 +306,7 @@ static gboolean on_editor_notify(GObject *obj, GeanyEditor *editor,
 {
     gint lexer;
 
-    /* setting global sci variable to be available in other functions */
-    sci = editor->sci;
-
-    lexer = sci_get_lexer(sci);
+    lexer = sci_get_lexer(editor->sci);
     if(lexer != SCLEX_HTML)
     {
         return FALSE;
@@ -321,7 +316,7 @@ static gboolean on_editor_notify(GObject *obj, GeanyEditor *editor,
     switch (nt->nmhdr.code)
     {
         case SCN_UPDATEUI:
-            run_tag_highlighter();
+            run_tag_highlighter(editor->sci);
             break;
     }
 
@@ -348,8 +343,7 @@ void plugin_cleanup(void)
 
     if (doc)
     {
-        sci = doc->editor->sci;
-        clear_previous_highlighting(highlightedBrackets[0], highlightedBrackets[1]);
-        clear_previous_highlighting(highlightedBrackets[2], highlightedBrackets[3]);
+        clear_previous_highlighting(doc->editor->sci, highlightedBrackets[0], highlightedBrackets[1]);
+        clear_previous_highlighting(doc->editor->sci, highlightedBrackets[2], highlightedBrackets[3]);
     }
 }
