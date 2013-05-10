@@ -26,6 +26,7 @@
 #include <gtk/gtk.h>
 #include <geanyplugin.h>
 #include "conf.h"
+#include "markdown-gtk-compat.h"
 
 #define FONT_NAME_MAX  256
 #define COLOR_CODE_MAX 8
@@ -470,18 +471,11 @@ markdown_config_save(MarkdownConfig *conf)
 static gchar *
 color_button_get_color(GtkColorButton *color_button)
 {
-  GdkColor color;
-  guint r, g, b;
-  gchar *color_str;
+  MarkdownColor color;
 
-  gtk_color_button_get_color(color_button, &color);
+  markdown_gtk_color_button_get_color(color_button, &color);
 
-  r = color.red / 256;
-  g = color.green / 256;
-  b = color.blue / 256;
-  color_str = g_strdup_printf("#%02x%02x%02x", r, g, b);
-
-  return color_str;
+  return g_strdup_printf("#%02x%02x%02x", color.red, color.green, color.blue);
 }
 
 static gboolean
@@ -563,15 +557,16 @@ GtkWidget *markdown_config_gui(MarkdownConfig *conf, GtkDialog *dialog)
                "template-file", &tmpl_file,
                NULL);
 
-  table = gtk_table_new(6, 2, FALSE);
-  gtk_table_set_col_spacings(GTK_TABLE(table), 6);
-  gtk_table_set_row_spacings(GTK_TABLE(table), 6);
+  table = markdown_gtk_table_new(6, 2, FALSE);
+  markdown_gtk_table_set_col_spacing(MARKDOWN_GTK_TABLE(table), 6);
+  markdown_gtk_table_set_row_spacing(MARKDOWN_GTK_TABLE(table), 6);
+
   conf->priv->widgets.table = table;
 
   { /* POSITION OF VIEW */
     label = gtk_label_new(_("Position:"));
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-    gtk_table_attach(GTK_TABLE(table), label, 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+    markdown_gtk_table_attach(MARKDOWN_GTK_TABLE(table), label, 0, 1, 0, 1, GTK_FILL, GTK_FILL);
 
     hbox = gtk_hbox_new(FALSE, 6);
 
@@ -591,7 +586,7 @@ GtkWidget *markdown_config_gui(MarkdownConfig *conf, GtkDialog *dialog)
       gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(wid), TRUE);
     }
 
-    gtk_table_attach(GTK_TABLE(table), hbox, 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+    markdown_gtk_table_attach(MARKDOWN_GTK_TABLE(table), hbox, 1, 2, 0, 1, GTK_FILL, GTK_FILL);
   }
 
   { /* FONT BUTTON */
@@ -599,15 +594,14 @@ GtkWidget *markdown_config_gui(MarkdownConfig *conf, GtkDialog *dialog)
 
     label = gtk_label_new(_("Font:"));
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-    gtk_table_attach(GTK_TABLE(table), label, 0, 1, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
+    markdown_gtk_table_attach(MARKDOWN_GTK_TABLE(table), label, 0, 1, 1, 2, GTK_FILL, GTK_FILL);
 
     font_desc = g_strdup_printf("%s %d", fnt, fnt_sz);
     wid = gtk_font_button_new_with_font(font_desc);
     conf->priv->widgets.font_button = wid;
     g_free(font_desc);
 
-    gtk_table_attach(GTK_TABLE(table), wid, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND,
-      GTK_FILL, 0, 0);
+    markdown_gtk_table_attach(MARKDOWN_GTK_TABLE(table), wid, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, GTK_FILL);
 
     g_free(fnt);
   }
@@ -617,49 +611,46 @@ GtkWidget *markdown_config_gui(MarkdownConfig *conf, GtkDialog *dialog)
 
     label = gtk_label_new(_("Code Font:"));
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-    gtk_table_attach(GTK_TABLE(table), label, 0, 1, 2, 3, GTK_FILL, GTK_FILL, 0, 0);
+    markdown_gtk_table_attach(MARKDOWN_GTK_TABLE(table), label, 0, 1, 2, 3, GTK_FILL, GTK_FILL);
 
     font_desc = g_strdup_printf("%s %d", code_fnt, code_fnt_sz);
     wid = gtk_font_button_new_with_font(font_desc);
     conf->priv->widgets.code_font_button = wid;
     g_free(font_desc);
 
-    gtk_table_attach(GTK_TABLE(table), wid, 1, 2, 2, 3, GTK_FILL | GTK_EXPAND,
-      GTK_FILL, 0, 0);
+    markdown_gtk_table_attach(MARKDOWN_GTK_TABLE(table), wid, 1, 2, 2, 3, GTK_FILL | GTK_EXPAND, GTK_FILL);
 
     g_free(code_fnt);
   }
 
   { /* BG COLOR */
-    GdkColor bgclr;
+    MarkdownColor bgclr;
 
     label = gtk_label_new(_("BG Color:"));
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-    gtk_table_attach(GTK_TABLE(table), label, 0, 1, 3, 4, GTK_FILL, GTK_FILL, 0, 0);
+    markdown_gtk_table_attach(MARKDOWN_GTK_TABLE(table), label, 0, 1, 3, 4, GTK_FILL, GTK_FILL);
 
-    gdk_color_parse(bg, &bgclr);
+    markdown_color_parse(bg, &bgclr);
 
-    wid = gtk_color_button_new_with_color(&bgclr);
+    wid = markdown_gtk_color_button_new_with_color(&bgclr);
     conf->priv->widgets.bg_color_button = wid;
-    gtk_table_attach(GTK_TABLE(table), wid, 1, 2, 3, 4, GTK_FILL | GTK_EXPAND,
-      GTK_FILL, 0, 0);
+    markdown_gtk_table_attach(MARKDOWN_GTK_TABLE(table), wid, 1, 2, 3, 4, GTK_FILL | GTK_EXPAND, GTK_FILL);
 
     g_free(bg);
   }
 
   { /* FG COLOR */
-    GdkColor fgclr;
+    MarkdownColor fgclr;
 
     label = gtk_label_new(_("FG Color:"));
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-    gtk_table_attach(GTK_TABLE(table), label, 0, 1, 4, 5, GTK_FILL, GTK_FILL, 0, 0);
+    markdown_gtk_table_attach(MARKDOWN_GTK_TABLE(table), label, 0, 1, 4, 5, GTK_FILL, GTK_FILL);
 
-    gdk_color_parse(fg, &fgclr);
+    markdown_color_parse(fg, &fgclr);
 
-    wid = gtk_color_button_new_with_color(&fgclr);
+    wid = markdown_gtk_color_button_new_with_color(&fgclr);
     conf->priv->widgets.fg_color_button = wid;
-    gtk_table_attach(GTK_TABLE(table), wid, 1, 2, 4, 5, GTK_FILL | GTK_EXPAND,
-      GTK_FILL, 0, 0);
+    markdown_gtk_table_attach(MARKDOWN_GTK_TABLE(table), wid, 1, 2, 4, 5, GTK_FILL | GTK_EXPAND, GTK_FILL);
 
     g_free(fg);
   }
@@ -667,7 +658,7 @@ GtkWidget *markdown_config_gui(MarkdownConfig *conf, GtkDialog *dialog)
   { /* TEMPLATE FILE */
     label = gtk_label_new(_("Template:"));
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-    gtk_table_attach(GTK_TABLE(table), label, 0, 1, 5, 6, GTK_FILL, GTK_FILL, 0, 0);
+    markdown_gtk_table_attach(MARKDOWN_GTK_TABLE(table), label, 0, 1, 5, 6, GTK_FILL, GTK_FILL);
 
     wid = gtk_file_chooser_button_new(_("Select Template File"),
       GTK_FILE_CHOOSER_ACTION_OPEN);
@@ -676,8 +667,7 @@ GtkWidget *markdown_config_gui(MarkdownConfig *conf, GtkDialog *dialog)
     if (tmpl_file && tmpl_file[0]) {
       gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(wid), tmpl_file);
     }
-    gtk_table_attach(GTK_TABLE(table), wid, 1, 2, 5, 6, GTK_FILL | GTK_EXPAND,
-      GTK_FILL, 0, 0);
+    markdown_gtk_table_attach(MARKDOWN_GTK_TABLE(table), wid, 1, 2, 5, 6, GTK_FILL | GTK_EXPAND, GTK_FILL);
 
     g_free(tmpl_file);
   }
