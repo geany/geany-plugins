@@ -800,6 +800,22 @@ find_first_non_default_style_on_line (ScintillaObject  *sci,
   return style;
 }
 
+/* checks whether @line is a primary msgid line, e.g. not a plural form */
+static gboolean
+line_is_primary_msgid (ScintillaObject *sci,
+                       gint             line)
+{
+  gint pos = (gint) scintilla_send_message (sci, SCI_GETLINEINDENTPOSITION,
+                                            (uptr_t) line, 0);
+  
+  return (sci_get_char_at (sci, pos++) == 'm' &&
+          sci_get_char_at (sci, pos++) == 's' &&
+          sci_get_char_at (sci, pos++) == 'g' &&
+          sci_get_char_at (sci, pos++) == 'i' &&
+          sci_get_char_at (sci, pos++) == 'd' &&
+          g_ascii_isspace (sci_get_char_at (sci, pos)));
+}
+
 /* parse flags line @line and puts the read flags in @flags
  * a flags line looks like:
  * #, flag-1, flag-2, flag-2, ... */
@@ -908,6 +924,7 @@ on_kb_toggle_fuzziness (guint key_id)
     /* find the msgid for the current line */
     while (line > 0 &&
            (style == SCE_PO_DEFAULT ||
+            (style == SCE_PO_MSGID && ! line_is_primary_msgid (sci, line)) ||
             style == SCE_PO_MSGID_TEXT ||
             style == SCE_PO_MSGSTR ||
             style == SCE_PO_MSGSTR_TEXT)) {
