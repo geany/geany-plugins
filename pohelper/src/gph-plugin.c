@@ -907,7 +907,8 @@ on_kb_toggle_fuzziness (guint key_id)
     
     /* find the msgid for the current line */
     while (line > 0 &&
-           (style == SCE_PO_MSGID_TEXT ||
+           (style == SCE_PO_DEFAULT ||
+            style == SCE_PO_MSGID_TEXT ||
             style == SCE_PO_MSGSTR ||
             style == SCE_PO_MSGSTR_TEXT)) {
       line--;
