@@ -472,6 +472,39 @@ on_document_save (GObject        *obj,
 }
 
 static void
+update_menus (GeanyDocument *doc)
+{
+  if (plugin.menu_item) {
+    gtk_widget_set_sensitive (plugin.menu_item, doc_is_po (doc));
+  }
+}
+
+static void
+on_document_activate (GObject        *obj,
+                      GeanyDocument  *doc,
+                      gpointer        user_data)
+{
+  update_menus (doc);
+}
+
+static void
+on_document_filetype_set (GObject        *obj,
+                          GeanyDocument  *doc,
+                          GeanyFiletype  *old_ft,
+                          gpointer        user_data)
+{
+  update_menus (doc);
+}
+
+static void
+on_document_close (GObject       *obj,
+                   GeanyDocument *doc,
+                   gpointer       user_data)
+{
+  update_menus (NULL);
+}
+
+static void
 on_kb_goto_prev (guint key_id)
 {
   goto_prev (document_get_current ());
@@ -1159,6 +1192,12 @@ plugin_init (GeanyData *data)
   }
   
   /* signal handlers */
+  plugin_signal_connect (geany_plugin, NULL, "document-activate", TRUE,
+                         G_CALLBACK (on_document_activate), NULL);
+  plugin_signal_connect (geany_plugin, NULL, "document-filetype-set", TRUE,
+                         G_CALLBACK (on_document_filetype_set), NULL);
+  plugin_signal_connect (geany_plugin, NULL, "document-close", TRUE,
+                         G_CALLBACK (on_document_close), NULL);
   plugin_signal_connect (geany_plugin, NULL, "document-before-save", TRUE,
                          G_CALLBACK (on_document_save), NULL);
   
