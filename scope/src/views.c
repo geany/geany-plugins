@@ -263,7 +263,7 @@ static void on_display_editing_started(G_GNUC_UNUSED GtkCellRenderer *cell,
 }
 
 GtkTreeView *view_connect(const char *name, ScpTreeStore **store, GtkTreeSelection **selection,
-	const TreeCell *cell_info, const char *window, GObject **display)
+	const TreeCell *cell_info, const char *window, GObject **display_cell)
 {
 	guint i;
 	GtkScrolledWindow *scrolled = GTK_SCROLLED_WINDOW(get_widget(window));
@@ -284,11 +284,11 @@ GtkTreeView *view_connect(const char *name, ScpTreeStore **store, GtkTreeSelecti
 			g_signal_connect(cell, "editing-started", G_CALLBACK(on_editing_started),
 				hadjustment);
 
-			if (display && i == 0)
+			if (display_cell && i == 0)
 			{
 				g_signal_connect(cell, "editing-started",
 					G_CALLBACK(on_display_editing_started), *store);
-				*display = G_OBJECT(cell);
+				*display_cell = G_OBJECT(cell);
 			}
 		}
 		else

@@ -64,7 +64,7 @@ typedef struct _TreeCell
 
 GtkTreeView *view_create(const char *name, ScpTreeStore **store, GtkTreeSelection **selection);
 GtkTreeView *view_connect(const char *name, ScpTreeStore **store, GtkTreeSelection **selection,
-	const TreeCell *cell_info, const char *window, GObject **display);
+	const TreeCell *cell_info, const char *window, GObject **display_cell);
 /* note: 2 references to column */
 #define view_set_sort_func(store, column, compare) \
 	scp_tree_store_set_sort_func((store), (column), (GtkTreeIterCompareFunc) (compare), \

@@ -821,6 +821,15 @@ void scp_tree_store_move(ScpTreeStore *store, GtkTreeIter *iter, gint position)
 	scp_move_element(store, array, iter, position, TRUE);
 }
 
+gint scp_tree_store_iter_tell(VALIDATE_ONLY ScpTreeStore *store, GtkTreeIter *iter)
+{
+	g_return_val_if_fail(SCP_IS_TREE_STORE(store), -1);
+	g_return_val_if_fail(VALID_ITER(iter, store), -1);
+	g_return_val_if_fail((guint) ITER_INDEX(iter) < ITER_ARRAY(iter)->len, -1);
+
+	return ITER_INDEX(iter);
+}
+
 /* Model */
 
 static gint scp_ptr_array_find(GPtrArray *array, AElem *elem)
@@ -1531,15 +1540,6 @@ gboolean scp_tree_store_iter_seek(VALIDATE_ONLY ScpTreeStore *store, GtkTreeIter
 	return TRUE;
 }
 
-gint scp_tree_store_iter_tell(VALIDATE_ONLY ScpTreeStore *store, GtkTreeIter *iter)
-{
-	g_return_val_if_fail(SCP_IS_TREE_STORE(store), -1);
-	g_return_val_if_fail(VALID_ITER(iter, store), -1);
-	g_return_val_if_fail((guint) ITER_INDEX(iter) < ITER_ARRAY(iter)->len, -1);
-
-	return ITER_INDEX(iter);
-}
-
 static gint scp_collate_data(const gchar *key, const gchar *data)
 {
 	gchar *key1 = g_utf8_collate_key(data, -1);
@@ -1661,6 +1661,72 @@ gboolean scp_tree_store_search(ScpTreeStore *store, gboolean sublevels, gboolean
 		g_free(data.v_string);
 
 	return found;
+}
+
+static gboolean scp_traverse(ScpTreeStore *store, GPtrArray *array, GtkTreeIter *iter,
+	gboolean sublevels, ScpTreeStoreTraverseFunc func, gpointer gdata)
+{
+	if (array)
+	{
+		guint i = 0;
+
+		iter->user_data = array;
+		iter->user_data2 = GINT_TO_POINTER(0);
+
+		while (i < array->len)
+		{
+			gint result = func(store, iter, gdata);
+
+			if (result > 0)
+				return TRUE;
+
+			if (!result)
+			{
+				if (sublevels)
+				{
+					if (scp_traverse(store, ((AElem *) array->pdata[i])->children,
+						iter, TRUE, func, gdata) > 0)
+					{
+						return TRUE;
+					}
+
+					iter->user_data = array;
+				}
+
+				iter->user_data2 = GINT_TO_POINTER(++i);
+			}
+			else
+				scp_tree_store_remove(store, iter);
+		}
+	}
+
+	return FALSE;
+}
+
+gboolean scp_tree_store_traverse(ScpTreeStore *store, gboolean sublevels, GtkTreeIter *iter,
+	GtkTreeIter *parent, ScpTreeStoreTraverseFunc func, gpointer gdata)
+{
+	ScpTreeStorePrivate *priv = store->priv;
+	GtkTreeIter iter1;
+	
+	g_return_val_if_fail(SCP_IS_TREE_STORE(store), FALSE);
+	g_return_val_if_fail(VALID_ITER_OR_NULL(parent, store), FALSE);
+	g_return_val_if_fail(sublevels == FALSE || priv->sublevels == TRUE, FALSE);
+	g_return_val_if_fail(func != NULL, FALSE);
+
+	if (!iter)
+		iter = &iter1;
+
+	iter->stamp = priv->stamp;
+
+	if (!scp_traverse(store, (parent ? ITER_ELEM(parent) : priv->root)->children, iter,
+		sublevels, func, gdata))
+	{
+		iter->stamp = 0;
+		return FALSE;
+	}
+
+	return TRUE;
 }
 
 /* Class */

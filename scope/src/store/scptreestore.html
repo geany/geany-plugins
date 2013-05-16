@@ -55,9 +55,9 @@ obvious funtions and macros, are listed without descriptions.</p>
 #include &quot;scptreestore.h&quot;</p>
 
 <p>/* Store */<br>
-ScpTreeStore *<a href="scp_tree_store_new">scp_tree_store_new</a>(gboolean sublevels, gint
+ScpTreeStore *<a href="#scp_tree_store_new">scp_tree_store_new</a>(gboolean sublevels, gint
 n_columns, ...);<br>
-ScpTreeStore *<a href="scp_tree_store_newv">scp_tree_store_newv</a>(gboolean sublevels, gint
+ScpTreeStore *<a href="#scp_tree_store_newv">scp_tree_store_newv</a>(gboolean sublevels, gint
 n_columns, GType *types);<br>
 gboolean scp_tree_store_set_column_types(ScpTreeStore *store, gint n_columns, GType *types);<br>
 #define scp_tree_store_set_utf8_collate(store, utf8_collate)
@@ -85,16 +85,16 @@ void scp_tree_store_insert_with_values(ScpTreeStore *store, GtkTreeIter *iter, G
 *parent, gint position, ...);<br>
 #define scp_tree_store_prepend_with_values(store, iter, parent, ...)<br>
 #define scp_tree_store_append_with_values(store, iter, parent, ...)<br>
-void <a href="scp_tree_store_get_valist">scp_tree_store_get_valist</a>(ScpTreeStore *store,
+void <a href="#scp_tree_store_get_valist">scp_tree_store_get_valist</a>(ScpTreeStore *store,
 GtkTreeIter *iter, va_list var_args);<br>
-void <a href="scp_tree_store_get">scp_tree_store_get</a>(ScpTreeStore *store, GtkTreeIter
+void <a href="#scp_tree_store_get">scp_tree_store_get</a>(ScpTreeStore *store, GtkTreeIter
 *iter, ...);<br>
 gboolean scp_tree_store_is_ancestor(ScpTreeStore *store, GtkTreeIter *iter, GtkTreeIter
 *descendant);<br>
 gint scp_tree_store_iter_depth(ScpTreeStore *store, GtkTreeIter *iter);<br>
-void <a href="scp_tree_store_clear_children">scp_tree_store_clear_children</a>(ScpTreeStore
+void <a href="#scp_tree_store_clear_children">scp_tree_store_clear_children</a>(ScpTreeStore
 *store, GtkTreeIter *parent, gboolean emit_subsignals);<br>
-#define <a href="scp_tree_store_clear">scp_tree_store_clear(store)</a><br>
+#define <a href="#scp_tree_store_clear">scp_tree_store_clear(store)</a><br>
 gboolean scp_tree_store_iter_is_valid(ScpTreeStore *store, GtkTreeIter *iter);<br>
 void scp_tree_store_reorder(ScpTreeStore *store, GtkTreeIter *parent, gint *new_order);<br>
 void scp_tree_store_swap(ScpTreeStore *store, GtkTreeIter *a, GtkTreeIter *b);<br>
@@ -148,7 +148,7 @@ gboolean scp_tree_store_has_default_sort_func(ScpTreeStore *store);<br>
 </p>
 
 <p>/* Extra */<br>
-void <a href="scp_tree_store_set_allocation">scp_tree_store_set_allocation</a>(ScpTreeStore
+void <a href="#scp_tree_store_set_allocation">scp_tree_store_set_allocation</a>(ScpTreeStore
 *store, guint toplevel_reserved, guint sublevel_reserved, gboolean sublevel_discard);<br>
 gint <a href="#scp_tree_store_compare_func">scp_tree_store_compare_func</a>(ScpTreeStore *store,
 GtkTreeIter *a, GtkTreeIter *b, gpointer data);<br>
@@ -157,7 +157,12 @@ GtkTreeIter *iter, gint position);<br>
 gint scp_tree_store_iter_tell(ScpTreeStore *store, GtkTreeIter *iter);<br>
 gboolean <a href="#scp_tree_store_search">scp_tree_store_search</a>(ScpTreeStore *store,
 gboolean sublevels, gboolean linear_order, GtkTreeIter *iter, GtkTreeIter *parent, gint column,
-...);
+...);<br>
+typedef gint (*<a href="#ScpTreeStoreTraverseFunc">ScpTreeStoreTraverseFunc</a>)(ScpTreeStore
+*store, GtkTreeIter *iter, gpointer gdata);<br>
+gboolean <a href="#scp_tree_store_traverse">scp_tree_store_traverse</a>(ScpTreeStore *store,
+gboolean sublevels, GtkTreeIter *iter, GtkTreeIter *parent, ScpTreeStoreTraverseFunc func,
+gpointer gdata);
 </p>
 
 <hr>
@@ -331,6 +336,30 @@ linear_order is <tt>FALSE</tt>, binary search will be used. Aside from that, the
 compare function is ignored, because it requires an iterator, not a value. For string columns,
 utf8_collate is taken into account.</p>
 
+<h3><a name="ScpTreeStoreTraverseFunc">ScpTreeStoreTraverseFunc()</a></h3>
+
+<p><b>gint ScpTreeStoreTraverseFunc(ScpTreeStore *store, GtkTreeIter *iter, gpointer gdata);
+</b></p>
+
+<div>The callback function type for scp_tree_store_traverse(). Return values:</div>
+<div class="tab"><tt>TRUE</tt> (or another positive value): stop iterating<br>
+<tt>FALSE</tt>: continue iterating<br>
+<tt>-1</tt> (or another negative value): remove the current element and continue.</div>
+
+<h3><a name="scp_tree_store_traverse">scp_tree_store_traverse()</a></h3>
+
+<p><b>gboolean scp_tree_store_traverse(ScpTreeStore *store, gboolean sublevels, GtkTreeIter
+*iter, GtkTreeIter *parent, ScpTreeStoreTraverseFunc func, gpointer gdata);</b></p>
+
+<div>Traverse the rows under parent.</div>
+<div class="tab">iter: optional, may be NULL<br>
+parent = NULL: traverse the top-level rows.</div>
+<br>
+<div>Return values:</div>
+<div class="tab"><tt>TRUE</tt> and valid iter if func returns <tt>TRUE</tt> (or
+another positive value)<br>
+<tt>FALSE</tt> and invalid iter otherwise.</div><br>
+
 <hr>
 
 <h3><a name="properties">Properties</a></h3>
@@ -404,6 +433,8 @@ suitable for a few operations, but you should not rely on that and check for pat
 <tr><td>top-level iter search string</td><td>25</td><td>0.003</td><td>0.002</td><td>25</td></tr>
 <tr><td>top-level linear search double</td><td>25</td><td>n/a</td><td>0.000</td><td>25</td></tr>
 <tr><td>top-level linear search string</td><td>25</td><td>n/a</td><td>0.001</td><td>25</td></tr>
+<tr><td>both levels model foreach</td><td>25</td><td>0.000</td><td>0.000</td><td>25</td></tr>
+<tr><td>both levels store traverse</td><td>25</td><td>n/a</td><td>0.000</td><td>25</td></tr>
 <tr><td>top-level quick sort double</td><td>25</td><td>0.000</td><td>0.000</td><td></td></tr>
 <tr><td>top-level quick sort string</td><td>25</td><td>0.001</td><td>0.000</td><td></td></tr>
 <tr><td>sublevel 1 insert</td><td>25</td><td>0.000</td><td>0.000</td><td></td></tr>
@@ -422,6 +453,8 @@ suitable for a few operations, but you should not rely on that and check for pat
 <tr><td>top-level iter search string</td><td>100</td><td>0.034</td><td>0.027</td><td>100</td></tr>
 <tr><td>top-level linear search double</td><td>100</td><td>n/a</td><td>0.000</td><td>100</td></tr>
 <tr><td>top-level linear search string</td><td>100</td><td>n/a</td><td>0.015</td><td>100</td></tr>
+<tr><td>both levels model foreach</td><td>100</td><td>0.003</td><td>0.003</td><td>100</td></tr>
+<tr><td>both levels store traverse</td><td>100</td><td>n/a</td><td>0.000</td><td>100</td></tr>
 <tr><td>top-level quick sort double</td><td>100</td><td>0.000</td><td>0.000</td><td></td></tr>
 <tr><td>top-level quick sort string</td><td>100</td><td>0.003</td><td>0.002</td><td></td></tr>
 <tr><td>sublevel 1 insert</td><td>100</td><td>0.000</td><td>0.000</td><td></td></tr>
@@ -440,6 +473,8 @@ suitable for a few operations, but you should not rely on that and check for pat
 <tr><td>top-level iter search string</td><td>250</td><td>0.224</td><td>0.183</td><td>250</td></tr>
 <tr><td>top-level linear search double</td><td>250</td><td>n/a</td><td>0.001</td><td>250</td></tr>
 <tr><td>top-level linear search string</td><td>250</td><td>n/a</td><td>0.109</td><td>250</td></tr>
+<tr><td>both levels model foreach</td><td>250</td><td>0.018</td><td>0.018</td><td>250</td></tr>
+<tr><td>both levels store traverse</td><td>250</td><td>n/a</td><td>0.001</td><td>250</td></tr>
 <tr><td>top-level quick sort double</td><td>250</td><td>0.001</td><td>0.000</td><td></td></tr>
 <tr><td>top-level quick sort string</td><td>250</td><td>0.009</td><td>0.008</td><td></td></tr>
 <tr><td>sublevel 1 insert</td><td>250</td><td>0.001</td><td>0.001</td><td></td></tr>
@@ -449,7 +484,7 @@ suitable for a few operations, but you should not rely on that and check for pat
 <tr><td>sublevel 1 quick sort double</td><td>250</td><td>0.002</td><td>0.000</td><td></td></tr>
 <tr><td>sublevel 1 quick sort string</td><td>250</td><td>0.015</td><td>0.012</td><td></td></tr>
 
-<tr><td>&nbsp;</td><td>500</td><td></td><td></td><td></td></tr>
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
 <tr><td>top-level insert</td><td>500</td><td>0.002</td><td>0.002</td><td></td></tr>
 <tr><td>top-level set</td><td>500</td><td>0.003</td><td>0.002</td><td></td></tr>
 <tr><td>top-level remove</td><td>500</td><td>0.002</td><td>0.001</td><td></td></tr>
@@ -458,6 +493,8 @@ suitable for a few operations, but you should not rely on that and check for pat
 <tr><td>top-level iter search string</td><td>500</td><td>0.909</td><td>0.722</td><td>500</td></tr>
 <tr><td>top-level linear search double</td><td>500</td><td>n/a</td><td>0.005</td><td>500</td></tr>
 <tr><td>top-level linear search string</td><td>500</td><td>n/a</td><td>0.443</td><td>500</td></tr>
+<tr><td>both levels model foreach</td><td>500</td><td>0.077</td><td>0.076</td><td>500</td></tr>
+<tr><td>both levels store traverse</td><td>500</td><td>n/a</td><td>0.003</td><td>500</td></tr>
 <tr><td>top-level quick sort double</td><td>500</td><td>0.003</td><td>0.001</td><td></td></tr>
 <tr><td>top-level quick sort string</td><td>500</td><td>0.022</td><td>0.018</td><td></td></tr>
 <tr><td>sublevel 1 insert</td><td>500</td><td>0.002</td><td>0.002</td><td></td></tr>
@@ -476,6 +513,8 @@ suitable for a few operations, but you should not rely on that and check for pat
 <tr><td>top-level iter search string</td><td>1000</td><td>0.370</td><td>0.273</td><td>100</td></tr>
 <tr><td>top-level linear search double</td><td>1000</td><td>n/a</td><td>0.002</td><td>100</td></tr>
 <tr><td>top-level linear search string</td><td>1000</td><td>n/a</td><td>0.182</td><td>100</td></tr>
+<tr><td>both levels model foreach</td><td>1000</td><td>0.033</td><td>0.030</td><td>100</td></tr>
+<tr><td>both levels store traverse</td><td>1000</td><td>n/a</td><td>0.001</td><td>100</td></tr>
 <tr><td>top-level quick sort double</td><td>1000</td><td>0.007</td><td>0.002</td><td></td></tr>
 <tr><td>top-level quick sort string</td><td>1000</td><td>0.050</td><td>0.040</td><td></td></tr>
 <tr><td>sublevel 1 insert</td><td>1000</td><td>0.006</td><td>0.004</td><td></td></tr>
@@ -494,6 +533,8 @@ suitable for a few operations, but you should not rely on that and check for pat
 <tr><td>top-level iter search string</td><td>2500</td><td>2.273</td><td>1.859</td><td>250</td></tr>
 <tr><td>top-level linear search double</td><td>2500</td><td>n/a</td><td>0.015</td><td>250</td></tr>
 <tr><td>top-level linear search string</td><td>2500</td><td>n/a</td><td>1.137</td><td>250</td></tr>
+<tr><td>both levels model foreach</td><td>2500</td><td>0.182</td><td>0.188</td><td>250</td></tr>
+<tr><td>both levels store traverse</td><td>2500</td><td>n/a</td><td>0.009</td><td>250</td></tr>
 <tr><td>top-level quick sort double</td><td>2500</td><td>0.021</td><td>0.004</td><td></td></tr>
 <tr><td>top-level quick sort string</td><td>2500</td><td>0.146</td><td>0.117</td><td></td></tr>
 <tr><td>sublevel 1 insert</td><td>2500</td><td>0.035</td><td>0.014</td><td></td></tr>
@@ -512,6 +553,8 @@ suitable for a few operations, but you should not rely on that and check for pat
 <tr><td>top-level iter search string</td><td>5000</td><td>8.775</td><td>7.787</td><td>500</td></tr>
 <tr><td>top-level linear search double</td><td>5000</td><td>n/a</td><td>0.060</td><td>500</td></tr>
 <tr><td>top-level linear search string</td><td>5000</td><td>n/a</td><td>4.351</td><td>500</td></tr>
+<tr><td>both levels model foreach</td><td>5000</td><td>0.741</td><td>0.754</td><td>500</td></tr>
+<tr><td>both levels store traverse</td><td>5000</td><td>n/a</td><td>0.042</td><td>500</td></tr>
 <tr><td>top-level quick sort double</td><td>5000</td><td>0.046</td><td>0.010</td><td></td></tr>
 <tr><td>top-level quick sort string</td><td>5000</td><td>0.325</td><td>0.264</td><td></td></tr>
 <tr><td>sublevel 1 insert</td><td>5000</td><td>0.168</td><td>0.040</td><td></td></tr>
@@ -530,6 +573,8 @@ suitable for a few operations, but you should not rely on that and check for pat
 <tr><td>top-level iter search string</td><td>10000</td><td>37.555</td><td>31.020</td><td>1000</td></tr>
 <tr><td>top-level linear search double</td><td>10000</td><td>n/a</td><td>0.304</td><td>1000</td></tr>
 <tr><td>top-level linear search string</td><td>10000</td><td>n/a</td><td>18.896</td><td>1000</td></tr>
+<tr><td>both levels model foreach</td><td>10000</td><td>2.969</td><td>3.136</td><td>1000</td></tr>
+<tr><td>both levels store traverse</td><td>10000</td><td>n/a</td><td>0.238</td><td>1000</td></tr>
 <tr><td>top-level quick sort double</td><td>10000</td><td>0.112</td><td>0.022</td><td></td></tr>
 <tr><td>top-level quick sort string</td><td>10000</td><td>0.720</td><td>0.580</td><td></td></tr>
 <tr><td>sublevel 1 insert</td><td>10000</td><td>1.152</td><td>0.132</td><td></td></tr>
@@ -647,7 +692,7 @@ are from GtkTreeStore.</p>
 <p>ScpTreeStore was initially written for the Scope plugin of Geany light IDE, which relies
 heavily on stores.</p>
 
-<p><b>ScpTreeStore 0.83, Copyright (C) 2013 Dimitar Toshkov Zhekov</b></p>
+<p><b>ScpTreeStore 0.84, Copyright (C) 2013 Dimitar Toshkov Zhekov</b></p>
 
 <p>ScpTreeStore is distributed under the terms of the GNU General Public License as published
 by the Free Software Foundation; either version 2 of the License, or (at your option) any

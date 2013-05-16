@@ -98,6 +98,7 @@ gboolean scp_tree_store_iter_is_valid(ScpTreeStore *store, GtkTreeIter *iter);
 void scp_tree_store_reorder(ScpTreeStore *store, GtkTreeIter *parent, gint *new_order);
 void scp_tree_store_swap(ScpTreeStore *store, GtkTreeIter *a, GtkTreeIter *b);
 void scp_tree_store_move(ScpTreeStore *store, GtkTreeIter *iter, gint position);
+gint scp_tree_store_iter_tell(ScpTreeStore *store, GtkTreeIter *iter);
 
 /* Model */
 GtkTreeModelFlags scp_tree_store_get_flags(ScpTreeStore *store);
@@ -149,9 +150,12 @@ gboolean scp_tree_store_get_utf8_collate(ScpTreeStore *store, gint column);
 gint scp_tree_store_compare_func(ScpTreeStore *store, GtkTreeIter *a, GtkTreeIter *b,
 	gpointer data);
 gboolean scp_tree_store_iter_seek(ScpTreeStore *store, GtkTreeIter *iter, gint position);
-gint scp_tree_store_iter_tell(ScpTreeStore *store, GtkTreeIter *iter);
 gboolean scp_tree_store_search(ScpTreeStore *store, gboolean sublevels, gboolean linear_order,
 	GtkTreeIter *iter, GtkTreeIter *parent, gint column, ...);
+typedef gint (*ScpTreeStoreTraverseFunc)(ScpTreeStore *store, GtkTreeIter *iter,
+	gpointer gdata);
+gboolean scp_tree_store_traverse(ScpTreeStore *store, gboolean sublevels, GtkTreeIter *iter,
+	GtkTreeIter *parent, ScpTreeStoreTraverseFunc func, gpointer gdata);
 
 G_END_DECLS
 

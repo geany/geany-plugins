@@ -1,0 +1,9 @@
+2013-05-16  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * scptreestore.c, scptreestore.h:
+   Added scp_tree_store_traverse().
+   Moved scp_tree_store_iter_tell() from Extra to Store, it's required
+   to insert before/after and move.
+ * scptreestore.html:
+   Documentation and speed test results for scp_tree_store_traverse().
+   Increased version to 0.84.
