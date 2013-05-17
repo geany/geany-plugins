@@ -203,7 +203,7 @@ static void on_document_save(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 {
 	char *configfile = prefs_file_name();
 
-	if (doc->real_path && utils_filenamecmp(doc->real_path, configfile))
+	if (doc->real_path && !utils_filenamecmp(doc->real_path, configfile))
 	{
 		GKeyFile *config = g_key_file_new();
 

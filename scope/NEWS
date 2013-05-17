@@ -1,6 +1,13 @@
+Scope 0.89 (2013-05-17)
+
+    * Small fixes and improvements. This should be the last version
+      before a Registers view is added.
+
+
 Scope 0.87 (2013-04-14)
 
-    * Switched to ScpTreeStore.
+    * Performance improvements for large Inspect tree and large number
+      of Threads, Breakpoints etc.
 
     * Added GTK+ 3 support.
 

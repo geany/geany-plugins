@@ -135,22 +135,16 @@ gboolean program_non_stop_mode;
 gboolean program_temp_breakpoint;
 gchar *program_temp_break_location;
 
-static gboolean program_find(GtkTreeIter *iter, const char *name)
+static gint program_compare(ScpTreeStore *store, GtkTreeIter *iter, const char *name)
 {
-	gboolean valid = scp_tree_store_get_iter_first(recent_programs, iter);
+	const char *name1;
 
-	while (valid)
-	{
-		const char *name1;
-
-		scp_tree_store_get(recent_programs, iter, PROGRAM_NAME, &name1, -1);
-		if (!utils_filenamecmp(name1, name))
-			break;
-		valid = scp_tree_store_iter_next(recent_programs, iter);
-	}
-
-	return valid;
+	scp_tree_store_get(store, iter, PROGRAM_NAME, &name1, -1);
+	return !utils_filenamecmp(name1, name);
 }
+
+#define program_find(iter, name) scp_tree_store_traverse(recent_programs, FALSE, (iter), \
+	NULL, (ScpTreeStoreTraverseFunc) program_compare, (gpointer) (name))
 
 static void save_program_settings(void)
 {
