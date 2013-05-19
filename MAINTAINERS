@@ -193,10 +193,10 @@ W: http://plugins.geany.org/tableconvert.html
 S: Maintained
 
 treebrowser
-P:
-M:
-W:
-S: Orphan
+P: Adam Dingle <adam@yorba.org>
+M: Adam Dingle <adam@yorba.org>
+W: http://plugins.geany.org/treebrowser.html
+S: Maintained
 
 updatechecker
 P: Frank Lanitz <frank@frank.uvena.de>
