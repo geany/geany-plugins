@@ -172,7 +172,7 @@ in_vc_svn(const gchar * filename)
 	gboolean ret = FALSE;
 	gchar *std_output;
 
-	if (!find_dir(filename, ".svn", FALSE))
+	if (!find_dir(filename, ".svn", TRUE))
 		return FALSE;
 
 	if (g_file_test(filename, G_FILE_TEST_IS_DIR))
