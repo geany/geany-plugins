@@ -76,6 +76,12 @@ static struct Plugin {
                         (doc)->file_type->id == GEANY_FILETYPES_PO)
 
 
+/* gets the smallest valid position between @a and @b */
+#define MIN_POS(a, b) ((a) < 0 ? (b) : (b) < 0 ? (a) : MIN ((a), (b)))
+/* gets the highest valid position between @a and @b */
+#define MAX_POS(a, b) (MAX ((a), (b)))
+
+
 /*
  * find_style:
  * @sci: a #ScintillaObject
@@ -371,9 +377,10 @@ goto_prev_untranslated_or_fuzzy (GeanyDocument *doc)
   if (doc_is_po (doc)) {
     gint pos1 = find_prev_untranslated (doc);
     gint pos2 = find_prev_fuzzy (doc);
+    gint pos = MAX_POS (pos1, pos2);
     
-    if (pos1 >= 0 || pos2 >= 0) {
-      editor_goto_pos (doc->editor, MAX (pos1, pos2), FALSE);
+    if (pos >= 0) {
+      editor_goto_pos (doc->editor, pos, FALSE);
     }
   }
 }
@@ -384,9 +391,10 @@ goto_next_untranslated_or_fuzzy (GeanyDocument *doc)
   if (doc_is_po (doc)) {
     gint pos1 = find_next_untranslated (doc);
     gint pos2 = find_next_fuzzy (doc);
+    gint pos = MIN_POS (pos1, pos2);
     
-    if (pos1 >= 0 || pos2 >= 0) {
-      editor_goto_pos (doc->editor, MIN (pos1, pos2), FALSE);
+    if (pos >= 0) {
+      editor_goto_pos (doc->editor, pos, FALSE);
     }
   }
 }
