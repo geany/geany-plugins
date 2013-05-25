@@ -1465,15 +1465,10 @@ on_treeview_changed(GtkWidget *widget, gpointer user_data)
 		if (uri == NULL)
 			return;
 
-		if (g_file_test(uri, G_FILE_TEST_EXISTS))
-		{
-			if (g_file_test(uri, G_FILE_TEST_IS_DIR))
-				treebrowser_browse(uri, &iter);
-			else
-				if (CONFIG_ONE_CLICK_CHDOC)
-					document_open_file(uri, FALSE, NULL, NULL);
-		}
-		else
+		if (g_file_test(uri, G_FILE_TEST_EXISTS)) {
+			if (!g_file_test(uri, G_FILE_TEST_IS_DIR) && CONFIG_ONE_CLICK_CHDOC)
+				document_open_file(uri, FALSE, NULL, NULL);
+		} else
 			gtk_tree_store_iter_clear_nodes(&iter, TRUE);
 
 		g_free(uri);
@@ -1498,8 +1493,10 @@ on_treeview_row_activated(GtkWidget *widget, GtkTreePath *path, GtkTreeViewColum
 		else
 			if (gtk_tree_view_row_expanded(GTK_TREE_VIEW(widget), path))
 				gtk_tree_view_collapse_row(GTK_TREE_VIEW(widget), path);
-			else
+			else {
+				treebrowser_browse(uri, &iter);
 				gtk_tree_view_expand_row(GTK_TREE_VIEW(widget), path, FALSE);
+			}
 	else
 		document_open_file(uri, FALSE, NULL, NULL);
 
