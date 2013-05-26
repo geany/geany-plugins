@@ -1446,6 +1446,28 @@ on_treeview_keypress(GtkWidget *widget, GdkEventKey *event)
 		on_button_go_up();
 		return TRUE;
 	}
+	if (event->keyval == GDK_Menu)
+	{
+		GtkTreeIter		iter;
+		GtkTreeModel	*model;
+		GtkTreePath		*path;
+		gchar *name = NULL, *uri = NULL;
+		GtkWidget *menu;
+		
+		if (gtk_tree_selection_get_selected(gtk_tree_view_get_selection(GTK_TREE_VIEW(widget)), &model, &iter))
+			gtk_tree_model_get(GTK_TREE_MODEL(treestore), &iter,
+								TREEBROWSER_COLUMN_NAME, &name,
+								TREEBROWSER_COLUMN_URI, &uri,
+								-1);
+
+		menu = create_popup_menu(name != NULL ? name : "", uri != NULL ? uri : "");
+		gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, event->time);
+
+		g_free(name);
+		g_free(uri);
+		
+		return TRUE;
+	}
 
 	return FALSE;
 }
