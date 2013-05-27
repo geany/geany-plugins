@@ -892,6 +892,61 @@ parse_flags_line (ScintillaObject  *sci,
   }
 }
 
+static gint
+find_msgid_line_at (GeanyDocument  *doc,
+                    gint            pos)
+{
+  ScintillaObject *sci = doc->editor->sci;
+  gint line = sci_get_line_from_position (sci, pos);
+  gint style = find_first_non_default_style_on_line (sci, line);
+  
+  while (line > 0 &&
+         (style == SCE_PO_DEFAULT ||
+          (style == SCE_PO_MSGID && ! line_is_primary_msgid (sci, line)) ||
+          style == SCE_PO_MSGID_TEXT ||
+          style == SCE_PO_MSGSTR ||
+          style == SCE_PO_MSGSTR_TEXT)) {
+    line--;
+    style = find_first_non_default_style_on_line (sci, line);
+  }
+  while (line < sci_get_line_count (sci) &&
+         (style == SCE_PO_COMMENT ||
+          style == SCE_PO_PROGRAMMER_COMMENT ||
+          style == SCE_PO_REFERENCE ||
+          style == SCE_PO_FLAGS ||
+          style == SCE_PO_FUZZY)) {
+    line++;
+    style = find_first_non_default_style_on_line (sci, line);
+  }
+  
+  return (style == SCE_PO_MSGID) ? line : -1;
+}
+
+static gint
+find_flags_line_at (GeanyDocument  *doc,
+                    gint            pos)
+{
+  gint line = find_msgid_line_at (doc, pos);
+  
+  if (line > 0) {
+    gint style;
+    
+    do {
+      line--;
+      style = find_first_non_default_style_on_line (doc->editor->sci, line);
+    } while (line > 0 &&
+             (style == SCE_PO_COMMENT ||
+              style == SCE_PO_PROGRAMMER_COMMENT ||
+              style == SCE_PO_REFERENCE));
+    
+    if (style != SCE_PO_FLAGS && style != SCE_PO_FUZZY) {
+      line = -1;
+    }
+  }
+  
+  return line;
+}
+
 /* adds or remove @flag from @flags.  returns whether the flag was added */
 static gboolean
 toggle_flag (GPtrArray   *flags,
@@ -959,57 +1014,23 @@ on_kb_toggle_fuzziness (guint key_id)
   if (doc_is_po (doc)) {
     ScintillaObject *sci = doc->editor->sci;
     gint pos = sci_get_current_position (sci);
-    gint line = sci_get_line_from_position (sci, pos);
-    gint style = find_first_non_default_style_on_line (sci, line);
+    gint msgid_line = find_msgid_line_at (doc, pos);
+    gint flags_line = find_flags_line_at (doc, pos);
     
-    /* find the msgid for the current line */
-    while (line > 0 &&
-           (style == SCE_PO_DEFAULT ||
-            (style == SCE_PO_MSGID && ! line_is_primary_msgid (sci, line)) ||
-            style == SCE_PO_MSGID_TEXT ||
-            style == SCE_PO_MSGSTR ||
-            style == SCE_PO_MSGSTR_TEXT)) {
-      line--;
-      style = find_first_non_default_style_on_line (sci, line);
-    }
-    while (line < sci_get_line_count (sci) &&
-           (style == SCE_PO_COMMENT ||
-            style == SCE_PO_PROGRAMMER_COMMENT ||
-            style == SCE_PO_REFERENCE ||
-            style == SCE_PO_FLAGS ||
-            style == SCE_PO_FUZZY)) {
-      line++;
-      style = find_first_non_default_style_on_line (sci, line);
-    }
-    
-    if (style == SCE_PO_MSGID) {
-      gint msgid_line = line;
+    if (flags_line >= 0 || msgid_line >= 0) {
       GPtrArray *flags = g_ptr_array_new ();
       
       sci_start_undo_action (sci);
       
-      if (line > 0) {
-        /* search for an existing flags line */
-        do {
-          line--;
-          style = find_first_non_default_style_on_line (sci, line);
-        } while (line > 0 &&
-                 (style == SCE_PO_COMMENT ||
-                  style == SCE_PO_PROGRAMMER_COMMENT ||
-                  style == SCE_PO_REFERENCE));
-        
-        if (style == SCE_PO_FLAGS || style == SCE_PO_FUZZY) {
-          /* ok we got a line with flags, parse them and remove them */
-          parse_flags_line (sci, line, flags);
-          delete_line (sci, line);
-        } else {
-          /* no flags, add the line */
-          line = msgid_line;
-        }
+      if (flags_line >= 0) {
+        parse_flags_line (sci, flags_line, flags);
+        delete_line (sci, flags_line);
+      } else {
+        flags_line = msgid_line;
       }
       
       toggle_flag (flags, "fuzzy");
-      write_flags (sci, sci_get_position_from_line (sci, line), flags);
+      write_flags (sci, sci_get_position_from_line (sci, flags_line), flags);
       
       sci_end_undo_action (sci);
       
