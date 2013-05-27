@@ -702,6 +702,7 @@ get_msgstr_text_at (GeanyDocument  *doc,
   if (pos >= 0) {
     ScintillaObject *sci = doc->editor->sci;
     GString *msgstr = g_string_new (NULL);
+    gint length = sci_get_length (sci);
     
     while (sci_get_style_at (sci, pos) == SCE_PO_MSGSTR_TEXT) {
       pos++; /* skip opening quote */
@@ -712,7 +713,7 @@ get_msgstr_text_at (GeanyDocument  *doc,
       pos++; /* skip closing quote */
       
       /* skip until next non-default style */
-      while (sci_get_style_at (sci, pos) == SCE_PO_DEFAULT) {
+      while (pos < length && sci_get_style_at (sci, pos) == SCE_PO_DEFAULT) {
         pos++;
       }
     }
