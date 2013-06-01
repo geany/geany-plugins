@@ -52,6 +52,8 @@ enum
 	VC_COMMAND_STARTDIR_FILE
 };
 
+#define COMMIT_DIFF_MAXLENGTH  16384
+
 #define FLAG_RELOAD         (1<<0)
 #define FLAG_FORCE_ASK      (1<<1)
 #define FLAG_FILE           (1<<2)
