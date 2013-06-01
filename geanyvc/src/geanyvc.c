@@ -1075,13 +1075,26 @@ get_commit_diff(GtkTreeView * treeview)
 }
 
 static void
-set_diff_buff(GtkTextBuffer * buffer, const gchar * txt)
+set_diff_buff(GtkWidget * textview, GtkTextBuffer * buffer, const gchar * txt)
 {
 	GtkTextIter start, end;
 	GtkTextMark *mark;
 	gchar *filename;
 	const gchar *tagname = "";
 	const gchar *c, *p = txt;
+
+	if (strlen(txt) > COMMIT_DIFF_MAXLENGTH)
+	{
+		gtk_text_buffer_set_text(buffer,
+			_("The resulting differences cannot be displayed because "
+			  "the changes are too big to display here and would slow down the UI significantly."
+			  "\n\n"
+			  "To view the differences, cancel this dialog and open the differences "
+			  "in Geany directly by using the GeanyVC menu (Base Dirrectory -> Diff)."), -1);
+		gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview), GTK_WRAP_WORD);
+		return;
+	}
+	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview), GTK_WRAP_NONE);
 
 	gtk_text_buffer_set_text(buffer, txt, -1);
 
@@ -1152,7 +1165,7 @@ refresh_diff_view(GtkTreeView *treeview)
 	gchar *diff;
 	GtkWidget *diffView = ui_lookup_widget(GTK_WIDGET(treeview), "textDiff");
 	diff = get_commit_diff(GTK_TREE_VIEW(treeview));
-	set_diff_buff(gtk_text_view_get_buffer(GTK_TEXT_VIEW(diffView)), diff);
+	set_diff_buff(diffView, gtk_text_view_get_buffer(GTK_TEXT_VIEW(diffView)), diff);
 	g_free(diff);
 }
 
@@ -1523,7 +1536,7 @@ vccommit_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 	gtk_text_buffer_create_tag(diffbuf, "invisible", "invisible",
 				   TRUE, NULL);
 
-	set_diff_buff(diffbuf, diff);
+	set_diff_buff(diffView, diffbuf, diff);
 
 	if (set_maximize_commit_dialog)
 	{
@@ -1748,7 +1761,7 @@ on_configure_response(G_GNUC_UNUSED GtkDialog * dialog, gint response,
 			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.cb_confirm_add));
 		set_maximize_commit_dialog =
 			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.cb_max_commit));
-		
+
 		set_external_diff =
 			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.cb_external_diff));
 
@@ -1879,7 +1892,7 @@ plugin_configure(GtkDialog * dialog)
 			       "inside tools menu or directly inside Geany's menubar."
 			       "Will take in account after next start of GeanyVC"));
 	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_attach_to_menubar), FALSE);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_attach_to_menubar), 
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_attach_to_menubar),
 		set_menubar_entry);
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_attach_to_menubar, TRUE, FALSE, 2);
 
@@ -2241,7 +2254,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	GtkWidget *menu_vc_file = NULL;
 	GtkWidget *menu_vc_dir = NULL;
 	GtkWidget *menu_vc_basedir = NULL;
-	
+
 	config_file =
 		g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
 			    "VC", G_DIR_SEPARATOR_S, "VC.conf", NULL);
@@ -2253,7 +2266,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	if (set_menubar_entry == TRUE)
 	{
 		GtkMenuShell *menubar;
-		
+
 		menubar = GTK_MENU_SHELL(
 				ui_lookup_widget(geany->main_widgets->window, "menubar1"));
 
