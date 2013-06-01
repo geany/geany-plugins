@@ -12,6 +12,9 @@ addons/src/ao_wrapwords.c
 addons/src/ao_doclist.c
 addons/src/addons.c
 
+# Autoclose
+autoclose/src/autoclose.c
+
 # codenav
 codenav/src/codenavigation.c
 codenav/src/goto_file.c
