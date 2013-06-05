@@ -158,7 +158,12 @@ get_base_dir(const gchar * path)
 		break;
 	}
 	while (strcmp(base, base_prev) != 0);
-
+	if (base_prev == NULL)
+	{
+		/* fallback for Subversion 1.7: try to climb up the tree until we
+		* find a .svn subdirectory */
+		base_prev = find_subdir_path(path, ".svn");
+	}
 	g_free(base);
 	return base_prev;
 }
