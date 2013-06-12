@@ -1,0 +1,73 @@
+GeanyPy
+=======
+
+Write Geany plugins in Python!
+
+Provides most of the standard Geany C API for Python.
+
+**Please note:** GeanyPy here in geany-plugins is based on the upstream 
+at https://github.com/codebrainz/geanypy which is still under 
+development, however it is useful as is.  Parts of the existing API 
+which mirror the Geany C API will probably not change unless the Geany API 
+changes, however new API may be added.  Also documentation is needed, 
+contributions are welcome.
+
+How it works
+------------
+
+In the ``src/`` directory is a normal Geany plugin (``plugin.c``) which loads the
+Python interpreter.  It then loads some C Python modules (``dialogs.c``,
+``documents.c``, etc.) that interface with Geany's C API.  After that, it loads
+the ``geany`` Python module which is just glue/sugar-coating to make the C
+module more "Pythonic".
+
+To write a plugin, inherit from the ``geany.Plugin`` class and implmenent the
+required members (see ``geany/plugin.py`` documentation comments).  Then put the
+plugin in a searched plugin path.  Currently two locations are search for
+plugins.  The first is ``PREFIX/share/geany/geanypy/plugins`` and the recommended
+location is under your personal Geany directory (usually
+``~/.config/geany/plugins/geanypy/plugins``).  To load or unload plugins, click
+the Python Plugin Manager item under the Tools menu which will appear when you
+activate GeanyPy through Geany's regular plugin manager.
+
+When the GeanyPy plugin is loaded, it has an option to add a new tab to 
+the notebook in the message window area that contains an interactive 
+Python shell with the ``geany`` module pre-imported.  You can tinker 
+around with API with this console, for example::
+
+
+    import geany
+    
+    doc = geany.document.open_file("/some/file/here")
+    
+    print(doc.file_name)
+    print(doc.file_type.display_name)
+    
+    geany.dialogs.show_msgbox("Hello World")
+    
+    geany.main_widgets.window.set_title("Hello Window")
+    
+    def on_document_open(doc):
+        print("Document '%s' was opened" % doc.file_name)
+    
+    geany.signals.connect('document-open', on_document_open)
+    
+
+Dependencies
+------------
+
+To build GeanyPy you need the following dependencies:
+
+* Python 2.6 or 2.7 and development files.
+* Geany 1.24+ and development files
+* PyGTK 2.0 and development files
+
+Running on Windows
+------------------
+
+Not currently supported for the geany-plugins version, see upstream 
+https://github.com/codebrainz/geanypy.
+
+Upstream developed by Matthew Brush.
+
+Geany-plugins version maintained by elextr@lists.geany.org

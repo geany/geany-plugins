@@ -184,6 +184,9 @@ geanyprj/src/sidebar.c
 geanyprj/src/utils.c
 geanyprj/src/xproject.c
 
+# Geanypy
+geanypy/src/geanypy-plugin.c
+
 # geanysendmail
 geanysendmail/src/geanysendmail.c
 
