@@ -114,6 +114,12 @@ M: Yura Siamashka <yurand2@gmail.com>
 W: http://plugins.geany.org/geanyprj.html
 S: Odd Fixes
 
+geanypy
+P: Lex Trotman <elextr@gmail.com>
+M: Lex Trotman <elextr@gmail.com>
+W: http://plugins.geany.org/geanypy.html
+S: Maintained
+
 geanysendmail
 P: Frank Lanitz <frank@frank.uvena.de>
 M: Frank Lanitz <frank@frank.uvena.de>

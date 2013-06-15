@@ -1,0 +1,38 @@
+include ../win32env.mk
+
+SOURCES = \
+	geanypy-app.c \
+	geanypy-dialogs.c \
+	geanypy-document.c \
+	geanypy-editor.c \
+	geanypy-encoding.c \
+	geanypy-filetypes.c \
+	geanypy-highlighting.c \
+	geanypy-indentprefs.c \
+	geanypy-interfaceprefs.c \
+	geanypy-main.c \
+	geanypy-mainwidgets.c \
+	geanypy-msgwindow.c \
+	geanypy-navqueue.c \
+	geanypy-plugin.c \
+	geanypy-prefs.c \
+	geanypy-project.c \
+	geanypy-scinotification.c \
+	geanypy-scinotifyheader.c \
+	geanypy-scintilla.c \
+	geanypy-search.c \
+	geanypy-signalmanager.c \
+	geanypy-templates.c \
+	geanypy-uiutils.c
+
+OBJECTS = $(SOURCES:.c=.o)
+
+
+geanypy.dll: $(OBJECTS)
+	$(CC) -shared -o $@ $^ $(_LDFLAGS)
+
+%.o: %.c
+	$(CC) $(_CFLAGS) -c -o $@ $<
+
+clean:
+	$(RM_F) geanypy.dll *.o
