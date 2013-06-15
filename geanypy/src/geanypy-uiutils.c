@@ -123,8 +123,8 @@ UiUtils_combo_box_add_to_history(PyObject *module, PyObject *args, PyObject *kwa
 	{
 		GOB_CHECK(py_cbo, 1);
 		widget = pygobject_get(py_cbo);
-		GOB_TYPE_CHECK(widget, GTK_TYPE_COMBO_BOX_ENTRY, 1);
-		ui_combo_box_add_to_history(GTK_COMBO_BOX_ENTRY(widget), text, hist_len);
+		GOB_TYPE_CHECK(widget, GTK_TYPE_COMBO_BOX_TEXT, 1);
+		ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(widget), text, hist_len);
 	}
 
 	Py_RETURN_NONE;

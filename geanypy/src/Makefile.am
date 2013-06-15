@@ -8,6 +8,7 @@ geanypy_la_CPPFLAGS			=	@GEANY_CFLAGS@ @PYGTK_CFLAGS@ @PYTHON_CPPFLAGS@ \
 								-DGEANYPY_PYTHON_DIR="\"$(libdir)/geany/geanypy\"" \
 								-DGEANYPY_PLUGIN_DIR="\"$(datadir)/geany/geanypy/plugins\"" \
 								-UHAVE_CONFIG_H
+geanypy_la_CFLAGS           =   -fno-strict-aliasing -Wno-write-strings
 geanypy_la_LIBADD			=	@GEANY_LIBS@ @PYGTK_LIBS@ @PYTHON_LDFLAGS@ \
 								@PYTHON_EXTRA_LIBS@ @PYTHON_EXTRA_LDFLAGS@
 geanypy_la_SOURCES			=	geanypy-app.c \
