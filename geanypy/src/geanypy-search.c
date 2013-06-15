@@ -76,7 +76,28 @@ static PyTypeObject SearchPrefsType = {
 };
 
 
-static PyMethodDef SearchPrefsModule_methods[] = { { NULL } };
+static PyObject *
+Search_show_find_in_files_dialog(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+	gchar *dir = NULL;
+	static gchar *kwlist[] = { "init_dir", NULL };
+
+	PyArg_ParseTupleAndKeywords(args, kwargs, "s", kwlist, &dir);
+	search_show_find_in_files_dialog(dir);
+
+	Py_RETURN_NONE;
+}
+
+
+static PyMethodDef SearchPrefsModule_methods[] = {
+	{ "show_find_in_files_dialog",
+		(PyCFunction) Search_show_find_in_files_dialog,
+		METH_KEYWORDS,
+		"Shows the Find in Files dialog, taking an optional directory "
+		"to search in for the dialog or if not specified then uses "
+		"the current document's directory." },
+	{ NULL }
+};
 
 
 PyMODINIT_FUNC initsearch(void)
