@@ -33,6 +33,7 @@ defines = [ subst_vars('MARKDOWN_DATA_DIR="${PKGDATADIR}/markdown"', bld.env),
             subst_vars('MARKDOWN_HELP_FILE="${DOCDIR}/markdown/html/help.html"', bld.env) ]
 libraries = [ 'GTK', 'GTHREAD', 'WEBKIT', 'DISCOUNT' ]
 sources = [ "src/conf.c",
+            "src/markdown-gtk-compat.c",
             "src/plugin.c",
             "src/viewer.c" ]
 
