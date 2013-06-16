@@ -400,6 +400,7 @@ on_document_activate(GObject *obj, GeanyDocument *doc, gpointer user_data)
 PluginCallback plugin_callbacks[] =
 {
 	{ "document-open", (GCallback) &on_document_activate, FALSE, NULL },
+	{ "document-new", (GCallback) &on_document_activate, FALSE, NULL },
 	{ NULL, NULL, FALSE, NULL }
 };
 
