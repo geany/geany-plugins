@@ -21,7 +21,6 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 from build.wafutils import check_cfg_cached
-from waflib.Errors import ConfigurationError
 
 
 packages = [ ('gtk+-2.0', '2.16', 'GTK'),
