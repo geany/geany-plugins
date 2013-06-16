@@ -17,6 +17,12 @@ M: Enrico Tröger <enrico.troeger@uvena.de>
 W: http://plugins.geany.org/addons.html
 S: Maintained
 
+autoclose
+P: Pavel Roschin <rpg89@post.ru>
+M: Pavel Roschin <rpg89@post.ru>
+W:
+S: Maintained
+
 codenav
 P:
 M:

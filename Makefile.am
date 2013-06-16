@@ -6,6 +6,10 @@ if ENABLE_ADDONS
 SUBDIRS += addons
 endif
 
+if ENABLE_AUTOCLOSE
+SUBDIRS += autoclose
+endif
+
 if ENABLE_CODENAV
 SUBDIRS += codenav
 endif
