@@ -14,8 +14,8 @@ AC_DEFUN([GP_ARG_DISABLE],
 ])
 
 dnl GP_CHECK_PLUGIN_DEPS(PluginName, VARIABLE-PREFIX,  modules...)
-dnl Checks whether modules exist using PKG_CHECK_MODULES, and enables/disables
-dnl plugins appropriately if enable_$plugin=auto
+dnl Checks whether modules exist using PKG_CHECK_MODULES, and error
+dnl out/disables plugins appropriately depending on enable_$plugin
 AC_DEFUN([GP_CHECK_PLUGIN_DEPS],
 [
     AC_REQUIRE([GP_CHECK_GTK_VERSION])
@@ -29,7 +29,7 @@ AC_DEFUN([GP_CHECK_PLUGIN_DEPS],
         PKG_CHECK_MODULES([$2], [$3])
     elif test "$m4_tolower(AS_TR_SH(enable_$1))" = "auto"; then
         PKG_CHECK_MODULES([$2], [$3],
-                          [m4_tolower(AS_TR_SH(enable_$1))=yes],
+                          [],
                           [m4_tolower(AS_TR_SH(enable_$1))=no])
     fi
 ])
