@@ -651,4 +651,8 @@ void sc_gui_init(void)
 void sc_gui_free(void)
 {
 	g_free(clickinfo.word);
+	if (check_line_data.check_while_typing_idle_source_id != 0)
+	{
+		g_source_remove(check_line_data.check_while_typing_idle_source_id);
+	}
 }
