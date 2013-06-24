@@ -1,3 +1,12 @@
+Scope 0.90 (2013-05-17)
+
+    * Added Registers next to Inspect.
+
+    * Display win32 error texts instead of codes.
+
+    * Changing the thread/frame honours "Update all views".
+
+
 Scope 0.89 (2013-05-17)
 
     * Small fixes and improvements. This should be the last version

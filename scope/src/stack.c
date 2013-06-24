@@ -199,8 +199,7 @@ static void on_stack_selection_changed(GtkTreeSelection *selection,
 	else
 		frame_id = NULL;
 
-	view_dirty(VIEW_LOCALS);
-	view_dirty(VIEW_WATCHES);
+	views_context_dirty(debug_state(), TRUE);
 }
 
 static void stack_seek_selected(gboolean focus)
@@ -341,7 +340,7 @@ void stack_init(void)
 	view_set_sort_func(store, STACK_FILE, store_seek_compare);
 	view_set_line_data_func("stack_line_column", "stack_line", STACK_LINE);
 	gtk_widget_set_has_tooltip(GTK_WIDGET(tree), TRUE);
-	g_signal_connect(tree, "query-tooltip", G_CALLBACK(on_view_query_tooltip),
+	g_signal_connect(tree, "query-tooltip", G_CALLBACK(on_view_query_base_tooltip),
 		get_column("stack_base_name_column"));
 
 	g_signal_connect(tree, "key-press-event", G_CALLBACK(on_view_key_press),

@@ -245,8 +245,8 @@ static gint inspect_variable_store(GtkTreeIter *iter, const ParseVariable *var)
 	return format;
 }
 
-static const char *const inspect_formats[FORMAT_COUNT] = { "natural", "decimal", "hex",
-	"octal", "binary" };
+static const char *const inspect_formats[FORMAT_COUNT] = { "natural", "decimal",
+	"hexadecimal", "octal", "binary" };
 
 void on_inspect_variable(GArray *nodes)
 {
@@ -295,7 +295,7 @@ void on_inspect_format(GArray *nodes)
 			gchar *display = inspect_redisplay(&iter, value, NULL);
 
 			scp_tree_store_set(store, &iter, INSPECT_DISPLAY, display, INSPECT_VALUE,
-				&value, INSPECT_FORMAT, format, -1);
+				value, INSPECT_FORMAT, format, -1);
 			g_free(display);
 		}
 	}
@@ -499,15 +499,6 @@ gboolean inspects_update(void)
 	return TRUE;
 }
 
-static GtkNotebook *geany_sidebar;
-static GtkWidget *inspect_page;
-
-gboolean inspects_current(void)
-{
-	gint page_num = gtk_notebook_get_current_page(geany_sidebar);
-	return gtk_notebook_get_nth_page(geany_sidebar, page_num) == inspect_page;
-}
-
 static void inspect_iter_apply(GtkTreeIter *iter, G_GNUC_UNUSED gpointer gdata)
 {
 	const char *frame;
@@ -629,15 +620,19 @@ void inspects_update_state(DebugState state)
 	static gboolean last_active = FALSE;
 	gboolean active = state != DS_INACTIVE;
 	GtkTreeIter iter;
-	const char *var1 = NULL;
-	gint numchild = 0;
 
-	if ((state & DS_SENDABLE) && gtk_tree_selection_get_selected(selection, NULL, &iter))
+	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-		scp_tree_store_get(store, &iter, INSPECT_VAR1, &var1, INSPECT_NUMCHILD, &numchild,
-			-1);
+		const char *var1 = NULL;
+		gint numchild = 0;
+
+		if (state & DS_SENDABLE)
+		{
+			scp_tree_store_get(store, &iter, INSPECT_VAR1, &var1, INSPECT_NUMCHILD,
+				&numchild, -1);
+		}
+		g_object_set(inspect_display, "editable", var1 && !numchild, NULL);
 	}
-	g_object_set(inspect_display, "editable", var1 && !numchild, NULL);
 
 	if (active != last_active)
 	{
@@ -1060,13 +1055,6 @@ static void on_inspect_menu_show(G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED 
 	}
 }
 
-static void on_geany_sidebar_switch_page(G_GNUC_UNUSED GtkNotebook *notebook, gpointer page,
-	G_GNUC_UNUSED gint page_num, G_GNUC_UNUSED gpointer gdata)
-{
-	if (page == inspect_page)
-		view_inspect_update();
-}
-
 void inspect_init(void)
 {
 	GtkWidget *menu;
@@ -1074,12 +1062,6 @@ void inspect_init(void)
 	jump_to_item = get_widget("inspect_jump_to_item");
 	jump_to_menu = GTK_CONTAINER(get_widget("inspect_jump_to_menu"));
 	apply_item = menu_item_find(inspect_menu_items, "inspect_apply");
-
-	inspect_page = get_widget("inspect_page");
-	geany_sidebar = GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook);
-	g_signal_connect(geany_sidebar, "switch-page", G_CALLBACK(on_geany_sidebar_switch_page),
-		NULL);
-	gtk_notebook_append_page(geany_sidebar, inspect_page, get_widget("inspect_label"));
 
 	tree = view_connect("inspect_view", &store, &selection, inspect_cells, "inspect_window",
 		&inspect_display);
@@ -1119,7 +1101,6 @@ void inspect_init(void)
 
 void inspect_finalize(void)
 {
-	gtk_widget_destroy(inspect_page);
 	gtk_widget_destroy(inspect_dialog);
 	gtk_widget_destroy(expand_dialog);
 	g_free(jump_to_expr);

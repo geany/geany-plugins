@@ -35,6 +35,10 @@
 	<td class="tab">un/check break enabled column</td>
 	<td class="tab">set breakpoint enabled column, remark breakpoint</td></tr>
 
+<tr><td class="nowrap">02[01]&lt;scid&gt;-break-disable</td>
+	<td class="tab">un/check break enabled column</td>
+	<td class="tab">set breakpoint enabled column, remark breakpoint</td></tr>
+
 <tr><td class="nowrap">022&lt;id&gt;-break-after</td>
 	<td class="tab">breakpoint <em>Ignore</em> column edited</td>
 	<td class="tab">&lt;id&gt;-break-info</td></tr>
@@ -87,9 +91,21 @@
 	<td class="tab"><em>Syncronize</em> stack</td>
 	<td class="tab">select the current gdb frame</td></tr>
 
-<tr><td class="nowrap">02&lt;tid&gt;&lt;fid&gt;-stack-list-variables</td>
+<tr><td class="nowrap">02&lt;fid&gt;-stack-list-variables</td>
 	<td class="tab"><em>Refresh</em> locals</td>
 	<td class="tab">clear locals list and load local variables into it</td></tr>
+
+<tr><td class="nowrap">02-data-list-register-names</td>
+	<td class="tab"><em>Query</em> register names</td>
+	<td class="tab">029&lt;fid&gt;-data-list-register-values &lt;all&gt;</td>
+
+<tr><td class="nowrap">029&lt;fid&gt;-data-list-register-values</td>
+	<td class="tab"><em>Refresh</em> registers, see above</td>
+	<td class="tab">update register values</td>
+
+<tr><td class="nowrap">02&lt;f&gt;&lt;fid&gt;-data-list-register-values</td>
+	<td class="tab">change register <em>Format</em></td>
+	<td class="tab">update register value and/or format</td>
 
 <tr><td class="nowrap">&nbsp;</td><td class="tab">&nbsp;</td><td class="tab">&nbsp;</td></tr>
 
@@ -101,7 +117,7 @@
 
 <tr><td class="nowrap">04-break-list</td>
 	<td class="tab">views idle update</td>
-	<td class="tab">same as 02-break-list</td></tr>
+	<td class="tab">same as 02</td></tr>
 
 <tr><td class="nowrap">04-thread-info &lt;id&gt;</td>
 	<td class="tab">thread created -&gt; fetch target id</td>
@@ -121,15 +137,15 @@
 
 <tr><td class="nowrap">04&lt;tid&gt;-stack-list-frames</td>
 	<td class="tab">views idle update</td>
-	<td class="tab">same as 02&lt;tid&gt;-stack-list-frames</td></tr>
+	<td class="tab">same as 02</td></tr>
 
 <tr><td class="nowrap">04&lt;tid&gt;-stack-list-arguments</td>
 	<td class="tab">views idle update</td>
-	<td class="tab">same as 02&lt;tid&gt;-stack-list-arguments</td></tr>
+	<td class="tab">same as 02</td></tr>
 
-<tr><td class="nowrap">04&lt;tid&gt;&lt;fid&gt;-stack-list-variables</td>
+<tr><td class="nowrap">04&lt;fid&gt;-stack-list-variables</td>
 	<td class="tab">views idle update</td>
-	<td class="tab">same as 02&lt;tid&gt;-stack-list-variables</td></tr>
+	<td class="tab">same as 02</td></tr>
 
 <tr><td class="nowrap">04-data-read-memory-bytes</td>
 	<td class="tab">views idle update</td>
@@ -139,6 +155,14 @@
 	<td class="tab">at stopped thread without address</td>
 	<td class="tab">fill the thread columns</td></tr>
 
+<tr><td class="nowrap">04&lt;fid&gt;-data-list-changed-registers</td>
+	<td class="tab">views idle update</td>
+	<td class="tab">049&lt;fid&gt;-data-list-register-values &lt;changed&gt;</td>
+
+<tr><td class="nowrap">049&lt;fid&gt;-data-list-register-values</td>
+	<td class="tab">views idle update, see above</td>
+	<td class="tab">same as 02</td>
+
 <tr><td class="nowrap">&nbsp;</td><td class="tab">&nbsp;</td><td class="tab">&nbsp;</td></tr>
 
 <tr><td class="nowrap">05</td>
@@ -147,11 +171,11 @@
 
 <tr><td class="nowrap">05</td>
 	<td class="tab">after temp break insert <em>location</em></td>
-	<td class="tab">-exec-run if active breaks &amp; no errors</td></tr>
+	<td class="tab">same as above</td></tr>
 
 <tr><td class="nowrap">05</td>
 	<td class="tab">after temp break insert <em>1st loc</em></td>
-	<td class="tab">-exec-run if active breaks &amp; no errors</td></tr>
+	<td class="tab">same as above</td></tr>
 
 <tr><td class="nowrap">05-list-features</td>
 	<td class="tab">first time gdb startup</td>
@@ -211,6 +235,16 @@
 	<td class="tab">popup <em>Evaluate/Modify</em></td>
 	<td class="tab">command dialog with -gdb-set var expr=value</td></tr>
 
+</table>
+
+<br>
+
+<table>
+<tr><td>&lt;scid&gt;</td><td class="tab">internal id assigned by scope</td></tr>
+<tr><td>&lt;id&gt;</td><td class="tab">gdb id</td>
+<tr><td>&lt;tid&gt;</td><td class="tab">selected thread id</td>
+<tr><td>&lt;fid&gt;</td><td class="tab">selected thread and frame id: &lt;length of thread id
+- 1&gt;&lt;thread id&gt;&lt;frame id&gt;</td></tr>
 </table>
 
 </body>

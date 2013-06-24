@@ -30,23 +30,25 @@ typedef enum _ViewIndex
 	VIEW_MEMORY,
 	VIEW_CONSOLE,
 	VIEW_INSPECT,
+	VIEW_REGISTERS,
 	VIEW_TOOLTIP,
 	VIEW_POPMENU,
 	VIEW_COUNT
 } ViewIndex;
 
 void view_dirty(ViewIndex index);
-void views_data_dirty(void);
+void views_context_dirty(DebugState state, gboolean frame_only);
+#define views_data_dirty(state) views_context_dirty((state), FALSE)
 void views_clear(void);
 void views_update(DebugState state);
 gboolean view_stack_update(void);
-void view_inspect_update(void);
+void view_local_update(void);
 
 void on_view_changed(GtkNotebook *notebook, gpointer page, gint page_num, gpointer gdata);
 typedef void (*ViewSeeker)(gboolean focus);
 gboolean on_view_key_press(GtkWidget *widget, GdkEventKey *event, ViewSeeker seeker);
 gboolean on_view_button_1_press(GtkWidget *widget, GdkEventButton *event, ViewSeeker seeker);
-gboolean on_view_query_tooltip(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip,
+gboolean on_view_query_base_tooltip(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip,
 	GtkTooltip *tooltip, GtkTreeViewColumn *base_name_column);
 
 enum

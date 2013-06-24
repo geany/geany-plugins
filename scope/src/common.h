@@ -24,6 +24,7 @@ extern GeanyData *geany_data;
 extern GeanyFunctions *geany_functions;
 
 typedef struct _MenuItem MenuItem;
+#define FRAME_ARGS '0' + (int) strlen(thread_id) - 1, thread_id, frame_id
 
 #include "break.h"
 #include "conterm.h"
@@ -37,6 +38,7 @@ typedef struct _MenuItem MenuItem;
 #include "plugme.h"
 #include "prefs.h"
 #include "program.h"
+#include "register.h"
 #include "stack.h"
 #include "scope.h"
 #include "store.h"

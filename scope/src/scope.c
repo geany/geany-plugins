@@ -32,7 +32,7 @@ GeanyFunctions *geany_functions;
 PLUGIN_VERSION_CHECK(215)
 
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, _("Scope Debugger"),
-	_("Relatively simple GDB front-end."), "0.88" ,
+	_("Relatively simple GDB front-end."), "0.90" ,
 	"Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
 
 /* Keybinding(s) */
@@ -560,6 +560,7 @@ void plugin_init(G_GNUC_UNUSED GeanyData *gdata)
 	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(debug_panel), pref_panel_tab_pos);
 	conterm_init();
 	inspect_init();
+	register_init();
 	parse_init();
 	debug_init();
 	views_init();
@@ -613,6 +614,7 @@ void plugin_cleanup(void)
 	tooltip_finalize();
 	program_finalize();
 	conterm_finalize();
+	registers_finalize();
 	inspect_finalize();
 	thread_finalize();
 	break_finalize();

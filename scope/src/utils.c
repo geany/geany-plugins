@@ -41,7 +41,9 @@ void show_errno(const char *prefix)
 
 void show_errno(const char *prefix)
 {
-	show_error(_("%s: error %lu."), prefix, (unsigned long) GetLastError());
+	gchar *error = g_win32_error_message(GetLastError());
+	show_error(_("%s: %s"), prefix, error);
+	g_free(error);
 }
 #endif  /* G_OS_UNIX */
 
@@ -602,6 +604,14 @@ static void on_insert_text(GtkEditable *editable, gchar *new_text, gint new_text
 
 	if (!valid)
 		g_signal_stop_emission_by_name(editable, "insert-text");
+}
+
+gboolean utils_matches_frame(const char *token)
+{
+	size_t len = *token - '0' + 1;
+
+	return thread_id && len == strlen(thread_id) && strlen(++token) > len &&
+		!memcmp(token, thread_id, len) && !g_strcmp0(token + len, frame_id);
 }
 
 void validator_attach(GtkEditable *editable, gint validator)

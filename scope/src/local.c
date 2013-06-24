@@ -82,11 +82,7 @@ static void local_node_variable(const ParseNode *node, const LocalData *ld)
 
 void on_local_variables(GArray *nodes)
 {
-	const char *token = parse_grab_token(nodes);
-	size_t len = *token - '0' + 1;
-
-	if (thread_id && frame_id && len == strlen(thread_id) &&
-		!memcmp(++token, thread_id, len) && !strcmp(token + len, frame_id))
+	if (utils_matches_frame(parse_grab_token(nodes)))
 	{
 		GtkTreeIter iter;
 		LocalData ld = { NULL, stack_entry() };
@@ -105,10 +101,9 @@ void locals_clear(void)
 	store_clear(store);
 }
 
-static void local_send_update(char token)
+static void locals_send_update(char token)
 {
-	debug_send_format(F, "0%c%c%s%s-stack-list-variables 1", token,
-		'0' + (int) strlen(thread_id) - 1, thread_id, frame_id);
+	debug_send_format(F, "0%c%c%s%s-stack-list-variables 1", token, FRAME_ARGS);
 }
 
 gboolean locals_update(void)
@@ -117,7 +112,7 @@ gboolean locals_update(void)
 		return FALSE;
 
 	if (frame_id)
-		local_send_update('4');
+		locals_send_update('4');
 	else
 		locals_clear();
 
@@ -133,7 +128,7 @@ void locals_update_state(DebugState state)
 
 static void on_local_refresh(G_GNUC_UNUSED const MenuItem *menu_item)
 {
-	local_send_update('2');
+	locals_send_update('2');
 }
 
 static void on_local_unsorted(G_GNUC_UNUSED const MenuItem *menu_item)

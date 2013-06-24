@@ -23,10 +23,17 @@
 
 #include "common.h"
 
+typedef enum _ViewContext
+{
+	VC_NONE,
+	VC_DATA,
+	VC_FRAME
+} ViewContext;
+
 typedef struct _ViewInfo
 {
 	gboolean dirty;
-	gboolean data;
+	ViewContext context;
 	void (*clear)(void);
 	gboolean (*update)(void);
 	gboolean flush;
@@ -35,34 +42,21 @@ typedef struct _ViewInfo
 
 static ViewInfo views[VIEW_COUNT] =
 {
-	{ FALSE, FALSE, NULL,           NULL,            FALSE, 0 },
-	{ FALSE, FALSE, threads_clear,  threads_update,  FALSE, DS_SENDABLE },
-	{ FALSE, FALSE, breaks_clear,   breaks_update,   FALSE, DS_SENDABLE },
-	{ FALSE, TRUE,  stack_clear,    stack_update,    TRUE,  DS_DEBUG },
-	{ FALSE, TRUE,  locals_clear,   locals_update,   TRUE,  DS_DEBUG },
-	{ FALSE, TRUE,  watches_clear,  watches_update,  TRUE,  DS_DEBUG },
-	{ FALSE, TRUE,  memory_clear,   memory_update,   TRUE,  DS_SENDABLE },
-	{ FALSE, FALSE, NULL,           dc_update,       FALSE, DS_DEBUG },
-	{ FALSE, TRUE,  inspects_clear, inspects_update, FALSE, DS_DEBUG },
-	{ FALSE, TRUE,  tooltip_clear,  tooltip_update,  FALSE, DS_SENDABLE },
-	{ FALSE, FALSE, menu_clear,     NULL,            FALSE, 0 }
+	{ FALSE, VC_NONE,  NULL,            NULL,             FALSE, 0 },
+	{ FALSE, VC_NONE,  threads_clear,   threads_update,   FALSE, DS_SENDABLE },
+	{ FALSE, VC_NONE,  breaks_clear,    breaks_update,    FALSE, DS_SENDABLE },
+	{ FALSE, VC_DATA,  stack_clear,     stack_update,     TRUE,  DS_DEBUG },
+	{ FALSE, VC_FRAME, locals_clear,    locals_update,    TRUE,  DS_DEBUG },
+	{ FALSE, VC_FRAME, watches_clear,   watches_update,   TRUE,  DS_DEBUG },
+	{ FALSE, VC_DATA,  memory_clear,    memory_update,    TRUE,  DS_SENDABLE },
+	{ FALSE, VC_NONE,  NULL,            dc_update,        FALSE, DS_DEBUG },
+	{ FALSE, VC_DATA,  inspects_clear,  inspects_update,  FALSE, DS_DEBUG },
+	{ FALSE, VC_FRAME, registers_clear, registers_update, TRUE,  DS_DEBUG },
+	{ FALSE, VC_DATA,  tooltip_clear,   tooltip_update,   FALSE, DS_SENDABLE },
+	{ FALSE, VC_NONE,  menu_clear,      NULL,             FALSE, 0 }
 };
 
-void view_dirty(ViewIndex index)
-{
-	views[index].dirty = TRUE;
-}
-
-void views_data_dirty(void)
-{
-	ViewIndex i;
-
-	for (i = 0; i < VIEW_COUNT; i++)
-		if (views[i].data)
-			view_dirty(i);
-}
-
-static void view_update_unconditional(ViewIndex index, DebugState state)
+static void view_update_dirty(ViewIndex index, DebugState state)
 {
 	ViewInfo *view = views + index;
 
@@ -81,7 +75,44 @@ static void view_update_unconditional(ViewIndex index, DebugState state)
 static void view_update(ViewIndex index, DebugState state)
 {
 	if (views[index].dirty)
-		view_update_unconditional(index, state);
+		view_update_dirty(index, state);
+}
+
+static GtkNotebook *geany_sidebar;
+static GtkWidget *inspect_page;
+static GtkWidget *register_page;
+
+static void views_sidebar_update(DebugState state)
+{
+	gint page_num = gtk_notebook_get_current_page(geany_sidebar);
+	GtkWidget *page = gtk_notebook_get_nth_page(geany_sidebar, page_num);
+
+	if (page == inspect_page)
+		view_update(VIEW_INSPECT, state);
+	else if (page == register_page)
+		view_update(VIEW_REGISTERS, state);
+}
+
+void view_dirty(ViewIndex index)
+{
+	views[index].dirty = TRUE;
+}
+
+void views_context_dirty(DebugState state, gboolean frame_only)
+{
+	ViewIndex i;
+
+	for (i = 0; i < VIEW_COUNT; i++)
+		if (views[i].context >= (frame_only ? VC_FRAME : VC_DATA))
+			view_dirty(i);
+
+	if (state != DS_BUSY)
+	{
+		if (option_update_all_views)
+			views_update(state);
+		else
+			views_sidebar_update(state);
+	}
 }
 
 static ViewIndex view_current = 0;
@@ -105,6 +136,7 @@ void views_update(DebugState state)
 	if (option_update_all_views)
 	{
 		ViewIndex i;
+		gboolean skip_frame = FALSE;
 
 		if (thread_state == THREAD_QUERY_FRAME)
 		{
@@ -116,12 +148,12 @@ void views_update(DebugState state)
 
 		for (i = 0; i < VIEW_COUNT; i++)
 		{
-			if (views[i].dirty)
+			if (views[i].dirty && (!skip_frame || views[i].context != VC_FRAME))
 			{
-				view_update_unconditional(i, state);
+				view_update_dirty(i, state);
 
 				if (i == VIEW_STACK && thread_state >= THREAD_STOPPED)
-					i = VIEW_WATCHES;
+					skip_frame = TRUE;
 			}
 		}
 	}
@@ -137,9 +169,7 @@ void views_update(DebugState state)
 
 		view_update(view_current, state);
 		view_update(VIEW_TOOLTIP, state);
-
-		if (inspects_current())
-			view_update(VIEW_INSPECT, state);
+		views_sidebar_update(state);
 	}
 }
 
@@ -148,16 +178,11 @@ gboolean view_stack_update(void)
 	if (views[VIEW_STACK].dirty)
 	{
 		DebugState state = thread_state >= THREAD_STOPPED ? DS_DEBUG : DS_READY;
-		view_update_unconditional(VIEW_STACK, state);
+		view_update_dirty(VIEW_STACK, state);
 		return state == DS_DEBUG;
 	}
 
 	return FALSE;
-}
-
-void view_inspect_update(void)
-{
-	view_update(VIEW_INSPECT, debug_state());
 }
 
 void on_view_changed(G_GNUC_UNUSED GtkNotebook *notebook, G_GNUC_UNUSED gpointer page,
@@ -191,7 +216,7 @@ gboolean on_view_button_1_press(GtkWidget *widget, GdkEventButton *event, ViewSe
 	return FALSE;
 }
 
-gboolean on_view_query_tooltip(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip,
+gboolean on_view_query_base_tooltip(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip,
 	GtkTooltip *tooltip, GtkTreeViewColumn *base_name_column)
 {
 	GtkTreeView *tree = GTK_TREE_VIEW(widget);
@@ -474,12 +499,12 @@ static void on_command_send_button_clicked(G_GNUC_UNUSED GtkButton *button,
 
 	thread_synchronize();
 	utils_strchrepl(text, '\n', ' ');
-	gtk_text_buffer_set_text(command_text, text, -1);
 	start = utils_skip_spaces(text);
 	locale = gtk_toggle_button_get_active(command_locale) ?
 		utils_get_locale_from_utf8(start) : g_strdup(start);
 	debug_send_command(N, locale);
 	g_free(locale);
+	gtk_text_buffer_set_text(command_text, "", -1);
 	gtk_widget_hide(command_dialog);
 
 	if (*start)
@@ -538,12 +563,15 @@ void view_command_line(const gchar *text, const gchar *title, const gchar *seek,
 			g_utf8_strlen(text, pos ? pos + strlen(seek) * seek_after - text : -1));
 		gtk_text_buffer_place_cursor(command_text, &iter);
 	}
+	else
+	{
+		gtk_text_buffer_get_start_iter(command_text, &start);
+		gtk_text_buffer_get_end_iter(command_text, &end);
+		gtk_text_buffer_select_range(command_text, &start, &end);
+	}
 
 	on_command_text_changed(command_text, NULL);
 	command_line_update_state(debug_state());
-	gtk_text_buffer_get_start_iter(command_text, &start);
-	gtk_text_buffer_get_end_iter(command_text, &end);
-	gtk_text_buffer_select_range(command_text, &start, &end);
 	gtk_combo_box_set_active_iter(command_history, NULL);
 	gtk_dialog_run(GTK_DIALOG(command_dialog));
 }
@@ -566,6 +594,12 @@ void views_update_state(DebugState state)
 		inspects_update_state(state);
 		last_state = state;
 	}
+}
+
+static void on_geany_sidebar_switch_page(G_GNUC_UNUSED GtkNotebook *notebook,
+	G_GNUC_UNUSED gpointer page, G_GNUC_UNUSED gint page_num, G_GNUC_UNUSED gpointer gdata)
+{
+	views_sidebar_update(debug_state());
 }
 
 void views_init(void)
@@ -596,9 +630,19 @@ void views_init(void)
 	g_signal_connect(command_send, "clicked", G_CALLBACK(on_command_send_button_clicked),
 		NULL);
 	utils_enter_to_clicked(command_view, command_send);
+
+	geany_sidebar = GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook);
+	g_signal_connect(geany_sidebar, "switch-page", G_CALLBACK(on_geany_sidebar_switch_page),
+		NULL);
+	inspect_page = get_widget("inspect_page");
+	gtk_notebook_append_page(geany_sidebar, inspect_page, get_widget("inspect_label"));
+	register_page = get_widget("register_page");
+	gtk_notebook_append_page(geany_sidebar, register_page, get_widget("register_label"));
 }
 
 void views_finalize(void)
 {
 	gtk_widget_destroy(GTK_WIDGET(command_dialog));
+	gtk_widget_destroy(inspect_page);
+	gtk_widget_destroy(register_page);
 }

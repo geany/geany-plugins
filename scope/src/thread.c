@@ -314,7 +314,7 @@ static void thread_iter_stopped(GtkTreeIter *iter, StopData *sd)
 		if (!addr)
 			thread_state = THREAD_QUERY_FRAME;
 
-		views_data_dirty();
+		views_data_dirty(DS_BUSY);
 	}
 	else if (!addr)
 		view_dirty(VIEW_THREADS);
@@ -328,7 +328,7 @@ static void thread_iter_stopped(GtkTreeIter *iter, StopData *sd)
 
 static void thread_node_stopped(const ParseNode *node, StopData *sd)
 {
-	iff (node->type == PT_VALUE, "%s: found array", node->name)
+	iff (node->type == PT_VALUE, "stopped-threads: contains array")
 	{
 		GtkTreeIter iter;
 
@@ -429,6 +429,7 @@ void on_thread_created(GArray *nodes)
 	{
 		/* startup */
 		breaks_reset();
+		registers_show(TRUE);
 	#ifdef G_OS_UNIX
 		terminal_clear();
 		if (terminal_auto_show)
@@ -483,6 +484,7 @@ void on_thread_exited(GArray *nodes)
 		if (!--thread_count)
 		{
 			/* shutdown */
+			registers_show(FALSE);
 		#ifdef G_OS_UNIX
 			if (terminal_auto_hide)
 				terminal_standalone(FALSE);
@@ -673,8 +675,8 @@ static void on_thread_selection_changed(GtkTreeSelection *selection,
 		thread_state = THREAD_BLANK;
 	}
 
-	views_data_dirty();
-	update_state(debug_state());
+	views_data_dirty(debug_state());
+	update_state(debug_state());  /* may be a different state */
 }
 
 static void thread_seek_selected(gboolean focus)
@@ -881,7 +883,7 @@ void thread_init(void)
 	view_set_sort_func(store, THREAD_GROUP_ID, thread_ident_compare);
 	view_set_sort_func(store, THREAD_TARGET_ID, thread_ident_compare);
 	gtk_widget_set_has_tooltip(GTK_WIDGET(tree), TRUE);
-	g_signal_connect(tree, "query-tooltip", G_CALLBACK(on_view_query_tooltip),
+	g_signal_connect(tree, "query-tooltip", G_CALLBACK(on_view_query_base_tooltip),
 		get_column("thread_base_name_column"));
 
 	groups = SCP_TREE_STORE(get_object("thread_group_store"));

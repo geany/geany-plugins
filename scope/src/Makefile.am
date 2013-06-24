@@ -31,6 +31,8 @@ scope_la_SOURCES = \
 	prefs.h \
 	program.c \
 	program.h \
+	register.c \
+	register.h \
 	scope.c \
 	scope.h \
 	stack.c \

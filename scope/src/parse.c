@@ -60,7 +60,7 @@ static void on_quiet_error(G_GNUC_UNUSED GArray *nodes)
 
 static void on_data_modified(G_GNUC_UNUSED GArray *nodes)
 {
-	views_data_dirty();
+	views_data_dirty(DS_BUSY);
 }
 
 typedef struct _ParseRoute
@@ -114,6 +114,9 @@ static const ParseRoute parse_routes[] =
 	{ "^done,memory=[",               on_memory_read_bytes,    '\0', '\0', 1 },
 	{ "^done,features=[",             on_break_features,       '5',  '\0', 1 },
 	{ "^done,features=[",             on_target_features,      '7',  '\0', 1 },
+	{ "^done,register-names=[",       on_register_names,       '\0', '\0', 1 },
+	{ "^done,changed-registers=[",    on_register_changes,     '\0', '\0', 1 },
+	{ "^done,register-values=[",      on_register_values,      '*',  '\0', 1 },
 	{ "^running",                     on_debug_loaded,         '1',  '\0', 0 },
 	{ "^done",                        on_debug_loaded,         '1',  '\0', 0 },
 	{ "^done",                        on_break_done,           '2',  '\0', 0 },

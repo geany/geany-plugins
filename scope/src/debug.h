@@ -65,8 +65,7 @@ void on_debug_terminate(const MenuItem *menu_item);
 enum { N, T, F };
 void debug_send_command(gint tf, const char *command);
 #define debug_send_thread(command) debug_send_command(T, (command))
-void debug_send_format(gint tf, const char *format, ...)
-	G_GNUC_PRINTF(2, 3);
+void debug_send_format(gint tf, const char *format, ...) G_GNUC_PRINTF(2, 3);
 char *debug_send_evaluate(char token, gint scid, const gchar *expr);  /* == locale(expr) */
 
 void debug_init(void);

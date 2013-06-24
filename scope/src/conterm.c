@@ -301,10 +301,7 @@ void dc_clear(void)
 	else
 #endif
 	{
-		GtkTextIter start, end;
-
-		gtk_text_buffer_get_bounds(context, &start, &end);
-		gtk_text_buffer_delete(context, &start, &end);
+		gtk_text_buffer_set_text(context, "", -1);
 		dc_chars = 0;
 	}
 }

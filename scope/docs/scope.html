@@ -51,7 +51,10 @@
 		<li><a href="#local_watch">Locals/Watches</a></li>
 		<li><a href="#console">Debug Console</a></li>
 	</ul></li>
-	<li><a href="#inspect">Inspect page</a></li>
+	<li>Side panel<ul>
+		<li><a href="#inspect">Inspect</a></li>
+		<li><a href="#register">Registers</a></li>
+	</ul></li>
 </ul></li>
 <li><a href="#preferences">Preferences</a></li>
 <li><a href="#notes">Notes</a><ul>
@@ -143,7 +146,7 @@ stepping, toggle breakpoint etc.) If Scope can't access the main menu, it'll pla
 Tools.</li>
 <li>Debug page in the lower panel, with subpages that display the program output, threads,
 breakpoints etc.</li>
-<li>Inspect page in the side panel.</li>
+<li>Inspect and Registers page in the side panel.</li>
 <li>Toolbar items - identical to their Debug menu counterparts.</li>
 <li>Command Dialog - to enter gdb commands. Will be closed automatically if gdb exits.</li>
 <li>A small label on the right of your Geany status bar, which displays the current debugging
@@ -412,8 +415,8 @@ function. Depends on GDB &quot;print entry-values&quot;. Applies to <em>Locals</
 <p><b><a name="watch">Watches</a></b></p>
 
 <p>This is a flat list of expressions, evaluated each time the current thread stops or changes
-(subject to <em>update_all_views</em>), in the context of the current thread and frame. Unlike
-<em>Inspect</em>, any gdb-evaluatable expressions may be used, there is no need to apply 
+(subject to <em>Update all views</em>), in the context of the current thread and frame. Unlike
+<em>Inspect</em>, any gdb-evaluatable expressions may be used, and there is no need to apply 
 them.</p>
 
 <p><b><a name="local_watch">Locals/Watches</a></b></p>
@@ -456,7 +459,7 @@ if GDB is ready to receive commands. For example, in synchronous mode, GDB displ
 immediately resuming the program execution; or the prompt may be followed by asynchronous
 messages. The Scope state (Busy, Debug etc.) is more accurate.</p>
 
-<p><b><a name="inspect">Inspect Page</a></b></p>
+<p><b><a name="inspect">Inspect</a></b></p>
 
 <p>All -var-* commands except -var-update will be ignored when entered from the command line,
 because their output does not provide enough information to identify the variable object.</p>
@@ -482,6 +485,12 @@ will a letter (&quot;-&quot; will not do).</p>
 <p>The format and 7-bit mode are saved only for the top-level variables, not for children (but
 see <a href="#keeping_modes">Keeping modes</a>).</p>
 
+<p><b><a name="registers">Registers</a></b></p>
+
+<p>Scope will query the register names once after a program is loaded, or when the gdb
+executable is changed. If you switch to a different architecture, but your gdb name remains
+the same, invoke <em>Query</em> from the local menu.</p>
+
 <h3><a name="preferences">Preferences</a></h3>
 
 <p>Once again, trivial items are not included.</p>
@@ -491,7 +500,7 @@ see <a href="#keeping_modes">Keeping modes</a>).</p>
 <p><em>gdb_buffer_length</em> - the maximum length of a single gdb output message. Longer
 messages will be cut, and an "overflow" will be displayed in the debug console, possibly
 followed by a few other parsing errors. Default = 16383. Actual value is (the nearest larger
-power of 2) - 1, for example 16384 becomes 65535.
+power of 2) - 1, for example 32768 becomes 65535.
 
 <p><em>gdb_wait_death</em> - hundreds of seconds to wait(3) gdb death on scope unload.
 Default = 20. When closing Geany, gdb will be destroyed by the operating system.</p>
@@ -713,7 +722,7 @@ later version.</p>
 
 <b><a name="copyright">Copyright</a></b>
 
-<p>Scope 0.88, Copyright (C) 2013 Dimitar Toshkov Zhekov</p>
+<p>Scope 0.90, Copyright (C) 2013 Dimitar Toshkov Zhekov</p>
 
 <p>The menu and toolbar icons are from <a href="http://netbeans.org">Netbeans</a>, except for
 BreakPoint.</p>

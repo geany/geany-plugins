@@ -913,7 +913,7 @@ void on_break_toggle(G_GNUC_UNUSED const MenuItem *menu_item)
 			if (found && found != utils_atoi0(id))
 			{
 				dialogs_show_msgbox(GTK_MESSAGE_INFO,
-					_("There are two or more breakpoints at %s:%d.\n"
+					_("There are two or more breakpoints at %s:%d.\n\n"
 					"Use the breakpoint list to remove the exact one."),
 					doc->file_name, doc_line);
 				return;
@@ -1130,7 +1130,7 @@ static gboolean on_break_query_tooltip(G_GNUC_UNUSED GtkWidget *widget, gint x, 
 		{
 			if (has_tip)
 				g_string_append(text, ", ");
-			g_string_append(text, func);
+			g_string_append_printf(text, "%s()", func);
 			has_tip = TRUE;
 		}
 

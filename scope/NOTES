@@ -1,3 +1,7 @@
+register modified is 07 since we may have watches and inspects containing
+registers, and changing a register ($dh, $mm1.uint64) may change another
+($dx, $st1); even if local variables can't be changed, that's enough
+
 when switching to stack...memory and update is not possible, the subpage
 contents will be kept if an update command for this page was sent on the
 last thread stop/changed; otherwise it'll be cleared
@@ -5,14 +9,14 @@ last thread stop/changed; otherwise it'll be cleared
 "^done,value=\"", '7' matches 07-var-assign, handled later as "^done", '7'
 
 the only way to fix unnecessary inspect drop target expansion is to block
-INTO, so deriving GtkTreeStore and altering GtkTreeDragDest make no sense
+INTO, so deriving GtkTreeStore and altering GtkTreeDragDest makes no sense
 
 "new_children: If new children were added to a dynamic varobj [...]"
 "A varobj's contents may be provided by a Python-based pretty-printer
 In this case the varobj is known as a dynamic varobj" - not supported
 
 shift-clicking send/busy to send a command without closing the dialog can be
-implemented, but is very ugly; shortcut for GDB command plus typing in the
+implemented, but is very ugly; shortcut for "GDB command" plus typing in the
 debug console should suffice
 
 gtk tooltips send lots of queries, and can't be explicitly shown/hidden;
@@ -28,21 +32,21 @@ mixed with the program stdin/stdout, leading to gigo
 in foreground execution, GDB waits for the program to report that _some_
 thread has stopped before prompting for another command
 
-clicking a button with response 0, and then gtk_dialog_response(ACCEPT) via
-program code or clicking an accept button, may still generate 0
+clicking a button with response 0, and then clicking an accept button or
+gtk_dialog_response(ACCEPT), may generate 0 instead of accept
 
 breakpoints don't need unapply: they can be disabled, and all relevant
 columns are editable
 
--var-create for globals symbols allows any frame
+-var-create for global symbols allows any frame
 -set-update-range seems to have no effect on my system
 
-global object may be evaluated (including as variable objects) in hang
+global objects may be evaluated (including as variable objects) in hang
 state, but modification requires running inferior
 
 parse with string in VR_COMPACT / VR_NEUTRAL is slower for texts with less
 than 100 characters, but with such shorts texts, the difference is
-insignificant; with large texts, using string is faster, but not much
+insignificant; for large texts, using string is faster, but not much
 
 CPU load on F8 with vte console: ~88%
 with context: ~80%, null output: ~75%
@@ -50,11 +54,11 @@ with context: ~80%, null output: ~75%
 win~1 hang with poll_pipe(): 1 second for 3h25m
 win~1 send on 50ms: 2 seconds for 1h, 1445 KB sent
 
-GtkTextView with wrapping CHAR: the last character of a wrapped line can not
-be selected with the mouse, keyboard selection is ok
+GtkTextView with wrapping CHAR: the last character of a wrapped line can be
+selected with the mouse only by moving to the next line
 
-Geany under Win~1 with FF also running eats 7-8% CPU time other
-applications/conditions may cause this CPU load too
+Geany under Win~1, with FF also running, eats 7-8% CPU time, other
+applications/conditions may cause such CPU load too; scope doesn't matter
 
 http://sourceware.org/bugzilla/show_bug.cgi?id=9659
 
@@ -65,7 +69,7 @@ set print elements 10: "\a01\002\003\004\005\006\a\b\t\n"...
 '\000' <repeats 100 times>, '\001' <repeats 100 times>
 
 GDB does specify that individual breakpoint location may be enabled or
-disabled, but not deleted; no mention of condition, ignore, script though
+disabled, but not deleted; no mention of condition/ignore/script though
 
 pending breakpoints are handled either at thread stopped, or by async
 modified message; parsing =library-loaded seems pointless
@@ -82,10 +86,6 @@ count		-i	-break-passcount	-break-after
 script = -break-commands
 fast trace = -break-insert -a -h
 
-source files check list:
-	:break :debug :inspect :local :menu :parse :plugme :prefs
-	:program :scope :stack :thread :unused :utils :views :watch
-
 " " is valid executable name, but not valid source name - gdb requires
 certain suffixes (.c .c++ etc.); thus we can validate_column(file, TRUE)
 
@@ -94,27 +94,20 @@ project close: geany close message, then scope message
 
 gdb manual states that "which commands will work in the context of a running
 thread is highly target dependent", but "commands that try to operate on
-thread's stack will not work, on any target"; some commands are ds_sendable
-or ds_not_busy, even if unlikely to execute (for example global watchpoint)
+thread's stack will not work, on any target"; some commands are DS_SENDABLE
+or DS_NOT_BUSY, even if unlikely to execute (like a global watchpoint)
 
-scid is required because the list positions are async-gdb-output volatile
-
-there is no reason to keep the stack frame selection, the upper-frame values
-are unlikely to change
-
-there is no reason to clear thread list on regular thread info, the async
-messages keep it current
+scid is required because all list positions are async-gdb-output volatile
 
 break filename may be specified as known source name (test.c) or absolute
-name (/home/build/test.c); names relative to inferior working directory
-do not work any more than these relative to gdb directory
+name (/home/build/test.c); neither inferior nor gdb relative names work
 
 would be nice to have 02-thread-info to fully refresh the thread list, if we
-missed a thread message, but needs effort, and we compute gdb status (and
-send commands) based on threads, so that's a circular dependency
+missed a thread message, but needs some effort, and we compute gdb status
+(and send commands) based on threads, so that'll be very tricky
 
-gdb recommends full refresh after error but errors in refresh (04) commands
-must be ignored to avoid an endless loop
+gdb recommends full refresh after error, but at least the errors from
+refresh (04) commands errors must be ignored avoid an endless loop
 
 applying break/watchpoints to a thread is promlematic: -break-list does not
 contain such info, and the thread identifiers are different on restart
@@ -122,30 +115,20 @@ contain such info, and the thread identifiers are different on restart
 tested with "unsuccessful" program pty creation - no idea where the terminal
 I/O comes from or goes to
 
-we don't reload terminal prefs on save settings since they are either empty,
-for new file, or old (the signal is before save)
+we don't reload terminal prefs on save settings since the signal is before
+save and they are they are either empty (for new .conf file) or old
 
 scite mark "arrow" is actually triangle
-
-> Run in a debugger with the G_DEBUG env var set to "fatal-warnings",
-> so the program will abort and let you see where/when/how it happened.
-
--var-list-children expands an expression (or
-variable?) with a single command
-
--var-delete -c VAR deletes the children only
-
--var-info|evaluate-expression for unexpanded?
 
 --all | --thread-group N commands:
 	-exec-continue
 	-exec-interrupt
 	-exec-run
 
-"If the `--thread-group' options is specified, then
-all threads in that thread group are resumed."
+"If the `--thread-group' options is specified, then all threads in that
+thread group are resumed."
 
-*stopped "all" means all threads from this group?
+*stopped "all" means from this group or everything?
 
-running "all" does not specify a thread; the first running is "all", others
-are thread - but that's from experience only, gdb.info says nothing
+running "all" does not specify a thread/group; the first running is "all",
+others are thread - but that's from observation, gdb.info says nothing

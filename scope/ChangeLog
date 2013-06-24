@@ -1,3 +1,40 @@
+2013-06-24  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * data/scope.glade, docs/codes.html, docs/scope.html,
+   src/Makefile.am, src/break.c, src/common.h, src/debug.c,
+   src/inspect.c, src/inspect.h, src/parse.c, src/program.c,
+   src/register.c, src/register.h, src/scope.c, src/stack.c,
+   src/thread.c, src/views.c, src/views.h:
+   Added Registers next to Inspect.
+ * docs/codes.html:
+   Small syntax changes, explanation about the <> values.
+ * docs/scope.html, src/break.c, src/debug.c, src/debug.h,
+   src/local.c, src/stack.c, src/views.c, src/thread.c,
+   src/views.c, src/views.h:
+   Small syntax changes/fixes.
+ * src/conterm.c:
+   Clear the console with a single function call.
+ * src/inspect.c:
+   Fixed hexadecimal format.
+   Only set "editable" if an eleemnt is selected.
+ * src/common.h, src/local.src/utils.c, src/utils.h:
+   A (mostly) common mechanism to send/receive thread+frame.
+ * src/utils.c:
+   Display win32 error texts instead of codes.
+ * src/views.c:
+   Changing the thread/frame honours "Update all views".
+   Fixed the automatic text selection when the command dialog
+   is invoked.
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.90.
+
+
+2013-05-23  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * scope/src/inspect.c:
+   Fixed new value receiving after Format change.
+
+
 2013-05-17  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * scope/src/prefs.c:

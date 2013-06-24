@@ -25,6 +25,7 @@ void show_errno(const char *prefix);
 gboolean utils_set_nonblock(GPollFD *fd);
 void utils_handle_button_press(GtkWidget *widget, GdkEventButton *event);
 void utils_handle_button_release(GtkWidget *widget, GdkEventButton *event);
+
 gboolean utils_check_path(const char *pathname, gboolean file, int mode);  /* "" ok */
 const gchar *utils_skip_spaces(const gchar *text);
 void utils_strchrepl(char *text, char c, char repl);
@@ -86,6 +87,7 @@ gchar *utils_get_display_from_locale(const char *locale, gint hb_mode);
 
 gchar *utils_verify_selection(gchar *text);
 gchar *utils_get_default_selection(void);  /* +verify */
+gboolean utils_matches_frame(const char *token);
 
 enum
 {

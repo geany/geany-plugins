@@ -189,6 +189,7 @@ static void save_program_settings(void)
 		breaks_save(config);
 		watches_save(config);
 		inspects_save(config);
+		registers_save(config);
 		parse_save(config);
 		utils_key_file_write_to_file(config, configfile);
 		g_free(configfile);
@@ -245,6 +246,7 @@ static void on_recent_menu_item_activate(G_GNUC_UNUSED GtkMenuItem *menuitem, co
 			breaks_load(config);
 			watches_load(config);
 			inspects_load(config);
+			registers_load(config);
 			parse_load(config);
 			message = g_strdup_printf(_("Loaded debug settings for %s."), name);
 			program_find(&iter, name);
@@ -410,11 +412,12 @@ static void on_program_ok_button_clicked(G_GNUC_UNUSED GtkButton *button,
 		gtk_widget_hide(program_dialog);
 
 		if (gtk_toggle_button_get_active(delete_all_items) &&
-			dialogs_show_question(_("Delete all breakpoints, watches and inspects?")))
+			dialogs_show_question(_("Delete all breakpoints, watches et cetera?")))
 		{
 			breaks_delete_all();
 			watches_delete_all();
 			inspects_delete_all();
+			registers_delete_all();
 		}
 	}
 }
