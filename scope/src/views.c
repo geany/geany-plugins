@@ -82,9 +82,8 @@ static GtkNotebook *geany_sidebar;
 static GtkWidget *inspect_page;
 static GtkWidget *register_page;
 
-static void views_sidebar_update(DebugState state)
+static void views_sidebar_update(gint page_num, DebugState state)
 {
-	gint page_num = gtk_notebook_get_current_page(geany_sidebar);
 	GtkWidget *page = gtk_notebook_get_nth_page(geany_sidebar, page_num);
 
 	if (page == inspect_page)
@@ -111,7 +110,7 @@ void views_context_dirty(DebugState state, gboolean frame_only)
 		if (option_update_all_views)
 			views_update(state);
 		else
-			views_sidebar_update(state);
+			views_sidebar_update(gtk_notebook_get_current_page(geany_sidebar), state);
 	}
 }
 
@@ -169,7 +168,7 @@ void views_update(DebugState state)
 
 		view_update(view_current, state);
 		view_update(VIEW_TOOLTIP, state);
-		views_sidebar_update(state);
+		views_sidebar_update(gtk_notebook_get_current_page(geany_sidebar), state);
 	}
 }
 
@@ -597,10 +596,12 @@ void views_update_state(DebugState state)
 }
 
 static void on_geany_sidebar_switch_page(G_GNUC_UNUSED GtkNotebook *notebook,
-	G_GNUC_UNUSED gpointer page, G_GNUC_UNUSED gint page_num, G_GNUC_UNUSED gpointer gdata)
+	G_GNUC_UNUSED gpointer page, gint page_num, G_GNUC_UNUSED gpointer gdata)
 {
-	views_sidebar_update(debug_state());
+	views_sidebar_update(page_num, debug_state());
 }
+
+static gulong switch_sidebar_page_id;
 
 void views_init(void)
 {
@@ -632,8 +633,8 @@ void views_init(void)
 	utils_enter_to_clicked(command_view, command_send);
 
 	geany_sidebar = GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook);
-	g_signal_connect(geany_sidebar, "switch-page", G_CALLBACK(on_geany_sidebar_switch_page),
-		NULL);
+	switch_sidebar_page_id = g_signal_connect(geany_sidebar, "switch-page",
+		G_CALLBACK(on_geany_sidebar_switch_page), NULL);
 	inspect_page = get_widget("inspect_page");
 	gtk_notebook_append_page(geany_sidebar, inspect_page, get_widget("inspect_label"));
 	register_page = get_widget("register_page");
@@ -642,6 +643,7 @@ void views_init(void)
 
 void views_finalize(void)
 {
+	g_signal_handler_disconnect(geany_sidebar, switch_sidebar_page_id);
 	gtk_widget_destroy(GTK_WIDGET(command_dialog));
 	gtk_widget_destroy(inspect_page);
 	gtk_widget_destroy(register_page);
