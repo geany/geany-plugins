@@ -1,12 +1,9 @@
-register modified is 07 since we may have watches and inspects containing
-registers, and changing a register ($dh, $mm1.uint64) may change another
-($dx, $st1); even if local variables can't be changed, that's enough
+register modified is 07 since changing a register ($dh, $mm1.uint64) may
+change another ($dx, $st1), and there is some chance of watches/inspects
+containing a register
 
-when switching to stack...memory and update is not possible, the subpage
-contents will be kept if an update command for this page was sent on the
-last thread stop/changed; otherwise it'll be cleared
-
-"^done,value=\"", '7' matches 07-var-assign, handled later as "^done", '7'
+07<scid>-var-assign is required, because assigning to an out of scope
+(sub)variable may succeed(?), but not be reflected on -var-update *
 
 the only way to fix unnecessary inspect drop target expansion is to block
 INTO, so deriving GtkTreeStore and altering GtkTreeDragDest makes no sense

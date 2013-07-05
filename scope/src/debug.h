@@ -26,6 +26,7 @@ typedef enum _DebugState
 	DS_READY    = 0x04,  /* at prompt, has threads, none/running thread selected */
 	DS_DEBUG    = 0x08,  /* at prompt, has threads, stopped thread selected */
 	DS_HANGING  = 0x10,  /* at prompt, no threads */
+	DS_VARIABLE = 0x18,
 	DS_SENDABLE = 0x1C,
 	DS_NOT_BUSY = 0x1D,
 	DS_ACTIVE   = 0x1E,

@@ -275,30 +275,59 @@ void on_inspect_variable(GArray *nodes)
 	}
 }
 
-void on_inspect_format(GArray *nodes)
+static void inspect_set(GArray *nodes, const char *value, gint format)
 {
-	const char *s = parse_lead_value(nodes);
-	const char *value = parse_find_value(nodes, "value");
-	gint format;
+	const char *token = parse_grab_token(nodes);
+	GtkTreeIter iter;
 
-	for (format = FORMAT_NATURAL; format < FORMAT_COUNT; format++)
-		if (!strcmp(inspect_formats[format], s))
-			break;
-
-	iff (format < FORMAT_COUNT, "bad format")
+	if (inspect_find(&iter, FALSE, token))
 	{
-		const char *token = parse_grab_token(nodes);
-		GtkTreeIter iter;
-
-		if (inspect_find(&iter, FALSE, token))
+		if (!value || *value)
 		{
 			gchar *display = inspect_redisplay(&iter, value, NULL);
 
 			scp_tree_store_set(store, &iter, INSPECT_DISPLAY, display, INSPECT_VALUE,
-				value, INSPECT_FORMAT, format, -1);
+				value, -1);
 			g_free(display);
 		}
+		else
+		{
+			scp_tree_store_get(store, &iter, INSPECT_VALUE, &value, -1);
+
+			if (value)
+			{
+				scp_tree_store_set(store, &iter, INSPECT_DISPLAY, "??", INSPECT_VALUE,
+					NULL);
+			}
+		}
+
+		if (format < FORMAT_COUNT)
+			scp_tree_store_set(store, &iter, INSPECT_FORMAT, format, -1);
 	}
+}
+
+void on_inspect_format(GArray *nodes)
+{
+	const char *fmtstr = parse_lead_value(nodes);
+	gint format;
+
+	for (format = FORMAT_NATURAL; format < FORMAT_COUNT; format++)
+		if (!strcmp(inspect_formats[format], fmtstr))
+			break;
+
+	iff (format < FORMAT_COUNT, "bad format")
+		inspect_set(nodes, parse_find_value(nodes, "value"), format);
+}
+
+void on_inspect_evaluate(GArray *nodes)
+{
+	inspect_set(nodes, parse_lead_value(nodes), FORMAT_COUNT);
+}
+
+void on_inspect_assign(GArray *nodes)
+{
+	on_inspect_evaluate(nodes);
+	views_data_dirty(DS_BUSY);
 }
 
 static void inspect_node_append(const ParseNode *node, GtkTreeIter *parent)
@@ -415,7 +444,7 @@ static void inspect_node_change(const ParseNode *node, G_GNUC_UNUSED gpointer gd
 		ParseVariable var;
 		GtkTreeIter iter;
 
-		if (parse_variable(nodes, &var, "new_numchild") &&
+		if (parse_variable(nodes, &var, "new_num_children") &&
 			inspect_find(&iter, TRUE, var.name))
 		{
 			const char *in_scope = parse_find_value(nodes, "in_scope");
@@ -451,9 +480,16 @@ static void inspect_node_change(const ParseNode *node, G_GNUC_UNUSED gpointer gd
 	}
 }
 
+static gboolean query_all_inspects = FALSE;
+
 void on_inspect_changelist(GArray *nodes)
 {
-	parse_foreach(parse_lead_array(nodes), (GFunc) inspect_node_change, NULL);
+	GArray *changelist = parse_lead_array(nodes);
+
+	if (parse_grab_token(nodes))
+		parse_foreach(changelist, (GFunc) inspect_node_change, NULL);
+	else if (changelist->len)
+		query_all_inspects = TRUE;
 }
 
 static void inspect_apply(GtkTreeIter *iter)
@@ -491,11 +527,37 @@ void on_inspect_signal(const char *name)
 void inspects_clear(void)
 {
 	store_foreach(store, (GFunc) inspect_iter_clear, NULL);
+	query_all_inspects = FALSE;
+}
+
+static gint inspect_iter_refresh(ScpTreeStore *store, GtkTreeIter *iter, gpointer gdata)
+{
+	const char *var1;
+	gint numchild;
+
+	scp_tree_store_get(store, iter, INSPECT_VAR1, &var1, INSPECT_NUMCHILD, &numchild, -1);
+
+	if (var1 && !numchild)
+	{
+		debug_send_format(F, "0%c%d-var-evaluate-expression %s", GPOINTER_TO_INT(gdata),
+			inspect_get_scid(iter), var1);
+	}
+	return FALSE;
+}
+
+static void inspects_send_refresh(char token)
+{
+	scp_tree_store_traverse(store, TRUE, NULL, NULL, inspect_iter_refresh, NULL);
+	query_all_inspects = FALSE;
 }
 
 gboolean inspects_update(void)
 {
-	debug_send_command(N, "04-var-update 1 *");
+	if (query_all_inspects)
+		inspects_send_refresh('4');
+	else
+		debug_send_command(F, "04-var-update 1 *");
+
 	return TRUE;
 }
 
@@ -603,8 +665,13 @@ void inspect_add(const gchar *text)
 static void on_inspect_display_edited(G_GNUC_UNUSED GtkCellRendererText *renderer,
 	gchar *path_str, gchar *new_text, G_GNUC_UNUSED gpointer gdata)
 {
-	view_display_edited(store, debug_state() & DS_SENDABLE, path_str, "07-var-assign %s %s",
-		new_text);
+	GtkTreeIter iter;
+	char *format;
+
+	scp_tree_store_get_iter_from_string(store, &iter, path_str);
+	format = g_strdup_printf("07%d-var-assign %%s %%s", inspect_get_scid(&iter));
+	view_display_edited(store, debug_state() & DS_VARIABLE, path_str, format, new_text);
+	g_free(format);
 }
 
 static const TreeCell inspect_cells[] =
@@ -626,7 +693,7 @@ void inspects_update_state(DebugState state)
 		const char *var1 = NULL;
 		gint numchild = 0;
 
-		if (state & DS_SENDABLE)
+		if (state & DS_VARIABLE)
 		{
 			scp_tree_store_get(store, &iter, INSPECT_VAR1, &var1, INSPECT_NUMCHILD,
 				&numchild, -1);
@@ -716,7 +783,7 @@ void inspects_save(GKeyFile *config)
 
 static void on_inspect_refresh(G_GNUC_UNUSED const MenuItem *menu_item)
 {
-	debug_send_command(N, "-var-update 1 *");
+	inspects_send_refresh('2');
 }
 
 static void on_inspect_add(G_GNUC_UNUSED const MenuItem *menu_item)
@@ -800,7 +867,7 @@ static void on_inspect_expand(G_GNUC_UNUSED const MenuItem *menu_item)
 			INSPECT_COUNT, gtk_spin_button_get_value_as_int(expand_count),
 			INSPECT_EXPAND, gtk_toggle_button_get_active(expand_automatic), -1);
 
-		if (debug_state() & DS_SENDABLE)
+		if (debug_state() & DS_VARIABLE)
 			inspect_expand(&iter);
 		else
 			plugin_beep();
@@ -891,10 +958,10 @@ static void on_inspect_delete(G_GNUC_UNUSED const MenuItem *menu_item)
 }
 
 #define DS_EDITABLE (DS_BASICS | DS_EXTRA_2)
-#define DS_APPLIABLE (DS_SENDABLE | DS_EXTRA_3)
-#define DS_EXPANDABLE (DS_SENDABLE | DS_EXTRA_4)
+#define DS_APPLIABLE (DS_VARIABLE | DS_EXTRA_3)
+#define DS_EXPANDABLE (DS_VARIABLE | DS_EXTRA_4)
 #define DS_COPYABLE (DS_BASICS | DS_EXTRA_1)
-#define DS_FORMATABLE (DS_NOT_BUSY | DS_EXTRA_1)
+#define DS_FORMATABLE (DS_INACTIVE | DS_VARIABLE | DS_EXTRA_1)
 #define DS_REPARSABLE (DS_BASICS | DS_EXTRA_1)
 #define DS_DELETABLE (DS_NOT_BUSY | DS_EXTRA_1)
 
@@ -904,7 +971,7 @@ static void on_inspect_delete(G_GNUC_UNUSED const MenuItem *menu_item)
 
 static MenuItem inspect_menu_items[] =
 {
-	{ "inspect_refresh",   on_inspect_refresh,        DS_SENDABLE,   NULL, NULL },
+	{ "inspect_refresh",   on_inspect_refresh,        DS_VARIABLE,   NULL, NULL },
 	{ "inspect_add",       on_inspect_add,            DS_NOT_BUSY,   NULL, NULL },
 	{ "inspect_edit",      on_inspect_edit,           DS_EDITABLE,   NULL, NULL },
 	{ "inspect_apply",     on_inspect_apply,          DS_APPLIABLE,  NULL, NULL },
@@ -976,7 +1043,7 @@ static gboolean inspect_test_expand_row(G_GNUC_UNUSED GtkTreeView *tree_view,
 	if (var1 || !expand)
 		return FALSE;
 
-	if (debug_state() & DS_SENDABLE)
+	if (debug_state() & DS_VARIABLE)
 		inspect_expand(iter);
 	else
 		plugin_blink();

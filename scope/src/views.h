@@ -42,6 +42,7 @@ void views_context_dirty(DebugState state, gboolean frame_only);
 void views_clear(void);
 void views_update(DebugState state);
 gboolean view_stack_update(void);
+#define view_frame_update() (g_strcmp0(frame_id, "0") && view_stack_update())
 void view_local_update(void);
 
 void on_view_changed(GtkNotebook *notebook, gpointer page, gint page_num, gpointer gdata);

@@ -1,3 +1,37 @@
+2013-07-05  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/codes.html:
+   Documented the new Inspect commands.
+ * src/scope.html:
+   Explained the unified Watches/Memory/Inspect update policy.
+ * src/debug.c, src/debug.h, src/inspect.c, src/memory.c,
+   src/views.c, src/watch.c:
+   Unified the Watches/Memory/Inspect update policy.
+ * src/inspect.c, src/parse.c:
+   Added full Refresh instead of -var-update.
+   Fixed "new_numchild" -> "new_num_children".
+   Full update on an external changelist with >=1 elements.
+   Better support for float frame Inspect variables.
+   Support for out-of-scope assignments ignored by changelist.
+ * src/register.c:
+   Full update only if an external changed-registers contains at
+   least one element.
+   Disallow Format if no threads.
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.91.
+ * TODO:
+   Inlined into scope.html.
+
+
+2013-07-02  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/views.c:
+   Fixed shutdown sequence error when destroying Inspect or
+   Registers switches to the other page and causes refresh.
+   Fixed the page number to refresh when switching to Inspect or
+   Registers.
+
+
 2013-06-24  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * data/scope.glade, docs/codes.html, docs/scope.html,

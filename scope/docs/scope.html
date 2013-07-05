@@ -60,6 +60,7 @@
 <li><a href="#notes">Notes</a><ul>
 	<li><a href="#editing_values">Editing values</a></li>
 	<li><a href="#keeping_modes">Keeping modes</a></li>
+	<li><a href="#shared_memory">Shared memory</a></li>
 	<li><a href="#xos4_colors">Sample dark colors</a></li>
 </ul></li>
 <li><a href="#pre_faq">Pre-FAQ</a>
@@ -440,9 +441,6 @@ in <em>Setup Program</em>.</p>
 <p>A maximum of 16K may be displayed (128 lines * 128 bytes); <em>gdb_buffer_length</em> also
 limits the size.</p>
 
-<p><em>Memory</em> empty but <em>Clear</em> available means that the subpage can not be
-updated ATM; if you explicitly <em>Clear</em> it, no further updates will take place.</p>
-
 <p><b><a name="console">Debug Console</a></b></p>
 
 <div><table>
@@ -621,10 +619,24 @@ column, the entire value will be cleared - but that is not guaranteed to work ei
 <p><b><a name="keeping_modes">Keeping modes</a></b></p>
 
 <p>The 7-bit, .names etc. modes for temporary objects, such as local variables, are not saved.
-However, there is a global list with names and modes, and when you change a mode, it's saved
+However, there is a global list with names and modes, and when you change a mode, it is saved
 in that list. Then, when a temporary object is created, Scope searches the list, and sets the
 modes (if any) for that object. For inspect children, the displayed names are used (including
 numbers for array elements), not the fully qualified names.</p>
+
+<p><b><a name="shared_memory">Shared memory</a></b></p>
+
+<div>Scope does not know which Inspect/Watch expressions are thread and frame dependent, as
+well as whether the Memory address and range are process/thread dependent, so their handling
+is a compromise.<br>
+In particular:</div>
+<div class="tab">
+- the values will not be updated if threads exist, but none is selected, or if the selected
+thread is running<br>
+- for <em>Watches</em> and <em>Inspect</em>, Scope will try to select a frame before
+sending the update command(s)<br>
+- on a thread or frame change, if the values can not be updated at the moment, they will not
+be cleared.</div>
 
 <p><b><a name="xos4_colors">Sample dark colors</a></b></p>
 
@@ -670,7 +682,7 @@ GDB command line if you need it.</p>
 
 <p>A. They must be removed before sending the value to GDB. Leaving them while editing gives
 the false impression that you can assign selectively, while in fact omitting a &quot;foo =
-value, &quot; <em>moves</em> all values left by 1, and changing a name or index has
+value,&quot; <em>moves</em> all values left by 1, and changing a name or index has
 <em>no</em> effect.</p>
 
 <p>Q. A "signal `project-before-save' is invalid" warning is displayed on Geany startup, and
@@ -693,7 +705,11 @@ program/thread. The other Geany debugger plugin has the same problem.</p>
 
 <h3><a name="todo">TODO</a></h3>
 
-<p>See TODO.</p>
+<p>Various tests, source code checks etc.<br>
+Format (natural, decimal...) for Watches?<br>
+Add clear icon to entries? not very useful.<br>
+Don't remove [index] along with member names?<br>
+libtool support / exec wrapper support.</p>
 
 <h3><a name="not_todo">Not TODO</a></h3>
 
@@ -722,7 +738,7 @@ later version.</p>
 
 <b><a name="copyright">Copyright</a></b>
 
-<p>Scope 0.90, Copyright (C) 2013 Dimitar Toshkov Zhekov</p>
+<p>Scope 0.91, Copyright (C) 2013 Dimitar Toshkov Zhekov</p>
 
 <p>The menu and toolbar icons are from <a href="http://netbeans.org">Netbeans</a>, except for
 BreakPoint.</p>

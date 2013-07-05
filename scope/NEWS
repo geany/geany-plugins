@@ -1,4 +1,11 @@
-Scope 0.90 (2013-05-17)
+Scope 0.91 (2013-07-05)
+
+    * Better support for float frame Inspect variables.
+
+    * Unified and documented the Watch/Memory/Inspect update policy.
+
+
+Scope 0.90 (2013-06-24)
 
     * Added Registers next to Inspect.
 

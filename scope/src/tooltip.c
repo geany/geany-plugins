@@ -173,11 +173,11 @@ void tooltip_remove(GeanyEditor *editor)
 
 	if (gtk_widget_get_has_tooltip(widget))
 	{
-		gulong tooltip_id = g_signal_handler_find(widget, G_SIGNAL_MATCH_ID,
+		gulong query_tooltip_id = g_signal_handler_find(widget, G_SIGNAL_MATCH_ID,
 			g_signal_lookup("query-tooltip", GTK_TYPE_WIDGET), 0, NULL, NULL, NULL);
 
-		if (tooltip_id)
-			g_signal_handler_disconnect(widget, tooltip_id);
+		if (query_tooltip_id)
+			g_signal_handler_disconnect(widget, query_tooltip_id);
 		gtk_widget_set_has_tooltip(widget, FALSE);
 	}
 }

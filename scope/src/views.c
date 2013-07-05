@@ -47,10 +47,10 @@ static ViewInfo views[VIEW_COUNT] =
 	{ FALSE, VC_NONE,  breaks_clear,    breaks_update,    FALSE, DS_SENDABLE },
 	{ FALSE, VC_DATA,  stack_clear,     stack_update,     TRUE,  DS_DEBUG },
 	{ FALSE, VC_FRAME, locals_clear,    locals_update,    TRUE,  DS_DEBUG },
-	{ FALSE, VC_FRAME, watches_clear,   watches_update,   TRUE,  DS_DEBUG },
-	{ FALSE, VC_DATA,  memory_clear,    memory_update,    TRUE,  DS_SENDABLE },
+	{ FALSE, VC_FRAME, watches_clear,   watches_update,   FALSE, DS_VARIABLE },
+	{ FALSE, VC_DATA,  memory_clear,    memory_update,    FALSE, DS_VARIABLE },
 	{ FALSE, VC_NONE,  NULL,            dc_update,        FALSE, DS_DEBUG },
-	{ FALSE, VC_DATA,  inspects_clear,  inspects_update,  FALSE, DS_DEBUG },
+	{ FALSE, VC_FRAME, inspects_clear,  inspects_update,  FALSE, DS_VARIABLE },
 	{ FALSE, VC_FRAME, registers_clear, registers_update, TRUE,  DS_DEBUG },
 	{ FALSE, VC_DATA,  tooltip_clear,   tooltip_update,   FALSE, DS_SENDABLE },
 	{ FALSE, VC_NONE,  menu_clear,      NULL,             FALSE, 0 }

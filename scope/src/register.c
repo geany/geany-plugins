@@ -70,6 +70,8 @@ static void register_node_update(const ParseNode *node, GString *commands[])
 	}
 }
 
+static gboolean query_all_registers = TRUE;
+
 static void registers_send_update(GArray *nodes, char token)
 {
 	GString *commands[FORMAT_COUNT];
@@ -88,7 +90,10 @@ static void registers_send_update(GArray *nodes, char token)
 	if (nodes)
 		parse_foreach(nodes, (GFunc) register_node_update, commands);
 	else
+	{
 		store_foreach(store, (GFunc) register_iter_update, commands);
+		query_all_registers = FALSE;
+	}
 
 	for (format = 0; format < FORMAT_COUNT; format++)
 	{
@@ -152,18 +157,17 @@ void on_register_names(GArray *nodes)
 		registers_send_update(NULL, '2');
 }
 
-static gboolean query_all_registers = TRUE;
-
 void on_register_changes(GArray *nodes)
 {
 	const char *token = parse_grab_token(nodes);
+	GArray *changes = parse_lead_array(nodes);
 
 	if (token)
 	{
 		if (utils_matches_frame(token))
-			registers_send_update(parse_lead_array(nodes), '4');
+			registers_send_update(changes, '4');
 	}
-	else
+	else if (changes->len)
 		query_all_registers = TRUE;  /* external changes */
 }
 
@@ -278,12 +282,7 @@ void on_register_values(GArray *nodes)
 	ValueAction va = { *token - '0', utils_matches_frame(token + 1) };
 
 	if (va.format < FORMAT_COUNT || va.assign)
-	{
 		parse_foreach(parse_lead_array(nodes), (GFunc) register_node_value, &va);
-
-		if (va.assign)
-			query_all_registers = FALSE;
-	}
 }
 
 static void on_register_display_edited(G_GNUC_UNUSED GtkCellRendererText *renderer,
@@ -315,7 +314,7 @@ void registers_clear(void)
 
 gboolean registers_update(void)
 {
-	if (g_strcmp0(frame_id, "0") && view_stack_update())
+	if (view_frame_update())
 		return FALSE;
 
 	if (frame_id)
@@ -481,7 +480,7 @@ static void on_register_query(G_GNUC_UNUSED const MenuItem *menu_item)
 
 #define DS_FRESHABLE DS_DEBUG
 #define DS_COPYABLE (DS_BASICS | DS_EXTRA_1)
-#define DS_FORMATABLE (DS_INACTIVE | DS_DEBUG | DS_HANGING | DS_EXTRA_2)
+#define DS_FORMATABLE (DS_INACTIVE | DS_DEBUG | DS_EXTRA_2)
 #define DS_QUERABLE DS_SENDABLE
 
 #define FORMAT_ITEM(format, FORMAT) \

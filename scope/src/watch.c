@@ -88,7 +88,7 @@ static void on_watch_expr_edited(G_GNUC_UNUSED GtkCellRendererText *renderer,
 static void on_watch_display_edited(G_GNUC_UNUSED GtkCellRendererText *renderer,
 	gchar *path_str, gchar *new_text, G_GNUC_UNUSED gpointer gdata)
 {
-	view_display_edited(store, debug_state() & DS_SENDABLE, path_str, "07-gdb-set var %s=%s",
+	view_display_edited(store, debug_state() & DS_VARIABLE, path_str, "07-gdb-set var %s=%s",
 		new_text);
 }
 
@@ -144,7 +144,7 @@ void watches_clear(void)
 
 gboolean watches_update(void)
 {
-	if (g_strcmp0(frame_id, "0") && view_stack_update())
+	if (view_frame_update())
 		return FALSE;
 
 	store_foreach(store, (GFunc) watch_iter_update, GPOINTER_TO_INT(FALSE));
@@ -177,7 +177,7 @@ static GObject *watch_display;
 
 void watches_update_state(DebugState state)
 {
-	g_object_set(watch_display, "editable", (state & DS_SENDABLE) != 0, NULL);
+	g_object_set(watch_display, "editable", (state & DS_VARIABLE) != 0, NULL);
 }
 
 void watches_delete_all(void)
@@ -294,14 +294,14 @@ static void on_watch_delete(G_GNUC_UNUSED const MenuItem *menu_item)
 }
 
 #define DS_COPYABLE (DS_BASICS | DS_EXTRA_1)
-#define DS_MODIFYABLE (DS_SENDABLE | DS_EXTRA_1)
+#define DS_MODIFYABLE (DS_VARIABLE | DS_EXTRA_1)
 #define DS_INSPECTABLE (DS_NOT_BUSY | DS_EXTRA_1)
 #define DS_REPARSABLE (DS_BASICS | DS_EXTRA_1)
 #define DS_DELETABLE (DS_BASICS | DS_EXTRA_1)
 
 static MenuItem watch_menu_items[] =
 {
-	{ "watch_refresh",    on_watch_refresh,  DS_SENDABLE,    NULL, NULL },
+	{ "watch_refresh",    on_watch_refresh,  DS_VARIABLE,    NULL, NULL },
 	{ "watch_unsorted",   on_watch_unsorted, 0,              NULL, NULL },
 	{ "watch_add",        on_watch_add,      0,              NULL, NULL },
 	{ "watch_copy",       on_watch_copy,     DS_COPYABLE,    NULL, NULL },

@@ -37,7 +37,7 @@ static GtkTreeSelection *selection;
 static void on_memory_bytes_edited(G_GNUC_UNUSED GtkCellRendererText *renderer, gchar *path_str,
 	gchar *new_text, G_GNUC_UNUSED gpointer gdata)
 {
-	if (*new_text && (debug_state() & DS_SENDABLE))
+	if (*new_text && (debug_state() & DS_VARIABLE))
 	{
 		GtkTreeIter iter;
 		const char *addr, *bytes;
@@ -335,21 +335,21 @@ static void on_memory_group_update(const MenuItem *menu_item)
 		on_memory_refresh(menu_item);
 }
 
-#define DS_FRESHABLE (DS_SENDABLE | DS_EXTRA_2)
+#define DS_FRESHABLE (DS_VRIABLE | DS_EXTRA_2)
 #define DS_COPYABLE (DS_BASICS | DS_EXTRA_1)
 #define DS_CLEARABLE (DS_ACTIVE | DS_EXTRA_2)
 
 #define GROUP_ITEM(count, POWER) \
-	{ ("memory_group_"count), on_memory_group_update, DS_SENDABLE, NULL, \
+	{ ("memory_group_"count), on_memory_group_update, DS_VARIABLE, NULL, \
 		GINT_TO_POINTER(POWER) }
 
 static MenuItem memory_menu_items[] =
 {
-	{ "memory_refresh", on_memory_refresh,       DS_FRESHABLE, NULL, NULL },
-	{ "memory_read",    on_memory_read,          DS_SENDABLE,  NULL, NULL },
+	{ "memory_refresh", on_memory_refresh,       DS_VARIABLE,  NULL, NULL },
+	{ "memory_read",    on_memory_read,          DS_VARIABLE,  NULL, NULL },
 	{ "memory_copy",    on_memory_copy,          DS_COPYABLE,  NULL, NULL },
 	{ "memory_clear",   on_memory_clear,         DS_CLEARABLE, NULL, NULL },
-	{ "memory_group",   on_memory_group_display, DS_SENDABLE,  NULL, NULL },
+	{ "memory_group",   on_memory_group_display, DS_VARIABLE,  NULL, NULL },
 	GROUP_ITEM("1", 0),
 	GROUP_ITEM("2", 1),
 	GROUP_ITEM("4", 2),

@@ -431,6 +431,7 @@ void on_debug_loaded(GArray *nodes)
 	{
 		breaks_apply();
 		inspects_apply();
+		view_dirty(VIEW_WATCHES);
 
 		if (program_temp_breakpoint)
 		{
