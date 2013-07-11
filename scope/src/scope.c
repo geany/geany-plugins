@@ -32,7 +32,7 @@ GeanyFunctions *geany_functions;
 PLUGIN_VERSION_CHECK(215)
 
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, _("Scope Debugger"),
-	_("Relatively simple GDB front-end."), "0.91" ,
+	_("Relatively simple GDB front-end."), "0.91.1" ,
 	"Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
 
 /* Keybinding(s) */
@@ -205,6 +205,8 @@ static void toolbar_update_state(DebugState state)
 			gtk_widget_set_sensitive(item->widget,
 				menu_item_matches_state(debug_menu_items + item->index, state));
 		}
+
+		state = last_state;
 	}
 }
 
@@ -371,7 +373,15 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor
 static void on_document_filetype_set(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 	G_GNUC_UNUSED GeanyFiletype *filetype_old, G_GNUC_UNUSED gpointer gdata)
 {
-	utils_lock_unlock(doc, debug_state() != DS_INACTIVE && utils_source_document(doc));
+	DebugState state = debug_state();
+	utils_lock_unlock(doc, state != DS_INACTIVE && utils_source_document(doc));
+	toolbar_update_state(state);
+}
+
+static void on_document_activate(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
+	G_GNUC_UNUSED gpointer user_data)
+{
+	toolbar_update_state(debug_state());
 }
 
 static void on_project_open(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile *config)
@@ -419,6 +429,8 @@ static const ScopeCallback scope_callbacks[] =
 	{ "save-settings",            G_CALLBACK(on_session_save) },
 	{ "editor-notify",            G_CALLBACK(on_editor_notify) },
 	{ "document-filetype-set",    G_CALLBACK(on_document_filetype_set) },
+	{ "document-activate",        G_CALLBACK(on_document_activate) },
+	{ "document-save",            G_CALLBACK(on_document_activate) },
 	{ "project-before-save",      G_CALLBACK(on_session_save) },
 	{ "project-open",             G_CALLBACK(on_project_open) },
 	{ "project-close",            G_CALLBACK(on_project_close) },

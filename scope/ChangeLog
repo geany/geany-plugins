@@ -1,3 +1,14 @@
+2013-07-11  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/scope.c:
+   Update toolbar state when saving a document or switching to
+   another document, and properly cache the last state.
+ * src/utils.c:
+   Recognize F77 as gdb-supported file type (was only Fortran).
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.91.1.
+
+
 2013-07-05  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/codes.html:
