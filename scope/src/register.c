@@ -70,7 +70,7 @@ static void register_node_update(const ParseNode *node, GString *commands[])
 	}
 }
 
-static gboolean query_all_registers = TRUE;
+static gboolean query_all_registers;
 
 static void registers_send_update(GArray *nodes, char token)
 {
@@ -330,7 +330,7 @@ gboolean registers_update(void)
 	return TRUE;
 }
 
-static char *last_gdb_executable = NULL;
+static char *last_gdb_executable;
 
 void registers_query_names(void)
 {
@@ -527,6 +527,9 @@ static void on_register_selection_changed(G_GNUC_UNUSED GtkTreeSelection *select
 
 void register_init(void)
 {
+	query_all_registers = TRUE;
+	last_gdb_executable = NULL;
+
 	tree = GTK_WIDGET(view_connect("register_view", &store, &selection, register_cells,
 		"register_window", &register_display));
 	gtk_widget_set_has_tooltip(tree, TRUE);

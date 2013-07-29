@@ -1059,7 +1059,7 @@ gboolean scp_tree_store_row_draggable(G_GNUC_UNUSED ScpTreeStore *store,
 {
 	return TRUE;
 }
-               
+
 gboolean scp_tree_store_drag_data_delete(ScpTreeStore *store, GtkTreePath *path)
 {
 	GtkTreeIter iter;
@@ -1123,9 +1123,9 @@ gboolean scp_tree_store_drag_data_received(ScpTreeStore *store, GtkTreePath *des
 	GtkTreePath *src_path = NULL;
 	GtkTreeIter src_iter;
 	gboolean result = FALSE;
-      
+
 	validate_store(store);
-      
+
 	if (gtk_tree_get_row_drag_data(selection_data, &src_model, &src_path) &&
 		src_model == SCP_TREE_MODEL(store) && /* can only receive from ourselves */
 		scp_tree_store_get_iter(store, &src_iter, src_path))
@@ -1189,7 +1189,7 @@ gboolean scp_tree_store_row_drop_possible(ScpTreeStore *store, GtkTreePath *dest
 			scp_tree_store_get_iter(store, &iter, parent_path);
 		gtk_tree_path_free(parent_path);
 	}
-  
+
 	if (src_path)
 		gtk_tree_path_free(src_path);
 
@@ -1437,7 +1437,7 @@ static gboolean scp_tree_store_buildable_custom_tag_start(GtkBuildable *buildabl
 		parser_data->name = gtk_buildable_get_name(buildable);
 		parser_data->types = g_array_new(FALSE, FALSE, sizeof(GType));
 		parser_data->collates = g_array_new(FALSE, FALSE, sizeof(gboolean));
- 		*parser = tree_model_parser;
+		*parser = tree_model_parser;
 		*user_data = parser_data;
 		return TRUE;
 	}

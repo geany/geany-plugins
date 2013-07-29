@@ -114,7 +114,7 @@ void views_context_dirty(DebugState state, gboolean frame_only)
 	}
 }
 
-static ViewIndex view_current = 0;
+static ViewIndex view_current;
 
 void views_clear(void)
 {
@@ -580,18 +580,18 @@ gboolean view_command_active(void)
 	return gtk_widget_get_visible(command_dialog);
 }
 
+static DebugState last_views_state;
+
 void views_update_state(DebugState state)
 {
-	static DebugState last_state = 0;
-
-	if (state != last_state)
+	if (state != last_views_state)
 	{
 		if (gtk_widget_get_visible(command_dialog))
 			command_line_update_state(state);
 		locals_update_state(state);
 		watches_update_state(state);
 		inspects_update_state(state);
-		last_state = state;
+		last_views_state = state;
 	}
 }
 
@@ -605,6 +605,13 @@ static gulong switch_sidebar_page_id;
 
 void views_init(void)
 {
+#ifdef G_OS_UNIX
+	view_current = VIEW_TERMINAL;
+#else
+	view_current = VIEW_PROGRAM;
+#endif
+	last_views_state = 0;
+
 	command_dialog = dialog_connect("command_dialog");
 	command_view = get_widget("command_view");
 	command_text = gtk_text_view_get_buffer(GTK_TEXT_VIEW(command_view));

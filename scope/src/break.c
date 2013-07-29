@@ -676,7 +676,7 @@ void on_break_list(GArray *nodes)
 	}
 }
 
-gint break_async = -1;
+gint break_async;
 
 void on_break_stopped(GArray *nodes)
 {
@@ -1298,6 +1298,8 @@ void break_init(void)
 {
 	GtkWidget *menu;
 	guint i;
+
+	break_async = -1;
 
 	tree = view_connect("break_view", &store, &selection, break_cells, "break_window", NULL);
 	gtk_tree_view_column_set_cell_data_func(get_column("break_type_column"),

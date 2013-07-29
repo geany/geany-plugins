@@ -163,7 +163,7 @@ static void on_jump_to_menu_item_activate(GtkMenuItem *menuitem, G_GNUC_UNUSED g
 
 static GtkWidget *jump_to_item;
 static GtkContainer *jump_to_menu;
-static gchar *jump_to_expr = NULL;
+static gchar *jump_to_expr;
 
 static void on_inspect_row_inserted(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
 	G_GNUC_UNUSED gpointer gdata)
@@ -480,7 +480,7 @@ static void inspect_node_change(const ParseNode *node, G_GNUC_UNUSED gpointer gd
 	}
 }
 
-static gboolean query_all_inspects = FALSE;
+static gboolean query_all_inspects;
 
 void on_inspect_changelist(GArray *nodes)
 {
@@ -681,10 +681,10 @@ static const TreeCell inspect_cells[] =
 };
 
 static GObject *inspect_display;
+static gboolean last_state_active;
 
 void inspects_update_state(DebugState state)
 {
-	static gboolean last_active = FALSE;
 	gboolean active = state != DS_INACTIVE;
 	GtkTreeIter iter;
 
@@ -701,11 +701,11 @@ void inspects_update_state(DebugState state)
 		g_object_set(inspect_display, "editable", var1 && !numchild, NULL);
 	}
 
-	if (active != last_active)
+	if (active != last_state_active)
 	{
 		gtk_widget_set_sensitive(jump_to_item, active &&
 			scp_tree_store_get_iter_first(store, &iter));
-		last_active = active;
+		last_state_active = active;
 	}
 }
 
@@ -1125,6 +1125,10 @@ static void on_inspect_menu_show(G_GNUC_UNUSED GtkWidget *widget, G_GNUC_UNUSED 
 void inspect_init(void)
 {
 	GtkWidget *menu;
+
+	jump_to_expr = NULL;
+	query_all_inspects = FALSE;
+	last_state_active = FALSE;
 
 	jump_to_item = get_widget("inspect_jump_to_item");
 	jump_to_menu = GTK_CONTAINER(get_widget("inspect_jump_to_menu"));

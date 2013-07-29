@@ -1,3 +1,17 @@
+2013-07-25  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/break.c, src/conterm.c, src/debug.c, src/inspect.c,
+   src/memory.c, src/menu.c, src/parse.c, src/program.c,
+   src/register.c, src/scope.c, src/stack.c, src/thread.c,
+   src/tooltip.c, src/tooltip.h, src/views.c:
+   Explicitly initialize all sensitive global and static
+   variables, since reloading the plugin will not do that.
+ * src/store/scptreestore.c:
+   Fixed indentation.
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.91.2.
+
+
 2013-07-11  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/scope.c:

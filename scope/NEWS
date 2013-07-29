@@ -1,3 +1,8 @@
+Scope 0.91.2 (2013-07-25)
+
+    * Fixed various errors on plugin unload-and-reload.
+
+
 Scope 0.91.1 (2013-07-11)
 
     * (Un)Block toolbar Toggle Breakpoint when saving a document or

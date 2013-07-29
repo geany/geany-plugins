@@ -51,7 +51,7 @@ void menu_item_execute(const MenuInfo *menu_info, const MenuItem *menu_item, gbo
 		plugin_beep();
 }
 
-static gboolean block_execute = FALSE;
+static gboolean block_execute;
 
 void menu_item_set_active(const MenuItem *menu_item, gboolean active)
 {
@@ -109,7 +109,7 @@ static void on_menu_item_activate(GtkMenuItem *menuitem, MenuInfo *menu_info)
 	}
 }
 
-static MenuInfo *active_menu = NULL;
+static MenuInfo *active_menu;
 
 static void update_active_menu(guint state)
 {
@@ -404,7 +404,7 @@ void on_menu_update_boolean(const MenuItem *menu_item)
 	*(gboolean *) menu_item->gdata = gtk_check_menu_item_get_active(item);
 }
 
-static char *input = NULL;
+static char *input;
 static gint eval_mr_mode;
 static gint scid_gen = 0;
 
@@ -518,6 +518,10 @@ void menu_init(void)
 	GtkMenuShell *shell = GTK_MENU_SHELL(geany->main_widgets->editor_menu);
 	GList *children = gtk_container_get_children(GTK_CONTAINER(shell));
 	GtkWidget *search2 = find_widget(shell, "search2");
+
+	block_execute = FALSE;
+	active_menu = NULL;
+	input = NULL;
 
 	popup_item = get_widget("popup_item");
 	menu_connect("popup_menu", &popup_menu_info, NULL);

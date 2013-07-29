@@ -439,8 +439,8 @@ gchar *parse_get_error(GArray *nodes)
 
 #define MAXLEN 0x7FF
 static GString *errors;
-static guint errors_id = 0;
-static guint error_count = 0;
+static guint errors_id;
+static guint error_count;
 
 static gboolean errors_show(G_GNUC_UNUSED gpointer gdata)
 {
@@ -620,6 +620,9 @@ void parse_save(GKeyFile *config)
 
 void parse_init(void)
 {
+	errors_id = 0;
+	error_count = 0;
+
 	errors = g_string_sized_new(MAXLEN);
 	parse_modes = SCP_TREE_STORE(get_object("parse_mode_store"));
 	scp_tree_store_set_sort_column_id(parse_modes, MODE_NAME, GTK_SORT_ASCENDING);

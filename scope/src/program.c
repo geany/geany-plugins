@@ -307,7 +307,7 @@ static const gchar *LONG_MR_FORMAT[2];
 
 #define build_check_execute() (build_get_execute(GEANY_BC_COMMAND) || \
 	build_get_execute(GEANY_BC_WORKING_DIR))
-static gboolean last_state_inactive = TRUE;
+static gboolean last_state_inactive;
 
 void program_update_state(DebugState state)
 {
@@ -442,6 +442,7 @@ void program_init(void)
 	extern gboolean thread_select_on_exited;
 	extern gboolean thread_select_follow;
 
+	last_state_inactive = TRUE;
 	program_dialog = dialog_connect("program_dialog");
 	program_page_vbox = get_widget("program_page_vbox");
 

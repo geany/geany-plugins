@@ -38,7 +38,7 @@ enum
 	GROUP_PID
 };
 
-static ScpTreeStore *groups = NULL;
+static ScpTreeStore *groups;
 
 void on_thread_group_started(GArray *nodes)
 {
@@ -172,10 +172,10 @@ static void auto_select_thread(void)
 	}
 }
 
-guint thread_count = 0;
-const char *thread_id = NULL;
-ThreadState thread_state = THREAD_BLANK;
-guint thread_prompt = 0;
+guint thread_count;
+const char *thread_id;
+ThreadState thread_state;
+guint thread_prompt;
 
 const char *thread_group_id(void)
 {
@@ -875,6 +875,11 @@ void thread_init(void)
 {
 	GtkTreeView *tree = view_create("thread_view", &store, &selection);
 	GtkWidget *menu = menu_select("thread_menu", &thread_menu_info, selection);
+
+	thread_count = 0;
+	thread_id = NULL;
+	thread_state = THREAD_BLANK;
+	thread_prompt = 0;
 
 	view_set_sort_func(store, THREAD_ID, store_gint_compare);
 	view_set_sort_func(store, THREAD_FILE, store_seek_compare);
