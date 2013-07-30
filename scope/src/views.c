@@ -258,8 +258,7 @@ static void on_editing_started(G_GNUC_UNUSED GtkCellRenderer *cell, GtkCellEdita
 		gtk_entry_set_cursor_hadjustment(GTK_ENTRY(editable), hadjustment);
 }
 
-static gboolean on_display_editable_map_event(GtkWidget *widget, G_GNUC_UNUSED GdkEvent *event,
-	gchar *display)
+static gboolean on_display_editable_map(GtkWidget *widget, gchar *display)
 {
 	gint position = 0;
 	GtkEditable *editable = GTK_EDITABLE(widget);
@@ -282,7 +281,7 @@ static void on_display_editing_started(G_GNUC_UNUSED GtkCellRenderer *cell,
 	scp_tree_store_get_iter_from_string(store, &iter, path_str);
 	scp_tree_store_get(store, &iter, COLUMN_VALUE, &value, COLUMN_HB_MODE, &hb_mode, -1);
 	/* scrolling editable to the proper position is left as an exercise for the reader */
-	g_signal_connect(editable, "map-event", G_CALLBACK(on_display_editable_map_event),
+	g_signal_connect(editable, "map", G_CALLBACK(on_display_editable_map),
 		parse_get_display_from_7bit(value, hb_mode, MR_EDITVC));
 }
 
@@ -608,7 +607,7 @@ void views_init(void)
 #ifdef G_OS_UNIX
 	view_current = VIEW_TERMINAL;
 #else
-	view_current = VIEW_PROGRAM;
+	view_current = VIEW_THREADS;
 #endif
 	last_views_state = 0;
 

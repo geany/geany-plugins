@@ -1,3 +1,10 @@
+2013-07-30  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/views.c:
+   Use map signal to pre-change contents when editing tree
+   cells, since map-event is not received under Windows.
+ * Windows panel defaults to THREADS view, not PROGRAM.
+
 2013-07-25  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/break.c, src/conterm.c, src/debug.c, src/inspect.c,
