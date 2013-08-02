@@ -76,6 +76,7 @@ static gboolean 			CONFIG_ON_DELETE_CLOSE_FILE = TRUE;
 static gboolean 			CONFIG_SHOW_TREE_LINES 		= TRUE;
 static gboolean 			CONFIG_SHOW_BOOKMARKS 		= FALSE;
 static gint 				CONFIG_SHOW_ICONS 			= 2;
+static gboolean				CONFIG_OPEN_NEW_FILES 		= TRUE;
 
 /* ------------------
  * TREEVIEW STRUCT
@@ -1066,6 +1067,8 @@ on_menu_create_new_object(GtkMenuItem *menuitem, const gchar *type)
 				treebrowser_browse(uri, refresh_root ? NULL : &iter);
 				if (treebrowser_search(uri_new, NULL))
 					treebrowser_rename_current();
+				if (utils_str_equal(type, "file") && CONFIG_OPEN_NEW_FILES == TRUE)
+					document_open_file(uri_new,FALSE, NULL,NULL);
 			}
 		}
 		g_free(uri_new);
@@ -1784,7 +1787,7 @@ static struct
 	GtkWidget *SHOW_TREE_LINES;
 	GtkWidget *SHOW_BOOKMARKS;
 	GtkWidget *SHOW_ICONS;
-
+	GtkWidget *OPEN_NEW_FILES;
 } configure_widgets;
 
 static void
@@ -1806,6 +1809,7 @@ load_settings(void)
 	CONFIG_SHOW_TREE_LINES 			= utils_get_setting_boolean(config, "treebrowser", "show_tree_lines", 		CONFIG_SHOW_TREE_LINES);
 	CONFIG_SHOW_BOOKMARKS 			= utils_get_setting_boolean(config, "treebrowser", "show_bookmarks", 		CONFIG_SHOW_BOOKMARKS);
 	CONFIG_SHOW_ICONS 				= utils_get_setting_integer(config, "treebrowser", "show_icons", 			CONFIG_SHOW_ICONS);
+	CONFIG_OPEN_NEW_FILES			= utils_get_setting_boolean(config, "treebrowser", "open_new_files",		CONFIG_OPEN_NEW_FILES);
 
 	g_key_file_free(config);
 }
@@ -1837,6 +1841,7 @@ save_settings(void)
 	g_key_file_set_boolean(config, 	"treebrowser", "show_tree_lines", 		CONFIG_SHOW_TREE_LINES);
 	g_key_file_set_boolean(config, 	"treebrowser", "show_bookmarks", 		CONFIG_SHOW_BOOKMARKS);
 	g_key_file_set_integer(config, 	"treebrowser", "show_icons", 			CONFIG_SHOW_ICONS);
+	g_key_file_set_boolean(config,	"treebrowser", "open_new_file",			CONFIG_OPEN_NEW_FILES);
 
 	data = g_key_file_to_data(config, NULL, NULL);
 	utils_write_file(CONFIG_FILE, data);
@@ -1867,6 +1872,7 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 	CONFIG_SHOW_TREE_LINES 		= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_TREE_LINES));
 	CONFIG_SHOW_BOOKMARKS 		= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_BOOKMARKS));
 	CONFIG_SHOW_ICONS 			= gtk_combo_box_get_active(GTK_COMBO_BOX(configure_widgets.SHOW_ICONS));
+	CONFIG_OPEN_NEW_FILES		= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.OPEN_NEW_FILES));
 
 	if (save_settings() == TRUE)
 	{
@@ -1978,6 +1984,11 @@ plugin_configure(GtkDialog *dialog)
 	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.SHOW_BOOKMARKS), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_BOOKMARKS), CONFIG_SHOW_BOOKMARKS);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.SHOW_BOOKMARKS, FALSE, FALSE, 0);
+	
+	configure_widgets.OPEN_NEW_FILES = gtk_check_button_new_with_label(_("Open new files"));
+	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.OPEN_NEW_FILES ), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.OPEN_NEW_FILES ), CONFIG_OPEN_NEW_FILES);
+	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.OPEN_NEW_FILES , FALSE, FALSE, 0);
 
 	gtk_widget_show_all(vbox);
 
