@@ -517,8 +517,9 @@ class _Console(_ReadLine, code.InteractiveInterpreter):
     def do_command(self, code):
         try:
             eval(code, self.locals)
-        except SystemExit:
-            raise
+# In GeanyPy console, we don't want to exit the process on SystemExit
+#        except SystemExit:
+#            raise
         except:
             self.showtraceback()
 
