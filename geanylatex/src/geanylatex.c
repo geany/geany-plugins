@@ -1447,7 +1447,7 @@ on_wizard_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 				break;
 			}
 		}
-		if (classoptions != NULL && NZV(orientation_string))
+		if (classoptions != NULL && EMPTY(orientation_string))
 		{
 			classoptions = g_strconcat(classoptions, ",", orientation_string, NULL);
 			g_free(orientation_string);
@@ -1465,11 +1465,11 @@ on_wizard_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 			classoptions = g_strconcat(draft, NULL);
 			g_free(draft);
 		}
-		if (classoptions != NULL && NZV(fontsize))
+		if (classoptions != NULL && EMPTY(fontsize))
 		{
 			classoptions = g_strconcat(classoptions, ",", fontsize, NULL);
 		}
-		else if (classoptions == NULL && NZV(fontsize))
+		else if (classoptions == NULL && EMPTY(fontsize))
 		{
 			classoptions = g_strdup(fontsize);
 		}
@@ -1595,7 +1595,7 @@ on_wizard_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 					break;
 				}
 			}
-			if (NZV(author))
+			if (EMPTY(author))
 			{
 				gchar* author_string = NULL;
 				if (documentclass_int == 3)
@@ -1629,7 +1629,7 @@ on_wizard_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 				g_free(author_string);
 			}
 
-			if (NZV(date))
+			if (EMPTY(date))
 			{
 				gchar *date_string = NULL;
 				date_string = g_strconcat("\\date{", date, "}\n", NULL);
