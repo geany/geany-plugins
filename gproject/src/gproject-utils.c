@@ -36,7 +36,7 @@ static gchar *relpath(const gchar *origin_dir, const gchar *dest_dir)
 	origin = tm_get_real_path(origin_dir);
 	dest = tm_get_real_path(dest_dir);
 
-	if (!NZV(origin) || !NZV(dest) || origin[0] != dest[0])
+	if (EMPTY(origin) || EMPTY(dest) || origin[0] != dest[0])
 	{
 		g_free(origin);
 		g_free(dest);
@@ -65,7 +65,7 @@ static gchar *relpath(const gchar *origin_dir, const gchar *dest_dir)
 	g_free(dest);
 	g_strfreev(originv);
 	g_strfreev(destv);
-	
+
 	return ret;
 }
 
