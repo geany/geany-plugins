@@ -189,7 +189,7 @@ in_vc_svn(const gchar * filename)
 
 	execute_custom_command(dir, (const gchar **) argv, NULL, &std_output, NULL,
 			       dir, NULL, NULL);
-	if (NZV(std_output))
+	if (!EMPTY(std_output))
 	{
 		ret = TRUE;
 		g_free(std_output);
@@ -223,7 +223,7 @@ get_commit_files_svn(const gchar * dir)
 	const char *argv[] = { "svn", "status", NULL };
 
 	execute_custom_command(dir, argv, NULL, &txt, NULL, dir, NULL, NULL);
-	if (!NZV(txt))
+	if (EMPTY(txt))
 		return NULL;
 	p = txt;
 
