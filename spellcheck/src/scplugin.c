@@ -219,7 +219,7 @@ static void dictionary_dir_button_clicked_cb(GtkButton *button, gpointer item)
 					GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
 
 	text = utils_get_locale_from_utf8(gtk_entry_get_text(GTK_ENTRY(item)));
-	if (NZV(text))
+	if (EMPTY(text))
 		gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), text);
 
 	/* run it */
@@ -294,7 +294,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	ui_widget_set_tooltip_text(entry_dir,
 		_("Read additional dictionary files from this directory. "
 		  "For now, this only works with myspell dictionaries."));
-	if (NZV(sc_info->dictionary_dir))
+	if (EMPTY(sc_info->dictionary_dir))
 		gtk_entry_set_text(GTK_ENTRY(entry_dir), sc_info->dictionary_dir);
 
 	button = gtk_button_new();
