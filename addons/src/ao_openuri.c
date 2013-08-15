@@ -129,7 +129,7 @@ static void ao_menu_open_activate_cb(GtkMenuItem *item, AoOpenUri *self)
 {
 	AoOpenUriPrivate *priv = AO_OPEN_URI_GET_PRIVATE(self);
 
-	if (NZV(priv->uri))
+	if (!EMPTY(priv->uri))
 		utils_open_browser(priv->uri);
 
 }
@@ -139,7 +139,7 @@ static void ao_menu_copy_activate_cb(GtkMenuItem *item, AoOpenUri *self)
 {
 	AoOpenUriPrivate *priv = AO_OPEN_URI_GET_PRIVATE(self);
 
-	if (NZV(priv->uri))
+	if (!EMPTY(priv->uri))
 		gtk_clipboard_set_text(gtk_clipboard_get(gdk_atom_intern("CLIPBOARD", FALSE)), priv->uri, -1);
 }
 
