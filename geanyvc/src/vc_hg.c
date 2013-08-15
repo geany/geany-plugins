@@ -135,7 +135,7 @@ in_vc_hg(const gchar * filename)
 
 	execute_custom_command(dir, (const gchar **) argv, NULL, &std_output, NULL,
 			       dir, NULL, NULL);
-	if (NZV(std_output))
+	if (!EMPTY(std_output))
 	{
 		ret = TRUE;
 		g_free(std_output);
@@ -173,7 +173,7 @@ get_commit_files_hg(const gchar * dir)
 	g_return_val_if_fail(base_dir, NULL);
 
 	execute_custom_command(base_dir, argv, NULL, &txt, NULL, base_dir, NULL, NULL);
-	if (!NZV(txt))
+	if (EMPTY(txt))
 	{
 		g_free(base_dir);
 		g_free(txt);

@@ -491,7 +491,7 @@ execute_custom_command(const gchar * dir, const gchar ** argv, const gchar ** en
 				setptr(*std_out, encodings_convert_to_utf8(*std_out,
 									   strlen(*std_out), NULL));
 			}
-			if (!NZV(*std_out))
+			if (EMPTY(*std_out))
 			{
 				g_free(*std_out);
 				*std_out = NULL;
@@ -509,7 +509,7 @@ execute_custom_command(const gchar * dir, const gchar ** argv, const gchar ** en
 				setptr(*std_err, encodings_convert_to_utf8(*std_err,
 									   strlen(*std_err), NULL));
 			}
-			if (!NZV(*std_err))
+			if (EMPTY(*std_err))
 			{
 				g_free(*std_err);
 				*std_err = NULL;
@@ -968,7 +968,7 @@ vcupdate_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 	{
 		document_reload_file(doc, NULL);
 
-		if (NZV(text))
+		if (!EMPTY(text))
 			show_output(text, "*VC-UPDATE*", NULL, NULL, 0);
 		g_free(text);
 	}
@@ -1604,7 +1604,7 @@ vccommit_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 		g_error_free(spellcheck_error);
 		spellcheck_error = NULL;
 	}
-	else if (NZV(lang))
+	else if (!EMPTY(lang))
 	{
 		gtkspell_set_language(speller, lang, &spellcheck_error);
 		if (spellcheck_error != NULL)
@@ -1630,7 +1630,7 @@ vccommit_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 		gtk_text_buffer_get_end_iter(mbuf, &end);
 		message = gtk_text_buffer_get_text(mbuf, &begin, &end, FALSE);
 		gtk_tree_model_foreach(model, get_commit_files_foreach, &selected_files);
-		if (NZV(message) && selected_files)
+		if (!EMPTY(message) && selected_files)
 		{
 			execute_command(vc, NULL, NULL, dir, VC_COMMAND_COMMIT, selected_files,
 					message);
