@@ -293,7 +293,7 @@ check_filtered(const gchar *base_name)
 		}
 	}
 
-	if (! NZV(gtk_entry_get_text(GTK_ENTRY(filter))))
+	if (! EMPTY(gtk_entry_get_text(GTK_ENTRY(filter))))
 		return TRUE;
 
 	filters = g_strsplit(gtk_entry_get_text(GTK_ENTRY(filter)), ";", 0);
@@ -342,7 +342,7 @@ check_hidden(const gchar *filename)
 	const gchar *base_name = NULL;
 	base_name = g_path_get_basename(filename);
 
-	if (! NZV(base_name))
+	if (! EMPTY(base_name))
 		return FALSE;
 
 	if (CONFIG_SHOW_HIDDEN_FILES)
@@ -387,7 +387,7 @@ get_default_dir(void)
 	else
 		dir = geany->prefs->default_open_path;
 
-	if (NZV(dir))
+	if (EMPTY(dir))
 		return utils_get_locale_from_utf8(dir);
 
 	return g_get_current_dir();

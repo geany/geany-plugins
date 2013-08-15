@@ -297,7 +297,7 @@ void sc_gui_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 		search_word = g_strdup(word);
 
 	/* ignore numbers or words starting with digits and non-text */
-	if (! NZV(search_word) || isdigit(*search_word) || ! sc_speller_is_text(doc, pos))
+	if (! EMPTY(search_word) || isdigit(*search_word) || ! sc_speller_is_text(doc, pos))
 	{
 		g_free(search_word);
 		return;

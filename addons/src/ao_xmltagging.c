@@ -90,7 +90,7 @@ void ao_xmltagging(void)
 			sci_start_undo_action(doc->editor->sci);
 
 			tag = g_strdup(gtk_entry_get_text(GTK_ENTRY(textbox)));
-			if (NZV(tag))
+			if (EMPTY(tag))
 			{
 				gsize end = 0;
 				GString *tmp = NULL;

@@ -62,7 +62,7 @@ static gint sc_speller_check_word(GeanyDocument *doc, gint line_number, const gc
 	g_return_val_if_fail(word != NULL, 0);
 	g_return_val_if_fail(start_pos >= 0 && end_pos >= 0, 0);
 
-	if (! NZV(word))
+	if (! EMPTY(word))
 		return 0;
 
 	/* ignore numbers or words starting with digits */
@@ -259,7 +259,7 @@ gchar *sc_speller_get_default_lang(void)
 	const gchar *lang = g_getenv("LANG");
 	gchar *result = NULL;
 
-	if (NZV(lang))
+	if (EMPTY(lang))
 	{
 		if (*lang == 'C' || *lang == 'c')
 			lang = "en";
@@ -418,7 +418,7 @@ void sc_speller_reinit_enchant_dict(void)
 
 	/* Check if the stored default dictionary is (still) available, fall back to the first
 	 * one in the list if not */
-	if (! NZV(lang) || ! check_default_lang())
+	if (! EMPTY(lang) || ! check_default_lang())
 	{
 		if (sc_info->dicts->len > 0)
 		{
@@ -431,7 +431,7 @@ void sc_speller_reinit_enchant_dict(void)
 	}
 
 	/* Request new dict object */
-	if (NZV(lang))
+	if (EMPTY(lang))
 		sc_speller_dict = enchant_broker_request_dict(sc_speller_broker, lang);
 	else
 		sc_speller_dict = NULL;
