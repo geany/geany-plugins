@@ -96,8 +96,8 @@ define_format(ScintillaObject *sci, gboolean newline)
 	end_char = sci_get_char_at(sci, end_pos - 1);
 	if(end_char != '\\')
 		return FALSE;
-	if(newline) /* small hack to pass the test */
-		line--;
+	// if(newline) /* small hack to pass the test */
+		// line--;
 	do {
 		line--;
 		end_pos = get_end_line(sci, line);
@@ -117,7 +117,7 @@ define_format(ScintillaObject *sci, gboolean newline)
 	/* This is special newline handler - it continues multiline define */
 	if(newline)
 	{
-		sci_add_text(sci, "\n");
+		SSM(sci, SCI_ADDTEXT, 1, (sptr_t)"\n");
 		line = sci_get_current_line(sci) - 1;
 		end_pos = sci_get_line_end_position(sci, line);
 		length = end_pos - get_indent_pos(sci, line) + sci_get_line_indentation(sci, line);
