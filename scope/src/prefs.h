@@ -27,6 +27,7 @@ extern gint pref_gdb_wait_death;
 extern gint pref_gdb_send_interval;
 extern gboolean pref_async_break_bugs;
 #endif
+extern gboolean pref_var_update_bug;
 
 extern gboolean pref_auto_view_source;
 extern gboolean pref_keep_exec_point;

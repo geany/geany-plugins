@@ -459,8 +459,9 @@ messages. The Scope state (Busy, Debug etc.) is more accurate.</p>
 
 <p><b><a name="inspect">Inspect</a></b></p>
 
-<p>All -var-* commands except -var-update will be ignored when entered from the command line,
-because their output does not provide enough information to identify the variable object.</p>
+<p>-var-* commands entered from the command line will not update the <em>Inspect</em> view,
+because their output does not provide enough information to identify the variable object,
+and/or their PRINT-VALUES argument is unknown.</p>
 
 <p><em>Jump To</em> lists the top-level variables, which is useful if you have a lot of
 children displayed. It's disabled while gdb is inactive, because all variables are collapsed
@@ -508,7 +509,13 @@ gdb if it's input buffer is full, in hundreds of seconds. Default = 5. The actua
 larger, for example Scope may be activated only 10 times per second if Geany is idle.</p>
 
 <p><em>async_break_bugs</em> (win~1 only) - whether gdb escapes slashes twice in the
-asynchronous break messages. If true, only <tt>=breakpoint-deleted</tt> will be handled.</p>
+asynchronous break messages. if true (the default), only <tt>=breakpoint-deleted</tt> will be
+handled.</p>
+
+<p><em>var_update_bug</em> - whether -var-update causes internal gdb error if the program is
+loaded but not running. If true (the default), the update of inspect expressions (including
+<em>Refresh</em>) will be disabled in <em>Hand</em> state. AFAIK, they will always have the
+globally initialized values (if any) in that state anyway.</p>
 
 <p><em>auto_view_source</em> - seek in source on single click in threads, breakpoints
 and stack.</p>
@@ -590,6 +597,9 @@ them has Scope enabled. Otherwise, the list of programs and their settings may b
 
 <p>A disabled check button or check menu item means that the respective functionality is
 unavailable; it doesn't matter if the interface element is checked or not.</p>
+
+<p>Frame-dependent commands entered from the command line will not update the respective view,
+because their output does not contain thread and frame information.</p>
 
 <p><b><a name="editing_values">Editing values</a></b></p>
 
@@ -738,7 +748,7 @@ later version.</p>
 
 <b><a name="copyright">Copyright</a></b>
 
-<p>Scope 0.91.2, Copyright (C) 2013 Dimitar Toshkov Zhekov</p>
+<p>Scope 0.91.3, Copyright (C) 2013 Dimitar Toshkov Zhekov</p>
 
 <p>The menu and toolbar icons are from <a href="http://netbeans.org">Netbeans</a>, except for
 BreakPoint.</p>

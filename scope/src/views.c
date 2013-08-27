@@ -50,7 +50,7 @@ static ViewInfo views[VIEW_COUNT] =
 	{ FALSE, VC_FRAME, watches_clear,   watches_update,   FALSE, DS_VARIABLE },
 	{ FALSE, VC_DATA,  memory_clear,    memory_update,    FALSE, DS_VARIABLE },
 	{ FALSE, VC_NONE,  NULL,            dc_update,        FALSE, DS_DEBUG },
-	{ FALSE, VC_FRAME, inspects_clear,  inspects_update,  FALSE, DS_VARIABLE },
+	{ FALSE, VC_FRAME, inspects_clear,  inspects_update,  FALSE, DS_DEBUG },
 	{ FALSE, VC_FRAME, registers_clear, registers_update, TRUE,  DS_DEBUG },
 	{ FALSE, VC_DATA,  tooltip_clear,   tooltip_update,   FALSE, DS_SENDABLE },
 	{ FALSE, VC_NONE,  menu_clear,      NULL,             FALSE, 0 }
@@ -610,6 +610,9 @@ void views_init(void)
 	view_current = VIEW_THREADS;
 #endif
 	last_views_state = 0;
+
+	if (!pref_var_update_bug)
+		views[VIEW_INSPECT].state = DS_VARIABLE;
 
 	command_dialog = dialog_connect("command_dialog");
 	command_view = get_widget("command_view");

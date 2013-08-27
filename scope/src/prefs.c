@@ -34,6 +34,7 @@ gint pref_gdb_wait_death;
 gint pref_gdb_send_interval;
 gboolean pref_async_break_bugs;
 #endif
+gboolean pref_var_update_bug;
 
 gboolean pref_auto_view_source;
 gboolean pref_keep_exec_point;
@@ -237,6 +238,7 @@ void prefs_init(void)
 	stash_group_add_integer(group, &pref_gdb_send_interval, "gdb_send_interval", 5);
 	stash_group_add_boolean(group, &pref_async_break_bugs, "async_break_bugs", TRUE);
 #endif
+	stash_group_add_boolean(group, &pref_var_update_bug, "var_update_bug", TRUE);
 	stash_group_add_boolean(group, &pref_auto_view_source, "auto_view_source", FALSE);
 	stash_group_add_boolean(group, &pref_keep_exec_point, "keep_exec_point", FALSE);
 	stash_group_add_integer(group, &pref_visual_beep_length, "visual_beep_length", 25);

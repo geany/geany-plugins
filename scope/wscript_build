@@ -28,25 +28,24 @@ name = 'Scope'
 includes = ['scope/src', 'scope/src/store']
 
 if target_is_win32(bld):
-	datadir = '${GEANYPLUGINS_DATADIR}/geany-plugins/scope'
+	datadir = '${G_PREFIX}/${GEANYPLUGINS_DATADIR}/geany-plugins/scope'
 	docdir = 'doc/plugins/scope'
-	prefix = '${G_PREFIX}/'
+	htmldocdir = '${G_PREFIX}/%s/html' % docdir
 	libraries = []
 else:
 	datadir = '${GEANYPLUGINS_DATADIR}/geany-plugins/scope'
 	docdir = '${DOCDIR}/scope'
-	prefix = ''
+	htmldocdir = '%s/html' % docdir
 	libraries = ['VTE', 'UTIL']
 
-htmldocdir = '%s/html' % docdir
-defines = [ subst_vars('PLUGINDATADIR="' + datadir + '"', bld.env),
-			subst_vars('PLUGINHTMLDOCDIR="' + htmldocdir + '"', bld.env)]
+defines = [ subst_vars('PLUGINDATADIR="' + datadir + '"', bld.env).replace("\\", "/"),
+	subst_vars('PLUGINHTMLDOCDIR="' + htmldocdir + '"', bld.env).replace("\\", "/")]
 
 build_plugin(bld, name, includes=includes, libraries=libraries, defines=defines)
 
-bld.install_files('%s%s' % (prefix, htmldocdir), 'docs/codes.html')
-bld.install_files('%s%s' % (prefix, htmldocdir), 'docs/scope.html')
+bld.install_files(htmldocdir, 'docs/codes.html')
+bld.install_files(htmldocdir, 'docs/scope.html')
 
 start_dir = bld.path.find_dir('data')
-bld.install_files('%s%s' % (prefix, datadir), start_dir.ant_glob('*.png'), cwd=start_dir)
-bld.install_files('%s%s' % (prefix, datadir), 'data/scope.glade')
+bld.install_files(datadir, start_dir.ant_glob('*.png'), cwd=start_dir)
+bld.install_files(datadir, 'data/scope.glade')

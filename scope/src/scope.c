@@ -32,7 +32,7 @@ GeanyFunctions *geany_functions;
 PLUGIN_VERSION_CHECK(215)
 
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, _("Scope Debugger"),
-	_("Relatively simple GDB front-end."), "0.91.2" ,
+	_("Relatively simple GDB front-end."), "0.91.3" ,
 	"Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
 
 /* Keybinding(s) */
@@ -379,7 +379,7 @@ static void on_document_filetype_set(G_GNUC_UNUSED GObject *obj, GeanyDocument *
 	toolbar_update_state(state);
 }
 
-static void on_document_activate(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
+static void on_document_activate(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GeanyDocument *doc,
 	G_GNUC_UNUSED gpointer user_data)
 {
 	toolbar_update_state(debug_state());

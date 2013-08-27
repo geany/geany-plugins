@@ -375,7 +375,6 @@ static gboolean register_load(GKeyFile *config, const char *section)
 	char *name = utils_key_file_get_string(config, section, "name");
 	gint format = utils_get_setting_integer(config, section, "format", FORMAT_NATURAL);
 	gboolean valid = FALSE;
-	GtkTreeIter iter;
 
 	if (name && (unsigned) format < FORMAT_COUNT)
 	{

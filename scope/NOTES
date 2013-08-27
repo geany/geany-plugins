@@ -1,3 +1,6 @@
+-var-evaluate-expression reports the value from the last -var-update or
+-var-assign execution, not the current value
+
 reloading a resident geany plugin module does not reinitialize any global
 and static variables, so the sensitive ones must be initialized explicitly
 

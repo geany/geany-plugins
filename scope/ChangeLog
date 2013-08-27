@@ -1,9 +1,26 @@
+2013-08-25  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * docs/codes.html, docs/scope.html, src/inspect.c,
+   src/prefs.c, src/prefs.h, src/views.c:
+   Fixed Inspect Refresh.
+   Added an option to disable Inspect Refresh/update in Hang mode
+   (causes internal gdb error).
+ * wscript_build:
+   Fixed the path handling when building with Waf under win32: Geany
+   does not change to it's own directory any more.
+ * src/register.c, src/scope.c:
+   Fixed unused variable warnings.
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.91.3.
+
+
 2013-07-30  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/views.c:
-   Use map signal to pre-change contents when editing tree
-   cells, since map-event is not received under Windows.
+   Use map signal to pre-change contents when editing tree cells,
+   since map-event is not received under Windows.
  * Windows panel defaults to THREADS view, not PROGRAM.
+
 
 2013-07-25  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
@@ -11,8 +28,8 @@
    src/memory.c, src/menu.c, src/parse.c, src/program.c,
    src/register.c, src/scope.c, src/stack.c, src/thread.c,
    src/tooltip.c, src/tooltip.h, src/views.c:
-   Explicitly initialize all sensitive global and static
-   variables, since reloading the plugin will not do that.
+   Explicitly initialize all sensitive global and static variables,
+   since reloading the plugin will not do that.
  * src/store/scptreestore.c:
    Fixed indentation.
  * docs/scope.html, src/scope.c:
@@ -22,8 +39,8 @@
 2013-07-11  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/scope.c:
-   Update toolbar state when saving a document or switching to
-   another document, and properly cache the last state.
+   Update toolbar state when saving a document or switching to another
+   document, and properly cache the last state.
  * src/utils.c:
    Recognize F77 as gdb-supported file type (was only Fortran).
  * docs/scope.html, src/scope.c:
@@ -58,8 +75,8 @@
 2013-07-02  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/views.c:
-   Fixed shutdown sequence error when destroying Inspect or
-   Registers switches to the other page and causes refresh.
+   Fixed shutdown sequence error when destroying Inspect or Registers
+   switches to the other page and causes refresh.
    Fixed the page number to refresh when switching to Inspect or
    Registers.
 
@@ -183,7 +200,7 @@
 
 2013-03-07  Enrico Tröger  <enrico.troeger@uvena.de>
 
- * wscript_build
+ * wscript_build:
    Fixed the path handling when building with Waf.
 
 
