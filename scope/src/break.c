@@ -683,20 +683,9 @@ void on_break_stopped(GArray *nodes)
 	if (break_async < TRUE)
 	{
 		const char *id = parse_find_value(nodes, "bkptno");
-		const char *disp = parse_find_value(nodes, "disp");
 
-		if (id && disp)
-		{
-			if (!strcmp(disp, "dis"))
-			{
-				GtkTreeIter iter;
-
-				if (store_find(store, &iter, BREAK_ID, id))
-					break_enable(&iter, FALSE);
-			}
-			else if (!strcmp(disp, "del"))
-				break_remove_all(id, FALSE);
-		}
+		if (id && !g_strcmp0(parse_find_value(nodes, "disp"), "del"))
+			break_remove_all(id, FALSE);
 	}
 
 	on_thread_stopped(nodes);

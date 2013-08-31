@@ -1,3 +1,15 @@
+2013-08-31  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * data/scope.glade:
+   Set Debug Panel tabs to "scrollable", so that the messages window
+   is not extended if it's not wide/tall enough to fit the tab names.
+ * src/break.c:
+   No async break messages only: don't disable a "dis" breakpoint on
+   hit, it may have a count (which is not available ATM).
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.91.4.
+
+
 2013-08-25  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * docs/codes.html, docs/scope.html, src/inspect.c,

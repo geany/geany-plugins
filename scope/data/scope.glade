@@ -1558,6 +1558,7 @@
   <object class="GtkNotebook" id="debug_panel">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
+    <property name="scrollable">True</property>
     <child>
       <object class="GtkScrolledWindow" id="program_window">
         <property name="visible">True</property>
