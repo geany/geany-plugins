@@ -249,9 +249,14 @@ push_scroll_pos(MarkdownViewer *self)
   if (GTK_IS_SCROLLED_WINDOW(parent)) {
     GtkAdjustment *adj;
     adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(parent));
-    self->priv->vscroll_pos = gtk_adjustment_get_value(adj);
+    /* Another hack to try and keep scroll position from
+     * resetting to top while typing, just don't store the new
+     * scroll positions if they're 0. */
+    if (gtk_adjustment_get_value(adj) != 0)
+        self->priv->vscroll_pos = gtk_adjustment_get_value(adj);
     adj = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(parent));
-    self->priv->hscroll_pos = gtk_adjustment_get_value(adj);
+    if (gtk_adjustment_get_value(adj) != 0)
+        self->priv->hscroll_pos = gtk_adjustment_get_value(adj);
     pushed = TRUE;
   }
 
