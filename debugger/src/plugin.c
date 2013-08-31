@@ -91,6 +91,8 @@ void plugin_init(GeanyData *data)
 	GtkWidget* vbox;
 	int i;
 
+	plugin_module_make_resident(geany_plugin);
+
 	keys_init();
 	
 	pixbufs_init();
