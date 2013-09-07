@@ -37,6 +37,9 @@ void dc_error(const char *format, ...) G_GNUC_PRINTF(1, 2);
 void dc_clear(void);
 gboolean dc_update(void);
 
+void conterm_load_config(void);  /* Geany VTE config */
+void conterm_apply_config(void);
+
 void conterm_init(void);
 void conterm_finalize(void);
 

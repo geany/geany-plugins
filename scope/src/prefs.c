@@ -192,6 +192,8 @@ static void prefs_configure(void)
 
 	foreach_document(i)
 		prefs_apply(documents[i]);
+
+	configure_panel();
 }
 
 char *prefs_file_name(void)
@@ -211,7 +213,7 @@ static void on_document_save(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 		g_key_file_load_from_file(config, configfile, G_KEY_FILE_NONE, NULL);
 		load_scope_prefs(config);
 		prefs_configure();
-		scope_configure();
+		configure_toolbar();
 		g_key_file_free(config);
 	}
 	g_free(configfile);
@@ -227,7 +229,6 @@ void prefs_init(void)
 	char *configdir = g_build_filename(geany->app->configdir, "plugins", "scope", NULL);
 	char *configfile = prefs_file_name();
 	GKeyFile *config = g_key_file_new();
-	gchar *tmp_string;
 
 	group = stash_group_new("scope");
 	stash_group_add_string(group, &pref_gdb_executable, "gdb_executable", "gdb");
@@ -291,13 +292,6 @@ void prefs_init(void)
 	prefs_configure();
 	program_load_config(config);
 
-	if (pref_panel_tab_pos == GTK_POS_LEFT || pref_panel_tab_pos == GTK_POS_RIGHT)
-	{
-		gtk_label_set_label(GTK_LABEL(get_widget("program_terminal_label")), _("Program"));
-		gtk_label_set_label(GTK_LABEL(get_widget("break_view_label")), _("Breaks"));
-		gtk_label_set_label(GTK_LABEL(get_widget("debug_console_label")), _("Console"));
-	}
-
 	if (!g_file_test(configfile, G_FILE_TEST_IS_REGULAR))
 	{
 		gint error = utils_mkdir(configdir, TRUE);
@@ -316,21 +310,7 @@ void prefs_init(void)
 	g_free(configfile);
 	g_free(configdir);
 
-	configfile = g_build_filename(geany_data->app->configdir, "geany.conf", NULL);
-	config = g_key_file_new();
-	g_key_file_load_from_file(config, configfile, G_KEY_FILE_NONE, NULL);
-	pref_vte_blinken = utils_get_setting_boolean(config, "VTE", "cursor_blinks", FALSE);
-	pref_vte_emulation = utils_get_setting_string(config, "VTE", "emulation", "xterm");
-	pref_vte_font = utils_get_setting_string(config, "VTE", "font", "Monospace 10");
-	pref_vte_scrollback = utils_get_setting_integer(config, "VTE", "scrollback_lines", 500);
-	tmp_string = utils_get_setting_string(config, "VTE", "colour_fore", "#ffffff");
-	gdk_color_parse(tmp_string, &pref_vte_colour_fore);
-	g_free(tmp_string);
-	tmp_string = utils_get_setting_string(config, "VTE", "colour_back", "#000000");
-	gdk_color_parse(tmp_string, &pref_vte_colour_back);
-	g_free(tmp_string);
-	g_key_file_free(config);
-	g_free(configfile);
+	conterm_load_config();
 }
 
 void prefs_finalize(void)

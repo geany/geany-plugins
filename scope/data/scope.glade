@@ -1569,7 +1569,6 @@
     <child type="tab">
       <object class="GtkLabel" id="program_terminal_label">
         <property name="visible">True</property>
-        <property name="label" translatable="yes">Program Terminal</property>
       </object>
       <packing>
         <property name="tab_fill">False</property>
@@ -1859,7 +1858,6 @@
     <child type="tab">
       <object class="GtkLabel" id="break_view_label">
         <property name="visible">True</property>
-        <property name="label" translatable="yes">Breakpoints</property>
       </object>
       <packing>
         <property name="position">2</property>
@@ -2174,7 +2172,6 @@
     <child type="tab">
       <object class="GtkLabel" id="debug_console_label">
         <property name="visible">True</property>
-        <property name="label" translatable="yes">Debug Console</property>
       </object>
       <packing>
         <property name="position">7</property>

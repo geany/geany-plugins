@@ -150,10 +150,8 @@ static guint terminal_menu_extra_state(void)
 
 static MenuInfo terminal_menu_info = { terminal_menu_items, terminal_menu_extra_state, 0 };
 
-void on_vte_realize(GtkWidget *widget, G_GNUC_UNUSED gpointer gdata)
+void on_vte_realize(VteTerminal *vte, G_GNUC_UNUSED gpointer gdata)
 {
-	VteTerminal *vte = VTE_TERMINAL(widget);
-
 	vte_terminal_set_emulation(vte, pref_vte_emulation);
 	vte_terminal_set_font_from_string(vte, pref_vte_font);
 	vte_terminal_set_scrollback_lines(vte, pref_vte_scrollback);
@@ -168,7 +166,7 @@ void on_vte_realize(GtkWidget *widget, G_GNUC_UNUSED gpointer gdata)
 #endif
 }
 
-static VteTerminal *debug_console;  /* non-NULL == vte console */
+static VteTerminal *debug_console;  /* NULL -> GtkTextView "context" */
 
 static void console_output(int fd, const char *text, gint length)
 {
@@ -380,6 +378,48 @@ static guint console_menu_extra_state(void)
 
 static MenuInfo console_menu_info = { console_menu_items, console_menu_extra_state, 0 };
 
+void conterm_load_config(void)
+{
+	gchar *configfile = g_build_filename(geany_data->app->configdir, "geany.conf", NULL);
+	GKeyFile *config = g_key_file_new();
+	gchar *tmp_string;
+
+	g_key_file_load_from_file(config, configfile, G_KEY_FILE_NONE, NULL);
+	pref_vte_blinken = utils_get_setting_boolean(config, "VTE", "cursor_blinks", FALSE);
+	pref_vte_emulation = utils_get_setting_string(config, "VTE", "emulation", "xterm");
+	pref_vte_font = utils_get_setting_string(config, "VTE", "font", "Monospace 10");
+	pref_vte_scrollback = utils_get_setting_integer(config, "VTE", "scrollback_lines", 500);
+	tmp_string = utils_get_setting_string(config, "VTE", "colour_fore", "#ffffff");
+	gdk_color_parse(tmp_string, &pref_vte_colour_fore);
+	g_free(tmp_string);
+	tmp_string = utils_get_setting_string(config, "VTE", "colour_back", "#000000");
+	gdk_color_parse(tmp_string, &pref_vte_colour_back);
+	g_free(tmp_string);
+	g_key_file_free(config);
+	g_free(configfile);
+}
+
+static void context_apply_config(GtkWidget *console)
+{
+	gtk_widget_modify_base(console, GTK_STATE_NORMAL, &pref_vte_colour_back);
+	gtk_widget_modify_cursor(console, &pref_vte_colour_fore, &pref_vte_colour_back);
+	ui_widget_modify_font_from_string(console, pref_vte_font);
+}
+
+void conterm_apply_config(void)
+{
+#ifdef G_OS_UNIX
+	on_vte_realize(program_terminal, NULL);
+
+	if (debug_console)
+		on_vte_realize(debug_console, NULL);
+	else
+#endif
+	{
+		context_apply_config(GTK_WIDGET(debug_context));
+	}
+}
+
 #ifdef G_OS_UNIX
 static int pty_slave;
 char *slave_pty_name;
@@ -501,10 +541,7 @@ void conterm_init(void)
 		dc_chars = 0;
 
 		console = get_widget("debug_context");
-		gtk_widget_modify_base(console, GTK_STATE_NORMAL, &pref_vte_colour_back);
-		gtk_widget_modify_cursor(console, &pref_vte_colour_fore, &pref_vte_colour_back);
-		ui_widget_modify_font_from_string(console, pref_vte_font);
-
+		context_apply_config(console);
 		debug_context = GTK_TEXT_VIEW(console);
 		dc_output = context_output;
 		dc_output_nl = context_output_nl;

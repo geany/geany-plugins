@@ -1,3 +1,11 @@
+Scope 0.92 (2013-09-07)
+
+    * Better support for Geany message window on right, but don't
+      expect miracles.
+
+    * Apply VTE and Debug panel position preferences immediately.
+
+
 Scope 0.91.2 (2013-07-25)
 
     * Fixed various errors on plugin unload-and-reload.

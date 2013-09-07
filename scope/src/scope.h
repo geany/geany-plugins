@@ -27,8 +27,9 @@ GObject *get_object(const char *name);
 GtkWidget *get_widget(const char *name);
 #define get_column(name) GTK_TREE_VIEW_COLUMN(get_object(name))
 #define find_widget(parent, name) GTK_WIDGET(g_object_get_data(G_OBJECT(parent), (name)))
+void configure_toolbar(void);
 void open_debug_panel(void);
-void scope_configure(void);
+void configure_panel(void);
 
 #define SCOPE_H 1
 #endif

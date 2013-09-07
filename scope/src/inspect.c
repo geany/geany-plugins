@@ -553,7 +553,7 @@ static gint inspect_iter_refresh(ScpTreeStore *store, GtkTreeIter *iter, gpointe
 static void inspects_send_refresh(char token)
 {
 	scp_tree_store_traverse(store, TRUE, NULL, NULL, inspect_iter_refresh,
-		GINT_TO_POINTER(token));
+		GINT_TO_POINTER((gint) token));
 	query_all_inspects = FALSE;
 }
 

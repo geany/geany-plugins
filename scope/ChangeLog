@@ -1,7 +1,22 @@
+2013-09-07  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * data/scope.glade:
+   Removed "Program Terminal", "Breakpoints" and "Debug Console"
+   panel tab names - they are always initialized explicitly now.
+ * src/conterm.c, src/conterm.h, src/prefs.c, src/scope.c:
+   Apply VTE settings immediately after Edit -> Preferences.
+ * src/prefs.c, src/prefs.h, src/scope.c, src/scope.h:
+   Apply pref_panel_tab_pos immediately after scope.conf save.
+   Automatically switch to short panel tab names if Geany message
+   window is on right.
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.92.
+
+
 2013-08-31  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * data/scope.glade:
-   Set Debug Panel tabs to "scrollable", so that the messages window
+   Set Debug Panel tabs to "scrollable", so that Geany message window
    is not extended if it's not wide/tall enough to fit the tab names.
  * src/break.c:
    No async break messages only: don't disable a "dis" breakpoint on
