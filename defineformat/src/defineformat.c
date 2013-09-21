@@ -1,5 +1,4 @@
-/*
- *      defineformat.c
+/*      defineformat.c
  *
  *      Copyright 2013 Pavel Roschin <rpg89@post.ru>
  *
@@ -36,6 +35,13 @@
 #include "Scintilla.h"
 #include "SciLexer.h"
 
+// #define DEBUG
+
+#ifdef DEBUG
+#define dprintf(...) printf(__VA_ARGS__)
+#else
+#define dprintf(...);
+#endif
 
 #define SSM(s, m, w, l) scintilla_send_message(s, m, w, l)
 
@@ -51,6 +57,8 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	_("Automatically align backslash in multi-line defines"),
 	"0.1",
 	"Pavel Roschin <rpg89@post.ru>")
+
+static GArray *lines_stack = NULL;
 
 static gint
 get_end_line(ScintillaObject *sci, gint line)
@@ -74,133 +82,177 @@ get_indent_pos(ScintillaObject *sci, gint line)
 }
 
 static gboolean
-define_format(ScintillaObject *sci, gboolean newline)
+inside_define(ScintillaObject *sci, gint line, gboolean newline)
 {
-	gint             lexer;
-	gint             start_pos;
-	gint             end_pos;
-	gint             length;
-	gint             line;
-	gint             first_line;
-	gint             first_end;
-	gchar           *start_line;
-	gchar            end_char;
-	gint             max = geany_data->editor_prefs->long_line_column;
+	gint    lexer;
+	gint    start_pos;
+	gint    end_pos;
+	gchar  *start_line;
+	gchar   end_char;
 
 	lexer = sci_get_lexer(sci);
 	if (lexer != SCLEX_CPP)
 		return FALSE;
 
-	first_line = line = sci_get_current_line(sci);
-	first_end = end_pos = get_end_line(sci, line);
+	end_pos = get_end_line(sci, line);
 	end_char = sci_get_char_at(sci, end_pos - 1);
 	if(end_char != '\\')
+	{
+		dprintf("End char is not \\, exit\n");
 		return FALSE;
-	// if(newline) /* small hack to pass the test */
-		// line--;
+	}
+	if(newline)
+		line--;
 	do {
 		line--;
 		end_pos = get_end_line(sci, line);
 		end_char = sci_get_char_at(sci, end_pos - 1);
 	} while(end_char == '\\' && line >= 0);
 	line++;
+	dprintf("Expecting define on line %d\n", line + 1);
 	start_pos = (gint)SSM(sci, SCI_GETLINEINDENTPOSITION, (uptr_t)line, 0);
 	end_pos = sci_get_line_end_position(sci, line);
 	if(start_pos == end_pos)
+	{
+		dprintf("line empty, exit\n");
 		return FALSE;
+	}
 	start_line = sci_get_contents_range(sci, start_pos, end_pos);
 	if(NULL == start_line)
-		return FALSE;
-	if(strncmp(start_line, "#define ", sizeof("#define ") - 1))
-		goto out;
-	sci_start_undo_action(sci);
-	/* This is special newline handler - it continues multiline define */
-	if(newline)
 	{
-		SSM(sci, SCI_ADDTEXT, 1, (sptr_t)"\n");
-		line = sci_get_current_line(sci) - 1;
-		end_pos = sci_get_line_end_position(sci, line);
-		length = end_pos - get_indent_pos(sci, line) + sci_get_line_indentation(sci, line);
-		for(; length < max - 1; length++, end_pos++)
-			sci_insert_text(sci, end_pos, " ");
-		sci_insert_text(sci, end_pos,  "\\");
-		first_line = line + 1;
-		first_end = get_end_line(sci, first_line);
+		dprintf("start_line is NULL, exit\n");
+		return FALSE;
 	}
+	if(strncmp(start_line, "#define ", sizeof("#define ") - 1))
+	{
+		dprintf("Start line is not \"#define\", exit\n");
+		g_free(start_line);
+		return FALSE;
+	}
+	g_free(start_line);
+	return TRUE;
+}
+
+static void
+define_format_newline(ScintillaObject *sci)
+{
+	gint    end_pos;
+	gint    line;
+
+	line = sci_get_current_line(sci);
+	if(!inside_define(sci, line, TRUE))
+		return;
+	line--;
+	end_pos = sci_get_line_end_position(sci, line);
+	sci_insert_text(sci, end_pos,  "\\");
+	line += 2;
+	dprintf("Added line: %d\n", line);
+	g_array_append_val(lines_stack, line);
+}
+
+static void
+define_format_line(ScintillaObject *sci, gint current_line)
+{
+	gint    length;
+	gint    first_line;
+	gint    first_end;
+	gint    max = geany_data->editor_prefs->long_line_column;
+
+	if(!inside_define(sci, current_line, FALSE))
+		return;
+
+	first_line = current_line;
+	first_end = get_end_line(sci, first_line);
 	for (first_end--; sci_get_char_at(sci, first_end - 1) == ' '; first_end--) {}
 	SSM(sci, SCI_DELETERANGE, first_end, sci_get_line_end_position(sci, first_line) - first_end);
 	length = first_end - get_indent_pos(sci, first_line) + sci_get_line_indentation(sci, first_line);
 	for(; length < max - 1; length++, first_end++)
 		sci_insert_text(sci, first_end, " ");
 	sci_insert_text(sci, first_end, "\\");
-	sci_end_undo_action(sci);
-out:
-	g_free(start_line);
-	return newline;
 }
 
 static gboolean
-on_key_release(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
+editor_notify_cb(GObject *object, GeanyEditor *editor, SCNotification *nt, gpointer data)
 {
-	GeanyDocument *doc = user_data;
-	if(NULL == doc || NULL == doc->editor || NULL == doc->editor->sci)
+	gint i = 0, val;
+	gint old_position = 0;
+	gint old_lposition = 0;
+	gint old_line = 0;
+	gint pos;
+	if(NULL == editor || NULL == editor->sci)
 		return FALSE;
-	if(event->keyval == GDK_BackSpace || event->keyval == GDK_Delete || event->keyval == GDK_Tab)
-		define_format(doc->editor->sci, FALSE);
-	return FALSE;
-}
-
-static gboolean
-on_key_press(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
-{
-	GeanyDocument *doc = user_data;
-	if(NULL == doc || NULL == doc->editor || NULL == doc->editor->sci)
-		return FALSE;
-	if(event->keyval == GDK_Return)
+	if(nt->nmhdr.code == SCN_CHARADDED)
 	{
-		return define_format(doc->editor->sci, TRUE);
+		if('\n' == nt->ch)
+			define_format_newline(editor->sci);
+	}
+	if(nt->nmhdr.code == SCN_UPDATEUI)
+	{
+		if(g_array_index(lines_stack, gint, 0))
+		{
+			/* save current position */
+			old_line = sci_get_current_line(editor->sci);
+			old_lposition = sci_get_line_end_position(editor->sci, old_line) - sci_get_line_length(editor->sci, old_line);
+			old_position = sci_get_current_position(editor->sci);
+			sci_start_undo_action(editor->sci);
+		}
+		while((val = g_array_index(lines_stack, gint, i)))
+		{
+			i++;
+			define_format_line(editor->sci, val - 1);
+			dprintf("Removed from stack: %d\n", val);
+		}
+		if(i > 0)
+		{
+			sci_end_undo_action(editor->sci);
+			g_array_remove_range(lines_stack, 0, i);
+			/* restore current position */
+			pos = sci_get_line_end_position(editor->sci, old_line) - sci_get_line_length(editor->sci, old_line);
+			sci_set_current_position(editor->sci, old_position + pos - old_lposition, FALSE);
+		}
+	}
+	if(nt->nmhdr.code == SCN_MODIFIED)
+	{
+		if(nt->modificationType & (SC_MOD_INSERTTEXT | SC_MOD_DELETETEXT))
+		{
+			if(nt->modificationType & (SC_PERFORMED_UNDO | SC_PERFORMED_REDO))
+				return FALSE;
+			gint line = sci_get_line_from_position(editor->sci, nt->position) + 1;
+			if(sci_get_char_at(editor->sci, get_end_line(editor->sci, line - 1) - 1) == '\\')
+			{
+				gboolean found = FALSE;
+				while((val = g_array_index(lines_stack, gint, i)))
+				{
+					if(val == line)
+					{
+						found = TRUE;
+						break;
+					}
+					i++;
+				}
+				if(!found)
+				{
+					dprintf("Added line: %d\n", line);
+					g_array_append_val(lines_stack, line);
+				}
+			}
+		}
 	}
 	return FALSE;
 }
 
-static gboolean
-editor_notify_cb(GObject *object, GeanyEditor *editor,
-								SCNotification *nt, gpointer data)
-{
-	if(NULL == editor || NULL == editor->sci)
-		return FALSE;
-	if(nt->nmhdr.code == SCN_CHARADDED)
-		define_format(editor->sci, FALSE);
-	return FALSE;
-}
-static void
-on_document_activate(GObject *obj, GeanyDocument *doc, gpointer user_data)
-{
-	ScintillaObject *sci = NULL;
-	if(NULL == doc || NULL == doc->editor)
-		return;
-	sci = doc->editor->sci;
-	if(NULL == sci)
-		return;
-	plugin_signal_connect(geany_plugin, G_OBJECT(sci), "key-release-event",
-			FALSE, G_CALLBACK(on_key_release), doc);
-	plugin_signal_connect(geany_plugin, G_OBJECT(sci), "key-press-event",
-			FALSE, G_CALLBACK(on_key_press), doc);
-}
-
-/* FIXME: I need to use these dirty hacks because native API doesn't provide modification events */
 PluginCallback plugin_callbacks[] =
 {
-	{ "document-open", (GCallback) &on_document_activate, FALSE, NULL },
-	{ "document-new",  (GCallback) &on_document_activate, FALSE, NULL },
-	{ "editor-notify", (GCallback) &editor_notify_cb,     FALSE, NULL },
+	{ "editor-notify", (GCallback) &editor_notify_cb, FALSE, NULL },
 	{ NULL, NULL, FALSE, NULL }
 };
 
 void plugin_init(GeanyData *data)
 {
+	lines_stack = g_array_new (TRUE, FALSE, sizeof(gint));
 }
 
 void plugin_cleanup(void)
 {
+	g_array_free(lines_stack, TRUE);
 }
