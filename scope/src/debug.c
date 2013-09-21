@@ -78,7 +78,7 @@ typedef enum _GdbState
 	KILLING
 } GdbState;
 
-static GdbState gdb_state;
+static GdbState gdb_state = INACTIVE;
 static GSource *gdb_source;
 static GPid gdb_pid;
 
@@ -266,7 +266,7 @@ static gboolean source_check(G_GNUC_UNUSED GSource *source)
 }
 #endif  /* G_OS_UNIX */
 
-static guint source_id;
+static guint source_id = 0;
 
 static gboolean source_dispatch(G_GNUC_UNUSED GSource *source,
 	G_GNUC_UNUSED GSourceFunc callback, G_GNUC_UNUSED gpointer gdata)
@@ -748,9 +748,6 @@ char *debug_send_evaluate(char token, gint scid, const gchar *expr)
 
 void debug_init(void)
 {
-	gdb_state = INACTIVE;
-	source_id = 0;
-	
 	commands = g_string_sized_new(0x3FFF);
 	received = g_string_sized_new(pref_gdb_buffer_length);
 	MAXLEN = received->allocated_len - 1;

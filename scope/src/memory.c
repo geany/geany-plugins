@@ -117,7 +117,7 @@ static char *addr_format;
 
 static gint back_bytes_per_line;
 static gint bytes_per_line;
-static gint bytes_per_group;
+static gint bytes_per_group = 1;
 
 static void memory_configure(void)
 {
@@ -133,7 +133,7 @@ static void memory_configure(void)
 }
 
 static guint64 memory_start;
-static guint memory_count;
+static guint memory_count = 0;
 #define MAX_BYTES (128 * MAX_BYTES_PER_LINE)  /* +1 incomplete line */
 
 static void write_block(guint64 start, const char *contents, guint count)
@@ -381,9 +381,6 @@ void memory_init(void)
 {
 	GtkWidget *tree = GTK_WIDGET(view_connect("memory_view", &store, &selection,
 		memory_cells, "memory_window", NULL));
-
-	bytes_per_group = 1;
-	memory_count = 0;
 
 	memory_font = *pref_memory_font ? pref_memory_font : pref_vte_font;
 	ui_widget_modify_font_from_string(tree, memory_font);

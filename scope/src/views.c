@@ -50,7 +50,7 @@ static ViewInfo views[VIEW_COUNT] =
 	{ FALSE, VC_FRAME, watches_clear,   watches_update,   FALSE, DS_VARIABLE },
 	{ FALSE, VC_DATA,  memory_clear,    memory_update,    FALSE, DS_VARIABLE },
 	{ FALSE, VC_NONE,  NULL,            dc_update,        FALSE, DS_DEBUG },
-	{ FALSE, VC_FRAME, inspects_clear,  inspects_update,  FALSE, DS_DEBUG },
+	{ FALSE, VC_FRAME, inspects_clear,  inspects_update,  FALSE, DS_VARIABLE },
 	{ FALSE, VC_FRAME, registers_clear, registers_update, TRUE,  DS_DEBUG },
 	{ FALSE, VC_DATA,  tooltip_clear,   tooltip_update,   FALSE, DS_SENDABLE },
 	{ FALSE, VC_NONE,  menu_clear,      NULL,             FALSE, 0 }
@@ -114,7 +114,11 @@ void views_context_dirty(DebugState state, gboolean frame_only)
 	}
 }
 
-static ViewIndex view_current;
+#ifdef G_OS_UNIX
+static ViewIndex view_current = VIEW_TERMINAL;
+#else
+static ViewIndex view_current = VIEW_THREADS;
+#endif
 
 void views_clear(void)
 {
@@ -579,18 +583,18 @@ gboolean view_command_active(void)
 	return gtk_widget_get_visible(command_dialog);
 }
 
-static DebugState last_views_state;
-
 void views_update_state(DebugState state)
 {
-	if (state != last_views_state)
+	static DebugState last_state = 0;
+
+	if (state != last_state)
 	{
 		if (gtk_widget_get_visible(command_dialog))
 			command_line_update_state(state);
 		locals_update_state(state);
 		watches_update_state(state);
 		inspects_update_state(state);
-		last_views_state = state;
+		last_state = state;
 	}
 }
 
@@ -604,15 +608,8 @@ static gulong switch_sidebar_page_id;
 
 void views_init(void)
 {
-#ifdef G_OS_UNIX
-	view_current = VIEW_TERMINAL;
-#else
-	view_current = VIEW_THREADS;
-#endif
-	last_views_state = 0;
-
-	if (!pref_var_update_bug)
-		views[VIEW_INSPECT].state = DS_VARIABLE;
+	if (pref_var_update_bug)
+		views[VIEW_INSPECT].state = DS_DEBUG;
 
 	command_dialog = dialog_connect("command_dialog");
 	command_view = get_widget("command_view");

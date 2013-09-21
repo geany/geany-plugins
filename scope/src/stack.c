@@ -62,7 +62,7 @@ static void stack_node_location(const ParseNode *node, const char *fid)
 	}
 }
 
-const char *frame_id;
+const char *frame_id = NULL;
 
 void on_stack_frames(GArray *nodes)
 {
@@ -335,8 +335,6 @@ void stack_init(void)
 {
 	GtkTreeView *tree = view_create("stack_view", &store, &selection);
 	GtkWidget *menu = menu_select("stack_menu", &stack_menu_info, selection);
-
-	frame_id = NULL;
 
 	view_set_sort_func(store, STACK_ID, store_gint_compare);
 	view_set_sort_func(store, STACK_FILE, store_seek_compare);

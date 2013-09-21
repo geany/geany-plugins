@@ -309,8 +309,6 @@ void prefs_init(void)
 	g_key_file_free(config);
 	g_free(configfile);
 	g_free(configdir);
-
-	conterm_load_config();
 }
 
 void prefs_finalize(void)

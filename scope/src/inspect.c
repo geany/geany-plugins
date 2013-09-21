@@ -163,7 +163,7 @@ static void on_jump_to_menu_item_activate(GtkMenuItem *menuitem, G_GNUC_UNUSED g
 
 static GtkWidget *jump_to_item;
 static GtkContainer *jump_to_menu;
-static gchar *jump_to_expr;
+static gchar *jump_to_expr = NULL;
 
 static void on_inspect_row_inserted(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
 	G_GNUC_UNUSED gpointer gdata)
@@ -480,7 +480,7 @@ static void inspect_node_change(const ParseNode *node, G_GNUC_UNUSED gpointer gd
 	}
 }
 
-static gboolean query_all_inspects;
+static gboolean query_all_inspects = FALSE;
 
 void on_inspect_changelist(GArray *nodes)
 {
@@ -687,10 +687,10 @@ static const TreeCell inspect_cells[] =
 };
 
 static GObject *inspect_display;
-static gboolean last_state_active;
 
 void inspects_update_state(DebugState state)
 {
+	static gboolean last_active = FALSE;
 	gboolean active = state != DS_INACTIVE;
 	GtkTreeIter iter;
 
@@ -707,11 +707,11 @@ void inspects_update_state(DebugState state)
 		g_object_set(inspect_display, "editable", var1 && !numchild, NULL);
 	}
 
-	if (active != last_state_active)
+	if (active != last_active)
 	{
 		gtk_widget_set_sensitive(jump_to_item, active &&
 			scp_tree_store_get_iter_first(store, &iter));
-		last_state_active = active;
+		last_active = active;
 	}
 }
 
@@ -978,7 +978,7 @@ static void on_inspect_delete(G_GNUC_UNUSED const MenuItem *menu_item)
 
 static MenuItem inspect_menu_items[] =
 {
-	{ "inspect_refresh",   on_inspect_refresh,        DS_DEBUG,      NULL, NULL },
+	{ "inspect_refresh",   on_inspect_refresh,        DS_VARIABLE,   NULL, NULL },
 	{ "inspect_add",       on_inspect_add,            DS_NOT_BUSY,   NULL, NULL },
 	{ "inspect_edit",      on_inspect_edit,           DS_EDITABLE,   NULL, NULL },
 	{ "inspect_apply",     on_inspect_apply,          DS_APPLIABLE,  NULL, NULL },
@@ -1133,10 +1133,6 @@ void inspect_init(void)
 {
 	GtkWidget *menu;
 
-	jump_to_expr = NULL;
-	query_all_inspects = FALSE;
-	last_state_active = FALSE;
-
 	jump_to_item = get_widget("inspect_jump_to_item");
 	jump_to_menu = GTK_CONTAINER(get_widget("inspect_jump_to_menu"));
 	apply_item = menu_item_find(inspect_menu_items, "inspect_apply");
@@ -1155,8 +1151,8 @@ void inspect_init(void)
 	g_signal_connect(selection, "changed", G_CALLBACK(on_inspect_selection_changed), NULL);
 	menu = menu_select("inspect_menu", &inspect_menu_info, selection);
 	g_signal_connect(menu, "show", G_CALLBACK(on_inspect_menu_show), NULL);
-	if (!pref_var_update_bug)
-		inspect_menu_items->state = DS_VARIABLE;
+	if (pref_var_update_bug)
+		inspect_menu_items->state = DS_DEBUG;
 
 	inspect_dialog = dialog_connect("inspect_dialog");
 	inspect_name = GTK_ENTRY(get_widget("inspect_name_entry"));

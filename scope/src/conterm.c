@@ -28,7 +28,6 @@
 
 #define NFD 5
 #define DS_COPY (DS_BASICS | DS_EXTRA_1)
-static int last_console_fd;
 
 #ifdef G_OS_UNIX
 #if (defined(__unix__) || defined(unix)) && !defined(USG)
@@ -166,22 +165,23 @@ void on_vte_realize(VteTerminal *vte, G_GNUC_UNUSED gpointer gdata)
 #endif
 }
 
-static VteTerminal *debug_console;  /* NULL -> GtkTextView "context" */
+static VteTerminal *debug_console = NULL;  /* NULL -> GtkTextView "context" */
 
 static void console_output(int fd, const char *text, gint length)
 {
 	static const char fd_colors[NFD] = { '6', '7', '1', '7', '5' };
 	static char setaf[5] = { '\033', '[', '3', '?', 'm' };
+	static int last_fd = -1;
 	gint i;
 
-	if (last_console_fd == 3 && fd != 0)
+	if (last_fd == 3 && fd != 0)
 		vte_terminal_feed(debug_console, "\r\n", 2);
 
-	if (fd != last_console_fd)
+	if (fd != last_fd)
 	{
 		setaf[3] = fd_colors[fd];
 		vte_terminal_feed(debug_console, setaf, sizeof setaf);
-		last_console_fd = fd;
+		last_fd = fd;
 	}
 
 	if (length == -1)
@@ -214,20 +214,21 @@ static GtkTextBuffer *context;
 static GtkTextTag *fd_tags[NFD];
 #define DC_LIMIT 32768  /* approx */
 #define DC_DELTA 6144
-static guint dc_chars;
+static guint dc_chars = 0;
 
 void context_output(int fd, const char *text, gint length)
 {
+	static int last_fd = -1;
 	GtkTextIter end;
 	gchar *utf8;
 
 	gtk_text_buffer_get_end_iter(context, &end);
 
-	if (last_console_fd == 3 && fd != 0)
+	if (last_fd == 3 && fd != 0)
 		gtk_text_buffer_insert(context, &end, "\n", 1);
 
-	if (fd != last_console_fd)
-		last_console_fd = fd;
+	if (fd != last_fd)
+		last_fd = fd;
 
 	if (length == -1)
 		length = strlen(text);
@@ -421,8 +422,8 @@ void conterm_apply_config(void)
 }
 
 #ifdef G_OS_UNIX
-static int pty_slave;
-char *slave_pty_name;
+static int pty_slave = -1;
+char *slave_pty_name = NULL;
 #endif
 
 void conterm_init(void)
@@ -434,11 +435,8 @@ void conterm_init(void)
 	char *pty_name;
 #endif
 
-	last_console_fd = -1;
+	conterm_load_config();
 #ifdef G_OS_UNIX
-	pty_slave = -1;
-	slave_pty_name = NULL;
-
 	program_window = get_widget("program_window");
 	console = vte_terminal_new();
 	gtk_widget_show(console);
@@ -534,11 +532,6 @@ void conterm_init(void)
 		static const char *const colors[NFD] = { "#00C0C0", "#C0C0C0", "#C00000",
 			"#C0C0C0", "#C000C0" };
 		guint i;
-
-	#ifdef G_OS_UNIX
-		debug_console = NULL;
-	#endif
-		dc_chars = 0;
 
 		console = get_widget("debug_context");
 		context_apply_config(console);

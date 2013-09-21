@@ -147,16 +147,15 @@ ScpTreeStore *scp_tree_store_newv(gboolean sublevels, gint n_columns, GType *typ
 	ScpTreeStore *store;
 
 	g_return_val_if_fail(n_columns > 0, NULL);
-	store = g_object_new(SCP_TYPE_TREE_STORE, NULL);
+	store = g_object_new(SCP_TYPE_TREE_STORE, "sublevels", sublevels != FALSE, NULL);
 
-	if (scp_tree_store_set_column_types(store, n_columns, types))
+	if (!scp_tree_store_set_column_types(store, n_columns, types))
 	{
-		store->priv->sublevels = sublevels;
-		return store;
+		g_object_unref(store);
+		store = NULL;
 	}
 
-	g_object_unref(store);
-	return NULL;
+	return store;
 }
 
 #define scp_tree_model_compare_func ((GtkTreeIterCompareFunc) scp_tree_store_compare_func)
@@ -1796,15 +1795,6 @@ static void scp_tree_store_buildable_init(GtkBuildableIface *iface)
 	iface->custom_finished = scp_tree_store_buildable_custom_finished;
 }
 
-static void scp_tree_store_finalize(GObject *object);
-
-G_DEFINE_TYPE_WITH_CODE(ScpTreeStore, scp_tree_store, G_TYPE_OBJECT,
-	G_IMPLEMENT_INTERFACE(GTK_TYPE_TREE_MODEL, scp_tree_store_tree_model_init)
-	G_IMPLEMENT_INTERFACE(GTK_TYPE_TREE_DRAG_SOURCE, scp_tree_store_drag_source_init)
-	G_IMPLEMENT_INTERFACE(GTK_TYPE_TREE_DRAG_DEST, scp_tree_store_drag_dest_init)
-	G_IMPLEMENT_INTERFACE(GTK_TYPE_TREE_SORTABLE, scp_tree_store_sortable_init)
-	G_IMPLEMENT_INTERFACE(GTK_TYPE_BUILDABLE, scp_tree_store_buildable_init))
-
 enum
 {
 	PROP_0,
@@ -1814,6 +1804,33 @@ enum
 	PROP_SUBLEVEL_DISCARD,
 	PROP_UTF8_COLLATE
 };
+
+static gpointer scp_tree_store_parent_class = NULL;
+
+static GObject *scp_tree_store_constructor(GType type, guint n_construct_properties,
+	GObjectConstructParam *construct_properties)
+{
+	GObject *object = G_OBJECT_CLASS(scp_tree_store_parent_class)->constructor(type,
+		n_construct_properties, construct_properties);
+	ScpTreeStorePrivate *priv = G_TYPE_INSTANCE_GET_PRIVATE(object, SCP_TYPE_TREE_STORE,
+		ScpTreeStorePrivate);
+
+	((ScpTreeStore *) object)->priv = priv;
+	while ((priv->stamp = g_random_int()) == 0);  /* we mark invalid iters with stamp 0 */
+	priv->root = g_new0(AElem, 1);
+	priv->roar = g_ptr_array_new();
+	scp_ptr_array_insert_val(priv->roar, 0, priv->root);
+	priv->headers = NULL;
+	priv->n_columns = 0;
+	priv->sort_column_id = GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID;
+	priv->sort_order = GTK_SORT_ASCENDING;
+	priv->sort_func = NULL;
+	priv->toplevel_reserved = 0;
+	priv->sublevel_reserved = 0;
+	priv->sublevel_discard = FALSE;
+	priv->columns_dirty = FALSE;
+	return object;
+}
 
 static void scp_tree_store_get_property(GObject *object, guint prop_id, GValue *value,
 	GParamSpec *pspec)
@@ -1855,6 +1872,8 @@ static void scp_tree_store_set_property(GObject *object, guint prop_id, const GV
 	{
 		case PROP_SUBLEVELS :
 		{
+			priv = G_TYPE_INSTANCE_GET_PRIVATE(object, SCP_TYPE_TREE_STORE,
+				ScpTreeStorePrivate);  /* ctor, store->priv is not assigned */
 			priv->sublevels = g_value_get_boolean(value);
 			break;
 		}
@@ -1890,60 +1909,6 @@ static void scp_tree_store_set_property(GObject *object, guint prop_id, const GV
 #endif
 }
 
-static void scp_tree_store_class_init(ScpTreeStoreClass *class)
-{
-	GObjectClass *object_class;
-
-	object_class = (GObjectClass *) class;
-	object_class->finalize = scp_tree_store_finalize;
-	object_class->get_property = scp_tree_store_get_property;
-	object_class->set_property = scp_tree_store_set_property;
-	g_type_class_add_private(class, sizeof(ScpTreeStorePrivate));
-	g_assert(GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID == -1);
-
-	g_object_class_install_property(object_class, PROP_SUBLEVELS,
-		g_param_spec_boolean("sublevels", P_("Sublevels"),
-		P_("Supports sublevels (as opposed to flat list)"), TRUE,
-		G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
-
-	g_object_class_install_property(object_class, PROP_TOPLEVEL_RESERVED,
-		g_param_spec_uint("toplevel-reserved", P_("Toplevel reserved"),
-		P_("Number of pointers preallocated for top-level elements"),
-		0, G_MAXINT32, 0, G_PARAM_READWRITE));
-
-	g_object_class_install_property(object_class, PROP_SUBLEVEL_RESERVED,
-		g_param_spec_uint("sublevel-reserved", P_("Sublevel reserved"),
-		P_("Number of pointers preallocated for sublevel elements"),
-		0, G_MAXINT32, 0, G_PARAM_READWRITE));
-
-	g_object_class_install_property(object_class, PROP_SUBLEVEL_DISCARD,
-		g_param_spec_boolean("sublevel-discard", P_("Sublevel discard"),
-		P_("Free sublevel arrays when their last element is removed"),
-		FALSE, G_PARAM_READWRITE));
-}
-
-static void scp_tree_store_init(ScpTreeStore *store)
-{
-	ScpTreeStorePrivate *priv;
-
-	priv = G_TYPE_INSTANCE_GET_PRIVATE(store, SCP_TYPE_TREE_STORE, ScpTreeStorePrivate);
-	store->priv = priv;
-	while ((priv->stamp = g_random_int()) == 0);  /* we mark invalid iters with stamp 0 */
-	priv->root = g_new0(AElem, 1);
-	priv->roar = g_ptr_array_new();
-	scp_ptr_array_insert_val(priv->roar, 0, priv->root);
-	priv->headers = NULL;
-	priv->n_columns = 0;
-	priv->sort_column_id = GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID;
-	priv->sort_order = GTK_SORT_ASCENDING;
-	priv->sort_func = NULL;
-	priv->sublevels = TRUE;
-	priv->toplevel_reserved = 0;
-	priv->sublevel_reserved = 0;
-	priv->sublevel_discard = FALSE;
-	priv->columns_dirty = FALSE;
-}
-
 static void scp_tree_store_finalize(GObject *object)
 {
 	ScpTreeStore *store = SCP_TREE_STORE(object);
@@ -1956,6 +1921,97 @@ static void scp_tree_store_finalize(GObject *object)
 	if (priv->headers)
 		scp_tree_data_headers_free(priv->n_columns, priv->headers);
 
-	/* must chain up */
 	G_OBJECT_CLASS(scp_tree_store_parent_class)->finalize(object);
+}
+
+static void scp_tree_store_gobject_init(GObjectClass *class)
+{
+	scp_tree_store_parent_class = g_type_class_peek_parent(class);
+	class->constructor = scp_tree_store_constructor;
+	class->finalize = scp_tree_store_finalize;
+	class->get_property = scp_tree_store_get_property;
+	class->set_property = scp_tree_store_set_property;
+}
+
+static void scp_tree_store_class_init(GObjectClass *class)
+{
+	scp_tree_store_gobject_init(class);
+	g_type_class_add_private(class, sizeof(ScpTreeStorePrivate));
+	g_assert(GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID == -1);  /* headers[-1] = default */
+
+	g_object_class_install_property(class, PROP_SUBLEVELS,
+		g_param_spec_boolean("sublevels", P_("Sublevels"),
+		P_("Supports sublevels (as opposed to flat list)"), TRUE,
+		G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property(class, PROP_TOPLEVEL_RESERVED,
+		g_param_spec_uint("toplevel-reserved", P_("Toplevel reserved"),
+		P_("Number of pointers preallocated for top-level elements"),
+		0, G_MAXINT32, 0, G_PARAM_READWRITE));
+
+	g_object_class_install_property(class, PROP_SUBLEVEL_RESERVED,
+		g_param_spec_uint("sublevel-reserved", P_("Sublevel reserved"),
+		P_("Number of pointers preallocated for sublevel elements"),
+		0, G_MAXINT32, 0, G_PARAM_READWRITE));
+
+	g_object_class_install_property(class, PROP_SUBLEVEL_DISCARD,
+		g_param_spec_boolean("sublevel-discard", P_("Sublevel discard"),
+		P_("Free sublevel arrays when their last element is removed"),
+		FALSE, G_PARAM_READWRITE));
+}
+
+static volatile gsize scp_tree_store_type_id_volatile = 0;
+
+GType scp_tree_store_get_type(void)
+{
+	if (g_once_init_enter(&scp_tree_store_type_id_volatile))
+	{
+		GType type = g_type_register_static_simple(G_TYPE_OBJECT,
+			g_intern_string("ScpTreeStore"), sizeof(ScpTreeStoreClass),
+			(GClassInitFunc) scp_tree_store_class_init, sizeof(ScpTreeStore), NULL, 0);
+		GInterfaceInfo iface_info = { (GInterfaceInitFunc) scp_tree_store_tree_model_init,
+			NULL, NULL };
+
+		g_type_add_interface_static(type, GTK_TYPE_TREE_MODEL, &iface_info);
+		iface_info.interface_init = (GInterfaceInitFunc) scp_tree_store_drag_source_init;
+		g_type_add_interface_static(type, GTK_TYPE_TREE_DRAG_SOURCE, &iface_info);
+		iface_info.interface_init = (GInterfaceInitFunc) scp_tree_store_drag_dest_init;
+		g_type_add_interface_static(type, GTK_TYPE_TREE_DRAG_DEST, &iface_info);
+		iface_info.interface_init = (GInterfaceInitFunc) scp_tree_store_sortable_init;
+		g_type_add_interface_static(type, GTK_TYPE_TREE_SORTABLE, &iface_info);
+		iface_info.interface_init = (GInterfaceInitFunc) scp_tree_store_buildable_init;
+		g_type_add_interface_static(type, GTK_TYPE_BUILDABLE, &iface_info);
+		g_once_init_leave(&scp_tree_store_type_id_volatile, type);
+	}
+
+	return scp_tree_store_type_id_volatile;
+}
+
+void scp_tree_store_register_dynamic(void)
+{
+	GType type = g_type_from_name("ScpTreeStore");
+
+	if (!type)
+	{
+		type = scp_tree_store_get_type();
+		g_type_class_unref(g_type_class_ref(type));  /* force class create */
+	}
+	else if (!scp_tree_store_type_id_volatile)
+	{
+		/* external registration, repair */
+		gpointer class = g_type_class_peek(type);
+		gpointer iface = g_type_interface_peek(class, GTK_TYPE_TREE_MODEL);
+
+		scp_tree_store_gobject_init((GObjectClass *) class);
+		scp_tree_store_tree_model_init((GtkTreeModelIface *) iface);
+		iface = g_type_interface_peek(class, GTK_TYPE_TREE_DRAG_SOURCE);
+		scp_tree_store_drag_source_init((GtkTreeDragSourceIface *) iface);
+		iface = g_type_interface_peek(class, GTK_TYPE_TREE_DRAG_DEST);
+		scp_tree_store_drag_dest_init((GtkTreeDragDestIface *) iface);
+		iface = g_type_interface_peek(class, GTK_TYPE_TREE_SORTABLE);
+		scp_tree_store_sortable_init((GtkTreeSortableIface *) iface);
+		iface = g_type_interface_peek(class, GTK_TYPE_BUILDABLE);
+		scp_tree_store_buildable_init((GtkBuildableIface *) iface);
+		scp_tree_store_type_id_volatile = type;
+	}
 }

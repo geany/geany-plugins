@@ -1,9 +1,6 @@
 -var-evaluate-expression reports the value from the last -var-update or
 -var-assign execution, not the current value
 
-reloading a resident geany plugin module does not reinitialize any global
-and static variables, so the sensitive ones must be initialized explicitly
-
 register modified is 07 since changing a register ($dh, $mm1.uint64) may
 change another ($dx, $st1), and there is some chance of watches/inspects
 containing a register

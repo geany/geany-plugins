@@ -1,9 +1,21 @@
+2013-09-20  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * scptreestore.c, scptreestore.h, scptreestore.html:
+   Added scp_tree_store_register_dynamic().
+ * scptreestore.html, fullspeed.html:
+   Moved the full speed test results to a separate file.
+   Increased version to 0.85.
+ * speed.c:
+   Replaced // with /* */ for glib/gtk+ compliance.
+
 2013-05-16  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * scptreestore.c, scptreestore.h:
-   Added scp_tree_store_traverse().
    Moved scp_tree_store_iter_tell() from Extra to Store, it's required
    to insert before/after and move.
+   Added scp_tree_store_traverse().
  * scptreestore.html:
    Documentation and speed test results for scp_tree_store_traverse().
    Increased version to 0.84.
+ * speed.c:
+   Added speed test for scp_tree_store_traverse().

@@ -156,6 +156,7 @@ typedef gint (*ScpTreeStoreTraverseFunc)(ScpTreeStore *store, GtkTreeIter *iter,
 	gpointer gdata);
 gboolean scp_tree_store_traverse(ScpTreeStore *store, gboolean sublevels, GtkTreeIter *iter,
 	GtkTreeIter *parent, ScpTreeStoreTraverseFunc func, gpointer gdata);
+void scp_tree_store_register_dynamic(void);
 
 G_END_DECLS
 

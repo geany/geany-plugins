@@ -28,7 +28,6 @@ void tooltip_remove(GeanyEditor *editor);
 void tooltip_clear(void);
 gboolean tooltip_update(void);
 
-void tooltip_init(void);
 void tooltip_finalize(void);
 
 #define TOOLTIP_H 1

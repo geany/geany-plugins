@@ -32,7 +32,7 @@ GeanyFunctions *geany_functions;
 PLUGIN_VERSION_CHECK(215)
 
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, _("Scope Debugger"),
-	_("Relatively simple GDB front-end."), "0.92",
+	_("Relatively simple GDB front-end."), "0.93",
 	"Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
 
 /* Keybinding(s) */
@@ -191,13 +191,12 @@ static void on_toolbar_reconfigured(GtkToolItem *tool_item, ToolItem *item)
 		get_widget(item->icon[large]));
 }
 
-static DebugState last_toolbar_state;
-
 static void toolbar_update_state(DebugState state)
 {
+	static DebugState last_state = 0;
 	state |= debug_menu_extra_state();
 
-	if (state != last_toolbar_state)
+	if (state != last_state)
 	{
 		ToolItem *item;
 
@@ -207,7 +206,7 @@ static void toolbar_update_state(DebugState state)
 				menu_item_matches_state(debug_menu_items + item->index, state));
 		}
 
-		last_toolbar_state = state;
+		last_state = state;
 	}
 }
 
@@ -219,10 +218,12 @@ static DebugState last_statusbar_state;
  
 void statusbar_update_state(DebugState state)
 {
+	static DebugState last_state = DS_INACTIVE;
+
 	if (thread_state == THREAD_AT_ASSEMBLER)
 		state = DS_EXTRA_1;
 
-	if (state != last_statusbar_state)
+	if (state != last_state)
 	{
 		static const char *const states[] = { N_("Busy"), N_("Ready"), N_("Debug"),
 			N_("Hang"), N_("Assem"), N_("Load"), NULL };
@@ -243,7 +244,7 @@ void statusbar_update_state(DebugState state)
 			gtk_statusbar_set_has_resize_grip(geany_statusbar, TRUE);
 		#endif
 		}
-		else if (last_statusbar_state == DS_INACTIVE)
+		else if (last_state == DS_INACTIVE)
 		{
 		#if GTK_CHECK_VERSION(3, 0, 0)
 			gtk_window_set_has_resize_grip(GTK_WINDOW(geany->main_widgets->window), FALSE);
@@ -253,11 +254,11 @@ void statusbar_update_state(DebugState state)
 			gtk_widget_show(debug_statusbar);
 		}
 
-		last_statusbar_state = state;
+		last_state = state;
 	}
 }
 
-static guint blink_id;
+static guint blink_id = 0;
 
 static gboolean plugin_unblink(G_GNUC_UNUSED gpointer gdata)
 {
@@ -313,9 +314,9 @@ static void on_document_open(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 		threads_mark(doc);
 }
 
-static guint after_save_id;
+static guint saved_id = 0;
 
-static gboolean settings_after_save(gpointer gdata)
+static gboolean settings_saved(gpointer gdata)
 {
 	guint i;
 
@@ -331,16 +332,15 @@ static gboolean settings_after_save(gpointer gdata)
 		conterm_apply_config();
 	}
 
-	after_save_id = 0;
+	saved_id = 0;
 	return FALSE;
 }
 
-static void schedule_after_save(gboolean conterm)
+static void schedule_settings_saved(gboolean conterm)
 {
 	guint i;
 
-	after_save_id = plugin_idle_add(geany_plugin, settings_after_save,
-		GINT_TO_POINTER(conterm));
+	saved_id = plugin_idle_add(geany_plugin, settings_saved, GINT_TO_POINTER(conterm));
 
 	foreach_document(i)
 	{
@@ -353,13 +353,13 @@ static void on_settings_save(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile 
 	G_GNUC_UNUSED gpointer gdata)
 {
 	configure_panel();
-	schedule_after_save(TRUE);
+	schedule_settings_saved(TRUE);
 }
 
 static void on_project_before_save(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile *keyfile,
 	G_GNUC_UNUSED gpointer gdata)
 {
-	schedule_after_save(FALSE);
+	schedule_settings_saved(FALSE);
 }
 
 static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor,
@@ -541,21 +541,11 @@ void plugin_init(G_GNUC_UNUSED GeanyData *gdata)
 	ToolItem *tool_item = toolbar_items;
 	const ScopeCallback *scb;
 
-	last_toolbar_state = 0;
-	last_statusbar_state = DS_INACTIVE;
-	blink_id = 0;
-	after_save_id = 0;
-
 	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 	scope_key_group = plugin_set_key_group(geany_plugin, "scope", COUNT_KB, NULL);
 	builder = gtk_builder_new();
 	gtk_builder_set_translation_domain(builder, GETTEXT_PACKAGE);
-
-	if (!g_type_from_name("ScpTreeStore"))
-	{
-		plugin_module_make_resident(geany_plugin);
-		scp_tree_store_get_type();
-	}
+	scp_tree_store_register_dynamic();
 
 	if (!gtk_builder_add_from_file(builder, gladefile, &gerror))
 	{
@@ -605,7 +595,6 @@ void plugin_init(G_GNUC_UNUSED GeanyData *gdata)
 	conterm_init();
 	inspect_init();
 	register_init();
-	tooltip_init();
 	parse_init();
 	debug_init();
 	views_init();

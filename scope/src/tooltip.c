@@ -48,9 +48,9 @@ static void tooltip_trigger(void)
 	}
 }
 
-static gchar *output;
-static gint last_pos;
-static gint peek_pos;
+static gchar *output = NULL;
+static gint last_pos = -1;
+static gint peek_pos = -1;
 static gboolean show;
 
 static void tooltip_set(gchar *text)
@@ -69,7 +69,7 @@ static void tooltip_set(gchar *text)
 	}
 }
 
-static gint scid_gen;
+static gint scid_gen = 0;
 
 void on_tooltip_error(GArray *nodes)
 {
@@ -86,7 +86,7 @@ void on_tooltip_error(GArray *nodes)
 	}
 }
 
-static char *input;
+static char *input = NULL;
 
 void on_tooltip_value(GArray *nodes)
 {
@@ -97,7 +97,7 @@ void on_tooltip_value(GArray *nodes)
 	}
 }
 
-static guint query_id;
+static guint query_id = 0;
 
 static gboolean tooltip_launch(gpointer gdata)
 {
@@ -198,14 +198,6 @@ gboolean tooltip_update(void)
 		tooltip_trigger();
 	}
 	return TRUE;
-}
-
-void tooltip_init(void)
-{
-	output = NULL;
-	tooltip_clear();
-	input = NULL;
-	query_id = 0;
 }
 
 void tooltip_finalize(void)

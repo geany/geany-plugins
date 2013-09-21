@@ -1,0 +1,271 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>ScpTreeStore full speed test</title>
+<style type="text/css">
+	.tab { padding-left:2em; }
+	table { border-collapse:collapse; }
+	th, td { border: 1px solid black; }
+	.empty { border: 0px; }
+	th, td { padding: 0em 0.5em; }
+</style>
+</head>
+
+<body>
+
+<h2>ScpTreeStore</h2>
+
+<h3>Full speed test</h3>
+
+<p>Notes:</p>
+
+<ul>
+<li>pre/append = prepend for GtkTreeStore (faster than append), and append for<br>
+ScpTreeStore (faster than prepend), though the speed difference is not significant</li>
+<li>all defensive checks are enabled</li>
+<li>all string tests are with utf8 collation</li>
+<li>GtkListStore speed is almost identical to GtkTreeStore, and sometimes slower.</li>
+</ul>
+
+<table>
+<tr><th>Unsorted store</th><th>Row count</th><th>GtkTreeStore</th>
+<th>ScpTreeStore</th><th>Times</th></tr>
+
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>top-level insert</td><td>25</td><td>0.000</td><td>0.000</td><td></td></tr>
+<tr><td>top-level set</td><td>25</td><td>0.000</td><td>0.000</td><td></td></tr>
+<tr><td>top-level remove</td><td>25</td><td>0.000</td><td>0.000</td><td></td></tr>
+<tr><td>top-level insert with values</td><td>25</td><td>0.000</td><td>0.000</td><td></td></tr>
+<tr><td>top-level iter search double</td><td>25</td><td>0.000</td><td>0.000</td><td>25</td></tr>
+<tr><td>top-level iter search string</td><td>25</td><td>0.003</td><td>0.002</td><td>25</td></tr>
+<tr><td>top-level linear search double</td><td>25</td><td>n/a</td><td>0.000</td><td>25</td></tr>
+<tr><td>top-level linear search string</td><td>25</td><td>n/a</td><td>0.001</td><td>25</td></tr>
+<tr><td>both levels model foreach</td><td>25</td><td>0.000</td><td>0.000</td><td>25</td></tr>
+<tr><td>both levels store traverse</td><td>25</td><td>n/a</td><td>0.000</td><td>25</td></tr>
+<tr><td>top-level quick sort double</td><td>25</td><td>0.000</td><td>0.000</td><td></td></tr>
+<tr><td>top-level quick sort string</td><td>25</td><td>0.001</td><td>0.000</td><td></td></tr>
+<tr><td>sublevel 1 insert</td><td>25</td><td>0.000</td><td>0.000</td><td></td></tr>
+<tr><td>sublevel 1 set</td><td>25</td><td>0.000</td><td>0.000</td><td></td></tr>
+<tr><td>sublevel 1 remove</td><td>25</td><td>0.000</td><td>0.000</td><td></td></tr>
+<tr><td>sublevel 1 insert_with values</td><td>25</td><td>0.000</td><td>0.000</td><td></td></tr>
+<tr><td>sublevel 1 quick sort double</td><td>25</td><td>0.000</td><td>0.000</td><td></td></tr>
+<tr><td>sublevel 1 quick sort string</td><td>25</td><td>0.001</td><td>0.001</td><td></td></tr>
+
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>top-level insert</td><td>100</td><td>0.000</td><td>0.000</td><td></td></tr>
+<tr><td>top-level set</td><td>100</td><td>0.001</td><td>0.000</td><td></td></tr>
+<tr><td>top-level remove</td><td>100</td><td>0.000</td><td>0.000</td><td></td></tr>
+<tr><td>top-level insert with values</td><td>100</td><td>0.001</td><td>0.000</td><td></td></tr>
+<tr><td>top-level iter search double</td><td>100</td><td>0.006</td><td>0.000</td><td>100</td></tr>
+<tr><td>top-level iter search string</td><td>100</td><td>0.034</td><td>0.027</td><td>100</td></tr>
+<tr><td>top-level linear search double</td><td>100</td><td>n/a</td><td>0.000</td><td>100</td></tr>
+<tr><td>top-level linear search string</td><td>100</td><td>n/a</td><td>0.015</td><td>100</td></tr>
+<tr><td>both levels model foreach</td><td>100</td><td>0.003</td><td>0.003</td><td>100</td></tr>
+<tr><td>both levels store traverse</td><td>100</td><td>n/a</td><td>0.000</td><td>100</td></tr>
+<tr><td>top-level quick sort double</td><td>100</td><td>0.000</td><td>0.000</td><td></td></tr>
+<tr><td>top-level quick sort string</td><td>100</td><td>0.003</td><td>0.002</td><td></td></tr>
+<tr><td>sublevel 1 insert</td><td>100</td><td>0.000</td><td>0.000</td><td></td></tr>
+<tr><td>sublevel 1 set</td><td>100</td><td>0.001</td><td>0.000</td><td></td></tr>
+<tr><td>sublevel 1 remove</td><td>100</td><td>0.000</td><td>0.000</td><td></td></tr>
+<tr><td>sublevel 1 insert with values</td><td>100</td><td>0.001</td><td>0.000</td><td></td></tr>
+<tr><td>sublevel 1 quick sort double</td><td>100</td><td>0.001</td><td>0.000</td><td></td></tr>
+<tr><td>sublevel 1 quick sort string</td><td>100</td><td>0.005</td><td>0.004</td><td></td></tr>
+
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>top-level insert</td><td>250</td><td>0.001</td><td>0.001</td><td></td></tr>
+<tr><td>top-level set</td><td>250</td><td>0.002</td><td>0.001</td><td></td></tr>
+<tr><td>top-level remove</td><td>250</td><td>0.001</td><td>0.001</td><td></td></tr>
+<tr><td>top-level insert with values</td><td>250</td><td>0.002</td><td>0.001</td><td></td></tr>
+<tr><td>top-level iter search double</td><td>250</td><td>0.031</td><td>0.003</td><td>250</td></tr>
+<tr><td>top-level iter search string</td><td>250</td><td>0.224</td><td>0.183</td><td>250</td></tr>
+<tr><td>top-level linear search double</td><td>250</td><td>n/a</td><td>0.001</td><td>250</td></tr>
+<tr><td>top-level linear search string</td><td>250</td><td>n/a</td><td>0.109</td><td>250</td></tr>
+<tr><td>both levels model foreach</td><td>250</td><td>0.018</td><td>0.018</td><td>250</td></tr>
+<tr><td>both levels store traverse</td><td>250</td><td>n/a</td><td>0.001</td><td>250</td></tr>
+<tr><td>top-level quick sort double</td><td>250</td><td>0.001</td><td>0.000</td><td></td></tr>
+<tr><td>top-level quick sort string</td><td>250</td><td>0.009</td><td>0.008</td><td></td></tr>
+<tr><td>sublevel 1 insert</td><td>250</td><td>0.001</td><td>0.001</td><td></td></tr>
+<tr><td>sublevel 1 set</td><td>250</td><td>0.002</td><td>0.001</td><td></td></tr>
+<tr><td>sublevel 1 remove</td><td>250</td><td>0.001</td><td>0.001</td><td></td></tr>
+<tr><td>sublevel 1 insert with values</td><td>250</td><td>0.002</td><td>0.001</td><td></td></tr>
+<tr><td>sublevel 1 quick sort double</td><td>250</td><td>0.002</td><td>0.000</td><td></td></tr>
+<tr><td>sublevel 1 quick sort string</td><td>250</td><td>0.015</td><td>0.012</td><td></td></tr>
+
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>top-level insert</td><td>500</td><td>0.002</td><td>0.002</td><td></td></tr>
+<tr><td>top-level set</td><td>500</td><td>0.003</td><td>0.002</td><td></td></tr>
+<tr><td>top-level remove</td><td>500</td><td>0.002</td><td>0.001</td><td></td></tr>
+<tr><td>top-level insert with values</td><td>500</td><td>0.003</td><td>0.002</td><td></td></tr>
+<tr><td>top-level iter search double</td><td>500</td><td>0.131</td><td>0.010</td><td>500</td></tr>
+<tr><td>top-level iter search string</td><td>500</td><td>0.909</td><td>0.722</td><td>500</td></tr>
+<tr><td>top-level linear search double</td><td>500</td><td>n/a</td><td>0.005</td><td>500</td></tr>
+<tr><td>top-level linear search string</td><td>500</td><td>n/a</td><td>0.443</td><td>500</td></tr>
+<tr><td>both levels model foreach</td><td>500</td><td>0.077</td><td>0.076</td><td>500</td></tr>
+<tr><td>both levels store traverse</td><td>500</td><td>n/a</td><td>0.003</td><td>500</td></tr>
+<tr><td>top-level quick sort double</td><td>500</td><td>0.003</td><td>0.001</td><td></td></tr>
+<tr><td>top-level quick sort string</td><td>500</td><td>0.022</td><td>0.018</td><td></td></tr>
+<tr><td>sublevel 1 insert</td><td>500</td><td>0.002</td><td>0.002</td><td></td></tr>
+<tr><td>sublevel 1 set</td><td>500</td><td>0.004</td><td>0.002</td><td></td></tr>
+<tr><td>sublevel 1 remove</td><td>500</td><td>0.002</td><td>0.002</td><td></td></tr>
+<tr><td>sublevel 1 insert with values</td><td>500</td><td>0.004</td><td>0.003</td><td></td></tr>
+<tr><td>sublevel 1 quick sort double</td><td>500</td><td>0.005</td><td>0.001</td><td></td></tr>
+<tr><td>sublevel 1 quick sort string</td><td>500</td><td>0.034</td><td>0.028</td><td></td></tr>
+
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>top-level insert</td><td>1000</td><td>0.004</td><td>0.003</td><td></td></tr>
+<tr><td>top-level set</td><td>1000</td><td>0.007</td><td>0.003</td><td></td></tr>
+<tr><td>top-level remove</td><td>1000</td><td>0.004</td><td>0.003</td><td></td></tr>
+<tr><td>top-level insert with values</td><td>1000</td><td>0.007</td><td>0.004</td><td></td></tr>
+<tr><td>top-level iter search double</td><td>1000</td><td>0.052</td><td>0.004</td><td>100</td></tr>
+<tr><td>top-level iter search string</td><td>1000</td><td>0.370</td><td>0.273</td><td>100</td></tr>
+<tr><td>top-level linear search double</td><td>1000</td><td>n/a</td><td>0.002</td><td>100</td></tr>
+<tr><td>top-level linear search string</td><td>1000</td><td>n/a</td><td>0.182</td><td>100</td></tr>
+<tr><td>both levels model foreach</td><td>1000</td><td>0.033</td><td>0.030</td><td>100</td></tr>
+<tr><td>both levels store traverse</td><td>1000</td><td>n/a</td><td>0.001</td><td>100</td></tr>
+<tr><td>top-level quick sort double</td><td>1000</td><td>0.007</td><td>0.002</td><td></td></tr>
+<tr><td>top-level quick sort string</td><td>1000</td><td>0.050</td><td>0.040</td><td></td></tr>
+<tr><td>sublevel 1 insert</td><td>1000</td><td>0.006</td><td>0.004</td><td></td></tr>
+<tr><td>sublevel 1 set</td><td>1000</td><td>0.009</td><td>0.005</td><td></td></tr>
+<tr><td>sublevel 1 remove</td><td>1000</td><td>0.006</td><td>0.004</td><td></td></tr>
+<tr><td>sublevel 1 insert with values</td><td>1000</td><td>0.009</td><td>0.006</td><td></td></tr>
+<tr><td>sublevel 1 quick sort double</td><td>1000</td><td>0.011</td><td>0.002</td><td></td></tr>
+<tr><td>sublevel 1 quick sort string</td><td>1000</td><td>0.078</td><td>0.062</td><td></td></tr>
+
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>top-level insert</td><td>2500</td><td>0.017</td><td>0.008</td><td></td></tr>
+<tr><td>top-level set</td><td>2500</td><td>0.026</td><td>0.009</td><td></td></tr>
+<tr><td>top-level remove</td><td>2500</td><td>0.019</td><td>0.008</td><td></td></tr>
+<tr><td>top-level insert with values</td><td>2500</td><td>0.026</td><td>0.012</td><td></td></tr>
+<tr><td>top-level iter search double</td><td>2500</td><td>0.340</td><td>0.028</td><td>250</td></tr>
+<tr><td>top-level iter search string</td><td>2500</td><td>2.273</td><td>1.859</td><td>250</td></tr>
+<tr><td>top-level linear search double</td><td>2500</td><td>n/a</td><td>0.015</td><td>250</td></tr>
+<tr><td>top-level linear search string</td><td>2500</td><td>n/a</td><td>1.137</td><td>250</td></tr>
+<tr><td>both levels model foreach</td><td>2500</td><td>0.182</td><td>0.188</td><td>250</td></tr>
+<tr><td>both levels store traverse</td><td>2500</td><td>n/a</td><td>0.009</td><td>250</td></tr>
+<tr><td>top-level quick sort double</td><td>2500</td><td>0.021</td><td>0.004</td><td></td></tr>
+<tr><td>top-level quick sort string</td><td>2500</td><td>0.146</td><td>0.117</td><td></td></tr>
+<tr><td>sublevel 1 insert</td><td>2500</td><td>0.035</td><td>0.014</td><td></td></tr>
+<tr><td>sublevel 1 set</td><td>2500</td><td>0.048</td><td>0.014</td><td></td></tr>
+<tr><td>sublevel 1 remove</td><td>2500</td><td>0.038</td><td>0.013</td><td></td></tr>
+<tr><td>sublevel 1 insert with values</td><td>2500</td><td>0.046</td><td>0.017</td><td></td></tr>
+<tr><td>sublevel 1 quick sort double</td><td>2500</td><td>0.033</td><td>0.007</td><td></td></tr>
+<tr><td>sublevel 1 quick sort string</td><td>2500</td><td>0.230</td><td>0.181</td><td></td></tr>
+
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>top-level insert</td><td>5000</td><td>0.084</td><td>0.019</td><td></td></tr>
+<tr><td>top-level set</td><td>5000</td><td>0.107</td><td>0.017</td><td></td></tr>
+<tr><td>top-level remove</td><td>5000</td><td>0.089</td><td>0.018</td><td></td></tr>
+<tr><td>top-level insert with values</td><td>5000</td><td>0.103</td><td>0.025</td><td></td></tr>
+<tr><td>top-level iter search double</td><td>5000</td><td>1.271</td><td>0.112</td><td>500</td></tr>
+<tr><td>top-level iter search string</td><td>5000</td><td>8.775</td><td>7.787</td><td>500</td></tr>
+<tr><td>top-level linear search double</td><td>5000</td><td>n/a</td><td>0.060</td><td>500</td></tr>
+<tr><td>top-level linear search string</td><td>5000</td><td>n/a</td><td>4.351</td><td>500</td></tr>
+<tr><td>both levels model foreach</td><td>5000</td><td>0.741</td><td>0.754</td><td>500</td></tr>
+<tr><td>both levels store traverse</td><td>5000</td><td>n/a</td><td>0.042</td><td>500</td></tr>
+<tr><td>top-level quick sort double</td><td>5000</td><td>0.046</td><td>0.010</td><td></td></tr>
+<tr><td>top-level quick sort string</td><td>5000</td><td>0.325</td><td>0.264</td><td></td></tr>
+<tr><td>sublevel 1 insert</td><td>5000</td><td>0.168</td><td>0.040</td><td></td></tr>
+<tr><td>sublevel 1 set</td><td>5000</td><td>0.201</td><td>0.038</td><td></td></tr>
+<tr><td>sublevel 1 remove</td><td>5000</td><td>0.184</td><td>0.038</td><td></td></tr>
+<tr><td>sublevel 1 insert with values</td><td>5000</td><td>0.199</td><td>0.046</td><td></td></tr>
+<tr><td>sublevel 1 quick sort double</td><td>5000</td><td>0.073</td><td>0.015</td><td></td></tr>
+<tr><td>sublevel 1 quick sort string</td><td>5000</td><td>0.508</td><td>0.405</td><td></td></tr>
+
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>top-level insert</td><td>10000</td><td>0.410</td><td>0.049</td><td></td></tr>
+<tr><td>top-level set</td><td>10000</td><td>0.465</td><td>0.035</td><td></td></tr>
+<tr><td>top-level remove</td><td>10000</td><td>0.430</td><td>0.045</td><td></td></tr>
+<tr><td>top-level insert with values</td><td>10000</td><td>0.461</td><td>0.059</td><td></td></tr>
+<tr><td>top-level iter search double</td><td>10000</td><td>7.434</td><td>0.509</td><td>1000</td></tr>
+<tr><td>top-level iter search string</td><td>10000</td><td>37.555</td><td>31.020</td><td>1000</td></tr>
+<tr><td>top-level linear search double</td><td>10000</td><td>n/a</td><td>0.304</td><td>1000</td></tr>
+<tr><td>top-level linear search string</td><td>10000</td><td>n/a</td><td>18.896</td><td>1000</td></tr>
+<tr><td>both levels model foreach</td><td>10000</td><td>2.969</td><td>3.136</td><td>1000</td></tr>
+<tr><td>both levels store traverse</td><td>10000</td><td>n/a</td><td>0.238</td><td>1000</td></tr>
+<tr><td>top-level quick sort double</td><td>10000</td><td>0.112</td><td>0.022</td><td></td></tr>
+<tr><td>top-level quick sort string</td><td>10000</td><td>0.720</td><td>0.580</td><td></td></tr>
+<tr><td>sublevel 1 insert</td><td>10000</td><td>1.152</td><td>0.132</td><td></td></tr>
+<tr><td>sublevel 1 set</td><td>10000</td><td>1.730</td><td>0.116</td><td></td></tr>
+<tr><td>sublevel 1 remove</td><td>10000</td><td>1.364</td><td>0.128</td><td></td></tr>
+<tr><td>sublevel 1 insert with values</td><td>10000</td><td>1.427</td><td>0.146</td><td></td></tr>
+<tr><td>sublevel 1 quick sort double</td><td>10000</td><td>0.170</td><td>0.034</td><td></td></tr>
+<tr><td>sublevel 1 quick sort string</td><td>10000</td><td>1.114</td><td>0.893</td><td></td></tr>
+
+<tr><td colspan="5" class="empty">&nbsp;</td></tr>
+<tr><th>Store sorted by double</th><th>Row count</th><th>GtkTreeStore</th>
+<th>ScpTreeStore</th><th>Times</th></tr>
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>pre/apppend + set</td><td>25</td><td>0.003</td><td>0.000</td><td></td></tr>
+<tr><td>pre/append with values</td><td>25</td><td>0.000</td><td>0.000</td><td></td></tr>
+<tr><td>binary search</td><td>25</td><td>n/a</td><td>0.000</td><td>25</td></tr>
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>pre/apppend + set</td><td>100</td><td>0.004</td><td>0.001</td><td></td></tr>
+<tr><td>pre/append with values</td><td>100</td><td>0.003</td><td>0.000</td><td></td></tr>
+<tr><td>binary search</td><td>100</td><td>n/a</td><td>0.000</td><td>100</td></tr>
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>pre/apppend + set</td><td>250</td><td>0.019</td><td>0.003</td><td></td></tr>
+<tr><td>pre/append with values</td><td>250</td><td>0.015</td><td>0.001</td><td></td></tr>
+<tr><td>binary search</td><td>250</td><td>n/a</td><td>0.000</td><td>250</td></tr>
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>pre/apppend + set</td><td>500</td><td>0.068</td><td>0.007</td><td></td></tr>
+<tr><td>pre/append with values</td><td>500</td><td>0.054</td><td>0.003</td><td></td></tr>
+<tr><td>binary search</td><td>500</td><td>n/a</td><td>0.000</td><td>500</td></tr>
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>pre/apppend + set</td><td>1000</td><td>0.225</td><td>0.015</td><td></td></tr>
+<tr><td>pre/append with values</td><td>1000</td><td>0.203</td><td>0.006</td><td></td></tr>
+<tr><td>binary search</td><td>1000</td><td>n/a</td><td>0.001</td><td>1000</td></tr>
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>pre/apppend + set</td><td>2500</td><td>1.474</td><td>0.044</td><td></td></tr>
+<tr><td>pre/append with values</td><td>2500</td><td>1.324</td><td>0.015</td><td></td></tr>
+<tr><td>binary search</td><td>2500</td><td>n/a</td><td>0.002</td><td>2500</td></tr>
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>pre/apppend + set</td><td>5000</td><td>6.432</td><td>0.115</td><td></td></tr>
+<tr><td>pre/append with values</td><td>5000</td><td>5.624</td><td>0.035</td><td></td></tr>
+<tr><td>binary search</td><td>5000</td><td>n/a</td><td>0.004</td><td>5000</td></tr>
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>pre/apppend + set</td><td>10000</td><td>26.967</td><td>0.335</td><td></td></tr>
+<tr><td>pre/append with values</td><td>10000</td><td>23.803</td><td>0.081</td><td></td></tr>
+<tr><td>binary search</td><td>10000</td><td>n/a</td><td>0.009</td><td>10000</td></tr>
+
+<tr><td colspan="5" class="empty">&nbsp;</td></tr>
+<tr><th>Store sorted by string</th><th>Row count</th><th>GtkTreeStore</th>
+<th>ScpTreeStore</th><th>Times</th></tr>
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>pre/apppend + set</td><td>25</td><td>0.003</td><td>0.001</td><td></td></tr>
+<tr><td>pre/append with values</td><td>25</td><td>0.001</td><td>0.001</td><td></td></tr>
+<tr><td>binary search</td><td>25</td><td>n/a</td><td>0.000</td><td>25</td></tr>
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>pre/apppend + set</td><td>100</td><td>0.014</td><td>0.005</td><td></td></tr>
+<tr><td>pre/append with values</td><td>100</td><td>0.014</td><td>0.003</td><td></td></tr>
+<tr><td>binary search</td><td>100</td><td>n/a</td><td>0.002</td><td>100</td></tr>
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>pre/apppend + set</td><td>250</td><td>0.092</td><td>0.015</td><td></td></tr>
+<tr><td>pre/append with values</td><td>250</td><td>0.093</td><td>0.009</td><td></td></tr>
+<tr><td>binary search</td><td>250</td><td>n/a</td><td>0.006</td><td>250</td></tr>
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>pre/apppend + set</td><td>500</td><td>0.366</td><td>0.034</td><td></td></tr>
+<tr><td>pre/append with values</td><td>500</td><td>0.343</td><td>0.021</td><td></td></tr>
+<tr><td>binary search</td><td>500</td><td>n/a</td><td>0.012</td><td>500</td></tr>
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>pre/apppend + set</td><td>1000</td><td>1.415</td><td>0.077</td><td></td></tr>
+<tr><td>pre/append with values</td><td>1000</td><td>1.444</td><td>0.047</td><td></td></tr>
+<tr><td>binary search</td><td>1000</td><td>n/a</td><td>0.028</td><td>1000</td></tr>
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>pre/apppend + set</td><td>2500</td><td>9.032</td><td>0.229</td><td></td></tr>
+<tr><td>pre/append with values</td><td>2500</td><td>9.061</td><td>0.134</td><td></td></tr>
+<tr><td>binary search</td><td>2500</td><td>n/a</td><td>0.080</td><td>2500</td></tr>
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>pre/apppend + set</td><td>5000</td><td>36.648</td><td>0.521</td><td></td></tr>
+<tr><td>pre/append with values</td><td>5000</td><td>38.045</td><td>0.296</td><td></td></tr>
+<tr><td>binary search</td><td>5000</td><td>n/a</td><td>0.177</td><td>5000</td></tr>
+<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>pre/apppend + set</td><td>10000</td><td>slow</td><td>1.225</td><td></td></tr>
+<tr><td>pre/append with values</td><td>10000</td><td>slow</td><td>0.654</td><td></td></tr>
+<tr><td>binary search</td><td>10000</td><td>n/a</td><td>0.385</td><td>10000</td></tr>
+
+</table>
+
+</body>
+</html>
