@@ -1,4 +1,5 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
 
 <html>
 <head>
@@ -127,6 +128,8 @@ gboolean scp_tree_store_iter_nth_child(ScpTreeStore *store, GtkTreeIter *iter, G
 #define scp_tree_store_get_iter_first(store, iter)<br>
 gboolean scp_tree_store_iter_parent(ScpTreeStore *store, GtkTreeIter *iter, GtkTreeIter
 *child);<br>
+void scp_tree_store_foreach(ScpTreeStore *store, GtkTreeModelForeachFunc func, gpointer
+gdata);<br>
 </p>
 
 <p>/* DND */<br>
@@ -181,7 +184,8 @@ ScpTreeStore *scp_tree_store_newv(gboolean sublevels, gint n_columns, GType *typ
 <div>The sublevels parameter determines whether ScpTreeStore behaves as GtkTreeStore or
 GtkListStore:</div>
 <div class="tab">sublevels = <tt>TRUE</tt>: tree-like structure<br>
-sublevels = <tt>FALSE</tt>: list-like structure.</div><br>
+sublevels = <tt>FALSE</tt>: list-like structure.</div>
+<p></p>
 
 <hr>
 
@@ -238,7 +242,8 @@ emit_subsignals);</b></p>
 <div class="tab">emit_subsignals = <tt>FALSE</tt>: emit &quot;row-removed&quot; signals only
 for the rows directly under parent<br>
 emit_subsignals = <tt>TRUE</tt>: emit &quot;row-removed&quot; signals for all removed rows<br>
-parent = <tt>NULL</tt>: remove the top-level rows.</div><br>
+parent = <tt>NULL</tt>: remove the top-level rows.</div>
+<p></p>
 
 <hr>
 
@@ -261,7 +266,8 @@ to first. The GTK+ documentation does not specify any particular order.</p>
 <p><b>void scp_tree_store_move(ScpTreeStore *store, GtkTreeIter *iter, gint position);</b></p>
 
 <div>Moves the row pointed by iter to a new position in the same level.</div>
-<div class="tab">position = <tt>-1</tt>: move row to the last position.</div><br>
+<div class="tab">position = <tt>-1</tt>: move row to the last position.</div>
+<p></p>
 
 <hr>
 
@@ -282,7 +288,8 @@ sublevel_reserved, gboolean sublevel_discard);</b></p>
 <div>Sets the &quot;toplevel-reserved&quot;, &quot;sublevel-reserved&quot; and
 &quot;sublevel_discard&quot; <a href="#properties">properties</a>.</div>
 <div class="tab"> toplevel_reserved = <tt>0</tt>: &quot;toplevel-reserved&quot; will not be
-set (the default is 0 anyway).</div><br>
+set (the default is 0 anyway).</div>
+<p></p>
 
 <hr>
 
@@ -322,7 +329,8 @@ Compatible with and type-castable to GtkTreeIterCompareFunc.</p>
 position);</b></p>
 
 <div>Seek to row at position in the same level.</div>
-<div class="tab">position = -1: seek to the last row.</div><br>
+<div class="tab">position = -1: seek to the last row.</div>
+<p></p>
 
 <hr>
 
@@ -362,11 +370,12 @@ utf8_collate is taken into account.</p>
 <div>Traverse the rows under parent.</div>
 <div class="tab">iter: optional, may be NULL<br>
 parent = NULL: traverse the top-level rows.</div>
-<br>
+<p></p>
 <div>Return values:</div>
 <div class="tab"><tt>TRUE</tt> and valid iter if func returns <tt>TRUE</tt> (or
 another positive value)<br>
-<tt>FALSE</tt> and invalid iter otherwise.</div><br>
+<tt>FALSE</tt> and invalid iter otherwise.</div>
+<p></p>
 
 <hr>
 
@@ -416,7 +425,7 @@ point to the new 5th row (former 6th), or will become invalid, if there were 5 r
 invalid iterators may generate warning messages, or simply crash the application (that applies
 to GtkTreeStore as well).</p>
 
-<p>Obviously, appending to an <u>un</u>sorted store will not affect the existing iterators,
+<p>Obviously, appending to an <i>un</i>sorted store will not affect the existing iterators,
 and you can predict the effects of all other operations - even for sorted stores, using
 scp_tree_store_tell(). But it's easy to make mistakes, so if you need a persistent reference
 to a row, it's better to try GtkTreeRowReference.</p>
@@ -427,8 +436,8 @@ generally quite fast, these models may still be slower.</p>
 
 <h3>top-level &quot;rows-reordered&quot;</h3>
 
-<b>void user_function(GtkTreeModel *tree_model, GtkTreePath *path, GtkTreeIter *iter, gpointer
-new_order, gpointer user_data);</b>
+<p><b>void user_function(GtkTreeModel *tree_model, GtkTreePath *path, GtkTreeIter *iter,
+gpointer new_order, gpointer user_data);</b></p>
 
 <p>From the GtkTreeModel documentation (at least gtk+ &lt;= 3.6.4):</p>
 
@@ -447,39 +456,44 @@ depth = <tt>0</tt> instead.</p>
 <p>An unsorted ScpTreeStore is faster than GtkTreeStore, but the difference is not big (20%
 on average, depending on the operation and number of elements), and not significant (&lt; 0.5+
 seconds) for stores with less than 10000 elements. Normally, inserting into and removing from
-a list is faster than array, but all store operations must emit a signal, containing the row
-path (numeric index), which negates this advantage.</p>
+a list is faster than using an array, but all store operations must emit a signal, containing
+the row path (numeric index), which negates this advantage.</p>
 
 <p>The sorted gtk+ stores are slow, since they are based on lists, and sorting by a string
-with utf8 collation makes them even slower.</p>
+with utf-8 collation makes them even slower.</p>
 
 <table>
 <tr><th>Store sorted by double</th><th>Row count</th><th>GtkTreeStore</th>
 <th>ScpTreeStore</th><th>Times</th></tr>
+
 <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-<tr><td>pre/apppend + set</td><td>250</td><td>0.019</td><td>0.003</td><td></td></tr>
-<tr><td>pre/append with values</td><td>250</td><td>0.015</td><td>0.001</td><td></td></tr>
-<tr><td>binary search</td><td>250</td><td>n/a</td><td>0.000</td><td>250</td></tr>
-<tr><td>unsorted store search</td><td>250</td><td>0.031</td><td>0.003</td><td>250</td></tr>
+<tr><td>pre/apppend + set     </td><td>250</td><td>0.015</td><td>0.003</td><td></td></tr>
+<tr><td>pre/append with values</td><td>250</td><td>0.014</td><td>0.001</td><td></td></tr>
+<tr><td>binary search         </td><td>250</td><td>n/a  </td><td>0.000</td><td>250</td></tr>
+<tr><td>unsorted linear search</td><td>250</td><td>0.035</td><td>0.001</td><td>250</td></tr>
+
 <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-<tr><td>pre/apppend + set</td><td>2500</td><td>1.474</td><td>0.044</td><td></td></tr>
-<tr><td>pre/append with values</td><td>2500</td><td>1.324</td><td>0.015</td><td></td></tr>
-<tr><td>binary search</td><td>2500</td><td>n/a</td><td>0.002</td><td>2500</td></tr>
-<tr><td>unsorted store search</td><td>2500</td><td>0.340</td><td>0.028</td><td><i>250</i></td></tr>
+<tr><td>pre/apppend + set     </td><td>2500</td><td>1.321</td><td>0.041</td><td></td></tr>
+<tr><td>pre/append with values</td><td>2500</td><td>1.285</td><td>0.016</td><td></td></tr>
+<tr><td>binary search         </td><td>2500</td><td>n/a  </td><td>0.001</td><td>2500</td></tr>
+<tr><td>unsorted linear search</td><td>2500</td><td>1.031</td><td>0.041</td><td>770</td></tr>
 
 <tr><td colspan="5" class="empty">&nbsp;</td></tr>
 <tr><th>Store sorted by string</th><th>Row count</th><th>GtkTreeStore</th>
 <th>ScpTreeStore</th><th>Times</th></tr>
+
 <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-<tr><td>pre/apppend + set</td><td>250</td><td>0.092</td><td>0.015</td><td></td></tr>
-<tr><td>pre/append with values</td><td>250</td><td>0.093</td><td>0.009</td><td></td></tr>
-<tr><td>binary search</td><td>250</td><td>n/a</td><td>0.006</td><td>250</td></tr>
-<tr><td>unsorted store search</td><td>250</td><td>0.224</td><td>0.183</td><td>250</td></tr>
+<tr><td>pre/apppend + set     </td><td>250</td><td>0.088</td><td>0.012</td><td></td></tr>
+<tr><td>pre/append with values</td><td>250</td><td>0.084</td><td>0.008</td><td></td></tr>
+<tr><td>binary search         </td><td>250</td><td>n/a  </td><td>0.005</td><td>250</td></tr>
+<tr><td>unsorted linear search</td><td>250</td><td>0.220</td><td>0.102</td><td>250</td></tr>
+
 <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-<tr><td>pre/apppend + set</td><td>2500</td><td>9.032</td><td>0.229</td><td></td></tr>
-<tr><td>pre/append with values</td><td>2500</td><td>9.061</td><td>0.134</td><td></td></tr>
-<tr><td>binary search</td><td>2500</td><td>n/a</td><td>0.080</td><td>2500</td></tr>
-<tr><td>unsorted store search</td><td>2500</td><td>2.273</td><td>1.859</td><td><i>250</i></td></tr>
+<tr><td>pre/apppend + set     </td><td>2500</td><td>8.740</td><td>0.193</td><td></td></tr>
+<tr><td>pre/append with values</td><td>2500</td><td>8.913</td><td>0.130</td><td></td></tr>
+<tr><td>binary search         </td><td>2500</td><td>n/a  </td><td>0.076</td><td>2500</td></tr>
+<tr><td>unsorted linear search</td><td>2500</td><td>6.807</td><td>3.186</td><td>770</td></tr>
+
 </table>
 
 <p>The full speed test is <a href="fullspeed.html">here</a>. In general, a sorted ScpTreeStore

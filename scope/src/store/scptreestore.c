@@ -1052,6 +1052,48 @@ gboolean scp_tree_store_iter_parent(ScpTreeStore *store, GtkTreeIter *iter,
 	return FALSE;
 }
 
+static gboolean scp_foreach(ScpTreeStore *store, GPtrArray *array, GtkTreePath *path,
+	GtkTreeModelForeachFunc func, gpointer gdata)
+{
+	if (array)
+	{
+		guint i;
+		GtkTreeIter iter;
+
+		gtk_tree_path_down(path);
+		iter.stamp = store->priv->stamp;
+		iter.user_data = array;
+
+		for (i = 0; i < array->len; i++)
+		{
+			iter.user_data2 = GINT_TO_POINTER(i);
+
+			if (func((GtkTreeModel *) store, path, &iter, gdata) || scp_foreach(store,
+				((AElem *) array->pdata[i])->children, path, func, gdata))
+			{
+				return TRUE;
+			}
+			gtk_tree_path_next(path);
+		}
+
+		gtk_tree_path_up(path);
+	}
+
+	return FALSE;
+}
+
+void scp_tree_store_foreach(ScpTreeStore *store, GtkTreeModelForeachFunc func, gpointer gdata)
+{
+	GtkTreePath *path;
+	
+	g_return_if_fail(SCP_IS_TREE_STORE(store));
+	g_return_if_fail(func != NULL);
+
+	path = gtk_tree_path_new();
+	scp_foreach(store, store->priv->root->children, path, func, gdata);
+	gtk_tree_path_free(path);
+}
+
 /* DND */
 gboolean scp_tree_store_row_draggable(G_GNUC_UNUSED ScpTreeStore *store,
 	G_GNUC_UNUSED GtkTreePath *path)

@@ -1,3 +1,15 @@
+2013-09-29  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * scptreestore.c, scptreestore.h, scptreestore.html:
+   Added scp_tree_store_foreach().
+ * speed.c:
+   Added command line arguments.
+   Different default # of searches for >= 1000 elements.
+   Level 2: is #define, speed test fix.
+ * scptreestore.html:
+   Increased version to 0.86.
+
+
 2013-09-20  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * scptreestore.c, scptreestore.h, scptreestore.html:
@@ -7,6 +19,7 @@
    Increased version to 0.85.
  * speed.c:
    Replaced // with /* */ for glib/gtk+ compliance.
+
 
 2013-05-16  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 

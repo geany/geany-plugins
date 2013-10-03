@@ -120,6 +120,7 @@ gboolean scp_tree_store_iter_nth_child(ScpTreeStore *store, GtkTreeIter *iter,
 	scp_tree_store_iter_nth_child((store), (iter), NULL, 0)
 gboolean scp_tree_store_iter_parent(ScpTreeStore *store, GtkTreeIter *iter,
 	GtkTreeIter *child);
+void scp_tree_store_foreach(ScpTreeStore *store, GtkTreeModelForeachFunc func, gpointer gdata);
 
 /* DND */
 gboolean scp_tree_store_row_draggable(ScpTreeStore *store, GtkTreePath *path);

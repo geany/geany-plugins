@@ -134,7 +134,7 @@ static void memory_configure(void)
 
 static guint64 memory_start;
 static guint memory_count = 0;
-#define MAX_BYTES (128 * MAX_BYTES_PER_LINE)  /* +1 incomplete line */
+#define MAX_BYTES (128 * MAX_BYTES_PER_LINE)
 
 static void write_block(guint64 start, const char *contents, guint count)
 {
