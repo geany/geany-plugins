@@ -89,7 +89,6 @@ lexer_has_braces(ScintillaObject *sci)
 		case SCLEX_D:
 		case SCLEX_HTML:	/* for PHP & JS */
 		case SCLEX_PASCAL:	/* for multiline comments? */
-		case SCLEX_BASH:
 		case SCLEX_PERL:
 		case SCLEX_TCL:
 		case SCLEX_CSS:		/* also useful for CSS */
