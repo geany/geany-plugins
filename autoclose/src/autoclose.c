@@ -49,7 +49,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	GETTEXT_PACKAGE,
 	_("Auto-close"),
 	_("Auto-close braces and brackets with lot of features"),
-	"0.1",
+	"0.2",
 	"Pavel Roschin <rpg89@post.ru>")
 
 typedef struct {
@@ -82,16 +82,25 @@ static gboolean
 lexer_has_braces(ScintillaObject *sci)
 {
 	gint lexer = sci_get_lexer(sci);
-
+	gint sel_start;
 	switch (lexer)
 	{
 		case SCLEX_CPP:
 		case SCLEX_D:
-		case SCLEX_HTML:	/* for PHP & JS */
 		case SCLEX_PASCAL:	/* for multiline comments? */
-		case SCLEX_PERL:
 		case SCLEX_TCL:
 		case SCLEX_CSS:		/* also useful for CSS */
+			return TRUE;
+		case SCLEX_HTML:	/* for PHP & JS */
+		case SCLEX_PERL:
+		case SCLEX_PHPSCRIPT:
+		case SCLEX_BASH:
+			/* PHP, Perl, bash has vars like ${var} */
+			if(sci_get_lines_selected(sci) > 1)
+				return TRUE;
+			sel_start = sci_get_selection_start(sci);
+			if('$' == sci_get_char_at(sci, sel_start - 1))
+				return FALSE;
 			return TRUE;
 		default:
 			return FALSE;
@@ -321,6 +330,7 @@ auto_close_chars(GeanyDocument *doc, GdkEventKey *event)
 			return AC_CONTINUE_ACTION;
 
 		sci_start_undo_action(sci);
+
 		/* Insert {} block - special case: make indents, move cursor to beginning */
 		if((ch == '{' || ch == '}') && lexer_has_braces(sci) &&
 		    ac_info->make_indent_for_cbracket && !in_comment)
