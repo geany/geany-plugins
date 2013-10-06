@@ -107,7 +107,7 @@ def configure(conf):
     # build plugin list
     enabled_plugins = get_enabled_plugins(conf)
 
-    # execute plugin specific coniguration code
+    # execute plugin specific configuration code
     configure_plugins(conf, enabled_plugins)
     # now add the enabled_plugins to the env to remember them
     conf.env.append_value('enabled_plugins', enabled_plugins)
