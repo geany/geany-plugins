@@ -102,6 +102,7 @@ def configure(conf):
     gtk_version = conf.check_cfg(modversion='gtk+-2.0') or 'Unknown'
 
     load_intltool_if_available(conf)
+    setup_configuration_env(conf)
 
     # build plugin list
     enabled_plugins = get_enabled_plugins(conf)
@@ -111,7 +112,6 @@ def configure(conf):
     # now add the enabled_plugins to the env to remember them
     conf.env.append_value('enabled_plugins', enabled_plugins)
 
-    setup_configuration_env(conf)
     setup_makefile(conf)
     conf.write_config_header('config.h')
 
