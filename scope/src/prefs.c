@@ -233,7 +233,7 @@ void prefs_init(void)
 	group = stash_group_new("scope");
 	stash_group_add_string(group, &pref_gdb_executable, "gdb_executable", "gdb");
 	stash_group_add_boolean(group, &pref_gdb_async_mode, "gdb_async_mode", FALSE);
-	stash_group_add_integer(group, &pref_gdb_buffer_length, "gdb_buffer_length", 16383);
+	stash_group_add_integer(group, &pref_gdb_buffer_length, "gdb_buffer_length", 32767);
 	stash_group_add_integer(group, &pref_gdb_wait_death, "gdb_wait_death", 20);
 #ifndef G_OS_UNIX
 	stash_group_add_integer(group, &pref_gdb_send_interval, "gdb_send_interval", 5);

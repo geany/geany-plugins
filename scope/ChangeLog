@@ -1,4 +1,15 @@
-2013-07-25  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+2013-10-12  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/debug.c:
+   Fixed a lapsus which prevented gdb stdout resync on overflow.
+ * src/memory.c:
+   Improved re-selection of the current line.
+ * src/memory.c, src/pref.c:
+   Decreased the maximum memory block size to 15.5K and increased
+   the default gdb stdout buffer size to 32K to match each other.
+
+
+2013-09-25  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/scope.c:
    Register ScpTreeStore dynamically, making Scope unloadable again.

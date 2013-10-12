@@ -307,7 +307,7 @@ static gboolean source_dispatch(G_GNUC_UNUSED GSource *source,
 		else
 		{
 			reading_pos++;
-			leading_receive = FALSE;
+			leading_receive = TRUE;
 		}
 	}
 

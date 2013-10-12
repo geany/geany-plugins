@@ -134,9 +134,9 @@ static void memory_configure(void)
 
 static guint64 memory_start;
 static guint memory_count = 0;
-#define MAX_BYTES (128 * MAX_BYTES_PER_LINE)
+#define MAX_BYTES (124 * MAX_BYTES_PER_LINE)
 
-static void write_block(guint64 start, const char *contents, guint count)
+static void write_block(guint64 start, const char *contents, guint count, const char *maddr)
 {
 	if (!memory_count)
 		memory_start = start;
@@ -148,8 +148,6 @@ static void write_block(guint64 start, const char *contents, guint count)
 		GString *bytes = g_string_sized_new(bytes_per_line * 3);
 		GString *ascii = g_string_new(" ");
 		gint n = 0;
-
-		scp_tree_store_append(store, &iter, NULL);
 
 		while (n < bytes_per_line)
 		{
@@ -185,8 +183,10 @@ static void write_block(guint64 start, const char *contents, guint count)
 				g_string_append_c(bytes, ' ');
 		}
 
-		scp_tree_store_set(store, &iter, MEMORY_ADDR, addr, MEMORY_BYTES, bytes->str,
-			MEMORY_ASCII, ascii->str, -1);
+		scp_tree_store_append_with_values(store, &iter, NULL, MEMORY_ADDR, addr,
+			MEMORY_BYTES, bytes->str, MEMORY_ASCII, ascii->str, -1);
+		if (!g_strcmp0(addr, maddr))
+			gtk_tree_selection_select_iter(selection, &iter);
 
 		g_free(addr);
 		g_string_free(bytes, TRUE);
@@ -202,7 +202,7 @@ static void write_block(guint64 start, const char *contents, guint count)
 		dc_error("memory: too much data");
 }
 
-static void memory_node_read(const ParseNode *node, G_GNUC_UNUSED gpointer gdata)
+static void memory_node_read(const ParseNode *node, const char *maddr)
 {
 	iff (node->type == PT_ARRAY, "memory: contains value")
 	{
@@ -218,7 +218,7 @@ static void memory_node_read(const ParseNode *node, G_GNUC_UNUSED gpointer gdata
 			sscanf(begin, "%" G_GINT64_MODIFIER "i", &start);
 
 			iff (count, "memory: contents too short")
-				write_block(start, contents, count);
+				write_block(start, contents, count, maddr);
 		}
 	}
 }
@@ -228,10 +228,10 @@ void on_memory_read_bytes(GArray *nodes)
 	if (pointer_size <= MAX_POINTER_SIZE)
 	{
 		GtkTreeIter iter;
-		char *addr = NULL;
+		char *maddr = NULL;
 
 		if (gtk_tree_selection_get_selected(selection, NULL, &iter))
-			gtk_tree_model_get((GtkTreeModel *) store, &iter, MEMORY_ADDR, &addr, -1);
+			gtk_tree_model_get((GtkTreeModel *) store, &iter, MEMORY_ADDR, &maddr, -1);
 
 		store_clear(store);
 		memory_count = 0;
@@ -243,15 +243,8 @@ void on_memory_read_bytes(GArray *nodes)
 			gtk_tree_view_column_queue_resize(get_column("memory_ascii_column"));
 		}
 
-		parse_foreach(parse_lead_array(nodes), (GFunc) memory_node_read,
-			GINT_TO_POINTER(TRUE));
-
-		if (addr)
-		{
-			if (store_find(store, &iter, MEMORY_ADDR, addr))
-				utils_tree_set_cursor(selection, &iter, -1);
-			g_free(addr);
-		}
+		parse_foreach(parse_lead_array(nodes), (GFunc) memory_node_read, maddr);
+		g_free(maddr);
 	}
 }
 
