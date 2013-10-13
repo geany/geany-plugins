@@ -52,10 +52,81 @@ static void dict_describe(const gchar* const lang, const gchar* const name,
 }
 
 
+static gboolean is_word_sep(gunichar c)
+{
+	return (g_unichar_isspace(c) || g_unichar_ispunct(c)) && c != (gunichar)'\'';
+}
+
+
+/* Strip punctuation and white space, more or less Unicode-safe.
+ * The offset of the start of the word is stored in offset if non-NULL. */
+static gchar *strip_word(const gchar *word_to_check, gint *result_offset)
+{
+	gunichar c;
+	gchar *word = g_strdup(word_to_check);
+	gchar *word_start = word;
+	gchar *word_end;
+	gint offset = 0;
+	gint word_len;
+	gint new_word_len;
+
+	/* strip from the left */
+	do
+	{
+		c = g_utf8_get_char_validated(word, -1);
+		if (is_word_sep(c))
+		{	/* skip this character */
+			word = g_utf8_next_char(word);
+		}
+		else
+			break;
+	} while (c != (gunichar) -1 && c != 0 && *word != '\0');
+	word_len = strlen(word_to_check);
+	offset = word - word_start;
+	new_word_len = word_len - offset;
+
+	if (new_word_len <= 0)
+	{	/* empty or only punctuation in input string */
+		*result_offset = 0;
+		g_free(word_start);
+		return NULL;
+	}
+	/* move the string in-place and truncate it */
+	g_memmove(word_start, word, new_word_len);
+	word = word_start;
+	word[new_word_len] = '\0';
+	if (! NZV(word))
+	{
+		g_free(word);
+		return NULL;
+	}
+	/* strip from the right */
+	word_end = word + strlen(word);
+	do
+	{
+		word_end = g_utf8_prev_char(word_end);
+		c = g_utf8_get_char_validated(word_end, -1);
+		if (is_word_sep(c))
+		{	/* skip this character */
+			*word_end = '\0';
+		}
+		else
+			break;
+	} while (c != (gunichar) -1 && word_end >= word);
+
+	if (result_offset != NULL)
+		*result_offset = offset;
+
+	return word;
+}
+
+
 static gint sc_speller_check_word(GeanyDocument *doc, gint line_number, const gchar *word,
 						   gint start_pos, gint end_pos)
 {
 	gsize n_suggs = 0;
+	gchar *word_to_check;
+	gint offset;
 
 	g_return_val_if_fail(sc_speller_dict != NULL, 0);
 	g_return_val_if_fail(doc != NULL, 0);
@@ -73,9 +144,24 @@ static gint sc_speller_check_word(GeanyDocument *doc, gint line_number, const gc
 	if (! sc_speller_is_text(doc, start_pos))
 		return 0;
 
-	/* early out if the word is spelled correctly */
-	if (enchant_dict_check(sc_speller_dict, word, -1) == 0)
+	/* strip punctuation and white space */
+	word_to_check = strip_word(word, &offset);
+	if (! NZV(word_to_check))
+	{
+		g_free(word_to_check);
 		return 0;
+	}
+
+	/* recalculate start_pos and end_pos */
+	start_pos += offset;
+	end_pos = start_pos + strlen(word_to_check);
+
+	/* early out if the word is spelled correctly */
+	if (enchant_dict_check(sc_speller_dict, word_to_check, -1) == 0)
+	{
+		g_free(word_to_check);
+		return 0;
+	}
 
 	editor_indicator_set_on_range(doc->editor, GEANY_INDICATOR_ERROR, start_pos, end_pos);
 
@@ -86,10 +172,10 @@ static gint sc_speller_check_word(GeanyDocument *doc, gint line_number, const gc
 		GString *str;
 
 		str = g_string_sized_new(256);
-		suggs = enchant_dict_suggest(sc_speller_dict, word, -1, &n_suggs);
+		suggs = enchant_dict_suggest(sc_speller_dict, word_to_check, -1, &n_suggs);
 		if (suggs != NULL)
 		{
-			g_string_append_printf(str, "line %d: %s | ",  line_number + 1, word);
+			g_string_append_printf(str, "line %d: %s | ",  line_number + 1, word_to_check);
 
 			g_string_append(str, _("Try: "));
 
@@ -108,6 +194,7 @@ static gint sc_speller_check_word(GeanyDocument *doc, gint line_number, const gc
 		g_string_free(str, TRUE);
 	}
 
+	g_free(word_to_check);
 	return n_suggs;
 }
 
@@ -118,7 +205,6 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number, const gchar *
 	gint wstart, wend;
 	GString *str;
 	gint suggestions_found = 0;
-	gchar c;
 
 	g_return_val_if_fail(sc_speller_dict != NULL, 0);
 	g_return_val_if_fail(doc != NULL, 0);
@@ -135,13 +221,6 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number, const gchar *
 		wend = scintilla_send_message(doc->editor->sci, SCI_WORDENDPOSITION, wstart, FALSE);
 		if (wstart == wend)
 			break;
-		c = sci_get_char_at(doc->editor->sci, wstart);
-		/* hopefully it's enough to check for these both */
-		if (ispunct(c) || isspace(c))
-		{
-			pos_start++;
-			continue;
-		}
 
 		/* ensure the string has enough allocated memory */
 		if (str->len < (guint)(wend - wstart))
