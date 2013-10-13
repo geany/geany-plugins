@@ -61,6 +61,11 @@ else:
     add_to_env_and_define(conf, 'GEANYPY_PYTHON_LIBRARY', dso_path, quote=True)
     conf.end_msg(dso_path)
 
+# work around for Debian Python bug (http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=695979)
+if not 'LIB_PYEXT' in conf.env:
+    conf.env['LIBPATH_PYEXT'] = conf.env['LIBPATH_PYEMBED']
+    conf.env['LIB_PYEXT'] = conf.env['LIB_PYEMBED']
+
 # dirs
 is_win32 = target_is_win32(conf)
 if is_win32:
