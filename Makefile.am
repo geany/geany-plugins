@@ -22,6 +22,10 @@ if ENABLE_DEBUGGER
 SUBDIRS += debugger
 endif
 
+if ENABLE_DEFINEFORMAT
+SUBDIRS += defineformat
+endif
+
 if ENABLE_DEVHELP
 SUBDIRS += devhelp
 endif
