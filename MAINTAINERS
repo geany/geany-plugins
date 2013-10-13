@@ -42,6 +42,12 @@ M: Alexander Petukhov <devel@apetukhov.ru>
 W: http://plugins.geany.org/debugger.html
 S: Maintained
 
+defineformat
+P: Pavel Roschin <rpg89(at)post(dot)ru>
+M: Pavel Roschin <rpg89(at)post(dot)ru>
+W: http://plugins.geany.org/defineformat.html
+S: Maintained
+
 devhelp
 P: Matthew Brush <matt@geany.org>
 M: Matthew Brush <matt@geany.org>
