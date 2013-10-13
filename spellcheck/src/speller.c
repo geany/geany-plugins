@@ -558,6 +558,20 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 	lexer = scintilla_send_message(doc->editor->sci, SCI_GETLEXER, 0, 0);
 	switch (lexer)
 	{
+		case SCLEX_ABAQUS:
+		{
+			switch (style)
+			{
+				case SCE_ABAQUS_DEFAULT:
+				case SCE_ABAQUS_COMMENT:
+				case SCE_ABAQUS_COMMENTBLOCK:
+				case SCE_ABAQUS_STRING:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
 		case SCLEX_ADA:
 		{
 			switch (style)
@@ -598,6 +612,18 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_SH_COMMENTLINE:
 				case SCE_SH_STRING:
 				case SCE_SH_CHARACTER:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
+		case SCLEX_BATCH:
+		{
+			switch (style)
+			{
+				case SCE_BAT_DEFAULT:
+				case SCE_BAT_COMMENT:
 					return TRUE;
 				default:
 					return FALSE;
@@ -927,6 +953,7 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 			break;
 		}
 		case SCLEX_MATLAB:
+		case SCLEX_OCTAVE:
 		{
 			switch (style)
 			{
@@ -984,6 +1011,21 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_PO_MSGID_TEXT:
 				case SCE_PO_MSGSTR_TEXT:
 				case SCE_PO_MSGCTXT_TEXT:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
+		case SCLEX_POWERSHELL:
+		{
+			switch (style)
+			{
+				case SCE_POWERSHELL_DEFAULT:
+				case SCE_POWERSHELL_COMMENT:
+				case SCE_POWERSHELL_STRING:
+				case SCE_POWERSHELL_COMMENTSTREAM:
+				case SCE_POWERSHELL_COMMENTDOCKEYWORD:
 					return TRUE;
 				default:
 					return FALSE;
@@ -1134,5 +1176,3 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 	 * valid text to not ignore more than we want */
 	return TRUE;
 }
-
-
