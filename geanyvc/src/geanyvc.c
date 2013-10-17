@@ -1301,6 +1301,26 @@ static void commit_tree_selection_changed_cb(GtkTreeSelection *sel, GtkTextView 
 	g_free(path);
 }
 
+static gboolean commit_text_line_number_update_cb(GtkWidget *widget, GdkEvent *event,
+												  gpointer user_data)
+{
+	GtkWidget *text_view = widget;
+	GtkLabel *line_column_label = GTK_LABEL(user_data);
+	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_view));
+	GtkTextMark *mark = gtk_text_buffer_get_insert(buffer);
+	GtkTextIter iter;
+	gint line, column;
+	gchar text[64];
+
+	gtk_text_buffer_get_iter_at_mark(buffer, &iter, mark);
+	line = gtk_text_iter_get_line(&iter) + 1;
+	column = gtk_text_iter_get_line_offset(&iter);
+
+	g_snprintf(text, sizeof(text), _("Line :%d Column: %d"), line, column);
+	gtk_label_set_text(line_column_label, text);
+
+	return FALSE;
+}
 
 static GtkWidget *
 create_commitDialog(void)
@@ -1323,6 +1343,8 @@ create_commitDialog(void)
 	GtkWidget *btnCancel;
 	GtkWidget *btnCommit;
 	GtkWidget *select_cbox;
+	GtkWidget *commit_text_vbox;
+	GtkWidget *lineColumnLabel;
 	GtkTreeSelection *sel;
 
 	gchar *rcstyle = g_strdup_printf("style \"geanyvc-diff-font\"\n"
@@ -1408,13 +1430,16 @@ create_commitDialog(void)
 	gtk_container_add(GTK_CONTAINER(frame1), alignment1);
 	gtk_alignment_set_padding(GTK_ALIGNMENT(alignment1), 0, 0, 12, 0);
 
+	commit_text_vbox = gtk_vbox_new(FALSE, 0);
+	gtk_widget_show(commit_text_vbox);
+	gtk_container_add(GTK_CONTAINER(alignment1), commit_text_vbox);
+
 	scrolledwindow3 = gtk_scrolled_window_new(NULL, NULL);
 	gtk_widget_show(scrolledwindow3);
-	gtk_container_add(GTK_CONTAINER(alignment1), scrolledwindow3);
+	gtk_box_pack_start(GTK_BOX(commit_text_vbox), scrolledwindow3, TRUE, TRUE, 0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow3), GTK_POLICY_AUTOMATIC,
 				       GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow3), GTK_SHADOW_IN);
-
 
 	textCommitMessage = gtk_text_view_new();
 	gtk_widget_show(textCommitMessage);
@@ -1427,6 +1452,12 @@ create_commitDialog(void)
 	gtk_widget_show(label1);
 	gtk_frame_set_label_widget(GTK_FRAME(frame1), label1);
 	gtk_label_set_use_markup(GTK_LABEL(label1), TRUE);
+
+	/* line/column status label */
+	lineColumnLabel = gtk_label_new("");
+	gtk_misc_set_alignment(GTK_MISC(lineColumnLabel), 0, 0.5);
+	gtk_box_pack_end(GTK_BOX(commit_text_vbox), lineColumnLabel, TRUE, TRUE, 0);
+	gtk_widget_show(lineColumnLabel);
 
 	dialog_action_area1 = GTK_DIALOG(commitDialog)->action_area;
 	gtk_widget_show(dialog_action_area1);
@@ -1443,6 +1474,13 @@ create_commitDialog(void)
 	sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeSelect));
 	gtk_tree_selection_set_mode(sel, GTK_SELECTION_SINGLE);
 	g_signal_connect(sel, "changed", G_CALLBACK(commit_tree_selection_changed_cb), textDiff);
+
+	g_signal_connect(textCommitMessage, "key-release-event",
+		G_CALLBACK(commit_text_line_number_update_cb), lineColumnLabel);
+	g_signal_connect(textCommitMessage, "button-release-event",
+		G_CALLBACK(commit_text_line_number_update_cb), lineColumnLabel);
+	/* initial setup */
+	commit_text_line_number_update_cb(textCommitMessage, NULL, lineColumnLabel);
 
 	/* Store pointers to all widgets, for use by lookup_widget(). */
 	GLADE_HOOKUP_OBJECT_NO_REF(commitDialog, commitDialog, "commitDialog");
