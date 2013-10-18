@@ -1316,7 +1316,7 @@ static gboolean commit_text_line_number_update_cb(GtkWidget *widget, GdkEvent *e
 	line = gtk_text_iter_get_line(&iter) + 1;
 	column = gtk_text_iter_get_line_offset(&iter);
 
-	g_snprintf(text, sizeof(text), _("Line :%d Column: %d"), line, column);
+	g_snprintf(text, sizeof(text), _("Line: %d Column: %d"), line, column);
 	gtk_label_set_text(line_column_label, text);
 
 	return FALSE;
