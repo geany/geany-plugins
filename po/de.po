@@ -5033,19 +5033,19 @@ msgstr ""
 
 #: ../pohelper/data/menus.ui.h:12
 msgid "Next _Fuzzy"
-msgstr ""
+msgstr "Nächste _unklare Übersetzung"
 
 #: ../pohelper/data/menus.ui.h:13 ../pohelper/src/gph-plugin.c:1046
 msgid "Go to next fuzzily translated string"
-msgstr ""
+msgstr "Gehe zur nächsten unklaren Übersetzung"
 
 #: ../pohelper/data/menus.ui.h:14
 msgid "Previous Untranslated or Fuzz_y"
-msgstr ""
+msgstr "Vorherige u_nübersetzt oder -klar."
 
 #: ../pohelper/data/menus.ui.h:15 ../pohelper/src/gph-plugin.c:1049
 msgid "Go to previous untranslated or fuzzy string"
-msgstr ""
+msgstr "Gehe zum vorherigen unklaren oder unübersetzen String"
 
 #: ../pohelper/data/menus.ui.h:16
 msgid "Next Untranslated _or Fuzzy"
@@ -5079,7 +5079,7 @@ msgstr "Zur aktuellen Anweisung springen"
 
 #: ../pohelper/data/menus.ui.h:23
 msgid "_Reflow Translation"
-msgstr ""
+msgstr "_Übersetzungen neu umbrechen"
 
 #: ../pohelper/data/menus.ui.h:24
 msgid ""
@@ -5093,11 +5093,11 @@ msgstr ""
 
 #: ../pohelper/src/gph-plugin.c:41
 msgid "Translation Helper"
-msgstr ""
+msgstr "Übersetzungshelfer"
 
 #: ../pohelper/src/gph-plugin.c:42
 msgid "Improves support for GetText translation files."
-msgstr ""
+msgstr "Verbessert die Unterstützung für GetText-Übersetzungsdateien"
 
 #: ../pohelper/src/gph-plugin.c:1057
 msgid "Paste original untranslated string to translation"
