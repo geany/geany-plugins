@@ -1,12 +1,18 @@
 Auto-close brackets
-=================
+===================
+
+.. image:: http://dl.dropboxusercontent.com/u/59878867/geany-autoclose.gif
+   :width: 778
+   :alt: autoclose plugin
+   :align: right
 
 .. contents::
 
 About
 -----
 
-Plugin enables auto-closing features.
+This plugin enables auto-closing features. Auto-closing works while you typing 
+and intellectually helps you to write code.
 
 Features
 --------
@@ -27,16 +33,17 @@ Features
   covers lines you need to indent (works like TAB indentation)
 * fix auto-indent inside {} (makes full indent for this block)
 * auto-close curly bracket by pressing Enter
-* auto-close functions ("sin(|" -> "sin(|);") with doubling suppression
+* auto-close functions (``"sin(|" -> "sin(|);"``) with doubling suppression
   (for C/C++ languages only)
-* correctly set undo actions
+* remove paring brace when pressing Shift+BackSpace, unindent {}-blocks
+* add semicolon after ``struct {|};`` and ``class {|};``
+* move cursor to closed char by pressing Tab
 
 Usage
 -----
 
-After installed successfully, load the plugin in Geany's plugin manager
-and new menu items in the Edit menu will appear. You can
-change the keyboard shortcuts in Geany's preferences dialog.
+After installed successfully, load the plugin in Geany's plugin manager. You may
+change module preferences.
 
 Requirements
 ------------
@@ -46,4 +53,4 @@ Requirements
 Contact developers
 ------------------
 
-Pavel Roschin <rpg89@post.ru>
+Pavel Roschin <rpg89(at)post(dot)ru>
