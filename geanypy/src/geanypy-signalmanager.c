@@ -47,6 +47,7 @@ SignalManager *signal_manager_new(GeanyPlugin *geany_plugin)
 		if (PyErr_Occurred())
 			PyErr_Print();
 		g_warning("Unable to import 'geany' module");
+		g_free(man);
 		return NULL;
 	}
 
