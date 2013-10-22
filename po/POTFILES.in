@@ -52,6 +52,9 @@ debugger/src/pixbuf.h
 debugger/src/atree.h
 debugger/src/atree.c
 
+# defineformat
+defineformat/src/defineformat.c
+
 # devhelp
 devhelp/src/dhp.h
 devhelp/src/dhp-object.c

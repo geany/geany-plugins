@@ -1,0 +1,28 @@
+Defineformat
+============
+
+.. contents::
+
+About
+-----
+
+Defineformat -- on-the-fly #define prettyprinter. This plugin will help you to
+write multiline defines with aligned backslash.
+
+Usage
+-----
+
+After installed successfully, load the plugin in Geany's plugin manager.
+Try it: open C/C++ file and type:
+
+#define A() do { \
+
+Requirements
+------------
+
+* GTK >= 2.8.0
+
+Contact developers
+------------------
+
+Pavel Roschin <rpg89(at)post(dot)ru>
