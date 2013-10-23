@@ -768,7 +768,7 @@ on_key_press(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 }
 
 static void
-on_editor_notify(GObject *obj, gint scn, SCNotification *nt, gpointer user_data)
+on_sci_notify(GObject *obj, gint scn, SCNotification *nt, gpointer user_data)
 {
 	AutocloseUserData *data = user_data;
 
@@ -799,18 +799,17 @@ on_editor_notify(GObject *obj, gint scn, SCNotification *nt, gpointer user_data)
 #define AC_GOBJECT_KEY "autoclose-userdata"
 
 static void
-on_document_activate(GObject *obj, GeanyDocument *doc, gpointer user_data)
+on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
 	AutocloseUserData *data;
-	ScintillaObject   *sci = NULL;
-	g_return_if_fail(NULL != doc && NULL != doc->editor);
-	sci = doc->editor->sci;
-	g_return_if_fail(NULL != sci);
+	ScintillaObject   *sci;
+	g_return_if_fail(DOC_VALID(doc));
 
+	sci = doc->editor->sci;
 	data = g_new0(AutocloseUserData, 1);
 	data->doc = doc;
 	plugin_signal_connect(geany_plugin, G_OBJECT(sci), "sci-notify",
-		FALSE, G_CALLBACK(on_editor_notify), data);
+		FALSE, G_CALLBACK(on_sci_notify), data);
 	plugin_signal_connect(geany_plugin, G_OBJECT(sci), "key-press-event",
 			FALSE, G_CALLBACK(on_key_press), data);
 	/* save data pointer via GObject too for on_document_close() */
@@ -820,16 +819,18 @@ on_document_activate(GObject *obj, GeanyDocument *doc, gpointer user_data)
 static void
 on_document_close(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
-	/* free the AutocloseUserData instance */
+	/* free the AutocloseUserData instance and disconnect the handler */
 	ScintillaObject   *sci = doc->editor->sci;
 	AutocloseUserData *data = g_object_steal_data(G_OBJECT(sci), AC_GOBJECT_KEY);
+	/* no plugin_signal_disconnect() ?? */
+	g_signal_handlers_disconnect_by_func(G_OBJECT(sci), G_CALLBACK(on_sci_notify), data);
 	g_free(data);
 }
 
 PluginCallback plugin_callbacks[] =
 {
-	{ "document-open",  (GCallback) &on_document_activate, FALSE, NULL },
-	{ "document-new",   (GCallback) &on_document_activate, FALSE, NULL },
+	{ "document-open",  (GCallback) &on_document_open, FALSE, NULL },
+	{ "document-new",   (GCallback) &on_document_open, FALSE, NULL },
 	{ "document-close", (GCallback) &on_document_close,    FALSE, NULL },
 	{ NULL, NULL, FALSE, NULL }
 };
@@ -898,7 +899,7 @@ plugin_init(G_GNUC_UNUSED GeanyData *data)
 	int i;
 	foreach_document(i)
 	{
-		on_document_activate(NULL, documents[i], NULL);
+		on_document_open(NULL, documents[i], NULL);
 	}
 	GKeyFile *config = g_key_file_new();
 
