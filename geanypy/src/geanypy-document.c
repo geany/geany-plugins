@@ -55,7 +55,7 @@ Document_get_property(Document *self, const gchar *prop_name)
 	else if (g_str_equal(prop_name, "status_color"))
 	{
 		const GdkColor *color = document_get_status_color(self->doc);
-		if (!color)
+		if (!color || !color->red || !color->green || !color->blue)
 			Py_RETURN_NONE;
 		return Py_BuildValue("iii", color->red, color->green, color->blue);
 	}
