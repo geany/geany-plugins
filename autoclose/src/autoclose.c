@@ -802,11 +802,10 @@ static void
 on_document_activate(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
 	AutocloseUserData *data;
-	ScintillaObject   *sci = NULL;
-	g_return_if_fail(NULL != doc && NULL != doc->editor);
-	sci = doc->editor->sci;
-	g_return_if_fail(NULL != sci);
+	ScintillaObject   *sci;
+	g_return_if_fail(DOC_VALID(doc));
 
+	sci = doc->editor->sci;
 	data = g_new0(AutocloseUserData, 1);
 	data->doc = doc;
 	plugin_signal_connect(geany_plugin, G_OBJECT(sci), "sci-notify",
@@ -820,9 +819,11 @@ on_document_activate(GObject *obj, GeanyDocument *doc, gpointer user_data)
 static void
 on_document_close(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
-	/* free the AutocloseUserData instance */
+	/* free the AutocloseUserData instance and disconnect the handler */
 	ScintillaObject   *sci = doc->editor->sci;
 	AutocloseUserData *data = g_object_steal_data(G_OBJECT(sci), AC_GOBJECT_KEY);
+	/* no plugin_signal_disconnect() ?? */
+	g_signal_handlers_disconnect_by_func(G_OBJECT(sci), G_CALLBACK(on_editor_notify), data);
 	g_free(data);
 }
 
