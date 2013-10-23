@@ -14,10 +14,12 @@
 #include "Scintilla.h"  /* for the SCNotification struct */
 #include "SciLexer.h"
 
-/* If to set indicator >8, highlighting will be of grey color.
- * Light grey line highlighter covers higher values of indicator. */
-#define INDICATOR_TAGMATCH 0
+#define INDICATOR_TAGMATCH 9
 #define MAX_TAG_NAME 64
+
+#define MATCHING_PAIR_COLOR     0x00ff00    /* green */
+#define NONMATCHING_PAIR_COLOR  0xff0000    /* red */
+#define EMPTY_TAG_COLOR         0xffff00    /* yellow */
 
 /* These items are set by Geany before plugin_init() is called. */
 GeanyPlugin     *geany_plugin;
@@ -82,15 +84,39 @@ static gint findBracket(ScintillaObject *sci, gint position, gint endOfSearchPos
 }
 
 
-static void highlight_tag(ScintillaObject *sci, gint openingBracket, gint closingBracket)
+static gint rgb2bgr(gint color)
+{
+    guint r, g, b;
+
+    r = color >> 16;
+    g = (0x00ff00 & color) >> 8;
+    b = (0x0000ff & color);
+
+    color = (r | (g << 8) | (b << 16));
+
+    return color;
+}
+
+
+static void highlight_tag(ScintillaObject *sci, gint openingBracket,
+                          gint closingBracket, gint color)
 {
     scintilla_send_message(sci, SCI_SETINDICATORCURRENT, INDICATOR_TAGMATCH, 0);
     scintilla_send_message(sci, SCI_INDICSETSTYLE,
                             INDICATOR_TAGMATCH, INDIC_ROUNDBOX);
-    scintilla_send_message(sci, SCI_INDICSETFORE, 0, 0x00d000); /* green */
+    scintilla_send_message(sci, SCI_INDICSETFORE, INDICATOR_TAGMATCH, rgb2bgr(color));
     scintilla_send_message(sci, SCI_INDICSETALPHA, INDICATOR_TAGMATCH, 60);
     scintilla_send_message(sci, SCI_INDICATORFILLRANGE,
                             openingBracket, closingBracket-openingBracket+1);
+}
+
+
+static void highlight_matching_pair(ScintillaObject *sci)
+{
+    highlight_tag(sci, highlightedBrackets[0], highlightedBrackets[1],
+                  MATCHING_PAIR_COLOR);
+    highlight_tag(sci, highlightedBrackets[2], highlightedBrackets[3],
+                  MATCHING_PAIR_COLOR);
 }
 
 
@@ -184,12 +210,14 @@ static void findMatchingOpeningTag(ScintillaObject *sci, gchar *tagName, gint op
         if(openingTagsCount == closingTagsCount)
         {
             /* matching tag is found */
-            highlight_tag(sci, matchingOpeningBracket, matchingClosingBracket);
             highlightedBrackets[2] = matchingOpeningBracket;
             highlightedBrackets[3] = matchingClosingBracket;
-            break;
+            highlight_matching_pair(sci);
+            return;
         }
     }
+    highlight_tag(sci, highlightedBrackets[0], highlightedBrackets[1],
+                  NONMATCHING_PAIR_COLOR);
 }
 
 
@@ -237,12 +265,14 @@ static void findMatchingClosingTag(ScintillaObject *sci, gchar *tagName, gint cl
         if(openingTagsCount == closingTagsCount)
         {
             /* matching tag is found */
-            highlight_tag(sci, matchingOpeningBracket, matchingClosingBracket);
             highlightedBrackets[2] = matchingOpeningBracket;
             highlightedBrackets[3] = matchingClosingBracket;
-            break;
+            highlight_matching_pair(sci);
+            return;
         }
     }
+    highlight_tag(sci, highlightedBrackets[0], highlightedBrackets[1],
+                  NONMATCHING_PAIR_COLOR);
 }
 
 
@@ -250,12 +280,16 @@ static void findMatchingTag(ScintillaObject *sci, gint openingBracket, gint clos
 {
     gchar tagName[MAX_TAG_NAME];
     gboolean isTagOpening = is_tag_opening(sci, openingBracket);
-    get_tag_name(sci, openingBracket, closingBracket, tagName, isTagOpening);
 
-    if(TRUE == isTagOpening)
-        findMatchingClosingTag(sci, tagName, closingBracket);
-    else
-        findMatchingOpeningTag(sci, tagName, openingBracket);
+    if(is_tag_self_closing(sci, closingBracket)) {
+        highlight_tag(sci, openingBracket, closingBracket, EMPTY_TAG_COLOR);
+    } else {
+        get_tag_name(sci, openingBracket, closingBracket, tagName, isTagOpening);
+        if(isTagOpening)
+            findMatchingClosingTag(sci, tagName, closingBracket);
+        else
+            findMatchingOpeningTag(sci, tagName, openingBracket);
+    }
 }
 
 
@@ -290,13 +324,7 @@ static void run_tag_highlighter(ScintillaObject *sci)
     highlightedBrackets[0] = openingBracket;
     highlightedBrackets[1] = closingBracket;
 
-    /* Highlight current tag. Matching tag will be highlighted from
-     * findMatchingTag() functiong */
-    highlight_tag(sci, openingBracket, closingBracket);
-
-    /* Find matching tag only if a tag is not self-closing */
-    if(FALSE == is_tag_self_closing(sci, closingBracket))
-        findMatchingTag(sci, openingBracket, closingBracket);
+    findMatchingTag(sci, openingBracket, closingBracket);
 }
 
 
