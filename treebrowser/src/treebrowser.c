@@ -1216,7 +1216,7 @@ create_popup_menu(const gchar *name, const gchar *uri)
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_current_path), NULL);
 
-	item = ui_image_menu_item_new(GTK_STOCK_OPEN, _("Open externally"));
+	item = ui_image_menu_item_new(GTK_STOCK_OPEN, _("_Open externally"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_open_externally), g_strdup(uri), (GClosureNotify)g_free, 0);
 	gtk_widget_set_sensitive(item, is_exists);
@@ -1234,7 +1234,7 @@ create_popup_menu(const gchar *name, const gchar *uri)
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_refresh), NULL);
 
-	item = ui_image_menu_item_new(GTK_STOCK_FIND, _("Find in Files"));
+	item = ui_image_menu_item_new(GTK_STOCK_FIND, _("_Find in Files"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_find_in_files), g_strdup(uri), (GClosureNotify)g_free, 0);
 	gtk_widget_set_sensitive(item, is_dir);
@@ -1273,7 +1273,7 @@ create_popup_menu(const gchar *name, const gchar *uri)
 	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_close_children), g_strdup(uri), (GClosureNotify)g_free, 0);
 	gtk_widget_set_sensitive(item, is_dir);
 
-	item = ui_image_menu_item_new(GTK_STOCK_COPY, _("Copy full path to clipboard"));
+	item = ui_image_menu_item_new(GTK_STOCK_COPY, _("_Copy full path to clipboard"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_copy_uri), g_strdup(uri), (GClosureNotify)g_free, 0);
 	gtk_widget_set_sensitive(item, is_exists);
@@ -1449,6 +1449,28 @@ on_treeview_keypress(GtkWidget *widget, GdkEventKey *event)
 		on_button_go_up();
 		return TRUE;
 	}
+	if (event->keyval == GDK_Menu)
+	{
+		GtkTreeIter		iter;
+		GtkTreeModel	*model;
+		GtkTreePath		*path;
+		gchar *name = NULL, *uri = NULL;
+		GtkWidget *menu;
+		
+		if (gtk_tree_selection_get_selected(gtk_tree_view_get_selection(GTK_TREE_VIEW(widget)), &model, &iter))
+			gtk_tree_model_get(GTK_TREE_MODEL(treestore), &iter,
+								TREEBROWSER_COLUMN_NAME, &name,
+								TREEBROWSER_COLUMN_URI, &uri,
+								-1);
+
+		menu = create_popup_menu(name != NULL ? name : "", uri != NULL ? uri : "");
+		gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, event->time);
+
+		g_free(name);
+		g_free(uri);
+		
+		return TRUE;
+	}
 
 	return FALSE;
 }
@@ -1468,15 +1490,10 @@ on_treeview_changed(GtkWidget *widget, gpointer user_data)
 		if (uri == NULL)
 			return;
 
-		if (g_file_test(uri, G_FILE_TEST_EXISTS))
-		{
-			if (g_file_test(uri, G_FILE_TEST_IS_DIR))
-				treebrowser_browse(uri, &iter);
-			else
-				if (CONFIG_ONE_CLICK_CHDOC)
-					document_open_file(uri, FALSE, NULL, NULL);
-		}
-		else
+		if (g_file_test(uri, G_FILE_TEST_EXISTS)) {
+			if (!g_file_test(uri, G_FILE_TEST_IS_DIR) && CONFIG_ONE_CLICK_CHDOC)
+				document_open_file(uri, FALSE, NULL, NULL);
+		} else
 			gtk_tree_store_iter_clear_nodes(&iter, TRUE);
 
 		g_free(uri);
@@ -1501,8 +1518,10 @@ on_treeview_row_activated(GtkWidget *widget, GtkTreePath *path, GtkTreeViewColum
 		else
 			if (gtk_tree_view_row_expanded(GTK_TREE_VIEW(widget), path))
 				gtk_tree_view_collapse_row(GTK_TREE_VIEW(widget), path);
-			else
+			else {
+				treebrowser_browse(uri, &iter);
 				gtk_tree_view_expand_row(GTK_TREE_VIEW(widget), path, FALSE);
+			}
 	else
 		document_open_file(uri, FALSE, NULL, NULL);
 
