@@ -52,6 +52,10 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	"0.2",
 	"Pavel Roschin <rpg89(at)post(dot)ru>")
 
+/* avoid aggresive warnings */
+#undef DOC_VALID
+#define DOC_VALID(doc_ptr) (((doc_ptr) && (doc_ptr)->is_valid))
+
 typedef struct {
 	/* close chars */
 	gboolean parenthesis;
@@ -591,7 +595,7 @@ check_struct(
 	line = sci_get_line_from_position(sci, pos);
 	len = strlen(str);
 	const gchar *sci_buf = get_char_range(sci, get_indent(sci, line), len);
-	g_return_val_if_fail(NULL != sci_buf, FALSE);
+	g_return_val_if_fail(sci_buf, FALSE);
 	if (strncmp(sci_buf, str, len) == 0)
 		return TRUE;
 	return FALSE;
@@ -623,7 +627,7 @@ check_define(
 	gint             line)
 {
 	const gchar* sci_buf = get_char_range(sci, get_indent(sci, line), 7);
-	g_return_val_if_fail(NULL != sci_buf, FALSE);
+	g_return_val_if_fail(sci_buf, FALSE);
 	if (strncmp(sci_buf, "#define", 7) == 0)
 		return TRUE;
 	return FALSE;
@@ -645,13 +649,13 @@ auto_close_chars(
 	gboolean         has_sel;
 	gint             filetype = 0;
 
-	g_return_val_if_fail(NULL != data, AC_CONTINUE_ACTION);
+	g_return_val_if_fail(data, AC_CONTINUE_ACTION);
 	doc = data->doc;
-	g_return_val_if_fail(NULL != doc, AC_CONTINUE_ACTION);
+	g_return_val_if_fail(DOC_VALID(doc), AC_CONTINUE_ACTION);
 	editor = doc->editor;
-	g_return_val_if_fail(NULL != editor, AC_CONTINUE_ACTION);
+	g_return_val_if_fail(editor, AC_CONTINUE_ACTION);
 	sci = editor->sci;
-	g_return_val_if_fail(NULL != sci, AC_CONTINUE_ACTION);
+	g_return_val_if_fail(sci, AC_CONTINUE_ACTION);
 
 	if (doc->file_type)
 		filetype = doc->file_type->id;
@@ -763,7 +767,7 @@ static gboolean
 on_key_press(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
 	AutocloseUserData *data = user_data;
-	g_return_val_if_fail(NULL != data && NULL != data->doc, AC_CONTINUE_ACTION);
+	g_return_val_if_fail(data && DOC_VALID(data->doc), AC_CONTINUE_ACTION);
 	return auto_close_chars(data, event);
 }
 
@@ -774,8 +778,8 @@ on_sci_notify(GObject *obj, gint scn, SCNotification *nt, gpointer user_data)
 
 	if (!ac_info->jump_on_tab)
 		return;
-	if (!data || !data->doc || !data->doc->editor || !data->doc->editor->sci)
-		return;
+	g_return_if_fail(data);
+	g_return_if_fail(DOC_VALID(data->doc));
 
 	ScintillaObject *sci = data->doc->editor->sci;
 	/* reset jump_on_tab state when user clicked away */
