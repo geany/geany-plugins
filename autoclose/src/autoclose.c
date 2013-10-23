@@ -52,6 +52,10 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	"0.2",
 	"Pavel Roschin <rpg89(at)post(dot)ru>")
 
+/* avoid aggresive warnings */
+#undef DOC_VALID
+#define DOC_VALID(doc_ptr) (((doc_ptr) && (doc_ptr)->is_valid))
+
 typedef struct {
 	/* close chars */
 	gboolean parenthesis;
@@ -591,7 +595,7 @@ check_struct(
 	line = sci_get_line_from_position(sci, pos);
 	len = strlen(str);
 	const gchar *sci_buf = get_char_range(sci, get_indent(sci, line), len);
-	g_return_val_if_fail(NULL != sci_buf, FALSE);
+	g_return_val_if_fail(sci_buf, FALSE);
 	if (strncmp(sci_buf, str, len) == 0)
 		return TRUE;
 	return FALSE;
@@ -623,7 +627,7 @@ check_define(
 	gint             line)
 {
 	const gchar* sci_buf = get_char_range(sci, get_indent(sci, line), 7);
-	g_return_val_if_fail(NULL != sci_buf, FALSE);
+	g_return_val_if_fail(sci_buf, FALSE);
 	if (strncmp(sci_buf, "#define", 7) == 0)
 		return TRUE;
 	return FALSE;
@@ -645,13 +649,13 @@ auto_close_chars(
 	gboolean         has_sel;
 	gint             filetype = 0;
 
-	g_return_val_if_fail(NULL != data, AC_CONTINUE_ACTION);
+	g_return_val_if_fail(data, AC_CONTINUE_ACTION);
 	doc = data->doc;
-	g_return_val_if_fail(NULL != doc, AC_CONTINUE_ACTION);
+	g_return_val_if_fail(DOC_VALID(doc), AC_CONTINUE_ACTION);
 	editor = doc->editor;
-	g_return_val_if_fail(NULL != editor, AC_CONTINUE_ACTION);
+	g_return_val_if_fail(editor, AC_CONTINUE_ACTION);
 	sci = editor->sci;
-	g_return_val_if_fail(NULL != sci, AC_CONTINUE_ACTION);
+	g_return_val_if_fail(sci, AC_CONTINUE_ACTION);
 
 	if (doc->file_type)
 		filetype = doc->file_type->id;
@@ -763,19 +767,19 @@ static gboolean
 on_key_press(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
 	AutocloseUserData *data = user_data;
-	g_return_val_if_fail(NULL != data && NULL != data->doc, AC_CONTINUE_ACTION);
+	g_return_val_if_fail(data && DOC_VALID(data->doc), AC_CONTINUE_ACTION);
 	return auto_close_chars(data, event);
 }
 
 static void
-on_editor_notify(GObject *obj, gint scn, SCNotification *nt, gpointer user_data)
+on_sci_notify(GObject *obj, gint scn, SCNotification *nt, gpointer user_data)
 {
 	AutocloseUserData *data = user_data;
 
 	if (!ac_info->jump_on_tab)
 		return;
-	if (!data || !data->doc || !data->doc->editor || !data->doc->editor->sci)
-		return;
+	g_return_if_fail(data);
+	g_return_if_fail(DOC_VALID(data->doc));
 
 	ScintillaObject *sci = data->doc->editor->sci;
 	/* reset jump_on_tab state when user clicked away */
@@ -799,18 +803,17 @@ on_editor_notify(GObject *obj, gint scn, SCNotification *nt, gpointer user_data)
 #define AC_GOBJECT_KEY "autoclose-userdata"
 
 static void
-on_document_activate(GObject *obj, GeanyDocument *doc, gpointer user_data)
+on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
 	AutocloseUserData *data;
-	ScintillaObject   *sci = NULL;
-	g_return_if_fail(NULL != doc && NULL != doc->editor);
-	sci = doc->editor->sci;
-	g_return_if_fail(NULL != sci);
+	ScintillaObject   *sci;
+	g_return_if_fail(DOC_VALID(doc));
 
+	sci = doc->editor->sci;
 	data = g_new0(AutocloseUserData, 1);
 	data->doc = doc;
 	plugin_signal_connect(geany_plugin, G_OBJECT(sci), "sci-notify",
-		FALSE, G_CALLBACK(on_editor_notify), data);
+		FALSE, G_CALLBACK(on_sci_notify), data);
 	plugin_signal_connect(geany_plugin, G_OBJECT(sci), "key-press-event",
 			FALSE, G_CALLBACK(on_key_press), data);
 	/* save data pointer via GObject too for on_document_close() */
@@ -820,16 +823,18 @@ on_document_activate(GObject *obj, GeanyDocument *doc, gpointer user_data)
 static void
 on_document_close(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
-	/* free the AutocloseUserData instance */
+	/* free the AutocloseUserData instance and disconnect the handler */
 	ScintillaObject   *sci = doc->editor->sci;
 	AutocloseUserData *data = g_object_steal_data(G_OBJECT(sci), AC_GOBJECT_KEY);
+	/* no plugin_signal_disconnect() ?? */
+	g_signal_handlers_disconnect_by_func(G_OBJECT(sci), G_CALLBACK(on_sci_notify), data);
 	g_free(data);
 }
 
 PluginCallback plugin_callbacks[] =
 {
-	{ "document-open",  (GCallback) &on_document_activate, FALSE, NULL },
-	{ "document-new",   (GCallback) &on_document_activate, FALSE, NULL },
+	{ "document-open",  (GCallback) &on_document_open, FALSE, NULL },
+	{ "document-new",   (GCallback) &on_document_open, FALSE, NULL },
 	{ "document-close", (GCallback) &on_document_close,    FALSE, NULL },
 	{ NULL, NULL, FALSE, NULL }
 };
@@ -898,7 +903,7 @@ plugin_init(G_GNUC_UNUSED GeanyData *data)
 	int i;
 	foreach_document(i)
 	{
-		on_document_activate(NULL, documents[i], NULL);
+		on_document_open(NULL, documents[i], NULL);
 	}
 	GKeyFile *config = g_key_file_new();
 
