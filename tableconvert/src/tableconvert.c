@@ -202,6 +202,7 @@ static void convert_to_table(gboolean header)
 					return;
 				}
 				case GEANY_FILETYPES_HTML:
+				case GEANY_FILETYPES_MARKDOWN:
 				{
 					replacement = convert_to_table_worker(rows,
 						header,
