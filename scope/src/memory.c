@@ -140,6 +140,8 @@ static void write_block(guint64 start, const char *contents, guint count, const 
 {
 	if (!memory_count)
 		memory_start = start;
+	else if (memory_count < MAX_BYTES)
+		memory_count = start - memory_start;
 
 	while (memory_count < MAX_BYTES)
 	{
@@ -208,14 +210,16 @@ static void memory_node_read(const ParseNode *node, const char *maddr)
 	{
 		GArray *nodes = (GArray *) node->value;
 		const char *begin = parse_find_value(nodes, "begin");
+		const char *offset = parse_find_value(nodes, "offset");
 		const char *contents = parse_find_value(nodes, "contents");
 
 		iff (begin && contents, "memory: no begin or contents")
 		{
-			guint64 start;
+			guint64 start = g_ascii_strtoull(begin, NULL, 0);
 			guint64 count = strlen(contents) / 2;
 
-			sscanf(begin, "%" G_GINT64_MODIFIER "i", &start);
+			if (offset)
+				start += g_ascii_strtoull(offset, NULL, 0);
 
 			iff (count, "memory: contents too short")
 				write_block(start, contents, count, maddr);

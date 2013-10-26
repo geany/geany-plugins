@@ -1,3 +1,13 @@
+2013-10-26  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/memory.c:
+   Handle offset (albeit it seems that gdb just adds it to start).
+   Fix count for memory block with holes.
+   Use g_ascii_strtoull() instead of sscanf.
+ * src/prefs.c:
+   Removed an unused structure.
+
+
 2013-10-12  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/debug.c:

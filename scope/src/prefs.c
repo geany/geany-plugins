@@ -119,12 +119,6 @@ static StashGroup *scope_group;
 static StashGroup *terminal_group;
 static StashGroup *marker_group[MARKER_COUNT];
 
-typedef struct _VerticalLabel
-{
-	const char *name;
-	const gchar *label;
-} VerticalLabel;
-
 static void load_scope_prefs(GKeyFile *config)
 {
 	guint i;
