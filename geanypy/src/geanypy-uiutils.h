@@ -1,8 +1,8 @@
 #ifndef GEANYPY_UI_UTILS_H__
 #define GEANYPY_UI_UTILS_H__
 
-PyTypeObject InterfacePrefsType;
-PyTypeObject MainWidgetsType;
+extern PyTypeObject InterfacePrefsType;
+extern PyTypeObject MainWidgetsType;
 
 typedef struct
 {
