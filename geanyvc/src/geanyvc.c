@@ -527,6 +527,7 @@ execute_command(const VC_RECORD * vc, gchar ** std_out, gchar ** std_err, const 
 {
 	gchar *dir = NULL;
 	gint ret;
+	const gint action_command_cell = 1;
 
 	if (std_out)
 		*std_out = NULL;
@@ -556,6 +557,10 @@ execute_command(const VC_RECORD * vc, gchar ** std_out, gchar ** std_err, const 
 
 	ret = execute_custom_command(dir, vc->commands[cmd].command, vc->commands[cmd].env, std_out,
 				     std_err, filename, list, message);
+
+	ui_set_statusbar(TRUE, _("File %s: action %s executed via %s."),
+			 filename, vc->commands[cmd].command[action_command_cell], vc->program);
+
 	g_free(dir);
 	return ret;
 }
