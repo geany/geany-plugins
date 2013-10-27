@@ -603,7 +603,6 @@ treebrowser_load_bookmarks(void)
 	gchar 		**lines, **line;
 	GtkTreeIter iter;
 	gchar 		*pos;
-	gchar 		*name;
 	GdkPixbuf 	*icon = NULL;
 
 	if (! CONFIG_SHOW_BOOKMARKS)
@@ -646,10 +645,7 @@ treebrowser_load_bookmarks(void)
 				if (pos != NULL)
 				{
 					*pos = '\0';
-					name = pos + 1;
 				}
-				else
-					name = NULL;
 			}
 			path_full = g_filename_from_uri(*line, NULL, NULL);
 			if (path_full != NULL)
@@ -809,12 +805,11 @@ treebrowser_expand_to_path(gchar* root, gchar* find)
 	gboolean founded = FALSE, global_founded = FALSE;
 	gchar *new = NULL;
 	gchar **root_segments = NULL, **find_segments = NULL;
-	guint root_segments_n = 0, find_segments_n = 0;
+	guint find_segments_n = 0;
 
 	root_segments = g_strsplit(root, G_DIR_SEPARATOR_S, 0);
 	find_segments = g_strsplit(find, G_DIR_SEPARATOR_S, 0);
 
-	root_segments_n = g_strv_length(root_segments)-1;
 	find_segments_n = g_strv_length(find_segments)-1;
 
 
@@ -1432,7 +1427,7 @@ on_treeview_keypress(GtkWidget *widget, GdkEventKey *event)
 	GtkTreeIter		iter;
 	GtkTreeModel	*model;
 	GtkTreePath		*path;
-	
+
 	if (event->keyval == GDK_space)
 	{
 		if (gtk_tree_selection_get_selected(gtk_tree_view_get_selection(GTK_TREE_VIEW(widget)), &model, &iter))
@@ -1454,7 +1449,7 @@ on_treeview_keypress(GtkWidget *widget, GdkEventKey *event)
 	{
 		gchar *name = NULL, *uri = NULL;
 		GtkWidget *menu;
-		
+
 		if (gtk_tree_selection_get_selected(gtk_tree_view_get_selection(GTK_TREE_VIEW(widget)), &model, &iter))
 			gtk_tree_model_get(GTK_TREE_MODEL(treestore), &iter,
 								TREEBROWSER_COLUMN_NAME, &name,
@@ -1466,7 +1461,7 @@ on_treeview_keypress(GtkWidget *widget, GdkEventKey *event)
 
 		g_free(name);
 		g_free(uri);
-		
+
 		return TRUE;
 	}
 	if (event->keyval == GDK_Left)
@@ -2038,7 +2033,7 @@ plugin_configure(GtkDialog *dialog)
 	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.SHOW_BOOKMARKS), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_BOOKMARKS), CONFIG_SHOW_BOOKMARKS);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.SHOW_BOOKMARKS, FALSE, FALSE, 0);
-	
+
 	configure_widgets.OPEN_NEW_FILES = gtk_check_button_new_with_label(_("Open new files"));
 	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.OPEN_NEW_FILES ), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.OPEN_NEW_FILES ), CONFIG_OPEN_NEW_FILES);
