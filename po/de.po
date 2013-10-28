@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Geany-plugins 1.24\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-27 11:36+0100\n"
-"PO-Revision-Date: 2013-10-27 11:40+0100\n"
+"PO-Revision-Date: 2013-10-28 12:05+0100\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
 "Language: de\n"
@@ -4440,6 +4440,12 @@ msgid ""
 "To view the differences, cancel this dialog and open the differences in "
 "Geany directly by using the GeanyVC menu (Base Dirrectory -> Diff)."
 msgstr ""
+"Die Veränderungen können hier nicht angezeigt werden, da sie zu viele "
+"sind. Andernfalls könnte es passieren, dass die Anzeige unbenutzbar "
+"wird.\n"
+"Um sich dennoch die Änderungen anzeigen zu lessen, benutzen Sie "
+"einfach die Diff-Funktion aus dem GeanyVC-Unterpunktes innerhalb des "
+"Werkzeuge-Menüs."
 
 #: ../geanyvc/src/geanyvc.c:1243
 msgid "Commit Y/N"
@@ -5018,7 +5024,7 @@ msgstr ""
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:34
 msgid "Finds and highlights matching opening/closing HTML tag"
-msgstr ""
+msgstr "Findet und hebt passende öffende und schließende HTML-Tags"
 
 #: ../pohelper/data/menus.ui.h:1
 msgid "_Translation Helper"
@@ -5042,19 +5048,19 @@ msgstr "Zur nächsten String gehen"
 
 #: ../pohelper/data/menus.ui.h:6
 msgid "Pre_vious Untranslated"
-msgstr ""
+msgstr "_Vorheringe nicht übersetze Zeichenkette"
 
 #: ../pohelper/data/menus.ui.h:7 ../pohelper/src/gph-plugin.c:1037
 msgid "Go to previous untranslated string"
-msgstr ""
+msgstr "Geht zu der vorherigen, noch nicht übersetzen Zeichenkette."
 
 #: ../pohelper/data/menus.ui.h:8
 msgid "Next _Untranslated"
-msgstr ""
+msgstr "Nächste nicht übersetzte Zeichenkette"
 
 #: ../pohelper/data/menus.ui.h:9 ../pohelper/src/gph-plugin.c:1040
 msgid "Go to next untranslated string"
-msgstr ""
+msgstr "Geht zu der nächsten, noch nicht übersetzten Zeichenkette."
 
 #: ../pohelper/data/menus.ui.h:10
 msgid "Previous Fu_zzy"
@@ -5106,9 +5112,8 @@ msgid "Paste the original untranslated string to the translation"
 msgstr ""
 
 #: ../pohelper/data/menus.ui.h:22 ../pohelper/src/gph-plugin.c:1061
-#, fuzzy
 msgid "Reflow the current translation string"
-msgstr "Zur aktuellen Anweisung springen"
+msgstr "Aktuelle Übersetzungen neu umbrechen"
 
 #: ../pohelper/data/menus.ui.h:23
 msgid "_Reflow Translation"
