@@ -138,6 +138,23 @@ static gboolean is_tag_self_closing(ScintillaObject *sci, gint closingBracket)
 }
 
 
+static gboolean is_tag_empty(gchar *tagName)
+{
+    const char *emptyTags[] = {"area", "base", "br", "col", "embed",
+                         "hr", "img", "input", "keygen", "link", "meta",
+                         "param", "source", "track", "wbr", "!DOCTYPE"};
+
+    int i;
+    for(i=0; i<(sizeof(emptyTags)/sizeof(emptyTags[0])); i++)
+    {
+        if(strcmp(tagName, emptyTags[i]) == 0)
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
+
 static gboolean is_tag_opening(ScintillaObject *sci, gint openingBracket)
 {
     gboolean isTagOpening = TRUE;
@@ -281,10 +298,11 @@ static void findMatchingTag(ScintillaObject *sci, gint openingBracket, gint clos
     gchar tagName[MAX_TAG_NAME];
     gboolean isTagOpening = is_tag_opening(sci, openingBracket);
 
-    if(is_tag_self_closing(sci, closingBracket)) {
+    get_tag_name(sci, openingBracket, closingBracket, tagName, isTagOpening);
+
+    if(is_tag_self_closing(sci, closingBracket) || is_tag_empty(tagName)) {
         highlight_tag(sci, openingBracket, closingBracket, EMPTY_TAG_COLOR);
     } else {
-        get_tag_name(sci, openingBracket, closingBracket, tagName, isTagOpening);
         if(isTagOpening)
             findMatchingClosingTag(sci, tagName, closingBracket);
         else
