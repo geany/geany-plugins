@@ -174,12 +174,13 @@ ggd_doc_type_resolve_setting (const GgdDocType  *doctype,
                               gint              *nth_child)
 {
   GgdDocSetting *setting     = NULL;
-  gchar         *child_match = g_strdup (match);
+  gchar         *child_match = NULL;
   
   g_return_val_if_fail (doctype != NULL, NULL);
   
   /*g_debug ("Resolving match \"%s\"...", child_match);*/
   if (nth_child) (*nth_child) = 0;
+  child_match = g_strdup (match);
   setting = ggd_doc_type_get_setting (doctype, child_match);
   while (setting && setting->policy == GGD_POLICY_FORWARD) {
     gchar *parent_match = get_parent_match (child_match);
