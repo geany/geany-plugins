@@ -1533,8 +1533,7 @@ on_wizard_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 		if (template_int < LATEX_WIZARD_TEMPLATE_END ||
 			glatex_wizard.template_list == NULL)
 		{
-			if (template_int == LATEX_WIZARD_TEMPLATE_DEFAULT &&
-				documentclass_int == 3 && documentclass_int == 4)
+			if (template_int == LATEX_WIZARD_TEMPLATE_DEFAULT)
 				code = g_string_new(TEMPLATE_LATEX);
 			else if (documentclass_int == 3)
 				code = g_string_new(TEMPLATE_LATEX_LETTER);
