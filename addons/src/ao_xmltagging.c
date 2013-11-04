@@ -84,7 +84,7 @@ void ao_xmltagging(void)
 
 		if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
 		{
-			const gchar *tag = NULL;
+			gchar *tag = NULL;
 
 			selection = sci_get_selection_contents(doc->editor->sci);
 			sci_start_undo_action(doc->editor->sci);
@@ -94,7 +94,7 @@ void ao_xmltagging(void)
 			{
 				gsize end = 0;
 				GString *tmp = NULL;
-				const gchar *end_tag;
+				gchar *end_tag;
 
 				/* First we check for %s and replace it with selection*/
 				tmp = g_string_new(tag);
@@ -117,12 +117,14 @@ void ao_xmltagging(void)
 				}
 				replacement = g_strconcat("<", tag, ">",
 								selection, "</", end_tag, ">", NULL);
+				g_free(end_tag);
 			}
 
 			sci_replace_sel(doc->editor->sci, replacement);
 			sci_end_undo_action(doc->editor->sci);
 			g_free(selection);
 			g_free(replacement);
+			g_free(tag);
 		}
 		gtk_widget_destroy(dialog);
 	}
