@@ -410,7 +410,7 @@ handle_backspace(
 			if (char_is_curly_bracket(ch))
 			{
 				if (line_start == line_end)
-					return AC_CONTINUE_ACTION;
+					goto final;
 				if (line_start > line_end)
 				{
 					line = line_end;
@@ -433,6 +433,7 @@ handle_backspace(
 					unindent_line(sci, i, indent_width);
 				}
 			}
+final:
 			sci_end_undo_action(sci);
 			return AC_STOP_ACTION;
 		}
