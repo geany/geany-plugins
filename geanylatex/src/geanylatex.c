@@ -1,7 +1,7 @@
 /*
  *	  geanylatex.c - Plugin to let Geany better work together with LaTeX
  *
- *	  Copyright 2007-2012 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *	  Copyright 2007-2013 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *	  Copyright 2005-2009 Enrico Tröger <enrico(dot)troeger(at)uvena(dot)de>
  *	  Copyright 2006-2009 Nick Treleaven <nick(dot)treleaven(at)btinternet(dot)com>
  *
@@ -971,7 +971,7 @@ glatex_insert_ref_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 			if (ref_string != NULL)
 				g_free(ref_string);
 			if (template_string != NULL)
-				g_free(template_string);
+				g_string_free(template_string, TRUE);
 		}
 	}
 
