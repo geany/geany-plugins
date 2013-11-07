@@ -104,7 +104,7 @@ void ao_xmltagging(void)
 				/* We try to find a space inside the inserted tag as we
 				 * only need to close the tag with part until first space.
 				 * */
-				while (!g_ascii_isspace(tag->str[end]) && end < tag->len)
+				while (end < tag->len && !g_ascii_isspace(tag->str[end]) )
 					end++;
 
 				if (end > 0)
