@@ -1,7 +1,7 @@
  /*
  *      templates.c
  *
- *      Copyright 2009-2012 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2009-2013 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -81,6 +81,8 @@ GPtrArray* glatex_init_custom_templates(void)
 	g_slist_foreach(file_list, (GFunc)glatex_init_cutom_template_item, templates);
  	g_slist_foreach(file_list, (GFunc) g_free, NULL);
 	g_slist_free(file_list);
+
+	g_free(tmp_basedir);
 	return templates;
 }
 
