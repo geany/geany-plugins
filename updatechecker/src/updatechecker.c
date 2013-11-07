@@ -143,7 +143,7 @@ static void parse_version_string(const gchar *ver, gint *major, gint *minor,
     }
     else
     {
-        major = 0;
+        *major = 0;
     }
     g_strfreev(vers);
 }
