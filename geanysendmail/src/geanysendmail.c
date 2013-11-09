@@ -111,7 +111,7 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
  				}
  				else
  				{
-					g_free(cmd_str);
+					g_string_free(cmd_str, TRUE);
 					g_free(locale_filename);
 					return;
 				}
@@ -173,7 +173,7 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
 		ui_set_statusbar(FALSE, _("File has to be saved before sending."));
 	}
 
-	g_free(config);
+	g_key_file_free(config);
 }
 
 static void key_send_as_attachment(G_GNUC_UNUSED guint key_id)
