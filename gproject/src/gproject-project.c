@@ -345,9 +345,9 @@ void gprj_project_open(GKeyFile * key_file)
 		ignored_dirs_patterns,
 		generate_tags);
 
-	g_free(source_patterns);
-	g_free(header_patterns);
-	g_free(ignored_dirs_patterns);
+	g_strfreev(source_patterns);
+	g_strfreev(header_patterns);
+	g_strfreev(ignored_dirs_patterns);
 }
 
 
