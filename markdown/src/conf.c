@@ -447,15 +447,11 @@ markdown_config_save(MarkdownConfig *conf)
   gboolean success = FALSE;
   GError *error = NULL;
 
-  contents = g_key_file_to_data(conf->priv->kf, &len, &error);
+  contents = g_key_file_to_data(conf->priv->kf, &len, NULL);
 
   /*g_debug("Saving: %s\n%s", conf->priv->filename, contents);*/
 
-  if (error) {
-    g_warning("Error getting config data as string: %s", error->message);
-    g_error_free(error); error = NULL;
-    return success;
-  }
+  g_return_val_if_fail(contents, success);
 
   success = g_file_set_contents(conf->priv->filename, contents, len, &error);
   g_free(contents);
