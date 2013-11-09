@@ -685,6 +685,7 @@ treebrowser_load_bookmarks(void)
 			gtk_tree_path_free(tree_path);
 		}
 	}
+	g_free(bookmarks);
 }
 
 static gboolean
@@ -756,6 +757,7 @@ fs_remove(gchar *root, gboolean delete_root)
 			g_free(path);
 			name = g_dir_read_name(dir);
 		}
+		g_dir_close(dir);
 	}
 	else
 		delete_root = TRUE;
