@@ -425,9 +425,11 @@ static gchar *file_dlg(lua_State* L, gboolean save, const gchar *path,	const gch
 	if (name && *name) {
 		if (g_path_is_absolute(name)) {
 			fullname=g_strdup(name);
-		} else if (path) {fullname=g_build_filename(path,name,NULL);}
-			gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dlg), fullname);
-			if (save) gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER(dlg), name);
+		} else if (path) {
+			fullname=g_build_filename(path,name,NULL);
+		}
+		gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dlg), fullname);
+		if (save) { gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER(dlg), name); }
 	}
 	if (path && *path) {
 		gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dlg), path);
@@ -437,6 +439,7 @@ static gchar *file_dlg(lua_State* L, gboolean save, const gchar *path,	const gch
 			"failed to parse filter string at argument #3.\n"),
 			LUA_MODULE_NAME);
 		lua_error(L);
+		g_free(fullname);
 		return NULL;
 	}
 
@@ -454,7 +457,7 @@ static gchar *file_dlg(lua_State* L, gboolean save, const gchar *path,	const gch
 		rv=gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dlg));
 	}
 	gtk_widget_destroy(dlg);
-	if (fullname) {g_free(fullname);}
+	g_free(fullname);
 	return rv;
 }
 
