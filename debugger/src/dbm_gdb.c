@@ -755,10 +755,11 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	for (iter = lines; iter; iter = iter->next)
 	{
 		gchar *unescaped = g_strcompress((gchar*)iter->data);
-		if (strlen(unescaped))
+		if (unescaped && strlen(unescaped))
 		{
 			colorize_message((gchar*)iter->data);
 		}
+		g_free(unescaped);
 	}
 	g_list_foreach(lines, (GFunc)g_free, NULL);
 	g_list_free(lines);
