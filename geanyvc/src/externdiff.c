@@ -50,8 +50,10 @@ get_external_diff_viewer(void)
 
 	for (i = 0; i < EXTERNAL_DIFF_COUNT; i++)
 	{
-		if (g_find_program_in_path(viewers[i]))
+		gchar *path = g_find_program_in_path(viewers[i]);
+		if (path)
 		{
+			g_free(path);
 			extern_diff_viewer = (gchar *) viewers[i];
 			return viewers[i];
 		}
