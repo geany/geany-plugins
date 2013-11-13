@@ -1,7 +1,7 @@
 #ifndef GEANYPY_EDITOR_H__
 #define GEANYPY_EDITOR_H__
 
-PyTypeObject IndentPrefsType;
+extern PyTypeObject IndentPrefsType;
 
 typedef struct
 {

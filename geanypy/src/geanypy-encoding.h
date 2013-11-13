@@ -1,7 +1,7 @@
 #ifndef GEANYPY_ENCODING_H__
 #define GEANYPY_ENCODING_H__
 
-PyTypeObject EncodingType;
+extern PyTypeObject EncodingType;
 
 typedef struct
 {

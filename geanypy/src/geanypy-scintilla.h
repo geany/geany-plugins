@@ -1,8 +1,8 @@
 #ifndef GEANYPY_SCINTILLA_H__
 #define GEANYPY_SCINTILLA_H__
 
-PyTypeObject NotificationType;
-PyTypeObject NotifyHeaderType;
+extern PyTypeObject NotificationType;
+extern PyTypeObject NotifyHeaderType;
 
 typedef struct
 {

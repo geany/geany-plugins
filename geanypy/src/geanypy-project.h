@@ -1,7 +1,7 @@
 #ifndef GEANYPY_PROJECT_H__
 #define GEANYPY_PROJECT_H__
 
-PyTypeObject ProjectType;
+extern PyTypeObject ProjectType;
 
 typedef struct
 {
