@@ -780,9 +780,8 @@ on_sci_notify(GObject *obj, gint scn, SCNotification *nt, gpointer user_data)
 	if (!ac_info->jump_on_tab)
 		return;
 	g_return_if_fail(data);
-	g_return_if_fail(DOC_VALID(data->doc));
 
-	ScintillaObject *sci = data->doc->editor->sci;
+	ScintillaObject *sci = SCINTILLA(obj);
 	/* reset jump_on_tab state when user clicked away */
 	gboolean updated_sel  = nt->updated & SC_UPDATE_SELECTION;
 	gboolean updated_text = nt->updated & SC_UPDATE_CONTENT;
@@ -801,8 +800,6 @@ on_sci_notify(GObject *obj, gint scn, SCNotification *nt, gpointer user_data)
 	data->last_line = new_line;
 }
 
-#define AC_GOBJECT_KEY "autoclose-userdata"
-
 static void
 on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
@@ -814,29 +811,17 @@ on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
 	data = g_new0(AutocloseUserData, 1);
 	data->doc = doc;
 	plugin_signal_connect(geany_plugin, G_OBJECT(sci), "sci-notify",
-		FALSE, G_CALLBACK(on_sci_notify), data);
+		    FALSE, G_CALLBACK(on_sci_notify), data);
 	plugin_signal_connect(geany_plugin, G_OBJECT(sci), "key-press-event",
 			FALSE, G_CALLBACK(on_key_press), data);
-	/* save data pointer via GObject too for on_document_close() */
-	g_object_set_data(G_OBJECT(sci), AC_GOBJECT_KEY, data);
-}
-
-static void
-on_document_close(GObject *obj, GeanyDocument *doc, gpointer user_data)
-{
-	/* free the AutocloseUserData instance and disconnect the handler */
-	ScintillaObject   *sci = doc->editor->sci;
-	AutocloseUserData *data = g_object_steal_data(G_OBJECT(sci), AC_GOBJECT_KEY);
-	/* no plugin_signal_disconnect() ?? */
-	g_signal_handlers_disconnect_by_func(G_OBJECT(sci), G_CALLBACK(on_sci_notify), data);
-	g_free(data);
+	/* This will free the data when the sci is destroyed */
+	g_object_set_data_full(G_OBJECT(sci), "autoclose-userdata", data, g_free);
 }
 
 PluginCallback plugin_callbacks[] =
 {
 	{ "document-open",  (GCallback) &on_document_open, FALSE, NULL },
 	{ "document-new",   (GCallback) &on_document_open, FALSE, NULL },
-	{ "document-close", (GCallback) &on_document_close,    FALSE, NULL },
 	{ NULL, NULL, FALSE, NULL }
 };
 
