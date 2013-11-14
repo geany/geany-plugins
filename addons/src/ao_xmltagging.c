@@ -44,8 +44,6 @@ void ao_xmltagging(void)
 
 	if (sci_has_selection(doc->editor->sci) == TRUE)
 	{
-		gchar *selection  = NULL;
-		gchar *replacement = NULL;
 		GtkWidget *dialog = NULL;
 		GtkWidget *vbox = NULL;
 		GtkWidget *hbox = NULL;
@@ -84,38 +82,40 @@ void ao_xmltagging(void)
 
 		if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
 		{
-			gchar *tag = NULL;
+			GString *tag = NULL;
+			gchar *selection  = NULL;
+			gchar *replacement = NULL;
 
+			/* Getting the selection and setting the undo flag */
 			selection = sci_get_selection_contents(doc->editor->sci);
 			sci_start_undo_action(doc->editor->sci);
 
-			tag = g_strdup(gtk_entry_get_text(GTK_ENTRY(textbox)));
-			if (NZV(tag))
+			/* Getting the tag */
+			tag = g_string_new(gtk_entry_get_text(GTK_ENTRY(textbox)));
+
+			if (tag->len > 0)
 			{
 				gsize end = 0;
-				GString *tmp = NULL;
 				gchar *end_tag;
 
 				/* First we check for %s and replace it with selection*/
-				tmp = g_string_new(tag);
-				utils_string_replace_all(tmp, "%s", selection);
-				tag = g_string_free(tmp, FALSE);
+				utils_string_replace_all(tag, "%s", selection);
 
 				/* We try to find a space inside the inserted tag as we
 				 * only need to close the tag with part until first space.
 				 * */
-				while (!g_ascii_isspace(tag[end]) && tag[end] != '\0')
+				while (end < tag->len && !g_ascii_isspace(tag->str[end]) )
 					end++;
 
 				if (end > 0)
 				{
-					end_tag = g_strndup(tag, end);
+					end_tag = g_strndup(tag->str, end);
 				}
 				else
 				{
-					end_tag = tag;
+					end_tag = tag->str;
 				}
-				replacement = g_strconcat("<", tag, ">",
+				replacement = g_strconcat("<", tag->str, ">",
 								selection, "</", end_tag, ">", NULL);
 				g_free(end_tag);
 			}
@@ -124,7 +124,7 @@ void ao_xmltagging(void)
 			sci_end_undo_action(doc->editor->sci);
 			g_free(selection);
 			g_free(replacement);
-			g_free(tag);
+			g_string_free(tag, TRUE);
 		}
 		gtk_widget_destroy(dialog);
 	}
