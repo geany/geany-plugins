@@ -55,13 +55,26 @@ static gint findBracket(ScintillaObject *sci, gint position, gint endOfSearchPos
         for(pos=position; pos<=endOfSearchPos; pos++)
         {
             gchar charAtCurPosition = sci_get_char_at(sci, pos);
-            if(charAtCurPosition == searchedBracket)
-            {
+            gchar charAtPrevPosition = sci_get_char_at(sci, pos-1);
+            gchar charAtNextPosition = sci_get_char_at(sci, pos+1);
+
+            if(charAtCurPosition == searchedBracket) {
+                if ('>' == searchedBracket) {
+                    if (('-' == charAtPrevPosition) || ('?' == charAtPrevPosition))
+                        continue;
+                } else if ('<' == searchedBracket) {
+                    if ('?' == charAtNextPosition)
+                        continue;
+                }
                 foundBracket = pos;
                 break;
-            }
-            if(charAtCurPosition == breakBracket)
+            } else if(charAtCurPosition == breakBracket) {
+                if ('<' == breakBracket) {
+                    if ('?' == charAtNextPosition)
+                        continue;
+                }
                 break;
+            }
         }
     }
     else
@@ -70,13 +83,27 @@ static gint findBracket(ScintillaObject *sci, gint position, gint endOfSearchPos
         for(pos=position-1; pos>=endOfSearchPos; pos--)
         {
             gchar charAtCurPosition = sci_get_char_at(sci, pos);
+            gchar charAtPrevPosition = sci_get_char_at(sci, pos+1);
+            gchar charAtNextPosition = sci_get_char_at(sci, pos-1);
+
             if(charAtCurPosition == searchedBracket)
             {
+                if ('<' == searchedBracket) {
+                    if ('?' == charAtPrevPosition)
+                        continue;
+                } else if ('>' == searchedBracket) {
+                    if (('-' == charAtNextPosition) || ('?' == charAtNextPosition))
+                        continue;
+                }
                 foundBracket = pos;
                 break;
-            }
-            if(charAtCurPosition == breakBracket)
+            } else if(charAtCurPosition == breakBracket) {
+                if ('>' == breakBracket) {
+                    if (('-' == charAtNextPosition) || ('?' == charAtNextPosition))
+                        continue;
+                }
                 break;
+            }
         }
     }
 
@@ -251,8 +278,8 @@ static void findMatchingClosingTag(ScintillaObject *sci, gchar *tagName, gint cl
         /* are we inside tag? */
         gint lineNumber = sci_get_line_from_position(sci, pos);
         gint lineEnd = sci_get_line_end_position(sci, lineNumber);
-        gint matchingOpeningBracket = findBracket(sci, pos, endOfDocument, '<', '\0', TRUE);
-        gint matchingClosingBracket = findBracket(sci, pos, endOfDocument, '>', '\0', TRUE);
+        gint matchingOpeningBracket = findBracket(sci, pos, lineEnd, '<', '\0', TRUE);
+        gint matchingClosingBracket = findBracket(sci, pos, lineEnd, '>', '\0', TRUE);
 
         if(-1 != matchingOpeningBracket && -1 != matchingClosingBracket
             && (matchingClosingBracket > matchingOpeningBracket))
@@ -271,14 +298,7 @@ static void findMatchingClosingTag(ScintillaObject *sci, gchar *tagName, gint cl
             }
             pos = matchingClosingBracket;
         }
-        /* Speed up search: if findBracket returns -1, that means end of line
-         * is reached. There is no need to go through the same positions again.
-         * Jump to the end of line */
-        else if(-1 == matchingOpeningBracket || -1 == matchingClosingBracket)
-        {
-            pos = lineEnd;
-            continue;
-        }
+
         if(openingTagsCount == closingTagsCount)
         {
             /* matching tag is found */
@@ -339,10 +359,13 @@ static void run_tag_highlighter(ScintillaObject *sci)
         clear_previous_highlighting(sci, highlightedBrackets[2], highlightedBrackets[3]);
     }
 
-    highlightedBrackets[0] = openingBracket;
-    highlightedBrackets[1] = closingBracket;
+    /* Don't run search on empty brackets <> */
+    if (closingBracket - openingBracket > 1) {
+        highlightedBrackets[0] = openingBracket;
+        highlightedBrackets[1] = closingBracket;
 
-    findMatchingTag(sci, openingBracket, closingBracket);
+        findMatchingTag(sci, openingBracket, closingBracket);
+    }
 }
 
 
