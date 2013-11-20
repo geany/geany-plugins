@@ -376,7 +376,7 @@ static gboolean on_editor_notify(GObject *obj, GeanyEditor *editor,
     gint lexer;
 
     lexer = sci_get_lexer(editor->sci);
-    if(lexer != SCLEX_HTML)
+    if((lexer != SCLEX_HTML) && (lexer != SCLEX_XML))
     {
         return FALSE;
     }
