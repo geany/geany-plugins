@@ -34,7 +34,7 @@ PLUGIN_VERSION_CHECK(211)
 
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, _("Pair Tag Highlighter"),
                             _("Finds and highlights matching opening/closing HTML tag"),
-                            "1.0", "Volodymyr Kononenko <vm@kononenko.ws>")
+                            "1.1", "Volodymyr Kononenko <vm@kononenko.ws>")
 
 
 /* Searches tag brackets.
