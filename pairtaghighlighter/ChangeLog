@@ -1,3 +1,12 @@
+Changes in v1.1                         Nov 19, 2013
+
+  * Add HTML empty tags support according to HTML5 standard.
+  * Add red and yellow colors to define if pair is found or tag is
+    empty.
+  * Enable XML support.
+  * Improved brackets search by ignoring php tags (<? <?php ?>) and
+    object operators (->). Thanks Peter Donin for bugreport!
+
 Changes in v1.0                         Apr 5, 2013
 
   * The first public version.
