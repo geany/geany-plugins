@@ -115,7 +115,7 @@ static void on_target_browse_clicked(GtkButton *button, gpointer   user_data)
 		strcpy(path, prevdir);
 	else
 	{
-		gchar dirname = g_path_get_dirname(DOC_FILENAME(document_get_current()));
+		gchar *dirname = g_path_get_dirname(DOC_FILENAME(document_get_current()));
 		strcpy(path, dirname);
 		g_free(dirname);
 	}
