@@ -1,9 +1,36 @@
+2013-01-06  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * data/scope.glade, src/break.c:
+   Show breakpoint origin in the type column, with tooltip.
+ * data/scope.glade, docs/scope.html:
+   "Temporary breakpoint at" -> "Temporary breakpoint on load at".
+ * docs/scope.html:
+   Some improvements and clarifications.
+ * src/break.c:
+   Remove the "Temporary breakpoint on load" only on unload, not on
+   hit or when resetting the program state.
+   Show catchpoint condition (depends on the gdb version).
+ * src/break.c, src/debug.c, src/inspect.c:
+   Apply any unapplied breakpoints/inspects marked as "Apply on run"
+   on each run (only important if "Auto run/exit" is off).
+ * src/gtk216.c:
+   Make sort_column_ids[] const.
+ * src/scope.c, src/watch.c:
+   Unify GPOINTER_TO_INT(FALSE) handling.
+ * src/scope.c:
+   Emit a message to Geany log if scope.glade can't be loaded, by
+   Enrico Tröger.
+   Removed static last_statusbar_state, unused since ScpTreeStore
+   dynamic registration.
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.93.1.
+
 2013-10-26  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/memory.c:
-   Handle offset (albeit it seems that gdb just adds it to start).
-   Fix count for memory block with holes.
-   Use g_ascii_strtoull() instead of sscanf.
+   Handle offset (although it seems that gdb just adds it to start).
+   Fix counting for memory block with holes.
+   sscanf() -> g_ascii_strtoull().
  * src/prefs.c:
    Removed an unused structure.
 

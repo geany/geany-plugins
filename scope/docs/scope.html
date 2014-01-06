@@ -8,7 +8,6 @@
     <style type="text/css">
 	.tab { padding-left:1em; }
 	.tab1 { padding-left:1.5em; }
-	.tab2 { padding-left:2em; }
     </style>
 </head>
 
@@ -80,7 +79,7 @@
 <p>Scope is a graphical <a href="http://www.gnu.org/software/gdb">GDB</a> front-end with the
 normal functions you would expect (stepping, breakpoints...), and a few notable features:</p>
 <ul>
-<li>The comminication between Scope and gdb is asynchronous.</li>
+<li>The entire comminication between Scope and gdb is asynchronous.</li>
 <li>You can enter any gdb command, at any time (of course, for the command to be executed,
 gdb must be[come] available).</li>
 <li>All gdb I/O (along with some other messages) is displayed in a terminal-like "Debug
@@ -102,11 +101,13 @@ document.</p>
 
 <h3><a name="requirements">Requirements</a></h3>
 
-<p>Geany 1.22 or later and the respective libraries, including VTE under *nix.</p>
+<p>Geany 1.22 or later and the respective libraries.</p>
 
 <p>GDB 7.3 or later.</p>
 
-<p>win~1: XP or later.</p>
+<p>*nix only: VTE library.</p>
+
+<p>Windows only: XP or later.</p>
 
 <p>GDB manual (recommended).</p>
 
@@ -117,7 +118,7 @@ document.</p>
 <p>From the main Geany menu, invoke <em>Debug --&gt; Setup Program</em> (or <em>Tools --&gt;
 Debug --&gt; Setup Program</em>, if there's no <em>Debug</em> in the main menu).<br>
 Choose some small executable file compiled with gdb debug information.<br>
-Check <em>Temporary breakpoint at</em> and press <em>OK</em>.<br>
+Check <em>Temporary breakpoint on load at</em> and press <em>OK</em>.<br>
 Invoke <em>Debug --&gt; Run/Continue</em>.</p>
 
 <div>If everything went all right, several things will happen:</div>
@@ -128,7 +129,7 @@ Invoke <em>Debug --&gt; Run/Continue</em>.</p>
 neccessary<br>
 - The first line of code will be marked with brown arrow in the markers margin, or with brown
 background<br>
-- All source files will be marked as read-only (their tabs will turn green)<br>
+- All source files will be marked as read-only (their tab text will become green)<br>
 - The <em>Load</em> label will be replaced with a color-less <em>Debug</em>.
 </div>
 
@@ -143,11 +144,12 @@ from the lower Geany panel etc.</p>
 
 <ul>
 <li>Debug menu in the main Geany menu, containing the most commonly used commands (running,
-stepping, toggle breakpoint etc.) If Scope can't access the main menu, it'll place Debug under
-Tools.</li>
+stepping, toggle breakpoint etc.)<br>
+If Scope can't access the main menu, it'll place Debug under Tools.</li>
 <li>Debug page in the lower panel, with subpages that display the program output, threads,
 breakpoints etc.</li>
-<li>Inspect and Registers page in the side panel.</li>
+<li>Inspect and Registers pages in the side panel.</li>
+<li>Local menus for the Debug subpages, Inspect and Registers.</li>
 <li>Toolbar items - identical to their Debug menu counterparts.</li>
 <li>Command Dialog - to enter gdb commands. Will be closed automatically if gdb exits.</li>
 <li>A small label on the right of your Geany status bar, which displays the current debugging
@@ -170,12 +172,11 @@ stopped.</td></tr>
 program is not started yet, or is already terminated. Scope will automatically switch to this
 state in some situations.</td></tr>
 <tr><td>(blinking)</td><td class="tab"></td><td class="tab">Loading a program, signal
-received, error parsing gdb output, the requested action can not be performed in the current
-debug state etc.</td></tr>
+received, error parsing gdb output etc.</td></tr>
 </table>
 The bracketed letters are used to indicate the states supported by a command. For example,
-[RH] means "available in Ready and Hang states only". Debug and Assem are states are almost
-identical in this aspect and share [D].</li>
+[RH] means "available in Ready and Hang states only". Debug and Assem are almost identical in
+this aspect and share [D].</li>
 </ul>
 
 <h3><a name="debug_menu">Debug menu</a></h3>
@@ -187,30 +188,30 @@ and create them later.</p>
 
 <p><em>Arguments</em> are in gdb syntax.</p>
 
-<p><em>Environment</em> is one var=value per line.</p>
+<p><em>Environment</em> is one varname=value per line.</p>
 
-<p><em>Load script</em> is a gdb script file to be executed when gdb is loaded, before
-running the program (see <a href="#run_continue">Run/Continue</a>). If this script contains a
-gdb run command, it should contain at least one breakpoint command as well, because all Scope
-breakpoints are applied after the program is loaded - and it may be loaded by the script.</p>
+<p><em>Load script</em> is a gdb script, executed when gdb is loaded. May be used to setup the
+program. If no <em>Executable</em> is specified, Scope will assume that the script, if any,
+loads the program.</p>
 
 <p><em><a name="auto_run_exit">Auto run program/exit gdb</a></em> - with this box unchecked,
 the first <a href="#run_continue">Run/Continue</a> will load and setup the program without
-running it; and when the program terminates, gdb will not be unloaded. This is useful if you
-want to run a program several times without reloading, for example to run it unmodified with
-different sets of input data.</p>
+running it, and when the program terminates, gdb will not be unloaded. Useful if you want to
+run a program several times without reloading, for example to run it unmodified with different
+sets of input data.</p>
 
 <p><em>Non-stop mode</em> - gdb non-stop mode. You'd better activate gdb asynchronous mode
 from Scope preferences to take advantage of this.</p>
 
-<p><em>Temporary breakpoint at</em> - set a temporary breakpoint after the program is loaded.
-If you leave the text field empty, Scope will try to detect the 1st line of code and place a
-breakpoint on it. Any breakpoint options and location are allowed, for example <em>main</em>
-for C/C++ programs. Since setting a breakpoint requires a program, temporary breakpoint will
-be disabled if both <em>Executable</em> and <em>Load script</em> are empty.</p>
+<p><em>Temporary breakpoint on load at</em> - set a temporary breakpoint when the program is
+loaded. If you leave the text field empty, Scope will try to detect the 1st line of code and
+place a breakpoint on it. Any breakpoint options and location are allowed in the text, for
+example <em>main</em> for C/C++ programs. Since setting a breakpoint requires a program, the
+temporary breakpoint on load will be disabled if both <em>Executable</em> and <em>Load
+script</em> are empty. </p>
 
 <p><em>Delete all breakpoints, watches and inspects</em> - usually when setting up a new
-program. Scope will ask you to confirm.</p>
+program. Scope will ask for confirmation.</p>
 
 <p><em>Update all views</em> - update all relevant debug subpages when the current thread
 stops, or a different thread is selected. By default, only the current subpage is updated.</p>
@@ -227,34 +228,30 @@ print&quot; commands also affect display.</p>
 
 <p>When you start Geany, or open/close a project, Scope will try to load the debugging
 settings for a program that matches the second <em>Execute</em> command, if any [N]. The
-command will not be expanded. Letter case will be ignored under win~1.</p>
+command will not be expanded. Letter case will be ignored under Windows.</p>
 
 <p><b><a name="run_continue">Run/Continue</a></b> [NHD]</p>
 
 <div>Not debugging state (first run):</div>
 <div class="tab">
-- Checks the <em>Program</em> and <em>Working dir</em>, if any - they must exist and be
-user-executable at this point<br>
-- Checks the <em>Load script</em>, if any - it must exist and be readable<br>
-- Loads gdb<br>
-- Setups the asynchronous and/or non-stop modes<br>
-- Loads the <em>Program</em>, if any<br>
-- Executes the <em>Load script</em>, if any<br>
-- If either a program was loaded, or a load script was executed without errors:<br>
+- Load and setup gdb<br>
+- Load the <em>Executable</em> and execute the <em>Load script</em>, if any<br>
+- If an executable and/or a load script was processed, and there were no errors so far:<br>
 	<div class="tab1">
-	&bull; applies any breakpoints and inspects marked as <em>Apply on Run</em><br>
-	&bull; applies the temporary breakpoint, if any<br>
-	&bull; runs the program if, and only if:
-		<div class="tab2">
-		- <em>Auto run/exit</em> is checked<br>
-		- at least 1 breakpoint was applied<br>
-		- there were no errors in any of the previous steps.
-		</div>
+	&bull; apply any points and inspects marked as <em>Apply on Run</em> and create the
+	       <em>Temporary breakpoint on load</em><br>
+	&bull; run the program if <em>Auto run/exit</em> is checked, at least 1 breakpoint was
+	       applied, and there weren't any errors.
 	</div>
 </div>
 
-<p>Hang state: -exec-run. The temporary breakpoint, if any, will not be applied.<br>
-Debug/Assem: -exec-continue.</p>
+<p>On errors, Scope will enter Hang state, letting you execute commands manually, and fix or
+recreate any points or inspects if needed.</p>
+
+<p>Hang state: try to apply any unapplied points or inspects marked as <em>Apply on Run</em>,
+and -exec-run despite any errors.</p>
+
+<p>Debug/Assem: -exec-continue.</p>
 
 <p><b><a name="goto_cursor">Run to Cursor</a></b> [D]</p>
 
@@ -272,17 +269,19 @@ Assem state: -exec-step-instruction / -exec-next-instruction.</p>
 
 <p><b><a name="terminate">Terminate</a></b> [^N]</p>
 
-<p>Busy state: kill gdb, even if <a href="#auto_run_exit">Auto Run/exit is unchecked</a>. If
-you want to kill the program only, switch to <em>Threads</em> and use <em>Terminate</em> or
-<em>Send Signal</em>.</p>
+<p>Busy state: terminate gdb, even if <em>Auto Run/exit</em> is unchecked.<br>
+If you want to terminate the program without unloading gdb, switch to <em>Threads</em> and
+invoke <em>Terminate</em> or <em>Send Signal</em>.</p>
 
-<p>Debug or Ready state with <em>Auto Run/Exit</em> off: gdb kill command.</p>
+<p>Debug or Ready state with <em>Auto Run/Exit</em> off: (gdb) kill.</p>
 
 <p>Otherwise: -gdb-exit.</p>
 
 <p><b><a name="gdb_command">GDB Command</a></b> [^N]</p>
 
 <p>Commands starting with 0&lt;digit&gt; are used internally by Scope and will be blocked.</p>
+
+<p>Both MI and CLI commands are supported.</p>
 
 <p>Scope tries to keep track of the current gdb thread, and to emit a -thread-select command
 on <em>Send</em>/<em>Busy</em> if the gdb thread does not match the one (if any) selected in
@@ -293,7 +292,7 @@ a gdb frame selection command or --frame for the non-zero frames.</p>
 
 <p><b><a name="reset markers">Reset Markers</a></b></p>
 
-<p>Synchronizes the breakpoint and execution point markers for the current file with the Scope
+<p>Synchronize the breakpoint and execution point markers for the current file with the Scope
 data. They can become out of sync if you <em>Save as</em> a file with markers, set a source
 file type to non-source and edit it, and possibly in other situations.</p>
 
@@ -363,11 +362,22 @@ better to clear the other options.</td></tr>
 Breakpoint</em>, edit the <em>Ignore</em>, <em>Condition</em> and <em>Script</em> columns, or
 invoke <em>Add Break / Add Watch</em> [HRD], which brings up the command dialog.</p>
 
-<div>Only points created with MI commands are kept in the list permanently.<br>
-Due to MI limitations and deficiencies:</div>
+<p>Breakpoints created with MI commands are kept in the list permanently. When a temporary MI
+breakpoint is hit, it's Id column is cleared. <em>Toggle breakpoint</em>, <em>Add Break</em>
+and <em>Add Watch</em> use MI commands.</p>
+
+<p>Breakpoints created with CLI commands (from scripts or <em>GDB Command</em>) are removed
+when the program is unloaded. When a temporary CLI breakpoint is hit, it's removed. If a MI
+command produces none or invalid output, and the breapoint appears later (from Refresh or
+async message), Scope will consider it CLI.</p>
+
+<p>The above paragraphs apply to watchpoints and tracepoints as well.</p>
+
+<div>Due to MI limitations and deficiencies:</div>
 <div class="tab">
-- The catchpoints are displayed incompletely<br>
-- Disposition "dis" is ignored, and "del" is saved for breakpoints and tracepoints only<br>
+- The catchpoints are displayed incompletely and removed on program unload<br>
+- Disposition "dis" is ignored, and "del" (i.e. temporary) is saved for break and trace points
+only<br>
 - The difference between software and hardware watchpoints is ignored, but gdb will create
 hardware watchpoints as needed.</div>
 
@@ -396,8 +406,8 @@ mode.</p>
 <p>For multi-address breakpoints, the individual locations are not loaded or saved, and are
 deleted as soon as the program is unloaded, so you may prefer to turn <em>Auto run/exit</em>
 off when using them. When a breakpoint is disabled, GDB treats all it's locations as disabled,
-despite their individual state. However, with at least enabled location for a file:line, the
-marker for enabled breakpoint will be used for that line.</p>
+despite their individual state. However, with at least one enabled location for a file:line,
+the marker for enabled breakpoint will be used for that line.</p>
 
 <p><b><a name="stack">Stack</a></b></p>
 
@@ -584,7 +594,7 @@ padding. If <em>save_pos</em> is active, they will be saved with the padding.</p
 
 <h3><a name="notes">Notes</a></h3>
 
-<p>Debug Console ignores VTE foreground color, except for the cursor.</p>
+<p>Changes in Geany VTE preferences will be applied when Scope is restarted.</p>
 
 <p>Locale/UTF-8 conversion is fully supported for values only. Filenames not matching your
 locale and non-ascii identifiers are not guaranteed to work.</p>
@@ -748,7 +758,7 @@ later version.</p>
 
 <b><a name="copyright">Copyright</a></b>
 
-<p>Scope 0.93, Copyright (C) 2013 Dimitar Toshkov Zhekov</p>
+<p>Scope 0.93.1, Copyright (C) 2013 Dimitar Toshkov Zhekov</p>
 
 <p>The menu and toolbar icons are from <a href="http://netbeans.org">Netbeans</a>, except for
 BreakPoint.</p>

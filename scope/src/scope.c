@@ -214,8 +214,6 @@ static GtkStatusbar *geany_statusbar;
 static GtkWidget *debug_statusbar;
 static GtkLabel *debug_state_label;
 
-static DebugState last_statusbar_state;
- 
 void statusbar_update_state(DebugState state)
 {
 	static DebugState last_state = DS_INACTIVE;
@@ -326,7 +324,7 @@ static gboolean settings_saved(gpointer gdata)
 			SCI_GETREADONLY, 0, 0);
 	}
 
-	if (GPOINTER_TO_INT(gdata))
+	if (gdata)
 	{
 		conterm_load_config();
 		conterm_apply_config();
@@ -550,6 +548,7 @@ void plugin_init(G_GNUC_UNUSED GeanyData *gdata)
 	if (!gtk_builder_add_from_file(builder, gladefile, &gerror))
 	{
 		msgwin_status_add(_("Scope: %s."), gerror->message);
+		g_warning(_("Scope: %s."), gerror->message);
 		g_error_free(gerror);
 		g_object_unref(builder);
 		builder = NULL;

@@ -630,7 +630,11 @@ void on_debug_run_continue(G_GNUC_UNUSED const MenuItem *menu_item)
 	else if (thread_count)
 		debug_send_thread("-exec-continue");
 	else
+	{
+		breaks_apply();
+		inspects_apply();
 		debug_send_command(N, "-exec-run");
+	}
 }
 
 void on_debug_goto_cursor(G_GNUC_UNUSED const MenuItem *menu_item)

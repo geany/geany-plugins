@@ -57,7 +57,7 @@ static void watch_iter_update(GtkTreeIter *iter, gpointer gdata)
 	scp_tree_store_get(store, iter, WATCH_EXPR, &expr, WATCH_SCID, &scid, WATCH_ENABLED,
 		&enabled, -1);
 
-	if (enabled || GPOINTER_TO_INT(gdata))
+	if (enabled || gdata)
 		g_free(debug_send_evaluate('6', scid, expr));
 }
 
@@ -147,7 +147,7 @@ gboolean watches_update(void)
 	if (view_frame_update())
 		return FALSE;
 
-	store_foreach(store, (GFunc) watch_iter_update, GPOINTER_TO_INT(FALSE));
+	store_foreach(store, (GFunc) watch_iter_update, NULL);
 	return TRUE;
 }
 

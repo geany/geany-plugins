@@ -569,13 +569,13 @@ gboolean inspects_update(void)
 
 static void inspect_iter_apply(GtkTreeIter *iter, G_GNUC_UNUSED gpointer gdata)
 {
-	const char *frame;
+	const char *var1, *frame;
 	gboolean run_apply;
 
-	scp_tree_store_get(store, iter, INSPECT_FRAME, &frame, INSPECT_RUN_APPLY, &run_apply,
-		-1);
+	scp_tree_store_get(store, iter, INSPECT_VAR1, &var1, INSPECT_FRAME, &frame,
+		INSPECT_RUN_APPLY, &run_apply, -1);
 
-	if (run_apply && !isdigit(*frame))
+	if (run_apply && !var1 && !isdigit(*frame))
 		inspect_apply(iter);
 }
 

@@ -74,11 +74,12 @@ static gint break_location_compare(ScpTreeStore *store, GtkTreeIter *a, GtkTreeI
 }
 
 static const char
-	*const BP_CHARS   = "bhtfwwwaarrc?",
+	*const BP_TYPES   = "bhtfwwwaarrc?",
 	*const BP_BREAKS  = "bh",
 	*const BP_TRACES  = "tf",
 	*const BP_HARDWS  = "hf",
 	*const BP_BORTS   = "bhtf",
+	*const BP_WHATS   = "warc",
 	*const BP_KNOWNS  = "btfwar",
 	*const BP_WATCHES = "war",
 	*const BP_WATOPTS = "ar";
@@ -87,38 +88,79 @@ typedef struct _BreakType
 {
 	const char *text;
 	const char *type;
+	const gchar *desc;
 } BreakType;
 
 static const BreakType break_types[] =
 {
-	{ "breakpoint",      "break" },
-	{ "hw breakpoint",   "hbreak" },
-	{ "tracepoint",      "trace" },
-	{ "fast tracepoint", "ftrace" },
-	{ "wpt",             "watch" },
-	{ "watchpoint",      "watch" },
-	{ "hw watchpoint",   "watch" },
-	{ "hw-awpt",         "access" },
-	{ "acc watchpoint",  "access" },
-	{ "hw-rwpt",         "read" },
-	{ "read watchpoint", "read" },
-	{ "catchpoint",      "catch" },
-	{ NULL,              "??" }
+	{ "breakpoint",      "break",  N_("breakpoint") },
+	{ "hw breakpoint",   "hbreak", N_("hardware breakpoint")},
+	{ "tracepoint",      "trace",  N_("tracepoint") },
+	{ "fast tracepoint", "ftrace", N_("fast tracepoint") },
+	{ "wpt",             "watch",  N_("write watchpoint") },
+	{ "watchpoint",      "watch",  NULL },
+	{ "hw watchpoint",   "watch",  NULL },
+	{ "hw-awpt",         "access", N_("access watchpoint") },
+	{ "acc watchpoint",  "access", NULL },
+	{ "hw-rwpt",         "read",   N_("read watchpoint") },
+	{ "read watchpoint", "read",   NULL },
+	{ "catchpoint",      "catch",  N_("catchpoint") },
+	{ NULL,              "??",     NULL }
+};
+
+typedef enum _BreakStage
+{
+	BG_PERSIST,
+	BG_DISCARD,
+	BG_UNKNOWN,
+	BG_PARTLOC,
+	BG_APPLY,
+	BG_FOLLOW,
+	BG_ONLOAD,
+	BG_RUNTO,
+	BG_COUNT
+} BreakStage;
+
+typedef struct _BreakInfo
+{
+	char info;
+	const char *text;
+} BreakInfo;
+
+static const BreakInfo break_infos[BG_COUNT] =
+{
+	{ '\0', NULL },
+	{ 'c',  N_("CLI") },
+	{ 'u',  N_("unsupported MI") },
+	{ '\0', NULL },
+	{ '\0', NULL },
+	{ 'c',  N_("CLI") },
+	{ 'l',  N_("on load") },
+	{ 'r',  N_("Run to Cursor") }
 };
 
 static void break_type_set_data_func(G_GNUC_UNUSED GtkTreeViewColumn *column,
 	GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,
 	G_GNUC_UNUSED gpointer gdata)
 {
-	char type;
+	char type, info;
+	gint discard;
 	gboolean temporary;
 	GString *string = g_string_sized_new(0x0F);
 
-	gtk_tree_model_get(model, iter, BREAK_TYPE, &type, BREAK_TEMPORARY, &temporary, -1);
-	g_string_append(string, break_types[strchr(BP_CHARS, type) - BP_CHARS].type);
+	gtk_tree_model_get(model, iter, BREAK_TYPE, &type, BREAK_TEMPORARY, &temporary,
+		BREAK_DISCARD, &discard, -1);
+	g_string_append(string, break_types[strchr(BP_TYPES, type) - BP_TYPES].type);
+	info = break_infos[discard].info;
 
-	if (temporary)
-		g_string_append(string, ",t");
+	if (info || temporary)
+	{
+		g_string_append_c(string, ',');
+		if (info)
+			g_string_append_c(string, info);
+		if (temporary)
+			g_string_append_c(string, 't');
+	}
 
 	g_object_set(cell, "text", string->str, NULL);
 	g_string_free(string, TRUE);
@@ -249,15 +291,6 @@ static void append_script_command(const ParseNode *node, GString *string)
 	}
 }
 
-typedef enum _BreakStage
-{
-	BG_PERSIST,
-	BG_DISCARD,
-	BG_APPLY,
-	BG_GOTO,
-	BG_NEXT
-} BreakStage;
-
 typedef struct _BreakData
 {
 	GtkTreeIter iter;
@@ -333,9 +366,9 @@ static void break_node_parse(const ParseNode *node, BreakData *bd)
 			if (!strcmp(text_type, bt->text))
 				break;
 
-		type = BP_CHARS[bt - break_types];
+		type = BP_TYPES[bt - break_types];
 
-		if (leading || bd->stage != BG_NEXT || type != '?')
+		if (leading || bd->stage != BG_FOLLOW || type != '?')
 			bd->type = type;
 		else
 			type = bd->type;
@@ -358,7 +391,6 @@ static void break_node_parse(const ParseNode *node, BreakData *bd)
 				const char *location = parse_find_locale(nodes, "original-location");
 				char *original = g_strdup(location);
 				gchar *display;
-				gboolean persist = leading && bd->stage == BG_PERSIST;
 				gboolean pending = parse_find_locale(nodes, "pending") != NULL;
 
 				if (original)
@@ -377,7 +409,7 @@ static void break_node_parse(const ParseNode *node, BreakData *bd)
 							loc.line = atoi(split);
 					}
 				}
-				else if (strchr(BP_WATCHES, type))
+				else if (strchr(BP_WHATS, type))
 				{
 					if ((location = parse_find_locale(nodes, "exp")) == NULL)
 						location = parse_find_locale(nodes, "what");
@@ -385,7 +417,9 @@ static void break_node_parse(const ParseNode *node, BreakData *bd)
 
 				if (!location || !strchr(BP_KNOWNS, type))
 				{
-					persist = FALSE;  /* can't create apply command */
+					if (bd->stage == BG_PERSIST)
+						bd->stage = BG_UNKNOWN;  /* can't create apply command */
+
 					if (!location)
 						location = loc.func;
 				}
@@ -405,9 +439,9 @@ static void break_node_parse(const ParseNode *node, BreakData *bd)
 				scp_tree_store_set(store, iter, BREAK_SCID, ++scid_gen, BREAK_TYPE,
 					type, BREAK_DISPLAY, display, BREAK_PENDING, pending,
 					BREAK_LOCATION, location, BREAK_RUN_APPLY, leading && borts,
-					BREAK_DISCARD, !persist, -1);
+					BREAK_DISCARD, leading ? bd->stage : BG_PARTLOC, -1);
 
-				if (persist)
+				if (leading && bd->stage == BG_PERSIST)
 					utils_tree_set_cursor(selection, iter, 0.5);
 
 				g_free(original);
@@ -455,10 +489,10 @@ static void break_node_parse(const ParseNode *node, BreakData *bd)
 
 		if (bd->stage == BG_APPLY)
 			break_iter_applied(iter, id);
-		else if (bd->stage == BG_GOTO)
+		else if (bd->stage == BG_RUNTO)
 			debug_send_thread("-exec-continue");
 
-		bd->stage = BG_NEXT;
+		bd->stage = BG_FOLLOW;
 	}
 }
 
@@ -472,7 +506,7 @@ void on_break_inserted(GArray *nodes)
 	if (token)
 	{
 		if (*token == '0')
-			bd.stage = BG_GOTO;
+			bd.stage = BG_RUNTO;
 		else if (*token)
 		{
 			iff (store_find(store, &bd.iter, BREAK_SCID, token), "%s: b_scid not found",
@@ -482,7 +516,7 @@ void on_break_inserted(GArray *nodes)
 			}
 		}
 		else
-			bd.stage = BG_DISCARD;
+			bd.stage = BG_ONLOAD;
 	}
 
 	parse_foreach(nodes, (GFunc) break_node_parse, &bd);
@@ -570,7 +604,7 @@ static gboolean break_remove_all(const char *pref, gboolean force)
 	while (valid)
 	{
 		const char *id;
-		gboolean discard;
+		gint discard;
 
 		scp_tree_store_get(store, &iter, BREAK_ID, &id, BREAK_DISCARD, &discard, -1);
 
@@ -578,7 +612,7 @@ static gboolean break_remove_all(const char *pref, gboolean force)
 		{
 			found = TRUE;
 
-			if (discard || force)
+			if (discard % BG_ONLOAD || force)
 			{
 				valid = break_remove(&iter);
 				continue;
@@ -638,14 +672,15 @@ static void breaks_missing(void)
 	while (valid)
 	{
 		const char *id;
-		gboolean discard, missing;
+		gint discard;
+		gboolean missing;
 
 		scp_tree_store_get(store, &iter, BREAK_ID, &id, BREAK_DISCARD, &discard,
 			BREAK_MISSING, &missing, -1);
 
 		if (id && missing)
 		{
-			if (discard)
+			if (discard % BG_ONLOAD)
 			{
 				valid = break_remove(&iter);
 				continue;
@@ -760,7 +795,7 @@ void breaks_clear(void)
 
 	while (valid)
 	{
-		gboolean discard;
+		gint discard;
 
 		scp_tree_store_get(store, &iter, BREAK_DISCARD, &discard, -1);
 
@@ -786,11 +821,12 @@ void breaks_reset(void)
 
 static void break_iter_apply(GtkTreeIter *iter, G_GNUC_UNUSED gpointer gdata)
 {
+	const char *id;
 	gboolean run_apply;
 
-	scp_tree_store_get(store, iter, BREAK_RUN_APPLY, &run_apply, -1);
+	scp_tree_store_get(store, iter, BREAK_ID, &id, BREAK_RUN_APPLY, &run_apply, -1);
 
-	if (run_apply)
+	if (run_apply && !id)
 		break_apply(iter, FALSE);
 }
 
@@ -1014,7 +1050,7 @@ void breaks_load(GKeyFile *config)
 
 static gboolean break_save(GKeyFile *config, const char *section, GtkTreeIter *iter)
 {
-	gboolean discard;
+	gint discard;
 
 	scp_tree_store_get(store, iter, BREAK_DISCARD, &discard, -1);
 
@@ -1090,41 +1126,91 @@ static void on_break_selection_changed(GtkTreeSelection *selection,
 }
 
 static GtkTreeView *tree;
+static GtkTreeViewColumn *break_type_column;
+static GtkTreeViewColumn *break_display_column;
 
 static gboolean on_break_query_tooltip(G_GNUC_UNUSED GtkWidget *widget, gint x, gint y,
-	gboolean keyboard_tip, GtkTooltip *tooltip, GtkTreeViewColumn *break_display_column)
+	gboolean keyboard_tip, GtkTooltip *tooltip, G_GNUC_UNUSED gpointer gdata)
 {
+	GtkTreePath *path;
 	GtkTreeIter iter;
 	gboolean has_tip = FALSE;
 
-	if (gtk_tree_view_get_tooltip_context(tree, &x, &y, keyboard_tip, NULL, NULL, &iter))
+	if (gtk_tree_view_get_tooltip_context(tree, &x, &y, keyboard_tip, NULL, &path, &iter))
 	{
-		const char *file, *func;
-		gint line;
 		GString *text = g_string_sized_new(0xFF);
+		GtkTreeViewColumn *tip_column = NULL;
 
-		gtk_tree_view_set_tooltip_cell(tree, tooltip, NULL, break_display_column, NULL);
-		scp_tree_store_get(store, &iter, BREAK_FILE, &file, BREAK_LINE, &line, BREAK_FUNC,
-			&func, -1);
-
-		if (file)
+		if (keyboard_tip)
+			gtk_tree_view_get_cursor(tree, NULL, &tip_column);
+		else
 		{
-			g_string_append(text, file);
-			if (line)
-				g_string_append_printf(text, ":%d", line);
-			has_tip = TRUE;
+			GdkRectangle rect;
+			GdkRegion *region;
+
+			gtk_tree_view_get_background_area(tree, path, break_type_column, &rect);
+			region = gdk_region_rectangle(&rect);
+			tip_column = gdk_region_point_in(region, x, y) ? break_type_column : NULL;
+			gdk_region_destroy(region);
+
+			if (!tip_column)
+			{
+				gtk_tree_view_get_background_area(tree, path, break_display_column,
+					&rect);
+				region = gdk_region_rectangle(&rect);
+				if (gdk_region_point_in(region, x, y))
+					tip_column = break_display_column;
+				gdk_region_destroy(region);
+			}
 		}
 
-		if (func)
+		if (tip_column == break_type_column)
 		{
-			if (has_tip)
-				g_string_append(text, ", ");
-			g_string_append_printf(text, "%s()", func);
+			char type;
+			gint discard;
+			gboolean temporary;
+
+			gtk_tree_view_set_tooltip_cell(tree, tooltip, NULL, tip_column, NULL);
+			scp_tree_store_get(store, &iter, BREAK_TYPE, &type, BREAK_TEMPORARY,
+				&temporary, BREAK_DISCARD, &discard, -1);
+			g_string_append(text, break_types[strchr(BP_TYPES, type) - BP_TYPES].desc);
 			has_tip = TRUE;
+
+			if (break_infos[discard].text)
+				g_string_append_printf(text, _(", %s"), break_infos[discard].text);
+
+			if (temporary)
+				g_string_append(text, ", temporary");
+		}
+		else if (tip_column == break_display_column)
+		{
+			const char *file, *func;
+			gint line;
+
+			gtk_tree_view_set_tooltip_cell(tree, tooltip, NULL, tip_column, NULL);
+			scp_tree_store_get(store, &iter, BREAK_FILE, &file, BREAK_LINE, &line,
+				BREAK_FUNC, &func, -1);
+
+			if (file)
+			{
+				g_string_append(text, file);
+				if (line)
+					g_string_append_printf(text, ":%d", line);
+				has_tip = TRUE;
+			}
+
+			if (func)
+			{
+				if (has_tip)
+					g_string_append(text, ", ");
+				g_string_append_printf(text, _("func %s"), func);
+				has_tip = TRUE;
+			}
 		}
 
 		gtk_tooltip_set_text(tooltip, text->str);
 		g_string_free(text, TRUE);
+		gtk_tree_path_free(path);
 	}
 
 	return has_tip;
@@ -1288,8 +1374,10 @@ void break_init(void)
 	GtkWidget *menu;
 	guint i;
 
+	break_type_column = get_column("break_type_column");
+	break_display_column = get_column("break_display_column");
 	tree = view_connect("break_view", &store, &selection, break_cells, "break_window", NULL);
-	gtk_tree_view_column_set_cell_data_func(get_column("break_type_column"),
+	gtk_tree_view_column_set_cell_data_func(break_type_column,
 		GTK_CELL_RENDERER(get_object("break_type")), break_type_set_data_func, NULL, NULL);
 	g_signal_connect(get_object("break_ignore"), "editing-started",
 		G_CALLBACK(on_break_ignore_editing_started), NULL);
@@ -1301,8 +1389,7 @@ void break_init(void)
 		block_cells[i] = get_object(break_cells[i + 1].name);
 	g_signal_connect(selection, "changed", G_CALLBACK(on_break_selection_changed), NULL);
 	gtk_widget_set_has_tooltip(GTK_WIDGET(tree), TRUE);
-	g_signal_connect(tree, "query-tooltip", G_CALLBACK(on_break_query_tooltip),
-		get_column("break_display_column"));
+	g_signal_connect(tree, "query-tooltip", G_CALLBACK(on_break_query_tooltip), NULL);
 
 	menu = menu_select("break_menu", &break_menu_info, selection);
 	g_signal_connect(tree, "key-press-event", G_CALLBACK(on_break_key_press), NULL);

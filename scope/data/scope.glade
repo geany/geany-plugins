@@ -1416,7 +1416,7 @@
       <!-- column-name break_store_temporary -->
       <column type="gboolean"/>
       <!-- column-name break_store_discard -->
-      <column type="gboolean"/>
+      <column type="gint"/>
       <!-- column-name break_store_missing -->
       <column type="gboolean"/>
     </columns>
@@ -2801,7 +2801,7 @@
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkCheckButton" id="program_temp_breakpoint">
-                            <property name="label" translatable="yes">_Temporary breakpoint at:</property>
+                            <property name="label" translatable="yes">_Temporary breakpoint on load at:</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>

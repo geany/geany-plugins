@@ -35,7 +35,7 @@ typedef struct _SortColumnId
 	gint sort_column_id;
 } SortColumnId;
 
-static SortColumnId sort_column_ids[] =
+static const SortColumnId sort_column_ids[] =
 {
 	{ "thread_id_column",        0 },
 	{ "thread_pid_column",       3 },
@@ -71,7 +71,7 @@ static SortColumnId sort_column_ids[] =
 
 void gtk216_init(void)
 {
-	SortColumnId *scd;
+	const SortColumnId *scd;
 
 	for (scd = sort_column_ids; scd->id; scd++)
 		gtk_tree_view_column_set_sort_column_id(get_column(scd->id), scd->sort_column_id);
