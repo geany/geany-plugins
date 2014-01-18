@@ -773,7 +773,7 @@ on_key_press(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 }
 
 static void
-on_sci_notify(GObject *obj, gint scn, SCNotification *nt, gpointer user_data)
+on_sci_notify(ScintillaObject *sci, gint scn, SCNotification *nt, gpointer user_data)
 {
 	AutocloseUserData *data = user_data;
 
@@ -781,7 +781,6 @@ on_sci_notify(GObject *obj, gint scn, SCNotification *nt, gpointer user_data)
 		return;
 	g_return_if_fail(data);
 
-	ScintillaObject *sci = SCINTILLA(obj);
 	/* reset jump_on_tab state when user clicked away */
 	gboolean updated_sel  = nt->updated & SC_UPDATE_SELECTION;
 	gboolean updated_text = nt->updated & SC_UPDATE_CONTENT;
