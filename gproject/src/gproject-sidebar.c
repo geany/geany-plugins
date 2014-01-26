@@ -346,7 +346,7 @@ static void on_open_clicked(void)
 		else
 		{
 			gchar *name;
-			gchar *icon;
+			GIcon *icon;
 
 			gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_ICON, &icon, -1);
 
@@ -359,6 +359,7 @@ static void on_open_clicked(void)
 			name = build_path(&iter);
 			open_file(name);
 			g_free(name);
+			g_object_unref(icon);
 		}
 	}
 }
@@ -457,6 +458,7 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 		GtkTreeIter iter;
 		gchar **path_arr = dir_list->data;
 		gchar *last_dir_name;
+		GIcon *icon_dir = g_icon_new_for_string("gtk-directory", NULL);
 
 		last_dir_name = path_arr[level];
 
@@ -471,7 +473,7 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 			{
 				gtk_tree_store_append(s_file_store, &iter, parent);
 				gtk_tree_store_set(s_file_store, &iter,
-					FILEVIEW_COLUMN_ICON, "gtk-directory",
+					FILEVIEW_COLUMN_ICON, icon_dir,
 					FILEVIEW_COLUMN_NAME, last_dir_name, -1);
 
 				create_branch(level+1, tmp_list, &iter, header_patterns, source_patterns);
@@ -486,39 +488,60 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 
 		gtk_tree_store_append(s_file_store, &iter, parent);
 		gtk_tree_store_set(s_file_store, &iter,
-			FILEVIEW_COLUMN_ICON, "gtk-directory",
+			FILEVIEW_COLUMN_ICON, icon_dir,
 			FILEVIEW_COLUMN_NAME, last_dir_name, -1);
 
 		create_branch(level+1, tmp_list, &iter, header_patterns, source_patterns);
 
 		g_slist_free(tmp_list);
 		g_slist_free(dir_list);
+		g_object_unref(icon_dir);
 	}
 
 	for (elem = file_list; elem != NULL; elem = g_slist_next(elem))
 	{
 		GtkTreeIter iter;
 		gchar **path_arr = elem->data;
+		GIcon *icon;
+		gchar *content_type = g_content_type_guess(path_arr[level], NULL, 0, NULL);
+
+		if (content_type)
+		{
+			icon = g_content_type_get_icon(content_type);
+			g_free(content_type);
+		}
 
 		gtk_tree_store_append(s_file_store, &iter, parent);
 		if (patterns_match(header_patterns, path_arr[level]))
 		{
+			if (! icon)
+				icon = g_icon_new_for_string("gproject-header", NULL);
+
 			gtk_tree_store_set(s_file_store, &iter,
-				FILEVIEW_COLUMN_ICON, "gproject-header",
+				FILEVIEW_COLUMN_ICON, icon,
 				FILEVIEW_COLUMN_NAME, path_arr[level], -1);
 		}
 		else if (patterns_match(source_patterns, path_arr[level]))
 		{
+			if (! icon)
+				icon = g_icon_new_for_string("gproject-source", NULL);
+
 			gtk_tree_store_set(s_file_store, &iter,
-				FILEVIEW_COLUMN_ICON, "gproject-source",
+				FILEVIEW_COLUMN_ICON, icon,
 				FILEVIEW_COLUMN_NAME, path_arr[level], -1);
 		}
 		else
 		{
+			if (! icon)
+				icon = g_icon_new_for_string("gproject-file", NULL);
+
 			gtk_tree_store_set(s_file_store, &iter,
-				FILEVIEW_COLUMN_ICON, "gproject-file",
+				FILEVIEW_COLUMN_ICON, icon,
 				FILEVIEW_COLUMN_NAME, path_arr[level], -1);
 		}
+
+		if (icon)
+			g_object_unref(icon);
 	}
 
 	g_slist_free(file_list);
@@ -735,13 +758,13 @@ void gprj_sidebar_init(void)
 
 	s_file_view = gtk_tree_view_new();
 
-	s_file_store = gtk_tree_store_new(FILEVIEW_N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING);
+	s_file_store = gtk_tree_store_new(FILEVIEW_N_COLUMNS, G_TYPE_ICON, G_TYPE_STRING);
 	gtk_tree_view_set_model(GTK_TREE_VIEW(s_file_view), GTK_TREE_MODEL(s_file_store));
 
 	renderer = gtk_cell_renderer_pixbuf_new();
 	column = gtk_tree_view_column_new();
 	gtk_tree_view_column_pack_start(column, renderer, FALSE);
-	gtk_tree_view_column_set_attributes(column, renderer, "icon-name", FILEVIEW_COLUMN_ICON, NULL);
+	gtk_tree_view_column_set_attributes(column, renderer, "gicon", FILEVIEW_COLUMN_ICON, NULL);
 
 	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_column_pack_start(column, renderer, TRUE);
