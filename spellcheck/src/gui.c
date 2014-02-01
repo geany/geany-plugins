@@ -412,21 +412,26 @@ static void indicator_clear_on_line(GeanyDocument *doc, gint line_number)
 static gboolean check_lines(gpointer data)
 {
 	GeanyDocument *doc = check_line_data.doc;
-	gchar *line;
-	gint line_number = check_line_data.line_number;
-	gint line_count = check_line_data.line_count;
-	gint i;
 
-	for (i = 0; i < line_count; i++)
+	/* since we're in an timeout callback, the document may have been closed */
+	if (DOC_VALID (doc))
 	{
-		line = sci_get_line(doc->editor->sci, line_number);
-		indicator_clear_on_line(doc, line_number);
-		if (sc_speller_process_line(doc, line_number, line) != 0)
+		gchar *line;
+		gint line_number = check_line_data.line_number;
+		gint line_count = check_line_data.line_count;
+		gint i;
+
+		for (i = 0; i < line_count; i++)
 		{
-			if (sc_info->use_msgwin)
-				msgwin_switch_tab(MSG_MESSAGE, FALSE);
+			line = sci_get_line(doc->editor->sci, line_number);
+			indicator_clear_on_line(doc, line_number);
+			if (sc_speller_process_line(doc, line_number, line) != 0)
+			{
+				if (sc_info->use_msgwin)
+					msgwin_switch_tab(MSG_MESSAGE, FALSE);
+			}
+			g_free(line);
 		}
-		g_free(line);
 	}
 	check_line_data.check_while_typing_idle_source_id = 0;
 	return FALSE;
