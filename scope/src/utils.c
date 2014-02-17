@@ -260,7 +260,8 @@ void utils_seek(const char *file, gint line, gboolean focus, SeekerType seeker)
 			if (seeker == SK_EXEC_MARK)
 				sci_set_marker_at_line(sci, line - 1, MARKER_EXECUTE);
 		}
-		else if ((doc = document_open_file(file, FALSE, NULL, NULL)) != NULL)
+		else if (g_file_test(file, G_FILE_TEST_EXISTS) &&
+			(doc = document_open_file(file, FALSE, NULL, NULL)) != NULL)
 		{
 			sci = doc->editor->sci;
 			if (seeker == SK_EXECUTE || seeker == SK_EXEC_MARK)
