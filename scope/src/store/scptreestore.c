@@ -1278,7 +1278,7 @@ static void scp_sort_children(ScpTreeStore *store, GtkTreeIter *parent)
 {
 	GPtrArray *array = (parent ? ITER_ELEM(parent) : store->priv->root)->children;
 
-	if (array)
+	if (array && array->len)
 	{
 		gint *new_order = g_new(gint, array->len);
 		ScpSortData sort_data = { store, array };
