@@ -1407,6 +1407,8 @@
       <column type="gchararray" utf8_collate="false"/>
       <!-- column-name break_store_script -->
       <column type="gchararray" utf8_collate="false"/>
+      <!-- column-name break_store_ignnow -->
+      <column type="gchararray" utf8_collate="false"/>
       <!-- column-name break_store_pending -->
       <column type="gboolean"/>
       <!-- column-name break_store_location -->

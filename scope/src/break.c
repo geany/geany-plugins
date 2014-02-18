@@ -39,6 +39,7 @@ enum
 	BREAK_IGNORE,
 	BREAK_COND,
 	BREAK_SCRIPT,
+	BREAK_IGNNOW,
 	BREAK_PENDING,
 	BREAK_LOCATION,
 	BREAK_RUN_APPLY,
@@ -114,8 +115,9 @@ typedef enum _BreakStage
 	BG_DISCARD,
 	BG_UNKNOWN,
 	BG_PARTLOC,
-	BG_APPLY,
+	BG_APPLIED,
 	BG_FOLLOW,
+	BG_IGNORE,
 	BG_ONLOAD,
 	BG_RUNTO,
 	BG_COUNT
@@ -135,6 +137,7 @@ static const BreakInfo break_infos[BG_COUNT] =
 	{ '\0', NULL },
 	{ '\0', NULL },
 	{ 'c',  N_("CLI") },
+	{ '\0', NULL },
 	{ 'l',  N_("on load") },
 	{ 'r',  N_("Run to Cursor") }
 };
@@ -164,6 +167,24 @@ static void break_type_set_data_func(G_GNUC_UNUSED GtkTreeViewColumn *column,
 
 	g_object_set(cell, "text", string->str, NULL);
 	g_string_free(string, TRUE);
+}
+
+static void break_ignore_set_data_func(G_GNUC_UNUSED GtkTreeViewColumn *column,
+	GtkCellRenderer *cell, GtkTreeModel *model, GtkTreeIter *iter,
+	G_GNUC_UNUSED gpointer gdata)
+{
+	const gchar *ignore, *ignnow;
+
+	gtk_tree_model_get(model, iter, BREAK_IGNORE, &ignore, BREAK_IGNNOW, &ignnow, -1);
+
+	if (ignnow)
+	{
+		char *text = g_strdup_printf("%s [%s]", ignnow, ignore);
+		g_object_set(cell, "text", text, NULL);
+		g_free(text);
+	}
+	else
+		g_object_set(cell, "text", ignore, NULL);
 }
 
 static ScpTreeStore *store;
@@ -239,24 +260,42 @@ static void on_break_column_edited(G_GNUC_UNUSED GtkCellRendererText *renderer,
 	{
 		char *locale = utils_get_locale_from_display(new_text, HB_DEFAULT);
 
-		debug_send_format(F, "022%s-break-%s %s %s", id, break_command(index, type), id,
-			locale ? locale : index ? "" : "0");
+		if (index)
+		{
+			debug_send_format(F, "023%s-break-%s %s %s", id, break_command(index, type),
+				id, locale ? locale : "");
+		}
+		else
+		{
+			debug_send_format(N, "022%s-break-%s %s %s", id, break_command(0, type), id,
+				locale ? locale : "0");
+		}
 		g_free(locale);
 	}
 	else if (!id)
-		scp_tree_store_set(store, &iter, index + BREAK_IGNORE, set_text, -1);
+	{
+		scp_tree_store_set(store, &iter, index + BREAK_IGNORE, set_text,
+			index ? -1 : BREAK_IGNNOW, NULL, -1);
+	}
 	else
 		plugin_beep();
 }
 
 static void on_break_ignore_editing_started(G_GNUC_UNUSED GtkCellRenderer *cell,
-	GtkCellEditable *editable, G_GNUC_UNUSED const gchar *path, G_GNUC_UNUSED gpointer gdata)
+	GtkCellEditable *editable, const gchar *path_str, G_GNUC_UNUSED gpointer gdata)
 {
+	GtkTreeIter iter;
+	const gchar *ignore;
+
 	if (GTK_IS_EDITABLE(editable))
 		validator_attach(GTK_EDITABLE(editable), VALIDATOR_NUMERIC);
 
 	if (GTK_IS_ENTRY(editable))
 		gtk_entry_set_max_length(GTK_ENTRY(editable), 10);
+
+	scp_tree_store_get_iter_from_string(store, &iter, path_str);
+	scp_tree_store_get(store, &iter, BREAK_IGNORE, &ignore, -1);
+	g_signal_connect(editable, "map", G_CALLBACK(on_view_editable_map), g_strdup(ignore));
 }
 
 static const TreeCell break_cells[] =
@@ -376,10 +415,13 @@ static void break_node_parse(const ParseNode *node, BreakData *bd)
 		borts = strchr(BP_BORTS, type) != NULL;
 		parse_location(nodes, &loc);
 
-		if (bd->stage != BG_APPLY)
+		if (bd->stage != BG_APPLIED)
 		{
 			const ParseNode *script = parse_find_node(nodes, "script");
 			GtkTreeIter iter1;
+			gchar *cond = utils_get_display_from_7bit(parse_find_value(nodes, "cond"),
+				HB_DEFAULT);
+			gchar *commands;
 
 			if (store_find(store, &iter1, BREAK_ID, id))
 			{
@@ -452,7 +494,7 @@ static void break_node_parse(const ParseNode *node, BreakData *bd)
 
 			if (script)
 			{
-				GString *string = g_string_sized_new(0x3F);
+				GString *string = g_string_sized_new(0x7F);
 
 				if (script->type == PT_VALUE)
 					append_script_command(script, string);
@@ -462,23 +504,29 @@ static void break_node_parse(const ParseNode *node, BreakData *bd)
 						(GFunc) append_script_command, string);
 				}
 
-				scp_tree_store_set(store, iter, BREAK_SCRIPT, string->str, -1);
-				g_string_free(string, TRUE);
+				commands = g_string_free(string, FALSE);
 			}
 			else
-				scp_tree_store_set(store, iter, BREAK_SCRIPT, NULL, -1);
-		}
-
-		if (borts || bd->stage != BG_APPLY)
-		{
-			gchar *cond = utils_get_display_from_7bit(parse_find_value(nodes, "cond"),
-				HB_DEFAULT);
-			const char *ignore = parse_find_value(nodes, "ignore");
+				commands = NULL;
 
 			scp_tree_store_set(store, iter, BREAK_ENABLED, enabled, BREAK_COND, cond,
-				strchr(BP_BREAKS, type) || bd->stage != BG_APPLY ? BREAK_IGNORE : -1,
-				ignore ? ignore : parse_find_value(nodes, "pass"), -1);
+				BREAK_SCRIPT, commands, -1);
 			g_free(cond);
+			g_free(commands);
+		}
+
+		if (strchr(BP_BREAKS, type) || bd->stage != BG_APPLIED)
+		{
+			const char *ignnow = parse_find_value(nodes, "ignore");
+			const char *ignore;
+
+			if (!ignnow)
+				ignnow = parse_find_value(nodes, "pass");
+
+			scp_tree_store_get(store, iter, BREAK_IGNORE, &ignore, -1);
+			scp_tree_store_set(store, iter, BREAK_IGNNOW, ignnow,
+				!ignore || utils_atoi0(ignnow) > atoi(ignore) ||
+				bd->stage == BG_IGNORE ? BREAK_IGNORE : -1, ignnow, -1);
 		}
 
 		scp_tree_store_set(store, iter, BREAK_ID, id, BREAK_FILE, loc.file, BREAK_LINE,
@@ -487,7 +535,7 @@ static void break_node_parse(const ParseNode *node, BreakData *bd)
 
 		parse_location_free(&loc);
 
-		if (bd->stage == BG_APPLY)
+		if (bd->stage == BG_APPLIED)
 			break_iter_applied(iter, id);
 		else if (bd->stage == BG_RUNTO)
 			debug_send_thread("-exec-continue");
@@ -512,7 +560,7 @@ void on_break_inserted(GArray *nodes)
 			iff (store_find(store, &bd.iter, BREAK_SCID, token), "%s: b_scid not found",
 				token)
 			{
-				bd.stage = BG_APPLY;
+				bd.stage = BG_APPLIED;
 			}
 		}
 		else
@@ -527,7 +575,7 @@ static void break_apply(GtkTreeIter *iter, gboolean thread)
 	GString *command = g_string_sized_new(0x1FF);
 	gint scid;
 	char type;
-	const char *ignore, *location;
+	const char *ignore, *location, *s;
 	gboolean enabled, pending, temporary;
 	const gchar *cond;
 	gboolean borts;
@@ -574,7 +622,16 @@ static void break_apply(GtkTreeIter *iter, gboolean thread)
 	else if (strchr(BP_WATOPTS, type))
 		g_string_append_printf(command, " -%c", type);
 
-	g_string_append_printf(command, " %s", location);
+	for (s = location; *s; s++)
+	{
+		if (isspace(*s))
+		{
+			s = "\"";
+			break;
+		}
+	}
+
+	g_string_append_printf(command, " %s%s%s", s, location, s);
 	debug_send_command(F, command->str);
 	g_string_free(command, TRUE);
 }
@@ -584,7 +641,7 @@ static void break_clear(GtkTreeIter *iter)
 	char type;
 
 	scp_tree_store_get(store, iter, BREAK_TYPE, &type, -1);
-	scp_tree_store_set(store, iter, BREAK_ID, NULL, BREAK_ADDR, NULL,
+	scp_tree_store_set(store, iter, BREAK_ID, NULL, BREAK_ADDR, NULL, BREAK_IGNNOW, NULL,
 		strchr(BP_BORTS, type) ? -1 : BREAK_TEMPORARY, FALSE, -1);
 }
 
@@ -630,32 +687,36 @@ static gboolean break_remove_all(const char *pref, gboolean force)
 void on_break_done(GArray *nodes)
 {
 	const char *token = parse_grab_token(nodes);
-	GtkTreeIter iter;
+	const char oper = *token++;
+	const char *prefix = "";
 
-	switch (*token)
+	switch (oper)
 	{
 		case '0' :
 		case '1' :
 		{
-			iff (store_find(store, &iter, BREAK_SCID, token + 1), "%s: b_scid not found",
+			GtkTreeIter iter;
+
+			iff (store_find(store, &iter, BREAK_SCID, token), "%s: b_scid not found",
 				token)
 			{
-				break_enable(&iter, *token == '1');
+				break_enable(&iter, oper == '1');
 			}
 			break;
 		}
-		case '2' :
-		{
-			debug_send_format(N, "-break-info %s", token + 1);
-			break;
-		}
+		case '2' : prefix = "022";  /* and continue */
 		case '3' :
 		{
-			if (!break_remove_all(token + 1, TRUE))
+			debug_send_format(N, "%s-break-info %s", prefix, token);
+			break;
+		}
+		case '4' :
+		{
+			if (!break_remove_all(token, TRUE))
 				dc_error("%s: bid not found", token);
 			break;
 		}
-		default : dc_error("%s: invalid b_oper", token);
+		default : dc_error("%c%s: invalid b_oper", oper, token);
 	}
 }
 
@@ -697,13 +758,14 @@ void on_break_list(GArray *nodes)
 {
 	iff ((nodes = parse_find_array(parse_lead_array(nodes), "body")) != NULL, "no body")
 	{
-		gboolean refresh = parse_grab_token(nodes) != NULL;
+		const char *token = parse_grab_token(nodes);
+		gboolean refresh = !g_strcmp0(token, "");
 		BreakData bd;
 
 		if (refresh)
 			store_foreach(store, (GFunc) break_iter_missing, NULL);
 
-		bd.stage = BG_DISCARD;
+		bd.stage = !g_strcmp0(token, "2") ? BG_IGNORE : BG_DISCARD;
 		parse_foreach(nodes, (GFunc) break_node_parse, &bd);
 
 		if (refresh)
@@ -766,7 +828,7 @@ static void break_delete(GtkTreeIter *iter)
 	if (debug_state() == DS_INACTIVE || !id)
 		break_remove(iter);
 	else
-		debug_send_format(N, "023%s-break-delete %s", id, id);
+		debug_send_format(N, "024%s-break-delete %s", id, id);
 }
 
 static void break_iter_mark(GtkTreeIter *iter, GeanyDocument *doc)
@@ -821,12 +883,22 @@ void breaks_reset(void)
 
 static void break_iter_apply(GtkTreeIter *iter, G_GNUC_UNUSED gpointer gdata)
 {
-	const char *id;
+	const char *id, *ignore, *ignnow;
+	char type;
 	gboolean run_apply;
 
-	scp_tree_store_get(store, iter, BREAK_ID, &id, BREAK_RUN_APPLY, &run_apply, -1);
+	scp_tree_store_get(store, iter, BREAK_ID, &id, BREAK_TYPE, &type, BREAK_IGNORE, &ignore,
+		BREAK_IGNNOW, &ignnow, BREAK_RUN_APPLY, &run_apply, -1);
 
-	if (run_apply && !id)
+	if (id)
+	{
+		if (g_strcmp0(ignore, ignnow))
+		{
+			debug_send_format(F, "023-break-%s %s %s", break_command(0, type), id,
+				ignore);
+		}
+	}
+	else if (run_apply)
 		break_apply(iter, FALSE);
 }
 
@@ -1373,13 +1445,16 @@ void break_init(void)
 {
 	GtkWidget *menu;
 	guint i;
+	GtkCellRenderer *break_ignore = GTK_CELL_RENDERER(get_object("break_ignore"));
 
 	break_type_column = get_column("break_type_column");
 	break_display_column = get_column("break_display_column");
 	tree = view_connect("break_view", &store, &selection, break_cells, "break_window", NULL);
 	gtk_tree_view_column_set_cell_data_func(break_type_column,
 		GTK_CELL_RENDERER(get_object("break_type")), break_type_set_data_func, NULL, NULL);
-	g_signal_connect(get_object("break_ignore"), "editing-started",
+	gtk_tree_view_column_set_cell_data_func(get_column("break_ignore_column"), break_ignore,
+		break_ignore_set_data_func, NULL, NULL);
+	g_signal_connect(break_ignore, "editing-started",
 		G_CALLBACK(on_break_ignore_editing_started), NULL);
 	view_set_sort_func(store, BREAK_ID, break_id_compare);
 	view_set_sort_func(store, BREAK_IGNORE, store_gint_compare);

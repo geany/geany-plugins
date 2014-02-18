@@ -246,6 +246,22 @@ gboolean on_view_query_base_tooltip(GtkWidget *widget, gint x, gint y, gboolean 
 	return FALSE;
 }
 
+gboolean on_view_editable_map(GtkWidget *widget, gchar *replace)
+{
+	iff (GTK_IS_EDITABLE(widget), "cell editable: not an editable")
+	{
+		gint position = 0;
+		GtkEditable *editable = GTK_EDITABLE(widget);
+
+		gtk_editable_delete_text(editable, 0, -1);
+		gtk_editable_insert_text(editable, replace ? replace : "", -1, &position);
+		gtk_editable_select_region(editable, -1, 0);
+		g_free(replace);
+	}
+
+	return FALSE;
+}
+
 GtkTreeView *view_create(const char *name, ScpTreeStore **store, GtkTreeSelection **selection)
 {
 	GtkTreeView *tree = GTK_TREE_VIEW(get_widget(name));
@@ -262,18 +278,6 @@ static void on_editing_started(G_GNUC_UNUSED GtkCellRenderer *cell, GtkCellEdita
 		gtk_entry_set_cursor_hadjustment(GTK_ENTRY(editable), hadjustment);
 }
 
-static gboolean on_display_editable_map(GtkWidget *widget, gchar *display)
-{
-	gint position = 0;
-	GtkEditable *editable = GTK_EDITABLE(widget);
-
-	gtk_editable_delete_text(editable, 0, -1);
-	gtk_editable_insert_text(editable, display ? display : "", -1, &position);
-	gtk_editable_select_region(editable, -1, 0);
-	g_free(display);
-	return FALSE;
-}
-
 static void on_display_editing_started(G_GNUC_UNUSED GtkCellRenderer *cell,
 	GtkCellEditable *editable, const gchar *path_str, ScpTreeStore *store)
 {
@@ -281,11 +285,10 @@ static void on_display_editing_started(G_GNUC_UNUSED GtkCellRenderer *cell,
 	const char *value;
 	gint hb_mode;
 
-	g_assert(GTK_IS_EDITABLE(editable));
 	scp_tree_store_get_iter_from_string(store, &iter, path_str);
 	scp_tree_store_get(store, &iter, COLUMN_VALUE, &value, COLUMN_HB_MODE, &hb_mode, -1);
 	/* scrolling editable to the proper position is left as an exercise for the reader */
-	g_signal_connect(editable, "map", G_CALLBACK(on_display_editable_map),
+	g_signal_connect(editable, "map", G_CALLBACK(on_view_editable_map),
 		parse_get_display_from_7bit(value, hb_mode, MR_EDITVC));
 }
 

@@ -1,3 +1,10 @@
+Scope 0.93.2 (2013-02-13):
+
+    * Remember the total (initial) breakpoint ignore count and
+      restore it on each run. Saving the current (remaining) value
+      across restarts was not very useful.
+
+
 Scope 0.93.1 (2014-01-06):
 
     * Show breakpoint origin in the type column, with tooltip.
@@ -86,7 +93,7 @@ Scope 0.79 (2012-12-27)
 Scope 0.78 (2012-12-23)
 
    * Added option "keep_exec_point" to keep the execution point marker
-     and Threads location columns when a thread execution is resumed.
+     and Threads location column when a thread execution is resumed.
 
 
 Scope 0.77 (2012-12-16)

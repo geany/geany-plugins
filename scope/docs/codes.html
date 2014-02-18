@@ -41,19 +41,27 @@
 
 <tr><td class="nowrap">022&lt;id&gt;-break-after</td>
 	<td class="tab">breakpoint <em>Ignore</em> column edited</td>
-	<td class="tab">&lt;id&gt;-break-info</td></tr>
+	<td class="tab">022-break-info &lt;id&gt;</td></tr>
 
-<tr><td class="nowrap">022&lt;id&gt;-break-condition</td>
+<tr><td class="nowrap">023&lt;id&gt;-break-after</td>
+	<td class="tab">run program if ignore != [ignore]</td>
+	<td class="tab">022-break-info &lt;id&gt;</td></tr>
+
+<tr><td class="nowrap">023&lt;id&gt;-break-condition</td>
 	<td class="tab">breakpoint <em>Condition</em> column edited</td>
-	<td class="tab">&lt;id&gt;-break-info</td></tr>
+	<td class="tab">-break-info &lt;id&gt;</td></tr>
 
-<tr><td class="nowrap">022&lt;id&gt;-break-commands</td>
+<tr><td class="nowrap">023&lt;id&gt;-break-commands</td>
 	<td class="tab">breakpoint <em>Script</em> column edited</td>
-	<td class="tab">&lt;id&gt;-break-info</td></tr>
+	<td class="tab">-break-info &lt;id&gt;</td></tr>
 
-<tr><td class="nowrap">023&lt;id&gt;-break-delete</td>
+<tr><td class="nowrap">024&lt;id&gt;-break-delete</td>
 	<td class="tab"><em>Delete</em> or un-<em>Toggle breakpoint</em></td>
 	<td class="tab">remove breakpoint from the list or clear id</td></tr>
+
+<tr><td class="nowrap">022-break-info</td>
+	<td class="tab">see 022&lt;id&gt;-break-after</td>
+	<td class="tab">load break info and set [IGNORE] count</td></tr>
 
 <tr><td class="nowrap">02-break-list</td>
 	<td class="tab"><em>Refresh</em> breakpoints</td>
@@ -100,7 +108,7 @@
 	<td class="tab">029&lt;fid&gt;-data-list-register-values &lt;all&gt;</td>
 
 <tr><td class="nowrap">029&lt;fid&gt;-data-list-register-values</td>
-	<td class="tab"><em>Refresh</em> registers, see above</td>
+	<td class="tab"><em>Refresh</em> registers, see prev line</td>
 	<td class="tab">update register values</td>
 
 <tr><td class="nowrap">02&lt;f&gt;&lt;fid&gt;-data-list-register-values</td>
@@ -168,7 +176,7 @@
 	<td class="tab">049&lt;fid&gt;-data-list-register-values &lt;changed&gt;</td>
 
 <tr><td class="nowrap">049&lt;fid&gt;-data-list-register-values</td>
-	<td class="tab">views idle update, see above</td>
+	<td class="tab">views idle update, see prev line</td>
 	<td class="tab">same as 02</td>
 
 <tr><td class="nowrap">04&lt;scid&gt;-var-evaluate-expression</td>

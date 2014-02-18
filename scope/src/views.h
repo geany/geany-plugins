@@ -51,6 +51,7 @@ gboolean on_view_key_press(GtkWidget *widget, GdkEventKey *event, ViewSeeker see
 gboolean on_view_button_1_press(GtkWidget *widget, GdkEventButton *event, ViewSeeker seeker);
 gboolean on_view_query_base_tooltip(GtkWidget *widget, gint x, gint y, gboolean keyboard_tip,
 	GtkTooltip *tooltip, GtkTreeViewColumn *base_name_column);
+gboolean on_view_editable_map(GtkWidget *widget, gchar *replace);
 
 enum
 {

@@ -2036,7 +2036,7 @@ void scp_tree_store_register_dynamic(void)
 	if (!type)
 	{
 		type = scp_tree_store_get_type();
-		g_type_class_unref(g_type_class_ref(type));  /* force class create */
+		g_type_class_unref(g_type_class_ref(type));  /* force class creation */
 	}
 	else if (!scp_tree_store_type_id_volatile)
 	{

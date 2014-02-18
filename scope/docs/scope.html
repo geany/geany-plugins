@@ -50,7 +50,7 @@
 		<li><a href="#local_watch">Locals/Watches</a></li>
 		<li><a href="#console">Debug Console</a></li>
 	</ul></li>
-	<li>Side panel<ul>
+	<li>Side pages<ul>
 		<li><a href="#inspect">Inspect</a></li>
 		<li><a href="#register">Registers</a></li>
 	</ul></li>
@@ -363,13 +363,20 @@ Breakpoint</em>, edit the <em>Ignore</em>, <em>Condition</em> and <em>Script</em
 invoke <em>Add Break / Add Watch</em> [HRD], which brings up the command dialog.</p>
 
 <p>Breakpoints created with MI commands are kept in the list permanently. When a temporary MI
-breakpoint is hit, it's Id column is cleared. <em>Toggle breakpoint</em>, <em>Add Break</em>
-and <em>Add Watch</em> use MI commands.</p>
+breakpoint is hit, it's <em>Id</em> column is cleared. <em>Toggle breakpoint</em>, <em>Add
+Break</em> and <em>Add Watch</em> use MI commands.</p>
 
 <p>Breakpoints created with CLI commands (from scripts or <em>GDB Command</em>) are removed
 when the program is unloaded. When a temporary CLI breakpoint is hit, it's removed. If a MI
 command produces none or invalid output, and the breapoint appears later (from Refresh or
 async message), Scope will consider it CLI.</p>
+
+<p>Scope remembers the total (initial) ignore count, and re-applies it on each run. When a
+breakpoint is applied, <em>Ignore</em> shows the current value, followed by the total value
+surrounded in brackets. On gdb 'ignore' (or -break-after followed by refresh), the total value
+will be set only if the new count is larger: there is no way to tell whether a smaller count
+resulted from a command execution or breakpoint hit(s). Edit the <em>Ignore</em> column to set
+a smaller count.</p>
 
 <p>The above paragraphs apply to watchpoints and tracepoints as well.</p>
 
@@ -388,7 +395,7 @@ ignore for passcount), not the tracepoint-specific commands.</p>
 a local expression.</p>
 
 <p>Shift-clicking <em>Apply</em> applies the breakpoint for the currently selected thread
-only.</p>
+only, if any.</p>
 
 <p>GDB may report an error for invalid <em>Condition</em> and/or <em>Script</em>, but still
 accept them, and continue to emit errors each time they are evaluated.</p>
@@ -466,6 +473,8 @@ limits the size.</p>
 if GDB is ready to receive commands. For example, in synchronous mode, GDB displays a prompt
 immediately resuming the program execution; or the prompt may be followed by asynchronous
 messages. The Scope state (Busy, Debug etc.) is more accurate.</p>
+
+<h3>Side pages</h3>
 
 <p><b><a name="inspect">Inspect</a></b></p>
 
@@ -758,7 +767,7 @@ later version.</p>
 
 <b><a name="copyright">Copyright</a></b>
 
-<p>Scope 0.93.1, Copyright (C) 2013 Dimitar Toshkov Zhekov</p>
+<p>Scope 0.93.2, Copyright (C) 2013 Dimitar Toshkov Zhekov</p>
 
 <p>The menu and toolbar icons are from <a href="http://netbeans.org">Netbeans</a>, except for
 BreakPoint.</p>
