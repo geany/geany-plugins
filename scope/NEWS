@@ -1,4 +1,4 @@
-Scope 0.93.2 (2013-02-13):
+Scope 0.93.2 (2014-02-13):
 
     * Remember the total (initial) breakpoint ignore count and
       restore it on each run. Saving the current (remaining) value
