@@ -408,7 +408,7 @@ ggd_file_type_read_match (GScanner  *scanner,
         
         identifier = g_strdup (scanner->value.v_identifier);
         /*g_debug ("identifier is %s", identifier);*/
-        switch (g_scanner_get_next_token (scanner)) {
+        switch ((guint) g_scanner_get_next_token (scanner)) {
           case '.': /* skip it */ break;
           
           case G_TOKEN_EQUAL_SIGN:
