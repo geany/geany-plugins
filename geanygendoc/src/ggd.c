@@ -179,7 +179,7 @@ get_env_for_tag (GgdFileType   *ft,
   ctpl_environ_push_int (env, "returns", returns);
   /* get direct children tags */
   children = ggd_tag_find_children (tag_array, tag,
-                                    FILETYPE_ID (doc->file_type), 0);
+                                    FILETYPE_ID (doc->file_type));
   if (setting->merge_children) {
     CtplValue *v;
     
@@ -546,7 +546,7 @@ ggd_insert_comment (GeanyDocument  *doc,
       if (setting && setting->autodoc_children) {
         tag_list = ggd_tag_find_children_filtered (tag_array, tag,
                                                    FILETYPE_ID (doc->file_type),
-                                                   0, setting->matches);
+                                                   setting->matches);
       }
       /* we assume that a parent always comes before any children, then simply add
        * it at the end */

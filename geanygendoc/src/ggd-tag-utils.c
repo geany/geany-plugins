@@ -424,69 +424,11 @@ ggd_tag_find_from_name (const GPtrArray *tags,
   return tag;
 }
 
-
-/*
- * scope_child_matches:
- * @a: parent scope
- * @b: child scope
- * @geany_ft: The Geany's file type identifier for which tags were generated
- * @maxdepth: maximum sub-child level that matches, or < 0 for all to match
- * 
- * Checks if scope @b is inside scope @a. @maxdepth make possible to only match
- * child scope if it have less than @maxdepth parents before scope @a.
- * E.g., with a maximum depth of 1, only direct children will match.
- * 
- * Returns: %TRUE if matches, %FALSE otherwise.
- */
-static gboolean
-scope_child_matches (const gchar *a,
-                     const gchar *b,
-                     filetype_id  geany_ft,
-                     gint         maxdepth)
-{
-  gboolean matches = FALSE;
-  
-  /*g_debug ("trying to match %s against %s", b, a);*/
-  if (a && b) {
-    for (; *a && *b && *a == *b; a++, b++);
-    if (! *a /* we're at the end of the prefix and it matched */) {
-      const gchar  *separator;
-      
-      separator = symbols_get_context_separator (geany_ft);
-      if (maxdepth < 0) {
-        if (! *b || strncmp (b, separator, strlen (separator)) == 0) {
-          matches = TRUE;
-        }
-      } else {
-        while (! matches && maxdepth >= 0) {
-          const gchar *tmp;
-          
-          tmp = strstr (b, separator);
-          if (tmp) {
-            b = &tmp[2];
-            maxdepth --;
-          } else {
-            if (! *b) {
-              matches = TRUE;
-            }
-            break;
-          }
-        }
-      }
-    }
-  }
-  
-  return matches;
-}
-
-
 /**
  * ggd_tag_find_children:
  * @tags: Array of tags that contains @parent
  * @parent: Tag for which get children
  * @geany_ft: The Geany's file type identifier for which tags were generated
- * @depth: Maximum depth for children to be found (< 0 means infinite)
- *         Value != 0 aren't honored for now, see FIXME in function's body.
  * @filter: A logical OR of the TMTagType<!-- -->s to match
  * 
  * Finds children tags of a #TMTag that matches @matches.
@@ -499,46 +441,23 @@ GList *
 ggd_tag_find_children_filtered (const GPtrArray *tags,
                                 const TMTag     *parent,
                                 filetype_id      geany_ft,
-                                gint             depth,
                                 TMTagType        filter)
 {
   GList  *children = NULL;
   guint   i;
   TMTag  *el;
-  /*gchar  *fake_scope;*/
   
   g_return_val_if_fail (tags != NULL, NULL);
   g_return_val_if_fail (parent != NULL, NULL);
   
-  /*if (parent->atts.entry.scope) {
-    fake_scope = g_strconcat (parent->atts.entry.scope,
-                              symbols_get_context_separator (geany_ft),
-                              parent->name, NULL);
-  } else {
-    fake_scope = g_strdup (parent->name);
-  }*/
   GGD_PTR_ARRAY_FOR (tags, i, el) {
-    /* FIXME: we definitely need a better way to determinate who is child of
-     * who and who is parent of who.
-     * On this side, it may find as children a tag that isn't the children,
-     * and simply getting children that comes after parent isn't a proper fix
-     * since the first possible parent will have all children.
-     * Crap.
-     * 
-     * Hack by checking if the parent of the element is the same as the parent
-     * we search for children. It breaks depth >= 0, but as we don't use it for
-     * now it's OK. A little odd but it works. */
     if (el->type & filter &&
-        /*el->atts.entry.line >= parent->atts.entry.line &&*/
-        /*scope_child_matches (fake_scope, el->atts.entry.scope,
-                             geany_ft, depth) &&*/
         ggd_tag_find_parent (tags, geany_ft, el) == parent) {
       children = g_list_insert_sorted_with_data (children, el,
                                                  tag_cmp_by_line,
                                                  GINT_TO_POINTER (GGD_SORT_ASC));
     }
   }
-  /*g_free (fake_scope);*/
   
   return children;
 }
@@ -548,7 +467,6 @@ ggd_tag_find_children_filtered (const GPtrArray *tags,
  * @tags: Array of tags that contains @parent
  * @parent: Tag for which get children
  * @geany_ft: The Geany's file type identifier for which tags were generated
- * @depth: Maximum depth for children to be found (< 0 means infinite)
  * 
  * Finds children tags of a #TMTag.
  * <note><para>The returned list of children is sorted in the order they appears
@@ -559,9 +477,7 @@ ggd_tag_find_children_filtered (const GPtrArray *tags,
 GList *
 ggd_tag_find_children (const GPtrArray *tags,
                        const TMTag     *parent,
-                       filetype_id      geany_ft,
-                       gint             depth)
+                       filetype_id      geany_ft)
 {
-  return ggd_tag_find_children_filtered (tags, parent, geany_ft,
-                                         depth, tm_tag_max_t);
+  return ggd_tag_find_children_filtered (tags, parent, geany_ft, tm_tag_max_t);
 }

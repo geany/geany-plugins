@@ -56,12 +56,10 @@ TMTag        *ggd_tag_find_parent             (const GPtrArray *tags,
 GList        *ggd_tag_find_children_filtered  (const GPtrArray *tags,
                                                const TMTag     *parent,
                                                filetype_id      geany_ft,
-                                               gint             depth,
                                                TMTagType        filter);
 GList        *ggd_tag_find_children           (const GPtrArray *tags,
                                                const TMTag     *parent,
-                                               filetype_id      geany_ft,
-                                               gint             depth);
+                                               filetype_id      geany_ft);
 gchar        *ggd_tag_resolve_type_hierarchy  (const GPtrArray *tags,
                                                filetype_id      geany_ft,
                                                const TMTag     *tag);
