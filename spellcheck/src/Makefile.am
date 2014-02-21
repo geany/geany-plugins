@@ -22,4 +22,5 @@ spellcheck_la_LIBADD = \
 	$(COMMONLIBS) \
 	$(ENCHANT_LIBS)
 
+AM_CPPCHECKFLAGS = -DSCE_PAS_DEFAULT=0
 include $(top_srcdir)/build/cppcheck.mk
