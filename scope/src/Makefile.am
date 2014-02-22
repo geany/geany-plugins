@@ -47,6 +47,7 @@ scope_la_SOURCES = \
 	views.h \
 	watch.c \
 	watch.h \
+	store.h \
 	store/scptreedata.h \
 	store/scptreedata.c \
 	store/scptreestore.h \
