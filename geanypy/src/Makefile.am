@@ -16,8 +16,8 @@ geanypy_la_SOURCES			=	geanypy-app.c \
 								geanypy-document.c geanypy-document.h \
 								geanypy-editor.c geanypy-editor.h \
 								geanypy-encoding.c geanypy-encoding.h \
-								geanypy-filetypes.c \
-								geanypy-geanypy.h \
+								geanypy-filetypes.c geanypy-filetypes.h \
+								geanypy.h \
 								geanypy-highlighting.c \
 								geanypy-indentprefs.c \
 								geanypy-interfaceprefs.c \
