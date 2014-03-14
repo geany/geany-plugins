@@ -30,7 +30,7 @@ functions are used for creating instances of the :class:`Document` object.
 
     :return: A :class:`Document` instance for the corresponding document or :data:`None` if no document matched.
 
-.. function:: get_from_index(index)
+.. function:: index(index)
 
     Gets a document based on its index in Geany's documents array.
 
@@ -38,7 +38,7 @@ functions are used for creating instances of the :class:`Document` object.
 
     :return: A :class:`Document` instance for the corresponding document or :data:`None` if not document matched, or the document that matched isn't valid.
 
-.. function:: new([filename=None[, filetype=None[, text=None]]])
+.. function:: new_file([filename=None[, filetype=None[, text=None]]])
 
     Creates a document file.
 
@@ -48,7 +48,7 @@ functions are used for creating instances of the :class:`Document` object.
 
     :return: A :class:`Document` instance for the new document.
 
-.. function:: open(filename[, read_only=False[, filetype=None[, forced_enc=None]]])
+.. function:: open_file(filename[, read_only=False[, filetype=None[, forced_enc=None]]])
 
     Open an existing document file.
 
@@ -61,7 +61,7 @@ functions are used for creating instances of the :class:`Document` object.
 
 .. function:: open_files(filenames, read_only=False, filetype="", forced_enc="")
 
-    Open multiple files.  This actually calls :func:`open` once for each filename in `filenames`.
+    Open multiple files.  This actually calls :func:`open_file` once for each filename in `filenames`.
 
     :param filenames: List of filenames to open.
     :param read_only: Whether to open the document in read-only mode.
