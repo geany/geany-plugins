@@ -178,7 +178,7 @@ static void add_line(AoBookmarkList *bm, ScintillaObject *sci, gint line_nr)
 	AoBookmarkListPrivate *priv = AO_BOOKMARK_LIST_GET_PRIVATE(bm);
 
 	line = g_strstrip(sci_get_line(sci, line_nr));
-	if (! NZV(line))
+	if (EMPTY(line))
 		line = g_strdup(_("(Empty Line)"));
 	tooltip = g_markup_escape_text(line, -1);
 
