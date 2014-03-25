@@ -24,10 +24,10 @@ W:
 S: Maintained
 
 codenav
-P:
-M:
-W:
-S: Orphan
+P: Federico Reghenzani <federico(dot)dev(at)reghe(dot)net>
+M: Federico Reghenzani <federico(dot)dev(at)reghe(dot)net>
+W: http://plugins.geany.org/codenav.html
+S: Maintained
 
 commander
 P: Colomban Wendling <ban@herbesfolles.org>
