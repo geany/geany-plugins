@@ -32,14 +32,20 @@
 /******************* Global variables for the feature *****************/
 
 static GtkWidget* menu_item = NULL;
+gchar *directory_ref = NULL;
 
 /********************** Prototypes *********************/
 static void
 menu_item_activate(guint);
 
 static GtkTreeModel* 
-build_file_list(gchar*);
+build_file_list(const gchar*, const gchar*);
 
+static void
+directory_check(GtkEntry*, GtkEntryCompletion*);
+
+static GtkWidget*
+create_dialog(GtkWidget**, GtkTreeModel*);
 
 /********************** Functions for the feature *********************/
 
@@ -93,7 +99,7 @@ goto_file_cleanup(void)
  */
 
 static GtkTreeModel* 
-build_file_list(gchar* dirname)
+build_file_list(const gchar* dirname, const gchar* prefix)
 {
 	GtkListStore *ret_list;
 	GtkTreeIter iter;
@@ -113,13 +119,10 @@ build_file_list(gchar* dirname)
 		
 		pathfile = g_build_filename(dirname,file,NULL);   
 	
-		if ( ! g_file_test(pathfile, G_FILE_TEST_IS_DIR) )
-		{   /* File */
-			gtk_list_store_append (ret_list, &iter);
-			gtk_list_store_set (ret_list, &iter, 0, file, -1);
-
-		}
-		/* TODO: sub-directory support */
+        /* Append the element to model list */
+        gtk_list_store_append (ret_list, &iter);
+        gtk_list_store_set (ret_list, &iter, 0, 
+                            g_strconcat(prefix, file, NULL), -1);
 		g_free(pathfile);
 	}
 	
@@ -128,6 +131,63 @@ build_file_list(gchar* dirname)
 	
 	return GTK_TREE_MODEL(ret_list);
  
+}
+
+/* ---------------------------------------------------------------------
+ * Entry callback function for sub-directory search
+ * ---------------------------------------------------------------------
+ */
+static void
+directory_check(GtkEntry* entry, GtkEntryCompletion* completion)
+{
+    static GtkTreeModel *old_model = NULL;
+   	GtkTreeModel* completion_list;
+    static gchar *curr_dir = NULL;
+    gchar *new_dir, *new_dir_path; 
+    const gchar *text;
+    
+    text = gtk_entry_get_text(entry);
+    gint dir_sep = strrpos(text, G_DIR_SEPARATOR_S);
+    
+    /* No subdir found */
+    if (dir_sep == -1)
+    {
+        if (old_model != NULL)
+        {   /* Restore the no-sub-directory model */
+            log_debug("Restoring old model!");
+            gtk_entry_completion_set_model (completion, old_model);
+            old_model = NULL;
+            g_free(curr_dir);
+            curr_dir = NULL;
+        }
+        return;
+    }
+    
+    new_dir = g_strndup (text, dir_sep+1);
+    /* I've already inserted new model completion for sub-dir elements? */
+    if ( g_strcmp0 (new_dir, curr_dir) == 0 )
+        return;
+
+    if ( curr_dir != NULL )
+        g_free(curr_dir);
+
+    curr_dir = new_dir;
+
+    /* Save the completion_mode for future restore. */
+    if (old_model == NULL)
+        old_model = gtk_entry_completion_get_model(completion);
+
+    log_debug("New completion list!");
+
+    if ( g_path_is_absolute(new_dir) )
+        new_dir_path = new_dir;
+    else
+        new_dir_path = g_build_filename(directory_ref, new_dir, NULL);
+
+    /* Build the new file list for completion */
+    completion_list = build_file_list(new_dir_path, new_dir);
+  	gtk_entry_completion_set_model (completion, completion_list);
+    g_object_unref(completion_list);
 }
 
 /* ---------------------------------------------------------------------
@@ -159,9 +219,9 @@ create_dialog(GtkWidget **dialog, GtkTreeModel *completion_model)
 	gtk_container_add(GTK_CONTAINER(vbox), entry);
 	gtk_entry_set_text(GTK_ENTRY(entry), "");
 	gtk_entry_set_max_length(GTK_ENTRY(entry), MAX_FILENAME_LENGTH);
-	gtk_entry_set_width_chars(GTK_ENTRY(entry), 30);
+	gtk_entry_set_width_chars(GTK_ENTRY(entry), 40);
 	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);   /* 'enter' key */
-	
+    
 	/* Completion definition */
 	completion = gtk_entry_completion_new();
 	gtk_entry_set_completion(GTK_ENTRY(entry), completion);
@@ -171,6 +231,9 @@ create_dialog(GtkWidget **dialog, GtkTreeModel *completion_model)
 	gtk_entry_completion_set_inline_completion(completion, 1);
 	gtk_entry_completion_set_text_column (completion, 0);
 
+	/* Signals */
+	g_signal_connect_after(GTK_ENTRY(entry), "changed", 
+                               G_CALLBACK(directory_check), completion);
 
 	gtk_widget_show_all(*dialog);
 
@@ -189,7 +252,7 @@ menu_item_activate(guint key_id)
 	GtkWidget* dialog_entry;
 	GtkTreeModel* completion_list;
 	GeanyDocument* current_doc = document_get_current();
-	gchar *dirname, *chosen_path;
+	gchar *chosen_path;
 	const gchar *chosen_file;
 	gint response;
 
@@ -199,8 +262,8 @@ menu_item_activate(guint key_id)
 		return;
 		
 	/* Build current directory listing */
-	dirname = g_path_get_dirname(current_doc->file_name);
-	completion_list = build_file_list(dirname);
+	directory_ref = g_path_get_dirname(current_doc->file_name);
+	completion_list = build_file_list(directory_ref, "");
 
 	/* Create the user dialog and get response */
 	dialog_entry = create_dialog(&dialog, completion_list);
@@ -209,7 +272,7 @@ menu_item_activate(guint key_id)
 	/* Filename */
 	chosen_file = gtk_entry_get_text(GTK_ENTRY(dialog_entry));
 	/* Path + Filename */
-	chosen_path = g_build_filename(dirname, chosen_file, NULL);
+	chosen_path = g_build_filename(directory_ref, chosen_file, NULL);
 
 	if ( response == GTK_RESPONSE_ACCEPT )
 	{
@@ -237,6 +300,6 @@ menu_item_activate(guint key_id)
 
 	/* Freeing memory */
 	gtk_widget_destroy(dialog);
-	g_free(dirname);
+	g_free(directory_ref);
 	g_object_unref (completion_list);
 }
