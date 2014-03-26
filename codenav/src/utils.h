@@ -42,6 +42,6 @@ gint
 compare_strings(const gchar* a, const gchar* b);
 
 gint
-strpos(const gchar *haystack, const gchar *needle);
+strrpos(const gchar *haystack, const gchar *needle);
 
 #endif /* UTILS_H */

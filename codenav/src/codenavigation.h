@@ -45,7 +45,7 @@
 #include "geanyfunctions.h"	/* this wraps geany_functions function pointers */
 
 /* Debug flag */
-//#define CODE_NAVIGATION_DEBUG
+/* #define CODE_NAVIGATION_DEBUG */
 
 #define CODE_NAVIGATION_VERSION "0.2"
 
@@ -66,8 +66,8 @@ static void log_debug(const gchar* s, ...)
 
 #define log_func() g_print("[CODENAV FUNC] : %s", G_STRFUNC)
 #else
-#define log_debug(...)
-#define log_func() 
+#define log_debug(...) {}
+#define log_func() {}
 #endif
 
 /* IDs for keybindings */

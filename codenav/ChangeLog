@@ -1,8 +1,14 @@
+2014-03-26  Federico Reghenzani <federico(dot)dev(at)reghe(dot)net>
+ * src/goto_file.c:
+   Implementation directory (absolute/relative path) support.
+ * src/utils.c, src/utils.h:
+   Changes strpos() into strrpos() (reverse order)
+
 2014-03-23  Federico Reghenzani <federico(dot)dev(at)reghe(dot)net>
  * src/codenavigation.h:
    Resolve some compiler warnings.
  * src/goto_file.c:
-   Implementation foto_file.
+   Implementation goto_file.
  * src/utils.c, src/utils.h:
    Added strpos().
 

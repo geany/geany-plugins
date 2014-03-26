@@ -79,11 +79,11 @@ compare_strings(const gchar* a, const gchar* b)
 	return (gint)(!utils_str_equal(a, b));
 }
 
-/* A PHP-like strpos implementation */
+/* A PHP-like reverse strpos implementation */
 gint
-strpos(const gchar *haystack, const gchar *needle)
+strrpos(const gchar *haystack, const gchar *needle)
 {
-   char *p = g_strstr_len(haystack, -1, needle);
+   char *p = g_strrstr_len(haystack, -1, needle);
    if (p)
 	  return p - haystack;
    return -1;   // not found
