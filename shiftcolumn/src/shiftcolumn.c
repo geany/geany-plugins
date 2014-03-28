@@ -397,9 +397,9 @@ void plugin_init(G_GNUC_UNUSED GeanyData *data){
 
    /* setup keybindings */
    keybindings_set_item(plugin_key_group, KB_SHIFT_LEFT, kb_shift_left,
-      GDK_9, GDK_CONTROL_MASK, "shift_left", _("Shift Left"), menu_item_shift_left);
+      0, GDK_CONTROL_MASK, "shift_left", _("Shift Left"), menu_item_shift_left);
    keybindings_set_item(plugin_key_group, KB_SHIFT_RIGHT, kb_shift_right,
-      GDK_0, GDK_CONTROL_MASK, "shift_right", _("Shift Right"), menu_item_shift_right);
+      0, GDK_CONTROL_MASK, "shift_right", _("Shift Right"), menu_item_shift_right);
    }
 
 void plugin_cleanup(void){
