@@ -5,7 +5,7 @@ Shift Column Plugin
 
 About
 -----
-This plugin allows you to move blocks of text horizontally
+This plugin allows you to move blocks of text horizontally in left or right direction skipping one character at a time.
 
 Requirements
 ------------
@@ -32,8 +32,7 @@ Usage
 -----
 After installed successfully, load the plugin in Geany's plugin manager
 and a new menu item in the Tools menu will appear. Alternatively, you can
-assign a keyboard shortcut in Geany's preferences dialog. By default
-the mappings are to <Ctrl>9 and <Ctrl>0
+assign a keyboard shortcut in Geany's preferences dialog.
 
 
 Known issues

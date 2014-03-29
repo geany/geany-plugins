@@ -1,3 +1,7 @@
+2013-03-28  Shankhoneer Chakrovarty <shankholove@gmail.com>
+
+ * src/shiftcolumn.c: Removed default keybinding
+
 2011-04-25  Frank Lanitz  <frlan@frank.uvena.de>
 
  * src/shiftcolumn.c: Fix a maybe uninitialized usage of a variable.
