@@ -727,14 +727,12 @@ get_msgstr_text_at (GeanyDocument  *doc,
  * cuts first at \n, then at spaces and punctuation */
 static gchar **
 split_msg (const gchar *str,
-           gint         len)
+           gsize        len)
 {
   GPtrArray *chunks = g_ptr_array_new ();
   
-  g_return_val_if_fail (len >= 0, NULL);
-  
   while (*str) {
-    GString *chunk = g_string_sized_new ((gsize) len);
+    GString *chunk = g_string_sized_new (len);
     
     while (*str) {
       const gchar *nl = strstr (str, "\\n");
@@ -749,12 +747,12 @@ split_msg (const gchar *str,
       else /* if there is no separator, use the end of the string */
         p = strchr (str, 0);
       
-      if (nl && ((chunk_len + g_utf8_strlen (str, nl - str)) <= len ||
+      if (nl && ((gsize)(chunk_len + g_utf8_strlen (str, nl - str)) <= len ||
                  (nl < p && chunk->len == 0))) {
         g_string_append_len (chunk, str, nl - str);
         str = nl;
         break;
-      } else if ((chunk_len + g_utf8_strlen (str, p - str)) <= len ||
+      } else if ((gsize)(chunk_len + g_utf8_strlen (str, p - str)) <= len ||
                  chunk->len == 0) {
         g_string_append_len (chunk, str, p - str);
         str = p;
@@ -789,6 +787,11 @@ on_kb_reflow (guint key_id)
       gint line_len = geany_data->editor_prefs->line_break_column;
       gint msgstr_kw_len;
       
+      /* if line break column doesn't have a reasonable value, don't use it */
+      if (line_len < 8) {
+        line_len = 72;
+      }
+      
       sci_start_undo_action (sci);
       scintilla_send_message (sci, SCI_DELETERANGE,
                               (uptr_t) start, end + 1 - start);
@@ -802,7 +805,7 @@ on_kb_reflow (guint key_id)
       } else {
         /* otherwise, put nothing on the msgstr line and split it up through
          * next ones */
-        gchar **chunks = split_msg (msgstr->str, line_len - 2);
+        gchar **chunks = split_msg (msgstr->str, (gsize)(line_len - 2));
         guint i;
         
         sci_insert_text (sci, start, "\"\""); /* nothing on the msgstr line */
