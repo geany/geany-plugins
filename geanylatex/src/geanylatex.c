@@ -1309,10 +1309,8 @@ on_insert_bibtex_dialog_activate(G_GNUC_UNUSED GtkMenuItem *menuitem,
 		}
 		else
 		{
-			if (ref_string != NULL)
-				g_free(ref_string);
-			if (template_string != NULL)
-				g_free(template_string);
+			g_free(ref_string);
+			g_free(template_string);
 		}
 	}
 
