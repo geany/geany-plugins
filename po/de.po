@@ -1,8 +1,8 @@
 # German translation for geany-plugins
-# Copyright (C) 2009-2011 THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) 2009-2014 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 # Andrew Janke <a.janke@gmail.com>, 2009
-# Frank Lanitz <frank@frank.uvena.de>, 2009-2013
+# Frank Lanitz <frank@frank.uvena.de>, 2009-2014
 # Dominic Hopf <dmaphy@gmail.com>, 2009
 # Michael Spahn <anyone90@googlemail.com>, 2009
 # Fabian Nowak <timystery@arcor.de>, 2012
@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.24\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-29 22:27+0100\n"
+"POT-Creation-Date: 2014-03-30 19:28+0200\n"
 "PO-Revision-Date: 2013-10-28 12:05+0100\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -2761,7 +2761,7 @@ msgstr "Bestätigung"
 msgid "Save file"
 msgstr "Datei speichern"
 
-#: ../geanylua/glspi_dlg.c:436
+#: ../geanylua/glspi_dlg.c:438
 #, c-format
 msgid ""
 "Error in module \"%s\" at function pickfile():\n"
@@ -2770,7 +2770,7 @@ msgstr ""
 "Fehler in Modul »%s« in Funktion pickfile():\n"
 "Konnte die zu filternde Zeichenkette nicht verarbeiten; Argument #3.\n"
 
-#: ../geanylua/glspi_dlg.c:486
+#: ../geanylua/glspi_dlg.c:489
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -5107,7 +5107,9 @@ msgstr "Originalstring als Übersetzung verwenden"
 
 #: ../pohelper/data/menus.ui.h:21
 msgid "Paste the original untranslated string to the translation"
-msgstr "Benutzt die unübersetze Ausgabe, um diese auch in der übersetzen Form anzuzeigen."
+msgstr ""
+"Benutzt die unübersetze Ausgabe, um diese auch in der übersetzen Form "
+"anzuzeigen."
 
 #: ../pohelper/data/menus.ui.h:22 ../pohelper/src/gph-plugin.c:1061
 msgid "Reflow the current translation string"
@@ -5122,8 +5124,8 @@ msgid ""
 "Whether to update the translation headers (author, revision date, ...) upon "
 "file save"
 msgstr ""
-"Legt fest, ob die Metadaten der Übersetzungsdatei (Autor, Datum ... ) "
-"beim Speichern aktualisiert werden sollen."
+"Legt fest, ob die Metadaten der Übersetzungsdatei (Autor, Datum ... ) beim "
+"Speichern aktualisiert werden sollen."
 
 #: ../pohelper/data/menus.ui.h:25
 msgid "Update _Headers Upon Save"
@@ -5147,7 +5149,7 @@ msgid "Failed to load configuration file: %s"
 msgstr "Konnte Konfiguration nicht laden: %s"
 
 #: ../pohelper/src/gph-plugin.c:1124
-#,  c-format
+#, c-format
 msgid "Failed to create configuration directory \"%s\": %s"
 msgstr "Konnte das Konfigurationsverzeichnis »%s« nicht anelgen: %s"
 
@@ -5170,7 +5172,9 @@ msgstr ""
 msgid ""
 "Cannot find widget \"%s\" in the UI definition, please check your "
 "installation."
-msgstr "Konnte das Widget »%s« in der Defintion der graphischen Oberfläche nicht finden. Bitte prüfen Sie die Installation"
+msgstr ""
+"Konnte das Widget »%s« in der Defintion der graphischen Oberfläche nicht "
+"finden. Bitte prüfen Sie die Installation"
 
 #: ../pretty-printer/src/PluginEntry.c:37
 msgid "XML PrettyPrinter"
