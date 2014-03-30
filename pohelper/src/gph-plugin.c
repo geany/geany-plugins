@@ -789,6 +789,11 @@ on_kb_reflow (guint key_id)
       gint line_len = geany_data->editor_prefs->line_break_column;
       gint msgstr_kw_len;
       
+      /* if line break column doesn't have a reasonable value, don't use it */
+      if (line_len < 8) {
+        line_len = 72;
+      }
+      
       sci_start_undo_action (sci);
       scintilla_send_message (sci, SCI_DELETERANGE,
                               (uptr_t) start, end + 1 - start);
