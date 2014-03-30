@@ -729,9 +729,11 @@ static gchar **
 split_msg (const gchar *str,
            gint         len)
 {
-  GPtrArray *chunks = g_ptr_array_new ();
+  GPtrArray *chunks;
   
   g_return_val_if_fail (len >= 0, NULL);
+  
+  chunks = g_ptr_array_new ();
   
   while (*str) {
     GString *chunk = g_string_sized_new ((gsize) len);
