@@ -1265,6 +1265,8 @@ on_insert_bibtex_dialog_activate(G_GNUC_UNUSED GtkMenuItem *menuitem,
 		tmp_dir = g_path_get_dirname(doc->real_path);
 		dir = g_dir_open(tmp_dir, 0, NULL);
 
+		if(dir == NULL)
+			g_free(tmp_dir);
 		g_return_if_fail(dir != NULL);
 
 		foreach_dir(filename, dir)
@@ -1275,6 +1277,7 @@ on_insert_bibtex_dialog_activate(G_GNUC_UNUSED GtkMenuItem *menuitem,
 			glatex_parse_bib_file(fullpath, textbox);
 			g_free(fullpath);
 		}
+		g_free(tmp_dir);
 		g_dir_close(dir);
 		model = gtk_combo_box_get_model(GTK_COMBO_BOX(textbox));
 		gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(model),
