@@ -685,6 +685,7 @@ treebrowser_load_bookmarks(void)
 			gtk_tree_path_free(tree_path);
 		}
 	}
+	g_free(bookmarks);
 }
 
 static gboolean
@@ -726,7 +727,6 @@ treebrowser_search(gchar *uri, gpointer parent)
 static void
 fs_remove(gchar *root, gboolean delete_root)
 {
-	GDir *dir;
 	gchar *path;
 	const gchar *name;
 
@@ -735,6 +735,7 @@ fs_remove(gchar *root, gboolean delete_root)
 
 	if (g_file_test(root, G_FILE_TEST_IS_DIR))
 	{
+		GDir *dir;
 		dir = g_dir_open (root, 0, NULL);
 
 		if (!dir)
@@ -756,6 +757,7 @@ fs_remove(gchar *root, gboolean delete_root)
 			g_free(path);
 			name = g_dir_read_name(dir);
 		}
+		g_dir_close(dir);
 	}
 	else
 		delete_root = TRUE;
