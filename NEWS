@@ -7,7 +7,12 @@ Geany Plugins 1.24 (t.b.p.s.)
     * Add new plugin PairTagHighlighter 
     * Add new plugin autoclose
     * Add Geanypy Python Plugin Plugin
+    * Add new plugin Defineformat
     * Improvements of build system
+    * Update of waf to 1.6.11
+        
+    Debugger: 
+    * Fixing a crash when re-loading plugin
     
     GeanyGenDoc:
     
@@ -16,8 +21,7 @@ Geany Plugins 1.24 (t.b.p.s.)
     GeanyExtraSel:
     
     * Add "Toggle Rectangular/Stream"
-    
-    
+        
     GeanyInsertNum:
     
     * Add Gtk3 support
@@ -47,15 +51,17 @@ Geany Plugins 1.24 (t.b.p.s.)
     * Add support for Subversion 1.7
     * Limit the display of diff output to 16 KB to not freeze the UI on 
       huge commit-diffs
-    
-   
+    * Add a little statusbar below the commit message text widget
+
     Markdown:
     
     * Add support for Gtk3
+    * Add support for HTML tables in markdown files
     
     Multiterm:
     
     * Implement the other config VTE properties 
+    * Fix scroll jumping behavior 
     
     Prettyprinter:
     
@@ -64,19 +70,25 @@ Geany Plugins 1.24 (t.b.p.s.)
     Scope:
     
     * Add support for Gtk3
+    * Add support for registers
     
     Spellcheck:
     
     * Add support for Gtk3
-    * Fix check for default language if LANG contains UTF-8 …
-
+    * Fix check for default language if LANG contains UTF-8
+    * Remove check while typing idle callback when unloading the plugin 
+      (closing #96)
+    * Improve stripping of whitespace and punctuation characters 
+      (fixes #98)
+    
     TreeBrowser:
     
     * Add support for Gtk3
     * Don''t collapse expanded child of node when node gets selected
     * Adding and improving some keybindings 
+    * Adding a way to open new created files
+    * Focus editor on file open
     
-
     Internationalisation:
     * Update translations: de, 
     
@@ -133,6 +145,10 @@ Geany Plugins 1.23 (2013-03-10)
     Treebrowser:
     * Added backspace to browse up a directory
     * Eexpand/collapse with spacebar
+    
+    Updatechecker:
+    * Fix comparing major versions. Didn't work when major has increased 
+      but minor didn't
 
     Webhelper:
     * Show the currently hovered link in the statusbar
