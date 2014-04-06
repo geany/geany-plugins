@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.24\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-05 23:42+0200\n"
+"POT-Creation-Date: 2014-04-06 18:49+0200\n"
 "PO-Revision-Date: 2013-10-28 12:05+0100\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -5576,9 +5576,8 @@ msgid "_Frame"
 msgstr "_Rahmen"
 
 #: ../scope/data/scope.glade.h:78
-#, fuzzy
 msgid "Setup Program"
-msgstr "Kein Programm"
+msgstr "Programmeinstellungen"
 
 #: ../scope/data/scope.glade.h:79
 msgid "_Executable:"
@@ -5799,28 +5798,24 @@ msgid "fast tracepoint"
 msgstr ""
 
 #: ../scope/src/break.c:101
-#, fuzzy
 msgid "write watchpoint"
-msgstr "Beobachtungspunkt hinzufügen"
+msgstr "Beobachtungspunkt schrieben"
 
 #: ../scope/src/break.c:104
-#, fuzzy
 msgid "access watchpoint"
-msgstr "Beobachtungspunkt hinzufügen"
+msgstr "Auf Beobachtungspunkt zugreifen"
 
 #: ../scope/src/break.c:106
-#, fuzzy
 msgid "read watchpoint"
-msgstr "Beobachtungspunkt hinzufügen"
+msgstr "Beobachtungspunkt auslesen"
 
 #: ../scope/src/break.c:108
-#, fuzzy
 msgid "catchpoint"
-msgstr "Beobachtungspunkt hinzufügen"
+msgstr ""
 
 #: ../scope/src/break.c:135 ../scope/src/break.c:139
 msgid "CLI"
-msgstr ""
+msgstr "CLI"
 
 #: ../scope/src/break.c:136
 msgid "unsupported MI"
@@ -5830,14 +5825,12 @@ msgstr ""
 msgid "on load"
 msgstr ""
 
-# Noch keine Idee hierzu --Dominic
 #: ../scope/src/break.c:142
-#, fuzzy
 msgid "Run to Cursor"
 msgstr "Bis zum Cursor ausführen"
 
 #: ../scope/src/break.c:1013
-#, fuzzy, c-format
+# c-format
 msgid ""
 "There are two or more breakpoints at %s:%d.\n"
 "\n"
@@ -5849,20 +5842,18 @@ msgstr ""
 #: ../scope/src/break.c:1252
 #, c-format
 msgid ", %s"
-msgstr ""
+msgstr ", %s"
 
 #: ../scope/src/break.c:1278
 #, c-format
 msgid "func %s"
-msgstr ""
+msgstr "func %s"
 
 #: ../scope/src/break.c:1309
-#, fuzzy
 msgid "Add Breakpoint"
 msgstr "Haltepunkt hinzufügen"
 
 #: ../scope/src/break.c:1324
-#, fuzzy
 msgid "Add Watchpoint"
 msgstr "Beobachtungspunkt hinzufügen"
 
@@ -5889,31 +5880,28 @@ msgstr "%s:%u:%u: %s"
 #: ../scope/src/debug.c:363
 #, c-format
 msgid "GDB died unexpectedly with status %d."
-msgstr ""
+msgstr "GDB wurde unerwartet beendet. Status: %d"
 
 #: ../scope/src/debug.c:365
-#, fuzzy
 msgid "Program terminated."
-msgstr "abgebrochen"
+msgstr "Programm abgebrochen"
 
 #: ../scope/src/debug.c:469
 msgid "No breakpoints. Hanging."
 msgstr "Keine Haltepunkte - Hängend"
 
 #: ../scope/src/debug.c:598 ../scope/src/thread.c:92
-#, fuzzy, c-format
+# c-format
 msgid "%s."
-msgstr "%s:"
+msgstr "%s."
 
 #: ../scope/src/inspect.c:66
-#, fuzzy
 msgid "..."
-msgstr "Mehr ..."
+msgstr "..."
 
 #: ../scope/src/inspect.c:339
-#, fuzzy
 msgid "invalid data"
-msgstr "Ungültige Markierung"
+msgstr "ungültige Daten"
 
 #: ../scope/src/inspect.c:371
 msgid "no children in range"
