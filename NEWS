@@ -135,6 +135,12 @@ Geany Plugins 1.23 (2013-03-10)
     * Fixing of memory leaks
     * Fixing of a invalid memory free
 
+    GProject:
+    * Make toolbar buttons insensitive when no files displayed 
+    
+    Shiftcolumn: 
+    * Remove default keybinding 
+
     Spellcheck:
     * Perform a recheck/clear when toggling 'check while typing' (#3495051)
 
