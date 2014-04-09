@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Geany-plugins 1.24\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-30 19:33+0200\n"
-"PO-Revision-Date: 2013-03-10 05:19+0100\n"
+"PO-Revision-Date: 2014-04-10 01:09+0200\n"
 "Last-Translator: Colomban Wendling <ban@herbesfolles.org>\n"
 "Language-Team: French <geany-i18n@uvena.de>\n"
 "Language: fr\n"
@@ -283,9 +283,9 @@ msgid "Goto file"
 msgstr "Aller au fichier"
 
 #: ../codenav/src/goto_file.c:109
-#, c-format
+#, c-format, fuzzy
 msgid "(From the %s plugin)"
-msgstr ""
+msgstr "(Du plugin %s)"
 
 #. Add the menu item and make it sensitive only when a document is opened
 #. Frame, which is the returned widget
@@ -407,9 +407,8 @@ msgid "Failed to spawn gdb process"
 msgstr "Impossible d'exécuter le processus gdb"
 
 #: ../debugger/src/dbm_gdb.c:782
-#, fuzzy
 msgid "~\"Loading target file.\\n\""
-msgstr "Choisir une cible"
+msgstr "~\"Chargement du fichier cible.\\n\""
 
 #: ../debugger/src/dbm_gdb.c:782
 msgid "Error loading file"
@@ -438,12 +437,14 @@ msgid "Can't find a source file \"%s\""
 msgstr "Impossible de trouver un fichier source « %s »"
 
 #: ../debugger/src/stree.c:140
+#, fuzzy
 msgid "Active frame"
-msgstr ""
+msgstr "Page active"
 
 #: ../debugger/src/stree.c:140
+#, fuzzy
 msgid "Click an arrow to switch to a frame"
-msgstr ""
+msgstr "Cliquez les flèches pour changer de page"
 
 #: ../debugger/src/stree.c:363 ../geanylatex/src/bibtexlabels.c:46
 msgid "Address"
@@ -560,12 +561,14 @@ msgid "Save debug session data to a project"
 msgstr "Enregistrer la session de déboguage dans un projet"
 
 #: ../defineformat/src/defineformat.c:56
+#, fuzzy
 msgid "Define formatter"
-msgstr ""
+msgstr "Formateur de defines"
 
 #: ../defineformat/src/defineformat.c:57
+#, fuzzy
 msgid "Automatically align backslash in multi-line defines"
-msgstr ""
+msgstr "Aligne automatiquement les backslashes dans des defines multi-lignes"
 
 #. never search for more than this many chars
 #: ../devhelp/src/dhp.h:38
@@ -767,7 +770,7 @@ msgstr "Tous les livres"
 #: ../devhelp/devhelp/dh-search.c:620
 #, fuzzy
 msgid "Search in:"
-msgstr "Mots à rechercher :"
+msgstr "Rechercher dans :"
 
 #: ../devhelp/devhelp/dh-window.c:98
 msgid "50%"
@@ -1036,7 +1039,7 @@ msgstr ""
 #: ../geanyextrasel/src/extrasel.c:532
 #, fuzzy
 msgid "Convert selection"
-msgstr "Convertir la sélection en tableau"
+msgstr "Convertir la sélection"
 
 #: ../geanyextrasel/src/extrasel.c:537
 msgid "_Set Anchor"
@@ -1576,7 +1579,7 @@ msgid "Environment:"
 msgstr "Environnement :"
 
 #: ../geanylatex/src/latexutils.c:87
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not determine where to insert package: %s\n"
 "Please try insert package manually"
@@ -1585,7 +1588,7 @@ msgstr ""
 "Essayez d'insérer le package manuellement"
 
 #: ../geanylatex/src/latexutils.c:89
-#, fuzzy, c-format
+#, c-format
 msgid "Could not determine where to insert package: %s"
 msgstr "Impossible de déterminer où insérer le package : %s"
 
@@ -1825,7 +1828,7 @@ msgstr "École où la thèse a été écrite"
 
 #: ../geanylatex/src/bibtexlabels.c:123
 msgid "Series of books in which the book was published"
-msgstr ""
+msgstr "Série de livre dans laquelle le livre a été publié"
 
 #: ../geanylatex/src/bibtexlabels.c:124
 msgid "Title of the work"
@@ -1964,12 +1967,10 @@ msgid "Add additional package"
 msgstr "Ajouter des packages additionnels"
 
 #: ../geanylatex/src/geanylatex.c:1192
-#, fuzzy
 msgid "Package name:"
 msgstr "Nom du package :"
 
 #: ../geanylatex/src/geanylatex.c:1195
-#, fuzzy
 msgid "Package options:"
 msgstr "Options du package :"
 
@@ -2157,8 +2158,9 @@ msgid "Insert command"
 msgstr "Insérer une commande"
 
 #: ../geanylatex/src/geanylatex.c:1938
+#, fuzzy
 msgid "Turn input replacement on/off"
-msgstr ""
+msgstr "Activer/désactiver les remplacements lors de la frappe"
 
 #: ../geanylatex/src/geanylatex.c:1942
 msgid "Replace special characters"
@@ -2299,7 +2301,6 @@ msgid "Helps at inserting an environment a document"
 msgstr "Facilite l'insertion d'un environnement au document"
 
 #: ../geanylatex/src/geanylatex.c:2158
-#, fuzzy
 msgid "Insert P_ackage"
 msgstr "Insérer un p_ackage"
 
@@ -2322,8 +2323,9 @@ msgid "_Special Character Replacement"
 msgstr "Remplacement de caractères _spéciaux"
 
 #: ../geanylatex/src/geanylatex.c:2208
+#, fuzzy
 msgid "Bulk _Replace Special Characters"
-msgstr ""
+msgstr "_Remplacement en masse de caractères spéciaux"
 
 #: ../geanylatex/src/geanylatex.c:2210
 msgid "_Replace selected special characters with TeX substitutes"
@@ -2539,8 +2541,8 @@ msgid ""
 "Error in module \"%s\" at function %s():\n"
 " expected type \"%s\" for argument #%d\n"
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction %s():\n"
-"attendait le type \"%s\" pour l'argument #%d\n"
+"Erreur dans le module \"%s\" à la fonction %s() :\n"
+"le type \"%s\" &tait attendu pour l'argument n° %d\n"
 
 #: ../geanylua/glspi.h:114
 #, c-format
@@ -2548,20 +2550,19 @@ msgid ""
 "Error in module \"%s\" at function %s():\n"
 " expected type \"%s\" or \"%s\" for argument #%d\n"
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction %s():\n"
-"attendait les types \"%s\" ou \"%s\" pour l'argument #%d\n"
+"Erreur dans le module \"%s\" à la fonction %s() :\n"
+"les types \"%s\" ou \"%s\" étaient attendus pour l'argument n° %d\n"
 
 #: ../geanylua/glspi.h:128 ../geanylua/gsdlg_lua.c:108
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
 " invalid table in argument #%d:\n"
 " expected type \"%s\" for element #%d\n"
 msgstr ""
 "Erreur dans le module \"%s\" à la fonction %s() :\n"
-"table invalide pour l'argument #%d:\n"
-"attendait le type \"%s\" pour l'élément #%d\n"
-" "
+"tableau invalide pour l'argument n° %d :\n"
+"le type \"%s\" était attendu pour l'élément n° %d\n"
 
 #.
 #. * glspi_ver.c - This file is part of the Lua scripting plugin for the Geany IDE
@@ -2681,8 +2682,8 @@ msgid ""
 "Error in module \"%s\" at function navigate():\n"
 "unknown navigation mode \"%s\" for argument #1.\n"
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction navigate():\n"
-"mode de navigation \"%s\" inconnu pour l'argument #1.\n"
+"Erreur dans le module \"%s\" à la fonction navigate() :\n"
+"mode de navigation \"%s\" inconnu pour l'argument n° 1.\n"
 
 #: ../geanylua/glspi_sci.c:603
 #, c-format
@@ -2690,7 +2691,7 @@ msgid ""
 "Error in module \"%s\" at function %s():\n"
 "API command \"%s\" not implemented.\n"
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction %s():\n"
+"Erreur dans le module \"%s\" à la fonction %s() :\n"
 "la commande \"%s\" de l'API n'est pas implémentée.\n"
 
 #: ../geanylua/glspi_sci.c:614
@@ -2699,7 +2700,7 @@ msgid ""
 "Error in module \"%s\" at function %s():\n"
 "not enough arguments for command \"%s\".\n"
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction %s():\n"
+"Erreur dans le module \"%s\" à la fonction %s() :\n"
 "pas assez d'arguments pour la commande \"%s\".\n"
 
 #: ../geanylua/glspi_sci.c:652 ../geanylua/glspi_app.c:396
@@ -2708,20 +2709,19 @@ msgid ""
 "Error in module \"%s\" at function %s():\n"
 "unknown command \"%s\" given for argument #1.\n"
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction %s():\n"
-"commande \"%s\" donnée pour l'argument #1 inconnue.\n"
+"Erreur dans le module \"%s\" à la fonction %s() :\n"
+"commande \"%s\" donnée pour l'argument n° 1 inconnue.\n"
 
 #: ../geanylua/glspi_sci.c:794
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
 " invalid table in argument #%d:\n"
 " unknown flag \"%s\" for element #%d\n"
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction %s():\n"
-" table invalide dans l'argument #%d:\n"
-"  flag \"%s\" inconnu pour l'élément #%d\n"
-" "
+"Erreur dans le module \"%s\" à la fonction %s() :\n"
+" tableau invalide pour l'argument n° %d :\n"
+" drapeau \"%s\" inconnu pour l'élément n° %d\n"
 
 #: ../geanylua/glspi_sci.c:798
 msgid "<too large to display>"
@@ -2744,23 +2744,22 @@ msgid "Save file"
 msgstr "Enregistrer"
 
 #: ../geanylua/glspi_dlg.c:438
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error in module \"%s\" at function pickfile():\n"
 "failed to parse filter string at argument #3.\n"
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction pickfile():\n"
-"impossible d'analyser la chaîne filtre en argument #2.\n"
+"Erreur dans le module \"%s\" à la fonction pickfile() :\n"
+"impossible d'analyser la chaîne filtre en argument n° 3.\n"
 
 #: ../geanylua/glspi_dlg.c:489
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
 "expected string \"open\" or \"save\" for argument #1.\n"
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction %s():\n"
-"attendait la chaîne \"open\" ou \"save\" pour l'argument #1.\n"
-" "
+"Erreur dans le module \"%s\" à la fonction %s() :\n"
+"la chaîne \"open\" ou \"save\" était attendue pour l'argument n° 1.\n"
 
 #: ../geanylua/geanylua.c:163
 #, fuzzy, c-format
@@ -2797,33 +2796,29 @@ msgstr ""
 "Veuillez vérifier votre installation."
 
 #: ../geanylua/glspi_app.c:21
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s %s: %s\n"
 "Copyright (c) 2007-2010 "
 msgstr ""
-"%s %s: %s\n"
-"Copyright (c) 2007-2008 "
 
 #: ../geanylua/glspi_app.c:151
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
 "widget \"%s\" not found for argument #1.\n"
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction %s():\n"
-"le widget \"%s\" est introuvable pour l'argument #1.\n"
-" "
+"Erreur dans le module \"%s\" à la fonction %s() :\n"
+"le widget \"%s\" est introuvable pour l'argument n° 1.\n"
 
 #: ../geanylua/glspi_app.c:160
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error in module \"%s\" at function %s() argument #2:\n"
 "widget \"%s\" has no signal named \"%s\".\n"
 msgstr ""
-"Erreur dans le module \"%s\" à la fonction %s() argument #2:\n"
+"Erreur dans le module \"%s\" à l'argument n° 2 de la fonction %s() :\n"
 "le widget \"%s\" n'a pas de signal nommé \"%s\".\n"
-" "
 
 #: ../geanymacro/src/geanymacro.c:55
 msgid "Cut to Clipboard"
@@ -3582,7 +3577,7 @@ msgid ""
 "or (at your option) any later version."
 msgstr ""
 "<b>GMS : Geany Mini-Script filter Plugin</b>\n"
-"Ce plugin est un outils pour appliquer un script sur:\n"
+"Ce plugin est un outil pour appliquer un script sur :\n"
 "   o la sélection de texte,\n"
 "   o le document courant,\n"
 "   o tous les documents de la session courante.\n"
@@ -3629,9 +3624,8 @@ msgid "Save the mini-script into a file"
 msgstr "Sauve le mini-script courant dans un fichier"
 
 #: ../geanyminiscript/src/gms_gui.c:460
-#, fuzzy
 msgid "Display a information about the mini-script plugin"
-msgstr "Affiche des informations supplémentaires sur l'élément sélectionné"
+msgstr "Affiche des informations sur le plugin mini-script"
 
 #: ../geanyminiscript/src/gms_gui.c:468
 msgid "select the mini-script type"
@@ -3742,20 +3736,23 @@ msgid "Center view when goto bookmark"
 msgstr ""
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1232
+#, fuzzy
 msgid "Move to start of line"
-msgstr ""
+msgstr "Se déplacer au début de la ligne"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1233
 msgid "Move to remembered position in line"
 msgstr "Aller à la position enregistrée sur la ligne"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1234
+#, fuzzy
 msgid "Move to position in current line"
-msgstr ""
+msgstr "Se déplacer à la position dans la ligne courante"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1235
+#, fuzzy
 msgid "Move to End of line"
-msgstr ""
+msgstr "Se déplace à la fin de la ligne"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1241
 msgid "Save file settings with program settings"
@@ -4047,8 +4044,9 @@ msgid "Unknown"
 msgstr "Inconnu"
 
 #: ../geanypg/src/verify_aux.c:137 ../geanypg/src/verify_aux.c:155
+#, fuzzy
 msgid "n/a"
-msgstr ""
+msgstr "n/d"
 
 #: ../geanypg/src/verify_aux.c:137 ../geanypg/src/verify_aux.c:155
 msgid "bad"
@@ -4226,39 +4224,44 @@ msgid "Python plugins support"
 msgstr ""
 
 #: ../geanypy/src/geanypy-plugin.c:77
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to pre-load Python library: %s."
-msgstr "Impossible de créer le dossier de configuration « %s »"
+msgstr "Impossible de pré-charger la bibliothèque Python : %s"
 
 #: ../geanypy/src/geanypy-plugin.c:157
+#, fuzzy
 msgid "Failed to import manager module"
-msgstr ""
+msgstr "Impossible d'importer le module \"manager\""
 
 #: ../geanypy/src/geanypy-plugin.c:166
+#, fuzzy
 msgid "Failed to retrieve PluginManager from manager module"
-msgstr ""
+msgstr "Impossible d'obtenir le PluginManager du module \"manager\""
 
 #: ../geanypy/src/geanypy-plugin.c:182
-#, fuzzy
 msgid "System plugin directory not found."
-msgstr "Répertoire %s introuvable !\n"
+msgstr "Dossier de plugins système introuvable."
 
 #: ../geanypy/src/geanypy-plugin.c:211
+#, fuzzy
 msgid "Unable to instantiate new PluginManager"
-msgstr ""
+msgstr "Impossible d'instancier un nouveau PluginManager"
 
 #: ../geanypy/src/geanypy-plugin.c:227
+#, fuzzy
 msgid "Unable to get show_all() method on plugin manager"
 msgstr ""
+"Impossible d'obtenir la méthode show_all() sur le gestionnaire de "
+"plugins"
 
 #: ../geanypy/src/geanypy-plugin.c:255
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create Python plugins directory: %s: %s"
-msgstr "Impossible de créer le dossier de configuration « %s »"
+msgstr "Impossible de créer le dossier des plugins Python : %s : %s"
 
 #: ../geanypy/src/geanypy-plugin.c:266
 msgid "Python Plugin Manager"
-msgstr ""
+msgstr "Gestionnaire de plugins Python"
 
 #: ../geanysendmail/src/geanysendmail.c:43
 msgid "GeanySendMail"
@@ -4425,6 +4428,13 @@ msgid ""
 "To view the differences, cancel this dialog and open the differences in "
 "Geany directly by using the GeanyVC menu (Base Dirrectory -> Diff)."
 msgstr ""
+"Les différences résultantes ne peuvent être affichées car les "
+"changements sont trop importants et ralentiraient significativement "
+"l'interface.\n"
+"\n"
+"Pour afficher les différences, fermez ce dialogue et ouvrez le diff "
+"directement dans Geany en utilisant le menu GeanyVC (Dossier racine "
+"-> Diff)."
 
 #: ../geanyvc/src/geanyvc.c:1243
 msgid "Commit Y/N"
@@ -4441,7 +4451,7 @@ msgstr "Chemin"
 #: ../geanyvc/src/geanyvc.c:1324
 #, c-format
 msgid "Line: %d Column: %d"
-msgstr ""
+msgstr "Ligne : %d Colonne : %d"
 
 #: ../geanyvc/src/geanyvc.c:1370
 msgid "Commit"
@@ -4848,7 +4858,7 @@ msgstr "Basculer à l'en-tête/la source"
 
 #: ../gproject/src/gproject-menu.c:382
 msgid "Open Selected File (gproject)"
-msgstr ""
+msgstr "Ouvrir le fichier sélectionné (gproject)"
 
 #: ../gproject/src/gproject-project.c:406
 msgid "Source patterns:"
@@ -5001,151 +5011,151 @@ msgid "Pair Tag Highlighter"
 msgstr ""
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:36
+#, fuzzy
 msgid "Finds and highlights matching opening/closing HTML tag"
 msgstr ""
+"Trouve et met en évidence les balises HTML ouvrantes ou fermantes "
+"correspondantes"
 
 #: ../pohelper/data/menus.ui.h:1
 msgid "_Translation Helper"
-msgstr ""
+msgstr "Assistant de _traduction"
 
 #: ../pohelper/data/menus.ui.h:2
 msgid "_Previous String"
-msgstr ""
+msgstr "Chaîne _précédente"
 
 #: ../pohelper/data/menus.ui.h:3 ../pohelper/src/gph-plugin.c:1031
-#, fuzzy
 msgid "Go to previous string"
-msgstr "Aller à la page précédente"
+msgstr "Aller à la chaîne précédente"
 
 #: ../pohelper/data/menus.ui.h:4
 msgid "_Next String"
-msgstr ""
+msgstr "Chaîne suiva_nte"
 
 #: ../pohelper/data/menus.ui.h:5 ../pohelper/src/gph-plugin.c:1034
-#, fuzzy
 msgid "Go to next string"
-msgstr "Aller à la page suivante"
+msgstr "Aller à la chaîne suivante"
 
 #: ../pohelper/data/menus.ui.h:6
 msgid "Pre_vious Untranslated"
-msgstr ""
+msgstr "Non-traduite pr_écédente"
 
 #: ../pohelper/data/menus.ui.h:7 ../pohelper/src/gph-plugin.c:1037
 msgid "Go to previous untranslated string"
-msgstr ""
+msgstr "Aller à la chaîne non-traduite précédente"
 
 #: ../pohelper/data/menus.ui.h:8
 msgid "Next _Untranslated"
-msgstr ""
+msgstr "Non-traduite s_uivante"
 
 #: ../pohelper/data/menus.ui.h:9 ../pohelper/src/gph-plugin.c:1040
 msgid "Go to next untranslated string"
-msgstr ""
+msgstr "Aller à la chaîne non-traduite suivante"
 
 #: ../pohelper/data/menus.ui.h:10
 msgid "Previous Fu_zzy"
-msgstr ""
+msgstr "Appro_ximative précédente"
 
 #: ../pohelper/data/menus.ui.h:11 ../pohelper/src/gph-plugin.c:1043
 msgid "Go to previous fuzzily translated string"
-msgstr ""
+msgstr "Aller à la chaîne traduite approximativement précédente"
 
 #: ../pohelper/data/menus.ui.h:12
 msgid "Next _Fuzzy"
-msgstr ""
+msgstr "Approximati_ve suivante"
 
 #: ../pohelper/data/menus.ui.h:13 ../pohelper/src/gph-plugin.c:1046
 msgid "Go to next fuzzily translated string"
-msgstr ""
+msgstr "Aller la chaîne traduite approximativement suivante"
 
 #: ../pohelper/data/menus.ui.h:14
 msgid "Previous Untranslated or Fuzz_y"
-msgstr ""
+msgstr "Non-traduite ou _approximative précédente"
 
 #: ../pohelper/data/menus.ui.h:15 ../pohelper/src/gph-plugin.c:1049
 msgid "Go to previous untranslated or fuzzy string"
-msgstr ""
+msgstr "Aller la chaîne non-traduite ou approximative précédente"
 
 #: ../pohelper/data/menus.ui.h:16
 msgid "Next Untranslated _or Fuzzy"
-msgstr ""
+msgstr "Non-traduite ou approximative _suivante"
 
 #: ../pohelper/data/menus.ui.h:17 ../pohelper/src/gph-plugin.c:1053
 msgid "Go to next untranslated or fuzzy string"
-msgstr ""
+msgstr "Aller la chaîne non-traduite ou approximative suivante"
 
 #: ../pohelper/data/menus.ui.h:18 ../pohelper/src/gph-plugin.c:1064
 msgid "Toggle current translation fuzziness"
-msgstr ""
+msgstr "Basculer l'état approximatif de la chaîne courante"
 
 #: ../pohelper/data/menus.ui.h:19
 msgid "_Toggle Fuzziness"
-msgstr ""
+msgstr "Basculer l'état approxima_tif"
 
 #: ../pohelper/data/menus.ui.h:20
 msgid "Paste _Message as Translation"
-msgstr ""
+msgstr "Copier le _message dans la traduction"
 
 #: ../pohelper/data/menus.ui.h:21
 msgid "Paste the original untranslated string to the translation"
-msgstr ""
+msgstr "Copier la chaîne non-traduite originale dans la traduction"
 
 #: ../pohelper/data/menus.ui.h:22 ../pohelper/src/gph-plugin.c:1061
-#, fuzzy
 msgid "Reflow the current translation string"
-msgstr "Sauter à l'instruction courante"
+msgstr "Reformater la chaîne de traduction courante"
 
 #: ../pohelper/data/menus.ui.h:23
 msgid "_Reflow Translation"
-msgstr ""
+msgstr "_Reformatter la traduction"
 
 #: ../pohelper/data/menus.ui.h:24
 msgid ""
 "Whether to update the translation headers (author, revision date, ...) upon "
 "file save"
 msgstr ""
+"Active ou désactive la mise-à-jour des en-têtes de traduction "
+"(auteur, date de révision, etc.) lors de l'enregistrement du fichier"
 
 #: ../pohelper/data/menus.ui.h:25
 msgid "Update _Headers Upon Save"
-msgstr ""
+msgstr "Mettre à _jour les en-têtes lors de l'enregistrement"
 
 #: ../pohelper/src/gph-plugin.c:41
 msgid "Translation Helper"
-msgstr ""
+msgstr "Assistant de traduction"
 
 #: ../pohelper/src/gph-plugin.c:42
 msgid "Improves support for GetText translation files."
-msgstr ""
+msgstr "Améliore la gestion des fichiers de traduction GetText."
 
 #: ../pohelper/src/gph-plugin.c:1057
 msgid "Paste original untranslated string to translation"
-msgstr ""
+msgstr "Copier la chaîne non-traduite originale dans la traduction"
 
 #: ../pohelper/src/gph-plugin.c:1099
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load configuration file: %s"
-msgstr "Impossible de charger la configuration : %s"
+msgstr "Impossible de charger le fichier de configuration : %s"
 
 #: ../pohelper/src/gph-plugin.c:1124
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create configuration directory \"%s\": %s"
-msgstr ""
-"Impossible de trouver le fichier de configuration correspondant au type de "
-"fichier « %s » : %s"
+msgstr "Impossible de créer le dossier de configuration « %s » : %s"
 
 #: ../pohelper/src/gph-plugin.c:1127
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to save configuration file: %s"
-msgstr "Impossible d'enregistrer la configuration : %s"
+msgstr "Impossible d'enregistrer le fichier de configuration : %s"
 
 #: ../pohelper/src/gph-plugin.c:1182
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Failed to load UI definition, please check your installation. The error was: "
 "%s"
 msgstr ""
-"Impossible de charger le plugin %s.\n"
-"Veuillez vérifier votre installation."
+"Impossible de charger la définition d'interface, veuillez vérifier "
+"votre installation. L'erreur était : %s"
 
 #: ../pohelper/src/gph-plugin.c:1222
 #, c-format
@@ -5153,6 +5163,8 @@ msgid ""
 "Cannot find widget \"%s\" in the UI definition, please check your "
 "installation."
 msgstr ""
+"Impossible de trouver le widget « %s » dans la définition d'interface,"
+" veuillez vérifier votre installation."
 
 #: ../pretty-printer/src/PluginEntry.c:37
 msgid "XML PrettyPrinter"
@@ -5240,7 +5252,7 @@ msgstr "Retour de ligne"
 
 #: ../scope/data/scope.glade.h:1
 msgid "Debu_g"
-msgstr ""
+msgstr "Débo_guer"
 
 #: ../scope/data/scope.glade.h:2
 msgid "_Setup Program"
@@ -5248,22 +5260,22 @@ msgstr ""
 
 #: ../scope/data/scope.glade.h:3
 msgid "Recent _Programs"
-msgstr ""
+msgstr "_Programmes récents"
 
 #: ../scope/data/scope.glade.h:4
 #, fuzzy
 msgid "_Run/Continue"
-msgstr "Exécuter / continuer"
+msgstr "Exécute_r / continuer"
 
 #: ../scope/data/scope.glade.h:5
 #, fuzzy
 msgid "Run to _Cursor"
-msgstr "Exécuter jusqu'au curseur"
+msgstr "Exécuter jusqu'au _curseur"
 
 #: ../scope/data/scope.glade.h:6
 #, fuzzy
 msgid "Run to _Source"
-msgstr "Exécuter jusqu'au curseur"
+msgstr "Exécuter jusqu'à la _source"
 
 #: ../scope/data/scope.glade.h:7
 msgid "Step _Into"
@@ -5284,12 +5296,12 @@ msgstr ""
 #: ../scope/data/scope.glade.h:11
 #, fuzzy
 msgid "Toggle _Breakpoint"
-msgstr "Points d'arrêt"
+msgstr "Basuler le point d'arrêt"
 
 #: ../scope/data/scope.glade.h:12
 #, fuzzy
 msgid "_GDB Command"
-msgstr "Insérer une commande"
+msgstr "Commande _GDB"
 
 #: ../scope/data/scope.glade.h:13
 #, fuzzy
@@ -5302,12 +5314,14 @@ msgid "_Show Terminal"
 msgstr "Afficher le _terminal"
 
 #: ../scope/data/scope.glade.h:15
+#, fuzzy
 msgid "_Reset Markers"
-msgstr ""
+msgstr "_Réinitialiser les marqueurs"
 
 #: ../scope/data/scope.glade.h:16
+#, fuzzy
 msgid "_Cleanup Files"
-msgstr ""
+msgstr "Nettoyer les fichiers"
 
 #: ../scope/data/scope.glade.h:17
 msgid "_Feed"
@@ -5339,12 +5353,14 @@ msgid "_View Source"
 msgstr ""
 
 #: ../scope/data/scope.glade.h:24
+#, fuzzy
 msgid "S_ynchronize"
-msgstr ""
+msgstr "S_ynchroniser"
 
 #: ../scope/data/scope.glade.h:25
+#, fuzzy
 msgid "_Interrupt"
-msgstr ""
+msgstr "_Interrompre"
 
 #: ../scope/data/scope.glade.h:26
 #, fuzzy
@@ -5352,9 +5368,8 @@ msgid "_Send Signal"
 msgstr "Envoyer un _signal"
 
 #: ../scope/data/scope.glade.h:27
-#, fuzzy
 msgid "S_elect on"
-msgstr "Sélectionner une police"
+msgstr ""
 
 #: ../scope/data/scope.glade.h:28
 msgid "_Running"
@@ -5370,8 +5385,9 @@ msgid "_Exited"
 msgstr ""
 
 #: ../scope/data/scope.glade.h:31
+#, fuzzy
 msgid "_Follow"
-msgstr ""
+msgstr "Suivre"
 
 #: ../scope/data/scope.glade.h:32
 #, fuzzy
@@ -5379,8 +5395,9 @@ msgid "_Columns"
 msgstr "_Colonnes"
 
 #: ../scope/data/scope.glade.h:33
+#, fuzzy
 msgid "Show _Group"
-msgstr ""
+msgstr "Afficher le _group"
 
 #: ../scope/data/scope.glade.h:34
 msgid "Show _Core"
@@ -5391,9 +5408,8 @@ msgid "Add _Break"
 msgstr ""
 
 #: ../scope/data/scope.glade.h:36
-#, fuzzy
 msgid "Add _Watch"
-msgstr "_Ajouter les deux"
+msgstr ""
 
 #: ../scope/data/scope.glade.h:37
 msgid "Apply on _Run"
@@ -5406,19 +5422,21 @@ msgstr ""
 #: ../scope/data/scope.glade.h:39
 #, fuzzy
 msgid "Show _Address"
-msgstr "Adresse"
+msgstr "Afficher l'adresse"
 
 #: ../scope/data/scope.glade.h:40
+#, fuzzy
 msgid "_Modify"
-msgstr ""
+msgstr "_Modifier"
 
 #: ../scope/data/scope.glade.h:41
 msgid "_Watch"
 msgstr ""
 
 #: ../scope/data/scope.glade.h:42
+#, fuzzy
 msgid "_Inspect"
-msgstr ""
+msgstr "_Inspecter"
 
 #: ../scope/data/scope.glade.h:43
 #, fuzzy
@@ -5477,13 +5495,14 @@ msgid "_Jump To"
 msgstr ""
 
 #: ../scope/data/scope.glade.h:56
+#, fuzzy
 msgid "_Apply"
-msgstr ""
+msgstr "_Appliquer"
 
 #: ../scope/data/scope.glade.h:57
 #, fuzzy
 msgid "_Expand"
-msgstr "Tout déplier"
+msgstr "_Étendre"
 
 #: ../scope/data/scope.glade.h:59
 msgid "_Natural"
@@ -5507,8 +5526,9 @@ msgid "_Binary"
 msgstr "_Binaire"
 
 #: ../scope/data/scope.glade.h:64
+#, fuzzy
 msgid "_Raw"
-msgstr ""
+msgstr "B_rut"
 
 #: ../scope/data/scope.glade.h:65
 msgid "_Evaluate/Modify"
@@ -5521,7 +5541,7 @@ msgstr ""
 #: ../scope/data/scope.glade.h:67
 #, fuzzy
 msgid "_Inspect Variable"
-msgstr "Variables d'environnement"
+msgstr "_Inspecter les variables"
 
 #: ../scope/data/scope.glade.h:68
 msgid "Threads"
@@ -5530,7 +5550,7 @@ msgstr "Threads"
 #: ../scope/data/scope.glade.h:69
 #, fuzzy
 msgid "Stack"
-msgstr "Pile d'appel"
+msgstr "Pile"
 
 #: ../scope/data/scope.glade.h:70
 msgid "Locals"
@@ -5548,12 +5568,11 @@ msgstr "Mémoire"
 #: ../scope/data/scope.glade.h:73
 #, fuzzy
 msgid "Enter gdb command:"
-msgstr "Insérer une commande"
+msgstr "Insérer une commande GDB :"
 
 #: ../scope/data/scope.glade.h:74
-#, fuzzy
 msgid "Convert _UTF-8 to locale"
-msgstr "Aligner la sélection à gauche"
+msgstr ""
 
 #: ../scope/data/scope.glade.h:75
 msgid "_Thread"
@@ -5565,16 +5584,18 @@ msgid "_Group"
 msgstr "_Groupe"
 
 #: ../scope/data/scope.glade.h:77
+#, fuzzy
 msgid "_Frame"
-msgstr ""
+msgstr "Page"
 
 #: ../scope/data/scope.glade.h:78
 msgid "Setup Program"
 msgstr ""
 
 #: ../scope/data/scope.glade.h:79
+#, fuzzy
 msgid "_Executable:"
-msgstr ""
+msgstr "_Exécutable :"
 
 #: ../scope/data/scope.glade.h:80
 #, fuzzy
@@ -5587,8 +5608,9 @@ msgid "En_vironment:"
 msgstr "En_vironnement :"
 
 #: ../scope/data/scope.glade.h:82
+#, fuzzy
 msgid "_Working dir:"
-msgstr ""
+msgstr "Dossier de travail :"
 
 #: ../scope/data/scope.glade.h:83
 msgid "_Load script:"
@@ -5607,17 +5629,21 @@ msgid "_Temporary breakpoint on load at:"
 msgstr ""
 
 #: ../scope/data/scope.glade.h:87
+#, fuzzy
 msgid "_Delete all breakpoints, watches, inspects and registers"
 msgstr ""
+"Supprimer tous les points d'arrêt, watches (?), inspects (?) et "
+"registres (?)"
 
 #: ../scope/data/scope.glade.h:88 ../scope/src/scope.c:522
+#, fuzzy
 msgid "Program"
-msgstr ""
+msgstr "Programme"
 
 #: ../scope/data/scope.glade.h:89
 #, fuzzy
 msgid "Open on"
-msgstr "Ouvrir une URI"
+msgstr ""
 
 #: ../scope/data/scope.glade.h:90
 msgid "g_db load"
@@ -5630,23 +5656,25 @@ msgstr ""
 #: ../scope/data/scope.glade.h:92
 #, fuzzy
 msgid "Update all _views"
-msgstr "Mettre la liste de tâches à jour"
+msgstr "Mettre à jour toutes les _vues"
 
 #: ../scope/data/scope.glade.h:93
+#, fuzzy
 msgid "<b>Panel</b>"
-msgstr ""
+msgstr "<b>Panneau</b>"
 
 #: ../scope/data/scope.glade.h:94
 msgid "Default 8-bit text mode:"
-msgstr ""
+msgstr "Mode de texte 8-bit par défaut :"
 
 #: ../scope/data/scope.glade.h:95
 msgid "_7-bit \\nnn"
 msgstr ""
 
 #: ../scope/data/scope.glade.h:96
+#, fuzzy
 msgid "Display"
-msgstr ""
+msgstr "Affichage"
 
 #: ../scope/data/scope.glade.h:97
 #, fuzzy
@@ -5673,21 +5701,23 @@ msgid "<b>Values</b>"
 msgstr "<b>Valeurs</b>"
 
 #: ../scope/data/scope.glade.h:102
-#, fuzzy
 msgid "E_xpand on apply"
-msgstr "Tout déplier"
+msgstr ""
 
 #: ../scope/data/scope.glade.h:103
+#, fuzzy
 msgid "S_how"
-msgstr ""
+msgstr "Affic_her"
 
 #: ../scope/data/scope.glade.h:104
+#, fuzzy
 msgid "children"
-msgstr ""
+msgstr "enfants"
 
 #: ../scope/data/scope.glade.h:105
+#, fuzzy
 msgid "<b>Inspect</b>"
-msgstr ""
+msgstr "<b>Inspecter</b>"
 
 #: ../scope/data/scope.glade.h:106
 #, fuzzy
@@ -5697,7 +5727,7 @@ msgstr "Afficher les messages =li_brary"
 #: ../scope/data/scope.glade.h:107
 #, fuzzy
 msgid "Show _tooltips"
-msgstr "Afficher les barres d'outils"
+msgstr "Afficher les infobulles"
 
 #: ../scope/data/scope.glade.h:108
 #, fuzzy
@@ -5712,12 +5742,11 @@ msgstr "Options"
 #: ../scope/data/scope.glade.h:110
 #, fuzzy
 msgid "_Import"
-msgstr "_Import"
+msgstr "_Importer"
 
 #: ../scope/data/scope.glade.h:111
-#, fuzzy
 msgid "Enter assignment expression:"
-msgstr "Impossible d'évaluer l'expression"
+msgstr ""
 
 #: ../scope/data/scope.glade.h:112
 #, fuzzy
@@ -5735,8 +5764,9 @@ msgid "-"
 msgstr "-"
 
 #: ../scope/data/scope.glade.h:116
+#, fuzzy
 msgid "Frame:"
-msgstr ""
+msgstr "Page :"
 
 #: ../scope/data/scope.glade.h:117
 #, fuzzy
@@ -5762,9 +5792,8 @@ msgid "Count:"
 msgstr ""
 
 #: ../scope/data/scope.glade.h:122
-#, fuzzy
 msgid "_Expand on apply"
-msgstr "Tout déplier"
+msgstr ""
 
 #: ../scope/data/scope.glade.h:123 ../scope/src/scope.c:522
 #, fuzzy
@@ -5773,22 +5802,21 @@ msgstr "Terminal de déboguage"
 
 #: ../scope/data/scope.glade.h:125
 msgid "Registers"
-msgstr ""
+msgstr "Registres"
 
 #: ../scope/src/break.c:97
 #, fuzzy
 msgid "breakpoint"
-msgstr "Points d'arrêt"
+msgstr "points d'arrêt"
 
 #: ../scope/src/break.c:98
 #, fuzzy
 msgid "hardware breakpoint"
-msgstr "Ajouter / enlever un point d'arrêt"
+msgstr "points d'arrêt matériels"
 
 #: ../scope/src/break.c:99
-#, fuzzy
 msgid "tracepoint"
-msgstr "Points d'arrêt"
+msgstr ""
 
 #: ../scope/src/break.c:100
 msgid "fast tracepoint"
@@ -5803,9 +5831,8 @@ msgid "access watchpoint"
 msgstr ""
 
 #: ../scope/src/break.c:106
-#, fuzzy
 msgid "read watchpoint"
-msgstr "Points d'arrêt"
+msgstr ""
 
 #: ../scope/src/break.c:108
 msgid "catchpoint"
@@ -5829,12 +5856,15 @@ msgid "Run to Cursor"
 msgstr "Exécuter jusqu'au curseur"
 
 #: ../scope/src/break.c:1013
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "There are two or more breakpoints at %s:%d.\n"
 "\n"
 "Use the breakpoint list to remove the exact one."
 msgstr ""
+"Il y a deux points d'arrêt ou plus à %s:%d.\n"
+"\n"
+"Utilisez la liste de points d'arrêt pour supprimer le bon."
 
 #: ../scope/src/break.c:1252
 #, c-format
@@ -5856,19 +5886,19 @@ msgid "Add Watchpoint"
 msgstr ""
 
 #: ../scope/src/conterm.c:106
-#, fuzzy
 msgid "Feed Terminal"
-msgstr "Terminal de déboguage"
+msgstr ""
 
 #: ../scope/src/conterm.c:106
+#, fuzzy
 msgid "Enter char # (0..255):"
-msgstr ""
+msgstr "Entrez le n° de caractère (0 à 255) :"
 
 #: ../scope/src/conterm.c:509 ../scope/src/scope.c:550
 #: ../scope/src/scope.c:551
-#, c-format
+#, c-format, fuzzy
 msgid "Scope: %s."
-msgstr ""
+msgstr "Portée : %s."
 
 #: ../scope/src/debug.c:115 ../scope/src/debug.c:120 ../scope/src/utils.c:37
 #, c-format
@@ -5900,7 +5930,7 @@ msgstr "…"
 #: ../scope/src/inspect.c:339
 #, fuzzy
 msgid "invalid data"
-msgstr "Données invalides"
+msgstr "données invalides"
 
 #: ../scope/src/inspect.c:371
 msgid "no children in range"
@@ -5932,18 +5962,18 @@ msgid "Evaluate/modify"
 msgstr ""
 
 #: ../scope/src/menu.c:482
-#, fuzzy
 msgid "Watch expression"
-msgstr "Impossible d'évaluer l'expression"
+msgstr ""
 
 #: ../scope/src/menu.c:483
 #, fuzzy
 msgid "Inspect variable"
-msgstr "Supprimer la variable ?"
+msgstr "Inspecter la variable"
 
 #: ../scope/src/parse.c:437
+#, fuzzy
 msgid "Undefined GDB error."
-msgstr ""
+msgstr "Erreur GDB indéfinie."
 
 #: ../scope/src/plugme.c:81
 #, fuzzy
@@ -5963,7 +5993,7 @@ msgstr ""
 #: ../scope/src/prefs.c:299
 #, fuzzy
 msgid "Scope: created configuration file."
-msgstr "Forcer le rechargement des fichiers de configuration"
+msgstr "Scope : fichier de configuration créé."
 
 #: ../scope/src/program.c:251
 #, c-format
@@ -5987,8 +6017,9 @@ msgstr ""
 "Continuer ?"
 
 #: ../scope/src/program.c:415
+#, fuzzy
 msgid "Delete all breakpoints, watches et cetera?"
-msgstr ""
+msgstr "Supprimer tous les points d'arrêt, watches (?), etc. ?"
 
 #: ../scope/src/program.c:523
 msgid "as _Name=value"
@@ -6005,7 +6036,7 @@ msgstr "Débogueur Scope"
 
 #: ../scope/src/scope.c:35
 msgid "Relatively simple GDB front-end."
-msgstr ""
+msgstr "Interface relativement simple pour GDB."
 
 #: ../scope/src/scope.c:62
 msgid "Setup program"
@@ -6019,7 +6050,7 @@ msgstr "Exécuter / continuer"
 #: ../scope/src/scope.c:65
 #, fuzzy
 msgid "Run to source"
-msgstr "Exécuter jusqu'au curseur"
+msgstr "Exécuter jusqu'à la source"
 
 #: ../scope/src/scope.c:69
 #, fuzzy
@@ -6396,9 +6427,8 @@ msgid "Set path from document"
 msgstr "Définir le chemin depuis le document"
 
 #: ../treebrowser/src/treebrowser.c:1215
-#, fuzzy
 msgid "_Open externally"
-msgstr "Ouvrir dans un terminal"
+msgstr "_Ouvrir dans un programme externe"
 
 #: ../treebrowser/src/treebrowser.c:1220
 msgid "Open Terminal"
@@ -6414,9 +6444,8 @@ msgid "Refresh"
 msgstr "Rafraîchir"
 
 #: ../treebrowser/src/treebrowser.c:1233
-#, fuzzy
 msgid "_Find in Files"
-msgstr "Rechercher dans les fichiers"
+msgstr "Rechercher dans les _fichiers"
 
 #: ../treebrowser/src/treebrowser.c:1241
 msgid "Create new directory"
@@ -6445,9 +6474,8 @@ msgid "Close Child Documents "
 msgstr "Fermer les documents enfants"
 
 #: ../treebrowser/src/treebrowser.c:1272
-#, fuzzy
 msgid "_Copy full path to clipboard"
-msgstr "Copier le chemin complet dans le presse-papier"
+msgstr "_Copier le chemin complet dans le presse-papier"
 
 #: ../treebrowser/src/treebrowser.c:1292 ../treebrowser/src/treebrowser.c:2032
 msgid "Show bookmarks"
@@ -6474,7 +6502,6 @@ msgstr "Dossier personnel"
 
 # Qu'est-ce que ça fait en pratique ?
 #: ../treebrowser/src/treebrowser.c:1758
-#, fuzzy
 msgid "Track path"
 msgstr "Suivre le chemin"
 
@@ -6498,10 +6525,10 @@ msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1945
 msgid "External open command"
-msgstr "Commande d'ouverture externe"
+msgstr "Commande du programme externe"
 
 #: ../treebrowser/src/treebrowser.c:1950
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The command to execute when using \"Open with\". You can use %f and %d "
 "wildcards.\n"
@@ -6509,10 +6536,11 @@ msgid ""
 "%d will be replaced with the path name of the selected file without the "
 "filename"
 msgstr ""
-"La commande à exécuter pour l'action « Ouvrir XXX »  Vous pouvez utiliser "
-"les marqueurs %f et %d.\n"
+"La commande à exécuter pour l'action « Ouvrir dans un programme "
+"externe »  Vous pouvez utiliser les marqueurs %f et %d.\n"
 "%f sera remplacé par le chemin complet du fichier\n"
-"%d sera remplacé par le chemin complet du dossier qui contient le fichier"
+"%d sera remplacé par le chemin complet du dossier qui contient le "
+"fichier"
 
 #: ../treebrowser/src/treebrowser.c:1958
 msgid "Toolbar"
@@ -6590,16 +6618,15 @@ msgstr "Fermer les fichiers lorsque ils sont supprimés"
 
 #: ../treebrowser/src/treebrowser.c:2020
 msgid "Focus editor on file open"
-msgstr ""
+msgstr "Donner le focus à l'éditeur lors de l'ouverture d'un fichier"
 
 #: ../treebrowser/src/treebrowser.c:2025
 msgid "Show tree lines"
 msgstr "Afficher les guides d'arborescence"
 
 #: ../treebrowser/src/treebrowser.c:2037
-#, fuzzy
 msgid "Open new files"
-msgstr "Ouvrir"
+msgstr "Ouvrir les nouveaux fichiers"
 
 #: ../treebrowser/src/treebrowser.c:2113
 msgid "Focus File List"
