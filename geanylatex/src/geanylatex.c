@@ -700,12 +700,24 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *object, GeanyEditor *edi
 				}
 				default:
 				{
-					if (glatex_capitalize_sentence_starts == TRUE)
+					if (glatex_capitalize_sentence_starts == TRUE &&
+						g_ascii_isspace(get_char_relative(sci, pos, -2)))
 					{
-						if (get_char_relative(sci, pos, -2) == ' ' &&
-							(get_char_relative(sci, pos, -3) == '.' ||
-							 get_char_relative(sci, pos, -3) == '!' ||
-							 get_char_relative(sci, pos, -3) == '?'))
+						gint prevNonWhite = 0;
+						gint i;
+
+						/* find the previous non-white character */
+						i = get_position_relative(sci, pos, -3);
+						while (g_ascii_isspace((prevNonWhite = sci_get_char_at(sci, i))))
+						{
+							/* no need to bother about multi-byte characters here since
+							 * we only check for ASCII space characters anyway */
+							--i;
+						}
+
+						if (prevNonWhite == '.' ||
+							prevNonWhite == '!' ||
+							prevNonWhite == '?')
 						{
 							gchar *upperLtr = NULL;
 							gchar *selection = NULL;
@@ -720,8 +732,8 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *object, GeanyEditor *edi
 							g_free(upperLtr);
 							g_free(selection);
 						}
-						break;
 					}
+					break;
 				}
 			} /* Closing switch  */
 			/* later there could be some else ifs for other keywords */
