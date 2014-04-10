@@ -1,7 +1,14 @@
-Geany Plugins 1.24 (t.b.p.s.)
-    
-    Generell:
-    
+Geany Plugins 1.24 (2014-04-13)
+
+    Known issues
+    * If the Geanypy plugin is closed when any 
+      Python plugins are still running it may 
+      cause a crash.
+    * Closing Geany having GeanyLaTeX and 
+      Devhelp-plugin active, might cause a 
+      not clean shutdown of Geany 
+
+    General:
     * Depend on Geany 1.24
     * Add new plugin pohelper
     * Add new plugin PairTagHighlighter 
@@ -91,6 +98,7 @@ Geany Plugins 1.24 (t.b.p.s.)
     
     Internationalisation:
     * Update translations: de, 
+    * New transaltions: it
     
 Geany Plugins 1.23 (2013-03-10)
 
