@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Geany-plugins 1.24\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-30 19:33+0200\n"
-"PO-Revision-Date: 2014-04-10 01:09+0200\n"
+"PO-Revision-Date: 2014-04-10 17:19+0200\n"
 "Last-Translator: Colomban Wendling <ban@herbesfolles.org>\n"
 "Language-Team: French <geany-i18n@uvena.de>\n"
 "Language: fr\n"
@@ -4694,7 +4694,7 @@ msgstr "Afficher l'historique du dossier racine du VCS"
 
 #: ../geanyvc/src/geanyvc.c:2236
 msgid "VC _Commit"
-msgstr "_Commit du VCS"
+msgstr "Co_mmit du VCS"
 
 #: ../geanyvc/src/geanyvc.c:2271
 msgid "Show diff of file"
