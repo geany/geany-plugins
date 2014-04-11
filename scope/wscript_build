@@ -28,18 +28,24 @@ name = 'Scope'
 includes = ['scope/src', 'scope/src/store']
 
 if target_is_win32(bld):
-	datadir = '${G_PREFIX}/${GEANYPLUGINS_DATADIR}/geany-plugins/scope'
+	datadir_define = '${GEANYPLUGINS_DATADIR}/geany-plugins/scope'
+	datadir = '${G_PREFIX}/%s' % datadir_define
 	docdir = 'doc/plugins/scope'
-	htmldocdir = '${G_PREFIX}/%s/html' % docdir
+	htmldocdir_define = '%s/html' % docdir
+	htmldocdir = '${G_PREFIX}/%s' % htmldocdir_define
 	libraries = []
 else:
 	datadir = '${GEANYPLUGINS_DATADIR}/geany-plugins/scope'
+	datadir_define = datadir
 	docdir = '${DOCDIR}/scope'
 	htmldocdir = '%s/html' % docdir
+	htmldocdir_define = htmldocdir
 	libraries = ['VTE', 'UTIL']
 
-defines = [ subst_vars('PLUGINDATADIR="' + datadir + '"', bld.env).replace("\\", "/"),
-	subst_vars('PLUGINHTMLDOCDIR="' + htmldocdir + '"', bld.env).replace("\\", "/")]
+defines = [
+	subst_vars('PLUGINDATADIR="' + datadir_define + '"', bld.env).replace("\\", "/"),
+	subst_vars('PLUGINHTMLDOCDIR="' + htmldocdir_define + '"', bld.env).replace("\\", "/")
+]
 
 build_plugin(bld, name, includes=includes, libraries=libraries, defines=defines)
 
