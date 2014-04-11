@@ -29,10 +29,8 @@ includes = ['gproject/src']
 build_plugin(bld, name, includes=includes)
 
 # Icons
-if target_is_win32(bld):
-    icon_dest = '${GEANYPLUGINS_DATADIR}/icons'
-else:
-    icon_dest = '${GEANYPLUGINS_DATADIR}/icons/hicolor/16x16/apps'
+prefix = '${G_PREFIX}/' if target_is_win32(bld) else ''
+icon_dest = '%s${GEANYPLUGINS_DATADIR}/icons/hicolor/16x16/apps' % prefix
 
 start_dir = bld.path.find_dir('icons')
 bld.install_files(icon_dest, start_dir.ant_glob('*.png'), cwd=start_dir)
