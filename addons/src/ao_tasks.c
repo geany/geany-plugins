@@ -127,7 +127,7 @@ static void ao_tasks_set_property(GObject *object, guint prop_id,
 		case PROP_TOKENS:
 		{
 			const gchar *t = g_value_get_string(value);
-			if (! NZV(t))
+			if (EMPTY(t))
 				t = "TODO;FIXME"; /* fallback */
 			g_strfreev(priv->tokens);
 			priv->tokens = g_strsplit(t, ";", -1);
@@ -573,14 +573,14 @@ static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
 			token = priv->tokens;
 			while (*token != NULL)
 			{
-				if (NZV(*token) && (task_start = strstr(line_buf, *token)) != NULL)
+				if (!EMPTY(*token) && (task_start = strstr(line_buf, *token)) != NULL)
 				{
 					/* skip the token and additional whitespace */
 					task_start += strlen(*token);
 					while (*task_start == ' ' || *task_start == ':')
 						task_start++;
 					/* reset task_start in case there is no text following */
-					if (! NZV(task_start))
+					if (EMPTY(task_start))
 						task_start = line_buf;
 					/* create the task */
 					create_task(t, doc, line, *token, line_buf, task_start, display_name);

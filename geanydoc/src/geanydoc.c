@@ -185,7 +185,7 @@ show_doc(const gchar * word, gint cmd_num)
 
 	ftype = doc->file_type->name;
 	command = config_get_command(ftype, cmd_num, &intern);
-	if (!NZV(command))
+	if (EMPTY(command))
 	{
 		g_free(command);
 		return;
@@ -201,7 +201,7 @@ show_doc(const gchar * word, gint cmd_num)
 	if (intern)
 	{
 		g_spawn_command_line_sync(command, &tmp, NULL, NULL, NULL);
-		if (NZV(tmp))
+		if (! EMPTY(tmp))
 		{
 			show_output(tmp, "*DOC*", NULL, doc->file_type->id);
 		}
@@ -271,11 +271,11 @@ on_comboboxType_changed(GtkComboBox * combobox, G_GNUC_UNUSED gpointer user_data
 
 	if (from != NULL)
 	{
-		if (NZV(cmd0_txt))
+		if (! EMPTY(cmd0_txt))
 			g_key_file_set_string(config, from, "command0", cmd0_txt);
 		else
 			g_key_file_remove_key(config, from, "command0", NULL);
-		if (NZV(cmd1_txt))
+		if (! EMPTY(cmd1_txt))
 			g_key_file_set_string(config, from, "command1", cmd1_txt);
 		else
 			g_key_file_remove_key(config, from, "command1", NULL);

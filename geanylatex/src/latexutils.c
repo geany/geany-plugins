@@ -64,7 +64,7 @@ void glatex_usepackage(const gchar *pkg, const gchar *options)
 
 			pos = sci_get_position_from_line(doc->editor->sci, i);
 			/* Building up package string and inserting it */
-			if (NZV(options))
+			if (!EMPTY(options))
 			{
 				packagestring = g_strconcat("\\usepackage[", options,
 					"]{", pkg, "}\n", NULL);

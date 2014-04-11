@@ -178,7 +178,7 @@ get_commit_files_svk(const gchar * dir)
 	const char *argv[] = { "svk", "status", NULL };
 
 	execute_custom_command(dir, argv, NULL, &txt, NULL, dir, NULL, NULL);
-	if (!NZV(txt))
+	if (EMPTY(txt))
 		return NULL;
 	p = txt;
 

@@ -48,6 +48,14 @@ static gboolean s_follow_editor = FALSE;
 
 static struct
 {
+	GtkWidget *expand;
+	GtkWidget *collapse;
+	GtkWidget *follow;
+} s_project_toolbar = {NULL, NULL, NULL};
+
+
+static struct
+{
 	GtkWidget *widget;
 
 	GtkWidget *dir_label;
@@ -574,7 +582,13 @@ static void load_project(void)
 	}
 
 	if (path_list != NULL)
+	{
 		create_branch(0, path_list, NULL, header_patterns, source_patterns);
+		
+		gtk_widget_set_sensitive(s_project_toolbar.expand, TRUE);
+		gtk_widget_set_sensitive(s_project_toolbar.collapse, TRUE);
+		gtk_widget_set_sensitive(s_project_toolbar.follow, TRUE);
+	}
 	else
 	{
 		GtkTreeIter iter;
@@ -582,6 +596,10 @@ static void load_project(void)
 		gtk_tree_store_append(s_file_store, &iter, NULL);
 		gtk_tree_store_set(s_file_store, &iter,
 			FILEVIEW_COLUMN_NAME, "Set file patterns under Project->Properties", -1);
+
+		gtk_widget_set_sensitive(s_project_toolbar.expand, FALSE);
+		gtk_widget_set_sensitive(s_project_toolbar.collapse, FALSE);
+		gtk_widget_set_sensitive(s_project_toolbar.follow, FALSE);
 	}
 
 	g_slist_foreach(header_patterns, (GFunc) g_pattern_spec_free, NULL);
@@ -736,12 +754,14 @@ void gprj_sidebar_init(void)
 	ui_widget_set_tooltip_text(item, _("Expand all"));
 	g_signal_connect(item, "clicked", G_CALLBACK(on_expand_all), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), item);
+	s_project_toolbar.expand = item;
 
 	item = GTK_WIDGET(gtk_tool_button_new(NULL, NULL));
 	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "gproject-collapse");
 	ui_widget_set_tooltip_text(item, _("Collapse all"));
 	g_signal_connect(item, "clicked", G_CALLBACK(on_collapse_all), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), item);
+	s_project_toolbar.collapse = item;
 
 	item = GTK_WIDGET(gtk_separator_tool_item_new());
 	gtk_container_add(GTK_CONTAINER(toolbar), item);
@@ -751,6 +771,7 @@ void gprj_sidebar_init(void)
 	ui_widget_set_tooltip_text(item, _("Follow active editor"));
 	g_signal_connect(item, "clicked", G_CALLBACK(on_follow_active), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), item);
+	s_project_toolbar.follow = item;
 
 	gtk_box_pack_start(GTK_BOX(s_file_view_vbox), toolbar, FALSE, FALSE, 0);
 

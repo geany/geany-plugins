@@ -504,7 +504,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 		_("Whether to show the tasks of all open documents in the list or only those of the current document."));
 
 	entry_tasks_tokens = gtk_entry_new();
-	if (NZV(ao_info->tasks_token_list))
+	if (!EMPTY(ao_info->tasks_token_list))
 		gtk_entry_set_text(GTK_ENTRY(entry_tasks_tokens), ao_info->tasks_token_list);
 	ui_entry_add_clear_icon(GTK_ENTRY(entry_tasks_tokens));
 	ui_widget_set_tooltip_text(entry_tasks_tokens,

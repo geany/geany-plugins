@@ -1265,6 +1265,8 @@ on_insert_bibtex_dialog_activate(G_GNUC_UNUSED GtkMenuItem *menuitem,
 		tmp_dir = g_path_get_dirname(doc->real_path);
 		dir = g_dir_open(tmp_dir, 0, NULL);
 
+		if(dir == NULL)
+			g_free(tmp_dir);
 		g_return_if_fail(dir != NULL);
 
 		foreach_dir(filename, dir)
@@ -1275,6 +1277,7 @@ on_insert_bibtex_dialog_activate(G_GNUC_UNUSED GtkMenuItem *menuitem,
 			glatex_parse_bib_file(fullpath, textbox);
 			g_free(fullpath);
 		}
+		g_free(tmp_dir);
 		g_dir_close(dir);
 		model = gtk_combo_box_get_model(GTK_COMBO_BOX(textbox));
 		gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(model),
@@ -1309,10 +1312,8 @@ on_insert_bibtex_dialog_activate(G_GNUC_UNUSED GtkMenuItem *menuitem,
 		}
 		else
 		{
-			if (ref_string != NULL)
-				g_free(ref_string);
-			if (template_string != NULL)
-				g_free(template_string);
+			g_free(ref_string);
+			g_free(template_string);
 		}
 	}
 
@@ -1447,7 +1448,7 @@ on_wizard_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 				break;
 			}
 		}
-		if (classoptions != NULL && NZV(orientation_string))
+		if (classoptions != NULL && !EMPTY(orientation_string))
 		{
 			classoptions = g_strconcat(classoptions, ",", orientation_string, NULL);
 			g_free(orientation_string);
@@ -1465,11 +1466,11 @@ on_wizard_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 			classoptions = g_strconcat(draft, NULL);
 			g_free(draft);
 		}
-		if (classoptions != NULL && NZV(fontsize))
+		if (classoptions != NULL && !EMPTY(fontsize))
 		{
 			classoptions = g_strconcat(classoptions, ",", fontsize, NULL);
 		}
-		else if (classoptions == NULL && NZV(fontsize))
+		else if (classoptions == NULL && !EMPTY(fontsize))
 		{
 			classoptions = g_strdup(fontsize);
 		}
@@ -1594,7 +1595,7 @@ on_wizard_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 					break;
 				}
 			}
-			if (NZV(author))
+			if (!EMPTY(author))
 			{
 				gchar* author_string = NULL;
 				if (documentclass_int == 3)
@@ -1628,7 +1629,7 @@ on_wizard_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
 				g_free(author_string);
 			}
 
-			if (NZV(date))
+			if (!EMPTY(date))
 			{
 				gchar *date_string = NULL;
 				date_string = g_strconcat("\\date{", date, "}\n", NULL);

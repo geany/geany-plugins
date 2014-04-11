@@ -199,7 +199,7 @@ in_vc_git(const gchar * filename)
 
 	execute_custom_command(dir, (const gchar **) argv, NULL, &std_output, NULL,
 			       dir, NULL, NULL);
-	if (NZV(std_output))
+	if (!EMPTY(std_output))
 	{
 		ret = TRUE;
 		g_free(std_output);
