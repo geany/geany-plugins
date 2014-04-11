@@ -709,13 +709,15 @@ auto_close_chars(
 	style = sci_get_style_at(sci, pos + lex_offset);
 
 	/* add ; after functions */
-	if (lexer_cpp_like(lexer, style) &&
-			chars_left[0] == '(' &&
-		 !has_sel &&
-			ac_info->close_functions &&
-			pos == get_end_pos(sci, line) &&
-			sci_get_line_indentation(sci, line) != 0 &&
-		 !check_define(sci, line))
+	if (
+		!has_sel &&
+		ac_info->close_functions &&
+		chars_left[0] == '(' &&
+		lexer_cpp_like(lexer, style) &&
+		pos == get_end_pos(sci, line) &&
+		sci_get_line_indentation(sci, line) != 0 &&
+		!check_define(sci, line)
+	)
 		chars_right[1] = ';';
 
 	style = sci_get_style_at(sci, pos);
@@ -858,7 +860,6 @@ configure_response_cb(GtkDialog *dialog, gint response, gpointer user_data)
 	if (response != GTK_RESPONSE_OK && response != GTK_RESPONSE_APPLY)
 		return;
 	GKeyFile *config = g_key_file_new();
-	gchar    *data;
 	gchar    *config_dir = g_path_get_dirname(ac_info->config_file);
 
 	g_key_file_load_from_file(config, ac_info->config_file, G_KEY_FILE_NONE, NULL);
@@ -901,6 +902,7 @@ configure_response_cb(GtkDialog *dialog, gint response, gpointer user_data)
 	else
 	{
 		/* write config to file */
+		gchar *data;
 		data = g_key_file_to_data(config, NULL, NULL);
 		utils_write_file(ac_info->config_file, data);
 		g_free(data);
@@ -1027,88 +1029,88 @@ plugin_configure(GtkDialog *dialog)
 #define WIDGET_FRAME(description) do {                                         \
     container = gtk_vbox_new(FALSE, 0);                                        \
     frame = gtk_frame_new(NULL);                                               \
-    gtk_frame_set_label(GTK_FRAME(frame), _(description));                     \
+    gtk_frame_set_label(GTK_FRAME(frame), description);                        \
     gtk_container_add(GTK_CONTAINER(frame), container);                        \
     gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 3);                 \
 } while (0)
 
 #define WIDGET_CONF_BOOL(name, description, tooltip) do {                      \
-    widget = gtk_check_button_new_with_label(_(description));                  \
-    if (tooltip) gtk_widget_set_tooltip_text(widget, _(tooltip));              \
+    widget = gtk_check_button_new_with_label(description);                     \
+    if (tooltip) gtk_widget_set_tooltip_text(widget, tooltip);                 \
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget), ac_info->name);    \
     gtk_box_pack_start(GTK_BOX(container), widget, FALSE, FALSE, 3);           \
     g_object_set_data(G_OBJECT(dialog), "check_" #name, widget);               \
 } while (0)
 
-	WIDGET_FRAME("Auto-close quotes and brackets");
-	WIDGET_CONF_BOOL(parenthesis, "Parenthesis ( )",
-		"Auto-close parenthesis \"(\" -> \"(|)\"");
+	WIDGET_FRAME(_("Auto-close quotes and brackets"));
+	WIDGET_CONF_BOOL(parenthesis, _("Parenthesis ( )"),
+		_("Auto-close parenthesis \"(\" -> \"(|)\""));
 	g_signal_connect(widget, "toggled", G_CALLBACK(ac_parenthesis_cb), dialog);
-	WIDGET_CONF_BOOL(cbracket, "Curly brackets { }",
-		"Auto-close curly brackets \"{\" -> \"{|}\"");
+	WIDGET_CONF_BOOL(cbracket, _("Curly brackets { }"),
+		_("Auto-close curly brackets \"{\" -> \"{|}\""));
 	g_signal_connect(widget, "toggled", G_CALLBACK(ac_cbracket_cb), dialog);
-	WIDGET_CONF_BOOL(sbracket, "Square brackets [ ]",
-		"Auto-close square brackets \"[\" -> \"[|]\"");
-	WIDGET_CONF_BOOL(abracket, "Angular brackets < >",
-		"Auto-close angular brackets \"<\" -> \"<|>\"");
+	WIDGET_CONF_BOOL(sbracket, _("Square brackets [ ]"),
+		_("Auto-close square brackets \"[\" -> \"[|]\""));
+	WIDGET_CONF_BOOL(abracket, _("Angular brackets < >"),
+		_("Auto-close angular brackets \"<\" -> \"<|>\""));
 	g_signal_connect(widget, "toggled", G_CALLBACK(ac_abracket_htmlonly_cb), dialog);
-	WIDGET_CONF_BOOL(abracket_htmlonly, "\tOnly for HTML",
-		"Auto-close angular brackets only in HTML documents");
-	WIDGET_CONF_BOOL(dquote, "Double quotes \" \"",
-		"Auto-close double quotes \" -> \"|\"");
-	WIDGET_CONF_BOOL(squote, "Single quotes \' \'",
-		"Auto-close single quotes ' -> '|'");
-	WIDGET_CONF_BOOL(backquote, "Backquote ` `",
-		"Auto-close backquote ` -> `|`");
+	WIDGET_CONF_BOOL(abracket_htmlonly, _("\tOnly for HTML"),
+		_("Auto-close angular brackets only in HTML documents"));
+	WIDGET_CONF_BOOL(dquote, _("Double quotes \" \""),
+		_("Auto-close double quotes \" -> \"|\""));
+	WIDGET_CONF_BOOL(squote, _("Single quotes \' \'"),
+		_("Auto-close single quotes ' -> '|'"));
+	WIDGET_CONF_BOOL(backquote, _("Backquote ` `"),
+		_("Auto-close backquote ` -> `|`"));
 	g_signal_connect(widget, "toggled", G_CALLBACK(ac_backquote_bashonly_cb), dialog);
-	WIDGET_CONF_BOOL(backquote_bashonly, "\tOnly for Bash",
-		"Auto-close backquote only in Bash");
+	WIDGET_CONF_BOOL(backquote_bashonly, _("\tOnly for Bash"),
+		_("Auto-close backquote only in Bash"));
 
-	WIDGET_FRAME("Improve curly brackets completion");
-	WIDGET_CONF_BOOL(make_indent_for_cbracket, "Indent when enclosing",
-		"If you select some text and press \"{\" or \"}\", plugin "
+	WIDGET_FRAME(_("Improve curly brackets completion"));
+	WIDGET_CONF_BOOL(make_indent_for_cbracket, _("Indent when enclosing"),
+		_("If you select some text and press \"{\" or \"}\", plugin "
 		"will auto-close selected lines and make new block with indent."
 		"\nYou do not need to select block precisely - block enclosing "
-		"takes into account only lines.");
+		"takes into account only lines."));
 	g_signal_connect(widget, "toggled", G_CALLBACK(ac_make_indent_for_cbracket_cb), dialog);
-	WIDGET_CONF_BOOL(move_cursor_to_beginning, "Move cursor to beginning",
-		"If you checked \"Indent when enclosing\", moving cursor "
+	WIDGET_CONF_BOOL(move_cursor_to_beginning, _("Move cursor to beginning"),
+		_("If you checked \"Indent when enclosing\", moving cursor "
 		"to beginning may be useful: usually you make new block "
-		"and need to create new statement before this block.");
-	WIDGET_CONF_BOOL(improved_cbracket_indent, "Improved auto-indentation",
-		"Improved auto-indent for curly brackets: type \"{\" "
+		"and need to create new statement before this block."));
+	WIDGET_CONF_BOOL(improved_cbracket_indent, _("Improved auto-indentation"),
+		_("Improved auto-indent for curly brackets: type \"{\" "
 		"and then press Enter - plugin will create full indented block. "
-		"Works without \"auto-close { }\" checkbox.");
+		"Works without \"auto-close { }\" checkbox."));
 
 	container = vbox;
-	WIDGET_CONF_BOOL(delete_pairing_brace, "Delete pairing character while backspacing first",
-		"Check if you want to delete pairing bracket by pressing BackSpace.");
+	WIDGET_CONF_BOOL(delete_pairing_brace, _("Delete pairing character while backspacing first"),
+		_("Check if you want to delete pairing bracket by pressing BackSpace."));
 	g_signal_connect(widget, "toggled", G_CALLBACK(ac_delete_pairing_brace_cb), dialog);
-	WIDGET_CONF_BOOL(suppress_doubling, "Suppress double-completion",
-		"Check if you want to allow editor automatically fix mistypes "
-		"with brackets: if you type \"{}\" you will get \"{}\", not \"{}}\".");
-	WIDGET_CONF_BOOL(enclose_selections, "Enclose selections",
-		"Automatically enclose selected text by pressing just one bracket key.");
+	WIDGET_CONF_BOOL(suppress_doubling, _("Suppress double-completion"),
+		_("Check if you want to allow editor automatically fix mistypes "
+		"with brackets: if you type \"{}\" you will get \"{}\", not \"{}}\"."));
+	WIDGET_CONF_BOOL(enclose_selections, _("Enclose selections"),
+		_("Automatically enclose selected text by pressing just one bracket key."));
 	g_signal_connect(widget, "toggled", G_CALLBACK(ac_enclose_selections_cb), dialog);
-	WIDGET_CONF_BOOL(keep_selection, "Keep selection when enclosing",
-		"Keep your previously selected text after enclosing.");
+	WIDGET_CONF_BOOL(keep_selection, _("Keep selection when enclosing"),
+		_("Keep your previously selected text after enclosing."));
 
-	WIDGET_FRAME("Behaviour inside comments and strings");
-	WIDGET_CONF_BOOL(comments_ac_enable, "Allow auto-closing in strings and comments",
-		"Check if you wan to keep auto-closing inside strings and comments too.");
-	WIDGET_CONF_BOOL(comments_enclose, "Enclose selections in strings and comments",
-		"Check if you wan to enclose selections inside strings and comments too.");
+	WIDGET_FRAME(_("Behaviour inside comments and strings"));
+	WIDGET_CONF_BOOL(comments_ac_enable, _("Allow auto-closing in strings and comments"),
+		_("Check if you wan to keep auto-closing inside strings and comments too."));
+	WIDGET_CONF_BOOL(comments_enclose, _("Enclose selections in strings and comments"),
+		_("Check if you wan to enclose selections inside strings and comments too."));
 
 	container = vbox;
-	WIDGET_CONF_BOOL(close_functions, "Auto-complete \";\" for functions",
-		"Full function auto-closing (works only for C/C++): type \"sin(\" "
-		"and you will get \"sin(|);\".");
-	WIDGET_CONF_BOOL(bcksp_remove_pair, "Shift+BackSpace removes pairing brace too",
-		"Remove left and right brace while pressing Shift+BackSpace.\nTip: "
+	WIDGET_CONF_BOOL(close_functions, _("Auto-complete \";\" for functions"),
+		_("Full function auto-closing (works only for C/C++): type \"sin(\" "
+		"and you will get \"sin(|);\"."));
+	WIDGET_CONF_BOOL(bcksp_remove_pair, _("Shift+BackSpace removes pairing brace too"),
+		_("Remove left and right brace while pressing Shift+BackSpace.\nTip: "
 		"to completely remove indented block just Shift+BackSpace first \"{\" "
-		"or last \"}\".");
-	WIDGET_CONF_BOOL(jump_on_tab, "Jump on Tab to enclosed char",
-		"Jump behind autoclosed items on Tab press.");
+		"or last \"}\"."));
+	WIDGET_CONF_BOOL(jump_on_tab, _("Jump on Tab to enclosed char"),
+		_("Jump behind autoclosed items on Tab press."));
 
 #undef WIDGET_CONF_BOOL
 #undef WIDGET_FRAME
