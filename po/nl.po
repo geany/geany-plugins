@@ -1,7 +1,7 @@
 # Dutch translations for geany-plugins package.
 # Copyright (C) 2011 THE geany-plugins'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
-# Peter Scholtens <peter.scholtens@xs4all.nl>, 2011, 2013
+# Peter Scholtens <peter.scholtens@xs4all.nl>, 2011, 2013-2014
 # hans <alves.h88@gmail.com>, 2011.
 msgid ""
 msgstr ""
@@ -140,11 +140,11 @@ msgstr "Verscheidene kleine toevoegingen voor Geany"
 
 #: ../addons/src/addons.c:296
 msgid "Focus Bookmark List"
-msgstr "Focus bladwijzerlijst"
+msgstr "Schakel naar bladwijzerlijst"
 
 #: ../addons/src/addons.c:298
 msgid "Focus Tasks List"
-msgstr "Focus takenlijst"
+msgstr "Schakel naar takenlijst"
 
 #: ../addons/src/addons.c:300
 msgid "Update Tasks List"
@@ -4583,19 +4583,19 @@ msgstr ""
 
 #: ../gproject/src/gproject-menu.c:353
 msgid "Find in Project Files"
-msgstr ""
+msgstr "Zoek in projectbestanden"
 
 #: ../gproject/src/gproject-menu.c:359
 msgid "Find in project files"
-msgstr ""
+msgstr "Zoek in projectbestanden"
 
 #: ../gproject/src/gproject-menu.c:363
 msgid "Find Project File"
-msgstr ""
+msgstr "Zoek projectfile"
 
 #: ../gproject/src/gproject-menu.c:369
 msgid "Find project file"
-msgstr ""
+msgstr "Zoek projectfile"
 
 #: ../gproject/src/gproject-menu.c:371
 msgid "Swap Header/Source"
@@ -4756,88 +4756,87 @@ msgstr ""
 
 #: ../pohelper/data/menus.ui.h:1
 msgid "_Translation Helper"
-msgstr ""
+msgstr "Vertalingshulp"
 
 #: ../pohelper/data/menus.ui.h:2
 msgid "_Previous String"
-msgstr ""
+msgstr "Vorige string"
 
 #: ../pohelper/data/menus.ui.h:3 ../pohelper/src/gph-plugin.c:1031
 msgid "Go to previous string"
-msgstr ""
+msgstr "Ga naar vorige string"
 
 #: ../pohelper/data/menus.ui.h:4
 msgid "_Next String"
-msgstr ""
+msgstr "Volgende string"
 
 #: ../pohelper/data/menus.ui.h:5 ../pohelper/src/gph-plugin.c:1034
-#, fuzzy
 msgid "Go to next string"
-msgstr "Ga naar volgende bladzijde"
+msgstr "Ga naar volgende string"
 
 #: ../pohelper/data/menus.ui.h:6
 msgid "Pre_vious Untranslated"
-msgstr ""
+msgstr "Vorige onvertaalde string"
 
 #: ../pohelper/data/menus.ui.h:7 ../pohelper/src/gph-plugin.c:1037
 msgid "Go to previous untranslated string"
-msgstr ""
+msgstr "Ga naar vorige onvertaalde string"
 
 #: ../pohelper/data/menus.ui.h:8
 msgid "Next _Untranslated"
-msgstr ""
+msgstr "Volgende onvertaalde string"
 
 #: ../pohelper/data/menus.ui.h:9 ../pohelper/src/gph-plugin.c:1040
 msgid "Go to next untranslated string"
-msgstr ""
+msgstr "Ga naar volgende onvertaalde string"
 
 #: ../pohelper/data/menus.ui.h:10
 msgid "Previous Fu_zzy"
-msgstr ""
+msgstr "Vorige onduidelijkheid"
 
 #: ../pohelper/data/menus.ui.h:11 ../pohelper/src/gph-plugin.c:1043
 msgid "Go to previous fuzzily translated string"
-msgstr ""
+msgstr "Ga naar de vorige onduidelijk vertaalde string"
 
 #: ../pohelper/data/menus.ui.h:12
 msgid "Next _Fuzzy"
-msgstr ""
+msgstr "Volgende onduidelijkheid"
 
 #: ../pohelper/data/menus.ui.h:13 ../pohelper/src/gph-plugin.c:1046
 msgid "Go to next fuzzily translated string"
-msgstr ""
+msgstr "Ga naar volgende onduidelijk vertaalde string"
 
 #: ../pohelper/data/menus.ui.h:14
 msgid "Previous Untranslated or Fuzz_y"
-msgstr ""
+msgstr "Vorige onvertaalde of onduidelijke string"
 
 #: ../pohelper/data/menus.ui.h:15 ../pohelper/src/gph-plugin.c:1049
 msgid "Go to previous untranslated or fuzzy string"
-msgstr ""
+msgstr "Ga naar vorige onvertaalde of onduidelijke string"
 
 #: ../pohelper/data/menus.ui.h:16
 msgid "Next Untranslated _or Fuzzy"
-msgstr ""
+msgstr "Volgende onvertaalde of onduidelijke string"
 
 #: ../pohelper/data/menus.ui.h:17 ../pohelper/src/gph-plugin.c:1053
 msgid "Go to next untranslated or fuzzy string"
-msgstr ""
+msgstr "Ga naar volgende onvertaalde of onduidelijke string"
 
 #: ../pohelper/data/menus.ui.h:18 ../pohelper/src/gph-plugin.c:1064
 msgid "Toggle current translation fuzziness"
-msgstr ""
+msgstr "Markeer huidige vertaling als (on)duidelijk"
 
 #: ../pohelper/data/menus.ui.h:19
 msgid "_Toggle Fuzziness"
-msgstr ""
+msgstr "Zet (on)duidelijkheid"
 
 #: ../pohelper/data/menus.ui.h:20
 msgid "Paste _Message as Translation"
-msgstr ""
+msgstr "Plak bericht als vertaling"
 
 #: ../pohelper/data/menus.ui.h:21
 msgid "Paste the original untranslated string to the translation"
-msgstr ""
+msgstr "Plak de orginele onvertaalde string naar de vertaling"
 
 #: ../pohelper/data/menus.ui.h:22 ../pohelper/src/gph-plugin.c:1061
 msgid "Reflow the current translation string"
@@ -4852,37 +4851,36 @@ msgid ""
 "Whether to update the translation headers (author, revision date, ...) upon "
 "file save"
 msgstr ""
+"Of de vertalingsinformatie (auteur, revisiedatum, ...) aangepast moet worden "
+"bij het wegschrijven"
 
 #: ../pohelper/data/menus.ui.h:25
 msgid "Update _Headers Upon Save"
-msgstr ""
+msgstr "Pas vertalingsinfo aan bij wegschrijven"
 
 #: ../pohelper/src/gph-plugin.c:41
 msgid "Translation Helper"
-msgstr ""
+msgstr "Vertalingshulp"
 
 #: ../pohelper/src/gph-plugin.c:42
 msgid "Improves support for GetText translation files."
-msgstr ""
+msgstr "Verbetert ondersteuning van GetText vertalingsbestanden."
 
 #: ../pohelper/src/gph-plugin.c:1057
 msgid "Paste original untranslated string to translation"
-msgstr ""
+msgstr "Plak originele onvertaalde string naar vertalingsveld"
 
 #: ../pohelper/src/gph-plugin.c:1099
-#, fuzzy, c-format
 msgid "Failed to load configuration file: %s"
-msgstr "Herlaad configuratie bestanden"
+msgstr "Kon configuratie bestand '%s' niet inlezen"
 
 #: ../pohelper/src/gph-plugin.c:1124
-#, fuzzy, c-format
 msgid "Failed to create configuration directory \"%s\": %s"
-msgstr "Kon configuratie map niet creëren op '%s'"
+msgstr "Kon configuratie map niet creëren op \"%s\": '%s'"
 
 #: ../pohelper/src/gph-plugin.c:1127
-#, fuzzy, c-format
 msgid "Failed to save configuration file: %s"
-msgstr "Kon default configuratie niet ophalen: %s"
+msgstr "Kon configuratiebestand niet wegschrijven: %s"
 
 #: ../pohelper/src/gph-plugin.c:1182
 #, c-format
@@ -4890,6 +4888,8 @@ msgid ""
 "Failed to load UI definition, please check your installation. The error was: "
 "%s"
 msgstr ""
+"Kon definitie van grafische interface niet lezen. Controleer de installatie."
+"Foutmelding '%s'"
 
 #: ../pohelper/src/gph-plugin.c:1222
 #, c-format
@@ -4897,6 +4897,8 @@ msgid ""
 "Cannot find widget \"%s\" in the UI definition, please check your "
 "installation."
 msgstr ""
+"Kon widget '%s' niet vinden in grafische interface definitie. Controleer de "
+"installatie."
 
 #: ../pretty-printer/src/PluginEntry.c:37
 msgid "XML PrettyPrinter"
@@ -6108,9 +6110,8 @@ msgid "Set path from document"
 msgstr "Zet pad van document"
 
 #: ../treebrowser/src/treebrowser.c:1215
-#, fuzzy
 msgid "_Open externally"
-msgstr "Open terminalvenster"
+msgstr "Open extern"
 
 #: ../treebrowser/src/treebrowser.c:1220
 msgid "Open Terminal"
@@ -6126,7 +6127,6 @@ msgid "Refresh"
 msgstr "Ververs"
 
 #: ../treebrowser/src/treebrowser.c:1233
-#, fuzzy
 msgid "_Find in Files"
 msgstr "Zoek in bestanden"
 
@@ -6157,9 +6157,8 @@ msgid "Close Child Documents "
 msgstr "Sluit "
 
 #: ../treebrowser/src/treebrowser.c:1272
-#, fuzzy
 msgid "_Copy full path to clipboard"
-msgstr "Kopiëer volledig pad naar klembord"
+msgstr "Kopiëer volledig padnaam naar klembord"
 
 #: ../treebrowser/src/treebrowser.c:1292 ../treebrowser/src/treebrowser.c:2032
 msgid "Show bookmarks"
@@ -6310,26 +6309,22 @@ msgid "Open new files"
 msgstr "Creër nieuw bestand"
 
 #: ../treebrowser/src/treebrowser.c:2113
-#, fuzzy
 msgid "Focus File List"
-msgstr "Voorgrond bestandslijst"
+msgstr "Zet bestandslijst op voorgrond"
 
 #: ../treebrowser/src/treebrowser.c:2115
-#, fuzzy
 msgid "Focus Path Entry"
-msgstr "Voorgrond pad"
+msgstr "Zet pad entry op voorgrond"
 
 #: ../treebrowser/src/treebrowser.c:2117
 msgid "Rename Object"
 msgstr "Hernoem object"
 
 #: ../treebrowser/src/treebrowser.c:2119
-#, fuzzy
 msgid "Create New File"
 msgstr "Creër nieuw bestand"
 
 #: ../treebrowser/src/treebrowser.c:2121
-#, fuzzy
 msgid "Create New Directory"
 msgstr "Creër nieuwe map"
 
@@ -6561,11 +6556,11 @@ msgstr ""
 
 #: ../xmlsnippets/src/plugin.c:45
 msgid "XML Snippets"
-msgstr ""
+msgstr "XML Snippers"
 
 #: ../xmlsnippets/src/plugin.c:46
 msgid "Autocompletes XML/HTML tags using snippets."
-msgstr ""
+msgstr "Completeerd automatisch XML/HTML labels."
 
 #~ msgid "Unknown signal"
 #~ msgstr "Onbekend signaal"
