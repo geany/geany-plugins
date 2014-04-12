@@ -1022,6 +1022,7 @@ plugin_configure(GtkDialog *dialog)
 	GtkWidget *widget, *vbox, *frame, *container, *scrollbox;
 	vbox = gtk_vbox_new(FALSE, 0);
 	scrollbox = gtk_scrolled_window_new(NULL, NULL);
+	gtk_widget_set_size_request(GTK_WIDGET(scrollbox), 350, 400);
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrollbox), vbox);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollbox),
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
