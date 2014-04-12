@@ -70,7 +70,7 @@ Var UNINSTDIR
 
 !define MUI_ABORTWARNING
 ; FIXME hard-coded path...should we add geany.ico to the geany-plugins repo?
-!define MUI_ICON "\geany_svn\icons\geany.ico"
+!define MUI_ICON "..\geany\icons\geany.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall-full.ico"
 
 ; Welcome page
