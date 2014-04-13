@@ -1,6 +1,6 @@
-dnl _GP_CHECK_CFLAG_(FLAG, [ACTION-IF-TRUE], [ACTION-IF-FALSE])
+dnl GP_CHECK_CFLAG(FLAG, [ACTION-IF-TRUE], [ACTION-IF-FALSE])
 dnl Checks whether the C compiler understands FLAG
-AC_DEFUN([_GP_CHECK_CFLAG_],
+AC_DEFUN([GP_CHECK_CFLAG],
 [
     gp_check_cflag_CFLAGS="$CFLAGS"
     CFLAGS="$1"
@@ -38,7 +38,7 @@ AC_DEFUN([GP_CHECK_CFLAGS],
                     -Wundef \
                     -Wwrite-strings
         do
-            _GP_CHECK_CFLAG_([$flag], [GP_CFLAGS="${GP_CFLAGS} $flag"])
+            GP_CHECK_CFLAG([$flag], [GP_CFLAGS="${GP_CFLAGS} $flag"])
         done
     ])
     AC_SUBST([GP_CFLAGS])
