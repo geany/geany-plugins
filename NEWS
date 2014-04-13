@@ -8,13 +8,12 @@ Geany Plugins 1.24 (2014-04-13)
 
     General:
     * Depend on Geany 1.24
-    * Add new plugin pohelper
-    * Add new plugin PairTagHighlighter
-    * Add new plugin autoclose
-    * Add Geanypy Python Plugin Plugin
-    * Add new plugin Defineformat
-    * Improvements of build system
-    * Update of waf to 1.6.11
+    * New plugin Pohelper
+    * New plugin PairTagHighlighter
+    * New plugin Autoclose
+    * New plugin Geanypy (Python bindings)
+    * New plugin Defineformat
+    * Build system improvements
 
     Commander:
     * Add Gtk3 support
@@ -51,7 +50,8 @@ Geany Plugins 1.24 (2014-04-13)
     * Add support for Subversion 1.7
     * Limit the display of diff output to 16 KB to not freeze the UI on
       huge commit-diffs
-    * Add a little statusbar below the commit message text widget
+    * Show line and column of the cursor in the commit
+      message text window
 
     GProject:
     * Add Gtk3 support
@@ -97,15 +97,15 @@ Geany Plugins 1.24 (2014-04-13)
     * Focus editor on file open
 
     Updatechecker:
-    * Fix comparing major versions. Didn't work when major has increased
-      but minor didn't
+    * Fix comparing major versions
 
     WebHelper:
     * Add Gtk3 support
 
-    Internationalisation:
+    Internationalization:
     * Update translations: de, es, fr, nl, ru, tr
-    * New transaltions: it
+    * New translations: it
+
 
 Geany Plugins 1.23 (2013-03-10)
 
