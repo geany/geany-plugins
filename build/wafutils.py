@@ -182,45 +182,17 @@ def get_plugins():
     return sorted(plugins)
 
 
-def get_svn_rev(conf):
-    def in_git():
-        cmd = 'git ls-files >/dev/null 2>&1'
-        return (conf.exec_command(cmd) == 0)
+def get_git_rev(conf):
+    if not os.path.isdir('.git'):
+        return
 
-    def in_svn():
-        return os.path.exists('.svn')
-
-    # try GIT
-    if in_git():
-        cmds = [ 'git svn find-rev HEAD 2>/dev/null',
-                 'git svn find-rev origin/trunk 2>/dev/null',
-                 'git svn find-rev trunk 2>/dev/null',
-                 'git svn find-rev master 2>/dev/null'
-                ]
-        for cmd in cmds:
-            try:
-                stdout = conf.cmd_and_log(cmd)
-                if stdout:
-                    return int(stdout.strip())
-            except WafError:
-                pass
-            except ValueError:
-                Logs.pprint('RED', 'Unparseable revision number')
-    # try SVN
-    elif in_svn():
-        try:
-            _env = None if target_is_win32(conf) else dict(LANG='C')
-            stdout = conf.cmd_and_log(cmd='svn info --non-interactive', env=_env)
-            lines = stdout.splitlines(True)
-            for line in lines:
-                if line.startswith('Last Changed Rev'):
-                    value = line.split(': ', 1)[1]
-                    return int(value.strip())
-        except WafError:
-            pass
-        except (IndexError, ValueError):
-            Logs.pprint('RED', 'Unparseable revision number')
-    return 0
+    try:
+        cmd = 'git rev-parse --short --revs-only HEAD'
+        revision = conf.cmd_and_log(cmd).strip()
+    except WafError:
+        return None
+    else:
+        return revision
 
 
 def install_docs(ctx, name, files):

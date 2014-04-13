@@ -51,7 +51,7 @@ from build.wafutils import (
     check_cfg_cached,
     get_plugins,
     get_enabled_plugins,
-    get_svn_rev,
+    get_git_rev,
     install_docs,
     launch,
     load_intltool_if_available,
@@ -94,9 +94,9 @@ def configure(conf):
                    args='--cflags --libs')
 
     set_lib_dir(conf)
-    # SVN/GIT detection
-    svn_rev = get_svn_rev(conf)
-    conf.define('REVISION', svn_rev, 1)
+    # GIT detection
+    revision = get_git_rev(conf)
+    conf.define('REVISION', revision, 1)
     # GTK/Geany versions
     geany_version = conf.check_cfg(modversion='geany') or 'Unknown'
     gtk_version = conf.check_cfg(modversion='gtk+-2.0') or 'Unknown'
@@ -116,7 +116,7 @@ def configure(conf):
     conf.write_config_header('config.h')
 
     # enable debug when compiling from VCS
-    if svn_rev > 0:
+    if revision > 0:
         conf.env.append_value('CFLAGS', '-g -DDEBUG'.split()) # -DGEANY_DISABLE_DEPRECATED
 
     # summary
@@ -124,8 +124,8 @@ def configure(conf):
     conf.msg('Install Geany Plugins ' + VERSION + ' in', conf.env['G_PREFIX'])
     conf.msg('Using GTK version', gtk_version)
     conf.msg('Using Geany version', geany_version)
-    if svn_rev > 0:
-        conf.msg('Compiling Subversion revision', svn_rev)
+    if revision > 0:
+        conf.msg('Compiling Git revision', revision)
     conf.msg('Plugins to compile', ' '.join(enabled_plugins))
 
 
