@@ -183,6 +183,9 @@ def get_plugins():
 
 
 def get_git_rev(conf):
+    if conf.options.no_scm:
+        return
+
     if not os.path.isdir('.git'):
         return
 

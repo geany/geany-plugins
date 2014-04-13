@@ -203,6 +203,9 @@ def options(opt):
     # execute plugin specific option code
     opt.recurse(plugins, mandatory=False)
 
+    # Options
+    opt.add_option('--no-scm', action='store_true', default=False,
+        help='Disable SCM detection [default: No]', dest='no_scm')
     # Paths
     opt.add_option('--libdir', type='string', default='',
         help='object code libraries', dest='libdir')
