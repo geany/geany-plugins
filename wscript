@@ -116,7 +116,7 @@ def configure(conf):
 
     # enable debug when compiling from VCS
     if revision > 0:
-        conf.env.append_value('CFLAGS', '-g -DDEBUG'.split()) # -DGEANY_DISABLE_DEPRECATED
+        conf.env.append_value('CFLAGS', '-g -DDEBUG'.split())  # -DGEANY_DISABLE_DEPRECATED
 
     # summary
     Logs.pprint('BLUE', 'Summary:')
@@ -215,8 +215,8 @@ def options(opt):
         help='list plugins which can be built', dest='list_plugins')
 
     opt.add_option('--enable-plugins', action='store', default='',
-        help='plugins to be built [plugins in CSV format, e.g. "%(1)s,%(2)s"]' % \
-        { '1' : plugins[0], '2' : plugins[1] }, dest='enable_plugins')
+        help='plugins to be built [plugins in CSV format, e.g. "%(1)s,%(2)s"]' %
+        {'1': plugins[0], '2': plugins[1]}, dest='enable_plugins')
     opt.add_option('--skip-plugins', action='store', default='',
         help='plugins which should not be built, ignored when --enable-plugins is set, same format as --enable-plugins',
         dest='skip_plugins')
@@ -274,9 +274,9 @@ def listplugins(ctx):
     Logs.pprint('GREEN', 'The following targets can be chosen with the --enable-plugins option:')
     Logs.pprint('NORMAL', ' '.join(plugins))
 
-    Logs.pprint('GREEN', \
-    '\nTo compile only "%(1)s" and "%(2)s", use "./waf configure --enable-plugins=%(1)s,%(2)s".' % \
-            { '1' : plugins[0], '2' : plugins[1] } )
+    Logs.pprint('GREEN',
+    '\nTo compile only "%(1)s" and "%(2)s", use "./waf configure --enable-plugins=%(1)s,%(2)s".' %
+            {'1': plugins[0], '2': plugins[1]})
     exit(0)
 
 
@@ -301,7 +301,7 @@ def write_linguas_file(self):
     if 'LINGUAS' in self.env:
         files = self.env['LINGUAS']
         for po_filename in files.split(' '):
-            if os.path.exists ('po/%s.po' % po_filename):
+            if os.path.exists('po/%s.po' % po_filename):
                 linguas += '%s ' % po_filename
     else:
         files = os.listdir('%s/po' % self.path.abspath())
