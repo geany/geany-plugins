@@ -39,7 +39,7 @@ Geany Plugins 1.24 (2014-04-13)
 
     GeanyLua:
     * Add Gtk3 support
-    * Reenable build with C89
+    * Re-enable build with C89
 
     GeanyMiniScript:
     * Add Gtk3 support
@@ -56,6 +56,7 @@ Geany Plugins 1.24 (2014-04-13)
     GProject:
     * Add Gtk3 support
     * Display content-type-specific icons for files in the sidebar
+    * Make toolbar buttons insensitive when no files displayed
     * Smaller fixes and improvements
 
     Markdown:
@@ -148,12 +149,6 @@ Geany Plugins 1.23 (2013-03-10)
     GeniusPaste:
     * Fixing of memory leaks
     * Fixing of a invalid memory free
-
-    GProject:
-    * Make toolbar buttons insensitive when no files displayed 
-    
-    Shiftcolumn: 
-    * Remove default keybinding 
 
     Spellcheck:
     * Perform a recheck/clear when toggling 'check while typing' (#3495051)
