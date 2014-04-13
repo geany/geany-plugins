@@ -157,13 +157,17 @@ void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
 /*
  * 	Handles mouse leave event to check if a calltip is still present and hides it if yes 
  */
-static gint leave_signal;
+static gulong leave_signal = 0;
 static gboolean on_mouse_leave(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
 	ScintillaObject *so = (ScintillaObject*)widget;
-	if (scintilla_send_message (so, SCI_CALLTIPACTIVE, 0, 0))
+	if (leave_signal > 0)
 	{
 		g_signal_handler_disconnect(G_OBJECT(widget), leave_signal);
+		leave_signal = 0;
+	}
+	if (scintilla_send_message (so, SCI_CALLTIPACTIVE, 0, 0))
+	{
 		scintilla_send_message (so, SCI_CALLTIPCANCEL, 0, 0);
 	}
 	return FALSE;
@@ -234,12 +238,17 @@ gboolean on_editor_notify(
 		}
 		case SCN_DWELLEND:
 		{
+			if (leave_signal > 0)
+			{
+				g_signal_handler_disconnect(G_OBJECT(editor->sci), leave_signal);
+				leave_signal = 0;
+			}
+
 			if (DBS_STOPPED != debug_get_state ())
 				break;
 
 			if (scintilla_send_message (editor->sci, SCI_CALLTIPACTIVE, 0, 0))
 			{
-				g_signal_handler_disconnect(G_OBJECT(editor->sci), leave_signal);
 				scintilla_send_message (editor->sci, SCI_CALLTIPCANCEL, 0, 0);
 			}
 			break;
