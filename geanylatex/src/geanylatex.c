@@ -33,7 +33,7 @@
 #include "geanylatex.h"
 #include "ctype.h"
 
-PLUGIN_VERSION_CHECK(199)
+PLUGIN_VERSION_CHECK(217)
 
 PLUGIN_SET_TRANSLATABLE_INFO(
 	LOCALEDIR,
@@ -501,6 +501,18 @@ static void on_document_filetype_set(G_GNUC_UNUSED GObject *obj, GeanyDocument *
 }
 
 
+static gint get_position_relative(ScintillaObject *sci, gint pos, gint n)
+{
+	return (gint) scintilla_send_message(sci, SCI_POSITIONRELATIVE, (uptr_t) pos, n);
+}
+
+
+static gint get_char_relative(ScintillaObject *sci, gint pos, gint n)
+{
+	return sci_get_char_at(sci, get_position_relative(sci, pos, n));
+}
+
+
 static gboolean on_editor_notify(G_GNUC_UNUSED GObject *object, GeanyEditor *editor,
 									SCNotification *nt, G_GNUC_UNUSED gpointer data)
 {
@@ -688,17 +700,29 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *object, GeanyEditor *edi
 				}
 				default:
 				{
-					if (glatex_capitalize_sentence_starts == TRUE)
+					if (glatex_capitalize_sentence_starts == TRUE &&
+						g_ascii_isspace(get_char_relative(sci, pos, -2)))
 					{
-						if (sci_get_char_at(sci, pos -2) == ' ' &&
-							(sci_get_char_at(sci, pos -3) == '.' ||
-							 sci_get_char_at(sci, pos -3) == '!' ||
-							 sci_get_char_at(sci, pos -3) == '?' ))
+						gint prevNonWhite = 0;
+						gint i;
+
+						/* find the previous non-white character */
+						i = get_position_relative(sci, pos, -3);
+						while (g_ascii_isspace((prevNonWhite = sci_get_char_at(sci, i))))
+						{
+							/* no need to bother about multi-byte characters here since
+							 * we only check for ASCII space characters anyway */
+							--i;
+						}
+
+						if (prevNonWhite == '.' ||
+							prevNonWhite == '!' ||
+							prevNonWhite == '?')
 						{
 							gchar *upperLtr = NULL;
 							gchar *selection = NULL;
 
-							sci_set_selection_start(sci, pos - 1);
+							sci_set_selection_start(sci, get_position_relative(sci, pos, -1));
 							sci_set_selection_end(sci, pos);
 
 							selection = sci_get_selection_contents(sci);
@@ -708,8 +732,8 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *object, GeanyEditor *edi
 							g_free(upperLtr);
 							g_free(selection);
 						}
-						break;
 					}
+					break;
 				}
 			} /* Closing switch  */
 			/* later there could be some else ifs for other keywords */
