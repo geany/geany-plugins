@@ -202,7 +202,7 @@ create_dialog(GtkWidget **dialog, GtkTreeModel *completion_model)
 	GtkWidget *vbox;
 	GtkEntryCompletion *completion;
 		
-	*dialog = gtk_dialog_new_with_buttons("Go to File...", GTK_WINDOW(geany->main_widgets->window),
+	*dialog = gtk_dialog_new_with_buttons(_("Go to File..."), GTK_WINDOW(geany->main_widgets->window),
 	GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 	GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, NULL);
 	

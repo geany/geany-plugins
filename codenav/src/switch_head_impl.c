@@ -3,6 +3,7 @@
  *      part of the "geany-plugins" project.
  *
  *      Copyright 2009 Lionel Fuentes <funto66(at)gmail(dot)com>
+ * 		Copyright 2014 Federico Reghenzani <federico(dot)dev(at)reghe(dot)net>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -51,10 +52,11 @@ menu_item_activate(guint key_id);
 
 /********************** Functions for the feature *********************/
 
-
-/* ---------------------------------------------------------------------
- *  Initialization
- * ---------------------------------------------------------------------
+/**
+ * @brief Initialization
+ * @param void 
+ * @return void
+ * 
  */
 void
 switch_head_impl_init(void)
@@ -84,9 +86,12 @@ switch_head_impl_init(void)
 
 }
 
-/* ---------------------------------------------------------------------
- *  Cleanup
- * ---------------------------------------------------------------------
+
+/**
+ * @brief Default plugin cleanup
+ * @param void 
+ * @return void
+ * 
  */
 void
 switch_head_impl_cleanup(void)
@@ -97,6 +102,13 @@ switch_head_impl_cleanup(void)
 	languages_clean();
 }
 
+/**
+ * @brief	Free and cleanup all item in languages array, and set languages
+ * 			to null
+ * @param void 
+ * @return void
+ * 
+ */
 void languages_clean(void)
 {
 	GSList* iter = NULL;
@@ -105,8 +117,8 @@ void languages_clean(void)
 	{
 		Language* lang = (Language*)(iter->data);
 
-		g_slist_foreach(lang->head_extensions, (GFunc)(&g_free), NULL);	/* free the data */
-		g_slist_free(lang->head_extensions);	/* free the list */
+		g_slist_foreach(lang->head_extensions, (GFunc)(&g_free), NULL);
+		g_slist_free(lang->head_extensions);
 
 		g_slist_foreach(lang->impl_extensions, (GFunc)(&g_free), NULL);
 		g_slist_free(lang->impl_extensions);
@@ -117,6 +129,13 @@ void languages_clean(void)
 	languages = NULL;
 }
 
+/**
+ * @brief	Fill the languages variable with passed arguments.
+ * @param	impl_list	list of implementation extensions 
+ * @param	head_list	list of header extensions
+ * @return	void
+ * 
+ */
 void
 fill_languages_list(const gchar** impl_list, const gchar** head_list, gsize n)
 {
@@ -128,6 +147,10 @@ fill_languages_list(const gchar** impl_list, const gchar** head_list, gsize n)
 
 	for ( i=0; i<n; i++ ) {
 		lang = g_malloc0(sizeof(Language));
+		
+		/* check if current item has no head or impl */
+		if ( strlen(impl_list[i])==0 || strlen(head_list[i])==0 )
+			continue;
 		
 		/* Set language implementation extensions */
 		splitted_list = g_strsplit(impl_list[i], ",", 0);
@@ -150,16 +173,18 @@ fill_languages_list(const gchar** impl_list, const gchar** head_list, gsize n)
 
 }
 
-/* ---------------------------------------------------------------------
- *  Initialize the "languages" list to the default known languages
- * ---------------------------------------------------------------------
+/**
+ * @brief	Initialize the "languages" list to the default known languages
+ * @param	void
+ * @return	void
+ * 
  */
 void
 fill_default_languages_list(void)
 {
 	Language* lang = NULL;
 
-	languages = NULL;
+	languages_clean();
 
 	/* C/C++ */
 	lang = g_malloc0(sizeof(Language));
@@ -211,9 +236,11 @@ fill_default_languages_list(void)
 
 }
 
-/* ---------------------------------------------------------------------
- *  Callback when the menu item is clicked.
- * ---------------------------------------------------------------------
+/**
+ * @brief	Callback when the menu item is clicked.
+ * @param	key_id	not used
+ * @return	void
+ * 
  */
 static void
 menu_item_activate(guint key_id)
@@ -407,6 +434,12 @@ free_mem:
 	}
 }
 
+/**
+ * @brief	Extern function to get languages.
+ * @param	void
+ * @return	GSList*	languages list
+ * 
+ */
 GSList* switch_head_impl_get_languages()
 {
 	return languages;

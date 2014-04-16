@@ -83,6 +83,9 @@ static void
 on_configure_remove_language(GtkWidget* widget, gpointer data);
 
 static void
+on_configure_reset_to_default(GtkWidget* widget, gpointer data);
+
+static void
 on_configure_cell_edited(GtkCellRendererText* text, gchar* arg1, gchar* arg2, gpointer data);
 
 static void
@@ -224,7 +227,7 @@ on_configure_response(GtkDialog* dialog, gint response, gpointer user_data)
 	gchar *config_dir = NULL;
 	gchar *data;
 
-	gsize list_len;
+	gsize list_len, empty_lines;
 	gchar** head_list = NULL;
 	gchar** impl_list = NULL;
 	
@@ -253,29 +256,37 @@ on_configure_response(GtkDialog* dialog, gint response, gpointer user_data)
 	list_len = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(list_store), NULL);
 	impl_list = g_malloc0( sizeof(gchar**) * list_len);
 	head_list = g_malloc0( sizeof(gchar**) * list_len);
-		
+	
+	empty_lines = 0;
+	
 	if ( list_len > 0 ) {
 		// Get the first item
 		gtk_tree_model_iter_children (GTK_TREE_MODEL(list_store),&iter,NULL);
+	
 		
 		do {		/* forall elements in list... */
-			
-			/* TODO: remove empty lines */
-			
+						
 			gtk_tree_model_get (GTK_TREE_MODEL(list_store),&iter,
 									COLUMN_IMPL,&impl_list[i], -1);
 			gtk_tree_model_get (GTK_TREE_MODEL(list_store),&iter,
 									COLUMN_HEAD,&head_list[i], -1);
-			i++;
+									
+			/* If one field is empty, ignore this line (it will be replaces
+			   at next execution) */ 
+			if ( strlen(impl_list[i])==0 || strlen(head_list[i])==0 )
+				empty_lines++;
+			else
+				i++;
 		} while ( gtk_tree_model_iter_next(GTK_TREE_MODEL(list_store), &iter) );
 	}
 	
 	/* write lists */
 	g_key_file_set_string_list(config, "switch_head_impl", "implementations_list", 
-								(const gchar * const*)impl_list, list_len);
+								(const gchar * const*)impl_list, list_len - empty_lines);
 	g_key_file_set_string_list(config, "switch_head_impl", "headers_list", 
-								(const gchar * const*)head_list, list_len);
+								(const gchar * const*)head_list, list_len - empty_lines);
 	
+	/* Try to create directory if not exists */
 	if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir(config_dir, TRUE) != 0)
 	{
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR,
@@ -289,7 +300,8 @@ on_configure_response(GtkDialog* dialog, gint response, gpointer user_data)
 		g_free(data);
 	}
 
-	fill_languages_list((const gchar**)impl_list, (const gchar**)head_list, list_len);
+	/* Replace the current (runtime) languages list */
+	fill_languages_list((const gchar**)impl_list, (const gchar**)head_list, list_len - empty_lines);
 	
 	/* Freeing memory */
 	for ( i=0; i < list_len; i++ ) {
@@ -372,7 +384,7 @@ config_widget(void)
 {
 	GtkWidget *help_label;
 	GtkWidget *frame, *vbox, *tree_view;
-	GtkWidget *hbox_buttons, *add_button, *remove_button;
+	GtkWidget *hbox_buttons, *add_button, *remove_button, *reset_button;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *cell_renderer;
 
@@ -446,7 +458,10 @@ config_widget(void)
 	g_signal_connect(G_OBJECT(remove_button), "clicked", G_CALLBACK(on_configure_remove_language), tree_view);
 	gtk_box_pack_start(GTK_BOX(hbox_buttons), remove_button, FALSE, FALSE, 0);
 
-
+	/* Add the "reset to default" button to the frame's hbox */
+	reset_button = gtk_button_new_with_label(_("Reset to Default"));
+	g_signal_connect(G_OBJECT(reset_button), "clicked", G_CALLBACK(on_configure_reset_to_default), NULL);
+	gtk_box_pack_start(GTK_BOX(hbox_buttons), reset_button, FALSE, FALSE, 0);
 	gtk_widget_grab_focus(tree_view);
 
 	return frame;
@@ -511,6 +526,46 @@ on_configure_remove_language(GtkWidget* button, gpointer data)
 }
 
 /**
+ * @brief 	Callback for reset to default languages in the configuration dialog
+ * @param 	button	the button, not used here
+ * @param	data	null
+ * 
+ * @return	void
+ * 
+ */
+static void
+on_configure_reset_to_default(GtkWidget* button, gpointer data)
+{
+	GSList *iter_lang;
+	GtkWidget* dialog_new;
+
+	/* ask to user if he's sure */
+	dialog_new = gtk_message_dialog_new(GTK_WINDOW(geany_data->main_widgets->window),
+											GTK_DIALOG_MODAL,
+											GTK_MESSAGE_WARNING,
+											GTK_BUTTONS_OK_CANCEL,
+											_("Are you sure you want to delete all languages " \
+											"and restore defaults?\nThis action cannot be undone."));
+	gtk_window_set_title(GTK_WINDOW(dialog_new), "Geany");
+	
+	if(gtk_dialog_run(GTK_DIALOG(dialog_new)) == GTK_RESPONSE_OK)
+	{
+		/* OK, reset! */
+		fill_default_languages_list();	
+		
+		/* clear and refill the GtkListStore with default extensions */
+		gtk_list_store_clear(list_store);
+		
+		for(iter_lang = switch_head_impl_get_languages(); 
+				iter_lang != NULL ; iter_lang = iter_lang->next)
+			add_language(list_store, (Language*)(iter_lang->data));
+	}
+	gtk_widget_destroy(dialog_new);
+
+}
+
+
+/**
  * @brief 	Callback called when a cell has been edited in the configuration 
  * 			dialog
  * @param 	renderer	field object
@@ -525,11 +580,21 @@ static void
 on_configure_cell_edited(GtkCellRendererText* renderer, gchar* path, gchar* text, gpointer data)
 {
 	GtkTreeIter iter;
+	gchar character;
+	gint i;
 	Column col = (Column)(GPOINTER_TO_INT(data));
 	
 	log_func();
 
-	/* TODO: check correctness of text inserted */
+	character=text[0];
+	i=1;
+	while (character != '\0') {
+		if ( ! g_ascii_isalpha(character) && character != ',' ) {
+			log_debug("Not-valid char");
+			return;	// invalid extension
+		}
+		character=text[i++];
+	}
 
 	/* Replace old text with new */
 	gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(list_store), &iter, path);
