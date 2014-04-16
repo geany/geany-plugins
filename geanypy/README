@@ -76,5 +76,5 @@ Known Bugs
 ----------
 
 * There is an issue with re-loading GeanyPy twice in the same session. If
-you unload the GeanyPy plugin you should restart Geany to avoid a potential
-crash.
+  you unload the GeanyPy plugin you should restart Geany to avoid a potential
+  crash.
