@@ -845,41 +845,34 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_H_SGML_DOUBLESTRING:
 				case SCE_H_SGML_SIMPLESTRING:
 				case SCE_H_SGML_1ST_PARAM_COMMENT:
-				case SCE_HJ_DEFAULT:
 				case SCE_HJ_COMMENT:
 				case SCE_HJ_COMMENTLINE:
 				case SCE_HJ_COMMENTDOC:
 				case SCE_HJ_DOUBLESTRING:
 				case SCE_HJ_SINGLESTRING:
 				case SCE_HJ_STRINGEOL:
-				case SCE_HB_DEFAULT:
 				case SCE_HB_COMMENTLINE:
 				case SCE_HB_STRING:
 				case SCE_HB_STRINGEOL:
-				case SCE_HBA_DEFAULT:
 				case SCE_HBA_COMMENTLINE:
 				case SCE_HBA_STRING:
 				case SCE_HBA_STRINGEOL:
-				case SCE_HJA_DEFAULT:
 				case SCE_HJA_COMMENT:
 				case SCE_HJA_COMMENTLINE:
 				case SCE_HJA_COMMENTDOC:
 				case SCE_HJA_DOUBLESTRING:
 				case SCE_HJA_SINGLESTRING:
 				case SCE_HJA_STRINGEOL:
-				case SCE_HP_DEFAULT:
 				case SCE_HP_COMMENTLINE:
 				case SCE_HP_STRING:
 				case SCE_HP_CHARACTER:
 				case SCE_HP_TRIPLE:
 				case SCE_HP_TRIPLEDOUBLE:
-				case SCE_HPA_DEFAULT:
 				case SCE_HPA_COMMENTLINE:
 				case SCE_HPA_STRING:
 				case SCE_HPA_CHARACTER:
 				case SCE_HPA_TRIPLE:
 				case SCE_HPA_TRIPLEDOUBLE:
-				case SCE_HPHP_DEFAULT:
 				case SCE_HPHP_SIMPLESTRING:
 				case SCE_HPHP_HSTRING:
 				case SCE_HPHP_COMMENT:
