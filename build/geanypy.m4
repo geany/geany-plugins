@@ -21,7 +21,10 @@ AC_DEFUN([GP_CHECK_GEANYPY],
 
         dnl check for C flags we wish to use
         GEANYPY_CFLAGS=
-        for flag in -fno-strict-aliasing -Wno-write-strings; do
+        for flag in -fno-strict-aliasing \
+                    -Wno-write-strings \
+                    -Wno-long-long
+        do
             GP_CHECK_CFLAG([$flag], [GEANYPY_CFLAGS="${GEANYPY_CFLAGS} $flag"])
         done
         AC_SUBST([GEANYPY_CFLAGS])
