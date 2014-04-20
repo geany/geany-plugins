@@ -8,9 +8,10 @@ geanypy_la_CPPFLAGS			=	@GEANY_CFLAGS@ @PYGTK_CFLAGS@ @PYTHON_CPPFLAGS@ \
 								-DGEANYPY_PYTHON_DIR="\"$(libdir)/geany/geanypy\"" \
 								-DGEANYPY_PLUGIN_DIR="\"$(datadir)/geany/geanypy/plugins\"" \
 								-UHAVE_CONFIG_H
-geanypy_la_CFLAGS			=	@GEANYPY_CFLAGS@
+geanypy_la_CFLAGS			=	@GEANYPY_CFLAGS@ @GMODULE_CFLAGS@
 geanypy_la_LIBADD			=	@GEANY_LIBS@ @PYGTK_LIBS@ @PYTHON_LDFLAGS@ \
-								@PYTHON_EXTRA_LIBS@ @PYTHON_EXTRA_LDFLAGS@
+								@PYTHON_EXTRA_LIBS@ @PYTHON_EXTRA_LDFLAGS@ \
+								@GMODULE_LIBS@
 geanypy_la_SOURCES			=	geanypy-app.c \
 								geanypy-dialogs.c \
 								geanypy-document.c geanypy-document.h \

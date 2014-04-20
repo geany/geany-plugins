@@ -3,6 +3,7 @@ AC_DEFUN([GP_CHECK_GEANYPY],
     GP_ARG_DISABLE([Geanypy], [auto])
     GP_CHECK_PLUGIN_GTK2_ONLY([Geanypy])
     GP_CHECK_PLUGIN_DEPS([Geanypy], [PYGTK], [pygtk-2.0])
+    GP_CHECK_PLUGIN_DEPS([Geanypy], [GMODULE], [gmodule-2.0])
     dnl FIXME: Checks for Python below should gracefully disable the plugin
     dnl        if they don't succeed and enable_geanypy is set to `auto`.
     dnl        However, since these macros don't seem to gracefully handle
