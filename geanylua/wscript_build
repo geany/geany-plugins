@@ -35,7 +35,7 @@ build_plugin(bld, name, sources=sources, libraries=libraries)
 
 is_win32 = target_is_win32(bld)
 if is_win32:
-    install_path = '${G_PREFIX}/lib/geany-plugins/geanylua'
+    install_path = '${G_PREFIX}/${LIBDIR}/geany-plugins/geanylua'
 else:
     install_path = '${LIBDIR}/geany-plugins/geanylua'
 

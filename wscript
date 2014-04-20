@@ -151,7 +151,7 @@ def setup_configuration_env(conf):
         conf.env['G_PREFIX'] = conf.env['PREFIX']
         # paths
         add_to_env_and_define(conf, 'PREFIX', '', quote=True)
-        add_to_env_and_define(conf, 'LIBDIR', '', quote=True)
+        add_to_env_and_define(conf, 'LIBDIR', 'lib', quote=True)
         add_to_env_and_define(conf, 'LIBEXECDIR', '', quote=True)
         add_to_env_and_define(conf, 'DOCDIR', 'doc', quote=True)
         conf.define('LOCALEDIR', 'share/locale', 1)

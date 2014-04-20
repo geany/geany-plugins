@@ -38,7 +38,7 @@ def build_vala_plugin(ctx, name, sources, vapi_dirs=None, packages=None,
     libraries.extend(['GTK', 'GEANY'])
     features.extend(['c', 'cshlib'])
 
-    install_path = '${G_PREFIX}/lib' if target_is_win32(ctx) else '${LIBDIR}/geany/'
+    install_path = '${G_PREFIX}/${LIBDIR}' if target_is_win32(ctx) else '${LIBDIR}/geany/'
 
     task = ctx.shlib(packages = packages,
                      features = features,
