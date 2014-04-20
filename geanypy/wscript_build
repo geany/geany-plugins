@@ -30,6 +30,9 @@ build_plugin(bld, name, includes=includes, libraries=libraries)
 
 
 # install Python modules (they will be byte-compiled on install)
+lib_dst = '%s/geany' % bld.env['GEANYPY_PYTHON_DIR']
+if target_is_win32(bld):
+    lib_dst = '${G_PREFIX}/%s' % lib_dst
 py_sources = ['geany/__init__.py',
               'geany/console.py',
               'geany/manager.py',
@@ -39,9 +42,12 @@ py_sources = ['geany/__init__.py',
 bld.new_task_gen(
     features        = 'py',
     source          = py_sources,
-    install_path    = '%s/geany' % bld.env['GEANYPY_PYTHON_DIR'])
+    install_path    = lib_dst)
 
 
 # install plugins
 start_dir = bld.path.find_dir('plugins')
-bld.install_files(bld.env['GEANYPY_PLUGIN_DIR'], start_dir.ant_glob('*.py'), cwd=start_dir)
+plugin_dst = bld.env['GEANYPY_PLUGIN_DIR']
+if target_is_win32(bld):
+    plugin_dst = '${G_PREFIX}/%s' % plugin_dst
+bld.install_files(plugin_dst, start_dir.ant_glob('*.py'), cwd=start_dir)

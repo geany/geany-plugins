@@ -22,14 +22,20 @@ from build.wafutils import add_to_env_and_define, check_cfg_cached, target_is_wi
 from waflib.Errors import ConfigurationError
 
 PYTHON_DETECT_DSO_CODE = """
+import sys
+from ctypes.util import find_library
 from distutils.sysconfig import get_config_vars
 from os.path import join as path_join
 
-cvars = get_config_vars()
-# support multiarch-enabled distributions like Ubuntu
-if not 'MULTIARCH' in cvars.keys():
-    cvars['MULTIARCH'] = ''
-print(path_join(cvars['LIBDIR'], cvars['MULTIARCH'], cvars['LDLIBRARY']))
+if sys.platform == 'win32':
+    pyver = get_config_vars()['VERSION']
+    print(find_library('python%s.dll' % pyver))
+else:
+    cvars = get_config_vars()
+    # support multiarch-enabled distributions like Ubuntu
+    if not 'MULTIARCH' in cvars.keys():
+        cvars['MULTIARCH'] = ''
+    print(path_join(cvars['LIBDIR'], cvars['MULTIARCH'], cvars['LDLIBRARY']))
 """
 
 # Python
@@ -57,7 +63,9 @@ except:
     conf.end_msg(False)
     conf.fatal('Could not find the python DSO path')
 else:
-    dso_path = dso_path.strip()
+    # dso_path on Windows looks like c:\windows\system32\python27.dll, to avoid quoting problems
+    # of backslashes from Python to config.h to C code, simply use forward slashes (lazy workaround)
+    dso_path = dso_path.strip().replace('\\', '/')
     add_to_env_and_define(conf, 'GEANYPY_PYTHON_LIBRARY', dso_path, quote=True)
     conf.end_msg(dso_path)
 
@@ -69,9 +77,8 @@ if not 'LIB_PYEXT' in conf.env:
 # dirs
 is_win32 = target_is_win32(conf)
 if is_win32:
-    geanypy_lib_path = '%s/lib/geany-plugins/geanypy' % conf.env['G_PREFIX']
-    geanypy_data_path = '%s/%s/geany-plugins/geanypy' % (
-        conf.env['G_PREFIX'], conf.env['GEANYPLUGINS_DATADIR'])
+    geanypy_lib_path = '%s/geany-plugins/geanypy' % conf.env['LIBDIR']
+    geanypy_data_path = '%s/geany-plugins/geanypy' % conf.env['GEANYPLUGINS_DATADIR']
 else:
     geanypy_lib_path = '%s/geany-plugins/geanypy' % conf.env['LIBDIR']
     geanypy_data_path = '%s/geany-plugins/geanypy' % conf.env['GEANYPLUGINS_DATADIR']
