@@ -52,6 +52,12 @@ check_cfg_cached(conf,
                  uselib_store="PYGTK",
                  mandatory=True,
                  args='--cflags --libs')
+# GModule
+check_cfg_cached(conf,
+                 package='gmodule-2.0',
+                 uselib_store="GMODULE",
+                 mandatory=True,
+                 args='--cflags --libs')
 
 # try to find the Python DSO path, for details see geanypy/m4/ax_python_library.m4
 conf.start_msg('Checking for python DSO path')

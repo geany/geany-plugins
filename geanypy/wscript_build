@@ -24,7 +24,7 @@ from build.wafutils import build_plugin, target_is_win32
 # plugin config
 name = 'GeanyPy'
 includes = ['geanypy/src']
-libraries = ['PYGTK', 'PYEXT']
+libraries = ['GMODULE', 'PYGTK', 'PYEXT']
 
 build_plugin(bld, name, includes=includes, libraries=libraries)
 
