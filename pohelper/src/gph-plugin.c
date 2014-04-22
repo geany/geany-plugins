@@ -1032,7 +1032,7 @@ on_kb_toggle_fuzziness (guint key_id)
     
     if (style == SCE_PO_MSGID) {
       gint msgid_line = line;
-      GPtrArray *flags = g_ptr_array_new ();
+      GPtrArray *flags = g_ptr_array_new_with_free_func (g_free);
       
       sci_start_undo_action (sci);
       
@@ -1061,7 +1061,6 @@ on_kb_toggle_fuzziness (guint key_id)
       
       sci_end_undo_action (sci);
       
-      g_ptr_array_foreach (flags, (GFunc) g_free, NULL);
       g_ptr_array_free (flags, TRUE);
     }
   }
