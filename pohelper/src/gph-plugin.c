@@ -1225,6 +1225,51 @@ stats_graph_draw (GtkWidget  *widget,
   return TRUE;
 }
 
+static gboolean
+stats_graph_query_tooltip (GtkWidget   *widget,
+                           gint         x,
+                           gint         y,
+                           gboolean     keyboard_mode,
+                           GtkTooltip  *tooltip,
+                           gpointer     user_data)
+{
+  const StatsGraphData *data    = user_data;
+  gchar                *markup  = NULL;
+  
+  if (keyboard_mode) {
+    gchar *translated_str   = g_strdup_printf (_("<b>Translated:</b> %.3g%%"),
+                                               data->translated * 100);
+    gchar *fuzzy_str        = g_strdup_printf (_("<b>Fuzzy:</b> %.3g%%"),
+                                               data->fuzzy * 100);
+    gchar *untranslated_str = g_strdup_printf (_("<b>Untranslated:</b> %.3g%%"),
+                                               data->untranslated * 100);
+    
+    markup = g_strconcat (translated_str,   "\n",
+                          fuzzy_str,        "\n",
+                          untranslated_str, NULL);
+    g_free (translated_str);
+    g_free (fuzzy_str);
+    g_free (untranslated_str);
+  } else {
+    const gint width = gtk_widget_get_allocated_width (widget);
+    
+    if (x <= width * data->translated) {
+      markup = g_strdup_printf (_("<b>Translated:</b> %.3g%%"),
+                                data->translated * 100);
+    } else if (x <= width * (data->translated + data->fuzzy)) {
+      markup = g_strdup_printf (_("<b>Fuzzy:</b> %.3g%%"), data->fuzzy * 100);
+    } else {
+      markup = g_strdup_printf (_("<b>Untranslated:</b> %.3g%%"),
+                                data->untranslated * 100);
+    }
+  }
+  
+  gtk_tooltip_set_markup (tooltip, markup);
+  g_free (markup);
+  
+  return TRUE;
+}
+
 #if ! GTK_CHECK_VERSION (3, 0, 0)
 static gboolean
 on_stats_graph_expose_event (GtkWidget *widget,
@@ -1282,6 +1327,10 @@ show_stats_dialog (guint  all,
                       "draw", G_CALLBACK (stats_graph_draw),
                       &data);
 #endif
+    g_signal_connect (drawing_area,
+                      "query-tooltip", G_CALLBACK (stats_graph_query_tooltip),
+                      &data);
+    gtk_widget_set_has_tooltip (GTK_WIDGET (drawing_area), TRUE);
     
     #define SET_LABEL_N(id, value)                                             \
       do {                                                                     \
