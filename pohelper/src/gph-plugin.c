@@ -126,6 +126,36 @@ find_style (ScintillaObject  *sci,
   return pos;
 }
 
+/* like find_style(), but searches for the first style change from @start to
+ * @end.  Returns the first position in the search direction with a style
+ * different from the one at @start, or -1 */
+static gint
+find_style_boundary (ScintillaObject *sci,
+                     gint             start,
+                     gint             end)
+{
+  gint style = sci_get_style_at (sci, start);
+  gint pos;
+  
+  if (start > end) {  /* search backwards */
+    for (pos = start; pos >= end; pos--) {
+      if (sci_get_style_at (sci, pos) != style)
+        break;
+    }
+    if (pos < end)
+      return -1;
+  } else {
+    for (pos = start; pos < end; pos++) {
+      if (sci_get_style_at (sci, pos) != style)
+        break;
+    }
+    if (pos >= end)
+      return -1;
+  }
+  
+  return pos;
+}
+
 /*
  * find_message:
  * @doc: A #GeanyDocument
@@ -146,6 +176,29 @@ find_message (GeanyDocument  *doc,
   if (doc_is_po (doc)) {
     ScintillaObject *sci = doc->editor->sci;
     gint pos = find_style (sci, SCE_PO_MSGSTR, start, end);
+    
+    /* if searching backwards and already in a msgstr style, search previous
+     * again not to go to current's start */
+    if (pos >= 0 && start > end) {
+      gint style = sci_get_style_at (sci, start);
+      
+      /* don't take default style into account, so find previous non-default */
+      if (style == SCE_PO_DEFAULT) {
+        gint style_pos = find_style_boundary (sci, start, end);
+        if (style_pos >= 0) {
+          style = sci_get_style_at (sci, style_pos);
+        }
+      }
+      
+      if (style == SCE_PO_MSGSTR ||
+          style == SCE_PO_MSGSTR_TEXT ||
+          style == SCE_PO_MSGSTR_TEXT_EOL) {
+        pos = find_style_boundary (sci, pos, end);
+        if (pos >= 0) {
+          pos = find_style (sci, SCE_PO_MSGSTR, pos, end);
+        }
+      }
+    }
     
     if (pos >= 0) {
       pos = find_style (sci, SCE_PO_MSGSTR_TEXT, pos, sci_get_length (sci));
@@ -177,14 +230,9 @@ find_untranslated (GeanyDocument *doc,
 {
   if (doc_is_po (doc)) {
     ScintillaObject *sci = doc->editor->sci;
-    gboolean backwards = start > end;
     
     while (start >= 0) {
       gint pos;
-      
-      if (backwards) {
-        start = find_style (sci, SCE_PO_MSGID, start, end);
-      }
       
       pos = find_message (doc, start, end);
       if (pos < 0) {
@@ -298,14 +346,11 @@ static void
 goto_prev (GeanyDocument *doc)
 {
   if (doc_is_po (doc)) {
-    gint pos = sci_get_current_position (doc->editor->sci);
+    gint pos = find_message (doc, sci_get_current_position (doc->editor->sci),
+                             0);
     
-    pos = find_style (doc->editor->sci, SCE_PO_MSGID, pos, 0);
     if (pos >= 0) {
-      pos = find_message (doc, pos, 0);
-      if (pos >= 0) {
-        editor_goto_pos (doc->editor, pos, FALSE);
-      }
+      editor_goto_pos (doc->editor, pos, FALSE);
     }
   }
 }
