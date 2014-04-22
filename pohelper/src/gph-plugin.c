@@ -1344,13 +1344,17 @@ on_kb_show_stats (guint key_id)
   GeanyDocument *doc = document_get_current ();
   
   if (doc_is_po (doc)) {
-    const gint  len           = sci_get_length (doc->editor->sci);
-    gint        pos           = 0;
-    guint       all           = 0;
-    guint       untranslated  = 0;
-    guint       fuzzy         = 0;
+    ScintillaObject  *sci           = doc->editor->sci;
+    const gint        len           = sci_get_length (sci);
+    gint              pos           = 0;
+    guint             all           = 0;
+    guint             untranslated  = 0;
+    guint             fuzzy         = 0;
     
-    while ((pos = find_message (doc, pos, len)) >= 0) {
+    /* don't use find_message() because we want only match one block, not each
+     * msgstr as there might be plural forms */
+    while ((pos = find_style (sci, SCE_PO_MSGID, pos, len)) >= 0 &&
+           (pos = find_style (sci, SCE_PO_MSGSTR, pos, len)) >= 0) {
       GString *msgid = get_msgid_text_at (doc, pos);
       GString *msgstr = get_msgstr_text_at (doc, pos);
       
