@@ -224,6 +224,22 @@
           </object>
         </child>
         <child>
+          <object class="GtkMenuItem" id="show_stats">
+            <property name="use_action_appearance">False</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="tooltip_text" translatable="yes">Show statistics of the current document</property>
+            <property name="label" translatable="yes">_Show stats</property>
+            <property name="use_underline">True</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkSeparatorMenuItem" id="separator6">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+          </object>
+        </child>
+        <child>
           <object class="GtkCheckMenuItem" id="update_headers_upon_save">
             <property name="use_action_appearance">False</property>
             <property name="visible">True</property>
