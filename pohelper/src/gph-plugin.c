@@ -1076,7 +1076,7 @@ get_flags_at (GeanyDocument  *doc,
   gint line = find_flags_line_at (doc, pos);
   
   if (line >= 0) {
-    flags = g_ptr_array_new ();
+    flags = g_ptr_array_new_with_free_func (g_free);
     parse_flags_line (doc->editor->sci, line, flags);
   }
   
@@ -1464,7 +1464,6 @@ on_kb_show_stats (guint key_id)
           if (flags) {
             fuzzy += ! toggle_flag (flags, "fuzzy");
             
-            g_ptr_array_foreach (flags, (GFunc) g_free, NULL);
             g_ptr_array_free (flags, TRUE);
           }
         }
