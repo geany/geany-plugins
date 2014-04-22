@@ -1290,7 +1290,7 @@ show_stats_dialog (guint  all,
         if (! obj__) {                                                         \
           g_warning ("Object \"%s\" is missing from the UI definition", (id)); \
         } else {                                                               \
-          gchar *text__ = g_strdup_printf (_("%u (%.1f%%)"),                   \
+          gchar *text__ = g_strdup_printf (_("%u (%.3g%%)"),                   \
                                            (value),                            \
                                            all ? ((value) * 100.0 / all) : 0); \
                                                                                \
