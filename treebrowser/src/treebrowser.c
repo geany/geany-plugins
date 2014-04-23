@@ -1157,8 +1157,8 @@ on_menu_close_children(GtkMenuItem *menuitem, gchar *uri)
 	{
 		if (documents[i]->is_valid)
 		{
-			/* the docuemnt filename shoudl always be longer than the uri when closing children
-			 * Compare the beginingin of the filename string to see if it matchs the uri*/
+			/* the document filename should always be longer than the uri when closing children
+			 * Compare the beginning of the filename string to see if it matchs the uri*/
 			if (strlen(documents[i]->file_name) > uri_len)
 			{
 				if (strncmp(uri, documents[i]->file_name, uri_len)==0)

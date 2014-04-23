@@ -35,12 +35,12 @@ namespace MultiTerm
 #======================================================================#
 #                                                                      #
 # You can configure the behaviour of the MultiTerm plugin by adjusting #
-# the values in this file.  Lines begining with a # are considered     #
+# the values in this file.  Lines beginning with a # are considered    #
 # comments and are left as is.  Group/section names go in [] and keys  #
 # and values are separated by an = symbol.  Where more than one value  #
 # can be supplied, as in a list, separate the values with the ; symbol.#
 #                                                                      #
-# Groups/section names begining with 'shell=' denote a type of         #
+# Groups/section names beginning with 'shell=' denote a type of        #
 # terminal/shell that can be opened.  The name of the shell follows    #
 # the = symbol. Each shell can have it's own specific VTE              #
 # configuration and can run it's own child command.  As an example, if #
