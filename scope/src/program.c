@@ -23,6 +23,10 @@
 
 #include "common.h"
 
+#ifndef PATH_MAX
+#define PATH_MAX 4096
+#endif
+
 static StashGroup *program_group;
 static StashGroup *options_group;
 static StashGroup *thread_group;
