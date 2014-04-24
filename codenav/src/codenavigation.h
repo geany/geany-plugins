@@ -45,7 +45,7 @@
 #include "geanyfunctions.h"	/* this wraps geany_functions function pointers */
 
 /* Debug flag */
-#define CODE_NAVIGATION_DEBUG
+/*#define CODE_NAVIGATION_DEBUG*/
 
 #define CODE_NAVIGATION_VERSION "0.2"
 

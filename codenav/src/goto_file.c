@@ -49,9 +49,11 @@ create_dialog(GtkWidget**, GtkTreeModel*);
 
 /********************** Functions for the feature *********************/
 
-/* ---------------------------------------------------------------------
- * Initialization
- * ---------------------------------------------------------------------
+/**
+ * @brief 	Initialization function called in plugin_init
+ * @param 	void
+ * @return	void
+ * 
  */
 void
 goto_file_init(void)
@@ -81,23 +83,26 @@ goto_file_init(void)
  							menu_item);
 }
 
-/* ---------------------------------------------------------------------
- * Cleanup
- * ---------------------------------------------------------------------
+/**
+ * @brief 	Cleanup function called in plugin_cleanup
+ * @param 	void
+ * @return	void
+ * 
  */
 void
 goto_file_cleanup(void)
 {
 	log_func();
-
 	gtk_widget_destroy(menu_item);
 }
 
-/* ---------------------------------------------------------------------
- * Populate the file list
- * ---------------------------------------------------------------------
+/**
+ * @brief 	Populate the file list with file list of directory 
+ * @param 	const char* dirname	the directory where to find files
+ * @param	const char* prefix	file prefix (the path)
+ * @return	GtkTreeModel*
+ * 
  */
-
 static GtkTreeModel* 
 build_file_list(const gchar* dirname, const gchar* prefix)
 {
@@ -106,7 +111,7 @@ build_file_list(const gchar* dirname, const gchar* prefix)
 	ret_list = gtk_list_store_new (1, G_TYPE_STRING);
 	
 	GSList* file_iterator;
-	GSList* files_list;
+	GSList* files_list;	/* used to free later the sub-elements*/
 	gchar *file;
 	gchar *pathfile;
 	guint files_n;
@@ -133,9 +138,12 @@ build_file_list(const gchar* dirname, const gchar* prefix)
  
 }
 
-/* ---------------------------------------------------------------------
- * Entry callback function for sub-directory search
- * ---------------------------------------------------------------------
+/**
+ * @brief 	Entry callback function for sub-directory search 
+ * @param 	GtkEntry* entry			entry object
+ * @param	GtkEntryCompletion* completion	completion object
+ * @return	void
+ * 
  */
 static void
 directory_check(GtkEntry* entry, GtkEntryCompletion* completion)
@@ -149,7 +157,7 @@ directory_check(GtkEntry* entry, GtkEntryCompletion* completion)
     text = gtk_entry_get_text(entry);
     gint dir_sep = strrpos(text, G_DIR_SEPARATOR_S);
     
-    /* No subdir found */
+    /* No subdir separator found */
     if (dir_sep == -1)
     {
         if (old_model != NULL)
@@ -190,9 +198,14 @@ directory_check(GtkEntry* entry, GtkEntryCompletion* completion)
     g_object_unref(completion_list);
 }
 
-/* ---------------------------------------------------------------------
- * Create the dialog, return the entry
- * ---------------------------------------------------------------------
+
+/**
+ * @brief 	Create the dialog, return the entry object to get the
+ * 		response from user 
+ * @param 	GtkWidget **dialog			entry object
+ * @param	GtkTreeModel *completion_model	completion object
+ * @return	GtkWidget* entry
+ * 
  */
 static GtkWidget*
 create_dialog(GtkWidget **dialog, GtkTreeModel *completion_model)
@@ -240,9 +253,11 @@ create_dialog(GtkWidget **dialog, GtkTreeModel *completion_model)
 	return entry;
 }
 
-/* ---------------------------------------------------------------------
- * Callback when the menu item is clicked.
- * ---------------------------------------------------------------------
+/**
+ * @brief 	Callback when the menu item is clicked.
+ * @param 	guint key_id	not used
+ * @return	void
+ * 
  */
 static void
 menu_item_activate(guint key_id)

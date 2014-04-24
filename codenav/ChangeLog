@@ -1,3 +1,7 @@
+2014-04-24  Federico Reghenzani <federico(dot)dev(at)reghe(dot)net>
+ * src/*:
+    Implementation of plugin preferences and minor fixes
+   
 2014-03-26  Federico Reghenzani <federico(dot)dev(at)reghe(dot)net>
  * src/goto_file.c:
    Implementation directory (absolute/relative path) support.

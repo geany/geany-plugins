@@ -21,8 +21,12 @@
 
 #include "utils.h"
 
-/* Function which returns a newly-allocated string containing the
- * extension of the file path which is given, or NULL if it did not found any extension.
+ /**
+ * @brief	Function which returns the extension of the file path which 
+ * 			is given, or NULL if it did not found any extension.
+ * @param 	gchar*	the file path 
+ * @return	gchar*	newly-allocated string containing the extension
+ * 
  */
 gchar*
 get_extension(gchar* path)
@@ -42,7 +46,11 @@ get_extension(gchar* path)
 		return g_strdup(extension);
 }
 
-/* Copy a path and remove the extension
+/**
+ * @brief	Copy a path and remove the extension 
+ * @param 	gchar*	the file path 
+ * @return	gchar*	newly-allocated string containing the filename without ext
+ * 
  */
 gchar*
 copy_and_remove_extension(gchar* path)
@@ -72,14 +80,25 @@ copy_and_remove_extension(gchar* path)
 	return str;
 }
 
-/* Comparison of strings, for use with g_slist_find_custom */
+/**
+ * @brief	Comparison of strings, for use with g_slist_find_custom 
+ * @param 	const gchar*, const gchar* 
+ * @return	gint
+ * 
+ */
 gint
 compare_strings(const gchar* a, const gchar* b)
 {
 	return (gint)(!utils_str_equal(a, b));
 }
 
-/* A PHP-like reverse strpos implementation */
+/**
+ * @brief	A PHP-like reverse strpos implementation 
+ * @param 	const gchar*	haystack
+ * @param   const gchar*	needle 
+ * @return	gint	position or -1 if not found
+ * 
+ */
 gint
 strrpos(const gchar *haystack, const gchar *needle)
 {
