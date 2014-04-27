@@ -865,11 +865,11 @@ configure_response_cb(GtkDialog *dialog, gint response, gpointer user_data)
 
 	g_key_file_load_from_file(config, ac_info->config_file, G_KEY_FILE_NONE, NULL);
 
-#define SAVE_CONF_BOOL(name) do {                                              \
+#define SAVE_CONF_BOOL(name) G_STMT_START {                                    \
     ac_info->name = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(            \
-    g_object_get_data(G_OBJECT(dialog), "check_" #name)));                     \
+                        g_object_get_data(G_OBJECT(dialog), "check_" #name))); \
     g_key_file_set_boolean(config, "autoclose", #name, ac_info->name);         \
-} while (0)
+} G_STMT_END
 
 	SAVE_CONF_BOOL(parenthesis);
 	SAVE_CONF_BOOL(abracket);
@@ -1028,21 +1028,21 @@ plugin_configure(GtkDialog *dialog)
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollbox),
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-#define WIDGET_FRAME(description) do {                                         \
+#define WIDGET_FRAME(description) G_STMT_START {                               \
     container = gtk_vbox_new(FALSE, 0);                                        \
     frame = gtk_frame_new(NULL);                                               \
     gtk_frame_set_label(GTK_FRAME(frame), description);                        \
     gtk_container_add(GTK_CONTAINER(frame), container);                        \
     gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 3);                 \
-} while (0)
+} G_STMT_END
 
-#define WIDGET_CONF_BOOL(name, description, tooltip) do {                      \
+#define WIDGET_CONF_BOOL(name, description, tooltip) G_STMT_START {            \
     widget = gtk_check_button_new_with_label(description);                     \
     if (tooltip) gtk_widget_set_tooltip_text(widget, tooltip);                 \
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget), ac_info->name);    \
     gtk_box_pack_start(GTK_BOX(container), widget, FALSE, FALSE, 3);           \
     g_object_set_data(G_OBJECT(dialog), "check_" #name, widget);               \
-} while (0)
+} G_STMT_END
 
 	WIDGET_FRAME(_("Auto-close quotes and brackets"));
 	WIDGET_CONF_BOOL(parenthesis, _("Parenthesis ( )"),
