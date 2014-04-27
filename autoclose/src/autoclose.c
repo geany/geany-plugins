@@ -52,10 +52,6 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	"0.2",
 	"Pavel Roschin <rpg89(at)post(dot)ru>")
 
-/* avoid aggresive warnings */
-#undef DOC_VALID
-#define DOC_VALID(doc_ptr) (((doc_ptr) && (doc_ptr)->is_valid))
-
 typedef struct {
 	/* close chars */
 	gboolean parenthesis;
