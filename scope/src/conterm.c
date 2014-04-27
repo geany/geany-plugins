@@ -17,8 +17,6 @@
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#define _XOPEN_SOURCE 500 /* for openpty, grantpt and unlockpt */
-
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
@@ -30,16 +28,11 @@
 #define DS_COPY (DS_BASICS | DS_EXTRA_1)
 
 #ifdef G_OS_UNIX
-#if (defined(__unix__) || defined(unix)) && !defined(USG)
-#include <sys/param.h>
-#endif
-#ifdef BSD
-#include <termios.h>
-#include <libutil.h>
-#else
-#include <pty.h>
-#endif
 #include <vte/vte.h>
+/* instead of detecting N kinds of *nix */
+#include <pty.h>
+int grantpt(int fd);
+int unlockpt(int fd);
 
 static GtkWidget *program_window;
 static VteTerminal *program_terminal;

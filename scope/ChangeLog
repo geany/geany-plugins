@@ -1,3 +1,12 @@
+2014-04-27  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/conterm.c:
+   Declare unlockpt() and grantpt() prototypes instead of detecting
+   N kinds of *nix. Taken from the debugger plugin.
+ * src/program.c:
+   Define PATH_MAX if none (for example GNU/Hurd), by Evgeni Golov.
+
+
 2014-02-17  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/store/scptreestore.c:
