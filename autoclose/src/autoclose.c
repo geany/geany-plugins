@@ -835,7 +835,7 @@ autoclose_handlers_cleanup(void)
 		AutocloseUserData *autoclose_data;
 
 		sci = documents[i]->editor->sci;
-		data = g_object_get_data(G_OBJECT(sci), "autoclose-userdata");
+		data = g_object_steal_data(G_OBJECT(sci), "autoclose-userdata");
 		if(!data)
 			continue;
 		autoclose_data = (AutocloseUserData*)data;
@@ -844,6 +844,7 @@ autoclose_handlers_cleanup(void)
 			gulong handler = autoclose_data->notify_handler[j];
 			g_signal_handler_disconnect(sci, handler);
 		}
+		g_free(data);
 	}
 }
 
