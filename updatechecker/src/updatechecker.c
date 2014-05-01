@@ -1,7 +1,7 @@
 /*
  *      updatechecker.c
  *
- *      Copyright 2011 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2011, 2014 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -187,8 +187,8 @@ static void update_check_result_cb(SoupSession *session,
         if (version_compare(msg->response_body->data) == TRUE)
         {
             dialogs_show_msgbox(GTK_MESSAGE_INFO,
-                _("There is a more recent version available"));
-            g_message("There is a more recent version available");
+                _("There is a more recent version of Geany available"));
+            g_message(_("There is a more recent version of Geany available"));
         }
         else
         {
