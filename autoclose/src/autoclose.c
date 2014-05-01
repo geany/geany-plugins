@@ -43,7 +43,7 @@ GeanyPlugin	*geany_plugin;
 GeanyData	*geany_data;
 GeanyFunctions	*geany_functions;
 
-PLUGIN_VERSION_CHECK(216)
+PLUGIN_VERSION_CHECK(218)
 PLUGIN_SET_TRANSLATABLE_INFO(
 	LOCALEDIR,
 	GETTEXT_PACKAGE,
@@ -83,7 +83,6 @@ typedef struct {
 static AutocloseInfo *ac_info = NULL;
 
 typedef struct {
-	gulong notify_handler[2];
 	/* used to place the caret after autoclosed items on tab (similar to eclipse) */
 	gint jump_on_tab;
 	/* used to reset jump_on_tab when needed */
@@ -798,7 +797,6 @@ on_sci_notify(ScintillaObject *sci, gint scn, SCNotification *nt, gpointer user_
 	data->last_line = new_line;
 }
 
-
 static void
 on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
@@ -808,40 +806,13 @@ on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
 
 	sci = doc->editor->sci;
 	data = g_new0(AutocloseUserData, 1);
-	g_return_if_fail(data);
 	data->doc = doc;
-	data->notify_handler[0] = g_signal_connect(G_OBJECT(sci), "sci-notify",
-					G_CALLBACK(on_sci_notify), data);
-	data->notify_handler[1] = g_signal_connect(G_OBJECT(sci), "key-press-event",
-					G_CALLBACK(on_key_press), data);
+	plugin_signal_connect(geany_plugin, G_OBJECT(sci), "sci-notify",
+		    FALSE, G_CALLBACK(on_sci_notify), data);
+	plugin_signal_connect(geany_plugin, G_OBJECT(sci), "key-press-event",
+			FALSE, G_CALLBACK(on_key_press), data);
 	/* This will free the data when the sci is destroyed */
 	g_object_set_data_full(G_OBJECT(sci), "autoclose-userdata", data, g_free);
-}
-
-static void
-autoclose_handlers_cleanup(void)
-{
-	gint i;
-
-	foreach_document(i)
-	{
-		gint j;
-		gpointer data;
-		ScintillaObject *sci;
-		AutocloseUserData *autoclose_data;
-
-		sci = documents[i]->editor->sci;
-		data = g_object_steal_data(G_OBJECT(sci), "autoclose-userdata");
-		if (!data)
-			continue;
-		autoclose_data = (AutocloseUserData*)data;
-		for (j = 0; j < 2; j++)
-		{
-			gulong handler = autoclose_data->notify_handler[j];
-			g_signal_handler_disconnect(sci, handler);
-		}
-		g_free(data);
-	}
 }
 
 PluginCallback plugin_callbacks[] =
@@ -913,6 +884,7 @@ void
 plugin_init(G_GNUC_UNUSED GeanyData *data)
 {
 	guint i;
+
 	foreach_document(i)
 	{
 		on_document_open(NULL, documents[i], NULL);
@@ -1124,11 +1096,27 @@ plugin_configure(GtkDialog *dialog)
 	return scrollbox;
 }
 
+static void
+autoclose_cleanup(void)
+{
+	guint i;
+
+	foreach_document(i)
+	{
+		gpointer data;
+		ScintillaObject *sci;
+
+		sci = documents[i]->editor->sci;
+		data = g_object_steal_data(G_OBJECT(sci), "autoclose-userdata");
+		g_free(data);
+	}
+}
+
 /* Called by Geany before unloading the plugin. */
 void
 plugin_cleanup(void)
 {
-	autoclose_handlers_cleanup();
+	autoclose_cleanup();
 	g_free(ac_info->config_file);
 	g_free(ac_info);
 }
