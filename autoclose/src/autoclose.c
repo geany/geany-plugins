@@ -252,7 +252,7 @@ get_end_pos(ScintillaObject *sci, gint line)
 	end = sci_get_line_end_position(sci, line);
 	ch = char_at(sci, end - 1);
 	/* ignore spaces and "}" */
-	while(isspace_no_newline(ch) || '}' == ch)
+	while (isspace_no_newline(ch) || '}' == ch)
 	{
 		end--;
 		ch = char_at(sci, end - 1);
@@ -495,7 +495,7 @@ enclose_selection(
 		indent_width = editor_get_indent_prefs(editor)->width;
 		sci_set_line_indentation(sci, start_line, start_indent);
 		sci_set_line_indentation(sci, start_line + 1, start_indent + indent_width);
-		for(i = start_line + 2; i <= end_line; i++)
+		for (i = start_line + 2; i <= end_line; i++)
 		{
 			current_indent = sci_get_line_indentation(sci, i);
 			sci_set_line_indentation(sci, i, current_indent + indent_width);
@@ -525,7 +525,7 @@ enclose_selection(
 			/* looks like a forward loop but actually lines processed in reverse order */
 			for (i = 0; i < selections; i++)
 			{
-				if(selection_is_up_down)
+				if (selection_is_up_down)
 					line = selections - i - 1;
 				else
 					line = i;
@@ -585,7 +585,7 @@ check_struct(
 	gchar ch;
 	gint line, len;
 	ch = char_at(sci, pos - 1);
-	while(g_ascii_isspace(ch))
+	while (g_ascii_isspace(ch))
 	{
 		pos--;
 		ch = char_at(sci, pos - 1);
@@ -832,10 +832,10 @@ autoclose_handlers_cleanup(void)
 
 		sci = documents[i]->editor->sci;
 		data = g_object_steal_data(G_OBJECT(sci), "autoclose-userdata");
-		if(!data)
+		if (!data)
 			continue;
 		autoclose_data = (AutocloseUserData*)data;
-		for(j = 0; j < 2; j++)
+		for (j = 0; j < 2; j++)
 		{
 			gulong handler = autoclose_data->notify_handler[j];
 			g_signal_handler_disconnect(sci, handler);
