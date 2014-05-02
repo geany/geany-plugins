@@ -49,7 +49,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	GETTEXT_PACKAGE,
 	_("Auto-close"),
 	_("Auto-close braces and brackets with lot of features"),
-	"0.2",
+	"0.3",
 	"Pavel Roschin <rpg89(at)post(dot)ru>")
 
 typedef struct {
