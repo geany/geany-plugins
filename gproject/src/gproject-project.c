@@ -473,9 +473,9 @@ void gprj_project_close(void)
 
 	deferred_op_queue_clean();
 
-	g_free(g_prj->source_patterns);
-	g_free(g_prj->header_patterns);
-	g_free(g_prj->ignored_dirs_patterns);
+	g_strfreev(g_prj->source_patterns);
+	g_strfreev(g_prj->header_patterns);
+	g_strfreev(g_prj->ignored_dirs_patterns);
 
 	g_hash_table_destroy(g_prj->file_tag_table);
 
