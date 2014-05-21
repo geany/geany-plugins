@@ -758,6 +758,7 @@ static gint glspi_find(lua_State* L)
 
 	gint flags=0;
 	gint i,n;
+	gchar *text;
 	DOC_REQUIRED
 	switch (lua_gettop(L)) {
 		case 0:return FAIL_STRING_ARG(1);
@@ -771,7 +772,8 @@ static gint glspi_find(lua_State* L)
 	if (!lua_isnumber(L,3)) { return FAIL_NUMERIC_ARG(3); }
 	if (!lua_istable(L,4)) { return FAIL_TABLE_ARG(4); }
 
-	ttf.lpstrText=g_strdup(lua_tostring(L,1));
+	text=g_strdup(lua_tostring(L,1));
+	ttf.lpstrText=text;
 	ttf.chrg.cpMin=lua_tonumber(L,2);
 	ttf.chrg.cpMax=lua_tonumber(L,3);
 
@@ -805,10 +807,10 @@ static gint glspi_find(lua_State* L)
 	if (scintilla_send_message(doc->editor->sci,SCI_FINDTEXT,flags,(sptr_t)&ttf)!=-1) {
 		push_number(L,ttf.chrgText.cpMin);
 		push_number(L,ttf.chrgText.cpMax);
-		g_free(ttf.lpstrText);
+		g_free(text);
 		return 2;
 	} else {
-		g_free(ttf.lpstrText);
+		g_free(text);
 		return 0;
 	}
 }
