@@ -192,12 +192,36 @@ build files, which macro is called from configure.ac::
  AC_DEFUN([GP_CHECK_YOURFANCYPLUGINNAME],
  [
      GP_ARG_DISABLE([yourfancypluginname], [auto])
-     GP_STATUS_PLUGIN_ADD([yourfancypluginname], [$enable_yourfancxpluginname])
+     GP_COMMIT_PLUGIN_STATUS([yourfancypluginname])
      AC_CONFIG_FILES([
          yourplugin/Makefile
          yourplugin/src/Makefile
      ])
  ])
+
+You may add checks for dependencies of your plugin between the
+``GP_ARG_DISABLE`` and ``GP_COMMIT_PLUGIN_STATUS`` calls.  Note that you
+must respect the ``$enable_yourfancypluginname`` (lowercase) variable
+and try to avoid performing checks if it is set to ``no``, and never
+abort unless it is set to ``yes``.  If a required dependency is not met
+and ``$enable_yourfancypluginname`` is not set to ``yes``, you should
+update ``enable_yourfancypluginname`` and set it to ``no`` to disable
+building of your plugin.
+
+To ease checking for modules using *pkg-config*, the
+``GP_CHECK_PLUGIN_DEPS`` macro is provided, which wraps
+``PKG_CHECK_MODULES`` and follows the above rules about plugin
+enabling/disabling.
+
+While we recommend plugins to work with both GTK 2 and 3, you can use
+the ``GP_CHECK_PLUGIN_GTK2_ONLY`` or ``GP_CHECK_PLUGIN_GTK3_ONLY``
+macros if your plugin only works with one version.
+
+You may also check which GTK version is used for the build using either
+the ``$GP_GTK_VERSION`` or ``$GP_GTK_PACKAGE`` variables, or the
+``GP_CHECK_GTK3`` macro.  For example, if your plugin works with both
+GTK 2 and 3 but you want to check for a minimal GTK2 version, you may
+use ``$GP_GTK_PACKAGE >= 2.XX`` in a ``GP_CHECK_PLUGIN_DEPS`` call.
 
 
 Makefile inside your plugin folder
