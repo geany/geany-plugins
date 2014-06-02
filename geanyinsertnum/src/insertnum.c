@@ -42,7 +42,7 @@ GeanyFunctions	*geany_functions;
 PLUGIN_VERSION_CHECK(189)
 
 PLUGIN_SET_INFO(_("Insert Numbers"), _("Insert/Fill columns with numbers."),
-	"0.2.1", "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
+	"0.2.2", "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
 
 /* Keybinding(s) */
 enum
@@ -50,8 +50,6 @@ enum
 	INSERT_NUMBERS_KB,
 	COUNT_KB
 };
-
-PLUGIN_KEY_GROUP(insert_numbers, COUNT_KB)
 
 /* when altering the RANGE_ or MAX_LINES, make sure that RANGE_ * MAX_LINES
    fit in gint64, and that RANGE_LEN is enough for RANGE_ digits and sign */
@@ -468,7 +466,10 @@ static void on_tools_show(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpo
 
 void plugin_init(G_GNUC_UNUSED GeanyData *data)
 {
+	GeanyKeyGroup *plugin_key_group;
+
 	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+	plugin_key_group = plugin_set_key_group(geany_plugin, "insert_numbers", COUNT_KB, NULL);
 
 	start_value = 1;
 	step_value = 1;
