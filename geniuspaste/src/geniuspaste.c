@@ -201,7 +201,7 @@ static void paste(GeanyDocument * doc, const gchar * website)
     };
 
     gint occ_position;
-    gint i;
+    guint i;
     guint status;
     gsize f_length;
 
@@ -440,7 +440,7 @@ static void on_configure_response(GtkDialog * dialog, gint response, gpointer * 
 
 GtkWidget *plugin_configure(GtkDialog * dialog)
 {
-    gint i;
+    guint i;
     GtkWidget *label, *vbox, *author_label;
 
     vbox = gtk_vbox_new(FALSE, 6);
