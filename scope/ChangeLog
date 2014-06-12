@@ -1,3 +1,17 @@
+2014-06-12  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * docs/scope.html:
+   Small changes in the "Temporary breakpoint on load" description.
+ * src/menu.c, src/scope.c, src/scope.h:
+   Replaced scope find_widget() with Geany ui_lookup_widget().
+ * src/scope.c:
+   Insert the Debug menu after Build if possible, instead of using
+   a fixed position.
+ * src/scope.c, src/utils.c, src/utils.h:
+   Sync Geany "Document -> [ ] Read only" state of the current
+   document if possible when locking/unlocking it on Run/Terminate.
+
+
 2014-04-27  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/conterm.c:
