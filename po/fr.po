@@ -6420,7 +6420,7 @@ msgstr "Voulez-vous vraiment supprimer « %s » ?"
 
 #: ../treebrowser/src/treebrowser.c:1207 ../treebrowser/src/treebrowser.c:1738
 msgid "Go up"
-msgstr "Dossier parant"
+msgstr "Dossier parent"
 
 #: ../treebrowser/src/treebrowser.c:1211 ../treebrowser/src/treebrowser.c:1753
 msgid "Set path from document"
