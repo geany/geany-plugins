@@ -1201,6 +1201,9 @@ static GtkTreeView *tree;
 static GtkTreeViewColumn *break_type_column;
 static GtkTreeViewColumn *break_display_column;
 
+#define gdk_rectangle_point_in(rect, x, y) ((guint) (x - rect.x) < (guint) rect.width && \
+	(guint) (y - rect.y) < (guint) rect.height)
+
 static gboolean on_break_query_tooltip(G_GNUC_UNUSED GtkWidget *widget, gint x, gint y,
 	gboolean keyboard_tip, GtkTooltip *tooltip, G_GNUC_UNUSED gpointer gdata)
 {
@@ -1218,21 +1221,16 @@ static gboolean on_break_query_tooltip(G_GNUC_UNUSED GtkWidget *widget, gint x, 
 		else
 		{
 			GdkRectangle rect;
-			GdkRegion *region;
 
 			gtk_tree_view_get_background_area(tree, path, break_type_column, &rect);
-			region = gdk_region_rectangle(&rect);
-			tip_column = gdk_region_point_in(region, x, y) ? break_type_column : NULL;
-			gdk_region_destroy(region);
+			tip_column = gdk_rectangle_point_in(rect, x, y) ? break_type_column : NULL;
 
 			if (!tip_column)
 			{
 				gtk_tree_view_get_background_area(tree, path, break_display_column,
 					&rect);
-				region = gdk_region_rectangle(&rect);
-				if (gdk_region_point_in(region, x, y))
+				if (gdk_rectangle_point_in(rect, x, y))
 					tip_column = break_display_column;
-				gdk_region_destroy(region);
 			}
 		}
 
