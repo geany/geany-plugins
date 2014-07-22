@@ -73,6 +73,7 @@ typedef struct {
 	gboolean make_indent_for_cbracket;
 	gboolean move_cursor_to_beginning;
 	gboolean improved_cbracket_indent;
+	gboolean whitesmiths_style;
 	gboolean close_functions;
 	gboolean bcksp_remove_pair;
 	gboolean jump_on_tab;
@@ -356,8 +357,17 @@ improve_indent(
 		SSM(sci, SCI_ADDTEXT, 2, (sptr_t)"\n\n");
 	else
 		SSM(sci, SCI_ADDTEXT, 3, (sptr_t)"\n\n}");
-	sci_set_line_indentation(sci, line + 1, indent + indent_width);
-	sci_set_line_indentation(sci, line + 2, indent);
+	if (ac_info->whitesmiths_style)
+	{
+		sci_set_line_indentation(sci, line,     indent);
+		sci_set_line_indentation(sci, line + 1, indent);
+		sci_set_line_indentation(sci, line + 2, indent);
+	}
+	else
+	{
+		sci_set_line_indentation(sci, line + 1, indent + indent_width);
+		sci_set_line_indentation(sci, line + 2, indent);
+	}
 	/* move to the end of added line */
 	end_pos = sci_get_line_end_position(sci, line + 1);
 	sci_set_current_position(sci, end_pos, TRUE);
@@ -493,11 +503,17 @@ enclose_selection(
 		start_indent = sci_get_line_indentation(sci, start_line);
 		indent_width = editor_get_indent_prefs(editor)->width;
 		sci_set_line_indentation(sci, start_line, start_indent);
-		sci_set_line_indentation(sci, start_line + 1, start_indent + indent_width);
+		if (!ac_info->whitesmiths_style)
+			sci_set_line_indentation(sci, start_line + 1, start_indent + indent_width);
+		else
+			sci_set_line_indentation(sci, start_line + 1, start_indent);
 		for (i = start_line + 2; i <= end_line; i++)
 		{
 			current_indent = sci_get_line_indentation(sci, i);
-			sci_set_line_indentation(sci, i, current_indent + indent_width);
+			if (!ac_info->whitesmiths_style)
+				sci_set_line_indentation(sci, i, current_indent + indent_width);
+			else
+				sci_set_line_indentation(sci, i, current_indent);
 		}
 		text_end_pos = sci_get_line_end_position(sci, i - 1);
 		sci_set_current_position(sci, text_end_pos, FALSE);
@@ -856,6 +872,7 @@ configure_response_cb(GtkDialog *dialog, gint response, gpointer user_data)
 	SAVE_CONF_BOOL(make_indent_for_cbracket);
 	SAVE_CONF_BOOL(move_cursor_to_beginning);
 	SAVE_CONF_BOOL(improved_cbracket_indent);
+	SAVE_CONF_BOOL(whitesmiths_style);
 	SAVE_CONF_BOOL(close_functions);
 	SAVE_CONF_BOOL(bcksp_remove_pair);
 	SAVE_CONF_BOOL(jump_on_tab);
@@ -919,6 +936,7 @@ plugin_init(G_GNUC_UNUSED GeanyData *data)
 	GET_CONF_BOOL(make_indent_for_cbracket, TRUE);
 	GET_CONF_BOOL(move_cursor_to_beginning, TRUE);
 	GET_CONF_BOOL(improved_cbracket_indent, TRUE);
+	GET_CONF_BOOL(whitesmiths_style, FALSE);
 	GET_CONF_BOOL(close_functions, TRUE);
 	GET_CONF_BOOL(bcksp_remove_pair, FALSE);
 	GET_CONF_BOOL(jump_on_tab, TRUE);
@@ -1051,6 +1069,10 @@ plugin_configure(GtkDialog *dialog)
 		_("Improved auto-indent for curly brackets: type \"{\" "
 		"and then press Enter - plugin will create full indented block. "
 		"Works without \"auto-close { }\" checkbox."));
+	WIDGET_CONF_BOOL(whitesmiths_style, _("\tWhitesmiths style"),
+		_("This style puts the brace associated with a control statement on "
+		"the next line, indented. Statements within the braces are indented "
+		"to the same level as the braces."));
 
 	container = vbox;
 	WIDGET_CONF_BOOL(delete_pairing_brace, _("Delete pairing character while backspacing first"),
