@@ -381,9 +381,9 @@ void gprj_project_read_properties_tab(void)
 		source_patterns, header_patterns, ignored_dirs_patterns,
 		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(e->generate_tags)));
 
-	g_free(source_patterns);
-	g_free(header_patterns);
-	g_free(ignored_dirs_patterns);
+	g_strfreev(source_patterns);
+	g_strfreev(header_patterns);
+	g_strfreev(ignored_dirs_patterns);
 }
 
 
@@ -473,9 +473,9 @@ void gprj_project_close(void)
 
 	deferred_op_queue_clean();
 
-	g_free(g_prj->source_patterns);
-	g_free(g_prj->header_patterns);
-	g_free(g_prj->ignored_dirs_patterns);
+	g_strfreev(g_prj->source_patterns);
+	g_strfreev(g_prj->header_patterns);
+	g_strfreev(g_prj->ignored_dirs_patterns);
 
 	g_hash_table_destroy(g_prj->file_tag_table);
 

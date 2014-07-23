@@ -185,12 +185,14 @@ static gchar *build_path(GtkTreeIter *iter)
 			path = g_strdup(name);
 		else
 			setptr(path, g_build_filename(name, path, NULL));
+		g_free(name);
 
 		node = parent;
 	}
 
 	gtk_tree_model_get(model, &node, FILEVIEW_COLUMN_NAME, &name, -1);
 	setptr(path, g_build_filename(name, path, NULL));
+	g_free(name);
 
 	setptr(path, g_build_filename(geany_data->app->project->base_path, path, NULL));
 

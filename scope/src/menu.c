@@ -517,7 +517,7 @@ void menu_init(void)
 {
 	GtkMenuShell *shell = GTK_MENU_SHELL(geany->main_widgets->editor_menu);
 	GList *children = gtk_container_get_children(GTK_CONTAINER(shell));
-	GtkWidget *search2 = find_widget(shell, "search2");
+	GtkWidget *search2 = ui_lookup_widget(GTK_WIDGET(shell), "search2");
 
 	popup_item = get_widget("popup_item");
 	menu_connect("popup_menu", &popup_menu_info, NULL);

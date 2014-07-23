@@ -171,7 +171,7 @@
 <tr><td>sublevel 1 set                </td><td>10000</td><td>1.159 </td><td>0.110</td><td></td></tr>
 <tr><td>sublevel 1 remove             </td><td>10000</td><td>0.971 </td><td>0.120</td><td></td></tr>
 <tr><td>sublevel 1 insert with values </td><td>10000</td><td>1.039 </td><td>0.140</td><td></td></tr>
-<tr><td>both levels model foreach     </td><td>10000</td><td>n/a   </td><td>3.218</td><td>2510</td></tr>
+<tr><td>both levels model foreach     </td><td>10000</td><td>16.602</td><td>3.218</td><td>2510</td></tr>
 <tr><td>both levels store traverse    </td><td>10000</td><td>n/a   </td><td>2.224</td><td>2510</td></tr>
 <tr><td>both levels quick sort double </td><td>10000</td><td>0.218 </td><td>0.046</td><td></td></tr>
 <tr><td>both levels quick sort string </td><td>10000</td><td>1.383 </td><td>1.083</td><td></td></tr>
@@ -272,6 +272,7 @@
 <li>top-level only quick sort is always 2x faster</li>
 <li>all defensive checks are enabled</li>
 <li>all string tests are with utf8 collation</li>
+<li>GtkTreeStore is converted to model with (GtkTreeModel *), not GTK_TREE_MODEL()</li>
 <li>GtkListStore speed is practically identical to GtkTreeStore.</li>
 </ul>
 

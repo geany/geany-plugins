@@ -104,6 +104,7 @@ gchar *utils_text_buffer_get_text(GtkTextBuffer *text, gint maxlen);
 void utils_enter_to_clicked(GtkWidget *widget, GtkWidget *button);
 void utils_tree_set_cursor(GtkTreeSelection *selection, GtkTreeIter *iter, gdouble alignment);
 
+void utils_init(void);
 void utils_finalize(void);
 
 #define UTILS_H 1
