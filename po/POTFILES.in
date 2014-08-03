@@ -15,6 +15,9 @@ addons/src/addons.c
 # Autoclose
 autoclose/src/autoclose.c
 
+# Automark
+automark/src/automark.c
+
 # codenav
 codenav/src/codenavigation.c
 codenav/src/goto_file.c
