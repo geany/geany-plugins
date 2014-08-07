@@ -405,6 +405,7 @@ static void indicator_clear_on_line(GeanyDocument *doc, gint line_number)
 	start_pos = sci_get_position_from_line(doc->editor->sci, line_number);
 	length = sci_get_line_length(doc->editor->sci, line_number);
 
+	sci_indicator_set(doc->editor->sci, GEANY_INDICATOR_ERROR);
 	sci_indicator_clear(doc->editor->sci, start_pos, length);
 }
 
