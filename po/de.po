@@ -2382,7 +2382,7 @@ msgstr "_BibTeX-Einträge"
 
 #: ../geanylatex/src/letters.c:40
 msgid "LaTeX letters"
-msgstr "LATeX-Sonderzeichen"
+msgstr "LaTeX-Sonderzeichen"
 
 #: ../geanylatex/src/letters.c:41
 msgid "Greek letters"
