@@ -264,7 +264,9 @@ Function CheckForGeany
 	IntOp $R2 $R0 >> 16
 	IntOp $R2 $R2 & 0x0000FFFF ; $R2 now contains major version
 	IntOp $R3 $R0 & 0x0000FFFF ; $R3 now contains minor version
-	StrCpy $0 "$R2.$R3"
+	IntOp $R4 $R1 >> 16
+	IntOp $R4 $R4 & 0x0000FFFF ; $R4 now contains release
+	StrCpy $0 "$R2.$R3.$R4"
 	StrCmp $0 ${REQUIRED_GEANY_VERSION} version_check_done 0
 	MessageBox MB_YESNO|MB_ICONEXCLAMATION \
 		"You have Geany $0 installed but you need Geany ${REQUIRED_GEANY_VERSION}.$\nDo you really want to continue?" \
