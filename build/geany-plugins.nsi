@@ -150,6 +150,7 @@ Section Uninstall
 	Delete "$INSTDIR\uninst-plugins.exe"
 	Delete "$INSTDIR\lib\addons.dll"
 	Delete "$INSTDIR\lib\autoclose.dll"
+	Delete "$INSTDIR\lib\automark.dll"
 	Delete "$INSTDIR\lib\codenav.dll"
 	Delete "$INSTDIR\lib\commander.dll"
 	Delete "$INSTDIR\lib\defineformat.dll"
