@@ -16,20 +16,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "geany.h"
-#include "plugindata.h"
-
-#include "prefs.h"
-#include "project.h"
-#include "support.h"
-#include "document.h"
-#include "filetypes.h"
-#include "keybindings.h"
-#include "ui_utils.h"
-#include "editor.h"
-#include "templates.h"
-
-#include "geanyfunctions.h"
+#include <geanyplugin.h>
 #define main_widgets	geany->main_widgets
 
 #include "glspi_ver.h"

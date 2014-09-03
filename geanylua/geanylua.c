@@ -35,14 +35,7 @@
 #endif
 
 
-#include "geany.h"
-#include "plugindata.h"
-#include "keybindings.h"
-#include "ui_utils.h"
-
-#include "geanyfunctions.h"
-
-#include <glib/gi18n.h>
+#include <geanyplugin.h>
 
 #include "glspi_ver.h"
 
