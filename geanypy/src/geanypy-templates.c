@@ -1,3 +1,7 @@
+#if defined(HAVE_CONFIG_H) && !defined(GEANYPY_WINDOWS)
+# include "config.h"
+#endif
+
 #include "geanypy.h"
 
 /* TODO: see if the TemplatePrefs members are safe to modify. */

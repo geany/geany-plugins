@@ -106,10 +106,6 @@ extern "C" {
 #  define G_LOG_DOMAIN "GeanyPy"
 #endif
 
-#ifndef GEANYPY_WINDOWS
-#  include "config.h"
-#endif
-
 #include "geanypy-document.h"
 #include "geanypy-editor.h"
 #include "geanypy-encoding.h"
