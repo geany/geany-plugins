@@ -152,7 +152,10 @@ key_score (const gchar *key_,
   gchar  *key   = g_utf8_casefold (key_, -1);
   gint    score;
   
-  score = get_score (key, text);
+  if(strncmp(text, key, strlen(key)) == 0)
+    score = strlen(key) * 2;
+  else
+    score = get_score (key, text);
   
   g_free (text);
   g_free (key);
@@ -391,7 +394,7 @@ fill_store (GtkListStore *store)
     
     gtk_list_store_insert_with_values (store, NULL, -1,
                                        COL_LABEL, label,
-                                       COL_PATH, DOC_FILENAME (documents[i]),
+                                       COL_PATH, basename,
                                        COL_TYPE, COL_TYPE_FILE,
                                        COL_DOCUMENT, documents[i],
                                        -1);
