@@ -51,8 +51,6 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	"Pavel Roschin <rpg89(at)post(dot)ru>")
 
 static gint source_id;
-static gchar text_cache[GEANY_MAX_WORD_LENGTH] = {0};
-static GeanyEditor *editor_cache = NULL;
 
 static const gint AUTOMARK_INDICATOR = GEANY_INDICATOR_SEARCH;
 
@@ -62,7 +60,9 @@ search_mark_in_range(
 	gint         flags,
 	struct       Sci_TextToFind *ttf)
 {
-	while (SSM(editor->sci, SCI_FINDTEXT, flags, (uptr_t)ttf) != -1)
+	ScintillaObject *sci = editor->sci;
+
+	while (SSM(sci, SCI_FINDTEXT, flags, (uptr_t)ttf) != -1)
 	{
 		gint start = ttf->chrgText.cpMin;
 		gint end = ttf->chrgText.cpMax;
@@ -71,11 +71,12 @@ search_mark_in_range(
 			break;
 
 		ttf->chrg.cpMin = ttf->chrgText.cpMax;
-		if (end != start)
-		{
-			SSM(editor->sci, SCI_SETINDICATORCURRENT, AUTOMARK_INDICATOR, 0);
-			SSM(editor->sci, SCI_INDICATORFILLRANGE, start, end - start);
-		}
+		if (end == start)
+			continue;
+		if(SSM(sci, SCI_INDICATORVALUEAT, AUTOMARK_INDICATOR, start))
+			continue;
+		SSM(sci, SCI_SETINDICATORCURRENT, AUTOMARK_INDICATOR, 0);
+		SSM(sci, SCI_INDICATORFILLRANGE, start, end - start);
 	}
 }
 
@@ -86,7 +87,7 @@ get_current_word(ScintillaObject *sci, gchar *word, gsize wordlen)
 	gint pos = sci_get_current_position(sci);
 	gint start = SSM(sci, SCI_WORDSTARTPOSITION, pos, TRUE);
 	gint end = SSM(sci, SCI_WORDENDPOSITION, pos, TRUE);
-
+	
 	if (start == end)
 		*word = 0;
 	else
@@ -100,17 +101,23 @@ get_current_word(ScintillaObject *sci, gchar *word, gsize wordlen)
 static gboolean
 automark(gpointer user_data)
 {
-	GeanyDocument   *doc = (GeanyDocument *)user_data;
-	GeanyEditor     *editor = doc->editor;
-	ScintillaObject *sci = editor->sci;
-	gchar            text[GEANY_MAX_WORD_LENGTH];
-	gint             match_flag = SCFIND_MATCHCASE | SCFIND_WHOLEWORD;
-	struct           Sci_TextToFind ttf;
+	GeanyDocument      *doc = (GeanyDocument *)user_data;
+	GeanyEditor        *editor = doc->editor;
+	static GeanyEditor *editor_cache = NULL;
+	ScintillaObject    *sci = editor->sci;
+	gchar               text[GEANY_MAX_WORD_LENGTH];
+	static gchar        text_cache[GEANY_MAX_WORD_LENGTH] = {0};
+	gint                match_flag = SCFIND_MATCHCASE | SCFIND_WHOLEWORD;
+	struct              Sci_TextToFind ttf;
 
 	source_id = 0;
 
 	/* during timeout document could be destroyed so check everything again */
 	if (!DOC_VALID(doc))
+		return FALSE;
+
+	/* Do not highlight while selecting text and allow other markers to work */
+	if (sci_has_selection(sci))
 		return FALSE;
 
 	get_current_word(editor->sci, text, sizeof(text));
