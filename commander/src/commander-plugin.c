@@ -113,6 +113,8 @@ enum {
 };
 
 
+#define PATH_SEPARATOR " \342\206\222 " /* right arrow */
+
 #define SEPARATORS        " -_/\\\"'"
 #define IS_SEPARATOR(c)   (strchr (SEPARATORS, (c)) != NULL)
 #define next_separator(p) (strpbrk (p, SEPARATORS))
@@ -149,6 +151,21 @@ get_score (const gchar *needle,
   }
 }
 
+static const gchar *
+path_basename (const gchar *path)
+{
+  const gchar *p1 = strrchr (path, '/');
+  const gchar *p2 = g_strrstr (path, PATH_SEPARATOR);
+
+  if (! p1 && ! p2) {
+    return path;
+  } else if (p1 > p2) {
+    return p1;
+  } else {
+    return p2;
+  }
+}
+
 static gint
 key_score (const gchar *key_,
            const gchar *text_)
@@ -157,7 +174,7 @@ key_score (const gchar *key_,
   gchar  *key   = g_utf8_casefold (key_, -1);
   gint    score;
   
-  score = get_score (key, text);
+  score = get_score (key, text) + get_score (key, path_basename (text)) / 2;
   
   g_free (text);
   g_free (key);
@@ -311,8 +328,7 @@ store_populate_menu_items (GtkListStore  *store,
       }
       
       if (parent_path) {
-        path = g_strconcat (parent_path, " \342\206\222 " /* right arrow */,
-                            item_label, NULL);
+        path = g_strconcat (parent_path, PATH_SEPARATOR, item_label, NULL);
       } else {
         path = g_strdup (item_label);
       }
