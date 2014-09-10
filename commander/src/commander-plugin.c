@@ -114,7 +114,7 @@ enum {
 
 
 #define SEPARATORS        " -_/\\\"'"
-#define IS_SEPARATOR(c)   (strchr (SEPARATORS, (c)))
+#define IS_SEPARATOR(c)   (strchr (SEPARATORS, (c)) != NULL)
 #define next_separator(p) (strpbrk (p, SEPARATORS))
 
 /* TODO: be more tolerant regarding unmatched character in the needle.
@@ -125,13 +125,14 @@ static inline gint
 get_score (const gchar *needle,
            const gchar *haystack)
 {
-  if (needle == NULL || haystack == NULL ||
-      *needle == '\0' || *haystack == '\0') {
-    return 0;
+  if (! needle || ! haystack) {
+    return needle == NULL;
+  } else if (! *needle || ! *haystack) {
+    return *needle == 0;
   }
   
   if (IS_SEPARATOR (*haystack)) {
-    return get_score (needle, haystack + 1);
+    return get_score (needle + IS_SEPARATOR (*needle), haystack + 1);
   }
 
   if (IS_SEPARATOR (*needle)) {
@@ -139,7 +140,7 @@ get_score (const gchar *needle,
   }
 
   if (*needle == *haystack) {
-    gint a = get_score (needle + 1, haystack + 1) + 1;
+    gint a = get_score (needle + 1, haystack + 1) + 1 + IS_SEPARATOR (haystack[1]);
     gint b = get_score (needle, next_separator (haystack));
     
     return MAX (a, b);
