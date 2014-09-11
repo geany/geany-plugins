@@ -3,6 +3,7 @@
  *      part of the "geany-plugins" project.
  *
  *      Copyright 2009 Lionel Fuentes <funto66(at)gmail(dot)com>
+ *      Copyright 2014 Federico Reghenzani <federico(dot)dev(at)reghe(dot)net>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -39,5 +40,8 @@ copy_and_remove_extension(gchar* path);
 /* Comparison of strings, for use with g_slist_find_custom */
 gint
 compare_strings(const gchar* a, const gchar* b);
+
+gint
+strrpos(const gchar *haystack, const gchar *needle);
 
 #endif /* UTILS_H */

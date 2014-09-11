@@ -3,6 +3,7 @@
  *      part of the "geany-plugins" project.
  *
  *      Copyright 2009 Lionel Fuentes <funto66(at)gmail(dot)com>
+ * 		Copyright 2014 Federico Reghenzani <federico(dot)dev(at)reghe(dot)net>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -28,55 +29,39 @@
 #include "switch_head_impl.h"
 #include "utils.h"
 
-/********************* Data types for the feature *********************/
 
-/* Structure representing a handled language */
-typedef struct
-{
-	const gchar* name;
-	GSList* head_extensions;	/* e.g. : "h", "hpp", ... */
-	GSList* impl_extensions; /* e.g. : "cpp", "cxx", ... */
-} Language;
+/****************************** Useful macro **************************/
+#define HEAD_PREPEND(str_ext) \
+	{ lang->head_extensions = g_slist_prepend(lang->head_extensions, g_strdup(str_ext)); }
+#define IMPL_PREPEND(str_ext) \
+	{ lang->impl_extensions = g_slist_prepend(lang->impl_extensions, g_strdup(str_ext)); }
 
-/* Column for the configuration widget */
-typedef enum
-{
-	COLUMN_HEAD,
-	COLUMN_IMPL,
-	NB_COLUMNS
-} Column;
 
 /******************* Global variables for the feature *****************/
 
 static GtkWidget* menu_item = NULL;
 static GSList* languages = NULL;	/* handled languages */
 
-/********************** Functions for the feature *********************/
 
-static void
-fill_default_languages_list(void);
+/**************************** Prototypes ******************************/
+void 
+languages_clean(void);
 
 static void
 menu_item_activate(guint key_id);
 
-static void
-on_configure_add_language(GtkWidget* widget, gpointer data);
+/********************** Functions for the feature *********************/
 
-static void
-on_configure_remove_language(GtkWidget* widget, gpointer data);
-
-static void
-on_configure_cell_edited(GtkCellRendererText* text, gchar* arg1, gchar* arg2, gpointer data);
-
-/* ---------------------------------------------------------------------
- *  Initialization
- * ---------------------------------------------------------------------
+/**
+ * @brief Initialization
+ * @param void 
+ * @return void
+ * 
  */
 void
 switch_head_impl_init(void)
 {
 	GtkWidget* edit_menu;
-
 	log_func();
 
 	edit_menu = ui_lookup_widget(geany->main_widgets->window, "edit1_menu");
@@ -99,53 +84,107 @@ switch_head_impl_init(void)
  							_("Switch header/implementation"),	/* used in the Preferences dialog */
  							menu_item);
 
-	/* TODO : we should use the languages specified by the user or the default list */
-	fill_default_languages_list();
 }
 
-/* ---------------------------------------------------------------------
- *  Cleanup
- * ---------------------------------------------------------------------
+
+/**
+ * @brief Default plugin cleanup
+ * @param void 
+ * @return void
+ * 
  */
 void
 switch_head_impl_cleanup(void)
 {
-	GSList* iter = NULL;
-
 	log_func();
 
 	gtk_widget_destroy(menu_item);
+	languages_clean();
+}
+
+/**
+ * @brief	Free and cleanup all item in languages array, and set languages
+ * 			to null
+ * @param void 
+ * @return void
+ * 
+ */
+void languages_clean(void)
+{
+	GSList* iter = NULL;
 
 	for(iter = languages ; iter != NULL ; iter = iter->next)
 	{
 		Language* lang = (Language*)(iter->data);
 
-		g_slist_foreach(lang->head_extensions, (GFunc)(&g_free), NULL);	/* free the data */
-		g_slist_free(lang->head_extensions);	/* free the list */
+		g_slist_foreach(lang->head_extensions, (GFunc)(&g_free), NULL);
+		g_slist_free(lang->head_extensions);
 
 		g_slist_foreach(lang->impl_extensions, (GFunc)(&g_free), NULL);
 		g_slist_free(lang->impl_extensions);
 	}
 
 	g_slist_free(languages);
+
+	languages = NULL;
 }
 
-
-/* ---------------------------------------------------------------------
- *  Initialize the "languages" list to the default known languages
- * ---------------------------------------------------------------------
+/**
+ * @brief	Fill the languages variable with passed arguments.
+ * @param	impl_list	list of implementation extensions 
+ * @param	head_list	list of header extensions
+ * @return	void
+ * 
  */
-static void
+void
+fill_languages_list(const gchar** impl_list, const gchar** head_list, gsize n)
+{
+	gchar **splitted_list;
+	Language* lang = NULL;
+	gint i, j;
+	
+	languages_clean();
+
+	for ( i=0; i<n; i++ ) {
+		lang = g_malloc0(sizeof(Language));
+		
+		/* check if current item has no head or impl */
+		if ( strlen(impl_list[i])==0 || strlen(head_list[i])==0 )
+			continue;
+		
+		/* Set language implementation extensions */
+		splitted_list = g_strsplit(impl_list[i], ",", 0);
+		for ( j=0; splitted_list[j] != NULL; j++ )
+			IMPL_PREPEND(splitted_list[j]);
+		g_strfreev(splitted_list);
+		
+		/* Set language header extensions */
+		splitted_list = g_strsplit(head_list[i], ",", 0);
+		for ( j=0; splitted_list[j] != NULL; j++ )
+			HEAD_PREPEND(splitted_list[j]);
+		g_strfreev(splitted_list);
+		
+		/* add current language to main list */
+		languages = g_slist_prepend(languages, lang);
+	}
+	
+	/* reverse the list to match correct order */
+	languages = g_slist_reverse(languages);
+
+}
+
+/**
+ * @brief	Initialize the "languages" list to the default known languages
+ * @param	void
+ * @return	void
+ * 
+ */
+void
 fill_default_languages_list(void)
 {
 	Language* lang = NULL;
 
-	languages = NULL;
-
-#define HEAD_PREPEND(str_ext) \
-	{ lang->head_extensions = g_slist_prepend(lang->head_extensions, g_strdup(str_ext)); }
-#define IMPL_PREPEND(str_ext) \
-	{ lang->impl_extensions = g_slist_prepend(lang->impl_extensions, g_strdup(str_ext)); }
+	languages_clean();
 
 	/* C/C++ */
 	lang = g_malloc0(sizeof(Language));
@@ -195,13 +234,13 @@ fill_default_languages_list(void)
 	/* Done : */
 	languages = g_slist_reverse(languages);
 
-#undef HEAD_PREPEND
-#undef IMPL_PREPEND
 }
 
-/* ---------------------------------------------------------------------
- *  Callback when the menu item is clicked.
- * ---------------------------------------------------------------------
+/**
+ * @brief	Callback when the menu item is clicked.
+ * @param	key_id	not used
+ * @return	void
+ * 
  */
 static void
 menu_item_activate(guint key_id)
@@ -395,205 +434,13 @@ free_mem:
 	}
 }
 
-/* ---------------------------------------------------------------------
- *  Configuration widget
- * ---------------------------------------------------------------------
+/**
+ * @brief	Extern function to get languages.
+ * @param	void
+ * @return	GSList*	languages list
+ * 
  */
-
-/* ----- Utility function to concatenate the extensions of a -----
- *       language, separated with a comma. */
-static gchar*
-concatenate_extensions(GSList* extensions)
+GSList* switch_head_impl_get_languages()
 {
-	GSList* iter_ext;
-	gchar* p_str = NULL;
-	gchar* temp = NULL;
-
-	for(iter_ext = extensions ; iter_ext != NULL ; iter_ext = iter_ext->next)
-	{
-		temp = p_str;
-		p_str = g_strjoin(",", (const gchar*)(iter_ext->data), p_str, NULL);
-		g_free(temp);
-	}
-
-	return p_str;
-}
-
-/* ----- Utility function to add a language to a GtkListStore ----- */
-static void
-add_language(GtkListStore* list_store, Language* lang)
-{
-	gchar* p_str = NULL;
-	GtkTreeIter tree_iter;
-
-	if(lang->head_extensions == NULL || lang->impl_extensions == NULL)
-		return;
-
-	/* Append an empty row */
-	gtk_list_store_append(list_store, &tree_iter);
-
-	/* Header extensions */
-	p_str = concatenate_extensions(lang->head_extensions);
-	gtk_list_store_set(list_store, &tree_iter, COLUMN_HEAD, p_str, -1);
-	g_free(p_str);
-
-	/* Implementation extensions */
-	p_str = concatenate_extensions(lang->impl_extensions);
-	gtk_list_store_set(list_store, &tree_iter, COLUMN_IMPL, p_str, -1);
-	g_free(p_str);
-}
-
-/* ----- Finally, the configuration widget ----- */
-GtkWidget*
-switch_head_impl_config_widget(void)
-{
-	GtkWidget *frame, *vbox, *tree_view;
-	GtkWidget *hbox_buttons, *add_button, *remove_button;
-	GtkListStore *list_store;
-	GtkTreeViewColumn *column;
-	GtkCellRenderer *cell_renderer;
-
-	GSList *iter_lang;
-
-	log_func();
-
-	/* Frame, which is the returned widget */
-	frame = gtk_frame_new(_("Switch header/implementation"));
-
-	/* Main VBox */
-	vbox = gtk_vbox_new(FALSE, 0);
-	gtk_container_add(GTK_CONTAINER(frame), vbox);
-
-	/* ======= Extensions list ======= */
-
-	/* Add a list containing the extensions for each language (headers / implementations) */
-	/* - create the GtkListStore */
-	list_store = gtk_list_store_new(NB_COLUMNS, G_TYPE_STRING, G_TYPE_STRING);
-
-	/* - fill the GtkListStore with the extensions of the languages */
-	for(iter_lang = languages ; iter_lang != NULL ; iter_lang = iter_lang->next)
-		add_language(list_store, (Language*)(iter_lang->data));
-
-	/* - create the GtkTreeView */
-	tree_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(list_store));
-
-	/* - add the columns */
-	/* -> headers : */
-	cell_renderer = gtk_cell_renderer_text_new();
-	g_object_set(G_OBJECT(cell_renderer), "editable", TRUE, NULL);
-	g_signal_connect(G_OBJECT(cell_renderer), "edited", G_CALLBACK(on_configure_cell_edited), GINT_TO_POINTER(COLUMN_HEAD));
-	column = gtk_tree_view_column_new_with_attributes(	_("Headers extensions"), cell_renderer,
-														"text", COLUMN_HEAD,
-														NULL);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), column);
-
-	/* -> implementations : */
-	cell_renderer = gtk_cell_renderer_text_new();
-	g_object_set(G_OBJECT(cell_renderer), "editable", TRUE, NULL);
-	g_signal_connect(G_OBJECT(cell_renderer), "edited", G_CALLBACK(on_configure_cell_edited), GINT_TO_POINTER(COLUMN_IMPL));
-	column = gtk_tree_view_column_new_with_attributes(	_("Implementations extensions"), cell_renderer,
-														"text", COLUMN_IMPL,
-														NULL);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), column);
-
-
-	/* - finally add the GtkTreeView to the frame's vbox */
-	gtk_box_pack_start(GTK_BOX(vbox), tree_view, TRUE, TRUE, 6);
-
-
-	/* ========= Buttons ======== */
-
-	/* HBox */
-	hbox_buttons = gtk_hbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox_buttons, FALSE, FALSE, 0);
-
-	/* Add the "add" button to the frame's hbox */
-	add_button = gtk_button_new_from_stock(GTK_STOCK_ADD);
-	g_signal_connect(G_OBJECT(add_button), "clicked", G_CALLBACK(on_configure_add_language), tree_view);
-	gtk_box_pack_start(GTK_BOX(hbox_buttons), add_button, FALSE, FALSE, 0);
-
-	/* Add the "remove" button to the frame's hbox */
-	remove_button = gtk_button_new_from_stock(GTK_STOCK_REMOVE);
-	gtk_widget_set_sensitive(remove_button, FALSE);	/* TODO ! */
-	g_signal_connect(G_OBJECT(remove_button), "clicked", G_CALLBACK(on_configure_remove_language), tree_view);
-	gtk_box_pack_start(GTK_BOX(hbox_buttons), remove_button, FALSE, FALSE, 0);
-
-	return frame;
-}
-
-/* ---------------------------------------------------------------------
- * Callback for adding a language in the configuration dialog
- * ---------------------------------------------------------------------
- */
-static void
-on_configure_add_language(GtkWidget* widget, gpointer data)
-{
-	GtkWidget* tree_view = (GtkWidget*)data;
-	GtkListStore *list_store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(tree_view)));
-	GtkTreeIter tree_iter;
-	GtkTreePath *path;
-	GtkTreeViewColumn* column = NULL;
-	gint nb_lines;
-
-	/* Add a line */
-	gtk_list_store_append(list_store, &tree_iter);
-
-	/* and give the focus to it */
-	nb_lines = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(list_store), NULL);
-
-	path = gtk_tree_path_new_from_indices(nb_lines-1, -1);
-
-	column = gtk_tree_view_get_column(GTK_TREE_VIEW(tree_view), 0);
-
-	/* TODO : why isn't the cell being edited, although we say "TRUE" as last parameter ?? */
-	gtk_tree_view_set_cursor(GTK_TREE_VIEW(tree_view), path, column, TRUE);
-	gtk_widget_grab_focus(tree_view);
-
-	gtk_tree_path_free(path);
-}
-
-/* ---------------------------------------------------------------------
- * Callback for removing a language in the configuration dialog
- * ---------------------------------------------------------------------
- */
-static void
-on_configure_remove_language(GtkWidget* widget, gpointer data)
-{
-	/* TODO ! */
-}
-
-/* ---------------------------------------------------------------------
- * Callback called when a cell has been edited in the configuration dialog
- * ---------------------------------------------------------------------
- */
-static void
-on_configure_cell_edited(GtkCellRendererText* text, gchar* arg1, gchar* arg2, gpointer data)
-{
-	/* TODO !! */
-	/* Column col = (Column)(GPOINTER_TO_INT(data)); */
-	log_debug("arg1 == %s, arg2 == %s\n", arg1, arg2);
-}
-
-/* ---------------------------------------------------------------------
- * Write the configuration of the feature
- * ---------------------------------------------------------------------
- */
-void
-write_switch_head_impl_config(GKeyFile* key_file)
-{
-	/* TODO ! */
-	/* This is old code which needs to be updated */
-
-/*	lang_names = g_malloc(nb_languages * sizeof(gchar*));
-	for(lang_iterator = languages_extensions, i=0 ;
-		lang_iterator != NULL ;
-		lang_iterator = lang_iterator->next, i++)
-	{
-		lang_names[i] = ((const LanguageExtensions*)(lang_iterator->data))->language_name;
-	}
-
-	g_key_file_set_string_list(key_file, "switching", "languages", lang_names, nb_languages);
-
-	g_free(lang_names);
-*/
+	return languages;
 }

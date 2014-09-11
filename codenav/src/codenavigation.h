@@ -1,23 +1,22 @@
 /*
- *      codenavigation.h - this file is part of "codenavigation", which is
- *      part of the "geany-plugins" project.
+ *  codenavigation.h - this file is part of "codenavigation", which is
+ *  part of the "geany-plugins" project.
  *
- *      Copyright 2009 Lionel Fuentes <funto66(at)gmail(dot)com>
+ *  Copyright 2009 Lionel Fuentes <funto66(at)gmail(dot)com>
+ *  Copyright 2014 Federico Reghenzani <federico(dot)dev(at)reghe(dot)net>
  *
- *      This program is free software; you can redistribute it and/or modify
- *      it under the terms of the GNU General Public License as published by
- *      the Free Software Foundation; either version 2 of the License, or
- *      (at your option) any later version.
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- *      This program is distributed in the hope that it will be useful,
- *      but WITHOUT ANY WARRANTY; without even the implied warranty of
- *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *      GNU General Public License for more details.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *      You should have received a copy of the GNU General Public License
- *      along with this program; if not, write to the Free Software
- *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- *      MA 02110-1301, USA.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef CODENAVIGATION_H
@@ -36,6 +35,7 @@
 #include "keybindings.h"
 #include "filetypes.h"
 #include <gdk/gdkkeysyms.h>
+
 #include <string.h>
 
 #include "switch_head_impl.h"
@@ -45,13 +45,15 @@
 #include "geanyfunctions.h"	/* this wraps geany_functions function pointers */
 
 /* Debug flag */
-/*#define CODE_NAVIGATION_DEBUG
-*/
+/*#define CODE_NAVIGATION_DEBUG*/
 
-#define CODE_NAVIGATION_VERSION "0.1"
+#define CODE_NAVIGATION_VERSION "0.2"
 
 /* Log utilities */
 #ifdef CODE_NAVIGATION_DEBUG
+#include <glib/gprintf.h>
+
+
 static void log_debug(const gchar* s, ...)
 {
 	gchar* format = g_strconcat("[CODENAV DEBUG] : ", s, "\n", NULL);
@@ -64,7 +66,7 @@ static void log_debug(const gchar* s, ...)
 
 #define log_func() g_print("[CODENAV FUNC] : %s", G_STRFUNC)
 #else
-static void log_debug(const gchar* s, ...) {}
+#define log_debug(...) {}
 #define log_func() {}
 #endif
 
