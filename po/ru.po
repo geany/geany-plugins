@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.24\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-09 03:19+0000\n"
-"PO-Revision-Date: 2014-04-10 20:29+0400\n"
-"Last-Translator: Pavel Roschin <roschin@scriptumplus.ru>\n"
+"POT-Creation-Date: 2014-09-12 19:18+0400\n"
+"PO-Revision-Date: 2014-09-12 19:58+0400\n"
+"Last-Translator: Pavel Roschin <rpg89(at)post(dot)ru>\n"
 "Language-Team: Russian <geany-i18n@uvena.de>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -28,16 +28,17 @@ msgstr "(Пустая строка)"
 msgid "_Remove Bookmark"
 msgstr "Удалить закладку"
 
-#: ../addons/src/ao_bookmarklist.c:333
+#. Translators: Number is meant at this point.
+#: ../addons/src/ao_bookmarklist.c:334
 msgid "No."
 msgstr "Стр."
 
-#: ../addons/src/ao_bookmarklist.c:341 ../devhelp/src/dhp-object.c:494
+#: ../addons/src/ao_bookmarklist.c:342 ../devhelp/src/dhp-object.c:494
 #: ../devhelp/devhelp/dh-window.c:1142
 msgid "Contents"
 msgstr "Содержание"
 
-#: ../addons/src/ao_bookmarklist.c:374 ../treebrowser/src/treebrowser.c:625
+#: ../addons/src/ao_bookmarklist.c:375 ../treebrowser/src/treebrowser.c:625
 msgid "Bookmarks"
 msgstr "Закладки"
 
@@ -157,9 +158,9 @@ msgstr "Обновить список задач"
 msgid "Run XML tagging"
 msgstr "Вставить XML теги по границам выделенного текста"
 
-#: ../addons/src/addons.c:417 ../autoclose/src/autoclose.c:871
-#: ../geanylatex/src/geanylatex.c:241 ../geanyprj/src/geanyprj.c:174
-#: ../geanysendmail/src/geanysendmail.c:123
+#: ../addons/src/addons.c:417 ../autoclose/src/autoclose.c:885
+#: ../codenav/src/codenavigation.c:293 ../geanylatex/src/geanylatex.c:241
+#: ../geanyprj/src/geanyprj.c:174 ../geanysendmail/src/geanysendmail.c:123
 #: ../geanysendmail/src/geanysendmail.c:291 ../geanyvc/src/geanyvc.c:1854
 #: ../geniuspaste/src/geniuspaste.c:140 ../spellcheck/src/scplugin.c:146
 #: ../treebrowser/src/treebrowser.c:1935
@@ -254,68 +255,335 @@ msgstr "Окружать выделение автоматически (без �
 
 #: ../autoclose/src/autoclose.c:50
 msgid "Auto-close"
-msgstr "Автозавершение"
+msgstr "Автозакрытие"
 
 #: ../autoclose/src/autoclose.c:51
 msgid "Auto-close braces and brackets with lot of features"
-msgstr "Многофункциональное автозавершение скобок и кавычек"
+msgstr "Многофункциональное автозакрытие скобок и кавычек"
 
-#: ../codenav/src/codenavigation.c:52
+#: ../autoclose/src/autoclose.c:1033
+msgid "Auto-close quotes and brackets"
+msgstr "Автозакрытие скобок и кавычек"
+
+#: ../autoclose/src/autoclose.c:1034
+msgid "Parenthesis ( )"
+msgstr "Круглые скобки ( )"
+
+#: ../autoclose/src/autoclose.c:1035
+msgid "Auto-close parenthesis \"(\" -> \"(|)\""
+msgstr "Автозакрытие круглых скобок \"(\" -> \"(|)\""
+
+#: ../autoclose/src/autoclose.c:1037
+msgid "Curly brackets { }"
+msgstr "Фигурные скобки { }"
+
+#: ../autoclose/src/autoclose.c:1038
+msgid "Auto-close curly brackets \"{\" -> \"{|}\""
+msgstr "Автозакрытие фигурных скобок \"{\" -> \"{|}\""
+
+#: ../autoclose/src/autoclose.c:1040
+msgid "Square brackets [ ]"
+msgstr "Квадратные скобки [ ]"
+
+#: ../autoclose/src/autoclose.c:1041
+msgid "Auto-close square brackets \"[\" -> \"[|]\""
+msgstr "Автозакрытие квадратных скобок \"[\" -> \"[|]\""
+
+#: ../autoclose/src/autoclose.c:1042
+msgid "Angular brackets < >"
+msgstr "Угловые скобки < >"
+
+#: ../autoclose/src/autoclose.c:1043
+msgid "Auto-close angular brackets \"<\" -> \"<|>\""
+msgstr "Автозакрытие угловых скобок \"<\" -> \"<|>\""
+
+#: ../autoclose/src/autoclose.c:1045
+msgid "\tOnly for HTML"
+msgstr "\tТолько для HTML"
+
+#: ../autoclose/src/autoclose.c:1046
+msgid "Auto-close angular brackets only in HTML documents"
+msgstr "Автозакрытие угловых скобок только в HTML документах"
+
+#: ../autoclose/src/autoclose.c:1047
+msgid "Double quotes \" \""
+msgstr "Двойные кавычки \" \""
+
+#: ../autoclose/src/autoclose.c:1048
+msgid "Auto-close double quotes \" -> \"|\""
+msgstr "Автозакрытие двойных кавычек \" -> \"|\""
+
+#: ../autoclose/src/autoclose.c:1049
+msgid "Single quotes ' '"
+msgstr "Одинарные кавычки ' '"
+
+#: ../autoclose/src/autoclose.c:1050
+msgid "Auto-close single quotes ' -> '|'"
+msgstr "Автозакрытие одинарных кавычек ' -> '|'"
+
+#: ../autoclose/src/autoclose.c:1051
+msgid "Backquote ` `"
+msgstr "Обратная кавычка ` `"
+
+#: ../autoclose/src/autoclose.c:1052
+msgid "Auto-close backquote ` -> `|`"
+msgstr "Автозакрытие обратной кавычки ` -> `|`"
+
+#: ../autoclose/src/autoclose.c:1054
+msgid "\tOnly for Bash"
+msgstr "\tТолько для языка сценариев Bash"
+
+#: ../autoclose/src/autoclose.c:1055
+msgid "Auto-close backquote only in Bash"
+msgstr "Автозакрытие обратной кавычки только в документах Bash"
+
+#: ../autoclose/src/autoclose.c:1057
+msgid "Improve curly brackets completion"
+msgstr "Улучшить автозакрытие фигурных скобок"
+
+#: ../autoclose/src/autoclose.c:1058
+msgid "Indent when enclosing"
+msgstr "Создавать отступ при окружении"
+
+#: ../autoclose/src/autoclose.c:1059
+msgid ""
+"If you select some text and press \"{\" or \"}\", plugin will auto-close "
+"selected lines and make new block with indent.\n"
+"You do not need to select block precisely - block enclosing takes into "
+"account only lines."
+msgstr ""
+"Если вы выделите текст и нажмёте одну из клавиш \"{\" или \"}\", "
+"модуль автоматически окружит выбранные строки кода и создаст новый "
+"блок с отступом.\n"
+"Вам не нужно точно выделять границы блоки - окружение работает только "
+"со строками целиком."
+
+#: ../autoclose/src/autoclose.c:1064
+msgid "Move cursor to beginning"
+msgstr "Переместить курсор к началу"
+
+#: ../autoclose/src/autoclose.c:1065
+msgid ""
+"If you checked \"Indent when enclosing\", moving cursor to beginning may be "
+"useful: usually you make new block and need to create new statement before "
+"this block."
+msgstr ""
+"Если выбран параметр \"Создавать отступ при окружении\", перемещение "
+"курсора в начало блока может быть полезным: обычно вы создаёте новый "
+"блок и печатаете оператор перед этим блоком."
+
+#: ../autoclose/src/autoclose.c:1068
+msgid "Improved auto-indentation"
+msgstr "Улучшить автоотступ"
+
+#: ../autoclose/src/autoclose.c:1069
+msgid ""
+"Improved auto-indent for curly brackets: type \"{\" and then press Enter - "
+"plugin will create full indented block. Works without \"auto-close { }\" "
+"checkbox."
+msgstr ""
+"Улучшенный автоматический отступ для фигурных скобок: наберите \"{\" "
+"и нажмите Enter - модуль создаст полностью готовый блок с отступом. "
+"Работает без параметра \"автозакрытие фигурных скобок { }\"."
+
+#: ../autoclose/src/autoclose.c:1072
+msgid "\tWhitesmiths style"
+msgstr "\tСтиль Уайтсмит"
+
+#: ../autoclose/src/autoclose.c:1073
+msgid ""
+"This style puts the brace associated with a control statement on the next "
+"line, indented. Statements within the braces are indented to the same level "
+"as the braces."
+msgstr ""
+"Данный стиль располагает фигурные скобки с отступом относительно "
+"предыдущего оператора. Операторы внутри блока имеют тот же отступ, "
+"что и фигурная скобка."
+
+#: ../autoclose/src/autoclose.c:1078
+msgid "Delete pairing character while backspacing first"
+msgstr "Удалить парный символ при удалении предыдущего клавишей BackSpace"
+
+#: ../autoclose/src/autoclose.c:1079
+msgid "Check if you want to delete pairing bracket by pressing BackSpace."
+msgstr ""
+"Включите, если хотите, чтобы модуль удалял соседний парный символ "
+"каждый раз, когда вы нажимете BackSpace."
+
+#: ../autoclose/src/autoclose.c:1081
+msgid "Suppress double-completion"
+msgstr "Подавлять двойное автозакрытие"
+
+#: ../autoclose/src/autoclose.c:1082
+msgid ""
+"Check if you want to allow editor automatically fix mistypes with brackets: "
+"if you type \"{}\" you will get \"{}\", not \"{}}\"."
+msgstr ""
+"Включите, если хотите, чтобы модуль автоматически исправлял ошибки в "
+"скобках: если вы печатаете \"{}\", вы получите \"{}\", а не \"{}}\"."
+
+#: ../autoclose/src/autoclose.c:1084
+msgid "Enclose selections"
+msgstr "Окружать выделенный текст"
+
+#: ../autoclose/src/autoclose.c:1085
+msgid "Automatically enclose selected text by pressing just one bracket key."
+msgstr ""
+"Автоматически окружать выбранный текст путём нажатия только одной "
+"клавиши со скобкой."
+
+#: ../autoclose/src/autoclose.c:1087
+msgid "Keep selection when enclosing"
+msgstr "Сохранять выделение при окружении"
+
+#: ../autoclose/src/autoclose.c:1088
+msgid "Keep your previously selected text after enclosing."
+msgstr "Сохранить предыдущее выделение текст после окружения скобками."
+
+#: ../autoclose/src/autoclose.c:1090
+msgid "Behaviour inside comments and strings"
+msgstr "Поведение внутри комментариев и строк"
+
+#: ../autoclose/src/autoclose.c:1091
+msgid "Allow auto-closing in strings and comments"
+msgstr "Разрешить автозакрытие внутри комментариев и строк"
+
+#: ../autoclose/src/autoclose.c:1092
+msgid "Check if you wan to keep auto-closing inside strings and comments too."
+msgstr ""
+"Включите, если вы хотите, чтобы автозакрытие также работало внутри "
+"комментариев и строк."
+
+#: ../autoclose/src/autoclose.c:1093
+msgid "Enclose selections in strings and comments"
+msgstr "Окружать выделение внутри комментариев и строк"
+
+#: ../autoclose/src/autoclose.c:1094
+msgid "Check if you wan to enclose selections inside strings and comments too."
+msgstr ""
+"Включите, если вы хотите, чтобы окружение выделенного блока текст "
+"также работало внутри комментариев и строк."
+
+#: ../autoclose/src/autoclose.c:1097
+msgid "Auto-complete \";\" for functions"
+msgstr "Автозавершение \";\" для функций"
+
+#: ../autoclose/src/autoclose.c:1098
+msgid ""
+"Full function auto-closing (works only for C/C++): type \"sin(\" and you "
+"will get \"sin(|);\"."
+msgstr ""
+"Полное автозакрытие для функций (работает только для C/C++): "
+"напечатайте \"sin(\" и вы получите \"sin(|);\"."
+
+#: ../autoclose/src/autoclose.c:1100
+msgid "Shift+BackSpace removes pairing brace too"
+msgstr "Shift+BackSpace удаляет парную скобку"
+
+#: ../autoclose/src/autoclose.c:1101
+msgid ""
+"Remove left and right brace while pressing Shift+BackSpace.\n"
+"Tip: to completely remove indented block just Shift+BackSpace first \"{\" or "
+"last \"}\"."
+msgstr ""
+"Удалять левую и правую скобку при нажатии Shift+BackSpace, как бы "
+"далеко они не находились.\n"
+"Подсказка: чтобы удалить полностью блок с отступом, просто нажмите "
+"Shift+BackSpace рядом с первым символом \"{\" или последним символом "
+"\"}\"."
+
+#: ../autoclose/src/autoclose.c:1104
+msgid "Jump on Tab to enclosed char"
+msgstr "Нажмите Tab для перехода к следующему символу"
+
+#: ../autoclose/src/autoclose.c:1105
+msgid "Jump behind autoclosed items on Tab press."
+msgstr "Переходить к парному автоматически вставленному символу клавишей Tab."
+
+#: ../automark/src/automark.c:48
+msgid "Auto-mark"
+msgstr "Авто-маркер"
+
+#: ../automark/src/automark.c:49
+msgid "Auto-mark word under cursor"
+msgstr "Подсвечивает текущее слово под курсором"
+
+#: ../codenav/src/codenavigation.c:43
 msgid "Code navigation"
 msgstr "Навигация по коду"
 
-#: ../codenav/src/codenavigation.c:53
+#: ../codenav/src/codenavigation.c:44
 msgid ""
-"This plugin adds features to facilitate navigation between source files.\n"
-"As for the moment, it implements :\n"
-"- switching between a .cpp file and the corresponding .h file\n"
-"- [opening a file by typing its name -> TODO]"
-msgstr ""
-"Этот плагин предоставляет возможности по навигации между файлами исходных "
-"текстов.\n"
-"На текущий момент реализовано :\n"
-"- переключение между .cpp и соотвутствующим .h файлом\n"
-"- [открытие файла путём набора его имени -> TODO]"
+"This plugin adds features to facilitate navigation between source files."
+msgstr "Модуль позволяет выполнять навигацию между исходными файлами."
 
-#. Add the menu item, sensitive only when a document is opened
-#: ../codenav/src/goto_file.c:57 ../codenav/src/goto_file.c:71
-msgid "Goto file"
-msgstr "Перейти к файлу"
+#: ../codenav/src/codenavigation.c:139
+msgid ""
+"Codenav head/impl lists should have been same length. Geany will use the "
+"default configuration."
+msgstr "Списки заголовочных файлов/реализации должны иметь одинаковую длину. Geany будет использовать стандартные настройки."
 
-#: ../codenav/src/goto_file.c:109
-#, c-format
-msgid "(From the %s plugin)"
-msgstr "(Из плагина %s)"
-
-#. Add the menu item and make it sensitive only when a document is opened
 #. Frame, which is the returned widget
-#: ../codenav/src/switch_head_impl.c:85 ../codenav/src/switch_head_impl.c:99
-#: ../codenav/src/switch_head_impl.c:461
+#. Add the menu item and make it sensitive only when a document is opened
+#: ../codenav/src/codenavigation.c:396 ../codenav/src/switch_head_impl.c:70
+#: ../codenav/src/switch_head_impl.c:84
 msgid "Switch header/implementation"
 msgstr "Переключить заголовок/реализацию"
 
-#: ../codenav/src/switch_head_impl.c:369
+#. Help label
+#: ../codenav/src/codenavigation.c:403
+msgid "You can specify multiple extensions by separating them by commas."
+msgstr "Вы можете указать несколько расширения, разделяя их запятыми."
+
+#: ../codenav/src/codenavigation.c:426
+msgid "Implementations extensions"
+msgstr "Расширения файлов реализации"
+
+#: ../codenav/src/codenavigation.c:435
+msgid "Headers extensions"
+msgstr "Расширения заголовочных файлов"
+
+#. Add the "reset to default" button to the frame's hbox
+#: ../codenav/src/codenavigation.c:462
+msgid "Reset to Default"
+msgstr "Сбросить по умолчанию"
+
+#: ../codenav/src/codenavigation.c:547
+msgid ""
+"Are you sure you want to delete all languages and restore defaults?\n"
+"This action cannot be undone."
+msgstr ""
+"Вы уверены, что хотите удалить все языки и восстановить значения по "
+"умолчанию?\n"
+"Данное действие невозможно отменить."
+
+#. Add the menu item, sensitive only when a document is opened
+#: ../codenav/src/goto_file.c:68 ../codenav/src/goto_file.c:218
+msgid "Go to File..."
+msgstr "Перейти к файлу..."
+
+#: ../codenav/src/goto_file.c:82
+msgid "Go to File"
+msgstr "Перейти к файлу"
+
+#: ../codenav/src/goto_file.c:227
+msgid "Enter the file you want to open:"
+msgstr "Введите файл, который хотите открыть:"
+
+#: ../codenav/src/goto_file.c:303 ../codenav/src/switch_head_impl.c:408
 #, c-format
 msgid "%s not found, create it?"
 msgstr "%s не найден, создать?"
 
-#: ../codenav/src/switch_head_impl.c:485
-msgid "Headers extensions"
-msgstr "Расширения заголовочных файлов"
-
-#: ../codenav/src/switch_head_impl.c:494
-msgid "Implementations extensions"
-msgstr "Расширения файлов реализации"
-
-#: ../commander/src/commander-plugin.c:39
+#: ../commander/src/commander-plugin.c:43
 msgid "Commander"
 msgstr "Командир"
 
-#: ../commander/src/commander-plugin.c:40
+#: ../commander/src/commander-plugin.c:44
 msgid "Provides a command panel for quick access to actions, files and more"
 msgstr "Командная панель быстрого доступа к действиям, файлам и другое"
 
-#: ../commander/src/commander-plugin.c:686
+#: ../commander/src/commander-plugin.c:752
 msgid "Show Command Panel"
 msgstr "Показать командную панель"
 
@@ -530,7 +798,7 @@ msgstr "Перейти к текущей инструкции"
 msgid "Can't evaluate expression"
 msgstr "Не могу вычислить выражение"
 
-#: ../debugger/src/callbacks.c:249
+#: ../debugger/src/callbacks.c:258
 msgid "To edit source files stop debugging session"
 msgstr "Остановите отладку чтобы редактировать файлы"
 
@@ -673,7 +941,7 @@ msgid "Book:"
 msgstr "Книга:"
 
 #. i18n: a documentation book
-#: ../devhelp/devhelp/dh-link.c:255 ../geanylatex/src/geanylatex.c:1760
+#: ../devhelp/devhelp/dh-link.c:255 ../geanylatex/src/geanylatex.c:1784
 msgid "Book"
 msgstr "Книга"
 
@@ -724,22 +992,21 @@ msgstr "Некорректное адресное пространство '%s' 
 #, c-format
 msgid ""
 "\"title\", \"name\" and \"link\" elements are required at line %d, column %d"
-msgstr ""
-"элементы \"title\", \"name\" и \"link\" нужны в строке %d, позиция %d"
+msgstr "элементы \"title\", \"name\" и \"link\" нужны в строке %d, позиция %d"
 
 #: ../devhelp/devhelp/dh-parser.c:204
 #, c-format
 msgid ""
 "\"name\" and \"link\" elements are required inside <sub> on line %d, column "
 "%d"
-msgstr "элементы \"name\" и \"link\" нужны внутри <sub> в строке %d, позиция %d"
+msgstr ""
+"элементы \"name\" и \"link\" нужны внутри <sub> в строке %d, позиция %d"
 
 #: ../devhelp/devhelp/dh-parser.c:284
 #, c-format
 msgid ""
 "\"name\" and \"link\" elements are required inside '%s' on line %d, column %d"
-msgstr ""
-"элементы \"name\" и \"link\" нужны внутри '%s' в строке %d, позиция %d"
+msgstr "элементы \"name\" и \"link\" нужны внутри '%s' в строке %d, позиция %d"
 
 #: ../devhelp/devhelp/dh-parser.c:297
 #, c-format
@@ -1451,8 +1718,8 @@ msgstr "Все"
 msgid "Default documentation type for languages that does not have one set"
 msgstr "Тип конфигурации по умолчанию для языков для которых тип не задан"
 
-#: ../geanyinsertnum/src/insertnum.c:44 ../geanyinsertnum/src/insertnum.c:337
-#: ../geanyinsertnum/src/insertnum.c:484
+#: ../geanyinsertnum/src/insertnum.c:44 ../geanyinsertnum/src/insertnum.c:335
+#: ../geanyinsertnum/src/insertnum.c:485
 msgid "Insert Numbers"
 msgstr "Вставка чисел"
 
@@ -1460,69 +1727,69 @@ msgstr "Вставка чисел"
 msgid "Insert/Fill columns with numbers."
 msgstr "Заполняет выделенные столбцы числами"
 
-#: ../geanyinsertnum/src/insertnum.c:146
+#: ../geanyinsertnum/src/insertnum.c:144
 msgid "Counting..."
 msgstr "Подчёт..."
 
-#: ../geanyinsertnum/src/insertnum.c:194
+#: ../geanyinsertnum/src/insertnum.c:192
 msgid "Preparing..."
 msgstr "Подготовка..."
 
-#: ../geanyinsertnum/src/insertnum.c:200
+#: ../geanyinsertnum/src/insertnum.c:198
 msgid "Inserting..."
 msgstr "Вставка..."
 
-#: ../geanyinsertnum/src/insertnum.c:333
+#: ../geanyinsertnum/src/insertnum.c:331
 msgid "For base 11 and above"
 msgstr "Для основания 11 и выше"
 
-#: ../geanyinsertnum/src/insertnum.c:353
+#: ../geanyinsertnum/src/insertnum.c:351
 msgid "_Start:"
 msgstr "Старт:"
 
-#: ../geanyinsertnum/src/insertnum.c:358
+#: ../geanyinsertnum/src/insertnum.c:356
 msgid "S_tep:"
 msgstr "Шаг:"
 
-#: ../geanyinsertnum/src/insertnum.c:364
+#: ../geanyinsertnum/src/insertnum.c:362
 msgid "_Base:"
 msgstr "Основание:"
 
-#: ../geanyinsertnum/src/insertnum.c:380
+#: ../geanyinsertnum/src/insertnum.c:378
 msgid "Letters:"
 msgstr "Регистр букв:"
 
-#: ../geanyinsertnum/src/insertnum.c:383
+#: ../geanyinsertnum/src/insertnum.c:381
 msgid "_Upper"
 msgstr "Верхний"
 
-#: ../geanyinsertnum/src/insertnum.c:388
+#: ../geanyinsertnum/src/insertnum.c:386
 msgid "_Lower"
 msgstr "Нижний"
 
-#: ../geanyinsertnum/src/insertnum.c:393
+#: ../geanyinsertnum/src/insertnum.c:391
 msgid "Base _prefix"
 msgstr "Префикс"
 
-#: ../geanyinsertnum/src/insertnum.c:395
+#: ../geanyinsertnum/src/insertnum.c:393
 msgid "0 for octal, 0x for hex, + for positive decimal"
 msgstr ""
 "0 для восьмеричных, 0x для шестнадцатеричных, + для положительных десятичных "
 "чисел"
 
-#: ../geanyinsertnum/src/insertnum.c:397
+#: ../geanyinsertnum/src/insertnum.c:395
 msgid "Padding:"
 msgstr "Отступ:"
 
-#: ../geanyinsertnum/src/insertnum.c:399
+#: ../geanyinsertnum/src/insertnum.c:397
 msgid "Sp_ace"
 msgstr "Пробел"
 
-#: ../geanyinsertnum/src/insertnum.c:402
+#: ../geanyinsertnum/src/insertnum.c:400
 msgid "_Zero"
 msgstr "Ничего"
 
-#: ../geanyinsertnum/src/insertnum.c:477
+#: ../geanyinsertnum/src/insertnum.c:478
 msgid "Insert _Numbers"
 msgstr "Вставить числа"
 
@@ -1772,8 +2039,7 @@ msgstr "Название журнала, содержащего статью"
 msgid ""
 "Hidden field used for specifying or overriding the alphabetical order of "
 "entries"
-msgstr ""
-"Скрытое ключевое поле, задающее порядок сортировки"
+msgstr "Скрытое ключевое поле, задающее порядок сортировки"
 
 #: ../geanylatex/src/bibtexlabels.c:116
 msgid "Month of publication or creation if unpublished"
@@ -1895,80 +2161,80 @@ msgstr "Всегда выполнять автодополнение в LaTeX"
 msgid "Modus of autocompletion"
 msgstr "Способ автодополнения"
 
-#: ../geanylatex/src/geanylatex.c:809
+#: ../geanylatex/src/geanylatex.c:833
 msgid "Insert Label"
 msgstr "Вставить метку"
 
-#: ../geanylatex/src/geanylatex.c:811
+#: ../geanylatex/src/geanylatex.c:835
 msgid "Label name:"
 msgstr "Название метки:"
 
-#: ../geanylatex/src/geanylatex.c:833
+#: ../geanylatex/src/geanylatex.c:857
 msgid "Insert Command"
 msgstr "Вставить команду"
 
-#: ../geanylatex/src/geanylatex.c:835
+#: ../geanylatex/src/geanylatex.c:859
 msgid "Command name:"
 msgstr "Название команды:"
 
-#: ../geanylatex/src/geanylatex.c:878
+#: ../geanylatex/src/geanylatex.c:902
 msgid "Insert Reference"
 msgstr "Вставить ссылку"
 
-#: ../geanylatex/src/geanylatex.c:891
+#: ../geanylatex/src/geanylatex.c:915
 msgid "Reference name:"
 msgstr "Имя ссылки:"
 
-#: ../geanylatex/src/geanylatex.c:916
+#: ../geanylatex/src/geanylatex.c:940
 msgid "_Standard Reference"
 msgstr "_Обычная ссылка"
 
-#: ../geanylatex/src/geanylatex.c:921
+#: ../geanylatex/src/geanylatex.c:945
 msgid "_Page Reference"
 msgstr "Ссылка на _страницу"
 
-#: ../geanylatex/src/geanylatex.c:926
+#: ../geanylatex/src/geanylatex.c:950
 msgid "_Add both"
 msgstr "_И то и другое"
 
-#: ../geanylatex/src/geanylatex.c:1123
+#: ../geanylatex/src/geanylatex.c:1147
 msgid "More"
 msgstr "Дополнительно"
 
-#: ../geanylatex/src/geanylatex.c:1179
+#: ../geanylatex/src/geanylatex.c:1203
 msgid "Add additional package"
 msgstr "Добавить пакет"
 
-#: ../geanylatex/src/geanylatex.c:1192
+#: ../geanylatex/src/geanylatex.c:1216
 msgid "Package name:"
 msgstr "Имя пакета:"
 
-#: ../geanylatex/src/geanylatex.c:1195
+#: ../geanylatex/src/geanylatex.c:1219
 msgid "Package options:"
 msgstr "Параметры пакета:"
 
-#: ../geanylatex/src/geanylatex.c:1243
+#: ../geanylatex/src/geanylatex.c:1267
 msgid "Insert BibTeX Reference"
 msgstr "Вставить ссылку BibTeX"
 
-#: ../geanylatex/src/geanylatex.c:1256
+#: ../geanylatex/src/geanylatex.c:1280
 msgid "BibTeX reference name:"
 msgstr "Имя ссылки BibTeX"
 
-#: ../geanylatex/src/geanylatex.c:1680
+#: ../geanylatex/src/geanylatex.c:1704
 msgid "Dear Sir or Madame"
 msgstr "Уважаемый(ая)"
 
-#: ../geanylatex/src/geanylatex.c:1681
+#: ../geanylatex/src/geanylatex.c:1705
 msgid "With kind regards"
 msgstr "С наилучшими пожеланиями"
 
-#: ../geanylatex/src/geanylatex.c:1689
+#: ../geanylatex/src/geanylatex.c:1713
 msgid "No template assigned. Aborting"
 msgstr "Не задан шаблон. Операция прервана"
 
 #. Building the wizard-dialog and showing it
-#: ../geanylatex/src/geanylatex.c:1716
+#: ../geanylatex/src/geanylatex.c:1740
 msgid "LaTeX-Wizard"
 msgstr "Мастер LaTeX"
 
@@ -1976,67 +2242,68 @@ msgstr "Мастер LaTeX"
 #. *  Adds custom templates if there are any. If there are none just
 #. *  adds default one
 #. TEMPLATE FILE
-#: ../geanylatex/src/geanylatex.c:1731 ../markdown/src/conf.c:659
+#: ../geanylatex/src/geanylatex.c:1755 ../markdown/src/conf.c:659
 msgid "Template:"
 msgstr "Шаблон:"
 
-#: ../geanylatex/src/geanylatex.c:1735
+#: ../geanylatex/src/geanylatex.c:1759
 msgid "Set the template which should be used for creating the new document"
-msgstr "Установить шаблон, который будет использоваться для создания нового документа"
+msgstr ""
+"Установить шаблон, который будет использоваться для создания нового документа"
 
-#: ../geanylatex/src/geanylatex.c:1744
+#: ../geanylatex/src/geanylatex.c:1768
 msgid "Default"
 msgstr "По умолчанию"
 
 #. Documentclass
-#: ../geanylatex/src/geanylatex.c:1755
+#: ../geanylatex/src/geanylatex.c:1779
 msgid "Documentclass:"
 msgstr "Класс документа:"
 
-#: ../geanylatex/src/geanylatex.c:1758
+#: ../geanylatex/src/geanylatex.c:1782
 msgid "Choose the kind of document you want to write"
 msgstr "Выберите тип документа, который хотите создать"
 
-#: ../geanylatex/src/geanylatex.c:1762
+#: ../geanylatex/src/geanylatex.c:1786
 msgid "Article"
 msgstr "Статья"
 
-#: ../geanylatex/src/geanylatex.c:1764
+#: ../geanylatex/src/geanylatex.c:1788
 msgid "Report"
 msgstr "Отчёт"
 
-#: ../geanylatex/src/geanylatex.c:1766
+#: ../geanylatex/src/geanylatex.c:1790
 msgid "Letter"
 msgstr "Письмо"
 
-#: ../geanylatex/src/geanylatex.c:1768
+#: ../geanylatex/src/geanylatex.c:1792
 msgid "Presentation"
 msgstr "Презентация"
 
 #. Encoding
-#: ../geanylatex/src/geanylatex.c:1778
+#: ../geanylatex/src/geanylatex.c:1802
 msgid "Encoding:"
 msgstr "Кодировка:"
 
-#: ../geanylatex/src/geanylatex.c:1782
+#: ../geanylatex/src/geanylatex.c:1806
 msgid "Set the encoding for your new document"
 msgstr "Установить кодировку для нового документа"
 
 #. fontsize
-#: ../geanylatex/src/geanylatex.c:1798
+#: ../geanylatex/src/geanylatex.c:1822
 msgid "Font size"
 msgstr "Размер шрифта"
 
-#: ../geanylatex/src/geanylatex.c:1804
+#: ../geanylatex/src/geanylatex.c:1828
 msgid "Set the default font size of your new document"
 msgstr "Установить размер шрифта по умолчанию для нового документа"
 
 #. Author
-#: ../geanylatex/src/geanylatex.c:1816
+#: ../geanylatex/src/geanylatex.c:1840
 msgid "Author:"
 msgstr "Автор:"
 
-#: ../geanylatex/src/geanylatex.c:1819
+#: ../geanylatex/src/geanylatex.c:1843
 msgid ""
 "Sets the value of the \\author command. In most cases this should be your "
 "name"
@@ -2045,11 +2312,11 @@ msgstr ""
 "должно быть ваше имя"
 
 #. Date
-#: ../geanylatex/src/geanylatex.c:1833
+#: ../geanylatex/src/geanylatex.c:1857
 msgid "Date:"
 msgstr "Дата:"
 
-#: ../geanylatex/src/geanylatex.c:1836
+#: ../geanylatex/src/geanylatex.c:1860
 msgid ""
 "Sets the value of the \\date command inside header of your new created LaTeX-"
 "document. Keeping it at \\today is a good decision if you don't need any "
@@ -2059,37 +2326,37 @@ msgstr ""
 "документа. Оставьте \\today, если вам не нужна конкретная дата."
 
 #. Title of the new document
-#: ../geanylatex/src/geanylatex.c:1848
+#: ../geanylatex/src/geanylatex.c:1872
 msgid "Title:"
 msgstr "Название документа:"
 
-#: ../geanylatex/src/geanylatex.c:1851
+#: ../geanylatex/src/geanylatex.c:1875
 msgid "Sets the title of your new document."
 msgstr "Задаёт название для нового документа."
 
 #. Papersize
-#: ../geanylatex/src/geanylatex.c:1860
+#: ../geanylatex/src/geanylatex.c:1884
 msgid "Paper size:"
 msgstr "Размер страницы:"
 
-#: ../geanylatex/src/geanylatex.c:1863
+#: ../geanylatex/src/geanylatex.c:1887
 msgid "Choose the paper format for the newly created document"
 msgstr "Выберите размер страницы для нового документа"
 
 #. Paper direction
-#: ../geanylatex/src/geanylatex.c:1876
+#: ../geanylatex/src/geanylatex.c:1900
 msgid "Paper Orientation:"
 msgstr "Ориентация страницы"
 
-#: ../geanylatex/src/geanylatex.c:1879
+#: ../geanylatex/src/geanylatex.c:1903
 msgid "Choose the paper orientation for the newly created document"
 msgstr "Выберите ориентацию страницы для нового документа"
 
-#: ../geanylatex/src/geanylatex.c:1900
+#: ../geanylatex/src/geanylatex.c:1924
 msgid "Use KOMA-script classes if possible"
 msgstr "Использовать KOMA-script классы, если возможно"
 
-#: ../geanylatex/src/geanylatex.c:1902
+#: ../geanylatex/src/geanylatex.c:1926
 msgid ""
 "Uses the KOMA-script classes by Markus Kohm.\n"
 "Keep in mind: To compile your document these classes have to be installed "
@@ -2098,11 +2365,11 @@ msgstr ""
 "Использовать KOMA-script классы от Markus Kohm.\n"
 "Примечание: для успешной компиляции этот класс нужно сначала установить."
 
-#: ../geanylatex/src/geanylatex.c:1909
+#: ../geanylatex/src/geanylatex.c:1933
 msgid "Use draft mode"
 msgstr "Использовать режим черновика"
 
-#: ../geanylatex/src/geanylatex.c:1911
+#: ../geanylatex/src/geanylatex.c:1935
 msgid ""
 "Set the draft flag inside new created documents to get documents with a "
 "number of debugging helpers"
@@ -2110,95 +2377,95 @@ msgstr ""
 "Установите флаг черновика внутри нового документа, чтобы включить "
 "вспомогательные отладочные сообщения."
 
-#: ../geanylatex/src/geanylatex.c:1928
+#: ../geanylatex/src/geanylatex.c:1952
 msgid "Run LaTeX-Wizard"
 msgstr "Запустить мастер LaTeX"
 
-#: ../geanylatex/src/geanylatex.c:1930
+#: ../geanylatex/src/geanylatex.c:1954
 msgid "Insert \\label"
 msgstr "Вставить \\label"
 
-#: ../geanylatex/src/geanylatex.c:1932
+#: ../geanylatex/src/geanylatex.c:1956
 msgid "Insert \\ref"
 msgstr "Вставить \\ref"
 
-#: ../geanylatex/src/geanylatex.c:1934
+#: ../geanylatex/src/geanylatex.c:1958
 msgid "Insert linebreak \\\\ "
 msgstr "Вставить разрыв строки \\\\ "
 
-#: ../geanylatex/src/geanylatex.c:1937
+#: ../geanylatex/src/geanylatex.c:1961
 msgid "Insert command"
 msgstr "Вставить команду"
 
-#: ../geanylatex/src/geanylatex.c:1939
+#: ../geanylatex/src/geanylatex.c:1963
 msgid "Turn input replacement on/off"
 msgstr "Переключить автозамену ввода"
 
-#: ../geanylatex/src/geanylatex.c:1943
+#: ../geanylatex/src/geanylatex.c:1967
 msgid "Replace special characters"
 msgstr "Заменять спецсимволы"
 
-#: ../geanylatex/src/geanylatex.c:1946
+#: ../geanylatex/src/geanylatex.c:1970
 msgid "Run insert environment dialog"
 msgstr "Запустить диалог вставки окружения"
 
-#: ../geanylatex/src/geanylatex.c:1948
+#: ../geanylatex/src/geanylatex.c:1972
 msgid "Insert \\item"
 msgstr "Вставить \\item"
 
-#: ../geanylatex/src/geanylatex.c:1950
+#: ../geanylatex/src/geanylatex.c:1974
 msgid "Format selection in bold font face"
 msgstr "Форматировать выделение жирным шрифтом"
 
-#: ../geanylatex/src/geanylatex.c:1952
+#: ../geanylatex/src/geanylatex.c:1976
 msgid "Format selection in italic font face"
 msgstr "Форматировать выделение курсивным шрифтом"
 
-#: ../geanylatex/src/geanylatex.c:1954
+#: ../geanylatex/src/geanylatex.c:1978
 msgid "Format selection in typewriter font face"
 msgstr "Форматировать выделение машинописным шрифтом"
 
-#: ../geanylatex/src/geanylatex.c:1956
+#: ../geanylatex/src/geanylatex.c:1980
 msgid "Format selection centered"
 msgstr "Выровнять выделение по центру"
 
-#: ../geanylatex/src/geanylatex.c:1958
+#: ../geanylatex/src/geanylatex.c:1982
 msgid "Format selection left-aligned"
 msgstr "Выровнять выделение по левому краю"
 
-#: ../geanylatex/src/geanylatex.c:1960
+#: ../geanylatex/src/geanylatex.c:1984
 msgid "Format selection right-aligned"
 msgstr "Выровнять выделение по правому краю"
 
-#: ../geanylatex/src/geanylatex.c:1963
+#: ../geanylatex/src/geanylatex.c:1987
 msgid "Insert description list"
 msgstr "Вставить список с описанием (description)"
 
-#: ../geanylatex/src/geanylatex.c:1966
+#: ../geanylatex/src/geanylatex.c:1990
 msgid "Insert itemize list"
 msgstr "Вставить маркированный список (itemize)"
 
-#: ../geanylatex/src/geanylatex.c:1969
+#: ../geanylatex/src/geanylatex.c:1993
 msgid "Insert enumerate list"
 msgstr "Вставить нумерованный список (enumerate)"
 
-#: ../geanylatex/src/geanylatex.c:1972
+#: ../geanylatex/src/geanylatex.c:1996
 msgid "Set selection one level up"
 msgstr "Выделение на уровень выше"
 
-#: ../geanylatex/src/geanylatex.c:1975
+#: ../geanylatex/src/geanylatex.c:1999
 msgid "Set selection one level down"
 msgstr "Выделение на уровень ниже"
 
-#: ../geanylatex/src/geanylatex.c:1978
+#: ../geanylatex/src/geanylatex.c:2002
 msgid "Insert \\usepackage{}"
 msgstr "Вставить \\usepackage{}"
 
-#: ../geanylatex/src/geanylatex.c:1981
+#: ../geanylatex/src/geanylatex.c:2005
 msgid "Insert BibTeX reference dialog"
 msgstr "Диалог вставки ссылки BibTeX"
 
-#: ../geanylatex/src/geanylatex.c:1988
+#: ../geanylatex/src/geanylatex.c:2012
 msgid ""
 "GeanyLaTeX is a plugin to improve support for LaTeX in Geany.\n"
 "\n"
@@ -2208,123 +2475,124 @@ msgstr ""
 "\n"
 "Сообщения об ошибках и предложения отправляйте одному из авторов."
 
-#: ../geanylatex/src/geanylatex.c:2026
+#: ../geanylatex/src/geanylatex.c:2050
 msgid ""
 "glatex_set_autocompletion_contextsize has been initialized with an invalid "
 "value. Default value taken. Please check your configuration file"
 msgstr ""
-"glatex_set_autocompletion_contextsize инициализирован с некорректным значением. "
-"Используется стандартное значение. Проверьте ваши файлы конфигурации"
+"glatex_set_autocompletion_contextsize инициализирован с некорректным "
+"значением. Используется стандартное значение. Проверьте ваши файлы "
+"конфигурации"
 
-#: ../geanylatex/src/geanylatex.c:2048 ../geanylatex/src/geanylatex.c:2055
+#: ../geanylatex/src/geanylatex.c:2072 ../geanylatex/src/geanylatex.c:2079
 msgid "page \\pageref{{{reference}}}"
 msgstr "страница \\pageref{{{reference}}}"
 
-#: ../geanylatex/src/geanylatex.c:2052 ../geanylatex/src/geanylatex.c:2059
+#: ../geanylatex/src/geanylatex.c:2076 ../geanylatex/src/geanylatex.c:2083
 msgid "\\ref{{{reference}}}, page \\pageref{{{reference}}}"
 msgstr "\\ref{{{reference}}}, страница \\pageref{{{reference}}}"
 
 #. Build up menu for menubar
-#: ../geanylatex/src/geanylatex.c:2107
+#: ../geanylatex/src/geanylatex.c:2131
 msgid "_LaTeX"
 msgstr "_LaTeX"
 
 #. Filling up menubar menus
 #. LaTeX menu
-#: ../geanylatex/src/geanylatex.c:2116 ../geanylatex/src/geanylatex.c:2328
+#: ../geanylatex/src/geanylatex.c:2140 ../geanylatex/src/geanylatex.c:2352
 msgid "LaTeX-_Wizard"
 msgstr "Мастер LaTeX"
 
-#: ../geanylatex/src/geanylatex.c:2119 ../geanylatex/src/geanylatex.c:2331
+#: ../geanylatex/src/geanylatex.c:2143 ../geanylatex/src/geanylatex.c:2355
 msgid "Starts a Wizard to easily create LaTeX-documents"
 msgstr "Запуск мастера для простого создания документов LaTeX"
 
-#: ../geanylatex/src/geanylatex.c:2124
+#: ../geanylatex/src/geanylatex.c:2148
 msgid "I_nsert Special Character"
 msgstr "_Вставить специальный символ"
 
-#: ../geanylatex/src/geanylatex.c:2126
+#: ../geanylatex/src/geanylatex.c:2150
 msgid "Helps to use some not very common letters and signs"
 msgstr "Доступ к некоторым не распространённым символам и знаками"
 
-#: ../geanylatex/src/geanylatex.c:2136
+#: ../geanylatex/src/geanylatex.c:2160
 msgid "Insert _Reference"
 msgstr "Вставить _ссылку"
 
-#: ../geanylatex/src/geanylatex.c:2138
+#: ../geanylatex/src/geanylatex.c:2162
 msgid "Inserting references to the document"
 msgstr "Вставка ссылок в документ"
 
-#: ../geanylatex/src/geanylatex.c:2143
+#: ../geanylatex/src/geanylatex.c:2167
 msgid "Insert _Label"
 msgstr "Вставить _метку"
 
-#: ../geanylatex/src/geanylatex.c:2145
+#: ../geanylatex/src/geanylatex.c:2169
 msgid "Helps at inserting labels to a document"
 msgstr "Вставляет метки в документ"
 
-#: ../geanylatex/src/geanylatex.c:2151
+#: ../geanylatex/src/geanylatex.c:2175
 msgid "Insert _Environment"
 msgstr "Вставить _окружение"
 
-#: ../geanylatex/src/geanylatex.c:2153
+#: ../geanylatex/src/geanylatex.c:2177
 msgid "Helps at inserting an environment a document"
 msgstr "Вставляет окружение в документ"
 
-#: ../geanylatex/src/geanylatex.c:2159
+#: ../geanylatex/src/geanylatex.c:2183
 msgid "Insert P_ackage"
 msgstr "Вставить _пакет"
 
-#: ../geanylatex/src/geanylatex.c:2161
+#: ../geanylatex/src/geanylatex.c:2185
 msgid "A small dialog to insert \\usepackage{} into header of current file"
 msgstr "Небольшой диалог для вставки \\usepackage{} в заголовок текущего файла"
 
-#: ../geanylatex/src/geanylatex.c:2166 ../scope/data/scope.glade.h:58
+#: ../geanylatex/src/geanylatex.c:2190 ../scope/data/scope.glade.h:58
 msgid "_Format"
 msgstr "_Форматирование"
 
 #. Add font size menu
-#: ../geanylatex/src/geanylatex.c:2183
+#: ../geanylatex/src/geanylatex.c:2207
 msgid "F_ont size"
 msgstr "_Размер шрифта"
 
-#: ../geanylatex/src/geanylatex.c:2201
+#: ../geanylatex/src/geanylatex.c:2225
 msgid "_Special Character Replacement"
 msgstr "_Экранирование специальных символов"
 
-#: ../geanylatex/src/geanylatex.c:2209
+#: ../geanylatex/src/geanylatex.c:2233
 msgid "Bulk _Replace Special Characters"
 msgstr "_Экранировать специальные символы"
 
-#: ../geanylatex/src/geanylatex.c:2211
+#: ../geanylatex/src/geanylatex.c:2235
 msgid "_Replace selected special characters with TeX substitutes"
 msgstr "Экранировать специальные символы TeX в выделении"
 
-#: ../geanylatex/src/geanylatex.c:2219
+#: ../geanylatex/src/geanylatex.c:2243
 msgid "Toggle _Special Character Replacement"
 msgstr "_Переключить экранирование символов"
 
-#: ../geanylatex/src/geanylatex.c:2230
+#: ../geanylatex/src/geanylatex.c:2254
 msgid "Insert _Command"
 msgstr "Вставить _команду"
 
-#: ../geanylatex/src/geanylatex.c:2232
+#: ../geanylatex/src/geanylatex.c:2256
 msgid "Inserting costumized command to document"
 msgstr "Вставляет пользовательскую команду в документ"
 
-#: ../geanylatex/src/geanylatex.c:2257
+#: ../geanylatex/src/geanylatex.c:2281
 msgid "_BibTeX"
 msgstr "_BibTeX"
 
-#: ../geanylatex/src/geanylatex.c:2265
+#: ../geanylatex/src/geanylatex.c:2289
 msgid "Insert B_ibTeX reference"
 msgstr "Вставить ссылку B_ibTeX"
 
-#: ../geanylatex/src/geanylatex.c:2267
+#: ../geanylatex/src/geanylatex.c:2291
 msgid "Helps to insert a reference out of BibTeX files"
 msgstr "Вставка ссылок из библиотеки BibTeX"
 
-#: ../geanylatex/src/geanylatex.c:2272
+#: ../geanylatex/src/geanylatex.c:2296
 msgid "_BibTeX entries"
 msgstr "Записи _BibTeX"
 
@@ -2501,7 +2769,7 @@ msgstr "Вставить псевдотекст в ваш код"
 msgid "Insert Lipsum text"
 msgstr "Вставить текст Lipsum"
 
-#: ../geanylua/glspi.h:100 ../geanylua/gsdlg_lua.c:95
+#: ../geanylua/glspi.h:87 ../geanylua/gsdlg_lua.c:95
 #: ../geanylua/glspi_kfile.c:54
 #, c-format
 msgid ""
@@ -2511,7 +2779,7 @@ msgstr ""
 "Ошибка в модуле \"%s\" в функции %s():\n"
 " ожидается тип \"%s\" для аргумента #%d\n"
 
-#: ../geanylua/glspi.h:114
+#: ../geanylua/glspi.h:101
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2520,7 +2788,7 @@ msgstr ""
 "Ошибка в модуле \"%s\" в функции %s():\n"
 " ожидается тип \"%s\" или \"%s\" для аргумента #%d\n"
 
-#: ../geanylua/glspi.h:128 ../geanylua/gsdlg_lua.c:108
+#: ../geanylua/glspi.h:115 ../geanylua/gsdlg_lua.c:108
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2587,20 +2855,20 @@ msgstr "Не удалось открыть файл со сценарием."
 msgid "Unknown error while loading script file."
 msgstr "Неизвестная ошибка при загрузке файла со сценарием."
 
-#: ../geanylua/glspi_init.c:381
+#: ../geanylua/glspi_init.c:382
 msgid "_Lua Scripts"
 msgstr "Сценарии _Lua"
 
-#: ../geanylua/glspi_init.c:428
+#: ../geanylua/glspi_init.c:427
 #, c-format
 msgid "     ==>> %s: Building menu from '%s'\n"
 msgstr "     ==>> %s: Создание меню из '%s'\n"
 
-#: ../geanylua/glspi_init.c:527
+#: ../geanylua/glspi_init.c:526
 msgid "Nothing to configure!"
 msgstr "Настройки не обнаружены!"
 
-#: ../geanylua/glspi_init.c:529
+#: ../geanylua/glspi_init.c:528
 #, c-format
 msgid ""
 "You can create the script:\n"
@@ -2670,7 +2938,7 @@ msgstr ""
 "Ошибка в модуле \"%s\" в функции %s():\n"
 "недостаточно аргументов для команды \"%s\".\n"
 
-#: ../geanylua/glspi_sci.c:652 ../geanylua/glspi_app.c:396
+#: ../geanylua/glspi_sci.c:652 ../geanylua/glspi_app.c:394
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2679,7 +2947,7 @@ msgstr ""
 "Ошибка в модуле \"%s\" в функции %s():\n"
 "неизвестная команда \"%s\" в аргументе #1.\n"
 
-#: ../geanylua/glspi_sci.c:794
+#: ../geanylua/glspi_sci.c:796
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2690,7 +2958,7 @@ msgstr ""
 " некорректная таблица в аргументе #%d:\n"
 " неизвестный флаг \"%s\" для элемента #%d\n"
 
-#: ../geanylua/glspi_sci.c:798
+#: ../geanylua/glspi_sci.c:800
 msgid "<too large to display>"
 msgstr "<слишком велик для отображения>"
 
@@ -2728,32 +2996,36 @@ msgstr ""
 "Ошибка в модуле \"%s\" в функции %s():\n"
 "ожидается строка \"open\" или \"save\" для аргумента #1.\n"
 
-#: ../geanylua/geanylua.c:163
+#: ../geanylua/geanylua.c:156
 #, c-format
 msgid "%s: Can't load support library %s!\n"
 msgstr "%s: Не удалось загрузить вспомогательную библиотеку %s!\n"
 
-#: ../geanylua/geanylua.c:175
+#: ../geanylua/geanylua.c:168
 #, c-format
 msgid "%s: Failed to initialize support library %s!\n"
 msgstr "%s: Не удалось инициализировать вспомогательную библиотеку %s!\n"
 
-#: ../geanylua/geanylua.c:180
+#: ../geanylua/geanylua.c:173
 #, c-format
 msgid "%s: Support library version mismatch: %s for %s (should be %s)!\n"
-msgstr "%s: Не соответствует версия вспомогательной библиотеки: %s для %s (должна быть %s)!\n"
+msgstr ""
+"%s: Не соответствует версия вспомогательной библиотеки: %s для %s (должна "
+"быть %s)!\n"
 
-#: ../geanylua/geanylua.c:186
+#: ../geanylua/geanylua.c:179
 #, c-format
 msgid "%s: Support library ABI mismatch: %d for %s (should be %d)!\n"
-msgstr "%s: Не соответствует ABI вспомогательной библиотеки: %d для %s (должно быть %d)!\n"
+msgstr ""
+"%s: Не соответствует ABI вспомогательной библиотеки: %d для %s (должно быть "
+"%d)!\n"
 
-#: ../geanylua/geanylua.c:215
+#: ../geanylua/geanylua.c:208
 #, c-format
 msgid "%s: Can't find support library %s!\n"
 msgstr "%s: Не удалось обнаружить вспомогательную библиотеку %s!\n"
 
-#: ../geanylua/geanylua.c:234
+#: ../geanylua/geanylua.c:227
 #, c-format
 msgid ""
 "The %s plugin failed to load properly.\n"
@@ -2771,7 +3043,7 @@ msgstr ""
 "%s %s: %s\n"
 "Copyright (c) 2007-2010 "
 
-#: ../geanylua/glspi_app.c:151
+#: ../geanylua/glspi_app.c:149
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2780,7 +3052,7 @@ msgstr ""
 "Ошибка в модуле \"%s\" в функции %s():\n"
 "виджет \"%s\" не найден для аргумента #1.\n"
 
-#: ../geanylua/glspi_app.c:160
+#: ../geanylua/glspi_app.c:158
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s() argument #2:\n"
@@ -2934,8 +3206,8 @@ msgid ""
 "Move Cursor to 1st non-whitespace character of line, or 1st character of "
 "line if already at 1st non-whitespace character"
 msgstr ""
-"Переместить курсор к первому непробельному символу строки или к началу строки, "
-"если курсор уже находится возле первого непробельного символа"
+"Переместить курсор к первому непробельному символу строки или к началу "
+"строки, если курсор уже находится возле первого непробельного символа"
 
 #: ../geanymacro/src/geanymacro.c:95
 msgid "Move Cursor to beginning of next paragraph"
@@ -3190,8 +3462,8 @@ msgid ""
 "These are sequences of actions that can then be repeated with a single key "
 "combination. "
 msgstr ""
-"Макрос - это последовательность действий, которая может быть повторена"
-" по нажатию горячей клавиши. "
+"Макрос - это последовательность действий, которая может быть повторена по "
+"нажатию горячей клавиши. "
 
 #: ../geanymacro/src/geanymacro.c:858
 msgid ""
@@ -3199,8 +3471,8 @@ msgid ""
 "characters, you could simply start recording, press End, Backspace, "
 "Backspace, down line and then stop recording. "
 msgstr ""
-"Например, если у вас множество строк, в которых вы хотите удалить "
-"два последних символа, вы можете просто начать запись, нажать End, Backspace, "
+"Например, если у вас множество строк, в которых вы хотите удалить два "
+"последних символа, вы можете просто начать запись, нажать End, Backspace, "
 "Backspace, перейти на строку вниз и остановить запись. "
 
 #: ../geanymacro/src/geanymacro.c:860
@@ -3235,8 +3507,8 @@ msgid ""
 "What you do in the editor is then recorded until you select Stop Recording "
 "Macro from the Tools menu. "
 msgstr ""
-"Всё, что вы делаете в редакторе, записывается до тех пор пока не будет выбран "
-"пункт Остановить запись из меню Инструменты. "
+"Всё, что вы делаете в редакторе, записывается до тех пор пока не будет "
+"выбран пункт Остановить запись из меню Инструменты. "
 
 #: ../geanymacro/src/geanymacro.c:867
 msgid "Simply pressing the specified key combination will re-run the macro. "
@@ -3244,8 +3516,9 @@ msgstr "Простое нажатие указанного сочетания к
 
 #: ../geanymacro/src/geanymacro.c:868
 msgid "To edit the macros you have, select Edit Macro from the Tools menu. "
-msgstr "Для того чтобы отредактировать макрос, выберите Редактировать макрос "
-"в меню Инструменты. "
+msgstr ""
+"Для того чтобы отредактировать макрос, выберите Редактировать макрос в меню "
+"Инструменты. "
 
 #: ../geanymacro/src/geanymacro.c:869
 msgid "You can select a macro and delete it, or re-record it. "
@@ -3640,8 +3913,7 @@ msgstr "Мини сценарии"
 #: ../geanyminiscript/src/gms.c:59
 msgid ""
 "A tool to apply a script filter on a text selection or current document(s)"
-msgstr ""
-"Применяет сценарии-фильтры к текущему выделению или документу(ам)"
+msgstr "Применяет сценарии-фильтры к текущему выделению или документу(ам)"
 
 #: ../geanyminiscript/src/gms.c:60
 msgid "Pascal BURLOT, a Geany user"
@@ -3744,14 +4016,13 @@ msgstr ""
 "\n"
 "Он позволяет использовать до 10 нумерованных закладок. Чтобы установить "
 "нумерованную закладку, нажмите сочетание клавиш Ctrl+Shift+число от 0 до 9. "
-"Вы увидите маркер рядом с номером строки. Если нажать сочетание "
-"Ctrl+Shift+число на строке, в которой уже есть закладка с таким номером, "
-"закладка удаляется, в противном случае закладка перемещается, если она уже "
-"была назначена на другой строке или создаётся, если она ещё не была "
-"установлена. Возле номера строки отображается только последняя закладка, "
-"но можно устанавливать более одной закладки на одну строку. Чтобы перейти "
-"к ранее установленной закладке, нажмите сочетание клавиш "
-"Ctrl+число от 0 до 9."
+"Вы увидите маркер рядом с номером строки. Если нажать сочетание Ctrl+Shift"
+"+число на строке, в которой уже есть закладка с таким номером, закладка "
+"удаляется, в противном случае закладка перемещается, если она уже была "
+"назначена на другой строке или создаётся, если она ещё не была установлена. "
+"Возле номера строки отображается только последняя закладка, но можно "
+"устанавливать более одной закладки на одну строку. Чтобы перейти к ранее "
+"установленной закладке, нажмите сочетание клавиш Ctrl+число от 0 до 9."
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1395
 msgid "Unable to apply markers as all being used."
@@ -3880,8 +4151,8 @@ msgstr ""
 msgid "a key with fingerprint"
 msgstr "ключ с отпечатком"
 
-#: ../geanypg/src/verify_aux.c:66 ../spellcheck/src/gui.c:527
-#: ../spellcheck/src/gui.c:538
+#: ../geanypg/src/verify_aux.c:66 ../spellcheck/src/gui.c:528
+#: ../spellcheck/src/gui.c:539
 msgid "unknown"
 msgstr "неизвестно"
 
@@ -4048,7 +4319,7 @@ msgid "Open a signature file"
 msgstr "Открыть файл с подписью"
 
 #: ../geanyprj/src/geanyprj.c:38 ../geanyprj/src/sidebar.c:456
-#: ../gproject/src/gproject-sidebar.c:870
+#: ../gproject/src/gproject-sidebar.c:872
 msgid "Project"
 msgstr "Проект"
 
@@ -4154,7 +4425,7 @@ msgstr "Найти в проекте"
 msgid "Remove File"
 msgstr "Удалить файл"
 
-#: ../geanyprj/src/sidebar.c:240 ../gproject/src/gproject-sidebar.c:849
+#: ../geanyprj/src/sidebar.c:240 ../gproject/src/gproject-sidebar.c:851
 msgid "H_ide Sidebar"
 msgstr "Скрыть боковую панель"
 
@@ -4163,45 +4434,45 @@ msgstr "Скрыть боковую панель"
 msgid "Project \"%s\" opened."
 msgstr "Проект \"%s\" открыт."
 
-#: ../geanypy/src/geanypy-plugin.c:34
+#: ../geanypy/src/geanypy-plugin.c:38
 msgid "GeanyPy"
 msgstr "GeanyPy"
 
-#: ../geanypy/src/geanypy-plugin.c:35
+#: ../geanypy/src/geanypy-plugin.c:39
 msgid "Python plugins support"
 msgstr "Поддержка модулей на Python"
 
-#: ../geanypy/src/geanypy-plugin.c:77
+#: ../geanypy/src/geanypy-plugin.c:81
 #, c-format
 msgid "Unable to pre-load Python library: %s."
 msgstr "Невозможно загрузить библиотеку Python: %s."
 
-#: ../geanypy/src/geanypy-plugin.c:157
+#: ../geanypy/src/geanypy-plugin.c:161
 msgid "Failed to import manager module"
 msgstr "Не удалось импортировать управляющий модуль"
 
-#: ../geanypy/src/geanypy-plugin.c:166
+#: ../geanypy/src/geanypy-plugin.c:170
 msgid "Failed to retrieve PluginManager from manager module"
 msgstr "Не удалось получить PluginManager из управляющего модуля"
 
-#: ../geanypy/src/geanypy-plugin.c:182
+#: ../geanypy/src/geanypy-plugin.c:186
 msgid "System plugin directory not found."
 msgstr "Системный каталог с модулями не найден."
 
-#: ../geanypy/src/geanypy-plugin.c:211
+#: ../geanypy/src/geanypy-plugin.c:215
 msgid "Unable to instantiate new PluginManager"
 msgstr "Невозможно создать экземпляр PluginManager"
 
-#: ../geanypy/src/geanypy-plugin.c:227
+#: ../geanypy/src/geanypy-plugin.c:231
 msgid "Unable to get show_all() method on plugin manager"
 msgstr "Невозможно получить метод show_all() в менеджере модулей"
 
-#: ../geanypy/src/geanypy-plugin.c:255
+#: ../geanypy/src/geanypy-plugin.c:259
 #, c-format
 msgid "Unable to create Python plugins directory: %s: %s"
 msgstr "Невозможно создать каталог модулей Python: %s: %s"
 
-#: ../geanypy/src/geanypy-plugin.c:266
+#: ../geanypy/src/geanypy-plugin.c:270
 msgid "Python Plugin Manager"
 msgstr "Менеджер модулей Python"
 
@@ -4370,12 +4641,12 @@ msgid ""
 "To view the differences, cancel this dialog and open the differences in "
 "Geany directly by using the GeanyVC menu (Base Dirrectory -> Diff)."
 msgstr ""
-"Полученный список различий не может быть отображен так как "
-"изменений слишком много и это может значительно замедлить интерфейс.\n"
+"Полученный список различий не может быть отображен так как изменений слишком "
+"много и это может значительно замедлить интерфейс.\n"
 "\n"
 "Чтобы увидеть различия закройте это диалоговое окно и откройте список "
-"различий в Geany непосредственно используя меню GeanyVC "
-"(Базовая директория -> Разница)."
+"различий в Geany непосредственно используя меню GeanyVC (Базовая директория -"
+"> Разница)."
 
 #: ../geanyvc/src/geanyvc.c:1243
 msgid "Commit Y/N"
@@ -4852,7 +5123,7 @@ msgstr ""
 "отображения во вкладке проекта в боковой панели."
 
 #: ../gproject/src/gproject-sidebar.c:90
-#: ../gproject/src/gproject-sidebar.c:838
+#: ../gproject/src/gproject-sidebar.c:840
 msgid "Find File"
 msgstr "Найти файл"
 
@@ -4868,29 +5139,29 @@ msgstr "С учётом регистра"
 msgid "Search in full path"
 msgstr "Искать в полных путях"
 
-#: ../gproject/src/gproject-sidebar.c:745
+#: ../gproject/src/gproject-sidebar.c:747
 msgid "Reload all"
 msgstr "Перезагрузить всё"
 
-#: ../gproject/src/gproject-sidebar.c:754
+#: ../gproject/src/gproject-sidebar.c:756
 #: ../treebrowser/src/treebrowser.c:1283
 msgid "Expand all"
 msgstr "Развернуть всё"
 
-#: ../gproject/src/gproject-sidebar.c:761
+#: ../gproject/src/gproject-sidebar.c:763
 #: ../treebrowser/src/treebrowser.c:1287
 msgid "Collapse all"
 msgstr "Свернуть всё"
 
-#: ../gproject/src/gproject-sidebar.c:771
+#: ../gproject/src/gproject-sidebar.c:773
 msgid "Follow active editor"
 msgstr "Следовать пути активного документа"
 
-#: ../gproject/src/gproject-sidebar.c:820
+#: ../gproject/src/gproject-sidebar.c:822
 msgid "Expand All"
 msgstr "Развернуть всё"
 
-#: ../gproject/src/gproject-sidebar.c:829
+#: ../gproject/src/gproject-sidebar.c:831
 msgid "Find in Files"
 msgstr "Найти в файлах"
 
@@ -4945,7 +5216,8 @@ msgstr "Подсветка парных тэгов"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:36
 msgid "Finds and highlights matching opening/closing HTML tag"
-msgstr "Находит и подсвечивает соответствующий открывающий/закрывающий HTML тэг"
+msgstr ""
+"Находит и подсвечивает соответствующий открывающий/закрывающий HTML тэг"
 
 #: ../pohelper/data/menus.ui.h:1
 msgid "_Translation Helper"
@@ -5733,33 +6005,33 @@ msgstr ""
 "\n"
 "Используйте список точек останова для удаления только одной."
 
-#: ../scope/src/break.c:1252
+#: ../scope/src/break.c:1250
 #, c-format
 msgid ", %s"
 msgstr ", %s"
 
-#: ../scope/src/break.c:1278
+#: ../scope/src/break.c:1276
 #, c-format
 msgid "func %s"
 msgstr "функция %s"
 
-#: ../scope/src/break.c:1309
+#: ../scope/src/break.c:1307
 msgid "Add Breakpoint"
 msgstr "Добавить точку останова"
 
-#: ../scope/src/break.c:1324
+#: ../scope/src/break.c:1322
 msgid "Add Watchpoint"
 msgstr "Добавить точку наблюдения"
 
-#: ../scope/src/conterm.c:106
+#: ../scope/src/conterm.c:99
 msgid "Feed Terminal"
 msgstr "Передать в терминал"
 
-#: ../scope/src/conterm.c:106
+#: ../scope/src/conterm.c:99
 msgid "Enter char # (0..255):"
 msgstr "Введите символ # (0..255):"
 
-#: ../scope/src/conterm.c:509 ../scope/src/scope.c:550
+#: ../scope/src/conterm.c:502 ../scope/src/scope.c:550
 #: ../scope/src/scope.c:551
 #, c-format
 msgid "Scope: %s."
@@ -5845,7 +6117,7 @@ msgstr "Выберите папку"
 msgid "Select File"
 msgstr "Выберите файл"
 
-#: ../scope/src/prefs.c:294 ../scope/src/utils.c:438
+#: ../scope/src/prefs.c:294 ../scope/src/utils.c:449
 #, c-format
 msgid "Scope: %s: %s."
 msgstr "Scope: %s: %s."
@@ -5854,17 +6126,17 @@ msgstr "Scope: %s: %s."
 msgid "Scope: created configuration file."
 msgstr "Scope: создан файл конфигурации."
 
-#: ../scope/src/program.c:251
+#: ../scope/src/program.c:255
 #, c-format
 msgid "Loaded debug settings for %s."
 msgstr "Загружены параметры отладки для %s."
 
-#: ../scope/src/program.c:259
+#: ../scope/src/program.c:263
 #, c-format
 msgid "Could not load debug settings file %s: %s."
 msgstr "Не удалось загрузить файл с параметрами отладки %s: %s."
 
-#: ../scope/src/program.c:379
+#: ../scope/src/program.c:383
 #, c-format
 msgid ""
 "%s: %s.\n"
@@ -5875,15 +6147,15 @@ msgstr ""
 "\n"
 "Продолжить?"
 
-#: ../scope/src/program.c:415
+#: ../scope/src/program.c:419
 msgid "Delete all breakpoints, watches et cetera?"
 msgstr "Удалить все точки останова, наблюдения и т. п.?"
 
-#: ../scope/src/program.c:523
+#: ../scope/src/program.c:527
 msgid "as _Name=value"
 msgstr "как _Name=value"
 
-#: ../scope/src/program.c:524
+#: ../scope/src/program.c:528
 msgid "as _Name = value"
 msgstr "как _Name = value"
 
@@ -6148,17 +6420,17 @@ msgstr "Добавить \"%s\" в словарь"
 msgid "Ignore All"
 msgstr "Игнорировать всё"
 
-#: ../spellcheck/src/gui.c:526
+#: ../spellcheck/src/gui.c:527
 #, c-format
 msgid "Default (%s)"
 msgstr "По умолчанию (%s)"
 
-#: ../spellcheck/src/gui.c:537
+#: ../spellcheck/src/gui.c:538
 #, c-format
 msgid "Toggle spell check while typing (current language: %s)"
 msgstr "Включить проверку орфографии по мере набора текста (текущий язык: %s)"
 
-#: ../spellcheck/src/gui.c:592
+#: ../spellcheck/src/gui.c:593
 msgid "Spelling Suggestions"
 msgstr "Варианты замены"
 
@@ -6493,8 +6765,9 @@ msgid ""
 msgstr "Плагин проверяет наличие новых версий Geany."
 
 #: ../updatechecker/src/updatechecker.c:190
-msgid "There is a more recent version available"
-msgstr "Доступна новая версия"
+#: ../updatechecker/src/updatechecker.c:191
+msgid "There is a more recent version of Geany available"
+msgstr "Доступна более новая версия Geany"
 
 #: ../updatechecker/src/updatechecker.c:198
 msgid "No update available"
@@ -6721,6 +6994,24 @@ msgstr "XML Сниппеты"
 #: ../xmlsnippets/src/plugin.c:46
 msgid "Autocompletes XML/HTML tags using snippets."
 msgstr "Автоматически завершает XML/HTML теги с использованием сниппетов."
+
+#~ msgid ""
+#~ "This plugin adds features to facilitate navigation between source files.\n"
+#~ "As for the moment, it implements :\n"
+#~ "- switching between a .cpp file and the corresponding .h file\n"
+#~ "- [opening a file by typing its name -> TODO]"
+#~ msgstr ""
+#~ "Этот плагин предоставляет возможности по навигации между файлами исходных "
+#~ "текстов.\n"
+#~ "На текущий момент реализовано :\n"
+#~ "- переключение между .cpp и соотвутствующим .h файлом\n"
+#~ "- [открытие файла путём набора его имени -> TODO]"
+
+#~ msgid "Goto file"
+#~ msgstr "Перейти к файлу"
+
+#~ msgid "(From the %s plugin)"
+#~ msgstr "(Из плагина %s)"
 
 #~ msgid "Added breakpoint #%s in %s() at %s:%s\n"
 #~ msgstr "Добавлена точка останова #%s в %s() на %s:%s\n"
@@ -7072,8 +7363,5 @@ msgstr "Автоматически завершает XML/HTML теги с ис�
 #~ msgid "Search for current tag in Google Code Search"
 #~ msgstr "Поиск текущего тэга в Google Code Search"
 
-
-
 #~ msgid "You must define a key trigger combination"
 #~ msgstr "Вы должны указать комбинацию клавиш"
-
