@@ -272,6 +272,20 @@ static void perform_spell_check_cb(GtkWidget *menu_item, GeanyDocument *doc)
 }
 
 
+static gboolean perform_check_delayed_cb(gpointer doc)
+{
+	perform_check((GeanyDocument*)doc);
+	return FALSE;
+}
+
+
+void sc_gui_document_open_cb(GObject *obj, GeanyDocument *doc, gpointer user_data)
+{
+	if (sc_info->check_on_document_open && main_is_realized())
+		g_idle_add(perform_check_delayed_cb, doc);
+}
+
+
 void sc_gui_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 								  GeanyDocument *doc, gpointer user_data)
 {

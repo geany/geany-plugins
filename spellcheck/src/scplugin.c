@@ -69,7 +69,8 @@ PLUGIN_KEY_GROUP(spellcheck, KB_COUNT)
 PluginCallback plugin_callbacks[] =
 {
 	{ "update-editor-menu", (GCallback) &sc_gui_update_editor_menu_cb, FALSE, NULL },
-	{ "editor-notify", (GCallback) &sc_gui_editor_notify, FALSE, NULL },
+	{ "document-open", (GCallback) &sc_gui_document_open_cb, FALSE, NULL },
+	{ "document-reload", (GCallback) &sc_gui_document_open_cb, FALSE, NULL },
 	{ NULL, NULL, FALSE, NULL }
 };
 
@@ -112,6 +113,9 @@ static void configure_response_cb(GtkDialog *dialog, gint response, gpointer use
 		sc_info->check_while_typing = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
 			g_object_get_data(G_OBJECT(dialog), "check_type"))));
 
+		sc_info->check_on_document_open = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
+			g_object_get_data(G_OBJECT(dialog), "check_on_open"))));
+
 		sc_info->use_msgwin = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
 			g_object_get_data(G_OBJECT(dialog), "check_msgwin"))));
 
@@ -126,6 +130,8 @@ static void configure_response_cb(GtkDialog *dialog, gint response, gpointer use
 			g_key_file_set_string(config, "spellcheck", "language", sc_info->default_language);
 		g_key_file_set_boolean(config, "spellcheck", "check_while_typing",
 			sc_info->check_while_typing);
+		g_key_file_set_boolean(config, "spellcheck", "check_on_document_open",
+			sc_info->check_on_document_open);
 		g_key_file_set_boolean(config, "spellcheck", "use_msgwin",
 			sc_info->use_msgwin);
 		g_key_file_set_boolean(config, "spellcheck", "show_toolbar_item",
@@ -175,6 +181,8 @@ void plugin_init(GeanyData *data)
 		"spellcheck", "language", default_lang);
 	sc_info->check_while_typing = utils_get_setting_boolean(config,
 		"spellcheck", "check_while_typing", FALSE);
+	sc_info->check_on_document_open = utils_get_setting_boolean(config,
+		"spellcheck", "check_on_document_open", FALSE);
 	sc_info->show_toolbar_item = utils_get_setting_boolean(config,
 		"spellcheck", "show_toolbar_item", TRUE);
 	sc_info->show_editor_menu_item = utils_get_setting_boolean(config,
@@ -243,7 +251,8 @@ static void dictionary_dir_button_clicked_cb(GtkButton *button, gpointer item)
 
 GtkWidget *plugin_configure(GtkDialog *dialog)
 {
-	GtkWidget *label, *vbox, *combo, *check_type, *check_msgwin, *check_toolbar, *check_editor_menu;
+	GtkWidget *label, *vbox, *combo, *check_type, *check_on_open,
+			  *check_msgwin, *check_toolbar, *check_editor_menu;
 #ifdef HAVE_ENCHANT_1_5
 	GtkWidget *entry_dir, *hbox, *button, *image;
 #endif
@@ -253,6 +262,13 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	check_type = gtk_check_button_new_with_label(_("Check spelling while typing"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_type), sc_info->check_while_typing);
 	gtk_box_pack_start(GTK_BOX(vbox), check_type, FALSE, FALSE, 6);
+
+	check_on_open = gtk_check_button_new_with_label(_("Check spelling when opening a document"));
+	ui_widget_set_tooltip_text(check_on_open,
+		_("Enabling this option will check every document after it is opened in Geany. "
+		  "Reloading a document will also trigger a re-check."));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_on_open), sc_info->check_on_document_open);
+	gtk_box_pack_start(GTK_BOX(vbox), check_on_open, FALSE, FALSE, 6);
 
 	check_toolbar = gtk_check_button_new_with_label(
 		_("Show toolbar item to toggle spell checking"));
@@ -314,6 +330,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 #endif
 	g_object_set_data(G_OBJECT(dialog), "combo", combo);
 	g_object_set_data(G_OBJECT(dialog), "check_type", check_type);
+	g_object_set_data(G_OBJECT(dialog), "check_on_open", check_on_open);
 	g_object_set_data(G_OBJECT(dialog), "check_msgwin", check_msgwin);
 	g_object_set_data(G_OBJECT(dialog), "check_toolbar", check_toolbar);
 	g_object_set_data(G_OBJECT(dialog), "check_editor_menu", check_editor_menu);
