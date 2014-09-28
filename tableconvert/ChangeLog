@@ -1,3 +1,11 @@
+2014-09-28  Frank Lanitz  <frank@frank.uvena.de>
+
+ * SQL: Treating every column as a string when transfering data to SQL
+   Most DBMS can take a string and convert them to e.g. integer.
+   However, some check for integer would be useful nevertheless
+
+
+
 2011-10-06  Frank Lanitz  <frlan@frank.uvena.de>
 
  * Fixing some i18n issue.

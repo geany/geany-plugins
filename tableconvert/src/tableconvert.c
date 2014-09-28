@@ -1,7 +1,7 @@
 /*
  *	  tableconvert.c
  *
- *	  Copyright 2011-2013 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *	  Copyright 2011-2014 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *	  This program is free software; you can redistribute it and/or modify
  *	  it under the terms of the GNU General Public License as published by
@@ -94,9 +94,9 @@ TableConvertRule tablerules[] = {
 		"",
 		"",
 		"",
-		",",
-		"\t(",
-		")",
+		"','",
+		"\t('",
+		"')",
 		",\n",
 		";"
 	}
@@ -105,7 +105,7 @@ TableConvertRule tablerules[] = {
 
 static GtkWidget *main_menu_item = NULL;
 
-static gchar* convert_to_table_worker(gchar **rows, gboolean header, 
+static gchar* convert_to_table_worker(gchar **rows, gboolean header,
 	const TableConvertRule *rule)
 {
 	guint i;
@@ -135,8 +135,8 @@ static gchar* convert_to_table_worker(gchar **rows, gboolean header,
 			header == TRUE)
 		{
 			g_string_append(replacement_str, rule->header_stop);
-			/* We are assuming, that if someone inserts a head, 
-			 * only in this case we will insert some special body. 
+			/* We are assuming, that if someone inserts a head,
+			 * only in this case we will insert some special body.
 			 * Might needs to be discussed further */
 			g_string_append(replacement_str, rule->body_start);
 		}
@@ -165,7 +165,7 @@ static gchar* convert_to_table_worker(gchar **rows, gboolean header,
 	{
 		g_string_append(replacement_str, rule->body_end);
 	}
-	
+
 	/* Adding the footer of table */
 	g_string_append(replacement_str, rule->end);
 
@@ -218,6 +218,7 @@ static void convert_to_table(gboolean header)
 				}
 				case GEANY_FILETYPES_SQL:
 				{
+					/* TODO: Check for INTEGER and other datatypes on SQL */
 					replacement = convert_to_table_worker(rows,
 						header,
 						&tablerules[TC_SQL]);
