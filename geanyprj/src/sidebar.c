@@ -303,6 +303,29 @@ static gboolean on_button_release(G_GNUC_UNUSED GtkWidget *widget, GdkEventButto
 }
 
 
+/* GtkTreeViewSearchEqualFunc: return equality if key exists somewhere
+ * in row - equ "strstr" instead of default "startwith" */
+static gboolean treeview_search_anywhere(GtkTreeModel *model,
+									gint column,
+									const gchar *key,
+									GtkTreeIter *iter,
+									G_GNUC_UNUSED gpointer search_opt_data)
+{
+	gboolean res = FALSE;
+	gchar *str_iterdata = NULL;
+
+	gtk_tree_model_get(model, iter,
+	                   column, &str_iterdata,
+	                   -1);
+
+	// TODO: case insensitive might be more ergonomic
+	res = (g_strrstr(str_iterdata, key) == NULL) ? TRUE : FALSE;
+
+	g_free (str_iterdata);
+	return res;
+}
+
+
 static void prepare_file_view(void)
 {
 	GtkCellRenderer *text_renderer;
@@ -324,6 +347,7 @@ static void prepare_file_view(void)
 
 	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(file_view), TRUE);
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(file_view), FILEVIEW_COLUMN_NAME);
+	gtk_tree_view_set_search_equal_func(GTK_TREE_VIEW(file_view), treeview_search_anywhere, NULL, NULL);
 
 	pfd = pango_font_description_from_string(geany_data->interface_prefs->tagbar_font);
 	gtk_widget_modify_font(file_view, pfd);
