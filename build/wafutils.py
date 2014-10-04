@@ -184,10 +184,10 @@ def get_plugins():
 
 def get_git_rev(conf):
     if conf.options.no_scm:
-        return
+        return None
 
     if not os.path.isdir('.git'):
-        return
+        return None
 
     try:
         cmd = 'git rev-parse --short --revs-only HEAD'
