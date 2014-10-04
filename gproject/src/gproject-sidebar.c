@@ -378,8 +378,11 @@ static void on_open_clicked(void)
 static gboolean on_button_press(G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event,
 		G_GNUC_UNUSED gpointer user_data)
 {
-	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS)
+	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) 
+	{
 		on_open_clicked();
+		return TRUE;
+	}
 
 	return FALSE;
 }
@@ -391,7 +394,10 @@ static gboolean on_key_press(G_GNUC_UNUSED GtkWidget * widget, GdkEventKey * eve
 	    || event->keyval == GDK_ISO_Enter
 	    || event->keyval == GDK_KP_Enter
 	    || event->keyval == GDK_space)
+	{
 		on_open_clicked();
+		return TRUE;
+	}
 	return FALSE;
 }
 
@@ -719,6 +725,7 @@ static gboolean on_button_release(G_GNUC_UNUSED GtkWidget * widget, GdkEventButt
 
 		gtk_menu_popup(GTK_MENU(s_popup_menu.widget), NULL, NULL, NULL, NULL,
 						event->button, event->time);
+		return TRUE;
 	}
 
 	return FALSE;

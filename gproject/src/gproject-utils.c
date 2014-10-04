@@ -138,19 +138,10 @@ void open_file(gchar *utf8_name)
 	doc = document_find_by_filename(utf8_name);
 
 	if (!doc)
-	{
 		document_open_file(name, FALSE, NULL, NULL);
-	}
 	else
-	{
-		GtkNotebook *notebook;
-		gint page_num;
-
-		notebook = GTK_NOTEBOOK(geany->main_widgets->notebook);
-		page_num = gtk_notebook_page_num(notebook, GTK_WIDGET(doc->editor->sci));
-
-		gtk_notebook_set_current_page(notebook, page_num);
-	}
+		document_show_tab(doc);
+	document_grab_focus(doc);
 
 	g_free(name);
 }
