@@ -23,6 +23,7 @@
 
 #include <glib.h>
 #include <glib/gi18n-lib.h>
+#include <gio/gio.h>
 #include <gtk/gtk.h>
 
 #include <git2.h>
@@ -62,6 +63,7 @@ enum {
 static git_repository  *G_repo      = NULL;
 static git_blob        *G_file_blob = NULL;
 /* global state */
+static GFileMonitor    *G_monitor   = NULL;
 static gulong           G_source_id = 0;
 static struct {
   gint    num;
@@ -71,6 +73,13 @@ static struct {
   { -1, SC_MARK_LEFTRECT, 0x73d216 },
   { -1, SC_MARK_LEFTRECT, 0xf57900 }
 };
+
+
+static void on_git_dir_changed (GFileMonitor     *monitor,
+                                GFile            *file,
+                                GFile            *other_file,
+                                GFileMonitorEvent event_type,
+                                gpointer          user_data);
 
 
 /* get the file blob for @relpath at HEAD */
@@ -106,19 +115,40 @@ repo_get_file_blob (git_repository *repo,
 
 /* FIXME: allow to do this in a separate thread because it can be slow */
 static const git_blob *
-get_cached_blob (const gchar *path)
+get_cached_blob (GeanyDocument *doc)
 {
-  if (! G_file_blob) {
+  g_return_if_fail (DOC_VALID (doc));
+  
+  if (! G_file_blob && doc->real_path) {
+    const gchar *path = doc->real_path;
+    
     if (G_repo && ! g_str_has_prefix (path, git_repository_workdir (G_repo))) {
       /* FIXME: this can fail with nested repositories */
       git_repository_free (G_repo);
       G_repo = NULL;
+      if (G_monitor) {
+        g_object_unref (G_monitor);
+        G_monitor = NULL;
+      }
     }
-    if (! G_repo) {
-      if (git_repository_open_ext (&G_repo, path, 0, NULL) == 0 &&
-          git_repository_is_bare (G_repo)) {
+    if (! G_repo && git_repository_open_ext (&G_repo, path, 0, NULL) == 0) {
+      if (git_repository_is_bare (G_repo)) {
         git_repository_free (G_repo);
         G_repo = NULL;
+      } else {
+        GFile  *file  = g_file_new_for_path (git_repository_path (G_repo));
+        GError *err   = NULL;
+        
+        G_monitor = g_file_monitor_directory (file, 0, NULL, &err);
+        if (err) {
+          g_warning ("Failed to monitor Git directory: %s", err->message);
+          g_error_free (err);
+        } else {
+          g_signal_connect (G_monitor, "changed",
+                            G_CALLBACK (on_git_dir_changed),
+                            GUINT_TO_POINTER (doc->id));
+        }
+        g_object_unref (file);
       }
     }
     
@@ -244,35 +274,35 @@ diff_hunk_cb (const git_diff_delta *delta,
 static void
 update_diff (GeanyDocument *doc)
 {
+  ScintillaObject  *sci;
+  const git_blob   *blob;
+  
   g_return_if_fail (DOC_VALID (doc));
   
-  if (doc->real_path) {
-    ScintillaObject  *sci  = doc->editor->sci;
-    const git_blob   *blob = get_cached_blob (doc->real_path);
+  sci = doc->editor->sci;
+  blob = get_cached_blob (doc);
+  if (blob && allocate_markers (sci)) {
+    git_diff_options  opts;
+    const gchar      *buf;
+    size_t            len;
     
-    if (blob && allocate_markers (sci)) {
-      git_diff_options  opts;
-      const gchar      *buf;
-      size_t            len;
-      
-      /* clear previous markers */
-      scintilla_send_message (sci, SCI_MARKERDELETEALL,
-                              G_markers[MARKER_LINE_ADDED].num, 0);
-      scintilla_send_message (sci, SCI_MARKERDELETEALL,
-                              G_markers[MARKER_LINE_CHANGED].num, 0);
-      
-      buf = (const gchar *) scintilla_send_message (sci, SCI_GETCHARACTERPOINTER,
-                                                    0, 0);
-      len = sci_get_length (sci);
-      
-      /* no context lines, and no need to bother about binary checks */
-      git_diff_init_options (&opts, GIT_DIFF_OPTIONS_VERSION);
-      opts.context_lines = 0;
-      opts.flags = GIT_DIFF_FORCE_TEXT;
-      
-      git_diff_blob_to_buffer (blob, NULL, buf, len, NULL, &opts,
-                               NULL, diff_hunk_cb, NULL, sci);
-    }
+    /* clear previous markers */
+    scintilla_send_message (sci, SCI_MARKERDELETEALL,
+                            G_markers[MARKER_LINE_ADDED].num, 0);
+    scintilla_send_message (sci, SCI_MARKERDELETEALL,
+                            G_markers[MARKER_LINE_CHANGED].num, 0);
+    
+    buf = (const gchar *) scintilla_send_message (sci, SCI_GETCHARACTERPOINTER,
+                                                  0, 0);
+    len = sci_get_length (sci);
+    
+    /* no context lines, and no need to bother about binary checks */
+    git_diff_init_options (&opts, GIT_DIFF_OPTIONS_VERSION);
+    opts.context_lines = 0;
+    opts.flags = GIT_DIFF_FORCE_TEXT;
+    
+    git_diff_blob_to_buffer (blob, NULL, buf, len, NULL, &opts,
+                             NULL, diff_hunk_cb, NULL, sci);
   }
 }
 
@@ -335,6 +365,21 @@ on_document_reload (GObject        *obj,
   update_diff_push (doc);
 }
 
+static void
+on_git_dir_changed (GFileMonitor     *monitor,
+                    GFile            *file,
+                    GFile            *other_file,
+                    GFileMonitorEvent event_type,
+                    gpointer          user_data)
+{
+  GeanyDocument *doc = document_find_by_id (GPOINTER_TO_UINT (user_data));
+  
+  if (doc) {
+    clear_cached_blob ();
+    update_diff_push (doc);
+  }
+}
+
 void
 plugin_init (GeanyData *data)
 {
@@ -342,6 +387,7 @@ plugin_init (GeanyData *data)
   
   G_file_blob = NULL;
   G_repo      = NULL;
+  G_monitor   = NULL;
   G_source_id = 0;
   
   if (git_threads_init () != 0) {
@@ -372,6 +418,10 @@ plugin_cleanup (void)
 {
   guint i;
   
+  if (G_monitor) {
+    g_object_unref (G_monitor);
+    G_monitor = NULL;
+  }
   if (G_source_id) {
     g_source_remove (G_source_id);
     G_source_id = 0;
