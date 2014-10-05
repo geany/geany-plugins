@@ -50,6 +50,8 @@ typedef struct {
 	const gchar *columnsplit;
 	const gchar *linestart;
 	const gchar *lineend;
+	/* linesplit should keep empty until you really need some special
+	 * logic there. */
 	const gchar *linesplit;
 	const gchar *end;
 } TableConvertRule;
@@ -71,7 +73,7 @@ TableConvertRule tablerules[] = {
 		" & ",
 		"\t",
 		"\\\\",
-		"\n",
+		"",
 		"\\end{tabular}\n\\end{table}"
 	},
 	/* HTML */
@@ -84,7 +86,7 @@ TableConvertRule tablerules[] = {
 		"</td>\n\t<td>",
 		"<tr>\n\t<td>",
 		"</td>\n</tr>",
-		"\n",
+		"",
 		"\n</table>"
 	},
 	/* SQL */
@@ -97,7 +99,7 @@ TableConvertRule tablerules[] = {
 		"','",
 		"\t('",
 		"')",
-		",\n",
+		",",
 		";"
 	}
 };
@@ -111,6 +113,8 @@ static gchar* convert_to_table_worker(gchar **rows, gboolean header,
 	guint i;
 	guint j;
 	GString *replacement_str = NULL;
+	GeanyDocument *doc = NULL;
+	doc = document_get_current();
 
 	g_return_val_if_fail(rows != NULL, NULL);
 
@@ -152,7 +156,19 @@ static gchar* convert_to_table_worker(gchar **rows, gboolean header,
 			g_string_append(replacement_str, columns[j]);
 		}
 
-		g_string_append(replacement_str, rule->lineend);
+		if (utils_str_equal(rule->lineend, ""))
+		{
+			g_string_append(replacement_str, editor_get_eol_char(doc->editor));
+		}
+		else
+		{
+			g_string_append(replacement_str, rule->lineend);
+			if (doc->file_type->id == GEANY_FILETYPES_SQL ||
+				doc->file_type->id == GEANY_FILETYPES_LATEX)
+			{
+				g_string_append(replacement_str, editor_get_eol_char(doc->editor));
+			}
+		}
 
 		if (rows[i+1] != NULL)
 		{
