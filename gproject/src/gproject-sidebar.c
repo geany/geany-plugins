@@ -782,6 +782,8 @@ void gprj_sidebar_init(void)
 	gtk_container_add(GTK_CONTAINER(toolbar), item);
 	s_project_toolbar.follow = item;
 
+	gprj_sidebar_activate(FALSE);
+
 	gtk_box_pack_start(GTK_BOX(s_file_view_vbox), toolbar, FALSE, FALSE, 0);
 
 	/**** tree view ****/
