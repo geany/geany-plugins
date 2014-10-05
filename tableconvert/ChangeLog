@@ -2,7 +2,8 @@
 
  * Fixing an issue where \r and \n on e.g. Windows files handled as
    seperate lines ending up in 'empty' table lines.
-
+ * Respect now actual line endings of current document instead of just
+   assuming \n and maybe creating a mixed up document
 
 
 2014-09-28  Frank Lanitz  <frank@frank.uvena.de>
