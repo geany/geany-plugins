@@ -1,3 +1,10 @@
+2014-10-05  Frank Lanitz  <frank@frank.uvena.de>
+
+ * Fixing an issue where \r and \n on e.g. Windows files handled as
+   seperate lines ending up in 'empty' table lines.
+
+
+
 2014-09-28  Frank Lanitz  <frank@frank.uvena.de>
 
  * SQL: Treating every column as a string when transfering data to SQL

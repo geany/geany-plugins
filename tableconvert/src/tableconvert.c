@@ -184,10 +184,18 @@ static void convert_to_table(gboolean header)
 		gchar *selection = NULL;
 		gchar **rows = NULL;
 		gchar *replacement = NULL;
+		GString *selection_str = NULL;
 
 		/* Actually grabbing selection and splitting it into single
 		 * lines we will work on later */
 		selection = sci_get_selection_contents(doc->editor->sci);
+
+		selection_str = g_string_new(selection);
+		utils_string_replace_all(selection_str, "\r\n", "\n");
+
+		g_free(selection);
+		selection = g_string_free(selection_str, FALSE);
+
 		rows = g_strsplit_set(selection, "\r\n", -1);
 		g_free(selection);
 
