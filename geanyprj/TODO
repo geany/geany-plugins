@@ -1,3 +1,5 @@
 * Sort the files listed on the 'Project' tab
 * Fix utf8 and local encoding of filenames.
 * 'Find usage' support
+* Have sidebar fast-search policy configurable
+* Support filtering of sidebar listing view
