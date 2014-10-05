@@ -138,10 +138,15 @@ void open_file(gchar *utf8_name)
 	doc = document_find_by_filename(utf8_name);
 
 	if (!doc)
-		document_open_file(name, FALSE, NULL, NULL);
+		doc = document_open_file(name, FALSE, NULL, NULL);
 	else
-		document_show_tab(doc);
-	document_grab_focus(doc);
+	{
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(geany->main_widgets->notebook),
+			document_get_notebook_page(doc));
+	}
+	
+	if (doc)
+		gtk_widget_grab_focus(GTK_WIDGET(doc->editor->sci));
 
 	g_free(name);
 }
