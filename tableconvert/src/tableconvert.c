@@ -196,7 +196,7 @@ static void convert_to_table(gboolean header)
 		g_free(selection);
 		selection = g_string_free(selection_str, FALSE);
 
-		rows = g_strsplit_set(selection, "\r\n", -1);
+		rows = g_strsplit_set(selection, "\n", -1);
 		g_free(selection);
 
 		/* Checking whether we do have something we can work on - Returning if not */
