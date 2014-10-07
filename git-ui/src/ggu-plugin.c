@@ -53,7 +53,8 @@ PLUGIN_SET_TRANSLATABLE_INFO (
  * data that we know cannot ever be a valid job */
 #define QUIT_THREAD_JOB ((AsyncBlobJob *) (&G_queue))
 
-#define MARKER_ALLOCATED_QTAG (g_quark_from_static_string ("ggu-git-marker-allocated"))
+#define RESOURCES_ALLOCATED_QTAG \
+  (g_quark_from_static_string ("ggu-git-resources-allocated"))
 
 
 enum {
@@ -75,6 +76,18 @@ struct AsyncBlobJob {
   gpointer      user_data;
 };
 
+typedef struct TooltipHunkData TooltipHunkData;
+struct TooltipHunkData {
+  gint            line;
+  gboolean        found;
+  GeanyDocument  *doc;
+  const git_blob *file_blob;
+  GtkTooltip     *tooltip;
+};
+
+#define TOOLTIP_HUNK_DATA_INIT(line, doc, blob, tooltip) \
+  { line, FALSE, doc, blob, tooltip }
+
 
 /* cache */
 static git_blob        *G_file_blob = NULL;
@@ -93,11 +106,17 @@ static struct {
 };
 
 
-static void on_git_dir_changed (GFileMonitor     *monitor,
-                                GFile            *file,
-                                GFile            *other_file,
-                                GFileMonitorEvent event_type,
-                                gpointer          user_data);
+static void         on_git_dir_changed          (GFileMonitor     *monitor,
+                                                 GFile            *file,
+                                                 GFile            *other_file,
+                                                 GFileMonitorEvent event_type,
+                                                 gpointer          user_data);
+static gboolean     on_sci_query_tooltip        (GtkWidget   *widget,
+                                                 gint         x,
+                                                 gint         y,
+                                                 gboolean     keyboard_mode,
+                                                 GtkTooltip  *tooltip,
+                                                 gpointer     user_data);
 
 
 static void
@@ -286,11 +305,11 @@ allocate_marker (ScintillaObject *sci,
 }
 
 static gboolean
-allocate_markers (ScintillaObject *sci)
+allocate_resources (ScintillaObject *sci)
 {
   guint i;
   
-  if (g_object_get_qdata (G_OBJECT (sci), MARKER_ALLOCATED_QTAG)) {
+  if (g_object_get_qdata (G_OBJECT (sci), RESOURCES_ALLOCATED_QTAG)) {
     return TRUE;
   }
   
@@ -312,16 +331,21 @@ allocate_markers (ScintillaObject *sci)
                             ((G_markers[i].color & 0x0000ff) << 16));
   }
   
-  g_object_set_qdata (G_OBJECT (sci), MARKER_ALLOCATED_QTAG,
+  /* setup tooltips */
+  gtk_widget_set_has_tooltip (GTK_WIDGET (sci), TRUE);
+  g_signal_connect (sci, "query-tooltip",
+                    G_CALLBACK (on_sci_query_tooltip), NULL);
+  
+  g_object_set_qdata (G_OBJECT (sci), RESOURCES_ALLOCATED_QTAG,
                       sci /* anything non-NULL */);
   
   return TRUE;
 }
 
 static void
-release_markers (ScintillaObject *sci)
+release_resources (ScintillaObject *sci)
 {
-  if (g_object_get_qdata (G_OBJECT (sci), MARKER_ALLOCATED_QTAG)) {
+  if (g_object_get_qdata (G_OBJECT (sci), RESOURCES_ALLOCATED_QTAG)) {
     guint j;
     
     for (j = 0; j < MARKER_COUNT; j++) {
@@ -330,8 +354,32 @@ release_markers (ScintillaObject *sci)
                                 G_markers[j].num, SC_MARK_AVAILABLE);
       }
     }
-    g_object_set_qdata (G_OBJECT (sci), MARKER_ALLOCATED_QTAG, NULL);
+    g_signal_handlers_disconnect_by_func (sci, on_sci_query_tooltip, NULL);
+    g_object_set_qdata (G_OBJECT (sci), RESOURCES_ALLOCATED_QTAG, NULL);
   }
+}
+
+static int
+diff_blob_to_sci (const git_blob   *old_blob,
+                  ScintillaObject  *sci,
+                  git_diff_hunk_cb  hunk_cb,
+                  void             *payload)
+{
+  git_diff_options  opts;
+  const gchar      *buf;
+  size_t            len;
+  
+  buf = (const gchar *) scintilla_send_message (sci, SCI_GETCHARACTERPOINTER,
+                                                0, 0);
+  len = sci_get_length (sci);
+  
+  /* no context lines, and no need to bother about binary checks */
+  git_diff_init_options (&opts, GIT_DIFF_OPTIONS_VERSION);
+  opts.context_lines = 0;
+  opts.flags = GIT_DIFF_FORCE_TEXT;
+  
+  return git_diff_blob_to_buffer (old_blob, NULL, buf, len, NULL, &opts,
+                                  NULL, hunk_cb, NULL, payload);
 }
 
 static int
@@ -356,6 +404,122 @@ diff_hunk_cb (const git_diff_delta *delta,
   return 0;
 }
 
+static GtkWidget *
+get_widget_for_blob_range (GeanyDocument   *doc,
+                           const git_blob  *blob,
+                           gint             line_start,
+                           gint             n_lines)
+{
+  ScintillaObject        *sci     = editor_create_widget (doc->editor);
+  const GeanyIndentPrefs *iprefs  = editor_get_indent_prefs (doc->editor);
+  gint                    width   = 0;
+  gint                    height  = 0;
+  gint                    i;
+  GtkAllocation           alloc;
+  
+  gtk_widget_get_allocation (GTK_WIDGET (doc->editor->sci), &alloc);
+  
+  highlighting_set_styles (sci, doc->file_type);
+  if (iprefs->type == GEANY_INDENT_TYPE_BOTH) {
+    scintilla_send_message (sci, SCI_SETTABWIDTH, iprefs->hard_tab_width, 0);
+  } else {
+    scintilla_send_message (sci, SCI_SETTABWIDTH, iprefs->width, 0);
+  }
+  scintilla_send_message (sci, SCI_SETINDENT, iprefs->width, 0);
+  
+  /* hide stuff we don't wanna see */
+  scintilla_send_message (sci, SCI_SETHSCROLLBAR, 0, 0);
+  scintilla_send_message (sci, SCI_SETVSCROLLBAR, 0, 0);
+  for (i = 0; i < SC_MAX_MARGIN; i++) {
+    scintilla_send_message (sci, SCI_SETMARGINWIDTHN, i, 0);
+  }
+  
+  scintilla_send_message (sci, SCI_ADDTEXT,
+                          (gulong) git_blob_rawsize (blob),
+                          (glong) git_blob_rawcontent (blob));
+  scintilla_send_message (sci, SCI_SETFIRSTVISIBLELINE, line_start, 0);
+  
+  /* compute the size of the area we want to see */
+  for (i = line_start; i < line_start + n_lines; i++) {
+    gint pos    = sci_get_line_end_position (sci, i);
+    gint end_x  = scintilla_send_message (sci, SCI_POINTXFROMPOSITION, 0, pos);
+    
+    height += scintilla_send_message (sci, SCI_TEXTHEIGHT, i, 0);
+    width = MAX (width, end_x);
+    
+    if (height > alloc.height) {
+      break;
+    }
+  }
+  gtk_widget_set_size_request (GTK_WIDGET (sci),
+                               MIN (width, alloc.width),
+                               MIN (height + 1, alloc.height));
+  
+  return GTK_WIDGET (sci);
+}
+
+static int
+tooltip_diff_hunk_cb (const git_diff_delta *delta,
+                      const git_diff_hunk  *hunk,
+                      void                 *data)
+{
+  TooltipHunkData *thd = data;
+  
+  if (thd->found) {
+    return 1;
+  }
+  
+  if (hunk->old_lines > 0 &&
+      thd->line >= hunk->new_start &&
+      thd->line < hunk->new_start + MAX (1, hunk->new_lines)) {
+    GtkWidget *old = get_widget_for_blob_range (thd->doc, thd->file_blob,
+                                                hunk->old_start - 1,
+                                                hunk->old_lines);
+    
+    gtk_tooltip_set_custom (thd->tooltip, old);
+    thd->found = old != NULL;
+  }
+  
+  return thd->found;
+}
+
+static gboolean
+on_sci_query_tooltip (GtkWidget  *widget,
+                      gint        x,
+                      gint        y,
+                      gboolean    keyboard_mode,
+                      GtkTooltip *tooltip,
+                      gpointer    user_data)
+{
+  gint              min_x;
+  gint              max_x;
+  ScintillaObject  *sci         = (ScintillaObject *) widget;
+  GeanyDocument    *doc         = document_get_current ();
+  gboolean          has_tooltip = FALSE;
+  
+  g_return_val_if_fail (doc && doc->editor->sci == sci, FALSE);
+  
+  min_x = scintilla_send_message (sci, SCI_GETMARGINWIDTHN, 0, 0);
+  max_x = min_x + scintilla_send_message (sci, SCI_GETMARGINWIDTHN, 1, 0);
+  
+  if (x >= min_x && x <= max_x && G_file_blob) {
+    gint pos  = scintilla_send_message (sci, SCI_POSITIONFROMPOINT, x, y);
+    gint line = sci_get_line_from_position (sci, pos);
+    gint mask = scintilla_send_message (sci, SCI_MARKERGET, line, 0);
+    
+    if (mask & ((1 << G_markers[MARKER_LINE_CHANGED].num) |
+                (1 << G_markers[MARKER_LINE_REMOVED].num))) {
+      TooltipHunkData thd = TOOLTIP_HUNK_DATA_INIT (line + 1, doc, G_file_blob,
+                                                    tooltip);
+      
+      diff_blob_to_sci (G_file_blob, sci, tooltip_diff_hunk_cb, &thd);
+      has_tooltip = thd.found;
+    }
+  }
+  
+  return has_tooltip;
+}
+
 static void
 update_diff (const gchar *path,
              git_blob    *blob,
@@ -364,11 +528,8 @@ update_diff (const gchar *path,
   GeanyDocument *doc = document_get_current ();
   
   if (doc && doc->id == GPOINTER_TO_UINT (data) &&
-      blob && allocate_markers (doc->editor->sci)) {
+      blob && allocate_resources (doc->editor->sci)) {
     ScintillaObject  *sci = doc->editor->sci;
-    git_diff_options  opts;
-    const gchar      *buf;
-    size_t            len;
     guint             i;
     
     /* clear previous markers */
@@ -376,17 +537,7 @@ update_diff (const gchar *path,
       scintilla_send_message (sci, SCI_MARKERDELETEALL, G_markers[i].num, 0);
     }
     
-    buf = (const gchar *) scintilla_send_message (sci, SCI_GETCHARACTERPOINTER,
-                                                  0, 0);
-    len = sci_get_length (sci);
-    
-    /* no context lines, and no need to bother about binary checks */
-    git_diff_init_options (&opts, GIT_DIFF_OPTIONS_VERSION);
-    opts.context_lines = 0;
-    opts.flags = GIT_DIFF_FORCE_TEXT;
-    
-    git_diff_blob_to_buffer (blob, NULL, buf, len, NULL, &opts,
-                             NULL, diff_hunk_cb, NULL, sci);
+    diff_blob_to_sci (blob, sci, diff_hunk_cb, sci);
   }
 }
 
@@ -519,7 +670,7 @@ plugin_cleanup (void)
   }
   
   foreach_document (i) {
-    release_markers (documents[i]->editor->sci);
+    release_resources (documents[i]->editor->sci);
   }
   
   git_threads_shutdown ();
