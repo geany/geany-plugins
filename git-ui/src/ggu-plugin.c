@@ -59,6 +59,7 @@ PLUGIN_SET_TRANSLATABLE_INFO (
 enum {
   MARKER_LINE_ADDED,
   MARKER_LINE_CHANGED,
+  MARKER_LINE_REMOVED,
   MARKER_COUNT
 };
 
@@ -87,7 +88,8 @@ static struct {
   guint32 color;
 }                       G_markers[MARKER_COUNT] = {
   { -1, SC_MARK_LEFTRECT, 0x73d216 },
-  { -1, SC_MARK_LEFTRECT, 0xf57900 }
+  { -1, SC_MARK_LEFTRECT, 0xf57900 },
+  { -1, SC_MARK_LEFTRECT, 0xcc0000 }
 };
 
 
@@ -346,6 +348,9 @@ diff_hunk_cb (const git_diff_delta *delta,
     for (line = hunk->new_start; line < hunk->new_start + hunk->new_lines; line++) {
       scintilla_send_message (sci, SCI_MARKERADD, line - 1, G_markers[marker].num);
     }
+  } else {
+    scintilla_send_message (sci, SCI_MARKERADD, hunk->new_start - 1,
+                            G_markers[MARKER_LINE_REMOVED].num);
   }
   
   return 0;
@@ -364,12 +369,12 @@ update_diff (const gchar *path,
     git_diff_options  opts;
     const gchar      *buf;
     size_t            len;
+    guint             i;
     
     /* clear previous markers */
-    scintilla_send_message (sci, SCI_MARKERDELETEALL,
-                            G_markers[MARKER_LINE_ADDED].num, 0);
-    scintilla_send_message (sci, SCI_MARKERDELETEALL,
-                            G_markers[MARKER_LINE_CHANGED].num, 0);
+    for (i = 0; i < MARKER_COUNT; i++) {
+      scintilla_send_message (sci, SCI_MARKERDELETEALL, G_markers[i].num, 0);
+    }
     
     buf = (const gchar *) scintilla_send_message (sci, SCI_GETCHARACTERPOINTER,
                                                   0, 0);
