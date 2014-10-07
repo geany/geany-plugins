@@ -49,6 +49,10 @@ PLUGIN_SET_TRANSLATABLE_INFO (
 )
 
 
+/* g_async_queue_push() doesn't allow for NULL data, so use a non-NULL fake
+ * data that we know cannot ever be a valid job */
+#define QUIT_THREAD_JOB ((AsyncBlobJob *) (&G_queue))
+
 #define MARKER_ALLOCATED_QTAG (g_quark_from_static_string ("ggu-git-marker-allocated"))
 
 
@@ -58,12 +62,24 @@ enum {
   MARKER_COUNT
 };
 
+typedef void (*BlobReadyFunc) (const gchar *path,
+                               git_blob    *blob,
+                               gpointer     data);
+
+typedef struct AsyncBlobJob AsyncBlobJob;
+struct AsyncBlobJob {
+  gchar        *path;
+  git_blob     *blob;
+  BlobReadyFunc callback;
+  gpointer      user_data;
+};
+
 
 /* cache */
-static git_repository  *G_repo      = NULL;
 static git_blob        *G_file_blob = NULL;
 /* global state */
-static GFileMonitor    *G_monitor   = NULL;
+static GAsyncQueue     *G_queue     = NULL;
+static GThread         *G_thread    = NULL;
 static gulong           G_source_id = 0;
 static struct {
   gint    num;
@@ -81,6 +97,15 @@ static void on_git_dir_changed (GFileMonitor     *monitor,
                                 GFileMonitorEvent event_type,
                                 gpointer          user_data);
 
+
+static void
+clear_cached_blob (void)
+{
+  if (G_file_blob) {
+    git_blob_free (G_file_blob);
+    G_file_blob = NULL;
+  }
+}
 
 /* get the file blob for @relpath at HEAD */
 static git_blob *
@@ -113,61 +138,116 @@ repo_get_file_blob (git_repository *repo,
   return blob;
 }
 
-/* FIXME: allow to do this in a separate thread because it can be slow */
-static const git_blob *
-get_cached_blob (GeanyDocument *doc)
+static void
+free_job (gpointer data)
 {
-  g_return_if_fail (DOC_VALID (doc));
+  AsyncBlobJob *job = data;
   
-  if (! G_file_blob && doc->real_path) {
-    const gchar *path = doc->real_path;
+  g_free (job->path);
+  g_slice_free1 (sizeof *job, job);
+}
+
+static gboolean
+report_work_in_idle (gpointer data)
+{
+  AsyncBlobJob *job = data;
+  
+  /* update cached blob */
+  clear_cached_blob ();
+  G_file_blob = job->blob;
+  
+  job->callback (job->path, job->blob, job->user_data);
+  
+  return FALSE;
+}
+
+static gpointer
+worker_thread (gpointer data)
+{
+  GAsyncQueue    *queue   = data;
+  git_repository *repo    = NULL;
+  GFileMonitor   *monitor = NULL;
+  AsyncBlobJob   *job;
+  
+  while ((job = g_async_queue_pop (queue)) != QUIT_THREAD_JOB) {
+    const gchar *path = job->path;
     
-    if (G_repo && ! g_str_has_prefix (path, git_repository_workdir (G_repo))) {
+    if (repo && ! g_str_has_prefix (path, git_repository_workdir (repo))) {
       /* FIXME: this can fail with nested repositories */
-      git_repository_free (G_repo);
-      G_repo = NULL;
-      if (G_monitor) {
-        g_object_unref (G_monitor);
-        G_monitor = NULL;
+      git_repository_free (repo);
+      repo = NULL;
+      if (monitor) {
+        g_object_unref (monitor);
+        monitor = NULL;
       }
     }
-    if (! G_repo && git_repository_open_ext (&G_repo, path, 0, NULL) == 0) {
-      if (git_repository_is_bare (G_repo)) {
-        git_repository_free (G_repo);
-        G_repo = NULL;
+    if (! repo && git_repository_open_ext (&repo, path, 0, NULL) == 0) {
+      if (git_repository_is_bare (repo)) {
+        git_repository_free (repo);
+        repo = NULL;
       } else {
-        GFile  *file  = g_file_new_for_path (git_repository_path (G_repo));
+        GFile  *file  = g_file_new_for_path (git_repository_path (repo));
         GError *err   = NULL;
         
-        G_monitor = g_file_monitor_directory (file, 0, NULL, &err);
+        monitor = g_file_monitor_directory (file, 0, NULL, &err);
         if (err) {
           g_warning ("Failed to monitor Git directory: %s", err->message);
           g_error_free (err);
         } else {
-          g_signal_connect (G_monitor, "changed",
-                            G_CALLBACK (on_git_dir_changed),
-                            GUINT_TO_POINTER (doc->id));
+          g_signal_connect (monitor, "changed",
+                            G_CALLBACK (on_git_dir_changed), job->user_data);
         }
         g_object_unref (file);
       }
     }
     
-    if (G_repo) {
-      const gchar *relpath = path + strlen (git_repository_workdir (G_repo));
+    if (repo) {
+      const gchar *relpath = path + strlen (git_repository_workdir (repo));
       
-      G_file_blob = repo_get_file_blob (G_repo, relpath);
+      job->blob = repo_get_file_blob (repo, relpath);
+    } else {
+      job->blob = NULL;
     }
+    
+    g_idle_add_full (G_PRIORITY_DEFAULT, report_work_in_idle, job, free_job);
   }
   
-  return G_file_blob;
+  if (monitor) {
+    g_object_unref (monitor);
+  }
+  if (repo) {
+    git_repository_free (repo);
+  }
+  
+  return NULL;
 }
 
+/* @user_data will also be used to the file monitor callback */
 static void
-clear_cached_blob (void)
+get_cached_blob_async (const gchar   *path,
+                       BlobReadyFunc  callback,
+                       gpointer       user_data)
 {
-  if (G_file_blob) {
-    git_blob_free (G_file_blob);
-    G_file_blob = NULL;
+  if (G_file_blob || ! path) {
+    callback (path, G_file_blob, user_data);
+  } else {
+    AsyncBlobJob *job = g_slice_alloc (sizeof *job);
+    
+    job->path       = g_strdup (path);
+    job->blob       = NULL;
+    job->callback   = callback;
+    job->user_data  = user_data;
+    
+    if (! G_thread) {
+      G_queue = g_async_queue_new ();
+#if GLIB_CHECK_VERSION (2, 32, 0)
+      G_thread = g_thread_new ("ggu-git/blob-worker", worker_thread, G_queue);
+#else
+      G_thread = g_thread_create (worker_thread, G_queue, NULL, NULL);
+#endif
+    }
+    
+    g_async_queue_push (G_queue, job);
   }
 }
 
@@ -272,16 +352,15 @@ diff_hunk_cb (const git_diff_delta *delta,
 }
 
 static void
-update_diff (GeanyDocument *doc)
+update_diff (const gchar *path,
+             git_blob    *blob,
+             gpointer     data)
 {
-  ScintillaObject  *sci;
-  const git_blob   *blob;
+  GeanyDocument *doc = document_get_current ();
   
-  g_return_if_fail (DOC_VALID (doc));
-  
-  sci = doc->editor->sci;
-  blob = get_cached_blob (doc);
-  if (blob && allocate_markers (sci)) {
+  if (doc && doc->id == GPOINTER_TO_UINT (data) &&
+      blob && allocate_markers (doc->editor->sci)) {
+    ScintillaObject  *sci = doc->editor->sci;
     git_diff_options  opts;
     const gchar      *buf;
     size_t            len;
@@ -314,7 +393,7 @@ update_diff_idle (gpointer id)
   G_source_id = 0;
   /* make sure the document is still valid and current */
   if (doc && doc->id == GPOINTER_TO_UINT (id))
-    update_diff (doc);
+    get_cached_blob_async (doc->real_path, update_diff, id);
   
   return FALSE;
 }
@@ -386,9 +465,9 @@ plugin_init (GeanyData *data)
   GeanyDocument *doc;
   
   G_file_blob = NULL;
-  G_repo      = NULL;
-  G_monitor   = NULL;
   G_source_id = 0;
+  G_thread    = NULL;
+  G_queue     = NULL;
   
   if (git_threads_init () != 0) {
     const git_error *err = giterr_last ();
@@ -418,21 +497,20 @@ plugin_cleanup (void)
 {
   guint i;
   
-  if (G_monitor) {
-    g_object_unref (G_monitor);
-    G_monitor = NULL;
-  }
   if (G_source_id) {
     g_source_remove (G_source_id);
     G_source_id = 0;
   }
+  if (G_thread) {
+    g_async_queue_push (G_queue, QUIT_THREAD_JOB); /* notify the thread */
+    g_thread_join (G_thread);
+    G_thread = NULL;
+    g_async_queue_unref (G_queue);
+    G_queue = NULL;
+  }
   if (G_file_blob) {
     git_blob_free (G_file_blob);
     G_file_blob = NULL;
-  }
-  if (G_repo) {
-    git_repository_free (G_repo);
-    G_repo = NULL;
   }
   
   foreach_document (i) {
