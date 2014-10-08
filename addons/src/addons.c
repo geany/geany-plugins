@@ -85,6 +85,7 @@ typedef struct
 	gboolean tasks_scan_all_documents;
 
 	DocListSortMode doclist_sort_mode;
+	MarkWordMode markword_mode;
 
 	/* instances and variables of components */
 	AoDocList *doclist;
@@ -269,6 +270,8 @@ void plugin_init(GeanyData *data)
 		"addons", "enable_bookmarklist", FALSE);
 	ao_info->enable_markword = utils_get_setting_boolean(config,
 		"addons", "enable_markword", FALSE);
+	ao_info->markword_mode = utils_get_setting_integer(config,
+		"addons", "markword_mode", MARKWORD_BY_DBLCLICK);
 	ao_info->strip_trailing_blank_lines = utils_get_setting_boolean(config,
 		"addons", "strip_trailing_blank_lines", FALSE);
 	ao_info->enable_xmltagging = utils_get_setting_boolean(config, "addons",
@@ -284,7 +287,7 @@ void plugin_init(GeanyData *data)
 	ao_info->openuri = ao_open_uri_new(ao_info->enable_openuri);
 	ao_info->systray = ao_systray_new(ao_info->enable_systray);
 	ao_info->bookmarklist = ao_bookmark_list_new(ao_info->enable_bookmarklist);
-	ao_info->markword = ao_mark_word_new(ao_info->enable_markword);
+	ao_info->markword = ao_mark_word_new(ao_info->enable_markword, ao_info->markword_mode);
 	ao_info->tasks = ao_tasks_new(ao_info->enable_tasks,
 						ao_info->tasks_token_list, ao_info->tasks_scan_all_documents);
 
@@ -327,6 +330,17 @@ static void ao_configure_doclist_toggled_cb(GtkToggleButton *togglebutton, gpoin
 		"radio_doclist_tab_order"), sens);
 	gtk_widget_set_sensitive(g_object_get_data(G_OBJECT(data),
 		"radio_doclist_tab_order_reversed"), sens);
+}
+
+
+static void ao_configure_markword_toggled_cb(GtkToggleButton *togglebutton, gpointer data)
+{
+	gboolean sens = gtk_toggle_button_get_active(togglebutton);
+
+	gtk_widget_set_sensitive(g_object_get_data(G_OBJECT(data),
+		"radio_markword_dblclick"), sens);
+	gtk_widget_set_sensitive(g_object_get_data(G_OBJECT(data),
+		"radio_markword_selection"), sens);
 }
 
 
@@ -387,7 +401,15 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 		g_key_file_set_boolean(config, "addons", "enable_systray", ao_info->enable_systray);
 		g_key_file_set_boolean(config, "addons", "enable_bookmarklist",
 			ao_info->enable_bookmarklist);
+
 		g_key_file_set_boolean(config, "addons", "enable_markword", ao_info->enable_markword);
+		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(g_object_get_data(
+				G_OBJECT(dialog), "radio_markword_selection"))))
+			ao_info->markword_mode = MARKWORD_BY_SELECTION;
+		else
+			ao_info->markword_mode = MARKWORD_BY_DBLCLICK;
+		g_key_file_set_integer(config, "addons", "markword_mode", ao_info->markword_mode);
+
 		g_key_file_set_boolean(config, "addons", "strip_trailing_blank_lines",
 		  ao_info->strip_trailing_blank_lines);
 		g_key_file_set_boolean(config, "addons", "enable_xmltagging",
@@ -404,6 +426,7 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 		g_object_set(ao_info->bookmarklist, "enable-bookmarklist",
 			ao_info->enable_bookmarklist, NULL);
 		g_object_set(ao_info->markword, "enable-markword", ao_info->enable_markword, NULL);
+		g_object_set(ao_info->markword, "markword-mode", ao_info->markword_mode, NULL);
 		g_object_set(ao_info->tasks,
 			"enable-tasks", ao_info->enable_tasks,
 			"scan-all-documents", ao_info->tasks_scan_all_documents,
@@ -434,7 +457,9 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	GtkWidget *vbox, *check_openuri, *check_tasks, *check_systray;
 	GtkWidget *check_doclist, *vbox_doclist, *frame_doclist;
 	GtkWidget *radio_doclist_name, *radio_doclist_tab_order, *radio_doclist_tab_order_reversed;
-	GtkWidget *check_bookmarklist, *check_markword, *frame_tasks, *vbox_tasks;
+	GtkWidget *check_markword, *vbox_markword, *frame_markword;
+	GtkWidget *radio_markword_dblclick, *radio_markword_selection;
+	GtkWidget *check_bookmarklist, *frame_tasks, *vbox_tasks;
 	GtkWidget *check_tasks_scan_mode, *entry_tasks_tokens, *label_tasks_tokens, *tokens_hbox;
 	GtkWidget *check_blanklines, *check_xmltagging;
 	GtkWidget *check_enclose_words, *check_enclose_words_auto, *enclose_words_config_button, *enclose_words_hbox;
@@ -539,10 +564,36 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_box_pack_start(GTK_BOX(vbox), check_bookmarklist, FALSE, FALSE, 3);
 
 	check_markword = gtk_check_button_new_with_label(
-		_("Mark all occurrences of a word when double-clicking it"));
+		_("Mark all occurrences of.."));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_markword),
 		ao_info->enable_markword);
-	gtk_box_pack_start(GTK_BOX(vbox), check_markword, FALSE, FALSE, 3);
+	g_signal_connect(check_markword, "toggled", G_CALLBACK(ao_configure_markword_toggled_cb), dialog);
+	
+	radio_markword_dblclick = gtk_radio_button_new_with_label(NULL, _("a word when double-clicked"));
+	ui_widget_set_tooltip_text(radio_markword_dblclick,
+		_("Marks are permanent in this mode."));
+	radio_markword_selection = gtk_radio_button_new_with_label_from_widget(
+		GTK_RADIO_BUTTON(radio_markword_dblclick), _("a text when selected"));
+	ui_widget_set_tooltip_text(radio_markword_selection,
+		_("Marks are dynamic in this mode (removed on deselection)."));
+
+	switch (ao_info->markword_mode)
+	{
+		case MARKWORD_BY_DBLCLICK:
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_markword_dblclick), TRUE);
+			break;
+		case MARKWORD_BY_SELECTION:
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_markword_selection), TRUE);
+			break;
+	}
+
+	vbox_markword = gtk_vbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox_markword), radio_markword_dblclick, FALSE, FALSE, 3);
+	gtk_box_pack_start(GTK_BOX(vbox_markword), radio_markword_selection, TRUE, TRUE, 3);
+	frame_markword = gtk_frame_new(NULL);
+	gtk_frame_set_label_widget(GTK_FRAME(frame_markword), check_markword);
+	gtk_container_add(GTK_CONTAINER(frame_markword), vbox_markword);
+	gtk_box_pack_start(GTK_BOX(vbox), frame_markword, FALSE, FALSE, 3);
 
 	check_blanklines = gtk_check_button_new_with_label(
 		_("Strip trailing blank lines"));
@@ -587,6 +638,8 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	g_object_set_data(G_OBJECT(dialog), "check_systray", check_systray);
 	g_object_set_data(G_OBJECT(dialog), "check_bookmarklist", check_bookmarklist);
 	g_object_set_data(G_OBJECT(dialog), "check_markword", check_markword);
+	g_object_set_data(G_OBJECT(dialog), "radio_markword_dblclick", radio_markword_dblclick);
+	g_object_set_data(G_OBJECT(dialog), "radio_markword_selection", radio_markword_selection);
 	g_object_set_data(G_OBJECT(dialog), "check_blanklines", check_blanklines);
 	g_object_set_data(G_OBJECT(dialog), "check_xmltagging", check_xmltagging);
 	g_object_set_data(G_OBJECT(dialog), "check_enclose_words", check_enclose_words);
@@ -596,6 +649,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 
 	ao_configure_tasks_toggled_cb(GTK_TOGGLE_BUTTON(check_tasks), dialog);
 	ao_configure_doclist_toggled_cb(GTK_TOGGLE_BUTTON(check_doclist), dialog);
+	ao_configure_markword_toggled_cb(GTK_TOGGLE_BUTTON(check_markword), dialog);
 
 	gtk_widget_show_all(vbox);
 

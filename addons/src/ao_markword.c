@@ -48,12 +48,14 @@ struct _AoMarkWordClass
 struct _AoMarkWordPrivate
 {
 	gboolean enable_markword;
+	MarkWordMode markword_mode;
 };
 
 enum
 {
 	PROP_0,
-	PROP_ENABLE_MARKWORD
+	PROP_ENABLE_MARKWORD,
+	PROP_MARKWORD_MODE
 };
 
 
@@ -71,6 +73,9 @@ static void ao_mark_word_set_property(GObject *object, guint prop_id,
 	{
 		case PROP_ENABLE_MARKWORD:
 			priv->enable_markword = g_value_get_boolean(value);
+			break;
+		case PROP_MARKWORD_MODE:
+			priv->markword_mode = g_value_get_int(value);
 			break;
 		default:
 			G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
@@ -93,8 +98,19 @@ static void ao_mark_word_class_init(AoMarkWordClass *klass)
 									g_param_spec_boolean(
 									"enable-markword",
 									"enable-markword",
-									"Whether to mark all occurrences of a word when double-clicking it",
+									"Whether to mark all occurrences of a text",
 									TRUE,
+									G_PARAM_WRITABLE));
+
+	g_object_class_install_property(g_object_class,
+									PROP_MARKWORD_MODE,
+									g_param_spec_int(
+									"markword-mode",
+									"markword-mode",
+									"Specify the mode",
+									0,
+									G_MAXINT,
+									MARKWORD_BY_DBLCLICK,
 									G_PARAM_WRITABLE));
 }
 
@@ -114,11 +130,23 @@ void ao_mark_word_check(AoMarkWord *bm, GeanyEditor *editor, SCNotification *nt)
 
 	if (priv->enable_markword)
 	{
-		switch (nt->nmhdr.code)
-		{
-			case SCN_DOUBLECLICK:
-				keybindings_send_command(GEANY_KEY_GROUP_SEARCH, GEANY_KEYS_SEARCH_MARKALL);
-				break;
+		if (priv->markword_mode == MARKWORD_BY_DBLCLICK && nt->nmhdr.code == SCN_DOUBLECLICK)
+			keybindings_send_command(GEANY_KEY_GROUP_SEARCH, GEANY_KEYS_SEARCH_MARKALL);
+		else if (priv->markword_mode == MARKWORD_BY_SELECTION && nt->nmhdr.code == SCN_UPDATEUI) {
+			/*
+			 * This will affect "find" too as current match will be selected. This way it partly
+			 * resembles a "find with highlight" functionality.
+			 * It is not perfect as only the most basic "search for a string" will behave as expected
+			 * of course.
+			 */
+			if (sci_has_selection(editor->sci)) {
+				gchar *text = sci_get_selection_contents(editor->sci);
+				// kwrite marks only whole words but it would break "find with highlight" for the most
+				// who uses the search-field on the toolbar
+				search_mark_all(document_get_current(), text, SCFIND_MATCHCASE /*| SCFIND_WHOLEWORD*/);
+				g_free(text);
+			} else
+				editor_indicator_clear(editor, GEANY_INDICATOR_SEARCH);
 		}
 	}
 }
@@ -129,7 +157,7 @@ static void ao_mark_word_init(AoMarkWord *self)
 }
 
 
-AoMarkWord *ao_mark_word_new(gboolean enable)
+AoMarkWord *ao_mark_word_new(gboolean enable, MarkWordMode markword_mode)
 {
-	return g_object_new(AO_MARKWORD_TYPE, "enable-markword", enable, NULL);
+	return g_object_new(AO_MARKWORD_TYPE, "enable-markword", enable, "markword-mode", markword_mode, NULL);
 }

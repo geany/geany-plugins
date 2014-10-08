@@ -39,8 +39,14 @@ G_BEGIN_DECLS
 typedef struct _AoMarkWord				AoMarkWord;
 typedef struct _AoMarkWordClass			AoMarkWordClass;
 
+typedef enum
+{
+	MARKWORD_BY_DBLCLICK = 1,
+	MARKWORD_BY_SELECTION = 2
+} MarkWordMode;
+
 GType			ao_mark_word_get_type		(void);
-AoMarkWord*		ao_mark_word_new			(gboolean enable);
+AoMarkWord*		ao_mark_word_new			(gboolean enable, MarkWordMode markword_mode);
 void			ao_mark_word_check			(AoMarkWord *bm, GeanyEditor *editor,
 											 SCNotification *nt);
 
