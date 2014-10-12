@@ -189,6 +189,8 @@ Section Uninstall
 	Delete "$INSTDIR\bin\libxml2-2.dll"
 	Delete "$INSTDIR\bin\lua5.1.dll"
 
+	Delete "$INSTDIR\share\icons\hicolor\16x16\apps\gproject-*.png"
+
 	RMDir /r "$INSTDIR\doc\plugins"
 	RMDir /r "$INSTDIR\lib\geany-plugins"
 	RMDir /r "$INSTDIR\share\geany-plugins"
@@ -209,6 +211,7 @@ Section Uninstall
 	; only if empty
 	RMDir "$INSTDIR\doc"
 	RMDir "$INSTDIR\lib"
+	RMDir "$INSTDIR\share\icons"
 	RMDir "$INSTDIR\share\locale"
 	RMDir "$INSTDIR\share"
 	RMDir "$INSTDIR"
