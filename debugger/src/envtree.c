@@ -399,6 +399,12 @@ GtkWidget* envtree_init(void)
 	GtkTreeViewColumn *column;
 	GtkTreeSelection *selection;
 
+	/* (re)initialize globals in case plugin was reloaded but those not cleared */
+	page_read_only = FALSE;
+	entering_new_var = FALSE;
+	empty_row = NULL;
+	being_edited_value = NULL;
+
 	store = gtk_list_store_new (
 		N_COLUMNS,
 		G_TYPE_STRING,
