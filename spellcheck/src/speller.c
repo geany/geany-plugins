@@ -308,9 +308,14 @@ void sc_speller_check_document(GeanyDocument *doc)
 static void broker_init_failed(void)
 {
 	const gchar *err = enchant_broker_get_error(sc_speller_broker);
-	dialogs_show_msgbox(GTK_MESSAGE_ERROR,
+	const gchar *msg = g_strdup_printf(
 		_("The Enchant library couldn't be initialized (%s)."),
 		(err != NULL) ? err : _("unknown error (maybe the chosen language is not available)"));
+	
+	msgwin_status_add(msg);
+	if (main_is_realized())
+		/* show dialog only after Geany has been loaded already, i.e. not while starting up */
+		dialogs_show_msgbox(GTK_MESSAGE_ERROR, msg);
 }
 
 
