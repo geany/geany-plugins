@@ -270,11 +270,9 @@ static void save_to_keyfile(GKeyFile *keyfile)
 static gpointer saving_thread_func(gpointer data)
 {
 	GTimeVal interval;
-	GMutex *m = g_mutex_new();
+	g_mutex_lock(change_config_mutex);
 	do
 	{
-		g_mutex_lock(change_config_mutex);
-		
 		if (
 			panel_config_changed ||
 			(debug_config_changed && DEBUG_STORE_PLUGIN == dstore)
@@ -309,14 +307,12 @@ static gpointer saving_thread_func(gpointer data)
 		
 			debug_config_changed = FALSE;
 		}
-		
-		g_mutex_unlock(change_config_mutex);
 
 		g_get_current_time(&interval);
 		g_time_val_add(&interval, SAVING_INTERVAL);
 	}
-	while (!g_cond_timed_wait(cond, m, &interval));
-	g_mutex_free(m);
+	while (!g_cond_timed_wait(cond, change_config_mutex, &interval));
+	g_mutex_unlock(change_config_mutex);
 	
 	return NULL;
 }
@@ -471,7 +467,7 @@ void config_init(void)
 void config_destroy(void)
 {
 	g_cond_signal(cond);
-	/* ??? g_thread_join(saving_thread); */	
+	g_thread_join(saving_thread);
 	
 	g_mutex_free(change_config_mutex);
 	g_cond_free(cond);
