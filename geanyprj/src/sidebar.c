@@ -17,15 +17,17 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#define _GNU_SOURCE
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
 
+#ifdef HAVE_STRCASESTR
+	#define _GNU_SOURCE
+#endif
+#include <string.h>
 #include <sys/time.h>
 #include <gdk/gdkkeysyms.h>
-#include <string.h>
 
-#ifdef HAVE_CONFIG_H
-	#include "config.h" /* for the gettext domain */
-#endif
 #include <geanyplugin.h>
 
 #include "geanyprj.h"
@@ -36,9 +38,13 @@ typedef enum _kbdsearch_policy
 {
 	KBDSEARCH_POLICY_STARTWITH,             /* Default and fastest */
 	KBDSEARCH_POLICY_CONTAINS,              /* Case sensitive search */
-	KBDSEARCH_POLICY_CONTAINS_INSENSITIVE,  /* Case insensitive search */
 	KBDSEARCH_POLICY_CONTAINS_ALL,          /* Case sensitive search all words separated by MULTISEARCH_SEP_STR */
+#ifdef HAVE_STRCASESTR
+	KBDSEARCH_POLICY_CONTAINS_INSENSITIVE,  /* Case insensitive search */
 	KBDSEARCH_POLICY_CONTAINS_ALL_INSENSITIVE, /* Case insensitive search all words separated by MULTISEARCH_SEP_STR */
+#else
+	#warning "Case insensitive search is not available"
+#endif
 } kbdsearch_policy;
 
 enum
@@ -63,7 +69,11 @@ static struct
 static GtkWidget *file_view_vbox;
 static GtkWidget *file_view;
 static GtkListStore *file_store;
+#ifdef HAVE_STRCASESTR
 static kbdsearch_policy search_policy = KBDSEARCH_POLICY_CONTAINS_ALL_INSENSITIVE;
+#else
+static kbdsearch_policy search_policy = KBDSEARCH_POLICY_CONTAINS_ALL;
+#endif
 
 
 /* Returns: the full filename in locale encoding. */
@@ -338,15 +348,11 @@ static gboolean treeview_search_anywhere(GtkTreeModel *model,
 	case KBDSEARCH_POLICY_STARTWITH:
 		b_match = g_str_has_prefix( psz_iterdata, key );
 		break;
-	
+
 	case KBDSEARCH_POLICY_CONTAINS:
 		b_match = (strstr(psz_iterdata, key) != NULL) ? TRUE : FALSE;
 		break;
-		
-	case KBDSEARCH_POLICY_CONTAINS_INSENSITIVE:
-		b_match = (strcasestr(psz_iterdata, key) != NULL) ? TRUE : FALSE;
-		break;
-		
+
 	case KBDSEARCH_POLICY_CONTAINS_ALL:
 		ppsz_key_tokens_iter = ppsz_key_tokens = g_strsplit(key,MULTISEARCH_SEP_STR,-1);
 		b_match = TRUE;
@@ -356,9 +362,13 @@ static gboolean treeview_search_anywhere(GtkTreeModel *model,
 			++ppsz_key_tokens_iter;
 		}
 		break;
-		
+
+#ifdef HAVE_STRCASESTR
+	case KBDSEARCH_POLICY_CONTAINS_INSENSITIVE:
+		b_match = (strcasestr(psz_iterdata, key) != NULL) ? TRUE : FALSE;
+		break;
+
 	case KBDSEARCH_POLICY_CONTAINS_ALL_INSENSITIVE:
-	default:
 		ppsz_key_tokens_iter = ppsz_key_tokens = g_strsplit(key,MULTISEARCH_SEP_STR,-1);
 		b_match = TRUE;
 		while( (*ppsz_key_tokens_iter != NULL) && (b_match == TRUE) )
@@ -366,6 +376,12 @@ static gboolean treeview_search_anywhere(GtkTreeModel *model,
 			b_match &= ((strcasestr(psz_iterdata, *ppsz_key_tokens_iter) != NULL) ? TRUE : FALSE);
 			++ppsz_key_tokens_iter;
 		}
+		break;
+#endif
+
+	default:
+		/* Error fallback currently equals to gtk default behavior */
+		b_match = g_str_has_prefix( psz_iterdata, key );
 		break;
 	}
 
