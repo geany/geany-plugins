@@ -28,6 +28,10 @@ set up a keybinding for the function. Once this is done, the plugin is
 ready to use. Alternativly it's also possible to use the plugin via the
 menu entry at the Tools menu.
 
+Inside the Tools menu there is also another submenu avaialble wich is
+allowing you to convert to a table without changing Geany's file type
+settings for the current document.
+
 When using the plugin, just mark the area you like to transform and
 push your keybinding. All line endings will be taken as end of a row
 and therefor transformed to fitting row endings. The plugin is taking
