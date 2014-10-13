@@ -263,6 +263,7 @@ shiftcolumn/src/shiftcolumn.c
 
 # Tableconvert
 tableconvert/src/tableconvert.c
+tableconvert/src/tableconvert_ui.c
 
 # treebrowser
 treebrowser/src/treebrowser.c
