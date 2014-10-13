@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.24\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-24 16:29+0200\n"
-"PO-Revision-Date: 2014-08-24 16:30+0200\n"
-"Last-Translator: Frank Lanitz <frlan@trabant>\n"
+"POT-Creation-Date: 2014-10-13 18:46+0200\n"
+"PO-Revision-Date: 2014-10-13 18:47+0200\n"
+"Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,8 @@ msgstr "_Lesezeichen entfernen"
 
 #. Translators: Number is meant at this point.
 #: ../addons/src/ao_bookmarklist.c:334
-msgid "Nr."
+#, fuzzy
+msgid "No."
 msgstr "Nein."
 
 #: ../addons/src/ao_bookmarklist.c:342 ../devhelp/src/dhp-object.c:494
@@ -161,11 +162,11 @@ msgstr "Aufgabenliste aktualisieren"
 msgid "Run XML tagging"
 msgstr "XML-Tagging ausführen"
 
-#: ../addons/src/addons.c:417 ../autoclose/src/autoclose.c:899
-#: ../geanylatex/src/geanylatex.c:241 ../geanyprj/src/geanyprj.c:174
-#: ../geanysendmail/src/geanysendmail.c:123
+#: ../addons/src/addons.c:417 ../autoclose/src/autoclose.c:885
+#: ../codenav/src/codenavigation.c:293 ../geanylatex/src/geanylatex.c:241
+#: ../geanyprj/src/geanyprj.c:174 ../geanysendmail/src/geanysendmail.c:123
 #: ../geanysendmail/src/geanysendmail.c:291 ../geanyvc/src/geanyvc.c:1854
-#: ../geniuspaste/src/geniuspaste.c:140 ../spellcheck/src/scplugin.c:146
+#: ../geniuspaste/src/geniuspaste.c:140 ../spellcheck/src/scplugin.c:152
 #: ../treebrowser/src/treebrowser.c:1935
 #: ../updatechecker/src/updatechecker.c:253
 msgid "Plugin configuration directory could not be created."
@@ -271,6 +272,223 @@ msgid "Auto-close braces and brackets with lot of features"
 msgstr ""
 "Automatisches Schließen von Klammern bei einer Großzahl von Funktionen."
 
+#: ../autoclose/src/autoclose.c:1033
+#, fuzzy
+msgid "Auto-close quotes and brackets"
+msgstr ""
+"Automatisches Schließen von Klammern bei einer Großzahl von Funktionen."
+
+#: ../autoclose/src/autoclose.c:1034
+msgid "Parenthesis ( )"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1035
+msgid "Auto-close parenthesis \"(\" -> \"(|)\""
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1037
+msgid "Curly brackets { }"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1038
+msgid "Auto-close curly brackets \"{\" -> \"{|}\""
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1040
+msgid "Square brackets [ ]"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1041
+msgid "Auto-close square brackets \"[\" -> \"[|]\""
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1042
+msgid "Angular brackets < >"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1043
+msgid "Auto-close angular brackets \"<\" -> \"<|>\""
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1045
+msgid "\tOnly for HTML"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1046
+msgid "Auto-close angular brackets only in HTML documents"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1047
+msgid "Double quotes \" \""
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1048
+msgid "Auto-close double quotes \" -> \"|\""
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1049
+msgid "Single quotes ' '"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1050
+msgid "Auto-close single quotes ' -> '|'"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1051
+msgid "Backquote ` `"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1052
+msgid "Auto-close backquote ` -> `|`"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1054
+msgid "\tOnly for Bash"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1055
+msgid "Auto-close backquote only in Bash"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1057
+msgid "Improve curly brackets completion"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1058
+#, fuzzy
+msgid "Indent when enclosing"
+msgstr "Keine Zeichenkodierung explizit festlegen"
+
+#: ../autoclose/src/autoclose.c:1059
+msgid ""
+"If you select some text and press \"{\" or \"}\", plugin will auto-close "
+"selected lines and make new block with indent.\n"
+"You do not need to select block precisely - block enclosing takes into "
+"account only lines."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1064
+#, fuzzy
+msgid "Move cursor to beginning"
+msgstr "Cursor zu Zeilenende bewegen"
+
+#: ../autoclose/src/autoclose.c:1065
+msgid ""
+"If you checked \"Indent when enclosing\", moving cursor to beginning may be "
+"useful: usually you make new block and need to create new statement before "
+"this block."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1068
+#, fuzzy
+msgid "Improved auto-indentation"
+msgstr "Seitenausrichtung:"
+
+#: ../autoclose/src/autoclose.c:1069
+msgid ""
+"Improved auto-indent for curly brackets: type \"{\" and then press Enter - "
+"plugin will create full indented block. Works without \"auto-close { }\" "
+"checkbox."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1072
+msgid "\tWhitesmiths style"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1073
+msgid ""
+"This style puts the brace associated with a control statement on the next "
+"line, indented. Statements within the braces are indented to the same level "
+"as the braces."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1078
+msgid "Delete pairing character while backspacing first"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1079
+msgid "Check if you want to delete pairing bracket by pressing BackSpace."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1081
+#, fuzzy
+msgid "Suppress double-completion"
+msgstr "Typ der Autovervollständigung:"
+
+#: ../autoclose/src/autoclose.c:1082
+msgid ""
+"Check if you want to allow editor automatically fix mistypes with brackets: "
+"if you type \"{}\" you will get \"{}\", not \"{}}\"."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1084
+#, fuzzy
+msgid "Enclose selections"
+msgstr "Auswahl abbrechen"
+
+#: ../autoclose/src/autoclose.c:1085
+msgid "Automatically enclose selected text by pressing just one bracket key."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1087
+#, fuzzy
+msgid "Keep selection when enclosing"
+msgstr "Markierung eine Gliederungsebene absenken"
+
+#: ../autoclose/src/autoclose.c:1088
+msgid "Keep your previously selected text after enclosing."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1090
+msgid "Behaviour inside comments and strings"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1091
+msgid "Allow auto-closing in strings and comments"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1092
+msgid "Check if you wan to keep auto-closing inside strings and comments too."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1093
+#, fuzzy
+msgid "Enclose selections in strings and comments"
+msgstr "Auswahl bei einstellbaren Tastenkürzeln miteinbeziehen"
+
+#: ../autoclose/src/autoclose.c:1094
+msgid "Check if you wan to enclose selections inside strings and comments too."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1097
+msgid "Auto-complete \";\" for functions"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1098
+msgid ""
+"Full function auto-closing (works only for C/C++): type \"sin(\" and you "
+"will get \"sin(|);\"."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1100
+msgid "Shift+BackSpace removes pairing brace too"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1101
+msgid ""
+"Remove left and right brace while pressing Shift+BackSpace.\n"
+"Tip: to completely remove indented block just Shift+BackSpace first \"{\" or "
+"last \"}\"."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1104
+msgid "Jump on Tab to enclosed char"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1105
+msgid "Jump behind autoclosed items on Tab press."
+msgstr ""
+
 #: ../automark/src/automark.c:48
 msgid "Auto-mark"
 msgstr ""
@@ -279,66 +497,84 @@ msgstr ""
 msgid "Auto-mark word under cursor"
 msgstr ""
 
-#: ../codenav/src/codenavigation.c:52
+#: ../codenav/src/codenavigation.c:43
 msgid "Code navigation"
 msgstr "Quelltextnavigation"
 
-#: ../codenav/src/codenavigation.c:53
+#: ../codenav/src/codenavigation.c:44
 msgid ""
-"This plugin adds features to facilitate navigation between source files.\n"
-"As for the moment, it implements :\n"
-"- switching between a .cpp file and the corresponding .h file\n"
-"- [opening a file by typing its name -> TODO]"
+"This plugin adds features to facilitate navigation between source files."
 msgstr ""
-"Dieses Plugin hilft dabei, zwischen verschiedenen Quelltext-Dateien zu "
-"navigieren.\n"
-"Im Moment unterstützt es:\n"
-"- Umschalten zwischen einer .cpp-Datei und der dazu passenden .H-Datei\n"
-"- [Eine Datei über Ihren Namen öffnen -> TODO]"
 
-#. Add the menu item, sensitive only when a document is opened
-#: ../codenav/src/goto_file.c:57 ../codenav/src/goto_file.c:71
-msgid "Goto file"
-msgstr "Gehe zu Datei"
-
-#: ../codenav/src/goto_file.c:109
-#, c-format
-msgid "(From the %s plugin)"
-msgstr "(Aus dem %s plugin)"
+#: ../codenav/src/codenavigation.c:139
+msgid ""
+"Codenav head/impl lists should have been same length. Geany will use the "
+"default configuration."
+msgstr ""
 
 # Diese Übersetzung existiert drei mal.
-#. Add the menu item and make it sensitive only when a document is opened
 #. Frame, which is the returned widget
-#: ../codenav/src/switch_head_impl.c:85 ../codenav/src/switch_head_impl.c:99
-#: ../codenav/src/switch_head_impl.c:461
+#. Add the menu item and make it sensitive only when a document is opened
+#: ../codenav/src/codenavigation.c:396 ../codenav/src/switch_head_impl.c:70
+#: ../codenav/src/switch_head_impl.c:84
 msgid "Switch header/implementation"
 msgstr "Umschalten zwischen Deklaration und Implementierung"
 
+#. Help label
+#: ../codenav/src/codenavigation.c:403
+msgid "You can specify multiple extensions by separating them by commas."
+msgstr ""
+
+#: ../codenav/src/codenavigation.c:426
+msgid "Implementations extensions"
+msgstr "Implementierungserweiterungen"
+
+#: ../codenav/src/codenavigation.c:435
+msgid "Headers extensions"
+msgstr "Header-Erweiterungen"
+
+#. Add the "reset to default" button to the frame's hbox
+#: ../codenav/src/codenavigation.c:462
+#, fuzzy
+msgid "Reset to Default"
+msgstr "Vorgabe"
+
+#: ../codenav/src/codenavigation.c:547
+msgid ""
+"Are you sure you want to delete all languages and restore defaults?\n"
+"This action cannot be undone."
+msgstr ""
+
+#. Add the menu item, sensitive only when a document is opened
+#: ../codenav/src/goto_file.c:68 ../codenav/src/goto_file.c:218
+msgid "Go to File..."
+msgstr ""
+
+#: ../codenav/src/goto_file.c:82
+msgid "Go to File"
+msgstr ""
+
+#: ../codenav/src/goto_file.c:227
+msgid "Enter the file you want to open:"
+msgstr ""
+
 # c-format
-#: ../codenav/src/switch_head_impl.c:369
+#: ../codenav/src/goto_file.c:303 ../codenav/src/switch_head_impl.c:408
 #, c-format
 msgid "%s not found, create it?"
 msgstr "%s existiert nicht. Neu anlegen?"
 
-#: ../codenav/src/switch_head_impl.c:485
-msgid "Headers extensions"
-msgstr "Header-Erweiterungen"
-
-#: ../codenav/src/switch_head_impl.c:494
-msgid "Implementations extensions"
-msgstr "Implementierungserweiterungen"
-
-#: ../commander/src/commander-plugin.c:39
+#: ../commander/src/commander-plugin.c:43
 msgid "Commander"
 msgstr "Commander"
 
-#: ../commander/src/commander-plugin.c:40
+#: ../commander/src/commander-plugin.c:44
 msgid "Provides a command panel for quick access to actions, files and more"
 msgstr ""
 "Bietet eine Schnittstelle über eine Auswahlliste für den schnellen Zugriff "
 "auf Funktionen, Dateien und mehr."
 
-#: ../commander/src/commander-plugin.c:686
+#: ../commander/src/commander-plugin.c:752
 msgid "Show Command Panel"
 msgstr "Kommandoliste zeigen"
 
@@ -2562,7 +2798,7 @@ msgstr "Fügt Platzhaltertexte in das Dokument ein"
 msgid "Insert Lipsum text"
 msgstr "Fügt Platzhaltertexte ein"
 
-#: ../geanylua/glspi.h:100 ../geanylua/gsdlg_lua.c:95
+#: ../geanylua/glspi.h:87 ../geanylua/gsdlg_lua.c:95
 #: ../geanylua/glspi_kfile.c:54
 #, c-format
 msgid ""
@@ -2572,7 +2808,7 @@ msgstr ""
 "Fehler in Modul »%s« in Funktion %s():\n"
 "Typ »%s« für Argument  #%d erwartet\n"
 
-#: ../geanylua/glspi.h:114
+#: ../geanylua/glspi.h:101
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2581,7 +2817,7 @@ msgstr ""
 "Fehler in Modul »%s« in Funktion %s():\n"
 "Typ »%s« oder »%s« für Argument #%d erwartet\n"
 
-#: ../geanylua/glspi.h:128 ../geanylua/gsdlg_lua.c:108
+#: ../geanylua/glspi.h:115 ../geanylua/gsdlg_lua.c:108
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2650,20 +2886,20 @@ msgstr "Fehler beim Öffnen des Skriptes."
 msgid "Unknown error while loading script file."
 msgstr "Unbekannter Fehler beim Laden des Skriptes."
 
-#: ../geanylua/glspi_init.c:381
+#: ../geanylua/glspi_init.c:382
 msgid "_Lua Scripts"
 msgstr "_Lua-Skripte"
 
-#: ../geanylua/glspi_init.c:428
+#: ../geanylua/glspi_init.c:427
 #, c-format
 msgid "     ==>> %s: Building menu from '%s'\n"
 msgstr "     ==>> %s: Baue Menü von »%s«\n"
 
-#: ../geanylua/glspi_init.c:527
+#: ../geanylua/glspi_init.c:526
 msgid "Nothing to configure!"
 msgstr "Es gibt nichts zu konfigurieren."
 
-#: ../geanylua/glspi_init.c:529
+#: ../geanylua/glspi_init.c:528
 #, c-format
 msgid ""
 "You can create the script:\n"
@@ -2730,7 +2966,7 @@ msgstr ""
 "Fehler in Modul »%s« in Funktion %s():\n"
 "Nicht genügend Argumente für den Befehl »%s«.\n"
 
-#: ../geanylua/glspi_sci.c:652 ../geanylua/glspi_app.c:396
+#: ../geanylua/glspi_sci.c:652 ../geanylua/glspi_app.c:394
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2739,7 +2975,7 @@ msgstr ""
 "Fehler in Modul »%s« in Funktion %s():\n"
 "Unbekannter Befehl »%s« für das Argument #1.\n"
 
-#: ../geanylua/glspi_sci.c:794
+#: ../geanylua/glspi_sci.c:796
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2750,7 +2986,7 @@ msgstr ""
 "Falsche Tabelle in Argument #%d:\n"
 "Unbekannter Parameter »%s« für Element #%d\n"
 
-#: ../geanylua/glspi_sci.c:798
+#: ../geanylua/glspi_sci.c:800
 msgid "<too large to display>"
 msgstr "<zu groß zum Anzeigen>"
 
@@ -2788,32 +3024,32 @@ msgstr ""
 "Fehler in Modul »%s« in Funktion %s():\n"
 "Erwartete »open« oder »save« als 1. Argument.\n"
 
-#: ../geanylua/geanylua.c:163
+#: ../geanylua/geanylua.c:156
 #, c-format
 msgid "%s: Can't load support library %s!\n"
 msgstr "%s: Konnte die unterstützende Bibliothek »%s« nicht laden!\n"
 
-#: ../geanylua/geanylua.c:175
+#: ../geanylua/geanylua.c:168
 #, c-format
 msgid "%s: Failed to initialize support library %s!\n"
 msgstr "%s: Konnte die unterstützende Bibliothek »%s« nicht initialisieren!\n"
 
-#: ../geanylua/geanylua.c:180
+#: ../geanylua/geanylua.c:173
 #, c-format
 msgid "%s: Support library version mismatch: %s for %s (should be %s)!\n"
 msgstr "%s: Versionskonflikt mit der Bibliothek: %s vs. %s (sollte %s sein)!\n"
 
-#: ../geanylua/geanylua.c:186
+#: ../geanylua/geanylua.c:179
 #, c-format
 msgid "%s: Support library ABI mismatch: %d for %s (should be %d)!\n"
 msgstr "%s: Versionskonflikt mit der Geany ABI: %d vs. %s (sollte %d sein)!\n"
 
-#: ../geanylua/geanylua.c:215
+#: ../geanylua/geanylua.c:208
 #, c-format
 msgid "%s: Can't find support library %s!\n"
 msgstr "%s: Konnte die unterstützende Bibliothek »%s« nicht finden!\n"
 
-#: ../geanylua/geanylua.c:234
+#: ../geanylua/geanylua.c:227
 #, c-format
 msgid ""
 "The %s plugin failed to load properly.\n"
@@ -2832,7 +3068,7 @@ msgstr ""
 "%s %s: %s\n"
 "Copyright (c) 2007-2010"
 
-#: ../geanylua/glspi_app.c:151
+#: ../geanylua/glspi_app.c:149
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2841,7 +3077,7 @@ msgstr ""
 "Fehler in Modul »%s« in Funktion %s():\n"
 "Widget »%s« nicht gefunden für Argument #1.\n"
 
-#: ../geanylua/glspi_app.c:160
+#: ../geanylua/glspi_app.c:158
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s() argument #2:\n"
@@ -3953,8 +4189,8 @@ msgstr ""
 msgid "a key with fingerprint"
 msgstr "ein Schlüssel mit Fingerabdruck"
 
-#: ../geanypg/src/verify_aux.c:66 ../spellcheck/src/gui.c:528
-#: ../spellcheck/src/gui.c:539
+#: ../geanypg/src/verify_aux.c:66 ../spellcheck/src/gui.c:542
+#: ../spellcheck/src/gui.c:553
 msgid "unknown"
 msgstr "Unbekannt"
 
@@ -4121,7 +4357,7 @@ msgid "Open a signature file"
 msgstr "Eine Signaturendatei öffnen"
 
 #: ../geanyprj/src/geanyprj.c:38 ../geanyprj/src/sidebar.c:456
-#: ../gproject/src/gproject-sidebar.c:872
+#: ../gproject/src/gproject-sidebar.c:881
 msgid "Project"
 msgstr "Projekt"
 
@@ -4228,7 +4464,7 @@ msgstr "Im Projekt suchen"
 msgid "Remove File"
 msgstr "Datei entfernen"
 
-#: ../geanyprj/src/sidebar.c:240 ../gproject/src/gproject-sidebar.c:851
+#: ../geanyprj/src/sidebar.c:240 ../gproject/src/gproject-sidebar.c:860
 msgid "H_ide Sidebar"
 msgstr "Seitenleiste _verstecken"
 
@@ -4237,45 +4473,45 @@ msgstr "Seitenleiste _verstecken"
 msgid "Project \"%s\" opened."
 msgstr "Projekt »%s« geöffnet."
 
-#: ../geanypy/src/geanypy-plugin.c:34
+#: ../geanypy/src/geanypy-plugin.c:38
 msgid "GeanyPy"
 msgstr "GeanyPy"
 
-#: ../geanypy/src/geanypy-plugin.c:35
+#: ../geanypy/src/geanypy-plugin.c:39
 msgid "Python plugins support"
 msgstr "Python für Plugins"
 
-#: ../geanypy/src/geanypy-plugin.c:77
+#: ../geanypy/src/geanypy-plugin.c:81
 #, c-format
 msgid "Unable to pre-load Python library: %s."
 msgstr "Python-Bibliothek konnte nicht geladen werden: %s"
 
-#: ../geanypy/src/geanypy-plugin.c:157
+#: ../geanypy/src/geanypy-plugin.c:161
 msgid "Failed to import manager module"
 msgstr "Konnte manager-Modul nicht importieren"
 
-#: ../geanypy/src/geanypy-plugin.c:166
+#: ../geanypy/src/geanypy-plugin.c:170
 msgid "Failed to retrieve PluginManager from manager module"
 msgstr "Konnte den PluginManager aus dem manager-Modul nicht laden"
 
-#: ../geanypy/src/geanypy-plugin.c:182
+#: ../geanypy/src/geanypy-plugin.c:186
 msgid "System plugin directory not found."
 msgstr "Systemweites Plugin-Verzeichnis konnte nicht gefunden werden"
 
-#: ../geanypy/src/geanypy-plugin.c:211
+#: ../geanypy/src/geanypy-plugin.c:215
 msgid "Unable to instantiate new PluginManager"
 msgstr "Konnte keine neue Instanz der Plugin-Verwaltung anlegen."
 
-#: ../geanypy/src/geanypy-plugin.c:227
+#: ../geanypy/src/geanypy-plugin.c:231
 msgid "Unable to get show_all() method on plugin manager"
 msgstr "Konnte die Methode show_all() der Plugin-Verwaltung nicht finden."
 
-#: ../geanypy/src/geanypy-plugin.c:255
+#: ../geanypy/src/geanypy-plugin.c:259
 #, c-format
 msgid "Unable to create Python plugins directory: %s: %s"
 msgstr "Konnte das Python-Plugin-Verzeichnis nicht anlegen: %s: %s"
 
-#: ../geanypy/src/geanypy-plugin.c:266
+#: ../geanypy/src/geanypy-plugin.c:270
 msgid "Python Plugin Manager"
 msgstr "Python Plugin-Verwaltung"
 
@@ -4939,7 +5175,7 @@ msgstr ""
 "Projekttab gesetzt werden."
 
 #: ../gproject/src/gproject-sidebar.c:90
-#: ../gproject/src/gproject-sidebar.c:840
+#: ../gproject/src/gproject-sidebar.c:849
 msgid "Find File"
 msgstr "Datei suchen"
 
@@ -4955,29 +5191,29 @@ msgstr "_Groß-/Kleinschreibung beachten"
 msgid "Search in full path"
 msgstr "Im vollen Pfad suchen"
 
-#: ../gproject/src/gproject-sidebar.c:747
+#: ../gproject/src/gproject-sidebar.c:754
 msgid "Reload all"
 msgstr "Alle neuladen"
 
-#: ../gproject/src/gproject-sidebar.c:756
+#: ../gproject/src/gproject-sidebar.c:763
 #: ../treebrowser/src/treebrowser.c:1283
 msgid "Expand all"
 msgstr "Alle ausklappen"
 
-#: ../gproject/src/gproject-sidebar.c:763
+#: ../gproject/src/gproject-sidebar.c:770
 #: ../treebrowser/src/treebrowser.c:1287
 msgid "Collapse all"
 msgstr "Alle einklappen"
 
-#: ../gproject/src/gproject-sidebar.c:773
+#: ../gproject/src/gproject-sidebar.c:780
 msgid "Follow active editor"
 msgstr "Aktiven Editor folgen"
 
-#: ../gproject/src/gproject-sidebar.c:822
+#: ../gproject/src/gproject-sidebar.c:831
 msgid "Expand All"
 msgstr "Alle ausklappen"
 
-#: ../gproject/src/gproject-sidebar.c:831
+#: ../gproject/src/gproject-sidebar.c:840
 msgid "Find in Files"
 msgstr "In Dateien finden"
 
@@ -6206,50 +6442,69 @@ msgstr "Rechtschreibprüfung"
 msgid "Checks the spelling of the current document."
 msgstr "Prüft die Rechtschreibung im aktuellen Dokument."
 
-#: ../spellcheck/src/scplugin.c:202
+#: ../spellcheck/src/scplugin.c:210
 msgid "Run Spell Check"
 msgstr "Rechtschreibprüfung ausführen"
 
-#: ../spellcheck/src/scplugin.c:205
+#: ../spellcheck/src/scplugin.c:213
 msgid "Toggle Check While Typing"
 msgstr "Rechtschreibung beim Tippen überprüfen ein-/ausschalten"
 
 #. initialise the dialog
-#: ../spellcheck/src/scplugin.c:216
+#: ../spellcheck/src/scplugin.c:224
 msgid "Select Directory"
 msgstr "Verzeichnis auswählen"
 
-#: ../spellcheck/src/scplugin.c:253
-msgid "Check spelling while typing"
-msgstr "Beim Tippen Rechtschreibung überprüfen"
-
-#: ../spellcheck/src/scplugin.c:258
+#: ../spellcheck/src/scplugin.c:265
 msgid "Show toolbar item to toggle spell checking"
 msgstr "Symbol in der Werkzeugleiste zum Umschalten der Rechtschreibprüfung"
 
-#: ../spellcheck/src/scplugin.c:263
+#: ../spellcheck/src/scplugin.c:269
 msgid "Show editor menu item to show spelling suggestions"
 msgstr "Eintrag im Editormenü mit Korrekturvorschlägen"
 
-#: ../spellcheck/src/scplugin.c:269
+#: ../spellcheck/src/scplugin.c:274
 msgid "Print misspelled words and suggestions in the messages window"
 msgstr "Falsch geschriebene Wörter und Vorschläge im Meldungsfenster anzeigen"
 
-#: ../spellcheck/src/scplugin.c:273
+#: ../spellcheck/src/scplugin.c:284
+msgid "<b>Interface</b>"
+msgstr ""
+
+#: ../spellcheck/src/scplugin.c:292
+msgid "Check spelling while typing"
+msgstr "Beim Tippen Rechtschreibung überprüfen"
+
+#: ../spellcheck/src/scplugin.c:295
+#, fuzzy
+msgid "Check spelling when opening a document"
+msgstr "Beim Tippen Rechtschreibung überprüfen"
+
+#: ../spellcheck/src/scplugin.c:297
+msgid ""
+"Enabling this option will check every document after it is opened in Geany. "
+"Reloading a document will also trigger a re-check."
+msgstr ""
+
+#: ../spellcheck/src/scplugin.c:301
 msgid "Language to use for the spell check:"
 msgstr "Zu verwendende Sprache für die Prüfung:"
 
-#: ../spellcheck/src/scplugin.c:287
+#: ../spellcheck/src/scplugin.c:313
 msgid "_Directory to look for dictionary files:"
 msgstr "_Verzeichnis mit Übersetzungsdateien:"
 
-#: ../spellcheck/src/scplugin.c:295
+#: ../spellcheck/src/scplugin.c:320
 msgid ""
 "Read additional dictionary files from this directory. For now, this only "
 "works with myspell dictionaries."
 msgstr ""
 "Liest zusätzliche Wörterbücher aus diesem Verzeichnis. (Funktioniert zur "
 "Zeit nur mit myspell-Wörterbüchern)."
+
+#: ../spellcheck/src/scplugin.c:351
+msgid "<b>Behavior</b>"
+msgstr ""
 
 #: ../spellcheck/src/gui.c:76
 msgid "Spell checking while typing is now enabled"
@@ -6260,7 +6515,7 @@ msgid "Spell checking while typing is now disabled"
 msgstr "»Rechtschreibung beim Tippen überprüfen« ist nun ausgeschaltet"
 
 # Mit dem Umbruch kann man an dieser Stelle ggf. ja nochmal spielen
-#: ../spellcheck/src/gui.c:313
+#: ../spellcheck/src/gui.c:327
 msgid ""
 "Search term is too long to provide\n"
 "spelling suggestions in the editor menu."
@@ -6268,40 +6523,40 @@ msgstr ""
 "Der Ausdruck ist zu lang, um Vorschläge\n"
 "im Editormenü anzeigen zu können."
 
-#: ../spellcheck/src/gui.c:318
+#: ../spellcheck/src/gui.c:332
 msgid "Perform Spell Check"
 msgstr "Rechtschreibung prüfen"
 
-#: ../spellcheck/src/gui.c:350
+#: ../spellcheck/src/gui.c:364
 msgid "More..."
 msgstr "Mehr ..."
 
-#: ../spellcheck/src/gui.c:365
+#: ../spellcheck/src/gui.c:379
 msgid "(No Suggestions)"
 msgstr "(keine Vorschläge)"
 
-#: ../spellcheck/src/gui.c:374
+#: ../spellcheck/src/gui.c:388
 #, c-format
 msgid "Add \"%s\" to Dictionary"
 msgstr "»%s« zum Wörterbuch hinzufügen"
 
-#: ../spellcheck/src/gui.c:381
+#: ../spellcheck/src/gui.c:395
 msgid "Ignore All"
 msgstr "Alle ignorieren"
 
-#: ../spellcheck/src/gui.c:527
+#: ../spellcheck/src/gui.c:541
 #, c-format
 msgid "Default (%s)"
 msgstr "Vorgabe (%s)"
 
-#: ../spellcheck/src/gui.c:538
+#: ../spellcheck/src/gui.c:552
 #, c-format
 msgid "Toggle spell check while typing (current language: %s)"
 msgstr ""
 "»Rechtschreibung beim Tippen überprüfen« ein-/ausschalten (Aktuelle Sprache: "
 "%s)"
 
-#: ../spellcheck/src/gui.c:593
+#: ../spellcheck/src/gui.c:607
 msgid "Spelling Suggestions"
 msgstr "Rechtschreibvorschläge"
 
@@ -6321,33 +6576,52 @@ msgstr "Auswahl nach links verschieben"
 msgid "Shift Right"
 msgstr "Auswahl nach rechts verschieben"
 
-#: ../tableconvert/src/tableconvert.c:34
+#: ../tableconvert/src/tableconvert.c:31
 msgid "Tableconvert"
 msgstr "Tableconvert"
 
-#: ../tableconvert/src/tableconvert.c:35
+#: ../tableconvert/src/tableconvert.c:32
 msgid "A little plugin to convert lists into tables"
 msgstr "Ein kleines Plugin zum Verwandeln von Listen in Tabellen."
+
+#: ../tableconvert/src/tableconvert.c:42
+msgid "LaTeX"
+msgstr "LaTeX"
+
+#: ../tableconvert/src/tableconvert.c:56
+msgid "HTML"
+msgstr "HTML"
+
+#: ../tableconvert/src/tableconvert.c:70
+msgid "SQL"
+msgstr "SQL"
 
 #. OK. Something went not as expected.
 #. * We did have a selection but cannot parse it into rows.
 #. * Aborting
-#: ../tableconvert/src/tableconvert.c:237
+#: ../tableconvert/src/tableconvert.c:247
 msgid "Something went wrong on parsing selection. Aborting"
 msgstr "Etwas ist beim Untersuchen der Auswahl schiefgelaufen. Abbruch."
 
-#: ../tableconvert/src/tableconvert.c:269
+#: ../tableconvert/src/tableconvert.c:279
 msgid "Convert selection to table"
 msgstr "Auswahl in Tabelle umwandeln"
 
-#. Build up menu entry
-#: ../tableconvert/src/tableconvert.c:282
+#. Build up menu entry for table_convert based on global file type
+#: ../tableconvert/src/tableconvert_ui.c:36
 msgid "_Convert to table"
 msgstr "In _Tabelle umwandeln"
 
-#: ../tableconvert/src/tableconvert.c:285
+#: ../tableconvert/src/tableconvert_ui.c:39
 msgid "Converts current marked list to a table."
 msgstr "Wandelt die aktuell markierte Liste in eine Tabelle"
+
+#. Build up menu entries for table convert based on explicit choice
+#. * This is needed for e.g. different wiki-Syntax or differenz stiles
+#. * within a special file type
+#: ../tableconvert/src/tableconvert_ui.c:48
+msgid "_More TableConvert"
+msgstr "_Mehr TableConvert"
 
 #: ../treebrowser/src/treebrowser.c:124
 msgid "TreeBrowser"
@@ -6872,6 +7146,24 @@ msgstr "XML-Schnipsel"
 #: ../xmlsnippets/src/plugin.c:46
 msgid "Autocompletes XML/HTML tags using snippets."
 msgstr "Autovervollständigt XML/HTML-Tags unter Verwendung von Schnipseln."
+
+#~ msgid ""
+#~ "This plugin adds features to facilitate navigation between source files.\n"
+#~ "As for the moment, it implements :\n"
+#~ "- switching between a .cpp file and the corresponding .h file\n"
+#~ "- [opening a file by typing its name -> TODO]"
+#~ msgstr ""
+#~ "Dieses Plugin hilft dabei, zwischen verschiedenen Quelltext-Dateien zu "
+#~ "navigieren.\n"
+#~ "Im Moment unterstützt es:\n"
+#~ "- Umschalten zwischen einer .cpp-Datei und der dazu passenden .H-Datei\n"
+#~ "- [Eine Datei über Ihren Namen öffnen -> TODO]"
+
+#~ msgid "Goto file"
+#~ msgstr "Gehe zu Datei"
+
+#~ msgid "(From the %s plugin)"
+#~ msgstr "(Aus dem %s plugin)"
 
 #~ msgid "Plugins"
 #~ msgstr "Erweiterungen"
