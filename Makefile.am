@@ -35,6 +35,10 @@ if ENABLE_DEVHELP
 SUBDIRS += devhelp
 endif
 
+if ENABLE_GEANYCTAGS
+SUBDIRS += geanyctags
+endif
+
 if ENABLE_GEANYDOC
 SUBDIRS += geanydoc
 endif
