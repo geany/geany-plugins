@@ -107,7 +107,7 @@ static void spawn_cmd(const gchar *cmd, const gchar *dir)
 	gchar *working_dir;
 	gchar *utf8_working_dir;
 	gchar *utf8_cmd_string;
-	gchar *out, *err;
+	gchar *err;
 	gint exitcode;
 
 #ifndef G_OS_WIN32
@@ -135,7 +135,7 @@ static void spawn_cmd(const gchar *cmd, const gchar *dir)
 	g_free(utf8_cmd_string);
 
 	if (!utils_spawn_sync(working_dir, argv, NULL, G_SPAWN_SEARCH_PATH,
-			NULL, NULL, &out, &err, &exitcode, &error) || exitcode != 0)
+			NULL, NULL, NULL, &err, &exitcode, &error) || exitcode != 0)
 	{
 		if (error != NULL)
 		{
@@ -151,7 +151,6 @@ static void spawn_cmd(const gchar *cmd, const gchar *dir)
 
 	g_strfreev(argv);
 	g_free(working_dir);
-	g_free(out);
 	g_free(err);
 }
 
