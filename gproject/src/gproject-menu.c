@@ -32,6 +32,7 @@
 
 #include <string.h>
 
+extern GeanyPlugin *geany_plugin;
 extern GeanyData *geany_data;
 extern GeanyFunctions *geany_functions;
 
@@ -43,8 +44,6 @@ enum
 	KB_FIND_FILE,
 	KB_COUNT
 };
-
-PLUGIN_KEY_GROUP(gproject, KB_COUNT)
 
 
 static GtkWidget *s_fif_item, *s_ff_item, *s_shs_item, *s_sep_item, *s_context_osf_item, *s_context_sep_item;
@@ -190,20 +189,21 @@ static void on_find_file(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpo
 }
 
 
-static void kb_callback(guint key_id)
+static gboolean kb_callback(guint key_id)
 {
 	switch (key_id)
 	{
 		case KB_SWAP_HEADER_SOURCE:
 			on_swap_header_source(NULL, NULL);
-			break;
+			return TRUE;
 		case KB_FIND_IN_PROJECT:
 			on_find_in_project(NULL, NULL);
-			break;
+			return TRUE;
 		case KB_FIND_FILE:
 			on_find_file(NULL, NULL);
-			break;
+			return TRUE;
 	}
+	return FALSE;
 }
 
 
@@ -343,6 +343,7 @@ static void on_open_selected_file(GtkMenuItem *menuitem, gpointer user_data)
 void gprj_menu_init(void)
 {
 	GtkWidget *image;
+	GeanyKeyGroup *key_group = plugin_set_key_group(geany_plugin, "GProject", KB_COUNT, kb_callback);
 
 	s_sep_item = gtk_separator_menu_item_new();
 	gtk_widget_show(s_sep_item);
@@ -355,7 +356,7 @@ void gprj_menu_init(void)
 	gtk_widget_show(s_fif_item);
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_fif_item);
 	g_signal_connect((gpointer) s_fif_item, "activate", G_CALLBACK(on_find_in_project), NULL);
-	keybindings_set_item(plugin_key_group, KB_FIND_IN_PROJECT, kb_callback,
+	keybindings_set_item(key_group, KB_FIND_IN_PROJECT, NULL,
 		0, 0, "find_in_project", _("Find in project files"), s_fif_item);
 
 	image = gtk_image_new_from_stock(GTK_STOCK_FIND, GTK_ICON_SIZE_MENU);
@@ -365,14 +366,14 @@ void gprj_menu_init(void)
 	gtk_widget_show(s_ff_item);
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_ff_item);
 	g_signal_connect((gpointer) s_ff_item, "activate", G_CALLBACK(on_find_file), NULL);
-	keybindings_set_item(plugin_key_group, KB_FIND_FILE, kb_callback,
+	keybindings_set_item(key_group, KB_FIND_FILE, NULL,
 		0, 0, "find_file", _("Find project file"), s_ff_item);
 
 	s_shs_item = gtk_menu_item_new_with_mnemonic(_("Swap Header/Source"));
 	gtk_widget_show(s_shs_item);
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_shs_item);
 	g_signal_connect((gpointer) s_shs_item, "activate", G_CALLBACK(on_swap_header_source), NULL);
-	keybindings_set_item(plugin_key_group, KB_SWAP_HEADER_SOURCE, kb_callback,
+	keybindings_set_item(key_group, KB_SWAP_HEADER_SOURCE, NULL,
 		0, 0, "swap_header_source", _("Swap header/source"), s_shs_item);
 
 	s_context_sep_item = gtk_separator_menu_item_new();
