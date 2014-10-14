@@ -162,7 +162,7 @@ static gchar *get_tags_filename()
 	if (geany_data->app->project)
 	{
 		ret = utils_remove_ext_from_filename(geany_data->app->project->file_name);
-		setptr(ret, g_strconcat(ret, ".tags", NULL));
+		SETPTR(ret, g_strconcat(ret, ".tags", NULL));
 	}
 	return ret;
 }
@@ -177,10 +177,10 @@ static gchar *generate_find_string(GeanyProject *prj)
 	{
 		guint i;
 
-		setptr(ret, g_strconcat(ret, " \\( -name \"", prj->file_patterns[0], "\"", NULL));
+		SETPTR(ret, g_strconcat(ret, " \\( -name \"", prj->file_patterns[0], "\"", NULL));
 		for (i = 1; prj->file_patterns[i]; i++)
-			setptr(ret, g_strconcat(ret, " -o -name \"", prj->file_patterns[i], "\"", NULL));
-		setptr(ret, g_strconcat(ret, " \\)", NULL));
+			SETPTR(ret, g_strconcat(ret, " -o -name \"", prj->file_patterns[i], "\"", NULL));
+		SETPTR(ret, g_strconcat(ret, " \\)", NULL));
 	}
 	return ret;
 }
@@ -268,7 +268,7 @@ static void show_entry(tagEntry *entry)
 	if (kind)
 	{
 		kind_str = g_strconcat(kind, ":  ", NULL);
-		setptr(kind_str, g_strdup_printf("%-14s", kind_str));
+		SETPTR(kind_str, g_strdup_printf("%-14s", kind_str));
 	}
 	else
 		kind_str = g_strdup("");
@@ -428,7 +428,7 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 			else
 				name_case = g_utf8_strdown(name, -1);
 
-			setptr(name_case, g_strconcat("*", name_case, "*", NULL));
+			SETPTR(name_case, g_strconcat("*", name_case, "*", NULL));
 			name_pat = g_pattern_spec_new(name_case);
 
 			if (!filter_tag(&entry, name_pat, declaration, case_sensitive))
