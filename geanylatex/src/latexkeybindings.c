@@ -23,21 +23,21 @@
 
 void glatex_kblabel_insert(G_GNUC_UNUSED guint key_id)
 {
-	g_return_if_fail(document_get_current != NULL);
+	g_return_if_fail(document_get_current() != NULL);
 	glatex_insert_label_activated(NULL, NULL);
 }
 
 
 void glatex_kbref_insert(G_GNUC_UNUSED guint key_id)
 {
-	g_return_if_fail(document_get_current != NULL);
+	g_return_if_fail(document_get_current() != NULL);
 	glatex_insert_ref_activated(NULL, NULL);
 }
 
 
 void glatex_kbref_insert_environment(G_GNUC_UNUSED guint key_id)
 {
-	g_return_if_fail(document_get_current != NULL);
+	g_return_if_fail(document_get_current() != NULL);
 	glatex_insert_environment_dialog(NULL, NULL);
 }
 
