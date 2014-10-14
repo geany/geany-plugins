@@ -292,12 +292,7 @@ static gchar *get_selection()
 	editor = doc->editor;
 
 	if (sci_has_selection(editor->sci))
-	{
-		gint len = sci_get_selected_text_length(editor->sci);
-
-		ret = g_malloc(len + 1);
-		sci_get_selected_text(editor->sci, ret);
-	}
+		ret = sci_get_selection_contents(editor->sci);
 	else
 		ret = editor_get_word_at_pos(editor, -1, GEANY_WORDCHARS);
 
