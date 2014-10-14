@@ -637,6 +637,7 @@ void plugin_cleanup(void)
 	gtk_widget_destroy(s_context_fdef_item);
 	gtk_widget_destroy(s_context_sep_item);
 
+	gtk_widget_destroy(s_ft_item);
 	gtk_widget_destroy(s_gt_item);
 	gtk_widget_destroy(s_sep_item);
 
