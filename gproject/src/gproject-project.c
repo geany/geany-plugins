@@ -251,7 +251,7 @@ void gprj_project_rescan(void)
 		path = tm_get_real_path(elem->data);
 		if (path)
 		{
-			setptr(path, utils_get_utf8_from_locale(path));
+			SETPTR(path, utils_get_utf8_from_locale(path));
 			g_hash_table_insert(g_prj->file_tag_table, path, obj);
 		}
 	}

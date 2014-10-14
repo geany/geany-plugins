@@ -53,13 +53,13 @@ static gchar *relpath(const gchar *origin_dir, const gchar *dest_dir)
 	ret = g_strdup("");
 
 	for (j = i; originv[j] != NULL; j++)
-		setptr(ret, g_build_filename(ret, "..", NULL));
+		SETPTR(ret, g_build_filename(ret, "..", NULL));
 
 	for (j = i; destv[j] != NULL; j++)
-		setptr(ret, g_build_filename(ret, destv[j], NULL));
+		SETPTR(ret, g_build_filename(ret, destv[j], NULL));
 
 	if (strlen(ret) == 0)
-		setptr(ret, g_strdup("./"));
+		SETPTR(ret, g_strdup("./"));
 
 	g_free(origin);
 	g_free(dest);
@@ -84,11 +84,11 @@ gchar *get_file_relative_path(const gchar *origin_dir, const gchar *dest_file)
 
 		if (g_strcmp0(ret, "./") != 0)
 		{
-			setptr(ret, g_build_filename(ret, dest_basename, NULL));
+			SETPTR(ret, g_build_filename(ret, dest_basename, NULL));
 		}
 		else
 		{
-			setptr(ret, g_strdup(dest_basename));
+			SETPTR(ret, g_strdup(dest_basename));
 		}
 
 		g_free(dest_basename);

@@ -184,17 +184,17 @@ static gchar *build_path(GtkTreeIter *iter)
 		if (path == NULL)
 			path = g_strdup(name);
 		else
-			setptr(path, g_build_filename(name, path, NULL));
+			SETPTR(path, g_build_filename(name, path, NULL));
 		g_free(name);
 
 		node = parent;
 	}
 
 	gtk_tree_model_get(model, &node, FILEVIEW_COLUMN_NAME, &name, -1);
-	setptr(path, g_build_filename(name, path, NULL));
+	SETPTR(path, g_build_filename(name, path, NULL));
 	g_free(name);
 
-	setptr(path, g_build_filename(geany_data->app->project->base_path, path, NULL));
+	SETPTR(path, g_build_filename(geany_data->app->project->base_path, path, NULL));
 
 	return path;
 }
@@ -255,7 +255,7 @@ static void find_file_recursive(GtkTreeIter *iter, gboolean case_sensitive, gboo
 			name = g_strdup(name);
 
 		if (!case_sensitive)
-			setptr(name, g_utf8_strdown(name, -1));
+			SETPTR(name, g_utf8_strdown(name, -1));
 
 		if (g_pattern_match_string(pattern, name))
 		{
@@ -286,7 +286,7 @@ static void find_file(GtkTreeIter *iter)
 		GPatternSpec *pattern;
 
 		if (!case_sensitive)
-			setptr(pattern_str, g_utf8_strdown(pattern_str, -1));
+			SETPTR(pattern_str, g_utf8_strdown(pattern_str, -1));
 
 		pattern = g_pattern_spec_new(pattern_str);
 
