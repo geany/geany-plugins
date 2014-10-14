@@ -639,4 +639,8 @@ void plugin_cleanup(void)
 
 	gtk_widget_destroy(s_gt_item);
 	gtk_widget_destroy(s_sep_item);
+
+	if (s_ft_dialog.widget)
+		gtk_widget_destroy(s_ft_dialog.widget);
+	s_ft_dialog.widget = NULL;
 }
