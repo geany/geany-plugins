@@ -69,6 +69,7 @@ PLUGIN_KEY_GROUP(spellcheck, KB_COUNT)
 PluginCallback plugin_callbacks[] =
 {
 	{ "update-editor-menu", (GCallback) &sc_gui_update_editor_menu_cb, FALSE, NULL },
+	{ "editor-notify", (GCallback) &sc_gui_editor_notify, FALSE, NULL },
 	{ "document-open", (GCallback) &sc_gui_document_open_cb, FALSE, NULL },
 	{ "document-reload", (GCallback) &sc_gui_document_open_cb, FALSE, NULL },
 	{ NULL, NULL, FALSE, NULL }
