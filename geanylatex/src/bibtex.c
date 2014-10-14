@@ -1,7 +1,7 @@
 /*
  *      bibtex.c
  *
- *      Copyright 2008-2012 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2008-2014 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -246,7 +246,7 @@ LaTeXLabel* glatex_parseLine_bib(const gchar *line)
 		x++;
 	}
 	tmp_string = x + 1;
-	g_warning("%s", tmp_string);
+
 	while (*x != '\0' && *x != ',')
 	{
 		l++;
