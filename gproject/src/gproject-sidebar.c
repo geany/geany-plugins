@@ -564,6 +564,20 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 }
 
 
+static void set_intro_message(const gchar *msg)
+{
+	GtkTreeIter iter;
+
+	gtk_tree_store_append(s_file_store, &iter, NULL);
+	gtk_tree_store_set(s_file_store, &iter,
+		FILEVIEW_COLUMN_NAME, msg, -1);
+
+	gtk_widget_set_sensitive(s_project_toolbar.expand, FALSE);
+	gtk_widget_set_sensitive(s_project_toolbar.collapse, FALSE);
+	gtk_widget_set_sensitive(s_project_toolbar.follow, FALSE);
+}
+
+
 static void load_project(void)
 {
 	GSList *lst = NULL;
@@ -598,17 +612,7 @@ static void load_project(void)
 		gtk_widget_set_sensitive(s_project_toolbar.follow, TRUE);
 	}
 	else
-	{
-		GtkTreeIter iter;
-
-		gtk_tree_store_append(s_file_store, &iter, NULL);
-		gtk_tree_store_set(s_file_store, &iter,
-			FILEVIEW_COLUMN_NAME, "Set file patterns under Project->Properties", -1);
-
-		gtk_widget_set_sensitive(s_project_toolbar.expand, FALSE);
-		gtk_widget_set_sensitive(s_project_toolbar.collapse, FALSE);
-		gtk_widget_set_sensitive(s_project_toolbar.follow, FALSE);
-	}
+		set_intro_message("Set file patterns under Project->Properties");
 
 	g_slist_foreach(header_patterns, (GFunc) g_pattern_spec_free, NULL);
 	g_slist_free(header_patterns);
@@ -782,8 +786,6 @@ void gprj_sidebar_init(void)
 	gtk_container_add(GTK_CONTAINER(toolbar), item);
 	s_project_toolbar.follow = item;
 
-	gprj_sidebar_activate(FALSE);
-
 	gtk_box_pack_start(GTK_BOX(s_file_view_vbox), toolbar, FALSE, FALSE, 0);
 
 	/**** tree view ****/
@@ -821,6 +823,9 @@ void gprj_sidebar_init(void)
 			G_CALLBACK(on_button_press), NULL);
 	g_signal_connect(G_OBJECT(s_file_view), "key-press-event",
 			G_CALLBACK(on_key_press), NULL);
+
+	set_intro_message("Reopen the project to start using the plugin");
+	gprj_sidebar_activate(FALSE);
 
 	/**** popup menu ****/
 
