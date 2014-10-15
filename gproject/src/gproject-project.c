@@ -466,7 +466,8 @@ gint gprj_project_add_properties_tab(GtkWidget *notebook)
 
 void gprj_project_close(void)
 {
-	g_return_if_fail(g_prj);
+	if (!g_prj)
+		return;  /* can happen on plugin reload */
 
 	if (g_prj->generate_tags)
 		g_hash_table_foreach(g_prj->file_tag_table, (GHFunc)workspace_remove_tag, NULL);
