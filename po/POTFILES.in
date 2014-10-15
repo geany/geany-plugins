@@ -216,6 +216,9 @@ geanyvc/src/utils.c
 # GeniusPaste
 geniuspaste/src/geniuspaste.c
 
+# GitUI
+git-ui/src/ggu-plugin.c
+
 # Markdown
 markdown/src/conf.c
 markdown/src/plugin.c
