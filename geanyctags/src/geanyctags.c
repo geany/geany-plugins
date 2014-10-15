@@ -139,7 +139,7 @@ static void spawn_cmd(const gchar *cmd, const gchar *dir)
 	{
 		if (error != NULL)
 		{
-			msgwin_msg_add(COLOR_RED, -1, NULL, "Process execution failed (%s)", error->message);
+			msgwin_msg_add(COLOR_RED, -1, NULL, _("Process execution failed (%s)"), error->message);
 			g_error_free(error);
 		}
 		msgwin_msg_add(COLOR_RED, -1, NULL, "%s", err);
