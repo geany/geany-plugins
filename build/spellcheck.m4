@@ -13,8 +13,5 @@ AC_DEFUN([GP_CHECK_SPELLCHECK],
     AM_CONDITIONAL([HAVE_ENCHANT_1_5], [test "$have_enchant_1_5" = yes])
     GP_COMMIT_PLUGIN_STATUS([Spellcheck])
 
-    AC_CONFIG_FILES([
-        spellcheck/Makefile
-        spellcheck/src/Makefile
-    ])
+    AC_CONFIG_FILES([spellcheck/Makefile])
 ])
