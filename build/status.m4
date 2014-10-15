@@ -56,6 +56,7 @@ ${PACKAGE}-${VERSION}
     Libdir:                       ${expanded_libdir}/${PACKAGE_TARNAME}
     Docdir:                       ${expanded_docdir}
     Plugins path:                 ${geanypluginsdir}
+    Geany vala bindings:          ${geanyvapidir}
 
   Build Features:
 GPEOF

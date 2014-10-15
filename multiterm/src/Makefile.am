@@ -6,7 +6,7 @@ plugin = multiterm
 geanyplugins_LTLIBRARIES = multiterm.la
 
 multiterm_la_VALAFLAGS = \
-	--vapidir $(top_srcdir)/multiterm/src/vapi \
+	--vapidir $(geanyvapidir) \
 	--pkg gtk+-2.0 \
 	--pkg geany \
 	--pkg vte \
@@ -22,6 +22,9 @@ multiterm_la_SOURCES = \
 	shell-config.vala \
 	tab-label.vala \
 	terminal.vala
+
+CLEANFILES = $(multiterm_la_SOURCES:.vala=.c) \
+	multiterm_la_vala.stamp
 
 multiterm_la_CFLAGS = \
 	$(AM_CFLAGS) \

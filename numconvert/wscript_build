@@ -1,6 +1,6 @@
-# -*- coding: utf-8 -*-
+
 #
-# WAF build script for geany-plugins - MultiTerm
+# WAF configure script for geany-plugins
 #
 # Copyright 2011 Matthew Brush <matt(at)geany(dot)org>
 #
@@ -39,15 +39,11 @@ def build_vala_plugin(ctx, name, sources, vapi_dirs=None, packages=None,
     libraries.extend(['GTK', 'GEANY'])
     features.extend(['c', 'cshlib'])
 
-    install_path = '${G_PREFIX}/${LIBDIR}' if target_is_win32(ctx) else '${LIBDIR}/geany/'
-
-    # so that generated C files have a #include "multiterm" line
+    install_path = '${G_PREFIX}/lib' if target_is_win32(ctx) else '${LIBDIR}/geany/'
+    
+    # so that generated C files have a #include "numconvert" line
     # path of that file needs to be added to the include paths for CC too
     ctx.env.append_value('VALAFLAGS', '--use-header')
-    # work around waf bug: cannot have absolute paths in vapi_dirs
-    # so add it manually to VALAFLAGS
-    geany_vapi = os.path.join(bld.env['DATAROOTDIR'], 'vala', 'vapi')
-    ctx.env.append_value('VALAFLAGS', '--vapidir=%(geany_vapi)s' % vars())
 
     task = ctx.shlib(packages = packages,
                      features = features,
@@ -57,7 +53,7 @@ def build_vala_plugin(ctx, name, sources, vapi_dirs=None, packages=None,
                      use = libraries,
                      vala_defines = [ 'G_LOG_DOMAIN="%s"' % log_domain ],
                      install_path = install_path,
-                     cflags = [ '-Imultiterm'] )
+                     cflags = [ '-Inumconvert'] )
 
     install_docs(ctx, plugin_name,
         'AUTHORS ChangeLog COPYING NEWS README THANKS TODO'.split())
@@ -65,11 +61,17 @@ def build_vala_plugin(ctx, name, sources, vapi_dirs=None, packages=None,
     return task
 
 
-name = 'MultiTerm'
-sources = [ 'src/config.vala', 'src/context-menu.vala', 'src/defconf.vala',
-    'src/notebook.vala', 'src/plugin.vala', 'src/shell-config.vala',
-    'src/tab-label.vala', 'src/terminal.vala']
-packages = [ 'gtk+-2.0', 'glib-2.0', 'vte', 'geany' ]
-libraries = [ 'GTK', 'GLIB', 'VTE', 'GEANY' ]
+name = 'NumConvert'
+sources = [
+	'src/plugin.vala',
+	'src/context-menu-all.vala',
+	'src/context-menu.vala',
+	'src/number-parser.vala',
+	'src/convert-menu-item.vala',
+	'src/converters.vala'
+]
+packages = [ 'gtk+-2.0', 'glib-2.0', 'geany' ]
+libraries = [ 'GTK', 'GLIB', 'GEANY' ]
+bld.env.append_value('XDG_DATA_DIR', [ os.path.join(bld.env['DATAROOTDIR'], 'vala', 'vapi') ])
 
 build_vala_plugin(bld, name, sources, None, packages, libraries)
