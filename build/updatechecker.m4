@@ -7,8 +7,5 @@ AC_DEFUN([GP_CHECK_UPDATECHECKER],
 
     GP_COMMIT_PLUGIN_STATUS([Updatechecker])
 
-    AC_CONFIG_FILES([
-        updatechecker/Makefile
-        updatechecker/src/Makefile
-    ])
+    AC_CONFIG_FILES([updatechecker/Makefile])
 ])
