@@ -452,7 +452,7 @@ gint gprj_project_add_properties_tab(GtkWidget *notebook)
 	gtk_box_pack_start(GTK_BOX(hbox1), label, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox1, FALSE, FALSE, 6);
 
-	label = gtk_label_new(_("GProject"));
+	label = gtk_label_new("GProject");
 
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), vbox, TRUE, TRUE, 6);

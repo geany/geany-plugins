@@ -612,7 +612,7 @@ static void load_project(void)
 		gtk_widget_set_sensitive(s_project_toolbar.follow, TRUE);
 	}
 	else
-		set_intro_message("Set file patterns under Project->Properties");
+		set_intro_message(_("Set file patterns under Project->Properties"));
 
 	g_slist_foreach(header_patterns, (GFunc) g_pattern_spec_free, NULL);
 	g_slist_free(header_patterns);
@@ -824,7 +824,7 @@ void gprj_sidebar_init(void)
 	g_signal_connect(G_OBJECT(s_file_view), "key-press-event",
 			G_CALLBACK(on_key_press), NULL);
 
-	set_intro_message("Reopen the project to start using the plugin");
+	set_intro_message(_("(Re)open the project to start using the plugin"));
 	gprj_sidebar_activate(FALSE);
 
 	/**** popup menu ****/
