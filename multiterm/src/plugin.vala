@@ -28,7 +28,7 @@ public Data			geany_data;
 public Functions	geany_functions;
 
 /* Widgets to clean up when the plugin is unloaded */
-private List<Widget> toplevel_widgets = new List<Widget>();
+private List<Widget> toplevel_widgets = null;
 
 /* Geany calls this to determine min. required API/ABI version */
 public int plugin_version_check(int abi_version)
@@ -56,6 +56,8 @@ public void plugin_init(Geany.Data data)
 	/* Needed for GObject type system not to freak out about
 	 * unregistering and re-registering new types */
 	geany_plugin.module_make_resident();
+
+	toplevel_widgets = new List<Widget>();
 
 	/* Initialize plugin's configuration directory/file */
 	config_dir = Path.build_filename(geany_data.app.config_dir, "plugins", "multiterm");
@@ -107,4 +109,5 @@ public void plugin_cleanup ()
 {
 	foreach (Widget wid in toplevel_widgets)
 		wid.destroy();
+	toplevel_widgets = null;
 }
