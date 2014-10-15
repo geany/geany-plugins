@@ -209,12 +209,7 @@ on_generate_tags(GtkMenuItem *menuitem, gpointer user_data)
 		/* Unfortunately, there's a bug in ctags - when run with -R, the first line is
 		 * empty, ctags doesn't recognize the tags file as a valid ctags file and
 		 * refuses to overwrite it. Therefore, we need to delete the tags file manually. */
-		gchar **argv = g_new0(gchar *, 2);
-		argv[0] = g_strconcat("del ", tag_filename, NULL);
-		argv[1] = NULL;
-		utils_spawn_sync(prj->base_path, argv, NULL, G_SPAWN_SEARCH_PATH,
-			NULL, NULL, NULL, NULL, NULL, NULL));
-		g_strfreev(argv);
+		g_unlink(tag_filename);
 
 		cmd = g_strconcat("ctags.exe -R --totals --fields=fKsSt --extra=-fq --c-kinds=+p --sort=foldcase --excmd=number -f ",
 			tag_filename, NULL);
