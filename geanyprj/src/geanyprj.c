@@ -208,37 +208,81 @@ static void on_configure_sidebar_toggle(GtkToggleButton *togglebutton, GtkWidget
 	gtk_widget_set_sensitive( sidebarOptsWidget, gtk_toggle_button_get_active(togglebutton) );
 }
 
-static void on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, G_GNUC_UNUSED gint response, G_GNUC_UNUSED gpointer userdata)
+static void on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, gint response, G_GNUC_UNUSED gpointer userdata)
 {
 	gboolean  save_settings_required = FALSE;
 	gboolean old_display_sidebar = display_sidebar;
 	kbdsearch_policy old_sidebar_search_policy = sidebar_get_kbdsearch_policy();
+	gboolean new_display_sidebar;
+	kbdsearch_policy new_sidebar_search_policy;
 
-	display_sidebar = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pluginConfigureWidgets.sideBarEnabledBtn));
-	sidebar_set_kbdsearch_policy( gtk_combo_box_get_active(GTK_COMBO_BOX(pluginConfigureWidgets.sidebarSearchPolicyCombo)) );
-
-	if (display_sidebar ^ old_display_sidebar)
+	/* Compute settings user wants to reach */
+	switch(response)
 	{
-		if (display_sidebar)
+	case GTK_RESPONSE_CANCEL:
+		load_settings();
+		new_display_sidebar = display_sidebar;
+		new_sidebar_search_policy = sidebar_get_kbdsearch_policy();
+		break;
+		
+	default:
+		new_display_sidebar = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pluginConfigureWidgets.sideBarEnabledBtn));
+		new_sidebar_search_policy = gtk_combo_box_get_active(GTK_COMBO_BOX(pluginConfigureWidgets.sidebarSearchPolicyCombo));
+		break;
+	}
+
+	/* Conditionally apply settings */
+	switch(response)
+	{
+	case GTK_RESPONSE_ACCEPT:
+	case GTK_RESPONSE_OK:
+	case GTK_RESPONSE_YES:
+	case GTK_RESPONSE_APPLY:
+	case GTK_RESPONSE_CANCEL: /* Targetted settings has previously been faked in this cancel case */
+		display_sidebar = new_display_sidebar;
+		sidebar_set_kbdsearch_policy(new_sidebar_search_policy);
+
+		if (display_sidebar ^ old_display_sidebar)
 		{
-			create_sidebar();
-			sidebar_refresh();
+			if (display_sidebar)
+			{
+				create_sidebar();
+				sidebar_refresh();
+			}
+			else
+			{
+				destroy_sidebar();
+			}
+			save_settings_required = TRUE;
 		}
-		else
+		
+		if( sidebar_get_kbdsearch_policy() != old_sidebar_search_policy )
 		{
-			destroy_sidebar();
+			save_settings_required = TRUE;
 		}
-		save_settings_required = TRUE;
+		break;
+		
+	default:
+		/* Do not apply */
+		break;
 	}
 	
-	if( sidebar_get_kbdsearch_policy() != old_sidebar_search_policy )
+	/* Conditionally save settings */
+	switch(response)
 	{
-		save_settings_required = TRUE;
-	}
+	case GTK_RESPONSE_ACCEPT:
+	case GTK_RESPONSE_OK:
+	case GTK_RESPONSE_YES:
+		if (save_settings_required == TRUE)
+		{
+			save_settings();
+		}
+		break;
 	
-	if (save_settings_required == TRUE)
-	{
-		save_settings();
+	case GTK_RESPONSE_APPLY:
+	default:
+		/* Do not save */
+		break;
 	}
 }
 
