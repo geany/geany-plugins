@@ -342,7 +342,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	combobox = gtk_combo_box_new_text();
 	for (i = 0; i < KBDSEARCH_POLICY_ENUM_SIZE; i++)
 		gtk_combo_box_append_text(GTK_COMBO_BOX(combobox), sidebar_get_kdbsearch_name(i) );
-	gtk_combo_box_set_active(GTK_COMBO_BOX(combobox), (gint) sidebar_get_kbdsearch_policy() ); // ?BUG if sidebar is not loaded
+	gtk_combo_box_set_active(GTK_COMBO_BOX(combobox), (gint) sidebar_get_kbdsearch_policy() );
 
 	ui_table_add_row(GTK_TABLE(table), 0, label, combobox, NULL);
 	
