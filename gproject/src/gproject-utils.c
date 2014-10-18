@@ -53,13 +53,13 @@ static gchar *relpath(const gchar *origin_dir, const gchar *dest_dir)
 	ret = g_strdup("");
 
 	for (j = i; originv[j] != NULL; j++)
-		setptr(ret, g_build_filename(ret, "..", NULL));
+		SETPTR(ret, g_build_filename(ret, "..", NULL));
 
 	for (j = i; destv[j] != NULL; j++)
-		setptr(ret, g_build_filename(ret, destv[j], NULL));
+		SETPTR(ret, g_build_filename(ret, destv[j], NULL));
 
 	if (strlen(ret) == 0)
-		setptr(ret, g_strdup("./"));
+		SETPTR(ret, g_strdup("./"));
 
 	g_free(origin);
 	g_free(dest);
@@ -84,11 +84,11 @@ gchar *get_file_relative_path(const gchar *origin_dir, const gchar *dest_file)
 
 		if (g_strcmp0(ret, "./") != 0)
 		{
-			setptr(ret, g_build_filename(ret, dest_basename, NULL));
+			SETPTR(ret, g_build_filename(ret, dest_basename, NULL));
 		}
 		else
 		{
-			setptr(ret, g_strdup(dest_basename));
+			SETPTR(ret, g_strdup(dest_basename));
 		}
 
 		g_free(dest_basename);
@@ -138,19 +138,15 @@ void open_file(gchar *utf8_name)
 	doc = document_find_by_filename(utf8_name);
 
 	if (!doc)
-	{
-		document_open_file(name, FALSE, NULL, NULL);
-	}
+		doc = document_open_file(name, FALSE, NULL, NULL);
 	else
 	{
-		GtkNotebook *notebook;
-		gint page_num;
-
-		notebook = GTK_NOTEBOOK(geany->main_widgets->notebook);
-		page_num = gtk_notebook_page_num(notebook, GTK_WIDGET(doc->editor->sci));
-
-		gtk_notebook_set_current_page(notebook, page_num);
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(geany->main_widgets->notebook),
+			document_get_notebook_page(doc));
 	}
+	
+	if (doc)
+		gtk_widget_grab_focus(GTK_WIDGET(doc->editor->sci));
 
 	g_free(name);
 }

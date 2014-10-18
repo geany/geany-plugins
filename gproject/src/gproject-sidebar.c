@@ -184,15 +184,17 @@ static gchar *build_path(GtkTreeIter *iter)
 		if (path == NULL)
 			path = g_strdup(name);
 		else
-			setptr(path, g_build_filename(name, path, NULL));
+			SETPTR(path, g_build_filename(name, path, NULL));
+		g_free(name);
 
 		node = parent;
 	}
 
 	gtk_tree_model_get(model, &node, FILEVIEW_COLUMN_NAME, &name, -1);
-	setptr(path, g_build_filename(name, path, NULL));
+	SETPTR(path, g_build_filename(name, path, NULL));
+	g_free(name);
 
-	setptr(path, g_build_filename(geany_data->app->project->base_path, path, NULL));
+	SETPTR(path, g_build_filename(geany_data->app->project->base_path, path, NULL));
 
 	return path;
 }
@@ -253,7 +255,7 @@ static void find_file_recursive(GtkTreeIter *iter, gboolean case_sensitive, gboo
 			name = g_strdup(name);
 
 		if (!case_sensitive)
-			setptr(name, g_utf8_strdown(name, -1));
+			SETPTR(name, g_utf8_strdown(name, -1));
 
 		if (g_pattern_match_string(pattern, name))
 		{
@@ -284,7 +286,7 @@ static void find_file(GtkTreeIter *iter)
 		GPatternSpec *pattern;
 
 		if (!case_sensitive)
-			setptr(pattern_str, g_utf8_strdown(pattern_str, -1));
+			SETPTR(pattern_str, g_utf8_strdown(pattern_str, -1));
 
 		pattern = g_pattern_spec_new(pattern_str);
 
@@ -376,8 +378,11 @@ static void on_open_clicked(void)
 static gboolean on_button_press(G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event,
 		G_GNUC_UNUSED gpointer user_data)
 {
-	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS)
+	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) 
+	{
 		on_open_clicked();
+		return TRUE;
+	}
 
 	return FALSE;
 }
@@ -389,7 +394,10 @@ static gboolean on_key_press(G_GNUC_UNUSED GtkWidget * widget, GdkEventKey * eve
 	    || event->keyval == GDK_ISO_Enter
 	    || event->keyval == GDK_KP_Enter
 	    || event->keyval == GDK_space)
+	{
 		on_open_clicked();
+		return TRUE;
+	}
 	return FALSE;
 }
 
@@ -556,6 +564,20 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 }
 
 
+static void set_intro_message(const gchar *msg)
+{
+	GtkTreeIter iter;
+
+	gtk_tree_store_append(s_file_store, &iter, NULL);
+	gtk_tree_store_set(s_file_store, &iter,
+		FILEVIEW_COLUMN_NAME, msg, -1);
+
+	gtk_widget_set_sensitive(s_project_toolbar.expand, FALSE);
+	gtk_widget_set_sensitive(s_project_toolbar.collapse, FALSE);
+	gtk_widget_set_sensitive(s_project_toolbar.follow, FALSE);
+}
+
+
 static void load_project(void)
 {
 	GSList *lst = NULL;
@@ -590,17 +612,7 @@ static void load_project(void)
 		gtk_widget_set_sensitive(s_project_toolbar.follow, TRUE);
 	}
 	else
-	{
-		GtkTreeIter iter;
-
-		gtk_tree_store_append(s_file_store, &iter, NULL);
-		gtk_tree_store_set(s_file_store, &iter,
-			FILEVIEW_COLUMN_NAME, "Set file patterns under Project->Properties", -1);
-
-		gtk_widget_set_sensitive(s_project_toolbar.expand, FALSE);
-		gtk_widget_set_sensitive(s_project_toolbar.collapse, FALSE);
-		gtk_widget_set_sensitive(s_project_toolbar.follow, FALSE);
-	}
+		set_intro_message(_("Set file patterns under Project->Properties"));
 
 	g_slist_foreach(header_patterns, (GFunc) g_pattern_spec_free, NULL);
 	g_slist_free(header_patterns);
@@ -717,6 +729,7 @@ static gboolean on_button_release(G_GNUC_UNUSED GtkWidget * widget, GdkEventButt
 
 		gtk_menu_popup(GTK_MENU(s_popup_menu.widget), NULL, NULL, NULL, NULL,
 						event->button, event->time);
+		return TRUE;
 	}
 
 	return FALSE;
@@ -810,6 +823,9 @@ void gprj_sidebar_init(void)
 			G_CALLBACK(on_button_press), NULL);
 	g_signal_connect(G_OBJECT(s_file_view), "key-press-event",
 			G_CALLBACK(on_key_press), NULL);
+
+	set_intro_message(_("(Re)open the project to start using the plugin"));
+	gprj_sidebar_activate(FALSE);
 
 	/**** popup menu ****/
 

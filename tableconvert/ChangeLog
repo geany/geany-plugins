@@ -1,3 +1,25 @@
+2014-10-10  Frank Lanitz  <frank@frank.uvena.de>
+
+ * Introducing a special menu entry into Tools-menu allowing to convert
+   without changing Geany's file type setting for current document.
+
+
+2014-10-05  Frank Lanitz  <frank@frank.uvena.de>
+
+ * Fixing an issue where \r and \n on e.g. Windows files handled as
+   seperate lines ending up in 'empty' table lines.
+ * Respect now actual line endings of current document instead of just
+   assuming \n and maybe creating a mixed up document
+
+
+2014-09-28  Frank Lanitz  <frank@frank.uvena.de>
+
+ * SQL: Treating every column as a string when transfering data to SQL
+   Most DBMS can take a string and convert them to e.g. integer.
+   However, some check for integer would be useful nevertheless
+
+
+
 2011-10-06  Frank Lanitz  <frlan@frank.uvena.de>
 
  * Fixing some i18n issue.

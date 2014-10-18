@@ -28,6 +28,10 @@
 #include <geanyplugin.h>
 
 
+/* uncomment to display each row score (for debugging sort) */
+/*#define DISPLAY_SCORE 1*/
+
+
 GeanyPlugin      *geany_plugin;
 GeanyData        *geany_data;
 GeanyFunctions   *geany_functions;
@@ -109,8 +113,10 @@ enum {
 };
 
 
+#define PATH_SEPARATOR " \342\206\222 " /* right arrow */
+
 #define SEPARATORS        " -_/\\\"'"
-#define IS_SEPARATOR(c)   (strchr (SEPARATORS, (c)))
+#define IS_SEPARATOR(c)   (strchr (SEPARATORS, (c)) != NULL)
 #define next_separator(p) (strpbrk (p, SEPARATORS))
 
 /* TODO: be more tolerant regarding unmatched character in the needle.
@@ -121,13 +127,14 @@ static inline gint
 get_score (const gchar *needle,
            const gchar *haystack)
 {
-  if (needle == NULL || haystack == NULL ||
-      *needle == '\0' || *haystack == '\0') {
-    return 0;
+  if (! needle || ! haystack) {
+    return needle == NULL;
+  } else if (! *needle || ! *haystack) {
+    return *needle == 0;
   }
   
   if (IS_SEPARATOR (*haystack)) {
-    return get_score (needle, haystack + 1);
+    return get_score (needle + IS_SEPARATOR (*needle), haystack + 1);
   }
 
   if (IS_SEPARATOR (*needle)) {
@@ -135,12 +142,27 @@ get_score (const gchar *needle,
   }
 
   if (*needle == *haystack) {
-    gint a = get_score (needle + 1, haystack + 1) + 1;
+    gint a = get_score (needle + 1, haystack + 1) + 1 + IS_SEPARATOR (haystack[1]);
     gint b = get_score (needle, next_separator (haystack));
     
     return MAX (a, b);
   } else {
     return get_score (needle, next_separator (haystack));
+  }
+}
+
+static const gchar *
+path_basename (const gchar *path)
+{
+  const gchar *p1 = strrchr (path, '/');
+  const gchar *p2 = g_strrstr (path, PATH_SEPARATOR);
+
+  if (! p1 && ! p2) {
+    return path;
+  } else if (p1 > p2) {
+    return p1;
+  } else {
+    return p2;
   }
 }
 
@@ -152,7 +174,7 @@ key_score (const gchar *key_,
   gchar  *key   = g_utf8_casefold (key_, -1);
   gint    score;
   
-  score = get_score (key, text);
+  score = get_score (key, text) + get_score (key, path_basename (text)) / 2;
   
   g_free (text);
   g_free (key);
@@ -306,8 +328,7 @@ store_populate_menu_items (GtkListStore  *store,
       }
       
       if (parent_path) {
-        path = g_strconcat (parent_path, " \342\206\222 " /* right arrow */,
-                            item_label, NULL);
+        path = g_strconcat (parent_path, PATH_SEPARATOR, item_label, NULL);
       } else {
         path = g_strdup (item_label);
       }
@@ -586,6 +607,44 @@ on_view_row_activated (GtkTreeView       *view,
   }
 }
 
+#ifdef DISPLAY_SCORE
+static void
+score_cell_data (GtkTreeViewColumn *column,
+                 GtkCellRenderer   *cell,
+                 GtkTreeModel      *model,
+                 GtkTreeIter       *iter,
+                 gpointer           col)
+{
+  gint          score;
+  gchar        *text;
+  gchar        *path;
+  gint          pathtype;
+  gint          type;
+  gint          width, old_width;
+  const gchar  *key = get_key (&type);
+  
+  gtk_tree_model_get (model, iter, COL_PATH, &path, COL_TYPE, &pathtype, -1);
+  
+  score = key_score (key, path);
+  if (! (pathtype & type)) {
+    score -= 0xf000;
+  }
+  
+  text = g_strdup_printf ("%d", score);
+  g_object_set (cell, "text", text, NULL);
+  
+  /* automatic column sizing is buggy, so just make an acceptable wild guess */
+  width = 8 + strlen (text) * 10;
+  old_width = gtk_tree_view_column_get_fixed_width (col);
+  if (old_width < width) {
+    gtk_tree_view_column_set_fixed_width (col, width);
+  }
+  
+  g_free (text);
+  g_free (path);
+}
+#endif
+
 static void
 create_panel (void)
 {
@@ -649,6 +708,13 @@ create_panel (void)
   plugin_data.view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (plugin_data.sort));
   gtk_widget_set_can_focus (plugin_data.view, FALSE);
   gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (plugin_data.view), FALSE);
+#ifdef DISPLAY_SCORE
+  cell = gtk_cell_renderer_text_new ();
+  col = gtk_tree_view_column_new_with_attributes (NULL, cell, NULL);
+  gtk_tree_view_column_set_sizing (col, GTK_TREE_VIEW_COLUMN_FIXED);
+  gtk_tree_view_column_set_cell_data_func(col, cell, score_cell_data, col, NULL);
+  gtk_tree_view_append_column (GTK_TREE_VIEW (plugin_data.view), col);
+#endif
   cell = gtk_cell_renderer_text_new ();
   g_object_set (cell, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
   col = gtk_tree_view_column_new_with_attributes (NULL, cell,

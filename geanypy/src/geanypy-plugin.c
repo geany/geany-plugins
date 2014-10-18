@@ -19,6 +19,10 @@
  * MA 02110-1301, USA.
  */
 
+#if defined(HAVE_CONFIG_H) && !defined(GEANYPY_WINDOWS)
+# include "config.h"
+#endif
+
 #define INCLUDE_PYGOBJECT_ONCE_FULL
 
 #include "geanypy.h"

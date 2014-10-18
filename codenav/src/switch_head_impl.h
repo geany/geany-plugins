@@ -3,6 +3,7 @@
  *      part of the "geany-plugins" project.
  *
  *      Copyright 2009 Lionel Fuentes <funto66(at)gmail(dot)com>
+ * 		Copyright 2014 Federico Reghenzani <federico(dot)dev(at)reghe(dot)net>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -25,6 +26,14 @@
 
 #include "codenavigation.h"
 
+/* Structure representing a handled language */
+typedef struct
+{
+	const gchar* name;			/* currently not used */
+	GSList* head_extensions;	/* e.g. : "h", "hpp", ... */
+	GSList* impl_extensions; /* e.g. : "cpp", "cxx", ... */
+} Language;
+
 /* Initialization */
 void
 switch_head_impl_init(void);
@@ -33,12 +42,16 @@ switch_head_impl_init(void);
 void
 switch_head_impl_cleanup(void);
 
-/* Configuration widget */
-GtkWidget*
-switch_head_impl_config_widget(void);
-
-/* Write the configuration of the feature */
+/* Languages-related */
 void
-write_switch_head_impl_config(GKeyFile* key_file);
+fill_default_languages_list(void);
+
+void
+fill_languages_list(const gchar**, const gchar**, gsize);
+
+
+
+GSList* switch_head_impl_get_languages();
+
 
 #endif /* SWITCH_HEAD_IMPL_H */

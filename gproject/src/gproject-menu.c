@@ -32,6 +32,7 @@
 
 #include <string.h>
 
+extern GeanyPlugin *geany_plugin;
 extern GeanyData *geany_data;
 extern GeanyFunctions *geany_functions;
 
@@ -43,8 +44,6 @@ enum
 	KB_FIND_FILE,
 	KB_COUNT
 };
-
-PLUGIN_KEY_GROUP(gproject, KB_COUNT)
 
 
 static GtkWidget *s_fif_item, *s_ff_item, *s_shs_item, *s_sep_item, *s_context_osf_item, *s_context_sep_item;
@@ -59,8 +58,8 @@ static gboolean try_swap_header_source(gchar *file_name, gboolean is_header, GSL
 	gboolean found = FALSE;
 
 	name_pattern = g_path_get_basename(file_name);
-	setptr(name_pattern, utils_remove_ext_from_filename(name_pattern));
-	setptr(name_pattern, g_strconcat(name_pattern, ".*", NULL));
+	SETPTR(name_pattern, utils_remove_ext_from_filename(name_pattern));
+	SETPTR(name_pattern, g_strconcat(name_pattern, ".*", NULL));
 	pattern = g_pattern_spec_new(name_pattern);
 	g_free(name_pattern);
 
@@ -141,7 +140,7 @@ static void on_swap_header_source(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_U
 			gchar *doc_dir;
 
 			doc_dir = g_path_get_dirname(doc->file_name);
-			setptr(doc_dir, utils_get_locale_from_utf8(doc_dir));
+			SETPTR(doc_dir, utils_get_locale_from_utf8(doc_dir));
 
 			list = utils_get_file_list(doc_dir, NULL, NULL);
 			for (elem = list; elem != NULL; elem = g_slist_next(elem))
@@ -149,8 +148,8 @@ static void on_swap_header_source(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_U
 				gchar *full_name;
 
 				full_name = g_build_filename(doc_dir, elem->data, NULL);
-				setptr(full_name, utils_get_utf8_from_locale(full_name));
-				setptr(elem->data, full_name);
+				SETPTR(full_name, utils_get_utf8_from_locale(full_name));
+				SETPTR(elem->data, full_name);
 			}
 			swapped = try_swap_header_source(doc->file_name, is_header, list, header_patterns, source_patterns);
 			g_slist_foreach(list, (GFunc) g_free, NULL);
@@ -190,20 +189,21 @@ static void on_find_file(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpo
 }
 
 
-static void kb_callback(guint key_id)
+static gboolean kb_callback(guint key_id)
 {
 	switch (key_id)
 	{
 		case KB_SWAP_HEADER_SOURCE:
 			on_swap_header_source(NULL, NULL);
-			break;
+			return TRUE;
 		case KB_FIND_IN_PROJECT:
 			on_find_in_project(NULL, NULL);
-			break;
+			return TRUE;
 		case KB_FIND_FILE:
 			on_find_file(NULL, NULL);
-			break;
+			return TRUE;
 	}
+	return FALSE;
 }
 
 
@@ -241,7 +241,7 @@ static void on_open_selected_file(GtkMenuItem *menuitem, gpointer user_data)
 	if (!sel)
 		return;
 
-	setptr(sel, utils_get_locale_from_utf8(sel));
+	SETPTR(sel, utils_get_locale_from_utf8(sel));
 
 	if (g_path_is_absolute(sel))
 	{
@@ -258,7 +258,7 @@ static void on_open_selected_file(GtkMenuItem *menuitem, gpointer user_data)
 		if (doc->file_name)
 		{
 			path = g_path_get_dirname(doc->file_name);
-			setptr(path, utils_get_locale_from_utf8(path));
+			SETPTR(path, utils_get_locale_from_utf8(path));
 		}
 
 		if (!path)
@@ -285,7 +285,7 @@ static void on_open_selected_file(GtkMenuItem *menuitem, gpointer user_data)
 		{
 			if (g_strcmp0(pathv[i], "..") == 0)
 				break;
-			setptr(path, g_build_filename(G_DIR_SEPARATOR_S, pathv[i], path, NULL));
+			SETPTR(path, g_build_filename(G_DIR_SEPARATOR_S, pathv[i], path, NULL));
 		}
 		g_strfreev(pathv);
 
@@ -299,7 +299,7 @@ static void on_open_selected_file(GtkMenuItem *menuitem, gpointer user_data)
 			if (data.found_path)
 			{
 				filename = g_strdup(data.found_path);
-				setptr(filename, utils_get_locale_from_utf8(filename));
+				SETPTR(filename, utils_get_locale_from_utf8(filename));
 				if (!g_file_test(filename, G_FILE_TEST_EXISTS))
 				{
 					g_free(filename);
@@ -343,6 +343,7 @@ static void on_open_selected_file(GtkMenuItem *menuitem, gpointer user_data)
 void gprj_menu_init(void)
 {
 	GtkWidget *image;
+	GeanyKeyGroup *key_group = plugin_set_key_group(geany_plugin, "GProject", KB_COUNT, kb_callback);
 
 	s_sep_item = gtk_separator_menu_item_new();
 	gtk_widget_show(s_sep_item);
@@ -355,7 +356,7 @@ void gprj_menu_init(void)
 	gtk_widget_show(s_fif_item);
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_fif_item);
 	g_signal_connect((gpointer) s_fif_item, "activate", G_CALLBACK(on_find_in_project), NULL);
-	keybindings_set_item(plugin_key_group, KB_FIND_IN_PROJECT, kb_callback,
+	keybindings_set_item(key_group, KB_FIND_IN_PROJECT, NULL,
 		0, 0, "find_in_project", _("Find in project files"), s_fif_item);
 
 	image = gtk_image_new_from_stock(GTK_STOCK_FIND, GTK_ICON_SIZE_MENU);
@@ -365,14 +366,14 @@ void gprj_menu_init(void)
 	gtk_widget_show(s_ff_item);
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_ff_item);
 	g_signal_connect((gpointer) s_ff_item, "activate", G_CALLBACK(on_find_file), NULL);
-	keybindings_set_item(plugin_key_group, KB_FIND_FILE, kb_callback,
+	keybindings_set_item(key_group, KB_FIND_FILE, NULL,
 		0, 0, "find_file", _("Find project file"), s_ff_item);
 
 	s_shs_item = gtk_menu_item_new_with_mnemonic(_("Swap Header/Source"));
 	gtk_widget_show(s_shs_item);
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_shs_item);
 	g_signal_connect((gpointer) s_shs_item, "activate", G_CALLBACK(on_swap_header_source), NULL);
-	keybindings_set_item(plugin_key_group, KB_SWAP_HEADER_SOURCE, kb_callback,
+	keybindings_set_item(key_group, KB_SWAP_HEADER_SOURCE, NULL,
 		0, 0, "swap_header_source", _("Swap header/source"), s_shs_item);
 
 	s_context_sep_item = gtk_separator_menu_item_new();

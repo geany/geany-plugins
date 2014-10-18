@@ -115,7 +115,7 @@ def configure(conf):
     conf.write_config_header('config.h')
 
     # enable debug when compiling from VCS
-    if revision > 0:
+    if revision is not None:
         conf.env.append_value('CFLAGS', '-g -DDEBUG'.split())  # -DGEANY_DISABLE_DEPRECATED
 
     # summary
@@ -123,7 +123,7 @@ def configure(conf):
     conf.msg('Install Geany Plugins ' + VERSION + ' in', conf.env['G_PREFIX'])
     conf.msg('Using GTK version', gtk_version)
     conf.msg('Using Geany version', geany_version)
-    if revision > 0:
+    if revision is not None:
         conf.msg('Compiling Git revision', revision)
     conf.msg('Plugins to compile', ' '.join(enabled_plugins))
 

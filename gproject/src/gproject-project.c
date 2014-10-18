@@ -251,7 +251,7 @@ void gprj_project_rescan(void)
 		path = tm_get_real_path(elem->data);
 		if (path)
 		{
-			setptr(path, utils_get_utf8_from_locale(path));
+			SETPTR(path, utils_get_utf8_from_locale(path));
 			g_hash_table_insert(g_prj->file_tag_table, path, obj);
 		}
 	}
@@ -381,9 +381,9 @@ void gprj_project_read_properties_tab(void)
 		source_patterns, header_patterns, ignored_dirs_patterns,
 		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(e->generate_tags)));
 
-	g_free(source_patterns);
-	g_free(header_patterns);
-	g_free(ignored_dirs_patterns);
+	g_strfreev(source_patterns);
+	g_strfreev(header_patterns);
+	g_strfreev(ignored_dirs_patterns);
 }
 
 
@@ -452,7 +452,7 @@ gint gprj_project_add_properties_tab(GtkWidget *notebook)
 	gtk_box_pack_start(GTK_BOX(hbox1), label, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox1, FALSE, FALSE, 6);
 
-	label = gtk_label_new(_("GProject"));
+	label = gtk_label_new("GProject");
 
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), vbox, TRUE, TRUE, 6);
@@ -466,16 +466,17 @@ gint gprj_project_add_properties_tab(GtkWidget *notebook)
 
 void gprj_project_close(void)
 {
-	g_return_if_fail(g_prj);
+	if (!g_prj)
+		return;  /* can happen on plugin reload */
 
 	if (g_prj->generate_tags)
 		g_hash_table_foreach(g_prj->file_tag_table, (GHFunc)workspace_remove_tag, NULL);
 
 	deferred_op_queue_clean();
 
-	g_free(g_prj->source_patterns);
-	g_free(g_prj->header_patterns);
-	g_free(g_prj->ignored_dirs_patterns);
+	g_strfreev(g_prj->source_patterns);
+	g_strfreev(g_prj->header_patterns);
+	g_strfreev(g_prj->ignored_dirs_patterns);
 
 	g_hash_table_destroy(g_prj->file_tag_table);
 

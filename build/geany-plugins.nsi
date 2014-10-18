@@ -105,6 +105,9 @@ Section "!Program Files" SEC01
 	SetOutPath "$INSTDIR\lib"
 	File /r "${RESOURCEDIR}\lib\*"
 
+	SetOutPath "$INSTDIR\share\icons"
+	File /r "${RESOURCEDIR}\share\icons\*"
+
 	SetOutPath "$INSTDIR\share\geany-plugins"
 	File /r "${RESOURCEDIR}\share\geany-plugins\*"
 SectionEnd
@@ -150,6 +153,7 @@ Section Uninstall
 	Delete "$INSTDIR\uninst-plugins.exe"
 	Delete "$INSTDIR\lib\addons.dll"
 	Delete "$INSTDIR\lib\autoclose.dll"
+	Delete "$INSTDIR\lib\automark.dll"
 	Delete "$INSTDIR\lib\codenav.dll"
 	Delete "$INSTDIR\lib\commander.dll"
 	Delete "$INSTDIR\lib\defineformat.dll"
@@ -185,6 +189,8 @@ Section Uninstall
 	Delete "$INSTDIR\bin\libxml2-2.dll"
 	Delete "$INSTDIR\bin\lua5.1.dll"
 
+	Delete "$INSTDIR\share\icons\hicolor\16x16\apps\gproject-*.png"
+
 	RMDir /r "$INSTDIR\doc\plugins"
 	RMDir /r "$INSTDIR\lib\geany-plugins"
 	RMDir /r "$INSTDIR\share\geany-plugins"
@@ -205,6 +211,7 @@ Section Uninstall
 	; only if empty
 	RMDir "$INSTDIR\doc"
 	RMDir "$INSTDIR\lib"
+	RMDir "$INSTDIR\share\icons"
 	RMDir "$INSTDIR\share\locale"
 	RMDir "$INSTDIR\share"
 	RMDir "$INSTDIR"
@@ -264,7 +271,9 @@ Function CheckForGeany
 	IntOp $R2 $R0 >> 16
 	IntOp $R2 $R2 & 0x0000FFFF ; $R2 now contains major version
 	IntOp $R3 $R0 & 0x0000FFFF ; $R3 now contains minor version
-	StrCpy $0 "$R2.$R3"
+	IntOp $R4 $R1 >> 16
+	IntOp $R4 $R4 & 0x0000FFFF ; $R4 now contains release
+	StrCpy $0 "$R2.$R3.$R4"
 	StrCmp $0 ${REQUIRED_GEANY_VERSION} version_check_done 0
 	MessageBox MB_YESNO|MB_ICONEXCLAMATION \
 		"You have Geany $0 installed but you need Geany ${REQUIRED_GEANY_VERSION}.$\nDo you really want to continue?" \

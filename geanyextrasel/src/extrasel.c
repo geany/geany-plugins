@@ -32,7 +32,7 @@ GeanyFunctions	*geany_functions;
 PLUGIN_VERSION_CHECK(189)
 
 PLUGIN_SET_INFO(_("Extra Selection"), _("Column mode, select to line / brace / anchor."),
-	"0.51", "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
+	"0.52", "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
 
 /* Keybinding(s) */
 enum
@@ -46,8 +46,6 @@ enum
 	ANCHOR_RECTEXTEND_KB,
 	COUNT_KB
 };
-
-PLUGIN_KEY_GROUP(extra_select, COUNT_KB)
 
 static GtkWidget *main_menu_item = NULL;
 static GtkCheckMenuItem *column_mode_item;
@@ -496,8 +494,10 @@ void plugin_init(G_GNUC_UNUSED GeanyData *data)
 {
 	GtkContainer *menu;
 	GtkWidget *item;
+	GeanyKeyGroup *plugin_key_group;
 
 	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+	plugin_key_group = plugin_set_key_group(geany_plugin, "extra_select", COUNT_KB, NULL);
 
 	item = gtk_menu_item_new_with_mnemonic(_("E_xtra Selection"));
 	main_menu_item = item;

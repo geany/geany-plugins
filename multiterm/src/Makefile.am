@@ -6,7 +6,7 @@ plugin = multiterm
 geanyplugins_LTLIBRARIES = multiterm.la
 
 multiterm_la_VALAFLAGS = \
-	--vapidir $(top_srcdir)/multiterm/src/vapi \
+	--vapidir $(abs_top_srcdir)/multiterm/src/vapi \
 	--pkg gtk+-2.0 \
 	--pkg geany \
 	--pkg vte \

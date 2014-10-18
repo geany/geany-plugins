@@ -330,6 +330,7 @@ static void ao_bookmark_list_show(AoBookmarkList *bm)
 
 	text_renderer = gtk_cell_renderer_text_new();
 	column = gtk_tree_view_column_new();
+	// Translators: Number is meant at this point.
 	gtk_tree_view_column_set_title(column, _("No."));
 	gtk_tree_view_column_pack_start(column, text_renderer, TRUE);
 	gtk_tree_view_column_set_attributes(column, text_renderer, "text", BMLIST_COL_LINE, NULL);

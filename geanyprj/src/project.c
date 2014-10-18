@@ -360,6 +360,7 @@ gboolean geany_project_add_file(struct GeanyPrj *prj, const gchar *path)
 		g_key_file_free(config);
 		return TRUE;
 	}
+	g_key_file_free(config);
 
 	filename = utils_get_locale_from_utf8(path);
 	tm_obj = tm_source_file_new(filename, FALSE, filetypes_detect_from_file(path)->name);

@@ -15,27 +15,36 @@ Installation
 ------------
 
 This version of the plugin is installed with the combined
-geany-plugins release. Please check README of this package
+geany-plugins release. Please check README of this package.
 
 
 Usage
 -----
 
-After the plugins has been installed successfully, load the plugin
-via Geany's plugin manager. This will add a new keybinding into
-Geany's list of keybindings inside the preferences dialog. You might
-like to set up a keybinding for the function. Once this is done, the
-plugin is ready to use.
+After the plugins has been installed successfully, load the plugin via
+Geany's plugin manager. This will add a new keybinding into Geany's
+list of keybindings inside the preferences dialog. You might like to
+set up a keybinding for the function. Once this is done, the plugin is
+ready to use. Alternativly it's also possible to use the plugin via the
+menu entry at the Tools menu.
+
+Inside the Tools menu there is also another submenu avaialble wich is
+allowing you to convert to a table without changing Geany's file type
+settings for the current document.
 
 When using the plugin, just mark the area you like to transform and
 push your keybinding. All line endings will be taken as end of a row
-and therefor transformed to fitting row endings.
+and therefor transformed to fitting row endings. The plugin is taking
+care of you line ending stil.
 
 Currently the plugin is supporting
 * HTML
 * LaTeX
 * SQL
 
+Rectangle selections are currently not supported and might lead to
+some weird output you didn't expect -- just don't try it if you have
+heart issues or working on an important document :)
 
 HTML
 ^^^^
@@ -55,12 +64,9 @@ LaTeX
 In case of working with LaTeX line endings will be replaced with \\
 and tabulators with &.
 
-Rectangle selections are currently not supported and might lead to
-some weird output you didn't expect -- just don't try it if you have
-heart issues or working on an important document :)
 
-However, after you transformed your selection to a table you might 
-want to update the number and orientation of columns at begin of 
+However, after you transformed your selection to a table you might
+want to update the number and orientation of columns at begin of
 tabular-environment.
 
 SQL

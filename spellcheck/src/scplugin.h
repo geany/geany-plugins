@@ -35,6 +35,7 @@ typedef struct
 	gchar *dictionary_dir;
 	gboolean use_msgwin;
 	gboolean check_while_typing;
+	gboolean check_on_document_open;
 	gboolean show_toolbar_item;
 	gboolean show_editor_menu_item;
 	GPtrArray *dicts;

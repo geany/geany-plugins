@@ -1,7 +1,7 @@
 /*
  *      bibtex.c
  *
- *      Copyright 2008-2012 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2008-2014 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -214,7 +214,7 @@ void glatex_parse_bib_file(const gchar* file, gpointer combobox)
 		{
 			for (i = 0; bib_entries[i] != NULL ; i++)
 			{
-				if  (g_str_has_prefix(bib_entries[i], "@"))
+				if  (g_str_has_prefix(g_strchug(bib_entries[i]), "@"))
 				{
 					tmp = glatex_parseLine_bib(bib_entries[i]);
 					tmp_label_name = g_strdup(tmp->label_name);
@@ -246,12 +246,12 @@ LaTeXLabel* glatex_parseLine_bib(const gchar *line)
 		x++;
 	}
 	tmp_string = x + 1;
-	g_warning("%s", tmp_string);
+
 	while (*x != '\0' && *x != ',')
 	{
 		l++;
 		x++;
 	}
-	label->label_name = g_strndup(tmp_string, l - 1);
+	label->label_name = g_strstrip(g_strndup(tmp_string, l - 1));
 	return label;
 }

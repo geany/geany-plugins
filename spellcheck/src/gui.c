@@ -272,6 +272,20 @@ static void perform_spell_check_cb(GtkWidget *menu_item, GeanyDocument *doc)
 }
 
 
+static gboolean perform_check_delayed_cb(gpointer doc)
+{
+	perform_check((GeanyDocument*)doc);
+	return FALSE;
+}
+
+
+void sc_gui_document_open_cb(GObject *obj, GeanyDocument *doc, gpointer user_data)
+{
+	if (sc_info->check_on_document_open && main_is_realized())
+		g_idle_add(perform_check_delayed_cb, doc);
+}
+
+
 void sc_gui_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 								  GeanyDocument *doc, gpointer user_data)
 {
@@ -405,6 +419,7 @@ static void indicator_clear_on_line(GeanyDocument *doc, gint line_number)
 	start_pos = sci_get_position_from_line(doc->editor->sci, line_number);
 	length = sci_get_line_length(doc->editor->sci, line_number);
 
+	sci_indicator_set(doc->editor->sci, GEANY_INDICATOR_ERROR);
 	sci_indicator_clear(doc->editor->sci, start_pos, length);
 }
 

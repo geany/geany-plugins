@@ -454,10 +454,10 @@ depth = <tt>0</tt> instead.</p>
 <h3><a name="speed">Speed</a></h3>
 
 <p>An unsorted ScpTreeStore is faster than GtkTreeStore, but the difference is not big (20%
-on average, depending on the operation and number of elements), and not significant (&lt; 0.5+
-seconds) for stores with less than 10000 elements. Normally, inserting into and removing from
-a list is faster than using an array, but all store operations must emit a signal, containing
-the row path (numeric index), which negates this advantage.</p>
+on average, depending on the operation and number of elements), and not significant for stores
+with less than 10000 elements (except foreach or lots of searches). Normally, inserting into
+and removing from a list is faster than using an array, but all store operations must emit a
+signal, containing the row path (element indexes), which negates this advantage.</p>
 
 <p>The sorted gtk+ stores are slow, since they are based on lists, and sorting by a string
 with utf-8 collation makes them even slower.</p>
@@ -496,15 +496,18 @@ with utf-8 collation makes them even slower.</p>
 
 </table>
 
-<p>The full speed test is <a href="fullspeed.html">here</a>. In general, a sorted ScpTreeStore
-can be used as a normal data structure, which is not the case with GtkTree/ListStore.</p>
+<p>The full speed test is <a href="fullspeed.html">here</a>. In general, a large sorted
+ScpTreeStore can be used as a normal data structure, unlike a GtkTree/ListStore. And, since
+ScpTreeStore is not part of gtk+, you can easily recompile it with -DG_DISABLE_CHECKS, but
+don't expect any significant difference.</p>
 
 <hr>
 
 <h3><a name="bugs">Bugs</a></h3>
 
-<p>Incomplete Glade support. You can include ScpTreeStore-s in .glade files with a text
-editor, but editing such files with Glade will discard the stores.</p>
+<p>Incomplete Glade support. ScpTreeStore-s can be included in .glade files with a text
+editor, but saving such files with Glade will discard the stores. I don't plan to fix this.
+</p>
 
 <p>The linguistically correct string comparision is not well tested.</p>
 
@@ -520,7 +523,7 @@ are from GtkTreeStore.</p>
 <p>ScpTreeStore was written for the Scope plugin of Geany light IDE, which relies heavily on
 stores.</p>
 
-<p><b>ScpTreeStore 0.85, Copyright (C) 2013 Dimitar Toshkov Zhekov</b></p>
+<p><b>ScpTreeStore 0.86.1, Copyright (C) 2014 Dimitar Toshkov Zhekov</b></p>
 
 <p>ScpTreeStore is distributed under the terms of the GNU General Public License as published
 by the Free Software Foundation; either version 2 of the License, or (at your option) any
