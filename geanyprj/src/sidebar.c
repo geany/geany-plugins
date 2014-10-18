@@ -62,18 +62,6 @@ static kbdsearch_policy search_policy = KBDSEARCH_POLICY_CONTAINS_ALL_INSENSITIV
 static kbdsearch_policy search_policy = KBDSEARCH_POLICY_CONTAINS_ALL;
 #endif
 
-static const gchar * search_policy_names[KBDSEARCH_POLICY_ENUM_SIZE] =
-{
-	/* NOTE: How to translate this in a static context? */
-	[KBDSEARCH_POLICY_STARTWITH]                = "Start with",
-	[KBDSEARCH_POLICY_CONTAINS]                 = "Contains",
-	[KBDSEARCH_POLICY_CONTAINS_ALL]             = "Contains all",
-#ifdef HAVE_STRCASESTR
-	[KBDSEARCH_POLICY_CONTAINS_INSENSITIVE]     = "Contains insentitive",
-	[KBDSEARCH_POLICY_CONTAINS_ALL_INSENSITIVE] = "Contains all insensitive",
-#endif
-};
-
 
 /* Returns: the full filename in locale encoding. */
 static gchar *get_tree_path_filename(GtkTreePath *treepath)
@@ -563,5 +551,31 @@ kbdsearch_policy sidebar_get_kbdsearch_policy()
 
 const gchar * sidebar_get_kdbsearch_name(kbdsearch_policy policy)
 {
-	return search_policy_names[policy];
+	const gchar * name;
+	
+	switch(policy)
+	{
+		case KBDSEARCH_POLICY_STARTWITH:
+			name = _("Start with");
+			break;
+		case KBDSEARCH_POLICY_CONTAINS:
+			name = _("Contains");
+			break;
+		case KBDSEARCH_POLICY_CONTAINS_ALL:
+			name = _("Contains all");
+			break;
+#ifdef HAVE_STRCASESTR
+		case KBDSEARCH_POLICY_CONTAINS_INSENSITIVE:
+			name = _("Contains insentitive");
+			break;
+		case KBDSEARCH_POLICY_CONTAINS_ALL_INSENSITIVE:
+			name = _("Contains all insensitive");
+			break;
+#endif
+		default:
+			name = _("Unknown");
+			break;	
+	}
+	
+	return name;
 }
