@@ -325,8 +325,8 @@ static gboolean on_button_release(G_GNUC_UNUSED GtkWidget *widget, GdkEventButto
 }
 
 
-/* GtkTreeViewSearchEqualFunc: return equality if key exists somewhere
- * in row - equ "strstr" instead of default "startwith" */
+/* GtkTreeViewSearchEqualFunc: return equality if key exists
+ * in row - following current kbdsearch_policy */
 static gboolean treeview_search_anywhere(GtkTreeModel *model,
 									gint column,
 									const gchar *key,
