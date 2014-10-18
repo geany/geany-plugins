@@ -34,19 +34,6 @@
 
 #define MULTISEARCH_SEP_STR		" "
 
-typedef enum _kbdsearch_policy
-{
-	KBDSEARCH_POLICY_STARTWITH,             /* Default and fastest */
-	KBDSEARCH_POLICY_CONTAINS,              /* Case sensitive search */
-	KBDSEARCH_POLICY_CONTAINS_ALL,          /* Case sensitive search all words separated by MULTISEARCH_SEP_STR */
-#ifdef HAVE_STRCASESTR
-	KBDSEARCH_POLICY_CONTAINS_INSENSITIVE,  /* Case insensitive search */
-	KBDSEARCH_POLICY_CONTAINS_ALL_INSENSITIVE, /* Case insensitive search all words separated by MULTISEARCH_SEP_STR */
-#else
-	#warning "Case insensitive search is not available"
-#endif
-} kbdsearch_policy;
-
 enum
 {
 	FILEVIEW_COLUMN_NAME = 0,
@@ -74,6 +61,18 @@ static kbdsearch_policy search_policy = KBDSEARCH_POLICY_CONTAINS_ALL_INSENSITIV
 #else
 static kbdsearch_policy search_policy = KBDSEARCH_POLICY_CONTAINS_ALL;
 #endif
+
+static const gchar * search_policy_names[KBDSEARCH_POLICY_ENUM_SIZE] =
+{
+	/* NOTE: How to translate this in a static context? */
+	[KBDSEARCH_POLICY_STARTWITH]                = "Start with",
+	[KBDSEARCH_POLICY_CONTAINS]                 = "Contains",
+	[KBDSEARCH_POLICY_CONTAINS_ALL]             = "Contains all",
+#ifdef HAVE_STRCASESTR
+	[KBDSEARCH_POLICY_CONTAINS_INSENSITIVE]     = "Contains insentitive",
+	[KBDSEARCH_POLICY_CONTAINS_ALL_INSENSITIVE] = "Contains all insensitive",
+#endif
+};
 
 
 /* Returns: the full filename in locale encoding. */
@@ -550,4 +549,19 @@ void destroy_sidebar(void)
 {
 	if (file_view_vbox)
 		gtk_widget_destroy(file_view_vbox);
+}
+
+void sidebar_set_kbdsearch_policy(kbdsearch_policy policy)
+{
+	search_policy = policy;
+}
+
+kbdsearch_policy sidebar_get_kbdsearch_policy()
+{
+	return search_policy;
+}
+
+const gchar * sidebar_get_kdbsearch_name(kbdsearch_policy policy)
+{
+	return search_policy_names[policy];
 }

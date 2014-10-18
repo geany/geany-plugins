@@ -55,6 +55,12 @@ enum
 
 PLUGIN_KEY_GROUP(geanyprj, KB_COUNT)
 
+/* Plugin configure dialog main items */
+static struct
+{
+	GtkWidget *sideBarEnabledBtn;
+	GtkWidget *sidebarSearchPolicyCombo;
+} pluginConfigureWidgets;
 
 static void reload_project(void)
 {
@@ -140,19 +146,31 @@ static void kb_find_in_project(guint key_id)
 static void load_settings(void)
 {
 	GKeyFile *config = g_key_file_new();
-	GError   *err    = NULL;
-	gboolean  tmp;
+	gboolean  display_sidebar_tmp;
+	GError   *display_sidebar_err      = NULL;
+	gint      sidebar_search_policy_tmp;
+	GError   *sidebar_search_policy_err = NULL;
 
 	config_file = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
 		"geanyprj", G_DIR_SEPARATOR_S, "geanyprj.conf", NULL);
 	g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
 
-	tmp = g_key_file_get_boolean(config, "geanyprj", "display_sidebar", &err);
-
-	if (err)
-		g_error_free(err);
+	display_sidebar_tmp = g_key_file_get_boolean(config, "geanyprj", "display_sidebar", &display_sidebar_err);
+	if (display_sidebar_err)
+		g_error_free(display_sidebar_err);
 	else
-		display_sidebar = tmp;
+		display_sidebar = display_sidebar_tmp;
+
+
+	sidebar_search_policy_tmp = g_key_file_get_integer(config, "geanyprj", "sidebar_search_policy", &sidebar_search_policy_err);
+	if (sidebar_search_policy_err)
+		g_error_free(sidebar_search_policy_err);
+	else if (sidebar_search_policy_tmp < 0)
+		debug("%s policy is expected to be positive", __FUNCTION__);
+	else if (sidebar_search_policy_tmp >= KBDSEARCH_POLICY_ENUM_SIZE)
+		debug("%s policy is out of bounds", __FUNCTION__);
+	else
+		sidebar_set_kbdsearch_policy((kbdsearch_policy)sidebar_search_policy_tmp);
 
 	g_key_file_free(config);
 }
@@ -167,6 +185,7 @@ static void save_settings(void)
 	g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
 
 	g_key_file_set_boolean(config, "geanyprj", "display_sidebar", display_sidebar);
+	g_key_file_set_integer(config, "geanyprj", "sidebar_search_policy", (gint)sidebar_get_kbdsearch_policy());
 
 	if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir(config_dir, TRUE) != 0)
 	{
@@ -184,12 +203,19 @@ static void save_settings(void)
 	g_key_file_free(config);
 }
 
-
-static void on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, G_GNUC_UNUSED gint response, GtkWidget *checkbox)
+static void on_configure_sidebar_toggle(GtkToggleButton *togglebutton, GtkWidget *sidebarOptsWidget)
 {
-	gboolean old_display_sidebar = display_sidebar;
+	gtk_widget_set_sensitive( sidebarOptsWidget, gtk_toggle_button_get_active(togglebutton) );
+}
 
-	display_sidebar = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbox));
+static void on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, G_GNUC_UNUSED gint response, G_GNUC_UNUSED gpointer userdata)
+{
+	gboolean  save_settings_required = FALSE;
+	gboolean old_display_sidebar = display_sidebar;
+	kbdsearch_policy old_sidebar_search_policy = sidebar_get_kbdsearch_policy();
+
+	display_sidebar = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pluginConfigureWidgets.sideBarEnabledBtn));
+	sidebar_set_kbdsearch_policy( gtk_combo_box_get_active(GTK_COMBO_BOX(pluginConfigureWidgets.sidebarSearchPolicyCombo)) );
 
 	if (display_sidebar ^ old_display_sidebar)
 	{
@@ -202,6 +228,16 @@ static void on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, G_GNUC_UNUSED
 		{
 			destroy_sidebar();
 		}
+		save_settings_required = TRUE;
+	}
+	
+	if( sidebar_get_kbdsearch_policy() != old_sidebar_search_policy )
+	{
+		save_settings_required = TRUE;
+	}
+	
+	if (save_settings_required == TRUE)
+	{
 		save_settings();
 	}
 }
@@ -231,19 +267,51 @@ void plugin_init(G_GNUC_UNUSED GeanyData *data)
 GtkWidget *plugin_configure(GtkDialog *dialog)
 {
 	GtkWidget *vbox;
-	GtkWidget *checkbox;
+	GtkWidget *sidebarOpts;
+	GtkWidget *table;
+	GtkWidget *label;
+	GtkWidget *checkboxDisplaySidebar;
+	GtkWidget *combobox;
+	gint i;
 
+	/* Global VBox */
 	vbox = gtk_vbox_new(FALSE, 6);
 
-	checkbox = gtk_check_button_new_with_label(_("Display sidebar"));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox), display_sidebar);
+	/* Enable/Disable sidebar */
+	checkboxDisplaySidebar = gtk_check_button_new_with_label(_("Display sidebar"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkboxDisplaySidebar), display_sidebar);
+	gtk_box_pack_start(GTK_BOX(vbox), checkboxDisplaySidebar, FALSE, FALSE, 0);
 
-	gtk_box_pack_start(GTK_BOX(vbox), checkbox, FALSE, FALSE, 0);
+	/* Sidebar options */
+	sidebarOpts = gtk_frame_new(_("Sidebar options"));
+	table = gtk_table_new(1, 2, FALSE);
+	gtk_table_set_row_spacings(GTK_TABLE(table), 5);
+	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
+	
+	label = gtk_label_new(_("Search policy:"));
+	gtk_misc_set_alignment(GTK_MISC(label), 1, 0);
 
+	combobox = gtk_combo_box_new_text();
+	for (i = 0; i < KBDSEARCH_POLICY_ENUM_SIZE; i++)
+		gtk_combo_box_append_text(GTK_COMBO_BOX(combobox), sidebar_get_kdbsearch_name(i) );
+	gtk_combo_box_set_active(GTK_COMBO_BOX(combobox), (gint) sidebar_get_kbdsearch_policy() ); // ?BUG if sidebar is not loaded
+
+	ui_table_add_row(GTK_TABLE(table), 0, label, combobox, NULL);
+	
+	gtk_container_add(GTK_CONTAINER(sidebarOpts), table);
+	gtk_box_pack_start(GTK_BOX(vbox), sidebarOpts, FALSE, FALSE, 0);
+	gtk_widget_set_sensitive( sidebarOpts, display_sidebar );
+	g_signal_connect(checkboxDisplaySidebar, "toggled", G_CALLBACK(on_configure_sidebar_toggle), sidebarOpts);
+	
+
+	/* Dialog is almost ready */
 	gtk_widget_show_all(vbox);
 
+	pluginConfigureWidgets.sideBarEnabledBtn = checkboxDisplaySidebar;
+	pluginConfigureWidgets.sidebarSearchPolicyCombo = combobox;
+
 	/* Connect a callback for when the user clicks a dialog button */
-	g_signal_connect(dialog, "response", G_CALLBACK(on_configure_response), checkbox);
+	g_signal_connect(dialog, "response", G_CALLBACK(on_configure_response), NULL);
 
 	return vbox;
 }
