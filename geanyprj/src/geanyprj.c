@@ -332,7 +332,11 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_table_set_row_spacings(GTK_TABLE(table), 5);
 	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
 	
-	label = gtk_label_new(_("Search policy:"));
+	label = gtk_label_new(_("Keyboard fast-search policy:"));
+	gtk_widget_set_tooltip_markup(label,
+	                      _("Select items using keyboard when sidebar is focused.\n"
+	                        "Use arrows to select sibling matches.\n"
+	                        "Hit Enter to open the selected file."));
 	gtk_misc_set_alignment(GTK_MISC(label), 1, 0);
 
 	combobox = gtk_combo_box_new_text();
