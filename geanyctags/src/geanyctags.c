@@ -113,8 +113,9 @@ static void spawn_cmd(const gchar *cmd, const gchar *dir)
 	gchar *working_dir;
 	gchar *utf8_working_dir;
 	gchar *utf8_cmd_string;
-	gchar *err;
+	gchar *out, *err;
 	gint exitcode;
+	gboolean success;
 
 #ifndef G_OS_WIN32
 	/* run within shell so we can use pipes */
@@ -139,9 +140,13 @@ static void spawn_cmd(const gchar *cmd, const gchar *dir)
 	msgwin_msg_add(COLOR_BLUE, -1, NULL, _("%s (in directory: %s)"), utf8_cmd_string, utf8_working_dir);
 	g_free(utf8_working_dir);
 	g_free(utf8_cmd_string);
-
-	if (!utils_spawn_sync(working_dir, argv, NULL, G_SPAWN_SEARCH_PATH,
-			NULL, NULL, NULL, &err, &exitcode, &error) || exitcode != 0)
+	
+	success = utils_spawn_sync(working_dir, argv, NULL, G_SPAWN_SEARCH_PATH,
+			NULL, NULL, &out, &err, &exitcode, &error);
+#ifdef G_OS_WIN32
+	err = out;
+#endif
+	if (!success || exitcode != 0)
 	{
 		if (error != NULL)
 		{
