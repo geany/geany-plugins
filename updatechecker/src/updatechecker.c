@@ -48,6 +48,8 @@ enum {
     UPDATECHECK_STARTUP
 };
 
+#define UPDATE_CHECK_URL "http://geany.org/service/version.php"
+
 static GtkWidget *main_menu_item = NULL;
 static void update_check_result_cb(SoupSession *session,
     SoupMessage *msg, gpointer user_data);
@@ -81,13 +83,15 @@ static void update_check(gint type)
     gchar *user_agent = g_strconcat("Updatechecker ", VERSION, " at Geany ",
                                      GEANY_VERSION, NULL);
 
-    g_message("Checking for updates");
-    soup = soup_session_async_new_with_options(SOUP_SESSION_USER_AGENT,
-            user_agent, NULL);
+    g_message("Checking for updates (querying URL \"%s\")", UPDATE_CHECK_URL);
+    soup = soup_session_async_new_with_options(
+            SOUP_SESSION_USER_AGENT, user_agent,
+            SOUP_SESSION_TIMEOUT, 10,
+            NULL);
 
     g_free(user_agent);
 
-    msg = soup_message_new ("GET", "http://geany.org/service/version.php");
+    msg = soup_message_new ("GET", UPDATE_CHECK_URL);
 
     soup_session_queue_message (soup, msg, update_check_result_cb, GINT_TO_POINTER(type));
 }
@@ -184,35 +188,45 @@ static void update_check_result_cb(SoupSession *session,
     /* Checking whether we did get a valid (200) result */
     if (msg->status_code == 200)
     {
-        if (version_compare(msg->response_body->data) == TRUE)
+        const gchar *remote_version = msg->response_body->data;
+        if (version_compare(remote_version) == TRUE)
         {
-            dialogs_show_msgbox(GTK_MESSAGE_INFO,
-                _("There is a more recent version of Geany available"));
-            g_message(_("There is a more recent version of Geany available"));
+            gchar *update_msg = g_strdup_printf(
+                _("There is a more recent version of Geany available: %s"),
+                remote_version);
+            dialogs_show_msgbox(GTK_MESSAGE_INFO, "%s", update_msg);
+            g_message("%s", update_msg);
+            g_free(update_msg);
         }
         else
         {
+            const gchar *no_update_msg = _("No newer Geany version available");
             if (type == UPDATECHECK_MANUAL)
             {
-                dialogs_show_msgbox(GTK_MESSAGE_INFO,
-                    _("No update available"));
+                dialogs_show_msgbox(GTK_MESSAGE_INFO, "%s", no_update_msg);
             }
-
-            g_message("No update available");
-
+            else
+            {
+                msgwin_status_add("%s", no_update_msg);
+            }
+            g_message("%s", no_update_msg);
         }
     }
     else
     {
+        gchar *error_message = g_strdup_printf(
+            _("Unable to perform version check.\nError code: %d \nError message: »%s«"),
+            msg->status_code, msg->reason_phrase);
         if (type == UPDATECHECK_MANUAL)
         {
-            dialogs_show_msgbox(GTK_MESSAGE_ERROR,
-                _("Wasn't able to catch some version information.\n"
-                "Error code: %d \n"
-                "Error message: »%s«"), msg->status_code, msg->reason_phrase);
+            dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", error_message);
         }
-        g_warning("Connection error. Code: %d; Message: %s",
-            msg->status_code, msg->reason_phrase);
+        else
+        {
+            msgwin_status_add("%s", error_message);
+        }
+        g_warning("Connection error: Code: %d; Message: %s", msg->status_code, msg->reason_phrase);
+        g_free(error_message);
     }
 }
 
