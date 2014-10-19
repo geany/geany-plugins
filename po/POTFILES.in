@@ -104,6 +104,9 @@ devhelp/devhelp/ige-conf-gconf.c
 devhelp/devhelp/ige-conf.h
 devhelp/devhelp/ige-conf-private.h
 
+# geanyctags
+geanyctags/src/geanyctags.c
+
 # geanydoc
 geanydoc/tests/unittests.c
 geanydoc/src/config.c
