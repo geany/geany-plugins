@@ -35,7 +35,6 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <sys/types.h>
-#include <sys/wait.h>
 #include <signal.h>
 
 
@@ -203,6 +202,7 @@ on_generate_tags(GtkMenuItem *menuitem, gpointer user_data)
 		cmd = g_strconcat(find_string,
 			" | ctags --totals --fields=fKsSt --extra=-fq --c-kinds=+p --sort=foldcase --excmd=number -L - -f ",
 			tag_filename, NULL);
+		g_free(find_string);
 #else
 		/* We don't have find and | on windows, generate tags for all files in the project (-R recursively) */
 		
@@ -218,7 +218,6 @@ on_generate_tags(GtkMenuItem *menuitem, gpointer user_data)
 		spawn_cmd(cmd, prj->base_path);
 
 		g_free(cmd);
-		g_free(find_string);
 		g_free(tag_filename);
 	}
 }
