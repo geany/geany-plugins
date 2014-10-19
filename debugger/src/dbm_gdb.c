@@ -32,6 +32,11 @@
 #ifdef HAVE_CONFIG_H
 	#include "config.h"
 #endif
+
+#ifdef G_OS_WIN32
+	#include "win32.h"
+#endif
+
 #include <geanyplugin.h>
 extern GeanyFunctions	*geany_functions;
 extern GeanyData		*geany_data;
@@ -524,14 +529,18 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 				
 				active_frame = 0;
 
+				#ifdef G_OS_WIN32
+					read_until_prompt();
+				#endif
+
 				if (SR_BREAKPOINT_HIT == stop_reason || SR_END_STEPPING_RANGE == stop_reason)
 				{
 					/* update autos */
 					update_autos();
-			
+	
 					/* update watches */
 					update_watches();
-			
+	
 					/* update files */
 					if (file_refresh_needed)
 					{
@@ -728,28 +737,51 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	dbg_cbs = callbacks;
 
 	/* spawn GDB */
-	if (!g_spawn_async_with_pipes(working_directory, (gchar**)gdb_args, gdb_env,
+	
+	gboolean is_spawned_ok = FALSE;
+	
+	#ifdef G_OS_WIN32
+		is_spawned_ok = win32_spawn_async_with_pipes(working_directory, 
+					(gchar**)gdb_args, gdb_env, 
+					&gdb_pid, &gdb_in, &gdb_out, NULL, &err);
+	#else
+		is_spawned_ok = g_spawn_async_with_pipes(working_directory, 
+					(gchar**)gdb_args, gdb_env,
 				     GDB_SPAWN_FLAGS, NULL,
-				     NULL, &gdb_pid, &gdb_in, &gdb_out, NULL, &err))
+				     NULL, &gdb_pid, &gdb_in, &gdb_out, NULL, &err);
+	#endif
+	
+	if (!is_spawned_ok)
 	{
 		dbg_cbs->report_error(_("Failed to spawn gdb process"));
 		g_free(working_directory);
 		g_strfreev(gdb_env);
 		return FALSE;
 	}
+
 	g_free(working_directory);
 	g_strfreev(gdb_env);
 	
-	/* move gdb to it's own process group */
-	setpgid(gdb_pid, 0);
+	#ifndef G_OS_WIN32
+	
+		/* move gdb to it's own process group */
+		setpgid(gdb_pid, 0);
+	
+	#endif
 	
 	/* set handler for gdb process exit event */ 
 	gdb_src_id = g_child_watch_add(gdb_pid, on_gdb_exit, NULL);
 
 	/* create GDB GIO chanels */
-	gdb_ch_in = g_io_channel_unix_new(gdb_in);
-	gdb_ch_out = g_io_channel_unix_new(gdb_out);
-
+	
+	#ifdef G_OS_WIN32
+		gdb_ch_in = g_io_channel_win32_new_fd(gdb_in);
+		gdb_ch_out = g_io_channel_win32_new_fd(gdb_out);
+	#else
+		gdb_ch_in = g_io_channel_unix_new(gdb_in);
+		gdb_ch_out = g_io_channel_unix_new(gdb_out);
+	#endif
+	
 	/* reading starting gdb messages */
 	lines = read_until_prompt();
 	for (iter = lines; iter; iter = iter->next)
@@ -777,8 +809,15 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	/* collect commands */
 
 	/* loading file */
+	
+	#ifdef G_OS_WIN32
+		gchar *file_path = g_strescape(file, NULL);
+	#else
+		gchar *file_path = file;
+	#endif
+
 	command = g_string_new("");
-	g_string_printf(command, "-file-exec-and-symbols \"%s\"", file);
+	g_string_printf(command, "-file-exec-and-symbols \"%s\"", file_path);
 	commands = add_to_queue(commands, _("~\"Loading target file.\\n\""), command->str, _("Error loading file"), FALSE);
 	g_string_free(command, TRUE);
 
@@ -803,6 +842,15 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	commands = add_to_queue(commands, NULL, command->str, NULL, FALSE);
 	g_string_free(command, TRUE);
 
+	#ifdef G_OS_WIN32
+
+		/* set separate console for target*/
+		command = g_string_new("set new-console on");
+		commands = add_to_queue(commands, NULL, command->str, NULL, FALSE);
+		g_string_free(command, TRUE);
+	
+	#endif
+	
 	/* set passed evironment */
 	iter = env;
 	while (iter)
@@ -829,10 +877,16 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 		breakpoint *bp = (breakpoint*)biter->data;
 		GString *error_message = g_string_new("");
 
+		#ifdef G_OS_WIN32
+			gchar *bp_file_path = g_strescape(bp->file, NULL);
+		#else
+			gchar *bp_file_path = bp->file;
+		#endif
+		
 		command = g_string_new("");
-		g_string_printf(command, "-break-insert -f \"\\\"%s\\\":%i\"", bp->file, bp->line);
+		g_string_printf(command, "-break-insert -f \"\\\"%s\\\":%i\"", bp_file_path, bp->line);
 
-		g_string_printf(error_message, _("Breakpoint at %s:%i cannot be set\nDebugger message: %s"), bp->file, bp->line, "%s");
+		g_string_printf(error_message, _("Breakpoint at %s:%i cannot be set\nDebugger message: %s"), bp_file_path, bp->line, "%s");
 		
 		commands = add_to_queue(commands, NULL, command->str, error_message->str, TRUE);
 
@@ -866,12 +920,19 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 		biter = biter->next;
 	}
 
-	/* set debugging terminal */
-	command = g_string_new("-inferior-tty-set ");
-	g_string_append(command, terminal_device);
-	commands = add_to_queue(commands, NULL, command->str, NULL, FALSE);
-	g_string_free(command, TRUE);
-
+	#ifndef G_OS_WIN32
+	
+		if (terminal_device != NULL)
+		{
+			/* set debugging terminal */
+			command = g_string_new("-inferior-tty-set ");
+			g_string_append(command, terminal_device);
+			commands = add_to_queue(commands, NULL, command->str, NULL, FALSE);
+			g_string_free(command, TRUE);
+		}
+		
+    #endif
+    
 	/* connect read callback to the output chanel */
 	gdb_id_out = g_io_add_watch(gdb_ch_out, G_IO_IN, on_read_async_output, commands);
 
@@ -999,6 +1060,12 @@ static int get_break_number(char* file, int line)
  */
 static gboolean set_break(breakpoint* bp, break_set_activity bsa)
 {
+	#ifdef G_OS_WIN32
+		gchar *bp_file_path = g_strescape(bp->file, NULL);
+	#else
+		gchar *bp_file_path = bp->file;
+	#endif
+		
 	char command[1000];
 	if (BSA_NEW_BREAK == bsa)
 	{
@@ -1009,11 +1076,11 @@ static gboolean set_break(breakpoint* bp, break_set_activity bsa)
 		gchar *record = NULL;
 
 		/* 1. insert breakpoint */
-		sprintf (command, "-break-insert \"\\\"%s\\\":%i\"", bp->file, bp->line);
+		sprintf (command, "-break-insert \"\\\"%s\\\":%i\"", bp_file_path, bp->line);
 		if (RC_DONE != exec_sync_command(command, TRUE, &record))
 		{
 			g_free(record);
-			sprintf (command, "-break-insert -f \"\\\"%s\\\":%i\"", bp->file, bp->line);
+			sprintf (command, "-break-insert -f \"\\\"%s\\\":%i\"", bp_file_path, bp->line);
 			if (RC_DONE != exec_sync_command(command, TRUE, &record))
 			{
 				g_free(record);
@@ -1050,7 +1117,7 @@ static gboolean set_break(breakpoint* bp, break_set_activity bsa)
 	else
 	{
 		/* modify existing breakpoint */
-		int bnumber = get_break_number(bp->file, bp->line);
+		int bnumber = get_break_number(bp_file_path, bp->line);
 		if (-1 == bnumber)
 			return FALSE;
 
@@ -1072,8 +1139,14 @@ static gboolean set_break(breakpoint* bp, break_set_activity bsa)
  */
 static gboolean remove_break(breakpoint* bp)
 {
+	#ifdef G_OS_WIN32
+		gchar *bp_file_path = g_strescape(bp->file, NULL);
+	#else
+		gchar *bp_file_path = bp->file;
+	#endif
+	
 	/* find break number */
-	int number = get_break_number(bp->file, bp->line);
+	int number = get_break_number(bp_file_path, bp->line);
 	if (-1 != number)
 	{
 		result_class rc;
@@ -1776,10 +1849,14 @@ static gboolean request_interrupt(void)
 	sprintf(msg, "interrupting pid=%i", target_pid);
 	dbg_cbs->send_message(msg, "red");
 #endif
-	
 	requested_interrupt = TRUE;
-	kill(target_pid, SIGINT);
-
+	
+	#ifdef G_OS_WIN32
+		win32_kill(target_pid, 1);
+	#else
+		kill(target_pid, SIGINT);
+	#endif
+	
 	return TRUE;
 }
 

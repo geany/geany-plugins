@@ -1,0 +1,142 @@
+PLUGIN= debugger
+
+CC = gcc
+RM = del
+
+#path to Gtk installed dir
+GTK_PATH = C:/libs
+
+-include ../localwin32.mk
+
+
+DBGPLUG_DATA_DIR="\"$(GEANY)/share/geany-plugins/debugger\"" 
+LOCALEDIR="\"$(GEANY)/share/locale/debugger\""
+
+ifdef MSYS
+	RM = rm -f
+endif
+
+.SUFFIXES: .xpm .c .o .dll
+
+GEANY_INCLUDES=  -I$(GEANY_SRC)/plugins \
+                 -I$(GEANY_SRC)/src \
+                 -I$(GEANY_SRC)/scintilla/include \
+                 -I$(GEANY_SRC)/tagmanager/src \
+
+GTK_INCLUDES= \
+	-I$(GTK_PATH)/include/gtk-2.0 \
+	-I$(GTK_PATH)/lib/gtk-2.0/include \
+	-I$(GTK_PATH)/include/atk-1.0 \
+	-I$(GTK_PATH)/include/cairo \
+	-I$(GTK_PATH)/include/gdk-pixbuf-2.0 \
+	-I$(GTK_PATH)/include/pango-1.0 \
+	-I$(GTK_PATH)/include/glib-2.0 \
+	-I$(GTK_PATH)/lib/glib-2.0/include \
+	-I$(GTK_PATH)/include \
+	-I$(GTK_PATH)/include/gettext
+
+INCLUDEDIRS=  -I.. $(GEANY_INCLUDES) $(GTK_INCLUDES)
+
+ALL_GTK_LIBS= \
+	-L"$(GTK_PATH)/lib" \
+	-lgtk-win32-2.0 -lgdk-win32-2.0 -latk-1.0 -lgdk_pixbuf-2.0 -lpangowin32-1.0 -lgdi32 \
+	-lpango-1.0 -lgobject-2.0 -lgthread-2.0 -lglib-2.0 -lgthread-2.0 -lintl \
+	-lcairo -lpangocairo-1.0 -lgio-2.0
+
+
+ifndef GTK210
+    ALL_GTK_LIBS += -liconv
+endif
+
+CBASEFLAGS=-Wall -pipe -mms-bitfields
+
+ifdef DEBUG
+    CFLAGS=-O0 -g $(CBASEFLAGS)
+else
+    CFLAGS=-O2 $(CBASEFLAGS)
+endif
+
+CFLAGS+=    -DGTK \
+			-DPLUGIN_NAME="$(PLUGIN)" \
+			-DDBGPLUG_DATA_DIR=$(DBGPLUG_DATA_DIR) \
+			-DLOCALEDIR=$(LOCALEDIR) \
+			-DHAVE_CONFIG_H \
+			-mwindows
+
+
+.PHONY: all clean plugin
+
+XPMS= \
+	xpm/breakpoint_condition.xpm     \
+	xpm/breakpoint_disabled.xpm     \
+	xpm/breakpoint.xpm     \
+	xpm/frame_current.xpm     \
+	xpm/frame.xpm     \
+	xpm/argument.xpm     \
+	xpm/local.xpm     \
+	xpm/watch.xpm
+
+
+SRCS = \
+	bptree.c     \
+	breakpoint.c     \
+	breakpoints.c     \
+	btnpanel.c     \
+	callbacks.c     \
+	calltip.c     \
+	dbm_gdb.c     \
+	dconfig.c     \
+	debug.c     \
+	debug_module.c     \
+	dpaned.c     \
+	envtree.c     \
+	gui.c     \
+	keys.c     \
+	atree.c     \
+	markers.c     \
+	pixbuf.c     \
+	plugin.c     \
+	stree.c     \
+	tabs.c     \
+	tpage.c     \
+	utils.c     \
+	vtree.c     \
+	watch_model.c     \
+	wtree.c     \
+	win32.c    \
+	cell_renderers/cellrendererbreakicon.c \
+	cell_renderers/cellrendererframeicon.c \
+	cell_renderers/cellrenderertoggle.c
+
+
+OBJS = $(SRCS:.c=.o)
+OBJS += $(XPMS:.xpm=.o)
+
+all: $(OBJS) plugin
+
+.xpm.o:
+	$(CC) -x c $(CFLAGS) $(DEFINES) $(INCLUDEDIRS) -o $@ -c $<
+
+.c.o:
+	$(CC) $(CFLAGS) $(DEFINES) $(INCLUDEDIRS) -o $@ -c $<
+
+plugin:
+	$(CC) -shared $(OBJS) $(ALL_GTK_LIBS) $(DLL_LD_FLAGS) -o $(PLUGIN).dll
+
+
+clean:
+	-$(RM) deps.mak *.o *.dll
+
+deps.mak:
+	$(CC) -MM $(CFLAGS) $(DEFINES) $(INCLUDEDIRS) *.c >deps.mak
+
+# Generate header dependencies with "make deps.mak"
+include deps.mak
+
+..\localwin32.mk:
+	echo # Set local variables here >$@
+
+
+
+
+

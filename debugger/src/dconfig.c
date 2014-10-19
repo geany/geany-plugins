@@ -471,7 +471,10 @@ void config_init(void)
 void config_destroy(void)
 {
 	g_cond_signal(cond);
-	/* ??? g_thread_join(saving_thread); */	
+	
+	#ifdef G_OS_WIN32
+		g_thread_join(saving_thread);	
+	#endif
 	
 	g_mutex_free(change_config_mutex);
 	g_cond_free(cond);
