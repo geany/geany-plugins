@@ -113,7 +113,7 @@ static void spawn_cmd(const gchar *cmd, const gchar *dir)
 	gchar *working_dir;
 	gchar *utf8_working_dir;
 	gchar *utf8_cmd_string;
-	gchar *out, *err;
+	gchar *out;
 	gint exitcode;
 	gboolean success;
 
@@ -141,10 +141,12 @@ static void spawn_cmd(const gchar *cmd, const gchar *dir)
 	g_free(utf8_working_dir);
 	g_free(utf8_cmd_string);
 	
+#ifndef G_OS_WIN32
 	success = utils_spawn_sync(working_dir, argv, NULL, G_SPAWN_SEARCH_PATH,
-			NULL, NULL, &out, &err, &exitcode, &error);
-#ifdef G_OS_WIN32
-	err = out;
+			NULL, NULL, NULL, &out, &exitcode, &error);
+#else
+	success = utils_spawn_sync(working_dir, argv, NULL, G_SPAWN_SEARCH_PATH,
+			NULL, NULL, &out, NULL, &exitcode, &error);
 #endif
 	if (!success || exitcode != 0)
 	{
@@ -153,16 +155,16 @@ static void spawn_cmd(const gchar *cmd, const gchar *dir)
 			msgwin_msg_add(COLOR_RED, -1, NULL, _("Process execution failed (%s)"), error->message);
 			g_error_free(error);
 		}
-		msgwin_msg_add(COLOR_RED, -1, NULL, "%s", err);
+		msgwin_msg_add(COLOR_RED, -1, NULL, "%s", out);
 	}
 	else
 	{
-		msgwin_msg_add(COLOR_BLACK, -1, NULL, "%s", err);
+		msgwin_msg_add(COLOR_BLACK, -1, NULL, "%s", out);
 	}
 
 	g_strfreev(argv);
 	g_free(working_dir);
-	g_free(err);
+	g_free(out);
 }
 
 static gchar *get_tags_filename()
