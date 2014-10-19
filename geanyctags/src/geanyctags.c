@@ -93,11 +93,18 @@ static void on_project_close(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED gpointer
 	set_widgets_sensitive(FALSE);
 }
 
+static void on_project_save(G_GNUC_UNUSED GObject * obj, GKeyFile * config, G_GNUC_UNUSED gpointer user_data)
+{
+	set_widgets_sensitive(TRUE);
+}
+
 PluginCallback plugin_callbacks[] = {
 	{"project-open", (GCallback) & on_project_open, TRUE, NULL},
 	{"project-close", (GCallback) & on_project_close, TRUE, NULL},
+	{"project-save", (GCallback) & on_project_save, TRUE, NULL},
 	{NULL, NULL, FALSE, NULL}
 };
+
 
 static void spawn_cmd(const gchar *cmd, const gchar *dir)
 {
