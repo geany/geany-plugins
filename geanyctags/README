@@ -38,7 +38,8 @@ To generate the list of tags, make sure that
 * "File patterns" are specified correctly under Project->Properties
 
 Then, select Project->Generate tags. After this, a file whose name corresponds to
-the project name with the suffix ".tags" is created in the base path of the project.
+the project name with the suffix ".tags" is created in the same directory as the
+project file.
 
 Tag Querying
 ------------
