@@ -504,7 +504,7 @@ void ao_tasks_remove(AoTasks *t, GeanyDocument *cur_doc)
 	GtkTreeIter iter;
 	gchar *filename;
 
-	if (! priv->active)
+	if (! priv->active || ! priv->enable_tasks)
 		return;
 
 	if (gtk_tree_model_get_iter_first(model, &iter))
@@ -600,7 +600,7 @@ void ao_tasks_update_single(AoTasks *t, GeanyDocument *cur_doc)
 {
 	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
 
-	if (! priv->active)
+	if (! priv->active || ! priv->enable_tasks)
 		return;
 
 	if (! priv->scan_all_documents)
@@ -651,9 +651,12 @@ static gboolean ao_tasks_select_task(GtkTreeModel *model, GtkTreePath *path,
 void ao_tasks_set_active(AoTasks *t)
 {
 	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
-	priv->active = TRUE;
 
-	ao_tasks_update(t, NULL);
+	if (priv->enable_tasks)
+	{
+		priv->active = TRUE;
+		ao_tasks_update(t, NULL);
+	}
 }
 
 
@@ -661,7 +664,7 @@ void ao_tasks_update(AoTasks *t, GeanyDocument *cur_doc)
 {
 	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
 
-	if (! priv->active)
+	if (! priv->active || ! priv->enable_tasks)
 		return;
 
 	if (! priv->scan_all_documents && cur_doc == NULL)
