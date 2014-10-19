@@ -422,6 +422,8 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 		{
 			GPatternSpec *name_pat;
 			gchar *name_case;
+			gchar *path = NULL; 
+			gint num = 0;
 
 			if (case_sensitive)
 				name_case = g_strdup(name);
@@ -433,25 +435,35 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 
 			if (!filter_tag(&entry, name_pat, declaration, case_sensitive))
 			{
-				gchar *path = g_build_filename(prj->base_path, entry.file, NULL);
+				path = g_build_filename(prj->base_path, entry.file, NULL);
+				show_entry(&entry);
+				num++;
+			}
+			
+			while (find_next(tf, &entry, match_type))
+			{
+				if (!filter_tag(&entry, name_pat, declaration, case_sensitive))
+				{
+					if (!path)
+						path = g_build_filename(prj->base_path, entry.file, NULL);
+					show_entry(&entry);
+					num++;
+				}
+			}
+			
+			if (num == 1)
+			{
 				GeanyDocument *doc = document_open_file(path, FALSE, NULL, NULL);
 				if (doc != NULL)
 				{
 					navqueue_goto_line(document_get_current(), doc, entry.address.lineNumber);
 					gtk_widget_grab_focus(GTK_WIDGET(doc->editor->sci));
 				}
-				show_entry(&entry);
-				g_free(path);
-			}
-			
-			while (find_next(tf, &entry, match_type))
-			{
-				if (!filter_tag(&entry, name_pat, declaration, case_sensitive))
-					show_entry(&entry);
 			}
 
 			g_pattern_spec_free(name_pat);
 			g_free(name_case);
+			g_free(path);
 		}
 
 		tagsClose(tf);
