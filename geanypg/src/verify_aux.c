@@ -90,58 +90,37 @@ static char * geanypg_summary(gpgme_sigsum_t summary, char * buffer)
   return buffer;
 }
 
-static char * geanypg_result(gpgme_signature_t sig)
+static gchar * geanypg_result(gpgme_signature_t sig)
 {
-    char * format =
-    _("status ....: %s\n"
-      "summary ...:%s\n"
-      "fingerprint: %s\n"
-      "created ...: %s"
-      "expires ...: %s"
-      "validity ..: %s\n"
-      "val.reason : %s\n"
-      "pubkey algo: %s\n"
-      "digest algo: %s\n"
-      "pka address: %s\n"
-      "pka trust .: %s\n"
-      "other flags:%s%s\n"
-      "notations .: %s\n");
-    char * buffer;
     char summary[128] = {0};
     const char * pubkey = gpgme_pubkey_algo_name(sig->pubkey_algo);
     const char * hash = gpgme_hash_algo_name(sig->hash_algo);
     char created[64] = {0};
     char expires[64] = {0};
-    size_t buffer_size;
     if (sig->timestamp)
-        strncpy(created, ctime((time_t*)&sig->timestamp), 64);
+        strncpy(created, ctime((time_t*)&sig->timestamp), sizeof(created) - 1);
     else
         strcpy(created, _("Unknown\n"));
 
     if (sig->exp_timestamp)
-        strncpy(expires, ctime((time_t*)&sig->exp_timestamp), 64);
+        strncpy(expires, ctime((time_t*)&sig->exp_timestamp), sizeof(expires) - 1);
     else
         strcpy(expires, _("Unknown\n"));
 
-    buffer_size = strlen(format) +
-        strlen(gpgme_strerror(sig->status)) +
-        strlen(geanypg_summary(sig->summary, summary)) +
-        strlen(sig->fpr ? sig->fpr : _("[None]")) +
-        strlen(created) +
-        strlen(expires) +
-        strlen(geanypg_validity(sig->validity)) +
-        strlen(gpgme_strerror(sig->status)) +
-        strlen(pubkey ? pubkey : _("Unknown")) +
-        strlen(hash ? hash : _("Unknown")) +
-        strlen(sig->pka_address ? sig->pka_address : _("[None]")) +
-        strlen(sig->pka_trust == 0 ? _("n/a") : sig->pka_trust == 1 ? _("bad") : sig->pka_trust == 2 ? _("okay"): _("RFU")) +
-        strlen(sig->wrong_key_usage ? _(" wrong-key-usage") : "") +
-        strlen(sig->chain_model ? _(" chain-model") : "") +
-        strlen(sig->notations ? _("yes") : _("no")) + 1; /* and a trailing \0 */
-
-    buffer = (char *)calloc(buffer_size, 1);
-    memset(summary, 0, 128);
-    sprintf(buffer, format,
+    return g_strdup_printf(
+        _("status ....: %s\n"
+          "summary ...:%s\n"
+          "fingerprint: %s\n"
+          "created ...: %s"
+          "expires ...: %s"
+          "validity ..: %s\n"
+          "val.reason : %s\n"
+          "pubkey algo: %s\n"
+          "digest algo: %s\n"
+          "pka address: %s\n"
+          "pka trust .: %s\n"
+          "other flags:%s%s\n"
+          "notations .: %s\n"),
         gpgme_strerror(sig->status),
         geanypg_summary(sig->summary, summary),
         sig->fpr ? sig->fpr : _("[None]"),
@@ -155,13 +134,12 @@ static char * geanypg_result(gpgme_signature_t sig)
         sig->pka_trust == 0 ? _("n/a") : sig->pka_trust == 1 ? _("bad") : sig->pka_trust == 2 ? _("okay"): _("RFU"),
         sig->wrong_key_usage ? _(" wrong-key-usage") : "", sig->chain_model ? _(" chain-model") : "",
         sig->notations ? _("yes") : _("no"));
-    return buffer;
 }
 void geanypg_check_sig(encrypt_data * ed, gpgme_signature_t sig)
 {
     GtkWidget * dialog;
     char buffer[512] = {0};
-    char * result;
+    gchar * result;
     strncpy(buffer, sig->fpr, 40);
     buffer[40] = 0;
     geanypg_get_keys_with_fp(ed, buffer);
@@ -178,7 +156,7 @@ void geanypg_check_sig(encrypt_data * ed, gpgme_signature_t sig)
     gtk_window_set_title(GTK_WINDOW(dialog), _("Signature"));
 
     gtk_dialog_run(GTK_DIALOG(dialog));
-    free(result);
+    g_free(result);
     gtk_widget_destroy(dialog);
 }
 
