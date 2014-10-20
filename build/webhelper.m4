@@ -31,8 +31,5 @@ AC_DEFUN([GP_CHECK_WEBHELPER],
 
     GP_COMMIT_PLUGIN_STATUS([WebHelper])
 
-    AC_CONFIG_FILES([
-        webhelper/Makefile
-        webhelper/src/Makefile
-    ])
+    AC_CONFIG_FILES([webhelper/Makefile])
 ])

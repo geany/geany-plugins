@@ -15,10 +15,5 @@ AC_DEFUN([GP_CHECK_SCOPE],
 
     AC_SUBST(PTY_LIBS)
 
-    AC_CONFIG_FILES([
-        scope/Makefile
-        scope/data/Makefile
-        scope/docs/Makefile
-        scope/src/Makefile
-    ])
+    AC_CONFIG_FILES([scope/Makefile])
 ])

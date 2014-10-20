@@ -24,8 +24,5 @@ AC_DEFUN([GP_CHECK_TREEBROWSER],
     GP_COMMIT_PLUGIN_STATUS([TreeBrowser])
     GP_STATUS_FEATURE_ADD([TreeBrowser GIO support], [$have_gio])
 
-    AC_CONFIG_FILES([
-        treebrowser/Makefile
-        treebrowser/src/Makefile
-    ])
+    AC_CONFIG_FILES([treebrowser/Makefile])
 ])
