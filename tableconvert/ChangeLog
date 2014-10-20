@@ -1,3 +1,8 @@
+2014-10-20  Frank Lanitz  <frank@frank.uvena.de>
+
+ * Adding support for DokuWiki
+
+
 2014-10-10  Frank Lanitz  <frank@frank.uvena.de>
 
  * Introducing a special menu entry into Tools-menu allowing to convert
