@@ -9,7 +9,9 @@ before_install:
 install:
   - sudo apt-get install -y libgtk2.0-dev libgtk-3-dev intltool libtool
   - sudo apt-get install -y python-docutils
-  - sudo apt-get install -y cppcheck check
+  - sudo apt-get install -y check
+  # FIXME: there are weird error with spellcheck and Ubuntu 12.04's version of cppcheck (1.52)
+  #- sudo apt-get install -y cppcheck
   # debugger
   - sudo apt-get install -y libvte-dev
   # devhelp
