@@ -440,7 +440,7 @@ free_mem:
  * @return	GSList*	languages list
  * 
  */
-GSList* switch_head_impl_get_languages()
+GSList* switch_head_impl_get_languages(void)
 {
 	return languages;
 }

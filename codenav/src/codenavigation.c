@@ -74,7 +74,7 @@ GtkWidget*
 config_widget(void);
 
 static void 
-load_configuration();
+load_configuration(void);
 
 static void
 on_configure_add_language(GtkWidget* widget, gpointer data);
@@ -114,7 +114,7 @@ void plugin_init(GeanyData *data)
  * @return void
  * 
  */
-static void load_configuration()
+static void load_configuration(void)
 {
 	GKeyFile *config = NULL;
 	gchar *config_filename = NULL;

@@ -51,7 +51,7 @@ fill_languages_list(const gchar**, const gchar**, gsize);
 
 
 
-GSList* switch_head_impl_get_languages();
+GSList* switch_head_impl_get_languages(void);
 
 
 #endif /* SWITCH_HEAD_IMPL_H */
