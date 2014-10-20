@@ -38,6 +38,14 @@
 #include <signal.h>
 
 
+/* Pre-GTK 2.24 compatibility */
+#ifndef GTK_COMBO_BOX_TEXT
+#	define GTK_COMBO_BOX_TEXT GTK_COMBO_BOX
+#	define gtk_combo_box_text_new gtk_combo_box_new_text
+#	define gtk_combo_box_text_append_text gtk_combo_box_append_text
+#endif
+
+
 PLUGIN_VERSION_CHECK(211)
 PLUGIN_SET_INFO("GeanyCtags",
 	_("Ctags generation and search plugin for geany projects"),
@@ -538,10 +546,10 @@ static void create_dialog_find_file(void)
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 	gtk_size_group_add_widget(size_group, label);
 
-	s_ft_dialog.combo_match = gtk_combo_box_new_text();
-	gtk_combo_box_append_text(GTK_COMBO_BOX(s_ft_dialog.combo_match), "full");
-	gtk_combo_box_append_text(GTK_COMBO_BOX(s_ft_dialog.combo_match), "prefix");
-	gtk_combo_box_append_text(GTK_COMBO_BOX(s_ft_dialog.combo_match), "pattern");
+	s_ft_dialog.combo_match = gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(s_ft_dialog.combo_match), "full");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(s_ft_dialog.combo_match), "prefix");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(s_ft_dialog.combo_match), "pattern");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(s_ft_dialog.combo_match), 1);
 	gtk_label_set_mnemonic_widget(GTK_LABEL(label), s_ft_dialog.combo_match);
 
