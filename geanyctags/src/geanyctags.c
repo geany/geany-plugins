@@ -60,7 +60,7 @@ static struct
 	GtkWidget *combo_match;
 	GtkWidget *case_sensitive;
 	GtkWidget *declaration;
-} s_ft_dialog = {NULL, NULL, NULL, NULL};
+} s_ft_dialog = {NULL, NULL, NULL, NULL, NULL};
 
 
 enum
