@@ -38,11 +38,11 @@
 #include <signal.h>
 
 
-PLUGIN_VERSION_CHECK(211);
+PLUGIN_VERSION_CHECK(211)
 PLUGIN_SET_INFO("GeanyCtags",
 	_("Ctags generation and search plugin for geany projects"),
 	VERSION,
-	"Jiri Techet <techet@gmail.com>");
+	"Jiri Techet <techet@gmail.com>")
 
 GeanyPlugin *geany_plugin;
 GeanyData *geany_data;
