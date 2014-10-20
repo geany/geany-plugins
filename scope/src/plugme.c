@@ -27,7 +27,6 @@ extern GeanyFunctions *geany_functions;
 /* This file must not depend on Scope */
 #include "plugme.h"
 
-#ifndef ui_setup_open_button_callback
 static gchar *run_file_chooser(const gchar *title, GtkFileChooserAction action,
 		const gchar *utf8_path)
 {
@@ -101,7 +100,7 @@ static void ui_path_box_open_clicked(G_GNUC_UNUSED GtkButton *button, gpointer u
 /* Setup a GtkButton to run a GtkFileChooser, setting entry text if successful.
  * title can be NULL.
  * action is the file chooser mode to use. */
-void ui_setup_open_button_callback(GtkWidget *open_btn, const gchar *title,
+void plugme_ui_setup_open_button_callback(GtkWidget *open_btn, const gchar *title,
 		GtkFileChooserAction action, GtkEntry *entry)
 {
 	GtkWidget *path_entry = GTK_WIDGET(entry);
@@ -113,11 +112,9 @@ void ui_setup_open_button_callback(GtkWidget *open_btn, const gchar *title,
 	ui_hookup_widget(open_btn, path_entry, "entry");
 	g_signal_connect(open_btn, "clicked", G_CALLBACK(ui_path_box_open_clicked), open_btn);
 }
-#endif  /* ui_setup_open_button_callback */
 
-#ifndef editor_get_default_selection
 /* Note: this is NOT the Geany function, only similar */
-gchar *editor_get_default_selection(GeanyEditor *editor, gboolean use_current_word,
+gchar *plugme_editor_get_default_selection(GeanyEditor *editor, gboolean use_current_word,
 									const gchar *wordchars)
 {
 	ScintillaObject *sci = editor->sci;
@@ -138,7 +135,6 @@ gchar *editor_get_default_selection(GeanyEditor *editor, gboolean use_current_wo
 
 	return text;
 }
-#endif  /* editor_get_default_selection */
 
 static void on_config_file_clicked(G_GNUC_UNUSED GtkWidget *widget, gpointer user_data)
 {

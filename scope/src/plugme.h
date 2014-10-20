@@ -19,6 +19,18 @@
 
 #ifndef PLUGME_H
 
+#ifndef ui_setup_open_button_callback
+void plugme_ui_setup_open_button_callback(GtkWidget *open_btn, const gchar *title,
+		GtkFileChooserAction action, GtkEntry *entry);
+#define ui_setup_open_button_callback plugme_ui_setup_open_button_callback
+#endif  /* ui_setup_open_button_callback */
+
+#ifndef editor_get_default_selection
+gchar *plugme_editor_get_default_selection(GeanyEditor *editor, gboolean use_current_word,
+		const gchar *wordchars);
+#define editor_get_default_selection plugme_editor_get_default_selection
+#endif  /* editor_get_default_selection */
+
 #ifndef ui_add_config_file_menu_item
 GtkWidget *plugme_ui_add_config_file_menu_item(const gchar *real_path, const gchar *label,
 	GtkContainer *parent);
