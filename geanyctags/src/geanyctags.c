@@ -167,7 +167,7 @@ static void spawn_cmd(const gchar *cmd, const gchar *dir)
 	g_free(out);
 }
 
-static gchar *get_tags_filename()
+static gchar *get_tags_filename(void)
 {
 	gchar *ret = NULL;
 
@@ -288,7 +288,7 @@ static void show_entry(tagEntry *entry)
 }
 
 
-static gchar *get_selection()
+static gchar *get_selection(void)
 {
 	gchar *ret = NULL;
 	GeanyDocument *doc = document_get_current();
@@ -496,7 +496,7 @@ static void on_find_definition(GtkMenuItem *menuitem, gpointer user_data)
 	g_free(name);
 }
 
-static void create_dialog_find_file()
+static void create_dialog_find_file(void)
 {
 	GtkWidget *label, *vbox, *ebox, *entry;
 	GtkSizeGroup *size_group;
