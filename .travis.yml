@@ -21,7 +21,8 @@ install:
   # geanypg
   - sudo apt-get install -y libgpgme11-dev
   # geanypy
-  - sudo apt-get install -y libpython-dev
+  # FIXME: Ubuntu 12.04 doesn't seem to have it??
+  #- sudo apt-get install -y libpython-dev
   # geanyvc
   - sudo apt-get install -y libgtkspell-dev
   # geaniuspaste/updatechecker
