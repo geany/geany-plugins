@@ -38,11 +38,19 @@
 #include <signal.h>
 
 
-PLUGIN_VERSION_CHECK(211);
+/* Pre-GTK 2.24 compatibility */
+#ifndef GTK_COMBO_BOX_TEXT
+#	define GTK_COMBO_BOX_TEXT GTK_COMBO_BOX
+#	define gtk_combo_box_text_new gtk_combo_box_new_text
+#	define gtk_combo_box_text_append_text gtk_combo_box_append_text
+#endif
+
+
+PLUGIN_VERSION_CHECK(211)
 PLUGIN_SET_INFO("GeanyCtags",
 	_("Ctags generation and search plugin for geany projects"),
 	VERSION,
-	"Jiri Techet <techet@gmail.com>");
+	"Jiri Techet <techet@gmail.com>")
 
 GeanyPlugin *geany_plugin;
 GeanyData *geany_data;
@@ -60,7 +68,7 @@ static struct
 	GtkWidget *combo_match;
 	GtkWidget *case_sensitive;
 	GtkWidget *declaration;
-} s_ft_dialog = {NULL, NULL, NULL, NULL};
+} s_ft_dialog = {NULL, NULL, NULL, NULL, NULL};
 
 
 enum
@@ -167,7 +175,7 @@ static void spawn_cmd(const gchar *cmd, const gchar *dir)
 	g_free(out);
 }
 
-static gchar *get_tags_filename()
+static gchar *get_tags_filename(void)
 {
 	gchar *ret = NULL;
 
@@ -288,7 +296,7 @@ static void show_entry(tagEntry *entry)
 }
 
 
-static gchar *get_selection()
+static gchar *get_selection(void)
 {
 	gchar *ret = NULL;
 	GeanyDocument *doc = document_get_current();
@@ -496,7 +504,7 @@ static void on_find_definition(GtkMenuItem *menuitem, gpointer user_data)
 	g_free(name);
 }
 
-static void create_dialog_find_file()
+static void create_dialog_find_file(void)
 {
 	GtkWidget *label, *vbox, *ebox, *entry;
 	GtkSizeGroup *size_group;
@@ -538,10 +546,10 @@ static void create_dialog_find_file()
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 	gtk_size_group_add_widget(size_group, label);
 
-	s_ft_dialog.combo_match = gtk_combo_box_new_text();
-	gtk_combo_box_append_text(GTK_COMBO_BOX(s_ft_dialog.combo_match), "full");
-	gtk_combo_box_append_text(GTK_COMBO_BOX(s_ft_dialog.combo_match), "prefix");
-	gtk_combo_box_append_text(GTK_COMBO_BOX(s_ft_dialog.combo_match), "pattern");
+	s_ft_dialog.combo_match = gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(s_ft_dialog.combo_match), "full");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(s_ft_dialog.combo_match), "prefix");
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(s_ft_dialog.combo_match), "pattern");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(s_ft_dialog.combo_match), 1);
 	gtk_label_set_mnemonic_widget(GTK_LABEL(label), s_ft_dialog.combo_match);
 
