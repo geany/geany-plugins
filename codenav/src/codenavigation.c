@@ -74,7 +74,7 @@ GtkWidget*
 config_widget(void);
 
 static void 
-load_configuration();
+load_configuration(void);
 
 static void
 on_configure_add_language(GtkWidget* widget, gpointer data);
@@ -114,13 +114,13 @@ void plugin_init(GeanyData *data)
  * @return void
  * 
  */
-static void load_configuration()
+static void load_configuration(void)
 {
 	GKeyFile *config = NULL;
 	gchar *config_filename = NULL;
 	gchar **impl_list  = NULL, **head_list = NULL;
 	gsize head_list_len, impl_list_len;
-	int i;
+	gsize i;
 
 	/* Load user configuration */ 
 	config = g_key_file_new();
@@ -220,7 +220,7 @@ void plugin_cleanup(void)
 static void
 on_configure_response(GtkDialog* dialog, gint response, gpointer user_data)
 {
-	gint i=0;
+	gsize i=0;
 
 	GKeyFile *config = NULL;
 	gchar *config_filename = NULL;
