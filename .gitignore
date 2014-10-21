@@ -13,6 +13,8 @@ deps.mak
 .libs/
 Makefile
 Makefile.in
+cscope.out
+cscope.files
 
 #-----------------------------------------------------------------------
 # / (root)
