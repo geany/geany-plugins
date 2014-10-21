@@ -87,6 +87,7 @@ void plugin_cleanup(void);
 static void set_widgets_sensitive(gboolean sensitive)
 {
 	gtk_widget_set_sensitive(GTK_WIDGET(s_gt_item), sensitive);
+	gtk_widget_set_sensitive(GTK_WIDGET(s_ft_item), sensitive);
 	gtk_widget_set_sensitive(GTK_WIDGET(s_context_fdec_item), sensitive);
 	gtk_widget_set_sensitive(GTK_WIDGET(s_context_fdef_item), sensitive);
 }
