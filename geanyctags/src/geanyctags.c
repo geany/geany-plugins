@@ -657,7 +657,7 @@ void plugin_init(G_GNUC_UNUSED GeanyData * data)
 	keybindings_set_item(key_group, KB_FIND_TAG, NULL,
 		0, 0, "find_tag", _("Find tag"), s_ft_item);
 
-	set_widgets_sensitive(geany_data->app->project);
+	set_widgets_sensitive(geany_data->app->project != NULL);
 }
 
 void plugin_cleanup(void)
