@@ -579,6 +579,7 @@ void create_sidebar(void)
 
 	/* Input field used to filter file listing */
 	file_view_filter_entry = gtk_entry_new();
+	ui_entry_add_clear_icon(GTK_ENTRY(file_view_filter_entry));
 	gtk_box_pack_start(GTK_BOX(file_view_vbox), file_view_filter_entry, FALSE, FALSE, 0);
 
 	/* File listing */
