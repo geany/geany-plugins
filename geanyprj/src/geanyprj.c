@@ -46,6 +46,13 @@ static gchar    *config_file;
 static gboolean  display_sidebar = TRUE;
 
 
+/* Plugin config keys */
+#define GEANYPRJ_SETTING_SECTION               "geanyprj"
+#define GEANYPRJ_SETTING_KEY_SHOW_SIDEBAR      "display_sidebar"
+#define GEANYPRJ_SETTING_KEY_SHOW_FILTER_ENTRY "display_sidebar_filter"
+#define GEANYPRJ_SETTING_KEY_FILTER_POLICY     "sidebar_filter_policy"
+#define GEANYPRJ_SETTING_KEY_SEARCH_POLICY     "sidebar_search_policy"
+
 /* Keybinding(s) */
 enum
 {
@@ -59,6 +66,8 @@ PLUGIN_KEY_GROUP(geanyprj, KB_COUNT)
 static struct
 {
 	GtkWidget *sideBarEnabledBtn;
+	GtkWidget *sideBarFilterEnabledBtn;
+	GtkWidget *sidebarFilterPolicyCombo;
 	GtkWidget *sidebarSearchPolicyCombo;
 } pluginConfigureWidgets;
 
@@ -148,6 +157,10 @@ static void load_settings(void)
 	GKeyFile *config = g_key_file_new();
 	gboolean  display_sidebar_tmp;
 	GError   *display_sidebar_err      = NULL;
+	gboolean  display_sidebar_filter_tmp;
+	GError   *display_sidebar_filter_err = NULL;
+	gint      sidebar_filter_policy_tmp;
+	GError   *sidebar_filter_policy_err = NULL;
 	gint      sidebar_search_policy_tmp;
 	GError   *sidebar_search_policy_err = NULL;
 
@@ -155,22 +168,42 @@ static void load_settings(void)
 		"geanyprj", G_DIR_SEPARATOR_S, "geanyprj.conf", NULL);
 	g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
 
-	display_sidebar_tmp = g_key_file_get_boolean(config, "geanyprj", "display_sidebar", &display_sidebar_err);
+	/* sidebar visibility */
+	display_sidebar_tmp = g_key_file_get_boolean(config, GEANYPRJ_SETTING_SECTION, GEANYPRJ_SETTING_KEY_SHOW_SIDEBAR, &display_sidebar_err);
 	if (display_sidebar_err)
 		g_error_free(display_sidebar_err);
 	else
 		display_sidebar = display_sidebar_tmp;
 
+	/* sidebar filter visibility */
+	display_sidebar_filter_tmp = g_key_file_get_boolean(config, GEANYPRJ_SETTING_SECTION, GEANYPRJ_SETTING_KEY_SHOW_FILTER_ENTRY, &display_sidebar_filter_err);
+	if (display_sidebar_filter_err)
+		g_error_free(display_sidebar_filter_err);
+	else
+		sidebar_set_kbdfilter_enabled(display_sidebar_filter_tmp);
 
-	sidebar_search_policy_tmp = g_key_file_get_integer(config, "geanyprj", "sidebar_search_policy", &sidebar_search_policy_err);
+	/* sidebar filter policy */
+	sidebar_filter_policy_tmp = g_key_file_get_integer(config, GEANYPRJ_SETTING_SECTION, GEANYPRJ_SETTING_KEY_FILTER_POLICY, &sidebar_filter_policy_err);
+	if (sidebar_filter_policy_err)
+		g_error_free(sidebar_filter_policy_err);
+	else if (sidebar_filter_policy_tmp < 0)
+		debug("%s filter policy is expected to be positive", __FUNCTION__);
+	else if (sidebar_filter_policy_tmp >= KBDSEARCH_POLICY_ENUM_SIZE)
+		debug("%s filter policy is out of bounds", __FUNCTION__);
+	else
+		sidebar_set_kbdfilter_policy((kbdsearch_policy)sidebar_filter_policy_tmp);
+
+	/* sidebar search policy */
+	sidebar_search_policy_tmp = g_key_file_get_integer(config, GEANYPRJ_SETTING_SECTION, GEANYPRJ_SETTING_KEY_SEARCH_POLICY, &sidebar_search_policy_err);
 	if (sidebar_search_policy_err)
 		g_error_free(sidebar_search_policy_err);
 	else if (sidebar_search_policy_tmp < 0)
-		debug("%s policy is expected to be positive", __FUNCTION__);
+		debug("%s search policy is expected to be positive", __FUNCTION__);
 	else if (sidebar_search_policy_tmp >= KBDSEARCH_POLICY_ENUM_SIZE)
-		debug("%s policy is out of bounds", __FUNCTION__);
+		debug("%s search policy is out of bounds", __FUNCTION__);
 	else
 		sidebar_set_kbdsearch_policy((kbdsearch_policy)sidebar_search_policy_tmp);
+
 
 	g_key_file_free(config);
 }
@@ -184,8 +217,10 @@ static void save_settings(void)
 
 	g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
 
-	g_key_file_set_boolean(config, "geanyprj", "display_sidebar", display_sidebar);
-	g_key_file_set_integer(config, "geanyprj", "sidebar_search_policy", (gint)sidebar_get_kbdsearch_policy());
+	g_key_file_set_boolean(config, GEANYPRJ_SETTING_SECTION, GEANYPRJ_SETTING_KEY_SHOW_SIDEBAR, display_sidebar);
+	g_key_file_set_boolean(config, GEANYPRJ_SETTING_SECTION, GEANYPRJ_SETTING_KEY_SHOW_FILTER_ENTRY, sidebar_get_kbdfilter_enabled());
+	g_key_file_set_integer(config, GEANYPRJ_SETTING_SECTION, GEANYPRJ_SETTING_KEY_FILTER_POLICY, (gint)sidebar_get_kbdfilter_policy());
+	g_key_file_set_integer(config, GEANYPRJ_SETTING_SECTION, GEANYPRJ_SETTING_KEY_SEARCH_POLICY, (gint)sidebar_get_kbdsearch_policy());
 
 	if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir(config_dir, TRUE) != 0)
 	{
@@ -203,6 +238,11 @@ static void save_settings(void)
 	g_key_file_free(config);
 }
 
+static void on_configure_sidebar_filter_toggle(GtkToggleButton *togglebutton, GtkWidget *sidebarFilterCombo)
+{
+	gtk_widget_set_sensitive( sidebarFilterCombo, gtk_toggle_button_get_active(togglebutton) );
+}
+
 static void on_configure_sidebar_toggle(GtkToggleButton *togglebutton, GtkWidget *sidebarOptsWidget)
 {
 	gtk_widget_set_sensitive( sidebarOptsWidget, gtk_toggle_button_get_active(togglebutton) );
@@ -210,10 +250,14 @@ static void on_configure_sidebar_toggle(GtkToggleButton *togglebutton, GtkWidget
 
 static void on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, gint response, G_GNUC_UNUSED gpointer userdata)
 {
-	gboolean  save_settings_required = FALSE;
+	gboolean save_settings_required = FALSE;
 	gboolean old_display_sidebar = display_sidebar;
-	kbdsearch_policy old_sidebar_search_policy = sidebar_get_kbdsearch_policy();
 	gboolean new_display_sidebar;
+	gboolean old_display_sidebar_filter = sidebar_get_kbdfilter_enabled();
+	gboolean new_display_sidebar_filter;
+	kbdsearch_policy old_sidebar_filter_policy = sidebar_get_kbdfilter_policy();
+	kbdsearch_policy new_sidebar_filter_policy;
+	kbdsearch_policy old_sidebar_search_policy = sidebar_get_kbdsearch_policy();
 	kbdsearch_policy new_sidebar_search_policy;
 
 	/* Compute settings user wants to reach */
@@ -222,11 +266,15 @@ static void on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, gint response
 	case GTK_RESPONSE_CANCEL:
 		load_settings();
 		new_display_sidebar = display_sidebar;
+		new_display_sidebar_filter = sidebar_get_kbdfilter_enabled();
+		new_sidebar_filter_policy = sidebar_get_kbdfilter_policy();
 		new_sidebar_search_policy = sidebar_get_kbdsearch_policy();
 		break;
 		
 	default:
 		new_display_sidebar = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pluginConfigureWidgets.sideBarEnabledBtn));
+		new_display_sidebar_filter = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(pluginConfigureWidgets.sideBarFilterEnabledBtn));
+		new_sidebar_filter_policy = gtk_combo_box_get_active(GTK_COMBO_BOX(pluginConfigureWidgets.sidebarFilterPolicyCombo));
 		new_sidebar_search_policy = gtk_combo_box_get_active(GTK_COMBO_BOX(pluginConfigureWidgets.sidebarSearchPolicyCombo));
 		break;
 	}
@@ -240,6 +288,8 @@ static void on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, gint response
 	case GTK_RESPONSE_APPLY:
 	case GTK_RESPONSE_CANCEL: /* Targetted settings has previously been faked in this cancel case */
 		display_sidebar = new_display_sidebar;
+		sidebar_set_kbdfilter_enabled(new_display_sidebar_filter);
+		sidebar_set_kbdfilter_policy(new_sidebar_filter_policy);
 		sidebar_set_kbdsearch_policy(new_sidebar_search_policy);
 
 		if (display_sidebar ^ old_display_sidebar)
@@ -256,7 +306,17 @@ static void on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, gint response
 			save_settings_required = TRUE;
 		}
 		
-		if( sidebar_get_kbdsearch_policy() != old_sidebar_search_policy )
+		if( new_display_sidebar_filter != old_display_sidebar_filter )
+		{
+			save_settings_required = TRUE;
+		}
+		
+		if( new_sidebar_filter_policy != old_sidebar_filter_policy )
+		{
+			save_settings_required = TRUE;
+		}
+		
+		if( new_sidebar_search_policy != old_sidebar_search_policy )
 		{
 			save_settings_required = TRUE;
 		}
@@ -313,9 +373,12 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	GtkWidget *vbox;
 	GtkWidget *sidebarOpts;
 	GtkWidget *table;
+	gint       tableRowCount;
 	GtkWidget *label;
 	GtkWidget *checkboxDisplaySidebar;
-	GtkWidget *combobox;
+	GtkWidget *checkboxDisplaySidebarFilter;
+	GtkWidget *comboboxFilter;
+	GtkWidget *comboboxSearch;
 	gint i;
 
 	/* Global VBox */
@@ -328,10 +391,41 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 
 	/* Sidebar options */
 	sidebarOpts = gtk_frame_new(_("Sidebar options"));
-	table = gtk_table_new(1, 2, FALSE);
+	table = gtk_table_new(3, 2, FALSE);
+	tableRowCount = 0;
 	gtk_table_set_row_spacings(GTK_TABLE(table), 5);
 	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
 	
+	/* - Filter visibility */
+	label = gtk_label_new(_("Enable filtering file listing:"));
+	gtk_widget_set_tooltip_markup(label,
+	                      _("Allow you to filter visible files in the listing\n"
+	                        "by typing some words in the filter input box\n"
+	                        "above the file listing."));
+	gtk_misc_set_alignment(GTK_MISC(label), 1, 0);
+
+	checkboxDisplaySidebarFilter = gtk_check_button_new_with_label(_("Yes"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkboxDisplaySidebarFilter), sidebar_get_kbdfilter_enabled());
+
+	ui_table_add_row(GTK_TABLE(table), tableRowCount++, label, checkboxDisplaySidebarFilter, NULL);
+	
+	/* - Filter policy */
+	label = gtk_label_new(_("Filter policy:"));
+	gtk_widget_set_tooltip_markup(label,
+	                      _("You can filter visible files in the listing\n"
+	                        "by typing some words in the filter input box\n"
+	                        "above the file listing."));
+	gtk_misc_set_alignment(GTK_MISC(label), 1, 0);
+
+	comboboxFilter = gtk_combo_box_new_text();
+	for (i = 0; i < KBDSEARCH_POLICY_ENUM_SIZE; i++)
+		gtk_combo_box_append_text(GTK_COMBO_BOX(comboboxFilter), sidebar_get_kdbsearch_name(i) );
+	gtk_combo_box_set_active(GTK_COMBO_BOX(comboboxFilter), (gint) sidebar_get_kbdfilter_policy() );
+
+	gtk_widget_set_sensitive( comboboxFilter, sidebar_get_kbdfilter_enabled() );
+	ui_table_add_row(GTK_TABLE(table), tableRowCount++, label, comboboxFilter, NULL);
+	
+	/* - Search policy */
 	label = gtk_label_new(_("Keyboard fast-search policy:"));
 	gtk_widget_set_tooltip_markup(label,
 	                      _("Select items using keyboard when sidebar is focused.\n"
@@ -339,24 +433,28 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	                        "Hit Enter to open the selected file."));
 	gtk_misc_set_alignment(GTK_MISC(label), 1, 0);
 
-	combobox = gtk_combo_box_new_text();
+	comboboxSearch = gtk_combo_box_new_text();
 	for (i = 0; i < KBDSEARCH_POLICY_ENUM_SIZE; i++)
-		gtk_combo_box_append_text(GTK_COMBO_BOX(combobox), sidebar_get_kdbsearch_name(i) );
-	gtk_combo_box_set_active(GTK_COMBO_BOX(combobox), (gint) sidebar_get_kbdsearch_policy() );
+		gtk_combo_box_append_text(GTK_COMBO_BOX(comboboxSearch), sidebar_get_kdbsearch_name(i) );
+	gtk_combo_box_set_active(GTK_COMBO_BOX(comboboxSearch), (gint) sidebar_get_kbdsearch_policy() );
 
-	ui_table_add_row(GTK_TABLE(table), 0, label, combobox, NULL);
+	ui_table_add_row(GTK_TABLE(table), tableRowCount++, label, comboboxSearch, NULL);
 	
+	/* End of sidebar options */
 	gtk_container_add(GTK_CONTAINER(sidebarOpts), table);
 	gtk_box_pack_start(GTK_BOX(vbox), sidebarOpts, FALSE, FALSE, 0);
 	gtk_widget_set_sensitive( sidebarOpts, display_sidebar );
 	g_signal_connect(checkboxDisplaySidebar, "toggled", G_CALLBACK(on_configure_sidebar_toggle), sidebarOpts);
+	g_signal_connect(checkboxDisplaySidebarFilter, "toggled", G_CALLBACK(on_configure_sidebar_filter_toggle), comboboxFilter);
 	
 
 	/* Dialog is almost ready */
 	gtk_widget_show_all(vbox);
 
 	pluginConfigureWidgets.sideBarEnabledBtn = checkboxDisplaySidebar;
-	pluginConfigureWidgets.sidebarSearchPolicyCombo = combobox;
+	pluginConfigureWidgets.sideBarFilterEnabledBtn = checkboxDisplaySidebarFilter;
+	pluginConfigureWidgets.sidebarFilterPolicyCombo = comboboxFilter;
+	pluginConfigureWidgets.sidebarSearchPolicyCombo = comboboxSearch;
 
 	/* Connect a callback for when the user clicks a dialog button */
 	g_signal_connect(dialog, "response", G_CALLBACK(on_configure_response), NULL);

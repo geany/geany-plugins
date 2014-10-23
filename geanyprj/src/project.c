@@ -25,6 +25,7 @@
 
 #include "geanyprj.h"
 
+
 const gchar *project_type_string[NEW_PROJECT_TYPE_SIZE] = {
 	"All",
 	"C/C++",

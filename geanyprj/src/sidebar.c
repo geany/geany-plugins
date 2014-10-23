@@ -53,16 +53,21 @@ static struct
 	GtkWidget *find_in_files;
 } popup_items;
 
+/* Members */
 static GtkWidget *file_view_vbox;         /**< Main sidebar layout */
 static GtkWidget *file_view_filter_entry; /**< Entry used to filter file listing tree */
 static GtkWidget *file_view;              /**< File listing widget */
 static GtkListStore *file_store;          /**< File listing backend model */
 static GtkTreeModel *file_store_filter;   /**< Proxy model used to filter backend model items in the view */
+
+/* Settings */
 #ifdef HAVE_STRCASESTR
 static kbdsearch_policy search_policy = KBDSEARCH_POLICY_CONTAINS_ALL_INSENSITIVE;
 #else
 static kbdsearch_policy search_policy = KBDSEARCH_POLICY_CONTAINS_ALL;
 #endif
+
+static gboolean b_enable_filtering = TRUE;
 #ifdef HAVE_STRCASESTR
 static kbdsearch_policy filter_policy = KBDSEARCH_POLICY_CONTAINS_ALL_INSENSITIVE;
 #else
@@ -601,14 +606,42 @@ void destroy_sidebar(void)
 		gtk_widget_destroy(file_view_vbox);
 }
 
+kbdsearch_policy sidebar_get_kbdsearch_policy()
+{
+	return search_policy;
+}
+
 void sidebar_set_kbdsearch_policy(kbdsearch_policy policy)
 {
 	search_policy = policy;
 }
 
-kbdsearch_policy sidebar_get_kbdsearch_policy()
+gboolean sidebar_get_kbdfilter_enabled()
 {
-	return search_policy;
+	return b_enable_filtering;
+}
+
+void sidebar_set_kbdfilter_enabled(gboolean filter_enabled)
+{
+	b_enable_filtering = filter_enabled;
+	
+	gtk_widget_set_visible(file_view_filter_entry, b_enable_filtering);
+	
+	if (b_enable_filtering == FALSE)
+	{
+		gtk_editable_delete_text( GTK_EDITABLE(file_view_filter_entry), 0, -1 );
+		gtk_tree_model_filter_refilter(GTK_TREE_MODEL_FILTER(file_store_filter));
+	}
+}
+
+kbdsearch_policy sidebar_get_kbdfilter_policy()
+{
+	return filter_policy;
+}
+
+void sidebar_set_kbdfilter_policy(kbdsearch_policy policy)
+{
+	filter_policy = policy;
 }
 
 const gchar * sidebar_get_kdbsearch_name(kbdsearch_policy policy)

@@ -113,8 +113,12 @@ void geany_project_set_tags_from_list(struct GeanyPrj *prj, GSList *files);
 void create_sidebar(void);
 void destroy_sidebar(void);
 void sidebar_refresh(void);
-void sidebar_set_kbdsearch_policy(kbdsearch_policy policy);
+gboolean sidebar_get_kbdfilter_enabled();
+void sidebar_set_kbdfilter_enabled(gboolean filter_enabled);
+kbdsearch_policy sidebar_get_kbdfilter_policy();
+void sidebar_set_kbdfilter_policy(kbdsearch_policy policy);
 kbdsearch_policy sidebar_get_kbdsearch_policy();
+void sidebar_set_kbdsearch_policy(kbdsearch_policy policy);
 const gchar * sidebar_get_kdbsearch_name(kbdsearch_policy policy);
 
 
