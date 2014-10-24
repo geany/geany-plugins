@@ -166,8 +166,8 @@ typedef struct _dbg_module {
 	MODULE_FEATURES }
 
 void		variable_free(variable *var);
-variable*	variable_new(gchar *name, variable_type vt);
-variable*	variable_new2(gchar *name, gchar *internal, variable_type vt);
+variable*	variable_new(const gchar *name, variable_type vt);
+variable*	variable_new2(const gchar *name, const gchar *internal, variable_type vt);
 void		variable_reset(variable *var);
 
 frame*	frame_new(void);
