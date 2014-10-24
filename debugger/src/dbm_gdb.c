@@ -155,9 +155,8 @@ static void shutdown_channel(GIOChannel ** ch)
 {
 	if (*ch)
 	{
-		GError *err = NULL;
 		gint fd = g_io_channel_unix_get_fd(*ch);
-		g_io_channel_shutdown(*ch, TRUE, &err);
+		g_io_channel_shutdown(*ch, TRUE, NULL);
 		g_io_channel_unref(*ch);
 		*ch = NULL;
 		if (fd >= 0)
@@ -239,6 +238,8 @@ static void gdb_input_write_line(const gchar *line)
 #ifdef DEBUG_OUTPUT
 			dbg_cbs->send_message(err->message, "red");
 #endif
+			if (err)
+				g_clear_error(&err);
 			break;
 		}
 	}
@@ -249,6 +250,8 @@ static void gdb_input_write_line(const gchar *line)
 #ifdef DEBUG_OUTPUT
 		dbg_cbs->send_message(err->message, "red");
 #endif
+		if (err)
+			g_clear_error(&err);
 	}
 }
 
@@ -715,7 +718,6 @@ static result_class exec_sync_command(const gchar* command, gboolean wait4prompt
  */
 static gboolean run(const gchar* file, const gchar* commandline, GList* env, GList *witer, GList *biter, const gchar* terminal_device, dbg_callbacks* callbacks)
 {
-	GError *err = NULL;
 	const gchar *exclude[] = { "LANG", NULL };
 	gchar **gdb_env = utils_copy_environment(exclude, "LANG", "C", NULL);
 	gchar *working_directory = g_path_get_dirname(file);
@@ -730,7 +732,7 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	/* spawn GDB */
 	if (!g_spawn_async_with_pipes(working_directory, (gchar**)gdb_args, gdb_env,
 				     GDB_SPAWN_FLAGS, NULL,
-				     NULL, &gdb_pid, &gdb_in, &gdb_out, NULL, &err))
+				     NULL, &gdb_pid, &gdb_in, &gdb_out, NULL, NULL))
 	{
 		dbg_cbs->report_error(_("Failed to spawn gdb process"));
 		g_free(working_directory);
