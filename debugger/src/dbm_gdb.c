@@ -227,7 +227,7 @@ static void gdb_input_write_line(const gchar *line)
 	gsize count;
 	
 	char command[1000];
-	sprintf(command, "%s\n", line);
+	snprintf(command, sizeof command, "%s\n", line);
 	
 	while (strlen(command))
 	{
