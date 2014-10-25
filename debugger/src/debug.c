@@ -832,8 +832,11 @@ static void on_debugger_exited (int code)
 	read_only_pages = NULL;
 
 	/* clear and destroy calltips cache */
-	g_hash_table_destroy(calltips);
-	calltips = NULL;
+	if (calltips)
+	{
+		g_hash_table_destroy(calltips);
+		calltips = NULL;
+	}
 
 	/* enable widgets */
 	enable_sensitive_widgets(TRUE);
