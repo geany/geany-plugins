@@ -711,7 +711,7 @@ static result_class exec_sync_command(const gchar* command, gboolean wait4prompt
 			{
 				/* save error message */
 				gchar* msg = g_strcompress(strstr(coma, "msg=\"") + strlen("msg=\""));
-				strcpy(err_message, msg);
+				strncpy(err_message, msg, G_N_ELEMENTS(err_message) - 1);
 				g_free(msg);
 				
 				rc = RC_ERROR;
