@@ -259,9 +259,11 @@ static void gdb_input_write_line(const gchar *line)
  */
 static void free_queue_item(queue_item *item)
 {
-	g_string_free(item->message, TRUE);
+	if (item->message)
+		g_string_free(item->message, TRUE);
 	g_string_free(item->command, TRUE);
-	g_string_free(item->error_message, TRUE);
+	if (item->error_message)
+		g_string_free(item->error_message, TRUE);
 	g_free(item);
 }
 
