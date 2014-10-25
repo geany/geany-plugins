@@ -39,6 +39,8 @@ debugger_la_SOURCES = \
 	envtree.h     \
 	gui.h     \
 	gui.c     \
+	gdb_mi.h  \
+	gdb_mi.c  \
 	keys.c     \
 	keys.h     \
 	atree.c     \
