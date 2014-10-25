@@ -192,6 +192,7 @@ static void on_gdb_exit(GPid pid, gint status, gpointer data)
 	files = NULL;
 	
 	g_source_remove(gdb_src_id);
+	gdb_src_id = 0;
 	
 	dbg_cbs->set_exited(0);
 }
@@ -325,7 +326,11 @@ static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpoint
 		GList *commands = (GList*)data;
 		gchar *coma;
 
-		g_source_remove(gdb_id_out);
+		if (gdb_id_out)
+		{
+			g_source_remove(gdb_id_out);
+			gdb_id_out = 0;
+		}
 
 		lines = read_until_prompt();
 		g_list_foreach(lines, (GFunc)g_free, NULL);
@@ -367,7 +372,11 @@ static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpoint
 				free_commands_queue(commands);
 
 				/* removing read callback */
-				g_source_remove(gdb_id_out);
+				if (gdb_id_out)
+				{
+					g_source_remove(gdb_id_out);
+					gdb_id_out = 0;
+				}
 
 				/* update source files list */
 				update_files();
@@ -491,7 +500,11 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 			char *reason;
 
 			/* removing read callback (will pulling all output left manually) */
-			g_source_remove(gdb_id_out);
+			if (gdb_id_out)
+			{
+				g_source_remove(gdb_id_out);
+				gdb_id_out = 0;
+			}
 
 			/* looking for a reason to stop */
 			reason = strstr(record, "reason=\"");
@@ -580,7 +593,11 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 		char *msg;
 
 		/* removing read callback (will pulling all output left manually) */
-		g_source_remove(gdb_id_out);
+		if (gdb_id_out)
+		{
+			g_source_remove(gdb_id_out);
+			gdb_id_out = 0;
+		}
 
 		/* set debugger stopped if is running */
 		if (DBS_STOPPED != debug_get_state())
