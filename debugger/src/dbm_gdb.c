@@ -225,14 +225,13 @@ static void gdb_input_write_line(const gchar *line)
 	GIOStatus st;
 	GError *err = NULL;
 	gsize count;
-	
+	const char *p;
 	char command[1000];
 	snprintf(command, sizeof command, "%s\n", line);
 	
-	while (strlen(command))
+	for (p = command; *p; p += count)
 	{
-		st = g_io_channel_write_chars(gdb_ch_in, command, strlen(command), &count, &err);
-		strcpy(command, command + count);
+		st = g_io_channel_write_chars(gdb_ch_in, p, strlen(p), &count, &err);
 		if (err || (st == G_IO_STATUS_ERROR) || (st == G_IO_STATUS_EOF))
 		{
 #ifdef DEBUG_OUTPUT
