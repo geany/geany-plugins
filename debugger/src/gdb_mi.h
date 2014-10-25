@@ -78,7 +78,7 @@ gboolean gdb_mi_record_matches(const struct gdb_mi_record *record, enum gdb_mi_r
 
 #define gdb_mi_result_foreach_matched(node_, result_, name_, type_) \
 	gdb_mi_result_foreach ((node_), (result_)) \
-		if (((name_) != NULL && (! (node_)->var || strcmp((node_)->var, (name_)) != 0)) || \
+		if (((name_) != NULL && (! (node_)->var || strcmp((node_)->var, (name_) ? (name_) : "") != 0)) || \
 			((type_) >= 0 && (node_)->val->type != (type_))) \
 			continue; \
 		else
