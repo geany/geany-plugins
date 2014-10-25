@@ -21,27 +21,22 @@
 
 /* 
  * Parses GDB/MI records
- * http://ftp.gnu.org/old-gnu/Manuals/gdb/html_node/gdb_214.html
+ * https://sourceware.org/gdb/current/onlinedocs/gdb/GDB_002fMI-Output-Syntax.html
  */
 
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
 #include <glib.h>
 
 #include "gdb_mi.h"
 
-#define DEBUG
 
-#define isodigit(c) ((c) >= '0' && (c) <= '7')
+#define ascii_isodigit(c) (((guchar) (c)) >= '0' && ((guchar) (c)) <= '7')
 
 
-#if defined(DEBUG) || defined(TEST)
-static void gdb_mi_result_dump(const struct gdb_mi_result *r, gboolean next, gint indent);
-#endif
 static struct gdb_mi_value *parse_value(const gchar **p);
 
 
@@ -85,46 +80,6 @@ void gdb_mi_record_free(struct gdb_mi_record *record)
 	g_free(record);
 }
 
-#if defined(DEBUG) || defined(TEST)
-
-static void gdb_mi_value_dump(const struct gdb_mi_value *v, gint indent)
-{
-	fprintf(stderr, "%*stype = %d\n", indent * 2, "", v->type);
-	switch (v->type)
-	{
-		case GDB_MI_VAL_STRING:
-			fprintf(stderr, "%*sstring = %s\n", indent * 2, "", v->string);
-			break;
-		case GDB_MI_VAL_LIST:
-			fprintf(stderr, "%*slist =>\n", indent * 2, "");
-			if (v->list)
-				gdb_mi_result_dump(v->list, TRUE, indent + 1);
-			break;
-	}
-}
-
-static void gdb_mi_result_dump(const struct gdb_mi_result *r, gboolean next, gint indent)
-{
-	fprintf(stderr, "%*svar = %s\n", indent * 2, "", r->var);
-	fprintf(stderr, "%*sval =>\n", indent * 2, "");
-	gdb_mi_value_dump(r->val, indent + 1);
-	if (next && r->next)
-		gdb_mi_result_dump(r->next, next, indent);
-}
-
-static void gdb_mi_record_dump(const struct gdb_mi_record *record)
-{
-	fprintf(stderr, "record =>\n");
-	fprintf(stderr, "  type = '%c' (%d)\n", record->type ? record->type : '0', record->type);
-	fprintf(stderr, "  token = %s\n", record->token);
-	fprintf(stderr, "  class = %s\n", record->klass);
-	fprintf(stderr, "  results =>\n");
-	if (record->first)
-		gdb_mi_result_dump(record->first, TRUE, 2);
-}
-
-#endif
-
 /* parses: cstring
  * 
  * cstring is defined as:
@@ -134,7 +89,9 @@ static void gdb_mi_record_dump(const struct gdb_mi_record *record)
  * 
  * FIXME: what exactly does "seven-bit-iso-c-string-content" mean?
  *        reading between the lines suggests it's US-ASCII with values >= 0x80
- *        encoded as \NNN (most likely octal), but that's not really clear */
+ *        encoded as \NNN (most likely octal), but that's not really clear --
+ *        although it parses everything I encountered
+ * FIXME: this does NOT convert to UTF-8.  should it? */
 static gchar *parse_cstring(const gchar **p)
 {
 	GString *str = g_string_new(NULL);
@@ -144,35 +101,55 @@ static gchar *parse_cstring(const gchar **p)
 		(*p)++;
 		while (**p != '"')
 		{
-			int c = **p;
+			gchar c = **p;
 			/* TODO: check expansions here */
 			if (c == '\\')
 			{
 				(*p)++;
 				c = **p;
-				switch (tolower(c))
+				switch (g_ascii_tolower(c))
 				{
 					case '\\':
 					case '"': break;
 					case 'a': c = '\a'; break;
 					case 'b': c = '\b'; break;
+					case 'f': c = '\f'; break;
 					case 'n': c = '\n'; break;
 					case 'r': c = '\r'; break;
 					case 't': c = '\t'; break;
 					case 'v': c = '\v'; break;
 					default:
-						/* two-digit hex escape */
-						if (tolower(c) == 'x' && isxdigit((*p)[1]) && isxdigit((*p)[2]))
+						/* hex escape, 1-2 digits (\xN or \xNN)
+						 * 
+						 * FIXME: is this useful?  Is this right?
+						 * the original dbm_gdb.c:unescape_hex_values() used to
+						 * read escapes of the form \xNNN and treat them as wide
+						 * characters numbers, but  this looks weird for a C-like
+						 * escape.
+						 * Also, note that this doesn't seem to be referenced anywhere
+						 * in GDB/MI syntax.  Only reference in GDB manual is about
+						 * keybindings, which use the syntax implemented here */
+						if (g_ascii_tolower(**p) == 'x' && g_ascii_isxdigit((*p)[1]))
 						{
-							c  = (tolower(*++(*p)) - '0') * 16;
-							c += (tolower(*++(*p)) - '0');
+							c = (gchar) g_ascii_xdigit_value(*++(*p));
+							if (g_ascii_isxdigit((*p)[1]))
+								c = (gchar) ((c * 16) + g_ascii_xdigit_value(*++(*p)));
 						}
-						/* three-digit octal escape */
-						else if (c >= '0' && c <= '3' && isodigit((*p)[1]) && isodigit((*p)[2]))
+						/* octal escape, 1-3 digits (\N, \NN or \NNN) */
+						else if (ascii_isodigit(**p))
 						{
-							c  = (*  (*p) - '0') * 8 * 8;
-							c += (*++(*p) - '0') * 8;
-							c += (*++(*p) - '0');
+							int i, v;
+							v = g_ascii_digit_value(**p);
+							for (i = 0; ascii_isodigit((*p)[1]) && i < 2; i++)
+								v = (v * 8) + g_ascii_digit_value(*++(*p));
+							if (v <= 0xff)
+								c = (gchar) v;
+							else
+							{
+								*p = *p - 3; /* put the whole sequence back */
+								c = **p;
+								g_warning("Octal escape sequence out of range: %.4s", *p);
+							}
 						}
 						else
 						{
@@ -185,7 +162,7 @@ static gchar *parse_cstring(const gchar **p)
 			}
 			if (**p == '\0')
 				break;
-			g_string_append_c(str, (gchar) c);
+			g_string_append_c(str, c);
 			(*p)++;
 		}
 		if (**p == '"')
@@ -195,16 +172,16 @@ static gchar *parse_cstring(const gchar **p)
 }
 
 /* parses: string
- * FIXME: what really is a string?  here it uses [a-zA-Z_][a-zA-Z0-9_-.]* but
+ * FIXME: what really is a string?  here it uses [a-zA-Z_-.][a-zA-Z0-9_-.]* but
  *        the docs aren't clear on this */
 static gchar *parse_string(const gchar **p)
 {
 	GString *str = g_string_new(NULL);
 
-	if (isalpha(**p) || **p == '_')
+	if (g_ascii_isalpha(**p) || strchr("-_.", **p))
 	{
 		g_string_append_c(str, **p);
-		for ((*p)++; isalnum(**p) || strchr("-_.", **p); (*p)++)
+		for ((*p)++; g_ascii_isalnum(**p) || strchr("-_.", **p); (*p)++)
 			g_string_append_c(str, **p);
 	}
 	return g_string_free(str, FALSE);
@@ -214,11 +191,11 @@ static gchar *parse_string(const gchar **p)
 static gboolean parse_result(struct gdb_mi_result *result, const gchar **p)
 {
 	result->var = parse_string(p);
-	while (isspace(**p)) (*p)++;
+	while (g_ascii_isspace(**p)) (*p)++;
 	if (**p == '=')
 	{
 		(*p)++;
-		while (isspace(**p)) (*p)++;
+		while (g_ascii_isspace(**p)) (*p)++;
 		result->val = parse_value(p);
 	}
 	return result->var && result->val;
@@ -243,7 +220,7 @@ static struct gdb_mi_value *parse_value(const gchar **p)
 		while (**p && **p != end)
 		{
 			struct gdb_mi_result *item = g_malloc0(sizeof *item);
-			while (isspace(**p)) (*p)++;
+			while (g_ascii_isspace(**p)) (*p)++;
 			if ((item->val = parse_value(p)) ||
 				parse_result(item, p))
 			{
@@ -258,7 +235,7 @@ static struct gdb_mi_value *parse_value(const gchar **p)
 				gdb_mi_result_free(item, TRUE);
 				break;
 			}
-			while (isspace(**p)) (*p)++;
+			while (g_ascii_isspace(**p)) (*p)++;
 			if (**p != ',') break;
 			(*p)++;
 		}
@@ -303,30 +280,26 @@ struct gdb_mi_record *gdb_mi_record_parse(const gchar *line)
 	struct gdb_mi_record *record = g_malloc0(sizeof *record);
 	char nl;
 
-#ifdef DEBUG
-	fprintf(stderr, "line: %s\n", line);
-#endif
-
+	/* FIXME */
 	if (sscanf(line, "(gdb) %c", &nl) == 1 && (nl == '\r' || nl == '\n'))
 		record->type = GDB_MI_TYPE_PROMPT;
 	else
 	{
 		/* extract token */
 		const gchar *token_end = line;
-		for (token_end = line; isdigit(*token_end); token_end++)
+		for (token_end = line; g_ascii_isdigit(*token_end); token_end++)
 			;
 		if (token_end > line)
 		{
 			record->token = g_strndup(line, (gsize)(token_end - line));
 			line = token_end;
-			while (isspace(*line))
-				line++;
+			while (g_ascii_isspace(*line)) line++;
 		}
 
 		/* extract record */
 		record->type = *line;
 		++line;
-		while (isspace(*line)) line++;
+		while (g_ascii_isspace(*line)) line++;
 		switch (record->type)
 		{
 			case '~':
@@ -340,7 +313,7 @@ struct gdb_mi_record *gdb_mi_record_parse(const gchar *line)
 				 * > line) or a quoted C string (which does not contain an
 				 * > implicit newline).
 				 * 
-				 * This adds "raw text" to "c-string", so? */
+				 * This adds "raw text" to "c-string"... so? */
 				record->klass = parse_cstring(&line);
 				break;
 			case '^':
@@ -352,14 +325,14 @@ struct gdb_mi_record *gdb_mi_record_parse(const gchar *line)
 				record->klass = parse_string(&line);
 				while (*line)
 				{
-					while (isspace(*line)) line++;
+					while (g_ascii_isspace(*line)) line++;
 					if (*line != ',')
 						break;
 					else
 					{
 						struct gdb_mi_result *res = g_malloc0(sizeof *res);
 						line++;
-						while (isspace(*line)) line++;
+						while (g_ascii_isspace(*line)) line++;
 						if (!parse_result(res, &line))
 						{
 							g_warning("failed to parse result");
@@ -380,12 +353,6 @@ struct gdb_mi_record *gdb_mi_record_parse(const gchar *line)
 				record->type = GDB_MI_TYPE_PROMPT;
 		}
 	}
-
-#ifdef DEBUG
-	if (! (gdb_mi_record_matches(record, '^', "done", NULL) &&
-		   gdb_mi_result_var(record->first, "files", GDB_MI_VAL_LIST)))
-	gdb_mi_record_dump(record);
-#endif
 
 	return record;
 }
@@ -420,37 +387,6 @@ const void *gdb_mi_result_var(const struct gdb_mi_result *result, const gchar *n
 	else if (val->type == GDB_MI_VAL_LIST)
 		return val->list;
 	return NULL;
-}
-
-/* FIXME: */
-const void *gdb_mi_result_var_path(const struct gdb_mi_result *result, const gchar *path, enum gdb_mi_value_type type)
-{
-	gchar **chunks = g_strsplit(path, "/", -1);
-	gchar **p;
-	void *value = NULL;
-
-	for (p = chunks; *p; p++)
-	{
-		const struct gdb_mi_value *val = gdb_mi_result_var_value(result, *p);
-		if (! val)
-			break;
-		if (! p[1])
-		{
-			if (val->type == type)
-			{
-				if (val->type == GDB_MI_VAL_STRING)
-					value = val->string;
-				else if (val->type == GDB_MI_VAL_LIST)
-					value = val->list;
-			}
-		}
-		else if (val->type == GDB_MI_VAL_LIST)
-			result = val->list;
-		else
-			break;
-	}
-	g_strfreev(chunks);
-	return value;
 }
 
 /* checks whether a record matches, possibly including some string values
@@ -494,6 +430,44 @@ gboolean gdb_mi_record_matches(const struct gdb_mi_record *record, enum gdb_mi_r
 
 
 #ifdef TEST
+
+static void gdb_mi_result_dump(const struct gdb_mi_result *r, gboolean next, gint indent);
+
+static void gdb_mi_value_dump(const struct gdb_mi_value *v, gint indent)
+{
+	fprintf(stderr, "%*stype = %d\n", indent * 2, "", v->type);
+	switch (v->type)
+	{
+		case GDB_MI_VAL_STRING:
+			fprintf(stderr, "%*sstring = %s\n", indent * 2, "", v->string);
+			break;
+		case GDB_MI_VAL_LIST:
+			fprintf(stderr, "%*slist =>\n", indent * 2, "");
+			if (v->list)
+				gdb_mi_result_dump(v->list, TRUE, indent + 1);
+			break;
+	}
+}
+
+static void gdb_mi_result_dump(const struct gdb_mi_result *r, gboolean next, gint indent)
+{
+	fprintf(stderr, "%*svar = %s\n", indent * 2, "", r->var);
+	fprintf(stderr, "%*sval =>\n", indent * 2, "");
+	gdb_mi_value_dump(r->val, indent + 1);
+	if (next && r->next)
+		gdb_mi_result_dump(r->next, next, indent);
+}
+
+static void gdb_mi_record_dump(const struct gdb_mi_record *record)
+{
+	fprintf(stderr, "record =>\n");
+	fprintf(stderr, "  type = '%c' (%d)\n", record->type ? record->type : '0', record->type);
+	fprintf(stderr, "  token = %s\n", record->token);
+	fprintf(stderr, "  class = %s\n", record->klass);
+	fprintf(stderr, "  results =>\n");
+	if (record->first)
+		gdb_mi_result_dump(record->first, TRUE, 2);
+}
 
 int main(void)
 {
