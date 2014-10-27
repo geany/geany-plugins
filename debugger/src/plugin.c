@@ -89,7 +89,7 @@ static void on_paned_mode_changed(GtkToggleButton *button, gpointer user_data)
 void plugin_init(GeanyData *data)
 {
 	GtkWidget* vbox;
-	int i;
+	guint i;
 
 	plugin_module_make_resident(geany_plugin);
 

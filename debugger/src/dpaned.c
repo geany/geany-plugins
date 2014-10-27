@@ -154,10 +154,10 @@ static void on_page_reordered(GtkNotebook *notebook, GtkWidget *child, guint pag
 	gboolean is_tabbed = config_get_tabbed();
 	int *tabs = NULL;
 	gsize length;
-	int prev_index;
+	gsize prev_index, min, max;
 	GtkWidget *page;
 	tab_id id;
-	int i, min, max;
+	int i;
 	int config_part_tabs;
 	int config_part_selected_index;
 	int *array;
