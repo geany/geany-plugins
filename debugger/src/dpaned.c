@@ -351,6 +351,7 @@ void dpaned_init(void)
 			gtk_notebook_set_tab_detachable(GTK_NOTEBOOK(debug_notebook_left), tab, TRUE);
 			gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(debug_notebook_left), tab, TRUE);
 		}
+		g_free(tab_ids);
 
 		gtk_widget_show_all(hpaned);
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_left), config_get_selected_tab_index());
@@ -406,6 +407,7 @@ void dpaned_set_tabbed(gboolean tabbed)
 				gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(debug_notebook_left), tab, TRUE);
 			}
 		}
+		g_free(tab_ids);
 
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_left), config_get_selected_tab_index());
 
@@ -431,6 +433,7 @@ void dpaned_set_tabbed(gboolean tabbed)
 			gtk_notebook_set_tab_detachable(GTK_NOTEBOOK(debug_notebook_right), tab, TRUE);
 				gtk_notebook_set_tab_reorderable(GTK_NOTEBOOK(debug_notebook_right), tab, TRUE);
 		}
+		g_free(tab_ids);
 
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_left), config_get_left_selected_tab_index());
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(debug_notebook_right), config_get_right_selected_tab_index());
