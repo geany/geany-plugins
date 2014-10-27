@@ -483,7 +483,6 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 		}
 
 		/* looking for a reason to stop */
-		stop_reason = SR_EXITED_NORMALLY; /* somehow, sometimes there can be no stop reason */
 		if ((reason = gdb_mi_result_var(record->first, "reason", GDB_MI_VAL_STRING)) != NULL)
 		{
 			if (!strcmp(reason, "breakpoint-hit"))
@@ -498,6 +497,12 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 				stop_reason = SR_EXITED_SIGNALLED;
 			else if (!strcmp(reason, "exited"))
 				stop_reason = SR_EXITED_WITH_CODE;
+			/* FIXME: handle "location-reached" */
+		}
+		else
+		{
+			/* somehow, sometimes there can be no stop reason */
+			stop_reason = SR_EXITED_NORMALLY;
 		}
 		
 		if (SR_BREAKPOINT_HIT == stop_reason || SR_END_STEPPING_RANGE == stop_reason || SR_SIGNAL_RECIEVED == stop_reason)
