@@ -45,6 +45,9 @@ typedef struct {
 	const gchar *start;
 	const gchar *header_start;
 	const gchar *header_stop;
+	const gchar *header_columnsplit;
+	const gchar *header_linestart;
+	const gchar *header_lineend;
 	const gchar *body_start;
 	const gchar *body_end;
 	const gchar *columnsplit;
@@ -60,6 +63,7 @@ enum {
 	TC_LATEX = 0,
 	TC_HTML,
 	TC_SQL,
+	TC_DOKUWIKI,
 	TC_END
 };
 

@@ -126,9 +126,12 @@ def configure(conf):
     if revision is not None:
         conf.msg('Compiling Git revision', revision)
     conf.msg('Plugins to compile', ' '.join(enabled_plugins))
+    plugins_with_missing_dependencies =conf.env['plugins_with_missing_dependencies']
+    conf.msg('Plugins to skip due to missing dependencies', ' '.join(plugins_with_missing_dependencies))
 
 
 def configure_plugins(conf, enabled_plugins):
+    conf.env['plugins_with_missing_dependencies'] = []
     # we need to iterate over the plugin directories ourselves to be able
     # to catch plugin ConfigurationError's and remove the plugin in this case
     plugins = list(enabled_plugins)
@@ -139,6 +142,7 @@ def configure_plugins(conf, enabled_plugins):
             conf.recurse(plugin, mandatory=False)
         except ConfigurationError:
             enabled_plugins.remove(plugin)
+            conf.env['plugins_with_missing_dependencies'].append(plugin)
 
 
 def setup_configuration_env(conf):

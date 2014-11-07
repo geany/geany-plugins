@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.24\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-13 18:46+0200\n"
-"PO-Revision-Date: 2014-10-13 18:47+0200\n"
+"POT-Creation-Date: 2014-10-19 13:51+0200\n"
+"PO-Revision-Date: 2014-10-19 13:57+0200\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
 "Language: de\n"
@@ -33,9 +33,8 @@ msgstr "_Lesezeichen entfernen"
 
 #. Translators: Number is meant at this point.
 #: ../addons/src/ao_bookmarklist.c:334
-#, fuzzy
 msgid "No."
-msgstr "Nein."
+msgstr "Nr."
 
 #: ../addons/src/ao_bookmarklist.c:342 ../devhelp/src/dhp-object.c:494
 #: ../devhelp/devhelp/dh-window.c:1142
@@ -166,7 +165,7 @@ msgstr "XML-Tagging ausführen"
 #: ../codenav/src/codenavigation.c:293 ../geanylatex/src/geanylatex.c:241
 #: ../geanyprj/src/geanyprj.c:174 ../geanysendmail/src/geanysendmail.c:123
 #: ../geanysendmail/src/geanysendmail.c:291 ../geanyvc/src/geanyvc.c:1854
-#: ../geniuspaste/src/geniuspaste.c:140 ../spellcheck/src/scplugin.c:152
+#: ../geniuspaste/src/geniuspaste.c:140 ../spellcheck/src/scplugin.c:153
 #: ../treebrowser/src/treebrowser.c:1935
 #: ../updatechecker/src/updatechecker.c:253
 msgid "Plugin configuration directory could not be created."
@@ -273,50 +272,49 @@ msgstr ""
 "Automatisches Schließen von Klammern bei einer Großzahl von Funktionen."
 
 #: ../autoclose/src/autoclose.c:1033
-#, fuzzy
 msgid "Auto-close quotes and brackets"
 msgstr ""
-"Automatisches Schließen von Klammern bei einer Großzahl von Funktionen."
+"Automatisches Schließen von Klammern und Anfürhungszeichen."
 
 #: ../autoclose/src/autoclose.c:1034
 msgid "Parenthesis ( )"
-msgstr ""
+msgstr "Klammern ( )"
 
 #: ../autoclose/src/autoclose.c:1035
 msgid "Auto-close parenthesis \"(\" -> \"(|)\""
-msgstr ""
+msgstr "Automatisches Schließen \"(\" -> \"(|)\""
 
 #: ../autoclose/src/autoclose.c:1037
 msgid "Curly brackets { }"
-msgstr ""
+msgstr "Geschweifte Klammern { }"
 
 #: ../autoclose/src/autoclose.c:1038
 msgid "Auto-close curly brackets \"{\" -> \"{|}\""
-msgstr ""
+msgstr "Automatisches Schließen von geschweiften Klammern \"{\" -> \"{|}\""
 
 #: ../autoclose/src/autoclose.c:1040
 msgid "Square brackets [ ]"
-msgstr ""
+msgstr "Eckige Klammern [ ]"
 
 #: ../autoclose/src/autoclose.c:1041
 msgid "Auto-close square brackets \"[\" -> \"[|]\""
-msgstr ""
+msgstr "Automatisches Schließen von eckigen Klammern \"[\" -> \"[|]\""
 
 #: ../autoclose/src/autoclose.c:1042
 msgid "Angular brackets < >"
-msgstr ""
+msgstr "Spitze Klammern < >"
 
 #: ../autoclose/src/autoclose.c:1043
 msgid "Auto-close angular brackets \"<\" -> \"<|>\""
-msgstr ""
+msgstr "Automatisches Schließen von spitzen Klammern \"<\" -> \"<|>\""
 
 #: ../autoclose/src/autoclose.c:1045
 msgid "\tOnly for HTML"
-msgstr ""
+msgstr "\tnur für HTML"
 
 #: ../autoclose/src/autoclose.c:1046
 msgid "Auto-close angular brackets only in HTML documents"
-msgstr ""
+msgstr "Automatisches Schließen von spitzen Klammern nur in HTML-Dokumenten"
 
 #: ../autoclose/src/autoclose.c:1047
 msgid "Double quotes \" \""
@@ -1218,6 +1216,62 @@ msgstr "_Groß-/Kleinschreibung beachten"
 #: ../devhelp/devhelp/eggfindbar.c:362 ../devhelp/devhelp/eggfindbar.c:365
 msgid "Toggle case sensitive search"
 msgstr "»Beachten von Groß-/Kleinschreibung« umschalten"
+
+#: ../geanyctags/src/geanyctags.c:44
+#, fuzzy
+msgid "Ctags generation and search plugin for geany projects"
+msgstr "GPG-Verschlüsselungsplugin für Geany"
+
+#: ../geanyctags/src/geanyctags.c:133
+#, fuzzy, c-format
+msgid "%s (in directory: %s)"
+msgstr "Das Verzeichnis »%s« existiert nicht"
+
+#: ../geanyctags/src/geanyctags.c:142
+#, c-format
+msgid "Process execution failed (%s)"
+msgstr ""
+
+#: ../geanyctags/src/geanyctags.c:483
+#, fuzzy
+msgid "Find Tag"
+msgstr "Suchen:"
+
+#: ../geanyctags/src/geanyctags.c:494 ../geanymacro/src/geanymacro.c:1424
+#: ../gproject/src/gproject-sidebar.c:101
+msgid "Search for:"
+msgstr "Suchen nach:"
+
+#: ../geanyctags/src/geanyctags.c:512
+msgid "Match type:"
+msgstr ""
+
+#: ../geanyctags/src/geanyctags.c:528 ../gproject/src/gproject-sidebar.c:129
+msgid "C_ase sensitive"
+msgstr "_Groß-/Kleinschreibung beachten"
+
+#: ../geanyctags/src/geanyctags.c:531
+#, fuzzy
+msgid "_Declaration"
+msgstr "Relationale Operatoren"
+
+#: ../geanyctags/src/geanyctags.c:598
+msgid "Find Tag Declaration (geanyctags)"
+msgstr ""
+
+#: ../geanyctags/src/geanyctags.c:603
+msgid "Find Tag Definition (geanyctags)"
+msgstr ""
+
+#: ../geanyctags/src/geanyctags.c:612 ../geanyctags/src/geanyctags.c:617
+#, fuzzy
+msgid "Generate tags"
+msgstr "Allgemein"
+
+#: ../geanyctags/src/geanyctags.c:619 ../geanyctags/src/geanyctags.c:624
+#, fuzzy
+msgid "Find tag"
+msgstr "Nächstes suchen"
 
 #. All plugins must set name, description, version and author.
 #: ../geanydoc/src/geanydoc.c:50 ../geanydoc/src/geanydoc.c:347
@@ -3707,10 +3761,6 @@ msgstr "Rückwärts suchen"
 msgid "Search for contents of clipboard"
 msgstr "Suchen nach Inhalten aus der Zwischenablage"
 
-#: ../geanymacro/src/geanymacro.c:1424 ../gproject/src/gproject-sidebar.c:101
-msgid "Search for:"
-msgstr "Suchen nach:"
-
 #. create checkbox to check for search options
 #: ../geanymacro/src/geanymacro.c:1442
 msgid "Search is case sensitive"
@@ -4357,7 +4407,7 @@ msgid "Open a signature file"
 msgstr "Eine Signaturendatei öffnen"
 
 #: ../geanyprj/src/geanyprj.c:38 ../geanyprj/src/sidebar.c:456
-#: ../gproject/src/gproject-sidebar.c:881
+#: ../gproject/src/gproject-sidebar.c:886
 msgid "Project"
 msgstr "Projekt"
 
@@ -4464,7 +4514,7 @@ msgstr "Im Projekt suchen"
 msgid "Remove File"
 msgstr "Datei entfernen"
 
-#: ../geanyprj/src/sidebar.c:240 ../gproject/src/gproject-sidebar.c:860
+#: ../geanyprj/src/sidebar.c:240 ../gproject/src/gproject-sidebar.c:865
 msgid "H_ide Sidebar"
 msgstr "Seitenleiste _verstecken"
 
@@ -5080,7 +5130,7 @@ msgstr "Code-Ablage in einem neuen Reiter im Browser zeigen"
 msgid "_Paste it!"
 msgstr "Zu _Pastebin senden"
 
-#: ../gproject/src/gproject-main.c:36 ../gproject/src/gproject-project.c:455
+#: ../gproject/src/gproject-main.c:36
 msgid "GProject"
 msgstr "GProject"
 
@@ -5088,31 +5138,31 @@ msgstr "GProject"
 msgid "Glob-pattern-based project management plugin for Geany."
 msgstr "Auf dem Global-Muster basierendes Projektmanagement-Plugin für Geany."
 
-#: ../gproject/src/gproject-menu.c:353
+#: ../gproject/src/gproject-menu.c:354
 msgid "Find in Project Files"
 msgstr "In Projektdateien suchen"
 
-#: ../gproject/src/gproject-menu.c:359
+#: ../gproject/src/gproject-menu.c:360
 msgid "Find in project files"
 msgstr "Im Projektdateien suchen"
 
-#: ../gproject/src/gproject-menu.c:363
+#: ../gproject/src/gproject-menu.c:364
 msgid "Find Project File"
 msgstr "Im Projekt suchen"
 
-#: ../gproject/src/gproject-menu.c:369
+#: ../gproject/src/gproject-menu.c:370
 msgid "Find project file"
 msgstr "Projektdatei finden"
 
-#: ../gproject/src/gproject-menu.c:371
+#: ../gproject/src/gproject-menu.c:372
 msgid "Swap Header/Source"
 msgstr "Header und Quellen tauschen"
 
-#: ../gproject/src/gproject-menu.c:376
+#: ../gproject/src/gproject-menu.c:377
 msgid "Swap header/source"
 msgstr "Header und Quellen tauschen"
 
-#: ../gproject/src/gproject-menu.c:382
+#: ../gproject/src/gproject-menu.c:383
 msgid "Open Selected File (gproject)"
 msgstr "Ausgewählte Datei öffnen (gproject)"
 
@@ -5175,7 +5225,7 @@ msgstr ""
 "Projekttab gesetzt werden."
 
 #: ../gproject/src/gproject-sidebar.c:90
-#: ../gproject/src/gproject-sidebar.c:849
+#: ../gproject/src/gproject-sidebar.c:854
 msgid "Find File"
 msgstr "Datei suchen"
 
@@ -5183,37 +5233,41 @@ msgstr "Datei suchen"
 msgid "Search inside:"
 msgstr "Suchen in:"
 
-#: ../gproject/src/gproject-sidebar.c:129
-msgid "C_ase sensitive"
-msgstr "_Groß-/Kleinschreibung beachten"
-
 #: ../gproject/src/gproject-sidebar.c:132
 msgid "Search in full path"
 msgstr "Im vollen Pfad suchen"
 
-#: ../gproject/src/gproject-sidebar.c:754
+#: ../gproject/src/gproject-sidebar.c:615
+msgid "Set file patterns under Project->Properties"
+msgstr ""
+
+#: ../gproject/src/gproject-sidebar.c:758
 msgid "Reload all"
 msgstr "Alle neuladen"
 
-#: ../gproject/src/gproject-sidebar.c:763
+#: ../gproject/src/gproject-sidebar.c:767
 #: ../treebrowser/src/treebrowser.c:1283
 msgid "Expand all"
 msgstr "Alle ausklappen"
 
-#: ../gproject/src/gproject-sidebar.c:770
+#: ../gproject/src/gproject-sidebar.c:774
 #: ../treebrowser/src/treebrowser.c:1287
 msgid "Collapse all"
 msgstr "Alle einklappen"
 
-#: ../gproject/src/gproject-sidebar.c:780
+#: ../gproject/src/gproject-sidebar.c:784
 msgid "Follow active editor"
 msgstr "Aktiven Editor folgen"
 
-#: ../gproject/src/gproject-sidebar.c:831
+#: ../gproject/src/gproject-sidebar.c:827
+msgid "(Re)open the project to start using the plugin"
+msgstr ""
+
+#: ../gproject/src/gproject-sidebar.c:836
 msgid "Expand All"
 msgstr "Alle ausklappen"
 
-#: ../gproject/src/gproject-sidebar.c:840
+#: ../gproject/src/gproject-sidebar.c:845
 msgid "Find in Files"
 msgstr "In Dateien finden"
 
@@ -6442,59 +6496,59 @@ msgstr "Rechtschreibprüfung"
 msgid "Checks the spelling of the current document."
 msgstr "Prüft die Rechtschreibung im aktuellen Dokument."
 
-#: ../spellcheck/src/scplugin.c:210
+#: ../spellcheck/src/scplugin.c:211
 msgid "Run Spell Check"
 msgstr "Rechtschreibprüfung ausführen"
 
-#: ../spellcheck/src/scplugin.c:213
+#: ../spellcheck/src/scplugin.c:214
 msgid "Toggle Check While Typing"
 msgstr "Rechtschreibung beim Tippen überprüfen ein-/ausschalten"
 
 #. initialise the dialog
-#: ../spellcheck/src/scplugin.c:224
+#: ../spellcheck/src/scplugin.c:225
 msgid "Select Directory"
 msgstr "Verzeichnis auswählen"
 
-#: ../spellcheck/src/scplugin.c:265
+#: ../spellcheck/src/scplugin.c:266
 msgid "Show toolbar item to toggle spell checking"
 msgstr "Symbol in der Werkzeugleiste zum Umschalten der Rechtschreibprüfung"
 
-#: ../spellcheck/src/scplugin.c:269
+#: ../spellcheck/src/scplugin.c:270
 msgid "Show editor menu item to show spelling suggestions"
 msgstr "Eintrag im Editormenü mit Korrekturvorschlägen"
 
-#: ../spellcheck/src/scplugin.c:274
+#: ../spellcheck/src/scplugin.c:275
 msgid "Print misspelled words and suggestions in the messages window"
 msgstr "Falsch geschriebene Wörter und Vorschläge im Meldungsfenster anzeigen"
 
-#: ../spellcheck/src/scplugin.c:284
+#: ../spellcheck/src/scplugin.c:285
 msgid "<b>Interface</b>"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:292
+#: ../spellcheck/src/scplugin.c:293
 msgid "Check spelling while typing"
 msgstr "Beim Tippen Rechtschreibung überprüfen"
 
-#: ../spellcheck/src/scplugin.c:295
+#: ../spellcheck/src/scplugin.c:296
 #, fuzzy
 msgid "Check spelling when opening a document"
 msgstr "Beim Tippen Rechtschreibung überprüfen"
 
-#: ../spellcheck/src/scplugin.c:297
+#: ../spellcheck/src/scplugin.c:298
 msgid ""
 "Enabling this option will check every document after it is opened in Geany. "
 "Reloading a document will also trigger a re-check."
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:301
+#: ../spellcheck/src/scplugin.c:302
 msgid "Language to use for the spell check:"
 msgstr "Zu verwendende Sprache für die Prüfung:"
 
-#: ../spellcheck/src/scplugin.c:313
+#: ../spellcheck/src/scplugin.c:314
 msgid "_Directory to look for dictionary files:"
 msgstr "_Verzeichnis mit Übersetzungsdateien:"
 
-#: ../spellcheck/src/scplugin.c:320
+#: ../spellcheck/src/scplugin.c:321
 msgid ""
 "Read additional dictionary files from this directory. For now, this only "
 "works with myspell dictionaries."
@@ -6502,7 +6556,7 @@ msgstr ""
 "Liest zusätzliche Wörterbücher aus diesem Verzeichnis. (Funktioniert zur "
 "Zeit nur mit myspell-Wörterbüchern)."
 
-#: ../spellcheck/src/scplugin.c:351
+#: ../spellcheck/src/scplugin.c:352
 msgid "<b>Behavior</b>"
 msgstr ""
 

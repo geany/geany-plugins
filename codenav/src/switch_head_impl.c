@@ -141,7 +141,8 @@ fill_languages_list(const gchar** impl_list, const gchar** head_list, gsize n)
 {
 	gchar **splitted_list;
 	Language* lang = NULL;
-	gint i, j;
+	gsize i;
+	guint j;
 	
 	languages_clean();
 
@@ -440,7 +441,7 @@ free_mem:
  * @return	GSList*	languages list
  * 
  */
-GSList* switch_head_impl_get_languages()
+GSList* switch_head_impl_get_languages(void)
 {
 	return languages;
 }
