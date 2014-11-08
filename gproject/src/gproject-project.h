@@ -22,7 +22,7 @@
 
 typedef struct
 {
-	TMWorkObject *tag;
+	TMSourceFile *tag;
 } TagObject;
 
 

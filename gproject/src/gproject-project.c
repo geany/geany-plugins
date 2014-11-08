@@ -72,48 +72,29 @@ static void deferred_op_queue_clean(void)
 }
 
 
-static void workspace_add_tag(gchar *filename, TagObject *obj, gpointer foo)
-{
-	TMWorkObject *tm_obj = NULL;
-
-	if (!document_find_by_filename(filename))
-	{
-		gchar *locale_filename;
-
-		locale_filename = utils_get_locale_from_utf8(filename);
-		tm_obj = tm_source_file_new(locale_filename, FALSE, filetypes_detect_from_file(filename)->name);
-		g_free(locale_filename);
-
-		if (tm_obj)
-		{
-			tm_workspace_add_object(tm_obj);
-			tm_source_file_update(tm_obj, TRUE, FALSE, TRUE);
-		}
-	}
-
-	if (obj->tag)
-		tm_workspace_remove_object(obj->tag, TRUE, TRUE);
-
-	obj->tag = tm_obj;
-}
-
-
 static void workspace_add_file_tag(gchar *filename)
 {
 	TagObject *obj;
 
 	obj = g_hash_table_lookup(g_prj->file_tag_table, filename);
 	if (obj)
-		workspace_add_tag(filename, obj, NULL);
-}
-
-
-static void workspace_remove_tag(gchar *filename, TagObject *obj, gpointer foo)
-{
-	if (obj->tag)
 	{
-		tm_workspace_remove_object(obj->tag, TRUE, TRUE);
-		obj->tag = NULL;
+		TMSourceFile *tm_obj = NULL;
+		
+		if (!document_find_by_filename(filename))
+		{
+			tm_obj = tm_source_file_new(filename, filetypes_detect_from_file(filename)->name);
+			if (tm_obj)
+				tm_workspace_add_source_file(tm_obj);
+		}
+
+		if (obj->tag)
+		{
+			tm_workspace_remove_source_file(obj->tag);
+			tm_source_file_free(obj->tag);
+		}
+
+		obj->tag = tm_obj;
 	}
 }
 
@@ -123,8 +104,12 @@ static void workspace_remove_file_tag(gchar *filename)
 	TagObject *obj;
 
 	obj = g_hash_table_lookup(g_prj->file_tag_table, filename);
-	if (obj)
-		workspace_remove_tag(filename, obj, NULL);
+	if (obj && obj->tag)
+	{ 
+		tm_workspace_remove_source_file(obj->tag);
+		tm_source_file_free(obj->tag);
+		obj->tag = NULL;
+	}
 }
 
 
@@ -217,6 +202,58 @@ static GSList *get_file_list(const gchar * path, GSList *patterns, GSList *ignor
 }
 
 
+static void remove_all_tags()
+{
+	GPtrArray *to_update;
+	GHashTableIter iter;
+	gpointer key, value;
+
+	g_hash_table_iter_init (&iter, g_prj->file_tag_table);
+	to_update = g_ptr_array_new();
+	while (g_hash_table_iter_next (&iter, &key, &value))
+	{
+		TagObject *obj = value;
+		
+		g_ptr_array_add(to_update, obj->tag);
+		obj->tag = NULL;
+	}
+	
+	tm_workspace_remove_source_files(to_update);
+	g_ptr_array_foreach(to_update, (GFunc)tm_source_file_free, NULL);
+	g_ptr_array_free(to_update, TRUE);
+}
+
+
+static void add_all_tags()
+{
+	GPtrArray *to_update;
+	GHashTableIter iter;
+	gpointer key, value;
+
+	g_hash_table_iter_init (&iter, g_prj->file_tag_table);
+	to_update = g_ptr_array_new();
+	while (g_hash_table_iter_next (&iter, &key, &value))
+	{
+		TagObject *obj = value;
+		gchar *filename = key;
+		TMSourceFile *tm_obj = NULL;
+		 
+		if (!document_find_by_filename(filename))
+		{
+			tm_obj = tm_source_file_new(filename, filetypes_detect_from_file(filename)->name);
+
+			if (tm_obj)
+				g_ptr_array_add(to_update, tm_obj);
+		}
+
+		obj->tag = tm_obj;
+	}
+	
+	tm_workspace_add_source_files(to_update);
+	g_ptr_array_free(to_update, TRUE);
+}
+
+
 void gprj_project_rescan(void)
 {
 	GSList *pattern_list = NULL;
@@ -228,7 +265,7 @@ void gprj_project_rescan(void)
 		return;
 
 	if (g_prj->generate_tags)
-		g_hash_table_foreach(g_prj->file_tag_table, (GHFunc)workspace_remove_tag, NULL);
+		remove_all_tags();
 	g_hash_table_destroy(g_prj->file_tag_table);
 	g_prj->file_tag_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
 
@@ -257,7 +294,7 @@ void gprj_project_rescan(void)
 	}
 
 	if (g_prj->generate_tags)
-		g_hash_table_foreach(g_prj->file_tag_table, (GHFunc)workspace_add_tag, NULL);
+		add_all_tags();
 
 	g_slist_foreach(lst, (GFunc) g_free, NULL);
 	g_slist_free(lst);
@@ -470,7 +507,7 @@ void gprj_project_close(void)
 		return;  /* can happen on plugin reload */
 
 	if (g_prj->generate_tags)
-		g_hash_table_foreach(g_prj->file_tag_table, (GHFunc)workspace_remove_tag, NULL);
+		remove_all_tags();
 
 	deferred_op_queue_clean();
 
