@@ -46,10 +46,6 @@ GeanyFunctions *geany_functions;
 static gint page_index = -1;
 
 
-void plugin_init(G_GNUC_UNUSED GeanyData * data);
-void plugin_cleanup(void);
-
-
 static void on_doc_open(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED GeanyDocument * doc,
 	    G_GNUC_UNUSED gpointer user_data)
 {

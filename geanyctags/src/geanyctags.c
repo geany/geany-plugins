@@ -80,10 +80,6 @@ enum
 
 
 
-void plugin_init(G_GNUC_UNUSED GeanyData * data);
-void plugin_cleanup(void);
-
-
 static void set_widgets_sensitive(gboolean sensitive)
 {
 	gtk_widget_set_sensitive(GTK_WIDGET(s_gt_item), sensitive);
