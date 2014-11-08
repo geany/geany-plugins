@@ -50,7 +50,7 @@ GeanyData       *geany_data;
 GeanyFunctions  *geany_functions;
 
 /* TODO check minimum requierment */
-PLUGIN_VERSION_CHECK (188)
+PLUGIN_VERSION_CHECK (221)
 
 PLUGIN_SET_TRANSLATABLE_INFO (
   LOCALEDIR, GETTEXT_PACKAGE,
@@ -114,7 +114,7 @@ ggd_plugin_get_doctype (filetype_id id)
 /* FIXME: tm_source_file_buffer_update() is not found in symbols table */
 /* (tries to) refresh the tag list to the file's current state */
 static void
-refresh_tag_list (TMWorkObject    *tm_wo,
+refresh_tag_list (TMSourceFile    *tm_wo,
                   ScintillaObject *sci,
                   GeanyDocument   *doc)
 {

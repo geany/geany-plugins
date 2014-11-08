@@ -162,10 +162,10 @@ get_env_for_tag (GgdFileType   *ft,
   ctpl_environ_push_string (env, "cursor", GGD_CURSOR_IDENTIFIER);
   ctpl_environ_push_string (env, "symbol", tag->name);
   /* get argument list it it exists */
-  if (tag->atts.entry.arglist) {
+  if (tag->arglist) {
     CtplValue  *v;
     
-    v = get_arg_list_from_string (ft, tag->atts.entry.arglist);
+    v = get_arg_list_from_string (ft, tag->arglist);
     if (v) {
       ctpl_environ_push (env, "argument_list", v);
       ctpl_value_free (v);
@@ -173,9 +173,9 @@ get_env_for_tag (GgdFileType   *ft,
   }
   /* get return type -- no matter if the return concept is pointless for that
    * particular tag, it's up to the rule to use it when it makes sense */
-  returns = ! (tag->atts.entry.var_type != NULL &&
+  returns = ! (tag->var_type != NULL &&
                /* C-style none return type hack */
-               strcmp ("void", tag->atts.entry.var_type) == 0);
+               strcmp ("void", tag->var_type) == 0);
   ctpl_environ_push_int (env, "returns", returns);
   /* get direct children tags */
   children = ggd_tag_find_children (tag_array, tag,
@@ -344,13 +344,13 @@ do_insert_comment (GeanyDocument   *doc,
     
     switch (setting->position) {
       case GGD_POS_AFTER:
-        pos = sci_get_line_end_position (sci, tag->atts.entry.line - 1);
+        pos = sci_get_line_end_position (sci, tag->line - 1);
         break;
       
       case GGD_POS_BEFORE: {
         gint line;
         
-        line = tag->atts.entry.line - 1;
+        line = tag->line - 1;
         line = adjust_start_line (sci, tag_array, tag, line);
         pos = sci_get_position_from_line (sci, line);
         if (GGD_OPT_indent) {
@@ -487,7 +487,7 @@ insert_multiple_comments (GeanyDocument *doc,
       msgwin_status_add (_("No setting applies to symbol \"%s\" of type \"%s\" "
                            "at line %lu."),
                          tag->name, ggd_tag_get_type_name (tag),
-                         tag->atts.entry.line);
+                         tag->line);
     }
   }
   sci_end_undo_action (sci);
