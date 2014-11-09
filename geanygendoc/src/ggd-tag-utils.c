@@ -59,9 +59,9 @@ tag_cmp_by_line (gconstpointer a,
   if (t1->type & tm_tag_file_t || t2->type & tm_tag_file_t) {
     rv = 0;
   } else {
-    if (t1->atts.entry.line > t2->atts.entry.line) {
+    if (t1->line > t2->line) {
       rv = +direction;
-    } else if (t1->atts.entry.line < t2->atts.entry.line) {
+    } else if (t1->line < t2->line) {
       rv = -direction;
     } else {
       rv = 0;
@@ -159,8 +159,8 @@ ggd_tag_find_from_line (const GPtrArray  *tags,
   
   GGD_PTR_ARRAY_FOR (tags, i, el) {
     if (! (el->type & tm_tag_file_t)) {
-      if (el->atts.entry.line <= line &&
-          (! tag || el->atts.entry.line > tag->atts.entry.line)) {
+      if (el->line <= line &&
+          (! tag || el->line > tag->line)) {
         tag = el;
       }
     }
@@ -211,7 +211,7 @@ ggd_tag_find_parent (const GPtrArray *tags,
   g_return_val_if_fail (tags != NULL, NULL);
   g_return_val_if_fail (child != NULL, NULL);
   
-  if (! child->atts.entry.scope) {
+  if (! child->scope) {
     /* tag has no parent, we're done */
   } else {
     gchar        *parent_scope = NULL;
@@ -223,17 +223,17 @@ ggd_tag_find_parent (const GPtrArray *tags,
     gsize         separator_len;
     
     /* scope is of the form a<sep>b<sep>c */
-    parent_name = child->atts.entry.scope;
+    parent_name = child->scope;
     separator = symbols_get_context_separator (geany_ft);
     separator_len = strlen (separator);
     while ((tmp = strstr (parent_name, separator)) != NULL) {
       parent_name = &tmp[separator_len];
     }
     /* if parent have scope */
-    if (parent_name != child->atts.entry.scope) {
+    if (parent_name != child->scope) {
       /* the parent scope is the "dirname" of the child's scope */
-      parent_scope = g_strndup (child->atts.entry.scope,
-                                parent_name - child->atts.entry.scope -
+      parent_scope = g_strndup (child->scope,
+                                parent_name - child->scope -
                                   separator_len);
     }
     /*g_debug ("%s: parent_name = %s", G_STRFUNC, parent_name);
@@ -241,8 +241,8 @@ ggd_tag_find_parent (const GPtrArray *tags,
     GGD_PTR_ARRAY_FOR (tags, i, el) {
       if (! (el->type & tm_tag_file_t) &&
           (utils_str_equal (el->name, parent_name) &&
-           utils_str_equal (el->atts.entry.scope, parent_scope) &&
-           el->atts.entry.line <= child->atts.entry.line)) {
+           utils_str_equal (el->scope, parent_scope) &&
+           el->line <= child->line)) {
         tag = el;
       }
     }

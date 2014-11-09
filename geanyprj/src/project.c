@@ -84,7 +84,11 @@ gboolean (*project_type_filter[NEW_PROJECT_TYPE_SIZE]) (const gchar *) = {
 
 static void free_tag_object(gpointer obj)
 {
-	tm_workspace_remove_object((TMWorkObject *) obj, TRUE, FALSE);
+	if (obj != NULL)
+	{
+		tm_workspace_remove_source_file((TMSourceFile *) obj);
+		tm_source_file_free((TMSourceFile *) obj);
+	}
 }
 
 
@@ -102,7 +106,7 @@ struct GeanyPrj *geany_project_new(void)
 struct GeanyPrj *geany_project_load(const gchar *path)
 {
 	struct GeanyPrj *ret;
-	TMWorkObject *tm_obj = NULL;
+	TMSourceFile *tm_obj = NULL;
 	GKeyFile *config;
 	gint i = 0;
 	gchar *file;
@@ -154,6 +158,8 @@ struct GeanyPrj *geany_project_load(const gchar *path)
 	}
 	else
 	{
+		GPtrArray *to_add = g_ptr_array_new();
+
 		/* Create tag files */
 		key = g_strdup_printf("file%d", i);
 		while ((file = g_key_file_get_string(config, "files", key, NULL)))
@@ -161,13 +167,13 @@ struct GeanyPrj *geany_project_load(const gchar *path)
 			filename = get_full_path(path, file);
 
 			locale_filename = utils_get_locale_from_utf8(filename);
-			tm_obj = tm_source_file_new(locale_filename, FALSE,
+			tm_obj = tm_source_file_new(locale_filename,
 						    filetypes_detect_from_file(filename)->name);
 			g_free(locale_filename);
 			if (tm_obj)
 			{
 				g_hash_table_insert(ret->tags, filename, tm_obj);
-				tm_source_file_update(tm_obj, TRUE, FALSE, TRUE);
+				g_ptr_array_add(to_add, tm_obj);
 			}
 			else
 				g_free(filename);
@@ -176,6 +182,8 @@ struct GeanyPrj *geany_project_load(const gchar *path)
 			g_free(file);
 			key = g_strdup_printf("file%d", i);
 		}
+		tm_workspace_add_source_files(to_add);
+		g_ptr_array_free(to_add, TRUE);
 		g_free(key);
 	}
 	g_key_file_free(config);
@@ -183,18 +191,28 @@ struct GeanyPrj *geany_project_load(const gchar *path)
 }
 
 
-#if !GLIB_CHECK_VERSION(2, 12, 0)
-static gboolean get_true(gpointer key, gpointer value, gpointer user_data)
+static void remove_all_tags(struct GeanyPrj *prj)
 {
-	return TRUE;
+	GPtrArray *to_remove, *keys;
+	GHashTableIter iter;
+	gpointer key, value;
+	
+	/* instead of relatively slow removal of source files by one from the tag manager, 
+	 * use the bulk operations - this requires that the normal destroy function
+	 * of GHashTable is skipped - steal the keys and values and handle them manually */
+	to_remove = g_ptr_array_new_with_free_func((GFreeFunc)tm_source_file_free);
+	keys = g_ptr_array_new_with_free_func(g_free);
+	g_hash_table_iter_init(&iter, prj->tags);
+	while (g_hash_table_iter_next(&iter, &key, &value))
+	{
+		g_ptr_array_add(to_remove, value);
+		g_ptr_array_add(keys, key);
+	}
+	tm_workspace_remove_source_files(to_remove);
+	g_hash_table_steal_all(prj->tags);
+	g_ptr_array_free(to_remove, TRUE);
+	g_ptr_array_free(keys, TRUE);
 }
-
-
-static void g_hash_table_remove_all(GHashTable *hash_table)
-{
-	g_hash_table_foreach_remove(hash_table, get_true, NULL);
-}
-#endif
 
 
 void geany_project_regenerate_file_list(struct GeanyPrj *prj)
@@ -202,7 +220,7 @@ void geany_project_regenerate_file_list(struct GeanyPrj *prj)
 	GSList *lst;
 
 	debug("%s path=%s\n", __FUNCTION__, prj->base_path);
-	g_hash_table_remove_all(prj->tags);
+	remove_all_tags(prj);
 
 	lst = get_file_list(prj->base_path, NULL, project_type_filter[prj->type], NULL);
 	geany_project_set_tags_from_list(prj, lst);
@@ -299,24 +317,25 @@ void geany_project_set_tags_from_list(struct GeanyPrj *prj, GSList *files)
 {
 	GSList *tmp;
 	gchar *locale_filename;
-	TMWorkObject *tm_obj = NULL;
+	TMSourceFile *tm_obj = NULL;
+	GPtrArray *to_add = g_ptr_array_new();
 
-	if (prj->tags)
-		g_hash_table_destroy(prj->tags);
 	prj->tags = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, free_tag_object);
 
 	for (tmp = files; tmp != NULL; tmp = g_slist_next(tmp))
 	{
 		locale_filename = utils_get_locale_from_utf8(tmp->data);
-		tm_obj = tm_source_file_new(locale_filename, FALSE,
+		tm_obj = tm_source_file_new(locale_filename,
 					    filetypes_detect_from_file(tmp->data)->name);
 		g_free(locale_filename);
 		if (tm_obj)
 		{
 			g_hash_table_insert(prj->tags, g_strdup(tmp->data), tm_obj);
-			tm_source_file_update(tm_obj, TRUE, FALSE, TRUE);
+			g_ptr_array_add(to_add, tm_obj);
 		}
 	}
+	tm_workspace_add_source_files(to_add);
+	g_ptr_array_free(to_add, TRUE);
 }
 
 
@@ -336,7 +355,10 @@ void geany_project_free(struct GeanyPrj *prj)
 	if (prj->run_cmd)
 		g_free(prj->run_cmd);
 	if (prj->tags)
+	{
+		remove_all_tags(prj);
 		g_hash_table_destroy(prj->tags);
+	}
 
 	g_free(prj);
 }
@@ -345,7 +367,7 @@ void geany_project_free(struct GeanyPrj *prj)
 gboolean geany_project_add_file(struct GeanyPrj *prj, const gchar *path)
 {
 	gchar *filename;
-	TMWorkObject *tm_obj = NULL;
+	TMSourceFile *tm_obj = NULL;
 
 	GKeyFile *config;
 
@@ -364,12 +386,12 @@ gboolean geany_project_add_file(struct GeanyPrj *prj, const gchar *path)
 	g_key_file_free(config);
 
 	filename = utils_get_locale_from_utf8(path);
-	tm_obj = tm_source_file_new(filename, FALSE, filetypes_detect_from_file(path)->name);
+	tm_obj = tm_source_file_new(filename, filetypes_detect_from_file(path)->name);
 	g_free(filename);
 	if (tm_obj)
 	{
 		g_hash_table_insert(prj->tags, g_strdup(path), tm_obj);
-		tm_source_file_update(tm_obj, TRUE, FALSE, TRUE);
+		tm_workspace_add_source_file(tm_obj);
 	}
 	geany_project_save(prj);
 	return TRUE;

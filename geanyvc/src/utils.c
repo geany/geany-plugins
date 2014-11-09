@@ -51,12 +51,12 @@ normpath(const gchar * filename)
 
 	if (filename[0] == '.' && strcmp(v[0], ".") == 0)
 	{
-		*pout = strdup(".");
+		*pout = g_strdup(".");
 		pout++;
 	}
 	else if (filename[0] == '/')
 	{
-		*pout = strdup("/");
+		*pout = g_strdup("/");
 		pout++;
 	}
 

@@ -48,10 +48,6 @@ static void xml_format(GtkMenuItem *menuitem, gpointer gdata);
 static void kb_run_xml_pretty_print(G_GNUC_UNUSED guint key_id);
 static void config_closed(GtkWidget* configWidget, gint response, gpointer data);
 
-void plugin_init(GeanyData *data);
-void plugin_cleanup(void);
-GtkWidget* plugin_configure(GtkDialog * dialog);
-
 /*========================================== FUNCTIONS ===================================================================*/
 
 void plugin_init(GeanyData *data)

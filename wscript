@@ -114,6 +114,8 @@ def configure(conf):
     setup_makefile(conf)
     conf.write_config_header('config.h')
 
+    if conf.env['CC_NAME'] == 'gcc' and '-O' not in ''.join(conf.env['CFLAGS']):
+        conf.env.append_value('CFLAGS', ['-O2'])
     # enable debug when compiling from VCS
     if revision is not None:
         conf.env.append_value('CFLAGS', '-g -DDEBUG'.split())  # -DGEANY_DISABLE_DEPRECATED

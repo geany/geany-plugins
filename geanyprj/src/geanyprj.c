@@ -34,8 +34,8 @@
 
 #include "geanyprj.h"
 
-PLUGIN_VERSION_CHECK(147)
-PLUGIN_SET_INFO(_("Project"), _("Alternative project support."), VERSION,
+PLUGIN_VERSION_CHECK(221)
+PLUGIN_SET_INFO("GeanyPrj", _("Alternative project support."), VERSION,
 		"Yura Siamashka <yurand2@gmail.com>")
 
 GeanyData      *geany_data;

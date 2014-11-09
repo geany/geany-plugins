@@ -32,7 +32,7 @@
 #include "gproject-sidebar.h"
 #include "gproject-menu.h"
 
-PLUGIN_VERSION_CHECK(214)
+PLUGIN_VERSION_CHECK(221)
 PLUGIN_SET_INFO(_("GProject"),
 	_("Glob-pattern-based project management plugin for Geany."),
 	VERSION,
@@ -44,10 +44,6 @@ GeanyFunctions *geany_functions;
 
 
 static gint page_index = -1;
-
-
-void plugin_init(G_GNUC_UNUSED GeanyData * data);
-void plugin_cleanup(void);
 
 
 static void on_doc_open(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED GeanyDocument * doc,
