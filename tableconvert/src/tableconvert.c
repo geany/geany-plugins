@@ -60,9 +60,9 @@ TableConvertRule tablerules[] = {
 		"<table>\n",        /* start        	  */
 		"<thead>\n",        /* header_start       */
 		"</thead>\n",       /* header_stop        */
-		"</td>\n\t<td>",      /* header_columnsplit */
-		"<tr>\n\t<td>",		/* header_linestart   */
-		"</td>\n</tr>\n",	/* header_lineend	  */
+		"</th>\n\t<th>",      /* header_columnsplit */
+		"<tr>\n\t<th>",		/* header_linestart   */
+		"</th>\n</tr>\n",	/* header_lineend	  */
 		"<tbody>\n",        /* body_start         */
 		"\n</tbody>",       /* body_end           */
 		"</td>\n\t<td>",    /* columnsplit        */
