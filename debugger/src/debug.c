@@ -1020,6 +1020,7 @@ void debug_init(void)
 	config = g_key_file_new();
 	configfile = g_strconcat(geany_data->app->configdir, G_DIR_SEPARATOR_S, "geany.conf", NULL);
 	g_key_file_load_from_file(config, configfile, G_KEY_FILE_NONE, NULL);
+	g_free(configfile);
 	font = utils_get_setting_string(config, "VTE", "font", "Monospace 10");
 	vte_terminal_set_font_from_string (VTE_TERMINAL(terminal), font);	
 		

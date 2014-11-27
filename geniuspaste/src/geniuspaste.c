@@ -220,6 +220,7 @@ static void paste(GeanyDocument * doc, const gchar * website)
     if (f_content == NULL || f_content[0] == '\0')
     {
         dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Refusing to create blank paste"));
+        g_free(f_title);
         return;
     }
 

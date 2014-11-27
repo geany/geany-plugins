@@ -114,7 +114,11 @@ static void on_target_browse_clicked(GtkButton *button, gpointer   user_data)
 	if (strcmp(".", prevdir))
 		strcpy(path, prevdir);
 	else
-		strcpy(path, g_path_get_dirname(DOC_FILENAME(document_get_current())));		
+	{
+		gchar *dirname = g_path_get_dirname(DOC_FILENAME(document_get_current()));
+		strcpy(path, dirname);
+		g_free(dirname);
+	}
 	g_free(prevdir);
 	
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER (dialog), path);

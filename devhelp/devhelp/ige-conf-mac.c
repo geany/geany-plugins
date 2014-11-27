@@ -311,10 +311,10 @@ ige_conf_notify_add (IgeConf           *conf,
 
         priv = GET_PRIVATE (conf);
 
-        data = g_slice_new (IgeConfNotifyData);
+        /*data = g_slice_new (IgeConfNotifyData);
         data->func = func;
         data->user_data = user_data;
-        data->conf = g_object_ref (conf);
+        data->conf = g_object_ref (conf);*/
 
         id = 0; /*gconf_client_notify_add (priv->gconf_client,
                                       key,
