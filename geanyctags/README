@@ -59,7 +59,7 @@ When using the Project->Find tag search, it is possible to select from several
 search types:
 
 * prefix (default) - finds all tags with the specified prefix
-* full - finds all tags matching the name exactly
+* exact - finds all tags matching the name exactly
 * pattern - finds all tags matching the provided glob pattern
 
 Note that the pattern option is the slowest of the three possibilities because it
