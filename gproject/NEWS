@@ -1,0 +1,11 @@
+November 2014
+* Added the "external directory" feature
+* Added find tag by name
+* Added ignored file patterns
+* Performance improvements in tag generation using updated Geany API
+* Automatic tag generation for projects with less than 500 files (configurable)
+* Follow active editor on by default
+* Treat empty "file patterns" in project properties as * (everything)
+* New toolbar icons
+* Fixed missing icons under Windows (thanks to Enrico)
+* Lots of minor iprovements, bugfixes (and probably new bug introductions)

@@ -37,122 +37,36 @@ typedef struct
 	GtkWidget *source_patterns;
 	GtkWidget *header_patterns;
 	GtkWidget *ignored_dirs_patterns;
-	GtkWidget *generate_tags;
+	GtkWidget *ignored_file_patterns;
+	GtkWidget *generate_tag_prefs;
 } PropertyDialogElements;
 
 GPrj *g_prj = NULL;
 
 static PropertyDialogElements *e;
 
-typedef enum {DeferredTagOpAdd, DeferredTagOpRemove} DeferredTagOpType;
+static GSList *s_idle_add_funcs;
+static GSList *s_idle_remove_funcs;
 
-typedef struct
+
+static void clear_idle_queue(GSList **queue)
 {
-	gchar * filename;
-	DeferredTagOpType type;
-} DeferredTagOp;
-
-static GSList *file_tag_deferred_op_queue = NULL;
-static gboolean flush_queued = FALSE;
-
-
-static void deferred_op_free(DeferredTagOp* op, G_GNUC_UNUSED gpointer user_data)
-{
-	g_free(op->filename);
-	g_free(op);
+	g_slist_free_full(*queue, g_free);
+	*queue = NULL;
 }
 
 
-static void deferred_op_queue_clean(void)
+static void collect_source_files(gchar *filename, TMSourceFile *sf, gpointer user_data)
 {
-	g_slist_foreach(file_tag_deferred_op_queue, (GFunc)deferred_op_free, NULL);
-	g_slist_free(file_tag_deferred_op_queue);
-	file_tag_deferred_op_queue = NULL;
-        flush_queued = FALSE;
-}
-
-
-static void workspace_add_file_tag(gchar *filename)
-{
-	TagObject *obj;
-
-	obj = g_hash_table_lookup(g_prj->file_tag_table, filename);
-	if (obj)
-	{
-		TMSourceFile *tm_obj = NULL;
-		
-		if (!document_find_by_filename(filename))
-		{
-			tm_obj = tm_source_file_new(filename, filetypes_detect_from_file(filename)->name);
-			if (tm_obj)
-				tm_workspace_add_source_file(tm_obj);
-		}
-
-		if (obj->tag)
-		{
-			tm_workspace_remove_source_file(obj->tag);
-			tm_source_file_free(obj->tag);
-		}
-
-		obj->tag = tm_obj;
-	}
-}
-
-
-static void workspace_remove_file_tag(gchar *filename)
-{
-	TagObject *obj;
-
-	obj = g_hash_table_lookup(g_prj->file_tag_table, filename);
-	if (obj && obj->tag)
-	{ 
-		tm_workspace_remove_source_file(obj->tag);
-		tm_source_file_free(obj->tag);
-		obj->tag = NULL;
-	}
-}
-
-
-static void deferred_op_queue_dispatch(DeferredTagOp* op, G_GNUC_UNUSED gpointer user_data)
-{
-	if (op->type == DeferredTagOpAdd)
-		workspace_add_file_tag(op->filename);
-	else if (op->type == DeferredTagOpRemove)
-		workspace_remove_file_tag(op->filename);
-}
-
-
-static gboolean deferred_op_queue_flush(G_GNUC_UNUSED gpointer data)
-{
-	g_slist_foreach(file_tag_deferred_op_queue,
-					(GFunc)deferred_op_queue_dispatch, NULL);
-	deferred_op_queue_clean();
-	flush_queued = FALSE;
-
-	return FALSE; /* returning false removes this callback; it is a one-shot */
-}
-
-
-static void deferred_op_queue_enqueue(gchar* filename, DeferredTagOpType type)
-{
-	DeferredTagOp * op;
-
-	op = (DeferredTagOp *) g_new0(DeferredTagOp, 1);
-	op->type = type;
-	op->filename = g_strdup(filename);
-
-	file_tag_deferred_op_queue = g_slist_prepend(file_tag_deferred_op_queue,op);
-
-	if (!flush_queued)
-	{
-		flush_queued = TRUE;
-		plugin_idle_add(geany_plugin, (GSourceFunc)deferred_op_queue_flush, NULL);
-	}
+	GPtrArray *array = user_data;
+	
+	if (sf != NULL)
+		g_ptr_array_add(array, sf);
 }
 
 
 /* path - absolute path in locale, returned list in locale */
-static GSList *get_file_list(const gchar * path, GSList *patterns, GSList *ignored_dirs_patterns)
+static GSList *get_file_list(const gchar * path, GSList *patterns, GSList *ignored_dirs_patterns, GSList *ignored_file_patterns)
 {
 	GSList *list = NULL;
 	GDir *dir;
@@ -182,14 +96,14 @@ static GSList *get_file_list(const gchar * path, GSList *patterns, GSList *ignor
 				continue;
 			}
 
-			lst = get_file_list(filename, patterns, ignored_dirs_patterns);
+			lst = get_file_list(filename, patterns, ignored_dirs_patterns, ignored_file_patterns);
 			if (lst)
 				list = g_slist_concat(list, lst);
 			g_free(filename);
 		}
 		else if (g_file_test(filename, G_FILE_TEST_IS_REGULAR))
 		{
-			if (patterns_match(patterns, name))
+			if (patterns_match(patterns, name) && !patterns_match(ignored_file_patterns, name))
 				list = g_slist_prepend(list, filename);
 			else
 				g_free(filename);
@@ -202,99 +116,48 @@ static GSList *get_file_list(const gchar * path, GSList *patterns, GSList *ignor
 }
 
 
-static void remove_all_tags()
+static gint gprj_project_rescan_root(GPrjRoot *root)
 {
-	GPtrArray *to_update;
-	GHashTableIter iter;
-	gpointer key, value;
-
-	g_hash_table_iter_init (&iter, g_prj->file_tag_table);
-	to_update = g_ptr_array_new();
-	while (g_hash_table_iter_next (&iter, &key, &value))
-	{
-		TagObject *obj = value;
-		
-		g_ptr_array_add(to_update, obj->tag);
-		obj->tag = NULL;
-	}
-	
-	tm_workspace_remove_source_files(to_update);
-	g_ptr_array_foreach(to_update, (GFunc)tm_source_file_free, NULL);
-	g_ptr_array_free(to_update, TRUE);
-}
-
-
-static void add_all_tags()
-{
-	GPtrArray *to_update;
-	GHashTableIter iter;
-	gpointer key, value;
-
-	g_hash_table_iter_init (&iter, g_prj->file_tag_table);
-	to_update = g_ptr_array_new();
-	while (g_hash_table_iter_next (&iter, &key, &value))
-	{
-		TagObject *obj = value;
-		gchar *filename = key;
-		TMSourceFile *tm_obj = NULL;
-		 
-		if (!document_find_by_filename(filename))
-		{
-			tm_obj = tm_source_file_new(filename, filetypes_detect_from_file(filename)->name);
-
-			if (tm_obj)
-				g_ptr_array_add(to_update, tm_obj);
-		}
-
-		obj->tag = tm_obj;
-	}
-	
-	tm_workspace_add_source_files(to_update);
-	g_ptr_array_free(to_update, TRUE);
-}
-
-
-void gprj_project_rescan(void)
-{
+	GPtrArray *source_files;
 	GSList *pattern_list = NULL;
 	GSList *ignored_dirs_list = NULL;
+	GSList *ignored_file_list = NULL;
 	GSList *lst;
 	GSList *elem;
+	gint filenum = 0;
 
-	if (!g_prj)
-		return;
+	source_files = g_ptr_array_new();
+	g_hash_table_foreach(root->file_table, (GHFunc)collect_source_files, source_files);
+	tm_workspace_remove_source_files(source_files);
+	g_ptr_array_free(source_files, TRUE);
+	g_hash_table_remove_all(root->file_table);
 
-	if (g_prj->generate_tags)
-		remove_all_tags();
-	g_hash_table_destroy(g_prj->file_tag_table);
-	g_prj->file_tag_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
-
-	deferred_op_queue_clean();
-
-	pattern_list = get_precompiled_patterns(geany_data->app->project->file_patterns);
+	if (!geany_data->app->project->file_patterns || !geany_data->app->project->file_patterns[0])
+	{
+		gchar **all_pattern = g_strsplit ("*", " ", -1);
+		pattern_list = get_precompiled_patterns(all_pattern);
+		g_strfreev(all_pattern);
+	}
+	else
+		pattern_list = get_precompiled_patterns(geany_data->app->project->file_patterns);
 
 	ignored_dirs_list = get_precompiled_patterns(g_prj->ignored_dirs_patterns);
+	ignored_file_list = get_precompiled_patterns(g_prj->ignored_file_patterns);
 
-	lst = get_file_list(geany_data->app->project->base_path, pattern_list, ignored_dirs_list);
-
-	for (elem = lst; elem != NULL; elem = g_slist_next(elem))
+	lst = get_file_list(root->base_dir, pattern_list, ignored_dirs_list, ignored_file_list);
+	
+	foreach_slist(elem, lst)
 	{
 		char *path;
-		TagObject *obj;
-
-		obj = g_new0(TagObject, 1);
-		obj->tag = NULL;
 
 		path = tm_get_real_path(elem->data);
 		if (path)
 		{
 			SETPTR(path, utils_get_utf8_from_locale(path));
-			g_hash_table_insert(g_prj->file_tag_table, path, obj);
+			g_hash_table_insert(root->file_table, path, NULL);
+			filenum++;
 		}
 	}
-
-	if (g_prj->generate_tags)
-		add_all_tags();
 
 	g_slist_foreach(lst, (GFunc) g_free, NULL);
 	g_slist_free(lst);
@@ -304,6 +167,113 @@ void gprj_project_rescan(void)
 
 	g_slist_foreach(ignored_dirs_list, (GFunc) g_pattern_spec_free, NULL);
 	g_slist_free(ignored_dirs_list);
+	
+	return filenum;
+}
+
+
+static gboolean match_basename(gconstpointer pft, gconstpointer user_data)
+{
+	const GeanyFiletype *ft = pft;
+	const gchar *base_filename = user_data;
+	gint j;
+	gboolean ret = FALSE;
+
+	if (G_UNLIKELY(ft->id == GEANY_FILETYPES_NONE))
+		return FALSE;
+
+	for (j = 0; ft->pattern[j] != NULL; j++)
+	{
+		GPatternSpec *pattern = g_pattern_spec_new(ft->pattern[j]);
+
+		if (g_pattern_match_string(pattern, base_filename))
+		{
+			ret = TRUE;
+			g_pattern_spec_free(pattern);
+			break;
+		}
+		g_pattern_spec_free(pattern);
+	}
+	return ret;
+}
+
+
+/* Stolen and modified version from Geany. The only difference is that Geany
+ * first looks at shebang inside the file and then, if it fails, checks the
+ * file extension. Opening every file is too expensive so instead check just
+ * extension and only if this fails, look at the shebang */
+static GeanyFiletype *filetypes_detect(const gchar *utf8_filename)
+{
+	guint i;
+	gchar *base_filename;
+	GeanyFiletype *ft = NULL;
+
+	/* to match against the basename of the file (because of Makefile*) */
+	base_filename = g_path_get_basename(utf8_filename);
+#ifdef G_OS_WIN32
+	/* use lower case basename */
+	SETPTR(base_filename, g_utf8_strdown(base_filename, -1));
+#endif
+
+	for (i = 0; i < geany_data->filetypes_array->len; i++)
+	{
+		GeanyFiletype *ftype = filetypes[i];
+
+		if (match_basename(ftype, base_filename))
+		{
+			ft = ftype;
+			break;
+		}
+	}
+	
+	if (ft == NULL)
+		ft = filetypes_detect_from_file(utf8_filename);
+
+	g_free(base_filename);
+	return ft;
+}
+
+
+static void regenerate_tags(GPrjRoot *root, gpointer user_data)
+{
+	GHashTableIter iter;
+	gpointer key, value;
+	GPtrArray *source_files;
+
+	source_files = g_ptr_array_new();
+	g_hash_table_iter_init(&iter, root->file_table);
+	while (g_hash_table_iter_next(&iter, &key, &value))
+	{
+		TMSourceFile *sf;
+		gchar *path = key;
+		
+		sf = tm_source_file_new(path, filetypes_detect(path)->name);
+		if (sf && !document_find_by_filename(path))
+			g_ptr_array_add(source_files, sf);
+		
+		g_hash_table_iter_replace(&iter, sf);
+	}
+	tm_workspace_add_source_files(source_files);
+	g_ptr_array_free(source_files, TRUE);
+}
+
+
+void gprj_project_rescan(void)
+{
+	GSList *elem;
+	gint filenum = 0;
+	
+	if (!g_prj)
+		return;
+
+	clear_idle_queue(&s_idle_add_funcs);
+	clear_idle_queue(&s_idle_remove_funcs);
+	
+	foreach_slist(elem, g_prj->roots)
+		filenum += gprj_project_rescan_root(elem->data);
+	
+	if (g_prj->generate_tag_prefs == GPrjTagYes || (g_prj->generate_tag_prefs == GPrjTagAuto && filenum < 500))
+		g_slist_foreach(g_prj->roots, (GFunc)regenerate_tags, NULL);
 }
 
 
@@ -311,7 +281,8 @@ static void update_project(
 	gchar **source_patterns,
 	gchar **header_patterns,
 	gchar **ignored_dirs_patterns,
-	gboolean generate_tags)
+	gchar **ignored_file_patterns,
+	GPrjTagPrefs generate_tag_prefs)
 {
 	if (g_prj->source_patterns)
 		g_strfreev(g_prj->source_patterns);
@@ -325,7 +296,11 @@ static void update_project(
 		g_strfreev(g_prj->ignored_dirs_patterns);
 	g_prj->ignored_dirs_patterns = g_strdupv(ignored_dirs_patterns);
 
-	g_prj->generate_tags = generate_tags;
+	if (g_prj->ignored_file_patterns)
+		g_strfreev(g_prj->ignored_file_patterns);
+	g_prj->ignored_file_patterns = g_strdupv(ignored_file_patterns);
+
+	g_prj->generate_tag_prefs = generate_tag_prefs;
 
 	gprj_project_rescan();
 }
@@ -333,6 +308,9 @@ static void update_project(
 
 void gprj_project_save(GKeyFile * key_file)
 {
+	GPtrArray *array;
+	GSList *elem, *lst;
+	
 	if (!g_prj)
 		return;
 
@@ -342,14 +320,91 @@ void gprj_project_save(GKeyFile * key_file)
 		(const gchar**) g_prj->header_patterns, g_strv_length(g_prj->header_patterns));
 	g_key_file_set_string_list(key_file, "gproject", "ignored_dirs_patterns",
 		(const gchar**) g_prj->ignored_dirs_patterns, g_strv_length(g_prj->ignored_dirs_patterns));
-	g_key_file_set_boolean(key_file, "gproject", "generate_tags", g_prj->generate_tags);
+	g_key_file_set_string_list(key_file, "gproject", "ignored_file_patterns",
+		(const gchar**) g_prj->ignored_file_patterns, g_strv_length(g_prj->ignored_file_patterns));
+	g_key_file_set_integer(key_file, "gproject", "generate_tag_prefs", g_prj->generate_tag_prefs);
+	
+	array = g_ptr_array_new();
+	lst = g_prj->roots->next;
+	foreach_slist (elem, lst)
+	{
+		GPrjRoot *root = elem->data;
+		g_ptr_array_add(array, root->base_dir);
+	}
+	g_key_file_set_string_list(key_file, "gproject", "external_dirs", (const gchar * const *)array->pdata, array->len);
+	g_ptr_array_free(array, TRUE);
+}
+
+
+static GPrjRoot *create_root(const gchar *base_dir)
+{
+	GPrjRoot *root = (GPrjRoot *) g_new0(GPrjRoot, 1);
+	root->base_dir = g_strdup(base_dir);
+	root->file_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, (GFreeFunc)tm_source_file_free);
+	return root;
+}
+
+
+static void close_root(GPrjRoot *root, gpointer user_data)
+{
+	GPtrArray *source_files;
+	
+	source_files = g_ptr_array_new();
+	g_hash_table_foreach(root->file_table, (GHFunc)collect_source_files, source_files);
+	tm_workspace_remove_source_files(source_files);
+	g_ptr_array_free(source_files, TRUE);
+	
+	g_hash_table_destroy(root->file_table);
+	g_free(root->base_dir);
+	g_free(root);
+}
+
+
+static gint root_comparator(GPrjRoot *a, GPrjRoot *b)
+{
+	return g_strcmp0(a->base_dir, b->base_dir);
+}
+
+
+void gprj_project_add_external_dir(const gchar *dirname)
+{
+	GPrjRoot *new_root = create_root(dirname);
+	if (g_slist_find_custom (g_prj->roots, new_root, (GCompareFunc)root_comparator) != NULL)
+	{
+		close_root(new_root, NULL);
+		return;
+	}
+	
+	GSList *lst = g_prj->roots->next;
+	lst = g_slist_prepend(lst, new_root);
+	lst = g_slist_sort(lst, (GCompareFunc)root_comparator);
+	g_prj->roots->next = lst;
+	
+	gprj_project_rescan();
+}
+
+
+void gprj_project_remove_external_dir(const gchar *dirname)
+{
+	GPrjRoot *test_root = create_root(dirname);
+	GSList *found = g_slist_find_custom (g_prj->roots, test_root, (GCompareFunc)root_comparator);
+	if (found != NULL)
+	{
+		GPrjRoot *found_root = found->data;
+		
+		g_prj->roots = g_slist_remove(g_prj->roots, found_root);
+		close_root(found_root, NULL);
+		gprj_project_rescan();
+	}
+	close_root(test_root, NULL);
 }
 
 
 void gprj_project_open(GKeyFile * key_file)
 {
-	gchar **source_patterns, **header_patterns, **ignored_dirs_patterns;
-	gboolean generate_tags;
+	gchar **source_patterns, **header_patterns, **ignored_dirs_patterns, **ignored_file_patterns, **external_dirs, **dir_ptr, *last_name;
+	gint generate_tag_prefs;
+	GSList *elem, *ext_list = NULL;
 
 	if (g_prj != NULL)
 		gprj_project_close();
@@ -359,32 +414,50 @@ void gprj_project_open(GKeyFile * key_file)
 	g_prj->source_patterns = NULL;
 	g_prj->header_patterns = NULL;
 	g_prj->ignored_dirs_patterns = NULL;
-	g_prj->generate_tags = FALSE;
-
-	g_prj->file_tag_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
-
-	deferred_op_queue_clean();
+	g_prj->ignored_file_patterns = NULL;
+	g_prj->generate_tag_prefs = GPrjTagAuto;
 
 	source_patterns = g_key_file_get_string_list(key_file, "gproject", "source_patterns", NULL, NULL);
 	if (!source_patterns)
-		source_patterns = g_strsplit("*.c *.C *.cpp *.cxx *.c++ *.cc", " ", -1);
+		source_patterns = g_strsplit("*.c *.C *.cpp *.cxx *.c++ *.cc *.m", " ", -1);
 	header_patterns = g_key_file_get_string_list(key_file, "gproject", "header_patterns", NULL, NULL);
 	if (!header_patterns)
-		header_patterns = g_strsplit("*.h *.H *.hpp *.hxx *.h++ *.hh *.m", " ", -1);
+		header_patterns = g_strsplit("*.h *.H *.hpp *.hxx *.h++ *.hh", " ", -1);
 	ignored_dirs_patterns = g_key_file_get_string_list(key_file, "gproject", "ignored_dirs_patterns", NULL, NULL);
 	if (!ignored_dirs_patterns)
 		ignored_dirs_patterns = g_strsplit(".* CVS", " ", -1);
-	generate_tags = utils_get_setting_boolean(key_file, "gproject", "generate_tags", FALSE);
+	ignored_file_patterns = g_key_file_get_string_list(key_file, "gproject", "ignored_file_patterns", NULL, NULL);
+	if (!ignored_file_patterns)
+		ignored_file_patterns = g_strsplit("*.o *.obj *.a *.lib *.so *.dll *.lo *.la *.class *.jar *.pyc *.mo *.gmo", " ", -1);
+	generate_tag_prefs = utils_get_setting_integer(key_file, "gproject", "generate_tag_prefs", GPrjTagAuto);
+
+	external_dirs = g_key_file_get_string_list(key_file, "gproject", "external_dirs", NULL, NULL);
+	foreach_strv (dir_ptr, external_dirs)
+		ext_list = g_slist_prepend(ext_list, *dir_ptr);
+	ext_list = g_slist_sort(ext_list, (GCompareFunc)g_strcmp0);
+	last_name = NULL;
+	foreach_slist (elem, ext_list)
+	{
+		if (g_strcmp0(last_name, elem->data) != 0)
+			g_prj->roots = g_slist_append(g_prj->roots, create_root(elem->data));
+		last_name = elem->data;
+	}
+	g_slist_free(ext_list);
+	/* the project directory is always first */
+	g_prj->roots = g_slist_prepend(g_prj->roots, create_root(geany_data->app->project->base_path));
 
 	update_project(
 		source_patterns,
 		header_patterns,
 		ignored_dirs_patterns,
-		generate_tags);
+		ignored_file_patterns,
+		generate_tag_prefs);
 
 	g_strfreev(source_patterns);
 	g_strfreev(header_patterns);
 	g_strfreev(ignored_dirs_patterns);
+	g_strfreev(ignored_file_patterns);
+	g_strfreev(external_dirs);
 }
 
 
@@ -408,19 +481,21 @@ static gchar **split_patterns(const gchar *str)
 
 void gprj_project_read_properties_tab(void)
 {
-	gchar **source_patterns, **header_patterns, **ignored_dirs_patterns;
+	gchar **source_patterns, **header_patterns, **ignored_dirs_patterns, **ignored_file_patterns;
 
 	source_patterns = split_patterns(gtk_entry_get_text(GTK_ENTRY(e->source_patterns)));
 	header_patterns = split_patterns(gtk_entry_get_text(GTK_ENTRY(e->header_patterns)));
 	ignored_dirs_patterns = split_patterns(gtk_entry_get_text(GTK_ENTRY(e->ignored_dirs_patterns)));
+	ignored_file_patterns = split_patterns(gtk_entry_get_text(GTK_ENTRY(e->ignored_file_patterns)));
 
 	update_project(
-		source_patterns, header_patterns, ignored_dirs_patterns,
-		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(e->generate_tags)));
+		source_patterns, header_patterns, ignored_dirs_patterns, ignored_file_patterns,
+		gtk_combo_box_get_active(GTK_COMBO_BOX(e->generate_tag_prefs)));
 
 	g_strfreev(source_patterns);
 	g_strfreev(header_patterns);
 	g_strfreev(ignored_dirs_patterns);
+	g_strfreev(ignored_file_patterns);
 }
 
 
@@ -436,7 +511,7 @@ gint gprj_project_add_properties_tab(GtkWidget *notebook)
 
 	vbox = gtk_vbox_new(FALSE, 0);
 
-	table = gtk_table_new(3, 2, FALSE);
+	table = gtk_table_new(5, 2, FALSE);
 	gtk_table_set_row_spacings(GTK_TABLE(table), 5);
 	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
 
@@ -446,7 +521,8 @@ gint gprj_project_add_properties_tab(GtkWidget *notebook)
 	ui_table_add_row(GTK_TABLE(table), 0, label, e->source_patterns, NULL);
 	ui_entry_add_clear_icon(GTK_ENTRY(e->source_patterns));
 	ui_widget_set_tooltip_text(e->source_patterns,
-		_("Space separated list of patterns that are used to identify source files."));
+		_("Space separated list of patterns that are used to identify source files. "
+		  "Used for header/source swapping."));
 	str = g_strjoinv(" ", g_prj->source_patterns);
 	gtk_entry_set_text(GTK_ENTRY(e->source_patterns), str);
 	g_free(str);
@@ -458,16 +534,28 @@ gint gprj_project_add_properties_tab(GtkWidget *notebook)
 	ui_table_add_row(GTK_TABLE(table), 1, label, e->header_patterns, NULL);
 	ui_widget_set_tooltip_text(e->header_patterns,
 		_("Space separated list of patterns that are used to identify headers. "
-		  "Used mainly for header/source swapping."));
+		  "Used for header/source swapping."));
 	str = g_strjoinv(" ", g_prj->header_patterns);
 	gtk_entry_set_text(GTK_ENTRY(e->header_patterns), str);
 	g_free(str);
 
-	label = gtk_label_new(_("Ignored dirs patterns:"));
+	label = gtk_label_new(_("Ignored file patterns:"));
+	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+	e->ignored_file_patterns = gtk_entry_new();
+	ui_entry_add_clear_icon(GTK_ENTRY(e->ignored_file_patterns));
+	ui_table_add_row(GTK_TABLE(table), 2, label, e->ignored_file_patterns, NULL);
+	ui_widget_set_tooltip_text(e->ignored_file_patterns,
+		_("Space separated list of patterns that are used to identify files "
+		  "that are not displayed in the project tree."));
+	str = g_strjoinv(" ", g_prj->ignored_file_patterns);
+	gtk_entry_set_text(GTK_ENTRY(e->ignored_file_patterns), str);
+	g_free(str);
+
+	label = gtk_label_new(_("Ignored directory patterns:"));
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
 	e->ignored_dirs_patterns = gtk_entry_new();
 	ui_entry_add_clear_icon(GTK_ENTRY(e->ignored_dirs_patterns));
-	ui_table_add_row(GTK_TABLE(table), 2, label, e->ignored_dirs_patterns, NULL);
+	ui_table_add_row(GTK_TABLE(table), 3, label, e->ignored_dirs_patterns, NULL);
 	ui_widget_set_tooltip_text(e->ignored_dirs_patterns,
 		_("Space separated list of patterns that are used to identify directories "
 		  "that are not scanned for source files."));
@@ -475,17 +563,24 @@ gint gprj_project_add_properties_tab(GtkWidget *notebook)
 	gtk_entry_set_text(GTK_ENTRY(e->ignored_dirs_patterns), str);
 	g_free(str);
 
+	label = gtk_label_new(_("Generate tags for all project files:"));
+	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+	e->generate_tag_prefs = gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), _("Auto (generate if less than 500 files)"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), _("Yes"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), _("No"));
+	gtk_combo_box_set_active(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), g_prj->generate_tag_prefs);
+	ui_table_add_row(GTK_TABLE(table), 4, label, e->generate_tag_prefs, NULL);
+	ui_widget_set_tooltip_text(e->generate_tag_prefs,
+		_("Generate tag list for all project files instead of only for the currently opened files. "
+		  "Might be slow for big projects."));
+
 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 6);
 
-	e->generate_tags = gtk_check_button_new_with_label(_("Generate tags for all project files"));
-	ui_widget_set_tooltip_text(e->generate_tags,
-		_("Generate tag list for all project files instead of only for the currently opened files. "
-		  "Too slow for big projects (>1000 files) and should be disabled in this case."));
-	gtk_box_pack_start(GTK_BOX(vbox), e->generate_tags, FALSE, FALSE, 6);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(e->generate_tags), g_prj->generate_tags);
-
 	hbox1 = gtk_hbox_new(FALSE, 0);
-	label = gtk_label_new(_("Note: set the patterns of files belonging to the project under the Project tab."));
+	label = gtk_label_new(_("Note: the patterns above affect only the sidebar and are not used in the Find in Files\n"
+	"dialog. You can further restrict the files belonging to the project by setting the\n"
+	"File Patterns under the Project tab (these are also used for the Find in Files dialog)."));
 	gtk_box_pack_start(GTK_BOX(hbox1), label, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox1, FALSE, FALSE, 6);
 
@@ -506,36 +601,131 @@ void gprj_project_close(void)
 	if (!g_prj)
 		return;  /* can happen on plugin reload */
 
-	if (g_prj->generate_tags)
-		remove_all_tags();
+	clear_idle_queue(&s_idle_add_funcs);
+	clear_idle_queue(&s_idle_remove_funcs);
 
-	deferred_op_queue_clean();
+	g_slist_foreach(g_prj->roots, (GFunc)close_root, NULL);
+	g_slist_free(g_prj->roots);
 
 	g_strfreev(g_prj->source_patterns);
 	g_strfreev(g_prj->header_patterns);
 	g_strfreev(g_prj->ignored_dirs_patterns);
-
-	g_hash_table_destroy(g_prj->file_tag_table);
+	g_strfreev(g_prj->ignored_file_patterns);
 
 	g_free(g_prj);
 	g_prj = NULL;
 }
 
 
-void gprj_project_add_file_tag(gchar *filename)
-{
-	deferred_op_queue_enqueue(filename, DeferredTagOpAdd);
-}
-
-
-void gprj_project_remove_file_tag(gchar *filename)
-{
-	deferred_op_queue_enqueue(filename, DeferredTagOpRemove);
-}
-
-
 gboolean gprj_project_is_in_project(const gchar * filename)
 {
-	return filename && g_prj && geany_data->app->project &&
-		g_hash_table_lookup(g_prj->file_tag_table, filename) != NULL;
+	GSList *elem;
+	
+	if (!filename || !g_prj || !geany_data->app->project || !g_prj->roots)
+		return FALSE;
+	
+	foreach_slist (elem, g_prj->roots)
+	{
+		GPrjRoot *root = elem->data;
+		if (g_hash_table_contains(root->file_table, filename))
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+
+static gboolean add_tm_idle(gpointer foo)
+{
+	GSList *elem2;
+	
+	if (!g_prj || !s_idle_add_funcs)
+		return FALSE;
+
+	foreach_slist (elem2, s_idle_add_funcs)
+	{
+		GSList *elem;
+		gchar *fname = elem2->data;
+		
+		foreach_slist (elem, g_prj->roots)
+		{
+			GPrjRoot *root = elem->data;
+			TMSourceFile *sf = g_hash_table_lookup(root->file_table, fname);
+			
+			if (sf != NULL && !document_find_by_filename(fname))
+			{
+				tm_workspace_add_source_file(sf);
+				break;  /* single file representation in TM is enough */
+			}
+		}
+	}
+	
+	clear_idle_queue(&s_idle_add_funcs);
+
+	return FALSE;
+}
+
+
+/* This function gets called when document is being closed by Geany and we need
+ * to add the TMSourceFile from the tag manager because Geany removes it on
+ * document close.
+ * 
+ * Additional problem: The tag removal in Geany happens after this function is called. 
+ * To be sure, perform on idle after this happens (even though from my knowledge of TM
+ * this shouldn't probably matter). */
+void gprj_project_add_single_tm_file(gchar *filename)
+{
+	if (s_idle_add_funcs == NULL)
+		plugin_idle_add(geany_plugin, (GSourceFunc)add_tm_idle, NULL);
+	
+	s_idle_add_funcs = g_slist_prepend(s_idle_add_funcs, g_strdup(filename));
+}
+
+
+static gboolean remove_tm_idle(gpointer foo)
+{
+	GSList *elem2;
+	
+	if (!g_prj || !s_idle_remove_funcs)
+		return FALSE;
+
+	foreach_slist (elem2, s_idle_remove_funcs)
+	{
+		GSList *elem;
+		gchar *fname = elem2->data;
+
+		foreach_slist (elem, g_prj->roots)
+		{
+			GPrjRoot *root = elem->data;
+			TMSourceFile *sf = g_hash_table_lookup(root->file_table, fname);
+			
+			if (sf != NULL)
+				tm_workspace_remove_source_file(sf);
+		}
+	}
+	
+	clear_idle_queue(&s_idle_remove_funcs);
+
+	return FALSE;
+}
+
+
+/* This function gets called when document is being opened by Geany and we need
+ * to remove the TMSourceFile from the tag manager because Geany inserts
+ * it for the newly open tab. Even though tag manager would handle two identical
+ * files, the file inserted by the plugin isn't updated automatically in TM
+ * so any changes wouldn't be reflected in the tags array (e.g. removed function
+ * from source file would still be found in TM)
+ * 
+ * Additional problem: The document being opened may be caused
+ * by going to tag definition/declaration - tag processing is in progress
+ * when this function is called and if we remove the TmSourceFile now, line
+ * number for the searched tag won't be found. For this reason delay the tag
+ * TmSourceFile removal until idle */
+void gprj_project_remove_single_tm_file(gchar *filename)
+{
+	if (s_idle_remove_funcs == NULL)
+		plugin_idle_add(geany_plugin, (GSourceFunc)remove_tm_idle, NULL);
+	
+	s_idle_remove_funcs = g_slist_prepend(s_idle_remove_funcs, g_strdup(filename));
 }
