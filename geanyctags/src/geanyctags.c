@@ -110,6 +110,10 @@ PluginCallback plugin_callbacks[] = {
 	{NULL, NULL, FALSE, NULL}
 };
 
+void plugin_help (void)
+{
+	utils_open_browser (DOCDIR "/" PLUGIN "/README");
+}
 
 static void spawn_cmd(const gchar *cmd, const gchar *dir)
 {
