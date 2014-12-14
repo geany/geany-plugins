@@ -7,6 +7,7 @@ dist_icon_DATA = \
 	gproject-expand.png	\
 	gproject-collapse.png	\
 	gproject-follow.png	\
+	gproject-add-external.png	\
 	gproject-refresh.png
 
 gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor

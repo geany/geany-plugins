@@ -42,11 +42,12 @@ enum
 	KB_SWAP_HEADER_SOURCE,
 	KB_FIND_IN_PROJECT,
 	KB_FIND_FILE,
+	KB_FIND_TAG,
 	KB_COUNT
 };
 
 
-static GtkWidget *s_fif_item, *s_ff_item, *s_shs_item, *s_sep_item, *s_context_osf_item, *s_context_sep_item;
+static GtkWidget *s_fif_item, *s_ff_item, *s_ft_item, *s_shs_item, *s_sep_item, *s_context_osf_item, *s_context_sep_item;
 
 
 static gboolean try_swap_header_source(gchar *file_name, gboolean is_header, GSList *file_list, GSList *header_patterns, GSList *source_patterns)
@@ -63,7 +64,7 @@ static gboolean try_swap_header_source(gchar *file_name, gboolean is_header, GSL
 	pattern = g_pattern_spec_new(name_pattern);
 	g_free(name_pattern);
 
-	for (elem = file_list; elem != NULL; elem = g_slist_next(elem))
+	foreach_slist (elem, file_list)
 	{
 		gchar *full_name = elem->data;
 		base_name = g_path_get_basename(full_name);
@@ -84,12 +85,6 @@ static gboolean try_swap_header_source(gchar *file_name, gboolean is_header, GSL
 	g_free(base_name);
 	g_pattern_spec_free(pattern);
 	return found;
-}
-
-
-static void get_project_file_list(char *file_name, G_GNUC_UNUSED gpointer value, GSList **list)
-{
-	*list = g_slist_prepend(*list, file_name);
 }
 
 
@@ -143,7 +138,7 @@ static void on_swap_header_source(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_U
 			SETPTR(doc_dir, utils_get_locale_from_utf8(doc_dir));
 
 			list = utils_get_file_list(doc_dir, NULL, NULL);
-			for (elem = list; elem != NULL; elem = g_slist_next(elem))
+			foreach_list (elem, list)
 			{
 				gchar *full_name;
 
@@ -160,9 +155,21 @@ static void on_swap_header_source(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_U
 
 		if (!swapped)
 		{
-			g_hash_table_foreach(g_prj->file_tag_table, (GHFunc) get_project_file_list, &list);
-			try_swap_header_source(doc->file_name, is_header, list, header_patterns, source_patterns);
-			g_slist_free(list);
+			foreach_slist(elem, g_prj->roots)
+			{
+				GHashTableIter iter;
+				gpointer key, value;
+				GPrjRoot *root = elem->data;
+				
+				list = NULL;
+				g_hash_table_iter_init(&iter, root->file_table);
+				while (g_hash_table_iter_next(&iter, &key, &value))
+					list = g_slist_prepend(list, key);
+				swapped = try_swap_header_source(doc->file_name, is_header, list, header_patterns, source_patterns);
+				g_slist_free(list);
+				if (swapped)
+					break;
+			}
 		}
 	}
 
@@ -184,8 +191,15 @@ static void on_find_in_project(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUS
 
 static void on_find_file(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
 {
-        if (geany_data->app->project)
+	if (geany_data->app->project)
 		gprj_sidebar_find_file_in_active();
+}
+
+
+static void on_find_tag(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
+{
+	if (geany_data->app->project)
+		gprj_sidebar_find_tag_in_active();
 }
 
 
@@ -202,28 +216,11 @@ static gboolean kb_callback(guint key_id)
 		case KB_FIND_FILE:
 			on_find_file(NULL, NULL);
 			return TRUE;
+		case KB_FIND_TAG:
+			on_find_tag(NULL, NULL);
+			return TRUE;
 	}
 	return FALSE;
-}
-
-
-typedef struct
-{
-	gchar *subpath;
-	gchar *found_path;
-} FindData;
-
-
-static void find_name(char *file_name, G_GNUC_UNUSED gpointer value, FindData *data)
-{
-	gchar *pos;
-
-	if (data->found_path)
-		return;
-
-	pos = g_strrstr(file_name, data->subpath);
-	if (pos && (pos - file_name + strlen(data->subpath) == strlen(file_name)))
-		data->found_path = file_name;
 }
 
 
@@ -291,14 +288,35 @@ static void on_open_selected_file(GtkMenuItem *menuitem, gpointer user_data)
 
 		if (g_strcmp0(path, "") != 0)
 		{
-			FindData data;
+			GSList *elem;
+			gchar *found_path = NULL;
 
-			data.subpath = path;
-			data.found_path = NULL;
-			g_hash_table_foreach(g_prj->file_tag_table, (GHFunc)find_name, &data);
-			if (data.found_path)
+			foreach_slist (elem, g_prj->roots)
 			{
-				filename = g_strdup(data.found_path);
+				GPrjRoot *root = elem->data;
+				gpointer key, value;
+				GHashTableIter iter;
+				
+				g_hash_table_iter_init(&iter, root->file_table);
+				while (g_hash_table_iter_next(&iter, &key, &value))
+				{
+					gchar *file_name = key;
+					gchar *pos = g_strrstr(file_name, path);
+					
+					if (pos && (pos - file_name + strlen(path) == strlen(file_name)))
+					{
+						found_path = file_name;
+						break;
+					}
+				}
+				
+				if (found_path)
+					break;
+			}
+
+			if (found_path)
+			{
+				filename = g_strdup(found_path);
 				SETPTR(filename, utils_get_locale_from_utf8(filename));
 				if (!g_file_test(filename, G_FILE_TEST_EXISTS))
 				{
@@ -369,6 +387,16 @@ void gprj_menu_init(void)
 	keybindings_set_item(key_group, KB_FIND_FILE, NULL,
 		0, 0, "find_file", _("Find project file"), s_ff_item);
 
+	image = gtk_image_new_from_stock(GTK_STOCK_FIND, GTK_ICON_SIZE_MENU);
+	gtk_widget_show(image);
+	s_ft_item = gtk_image_menu_item_new_with_mnemonic(_("Find Project Tag"));
+	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(s_ft_item), image);
+	gtk_widget_show(s_ft_item);
+	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_ft_item);
+	g_signal_connect((gpointer) s_ft_item, "activate", G_CALLBACK(on_find_tag), NULL);
+	keybindings_set_item(key_group, KB_FIND_TAG, NULL,
+		0, 0, "find_tag", _("Find project tag"), s_ft_item);
+
 	s_shs_item = gtk_menu_item_new_with_mnemonic(_("Swap Header/Source"));
 	gtk_widget_show(s_shs_item);
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_shs_item);
@@ -394,6 +422,7 @@ void gprj_menu_activate_menu_items(gboolean activate)
 	gtk_widget_set_sensitive(s_context_osf_item, activate);
 	gtk_widget_set_sensitive(s_shs_item, activate);
 	gtk_widget_set_sensitive(s_ff_item, activate);
+	gtk_widget_set_sensitive(s_ft_item, activate);
 	gtk_widget_set_sensitive(s_fif_item, activate);
 }
 
@@ -402,6 +431,7 @@ void gprj_menu_cleanup(void)
 {
 	gtk_widget_destroy(s_fif_item);
 	gtk_widget_destroy(s_ff_item);
+	gtk_widget_destroy(s_ft_item);
 	gtk_widget_destroy(s_shs_item);
 	gtk_widget_destroy(s_sep_item);
 

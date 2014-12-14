@@ -19,21 +19,28 @@
 #ifndef __GPROJECT_PROJECT_H__
 #define __GPROJECT_PROJECT_H__
 
-
 typedef struct
 {
-	TMSourceFile *tag;
-} TagObject;
+	gchar *base_dir;
+	GHashTable *file_table; /* contains all file names within base_dir, maps file_name->TMSourceFile */
+} GPrjRoot;
 
+typedef enum
+{
+	GPrjTagAuto,
+	GPrjTagYes,
+	GPrjTagNo,
+} GPrjTagPrefs;
 
 typedef struct
 {
 	gchar **source_patterns;
 	gchar **header_patterns;
 	gchar **ignored_dirs_patterns;
-	gboolean generate_tags;
-
-	GHashTable *file_tag_table;
+	gchar **ignored_file_patterns;
+	GPrjTagPrefs generate_tag_prefs;
+	
+	GSList *roots;  /* list of GPrjRoot; the project root is always the first followed by external dirs roots */
 } GPrj;
 
 extern GPrj *g_prj;
@@ -48,11 +55,12 @@ void gprj_project_save(GKeyFile * key_file);
 void gprj_project_read_properties_tab(void);
 void gprj_project_rescan(void);
 
+void gprj_project_add_external_dir(const gchar *dirname);
+void gprj_project_remove_external_dir(const gchar *dirname);
 
-void gprj_project_add_file_tag(gchar *filename);
-void gprj_project_remove_file_tag(gchar *filename);
+void gprj_project_add_single_tm_file(gchar *filename);
+void gprj_project_remove_single_tm_file(gchar *filename);
 
 gboolean gprj_project_is_in_project(const gchar * filename);
-
 
 #endif

@@ -32,7 +32,7 @@ static gchar *relpath(const gchar *origin_dir, const gchar *dest_dir)
 	gchar **originv, **destv;
 	gchar *ret = NULL;
 	guint i, j;
-
+	
 	origin = tm_get_real_path(origin_dir);
 	dest = tm_get_real_path(dest_dir);
 
@@ -119,7 +119,7 @@ GSList *get_precompiled_patterns(gchar **patterns)
 gboolean patterns_match(GSList *patterns, const gchar *str)
 {
 	GSList *elem;
-	for (elem = patterns; elem != NULL; elem = g_slist_next(elem))
+	foreach_slist (elem, patterns)
 	{
 		GPatternSpec *pattern = elem->data;
 		if (g_pattern_match_string(pattern, str))

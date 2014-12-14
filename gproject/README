@@ -8,10 +8,14 @@ About
 =====
 
 GProject is an extension of Geany's project management displaying a tree of files
-belonging to the project in the sidebar. In addition, it enables quick swapping
-between header and source files, searching project files by name and more. The plugin
-was created with big projects in mind so everything works fast enough even with
-projects consisting of hundreds of thousands of files.
+belonging to the project in the sidebar. In addition, it enables complete indexing
+of the project files (and having code completion, syntax highlighting and tag 
+definition/declaration jumps for the whole project) quick swapping between header 
+and source files, improved opening of includes, searching project files by name 
+and more. External directories can be attached to the project to extend the plugin's
+functionality to related directories outside the project tree. The plugin was created
+with big projects in mind so everything works fast enough even with projects consisting
+of tens of thousands of files.
 
 Why was it created?
 -------------------
@@ -27,8 +31,10 @@ for every project is:
 This approach is fine for smaller projects where most of the project files
 are stored in a single directory but doesn't work very well with projects consisting
 of many deeply nested directories containing thousands of files. For such projects
-an expandable tree showing the project files is a better alternative making it much
-easier to to navigate between different project directories.
+an expandable tree showing all the project files is a better alternative making it much
+easier to to navigate among various project directories. Knowing which files
+belong to the project makes it possible to add other useful features like project file
+indexing, header/source swapping or file searching.
 
 Why are files belonging to a project defined by patterns?
 ---------------------------------------------------------
@@ -39,10 +45,11 @@ and moved quite frequently and after each change the project has to be updated m
 Instead, GProject defines a list of files belonging to the project implicitly using:
 
 * project's base directory
-* a list of glob-like patterns
+* a list of glob-like patterns (e.g. \*.c, \*.h, or just simply \* if you want to 
+  see everything)
 
 Every file under the base directory matching the patterns is included into the project
-and updating the file list is as simple as pressing the refresh button.
+and updating the file list is as simple as pressing the refresh button in the sidebar.
 
 What are the differences between GProject and GeanyPrj?
 -------------------------------------------------------
@@ -54,16 +61,14 @@ in several aspects:
   at the same time and vice versa. On the other hand, GeanyPrj project is a separate
   project so if you want to set build properties for a GeanyPrj project, you have to
   set up a second Geany project in parallel.
-* Because GeanyPrj is a separate project management plugin, it can do some things that
-  GProject cannot - in particular, it can manage several projects in parallel.
-  If you need to switch between several projects, GeanyPrj might be a better option
-  for you. Alternatively, you can open several Geany instances for different projects
-  to work on several projects in parallel using GProject.
+* GeanyPrj can display several projects in the sidebar; even though only a single project
+  can be opened with GProject at one time, similar effect can be achieved with the 
+  "external directories" feature.
 * GProject displays full tree in the sidebar while GeanyPrj displays only two-level
   tree (full directory name as a parent and a list of files under the directory).
-* GProject has configurable patterns while patterns in GeanyPrj are hard-coded
+* GProject has configurable file patterns while patterns in GeanyPrj are hard-coded
 * GProject offers header/source swapping
-* GProject offers finding project files by name
+* GProject offers finding project files by name and improved include file opening
 
 Usage
 =====
@@ -74,47 +79,67 @@ Project configuration
 Upon project creation, you should define the list of file patterns under the
 Project->Properties Project tab. For instance, for a typical open source C project,
 use patterns "\*.c \*h \*.am \*.ac" to see the source files together with
-automake and autoconf files. After closing the dialog, the files matching the patterns
+automake and autoconf files. If no patterns are defined (default), GProject treats 
+this as the "\*" pattern in which case all files under the project directory are
+displayed. After closing the dialog, the files matching the patterns
 should appear in the sidebar under the Project tab (unless the GProject plugin
-was loaded after the project - see Known Issues for more details).
+was loaded for the first time and Geany project was already open - see Known Issues 
+for more details).
 
-Additional settings is available from the GProject tab under the Project properties
+Additional settings are available from the GProject tab under the Project properties
 dialog. You can define patterns to distinguish between header and source files for
-C-like languages. This information is used for header/source swapping and also for
-giving different icons to headers and sources in the sidebar (therefore, this settings
-can be also used for other types of languages if you want to give different file
-types different icons).
+C-like languages. This information is used for header/source swapping.
 
-In addition, you can define patterns for directories that should be ignored when
-searching for files belonging to the project. These will typically be various
-VCS or hidden directories.
+In addition, you can define patterns for files and directories that should be ignored when
+searching for files belonging to the project. These will typically be various binary
+files and VCS or hidden directories.
 
 Finally, you can specify whether the tag manager should be used to index all the project
-files or not. This settings is turned off by default because the indexing takes too
-long when too many files are present in the project (several thousands or more).
+files or not. The default settings is Auto which means that if the total number
+of project (and external directory) files is less than 500, tags are generated.
+This is a rather conservative number, at least for an SSD disk - GProject was tested 
+with tens of thousands project files and even though the initial scanning may take 
+some time (for the linux kernel with 35000 files and 2300000 tags it takes about 
+20s with an SSD disk), the work with the project is completely normal afterwards.
+However, with ordinary HDD expect only around 100 scanned files per second because
+of slow random access time.
 
 Sidebar
 -------
 
-The sidebar contains a tree of files belonging to the project. Directories can be expanded
-by double-clicking them; the same action is used to open files. When a sidebar item
-is right-clicked, a context menu appears:
+The sidebar contains a tree of files belonging to the project and external directory
+trees (drawn with gray background to distinguish them from ordinary project files). 
+Directories can be expanded by double-clicking them; the same action is used to open 
+files. When a sidebar item is right-clicked, a context menu appears:
 
 * Expand all - recursively expands all the subdirectories of the given directory
 * Find in files - opens the Find in files dialog and sets the search directory
   to the clicked directory
 * Find file - opens the Find file dialog and sets the search directory to the
   clicked directory
+* Find tag - opens the Find tag dialog and sets the search directory to the
+  clicked directory
+* Remove external directory - removes a previously added external directory from
+  the project
 
 The following actions can be invoked from the sidebar's toolbar:
 
-* Reload all - reloads the project file tree. This is useful when files were added or
-  removed from the project.
+* Reload all - reloads the project file tree and reindexes the files (if tag generation
+  enabled). This is useful when files were added, modified externally or removed from 
+  the project.
+* Add external directory - adds an additional directory related to the project (e.g.
+  it is useful to have the geany project as an external directory for the geany-plugins 
+  project). External directories are indexed using the tag manager, and basically 
+  all GProject features work with external directories too (find file or find in files
+  from the context menu, swap header/source, open selected file, tag definition/declaration
+  jumps, and active editor following). Apart from adding related projects, one of the
+  possible uses is the addition of system header directories, e.g. /usr/include/gtk-2.0,
+  and having them indexed for code completion and syntax highlighting.
 * Expand all - recursively expands all the directories
-* Collapse all - recursively collapses all the directories
+* Collapse to project root - collapses all the directories except for the project root
 * Follow active editor - automatically selects the current file in the sidebar
   when the user switches to another file. It auto-expands the tree to reveal the selected
-  file.
+  file. On by default.
 
 Project menu entries
 --------------------
@@ -123,8 +148,10 @@ GProject adds some extra entries under the Project menu:
 
 * Find in Project Files - opens the Find in files dialog and sets the search directory
   to the base directory of the project
-* Find Project File - opens the Find file dialog and sets the search directory to the
-  base directory of the project
+* Find Project File - opens the Find file dialog which can be used to find files
+  within the project or external directories
+* Find Project Tag - opens the Find tag dialog which can be used to find tags
+  within the project or external directories
 * Swap Header/Source - if the current file matches one of the source patterns from
   the properties, it opens a project file with the same base name (without extension)
   matching header patterns (and vice versa). If the files are already open, it
@@ -145,13 +172,27 @@ The following search properties are configurable:
 * Search in full path - when not checked, the search is performed in the file
   name only (excluding path); when checked, the search is performed in the full path
 
+Find tag dialog
+----------------
+
+The Find tag dialog can be invoked either from the Project menu or from the
+sidebar's context menu. Searches are performed within the "Search inside" directory.
+There are several search types:
+
+* prefix (default) - finds all tags with the specified prefix
+* exact - finds all tags matching the name exactly
+* pattern - finds all tags matching the provided glob pattern
+
+By default, tag definitions are searched; to search tag declarations, select the 
+Declaration option.
+
 Editor context menu
 -------------------
 
 GProject adds an extra entry into the context menu of the editor:
 
 * Open Selected File (GProject) - contrary to the Open Selected File entry present
-  in Geany it also searches for the file in project files
+  in Geany it also searches for the file in project files and external directories.
 
 Known issues
 ============
@@ -159,12 +200,11 @@ Known issues
 * When the plugin is loaded from the Plugin Manager for the first time and a project
   is already open, no files are displayed in the sidebar. The workaround is to
   reload the project in this case. The issue is caused by Geany only passing the project
-  configuration file to a plugin when the project is loaded, which isn't the case when
+  configuration file to a plugin when the project is opened, which isn't the case when
   the plugin is loaded.
 * There might be some issues with UTF8 file names - the testing has been very
   limited.
-* GProject hasn't been tested under Windows so probably not everything works there.
-  Patches are welcome.
+* GProject hasn't been tested under Windows so there might be issues. Patches are welcome.
 
 License
 =======
@@ -192,8 +232,9 @@ Get the code from::
 Ideas, questions, patches and bug reports
 =========================================
 
-If you add something, or fix a bug, please send a patch (in 'diff -u'
-format) to the geany mailing list or to one of the authors listed bellow.
+Please direct all questions, bug reports and patches to the plugin author using the
+email address listed below or to the Geany mailing list to get some help from other
+Geany users.
 
-2010-2011 by Jiří Techet
+2010-2014 by Jiří Techet
 techet(at)gmail(dot)com

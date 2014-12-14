@@ -13,6 +13,9 @@ gproject_la_SOURCES = \
 	gproject-menu.h \
 	gproject-menu.c
 
+gproject_la_CPPFLAGS = $(AM_CPPFLAGS) \
+	-DPLUGIN=\"$(plugin)\" \
+	-DG_LOG_DOMAIN=\"GProject\"
 gproject_la_CFLAGS = $(AM_CFLAGS)
 gproject_la_LIBADD = $(COMMONLIBS)
 

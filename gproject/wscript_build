@@ -25,8 +25,9 @@ from build.wafutils import build_plugin, target_is_win32
 
 name = 'GProject'
 includes = ['gproject/src']
+defines = ['PLUGIN="%s"' % name.lower()]
 
-build_plugin(bld, name, includes=includes)
+build_plugin(bld, name, includes=includes, defines=defines)
 
 # Icons
 prefix = '${G_PREFIX}/' if target_is_win32(bld) else ''

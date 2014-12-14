@@ -25,5 +25,6 @@ from build.wafutils import build_plugin
 
 name = 'GeanyCtags'
 includes = ['geanyctags/src']
+defines = ['PLUGIN="%s"' % name.lower()]
 
-build_plugin(bld, name, includes=includes)
+build_plugin(bld, name, includes=includes, defines=defines)

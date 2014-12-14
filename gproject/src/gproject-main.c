@@ -23,17 +23,14 @@
 #include <sys/time.h>
 #include <string.h>
 
-#ifdef HAVE_CONFIG_H
-	#include "config.h"
-#endif
 #include <geanyplugin.h>
 
 #include "gproject-project.h"
 #include "gproject-sidebar.h"
 #include "gproject-menu.h"
 
-PLUGIN_VERSION_CHECK(221)
-PLUGIN_SET_INFO(_("GProject"),
+PLUGIN_VERSION_CHECK(214)
+PLUGIN_SET_INFO("GProject",
 	_("Glob-pattern-based project management plugin for Geany."),
 	VERSION,
 	"Jiri Techet <techet@gmail.com>")
@@ -51,9 +48,8 @@ static void on_doc_open(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED GeanyDocument
 {
 	g_return_if_fail(doc != NULL && doc->file_name != NULL);
 
-	/* tags of open files managed by geany*/
 	if (gprj_project_is_in_project(doc->file_name))
-		gprj_project_remove_file_tag(doc->file_name);
+		gprj_project_remove_single_tm_file(doc->file_name);
 
 	gprj_sidebar_update(FALSE);
 }
@@ -77,7 +73,7 @@ static void on_doc_close(G_GNUC_UNUSED GObject * obj, GeanyDocument * doc,
 	/* tags of open files managed by geany - when the file gets closed, 
 	 * we should take care of it */
 	if (gprj_project_is_in_project(doc->file_name))
-		gprj_project_add_file_tag(doc->file_name);
+		gprj_project_add_single_tm_file(doc->file_name);
 
 	gprj_sidebar_update(FALSE);
 }
@@ -193,4 +189,10 @@ void plugin_cleanup(void)
 
 	gprj_menu_cleanup();
 	gprj_sidebar_cleanup();
+}
+
+
+void plugin_help (void)
+{
+	utils_open_browser (DOCDIR "/" PLUGIN "/README");
 }

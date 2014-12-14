@@ -25,6 +25,7 @@ void gprj_sidebar_cleanup(void);
 void gprj_sidebar_activate(gboolean activate);
 
 void gprj_sidebar_find_file_in_active(void);
+void gprj_sidebar_find_tag_in_active(void);
 
 void gprj_sidebar_update(gboolean reload);
 
