@@ -123,6 +123,7 @@ static void
 markdown_viewer_class_init(MarkdownViewerClass *klass)
 {
   GObjectClass *g_object_class;
+  guint i;
 
   g_object_class = G_OBJECT_CLASS(klass);
   g_object_class->set_property = markdown_viewer_set_property;
@@ -138,7 +139,9 @@ markdown_viewer_class_init(MarkdownViewerClass *klass)
   viewer_props[PROP_ENCODING] = g_param_spec_string("encoding", "TextEncoding",
     "The encoding of the Markdown text", "UTF-8", G_PARAM_READWRITE);
 
-  g_object_class_install_properties(g_object_class, N_PROPERTIES, viewer_props);
+  for (i = 1 /* skip PROP_0 */; i < N_PROPERTIES; i++) {
+    g_object_class_install_property(g_object_class, i, viewer_props[i]);
+  }
 }
 
 static void
