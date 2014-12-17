@@ -25,8 +25,8 @@
 #endif
 #include <geanyplugin.h>
 
-#include "gproject-utils.h"
-#include "gproject-project.h"
+#include "prjorg-utils.h"
+#include "prjorg-project.h"
 
 extern GeanyPlugin *geany_plugin;
 extern GeanyData *geany_data;
@@ -323,15 +323,15 @@ void gprj_project_save(GKeyFile * key_file)
 	if (!g_prj)
 		return;
 
-	g_key_file_set_string_list(key_file, "gproject", "source_patterns",
+	g_key_file_set_string_list(key_file, "prjorg", "source_patterns",
 		(const gchar**) g_prj->source_patterns, g_strv_length(g_prj->source_patterns));
-	g_key_file_set_string_list(key_file, "gproject", "header_patterns",
+	g_key_file_set_string_list(key_file, "prjorg", "header_patterns",
 		(const gchar**) g_prj->header_patterns, g_strv_length(g_prj->header_patterns));
-	g_key_file_set_string_list(key_file, "gproject", "ignored_dirs_patterns",
+	g_key_file_set_string_list(key_file, "prjorg", "ignored_dirs_patterns",
 		(const gchar**) g_prj->ignored_dirs_patterns, g_strv_length(g_prj->ignored_dirs_patterns));
-	g_key_file_set_string_list(key_file, "gproject", "ignored_file_patterns",
+	g_key_file_set_string_list(key_file, "prjorg", "ignored_file_patterns",
 		(const gchar**) g_prj->ignored_file_patterns, g_strv_length(g_prj->ignored_file_patterns));
-	g_key_file_set_integer(key_file, "gproject", "generate_tag_prefs", g_prj->generate_tag_prefs);
+	g_key_file_set_integer(key_file, "prjorg", "generate_tag_prefs", g_prj->generate_tag_prefs);
 	
 	array = g_ptr_array_new();
 	lst = g_prj->roots->next;
@@ -340,7 +340,7 @@ void gprj_project_save(GKeyFile * key_file)
 		GPrjRoot *root = elem->data;
 		g_ptr_array_add(array, root->base_dir);
 	}
-	g_key_file_set_string_list(key_file, "gproject", "external_dirs", (const gchar * const *)array->pdata, array->len);
+	g_key_file_set_string_list(key_file, "prjorg", "external_dirs", (const gchar * const *)array->pdata, array->len);
 	g_ptr_array_free(array, TRUE);
 }
 
@@ -426,21 +426,21 @@ void gprj_project_open(GKeyFile * key_file)
 	g_prj->ignored_file_patterns = NULL;
 	g_prj->generate_tag_prefs = GPrjTagAuto;
 
-	source_patterns = g_key_file_get_string_list(key_file, "gproject", "source_patterns", NULL, NULL);
+	source_patterns = g_key_file_get_string_list(key_file, "prjorg", "source_patterns", NULL, NULL);
 	if (!source_patterns)
 		source_patterns = g_strsplit("*.c *.C *.cpp *.cxx *.c++ *.cc *.m", " ", -1);
-	header_patterns = g_key_file_get_string_list(key_file, "gproject", "header_patterns", NULL, NULL);
+	header_patterns = g_key_file_get_string_list(key_file, "prjorg", "header_patterns", NULL, NULL);
 	if (!header_patterns)
 		header_patterns = g_strsplit("*.h *.H *.hpp *.hxx *.h++ *.hh", " ", -1);
-	ignored_dirs_patterns = g_key_file_get_string_list(key_file, "gproject", "ignored_dirs_patterns", NULL, NULL);
+	ignored_dirs_patterns = g_key_file_get_string_list(key_file, "prjorg", "ignored_dirs_patterns", NULL, NULL);
 	if (!ignored_dirs_patterns)
 		ignored_dirs_patterns = g_strsplit(".* CVS", " ", -1);
-	ignored_file_patterns = g_key_file_get_string_list(key_file, "gproject", "ignored_file_patterns", NULL, NULL);
+	ignored_file_patterns = g_key_file_get_string_list(key_file, "prjorg", "ignored_file_patterns", NULL, NULL);
 	if (!ignored_file_patterns)
 		ignored_file_patterns = g_strsplit("*.o *.obj *.a *.lib *.so *.dll *.lo *.la *.class *.jar *.pyc *.mo *.gmo", " ", -1);
-	generate_tag_prefs = utils_get_setting_integer(key_file, "gproject", "generate_tag_prefs", GPrjTagAuto);
+	generate_tag_prefs = utils_get_setting_integer(key_file, "prjorg", "generate_tag_prefs", GPrjTagAuto);
 
-	external_dirs = g_key_file_get_string_list(key_file, "gproject", "external_dirs", NULL, NULL);
+	external_dirs = g_key_file_get_string_list(key_file, "prjorg", "external_dirs", NULL, NULL);
 	foreach_strv (dir_ptr, external_dirs)
 		ext_list = g_slist_prepend(ext_list, *dir_ptr);
 	ext_list = g_slist_sort(ext_list, (GCompareFunc)g_strcmp0);
@@ -593,7 +593,7 @@ gint gprj_project_add_properties_tab(GtkWidget *notebook)
 	gtk_box_pack_start(GTK_BOX(hbox1), label, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox1, FALSE, FALSE, 6);
 
-	label = gtk_label_new("GProject");
+	label = gtk_label_new("Project Organizer");
 
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), vbox, TRUE, TRUE, 6);

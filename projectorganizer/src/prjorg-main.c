@@ -25,12 +25,12 @@
 
 #include <geanyplugin.h>
 
-#include "gproject-project.h"
-#include "gproject-sidebar.h"
-#include "gproject-menu.h"
+#include "prjorg-project.h"
+#include "prjorg-sidebar.h"
+#include "prjorg-menu.h"
 
 PLUGIN_VERSION_CHECK(214)
-PLUGIN_SET_INFO("GProject",
+PLUGIN_SET_INFO("Project Organizer",
 	_("Project file tree, project-wide indexing and search, extra navigation options"),
 	VERSION,
 	"Jiri Techet <techet@gmail.com>")

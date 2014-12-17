@@ -21,7 +21,7 @@
 
 #include <geanyplugin.h>
 
-#include "gproject-utils.h"
+#include "prjorg-utils.h"
 
 extern GeanyData *geany_data;
 extern GeanyFunctions *geany_functions;

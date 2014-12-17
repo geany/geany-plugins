@@ -3676,7 +3676,7 @@ msgstr "Поиск назад"
 msgid "Search for contents of clipboard"
 msgstr "Поиск по содержимому буфера обмена"
 
-#: ../geanymacro/src/geanymacro.c:1424 ../gproject/src/gproject-sidebar.c:101
+#: ../geanymacro/src/geanymacro.c:1424 ../projectorganizer/src/prjorg-sidebar.c:101
 msgid "Search for:"
 msgstr "Искать:"
 
@@ -4319,7 +4319,7 @@ msgid "Open a signature file"
 msgstr "Открыть файл с подписью"
 
 #: ../geanyprj/src/geanyprj.c:38 ../geanyprj/src/sidebar.c:456
-#: ../gproject/src/gproject-sidebar.c:872
+#: ../projectorganizer/src/prjorg-sidebar.c:872
 msgid "Project"
 msgstr "Проект"
 
@@ -4425,7 +4425,7 @@ msgstr "Найти в проекте"
 msgid "Remove File"
 msgstr "Удалить файл"
 
-#: ../geanyprj/src/sidebar.c:240 ../gproject/src/gproject-sidebar.c:851
+#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:851
 msgid "H_ide Sidebar"
 msgstr "Скрыть боковую панель"
 
@@ -5028,59 +5028,59 @@ msgstr "Отображать опубликованный код в новой �
 msgid "_Paste it!"
 msgstr "_Опубликовать!"
 
-#: ../gproject/src/gproject-main.c:36 ../gproject/src/gproject-project.c:455
+#: ../projectorganizer/src/prjorg-main.c:36 ../projectorganizer/src/prjorg-project.c:455
 msgid "GProject"
 msgstr "Проект (GProject)"
 
-#: ../gproject/src/gproject-main.c:37
+#: ../projectorganizer/src/prjorg-main.c:37
 msgid "Glob-pattern-based project management plugin for Geany."
 msgstr ""
 "Плагин для управления проектом Geany на основе шаблонов файлов проекта."
 
-#: ../gproject/src/gproject-menu.c:353
+#: ../projectorganizer/src/prjorg-menu.c:353
 msgid "Find in Project Files"
 msgstr "Найти в файлах проекта"
 
-#: ../gproject/src/gproject-menu.c:359
+#: ../projectorganizer/src/prjorg-menu.c:359
 msgid "Find in project files"
 msgstr "Найти в файлах проекта"
 
-#: ../gproject/src/gproject-menu.c:363
+#: ../projectorganizer/src/prjorg-menu.c:363
 msgid "Find Project File"
 msgstr "Найти файл проекта"
 
-#: ../gproject/src/gproject-menu.c:369
+#: ../projectorganizer/src/prjorg-menu.c:369
 msgid "Find project file"
 msgstr "Найти файл проекта"
 
-#: ../gproject/src/gproject-menu.c:371
+#: ../projectorganizer/src/prjorg-menu.c:371
 msgid "Swap Header/Source"
 msgstr "Переключить Заголовок/Реализацию"
 
-#: ../gproject/src/gproject-menu.c:376
+#: ../projectorganizer/src/prjorg-menu.c:376
 msgid "Swap header/source"
 msgstr "Переключить заголовок/реализацию"
 
-#: ../gproject/src/gproject-menu.c:382
+#: ../projectorganizer/src/prjorg-menu.c:382
 msgid "Open Selected File (gproject)"
 msgstr "Открыть выбранный файл (gproject)"
 
-#: ../gproject/src/gproject-project.c:406
+#: ../projectorganizer/src/prjorg-project.c:406
 msgid "Source patterns:"
 msgstr "Шаблоны файлов исходных текстов:"
 
-#: ../gproject/src/gproject-project.c:412
+#: ../projectorganizer/src/prjorg-project.c:412
 msgid ""
 "Space separated list of patterns that are used to identify source files."
 msgstr ""
 "Разделённый пробелами список шаблонов, который используются для определения "
 "файлов исходных текстов."
 
-#: ../gproject/src/gproject-project.c:417
+#: ../projectorganizer/src/prjorg-project.c:417
 msgid "Header patterns:"
 msgstr "Шаблоны заголовочных файлов:"
 
-#: ../gproject/src/gproject-project.c:423
+#: ../projectorganizer/src/prjorg-project.c:423
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used "
 "mainly for header/source swapping."
@@ -5088,11 +5088,11 @@ msgstr ""
 "Разделённый пробелами список шаблонов, который используются для определения "
 "заголовочных файлов. Используются для переключения исходник/заголовок."
 
-#: ../gproject/src/gproject-project.c:429
+#: ../projectorganizer/src/prjorg-project.c:429
 msgid "Ignored dirs patterns:"
 msgstr "Игнорируемые папки:"
 
-#: ../gproject/src/gproject-project.c:435
+#: ../projectorganizer/src/prjorg-project.c:435
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
@@ -5100,11 +5100,11 @@ msgstr ""
 "Разделённый пробелами список шаблонов, которые используются для определения "
 "директорий не просматриваемых на предмет наличия файлов проекта."
 
-#: ../gproject/src/gproject-project.c:443
+#: ../projectorganizer/src/prjorg-project.c:443
 msgid "Generate tags for all project files"
 msgstr "Генерировать список тегов для всех файлов проекта"
 
-#: ../gproject/src/gproject-project.c:445
+#: ../projectorganizer/src/prjorg-project.c:445
 msgid ""
 "Generate tag list for all project files instead of only for the currently "
 "opened files. Too slow for big projects (>1000 files) and should be disabled "
@@ -5114,7 +5114,7 @@ msgstr ""
 "Может работать медленно для больших проектов, в таких случаях рекомендуется "
 "выключать данную опцию."
 
-#: ../gproject/src/gproject-project.c:451
+#: ../projectorganizer/src/prjorg-project.c:451
 msgid ""
 "Note: set the patterns of files belonging to the project under the Project "
 "tab."
@@ -5122,46 +5122,46 @@ msgstr ""
 "Замечание: устанавливает шаблоны файлов принадлежащих проекту для "
 "отображения во вкладке проекта в боковой панели."
 
-#: ../gproject/src/gproject-sidebar.c:90
-#: ../gproject/src/gproject-sidebar.c:840
+#: ../projectorganizer/src/prjorg-sidebar.c:90
+#: ../projectorganizer/src/prjorg-sidebar.c:840
 msgid "Find File"
 msgstr "Найти файл"
 
-#: ../gproject/src/gproject-sidebar.c:117
+#: ../projectorganizer/src/prjorg-sidebar.c:117
 msgid "Search inside:"
 msgstr "Искать внутри:"
 
-#: ../gproject/src/gproject-sidebar.c:129
+#: ../projectorganizer/src/prjorg-sidebar.c:129
 msgid "C_ase sensitive"
 msgstr "С учётом регистра"
 
-#: ../gproject/src/gproject-sidebar.c:132
+#: ../projectorganizer/src/prjorg-sidebar.c:132
 msgid "Search in full path"
 msgstr "Искать в полных путях"
 
-#: ../gproject/src/gproject-sidebar.c:747
+#: ../projectorganizer/src/prjorg-sidebar.c:747
 msgid "Reload all"
 msgstr "Перезагрузить всё"
 
-#: ../gproject/src/gproject-sidebar.c:756
+#: ../projectorganizer/src/prjorg-sidebar.c:756
 #: ../treebrowser/src/treebrowser.c:1283
 msgid "Expand all"
 msgstr "Развернуть всё"
 
-#: ../gproject/src/gproject-sidebar.c:763
+#: ../projectorganizer/src/prjorg-sidebar.c:763
 #: ../treebrowser/src/treebrowser.c:1287
 msgid "Collapse all"
 msgstr "Свернуть всё"
 
-#: ../gproject/src/gproject-sidebar.c:773
+#: ../projectorganizer/src/prjorg-sidebar.c:773
 msgid "Follow active editor"
 msgstr "Следовать пути активного документа"
 
-#: ../gproject/src/gproject-sidebar.c:822
+#: ../projectorganizer/src/prjorg-sidebar.c:822
 msgid "Expand All"
 msgstr "Развернуть всё"
 
-#: ../gproject/src/gproject-sidebar.c:831
+#: ../projectorganizer/src/prjorg-sidebar.c:831
 msgid "Find in Files"
 msgstr "Найти в файлах"
 

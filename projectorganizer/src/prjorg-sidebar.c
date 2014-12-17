@@ -26,9 +26,9 @@
 #include <geanyplugin.h>
 #include <gtkcompat.h>
 
-#include "gproject-utils.h"
-#include "gproject-project.h"
-#include "gproject-sidebar.h"
+#include "prjorg-utils.h"
+#include "prjorg-project.h"
+#include "prjorg-sidebar.h"
 
 extern GeanyPlugin *geany_plugin;
 extern GeanyData *geany_data;
@@ -927,7 +927,7 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 		if (patterns_match(header_patterns, path_arr[level]))
 		{
 			if (! icon)
-				icon = g_icon_new_for_string("gproject-header", NULL);
+				icon = g_icon_new_for_string("prjorg-header", NULL);
 
 			gtk_tree_store_set(s_file_store, &iter,
 				FILEVIEW_COLUMN_ICON, icon,
@@ -938,7 +938,7 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 		else if (patterns_match(source_patterns, path_arr[level]))
 		{
 			if (! icon)
-				icon = g_icon_new_for_string("gproject-source", NULL);
+				icon = g_icon_new_for_string("prjorg-source", NULL);
 
 			gtk_tree_store_set(s_file_store, &iter,
 				FILEVIEW_COLUMN_ICON, icon,
@@ -949,7 +949,7 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 		else
 		{
 			if (! icon)
-				icon = g_icon_new_for_string("gproject-file", NULL);
+				icon = g_icon_new_for_string("prjorg-file", NULL);
 
 			gtk_tree_store_set(s_file_store, &iter,
 				FILEVIEW_COLUMN_ICON, icon,
@@ -1214,7 +1214,7 @@ void gprj_sidebar_init(void)
 	external_color = gtk_widget_get_style(toolbar)->bg[GTK_STATE_NORMAL];
 
 	item = GTK_WIDGET(gtk_tool_button_new(NULL, NULL));
-	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "gproject-refresh");
+	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "prjorg-refresh");
 	ui_widget_set_tooltip_text(item, _("Reload all"));
 	g_signal_connect(item, "clicked", G_CALLBACK(on_reload_project), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), item);
@@ -1223,7 +1223,7 @@ void gprj_sidebar_init(void)
 	gtk_container_add(GTK_CONTAINER(toolbar), item);
 
 	item = GTK_WIDGET(gtk_tool_button_new(NULL, NULL));
-	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "gproject-add-external");
+	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "prjorg-add-external");
 	ui_widget_set_tooltip_text(item, _("Add external directory"));
 	g_signal_connect(item, "clicked", G_CALLBACK(on_add_external), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), item);
@@ -1233,14 +1233,14 @@ void gprj_sidebar_init(void)
 	gtk_container_add(GTK_CONTAINER(toolbar), item);
 
 	item = GTK_WIDGET(gtk_tool_button_new(NULL, NULL));
-	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "gproject-expand");
+	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "prjorg-expand");
 	ui_widget_set_tooltip_text(item, _("Expand all"));
 	g_signal_connect(item, "clicked", G_CALLBACK(on_expand_all), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), item);
 	s_project_toolbar.expand = item;
 
 	item = GTK_WIDGET(gtk_tool_button_new(NULL, NULL));
-	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "gproject-collapse");
+	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "prjorg-collapse");
 	ui_widget_set_tooltip_text(item, _("Collapse to project root"));
 	g_signal_connect(item, "clicked", G_CALLBACK(on_collapse_all), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), item);
@@ -1251,7 +1251,7 @@ void gprj_sidebar_init(void)
 
 	item = GTK_WIDGET(gtk_toggle_tool_button_new());
 	gtk_toggle_tool_button_set_active(GTK_TOGGLE_TOOL_BUTTON(item), TRUE);
-	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "gproject-follow");
+	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "prjorg-follow");
 	ui_widget_set_tooltip_text(item, _("Follow active editor"));
 	g_signal_connect(item, "clicked", G_CALLBACK(on_follow_active), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), item);
@@ -1305,7 +1305,7 @@ void gprj_sidebar_init(void)
 
 	s_popup_menu.widget = gtk_menu_new();
 
-	image = gtk_image_new_from_icon_name("gproject-expand", GTK_ICON_SIZE_MENU);
+	image = gtk_image_new_from_icon_name("prjorg-expand", GTK_ICON_SIZE_MENU);
 	gtk_widget_show(image);
 	item = gtk_image_menu_item_new_with_mnemonic(_("Expand All"));
 	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);

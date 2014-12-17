@@ -61,10 +61,10 @@ Available plugins are:
 * geanysendmail -- the GeanySendmail plugin
 * geanyvc -- the GeanyVC plugin
 * geniuspaste -- the paste to a pastebin plugin
-* gproject -- the GProject plugin
 * gtkspell -- GeanyVC's spell-check support
 * markdown -- the Markdown plugin
 * pretty_printer -- the pretty-printer plugin
+* projectorganizer -- the ProjectOrganizer plugin
 * scope -- the Scope plugin
 * shiftcolumn -- the ShiftColumn plugin
 * spellcheck -- the spellcheck plugin

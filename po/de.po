@@ -1238,7 +1238,7 @@ msgid "Find Tag"
 msgstr "Suchen:"
 
 #: ../geanyctags/src/geanyctags.c:494 ../geanymacro/src/geanymacro.c:1424
-#: ../gproject/src/gproject-sidebar.c:101
+#: ../projectorganizer/src/prjorg-sidebar.c:101
 msgid "Search for:"
 msgstr "Suchen nach:"
 
@@ -1246,7 +1246,7 @@ msgstr "Suchen nach:"
 msgid "Match type:"
 msgstr ""
 
-#: ../geanyctags/src/geanyctags.c:528 ../gproject/src/gproject-sidebar.c:129
+#: ../geanyctags/src/geanyctags.c:528 ../projectorganizer/src/prjorg-sidebar.c:129
 msgid "C_ase sensitive"
 msgstr "_Groß-/Kleinschreibung beachten"
 
@@ -4407,7 +4407,7 @@ msgid "Open a signature file"
 msgstr "Eine Signaturendatei öffnen"
 
 #: ../geanyprj/src/geanyprj.c:38 ../geanyprj/src/sidebar.c:456
-#: ../gproject/src/gproject-sidebar.c:886
+#: ../projectorganizer/src/prjorg-sidebar.c:886
 msgid "Project"
 msgstr "Projekt"
 
@@ -4514,7 +4514,7 @@ msgstr "Im Projekt suchen"
 msgid "Remove File"
 msgstr "Datei entfernen"
 
-#: ../geanyprj/src/sidebar.c:240 ../gproject/src/gproject-sidebar.c:865
+#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:865
 msgid "H_ide Sidebar"
 msgstr "Seitenleiste _verstecken"
 
@@ -5130,58 +5130,58 @@ msgstr "Code-Ablage in einem neuen Reiter im Browser zeigen"
 msgid "_Paste it!"
 msgstr "Zu _Pastebin senden"
 
-#: ../gproject/src/gproject-main.c:36
+#: ../projectorganizer/src/prjorg-main.c:36
 msgid "GProject"
 msgstr "GProject"
 
-#: ../gproject/src/gproject-main.c:37
+#: ../projectorganizer/src/prjorg-main.c:37
 msgid "Glob-pattern-based project management plugin for Geany."
 msgstr "Auf dem Global-Muster basierendes Projektmanagement-Plugin für Geany."
 
-#: ../gproject/src/gproject-menu.c:354
+#: ../projectorganizer/src/prjorg-menu.c:354
 msgid "Find in Project Files"
 msgstr "In Projektdateien suchen"
 
-#: ../gproject/src/gproject-menu.c:360
+#: ../projectorganizer/src/prjorg-menu.c:360
 msgid "Find in project files"
 msgstr "Im Projektdateien suchen"
 
-#: ../gproject/src/gproject-menu.c:364
+#: ../projectorganizer/src/prjorg-menu.c:364
 msgid "Find Project File"
 msgstr "Im Projekt suchen"
 
-#: ../gproject/src/gproject-menu.c:370
+#: ../projectorganizer/src/prjorg-menu.c:370
 msgid "Find project file"
 msgstr "Projektdatei finden"
 
-#: ../gproject/src/gproject-menu.c:372
+#: ../projectorganizer/src/prjorg-menu.c:372
 msgid "Swap Header/Source"
 msgstr "Header und Quellen tauschen"
 
-#: ../gproject/src/gproject-menu.c:377
+#: ../projectorganizer/src/prjorg-menu.c:377
 msgid "Swap header/source"
 msgstr "Header und Quellen tauschen"
 
-#: ../gproject/src/gproject-menu.c:383
+#: ../projectorganizer/src/prjorg-menu.c:383
 msgid "Open Selected File (gproject)"
 msgstr "Ausgewählte Datei öffnen (gproject)"
 
-#: ../gproject/src/gproject-project.c:406
+#: ../projectorganizer/src/prjorg-project.c:406
 msgid "Source patterns:"
 msgstr "Quelltextmuster:"
 
-#: ../gproject/src/gproject-project.c:412
+#: ../projectorganizer/src/prjorg-project.c:412
 msgid ""
 "Space separated list of patterns that are used to identify source files."
 msgstr ""
 "Leerzeichengetrennte Liste mit Mustern, die genutzt werden, um Quelldateien "
 "zu identifizieren."
 
-#: ../gproject/src/gproject-project.c:417
+#: ../projectorganizer/src/prjorg-project.c:417
 msgid "Header patterns:"
 msgstr "Header-Muster:"
 
-#: ../gproject/src/gproject-project.c:423
+#: ../projectorganizer/src/prjorg-project.c:423
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used "
 "mainly for header/source swapping."
@@ -5190,11 +5190,11 @@ msgstr ""
 "identifizieren. Wird hauptsächlich für das Umschalten zwischen Quellen und "
 "Header verwendet."
 
-#: ../gproject/src/gproject-project.c:429
+#: ../projectorganizer/src/prjorg-project.c:429
 msgid "Ignored dirs patterns:"
 msgstr "Muster für zu ignorierende Verzeichnisse:"
 
-#: ../gproject/src/gproject-project.c:435
+#: ../projectorganizer/src/prjorg-project.c:435
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
@@ -5202,11 +5202,11 @@ msgstr ""
 "Leerzeichengetrennte Liste mit Mustern, die genutzt werden, um Verzeichnisse "
 "zu erkennen, die nicht nach Quelldateien durchsucht werden sollen. "
 
-#: ../gproject/src/gproject-project.c:443
+#: ../projectorganizer/src/prjorg-project.c:443
 msgid "Generate tags for all project files"
 msgstr "Tags für alle Projektdateien erstellen"
 
-#: ../gproject/src/gproject-project.c:445
+#: ../projectorganizer/src/prjorg-project.c:445
 msgid ""
 "Generate tag list for all project files instead of only for the currently "
 "opened files. Too slow for big projects (>1000 files) and should be disabled "
@@ -5216,7 +5216,7 @@ msgstr ""
 "geöffneten Dateien. Sehr langsam bei großen Projekten (>1000 Dateien) und "
 "sollte in solch einem Fall deaktiviert werden."
 
-#: ../gproject/src/gproject-project.c:451
+#: ../projectorganizer/src/prjorg-project.c:451
 msgid ""
 "Note: set the patterns of files belonging to the project under the Project "
 "tab."
@@ -5224,50 +5224,50 @@ msgstr ""
 "Anmerkung: Die Muster der Dateien, die zu einem Projekt gehören, können im "
 "Projekttab gesetzt werden."
 
-#: ../gproject/src/gproject-sidebar.c:90
-#: ../gproject/src/gproject-sidebar.c:854
+#: ../projectorganizer/src/prjorg-sidebar.c:90
+#: ../projectorganizer/src/prjorg-sidebar.c:854
 msgid "Find File"
 msgstr "Datei suchen"
 
-#: ../gproject/src/gproject-sidebar.c:117
+#: ../projectorganizer/src/prjorg-sidebar.c:117
 msgid "Search inside:"
 msgstr "Suchen in:"
 
-#: ../gproject/src/gproject-sidebar.c:132
+#: ../projectorganizer/src/prjorg-sidebar.c:132
 msgid "Search in full path"
 msgstr "Im vollen Pfad suchen"
 
-#: ../gproject/src/gproject-sidebar.c:615
+#: ../projectorganizer/src/prjorg-sidebar.c:615
 msgid "Set file patterns under Project->Properties"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:758
+#: ../projectorganizer/src/prjorg-sidebar.c:758
 msgid "Reload all"
 msgstr "Alle neuladen"
 
-#: ../gproject/src/gproject-sidebar.c:767
+#: ../projectorganizer/src/prjorg-sidebar.c:767
 #: ../treebrowser/src/treebrowser.c:1283
 msgid "Expand all"
 msgstr "Alle ausklappen"
 
-#: ../gproject/src/gproject-sidebar.c:774
+#: ../projectorganizer/src/prjorg-sidebar.c:774
 #: ../treebrowser/src/treebrowser.c:1287
 msgid "Collapse all"
 msgstr "Alle einklappen"
 
-#: ../gproject/src/gproject-sidebar.c:784
+#: ../projectorganizer/src/prjorg-sidebar.c:784
 msgid "Follow active editor"
 msgstr "Aktiven Editor folgen"
 
-#: ../gproject/src/gproject-sidebar.c:827
+#: ../projectorganizer/src/prjorg-sidebar.c:827
 msgid "(Re)open the project to start using the plugin"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:836
+#: ../projectorganizer/src/prjorg-sidebar.c:836
 msgid "Expand All"
 msgstr "Alle ausklappen"
 
-#: ../gproject/src/gproject-sidebar.c:845
+#: ../projectorganizer/src/prjorg-sidebar.c:845
 msgid "Find in Files"
 msgstr "In Dateien finden"
 

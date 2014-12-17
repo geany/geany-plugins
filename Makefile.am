@@ -103,10 +103,6 @@ if ENABLE_GENIUSPASTE
 SUBDIRS += geniuspaste
 endif
 
-if ENABLE_GPROJECT
-SUBDIRS += gproject
-endif
-
 if ENABLE_MARKDOWN
 SUBDIRS += markdown
 endif
@@ -125,6 +121,10 @@ endif
 
 if ENABLE_PRETTY_PRINTER
 SUBDIRS += pretty-printer
+endif
+
+if ENABLE_PROJECTORGANIZER
+SUBDIRS += projectorganizer
 endif
 
 if ENABLE_SCOPE

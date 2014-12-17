@@ -25,10 +25,10 @@
 #endif
 #include <geanyplugin.h>
 
-#include "gproject-menu.h"
-#include "gproject-project.h"
-#include "gproject-utils.h"
-#include "gproject-sidebar.h"
+#include "prjorg-menu.h"
+#include "prjorg-project.h"
+#include "prjorg-utils.h"
+#include "prjorg-sidebar.h"
 
 #include <string.h>
 
@@ -361,7 +361,7 @@ static void on_open_selected_file(GtkMenuItem *menuitem, gpointer user_data)
 void gprj_menu_init(void)
 {
 	GtkWidget *image;
-	GeanyKeyGroup *key_group = plugin_set_key_group(geany_plugin, "GProject", KB_COUNT, kb_callback);
+	GeanyKeyGroup *key_group = plugin_set_key_group(geany_plugin, "ProjectOrganizer", KB_COUNT, kb_callback);
 
 	s_sep_item = gtk_separator_menu_item_new();
 	gtk_widget_show(s_sep_item);
@@ -408,7 +408,7 @@ void gprj_menu_init(void)
 	gtk_widget_show(s_context_sep_item);
 	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), s_context_sep_item);
 
-	s_context_osf_item = gtk_menu_item_new_with_mnemonic(_("Open Selected File (gproject)"));
+	s_context_osf_item = gtk_menu_item_new_with_mnemonic(_("Open Selected File (Project Organizer)"));
 	gtk_widget_show(s_context_osf_item);
 	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), s_context_osf_item);
 	g_signal_connect((gpointer) s_context_osf_item, "activate", G_CALLBACK(on_open_selected_file), NULL);

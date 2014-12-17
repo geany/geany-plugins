@@ -3291,7 +3291,7 @@ msgstr ""
 msgid "Search for contents of clipboard"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:1424 ../gproject/src/gproject-sidebar.c:101
+#: ../geanymacro/src/geanymacro.c:1424 ../projectorganizer/src/prjorg-sidebar.c:101
 msgid "Search for:"
 msgstr ""
 
@@ -3877,7 +3877,7 @@ msgid "Open a signature file"
 msgstr ""
 
 #: ../geanyprj/src/geanyprj.c:38 ../geanyprj/src/sidebar.c:456
-#: ../gproject/src/gproject-sidebar.c:870
+#: ../projectorganizer/src/prjorg-sidebar.c:870
 msgid "Project"
 msgstr ""
 
@@ -3977,7 +3977,7 @@ msgstr ""
 msgid "Remove File"
 msgstr ""
 
-#: ../geanyprj/src/sidebar.c:240 ../gproject/src/gproject-sidebar.c:849
+#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:849
 msgid "H_ide Sidebar"
 msgstr ""
 
@@ -4542,128 +4542,128 @@ msgstr ""
 msgid "_Paste it!"
 msgstr ""
 
-#: ../gproject/src/gproject-main.c:36 ../gproject/src/gproject-project.c:455
+#: ../projectorganizer/src/prjorg-main.c:36 ../projectorganizer/src/prjorg-project.c:455
 msgid "GProject"
 msgstr ""
 
-#: ../gproject/src/gproject-main.c:37
+#: ../projectorganizer/src/prjorg-main.c:37
 msgid "Glob-pattern-based project management plugin for Geany."
 msgstr ""
 
-#: ../gproject/src/gproject-menu.c:353
+#: ../projectorganizer/src/prjorg-menu.c:353
 msgid "Find in Project Files"
 msgstr ""
 
-#: ../gproject/src/gproject-menu.c:359
+#: ../projectorganizer/src/prjorg-menu.c:359
 msgid "Find in project files"
 msgstr ""
 
-#: ../gproject/src/gproject-menu.c:363
+#: ../projectorganizer/src/prjorg-menu.c:363
 msgid "Find Project File"
 msgstr ""
 
-#: ../gproject/src/gproject-menu.c:369
+#: ../projectorganizer/src/prjorg-menu.c:369
 msgid "Find project file"
 msgstr ""
 
-#: ../gproject/src/gproject-menu.c:371
+#: ../projectorganizer/src/prjorg-menu.c:371
 msgid "Swap Header/Source"
 msgstr ""
 
-#: ../gproject/src/gproject-menu.c:376
+#: ../projectorganizer/src/prjorg-menu.c:376
 msgid "Swap header/source"
 msgstr ""
 
-#: ../gproject/src/gproject-menu.c:382
+#: ../projectorganizer/src/prjorg-menu.c:382
 msgid "Open Selected File (gproject)"
 msgstr ""
 
-#: ../gproject/src/gproject-project.c:406
+#: ../projectorganizer/src/prjorg-project.c:406
 msgid "Source patterns:"
 msgstr ""
 
-#: ../gproject/src/gproject-project.c:412
+#: ../projectorganizer/src/prjorg-project.c:412
 msgid ""
 "Space separated list of patterns that are used to identify source files."
 msgstr ""
 
-#: ../gproject/src/gproject-project.c:417
+#: ../projectorganizer/src/prjorg-project.c:417
 msgid "Header patterns:"
 msgstr ""
 
-#: ../gproject/src/gproject-project.c:423
+#: ../projectorganizer/src/prjorg-project.c:423
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used "
 "mainly for header/source swapping."
 msgstr ""
 
-#: ../gproject/src/gproject-project.c:429
+#: ../projectorganizer/src/prjorg-project.c:429
 msgid "Ignored dirs patterns:"
 msgstr ""
 
-#: ../gproject/src/gproject-project.c:435
+#: ../projectorganizer/src/prjorg-project.c:435
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
 msgstr ""
 
-#: ../gproject/src/gproject-project.c:443
+#: ../projectorganizer/src/prjorg-project.c:443
 msgid "Generate tags for all project files"
 msgstr ""
 
-#: ../gproject/src/gproject-project.c:445
+#: ../projectorganizer/src/prjorg-project.c:445
 msgid ""
 "Generate tag list for all project files instead of only for the currently "
 "opened files. Too slow for big projects (>1000 files) and should be disabled "
 "in this case."
 msgstr ""
 
-#: ../gproject/src/gproject-project.c:451
+#: ../projectorganizer/src/prjorg-project.c:451
 msgid ""
 "Note: set the patterns of files belonging to the project under the Project "
 "tab."
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:90
-#: ../gproject/src/gproject-sidebar.c:838
+#: ../projectorganizer/src/prjorg-sidebar.c:90
+#: ../projectorganizer/src/prjorg-sidebar.c:838
 msgid "Find File"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:117
+#: ../projectorganizer/src/prjorg-sidebar.c:117
 msgid "Search inside:"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:129
+#: ../projectorganizer/src/prjorg-sidebar.c:129
 msgid "C_ase sensitive"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:132
+#: ../projectorganizer/src/prjorg-sidebar.c:132
 msgid "Search in full path"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:745
+#: ../projectorganizer/src/prjorg-sidebar.c:745
 msgid "Reload all"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:754
+#: ../projectorganizer/src/prjorg-sidebar.c:754
 #: ../treebrowser/src/treebrowser.c:1281
 msgid "Expand all"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:761
+#: ../projectorganizer/src/prjorg-sidebar.c:761
 #: ../treebrowser/src/treebrowser.c:1285
 msgid "Collapse all"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:771
+#: ../projectorganizer/src/prjorg-sidebar.c:771
 msgid "Follow active editor"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:820
+#: ../projectorganizer/src/prjorg-sidebar.c:820
 msgid "Expand All"
 msgstr ""
 
-#: ../gproject/src/gproject-sidebar.c:829
+#: ../projectorganizer/src/prjorg-sidebar.c:829
 msgid "Find in Files"
 msgstr ""
 

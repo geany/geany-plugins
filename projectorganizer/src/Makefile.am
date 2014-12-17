@@ -1,0 +1,23 @@
+include $(top_srcdir)/build/vars.build.mk
+
+geanyplugins_LTLIBRARIES = projectorganizer.la
+
+projectorganizer_la_SOURCES = \
+	prjorg-main.c \
+	prjorg-project.h \
+	prjorg-project.c \
+	prjorg-sidebar.h \
+	prjorg-sidebar.c \
+	prjorg-utils.h \
+	prjorg-utils.c \
+	prjorg-menu.h \
+	prjorg-menu.c
+
+projectorganizer_la_CPPFLAGS = $(AM_CPPFLAGS) \
+	-DPLUGIN=\"$(plugin)\" \
+	-DG_LOG_DOMAIN=\"ProjectOrganizer\"
+projectorganizer_la_CFLAGS = $(AM_CFLAGS)
+projectorganizer_la_LIBADD = $(COMMONLIBS)
+
+include $(top_srcdir)/build/cppcheck.mk
+
