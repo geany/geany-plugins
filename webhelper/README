@@ -19,7 +19,8 @@ Prominent features
 * Possible automatic reloading of the web view upon document saving;
 * A web inspector/debugging tool for the web view's content (including a
   JavaScript console, a viewer and editor of processed HTML and CSS, a network
-  usage analysis tool and many more, thanks to WebKit).
+  usage analysis tool and many more, thanks to WebKit);
+* Basic bookmarks for quicker access to frequently used URL.
 
 
 Requirements
@@ -45,6 +46,16 @@ Usage
 When loaded into Geany, this plugins adds a web view in the message window
 (the default), the sidebar or in a separate window. You can find most of the
 features from this view.
+
+Bookmarks
+---------
+
+To add a bookmark, you can click on the website's icon next to its URL and
+check the "Bookmark this website" item.  You can alternatively use the
+configurable keybinding to toggle the bookmark for the current URL.
+
+Bookmarks are displayed in the drop-down menu of the URL bar, sorted
+alphabetically by domain.
 
 
 License

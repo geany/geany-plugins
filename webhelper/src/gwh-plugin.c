@@ -284,6 +284,18 @@ on_kb_show_hide_separate_window (guint key_id)
   }
 }
 
+static void
+on_kb_toggle_bookmark (guint key_id)
+{
+  const gchar *uri = gwh_browser_get_uri (GWH_BROWSER (G_browser));
+  
+  if (gwh_browser_has_bookmark (GWH_BROWSER (G_browser), uri)) {
+    gwh_browser_remove_bookmark (GWH_BROWSER (G_browser), uri);
+  } else {
+    gwh_browser_add_bookmark (GWH_BROWSER (G_browser), uri);
+  }
+}
+
 
 static gchar *
 get_config_filename (void)
@@ -311,6 +323,12 @@ load_config (void)
     _("Browser last URI"),
     _("Last URI visited by the browser"),
     "about:blank",
+    G_PARAM_READWRITE));
+  gwh_settings_install_property (G_settings, g_param_spec_boxed (
+    "browser-bookmarks",
+    _("Bookmarks"),
+    _("List of bookmarks"),
+    G_TYPE_STRV,
     G_PARAM_READWRITE));
   gwh_settings_install_property (G_settings, g_param_spec_enum (
     "browser-orientation",
@@ -441,6 +459,9 @@ plugin_init (GeanyData *data)
                         on_kb_show_hide_separate_window, 0, 0,
                         "show_hide_separate_window",
                         _("Show/Hide Web View's Window"), NULL);
+  keybindings_set_item (gwh_keybindings_get_group (), GWH_KB_TOGGLE_BOOKMARK,
+                        on_kb_toggle_bookmark, 0, 0, "toggle_bookmark",
+                        _("Toggle bookmark for the current website"), NULL);
 }
 
 void

@@ -83,6 +83,17 @@ G_GNUC_INTERNAL
 GtkWindow      *gwh_browser_get_inspector_transient_for   (GwhBrowser *self);
 G_GNUC_INTERNAL
 void            gwh_browser_toggle_inspector              (GwhBrowser *self);
+G_GNUC_INTERNAL
+gchar         **gwh_browser_get_bookmarks                 (GwhBrowser *self);
+G_GNUC_INTERNAL
+gboolean        gwh_browser_has_bookmark                  (GwhBrowser  *self,
+                                                           const gchar *uri);
+G_GNUC_INTERNAL
+void            gwh_browser_add_bookmark                  (GwhBrowser  *self,
+                                                           const gchar *uri);
+G_GNUC_INTERNAL
+void            gwh_browser_remove_bookmark               (GwhBrowser  *self,
+                                                           const gchar *uri);
 
 
 G_END_DECLS
