@@ -122,7 +122,7 @@ static gchar* convert_to_table_worker(gchar **rows, gboolean header,
 	doc = document_get_current();
 
 	g_return_val_if_fail(rows != NULL, NULL);
-	g_return_if_fail(rule != NULL);
+	g_return_val_if_fail(rule != NULL, NULL);
 
 	/* Adding start of table to replacement */
 	replacement_str = g_string_new(rule->start);
