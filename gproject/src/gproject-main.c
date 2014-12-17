@@ -31,7 +31,7 @@
 
 PLUGIN_VERSION_CHECK(214)
 PLUGIN_SET_INFO("GProject",
-	_("Glob-pattern-based project management plugin for Geany."),
+	_("Project file tree, project-wide indexing and search, extra navigation options"),
 	VERSION,
 	"Jiri Techet <techet@gmail.com>")
 
