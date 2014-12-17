@@ -929,6 +929,7 @@ create_toolbar (GwhBrowser *self)
   gtk_widget_show_all (GTK_WIDGET (item));
   
   self->priv->url_entry = gtk_bin_get_child (GTK_BIN (self->priv->url_combo));
+  set_location_icon (self, NULL);
   gtk_entry_set_icon_tooltip_text (GTK_ENTRY (self->priv->url_entry),
                                    GTK_ENTRY_ICON_PRIMARY,
                                    _("Website information and settings"));
@@ -942,8 +943,6 @@ create_toolbar (GwhBrowser *self)
   gtk_widget_set_sensitive (GTK_WIDGET (self->priv->item_prev), FALSE);
   gtk_widget_set_sensitive (GTK_WIDGET (self->priv->item_next), FALSE);
   gtk_widget_set_sensitive (GTK_WIDGET (self->priv->item_cancel), FALSE);
-  
-  set_location_icon (self, NULL);
   
   g_signal_connect_swapped (G_OBJECT (self->priv->item_prev), "clicked",
                             G_CALLBACK (webkit_web_view_go_back),
