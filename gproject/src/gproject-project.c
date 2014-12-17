@@ -239,8 +239,10 @@ static void regenerate_tags(GPrjRoot *root, gpointer user_data)
 	GHashTableIter iter;
 	gpointer key, value;
 	GPtrArray *source_files;
+	GHashTable *file_table;
 
 	source_files = g_ptr_array_new();
+	file_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, (GFreeFunc)tm_source_file_free);
 	g_hash_table_iter_init(&iter, root->file_table);
 	while (g_hash_table_iter_next(&iter, &key, &value))
 	{
@@ -251,8 +253,11 @@ static void regenerate_tags(GPrjRoot *root, gpointer user_data)
 		if (sf && !document_find_by_filename(path))
 			g_ptr_array_add(source_files, sf);
 		
-		g_hash_table_iter_replace(&iter, sf);
+		g_hash_table_insert(file_table, g_strdup(path), sf);
 	}
+	g_hash_table_destroy(root->file_table);
+	root->file_table = file_table;
+
 	tm_workspace_add_source_files(source_files);
 	g_ptr_array_free(source_files, TRUE);
 }
@@ -627,7 +632,7 @@ gboolean gprj_project_is_in_project(const gchar * filename)
 	foreach_slist (elem, g_prj->roots)
 	{
 		GPrjRoot *root = elem->data;
-		if (g_hash_table_contains(root->file_table, filename))
+		if (g_hash_table_lookup_extended (root->file_table, filename, NULL, NULL))
 			return TRUE;
 	}
 
