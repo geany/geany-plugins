@@ -291,6 +291,16 @@ key_file_set_value (GKeyFile     *kf,
       g_key_file_set_string (kf, group, key, g_value_get_string (value));
       break;
     
+    case G_TYPE_BOXED:
+      if (G_VALUE_HOLDS (value, G_TYPE_STRV)) {
+        gchar **val = g_value_get_boxed (value);
+        
+        g_key_file_set_string_list (kf, group, key, (const gchar *const *) val,
+                                    val ? g_strv_length (val) : 0);
+        break;
+      }
+      /* fallthrough */
+    
     default:
       g_set_error (error, G_KEY_FILE_ERROR, G_KEY_FILE_ERROR_INVALID_VALUE,
                    "Unsupported setting type \"%s\" for setting \"%s::%s\"",
@@ -410,6 +420,18 @@ key_file_get_value (GKeyFile     *kf,
       }
       break;
     }
+    
+    case G_TYPE_BOXED:
+      if (G_VALUE_HOLDS (value, G_TYPE_STRV)) {
+        gchar **val;
+        
+        val = g_key_file_get_string_list (kf, group, key, NULL, &err);
+        if (! err) {
+          g_value_take_boxed (value, val);
+        }
+        break;
+      }
+      /* fallthrough */
     
     default:
       g_set_error (&err, G_KEY_FILE_ERROR, G_KEY_FILE_ERROR_INVALID_VALUE,
