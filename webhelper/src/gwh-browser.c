@@ -56,6 +56,8 @@
 # define GTK_COMBO_BOX_TEXT GTK_COMBO_BOX
 # define GTK_IS_COMBO_BOX_TEXT GTK_IS_COMBO_BOX
 # define gtk_combo_box_text_new_with_entry gtk_combo_box_entry_new_text
+# define gtk_combo_box_get_entry_text_column(c) \
+  (gtk_combo_box_entry_get_text_column (GTK_COMBO_BOX_ENTRY (c)))
 # define gtk_combo_box_text_append_text gtk_combo_box_append_text
 #endif /* GTK_CHECK_VERSION (2, 24, 0) */
 #if ! GTK_CHECK_VERSION (3, 0, 0)
@@ -484,6 +486,25 @@ on_url_entry_icon_press (GtkEntry            *entry,
   }
 }
 
+static gboolean
+on_entry_completion_match_selected (GtkEntryCompletion *comp,
+                                    GtkTreeModel       *model,
+                                    GtkTreeIter        *iter,
+                                    GwhBrowser         *self)
+{
+  gint    column = gtk_entry_completion_get_text_column (comp);
+  gchar  *row;
+  
+  gtk_tree_model_get (model, iter, column, &row, -1);
+  /* set the entry value too in the unlikely case the selected URI is the
+   * currently viewed one, in which case set_uri() won't change it */
+  gtk_entry_set_text (GTK_ENTRY (self->priv->url_entry), row);
+  gwh_browser_set_uri (self, row);
+  g_free (row);
+  
+  return TRUE;
+}
+
 static void
 update_history (GwhBrowser *self)
 {
@@ -892,11 +913,35 @@ gwh_browser_class_init (GwhBrowserClass *klass)
   g_type_class_add_private (klass, sizeof (GwhBrowserPrivate));
 }
 
+/* a GtkEntryCompletionMatchFunc matching anywhere in the haystack */
+static gboolean
+url_completion_match_func (GtkEntryCompletion  *comp,
+                           const gchar         *key,
+                           GtkTreeIter         *iter,
+                           gpointer             dummy)
+{
+  GtkTreeModel *model   = gtk_entry_completion_get_model (comp);
+  gint          column  = gtk_entry_completion_get_text_column (comp);
+  gchar        *row     = NULL;
+  gboolean      match   = FALSE;
+  
+  gtk_tree_model_get (model, iter, column, &row, -1);
+  if (row) {
+    SETPTR (row, g_utf8_normalize (row, -1, G_NORMALIZE_DEFAULT));
+    SETPTR (row, g_utf8_casefold (row, -1));
+    match = strstr (row, key) != NULL;
+    g_free (row);
+  }
+  
+  return match;
+}
+
 static GtkWidget *
 create_toolbar (GwhBrowser *self)
 {
-  GtkWidget   *toolbar;
-  GtkToolItem *item;
+  GtkWidget          *toolbar;
+  GtkToolItem        *item;
+  GtkEntryCompletion *comp;
   
   toolbar = g_object_new (GTK_TYPE_TOOLBAR,
                           "icon-size", GTK_ICON_SIZE_MENU,
@@ -934,6 +979,12 @@ create_toolbar (GwhBrowser *self)
                                    GTK_ENTRY_ICON_PRIMARY,
                                    _("Website information and settings"));
   
+  comp = gtk_entry_completion_new ();
+  gtk_entry_completion_set_model (comp, gtk_combo_box_get_model (GTK_COMBO_BOX (self->priv->url_combo)));
+  gtk_entry_completion_set_text_column (comp, gtk_combo_box_get_entry_text_column (GTK_COMBO_BOX (self->priv->url_combo)));
+  gtk_entry_completion_set_match_func (comp, url_completion_match_func, NULL, NULL);
+  gtk_entry_set_completion (GTK_ENTRY (self->priv->url_entry), comp);
+  
   self->priv->item_inspector = gtk_toggle_tool_button_new_from_stock (GTK_STOCK_INFO);
   gtk_tool_button_set_label (GTK_TOOL_BUTTON (self->priv->item_inspector), _("Web inspector"));
   gtk_tool_item_set_tooltip_text (self->priv->item_inspector, _("Toggle web inspector"));
@@ -964,6 +1015,8 @@ create_toolbar (GwhBrowser *self)
                     G_CALLBACK (on_url_entry_icon_press), self);
   g_signal_connect (G_OBJECT (self->priv->url_combo), "notify::active",
                     G_CALLBACK (on_url_combo_active_notify), self);
+  g_signal_connect (G_OBJECT (comp), "match-selected",
+                    G_CALLBACK (on_entry_completion_match_selected), self);
   
   return toolbar;
 }
