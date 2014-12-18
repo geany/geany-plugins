@@ -372,7 +372,7 @@ static void find_file_recursive(GtkTreeIter *iter, gboolean case_sensitive, gboo
 
 			path = build_path(iter);
 			rel_path = get_file_relative_path(geany_data->app->project->base_path, path);
-			msgwin_msg_add(COLOR_BLACK, -1, NULL, "./%s", rel_path ? rel_path : path);
+			msgwin_msg_add(COLOR_BLACK, -1, NULL, "%s", rel_path ? rel_path : path);
 			g_free(path);
 			g_free(rel_path);
 		}
