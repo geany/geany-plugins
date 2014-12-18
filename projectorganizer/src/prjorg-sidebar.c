@@ -277,7 +277,7 @@ static void on_collapse_all(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED 
 static void on_follow_active(GtkToggleToolButton *button, G_GNUC_UNUSED gpointer user_data)
 {
 	s_follow_editor = gtk_toggle_tool_button_get_active(button);
-	gprj_sidebar_update(FALSE);
+	prjorg_sidebar_update(FALSE);
 }
 
 
@@ -294,8 +294,8 @@ static void on_add_external(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED 
 	{
 		gchar *filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
 		
-		gprj_project_add_external_dir(filename);
-		gprj_sidebar_update(TRUE);
+		prjorg_project_add_external_dir(filename);
+		prjorg_sidebar_update(TRUE);
 		project_write_config();
 		
 		g_free (filename);
@@ -320,8 +320,8 @@ static void on_remove_external_dir(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_U
 		return;
 		
 	gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_NAME, &name, -1);
-	gprj_project_remove_external_dir(name);
-	gprj_sidebar_update(TRUE);
+	prjorg_project_remove_external_dir(name);
+	prjorg_sidebar_update(TRUE);
 	project_write_config();
 	
 	g_free(name);
@@ -695,8 +695,8 @@ static void on_find_tag(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpoin
 
 static void on_reload_project(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
-	gprj_project_rescan();
-	gprj_sidebar_update(TRUE);
+	prjorg_project_rescan();
+	prjorg_sidebar_update(TRUE);
 }
 
 
@@ -981,7 +981,7 @@ static void set_intro_message(const gchar *msg)
 }
 
 
-static void load_project_root(GPrjRoot *root, GtkTreeIter *parent, GSList *header_patterns, GSList *source_patterns, gboolean project)
+static void load_project_root(PrjOrgRoot *root, GtkTreeIter *parent, GSList *header_patterns, GSList *source_patterns, gboolean project)
 {
 	GSList *lst = NULL;
 	GSList *path_list = NULL;
@@ -1037,17 +1037,17 @@ static void load_project(void)
 	
 	gtk_tree_store_clear(s_file_store);
 
-	if (!g_prj || !geany_data->app->project)
+	if (!prj_org || !geany_data->app->project)
 		return;
 
 	icon_dir = g_icon_new_for_string("gtk-directory", NULL);
 
-	header_patterns = get_precompiled_patterns(g_prj->header_patterns);
-	source_patterns = get_precompiled_patterns(g_prj->source_patterns);
+	header_patterns = get_precompiled_patterns(prj_org->header_patterns);
+	source_patterns = get_precompiled_patterns(prj_org->source_patterns);
 	
-	foreach_slist (elem, g_prj->roots)
+	foreach_slist (elem, prj_org->roots)
 	{
-		GPrjRoot *root = elem->data;
+		PrjOrgRoot *root = elem->data;
 		gchar *name;
 		
 		if (first)
@@ -1126,14 +1126,14 @@ static gboolean follow_editor_on_idle(gpointer foo)
 
 	doc = document_get_current();
 
-	if (!doc || !doc->file_name || !geany_data->app->project || !g_prj)
+	if (!doc || !doc->file_name || !geany_data->app->project || !prj_org)
 		return FALSE;
 
 	model = GTK_TREE_MODEL(s_file_store);
 	gtk_tree_model_iter_children(model, &root_iter, NULL);
-	foreach_slist (elem, g_prj->roots)
+	foreach_slist (elem, prj_org->roots)
 	{
-		GPrjRoot *root = elem->data;
+		PrjOrgRoot *root = elem->data;
 		
 		path = get_file_relative_path(root->base_dir, doc->file_name);
 		if (path != NULL && !g_str_has_prefix(path, ".."))
@@ -1172,7 +1172,7 @@ static gboolean follow_editor_on_idle(gpointer foo)
 }
 
 
-void gprj_sidebar_update(gboolean reload)
+void prjorg_sidebar_update(gboolean reload)
 {
 	if (reload)
 		load_project();
@@ -1182,19 +1182,19 @@ void gprj_sidebar_update(gboolean reload)
 }
 
 
-void gprj_sidebar_find_file_in_active(void)
+void prjorg_sidebar_find_file_in_active(void)
 {
 	find_file(NULL);
 }
 
 
-void gprj_sidebar_find_tag_in_active(void)
+void prjorg_sidebar_find_tag_in_active(void)
 {
 	find_tag(NULL);
 }
 
 
-void gprj_sidebar_init(void)
+void prjorg_sidebar_init(void)
 {
 	GtkWidget *scrollwin, *toolbar, *item, *image;
 	GtkCellRenderer *renderer;
@@ -1299,7 +1299,7 @@ void gprj_sidebar_init(void)
 			G_CALLBACK(on_key_press), NULL);
 
 	set_intro_message(_("(Re)open project to start using the plugin"));
-	gprj_sidebar_activate(FALSE);
+	prjorg_sidebar_activate(FALSE);
 
 	/**** popup menu ****/
 
@@ -1383,13 +1383,13 @@ void gprj_sidebar_init(void)
 }
 
 
-void gprj_sidebar_activate(gboolean activate)
+void prjorg_sidebar_activate(gboolean activate)
 {
 	gtk_widget_set_sensitive(s_file_view_vbox, activate);
 }
 
 
-void gprj_sidebar_cleanup(void)
+void prjorg_sidebar_cleanup(void)
 {
 	gtk_widget_destroy(s_file_view_vbox);
 }

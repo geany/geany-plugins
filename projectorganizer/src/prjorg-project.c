@@ -41,7 +41,7 @@ typedef struct
 	GtkWidget *generate_tag_prefs;
 } PropertyDialogElements;
 
-GPrj *g_prj = NULL;
+PrjOrg *prj_org = NULL;
 
 static PropertyDialogElements *e;
 
@@ -120,7 +120,7 @@ static GSList *get_file_list(const gchar * path, GSList *patterns, GSList *ignor
 }
 
 
-static gint gprj_project_rescan_root(GPrjRoot *root)
+static gint prjorg_project_rescan_root(PrjOrgRoot *root)
 {
 	GPtrArray *source_files;
 	GSList *pattern_list = NULL;
@@ -145,8 +145,8 @@ static gint gprj_project_rescan_root(GPrjRoot *root)
 	else
 		pattern_list = get_precompiled_patterns(geany_data->app->project->file_patterns);
 
-	ignored_dirs_list = get_precompiled_patterns(g_prj->ignored_dirs_patterns);
-	ignored_file_list = get_precompiled_patterns(g_prj->ignored_file_patterns);
+	ignored_dirs_list = get_precompiled_patterns(prj_org->ignored_dirs_patterns);
+	ignored_file_list = get_precompiled_patterns(prj_org->ignored_file_patterns);
 
 	lst = get_file_list(root->base_dir, pattern_list, ignored_dirs_list, ignored_file_list);
 	
@@ -238,7 +238,7 @@ static GeanyFiletype *filetypes_detect(const gchar *utf8_filename)
 }
 
 
-static void regenerate_tags(GPrjRoot *root, gpointer user_data)
+static void regenerate_tags(PrjOrgRoot *root, gpointer user_data)
 {
 	GHashTableIter iter;
 	gpointer key, value;
@@ -267,22 +267,22 @@ static void regenerate_tags(GPrjRoot *root, gpointer user_data)
 }
 
 
-void gprj_project_rescan(void)
+void prjorg_project_rescan(void)
 {
 	GSList *elem;
 	gint filenum = 0;
 	
-	if (!g_prj)
+	if (!prj_org)
 		return;
 
 	clear_idle_queue(&s_idle_add_funcs);
 	clear_idle_queue(&s_idle_remove_funcs);
 	
-	foreach_slist(elem, g_prj->roots)
-		filenum += gprj_project_rescan_root(elem->data);
+	foreach_slist(elem, prj_org->roots)
+		filenum += prjorg_project_rescan_root(elem->data);
 	
-	if (g_prj->generate_tag_prefs == GPrjTagYes || (g_prj->generate_tag_prefs == GPrjTagAuto && filenum < 500))
-		g_slist_foreach(g_prj->roots, (GFunc)regenerate_tags, NULL);
+	if (prj_org->generate_tag_prefs == PrjOrgTagYes || (prj_org->generate_tag_prefs == PrjOrgTagAuto && filenum < 500))
+		g_slist_foreach(prj_org->roots, (GFunc)regenerate_tags, NULL);
 }
 
 
@@ -291,53 +291,53 @@ static void update_project(
 	gchar **header_patterns,
 	gchar **ignored_dirs_patterns,
 	gchar **ignored_file_patterns,
-	GPrjTagPrefs generate_tag_prefs)
+	PrjOrgTagPrefs generate_tag_prefs)
 {
-	if (g_prj->source_patterns)
-		g_strfreev(g_prj->source_patterns);
-	g_prj->source_patterns = g_strdupv(source_patterns);
+	if (prj_org->source_patterns)
+		g_strfreev(prj_org->source_patterns);
+	prj_org->source_patterns = g_strdupv(source_patterns);
 
-	if (g_prj->header_patterns)
-		g_strfreev(g_prj->header_patterns);
-	g_prj->header_patterns = g_strdupv(header_patterns);
+	if (prj_org->header_patterns)
+		g_strfreev(prj_org->header_patterns);
+	prj_org->header_patterns = g_strdupv(header_patterns);
 
-	if (g_prj->ignored_dirs_patterns)
-		g_strfreev(g_prj->ignored_dirs_patterns);
-	g_prj->ignored_dirs_patterns = g_strdupv(ignored_dirs_patterns);
+	if (prj_org->ignored_dirs_patterns)
+		g_strfreev(prj_org->ignored_dirs_patterns);
+	prj_org->ignored_dirs_patterns = g_strdupv(ignored_dirs_patterns);
 
-	if (g_prj->ignored_file_patterns)
-		g_strfreev(g_prj->ignored_file_patterns);
-	g_prj->ignored_file_patterns = g_strdupv(ignored_file_patterns);
+	if (prj_org->ignored_file_patterns)
+		g_strfreev(prj_org->ignored_file_patterns);
+	prj_org->ignored_file_patterns = g_strdupv(ignored_file_patterns);
 
-	g_prj->generate_tag_prefs = generate_tag_prefs;
+	prj_org->generate_tag_prefs = generate_tag_prefs;
 
-	gprj_project_rescan();
+	prjorg_project_rescan();
 }
 
 
-void gprj_project_save(GKeyFile * key_file)
+void prjorg_project_save(GKeyFile * key_file)
 {
 	GPtrArray *array;
 	GSList *elem, *lst;
 	
-	if (!g_prj)
+	if (!prj_org)
 		return;
 
 	g_key_file_set_string_list(key_file, "prjorg", "source_patterns",
-		(const gchar**) g_prj->source_patterns, g_strv_length(g_prj->source_patterns));
+		(const gchar**) prj_org->source_patterns, g_strv_length(prj_org->source_patterns));
 	g_key_file_set_string_list(key_file, "prjorg", "header_patterns",
-		(const gchar**) g_prj->header_patterns, g_strv_length(g_prj->header_patterns));
+		(const gchar**) prj_org->header_patterns, g_strv_length(prj_org->header_patterns));
 	g_key_file_set_string_list(key_file, "prjorg", "ignored_dirs_patterns",
-		(const gchar**) g_prj->ignored_dirs_patterns, g_strv_length(g_prj->ignored_dirs_patterns));
+		(const gchar**) prj_org->ignored_dirs_patterns, g_strv_length(prj_org->ignored_dirs_patterns));
 	g_key_file_set_string_list(key_file, "prjorg", "ignored_file_patterns",
-		(const gchar**) g_prj->ignored_file_patterns, g_strv_length(g_prj->ignored_file_patterns));
-	g_key_file_set_integer(key_file, "prjorg", "generate_tag_prefs", g_prj->generate_tag_prefs);
+		(const gchar**) prj_org->ignored_file_patterns, g_strv_length(prj_org->ignored_file_patterns));
+	g_key_file_set_integer(key_file, "prjorg", "generate_tag_prefs", prj_org->generate_tag_prefs);
 	
 	array = g_ptr_array_new();
-	lst = g_prj->roots->next;
+	lst = prj_org->roots->next;
 	foreach_slist (elem, lst)
 	{
-		GPrjRoot *root = elem->data;
+		PrjOrgRoot *root = elem->data;
 		g_ptr_array_add(array, root->base_dir);
 	}
 	g_key_file_set_string_list(key_file, "prjorg", "external_dirs", (const gchar * const *)array->pdata, array->len);
@@ -345,16 +345,16 @@ void gprj_project_save(GKeyFile * key_file)
 }
 
 
-static GPrjRoot *create_root(const gchar *base_dir)
+static PrjOrgRoot *create_root(const gchar *base_dir)
 {
-	GPrjRoot *root = (GPrjRoot *) g_new0(GPrjRoot, 1);
+	PrjOrgRoot *root = (PrjOrgRoot *) g_new0(PrjOrgRoot, 1);
 	root->base_dir = g_strdup(base_dir);
 	root->file_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, (GFreeFunc)tm_source_file_free);
 	return root;
 }
 
 
-static void close_root(GPrjRoot *root, gpointer user_data)
+static void close_root(PrjOrgRoot *root, gpointer user_data)
 {
 	GPtrArray *source_files;
 	
@@ -369,62 +369,62 @@ static void close_root(GPrjRoot *root, gpointer user_data)
 }
 
 
-static gint root_comparator(GPrjRoot *a, GPrjRoot *b)
+static gint root_comparator(PrjOrgRoot *a, PrjOrgRoot *b)
 {
 	return g_strcmp0(a->base_dir, b->base_dir);
 }
 
 
-void gprj_project_add_external_dir(const gchar *dirname)
+void prjorg_project_add_external_dir(const gchar *dirname)
 {
-	GPrjRoot *new_root = create_root(dirname);
-	if (g_slist_find_custom (g_prj->roots, new_root, (GCompareFunc)root_comparator) != NULL)
+	PrjOrgRoot *new_root = create_root(dirname);
+	if (g_slist_find_custom (prj_org->roots, new_root, (GCompareFunc)root_comparator) != NULL)
 	{
 		close_root(new_root, NULL);
 		return;
 	}
 	
-	GSList *lst = g_prj->roots->next;
+	GSList *lst = prj_org->roots->next;
 	lst = g_slist_prepend(lst, new_root);
 	lst = g_slist_sort(lst, (GCompareFunc)root_comparator);
-	g_prj->roots->next = lst;
+	prj_org->roots->next = lst;
 	
-	gprj_project_rescan();
+	prjorg_project_rescan();
 }
 
 
-void gprj_project_remove_external_dir(const gchar *dirname)
+void prjorg_project_remove_external_dir(const gchar *dirname)
 {
-	GPrjRoot *test_root = create_root(dirname);
-	GSList *found = g_slist_find_custom (g_prj->roots, test_root, (GCompareFunc)root_comparator);
+	PrjOrgRoot *test_root = create_root(dirname);
+	GSList *found = g_slist_find_custom (prj_org->roots, test_root, (GCompareFunc)root_comparator);
 	if (found != NULL)
 	{
-		GPrjRoot *found_root = found->data;
+		PrjOrgRoot *found_root = found->data;
 		
-		g_prj->roots = g_slist_remove(g_prj->roots, found_root);
+		prj_org->roots = g_slist_remove(prj_org->roots, found_root);
 		close_root(found_root, NULL);
-		gprj_project_rescan();
+		prjorg_project_rescan();
 	}
 	close_root(test_root, NULL);
 }
 
 
-void gprj_project_open(GKeyFile * key_file)
+void prjorg_project_open(GKeyFile * key_file)
 {
 	gchar **source_patterns, **header_patterns, **ignored_dirs_patterns, **ignored_file_patterns, **external_dirs, **dir_ptr, *last_name;
 	gint generate_tag_prefs;
 	GSList *elem, *ext_list = NULL;
 
-	if (g_prj != NULL)
-		gprj_project_close();
+	if (prj_org != NULL)
+		prjorg_project_close();
 
-	g_prj = (GPrj *) g_new0(GPrj, 1);
+	prj_org = (PrjOrg *) g_new0(PrjOrg, 1);
 
-	g_prj->source_patterns = NULL;
-	g_prj->header_patterns = NULL;
-	g_prj->ignored_dirs_patterns = NULL;
-	g_prj->ignored_file_patterns = NULL;
-	g_prj->generate_tag_prefs = GPrjTagAuto;
+	prj_org->source_patterns = NULL;
+	prj_org->header_patterns = NULL;
+	prj_org->ignored_dirs_patterns = NULL;
+	prj_org->ignored_file_patterns = NULL;
+	prj_org->generate_tag_prefs = PrjOrgTagAuto;
 
 	source_patterns = g_key_file_get_string_list(key_file, "prjorg", "source_patterns", NULL, NULL);
 	if (!source_patterns)
@@ -438,7 +438,7 @@ void gprj_project_open(GKeyFile * key_file)
 	ignored_file_patterns = g_key_file_get_string_list(key_file, "prjorg", "ignored_file_patterns", NULL, NULL);
 	if (!ignored_file_patterns)
 		ignored_file_patterns = g_strsplit("*.o *.obj *.a *.lib *.so *.dll *.lo *.la *.class *.jar *.pyc *.mo *.gmo", " ", -1);
-	generate_tag_prefs = utils_get_setting_integer(key_file, "prjorg", "generate_tag_prefs", GPrjTagAuto);
+	generate_tag_prefs = utils_get_setting_integer(key_file, "prjorg", "generate_tag_prefs", PrjOrgTagAuto);
 
 	external_dirs = g_key_file_get_string_list(key_file, "prjorg", "external_dirs", NULL, NULL);
 	foreach_strv (dir_ptr, external_dirs)
@@ -448,12 +448,12 @@ void gprj_project_open(GKeyFile * key_file)
 	foreach_slist (elem, ext_list)
 	{
 		if (g_strcmp0(last_name, elem->data) != 0)
-			g_prj->roots = g_slist_append(g_prj->roots, create_root(elem->data));
+			prj_org->roots = g_slist_append(prj_org->roots, create_root(elem->data));
 		last_name = elem->data;
 	}
 	g_slist_free(ext_list);
 	/* the project directory is always first */
-	g_prj->roots = g_slist_prepend(g_prj->roots, create_root(geany_data->app->project->base_path));
+	prj_org->roots = g_slist_prepend(prj_org->roots, create_root(geany_data->app->project->base_path));
 
 	update_project(
 		source_patterns,
@@ -488,7 +488,7 @@ static gchar **split_patterns(const gchar *str)
 }
 
 
-void gprj_project_read_properties_tab(void)
+void prjorg_project_read_properties_tab(void)
 {
 	gchar **source_patterns, **header_patterns, **ignored_dirs_patterns, **ignored_file_patterns;
 
@@ -508,7 +508,7 @@ void gprj_project_read_properties_tab(void)
 }
 
 
-gint gprj_project_add_properties_tab(GtkWidget *notebook)
+gint prjorg_project_add_properties_tab(GtkWidget *notebook)
 {
 	GtkWidget *vbox, *hbox, *hbox1;
 	GtkWidget *table;
@@ -532,7 +532,7 @@ gint gprj_project_add_properties_tab(GtkWidget *notebook)
 	ui_widget_set_tooltip_text(e->source_patterns,
 		_("Space separated list of patterns that are used to identify source files. "
 		  "Used for header/source swapping."));
-	str = g_strjoinv(" ", g_prj->source_patterns);
+	str = g_strjoinv(" ", prj_org->source_patterns);
 	gtk_entry_set_text(GTK_ENTRY(e->source_patterns), str);
 	g_free(str);
 
@@ -544,7 +544,7 @@ gint gprj_project_add_properties_tab(GtkWidget *notebook)
 	ui_widget_set_tooltip_text(e->header_patterns,
 		_("Space separated list of patterns that are used to identify headers. "
 		  "Used for header/source swapping."));
-	str = g_strjoinv(" ", g_prj->header_patterns);
+	str = g_strjoinv(" ", prj_org->header_patterns);
 	gtk_entry_set_text(GTK_ENTRY(e->header_patterns), str);
 	g_free(str);
 
@@ -556,7 +556,7 @@ gint gprj_project_add_properties_tab(GtkWidget *notebook)
 	ui_widget_set_tooltip_text(e->ignored_file_patterns,
 		_("Space separated list of patterns that are used to identify files "
 		  "that are not displayed in the project tree."));
-	str = g_strjoinv(" ", g_prj->ignored_file_patterns);
+	str = g_strjoinv(" ", prj_org->ignored_file_patterns);
 	gtk_entry_set_text(GTK_ENTRY(e->ignored_file_patterns), str);
 	g_free(str);
 
@@ -568,7 +568,7 @@ gint gprj_project_add_properties_tab(GtkWidget *notebook)
 	ui_widget_set_tooltip_text(e->ignored_dirs_patterns,
 		_("Space separated list of patterns that are used to identify directories "
 		  "that are not scanned for source files."));
-	str = g_strjoinv(" ", g_prj->ignored_dirs_patterns);
+	str = g_strjoinv(" ", prj_org->ignored_dirs_patterns);
 	gtk_entry_set_text(GTK_ENTRY(e->ignored_dirs_patterns), str);
 	g_free(str);
 
@@ -578,7 +578,7 @@ gint gprj_project_add_properties_tab(GtkWidget *notebook)
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), _("Auto (generate if less than 500 files)"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), _("Yes"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), _("No"));
-	gtk_combo_box_set_active(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), g_prj->generate_tag_prefs);
+	gtk_combo_box_set_active(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), prj_org->generate_tag_prefs);
 	ui_table_add_row(GTK_TABLE(table), 4, label, e->generate_tag_prefs, NULL);
 	ui_widget_set_tooltip_text(e->generate_tag_prefs,
 		_("Generate tag list for all project files instead of only for the currently opened files. "
@@ -605,37 +605,37 @@ gint gprj_project_add_properties_tab(GtkWidget *notebook)
 }
 
 
-void gprj_project_close(void)
+void prjorg_project_close(void)
 {
-	if (!g_prj)
+	if (!prj_org)
 		return;  /* can happen on plugin reload */
 
 	clear_idle_queue(&s_idle_add_funcs);
 	clear_idle_queue(&s_idle_remove_funcs);
 
-	g_slist_foreach(g_prj->roots, (GFunc)close_root, NULL);
-	g_slist_free(g_prj->roots);
+	g_slist_foreach(prj_org->roots, (GFunc)close_root, NULL);
+	g_slist_free(prj_org->roots);
 
-	g_strfreev(g_prj->source_patterns);
-	g_strfreev(g_prj->header_patterns);
-	g_strfreev(g_prj->ignored_dirs_patterns);
-	g_strfreev(g_prj->ignored_file_patterns);
+	g_strfreev(prj_org->source_patterns);
+	g_strfreev(prj_org->header_patterns);
+	g_strfreev(prj_org->ignored_dirs_patterns);
+	g_strfreev(prj_org->ignored_file_patterns);
 
-	g_free(g_prj);
-	g_prj = NULL;
+	g_free(prj_org);
+	prj_org = NULL;
 }
 
 
-gboolean gprj_project_is_in_project(const gchar * filename)
+gboolean prjorg_project_is_in_project(const gchar * filename)
 {
 	GSList *elem;
 	
-	if (!filename || !g_prj || !geany_data->app->project || !g_prj->roots)
+	if (!filename || !prj_org || !geany_data->app->project || !prj_org->roots)
 		return FALSE;
 	
-	foreach_slist (elem, g_prj->roots)
+	foreach_slist (elem, prj_org->roots)
 	{
-		GPrjRoot *root = elem->data;
+		PrjOrgRoot *root = elem->data;
 		if (g_hash_table_lookup_extended (root->file_table, filename, NULL, NULL))
 			return TRUE;
 	}
@@ -648,7 +648,7 @@ static gboolean add_tm_idle(gpointer foo)
 {
 	GSList *elem2;
 	
-	if (!g_prj || !s_idle_add_funcs)
+	if (!prj_org || !s_idle_add_funcs)
 		return FALSE;
 
 	foreach_slist (elem2, s_idle_add_funcs)
@@ -656,9 +656,9 @@ static gboolean add_tm_idle(gpointer foo)
 		GSList *elem;
 		gchar *fname = elem2->data;
 		
-		foreach_slist (elem, g_prj->roots)
+		foreach_slist (elem, prj_org->roots)
 		{
-			GPrjRoot *root = elem->data;
+			PrjOrgRoot *root = elem->data;
 			TMSourceFile *sf = g_hash_table_lookup(root->file_table, fname);
 			
 			if (sf != NULL && !document_find_by_filename(fname))
@@ -682,7 +682,7 @@ static gboolean add_tm_idle(gpointer foo)
  * Additional problem: The tag removal in Geany happens after this function is called. 
  * To be sure, perform on idle after this happens (even though from my knowledge of TM
  * this shouldn't probably matter). */
-void gprj_project_add_single_tm_file(gchar *filename)
+void prjorg_project_add_single_tm_file(gchar *filename)
 {
 	if (s_idle_add_funcs == NULL)
 		plugin_idle_add(geany_plugin, (GSourceFunc)add_tm_idle, NULL);
@@ -695,7 +695,7 @@ static gboolean remove_tm_idle(gpointer foo)
 {
 	GSList *elem2;
 	
-	if (!g_prj || !s_idle_remove_funcs)
+	if (!prj_org || !s_idle_remove_funcs)
 		return FALSE;
 
 	foreach_slist (elem2, s_idle_remove_funcs)
@@ -703,9 +703,9 @@ static gboolean remove_tm_idle(gpointer foo)
 		GSList *elem;
 		gchar *fname = elem2->data;
 
-		foreach_slist (elem, g_prj->roots)
+		foreach_slist (elem, prj_org->roots)
 		{
-			GPrjRoot *root = elem->data;
+			PrjOrgRoot *root = elem->data;
 			TMSourceFile *sf = g_hash_table_lookup(root->file_table, fname);
 			
 			if (sf != NULL)
@@ -731,7 +731,7 @@ static gboolean remove_tm_idle(gpointer foo)
  * when this function is called and if we remove the TmSourceFile now, line
  * number for the searched tag won't be found. For this reason delay the tag
  * TmSourceFile removal until idle */
-void gprj_project_remove_single_tm_file(gchar *filename)
+void prjorg_project_remove_single_tm_file(gchar *filename)
 {
 	if (s_idle_remove_funcs == NULL)
 		plugin_idle_add(geany_plugin, (GSourceFunc)remove_tm_idle, NULL);

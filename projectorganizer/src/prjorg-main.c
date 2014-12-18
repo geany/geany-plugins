@@ -48,17 +48,17 @@ static void on_doc_open(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED GeanyDocument
 {
 	g_return_if_fail(doc != NULL && doc->file_name != NULL);
 
-	if (gprj_project_is_in_project(doc->file_name))
-		gprj_project_remove_single_tm_file(doc->file_name);
+	if (prjorg_project_is_in_project(doc->file_name))
+		prjorg_project_remove_single_tm_file(doc->file_name);
 
-	gprj_sidebar_update(FALSE);
+	prjorg_sidebar_update(FALSE);
 }
 
 
 static void on_doc_activate(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED GeanyDocument * doc,
 		G_GNUC_UNUSED gpointer user_data)
 {
-	gprj_sidebar_update(FALSE);
+	prjorg_sidebar_update(FALSE);
 }
 
 
@@ -72,10 +72,10 @@ static void on_doc_close(G_GNUC_UNUSED GObject * obj, GeanyDocument * doc,
 
 	/* tags of open files managed by geany - when the file gets closed, 
 	 * we should take care of it */
-	if (gprj_project_is_in_project(doc->file_name))
-		gprj_project_add_single_tm_file(doc->file_name);
+	if (prjorg_project_is_in_project(doc->file_name))
+		prjorg_project_add_single_tm_file(doc->file_name);
 
-	gprj_sidebar_update(FALSE);
+	prjorg_sidebar_update(FALSE);
 }
 
 
@@ -85,7 +85,7 @@ static void on_build_start(GObject *obj, gpointer user_data)
 
 	foreach_document(i)
 	{
-		if (gprj_project_is_in_project(documents[i]->file_name))
+		if (prjorg_project_is_in_project(documents[i]->file_name))
 			document_save_file(documents[i], FALSE);
 	}
 }
@@ -94,18 +94,18 @@ static void on_build_start(GObject *obj, gpointer user_data)
 static void on_project_dialog_open(G_GNUC_UNUSED GObject * obj, GtkWidget * notebook,
 		G_GNUC_UNUSED gpointer user_data)
 {
-	if (g_prj && page_index == -1)
-		page_index = gprj_project_add_properties_tab(notebook);
+	if (prj_org && page_index == -1)
+		page_index = prjorg_project_add_properties_tab(notebook);
 }
 
 
 static void on_project_dialog_confirmed(G_GNUC_UNUSED GObject * obj, GtkWidget * notebook,
 		G_GNUC_UNUSED gpointer user_data)
 {
-	if (g_prj)
+	if (prj_org)
 	{
-		gprj_project_read_properties_tab();
-		gprj_sidebar_update(TRUE);
+		prjorg_project_read_properties_tab();
+		prjorg_sidebar_update(TRUE);
 	}
 }
 
@@ -124,36 +124,36 @@ static void on_project_dialog_close(G_GNUC_UNUSED GObject * obj, GtkWidget * not
 static void on_project_open(G_GNUC_UNUSED GObject * obj, GKeyFile * config,
 		G_GNUC_UNUSED gpointer user_data)
 {
-	gprj_project_open(config);
-	gprj_sidebar_update(TRUE);
-	gprj_sidebar_activate(TRUE);
-	gprj_menu_activate_menu_items(TRUE);
+	prjorg_project_open(config);
+	prjorg_sidebar_update(TRUE);
+	prjorg_sidebar_activate(TRUE);
+	prjorg_menu_activate_menu_items(TRUE);
 }
 
 
 
 static void on_project_close(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED gpointer user_data)
 {
-	gprj_project_close();
-	gprj_sidebar_update(TRUE);
-	gprj_sidebar_activate(FALSE);
-	gprj_menu_activate_menu_items(FALSE);
+	prjorg_project_close();
+	prjorg_sidebar_update(TRUE);
+	prjorg_sidebar_activate(FALSE);
+	prjorg_menu_activate_menu_items(FALSE);
 }
 
 
 static void on_project_save(G_GNUC_UNUSED GObject * obj, GKeyFile * config,
 		G_GNUC_UNUSED gpointer user_data)
 {
-	if (!g_prj)
+	if (!prj_org)
 	{
 		/* happens when the project is created */
-		gprj_project_open(config);
-		gprj_sidebar_update(TRUE);
-		gprj_sidebar_activate(TRUE);
-		gprj_menu_activate_menu_items(TRUE);
+		prjorg_project_open(config);
+		prjorg_sidebar_update(TRUE);
+		prjorg_sidebar_activate(TRUE);
+		prjorg_menu_activate_menu_items(TRUE);
 	}
 
-	gprj_project_save(config);
+	prjorg_project_save(config);
 }
 
 
@@ -174,8 +174,8 @@ PluginCallback plugin_callbacks[] = {
 
 void plugin_init(G_GNUC_UNUSED GeanyData * data)
 {
-	gprj_menu_init();
-	gprj_sidebar_init();
+	prjorg_menu_init();
+	prjorg_sidebar_init();
 }
 
 
@@ -183,12 +183,12 @@ void plugin_cleanup(void)
 {
 	if (geany_data->app->project)
 	{
-		gprj_project_close();
-		gprj_sidebar_update(TRUE);
+		prjorg_project_close();
+		prjorg_sidebar_update(TRUE);
 	}
 
-	gprj_menu_cleanup();
-	gprj_sidebar_cleanup();
+	prjorg_menu_cleanup();
+	prjorg_sidebar_cleanup();
 }
 
 

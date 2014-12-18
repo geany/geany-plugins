@@ -23,14 +23,14 @@ typedef struct
 {
 	gchar *base_dir;
 	GHashTable *file_table; /* contains all file names within base_dir, maps file_name->TMSourceFile */
-} GPrjRoot;
+} PrjOrgRoot;
 
 typedef enum
 {
-	GPrjTagAuto,
-	GPrjTagYes,
-	GPrjTagNo,
-} GPrjTagPrefs;
+	PrjOrgTagAuto,
+	PrjOrgTagYes,
+	PrjOrgTagNo,
+} PrjOrgTagPrefs;
 
 typedef struct
 {
@@ -38,29 +38,29 @@ typedef struct
 	gchar **header_patterns;
 	gchar **ignored_dirs_patterns;
 	gchar **ignored_file_patterns;
-	GPrjTagPrefs generate_tag_prefs;
+	PrjOrgTagPrefs generate_tag_prefs;
 	
-	GSList *roots;  /* list of GPrjRoot; the project root is always the first followed by external dirs roots */
-} GPrj;
+	GSList *roots;  /* list of PrjOrgRoot; the project root is always the first followed by external dirs roots */
+} PrjOrg;
 
-extern GPrj *g_prj;
+extern PrjOrg *prj_org;
 
-void gprj_project_open(GKeyFile * key_file);
+void prjorg_project_open(GKeyFile * key_file);
 
-gint gprj_project_add_properties_tab(GtkWidget *notebook);
+gint prjorg_project_add_properties_tab(GtkWidget *notebook);
 
-void gprj_project_close(void);
+void prjorg_project_close(void);
 
-void gprj_project_save(GKeyFile * key_file);
-void gprj_project_read_properties_tab(void);
-void gprj_project_rescan(void);
+void prjorg_project_save(GKeyFile * key_file);
+void prjorg_project_read_properties_tab(void);
+void prjorg_project_rescan(void);
 
-void gprj_project_add_external_dir(const gchar *dirname);
-void gprj_project_remove_external_dir(const gchar *dirname);
+void prjorg_project_add_external_dir(const gchar *dirname);
+void prjorg_project_remove_external_dir(const gchar *dirname);
 
-void gprj_project_add_single_tm_file(gchar *filename);
-void gprj_project_remove_single_tm_file(gchar *filename);
+void prjorg_project_add_single_tm_file(gchar *filename);
+void prjorg_project_remove_single_tm_file(gchar *filename);
 
-gboolean gprj_project_is_in_project(const gchar * filename);
+gboolean prjorg_project_is_in_project(const gchar * filename);
 
 #endif
