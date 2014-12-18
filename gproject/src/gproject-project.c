@@ -51,7 +51,11 @@ static GSList *s_idle_remove_funcs;
 
 static void clear_idle_queue(GSList **queue)
 {
-	g_slist_free_full(*queue, g_free);
+	GSList *elem;
+
+	foreach_slist(elem, *queue)
+		g_free(elem->data);
+	g_slist_free(*queue);
 	*queue = NULL;
 }
 
