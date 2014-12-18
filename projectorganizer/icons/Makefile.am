@@ -1,14 +1,14 @@
 icondir = $(datadir)/icons/hicolor/16x16/apps
 
 dist_icon_DATA = \
-	gproject-file.png	\
-	gproject-header.png	\
-	gproject-source.png	\
-	gproject-expand.png	\
-	gproject-collapse.png	\
-	gproject-follow.png	\
-	gproject-add-external.png	\
-	gproject-refresh.png
+	prjorg-file.png	\
+	prjorg-header.png	\
+	prjorg-source.png	\
+	prjorg-expand.png	\
+	prjorg-collapse.png	\
+	prjorg-follow.png	\
+	prjorg-add-external.png	\
+	prjorg-refresh.png
 
 gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
 install-data-hook: update-icon-cache

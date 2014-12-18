@@ -1,14 +1,14 @@
-========
-GProject
-========
+=================
+Project Organizer
+=================
 
 .. contents::
 
 About
 =====
 
-GProject is an extension of Geany's project management displaying a tree of files
-belonging to the project in the sidebar. In addition, it enables complete indexing
+Project Organizer is an extension of Geany's project management displaying a tree of 
+files belonging to the project in the sidebar. In addition, it enables complete indexing
 of the project files (and having code completion, syntax highlighting and tag 
 definition/declaration jumps for the whole project) quick swapping between header 
 and source files, improved opening of includes, searching project files by name 
@@ -42,7 +42,8 @@ Why are files belonging to a project defined by patterns?
 Maintaining a list of project files is rather painful with larger projects consisting
 of thousands files and many developers working on them. Files are created, deleted
 and moved quite frequently and after each change the project has to be updated manually.
-Instead, GProject defines a list of files belonging to the project implicitly using:
+Instead, Project Organizer defines a list of files belonging to the project implicitly
+using:
 
 * project's base directory
 * a list of glob-like patterns (e.g. \*.c, \*.h, or just simply \* if you want to 
@@ -51,24 +52,24 @@ Instead, GProject defines a list of files belonging to the project implicitly us
 Every file under the base directory matching the patterns is included into the project
 and updating the file list is as simple as pressing the refresh button in the sidebar.
 
-What are the differences between GProject and GeanyPrj?
--------------------------------------------------------
+What are the differences between Project Organizer and GeanyPrj?
+----------------------------------------------------------------
 
-There is another project-management Geany plugin - GeanyPrj. GProject and GeanyPrj differ
-in several aspects:
+There is another project-management Geany plugin - GeanyPrj. Project Organizer and GeanyPrj 
+differ in several aspects:
 
-* GProject is an extension of Geany's project so every Geany project is a GProject
-  at the same time and vice versa. On the other hand, GeanyPrj project is a separate
-  project so if you want to set build properties for a GeanyPrj project, you have to
-  set up a second Geany project in parallel.
+* Project Organizer is an extension of Geany's project so every Geany project is a 
+  Project Organizer project at the same time and vice versa. On the other hand, GeanyPrj 
+  project is a separate project so if you want to set build properties for a GeanyPrj 
+  project, you have to set up a second Geany project in parallel.
 * GeanyPrj can display several projects in the sidebar; even though only a single project
-  can be opened with GProject at one time, similar effect can be achieved with the 
+  can be opened with Project Organizer at one time, similar effect can be achieved with the 
   "external directories" feature.
-* GProject displays full tree in the sidebar while GeanyPrj displays only two-level
+* Project Organizer displays full tree in the sidebar while GeanyPrj displays only two-level
   tree (full directory name as a parent and a list of files under the directory).
-* GProject has configurable file patterns while patterns in GeanyPrj are hard-coded
-* GProject offers header/source swapping
-* GProject offers finding project files by name and improved include file opening
+* Project Organizer has configurable file patterns while patterns in GeanyPrj are hard-coded
+* Project Organizer offers header/source swapping
+* Project Organizer offers finding project files by name and improved include file opening
 
 Usage
 =====
@@ -79,16 +80,16 @@ Project configuration
 Upon project creation, you should define the list of file patterns under the
 Project->Properties Project tab. For instance, for a typical open source C project,
 use patterns "\*.c \*h \*.am \*.ac" to see the source files together with
-automake and autoconf files. If no patterns are defined (default), GProject treats 
-this as the "\*" pattern in which case all files under the project directory are
-displayed. After closing the dialog, the files matching the patterns
-should appear in the sidebar under the Project tab (unless the GProject plugin
-was loaded for the first time and Geany project was already open - see Known Issues 
-for more details).
+automake and autoconf files. If no patterns are defined (default), Project Organizer 
+treats this as the "\*" pattern in which case all files under the project directory 
+are displayed. After closing the dialog, the files matching the patterns
+should appear in the sidebar under the Project tab (unless the Project Organizer 
+plugin was loaded for the first time and Geany project was already open - see 
+Known Issues for more details).
 
-Additional settings are available from the GProject tab under the Project properties
-dialog. You can define patterns to distinguish between header and source files for
-C-like languages. This information is used for header/source swapping.
+Additional settings are available from the Project Organizer tab under the Project 
+properties dialog. You can define patterns to distinguish between header and source 
+files for C-like languages. This information is used for header/source swapping.
 
 In addition, you can define patterns for files and directories that should be ignored when
 searching for files belonging to the project. These will typically be various binary
@@ -97,10 +98,10 @@ files and VCS or hidden directories.
 Finally, you can specify whether the tag manager should be used to index all the project
 files or not. The default settings is Auto which means that if the total number
 of project (and external directory) files is less than 500, tags are generated.
-This is a rather conservative number, at least for an SSD disk - GProject was tested 
-with tens of thousands project files and even though the initial scanning may take 
-some time (for the linux kernel with 35000 files and 2300000 tags it takes about 
-20s with an SSD disk), the work with the project is completely normal afterwards.
+This is a rather conservative number, at least for an SSD disk - Project Organizer 
+was tested with tens of thousands project files and even though the initial scanning 
+may take some time (for the linux kernel with 35000 files and 2300000 tags it takes 
+about 20s with an SSD disk), the work with the project is completely normal afterwards.
 However, with ordinary HDD expect only around 100 scanned files per second because
 of slow random access time.
 
@@ -130,11 +131,12 @@ The following actions can be invoked from the sidebar's toolbar:
 * Add external directory - adds an additional directory related to the project (e.g.
   it is useful to have the geany project as an external directory for the geany-plugins 
   project). External directories are indexed using the tag manager, and basically 
-  all GProject features work with external directories too (find file or find in files
-  from the context menu, swap header/source, open selected file, tag definition/declaration
-  jumps, and active editor following). Apart from adding related projects, one of the
-  possible uses is the addition of system header directories, e.g. /usr/include/gtk-2.0,
-  and having them indexed for code completion and syntax highlighting.
+  all Project Organizer features work with external directories too (find file or 
+  find in files from the context menu, swap header/source, open selected file, tag 
+  definition/declaration jumps, and active editor following). Apart from adding related 
+  projects, one of the possible uses is the addition of system header directories, 
+  e.g. /usr/include/gtk-2.0, and having them indexed for code completion and syntax 
+  highlighting.
 * Expand all - recursively expands all the directories
 * Collapse to project root - collapses all the directories except for the project root
 * Follow active editor - automatically selects the current file in the sidebar
@@ -144,7 +146,7 @@ The following actions can be invoked from the sidebar's toolbar:
 Project menu entries
 --------------------
 
-GProject adds some extra entries under the Project menu:
+Project Organizer adds some extra entries under the Project menu:
 
 * Find in Project Files - opens the Find in files dialog and sets the search directory
   to the base directory of the project
@@ -189,10 +191,11 @@ Declaration option.
 Editor context menu
 -------------------
 
-GProject adds an extra entry into the context menu of the editor:
+Project Organizer adds an extra entry into the context menu of the editor:
 
-* Open Selected File (GProject) - contrary to the Open Selected File entry present
-  in Geany it also searches for the file in project files and external directories.
+* Open Selected File (Project Organizer) - contrary to the Open Selected File entry 
+  present in Geany it also searches for the file in project files and external 
+  directories.
 
 Known issues
 ============
@@ -204,12 +207,13 @@ Known issues
   the plugin is loaded.
 * There might be some issues with UTF8 file names - the testing has been very
   limited.
-* GProject hasn't been tested under Windows so there might be issues. Patches are welcome.
+* Project Organizer hasn't been tested under Windows (by me) so there might be issues. 
+  Patches are welcome.
 
 License
 =======
 
-GProject is distributed under the terms of the GNU General Public License
+Project Organizer is distributed under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2 of the
 License, or (at your option) any later version.  A copy of this license
 can be found in the file COPYING included with the source code of this
@@ -218,7 +222,7 @@ program.
 Downloads
 =========
 
-GProject is part of the combined Geany Plugins release.
+Project Organizer is part of the combined Geany Plugins release.
 For more information and downloads, please visit
 http://plugins.geany.org/geany-plugins/
 

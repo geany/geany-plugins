@@ -216,12 +216,6 @@ geanyvc/src/utils.c
 # GeniusPaste
 geniuspaste/src/geniuspaste.c
 
-# GProject
-gproject/src/gproject-main.c
-gproject/src/gproject-menu.c
-gproject/src/gproject-project.c
-gproject/src/gproject-sidebar.c
-
 # Markdown
 markdown/src/conf.c
 markdown/src/plugin.c
@@ -237,6 +231,12 @@ pohelper/src/gph-plugin.c
 pretty-printer/src/PrettyPrinter.c
 pretty-printer/src/PluginEntry.c
 pretty-printer/src/ConfigUI.c
+
+# ProjectOrganizer
+projectorganizer/src/prjorg-main.c
+projectorganizer/src/prjorg-menu.c
+projectorganizer/src/prjorg-project.c
+projectorganizer/src/prjorg-sidebar.c
 
 # Scope
 scope/data/scope.glade

@@ -16,8 +16,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef __GPROJECT_PROJECT_H__
-#define __GPROJECT_PROJECT_H__
+#ifndef __PRJORG_PROJECT_H__
+#define __PRJORG_PROJECT_H__
 
 typedef struct
 {
