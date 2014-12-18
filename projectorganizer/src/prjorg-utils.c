@@ -59,7 +59,7 @@ static gchar *relpath(const gchar *origin_dir, const gchar *dest_dir)
 		SETPTR(ret, g_build_filename(ret, destv[j], NULL));
 
 	if (strlen(ret) == 0)
-		SETPTR(ret, g_strdup("./"));
+		SETPTR(ret, g_strdup("."G_DIR_SEPARATOR_S));
 
 	g_free(origin);
 	g_free(dest);
@@ -82,7 +82,7 @@ gchar *get_file_relative_path(const gchar *origin_dir, const gchar *dest_file)
 
 		dest_basename = g_path_get_basename(dest_file);
 
-		if (g_strcmp0(ret, "./") != 0)
+		if (g_strcmp0(ret, "."G_DIR_SEPARATOR_S) != 0)
 		{
 			SETPTR(ret, g_build_filename(ret, dest_basename, NULL));
 		}
