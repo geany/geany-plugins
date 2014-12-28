@@ -642,6 +642,7 @@ update_diff_push (GeanyDocument *doc)
   
   if (G_source_id) {
     g_source_remove (G_source_id);
+    G_source_id = 0;
   }
   if (doc->real_path) {
     G_source_id = g_timeout_add_full (G_PRIORITY_LOW, 100, update_diff_idle,
