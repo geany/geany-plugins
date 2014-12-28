@@ -359,27 +359,93 @@ release_resources (ScintillaObject *sci)
   }
 }
 
+/* checks whether @encoding needs to be converted to UTF-8 */
+static gboolean
+encoding_needs_coversion (const gchar *encoding)
+{
+  return (encoding &&
+          ! utils_str_equal (encoding, "UTF-8") &&
+          ! utils_str_equal (encoding, "None"));
+}
+
+/*
+ * @brief Converts encoding
+ * @param buffer Input and output buffer
+ * @param length Input and output buffer length
+ * @param to Target encoding
+ * @param from Source encoding
+ * @param error Return location for errors, or @c NULL
+ * @returns @c TRUE if the conversion succeeded and the buffer has been
+ *          replaced and should be freed, or @c FALSE otherwise.
+ * 
+ * @warning This function has a very weird API, but it is practical for
+ *          how it's used.
+ * 
+ * Converts between encodings (using g_convert()) in-place.
+ * 
+ * The @p buffer is both an input and output parameter.  As an input
+ * parameter, it is used as a constant buffer pointer and is never
+ * modified nor freed.  As an output parameter, it is an allocated chunk
+ * of memory that should be freed with @c g_free().
+ * If the conversion succeeds, it replaces @p buffer and @p length with
+ * the converted values and returns @c TRUE.  If it fails, it does not
+ * modify the values and returns @c FALSE so that the passed-in
+ * variables can be used as a fallback if the conversion was optional.
+ */
+static gboolean
+convert_encoding_inplace (gchar       **buffer,
+                          gsize        *length,
+                          const gchar  *to,
+                          const gchar  *from,
+                          GError      **error)
+{
+  gsize   tmp_len;
+  gchar  *tmp_buf = g_convert (*buffer, (gssize) *length, to, from,
+                               NULL, &tmp_len, error);
+  
+  if (tmp_buf) {
+    *buffer = tmp_buf;
+    *length = tmp_len;
+  }
+  
+  return tmp_buf != NULL;
+}
+
 static int
-diff_blob_to_sci (const git_blob   *old_blob,
-                  ScintillaObject  *sci,
+diff_blob_to_doc (const git_blob   *old_blob,
+                  GeanyDocument    *doc,
                   git_diff_hunk_cb  hunk_cb,
                   void             *payload)
 {
+  ScintillaObject  *sci = doc->editor->sci;
   git_diff_options  opts;
-  const gchar      *buf;
+  gchar            *buf;
   size_t            len;
+  gboolean          free_buf = FALSE;
+  int               ret;
   
-  buf = (const gchar *) scintilla_send_message (sci, SCI_GETCHARACTERPOINTER,
-                                                0, 0);
+  buf = (gchar *) scintilla_send_message (sci, SCI_GETCHARACTERPOINTER, 0, 0);
   len = sci_get_length (sci);
+  
+  /* convert the buffer back to in-file encoding if necessary */
+  if (encoding_needs_coversion (doc->encoding)) {
+    free_buf = convert_encoding_inplace (&buf, &len, doc->encoding, "UTF-8",
+                                         NULL);
+  }
   
   /* no context lines, and no need to bother about binary checks */
   git_diff_init_options (&opts, GIT_DIFF_OPTIONS_VERSION);
   opts.context_lines = 0;
   opts.flags = GIT_DIFF_FORCE_TEXT;
   
-  return git_diff_blob_to_buffer (old_blob, NULL, buf, len, NULL, &opts,
-                                  NULL, hunk_cb, NULL, payload);
+  ret = git_diff_blob_to_buffer (old_blob, NULL, buf, len, NULL, &opts,
+                                 NULL, hunk_cb, NULL, payload);
+  
+  if (free_buf) {
+    g_free (buf);
+  }
+  
+  return ret;
 }
 
 static int
@@ -416,6 +482,9 @@ get_widget_for_blob_range (GeanyDocument   *doc,
   gint                    height  = 0;
   gint                    i;
   GtkAllocation           alloc;
+  gchar                  *buf;
+  gsize                   buf_len;
+  gboolean                free_buf = FALSE;
   
   gtk_widget_get_allocation (GTK_WIDGET (doc->editor->sci), &alloc);
   
@@ -434,9 +503,21 @@ get_widget_for_blob_range (GeanyDocument   *doc,
     scintilla_send_message (sci, SCI_SETMARGINWIDTHN, i, 0);
   }
   
-  scintilla_send_message (sci, SCI_ADDTEXT,
-                          (gulong) git_blob_rawsize (blob),
-                          (glong) git_blob_rawcontent (blob));
+  buf_len = git_blob_rawsize (blob);
+  buf = (gchar *) git_blob_rawcontent (blob);
+  
+  /* convert the buffer to UTF-8 if necessary */
+  if (encoding_needs_coversion (doc->encoding)) {
+    free_buf = convert_encoding_inplace (&buf, &buf_len, "UTF-8", doc->encoding,
+                                         NULL);
+  }
+  
+  scintilla_send_message (sci, SCI_ADDTEXT, buf_len, (glong) buf);
+  
+  if (free_buf) {
+    g_free (buf);
+  }
+  
   scintilla_send_message (sci, SCI_SETFIRSTVISIBLELINE, line_start, 0);
   
   /* compute the size of the area we want to see */
@@ -512,7 +593,7 @@ on_sci_query_tooltip (GtkWidget  *widget,
       TooltipHunkData thd = TOOLTIP_HUNK_DATA_INIT (line + 1, doc, G_file_blob,
                                                     tooltip);
       
-      diff_blob_to_sci (G_file_blob, sci, tooltip_diff_hunk_cb, &thd);
+      diff_blob_to_doc (G_file_blob, doc, tooltip_diff_hunk_cb, &thd);
       has_tooltip = thd.found;
     }
   }
@@ -537,7 +618,7 @@ update_diff (const gchar *path,
       scintilla_send_message (sci, SCI_MARKERDELETEALL, G_markers[i].num, 0);
     }
     
-    diff_blob_to_sci (blob, sci, diff_hunk_cb, sci);
+    diff_blob_to_doc (blob, doc, diff_hunk_cb, sci);
   }
 }
 
