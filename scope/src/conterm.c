@@ -30,7 +30,11 @@
 #ifdef G_OS_UNIX
 #include <vte/vte.h>
 /* instead of detecting N kinds of *nix */
+#ifdef __APPLE__
+#include <util.h>
+#else
 #include <pty.h>
+#endif
 int grantpt(int fd);
 int unlockpt(int fd);
 
