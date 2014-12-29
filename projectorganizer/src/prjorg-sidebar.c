@@ -868,7 +868,7 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 		GtkTreeIter iter;
 		gchar **path_arr = dir_list->data;
 		gchar *last_dir_name;
-		GIcon *icon_dir = g_icon_new_for_string("gtk-directory", NULL);
+		GIcon *icon_dir = g_icon_new_for_string("folder", NULL);
 
 		last_dir_name = path_arr[level];
 
@@ -1042,7 +1042,7 @@ static void load_project(void)
 	if (!prj_org || !geany_data->app->project)
 		return;
 
-	icon_dir = g_icon_new_for_string("gtk-directory", NULL);
+	icon_dir = g_icon_new_for_string("folder", NULL);
 
 	header_patterns = get_precompiled_patterns(prj_org->header_patterns);
 	source_patterns = get_precompiled_patterns(prj_org->source_patterns);
