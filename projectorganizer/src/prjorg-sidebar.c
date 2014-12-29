@@ -922,6 +922,19 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 		if (content_type)
 		{
 			icon = g_content_type_get_icon(content_type);
+			if (icon) 
+			{
+				GtkIconInfo *icon_info;
+
+				icon_info = gtk_icon_theme_lookup_by_gicon(gtk_icon_theme_get_default(), icon, 16, 0);
+				if (!icon_info)
+				{
+					g_object_unref(icon);
+					icon = NULL;
+				}
+				else
+					gtk_icon_info_free(icon_info);
+			}
 			g_free(content_type);
 		}
 
