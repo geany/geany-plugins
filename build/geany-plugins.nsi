@@ -158,6 +158,7 @@ Section Uninstall
 	Delete "$INSTDIR\lib\commander.dll"
 	Delete "$INSTDIR\lib\defineformat.dll"
 	Delete "$INSTDIR\lib\geanydoc.dll"
+	Delete "$INSTDIR\lib\geanyctags.dll"
 	Delete "$INSTDIR\lib\geanyextrasel.dll"
 	Delete "$INSTDIR\lib\geanygendoc.dll"
 	Delete "$INSTDIR\lib\geanyinsertnum.dll"
