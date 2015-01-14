@@ -181,6 +181,11 @@ The Geany module provides these functions and variables...<br><br><br>
   <td class="desc">-- Send a GTK signal to a Geany interface widget.</td>
 </tr>
 
+<tr class="odd">
+  <td>&nbsp; function <a href="#status"><b>status</b></a> ( message )<br></td>
+  <td class="desc">-- Send a string to display in the status tab of the messages window.</td>
+</tr>
+
 <tr class="even">
   <td>&nbsp; function <a href="#text"><b>text</b></a> ( [content] )<br></td>
   <td class="desc">-- Get or set the contents of the entire document.</td>
@@ -966,6 +971,16 @@ The <tt>type</tt> field contains one of the following values:
 Note that this function does not support symbolic links or ACL permissions on MS-Windows.
 </p><br><br>
 
+
+<a name="status"></a><hr><h3><tt>geany.status ( message )</tt></h3>
+<p>
+Sends a message to the status tab of the messages window.
+</p><p>
+The <tt>message</tt> argument is the string to be displayed.
+</p><p>
+This function's purpose is to provide a user-friendly way to display messages without using the dialog popup.
+</p><p>
+This function does not return a value.</p><br><br>
 
 
 <a name="text"></a><hr><h3><tt>geany.text ( [content] )</tt></h3><p>

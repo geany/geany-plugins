@@ -282,6 +282,15 @@ static gint dirlist_closure(lua_State *L)
 }
 
 
+static gint glspi_status(lua_State* L)
+{
+	const gchar *string = lua_tostring(L,1);
+	
+	msgwin_status_add("%s", string);
+	
+	return 0;
+}
+
 
 static gint glspi_dirlist(lua_State* L)
 {
@@ -599,6 +608,7 @@ static const struct luaL_reg glspi_app_funcs[] = {
 	{"xsel",      glspi_xsel},
 	{"signal",    glspi_signal},
 	{"stat",      glspi_stat},
+	{"status",    glspi_status},
 	{"basename",  glspi_basename},
 	{"dirname",   glspi_dirname},
 	{"fullpath",  glspi_fullpath},
