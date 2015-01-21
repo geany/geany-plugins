@@ -106,7 +106,7 @@ static struct {
 };
 
 
-static void         on_git_dir_changed          (GFileMonitor     *monitor,
+static void         on_git_head_changed         (GFileMonitor     *monitor,
                                                  GFile            *file,
                                                  GFile            *other_file,
                                                  GFileMonitorEvent event_type,
@@ -207,18 +207,33 @@ worker_thread (gpointer data)
         git_repository_free (repo);
         repo = NULL;
       } else {
-        GFile  *file  = g_file_new_for_path (git_repository_path (repo));
-        GError *err   = NULL;
+        gchar          *path  = NULL;
+        git_reference  *head  = NULL;
+        GFile          *file  = NULL;
+        GError         *err   = NULL;
         
-        monitor = g_file_monitor_directory (file, 0, NULL, &err);
+        if (! git_repository_head_detached (repo) &&
+            git_repository_head (&head, repo) == 0) {
+          path = g_build_filename (git_repository_path (repo),
+                                   git_reference_name (head), NULL);
+          git_reference_free (head);
+        }
+        
+        if (! path) {
+          path = g_build_filename (git_repository_path (repo), "HEAD", NULL);
+        }
+        
+        file = g_file_new_for_path (path);
+        monitor = g_file_monitor_file (file, 0, NULL, &err);
         if (err) {
-          g_warning ("Failed to monitor Git directory: %s", err->message);
+          g_warning ("Failed to monitor %s: %s", path, err->message);
           g_error_free (err);
         } else {
           g_signal_connect (monitor, "changed",
-                            G_CALLBACK (on_git_dir_changed), job->user_data);
+                            G_CALLBACK (on_git_head_changed), job->user_data);
         }
         g_object_unref (file);
+        g_free (path);
       }
     }
     
@@ -683,11 +698,11 @@ on_document_reload (GObject        *obj,
 }
 
 static void
-on_git_dir_changed (GFileMonitor     *monitor,
-                    GFile            *file,
-                    GFile            *other_file,
-                    GFileMonitorEvent event_type,
-                    gpointer          user_data)
+on_git_head_changed (GFileMonitor      *monitor,
+                     GFile             *file,
+                     GFile             *other_file,
+                     GFileMonitorEvent  event_type,
+                     gpointer           user_data)
 {
   GeanyDocument *doc = document_find_by_id (GPOINTER_TO_UINT (user_data));
   
