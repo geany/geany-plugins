@@ -593,7 +593,11 @@ on_sci_query_tooltip (GtkWidget  *widget,
   GeanyDocument    *doc         = document_get_current ();
   gboolean          has_tooltip = FALSE;
   
-  g_return_val_if_fail (doc && doc->editor->sci == sci, FALSE);
+  /* for some reason the widget isn't the current one during tab switch, so
+   * give up silently when we receive a query for a non-current widget */
+  if (! doc || doc->editor->sci != sci) {
+    return FALSE;
+  }
   
   min_x = scintilla_send_message (sci, SCI_GETMARGINWIDTHN, 0, 0);
   max_x = min_x + scintilla_send_message (sci, SCI_GETMARGINWIDTHN, 1, 0);
