@@ -245,7 +245,7 @@ worker_thread (gpointer data)
       job->blob = NULL;
     }
     
-    g_idle_add_full (G_PRIORITY_DEFAULT, report_work_in_idle, job, free_job);
+    g_idle_add_full (G_PRIORITY_LOW, report_work_in_idle, job, free_job);
   }
   
   if (monitor) {
