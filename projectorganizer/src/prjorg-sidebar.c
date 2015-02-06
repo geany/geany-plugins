@@ -352,8 +352,6 @@ static void find_file_recursive(GtkTreeIter *iter, gboolean case_sensitive, gboo
 		if (iter == NULL)
 			return;
 
-		gtk_tree_model_get(GTK_TREE_MODEL(model), iter, FILEVIEW_COLUMN_NAME, &name, -1);
-
 		if (full_path)
 		{
 			gchar *path;
@@ -363,7 +361,7 @@ static void find_file_recursive(GtkTreeIter *iter, gboolean case_sensitive, gboo
 			g_free(path);
 		}
 		else
-			name = g_strdup(name);
+			gtk_tree_model_get(GTK_TREE_MODEL(model), iter, FILEVIEW_COLUMN_NAME, &name, -1);
 
 		if (!case_sensitive)
 			SETPTR(name, g_utf8_strdown(name, -1));

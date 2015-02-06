@@ -53,7 +53,6 @@ static GtkWidget *s_fif_item, *s_ff_item, *s_ft_item, *s_shs_item, *s_sep_item, 
 static gboolean try_swap_header_source(gchar *file_name, gboolean is_header, GSList *file_list, GSList *header_patterns, GSList *source_patterns)
 {
 	gchar *name_pattern;
-	gchar *base_name = NULL;
 	GSList *elem;
 	GPatternSpec *pattern;
 	gboolean found = FALSE;
@@ -67,7 +66,7 @@ static gboolean try_swap_header_source(gchar *file_name, gboolean is_header, GSL
 	foreach_slist (elem, file_list)
 	{
 		gchar *full_name = elem->data;
-		base_name = g_path_get_basename(full_name);
+		gchar *base_name = g_path_get_basename(full_name);
 
 		if (g_pattern_match_string(pattern, base_name) &&
 		    prjorg_project_is_in_project(full_name))
@@ -77,12 +76,13 @@ static gboolean try_swap_header_source(gchar *file_name, gboolean is_header, GSL
 			{
 				open_file(full_name);
 				found = TRUE;
+				g_free(base_name);
 				break;
 			}
 		}
+		g_free(base_name);
 	}
 
-	g_free(base_name);
 	g_pattern_spec_free(pattern);
 	return found;
 }
