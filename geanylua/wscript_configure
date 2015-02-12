@@ -30,10 +30,12 @@ def try_to_find_lua_package():
     for package_name in package_names:
         check_cfg_cached(conf,
                      package=package_name,
-                     atleast_version='5.1',
                      mandatory=False,
                      uselib_store='LUA',
-                     args='--cflags --libs')
+                     args='%s >= 5.1 %s < 5.2 --cflags --libs' %
+                          (package_name, package_name),
+                     msg="Checking for '%s' >= 5.1 and < 5.2" %
+                         package_name)
         if conf.env['HAVE_LUA'] == 1:
             return True
     return False
