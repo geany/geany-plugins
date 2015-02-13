@@ -28,9 +28,9 @@ AC_DEFUN([_GP_STATUS_PRINT_INDENT_],
         plugin="    ${line%:*}:"
         status=${line#*:}
         let extracols=$2-${#plugin}
-        echo -n "$plugin"
+        printf "$plugin"
         for (( i=0; $i<$extracols; i++ )); do
-            echo -n ' '
+            printf ' '
         done
         echo $status
     done << GPEOF
