@@ -70,6 +70,7 @@ typedef void (*BlobReadyFunc) (const gchar *path,
 
 typedef struct AsyncBlobJob AsyncBlobJob;
 struct AsyncBlobJob {
+  gboolean      force;
   gchar        *path;
   git_blob     *blob;
   BlobReadyFunc callback;
@@ -107,6 +108,11 @@ static struct {
 
 
 static void         on_git_head_changed         (GFileMonitor     *monitor,
+                                                 GFile            *file,
+                                                 GFile            *other_file,
+                                                 GFileMonitorEvent event_type,
+                                                 gpointer          user_data);
+static void         on_git_ref_changed          (GFileMonitor     *monitor,
                                                  GFile            *file,
                                                  GFile            *other_file,
                                                  GFileMonitorEvent event_type,
@@ -182,24 +188,73 @@ report_work_in_idle (gpointer data)
   return FALSE;
 }
 
+static GFileMonitor *
+monitor_repo_file (git_repository  *repo,
+                   const gchar     *subpath,
+                   GCallback        changed_callback,
+                   gpointer         user_data)
+{
+  GFile        *file    = NULL;
+  GError       *err     = NULL;
+  GFileMonitor *monitor = NULL;
+  gchar        *path    = g_build_filename (git_repository_path (repo),
+                                            subpath, NULL);
+  
+  file = g_file_new_for_path (path);
+  monitor = g_file_monitor (file, 0, NULL, &err);
+  if (err) {
+    g_warning ("Failed to monitor %s: %s", path, err->message);
+    g_error_free (err);
+  } else {
+    g_signal_connect (monitor, "changed", changed_callback, user_data);
+  }
+  g_object_unref (file);
+  g_free (path);
+  
+  return monitor;
+}
+
+/* monitors the current reference HEAD points to (probably a branch) */
+static GFileMonitor *
+monitor_head_ref (git_repository *repo,
+                  GCallback       changed_callback,
+                  gpointer        user_data)
+{
+  git_reference  *head    = NULL;
+  GFileMonitor   *monitor = NULL;
+  
+  if (! git_repository_head_detached (repo) &&
+      git_repository_head (&head, repo) == 0) {
+    monitor = monitor_repo_file (repo, git_reference_name (head),
+                                 changed_callback, user_data);
+    git_reference_free (head);
+  }
+  
+  return monitor;
+}
+
 static gpointer
 worker_thread (gpointer data)
 {
-  GAsyncQueue    *queue   = data;
-  git_repository *repo    = NULL;
-  GFileMonitor   *monitor = NULL;
+  GAsyncQueue    *queue       = data;
+  git_repository *repo        = NULL;
+  GFileMonitor   *monitors[2] = { NULL, NULL };
   AsyncBlobJob   *job;
+  guint           i;
   
   while ((job = g_async_queue_pop (queue)) != QUIT_THREAD_JOB) {
     const gchar *path = job->path;
     
-    if (repo && ! g_str_has_prefix (path, git_repository_workdir (repo))) {
+    if (repo && (job->force ||
+                 ! g_str_has_prefix (path, git_repository_workdir (repo)))) {
       /* FIXME: this can fail with nested repositories */
       git_repository_free (repo);
       repo = NULL;
-      if (monitor) {
-        g_object_unref (monitor);
-        monitor = NULL;
+      for (i = 0; i < G_N_ELEMENTS (monitors); i++) {
+        if (monitors[i]) {
+          g_object_unref (monitors[i]);
+          monitors[i] = NULL;
+        }
       }
     }
     if (! repo && git_repository_open_ext (&repo, path, 0, NULL) == 0) {
@@ -207,33 +262,14 @@ worker_thread (gpointer data)
         git_repository_free (repo);
         repo = NULL;
       } else {
-        gchar          *path  = NULL;
-        git_reference  *head  = NULL;
-        GFile          *file  = NULL;
-        GError         *err   = NULL;
-        
-        if (! git_repository_head_detached (repo) &&
-            git_repository_head (&head, repo) == 0) {
-          path = g_build_filename (git_repository_path (repo),
-                                   git_reference_name (head), NULL);
-          git_reference_free (head);
-        }
-        
-        if (! path) {
-          path = g_build_filename (git_repository_path (repo), "HEAD", NULL);
-        }
-        
-        file = g_file_new_for_path (path);
-        monitor = g_file_monitor_file (file, 0, NULL, &err);
-        if (err) {
-          g_warning ("Failed to monitor %s: %s", path, err->message);
-          g_error_free (err);
-        } else {
-          g_signal_connect (monitor, "changed",
-                            G_CALLBACK (on_git_head_changed), job->user_data);
-        }
-        g_object_unref (file);
-        g_free (path);
+        /* we need to monitor HEAD, in case of e.g. branch switch (e.g.
+         * git checkout -b will switch the ref we need to watch) */
+        monitors[0] = monitor_repo_file (repo, "HEAD",
+                                         G_CALLBACK (on_git_head_changed),
+                                         job->user_data);
+        /* and of course the real ref (branch) for when changes get committed */
+        monitors[1] = monitor_head_ref (repo, G_CALLBACK (on_git_ref_changed),
+                                        job->user_data);
       }
     }
     
@@ -248,8 +284,11 @@ worker_thread (gpointer data)
     g_idle_add_full (G_PRIORITY_LOW, report_work_in_idle, job, free_job);
   }
   
-  if (monitor) {
-    g_object_unref (monitor);
+  for (i = 0; i < G_N_ELEMENTS (monitors); i++) {
+    if (monitors[i]) {
+      g_object_unref (monitors[i]);
+      monitors[i] = NULL;
+    }
   }
   if (repo) {
     git_repository_free (repo);
@@ -261,14 +300,16 @@ worker_thread (gpointer data)
 /* @user_data will also be used to the file monitor callback */
 static void
 get_cached_blob_async (const gchar   *path,
+                       gboolean       force,
                        BlobReadyFunc  callback,
                        gpointer       user_data)
 {
-  if (G_file_blob || ! path) {
+  if ((! force && G_file_blob) || ! path) {
     callback (path, G_file_blob, user_data);
   } else {
     AsyncBlobJob *job = g_slice_alloc (sizeof *job);
     
+    job->force      = force;
     job->path       = g_strdup (path);
     job->blob       = NULL;
     job->callback   = callback;
@@ -642,20 +683,52 @@ update_diff (const gchar *path,
 }
 
 static gboolean
-update_diff_idle (gpointer id)
+do_update_diff_idle (guint    doc_id,
+                     gboolean force)
 {
   GeanyDocument *doc = document_get_current ();
   
   G_source_id = 0;
   /* make sure the document is still valid and current */
-  if (doc && doc->id == GPOINTER_TO_UINT (id))
-    get_cached_blob_async (doc->real_path, update_diff, id);
+  if (doc && doc->id == doc_id) {
+    get_cached_blob_async (doc->real_path, force, update_diff,
+                           GUINT_TO_POINTER (doc->id));
+  }
   
   return FALSE;
 }
 
+static gboolean
+update_diff_idle (gpointer id)
+{
+  return do_update_diff_idle (GPOINTER_TO_UINT (id), FALSE);
+}
+
+static gboolean
+update_diff_force_idle (gpointer id)
+{
+  return do_update_diff_idle (GPOINTER_TO_UINT (id), TRUE);
+}
+
+/*
+ * @brief Pushes a request for updating the diff
+ * @param doc The document for which update the diff
+ * @param force Whether to force reloading the repository information.  This
+ *              is used to e.g. force re-setting up monitors after a repository
+ *              change.
+ * 
+ * Pushes a request for updating the diff.  Typically this should be called
+ * after the user modified the buffer to keep the diff in sync.
+ * 
+ * Pass @c TRUE to @p force if the repository might have changed in a way that
+ * requires reloading it.  Note that generally you don't need to do so when the
+ * file might have changed in the repository (e.g. when the user checked out
+ * another ref) because then the diff is either still valid or the buffer needs
+ * reloading from disk anyway.
+ */
 static void
-update_diff_push (GeanyDocument *doc)
+update_diff_push (GeanyDocument  *doc,
+                  gboolean        force)
 {
   g_return_if_fail (DOC_VALID (doc));
   
@@ -664,7 +737,9 @@ update_diff_push (GeanyDocument *doc)
     G_source_id = 0;
   }
   if (doc->real_path) {
-    G_source_id = g_timeout_add_full (G_PRIORITY_LOW, 100, update_diff_idle,
+    G_source_id = g_timeout_add_full (G_PRIORITY_LOW, 100,
+                                      force ? update_diff_force_idle
+                                            : update_diff_idle,
                                       GUINT_TO_POINTER (doc->id), NULL);
   }
 }
@@ -678,7 +753,7 @@ on_editor_notify (GObject        *obj,
   if (nt->nmhdr.code == SCN_CHARADDED ||
       (nt->nmhdr.code == SCN_MODIFIED &&
        nt->modificationType & (SC_MOD_INSERTTEXT | SC_MOD_DELETETEXT))) {
-    update_diff_push (editor->document);
+    update_diff_push (editor->document, FALSE);
   }
   
   return FALSE;
@@ -690,7 +765,7 @@ on_document_activate (GObject        *obj,
                       gpointer        user_data)
 {
   clear_cached_blob ();
-  update_diff_push (doc);
+  update_diff_push (doc, FALSE);
 }
 
 static void
@@ -698,7 +773,7 @@ on_document_reload (GObject        *obj,
                     GeanyDocument  *doc,
                     gpointer        user_data)
 {
-  update_diff_push (doc);
+  update_diff_push (doc, FALSE);
 }
 
 static void
@@ -712,7 +787,22 @@ on_git_head_changed (GFileMonitor      *monitor,
   
   if (doc) {
     clear_cached_blob ();
-    update_diff_push (doc);
+    update_diff_push (doc, TRUE);
+  }
+}
+
+static void
+on_git_ref_changed (GFileMonitor      *monitor,
+                    GFile             *file,
+                    GFile             *other_file,
+                    GFileMonitorEvent  event_type,
+                    gpointer           user_data)
+{
+  GeanyDocument *doc = document_find_by_id (GPOINTER_TO_UINT (user_data));
+  
+  if (doc) {
+    clear_cached_blob ();
+    update_diff_push (doc, FALSE);
   }
 }
 
@@ -745,7 +835,7 @@ plugin_init (GeanyData *data)
    * of a session */
   doc = document_get_current ();
   if (doc) {
-    update_diff_push (doc);
+    update_diff_push (doc, FALSE);
   }
 }
 
