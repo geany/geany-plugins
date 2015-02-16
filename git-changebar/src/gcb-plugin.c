@@ -32,6 +32,11 @@
 #include <geany.h>
 #include <document.h>
 
+#if ! defined (LIBGIT2_SOVERSION) || LIBGIT2_SOVERSION < 22
+# define git_libgit2_init     git_threads_init
+# define git_libgit2_shutdown git_threads_shutdown
+#endif
+
 
 GeanyPlugin      *geany_plugin;
 GeanyData        *geany_data;
@@ -1017,7 +1022,7 @@ plugin_init (GeanyData *data)
   G_thread    = NULL;
   G_queue     = NULL;
   
-  if (git_threads_init () != 0) {
+  if (git_libgit2_init () < 0) {
     const git_error *err = giterr_last ();
     g_warning ("Failed to initialize libgit2: %s", err ? err->message : "?");
     return;
@@ -1069,7 +1074,7 @@ plugin_cleanup (void)
   
   save_config ();
   
-  git_threads_shutdown ();
+  git_libgit2_shutdown ();
 }
 
 /* --- configuration dialog --- */
