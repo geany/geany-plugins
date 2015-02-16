@@ -162,6 +162,12 @@ M: Enrico Trotta <enrico.trt@gmail.com>
 W:
 S: Maintained
 
+git-changebar
+P: Colomban Wendling <ban@herbesfolles.org>
+M: Colomban Wendling <ban@herbesfolles.org>
+W: http://plugins.geany.org/git-changebar.html
+S: Maintained
+
 markdown
 P: Matthew Brush <matt@geany.org>
 M: Matthew Brush <matt@geany.org>
