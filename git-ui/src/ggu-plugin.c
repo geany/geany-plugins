@@ -1039,3 +1039,122 @@ plugin_cleanup (void)
   
   git_threads_shutdown ();
 }
+
+/* --- configuration dialog --- */
+
+typedef struct ConfigureWidgets ConfigureWidgets;
+struct ConfigureWidgets {
+  GtkWidget  *base;
+  GtkWidget  *added_color_button;
+  GtkWidget  *changed_color_button;
+  GtkWidget  *removed_color_button;
+};
+
+static void configure_widgets_free (ConfigureWidgets *cw)
+{
+  g_object_unref (cw->base);
+  g_free (cw);
+}
+
+static void
+color_from_int (GdkColor *color,
+                guint32   val)
+{
+  color->red    = ((val & 0xff0000) >> 16) * 0x101;
+  color->green  = ((val & 0x00ff00) >>  8) * 0x101;
+  color->blue   = ((val & 0x0000ff) >>  0) * 0x101;
+}
+
+static guint32
+color_to_int (const GdkColor *color)
+{
+  return (((color->red   / 0x101) << 16) |
+          ((color->green / 0x101) <<  8) |
+          ((color->blue  / 0x101) <<  0));
+}
+
+static void
+on_plugin_configure_response (GtkDialog        *dialog,
+                              gint              response,
+                              ConfigureWidgets *cw)
+{
+  switch (response) {
+    case GTK_RESPONSE_APPLY:
+    case GTK_RESPONSE_OK: {
+      guint           i;
+      GdkColor        color;
+      GeanyDocument  *doc = document_get_current ();
+      
+      gtk_color_button_get_color (GTK_COLOR_BUTTON (cw->added_color_button),
+                                  &color);
+      G_markers[MARKER_LINE_ADDED].color = color_to_int (&color);
+      gtk_color_button_get_color (GTK_COLOR_BUTTON (cw->changed_color_button),
+                                  &color);
+      G_markers[MARKER_LINE_CHANGED].color = color_to_int (&color);
+      gtk_color_button_get_color (GTK_COLOR_BUTTON (cw->removed_color_button),
+                                  &color);
+      G_markers[MARKER_LINE_REMOVED].color = color_to_int (&color);
+      
+      /* update everything */
+      foreach_document (i) {
+        release_resources (documents[i]->editor->sci);
+      }
+      if (doc) {
+        update_diff_push (doc, FALSE);
+      }
+    }
+  }
+}
+
+GtkWidget *
+plugin_configure (GtkDialog *dialog)
+{
+  GError     *error   = NULL;
+  GtkWidget  *base    = NULL;
+  GtkBuilder *builder = gtk_builder_new ();
+  
+  gtk_builder_set_translation_domain (builder, GETTEXT_PACKAGE);
+  if (! gtk_builder_add_from_file (builder, PKGDATADIR"/"PLUGIN"/prefs.ui",
+                                   &error)) {
+    g_critical (_("Failed to load UI definition, please check your "
+                  "installation. The error was: %s"), error->message);
+    g_error_free (error);
+  } else {
+    GdkColor          color;
+    ConfigureWidgets *cw = g_malloc (sizeof *cw);
+    struct {
+      const gchar  *name;
+      GtkWidget   **ptr;
+    } map[] = {
+      { "base",                 &cw->base },
+      { "added-color-button",   &cw->added_color_button },
+      { "changed-color-button", &cw->changed_color_button },
+      { "removed-color-button", &cw->removed_color_button },
+    };
+    guint i;
+    
+    for (i = 0; i < G_N_ELEMENTS (map); i++) {
+      *map[i].ptr = GTK_WIDGET (gtk_builder_get_object (builder, map[i].name));
+    }
+    
+    color_from_int (&color, G_markers[MARKER_LINE_ADDED].color);
+    gtk_color_button_set_color (GTK_COLOR_BUTTON (cw->added_color_button),
+                                &color);
+    color_from_int (&color, G_markers[MARKER_LINE_CHANGED].color);
+    gtk_color_button_set_color (GTK_COLOR_BUTTON (cw->changed_color_button),
+                                &color);
+    color_from_int (&color, G_markers[MARKER_LINE_REMOVED].color);
+    gtk_color_button_set_color (GTK_COLOR_BUTTON (cw->removed_color_button),
+                                &color);
+    
+    base = g_object_ref_sink (cw->base);
+    
+    g_signal_connect_data (dialog, "response",
+                           G_CALLBACK (on_plugin_configure_response),
+                           cw, (GClosureNotify) configure_widgets_free, 0);
+  }
+  
+  g_object_unref (builder);
+  
+  return base;
+}

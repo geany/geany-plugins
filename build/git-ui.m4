@@ -11,6 +11,7 @@ AC_DEFUN([GP_CHECK_GITUI],
 
     AC_CONFIG_FILES([
         git-ui/Makefile
+        git-ui/data/Makefile
         git-ui/src/Makefile
     ])
 ])
