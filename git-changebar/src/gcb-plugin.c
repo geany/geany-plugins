@@ -42,8 +42,8 @@ PLUGIN_VERSION_CHECK(219) /* for document IDs */
 
 PLUGIN_SET_TRANSLATABLE_INFO (
   LOCALEDIR, GETTEXT_PACKAGE,
-  _("Git Integration"),
-  _("Integration of the Git version control system"),
+  _("Git Change Bar"),
+  _("Highlights uncommitted changes in files tracked with Git"),
   "0.1",
   "Colomban Wendling <ban@herbesfolles.org>"
 )

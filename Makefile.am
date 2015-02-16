@@ -103,8 +103,8 @@ if ENABLE_GENIUSPASTE
 SUBDIRS += geniuspaste
 endif
 
-if ENABLE_GITUI
-SUBDIRS += git-ui
+if ENABLE_GITCHANGEBAR
+SUBDIRS += git-changebar
 endif
 
 if ENABLE_MARKDOWN

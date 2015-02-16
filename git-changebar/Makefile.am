@@ -1,4 +1,4 @@
 include $(top_srcdir)/build/vars.auxfiles.mk
-plugin = git-ui
+plugin = git-changebar
 
 SUBDIRS = data src
