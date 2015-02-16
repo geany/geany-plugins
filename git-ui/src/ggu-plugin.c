@@ -114,14 +114,23 @@ static void         write_setting_color         (GKeyFile      *kf,
                                                  const gchar   *group,
                                                  const gchar   *key,
                                                  gconstpointer  value);
+static void         read_setting_boolean        (GKeyFile    *kf,
+                                                 const gchar *group,
+                                                 const gchar *key,
+                                                 gpointer     value);
+static void         write_setting_boolean       (GKeyFile      *kf,
+                                                 const gchar   *group,
+                                                 const gchar   *key,
+                                                 gconstpointer  value);
 
 
 /* cache */
-static git_blob        *G_file_blob = NULL;
+static git_blob        *G_file_blob           = NULL;
 /* global state */
-static GAsyncQueue     *G_queue     = NULL;
-static GThread         *G_thread    = NULL;
-static gulong           G_source_id = 0;
+static GAsyncQueue     *G_queue               = NULL;
+static GThread         *G_thread              = NULL;
+static gulong           G_source_id           = 0;
+static gboolean         G_monitoring_enabled  = TRUE;
 static struct {
   gint    num;
   gint    style;
@@ -145,6 +154,8 @@ static const struct {
                          const gchar   *key,
                          gconstpointer  value);
 } G_settings_desc[] = {
+  { "general", "monitor-repository", &G_monitoring_enabled,
+    read_setting_boolean, write_setting_boolean },
   { "colors", "line-added", &G_markers[MARKER_LINE_ADDED].color,
     read_setting_color, write_setting_color },
   { "colors", "line-changed", &G_markers[MARKER_LINE_CHANGED].color,
@@ -290,7 +301,7 @@ worker_thread (gpointer data)
       if (git_repository_is_bare (repo)) {
         git_repository_free (repo);
         repo = NULL;
-      } else {
+      } else if (G_monitoring_enabled) {
         /* we need to monitor HEAD, in case of e.g. branch switch (e.g.
          * git checkout -b will switch the ref we need to watch) */
         monitors[0] = monitor_repo_file (repo, "HEAD",
@@ -878,6 +889,28 @@ write_setting_color (GKeyFile      *kf,
   g_key_file_set_value (kf, group, key, kfval);
 }
 
+static void
+read_setting_boolean (GKeyFile     *kf,
+                      const gchar  *group,
+                      const gchar  *key,
+                      gpointer      value)
+{
+  gboolean *bool = value;
+  
+  *bool = utils_get_setting_boolean (kf, group, key, *bool);
+}
+
+static void
+write_setting_boolean (GKeyFile      *kf,
+                       const gchar   *group,
+                       const gchar   *key,
+                       gconstpointer  value)
+{
+  const gboolean *bool = value;
+  
+  g_key_file_set_boolean (kf, group, key, *bool);
+}
+
 /* loads @filename in @kf and return %FALSE if failed, emitting a warning
  * unless the file was simply missing */
 static gboolean
@@ -1045,6 +1078,7 @@ plugin_cleanup (void)
 typedef struct ConfigureWidgets ConfigureWidgets;
 struct ConfigureWidgets {
   GtkWidget  *base;
+  GtkWidget  *monitoring_check;
   GtkWidget  *added_color_button;
   GtkWidget  *changed_color_button;
   GtkWidget  *removed_color_button;
@@ -1085,6 +1119,7 @@ on_plugin_configure_response (GtkDialog        *dialog,
       GdkColor        color;
       GeanyDocument  *doc = document_get_current ();
       
+      G_monitoring_enabled = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cw->monitoring_check));
       gtk_color_button_get_color (GTK_COLOR_BUTTON (cw->added_color_button),
                                   &color);
       G_markers[MARKER_LINE_ADDED].color = color_to_int (&color);
@@ -1100,7 +1135,7 @@ on_plugin_configure_response (GtkDialog        *dialog,
         release_resources (documents[i]->editor->sci);
       }
       if (doc) {
-        update_diff_push (doc, FALSE);
+        update_diff_push (doc, TRUE);
       }
     }
   }
@@ -1127,6 +1162,7 @@ plugin_configure (GtkDialog *dialog)
       GtkWidget   **ptr;
     } map[] = {
       { "base",                 &cw->base },
+      { "monitoring-check",     &cw->monitoring_check },
       { "added-color-button",   &cw->added_color_button },
       { "changed-color-button", &cw->changed_color_button },
       { "removed-color-button", &cw->removed_color_button },
@@ -1137,6 +1173,8 @@ plugin_configure (GtkDialog *dialog)
       *map[i].ptr = GTK_WIDGET (gtk_builder_get_object (builder, map[i].name));
     }
     
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cw->monitoring_check),
+                                  G_monitoring_enabled);
     color_from_int (&color, G_markers[MARKER_LINE_ADDED].color);
     gtk_color_button_set_color (GTK_COLOR_BUTTON (cw->added_color_button),
                                 &color);
