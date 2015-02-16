@@ -54,7 +54,7 @@ PLUGIN_SET_TRANSLATABLE_INFO (
 #define QUIT_THREAD_JOB ((AsyncBlobJob *) (&G_queue))
 
 #define RESOURCES_ALLOCATED_QTAG \
-  (g_quark_from_static_string ("ggu-git-resources-allocated"))
+  (g_quark_from_static_string (PLUGIN"/git-resources-allocated"))
 
 
 enum {
@@ -318,7 +318,7 @@ get_cached_blob_async (const gchar   *path,
     if (! G_thread) {
       G_queue = g_async_queue_new ();
 #if GLIB_CHECK_VERSION (2, 32, 0)
-      G_thread = g_thread_new ("ggu-git/blob-worker", worker_thread, G_queue);
+      G_thread = g_thread_new (PLUGIN"/blob-worker", worker_thread, G_queue);
 #else
       G_thread = g_thread_create (worker_thread, G_queue, NULL, NULL);
 #endif
