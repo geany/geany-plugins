@@ -14,8 +14,10 @@ AC_DEFUN([GP_CHECK_GEANYLUA],
         done])
 
     LUA_VERSION=5.1
+    LUA_VERSION_BOUNDARY=5.2
     GP_CHECK_PLUGIN_DEPS([GeanyLua], [LUA],
-                         [${LUA_PKG_NAME} >= ${LUA_VERSION}])
+                         [${LUA_PKG_NAME} >= ${LUA_VERSION}
+                          ${LUA_PKG_NAME} < ${LUA_VERSION_BOUNDARY}])
     GP_CHECK_PLUGIN_DEPS([GeanyLua], [GMODULE], [gmodule-2.0])
     GP_COMMIT_PLUGIN_STATUS([GeanyLua])
 
