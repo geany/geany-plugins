@@ -57,14 +57,17 @@ static gboolean 			flag_on_expand_refresh 		= FALSE;
  *  CONFIG VARS
  * ------------------ */
 
-#ifdef G_OS_WIN32
+#ifndef G_OS_WIN32
 # define CONFIG_OPEN_EXTERNAL_CMD_DEFAULT "nautilus '%d'"
+# define CONFIG_OPEN_TERMINAL_DEFAULT "xterm"
 #else
 # define CONFIG_OPEN_EXTERNAL_CMD_DEFAULT "explorer '%d'"
+# define CONFIG_OPEN_TERMINAL_DEFAULT "cmd"
 #endif
 
 static gchar 				*CONFIG_FILE 				= NULL;
 static gchar 				*CONFIG_OPEN_EXTERNAL_CMD 	= NULL;
+static gchar 				*CONFIG_OPEN_TERMINAL 	= NULL;
 static gboolean 			CONFIG_REVERSE_FILTER 		= FALSE;
 static gboolean 			CONFIG_ONE_CLICK_CHDOC 		= FALSE;
 static gboolean 			CONFIG_SHOW_HIDDEN_FILES 	= FALSE;
@@ -402,11 +405,7 @@ get_terminal(void)
 #ifdef G_OS_WIN32
 	terminal = g_strdup("cmd");
 #else
-	const gchar *term = g_getenv("TERM");
-	if (term != NULL)
-		terminal = g_strdup(term);
-	else
-		terminal = g_strdup("xterm");
+	terminal = g_strdup(CONFIG_OPEN_TERMINAL);
 #endif
 	return terminal;
 }
@@ -1818,6 +1817,7 @@ create_sidebar(void)
 static struct
 {
 	GtkWidget *OPEN_EXTERNAL_CMD;
+	GtkWidget *OPEN_TERMINAL;
 	GtkWidget *REVERSE_FILTER;
 	GtkWidget *ONE_CLICK_CHDOC;
 	GtkWidget *SHOW_HIDDEN_FILES;
@@ -1841,6 +1841,7 @@ load_settings(void)
 	g_key_file_load_from_file(config, CONFIG_FILE, G_KEY_FILE_NONE, NULL);
 
 	CONFIG_OPEN_EXTERNAL_CMD 		=  utils_get_setting_string(config, "treebrowser", "open_external_cmd", 	CONFIG_OPEN_EXTERNAL_CMD_DEFAULT);
+	CONFIG_OPEN_TERMINAL 				= utils_get_setting_string(config, "treebrowser", "open_terminal", CONFIG_OPEN_TERMINAL_DEFAULT);
 	CONFIG_REVERSE_FILTER 			= utils_get_setting_boolean(config, "treebrowser", "reverse_filter", 		CONFIG_REVERSE_FILTER);
 	CONFIG_ONE_CLICK_CHDOC 			= utils_get_setting_boolean(config, "treebrowser", "one_click_chdoc", 		CONFIG_ONE_CLICK_CHDOC);
 	CONFIG_SHOW_HIDDEN_FILES 		= utils_get_setting_boolean(config, "treebrowser", "show_hidden_files", 	CONFIG_SHOW_HIDDEN_FILES);
@@ -1874,6 +1875,7 @@ save_settings(void)
 	}
 
 	g_key_file_set_string(config, 	"treebrowser", "open_external_cmd", 	CONFIG_OPEN_EXTERNAL_CMD);
+	g_key_file_set_string(config, 	"treebrowser", "open_terminal", 	CONFIG_OPEN_TERMINAL);
 	g_key_file_set_boolean(config, 	"treebrowser", "reverse_filter", 		CONFIG_REVERSE_FILTER);
 	g_key_file_set_boolean(config, 	"treebrowser", "one_click_chdoc", 		CONFIG_ONE_CLICK_CHDOC);
 	g_key_file_set_boolean(config, 	"treebrowser", "show_hidden_files", 	CONFIG_SHOW_HIDDEN_FILES);
@@ -1906,6 +1908,7 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 		return;
 
 	CONFIG_OPEN_EXTERNAL_CMD 	= gtk_editable_get_chars(GTK_EDITABLE(configure_widgets.OPEN_EXTERNAL_CMD), 0, -1);
+	CONFIG_OPEN_TERMINAL     	= gtk_editable_get_chars(GTK_EDITABLE(configure_widgets.OPEN_TERMINAL), 0, -1);
 	CONFIG_REVERSE_FILTER 		= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.REVERSE_FILTER));
 	CONFIG_ONE_CLICK_CHDOC 		= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.ONE_CLICK_CHDOC));
 	CONFIG_SHOW_HIDDEN_FILES 	= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_HIDDEN_FILES));
@@ -1954,6 +1957,17 @@ plugin_configure(GtkDialog *dialog)
 		  "%d will be replaced with the path name of the selected file without the filename"));
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(hbox), configure_widgets.OPEN_EXTERNAL_CMD, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
+
+	hbox = gtk_hbox_new(FALSE, 0);
+	label = gtk_label_new(_("Terminal"));
+	configure_widgets.OPEN_TERMINAL = gtk_entry_new();
+	gtk_entry_set_text(GTK_ENTRY(configure_widgets.OPEN_TERMINAL), CONFIG_OPEN_TERMINAL);
+	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	ui_widget_set_tooltip_text(configure_widgets.OPEN_TERMINAL,
+		_("The terminal to use with the command \"Open Terminal\""));
+	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(hbox), configure_widgets.OPEN_TERMINAL, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
 
 	hbox = gtk_hbox_new(FALSE, 0);
@@ -2134,5 +2148,6 @@ plugin_cleanup(void)
 	g_free(addressbar_last_address);
 	g_free(CONFIG_FILE);
 	g_free(CONFIG_OPEN_EXTERNAL_CMD);
+	g_free(CONFIG_OPEN_TERMINAL);
 	gtk_widget_destroy(sidebar_vbox);
 }
