@@ -514,7 +514,7 @@ diff_blob_to_doc (const git_blob   *old_blob,
                   void             *payload)
 {
   ScintillaObject  *sci = doc->editor->sci;
-  git_diff_options  opts;
+  git_diff_options  opts = GIT_DIFF_OPTIONS_INIT;
   gchar            *buf;
   size_t            len;
   gboolean          free_buf = FALSE;
@@ -530,7 +530,6 @@ diff_blob_to_doc (const git_blob   *old_blob,
   }
   
   /* no context lines, and no need to bother about binary checks */
-  git_diff_init_options (&opts, GIT_DIFF_OPTIONS_VERSION);
   opts.context_lines = 0;
   opts.flags = GIT_DIFF_FORCE_TEXT;
   
