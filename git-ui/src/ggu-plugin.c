@@ -90,23 +90,6 @@ struct TooltipHunkData {
   { line, FALSE, doc, blob, tooltip }
 
 
-/* cache */
-static git_blob        *G_file_blob = NULL;
-/* global state */
-static GAsyncQueue     *G_queue     = NULL;
-static GThread         *G_thread    = NULL;
-static gulong           G_source_id = 0;
-static struct {
-  gint    num;
-  gint    style;
-  guint32 color;
-}                       G_markers[MARKER_COUNT] = {
-  { -1, SC_MARK_LEFTRECT, 0x73d216 },
-  { -1, SC_MARK_LEFTRECT, 0xf57900 },
-  { -1, SC_MARK_LEFTRECT, 0xcc0000 }
-};
-
-
 static void         on_git_head_changed         (GFileMonitor     *monitor,
                                                  GFile            *file,
                                                  GFile            *other_file,
@@ -123,6 +106,52 @@ static gboolean     on_sci_query_tooltip        (GtkWidget   *widget,
                                                  gboolean     keyboard_mode,
                                                  GtkTooltip  *tooltip,
                                                  gpointer     user_data);
+static void         read_setting_color          (GKeyFile    *kf,
+                                                 const gchar *group,
+                                                 const gchar *key,
+                                                 gpointer     value);
+static void         write_setting_color         (GKeyFile      *kf,
+                                                 const gchar   *group,
+                                                 const gchar   *key,
+                                                 gconstpointer  value);
+
+
+/* cache */
+static git_blob        *G_file_blob = NULL;
+/* global state */
+static GAsyncQueue     *G_queue     = NULL;
+static GThread         *G_thread    = NULL;
+static gulong           G_source_id = 0;
+static struct {
+  gint    num;
+  gint    style;
+  guint32 color;
+}                       G_markers[MARKER_COUNT] = {
+  { -1, SC_MARK_LEFTRECT, 0x73d216 },
+  { -1, SC_MARK_LEFTRECT, 0xf57900 },
+  { -1, SC_MARK_LEFTRECT, 0xcc0000 }
+};
+/* settings description */
+static const struct {
+  const gchar  *group;
+  const gchar  *key;
+  gpointer      value;
+  void        (*read)   (GKeyFile    *kf,
+                         const gchar *group,
+                         const gchar *key,
+                         gpointer     value);
+  void        (*write)  (GKeyFile      *kf,
+                         const gchar   *group,
+                         const gchar   *key,
+                         gconstpointer  value);
+} G_settings_desc[] = {
+  { "colors", "line-added", &G_markers[MARKER_LINE_ADDED].color,
+    read_setting_color, write_setting_color },
+  { "colors", "line-changed", &G_markers[MARKER_LINE_CHANGED].color,
+    read_setting_color, write_setting_color },
+  { "colors", "line-removed", &G_markers[MARKER_LINE_REMOVED].color,
+    read_setting_color, write_setting_color }
+};
 
 
 static void
@@ -806,6 +835,146 @@ on_git_ref_changed (GFileMonitor      *monitor,
   }
 }
 
+/* --- configuration loading and saving --- */
+
+static void
+read_setting_color (GKeyFile     *kf,
+                    const gchar  *group,
+                    const gchar  *key,
+                    gpointer      value)
+{
+  guint32  *color = value;
+  gchar    *kfval = g_key_file_get_value (kf, group, key, NULL);
+  
+  if (kfval) {
+    const gchar  *nptr = kfval;
+    gchar        *endptr;
+    glong         val;
+    
+    if (*nptr == '#') {
+      nptr++;
+    }
+    
+    val = strtol (nptr, &endptr, 16);
+    if (! *endptr && val >= 0 && val <= 0xffffff) {
+      *color = (guint32) val;
+    }
+    g_free (kfval);
+  }
+}
+
+static void
+write_setting_color (GKeyFile      *kf,
+                     const gchar   *group,
+                     const gchar   *key,
+                     gconstpointer  value)
+{
+  const guint32  *color     = value;
+  gchar           kfval[8]  = {0};
+  
+  g_return_if_fail (*color <= 0xffffff);
+  
+  g_snprintf (kfval, sizeof value, "#%.6x", *color);
+  g_key_file_set_value (kf, group, key, kfval);
+}
+
+/* loads @filename in @kf and return %FALSE if failed, emitting a warning
+ * unless the file was simply missing */
+static gboolean
+read_keyfile (GKeyFile     *kf,
+              const gchar  *filename,
+              GKeyFileFlags flags)
+{
+  GError *error = NULL;
+  
+  if (! g_key_file_load_from_file (kf, filename, flags, &error)) {
+    if (error->domain != G_FILE_ERROR || error->code != G_FILE_ERROR_NOENT) {
+      g_warning (_("Failed to load configuration file: %s"), error->message);
+    }
+    g_error_free (error);
+    
+    return FALSE;
+  }
+  
+  return TRUE;
+}
+
+/* writes @kf in @filename, possibly creating directories to be able to write
+ * in @filename */
+static gboolean
+write_keyfile (GKeyFile    *kf,
+               const gchar *filename)
+{
+  gchar    *dirname = g_path_get_dirname (filename);
+  GError   *error   = NULL;
+  gint      err;
+  gchar    *data;
+  gsize     length;
+  gboolean  success = FALSE;
+  
+  data = g_key_file_to_data (kf, &length, NULL);
+  if ((err = utils_mkdir (dirname, TRUE)) != 0) {
+    g_warning (_("Failed to create configuration directory \"%s\": %s"),
+               dirname, g_strerror (err));
+  } else if (! g_file_set_contents (filename, data, (gssize) length, &error)) {
+    g_warning (_("Failed to save configuration file: %s"), error->message);
+    g_error_free (error);
+  } else {
+    success = TRUE;
+  }
+  g_free (data);
+  g_free (dirname);
+  
+  return success;
+}
+
+static gchar *
+get_config_filename (void)
+{
+  return g_build_filename (geany_data->app->configdir, "plugins",
+                           PLUGIN, PLUGIN".conf", NULL);
+}
+
+static void
+load_config (void)
+{
+  gchar    *filename  = get_config_filename ();
+  GKeyFile *kf        = g_key_file_new ();
+  
+  if (read_keyfile (kf, filename, G_KEY_FILE_NONE)) {
+    guint i;
+    
+    for (i = 0; i < G_N_ELEMENTS (G_settings_desc); i++) {
+      G_settings_desc[i].read (kf, G_settings_desc[i].group,
+                               G_settings_desc[i].key,
+                               G_settings_desc[i].value);
+    }
+  }
+  g_key_file_free (kf);
+  g_free (filename);
+}
+
+static void
+save_config (void)
+{
+  gchar    *filename  = get_config_filename ();
+  GKeyFile *kf        = g_key_file_new ();
+  guint     i;
+  
+  read_keyfile (kf, filename, G_KEY_FILE_KEEP_COMMENTS);
+  for (i = 0; i < G_N_ELEMENTS (G_settings_desc); i++) {
+    G_settings_desc[i].write (kf, G_settings_desc[i].group,
+                              G_settings_desc[i].key,
+                              G_settings_desc[i].value);
+  }
+  write_keyfile (kf, filename);
+  
+  g_key_file_free (kf);
+  g_free (filename);
+}
+
+/* --- plugin initialization and cleanup --- */
+
 void
 plugin_init (GeanyData *data)
 {
@@ -821,6 +990,8 @@ plugin_init (GeanyData *data)
     g_warning ("Failed to initialize libgit2: %s", err ? err->message : "?");
     return;
   }
+  
+  load_config ();
   
   plugin_signal_connect (geany_plugin, NULL, "editor-notify", TRUE,
                          G_CALLBACK (on_editor_notify), NULL);
@@ -863,6 +1034,8 @@ plugin_cleanup (void)
   foreach_document (i) {
     release_resources (documents[i]->editor->sci);
   }
+  
+  save_config ();
   
   git_threads_shutdown ();
 }
