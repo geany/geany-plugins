@@ -369,16 +369,10 @@ static void close_root(PrjOrgRoot *root, gpointer user_data)
 }
 
 
-static gint root_comparator(PrjOrgRoot *a, PrjOrgRoot *b)
-{
-	return g_strcmp0(a->base_dir, b->base_dir);
-}
-
-
 void prjorg_project_add_external_dir(const gchar *dirname)
 {
 	PrjOrgRoot *new_root = create_root(dirname);
-	if (g_slist_find_custom (prj_org->roots, new_root, (GCompareFunc)root_comparator) != NULL)
+	if (g_slist_find_custom (prj_org->roots, new_root, (GCompareFunc)g_strcmp0) != NULL)
 	{
 		close_root(new_root, NULL);
 		return;
@@ -386,7 +380,7 @@ void prjorg_project_add_external_dir(const gchar *dirname)
 	
 	GSList *lst = prj_org->roots->next;
 	lst = g_slist_prepend(lst, new_root);
-	lst = g_slist_sort(lst, (GCompareFunc)root_comparator);
+	lst = g_slist_sort(lst, (GCompareFunc)utils_str_casecmp);
 	prj_org->roots->next = lst;
 	
 	prjorg_project_rescan();
@@ -396,7 +390,7 @@ void prjorg_project_add_external_dir(const gchar *dirname)
 void prjorg_project_remove_external_dir(const gchar *dirname)
 {
 	PrjOrgRoot *test_root = create_root(dirname);
-	GSList *found = g_slist_find_custom (prj_org->roots, test_root, (GCompareFunc)root_comparator);
+	GSList *found = g_slist_find_custom (prj_org->roots, test_root, (GCompareFunc)g_strcmp0);
 	if (found != NULL)
 	{
 		PrjOrgRoot *found_root = found->data;

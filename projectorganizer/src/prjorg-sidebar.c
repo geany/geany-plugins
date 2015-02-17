@@ -1008,7 +1008,7 @@ static void load_project_root(PrjOrgRoot *root, GtkTreeIter *parent, GSList *hea
 		gchar *path = get_file_relative_path(root->base_dir, key);
 		lst = g_slist_prepend(lst, path);
 	}
-	lst = g_slist_sort(lst, (GCompareFunc) strcmp);
+	lst = g_slist_sort(lst, (GCompareFunc) utils_str_casecmp);
 
 	foreach_slist (elem, lst)
 	{
