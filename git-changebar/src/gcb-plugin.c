@@ -633,6 +633,10 @@ get_widget_for_blob_range (GeanyDocument   *doc,
     g_free (buf);
   }
   
+  /* we need to enable extra scroll after last line so that SETFIRSTVISIBLELINE
+   * really places the line we want on top of the view, even if the line is
+   * close to the end and wouldn't possibly end on top otherwise */
+  scintilla_send_message (sci, SCI_SETENDATLASTLINE, 0, 0);
   scintilla_send_message (sci, SCI_SETFIRSTVISIBLELINE, line_start, 0);
   
   /* compute the size of the area we want to see */
