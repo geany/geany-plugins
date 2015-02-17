@@ -595,6 +595,7 @@ get_widget_for_blob_range (GeanyDocument   *doc,
   const GeanyIndentPrefs *iprefs  = editor_get_indent_prefs (doc->editor);
   gint                    width   = 0;
   gint                    height  = 0;
+  gint                    zoom;
   gint                    i;
   GtkAllocation           alloc;
   gchar                  *buf;
@@ -610,6 +611,8 @@ get_widget_for_blob_range (GeanyDocument   *doc,
     scintilla_send_message (sci, SCI_SETTABWIDTH, iprefs->width, 0);
   }
   scintilla_send_message (sci, SCI_SETINDENT, iprefs->width, 0);
+  zoom = scintilla_send_message (doc->editor->sci, SCI_GETZOOM, 0, 0);
+  scintilla_send_message (sci, SCI_SETZOOM, zoom, 0);
   
   /* hide stuff we don't wanna see */
   scintilla_send_message (sci, SCI_SETHSCROLLBAR, 0, 0);
