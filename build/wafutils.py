@@ -77,7 +77,7 @@ def add_to_env_and_define(conf, key, value, quote=False):
     conf.env[key] = value
 
 
-def build_plugin(ctx, name, sources=None, includes=None, defines=None, libraries=None, features=None):
+def build_plugin(ctx, name, plugin_name=None, sources=None, includes=None, defines=None, libraries=None, features=None):
     """
     Common build task for plugins, every plugin should call this in its wscript_build module
 
@@ -86,6 +86,7 @@ def build_plugin(ctx, name, sources=None, includes=None, defines=None, libraries
 
     @param ctx (waflib.Build.BuildContext)
     @param name (str)
+    @param plugin_name (str)
     @param sources (list)
     @param includes (list)
     @param defines (list)
@@ -93,7 +94,7 @@ def build_plugin(ctx, name, sources=None, includes=None, defines=None, libraries
     @param features (list)
     """
     log_domain = name
-    plugin_name = name.lower()
+    plugin_name = plugin_name or name.lower()
     includes = includes or []
     defines = defines or []
     libraries = libraries or []
