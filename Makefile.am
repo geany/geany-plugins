@@ -103,6 +103,10 @@ if ENABLE_GENIUSPASTE
 SUBDIRS += geniuspaste
 endif
 
+if ENABLE_GITCHANGEBAR
+SUBDIRS += git-changebar
+endif
+
 if ENABLE_MARKDOWN
 SUBDIRS += markdown
 endif
