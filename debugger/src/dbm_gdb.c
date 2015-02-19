@@ -369,7 +369,7 @@ static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpoint
 				update_files();
 
 				/* -exec-run */
-				exec_async_command("-exec-run &");
+				exec_async_command("-exec-run");
 			}
 		}
 		else
@@ -895,7 +895,7 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 static void restart(void)
 {
 	dbg_cbs->clear_messages();
-	exec_async_command("-exec-run &");
+	exec_async_command("-exec-run");
 }
 	
 /*
