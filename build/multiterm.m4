@@ -7,7 +7,7 @@ AC_DEFUN([GP_CHECK_MULTITERM],
         dnl FIXME: if the C sources are present (e.g. in a release tarball),
         dnl        we don't actually need valac
         AM_PROG_VALAC([0.7.0])
-        AS_IF([test "$VALAC" = ""],
+        AS_IF([test "$VALAC" = "valac"],
               [AS_IF([test "$enable_multiterm" = "auto"],
                      [enable_multiterm=no],
                      [AC_MSG_ERROR([valac not found])])])
