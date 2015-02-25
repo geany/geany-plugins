@@ -1157,7 +1157,8 @@ static gboolean follow_editor_on_idle(gpointer foo)
 			
 		g_free(path);
 		path = NULL;
-		gtk_tree_model_iter_next(model, &root_iter);
+		if (!gtk_tree_model_iter_next(model, &root_iter))
+			break;
 	}
 	
 	if (!path)
