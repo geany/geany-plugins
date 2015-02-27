@@ -847,14 +847,6 @@ on_document_activate (GObject        *obj,
 }
 
 static void
-on_document_reload (GObject        *obj,
-                    GeanyDocument  *doc,
-                    gpointer        user_data)
-{
-  update_diff_push (doc, FALSE);
-}
-
-static void
 on_git_head_changed (GFileMonitor      *monitor,
                      GFile             *file,
                      GFile             *other_file,
@@ -1071,7 +1063,7 @@ plugin_init (GeanyData *data)
   plugin_signal_connect (geany_plugin, NULL, "document-open", TRUE,
                          G_CALLBACK (on_document_activate), NULL);
   plugin_signal_connect (geany_plugin, NULL, "document-reload", TRUE,
-                         G_CALLBACK (on_document_reload), NULL);
+                         G_CALLBACK (on_document_activate), NULL);
   
   /* update for the current document in case we are loaded in the middle
    * of a session */
