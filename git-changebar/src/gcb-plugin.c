@@ -926,7 +926,7 @@ write_setting_color (GKeyFile      *kf,
   
   g_return_if_fail (*color <= 0xffffff);
   
-  g_snprintf (kfval, sizeof value, "#%.6x", *color);
+  g_snprintf (kfval, sizeof kfval, "#%.6x", *color);
   g_key_file_set_value (kf, group, key, kfval);
 }
 
