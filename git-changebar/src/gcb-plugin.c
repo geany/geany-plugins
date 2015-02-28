@@ -847,11 +847,14 @@ on_document_activate (GObject        *obj,
 }
 
 static void
-on_document_reload (GObject        *obj,
-                    GeanyDocument  *doc,
-                    gpointer        user_data)
+on_startup_complete (GObject *obj,
+                     gpointer user_data)
 {
-  update_diff_push (doc, FALSE);
+  GeanyDocument *doc = document_get_current ();
+  
+  if (doc) {
+    update_diff_push (doc, FALSE);
+  }
 }
 
 static void
@@ -923,7 +926,7 @@ write_setting_color (GKeyFile      *kf,
   
   g_return_if_fail (*color <= 0xffffff);
   
-  g_snprintf (kfval, sizeof value, "#%.6x", *color);
+  g_snprintf (kfval, sizeof kfval, "#%.6x", *color);
   g_key_file_set_value (kf, group, key, kfval);
 }
 
@@ -1049,8 +1052,6 @@ save_config (void)
 void
 plugin_init (GeanyData *data)
 {
-  GeanyDocument *doc;
-  
   G_file_blob = NULL;
   G_source_id = 0;
   G_thread    = NULL;
@@ -1068,16 +1069,15 @@ plugin_init (GeanyData *data)
                          G_CALLBACK (on_editor_notify), NULL);
   plugin_signal_connect (geany_plugin, NULL, "document-activate", TRUE,
                          G_CALLBACK (on_document_activate), NULL);
-  plugin_signal_connect (geany_plugin, NULL, "document-open", TRUE,
-                         G_CALLBACK (on_document_activate), NULL);
   plugin_signal_connect (geany_plugin, NULL, "document-reload", TRUE,
-                         G_CALLBACK (on_document_reload), NULL);
+                         G_CALLBACK (on_document_activate), NULL);
+  plugin_signal_connect (geany_plugin, NULL, "geany-startup-complete", TRUE,
+                         G_CALLBACK (on_startup_complete), NULL);
   
-  /* update for the current document in case we are loaded in the middle
-   * of a session */
-  doc = document_get_current ();
-  if (doc) {
-    update_diff_push (doc, FALSE);
+  if (main_is_realized ()) {
+    /* update for the current document as we are loaded in the middle of a
+     * session and so won't receive the :geany-startup-complete signal */
+    on_startup_complete (NULL, NULL);
   }
 }
 
