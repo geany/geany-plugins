@@ -72,6 +72,12 @@ enum {
   MARKER_COUNT
 };
 
+enum {
+  KB_GOTO_PREV_HUNK,
+  KB_GOTO_NEXT_HUNK,
+  KB_COUNT
+};
+
 typedef void (*BlobReadyFunc) (const gchar *path,
                                git_blob    *blob,
                                gpointer     data);
@@ -96,6 +102,14 @@ struct TooltipHunkData {
 
 #define TOOLTIP_HUNK_DATA_INIT(line, doc, blob, tooltip) \
   { line, FALSE, doc, blob, tooltip }
+
+typedef struct GotoNextHunkData GotoNextHunkData;
+struct GotoNextHunkData {
+  guint kb;
+  guint doc_id;
+  gint  line;
+  gint  next_line;
+};
 
 
 static void         on_git_head_changed         (GFileMonitor     *monitor,
@@ -887,6 +901,82 @@ on_git_ref_changed (GFileMonitor      *monitor,
   }
 }
 
+static int
+goto_next_hunk_diff_hunk_cb (const git_diff_delta *delta,
+                             const git_diff_hunk  *hunk,
+                             void                 *udata)
+{
+  GotoNextHunkData *data = udata;
+  
+  switch (data->kb) {
+    case KB_GOTO_NEXT_HUNK:
+      if (data->next_line >= 0) {
+        return 1;
+      } else if (data->line < hunk->new_start - 1) {
+        data->next_line = hunk->new_start - 1;
+      }
+      break;
+    
+    case KB_GOTO_PREV_HUNK:
+      if (data->line > hunk->new_start - 1 + MAX (hunk->new_lines - 1, 0)) {
+        data->next_line = hunk->new_start - 1;
+      }
+      break;
+  }
+  
+  return 0;
+}
+#if LIBGIT2_VER_MAJOR == 0 && LIBGIT2_VER_MINOR < 20
+static int
+goto_next_hunk_diff_hunk_cb_wrapper (const git_diff_delta *delta,
+                                     const git_diff_hunk  *hunk,
+                                     const char           *header,
+                                     size_t                header_len,
+                                     void                 *data)
+{
+  return goto_next_hunk_diff_hunk_cb (delta, hunk, data);
+}
+# define goto_next_hunk_diff_hunk_cb goto_next_hunk_diff_hunk_cb_wrapper
+#endif
+
+static void
+goto_next_hunk_cb (const gchar *path,
+                   git_blob    *blob,
+                   gpointer     udata)
+{
+  GotoNextHunkData *data  = udata;
+  GeanyDocument    *doc   = document_get_current ();
+  
+  if (doc && doc->id == data->doc_id && blob) {
+    diff_blob_to_doc (blob, doc, goto_next_hunk_diff_hunk_cb, data);
+    
+    if (data->next_line >= 0) {
+      gint pos = sci_get_position_from_line (doc->editor->sci, data->next_line);
+      
+      editor_goto_pos (doc->editor, pos, FALSE);
+    }
+  }
+  
+  g_slice_free1 (sizeof *data, data);
+}
+
+static void
+on_kb_goto_next_hunk (guint kb)
+{
+  GeanyDocument *doc = document_get_current ();
+  
+  if (doc) {
+    GotoNextHunkData *data = g_slice_alloc (sizeof *data);
+  
+    data->kb        = kb;
+    data->doc_id    = doc->id;
+    data->line      = sci_get_current_line (doc->editor->sci);
+    data->next_line = -1;
+    
+    get_cached_blob_async (doc->real_path, FALSE, goto_next_hunk_cb, data);
+  }
+}
+
 /* --- configuration loading and saving --- */
 
 static void
@@ -1052,6 +1142,8 @@ save_config (void)
 void
 plugin_init (GeanyData *data)
 {
+  GeanyKeyGroup *kb_group;
+  
   G_file_blob = NULL;
   G_source_id = 0;
   G_thread    = NULL;
@@ -1064,6 +1156,12 @@ plugin_init (GeanyData *data)
   }
   
   load_config ();
+  
+  kb_group = plugin_set_key_group (geany_plugin, PLUGIN, KB_COUNT, NULL);
+  keybindings_set_item (kb_group, KB_GOTO_PREV_HUNK, on_kb_goto_next_hunk, 0, 0,
+                        "goto-prev-hunk", _("Go to the previous hunk"), NULL);
+  keybindings_set_item (kb_group, KB_GOTO_NEXT_HUNK, on_kb_goto_next_hunk, 0, 0,
+                        "goto-next-hunk", _("Go to the next hunk"), NULL);
   
   plugin_signal_connect (geany_plugin, NULL, "editor-notify", TRUE,
                          G_CALLBACK (on_editor_notify), NULL);

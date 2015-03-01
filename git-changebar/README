@@ -8,7 +8,8 @@ Git Change Bar
 About
 =====
 
-This plugin highlights uncommitted changes to files tracked with Git.
+This plugin highlights uncommitted changes to files tracked with Git, and
+allows to navigate through the hunks.
 
 
 Requirements
@@ -30,6 +31,9 @@ Usage
 When loaded into Geany, this plugins adds markers in the markers margin.
 If the marker margin is not visible, they are displayed as line backgrounds.
 
+To navigate through the hunks of the current file, you need to configure the
+plugin's *Go to next hunk* and *Go to previous hunk* keybindings in Geany's
+preferences dialog.
 
 License
 =======
