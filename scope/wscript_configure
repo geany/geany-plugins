@@ -27,3 +27,13 @@ if not target_is_win32(bld) :
 			     package='vte',
 			     uselib_store='VTE',
 			     args='--cflags --libs')
+	try :
+		conf.check_cc(function_name='openpty',
+			      header_name='pty.h',
+			      lib='util',
+			      uselib_store='UTIL')
+	except :
+		conf.check_cc(function_name='openpty',
+			      header_name='util.h',
+			      lib='util',
+			      uselib_store='UTIL')
