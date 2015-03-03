@@ -51,15 +51,13 @@
   (GTK_WIDGET_MAPPED ((w)))
 # endif /* defined (gtk_widget_get_mapped) */
 #endif /* GTK_CHECK_VERSION (2, 20, 0) */
-#if ! GTK_CHECK_VERSION (2, 24, 0)
-# define GtkComboBoxText GtkComboBox
-# define GTK_COMBO_BOX_TEXT GTK_COMBO_BOX
-# define GTK_IS_COMBO_BOX_TEXT GTK_IS_COMBO_BOX
-# define gtk_combo_box_text_new_with_entry gtk_combo_box_entry_new_text
+#if ! GTK_CHECK_VERSION (3, 0, 0)
+/* the GtkComboBoxText API is actually available in 2.24, but Geany's
+ * gtkcompat.h hides it on < 3.0.0 to keep ABI compatibility on all 2.x, so we
+ * need to use the old API there too. */
 # define gtk_combo_box_get_entry_text_column(c) \
   (gtk_combo_box_entry_get_text_column (GTK_COMBO_BOX_ENTRY (c)))
-# define gtk_combo_box_text_append_text gtk_combo_box_append_text
-#endif /* GTK_CHECK_VERSION (2, 24, 0) */
+#endif /* GTK_CHECK_VERSION (3, 0, 0) */
 #if ! GTK_CHECK_VERSION (3, 0, 0)
 static void
 combo_box_text_remove_all (GtkComboBoxText *combo_box)
