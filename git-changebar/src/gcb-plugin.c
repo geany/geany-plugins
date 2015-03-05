@@ -112,16 +112,11 @@ struct GotoNextHunkData {
 };
 
 
-static void         on_git_head_changed         (GFileMonitor     *monitor,
+static void         on_git_repo_changed         (GFileMonitor     *monitor,
                                                  GFile            *file,
                                                  GFile            *other_file,
                                                  GFileMonitorEvent event_type,
-                                                 gpointer          user_data);
-static void         on_git_ref_changed          (GFileMonitor     *monitor,
-                                                 GFile            *file,
-                                                 GFile            *other_file,
-                                                 GFileMonitorEvent event_type,
-                                                 gpointer          user_data);
+                                                 gpointer          force);
 static gboolean     on_sci_query_tooltip        (GtkWidget   *widget,
                                                  gint         x,
                                                  gint         y,
@@ -327,11 +322,11 @@ worker_thread (gpointer data)
         /* we need to monitor HEAD, in case of e.g. branch switch (e.g.
          * git checkout -b will switch the ref we need to watch) */
         monitors[0] = monitor_repo_file (repo, "HEAD",
-                                         G_CALLBACK (on_git_head_changed),
-                                         job->user_data);
+                                         G_CALLBACK (on_git_repo_changed),
+                                         GINT_TO_POINTER (TRUE));
         /* and of course the real ref (branch) for when changes get committed */
-        monitors[1] = monitor_head_ref (repo, G_CALLBACK (on_git_ref_changed),
-                                        job->user_data);
+        monitors[1] = monitor_head_ref (repo, G_CALLBACK (on_git_repo_changed),
+                                        GINT_TO_POINTER (FALSE));
       }
     }
     
@@ -359,7 +354,6 @@ worker_thread (gpointer data)
   return NULL;
 }
 
-/* @user_data will also be used to the file monitor callback */
 static void
 get_cached_blob_async (const gchar   *path,
                        gboolean       force,
@@ -872,32 +866,17 @@ on_startup_complete (GObject *obj,
 }
 
 static void
-on_git_head_changed (GFileMonitor      *monitor,
-                     GFile             *file,
-                     GFile             *other_file,
-                     GFileMonitorEvent  event_type,
-                     gpointer           user_data)
+on_git_repo_changed (GFileMonitor     *monitor,
+                     GFile            *file,
+                     GFile            *other_file,
+                     GFileMonitorEvent event_type,
+                     gpointer          force)
 {
-  GeanyDocument *doc = document_find_by_id (GPOINTER_TO_UINT (user_data));
+  GeanyDocument *doc = document_get_current ();
   
   if (doc) {
     clear_cached_blob ();
-    update_diff_push (doc, TRUE);
-  }
-}
-
-static void
-on_git_ref_changed (GFileMonitor      *monitor,
-                    GFile             *file,
-                    GFile             *other_file,
-                    GFileMonitorEvent  event_type,
-                    gpointer           user_data)
-{
-  GeanyDocument *doc = document_find_by_id (GPOINTER_TO_UINT (user_data));
-  
-  if (doc) {
-    clear_cached_blob ();
-    update_diff_push (doc, FALSE);
+    update_diff_push (doc, GPOINTER_TO_INT (force));
   }
 }
 
