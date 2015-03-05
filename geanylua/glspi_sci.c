@@ -229,7 +229,7 @@ static gint glspi_batch(lua_State* L)
 /* Return the "word" at the given position */
 static gint glspi_word(lua_State* L)
 {
-	const gchar* word_chars = NULL;
+	const gchar* word_chars = GEANY_WORDCHARS;
 	gint pos,linenum, bol, bow, eow;
 	gchar *text=NULL;
 	DOC_REQUIRED
@@ -251,7 +251,6 @@ static gint glspi_word(lua_State* L)
 		if (lua_isstring(L, -1)) {
 			word_chars=lua_tostring(L, -1);
 		} else {
-			word_chars=GEANY_WORDCHARS;
 			lua_getglobal(L, LUA_MODULE_NAME);
 			lua_pushstring(L,tokenWordChars);
 			lua_pushstring(L,word_chars);
