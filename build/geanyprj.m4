@@ -6,6 +6,5 @@ AC_DEFUN([GP_CHECK_GEANYPRJ],
     AC_CONFIG_FILES([
         geanyprj/Makefile
         geanyprj/src/Makefile
-        geanyprj/tests/Makefile
     ])
 ])
