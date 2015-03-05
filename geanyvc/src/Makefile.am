@@ -22,4 +22,12 @@ geanyvc_la_LIBADD = \
 	$(GTKSPELL_LIBS) \
 	$(COMMONLIBS)
 
+check_LTLIBRARIES = libgeanyvc-test.la
+
+libgeanyvc_test_la_SOURCES = \
+	utils.c
+libgeanyvc_test_la_CFLAGS = $(AM_CFLAGS) -DUNITTESTS
+libgeanyvc_test_la_LDFLAGS = -avoid-version $(GP_LDFLAGS)
+libgeanyvc_test_la_LIBADD = $(COMMONLIBS)
+
 include $(top_srcdir)/build/cppcheck.mk
