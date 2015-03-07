@@ -229,7 +229,7 @@ static void gdb_input_write_line(const gchar *line)
 	gsize count;
 	const char *p;
 	char command[1000];
-	snprintf(command, sizeof command, "%s\n", line);
+	g_snprintf(command, sizeof command, "%s\n", line);
 	
 	for (p = command; *p; p += count)
 	{
@@ -919,7 +919,7 @@ static void step_out(void)
 static void execute_until(const gchar *file, int line)
 {
 	gchar command[1000];
-	sprintf(command, "-exec-until %s:%i", file, line);
+	g_snprintf(command, sizeof command, "-exec-until %s:%i", file, line);
 	exec_async_command(command);
 }
 
@@ -982,12 +982,12 @@ static gboolean set_break(breakpoint* bp, break_set_activity bsa)
 		int num = 0;
 
 		/* 1. insert breakpoint */
-		sprintf (command, "-break-insert \"\\\"%s\\\":%i\"", bp->file, bp->line);
+		g_snprintf(command, sizeof command, "-break-insert \"\\\"%s\\\":%i\"", bp->file, bp->line);
 		if (RC_DONE != exec_sync_command(command, TRUE, &record) || !record)
 		{
 			gdb_mi_record_free(record);
 			record = NULL;
-			sprintf (command, "-break-insert -f \"\\\"%s\\\":%i\"", bp->file, bp->line);
+			g_snprintf(command, sizeof command, "-break-insert -f \"\\\"%s\\\":%i\"", bp->file, bp->line);
 			if (RC_DONE != exec_sync_command(command, TRUE, &record) || !record)
 			{
 				gdb_mi_record_free(record);
@@ -1002,20 +1002,20 @@ static gboolean set_break(breakpoint* bp, break_set_activity bsa)
 		/* 2. set hits count if differs from 0 */
 		if (bp->hitscount)
 		{
-			sprintf (command, "-break-after %i %i", num, bp->hitscount);
+			g_snprintf(command, sizeof command, "-break-after %i %i", num, bp->hitscount);
 			exec_sync_command(command, TRUE, NULL);
 		}
 		/* 3. set condition if exists */
 		if (strlen(bp->condition))
 		{
-			sprintf (command, "-break-condition %i %s", num, bp->condition);
+			g_snprintf(command, sizeof command, "-break-condition %i %s", num, bp->condition);
 			if (RC_DONE != exec_sync_command(command, TRUE, NULL))
 				return FALSE;
 		}
 		/* 4. disable if disabled */
 		if (!bp->enabled)
 		{
-			sprintf (command, "-break-disable %i", num);
+			g_snprintf(command, sizeof command, "-break-disable %i", num);
 			exec_sync_command(command, TRUE, NULL);
 		}
 		
@@ -1029,11 +1029,11 @@ static gboolean set_break(breakpoint* bp, break_set_activity bsa)
 			return FALSE;
 
 		if (BSA_UPDATE_ENABLE == bsa)
-			sprintf (command, bp->enabled ? "-break-enable %i" : "-break-disable %i", bnumber);
+			g_snprintf(command, sizeof command, bp->enabled ? "-break-enable %i" : "-break-disable %i", bnumber);
 		else if (BSA_UPDATE_HITS_COUNT == bsa)
-			sprintf (command, "-break-after %i %i", bnumber, bp->hitscount);
+			g_snprintf(command, sizeof command, "-break-after %i %i", bnumber, bp->hitscount);
 		else if (BSA_UPDATE_CONDITION == bsa)
-			sprintf (command, "-break-condition %i %s", bnumber, bp->condition);
+			g_snprintf(command, sizeof command, "-break-condition %i %s", bnumber, bp->condition);
 
 		return RC_DONE == exec_sync_command(command, TRUE, NULL);
 	}
@@ -1053,7 +1053,7 @@ static gboolean remove_break(breakpoint* bp)
 		result_class rc;
 		gchar command[100];
 
-		sprintf(command, "-break-delete %i", number);
+		g_snprintf(command, sizeof command, "-break-delete %i", number);
 		rc = exec_sync_command(command, TRUE, NULL);
 		
 		return RC_DONE == rc;
@@ -1155,7 +1155,7 @@ static void get_variables (GList *vars)
 		const gchar *type = NULL;
 
 		/* path expression */
-		sprintf(command, "-var-info-path-expression \"%s\"", varname);
+		g_snprintf(command, sizeof command, "-var-info-path-expression \"%s\"", varname);
 		exec_sync_command(command, TRUE, &record);
 		if (record)
 			expression = gdb_mi_result_var(record->first, "path_expr", GDB_MI_VAL_STRING);
@@ -1163,7 +1163,7 @@ static void get_variables (GList *vars)
 		gdb_mi_record_free(record);
 		
 		/* children number */
-		sprintf(command, "-var-info-num-children \"%s\"", varname);
+		g_snprintf(command, sizeof command, "-var-info-num-children \"%s\"", varname);
 		exec_sync_command(command, TRUE, &record);
 		if (record)
 			numchild = gdb_mi_result_var(record->first, "numchild", GDB_MI_VAL_STRING);
@@ -1171,14 +1171,14 @@ static void get_variables (GList *vars)
 		gdb_mi_record_free(record);
 
 		/* value */
-		sprintf(command, "-data-evaluate-expression \"%s\"", var->expression->str);
+		g_snprintf(command, sizeof command, "-data-evaluate-expression \"%s\"", var->expression->str);
 		exec_sync_command(command, TRUE, &record);
 		if (record)
 			value = gdb_mi_result_var(record->first, "value", GDB_MI_VAL_STRING);
 		if (!value)
 		{
 			gdb_mi_record_free(record);
-			sprintf(command, "-var-evaluate-expression \"%s\"", varname);
+			g_snprintf(command, sizeof command, "-var-evaluate-expression \"%s\"", varname);
 			exec_sync_command(command, TRUE, &record);
 			if (record)
 				value = gdb_mi_result_var(record->first, "value", GDB_MI_VAL_STRING);
@@ -1187,7 +1187,7 @@ static void get_variables (GList *vars)
 		gdb_mi_record_free(record);
 
 		/* type */
-		sprintf(command, "-var-info-type \"%s\"", varname);
+		g_snprintf(command, sizeof command, "-var-info-type \"%s\"", varname);
 		exec_sync_command(command, TRUE, &record);
 		if (record)
 			type = gdb_mi_result_var(record->first, "type", GDB_MI_VAL_STRING);
@@ -1253,7 +1253,7 @@ static void update_watches(void)
 		
 		if (var->internal->len)
 		{
-			sprintf(command, "-var-delete %s", var->internal->str);
+			g_snprintf(command, sizeof command, "-var-delete %s", var->internal->str);
 			exec_sync_command(command, TRUE, NULL);
 		}
 		
@@ -1272,7 +1272,7 @@ static void update_watches(void)
 
 		/* try to create variable */
 		escaped = g_strescape(var->name->str, NULL);
-		sprintf(command, "-var-create - * \"%s\"", escaped);
+		g_snprintf(command, sizeof command, "-var-create - * \"%s\"", escaped);
 		g_free(escaped);
 
 		if (RC_DONE != exec_sync_command(command, TRUE, &record) || !record)
@@ -1316,7 +1316,7 @@ static void update_autos(void)
 	{
 		variable *var = (variable*)iter->data;
 		
-		sprintf(command, "-var-delete %s", var->internal->str);
+		g_snprintf(command, sizeof command, "-var-delete %s", var->internal->str);
 		exec_sync_command(command, TRUE, NULL);
 	}
 
@@ -1328,7 +1328,7 @@ static void update_autos(void)
 	
 	struct gdb_mi_record *record = NULL;
 
-	sprintf(command, "-stack-list-arguments 0 %i %i", active_frame, active_frame);
+	g_snprintf(command, sizeof command, "-stack-list-arguments 0 %i %i", active_frame, active_frame);
 	if (RC_DONE == exec_sync_command(command, TRUE, &record) && record)
 	{
 		const struct gdb_mi_result *stack_args = gdb_mi_result_var(record->first, "stack-args", GDB_MI_VAL_LIST);
@@ -1367,7 +1367,7 @@ static void update_autos(void)
 
 		/* create new gdb variable */
 		escaped = g_strescape(var->name->str, NULL);
-		sprintf(command, "-var-create - * \"%s\"", escaped);
+		g_snprintf(command, sizeof command, "-var-create - * \"%s\"", escaped);
 		g_free(escaped);
 
 		/* form new variable */
@@ -1433,7 +1433,7 @@ static GList* get_children (gchar* path)
 	int n;
 
 	/* children number */
-	sprintf(command, "-var-info-num-children \"%s\"", path);
+	g_snprintf(command, sizeof command, "-var-info-num-children \"%s\"", path);
 	rc = exec_sync_command(command, TRUE, &record);
 	if (RC_DONE != rc || ! record)
 	{
@@ -1447,7 +1447,7 @@ static GList* get_children (gchar* path)
 		return NULL;
 	
 	/* recursive get children and put into list */
-	sprintf(command, "-var-list-children \"%s\"", path);
+	g_snprintf(command, sizeof command, "-var-list-children \"%s\"", path);
 	rc = exec_sync_command(command, TRUE, &record);
 	if (RC_DONE == rc && record)
 	{
@@ -1491,7 +1491,7 @@ static variable* add_watch(gchar* expression)
 
 	/* try to create a variable */
 	escaped = g_strescape(expression, NULL);
-	sprintf(command, "-var-create - * \"%s\"", escaped);
+	g_snprintf(command, sizeof command, "-var-create - * \"%s\"", escaped);
 	g_free(escaped);
 
 	if (RC_DONE != exec_sync_command(command, TRUE, &record) || !record)
@@ -1525,7 +1525,7 @@ static void remove_watch(gchar* internal)
 		if (!strcmp(var->internal->str, internal))
 		{
 			gchar command[1000];
-			sprintf(command, "-var-delete %s", internal);
+			g_snprintf(command, sizeof command, "-var-delete %s", internal);
 			exec_sync_command(command, TRUE, NULL);
 			variable_free(var);
 			watches = g_list_delete_link(watches, iter);
@@ -1543,7 +1543,7 @@ static gchar *evaluate_expression(gchar *expression)
 	gchar *value;
 	char command[1000];
 
-	sprintf (command, "-data-evaluate-expression \"%s\"", expression);
+	g_snprintf(command, sizeof command, "-data-evaluate-expression \"%s\"", expression);
 	if (RC_DONE != exec_sync_command(command, TRUE, &record) || ! record)
 	{
 		gdb_mi_record_free(record);
@@ -1563,7 +1563,7 @@ static gboolean request_interrupt(void)
 {
 #ifdef DEBUG_OUTPUT
 	char msg[1000];
-	sprintf(msg, "interrupting pid=%i", target_pid);
+	g_snprintf(msg, sizeof msg, "interrupting pid=%i", target_pid);
 	dbg_cbs->send_message(msg, "red");
 #endif
 	
