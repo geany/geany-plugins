@@ -392,6 +392,8 @@ void config_set_panel(int config_part, gpointer config_value, ...)
 		}
 	}
 	
+	va_end(ap);
+	
 	panel_config_changed = TRUE;
 	g_mutex_unlock(change_config_mutex);
 }
