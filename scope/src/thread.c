@@ -17,6 +17,8 @@
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#define _WIN32_WINNT 0x0501  /* for DebugBreakProcess(), must be before any #include-s */
+
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
@@ -27,7 +29,6 @@
 #ifdef G_OS_UNIX
 #include <signal.h>
 #else
-#define WINVER 0x0501
 #include <limits.h>
 #include <windows.h>
 #endif
