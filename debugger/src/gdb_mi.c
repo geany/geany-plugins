@@ -250,6 +250,16 @@ static struct gdb_mi_value *parse_value(const gchar **p)
 	return val;
 }
 
+static gboolean is_prompt(const gchar *p)
+{
+	if (strncmp("(gdb)", p, 5) == 0)
+	{
+		p += 5;
+		while (g_ascii_isspace(*p)) p++;
+	}
+	return *p == 0;
+}
+
 /* parses: async-record | stream-record | result-record
  * note: post-value data is ignored.
  * 
@@ -278,10 +288,10 @@ static struct gdb_mi_value *parse_value(const gchar **p)
 struct gdb_mi_record *gdb_mi_record_parse(const gchar *line)
 {
 	struct gdb_mi_record *record = g_malloc0(sizeof *record);
-	char nl;
 
-	/* FIXME */
-	if (sscanf(line, "(gdb) %c", &nl) == 1 && (nl == '\r' || nl == '\n'))
+	/* FIXME: prompt detection should not really be useful, especially not as a
+	 * special case, as the prompt should always follow an (optional) record */
+	if (is_prompt(line))
 		record->type = GDB_MI_TYPE_PROMPT;
 	else
 	{
