@@ -308,7 +308,7 @@ struct gdb_mi_record *gdb_mi_record_parse(const gchar *line)
 
 		/* extract record */
 		record->type = *line;
-		++line;
+		if (*line) ++line;
 		while (g_ascii_isspace(*line)) line++;
 		switch (record->type)
 		{
