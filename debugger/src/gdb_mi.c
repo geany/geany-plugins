@@ -481,7 +481,7 @@ static void gdb_mi_record_dump(const struct gdb_mi_record *record)
 
 int main(void)
 {
-	char buf[256] = {0};
+	char buf[1024] = {0};
 
 	while (fgets(buf, sizeof buf, stdin))
 	{
