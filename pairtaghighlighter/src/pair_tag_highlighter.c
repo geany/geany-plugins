@@ -150,7 +150,7 @@ static void highlight_matching_pair(ScintillaObject *sci)
 static void clear_previous_highlighting(ScintillaObject *sci, gint rangeStart, gint rangeEnd)
 {
     scintilla_send_message(sci, SCI_SETINDICATORCURRENT, INDICATOR_TAGMATCH, 0);
-    scintilla_send_message(sci, SCI_INDICATORCLEARRANGE, rangeStart, rangeEnd+1);
+    scintilla_send_message(sci, SCI_INDICATORCLEARRANGE, rangeStart, rangeEnd-rangeStart+1);
 }
 
 
