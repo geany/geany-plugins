@@ -1,4 +1,4 @@
 include $(top_srcdir)/build/vars.auxfiles.mk
 
-SUBDIRS = src tests
+SUBDIRS = src
 plugin = geanyprj

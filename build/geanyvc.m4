@@ -27,6 +27,5 @@ AC_DEFUN([GP_CHECK_GEANYVC],
     AC_CONFIG_FILES([
         geanyvc/Makefile
         geanyvc/src/Makefile
-        geanyvc/tests/Makefile
     ])
 ])
