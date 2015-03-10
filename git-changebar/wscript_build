@@ -32,6 +32,7 @@ defines = ['PLUGIN="%s"' % name_lower]
 libraries = ['GTK', 'GLIB', 'LIBGIT2']
 
 build_plugin(bld, name,
+    plugin_name=name_lower,
     sources=sources,
     includes=includes,
     defines=defines,
