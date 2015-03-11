@@ -24,7 +24,17 @@ from build.wafutils import build_plugin
 
 
 name = 'GeanyVC'
-includes = ['geanyvc/src']
 libraries = ['GTKSPELL']
+sources = [
+    'src/externdiff.c',
+    'src/geanyvc.c',
+    'src/utils.c',
+    'src/vc_bzr.c',
+    'src/vc_cvs.c',
+    'src/vc_git.c',
+    'src/vc_hg.c',
+    'src/vc_svk.c',
+    'src/vc_svn.c'
+]
 
-build_plugin(bld, name, includes=includes, libraries=libraries)
+build_plugin(bld, name, sources=sources, libraries=libraries)
