@@ -24,8 +24,8 @@ from build.wafutils import build_plugin
 
 
 name = 'GeanyPrj'
-#~includes = ['geanyprj/src']
 sources = [
+    'src/geanyprj.c',
     'src/menu.c',
     'src/project.c',
     'src/sidebar.c',
