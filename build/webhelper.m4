@@ -3,7 +3,8 @@ AC_DEFUN([GP_CHECK_WEBHELPER],
     GP_ARG_DISABLE([WebHelper], [auto])
 
     GTK_VERSION=2.16
-    GLIB_VERSION=2.16
+    dnl 2.22 for glib-mkenums' @basename@ template
+    GLIB_VERSION=2.22
     GIO_VERSION=2.18
     GDK_PIXBUF_VERSION=2.0
     WEBKIT_VERSION=1.1.18

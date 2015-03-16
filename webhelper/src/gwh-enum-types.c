@@ -5,7 +5,7 @@
 
 #include <glib/gi18n.h>
 
-/* enumerations from "./gwh-browser.h" */
+/* enumerations from "gwh-browser.h" */
 GType
 gwh_browser_position_get_type (void)
 {
@@ -22,7 +22,7 @@ gwh_browser_position_get_type (void)
   return etype;
 }
 
-/* enumerations from "./gwh-settings.h" */
+/* enumerations from "gwh-settings.h" */
 GType
 gwh_settings_notify_flags_get_type (void)
 {
@@ -38,7 +38,7 @@ gwh_settings_notify_flags_get_type (void)
   return etype;
 }
 
-/* enumerations from "./gwh-utils.h" */
+/* enumerations from "gwh-utils.h" */
 GType
 gwh_window_type_get_type (void)
 {

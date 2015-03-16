@@ -13,17 +13,17 @@
 
 G_BEGIN_DECLS
 
-/* enumerations from "./gwh-browser.h" */
+/* enumerations from "gwh-browser.h" */
 G_GNUC_INTERNAL
 GType gwh_browser_position_get_type (void) G_GNUC_CONST;
 #define GWH_TYPE_BROWSER_POSITION (gwh_browser_position_get_type ())
 
-/* enumerations from "./gwh-settings.h" */
+/* enumerations from "gwh-settings.h" */
 G_GNUC_INTERNAL
 GType gwh_settings_notify_flags_get_type (void) G_GNUC_CONST;
 #define GWH_TYPE_SETTINGS_NOTIFY_FLAGS (gwh_settings_notify_flags_get_type ())
 
-/* enumerations from "./gwh-utils.h" */
+/* enumerations from "gwh-utils.h" */
 G_GNUC_INTERNAL
 GType gwh_window_type_get_type (void) G_GNUC_CONST;
 #define GWH_TYPE_WINDOW_TYPE (gwh_window_type_get_type ())
