@@ -22,45 +22,57 @@ to compile the MultiTerm plugin you will need the development files for
 the VTE library.
 
 MultiTerm is written in Vala and so requires that you have the Vala
-compiler (valac) installed as well as your existing C compiler.
+compiler (valac) installed if you're compiling from Git, as well as your
+existing C compiler. If you're compiling from a source release, the Vala
+compiler is not required as the generated sources are distributed with the
+release.
 
 
-Installation
-============
+Compiling and Installing
+========================
 
-For detailed instructions, see the INSTALL file of the Geany-Plugins package
-this plugin is part of.
+For detailed instructions, see the README and/or INSTALL files of the
+Geany-Plugins package this plugin is part of.
+
+Note that when compiling MultiTerm, the C code that the Vala compiler
+generates triggers a few C compiler warnings in most configurations. These
+warnings are (almost always) harmless, and are outside of our control.
+There's a bug open with the Vala compiler working on fixing this:
+
+https://bugzilla.gnome.org/show_bug.cgi?id=732531
+
+If you want to hide these warnings, add the appropriate `-Wno-XXX` compiler
+flags to the ``MULTITERM_CFLAGS`` environment variable when configuring the
+build.
 
 
 Usage
 =====
 
-While the user-interface of the plugin will soon be completely revamped,
-at present it adds a new tab to the message area which contains the
-notebook for the Terminals.  You can add terminals by clicking on the
-plus button to the right of the tabs and you can close terminals by
-clicking the tab's close button.
+The MultiTerm plugin adds a new tab to the message area which contains the
+notebook for the Terminals.  You can add terminals by clicking on the plus
+button to the right of the tabs and you can close terminals by clicking the
+tab's close button.
 
-The configuration file is also going to change a fair bit soon, but
-it is stored at `~/.config/geany/plugins/multiterm/multiterm.conf` and
-can be tweaked to change the behaviour of the plugin.  Eventually there
-will be a GUI to control the preferences, but for now it's just this
-file.
+The configuration file is stored at
+`~/.config/geany/plugins/multiterm/multiterm.conf` and can be tweaked to
+change the behaviour of the plugin.  Eventually there will be a GUI to
+control the preferences, but for now it's just this file.
 
-Note that until at least the first release of the MultiTerm plugin the
-configuration file will not be backwards-compatible, so you should
-transfer your settings to a new default configuration file whenever
-rebuilding from source.  Moving the old config file out of the way will
-cause a new default config file to be written in its place.
+Note that for the time being, the configuration file will not be backwards
+compatible, so you should transfer your settings to a new default
+configuration file whenever installing a new version. Moving the old config
+file out of the way will cause a new compatible default config file to be
+written in its place.
 
 
 License
 =======
 
-MultiTerm is distributed under the terms of the GNU General Public License
-as published by the Free Software Foundation, either version 2 of the
-License, or (at your option) any later version. You should have received a copy
-of the GNU General Public License along with WebHelper.  If not, see
+MultiTerm is distributed under the terms of the GNU General Public License as 
+published by the Free Software Foundation, either version 2 of the License, 
+or (at your option) any later version. You should have received a copy of the 
+GNU General Public License along with WebHelper.  If not, see 
 <http://www.gnu.org/licenses/>.
 
 
@@ -68,11 +80,11 @@ Contact
 =======
 
 You can email me at <matt(at)geany(dor)org>, and I may also be on the
-#geany channel on FreeNode, under the `codebrainz` nickname.
+#geany IRC channel on FreeNode, under the `codebrainz` nickname.
 
 
 Bug reports and feature requests
 --------------------------------
 
-To report a bug or ask for a new feature, please use the Geany-Plugins tracker
-on SourceForge: https://sourceforge.net/projects/geany-plugins/
+To report a bug or ask for a new feature, please use the Geany-Plugins Issue
+tracker on Github: https://github.com/geany/geany-plugins/issues
