@@ -1328,7 +1328,7 @@ void prjorg_sidebar_init(void)
 	g_signal_connect(G_OBJECT(s_file_view), "key-press-event",
 			G_CALLBACK(on_key_press), NULL);
 
-	set_intro_message(_("(Re)open project to start using the plugin"));
+	set_intro_message(_("Open a project to start using the plugin"));
 	prjorg_sidebar_activate(FALSE);
 
 	/**** popup menu ****/

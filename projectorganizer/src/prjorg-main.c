@@ -124,10 +124,13 @@ static void on_project_dialog_close(G_GNUC_UNUSED GObject * obj, GtkWidget * not
 static void on_project_open(G_GNUC_UNUSED GObject * obj, GKeyFile * config,
 		G_GNUC_UNUSED gpointer user_data)
 {
-	prjorg_project_open(config);
-	prjorg_sidebar_update(TRUE);
-	prjorg_sidebar_activate(TRUE);
-	prjorg_menu_activate_menu_items(TRUE);
+	if (!prj_org)
+	{
+		prjorg_project_open(config);
+		prjorg_sidebar_update(TRUE);
+		prjorg_sidebar_activate(TRUE);
+		prjorg_menu_activate_menu_items(TRUE);
+	}
 }
 
 
@@ -141,12 +144,13 @@ static void on_project_close(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED gpointer
 }
 
 
+/* May be called also after plugin_init(), see plugin_init() for more info */
 static void on_project_save(G_GNUC_UNUSED GObject * obj, GKeyFile * config,
 		G_GNUC_UNUSED gpointer user_data)
 {
 	if (!prj_org)
 	{
-		/* happens when the project is created */
+		/* happens when the project is created or the plugin is loaded */
 		prjorg_project_open(config);
 		prjorg_sidebar_update(TRUE);
 		prjorg_sidebar_activate(TRUE);
@@ -172,10 +176,29 @@ PluginCallback plugin_callbacks[] = {
 };
 
 
+static gboolean write_config_cb(gpointer user_data)
+{
+	if (geany_data->app->project && !prj_org)
+		project_write_config();
+	return FALSE;
+}
+
+
 void plugin_init(G_GNUC_UNUSED GeanyData * data)
 {
 	prjorg_menu_init();
 	prjorg_sidebar_init();
+	/* If the project is already open, we won't get the project-open signal
+	 * when the plugin is enabled in the plugin manager so the plugin won't
+	 * reload the project tree. However, we can force the call of the
+	 * project-save signal emission whose handler does a similar thing like
+	 * project-open so we get the same effect.
+	 *
+	 * For some reason this doesn't work when called directly from plugin_init()
+	 * so perform on idle instead. Also use low priority so hopefully normal
+	 * project opening happens before and we don't unnecessarily rewrite the
+	 * project file. */
+	g_idle_add_full(G_PRIORITY_LOW, write_config_cb, NULL, NULL);
 }
 
 
