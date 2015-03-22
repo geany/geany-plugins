@@ -291,6 +291,7 @@ static void on_add_external(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED 
 		GTK_WINDOW(geany->main_widgets->window), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
 		_("Add"), GTK_RESPONSE_ACCEPT, NULL);
+	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), geany_data->app->project->base_path);
 
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
 	{
