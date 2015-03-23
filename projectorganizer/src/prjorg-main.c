@@ -29,16 +29,19 @@
 #include "prjorg-sidebar.h"
 #include "prjorg-menu.h"
 
-PLUGIN_VERSION_CHECK(214)
-PLUGIN_SET_INFO("Project Organizer",
-	_("Project file tree, project-wide indexing and search, extra navigation options"),
-	VERSION,
-	"Jiri Techet <techet@gmail.com>")
 
 GeanyPlugin *geany_plugin;
 GeanyData *geany_data;
 GeanyFunctions *geany_functions;
 
+PLUGIN_VERSION_CHECK(214)
+PLUGIN_SET_TRANSLATABLE_INFO(
+	LOCALEDIR,
+	GETTEXT_PACKAGE,
+	_("Project Organizer"),
+	_("Project file tree, project-wide indexing and search, extra navigation options"),
+	VERSION,
+	"Jiri Techet <techet@gmail.com>")
 
 static gint page_index = -1;
 
