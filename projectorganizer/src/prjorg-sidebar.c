@@ -219,7 +219,7 @@ static gchar *build_path(GtkTreeIter *iter)
 	gchar *name;
 
 	if (!iter)
-		return g_strdup(geany_data->app->project->base_path);
+		return g_strdup(get_project_base_path());
 
 	node = *iter;
 	model = GTK_TREE_MODEL(s_file_store);
@@ -237,7 +237,7 @@ static gchar *build_path(GtkTreeIter *iter)
 	}
 
 	if (topmost_selected(model, &node, TRUE))
-		SETPTR(path, g_build_filename(geany_data->app->project->base_path, path, NULL));
+		SETPTR(path, g_build_filename(get_project_base_path(), path, NULL));
 	else
 	{
 		gtk_tree_model_get(model, &node, FILEVIEW_COLUMN_NAME, &name, -1);
@@ -291,7 +291,7 @@ static void on_add_external(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED 
 		GTK_WINDOW(geany->main_widgets->window), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
 		_("Add"), GTK_RESPONSE_ACCEPT, NULL);
-	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), geany_data->app->project->base_path);
+	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), get_project_base_path());
 
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
 	{
@@ -358,7 +358,7 @@ static void find_file_recursive(GtkTreeIter *iter, gboolean case_sensitive, gboo
 			gchar *path;
 
 			path = build_path(iter);
-			name = get_relative_path(geany_data->app->project->base_path, path);
+			name = get_relative_path(get_project_base_path(), path);
 			g_free(path);
 		}
 		else
@@ -372,7 +372,7 @@ static void find_file_recursive(GtkTreeIter *iter, gboolean case_sensitive, gboo
 			gchar *path, *rel_path;
 
 			path = build_path(iter);
-			rel_path = get_relative_path(geany_data->app->project->base_path, path);
+			rel_path = get_relative_path(get_project_base_path(), path);
 			msgwin_msg_add(COLOR_BLACK, -1, NULL, "%s", rel_path ? rel_path : path);
 			g_free(path);
 			g_free(rel_path);
@@ -401,7 +401,7 @@ static void find_file(GtkTreeIter *iter)
 		pattern = g_pattern_spec_new(pattern_str);
 
 		msgwin_clear_tab(MSG_MESSAGE);
-		msgwin_set_messages_dir(geany_data->app->project->base_path);
+		msgwin_set_messages_dir(get_project_base_path());
 		find_file_recursive(iter, case_sensitive, full_path, pattern);
 		msgwin_switch_tab(MSG_MESSAGE, TRUE);
 	}
@@ -581,7 +581,7 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 		
 	pspec = g_pattern_spec_new(name_case);
 
-	msgwin_set_messages_dir(geany_data->app->project->base_path);
+	msgwin_set_messages_dir(get_project_base_path());
 	msgwin_clear_tab(MSG_MESSAGE);
 	for (i = 0; i < tags_array->len; i++) /* TODO: binary search */
 	{
@@ -592,7 +592,7 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 			gchar *scopestr = tag->scope ? g_strconcat(tag->scope, "::", NULL) : g_strdup("");
 			gchar *relpath;
 			
-			relpath = get_relative_path(geany_data->app->project->base_path, tag->file->file_name);
+			relpath = get_relative_path(get_project_base_path(), tag->file->file_name);
 			msgwin_msg_add(COLOR_BLACK, -1, NULL, "%s:%lu:\n\t[%s]\t %s%s%s", relpath,
 				tag->line, tm_tag_type_name(tag), scopestr, tag->name, tag->arglist ? tag->arglist : "");
 			g_free(scopestr);

@@ -185,7 +185,7 @@ static void on_swap_header_source(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_U
 static void on_find_in_project(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
 {
 	if (geany_data->app->project)
-		search_show_find_in_files_dialog(geany_data->app->project->base_path);
+		search_show_find_in_files_dialog(get_project_base_path());
 }
 
 

@@ -26,5 +26,6 @@ GSList *get_precompiled_patterns(gchar **patterns);
 
 void open_file(gchar *utf8_name);
 gchar *get_selection(void);
+gchar *get_project_base_path(void);
 
 #endif

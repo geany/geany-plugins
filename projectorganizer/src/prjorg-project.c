@@ -473,7 +473,7 @@ void prjorg_project_open(GKeyFile * key_file)
 	}
 	g_slist_free(ext_list);
 	/* the project directory is always first */
-	prj_org->roots = g_slist_prepend(prj_org->roots, create_root(geany_data->app->project->base_path));
+	prj_org->roots = g_slist_prepend(prj_org->roots, create_root(get_project_base_path()));
 
 	update_project(
 		source_patterns,

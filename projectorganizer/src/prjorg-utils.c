@@ -116,3 +116,28 @@ gchar *get_selection(void)
 	else
 		return editor_get_word_at_pos(doc->editor, -1, wc);
 }
+
+
+gchar *get_project_base_path(void)
+{
+	GeanyProject *project = geany_data->app->project;
+
+	if (project && !EMPTY(project->base_path))
+	{
+		if (g_path_is_absolute(project->base_path))
+			return g_strdup(project->base_path);
+		else
+		{	/* build base_path out of project file name's dir and base_path */
+			gchar *path;
+			gchar *dir = g_path_get_dirname(project->file_name);
+
+			if (utils_str_equal(project->base_path, "./"))
+				return dir;
+
+			path = g_build_filename(dir, project->base_path, NULL);
+			g_free(dir);
+			return path;
+		}
+	}
+	return NULL;
+}
