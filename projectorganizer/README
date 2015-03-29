@@ -83,9 +83,7 @@ use patterns "\*.c \*h \*.am \*.ac" to see the source files together with
 automake and autoconf files. If no patterns are defined (default), Project Organizer 
 treats this as the "\*" pattern in which case all files under the project directory 
 are displayed. After closing the dialog, the files matching the patterns
-should appear in the sidebar under the Project tab (unless the Project Organizer 
-plugin was loaded for the first time and Geany project was already open - see 
-Known Issues for more details).
+should appear in the sidebar under the Project tab. 
 
 Additional settings are available from the Project Organizer tab under the Project 
 properties dialog. You can define patterns to distinguish between header and source 
@@ -200,11 +198,6 @@ Project Organizer adds an extra entry into the context menu of the editor:
 Known issues
 ============
 
-* When the plugin is loaded from the Plugin Manager for the first time and a project
-  is already open, no files are displayed in the sidebar. The workaround is to
-  reload the project in this case. The issue is caused by Geany only passing the project
-  configuration file to a plugin when the project is opened, which isn't the case when
-  the plugin is loaded.
 * There might be some issues with UTF8 file names - the testing has been very
   limited.
 * In general it is not a good idea to use both the Project Organizer and GeanyPrj
