@@ -93,6 +93,19 @@ static GSList *get_file_list(const gchar * path, GSList *patterns, GSList *ignor
 		if (g_file_test(filename, G_FILE_TEST_IS_DIR))
 		{
 			GSList *lst;
+			gchar *parent_realpath, *child_realpath, *relative;
+
+			/* symlink cycle avoidance - test if directory within parent directory */
+			parent_realpath = tm_get_real_path(path);
+			child_realpath = tm_get_real_path(filename);
+			relative = get_relative_path(parent_realpath, child_realpath);
+			g_free(parent_realpath);
+			g_free(child_realpath);
+
+			if (!relative)
+				continue;
+
+			g_free(relative);
 
 			if (patterns_match(ignored_dirs_patterns, name))
 			{
@@ -152,9 +165,8 @@ static gint prjorg_project_rescan_root(PrjOrgRoot *root)
 	
 	foreach_slist(elem, lst)
 	{
-		char *path;
+		char *path = g_strdup(elem->data);
 
-		path = tm_get_real_path(elem->data);
 		if (path)
 		{
 			SETPTR(path, utils_get_utf8_from_locale(path));
@@ -371,7 +383,15 @@ static void close_root(PrjOrgRoot *root, gpointer user_data)
 
 static gint root_comparator(PrjOrgRoot *a, PrjOrgRoot *b)
 {
-	return g_strcmp0(a->base_dir, b->base_dir);
+	gchar *a_realpath, *b_realpath;
+	gint res;
+
+	a_realpath = tm_get_real_path(a->base_dir);
+	b_realpath = tm_get_real_path(b->base_dir);
+	res = g_strcmp0(a_realpath, b_realpath);
+	g_free(a_realpath);
+	g_free(b_realpath);
+	return res;
 }
 
 

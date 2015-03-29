@@ -358,7 +358,7 @@ static void find_file_recursive(GtkTreeIter *iter, gboolean case_sensitive, gboo
 			gchar *path;
 
 			path = build_path(iter);
-			name = get_file_relative_path(geany_data->app->project->base_path, path);
+			name = get_relative_path(geany_data->app->project->base_path, path);
 			g_free(path);
 		}
 		else
@@ -372,7 +372,7 @@ static void find_file_recursive(GtkTreeIter *iter, gboolean case_sensitive, gboo
 			gchar *path, *rel_path;
 
 			path = build_path(iter);
-			rel_path = get_file_relative_path(geany_data->app->project->base_path, path);
+			rel_path = get_relative_path(geany_data->app->project->base_path, path);
 			msgwin_msg_add(COLOR_BLACK, -1, NULL, "%s", rel_path ? rel_path : path);
 			g_free(path);
 			g_free(rel_path);
@@ -558,8 +558,8 @@ static gboolean match(TMTag *tag, const gchar *name, gboolean declaration, gbool
 	{
 		gchar *relpath;
 		
-		relpath = get_file_relative_path(path, tag->file->file_name);
-		matches = relpath && !g_str_has_prefix(relpath, "..");
+		relpath = get_relative_path(path, tag->file->file_name);
+		matches = relpath != NULL;
 		g_free(relpath);
 	}
 	
@@ -592,7 +592,7 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 			gchar *scopestr = tag->scope ? g_strconcat(tag->scope, "::", NULL) : g_strdup("");
 			gchar *relpath;
 			
-			relpath = get_file_relative_path(geany_data->app->project->base_path, tag->file->file_name);
+			relpath = get_relative_path(geany_data->app->project->base_path, tag->file->file_name);
 			msgwin_msg_add(COLOR_BLACK, -1, NULL, "%s:%lu:\n\t[%s]\t %s%s%s", relpath,
 				tag->line, tm_tag_type_name(tag), scopestr, tag->name, tag->arglist ? tag->arglist : "");
 			g_free(scopestr);
@@ -1006,7 +1006,7 @@ static void load_project_root(PrjOrgRoot *root, GtkTreeIter *parent, GSList *hea
 	g_hash_table_iter_init(&iter, root->file_table);
 	while (g_hash_table_iter_next(&iter, &key, &value))
 	{
-		gchar *path = get_file_relative_path(root->base_dir, key);
+		gchar *path = get_relative_path(root->base_dir, key);
 		lst = g_slist_prepend(lst, path);
 	}
 	lst = g_slist_sort(lst, (GCompareFunc) strcmp);
@@ -1152,8 +1152,8 @@ static gboolean follow_editor_on_idle(gpointer foo)
 	{
 		PrjOrgRoot *root = elem->data;
 		
-		path = get_file_relative_path(root->base_dir, doc->file_name);
-		if (path != NULL && !g_str_has_prefix(path, ".."))
+		path = get_relative_path(root->base_dir, doc->file_name);
+		if (path)
 			break;
 			
 		g_free(path);

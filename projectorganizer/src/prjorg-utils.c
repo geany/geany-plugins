@@ -26,75 +26,20 @@
 extern GeanyData *geany_data;
 extern GeanyFunctions *geany_functions;
 
-static gchar *relpath(const gchar *origin_dir, const gchar *dest_dir)
+
+gchar *get_relative_path(const gchar *parent, const gchar *descendant)
 {
-	gchar *origin, *dest;
-	gchar **originv, **destv;
-	gchar *ret = NULL;
-	guint i, j;
-	
-	origin = tm_get_real_path(origin_dir);
-	dest = tm_get_real_path(dest_dir);
+	GFile *gf_parent, *gf_descendant;
+	gchar *ret;
 
-	if (EMPTY(origin) || EMPTY(dest) || origin[0] != dest[0])
-	{
-		g_free(origin);
-		g_free(dest);
-		return NULL;
-	}
+	gf_parent = g_file_new_for_path(parent);
+	gf_descendant = g_file_new_for_path(descendant);
 
-	originv = g_strsplit_set(g_path_skip_root(origin), "/\\", -1);
-	destv = g_strsplit_set(g_path_skip_root(dest), "/\\", -1);
+	ret = g_file_get_relative_path(gf_parent, gf_descendant);
 
-	for (i = 0; originv[i] != NULL && destv[i] != NULL; i++)
-		if (g_strcmp0(originv[i], destv[i]) != 0)
-			break;
+	g_object_unref(gf_parent);
+	g_object_unref(gf_descendant);
 
-	ret = g_strdup("");
-
-	for (j = i; originv[j] != NULL; j++)
-		SETPTR(ret, g_build_filename(ret, "..", NULL));
-
-	for (j = i; destv[j] != NULL; j++)
-		SETPTR(ret, g_build_filename(ret, destv[j], NULL));
-
-	if (strlen(ret) == 0)
-		SETPTR(ret, g_strdup("."G_DIR_SEPARATOR_S));
-
-	g_free(origin);
-	g_free(dest);
-	g_strfreev(originv);
-	g_strfreev(destv);
-
-	return ret;
-}
-
-
-gchar *get_file_relative_path(const gchar *origin_dir, const gchar *dest_file)
-{
-	gchar *dest_dir, *ret;
-
-	dest_dir = g_path_get_dirname(dest_file);
-	ret = relpath(origin_dir, dest_dir);
-	if (ret)
-	{
-		gchar *dest_basename;
-
-		dest_basename = g_path_get_basename(dest_file);
-
-		if (g_strcmp0(ret, "."G_DIR_SEPARATOR_S) != 0)
-		{
-			SETPTR(ret, g_build_filename(ret, dest_basename, NULL));
-		}
-		else
-		{
-			SETPTR(ret, g_strdup(dest_basename));
-		}
-
-		g_free(dest_basename);
-	}
-
-	g_free(dest_dir);
 	return ret;
 }
 

@@ -19,7 +19,7 @@
 #ifndef __PRJORG_UTILS_H__
 #define __PRJORG_UTILS_H__
 
-gchar *get_file_relative_path(const gchar *origin_dir, const gchar *dest_file);
+gchar *get_relative_path(const gchar *parent, const gchar *descendant);
 
 gboolean patterns_match(GSList *patterns, const gchar *str);
 GSList *get_precompiled_patterns(gchar **patterns);
