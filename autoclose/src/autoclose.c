@@ -621,7 +621,7 @@ struct_semicolon(
 	gchar           *chars_right,
 	gint             filetype)
 {
-	if (filetype_c_or_cpp(filetype) && 
+	if (filetype_c_or_cpp(filetype) &&
 	   (check_struct(sci, pos, "struct") || check_struct(sci, pos, "typedef struct")))
 	{
 		chars_right[1] = ';';
@@ -1051,8 +1051,8 @@ plugin_configure(GtkDialog *dialog)
 	WIDGET_CONF_BOOL(backquote, _("Backquote ` `"),
 		_("Auto-close backquote ` -> `|`"));
 	g_signal_connect(widget, "toggled", G_CALLBACK(ac_backquote_bashonly_cb), dialog);
-	WIDGET_CONF_BOOL(backquote_bashonly, _("\tOnly for Bash"),
-		_("Auto-close backquote only in Bash"));
+	WIDGET_CONF_BOOL(backquote_bashonly, _("\tOnly for Shell-scripts (Bash)"),
+		_("Auto-close backquote only in Shell-scripts like Bash"));
 
 	WIDGET_FRAME(_("Improve curly brackets completion"));
 	WIDGET_CONF_BOOL(make_indent_for_cbracket, _("Indent when enclosing"),
