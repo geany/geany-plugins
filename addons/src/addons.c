@@ -561,7 +561,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_enclose_words),
 		ao_info->enable_enclose_words);
 
-	enclose_words_config_button = gtk_button_new_with_label ("Configure enclose pairs");
+	enclose_words_config_button = gtk_button_new_with_label (_("Configure enclose pairs"));
 	g_signal_connect(enclose_words_config_button, "clicked", G_CALLBACK(ao_enclose_words_config), dialog);
 	enclose_words_hbox = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(enclose_words_hbox), check_enclose_words, FALSE, FALSE, 3);
