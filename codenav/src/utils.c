@@ -19,6 +19,8 @@
  *  along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <geanyplugin.h>
+
 #include "utils.h"
 
  /**
@@ -107,4 +109,3 @@ strrpos(const gchar *haystack, const gchar *needle)
 	  return p - haystack;
    return -1;   // not found
 }
-

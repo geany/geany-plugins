@@ -23,19 +23,11 @@
 # include "config.h"
 #endif
 
-#include "geany.h"
-#include "support.h"
+#include "geanyplugin.h"
 
 #ifdef HAVE_LOCALE_H
 # include <locale.h>
 #endif
-
-#include "ui_utils.h"
-
-#include "document.h"
-#include "keybindings.h"
-#include "plugindata.h"
-#include "geanyfunctions.h"
 
 #include <glib.h>
 #include <glib/gprintf.h>

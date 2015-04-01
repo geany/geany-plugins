@@ -26,7 +26,7 @@
  * \brief it is the graphical user interface of the geany miniscript plugin
  */
 #include    "config.h"
-#include    "geany.h"
+#include    "geanyplugin.h"
 
 #include    <glib/gstdio.h>
 #include    <glib/gprintf.h>
@@ -42,15 +42,6 @@
 #ifdef HAVE_LOCALE_H
 #include    <locale.h>
 #endif
-
-/* geany headers */
-#include    "support.h"
-#include    "plugindata.h"
-#include    "editor.h"
-#include    "document.h"
-#include    "prefs.h"
-#include    "utils.h"
-#include    "ui_utils.h"
 
 /* user header */
 #include    "gms_debug.h"

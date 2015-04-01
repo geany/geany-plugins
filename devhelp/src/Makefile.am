@@ -25,6 +25,7 @@ devhelp_la_CFLAGS = \
 
 devhelp_la_LIBADD = \
 	$(DEVHELP_LIBS) \
+	$(COMMONLIBS) \
 	$(top_builddir)/devhelp/devhelp/libdevhelp-2.la
 
 include $(top_srcdir)/build/cppcheck.mk
