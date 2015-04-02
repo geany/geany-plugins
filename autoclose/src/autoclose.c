@@ -1069,7 +1069,7 @@ plugin_configure(GtkDialog *dialog)
 		_("Improved auto-indent for curly brackets: type \"{\" "
 		"and then press Enter - plugin will create full indented block. "
 		"Works without \"auto-close { }\" checkbox."));
-	WIDGET_CONF_BOOL(whitesmiths_style, _("\tWhitesmiths style"),
+	WIDGET_CONF_BOOL(whitesmiths_style, _("\tWhitesmith's style"),
 		_("This style puts the brace associated with a control statement on "
 		"the next line, indented. Statements within the braces are indented "
 		"to the same level as the braces."));
