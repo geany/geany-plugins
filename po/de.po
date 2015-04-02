@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.25\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-31 07:33+0200\n"
-"PO-Revision-Date: 2015-03-31 07:44+0200\n"
+"POT-Creation-Date: 2015-04-02 14:54+0200\n"
+"PO-Revision-Date: 2015-04-02 15:16+0200\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
 "Language: de\n"
@@ -347,21 +347,22 @@ msgid "Auto-close backquote ` -> `|`"
 msgstr "Automatisches Schließen von Rückwärtsanführungszeichen »`« -> »`|`«"
 
 #: ../autoclose/src/autoclose.c:1054
-msgid "\tOnly for Shell-scripts"
-msgstr "\tNur für Shell-Skripte"
+msgid "\tOnly for Shell-scripts (Bash)"
+msgstr "\tNur für Shell-Skripte (z. B. Bash)"
 
 #: ../autoclose/src/autoclose.c:1055
-msgid "Auto-close backquote only in Bash"
-msgstr "Automatisches Schließen von Rückwärtsanfürhungszeichen in Shell-Skripten wie Bash"
+msgid "Auto-close backquote only in Shell-scripts like Bash"
+msgstr ""
+"Automatisches Schließen von Rückwärtsanführungszeichen in Shell-Skripten wie "
+"Bash"
 
 #: ../autoclose/src/autoclose.c:1057
 msgid "Improve curly brackets completion"
-msgstr ""
+msgstr "Verbesserung der Schließung von geschweiften Klammern"
 
 #: ../autoclose/src/autoclose.c:1058
-#, fuzzy
 msgid "Indent when enclosing"
-msgstr "Keine Zeichenkodierung explizit festlegen"
+msgstr "Automatisch Einrücken beim automatischen Schließen"
 
 #: ../autoclose/src/autoclose.c:1059
 msgid ""
@@ -370,11 +371,17 @@ msgid ""
 "You do not need to select block precisely - block enclosing takes into "
 "account only lines."
 msgstr ""
+"Wenn sie einen Text auswählen und »{« bzw. »}« drücken, wird das "
+"Plugin die Auswahl automatisch umschließen sowie einen neuen, "
+"eingerückten Block mit dem markierten Text anlegen. \n"
+"Dabei ist es nicht notwendig, den Block präzise zu wählen -- für die "
+"Auswahl des Blockes werden jeweils immer die vollständigen Zeilen "
+"einbezogen."
+
 
 #: ../autoclose/src/autoclose.c:1064
-#, fuzzy
-msgid "Move cursor to beginning"
-msgstr "Cursor zu Zeilenende bewegen"
+msgid "Movecursor to beginning"
+msgstr "Cursor zum Zeilenanfang bewegen"
 
 #: ../autoclose/src/autoclose.c:1065
 msgid ""
@@ -384,9 +391,8 @@ msgid ""
 msgstr ""
 
 #: ../autoclose/src/autoclose.c:1068
-#, fuzzy
 msgid "Improved auto-indentation"
-msgstr "Seitenausrichtung:"
+msgstr "Verbesserte automatische Einrückung"
 
 #: ../autoclose/src/autoclose.c:1069
 msgid ""
@@ -415,9 +421,8 @@ msgid "Check if you want to delete pairing bracket by pressing BackSpace."
 msgstr ""
 
 #: ../autoclose/src/autoclose.c:1081
-#, fuzzy
 msgid "Suppress double-completion"
-msgstr "Typ der Autovervollständigung:"
+msgstr "Doppeltes automatisches Schließen unterdrücken"
 
 #: ../autoclose/src/autoclose.c:1082
 msgid ""
@@ -426,22 +431,22 @@ msgid ""
 msgstr ""
 
 #: ../autoclose/src/autoclose.c:1084
-#, fuzzy
 msgid "Enclose selections"
-msgstr "Auswahl abbrechen"
+msgstr "Auswahl einschließen"
 
 #: ../autoclose/src/autoclose.c:1085
 msgid "Automatically enclose selected text by pressing just one bracket key."
 msgstr ""
 
 #: ../autoclose/src/autoclose.c:1087
-#, fuzzy
 msgid "Keep selection when enclosing"
-msgstr "Markierung eine Gliederungsebene absenken"
+msgstr "Auswahl beim Umschließen beibehalten"
 
 #: ../autoclose/src/autoclose.c:1088
 msgid "Keep your previously selected text after enclosing."
 msgstr ""
+"Behält die Auswahl nach dem Umschließen bei, so dass damit "
+"weitergearbeitet werden kann."
 
 #: ../autoclose/src/autoclose.c:1090
 msgid "Behaviour inside comments and strings"
@@ -552,15 +557,15 @@ msgstr ""
 #. Add the menu item, sensitive only when a document is opened
 #: ../codenav/src/goto_file.c:68 ../codenav/src/goto_file.c:218
 msgid "Go to File..."
-msgstr ""
+msgstr "Gehe zu Datei ..."
 
 #: ../codenav/src/goto_file.c:82
 msgid "Go to File"
-msgstr ""
+msgstr "Gehe zu Datei"
 
 #: ../codenav/src/goto_file.c:227
 msgid "Enter the file you want to open:"
-msgstr ""
+msgstr "Datei zum Öffnen:"
 
 # c-format
 #: ../codenav/src/goto_file.c:303 ../codenav/src/switch_head_impl.c:409
@@ -1239,31 +1244,30 @@ msgid "Process execution failed (%s)"
 msgstr ""
 
 #: ../geanyctags/src/geanyctags.c:517
-#: ../projectorganizer/src/prjorg-sidebar.c:422
-#: ../projectorganizer/src/prjorg-sidebar.c:1367
-#, fuzzy
+#: ../projectorganizer/src/prjorg-sidebar.c:423
+#: ../projectorganizer/src/prjorg-sidebar.c:1368
 msgid "Find Tag"
-msgstr "Suchen:"
+msgstr "Tag finden"
 
 #: ../geanyctags/src/geanyctags.c:528 ../geanymacro/src/geanymacro.c:1424
 #: ../projectorganizer/src/prjorg-sidebar.c:128
-#: ../projectorganizer/src/prjorg-sidebar.c:433
+#: ../projectorganizer/src/prjorg-sidebar.c:434
 msgid "Search for:"
 msgstr "Suchen nach:"
 
 #: ../geanyctags/src/geanyctags.c:546
-#: ../projectorganizer/src/prjorg-sidebar.c:451
+#: ../projectorganizer/src/prjorg-sidebar.c:452
 msgid "Match type:"
 msgstr ""
 
 #: ../geanyctags/src/geanyctags.c:562
 #: ../projectorganizer/src/prjorg-sidebar.c:156
-#: ../projectorganizer/src/prjorg-sidebar.c:479
+#: ../projectorganizer/src/prjorg-sidebar.c:480
 msgid "C_ase sensitive"
 msgstr "_Groß-/Kleinschreibung beachten"
 
 #: ../geanyctags/src/geanyctags.c:565
-#: ../projectorganizer/src/prjorg-sidebar.c:482
+#: ../projectorganizer/src/prjorg-sidebar.c:483
 #, fuzzy
 msgid "_Declaration"
 msgstr "Relationale Operatoren"
@@ -4521,11 +4525,11 @@ msgstr "Im Projekt suchen"
 msgid "Remove File"
 msgstr "Datei entfernen"
 
-#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1391
+#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1392
 msgid "H_ide Sidebar"
 msgstr "Seitenleiste _verstecken"
 
-#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1412
+#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1413
 msgid "Project"
 msgstr "Projekt"
 
@@ -5546,7 +5550,12 @@ msgstr "Leerzeichen"
 msgid "Line break"
 msgstr "Zeilenumbruch"
 
-#: ../projectorganizer/src/prjorg-main.c:34
+#: ../projectorganizer/src/prjorg-main.c:41
+#, fuzzy
+msgid "Project Organizer"
+msgstr "Ausgewählte Datei öffnen (gproject)"
+
+#: ../projectorganizer/src/prjorg-main.c:42
 msgid ""
 "Project file tree, project-wide indexing and search, extra navigation options"
 msgstr ""
@@ -5590,11 +5599,11 @@ msgstr "Header und Quellen tauschen"
 msgid "Open Selected File (Project Organizer)"
 msgstr "Ausgewählte Datei öffnen (gproject)"
 
-#: ../projectorganizer/src/prjorg-project.c:527
+#: ../projectorganizer/src/prjorg-project.c:547
 msgid "Source patterns:"
 msgstr "Quelltextmuster:"
 
-#: ../projectorganizer/src/prjorg-project.c:533
+#: ../projectorganizer/src/prjorg-project.c:553
 #, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
@@ -5604,11 +5613,11 @@ msgstr ""
 "identifizieren. Wird hauptsächlich für das Umschalten zwischen Quellen und "
 "Header verwendet."
 
-#: ../projectorganizer/src/prjorg-project.c:539
+#: ../projectorganizer/src/prjorg-project.c:559
 msgid "Header patterns:"
 msgstr "Header-Muster:"
 
-#: ../projectorganizer/src/prjorg-project.c:545
+#: ../projectorganizer/src/prjorg-project.c:565
 #, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
@@ -5618,12 +5627,12 @@ msgstr ""
 "identifizieren. Wird hauptsächlich für das Umschalten zwischen Quellen und "
 "Header verwendet."
 
-#: ../projectorganizer/src/prjorg-project.c:551
+#: ../projectorganizer/src/prjorg-project.c:571
 #, fuzzy
 msgid "Ignored file patterns:"
 msgstr "Muster für zu ignorierende Verzeichnisse:"
 
-#: ../projectorganizer/src/prjorg-project.c:557
+#: ../projectorganizer/src/prjorg-project.c:577
 #, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
@@ -5632,12 +5641,12 @@ msgstr ""
 "Leerzeichengetrennte Liste mit Mustern, die genutzt werden, um Verzeichnisse "
 "zu erkennen, die nicht nach Quelldateien durchsucht werden sollen. "
 
-#: ../projectorganizer/src/prjorg-project.c:563
+#: ../projectorganizer/src/prjorg-project.c:583
 #, fuzzy
 msgid "Ignored directory patterns:"
 msgstr "Muster für zu ignorierende Verzeichnisse:"
 
-#: ../projectorganizer/src/prjorg-project.c:569
+#: ../projectorganizer/src/prjorg-project.c:589
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
@@ -5645,26 +5654,26 @@ msgstr ""
 "Leerzeichengetrennte Liste mit Mustern, die genutzt werden, um Verzeichnisse "
 "zu erkennen, die nicht nach Quelldateien durchsucht werden sollen. "
 
-#: ../projectorganizer/src/prjorg-project.c:575
+#: ../projectorganizer/src/prjorg-project.c:595
 #, fuzzy
 msgid "Generate tags for all project files:"
 msgstr "Tags für alle Projektdateien erstellen"
 
-#: ../projectorganizer/src/prjorg-project.c:578
+#: ../projectorganizer/src/prjorg-project.c:598
 msgid "Auto (generate if less than 500 files)"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:579
+#: ../projectorganizer/src/prjorg-project.c:599
 #, fuzzy
 msgid "Yes"
 msgstr "ja"
 
-#: ../projectorganizer/src/prjorg-project.c:580
+#: ../projectorganizer/src/prjorg-project.c:600
 #, fuzzy
 msgid "No"
 msgstr "Nr."
 
-#: ../projectorganizer/src/prjorg-project.c:584
+#: ../projectorganizer/src/prjorg-project.c:604
 #, fuzzy
 msgid ""
 "Generate tag list for all project files instead of only for the currently "
@@ -5674,7 +5683,7 @@ msgstr ""
 "geöffneten Dateien. Sehr langsam bei großen Projekten (>1000 Dateien) und "
 "sollte in solch einem Fall deaktiviert werden."
 
-#: ../projectorganizer/src/prjorg-project.c:590
+#: ../projectorganizer/src/prjorg-project.c:610
 msgid ""
 "Note: the patterns above affect only the sidebar and are not used in the "
 "Find in Files\n"
@@ -5685,12 +5694,12 @@ msgid ""
 msgstr ""
 
 #: ../projectorganizer/src/prjorg-sidebar.c:117
-#: ../projectorganizer/src/prjorg-sidebar.c:1358
+#: ../projectorganizer/src/prjorg-sidebar.c:1359
 msgid "Find File"
 msgstr "Datei suchen"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:144
-#: ../projectorganizer/src/prjorg-sidebar.c:467
+#: ../projectorganizer/src/prjorg-sidebar.c:468
 msgid "Search inside:"
 msgstr "Suchen in:"
 
@@ -5699,7 +5708,7 @@ msgid "Search in full path"
 msgstr "Im vollen Pfad suchen"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:170
-#: ../projectorganizer/src/prjorg-sidebar.c:622
+#: ../projectorganizer/src/prjorg-sidebar.c:623
 #, fuzzy
 msgid "project or external directory"
 msgstr "Neues Verzeichnis anlegen"
@@ -5714,45 +5723,45 @@ msgstr "Verzeichnis auswählen"
 msgid "Add"
 msgstr "Erweiterungen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1034
+#: ../projectorganizer/src/prjorg-sidebar.c:1035
 msgid "Set file patterns under Project->Properties"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1248
+#: ../projectorganizer/src/prjorg-sidebar.c:1249
 msgid "Reload all"
 msgstr "Alle neuladen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1257
+#: ../projectorganizer/src/prjorg-sidebar.c:1258
 #, fuzzy
 msgid "Add external directory"
 msgstr "Verzeichnis zurücksetzen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1267
+#: ../projectorganizer/src/prjorg-sidebar.c:1268
 #: ../treebrowser/src/treebrowser.c:1282
 msgid "Expand all"
 msgstr "Alle ausklappen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1274
+#: ../projectorganizer/src/prjorg-sidebar.c:1275
 msgid "Collapse to project root"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1285
+#: ../projectorganizer/src/prjorg-sidebar.c:1286
 msgid "Follow active editor"
 msgstr "Aktiven Editor folgen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1331
-msgid "(Re)open project to start using the plugin"
+#: ../projectorganizer/src/prjorg-sidebar.c:1332
+msgid "Open a project to start using the plugin"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1340
+#: ../projectorganizer/src/prjorg-sidebar.c:1341
 msgid "Expand All"
 msgstr "Alle ausklappen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1349
+#: ../projectorganizer/src/prjorg-sidebar.c:1350
 msgid "Find in Files"
 msgstr "In Dateien finden"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1380
+#: ../projectorganizer/src/prjorg-sidebar.c:1381
 #, fuzzy
 msgid "Remove External Directory"
 msgstr "Verzeichnis zurücksetzen"
