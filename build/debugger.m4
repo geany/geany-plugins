@@ -4,6 +4,7 @@ AC_DEFUN([GP_CHECK_DEBUGGER],
     GP_CHECK_PLUGIN_GTK2_ONLY([Debugger])
     GP_CHECK_PLUGIN_DEPS([debugger], [VTE],
                          [vte >= 0.24])
+    AC_CHECK_HEADERS([util.h pty.h libutil.h])
     GP_COMMIT_PLUGIN_STATUS([Debugger])
     AC_CONFIG_FILES([
         debugger/Makefile
