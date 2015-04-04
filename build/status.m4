@@ -1,23 +1,23 @@
 dnl add plugin status message, e.g. GP_STATUS_PLUGIN_ADD(plugin,yes)
 AC_DEFUN([GP_STATUS_PLUGIN_ADD],
 [
-    plugins_statusmsg+="$1:$2
-"
+    AS_VAR_APPEND([plugins_statusmsg],["$1:$2
+"])
 ])
 
 dnl add feature status message, e.g. GP_STATUS_FEATURE_ADD(feature,yes)
 AC_DEFUN([GP_STATUS_FEATURE_ADD],
 [
-    feature_statusmsg+="$1:$2
-"
+    AS_VAR_APPEND([feature_statusmsg],["$1:$2
+"])
 ])
 
 dnl add build feature status message, e.g.
 dnl GP_STATUS_BUIL_FEATURE_ADD(build_feature,yes)
 AC_DEFUN([GP_STATUS_BUILD_FEATURE_ADD],
 [
-    build_feature_statusmsg+="$1:$2
-"
+    AS_VAR_APPEND([build_feature_statusmsg],["$1:$2
+"])
 ])
 
 dnl indent $1_statusmsg with RHS at col $2
@@ -27,9 +27,9 @@ AC_DEFUN([_GP_STATUS_PRINT_INDENT_],
         test -z "$line" && break;
         plugin="    ${line%:*}:"
         status=${line#*:}
-        let extracols=$2-${#plugin}
+        let extracols=$2-${#plugin} >/dev/null
         printf "$plugin"
-        for (( i=0; $i<$extracols; i++ )); do
+        for i in $(seq 1 $extracols); do
             printf ' '
         done
         echo $status
