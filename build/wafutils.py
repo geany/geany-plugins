@@ -141,6 +141,28 @@ def check_c_header_cached(conf, **kw):
     return result
 
 
+def check_c_func_in_headers_cached(conf, header_names, mandatory=True, **kw):
+    """
+    Check for @function_name in any of @header_names.
+    Use like a conf.check_cc() for a lib, but pass a list of headers in
+    @header_names.
+
+    This checks for the headers firs with check_c_header_cached(), then
+    if this succeeded calls conf.check_cc() on it.
+    """
+
+    exception = None
+    for header in header_names:
+        try:
+            check_c_header_cached(conf, header_name=header)
+            return conf.check_cc(**dict(kw, header_name=header, mandatory=True))
+        except Exception as e:
+            exception = e
+    if mandatory:
+        raise exception
+    return None
+
+
 def check_cfg_cached(conf, **kw):
     # Works as conf.check_cfg() but tries to cache already checked packages
     package = kw.get('package')
