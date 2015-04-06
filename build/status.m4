@@ -27,12 +27,7 @@ AC_DEFUN([_GP_STATUS_PRINT_INDENT_],
         test -z "$line" && break;
         plugin="    ${line%:*}:"
         status=${line#*:}
-        let extracols=$2-${#plugin} >/dev/null
-        printf "$plugin"
-        for i in $(seq 1 $extracols); do
-            printf ' '
-        done
-        echo $status
+        printf "%-*s%s\n" "$2" "$plugin" "$status"
     done << GPEOF
 $$1_statusmsg
 GPEOF
