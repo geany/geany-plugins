@@ -42,3 +42,22 @@ AC_DEFUN([GP_CHECK_GEANY],
 
     GP_GEANY_PKG_CONFIG_PATH_POP
 ])
+
+dnl GP_CHECK_PLUGIN_GEANY_VERSION(PluginName, GEANY-VERSION)
+dnl Checks whether Geany's version is at least GEANY-VERSION, and error
+dnl out/disables plugins appropriately depending on enable_$plugin
+AC_DEFUN([GP_CHECK_PLUGIN_GEANY_VERSION],
+[
+    AC_REQUIRE([GP_CHECK_GEANY])dnl for GEANY_VERSION
+
+    AS_IF([test "$m4_tolower(AS_TR_SH(enable_$1))" = no],[],
+          [AC_MSG_CHECKING([whether the Geany version in use is compatible with plugin $1])
+           AS_VERSION_COMPARE([$GEANY_VERSION], [$2],
+                              [AC_MSG_RESULT([no])
+                               AS_IF([test "$m4_tolower(AS_TR_SH(enable_$1))" = yes],
+                                     [AC_MSG_ERROR([$1 is not compatible with the Geany version in use])],
+                                     [test "$m4_tolower(AS_TR_SH(enable_$1))" = auto],
+                                     [m4_tolower(AS_TR_SH(enable_$1))=no])],
+                              [AC_MSG_RESULT([yes])],
+                              [AC_MSG_RESULT([yes])])])
+])
