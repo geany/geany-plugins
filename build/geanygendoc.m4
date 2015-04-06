@@ -7,6 +7,7 @@ AC_DEFUN([GP_CHECK_GEANYGENDOC],
     GIO_VERSION=2.18
     CTPL_VERSION=0.3
 
+    GP_CHECK_PLUGIN_GEANY_VERSION([GeanyGenDoc], [1.25])
     GP_CHECK_PLUGIN_DEPS([GeanyGenDoc], GEANYGENDOC,
                          [$GP_GTK_PACKAGE >= ${GTK_VERSION}
                           glib-2.0 >= ${GLIB_VERSION}
