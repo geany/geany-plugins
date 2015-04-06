@@ -708,7 +708,7 @@ treebrowser_search(gchar *uri, gpointer parent)
 			{
 				path = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &iter);
 				gtk_tree_view_expand_to_path(GTK_TREE_VIEW(treeview), path);
-				gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(treeview), path, TREEBROWSER_COLUMN_ICON, FALSE, 0, 0);
+				gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(treeview), path, NULL, FALSE, 0, 0);
 				gtk_tree_view_set_cursor(GTK_TREE_VIEW(treeview), path, treeview_column_text, FALSE);
 				gtk_tree_path_free(path);
 				g_free(uri_current);
