@@ -598,7 +598,7 @@ gint prjorg_project_add_properties_tab(GtkWidget *notebook)
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), _("Auto (generate if less than 500 files)"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), _("Yes"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), _("No"));
-	gtk_combo_box_set_active(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), prj_org->generate_tag_prefs);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(e->generate_tag_prefs), prj_org->generate_tag_prefs);
 	ui_table_add_row(GTK_TABLE(table), 4, label, e->generate_tag_prefs, NULL);
 	ui_widget_set_tooltip_text(e->generate_tag_prefs,
 		_("Generate tag list for all project files instead of only for the currently opened files. "
