@@ -1,18 +1,41 @@
+dnl _GP_CHECK_CFLAG(FLAG, [ACTION-IF-TRUE], [ACTION-IF-FALSE])
+dnl Checks whether the C compiler works when passed FLAG
+dnl This might not mean it actually understand the flag, in case it is
+dnl forgiving about unknown flags.
+AC_DEFUN([_GP_CHECK_CFLAG],
+[
+    gp_check_cflag_CFLAGS="$CFLAGS"
+    CFLAGS="$1"
+    AC_LANG_PUSH(C)
+    AC_COMPILE_IFELSE([AC_LANG_SOURCE([int main(void) {return 0;}])],
+                      [$2], [$3])
+    AC_LANG_POP(C)
+    CFLAGS="$gp_check_cflag_CFLAGS"
+])
+
+dnl _GP_CHECK_CFLAG_WERROR
+dnl Checks for the flag the compiler has to treat warnings as errors
+dnl Sets $_GP_CFLAG_WERROR
+AC_DEFUN([_GP_CHECK_CFLAG_WERROR],
+[
+    _GP_CFLAG_WERROR=
+    AC_MSG_CHECKING([for the C compiler flag to treat warnings as errors])
+    _GP_CHECK_CFLAG([-Werror], [_GP_CFLAG_WERROR="-Werror"])
+    AC_MSG_RESULT([${_GP_CFLAG_WERROR:-none}])
+])
+
 dnl GP_CHECK_CFLAG(FLAG, [ACTION-IF-TRUE], [ACTION-IF-FALSE])
 dnl Checks whether the C compiler understands FLAG
 AC_DEFUN([GP_CHECK_CFLAG],
 [
-    gp_check_cflag_CFLAGS="$CFLAGS"
-    CFLAGS="$1"
-    AC_MSG_CHECKING([whether the C compiler understands $CFLAGS])
-    AC_LANG_PUSH(C)
-    AC_COMPILE_IFELSE([AC_LANG_SOURCE([int main(void) {return 0;}])],
-                      [AC_MSG_RESULT([yes])
-                       $2],
-                      [AC_MSG_RESULT([no])
-                       $3])
-    AC_LANG_POP(C)
-    CFLAGS="$gp_check_cflag_CFLAGS"
+    AC_REQUIRE([_GP_CHECK_CFLAG_WERROR])
+
+    AC_MSG_CHECKING([whether the C compiler understands $1])
+    _GP_CHECK_CFLAG([$1 $_GP_CFLAG_WERROR],
+                    [AC_MSG_RESULT([yes])
+                     $2],
+                    [AC_MSG_RESULT([no])
+                     $3])
 ])
 
 dnl GP_CHECK_CFLAGS
