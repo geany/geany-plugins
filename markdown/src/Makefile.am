@@ -23,6 +23,7 @@ markdown_la_CFLAGS = \
 	-DMARKDOWN_HELP_FILE=\"$(docdir)/markdown/html/help.html\"
 
 markdown_la_LIBADD = \
+	$(COMMONLIBS) \
 	$(MARKDOWN_LIBS)
 
 if MARKDOWN_PEG_MARKDOWN
