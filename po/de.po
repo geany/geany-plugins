@@ -1,5 +1,5 @@
 # German translation for geany-plugins
-# Copyright (C) 2009-2014 THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) 2009-2015 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 # Andrew Janke <a.janke@gmail.com>, 2009
 # Frank Lanitz <frank@frank.uvena.de>, 2009-2015
@@ -7,12 +7,17 @@
 # Michael Spahn <anyone90@googlemail.com>, 2009
 # Fabian Nowak <timystery@arcor.de>, 2012
 #
+# Vereinbarungen
+# * Anführungsstriche zur Kennzeichnung von "Zitaten" wie " sollten
+#   über die französischen Anführungsstriche realisiert werden: » und «.
+#   Wichtig: In genau der Reihenfolge, da es ein deutscher "Text" ist
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.25\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-02 14:54+0200\n"
-"PO-Revision-Date: 2015-04-02 15:16+0200\n"
+"POT-Creation-Date: 2015-04-09 19:01+0200\n"
+"PO-Revision-Date: 2015-04-10 09:29+0200\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
 "Language: de\n"
@@ -371,17 +376,15 @@ msgid ""
 "You do not need to select block precisely - block enclosing takes into "
 "account only lines."
 msgstr ""
-"Wenn sie einen Text auswählen und »{« bzw. »}« drücken, wird das "
-"Plugin die Auswahl automatisch umschließen sowie einen neuen, "
-"eingerückten Block mit dem markierten Text anlegen. \n"
-"Dabei ist es nicht notwendig, den Block präzise zu wählen -- für die "
-"Auswahl des Blockes werden jeweils immer die vollständigen Zeilen "
-"einbezogen."
-
+"Wenn sie einen Text auswählen und »{« bzw. »}« drücken, wird das Plugin die "
+"Auswahl automatisch umschließen sowie einen neuen, eingerückten Block mit "
+"dem markierten Text anlegen. \n"
+"Dabei ist es nicht notwendig, den Block präzise zu wählen -- für die Auswahl "
+"des Blockes werden jeweils immer die vollständigen Zeilen einbezogen."
 
 #: ../autoclose/src/autoclose.c:1064
-msgid "Movecursor to beginning"
-msgstr "Cursor zum Zeilenanfang bewegen"
+msgid "Move cursor to beginning"
+msgstr "Cursor zum Beginn bewegen"
 
 #: ../autoclose/src/autoclose.c:1065
 msgid ""
@@ -389,6 +392,10 @@ msgid ""
 "useful: usually you make new block and need to create new statement before "
 "this block."
 msgstr ""
+"Wenn die Option »Automatisch Einrücken beim automatischen Schließen« "
+"aktiviert ist, kann die Positionierung des Cursors am Beginn der Zeile "
+"sinnvoll sein: Wenn ein neuer Block begonnen wird, kommt es oft vor, dass am "
+"Anfang des Blocks Quellcode hinzugefügt werden muss."
 
 #: ../autoclose/src/autoclose.c:1068
 msgid "Improved auto-indentation"
@@ -400,10 +407,14 @@ msgid ""
 "plugin will create full indented block. Works without \"auto-close { }\" "
 "checkbox."
 msgstr ""
+"Verbesserte automatische Einrückung von geschweiften Klammern: Tippen sie "
+"»{« und drücken dann Enter, wird das Plugin einen vollständig eingerücken "
+"Codeblock erstellen. Diese Funktion ist unabhängig von der Optionen zum "
+"automatischen Schlüssel von geschweiften Klammern »{ }«."
 
 #: ../autoclose/src/autoclose.c:1072
-msgid "\tWhitesmiths style"
-msgstr ""
+msgid "\tWhitesmith's style"
+msgstr "\tWhitesmithscher Stil"
 
 #: ../autoclose/src/autoclose.c:1073
 msgid ""
@@ -411,14 +422,18 @@ msgid ""
 "line, indented. Statements within the braces are indented to the same level "
 "as the braces."
 msgstr ""
+"Dieser Stil positioniert Klammern mit einer Kontrollfunktion mit "
+"einer Einrückung in eine neue Zeile. Anweisungen innerhalb des "
+"gleichen Klammerpaares werden dabei mit dem gleichen Einzug wie die "
+"Klammern behandelt."
 
 #: ../autoclose/src/autoclose.c:1078
 msgid "Delete pairing character while backspacing first"
-msgstr ""
+msgstr "Schließende Klammern beim Löschen der öffnenden entfernen"
 
 #: ../autoclose/src/autoclose.c:1079
 msgid "Check if you want to delete pairing bracket by pressing BackSpace."
-msgstr ""
+msgstr "Durch Auswählen dieser Option werden schließende Klammern gelöscht, wenn die öffnenden Klammern mittels der Rücktaste entfernt werden."
 
 #: ../autoclose/src/autoclose.c:1081
 msgid "Suppress double-completion"
@@ -428,7 +443,8 @@ msgstr "Doppeltes automatisches Schließen unterdrücken"
 msgid ""
 "Check if you want to allow editor automatically fix mistypes with brackets: "
 "if you type \"{}\" you will get \"{}\", not \"{}}\"."
-msgstr ""
+msgstr "Durch Aktivieren dieser Option versucht der Editor automatisch falsch gesetzte Klammern zu korrigieren: \n"
+"Durch die Eingabe von »{« gefolgt von einem »}« korrigiert der Editor damit automatisch zu »{}« anstatt »{}}« zu behalten."
 
 #: ../autoclose/src/autoclose.c:1084
 msgid "Enclose selections"
@@ -436,7 +452,7 @@ msgstr "Auswahl einschließen"
 
 #: ../autoclose/src/autoclose.c:1085
 msgid "Automatically enclose selected text by pressing just one bracket key."
-msgstr ""
+msgstr "Umschließt automatisch eine Auswahl allein durch Drücken der entsprechenden Klammer."
 
 #: ../autoclose/src/autoclose.c:1087
 msgid "Keep selection when enclosing"
@@ -445,66 +461,69 @@ msgstr "Auswahl beim Umschließen beibehalten"
 #: ../autoclose/src/autoclose.c:1088
 msgid "Keep your previously selected text after enclosing."
 msgstr ""
-"Behält die Auswahl nach dem Umschließen bei, so dass damit "
-"weitergearbeitet werden kann."
+"Behält die Auswahl nach dem Umschließen bei, so dass damit weitergearbeitet "
+"werden kann."
 
 #: ../autoclose/src/autoclose.c:1090
 msgid "Behaviour inside comments and strings"
-msgstr ""
+msgstr "Verhalten innerhalb von Kommentaren und Strings"
 
 #: ../autoclose/src/autoclose.c:1091
 msgid "Allow auto-closing in strings and comments"
-msgstr ""
+msgstr "Automatisches Schließen in Kommentaren und Strings aktivieren"
 
 #: ../autoclose/src/autoclose.c:1092
 msgid "Check if you wan to keep auto-closing inside strings and comments too."
-msgstr ""
+msgstr "Wenn diese Option gesetzt ist, werden Klammern in Kommentaren und Strings ebenfalls automatisch geschlossen."
 
 #: ../autoclose/src/autoclose.c:1093
-#, fuzzy
 msgid "Enclose selections in strings and comments"
-msgstr "Auswahl bei einstellbaren Tastenkürzeln miteinbeziehen"
+msgstr "Auswahl in Kommentaren und Strings umschließen"
 
 #: ../autoclose/src/autoclose.c:1094
 msgid "Check if you wan to enclose selections inside strings and comments too."
-msgstr ""
+msgstr "Legt fest, ob auch innerhalb von Kommentaren und Strings eine Auswahl automatisch mit einem Klammerpaar umschlossen werden soll."
 
 #: ../autoclose/src/autoclose.c:1097
 msgid "Auto-complete \";\" for functions"
-msgstr ""
+msgstr "Autovervollständigung von »;« für Funtklionsaufrufe"
 
 #: ../autoclose/src/autoclose.c:1098
 msgid ""
 "Full function auto-closing (works only for C/C++): type \"sin(\" and you "
 "will get \"sin(|);\"."
 msgstr ""
+"Legt fest, ob für Funktionen automatisch ein »;« eingefügt werden "
+"soll. Dies funktioniert nur für C bzw C++-Funktionen. \n"
+" Ist diese Option aktiv, wird aus »sin(« automatisch »sin();«-"
 
 #: ../autoclose/src/autoclose.c:1100
 msgid "Shift+BackSpace removes pairing brace too"
-msgstr ""
+msgstr "Umschalt+Rüpcktaste entfernt das vollständige Klammerpaar."
 
 #: ../autoclose/src/autoclose.c:1101
 msgid ""
 "Remove left and right brace while pressing Shift+BackSpace.\n"
 "Tip: to completely remove indented block just Shift+BackSpace first \"{\" or "
 "last \"}\"."
-msgstr ""
+msgstr "Entfernt sowohl die öffnende als auch die schließende Klammer beim Drücken von Umschalt+Rücktaste.\n"
+"Tipp: Um den kompletten Block zu entfernen, einfach die erste oder letzte geschweifte Klammer mittels Umschalt+Rücktaste löschen."
 
 #: ../autoclose/src/autoclose.c:1104
 msgid "Jump on Tab to enclosed char"
-msgstr ""
+msgstr "Springt zur schließenden Klammer durch Tabulator"
 
 #: ../autoclose/src/autoclose.c:1105
 msgid "Jump behind autoclosed items on Tab press."
-msgstr ""
+msgstr "Springt hinter den umschlossenen Abschnitt beim Drücken der Tabulator-Taste"
 
 #: ../automark/src/automark.c:48
 msgid "Auto-mark"
-msgstr ""
+msgstr "Auto-Mark"
 
 #: ../automark/src/automark.c:49
 msgid "Auto-mark word under cursor"
-msgstr ""
+msgstr "Automatisches markieren von Wörtern unter dem Cursor"
 
 #: ../codenav/src/codenavigation.c:43
 msgid "Code navigation"
@@ -513,13 +532,13 @@ msgstr "Quelltextnavigation"
 #: ../codenav/src/codenavigation.c:44
 msgid ""
 "This plugin adds features to facilitate navigation between source files."
-msgstr ""
+msgstr "Dieses Plugin fügt Funktionen zu Geany hinzu, um besser zwischen Quellcode-Dateien zu navigieren."
 
 #: ../codenav/src/codenavigation.c:139
 msgid ""
 "Codenav head/impl lists should have been same length. Geany will use the "
 "default configuration."
-msgstr ""
+msgstr "Die Liste für Header und Implementierungen haben nicht die gleiche Länge. Geany wird die Standard-Konfiguration nutzen. Bitte prüfen Sie die Optionen »implementations_list« und »headers_list« in der Plugin-Konfiguration."
 
 # Diese Übersetzung existiert drei mal.
 #. Frame, which is the returned widget
@@ -532,7 +551,7 @@ msgstr "Umschalten zwischen Deklaration und Implementierung"
 #. Help label
 #: ../codenav/src/codenavigation.c:403
 msgid "You can specify multiple extensions by separating them by commas."
-msgstr ""
+msgstr "Verschiedene Endungen können durch Trennung mittels Kommata spezifiziert werden."
 
 #: ../codenav/src/codenavigation.c:426
 msgid "Implementations extensions"
@@ -544,15 +563,15 @@ msgstr "Header-Erweiterungen"
 
 #. Add the "reset to default" button to the frame's hbox
 #: ../codenav/src/codenavigation.c:462
-#, fuzzy
 msgid "Reset to Default"
-msgstr "Vorgabe"
+msgstr "Auf Standardwerte zurücksetzen"
 
 #: ../codenav/src/codenavigation.c:547
 msgid ""
 "Are you sure you want to delete all languages and restore defaults?\n"
 "This action cannot be undone."
-msgstr ""
+msgstr "Sie sie sicher, dass sie alle Sprachen löschen und mit den Standardeinstellungen neu beginnen möchten?\n"
+"Dieser Schritt kann nicht rückgängig gemacht werden."
 
 #. Add the menu item, sensitive only when a document is opened
 #: ../codenav/src/goto_file.c:68 ../codenav/src/goto_file.c:218
@@ -1229,19 +1248,18 @@ msgid "Toggle case sensitive search"
 msgstr "»Beachten von Groß-/Kleinschreibung« umschalten"
 
 #: ../geanyctags/src/geanyctags.c:51
-#, fuzzy
 msgid "Ctags generation and search plugin for geany projects"
-msgstr "GPG-Verschlüsselungsplugin für Geany"
+msgstr "Unterstützung beim Erstellen von und Suchen in CTag-Dateien für Geany-Projekte"
 
 #: ../geanyctags/src/geanyctags.c:149
-#, fuzzy, c-format
+#c-format
 msgid "%s (in directory: %s)"
-msgstr "Das Verzeichnis »%s« existiert nicht"
+msgstr "%s (im Verzeichnis %s)"
 
 #: ../geanyctags/src/geanyctags.c:164
 #, c-format
 msgid "Process execution failed (%s)"
-msgstr ""
+msgstr "Prozess konnte nicht gestartet werden (%s)"
 
 #: ../geanyctags/src/geanyctags.c:517
 #: ../projectorganizer/src/prjorg-sidebar.c:423
@@ -1258,7 +1276,7 @@ msgstr "Suchen nach:"
 #: ../geanyctags/src/geanyctags.c:546
 #: ../projectorganizer/src/prjorg-sidebar.c:452
 msgid "Match type:"
-msgstr ""
+msgstr "Typ:"
 
 #: ../geanyctags/src/geanyctags.c:562
 #: ../projectorganizer/src/prjorg-sidebar.c:156
@@ -1268,27 +1286,24 @@ msgstr "_Groß-/Kleinschreibung beachten"
 
 #: ../geanyctags/src/geanyctags.c:565
 #: ../projectorganizer/src/prjorg-sidebar.c:483
-#, fuzzy
 msgid "_Declaration"
-msgstr "Relationale Operatoren"
+msgstr "Deklaration"
 
 #: ../geanyctags/src/geanyctags.c:632
 msgid "Find Tag Declaration (geanyctags)"
-msgstr ""
+msgstr "Tag-Deklaration finden (geanyctags)"
 
 #: ../geanyctags/src/geanyctags.c:637
 msgid "Find Tag Definition (geanyctags)"
-msgstr ""
+msgstr "Tag-Definition finden (geanyctags)"
 
 #: ../geanyctags/src/geanyctags.c:646 ../geanyctags/src/geanyctags.c:651
-#, fuzzy
 msgid "Generate tags"
-msgstr "Allgemein"
+msgstr "Tags erstellen"
 
 #: ../geanyctags/src/geanyctags.c:653 ../geanyctags/src/geanyctags.c:658
-#, fuzzy
 msgid "Find tag"
-msgstr "Nächstes suchen"
+msgstr "Tag suchen"
 
 #. All plugins must set name, description, version and author.
 #: ../geanydoc/src/geanydoc.c:50 ../geanydoc/src/geanydoc.c:347
@@ -5147,40 +5162,38 @@ msgstr "Zu _Pastebin senden"
 
 #: ../git-changebar/data/prefs.ui.h:1
 msgid "_Monitor repository for changes"
-msgstr ""
+msgstr "Repository auf Änderungen _überwachen"
 
 #: ../git-changebar/data/prefs.ui.h:2
 msgid ""
 "Whether to automatically update the diff in order to maintain it up to date "
 "when the underlying Git repository changes.  This should generally be "
 "enabled for optimal user experience."
-msgstr ""
+msgstr "Legt fest, ob die Diffs automatische aktualisiert werden und sie so immer auf dem aktuellen Stand gehalten werden sollen. Insbesondere dann, wenn das zu Grunde liegende git-Repository geändert wurde. In den meisten Fällen sollte diese Option aktiviert sein."
 
 #: ../git-changebar/data/prefs.ui.h:3
 msgid "_Added lines:"
-msgstr ""
+msgstr "_Hinzugefügte Zeilen:"
 
 #: ../git-changebar/data/prefs.ui.h:4
 msgid "_Changed lines:"
-msgstr ""
+msgstr "Geänderte Zeilen:"
 
 #: ../git-changebar/data/prefs.ui.h:5
-#, fuzzy
 msgid "_Removed lines:"
-msgstr "Datei entfernen"
+msgstr "_Entfernte Zeilen:"
 
 #: ../git-changebar/data/prefs.ui.h:6
-#, fuzzy
 msgid "Colors"
-msgstr "Hintergrundfarbe:"
+msgstr "Farben:"
 
 #: ../git-changebar/src/gcb-plugin.c:53
 msgid "Git Change Bar"
-msgstr ""
+msgstr "Git Change Bar"
 
 #: ../git-changebar/src/gcb-plugin.c:54
 msgid "Highlights uncommitted changes in files tracked with Git"
-msgstr ""
+msgstr "Hebt noch nicht committete Änderungen an in einem git-Repository verwaltete Dateien vor."
 
 #: ../git-changebar/src/gcb-plugin.c:1035 ../pohelper/src/gph-plugin.c:1577
 #, c-format
@@ -5198,14 +5211,13 @@ msgid "Failed to save configuration file: %s"
 msgstr "Konnte Konfiguration nicht speichern: %s"
 
 #: ../git-changebar/src/gcb-plugin.c:1141
-#, fuzzy
 msgid "Go to the previous hunk"
-msgstr "Zur vorherigen Seite gehen"
+msgstr "Zur vorherigen Block mit Änderungen springen"
 
 #: ../git-changebar/src/gcb-plugin.c:1143
 #, fuzzy
 msgid "Go to the next hunk"
-msgstr "Zur nächsten Seite gehen"
+msgstr "Zur nächsten Block mit Änderungen springen"
 
 #: ../git-changebar/src/gcb-plugin.c:1269 ../pohelper/src/gph-plugin.c:1373
 #: ../pohelper/src/gph-plugin.c:1706
@@ -5365,14 +5377,12 @@ msgid "_Reflow Translation"
 msgstr "_Übersetzungen neu umbrechen"
 
 #: ../pohelper/data/menus.ui.h:24 ../pohelper/src/gph-plugin.c:1542
-#, fuzzy
 msgid "Show statistics of the current document"
-msgstr "Prüft die Rechtschreibung im aktuellen Dokument."
+msgstr "Statistik der aktuellen Übersetzung ansehen"
 
 #: ../pohelper/data/menus.ui.h:25
-#, fuzzy
 msgid "_Show stats"
-msgstr "Status der Arbeitskopie anzeigen"
+msgstr "_Statistik anzeigen"
 
 #: ../pohelper/data/menus.ui.h:26
 msgid ""
@@ -5387,38 +5397,32 @@ msgid "Update _Headers Upon Save"
 msgstr "Metadaten beim Speichern aktualisieren"
 
 #: ../pohelper/data/stats.ui.h:1
-#, fuzzy
 msgid "Translation statistics"
-msgstr "Übersetzungshelfer"
+msgstr "Übersetzungsstatistiken"
 
 #: ../pohelper/data/stats.ui.h:2
-#, fuzzy
 msgid "Choose a color for translated strings"
-msgstr "Geht zu der nächsten, noch nicht übersetzten Zeichenkette."
+msgstr "Farbe für übersetze Texte auswählen"
 
 #: ../pohelper/data/stats.ui.h:3
-#, fuzzy
 msgid "Choose a color for fuzzily translated strings"
-msgstr "Gehe zur nächsten unklaren Übersetzung"
+msgstr "Für für unklare Übersetzungen auswählen"
 
 #: ../pohelper/data/stats.ui.h:4
-#, fuzzy
 msgid "Choose a color for untranslated strings"
-msgstr "Geht zu der nächsten, noch nicht übersetzten Zeichenkette."
+msgstr "Farbe für nicht übersetzte Texte auswählen"
 
 #: ../pohelper/data/stats.ui.h:5
-#, fuzzy
 msgid "Translated:"
-msgstr "Nächste nicht übersetzte Zeichenkette"
+msgstr "Übersetzt:"
 
 #: ../pohelper/data/stats.ui.h:6
 msgid "Fuzzy:"
-msgstr ""
+msgstr "Unklar:"
 
 #: ../pohelper/data/stats.ui.h:7
-#, fuzzy
 msgid "Untranslated:"
-msgstr "Nächste nicht übersetzte Zeichenkette"
+msgstr "Unübersetzt:"
 
 #: ../pohelper/src/gph-plugin.c:41
 msgid "Translation Helper"
@@ -5430,23 +5434,23 @@ msgstr "Verbessert die Unterstützung für GetText-Übersetzungsdateien"
 
 #: ../pohelper/src/gph-plugin.c:1305 ../pohelper/src/gph-plugin.c:1322
 #, c-format
-msgid "<b>Translated:</b> %.3g%%"
-msgstr ""
+msgid "<b>Translated:</b> %,3g%%"
+msgstr "<b>Übersetzt:</b> %,3g%%"
 
 #: ../pohelper/src/gph-plugin.c:1307 ../pohelper/src/gph-plugin.c:1325
 #, c-format
-msgid "<b>Fuzzy:</b> %.3g%%"
-msgstr ""
+msgid "<b>Fuzzy:</b> %,3g%%"
+msgstr "<b>Unklar:</b> %,3g%%"
 
 #: ../pohelper/src/gph-plugin.c:1309 ../pohelper/src/gph-plugin.c:1327
 #, c-format
-msgid "<b>Untranslated:</b> %.3g%%"
-msgstr ""
+msgid "<b>Untranslated:</b> %,3g%%"
+msgstr "<b>Unübersetzt:</b> %,3g%%"
 
 #: ../pohelper/src/gph-plugin.c:1407
 #, c-format
-msgid "%u (%.3g%%)"
-msgstr ""
+msgid "%u (%,3g%%)"
+msgstr "%u (%,3g%%)"
 
 #: ../pohelper/src/gph-plugin.c:1532
 msgid "Paste original untranslated string to translation"
@@ -5551,14 +5555,13 @@ msgid "Line break"
 msgstr "Zeilenumbruch"
 
 #: ../projectorganizer/src/prjorg-main.c:41
-#, fuzzy
 msgid "Project Organizer"
-msgstr "Ausgewählte Datei öffnen (gproject)"
+msgstr "Project Organizer"
 
 #: ../projectorganizer/src/prjorg-main.c:42
 msgid ""
 "Project file tree, project-wide indexing and search, extra navigation options"
-msgstr ""
+msgstr "Projektspezifischer Dateibaum, projektweite Indizierung und Suche, Optionen zur besseren Navigation in Projekten"
 
 #: ../projectorganizer/src/prjorg-menu.c:372
 msgid "Find in Project Files"
@@ -5577,14 +5580,12 @@ msgid "Find project file"
 msgstr "Projektdatei finden"
 
 #: ../projectorganizer/src/prjorg-menu.c:392
-#, fuzzy
 msgid "Find Project Tag"
-msgstr "Im Projekt suchen"
+msgstr "Tag im Projekt finden"
 
 #: ../projectorganizer/src/prjorg-menu.c:398
-#, fuzzy
 msgid "Find project tag"
-msgstr "Projektdatei finden"
+msgstr "Tag im Projekt finden"
 
 #: ../projectorganizer/src/prjorg-menu.c:400
 msgid "Swap Header/Source"
@@ -5595,21 +5596,19 @@ msgid "Swap header/source"
 msgstr "Header und Quellen tauschen"
 
 #: ../projectorganizer/src/prjorg-menu.c:411
-#, fuzzy
 msgid "Open Selected File (Project Organizer)"
-msgstr "Ausgewählte Datei öffnen (gproject)"
+msgstr "Ausgewählte Datei öffnen (Project Organizer)"
 
 #: ../projectorganizer/src/prjorg-project.c:547
 msgid "Source patterns:"
 msgstr "Quelltextmuster:"
 
 #: ../projectorganizer/src/prjorg-project.c:553
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
 "Used for header/source swapping."
 msgstr ""
-"Leerzeichengetrennte Liste mit Mustern, die genutzt werden, um Header zu "
+"Leerzeichengetrennte Liste mit Mustern, die genutzt werden, um Quellcode-Dateien zu "
 "identifizieren. Wird hauptsächlich für das Umschalten zwischen Quellen und "
 "Header verwendet."
 
@@ -5618,7 +5617,6 @@ msgid "Header patterns:"
 msgstr "Header-Muster:"
 
 #: ../projectorganizer/src/prjorg-project.c:565
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
 "header/source swapping."
@@ -5628,21 +5626,18 @@ msgstr ""
 "Header verwendet."
 
 #: ../projectorganizer/src/prjorg-project.c:571
-#, fuzzy
 msgid "Ignored file patterns:"
-msgstr "Muster für zu ignorierende Verzeichnisse:"
+msgstr "Muster für zu ignorierende Dateien:"
 
 #: ../projectorganizer/src/prjorg-project.c:577
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
 "not displayed in the project tree."
 msgstr ""
-"Leerzeichengetrennte Liste mit Mustern, die genutzt werden, um Verzeichnisse "
-"zu erkennen, die nicht nach Quelldateien durchsucht werden sollen. "
+"Leerzeichengetrennte Liste mit Mustern, die genutzt werden, um Dateien "
+"zu erkennen, die nicht im projektspezifischen Dateibaum angezeigt werden sollen. "
 
 #: ../projectorganizer/src/prjorg-project.c:583
-#, fuzzy
 msgid "Ignored directory patterns:"
 msgstr "Muster für zu ignorierende Verzeichnisse:"
 
@@ -5655,32 +5650,29 @@ msgstr ""
 "zu erkennen, die nicht nach Quelldateien durchsucht werden sollen. "
 
 #: ../projectorganizer/src/prjorg-project.c:595
-#, fuzzy
 msgid "Generate tags for all project files:"
 msgstr "Tags für alle Projektdateien erstellen"
 
 #: ../projectorganizer/src/prjorg-project.c:598
 msgid "Auto (generate if less than 500 files)"
-msgstr ""
+msgstr "Automatisch (bei weniger als 500 Dateien)"
 
 #: ../projectorganizer/src/prjorg-project.c:599
-#, fuzzy
+
 msgid "Yes"
-msgstr "ja"
+msgstr "Ja"
 
 #: ../projectorganizer/src/prjorg-project.c:600
-#, fuzzy
 msgid "No"
-msgstr "Nr."
+msgstr "Nein"
 
 #: ../projectorganizer/src/prjorg-project.c:604
-#, fuzzy
 msgid ""
 "Generate tag list for all project files instead of only for the currently "
 "opened files. Might be slow for big projects."
 msgstr ""
 "Erstellt Tags für alle Projektdateien, anstatt nur für die jeweils "
-"geöffneten Dateien. Sehr langsam bei großen Projekten (>1000 Dateien) und "
+"geöffneten Dateien. Sehr langsam bei großen Projekten und "
 "sollte in solch einem Fall deaktiviert werden."
 
 #: ../projectorganizer/src/prjorg-project.c:610
@@ -5691,7 +5683,8 @@ msgid ""
 "setting the\n"
 "File Patterns under the Project tab (these are also used for the Find in "
 "Files dialog)."
-msgstr ""
+msgstr "Anmerkung: Die vorhergehenden Muster beeinflussen nur die Seiteleiste und kommen nicht z. B. im »In Dateien suchen«-Dialog zum Tragen.\n"
+"Die Liste mit Dateien, die zum Projekt gehören, kann durch das setzen der Datei-Muster innerhalb des Projekt-Reiters -- auch für den »In Dateien suchen«-Dialog eingeschränkt werden."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:117
 #: ../projectorganizer/src/prjorg-sidebar.c:1359
@@ -5709,32 +5702,30 @@ msgstr "Im vollen Pfad suchen"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:170
 #: ../projectorganizer/src/prjorg-sidebar.c:623
-#, fuzzy
+
 msgid "project or external directory"
-msgstr "Neues Verzeichnis anlegen"
+msgstr "Projekt oder externen Verzeichnis"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:290
-#, fuzzy
 msgid "Add External Directory"
-msgstr "Verzeichnis auswählen"
+msgstr "Externes Verzeichnis hinzufügen"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:293
-#, fuzzy
 msgid "Add"
-msgstr "Erweiterungen"
+msgstr "Hinzufügen"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1035
 msgid "Set file patterns under Project->Properties"
-msgstr ""
+msgstr "Dateimuster unter Projekt->Eigenschaften definieren"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1249
 msgid "Reload all"
 msgstr "Alle neuladen"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1258
-#, fuzzy
+
 msgid "Add external directory"
-msgstr "Verzeichnis zurücksetzen"
+msgstr "Externes Verzeichnis hinzufügen"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1268
 #: ../treebrowser/src/treebrowser.c:1282
@@ -5743,7 +5734,7 @@ msgstr "Alle ausklappen"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1275
 msgid "Collapse to project root"
-msgstr ""
+msgstr "Zusammenfalten bis Projektwurzel"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1286
 msgid "Follow active editor"
@@ -5751,7 +5742,7 @@ msgstr "Aktiven Editor folgen"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1332
 msgid "Open a project to start using the plugin"
-msgstr ""
+msgstr "Ein Projekt zum Starten des Plugins öffnen"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1341
 msgid "Expand All"
@@ -5762,9 +5753,8 @@ msgid "Find in Files"
 msgstr "In Dateien finden"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1381
-#, fuzzy
 msgid "Remove External Directory"
-msgstr "Verzeichnis zurücksetzen"
+msgstr "Externes Verzeichnis entfernen"
 
 #: ../scope/data/scope.glade.h:1
 msgid "Debu_g"
@@ -6085,9 +6075,9 @@ msgid "_Executable:"
 msgstr "Ausführbares _Programm:"
 
 #: ../scope/data/scope.glade.h:80
-#, fuzzy
+
 msgid "_Arguments:"
-msgstr "Argumente"
+msgstr "A_rgumente"
 
 #: ../scope/data/scope.glade.h:81
 msgid "En_vironment:"
