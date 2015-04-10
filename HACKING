@@ -100,6 +100,9 @@ General
   only took one commit you might merge it fast-forward since there is
   not history to keep together.
 
+Writing
+^^^^^^^
+* Please use "Geany" as it is not just a noun, but a name.
 
 Commit messages
 ^^^^^^^^^^^^^^^
@@ -130,10 +133,12 @@ Follow the standard Git formatting:
   It is OK to use ASCII formatting like bullet list using "*" or "-",
   etc. if useful, but emphasis (bold, italic, underline) should be
   avoided.
+* Prefix your commit mit a section/plugin you are working on. This will
+  help to sort commits.
 
 Example::
 
-    Ask the user if spawn fails in utils_open_browser()
+    MyPlugin: Ask the user if spawn fails in utils_open_browser()
 
     Ask the user to configure a valid browser command if spawning it
     fails rather than falling back to some arbitrary hardcoded defaults.
@@ -266,40 +271,40 @@ Additional things to do for a new plugin
 Adding yourself to MAINTAINERS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-As you might want to keep on maintaining your newly added plugin, we 
-recommend to put your contact data to file MAINTAINERS which is 
-located inside geany-plugins root folder. The entry should contain 
-your plugin name as well as some of the important data. An example 
+As you might want to keep on maintaining your newly added plugin, we
+recommend to put your contact data to file MAINTAINERS which is
+located inside geany-plugins root folder. The entry should contain
+your plugin name as well as some of the important data. An example
 could look like::
 
 	myfancyplugin
 	P: Jon Doe <jon@example.org>
 	M: Jon Doe <jon@example.org>
-	W: http://example.org/myfancyplugin 
+	W: http://example.org/myfancyplugin
 	S: Maintained
 
-The flags can be compiled like this: 
+The flags can be compiled like this:
 
 * P: Person
 * M: Mail patches to: FullName <address@domain>
 * W: Web-page with status/info
 * S: Status of plugin
 
-Once you have a look onto MAINTAINERS you will see a lot of examples 
+Once you have a look onto MAINTAINERS you will see a lot of examples
 as well as some more detailed information.
 
 
 Adding your plugin-files to po/POTFILES.in
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you want to have your plugin translated into different languages 
-you will have to add your plugin to file po/POTFILES.in. This 
-contains a list of all translateable files for each plugin. An 
+If you want to have your plugin translated into different languages
+you will have to add your plugin to file po/POTFILES.in. This
+contains a list of all translateable files for each plugin. An
 example could look like::
-	
+
 	#myfancyplugin
 	yourfancypluginname/src/yourfancypluginname.c
-	
+
 
 I18n/l10n
 ---------
