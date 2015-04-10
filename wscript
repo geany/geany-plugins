@@ -39,7 +39,7 @@ Requires WAF 1.6.1 and Python 2.5 (or later).
 
 import os
 import tempfile
-from waflib import Logs, Scripting, Utils
+from waflib import Logs, Scripting, Utils, Options
 from waflib.Tools import c_preproc
 from waflib.Errors import ConfigurationError
 from waflib.TaskGen import feature
@@ -70,17 +70,18 @@ out = '_build_'
 c_preproc.go_absolute = True
 c_preproc.standard_includes = []
 
-
 def configure(conf):
-
     conf.check_waf_version(mini='1.6.1')
 
     # a C compiler is the very minimum we need
     conf.load('compiler_c')
 
+    # GTK / GIO version check
+    gtk_package_name = 'gtk+-3.0' if conf.options.use_gtk3 else 'gtk+-2.0'
+    
     # common for all plugins
     check_cfg_cached(conf,
-                   package='gtk+-2.0',
+                   package=gtk_package_name,
                    atleast_version='2.16.0',
                    uselib_store='GTK',
                    mandatory=True,
@@ -98,7 +99,7 @@ def configure(conf):
     conf.define('REVISION', revision, 1)
     # GTK/Geany versions
     geany_version = conf.check_cfg(modversion='geany') or 'Unknown'
-    gtk_version = conf.check_cfg(modversion='gtk+-2.0') or 'Unknown'
+    gtk_version = conf.check_cfg(modversion=gtk_package_name) or 'Unknown'
 
     load_intltool_if_available(conf)
     setup_configuration_env(conf)
@@ -226,7 +227,9 @@ def options(opt):
     opt.add_option('--skip-plugins', action='store', default='',
         help='plugins which should not be built, ignored when --enable-plugins is set, same format as --enable-plugins',
         dest='skip_plugins')
-
+    opt.add_option('--enable-gtk3', action='store_true', default=False,
+    help='compile with GTK3 support (experimental) [[default: No]',
+    dest='use_gtk3')
 
 def build(bld):
     is_win32 = target_is_win32(bld)

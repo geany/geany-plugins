@@ -3,6 +3,10 @@ AM_DISTCHECK_CONFIGURE_FLAGS = --with-geany-libdir='$${libdir}'
 
 SUBDIRS = po
 
+if ENABLE_MOREMARKUP
+SUBDIRS += moremarkup
+endif
+
 if ENABLE_ADDONS
 SUBDIRS += addons
 endif
