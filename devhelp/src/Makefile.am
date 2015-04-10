@@ -24,6 +24,7 @@ devhelp_la_CFLAGS = \
 	-DHAVE_BOOK_MANAGER=1
 
 devhelp_la_LIBADD = \
+	$(COMMONLIBS) \
 	$(DEVHELP_LIBS) \
 	$(top_builddir)/devhelp/devhelp/libdevhelp-2.la
 
