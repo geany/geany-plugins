@@ -133,18 +133,16 @@ Follow the standard Git formatting:
   It is OK to use ASCII formatting like bullet list using "*" or "-",
   etc. if useful, but emphasis (bold, italic, underline) should be
   avoided.
-* Prefix your commit mit a section/plugin you are working on. This will
-  help to sort commits.
 
 Example::
 
-    MyPlugin: Ask the user if spawn fails in utils_open_browser()
+    myfancyplugin: Ask the user if spawn fails in utils_open_browser()
 
     Ask the user to configure a valid browser command if spawning it
     fails rather than falling back to some arbitrary hardcoded defaults.
 
-    This avoid spawning an unexpected browser when the configured one is
-    wrong, and gives the user a chance to correctly fix the preference.
+    This avoids spawning an unexpected browser when the configured one
+    is wrong, and gives the user a chance to fix the preference.
 
 
 Coding and Plugin structure
