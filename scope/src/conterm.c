@@ -17,6 +17,10 @@
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
@@ -30,9 +34,11 @@
 #ifdef G_OS_UNIX
 #include <vte/vte.h>
 /* instead of detecting N kinds of *nix */
-#ifdef __APPLE__
+#if defined(HAVE_UTIL_H)
 #include <util.h>
-#else
+#elif defined(HAVE_LIBUTIL_H)
+#include <libutil.h>
+#elif defined(HAVE_PTY_H)
 #include <pty.h>
 #endif
 int grantpt(int fd);

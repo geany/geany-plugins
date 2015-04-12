@@ -29,6 +29,10 @@
  * 		Contains callbacks from debugger module to handle debug state changes.
  */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <stdio.h>
 
 #include <stdlib.h>
@@ -37,9 +41,11 @@ int grantpt(int fd);
 
 #include <string.h>
 #include <unistd.h>
-#ifdef __APPLE__
+#if defined(HAVE_UTIL_H)
 #include <util.h>
-#else
+#elif defined(HAVE_LIBUTIL_H)
+#include <libutil.h>
+#elif defined(HAVE_PTY_H)
 #include <pty.h>
 #endif
 #include <gtk/gtk.h>

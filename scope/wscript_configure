@@ -21,19 +21,14 @@
 # $Id: wscript_configure 1735 2010-11-09 17:03:40Z eht16 $
 
 from build.wafutils import check_cfg_cached, target_is_win32
+from build.wafutils import check_c_func_in_headers_cached
 
 if not target_is_win32(bld) :
 	check_cfg_cached(conf,
 			     package='vte',
 			     uselib_store='VTE',
 			     args='--cflags --libs')
-	try :
-		conf.check_cc(function_name='openpty',
-			      header_name='pty.h',
-			      lib='util',
-			      uselib_store='UTIL')
-	except :
-		conf.check_cc(function_name='openpty',
-			      header_name='util.h',
-			      lib='util',
-			      uselib_store='UTIL')
+	check_c_func_in_headers_cached(conf,
+	                               function_name='openpty',
+	                               header_names=['util.h', 'pty.h', 'libutil.h'],
+	                               lib='util', uselib_store='UTIL')

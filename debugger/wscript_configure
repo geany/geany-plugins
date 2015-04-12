@@ -21,6 +21,7 @@
 # $Id: wscript_configure 1735 2010-11-09 17:03:40Z eht16 $
 
 from build.wafutils import check_cfg_cached
+from build.wafutils import check_c_func_in_headers_cached
 
 
 check_cfg_cached(conf,
@@ -29,4 +30,7 @@ check_cfg_cached(conf,
                  args='--cflags --libs')
 
 conf.check_cc(function_name='poll', header_name='poll.h')
-conf.check_cc(function_name='openpty', header_name='pty.h', lib='util', uselib_store='UTIL')
+check_c_func_in_headers_cached(conf,
+                               function_name='openpty',
+                               header_names=['util.h', 'pty.h', 'libutil.h'],
+                               lib='util', uselib_store='UTIL')
