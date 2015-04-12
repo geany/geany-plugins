@@ -224,6 +224,15 @@ git-changebar/src/gcb-plugin.c
 markdown/src/conf.c
 markdown/src/plugin.c
 
+# Overview
+overview/overview/overviewcolor.c
+overview/overview/overviewplugin.c
+overview/overview/overviewprefs.c
+overview/overview/overviewprefspanel.c
+overview/overview/overviewscintilla.c
+overview/overview/overviewui.c
+[type: gettext/glade]overview/data/prefs.ui
+
 # Pairtaghighlighter
 pairtaghighlighter/src/pair_tag_highlighter.c
 

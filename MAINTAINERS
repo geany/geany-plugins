@@ -180,6 +180,12 @@ M: Matthew Brush <matt@geany.org>
 W: http://plugins.geany.org/multiterm.html
 S: Maintained
 
+overview
+P: Matthew Brush <matt@geany.org>
+M: Matthew Brush <matt@geany.org>
+W: https://github.com/codebrainz/overview-plugin
+S: Maintained
+
 pairtaghighlighter
 P: Volodymyr Kononenko <vm@kononenko.ws>
 M: Volodymyr Kononenko <vm@kononenko.ws>
