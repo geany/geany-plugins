@@ -182,21 +182,21 @@ plugin_init (G_GNUC_UNUSED GeanyData *data)
                         KB_TOGGLE_VISIBLE,
                         NULL, 0, 0,
                         "toggle-visibility",
-                        "Toggle Visibility",
+                        _("Toggle Visibility"),
                         overview_ui_get_menu_item ());
 
   keybindings_set_item (key_group,
                         KB_TOGGLE_POSITION,
                         NULL, 0, 0,
                         "toggle-position",
-                        "Toggle Left/Right Position",
+                        _("Toggle Left/Right Position"),
                         NULL);
 
   keybindings_set_item (key_group,
                         KB_TOGGLE_INVERTED,
                         NULL, 0, 0,
                         "toggle-inverted",
-                        "Toggle Overlay Inversion",
+                        _("Toggle Overlay Inversion"),
                         NULL);
 
   g_signal_connect (overview_prefs, "notify::visible", G_CALLBACK (on_visible_pref_notify), NULL);
