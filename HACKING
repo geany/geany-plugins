@@ -170,24 +170,25 @@ configure.ac
 ^^^^^^^^^^^^
 
 Add an entry into configure.ac for your plugin. The entry should look like
-``GP_CHECK_YOURFANCYPLUGINNAME``
+``GP_CHECK_YOURFANCYPLUGINNAME``.  This is a custom macro that will be
+discussed in the `build sub-folder`_ section below.
 
-Makefile.am
-^^^^^^^^^^^
+Root Makefile.am
+^^^^^^^^^^^^^^^^
 
-Add an entry into Makefile.am where to find the sources of your plugin.
-This entry shall look like this::
+Add an entry into the root Makefile.am where to find the sources of your
+plugin.  This entry shall look like this::
 
  if ENABLE_YOURFANCYPLUGINNAME
  SUBDIRS += yourfancyplugin
  endif
 
 
-build-subfolder
-^^^^^^^^^^^^^^^
+`build` sub-folder
+^^^^^^^^^^^^^^^^^^
 
-To build your plugin you will also need to add an m4-script inside
-the ``build`` subfolder of the geany-plugin sources. The file should
+To build your plugin you will also need to add an M4 script inside
+the ``build`` sub-folder of the geany-plugin sources. The file should
 be called ``yourfancypluginname.m4`` and contain the definition of the M4
 macro that checks for your plugin's dependencies and generates its
 build files, which macro is called from configure.ac::
@@ -227,16 +228,16 @@ GTK 2 and 3 but you want to check for a minimal GTK2 version, you may
 use ``$GP_GTK_PACKAGE >= 2.XX`` in a ``GP_CHECK_PLUGIN_DEPS`` call.
 
 
-Makefile inside your plugin folder
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Makefiles inside your plugin folder
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The Makefile inside your plugin folder can be seperated at least
+The Makefiles inside your plugin folder can be separated at least
 into two parts: The first part is located inside the root folder of
-your plugin, whereas the second one is located inside src/ of your
+your plugin, whereas the second one is located inside ``src/`` of your
 plugin.
 
 
-Plugin-root
+Plugin root
 ###########
 
 The file should be called ``Makefile.am`` and contains the entry
@@ -248,11 +249,11 @@ similar to this::
     plugin = yourfancypluginname
 
 
-src-folder
-###########
+`src` folder
+############
 
-The ``Makefile.am`` inside the src-Folder is containing the
-informationen how to build the sources. An example could look like::
+The ``Makefile.am`` inside the ``src`` folder declares how to build the
+sources. An example could look like::
 
     include $(top_srcdir)/build/vars.build.mk
 
@@ -262,6 +263,26 @@ informationen how to build the sources. An example could look like::
     yourfancypluginname_la_LIBADD = $(COMMONLIBS)
 
     include $(top_srcdir)/build/cppcheck.mk
+
+If you checked for additional dependencies in ``yourfancypluginname.m4``
+(besides Geany, GLib and GTK, which are included in ``$(COMMONLIBS)``),
+you will need to use the various flags they might require.
+
+For a library checked with ``GP_CHECK_PLUGIN_DEPS`` you will have to add
+``$(PREFIX_CFLAGS)`` to ``yourfancypluginname_la_CFLAGS`` and
+``$(PREFIX_LIBS)`` to ``yourfancypluginname_la_LIBADD`` (where
+``PREFIX`` is the name you chose to store the results in the
+``GP_CHECK_PLUGIN_DEPS`` call).  Note that if you set
+``yourfancypluginname_la_CFLAGS`` you will need to explicitly mention
+``$(AM_CFLAGS)`` in it.
+
+For example, if you checked for the hypothetical library ``foo`` and
+used the ``FOO`` prefix to store the results, you should alter the
+Makefile.am to references them::
+
+    yourfancypluginname_la_CFLAGS = $(AM_CFLAGS) $(FOO_CFLAGS)
+    yourfancypluginname_la_LIBADD = $(COMMONLIBS) $(FOO_LIBS)
+
 
 Additional things to do for a new plugin
 ----------------------------------------
