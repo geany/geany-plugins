@@ -80,17 +80,17 @@ def configure(conf):
 
     # common for all plugins
     check_cfg_cached(conf,
-                   package='gtk+-2.0',
-                   atleast_version='2.16.0',
-                   uselib_store='GTK',
-                   mandatory=True,
-                   args='--cflags --libs')
-    check_cfg_cached(conf,
                    package='geany',
                    atleast_version='1.24',
                    uselib_store='GEANY',
                    mandatory=True,
                    args='--cflags --libs')
+    check_cfg_cached(conf,
+           package=('gtk+-3.0' if 'gtk-3' in conf.env['LIB_GEANY'] else 'gtk+-2.0'),
+           atleast_version='2.16.0',
+           uselib_store='GTK',
+           mandatory=True,
+           args='--cflags --libs')
 
     set_lib_dir(conf)
     # GIT detection
@@ -102,10 +102,13 @@ def configure(conf):
 
     load_intltool_if_available(conf)
     setup_configuration_env(conf)
-
+    
     # build plugin list
     enabled_plugins = get_enabled_plugins(conf)
-
+    if 'gtk-3' in conf.env['LIB_GEANY']:
+        gtk2_only_plugins = get_gtk2_only_plugins()
+        enabled_plugins = [i for i in enabled_plugins if i not in gtk2_only_plugins]
+        
     # execute plugin specific configuration code
     configure_plugins(conf, enabled_plugins)
     # now add the enabled_plugins to the env to remember them
@@ -131,7 +134,24 @@ def configure(conf):
     plugins_with_missing_dependencies =conf.env['plugins_with_missing_dependencies']
     conf.msg('Plugins to skip due to missing dependencies', ' '.join(plugins_with_missing_dependencies))
 
-
+def get_gtk2_only_plugins(): 
+    import re
+    pattern = re.compile('GP_CHECK_PLUGIN_GTK2_ONLY\(\[[A-z]*')
+    gtk2_only_plugins = []
+    build_dir = os.path.join(os.getcwd(), "build")
+    for filename in os.listdir(build_dir): 
+        if '.m4' in filename: 
+            with open(os.path.join(build_dir, filename), 'r') as rfile: 
+                match = re.search(pattern, rfile.read())
+                if not match: 
+                    continue
+                span = match.span() 
+                plugin_name= match.string[span[0]+len('GP_CHECK_PLUGIN_GTK2_ONLY(['):span[1]-1].lower()
+                if not (plugin_name == filename.replace('.m4', '')): 
+                    continue
+                gtk2_only_plugins.append(plugin_name)
+    return gtk2_only_plugins
+                
 def configure_plugins(conf, enabled_plugins):
     conf.env['plugins_with_missing_dependencies'] = []
     # we need to iterate over the plugin directories ourselves to be able
