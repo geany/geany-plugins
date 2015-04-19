@@ -43,7 +43,7 @@ GtkTreeStore and GtkListStore too, leading to faster and smaller code.</p>
 
 <p>ScpTreeStore implements GtkTreeModel, GtkTreeDragSource, GtkTreeDragDest, GtkTreeSortable
 and GtkBuildable. The functions that implement these interfaces are public, so you can invoke
-them directly, without type-casting the store an interface (except for the GtkBuildable
+them directly, without type-casting the store to an interface (except for the GtkBuildable
 functions, which are never invoked directly).</p>
 
 <hr>
@@ -463,36 +463,36 @@ signal, containing the row path (element indexes), which negates this advantage.
 with utf-8 collation makes them even slower.</p>
 
 <table>
-<tr><th>Store sorted by double</th><th>Row count</th><th>GtkTreeStore</th>
-<th>ScpTreeStore</th><th>Times</th></tr>
+<tr><th>Store sorted by double</th><th>Row count</th><th>Times</th><th>GtkTreeStore</th>
+<th>ScpTreeStore</th></tr>
 
 <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-<tr><td>pre/apppend + set     </td><td>250</td><td>0.015</td><td>0.003</td><td></td></tr>
-<tr><td>pre/append with values</td><td>250</td><td>0.014</td><td>0.001</td><td></td></tr>
-<tr><td>binary search         </td><td>250</td><td>n/a  </td><td>0.000</td><td>250</td></tr>
-<tr><td>unsorted linear search</td><td>250</td><td>0.035</td><td>0.001</td><td>250</td></tr>
+<tr><td>pre/apppend + set     </td><td>250</td><td>   </td><td>0.015</td><td>0.003</td></tr>
+<tr><td>pre/append with values</td><td>250</td><td>   </td><td>0.014</td><td>0.001</td></tr>
+<tr><td>binary search         </td><td>250</td><td>250</td><td>n/a  </td><td>0.000</td></tr>
+<tr><td>unsorted linear search</td><td>250</td><td>250</td><td>0.035</td><td>0.001</td></tr>
 
 <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-<tr><td>pre/apppend + set     </td><td>2500</td><td>1.321</td><td>0.041</td><td></td></tr>
-<tr><td>pre/append with values</td><td>2500</td><td>1.285</td><td>0.016</td><td></td></tr>
-<tr><td>binary search         </td><td>2500</td><td>n/a  </td><td>0.001</td><td>2500</td></tr>
-<tr><td>unsorted linear search</td><td>2500</td><td>1.031</td><td>0.041</td><td>770</td></tr>
+<tr><td>pre/apppend + set     </td><td>2500</td><td>    </td><td>1.321</td><td>0.041</td></tr>
+<tr><td>pre/append with values</td><td>2500</td><td>    </td><td>1.285</td><td>0.016</td></tr>
+<tr><td>binary search         </td><td>2500</td><td>2500</td><td>n/a  </td><td>0.001</td></tr>
+<tr><td>unsorted linear search</td><td>2500</td><td>770 </td><td>1.031</td><td>0.041</td></tr>
 
 <tr><td colspan="5" class="empty">&nbsp;</td></tr>
-<tr><th>Store sorted by string</th><th>Row count</th><th>GtkTreeStore</th>
-<th>ScpTreeStore</th><th>Times</th></tr>
+<tr><th>Store sorted by string</th><th>Row count</th><th>Times</th><th>GtkTreeStore</th>
+<th>ScpTreeStore</th></tr>
 
 <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-<tr><td>pre/apppend + set     </td><td>250</td><td>0.088</td><td>0.012</td><td></td></tr>
-<tr><td>pre/append with values</td><td>250</td><td>0.084</td><td>0.008</td><td></td></tr>
-<tr><td>binary search         </td><td>250</td><td>n/a  </td><td>0.005</td><td>250</td></tr>
-<tr><td>unsorted linear search</td><td>250</td><td>0.220</td><td>0.102</td><td>250</td></tr>
+<tr><td>pre/apppend + set     </td><td>250</td><td>   </td><td>0.088</td><td>0.012</td></tr>
+<tr><td>pre/append with values</td><td>250</td><td>   </td><td>0.084</td><td>0.008</td></tr>
+<tr><td>binary search         </td><td>250</td><td>250</td><td>n/a  </td><td>0.005</td></tr>
+<tr><td>unsorted linear search</td><td>250</td><td>250</td><td>0.220</td><td>0.102</td></tr>
 
 <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>
-<tr><td>pre/apppend + set     </td><td>2500</td><td>8.740</td><td>0.193</td><td></td></tr>
-<tr><td>pre/append with values</td><td>2500</td><td>8.913</td><td>0.130</td><td></td></tr>
-<tr><td>binary search         </td><td>2500</td><td>n/a  </td><td>0.076</td><td>2500</td></tr>
-<tr><td>unsorted linear search</td><td>2500</td><td>6.807</td><td>3.186</td><td>770</td></tr>
+<tr><td>pre/apppend + set     </td><td>2500</td><td>    </td><td>8.740</td><td>0.193</td></tr>
+<tr><td>pre/append with values</td><td>2500</td><td>    </td><td>8.913</td><td>0.130</td></tr>
+<tr><td>binary search         </td><td>2500</td><td>2500</td><td>n/a  </td><td>0.076</td></tr>
+<tr><td>unsorted linear search</td><td>2500</td><td>770 </td><td>6.807</td><td>3.186</td></tr>
 
 </table>
 
