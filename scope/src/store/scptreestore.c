@@ -28,7 +28,7 @@
 #include "scptreedata.h"
 #include "scptreestore.h"
 
-#if defined(ENABLE_NLS) && defined(GETTEXT_PACKAGE) && GTK_CHECK_VERSION(2, 18, 0)
+#if defined(ENABLE_NLS) && defined(GETTEXT_PACKAGE)
 #define P_(String) g_dgettext(GETTEXT_PACKAGE "-properties", (String))
 #else
 #define P_(String) (String)
