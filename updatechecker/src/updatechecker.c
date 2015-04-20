@@ -200,7 +200,7 @@ static void update_check_result_cb(SoupSession *session,
         }
         else
         {
-            const gchar *no_update_msg = _("No newer Geany version available");
+            const gchar *no_update_msg = _("No newer Geany version available.");
             if (type == UPDATECHECK_MANUAL)
             {
                 dialogs_show_msgbox(GTK_MESSAGE_INFO, "%s", no_update_msg);
