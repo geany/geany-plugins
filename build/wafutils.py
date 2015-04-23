@@ -179,6 +179,67 @@ def check_cfg_cached(conf, **kw):
     return result
 
 
+def check_c99(conf):
+    key = 'c99'
+    if key in cache:
+        v = cache[key]
+        if v:
+            raise v
+        return True
+
+    # FIXME: improve some checks?
+    # TODO: look at Autoconf's C99 checks?
+    fragment = '''
+    // single-line comments
+
+    #include <stdbool.h>
+
+    struct s { int a, b; };
+
+    // inlines
+    static inline void fun_inline(struct s param) {}
+
+    int main(void) {
+        _Bool b = false;
+
+        // variable declaration in for body
+        for (int i = 0; i < 2; i++);
+
+        // compound literals
+        fun_inline((struct s) { 1, 2 });
+
+        // mixed declarations and code
+        int mixed = 0;
+
+        // named initializers
+        struct s name_inited = {
+            .a = 42,
+            .b = 64
+        };
+
+        return (b || mixed || ! name_inited.a);
+    }
+    '''
+
+    exc = None
+    # list of flags is stolen from Autoconf 2.69
+    flags = ['', '-std=gnu99', '-std=c99', '-c99', '-AC99',
+             '-D_STDC_C99=', '-qlanglvl=extc99']
+    for flag in flags:
+        try:
+            desc = ['with flag %s' % flag, 'with no flags'][not flag]
+            conf.check_cc(fragment=fragment, uselib_store='C99', cflags=flag,
+                          msg="Checking for C99 support (%s)" % desc)
+            exc = None
+            break
+        except ConfigurationError as e:
+            exc = e
+    cache[key] = exc
+    if exc:
+        raise exc
+    return True
+
+
 def get_enabled_plugins(conf):
     plugins = get_plugins()
     enabled_plugins = []
