@@ -20,6 +20,7 @@
 #
 
 from build.wafutils import build_plugin
+from waflib.Utils import subst_vars
 
 name = 'Overview'
 sources = [
@@ -31,13 +32,11 @@ sources = [
   'overview/overviewui.c',
 ]
 includes = ['overview']
-packages = [ 'gtk+-2.0', 'glib-2.0', 'geany' ]
 libraries = [ 'GTK', 'GLIB', 'GEANY' ]
 defines = [ subst_vars('OVERVIEW_PREFS_UI_FILE="${PKGDATADIR}/overview/prefs.ui"', bld.env) ]
 
 build_plugin(bld, name,
              sources=sources,
              includes=includes,
-             packages=packages,
              libraries=libraries,
              defines=defines)
