@@ -32,7 +32,7 @@ sources = [
   'overview/overviewui.c',
 ]
 includes = ['overview']
-libraries = [ 'GTK', 'GLIB', 'GEANY' ]
+libraries = [ 'C99', 'GTK', 'GLIB', 'GEANY' ]
 defines = [ subst_vars('OVERVIEW_PREFS_UI_FILE="${PKGDATADIR}/overview/prefs.ui"', bld.env) ]
 
 build_plugin(bld, name,

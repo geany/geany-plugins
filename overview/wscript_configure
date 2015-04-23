@@ -1,0 +1,3 @@
+from build.wafutils import check_c99
+
+check_c99(conf)
