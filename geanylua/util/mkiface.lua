@@ -69,16 +69,15 @@ do
     rvtype=line:gsub("...%s+([^%s]+).*", "%1")
     rvtype=translate_typename(rvtype)
     arglist=line:gsub("^.*%(", "(")
-    wparam=arglist:gsub("%(([^,]-),.*","%1")
+    wparam=arglist:gsub("%(%s*([^,]-),.*","%1")
     if (wparam~="") then
-      wparam=wparam:gsub("^%s*","")
       wparam=wparam:gsub("%s.*$","")
       wparam=translate_typename(wparam)
     else
       wparam="void"
     end
-    lparam=arglist:gsub("^[^,]*,%s*","")
-    if (lparam~=")") then
+    lparam=arglist:gsub("^[^,]*,%s*([^)]-)%).*","%1")
+    if (lparam~="") then
       lparam=lparam:gsub("%s.*","")
       lparam=translate_typename(lparam)
     else
