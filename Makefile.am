@@ -115,6 +115,10 @@ if ENABLE_MULTITERM
 SUBDIRS += multiterm
 endif
 
+if ENABLE_OVERVIEW
+SUBDIRS += overview
+endif
+
 if ENABLE_PAIRTAGHIGHLIGHTER
 SUBDIRS += pairtaghighlighter
 endif
