@@ -13,8 +13,6 @@ scope_la_SOURCES = \
 	conterm.h \
 	debug.c \
 	debug.h \
-	gtk216.c \
-	gtk216.h \
 	inspect.c \
 	inspect.h \
 	local.c \

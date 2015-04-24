@@ -594,7 +594,6 @@ void plugin_init(G_GNUC_UNUSED GeanyData *gdata)
 		debug_panel, get_widget("debug_label"));
 
 	/* startup */
-	gtk216_init();
 	program_init();
 	prefs_init();
 	conterm_init();

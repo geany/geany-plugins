@@ -1,3 +1,18 @@
+2015-04-24  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * data/scope.glade, src/Makefile.am, src/common.h, src/scope.c:
+   Removed support for gtk+ 2.16.
+
+ * src/gtk216.c, src/gtk216.h:
+   Removed.
+
+
+2015-04-19  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * README, src/store/scptreestore.c:
+   Removed support for gtk+ 2.16.
+
+
 2014-06-12  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * docs/scope.html:

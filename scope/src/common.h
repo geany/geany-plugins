@@ -29,7 +29,6 @@ typedef struct _MenuItem MenuItem;
 #include "break.h"
 #include "conterm.h"
 #include "debug.h"
-#include "gtk216.h"
 #include "inspect.h"
 #include "local.h"
 #include "memory.h"

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <interface>
-  <requires lib="gtk+" version="2.16"/>
+  <requires lib="gtk+" version="2.18"/>
   <!-- interface-naming-policy project-wide -->
   <object class="GtkAdjustment" id="option_inspect_count_adjustment">
     <property name="upper">99999</property>
@@ -1592,6 +1592,7 @@
               <object class="GtkTreeViewColumn" id="thread_id_column">
                 <property name="resizable">True</property>
                 <property name="title">Id</property>
+                <property name="sort_column_id">0</property>
                 <child>
                   <object class="GtkCellRendererText" id="thread_id"/>
                   <attributes>
@@ -1604,6 +1605,7 @@
               <object class="GtkTreeViewColumn" id="thread_pid_column">
                 <property name="resizable">True</property>
                 <property name="title">Pid</property>
+                <property name="sort_column_id">3</property>
                 <child>
                   <object class="GtkCellRendererText" id="thread_pid"/>
                   <attributes>
@@ -1616,6 +1618,7 @@
               <object class="GtkTreeViewColumn" id="thread_group_id_column">
                 <property name="resizable">True</property>
                 <property name="title">Gid</property>
+                <property name="sort_column_id">4</property>
                 <child>
                   <object class="GtkCellRendererText" id="thread_group_id"/>
                   <attributes>
@@ -1628,6 +1631,7 @@
               <object class="GtkTreeViewColumn" id="thread_state_column">
                 <property name="resizable">True</property>
                 <property name="title">State</property>
+                <property name="sort_column_id">5</property>
                 <child>
                   <object class="GtkCellRendererText" id="thread_state"/>
                   <attributes>
@@ -1641,6 +1645,7 @@
                 <property name="resizable">True</property>
                 <property name="title">File</property>
                 <property name="expand">True</property>
+                <property name="sort_column_id">1</property>
                 <child>
                   <object class="GtkCellRendererText" id="thread_base_name"/>
                   <attributes>
@@ -1666,6 +1671,7 @@
                 <property name="resizable">True</property>
                 <property name="title">Function</property>
                 <property name="expand">True</property>
+                <property name="sort_column_id">7</property>
                 <child>
                   <object class="GtkCellRendererText" id="thread_func"/>
                   <attributes>
@@ -1678,6 +1684,7 @@
               <object class="GtkTreeViewColumn" id="thread_addr_column">
                 <property name="resizable">True</property>
                 <property name="title">Address</property>
+                <property name="sort_column_id">8</property>
                 <child>
                   <object class="GtkCellRendererText" id="thread_addr"/>
                   <attributes>
@@ -1691,6 +1698,7 @@
                 <property name="resizable">True</property>
                 <property name="title">Target Id</property>
                 <property name="expand">True</property>
+                <property name="sort_column_id">9</property>
                 <child>
                   <object class="GtkCellRendererText" id="thread_target_id"/>
                   <attributes>
@@ -1703,6 +1711,7 @@
               <object class="GtkTreeViewColumn" id="thread_core_column">
                 <property name="resizable">True</property>
                 <property name="title">Core</property>
+                <property name="sort_column_id">10</property>
                 <child>
                   <object class="GtkCellRendererText" id="thread_core"/>
                   <attributes>
@@ -1744,6 +1753,7 @@
               <object class="GtkTreeViewColumn" id="break_type_column">
                 <property name="resizable">True</property>
                 <property name="title">Type</property>
+                <property name="sort_column_id">4</property>
                 <child>
                   <object class="GtkCellRendererText" id="break_type"/>
                   <attributes>
@@ -1756,6 +1766,7 @@
               <object class="GtkTreeViewColumn" id="break_id_column">
                 <property name="resizable">True</property>
                 <property name="title">Id</property>
+                <property name="sort_column_id">0</property>
                 <child>
                   <object class="GtkCellRendererText" id="break_id"/>
                   <attributes>
@@ -1767,6 +1778,7 @@
             <child>
               <object class="GtkTreeViewColumn" id="break_enabled_column">
                 <property name="resizable">True</property>
+                <property name="sort_column_id">5</property>
                 <child>
                   <object class="GtkCellRendererToggle" id="break_enabled"/>
                   <attributes>
@@ -1780,6 +1792,7 @@
                 <property name="resizable">True</property>
                 <property name="title">Location or expr</property>
                 <property name="expand">True</property>
+                <property name="sort_column_id">15</property>
                 <child>
                   <object class="GtkCellRendererText" id="break_display"/>
                   <attributes>
@@ -1792,6 +1805,7 @@
               <object class="GtkTreeViewColumn" id="break_addr_column">
                 <property name="resizable">True</property>
                 <property name="title">Address</property>
+                <property name="sort_column_id">8</property>
                 <child>
                   <object class="GtkCellRendererText" id="break_addr"/>
                   <attributes>
@@ -1804,6 +1818,7 @@
               <object class="GtkTreeViewColumn" id="break_times_column">
                 <property name="resizable">True</property>
                 <property name="title">Times</property>
+                <property name="sort_column_id">9</property>
                 <child>
                   <object class="GtkCellRendererText" id="break_times"/>
                   <attributes>
@@ -1816,6 +1831,7 @@
               <object class="GtkTreeViewColumn" id="break_ignore_column">
                 <property name="resizable">True</property>
                 <property name="title">Ignore</property>
+                <property name="sort_column_id">10</property>
                 <child>
                   <object class="GtkCellRendererText" id="break_ignore"/>
                   <attributes>
@@ -1829,6 +1845,7 @@
                 <property name="resizable">True</property>
                 <property name="title">Condition</property>
                 <property name="expand">True</property>
+                <property name="sort_column_id">11</property>
                 <child>
                   <object class="GtkCellRendererText" id="break_cond"/>
                   <attributes>
@@ -1842,6 +1859,7 @@
                 <property name="resizable">True</property>
                 <property name="title">Script</property>
                 <property name="expand">True</property>
+                <property name="sort_column_id">12</property>
                 <child>
                   <object class="GtkCellRendererText" id="break_script"/>
                   <attributes>
@@ -1881,6 +1899,7 @@
               <object class="GtkTreeViewColumn" id="stack_id_column">
                 <property name="resizable">True</property>
                 <property name="title">#</property>
+                <property name="sort_column_id">0</property>
                 <child>
                   <object class="GtkCellRendererText" id="stack_id"/>
                   <attributes>
@@ -1894,6 +1913,7 @@
                 <property name="resizable">True</property>
                 <property name="title">File</property>
                 <property name="expand">True</property>
+                <property name="sort_column_id">1</property>
                 <child>
                   <object class="GtkCellRendererText" id="stack_base_name"/>
                   <attributes>
@@ -1919,6 +1939,7 @@
                 <property name="resizable">True</property>
                 <property name="title">Function</property>
                 <property name="expand">True</property>
+                <property name="sort_column_id">4</property>
                 <child>
                   <object class="GtkCellRendererText" id="stack_func"/>
                   <attributes>
@@ -1932,6 +1953,7 @@
                 <property name="resizable">True</property>
                 <property name="title">Arguments</property>
                 <property name="expand">True</property>
+                <property name="sort_column_id">5</property>
                 <child>
                   <object class="GtkCellRendererText" id="stack_args"/>
                   <attributes>
@@ -1944,6 +1966,7 @@
               <object class="GtkTreeViewColumn" id="stack_addr_column">
                 <property name="resizable">True</property>
                 <property name="title">Address</property>
+                <property name="sort_column_id">6</property>
                 <child>
                   <object class="GtkCellRendererText" id="stack_addr"/>
                   <attributes>
@@ -1983,6 +2006,7 @@
             <child>
               <object class="GtkTreeViewColumn" id="local_arg1_column">
                 <property name="resizable">True</property>
+                <property name="sort_column_id">5</property>
                 <child>
                   <object class="GtkCellRendererText" id="local_arg1"/>
                   <attributes>
@@ -1995,6 +2019,7 @@
               <object class="GtkTreeViewColumn" id="local_name_column">
                 <property name="resizable">True</property>
                 <property name="title">Name</property>
+                <property name="sort_column_id">0</property>
                 <child>
                   <object class="GtkCellRendererText" id="local_name"/>
                   <attributes>
@@ -2008,6 +2033,7 @@
                 <property name="resizable">True</property>
                 <property name="title">Value</property>
                 <property name="expand">True</property>
+                <property name="sort_column_id">1</property>
                 <child>
                   <object class="GtkCellRendererText" id="local_display"/>
                   <attributes>
@@ -2048,6 +2074,7 @@
             <child>
               <object class="GtkTreeViewColumn" id="watch_enabled_column">
                 <property name="resizable">True</property>
+                <property name="sort_column_id">6</property>
                 <child>
                   <object class="GtkCellRendererToggle" id="watch_enabled"/>
                   <attributes>
@@ -2060,6 +2087,7 @@
               <object class="GtkTreeViewColumn" id="watch_expr_column">
                 <property name="resizable">True</property>
                 <property name="title">Expression</property>
+                <property name="sort_column_id">0</property>
                 <child>
                   <object class="GtkCellRendererText" id="watch_expr"/>
                   <attributes>
@@ -2073,6 +2101,7 @@
                 <property name="resizable">True</property>
                 <property name="title">Value</property>
                 <property name="expand">True</property>
+                <property name="sort_column_id">1</property>
                 <child>
                   <object class="GtkCellRendererText" id="watch_display"/>
                   <attributes>
@@ -3315,7 +3344,7 @@
                                     <property name="spacing">6</property>
                                     <child>
                                       <object class="GtkCheckButton" id="option_library_messages">
-                                        <property name="label" translatable="yes">Show li_brary messages</property>
+                                        <property name="label" translatable="yes">Show =li_brary messages</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
