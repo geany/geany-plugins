@@ -16,12 +16,6 @@ typedef struct _MoreMarkupClass  MoreMarkupClass;
 GType		more_markup_get_type		(void);
 MoreMarkup  *more_markup_new			(gboolean plugin_active);
 
-/* Default Behaviour on Mark */
-enum {
-    DEFAULT_CLEAR,
-    DEFAULT_NEXT_COLOR,
-    DEFAULT_NEXT_MARKER
-};
 typedef struct {
     gchar * default_color; 
     gint default_indicator; 
@@ -31,7 +25,10 @@ typedef struct {
 struct MarkupLabel {
     GtkWidget * label_box; 
     GeanyDocument * doc;
-    gint sci_indicator;
+    gint indic_number;
+    gint indic_style;
+    gint sci_color;
+    gchar *text;
 };
 
 #endif /* __MOREMARKUP_H */

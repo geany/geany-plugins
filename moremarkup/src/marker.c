@@ -10,7 +10,7 @@
 #include <gdk/gdk.h>
 
 
-static inline gint _GDK_COLOR_TO_SCI_COLOR(GdkColor *color) { 
+inline gint _GDK_COLOR_TO_SCI_COLOR(GdkColor *color) { 
 	return (((color->blue << 8) & 0xff0000) | ((color->green) & 0x00ff00) | ((color->red >> 8) & 0x0000ff));
 }
 
@@ -23,7 +23,8 @@ void marker_data_init(void) {
 	marker_data.original_text = NULL;
 	marker_data.flags = 0;
 	/* Default to be set by calling function */
-	marker_data.sci_indicator = 0;
+	marker_data.indic_number = 0;
+	marker_data.indic_style = 0;
 	/* Default to be set by calling function */
 	marker_data.color = marker_data.color = malloc(sizeof(GdkColor)); //NULL
 	/* Deprecate this */
@@ -39,6 +40,10 @@ void marker_data_finalize(void) {
  
 static void _sci_indicator_set(ScintillaObject *sci, gint indic) {
 	SSM(sci, SCI_SETINDICATORCURRENT, (uptr_t) indic, 0);
+}
+
+static void _sci_indicator_set_style(ScintillaObject *sci, gint indic_number, gint indic_style) {
+	SSM(sci, SCI_INDICSETSTYLE, indic_number, indic_style);
 }
 
 static void _sci_indicator_clear(ScintillaObject *sci, gint pos, gint len) {
@@ -64,7 +69,7 @@ void match_info_free(MarkerMatchInfo *info) {
 	g_slice_free1(sizeof(*info), info);
 }
 
-void marker_indicator_clear(ScintillaObject *sci, gint indic) {
+void marker_indicator_clear(ScintillaObject *sci, gint indic_number) {
 	glong last_pos;
 	gpointer *ptr;
 
@@ -73,9 +78,8 @@ void marker_indicator_clear(ScintillaObject *sci, gint indic) {
 	last_pos = sci_get_length(sci);
 	
 	//g_warning("marker_indicator_clear, last_pos: %i", last_pos);
-	if (last_pos > 0)
-	{
-		_sci_indicator_set(sci, indic);
+	if (last_pos > 0) {
+		_sci_indicator_set(sci, indic_number);
 		_sci_indicator_clear(sci, 0, last_pos);
 	}
 	//g_warning("marker_indicator_clear: cleared");
@@ -114,17 +118,18 @@ static GSList *marker_find_range(ScintillaObject *sci, MarkerMatchInfo *info) {
 	return g_slist_reverse(matches);
 }
 
-void marker_indicator_set_on_range(ScintillaObject *sci, gint indic, gint start, gint end) {
+void marker_indicator_set_on_range(ScintillaObject *sci, MarkerMatchInfo *info) {
 	//g_warning("marker_indicator_set_on_range");
 	
 	g_return_if_fail(sci != NULL);
-	if (start >= end) //Not sure this matters - we can probably set the range backwards. 
+	if (info->chrgText.cpMin >= info->chrgText.cpMax) //Not sure this matters - we can probably set the range backwards. 
 		return;
 
-	_sci_indicator_set(sci, indic);
-	_sci_indicator_fill(sci, start, end - start);
+	_sci_indicator_set(sci, info->indic_number);
+	_sci_indicator_set_style(sci, info->indic_number, info->indic_style);
+	_sci_indicator_fill(sci, info->chrgText.cpMin, info->chrgText.cpMax - info->chrgText.cpMin); 
 	//g_warning("marker_indicator_set_on_range, color: %x , indic %i",  _GDK_COLOR_TO_SCI_COLOR(marker_data.color), indic);
-	SSM(sci, SCI_INDICSETFORE, (uptr_t) indic, _GDK_COLOR_TO_SCI_COLOR(marker_data.color));
+	SSM(sci, SCI_INDICSETFORE, (uptr_t) info->indic_number, info->sci_color);
 }
 
 gint search_mark_all(GeanyDocument *doc, const gchar *search_text, guint flags) {
@@ -140,7 +145,7 @@ gint search_mark_all(GeanyDocument *doc, const gchar *search_text, guint flags) 
 	
 	/* clear previous search indicators */
 	/* Adjust based on preferences */
-	marker_indicator_clear(doc->editor->sci, marker_data.sci_indicator);
+	marker_indicator_clear(doc->editor->sci, marker_data.indic_number);
 
 	if (G_UNLIKELY(EMPTY(search_text)))
 		return 0;
@@ -150,7 +155,8 @@ gint search_mark_all(GeanyDocument *doc, const gchar *search_text, guint flags) 
 	/* MatchInfo object text should be preserved */
 	_info->lpstrText = search_text; //strdup? 
 	_info->flags = flags; 
-	_info->sci_indicator = marker_data.sci_indicator;
+	_info->indic_number = marker_data.indic_number;
+	_info->indic_style = marker_data.indic_style;
 	_info->sci_color = _GDK_COLOR_TO_SCI_COLOR(marker_data.color);
 	_info->doc = doc;
 	
@@ -163,7 +169,7 @@ gint search_mark_all(GeanyDocument *doc, const gchar *search_text, guint flags) 
 		info = (MarkerMatchInfo*)match->data;
 		//g_warning("cpMin %i  cpMax %i ", info->chrgText.cpMin, info->chrgText.cpMax);
 		if (info->chrgText.cpMin != info->chrgText.cpMax) {
-			marker_indicator_set_on_range(doc->editor->sci, info->sci_indicator, info->chrgText.cpMin, info->chrgText.cpMax);
+			marker_indicator_set_on_range(doc->editor->sci, info);
 		}
 		count++;
 		match_info_free(info);
@@ -184,7 +190,7 @@ MarkerMatchInfo *get_last_marker_info(void) {
 	return marker_data.last_mark_info;
 }
 
-gint on_marker_set(gchar *entry_text, gint sci_indicator, GdkColor *color) {
+gint on_marker_set(gchar *entry_text, gint indic_number, gint indic_style,  GdkColor *color) {
 	//g_warning("on_marker_set");
 	GeanyDocument *doc = document_get_current();
 	if (doc == NULL) {
@@ -199,7 +205,8 @@ gint on_marker_set(gchar *entry_text, gint sci_indicator, GdkColor *color) {
 	marker_data.text = g_strdup(entry_text); 
 	marker_data.original_text = g_strdup(marker_data.text);
 	/* Set Indicator */ 
-	marker_data.sci_indicator = sci_indicator; 
+	marker_data.indic_number = indic_number; 
+	marker_data.indic_style = indic_style;
 	/* Copy color */ 
 	/*
 	if (marker_data.color != NULL) {

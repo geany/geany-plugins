@@ -33,7 +33,8 @@ G_BEGIN_DECLS
 
 typedef struct {
     struct Sci_TextToFind; 
-    gint sci_indicator; /* Determins which Scintilla-Indicator type is set */
+    gint indic_number;
+    gint indic_style; /* Determins which Scintilla-Indicator type is set */
     gint sci_color; /* Determins which Scintilla Color is set for the Indicator */
     guint flags;  /* Search flags -- currently unimplemented */
     GeanyDocument *doc; /* Tracks which doc was marked up */
@@ -48,7 +49,8 @@ typedef struct  {
 	gboolean		search_bar;
 	/* text as it was entered by user */
 	gchar			*original_text;
-    gint sci_indicator;
+    gint indic_number;
+    gint indic_style;
     guint cleared_signal;
     GdkColor *color;
     MarkerMatchInfo *last_mark_info;
@@ -57,11 +59,12 @@ typedef struct  {
 
 void marker_data_init(void) ;
 void marker_data_finalize(void); 
-gint on_marker_set(gchar *entry_text, gint sci_indicator, GdkColor *color);
+inline gint _GDK_COLOR_TO_SCI_COLOR(GdkColor *color);
+gint on_marker_set(gchar *entry_text, gint indic_number, gint indic_style, GdkColor *color);
 MarkerMatchInfo *get_last_marker_info(void);
 MarkerMatchInfo *match_info_duplicate(MarkerMatchInfo *info);
 
-void marker_indicator_clear(ScintillaObject *sci, gint indic); 
+void marker_indicator_clear(ScintillaObject *sci, gint indic_number); 
 G_END_DECLS
 
 #endif /* __MARKER_H_ */
