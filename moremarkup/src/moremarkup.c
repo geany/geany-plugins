@@ -428,10 +428,9 @@ static GtkWidget *create_more_markup_bar(MoreMarkupPrefs *prefs) {
 static void more_markup_toggle_cb(GtkWidget *btn) {
     MoreMarkup *self = mdock;
     GtkWidget *vbox = ui_lookup_widget(geany_data->main_widgets->window, "vbox1");
-    g_warning("is searchdock %i", IS_MORE_MARKUP(self));
     MoreMarkupPrivate *priv = MORE_MARKUP_GET_PRIVATE(self); 
     priv->visible = !priv->visible;
-    g_warning("real search dock visible %i, more_markup_bar %lli, toolbar_item %lli", priv->visible, priv->more_markup_bar, priv->toolbar_more_markup_button);
+    g_warning("visible set %i, more_markup_bar %lli, toolbar_item %lli", priv->visible, priv->more_markup_bar, priv->toolbar_more_markup_button);
     if (priv->more_markup_bar != NULL) {
         if (priv->visible) {
             gtk_widget_show_all(priv->more_markup_bar);
@@ -633,7 +632,7 @@ void plugin_init(GeanyData *data) {
 }
 
 void plugin_cleanup(void) {
-    g_warning("searchdock cleanup");
+    g_warning("moremarkup cleanup");
     g_object_unref(mdock);
 }
 

@@ -14,8 +14,6 @@ inline gint _GDK_COLOR_TO_SCI_COLOR(GdkColor *color) {
 	return (((color->blue << 8) & 0xff0000) | ((color->green) & 0x00ff00) | ((color->red >> 8) & 0x0000ff));
 }
 
-//#define _GDK_COLOR_TO_SCI_COLOR(color) (((color->blue << 8) & 0xff0000) | ((color->green) & 0x00ff00) | ((color->red >> 8) & 0x0000ff))
-
 MarkerData marker_data; 
 
 void marker_data_init(void) {
@@ -233,31 +231,6 @@ gint on_marker_set(gchar *entry_text, gint indic_number, gint indic_style,  GdkC
 	} 
 	return count;
 }
-/*
-gboolean indicator_changed_cb(GtkComboBox *combo, gpointer data) { 
-	GtkTreeIter   iter;
-	GtkTreeModel *model;
-	gint indic = 8;
-	
-	if( gtk_combo_box_get_active_iter( combo, &iter ) )
-	{
-		// Obtain data model from combo box. 
-		model = gtk_combo_box_get_model( combo );
-
-		// Obtain string from model. 
-		gtk_tree_model_get( model, &iter, 0, &indic, -1 );
-		marker_data.sci_indicator = indic;
-	}
-	g_warning("set_indicator_cb: %lli", indic); 
-	return TRUE;
-} */
-/*
-gboolean color_set_cb(GtkWidget *widget) {
-	gtk_color_button_get_color (GTK_COLOR_BUTTON(widget), marker_data.color);
-	g_warning("Got a color(rgb): %x %x %x", marker_data.color->red, marker_data.color->blue, marker_data.color->green);
-	g_warning("sci color: %x set as gdk color", _GDK_COLOR_TO_SCI_COLOR(marker_data.color));
-	return TRUE;
-} */
 
 
 
