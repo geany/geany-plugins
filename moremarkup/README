@@ -1,0 +1,29 @@
+More Markup
+=============================
+
+Adds a toggle-bar with additional marking features to the Geany IDE. 
+
+Specifically allows the user to set Scintilla supported indicators and their color. The functionality is accessed via a drop-down toolbar from the main toolbar.
+
+Clearing Indicators: 
+
+* Individual Indicators can be cleared by clicking their corresponding search_text which appears as a label in the toolbar when the indicator is set.
+* Clear-all will remove all indicators in the current document. 
+
+Options (not yet implemented): 
+
+* Mark across documents 
+* Mark in selection
+* Regex Markdown
+
+Configuration:
+
+Currently two modes are supported: 
+
+1) Multiple indicators, setting an indicator of the same style will replace the old one.
+
+2) Multiple indicators, setting an indicator of the same style will be set along side the old one (if the color is different, replace the old one if color is the same). 
+
+(To be Supported)
+3) Multiple indicators, auto-increment the color on mark if it has already been used. 
+
