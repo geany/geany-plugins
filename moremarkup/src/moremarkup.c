@@ -36,10 +36,12 @@ struct _MoreMarkupClass {
 struct _MoreMarkupPrivate {
     gboolean plugin_active;
     gboolean visible;
-    gint highest_indic_number;
+    gint indic_numbers_table[512]; 
+    gint64 documents_table[512];
     GtkToolItem *toolbar_more_markup_button;
     GtkWidget *more_markup_bar;
     GList *active_marker_labels;
+    GHashTable * g_hash_table_new;
 };
 
 /* Keybindings */ 
@@ -69,7 +71,7 @@ MoreMarkupPrefs markup_prefs;
 GtkWidget *plugin_menu_item;
 
 static void more_markup_class_init(MoreMarkupClass *cls) {
-    //g_warning("class init");
+    g_warning("class init");
     GObjectClass *g_object_class;
     g_object_class = G_OBJECT_CLASS(cls);
     g_object_class->finalize = more_markup_finalize; 
@@ -90,11 +92,24 @@ static void more_markup_class_init(MoreMarkupClass *cls) {
 static void more_markup_finalize(GObject *object) {
     g_warning("more_markup_finalize");
     MoreMarkupPrivate *priv = MORE_MARKUP_GET_PRIVATE(object);
+    struct MarkupLabel *markup_label, *temp;
+    GList *link = priv->active_marker_labels;
     if (priv->toolbar_more_markup_button != NULL) {
         gtk_widget_destroy(GTK_WIDGET(priv->toolbar_more_markup_button));
     }
     if (priv->more_markup_bar != NULL) {
         gtk_widget_destroy(GTK_WIDGET(priv->more_markup_bar));
+    }
+    if (link != NULL) {
+        do {
+            markup_label = link->data; 
+            gtk_widget_destroy(markup_label->label_box);
+            g_free(markup_label);
+            link = g_list_delete_link(priv->active_marker_labels, link);
+        } while (link != NULL);
+    }
+    if (link != NULL) {
+        g_critical("Failed to free all extra markup_labels");
     }
     /* Clean marker data */
     marker_data_finalize();
@@ -133,7 +148,7 @@ static gboolean label_unmark_cb(GtkWidget *label_box, GdkEventButton * event) {
             return TRUE;
         }
     } while ((link = g_list_next(link)) != NULL);
-    //g_warning("Label not found");
+    g_warning("Label not found");
     return TRUE;
 }
 
@@ -195,7 +210,7 @@ static void markup_add_label(void) {
     MoreMarkupPrivate *priv = MORE_MARKUP_GET_PRIVATE(self);
     if (info != NULL) {
         /* Duplicate the info since marker only stores the most recently marked entry */
-        //g_warning("add_mark_up_label -- info: %lli, %s", info, info->lpstrText); 
+        g_warning("add_mark_up_label -- info: %lli, %s", info, info->lpstrText); 
         GtkWidget *frame = gtk_frame_new (NULL); 
         GtkWidget *label = gtk_label_new((gchar*)info->lpstrText);
         GtkToolItem *item = gtk_tool_item_new();
@@ -225,7 +240,7 @@ static void markup_add_label(void) {
 }
 
 static gboolean markup_set_cb(GtkWidget *mark_button, gint response, gpointer user_data) {
-    //g_warning("marker_set_cb--- found mdock %i", mdock);
+    g_warning("marker_set_cb--- found mdock %i", mdock);
     MarkerMatchInfo *info;
     MoreMarkup *self = mdock;
     gchar *entry_text;
@@ -246,7 +261,7 @@ static gboolean markup_set_cb(GtkWidget *mark_button, gint response, gpointer us
     /* get Gdk color */
     color_button = g_object_get_data(user_data, "color_button");
     gtk_color_button_get_color (GTK_COLOR_BUTTON(color_button), color);
-   // g_warning("Got a color(rgb): %x %x %x", color->red, color->blue, color->green);
+    g_warning("Got a color(rgb): %x %x %x", color->red, color->blue, color->green);
     
     /* get entry text */
     entry_text = g_strdup(gtk_entry_get_text(GTK_ENTRY(user_data))); 
@@ -255,6 +270,7 @@ static gboolean markup_set_cb(GtkWidget *mark_button, gint response, gpointer us
     indic_number = -1;
     if (markup_prefs.default_on_mark == MM_DEFAULT_NEXT_IF_COLOR) {
         GeanyDocument *doc = document_get_current();
+        guint i;
         struct MarkupLabel *markup_label;
         gint sci_color = _GDK_COLOR_TO_SCI_COLOR(color);
         MoreMarkupPrivate *priv = MORE_MARKUP_GET_PRIVATE(self);
@@ -281,24 +297,42 @@ static gboolean markup_set_cb(GtkWidget *mark_button, gint response, gpointer us
                         break;
                     }
             } while ((link = g_list_next(link)) != NULL);
-            /* if you place 0x7fffffff markers this wil break */
+            /* Move this stuff */
             if (indic_number < 0) { 
-                indic_number = priv->highest_indic_number++;
+                for (i=0; i<512; i++) {
+                    if (priv->documents_table[i] == (gint64)doc) {
+                        indic_number = priv->indic_numbers_table[i]++;
+                        break;
+                    }
+                }
+                if (indic_number < 0) {
+                    for (i=0; i<512; i++) {
+                        if (priv->documents_table[i] == 0) {
+                            priv->documents_table[i] = (gint64)doc;
+                            indic_number = priv->indic_numbers_table[i]++;
+                            break;
+                        }
+                    } 
+                }
             }
-            //g_warning("here at priv->highest %i", indic_number);
         }
         else {
-            indic_number = priv->highest_indic_number++;
-           // g_warning("set indic increment %i", indic_number);
+            for (i=0; i<512; i++) {
+                if (priv->documents_table[i] == 0) {
+                    priv->documents_table[i] = (gint64)doc;
+                    indic_number = priv->indic_numbers_table[i]++; 
+                    break;
+                }
+            }
         }
     }
     else if (markup_prefs.default_on_mark == MM_DEFAULT_CLEAR) {
         indic_number = indic_style;
     }
-
+    g_warning("indic set %i", indic_number);
     /* Call set function */
     gint count = on_marker_set(entry_text, indic_number, indic_style, color);
-   // g_warning("marker_set_cb -- got count %i", count);
+    g_warning("marker_set_cb -- got count %i", count);
 
     g_free(entry_text);
     gdk_color_free(color);
@@ -394,10 +428,10 @@ static GtkWidget *create_more_markup_bar(MoreMarkupPrefs *prefs) {
 static void more_markup_toggle_cb(GtkWidget *btn) {
     MoreMarkup *self = mdock;
     GtkWidget *vbox = ui_lookup_widget(geany_data->main_widgets->window, "vbox1");
-    //g_warning("is searchdock %i", IS_MORE_MARKUP(self));
+    g_warning("is searchdock %i", IS_MORE_MARKUP(self));
     MoreMarkupPrivate *priv = MORE_MARKUP_GET_PRIVATE(self); 
     priv->visible = !priv->visible;
-    //g_warning("real search dock visible %i, more_markup_bar %lli, toolbar_item %lli", priv->visible, priv->more_markup_bar, priv->toolbar_more_markup_button);
+    g_warning("real search dock visible %i, more_markup_bar %lli, toolbar_item %lli", priv->visible, priv->more_markup_bar, priv->toolbar_more_markup_button);
     if (priv->more_markup_bar != NULL) {
         if (priv->visible) {
             gtk_widget_show_all(priv->more_markup_bar);
@@ -448,7 +482,7 @@ static void more_markup_set_property(GObject *object, guint prop_id, const GValu
     switch (prop_id)
     {
         case PROP_PLUGIN_ACTIVE:
-            //g_warning("more_markup_set_property: PluginActive");
+            g_warning("more_markup_set_property: PluginActive");
             priv->plugin_active = g_value_get_boolean(value);
             more_markup_toolbar_update(MORE_MARKUP(object));
             break;
@@ -485,6 +519,7 @@ static void on_document_close(GObject *geany_object, GeanyDocument *doc, MoreMar
     MoreMarkupPrivate *priv = MORE_MARKUP_GET_PRIVATE(self);
     struct MarkupLabel *markup_label; 
     GList *link = priv->active_marker_labels; 
+    guint i;
     if (link == NULL) return;
     do {
         markup_label = link->data;
@@ -495,6 +530,13 @@ static void on_document_close(GObject *geany_object, GeanyDocument *doc, MoreMar
             priv->active_marker_labels = g_list_delete_link(priv->active_marker_labels, link);
         }
     } while((link = g_list_next(link)) != NULL);
+    for (i=0; i< 512; i++) {
+        if (priv->documents_table[i] == (gint64)doc) {
+            priv->documents_table[i] = 0;
+            priv->indic_numbers_table[i] = 0;
+            break;
+        }
+    }
 }
 
 static void more_markup_connect_signals(MoreMarkup *self) {
@@ -519,8 +561,10 @@ static void more_markup_init(MoreMarkup *self)
     priv->toolbar_more_markup_button = NULL;
     priv->visible = FALSE; 
     priv->more_markup_bar = create_more_markup_bar(&markup_prefs);
+    memset(priv->indic_numbers_table, 0, 512);
+    memset(priv->documents_table, 0, 512);
+    //priv->indic_numbers_table = g_hash_table_new(g_int_hash, g_int_equal);
     /* Make it bigger than any default scintilla style */
-    priv->highest_indic_number = 33;
     more_markup_connect_signals(self);
     GtkWidget *vbox = ui_lookup_widget(geany_data->main_widgets->window, "vbox1");
     gtk_box_pack_start(GTK_BOX(vbox), priv->more_markup_bar, FALSE, FALSE, 1);
@@ -589,7 +633,7 @@ void plugin_init(GeanyData *data) {
 }
 
 void plugin_cleanup(void) {
-    g_warning("moremarkup cleanup");
+    g_warning("searchdock cleanup");
     g_object_unref(mdock);
 }
 
