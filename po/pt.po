@@ -24,7 +24,7 @@ msgstr "(Linha em Branco)"
 
 #: ../addons/src/ao_bookmarklist.c:307
 msgid "_Remove Bookmark"
-msgstr "_Remover Favorito"
+msgstr "_Remover marcador"
 
 #: ../addons/src/ao_bookmarklist.c:333
 msgid "No."
