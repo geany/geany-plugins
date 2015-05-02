@@ -293,7 +293,7 @@ void prjorg_project_rescan(void)
 	foreach_slist(elem, prj_org->roots)
 		filenum += prjorg_project_rescan_root(elem->data);
 	
-	if (prj_org->generate_tag_prefs == PrjOrgTagYes || (prj_org->generate_tag_prefs == PrjOrgTagAuto && filenum < 500))
+	if (prj_org->generate_tag_prefs == PrjOrgTagYes || (prj_org->generate_tag_prefs == PrjOrgTagAuto && filenum < 300))
 		g_slist_foreach(prj_org->roots, (GFunc)regenerate_tags, NULL);
 }
 
@@ -595,7 +595,7 @@ gint prjorg_project_add_properties_tab(GtkWidget *notebook)
 	label = gtk_label_new(_("Generate tags for all project files:"));
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
 	e->generate_tag_prefs = gtk_combo_box_text_new();
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), _("Auto (generate if less than 500 files)"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), _("Auto (generate if less than 300 files)"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), _("Yes"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), _("No"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(e->generate_tag_prefs), prj_org->generate_tag_prefs);
