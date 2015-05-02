@@ -221,8 +221,12 @@ static gboolean match_basename(gconstpointer pft, gconstpointer user_data)
 static GeanyFiletype *filetypes_detect(const gchar *utf8_filename)
 {
 	guint i;
+	struct stat s;
 	gchar *base_filename;
 	GeanyFiletype *ft = NULL;
+
+	if (g_stat(utf8_filename, &s) != 0 || s.st_size > 10*1024*1024)
+		return filetypes[GEANY_FILETYPES_NONE];
 
 	/* to match against the basename of the file (because of Makefile*) */
 	base_filename = g_path_get_basename(utf8_filename);
