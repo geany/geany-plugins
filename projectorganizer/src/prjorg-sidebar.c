@@ -861,56 +861,6 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 			file_list = g_slist_prepend(file_list, path_arr);
 	}
 
-	if (dir_list)
-	{
-		GSList *tmp_list = NULL;
-		GtkTreeIter iter;
-		gchar **path_arr = dir_list->data;
-		gchar *last_dir_name;
-		GIcon *icon_dir = g_icon_new_for_string("folder", NULL);
-
-		last_dir_name = path_arr[level];
-
-		foreach_slist (elem, dir_list)
-		{
-			gboolean dir_changed;
-
-			path_arr = (gchar **) elem->data;
-			dir_changed = g_strcmp0(last_dir_name, path_arr[level]) != 0;
-
-			if (dir_changed)
-			{
-				gtk_tree_store_append(s_file_store, &iter, parent);
-				gtk_tree_store_set(s_file_store, &iter,
-					FILEVIEW_COLUMN_ICON, icon_dir,
-					FILEVIEW_COLUMN_NAME, last_dir_name, -1);
-				if (!project)
-					gtk_tree_store_set(s_file_store, &iter, FILEVIEW_COLUMN_COLOR, &s_external_color, -1);
-				
-				create_branch(level+1, tmp_list, &iter, header_patterns, source_patterns, project);
-
-				g_slist_free(tmp_list);
-				tmp_list = NULL;
-				last_dir_name = path_arr[level];
-			}
-
-			tmp_list = g_slist_prepend(tmp_list, path_arr);
-		}
-
-		gtk_tree_store_append(s_file_store, &iter, parent);
-		gtk_tree_store_set(s_file_store, &iter,
-			FILEVIEW_COLUMN_ICON, icon_dir,
-			FILEVIEW_COLUMN_NAME, last_dir_name, -1);
-		if (!project)
-			gtk_tree_store_set(s_file_store, &iter, FILEVIEW_COLUMN_COLOR, &s_external_color, -1);
-
-		create_branch(level+1, tmp_list, &iter, header_patterns, source_patterns, project);
-
-		g_slist_free(tmp_list);
-		g_slist_free(dir_list);
-		g_object_unref(icon_dir);
-	}
-
 	foreach_slist (elem, file_list)
 	{
 		GtkTreeIter iter;
@@ -937,43 +887,85 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 			g_free(content_type);
 		}
 
-		gtk_tree_store_append(s_file_store, &iter, parent);
 		if (patterns_match(header_patterns, path_arr[level]))
 		{
 			if (! icon)
 				icon = g_icon_new_for_string("prjorg-header", NULL);
 
-			gtk_tree_store_set(s_file_store, &iter,
+			gtk_tree_store_insert_with_values(s_file_store, &iter, parent, 0,
 				FILEVIEW_COLUMN_ICON, icon,
-				FILEVIEW_COLUMN_NAME, path_arr[level], -1);
-			if (!project)
-				gtk_tree_store_set(s_file_store, &iter, FILEVIEW_COLUMN_COLOR, &s_external_color, -1);
+				FILEVIEW_COLUMN_NAME, path_arr[level],
+				FILEVIEW_COLUMN_COLOR, project ? NULL : &s_external_color, -1);
 		}
 		else if (patterns_match(source_patterns, path_arr[level]))
 		{
 			if (! icon)
 				icon = g_icon_new_for_string("prjorg-source", NULL);
 
-			gtk_tree_store_set(s_file_store, &iter,
+			gtk_tree_store_insert_with_values(s_file_store, &iter, parent, 0,
 				FILEVIEW_COLUMN_ICON, icon,
-				FILEVIEW_COLUMN_NAME, path_arr[level], -1);
-			if (!project)
-				gtk_tree_store_set(s_file_store, &iter, FILEVIEW_COLUMN_COLOR, &s_external_color, -1);
+				FILEVIEW_COLUMN_NAME, path_arr[level],
+				FILEVIEW_COLUMN_COLOR, project ? NULL : &s_external_color, -1);
 		}
 		else
 		{
 			if (! icon)
 				icon = g_icon_new_for_string("prjorg-file", NULL);
 
-			gtk_tree_store_set(s_file_store, &iter,
+			gtk_tree_store_insert_with_values(s_file_store, &iter, parent, 0,
 				FILEVIEW_COLUMN_ICON, icon,
-				FILEVIEW_COLUMN_NAME, path_arr[level], -1);
-			if (!project)
-				gtk_tree_store_set(s_file_store, &iter, FILEVIEW_COLUMN_COLOR, &s_external_color, -1);
+				FILEVIEW_COLUMN_NAME, path_arr[level],
+				FILEVIEW_COLUMN_COLOR, project ? NULL : &s_external_color, -1);
 		}
 
 		if (icon)
 			g_object_unref(icon);
+	}
+
+	if (dir_list)
+	{
+		GSList *tmp_list = NULL;
+		GtkTreeIter iter;
+		gchar **path_arr = dir_list->data;
+		gchar *last_dir_name;
+		GIcon *icon_dir = g_icon_new_for_string("folder", NULL);
+
+		last_dir_name = path_arr[level];
+
+		foreach_slist (elem, dir_list)
+		{
+			gboolean dir_changed;
+
+			path_arr = (gchar **) elem->data;
+			dir_changed = g_strcmp0(last_dir_name, path_arr[level]) != 0;
+
+			if (dir_changed)
+			{
+				gtk_tree_store_insert_with_values(s_file_store, &iter, parent, 0,
+					FILEVIEW_COLUMN_ICON, icon_dir,
+					FILEVIEW_COLUMN_NAME, last_dir_name,
+					FILEVIEW_COLUMN_COLOR, project ? NULL : &s_external_color, -1);
+
+				create_branch(level+1, tmp_list, &iter, header_patterns, source_patterns, project);
+
+				g_slist_free(tmp_list);
+				tmp_list = NULL;
+				last_dir_name = path_arr[level];
+			}
+
+			tmp_list = g_slist_prepend(tmp_list, path_arr);
+		}
+
+		gtk_tree_store_insert_with_values(s_file_store, &iter, parent, 0,
+			FILEVIEW_COLUMN_ICON, icon_dir,
+			FILEVIEW_COLUMN_NAME, last_dir_name,
+			FILEVIEW_COLUMN_COLOR, project ? NULL : &s_external_color, -1);
+
+		create_branch(level+1, tmp_list, &iter, header_patterns, source_patterns, project);
+
+		g_slist_free(tmp_list);
+		g_slist_free(dir_list);
+		g_object_unref(icon_dir);
 	}
 
 	g_slist_free(file_list);
@@ -984,14 +976,19 @@ static void set_intro_message(const gchar *msg)
 {
 	GtkTreeIter iter;
 
-	gtk_tree_store_append(s_file_store, &iter, NULL);
-	gtk_tree_store_set(s_file_store, &iter,
+	gtk_tree_store_insert_with_values(s_file_store, &iter, NULL, -1,
 		FILEVIEW_COLUMN_NAME, msg, -1);
 
 	gtk_widget_set_sensitive(s_project_toolbar.expand, FALSE);
 	gtk_widget_set_sensitive(s_project_toolbar.collapse, FALSE);
 	gtk_widget_set_sensitive(s_project_toolbar.follow, FALSE);
 	gtk_widget_set_sensitive(s_project_toolbar.add, FALSE);
+}
+
+
+static int rev_strcmp(const char *str1, const char *str2)
+{
+	return strcmp(str2, str1);
 }
 
 
@@ -1009,7 +1006,9 @@ static void load_project_root(PrjOrgRoot *root, GtkTreeIter *parent, GSList *hea
 		gchar *path = get_relative_path(root->base_dir, key);
 		lst = g_slist_prepend(lst, path);
 	}
-	lst = g_slist_sort(lst, (GCompareFunc) strcmp);
+	/* sort in reverse order so we can prepend nodes to the tree store -
+	 * the store behaves as a linked list and prepending is faster */
+	lst = g_slist_sort(lst, (GCompareFunc) rev_strcmp);
 
 	foreach_slist (elem, lst)
 	{
@@ -1072,12 +1071,10 @@ static void load_project(void)
 		else
 			name = g_strdup(root->base_dir);
 
-		gtk_tree_store_append(s_file_store, &iter, NULL);
-		gtk_tree_store_set(s_file_store, &iter,
+		gtk_tree_store_insert_with_values(s_file_store, &iter, NULL, -1,
 			FILEVIEW_COLUMN_ICON, icon_dir,
-			FILEVIEW_COLUMN_NAME, name, -1);
-		if (!first)
-			gtk_tree_store_set(s_file_store, &iter, FILEVIEW_COLUMN_COLOR, &s_external_color, -1);
+			FILEVIEW_COLUMN_NAME, name,
+			FILEVIEW_COLUMN_COLOR, first ? NULL : &s_external_color, -1);
 
 		load_project_root(root, &iter, header_patterns, source_patterns, first);
 
