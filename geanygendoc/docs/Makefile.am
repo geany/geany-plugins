@@ -14,5 +14,7 @@ dist_pluginhtmldoc_DATA = \
 
 if BUILD_RST
 manual.html: manual.rst manual.css html4css1.css
-	$(AM_V_GEN) $(RST2HTML) -d --strict --stylesheet-path html4css1.css,manual.css $< $@
+	$(AM_V_GEN) $(RST2HTML) -d --strict \
+		--stylesheet-path $(srcdir)/html4css1.css,$(srcdir)/manual.css \
+		$(srcdir)/manual.rst $@
 endif BUILD_RST
