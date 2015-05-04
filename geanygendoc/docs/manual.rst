@@ -16,7 +16,7 @@ symbols. Its goal is to ease writing documentation for the good.
 
 If you are impatient, you will probably want to discover the `user interface in
 Geany`_ first; but if you have the time to discover the tool, take a look at the
-`design`_ and learn how GeanyGenDoc works and how you can take the most of it.
+`design`_ and learn how GeanyGenDoc works and how you can make the most of it.
 
 
 .. contents::
@@ -73,7 +73,7 @@ The `Documentation Generator` menu under `Tools` contains the following items:
 Preferences dialog
 ------------------
 
-The preferences dialog, than can either be opened through `Edit →
+The preferences dialog, that can either be opened through `Edit →
 Plugin Preferences` or with the `Preferences` button in the plugin manager,
 allows to modify the following preferences:
 
@@ -100,8 +100,8 @@ allows to modify the following preferences:
   be merged with the `file type`_-specific ones, possibly overriding some parts.
   It can be used to define some values for all the file types, such as whether
   to write the common `Since` tag, define the `Doxygen`_ prefix an so on.
-  Its most use case is not to need to change a file type's environment to change
-  the value of one of its elements.
+  Its most practical use case is not to need to change a file type's environment
+  to change the value of one of its elements.
 
 
 Design
@@ -119,7 +119,7 @@ documentation type and rules.
   documentation types is to allow different set of rules to be defined for each
   file type.
   One might want to have separate rules to generate for example `Doxygen`_
-  and `Gtk-Doc`_ documentation from C sources. She should then create two
+  and `Gtk-Doc`_ documentation from C sources, and should then create two
   documentation types in the C `file type configuration file`_, such as
   "doxygen" and "gtkdoc".
 
@@ -220,11 +220,11 @@ boolean
 
 enumeration
   An enumeration. It consists of a named constant, generally in capital letters.
-  The possible values depend on the setting that use this type.
+  The possible values depend on the setting using this type.
 
 flags
-  A logical OR of named constants. This is like enumerations but can combine
-  different values.
+  A logical OR of named constants. This is similar to enumerations but can
+  combine different values.
   
   The syntax is common for such types and uses the pipe (``|``) as
   combination character. Considering the ``A``, ``B`` and ``C`` constants, a
@@ -239,7 +239,7 @@ File types
 ==========
 
 The file type determines which configuration applies to which document.
-*File type identifiers* are the lowercased name of the Geany's file type, for
+*File type identifiers* are the lowercased name of Geany's file type, for
 example "c" or "python".
 
 Configuration for a particular file type goes in a file named
@@ -259,8 +259,8 @@ This group contains the file-type-wide settings.
   A regular expression used to extract arguments from a function-style argument
   list (functions, methods, macros, etc.). This regular expression should match
   one argument at a time and capture only the argument's name.
-  This setting is a little odd but currently needed to extract argument list
-  from function definitions.
+  This setting is a little odd but currently required to extract argument list
+  from function declarations.
 
 ``global_environment`` (string)
   A description of a CTPL_ environment to add when parsing rule_'s templates.
@@ -433,7 +433,7 @@ Rule settings
   ``PASS``
     Completely ignore the symbol and handle the documentation request as if it
     hasn't existed at all. This can be useful to ignore e.g. variables if they
-    are extracted by the tag manager of the language and you don't want to
+    are extracted by the tag parser of the language and you don't want to
     document them, and don't want them to "eat" the documentation request.
 
 ``children`` (enumeration)
@@ -474,8 +474,8 @@ following:
   ``$GEANY_SYS_CONFIG`` is generally ``/usr/share/geany/`` or
   ``/usr/local/share/geany`` on UNIX systems.
 
-When searching for configuration, GeanyGenDoc will first look in the
-user's configuration directory, and if it wasn't successful, in the system
+When searching for a configuration, GeanyGenDoc will first look in the
+user's configuration directory, and if it wasn't found there, in the system
 configuration directory. If both failed, it assumes that there is no
 configuration at all.
 
