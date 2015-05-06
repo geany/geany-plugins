@@ -267,7 +267,10 @@ overview_scintilla_draw_real (OverviewScintilla *self,
   cairo_save (cr);
 
   cairo_set_line_width (cr, 1.0);
+
+#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 12, 0)
   cairo_set_antialias (cr, CAIRO_ANTIALIAS_GOOD);
+#endif
 
   if (self->overlay_inverted)
     {

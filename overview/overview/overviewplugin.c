@@ -35,7 +35,14 @@ GeanyPlugin    *geany_plugin;
 GeanyData      *geany_data;
 GeanyFunctions *geany_functions;
 
+/* scintilla_get_type() is needed but was only added to the API in 224, but
+ * previous versions will still work on Linux since it's before the symbol
+ * linkage was fixed up. TODO: remove this after next Geany release. */
+#if GEANY_API_VERSION >= 224
 PLUGIN_VERSION_CHECK (224)
+#else
+PLUGIN_VERSION_CHECK (211)
+#endif
 
 PLUGIN_SET_INFO (
   "Overview",
