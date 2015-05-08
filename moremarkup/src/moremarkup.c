@@ -265,7 +265,7 @@ static void markup_add_label(MarkerMatchInfo *info) {
         gtk_widget_show_all(GTK_WIDGET(item));
         if (document_get_current() != info->doc)
             gtk_widget_hide(GTK_WIDGET(label_box));
-        g_warning("add_mark_up_label -- doc_current: %lli, %s, info->doc: %lli, info->indic: %i ", document_get_current(), info->lpstrText, info->doc, info->indic_number); 
+        //g_warning("add_mark_up_label -- doc_current: %lli, %s, info->doc: %lli, info->indic: %i ", document_get_current(), info->lpstrText, info->doc, info->indic_number); 
         //markup_label->text = g_strdup(info->lpstrText);
         
         priv->active_marker_labels = g_list_append(priv->active_marker_labels, markup_label);
@@ -537,21 +537,6 @@ static void more_markup_toggle_cb(GtkWidget *btn) {
     }
 }
 
-/*
-GtkWidget * more_markup_bar_new (void) {
-    GtkBuilder *builder = gtk_builder_new();
-    GError *error = NULL; 
-    if (! gtk_builder_add_from_file(builder, PKGDATADIR"/searchdock/searchdockbar.ui", &error)) {
-        g_critical(_("Failed to load UI definition, please check your installation, error message: %s"), error->message); 
-        g_error_free(error);
-        g_object_unref(builder); 
-        return NULL;
-    }
-    GtkWidget *mdock_bar = GTK_WIDGET(gtk_builder_get_object(builder, "more_markup_frame")); 
-    g_object_unref(builder); 
-    return mdock_bar; 
-} */
-
 static void more_markup_toolbar_update(MoreMarkup *self) {
     MoreMarkupPrivate *priv = MORE_MARKUP_GET_PRIVATE(self);
     if (! priv->plugin_active) {
@@ -584,13 +569,6 @@ static void more_markup_set_property(GObject *object, guint prop_id, const GValu
             break;
     }
 }
-
- /*
-static void toggle_status(MoreMarkup *self, gpointer data) {
-    MoreMarkupPrivate *priv = MORE_MARKUP_GET_PRIVATE(self);
-    gboolean status =  gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(g_object_get_data(G_OBJECT(plugin_menu_item), "activate")));
-    g_object_set(self, "plugin-active", status, NULL);
-}*/
 
 static void on_document_activate(GObject *geany_object, GeanyDocument *doc, MoreMarkup *self) {
     //g_warning("on_document_activate %i", doc);
@@ -662,6 +640,7 @@ static void more_markup_init(MoreMarkup *self)
     priv->indic_numbers_table = calloc(MM_DOCS_ARRAY, sizeof(int));
     priv->documents_table = calloc(MM_DOCS_ARRAY, sizeof(int));
     //priv->indic_numbers_table = g_hash_table_new(g_int_hash, g_int_equal);
+    
     /* Make it bigger than any default scintilla style */
     more_markup_connect_signals(self);
     GtkWidget *vbox = ui_lookup_widget(geany_data->main_widgets->window, "vbox1");
