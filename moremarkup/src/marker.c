@@ -23,8 +23,9 @@ void marker_data_init(void) {
 	/* Default to be set by calling function */
 	marker_data.indic_number = 0;
 	marker_data.indic_style = 0;
+    marker_data.sci_alpha = 255;
 	/* Default to be set by calling function */
-	marker_data.color = marker_data.color = malloc(sizeof(GdkColor)); //NULL
+	marker_data.color = g_malloc(sizeof(GdkColor));
 	/* Deprecate this */
 	marker_data.last_mark_info = g_malloc(sizeof(MarkerMatchInfo));
 }
@@ -128,6 +129,10 @@ void marker_indicator_set_on_range(ScintillaObject *sci, MarkerMatchInfo *info) 
 	_sci_indicator_fill(sci, info->chrgText.cpMin, info->chrgText.cpMax - info->chrgText.cpMin); 
 	//g_warning("marker_indicator_set_on_range, color: %x , indic %i",  _GDK_COLOR_TO_SCI_COLOR(marker_data.color), indic);
 	SSM(sci, SCI_INDICSETFORE, (uptr_t) info->indic_number, info->sci_color);
+    /* Apply alpha for box types only */
+    if (info->indic_style > 6) {
+    SSM(sci, SCI_INDICSETALPHA, (uptr_t) info->indic_number, info->sci_alpha);
+    }
 }
 
 gint search_mark_all(GeanyDocument *doc, const gchar *search_text, guint flags) {
@@ -157,6 +162,7 @@ gint search_mark_all(GeanyDocument *doc, const gchar *search_text, guint flags) 
 	_info->indic_style = marker_data.indic_style;
 	_info->sci_color = _GDK_COLOR_TO_SCI_COLOR(marker_data.color);
 	_info->doc = doc;
+    _info->sci_alpha = marker_data.sci_alpha;
 	
 	/* Get a gslist of valid marker matches */
 	if ((match = marker_find_range(doc->editor->sci, _info)) == NULL) {
@@ -188,7 +194,7 @@ MarkerMatchInfo *get_last_marker_info(void) {
 	return marker_data.last_mark_info;
 }
 
-gint on_marker_set(gchar *entry_text, gint indic_number, gint indic_style,  GdkColor *color) {
+gint on_marker_set(gchar *entry_text, gint indic_number, gint indic_style,  GdkColor *color, gint alpha) {
 	//g_warning("on_marker_set");
 	GeanyDocument *doc = document_get_current();
 	if (doc == NULL) {
@@ -205,13 +211,8 @@ gint on_marker_set(gchar *entry_text, gint indic_number, gint indic_style,  GdkC
 	/* Set Indicator */ 
 	marker_data.indic_number = indic_number; 
 	marker_data.indic_style = indic_style;
-	/* Copy color */ 
-	/*
-	if (marker_data.color != NULL) {
-		gdk_color_free(marker_data.color);
-		marker_data.color = NULL;
-	}	*/
-	//marker_data.color = gdk_color_copy(color);
+    marker_data.sci_alpha = alpha; 
+	/* Copy color */ 	
 	memcpy(marker_data.color, color, sizeof(GdkColor));
 	
 	//g_warning("Got text entry: %s", marker_data.text);

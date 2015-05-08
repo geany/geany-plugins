@@ -20,6 +20,7 @@ typedef struct {
     gchar * default_color; 
     gint default_indicator; 
     gint default_on_mark;
+    gint default_box_alpha;
 } MoreMarkupPrefs;
 
 struct MarkupLabel {

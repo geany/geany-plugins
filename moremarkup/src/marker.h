@@ -36,6 +36,7 @@ typedef struct {
     gint indic_number;
     gint indic_style; /* Determins which Scintilla-Indicator type is set */
     gint sci_color; /* Determins which Scintilla Color is set for the Indicator */
+    gint sci_alpha; /* Determines Scintilla foreground alpha for box type markers */
     guint flags;  /* Search flags -- currently unimplemented */
     GeanyDocument *doc; /* Tracks which doc was marked up */
 } MarkerMatchInfo;
@@ -51,6 +52,7 @@ typedef struct  {
 	gchar			*original_text;
     gint indic_number;
     gint indic_style;
+    gint sci_alpha;
     guint cleared_signal;
     GdkColor *color;
     MarkerMatchInfo *last_mark_info;
@@ -60,7 +62,7 @@ typedef struct  {
 void marker_data_init(void) ;
 void marker_data_finalize(void); 
 inline gint _GDK_COLOR_TO_SCI_COLOR(GdkColor *color);
-gint on_marker_set(gchar *entry_text, gint indic_number, gint indic_style, GdkColor *color);
+gint on_marker_set(gchar *entry_text, gint indic_number, gint indic_style, GdkColor *color, gint alpha);
 MarkerMatchInfo *get_last_marker_info(void);
 MarkerMatchInfo *match_info_duplicate(MarkerMatchInfo *info);
 

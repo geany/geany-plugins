@@ -33,11 +33,13 @@ struct _MoreMarkupClass {
     GObjectClass parent_class;
 };
 
+#define MM_DOCS_ARRAY 512
+
 struct _MoreMarkupPrivate {
     gboolean plugin_active;
     gboolean visible;
-    gint indic_numbers_table[512]; 
-    gint64 documents_table[512];
+    gint *indic_numbers_table; //use malloc here only when plugin is loaded
+    gint64 *documents_table;
     GtkToolItem *toolbar_more_markup_button;
     GtkWidget *more_markup_bar;
     GList *active_marker_labels;
@@ -111,6 +113,12 @@ static void more_markup_finalize(GObject *object) {
     if (link != NULL) {
         g_critical("Failed to free all extra markup_labels");
     }
+    if (priv->indic_numbers_table != NULL) {
+        g_free(priv->indic_numbers_table);
+    }
+    if (priv->documents_table != NULL) {
+        g_free(priv->documents_table);
+    }
     /* Clean marker data */
     marker_data_finalize();
     G_OBJECT_CLASS(more_markup_parent_class)->finalize(object);
@@ -126,12 +134,12 @@ static void on_menu_show(G_GNUC_UNUSED guint key_id) {
 static gboolean label_unmark_cb(GtkWidget *label_box, GdkEventButton * event) {
     MoreMarkup *self = mdock;
     MoreMarkupPrivate *priv = MORE_MARKUP_GET_PRIVATE(self);
-	GeanyDocument *doc = document_get_current();
+    GeanyDocument *doc = document_get_current();
     GList *link = priv->active_marker_labels;
     struct MarkupLabel *markup_label; 
-	if (doc == NULL) {
-		return TRUE; 
-	}
+    if (doc == NULL) {
+        return TRUE; 
+    }
     if (link == NULL) {
         g_critical("We got a zombie label");
         return TRUE;
@@ -159,8 +167,8 @@ void clear_markup_label(gint indic_number) {
     GList *link = priv->active_marker_labels;
     GeanyDocument *doc = document_get_current();
     if (doc == NULL || link == NULL) {
-		return;
-	}
+        return;
+    }
     do {
         markup_label = link->data;
         if ((markup_label->indic_number == indic_number) && (doc == markup_label->doc)) {
@@ -247,7 +255,7 @@ static gboolean markup_set_cb(GtkWidget *mark_button, gint response, gpointer us
     GtkWidget *color_button;
     GdkColor *color = malloc(sizeof(GdkColor));
     GtkTreeIter   iter;
-	GtkTreeModel *model;
+    GtkTreeModel *model;
     GList *link;
     gint indic_number, indic_style, sci_color;
     
@@ -299,14 +307,14 @@ static gboolean markup_set_cb(GtkWidget *mark_button, gint response, gpointer us
             } while ((link = g_list_next(link)) != NULL);
             /* Move this stuff */
             if (indic_number < 0) { 
-                for (i=0; i<512; i++) {
+                for (i=0; i<MM_DOCS_ARRAY; i++) {
                     if (priv->documents_table[i] == (gint64)doc) {
                         indic_number = priv->indic_numbers_table[i]++;
                         break;
                     }
                 }
                 if (indic_number < 0) {
-                    for (i=0; i<512; i++) {
+                    for (i=0; i<MM_DOCS_ARRAY; i++) {
                         if (priv->documents_table[i] == 0) {
                             priv->documents_table[i] = (gint64)doc;
                             indic_number = priv->indic_numbers_table[i]++;
@@ -317,7 +325,7 @@ static gboolean markup_set_cb(GtkWidget *mark_button, gint response, gpointer us
             }
         }
         else {
-            for (i=0; i<512; i++) {
+            for (i=0; i<MM_DOCS_ARRAY; i++) {
                 if (priv->documents_table[i] == 0) {
                     priv->documents_table[i] = (gint64)doc;
                     indic_number = priv->indic_numbers_table[i]++; 
@@ -330,8 +338,11 @@ static gboolean markup_set_cb(GtkWidget *mark_button, gint response, gpointer us
         indic_number = indic_style;
     }
     g_warning("indic set %i", indic_number);
+    
+    /* Indicator Alpha */
+    gint alpha = (indic_style > 6 ? markup_prefs.default_box_alpha: 255);
     /* Call set function */
-    gint count = on_marker_set(entry_text, indic_number, indic_style, color);
+    gint count = on_marker_set(entry_text, indic_number, indic_style, color, alpha);
     g_warning("marker_set_cb -- got count %i", count);
 
     g_free(entry_text);
@@ -354,7 +365,7 @@ static GtkWidget *create_more_markup_bar(MoreMarkupPrefs *prefs) {
     GtkWidget *toolbar, *indicator_menu, *color_button;
     GtkToolItem *mark, *clear_all;
     GtkEntry *entry;
-	GtkToolItem *entry_item, *indicator_item, *color_item;
+    GtkToolItem *entry_item, *indicator_item, *color_item;
     
     /* initialize toolbar */
     toolbar = gtk_toolbar_new();
@@ -529,7 +540,9 @@ static void on_document_close(GObject *geany_object, GeanyDocument *doc, MoreMar
             priv->active_marker_labels = g_list_delete_link(priv->active_marker_labels, link);
         }
     } while((link = g_list_next(link)) != NULL);
-    for (i=0; i< 512; i++) {
+    
+    /* Remove document indicator count from list */
+    for (i=0; i< MM_DOCS_ARRAY; i++) {
         if (priv->documents_table[i] == (gint64)doc) {
             priv->documents_table[i] = 0;
             priv->indic_numbers_table[i] = 0;
@@ -540,7 +553,7 @@ static void on_document_close(GObject *geany_object, GeanyDocument *doc, MoreMar
 
 static void more_markup_connect_signals(MoreMarkup *self) {
     plugin_signal_connect(geany_plugin, NULL, "document-activate", TRUE, G_CALLBACK(on_document_activate), self);
-	plugin_signal_connect(geany_plugin, NULL, "document-close", TRUE, G_CALLBACK(on_document_close), self);
+    plugin_signal_connect(geany_plugin, NULL, "document-close", TRUE, G_CALLBACK(on_document_close), self);
 }
 
 /* For now */
@@ -549,6 +562,7 @@ static void more_markup_prefs_init(MoreMarkupPrefs *prefs) {
     prefs->default_color = "#FFA700";
     prefs->default_indicator = 8;
     prefs->default_on_mark = MM_DEFAULT_CLEAR;
+    prefs->default_box_alpha = 128;
 }
 
 /* Created on plugin_active callback */
@@ -560,8 +574,8 @@ static void more_markup_init(MoreMarkup *self)
     priv->toolbar_more_markup_button = NULL;
     priv->visible = FALSE; 
     priv->more_markup_bar = create_more_markup_bar(&markup_prefs);
-    memset(priv->indic_numbers_table, 0, 512);
-    memset(priv->documents_table, 0, 512);
+    priv->indic_numbers_table = calloc(MM_DOCS_ARRAY, sizeof(int));
+    priv->documents_table = calloc(MM_DOCS_ARRAY, sizeof(int));
     //priv->indic_numbers_table = g_hash_table_new(g_int_hash, g_int_equal);
     /* Make it bigger than any default scintilla style */
     more_markup_connect_signals(self);
@@ -575,19 +589,49 @@ MoreMarkup *more_markup_new(gboolean plugin_active) {
     return g_object_new(MORE_MARKUP_TYPE, "plugin-active", plugin_active, NULL);
 }
 
-static void on_configure_response(GtkDialog *dialog, gint response, GtkComboBox *combo) {
+GtkWidget* find_child(GtkWidget* parent, const gchar* name) {
+    if (g_strcasecmp(gtk_widget_get_name((GtkWidget*)parent), (gchar*)name) == 0) { 
+            return parent;
+    }
+
+    if (GTK_IS_BIN(parent)) {
+            GtkWidget *child = gtk_bin_get_child(GTK_BIN(parent));
+            return find_child(child, name);
+    }
+
+    if (GTK_IS_CONTAINER(parent)) {
+            GList *children = gtk_container_get_children(GTK_CONTAINER(parent));
+            while ((children = g_list_next(children)) != NULL) {
+                    GtkWidget* widget = find_child(children->data, name);
+                    if (widget != NULL) {
+                            return widget;
+                    }
+            }
+    }
+    return NULL;
+}
+
+static void on_configure_response(GtkDialog *dialog, gint response, GtkWidget *vbox) {
+    if (response == GTK_RESPONSE_CANCEL) {
+        return;
+    }
     GtkTreeIter   iter;
-	GtkTreeModel *model;
-	
-	if( gtk_combo_box_get_active_iter(combo, &iter)) {
-		model = gtk_combo_box_get_model( combo );
-		gtk_tree_model_get( model, &iter, 0, &markup_prefs.default_on_mark, -1 );
-	}
+    GtkTreeModel *model;
+    GtkComboBox *combo = GTK_COMBO_BOX(find_child(GTK_WIDGET(vbox), "default_on_mark"));
+    GtkSpinButton *spin = GTK_SPIN_BUTTON(find_child(GTK_WIDGET(vbox), "default_box_alpha"));
+    
+    if( gtk_combo_box_get_active_iter(combo, &iter)) {
+        model = gtk_combo_box_get_model( combo );
+        gtk_tree_model_get( model, &iter, 0, &markup_prefs.default_on_mark, -1 );
+    }
+    markup_prefs.default_box_alpha = (gint)(gtk_spin_button_get_value(spin) * 255);
+    g_warning("markup_prefs.default_box_alpha %i", markup_prefs.default_box_alpha);
 }
 
 GtkWidget *plugin_configure(GtkDialog *dialog)
 {
-    GtkWidget *label, *vbox, *configure_combo;
+    GtkWidget *label, *vbox, *configure_combo, *spin, *alpha_label;
+    GtkObject *adj;
 
     /* example configuration dialog */
     vbox = gtk_vbox_new(FALSE, 6);
@@ -608,7 +652,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
     
     configure_combo = gtk_combo_box_new_with_model(GTK_TREE_MODEL(store));  
     /* for now */
-    gtk_combo_box_set_active (GTK_COMBO_BOX(configure_combo), 0);
+    gtk_combo_box_set_active (GTK_COMBO_BOX(configure_combo), markup_prefs.default_on_mark);
     /* Create cell renderer. */
     cell = gtk_cell_renderer_text_new();
     /* Pack it to the combo box. */
@@ -616,13 +660,26 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
     /* Connect renderer to data source */
     gtk_cell_layout_set_attributes( GTK_CELL_LAYOUT( configure_combo ), cell, "text", 1, NULL );
     
-    GtkWidget *align = 	gtk_alignment_new(0,0,1,0);
+    GtkWidget *align =  gtk_alignment_new(0,0,1,0);
     gtk_container_add(GTK_CONTAINER(align), GTK_WIDGET(configure_combo));
     gtk_container_add(GTK_CONTAINER(vbox), GTK_WIDGET(align));
+    
+    adj = gtk_adjustment_new(((gdouble)markup_prefs.default_box_alpha)/255, 0, 1.0, .01, 0.1, 0);
+    spin = gtk_spin_button_new(GTK_ADJUSTMENT(adj), .01, 2);
+    alpha_label = gtk_label_new(_("Set Default Box alpha:"));
+    gtk_misc_set_alignment(GTK_MISC(alpha_label), 0, 1);
+    
+    gtk_container_add(GTK_CONTAINER(vbox), alpha_label);
+    gtk_container_add(GTK_CONTAINER(vbox), spin);
+    
+    gtk_widget_set_name(GTK_WIDGET(configure_combo), "default_on_mark");
+    gtk_widget_set_name(GTK_WIDGET(spin), "default_box_alpha");
+    g_warning("Spin name %s", gtk_widget_get_name(GTK_WIDGET(spin)));
+    
     gtk_widget_show_all(vbox);
 
     /* Connect a callback for when the user clicks a dialog button */
-    g_signal_connect(dialog, "response", G_CALLBACK(on_configure_response), configure_combo);
+    g_signal_connect(dialog, "response", G_CALLBACK(on_configure_response), vbox);
     return vbox;
 }
 
@@ -635,7 +692,6 @@ void plugin_cleanup(void) {
     g_warning("moremarkup cleanup");
     g_object_unref(mdock);
 }
-
 
 
 
