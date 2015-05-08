@@ -50,10 +50,13 @@ typedef struct  {
 	gboolean		search_bar;
 	/* text as it was entered by user */
 	gchar			*original_text;
+    gint text_start;
+    gint text_end;
     gint indic_number;
     gint indic_style;
     gint sci_alpha;
     guint cleared_signal;
+    GeanyDocument *doc;
     GdkColor *color;
     MarkerMatchInfo *last_mark_info;
 } MarkerData;
@@ -62,7 +65,7 @@ typedef struct  {
 void marker_data_init(void) ;
 void marker_data_finalize(void); 
 inline gint _GDK_COLOR_TO_SCI_COLOR(GdkColor *color);
-gint on_marker_set(gchar *entry_text, gint indic_number, gint indic_style, GdkColor *color, gint alpha);
+gint on_marker_set(GeanyDocument *doc, gint text_start, gint text_end, gchar *entry_text, gint indic_number, gint indic_style,  GdkColor *color, gint alpha);
 MarkerMatchInfo *get_last_marker_info(void);
 MarkerMatchInfo *match_info_duplicate(MarkerMatchInfo *info);
 

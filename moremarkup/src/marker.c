@@ -153,8 +153,8 @@ gint search_mark_all(GeanyDocument *doc, const gchar *search_text, guint flags) 
 	if (G_UNLIKELY(EMPTY(search_text)))
 		return 0;
 	
-	_info->chrg.cpMin = 0;
-	_info->chrg.cpMax = sci_get_length(doc->editor->sci); 
+	_info->chrg.cpMin = marker_data.text_start; 
+	_info->chrg.cpMax = marker_data.text_end;
 	/* MatchInfo object text should be preserved */
 	_info->lpstrText = search_text; //strdup? 
 	_info->flags = flags; 
@@ -194,9 +194,8 @@ MarkerMatchInfo *get_last_marker_info(void) {
 	return marker_data.last_mark_info;
 }
 
-gint on_marker_set(gchar *entry_text, gint indic_number, gint indic_style,  GdkColor *color, gint alpha) {
+gint on_marker_set(GeanyDocument *doc, gint text_start, gint text_end, gchar *entry_text, gint indic_number, gint indic_style,  GdkColor *color, gint alpha) {
 	//g_warning("on_marker_set");
-	GeanyDocument *doc = document_get_current();
 	if (doc == NULL) {
 		return -1; 
 	}
@@ -208,10 +207,14 @@ gint on_marker_set(gchar *entry_text, gint indic_number, gint indic_style,  GdkC
 	g_free(marker_data.original_text); 
 	marker_data.text = g_strdup(entry_text); 
 	marker_data.original_text = g_strdup(marker_data.text);
+    marker_data.doc = doc;
 	/* Set Indicator */ 
 	marker_data.indic_number = indic_number; 
 	marker_data.indic_style = indic_style;
     marker_data.sci_alpha = alpha; 
+    /* Markup range */
+    marker_data.text_start = text_start; 
+    marker_data.text_end = text_end;
 	/* Copy color */ 	
 	memcpy(marker_data.color, color, sizeof(GdkColor));
 	
