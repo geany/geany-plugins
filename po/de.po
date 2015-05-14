@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.25\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-20 20:11+0200\n"
+"POT-Creation-Date: 2015-05-14 20:35+0200\n"
 "PO-Revision-Date: 2015-04-20 20:17+0200\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -1290,7 +1290,7 @@ msgstr "Prozess konnte nicht gestartet werden (%s)"
 
 #: ../geanyctags/src/geanyctags.c:517
 #: ../projectorganizer/src/prjorg-sidebar.c:423
-#: ../projectorganizer/src/prjorg-sidebar.c:1368
+#: ../projectorganizer/src/prjorg-sidebar.c:1365
 msgid "Find Tag"
 msgstr "Tag finden"
 
@@ -4567,11 +4567,11 @@ msgstr "Im Projekt suchen"
 msgid "Remove File"
 msgstr "Datei entfernen"
 
-#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1392
+#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1389
 msgid "H_ide Sidebar"
 msgstr "Seitenleiste _verstecken"
 
-#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1413
+#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1410
 msgid "Project"
 msgstr "Projekt"
 
@@ -5306,6 +5306,141 @@ msgstr "Markdown-Vorschau"
 msgid "The current document does not have a Markdown filetype."
 msgstr "Das aktuelle Dokument ist nicht vom Markdown-Dateityp."
 
+#: ../overview/overview/overviewplugin.c:49
+msgid "Provides an overview of the active document"
+msgstr "Stellt einen Überblick über das aktuelle Dokument zur Verfügung"
+
+#: ../overview/overview/overviewplugin.c:192
+msgid "Toggle Visibility"
+msgstr "Sichtbarkeit umschalten"
+
+#: ../overview/overview/overviewplugin.c:199
+msgid "Toggle Left/Right Position"
+msgstr "Fenster entweder links oder rechts positionieren"
+
+#: ../overview/overview/overviewplugin.c:206
+msgid "Toggle Overlay Inversion"
+msgstr ""
+
+#: ../overview/overview/overviewscintilla.c:516
+#, c-format
+msgid "Line <b>%d</b>, Column <b>%d</b>, Position <b>%d</b>"
+msgstr "Zeile <b>%d</b>, Spalte <b>%d</b>, Position <b>%d</b>"
+
+#: ../overview/overview/overviewui.c:289
+msgid "Show Overview"
+msgstr "Überblick anzeigen"
+
+#: ../overview/data/prefs.ui.h:1
+msgid ""
+"The amount to zoom the overview sidebar. This should probably negative if "
+"you want the sidebar zoomed out."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:2
+#, fuzzy
+msgid "Zoom Level:"
+msgstr "Zoom-Stufe:"
+
+#: ../overview/data/prefs.ui.h:3
+msgid "The width of the overview sidebar."
+msgstr "Die Breite der Überblick-Fensters"
+
+#: ../overview/data/prefs.ui.h:4
+msgid "Width:"
+msgstr "Breite:"
+
+#: ../overview/data/prefs.ui.h:5
+msgid ""
+"The number of lines to scroll at a time when scrolling the overview sidebar."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:6
+msgid "Scroll Lines:"
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:7
+#, fuzzy
+msgid "Position on left"
+msgstr "Positionsname"
+
+#: ../overview/data/prefs.ui.h:8
+msgid ""
+"Position the overview bar on the left rather than the right (requires Geany "
+"1.25 or greater)."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:9
+#, fuzzy
+msgid "Hide tooltip"
+msgstr "Tooltips anzeigen."
+
+#: ../overview/data/prefs.ui.h:10
+msgid ""
+"Hide the tooltip that is displayed when mousing over the overview that shows "
+"line, column and position information."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:11
+msgid "Hide editor scrollbar"
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:12
+msgid ""
+"Whether to hide Geany's regular editor scrollbar while the overview bar is "
+"visible."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:13
+msgid "Disable overlay"
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:14
+msgid ""
+"Turn off drawing overlay, which shows the region of the main editor view "
+"that is currently in view, ontop of the overview bar."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:15 ../scope/data/scope.glade.h:109
+msgid "Options"
+msgstr "Optionen"
+
+#: ../overview/data/prefs.ui.h:16
+msgid ""
+"The color and opacity of the overlay drawn ontop of the overlay sidebar."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:17
+#, fuzzy
+msgid "Color:"
+msgstr "Farben:"
+
+#: ../overview/data/prefs.ui.h:18
+msgid ""
+"The color and opacity of the border drawn around the revealed area in the "
+"overview sidebar. Set to the same as Overlay Color to disable."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:19
+#, fuzzy
+msgid "Outline Color:"
+msgstr "Farbe auswählen"
+
+#: ../overview/data/prefs.ui.h:20
+msgid "Draw over visible area"
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:21
+msgid ""
+"When checked it will draw the overlay ontop of the area that is visible in "
+"the main editor view, when unckecked, it will do the opposite and draw the "
+"overlay everywhere but the visible area, \"revealing\" the visible part."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:22
+msgid "Overlay"
+msgstr ""
+
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:35
 msgid "Pair Tag Highlighter"
 msgstr "PairTagHighlighter"
@@ -5634,11 +5769,11 @@ msgstr "Header und Quellen tauschen"
 msgid "Open Selected File (Project Organizer)"
 msgstr "Ausgewählte Datei öffnen (Project Organizer)"
 
-#: ../projectorganizer/src/prjorg-project.c:547
+#: ../projectorganizer/src/prjorg-project.c:551
 msgid "Source patterns:"
 msgstr "Quelltextmuster:"
 
-#: ../projectorganizer/src/prjorg-project.c:553
+#: ../projectorganizer/src/prjorg-project.c:557
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
 "Used for header/source swapping."
@@ -5647,11 +5782,11 @@ msgstr ""
 "Dateien zu identifizieren. Wird hauptsächlich für das Umschalten zwischen "
 "Quellen und Header verwendet."
 
-#: ../projectorganizer/src/prjorg-project.c:559
+#: ../projectorganizer/src/prjorg-project.c:563
 msgid "Header patterns:"
 msgstr "Header-Muster:"
 
-#: ../projectorganizer/src/prjorg-project.c:565
+#: ../projectorganizer/src/prjorg-project.c:569
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
 "header/source swapping."
@@ -5660,11 +5795,11 @@ msgstr ""
 "identifizieren. Wird hauptsächlich für das Umschalten zwischen Quellen und "
 "Header verwendet."
 
-#: ../projectorganizer/src/prjorg-project.c:571
+#: ../projectorganizer/src/prjorg-project.c:575
 msgid "Ignored file patterns:"
 msgstr "Muster für zu ignorierende Dateien:"
 
-#: ../projectorganizer/src/prjorg-project.c:577
+#: ../projectorganizer/src/prjorg-project.c:581
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
 "not displayed in the project tree."
@@ -5673,11 +5808,11 @@ msgstr ""
 "erkennen, die nicht im projektspezifischen Dateibaum angezeigt werden "
 "sollen. "
 
-#: ../projectorganizer/src/prjorg-project.c:583
+#: ../projectorganizer/src/prjorg-project.c:587
 msgid "Ignored directory patterns:"
 msgstr "Muster für zu ignorierende Verzeichnisse:"
 
-#: ../projectorganizer/src/prjorg-project.c:589
+#: ../projectorganizer/src/prjorg-project.c:593
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
@@ -5685,23 +5820,24 @@ msgstr ""
 "Leerzeichengetrennte Liste mit Mustern, die genutzt werden, um Verzeichnisse "
 "zu erkennen, die nicht nach Quelldateien durchsucht werden sollen. "
 
-#: ../projectorganizer/src/prjorg-project.c:595
+#: ../projectorganizer/src/prjorg-project.c:599
 msgid "Generate tags for all project files:"
 msgstr "Tags für alle Projektdateien erstellen"
 
-#: ../projectorganizer/src/prjorg-project.c:598
-msgid "Auto (generate if less than 500 files)"
+#: ../projectorganizer/src/prjorg-project.c:602
+#, fuzzy
+msgid "Auto (generate if less than 300 files)"
 msgstr "Automatisch (bei weniger als 500 Dateien)"
 
-#: ../projectorganizer/src/prjorg-project.c:599
+#: ../projectorganizer/src/prjorg-project.c:603
 msgid "Yes"
 msgstr "Ja"
 
-#: ../projectorganizer/src/prjorg-project.c:600
+#: ../projectorganizer/src/prjorg-project.c:604
 msgid "No"
 msgstr "Nein"
 
-#: ../projectorganizer/src/prjorg-project.c:604
+#: ../projectorganizer/src/prjorg-project.c:608
 msgid ""
 "Generate tag list for all project files instead of only for the currently "
 "opened files. Might be slow for big projects."
@@ -5710,7 +5846,7 @@ msgstr ""
 "geöffneten Dateien. Sehr langsam bei großen Projekten und sollte in solch "
 "einem Fall deaktiviert werden."
 
-#: ../projectorganizer/src/prjorg-project.c:610
+#: ../projectorganizer/src/prjorg-project.c:614
 msgid ""
 "Note: the patterns above affect only the sidebar and are not used in the "
 "Find in Files\n"
@@ -5726,7 +5862,7 @@ msgstr ""
 "suchen«-Dialog eingeschränkt werden."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:117
-#: ../projectorganizer/src/prjorg-sidebar.c:1359
+#: ../projectorganizer/src/prjorg-sidebar.c:1356
 msgid "Find File"
 msgstr "Datei suchen"
 
@@ -5752,44 +5888,44 @@ msgstr "Externes Verzeichnis hinzufügen"
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1035
+#: ../projectorganizer/src/prjorg-sidebar.c:1034
 msgid "Set file patterns under Project->Properties"
 msgstr "Dateimuster unter Projekt->Eigenschaften definieren"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1249
+#: ../projectorganizer/src/prjorg-sidebar.c:1246
 msgid "Reload all"
 msgstr "Alle neuladen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1258
+#: ../projectorganizer/src/prjorg-sidebar.c:1255
 msgid "Add external directory"
 msgstr "Externes Verzeichnis hinzufügen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1268
+#: ../projectorganizer/src/prjorg-sidebar.c:1265
 #: ../treebrowser/src/treebrowser.c:1282
 msgid "Expand all"
 msgstr "Alle ausklappen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1275
+#: ../projectorganizer/src/prjorg-sidebar.c:1272
 msgid "Collapse to project root"
 msgstr "Zusammenfalten bis Projektwurzel"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1286
+#: ../projectorganizer/src/prjorg-sidebar.c:1283
 msgid "Follow active editor"
 msgstr "Aktiven Editor folgen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1332
+#: ../projectorganizer/src/prjorg-sidebar.c:1329
 msgid "Open a project to start using the plugin"
 msgstr "Ein Projekt zum Starten des Plugins öffnen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1341
+#: ../projectorganizer/src/prjorg-sidebar.c:1338
 msgid "Expand All"
 msgstr "Alle ausklappen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1350
+#: ../projectorganizer/src/prjorg-sidebar.c:1347
 msgid "Find in Files"
 msgstr "In Dateien finden"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1381
+#: ../projectorganizer/src/prjorg-sidebar.c:1378
 msgid "Remove External Directory"
 msgstr "Externes Verzeichnis entfernen"
 
@@ -6219,7 +6355,7 @@ msgid "<b>Inspect</b>"
 msgstr "<b>Inspizieren</b>"
 
 #: ../scope/data/scope.glade.h:106
-msgid "Show li_brary messages"
+msgid "Show =li_brary messages"
 msgstr ""
 
 #: ../scope/data/scope.glade.h:107
@@ -6230,10 +6366,6 @@ msgstr "Tooltips anzeigen."
 #: ../scope/data/scope.glade.h:108
 msgid "<b>Others</b>"
 msgstr "<b>Andere</b>"
-
-#: ../scope/data/scope.glade.h:109
-msgid "Options"
-msgstr "Optionen"
 
 #: ../scope/data/scope.glade.h:110
 msgid "_Import"
@@ -7077,7 +7209,9 @@ msgstr "Terminal"
 
 #: ../treebrowser/src/treebrowser.c:1968
 msgid "The terminal to use with the command \"Open Terminal\""
-msgstr "Das Terminal, welches für das Kommando »Terminal öffnen« genutzt werden soll. Z. B. »xterm«."
+msgstr ""
+"Das Terminal, welches für das Kommando »Terminal öffnen« genutzt werden "
+"soll. Z. B. »xterm«."
 
 #: ../treebrowser/src/treebrowser.c:1974
 msgid "Toolbar"
