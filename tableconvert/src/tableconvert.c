@@ -188,7 +188,7 @@ static gchar* convert_to_table_worker(gchar **rows, gboolean header,
 			g_string_append(replacement_str, rule->lineend);
 
 			/* linesplit */
-			if (rows[i+1] != NULL && utils_str_equal(rule->linesplit, ""))
+			if (rows[i+1] != NULL && !utils_str_equal(rule->linesplit, ""))
 			{
 				g_string_append(replacement_str, rule->linesplit);
 			}
