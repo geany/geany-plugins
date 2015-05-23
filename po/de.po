@@ -283,7 +283,7 @@ msgstr ""
 
 #: ../autoclose/src/autoclose.c:1033
 msgid "Auto-close quotes and brackets"
-msgstr "Automatisches Schließen von Klammern und Anfürhungszeichen."
+msgstr "Automatisches Schließen von Klammern und Anführungszeichen."
 
 #: ../autoclose/src/autoclose.c:1034
 msgid "Parenthesis ( )"
@@ -497,7 +497,7 @@ msgstr ""
 
 #: ../autoclose/src/autoclose.c:1097
 msgid "Auto-complete \";\" for functions"
-msgstr "Autovervollständigung von »;« für Funtklionsaufrufe"
+msgstr "Autovervollständigung von »;« für Funktionsaufrufe"
 
 #: ../autoclose/src/autoclose.c:1098
 msgid ""
@@ -505,12 +505,12 @@ msgid ""
 "will get \"sin(|);\"."
 msgstr ""
 "Legt fest, ob für Funktionen automatisch ein »;« eingefügt werden soll. Dies "
-"funktioniert nur für C bzw C++-Funktionen. \n"
+"funktioniert nur für C- bzw. C++-Funktionen. \n"
 " Ist diese Option aktiv, wird aus »sin(« automatisch »sin();«-"
 
 #: ../autoclose/src/autoclose.c:1100
 msgid "Shift+BackSpace removes pairing brace too"
-msgstr "Umschalt+Rüpcktaste entfernt das vollständige Klammerpaar."
+msgstr "Umschalt+Rücktaste entfernt das vollständige Klammerpaar."
 
 #: ../autoclose/src/autoclose.c:1101
 msgid ""
@@ -751,7 +751,7 @@ msgstr "Aktiver Frame"
 
 #: ../debugger/src/stree.c:140
 msgid "Click an arrow to switch to a frame"
-msgstr "Auf einen Pfeil klicken, um zu einem Frame zu wechselb"
+msgstr "Auf einen Pfeil klicken, um zu einem Frame zu wechseln"
 
 #: ../debugger/src/stree.c:363 ../geanylatex/src/bibtexlabels.c:46
 msgid "Address"
@@ -937,7 +937,7 @@ msgid ""
 "Adds support for looking up documentation in Devhelp, manual pages, and "
 "Google Code Search in the integrated viewer."
 msgstr ""
-"Fügt Unterstützung zum Nachsehen der Dokumentation unter Zuhilfename von "
+"Fügt Unterstützung zum Nachsehen der Dokumentation unter Zuhilfenahme von "
 "Devhelp, Manual-Seiten und Google-Code-Suche über eine integrierte "
 "Oberfläche hinzu."
 
@@ -1822,7 +1822,7 @@ msgstr "Unbekannter Wert für Typ des Dateieintrages %s:%s"
 #: ../geanygendoc/src/ggd-options.c:516
 #, c-format
 msgid "Error retrieving keyfile entry %s::%s: %s"
-msgstr "Ein Problem beim Lesen des Dateeintrages %s::%s: %s ist aufgetreten"
+msgstr "Ein Problem beim Lesen des Dateieintrages %s::%s: %s ist aufgetreten"
 
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:135
 msgid "Language"
@@ -2494,7 +2494,7 @@ msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:1924
 msgid "Use KOMA-script classes if possible"
-msgstr "KOMA-Skript benutzen wenn möglich"
+msgstr "KOMA-Script benutzen wenn möglich"
 
 #: ../geanylatex/src/geanylatex.c:1926
 msgid ""
@@ -2502,7 +2502,7 @@ msgid ""
 "Keep in mind: To compile your document these classes have to be installed "
 "before."
 msgstr ""
-"Wenn diese Option aktiviert ist, werden die KOMA-Skript-Klassen von Markus "
+"Wenn diese Option aktiviert ist, werden die KOMA-Script-Klassen von Markus "
 "Kohm genutzt. Sie müssen natürlich dafür installiert sein."
 
 #: ../geanylatex/src/geanylatex.c:1933
@@ -2952,7 +2952,7 @@ msgstr "Lua-Skript"
 #: ../geanylua/glspi_ver.h:9
 msgid "Write and run Lua scripts for custom commands."
 msgstr ""
-"Lua Skripte schreiben und als benutzerdefinierte Funktionen in Geany "
+"Lua-Skripte schreiben und als benutzerdefinierte Funktionen in Geany "
 "ausführen."
 
 #: ../geanylua/glspi_ver.h:19
@@ -3545,7 +3545,7 @@ msgstr "Nach dem nächsten \"\" suchen"
 
 #: ../geanymacro/src/geanymacro.c:151
 msgid "Search for previous \"\""
-msgstr "Nach dem vorheriegen \"\" suchen"
+msgstr "Nach dem vorherigen \"\" suchen"
 
 #: ../geanymacro/src/geanymacro.c:152
 msgid "Set start of search to beginning of selection"
@@ -3701,7 +3701,7 @@ msgid ""
 "recorded, and won't be replayed when the macro is re-run.\n"
 "\n"
 msgstr ""
-"Beachten Sie dabei, daß das Rückgängigmachen und Wiederholen von Aktionen "
+"Beachten Sie dabei, dass das Rückgängigmachen und Wiederholen von Aktionen "
 "nicht aufgezeichnet wird und entsprechend auch nicht abgespielt wird, wenn "
 "das Makro wieder ausgeführt wird.\n"
 
@@ -3949,26 +3949,26 @@ msgid ""
 "or (at your option) any later version."
 msgstr ""
 "<b>GMS : Geany Mini-Script Plugin</b>\n"
-"Dieses Plugin ist ein Werkzeug, um verschiedene, skriptbasierte Filer auf: \n"
-"   o die Textwauswahl,\n"
+"Dieses Plugin ist ein Werkzeug, um verschiedene, skriptbasierte Filter auf: \n"
+"   o die Textauswahl,\n"
 "\to das aktuelle Dokument, \n"
 "\to die Dokumente der aktuelle Sitzung\n"
 " anzuwenden.\n"
 "Dazu können die Filter in: \n"
 "   o Unix shell Skript, \n"
-"   o Perl-Scrikt, \n"
+"   o Perl-Skript, \n"
 "   o Python-Skript, \n"
 "   o sed-Kommandos,\n"
 "   o awk-Skripts.\n"
-"geschireben werden.\n"
+"geschrieben werden.\n"
 "\n"
 "<b>AUTOR</b>\n"
-"   Erstellt von Pascal BURLOT (December,2008)\n"
+"   Erstellt von Pascal BURLOT (Dezember,2008)\n"
 "\n"
 "<b>Lizenz:</b>\n"
 "Dieses Programm ist freie Software und kann unter den Bedingungen der GNU "
 "General Public Licence in Version 2 oder höher Verändert und "
-"Weiterverrbeitet werden."
+"Weiterverbreitet werden."
 
 #: ../geanyminiscript/src/gms_gui.c:253
 msgid "Load Mini-Script File"
@@ -4401,8 +4401,8 @@ msgstr ""
 "Algor. f. »Digest« .....: %s\n"
 "PKA-Adresse ............: %s\n"
 "PKA-Stelle .............: %s\n"
-"Andere Kennzeichungen ..: %s%s\n"
-"Anmekungen .............: %s\n"
+"Andere Kennzeichnungen .: %s%s\n"
+"Anmerkungen ............: %s\n"
 
 #: ../geanypg/src/verify_aux.c:126 ../geanypg/src/verify_aux.c:133
 msgid "[None]"
@@ -4795,7 +4795,7 @@ msgid ""
 msgstr ""
 "Die Veränderungen können hier nicht angezeigt werden, da sie zu viele sind. "
 "Andernfalls könnte es passieren, dass die Anzeige unbenutzbar wird.\n"
-"Um sich dennoch die Änderungen anzeigen zu lessen, benutzen Sie einfach die "
+"Um sich dennoch die Änderungen anzeigen zu lassen, benutzen Sie einfach die "
 "Diff-Funktion aus dem GeanyVC-Unterpunktes innerhalb des Werkzeuge-Menüs."
 
 #: ../geanyvc/src/geanyvc.c:1243
@@ -5226,7 +5226,7 @@ msgstr "Git Change Bar"
 msgid "Highlights uncommitted changes in files tracked with Git"
 msgstr ""
 "Hebt noch nicht committete Änderungen an in einem git-Repository verwaltete "
-"Dateien vor."
+"Dateien hervor."
 
 #: ../git-changebar/src/gcb-plugin.c:1035 ../pohelper/src/gph-plugin.c:1577
 #, c-format
@@ -5236,7 +5236,7 @@ msgstr "Konnte Konfiguration nicht laden: %s"
 #: ../git-changebar/src/gcb-plugin.c:1060 ../pohelper/src/gph-plugin.c:1602
 #, c-format
 msgid "Failed to create configuration directory \"%s\": %s"
-msgstr "Konnte das Konfigurationsverzeichnis »%s« nicht anelgen: %s"
+msgstr "Konnte das Konfigurationsverzeichnis »%s« nicht anlegen: %s"
 
 #: ../git-changebar/src/gcb-plugin.c:1063 ../pohelper/src/gph-plugin.c:1605
 #, c-format
@@ -5447,7 +5447,7 @@ msgstr "PairTagHighlighter"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:36
 msgid "Finds and highlights matching opening/closing HTML tag"
-msgstr "Findet und hebt passende öffende und schließende HTML-Tags"
+msgstr "Findet und hebt passende öffnende und schließende HTML-Tags hervor"
 
 #: ../pohelper/data/menus.ui.h:1
 msgid "_Translation Helper"
@@ -5475,7 +5475,7 @@ msgstr "_Vorheringe nicht übersetze Zeichenkette"
 
 #: ../pohelper/data/menus.ui.h:7 ../pohelper/src/gph-plugin.c:1512
 msgid "Go to previous untranslated string"
-msgstr "Geht zu der vorherigen, noch nicht übersetzen Zeichenkette."
+msgstr "Geht zu der vorherigen, noch nicht übersetzten Zeichenkette."
 
 #: ../pohelper/data/menus.ui.h:8
 msgid "Next _Untranslated"
@@ -5507,7 +5507,7 @@ msgstr "Vorherige u_nübersetzt oder -klar."
 
 #: ../pohelper/data/menus.ui.h:15 ../pohelper/src/gph-plugin.c:1524
 msgid "Go to previous untranslated or fuzzy string"
-msgstr "Gehe zum vorherigen unklaren oder unübersetzen String"
+msgstr "Gehe zum vorherigen unklaren oder unübersetzten String"
 
 #: ../pohelper/data/menus.ui.h:16
 msgid "Next Untranslated _or Fuzzy"
@@ -5515,11 +5515,11 @@ msgstr "Nächste unübersetzte oder -klare Übersetzung"
 
 #: ../pohelper/data/menus.ui.h:17 ../pohelper/src/gph-plugin.c:1528
 msgid "Go to next untranslated or fuzzy string"
-msgstr "Springt zum nächsten unklaren (fuzzy) oder unübersetzen String"
+msgstr "Springt zum nächsten unklaren (fuzzy) oder unübersetzten String"
 
 #: ../pohelper/data/menus.ui.h:18 ../pohelper/src/gph-plugin.c:1539
 msgid "Toggle current translation fuzziness"
-msgstr "Status der Übersetzungung umschalten (Fuzzy)"
+msgstr "Status der Übersetzung umschalten (Fuzzy)"
 
 #: ../pohelper/data/menus.ui.h:19
 msgid "_Toggle Fuzziness"
@@ -5532,7 +5532,7 @@ msgstr "Originalstring als Übersetzung verwenden"
 #: ../pohelper/data/menus.ui.h:21
 msgid "Paste the original untranslated string to the translation"
 msgstr ""
-"Benutzt die unübersetze Ausgabe, um diese auch in der übersetzen Form "
+"Benutzt die unübersetzte Ausgabe, um diese auch in der übersetzten Form "
 "anzuzeigen."
 
 #: ../pohelper/data/menus.ui.h:22 ../pohelper/src/gph-plugin.c:1536
@@ -5622,7 +5622,7 @@ msgstr "%u (%,3g%%)"
 
 #: ../pohelper/src/gph-plugin.c:1532
 msgid "Paste original untranslated string to translation"
-msgstr "Orignalen String als Übersetzung nutzen"
+msgstr "Originalen String als Übersetzung nutzen"
 
 #: ../pohelper/src/gph-plugin.c:1747
 #, c-format
@@ -5630,7 +5630,7 @@ msgid ""
 "Cannot find widget \"%s\" in the UI definition, please check your "
 "installation."
 msgstr ""
-"Konnte das Widget »%s« in der Defintion der graphischen Oberfläche nicht "
+"Konnte das Widget »%s« in der Definition der graphischen Oberfläche nicht "
 "finden. Bitte prüfen Sie die Installation"
 
 #: ../pretty-printer/src/PluginEntry.c:37
@@ -5855,7 +5855,7 @@ msgid ""
 "File Patterns under the Project tab (these are also used for the Find in "
 "Files dialog)."
 msgstr ""
-"Anmerkung: Die vorhergehenden Muster beeinflussen nur die Seiteleiste und "
+"Anmerkung: Die vorhergehenden Muster beeinflussen nur die Seitenleiste und "
 "kommen nicht z. B. im »In Dateien suchen«-Dialog zum Tragen.\n"
 "Die Liste mit Dateien, die zum Projekt gehören, kann durch das setzen der "
 "Datei-Muster innerhalb des Projekt-Reiters -- auch für den »In Dateien "
