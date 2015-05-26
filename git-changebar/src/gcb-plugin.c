@@ -36,9 +36,6 @@
 # define git_libgit2_init     git_threads_init
 # define git_libgit2_shutdown git_threads_shutdown
 #endif
-#if LIBGIT2_VER_MAJOR == 0 && LIBGIT2_VER_MINOR < 20
-# define git_diff_hunk git_diff_range
-#endif
 
 
 GeanyPlugin      *geany_plugin;
@@ -665,18 +662,6 @@ diff_hunk_cb (const git_diff_delta *delta,
   
   return 0;
 }
-#if LIBGIT2_VER_MAJOR == 0 && LIBGIT2_VER_MINOR < 20
-static int
-diff_hunk_cb_wrapper (const git_diff_delta *delta,
-                      const git_diff_hunk  *hunk,
-                      const char           *header,
-                      size_t                header_len,
-                      void                 *data)
-{
-  return diff_hunk_cb (delta, hunk, data);
-}
-# define diff_hunk_cb diff_hunk_cb_wrapper
-#endif
 
 static GtkWidget *
 get_widget_for_buf_range (GeanyDocument *doc,
@@ -775,18 +760,6 @@ tooltip_diff_hunk_cb (const git_diff_delta *delta,
   
   return thd->found;
 }
-#if LIBGIT2_VER_MAJOR == 0 && LIBGIT2_VER_MINOR < 20
-static int
-tooltip_diff_hunk_cb_wrapper (const git_diff_delta *delta,
-                              const git_diff_hunk  *hunk,
-                              const char           *header,
-                              size_t                header_len,
-                              void                 *data)
-{
-  return tooltip_diff_hunk_cb (delta, hunk, data);
-}
-# define tooltip_diff_hunk_cb tooltip_diff_hunk_cb_wrapper
-#endif
 
 static gboolean
 on_sci_query_tooltip (GtkWidget  *widget,
@@ -987,18 +960,6 @@ goto_next_hunk_diff_hunk_cb (const git_diff_delta *delta,
   
   return 0;
 }
-#if LIBGIT2_VER_MAJOR == 0 && LIBGIT2_VER_MINOR < 20
-static int
-goto_next_hunk_diff_hunk_cb_wrapper (const git_diff_delta *delta,
-                                     const git_diff_hunk  *hunk,
-                                     const char           *header,
-                                     size_t                header_len,
-                                     void                 *data)
-{
-  return goto_next_hunk_diff_hunk_cb (delta, hunk, data);
-}
-# define goto_next_hunk_diff_hunk_cb goto_next_hunk_diff_hunk_cb_wrapper
-#endif
 
 static void
 goto_next_hunk_cb (const gchar *path,
