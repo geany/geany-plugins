@@ -290,6 +290,58 @@ monitor_head_ref (git_repository *repo,
   return monitor;
 }
 
+/* checks whether @path points somewhere inside @dir and returns the pointer
+ * inside @path starting the relative path, or NULL */
+static const gchar *
+path_dir_contains (const gchar *dir,
+                   const gchar *path)
+{
+#ifdef G_OS_WIN32
+  /* FIXME: handle drive letters and such */
+# define NORM_PATH_CH(c) (((c) == '\\') ? '/' : (c))
+#else
+# define NORM_PATH_CH(c) (c)
+#endif
+  
+  g_return_val_if_fail (dir != NULL, NULL);
+  g_return_val_if_fail (path != NULL, NULL);
+  
+  while (*dir && NORM_PATH_CH (*dir) == NORM_PATH_CH (*path)) {
+    dir++, path++;
+  }
+  
+  return *dir ? NULL : path;
+}
+
+/* gets the Git path for @repo pointing to @sys_path, or NULL */
+static gchar *
+get_path_in_repository (git_repository *repo,
+                        const gchar    *sys_path)
+{
+  const gchar  *workdir   = git_repository_workdir (repo);
+  const gchar  *rel_path  = path_dir_contains (workdir, sys_path);
+  
+#ifdef G_OS_WIN32
+  if (rel_path) {
+    /* we want an internal Git path, which uses UNIX format */
+    gchar  *p;
+    gchar  *repo_path = g_strdup (rel_path);
+    
+    for (p = repo_path; *p; p++) {
+      if (*p == '\\') {
+        *p = '/';
+      }
+    }
+    
+    return repo_path;
+  }
+  
+  return NULL;
+#else
+  return g_strdup (rel_path);
+#endif
+}
+
 static gpointer
 worker_thread (gpointer data)
 {
@@ -303,7 +355,7 @@ worker_thread (gpointer data)
     const gchar *path = job->path;
     
     if (repo && (job->force ||
-                 ! g_str_has_prefix (path, git_repository_workdir (repo)))) {
+                 ! path_dir_contains (path, git_repository_workdir (repo)))) {
       /* FIXME: this can fail with nested repositories */
       git_repository_free (repo);
       repo = NULL;
@@ -330,12 +382,14 @@ worker_thread (gpointer data)
       }
     }
     
+    job->blob = NULL;
     if (repo) {
-      const gchar *relpath = path + strlen (git_repository_workdir (repo));
+      gchar *relpath = get_path_in_repository (repo, path);
       
-      job->blob = repo_get_file_blob (repo, relpath);
-    } else {
-      job->blob = NULL;
+      if (relpath) {
+        job->blob = repo_get_file_blob (repo, relpath);
+        g_free (relpath);
+      }
     }
     
     g_idle_add_full (G_PRIORITY_LOW, report_work_in_idle, job, free_job);
