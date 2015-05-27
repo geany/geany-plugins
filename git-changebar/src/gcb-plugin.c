@@ -1192,6 +1192,8 @@ plugin_init (GeanyData *data)
                          G_CALLBACK (on_document_activate), NULL);
   plugin_signal_connect (geany_plugin, NULL, "document-reload", TRUE,
                          G_CALLBACK (on_document_activate), NULL);
+  plugin_signal_connect (geany_plugin, NULL, "document-save", TRUE,
+                         G_CALLBACK (on_document_activate), NULL);
   plugin_signal_connect (geany_plugin, NULL, "geany-startup-complete", TRUE,
                          G_CALLBACK (on_startup_complete), NULL);
   
