@@ -2383,7 +2383,7 @@ msgstr "插入环境(_E)"
 
 #: ../geanylatex/src/geanylatex.c:2231
 #, fuzzy
-msgid "Inserting costumized command to document"
+msgid "Inserting customized command to document"
 msgstr "向文档中插入引用"
 
 #: ../geanylatex/src/geanylatex.c:2256

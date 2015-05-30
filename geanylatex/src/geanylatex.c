@@ -2253,7 +2253,7 @@ add_menu_to_menubar(void)
 		menu_latex_insert_command = gtk_menu_item_new_with_mnemonic(
 			_("Insert _Command"));
 		ui_widget_set_tooltip_text(menu_latex_ref,
-			_("Inserting costumized command to document"));
+			_("Inserting customized command to document"));
 		gtk_container_add(GTK_CONTAINER(menu_latex_menu),
 			menu_latex_insert_command);
 		g_signal_connect(menu_latex_insert_command, "activate",

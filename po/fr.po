@@ -2341,7 +2341,7 @@ msgid "Insert _Command"
 msgstr "Insérer une _commande"
 
 #: ../geanylatex/src/geanylatex.c:2231
-msgid "Inserting costumized command to document"
+msgid "Inserting customized command to document"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:2256

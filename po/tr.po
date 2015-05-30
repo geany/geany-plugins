@@ -2267,7 +2267,7 @@ msgid "Insert _Command"
 msgstr "Komut Ek_le"
 
 #: ../geanylatex/src/geanylatex.c:2232
-msgid "Inserting costumized command to document"
+msgid "Inserting customized command to document"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:2257
