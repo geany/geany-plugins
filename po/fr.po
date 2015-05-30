@@ -3829,7 +3829,7 @@ msgstr ""
 #: ../geanypg/src/encrypt_cb.c:96
 msgid ""
 "No recipients were selected,\n"
-"use symetric cipher?"
+"use symmetric cipher?"
 msgstr ""
 "Aucun destinataire n'a été sélectionné,voulez-vous utiliser un chiffrement "
 "symétrique ?"

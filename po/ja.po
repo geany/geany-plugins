@@ -3736,7 +3736,7 @@ msgstr ""
 #: ../geanypg/src/encrypt_cb.c:96
 msgid ""
 "No recipients were selected,\n"
-"use symetric cipher?"
+"use symmetric cipher?"
 msgstr ""
 "受信者が選択されていません。\n"
 "対象鍵暗号を使用しますか?"

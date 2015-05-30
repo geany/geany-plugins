@@ -3821,7 +3821,7 @@ msgstr ""
 #: ../geanypg/src/encrypt_cb.c:96
 msgid ""
 "No recipients were selected,\n"
-"use symetric cipher?"
+"use symmetric cipher?"
 msgstr ""
 "No se han seleccionado destinatarios.\n"
 "¿Desea usar cifrado simétrico?"

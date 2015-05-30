@@ -3623,7 +3623,7 @@ msgstr ""
 #: ../geanypg/src/encrypt_cb.c:96
 msgid ""
 "No recipients were selected,\n"
-"use symetric cipher?"
+"use symmetric cipher?"
 msgstr ""
 "Er zijn geen ontvangers geselecteerd,\n"
 "Wilt u een symetrische codering gebruiken?"
