@@ -449,7 +449,7 @@ msgid "Allow auto-closing in strings and comments"
 msgstr "Разрешить автозакрытие внутри комментариев и строк"
 
 #: ../autoclose/src/autoclose.c:1092
-msgid "Check if you wan to keep auto-closing inside strings and comments too."
+msgid "Check if you want to keep auto-closing inside strings and comments too."
 msgstr ""
 "Включите, если вы хотите, чтобы автозакрытие также работало внутри "
 "комментариев и строк."
@@ -459,7 +459,7 @@ msgid "Enclose selections in strings and comments"
 msgstr "Окружать выделение внутри комментариев и строк"
 
 #: ../autoclose/src/autoclose.c:1094
-msgid "Check if you wan to enclose selections inside strings and comments too."
+msgid "Check if you want to enclose selections inside strings and comments too."
 msgstr ""
 "Включите, если вы хотите, чтобы окружение выделенного блока текст "
 "также работало внутри комментариев и строк."
@@ -1798,7 +1798,7 @@ msgid "Environments"
 msgstr "Окружение"
 
 #: ../geanylatex/src/latexenvironments.c:26
-msgid "Formating"
+msgid "Formatting"
 msgstr "Форматирование"
 
 #: ../geanylatex/src/latexenvironments.c:27
@@ -2146,7 +2146,7 @@ msgid "Add a wizard icon to Geany's main toolbar"
 msgstr "Добавить иконку мастера на главную панель Geany"
 
 #: ../geanylatex/src/geanylatex.c:306
-msgid "Lower selection when formating smallcaps (\\textsc{})"
+msgid "Lower selection when formatting smallcaps (\\textsc{})"
 msgstr "Выделение в нижний регистр для капители (\\textsc{})"
 
 #: ../geanylatex/src/geanylatex.c:310
@@ -2577,7 +2577,7 @@ msgid "Insert _Command"
 msgstr "Вставить _команду"
 
 #: ../geanylatex/src/geanylatex.c:2256
-msgid "Inserting costumized command to document"
+msgid "Inserting customized command to document"
 msgstr "Вставляет пользовательскую команду в документ"
 
 #: ../geanylatex/src/geanylatex.c:2281
@@ -3376,7 +3376,7 @@ msgid "Insert/replace with \"\""
 msgstr "Вставить/заменить на \"\""
 
 #: ../geanymacro/src/geanymacro.c:142
-msgid "Swap current line wih one above"
+msgid "Swap current line with one above"
 msgstr "Поменять текущую строку и строку сверху местами"
 
 #: ../geanymacro/src/geanymacro.c:143
@@ -3437,7 +3437,7 @@ msgid "Save Macros when close Geany"
 msgstr "Сохранять макрос при выходе из Geany"
 
 #: ../geanymacro/src/geanymacro.c:826
-msgid "Ask before replaceing existing Macros"
+msgid "Ask before replacing existing Macros"
 msgstr "Спрашивать перед перезаписью существующего макроса"
 
 #. create dialog box
@@ -3541,7 +3541,7 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:874
 msgid ""
-"You can select a diferent command for each element, move them, add new "
+"You can select a different command for each element, move them, add new "
 "elements, delete elements, or if it's replace/insert, you can edit the text "
 "that replaces the selected text, or is inserted.\n"
 "\n"
@@ -3564,7 +3564,7 @@ msgstr ""
 #: ../geanymacro/src/geanymacro.c:881
 msgid ""
 "You can alter the default behaviour of this plugin by selecting Plugin "
-"Manager under the Tools menu, selecting this plugin, and cliking "
+"Manager under the Tools menu, selecting this plugin, and clicking "
 "Preferences. "
 msgstr ""
 "Вы можете изменить стандартное поведение модуля, выделив модуль в Менеджере "
@@ -3586,7 +3586,7 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:887
 msgid ""
-"Ask before replaceing existing Macros - If this is selected then if you try "
+"Ask before replacing existing Macros - If this is selected then if you try "
 "recording a macro over an existing one it will check before over-writing it, "
 "giving you the option of trying a different name or key trigger combination, "
 "otherwise it will simply erase any existing macros with the same name, or "
@@ -4002,7 +4002,7 @@ msgid ""
 "file is saved.\n"
 "\n"
 "It allows you to use up to 10 numbered bookmarks. To set a numbered bookmark "
-"press Ctrl+Shift+a number from 0 to 9. You will see a marker apear next to "
+"press Ctrl+Shift+a number from 0 to 9. You will see a marker appear next to "
 "the line number. If you press Ctrl+Shift+a number on a line that already has "
 "that bookmark number then it removes the bookmark, otherwise it will move "
 "the bookmark there if it was set on a different line, or create it if it had "
@@ -4053,7 +4053,7 @@ msgstr ""
 #: ../geanypg/src/encrypt_cb.c:96
 msgid ""
 "No recipients were selected,\n"
-"use symetric cipher?"
+"use symmetric cipher?"
 msgstr ""
 "Не выбран ни один из получателей,\n"
 "использовать симметричное шифрование?"
@@ -4639,7 +4639,7 @@ msgid ""
 "big to display here and would slow down the UI significantly.\n"
 "\n"
 "To view the differences, cancel this dialog and open the differences in "
-"Geany directly by using the GeanyVC menu (Base Dirrectory -> Diff)."
+"Geany directly by using the GeanyVC menu (Base Directory -> Diff)."
 msgstr ""
 "Полученный список различий не может быть отображен так как изменений слишком "
 "много и это может значительно замедлить интерфейс.\n"

@@ -480,7 +480,7 @@ msgid "Allow auto-closing in strings and comments"
 msgstr "Automatisches Schließen in Kommentaren und Strings aktivieren"
 
 #: ../autoclose/src/autoclose.c:1092
-msgid "Check if you wan to keep auto-closing inside strings and comments too."
+msgid "Check if you want to keep auto-closing inside strings and comments too."
 msgstr ""
 "Wenn diese Option gesetzt ist, werden Klammern in Kommentaren und Strings "
 "ebenfalls automatisch geschlossen."
@@ -490,7 +490,7 @@ msgid "Enclose selections in strings and comments"
 msgstr "Auswahl in Kommentaren und Strings umschließen"
 
 #: ../autoclose/src/autoclose.c:1094
-msgid "Check if you wan to enclose selections inside strings and comments too."
+msgid "Check if you want to enclose selections inside strings and comments too."
 msgstr ""
 "Legt fest, ob auch innerhalb von Kommentaren und Strings eine Auswahl "
 "automatisch mit einem Klammerpaar umschlossen werden soll."
@@ -1923,7 +1923,7 @@ msgid "Environments"
 msgstr "Umgebungen"
 
 #: ../geanylatex/src/latexenvironments.c:26
-msgid "Formating"
+msgid "Formatting"
 msgstr "Formatierungen"
 
 #: ../geanylatex/src/latexenvironments.c:27
@@ -2281,7 +2281,7 @@ msgid "Add a wizard icon to Geany's main toolbar"
 msgstr "Symbol für LaTeX-Assistent in die Werkzeugliste einfügen"
 
 #: ../geanylatex/src/geanylatex.c:306
-msgid "Lower selection when formating smallcaps (\\textsc{})"
+msgid "Lower selection when formatting smallcaps (\\textsc{})"
 msgstr ""
 "Auswahl im Kleinbuchstaben umwandeln zur Benutzung von kleinen Kapitälchen "
 "(\\textsc{})"
@@ -2718,7 +2718,7 @@ msgid "Insert _Command"
 msgstr "Be_fehl einfügen"
 
 #: ../geanylatex/src/geanylatex.c:2256
-msgid "Inserting costumized command to document"
+msgid "Inserting customized command to document"
 msgstr "Benutzerdefinierten Befehl in Dokument einfügen"
 
 #: ../geanylatex/src/geanylatex.c:2281
@@ -3516,7 +3516,7 @@ msgid "Insert/replace with \"\""
 msgstr "Einfügen/ersetzen mit \"\""
 
 #: ../geanymacro/src/geanymacro.c:142
-msgid "Swap current line wih one above"
+msgid "Swap current line with one above"
 msgstr "Aktuelle Zeile mit der oberen vertauschen"
 
 #: ../geanymacro/src/geanymacro.c:143
@@ -3577,7 +3577,7 @@ msgid "Save Macros when close Geany"
 msgstr "Makros beim Beenden von Geany speichern"
 
 #: ../geanymacro/src/geanymacro.c:826
-msgid "Ask before replaceing existing Macros"
+msgid "Ask before replacing existing Macros"
 msgstr "Nachfragen vor dem Ersetzen von Makros"
 
 #. create dialog box
@@ -3686,7 +3686,7 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:874
 msgid ""
-"You can select a diferent command for each element, move them, add new "
+"You can select a different command for each element, move them, add new "
 "elements, delete elements, or if it's replace/insert, you can edit the text "
 "that replaces the selected text, or is inserted.\n"
 "\n"
@@ -3708,7 +3708,7 @@ msgstr ""
 #: ../geanymacro/src/geanymacro.c:881
 msgid ""
 "You can alter the default behaviour of this plugin by selecting Plugin "
-"Manager under the Tools menu, selecting this plugin, and cliking "
+"Manager under the Tools menu, selecting this plugin, and clicking "
 "Preferences. "
 msgstr ""
 "Sie können das Standardverhalten des Plugins ändern, indem Sie die "
@@ -3731,7 +3731,7 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:887
 msgid ""
-"Ask before replaceing existing Macros - If this is selected then if you try "
+"Ask before replacing existing Macros - If this is selected then if you try "
 "recording a macro over an existing one it will check before over-writing it, "
 "giving you the option of trying a different name or key trigger combination, "
 "otherwise it will simply erase any existing macros with the same name, or "
@@ -4147,7 +4147,7 @@ msgid ""
 "file is saved.\n"
 "\n"
 "It allows you to use up to 10 numbered bookmarks. To set a numbered bookmark "
-"press Ctrl+Shift+a number from 0 to 9. You will see a marker apear next to "
+"press Ctrl+Shift+a number from 0 to 9. You will see a marker appear next to "
 "the line number. If you press Ctrl+Shift+a number on a line that already has "
 "that bookmark number then it removes the bookmark, otherwise it will move "
 "the bookmark there if it was set on a different line, or create it if it had "
@@ -4200,7 +4200,7 @@ msgstr ""
 #: ../geanypg/src/encrypt_cb.c:96
 msgid ""
 "No recipients were selected,\n"
-"use symetric cipher?"
+"use symmetric cipher?"
 msgstr ""
 "Keine Empfänger wurden ausgewählt.\n"
 "Soll eine symmetrische Verschlüsselung genutzt werden?"
@@ -4791,7 +4791,7 @@ msgid ""
 "big to display here and would slow down the UI significantly.\n"
 "\n"
 "To view the differences, cancel this dialog and open the differences in "
-"Geany directly by using the GeanyVC menu (Base Dirrectory -> Diff)."
+"Geany directly by using the GeanyVC menu (Base Directory -> Diff)."
 msgstr ""
 "Die Veränderungen können hier nicht angezeigt werden, da sie zu viele sind. "
 "Andernfalls könnte es passieren, dass die Anzeige unbenutzbar wird.\n"
@@ -5433,7 +5433,7 @@ msgstr ""
 #: ../overview/data/prefs.ui.h:21
 msgid ""
 "When checked it will draw the overlay ontop of the area that is visible in "
-"the main editor view, when unckecked, it will do the opposite and draw the "
+"the main editor view, when unchecked, it will do the opposite and draw the "
 "overlay everywhere but the visible area, \"revealing\" the visible part."
 msgstr ""
 

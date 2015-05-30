@@ -1095,7 +1095,7 @@ set_diff_buff(GtkWidget * textview, GtkTextBuffer * buffer, const gchar * txt)
 			  "the changes are too big to display here and would slow down the UI significantly."
 			  "\n\n"
 			  "To view the differences, cancel this dialog and open the differences "
-			  "in Geany directly by using the GeanyVC menu (Base Dirrectory -> Diff)."), -1);
+			  "in Geany directly by using the GeanyVC menu (Base Directory -> Diff)."), -1);
 		gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textview), GTK_WRAP_WORD);
 		return;
 	}

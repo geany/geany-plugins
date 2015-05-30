@@ -139,7 +139,7 @@ const MacroDetailEntry MacroDetails[]={
 
 {SCI_REPLACESEL,N_("Insert/replace with \"\"")},
 
-{SCI_LINETRANSPOSE,N_("Swap current line wih one above")},
+{SCI_LINETRANSPOSE,N_("Swap current line with one above")},
 {SCI_LOWERCASE,N_("Change selected text to lowercase")},
 {SCI_UPPERCASE,N_("Change selected text to uppercase")},
 
@@ -823,7 +823,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	/* save pointer to check_button */
 	g_object_set_data(G_OBJECT(dialog),"GeanyMacros_cb1",cb1);
 
-	cb2=gtk_check_button_new_with_label(_("Ask before replaceing existing Macros"));
+	cb2=gtk_check_button_new_with_label(_("Ask before replacing existing Macros"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(cb2),bQueryOverwriteMacros);
 	gtk_box_pack_start(GTK_BOX(vbox),cb2,FALSE,FALSE,2);
 	/* save pointer to check_button */
@@ -871,7 +871,7 @@ _("You can also click on a macro's name and change it, or the key combination an
 ssuming that it's not already in use. "),
 _("Selecting the edit option allows you to view all the individual elements that make up the macro\
 . "),
-_("You can select a diferent command for each element, move them, add new elements, delete element\
+_("You can select a different command for each element, move them, add new elements, delete element\
 s, or if it's replace/insert, you can edit the text that replaces the selected text, or is inserte\
 d.\n\n"),
 
@@ -879,12 +879,12 @@ _("The only thing to bear in mind is that undo and redo actions are not recorded
 layed when the macro is re-run.\n\n"),
 
 _("You can alter the default behaviour of this plugin by selecting Plugin Manager under the Tools \
-menu, selecting this plugin, and cliking Preferences. "),
+menu, selecting this plugin, and clicking Preferences. "),
 _("You can change:\n"),
 _("Save Macros when close Geany - If this is selected then Geany will save any recorded macros and\
  reload them for use the next time you open Geany, if not they will be lost when Geany is closed.\
 \n"),
-_("Ask before replaceing existing Macros - If this is selected then if you try recording a macro o\
+_("Ask before replacing existing Macros - If this is selected then if you try recording a macro o\
 ver an existing one it will check before over-writing it, giving you the option of trying a differ\
 ent name or key trigger combination, otherwise it will simply erase any existing macros with the s\
 ame name, or the same key trigger combination."),

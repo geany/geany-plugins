@@ -303,7 +303,7 @@ plugin_configure(GtkDialog * dialog)
 	config_widgets.wizard_to_generic_toolbar = gtk_check_button_new_with_label(
 		_("Add a wizard icon to Geany's main toolbar"));
 	config_widgets.lower_selection_on_smallcaps = gtk_check_button_new_with_label(
-		_("Lower selection when formating smallcaps (\\textsc{})"));
+		_("Lower selection when formatting smallcaps (\\textsc{})"));
 
 	config_widgets.glatex_autocompletion_active = gtk_combo_box_new_text();
 	gtk_combo_box_insert_text(GTK_COMBO_BOX(config_widgets.glatex_autocompletion_active), 0,
@@ -2253,7 +2253,7 @@ add_menu_to_menubar(void)
 		menu_latex_insert_command = gtk_menu_item_new_with_mnemonic(
 			_("Insert _Command"));
 		ui_widget_set_tooltip_text(menu_latex_ref,
-			_("Inserting costumized command to document"));
+			_("Inserting customized command to document"));
 		gtk_container_add(GTK_CONTAINER(menu_latex_menu),
 			menu_latex_insert_command);
 		g_signal_connect(menu_latex_insert_command, "activate",

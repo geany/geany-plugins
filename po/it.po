@@ -1531,7 +1531,7 @@ msgid "Environments"
 msgstr "Ambienti"
 
 #: ../geanylatex/src/latexenvironments.c:26
-msgid "Formating"
+msgid "Formatting"
 msgstr "Formattazione"
 
 #: ../geanylatex/src/latexenvironments.c:27
@@ -1882,7 +1882,7 @@ msgid "Add a wizard icon to Geany's main toolbar"
 msgstr "Aggiungi un'icona wizard al toolbar principale di Geany"
 
 #: ../geanylatex/src/geanylatex.c:306
-msgid "Lower selection when formating smallcaps (\\textsc{})"
+msgid "Lower selection when formatting smallcaps (\\textsc{})"
 msgstr ""
 "Passare la selezione in minuscono quando è formattata in maiuscoletto "
 "(\\textsc{})"
@@ -2321,7 +2321,7 @@ msgid "Insert _Command"
 msgstr "Inserisci _Comando"
 
 #: ../geanylatex/src/geanylatex.c:2231
-msgid "Inserting costumized command to document"
+msgid "Inserting customized command to document"
 msgstr "Inserisci un comando personalizzato al documento"
 
 #: ../geanylatex/src/geanylatex.c:2256
@@ -3121,7 +3121,7 @@ msgid "Insert/replace with \"\""
 msgstr "Inserisci/Sostituisci con \"\""
 
 #: ../geanymacro/src/geanymacro.c:142
-msgid "Swap current line wih one above"
+msgid "Swap current line with one above"
 msgstr "Scambia la riga corrente con la precedente"
 
 #: ../geanymacro/src/geanymacro.c:143
@@ -3182,7 +3182,7 @@ msgid "Save Macros when close Geany"
 msgstr "Salva le Macro quando chiudi Geany"
 
 #: ../geanymacro/src/geanymacro.c:826
-msgid "Ask before replaceing existing Macros"
+msgid "Ask before replacing existing Macros"
 msgstr "Chiedi prima di sovrascrivere le Macro esistenti"
 
 #. create dialog box
@@ -3289,7 +3289,7 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:874
 msgid ""
-"You can select a diferent command for each element, move them, add new "
+"You can select a different command for each element, move them, add new "
 "elements, delete elements, or if it's replace/insert, you can edit the text "
 "that replaces the selected text, or is inserted.\n"
 "\n"
@@ -3311,7 +3311,7 @@ msgstr ""
 #: ../geanymacro/src/geanymacro.c:881
 msgid ""
 "You can alter the default behaviour of this plugin by selecting Plugin "
-"Manager under the Tools menu, selecting this plugin, and cliking "
+"Manager under the Tools menu, selecting this plugin, and clicking "
 "Preferences. "
 msgstr ""
 "Puoi modificare il comportamento di questo plugin selezionando Plugin "
@@ -3335,7 +3335,7 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:887
 msgid ""
-"Ask before replaceing existing Macros - If this is selected then if you try "
+"Ask before replacing existing Macros - If this is selected then if you try "
 "recording a macro over an existing one it will check before over-writing it, "
 "giving you the option of trying a different name or key trigger combination, "
 "otherwise it will simply erase any existing macros with the same name, or "
@@ -3752,7 +3752,7 @@ msgid ""
 "file is saved.\n"
 "\n"
 "It allows you to use up to 10 numbered bookmarks. To set a numbered bookmark "
-"press Ctrl+Shift+a number from 0 to 9. You will see a marker apear next to "
+"press Ctrl+Shift+a number from 0 to 9. You will see a marker appear next to "
 "the line number. If you press Ctrl+Shift+a number on a line that already has "
 "that bookmark number then it removes the bookmark, otherwise it will move "
 "the bookmark there if it was set on a different line, or create it if it had "
@@ -3803,7 +3803,7 @@ msgstr ""
 #: ../geanypg/src/encrypt_cb.c:96
 msgid ""
 "No recipients were selected,\n"
-"use symetric cipher?"
+"use symmetric cipher?"
 msgstr ""
 "Nessun destinatario selezionato,\n"
 "usare cifratura simmetrica?"
@@ -4388,7 +4388,7 @@ msgid ""
 "big to display here and would slow down the UI significantly.\n"
 "\n"
 "To view the differences, cancel this dialog and open the differences in "
-"Geany directly by using the GeanyVC menu (Base Dirrectory -> Diff)."
+"Geany directly by using the GeanyVC menu (Base Directory -> Diff)."
 msgstr ""
 "Le differenze risultanti non possono essere visualizzare perché i cambiamenti "
 "sono troppo grandi da mostrare e rallenterebbero eccessivamente l'interfaccia.\n"

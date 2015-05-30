@@ -93,7 +93,7 @@ void geanypg_encrypt_cb(GtkMenuItem * menuitem, gpointer user_data)
             }
             if (*recp && !stop)
                 geanypg_encrypt(&ed, recp, sign, flags);
-            else if (!stop && dialogs_show_question(_("No recipients were selected,\nuse symetric cipher?")))
+            else if (!stop && dialogs_show_question(_("No recipients were selected,\nuse symmetric cipher?")))
                 geanypg_encrypt(&ed, NULL, sign, flags);
         }
         if (recp)
