@@ -871,7 +871,7 @@ _("You can also click on a macro's name and change it, or the key combination an
 ssuming that it's not already in use. "),
 _("Selecting the edit option allows you to view all the individual elements that make up the macro\
 . "),
-_("You can select a diferent command for each element, move them, add new elements, delete element\
+_("You can select a different command for each element, move them, add new elements, delete element\
 s, or if it's replace/insert, you can edit the text that replaces the selected text, or is inserte\
 d.\n\n"),
 

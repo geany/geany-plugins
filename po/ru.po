@@ -3541,7 +3541,7 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:874
 msgid ""
-"You can select a diferent command for each element, move them, add new "
+"You can select a different command for each element, move them, add new "
 "elements, delete elements, or if it's replace/insert, you can edit the text "
 "that replaces the selected text, or is inserted.\n"
 "\n"
