@@ -1869,7 +1869,7 @@ msgid "Add a wizard icon to Geany's main toolbar"
 msgstr "Geanyのメインツールバーにウィザードアイコンを追加"
 
 #: ../geanylatex/src/geanylatex.c:306
-msgid "Lower selection when formating smallcaps (\\textsc{})"
+msgid "Lower selection when formatting smallcaps (\\textsc{})"
 msgstr "小さい大文字で表示 (\\textsc{})"
 
 #: ../geanylatex/src/geanylatex.c:310

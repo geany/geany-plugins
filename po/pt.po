@@ -2232,7 +2232,7 @@ msgstr ""
 "Adicionar um ícone de assistente à barra de ferramentas principal do Geany"
 
 #: ../geanylatex/src/geanylatex.c:306
-msgid "Lower selection when formating smallcaps (\\textsc{})"
+msgid "Lower selection when formatting smallcaps (\\textsc{})"
 msgstr "Reduzir seleção ao formatar maiúsculas pequenas (\\textsc{})"
 
 #: ../geanylatex/src/geanylatex.c:310

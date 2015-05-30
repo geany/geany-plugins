@@ -1904,7 +1904,7 @@ msgstr ""
 "Ajouter une icône pour l'assistant dans la barre d'outils principale de Geany"
 
 #: ../geanylatex/src/geanylatex.c:306
-msgid "Lower selection when formating smallcaps (\\textsc{})"
+msgid "Lower selection when formatting smallcaps (\\textsc{})"
 msgstr ""
 "Passer la sélection en minuscules lors du formattage de petites capitales "
 "(\\textsc{})"

@@ -2281,7 +2281,7 @@ msgid "Add a wizard icon to Geany's main toolbar"
 msgstr "Symbol für LaTeX-Assistent in die Werkzeugliste einfügen"
 
 #: ../geanylatex/src/geanylatex.c:306
-msgid "Lower selection when formating smallcaps (\\textsc{})"
+msgid "Lower selection when formatting smallcaps (\\textsc{})"
 msgstr ""
 "Auswahl im Kleinbuchstaben umwandeln zur Benutzung von kleinen Kapitälchen "
 "(\\textsc{})"

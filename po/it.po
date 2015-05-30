@@ -1882,7 +1882,7 @@ msgid "Add a wizard icon to Geany's main toolbar"
 msgstr "Aggiungi un'icona wizard al toolbar principale di Geany"
 
 #: ../geanylatex/src/geanylatex.c:306
-msgid "Lower selection when formating smallcaps (\\textsc{})"
+msgid "Lower selection when formatting smallcaps (\\textsc{})"
 msgstr ""
 "Passare la selezione in minuscono quando è formattata in maiuscoletto "
 "(\\textsc{})"
