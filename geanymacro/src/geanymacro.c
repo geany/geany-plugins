@@ -139,7 +139,7 @@ const MacroDetailEntry MacroDetails[]={
 
 {SCI_REPLACESEL,N_("Insert/replace with \"\"")},
 
-{SCI_LINETRANSPOSE,N_("Swap current line wih one above")},
+{SCI_LINETRANSPOSE,N_("Swap current line with one above")},
 {SCI_LOWERCASE,N_("Change selected text to lowercase")},
 {SCI_UPPERCASE,N_("Change selected text to uppercase")},
 

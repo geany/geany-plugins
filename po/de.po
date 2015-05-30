@@ -3516,7 +3516,7 @@ msgid "Insert/replace with \"\""
 msgstr "Einfügen/ersetzen mit \"\""
 
 #: ../geanymacro/src/geanymacro.c:142
-msgid "Swap current line wih one above"
+msgid "Swap current line with one above"
 msgstr "Aktuelle Zeile mit der oberen vertauschen"
 
 #: ../geanymacro/src/geanymacro.c:143

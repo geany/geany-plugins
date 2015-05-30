@@ -3139,7 +3139,7 @@ msgid "Insert/replace with \"\""
 msgstr "Insertar/reemplazar con \"\""
 
 #: ../geanymacro/src/geanymacro.c:142
-msgid "Swap current line wih one above"
+msgid "Swap current line with one above"
 msgstr "Intercambiar la línea actual con la superio"
 
 #: ../geanymacro/src/geanymacro.c:143

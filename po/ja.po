@@ -3091,7 +3091,7 @@ msgid "Insert/replace with \"\""
 msgstr "\"\" を挿入/置換"
 
 #: ../geanymacro/src/geanymacro.c:142
-msgid "Swap current line wih one above"
+msgid "Swap current line with one above"
 msgstr "現在の行と上の行を交換"
 
 #: ../geanymacro/src/geanymacro.c:143

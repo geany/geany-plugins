@@ -3376,7 +3376,7 @@ msgid "Insert/replace with \"\""
 msgstr "Вставить/заменить на \"\""
 
 #: ../geanymacro/src/geanymacro.c:142
-msgid "Swap current line wih one above"
+msgid "Swap current line with one above"
 msgstr "Поменять текущую строку и строку сверху местами"
 
 #: ../geanymacro/src/geanymacro.c:143

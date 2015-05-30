@@ -3138,7 +3138,7 @@ msgid "Insert/replace with \"\""
 msgstr "Insérer/remplacer par «  »"
 
 #: ../geanymacro/src/geanymacro.c:142
-msgid "Swap current line wih one above"
+msgid "Swap current line with one above"
 msgstr "Échanger la ligne courante avec celle du dessus"
 
 #: ../geanymacro/src/geanymacro.c:143
