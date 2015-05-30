@@ -3200,7 +3200,7 @@ msgid "Save Macros when close Geany"
 msgstr "Guardar macros al cerrar Geany"
 
 #: ../geanymacro/src/geanymacro.c:826
-msgid "Ask before replaceing existing Macros"
+msgid "Ask before replacing existing Macros"
 msgstr "Preguntar antes de reemplazar macros existentes"
 
 #. create dialog box
@@ -3352,7 +3352,7 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:887
 msgid ""
-"Ask before replaceing existing Macros - If this is selected then if you try "
+"Ask before replacing existing Macros - If this is selected then if you try "
 "recording a macro over an existing one it will check before over-writing it, "
 "giving you the option of trying a different name or key trigger combination, "
 "otherwise it will simply erase any existing macros with the same name, or "
@@ -7162,7 +7162,7 @@ msgstr "Autocompleta etiquetas XML/HTML mediante recortes"
 #~ "Save Macros when close Geany - If this is selected then Geany will save "
 #~ "any recorded macros and reload them for use the next time you open Geany, "
 #~ "if not they will be lost when Geany is closed.\n"
-#~ "Ask before replaceing existing Macros - If this is selected then if you "
+#~ "Ask before replacing existing Macros - If this is selected then if you "
 #~ "try recording a macro over an existing one it will check before over-"
 #~ "writing it, giving you the option of trying a different name or key "
 #~ "trigger combination, otherwise it will simply erase any existing macros "
