@@ -879,7 +879,7 @@ _("The only thing to bear in mind is that undo and redo actions are not recorded
 layed when the macro is re-run.\n\n"),
 
 _("You can alter the default behaviour of this plugin by selecting Plugin Manager under the Tools \
-menu, selecting this plugin, and cliking Preferences. "),
+menu, selecting this plugin, and clicking Preferences. "),
 _("You can change:\n"),
 _("Save Macros when close Geany - If this is selected then Geany will save any recorded macros and\
  reload them for use the next time you open Geany, if not they will be lost when Geany is closed.\

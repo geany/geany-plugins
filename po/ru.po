@@ -3564,7 +3564,7 @@ msgstr ""
 #: ../geanymacro/src/geanymacro.c:881
 msgid ""
 "You can alter the default behaviour of this plugin by selecting Plugin "
-"Manager under the Tools menu, selecting this plugin, and cliking "
+"Manager under the Tools menu, selecting this plugin, and clicking "
 "Preferences. "
 msgstr ""
 "Вы можете изменить стандартное поведение модуля, выделив модуль в Менеджере "
