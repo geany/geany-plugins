@@ -4193,7 +4193,7 @@ msgid ""
 "big to display here and would slow down the UI significantly.\n"
 "\n"
 "To view the differences, cancel this dialog and open the differences in "
-"Geany directly by using the GeanyVC menu (Base Dirrectory -> Diff)."
+"Geany directly by using the GeanyVC menu (Base Directory -> Diff)."
 msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:1243
