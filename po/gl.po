@@ -1589,7 +1589,7 @@ msgid "Environments"
 msgstr "Contornos"
 
 #: ../geanylatex/src/latexenvironments.c:26
-msgid "Formating"
+msgid "Formatting"
 msgstr "Formatado"
 
 #: ../geanylatex/src/latexenvironments.c:27

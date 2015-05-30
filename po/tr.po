@@ -1501,7 +1501,7 @@ msgid "Environments"
 msgstr "Ortam verileri"
 
 #: ../geanylatex/src/latexenvironments.c:26
-msgid "Formating"
+msgid "Formatting"
 msgstr "Biçimlendirme"
 
 #: ../geanylatex/src/latexenvironments.c:27

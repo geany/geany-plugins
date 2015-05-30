@@ -1798,7 +1798,7 @@ msgid "Environments"
 msgstr "Окружение"
 
 #: ../geanylatex/src/latexenvironments.c:26
-msgid "Formating"
+msgid "Formatting"
 msgstr "Форматирование"
 
 #: ../geanylatex/src/latexenvironments.c:27

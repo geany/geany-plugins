@@ -23,7 +23,7 @@
 
 CategoryName glatex_environment_cat_names[] = {
 	{ ENVIRONMENT_CAT_DUMMY, N_("Environments"), TRUE},
-	{ ENVIRONMENT_CAT_FORMAT, N_("Formating"), TRUE},
+	{ ENVIRONMENT_CAT_FORMAT, N_("Formatting"), TRUE},
 	{ ENVIRONMENT_CAT_STRUCTURE, N_("Document Structure"), TRUE},
 	{ ENVIRONMENT_CAT_LISTS, N_("Lists"), TRUE},
 	{ ENVIRONMENT_CAT_MATH, N_("Math"), TRUE},

@@ -1495,7 +1495,7 @@ msgid "Environments"
 msgstr "Entorns"
 
 #: ../geanylatex/src/latexenvironments.c:26
-msgid "Formating"
+msgid "Formatting"
 msgstr "Format"
 
 #: ../geanylatex/src/latexenvironments.c:27

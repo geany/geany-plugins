@@ -1923,7 +1923,7 @@ msgid "Environments"
 msgstr "Umgebungen"
 
 #: ../geanylatex/src/latexenvironments.c:26
-msgid "Formating"
+msgid "Formatting"
 msgstr "Formatierungen"
 
 #: ../geanylatex/src/latexenvironments.c:27
