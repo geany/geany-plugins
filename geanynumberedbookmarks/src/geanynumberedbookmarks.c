@@ -1274,7 +1274,7 @@ void plugin_help(void)
 _("This Plugin implements Numbered Bookmarks in Geany, as well as remembering the state of folds, \
 and positions of standard non-numbered bookmarks when a file is saved.\n\n"
 "It allows you to use up to 10 numbered bookmarks. To set a numbered bookmark press Ctrl+Shift+a n\
-umber from 0 to 9. You will see a marker apear next to the line number. If you press Ctrl+Shift+a \
+umber from 0 to 9. You will see a marker appear next to the line number. If you press Ctrl+Shift+a \
 number on a line that already has that bookmark number then it removes the bookmark, otherwise it \
 will move the bookmark there if it was set on a different line, or create it if it had not already\
  been set. Only the most recently set bookmark on a line will be shown, but you can have more than\
