@@ -449,7 +449,7 @@ msgid "Allow auto-closing in strings and comments"
 msgstr "Разрешить автозакрытие внутри комментариев и строк"
 
 #: ../autoclose/src/autoclose.c:1092
-msgid "Check if you wan to keep auto-closing inside strings and comments too."
+msgid "Check if you want to keep auto-closing inside strings and comments too."
 msgstr ""
 "Включите, если вы хотите, чтобы автозакрытие также работало внутри "
 "комментариев и строк."
@@ -459,7 +459,7 @@ msgid "Enclose selections in strings and comments"
 msgstr "Окружать выделение внутри комментариев и строк"
 
 #: ../autoclose/src/autoclose.c:1094
-msgid "Check if you wan to enclose selections inside strings and comments too."
+msgid "Check if you want to enclose selections inside strings and comments too."
 msgstr ""
 "Включите, если вы хотите, чтобы окружение выделенного блока текст "
 "также работало внутри комментариев и строк."

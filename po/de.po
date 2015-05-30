@@ -480,7 +480,7 @@ msgid "Allow auto-closing in strings and comments"
 msgstr "Automatisches Schließen in Kommentaren und Strings aktivieren"
 
 #: ../autoclose/src/autoclose.c:1092
-msgid "Check if you wan to keep auto-closing inside strings and comments too."
+msgid "Check if you want to keep auto-closing inside strings and comments too."
 msgstr ""
 "Wenn diese Option gesetzt ist, werden Klammern in Kommentaren und Strings "
 "ebenfalls automatisch geschlossen."
@@ -490,7 +490,7 @@ msgid "Enclose selections in strings and comments"
 msgstr "Auswahl in Kommentaren und Strings umschließen"
 
 #: ../autoclose/src/autoclose.c:1094
-msgid "Check if you wan to enclose selections inside strings and comments too."
+msgid "Check if you want to enclose selections inside strings and comments too."
 msgstr ""
 "Legt fest, ob auch innerhalb von Kommentaren und Strings eine Auswahl "
 "automatisch mit einem Klammerpaar umschlossen werden soll."

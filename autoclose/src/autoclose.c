@@ -1089,9 +1089,9 @@ plugin_configure(GtkDialog *dialog)
 
 	WIDGET_FRAME(_("Behaviour inside comments and strings"));
 	WIDGET_CONF_BOOL(comments_ac_enable, _("Allow auto-closing in strings and comments"),
-		_("Check if you wan to keep auto-closing inside strings and comments too."));
+		_("Check if you want to keep auto-closing inside strings and comments too."));
 	WIDGET_CONF_BOOL(comments_enclose, _("Enclose selections in strings and comments"),
-		_("Check if you wan to enclose selections inside strings and comments too."));
+		_("Check if you want to enclose selections inside strings and comments too."));
 
 	container = vbox;
 	WIDGET_CONF_BOOL(close_functions, _("Auto-complete \";\" for functions"),

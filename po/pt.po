@@ -456,7 +456,7 @@ msgid "Allow auto-closing in strings and comments"
 msgstr "Permitir fecho automático em cadeias e comentários"
 
 #: ../autoclose/src/autoclose.c:1092
-msgid "Check if you wan to keep auto-closing inside strings and comments too."
+msgid "Check if you want to keep auto-closing inside strings and comments too."
 msgstr ""
 "Marque a caixa se também quiser manter o fecho automático em cadeias e "
 "comentários."
@@ -466,7 +466,7 @@ msgid "Enclose selections in strings and comments"
 msgstr "Incluir seleções em cadeias e comentários"
 
 #: ../autoclose/src/autoclose.c:1094
-msgid "Check if you wan to enclose selections inside strings and comments too."
+msgid "Check if you want to enclose selections inside strings and comments too."
 msgstr ""
 "Marque a caixa se também quiser incluir seleções dentro de cadeias e "
 "comentários."
