@@ -5433,7 +5433,7 @@ msgstr ""
 #: ../overview/data/prefs.ui.h:21
 msgid ""
 "When checked it will draw the overlay ontop of the area that is visible in "
-"the main editor view, when unckecked, it will do the opposite and draw the "
+"the main editor view, when unchecked, it will do the opposite and draw the "
 "overlay everywhere but the visible area, \"revealing\" the visible part."
 msgstr ""
 
