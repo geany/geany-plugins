@@ -222,8 +222,8 @@ repo_get_file_blob_contents (git_repository  *repo,
           
           if (git_blob_lookup (&blob, repo, git_tree_entry_id (entry)) == 0) {
             if (git_blob_filtered_content (contents, blob, relpath,
-                                           check_for_binary_data) == 0) {
-              git_buf_grow (contents, 0);
+                                           check_for_binary_data) == 0 &&
+                git_buf_grow (contents, 0) == 0) {
               success = TRUE;
             }
             git_blob_free (blob);
