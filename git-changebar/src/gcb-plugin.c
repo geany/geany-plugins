@@ -809,17 +809,29 @@ update_diff (const gchar *path,
 {
   GeanyDocument *doc = document_get_current ();
   
-  if (doc && doc->id == GPOINTER_TO_UINT (data) &&
-      contents && allocate_resources (doc->editor->sci)) {
+  if (doc && doc->id == GPOINTER_TO_UINT (data)) {
     ScintillaObject  *sci = doc->editor->sci;
-    guint             i;
+    gboolean    allocated = !! g_object_get_qdata (G_OBJECT (sci),
+                                                   RESOURCES_ALLOCATED_QTAG);
     
-    /* clear previous markers */
-    for (i = 0; i < MARKER_COUNT; i++) {
-      scintilla_send_message (sci, SCI_MARKERDELETEALL, G_markers[i].num, 0);
+    if (allocated) {
+      guint i;
+      
+      /* clear previous markers */
+      for (i = 0; i < MARKER_COUNT; i++) {
+        scintilla_send_message (sci, SCI_MARKERDELETEALL, G_markers[i].num, 0);
+      }
     }
     
-    diff_buf_to_doc (contents, doc, diff_hunk_cb, sci);
+    if (contents && (allocated || allocate_resources (sci))) {
+      diff_buf_to_doc (contents, doc, diff_hunk_cb, sci);
+    } else if (! contents && allocated) {
+      /* if we don't have contents, it probably means the document doesn't
+       * match any object known by Git, so next attempts will fail just the
+       * same.  So, drop allocated resources if any (if it used to be a valid
+       * object, e.g. the document was renamed to something unknown to Git) */
+      release_resources (sci);
+    }
   }
 }
 
