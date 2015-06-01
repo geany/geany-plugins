@@ -458,7 +458,7 @@ get_cached_blob_contents_async (const gchar          *path,
 #if GLIB_CHECK_VERSION (2, 32, 0)
       G_thread = g_thread_new (PLUGIN"/blob-worker", worker_thread, G_queue);
 #else
-      G_thread = g_thread_create (worker_thread, G_queue, NULL, NULL);
+      G_thread = g_thread_create (worker_thread, G_queue, FALSE, NULL);
 #endif
     }
     
