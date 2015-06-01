@@ -36,9 +36,6 @@
 # define git_libgit2_init     git_threads_init
 # define git_libgit2_shutdown git_threads_shutdown
 #endif
-#if LIBGIT2_VER_MAJOR == 0 && LIBGIT2_VER_MINOR < 20
-# define git_diff_hunk git_diff_range
-#endif
 
 
 GeanyPlugin      *geany_plugin;
@@ -59,7 +56,7 @@ PLUGIN_SET_TRANSLATABLE_INFO (
 
 /* g_async_queue_push() doesn't allow for NULL data, so use a non-NULL fake
  * data that we know cannot ever be a valid job */
-#define QUIT_THREAD_JOB ((AsyncBlobJob *) (&G_queue))
+#define QUIT_THREAD_JOB ((AsyncBlobContentsJob *) (&G_queue))
 
 #define RESOURCES_ALLOCATED_QTAG \
   (g_quark_from_static_string (PLUGIN"/git-resources-allocated"))
@@ -78,17 +75,17 @@ enum {
   KB_COUNT
 };
 
-typedef void (*BlobReadyFunc) (const gchar *path,
-                               git_blob    *blob,
-                               gpointer     data);
+typedef void (*BlobContentsReadyFunc) (const gchar *path,
+                                       git_buf     *buf,
+                                       gpointer     data);
 
-typedef struct AsyncBlobJob AsyncBlobJob;
-struct AsyncBlobJob {
-  gboolean      force;
-  gchar        *path;
-  git_blob     *blob;
-  BlobReadyFunc callback;
-  gpointer      user_data;
+typedef struct AsyncBlobContentsJob AsyncBlobContentsJob;
+struct AsyncBlobContentsJob {
+  gboolean              force;
+  gchar                *path;
+  git_buf               buf;
+  BlobContentsReadyFunc callback;
+  gpointer              user_data;
 };
 
 typedef struct TooltipHunkData TooltipHunkData;
@@ -96,12 +93,12 @@ struct TooltipHunkData {
   gint            line;
   gboolean        found;
   GeanyDocument  *doc;
-  const git_blob *file_blob;
+  const git_buf  *buf;
   GtkTooltip     *tooltip;
 };
 
-#define TOOLTIP_HUNK_DATA_INIT(line, doc, blob, tooltip) \
-  { line, FALSE, doc, blob, tooltip }
+#define TOOLTIP_HUNK_DATA_INIT(line, doc, buf, tooltip) \
+  { line, FALSE, doc, buf, tooltip }
 
 typedef struct GotoNextHunkData GotoNextHunkData;
 struct GotoNextHunkData {
@@ -142,7 +139,7 @@ static void         write_setting_boolean       (GKeyFile      *kf,
 
 
 /* cache */
-static git_blob        *G_file_blob           = NULL;
+static git_buf          G_blob_contents       = { 0 };
 /* global state */
 static GAsyncQueue     *G_queue               = NULL;
 static GThread         *G_thread              = NULL;
@@ -183,21 +180,33 @@ static const struct {
 
 
 static void
-clear_cached_blob (void)
+buf_zero (git_buf *buf)
 {
-  if (G_file_blob) {
-    git_blob_free (G_file_blob);
-    G_file_blob = NULL;
+  if (buf) {
+    buf->ptr = NULL;
+    buf->size = 0;
+    buf->asize = 0;
+  }
+}
+
+static void
+clear_cached_blob_contents (void)
+{
+  if (G_blob_contents.ptr) {
+    git_buf_free (&G_blob_contents);
+    buf_zero (&G_blob_contents);
   }
 }
 
 /* get the file blob for @relpath at HEAD */
-static git_blob *
-repo_get_file_blob (git_repository *repo,
-                    const gchar    *relpath)
+static gboolean
+repo_get_file_blob_contents (git_repository  *repo,
+                             const gchar     *relpath,
+                             git_buf         *contents,
+                             int              check_for_binary_data)
 {
-  git_reference  *head = NULL;
-  git_blob       *blob = NULL;
+  git_reference  *head    = NULL;
+  gboolean        success = FALSE;
   
   if (git_repository_head (&head, repo) == 0) {
     git_commit *commit = NULL;
@@ -209,7 +218,16 @@ repo_get_file_blob (git_repository *repo,
         git_tree_entry *entry = NULL;
         
         if (git_tree_entry_bypath (&entry, tree, relpath) == 0) {
-          git_blob_lookup (&blob, repo, git_tree_entry_id (entry));
+          git_blob *blob;
+          
+          if (git_blob_lookup (&blob, repo, git_tree_entry_id (entry)) == 0) {
+            if (git_blob_filtered_content (contents, blob, relpath,
+                                           check_for_binary_data) == 0 &&
+                git_buf_grow (contents, 0) == 0) {
+              success = TRUE;
+            }
+            git_blob_free (blob);
+          }
           git_tree_entry_free (entry);
         }
         git_tree_free (tree);
@@ -219,14 +237,18 @@ repo_get_file_blob (git_repository *repo,
     git_reference_free (head);
   }
   
-  return blob;
+  return success;
 }
 
 static void
 free_job (gpointer data)
 {
-  AsyncBlobJob *job = data;
+  AsyncBlobContentsJob *job = data;
   
+  /* unlikely, but if we still have the buffer, free it */
+  if (job->buf.ptr) {
+    git_buf_free (&job->buf);
+  }
   g_free (job->path);
   g_slice_free1 (sizeof *job, job);
 }
@@ -234,13 +256,15 @@ free_job (gpointer data)
 static gboolean
 report_work_in_idle (gpointer data)
 {
-  AsyncBlobJob *job = data;
+  AsyncBlobContentsJob *job = data;
   
   /* update cached blob */
-  clear_cached_blob ();
-  G_file_blob = job->blob;
+  clear_cached_blob_contents ();
+  G_blob_contents = job->buf;
   
-  job->callback (job->path, job->blob, job->user_data);
+  job->callback (job->path, job->buf.ptr ? &job->buf : NULL, job->user_data);
+  
+  buf_zero (&job->buf);
   
   return FALSE;
 }
@@ -290,20 +314,72 @@ monitor_head_ref (git_repository *repo,
   return monitor;
 }
 
+/* checks whether @path points somewhere inside @dir and returns the pointer
+ * inside @path starting the relative path, or NULL */
+static const gchar *
+path_dir_contains (const gchar *dir,
+                   const gchar *path)
+{
+#ifdef G_OS_WIN32
+  /* FIXME: handle drive letters and such */
+# define NORM_PATH_CH(c) (((c) == '\\') ? '/' : (c))
+#else
+# define NORM_PATH_CH(c) (c)
+#endif
+  
+  g_return_val_if_fail (dir != NULL, NULL);
+  g_return_val_if_fail (path != NULL, NULL);
+  
+  while (*dir && NORM_PATH_CH (*dir) == NORM_PATH_CH (*path)) {
+    dir++, path++;
+  }
+  
+  return *dir ? NULL : path;
+}
+
+/* gets the Git path for @repo pointing to @sys_path, or NULL */
+static gchar *
+get_path_in_repository (git_repository *repo,
+                        const gchar    *sys_path)
+{
+  const gchar  *workdir   = git_repository_workdir (repo);
+  const gchar  *rel_path  = path_dir_contains (workdir, sys_path);
+  
+#ifdef G_OS_WIN32
+  if (rel_path) {
+    /* we want an internal Git path, which uses UNIX format */
+    gchar  *p;
+    gchar  *repo_path = g_strdup (rel_path);
+    
+    for (p = repo_path; *p; p++) {
+      if (*p == '\\') {
+        *p = '/';
+      }
+    }
+    
+    return repo_path;
+  }
+  
+  return NULL;
+#else
+  return g_strdup (rel_path);
+#endif
+}
+
 static gpointer
 worker_thread (gpointer data)
 {
-  GAsyncQueue    *queue       = data;
-  git_repository *repo        = NULL;
-  GFileMonitor   *monitors[2] = { NULL, NULL };
-  AsyncBlobJob   *job;
-  guint           i;
+  GAsyncQueue          *queue       = data;
+  git_repository       *repo        = NULL;
+  GFileMonitor         *monitors[2] = { NULL, NULL };
+  AsyncBlobContentsJob *job;
+  guint                 i;
   
   while ((job = g_async_queue_pop (queue)) != QUIT_THREAD_JOB) {
     const gchar *path = job->path;
     
     if (repo && (job->force ||
-                 ! g_str_has_prefix (path, git_repository_workdir (repo)))) {
+                 ! path_dir_contains (path, git_repository_workdir (repo)))) {
       /* FIXME: this can fail with nested repositories */
       git_repository_free (repo);
       repo = NULL;
@@ -330,12 +406,18 @@ worker_thread (gpointer data)
       }
     }
     
+    buf_zero (&job->buf);
     if (repo) {
-      const gchar *relpath = path + strlen (git_repository_workdir (repo));
+      gchar *relpath = get_path_in_repository (repo, path);
       
-      job->blob = repo_get_file_blob (repo, relpath);
-    } else {
-      job->blob = NULL;
+      if (relpath) {
+        if (! repo_get_file_blob_contents (repo, relpath, &job->buf, 0)) {
+          git_buf_free (&job->buf);
+          buf_zero (&job->buf);
+        }
+        
+        g_free (relpath);
+      }
     }
     
     g_idle_add_full (G_PRIORITY_LOW, report_work_in_idle, job, free_job);
@@ -355,28 +437,28 @@ worker_thread (gpointer data)
 }
 
 static void
-get_cached_blob_async (const gchar   *path,
-                       gboolean       force,
-                       BlobReadyFunc  callback,
-                       gpointer       user_data)
+get_cached_blob_contents_async (const gchar          *path,
+                                gboolean              force,
+                                BlobContentsReadyFunc callback,
+                                gpointer              user_data)
 {
-  if ((! force && G_file_blob) || ! path) {
-    callback (path, G_file_blob, user_data);
+  if ((! force && G_blob_contents.ptr) || ! path) {
+    callback (path, &G_blob_contents, user_data);
   } else {
-    AsyncBlobJob *job = g_slice_alloc (sizeof *job);
+    AsyncBlobContentsJob *job = g_slice_alloc (sizeof *job);
     
     job->force      = force;
     job->path       = g_strdup (path);
-    job->blob       = NULL;
     job->callback   = callback;
     job->user_data  = user_data;
+    buf_zero (&job->buf);
     
     if (! G_thread) {
       G_queue = g_async_queue_new ();
 #if GLIB_CHECK_VERSION (2, 32, 0)
       G_thread = g_thread_new (PLUGIN"/blob-worker", worker_thread, G_queue);
 #else
-      G_thread = g_thread_create (worker_thread, G_queue, NULL, NULL);
+      G_thread = g_thread_create (worker_thread, G_queue, FALSE, NULL);
 #endif
     }
     
@@ -524,10 +606,10 @@ convert_encoding_inplace (gchar       **buffer,
 }
 
 static int
-diff_blob_to_doc (const git_blob   *old_blob,
-                  GeanyDocument    *doc,
-                  git_diff_hunk_cb  hunk_cb,
-                  void             *payload)
+diff_buf_to_doc (const git_buf   *old_buf,
+                 GeanyDocument   *doc,
+                 git_diff_hunk_cb hunk_cb,
+                 void            *payload)
 {
   ScintillaObject  *sci = doc->editor->sci;
   git_diff_options  opts = GIT_DIFF_OPTIONS_INIT;
@@ -549,8 +631,8 @@ diff_blob_to_doc (const git_blob   *old_blob,
   opts.context_lines = 0;
   opts.flags = GIT_DIFF_FORCE_TEXT;
   
-  ret = git_diff_blob_to_buffer (old_blob, NULL, buf, len, NULL, &opts,
-                                 NULL, hunk_cb, NULL, payload);
+  ret = git_diff_buffers (old_buf->ptr, old_buf->size, NULL,
+                          buf, len, NULL, &opts, NULL, hunk_cb, NULL, payload);
   
   if (free_buf) {
     g_free (buf);
@@ -580,24 +662,12 @@ diff_hunk_cb (const git_diff_delta *delta,
   
   return 0;
 }
-#if LIBGIT2_VER_MAJOR == 0 && LIBGIT2_VER_MINOR < 20
-static int
-diff_hunk_cb_wrapper (const git_diff_delta *delta,
-                      const git_diff_hunk  *hunk,
-                      const char           *header,
-                      size_t                header_len,
-                      void                 *data)
-{
-  return diff_hunk_cb (delta, hunk, data);
-}
-# define diff_hunk_cb diff_hunk_cb_wrapper
-#endif
 
 static GtkWidget *
-get_widget_for_blob_range (GeanyDocument   *doc,
-                           const git_blob  *blob,
-                           gint             line_start,
-                           gint             n_lines)
+get_widget_for_buf_range (GeanyDocument *doc,
+                          const git_buf *contents,
+                          gint           line_start,
+                          gint           n_lines)
 {
   ScintillaObject        *sci     = editor_create_widget (doc->editor);
   const GeanyIndentPrefs *iprefs  = editor_get_indent_prefs (doc->editor);
@@ -606,9 +676,9 @@ get_widget_for_blob_range (GeanyDocument   *doc,
   gint                    zoom;
   gint                    i;
   GtkAllocation           alloc;
-  gchar                  *buf;
-  gsize                   buf_len;
-  gboolean                free_buf = FALSE;
+  gchar                  *buf       = contents->ptr;
+  gsize                   buf_len   = contents->size;
+  gboolean                free_buf  = FALSE;
   
   gtk_widget_get_allocation (GTK_WIDGET (doc->editor->sci), &alloc);
   
@@ -628,9 +698,6 @@ get_widget_for_blob_range (GeanyDocument   *doc,
   for (i = 0; i < SC_MAX_MARGIN; i++) {
     scintilla_send_message (sci, SCI_SETMARGINWIDTHN, i, 0);
   }
-  
-  buf_len = git_blob_rawsize (blob);
-  buf = (gchar *) git_blob_rawcontent (blob);
   
   /* convert the buffer to UTF-8 if necessary */
   if (encoding_needs_coversion (doc->encoding)) {
@@ -683,9 +750,9 @@ tooltip_diff_hunk_cb (const git_diff_delta *delta,
   if (hunk->old_lines > 0 &&
       thd->line >= hunk->new_start &&
       thd->line < hunk->new_start + MAX (1, hunk->new_lines)) {
-    GtkWidget *old = get_widget_for_blob_range (thd->doc, thd->file_blob,
-                                                hunk->old_start - 1,
-                                                hunk->old_lines);
+    GtkWidget *old = get_widget_for_buf_range (thd->doc, thd->buf,
+                                               hunk->old_start - 1,
+                                               hunk->old_lines);
     
     gtk_tooltip_set_custom (thd->tooltip, old);
     thd->found = old != NULL;
@@ -693,18 +760,6 @@ tooltip_diff_hunk_cb (const git_diff_delta *delta,
   
   return thd->found;
 }
-#if LIBGIT2_VER_MAJOR == 0 && LIBGIT2_VER_MINOR < 20
-static int
-tooltip_diff_hunk_cb_wrapper (const git_diff_delta *delta,
-                              const git_diff_hunk  *hunk,
-                              const char           *header,
-                              size_t                header_len,
-                              void                 *data)
-{
-  return tooltip_diff_hunk_cb (delta, hunk, data);
-}
-# define tooltip_diff_hunk_cb tooltip_diff_hunk_cb_wrapper
-#endif
 
 static gboolean
 on_sci_query_tooltip (GtkWidget  *widget,
@@ -729,17 +784,17 @@ on_sci_query_tooltip (GtkWidget  *widget,
   min_x = scintilla_send_message (sci, SCI_GETMARGINWIDTHN, 0, 0);
   max_x = min_x + scintilla_send_message (sci, SCI_GETMARGINWIDTHN, 1, 0);
   
-  if (x >= min_x && x <= max_x && G_file_blob) {
+  if (x >= min_x && x <= max_x && G_blob_contents.ptr) {
     gint pos  = scintilla_send_message (sci, SCI_POSITIONFROMPOINT, x, y);
     gint line = sci_get_line_from_position (sci, pos);
     gint mask = scintilla_send_message (sci, SCI_MARKERGET, line, 0);
     
     if (mask & ((1 << G_markers[MARKER_LINE_CHANGED].num) |
                 (1 << G_markers[MARKER_LINE_REMOVED].num))) {
-      TooltipHunkData thd = TOOLTIP_HUNK_DATA_INIT (line + 1, doc, G_file_blob,
-                                                    tooltip);
+      TooltipHunkData thd = TOOLTIP_HUNK_DATA_INIT (line + 1, doc,
+                                                    &G_blob_contents, tooltip);
       
-      diff_blob_to_doc (G_file_blob, doc, tooltip_diff_hunk_cb, &thd);
+      diff_buf_to_doc (&G_blob_contents, doc, tooltip_diff_hunk_cb, &thd);
       has_tooltip = thd.found;
     }
   }
@@ -749,22 +804,34 @@ on_sci_query_tooltip (GtkWidget  *widget,
 
 static void
 update_diff (const gchar *path,
-             git_blob    *blob,
+             git_buf     *contents,
              gpointer     data)
 {
   GeanyDocument *doc = document_get_current ();
   
-  if (doc && doc->id == GPOINTER_TO_UINT (data) &&
-      blob && allocate_resources (doc->editor->sci)) {
+  if (doc && doc->id == GPOINTER_TO_UINT (data)) {
     ScintillaObject  *sci = doc->editor->sci;
-    guint             i;
+    gboolean    allocated = !! g_object_get_qdata (G_OBJECT (sci),
+                                                   RESOURCES_ALLOCATED_QTAG);
     
-    /* clear previous markers */
-    for (i = 0; i < MARKER_COUNT; i++) {
-      scintilla_send_message (sci, SCI_MARKERDELETEALL, G_markers[i].num, 0);
+    if (allocated) {
+      guint i;
+      
+      /* clear previous markers */
+      for (i = 0; i < MARKER_COUNT; i++) {
+        scintilla_send_message (sci, SCI_MARKERDELETEALL, G_markers[i].num, 0);
+      }
     }
     
-    diff_blob_to_doc (blob, doc, diff_hunk_cb, sci);
+    if (contents && (allocated || allocate_resources (sci))) {
+      diff_buf_to_doc (contents, doc, diff_hunk_cb, sci);
+    } else if (! contents && allocated) {
+      /* if we don't have contents, it probably means the document doesn't
+       * match any object known by Git, so next attempts will fail just the
+       * same.  So, drop allocated resources if any (if it used to be a valid
+       * object, e.g. the document was renamed to something unknown to Git) */
+      release_resources (sci);
+    }
   }
 }
 
@@ -777,8 +844,8 @@ do_update_diff_idle (guint    doc_id,
   G_source_id = 0;
   /* make sure the document is still valid and current */
   if (doc && doc->id == doc_id) {
-    get_cached_blob_async (doc->real_path, force, update_diff,
-                           GUINT_TO_POINTER (doc->id));
+    get_cached_blob_contents_async (doc->real_path, force, update_diff,
+                                    GUINT_TO_POINTER (doc->id));
   }
   
   return FALSE;
@@ -850,7 +917,7 @@ on_document_activate (GObject        *obj,
                       GeanyDocument  *doc,
                       gpointer        user_data)
 {
-  clear_cached_blob ();
+  clear_cached_blob_contents ();
   update_diff_push (doc, FALSE);
 }
 
@@ -875,7 +942,7 @@ on_git_repo_changed (GFileMonitor     *monitor,
   GeanyDocument *doc = document_get_current ();
   
   if (doc) {
-    clear_cached_blob ();
+    clear_cached_blob_contents ();
     update_diff_push (doc, GPOINTER_TO_INT (force));
   }
 }
@@ -905,29 +972,17 @@ goto_next_hunk_diff_hunk_cb (const git_diff_delta *delta,
   
   return 0;
 }
-#if LIBGIT2_VER_MAJOR == 0 && LIBGIT2_VER_MINOR < 20
-static int
-goto_next_hunk_diff_hunk_cb_wrapper (const git_diff_delta *delta,
-                                     const git_diff_hunk  *hunk,
-                                     const char           *header,
-                                     size_t                header_len,
-                                     void                 *data)
-{
-  return goto_next_hunk_diff_hunk_cb (delta, hunk, data);
-}
-# define goto_next_hunk_diff_hunk_cb goto_next_hunk_diff_hunk_cb_wrapper
-#endif
 
 static void
 goto_next_hunk_cb (const gchar *path,
-                   git_blob    *blob,
+                   git_buf     *contents,
                    gpointer     udata)
 {
   GotoNextHunkData *data  = udata;
   GeanyDocument    *doc   = document_get_current ();
   
-  if (doc && doc->id == data->doc_id && blob) {
-    diff_blob_to_doc (blob, doc, goto_next_hunk_diff_hunk_cb, data);
+  if (doc && doc->id == data->doc_id && contents) {
+    diff_buf_to_doc (contents, doc, goto_next_hunk_diff_hunk_cb, data);
     
     if (data->next_line >= 0) {
       gint pos = sci_get_position_from_line (doc->editor->sci, data->next_line);
@@ -952,7 +1007,8 @@ on_kb_goto_next_hunk (guint kb)
     data->line      = sci_get_current_line (doc->editor->sci);
     data->next_line = -1;
     
-    get_cached_blob_async (doc->real_path, FALSE, goto_next_hunk_cb, data);
+    get_cached_blob_contents_async (doc->real_path, FALSE, goto_next_hunk_cb,
+                                    data);
   }
 }
 
@@ -1123,7 +1179,7 @@ plugin_init (GeanyData *data)
 {
   GeanyKeyGroup *kb_group;
   
-  G_file_blob = NULL;
+  buf_zero (&G_blob_contents);
   G_source_id = 0;
   G_thread    = NULL;
   G_queue     = NULL;
@@ -1147,6 +1203,8 @@ plugin_init (GeanyData *data)
   plugin_signal_connect (geany_plugin, NULL, "document-activate", TRUE,
                          G_CALLBACK (on_document_activate), NULL);
   plugin_signal_connect (geany_plugin, NULL, "document-reload", TRUE,
+                         G_CALLBACK (on_document_activate), NULL);
+  plugin_signal_connect (geany_plugin, NULL, "document-save", TRUE,
                          G_CALLBACK (on_document_activate), NULL);
   plugin_signal_connect (geany_plugin, NULL, "geany-startup-complete", TRUE,
                          G_CALLBACK (on_startup_complete), NULL);
@@ -1174,10 +1232,7 @@ plugin_cleanup (void)
     g_async_queue_unref (G_queue);
     G_queue = NULL;
   }
-  if (G_file_blob) {
-    git_blob_free (G_file_blob);
-    G_file_blob = NULL;
-  }
+  clear_cached_blob_contents ();
   
   foreach_document (i) {
     release_resources (documents[i]->editor->sci);

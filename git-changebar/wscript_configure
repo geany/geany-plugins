@@ -26,7 +26,7 @@ from build.wafutils import check_cfg_cached
 packages = [
     ('gtk+-2.0', '2.18', 'GTK'),
     ('glib-2.0', '2.16', 'GLIB'),
-    ('libgit2', '0.18', 'LIBGIT2'),
+    ('libgit2', '0.21', 'LIBGIT2'),
 ]
 
 for package_name, package_version, uselib_store in packages:
