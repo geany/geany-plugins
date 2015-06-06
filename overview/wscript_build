@@ -40,3 +40,8 @@ build_plugin(bld, name,
              includes=includes,
              libraries=libraries,
              defines=defines)
+
+# install UI file
+prefix = '${G_PREFIX}/' if target_is_win32(bld) else ''
+datadir = '${GEANYPLUGINS_DATADIR}/geany-plugins/%s' % (name.lower())
+bld.install_files('%s%s' % (prefix, datadir), 'data/prefs.ui')
