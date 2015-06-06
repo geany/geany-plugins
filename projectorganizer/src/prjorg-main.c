@@ -39,7 +39,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	LOCALEDIR,
 	GETTEXT_PACKAGE,
 	_("Project Organizer"),
-	_("Project file tree, project-wide indexing and search, extra navigation options"),
+	_("Project file tree, project-wide indexing and search, extra navigation options (was GProject)"),
 	VERSION,
 	"Jiri Techet <techet@gmail.com>")
 
