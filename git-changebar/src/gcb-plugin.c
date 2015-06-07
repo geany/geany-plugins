@@ -179,6 +179,23 @@ static const struct {
 };
 
 
+/* workaround https://github.com/libgit2/libgit2/pull/3187 */
+static int
+gcb_git_buf_grow (git_buf  *buf,
+                  size_t    target_size)
+{
+  if (buf->asize == 0) {
+    if (target_size == 0) {
+      target_size = buf->size;
+    }
+    if ((target_size & 7) == 0) {
+      target_size++;
+    }
+  }
+  return git_buf_grow (buf, target_size);
+}
+#define git_buf_grow gcb_git_buf_grow
+
 static void
 buf_zero (git_buf *buf)
 {
