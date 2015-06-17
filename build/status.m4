@@ -1,23 +1,23 @@
 dnl add plugin status message, e.g. GP_STATUS_PLUGIN_ADD(plugin,yes)
 AC_DEFUN([GP_STATUS_PLUGIN_ADD],
 [
-    AS_VAR_APPEND([plugins_statusmsg],["$1:$2
-"])
+    plugins_statusmsg="${plugins_statusmsg}$1:$2
+"
 ])
 
 dnl add feature status message, e.g. GP_STATUS_FEATURE_ADD(feature,yes)
 AC_DEFUN([GP_STATUS_FEATURE_ADD],
 [
-    AS_VAR_APPEND([feature_statusmsg],["$1:$2
-"])
+    feature_statusmsg="${feature_statusmsg}$1:$2
+"
 ])
 
 dnl add build feature status message, e.g.
 dnl GP_STATUS_BUIL_FEATURE_ADD(build_feature,yes)
 AC_DEFUN([GP_STATUS_BUILD_FEATURE_ADD],
 [
-    AS_VAR_APPEND([build_feature_statusmsg],["$1:$2
-"])
+    build_feature_statusmsg="${build_feature_statusmsg}$1:$2
+"
 ])
 
 dnl indent $1_statusmsg with RHS at col $2
