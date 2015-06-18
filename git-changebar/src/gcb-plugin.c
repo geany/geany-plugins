@@ -59,7 +59,7 @@ PLUGIN_SET_TRANSLATABLE_INFO (
 #define QUIT_THREAD_JOB ((AsyncBlobContentsJob *) (&G_queue))
 
 #define RESOURCES_ALLOCATED_QTAG \
-  (g_quark_from_static_string (PLUGIN"/git-resources-allocated"))
+  (g_quark_from_string (PLUGIN"/git-resources-allocated"))
 
 
 enum {
