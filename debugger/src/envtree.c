@@ -454,6 +454,7 @@ GtkWidget* envtree_init(void)
 void envtree_destroy(void)
 {
 	gtk_tree_row_reference_free(empty_row);
+	empty_row = NULL;
 }
 
 /*
