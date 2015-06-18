@@ -296,6 +296,7 @@ static void on_value_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 	g_free(striped);
 
 	gtk_tree_path_free(being_edited_value);
+	being_edited_value = NULL;
 }
 
 /*
@@ -331,8 +332,9 @@ static void on_value_editing_cancelled(GtkCellRenderer *renderer, gpointer user_
 
 	g_object_set (renderer_value, "editable", FALSE, NULL);
 
-	gtk_tree_path_free(being_edited_value);
 	gtk_tree_path_free(empty_path);
+	gtk_tree_path_free(being_edited_value);
+	being_edited_value = NULL;
 }
 
 /*
