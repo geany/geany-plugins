@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: geany-plugins 1.24\n"
+"Project-Id-Version: geany-plugins 1.25\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-30 20:34+0200\n"
+"POT-Creation-Date: 2015-06-20 11:24+0200\n"
 "PO-Revision-Date: 2014-04-09 07:23+0200\n"
 "Last-Translator: Federico Reghenzani <federico.dev@reghe.net>\n"
 "Language-Team: Italian\n"
@@ -25,16 +25,18 @@ msgstr "(Linea vuota)"
 msgid "_Remove Bookmark"
 msgstr "_Rimuovi segnalibro"
 
-#: ../addons/src/ao_bookmarklist.c:333
+#. Translators: Number is meant at this point.
+#: ../addons/src/ao_bookmarklist.c:334
 msgid "No."
 msgstr "N°"
 
-#: ../addons/src/ao_bookmarklist.c:341 ../devhelp/src/dhp-object.c:494
+#: ../addons/src/ao_bookmarklist.c:342 ../devhelp/src/dhp-object.c:494
 #: ../devhelp/devhelp/dh-window.c:1142
 msgid "Contents"
 msgstr "Contenuti"
 
-#: ../addons/src/ao_bookmarklist.c:374 ../treebrowser/src/treebrowser.c:625
+#: ../addons/src/ao_bookmarklist.c:375 ../treebrowser/src/treebrowser.c:624
+#: ../webhelper/src/gwh-plugin.c:329
 msgid "Bookmarks"
 msgstr "Segnalibri"
 
@@ -154,20 +156,20 @@ msgstr "Aggiorna la lista dei Task"
 msgid "Run XML tagging"
 msgstr "Esegui XML tagging"
 
-#: ../addons/src/addons.c:417 ../autoclose/src/autoclose.c:871
-#: ../geanylatex/src/geanylatex.c:241 ../geanyprj/src/geanyprj.c:174
-#: ../geanysendmail/src/geanysendmail.c:123
+#: ../addons/src/addons.c:417 ../autoclose/src/autoclose.c:885
+#: ../codenav/src/codenavigation.c:293 ../geanylatex/src/geanylatex.c:241
+#: ../geanyprj/src/geanyprj.c:174 ../geanysendmail/src/geanysendmail.c:123
 #: ../geanysendmail/src/geanysendmail.c:291 ../geanyvc/src/geanyvc.c:1854
-#: ../geniuspaste/src/geniuspaste.c:140 ../spellcheck/src/scplugin.c:146
-#: ../treebrowser/src/treebrowser.c:1933
-#: ../updatechecker/src/updatechecker.c:253
+#: ../geniuspaste/src/geniuspaste.c:140 ../spellcheck/src/scplugin.c:153
+#: ../treebrowser/src/treebrowser.c:1938
+#: ../updatechecker/src/updatechecker.c:267
 msgid "Plugin configuration directory could not be created."
 msgstr "La cartella della configurazione dei plugin non può essere creata."
 
 #: ../addons/src/addons.c:445
 msgid "Show toolbar item to show a list of currently open documents"
-msgstr "Mostra un'icona nella toolbar per visualizzare la lista dei documenti "
-"aperti"
+msgstr ""
+"Mostra un'icona nella toolbar per visualizzare la lista dei documenti aperti"
 
 #: ../addons/src/addons.c:449
 msgid "Sort documents by _name"
@@ -210,7 +212,8 @@ msgid ""
 "Whether to show the tasks of all open documents in the list or only those of "
 "the current document."
 msgstr ""
-"Mostrare i task di tutti i documenti aperti o solo quelli del documento corrente"
+"Mostrare i task di tutti i documenti aperti o solo quelli del documento "
+"corrente"
 
 #: ../addons/src/addons.c:511
 msgid "Specify a semicolon separated list of search tokens."
@@ -230,8 +233,9 @@ msgstr "Visualizza i segnalibri (linee contrassegnate) nella barra laterale"
 
 #: ../addons/src/addons.c:542
 msgid "Mark all occurrences of a word when double-clicking it"
-msgstr "Evidenzia tutte le occorrenze di una parola effettuando doppio-click "
-"su di essa."
+msgstr ""
+"Evidenzia tutte le occorrenze di una parola effettuando doppio-click su di "
+"essa."
 
 #: ../addons/src/addons.c:548
 msgid "Strip trailing blank lines"
@@ -245,6 +249,10 @@ msgstr "XML tagging per selezione"
 msgid "Enclose selection on configurable keybindings"
 msgstr "Racchiudi selezione con combinazione di tasti"
 
+#: ../addons/src/addons.c:564
+msgid "Configure enclose pairs"
+msgstr ""
+
 #: ../addons/src/addons.c:572
 msgid "Enclose selection automatically (without having to press a keybinding)"
 msgstr "Racchiudi selezione automaticamente (senza premere una combinazione)"
@@ -257,62 +265,306 @@ msgstr "Auto-chiusura"
 msgid "Auto-close braces and brackets with lot of features"
 msgstr "Auto-chiudi parentesi con molte funzioni"
 
-#: ../codenav/src/codenavigation.c:52
+#: ../autoclose/src/autoclose.c:1033
+#, fuzzy
+msgid "Auto-close quotes and brackets"
+msgstr "Auto-chiudi parentesi con molte funzioni"
+
+#: ../autoclose/src/autoclose.c:1034
+msgid "Parenthesis ( )"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1035
+msgid "Auto-close parenthesis \"(\" -> \"(|)\""
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1037
+msgid "Curly brackets { }"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1038
+msgid "Auto-close curly brackets \"{\" -> \"{|}\""
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1040
+msgid "Square brackets [ ]"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1041
+msgid "Auto-close square brackets \"[\" -> \"[|]\""
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1042
+msgid "Angular brackets < >"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1043
+msgid "Auto-close angular brackets \"<\" -> \"<|>\""
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1045
+msgid "\tOnly for HTML"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1046
+msgid "Auto-close angular brackets only in HTML documents"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1047
+msgid "Double quotes \" \""
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1048
+msgid "Auto-close double quotes \" -> \"|\""
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1049
+msgid "Single quotes ' '"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1050
+msgid "Auto-close single quotes ' -> '|'"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1051
+msgid "Backquote ` `"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1052
+msgid "Auto-close backquote ` -> `|`"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1054
+msgid "\tOnly for Shell-scripts (Bash)"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1055
+msgid "Auto-close backquote only in Shell-scripts like Bash"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1057
+msgid "Improve curly brackets completion"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1058
+#, fuzzy
+msgid "Indent when enclosing"
+msgstr "Non impostare alcuna codifica"
+
+#: ../autoclose/src/autoclose.c:1059
+msgid ""
+"If you select some text and press \"{\" or \"}\", plugin will auto-close "
+"selected lines and make new block with indent.\n"
+"You do not need to select block precisely - block enclosing takes into "
+"account only lines."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1064
+#, fuzzy
+msgid "Move cursor to beginning"
+msgstr "Muovi il cursore a fine riga"
+
+#: ../autoclose/src/autoclose.c:1065
+msgid ""
+"If you checked \"Indent when enclosing\", moving cursor to beginning may be "
+"useful: usually you make new block and need to create new statement before "
+"this block."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1068
+#, fuzzy
+msgid "Improved auto-indentation"
+msgstr "Orientazione browser"
+
+#: ../autoclose/src/autoclose.c:1069
+msgid ""
+"Improved auto-indent for curly brackets: type \"{\" and then press Enter - "
+"plugin will create full indented block. Works without \"auto-close { }\" "
+"checkbox."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1072
+msgid "\tWhitesmith's style"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1073
+msgid ""
+"This style puts the brace associated with a control statement on the next "
+"line, indented. Statements within the braces are indented to the same level "
+"as the braces."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1078
+msgid "Delete pairing character while backspacing first"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1079
+msgid "Check if you want to delete pairing bracket by pressing BackSpace."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1081
+#, fuzzy
+msgid "Suppress double-completion"
+msgstr "Modo di autocompletamento"
+
+#: ../autoclose/src/autoclose.c:1082
+msgid ""
+"Check if you want to allow editor automatically fix mistypes with brackets: "
+"if you type \"{}\" you will get \"{}\", not \"{}}\"."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1084
+#, fuzzy
+msgid "Enclose selections"
+msgstr "Elimina selezione"
+
+#: ../autoclose/src/autoclose.c:1085
+msgid "Automatically enclose selected text by pressing just one bracket key."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1087
+#, fuzzy
+msgid "Keep selection when enclosing"
+msgstr "Imposta selezione un livello sotto"
+
+#: ../autoclose/src/autoclose.c:1088
+msgid "Keep your previously selected text after enclosing."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1090
+msgid "Behaviour inside comments and strings"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1091
+msgid "Allow auto-closing in strings and comments"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1092
+msgid "Check if you want to keep auto-closing inside strings and comments too."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1093
+#, fuzzy
+msgid "Enclose selections in strings and comments"
+msgstr "Racchiudi selezione con combinazione di tasti"
+
+#: ../autoclose/src/autoclose.c:1094
+msgid ""
+"Check if you want to enclose selections inside strings and comments too."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1097
+msgid "Auto-complete \";\" for functions"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1098
+msgid ""
+"Full function auto-closing (works only for C/C++): type \"sin(\" and you "
+"will get \"sin(|);\"."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1100
+msgid "Shift+BackSpace removes pairing brace too"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1101
+msgid ""
+"Remove left and right brace while pressing Shift+BackSpace.\n"
+"Tip: to completely remove indented block just Shift+BackSpace first \"{\" or "
+"last \"}\"."
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1104
+msgid "Jump on Tab to enclosed char"
+msgstr ""
+
+#: ../autoclose/src/autoclose.c:1105
+msgid "Jump behind autoclosed items on Tab press."
+msgstr ""
+
+#: ../automark/src/automark.c:48
+msgid "Auto-mark"
+msgstr ""
+
+#: ../automark/src/automark.c:49
+msgid "Auto-mark word under cursor"
+msgstr ""
+
+#: ../codenav/src/codenavigation.c:43
 msgid "Code navigation"
 msgstr "Naviazione codice"
 
-#: ../codenav/src/codenavigation.c:53
+#: ../codenav/src/codenavigation.c:44
 msgid ""
-"This plugin adds features to facilitate navigation between source files.\n"
-"As for the moment, it implements :\n"
-"- switching between a .cpp file and the corresponding .h file\n"
-"- [opening a file by typing its name -> TODO]"
+"This plugin adds features to facilitate navigation between source files."
 msgstr ""
-"Questo plugin aggiunge funzionalità per semplificare la navigazione tra\n"
-"file sorgenti. Per il momento sono implementate:\n"
-"- scambia un file .cpp con il suo corrispondente .h\n"
-"- [apri file digitando il suo nome -> TODO]"
 
+#: ../codenav/src/codenavigation.c:139
+msgid ""
+"Codenav head/impl lists should have been same length. Geany will use the "
+"default configuration."
+msgstr ""
 
-#. Add the menu item, sensitive only when a document is opened
-#: ../codenav/src/goto_file.c:57 ../codenav/src/goto_file.c:71
-msgid "Goto file"
-msgstr "Vai al file"
-
-#: ../codenav/src/goto_file.c:109
-#, c-format
-msgid "(From the %s plugin)"
-msgstr "(Dal plugin %s)"
-
-#. Add the menu item and make it sensitive only when a document is opened
 #. Frame, which is the returned widget
-#: ../codenav/src/switch_head_impl.c:85 ../codenav/src/switch_head_impl.c:99
-#: ../codenav/src/switch_head_impl.c:461
+#. Add the menu item and make it sensitive only when a document is opened
+#: ../codenav/src/codenavigation.c:396 ../codenav/src/switch_head_impl.c:70
+#: ../codenav/src/switch_head_impl.c:84
 msgid "Switch header/implementation"
 msgstr "Passa a intestazione/sorgente"
 
-#: ../codenav/src/switch_head_impl.c:369
+#. Help label
+#: ../codenav/src/codenavigation.c:403
+msgid "You can specify multiple extensions by separating them by commas."
+msgstr ""
+
+#: ../codenav/src/codenavigation.c:426
+msgid "Implementations extensions"
+msgstr "Estensioni implementate"
+
+#: ../codenav/src/codenavigation.c:435
+msgid "Headers extensions"
+msgstr "Estensioni delle intestazioni"
+
+#. Add the "reset to default" button to the frame's hbox
+#: ../codenav/src/codenavigation.c:462
+#, fuzzy
+msgid "Reset to Default"
+msgstr "Default"
+
+#: ../codenav/src/codenavigation.c:547
+msgid ""
+"Are you sure you want to delete all languages and restore defaults?\n"
+"This action cannot be undone."
+msgstr ""
+
+#. Add the menu item, sensitive only when a document is opened
+#: ../codenav/src/goto_file.c:68 ../codenav/src/goto_file.c:218
+msgid "Go to File..."
+msgstr ""
+
+#: ../codenav/src/goto_file.c:82
+msgid "Go to File"
+msgstr ""
+
+#: ../codenav/src/goto_file.c:227
+msgid "Enter the file you want to open:"
+msgstr ""
+
+#: ../codenav/src/goto_file.c:303 ../codenav/src/switch_head_impl.c:409
 #, c-format
 msgid "%s not found, create it?"
 msgstr "%s non trovato, crearlo?"
 
-#: ../codenav/src/switch_head_impl.c:485
-msgid "Headers extensions"
-msgstr "Estensioni delle intestazioni"
-
-#: ../codenav/src/switch_head_impl.c:494
-msgid "Implementations extensions"
-msgstr "Estensioni implementate"
-
-#: ../commander/src/commander-plugin.c:39
+#: ../commander/src/commander-plugin.c:43
 msgid "Commander"
 msgstr "Comandante"
 
-#: ../commander/src/commander-plugin.c:40
+#: ../commander/src/commander-plugin.c:44
 msgid "Provides a command panel for quick access to actions, files and more"
-msgstr "Fornisce un pannello comandi per un veloce accesso a azioni, file e altro"
+msgstr ""
+"Fornisce un pannello comandi per un veloce accesso a azioni, file e altro"
 
-#: ../commander/src/commander-plugin.c:686
+#: ../commander/src/commander-plugin.c:752
 msgid "Show Command Panel"
 msgstr "Visualizza pannello comandi"
 
@@ -367,7 +619,7 @@ msgstr "Variabili d'ambiente"
 
 #. if name is empty - offer to delete variable
 #: ../debugger/src/envtree.c:260 ../debugger/src/envtree.c:364
-#: ../debugger/src/debug.c:254
+#: ../debugger/src/debug.c:264
 msgid "Delete variable?"
 msgstr "Elimina variabile?"
 
@@ -527,9 +779,10 @@ msgstr "Salta all'istruzione corrente"
 msgid "Can't evaluate expression"
 msgstr "Impossibile valutare l'espressione"
 
-#: ../debugger/src/callbacks.c:249
+#: ../debugger/src/callbacks.c:258
 msgid "To edit source files stop debugging session"
-msgstr "Per modificare i file sorgenti interrompi la sessione di debug corrente"
+msgstr ""
+"Per modificare i file sorgenti interrompi la sessione di debug corrente"
 
 #: ../debugger/src/btnpanel.c:90 ../debugger/src/btnpanel.c:159
 msgid "Run"
@@ -547,7 +800,7 @@ msgstr "Modalità due pannelli"
 msgid "Continue"
 msgstr "Continua"
 
-#: ../debugger/src/dconfig.c:675
+#: ../debugger/src/dconfig.c:673
 msgid "Save debug session data to a project"
 msgstr "Salva i dati della sessione debug ad un progetto"
 
@@ -618,8 +871,8 @@ msgid ""
 "Adds support for looking up documentation in Devhelp, manual pages, and "
 "Google Code Search in the integrated viewer."
 msgstr ""
-"Aggiunge supporto per la ricerca nella documentazione in Devhelp, pagine"
-"del manuale e Google Code Search in una finestra integrata."
+"Aggiunge supporto per la ricerca nella documentazione in Devhelp, paginedel "
+"manuale e Google Code Search in una finestra integrata."
 
 #: ../devhelp/src/dhp-plugin.c:119
 #, c-format
@@ -670,7 +923,7 @@ msgid "Book:"
 msgstr "Libro:"
 
 #. i18n: a documentation book
-#: ../devhelp/devhelp/dh-link.c:255 ../geanylatex/src/geanylatex.c:1759
+#: ../devhelp/devhelp/dh-link.c:255 ../geanylatex/src/geanylatex.c:1784
 msgid "Book"
 msgstr "Libro"
 
@@ -722,7 +975,8 @@ msgstr "Namesapce invalido '%s' alla linea %d, colonna %d"
 msgid ""
 "\"title\", \"name\" and \"link\" elements are required at line %d, column %d"
 msgstr ""
-"Gli elementi \"title\", \"name\" e \"link\" sono richiesti alla linea %d, colonna %d"
+"Gli elementi \"title\", \"name\" e \"link\" sono richiesti alla linea %d, "
+"colonna %d"
 
 #: ../devhelp/devhelp/dh-parser.c:204
 #, c-format
@@ -730,22 +984,22 @@ msgid ""
 "\"name\" and \"link\" elements are required inside <sub> on line %d, column "
 "%d"
 msgstr ""
-"Gli elementi \"name\" e \"link\" sono richiesti all'interno di <sub> "
-"alla linea %d, colonna %d"
+"Gli elementi \"name\" e \"link\" sono richiesti all'interno di <sub> alla "
+"linea %d, colonna %d"
 
 #: ../devhelp/devhelp/dh-parser.c:284
 #, c-format
 msgid ""
 "\"name\" and \"link\" elements are required inside '%s' on line %d, column %d"
 msgstr ""
-"Gli elementi \"name\" e \"link\" sono richiesti dentro '%s' alla linea "
-"%d, colonna %d"
+"Gli elementi \"name\" e \"link\" sono richiesti dentro '%s' alla linea %d, "
+"colonna %d"
 
 #: ../devhelp/devhelp/dh-parser.c:297
 #, c-format
 msgid "\"type\" element is required inside <keyword> on line %d, column %d"
-msgstr "L'elemento \"type\" è richiesto dentro <keyword> alla linea %d, "
-"colonna %d"
+msgstr ""
+"L'elemento \"type\" è richiesto dentro <keyword> alla linea %d, colonna %d"
 
 #: ../devhelp/devhelp/dh-parser.c:500
 #, c-format
@@ -943,6 +1197,69 @@ msgstr "C_ase Sensitive"
 #: ../devhelp/devhelp/eggfindbar.c:362 ../devhelp/devhelp/eggfindbar.c:365
 msgid "Toggle case sensitive search"
 msgstr "Commuta la ricerca case-sensitive"
+
+#: ../geanyctags/src/geanyctags.c:51
+#, fuzzy
+msgid "Ctags generation and search plugin for geany projects"
+msgstr "Plugin per la crittografia gpg in Geany"
+
+#: ../geanyctags/src/geanyctags.c:149
+#, fuzzy, c-format
+msgid "%s (in directory: %s)"
+msgstr "%s: directory non trovata."
+
+#: ../geanyctags/src/geanyctags.c:164
+#, c-format
+msgid "Process execution failed (%s)"
+msgstr ""
+
+#: ../geanyctags/src/geanyctags.c:517
+#: ../projectorganizer/src/prjorg-sidebar.c:423
+#: ../projectorganizer/src/prjorg-sidebar.c:1365
+#, fuzzy
+msgid "Find Tag"
+msgstr "Cerca:"
+
+#: ../geanyctags/src/geanyctags.c:528 ../geanymacro/src/geanymacro.c:1424
+#: ../projectorganizer/src/prjorg-sidebar.c:128
+#: ../projectorganizer/src/prjorg-sidebar.c:434
+msgid "Search for:"
+msgstr "Cerca per:"
+
+#: ../geanyctags/src/geanyctags.c:546
+#: ../projectorganizer/src/prjorg-sidebar.c:452
+msgid "Match type:"
+msgstr ""
+
+#: ../geanyctags/src/geanyctags.c:562
+#: ../projectorganizer/src/prjorg-sidebar.c:156
+#: ../projectorganizer/src/prjorg-sidebar.c:480
+msgid "C_ase sensitive"
+msgstr "C_ase sensitive"
+
+#: ../geanyctags/src/geanyctags.c:565
+#: ../projectorganizer/src/prjorg-sidebar.c:483
+#, fuzzy
+msgid "_Declaration"
+msgstr "Relazionale"
+
+#: ../geanyctags/src/geanyctags.c:632
+msgid "Find Tag Declaration (geanyctags)"
+msgstr ""
+
+#: ../geanyctags/src/geanyctags.c:637
+msgid "Find Tag Definition (geanyctags)"
+msgstr ""
+
+#: ../geanyctags/src/geanyctags.c:646 ../geanyctags/src/geanyctags.c:651
+#, fuzzy
+msgid "Generate tags"
+msgstr "Generale"
+
+#: ../geanyctags/src/geanyctags.c:653 ../geanyctags/src/geanyctags.c:658
+#, fuzzy
+msgid "Find tag"
+msgstr "Trova successivo"
 
 #. All plugins must set name, description, version and author.
 #: ../geanydoc/src/geanydoc.c:50 ../geanydoc/src/geanydoc.c:347
@@ -1309,11 +1626,12 @@ msgid ""
 "surprising since the comment will be generated for the last saved state of "
 "this document and not the current one."
 msgstr ""
-"Salva il documento corrente su disco prima di generare la documentazione."
-"E' un dettaglio tecnico, ma è attualmente richiesto per avere una lista tag"
-"corretta. Se disabiliti questa opzione e avvii la generazione della documentazione"
-"su un documento modificato, il comportamento può sorprendere dato che il commento"
-"sarà generato per l'ultimo stato salvato di questo documento e non il corrente."
+"Salva il documento corrente su disco prima di generare la documentazione.E' "
+"un dettaglio tecnico, ma è attualmente richiesto per avere una lista "
+"tagcorretta. Se disabiliti questa opzione e avvii la generazione della "
+"documentazionesu un documento modificato, il comportamento può sorprendere "
+"dato che il commentosarà generato per l'ultimo stato salvato di questo "
+"documento e non il corrente."
 
 #. indent
 #: ../geanygendoc/src/ggd-plugin.c:637
@@ -1325,8 +1643,8 @@ msgid ""
 "Whether the inserted documentation should be indented to fit the indentation "
 "at the insertion position."
 msgstr ""
-"Indenta la documentazione inserita per raggiungere l'indentazione"
-"alla posizione di inserimento."
+"Indenta la documentazione inserita per raggiungere l'indentazionealla "
+"posizione di inserimento."
 
 #. Documentation type
 #: ../geanygendoc/src/ggd-plugin.c:646
@@ -1340,10 +1658,10 @@ msgid ""
 "language \"All\" on top of the list is used to choose the default "
 "documentation type, used for all languages that haven't one set."
 msgstr ""
-"Scegli il tipo di documentazione per usarlo con ogni tipo di file. "
-"Il linguaggio speciale \"Tutti\" in cima alla lista è usato per scegliere "
-"il tipo di documentazione di default, utilizzato da tutti i linguaggi "
-"che non ne hanno uno."
+"Scegli il tipo di documentazione per usarlo con ogni tipo di file. Il "
+"linguaggio speciale \"Tutti\" in cima alla lista è usato per scegliere il "
+"tipo di documentazione di default, utilizzato da tutti i linguaggi che non "
+"ne hanno uno."
 
 #. Environ editor
 #: ../geanygendoc/src/ggd-plugin.c:662
@@ -1399,8 +1717,9 @@ msgstr "Il tipo di documentazione \"%s\" non esiste per il linguaggio \"%s\"."
 #: ../geanygendoc/src/ggd.c:487
 #, c-format
 msgid "No setting applies to symbol \"%s\" of type \"%s\" at line %lu."
-msgstr "Nessuna impostazione si applica al simbolo \"%s\" del tipo \"%s\" "
-"alla linea %lu."
+msgstr ""
+"Nessuna impostazione si applica al simbolo \"%s\" del tipo \"%s\" alla linea "
+"%lu."
 
 #: ../geanygendoc/src/ggd.c:533
 #, c-format
@@ -1453,8 +1772,8 @@ msgstr "Tutti"
 msgid "Default documentation type for languages that does not have one set"
 msgstr "Tipo di documentazione di default per i linguaggi che non ne hanno uno"
 
-#: ../geanyinsertnum/src/insertnum.c:44 ../geanyinsertnum/src/insertnum.c:337
-#: ../geanyinsertnum/src/insertnum.c:484
+#: ../geanyinsertnum/src/insertnum.c:44 ../geanyinsertnum/src/insertnum.c:335
+#: ../geanyinsertnum/src/insertnum.c:485
 msgid "Insert Numbers"
 msgstr "Inserisci numeri"
 
@@ -1462,67 +1781,67 @@ msgstr "Inserisci numeri"
 msgid "Insert/Fill columns with numbers."
 msgstr "Inserisci/Riempi colonne con numeri."
 
-#: ../geanyinsertnum/src/insertnum.c:146
+#: ../geanyinsertnum/src/insertnum.c:144
 msgid "Counting..."
 msgstr "Conteggio..."
 
-#: ../geanyinsertnum/src/insertnum.c:194
+#: ../geanyinsertnum/src/insertnum.c:192
 msgid "Preparing..."
 msgstr "Preparazione..."
 
-#: ../geanyinsertnum/src/insertnum.c:200
+#: ../geanyinsertnum/src/insertnum.c:198
 msgid "Inserting..."
 msgstr "Inserimento..."
 
-#: ../geanyinsertnum/src/insertnum.c:333
+#: ../geanyinsertnum/src/insertnum.c:331
 msgid "For base 11 and above"
 msgstr "Per base 11 e superiori"
 
-#: ../geanyinsertnum/src/insertnum.c:353
+#: ../geanyinsertnum/src/insertnum.c:351
 msgid "_Start:"
 msgstr "_Avvia:"
 
-#: ../geanyinsertnum/src/insertnum.c:358
+#: ../geanyinsertnum/src/insertnum.c:356
 msgid "S_tep:"
 msgstr "S_tep:"
 
-#: ../geanyinsertnum/src/insertnum.c:364
+#: ../geanyinsertnum/src/insertnum.c:362
 msgid "_Base:"
 msgstr "_Base:"
 
-#: ../geanyinsertnum/src/insertnum.c:380
+#: ../geanyinsertnum/src/insertnum.c:378
 msgid "Letters:"
 msgstr "Lettere:"
 
-#: ../geanyinsertnum/src/insertnum.c:383
+#: ../geanyinsertnum/src/insertnum.c:381
 msgid "_Upper"
 msgstr "_Alto"
 
-#: ../geanyinsertnum/src/insertnum.c:388
+#: ../geanyinsertnum/src/insertnum.c:386
 msgid "_Lower"
 msgstr "_Basso"
 
-#: ../geanyinsertnum/src/insertnum.c:393
+#: ../geanyinsertnum/src/insertnum.c:391
 msgid "Base _prefix"
 msgstr "_Prefisso base"
 
-#: ../geanyinsertnum/src/insertnum.c:395
+#: ../geanyinsertnum/src/insertnum.c:393
 msgid "0 for octal, 0x for hex, + for positive decimal"
 msgstr "0 per ottale, 0x per esadecimale, + per decimali positivi"
 
-#: ../geanyinsertnum/src/insertnum.c:397
+#: ../geanyinsertnum/src/insertnum.c:395
 msgid "Padding:"
 msgstr "Padding:"
 
-#: ../geanyinsertnum/src/insertnum.c:399
+#: ../geanyinsertnum/src/insertnum.c:397
 msgid "Sp_ace"
 msgstr "Sp_azio"
 
-#: ../geanyinsertnum/src/insertnum.c:402
+#: ../geanyinsertnum/src/insertnum.c:400
 msgid "_Zero"
 msgstr "_Zero"
 
-#: ../geanyinsertnum/src/insertnum.c:477
+#: ../geanyinsertnum/src/insertnum.c:478
 msgid "Insert _Numbers"
 msgstr "Inserisci _Numeri"
 
@@ -1778,8 +2097,7 @@ msgstr ""
 
 #: ../geanylatex/src/bibtexlabels.c:116
 msgid "Month of publication or creation if unpublished"
-msgstr ""
-"Mese di pubblicazione o, se non pubblicato, di creazione"
+msgstr "Mese di pubblicazione o, se non pubblicato, di creazione"
 
 #: ../geanylatex/src/bibtexlabels.c:117
 msgid "Miscellaneous extra information"
@@ -1900,80 +2218,80 @@ msgstr "Esegui sempre l'autocompletamento in LaTeX"
 msgid "Modus of autocompletion"
 msgstr "Modo di autocompletamento"
 
-#: ../geanylatex/src/geanylatex.c:809
+#: ../geanylatex/src/geanylatex.c:833
 msgid "Insert Label"
 msgstr "Inserisci etichetta"
 
-#: ../geanylatex/src/geanylatex.c:811
+#: ../geanylatex/src/geanylatex.c:835
 msgid "Label name:"
 msgstr "Nome etichetta"
 
-#: ../geanylatex/src/geanylatex.c:833
+#: ../geanylatex/src/geanylatex.c:857
 msgid "Insert Command"
 msgstr "Inserisci comando"
 
-#: ../geanylatex/src/geanylatex.c:835
+#: ../geanylatex/src/geanylatex.c:859
 msgid "Command name:"
 msgstr "Nome comando:"
 
-#: ../geanylatex/src/geanylatex.c:878
+#: ../geanylatex/src/geanylatex.c:902
 msgid "Insert Reference"
 msgstr "Inserisci Riferimento"
 
-#: ../geanylatex/src/geanylatex.c:891
+#: ../geanylatex/src/geanylatex.c:915
 msgid "Reference name:"
 msgstr "Nome Riferimento:"
 
-#: ../geanylatex/src/geanylatex.c:916
+#: ../geanylatex/src/geanylatex.c:940
 msgid "_Standard Reference"
 msgstr "Riferimento _Standard"
 
-#: ../geanylatex/src/geanylatex.c:921
+#: ../geanylatex/src/geanylatex.c:945
 msgid "_Page Reference"
 msgstr "Riferimento _Pagina"
 
-#: ../geanylatex/src/geanylatex.c:926
+#: ../geanylatex/src/geanylatex.c:950
 msgid "_Add both"
 msgstr "_Aggiungi entrambi"
 
-#: ../geanylatex/src/geanylatex.c:1123
+#: ../geanylatex/src/geanylatex.c:1147
 msgid "More"
 msgstr "More"
 
-#: ../geanylatex/src/geanylatex.c:1179
+#: ../geanylatex/src/geanylatex.c:1203
 msgid "Add additional package"
 msgstr "Aggiungi package aggiuntivo"
 
-#: ../geanylatex/src/geanylatex.c:1192
+#: ../geanylatex/src/geanylatex.c:1216
 msgid "Package name:"
 msgstr "Nome package:"
 
-#: ../geanylatex/src/geanylatex.c:1195
+#: ../geanylatex/src/geanylatex.c:1219
 msgid "Package options:"
 msgstr "Opzioni package:"
 
-#: ../geanylatex/src/geanylatex.c:1243
+#: ../geanylatex/src/geanylatex.c:1267
 msgid "Insert BibTeX Reference"
 msgstr "Inserisci riferimento BibTeX"
 
-#: ../geanylatex/src/geanylatex.c:1256
+#: ../geanylatex/src/geanylatex.c:1280
 msgid "BibTeX reference name:"
 msgstr "Nome riferimento BibTeX:"
 
-#: ../geanylatex/src/geanylatex.c:1679
+#: ../geanylatex/src/geanylatex.c:1704
 msgid "Dear Sir or Madame"
 msgstr "Gentile Signore o Signora"
 
-#: ../geanylatex/src/geanylatex.c:1680
+#: ../geanylatex/src/geanylatex.c:1705
 msgid "With kind regards"
 msgstr "Cordiali saluti"
 
-#: ../geanylatex/src/geanylatex.c:1688
+#: ../geanylatex/src/geanylatex.c:1713
 msgid "No template assigned. Aborting"
 msgstr "Nessun template assignato. Aborting"
 
 #. Building the wizard-dialog and showing it
-#: ../geanylatex/src/geanylatex.c:1715
+#: ../geanylatex/src/geanylatex.c:1740
 msgid "LaTeX-Wizard"
 msgstr "LaTeX-Wizard"
 
@@ -1981,68 +2299,68 @@ msgstr "LaTeX-Wizard"
 #. *  Adds custom templates if there are any. If there are none just
 #. *  adds default one
 #. TEMPLATE FILE
-#: ../geanylatex/src/geanylatex.c:1730 ../markdown/src/conf.c:659
+#: ../geanylatex/src/geanylatex.c:1755 ../markdown/src/conf.c:659
 msgid "Template:"
 msgstr "Template:"
 
-#: ../geanylatex/src/geanylatex.c:1734
+#: ../geanylatex/src/geanylatex.c:1759
 msgid "Set the template which should be used for creating the new document"
-msgstr "Imposta il template che dovrà essere usato per creare un nuovo "
-"documento"
+msgstr ""
+"Imposta il template che dovrà essere usato per creare un nuovo documento"
 
-#: ../geanylatex/src/geanylatex.c:1743
+#: ../geanylatex/src/geanylatex.c:1768
 msgid "Default"
 msgstr "Default"
 
 #. Documentclass
-#: ../geanylatex/src/geanylatex.c:1754
+#: ../geanylatex/src/geanylatex.c:1779
 msgid "Documentclass:"
 msgstr "Documentclass:"
 
-#: ../geanylatex/src/geanylatex.c:1757
+#: ../geanylatex/src/geanylatex.c:1782
 msgid "Choose the kind of document you want to write"
 msgstr "Scegli il tipo di documento che vuoi scrivere"
 
-#: ../geanylatex/src/geanylatex.c:1761
+#: ../geanylatex/src/geanylatex.c:1786
 msgid "Article"
 msgstr "Articolo"
 
-#: ../geanylatex/src/geanylatex.c:1763
+#: ../geanylatex/src/geanylatex.c:1788
 msgid "Report"
 msgstr "Report"
 
-#: ../geanylatex/src/geanylatex.c:1765
+#: ../geanylatex/src/geanylatex.c:1790
 msgid "Letter"
 msgstr "Lettera"
 
-#: ../geanylatex/src/geanylatex.c:1767
+#: ../geanylatex/src/geanylatex.c:1792
 msgid "Presentation"
 msgstr "Presentazione"
 
 #. Encoding
-#: ../geanylatex/src/geanylatex.c:1777
+#: ../geanylatex/src/geanylatex.c:1802
 msgid "Encoding:"
 msgstr "Codifica:"
 
-#: ../geanylatex/src/geanylatex.c:1781
+#: ../geanylatex/src/geanylatex.c:1806
 msgid "Set the encoding for your new document"
 msgstr "Imposta la codifica per il tuo nuovo documento"
 
 #. fontsize
-#: ../geanylatex/src/geanylatex.c:1797
+#: ../geanylatex/src/geanylatex.c:1822
 msgid "Font size"
 msgstr "Dimensione testo"
 
-#: ../geanylatex/src/geanylatex.c:1803
+#: ../geanylatex/src/geanylatex.c:1828
 msgid "Set the default font size of your new document"
 msgstr "Imposta la dimensione del testo predefinita per i nuovi documenti"
 
 #. Author
-#: ../geanylatex/src/geanylatex.c:1815
+#: ../geanylatex/src/geanylatex.c:1840
 msgid "Author:"
 msgstr "Autore:"
 
-#: ../geanylatex/src/geanylatex.c:1818
+#: ../geanylatex/src/geanylatex.c:1843
 msgid ""
 "Sets the value of the \\author command. In most cases this should be your "
 "name"
@@ -2051,52 +2369,52 @@ msgstr ""
 "dovrebbe essere il tuo nome."
 
 #. Date
-#: ../geanylatex/src/geanylatex.c:1832
+#: ../geanylatex/src/geanylatex.c:1857
 msgid "Date:"
 msgstr "Data:"
 
-#: ../geanylatex/src/geanylatex.c:1835
+#: ../geanylatex/src/geanylatex.c:1860
 msgid ""
 "Sets the value of the \\date command inside header of your new created LaTeX-"
 "document. Keeping it at \\today is a good decision if you don't need any "
 "fixed date."
 msgstr ""
 "Imposta il valore del comando \\date dentro l'header del tuo nuovo documento "
-"LaTeX. Tieni presente che \\today può essere usato se non hai necessità "
-"di una data fissa."
+"LaTeX. Tieni presente che \\today può essere usato se non hai necessità di "
+"una data fissa."
 
 #. Title of the new document
-#: ../geanylatex/src/geanylatex.c:1847
+#: ../geanylatex/src/geanylatex.c:1872
 msgid "Title:"
 msgstr "Titolo:"
 
-#: ../geanylatex/src/geanylatex.c:1850
+#: ../geanylatex/src/geanylatex.c:1875
 msgid "Sets the title of your new document."
 msgstr "Imposta il titolo del tuo nuovo documento."
 
 #. Papersize
-#: ../geanylatex/src/geanylatex.c:1859
+#: ../geanylatex/src/geanylatex.c:1884
 msgid "Paper size:"
 msgstr "Dimensione pagina:"
 
-#: ../geanylatex/src/geanylatex.c:1862
+#: ../geanylatex/src/geanylatex.c:1887
 msgid "Choose the paper format for the newly created document"
 msgstr "Scegli il formato della pagina per il nuovo documento creato"
 
 #. Paper direction
-#: ../geanylatex/src/geanylatex.c:1875
+#: ../geanylatex/src/geanylatex.c:1900
 msgid "Paper Orientation:"
 msgstr "Orientazione pagina:"
 
-#: ../geanylatex/src/geanylatex.c:1878
+#: ../geanylatex/src/geanylatex.c:1903
 msgid "Choose the paper orientation for the newly created document"
 msgstr "Scegli l'orientamento della pagina per il nuovo documento creato"
 
-#: ../geanylatex/src/geanylatex.c:1899
+#: ../geanylatex/src/geanylatex.c:1924
 msgid "Use KOMA-script classes if possible"
 msgstr "Usa le classi di KOMA-script se possibile"
 
-#: ../geanylatex/src/geanylatex.c:1901
+#: ../geanylatex/src/geanylatex.c:1926
 msgid ""
 "Uses the KOMA-script classes by Markus Kohm.\n"
 "Keep in mind: To compile your document these classes have to be installed "
@@ -2106,11 +2424,11 @@ msgstr ""
 "Tieni presente: per compilare il tuo documento le classi devono essere "
 "installate precedentemente."
 
-#: ../geanylatex/src/geanylatex.c:1908
+#: ../geanylatex/src/geanylatex.c:1933
 msgid "Use draft mode"
 msgstr "Usa modalità bozza"
 
-#: ../geanylatex/src/geanylatex.c:1910
+#: ../geanylatex/src/geanylatex.c:1935
 msgid ""
 "Set the draft flag inside new created documents to get documents with a "
 "number of debugging helpers"
@@ -2118,95 +2436,95 @@ msgstr ""
 "Imposta il flag bozza all'interno dei nuovi documenti per ottenere documenti "
 "con un alcuni aiuti per il debugging"
 
-#: ../geanylatex/src/geanylatex.c:1927
+#: ../geanylatex/src/geanylatex.c:1952
 msgid "Run LaTeX-Wizard"
 msgstr "Esegui LaTeX-Wizard"
 
-#: ../geanylatex/src/geanylatex.c:1929
+#: ../geanylatex/src/geanylatex.c:1954
 msgid "Insert \\label"
 msgstr "Inserisci \\label"
 
-#: ../geanylatex/src/geanylatex.c:1931
+#: ../geanylatex/src/geanylatex.c:1956
 msgid "Insert \\ref"
 msgstr "Inserisci \\ref"
 
-#: ../geanylatex/src/geanylatex.c:1933
+#: ../geanylatex/src/geanylatex.c:1958
 msgid "Insert linebreak \\\\ "
 msgstr "Inserisci fine riga \\\\ "
 
-#: ../geanylatex/src/geanylatex.c:1936
+#: ../geanylatex/src/geanylatex.c:1961
 msgid "Insert command"
 msgstr "Inserisci comando"
 
-#: ../geanylatex/src/geanylatex.c:1938
+#: ../geanylatex/src/geanylatex.c:1963
 msgid "Turn input replacement on/off"
 msgstr "Attiva/Disattiva sostituzione input"
 
-#: ../geanylatex/src/geanylatex.c:1942
+#: ../geanylatex/src/geanylatex.c:1967
 msgid "Replace special characters"
 msgstr "Sostituisci caratteri speciali"
 
-#: ../geanylatex/src/geanylatex.c:1945
+#: ../geanylatex/src/geanylatex.c:1970
 msgid "Run insert environment dialog"
 msgstr "Mostra la finestra di dialogo inserimento ambiente"
 
-#: ../geanylatex/src/geanylatex.c:1947
+#: ../geanylatex/src/geanylatex.c:1972
 msgid "Insert \\item"
 msgstr "Inserisci \\item"
 
-#: ../geanylatex/src/geanylatex.c:1949
+#: ../geanylatex/src/geanylatex.c:1974
 msgid "Format selection in bold font face"
 msgstr "Imposta grassetto su selezione corrente"
 
-#: ../geanylatex/src/geanylatex.c:1951
+#: ../geanylatex/src/geanylatex.c:1976
 msgid "Format selection in italic font face"
 msgstr "Imposta corsivo su selezione corrente"
 
-#: ../geanylatex/src/geanylatex.c:1953
+#: ../geanylatex/src/geanylatex.c:1978
 msgid "Format selection in typewriter font face"
 msgstr "Imposta typewriter su selezione corrente"
 
-#: ../geanylatex/src/geanylatex.c:1955
+#: ../geanylatex/src/geanylatex.c:1980
 msgid "Format selection centered"
 msgstr "Centra la selezione corrente"
 
-#: ../geanylatex/src/geanylatex.c:1957
+#: ../geanylatex/src/geanylatex.c:1982
 msgid "Format selection left-aligned"
 msgstr "Allinea a sinistra la selezione corrente"
 
-#: ../geanylatex/src/geanylatex.c:1959
+#: ../geanylatex/src/geanylatex.c:1984
 msgid "Format selection right-aligned"
 msgstr "Allinea a destra la selezione corrente"
 
-#: ../geanylatex/src/geanylatex.c:1962
+#: ../geanylatex/src/geanylatex.c:1987
 msgid "Insert description list"
 msgstr "Inserisci una lista di descrizione"
 
-#: ../geanylatex/src/geanylatex.c:1965
+#: ../geanylatex/src/geanylatex.c:1990
 msgid "Insert itemize list"
 msgstr "Inserisci elenco puntato"
 
-#: ../geanylatex/src/geanylatex.c:1968
+#: ../geanylatex/src/geanylatex.c:1993
 msgid "Insert enumerate list"
 msgstr "Inserisci elenco numerato"
 
-#: ../geanylatex/src/geanylatex.c:1971
+#: ../geanylatex/src/geanylatex.c:1996
 msgid "Set selection one level up"
 msgstr "Imposta selezione un livello sopra"
 
-#: ../geanylatex/src/geanylatex.c:1974
+#: ../geanylatex/src/geanylatex.c:1999
 msgid "Set selection one level down"
 msgstr "Imposta selezione un livello sotto"
 
-#: ../geanylatex/src/geanylatex.c:1977
+#: ../geanylatex/src/geanylatex.c:2002
 msgid "Insert \\usepackage{}"
 msgstr "Inserisci \\usepackage{}"
 
-#: ../geanylatex/src/geanylatex.c:1980
+#: ../geanylatex/src/geanylatex.c:2005
 msgid "Insert BibTeX reference dialog"
 msgstr "Inserisci riferimento BibTeX"
 
-#: ../geanylatex/src/geanylatex.c:1987
+#: ../geanylatex/src/geanylatex.c:2012
 msgid ""
 "GeanyLaTeX is a plugin to improve support for LaTeX in Geany.\n"
 "\n"
@@ -2214,10 +2532,10 @@ msgid ""
 msgstr ""
 "GeanyLaTeX è un plugin per migliorare il supporto LaTeX in Geany.\n"
 "\n"
-"Riporta tutti gli eventuali bug o richieste di nuove funzionalità a "
-"uno degli autori."
+"Riporta tutti gli eventuali bug o richieste di nuove funzionalità a uno "
+"degli autori."
 
-#: ../geanylatex/src/geanylatex.c:2025
+#: ../geanylatex/src/geanylatex.c:2050
 msgid ""
 "glatex_set_autocompletion_contextsize has been initialized with an invalid "
 "value. Default value taken. Please check your configuration file"
@@ -2226,117 +2544,117 @@ msgstr ""
 "non valido. Saranno usati i valori di default, si prega di controllare il "
 "file di configurazione."
 
-#: ../geanylatex/src/geanylatex.c:2047 ../geanylatex/src/geanylatex.c:2054
+#: ../geanylatex/src/geanylatex.c:2072 ../geanylatex/src/geanylatex.c:2079
 msgid "page \\pageref{{{reference}}}"
 msgstr "pagina \\pageref{{{reference}}}"
 
-#: ../geanylatex/src/geanylatex.c:2051 ../geanylatex/src/geanylatex.c:2058
+#: ../geanylatex/src/geanylatex.c:2076 ../geanylatex/src/geanylatex.c:2083
 msgid "\\ref{{{reference}}}, page \\pageref{{{reference}}}"
 msgstr "\\ref{{{reference}}}, pagina \\pageref{{{reference}}}"
 
 #. Build up menu for menubar
-#: ../geanylatex/src/geanylatex.c:2106
+#: ../geanylatex/src/geanylatex.c:2131
 msgid "_LaTeX"
 msgstr "_LaTeX"
 
 #. Filling up menubar menus
 #. LaTeX menu
-#: ../geanylatex/src/geanylatex.c:2115 ../geanylatex/src/geanylatex.c:2327
+#: ../geanylatex/src/geanylatex.c:2140 ../geanylatex/src/geanylatex.c:2352
 msgid "LaTeX-_Wizard"
 msgstr "LaTeX-_Wizard"
 
-#: ../geanylatex/src/geanylatex.c:2118 ../geanylatex/src/geanylatex.c:2330
+#: ../geanylatex/src/geanylatex.c:2143 ../geanylatex/src/geanylatex.c:2355
 msgid "Starts a Wizard to easily create LaTeX-documents"
 msgstr "Avvia un Wizard per creare facilemente documenti LaTeX"
 
-#: ../geanylatex/src/geanylatex.c:2123
+#: ../geanylatex/src/geanylatex.c:2148
 msgid "I_nsert Special Character"
 msgstr "I_nserisci Carattere Speciale"
 
-#: ../geanylatex/src/geanylatex.c:2125
+#: ../geanylatex/src/geanylatex.c:2150
 msgid "Helps to use some not very common letters and signs"
 msgstr "Aiuta non usare molto lettere e segni non comuni."
 
-#: ../geanylatex/src/geanylatex.c:2135
+#: ../geanylatex/src/geanylatex.c:2160
 msgid "Insert _Reference"
 msgstr "Inserisci _Riferimento"
 
-#: ../geanylatex/src/geanylatex.c:2137
+#: ../geanylatex/src/geanylatex.c:2162
 msgid "Inserting references to the document"
 msgstr "Inserimento riferimenti al documento"
 
-#: ../geanylatex/src/geanylatex.c:2142
+#: ../geanylatex/src/geanylatex.c:2167
 msgid "Insert _Label"
 msgstr "Inserisci _Etichetta"
 
-#: ../geanylatex/src/geanylatex.c:2144
+#: ../geanylatex/src/geanylatex.c:2169
 msgid "Helps at inserting labels to a document"
 msgstr "Aiuta a inserire etichette al documento"
 
-#: ../geanylatex/src/geanylatex.c:2150
+#: ../geanylatex/src/geanylatex.c:2175
 msgid "Insert _Environment"
 msgstr "Inserisci _Ambiente"
 
-#: ../geanylatex/src/geanylatex.c:2152
+#: ../geanylatex/src/geanylatex.c:2177
 msgid "Helps at inserting an environment a document"
 msgstr "Aiuta a inserire un ambiente al documento"
 
-#: ../geanylatex/src/geanylatex.c:2158
+#: ../geanylatex/src/geanylatex.c:2183
 msgid "Insert P_ackage"
 msgstr "Inserisci _Package"
 
-#: ../geanylatex/src/geanylatex.c:2160
+#: ../geanylatex/src/geanylatex.c:2185
 msgid "A small dialog to insert \\usepackage{} into header of current file"
 msgstr ""
-"Un piccolo dialogo per inserire \\usepackage{} dentro l'header "
-"del file corrente"
+"Un piccolo dialogo per inserire \\usepackage{} dentro l'header del file "
+"corrente"
 
-#: ../geanylatex/src/geanylatex.c:2165 ../scope/data/scope.glade.h:58
+#: ../geanylatex/src/geanylatex.c:2190 ../scope/data/scope.glade.h:58
 msgid "_Format"
 msgstr "_Formato"
 
 #. Add font size menu
-#: ../geanylatex/src/geanylatex.c:2182
+#: ../geanylatex/src/geanylatex.c:2207
 msgid "F_ont size"
 msgstr "_Dimensione Testo"
 
-#: ../geanylatex/src/geanylatex.c:2200
+#: ../geanylatex/src/geanylatex.c:2225
 msgid "_Special Character Replacement"
 msgstr "_Sostituzione Carattere Speciale"
 
-#: ../geanylatex/src/geanylatex.c:2208
+#: ../geanylatex/src/geanylatex.c:2233
 msgid "Bulk _Replace Special Characters"
 msgstr "Amplia _Sostituzione Caratteri Speciali"
 
-#: ../geanylatex/src/geanylatex.c:2210
+#: ../geanylatex/src/geanylatex.c:2235
 msgid "_Replace selected special characters with TeX substitutes"
 msgstr "_Sostituisci i caratteri speciali con sostituti TeX"
 
-#: ../geanylatex/src/geanylatex.c:2218
+#: ../geanylatex/src/geanylatex.c:2243
 msgid "Toggle _Special Character Replacement"
 msgstr "A_ttiva/Disattiva sostituzione caratteri speciali"
 
-#: ../geanylatex/src/geanylatex.c:2229
+#: ../geanylatex/src/geanylatex.c:2254
 msgid "Insert _Command"
 msgstr "Inserisci _Comando"
 
-#: ../geanylatex/src/geanylatex.c:2231
+#: ../geanylatex/src/geanylatex.c:2256
 msgid "Inserting customized command to document"
 msgstr "Inserisci un comando personalizzato al documento"
 
-#: ../geanylatex/src/geanylatex.c:2256
+#: ../geanylatex/src/geanylatex.c:2281
 msgid "_BibTeX"
 msgstr "_BibTeX"
 
-#: ../geanylatex/src/geanylatex.c:2264
+#: ../geanylatex/src/geanylatex.c:2289
 msgid "Insert B_ibTeX reference"
 msgstr "Inserisci riferimento B_ibTeX"
 
-#: ../geanylatex/src/geanylatex.c:2266
+#: ../geanylatex/src/geanylatex.c:2291
 msgid "Helps to insert a reference out of BibTeX files"
 msgstr "Aiuta a inserire un riferimento fuori dai BibTeX file"
 
-#: ../geanylatex/src/geanylatex.c:2271
+#: ../geanylatex/src/geanylatex.c:2296
 msgid "_BibTeX entries"
 msgstr "voce _BibTeX"
 
@@ -2513,7 +2831,7 @@ msgstr "Includi uno Pseudotext al tuo codice"
 msgid "Insert Lipsum text"
 msgstr "Inserisci testo Lipsum"
 
-#: ../geanylua/glspi.h:100 ../geanylua/gsdlg_lua.c:95
+#: ../geanylua/glspi.h:87 ../geanylua/gsdlg_lua.c:95
 #: ../geanylua/glspi_kfile.c:54
 #, c-format
 msgid ""
@@ -2523,8 +2841,7 @@ msgstr ""
 "Errore nel modulo \"%s\" alla funzione %s():\n"
 " atteso tipo \"%s\" per l'argomento #%d\n"
 
-
-#: ../geanylua/glspi.h:114
+#: ../geanylua/glspi.h:101
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2533,7 +2850,7 @@ msgstr ""
 "Errore nel modulo \"%s\" alla funzione %s():\n"
 " atteso tipo \"%s\" or \"%s\" per l'argomento #%d\n"
 
-#: ../geanylua/glspi.h:128 ../geanylua/gsdlg_lua.c:108
+#: ../geanylua/glspi.h:115 ../geanylua/gsdlg_lua.c:108
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2600,20 +2917,20 @@ msgstr "Impossibile aprire il file dello script."
 msgid "Unknown error while loading script file."
 msgstr "Errore sconosciuto leggendo il file dello script."
 
-#: ../geanylua/glspi_init.c:381
+#: ../geanylua/glspi_init.c:382
 msgid "_Lua Scripts"
 msgstr "_Lua Scripts"
 
-#: ../geanylua/glspi_init.c:428
+#: ../geanylua/glspi_init.c:427
 #, c-format
 msgid "     ==>> %s: Building menu from '%s'\n"
 msgstr "     ==>> %s: Costruendo menu da '%s'\n"
 
-#: ../geanylua/glspi_init.c:527
+#: ../geanylua/glspi_init.c:526
 msgid "Nothing to configure!"
 msgstr "Niente da configurare!"
 
-#: ../geanylua/glspi_init.c:529
+#: ../geanylua/glspi_init.c:528
 #, c-format
 msgid ""
 "You can create the script:\n"
@@ -2656,7 +2973,7 @@ msgstr "Seleziona Font"
 msgid "Select..."
 msgstr "Seleziona..."
 
-#: ../geanylua/glspi_sci.c:427
+#: ../geanylua/glspi_sci.c:426
 #, c-format
 msgid ""
 "Error in module \"%s\" at function navigate():\n"
@@ -2665,7 +2982,7 @@ msgstr ""
 "Errore nel modulo \"%s\" alla funzione navigate():\n"
 "navigation mode sconosciuta \"%s\" per l'argomento #1.\n"
 
-#: ../geanylua/glspi_sci.c:603
+#: ../geanylua/glspi_sci.c:602
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2674,7 +2991,7 @@ msgstr ""
 "Errore nel modulo \"%s\" alla funzione %s():\n"
 "Comando API \"%s\" non implementato.\n"
 
-#: ../geanylua/glspi_sci.c:614
+#: ../geanylua/glspi_sci.c:613
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2683,7 +3000,7 @@ msgstr ""
 "Errore nel modulo \"%s\" alla funzione %s():\n"
 "parametri non sufficienti per il comando \"%s\".\n"
 
-#: ../geanylua/glspi_sci.c:652 ../geanylua/glspi_app.c:396
+#: ../geanylua/glspi_sci.c:651 ../geanylua/glspi_app.c:403
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2692,7 +3009,7 @@ msgstr ""
 "Errore nel modulo \"%s\" alla funzione %s():\n"
 "comando sconosciuto \"%s\" per l'argomento #1.\n"
 
-#: ../geanylua/glspi_sci.c:794
+#: ../geanylua/glspi_sci.c:795
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2703,7 +3020,7 @@ msgstr ""
 " tabella non valida nell'argomento #%d:\n"
 " flag \"%s\" sconosciuto per l'elemento #%d\n"
 
-#: ../geanylua/glspi_sci.c:798
+#: ../geanylua/glspi_sci.c:799
 msgid "<too large to display>"
 msgstr "<troppo grande da visualizzare>"
 
@@ -2723,7 +3040,7 @@ msgstr "conferma"
 msgid "Save file"
 msgstr "Salva file"
 
-#: ../geanylua/glspi_dlg.c:436
+#: ../geanylua/glspi_dlg.c:438
 #, c-format
 msgid ""
 "Error in module \"%s\" at function pickfile():\n"
@@ -2732,7 +3049,7 @@ msgstr ""
 "Errore nel modulo \"%s\" alla funzione pickfile():\n"
 "impossibile effettuare parse filter string all'argomento #3.\n"
 
-#: ../geanylua/glspi_dlg.c:486
+#: ../geanylua/glspi_dlg.c:489
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2741,36 +3058,36 @@ msgstr ""
 "Errore nel modulo \"%s\" alla funzione %s():\n"
 "attesa stringa \"open\" o \"save\" per l'argomento #1.\n"
 
-#: ../geanylua/geanylua.c:163
+#: ../geanylua/geanylua.c:156
 #, c-format
 msgid "%s: Can't load support library %s!\n"
 msgstr "%s: impossibile caricare la libreria di support %s!\n"
 
-#: ../geanylua/geanylua.c:175
+#: ../geanylua/geanylua.c:168
 #, c-format
 msgid "%s: Failed to initialize support library %s!\n"
 msgstr "%s: impossibile inizalizzare la libreria di supporto %s!\n"
 
-#: ../geanylua/geanylua.c:180
+#: ../geanylua/geanylua.c:173
 #, c-format
 msgid "%s: Support library version mismatch: %s for %s (should be %s)!\n"
 msgstr ""
-"%s: versione della libreria di supporto errata: %s per %s "
-"(dovrebbe essere %s)!\n"
+"%s: versione della libreria di supporto errata: %s per %s (dovrebbe essere "
+"%s)!\n"
 
-#: ../geanylua/geanylua.c:186
+#: ../geanylua/geanylua.c:179
 #, c-format
 msgid "%s: Support library ABI mismatch: %d for %s (should be %d)!\n"
 msgstr ""
-"%s: versione ABI della libreria di supporto errata: %d per %s "
-"(dovrebbe essere %d)!\n"
+"%s: versione ABI della libreria di supporto errata: %d per %s (dovrebbe "
+"essere %d)!\n"
 
-#: ../geanylua/geanylua.c:215
+#: ../geanylua/geanylua.c:208
 #, c-format
 msgid "%s: Can't find support library %s!\n"
 msgstr "%s: impossibile trovare la libreira %s!\n"
 
-#: ../geanylua/geanylua.c:234
+#: ../geanylua/geanylua.c:227
 #, c-format
 msgid ""
 "The %s plugin failed to load properly.\n"
@@ -2788,7 +3105,7 @@ msgstr ""
 "%s %s: %s\n"
 "Copyright (c) 2007-2010 "
 
-#: ../geanylua/glspi_app.c:151
+#: ../geanylua/glspi_app.c:149
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2797,7 +3114,7 @@ msgstr ""
 "Errore nel modulo \"%s\" alla funzione %s():\n"
 "il widget \"%s\" non è stato trovato per il argomento #1.\n"
 
-#: ../geanylua/glspi_app.c:160
+#: ../geanylua/glspi_app.c:158
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s() argument #2:\n"
@@ -2951,8 +3268,8 @@ msgid ""
 "Move Cursor to 1st non-whitespace character of line, or 1st character of "
 "line if already at 1st non-whitespace character"
 msgstr ""
-"Muovi il cursore al primo carattere della linea (non spazio) oppure al "
-"primo carattere della linea se già il primo carattere non è spazio"
+"Muovi il cursore al primo carattere della linea (non spazio) oppure al primo "
+"carattere della linea se già il primo carattere non è spazio"
 
 #: ../geanymacro/src/geanymacro.c:95
 msgid "Move Cursor to beginning of next paragraph"
@@ -3039,8 +3356,8 @@ msgid ""
 "Extend Selection to 1st non-whitespace character of line, or 1st character "
 "of line if already at 1st non-whitespace character"
 msgstr ""
-"Estendi la selezione al primo carattere di una linea (non spazio) oppure "
-"al primo carattere della linea se già il primo carattere non è spazio"
+"Estendi la selezione al primo carattere di una linea (non spazio) oppure al "
+"primo carattere della linea se già il primo carattere non è spazio"
 
 #: ../geanymacro/src/geanymacro.c:118
 msgid "Extend Selection to beginning of next paragraph"
@@ -3096,8 +3413,8 @@ msgid ""
 "character of line if already at 1st non-whitespace character"
 msgstr ""
 "Estendi la selezione rettangolare al primo carattere di una linea (non "
-"spazio) oppure al primo carattere della linea se già il primo carattere non è spazio"
-
+"spazio) oppure al primo carattere della linea se già il primo carattere non "
+"è spazio"
 
 #: ../geanymacro/src/geanymacro.c:134
 msgid "Cancel Selection"
@@ -3198,7 +3515,6 @@ msgstr ""
 "Questo Plugin implementa le Macro in Geany.\n"
 "\n"
 
-
 #: ../geanymacro/src/geanymacro.c:856
 msgid "This plugin allows you to record and use your own macros. "
 msgstr "Questo plugin ti permette di registrare e usare macro personalizzate."
@@ -3217,10 +3533,9 @@ msgid ""
 "characters, you could simply start recording, press End, Backspace, "
 "Backspace, down line and then stop recording. "
 msgstr ""
-"Se hai dozzine di righe di cui vuoi eliminare gli ultimi due caratteri, "
-"puoi semplicemente avviare la registrazione, premere End, Backspace, "
-"Backspace, scendere di una riga e poi fermare la registrazione. "
-
+"Se hai dozzine di righe di cui vuoi eliminare gli ultimi due caratteri, puoi "
+"semplicemente avviare la registrazione, premere End, Backspace, Backspace, "
+"scendere di una riga e poi fermare la registrazione. "
 
 #: ../geanymacro/src/geanymacro.c:860
 msgid ""
@@ -3259,13 +3574,14 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:867
 msgid "Simply pressing the specified key combination will re-run the macro. "
-msgstr "" 
-"Semplicemente premi la combinazioni tasti specificata per rieseguire "
-"la macro. "
+msgstr ""
+"Semplicemente premi la combinazioni tasti specificata per rieseguire la "
+"macro. "
 
 #: ../geanymacro/src/geanymacro.c:868
 msgid "To edit the macros you have, select Edit Macro from the Tools menu. "
-msgstr "Per modificare la macro devi selezionare Modifica Macro dal menu Strumenti"
+msgstr ""
+"Per modificare la macro devi selezionare Modifica Macro dal menu Strumenti"
 
 #: ../geanymacro/src/geanymacro.c:869
 msgid "You can select a macro and delete it, or re-record it. "
@@ -3277,7 +3593,8 @@ msgid ""
 "and re-define that assuming that it's not already in use. "
 msgstr ""
 "Puoi anche cliccare sul nome della macro o sulla combinazione tasti e "
-"cambiarli, prestando attenzione che le nuove impostazioni non siano già in uso" 
+"cambiarli, prestando attenzione che le nuove impostazioni non siano già in "
+"uso"
 
 #: ../geanymacro/src/geanymacro.c:872
 msgid ""
@@ -3295,8 +3612,8 @@ msgid ""
 "\n"
 msgstr ""
 "Puoi selezionare un comando differente per ogni elemento, spostarlo, "
-"aggiungerne uno nuovo, eliminarlo o sostituirlo, puoi anche modificare "
-"il testo che sostituisce il testo selezionato o inserito.\n"
+"aggiungerne uno nuovo, eliminarlo o sostituirlo, puoi anche modificare il "
+"testo che sostituisce il testo selezionato o inserito.\n"
 
 #: ../geanymacro/src/geanymacro.c:878
 msgid ""
@@ -3306,7 +3623,8 @@ msgid ""
 msgstr ""
 "L'unica cosa da tenere ben in mente è che i comandi 'annulla' e 'ripeti' "
 "quindi non sono registrati e non possono essere replicati quando la macro "
-"viene eseguita. \n\n"
+"viene eseguita. \n"
+"\n"
 
 #: ../geanymacro/src/geanymacro.c:881
 msgid ""
@@ -3315,9 +3633,7 @@ msgid ""
 "Preferences. "
 msgstr ""
 "Puoi modificare il comportamento di questo plugin selezionando Plugin "
-"Manager nel menu Strumenti, selezionare il plugin, e cliccando "
-"Preferenze. "
-
+"Manager nel menu Strumenti, selezionare il plugin, e cliccando Preferenze. "
 
 #: ../geanymacro/src/geanymacro.c:883
 msgid "You can change:\n"
@@ -3343,9 +3659,9 @@ msgid ""
 msgstr ""
 "Chiedi prima di sovrascrivere Macro esistenti - Se è selezionato se provi a "
 "registrare una macro sopra una esistente, ti verrà chiesto se vuoi provare "
-"con un nome o combinazione di tasti diversa, altrimenti eliminerà semplicemente"
-"qualsiasi macro già esistente con lo stesso nome o con la stessa combinazione "
-"di tasti."
+"con un nome o combinazione di tasti diversa, altrimenti eliminerà "
+"semplicementequalsiasi macro già esistente con lo stesso nome o con la "
+"stessa combinazione di tasti."
 
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:1057
@@ -3409,6 +3725,7 @@ msgstr "_Ok"
 
 #: ../geanymacro/src/geanymacro.c:1394 ../geanymacro/src/geanymacro.c:1537
 #: ../geanymacro/src/geanymacro.c:1827
+#: ../projectorganizer/src/prjorg-sidebar.c:292
 msgid "_Cancel"
 msgstr "_Annulla"
 
@@ -3424,10 +3741,6 @@ msgstr "Cerca precedente"
 #: ../geanymacro/src/geanymacro.c:1410
 msgid "Search for contents of clipboard"
 msgstr "Cerca contenuto negli appunti"
-
-#: ../geanymacro/src/geanymacro.c:1424 ../projectorganizer/src/prjorg-sidebar.c:93
-msgid "Search for:"
-msgstr "Cerca per:"
 
 #. create checkbox to check for search options
 #: ../geanymacro/src/geanymacro.c:1442
@@ -3662,8 +3975,8 @@ msgstr "Mini Script"
 msgid ""
 "A tool to apply a script filter on a text selection or current document(s)"
 msgstr ""
-"Uno strumento per applicare uno script filtro a una selezione di testo o "
-"ai documenti correnti."
+"Uno strumento per applicare uno script filtro a una selezione di testo o ai "
+"documenti correnti."
 
 #: ../geanyminiscript/src/gms.c:60
 msgid "Pascal BURLOT, a Geany user"
@@ -3679,7 +3992,7 @@ msgid "Numbered Bookmarks for Geany"
 msgstr "Segnalibri numerati per Geany"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:927
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Unable to apply all markers to '%s' as all being used."
 msgstr "Impossibile applicare tutti i marcatori a '%s' come tutti in uso."
 
@@ -3760,18 +4073,18 @@ msgid ""
 "shown, but you can have more than one bookmark per line. To move to a "
 "previously set bookmark, press Ctrl+a number from 0 to 9."
 msgstr ""
-"Questo Plugin implementa i Segnalibri Numerati in Geany, lo stato delle espansioni "
-"e contrazioni del codice e le posizioni dei segnalibri standard non numerati "
-"questo il file viene salvato.\n"
+"Questo Plugin implementa i Segnalibri Numerati in Geany, lo stato delle "
+"espansioni e contrazioni del codice e le posizioni dei segnalibri standard "
+"non numerati questo il file viene salvato.\n"
 "\n"
 "Ti permette di usare fino a 10 segnalibri numerati. Per avere un sengalibro "
 "numerato premi Ctrl+Shift+ un numero da 0 a 9. Vedrai un simbolo comparire "
-"vicino al numero della riga. Se premi Ctrl+Shift+ un numero su una riga "
-"che ne ha già quel numero, quel segnalibro sarà rimosso, altrimenti si "
-"sposterà da un'altra riga (se esiste) oppure verrà creato. Solo l'ultimo "
-"segnalibro inserito su ogni riga verrà visualizzato, ma puoi avere più "
-"segnalibri per linea. Per muoverti a un segnalibro precedentemente impostato "
-"premi Ctrl+un numero da 0 a 9."
+"vicino al numero della riga. Se premi Ctrl+Shift+ un numero su una riga che "
+"ne ha già quel numero, quel segnalibro sarà rimosso, altrimenti si sposterà "
+"da un'altra riga (se esiste) oppure verrà creato. Solo l'ultimo segnalibro "
+"inserito su ogni riga verrà visualizzato, ma puoi avere più segnalibri per "
+"linea. Per muoverti a un segnalibro precedentemente impostato premi Ctrl+un "
+"numero da 0 a 9."
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1395
 #, fuzzy
@@ -3795,8 +4108,8 @@ msgid ""
 msgstr ""
 "La chiave con user ID \"%s\" ha validità \"%s\".\n"
 "\n"
-"ATTENZIONE: Non è certo che appartiene alla persona indicata nello user ID. "
-"\n"
+"ATTENZIONE: Non è certo che appartiene alla persona indicata nello user "
+"ID. \n"
 "\n"
 "Sei *davvero* sicuro di voler usare questa chiave comunque?"
 
@@ -3895,15 +4208,15 @@ msgid ""
 "Error, Passphrase input without using gpg-agent is not supported on Windows "
 "yet."
 msgstr ""
-"Errore, l'input di parola chiave senza usare un gpg-agent non è ancora supportato "
-"su Windows"
+"Errore, l'input di parola chiave senza usare un gpg-agent non è ancora "
+"supportato su Windows"
 
 #: ../geanypg/src/verify_aux.c:53
 msgid "a key with fingerprint"
 msgstr "una chiave con fingerprint"
 
-#: ../geanypg/src/verify_aux.c:66 ../spellcheck/src/gui.c:527
-#: ../spellcheck/src/gui.c:538
+#: ../geanypg/src/verify_aux.c:66 ../spellcheck/src/gui.c:542
+#: ../spellcheck/src/gui.c:553
 msgid "unknown"
 msgstr "sconosciuto"
 
@@ -3976,7 +4289,11 @@ msgstr " policy errata"
 msgid " sys-error"
 msgstr " errore sistema"
 
-#: ../geanypg/src/verify_aux.c:96
+#: ../geanypg/src/verify_aux.c:103 ../geanypg/src/verify_aux.c:108
+msgid "Unknown\n"
+msgstr "Sconosciuto\n"
+
+#: ../geanypg/src/verify_aux.c:111
 #, c-format
 msgid ""
 "status ....: %s\n"
@@ -4003,76 +4320,65 @@ msgstr ""
 "altri flags:%s%s\n"
 "note .: %s\n"
 
-#: ../geanypg/src/verify_aux.c:119 ../geanypg/src/verify_aux.c:124
-msgid "Unknown\n"
-msgstr "Sconosciuto\n"
-
-#: ../geanypg/src/verify_aux.c:129 ../geanypg/src/verify_aux.c:136
-#: ../geanypg/src/verify_aux.c:147 ../geanypg/src/verify_aux.c:154
+#: ../geanypg/src/verify_aux.c:126 ../geanypg/src/verify_aux.c:133
 msgid "[None]"
 msgstr "[Nessuno]"
 
-#: ../geanypg/src/verify_aux.c:134 ../geanypg/src/verify_aux.c:135
-#: ../geanypg/src/verify_aux.c:152 ../geanypg/src/verify_aux.c:153
+#: ../geanypg/src/verify_aux.c:131 ../geanypg/src/verify_aux.c:132
 msgid "Unknown"
 msgstr "Sconosciuto"
 
-#: ../geanypg/src/verify_aux.c:137 ../geanypg/src/verify_aux.c:155
+#: ../geanypg/src/verify_aux.c:134
 msgid "n/a"
 msgstr "n.d."
 
-#: ../geanypg/src/verify_aux.c:137 ../geanypg/src/verify_aux.c:155
+#: ../geanypg/src/verify_aux.c:134
 msgid "bad"
 msgstr "errato"
 
-#: ../geanypg/src/verify_aux.c:137 ../geanypg/src/verify_aux.c:155
+#: ../geanypg/src/verify_aux.c:134
 msgid "okay"
 msgstr "okay"
 
-#: ../geanypg/src/verify_aux.c:137 ../geanypg/src/verify_aux.c:155
+#: ../geanypg/src/verify_aux.c:134
 msgid "RFU"
 msgstr "RFU"
 
-#: ../geanypg/src/verify_aux.c:138 ../geanypg/src/verify_aux.c:156
+#: ../geanypg/src/verify_aux.c:135
 msgid " wrong-key-usage"
 msgstr " uso-chiave-errato"
 
-#: ../geanypg/src/verify_aux.c:139 ../geanypg/src/verify_aux.c:156
+#: ../geanypg/src/verify_aux.c:135
 msgid " chain-model"
 msgstr " chain-model"
 
-#: ../geanypg/src/verify_aux.c:140 ../geanypg/src/verify_aux.c:157
+#: ../geanypg/src/verify_aux.c:136
 msgid "yes"
 msgstr "sì"
 
-#: ../geanypg/src/verify_aux.c:140 ../geanypg/src/verify_aux.c:157
+#: ../geanypg/src/verify_aux.c:136
 msgid "no"
 msgstr "no"
 
-#: ../geanypg/src/verify_aux.c:175
+#: ../geanypg/src/verify_aux.c:153
 msgid "Found a signature from"
 msgstr "Cerca una firma da"
 
-#: ../geanypg/src/verify_aux.c:178
+#: ../geanypg/src/verify_aux.c:156
 msgid "Signature"
 msgstr "Firma"
 
-#: ../geanypg/src/verify_aux.c:201
+#: ../geanypg/src/verify_aux.c:179
 msgid "Could not find verification results"
 msgstr "Impossibile trovare risultati della verifica"
 
-#: ../geanypg/src/verify_aux.c:202
+#: ../geanypg/src/verify_aux.c:180
 msgid "Error, could not find verification results"
 msgstr "Errore, impossibile trovare risultati della verifica"
 
 #: ../geanypg/src/verify_cb.c:27
 msgid "Open a signature file"
 msgstr "Apri un file firma"
-
-#: ../geanyprj/src/geanyprj.c:38 ../geanyprj/src/sidebar.c:456
-#: ../projectorganizer/src/prjorg-sidebar.c:849
-msgid "Project"
-msgstr "Progetto"
 
 #: ../geanyprj/src/geanyprj.c:38
 msgid "Alternative project support."
@@ -4122,8 +4428,8 @@ msgid ""
 "project filename."
 msgstr ""
 "Directory base di tutti i file che compongono il progetto. Questo può essere "
-"un nuovo percorso o uno già esistente. Puoi usare anche percorsi relativi "
-"al file del progetto."
+"un nuovo percorso o uno già esistente. Puoi usare anche percorsi relativi al "
+"file del progetto."
 
 #: ../geanyprj/src/menu.c:163
 msgid "Choose Project Base Path"
@@ -4139,11 +4445,10 @@ msgid ""
 "automatically. You can't manually add/remove files if you checked this "
 "option, since your modification will be lost on on next project load"
 msgstr ""
-"Aggiunge automaticamente i file che corrispondono al tipo progetto all'"
-"apertura di quest'ultimo. Non puoi manualmente aggiungere/rimuovere file "
+"Aggiunge automaticamente i file che corrispondono al tipo progetto "
+"all'apertura di quest'ultimo. Non puoi manualmente aggiungere/rimuovere file "
 "se selezioni questa opzione, perché le tue modifiche andranno perse alla "
 "prossima apertura del progetto."
-
 
 #: ../geanyprj/src/menu.c:180
 msgid "Type:"
@@ -4178,54 +4483,58 @@ msgstr "Cerca nel progetto"
 msgid "Remove File"
 msgstr "Rimuovi file"
 
-#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:828
+#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1389
 msgid "H_ide Sidebar"
 msgstr "Nascond_i barra laterale"
 
-#: ../geanyprj/src/xproject.c:96
+#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1410
+msgid "Project"
+msgstr "Progetto"
+
+#: ../geanyprj/src/xproject.c:94
 #, c-format
 msgid "Project \"%s\" opened."
 msgstr "Progetto \"%s\" aperto."
 
-#: ../geanypy/src/geanypy-plugin.c:34
+#: ../geanypy/src/geanypy-plugin.c:38
 msgid "GeanyPy"
 msgstr "GeanyPy"
 
-#: ../geanypy/src/geanypy-plugin.c:35
+#: ../geanypy/src/geanypy-plugin.c:39
 msgid "Python plugins support"
 msgstr "Supporto plugins in Python"
 
-#: ../geanypy/src/geanypy-plugin.c:77
+#: ../geanypy/src/geanypy-plugin.c:81
 #, c-format
 msgid "Unable to pre-load Python library: %s."
 msgstr "Impossibile 'pre-load' sulla libreria Python: %s."
 
-#: ../geanypy/src/geanypy-plugin.c:157
+#: ../geanypy/src/geanypy-plugin.c:161
 msgid "Failed to import manager module"
 msgstr "Impossibile importare modulo 'manager'"
 
-#: ../geanypy/src/geanypy-plugin.c:166
+#: ../geanypy/src/geanypy-plugin.c:170
 msgid "Failed to retrieve PluginManager from manager module"
 msgstr "Impossibile ottenere PluginManager da modulo 'manager'"
 
-#: ../geanypy/src/geanypy-plugin.c:182
+#: ../geanypy/src/geanypy-plugin.c:186
 msgid "System plugin directory not found."
 msgstr "Impossibile trovare la directory di sistema per i plugin."
 
-#: ../geanypy/src/geanypy-plugin.c:211
+#: ../geanypy/src/geanypy-plugin.c:215
 msgid "Unable to instantiate new PluginManager"
 msgstr "Impossibile instanziare new PluginManager"
 
-#: ../geanypy/src/geanypy-plugin.c:227
+#: ../geanypy/src/geanypy-plugin.c:231
 msgid "Unable to get show_all() method on plugin manager"
 msgstr "Impossibile ottenere show_all() sul plugin manager"
 
-#: ../geanypy/src/geanypy-plugin.c:255
+#: ../geanypy/src/geanypy-plugin.c:259
 #, c-format
 msgid "Unable to create Python plugins directory: %s: %s"
 msgstr "Impossibile creare la Python plugins directory: %s: %s"
 
-#: ../geanypy/src/geanypy-plugin.c:266
+#: ../geanypy/src/geanypy-plugin.c:270
 msgid "Python Plugin Manager"
 msgstr "Python Plugin Manager"
 
@@ -4238,8 +4547,8 @@ msgid ""
 "A little plugin to send the current file as attachment by user's favorite "
 "mailer"
 msgstr ""
-"Un picolo plugin per inviare il file corrente come allegato del programma "
-"di posta preferito"
+"Un picolo plugin per inviare il file corrente come allegato del programma di "
+"posta preferito"
 
 #: ../geanysendmail/src/geanysendmail.c:98
 msgid "Recipient's Address"
@@ -4251,7 +4560,8 @@ msgstr "Inserisci l'email del destinatario:"
 
 #: ../geanysendmail/src/geanysendmail.c:138
 msgid "Filename placeholder not found. The executed command might have failed."
-msgstr "Segnaposto nome file non trovato. Il comando eseguito potrebbe aver fallito."
+msgstr ""
+"Segnaposto nome file non trovato. Il comando eseguito potrebbe aver fallito."
 
 #: ../geanysendmail/src/geanysendmail.c:144
 msgid ""
@@ -4263,7 +4573,8 @@ msgstr ""
 
 #: ../geanysendmail/src/geanysendmail.c:159
 msgid "Could not execute mailer. Please check your configuration."
-msgstr "Impossibile eseguire il gestore mail. Controlla la tua configurazione. "
+msgstr ""
+"Impossibile eseguire il gestore mail. Controlla la tua configurazione. "
 
 #: ../geanysendmail/src/geanysendmail.c:168
 msgid "Please define a mail client first."
@@ -4310,7 +4621,8 @@ msgstr "Visualizza icona nella toolbar"
 
 #: ../geanysendmail/src/geanysendmail.c:332
 msgid "Shows a icon in the toolbar to send file more easy."
-msgstr "Visualizza un'icona nella toolbar per inviare il file più semplicemente."
+msgstr ""
+"Visualizza un'icona nella toolbar per inviare il file più semplicemente."
 
 #: ../geanysendmail/src/geanysendmail.c:338
 msgid "Use dialog for entering email address of recipients"
@@ -4329,8 +4641,8 @@ msgstr "Documento _mail"
 msgid ""
 "Sends the opened file as unzipped attachment by any mailer from your $PATH"
 msgstr ""
-"Invia un file aperto come allegato non compresso da qualsiasi programma "
-"dal tuo $PATH"
+"Invia un file aperto come allegato non compresso da qualsiasi programma dal "
+"tuo $PATH"
 
 #: ../geanyvc/src/geanyvc.c:53
 msgid "GeanyVC"
@@ -4390,8 +4702,9 @@ msgid ""
 "To view the differences, cancel this dialog and open the differences in "
 "Geany directly by using the GeanyVC menu (Base Directory -> Diff)."
 msgstr ""
-"Le differenze risultanti non possono essere visualizzare perché i cambiamenti "
-"sono troppo grandi da mostrare e rallenterebbero eccessivamente l'interfaccia.\n"
+"Le differenze risultanti non possono essere visualizzare perché i "
+"cambiamenti sono troppo grandi da mostrare e rallenterebbero eccessivamente "
+"l'interfaccia.\n"
 "\n"
 "Per vedere le differenze, chiudere questa finestra ed aprirle in Geany "
 "tramite in menu GeanyVC (Directory Base -> Diff)."
@@ -4444,8 +4757,8 @@ msgid ""
 "Error while setting up language for spellchecking. Please check "
 "configuration. Error message was: %s"
 msgstr ""
-"Errore mentre la lingua del controllo ortografia veniva impostata. Si "
-"prega di controllare la configurazione. Messaggio di errore: %s"
+"Errore mentre la lingua del controllo ortografia veniva impostata. Si prega "
+"di controllare la configurazione. Messaggio di errore: %s"
 
 #: ../geanyvc/src/geanyvc.c:1890
 msgid "Set Changed-flag for document tabs created by the plugin"
@@ -4457,10 +4770,10 @@ msgid ""
 "will be marked as changed. Even this option is useful in some cases, it "
 "could cause a big number of annoying \"Do you want to save\"-dialogs."
 msgstr ""
-"Se questa opzione è attivata, ogni nuovo documento creato da VC-plugin "
-"sarà impostato come modificato. Anche se questa opzione può essere utile "
-"in alcuni casi, potrebbe produrre un noioso grande numero di finestre "
-"\"Vuoi salvare il file?\""
+"Se questa opzione è attivata, ogni nuovo documento creato da VC-plugin sarà "
+"impostato come modificato. Anche se questa opzione può essere utile in "
+"alcuni casi, potrebbe produrre un noioso grande numero di finestre \"Vuoi "
+"salvare il file?\""
 
 #: ../geanyvc/src/geanyvc.c:1901
 msgid "Confirm adding new files to a VCS"
@@ -4469,8 +4782,8 @@ msgstr "Conferma aggiunta nuovo file to VCS"
 #: ../geanyvc/src/geanyvc.c:1904
 msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
 msgstr ""
-"Visualizza un dialogo di conferma per aggiungere un nuovo (creato) file "
-"al VCS."
+"Visualizza un dialogo di conferma per aggiungere un nuovo (creato) file al "
+"VCS."
 
 #: ../geanyvc/src/geanyvc.c:1910
 msgid "Maximize commit dialog"
@@ -4506,8 +4819,8 @@ msgid ""
 "directly inside Geany's menubar.Will take in account after next start of "
 "GeanyVC"
 msgstr ""
-"Imposta se il menu per questo plugin deve essere posizionato all'interno "
-"del menu strumenti o direttamente nella toolbar di Geany. La modifica sarà "
+"Imposta se il menu per questo plugin deve essere posizionato all'interno del "
+"menu strumenti o direttamente nella toolbar di Geany. La modifica sarà "
 "visibile dopo il riavvio di Geany."
 
 #: ../geanyvc/src/geanyvc.c:1942
@@ -4779,141 +5092,77 @@ msgstr "Visualizza i tuoi appunti in un nuovo tab del browser"
 msgid "_Paste it!"
 msgstr "_Incollalo!"
 
-#: ../projectorganizer/src/prjorg-main.c:36 ../projectorganizer/src/prjorg-project.c:455
-msgid "GProject"
-msgstr "GProject"
-
-#: ../projectorganizer/src/prjorg-main.c:37
-msgid "Glob-pattern-based project management plugin for Geany."
-msgstr "Plugin per la gestione del progetto Glob-pattern-based in Geany."
-
-#: ../projectorganizer/src/prjorg-menu.c:353
-msgid "Find in Project Files"
-msgstr "Cerca nei file del progetto"
-
-#: ../projectorganizer/src/prjorg-menu.c:359
-msgid "Find in project files"
-msgstr "Cerca nei file del progetto"
-
-#: ../projectorganizer/src/prjorg-menu.c:363
-msgid "Find Project File"
-msgstr "Cerca file progetto"
-
-#: ../projectorganizer/src/prjorg-menu.c:369
-msgid "Find project file"
-msgstr "Cerca file progetto"
-
-#: ../projectorganizer/src/prjorg-menu.c:371
-msgid "Swap Intestazione/Sorgente"
-msgstr "Scambia Intestazione/Sorgente"
-
-#: ../projectorganizer/src/prjorg-menu.c:376
-msgid "Swap intestazione/sorgente"
-msgstr "Scambia intestazione/sorgente"
-
-#: ../projectorganizer/src/prjorg-menu.c:382
-msgid "Open Selected File (gproject)"
-msgstr "Open file selezionato (gproject)"
-
-#: ../projectorganizer/src/prjorg-project.c:406
-msgid "Source patterns:"
-msgstr "Patterns sorgente:"
-
-#: ../projectorganizer/src/prjorg-project.c:412
-msgid ""
-"Space separated list of patterns that are used to identify source files."
+#: ../git-changebar/data/prefs.ui.h:1
+msgid "_Monitor repository for changes"
 msgstr ""
-"Lista separata da spazi dei patterns che saranno usati per identificare "
-"i file sorgenti."
 
-#: ../projectorganizer/src/prjorg-project.c:417
-msgid "Header patterns:"
-msgstr "Intestazione patterns:"
-
-#: ../projectorganizer/src/prjorg-project.c:423
+#: ../git-changebar/data/prefs.ui.h:2
 msgid ""
-"Space separated list of patterns that are used to identify headers. Used "
-"mainly for header/source swapping."
+"Whether to automatically update the diff in order to maintain it up to date "
+"when the underlying Git repository changes.  This should generally be "
+"enabled for optimal user experience."
 msgstr ""
-"Lista separata da spazi dei patterns che saranno usati per identificare "
-"i file intestazione. Usato principalmente per scambiare intestazione/sorgente"
 
-#: ../projectorganizer/src/prjorg-project.c:429
-msgid "Ignored dirs patterns:"
-msgstr "Ignora patters directory:"
+#: ../git-changebar/data/prefs.ui.h:3
+msgid "_Added lines:"
+msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:435
+#: ../git-changebar/data/prefs.ui.h:4
+msgid "_Changed lines:"
+msgstr ""
+
+#: ../git-changebar/data/prefs.ui.h:5
+#, fuzzy
+msgid "_Removed lines:"
+msgstr "Rimuovi file"
+
+#: ../git-changebar/data/prefs.ui.h:6
+#, fuzzy
+msgid "Colors"
+msgstr "Colore sfondo:"
+
+#: ../git-changebar/src/gcb-plugin.c:50
+msgid "Git Change Bar"
+msgstr ""
+
+#: ../git-changebar/src/gcb-plugin.c:51
+msgid "Highlights uncommitted changes in files tracked with Git"
+msgstr ""
+
+#: ../git-changebar/src/gcb-plugin.c:1108 ../pohelper/src/gph-plugin.c:1577
+#, c-format
+msgid "Failed to load configuration file: %s"
+msgstr "Impossibile caricare file di configurazione: %s"
+
+#: ../git-changebar/src/gcb-plugin.c:1133 ../pohelper/src/gph-plugin.c:1602
+#, c-format
+msgid "Failed to create configuration directory \"%s\": %s"
+msgstr "Impossibile create directory di configurazione \"%s\": %s"
+
+#: ../git-changebar/src/gcb-plugin.c:1136 ../pohelper/src/gph-plugin.c:1605
+#, c-format
+msgid "Failed to save configuration file: %s"
+msgstr "Impossibile salvare file di configurazione: %s"
+
+#: ../git-changebar/src/gcb-plugin.c:1214
+#, fuzzy
+msgid "Go to the previous hunk"
+msgstr "Vai alla pagina precedente"
+
+#: ../git-changebar/src/gcb-plugin.c:1216
+#, fuzzy
+msgid "Go to the next hunk"
+msgstr "Vai alla pagina successiva"
+
+#: ../git-changebar/src/gcb-plugin.c:1341 ../pohelper/src/gph-plugin.c:1373
+#: ../pohelper/src/gph-plugin.c:1706
+#, c-format
 msgid ""
-"Space separated list of patterns that are used to identify directories that "
-"are not scanned for source files."
+"Failed to load UI definition, please check your installation. The error was: "
+"%s"
 msgstr ""
-"Lista separata da spazi dei patterns che saranno usati per identificare "
-"le directory che non saranno scansione per file sorgenti."
-
-#: ../projectorganizer/src/prjorg-project.c:443
-msgid "Generate tags for all project files"
-msgstr "Genera tags per tutti i file del progetto"
-
-#: ../projectorganizer/src/prjorg-project.c:445
-msgid ""
-"Generate tag list for all project files instead of only for the currently "
-"opened files. Too slow for big projects (>1000 files) and should be disabled "
-"in this case."
-msgstr ""
-"Genera lista tag per tutti i file del progetto al posto dei soli file "
-"correttamente aperti. Troppo lento per grandi progetti (>1000 files) e "
-"dovrebbe essere disabilitato in questo caso."
-
-#: ../projectorganizer/src/prjorg-project.c:451
-msgid ""
-"Note: set the patterns of files belonging to the project under the Project "
-"tab."
-msgstr ""
-"Nota: impostare i patterns dei file che appartengono al progetto sotto il "
-"tab Progetto"
-
-#: ../projectorganizer/src/prjorg-sidebar.c:82
-#: ../projectorganizer/src/prjorg-sidebar.c:817
-msgid "Find File"
-msgstr "Cerca file"
-
-#: ../projectorganizer/src/prjorg-sidebar.c:109
-msgid "Search inside:"
-msgstr "Cerca all'interno:"
-
-#: ../projectorganizer/src/prjorg-sidebar.c:121
-msgid "C_ase sensitive"
-msgstr "C_ase sensitive"
-
-#: ../projectorganizer/src/prjorg-sidebar.c:124
-msgid "Search in full path"
-msgstr "Cerca nel percorso completo"
-
-#: ../projectorganizer/src/prjorg-sidebar.c:727
-msgid "Reload all"
-msgstr "Ricarica tutto"
-
-#: ../projectorganizer/src/prjorg-sidebar.c:736
-#: ../treebrowser/src/treebrowser.c:1281
-msgid "Expand all"
-msgstr "Espandi tutto"
-
-#: ../projectorganizer/src/prjorg-sidebar.c:742
-#: ../treebrowser/src/treebrowser.c:1285
-msgid "Collapse all"
-msgstr "Collassa tutto"
-
-#: ../projectorganizer/src/prjorg-sidebar.c:751
-msgid "Follow active editor"
-msgstr "Segui l'editor attivo"
-
-#: ../projectorganizer/src/prjorg-sidebar.c:799
-msgid "Expand All"
-msgstr "Espandi tutto"
-
-#: ../projectorganizer/src/prjorg-sidebar.c:808
-msgid "Find in Files"
-msgstr "Cerca nei files"
+"Impossibile caricare definizioni UI, si prega di controllare "
+"l'installazione. Messaggio di errore: %s"
 
 #. POSITION OF VIEW
 #: ../markdown/src/conf.c:567
@@ -4960,6 +5209,142 @@ msgstr "Anteprima Markdown"
 msgid "The current document does not have a Markdown filetype."
 msgstr "Il documento corrente non ha un tipo di file Markdown."
 
+#: ../overview/overview/overviewplugin.c:49
+msgid "Provides an overview of the active document"
+msgstr ""
+
+#: ../overview/overview/overviewplugin.c:192
+msgid "Toggle Visibility"
+msgstr ""
+
+#: ../overview/overview/overviewplugin.c:199
+msgid "Toggle Left/Right Position"
+msgstr ""
+
+#: ../overview/overview/overviewplugin.c:206
+msgid "Toggle Overlay Inversion"
+msgstr ""
+
+#: ../overview/overview/overviewscintilla.c:516
+#, c-format
+msgid "Line <b>%d</b>, Column <b>%d</b>, Position <b>%d</b>"
+msgstr ""
+
+#: ../overview/overview/overviewui.c:289
+#, fuzzy
+msgid "Show Overview"
+msgstr "Visualizza terminale"
+
+#: ../overview/data/prefs.ui.h:1
+msgid ""
+"The amount to zoom the overview sidebar. This should probably negative if "
+"you want the sidebar zoomed out."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:2
+#, fuzzy
+msgid "Zoom Level:"
+msgstr "Zoom finestra in"
+
+#: ../overview/data/prefs.ui.h:3
+msgid "The width of the overview sidebar."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:4
+msgid "Width:"
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:5
+msgid ""
+"The number of lines to scroll at a time when scrolling the overview sidebar."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:6
+msgid "Scroll Lines:"
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:7
+#, fuzzy
+msgid "Position on left"
+msgstr "nome posizione"
+
+#: ../overview/data/prefs.ui.h:8
+msgid ""
+"Position the overview bar on the left rather than the right (requires Geany "
+"1.25 or greater)."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:9
+#, fuzzy
+msgid "Hide tooltip"
+msgstr "Visualizza suggerimen_ti"
+
+#: ../overview/data/prefs.ui.h:10
+msgid ""
+"Hide the tooltip that is displayed when mousing over the overview that shows "
+"line, column and position information."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:11
+msgid "Hide editor scrollbar"
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:12
+msgid ""
+"Whether to hide Geany's regular editor scrollbar while the overview bar is "
+"visible."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:13
+msgid "Disable overlay"
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:14
+msgid ""
+"Turn off drawing overlay, which shows the region of the main editor view "
+"that is currently in view, ontop of the overview bar."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:15 ../scope/data/scope.glade.h:109
+msgid "Options"
+msgstr "Opzioni"
+
+#: ../overview/data/prefs.ui.h:16
+msgid ""
+"The color and opacity of the overlay drawn ontop of the overlay sidebar."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:17
+#, fuzzy
+msgid "Color:"
+msgstr "Colore sfondo:"
+
+#: ../overview/data/prefs.ui.h:18
+msgid ""
+"The color and opacity of the border drawn around the revealed area in the "
+"overview sidebar. Set to the same as Overlay Color to disable."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:19
+#, fuzzy
+msgid "Outline Color:"
+msgstr "Selezione colore"
+
+#: ../overview/data/prefs.ui.h:20
+msgid "Draw over visible area"
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:21
+msgid ""
+"When checked it will draw the overlay ontop of the area that is visible in "
+"the main editor view, when unchecked, it will do the opposite and draw the "
+"overlay everywhere but the visible area, \"revealing\" the visible part."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:22
+msgid "Overlay"
+msgstr ""
+
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:35
 msgid "Pair Tag Highlighter"
 msgstr "Coppia tag Highlighter"
@@ -4976,7 +5361,7 @@ msgstr "Aiuto _Traduzione"
 msgid "_Previous String"
 msgstr "Stringa _Precedente"
 
-#: ../pohelper/data/menus.ui.h:3 ../pohelper/src/gph-plugin.c:1031
+#: ../pohelper/data/menus.ui.h:3 ../pohelper/src/gph-plugin.c:1506
 msgid "Go to previous string"
 msgstr "Vai alla stringa precedente"
 
@@ -4984,7 +5369,7 @@ msgstr "Vai alla stringa precedente"
 msgid "_Next String"
 msgstr "Stringa _Successiva"
 
-#: ../pohelper/data/menus.ui.h:5 ../pohelper/src/gph-plugin.c:1034
+#: ../pohelper/data/menus.ui.h:5 ../pohelper/src/gph-plugin.c:1509
 msgid "Go to next string"
 msgstr "Vai a stringa successiva"
 
@@ -4992,7 +5377,7 @@ msgstr "Vai a stringa successiva"
 msgid "Pre_vious Untranslated"
 msgstr "Traduzione mancante p_rec."
 
-#: ../pohelper/data/menus.ui.h:7 ../pohelper/src/gph-plugin.c:1037
+#: ../pohelper/data/menus.ui.h:7 ../pohelper/src/gph-plugin.c:1512
 msgid "Go to previous untranslated string"
 msgstr "Vai alla traduzione mancante precedente"
 
@@ -5000,7 +5385,7 @@ msgstr "Vai alla traduzione mancante precedente"
 msgid "Next _Untranslated"
 msgstr "Traduzione mancante s_ucc."
 
-#: ../pohelper/data/menus.ui.h:9 ../pohelper/src/gph-plugin.c:1040
+#: ../pohelper/data/menus.ui.h:9 ../pohelper/src/gph-plugin.c:1515
 msgid "Go to next untranslated string"
 msgstr "Vai alla traduzione mancante successiva"
 
@@ -5008,7 +5393,7 @@ msgstr "Vai alla traduzione mancante successiva"
 msgid "Previous Fu_zzy"
 msgstr "Fu_zzy precedente"
 
-#: ../pohelper/data/menus.ui.h:11 ../pohelper/src/gph-plugin.c:1043
+#: ../pohelper/data/menus.ui.h:11 ../pohelper/src/gph-plugin.c:1518
 msgid "Go to previous fuzzily translated string"
 msgstr "Vai alla precedente stringa 'fuzzy'"
 
@@ -5016,7 +5401,7 @@ msgstr "Vai alla precedente stringa 'fuzzy'"
 msgid "Next _Fuzzy"
 msgstr "_Fuzzy successiva"
 
-#: ../pohelper/data/menus.ui.h:13 ../pohelper/src/gph-plugin.c:1046
+#: ../pohelper/data/menus.ui.h:13 ../pohelper/src/gph-plugin.c:1521
 msgid "Go to next fuzzily translated string"
 msgstr "Vai alla successiva stringa 'fuzzy'"
 
@@ -5024,7 +5409,7 @@ msgstr "Vai alla successiva stringa 'fuzzy'"
 msgid "Previous Untranslated or Fuzz_y"
 msgstr "Non tradotta o Fuzz_y precedente"
 
-#: ../pohelper/data/menus.ui.h:15 ../pohelper/src/gph-plugin.c:1049
+#: ../pohelper/data/menus.ui.h:15 ../pohelper/src/gph-plugin.c:1524
 msgid "Go to previous untranslated or fuzzy string"
 msgstr "Vai alla precedente stringa non tradotta o 'fuzzy'"
 
@@ -5032,11 +5417,11 @@ msgstr "Vai alla precedente stringa non tradotta o 'fuzzy'"
 msgid "Next Untranslated _or Fuzzy"
 msgstr "Non tradotta o Fuzz_y successiva"
 
-#: ../pohelper/data/menus.ui.h:17 ../pohelper/src/gph-plugin.c:1053
+#: ../pohelper/data/menus.ui.h:17 ../pohelper/src/gph-plugin.c:1528
 msgid "Go to next untranslated or fuzzy string"
 msgstr "Vai alla successiva stringa non tradotta o 'fuzzy'"
 
-#: ../pohelper/data/menus.ui.h:18 ../pohelper/src/gph-plugin.c:1064
+#: ../pohelper/data/menus.ui.h:18 ../pohelper/src/gph-plugin.c:1539
 msgid "Toggle current translation fuzziness"
 msgstr "Dis-/Attiva 'fuzzy' per la traduzione corrente"
 
@@ -5052,7 +5437,7 @@ msgstr "Incolla _Messaggio come Traduzione"
 msgid "Paste the original untranslated string to the translation"
 msgstr "Incolla la stringa non tradotta originale come traduzione "
 
-#: ../pohelper/data/menus.ui.h:22 ../pohelper/src/gph-plugin.c:1061
+#: ../pohelper/data/menus.ui.h:22 ../pohelper/src/gph-plugin.c:1536
 msgid "Reflow the current translation string"
 msgstr "Riordina la stringa di traduzione corrente"
 
@@ -5060,7 +5445,17 @@ msgstr "Riordina la stringa di traduzione corrente"
 msgid "_Reflow Translation"
 msgstr "_Riordina traduzione"
 
-#: ../pohelper/data/menus.ui.h:24
+#: ../pohelper/data/menus.ui.h:24 ../pohelper/src/gph-plugin.c:1542
+#, fuzzy
+msgid "Show statistics of the current document"
+msgstr "Controlla l'ortografia del documento corrente."
+
+#: ../pohelper/data/menus.ui.h:25
+#, fuzzy
+msgid "_Show stats"
+msgstr "Visualizza status"
+
+#: ../pohelper/data/menus.ui.h:26
 msgid ""
 "Whether to update the translation headers (author, revision date, ...) upon "
 "file save"
@@ -5068,9 +5463,43 @@ msgstr ""
 "Aggiorna le intestazioni della traduzione (autore, revision, data, ...) "
 "quando il file viene salvato"
 
-#: ../pohelper/data/menus.ui.h:25
+#: ../pohelper/data/menus.ui.h:27
 msgid "Update _Headers Upon Save"
 msgstr "Aggiorna _Intestazione quando salvi"
+
+#: ../pohelper/data/stats.ui.h:1
+#, fuzzy
+msgid "Translation statistics"
+msgstr "Translation Helper"
+
+#: ../pohelper/data/stats.ui.h:2
+#, fuzzy
+msgid "Choose a color for translated strings"
+msgstr "Vai alla traduzione mancante successiva"
+
+#: ../pohelper/data/stats.ui.h:3
+#, fuzzy
+msgid "Choose a color for fuzzily translated strings"
+msgstr "Vai alla successiva stringa 'fuzzy'"
+
+#: ../pohelper/data/stats.ui.h:4
+#, fuzzy
+msgid "Choose a color for untranslated strings"
+msgstr "Vai alla traduzione mancante successiva"
+
+#: ../pohelper/data/stats.ui.h:5
+#, fuzzy
+msgid "Translated:"
+msgstr "Traduzione mancante s_ucc."
+
+#: ../pohelper/data/stats.ui.h:6
+msgid "Fuzzy:"
+msgstr ""
+
+#: ../pohelper/data/stats.ui.h:7
+#, fuzzy
+msgid "Untranslated:"
+msgstr "Traduzione mancante s_ucc."
 
 #: ../pohelper/src/gph-plugin.c:41
 msgid "Translation Helper"
@@ -5080,42 +5509,38 @@ msgstr "Translation Helper"
 msgid "Improves support for GetText translation files."
 msgstr "Aggiunge supporto per la traduzione dei file GetText."
 
-#: ../pohelper/src/gph-plugin.c:1057
+#: ../pohelper/src/gph-plugin.c:1305 ../pohelper/src/gph-plugin.c:1322
+#, c-format
+msgid "<b>Translated:</b> %.3g%%"
+msgstr ""
+
+#: ../pohelper/src/gph-plugin.c:1307 ../pohelper/src/gph-plugin.c:1325
+#, c-format
+msgid "<b>Fuzzy:</b> %.3g%%"
+msgstr ""
+
+#: ../pohelper/src/gph-plugin.c:1309 ../pohelper/src/gph-plugin.c:1327
+#, c-format
+msgid "<b>Untranslated:</b> %.3g%%"
+msgstr ""
+
+#: ../pohelper/src/gph-plugin.c:1407
+#, c-format
+msgid "%u (%.3g%%)"
+msgstr ""
+
+#: ../pohelper/src/gph-plugin.c:1532
 msgid "Paste original untranslated string to translation"
 msgstr "Incolla stringa non tradotta originale alla traduzione"
 
-#: ../pohelper/src/gph-plugin.c:1099
-#, c-format
-msgid "Failed to load configuration file: %s"
-msgstr "Impossibile caricare file di configurazione: %s"
-
-#: ../pohelper/src/gph-plugin.c:1124
-#, c-format
-msgid "Failed to create configuration directory \"%s\": %s"
-msgstr "Impossibile create directory di configurazione \"%s\": %s"
-
-#: ../pohelper/src/gph-plugin.c:1127
-#, c-format
-msgid "Failed to save configuration file: %s"
-msgstr "Impossibile salvare file di configurazione: %s"
-
-#: ../pohelper/src/gph-plugin.c:1182
-#, c-format
-msgid ""
-"Failed to load UI definition, please check your installation. The error was: "
-"%s"
-msgstr ""
-"Impossibile caricare definizioni UI, si prega di controllare l'installazione. "
-"Messaggio di errore: %s"
-
-#: ../pohelper/src/gph-plugin.c:1222
+#: ../pohelper/src/gph-plugin.c:1747
 #, c-format
 msgid ""
 "Cannot find widget \"%s\" in the UI definition, please check your "
 "installation."
 msgstr ""
-"Impossibile trovare il widge t\"%s\" nella definizione delle UI, si prega "
-"di controllare l'installazione."
+"Impossibile trovare il widge t\"%s\" nella definizione delle UI, si prega di "
+"controllare l'installazione."
 
 #: ../pretty-printer/src/PluginEntry.c:37
 msgid "XML PrettyPrinter"
@@ -5126,19 +5551,19 @@ msgid "Formats an XML and makes it human-readable."
 msgstr "Formatta XML e rendilo 'umanamente' leggibile"
 
 #. put the menu into the Tools
-#: ../pretty-printer/src/PluginEntry.c:66
+#: ../pretty-printer/src/PluginEntry.c:62
 msgid "PrettyPrinter XML"
 msgstr "PrettyPrinter XML"
 
-#: ../pretty-printer/src/PluginEntry.c:74
+#: ../pretty-printer/src/PluginEntry.c:70
 msgid "Run the PrettyPrinter XML"
 msgstr "Esegui PrettyPrinter XML"
 
-#: ../pretty-printer/src/PluginEntry.c:148
+#: ../pretty-printer/src/PluginEntry.c:144
 msgid "Unable to parse the content as XML."
 msgstr "Impossibile effettuare parse del contenuto come XML"
 
-#: ../pretty-printer/src/PluginEntry.c:159
+#: ../pretty-printer/src/PluginEntry.c:155
 msgid ""
 "Unable to process PrettyPrinting on the specified XML because some features "
 "are not supported.\n"
@@ -5204,6 +5629,221 @@ msgstr "Spazio"
 #: ../pretty-printer/src/ConfigUI.c:264
 msgid "Line break"
 msgstr "Interruzione di riga"
+
+#: ../projectorganizer/src/prjorg-main.c:41
+#, fuzzy
+msgid "Project Organizer"
+msgstr "Preferenze progetto"
+
+#: ../projectorganizer/src/prjorg-main.c:42
+msgid ""
+"Project file tree, project-wide indexing and search, extra navigation "
+"options (was GProject)"
+msgstr ""
+
+#: ../projectorganizer/src/prjorg-menu.c:372
+msgid "Find in Project Files"
+msgstr "Cerca nei file del progetto"
+
+#: ../projectorganizer/src/prjorg-menu.c:378
+msgid "Find in project files"
+msgstr "Cerca nei file del progetto"
+
+#: ../projectorganizer/src/prjorg-menu.c:382
+msgid "Find Project File"
+msgstr "Cerca file progetto"
+
+#: ../projectorganizer/src/prjorg-menu.c:388
+msgid "Find project file"
+msgstr "Cerca file progetto"
+
+#: ../projectorganizer/src/prjorg-menu.c:392
+#, fuzzy
+msgid "Find Project Tag"
+msgstr "Cerca file progetto"
+
+#: ../projectorganizer/src/prjorg-menu.c:398
+#, fuzzy
+msgid "Find project tag"
+msgstr "Cerca file progetto"
+
+#: ../projectorganizer/src/prjorg-menu.c:400
+msgid "Swap Header/Source"
+msgstr ""
+
+#: ../projectorganizer/src/prjorg-menu.c:405
+msgid "Swap header/source"
+msgstr ""
+
+#: ../projectorganizer/src/prjorg-menu.c:411
+#, fuzzy
+msgid "Open Selected File (Project Organizer)"
+msgstr "Open file selezionato (gproject)"
+
+#: ../projectorganizer/src/prjorg-project.c:551
+msgid "Source patterns:"
+msgstr "Patterns sorgente:"
+
+#: ../projectorganizer/src/prjorg-project.c:557
+#, fuzzy
+msgid ""
+"Space separated list of patterns that are used to identify source files. "
+"Used for header/source swapping."
+msgstr ""
+"Lista separata da spazi dei patterns che saranno usati per identificare i "
+"file intestazione. Usato principalmente per scambiare intestazione/sorgente"
+
+#: ../projectorganizer/src/prjorg-project.c:563
+msgid "Header patterns:"
+msgstr "Intestazione patterns:"
+
+#: ../projectorganizer/src/prjorg-project.c:569
+#, fuzzy
+msgid ""
+"Space separated list of patterns that are used to identify headers. Used for "
+"header/source swapping."
+msgstr ""
+"Lista separata da spazi dei patterns che saranno usati per identificare i "
+"file intestazione. Usato principalmente per scambiare intestazione/sorgente"
+
+#: ../projectorganizer/src/prjorg-project.c:575
+#, fuzzy
+msgid "Ignored file patterns:"
+msgstr "Ignora patters directory:"
+
+#: ../projectorganizer/src/prjorg-project.c:581
+#, fuzzy
+msgid ""
+"Space separated list of patterns that are used to identify files that are "
+"not displayed in the project tree."
+msgstr ""
+"Lista separata da spazi dei patterns che saranno usati per identificare le "
+"directory che non saranno scansione per file sorgenti."
+
+#: ../projectorganizer/src/prjorg-project.c:587
+#, fuzzy
+msgid "Ignored directory patterns:"
+msgstr "Ignora patters directory:"
+
+#: ../projectorganizer/src/prjorg-project.c:593
+msgid ""
+"Space separated list of patterns that are used to identify directories that "
+"are not scanned for source files."
+msgstr ""
+"Lista separata da spazi dei patterns che saranno usati per identificare le "
+"directory che non saranno scansione per file sorgenti."
+
+#: ../projectorganizer/src/prjorg-project.c:599
+#, fuzzy
+msgid "Generate tags for all project files:"
+msgstr "Genera tags per tutti i file del progetto"
+
+#: ../projectorganizer/src/prjorg-project.c:602
+msgid "Auto (generate if less than 300 files)"
+msgstr ""
+
+#: ../projectorganizer/src/prjorg-project.c:603
+#, fuzzy
+msgid "Yes"
+msgstr "sì"
+
+#: ../projectorganizer/src/prjorg-project.c:604
+#, fuzzy
+msgid "No"
+msgstr "N°"
+
+#: ../projectorganizer/src/prjorg-project.c:608
+#, fuzzy
+msgid ""
+"Generate tag list for all project files instead of only for the currently "
+"opened files. Might be slow for big projects."
+msgstr ""
+"Genera lista tag per tutti i file del progetto al posto dei soli file "
+"correttamente aperti. Troppo lento per grandi progetti (>1000 files) e "
+"dovrebbe essere disabilitato in questo caso."
+
+#: ../projectorganizer/src/prjorg-project.c:614
+msgid ""
+"Note: the patterns above affect only the sidebar and are not used in the "
+"Find in Files\n"
+"dialog. You can further restrict the files belonging to the project by "
+"setting the\n"
+"File Patterns under the Project tab (these are also used for the Find in "
+"Files dialog)."
+msgstr ""
+
+#: ../projectorganizer/src/prjorg-sidebar.c:117
+#: ../projectorganizer/src/prjorg-sidebar.c:1356
+msgid "Find File"
+msgstr "Cerca file"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:144
+#: ../projectorganizer/src/prjorg-sidebar.c:468
+msgid "Search inside:"
+msgstr "Cerca all'interno:"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:159
+msgid "Search in full path"
+msgstr "Cerca nel percorso completo"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:170
+#: ../projectorganizer/src/prjorg-sidebar.c:623
+#, fuzzy
+msgid "project or external directory"
+msgstr "Crea nuova directory"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:290
+#, fuzzy
+msgid "Add External Directory"
+msgstr "Seleziona directory"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:293
+#, fuzzy
+msgid "Add"
+msgstr "Addons"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1034
+msgid "Set file patterns under Project->Properties"
+msgstr ""
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1246
+msgid "Reload all"
+msgstr "Ricarica tutto"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1255
+#, fuzzy
+msgid "Add external directory"
+msgstr "Ripristina directory"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1265
+#: ../treebrowser/src/treebrowser.c:1282
+msgid "Expand all"
+msgstr "Espandi tutto"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1272
+msgid "Collapse to project root"
+msgstr ""
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1283
+msgid "Follow active editor"
+msgstr "Segui l'editor attivo"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1329
+msgid "Open a project to start using the plugin"
+msgstr ""
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1338
+msgid "Expand All"
+msgstr "Espandi tutto"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1347
+msgid "Find in Files"
+msgstr "Cerca nei files"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1378
+#, fuzzy
+msgid "Remove External Directory"
+msgstr "Ripristina directory"
 
 #: ../scope/data/scope.glade.h:1
 msgid "Debu_g"
@@ -5635,10 +6275,6 @@ msgstr "Visualizza suggerimen_ti"
 msgid "<b>Others</b>"
 msgstr "<b>Altri</b>"
 
-#: ../scope/data/scope.glade.h:109
-msgid "Options"
-msgstr "Opzioni"
-
 #: ../scope/data/scope.glade.h:110
 msgid "_Import"
 msgstr "_Importa"
@@ -5754,33 +6390,33 @@ msgstr ""
 "\n"
 "Usare la lista breakpoint per rimuoverne uno."
 
-#: ../scope/src/break.c:1252
+#: ../scope/src/break.c:1250
 #, c-format
 msgid ", %s"
 msgstr ", %s"
 
-#: ../scope/src/break.c:1278
+#: ../scope/src/break.c:1276
 #, c-format
 msgid "func %s"
 msgstr "func %s"
 
-#: ../scope/src/break.c:1309
+#: ../scope/src/break.c:1307
 msgid "Add Breakpoint"
 msgstr "Aggiungi Breakpoint"
 
-#: ../scope/src/break.c:1324
+#: ../scope/src/break.c:1322
 msgid "Add Watchpoint"
 msgstr "Aggiungi Watchpoint"
 
-#: ../scope/src/conterm.c:106
+#: ../scope/src/conterm.c:109
 msgid "Feed Terminal"
 msgstr "Terminale Feed"
 
-#: ../scope/src/conterm.c:106
+#: ../scope/src/conterm.c:109
 msgid "Enter char # (0..255):"
 msgstr "Inserisci carattere # (0..255):"
 
-#: ../scope/src/conterm.c:509 ../scope/src/scope.c:550
+#: ../scope/src/conterm.c:512 ../scope/src/scope.c:550
 #: ../scope/src/scope.c:551
 #, c-format
 msgid "Scope: %s."
@@ -5804,7 +6440,7 @@ msgstr "Programma terminato."
 msgid "No breakpoints. Hanging."
 msgstr "Nessun breakpoint. Sospeso."
 
-#: ../scope/src/debug.c:598 ../scope/src/thread.c:92
+#: ../scope/src/debug.c:598 ../scope/src/thread.c:93
 #, c-format
 msgid "%s."
 msgstr "%s."
@@ -5858,15 +6494,15 @@ msgstr "Ispeziona variabile"
 msgid "Undefined GDB error."
 msgstr "Errore GDB non definito."
 
-#: ../scope/src/plugme.c:81
+#: ../scope/src/plugme.c:80
 msgid "Select Folder"
 msgstr "Seleziona Cartella"
 
-#: ../scope/src/plugme.c:81
+#: ../scope/src/plugme.c:80
 msgid "Select File"
 msgstr "Seleziona File"
 
-#: ../scope/src/prefs.c:294 ../scope/src/utils.c:438
+#: ../scope/src/prefs.c:294 ../scope/src/utils.c:449
 #, c-format
 msgid "Scope: %s: %s."
 msgstr "Scope: %s: %s."
@@ -5875,17 +6511,17 @@ msgstr "Scope: %s: %s."
 msgid "Scope: created configuration file."
 msgstr "Scope: creato file di configurazione."
 
-#: ../scope/src/program.c:251
+#: ../scope/src/program.c:255
 #, c-format
 msgid "Loaded debug settings for %s."
 msgstr "Caricate impostazioni debug per %s."
 
-#: ../scope/src/program.c:259
+#: ../scope/src/program.c:263
 #, c-format
 msgid "Could not load debug settings file %s: %s."
 msgstr "Impossibile caricare file di impostazione debug per %s:%s."
 
-#: ../scope/src/program.c:379
+#: ../scope/src/program.c:383
 #, c-format
 msgid ""
 "%s: %s.\n"
@@ -5896,15 +6532,15 @@ msgstr ""
 "\n"
 "Continuare?"
 
-#: ../scope/src/program.c:415
+#: ../scope/src/program.c:419
 msgid "Delete all breakpoints, watches et cetera?"
 msgstr "Eliminare tutti i breakpoint, viste, eccetera?"
 
-#: ../scope/src/program.c:523
+#: ../scope/src/program.c:527
 msgid "as _Name=value"
 msgstr "come _Nome=valore"
 
-#: ../scope/src/program.c:524
+#: ../scope/src/program.c:528
 msgid "as _Name = value"
 msgstr "come _Nome = valore"
 
@@ -5981,45 +6617,45 @@ msgstr "Console"
 msgid "Debug Console"
 msgstr "Console di Debug"
 
-#: ../scope/src/thread.c:48
+#: ../scope/src/thread.c:49
 #, c-format
 msgid "Thread group %s started."
 msgstr "Thread gruppo %s avviato."
 
-#: ../scope/src/thread.c:63
+#: ../scope/src/thread.c:64
 msgid "Thread group "
 msgstr "Gruppo thread "
 
-#: ../scope/src/thread.c:83
+#: ../scope/src/thread.c:84
 msgid " exited"
 msgstr " uscito"
 
-#: ../scope/src/thread.c:86
+#: ../scope/src/thread.c:87
 #, c-format
 msgid " with exit code %s"
 msgstr " con codice %s"
 
-#: ../scope/src/thread.c:748
+#: ../scope/src/thread.c:749
 msgid "Send Signal"
 msgstr "Invia segnale"
 
-#: ../scope/src/thread.c:748
+#: ../scope/src/thread.c:749
 msgid "Enter signal #:"
 msgstr "Inserisci segnale #:"
 
-#: ../scope/src/thread.c:788
+#: ../scope/src/thread.c:789
 msgid "Terminate Process"
 msgstr "Termina processo"
 
-#: ../scope/src/thread.c:788
+#: ../scope/src/thread.c:789
 msgid "Enter exit code:"
 msgstr "Inserisci codice uscita:"
 
-#: ../scope/src/thread.c:891
+#: ../scope/src/thread.c:892
 msgid "Running"
 msgstr "Esecuzione"
 
-#: ../scope/src/thread.c:892
+#: ../scope/src/thread.c:893
 msgid "Stopped"
 msgstr "Fermo"
 
@@ -6088,50 +6724,73 @@ msgstr "Controllo ortografia"
 msgid "Checks the spelling of the current document."
 msgstr "Controlla l'ortografia del documento corrente."
 
-#: ../spellcheck/src/scplugin.c:202
+#: ../spellcheck/src/scplugin.c:211
 msgid "Run Spell Check"
 msgstr "Esegui controllo ortografia"
 
-#: ../spellcheck/src/scplugin.c:205
+#: ../spellcheck/src/scplugin.c:214
 msgid "Toggle Check While Typing"
 msgstr "Attiva/Disattiva controllo mentre scrivi"
 
 #. initialise the dialog
-#: ../spellcheck/src/scplugin.c:216
+#: ../spellcheck/src/scplugin.c:225
 msgid "Select Directory"
 msgstr "Seleziona directory"
 
-#: ../spellcheck/src/scplugin.c:253
-msgid "Check spelling while typing"
-msgstr "Controllo ortografico mentre scrivi"
-
-#: ../spellcheck/src/scplugin.c:258
+#: ../spellcheck/src/scplugin.c:266
 msgid "Show toolbar item to toggle spell checking"
 msgstr "Visualizza un'icona nella toolbar per il controllo ortografico"
 
-#: ../spellcheck/src/scplugin.c:263
+#: ../spellcheck/src/scplugin.c:270
 msgid "Show editor menu item to show spelling suggestions"
-msgstr "Visualizza elemento nel menu a tendina dell'editor per visualizzare suggerimenti"
+msgstr ""
+"Visualizza elemento nel menu a tendina dell'editor per visualizzare "
+"suggerimenti"
 
-#: ../spellcheck/src/scplugin.c:269
+#: ../spellcheck/src/scplugin.c:275
 msgid "Print misspelled words and suggestions in the messages window"
 msgstr "Stampa parole errate e suggerimento nella finestra messaggi"
 
-#: ../spellcheck/src/scplugin.c:273
+#: ../spellcheck/src/scplugin.c:285
+#, fuzzy
+msgid "<b>Interface</b>"
+msgstr "<b>Inspeziona</b>"
+
+#: ../spellcheck/src/scplugin.c:293
+msgid "Check spelling while typing"
+msgstr "Controllo ortografico mentre scrivi"
+
+#: ../spellcheck/src/scplugin.c:296
+#, fuzzy
+msgid "Check spelling when opening a document"
+msgstr "Controllo ortografico mentre scrivi"
+
+#: ../spellcheck/src/scplugin.c:298
+msgid ""
+"Enabling this option will check every document after it is opened in Geany. "
+"Reloading a document will also trigger a re-check."
+msgstr ""
+
+#: ../spellcheck/src/scplugin.c:302
 msgid "Language to use for the spell check:"
 msgstr "Lingua da usare per il controllo ortografia:"
 
-#: ../spellcheck/src/scplugin.c:287
+#: ../spellcheck/src/scplugin.c:314
 msgid "_Directory to look for dictionary files:"
 msgstr "_Directory in cui cercare i file del dizionario:"
 
-#: ../spellcheck/src/scplugin.c:295
+#: ../spellcheck/src/scplugin.c:321
 msgid ""
 "Read additional dictionary files from this directory. For now, this only "
 "works with myspell dictionaries."
 msgstr ""
 "Visualizza file del dizionario addizione da questa cartella. Per ora questo "
 "funziona solo per i dizionari myspell"
+
+#: ../spellcheck/src/scplugin.c:352
+#, fuzzy
+msgid "<b>Behavior</b>"
+msgstr "<b>Altri</b>"
 
 #: ../spellcheck/src/gui.c:76
 msgid "Spell checking while typing is now enabled"
@@ -6141,7 +6800,7 @@ msgstr "Controllo ortografia mentre scrivi è ora attivo"
 msgid "Spell checking while typing is now disabled"
 msgstr "Controllo ortografia mentre scrivi è ora disattivato"
 
-#: ../spellcheck/src/gui.c:313
+#: ../spellcheck/src/gui.c:327
 msgid ""
 "Search term is too long to provide\n"
 "spelling suggestions in the editor menu."
@@ -6149,38 +6808,39 @@ msgstr ""
 "Il termine di ricerca è troppo lungo per\n"
 "fornire suggerimenti nel menu editor."
 
-#: ../spellcheck/src/gui.c:318
+#: ../spellcheck/src/gui.c:332
 msgid "Perform Spell Check"
 msgstr "Esegui contrllo ortografia"
 
-#: ../spellcheck/src/gui.c:350
+#: ../spellcheck/src/gui.c:364
 msgid "More..."
 msgstr "Altro..."
 
-#: ../spellcheck/src/gui.c:365
+#: ../spellcheck/src/gui.c:379
 msgid "(No Suggestions)"
 msgstr "(Nessun suggerimento)"
 
-#: ../spellcheck/src/gui.c:374
+#: ../spellcheck/src/gui.c:388
 #, c-format
 msgid "Add \"%s\" to Dictionary"
 msgstr "Aggiungi \"%s\" al dizionario"
 
-#: ../spellcheck/src/gui.c:381
+#: ../spellcheck/src/gui.c:395
 msgid "Ignore All"
 msgstr "Ignora tutti"
 
-#: ../spellcheck/src/gui.c:526
+#: ../spellcheck/src/gui.c:541
 #, c-format
 msgid "Default (%s)"
 msgstr "Default (%s)"
 
-#: ../spellcheck/src/gui.c:537
+#: ../spellcheck/src/gui.c:552
 #, c-format
 msgid "Toggle spell check while typing (current language: %s)"
-msgstr "Attiva/Disattiva controllo ortografico mentre scrivi (lingua corrente: %s)"
+msgstr ""
+"Attiva/Disattiva controllo ortografico mentre scrivi (lingua corrente: %s)"
 
-#: ../spellcheck/src/gui.c:592
+#: ../spellcheck/src/gui.c:607
 msgid "Spelling Suggestions"
 msgstr "Suggerimento ortografici"
 
@@ -6200,70 +6860,95 @@ msgstr "Sposta a sinistra"
 msgid "Shift Right"
 msgstr "Sposta a destra"
 
-#: ../tableconvert/src/tableconvert.c:34
+#: ../tableconvert/src/tableconvert.c:31
 msgid "Tableconvert"
 msgstr "Convertitore tabella"
 
-#: ../tableconvert/src/tableconvert.c:35
+#: ../tableconvert/src/tableconvert.c:32
 msgid "A little plugin to convert lists into tables"
 msgstr "Un piccolo plugin per convertire liste in tabelle"
+
+#: ../tableconvert/src/tableconvert.c:42
+#, fuzzy
+msgid "LaTeX"
+msgstr "_LaTeX"
+
+#: ../tableconvert/src/tableconvert.c:59
+msgid "HTML"
+msgstr ""
+
+#: ../tableconvert/src/tableconvert.c:79
+msgid "SQL"
+msgstr ""
+
+#: ../tableconvert/src/tableconvert.c:96
+msgid "DokuWiki"
+msgstr ""
 
 #. OK. Something went not as expected.
 #. * We did have a selection but cannot parse it into rows.
 #. * Aborting
-#: ../tableconvert/src/tableconvert.c:237
+#: ../tableconvert/src/tableconvert.c:297
 msgid "Something went wrong on parsing selection. Aborting"
 msgstr "Qualcosa è andato storto analizzando la selezione. Fallito."
 
-#: ../tableconvert/src/tableconvert.c:269
+#: ../tableconvert/src/tableconvert.c:329
 msgid "Convert selection to table"
 msgstr "Converti selezione in tabella"
 
-#. Build up menu entry
-#: ../tableconvert/src/tableconvert.c:282
+#. Build up menu entry for table_convert based on global file type
+#: ../tableconvert/src/tableconvert_ui.c:36
 msgid "_Convert to table"
 msgstr "_Converti in tabella"
 
-#: ../tableconvert/src/tableconvert.c:285
+#: ../tableconvert/src/tableconvert_ui.c:39
 msgid "Converts current marked list to a table."
 msgstr "Converti la lista corrente contrassegnata in una tabella."
 
-#: ../treebrowser/src/treebrowser.c:124
+#. Build up menu entries for table convert based on explicit choice
+#. * This is needed for e.g. different wiki-Syntax or differenz stiles
+#. * within a special file type
+#: ../tableconvert/src/tableconvert_ui.c:48
+#, fuzzy
+msgid "_More TableConvert"
+msgstr "Convertitore tabella"
+
+#: ../treebrowser/src/treebrowser.c:127
 msgid "TreeBrowser"
 msgstr "TreeBrowser"
 
-#: ../treebrowser/src/treebrowser.c:125
+#: ../treebrowser/src/treebrowser.c:128
 msgid ""
 "This plugin adds a tree browser to Geany, allowing the user to browse files "
 "using a tree view of the directory being browsed."
 msgstr ""
-"Questo plugin aggiunge a Geany un browser ad albero, permettendo all'utente di "
-"sfogliare i file usando una vista ad albero delle directory."
+"Questo plugin aggiunge a Geany un browser ad albero, permettendo all'utente "
+"di sfogliare i file usando una vista ad albero delle directory."
 
-#: ../treebrowser/src/treebrowser.c:434
+#: ../treebrowser/src/treebrowser.c:433
 #, c-format
 msgid "%s: no such directory."
 msgstr "%s: directory non trovata."
 
-#: ../treebrowser/src/treebrowser.c:537 ../treebrowser/src/treebrowser.c:572
-#: ../treebrowser/src/treebrowser.c:670
+#: ../treebrowser/src/treebrowser.c:536 ../treebrowser/src/treebrowser.c:571
+#: ../treebrowser/src/treebrowser.c:669
 msgid "(Empty)"
 msgstr "(Vuoto)"
 
-#: ../treebrowser/src/treebrowser.c:971
+#: ../treebrowser/src/treebrowser.c:972
 #, c-format
 msgid "Could not execute configured external command '%s' (%s)."
 msgstr "Impossibile eseguire il comando esterno configurato '%s' (%s)."
 
-#: ../treebrowser/src/treebrowser.c:1042
+#: ../treebrowser/src/treebrowser.c:1043
 msgid "NewDirectory"
 msgstr "Nuova Directory"
 
-#: ../treebrowser/src/treebrowser.c:1044
+#: ../treebrowser/src/treebrowser.c:1045
 msgid "NewFile"
 msgstr "Nuovo File"
 
-#: ../treebrowser/src/treebrowser.c:1049
+#: ../treebrowser/src/treebrowser.c:1050
 #, c-format
 msgid ""
 "Target file '%s' exists\n"
@@ -6272,102 +6957,106 @@ msgstr ""
 "File di destinazione '%s' esiste\n"
 ", vuoi davvero sostituirlo con un file vuoto?"
 
-#: ../treebrowser/src/treebrowser.c:1095
+#: ../treebrowser/src/treebrowser.c:1096
 #, c-format
 msgid "Do you really want to delete '%s' ?"
 msgstr "Vuoi davvero eliminare '%s' ?"
 
-#: ../treebrowser/src/treebrowser.c:1207 ../treebrowser/src/treebrowser.c:1738
+#: ../treebrowser/src/treebrowser.c:1208 ../treebrowser/src/treebrowser.c:1739
 msgid "Go up"
 msgstr "Vai su"
 
-#: ../treebrowser/src/treebrowser.c:1211 ../treebrowser/src/treebrowser.c:1753
+#: ../treebrowser/src/treebrowser.c:1212 ../treebrowser/src/treebrowser.c:1754
 msgid "Set path from document"
 msgstr "Imposta percorso dal documento"
 
-#: ../treebrowser/src/treebrowser.c:1215
+#: ../treebrowser/src/treebrowser.c:1216
 msgid "_Open externally"
 msgstr "_Apri esternamente"
 
-#: ../treebrowser/src/treebrowser.c:1220
+#: ../treebrowser/src/treebrowser.c:1221
 msgid "Open Terminal"
 msgstr "Apri terminale"
 
-#: ../treebrowser/src/treebrowser.c:1224
+#: ../treebrowser/src/treebrowser.c:1225
 msgid "Set as root"
 msgstr "Imposta come radice"
 
-#: ../treebrowser/src/treebrowser.c:1229 ../treebrowser/src/treebrowser.c:1743
-#: ../treebrowser/src/treebrowser.c:2123
+#: ../treebrowser/src/treebrowser.c:1230 ../treebrowser/src/treebrowser.c:1744
+#: ../treebrowser/src/treebrowser.c:2139
 msgid "Refresh"
 msgstr "Aggiorna"
 
-#: ../treebrowser/src/treebrowser.c:1233
+#: ../treebrowser/src/treebrowser.c:1234
 msgid "_Find in Files"
 msgstr "Cerca nei _File"
 
-#: ../treebrowser/src/treebrowser.c:1241
+#: ../treebrowser/src/treebrowser.c:1242
 msgid "Create new directory"
 msgstr "Crea nuova directory"
 
-#: ../treebrowser/src/treebrowser.c:1245
+#: ../treebrowser/src/treebrowser.c:1246
 msgid "Create new file"
 msgstr "Crea un nuovo file"
 
-#: ../treebrowser/src/treebrowser.c:1249
+#: ../treebrowser/src/treebrowser.c:1250
 msgid "Rename"
 msgstr "Rinonima"
 
-#: ../treebrowser/src/treebrowser.c:1254
+#: ../treebrowser/src/treebrowser.c:1255
 msgid "Delete"
 msgstr "Elimina"
 
-#: ../treebrowser/src/treebrowser.c:1262
+#: ../treebrowser/src/treebrowser.c:1263
 #, c-format
 msgid "Close: %s"
 msgstr "Chiudi: %s"
 
-#: ../treebrowser/src/treebrowser.c:1267
+#: ../treebrowser/src/treebrowser.c:1268
 #, c-format
 msgid "Close Child Documents "
 msgstr "Chiudi documenti figlio "
 
-#: ../treebrowser/src/treebrowser.c:1272
+#: ../treebrowser/src/treebrowser.c:1273
 msgid "_Copy full path to clipboard"
 msgstr "_Copia percorso completo negli appunti"
 
-#: ../treebrowser/src/treebrowser.c:1292 ../treebrowser/src/treebrowser.c:2032
+#: ../treebrowser/src/treebrowser.c:1286
+msgid "Collapse all"
+msgstr "Collassa tutto"
+
+#: ../treebrowser/src/treebrowser.c:1293 ../treebrowser/src/treebrowser.c:2048
 msgid "Show bookmarks"
 msgstr "Visualizza segnalibri"
 
-#: ../treebrowser/src/treebrowser.c:1297 ../treebrowser/src/treebrowser.c:1981
+#: ../treebrowser/src/treebrowser.c:1298 ../treebrowser/src/treebrowser.c:1997
 msgid "Show hidden files"
 msgstr "Visualizza file nascosti"
 
-#: ../treebrowser/src/treebrowser.c:1302
+#: ../treebrowser/src/treebrowser.c:1303
 msgid "Show toolbars"
 msgstr "Visualizza le toolbar"
 
-#: ../treebrowser/src/treebrowser.c:1621
+#: ../treebrowser/src/treebrowser.c:1622
 #, c-format
 msgid "Target file '%s' exists, do you really want to replace it?"
 msgstr "Il file obiettivo '%s' esiste, vuoi davvero sostituirlo?"
 
-#: ../treebrowser/src/treebrowser.c:1748
+#: ../treebrowser/src/treebrowser.c:1749
 msgid "Home"
 msgstr "Home"
 
-#: ../treebrowser/src/treebrowser.c:1758
+#: ../treebrowser/src/treebrowser.c:1759
 #, fuzzy
 msgid "Track path"
 msgstr "Traccia percorso"
 
-#: ../treebrowser/src/treebrowser.c:1763
+#: ../treebrowser/src/treebrowser.c:1764
 #, fuzzy
 msgid "Hide bars"
 msgstr "Nascondi barre"
 
-#: ../treebrowser/src/treebrowser.c:1773
+#: ../treebrowser/src/treebrowser.c:1774
 #, fuzzy
 msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
@@ -6376,19 +7065,19 @@ msgstr ""
 "Filtro (*.c;*.h;*.cpp) e se vuoi un filtro temporaneo usando '!' inverti, "
 "per esemprio '!;*.c;*.h;*.cpp'"
 
-#: ../treebrowser/src/treebrowser.c:1781
+#: ../treebrowser/src/treebrowser.c:1782
 msgid "Addressbar for example '/projects/my-project'"
 msgstr "Barra indirizzo per esempio '/progetti/mio-progetto'"
 
-#: ../treebrowser/src/treebrowser.c:1806
+#: ../treebrowser/src/treebrowser.c:1807
 msgid "Tree Browser"
 msgstr "Tree Browser"
 
-#: ../treebrowser/src/treebrowser.c:1945
+#: ../treebrowser/src/treebrowser.c:1950
 msgid "External open command"
 msgstr "Apri comando esterno"
 
-#: ../treebrowser/src/treebrowser.c:1950
+#: ../treebrowser/src/treebrowser.c:1955
 #, c-format
 msgid ""
 "The command to execute when using \"Open with\". You can use %f and %d "
@@ -6397,113 +7086,121 @@ msgid ""
 "%d will be replaced with the path name of the selected file without the "
 "filename"
 msgstr ""
-"Il comando da eseguire quando usi \"Apri con\". Puoi usare %f e %d. "
-"\n"
+"Il comando da eseguire quando usi \"Apri con\". Puoi usare %f e %d. \n"
 "%f sarà sostituito dal nome del file includo il percorso completo\n"
-"%d sarà sostituito dal percorso del file selezionato senza il nome del "
-"file"
+"%d sarà sostituito dal percorso del file selezionato senza il nome del file"
 
-#: ../treebrowser/src/treebrowser.c:1958
+#: ../treebrowser/src/treebrowser.c:1963
+#, fuzzy
+msgid "Terminal"
+msgstr "Terminale"
+
+#: ../treebrowser/src/treebrowser.c:1968
+msgid "The terminal to use with the command \"Open Terminal\""
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1974
 msgid "Toolbar"
 msgstr "Barra degli strumenti"
 
-#: ../treebrowser/src/treebrowser.c:1960
+#: ../treebrowser/src/treebrowser.c:1976
 msgid "Hidden"
 msgstr "Nascosto"
 
-#: ../treebrowser/src/treebrowser.c:1961
+#: ../treebrowser/src/treebrowser.c:1977
 msgid "Top"
 msgstr "Sopra"
 
-#: ../treebrowser/src/treebrowser.c:1962
+#: ../treebrowser/src/treebrowser.c:1978
 msgid "Bottom"
 msgstr "Sotto"
 
-#: ../treebrowser/src/treebrowser.c:1967
+#: ../treebrowser/src/treebrowser.c:1983
 msgid "If position is changed, the option require plugin restart."
 msgstr "Se la posizione è cambiata, l'opzione richiedi il riavvio del plugin."
 
-#: ../treebrowser/src/treebrowser.c:1971
+#: ../treebrowser/src/treebrowser.c:1987
 msgid "Show icons"
 msgstr "Visualizza icone"
 
-#: ../treebrowser/src/treebrowser.c:1973
+#: ../treebrowser/src/treebrowser.c:1989
 msgid "None"
 msgstr "Nessuno"
 
-#: ../treebrowser/src/treebrowser.c:1974
+#: ../treebrowser/src/treebrowser.c:1990
 msgid "Base"
 msgstr "Base"
 
-#: ../treebrowser/src/treebrowser.c:1975
+#: ../treebrowser/src/treebrowser.c:1991
 msgid "Content-type"
 msgstr "Content-type"
 
-#: ../treebrowser/src/treebrowser.c:1986
+#: ../treebrowser/src/treebrowser.c:2002
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
-msgstr "In Windows, questa nasconde tutti i file che sono preceduti da '.' (punto)"
+msgstr ""
+"In Windows, questa nasconde tutti i file che sono preceduti da '.' (punto)"
 
-#: ../treebrowser/src/treebrowser.c:1988
+#: ../treebrowser/src/treebrowser.c:2004
 msgid "Hide object files"
 msgstr "Nascondi i file oggetto"
 
-#: ../treebrowser/src/treebrowser.c:1993
+#: ../treebrowser/src/treebrowser.c:2009
 msgid ""
 "Don't show generated object files in the file browser, this includes *.o, *."
 "obj. *.so, *.dll, *.a, *.lib"
 msgstr ""
-"Non visualizzare i file oggetto generati nel file browser, questo include *.o "
-"*.obj, *.so, *.dll, *.a, *.lib"
+"Non visualizzare i file oggetto generati nel file browser, questo include *."
+"o *.obj, *.so, *.dll, *.a, *.lib"
 
-#: ../treebrowser/src/treebrowser.c:1995
+#: ../treebrowser/src/treebrowser.c:2011
 msgid "Reverse filter"
 msgstr "Inverti filtro"
 
-#: ../treebrowser/src/treebrowser.c:2000
+#: ../treebrowser/src/treebrowser.c:2016
 msgid "Follow current document"
 msgstr "Segui il documento corrente"
 
-#: ../treebrowser/src/treebrowser.c:2005
+#: ../treebrowser/src/treebrowser.c:2021
 msgid "Single click, open document and focus it"
 msgstr "Click singolo, apri il documento e dagli il focus"
 
-#: ../treebrowser/src/treebrowser.c:2010
+#: ../treebrowser/src/treebrowser.c:2026
 msgid "Double click open directory"
 msgstr "Doppio click per aprire la cartella"
 
-#: ../treebrowser/src/treebrowser.c:2015
+#: ../treebrowser/src/treebrowser.c:2031
 msgid "On delete file, close it if is opened"
 msgstr "Quando un file viene eliminato, chiudilo se aperto"
 
-#: ../treebrowser/src/treebrowser.c:2020
+#: ../treebrowser/src/treebrowser.c:2036
 msgid "Focus editor on file open"
 msgstr "Porta il focus sull'editor quando un file viene aperto"
 
-#: ../treebrowser/src/treebrowser.c:2025
+#: ../treebrowser/src/treebrowser.c:2041
 msgid "Show tree lines"
 msgstr "Visualizza linee dell'albero"
 
-#: ../treebrowser/src/treebrowser.c:2037
+#: ../treebrowser/src/treebrowser.c:2053
 msgid "Open new files"
 msgstr "Apri nuovi file"
 
-#: ../treebrowser/src/treebrowser.c:2113
+#: ../treebrowser/src/treebrowser.c:2129
 msgid "Focus File List"
 msgstr "Focus lista file"
 
-#: ../treebrowser/src/treebrowser.c:2115
+#: ../treebrowser/src/treebrowser.c:2131
 msgid "Focus Path Entry"
 msgstr "Focus inserimento percorso"
 
-#: ../treebrowser/src/treebrowser.c:2117
+#: ../treebrowser/src/treebrowser.c:2133
 msgid "Rename Object"
 msgstr "Rinonima oggetto"
 
-#: ../treebrowser/src/treebrowser.c:2119
+#: ../treebrowser/src/treebrowser.c:2135
 msgid "Create New File"
 msgstr "Crea nuovo file"
 
-#: ../treebrowser/src/treebrowser.c:2121
+#: ../treebrowser/src/treebrowser.c:2137
 msgid "Create New Directory"
 msgstr "Crea nuova cartella"
 
@@ -6514,21 +7211,22 @@ msgstr "Updatechecker"
 #: ../updatechecker/src/updatechecker.c:42
 msgid ""
 "A plugin which is checking whether there are updates for Geany available."
-msgstr ""
-"Un plugin che controlla se ci sono update disponibili per Geany."
+msgstr "Un plugin che controlla se ci sono update disponibili per Geany."
 
-#: ../updatechecker/src/updatechecker.c:190
-msgid "There is a more recent version available"
+#: ../updatechecker/src/updatechecker.c:195
+#, fuzzy, c-format
+msgid "There is a more recent version of Geany available: %s"
 msgstr "C'è una versione più recente disponibile."
 
-#: ../updatechecker/src/updatechecker.c:198
-msgid "No update available"
-msgstr "Nessun aggiornamento disponibile"
+#: ../updatechecker/src/updatechecker.c:203
+#, fuzzy
+msgid "No newer Geany version available."
+msgstr "C'è una versione più recente disponibile."
 
-#: ../updatechecker/src/updatechecker.c:210
-#, c-format
+#: ../updatechecker/src/updatechecker.c:218
+#, fuzzy, c-format
 msgid ""
-"Wasn't able to catch some version information.\n"
+"Unable to perform version check.\n"
 "Error code: %d \n"
 "Error message: »%s«"
 msgstr ""
@@ -6536,12 +7234,11 @@ msgstr ""
 "Codice errore: %d \n"
 "Messaggio errore: »%s«"
 
-
-#: ../updatechecker/src/updatechecker.c:276
+#: ../updatechecker/src/updatechecker.c:290
 msgid "Run updatecheck on startup"
 msgstr "Esegui updatecheck all'avvio"
 
-#: ../updatechecker/src/updatechecker.c:319
+#: ../updatechecker/src/updatechecker.c:333
 msgid "Check for Updates"
 msgstr "Controlla aggiornamenti"
 
@@ -6573,44 +7270,53 @@ msgstr "normal"
 msgid "utility"
 msgstr "utility"
 
-#: ../webhelper/src/gwh-settings.c:782
+#: ../webhelper/src/gwh-settings.c:804
 #, c-format
 msgid "%s:"
 msgstr "%s:"
 
-#: ../webhelper/src/gwh-browser.c:534
+#: ../webhelper/src/gwh-browser.c:474
+#, fuzzy
+msgid "Bookmark this website"
+msgstr "Imposta il focus sulla lista dei Segnalibri"
+
+#: ../webhelper/src/gwh-browser.c:645
 msgid "_Zoom"
 msgstr "_Zoom"
 
-#: ../webhelper/src/gwh-browser.c:556
+#: ../webhelper/src/gwh-browser.c:667
 msgid "Full-_content zoom"
 msgstr "Zoom _contenuto intero"
 
-#: ../webhelper/src/gwh-browser.c:567
+#: ../webhelper/src/gwh-browser.c:678
 msgid "Flip panes orientation"
 msgstr "Inverti orientazione riquadri"
 
-#: ../webhelper/src/gwh-browser.c:814
+#: ../webhelper/src/gwh-browser.c:950
 msgid "Back"
 msgstr "Indietro"
 
-#: ../webhelper/src/gwh-browser.c:818
+#: ../webhelper/src/gwh-browser.c:954
 msgid "Forward"
 msgstr "Avanti"
 
-#: ../webhelper/src/gwh-browser.c:822
+#: ../webhelper/src/gwh-browser.c:958
 msgid "Cancel loading"
 msgstr "Annulla caricamento"
 
-#: ../webhelper/src/gwh-browser.c:826
+#: ../webhelper/src/gwh-browser.c:962
 msgid "Reload current page"
 msgstr "Ricarica pagina corrente"
 
-#: ../webhelper/src/gwh-browser.c:839 ../webhelper/src/gwh-browser.c:885
+#: ../webhelper/src/gwh-browser.c:978
+msgid "Website information and settings"
+msgstr ""
+
+#: ../webhelper/src/gwh-browser.c:987 ../webhelper/src/gwh-browser.c:1037
 msgid "Web inspector"
 msgstr "Web inspector"
 
-#: ../webhelper/src/gwh-browser.c:840
+#: ../webhelper/src/gwh-browser.c:988
 msgid "Toggle web inspector"
 msgstr "Attiva/Disattiva web inspector"
 
@@ -6628,7 +7334,6 @@ msgstr ""
 "viene salvato, genera analisi web e strumenti per il debugging (cioè Web "
 "Inspector), usando WebKit."
 
-
 #: ../webhelper/src/gwh-plugin.c:141
 msgid "Web view"
 msgstr "Vista web"
@@ -6641,105 +7346,116 @@ msgstr "Anteprima web"
 msgid "Reload upon document saving"
 msgstr "Ricarica al salvataggio del documento"
 
-#: ../webhelper/src/gwh-plugin.c:305
+#: ../webhelper/src/gwh-plugin.c:317
 msgid "Browser auto reload"
 msgstr "Auto aggiornamento del browser"
 
-#: ../webhelper/src/gwh-plugin.c:306
+#: ../webhelper/src/gwh-plugin.c:318
 msgid "Whether the browser reloads itself upon document saving"
-msgstr "Se il browser deve ricaricarsi da solo quando il documento viene salvato"
+msgstr ""
+"Se il browser deve ricaricarsi da solo quando il documento viene salvato"
 
-#: ../webhelper/src/gwh-plugin.c:311
+#: ../webhelper/src/gwh-plugin.c:323
 msgid "Browser last URI"
 msgstr "Ultimo URI del browser"
 
-#: ../webhelper/src/gwh-plugin.c:312
+#: ../webhelper/src/gwh-plugin.c:324
 msgid "Last URI visited by the browser"
 msgstr "L'ultimo URI visitato dal browser"
 
-#: ../webhelper/src/gwh-plugin.c:317
+#: ../webhelper/src/gwh-plugin.c:330
+#, fuzzy
+msgid "List of bookmarks"
+msgstr "Visualizza segnalibri"
+
+#: ../webhelper/src/gwh-plugin.c:335
 msgid "Browser orientation"
 msgstr "Orientazione browser"
 
-#: ../webhelper/src/gwh-plugin.c:318
+#: ../webhelper/src/gwh-plugin.c:336
 msgid "Orientation of the browser widget"
 msgstr "Orientazione del widget browser"
 
-#: ../webhelper/src/gwh-plugin.c:324
+#: ../webhelper/src/gwh-plugin.c:342
 msgid "Browser position"
 msgstr "Posizione del browser"
 
-#: ../webhelper/src/gwh-plugin.c:325
+#: ../webhelper/src/gwh-plugin.c:343
 msgid "Position of the browser widget in Geany's UI"
 msgstr "Posizione del widget browser nella UI di Geany"
 
-#: ../webhelper/src/gwh-plugin.c:331
+#: ../webhelper/src/gwh-plugin.c:349
 msgid "Browser separate window geometry"
 msgstr "Geometria finestra browser separata"
 
-#: ../webhelper/src/gwh-plugin.c:332
+#: ../webhelper/src/gwh-plugin.c:350
 msgid "Last geometry of the separated browser's window"
 msgstr "Ultima geometria della finestra separa del browser"
 
-#: ../webhelper/src/gwh-plugin.c:337
+#: ../webhelper/src/gwh-plugin.c:355
 msgid "Inspector window geometry"
 msgstr "Geometria finestra Inspector"
 
-#: ../webhelper/src/gwh-plugin.c:338
+#: ../webhelper/src/gwh-plugin.c:356
 msgid "Last geometry of the inspector window"
 msgstr "Ultima geometria della finestra separa del Inspector"
 
-#: ../webhelper/src/gwh-plugin.c:343
+#: ../webhelper/src/gwh-plugin.c:361
 msgid "Inspector detached"
 msgstr "Inspector separato"
 
-#: ../webhelper/src/gwh-plugin.c:344
+#: ../webhelper/src/gwh-plugin.c:362
 msgid "Whether the inspector is in a separate window or docked in the browser"
 msgstr "Se l'Inspector dovrà essere in una finestra separata o nel browser"
 
-#: ../webhelper/src/gwh-plugin.c:349
+#: ../webhelper/src/gwh-plugin.c:367
 msgid "Secondary windows skip task bar"
 msgstr "Finestre secondarie non nella taskbar"
 
-#: ../webhelper/src/gwh-plugin.c:350
+#: ../webhelper/src/gwh-plugin.c:368
+#, fuzzy
 msgid ""
 "Whether to tell the window manager not to show the secondary windows in the "
-"taskbar"
+"task bar"
 msgstr ""
 "Se il gestore delle finestre non deve mostrare le finestre secondarie nella "
 "barra delle applicazioni"
 
-#: ../webhelper/src/gwh-plugin.c:355
+#: ../webhelper/src/gwh-plugin.c:373
 msgid "Secondary windows are transient"
 msgstr "Finestre secondarie transitorie"
 
-#: ../webhelper/src/gwh-plugin.c:356
+#: ../webhelper/src/gwh-plugin.c:374
 msgid "Whether secondary windows are transient children of their parent"
 msgstr "Se le finestre secondarie sono figlie transitorie del loro padre"
 
-#: ../webhelper/src/gwh-plugin.c:361
+#: ../webhelper/src/gwh-plugin.c:379
 msgid "Secondary windows type"
 msgstr "Tipo finestre secondarie"
 
-#: ../webhelper/src/gwh-plugin.c:362
+#: ../webhelper/src/gwh-plugin.c:380
 msgid "The type of the secondary windows"
 msgstr "Il tipo delle finestre secondarie"
 
-#: ../webhelper/src/gwh-plugin.c:438
+#: ../webhelper/src/gwh-plugin.c:456
 msgid "Toggle Web Inspector"
 msgstr "Attiva/Disattiva Web Inspector"
 
-#: ../webhelper/src/gwh-plugin.c:443
+#: ../webhelper/src/gwh-plugin.c:461
 msgid "Show/Hide Web View's Window"
 msgstr "Visualizza/Nascondi la finestra Vista Web"
 
+#: ../webhelper/src/gwh-plugin.c:464
+msgid "Toggle bookmark for the current website"
+msgstr ""
+
 #. Browser
-#: ../webhelper/src/gwh-plugin.c:509
+#: ../webhelper/src/gwh-plugin.c:530
 msgid "Browser"
 msgstr "Browser"
 
 #. Windows
-#: ../webhelper/src/gwh-plugin.c:521
+#: ../webhelper/src/gwh-plugin.c:542
 msgid "Windows"
 msgstr "Finestre"
 
@@ -6750,3 +7466,48 @@ msgstr "Frammenti XML"
 #: ../xmlsnippets/src/plugin.c:46
 msgid "Autocompletes XML/HTML tags using snippets."
 msgstr "Autocompleta i tag XML/HTML usando i frammenti."
+
+#~ msgid ""
+#~ "This plugin adds features to facilitate navigation between source files.\n"
+#~ "As for the moment, it implements :\n"
+#~ "- switching between a .cpp file and the corresponding .h file\n"
+#~ "- [opening a file by typing its name -> TODO]"
+#~ msgstr ""
+#~ "Questo plugin aggiunge funzionalità per semplificare la navigazione tra\n"
+#~ "file sorgenti. Per il momento sono implementate:\n"
+#~ "- scambia un file .cpp con il suo corrispondente .h\n"
+#~ "- [apri file digitando il suo nome -> TODO]"
+
+#~ msgid "Goto file"
+#~ msgstr "Vai al file"
+
+#~ msgid "(From the %s plugin)"
+#~ msgstr "(Dal plugin %s)"
+
+#~ msgid "GProject"
+#~ msgstr "GProject"
+
+#~ msgid "Glob-pattern-based project management plugin for Geany."
+#~ msgstr "Plugin per la gestione del progetto Glob-pattern-based in Geany."
+
+#~ msgid "Swap Intestazione/Sorgente"
+#~ msgstr "Scambia Intestazione/Sorgente"
+
+#~ msgid "Swap intestazione/sorgente"
+#~ msgstr "Scambia intestazione/sorgente"
+
+#~ msgid ""
+#~ "Space separated list of patterns that are used to identify source files."
+#~ msgstr ""
+#~ "Lista separata da spazi dei patterns che saranno usati per identificare i "
+#~ "file sorgenti."
+
+#~ msgid ""
+#~ "Note: set the patterns of files belonging to the project under the "
+#~ "Project tab."
+#~ msgstr ""
+#~ "Nota: impostare i patterns dei file che appartengono al progetto sotto il "
+#~ "tab Progetto"
+
+#~ msgid "No update available"
+#~ msgstr "Nessun aggiornamento disponibile"

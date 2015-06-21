@@ -5,9 +5,9 @@
 # Pedro Albuquerque <palbuquerque73@gmail.com>, 2015.
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-plugins 1.24\n"
+"Project-Id-Version: Geany-plugins 1.25\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-21 15:13+0100\n"
+"POT-Creation-Date: 2015-06-20 11:24+0200\n"
 "PO-Revision-Date: 2015-04-29 07:25+0100\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
 "Language-Team: André Glória, Pedro Albuquerque <palbuquerque73@gmail.com>\n"
@@ -466,7 +466,8 @@ msgid "Enclose selections in strings and comments"
 msgstr "Incluir seleções em cadeias e comentários"
 
 #: ../autoclose/src/autoclose.c:1094
-msgid "Check if you want to enclose selections inside strings and comments too."
+msgid ""
+"Check if you want to enclose selections inside strings and comments too."
 msgstr ""
 "Marque a caixa se também quiser incluir seleções dentro de cadeias e "
 "comentários."
@@ -1242,7 +1243,7 @@ msgstr "Falha na execução do processo (%s)"
 
 #: ../geanyctags/src/geanyctags.c:517
 #: ../projectorganizer/src/prjorg-sidebar.c:423
-#: ../projectorganizer/src/prjorg-sidebar.c:1368
+#: ../projectorganizer/src/prjorg-sidebar.c:1365
 msgid "Find Tag"
 msgstr "Localizar etiqueta"
 
@@ -4505,11 +4506,11 @@ msgstr "Localizar no projeto"
 msgid "Remove File"
 msgstr "Remover ficheiro"
 
-#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1392
+#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1389
 msgid "H_ide Sidebar"
 msgstr "Ocultar barra _Lateral"
 
-#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1413
+#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1410
 msgid "Project"
 msgstr "Projeto"
 
@@ -5148,38 +5149,38 @@ msgstr "Linhas _Removidas:"
 msgid "Colors"
 msgstr "Cores"
 
-#: ../git-changebar/src/gcb-plugin.c:53
+#: ../git-changebar/src/gcb-plugin.c:50
 msgid "Git Change Bar"
 msgstr "Barra de alteração Git"
 
-#: ../git-changebar/src/gcb-plugin.c:54
+#: ../git-changebar/src/gcb-plugin.c:51
 msgid "Highlights uncommitted changes in files tracked with Git"
 msgstr "Realça alterações não submetidas em ficheiros monitorizados com Git"
 
-#: ../git-changebar/src/gcb-plugin.c:1035 ../pohelper/src/gph-plugin.c:1577
+#: ../git-changebar/src/gcb-plugin.c:1108 ../pohelper/src/gph-plugin.c:1577
 #, c-format
 msgid "Failed to load configuration file: %s"
 msgstr "Falha ao carregar ficheiro de configuração: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1060 ../pohelper/src/gph-plugin.c:1602
+#: ../git-changebar/src/gcb-plugin.c:1133 ../pohelper/src/gph-plugin.c:1602
 #, c-format
 msgid "Failed to create configuration directory \"%s\": %s"
 msgstr "Falha ao criar pasta de configuração \"%s\": %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1063 ../pohelper/src/gph-plugin.c:1605
+#: ../git-changebar/src/gcb-plugin.c:1136 ../pohelper/src/gph-plugin.c:1605
 #, c-format
 msgid "Failed to save configuration file: %s"
 msgstr "Falha ao gravar ficheiro de configuração: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1141
+#: ../git-changebar/src/gcb-plugin.c:1214
 msgid "Go to the previous hunk"
 msgstr "Ir para o bocado anterior"
 
-#: ../git-changebar/src/gcb-plugin.c:1143
+#: ../git-changebar/src/gcb-plugin.c:1216
 msgid "Go to the next hunk"
 msgstr "Ir para o bocado seguinte"
 
-#: ../git-changebar/src/gcb-plugin.c:1269 ../pohelper/src/gph-plugin.c:1373
+#: ../git-changebar/src/gcb-plugin.c:1341 ../pohelper/src/gph-plugin.c:1373
 #: ../pohelper/src/gph-plugin.c:1706
 #, c-format
 msgid ""
@@ -5233,6 +5234,142 @@ msgstr "Pré-visualizar Markdown"
 #: ../markdown/src/plugin.c:162
 msgid "The current document does not have a Markdown filetype."
 msgstr "O documento atual não tem tipo de ficheiro Markdown."
+
+#: ../overview/overview/overviewplugin.c:49
+msgid "Provides an overview of the active document"
+msgstr ""
+
+#: ../overview/overview/overviewplugin.c:192
+msgid "Toggle Visibility"
+msgstr ""
+
+#: ../overview/overview/overviewplugin.c:199
+msgid "Toggle Left/Right Position"
+msgstr ""
+
+#: ../overview/overview/overviewplugin.c:206
+msgid "Toggle Overlay Inversion"
+msgstr ""
+
+#: ../overview/overview/overviewscintilla.c:516
+#, c-format
+msgid "Line <b>%d</b>, Column <b>%d</b>, Position <b>%d</b>"
+msgstr ""
+
+#: ../overview/overview/overviewui.c:289
+#, fuzzy
+msgid "Show Overview"
+msgstr "Mostrar terminal"
+
+#: ../overview/data/prefs.ui.h:1
+msgid ""
+"The amount to zoom the overview sidebar. This should probably negative if "
+"you want the sidebar zoomed out."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:2
+#, fuzzy
+msgid "Zoom Level:"
+msgstr "Ampliar a vista"
+
+#: ../overview/data/prefs.ui.h:3
+msgid "The width of the overview sidebar."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:4
+msgid "Width:"
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:5
+msgid ""
+"The number of lines to scroll at a time when scrolling the overview sidebar."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:6
+msgid "Scroll Lines:"
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:7
+#, fuzzy
+msgid "Position on left"
+msgstr "nome da posição"
+
+#: ../overview/data/prefs.ui.h:8
+msgid ""
+"Position the overview bar on the left rather than the right (requires Geany "
+"1.25 or greater)."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:9
+#, fuzzy
+msgid "Hide tooltip"
+msgstr "Mostrar suges_Tões."
+
+#: ../overview/data/prefs.ui.h:10
+msgid ""
+"Hide the tooltip that is displayed when mousing over the overview that shows "
+"line, column and position information."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:11
+msgid "Hide editor scrollbar"
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:12
+msgid ""
+"Whether to hide Geany's regular editor scrollbar while the overview bar is "
+"visible."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:13
+msgid "Disable overlay"
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:14
+msgid ""
+"Turn off drawing overlay, which shows the region of the main editor view "
+"that is currently in view, ontop of the overview bar."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:15 ../scope/data/scope.glade.h:109
+msgid "Options"
+msgstr "Opções"
+
+#: ../overview/data/prefs.ui.h:16
+msgid ""
+"The color and opacity of the overlay drawn ontop of the overlay sidebar."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:17
+#, fuzzy
+msgid "Color:"
+msgstr "Cores"
+
+#: ../overview/data/prefs.ui.h:18
+msgid ""
+"The color and opacity of the border drawn around the revealed area in the "
+"overview sidebar. Set to the same as Overlay Color to disable."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:19
+#, fuzzy
+msgid "Outline Color:"
+msgstr "Selecionar cor"
+
+#: ../overview/data/prefs.ui.h:20
+msgid "Draw over visible area"
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:21
+msgid ""
+"When checked it will draw the overlay ontop of the area that is visible in "
+"the main editor view, when unchecked, it will do the opposite and draw the "
+"overlay everywhere but the visible area, \"revealing\" the visible part."
+msgstr ""
+
+#: ../overview/data/prefs.ui.h:22
+msgid "Overlay"
+msgstr ""
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:35
 msgid "Pair Tag Highlighter"
@@ -5516,8 +5653,10 @@ msgid "Project Organizer"
 msgstr "Organizador de projeto"
 
 #: ../projectorganizer/src/prjorg-main.c:42
+#, fuzzy
 msgid ""
-"Project file tree, project-wide indexing and search, extra navigation options"
+"Project file tree, project-wide indexing and search, extra navigation "
+"options (was GProject)"
 msgstr ""
 "Árvore do ficheiro de projeto, procura e indexação a nível de projeto, "
 "opções extra de navegação"
@@ -5558,11 +5697,11 @@ msgstr "Trocar cabeçalho/código"
 msgid "Open Selected File (Project Organizer)"
 msgstr "Abrir ficheiro selecionado (Organizador de projeto)"
 
-#: ../projectorganizer/src/prjorg-project.c:547
+#: ../projectorganizer/src/prjorg-project.c:551
 msgid "Source patterns:"
 msgstr "Padrões de fontes:"
 
-#: ../projectorganizer/src/prjorg-project.c:553
+#: ../projectorganizer/src/prjorg-project.c:557
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
 "Used for header/source swapping."
@@ -5570,11 +5709,11 @@ msgstr ""
 "Lista de padrões separados por espaços, usados para identificar ficheiros "
 "fonte. Usado para trocas entre cabeçalho/fonte."
 
-#: ../projectorganizer/src/prjorg-project.c:559
+#: ../projectorganizer/src/prjorg-project.c:563
 msgid "Header patterns:"
 msgstr "Padrões de ficheiros de cabeçalhos:"
 
-#: ../projectorganizer/src/prjorg-project.c:565
+#: ../projectorganizer/src/prjorg-project.c:569
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
 "header/source swapping."
@@ -5582,11 +5721,11 @@ msgstr ""
 "Lista de padrões separados por espaços, usados para identificar cabeçalhos. "
 "Usado para trocas entre cabeçalho/fonte."
 
-#: ../projectorganizer/src/prjorg-project.c:571
+#: ../projectorganizer/src/prjorg-project.c:575
 msgid "Ignored file patterns:"
 msgstr "Padrões de ficheiro a ignorar:"
 
-#: ../projectorganizer/src/prjorg-project.c:577
+#: ../projectorganizer/src/prjorg-project.c:581
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
 "not displayed in the project tree."
@@ -5594,11 +5733,11 @@ msgstr ""
 "Lista de padrões separados por espaços, usados para identificar ficheiros "
 "que não são mostrados na árvore do projeto."
 
-#: ../projectorganizer/src/prjorg-project.c:583
+#: ../projectorganizer/src/prjorg-project.c:587
 msgid "Ignored directory patterns:"
 msgstr "Padrões de pasta a ignorar:"
 
-#: ../projectorganizer/src/prjorg-project.c:589
+#: ../projectorganizer/src/prjorg-project.c:593
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
@@ -5606,23 +5745,24 @@ msgstr ""
 "Lista separada por espaços, de padrões a ser usados para identificar "
 "diretórios onde não se procurarão ficheiros de código."
 
-#: ../projectorganizer/src/prjorg-project.c:595
+#: ../projectorganizer/src/prjorg-project.c:599
 msgid "Generate tags for all project files:"
 msgstr "Gerar etiquetas para todos os ficheiros do projeto:"
 
-#: ../projectorganizer/src/prjorg-project.c:598
-msgid "Auto (generate if less than 500 files)"
+#: ../projectorganizer/src/prjorg-project.c:602
+#, fuzzy
+msgid "Auto (generate if less than 300 files)"
 msgstr "Automático (gerar se menos de 500 ficheiros)"
 
-#: ../projectorganizer/src/prjorg-project.c:599
+#: ../projectorganizer/src/prjorg-project.c:603
 msgid "Yes"
 msgstr "Sim"
 
-#: ../projectorganizer/src/prjorg-project.c:600
+#: ../projectorganizer/src/prjorg-project.c:604
 msgid "No"
 msgstr "Não"
 
-#: ../projectorganizer/src/prjorg-project.c:604
+#: ../projectorganizer/src/prjorg-project.c:608
 msgid ""
 "Generate tag list for all project files instead of only for the currently "
 "opened files. Might be slow for big projects."
@@ -5630,7 +5770,7 @@ msgstr ""
 "Gerar lista de etiquetas para todos os ficheiros do projeto e não só para os "
 "atualmente abertos. Pode ser lento para projetos grandes."
 
-#: ../projectorganizer/src/prjorg-project.c:610
+#: ../projectorganizer/src/prjorg-project.c:614
 msgid ""
 "Note: the patterns above affect only the sidebar and are not used in the "
 "Find in Files\n"
@@ -5647,7 +5787,7 @@ msgstr ""
 "Localizar em ficheiros)."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:117
-#: ../projectorganizer/src/prjorg-sidebar.c:1359
+#: ../projectorganizer/src/prjorg-sidebar.c:1356
 msgid "Find File"
 msgstr "Procurar ficheiro"
 
@@ -5673,44 +5813,44 @@ msgstr "Adicionar pasta externa"
 msgid "Add"
 msgstr "Adicionar"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1035
+#: ../projectorganizer/src/prjorg-sidebar.c:1034
 msgid "Set file patterns under Project->Properties"
 msgstr "Definir padrões de ficheiros sob Projeto -> Propriedades"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1249
+#: ../projectorganizer/src/prjorg-sidebar.c:1246
 msgid "Reload all"
 msgstr "Recarregar todos"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1258
+#: ../projectorganizer/src/prjorg-sidebar.c:1255
 msgid "Add external directory"
 msgstr "Adicionar pasta externa"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1268
+#: ../projectorganizer/src/prjorg-sidebar.c:1265
 #: ../treebrowser/src/treebrowser.c:1282
 msgid "Expand all"
 msgstr "Expandir tudo"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1275
+#: ../projectorganizer/src/prjorg-sidebar.c:1272
 msgid "Collapse to project root"
 msgstr "Colapsar para a raíz do projeto"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1286
+#: ../projectorganizer/src/prjorg-sidebar.c:1283
 msgid "Follow active editor"
 msgstr "Seguir o editor ativo"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1332
+#: ../projectorganizer/src/prjorg-sidebar.c:1329
 msgid "Open a project to start using the plugin"
 msgstr "Abrir um projeto para começar a usar a extensão"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1341
+#: ../projectorganizer/src/prjorg-sidebar.c:1338
 msgid "Expand All"
 msgstr "Expandir tudo"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1350
+#: ../projectorganizer/src/prjorg-sidebar.c:1347
 msgid "Find in Files"
 msgstr "Localizar em ficheiros"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1381
+#: ../projectorganizer/src/prjorg-sidebar.c:1378
 msgid "Remove External Directory"
 msgstr "Remover pasta externa"
 
@@ -6131,7 +6271,8 @@ msgid "<b>Inspect</b>"
 msgstr "<b>Inspecionar</b>"
 
 #: ../scope/data/scope.glade.h:106
-msgid "Show li_brary messages"
+#, fuzzy
+msgid "Show =li_brary messages"
 msgstr "Mostrar mensagens da _Biblioteca"
 
 #: ../scope/data/scope.glade.h:107
@@ -6141,10 +6282,6 @@ msgstr "Mostrar suges_Tões."
 #: ../scope/data/scope.glade.h:108
 msgid "<b>Others</b>"
 msgstr "<b>Outros</b>"
-
-#: ../scope/data/scope.glade.h:109
-msgid "Options"
-msgstr "Opções"
 
 #: ../scope/data/scope.glade.h:110
 msgid "_Import"
@@ -7855,8 +7992,8 @@ msgstr "Auto completar etiquetas  XML/HTML usando excertos de código."
 #~ "reached the one you wanted. With this plugin you can go straight to the "
 #~ "bookmark that you want with a single key combination. To set a numbered "
 #~ "bookmark press Ctrl+Shift+a number from 0 to 9. You will see a marker "
-#~ "appear next to the line number. If you press Ctrl+Shift+a number on a line "
-#~ "that already has that bookmark number then it removes the bookmark, "
+#~ "appear next to the line number. If you press Ctrl+Shift+a number on a "
+#~ "line that already has that bookmark number then it removes the bookmark, "
 #~ "otherwise it will move the bookmark there if it was set on a different "
 #~ "line, or create it if it had not already been set. Only the bookmark with "
 #~ "the highest number on a line will be shown, but you can have more than "

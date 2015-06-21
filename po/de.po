@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.25\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-14 20:35+0200\n"
+"POT-Creation-Date: 2015-06-20 11:24+0200\n"
 "PO-Revision-Date: 2015-04-20 20:17+0200\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -490,7 +490,8 @@ msgid "Enclose selections in strings and comments"
 msgstr "Auswahl in Kommentaren und Strings umschließen"
 
 #: ../autoclose/src/autoclose.c:1094
-msgid "Check if you want to enclose selections inside strings and comments too."
+msgid ""
+"Check if you want to enclose selections inside strings and comments too."
 msgstr ""
 "Legt fest, ob auch innerhalb von Kommentaren und Strings eine Auswahl "
 "automatisch mit einem Klammerpaar umschlossen werden soll."
@@ -3949,7 +3950,8 @@ msgid ""
 "or (at your option) any later version."
 msgstr ""
 "<b>GMS : Geany Mini-Script Plugin</b>\n"
-"Dieses Plugin ist ein Werkzeug, um verschiedene, skriptbasierte Filter auf: \n"
+"Dieses Plugin ist ein Werkzeug, um verschiedene, skriptbasierte Filter "
+"auf: \n"
 "   o die Textauswahl,\n"
 "\to das aktuelle Dokument, \n"
 "\to die Dokumente der aktuelle Sitzung\n"
@@ -5218,40 +5220,40 @@ msgstr "_Entfernte Zeilen:"
 msgid "Colors"
 msgstr "Farben:"
 
-#: ../git-changebar/src/gcb-plugin.c:53
+#: ../git-changebar/src/gcb-plugin.c:50
 msgid "Git Change Bar"
 msgstr "Git Change Bar"
 
-#: ../git-changebar/src/gcb-plugin.c:54
+#: ../git-changebar/src/gcb-plugin.c:51
 msgid "Highlights uncommitted changes in files tracked with Git"
 msgstr ""
 "Hebt noch nicht committete Änderungen an in einem git-Repository verwaltete "
 "Dateien hervor."
 
-#: ../git-changebar/src/gcb-plugin.c:1035 ../pohelper/src/gph-plugin.c:1577
+#: ../git-changebar/src/gcb-plugin.c:1108 ../pohelper/src/gph-plugin.c:1577
 #, c-format
 msgid "Failed to load configuration file: %s"
 msgstr "Konnte Konfiguration nicht laden: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1060 ../pohelper/src/gph-plugin.c:1602
+#: ../git-changebar/src/gcb-plugin.c:1133 ../pohelper/src/gph-plugin.c:1602
 #, c-format
 msgid "Failed to create configuration directory \"%s\": %s"
 msgstr "Konnte das Konfigurationsverzeichnis »%s« nicht anlegen: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1063 ../pohelper/src/gph-plugin.c:1605
+#: ../git-changebar/src/gcb-plugin.c:1136 ../pohelper/src/gph-plugin.c:1605
 #, c-format
 msgid "Failed to save configuration file: %s"
 msgstr "Konnte Konfiguration nicht speichern: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1141
+#: ../git-changebar/src/gcb-plugin.c:1214
 msgid "Go to the previous hunk"
 msgstr "Zur vorherigen Block mit Änderungen springen"
 
-#: ../git-changebar/src/gcb-plugin.c:1143
+#: ../git-changebar/src/gcb-plugin.c:1216
 msgid "Go to the next hunk"
 msgstr "Zur nächsten Block mit Änderungen springen"
 
-#: ../git-changebar/src/gcb-plugin.c:1269 ../pohelper/src/gph-plugin.c:1373
+#: ../git-changebar/src/gcb-plugin.c:1341 ../pohelper/src/gph-plugin.c:1373
 #: ../pohelper/src/gph-plugin.c:1706
 #, c-format
 msgid ""
@@ -5727,8 +5729,10 @@ msgid "Project Organizer"
 msgstr "Project Organizer"
 
 #: ../projectorganizer/src/prjorg-main.c:42
+#, fuzzy
 msgid ""
-"Project file tree, project-wide indexing and search, extra navigation options"
+"Project file tree, project-wide indexing and search, extra navigation "
+"options (was GProject)"
 msgstr ""
 "Projektspezifischer Dateibaum, projektweite Indizierung und Suche, Optionen "
 "zur besseren Navigation in Projekten"
