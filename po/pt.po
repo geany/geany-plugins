@@ -2,21 +2,22 @@
 # Copyright (C) 2009 - 2011 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 # André Glória, 2009 - 2011
-# Pedro Albuquerque <palbuquerque73@gmail.com>, 2015.
+# Pedro Albuquerque <palbuquerque73@openmailbox.com>, 2015.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.25\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-20 11:24+0200\n"
-"PO-Revision-Date: 2015-04-29 07:25+0100\n"
-"Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
-"Language-Team: André Glória, Pedro Albuquerque <palbuquerque73@gmail.com>\n"
+"POT-Creation-Date: 2015-06-22 03:19+0000\n"
+"PO-Revision-Date: 2015-06-22 20:14+0100\n"
+"Last-Translator: Pedro Albuquerque <palbuquerque73@openmailbox.com>\n"
+"Language-Team: Português <palbuquerque73@openmailbox.com>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: ../addons/src/ao_bookmarklist.c:182
 msgid "(Empty Line)"
@@ -3212,11 +3213,11 @@ msgstr "Tab reverso (apaga a tabulação se não houver nada a seguir)"
 
 #: ../geanymacro/src/geanymacro.c:72
 msgid "Scroll Display down a line"
-msgstr "Deslocar uma linha abaixo"
+msgstr "Rolar uma linha abaixo"
 
 #: ../geanymacro/src/geanymacro.c:73
 msgid "Scroll Display up a line"
-msgstr "Deslocar uma linha acima"
+msgstr "Rolar uma linha acima"
 
 #: ../geanymacro/src/geanymacro.c:74
 msgid "Zoom view in"
@@ -5237,99 +5238,107 @@ msgstr "O documento atual não tem tipo de ficheiro Markdown."
 
 #: ../overview/overview/overviewplugin.c:49
 msgid "Provides an overview of the active document"
-msgstr ""
+msgstr "Fornece uma vista geral do documento ativo"
 
 #: ../overview/overview/overviewplugin.c:192
 msgid "Toggle Visibility"
-msgstr ""
+msgstr "Alternar visibilidade"
 
 #: ../overview/overview/overviewplugin.c:199
 msgid "Toggle Left/Right Position"
-msgstr ""
+msgstr "Alternar posição esquerda/direita"
 
 #: ../overview/overview/overviewplugin.c:206
 msgid "Toggle Overlay Inversion"
-msgstr ""
+msgstr "Alternar inversão da cobertura"
 
 #: ../overview/overview/overviewscintilla.c:516
 #, c-format
 msgid "Line <b>%d</b>, Column <b>%d</b>, Position <b>%d</b>"
-msgstr ""
+msgstr "Linha <b>%d</b>, coluna <b>%d</b>, posição <b>%d</b>"
 
 #: ../overview/overview/overviewui.c:289
-#, fuzzy
 msgid "Show Overview"
-msgstr "Mostrar terminal"
+msgstr "Mostrar vista geral"
 
 #: ../overview/data/prefs.ui.h:1
 msgid ""
 "The amount to zoom the overview sidebar. This should probably negative if "
 "you want the sidebar zoomed out."
 msgstr ""
+"Quanto ampliar a barra lateral da vista geral. Provavelmente deve ser "
+"negativo se quiser a barra lateral reduzida."
 
 #: ../overview/data/prefs.ui.h:2
-#, fuzzy
 msgid "Zoom Level:"
-msgstr "Ampliar a vista"
+msgstr "Fator de ampliação:"
 
 #: ../overview/data/prefs.ui.h:3
 msgid "The width of the overview sidebar."
-msgstr ""
+msgstr "A largura da barra lateral da vista geral"
 
 #: ../overview/data/prefs.ui.h:4
 msgid "Width:"
-msgstr ""
+msgstr "Largura:"
 
 #: ../overview/data/prefs.ui.h:5
 msgid ""
 "The number of lines to scroll at a time when scrolling the overview sidebar."
 msgstr ""
+"O número de linhas a rolar de uma só vez ao rolar a barra lateral da vista "
+"geral."
 
 #: ../overview/data/prefs.ui.h:6
 msgid "Scroll Lines:"
-msgstr ""
+msgstr "Rolar linhas"
 
 #: ../overview/data/prefs.ui.h:7
-#, fuzzy
 msgid "Position on left"
-msgstr "nome da posição"
+msgstr "Posição à esquerda"
 
 #: ../overview/data/prefs.ui.h:8
 msgid ""
 "Position the overview bar on the left rather than the right (requires Geany "
 "1.25 or greater)."
 msgstr ""
+"Posicionar a barra de vista geral à esquerda em vez de à direita ( requer o "
+"Geany 1.25 ou superior)."
 
 #: ../overview/data/prefs.ui.h:9
-#, fuzzy
 msgid "Hide tooltip"
-msgstr "Mostrar suges_Tões."
+msgstr "Ocultar sugestão"
 
 #: ../overview/data/prefs.ui.h:10
 msgid ""
 "Hide the tooltip that is displayed when mousing over the overview that shows "
 "line, column and position information."
 msgstr ""
+"Ocultar a sugestão mostrada quando o rato paira sobre a vista geral, que "
+"informa sobre linha, coluna e posição."
 
 #: ../overview/data/prefs.ui.h:11
 msgid "Hide editor scrollbar"
-msgstr ""
+msgstr "Ocultar barra de rolamento do editor"
 
 #: ../overview/data/prefs.ui.h:12
 msgid ""
 "Whether to hide Geany's regular editor scrollbar while the overview bar is "
 "visible."
 msgstr ""
+"Se deve ocultar a barra de rolamento do editor normal do Geany enquanto a "
+"barra de vista geral está visível."
 
 #: ../overview/data/prefs.ui.h:13
 msgid "Disable overlay"
-msgstr ""
+msgstr "Desativar cobertura"
 
 #: ../overview/data/prefs.ui.h:14
 msgid ""
 "Turn off drawing overlay, which shows the region of the main editor view "
 "that is currently in view, ontop of the overview bar."
 msgstr ""
+"Desligar o desenho da cobertura, o que mostra a região da vista do editor "
+"principal atual, no topo da barra de vista geral."
 
 #: ../overview/data/prefs.ui.h:15 ../scope/data/scope.glade.h:109
 msgid "Options"
@@ -5339,26 +5348,29 @@ msgstr "Opções"
 msgid ""
 "The color and opacity of the overlay drawn ontop of the overlay sidebar."
 msgstr ""
+"A cor e opacidade da cobertura desenhada no topo da barra lateral da "
+"cobertura."
 
 #: ../overview/data/prefs.ui.h:17
-#, fuzzy
 msgid "Color:"
-msgstr "Cores"
+msgstr "Cor:"
 
 #: ../overview/data/prefs.ui.h:18
 msgid ""
 "The color and opacity of the border drawn around the revealed area in the "
 "overview sidebar. Set to the same as Overlay Color to disable."
 msgstr ""
+"A cor e opacidade do contorno desenhado à volta da área revelada na barra "
+"lateral da vista geral. Defina com o mesmo valor de Cor da cobertura para "
+"desativar"
 
 #: ../overview/data/prefs.ui.h:19
-#, fuzzy
 msgid "Outline Color:"
-msgstr "Selecionar cor"
+msgstr "Cor de realce:"
 
 #: ../overview/data/prefs.ui.h:20
 msgid "Draw over visible area"
-msgstr ""
+msgstr "Desenhar sobre a parte visível"
 
 #: ../overview/data/prefs.ui.h:21
 msgid ""
@@ -5366,10 +5378,13 @@ msgid ""
 "the main editor view, when unchecked, it will do the opposite and draw the "
 "overlay everywhere but the visible area, \"revealing\" the visible part."
 msgstr ""
+"Quando marcada, desenha a cobertura por cima da área visível na vista "
+"principal do editor. Sem marcação faz o oposto, desenha a cobertura em todo "
+"o lado menos na área visível, \"revelando\" a parte visível."
 
 #: ../overview/data/prefs.ui.h:22
 msgid "Overlay"
-msgstr ""
+msgstr "Cobertura"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:35
 msgid "Pair Tag Highlighter"
@@ -5653,13 +5668,12 @@ msgid "Project Organizer"
 msgstr "Organizador de projeto"
 
 #: ../projectorganizer/src/prjorg-main.c:42
-#, fuzzy
 msgid ""
 "Project file tree, project-wide indexing and search, extra navigation "
 "options (was GProject)"
 msgstr ""
 "Árvore do ficheiro de projeto, procura e indexação a nível de projeto, "
-"opções extra de navegação"
+"opções extra de navegação (era GProject)"
 
 #: ../projectorganizer/src/prjorg-menu.c:372
 msgid "Find in Project Files"
@@ -5750,9 +5764,8 @@ msgid "Generate tags for all project files:"
 msgstr "Gerar etiquetas para todos os ficheiros do projeto:"
 
 #: ../projectorganizer/src/prjorg-project.c:602
-#, fuzzy
 msgid "Auto (generate if less than 300 files)"
-msgstr "Automático (gerar se menos de 500 ficheiros)"
+msgstr "Automático (gerar se menos de 300 ficheiros)"
 
 #: ../projectorganizer/src/prjorg-project.c:603
 msgid "Yes"
@@ -6271,13 +6284,12 @@ msgid "<b>Inspect</b>"
 msgstr "<b>Inspecionar</b>"
 
 #: ../scope/data/scope.glade.h:106
-#, fuzzy
 msgid "Show =li_brary messages"
-msgstr "Mostrar mensagens da _Biblioteca"
+msgstr "Mostrar mensagens =li_Brary"
 
 #: ../scope/data/scope.glade.h:107
 msgid "Show _tooltips"
-msgstr "Mostrar suges_Tões."
+msgstr "Mostrar suges_Tões"
 
 #: ../scope/data/scope.glade.h:108
 msgid "<b>Others</b>"
