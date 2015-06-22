@@ -1344,7 +1344,7 @@ void prjorg_sidebar_init(void)
 
 	image = gtk_image_new_from_stock(GTK_STOCK_FIND, GTK_ICON_SIZE_MENU);
 	gtk_widget_show(image);
-	item = gtk_image_menu_item_new_with_mnemonic(_("Find in Files"));
+	item = gtk_image_menu_item_new_with_mnemonic(_("Find in Files..."));
 	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
@@ -1353,7 +1353,7 @@ void prjorg_sidebar_init(void)
 
 	image = gtk_image_new_from_stock(GTK_STOCK_FIND, GTK_ICON_SIZE_MENU);
 	gtk_widget_show(image);
-	item = gtk_image_menu_item_new_with_mnemonic(_("Find File"));
+	item = gtk_image_menu_item_new_with_mnemonic(_("Find File..."));
 	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
@@ -1362,7 +1362,7 @@ void prjorg_sidebar_init(void)
 
 	image = gtk_image_new_from_stock(GTK_STOCK_FIND, GTK_ICON_SIZE_MENU);
 	gtk_widget_show(image);
-	item = gtk_image_menu_item_new_with_mnemonic(_("Find Tag"));
+	item = gtk_image_menu_item_new_with_mnemonic(_("Find Tag..."));
 	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
