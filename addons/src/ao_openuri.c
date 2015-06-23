@@ -250,7 +250,7 @@ void ao_open_uri_update_menu(AoOpenUri *openuri, GeanyDocument *doc, gint pos)
 		sci_get_selected_text(doc->editor->sci, text);
 	}
 	else
-		text = editor_get_word_at_pos(doc->editor, pos, GEANY_WORDCHARS"@.://-?&%#=~+_&,;");
+		text = editor_get_word_at_pos(doc->editor, pos, GEANY_WORDCHARS"@.://-?&%#=~+_,;");
 
 	/* TODO be more restrictive when handling selections as there are too many hits by now */
 	if (text != NULL && (ao_uri_has_scheme(text) || ao_uri_is_link(text)))
