@@ -17,7 +17,11 @@
  *			MA 02110-1301, USA.
  */
 
-#include "geanyplugin.h"
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
+
+#include <geanyplugin.h>
 
 #include "addons.h"
 #include "ao_wrapwords.h"
@@ -247,8 +251,8 @@ void ao_enclose_words_config (GtkButton *button, GtkWidget *config_window)
 	gint i;
 
 	dialog = gtk_dialog_new_with_buttons(_("Enclose Characters"), GTK_WINDOW(config_window),
-						GTK_DIALOG_DESTROY_WITH_PARENT, "Accept", GTK_RESPONSE_ACCEPT,
-						"Cancel", GTK_RESPONSE_CANCEL, "OK", GTK_RESPONSE_OK, NULL);
+						GTK_DIALOG_DESTROY_WITH_PARENT, _("Accept"), GTK_RESPONSE_ACCEPT,
+						_("Cancel"), GTK_RESPONSE_CANCEL, _("OK"), GTK_RESPONSE_OK, NULL);
 
 	vbox = ui_dialog_vbox_new (GTK_DIALOG (dialog));
 	chars_list = gtk_list_store_new (NUM_COLUMNS, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);

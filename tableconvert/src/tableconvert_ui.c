@@ -21,6 +21,10 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+	#include "config.h" /* for the gettext domain */
+#endif
+
 #include "tableconvert_ui.h"
 
 GtkWidget *main_menu_item = NULL;
