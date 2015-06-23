@@ -20,6 +20,8 @@ Requirements
 ------------
 Geany 1.22 or later and the respective libraries, including VTE under *nix.
 
+GLib-2.18 or later. For Windows, 2.24 is recommended.
+
 GDB 7.3 or later.
 
 win~1: XP or later.
