@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.25\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-20 11:24+0200\n"
-"PO-Revision-Date: 2015-06-22 23:46+0200\n"
+"POT-Creation-Date: 2015-06-23 14:14+0200\n"
+"PO-Revision-Date: 2015-06-23 14:29+0200\n"
 "Last-Translator: Colomban Wendling <ban@herbesfolles.org>\n"
 "Language-Team: French <geany-i18n@uvena.de>\n"
 "Language: fr\n"
@@ -105,20 +105,32 @@ msgstr "Ouvrir une URI"
 msgid "Copy URI"
 msgstr "Copier une URI"
 
-#: ../addons/src/ao_wrapwords.c:249
+#: ../addons/src/ao_wrapwords.c:253
 msgid "Enclose Characters"
 msgstr "Caractères d'entourage"
 
-#: ../addons/src/ao_wrapwords.c:260
+#: ../addons/src/ao_wrapwords.c:254
+msgid "Accept"
+msgstr "Valider"
+
+#: ../addons/src/ao_wrapwords.c:255 ../geanymacro/src/geanymacro.c:1064
+msgid "Cancel"
+msgstr "Annuler"
+
+#: ../addons/src/ao_wrapwords.c:255
+msgid "OK"
+msgstr "OK"
+
+#: ../addons/src/ao_wrapwords.c:264
 #, c-format
 msgid "Enclose combo %d"
 msgstr "Combinaison d'entourage %d"
 
-#: ../addons/src/ao_wrapwords.c:276
+#: ../addons/src/ao_wrapwords.c:280
 msgid "Opening Character"
 msgstr "Caractère ouvrant"
 
-#: ../addons/src/ao_wrapwords.c:283
+#: ../addons/src/ao_wrapwords.c:287
 msgid "Closing Character"
 msgstr "Caractère fermant"
 
@@ -256,7 +268,8 @@ msgstr "Configurer les paires d'entourage"
 
 #: ../addons/src/addons.c:572
 msgid "Enclose selection automatically (without having to press a keybinding)"
-msgstr "Entourer la sélection automatiquement (sans avoir à utiliser un raccourci)"
+msgstr ""
+"Entourer la sélection automatiquement (sans avoir à utiliser de raccourci)"
 
 #: ../autoclose/src/autoclose.c:50
 #, fuzzy
@@ -361,8 +374,8 @@ msgid ""
 msgstr ""
 "Si vous sélectionnez du texte et pressez « { » ou « } », le plugin va "
 "entourer les lignes et créer un nouveau bloc indenté.\n"
-"Vous n'avez pas besoin de sélectionner le bloc très précisément : l'entourage "
-"se ferasur des lignes complètes."
+"Vous n'avez pas besoin de sélectionner le bloc très précisément : "
+"l'entourage se fera sur des lignes entières."
 
 #: ../autoclose/src/autoclose.c:1064
 msgid "Move cursor to beginning"
@@ -374,9 +387,9 @@ msgid ""
 "useful: usually you make new block and need to create new statement before "
 "this block."
 msgstr ""
-"Si vous sélectionnez « Indenter lors de l'entourage », déplacer le curseur au "
-"début peut être pratique : généralement lorsque vous créez un nouveau bloc "
-"vous devez ajouter une nouvelle instruction avant ce bloc."
+"Si vous sélectionnez « Indenter lors de l'entourage », déplacer le curseur "
+"au début peut être pratique : généralement lorsque vous créez un nouveau "
+"bloc vous devez ajouter une nouvelle instruction avant ce bloc."
 
 #: ../autoclose/src/autoclose.c:1068
 msgid "Improved auto-indentation"
@@ -402,8 +415,8 @@ msgid ""
 "line, indented. Statements within the braces are indented to the same level "
 "as the braces."
 msgstr ""
-"Ce style place l'accolade associée à une instruction de contrôle indentée sur "
-"la ligne suivante. Les instructions à l'intérieur des accolades sont "
+"Ce style place l'accolade associée à une instruction de contrôle indentée "
+"sur la ligne suivante. Les instructions à l'intérieur des accolades sont "
 "indentées au même niveau que les accolades."
 
 #: ../autoclose/src/autoclose.c:1078
@@ -556,8 +569,8 @@ msgid ""
 "Are you sure you want to delete all languages and restore defaults?\n"
 "This action cannot be undone."
 msgstr ""
-"Êtes vous sûr de vouloir supprimer tous les langages et restaurer les valeurs "
-"par défaut ?\n"
+"Êtes vous sûr de vouloir supprimer tous les langages et restaurer les "
+"valeurs par défaut ?\n"
 "Cette action ne peut pas être annulée."
 
 #. Add the menu item, sensitive only when a document is opened
@@ -1230,8 +1243,7 @@ msgstr "Basculer la recherche sensible à la casse"
 
 #: ../geanyctags/src/geanyctags.c:51
 msgid "Ctags generation and search plugin for geany projects"
-msgstr ""
-"Génération et recherche dans les fichiers CTags pour les projets Geany"
+msgstr "Génération et recherche dans les fichiers CTags pour les projets Geany"
 
 #: ../geanyctags/src/geanyctags.c:149
 #, c-format
@@ -3703,10 +3715,6 @@ msgstr "Enregistrer une macro"
 msgid "Record"
 msgstr "Enregistrer"
 
-#: ../geanymacro/src/geanymacro.c:1064
-msgid "Cancel"
-msgstr "Annuler"
-
 #: ../geanymacro/src/geanymacro.c:1071
 msgid "Macro Trigger:"
 msgstr "Déclencheur de la macro :"
@@ -5379,9 +5387,9 @@ msgid ""
 "The color and opacity of the border drawn around the revealed area in the "
 "overview sidebar. Set to the same as Overlay Color to disable."
 msgstr ""
-"Couleur et opacité de la bordure dessinée autour de la partie visible dans la "
-"vue d'ensemble. Utilisez la même couleur que pour l'overlay pour désactiver "
-"la bordure."
+"Couleur et opacité de la bordure dessinée autour de la partie visible dans "
+"la vue d'ensemble. Utilisez la même couleur que pour l'overlay pour "
+"désactiver la bordure."
 
 #: ../overview/data/prefs.ui.h:19
 msgid "Outline Color:"
@@ -5843,6 +5851,18 @@ msgstr "Ajouter un dossier externe"
 #: ../projectorganizer/src/prjorg-sidebar.c:293
 msgid "Add"
 msgstr "Ajouter"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:457
+msgid "exact"
+msgstr "exacte"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:458
+msgid "prefix"
+msgstr "préfixe"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:459
+msgid "pattern"
+msgstr "motif"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1034
 msgid "Set file patterns under Project->Properties"
@@ -6614,7 +6634,7 @@ msgid "Select File"
 msgstr "Sélectionner un fichier"
 
 #: ../scope/src/prefs.c:294 ../scope/src/utils.c:449
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Scope: %s: %s."
 msgstr "Scope : %s : %s."
 
@@ -6795,7 +6815,7 @@ msgid "%s: %s"
 msgstr "%s : %s"
 
 #: ../scope/src/utils.c:225
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Scope: error reading [%s]."
 msgstr "Scope : erreur à la lecture [%s]."
 
@@ -7030,18 +7050,18 @@ msgid "Convert selection to table"
 msgstr "Convertir la sélection en tableau"
 
 #. Build up menu entry for table_convert based on global file type
-#: ../tableconvert/src/tableconvert_ui.c:36
+#: ../tableconvert/src/tableconvert_ui.c:40
 msgid "_Convert to table"
 msgstr "_Convertir en tableau"
 
-#: ../tableconvert/src/tableconvert_ui.c:39
+#: ../tableconvert/src/tableconvert_ui.c:43
 msgid "Converts current marked list to a table."
 msgstr "Convertit la liste marquée actuellement en tableau."
 
 #. Build up menu entries for table convert based on explicit choice
 #. * This is needed for e.g. different wiki-Syntax or differenz stiles
 #. * within a special file type
-#: ../tableconvert/src/tableconvert_ui.c:48
+#: ../tableconvert/src/tableconvert_ui.c:52
 msgid "_More TableConvert"
 msgstr "Plus de conversions en _tableau"
 
