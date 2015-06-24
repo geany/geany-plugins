@@ -163,7 +163,7 @@ on_editor_notify(
 		/* if events are too intensive - remove old callback */
 		if (source_id)
 			g_source_remove(source_id);
-		source_id = g_timeout_add(150, automark, editor->document);
+		source_id = g_idle_add(automark, editor->document);
 	}
 	return FALSE;
 }
