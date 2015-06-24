@@ -110,8 +110,8 @@ file names or at mail addresses (e.g. for separating two addresses)
 you should keep care of proper quoting since %s, %b and %r will be
 replaced without any quotes.
 
-For more recent information all reported issues will be tracked at
-https://sourceforge.net/projects/geany-plugins/
+For more recent information, issues will be tracked at
+https://github.com/geany/geany-plugins/issues
 
 
 License

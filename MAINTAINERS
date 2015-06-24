@@ -75,7 +75,7 @@ S: Odd Fixes
 geanyextrasel
 P: Dimitar Zhekov <dimitar.zhekov@gmail.com>
 M: Dimitar Zhekov <dimitar.zhekov@gmail.com>
-W: http://sheckley.users.sourceforge.net
+W: http://plugins.geany.org/geanyextrasel.html
 S: Maintained
 
 geanygendoc
@@ -87,7 +87,7 @@ S: Maintained
 geanyinsertnum
 P: Dimitar Zhekov <dimitar.zhekov@gmail.com>
 M: Dimitar Zhekov <dimitar.zhekov@gmail.com>
-W: http://sheckley.users.sourceforge.net
+W: http://plugins.geany.org/geanyinsertnum.html
 S: Maintained
 
 geanylatex
@@ -213,7 +213,7 @@ S: Maintained
 scope
 P: Dimitar Zhekov <dimitar.zhekov@gmail.com>
 M: Dimitar Zhekov <dimitar.zhekov@gmail.com>
-W: http://sheckley.users.sourceforge.net
+W: http://plugins.geany.org/scope.html
 S: Maintained
 
 shiftcolumn
@@ -235,9 +235,9 @@ W: http://plugins.geany.org/tableconvert.html
 S: Maintained
 
 treebrowser
-P: 
-M: 
-W: 
+P:
+M:
+W:
 S: Orphaned
 
 updatechecker

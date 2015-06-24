@@ -42,7 +42,7 @@ At the moment, the use of pinentry is only supported on unix-like
 systems. On Windows gpg-agent has to be used.
 
 For more recent information all reported issues will be tracked at
-https://sourceforge.net/projects/geany-plugins/
+https://github.com/geany/geany-plugins/issues
 
 
 License
