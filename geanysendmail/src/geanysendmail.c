@@ -72,8 +72,6 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
 	gchar	*command = NULL;
 	GError	*error = NULL;
 	GString	*cmd_str = NULL;
-	GKeyFile 	*config = g_key_file_new();
-	gchar 		*config_dir = g_path_get_dirname(config_file);
 	gchar 		*data;
 
 	doc = document_get_current();
@@ -95,6 +93,8 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
 			cmd_str = g_string_new(mailer);
 			if ((use_address_dialog == TRUE) && (g_strrstr(mailer, "%r") != NULL))
 			{
+				GKeyFile *config = NULL;
+				gchar *config_dir = NULL;
  				gchar *input = dialogs_show_input(_("Recipient's Address"),
 										GTK_WINDOW(geany->main_widgets->window),
 										_("Enter the recipient's e-mail address:"),
@@ -102,6 +102,7 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
 
 				if (input)
 				{
+					config = g_key_file_new();
 					g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
 
 					g_free(address);
@@ -116,6 +117,7 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
 					return;
 				}
 
+				config_dir = g_path_get_dirname(config_file);
 				if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) &&
 				      utils_mkdir(config_dir, TRUE) != 0)
  				{
@@ -128,9 +130,9 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
  					data = g_key_file_to_data(config, NULL, NULL);
  					utils_write_file(config_file, data);
 					g_free(data);
-					g_key_file_free(config);
- 					g_free(config_dir);
  				}
+				g_key_file_free(config);
+				g_free(config_dir);
  			}
 
 			if (! utils_string_replace_all(cmd_str, "%f", locale_filename))
@@ -172,8 +174,6 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
 	{
 		ui_set_statusbar(FALSE, _("File has to be saved before sending."));
 	}
-
-	g_key_file_free(config);
 }
 
 static void key_send_as_attachment(G_GNUC_UNUSED guint key_id)
