@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.25\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-22 03:19+0000\n"
-"PO-Revision-Date: 2015-06-22 20:14+0100\n"
+"POT-Creation-Date: 2015-06-25 03:19+0000\n"
+"PO-Revision-Date: 2015-06-25 06:24+0100\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@openmailbox.com>\n"
 "Language-Team: Português <palbuquerque73@openmailbox.com>\n"
 "Language: pt\n"
@@ -105,20 +105,32 @@ msgstr "Abrir URI"
 msgid "Copy URI"
 msgstr "Copiar URI"
 
-#: ../addons/src/ao_wrapwords.c:249
+#: ../addons/src/ao_wrapwords.c:253
 msgid "Enclose Characters"
 msgstr "Caracteres de inclusão"
 
-#: ../addons/src/ao_wrapwords.c:260
+#: ../addons/src/ao_wrapwords.c:254
+msgid "Accept"
+msgstr "Aceitar"
+
+#: ../addons/src/ao_wrapwords.c:255 ../geanymacro/src/geanymacro.c:1064
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: ../addons/src/ao_wrapwords.c:255
+msgid "OK"
+msgstr "OK"
+
+#: ../addons/src/ao_wrapwords.c:264
 #, c-format
 msgid "Enclose combo %d"
 msgstr "Atalho para inclusão %d"
 
-#: ../addons/src/ao_wrapwords.c:276
+#: ../addons/src/ao_wrapwords.c:280
 msgid "Opening Character"
 msgstr "Carácter de abertura"
 
-#: ../addons/src/ao_wrapwords.c:283
+#: ../addons/src/ao_wrapwords.c:287
 msgid "Closing Character"
 msgstr "Carácter de fecho"
 
@@ -3697,10 +3709,6 @@ msgstr "Gravar Macro"
 msgid "Record"
 msgstr "Gravar"
 
-#: ../geanymacro/src/geanymacro.c:1064
-msgid "Cancel"
-msgstr "Cancelar"
-
 #: ../geanymacro/src/geanymacro.c:1071
 msgid "Macro Trigger:"
 msgstr "Acionador da macro:"
@@ -5826,6 +5834,18 @@ msgstr "Adicionar pasta externa"
 msgid "Add"
 msgstr "Adicionar"
 
+#: ../projectorganizer/src/prjorg-sidebar.c:457
+msgid "exact"
+msgstr "exato"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:458
+msgid "prefix"
+msgstr "prefixo"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:459
+msgid "pattern"
+msgstr "padrão"
+
 #: ../projectorganizer/src/prjorg-sidebar.c:1034
 msgid "Set file patterns under Project->Properties"
 msgstr "Definir padrões de ficheiros sob Projeto -> Propriedades"
@@ -6914,18 +6934,18 @@ msgid "Convert selection to table"
 msgstr "Converter seleção em tabela"
 
 #. Build up menu entry for table_convert based on global file type
-#: ../tableconvert/src/tableconvert_ui.c:36
+#: ../tableconvert/src/tableconvert_ui.c:40
 msgid "_Convert to table"
 msgstr "_Converter em tabela"
 
-#: ../tableconvert/src/tableconvert_ui.c:39
+#: ../tableconvert/src/tableconvert_ui.c:43
 msgid "Converts current marked list to a table."
 msgstr "Converte a lista atualmente selecionada numa tabela."
 
 #. Build up menu entries for table convert based on explicit choice
 #. * This is needed for e.g. different wiki-Syntax or differenz stiles
 #. * within a special file type
-#: ../tableconvert/src/tableconvert_ui.c:48
+#: ../tableconvert/src/tableconvert_ui.c:52
 msgid "_More TableConvert"
 msgstr "_Mais TableConvert"
 
