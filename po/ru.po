@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the geany-plugins package.
 # Andrew Janke <a.janke@gmail.com>, 2009
 # John Wehin <john.wehin@gmail.com>, 2009
-# Pavel Roschin <roschin@scriptumplus.ru>, 2014
+# Pavel Roschin <rpg89(at)post(dot)ru>, 2014-2015
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.25\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-20 11:24+0200\n"
-"PO-Revision-Date: 2014-09-12 19:58+0400\n"
+"PO-Revision-Date: 2015-06-25 11:07+0300\n"
 "Last-Translator: Pavel Roschin <rpg89(at)post(dot)ru>\n"
 "Language-Team: Russian <geany-i18n@uvena.de>\n"
 "Language: ru\n"
@@ -95,8 +95,8 @@ msgid ""
 "%s will be replaced with your current selection. Please keep care on your "
 "selection"
 msgstr ""
-"%s будет заменено на текущее выделение. Пожалуйста обратите внимание на то "
-"что выделенно"
+"%s будет заменено на текущее выделение. Пожалуйста обратите внимание на то, "
+"что выделено"
 
 #: ../addons/src/ao_openuri.c:165
 msgid "Open URI"
@@ -141,7 +141,7 @@ msgstr "Дополнения"
 
 #: ../addons/src/addons.c:53
 msgid "Various small addons for Geany."
-msgstr "Различные небольшие дополнения для Geany."
+msgstr "Различные небольшие дополнения для Geany"
 
 #: ../addons/src/addons.c:296
 msgid "Focus Bookmark List"
@@ -171,7 +171,7 @@ msgstr "Каталог настроек плагина не может быть 
 
 #: ../addons/src/addons.c:445
 msgid "Show toolbar item to show a list of currently open documents"
-msgstr "Кнопка со списком открытых документов на панели инструментов "
+msgstr "Кнопка со списком открытых документов на панели инструментов"
 
 #: ../addons/src/addons.c:449
 msgid "Sort documents by _name"
@@ -200,7 +200,7 @@ msgstr ""
 
 #: ../addons/src/addons.c:488
 msgid "Show an 'Open URI' item in the editor menu"
-msgstr "Добавить команды 'Открыть URI', 'Копировать URI' в меню редактора"
+msgstr "Отображать команду 'Открыть URI' в меню редактора"
 
 #: ../addons/src/addons.c:494
 msgid "Show available Tasks in the Messages Window"
@@ -252,7 +252,7 @@ msgstr "Окружать выделение по горячей клавише"
 
 #: ../addons/src/addons.c:564
 msgid "Configure enclose pairs"
-msgstr ""
+msgstr "Пары окружения..."
 
 #: ../addons/src/addons.c:572
 msgid "Enclose selection automatically (without having to press a keybinding)"
@@ -335,12 +335,10 @@ msgid "Auto-close backquote ` -> `|`"
 msgstr "Автозакрытие обратной кавычки ` -> `|`"
 
 #: ../autoclose/src/autoclose.c:1054
-#, fuzzy
 msgid "\tOnly for Shell-scripts (Bash)"
 msgstr "\tТолько для языка сценариев Bash"
 
 #: ../autoclose/src/autoclose.c:1055
-#, fuzzy
 msgid "Auto-close backquote only in Shell-scripts like Bash"
 msgstr "Автозакрытие обратной кавычки только в документах Bash"
 
@@ -394,7 +392,6 @@ msgstr ""
 "без параметра \"автозакрытие фигурных скобок { }\"."
 
 #: ../autoclose/src/autoclose.c:1072
-#, fuzzy
 msgid "\tWhitesmith's style"
 msgstr "\tСтиль Уайтсмит"
 
@@ -522,7 +519,7 @@ msgstr "Навигация по коду"
 #: ../codenav/src/codenavigation.c:44
 msgid ""
 "This plugin adds features to facilitate navigation between source files."
-msgstr "Модуль позволяет выполнять навигацию между исходными файлами."
+msgstr "Позволяет выполнять навигацию между исходными файлами"
 
 #: ../codenav/src/codenavigation.c:139
 msgid ""
@@ -602,7 +599,7 @@ msgstr "Отладчик"
 
 #: ../debugger/src/plugin.c:57
 msgid "Various debuggers integration."
-msgstr "Поддержка отладчиков."
+msgstr "Поддержка отладчиков"
 
 #: ../debugger/src/plugin.c:133 ../debugger/src/keys.c:76
 #: ../scope/data/scope.glade.h:124 ../scope/src/scope.c:226
@@ -850,7 +847,7 @@ msgstr "Код"
 
 #: ../devhelp/src/dhp-object.c:387
 msgid "Search for 'Tag' Documentation in"
-msgstr "Найти документацию по тэгу в"
+msgstr "Найти документацию по тегу в"
 
 #. i18n: Please don't translate "Devhelp" (it's marked as translatable
 #. * for transliteration only)
@@ -898,13 +895,13 @@ msgid ""
 "Adds support for looking up documentation in Devhelp, manual pages, and "
 "Google Code Search in the integrated viewer."
 msgstr ""
-"Поиск и просмотр документации из системы DevHelp, страниц руководств \"man\" "
-"и Google Code Search во встроенном окне просмотра."
+"Поиск и просмотр во встроенном окне документации из систем DevHelp, \"man\" и "
+"Google Code Search"
 
 #: ../devhelp/src/dhp-plugin.c:119
 #, c-format
 msgid "Unable to create config dir at '%s'"
-msgstr "Невозможно создать папку для хранения настроек в '%s'"
+msgstr "Невозможно создать каталог для хранения настроек в '%s'"
 
 #: ../devhelp/src/dhp-plugin.c:134
 #, c-format
@@ -934,11 +931,11 @@ msgstr "Активировать все вкладки документации"
 
 #: ../devhelp/src/dhp-plugin.c:180
 msgid "Search for current tag in Devhelp"
-msgstr "Поиск текущего тэга в Devhelp"
+msgstr "Поиск текущего тега в Devhelp"
 
 #: ../devhelp/src/dhp-plugin.c:184
 msgid "Search for current tag in Manual Pages"
-msgstr "Поиск текущего тэга в страницах руководства"
+msgstr "Поиск текущего тега в страницах руководства"
 
 #. i18n: Please don't translate "Devhelp".
 #: ../devhelp/devhelp/dh-assistant.c:74
@@ -1220,26 +1217,24 @@ msgid "Toggle case sensitive search"
 msgstr "Переключить поиск с учётом регистра"
 
 #: ../geanyctags/src/geanyctags.c:51
-#, fuzzy
 msgid "Ctags generation and search plugin for geany projects"
-msgstr "модуль шифрования gpg для geany"
+msgstr "Генератор ctags и поиск тегов в проектах Geany"
 
 #: ../geanyctags/src/geanyctags.c:149
-#, fuzzy, c-format
+#, c-format
 msgid "%s (in directory: %s)"
-msgstr "%s: нет такой директории."
+msgstr "%s (в каталоге: %s)"
 
 #: ../geanyctags/src/geanyctags.c:164
 #, c-format
 msgid "Process execution failed (%s)"
-msgstr ""
+msgstr "Не удалось выполнить команду (%s)"
 
 #: ../geanyctags/src/geanyctags.c:517
 #: ../projectorganizer/src/prjorg-sidebar.c:423
 #: ../projectorganizer/src/prjorg-sidebar.c:1365
-#, fuzzy
 msgid "Find Tag"
-msgstr "Найти:"
+msgstr "Найти тег"
 
 #: ../geanyctags/src/geanyctags.c:528 ../geanymacro/src/geanymacro.c:1424
 #: ../projectorganizer/src/prjorg-sidebar.c:128
@@ -1250,7 +1245,7 @@ msgstr "Искать:"
 #: ../geanyctags/src/geanyctags.c:546
 #: ../projectorganizer/src/prjorg-sidebar.c:452
 msgid "Match type:"
-msgstr ""
+msgstr "Тип соответствия:"
 
 #: ../geanyctags/src/geanyctags.c:562
 #: ../projectorganizer/src/prjorg-sidebar.c:156
@@ -1260,27 +1255,24 @@ msgstr "С учётом регистра"
 
 #: ../geanyctags/src/geanyctags.c:565
 #: ../projectorganizer/src/prjorg-sidebar.c:483
-#, fuzzy
 msgid "_Declaration"
-msgstr "Отношения"
+msgstr "_Объявление"
 
 #: ../geanyctags/src/geanyctags.c:632
 msgid "Find Tag Declaration (geanyctags)"
-msgstr ""
+msgstr "Найти объявление тега (geanyctags)"
 
 #: ../geanyctags/src/geanyctags.c:637
 msgid "Find Tag Definition (geanyctags)"
-msgstr ""
+msgstr "Найти определение тега (geanyctags)"
 
 #: ../geanyctags/src/geanyctags.c:646 ../geanyctags/src/geanyctags.c:651
-#, fuzzy
 msgid "Generate tags"
-msgstr "Общие"
+msgstr "Сгенерировать теги"
 
 #: ../geanyctags/src/geanyctags.c:653 ../geanyctags/src/geanyctags.c:658
-#, fuzzy
 msgid "Find tag"
-msgstr "Найти следующее"
+msgstr "Найти тег"
 
 #. All plugins must set name, description, version and author.
 #: ../geanydoc/src/geanydoc.c:50 ../geanydoc/src/geanydoc.c:347
@@ -1289,11 +1281,11 @@ msgstr "Документация"
 
 #: ../geanydoc/src/geanydoc.c:50
 msgid "Call documentation viewer on current symbol."
-msgstr "Показ документации на слово под курсором."
+msgstr "Показ документации на слово под курсором"
 
 #: ../geanydoc/src/geanydoc.c:170 ../geanyvc/src/geanyvc.c:416
 msgid "Could not parse the output of command"
-msgstr "Невозможно проанализировать вывод команды."
+msgstr "Невозможно проанализировать вывод команды"
 
 #: ../geanydoc/src/geanydoc.c:357
 msgid "Put output in buffer"
@@ -1325,7 +1317,7 @@ msgstr "Расширенное выделение"
 
 #: ../geanyextrasel/src/extrasel.c:34
 msgid "Column mode, select to line / brace / anchor."
-msgstr "Режим выделения по столбцам, выделение до строки / скобки / анкера."
+msgstr "Режим выделения по столбцам, выделение до строки / скобки / анкера"
 
 #: ../geanyextrasel/src/extrasel.c:502
 msgid "E_xtra Selection"
@@ -1703,7 +1695,7 @@ msgstr "Файл \"%s\" существует, но не является обы�
 #: ../geanygendoc/src/ggd-utils.c:204
 #, c-format
 msgid "%s: no such file or directory"
-msgstr "%s: нет такого файла или директории"
+msgstr "%s: нет такого файла или каталога"
 
 #: ../geanygendoc/src/ggd.c:85
 #, c-format
@@ -2881,7 +2873,7 @@ msgstr "Сценарий Lua"
 
 #: ../geanylua/glspi_ver.h:9
 msgid "Write and run Lua scripts for custom commands."
-msgstr "Пишите и запускается сценарии на Lua как пользовательские команды."
+msgstr "Пишите и запускайте сценарии на Lua как пользовательские команды"
 
 #: ../geanylua/glspi_ver.h:19
 msgid "Lua Script Plugin"
@@ -3527,7 +3519,7 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:856
 msgid "This plugin allows you to record and use your own macros. "
-msgstr "Этот плагин позволяет записывать и использовать свои макросы. "
+msgstr "Позволяет записывать и использовать свои макросы"
 
 #: ../geanymacro/src/geanymacro.c:857
 msgid ""
@@ -3728,7 +3720,7 @@ msgstr "Параметры поиска:"
 #: ../geanymacro/src/geanymacro.c:1393 ../geanymacro/src/geanymacro.c:1536
 #: ../geanymacro/src/geanymacro.c:1826 ../geanymacro/src/geanymacro.c:2122
 msgid "_Ok"
-msgstr "_Ok"
+msgstr "_ОК"
 
 #: ../geanymacro/src/geanymacro.c:1394 ../geanymacro/src/geanymacro.c:1537
 #: ../geanymacro/src/geanymacro.c:1827
@@ -4129,11 +4121,11 @@ msgstr ""
 
 #: ../geanypg/src/geanypg.c:37
 msgid "gpg encryption plugin for geany"
-msgstr "модуль шифрования gpg для geany"
+msgstr "Модуль шифрования gpg для Geany"
 
 #: ../geanypg/src/geanypg.c:39
 msgid "Hans Alves <alves.h88@gmail.com>"
-msgstr "Hans Alves <alves.h88@gmail.com>"
+msgstr ""
 
 #: ../geanypg/src/geanypg.c:47
 msgid "Using libgpgme version:"
@@ -4387,7 +4379,7 @@ msgstr "Открыть файл с подписью"
 
 #: ../geanyprj/src/geanyprj.c:38
 msgid "Alternative project support."
-msgstr "Альтернативная реализация поддержки проектов."
+msgstr "Альтернативная реализация поддержки проектов"
 
 #: ../geanyprj/src/geanyprj.c:224
 msgid "Find a text in geanyprj's project"
@@ -4432,13 +4424,13 @@ msgid ""
 "path, or an existing directory tree. You can use paths relative to the "
 "project filename."
 msgstr ""
-"Базовая директория для всех, входящих в проект файлов. Это может быть новая "
-"или существующая папка. Вы можете использовать пути, относительные к пути "
-"файла проекта."
+"Базовый каталог для всех входящих в проект файлов. Это может быть новый "
+"или существующий каталог. Вы можете использовать пути, относительные к пути "
+"до файла проекта."
 
 #: ../geanyprj/src/menu.c:163
 msgid "Choose Project Base Path"
-msgstr "Выберите базовую директорию проекта"
+msgstr "Выберите базовый путь проекта"
 
 #: ../geanyprj/src/menu.c:170
 msgid "Generate file list on load"
@@ -4655,7 +4647,7 @@ msgstr "Контроль версий"
 
 #: ../geanyvc/src/geanyvc.c:54
 msgid "Interface to different Version Control systems."
-msgstr "Интерфейс к системам контроля версий."
+msgstr "Интерфейс к системам контроля версий"
 
 #: ../geanyvc/src/geanyvc.c:475
 #, c-format
@@ -4711,8 +4703,8 @@ msgstr ""
 "много и это может значительно замедлить интерфейс.\n"
 "\n"
 "Чтобы увидеть различия закройте это диалоговое окно и откройте список "
-"различий в Geany непосредственно используя меню GeanyVC (Базовая директория -"
-"> Разница)."
+"различий в Geany непосредственно используя меню GeanyVC (Базовый каталог -> "
+"Разница)."
 
 #: ../geanyvc/src/geanyvc.c:1243
 msgid "Commit Y/N"
@@ -4932,27 +4924,27 @@ msgstr "Удалить файл из репозитория"
 
 #: ../geanyvc/src/geanyvc.c:2144
 msgid "_Directory"
-msgstr "_Директория"
+msgstr "_Каталог"
 
 #: ../geanyvc/src/geanyvc.c:2150
 msgid "Make a diff from the directory of the current active file"
-msgstr "Показать разницу для директории текущего файла"
+msgstr "Показать разницу для каталога текущего файла"
 
 #: ../geanyvc/src/geanyvc.c:2159
 msgid "Restore original files in the current folder (undo local edits)."
-msgstr "Восстановить файлы в текущей директории из рабочей копии"
+msgstr "Восстановить файлы в текущем каталоге из рабочей копии"
 
 #: ../geanyvc/src/geanyvc.c:2169
 msgid "Shows the log of the current directory"
-msgstr "Показать лог для текущей директории"
+msgstr "Показать лог для текущего каталога"
 
 #: ../geanyvc/src/geanyvc.c:2183
 msgid "_Base Directory"
-msgstr "_Базовая директория"
+msgstr "_Базовый каталог"
 
 #: ../geanyvc/src/geanyvc.c:2189
 msgid "Make a diff from the top VC directory"
-msgstr "Показать разницу для корневой папки рабочей копии"
+msgstr "Показать разницу для корневого каталога рабочей копии"
 
 #: ../geanyvc/src/geanyvc.c:2197
 msgid "Revert any local edits."
@@ -4960,7 +4952,7 @@ msgstr "Отменить все локальные изменения."
 
 #: ../geanyvc/src/geanyvc.c:2210
 msgid "Shows the log of the top VC directory"
-msgstr "Показать лог для корневой папки рабочей копии"
+msgstr "Показать лог для корневого каталога рабочей копии"
 
 #: ../geanyvc/src/geanyvc.c:2236
 msgid "VC _Commit"
@@ -4972,11 +4964,11 @@ msgstr "Показать разницу для файла"
 
 #: ../geanyvc/src/geanyvc.c:2273
 msgid "Show diff of directory"
-msgstr "Показать разницу для директории"
+msgstr "Показать разницу для каталога"
 
 #: ../geanyvc/src/geanyvc.c:2275
 msgid "Show diff of basedir"
-msgstr "Показать разницу для корневой директории"
+msgstr "Показать разницу для корневого каталога"
 
 #: ../geanyvc/src/geanyvc.c:2278
 msgid "Commit changes"
@@ -4992,11 +4984,11 @@ msgstr "Отменить изменения для файла"
 
 #: ../geanyvc/src/geanyvc.c:2284
 msgid "Revert directory"
-msgstr "Отменить изменения для директории"
+msgstr "Отменить изменения для каталога"
 
 #: ../geanyvc/src/geanyvc.c:2286
 msgid "Revert base directory"
-msgstr "Отменить изменения для корневой директории"
+msgstr "Отменить изменения для корневого каталога"
 
 #: ../geanyvc/src/geanyvc.c:2288
 msgid "Update file"
@@ -5096,7 +5088,7 @@ msgstr "_Опубликовать!"
 
 #: ../git-changebar/data/prefs.ui.h:1
 msgid "_Monitor repository for changes"
-msgstr ""
+msgstr "_Отслеживать изменения в репозитории"
 
 #: ../git-changebar/data/prefs.ui.h:2
 msgid ""
@@ -5104,32 +5096,32 @@ msgid ""
 "when the underlying Git repository changes.  This should generally be "
 "enabled for optimal user experience."
 msgstr ""
+"Автоматически обновлять изменения при изменении отслеживаемого репозитория. "
+"Рекомендуется всегда оставлять этот параметр включённым для удобства."
 
 #: ../git-changebar/data/prefs.ui.h:3
 msgid "_Added lines:"
-msgstr ""
+msgstr "_Добавленные строки:"
 
 #: ../git-changebar/data/prefs.ui.h:4
 msgid "_Changed lines:"
-msgstr ""
+msgstr "_Изменённые строки:"
 
 #: ../git-changebar/data/prefs.ui.h:5
-#, fuzzy
 msgid "_Removed lines:"
-msgstr "Удалить файл"
+msgstr "_Удалённые строки:"
 
 #: ../git-changebar/data/prefs.ui.h:6
-#, fuzzy
 msgid "Colors"
-msgstr "Цвет фона:"
+msgstr "Цвета"
 
 #: ../git-changebar/src/gcb-plugin.c:50
 msgid "Git Change Bar"
-msgstr ""
+msgstr "Монитор изменений Git"
 
 #: ../git-changebar/src/gcb-plugin.c:51
 msgid "Highlights uncommitted changes in files tracked with Git"
-msgstr ""
+msgstr "Подсвечивает незафиксированные изменения файлов в репозитории Git"
 
 #: ../git-changebar/src/gcb-plugin.c:1108 ../pohelper/src/gph-plugin.c:1577
 #, c-format
@@ -5147,14 +5139,12 @@ msgid "Failed to save configuration file: %s"
 msgstr "Невозможно сохранить конфигурационный файл: %s"
 
 #: ../git-changebar/src/gcb-plugin.c:1214
-#, fuzzy
 msgid "Go to the previous hunk"
-msgstr "Перейти к предыдущей странице"
+msgstr "Перейти к предыдущему участку"
 
 #: ../git-changebar/src/gcb-plugin.c:1216
-#, fuzzy
 msgid "Go to the next hunk"
-msgstr "Перейти к следующей странице"
+msgstr "Перейти к следующему участку"
 
 #: ../git-changebar/src/gcb-plugin.c:1341 ../pohelper/src/gph-plugin.c:1373
 #: ../pohelper/src/gph-plugin.c:1706
@@ -5212,99 +5202,107 @@ msgstr "Текущий документ не является документо
 
 #: ../overview/overview/overviewplugin.c:49
 msgid "Provides an overview of the active document"
-msgstr ""
+msgstr "Отображает глобальный вид текущего документа"
 
 #: ../overview/overview/overviewplugin.c:192
 msgid "Toggle Visibility"
-msgstr ""
+msgstr "Переключить видимость"
 
 #: ../overview/overview/overviewplugin.c:199
 msgid "Toggle Left/Right Position"
-msgstr ""
+msgstr "Переключить расположение (слева/справа)"
 
 #: ../overview/overview/overviewplugin.c:206
 msgid "Toggle Overlay Inversion"
-msgstr ""
+msgstr "Переключить инвертирование затемнения"
 
 #: ../overview/overview/overviewscintilla.c:516
 #, c-format
 msgid "Line <b>%d</b>, Column <b>%d</b>, Position <b>%d</b>"
-msgstr ""
+msgstr "Строка <b>%d</b>, колонка <b>%d</b>, позиция <b>%d</b>"
 
 #: ../overview/overview/overviewui.c:289
-#, fuzzy
 msgid "Show Overview"
-msgstr "Показать терминал"
+msgstr "Отображать затемнение"
 
 #: ../overview/data/prefs.ui.h:1
 msgid ""
 "The amount to zoom the overview sidebar. This should probably negative if "
 "you want the sidebar zoomed out."
 msgstr ""
+"Масштаб глобального вида документа. Должно быть отрицательным числом для "
+"уменьшения масштаба."
 
 #: ../overview/data/prefs.ui.h:2
-#, fuzzy
 msgid "Zoom Level:"
-msgstr "Увеличить масштаб"
+msgstr "Масштаб:"
 
 #: ../overview/data/prefs.ui.h:3
 msgid "The width of the overview sidebar."
-msgstr ""
+msgstr "Ширина глобального вида документа."
 
 #: ../overview/data/prefs.ui.h:4
 msgid "Width:"
-msgstr ""
+msgstr "Ширина:"
 
 #: ../overview/data/prefs.ui.h:5
 msgid ""
 "The number of lines to scroll at a time when scrolling the overview sidebar."
 msgstr ""
+"Количество строк, прокручиваемых за раз при прокрутке глобального вида "
+"документа."
 
 #: ../overview/data/prefs.ui.h:6
 msgid "Scroll Lines:"
-msgstr ""
+msgstr "Прокручивать строк:"
 
 #: ../overview/data/prefs.ui.h:7
-#, fuzzy
 msgid "Position on left"
-msgstr "имя позиции"
+msgstr "Слева"
 
 #: ../overview/data/prefs.ui.h:8
 msgid ""
 "Position the overview bar on the left rather than the right (requires Geany "
 "1.25 or greater)."
 msgstr ""
+"Отображать глобальный вид документа слева, а не справа от документа (нужен "
+"Geany 1.25 и выше)"
 
 #: ../overview/data/prefs.ui.h:9
-#, fuzzy
 msgid "Hide tooltip"
-msgstr "Показывать подсказки"
+msgstr "Скрыть подсказку"
 
 #: ../overview/data/prefs.ui.h:10
 msgid ""
 "Hide the tooltip that is displayed when mousing over the overview that shows "
 "line, column and position information."
 msgstr ""
+"Скрыть подсказку, отображаю информацию о строке, позиции и колонке при "
+"наведении курсора мыши на глобальный вид документа."
 
 #: ../overview/data/prefs.ui.h:11
 msgid "Hide editor scrollbar"
-msgstr ""
+msgstr "Скрыть полосу прокрутки"
 
 #: ../overview/data/prefs.ui.h:12
 msgid ""
 "Whether to hide Geany's regular editor scrollbar while the overview bar is "
 "visible."
 msgstr ""
+"Скрывать стандартную полосу прокрутки редактора, когда глобальный вид "
+"документа активен."
 
 #: ../overview/data/prefs.ui.h:13
 msgid "Disable overlay"
-msgstr ""
+msgstr "Выключить затемнение"
 
 #: ../overview/data/prefs.ui.h:14
 msgid ""
 "Turn off drawing overlay, which shows the region of the main editor view "
 "that is currently in view, ontop of the overview bar."
 msgstr ""
+"Выключает затемнение глобального вида. Затемнение отмечает границы видимого "
+"документа."
 
 #: ../overview/data/prefs.ui.h:15 ../scope/data/scope.glade.h:109
 msgid "Options"
@@ -5314,26 +5312,28 @@ msgstr "Параметры"
 msgid ""
 "The color and opacity of the overlay drawn ontop of the overlay sidebar."
 msgstr ""
+"Цвет и прозрачность затемнения, отображаемого поверх глобального вида "
+"документа."
 
 #: ../overview/data/prefs.ui.h:17
-#, fuzzy
 msgid "Color:"
-msgstr "Цвет фона:"
+msgstr "Цвет:"
 
 #: ../overview/data/prefs.ui.h:18
 msgid ""
 "The color and opacity of the border drawn around the revealed area in the "
 "overview sidebar. Set to the same as Overlay Color to disable."
 msgstr ""
+"Цвет и прозрачность границы затемнения, отображаемого поверх глобального вида "
+"документа. Установите одинаковое с основным цветом, чтобы выключить."
 
 #: ../overview/data/prefs.ui.h:19
-#, fuzzy
 msgid "Outline Color:"
-msgstr "Выбрать цвет"
+msgstr "Цвет границы:"
 
 #: ../overview/data/prefs.ui.h:20
 msgid "Draw over visible area"
-msgstr ""
+msgstr "Отображать поверх видимой области"
 
 #: ../overview/data/prefs.ui.h:21
 msgid ""
@@ -5341,19 +5341,21 @@ msgid ""
 "the main editor view, when unchecked, it will do the opposite and draw the "
 "overlay everywhere but the visible area, \"revealing\" the visible part."
 msgstr ""
+"Если отмечено, затемнение будет отображаться поверх области, которая видна в "
+"редакторе. Если выключено - будет обратный эффект - затемняется область, "
+"которая не видна в редакторе, \"обнажая\" видимую часть."
 
 #: ../overview/data/prefs.ui.h:22
 msgid "Overlay"
-msgstr ""
+msgstr "Затемнение"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:35
 msgid "Pair Tag Highlighter"
-msgstr "Подсветка парных тэгов"
+msgstr "Подсветка парных тегов"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:36
 msgid "Finds and highlights matching opening/closing HTML tag"
-msgstr ""
-"Находит и подсвечивает соответствующий открывающий/закрывающий HTML тэг"
+msgstr "Находит и подсвечивает парные HTML-теги"
 
 #: ../pohelper/data/menus.ui.h:1
 msgid "_Translation Helper"
@@ -5448,14 +5450,12 @@ msgid "_Reflow Translation"
 msgstr "Пере_форматировать перевод"
 
 #: ../pohelper/data/menus.ui.h:24 ../pohelper/src/gph-plugin.c:1542
-#, fuzzy
 msgid "Show statistics of the current document"
-msgstr "Проверяет орфографию в текущем документе"
+msgstr "Показать статистику текущего документа"
 
 #: ../pohelper/data/menus.ui.h:25
-#, fuzzy
 msgid "_Show stats"
-msgstr "Показать статус"
+msgstr "_Показать статус"
 
 #: ../pohelper/data/menus.ui.h:26
 msgid ""
@@ -5470,38 +5470,32 @@ msgid "Update _Headers Upon Save"
 msgstr "О_бновлять заголовки при сохранении"
 
 #: ../pohelper/data/stats.ui.h:1
-#, fuzzy
 msgid "Translation statistics"
-msgstr "Помощник переводчика"
+msgstr "Статистика перевода"
 
 #: ../pohelper/data/stats.ui.h:2
-#, fuzzy
 msgid "Choose a color for translated strings"
-msgstr "Перейти к следующей непереведённой строке"
+msgstr "Выберите цвет переведенных строк"
 
 #: ../pohelper/data/stats.ui.h:3
-#, fuzzy
 msgid "Choose a color for fuzzily translated strings"
-msgstr "Перейти к следующей fuzzy-строке"
+msgstr "Выберите цвет для fuzzy-строк"
 
 #: ../pohelper/data/stats.ui.h:4
-#, fuzzy
 msgid "Choose a color for untranslated strings"
-msgstr "Перейти к следующей непереведённой строке"
+msgstr "Выберите цвет для непереведенных строк"
 
 #: ../pohelper/data/stats.ui.h:5
-#, fuzzy
 msgid "Translated:"
-msgstr "С_ледующая непереведённая"
+msgstr "Переведено:"
 
 #: ../pohelper/data/stats.ui.h:6
 msgid "Fuzzy:"
 msgstr ""
 
 #: ../pohelper/data/stats.ui.h:7
-#, fuzzy
 msgid "Untranslated:"
-msgstr "С_ледующая непереведённая"
+msgstr "Непереведено:"
 
 #: ../pohelper/src/gph-plugin.c:41
 msgid "Translation Helper"
@@ -5509,12 +5503,12 @@ msgstr "Помощник переводчика"
 
 #: ../pohelper/src/gph-plugin.c:42
 msgid "Improves support for GetText translation files."
-msgstr "Улучшенная поддержка файлов перевода GetText."
+msgstr "Улучшенная поддержка файлов перевода GetText"
 
 #: ../pohelper/src/gph-plugin.c:1305 ../pohelper/src/gph-plugin.c:1322
 #, c-format
 msgid "<b>Translated:</b> %.3g%%"
-msgstr ""
+msgstr "<b>Переведено:</b> %.3g%%"
 
 #: ../pohelper/src/gph-plugin.c:1307 ../pohelper/src/gph-plugin.c:1325
 #, c-format
@@ -5524,7 +5518,7 @@ msgstr ""
 #: ../pohelper/src/gph-plugin.c:1309 ../pohelper/src/gph-plugin.c:1327
 #, c-format
 msgid "<b>Untranslated:</b> %.3g%%"
-msgstr ""
+msgstr "<b>Непереведено:</b> %.3g%%"
 
 #: ../pohelper/src/gph-plugin.c:1407
 #, c-format
@@ -5551,7 +5545,7 @@ msgstr "Форматирование XML"
 #: ../pretty-printer/src/PluginEntry.c:38
 msgid "Formats an XML and makes it human-readable."
 msgstr ""
-"Форматирует XML для того чтобы сделать его представление более читабельным"
+"Форматирует XML, чтобы улучшить его восприятие человеком"
 
 #. put the menu into the Tools
 #: ../pretty-printer/src/PluginEntry.c:62
@@ -5634,15 +5628,15 @@ msgid "Line break"
 msgstr "Перевод строки"
 
 #: ../projectorganizer/src/prjorg-main.c:41
-#, fuzzy
 msgid "Project Organizer"
-msgstr "Настройки проекта"
+msgstr "Органайзер проекта"
 
 #: ../projectorganizer/src/prjorg-main.c:42
 msgid ""
 "Project file tree, project-wide indexing and search, extra navigation "
 "options (was GProject)"
 msgstr ""
+"Дерево файлов, индексирование, поиск и навигация в проектах (бывш. GProject)"
 
 #: ../projectorganizer/src/prjorg-menu.c:372
 msgid "Find in Project Files"
@@ -5661,14 +5655,12 @@ msgid "Find project file"
 msgstr "Найти файл проекта"
 
 #: ../projectorganizer/src/prjorg-menu.c:392
-#, fuzzy
 msgid "Find Project Tag"
-msgstr "Найти файл проекта"
+msgstr "Найти тег проекта"
 
 #: ../projectorganizer/src/prjorg-menu.c:398
-#, fuzzy
 msgid "Find project tag"
-msgstr "Найти файл проекта"
+msgstr "Найти тег проекта"
 
 #: ../projectorganizer/src/prjorg-menu.c:400
 msgid "Swap Header/Source"
@@ -5679,54 +5671,48 @@ msgid "Swap header/source"
 msgstr "Переключить заголовок/реализацию"
 
 #: ../projectorganizer/src/prjorg-menu.c:411
-#, fuzzy
 msgid "Open Selected File (Project Organizer)"
-msgstr "Открыть выбранный файл (gproject)"
+msgstr "Открыть выбранный файл (органайзер проектов)"
 
 #: ../projectorganizer/src/prjorg-project.c:551
 msgid "Source patterns:"
-msgstr "Шаблоны файлов исходных текстов:"
+msgstr "Шаблоны файлов с исходным текстом:"
 
 #: ../projectorganizer/src/prjorg-project.c:557
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
 "Used for header/source swapping."
 msgstr ""
-"Разделённый пробелами список шаблонов, который используются для определения "
-"заголовочных файлов. Используются для переключения исходник/заголовок."
+"Разделённый пробелами список шаблонов для определения файлов с исходным "
+"текстом. Нужно для переключения исходник/заголовок."
 
 #: ../projectorganizer/src/prjorg-project.c:563
 msgid "Header patterns:"
 msgstr "Шаблоны заголовочных файлов:"
 
 #: ../projectorganizer/src/prjorg-project.c:569
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
 "header/source swapping."
 msgstr ""
-"Разделённый пробелами список шаблонов, который используются для определения "
-"заголовочных файлов. Используются для переключения исходник/заголовок."
+"Разделённый пробелами список шаблонов для определения заголовочных файлов. "
+"Нужно для переключения исходник/заголовок."
 
 #: ../projectorganizer/src/prjorg-project.c:575
-#, fuzzy
 msgid "Ignored file patterns:"
-msgstr "Игнорируемые папки:"
+msgstr "Шаблоны игнорируемых файлов:"
 
 #: ../projectorganizer/src/prjorg-project.c:581
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
 "not displayed in the project tree."
 msgstr ""
 "Разделённый пробелами список шаблонов, которые используются для определения "
-"директорий не просматриваемых на предмет наличия файлов проекта."
+"файлов, не отображаемых в дереве файлов проекта."
 
 #: ../projectorganizer/src/prjorg-project.c:587
-#, fuzzy
 msgid "Ignored directory patterns:"
-msgstr "Игнорируемые папки:"
+msgstr "Игнорируемые шаблоны каталогов:"
 
 #: ../projectorganizer/src/prjorg-project.c:593
 msgid ""
@@ -5734,36 +5720,31 @@ msgid ""
 "are not scanned for source files."
 msgstr ""
 "Разделённый пробелами список шаблонов, которые используются для определения "
-"директорий не просматриваемых на предмет наличия файлов проекта."
+"каталогов, не просматриваемых на предмет наличия файлов проекта."
 
 #: ../projectorganizer/src/prjorg-project.c:599
-#, fuzzy
 msgid "Generate tags for all project files:"
-msgstr "Генерировать список тегов для всех файлов проекта"
+msgstr "Генерировать теги для всех файлов проекта:"
 
 #: ../projectorganizer/src/prjorg-project.c:602
 msgid "Auto (generate if less than 300 files)"
-msgstr ""
+msgstr "Автоматически (генерировать, если файлов не более 300)"
 
 #: ../projectorganizer/src/prjorg-project.c:603
-#, fuzzy
 msgid "Yes"
-msgstr "да"
+msgstr "Да"
 
 #: ../projectorganizer/src/prjorg-project.c:604
-#, fuzzy
 msgid "No"
-msgstr "Стр."
+msgstr "Нет"
 
 #: ../projectorganizer/src/prjorg-project.c:608
-#, fuzzy
 msgid ""
 "Generate tag list for all project files instead of only for the currently "
 "opened files. Might be slow for big projects."
 msgstr ""
 "Генерировать список тегов для всех файлов проекта, а не только для открытых. "
-"Может работать медленно для больших проектов, в таких случаях рекомендуется "
-"выключать данную опцию."
+"Может работать медленно для больших проектов."
 
 #: ../projectorganizer/src/prjorg-project.c:614
 msgid ""
@@ -5774,6 +5755,12 @@ msgid ""
 "File Patterns under the Project tab (these are also used for the Find in "
 "Files dialog)."
 msgstr ""
+"Примечание: шаблоны выше затрагивают только боковую панель и не используются "
+"в диалоге\n"
+"\"Найти в файлах\". Вы пожете дополнительно ограничить список файлов проекта, "
+"устанавливая\n"
+"шаблоны на вкладке \"Проект\", которые также используются в диалоге \"Найти в "
+"файлах\"."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:117
 #: ../projectorganizer/src/prjorg-sidebar.c:1356
@@ -5791,32 +5778,28 @@ msgstr "Искать в полных путях"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:170
 #: ../projectorganizer/src/prjorg-sidebar.c:623
-#, fuzzy
 msgid "project or external directory"
-msgstr "Создать новую директорию"
+msgstr "проект или существующий каталог"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:290
-#, fuzzy
 msgid "Add External Directory"
-msgstr "Выбрать директорию"
+msgstr "Добавить внешний каталог"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:293
-#, fuzzy
 msgid "Add"
-msgstr "Дополнения"
+msgstr "Добавить"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1034
 msgid "Set file patterns under Project->Properties"
-msgstr ""
+msgstr "Установить шаблоны файлов в Проект->Свойства"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1246
 msgid "Reload all"
 msgstr "Перезагрузить всё"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1255
-#, fuzzy
 msgid "Add external directory"
-msgstr "Отменить изменения для директории"
+msgstr "Добавить внешний каталог"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1265
 #: ../treebrowser/src/treebrowser.c:1282
@@ -5825,7 +5808,7 @@ msgstr "Развернуть всё"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1272
 msgid "Collapse to project root"
-msgstr ""
+msgstr "Свернуть в корень проекта"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1283
 msgid "Follow active editor"
@@ -5833,7 +5816,7 @@ msgstr "Следовать пути активного документа"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1329
 msgid "Open a project to start using the plugin"
-msgstr ""
+msgstr "Откройте проект, чтобы начать использовать дополнение"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1338
 msgid "Expand All"
@@ -5844,9 +5827,8 @@ msgid "Find in Files"
 msgstr "Найти в файлах"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1378
-#, fuzzy
 msgid "Remove External Directory"
-msgstr "Отменить изменения для директории"
+msgstr "Удалить внешний каталог"
 
 #: ../scope/data/scope.glade.h:1
 msgid "Debu_g"
@@ -6499,7 +6481,7 @@ msgstr "Неизвестная ошибка GDB."
 
 #: ../scope/src/plugme.c:80
 msgid "Select Folder"
-msgstr "Выберите папку"
+msgstr "Выберите каталог"
 
 #: ../scope/src/plugme.c:80
 msgid "Select File"
@@ -6553,7 +6535,7 @@ msgstr "Отладчик Scope"
 
 #: ../scope/src/scope.c:35
 msgid "Relatively simple GDB front-end."
-msgstr "Относительно простая обёртка над GDB."
+msgstr "Относительно простая обёртка над GDB"
 
 #: ../scope/src/scope.c:62
 msgid "Setup program"
@@ -6737,7 +6719,7 @@ msgstr "Включить/выключить проверку при набора
 #. initialise the dialog
 #: ../spellcheck/src/scplugin.c:225
 msgid "Select Directory"
-msgstr "Выбрать директорию"
+msgstr "Выбрать каталог"
 
 #: ../spellcheck/src/scplugin.c:266
 msgid "Show toolbar item to toggle spell checking"
@@ -6752,24 +6734,24 @@ msgid "Print misspelled words and suggestions in the messages window"
 msgstr "Выводить неправильное слово и список замен в окно сообщений"
 
 #: ../spellcheck/src/scplugin.c:285
-#, fuzzy
 msgid "<b>Interface</b>"
-msgstr "<b>Инспекция</b>"
+msgstr "<b>Интерфейс</b>"
 
 #: ../spellcheck/src/scplugin.c:293
 msgid "Check spelling while typing"
 msgstr "Проверять по мере набора текста"
 
 #: ../spellcheck/src/scplugin.c:296
-#, fuzzy
 msgid "Check spelling when opening a document"
-msgstr "Проверять по мере набора текста"
+msgstr "Проверять орфографию при открытии документа"
 
 #: ../spellcheck/src/scplugin.c:298
 msgid ""
 "Enabling this option will check every document after it is opened in Geany. "
 "Reloading a document will also trigger a re-check."
 msgstr ""
+"Включите, чтобы проверять каждый документ сразу после того, как он открыт в "
+"редакторе. Перезагрузка документа также приведёт к повторной проверке."
 
 #: ../spellcheck/src/scplugin.c:302
 msgid "Language to use for the spell check:"
@@ -6777,20 +6759,19 @@ msgstr "Язык проверки орфографии"
 
 #: ../spellcheck/src/scplugin.c:314
 msgid "_Directory to look for dictionary files:"
-msgstr "Папка для поиска файлов словарей"
+msgstr "_Каталог для поиска файлов словарей"
 
 #: ../spellcheck/src/scplugin.c:321
 msgid ""
 "Read additional dictionary files from this directory. For now, this only "
 "works with myspell dictionaries."
 msgstr ""
-"Дополнительные словари из данной папки будут использоваться при проверке. На "
-"данный момент работает только со словарями 'myspell'."
+"Дополнительные словари из данного каталога будут использоваться при проверке. "
+"На данный момент работает только со словарями 'myspell'."
 
 #: ../spellcheck/src/scplugin.c:352
-#, fuzzy
 msgid "<b>Behavior</b>"
-msgstr "<b>Другое</b>"
+msgstr "<b>Поведение</b>"
 
 #: ../spellcheck/src/gui.c:76
 msgid "Spell checking while typing is now enabled"
@@ -6865,12 +6846,11 @@ msgstr "Преобразование в таблицу"
 
 #: ../tableconvert/src/tableconvert.c:32
 msgid "A little plugin to convert lists into tables"
-msgstr "Небольшой плагин, который конвертирует списки в таблицы"
+msgstr "Конвертирует списки в таблицы"
 
 #: ../tableconvert/src/tableconvert.c:42
-#, fuzzy
 msgid "LaTeX"
-msgstr "_LaTeX"
+msgstr ""
 
 #: ../tableconvert/src/tableconvert.c:59
 msgid "HTML"
@@ -6898,7 +6878,7 @@ msgstr "Конвертировать выделение в таблицу"
 #. Build up menu entry for table_convert based on global file type
 #: ../tableconvert/src/tableconvert_ui.c:36
 msgid "_Convert to table"
-msgstr "_Конвертировать в таблицу"
+msgstr "_Преобразовать в таблицу"
 
 #: ../tableconvert/src/tableconvert_ui.c:39
 msgid "Converts current marked list to a table."
@@ -6908,9 +6888,8 @@ msgstr "Конвертирует отмеченные списки в табли
 #. * This is needed for e.g. different wiki-Syntax or differenz stiles
 #. * within a special file type
 #: ../tableconvert/src/tableconvert_ui.c:48
-#, fuzzy
 msgid "_More TableConvert"
-msgstr "Преобразование в таблицу"
+msgstr "Преобразовать в другую _таблицу"
 
 #: ../treebrowser/src/treebrowser.c:127
 msgid "TreeBrowser"
@@ -6921,13 +6900,12 @@ msgid ""
 "This plugin adds a tree browser to Geany, allowing the user to browse files "
 "using a tree view of the directory being browsed."
 msgstr ""
-"Этот плагин добавляет в Geany панель, которая позволяет просматривать файлы "
-"в виде дерева папок и файлов. "
+"Добавляет панель для просмотра файлов в виде дерева каталогов и файлов"
 
 #: ../treebrowser/src/treebrowser.c:433
 #, c-format
 msgid "%s: no such directory."
-msgstr "%s: нет такой директории."
+msgstr "%s: нет такого каталога."
 
 #: ../treebrowser/src/treebrowser.c:536 ../treebrowser/src/treebrowser.c:571
 #: ../treebrowser/src/treebrowser.c:669
@@ -6941,7 +6919,7 @@ msgstr "Невозможно выполнить заданную внешнюю 
 
 #: ../treebrowser/src/treebrowser.c:1043
 msgid "NewDirectory"
-msgstr "Новая папка"
+msgstr "Новый каталог"
 
 #: ../treebrowser/src/treebrowser.c:1045
 msgid "NewFile"
@@ -6967,7 +6945,7 @@ msgstr "Перейти на уровень вверх"
 
 #: ../treebrowser/src/treebrowser.c:1212 ../treebrowser/src/treebrowser.c:1754
 msgid "Set path from document"
-msgstr "Установить корневой папку текущего документа"
+msgstr "Установить путь из документа"
 
 #: ../treebrowser/src/treebrowser.c:1216
 msgid "_Open externally"
@@ -6979,7 +6957,7 @@ msgstr "Открыть терминал"
 
 #: ../treebrowser/src/treebrowser.c:1225
 msgid "Set as root"
-msgstr "Сделать корневой папкой"
+msgstr "Сделать корневым каталогом"
 
 #: ../treebrowser/src/treebrowser.c:1230 ../treebrowser/src/treebrowser.c:1744
 #: ../treebrowser/src/treebrowser.c:2139
@@ -6992,7 +6970,7 @@ msgstr "Найти в файлах"
 
 #: ../treebrowser/src/treebrowser.c:1242
 msgid "Create new directory"
-msgstr "Создать новую директорию"
+msgstr "Создать новый каталог"
 
 #: ../treebrowser/src/treebrowser.c:1246
 msgid "Create new file"
@@ -7085,16 +7063,15 @@ msgstr ""
 "Команда выполняемая при выборе пункта меню  \"Открыть с помощью\". Вы можете "
 "использовать шаблоны %f и %d.\n"
 "%f будет заменено на имя файла включая полный путь\n"
-"%d будет заменено на путь к директории текущего файла"
+"%d будет заменено на путь к каталогу текущего файла"
 
 #: ../treebrowser/src/treebrowser.c:1963
-#, fuzzy
 msgid "Terminal"
-msgstr "Прервать"
+msgstr "Терминал"
 
 #: ../treebrowser/src/treebrowser.c:1968
 msgid "The terminal to use with the command \"Open Terminal\""
-msgstr ""
+msgstr "Терминал, используемый командой \"Открыть терминал\""
 
 #: ../treebrowser/src/treebrowser.c:1974
 msgid "Toolbar"
@@ -7164,7 +7141,7 @@ msgstr "Одиночный клик открывает документ"
 
 #: ../treebrowser/src/treebrowser.c:2026
 msgid "Double click open directory"
-msgstr "Двойной клик открывает папку"
+msgstr "Двойной клик открывает каталог"
 
 #: ../treebrowser/src/treebrowser.c:2031
 msgid "On delete file, close it if is opened"
@@ -7209,25 +7186,25 @@ msgstr "Проверка обновлений"
 #: ../updatechecker/src/updatechecker.c:42
 msgid ""
 "A plugin which is checking whether there are updates for Geany available."
-msgstr "Плагин проверяет наличие новых версий Geany."
+msgstr "Плагин проверяет наличие новых версий Geany"
 
 #: ../updatechecker/src/updatechecker.c:195
-#, fuzzy, c-format
+#, c-format
 msgid "There is a more recent version of Geany available: %s"
-msgstr "Доступна более новая версия Geany"
+msgstr "Доступна более новая версия Geany: %s"
 
 #: ../updatechecker/src/updatechecker.c:203
 msgid "No newer Geany version available."
-msgstr ""
+msgstr "Установлена самая последняя версия Geany."
 
 #: ../updatechecker/src/updatechecker.c:218
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to perform version check.\n"
 "Error code: %d \n"
 "Error message: »%s«"
 msgstr ""
-"Ошибка при получении информации об обновлениях.\n"
+"Не удалось проверить версию.\n"
 "Код ошибки: %d \n"
 "Текст ошибки: »%s«"
 
@@ -7273,9 +7250,8 @@ msgid "%s:"
 msgstr "%s:"
 
 #: ../webhelper/src/gwh-browser.c:474
-#, fuzzy
 msgid "Bookmark this website"
-msgstr "Перейти к списку закладок"
+msgstr "Добавить этот сайт в закладки"
 
 #: ../webhelper/src/gwh-browser.c:645
 msgid "_Zoom"
@@ -7307,7 +7283,7 @@ msgstr "Перезагрузить страницу"
 
 #: ../webhelper/src/gwh-browser.c:978
 msgid "Website information and settings"
-msgstr ""
+msgstr "Параметры и информация о сайте"
 
 #: ../webhelper/src/gwh-browser.c:987 ../webhelper/src/gwh-browser.c:1037
 msgid "Web inspector"
@@ -7328,8 +7304,8 @@ msgid ""
 "WebKit."
 msgstr ""
 "Отображает веб-страницу, которая обновляется при сохранении соответствующего "
-"ей документа, а также предоставляет инструменты для анализа и отладки (ака "
-"Web-инспектор). Использует WebKit."
+"ей документа, а также предоставляет инструменты для анализа и отладки "
+"(Web-инспектор). Использует WebKit."
 
 #: ../webhelper/src/gwh-plugin.c:141
 msgid "Web view"
@@ -7357,12 +7333,11 @@ msgstr "Последний посещённый URI"
 
 #: ../webhelper/src/gwh-plugin.c:324
 msgid "Last URI visited by the browser"
-msgstr "Последний URI просмотренный в браузере "
+msgstr "Последний URI просмотренный в браузере"
 
 #: ../webhelper/src/gwh-plugin.c:330
-#, fuzzy
 msgid "List of bookmarks"
-msgstr "Показывать закладки"
+msgstr "Список закладок"
 
 #: ../webhelper/src/gwh-plugin.c:335
 msgid "Browser orientation"
@@ -7440,7 +7415,7 @@ msgstr "Показать/Скрыть окно браузера"
 
 #: ../webhelper/src/gwh-plugin.c:464
 msgid "Toggle bookmark for the current website"
-msgstr ""
+msgstr "Переключить закладку для текущего сайта"
 
 #. Browser
 #: ../webhelper/src/gwh-plugin.c:530
@@ -7458,7 +7433,7 @@ msgstr "XML Сниппеты"
 
 #: ../xmlsnippets/src/plugin.c:46
 msgid "Autocompletes XML/HTML tags using snippets."
-msgstr "Автоматически завершает XML/HTML теги с использованием сниппетов."
+msgstr "Автоматически завершает XML/HTML теги с использованием сниппетов"
 
 #~ msgid "GProject"
 #~ msgstr "Проект (GProject)"
