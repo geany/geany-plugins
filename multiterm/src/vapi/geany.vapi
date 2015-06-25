@@ -341,7 +341,7 @@ namespace Geany {
 		public GLib.SList<Filetype>		filetypes_by_title;
 	}
 	/* reviewed */
-	[CCode (cprefix = "dialogs_")]
+	[CCode (cprefix = "dialogs_", lower_case_cprefix = "dialogs_")]
 	namespace Dialogs {
 		public string?	show_input (string title, Gtk.Window parent,
 									string? label_text = null, string? default_text = null);
@@ -1243,7 +1243,7 @@ namespace Geany {
 		 * so we need to have it here. */
 	}
 	/* reviewed */
-	[CCode (cprefix = "highlighting_")]
+	[CCode (cprefix = "highlighting_", lower_case_cprefix = "highlighting_")]
 	namespace Highlighting {
 		public unowned LexerStyle	get_style (int ft_id, int style_id);
 		public bool					is_code_style (int lexer, int style);
@@ -1264,7 +1264,7 @@ namespace Geany {
 		public string 			name;
 	}
 	/* reviewed */
-	[CCode (cprefix = "keybindings_")]
+	[CCode (cprefix = "keybindings_", lower_case_cprefix = "keybindings_")]
 	namespace Keybindings {
 		public unowned KeyBinding	get_item (KeyGroup group, size_t key_id);
 		public void					send_command (KeyGroupID group_id, KeyBindingID key_id);
@@ -1444,7 +1444,7 @@ namespace Geany {
 		public bool	italic;
 	}
 	/* reviewed */
-	[CCode (cprefix = "main_")]
+	[CCode (cprefix = "main_", lower_case_cprefix = "main_")]
 	namespace Main {
 		public void		reload_configuration ();
 		public void		locale_init (string locale_dir, string package);
@@ -1562,7 +1562,7 @@ namespace Geany {
 		public void		switch_tab (MessageWindow.TabID tabnum, bool show);
 	}
 	/* reviewed */
-	[CCode (cprefix = "navqueue_")]
+	[CCode (cprefix = "navqueue_", lower_case_cprefix = "navqueue_")]
 	namespace NavQueue {
 		public bool		goto_line (Document? old_doc, Document new_doc, int line);
 	}
@@ -1759,7 +1759,7 @@ namespace Geany {
 		}
 	}
 	/* reviewed */
-	[CCode (cprefix = "search_")]
+	[CCode (cprefix = "search_", lower_case_cprefix = "search_")]
 	namespace Search {
 		public void		show_find_in_files_dialog (string? dir = null);
 	}
@@ -1797,12 +1797,12 @@ namespace Geany {
 		public void		update (Gtk.Widget? owner);
 	}
 	/* reviewed */
-	[CCode (cprefix = "symbols_")]
+	[CCode (cprefix = "symbols_", lower_case_cprefix = "symbols_")]
 	namespace Symbols {
 		public unowned string	get_context_separator (FiletypeID ft_id);
 	}
 	/* reviewed */
-	[CCode (cprefix = "templates_")]
+	[CCode (cprefix = "templates_", lower_case_cprefix = "templates_")]
 	namespace Templates {
 		public string	get_template_fileheader (int filetype_idx, string fname);
 	}
@@ -1958,7 +1958,7 @@ namespace Geany {
 			[CCode (cname = "tm_tag_attr_max_t")]
 			MAX
 		}
-		[CCode (cprefix = "TAG_ACCESS_")]
+		[CCode (cprefix = "TAG_ACCESS_", lower_case_cprefix = "TAG_ACCESS_")]
 		namespace TagAccess {
 			char PUBLIC; /*!< Public member */
 			char PROTECTED; /*!< Protected member */
@@ -1967,7 +1967,7 @@ namespace Geany {
 			char DEFAULT; /*!< Default access (Java) */
 			char UNKNOWN; /*!< Unknown access type */
 		}
-		[CCode (cprefix = "TAG_IMPL_")]
+		[CCode (cprefix = "TAG_IMPL_", lower_case_cprefix = "TAG_IMPL_")]
 		namespace TagImplementation {
 			char VIRTUAL; /*!< Virtual implementation */
 			char UNKNOWN; /*!< Unknown implementation */
