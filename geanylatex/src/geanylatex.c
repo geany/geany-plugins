@@ -1,7 +1,7 @@
 /*
  *	  geanylatex.c - Plugin to let Geany better work together with LaTeX
  *
- *	  Copyright 2007-2013 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *	  Copyright 2007-2015 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *	  Copyright 2005-2009 Enrico Tröger <enrico(dot)troeger(at)uvena(dot)de>
  *	  Copyright 2006-2009 Nick Treleaven <nick(dot)treleaven(at)btinternet(dot)com>
  *
@@ -39,7 +39,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	LOCALEDIR,
 	GETTEXT_PACKAGE,
 	_("GeanyLaTeX"),
-	_("Plugin to provide better LaTeX support"),
+	_("Extends LaTeX support"),
 	"0.7",
 	"Frank Lanitz <frank@frank.uvena.de>")
 

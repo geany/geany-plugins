@@ -1,7 +1,7 @@
 /*
  *      updatechecker.c
  *
- *      Copyright 2011, 2014 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2011-2015 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(
     LOCALEDIR,
     GETTEXT_PACKAGE,
     _("Updatechecker"),
-    _("A plugin which is checking whether there are updates for Geany available."),
+    _("Checks whether there are updates for Geany available"),
     VERSION,
     "Frank Lanitz <frank@frank.uvena.de>")
 
