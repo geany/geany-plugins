@@ -82,6 +82,7 @@ typedef void (*BlobContentsReadyFunc) (const gchar *path,
 typedef struct AsyncBlobContentsJob AsyncBlobContentsJob;
 struct AsyncBlobContentsJob {
   gboolean              force;
+  guint                 tag;
   gchar                *path;
   git_buf               buf;
   BlobContentsReadyFunc callback;
@@ -140,6 +141,7 @@ static void         write_setting_boolean       (GKeyFile      *kf,
 
 /* cache */
 static git_buf          G_blob_contents       = { 0 };
+static guint            G_blob_contents_tag   = 0;
 /* global state */
 static GAsyncQueue     *G_queue               = NULL;
 static GThread         *G_thread              = NULL;
@@ -213,6 +215,7 @@ clear_cached_blob_contents (void)
     git_buf_free (&G_blob_contents);
     buf_zero (&G_blob_contents);
   }
+  G_blob_contents_tag = 0;
 }
 
 /* get the file blob for @relpath at HEAD */
@@ -278,6 +281,7 @@ report_work_in_idle (gpointer data)
   /* update cached blob */
   clear_cached_blob_contents ();
   G_blob_contents = job->buf;
+  G_blob_contents_tag = job->buf.ptr ? job->tag : 0;
   
   job->callback (job->path, job->buf.ptr ? &job->buf : NULL, job->user_data);
   
@@ -455,16 +459,19 @@ worker_thread (gpointer data)
 
 static void
 get_cached_blob_contents_async (const gchar          *path,
+                                guint                 tag,
                                 gboolean              force,
                                 BlobContentsReadyFunc callback,
                                 gpointer              user_data)
 {
-  if ((! force && G_blob_contents.ptr) || ! path) {
+  if ((! force && G_blob_contents.ptr && tag == G_blob_contents_tag) ||
+      ! path) {
     callback (path, &G_blob_contents, user_data);
   } else {
     AsyncBlobContentsJob *job = g_slice_alloc (sizeof *job);
     
     job->force      = force;
+    job->tag        = tag;
     job->path       = g_strdup (path);
     job->callback   = callback;
     job->user_data  = user_data;
@@ -801,7 +808,8 @@ on_sci_query_tooltip (GtkWidget  *widget,
   min_x = scintilla_send_message (sci, SCI_GETMARGINWIDTHN, 0, 0);
   max_x = min_x + scintilla_send_message (sci, SCI_GETMARGINWIDTHN, 1, 0);
   
-  if (x >= min_x && x <= max_x && G_blob_contents.ptr) {
+  if (x >= min_x && x <= max_x &&
+      G_blob_contents.ptr && G_blob_contents_tag == doc->id) {
     gint pos  = scintilla_send_message (sci, SCI_POSITIONFROMPOINT, x, y);
     gint line = sci_get_line_from_position (sci, pos);
     gint mask = scintilla_send_message (sci, SCI_MARKERGET, line, 0);
@@ -861,7 +869,7 @@ do_update_diff_idle (guint    doc_id,
   G_source_id = 0;
   /* make sure the document is still valid and current */
   if (doc && doc->id == doc_id) {
-    get_cached_blob_contents_async (doc->real_path, force, update_diff,
+    get_cached_blob_contents_async (doc->real_path, doc_id, force, update_diff,
                                     GUINT_TO_POINTER (doc->id));
   }
   
@@ -1024,8 +1032,8 @@ on_kb_goto_next_hunk (guint kb)
     data->line      = sci_get_current_line (doc->editor->sci);
     data->next_line = -1;
     
-    get_cached_blob_contents_async (doc->real_path, FALSE, goto_next_hunk_cb,
-                                    data);
+    get_cached_blob_contents_async (doc->real_path, doc->id, FALSE,
+                                    goto_next_hunk_cb, data);
   }
 }
 
@@ -1197,9 +1205,10 @@ plugin_init (GeanyData *data)
   GeanyKeyGroup *kb_group;
   
   buf_zero (&G_blob_contents);
-  G_source_id = 0;
-  G_thread    = NULL;
-  G_queue     = NULL;
+  G_blob_contents_tag = 0;
+  G_source_id         = 0;
+  G_thread            = NULL;
+  G_queue             = NULL;
   
   if (git_libgit2_init () < 0) {
     const git_error *err = giterr_last ();
