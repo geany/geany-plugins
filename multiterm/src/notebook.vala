@@ -88,7 +88,7 @@ namespace MultiTerm
 			}
 			catch (SpawnError err)
 			{
-				warning("Unable to launch external terminal: %s".printf(err.message));
+				warning(_("Unable to launch external terminal: %s").printf(err.message));
 			}
 		}
 
@@ -134,7 +134,7 @@ namespace MultiTerm
 					return;
 				}
 			}
-			warning("Unable to locate default shell in configuration file");
+			warning(_("Unable to locate default shell in configuration file"));
 		}
 
 		private bool on_terminal_right_click_event(EventButton event)
@@ -199,7 +199,7 @@ namespace MultiTerm
 			add_button.relief = ReliefStyle.NONE;
 			add_button.focus_on_click = false;
 			add_button.set_border_width(2);
-			add_button.set_tooltip_text("New terminal");
+			add_button.set_tooltip_text(_("New terminal"));
 			add_button.add(img);
 			add_button.clicked.connect(on_add_button_clicked);
 			add_button.show_all();

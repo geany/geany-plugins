@@ -59,7 +59,7 @@ namespace MultiTerm
 			btn.set_size_request(w+2, h+2);
 		}
 		
-		public TabLabel(string text="Terminal")
+		public TabLabel(string text=_("Terminal"))
 		{
 			Image img;
 			
@@ -81,7 +81,7 @@ namespace MultiTerm
 			btn = new Button();
 			btn.modify_style(style);
 			btn.add(img);
-			btn.set_tooltip_text("Close terminal");
+			btn.set_tooltip_text(_("Close terminal"));
 			btn.clicked.connect(on_button_clicked);
 			btn.relief = ReliefStyle.NONE;
 			btn.focus_on_click = false;

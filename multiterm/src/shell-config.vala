@@ -27,7 +27,7 @@ namespace MultiTerm
 	{
 		public Config _cfg;
 		string _section;
-		const string warning_tmpl = "Unable to read value for '%s' key: %s";
+		const string warning_tmpl = _("Unable to read value for '%s' key: %s");
 
 		internal Config cfg { get { return _cfg; } }
 		internal KeyFile kf { get { return cfg.kf; } }

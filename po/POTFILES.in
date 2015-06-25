@@ -224,6 +224,15 @@ git-changebar/src/gcb-plugin.c
 markdown/src/conf.c
 markdown/src/plugin.c
 
+# Multiterm
+multiterm/src/config.vala
+multiterm/src/context-menu.vala
+multiterm/src/notebook.vala
+multiterm/src/plugin.vala
+multiterm/src/shell-config.vala
+multiterm/src/tab-label.vala
+multiterm/src/terminal.vala
+
 # Overview
 overview/overview/overviewcolor.c
 overview/overview/overviewplugin.c
