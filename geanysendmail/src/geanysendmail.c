@@ -144,7 +144,6 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
 				if (! utils_string_replace_all(cmd_str, "%r", address))
  					ui_set_statusbar(FALSE,
 					_("Recipient address placeholder not found. The executed command might have failed."));
-					g_free(address);
 			}
 			else
 			{
