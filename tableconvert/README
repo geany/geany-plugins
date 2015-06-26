@@ -111,8 +111,8 @@ well. Also it is not able to support <thead> and <tbody> at the
 moment. However, at least the second point is planned for some later
 release.
 
-For more recent information all reported issues will be tracked at
-https://sourceforge.net/projects/geany-plugins/
+For more recent information reported issues will be tracked at
+https://github.com/geany/geany-plugins/issues
 
 
 License

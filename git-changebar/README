@@ -35,6 +35,7 @@ To navigate through the hunks of the current file, you need to configure the
 plugin's *Go to next hunk* and *Go to previous hunk* keybindings in Geany's
 preferences dialog.
 
+
 License
 =======
 
@@ -56,4 +57,4 @@ Bug reports and feature requests
 --------------------------------
 
 To report a bug or ask for a new feature, please use the Geany-Plugins tracker
-on SourceForge: https://sourceforge.net/projects/geany-plugins/
+on GitHub: https://github.com/geany/geany-plugins/issues
