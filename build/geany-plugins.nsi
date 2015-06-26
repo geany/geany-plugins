@@ -172,6 +172,8 @@ Section Uninstall
 	Delete "$INSTDIR\lib\geanysendmail.dll"
 	Delete "$INSTDIR\lib\geanyvc.dll"
 	Delete "$INSTDIR\lib\geniuspaste.dll"
+	Delete "$INSTDIR\lib\git-changebar.dll"
+	Delete "$INSTDIR\lib\overview.dll"
 	Delete "$INSTDIR\lib\pairtaghighlighter.dll"
 	Delete "$INSTDIR\lib\pohelper.dll"
 	Delete "$INSTDIR\lib\pretty-printer.dll"
@@ -186,6 +188,7 @@ Section Uninstall
 
 	Delete "$INSTDIR\bin\ctpl-2.dll"
 	Delete "$INSTDIR\bin\libenchant.dll"
+	Delete "$INSTDIR\bin\libgit2.dll"
 	Delete "$INSTDIR\bin\libsoup-2.4-1.dll"
 	Delete "$INSTDIR\bin\libxml2-2.dll"
 	Delete "$INSTDIR\bin\lua5.1.dll"
