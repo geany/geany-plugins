@@ -29,7 +29,7 @@
 #endif
 
 #include <geanyplugin.h>
-#include "icon.h"
+#include "mail-icon.xpm"
 
 GeanyPlugin		*geany_plugin;
 GeanyData		*geany_data;
@@ -199,7 +199,7 @@ static void add_stock_item(void)
 	}
 	else
 	{
-		GdkPixbuf *pb = gdk_pixbuf_new_from_inline(-1, mail_pixbuf, FALSE, NULL);
+		GdkPixbuf *pb = gdk_pixbuf_new_from_xpm_data(mail_icon);
 		icon_set = gtk_icon_set_new_from_pixbuf(pb);
 		g_object_unref(pb);
 	}
