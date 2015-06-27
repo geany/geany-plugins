@@ -5,16 +5,16 @@ Geany-Plugins
 Installation
 ------------
 
-You can build the plugins using either autotools or waf.
+You can build the plugins using either Autotools or Waf.
 
-Building with autotools
+Building with Autotools
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 You can use Autotools to build the Geany plugins in this repository.
 
 Usage::
 
-   ./configure [arguments] or alternatively ./autogen.sh [arguments]
+  ./configure [arguments] or alternatively ./autogen.sh [arguments]
   make
   sudo make install
 
@@ -22,62 +22,75 @@ This will configure, build and install most of the Geany plugins.
 There is some auto-detection in place which automagically disables
 some of the plugins if there are insufficient build dependencies.
 The following arguments can tweak the behaviour of the configure
-script:-
+script:
 
 Options
 =======
-A full listing of all supported options can be found in ./configure --help.
+A full listing of all supported options can be found in ``./configure --help.``
 
 Enable/Disable Features
 =======================
-The following options can be passed to ./configure in forms
---enable-<option>=auto (default), --enable-<option>, --disable-<option>. In all
-cases, --enable-<option>=auto causes the feature to be enabled/disabled
-automatically based on whether the dependency exists on your system.
---enable-<option> causes the feature to be forcefully enabled, causing configure
-to fail with an error message if you have missing
-dependencies. --disable-<option> causes the feature to be forcefully disabled.
+The following options can be passed to ``./configure`` in forms
+``--enable-<option>=auto`` (default), ``--enable-<option>``,
+``--disable-<option>``. In all cases, ``--enable-<option>=auto`` causes the
+feature to be enabled/disabled automatically based on whether the dependency
+exists on your system.
+``--enable-<option>`` causes the feature to be forcefully enabled, causing
+configure to fail with an error message if you have missing
+dependencies.
+``--disable-<option>`` causes the feature to be forcefully disabled.
 
 Available plugins are:
 
-* addons -- the Addons plugin
-* autoclose -- the Autoclose plugin
-* automark -- the Automark plugin
-* codenav -- the CodeNav plugin
-* commander -- the Commander plugin
-* debugger -- the Debugger plugin
-* defineformat -- the Defineformat plugin
-* devhelp -- the devhelp plugin
-* geanydoc -- the GeanyDoc plugin
-* geanyextrasel -- the GeanyExtraSel plugin
-* geanygendoc -- the GeanyGenDoc plugin
-* geanyinsertnum -- the GeanyInsertNum plugin
-* geanylatex -- the GeanyLaTeX plugin
-* geanylipsum -- the GeanyLipsum plugin
-* geanylua -- the GeanyLua plugin
-* geanyminiscript -- the GeanyMiniScript plugin
-* geanypg -- the geanypg plugin
-* geanyprj -- the GeanyPrj plugin
-* geanysendmail -- the GeanySendmail plugin
-* geanyvc -- the GeanyVC plugin
-* geniuspaste -- the paste to a pastebin plugin
-* gtkspell -- GeanyVC's spell-check support
-* markdown -- the Markdown plugin
-* pretty_printer -- the pretty-printer plugin
-* projectorganizer -- the ProjectOrganizer plugin
-* scope -- the Scope plugin
-* shiftcolumn -- the ShiftColumn plugin
-* spellcheck -- the spellcheck plugin
-* treebrowser -- the Treebrowser plugin
-* tableconvert -- the Tableconvert plugin
-* updatechecker -- the Updatechecker plugin
-* webhelper -- the WebHelper plugin
-* xmlsnippets -- the XMLSnippets plugin
-* extra-c-warnings -- extra C Compiler warnings (see also HACKING)
-* cppcheck -- static code analysis using cppcheck (see also HACKING)
+* ``addons`` -- the Addons plugin
+* ``autoclose`` -- the Autoclose plugin
+* ``automark`` -- the Automark plugin
+* ``codenav`` -- the CodeNav plugin
+* ``commander`` -- the Commander plugin
+* ``debugger`` -- the Debugger plugin
+* ``defineformat`` -- the Defineformat plugin
+* ``devhelp`` -- the devhelp plugin
+* ``geanyctags`` -- the GeanyCtags plugin
+* ``geanydoc`` -- the GeanyDoc plugin
+* ``geanyextrasel`` -- the GeanyExtraSel plugin
+* ``geanygendoc`` -- the GeanyGenDoc plugin
+* ``geanyinsertnum`` -- the GeanyInsertNum plugin
+* ``geanylatex`` -- the GeanyLaTeX plugin
+* ``geanylipsum`` -- the GeanyLipsum plugin
+* ``geanylua`` -- the GeanyLua plugin
+* ``geanymacro`` -- the GeanyMacro plugin
+* ``geanyminiscript`` -- the GeanyMiniScript plugin
+* ``geanynumberedbookmarks`` -- the GeanyNumberedBookmarks plugin
+* ``geanypg`` -- the geanypg plugin
+* ``geanyprj`` -- the GeanyPrj plugin
+* ``geanypy`` -- the Geanypy plugin
+* ``geanysendmail`` -- the GeanySendmail plugin
+* ``geanyvc`` -- the GeanyVC plugin
+* ``geniuspaste`` -- the paste to a pastebin plugin
+* ``gitchangebar`` -- the GitChangeBar plugin
+* ``gtkspell`` -- GeanyVC's spell-check support
+* ``markdown`` -- the Markdown plugin
+* ``multiterm`` -- the multiterm plugin
+* ``overview``-- the overview plugin
+* ``pairtaghighlighter`` -- the PairTagHighlighter plugin
+* ``peg-markdown`` -- use the Peg-Markdown library in the Markdown plugin
+* ``pohelper`` -- the PoHelper plugin
+* ``pretty_printer`` -- the pretty-printer plugin
+* ``projectorganizer`` -- the ProjectOrganizer plugin
+* ``scope`` -- the Scope plugin
+* ``shiftcolumn`` -- the ShiftColumn plugin
+* ``spellcheck`` -- the spellcheck plugin
+* ``treebrowser`` -- the Treebrowser plugin
+* ``tableconvert`` -- the Tableconvert plugin
+* ``updatechecker`` -- the Updatechecker plugin
+* ``webhelper`` -- the WebHelper plugin
+* ``xmlsnippets`` -- the XMLSnippets plugin
+* ``extra-c-warnings`` -- extra C Compiler warnings (see also HACKING)
+* ``cppcheck`` -- static code analysis using cppcheck (see also HACKING)
 
-Example:
-./configure --enable-geanylua --enable-spellcheck
+Example::
+
+  ./configure --enable-geanylua --enable-spellcheck
 
 This will force force both geanylua and spellcheck plugins to be enabled even
 if some dependencies are missing.
@@ -85,27 +98,27 @@ if some dependencies are missing.
 
 Other tweaks
 ============
-The following options can be passed to ./configure in the form
---with-<option>=<argument>.
+The following options can be passed to ``./configure`` in the form
+``--with-<option>=<argument>``.
 
-* lua-pkg -- the name of the lua pkg-config package name.
-* geany-prefix -- Geany's prefix, used when compiling Geany.
+* ``lua-pkg`` -- the name of the Lua pkg-config package name.
+* ``geany-prefix`` -- Geany's prefix, used when compiling Geany.
 
 
 Compiling Individual Plugins
 ============================
 
-The Geany Plugins project uses a recursive automake build system,
-which means that after running ./configure, you may compile each
-individual plug-in by cd-ing into the respective plug-in directory
-and compiling it.
+The Geany Plugins project uses a recursive Automake build system,
+which means that after running ``./configure``, you may compile each
+individual plugin by cd-ing into the respective plugin directory
+and running make inside it.
 
-Building with waf
+Building with Waf
 ^^^^^^^^^^^^^^^^^
 
-Geany-Plugins can also being build using Python based build system waf.
-For doing this you have similar to building with autotools run three steps::
+Geany-Plugins can also being build using Python based build system Waf.
+For doing this you have similar to building with Autotools run three steps::
 
-  ./waf configure
+  ./waf configure [arguments]
   ./waf build
   ./waf install
