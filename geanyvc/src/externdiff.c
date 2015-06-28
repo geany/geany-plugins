@@ -33,11 +33,12 @@ enum
 	EXTERNAL_DIFF_KDIFF3,
 	EXTERNAL_DIFF_DIFFUSE,
 	EXTERNAL_DIFF_TKDIFF,
+	EXTERNAL_DIFF_WINMERGE,
 	EXTERNAL_DIFF_COUNT
 };
 
 
-static const gchar *viewers[EXTERNAL_DIFF_COUNT] = { "meld", "kompare", "kdiff3", "diffuse", "tkdiff" };
+static const gchar *viewers[EXTERNAL_DIFF_COUNT] = { "meld", "kompare", "kdiff3", "diffuse", "tkdiff", "WinMergeU" };
 
 static gchar *extern_diff_viewer = NULL;
 const gchar *
