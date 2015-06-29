@@ -19,9 +19,12 @@
  */
 
 #include <string.h>
-
 #include <geanyplugin.h>
 #include "geanyvc.h"
+
+#ifdef G_OS_WIN32
+#include <Shlobj.h>
+#endif
 
 extern GeanyFunctions *geany_functions;
 
@@ -38,27 +41,70 @@ enum
 };
 
 
-static const gchar *viewers[EXTERNAL_DIFF_COUNT] = { "meld", "kompare", "kdiff3", "diffuse", "tkdiff", "WinMergeU" };
+static const gchar *viewers[EXTERNAL_DIFF_COUNT] = { "Meld/meld", "kompare", "kdiff3", "diffuse", "tkdiff", "WinMerge/WinMergeU" };
 
 static gchar *extern_diff_viewer = NULL;
-const gchar *
-get_external_diff_viewer(void)
+
+void external_diff_viewer_init(void)
 {
 	gint i;
 
-	if (extern_diff_viewer)
-		return extern_diff_viewer;
+	for (i = 0; i < EXTERNAL_DIFF_COUNT; i++)
+	{
+		gchar *filename = g_path_get_basename(viewers[i]);
+		gchar *path = g_find_program_in_path(filename);
+		g_free(filename);
+		if (path)
+		{
+			extern_diff_viewer = path;
+			return;
+		}
+	}
+#ifdef G_OS_WIN32
+	TCHAR szPathProgramFiles[MAX_PATH];
+	TCHAR szPathProgramFiles86[MAX_PATH];
+	SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES, NULL, 0, szPathProgramFiles);
+	SHGetFolderPath(NULL, CSIDL_PROGRAM_FILESX86, NULL, 0, szPathProgramFiles86);
 
 	for (i = 0; i < EXTERNAL_DIFF_COUNT; i++)
 	{
-		gchar *path = g_find_program_in_path(viewers[i]);
+		gchar *filename = g_build_filename(szPathProgramFiles, viewers[i], NULL);
+		gchar *path = g_find_program_in_path(filename);
+		g_free(filename);
 		if (path)
 		{
-			g_free(path);
-			extern_diff_viewer = (gchar *) viewers[i];
-			return viewers[i];
+			extern_diff_viewer = path;
+			return;
 		}
 	}
+	for (i = 0; i < EXTERNAL_DIFF_COUNT; i++)
+	{
+		gchar *filename = g_build_filename(szPathProgramFiles86, viewers[i], NULL);
+		gchar *path = g_find_program_in_path(filename);
+		g_free(filename);
+		if (path)
+		{
+			extern_diff_viewer = path;
+			return;
+		}
+	}
+#endif
+}
+
+void external_diff_viewer_deinit(void)
+{
+	if (extern_diff_viewer)
+	{
+		g_free(extern_diff_viewer);
+		extern_diff_viewer = NULL;
+	}
+}
+
+const gchar *
+get_external_diff_viewer(void)
+{
+	if (extern_diff_viewer)
+		return extern_diff_viewer;
 	return NULL;
 }
 
@@ -67,7 +113,6 @@ void
 vc_external_diff(const gchar * src, const gchar * dest)
 {
 	gchar *argv[4] = { NULL, NULL, NULL, NULL };
-
 	const gchar *diff = get_external_diff_viewer();
 	if (!diff)
 		return;
@@ -76,7 +121,7 @@ vc_external_diff(const gchar * src, const gchar * dest)
 	argv[1] = (gchar *) src;
 	argv[2] = (gchar *) dest;
 
-	utils_spawn_sync(NULL, argv, NULL,
+	g_spawn_sync(NULL, argv, NULL,
 			 G_SPAWN_SEARCH_PATH | G_SPAWN_STDOUT_TO_DEV_NULL |
 			 G_SPAWN_STDERR_TO_DEV_NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 }

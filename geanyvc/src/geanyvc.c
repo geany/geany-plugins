@@ -2305,6 +2305,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	load_config();
 	registrate();
 
+	external_diff_viewer_init();
 
 	if (set_menubar_entry == TRUE)
 	{
@@ -2378,6 +2379,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 void
 plugin_cleanup(void)
 {
+	external_diff_viewer_deinit();
 	remove_menuitems_from_editor_menu();
 	gtk_widget_destroy(menu_entry);
 	g_slist_free(VC);
