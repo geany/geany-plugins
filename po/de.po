@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.25\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-20 11:24+0200\n"
+"POT-Creation-Date: 2015-06-29 19:21+0200\n"
 "PO-Revision-Date: 2015-04-20 20:17+0200\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -52,7 +52,7 @@ msgid "Bookmarks"
 msgstr "Lesezeichen"
 
 #. complete update
-#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2351
+#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2352
 msgid "_Update"
 msgstr "_Aktualisieren"
 
@@ -114,20 +114,32 @@ msgstr "URI öffnen"
 msgid "Copy URI"
 msgstr "URI kopieren"
 
-#: ../addons/src/ao_wrapwords.c:249
+#: ../addons/src/ao_wrapwords.c:253
 msgid "Enclose Characters"
 msgstr "Begrenzungszeichen"
 
-#: ../addons/src/ao_wrapwords.c:260
+#: ../addons/src/ao_wrapwords.c:254
+msgid "Accept"
+msgstr "Akzeptieren"
+
+#: ../addons/src/ao_wrapwords.c:255 ../geanymacro/src/geanymacro.c:1064
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: ../addons/src/ao_wrapwords.c:255
+msgid "OK"
+msgstr "OK"
+
+#: ../addons/src/ao_wrapwords.c:264
 #, c-format
 msgid "Enclose combo %d"
 msgstr "Begrenzungspaar %d"
 
-#: ../addons/src/ao_wrapwords.c:276
+#: ../addons/src/ao_wrapwords.c:280
 msgid "Opening Character"
 msgstr "Startzeichen"
 
-#: ../addons/src/ao_wrapwords.c:283
+#: ../addons/src/ao_wrapwords.c:287
 msgid "Closing Character"
 msgstr "Stopzeichen"
 
@@ -169,8 +181,8 @@ msgstr "XML-Tagging ausführen"
 
 #: ../addons/src/addons.c:417 ../autoclose/src/autoclose.c:885
 #: ../codenav/src/codenavigation.c:293 ../geanylatex/src/geanylatex.c:241
-#: ../geanyprj/src/geanyprj.c:174 ../geanysendmail/src/geanysendmail.c:123
-#: ../geanysendmail/src/geanysendmail.c:291 ../geanyvc/src/geanyvc.c:1854
+#: ../geanyprj/src/geanyprj.c:174 ../geanysendmail/src/geanysendmail.c:125
+#: ../geanysendmail/src/geanysendmail.c:290 ../geanyvc/src/geanyvc.c:1854
 #: ../geniuspaste/src/geniuspaste.c:140 ../spellcheck/src/scplugin.c:153
 #: ../treebrowser/src/treebrowser.c:1938
 #: ../updatechecker/src/updatechecker.c:267
@@ -3753,10 +3765,6 @@ msgstr "Makro aufnehmen"
 msgid "Record"
 msgstr "Aufnehmen"
 
-#: ../geanymacro/src/geanymacro.c:1064
-msgid "Cancel"
-msgstr "Abbrechen"
-
 #: ../geanymacro/src/geanymacro.c:1071
 msgid "Macro Trigger:"
 msgstr "Auslöser für das Makro"
@@ -4646,13 +4654,13 @@ msgstr "E-Mail-Adresse des Empfängers"
 msgid "Enter the recipient's e-mail address:"
 msgstr "E-Mail-Adresse des Empfängers:"
 
-#: ../geanysendmail/src/geanysendmail.c:138
+#: ../geanysendmail/src/geanysendmail.c:140
 msgid "Filename placeholder not found. The executed command might have failed."
 msgstr ""
 "Konnte den Platzhalter für den Dateinamen nicht finden. Der angegebene "
 "Befehl könnte nicht korrekt ausgeführt worden sein."
 
-#: ../geanysendmail/src/geanysendmail.c:144
+#: ../geanysendmail/src/geanysendmail.c:146
 msgid ""
 "Recipient address placeholder not found. The executed command might have "
 "failed."
@@ -4660,34 +4668,34 @@ msgstr ""
 "Konnte den Platzhalter für den E-Mail-Empfänger nicht finden. Der angegebene "
 "Befehl könnte nicht korrekt ausgeführt worden sein."
 
-#: ../geanysendmail/src/geanysendmail.c:159
+#: ../geanysendmail/src/geanysendmail.c:160
 msgid "Could not execute mailer. Please check your configuration."
 msgstr ""
 "Konnte das E-Mail-Programm nicht aufrufen. Bitte überprüfen Sie Ihre "
 "Einstellungen."
 
-#: ../geanysendmail/src/geanysendmail.c:168
+#: ../geanysendmail/src/geanysendmail.c:169
 msgid "Please define a mail client first."
 msgstr "Bitte ein E-Mail-Programm angeben!"
 
-#: ../geanysendmail/src/geanysendmail.c:173
+#: ../geanysendmail/src/geanysendmail.c:174
 msgid "File has to be saved before sending."
 msgstr "Die Datei muss vor dem Senden gespeichert werden."
 
-#: ../geanysendmail/src/geanysendmail.c:191
+#: ../geanysendmail/src/geanysendmail.c:190
 msgid "Mail"
 msgstr "E-Mail"
 
-#: ../geanysendmail/src/geanysendmail.c:222
+#: ../geanysendmail/src/geanysendmail.c:221
 msgid "Send by mail"
 msgstr "Per E-Mail senden"
 
 #. add a label and a text entry to the dialog
-#: ../geanysendmail/src/geanysendmail.c:312
+#: ../geanysendmail/src/geanysendmail.c:311
 msgid "Path and options for the mail client:"
 msgstr "Pfad und Optionen für das E-Mail-Programm:"
 
-#: ../geanysendmail/src/geanysendmail.c:320
+#: ../geanysendmail/src/geanysendmail.c:319
 msgid ""
 "Note: \n"
 "\t%f will be replaced by your file.\n"
@@ -4705,32 +4713,32 @@ msgstr ""
 "\tsylpheed --attach \"%f\" --compose \"%r\"\n"
 "\tmutt -s \"Sending %b'\" -a \"%f\" \"%r\""
 
-#: ../geanysendmail/src/geanysendmail.c:330
+#: ../geanysendmail/src/geanysendmail.c:329
 msgid "Show toolbar icon"
 msgstr "Werkzeugleistensymbol anzeigen"
 
-#: ../geanysendmail/src/geanysendmail.c:332
+#: ../geanysendmail/src/geanysendmail.c:331
 msgid "Shows a icon in the toolbar to send file more easy."
 msgstr ""
 "Zeigt ein Symbol in der Werkzeugleiste an, sodass eine Datei einfacher "
 "versendet werden kann."
 
-#: ../geanysendmail/src/geanysendmail.c:338
+#: ../geanysendmail/src/geanysendmail.c:337
 msgid "Use dialog for entering email address of recipients"
 msgstr ""
 "Dialog zum Eingeben der E-Mail-Adresse des Empfängers der zu sendenden Datei "
 "anzeigen"
 
-#: ../geanysendmail/src/geanysendmail.c:360
+#: ../geanysendmail/src/geanysendmail.c:359
 msgid "Send file by mail"
 msgstr "Per Mail senden"
 
 #. Build up menu entry
-#: ../geanysendmail/src/geanysendmail.c:383
+#: ../geanysendmail/src/geanysendmail.c:382
 msgid "_Mail document"
 msgstr "_Dokument versenden"
 
-#: ../geanysendmail/src/geanysendmail.c:386
+#: ../geanysendmail/src/geanysendmail.c:385
 msgid ""
 "Sends the opened file as unzipped attachment by any mailer from your $PATH"
 msgstr ""
@@ -5094,33 +5102,33 @@ msgstr "Alle Änderungen verwerfen"
 msgid "Update file"
 msgstr "Datei aktualisieren"
 
-#: ../geanyvc/src/geanyvc.c:2316
+#: ../geanyvc/src/geanyvc.c:2317
 msgid "_VC"
 msgstr "_VC"
 
-#: ../geanyvc/src/geanyvc.c:2322
+#: ../geanyvc/src/geanyvc.c:2323
 msgid "_Version Control"
 msgstr "_Versionskontrolle"
 
 #. Status of basedir
-#: ../geanyvc/src/geanyvc.c:2344
+#: ../geanyvc/src/geanyvc.c:2345
 msgid "_Status"
 msgstr "_Status"
 
-#: ../geanyvc/src/geanyvc.c:2346
+#: ../geanyvc/src/geanyvc.c:2347
 msgid "Show status."
 msgstr "Zeigt den Status der Arbeitskopie."
 
-#: ../geanyvc/src/geanyvc.c:2353
+#: ../geanyvc/src/geanyvc.c:2354
 msgid "Update from remote repository."
 msgstr "Aus dem Repositorium aktualisieren"
 
 #. Commit all changes
-#: ../geanyvc/src/geanyvc.c:2358
+#: ../geanyvc/src/geanyvc.c:2359
 msgid "_Commit"
 msgstr "Über_tragen"
 
-#: ../geanyvc/src/geanyvc.c:2360
+#: ../geanyvc/src/geanyvc.c:2361
 msgid "Commit changes."
 msgstr "Änderungen übertragen."
 
@@ -5230,30 +5238,30 @@ msgstr ""
 "Hebt noch nicht committete Änderungen an in einem git-Repository verwaltete "
 "Dateien hervor."
 
-#: ../git-changebar/src/gcb-plugin.c:1108 ../pohelper/src/gph-plugin.c:1577
+#: ../git-changebar/src/gcb-plugin.c:1116 ../pohelper/src/gph-plugin.c:1577
 #, c-format
 msgid "Failed to load configuration file: %s"
 msgstr "Konnte Konfiguration nicht laden: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1133 ../pohelper/src/gph-plugin.c:1602
+#: ../git-changebar/src/gcb-plugin.c:1141 ../pohelper/src/gph-plugin.c:1602
 #, c-format
 msgid "Failed to create configuration directory \"%s\": %s"
 msgstr "Konnte das Konfigurationsverzeichnis »%s« nicht anlegen: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1136 ../pohelper/src/gph-plugin.c:1605
+#: ../git-changebar/src/gcb-plugin.c:1144 ../pohelper/src/gph-plugin.c:1605
 #, c-format
 msgid "Failed to save configuration file: %s"
 msgstr "Konnte Konfiguration nicht speichern: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1214
+#: ../git-changebar/src/gcb-plugin.c:1223
 msgid "Go to the previous hunk"
 msgstr "Zur vorherigen Block mit Änderungen springen"
 
-#: ../git-changebar/src/gcb-plugin.c:1216
+#: ../git-changebar/src/gcb-plugin.c:1225
 msgid "Go to the next hunk"
 msgstr "Zur nächsten Block mit Änderungen springen"
 
-#: ../git-changebar/src/gcb-plugin.c:1341 ../pohelper/src/gph-plugin.c:1373
+#: ../git-changebar/src/gcb-plugin.c:1350 ../pohelper/src/gph-plugin.c:1373
 #: ../pohelper/src/gph-plugin.c:1706
 #, c-format
 msgid ""
@@ -5337,10 +5345,9 @@ msgstr "Überblick anzeigen"
 msgid ""
 "The amount to zoom the overview sidebar. This should probably negative if "
 "you want the sidebar zoomed out."
-msgstr ""
+msgstr "Legt fest, wie stark die Seitenleiste von »Overview« vergrößert/verkleinert werden soll. Negative Werte sorgen für eine größere Übersicht."
 
 #: ../overview/data/prefs.ui.h:2
-#, fuzzy
 msgid "Zoom Level:"
 msgstr "Zoom-Stufe:"
 
@@ -5355,53 +5362,51 @@ msgstr "Breite:"
 #: ../overview/data/prefs.ui.h:5
 msgid ""
 "The number of lines to scroll at a time when scrolling the overview sidebar."
-msgstr ""
+msgstr "Legt die Anzahl der Zeilen fest, die beim Scrollen in der Seitenleiste zurückgelegt werden sollen."
 
 #: ../overview/data/prefs.ui.h:6
 msgid "Scroll Lines:"
-msgstr ""
+msgstr "Scrollgeschwindigkeit:"
 
 #: ../overview/data/prefs.ui.h:7
-#, fuzzy
 msgid "Position on left"
-msgstr "Positionsname"
+msgstr "Links positionieren"
 
 #: ../overview/data/prefs.ui.h:8
 msgid ""
 "Position the overview bar on the left rather than the right (requires Geany "
 "1.25 or greater)."
-msgstr ""
+msgstr "Diese Option positioniert die Seitenleiste des Plugins an der linken Seite von Geany. Dies funktioniert nur in Geany-Versionen >= 1.25."
 
 #: ../overview/data/prefs.ui.h:9
-#, fuzzy
 msgid "Hide tooltip"
-msgstr "Tooltips anzeigen."
+msgstr "Tooltips verstecken."
 
 #: ../overview/data/prefs.ui.h:10
 msgid ""
 "Hide the tooltip that is displayed when mousing over the overview that shows "
 "line, column and position information."
-msgstr ""
+msgstr "Versteckt die zusätzlichen Informationen, die beim mit der Maus überstreichen angezeigt werden (Zeile, Spalte etc.)"
 
 #: ../overview/data/prefs.ui.h:11
 msgid "Hide editor scrollbar"
-msgstr ""
+msgstr "Normale Bildlaufleiste verstecken"
 
 #: ../overview/data/prefs.ui.h:12
 msgid ""
 "Whether to hide Geany's regular editor scrollbar while the overview bar is "
 "visible."
-msgstr ""
+msgstr "Mit dieser Option kann Geanys normale Bildlaufleiste versteckt werden, so dass, wenn das Plugin aktiv ist, allein über die Vorschau im Dokument navigiert werden kann."
 
 #: ../overview/data/prefs.ui.h:13
 msgid "Disable overlay"
-msgstr ""
+msgstr "Bildausschnittsmarkierung deaktivieren"
 
 #: ../overview/data/prefs.ui.h:14
 msgid ""
 "Turn off drawing overlay, which shows the region of the main editor view "
 "that is currently in view, ontop of the overview bar."
-msgstr ""
+msgstr "Diese Option legt fest, ob der aktuelle Bildschirmausschnitt aus dem normalen Editorfenster in der Vorschau angezeigt werden soll."
 
 #: ../overview/data/prefs.ui.h:15 ../scope/data/scope.glade.h:109
 msgid "Options"
@@ -5410,38 +5415,36 @@ msgstr "Optionen"
 #: ../overview/data/prefs.ui.h:16
 msgid ""
 "The color and opacity of the overlay drawn ontop of the overlay sidebar."
-msgstr ""
+msgstr "Konfiguriert die Farbe und Sättigung der Bildausschnittsmarkierung in der Seitenleiste des Plugins."
 
 #: ../overview/data/prefs.ui.h:17
-#, fuzzy
 msgid "Color:"
-msgstr "Farben:"
+msgstr "Farbe:"
 
 #: ../overview/data/prefs.ui.h:18
 msgid ""
 "The color and opacity of the border drawn around the revealed area in the "
 "overview sidebar. Set to the same as Overlay Color to disable."
-msgstr ""
+msgstr "Konfiguriert die Farbe und Sättigung rund um das aktive Gebiet des Dokumentes. Zum Deaktivieren einfach auf die gleiche Farbe wie die der Bildausschnittsmarkierung stellen"
 
 #: ../overview/data/prefs.ui.h:19
-#, fuzzy
 msgid "Outline Color:"
-msgstr "Farbe auswählen"
+msgstr "Farbe Außenlinie"
 
 #: ../overview/data/prefs.ui.h:20
 msgid "Draw over visible area"
-msgstr ""
+msgstr "Über sichtbares Gebiet zeichnen"
 
 #: ../overview/data/prefs.ui.h:21
 msgid ""
 "When checked it will draw the overlay ontop of the area that is visible in "
 "the main editor view, when unchecked, it will do the opposite and draw the "
 "overlay everywhere but the visible area, \"revealing\" the visible part."
-msgstr ""
+msgstr "Wenn diese Option aktiv ist, wird die Bildausschnittsmarkierung nur über den aktiven Bereich gelegt. Ist die Option deaktiviert, wird alles was nicht sichtbar ist mit einer Markierung versehen. "
 
 #: ../overview/data/prefs.ui.h:22
 msgid "Overlay"
-msgstr ""
+msgstr "Überlagerung"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:35
 msgid "Pair Tag Highlighter"
@@ -5603,7 +5606,6 @@ msgstr "Verbessert die Unterstützung für GetText-Übersetzungsdateien"
 
 # c-format
 #: ../pohelper/src/gph-plugin.c:1305 ../pohelper/src/gph-plugin.c:1322
-#, fuzzy, c-format
 msgid "<b>Translated:</b> %.3g%%"
 msgstr "<b>Übersetzt:</b> %,3g%%"
 
@@ -5729,7 +5731,6 @@ msgid "Project Organizer"
 msgstr "Project Organizer"
 
 #: ../projectorganizer/src/prjorg-main.c:42
-#, fuzzy
 msgid ""
 "Project file tree, project-wide indexing and search, extra navigation "
 "options (was GProject)"
@@ -5829,9 +5830,8 @@ msgid "Generate tags for all project files:"
 msgstr "Tags für alle Projektdateien erstellen"
 
 #: ../projectorganizer/src/prjorg-project.c:602
-#, fuzzy
 msgid "Auto (generate if less than 300 files)"
-msgstr "Automatisch (bei weniger als 500 Dateien)"
+msgstr "Automatisch (bei weniger als 300 Dateien)"
 
 #: ../projectorganizer/src/prjorg-project.c:603
 msgid "Yes"
@@ -5891,6 +5891,18 @@ msgstr "Externes Verzeichnis hinzufügen"
 #: ../projectorganizer/src/prjorg-sidebar.c:293
 msgid "Add"
 msgstr "Hinzufügen"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:457
+msgid "exact"
+msgstr "exakt"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:458
+msgid "prefix"
+msgstr "Präfix"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:459
+msgid "pattern"
+msgstr "Muster"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1034
 msgid "Set file patterns under Project->Properties"
@@ -6289,24 +6301,24 @@ msgstr "Programm"
 
 #: ../scope/data/scope.glade.h:89
 msgid "Open on"
-msgstr ""
+msgstr "Öffnen auf"
 
 #: ../scope/data/scope.glade.h:90
 msgid "g_db load"
-msgstr ""
+msgstr "g_db laden"
 
 #: ../scope/data/scope.glade.h:91
 msgid "p_rogram start"
-msgstr ""
+msgstr "P_rogramm starten"
 
 #: ../scope/data/scope.glade.h:92
 #, fuzzy
 msgid "Update all _views"
-msgstr "Aufgabenliste aktualisieren"
+msgstr "Alle _Ansichten aktualisieren"
 
 #: ../scope/data/scope.glade.h:93
 msgid "<b>Panel</b>"
-msgstr ""
+msgstr "<b>Schaltfläche</b>"
 
 #: ../scope/data/scope.glade.h:94
 msgid "Default 8-bit text mode:"
@@ -6317,9 +6329,8 @@ msgid "_7-bit \\nnn"
 msgstr "_7-bit \\nnn"
 
 #: ../scope/data/scope.glade.h:96
-#, fuzzy
 msgid "Display"
-msgstr "In Seitenleiste zeigen"
+msgstr "Anzeige"
 
 #: ../scope/data/scope.glade.h:97
 msgid "_member"
@@ -6342,9 +6353,8 @@ msgid "<b>Values</b>"
 msgstr "<b>Werte</b>"
 
 #: ../scope/data/scope.glade.h:102
-#, fuzzy
 msgid "E_xpand on apply"
-msgstr "Alle ausklappen"
+msgstr "_Beim Anwenden erweitern"
 
 #: ../scope/data/scope.glade.h:103
 msgid "S_how"
@@ -6360,10 +6370,9 @@ msgstr "<b>Inspizieren</b>"
 
 #: ../scope/data/scope.glade.h:106
 msgid "Show =li_brary messages"
-msgstr ""
+msgstr "=li_brary-Meldunngen anzeigen"
 
 #: ../scope/data/scope.glade.h:107
-#, fuzzy
 msgid "Show _tooltips"
 msgstr "Tooltips anzeigen."
 
@@ -6376,9 +6385,8 @@ msgid "_Import"
 msgstr "_Import"
 
 #: ../scope/data/scope.glade.h:111
-#, fuzzy
 msgid "Enter assignment expression:"
-msgstr "Konnte Ausdruck nicht prüfen"
+msgstr "Ausdruck für Zuweisung angeben"
 
 #: ../scope/data/scope.glade.h:112
 #, fuzzy
@@ -7020,18 +7028,18 @@ msgid "Convert selection to table"
 msgstr "Auswahl in Tabelle umwandeln"
 
 #. Build up menu entry for table_convert based on global file type
-#: ../tableconvert/src/tableconvert_ui.c:36
+#: ../tableconvert/src/tableconvert_ui.c:40
 msgid "_Convert to table"
 msgstr "In _Tabelle umwandeln"
 
-#: ../tableconvert/src/tableconvert_ui.c:39
+#: ../tableconvert/src/tableconvert_ui.c:43
 msgid "Converts current marked list to a table."
 msgstr "Wandelt die aktuell markierte Liste in eine Tabelle"
 
 #. Build up menu entries for table convert based on explicit choice
 #. * This is needed for e.g. different wiki-Syntax or differenz stiles
 #. * within a special file type
-#: ../tableconvert/src/tableconvert_ui.c:48
+#: ../tableconvert/src/tableconvert_ui.c:52
 msgid "_More TableConvert"
 msgstr "_Mehr TableConvert"
 
