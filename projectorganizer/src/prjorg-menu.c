@@ -162,7 +162,7 @@ static void on_swap_header_source(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_U
 				GHashTableIter iter;
 				gpointer key, value;
 				PrjOrgRoot *root = elem->data;
-				
+
 				list = NULL;
 				g_hash_table_iter_init(&iter, root->file_table);
 				while (g_hash_table_iter_next(&iter, &key, &value))
@@ -305,20 +305,20 @@ static void on_open_selected_file(GtkMenuItem *menuitem, gpointer user_data)
 				PrjOrgRoot *root = elem->data;
 				gpointer key, value;
 				GHashTableIter iter;
-				
+
 				g_hash_table_iter_init(&iter, root->file_table);
 				while (g_hash_table_iter_next(&iter, &key, &value))
 				{
 					gchar *file_name = key;
 					gchar *pos = g_strrstr(file_name, utf8_path);
-					
+
 					if (pos && (pos - file_name + strlen(utf8_path) == strlen(file_name)))
 					{
 						found_path = file_name;
 						break;
 					}
 				}
-				
+
 				if (found_path)
 					break;
 			}

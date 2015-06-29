@@ -198,10 +198,10 @@ static gboolean topmost_selected(GtkTreeModel *model, GtkTreeIter *iter, gboolea
 {
 	GtkTreePath *path, *first_path;
 	gboolean ret, is_first;
-	
+
 	first_path = gtk_tree_path_new_first();
 	path = gtk_tree_model_get_path(model, iter);
-	
+
 	is_first = gtk_tree_path_compare(first_path, path) == 0;
 	ret = gtk_tree_path_get_depth(path) == 1 && ((is_first && first) || (!is_first && !first));
 	gtk_tree_path_free(first_path);
@@ -265,9 +265,9 @@ static void collapse(void)
 	GtkTreeIter iter;
 	GtkTreePath *tree_path;
 	GtkTreeModel *model = GTK_TREE_MODEL(s_file_store);
-	
+
 	gtk_tree_view_collapse_all(GTK_TREE_VIEW(s_file_view));
-	
+
 	/* expand the project folder */
 	gtk_tree_model_iter_children(model, &iter, NULL);
 	tree_path = gtk_tree_model_get_path (model, &iter);
@@ -305,11 +305,11 @@ static void on_add_external(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED 
 	{
 		gchar *locale_filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
 		gchar *utf8_filename = utils_get_utf8_from_locale(locale_filename);
-		
+
 		prjorg_project_add_external_dir(utf8_filename);
 		prjorg_sidebar_update(TRUE);
 		project_write_config();
-		
+
 		g_free(utf8_filename);
 		g_free(locale_filename);
 	}
@@ -327,19 +327,19 @@ static void on_remove_external_dir(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_U
 	GtkTreeModel *model;
 	GtkTreeIter iter, parent;
 	gchar *name;
-	
+
 	treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(s_file_view));
 	if (!gtk_tree_selection_get_selected(treesel, &model, &iter))
 		return;
 
 	if (gtk_tree_model_iter_parent(model, &parent, &iter))
 		return;
-		
+
 	gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_NAME, &name, -1);
 	prjorg_project_remove_external_dir(name);
 	prjorg_sidebar_update(TRUE);
 	project_write_config();
-	
+
 	g_free(name);
 }
 
@@ -539,20 +539,20 @@ static const char *tm_tag_type_name(const TMTag *tag)
 }
 
 
-static gboolean match(TMTag *tag, const gchar *name, gboolean declaration, gboolean case_sensitive, 
+static gboolean match(TMTag *tag, const gchar *name, gboolean declaration, gboolean case_sensitive,
 	MatchType match_type, GPatternSpec *pspec, gchar *utf8_path)
 {
 	const gint forward_types = tm_tag_prototype_t | tm_tag_externvar_t;
 	gboolean matches = FALSE;
 	gint type;
-	
+
 	type = declaration ? forward_types : tm_tag_max_t - forward_types;
 	matches = tag->type & type;
-	
+
 	if (matches)
 	{
 		gchar *name_case;
-		
+
 		if (case_sensitive)
 			name_case = g_strdup(tag->name);
 		else
@@ -560,7 +560,7 @@ static gboolean match(TMTag *tag, const gchar *name, gboolean declaration, gbool
 
 		switch (match_type)
 		{
-			case MATCH_FULL: 
+			case MATCH_FULL:
 				matches = g_strcmp0(name_case, name) == 0;
 				break;
 			case MATCH_PATTERN:
@@ -572,18 +572,18 @@ static gboolean match(TMTag *tag, const gchar *name, gboolean declaration, gbool
 		}
 		g_free(name_case);
 	}
-		
+
 	if (matches && utf8_path)
 	{
 		gchar *utf8_file_name = utils_get_utf8_from_locale(tag->file->file_name);
 		gchar *relpath;
-		
+
 		relpath = get_relative_path(utf8_path, utf8_file_name);
 		matches = relpath != NULL;
 		g_free(relpath);
 		g_free(utf8_file_name);
 	}
-	
+
 	return matches;
 }
 
@@ -596,12 +596,12 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 	guint i;
 	gchar *name_case;
 	GPatternSpec *pspec;
-	
+
 	if (case_sensitive)
 		name_case = g_strdup(name);
 	else
 		name_case = g_utf8_strdown(name, -1);
-		
+
 	pspec = g_pattern_spec_new(name_case);
 
 	msgwin_set_messages_dir(locale_base_path);
@@ -615,7 +615,7 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 			gchar *scopestr = tag->scope ? g_strconcat(tag->scope, "::", NULL) : g_strdup("");
 			gchar *utf8_fname = utils_get_utf8_from_locale(tag->file->file_name);
 			gchar *relpath;
-			
+
 			relpath = get_relative_path(utf8_base_path, utf8_fname);
 			msgwin_msg_add(COLOR_BLACK, -1, NULL, "%s:%lu:\n\t[%s]\t %s%s%s", relpath,
 				tag->line, tm_tag_type_name(tag), scopestr, tag->name, tag->arglist ? tag->arglist : "");
@@ -625,7 +625,7 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 		}
 	}
 	msgwin_switch_tab(MSG_MESSAGE, TRUE);
-	
+
 	g_free(name_case);
 	g_free(pspec);
 	g_free(utf8_base_path);
@@ -671,7 +671,7 @@ static void find_tag(GtkTreeIter *iter)
 
 		find_tags(name, declaration, case_sensitive, match_type, iter ? utf8_path : NULL);
 	}
-	
+
 	g_free(utf8_path);
 	gtk_widget_hide(s_ft_dialog.widget);
 }
@@ -803,7 +803,7 @@ static gboolean on_button_release(G_GNUC_UNUSED GtkWidget * widget, GdkEventButt
 static gboolean on_button_press(G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event,
 		G_GNUC_UNUSED gpointer user_data)
 {
-	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) 
+	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS)
 	{
 		on_open_clicked();
 		return TRUE;
@@ -898,7 +898,7 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 		if (content_type)
 		{
 			icon = g_content_type_get_icon(content_type);
-			if (icon) 
+			if (icon)
 			{
 				GtkIconInfo *icon_info;
 
@@ -1060,7 +1060,7 @@ static void load_project_root(PrjOrgRoot *root, GtkTreeIter *parent, GSList *hea
 		else
 			set_intro_message(_("Set file patterns under Project->Properties"));
 	}
-	
+
 	g_slist_foreach(lst, (GFunc) g_free, NULL);
 	g_slist_free(lst);
 	g_slist_foreach(path_list, (GFunc) g_strfreev, NULL);
@@ -1074,7 +1074,7 @@ static void load_project(void)
 	GtkTreeIter iter;
 	gboolean first = TRUE;
 	GIcon *icon_dir;
-	
+
 	gtk_tree_store_clear(s_file_store);
 
 	if (!prj_org || !geany_data->app->project)
@@ -1084,15 +1084,15 @@ static void load_project(void)
 
 	header_patterns = get_precompiled_patterns(prj_org->header_patterns);
 	source_patterns = get_precompiled_patterns(prj_org->source_patterns);
-	
+
 	/* reload on every refresh to update the color e.g. when the theme changes */
 	s_external_color = gtk_widget_get_style(s_toolbar)->bg[GTK_STATE_NORMAL];
-	
+
 	foreach_slist (elem, prj_org->roots)
 	{
 		PrjOrgRoot *root = elem->data;
 		gchar *name;
-		
+
 		if (first)
 			name = g_strconcat("<b>", geany_data->app->project->name, "</b>", NULL);
 		else
@@ -1108,7 +1108,7 @@ static void load_project(void)
 		first = FALSE;
 		g_free(name);
 	}
-	
+
 	collapse();
 
 	g_slist_foreach(header_patterns, (GFunc) g_pattern_spec_free, NULL);
@@ -1175,17 +1175,17 @@ static gboolean follow_editor_on_idle(gpointer foo)
 	foreach_slist (elem, prj_org->roots)
 	{
 		PrjOrgRoot *root = elem->data;
-		
+
 		utf8_path = get_relative_path(root->base_dir, doc->file_name);
 		if (utf8_path)
 			break;
-			
+
 		g_free(utf8_path);
 		utf8_path = NULL;
 		if (!gtk_tree_model_iter_next(model, &root_iter))
 			break;
 	}
-	
+
 	if (!utf8_path)
 		return FALSE;
 
@@ -1201,15 +1201,15 @@ static gboolean follow_editor_on_idle(gpointer foo)
 		gtk_tree_view_expand_to_path(GTK_TREE_VIEW(s_file_view), tree_path);
 		gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(s_file_view), tree_path,
 			NULL, FALSE, 0.0, 0.0);
-			
+
 		treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(s_file_view));
 		gtk_tree_selection_select_iter(treesel, &found_iter);
 		gtk_tree_path_free(tree_path);
 	}
-	
+
 	g_free(utf8_path);
 	g_strfreev(path_split);
-	
+
 	return FALSE;
 }
 
@@ -1218,14 +1218,14 @@ void prjorg_sidebar_update(gboolean reload)
 {
 	if (reload)
 	{
-		/* we get color information only after the sidebar is realized - 
+		/* we get color information only after the sidebar is realized -
 		 * postpone reload if this is not the case yet */
 		if (gtk_widget_get_realized(s_toolbar))
 			load_project();
 		else
 			s_pending_reload = TRUE;
 	}
-	if (s_follow_editor) 
+	if (s_follow_editor)
 		/* perform on idle - avoids unnecessary jumps on project load */
 		plugin_idle_add(geany_plugin, (GSourceFunc)follow_editor_on_idle, NULL);
 }
@@ -1326,7 +1326,7 @@ void prjorg_sidebar_init(void)
 	gtk_tree_view_column_pack_start(column, renderer, FALSE);
 	gtk_tree_view_column_add_attribute(column, renderer, "gicon", FILEVIEW_COLUMN_ICON);
 	gtk_tree_view_column_add_attribute(column, renderer, "cell-background-gdk", FILEVIEW_COLUMN_COLOR);
-	
+
 	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_column_pack_start(column, renderer, TRUE);
 	gtk_tree_view_column_add_attribute(column, renderer, "markup", FILEVIEW_COLUMN_NAME);

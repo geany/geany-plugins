@@ -97,7 +97,7 @@ void open_file(gchar *utf8_name)
 		gtk_notebook_set_current_page(GTK_NOTEBOOK(geany->main_widgets->notebook),
 			document_get_notebook_page(doc));
 	}
-	
+
 	if (doc)
 		gtk_widget_grab_focus(GTK_WIDGET(doc->editor->sci));
 

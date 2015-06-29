@@ -73,7 +73,7 @@ static void on_doc_close(G_GNUC_UNUSED GObject * obj, GeanyDocument * doc,
 	if (doc->file_name == NULL)
 		return;
 
-	/* tags of open files managed by geany - when the file gets closed, 
+	/* tags of open files managed by geany - when the file gets closed,
 	 * we should take care of it */
 	if (prjorg_project_is_in_project(doc->file_name))
 		prjorg_project_add_single_tm_file(doc->file_name);

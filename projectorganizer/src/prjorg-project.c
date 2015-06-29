@@ -63,7 +63,7 @@ static void clear_idle_queue(GSList **queue)
 static void collect_source_files(gchar *filename, TMSourceFile *sf, gpointer user_data)
 {
 	GPtrArray *array = user_data;
-	
+
 	if (sf != NULL)
 		g_ptr_array_add(array, sf);
 }
@@ -174,7 +174,7 @@ static gint prjorg_project_rescan_root(PrjOrgRoot *root)
 	ignored_file_list = get_precompiled_patterns(prj_org->ignored_file_patterns);
 
 	lst = get_file_list(root->base_dir, pattern_list, ignored_dirs_list, ignored_file_list);
-	
+
 	foreach_slist(elem, lst)
 	{
 		char *path = elem->data;
@@ -194,7 +194,7 @@ static gint prjorg_project_rescan_root(PrjOrgRoot *root)
 
 	g_slist_foreach(ignored_dirs_list, (GFunc) g_pattern_spec_free, NULL);
 	g_slist_free(ignored_dirs_list);
-	
+
 	return filenum;
 }
 
@@ -288,11 +288,11 @@ static void regenerate_tags(PrjOrgRoot *root, gpointer user_data)
 		TMSourceFile *sf;
 		gchar *utf8_path = key;
 		gchar *locale_path = utils_get_locale_from_utf8(utf8_path);
-		
+
 		sf = tm_source_file_new(locale_path, filetypes_detect(utf8_path)->name);
 		if (sf && !document_find_by_filename(utf8_path))
 			g_ptr_array_add(source_files, sf);
-		
+
 		g_hash_table_insert(file_table, g_strdup(utf8_path), sf);
 		g_free(locale_path);
 	}
@@ -308,16 +308,16 @@ void prjorg_project_rescan(void)
 {
 	GSList *elem;
 	gint filenum = 0;
-	
+
 	if (!prj_org)
 		return;
 
 	clear_idle_queue(&s_idle_add_funcs);
 	clear_idle_queue(&s_idle_remove_funcs);
-	
+
 	foreach_slist(elem, prj_org->roots)
 		filenum += prjorg_project_rescan_root(elem->data);
-	
+
 	if (prj_org->generate_tag_prefs == PrjOrgTagYes || (prj_org->generate_tag_prefs == PrjOrgTagAuto && filenum < 300))
 		g_slist_foreach(prj_org->roots, (GFunc)regenerate_tags, NULL);
 }
@@ -356,7 +356,7 @@ void prjorg_project_save(GKeyFile * key_file)
 {
 	GPtrArray *array;
 	GSList *elem, *lst;
-	
+
 	if (!prj_org)
 		return;
 
@@ -369,7 +369,7 @@ void prjorg_project_save(GKeyFile * key_file)
 	g_key_file_set_string_list(key_file, "prjorg", "ignored_file_patterns",
 		(const gchar**) prj_org->ignored_file_patterns, g_strv_length(prj_org->ignored_file_patterns));
 	g_key_file_set_integer(key_file, "prjorg", "generate_tag_prefs", prj_org->generate_tag_prefs);
-	
+
 	array = g_ptr_array_new();
 	lst = prj_org->roots->next;
 	foreach_slist (elem, lst)
@@ -394,12 +394,12 @@ static PrjOrgRoot *create_root(const gchar *utf8_base_dir)
 static void close_root(PrjOrgRoot *root, gpointer user_data)
 {
 	GPtrArray *source_files;
-	
+
 	source_files = g_ptr_array_new();
 	g_hash_table_foreach(root->file_table, (GHFunc)collect_source_files, source_files);
 	tm_workspace_remove_source_files(source_files);
 	g_ptr_array_free(source_files, TRUE);
-	
+
 	g_hash_table_destroy(root->file_table);
 	g_free(root->base_dir);
 	g_free(root);
@@ -435,12 +435,12 @@ void prjorg_project_add_external_dir(const gchar *utf8_dirname)
 		close_root(new_root, NULL);
 		return;
 	}
-	
+
 	GSList *lst = prj_org->roots->next;
 	lst = g_slist_prepend(lst, new_root);
 	lst = g_slist_sort(lst, (GCompareFunc)root_comparator);
 	prj_org->roots->next = lst;
-	
+
 	prjorg_project_rescan();
 }
 
@@ -452,7 +452,7 @@ void prjorg_project_remove_external_dir(const gchar *utf8_dirname)
 	if (found != NULL)
 	{
 		PrjOrgRoot *found_root = found->data;
-		
+
 		prj_org->roots = g_slist_remove(prj_org->roots, found_root);
 		close_root(found_root, NULL);
 		prjorg_project_rescan();
@@ -685,10 +685,10 @@ void prjorg_project_close(void)
 gboolean prjorg_project_is_in_project(const gchar *utf8_filename)
 {
 	GSList *elem;
-	
+
 	if (!utf8_filename || !prj_org || !geany_data->app->project || !prj_org->roots)
 		return FALSE;
-	
+
 	foreach_slist (elem, prj_org->roots)
 	{
 		PrjOrgRoot *root = elem->data;
@@ -703,7 +703,7 @@ gboolean prjorg_project_is_in_project(const gchar *utf8_filename)
 static gboolean add_tm_idle(gpointer foo)
 {
 	GSList *elem2;
-	
+
 	if (!prj_org || !s_idle_add_funcs)
 		return FALSE;
 
@@ -711,12 +711,12 @@ static gboolean add_tm_idle(gpointer foo)
 	{
 		GSList *elem;
 		gchar *utf8_fname = elem2->data;
-		
+
 		foreach_slist (elem, prj_org->roots)
 		{
 			PrjOrgRoot *root = elem->data;
 			TMSourceFile *sf = g_hash_table_lookup(root->file_table, utf8_fname);
-			
+
 			if (sf != NULL && !document_find_by_filename(utf8_fname))
 			{
 				tm_workspace_add_source_file(sf);
@@ -724,7 +724,7 @@ static gboolean add_tm_idle(gpointer foo)
 			}
 		}
 	}
-	
+
 	clear_idle_queue(&s_idle_add_funcs);
 
 	return FALSE;
@@ -734,15 +734,15 @@ static gboolean add_tm_idle(gpointer foo)
 /* This function gets called when document is being closed by Geany and we need
  * to add the TMSourceFile from the tag manager because Geany removes it on
  * document close.
- * 
- * Additional problem: The tag removal in Geany happens after this function is called. 
+ *
+ * Additional problem: The tag removal in Geany happens after this function is called.
  * To be sure, perform on idle after this happens (even though from my knowledge of TM
  * this shouldn't probably matter). */
 void prjorg_project_add_single_tm_file(gchar *utf8_filename)
 {
 	if (s_idle_add_funcs == NULL)
 		plugin_idle_add(geany_plugin, (GSourceFunc)add_tm_idle, NULL);
-	
+
 	s_idle_add_funcs = g_slist_prepend(s_idle_add_funcs, g_strdup(utf8_filename));
 }
 
@@ -750,7 +750,7 @@ void prjorg_project_add_single_tm_file(gchar *utf8_filename)
 static gboolean remove_tm_idle(gpointer foo)
 {
 	GSList *elem2;
-	
+
 	if (!prj_org || !s_idle_remove_funcs)
 		return FALSE;
 
@@ -763,12 +763,12 @@ static gboolean remove_tm_idle(gpointer foo)
 		{
 			PrjOrgRoot *root = elem->data;
 			TMSourceFile *sf = g_hash_table_lookup(root->file_table, utf8_fname);
-			
+
 			if (sf != NULL)
 				tm_workspace_remove_source_file(sf);
 		}
 	}
-	
+
 	clear_idle_queue(&s_idle_remove_funcs);
 
 	return FALSE;
@@ -781,7 +781,7 @@ static gboolean remove_tm_idle(gpointer foo)
  * files, the file inserted by the plugin isn't updated automatically in TM
  * so any changes wouldn't be reflected in the tags array (e.g. removed function
  * from source file would still be found in TM)
- * 
+ *
  * Additional problem: The document being opened may be caused
  * by going to tag definition/declaration - tag processing is in progress
  * when this function is called and if we remove the TmSourceFile now, line
@@ -791,6 +791,6 @@ void prjorg_project_remove_single_tm_file(gchar *utf8_filename)
 {
 	if (s_idle_remove_funcs == NULL)
 		plugin_idle_add(geany_plugin, (GSourceFunc)remove_tm_idle, NULL);
-	
+
 	s_idle_remove_funcs = g_slist_prepend(s_idle_remove_funcs, g_strdup(utf8_filename));
 }

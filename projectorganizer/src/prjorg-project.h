@@ -39,7 +39,7 @@ typedef struct
 	gchar **ignored_dirs_patterns;
 	gchar **ignored_file_patterns;
 	PrjOrgTagPrefs generate_tag_prefs;
-	
+
 	GSList *roots;  /* list of PrjOrgRoot; the project root is always the first followed by external dirs roots */
 } PrjOrg;
 
