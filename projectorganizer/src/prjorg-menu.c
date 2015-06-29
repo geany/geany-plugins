@@ -50,14 +50,14 @@ enum
 static GtkWidget *s_fif_item, *s_ff_item, *s_ft_item, *s_shs_item, *s_sep_item, *s_context_osf_item, *s_context_sep_item;
 
 
-static gboolean try_swap_header_source(gchar *file_name, gboolean is_header, GSList *file_list, GSList *header_patterns, GSList *source_patterns)
+static gboolean try_swap_header_source(gchar *utf8_file_name, gboolean is_header, GSList *file_list, GSList *header_patterns, GSList *source_patterns)
 {
 	gchar *name_pattern;
 	GSList *elem;
 	GPatternSpec *pattern;
 	gboolean found = FALSE;
 
-	name_pattern = g_path_get_basename(file_name);
+	name_pattern = g_path_get_basename(utf8_file_name);
 	SETPTR(name_pattern, utils_remove_ext_from_filename(name_pattern));
 	SETPTR(name_pattern, g_strconcat(name_pattern, ".*", NULL));
 	pattern = g_pattern_spec_new(name_pattern);
@@ -132,24 +132,26 @@ static void on_swap_header_source(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_U
 
 		if (!swapped)
 		{
-			gchar *doc_dir;
+			gchar *utf8_doc_dir;
+			gchar *locale_doc_dir;
 
-			doc_dir = g_path_get_dirname(doc->file_name);
-			SETPTR(doc_dir, utils_get_locale_from_utf8(doc_dir));
+			utf8_doc_dir = g_path_get_dirname(doc->file_name);
+			locale_doc_dir = utils_get_locale_from_utf8(utf8_doc_dir);
 
-			list = utils_get_file_list(doc_dir, NULL, NULL);
+			list = utils_get_file_list(locale_doc_dir, NULL, NULL);
 			foreach_list (elem, list)
 			{
 				gchar *full_name;
 
-				full_name = g_build_filename(doc_dir, elem->data, NULL);
+				full_name = g_build_filename(locale_doc_dir, elem->data, NULL);
 				SETPTR(full_name, utils_get_utf8_from_locale(full_name));
 				SETPTR(elem->data, full_name);
 			}
 			swapped = try_swap_header_source(doc->file_name, is_header, list, header_patterns, source_patterns);
 			g_slist_foreach(list, (GFunc) g_free, NULL);
 			g_slist_free(list);
-			g_free(doc_dir);
+			g_free(utf8_doc_dir);
+			g_free(locale_doc_dir);
 			list = NULL;
 		}
 
@@ -185,7 +187,12 @@ static void on_swap_header_source(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_U
 static void on_find_in_project(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
 {
 	if (geany_data->app->project)
-		search_show_find_in_files_dialog(get_project_base_path());
+	{
+		gchar *utf8_base_path = get_project_base_path();
+
+		search_show_find_in_files_dialog(utf8_base_path);
+		g_free(utf8_base_path);
+	}
 }
 
 
@@ -227,22 +234,21 @@ static gboolean kb_callback(guint key_id)
 static void on_open_selected_file(GtkMenuItem *menuitem, gpointer user_data)
 {
 	GeanyDocument *doc = document_get_current();
-	gchar *sel = NULL;
-	gchar *filename = NULL;
-	gchar *path = NULL;
+	gchar *utf8_sel, *locale_sel;
+	gchar *filename = NULL;  /* locale */
 
 	g_return_if_fail(doc != NULL);
 
-	sel = get_selection();
+	utf8_sel = get_selection();
 
-	if (!sel)
+	if (!utf8_sel)
 		return;
 
-	SETPTR(sel, utils_get_locale_from_utf8(sel));
+	locale_sel = utils_get_locale_from_utf8(utf8_sel);
 
-	if (g_path_is_absolute(sel))
+	if (g_path_is_absolute(locale_sel))
 	{
-		filename = g_strdup(sel);
+		filename = g_strdup(locale_sel);
 		if (!g_file_test(filename, G_FILE_TEST_EXISTS))
 		{
 			g_free(filename);
@@ -252,44 +258,47 @@ static void on_open_selected_file(GtkMenuItem *menuitem, gpointer user_data)
 
 	if (!filename)
 	{
+		gchar *locale_path = NULL;
+
 		if (doc->file_name)
 		{
-			path = g_path_get_dirname(doc->file_name);
-			SETPTR(path, utils_get_locale_from_utf8(path));
+			locale_path = g_path_get_dirname(doc->file_name);
+			SETPTR(locale_path, utils_get_locale_from_utf8(locale_path));
 		}
 
-		if (!path)
-			path = g_get_current_dir();
+		if (!locale_path)
+			locale_path = g_get_current_dir();
 
-		filename = g_build_path(G_DIR_SEPARATOR_S, path, sel, NULL);
+		filename = g_build_path(G_DIR_SEPARATOR_S, locale_path, locale_sel, NULL);
 		if (!g_file_test(filename, G_FILE_TEST_EXISTS))
 		{
 			g_free(filename);
 			filename = NULL;
 		}
 
-		g_free(path);
+		g_free(locale_path);
 	}
 
 	if (!filename && geany_data->app->project != NULL)
 	{
+		gchar *utf8_path;
 		gchar **pathv;
 		gint i;
 
-		path = g_strdup("");
-		pathv = g_strsplit_set(sel, "/\\", -1);
+		utf8_path = g_strdup("");
+		pathv = g_strsplit_set(utf8_sel, "/\\", -1);
 		for (i = g_strv_length(pathv) - 1; i >= 0; i--)
 		{
 			if (g_strcmp0(pathv[i], "..") == 0)
 				break;
-			SETPTR(path, g_build_filename(G_DIR_SEPARATOR_S, pathv[i], path, NULL));
+			SETPTR(utf8_path, g_build_filename(G_DIR_SEPARATOR_S, pathv[i], utf8_path, NULL));
 		}
 		g_strfreev(pathv);
 
-		if (g_strcmp0(path, "") != 0)
+		if (g_strcmp0(utf8_path, "") != 0)
 		{
 			GSList *elem;
-			gchar *found_path = NULL;
+			const gchar *found_path = NULL;
 
 			foreach_slist (elem, prj_org->roots)
 			{
@@ -301,9 +310,9 @@ static void on_open_selected_file(GtkMenuItem *menuitem, gpointer user_data)
 				while (g_hash_table_iter_next(&iter, &key, &value))
 				{
 					gchar *file_name = key;
-					gchar *pos = g_strrstr(file_name, path);
+					gchar *pos = g_strrstr(file_name, utf8_path);
 					
-					if (pos && (pos - file_name + strlen(path) == strlen(file_name)))
+					if (pos && (pos - file_name + strlen(utf8_path) == strlen(file_name)))
 					{
 						found_path = file_name;
 						break;
@@ -316,8 +325,7 @@ static void on_open_selected_file(GtkMenuItem *menuitem, gpointer user_data)
 
 			if (found_path)
 			{
-				filename = g_strdup(found_path);
-				SETPTR(filename, utils_get_locale_from_utf8(filename));
+				filename = utils_get_locale_from_utf8(found_path);
 				if (!g_file_test(filename, G_FILE_TEST_EXISTS))
 				{
 					g_free(filename);
@@ -325,13 +333,13 @@ static void on_open_selected_file(GtkMenuItem *menuitem, gpointer user_data)
 				}
 			}
 		}
-		g_free(path);
+		g_free(utf8_path);
 	}
 
 #ifdef G_OS_UNIX
 	if (!filename)
 	{
-		filename = g_build_path(G_DIR_SEPARATOR_S, "/usr/local/include", sel, NULL);
+		filename = g_build_path(G_DIR_SEPARATOR_S, "/usr/local/include", locale_sel, NULL);
 		if (!g_file_test(filename, G_FILE_TEST_EXISTS))
 		{
 			g_free(filename);
@@ -341,7 +349,7 @@ static void on_open_selected_file(GtkMenuItem *menuitem, gpointer user_data)
 
 	if (!filename)
 	{
-		filename = g_build_path(G_DIR_SEPARATOR_S, "/usr/include", sel, NULL);
+		filename = g_build_path(G_DIR_SEPARATOR_S, "/usr/include", locale_sel, NULL);
 		if (!g_file_test(filename, G_FILE_TEST_EXISTS))
 		{
 			g_free(filename);
@@ -351,10 +359,16 @@ static void on_open_selected_file(GtkMenuItem *menuitem, gpointer user_data)
 #endif
 
 	if (filename)
-		open_file(filename);
+	{
+		gchar *utf8_filename = utils_get_utf8_from_locale(filename);
+
+		open_file(utf8_filename);
+		g_free(utf8_filename);
+	}
 
 	g_free(filename);
-	g_free(sel);
+	g_free(utf8_sel);
+	g_free(locale_sel);
 }
 
 

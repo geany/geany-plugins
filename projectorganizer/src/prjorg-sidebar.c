@@ -102,7 +102,7 @@ static struct
 } s_popup_menu;
 
 
-static gint show_dialog_find_file(gchar *path, gchar **pattern, gboolean *case_sensitive, gboolean *full_path)
+static gint show_dialog_find_file(gchar *utf8_path, gchar **pattern, gboolean *case_sensitive, gboolean *is_full_path)
 {
 	gint res;
 	GtkWidget *entry;
@@ -164,8 +164,8 @@ static gint show_dialog_find_file(gchar *path, gchar **pattern, gboolean *case_s
 		gtk_widget_show_all(vbox);
 	}
 
-	if (path)
-		gtk_label_set_text(GTK_LABEL(s_fif_dialog.dir_label), path);
+	if (utf8_path)
+		gtk_label_set_text(GTK_LABEL(s_fif_dialog.dir_label), utf8_path);
 	else
 		gtk_label_set_text(GTK_LABEL(s_fif_dialog.dir_label), _("project or external directory"));
 	entry = gtk_bin_get_child(GTK_BIN(s_fif_dialog.combo));
@@ -184,7 +184,7 @@ static gint show_dialog_find_file(gchar *path, gchar **pattern, gboolean *case_s
 		str = gtk_entry_get_text(GTK_ENTRY(entry));
 		*pattern = g_strconcat("*", str, "*", NULL);
 		*case_sensitive = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s_fif_dialog.case_sensitive));
-		*full_path = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s_fif_dialog.full_path));
+		*is_full_path = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(s_fif_dialog.full_path));
 		ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(s_fif_dialog.combo), str, 0);
 	}
 
@@ -210,6 +210,7 @@ static gboolean topmost_selected(GtkTreeModel *model, GtkTreeIter *iter, gboolea
 }
 
 
+/* utf8 */
 static gchar *build_path(GtkTreeIter *iter)
 {
 	GtkTreeIter node;
@@ -219,7 +220,7 @@ static gchar *build_path(GtkTreeIter *iter)
 	gchar *name;
 
 	if (!iter)
-		return g_strdup(get_project_base_path());
+		return get_project_base_path();
 
 	node = *iter;
 	model = GTK_TREE_MODEL(s_file_store);
@@ -237,7 +238,12 @@ static gchar *build_path(GtkTreeIter *iter)
 	}
 
 	if (topmost_selected(model, &node, TRUE))
-		SETPTR(path, g_build_filename(get_project_base_path(), path, NULL));
+	{
+		gchar *utf8_base_path = get_project_base_path();
+
+		SETPTR(path, g_build_filename(utf8_base_path, path, NULL));
+		g_free(utf8_base_path);
+	}
 	else
 	{
 		gtk_tree_model_get(model, &node, FILEVIEW_COLUMN_NAME, &name, -1);
@@ -285,26 +291,33 @@ static void on_follow_active(GtkToggleToolButton *button, G_GNUC_UNUSED gpointer
 
 static void on_add_external(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
 {
+	gchar *utf8_base_path = get_project_base_path();
+	gchar *locale_path = utils_get_locale_from_utf8(utf8_base_path);
 	GtkWidget *dialog;
 
 	dialog = gtk_file_chooser_dialog_new(_("Add External Directory"),
 		GTK_WINDOW(geany->main_widgets->window), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
 		_("Add"), GTK_RESPONSE_ACCEPT, NULL);
-	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), get_project_base_path());
+	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), locale_path);
 
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
 	{
-		gchar *filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+		gchar *locale_filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+		gchar *utf8_filename = utils_get_utf8_from_locale(locale_filename);
 		
-		prjorg_project_add_external_dir(filename);
+		prjorg_project_add_external_dir(utf8_filename);
 		prjorg_sidebar_update(TRUE);
 		project_write_config();
 		
-		g_free (filename);
+		g_free(utf8_filename);
+		g_free(locale_filename);
 	}
 
 	gtk_widget_destroy(dialog);
+
+	g_free(utf8_base_path);
+	g_free(locale_path);
 }
 
 
@@ -348,37 +361,41 @@ static void find_file_recursive(GtkTreeIter *iter, gboolean case_sensitive, gboo
 	}
 	else
 	{
-		gchar *name;
+		gchar *utf8_name;
 
 		if (iter == NULL)
 			return;
 
 		if (full_path)
 		{
-			gchar *path;
+			gchar *utf8_path, *utf8_base_path;
 
-			path = build_path(iter);
-			name = get_relative_path(get_project_base_path(), path);
-			g_free(path);
+			utf8_path = build_path(iter);
+			utf8_base_path = get_project_base_path();
+			utf8_name = get_relative_path(utf8_base_path, utf8_path);
+			g_free(utf8_path);
+			g_free(utf8_base_path);
 		}
 		else
-			gtk_tree_model_get(GTK_TREE_MODEL(model), iter, FILEVIEW_COLUMN_NAME, &name, -1);
+			gtk_tree_model_get(GTK_TREE_MODEL(model), iter, FILEVIEW_COLUMN_NAME, &utf8_name, -1);
 
 		if (!case_sensitive)
-			SETPTR(name, g_utf8_strdown(name, -1));
+			SETPTR(utf8_name, g_utf8_strdown(utf8_name, -1));
 
-		if (g_pattern_match_string(pattern, name))
+		if (g_pattern_match_string(pattern, utf8_name))
 		{
-			gchar *path, *rel_path;
+			gchar *utf8_base_path = get_project_base_path();
+			gchar *utf8_path, *rel_path;
 
-			path = build_path(iter);
-			rel_path = get_relative_path(get_project_base_path(), path);
-			msgwin_msg_add(COLOR_BLACK, -1, NULL, "%s", rel_path ? rel_path : path);
-			g_free(path);
+			utf8_path = build_path(iter);
+			rel_path = get_relative_path(utf8_base_path, utf8_path);
+			msgwin_msg_add(COLOR_BLACK, -1, NULL, "%s", rel_path ? rel_path : utf8_path);
+			g_free(utf8_path);
 			g_free(rel_path);
+			g_free(utf8_base_path);
 		}
 
-		g_free(name);
+		g_free(utf8_name);
 	}
 }
 
@@ -386,13 +403,13 @@ static void find_file_recursive(GtkTreeIter *iter, gboolean case_sensitive, gboo
 static void find_file(GtkTreeIter *iter)
 {
 	gchar *pattern_str = NULL;
-	gboolean case_sensitive, full_path;
-	gchar *path;
+	gboolean case_sensitive, is_full_path;
+	gchar *utf8_path = build_path(iter);
 
-	path = build_path(iter);
-
-	if (show_dialog_find_file(iter ? path : NULL, &pattern_str, &case_sensitive, &full_path) == GTK_RESPONSE_ACCEPT)
+	if (show_dialog_find_file(iter ? utf8_path : NULL, &pattern_str, &case_sensitive, &is_full_path) == GTK_RESPONSE_ACCEPT)
 	{
+		gchar *utf8_base_path = get_project_base_path();
+		gchar *locale_base_path = utils_get_locale_from_utf8(utf8_base_path);
 		GPatternSpec *pattern;
 
 		if (!case_sensitive)
@@ -401,13 +418,15 @@ static void find_file(GtkTreeIter *iter)
 		pattern = g_pattern_spec_new(pattern_str);
 
 		msgwin_clear_tab(MSG_MESSAGE);
-		msgwin_set_messages_dir(get_project_base_path());
-		find_file_recursive(iter, case_sensitive, full_path, pattern);
+		msgwin_set_messages_dir(locale_base_path);
+		find_file_recursive(iter, case_sensitive, is_full_path, pattern);
 		msgwin_switch_tab(MSG_MESSAGE, TRUE);
+		g_free(utf8_base_path);
+		g_free(locale_base_path);
 	}
 
 	g_free(pattern_str);
-	g_free(path);
+	g_free(utf8_path);
 }
 
 
@@ -521,7 +540,7 @@ static const char *tm_tag_type_name(const TMTag *tag)
 
 
 static gboolean match(TMTag *tag, const gchar *name, gboolean declaration, gboolean case_sensitive, 
-	MatchType match_type, GPatternSpec *pspec, gchar *path)
+	MatchType match_type, GPatternSpec *pspec, gchar *utf8_path)
 {
 	const gint forward_types = tm_tag_prototype_t | tm_tag_externvar_t;
 	gboolean matches = FALSE;
@@ -554,21 +573,25 @@ static gboolean match(TMTag *tag, const gchar *name, gboolean declaration, gbool
 		g_free(name_case);
 	}
 		
-	if (matches && path)
+	if (matches && utf8_path)
 	{
+		gchar *utf8_file_name = utils_get_utf8_from_locale(tag->file->file_name);
 		gchar *relpath;
 		
-		relpath = get_relative_path(path, tag->file->file_name);
+		relpath = get_relative_path(utf8_path, utf8_file_name);
 		matches = relpath != NULL;
 		g_free(relpath);
+		g_free(utf8_file_name);
 	}
 	
 	return matches;
 }
 
 
-static void find_tags(const gchar *name, gboolean declaration, gboolean case_sensitive, MatchType match_type, gchar *path)
+static void find_tags(const gchar *name, gboolean declaration, gboolean case_sensitive, MatchType match_type, gchar *utf8_path)
 {
+	gchar *utf8_base_path = get_project_base_path();
+	gchar *locale_base_path = utils_get_locale_from_utf8(utf8_base_path);
 	GPtrArray *tags_array = geany_data->app->tm_workspace->tags_array;
 	guint i;
 	gchar *name_case;
@@ -581,44 +604,48 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 		
 	pspec = g_pattern_spec_new(name_case);
 
-	msgwin_set_messages_dir(get_project_base_path());
+	msgwin_set_messages_dir(locale_base_path);
 	msgwin_clear_tab(MSG_MESSAGE);
 	for (i = 0; i < tags_array->len; i++) /* TODO: binary search */
 	{
 		TMTag *tag = tags_array->pdata[i];
 
-		if (match(tag, name_case, declaration, case_sensitive, match_type, pspec, path))
+		if (match(tag, name_case, declaration, case_sensitive, match_type, pspec, utf8_path))
 		{
 			gchar *scopestr = tag->scope ? g_strconcat(tag->scope, "::", NULL) : g_strdup("");
+			gchar *utf8_fname = utils_get_utf8_from_locale(tag->file->file_name);
 			gchar *relpath;
 			
-			relpath = get_relative_path(get_project_base_path(), tag->file->file_name);
+			relpath = get_relative_path(utf8_base_path, utf8_fname);
 			msgwin_msg_add(COLOR_BLACK, -1, NULL, "%s:%lu:\n\t[%s]\t %s%s%s", relpath,
 				tag->line, tm_tag_type_name(tag), scopestr, tag->name, tag->arglist ? tag->arglist : "");
 			g_free(scopestr);
 			g_free(relpath);
+			g_free(utf8_fname);
 		}
 	}
 	msgwin_switch_tab(MSG_MESSAGE, TRUE);
 	
 	g_free(name_case);
 	g_free(pspec);
+	g_free(utf8_base_path);
+	g_free(locale_base_path);
 }
 
 
 static void find_tag(GtkTreeIter *iter)
 {
 	gchar *selection;
-	gchar *path;
+	gchar *utf8_path;
 	GtkWidget *entry;
 
 	create_dialog_find_tag();
 
 	entry = gtk_bin_get_child(GTK_BIN(s_ft_dialog.combo));
 
-	path = build_path(iter);
+	utf8_path = build_path(iter);
 	if (iter)
-		gtk_label_set_text(GTK_LABEL(s_ft_dialog.dir_label), path);
+		gtk_label_set_text(GTK_LABEL(s_ft_dialog.dir_label), utf8_path);
 	else
 		gtk_label_set_text(GTK_LABEL(s_ft_dialog.dir_label), _("project or external directory"));
 
@@ -642,10 +669,10 @@ static void find_tag(GtkTreeIter *iter)
 
 		ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(s_ft_dialog.combo), name, 0);
 
-		find_tags(name, declaration, case_sensitive, match_type, iter?path:NULL);
+		find_tags(name, declaration, case_sensitive, match_type, iter ? utf8_path : NULL);
 	}
 	
-	g_free(path);
+	g_free(utf8_path);
 	gtk_widget_hide(s_ft_dialog.widget);
 }
 
@@ -727,7 +754,7 @@ static void on_open_clicked(void)
 		}
 		else
 		{
-			gchar *name;
+			gchar *utf8_path;
 			GIcon *icon;
 
 			gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_ICON, &icon, -1);
@@ -738,9 +765,9 @@ static void on_open_clicked(void)
 				return;
 			}
 
-			name = build_path(&iter);
-			open_file(name);
-			g_free(name);
+			utf8_path = build_path(&iter);
+			open_file(utf8_path);
+			g_free(utf8_path);
 			g_object_unref(icon);
 		}
 	}
@@ -822,7 +849,7 @@ static void on_find_in_files(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED 
 	GtkTreeSelection *treesel;
 	GtkTreeIter iter, parent;
 	GtkTreeModel *model;
-	gchar *path;
+	gchar *utf8_path;
 
 	treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(s_file_view));
 
@@ -832,15 +859,15 @@ static void on_find_in_files(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED 
 	if (!gtk_tree_model_iter_has_child(model, &iter))
 	{
 		if (gtk_tree_model_iter_parent(model, &parent, &iter))
-			path = build_path(&parent);
+			utf8_path = build_path(&parent);
 		else
-			path = build_path(NULL);
+			utf8_path = build_path(NULL);
 	}
 	else
-		path = build_path(&iter);
+		utf8_path = build_path(&iter);
 
-	search_show_find_in_files_dialog(path);
-	g_free(path);
+	search_show_find_in_files_dialog(utf8_path);
+	g_free(utf8_path);
 }
 
 
@@ -1132,7 +1159,7 @@ static gboolean find_in_tree(GtkTreeIter *parent, gchar **path_split, gint level
 static gboolean follow_editor_on_idle(gpointer foo)
 {
 	GtkTreeIter root_iter, found_iter;
-	gchar *path = NULL;
+	gchar *utf8_path = NULL;
 	gchar **path_split;
 	GeanyDocument *doc;
 	GSList *elem;
@@ -1149,20 +1176,20 @@ static gboolean follow_editor_on_idle(gpointer foo)
 	{
 		PrjOrgRoot *root = elem->data;
 		
-		path = get_relative_path(root->base_dir, doc->file_name);
-		if (path)
+		utf8_path = get_relative_path(root->base_dir, doc->file_name);
+		if (utf8_path)
 			break;
 			
-		g_free(path);
-		path = NULL;
+		g_free(utf8_path);
+		utf8_path = NULL;
 		if (!gtk_tree_model_iter_next(model, &root_iter))
 			break;
 	}
 	
-	if (!path)
+	if (!utf8_path)
 		return FALSE;
 
-	path_split = g_strsplit_set(path, "/\\", 0);
+	path_split = g_strsplit_set(utf8_path, "/\\", 0);
 
 	if (find_in_tree(&root_iter, path_split, 0, &found_iter))
 	{
@@ -1180,7 +1207,7 @@ static gboolean follow_editor_on_idle(gpointer foo)
 		gtk_tree_path_free(tree_path);
 	}
 	
-	g_free(path);
+	g_free(utf8_path);
 	g_strfreev(path_split);
 	
 	return FALSE;

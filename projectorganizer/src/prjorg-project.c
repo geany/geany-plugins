@@ -70,64 +70,76 @@ static void collect_source_files(gchar *filename, TMSourceFile *sf, gpointer use
 
 
 /* path - absolute path in locale, returned list in locale */
-static GSList *get_file_list(const gchar * path, GSList *patterns, GSList *ignored_dirs_patterns, GSList *ignored_file_patterns)
+static GSList *get_file_list(const gchar *utf8_path, GSList *patterns, GSList *ignored_dirs_patterns, GSList *ignored_file_patterns)
 {
 	GSList *list = NULL;
 	GDir *dir;
+	gchar *locale_path = utils_get_locale_from_utf8(utf8_path);
 
-	dir = g_dir_open(path, 0, NULL);
+	dir = g_dir_open(locale_path, 0, NULL);
 	if (!dir)
+	{
+		g_free(locale_path);
 		return NULL;
+	}
 
 	while (TRUE)
 	{
-		const gchar *name;
-		gchar *filename;
+		const gchar *locale_name;
+		gchar *locale_filename, *utf8_filename, *utf8_name;
 
-		name = g_dir_read_name(dir);
-		if (!name)
+		locale_name = g_dir_read_name(dir);
+		if (!locale_name)
 			break;
 
-		filename = g_build_filename(path, name, NULL);
+		utf8_name = utils_get_utf8_from_locale(locale_name);
+		locale_filename = g_build_filename(locale_path, locale_name, NULL);
+		utf8_filename = utils_get_utf8_from_locale(locale_filename);
 
-		if (g_file_test(filename, G_FILE_TEST_IS_DIR))
+		if (g_file_test(locale_filename, G_FILE_TEST_IS_DIR))
 		{
 			GSList *lst;
-			gchar *parent_realpath, *child_realpath, *relative;
+			gchar *relative, *locale_parent_realpath, *locale_child_realpath,
+				*utf8_parent_realpath, *utf8_child_realpath;
 
 			/* symlink cycle avoidance - test if directory within parent directory */
-			parent_realpath = tm_get_real_path(path);
-			child_realpath = tm_get_real_path(filename);
-			relative = get_relative_path(parent_realpath, child_realpath);
-			g_free(parent_realpath);
-			g_free(child_realpath);
+			locale_parent_realpath = tm_get_real_path(locale_path);
+			locale_child_realpath = tm_get_real_path(locale_filename);
+			utf8_parent_realpath = utils_get_utf8_from_locale(locale_parent_realpath);
+			utf8_child_realpath = utils_get_utf8_from_locale(locale_child_realpath);
 
-			if (!relative)
-				continue;
+			relative = get_relative_path(utf8_parent_realpath, utf8_child_realpath);
 
-			g_free(relative);
+			g_free(locale_parent_realpath);
+			g_free(locale_child_realpath);
+			g_free(utf8_parent_realpath);
+			g_free(utf8_child_realpath);
 
-			if (patterns_match(ignored_dirs_patterns, name))
+			if (relative)
 			{
-				g_free(filename);
-				continue;
-			}
+				g_free(relative);
 
-			lst = get_file_list(filename, patterns, ignored_dirs_patterns, ignored_file_patterns);
-			if (lst)
-				list = g_slist_concat(list, lst);
-			g_free(filename);
+				if (!patterns_match(ignored_dirs_patterns, utf8_name))
+				{
+					lst = get_file_list(utf8_filename, patterns, ignored_dirs_patterns, ignored_file_patterns);
+					if (lst)
+						list = g_slist_concat(list, lst);
+				}
+			}
 		}
-		else if (g_file_test(filename, G_FILE_TEST_IS_REGULAR))
+		else if (g_file_test(locale_filename, G_FILE_TEST_IS_REGULAR))
 		{
-			if (patterns_match(patterns, name) && !patterns_match(ignored_file_patterns, name))
-				list = g_slist_prepend(list, filename);
-			else
-				g_free(filename);
+			if (patterns_match(patterns, utf8_name) && !patterns_match(ignored_file_patterns, utf8_name))
+				list = g_slist_prepend(list, g_strdup(utf8_filename));
 		}
+
+		g_free(utf8_filename);
+		g_free(locale_filename);
+		g_free(utf8_name);
 	}
 
 	g_dir_close(dir);
+	g_free(locale_path);
 
 	return list;
 }
@@ -165,12 +177,11 @@ static gint prjorg_project_rescan_root(PrjOrgRoot *root)
 	
 	foreach_slist(elem, lst)
 	{
-		char *path = g_strdup(elem->data);
+		char *path = elem->data;
 
 		if (path)
 		{
-			SETPTR(path, utils_get_utf8_from_locale(path));
-			g_hash_table_insert(root->file_table, path, NULL);
+			g_hash_table_insert(root->file_table, g_strdup(path), NULL);
 			filenum++;
 		}
 	}
@@ -191,7 +202,7 @@ static gint prjorg_project_rescan_root(PrjOrgRoot *root)
 static gboolean match_basename(gconstpointer pft, gconstpointer user_data)
 {
 	const GeanyFiletype *ft = pft;
-	const gchar *base_filename = user_data;
+	const gchar *utf8_base_filename = user_data;
 	gint j;
 	gboolean ret = FALSE;
 
@@ -202,7 +213,7 @@ static gboolean match_basename(gconstpointer pft, gconstpointer user_data)
 	{
 		GPatternSpec *pattern = g_pattern_spec_new(ft->pattern[j]);
 
-		if (g_pattern_match_string(pattern, base_filename))
+		if (g_pattern_match_string(pattern, utf8_base_filename))
 		{
 			ret = TRUE;
 			g_pattern_spec_free(pattern);
@@ -220,36 +231,44 @@ static gboolean match_basename(gconstpointer pft, gconstpointer user_data)
  * extension and only if this fails, look at the shebang */
 static GeanyFiletype *filetypes_detect(const gchar *utf8_filename)
 {
-	guint i;
 	struct stat s;
-	gchar *base_filename;
 	GeanyFiletype *ft = NULL;
+	gchar *locale_filename;
 
-	if (g_stat(utf8_filename, &s) != 0 || s.st_size > 10*1024*1024)
-		return filetypes[GEANY_FILETYPES_NONE];
+	locale_filename = utils_get_locale_from_utf8(utf8_filename);
+	if (g_stat(locale_filename, &s) != 0 || s.st_size > 10*1024*1024)
+		ft = filetypes[GEANY_FILETYPES_NONE];
+	else
+	{
+		guint i;
+		gchar *utf8_base_filename;
 
-	/* to match against the basename of the file (because of Makefile*) */
-	base_filename = g_path_get_basename(utf8_filename);
+		/* to match against the basename of the file (because of Makefile*) */
+		utf8_base_filename = g_path_get_basename(utf8_filename);
 #ifdef G_OS_WIN32
-	/* use lower case basename */
-	SETPTR(base_filename, g_utf8_strdown(base_filename, -1));
+		/* use lower case basename */
+		SETPTR(utf8_base_filename, g_utf8_strdown(utf8_base_filename, -1));
 #endif
 
-	for (i = 0; i < geany_data->filetypes_array->len; i++)
-	{
-		GeanyFiletype *ftype = filetypes[i];
-
-		if (match_basename(ftype, base_filename))
+		for (i = 0; i < geany_data->filetypes_array->len; i++)
 		{
-			ft = ftype;
-			break;
-		}
-	}
-	
-	if (ft == NULL)
-		ft = filetypes_detect_from_file(utf8_filename);
+			GeanyFiletype *ftype = filetypes[i];
 
-	g_free(base_filename);
+			if (match_basename(ftype, utf8_base_filename))
+			{
+				ft = ftype;
+				break;
+			}
+		}
+
+		if (ft == NULL)
+			ft = filetypes_detect_from_file(utf8_filename);
+
+		g_free(utf8_base_filename);
+	}
+
+	g_free(locale_filename);
+
 	return ft;
 }
 
@@ -267,13 +286,15 @@ static void regenerate_tags(PrjOrgRoot *root, gpointer user_data)
 	while (g_hash_table_iter_next(&iter, &key, &value))
 	{
 		TMSourceFile *sf;
-		gchar *path = key;
+		gchar *utf8_path = key;
+		gchar *locale_path = utils_get_locale_from_utf8(utf8_path);
 		
-		sf = tm_source_file_new(path, filetypes_detect(path)->name);
-		if (sf && !document_find_by_filename(path))
+		sf = tm_source_file_new(locale_path, filetypes_detect(utf8_path)->name);
+		if (sf && !document_find_by_filename(utf8_path))
 			g_ptr_array_add(source_files, sf);
 		
-		g_hash_table_insert(file_table, g_strdup(path), sf);
+		g_hash_table_insert(file_table, g_strdup(utf8_path), sf);
+		g_free(locale_path);
 	}
 	g_hash_table_destroy(root->file_table);
 	root->file_table = file_table;
@@ -361,10 +382,10 @@ void prjorg_project_save(GKeyFile * key_file)
 }
 
 
-static PrjOrgRoot *create_root(const gchar *base_dir)
+static PrjOrgRoot *create_root(const gchar *utf8_base_dir)
 {
 	PrjOrgRoot *root = (PrjOrgRoot *) g_new0(PrjOrgRoot, 1);
-	root->base_dir = g_strdup(base_dir);
+	root->base_dir = g_strdup(utf8_base_dir);
 	root->file_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, (GFreeFunc)tm_source_file_free);
 	return root;
 }
@@ -387,21 +408,28 @@ static void close_root(PrjOrgRoot *root, gpointer user_data)
 
 static gint root_comparator(PrjOrgRoot *a, PrjOrgRoot *b)
 {
-	gchar *a_realpath, *b_realpath;
+	gchar *a_realpath, *b_realpath, *a_locale_base_dir, *b_locale_base_dir;
 	gint res;
 
-	a_realpath = tm_get_real_path(a->base_dir);
-	b_realpath = tm_get_real_path(b->base_dir);
+	a_locale_base_dir = utils_get_locale_from_utf8(a->base_dir);
+	b_locale_base_dir = utils_get_locale_from_utf8(b->base_dir);
+	a_realpath = tm_get_real_path(a_locale_base_dir);
+	b_realpath = tm_get_real_path(b_locale_base_dir);
+
 	res = g_strcmp0(a_realpath, b_realpath);
+
 	g_free(a_realpath);
 	g_free(b_realpath);
+	g_free(a_locale_base_dir);
+	g_free(b_locale_base_dir);
+
 	return res;
 }
 
 
-void prjorg_project_add_external_dir(const gchar *dirname)
+void prjorg_project_add_external_dir(const gchar *utf8_dirname)
 {
-	PrjOrgRoot *new_root = create_root(dirname);
+	PrjOrgRoot *new_root = create_root(utf8_dirname);
 	if (g_slist_find_custom (prj_org->roots, new_root, (GCompareFunc)root_comparator) != NULL)
 	{
 		close_root(new_root, NULL);
@@ -417,9 +445,9 @@ void prjorg_project_add_external_dir(const gchar *dirname)
 }
 
 
-void prjorg_project_remove_external_dir(const gchar *dirname)
+void prjorg_project_remove_external_dir(const gchar *utf8_dirname)
 {
-	PrjOrgRoot *test_root = create_root(dirname);
+	PrjOrgRoot *test_root = create_root(utf8_dirname);
 	GSList *found = g_slist_find_custom (prj_org->roots, test_root, (GCompareFunc)root_comparator);
 	if (found != NULL)
 	{
@@ -438,6 +466,7 @@ void prjorg_project_open(GKeyFile * key_file)
 	gchar **source_patterns, **header_patterns, **ignored_dirs_patterns, **ignored_file_patterns, **external_dirs, **dir_ptr, *last_name;
 	gint generate_tag_prefs;
 	GSList *elem, *ext_list = NULL;
+	gchar *utf8_base_path;
 
 	if (prj_org != NULL)
 		prjorg_project_close();
@@ -476,8 +505,11 @@ void prjorg_project_open(GKeyFile * key_file)
 		last_name = elem->data;
 	}
 	g_slist_free(ext_list);
+
 	/* the project directory is always first */
-	prj_org->roots = g_slist_prepend(prj_org->roots, create_root(get_project_base_path()));
+	utf8_base_path = get_project_base_path();
+	prj_org->roots = g_slist_prepend(prj_org->roots, create_root(utf8_base_path));
+	g_free(utf8_base_path);
 
 	update_project(
 		source_patterns,
@@ -650,17 +682,17 @@ void prjorg_project_close(void)
 }
 
 
-gboolean prjorg_project_is_in_project(const gchar * filename)
+gboolean prjorg_project_is_in_project(const gchar *utf8_filename)
 {
 	GSList *elem;
 	
-	if (!filename || !prj_org || !geany_data->app->project || !prj_org->roots)
+	if (!utf8_filename || !prj_org || !geany_data->app->project || !prj_org->roots)
 		return FALSE;
 	
 	foreach_slist (elem, prj_org->roots)
 	{
 		PrjOrgRoot *root = elem->data;
-		if (g_hash_table_lookup_extended (root->file_table, filename, NULL, NULL))
+		if (g_hash_table_lookup_extended (root->file_table, utf8_filename, NULL, NULL))
 			return TRUE;
 	}
 
@@ -678,14 +710,14 @@ static gboolean add_tm_idle(gpointer foo)
 	foreach_slist (elem2, s_idle_add_funcs)
 	{
 		GSList *elem;
-		gchar *fname = elem2->data;
+		gchar *utf8_fname = elem2->data;
 		
 		foreach_slist (elem, prj_org->roots)
 		{
 			PrjOrgRoot *root = elem->data;
-			TMSourceFile *sf = g_hash_table_lookup(root->file_table, fname);
+			TMSourceFile *sf = g_hash_table_lookup(root->file_table, utf8_fname);
 			
-			if (sf != NULL && !document_find_by_filename(fname))
+			if (sf != NULL && !document_find_by_filename(utf8_fname))
 			{
 				tm_workspace_add_source_file(sf);
 				break;  /* single file representation in TM is enough */
@@ -706,12 +738,12 @@ static gboolean add_tm_idle(gpointer foo)
  * Additional problem: The tag removal in Geany happens after this function is called. 
  * To be sure, perform on idle after this happens (even though from my knowledge of TM
  * this shouldn't probably matter). */
-void prjorg_project_add_single_tm_file(gchar *filename)
+void prjorg_project_add_single_tm_file(gchar *utf8_filename)
 {
 	if (s_idle_add_funcs == NULL)
 		plugin_idle_add(geany_plugin, (GSourceFunc)add_tm_idle, NULL);
 	
-	s_idle_add_funcs = g_slist_prepend(s_idle_add_funcs, g_strdup(filename));
+	s_idle_add_funcs = g_slist_prepend(s_idle_add_funcs, g_strdup(utf8_filename));
 }
 
 
@@ -725,12 +757,12 @@ static gboolean remove_tm_idle(gpointer foo)
 	foreach_slist (elem2, s_idle_remove_funcs)
 	{
 		GSList *elem;
-		gchar *fname = elem2->data;
+		gchar *utf8_fname = elem2->data;
 
 		foreach_slist (elem, prj_org->roots)
 		{
 			PrjOrgRoot *root = elem->data;
-			TMSourceFile *sf = g_hash_table_lookup(root->file_table, fname);
+			TMSourceFile *sf = g_hash_table_lookup(root->file_table, utf8_fname);
 			
 			if (sf != NULL)
 				tm_workspace_remove_source_file(sf);
@@ -755,10 +787,10 @@ static gboolean remove_tm_idle(gpointer foo)
  * when this function is called and if we remove the TmSourceFile now, line
  * number for the searched tag won't be found. For this reason delay the tag
  * TmSourceFile removal until idle */
-void prjorg_project_remove_single_tm_file(gchar *filename)
+void prjorg_project_remove_single_tm_file(gchar *utf8_filename)
 {
 	if (s_idle_remove_funcs == NULL)
 		plugin_idle_add(geany_plugin, (GSourceFunc)remove_tm_idle, NULL);
 	
-	s_idle_remove_funcs = g_slist_prepend(s_idle_remove_funcs, g_strdup(filename));
+	s_idle_remove_funcs = g_slist_prepend(s_idle_remove_funcs, g_strdup(utf8_filename));
 }

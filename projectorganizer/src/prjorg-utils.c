@@ -27,20 +27,28 @@ extern GeanyData *geany_data;
 extern GeanyFunctions *geany_functions;
 
 
-gchar *get_relative_path(const gchar *parent, const gchar *descendant)
+/* utf8 */
+gchar *get_relative_path(const gchar *utf8_parent, const gchar *utf8_descendant)
 {
 	GFile *gf_parent, *gf_descendant;
-	gchar *ret;
+	gchar *locale_parent, *locale_descendant;
+	gchar *locale_ret, *utf8_ret;
 
-	gf_parent = g_file_new_for_path(parent);
-	gf_descendant = g_file_new_for_path(descendant);
+	locale_parent = utils_get_locale_from_utf8(utf8_parent);
+	locale_descendant = utils_get_locale_from_utf8(utf8_descendant);
+	gf_parent = g_file_new_for_path(locale_parent);
+	gf_descendant = g_file_new_for_path(locale_descendant);
 
-	ret = g_file_get_relative_path(gf_parent, gf_descendant);
+	locale_ret = g_file_get_relative_path(gf_parent, gf_descendant);
+	utf8_ret = utils_get_utf8_from_locale(locale_ret);
 
 	g_object_unref(gf_parent);
 	g_object_unref(gf_descendant);
+	g_free(locale_parent);
+	g_free(locale_descendant);
+	g_free(locale_ret);
 
-	return ret;
+	return utf8_ret;
 }
 
 
@@ -118,6 +126,7 @@ gchar *get_selection(void)
 }
 
 
+/* utf8 */
 gchar *get_project_base_path(void)
 {
 	GeanyProject *project = geany_data->app->project;
