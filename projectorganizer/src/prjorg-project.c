@@ -195,6 +195,9 @@ static gint prjorg_project_rescan_root(PrjOrgRoot *root)
 	g_slist_foreach(ignored_dirs_list, (GFunc) g_pattern_spec_free, NULL);
 	g_slist_free(ignored_dirs_list);
 
+	g_slist_foreach(ignored_file_list, (GFunc) g_pattern_spec_free, NULL);
+	g_slist_free(ignored_file_list);
+
 	return filenum;
 }
 

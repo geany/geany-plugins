@@ -1427,6 +1427,7 @@ void prjorg_sidebar_init(void)
 
 	focus_chain = g_list_prepend(focus_chain, s_file_view);
 	gtk_container_set_focus_chain(GTK_CONTAINER(s_file_view_vbox), focus_chain);
+	g_list_free(focus_chain);
 	scrollwin = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin),
 					   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
