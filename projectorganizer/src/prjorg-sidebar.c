@@ -423,6 +423,7 @@ static void find_file(GtkTreeIter *iter)
 		msgwin_switch_tab(MSG_MESSAGE, TRUE);
 		g_free(utf8_base_path);
 		g_free(locale_base_path);
+		g_pattern_spec_free(pattern);
 	}
 
 	g_free(pattern_str);
@@ -627,7 +628,7 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 	msgwin_switch_tab(MSG_MESSAGE, TRUE);
 
 	g_free(name_case);
-	g_free(pspec);
+	g_pattern_spec_free(pspec);
 	g_free(utf8_base_path);
 	g_free(locale_base_path);
 }
