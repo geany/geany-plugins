@@ -23,7 +23,7 @@
 #include "geanyvc.h"
 
 #ifdef G_OS_WIN32
-#include <Shlobj.h>
+#include <shlobj.h>
 #endif
 
 extern GeanyFunctions *geany_functions;
