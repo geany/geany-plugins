@@ -198,13 +198,9 @@ Project Organizer adds an extra entry into the context menu of the editor:
 Known issues
 ============
 
-* There might be some issues with UTF8 file names - the testing has been very
-  limited.
 * In general it is not a good idea to use both the Project Organizer and GeanyPrj
   at the same time because both of the plugins access the tag manager in Geany
   to keep all the project files indexed and might cause conflicts to each other.
-* Project Organizer hasn't been tested under Windows (by me) so there might be issues. 
-  Patches are welcome.
 
 License
 =======
