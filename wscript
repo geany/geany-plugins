@@ -87,7 +87,7 @@ def configure(conf):
                    args='--cflags --libs')
     check_cfg_cached(conf,
                    package='geany',
-                   atleast_version='1.24',
+                   atleast_version='1.25',
                    uselib_store='GEANY',
                    mandatory=True,
                    args='--cflags --libs')
