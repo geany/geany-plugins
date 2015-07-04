@@ -1,5 +1,66 @@
 Geany Plugins 1.25 (unreleased)
 
+    General:
+    * GProject is renamed to ProjectOrganizer
+    * New plugin Automark
+    * New plugin GeanyCtags
+    * New plugin GitChangeBar
+    * New plugin Overview
+
+    Addons:
+    * Improve URI selection
+
+    Autoclose:
+    * Add Whitesmith style bracket formatting support
+
+    CodeNav:
+    * Implement Go to File feature
+
+    Commander:
+    * Improve sorting algorithm
+
+    Debugger:
+    * Fix crash with GDB 7.7
+
+    GeanyLaTeX:
+    * Fix automatic capitalization of multi-byte characters
+
+    GeanyVC:
+    * Add support for WinMerge external diff viewer
+
+    GProject:
+    * Add an "external directory" feature
+    * Add find tag by name
+    * Add ignored file patterns
+    * Performance improvements in tag generation using updated Geany API
+
+    MultiTerm:
+    * Fix build with recent Vala versions
+
+    PairTagHighlighter:
+    * Fix clearing previous indicators (PR #200)
+
+    PoHelper:
+    * Add a statistics dialog
+    * Fix handling of plural forms
+
+    Scope:
+    * Fix building on GNU/Hurd (PR #146)
+
+    Spellcheck:
+    * Don't check code of scripting languages embedded in HTML
+    * Add option to perform a spell check on document open (closes SF #137)
+
+    Tableconvert:
+    * Improve handling of non-LF line ends
+    * Add support for DokuWiki syntax
+
+    WebHelper:
+    * Add support for basic bookmarks
+
+    Internationalization:
+    * Update translations: de, fr, pt, ru
+
 
 Geany Plugins 1.24 (2014-04-13)
 
@@ -278,7 +339,7 @@ Geany-Plugins 0.21 (2011-10-23)
     * Upgrade plugin API to version 199
     * Ensure not to insert {} after \^ and \_
     * Added a keystroke to toggle inserting {} after ^ and _
-    * Fixed an issue with wrong inserted formating using a keybinding
+    * Fixed an issue with wrong inserted formatting using a keybinding
     * Small update to enable i18n also on Geany >= 0.21
     * Various bugfixes and memory leak fixes.
 
