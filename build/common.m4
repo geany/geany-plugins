@@ -1,16 +1,33 @@
+dnl _GP_ARG_DISABLE_ALL
+dnl Adds the --disable-all-plugins option
+dnl Sets gp_enable_all=[$enableval|auto]
+AC_DEFUN([_GP_ARG_DISABLE_ALL],
+[
+    AC_ARG_ENABLE([all-plugins],
+                  [AS_HELP_STRING([--disable-all-plugins],
+                                  [Disable all plugins])],
+                  [gp_enable_all=$enableval],
+                  [gp_enable_all=auto])
+])
+
 dnl GP_ARG_DISABLE(PluginName, default)
 dnl - default can either be yes(enabled) or no(disabled), or auto(to be used
 dnl   with GP_CHECK_PLUGIN_DEPS)
 dnl Generates --enable/disable options with help strings
 AC_DEFUN([GP_ARG_DISABLE],
 [
+    AC_REQUIRE([_GP_ARG_DISABLE_ALL])
+
     AC_ARG_ENABLE(m4_tolower(AS_TR_SH($1)),
         AS_HELP_STRING(m4_join(-,
                                --m4_if($2, no, enable, disable),
                                m4_tolower(AS_TR_SH($1))),
                        [Do not build the $1 plugin]),
         m4_tolower(AS_TR_SH(enable_$1))=$enableval,
-        m4_tolower(AS_TR_SH(enable_$1))=$2)
+        [AS_CASE([$gp_enable_all],
+                 [no],  [m4_tolower(AS_TR_SH(enable_$1))=no],
+                 [yes], [m4_tolower(AS_TR_SH(enable_$1))=yes],
+                        [m4_tolower(AS_TR_SH(enable_$1))=$2])])
 ])
 
 dnl GP_CHECK_PLUGIN_DEPS(PluginName, VARIABLE-PREFIX,  modules...)

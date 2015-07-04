@@ -95,6 +95,15 @@ Example::
 This will force force both geanylua and spellcheck plugins to be enabled even
 if some dependencies are missing.
 
+You can also use the special option ``all-plugins`` to change the default for all
+plugins.  For example, using ``--enable-all-plugins`` will forcefully enable all
+plugins as if you passed each plugin-specific ``--enable-<option>``.  This can be
+combined with specific plugin's ``--enable-<option>`` to only select a specific
+subset of the plugins without listing them all.  For example, you can use this
+to easily enable one single plugin, using e.g. ``--disable-all-plugins
+--enable-<option>``, or to forcefully enable all plugins but a few specific
+ones, using e.g. ``--enable-all-plugins --enable-<option>=auto``.
+
 
 Other tweaks
 ============
