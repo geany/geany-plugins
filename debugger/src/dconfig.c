@@ -480,6 +480,7 @@ void config_destroy(void)
 	if(keyfile_project)
 	{
 		g_key_file_free(keyfile_project);
+		keyfile_project = NULL;
 	}
 }
 

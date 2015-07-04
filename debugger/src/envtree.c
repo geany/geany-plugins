@@ -296,6 +296,7 @@ static void on_value_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 	g_free(striped);
 
 	gtk_tree_path_free(being_edited_value);
+	being_edited_value = NULL;
 }
 
 /*
@@ -331,8 +332,9 @@ static void on_value_editing_cancelled(GtkCellRenderer *renderer, gpointer user_
 
 	g_object_set (renderer_value, "editable", FALSE, NULL);
 
-	gtk_tree_path_free(being_edited_value);
 	gtk_tree_path_free(empty_path);
+	gtk_tree_path_free(being_edited_value);
+	being_edited_value = NULL;
 }
 
 /*
@@ -399,6 +401,12 @@ GtkWidget* envtree_init(void)
 	GtkTreeViewColumn *column;
 	GtkTreeSelection *selection;
 
+	/* (re)initialize globals in case plugin was reloaded but those not cleared */
+	page_read_only = FALSE;
+	entering_new_var = FALSE;
+	empty_row = NULL;
+	being_edited_value = NULL;
+
 	store = gtk_list_store_new (
 		N_COLUMNS,
 		G_TYPE_STRING,
@@ -448,6 +456,7 @@ GtkWidget* envtree_init(void)
 void envtree_destroy(void)
 {
 	gtk_tree_row_reference_free(empty_row);
+	empty_row = NULL;
 }
 
 /*
