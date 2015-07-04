@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.8.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.12: http://docutils.sourceforge.net/" />
 <title>GeanyGenDoc User Manual</title>
 <style type="text/css">
 
@@ -404,7 +404,7 @@ Basically, it generates and inserts text chunks, particularly from document's
 symbols. Its goal is to ease writing documentation for the good.</p>
 <p>If you are impatient, you will probably want to discover the <a class="reference internal" href="#user-interface-in-geany">user interface in
 Geany</a> first; but if you have the time to discover the tool, take a look at the
-<a class="reference internal" href="#design">design</a> and learn how GeanyGenDoc works and how you can take the most of it.</p>
+<a class="reference internal" href="#design">design</a> and learn how GeanyGenDoc works and how you can make the most of it.</p>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
@@ -497,7 +497,7 @@ directory</a> transparently.</dd>
 </div>
 <div class="section" id="preferences-dialog">
 <h2><a class="toc-backref" href="#id9">Preferences dialog</a></h2>
-<p>The preferences dialog, than can either be opened through <cite>Edit →
+<p>The preferences dialog, that can either be opened through <cite>Edit →
 Plugin Preferences</cite> or with the <cite>Preferences</cite> button in the plugin manager,
 allows to modify the following preferences:</p>
 <dl class="docutils">
@@ -524,8 +524,8 @@ default documentation type, used for all languages that haven't one set.</dd>
 be merged with the <a class="reference internal" href="#file-types">file type</a>-specific ones, possibly overriding some parts.
 It can be used to define some values for all the file types, such as whether
 to write the common <cite>Since</cite> tag, define the <a class="reference external" href="http://www.doxygen.org">Doxygen</a> prefix an so on.
-Its most use case is not to need to change a file type's environment to change
-the value of one of its elements.</dd>
+Its most practical use case is not to need to change a file type's environment
+to change the value of one of its elements.</dd>
 </dl>
 </div>
 </div>
@@ -542,7 +542,7 @@ example, the &quot;c&quot; file type corresponds to C source, and so on.</dd>
 documentation types is to allow different set of rules to be defined for each
 file type.
 One might want to have separate rules to generate for example <a class="reference external" href="http://www.doxygen.org">Doxygen</a>
-and <a class="reference external" href="http://www.gtk.org/gtk-doc/">Gtk-Doc</a> documentation from C sources. She should then create two
+and <a class="reference external" href="http://www.gtk.org/gtk-doc/">Gtk-Doc</a> documentation from C sources, and should then create two
 documentation types in the C <a class="reference internal" href="#file-types">file type configuration file</a>, such as
 &quot;doxygen&quot; and &quot;gtkdoc&quot;.</dd>
 <dt><a class="reference internal" href="#rules-the-cool-thing">Rule</a></dt>
@@ -633,10 +633,10 @@ must be escaped to be treated as a simple backslash character.</p>
 <dd>A boolean. It can take one of the two symbolic values <tt class="docutils literal">True</tt> and <tt class="docutils literal">False</tt>.</dd>
 <dt>enumeration</dt>
 <dd>An enumeration. It consists of a named constant, generally in capital letters.
-The possible values depend on the setting that use this type.</dd>
+The possible values depend on the setting using this type.</dd>
 <dt>flags</dt>
-<dd><p class="first">A logical OR of named constants. This is like enumerations but can combine
-different values.</p>
+<dd><p class="first">A logical OR of named constants. This is similar to enumerations but can
+combine different values.</p>
 <p class="last">The syntax is common for such types and uses the pipe (<tt class="docutils literal">|</tt>) as
 combination character. Considering the <tt class="docutils literal">A</tt>, <tt class="docutils literal">B</tt> and <tt class="docutils literal">C</tt> constants, a
 valid value could be <tt class="docutils literal">A | C</tt>, which represents both <tt class="docutils literal">A</tt> and <tt class="docutils literal">C</tt> but
@@ -650,7 +650,7 @@ not <tt class="docutils literal">B</tt>.</p>
 <div class="section" id="file-types">
 <h1><a class="toc-backref" href="#id16">File types</a></h1>
 <p>The file type determines which configuration applies to which document.
-<em>File type identifiers</em> are the lowercased name of the Geany's file type, for
+<em>File type identifiers</em> are the lowercased name of Geany's file type, for
 example &quot;c&quot; or &quot;python&quot;.</p>
 <p>Configuration for a particular file type goes in a file named
 <tt class="docutils literal"><span class="pre">file-type-identifier.conf</span></tt> in the <tt class="docutils literal">filetypes</tt> sub-directory of a
@@ -665,8 +665,8 @@ settings and any number of <a class="reference internal" href="#documentation-ty
 <dd>A regular expression used to extract arguments from a function-style argument
 list (functions, methods, macros, etc.). This regular expression should match
 one argument at a time and capture only the argument's name.
-This setting is a little odd but currently needed to extract argument list
-from function definitions.</dd>
+This setting is a little odd but currently required to extract argument list
+from function declarations.</dd>
 <dt><tt class="docutils literal">global_environment</tt> (string)</dt>
 <dd>A description of a <a class="reference external" href="http://ctpl.tuxfamily.org/">CTPL</a> environment to add when parsing <a class="reference internal" href="#rules-the-cool-thing">rule</a>'s templates.</dd>
 </dl>
@@ -818,7 +818,7 @@ that are documented by their parent, such as <a class="reference external" href=
 <dt><tt class="docutils literal">PASS</tt></dt>
 <dd>Completely ignore the symbol and handle the documentation request as if it
 hasn't existed at all. This can be useful to ignore e.g. variables if they
-are extracted by the tag manager of the language and you don't want to
+are extracted by the tag parser of the language and you don't want to
 document them, and don't want them to &quot;eat&quot; the documentation request.</dd>
 </dl>
 </dd>
@@ -856,8 +856,8 @@ pre-installed configuration is <tt class="docutils literal">$GEANY_SYS_CONFIG/pl
 <tt class="docutils literal">$GEANY_SYS_CONFIG</tt> is generally <tt class="docutils literal">/usr/share/geany/</tt> or
 <tt class="docutils literal">/usr/local/share/geany</tt> on UNIX systems.</li>
 </ul>
-<p>When searching for configuration, GeanyGenDoc will first look in the
-user's configuration directory, and if it wasn't successful, in the system
+<p>When searching for a configuration, GeanyGenDoc will first look in the
+user's configuration directory, and if it wasn't found there, in the system
 configuration directory. If both failed, it assumes that there is no
 configuration at all.</p>
 </div>
@@ -936,7 +936,7 @@ document             ::= ( setting_section? doctype_section? |
 </div>
 <div class="footer">
 <hr class="footer" />
-Generated on: 2012-05-19.
+Generated on: 2015-06-22.
 
 </div>
 </body>
