@@ -29,6 +29,7 @@ cscope.files
 /build-stamp
 /geanygdb/src/ttyhelper
 /codenames
+/compile
 /config.guess
 /config.h
 /config.h.in*
@@ -54,6 +55,7 @@ cscope.files
 /stamp-h1
 /stamp-h.in
 /*.tar.*
+/test-driver
 /TODO.*
 /.waf-*
 /.waf3-*
