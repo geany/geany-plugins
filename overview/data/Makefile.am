@@ -1,2 +1,2 @@
 overviewdatadir = $(pkgdatadir)/overview
-overviewdata_DATA = prefs.ui
+dist_overviewdata_DATA = prefs.ui
