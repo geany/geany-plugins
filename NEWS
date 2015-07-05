@@ -28,7 +28,7 @@ Geany Plugins 1.25 (unreleased)
     GeanyVC:
     * Add support for WinMerge external diff viewer
 
-    GProject:
+    ProjectOrganizer:
     * Add an "external directory" feature
     * Add find tag by name
     * Add ignored file patterns
