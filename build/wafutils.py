@@ -122,7 +122,7 @@ def build_plugin(ctx, name, plugin_name=None, sources=None, includes=None, defin
         defines       = defines,
         target        = plugin_name,
         use           = libraries,
-        install_path  = '${G_PREFIX}/${LIBDIR}' if is_win32 else '${LIBDIR}/geany/')
+        install_path  = '${G_PREFIX}/${LIBDIR}/geany/' if is_win32 else '${LIBDIR}/geany/')
 
     install_docs(ctx, plugin_name, 'AUTHORS ChangeLog COPYING NEWS README THANKS TODO'.split())
     return task

@@ -9,7 +9,7 @@ AM_CFLAGS = \
 	$(GEANY_CFLAGS) \
 	$(GP_CFLAGS)
 
-AM_LDFLAGS = -module -avoid-version $(GP_LDFLAGS)
+AM_LDFLAGS = -module -avoid-version -no-undefined $(GP_LDFLAGS)
 
 COMMONLIBS = \
 	$(GEANY_LIBS) \
