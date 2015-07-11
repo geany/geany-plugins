@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.25\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-29 19:21+0200\n"
-"PO-Revision-Date: 2015-04-20 20:17+0200\n"
+"POT-Creation-Date: 2015-07-11 02:12+0200\n"
+"PO-Revision-Date: 2015-07-11 02:11+0200\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
 "Language: de\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-Language: German\n"
+"X-Generator: Poedit 1.8.2\n"
 
 # what the heck? :D
 #: ../addons/src/ao_bookmarklist.c:182
@@ -656,11 +656,11 @@ msgstr "Verschiedene Debugger-Integrationen"
 msgid "Debug"
 msgstr "Debug"
 
-#: ../debugger/src/vtree.c:173 ../debugger/src/envtree.c:417
+#: ../debugger/src/vtree.c:173 ../debugger/src/envtree.c:425
 msgid "Name"
 msgstr "Name"
 
-#: ../debugger/src/vtree.c:196 ../debugger/src/envtree.c:422
+#: ../debugger/src/vtree.c:196 ../debugger/src/envtree.c:430
 msgid "Value"
 msgstr "Wert"
 
@@ -693,7 +693,7 @@ msgid "Environment Variables"
 msgstr "Umgebungsvariablen"
 
 #. if name is empty - offer to delete variable
-#: ../debugger/src/envtree.c:260 ../debugger/src/envtree.c:364
+#: ../debugger/src/envtree.c:260 ../debugger/src/envtree.c:366
 #: ../debugger/src/debug.c:264
 msgid "Delete variable?"
 msgstr "Variable löschen?"
@@ -879,7 +879,7 @@ msgstr "Zwei-Panel-Modus"
 msgid "Continue"
 msgstr "Fortsetzen"
 
-#: ../debugger/src/dconfig.c:673
+#: ../debugger/src/dconfig.c:674
 msgid "Save debug session data to a project"
 msgstr "Debug-Session-Daten als Projekt speichern"
 
@@ -1132,12 +1132,7 @@ msgstr "400%"
 
 #: ../devhelp/devhelp/dh-window.c:722
 msgid "translator_credits"
-msgstr ""
-"Andrew Janke <a.janke@gmail.com>\n"
-"Frank Lanitz <frank@frank.uvena.de>\n"
-"Dominic Hopf <dmaphy@gmail.com>\n"
-"Michael Spahn <anyone90@googlemail.com>\n"
-"Fabian Nowak <timystery@arcor.de>"
+msgstr "_Übersetzer"
 
 #: ../devhelp/devhelp/dh-window.c:729
 msgid "A developers' help browser for GNOME"
@@ -1302,32 +1297,32 @@ msgid "Process execution failed (%s)"
 msgstr "Prozess konnte nicht gestartet werden (%s)"
 
 #: ../geanyctags/src/geanyctags.c:517
-#: ../projectorganizer/src/prjorg-sidebar.c:423
-#: ../projectorganizer/src/prjorg-sidebar.c:1365
+#: ../projectorganizer/src/prjorg-sidebar.c:443
+#: ../projectorganizer/src/prjorg-sidebar.c:1394
 msgid "Find Tag"
 msgstr "Tag finden"
 
 #: ../geanyctags/src/geanyctags.c:528 ../geanymacro/src/geanymacro.c:1424
 #: ../projectorganizer/src/prjorg-sidebar.c:128
-#: ../projectorganizer/src/prjorg-sidebar.c:434
+#: ../projectorganizer/src/prjorg-sidebar.c:454
 msgid "Search for:"
 msgstr "Suchen nach:"
 
 #: ../geanyctags/src/geanyctags.c:546
-#: ../projectorganizer/src/prjorg-sidebar.c:452
+#: ../projectorganizer/src/prjorg-sidebar.c:472
 msgid "Match type:"
 msgstr "Typ:"
 
 #: ../geanyctags/src/geanyctags.c:562
 #: ../projectorganizer/src/prjorg-sidebar.c:156
-#: ../projectorganizer/src/prjorg-sidebar.c:480
+#: ../projectorganizer/src/prjorg-sidebar.c:500
 msgid "C_ase sensitive"
 msgstr "_Groß-/Kleinschreibung beachten"
 
 #: ../geanyctags/src/geanyctags.c:565
-#: ../projectorganizer/src/prjorg-sidebar.c:483
+#: ../projectorganizer/src/prjorg-sidebar.c:503
 msgid "_Declaration"
-msgstr "Deklaration"
+msgstr "_Deklaration"
 
 #: ../geanyctags/src/geanyctags.c:632
 msgid "Find Tag Declaration (geanyctags)"
@@ -1420,7 +1415,7 @@ msgstr "Bis zur passenden Klammer auswählen"
 
 #: ../geanyextrasel/src/extrasel.c:528
 msgid "_Toggle Stream/Rectangular"
-msgstr "Zwischen Fluss. und Rechteckauswahl umschalten"
+msgstr "Zwischen Fluss- und Rechteckauswahl _umschalten"
 
 #: ../geanyextrasel/src/extrasel.c:532
 msgid "Convert selection"
@@ -3813,7 +3808,7 @@ msgstr "_OK"
 
 #: ../geanymacro/src/geanymacro.c:1394 ../geanymacro/src/geanymacro.c:1537
 #: ../geanymacro/src/geanymacro.c:1827
-#: ../projectorganizer/src/prjorg-sidebar.c:292
+#: ../projectorganizer/src/prjorg-sidebar.c:300
 msgid "_Cancel"
 msgstr "_Abbrechen"
 
@@ -4577,11 +4572,11 @@ msgstr "Im Projekt suchen"
 msgid "Remove File"
 msgstr "Datei entfernen"
 
-#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1389
+#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1418
 msgid "H_ide Sidebar"
 msgstr "Seitenleiste _verstecken"
 
-#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1410
+#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1440
 msgid "Project"
 msgstr "Projekt"
 
@@ -5218,7 +5213,7 @@ msgstr "_Hinzugefügte Zeilen:"
 
 #: ../git-changebar/data/prefs.ui.h:4
 msgid "_Changed lines:"
-msgstr "Geänderte Zeilen:"
+msgstr "_Geänderte Zeilen:"
 
 #: ../git-changebar/data/prefs.ui.h:5
 msgid "_Removed lines:"
@@ -5330,7 +5325,7 @@ msgstr "Fenster entweder links oder rechts positionieren"
 
 #: ../overview/overview/overviewplugin.c:206
 msgid "Toggle Overlay Inversion"
-msgstr ""
+msgstr "ervorhebungsmodu"
 
 #: ../overview/overview/overviewscintilla.c:516
 #, c-format
@@ -5345,7 +5340,9 @@ msgstr "Überblick anzeigen"
 msgid ""
 "The amount to zoom the overview sidebar. This should probably negative if "
 "you want the sidebar zoomed out."
-msgstr "Legt fest, wie stark die Seitenleiste von »Overview« vergrößert/verkleinert werden soll. Negative Werte sorgen für eine größere Übersicht."
+msgstr ""
+"Legt fest, wie stark die Seitenleiste von »Overview« vergrößert/verkleinert "
+"werden soll. Negative Werte sorgen für eine größere Übersicht."
 
 #: ../overview/data/prefs.ui.h:2
 msgid "Zoom Level:"
@@ -5362,7 +5359,9 @@ msgstr "Breite:"
 #: ../overview/data/prefs.ui.h:5
 msgid ""
 "The number of lines to scroll at a time when scrolling the overview sidebar."
-msgstr "Legt die Anzahl der Zeilen fest, die beim Scrollen in der Seitenleiste zurückgelegt werden sollen."
+msgstr ""
+"Legt die Anzahl der Zeilen fest, die beim Scrollen in der Seitenleiste "
+"zurückgelegt werden sollen."
 
 #: ../overview/data/prefs.ui.h:6
 msgid "Scroll Lines:"
@@ -5376,7 +5375,9 @@ msgstr "Links positionieren"
 msgid ""
 "Position the overview bar on the left rather than the right (requires Geany "
 "1.25 or greater)."
-msgstr "Diese Option positioniert die Seitenleiste des Plugins an der linken Seite von Geany. Dies funktioniert nur in Geany-Versionen >= 1.25."
+msgstr ""
+"Diese Option positioniert die Seitenleiste des Plugins an der linken Seite "
+"von Geany. Dies funktioniert nur in Geany-Versionen >= 1.25."
 
 #: ../overview/data/prefs.ui.h:9
 msgid "Hide tooltip"
@@ -5386,7 +5387,9 @@ msgstr "Tooltips verstecken."
 msgid ""
 "Hide the tooltip that is displayed when mousing over the overview that shows "
 "line, column and position information."
-msgstr "Versteckt die zusätzlichen Informationen, die beim mit der Maus überstreichen angezeigt werden (Zeile, Spalte etc.)"
+msgstr ""
+"Versteckt die zusätzlichen Informationen, die beim mit der Maus "
+"überstreichen angezeigt werden (Zeile, Spalte etc.)"
 
 #: ../overview/data/prefs.ui.h:11
 msgid "Hide editor scrollbar"
@@ -5396,7 +5399,10 @@ msgstr "Normale Bildlaufleiste verstecken"
 msgid ""
 "Whether to hide Geany's regular editor scrollbar while the overview bar is "
 "visible."
-msgstr "Mit dieser Option kann Geanys normale Bildlaufleiste versteckt werden, so dass, wenn das Plugin aktiv ist, allein über die Vorschau im Dokument navigiert werden kann."
+msgstr ""
+"Mit dieser Option kann Geanys normale Bildlaufleiste versteckt werden, so "
+"dass, wenn das Plugin aktiv ist, allein über die Vorschau im Dokument "
+"navigiert werden kann."
 
 #: ../overview/data/prefs.ui.h:13
 msgid "Disable overlay"
@@ -5406,7 +5412,9 @@ msgstr "Bildausschnittsmarkierung deaktivieren"
 msgid ""
 "Turn off drawing overlay, which shows the region of the main editor view "
 "that is currently in view, ontop of the overview bar."
-msgstr "Diese Option legt fest, ob der aktuelle Bildschirmausschnitt aus dem normalen Editorfenster in der Vorschau angezeigt werden soll."
+msgstr ""
+"Diese Option legt fest, ob der aktuelle Bildschirmausschnitt aus dem "
+"normalen Editorfenster in der Vorschau angezeigt werden soll."
 
 #: ../overview/data/prefs.ui.h:15 ../scope/data/scope.glade.h:109
 msgid "Options"
@@ -5415,7 +5423,9 @@ msgstr "Optionen"
 #: ../overview/data/prefs.ui.h:16
 msgid ""
 "The color and opacity of the overlay drawn ontop of the overlay sidebar."
-msgstr "Konfiguriert die Farbe und Sättigung der Bildausschnittsmarkierung in der Seitenleiste des Plugins."
+msgstr ""
+"Konfiguriert die Farbe und Sättigung der Bildausschnittsmarkierung in der "
+"Seitenleiste des Plugins."
 
 #: ../overview/data/prefs.ui.h:17
 msgid "Color:"
@@ -5425,7 +5435,10 @@ msgstr "Farbe:"
 msgid ""
 "The color and opacity of the border drawn around the revealed area in the "
 "overview sidebar. Set to the same as Overlay Color to disable."
-msgstr "Konfiguriert die Farbe und Sättigung rund um das aktive Gebiet des Dokumentes. Zum Deaktivieren einfach auf die gleiche Farbe wie die der Bildausschnittsmarkierung stellen"
+msgstr ""
+"Konfiguriert die Farbe und Sättigung rund um das aktive Gebiet des "
+"Dokumentes. Zum Deaktivieren einfach auf die gleiche Farbe wie die der "
+"Bildausschnittsmarkierung stellen"
 
 #: ../overview/data/prefs.ui.h:19
 msgid "Outline Color:"
@@ -5440,7 +5453,10 @@ msgid ""
 "When checked it will draw the overlay ontop of the area that is visible in "
 "the main editor view, when unchecked, it will do the opposite and draw the "
 "overlay everywhere but the visible area, \"revealing\" the visible part."
-msgstr "Wenn diese Option aktiv ist, wird die Bildausschnittsmarkierung nur über den aktiven Bereich gelegt. Ist die Option deaktiviert, wird alles was nicht sichtbar ist mit einer Markierung versehen. "
+msgstr ""
+"Wenn diese Option aktiv ist, wird die Bildausschnittsmarkierung nur über den "
+"aktiven Bereich gelegt. Ist die Option deaktiviert, wird alles was nicht "
+"sichtbar ist mit einer Markierung versehen. "
 
 #: ../overview/data/prefs.ui.h:22
 msgid "Overlay"
@@ -5484,7 +5500,7 @@ msgstr "Geht zu der vorherigen, noch nicht übersetzten Zeichenkette."
 
 #: ../pohelper/data/menus.ui.h:8
 msgid "Next _Untranslated"
-msgstr "Nächste nicht übersetzte Zeichenkette"
+msgstr "Nächste nicht _übersetzte Zeichenkette"
 
 #: ../pohelper/data/menus.ui.h:9 ../pohelper/src/gph-plugin.c:1515
 msgid "Go to next untranslated string"
@@ -5492,7 +5508,7 @@ msgstr "Geht zu der nächsten, noch nicht übersetzten Zeichenkette."
 
 #: ../pohelper/data/menus.ui.h:10
 msgid "Previous Fu_zzy"
-msgstr "Vorhergehende unklare Übersetzung"
+msgstr "_Vorhergehende unklare Übersetzung"
 
 #: ../pohelper/data/menus.ui.h:11 ../pohelper/src/gph-plugin.c:1518
 msgid "Go to previous fuzzily translated string"
@@ -5516,7 +5532,7 @@ msgstr "Gehe zum vorherigen unklaren oder unübersetzten String"
 
 #: ../pohelper/data/menus.ui.h:16
 msgid "Next Untranslated _or Fuzzy"
-msgstr "Nächste unübersetzte oder -klare Übersetzung"
+msgstr "Nächste unübersetzte _oder unklare Übersetzung"
 
 #: ../pohelper/data/menus.ui.h:17 ../pohelper/src/gph-plugin.c:1528
 msgid "Go to next untranslated or fuzzy string"
@@ -5532,7 +5548,7 @@ msgstr "_Status tauschen"
 
 #: ../pohelper/data/menus.ui.h:20
 msgid "Paste _Message as Translation"
-msgstr "Originalstring als Übersetzung verwenden"
+msgstr "_Originalstring als Übersetzung verwenden"
 
 #: ../pohelper/data/menus.ui.h:21
 msgid "Paste the original untranslated string to the translation"
@@ -5566,7 +5582,7 @@ msgstr ""
 
 #: ../pohelper/data/menus.ui.h:27
 msgid "Update _Headers Upon Save"
-msgstr "Metadaten beim Speichern aktualisieren"
+msgstr "_Metadaten beim Speichern aktualisieren"
 
 #: ../pohelper/data/stats.ui.h:1
 msgid "Translation statistics"
@@ -5606,23 +5622,24 @@ msgstr "Verbessert die Unterstützung für GetText-Übersetzungsdateien"
 
 # c-format
 #: ../pohelper/src/gph-plugin.c:1305 ../pohelper/src/gph-plugin.c:1322
+#, c-format
 msgid "<b>Translated:</b> %.3g%%"
-msgstr "<b>Übersetzt:</b> %,3g%%"
+msgstr "<b>Übersetzt:</b> %.3g%%"
 
 #: ../pohelper/src/gph-plugin.c:1307 ../pohelper/src/gph-plugin.c:1325
 #, c-format
 msgid "<b>Fuzzy:</b> %.3g%%"
-msgstr "<b>Unklar:</b> %,3g%%"
+msgstr "<b>Unklar:</b> %.3g%%"
 
 #: ../pohelper/src/gph-plugin.c:1309 ../pohelper/src/gph-plugin.c:1327
 #, c-format
 msgid "<b>Untranslated:</b> %.3g%%"
-msgstr "<b>Unübersetzt:</b> %,3g%%"
+msgstr "<b>Unübersetzt:</b> %.3g%%"
 
 #: ../pohelper/src/gph-plugin.c:1407
 #, c-format
 msgid "%u (%.3g%%)"
-msgstr "%u (%,3g%%)"
+msgstr "%u (%.3g%%)"
 
 #: ../pohelper/src/gph-plugin.c:1532
 msgid "Paste original untranslated string to translation"
@@ -5738,47 +5755,47 @@ msgstr ""
 "Projektspezifischer Dateibaum, projektweite Indizierung und Suche, Optionen "
 "zur besseren Navigation in Projekten"
 
-#: ../projectorganizer/src/prjorg-menu.c:372
+#: ../projectorganizer/src/prjorg-menu.c:386
 msgid "Find in Project Files"
 msgstr "In Projektdateien suchen"
 
-#: ../projectorganizer/src/prjorg-menu.c:378
+#: ../projectorganizer/src/prjorg-menu.c:392
 msgid "Find in project files"
 msgstr "Im Projektdateien suchen"
 
-#: ../projectorganizer/src/prjorg-menu.c:382
+#: ../projectorganizer/src/prjorg-menu.c:396
 msgid "Find Project File"
 msgstr "Im Projekt suchen"
 
-#: ../projectorganizer/src/prjorg-menu.c:388
+#: ../projectorganizer/src/prjorg-menu.c:402
 msgid "Find project file"
 msgstr "Projektdatei finden"
 
-#: ../projectorganizer/src/prjorg-menu.c:392
+#: ../projectorganizer/src/prjorg-menu.c:406
 msgid "Find Project Tag"
 msgstr "Tag im Projekt finden"
 
-#: ../projectorganizer/src/prjorg-menu.c:398
+#: ../projectorganizer/src/prjorg-menu.c:412
 msgid "Find project tag"
 msgstr "Tag im Projekt finden"
 
-#: ../projectorganizer/src/prjorg-menu.c:400
+#: ../projectorganizer/src/prjorg-menu.c:414
 msgid "Swap Header/Source"
 msgstr "Header und Quellen tauschen"
 
-#: ../projectorganizer/src/prjorg-menu.c:405
+#: ../projectorganizer/src/prjorg-menu.c:419
 msgid "Swap header/source"
 msgstr "Header und Quellen tauschen"
 
-#: ../projectorganizer/src/prjorg-menu.c:411
+#: ../projectorganizer/src/prjorg-menu.c:425
 msgid "Open Selected File (Project Organizer)"
 msgstr "Ausgewählte Datei öffnen (Project Organizer)"
 
-#: ../projectorganizer/src/prjorg-project.c:551
+#: ../projectorganizer/src/prjorg-project.c:586
 msgid "Source patterns:"
 msgstr "Quelltextmuster:"
 
-#: ../projectorganizer/src/prjorg-project.c:557
+#: ../projectorganizer/src/prjorg-project.c:592
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
 "Used for header/source swapping."
@@ -5787,11 +5804,11 @@ msgstr ""
 "Dateien zu identifizieren. Wird hauptsächlich für das Umschalten zwischen "
 "Quellen und Header verwendet."
 
-#: ../projectorganizer/src/prjorg-project.c:563
+#: ../projectorganizer/src/prjorg-project.c:598
 msgid "Header patterns:"
 msgstr "Header-Muster:"
 
-#: ../projectorganizer/src/prjorg-project.c:569
+#: ../projectorganizer/src/prjorg-project.c:604
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
 "header/source swapping."
@@ -5800,11 +5817,11 @@ msgstr ""
 "identifizieren. Wird hauptsächlich für das Umschalten zwischen Quellen und "
 "Header verwendet."
 
-#: ../projectorganizer/src/prjorg-project.c:575
+#: ../projectorganizer/src/prjorg-project.c:610
 msgid "Ignored file patterns:"
 msgstr "Muster für zu ignorierende Dateien:"
 
-#: ../projectorganizer/src/prjorg-project.c:581
+#: ../projectorganizer/src/prjorg-project.c:616
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
 "not displayed in the project tree."
@@ -5813,11 +5830,11 @@ msgstr ""
 "erkennen, die nicht im projektspezifischen Dateibaum angezeigt werden "
 "sollen. "
 
-#: ../projectorganizer/src/prjorg-project.c:587
+#: ../projectorganizer/src/prjorg-project.c:622
 msgid "Ignored directory patterns:"
 msgstr "Muster für zu ignorierende Verzeichnisse:"
 
-#: ../projectorganizer/src/prjorg-project.c:593
+#: ../projectorganizer/src/prjorg-project.c:628
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
@@ -5825,23 +5842,23 @@ msgstr ""
 "Leerzeichengetrennte Liste mit Mustern, die genutzt werden, um Verzeichnisse "
 "zu erkennen, die nicht nach Quelldateien durchsucht werden sollen. "
 
-#: ../projectorganizer/src/prjorg-project.c:599
+#: ../projectorganizer/src/prjorg-project.c:634
 msgid "Generate tags for all project files:"
 msgstr "Tags für alle Projektdateien erstellen"
 
-#: ../projectorganizer/src/prjorg-project.c:602
+#: ../projectorganizer/src/prjorg-project.c:637
 msgid "Auto (generate if less than 300 files)"
 msgstr "Automatisch (bei weniger als 300 Dateien)"
 
-#: ../projectorganizer/src/prjorg-project.c:603
+#: ../projectorganizer/src/prjorg-project.c:638
 msgid "Yes"
 msgstr "Ja"
 
-#: ../projectorganizer/src/prjorg-project.c:604
+#: ../projectorganizer/src/prjorg-project.c:639
 msgid "No"
 msgstr "Nein"
 
-#: ../projectorganizer/src/prjorg-project.c:608
+#: ../projectorganizer/src/prjorg-project.c:643
 msgid ""
 "Generate tag list for all project files instead of only for the currently "
 "opened files. Might be slow for big projects."
@@ -5850,7 +5867,7 @@ msgstr ""
 "geöffneten Dateien. Sehr langsam bei großen Projekten und sollte in solch "
 "einem Fall deaktiviert werden."
 
-#: ../projectorganizer/src/prjorg-project.c:614
+#: ../projectorganizer/src/prjorg-project.c:649
 msgid ""
 "Note: the patterns above affect only the sidebar and are not used in the "
 "Find in Files\n"
@@ -5866,12 +5883,12 @@ msgstr ""
 "suchen«-Dialog eingeschränkt werden."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:117
-#: ../projectorganizer/src/prjorg-sidebar.c:1356
+#: ../projectorganizer/src/prjorg-sidebar.c:1385
 msgid "Find File"
 msgstr "Datei suchen"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:144
-#: ../projectorganizer/src/prjorg-sidebar.c:468
+#: ../projectorganizer/src/prjorg-sidebar.c:488
 msgid "Search inside:"
 msgstr "Suchen in:"
 
@@ -5880,68 +5897,68 @@ msgid "Search in full path"
 msgstr "Im vollen Pfad suchen"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:170
-#: ../projectorganizer/src/prjorg-sidebar.c:623
+#: ../projectorganizer/src/prjorg-sidebar.c:652
 msgid "project or external directory"
 msgstr "Projekt oder externen Verzeichnis"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:290
+#: ../projectorganizer/src/prjorg-sidebar.c:298
 msgid "Add External Directory"
 msgstr "Externes Verzeichnis hinzufügen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:293
+#: ../projectorganizer/src/prjorg-sidebar.c:301
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:457
+#: ../projectorganizer/src/prjorg-sidebar.c:477
 msgid "exact"
 msgstr "exakt"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:458
+#: ../projectorganizer/src/prjorg-sidebar.c:478
 msgid "prefix"
 msgstr "Präfix"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:459
+#: ../projectorganizer/src/prjorg-sidebar.c:479
 msgid "pattern"
 msgstr "Muster"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1034
+#: ../projectorganizer/src/prjorg-sidebar.c:1063
 msgid "Set file patterns under Project->Properties"
 msgstr "Dateimuster unter Projekt->Eigenschaften definieren"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1246
+#: ../projectorganizer/src/prjorg-sidebar.c:1275
 msgid "Reload all"
 msgstr "Alle neuladen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1255
+#: ../projectorganizer/src/prjorg-sidebar.c:1284
 msgid "Add external directory"
 msgstr "Externes Verzeichnis hinzufügen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1265
+#: ../projectorganizer/src/prjorg-sidebar.c:1294
 #: ../treebrowser/src/treebrowser.c:1282
 msgid "Expand all"
 msgstr "Alle ausklappen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1272
+#: ../projectorganizer/src/prjorg-sidebar.c:1301
 msgid "Collapse to project root"
 msgstr "Zusammenfalten bis Projektwurzel"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1283
+#: ../projectorganizer/src/prjorg-sidebar.c:1312
 msgid "Follow active editor"
 msgstr "Aktiven Editor folgen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1329
+#: ../projectorganizer/src/prjorg-sidebar.c:1358
 msgid "Open a project to start using the plugin"
 msgstr "Ein Projekt zum Starten des Plugins öffnen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1338
+#: ../projectorganizer/src/prjorg-sidebar.c:1367
 msgid "Expand All"
 msgstr "Alle ausklappen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1347
+#: ../projectorganizer/src/prjorg-sidebar.c:1376
 msgid "Find in Files"
 msgstr "In Dateien finden"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1378
+#: ../projectorganizer/src/prjorg-sidebar.c:1407
 msgid "Remove External Directory"
 msgstr "Externes Verzeichnis entfernen"
 
@@ -5964,13 +5981,13 @@ msgstr "Starten / _Fortsetzen"
 # Noch keine Idee hierzu --Dominic
 #: ../scope/data/scope.glade.h:5
 msgid "Run to _Cursor"
-msgstr "Bis zum Cursor ausführen"
+msgstr "Bis zum _Cursor ausführen"
 
 # Noch keine Idee hierzu --Dominic
 # Ich auch nicht -- frlan
 #: ../scope/data/scope.glade.h:6
 msgid "Run to _Source"
-msgstr "Bis zum Cursor ausführen"
+msgstr "Bis zum Quellpunkt au_sführen"
 
 # noch keine Idee  --Dominic
 # Vielleicht besser :) --frlan
@@ -6005,7 +6022,7 @@ msgstr "_Weitere"
 
 #: ../scope/data/scope.glade.h:14
 msgid "_Show Terminal"
-msgstr "Terminal anzeigen"
+msgstr "_Terminal anzeigen"
 
 #: ../scope/data/scope.glade.h:15
 msgid "_Reset Markers"
@@ -6017,7 +6034,7 @@ msgstr "_Dateien aufräumen"
 
 #: ../scope/data/scope.glade.h:17
 msgid "_Feed"
-msgstr "Feed"
+msgstr "_Feed"
 
 #: ../scope/data/scope.glade.h:18
 msgid "_Window"
@@ -6093,7 +6110,7 @@ msgstr "Haltepunkt _hinzufügen"
 
 #: ../scope/data/scope.glade.h:36
 msgid "Add _Watch"
-msgstr "Beobachtungspunkt hinzufügen"
+msgstr "_Beobachtungspunkt hinzufügen"
 
 #: ../scope/data/scope.glade.h:37
 msgid "Apply on _Run"
@@ -6121,7 +6138,7 @@ msgstr "_Erkunden"
 
 #: ../scope/data/scope.glade.h:43
 msgid "_8-bit mode"
-msgstr "8-bit-Modus"
+msgstr "_8-bit-Modus"
 
 #: ../scope/data/scope.glade.h:44
 msgid "_Default"
@@ -6133,7 +6150,7 @@ msgstr "_7 bit"
 
 #: ../scope/data/scope.glade.h:46
 msgid "_Locale"
-msgstr "Lokal"
+msgstr "_Lokalisierung"
 
 #: ../scope/data/scope.glade.h:47
 msgid "_UTF-8"
@@ -6141,7 +6158,7 @@ msgstr "_UTF-8"
 
 #: ../scope/data/scope.glade.h:48
 msgid "_Show .names"
-msgstr ".names anzeigen"
+msgstr ".names _anzeigen"
 
 #: ../scope/data/scope.glade.h:49
 msgid "R_ead"
@@ -6245,7 +6262,7 @@ msgstr "Von _UTF-8 nach Lokale umwandeln"
 
 #: ../scope/data/scope.glade.h:75
 msgid "_Thread"
-msgstr "Thread"
+msgstr "_Thread"
 
 #: ../scope/data/scope.glade.h:76
 msgid "_Group"
@@ -6277,7 +6294,7 @@ msgstr "_Arbeitsverzeichnis:"
 
 #: ../scope/data/scope.glade.h:83
 msgid "_Load script:"
-msgstr "Skript laden:"
+msgstr "Skript _laden:"
 
 #: ../scope/data/scope.glade.h:84
 msgid "Auto _run program/exit gdb"
@@ -6312,7 +6329,6 @@ msgid "p_rogram start"
 msgstr "P_rogramm starten"
 
 #: ../scope/data/scope.glade.h:92
-#, fuzzy
 msgid "Update all _views"
 msgstr "Alle _Ansichten aktualisieren"
 
@@ -6342,7 +6358,7 @@ msgstr "und"
 
 #: ../scope/data/scope.glade.h:99
 msgid "_argument"
-msgstr "Argument"
+msgstr "_Argument"
 
 #: ../scope/data/scope.glade.h:100
 msgid "names"
@@ -6374,7 +6390,7 @@ msgstr "=li_brary-Meldunngen anzeigen"
 
 #: ../scope/data/scope.glade.h:107
 msgid "Show _tooltips"
-msgstr "Tooltips anzeigen."
+msgstr "_Tooltips anzeigen."
 
 #: ../scope/data/scope.glade.h:108
 msgid "<b>Others</b>"
@@ -6389,23 +6405,20 @@ msgid "Enter assignment expression:"
 msgstr "Ausdruck für Zuweisung angeben"
 
 #: ../scope/data/scope.glade.h:112
-#, fuzzy
 msgid "Inspect"
-msgstr "Webinspektor"
+msgstr "Inspizieren"
 
 #: ../scope/data/scope.glade.h:113
-#, fuzzy
 msgid "Object:"
-msgstr "Objektinformationen"
+msgstr "Objekt"
 
 #: ../scope/data/scope.glade.h:115
 msgid "-"
 msgstr "-"
 
 #: ../scope/data/scope.glade.h:116
-#, fuzzy
 msgid "Frame:"
-msgstr "Name:"
+msgstr "Rahmen:"
 
 #: ../scope/data/scope.glade.h:117
 msgid "@"
@@ -6413,10 +6426,9 @@ msgstr "@"
 
 #: ../scope/data/scope.glade.h:118
 msgid "_Apply on run"
-msgstr ""
+msgstr "Beim Ausführen _anwenden"
 
 #: ../scope/data/scope.glade.h:119
-#, fuzzy
 msgid "Expand"
 msgstr "Ausklappen"
 
@@ -6429,13 +6441,12 @@ msgid "Count:"
 msgstr "Anzahl:"
 
 #: ../scope/data/scope.glade.h:122
-#, fuzzy
 msgid "_Expand on apply"
-msgstr "Alle ausklappen"
+msgstr "Nach _Anwendung ausklappen"
 
 #: ../scope/data/scope.glade.h:123 ../scope/src/scope.c:522
 msgid "Program Terminal"
-msgstr ""
+msgstr "Terminal"
 
 #: ../scope/data/scope.glade.h:125
 msgid "Registers"
@@ -6457,7 +6468,7 @@ msgstr "Haltepunkte"
 
 #: ../scope/src/break.c:100
 msgid "fast tracepoint"
-msgstr ""
+msgstr "schneller Ablaufverfolgungspunkt"
 
 #: ../scope/src/break.c:101
 msgid "write watchpoint"
@@ -6536,9 +6547,9 @@ msgid "Scope: %s."
 msgstr "»%s« schließen"
 
 #: ../scope/src/debug.c:115 ../scope/src/debug.c:120 ../scope/src/utils.c:37
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s."
-msgstr "%s:%u:%u: %s"
+msgstr "%s: %s."
 
 #: ../scope/src/debug.c:363
 #, c-format
@@ -6582,7 +6593,7 @@ msgstr ""
 
 #: ../scope/src/memory.c:292
 msgid "Read Memory"
-msgstr ""
+msgstr "Speicher einlesen"
 
 #: ../scope/src/memory.c:396
 #, c-format
@@ -6611,12 +6622,10 @@ msgid "Undefined GDB error."
 msgstr "Nicht definierter GDB-Fehler."
 
 #: ../scope/src/plugme.c:80
-#, fuzzy
 msgid "Select Folder"
-msgstr "Farbe auswählen"
+msgstr "Ordner auswählen"
 
 #: ../scope/src/plugme.c:80
-#, fuzzy
 msgid "Select File"
 msgstr "Datei auswählen"
 
@@ -6626,9 +6635,8 @@ msgid "Scope: %s: %s."
 msgstr ""
 
 #: ../scope/src/prefs.c:299
-#, fuzzy
 msgid "Scope: created configuration file."
-msgstr "Neuladen der Konfigurationsdateien erzwingen."
+msgstr "Scope: Konfigurationsdatei erstellt"
 
 #: ../scope/src/program.c:255
 #, c-format
@@ -6641,12 +6649,15 @@ msgid "Could not load debug settings file %s: %s."
 msgstr "Konnte die Datei »%s« nicht laden: %s"
 
 #: ../scope/src/program.c:383
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: %s.\n"
 "\n"
 "Continue?"
-msgstr "Fortsetzen"
+msgstr ""
+"%s: %s.\n"
+"\n"
+"Fortsetzen?"
 
 #: ../scope/src/program.c:419
 msgid "Delete all breakpoints, watches et cetera?"
@@ -6661,9 +6672,8 @@ msgid "as _Name = value"
 msgstr ""
 
 #: ../scope/src/scope.c:34
-#, fuzzy
 msgid "Scope Debugger"
-msgstr "Debugger"
+msgstr "Scope Debugger"
 
 #: ../scope/src/scope.c:35
 msgid "Relatively simple GDB front-end."
@@ -6675,7 +6685,6 @@ msgid "Setup program"
 msgstr "Kein Programm"
 
 #: ../scope/src/scope.c:63
-#, fuzzy
 msgid "Run/continue"
 msgstr "Starten / Fortsetzen"
 
@@ -6686,28 +6695,24 @@ msgid "Run to source"
 msgstr "Bis zum Cursor ausführen"
 
 #: ../scope/src/scope.c:69
-#, fuzzy
 msgid "Terminate"
-msgstr "abgebrochen"
+msgstr "Abbrechen"
 
 #: ../scope/src/scope.c:70
-#, fuzzy
 msgid "Toggle breakpoint"
-msgstr "Haltepunkt"
+msgstr "Haltepunkt umschalten"
 
 #: ../scope/src/scope.c:72 ../scope/src/scope.c:75
-#, fuzzy
 msgid "GDB command"
-msgstr "Befehl einfügen"
+msgstr "GDB Kommando"
 
 #: ../scope/src/scope.c:73
-#, fuzzy
 msgid "Show terminal"
-msgstr "In Terminal ausführen"
+msgstr "Terminal anzeigen"
 
 #: ../scope/src/scope.c:226
 msgid "Busy"
-msgstr ""
+msgstr "Beschäftigt"
 
 #: ../scope/src/scope.c:226
 msgid "Ready"
@@ -6715,11 +6720,11 @@ msgstr "Fertig"
 
 #: ../scope/src/scope.c:227
 msgid "Hang"
-msgstr ""
+msgstr "Hängt"
 
 #: ../scope/src/scope.c:227
 msgid "Assem"
-msgstr ""
+msgstr "Zusammenfügen"
 
 #: ../scope/src/scope.c:227
 msgid "Load"
@@ -6756,12 +6761,12 @@ msgstr "Thread %i"
 
 #: ../scope/src/thread.c:84
 msgid " exited"
-msgstr ""
+msgstr " beendet"
 
 #: ../scope/src/thread.c:87
 #, c-format
 msgid " with exit code %s"
-msgstr ""
+msgstr " mit Fehlercode %s"
 
 #: ../scope/src/thread.c:749
 #, fuzzy
@@ -6770,7 +6775,7 @@ msgstr "Per E-Mail senden"
 
 #: ../scope/src/thread.c:749
 msgid "Enter signal #:"
-msgstr ""
+msgstr "Eingabe Signal #1:"
 
 #: ../scope/src/thread.c:789
 msgid "Terminate Process"
@@ -6778,44 +6783,41 @@ msgstr "Prozess töten"
 
 #: ../scope/src/thread.c:789
 msgid "Enter exit code:"
-msgstr ""
+msgstr "Rückgabewert eingeben: "
 
 #: ../scope/src/thread.c:892
-#, fuzzy
 msgid "Running"
 msgstr "läuft"
 
 #: ../scope/src/thread.c:893
-#, fuzzy
 msgid "Stopped"
 msgstr "unterbrochen"
 
 #: ../scope/src/utils.c:45
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s"
-msgstr "%s:%u:%u: %s"
+msgstr "%s: %s"
 
 #: ../scope/src/utils.c:225
 #, c-format
 msgid "Scope: error reading [%s]."
-msgstr ""
+msgstr "Scope: Fehler beim Lesen (%s)"
 
 #: ../scope/src/views.c:526
 msgid "…"
-msgstr ""
+msgstr "…"
 
 #: ../scope/src/views.c:549
 msgid "_Send"
-msgstr ""
+msgstr "_Senden"
 
 #: ../scope/src/views.c:549
 msgid "_Busy"
-msgstr ""
+msgstr "_Beshcäftigt"
 
 #: ../scope/src/views.c:558
-#, fuzzy
 msgid "GDB Command"
-msgstr "Befehl 0:"
+msgstr "GDB-Koomando:"
 
 #: ../spellcheck/src/speller.c:180
 msgid "Try: "
@@ -6885,7 +6887,7 @@ msgstr "Falsch geschriebene Wörter und Vorschläge im Meldungsfenster anzeigen"
 
 #: ../spellcheck/src/scplugin.c:285
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "<b>Interface</b>"
 
 #: ../spellcheck/src/scplugin.c:293
 msgid "Check spelling while typing"
@@ -6920,7 +6922,7 @@ msgstr ""
 
 #: ../spellcheck/src/scplugin.c:352
 msgid "<b>Behavior</b>"
-msgstr ""
+msgstr "<b>Verhalten</b>"
 
 #: ../spellcheck/src/gui.c:76
 msgid "Spell checking while typing is now enabled"
@@ -7014,7 +7016,7 @@ msgstr "SQL"
 
 #: ../tableconvert/src/tableconvert.c:96
 msgid "DokuWiki"
-msgstr ""
+msgstr "DokuWiki"
 
 #. OK. Something went not as expected.
 #. * We did have a selection but cannot parse it into rows.
@@ -7118,7 +7120,7 @@ msgstr "Auffrischen"
 
 #: ../treebrowser/src/treebrowser.c:1234
 msgid "_Find in Files"
-msgstr "In Dateien finden"
+msgstr "In Dateien _finden"
 
 #: ../treebrowser/src/treebrowser.c:1242
 msgid "Create new directory"
@@ -7435,7 +7437,7 @@ msgstr "Aktuelle Seite neu laden"
 
 #: ../webhelper/src/gwh-browser.c:978
 msgid "Website information and settings"
-msgstr ""
+msgstr "Webseiteninformationen und -Einstellungen"
 
 #: ../webhelper/src/gwh-browser.c:987 ../webhelper/src/gwh-browser.c:1037
 msgid "Web inspector"
@@ -7490,9 +7492,8 @@ msgid "Last URI visited by the browser"
 msgstr "Letzte vom Browser besuchte URI"
 
 #: ../webhelper/src/gwh-plugin.c:330
-#, fuzzy
 msgid "List of bookmarks"
-msgstr "Lesezeichen anzeigen"
+msgstr "Liste mit Lesezeichen anzeigen"
 
 #: ../webhelper/src/gwh-plugin.c:335
 msgid "Browser orientation"
@@ -7573,7 +7574,7 @@ msgstr "Zeigt/versteckt das WebView-Fenster"
 
 #: ../webhelper/src/gwh-plugin.c:464
 msgid "Toggle bookmark for the current website"
-msgstr ""
+msgstr "Lesezeichen für die aktuelle Webseite umschalten"
 
 #. Browser
 #: ../webhelper/src/gwh-plugin.c:530
