@@ -38,7 +38,7 @@ RequestExecutionLevel highest ; set execution level for Windows Vista
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_DIR_REGKEY "Software\Geany-Plugins"
 !define GEANY_DIR_REGKEY "Software\Geany"
-!define REQUIRED_GEANY_VERSION "1.24"
+!define REQUIRED_GEANY_VERSION "1.25"
 !define RESOURCEDIR "geany-plugins-${PRODUCT_VERSION}"
 
 ;;;;;;;;;;;;;;;;;;;;;
