@@ -31,8 +31,8 @@ RequestExecutionLevel highest ; set execution level for Windows Vista
 ; helper defines  ;
 ;;;;;;;;;;;;;;;;;;;
 !define PRODUCT_NAME "Geany-Plugins"
-!define PRODUCT_VERSION "1.25"
-!define PRODUCT_VERSION_ID "1.25.0.0"
+!define PRODUCT_VERSION "1.26"
+!define PRODUCT_VERSION_ID "1.26.0.0"
 !define PRODUCT_PUBLISHER "The Geany developer team"
 !define PRODUCT_WEB_SITE "http://www.geany.org/"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -48,7 +48,7 @@ VIProductVersion "${PRODUCT_VERSION_ID}"
 VIAddVersionKey "ProductName" "${PRODUCT_NAME}"
 VIAddVersionKey "FileVersion" "${PRODUCT_VERSION}"
 VIAddVersionKey "ProductVersion" "${PRODUCT_VERSION}"
-VIAddVersionKey "LegalCopyright" "Copyright 2009-2012 by the Geany developer team"
+VIAddVersionKey "LegalCopyright" "Copyright 2009-2015 by the Geany developer team"
 VIAddVersionKey "FileDescription" "${PRODUCT_NAME} Installer"
 
 BrandingText "$(^NAME) installer (NSIS 2.46)"
