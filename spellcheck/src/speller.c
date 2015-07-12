@@ -708,6 +708,24 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 			}
 			break;
 		}
+		case SCLEX_COFFEESCRIPT:
+		{
+			switch (style)
+			{
+				case SCE_COFFEESCRIPT_CHARACTER:
+				case SCE_COFFEESCRIPT_COMMENTBLOCK:
+				case SCE_COFFEESCRIPT_COMMENTDOCKEYWORD:
+				case SCE_COFFEESCRIPT_COMMENTDOCKEYWORDERROR:
+				case SCE_COFFEESCRIPT_COMMENTLINEDOC:
+				case SCE_COFFEESCRIPT_STRING:
+				case SCE_COFFEESCRIPT_STRINGEOL:
+				case SCE_COFFEESCRIPT_STRINGRAW:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
 		case SCLEX_CSS:
 		{
 			switch (style)
