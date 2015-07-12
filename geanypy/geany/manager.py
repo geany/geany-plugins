@@ -93,6 +93,9 @@ class PluginManager(gtk.Dialog):
 	def deactivate_plugin(self, filename):
 		self.loader.unload_plugin(filename)
 
+	def deactivate_all_plugins(self):
+		self.response(gtk.RESPONSE_CLOSE)
+		self.loader.unload_all_plugins()
 
 	def load_plugins_list(self):
 		liststore = gtk.ListStore(gobject.TYPE_BOOLEAN, str, str)
