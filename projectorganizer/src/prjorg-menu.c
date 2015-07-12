@@ -383,7 +383,7 @@ void prjorg_menu_init(void)
 
 	image = gtk_image_new_from_stock(GTK_STOCK_FIND, GTK_ICON_SIZE_MENU);
 	gtk_widget_show(image);
-	s_fif_item = gtk_image_menu_item_new_with_mnemonic(_("Find in Project Files"));
+	s_fif_item = gtk_image_menu_item_new_with_mnemonic(_("Find in Project Files..."));
 	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(s_fif_item), image);
 	gtk_widget_show(s_fif_item);
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_fif_item);
@@ -393,7 +393,7 @@ void prjorg_menu_init(void)
 
 	image = gtk_image_new_from_stock(GTK_STOCK_FIND, GTK_ICON_SIZE_MENU);
 	gtk_widget_show(image);
-	s_ff_item = gtk_image_menu_item_new_with_mnemonic(_("Find Project File"));
+	s_ff_item = gtk_image_menu_item_new_with_mnemonic(_("Find Project File..."));
 	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(s_ff_item), image);
 	gtk_widget_show(s_ff_item);
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_ff_item);
@@ -403,7 +403,7 @@ void prjorg_menu_init(void)
 
 	image = gtk_image_new_from_stock(GTK_STOCK_FIND, GTK_ICON_SIZE_MENU);
 	gtk_widget_show(image);
-	s_ft_item = gtk_image_menu_item_new_with_mnemonic(_("Find Project Tag"));
+	s_ft_item = gtk_image_menu_item_new_with_mnemonic(_("Find Project Tag..."));
 	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(s_ft_item), image);
 	gtk_widget_show(s_ft_item);
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_ft_item);
