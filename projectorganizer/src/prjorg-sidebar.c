@@ -1220,11 +1220,10 @@ void prjorg_sidebar_update(gboolean reload)
 {
 	if (reload)
 	{
+		load_project();
 		/* we get color information only after the sidebar is realized -
-		 * postpone reload if this is not the case yet */
-		if (gtk_widget_get_realized(s_toolbar))
-			load_project();
-		else
+		 * perform reload later if this is not the case yet */
+		if (!gtk_widget_get_realized(s_toolbar))
 			s_pending_reload = TRUE;
 	}
 	if (s_follow_editor)
