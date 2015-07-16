@@ -783,6 +783,26 @@ Scintilla_send_message(Scintilla *self, PyObject *args, PyObject *kwargs)
 }
 
 
+static PyObject *
+Scintilla_send_text_message(Scintilla *self, PyObject *args, PyObject *kwargs)
+{
+	gint msg;
+	glong uptr = 0, ret;
+	const char *sptr = NULL;
+	static gchar *kwlist[] = { "msg", "lparam", "wparam", NULL };
+
+	SCI_RET_IF_FAIL(self);
+
+	if (PyArg_ParseTupleAndKeywords(args, kwargs, "i|lz", kwlist, &msg, &uptr, &sptr))
+	{
+		ret = scintilla_send_message(self->sci, msg, uptr, sptr);
+		return Py_BuildValue("l", ret);
+	}
+
+	Py_RETURN_NONE;
+}
+
+
 static PyMethodDef Scintilla_methods[] = {
 	{ "delete_marker_at_line", (PyCFunction) Scintilla_delete_marker_at_line, METH_KEYWORDS,
 		"Deletes a line marker." },
@@ -877,6 +897,8 @@ static PyMethodDef Scintilla_methods[] = {
 		"Begins grouping a set of edits together as one Undo action." },
 	{ "send_message", (PyCFunction) Scintilla_send_message, METH_KEYWORDS,
 		"Send a message to the Scintilla widget." },
+	{ "send_text_message", (PyCFunction) Scintilla_send_text_message, METH_KEYWORDS,
+		"Send a text message to the Scintilla widget." },
 	{ NULL }
 };
 
