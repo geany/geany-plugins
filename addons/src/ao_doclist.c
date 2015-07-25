@@ -123,18 +123,25 @@ static void ao_popup_position_menu(GtkMenu *menu, gint *x, gint *y, gboolean *pu
 	gint wx, wy;
 	GtkRequisition widget_req;
 	GtkWidget *widget = data;
+	GdkWindow *window = gtk_widget_get_window(widget);
 	gint widget_height;
 
 	/* Retrieve size and position of both widget and menu */
-	if (GTK_WIDGET_NO_WINDOW(widget))
+	if (! gtk_widget_get_has_window(widget))
 	{
-		gdk_window_get_position(widget->window, &wx, &wy);
-		wx += widget->allocation.x;
-		wy += widget->allocation.y;
+		GtkAllocation allocation;
+		gdk_window_get_position(window, &wx, &wy);
+		gtk_widget_get_allocation(widget, &allocation);
+		wx += allocation.x;
+		wy += allocation.y;
 	}
 	else
-		gdk_window_get_origin(widget->window, &wx, &wy);
+		gdk_window_get_origin(window, &wx, &wy);
+#if GTK_CHECK_VERSION(3, 0, 0)
+	gtk_widget_get_preferred_size(widget, &widget_req, NULL);
+#else
 	gtk_widget_size_request(widget, &widget_req);
+#endif
 	widget_height = widget_req.height; /* Better than allocation.height */
 
 	/* Calculate menu position */
