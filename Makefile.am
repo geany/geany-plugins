@@ -14,10 +14,7 @@ if ENABLE_AUTOCLOSE
 SUBDIRS += autoclose
 endif
 
-if ENABLE_AUTOMARK
-SUBDIRS += automark
-endif
-
+include automark/Makefile.rel.am
 include codenav/Makefile.rel.am
 include commander/Makefile.rel.am
 if ENABLE_DEBUGGER
