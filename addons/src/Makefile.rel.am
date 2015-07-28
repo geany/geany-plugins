@@ -1,0 +1,29 @@
+if ENABLE_ADDONS
+geanyplugins_LTLIBRARIES += %D%/addons.la
+
+%C%_addons_la_SOURCES = \
+	%D%/addons.h \
+	%D%/ao_blanklines.h \
+	%D%/ao_doclist.h \
+	%D%/ao_openuri.h \
+	%D%/ao_systray.h \
+	%D%/ao_bookmarklist.h \
+	%D%/ao_markword.h \
+	%D%/ao_tasks.h \
+	%D%/ao_xmltagging.h \
+	%D%/ao_wrapwords.h \
+	%D%/ao_copyfilepath.h \
+	%D%/addons.c \
+	%D%/ao_blanklines.c \
+	%D%/ao_doclist.c \
+	%D%/ao_openuri.c \
+	%D%/ao_systray.c \
+	%D%/ao_bookmarklist.c \
+	%D%/ao_markword.c \
+	%D%/ao_tasks.c \
+	%D%/ao_xmltagging.c \
+	%D%/ao_wrapwords.c \
+	%D%/ao_copyfilepath.c
+
+%C%_addons_la_LIBADD = $(COMMONLIBS)
+endif

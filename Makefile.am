@@ -6,10 +6,7 @@ AM_DISTCHECK_CONFIGURE_FLAGS = --with-geany-libdir='$${libdir}'
 
 SUBDIRS = po
 
-if ENABLE_ADDONS
-SUBDIRS += addons
-endif
-
+include addons/Makefile.rel.am
 include autoclose/Makefile.rel.am
 include automark/Makefile.rel.am
 include codenav/Makefile.rel.am
