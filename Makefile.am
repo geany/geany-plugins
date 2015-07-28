@@ -150,10 +150,7 @@ if ENABLE_SPELLCHECK
 SUBDIRS += spellcheck
 endif
 
-if ENABLE_TABLECONVERT
-SUBDIRS += tableconvert
-endif
-
+include tableconvert/Makefile.rel.am
 include treebrowser/Makefile.rel.am
 include updatechecker/Makefile.rel.am
 include webhelper/Makefile.rel.am
