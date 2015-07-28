@@ -1,0 +1,25 @@
+if ENABLE_GEANYPG
+geanyplugins_LTLIBRARIES += %D%/geanypg.la
+
+%C%_geanypg_la_SOURCES = \
+	%D%/helper_functions.c \
+	%D%/encrypt_cb.c \
+	%D%/key_selection_dialog.c \
+	%D%/sign_cb.c \
+	%D%/verify_cb.c \
+	%D%/decrypt_cb.c \
+	%D%/geanypg.c \
+	%D%/geanypg.h \
+	%D%/pinentry.c \
+	%D%/verify_aux.c
+
+%C%_geanypg_la_LIBADD = \
+	$(COMMONLIBS) \
+	$(GPGME_LIBS)
+
+%C%_geanypg_la_CFLAGS = \
+	$(AM_CFLAGS) \
+	$(GPGME_CFLAGS)
+endif
+
+%C%_geanypg_la_SHORTNAME = geanypg_la

@@ -82,10 +82,7 @@ if ENABLE_GEANYNUMBEREDBOOKMARKS
 SUBDIRS += geanynumberedbookmarks
 endif
 
-if ENABLE_GEANYPG
-SUBDIRS += geanypg
-endif
-
+include geanypg/Makefile.rel.am
 include geanyprj/Makefile.rel.am
 if ENABLE_GEANYPY
 SUBDIRS += geanypy
