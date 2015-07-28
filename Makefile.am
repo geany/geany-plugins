@@ -158,10 +158,7 @@ if ENABLE_TREEBROWSER
 SUBDIRS += treebrowser
 endif
 
-if ENABLE_UPDATECHECKER
-SUBDIRS += updatechecker
-endif
-
+include updatechecker/Makefile.rel.am
 include webhelper/Makefile.rel.am
 include xmlsnippets/Makefile.rel.am
 

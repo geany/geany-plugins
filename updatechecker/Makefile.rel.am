@@ -1,0 +1,17 @@
+include %D%/src/Makefile.rel.am
+
+if ENABLE_UPDATECHECKER
+updatecheckerdocdir = $(docdir)/updatechecker
+dist_updatecheckerdoc_DATA = \
+	%D%/README \
+	%D%/ChangeLog \
+	%D%/NEWS \
+	%D%/COPYING \
+	%D%/AUTHORS
+
+EXTRA_DIST += \
+	%D%/wscript_build \
+	%D%/wscript_configure
+
+plugin = updatechecker
+endif
