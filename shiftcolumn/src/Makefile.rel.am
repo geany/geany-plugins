@@ -1,0 +1,6 @@
+if ENABLE_SHIFTCOLUMN
+geanyplugins_LTLIBRARIES += %D%/shiftcolumn.la
+
+%C%_shiftcolumn_la_SOURCES = %D%/shiftcolumn.c
+%C%_shiftcolumn_la_LIBADD = $(COMMONLIBS)
+endif

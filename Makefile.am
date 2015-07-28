@@ -142,10 +142,7 @@ if ENABLE_SCOPE
 SUBDIRS += scope
 endif
 
-if ENABLE_SHIFTCOLUMN
-SUBDIRS += shiftcolumn
-endif
-
+include shiftcolumn/Makefile.rel.am
 include spellcheck/Makefile.rel.am
 include tableconvert/Makefile.rel.am
 include treebrowser/Makefile.rel.am
