@@ -10,10 +10,7 @@ if ENABLE_ADDONS
 SUBDIRS += addons
 endif
 
-if ENABLE_AUTOCLOSE
-SUBDIRS += autoclose
-endif
-
+include autoclose/Makefile.rel.am
 include automark/Makefile.rel.am
 include codenav/Makefile.rel.am
 include commander/Makefile.rel.am

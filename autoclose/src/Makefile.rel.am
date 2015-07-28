@@ -1,0 +1,6 @@
+if ENABLE_AUTOCLOSE
+geanyplugins_LTLIBRARIES += %D%/autoclose.la
+
+%C%_autoclose_la_SOURCES = %D%/autoclose.c
+%C%_autoclose_la_LIBADD = $(COMMONLIBS)
+endif
