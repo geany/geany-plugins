@@ -162,10 +162,7 @@ if ENABLE_UPDATECHECKER
 SUBDIRS += updatechecker
 endif
 
-if ENABLE_WEBHELPER
-SUBDIRS += webhelper
-endif
-
+include webhelper/Makefile.rel.am
 include xmlsnippets/Makefile.rel.am
 
 EXTRA_DIST += \

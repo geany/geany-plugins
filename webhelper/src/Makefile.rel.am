@@ -1,0 +1,42 @@
+if ENABLE_WEBHELPER
+geanyplugins_LTLIBRARIES += %D%/webhelper.la
+
+sources         = %D%/gwh-browser.c \
+                  %D%/gwh-keybindings.c \
+                  %D%/gwh-plugin.c \
+                  %D%/gwh-settings.c \
+                  %D%/gwh-utils.c
+headers         = %D%/gwh-browser.h \
+                  %D%/gwh-keybindings.h \
+                  %D%/gwh-plugin.h \
+                  %D%/gwh-settings.h \
+                  %D%/gwh-utils.h
+autogen_sources = %D%/gwh-enum-types.c
+autogen_headers = %D%/gwh-enum-types.h
+
+EXTRA_DIST      += %D%/gwh-enum-types.c.tpl \
+                   %D%/gwh-enum-types.h.tpl
+
+
+%C%_webhelper_la_SOURCES    = $(autogen_sources) \
+                              $(autogen_headers) \
+                              $(sources) \
+                              $(headers)
+%C%_webhelper_la_CPPFLAGS   = $(AM_CPPFLAGS) \
+                              -I$(srcdir) -I$(builddir) \
+                              -DG_LOG_DOMAIN=\"WebHelper\"
+%C%_webhelper_la_CFLAGS     = $(AM_CFLAGS) \
+                              $(WEBHELPER_CFLAGS)
+%C%_webhelper_la_LIBADD     = $(COMMONLIBS) \
+                              $(WEBHELPER_LIBS)
+
+# These are generated in $(srcdir) because they are part of the distribution,
+# and should anyway only be regenerated if the .tpl changes, which is a
+# developer thing ,so if should be harmless.
+$(srcdir)/%D%/gwh-enum-types.c: $(srcdir)/%D%/gwh-enum-types.c.tpl %D%/gwh-enum-types.h $(headers)
+	$(AM_V_GEN)$(GLIB_MKENUMS) --template $< $(headers:%=$(srcdir)/%) > $@
+$(srcdir)/%D%/gwh-enum-types.h: $(srcdir)/%D%/gwh-enum-types.h.tpl $(headers)
+	$(AM_V_GEN)$(GLIB_MKENUMS) --template $< $(headers:%=$(srcdir)/%) > $@
+endif
+
+%C%_webhelper_la_SHORTNAME  = webhelper_la
