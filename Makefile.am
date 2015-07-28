@@ -22,10 +22,7 @@ if ENABLE_CODENAV
 SUBDIRS += codenav
 endif
 
-if ENABLE_COMMANDER
-SUBDIRS += commander
-endif
-
+include commander/Makefile.rel.am
 if ENABLE_DEBUGGER
 SUBDIRS += debugger
 endif
