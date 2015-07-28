@@ -1,6 +1,6 @@
-include $(top_srcdir)/build/vars.docs.mk
+include $(top_srcdir)/build/vars.init.mk
 
-dist_plugindoc_DATA = \
+dist_plugindoc_DATA += \
 	README \
 	ChangeLog \
 	NEWS \
@@ -8,6 +8,6 @@ dist_plugindoc_DATA = \
 	AUTHORS \
 	$(AUXFILES)
 
-EXTRA_DIST = \
+EXTRA_DIST += \
 	wscript_build \
 	wscript_configure

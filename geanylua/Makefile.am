@@ -5,7 +5,7 @@ plugin = geanylua
 
 EXTRA_DIST += util
 
-geanyplugins_LTLIBRARIES = geanylua.la
+geanyplugins_LTLIBRARIES += geanylua.la
 geanyluadir = $(pkglibdir)/geanylua
 geanylua_LTLIBRARIES = libgeanylua.la
 
