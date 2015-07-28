@@ -1,0 +1,33 @@
+if ENABLE_MULTITERM
+
+geanyplugins_LTLIBRARIES += %D%/multiterm.la
+
+%C%_multiterm_la_VALAFLAGS = \
+	--vapidir $(abs_top_srcdir)/multiterm/src/vapi \
+	--pkg gtk+-2.0 \
+	--pkg geany \
+	--pkg vte \
+	--header multiterm.h \
+	--use-header
+
+%C%_multiterm_la_SOURCES = \
+	%D%/config.vala \
+	%D%/context-menu.vala \
+	%D%/defconf.vala \
+	%D%/notebook.vala \
+	%D%/plugin.vala \
+	%D%/shell-config.vala \
+	%D%/tab-label.vala \
+	%D%/terminal.vala
+
+%C%_multiterm_la_CFLAGS = \
+	-DGETTEXT_PACKAGE='"$(GETTEXT_PACKAGE)"' \
+	$(AM_CFLAGS) \
+	$(MULTITERM_CFLAGS)
+
+%C%_multiterm_la_LIBADD = \
+	$(COMMONLIBS) \
+	$(MULTITERM_LIBS)
+endif
+
+%C%_multiterm_la_SHORTNAME = multiterm_la

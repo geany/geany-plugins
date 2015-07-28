@@ -114,10 +114,7 @@ if ENABLE_MARKDOWN
 SUBDIRS += markdown
 endif
 
-if ENABLE_MULTITERM
-SUBDIRS += multiterm
-endif
-
+include multiterm/Makefile.rel.am
 if ENABLE_OVERVIEW
 SUBDIRS += overview
 endif
