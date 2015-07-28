@@ -166,10 +166,7 @@ if ENABLE_WEBHELPER
 SUBDIRS += webhelper
 endif
 
-if ENABLE_XMLSNIPPETS
-SUBDIRS += xmlsnippets
-endif
-
+include xmlsnippets/Makefile.rel.am
 
 EXTRA_DIST += \
 	build/__init__.py \
