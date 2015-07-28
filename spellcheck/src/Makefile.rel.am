@@ -1,0 +1,29 @@
+if ENABLE_SPELLCHECK
+geanyplugins_LTLIBRARIES += %D%/spellcheck.la
+
+%C%_spellcheck_la_SOURCES = \
+	%D%/scplugin.h \
+	%D%/speller.h \
+	%D%/gui.h \
+	%D%/gui.c \
+	%D%/speller.c \
+	%D%/scplugin.c
+
+%C%_spellcheck_la_CFLAGS = \
+	$(AM_CFLAGS) \
+	$(ENCHANT_CFLAGS)
+
+if HAVE_ENCHANT_1_5
+%C%_spellcheck_la_CFLAGS += -DHAVE_ENCHANT_1_5
+endif
+
+%C%_spellcheck_la_LIBADD = \
+	$(COMMONLIBS) \
+	$(ENCHANT_LIBS)
+
+%C%_spellcheck_la_CPPCHECKFLAGS = \
+	$(AM_CPPCHECKFLAGS) \
+	-DSCE_PAS_DEFAULT=0
+endif
+
+%C%_spellcheck_la_SHORTNAME = spellcheck_la

@@ -146,10 +146,7 @@ if ENABLE_SHIFTCOLUMN
 SUBDIRS += shiftcolumn
 endif
 
-if ENABLE_SPELLCHECK
-SUBDIRS += spellcheck
-endif
-
+include spellcheck/Makefile.rel.am
 include tableconvert/Makefile.rel.am
 include treebrowser/Makefile.rel.am
 include updatechecker/Makefile.rel.am
