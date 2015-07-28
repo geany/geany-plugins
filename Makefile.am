@@ -18,10 +18,7 @@ if ENABLE_AUTOMARK
 SUBDIRS += automark
 endif
 
-if ENABLE_CODENAV
-SUBDIRS += codenav
-endif
-
+include codenav/Makefile.rel.am
 include commander/Makefile.rel.am
 if ENABLE_DEBUGGER
 SUBDIRS += debugger
