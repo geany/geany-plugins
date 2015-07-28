@@ -154,10 +154,7 @@ if ENABLE_TABLECONVERT
 SUBDIRS += tableconvert
 endif
 
-if ENABLE_TREEBROWSER
-SUBDIRS += treebrowser
-endif
-
+include treebrowser/Makefile.rel.am
 include updatechecker/Makefile.rel.am
 include webhelper/Makefile.rel.am
 include xmlsnippets/Makefile.rel.am

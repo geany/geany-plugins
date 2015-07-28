@@ -1,0 +1,13 @@
+if ENABLE_TREEBROWSER
+geanyplugins_LTLIBRARIES += %D%/treebrowser.la
+
+%C%_treebrowser_la_SOURCES = %D%/treebrowser.c
+%C%_treebrowser_la_CFLAGS = $(AM_CFLAGS) $(GIO_CFLAGS)
+%C%_treebrowser_la_LIBADD = $(COMMONLIBS) $(GIO_LIBS)
+
+%C%_treebrowser_la_CPPCHECKFLAGS = \
+                --suppress='deallocDealloc:$(srcdir)/treebrowser.c' \
+                --suppress='doubleFree:$(srcdir)/treebrowser.c'
+endif
+
+%C%_treebrowser_la_SHORTNAME = treebrowser_la
