@@ -1,0 +1,16 @@
+if ENABLE_GEANYCTAGS
+geanyplugins_LTLIBRARIES += %D%/geanyctags.la
+
+%C%_geanyctags_la_SOURCES = \
+	%D%/geanyctags.c \
+	%D%/readtags.h \
+	%D%/readtags.c
+
+%C%_geanyctags_la_CPPFLAGS = $(AM_CPPFLAGS) \
+	-DPLUGIN=\"geanyctags\" \
+	-DG_LOG_DOMAIN=\"GeanyCtags\"
+%C%_geanyctags_la_CFLAGS = $(AM_CFLAGS)
+%C%_geanyctags_la_LIBADD = $(COMMONLIBS)
+endif
+
+%C%_geanyctags_la_SHORTNAME = geanyctags_la

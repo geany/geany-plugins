@@ -38,10 +38,7 @@ if ENABLE_DEVHELP
 SUBDIRS += devhelp
 endif
 
-if ENABLE_GEANYCTAGS
-SUBDIRS += geanyctags
-endif
-
+include geanyctags/Makefile.rel.am
 if ENABLE_GEANYDOC
 SUBDIRS += geanydoc
 endif
