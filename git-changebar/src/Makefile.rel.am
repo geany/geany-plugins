@@ -1,0 +1,12 @@
+if ENABLE_GITCHANGEBAR
+geanyplugins_LTLIBRARIES     += %D%/git-changebar.la
+
+%C%_git_changebar_la_SOURCES  = %D%/gcb-plugin.c
+%C%_git_changebar_la_CPPFLAGS = $(AM_CPPFLAGS) -DG_LOG_DOMAIN=\"GitChangeBar\" \
+                                -DPLUGIN=\"git-changebar\"
+%C%_git_changebar_la_CFLAGS   = $(AM_CFLAGS) $(GITCHANGEBAR_CFLAGS)
+%C%_git_changebar_la_LIBADD   = $(COMMONLIBS) \
+                                $(GITCHANGEBAR_LIBS)
+endif
+
+%C%_git_changebar_la_SHORTNAME = git_changebar_la

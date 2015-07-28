@@ -52,9 +52,7 @@ endif
 include geanysendmail/Makefile.rel.am
 include geanyvc/Makefile.rel.am
 include geniuspaste/Makefile.rel.am
-if ENABLE_GITCHANGEBAR
-SUBDIRS += git-changebar
-endif
+include git-changebar/Makefile.rel.am
 
 if ENABLE_MARKDOWN
 SUBDIRS += markdown
