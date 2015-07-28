@@ -54,10 +54,7 @@ if ENABLE_GEANYGENDOC
 SUBDIRS += geanygendoc
 endif
 
-if ENABLE_GEANYINSERTNUM
-SUBDIRS += geanyinsertnum
-endif
-
+include geanyinsertnum/Makefile.rel.am
 if ENABLE_GEANYLATEX
 SUBDIRS += geanylatex
 endif

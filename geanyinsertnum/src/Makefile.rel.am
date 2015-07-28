@@ -1,0 +1,6 @@
+if ENABLE_GEANYINSERTNUM
+geanyplugins_LTLIBRARIES += %D%/geanyinsertnum.la
+
+%C%_geanyinsertnum_la_SOURCES = %D%/insertnum.c
+%C%_geanyinsertnum_la_LIBADD = $(COMMONLIBS)
+endif
