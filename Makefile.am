@@ -70,10 +70,7 @@ if ENABLE_GEANYLUA
 SUBDIRS += geanylua
 endif
 
-if ENABLE_GEANYMACRO
-SUBDIRS += geanymacro
-endif
-
+include geanymacro/Makefile.rel.am
 include geanyminiscript/Makefile.rel.am
 include geanynumberedbookmarks/Makefile.rel.am
 include geanypg/Makefile.rel.am
