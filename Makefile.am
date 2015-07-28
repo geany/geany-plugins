@@ -78,10 +78,7 @@ if ENABLE_GEANYMINISCRIPT
 SUBDIRS += geanyminiscript
 endif
 
-if ENABLE_GEANYNUMBEREDBOOKMARKS
-SUBDIRS += geanynumberedbookmarks
-endif
-
+include geanynumberedbookmarks/Makefile.rel.am
 include geanypg/Makefile.rel.am
 include geanyprj/Makefile.rel.am
 if ENABLE_GEANYPY
