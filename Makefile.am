@@ -98,14 +98,8 @@ if ENABLE_GEANYSENDMAIL
 SUBDIRS += geanysendmail
 endif
 
-if ENABLE_GEANYVC
-SUBDIRS += geanyvc
-endif
-
-if ENABLE_GENIUSPASTE
-SUBDIRS += geniuspaste
-endif
-
+include geanyvc/Makefile.rel.am
+include geniuspaste/Makefile.rel.am
 if ENABLE_GITCHANGEBAR
 SUBDIRS += git-changebar
 endif

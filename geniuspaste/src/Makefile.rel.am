@@ -1,0 +1,16 @@
+if ENABLE_GENIUSPASTE
+geanyplugins_LTLIBRARIES += %D%/geniuspaste.la
+
+%C%_geniuspaste_la_SOURCES = %D%/geniuspaste.c
+%C%_geniuspaste_la_CPPFLAGS = \
+	$(AM_CPPFLAGS) \
+	-DGEANY_VERSION=\"$(GEANY_VERSION)\" \
+	-DG_LOG_DOMAIN=\"GeniusPaste\"
+%C%_geniuspaste_la_CFLAGS = \
+	$(AM_CFLAGS) \
+	$(GENIUSPASTE_CFLAGS)
+%C%_geniuspaste_la_LIBADD = \
+	$(COMMONLIBS) \
+	$(GENIUSPASTE_LIBS)
+endif
+%C%_geniuspaste_la_SHORTNAME = geniuspaste_la
