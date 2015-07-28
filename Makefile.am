@@ -62,10 +62,7 @@ if ENABLE_GEANYLATEX
 SUBDIRS += geanylatex
 endif
 
-if ENABLE_GEANYLIPSUM
-SUBDIRS += geanylipsum
-endif
-
+include geanylipsum/Makefile.rel.am
 if ENABLE_GEANYLUA
 SUBDIRS += geanylua
 endif

@@ -1,0 +1,6 @@
+if ENABLE_GEANYLIPSUM
+geanyplugins_LTLIBRARIES += %D%/geanylipsum.la
+
+%C%_geanylipsum_la_SOURCES = %D%/geanylipsum.c
+%C%_geanylipsum_la_LIBADD = $(COMMONLIBS)
+endif
