@@ -1,0 +1,28 @@
+if ENABLE_GEANYPRJ
+geanyplugins_LTLIBRARIES += %D%/geanyprj.la
+
+%C%_geanyprj_la_SOURCES = %D%/geanyprj.c \
+	%D%/geanyprj.h \
+	%D%/menu.c \
+	%D%/project.c \
+	%D%/sidebar.c \
+	%D%/utils.c \
+	%D%/xproject.c
+
+%C%_geanyprj_la_CFLAGS = $(AM_CFLAGS)
+%C%_geanyprj_la_LIBADD = $(COMMONLIBS)
+
+if UNITTESTS
+TESTS += %D%/unittests
+check_PROGRAMS += %D%/unittests
+%C%_unittests_SOURCES = %D%/unittests.c %D%/utils.c
+%C%_unittests_CFLAGS  = $(GEANY_CFLAGS) -DUNITTESTS
+%C%_unittests_LDADD   = @GEANY_LIBS@ $(INTLLIBS) @CHECK_LIBS@
+endif
+
+%C%_geanyprj_la_CPPCHECKFLAGS = $(AM_CPPCHECKFLAGS)
+%C%_geanyprj_la_CPPCHECKFLAGS += --suppress='constStatement:*'
+%C%_geanyprj_la_CPPCHECKFLAGS += --suppress='memleak:utils.c:72'
+endif
+
+%C%_geanyprj_la_SHORTNAME = geanyprj_la

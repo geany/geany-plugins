@@ -86,10 +86,7 @@ if ENABLE_GEANYPG
 SUBDIRS += geanypg
 endif
 
-if ENABLE_GEANYPRJ
-SUBDIRS += geanyprj
-endif
-
+include geanyprj/Makefile.rel.am
 if ENABLE_GEANYPY
 SUBDIRS += geanypy
 endif
