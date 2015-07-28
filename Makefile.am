@@ -46,10 +46,7 @@ if ENABLE_GEANYDOC
 SUBDIRS += geanydoc
 endif
 
-if ENABLE_GEANYEXTRASEL
-SUBDIRS += geanyextrasel
-endif
-
+include geanyextrasel/Makefile.rel.am
 if ENABLE_GEANYGENDOC
 SUBDIRS += geanygendoc
 endif

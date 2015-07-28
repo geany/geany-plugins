@@ -1,0 +1,6 @@
+if ENABLE_GEANYEXTRASEL
+geanyplugins_LTLIBRARIES += %D%/geanyextrasel.la
+
+%C%_geanyextrasel_la_SOURCES = %D%/extrasel.c
+%C%_geanyextrasel_la_LIBADD = $(COMMONLIBS)
+endif
