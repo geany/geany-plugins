@@ -94,10 +94,7 @@ if ENABLE_GEANYPY
 SUBDIRS += geanypy
 endif
 
-if ENABLE_GEANYSENDMAIL
-SUBDIRS += geanysendmail
-endif
-
+include geanysendmail/Makefile.rel.am
 include geanyvc/Makefile.rel.am
 include geniuspaste/Makefile.rel.am
 if ENABLE_GITCHANGEBAR
