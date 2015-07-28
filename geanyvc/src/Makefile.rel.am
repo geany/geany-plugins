@@ -1,31 +1,35 @@
 if ENABLE_GEANYVC
-geanyplugins_LTLIBRARIES = geanyvc.la
+geanyplugins_LTLIBRARIES += %D%/geanyvc.la
 
-geanyvc_la_SOURCES = \
-	externdiff.c \
-	geanyvc.c \
-	utils.c \
-	vc_bzr.c \
-	vc_cvs.c \
-	vc_git.c \
-	vc_hg.c \
-	vc_svk.c \
-	vc_svn.c \
-	geanyvc.h
+%C%_geanyvc_la_SOURCES = \
+	%D%/externdiff.c \
+	%D%/geanyvc.c \
+	%D%/utils.c \
+	%D%/vc_bzr.c \
+	%D%/vc_cvs.c \
+	%D%/vc_git.c \
+	%D%/vc_hg.c \
+	%D%/vc_svk.c \
+	%D%/vc_svn.c \
+	%D%/geanyvc.h
 
-geanyvc_la_CFLAGS = \
+%C%_geanyvc_la_CFLAGS = \
 	$(AM_CFLAGS) \
 	$(GTKSPELL_CFLAGS)
 
-geanyvc_la_LIBADD = \
+%C%_geanyvc_la_LIBADD = \
 	$(GTKSPELL_LIBS) \
 	$(COMMONLIBS)
 
+endif
+
 if UNITTESTS
-TESTS = unittests
-check_PROGRAMS = unittests
-unittests_SOURCES = unittests.c utils.c
-unittests_CFLAGS  = $(GEANY_CFLAGS) -DUNITTESTS
-unittests_LDADD   = @GEANY_LIBS@ $(INTLLIBS) @CHECK_LIBS@
+TESTS += %D%/unittests
+check_PROGRAMS += %D%/unittests
+%C%_unittests_SOURCES = %D%/unittests.c %D%/utils.c
+%C%_unittests_CFLAGS  = $(GEANY_CFLAGS) -DUNITTESTS
+%C%_unittests_LDADD   = @GEANY_LIBS@ $(INTLLIBS) @CHECK_LIBS@
 endif
-endif
+
+%C%_unittests_SHORTNAME = unittests
+%C%_geanyvc_la_SHORTNAME = geanyvc_la

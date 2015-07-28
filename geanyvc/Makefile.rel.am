@@ -1,7 +1,8 @@
 include %D%/src/Makefile.rel.am
 
 if ENABLE_GEANYVC
-dist_plugindoc_DATA += \
+geanyvcdocdir = $(docdir)/geanyvc
+dist_geanyvcdoc_DATA = \
 	%D%/README \
 	%D%/ChangeLog \
 	%D%/NEWS \
