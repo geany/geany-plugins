@@ -1,0 +1,17 @@
+include %D%/src/Makefile.rel.am
+
+if ENABLE_PRETTY_PRINTER
+pretty_printerdocdir = $(docdir)/codenav
+dist_pretty_printerdoc_DATA = \
+	$(top_srcdir)/codenav/README \
+	$(top_srcdir)/codenav/ChangeLog \
+	$(top_srcdir)/codenav/NEWS \
+	$(top_srcdir)/codenav/COPYING \
+	$(top_srcdir)/codenav/AUTHORS
+
+EXTRA_DIST += \
+	$(top_srcdir)/codenav/wscript_build \
+	$(top_srcdir)/codenav/wscript_configure
+
+plugin = codenav
+endif

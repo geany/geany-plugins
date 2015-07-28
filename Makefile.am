@@ -130,10 +130,7 @@ if ENABLE_POHELPER
 SUBDIRS += pohelper
 endif
 
-if ENABLE_PRETTY_PRINTER
-SUBDIRS += pretty-printer
-endif
-
+include pretty-printer/Makefile.rel.am
 if ENABLE_PROJECTORGANIZER
 SUBDIRS += projectorganizer
 endif
