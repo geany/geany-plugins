@@ -39,7 +39,7 @@
 08-02-2011 	Adrian Dimitrov 		<info@paolostivanin.com>
 
 	* src/treebrowser.c
-		ported to GTK+ > 3.14.0
+		ported to GTK+ > 3.10.0
 
 08-02-2011 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
