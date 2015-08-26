@@ -1,3 +1,7 @@
+2015-08-26 Paolo Stivanin <info(at)paolostivanin(dot)com>
+
+	* Plugin ported to GTK+ v3.10.0 and above
+
 2012-08-24 Hans Alves  <alves(dot)h88(at)gmail(dot)com>
 
 * Fixed bug 3557458 which caused a 0 byte to be added to the text

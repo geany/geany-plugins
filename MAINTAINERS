@@ -127,10 +127,13 @@ W: http://plugins.geany.org/geanynumberedbookmarks.html
 S: Maintained
 
 geanypg
-P: Hans Alves <alves.h88@gmail.com>
-M: Hans Alves <alves.h88@gmail.com>
+P1: Hans Alves <alves.h88@gmail.com>
+P2: Paolo Stivanin <info@paolostivanin.com>
+M1: Hans Alves <alves.h88@gmail.com>
+M2: Paolo Stivanin <info@paolostivanin.com>
 W: http://plugins.geany.org/geanypg.html
-S: Odd Fixes
+S1: Odd Fixes
+S2: Maintained
 
 geanyprj
 P: Yura Siamashka <yurand2@gmail.com>
