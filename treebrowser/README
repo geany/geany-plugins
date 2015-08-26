@@ -1,4 +1,4 @@
-.. |(version)| replace:: 0.20
+.. |(version)| replace:: 0.30
 
 TreeBrowser plugin
 ==================
@@ -33,7 +33,7 @@ Features
 
 Requirements
 ============
-* GTK >= 2.8.0
+* GTK >= 3.10.0
 * GIO >= 2.0 (optional)
 * Geany >= 0.17
 
@@ -49,7 +49,7 @@ FAQ
 ===
 
 * My base directory is not remember
-	Yes it isn`t saved, and I don`t think that it have to be saved while We have in Geany "Startup path", and "Load from the last session"
+	Yes it isn't saved, and I don't think that it have to be saved while we have in Geany "Startup path", and "Load from the last session"
 	These settings are useful and the plugin take care about them, use them and the problem with the last directory remembering will be solved.
 
 
@@ -64,7 +64,7 @@ TreeBrowser is part of the combined Geany Plugins release. For more information 
 Installation
 ============
 
- The plugin is part from the geany-plugins projects, you can see the plugin`s install page at http://plugins.geany.org/install.html
+ The plugin is part from the geany-plugins projects, you can see the plugin's install page at http://plugins.geany.org/install.html
 
 
 License
@@ -79,5 +79,8 @@ Ideas, questions, patches and bug reports
 Report them at https://github.com/geany/geany-plugins/issues
 
 --
+2015 Paolo Stivanin
+info(at)paolostivanin(dot)com
+
 2010 Adrian Dimitrov
 dimitrov(dot)adrian(at)gmail(dot)com

@@ -235,10 +235,10 @@ W: http://plugins.geany.org/tableconvert.html
 S: Maintained
 
 treebrowser
-P:
-M:
-W:
-S: Orphaned
+P: Paolo Stivanin
+M: Paolo Stivanin <info@paolostivanin.com>
+W: http://plugins.geany.org/treebrowser.html
+S: Maintained
 
 updatechecker
 P: Frank Lanitz <frank@frank.uvena.de>
