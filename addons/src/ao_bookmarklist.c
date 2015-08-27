@@ -298,13 +298,25 @@ static void popup_item_click_cb(GtkWidget *button, gpointer data)
 }
 
 
+static GtkWidget *
+gtk3_ui_image_menu_item_new(const gchar *icon_name, const gchar *label)
+{
+	GtkWidget *item = gtk_menu_item_new_with_mnemonic(label);
+	GtkWidget *image = gtk_image_new_from_icon_name(icon_name, GTK_ICON_SIZE_MENU);
+
+	gtk_container_add(GTK_CONTAINER(item), image);
+	gtk_widget_show(image);
+	return item;
+}
+
+
 static GtkWidget *create_popup_menu(AoBookmarkList *bm)
 {
 	GtkWidget *item, *menu;
 
 	menu = gtk_menu_new();
 
-	item = ui_image_menu_item_new(GTK_STOCK_DELETE, _("_Remove Bookmark"));
+	item = gtk3_ui_image_menu_item_new("edit-delete", _("_Remove Bookmark"));
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_item_click_cb), bm);

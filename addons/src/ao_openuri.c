@@ -162,13 +162,13 @@ static void ao_open_uri_init(AoOpenUri *self)
 	priv->uri = NULL;
 
 	priv->menu_item_open = ao_image_menu_item_new(
-		ao_find_icon_name("text-html", GTK_STOCK_NEW), _("Open URI"));
+		ao_find_icon_name("text-html", "document-new"), _("Open URI"));
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->editor_menu), priv->menu_item_open);
 	gtk_menu_reorder_child(GTK_MENU(geany->main_widgets->editor_menu), priv->menu_item_open, 0);
 	gtk_widget_hide(priv->menu_item_open);
 	g_signal_connect(priv->menu_item_open, "activate", G_CALLBACK(ao_menu_open_activate_cb), self);
 
-	priv->menu_item_copy = ao_image_menu_item_new(GTK_STOCK_COPY, _("Copy URI"));
+	priv->menu_item_copy = ao_image_menu_item_new("edit-copy", _("Copy URI"));
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->editor_menu), priv->menu_item_copy);
 	gtk_menu_reorder_child(GTK_MENU(geany->main_widgets->editor_menu), priv->menu_item_copy, 1);
 	gtk_widget_hide(priv->menu_item_copy);

@@ -205,13 +205,13 @@ static void ao_systray_init(AoSystray *self)
 	priv->popup_menu = gtk_menu_new();
 	g_object_ref_sink(priv->popup_menu);
 
-	item = gtk_image_menu_item_new_from_stock(GTK_STOCK_OPEN, NULL);
+	item = gtk_menu_item_new_with_mnemonic("_Open");
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(priv->popup_menu), item);
 	g_signal_connect(item, "activate",
 		G_CALLBACK(icon_popup_menu_cmd_clicked_cb), GINT_TO_POINTER(WIDGET_OPEN));
 
-	item = gtk_image_menu_item_new_from_stock(GEANY_STOCK_SAVE_ALL, NULL);
+	item = gtk_menu_item_new_with_mnemonic(GEANY_STOCK_SAVE_ALL);
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(priv->popup_menu), item);
 	g_signal_connect(item, "activate",
@@ -221,7 +221,7 @@ static void ao_systray_init(AoSystray *self)
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(priv->popup_menu), item);
 
-	item = gtk_image_menu_item_new_from_stock(GTK_STOCK_PREFERENCES, NULL);
+	item = gtk_menu_item_new_with_mnemonic("_Preferences");
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(priv->popup_menu), item);
 	g_signal_connect(item, "activate",
@@ -231,7 +231,7 @@ static void ao_systray_init(AoSystray *self)
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(priv->popup_menu), item);
 
-	item = gtk_image_menu_item_new_from_stock(GTK_STOCK_QUIT, NULL);
+	item = gtk_menu_item_new_with_mnemonic("_Quit");
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(priv->popup_menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(icon_popup_quit_clicked_cb), NULL);

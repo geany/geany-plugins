@@ -177,6 +177,18 @@ static void ao_doclist_menu_item_activate_cb(GtkMenuItem *menuitem, gpointer dat
 }
 
 
+static GtkWidget *
+gtk3_ui_image_menu_item_new(const gchar *icon_name, const gchar *label)
+{
+	GtkWidget *item = gtk_menu_item_new_with_mnemonic(label);
+	GtkWidget *image = gtk_image_new_from_icon_name(icon_name, GTK_ICON_SIZE_MENU);
+
+	gtk_container_add(GTK_CONTAINER(item), image);
+	gtk_widget_show(image);
+	return item;
+}
+
+
 static void ao_toolbar_item_doclist_clicked_cb(GtkWidget *button, gpointer data)
 {
 	static GtkWidget *menu = NULL;
@@ -211,12 +223,12 @@ static void ao_toolbar_item_doclist_clicked_cb(GtkWidget *button, gpointer data)
 	gtk_widget_show(menu_item);
 	gtk_container_add(GTK_CONTAINER(menu), menu_item);
 
-	menu_item = ui_image_menu_item_new(GTK_STOCK_CLOSE, _("Close Ot_her Documents"));
+	menu_item = gtk3_ui_image_menu_item_new("window-close", _("Close Ot_her Documents"));
 	gtk_widget_show(menu_item);
 	gtk_container_add(GTK_CONTAINER(menu), menu_item);
 	g_signal_connect(menu_item, "activate", G_CALLBACK(ao_doclist_menu_item_activate_cb),
 		GINT_TO_POINTER(ACTION_CLOSE_OTHER));
-	menu_item = ui_image_menu_item_new(GTK_STOCK_CLOSE, _("C_lose All"));
+	menu_item = gtk3_ui_image_menu_item_new("window-close", _("C_lose All"));
 	gtk_widget_show(menu_item);
 	gtk_container_add(GTK_CONTAINER(menu), menu_item);
 	g_signal_connect(menu_item, "activate", G_CALLBACK(ao_doclist_menu_item_activate_cb),
@@ -243,7 +255,7 @@ static void ao_toolbar_update(AoDocList *self)
 	{
 		if (priv->toolbar_doclist_button == NULL)
 		{
-			priv->toolbar_doclist_button = gtk_tool_button_new_from_stock(GTK_STOCK_INDEX);
+			priv->toolbar_doclist_button = gtk_tool_button_new(NULL, "_Index");
 #if GTK_CHECK_VERSION(2, 12, 0)
 			gtk_tool_item_set_tooltip_text(GTK_TOOL_ITEM(priv->toolbar_doclist_button),
 				_("Show Document List"));
