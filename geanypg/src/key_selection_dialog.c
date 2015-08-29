@@ -142,8 +142,7 @@ int geanypg_encrypt_selection_dialog(encrypt_data * ed, gpgme_key_t ** selected,
     list = geanypg_makelist(ed->key_array, ed->nkeys, 0);
     listview = geanypg_listview(list, &data);
     scrollwin = gtk_scrolled_window_new(NULL, NULL);
-    gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrollwin),
-                        listview);
+    gtk_container_add(GTK_CONTAINER(scrollwin), listview);
     gtk_widget_set_size_request(scrollwin, 500, 160);
     combobox = geanypg_combobox(geanypg_makelist(ed->skey_array, ed->nskeys, 1));
 
@@ -156,8 +155,8 @@ int geanypg_encrypt_selection_dialog(encrypt_data * ed, gpgme_key_t ** selected,
 
 
     /* add ok and cancel buttons */
-    gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_OK, GTK_RESPONSE_OK);
-    gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+    gtk_dialog_add_button(GTK_DIALOG(dialog), _("_OK"), GTK_RESPONSE_OK);
+    gtk_dialog_add_button(GTK_DIALOG(dialog), _("_Cancel"), GTK_RESPONSE_CANCEL);
 
     gtk_window_set_title(GTK_WINDOW(dialog), _("Select recipients"));
     gtk_widget_show_all(dialog);
@@ -225,8 +224,8 @@ int geanypg_sign_selection_dialog(encrypt_data * ed)
     gtk_box_pack_start(GTK_BOX(contentarea), combobox, TRUE, TRUE, 0);
 
     /* add ok and cancel buttons */
-    gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_OK, GTK_RESPONSE_OK);
-    gtk_dialog_add_button(GTK_DIALOG(dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+    gtk_dialog_add_button(GTK_DIALOG(dialog), "_OK", GTK_RESPONSE_OK);
+    gtk_dialog_add_button(GTK_DIALOG(dialog), "_Cancel", GTK_RESPONSE_CANCEL);
 
     gtk_widget_show_all(dialog);
     gtk_window_set_title(GTK_WINDOW(dialog), _("Select signer"));

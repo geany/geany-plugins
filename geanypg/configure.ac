@@ -1,4 +1,4 @@
-AC_INIT([geanypg], [0.1], [alves.h88@gmail.com])
+AC_INIT([geanypg], [0.2], [alves.h88@gmail.com])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 AC_PROG_CC
 AC_DISABLE_STATIC
@@ -8,7 +8,7 @@ AC_PROG_LIBTOOL
 AM_PATH_GPGME()
 
 # checking for Geany
-PKG_CHECK_MODULES(GEANY, [geany >= 0.20])
+PKG_CHECK_MODULES(GEANY, [geany >= 1.24])
 AC_SUBST(GEANY_CFLAGS)
 AC_SUBST(GEANY_LIBS)
 

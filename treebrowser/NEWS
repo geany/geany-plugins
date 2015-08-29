@@ -1,3 +1,6 @@
+Most important changes in 0.30:
+	* required version of GTK+ is now 3.10.0
+
 Most important changes in 0.20:
 
 	* Added bookmarks support

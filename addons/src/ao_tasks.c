@@ -353,6 +353,18 @@ static void popup_hide_item_click_cb(GtkWidget *button, AoTasks *t)
 }
 
 
+static GtkWidget *
+gtk3_ui_image_menu_item_new(const gchar *icon_name, const gchar *label)
+{
+	GtkWidget *item = gtk_menu_item_new_with_mnemonic(label);
+	GtkWidget *image = gtk_image_new_from_icon_name(icon_name, GTK_ICON_SIZE_MENU);
+
+	gtk_container_add(GTK_CONTAINER(item), image);
+	gtk_widget_show(image);
+	return item;
+}
+
+
 static GtkWidget *create_popup_menu(AoTasks *t)
 {
 	GtkWidget *item, *menu;
@@ -360,7 +372,7 @@ static GtkWidget *create_popup_menu(AoTasks *t)
 
 	menu = gtk_menu_new();
 
-	item = gtk_image_menu_item_new_from_stock(GTK_STOCK_DELETE, NULL);
+	item = gtk_menu_item_new_with_mnemonic("_Delete");
 	priv->popup_menu_delete_button = item;
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(menu), item);
@@ -370,7 +382,7 @@ static GtkWidget *create_popup_menu(AoTasks *t)
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(menu), item);
 
-	item = ui_image_menu_item_new(GTK_STOCK_REFRESH, _("_Update"));
+	item = gtk3_ui_image_menu_item_new("view-refresh", _("_Update"));
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_update_item_click_cb), t);
