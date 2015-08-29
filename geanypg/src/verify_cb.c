@@ -27,8 +27,8 @@ static char * geanypg_choose_sig(void)
     GtkWidget * dialog = gtk_file_chooser_dialog_new(_("Open a signature file"),
                                                      GTK_WINDOW(geany->main_widgets->window),
                                                      GTK_FILE_CHOOSER_ACTION_OPEN,
-                                                     GTK_STOCK_OPEN, GTK_RESPONSE_OK,
-                                                     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                                                     "_Open", GTK_RESPONSE_OK,
+                                                     "_Cancel", GTK_RESPONSE_CANCEL,
                                                      NULL);
     gtk_widget_show_all(dialog);
     response = gtk_dialog_run(GTK_DIALOG(dialog));
