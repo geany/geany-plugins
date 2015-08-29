@@ -36,6 +36,10 @@
 | Development release ChangeLog |
 +-------------------------------+
 
+08-29-2015	Paolo Stivanin 		<info@paolostivanin.com>
+
+	* src/treebrowser.c
+		updated for GTK+ >= 3.10.0
 
 08-02-2011 	Adrian Dimitrov 		<dimitrov.adrian@gmail.com>
 
