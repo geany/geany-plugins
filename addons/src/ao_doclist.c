@@ -255,7 +255,9 @@ static void ao_toolbar_update(AoDocList *self)
 	{
 		if (priv->toolbar_doclist_button == NULL)
 		{
-			priv->toolbar_doclist_button = gtk_tool_button_new(NULL, "_Index");
+            GtkWidget *image = gtk_image_new_from_icon_name("system-file-mangager", GTK_ICON_SIZE_MENU);
+            gtk_widget_show(image);
+			priv->toolbar_doclist_button = gtk_tool_button_new(image, "_Index");
 #if GTK_CHECK_VERSION(2, 12, 0)
 			gtk_tool_item_set_tooltip_text(GTK_TOOL_ITEM(priv->toolbar_doclist_button),
 				_("Show Document List"));

@@ -233,7 +233,8 @@ GtkWidget *ao_image_menu_item_new(const gchar *icon_name, const gchar *label)
 {
 	GtkWidget *item = gtk_menu_item_new_with_label(label);
 	GtkWidget *image = gtk_image_new_from_icon_name(icon_name, GTK_ICON_SIZE_MENU);
-
+    gtk_container_add(GTK_CONTAINER(item), image);
+    
 	gtk_widget_show(image);
 	return item;
 }
