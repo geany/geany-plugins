@@ -155,8 +155,8 @@ int geanypg_encrypt_selection_dialog(encrypt_data * ed, gpgme_key_t ** selected,
 
 
     /* add ok and cancel buttons */
-    gtk_dialog_add_button(GTK_DIALOG(dialog), "_OK", GTK_RESPONSE_OK);
-    gtk_dialog_add_button(GTK_DIALOG(dialog), "_Cancel", GTK_RESPONSE_CANCEL);
+    gtk_dialog_add_button(GTK_DIALOG(dialog), _("_OK"), GTK_RESPONSE_OK);
+    gtk_dialog_add_button(GTK_DIALOG(dialog), _("_Cancel"), GTK_RESPONSE_CANCEL);
 
     gtk_window_set_title(GTK_WINDOW(dialog), _("Select recipients"));
     gtk_widget_show_all(dialog);
