@@ -655,8 +655,21 @@ diff_buf_to_doc (const git_buf   *old_buf,
   opts.context_lines = 0;
   opts.flags = GIT_DIFF_FORCE_TEXT;
   
-  ret = git_diff_buffers (old_buf->ptr, old_buf->size, NULL,
-                          buf, len, NULL, &opts, NULL, hunk_cb, NULL, payload);
+  ret = git_diff_buffers (
+    old_buf->ptr,   /* old_buffer */
+    old_buf->size,  /* old_len */
+    NULL,           /* old_as_path */
+    buf,            /* new_buffer */
+    len,            /* new_len */
+    NULL,           /* new_as_path */
+    &opts,          /* git_diff_options */
+    NULL,           /* file_cb */
+#if defined (LIBGIT2_SOVERSION) && LIBGIT2_SOVERSION > 22
+    NULL,           /* binary_cb */
+#endif
+    hunk_cb,        /* hunk_cb */
+    NULL,           /* line_cb */
+    payload);       /* payload */
   
   if (free_buf) {
     g_free (buf);
