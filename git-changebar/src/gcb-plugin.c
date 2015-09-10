@@ -36,6 +36,15 @@
 # define git_libgit2_init     git_threads_init
 # define git_libgit2_shutdown git_threads_shutdown
 #endif
+#if ! defined (LIBGIT2_SOVERSION) || LIBGIT2_SOVERSION < 23
+/* 0.23 added @p binary_cb */
+# define git_diff_buffers(old_buffer, old_len, old_as_path, \
+                          new_buffer, new_len, new_as_path, options, \
+                          file_cb, binary_cb, hunk_cb, line_cb, payload) \
+  git_diff_buffers (old_buffer, old_len, old_as_path, \
+                    new_buffer, new_len, new_as_path, options, \
+                    file_cb, hunk_cb, line_cb, payload)
+#endif
 
 
 GeanyPlugin      *geany_plugin;
@@ -656,7 +665,8 @@ diff_buf_to_doc (const git_buf   *old_buf,
   opts.flags = GIT_DIFF_FORCE_TEXT;
   
   ret = git_diff_buffers (old_buf->ptr, old_buf->size, NULL,
-                          buf, len, NULL, &opts, NULL, hunk_cb, NULL, payload);
+                          buf, len, NULL, &opts, NULL, NULL, hunk_cb, NULL,
+                          payload);
   
   if (free_buf) {
     g_free (buf);
