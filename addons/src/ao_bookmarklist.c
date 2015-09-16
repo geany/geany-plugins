@@ -62,7 +62,15 @@ struct _AoBookmarkListPrivate
 
 	gint		 search_line;
 	GtkTreeIter	*search_iter;
+
+	guint refresh_idle_source_id;
 };
+
+typedef struct
+{
+	AoBookmarkList *bm;
+	GeanyDocument *document;
+} AoBookmarkListRefreshContainer;
 
 enum
 {
@@ -401,14 +409,17 @@ void ao_bookmark_list_activate(AoBookmarkList *bm)
 }
 
 
-void ao_bookmark_list_update(AoBookmarkList *bm, GeanyDocument *doc)
+static gboolean update_bookmark_list_delayed(gpointer data)
 {
 	gint line_nr = 0;
 	gint mask = 1 << 1;
-	ScintillaObject *sci = doc->editor->sci;
+	AoBookmarkListRefreshContainer *container = data;
+	AoBookmarkList *bm = container->bm;
 	AoBookmarkListPrivate *priv = AO_BOOKMARK_LIST_GET_PRIVATE(bm);
+	GeanyDocument *doc = container->document;
+	ScintillaObject *sci = doc->editor->sci;
 
-	if (priv->enable_bookmarklist)
+	if (priv->enable_bookmarklist && DOC_VALID(doc))
 	{
 		gtk_list_store_clear(priv->store);
 		while ((line_nr = scintilla_send_message(sci, SCI_MARKERNEXT, line_nr, mask)) != -1)
@@ -416,6 +427,26 @@ void ao_bookmark_list_update(AoBookmarkList *bm, GeanyDocument *doc)
 			add_line(bm, sci, line_nr);
 			line_nr++;
 		}
+	}
+
+	g_free(container);
+	priv->refresh_idle_source_id = 0;
+	return FALSE;
+}
+
+
+void ao_bookmark_list_update(AoBookmarkList *bm, GeanyDocument *doc)
+{
+	AoBookmarkListPrivate *priv = AO_BOOKMARK_LIST_GET_PRIVATE(bm);
+	if (priv->refresh_idle_source_id == 0)
+	{
+		AoBookmarkListRefreshContainer *container = g_new0(AoBookmarkListRefreshContainer, 1);
+		container->bm = bm;
+		container->document = doc;
+		priv->refresh_idle_source_id = plugin_idle_add(
+			geany_plugin,
+			update_bookmark_list_delayed,
+			container);
 	}
 }
 
@@ -444,6 +475,7 @@ static void ao_bookmark_list_init(AoBookmarkList *self)
 	AoBookmarkListPrivate *priv = AO_BOOKMARK_LIST_GET_PRIVATE(self);
 
 	priv->page = NULL;
+	priv->refresh_idle_source_id = 0;
 }
 
 
