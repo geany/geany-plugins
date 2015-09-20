@@ -62,7 +62,15 @@ struct _AoBookmarkListPrivate
 
 	gint		 search_line;
 	GtkTreeIter	*search_iter;
+
+	guint refresh_idle_source_id;
 };
+
+typedef struct
+{
+	AoBookmarkList *bm;
+	guint document_id;
+} AoBookmarkListRefreshContainer;
 
 enum
 {
@@ -401,21 +409,47 @@ void ao_bookmark_list_activate(AoBookmarkList *bm)
 }
 
 
-void ao_bookmark_list_update(AoBookmarkList *bm, GeanyDocument *doc)
+static gboolean update_bookmark_list_delayed(gpointer data)
 {
 	gint line_nr = 0;
 	gint mask = 1 << 1;
-	ScintillaObject *sci = doc->editor->sci;
+	AoBookmarkListRefreshContainer *container = data;
+	AoBookmarkList *bm = container->bm;
 	AoBookmarkListPrivate *priv = AO_BOOKMARK_LIST_GET_PRIVATE(bm);
+	GeanyDocument *doc = document_find_by_id(container->document_id);
 
-	if (priv->enable_bookmarklist)
+	if (priv->enable_bookmarklist && doc != NULL)
 	{
+		ScintillaObject *sci = doc->editor->sci;
+
 		gtk_list_store_clear(priv->store);
 		while ((line_nr = scintilla_send_message(sci, SCI_MARKERNEXT, line_nr, mask)) != -1)
 		{
 			add_line(bm, sci, line_nr);
 			line_nr++;
 		}
+	}
+
+	g_free(container);
+	priv->refresh_idle_source_id = 0;
+	return FALSE;
+}
+
+
+void ao_bookmark_list_update(AoBookmarkList *bm, GeanyDocument *doc)
+{
+	AoBookmarkListPrivate *priv = AO_BOOKMARK_LIST_GET_PRIVATE(bm);
+
+	if (priv->refresh_idle_source_id == 0)
+	{
+		AoBookmarkListRefreshContainer *container = g_new0(AoBookmarkListRefreshContainer, 1);
+
+		container->bm = bm;
+		container->document_id = doc->id;
+		priv->refresh_idle_source_id = plugin_idle_add(
+			geany_plugin,
+			update_bookmark_list_delayed,
+			container);
 	}
 }
 
@@ -424,16 +458,23 @@ void ao_bookmark_list_update_marker(AoBookmarkList *bm, GeanyEditor *editor, SCN
 {
 	AoBookmarkListPrivate *priv = AO_BOOKMARK_LIST_GET_PRIVATE(bm);
 
-	if (priv->enable_bookmarklist &&
-		nt->nmhdr.code == SCN_MODIFIED && nt->modificationType == SC_MOD_CHANGEMARKER)
+	if (priv->enable_bookmarklist && nt->nmhdr.code == SCN_MODIFIED)
 	{
-		if (sci_is_marker_set_at_line(editor->sci, nt->line, 1))
+		if (nt->modificationType == SC_MOD_CHANGEMARKER)
 		{
-			add_line(bm, editor->sci, nt->line);
+			if (sci_is_marker_set_at_line(editor->sci, nt->line, 1))
+			{
+				add_line(bm, editor->sci, nt->line);
+			}
+			else
+			{
+				delete_line(bm, nt->line);
+			}
 		}
-		else
+		else if (nt->linesAdded != 0)
 		{
-			delete_line(bm, nt->line);
+			/* if any lines changed, refresh the whole list as we refer line numbers */
+			ao_bookmark_list_update(bm, editor->document);
 		}
 	}
 }
@@ -444,6 +485,7 @@ static void ao_bookmark_list_init(AoBookmarkList *self)
 	AoBookmarkListPrivate *priv = AO_BOOKMARK_LIST_GET_PRIVATE(self);
 
 	priv->page = NULL;
+	priv->refresh_idle_source_id = 0;
 }
 
 
