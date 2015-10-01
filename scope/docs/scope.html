@@ -50,6 +50,7 @@
 		<li><a href="#local_watch">Locals/Watches</a></li>
 		<li><a href="#console">Debug Console</a></li>
 	</ul></li>
+	<li><a href="#windows_console">Windows console</a></li>
 	<li>Side pages<ul>
 		<li><a href="#inspect">Inspect</a></li>
 		<li><a href="#register">Registers</a></li>
@@ -101,7 +102,7 @@ document.</p>
 
 <h3><a name="requirements">Requirements</a></h3>
 
-<p>Geany 1.22 or later and the respective libraries.</p>
+<p>Geany 1.25 or later and the respective libraries.</p>
 
 <p>GDB 7.3 or later.</p>
 
@@ -308,7 +309,7 @@ saved in their current order.</p>
 <p>Sorting by file name (including breakpoint location) uses the full locale name, so the
 order may be different from the displayed UTF-8 base names.</p>
 
-<p><b><a name="terminal">Program Terminal</a></b></p>
+<p><b><a name="terminal">Program Terminal (*nix only)</a></b></p>
 
 <p>Will be disabled if a pseudo-tty can not be created.</p>
 
@@ -454,8 +455,7 @@ in <em>Setup Program</em>.</p>
 <p>Groups are not wrapped, so with <em>Group by</em> &gt; 1, less than
 <em>memory_line_bytes</em> may be displayed.</p>
 
-<p>A maximum of 16K may be displayed (128 lines * 128 bytes); <em>gdb_buffer_length</em> also
-limits the size.</p>
+<p>A maximum of 16K may be displayed (128 lines * 128 bytes).</p>
 
 <p><b><a name="console">Debug Console</a></b></p>
 
@@ -472,6 +472,12 @@ limits the size.</p>
 if GDB is ready to receive commands. For example, in synchronous mode, GDB displays a prompt
 immediately resuming the program execution; or the prompt may be followed by asynchronous
 messages. The Scope state (Busy, Debug etc.) is more accurate.</p>
+
+<h3><a name="windows_console">Windows console</a></h3>
+
+<p>Displayed automatically by Windows when starting a Windows console program, and closed
+automatically when the program terminates. To leave the console open on program termination,
+set breakpoints at ExitProcess / TerminateProcess.</p>
 
 <h3>Side pages</h3>
 
@@ -513,18 +519,6 @@ the same, invoke <em>Query</em> from the local menu.</p>
 <p>Once again, trivial items are not included.</p>
 
 <p>[scope]</p>
-
-<p><em>gdb_buffer_length</em> - the maximum length of a single gdb output message. Longer
-messages will be cut, and an "overflow" will be displayed in the debug console, possibly
-followed by a few other parsing errors. Default = 16383. Actual value is (the nearest larger
-power of 2) - 1, for example 32768 becomes 65535.
-
-<p><em>gdb_wait_death</em> - hundreds of seconds to wait(3) gdb death on scope unload.
-Default = 20. When closing Geany, gdb will be destroyed by the operating system.</p>
-
-<p><em>gdb_send_interval</em> (win~1 only) - interval on which to retry sending commands to
-gdb if it's input buffer is full, in hundreds of seconds. Default = 5. The actual value may be
-larger, for example Scope may be activated only 10 times per second if Geany is idle.</p>
 
 <p><em>async_break_bugs</em> (win~1 only) - whether gdb escapes slashes twice in the
 asynchronous break messages. if true (the default), only <tt>=breakpoint-deleted</tt> will be
@@ -589,7 +583,7 @@ Default = 2048.</p>
 
 <p>[terminal] (*nix only)</p>
 
-<p><em>width</em>, <em>height</em> - VTE widget (not terminal window) size</p>
+<p><em>width</em>, <em>height</em> - VTE widget (not the entire terminal window) size</p>
 
 <p><em>save_pos</em> - auto save window position and widget size</p>
 
@@ -766,7 +760,7 @@ later version.</p>
 
 <b><a name="copyright">Copyright</a></b>
 
-<p>Scope 0.93.2, Copyright (C) 2013 Dimitar Toshkov Zhekov</p>
+<p>Scope 0.94, Copyright (C) 2015 Dimitar Toshkov Zhekov</p>
 
 <p>The menu and toolbar icons are from <a href="http://netbeans.org">Netbeans</a>, except for
 BreakPoint.</p>

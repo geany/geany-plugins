@@ -48,13 +48,10 @@ insignificant; for large texts, using string is faster, but not much
 CPU load on F8 with vte console: ~88%
 with context: ~80%, null output: ~75%
 
-win~1 hang with poll_pipe(): 1 second for 3h25m
-win~1 send on 50ms: 2 seconds for 1h, 1445 KB sent
-
 GtkTextView with wrapping CHAR: the last character of a wrapped line can be
 selected with the mouse only by moving to the next line
 
-Geany under Win~1, with FF also running, eats 7-8% CPU time, other
+Geany gtk+2 under Win~1, with FF also running, eats 7-8% CPU time, other
 applications/conditions may cause such CPU load too; scope doesn't matter
 
 http://sourceware.org/bugzilla/show_bug.cgi?id=9659

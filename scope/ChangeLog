@@ -1,8 +1,23 @@
+2015-10-01  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * src/debug.c:
+   Switched gdb I/O to Geany spawn. No more attempts to send the
+   commands at 50 ms and permanent console under Windows. The gdb
+   buffer size is now 1 MB (no performance penalty for large buffer
+   sizes either), longer lines or ones with '\0' are not parsed.
+ * src/debug.c, src/prefs.c, src/prefs.h, docs/scope.html:
+   Removed gdb_buffer_length, gdb_send_interval and gdb_wait_death
+   preferences. Obsoleted by the new gdb I/O and the fact that
+   spawn sends SIGTERM under *nix, not SIGKILL (though _death was
+   unneeded anyway).
+ * docs/scope.html, src/scope.c:
+   Increased version to 0.94.
+
+
 2015-04-24  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * data/scope.glade, src/Makefile.am, src/common.h, src/scope.c:
    Removed support for gtk+ 2.16.
-
  * src/gtk216.c, src/gtk216.h:
    Removed.
 

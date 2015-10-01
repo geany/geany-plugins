@@ -28,7 +28,6 @@
 
 gchar *pref_gdb_executable;
 gboolean pref_gdb_async_mode;
-gint pref_gdb_buffer_length;
 gint pref_gdb_wait_death;
 #ifndef G_OS_UNIX
 gint pref_gdb_send_interval;
@@ -143,6 +142,9 @@ static void load_scope_prefs(GKeyFile *config)
 	}
 }
 
+static const char *obsolete_prefs[] = { "gdb_buffer_length", "gdb_wait_death",
+	"gdb_send_interval", NULL };
+
 static void save_scope_prefs(GKeyFile *config)
 {
 	guint i;
@@ -165,6 +167,9 @@ static void save_scope_prefs(GKeyFile *config)
 		g_key_file_set_string(config, style->name, "back", tmp_string);
 		g_free(tmp_string);
 	}
+
+	for (i = 0; obsolete_prefs[i]; i++)
+		g_key_file_remove_key(config, "scope", obsolete_prefs[i], NULL);
 }
 
 static void prefs_configure(void)
@@ -223,11 +228,11 @@ void prefs_init(void)
 	char *configdir = g_build_filename(geany->app->configdir, "plugins", "scope", NULL);
 	char *configfile = prefs_file_name();
 	GKeyFile *config = g_key_file_new();
+	gboolean obsolete = FALSE;
 
 	group = stash_group_new("scope");
 	stash_group_add_string(group, &pref_gdb_executable, "gdb_executable", "gdb");
 	stash_group_add_boolean(group, &pref_gdb_async_mode, "gdb_async_mode", FALSE);
-	stash_group_add_integer(group, &pref_gdb_buffer_length, "gdb_buffer_length", 32767);
 	stash_group_add_integer(group, &pref_gdb_wait_death, "gdb_wait_death", 20);
 #ifndef G_OS_UNIX
 	stash_group_add_integer(group, &pref_gdb_send_interval, "gdb_send_interval", 5);
@@ -282,11 +287,30 @@ void prefs_init(void)
 
 	g_key_file_load_from_file(config, configfile, G_KEY_FILE_NONE, NULL);
 	load_scope_prefs(config);
+
+	for (i = 0; obsolete_prefs[i]; i++)
+	{
+		GError *gerror = NULL;
+
+		g_key_file_get_integer(config, "scope", obsolete_prefs[i], &gerror);
+
+		if (gerror)
+		{
+			g_error_free(gerror);
+			gerror = NULL;
+		}
+		else
+		{
+			obsolete = TRUE;
+			break;
+		}
+	}
+
 	pref_sci_marker_first = pref_sci_marker_1st;
 	prefs_configure();
 	program_load_config(config);
 
-	if (!g_file_test(configfile, G_FILE_TEST_IS_REGULAR))
+	if (obsolete || !g_file_test(configfile, G_FILE_TEST_IS_REGULAR))
 	{
 		gint error = utils_mkdir(configdir, TRUE);
 

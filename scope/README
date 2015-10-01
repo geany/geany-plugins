@@ -18,7 +18,7 @@ expect (stepping, breakpoints...), and a few notable features:
 
 Requirements
 ------------
-Geany 1.22 or later and the respective libraries, including VTE under *nix.
+Geany 1.25 or later and the respective libraries, including VTE under *nix.
 
 GLib-2.18 or later. For Windows, 2.24 is recommended.
 

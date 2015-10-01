@@ -1,3 +1,12 @@
+Scope 0.94 (2015-10-01):
+
+    * Better GDB I/O based on Geany spawn, consequently removed
+      gdb_buffer_length, gdb_send_interval and gdb_wait_death.
+      To leave the Windows console open on program termination,
+      set breakpoints at ExitProcess / TerminateProcess.
+      Geany 1.25+ required.
+
+
 Scope 0.93.2 (2014-02-13):
 
     * Remember the total (initial) breakpoint ignore count and

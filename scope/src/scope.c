@@ -29,10 +29,10 @@ GeanyPlugin *geany_plugin;
 GeanyData *geany_data;
 GeanyFunctions *geany_functions;
 
-PLUGIN_VERSION_CHECK(215)
+PLUGIN_VERSION_CHECK(224)
 
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, _("Scope Debugger"),
-	_("Relatively simple GDB front-end."), "0.93.2",
+	_("Relatively simple GDB front-end."), "0.94",
 	"Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
 
 /* Keybinding(s) */

@@ -24,49 +24,8 @@
 
 #include <glib.h>
 
-#ifdef G_OS_UNIX
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <signal.h>
-#else  /* G_OS_UNIX */
-#include <windows.h>
-
-#define WNOHANG 0
-
-static int waitpid(HANDLE pid, int *stat_loc, int options)
-{
-	if (options == WNOHANG)
-	{
-		DWORD status;
-
-		if (GetExitCodeProcess(pid, &status))
-		{
-			if (status == STILL_ACTIVE)
-				return 0;
-
-			if (stat_loc)
-				*stat_loc = status;
-			return 1;
-		}
-	}
-
-	errno = EINVAL;
-	return -1;
-}
-
-#define SIGKILL 9
-
-static int kill(HANDLE pid, int sig)
-{
-	if (TerminateProcess(pid, sig))
-		return 0;
-
-	errno = EINVAL;
-	return -1;
-}
-#endif  /* G_OS_UNIX */
-
 #include "common.h"
+#include "spawn.h"
 
 extern guint thread_count;
 extern guint thread_prompt;
@@ -79,305 +38,10 @@ typedef enum _GdbState
 } GdbState;
 
 static GdbState gdb_state = INACTIVE;
-static GSource *gdb_source;
 static GPid gdb_pid;
 
-static GPollFD gdb_in = { -1, G_IO_OUT | G_IO_ERR, 0 };
-static GPollFD gdb_out = { -1, G_IO_IN | G_IO_HUP | G_IO_ERR, 0 };
-static GPollFD gdb_err = { -1, G_IO_IN | G_IO_HUP | G_IO_ERR, 0 };
-
-static void free_gdb(void)
-{
-	g_spawn_close_pid(gdb_pid);
-	close(gdb_in.fd);
-	close(gdb_out.fd);
-	close(gdb_err.fd);
-}
-
-static gboolean io_error_show(gpointer gdata)
-{
-	show_error("%s", (gchar *) gdata);
-	g_free(gdata);
-	return FALSE;
-}
-
-#ifdef G_OS_UNIX
-static void gdb_io_check(ssize_t count, const char *operation, G_GNUC_UNUSED int eagain)
-{
-	if (count == -1 && errno != EAGAIN && gdb_state != KILLING)
-#else  /* G_OS_UNIX */
-static void gdb_io_check(ssize_t count, const char *operation, int eagain)
-{
-	if (count == -1 && errno != EAGAIN && errno != eagain && gdb_state != KILLING)
-#endif  /* G_OS_UNIX */
-	{
-		plugin_idle_add(geany_plugin, io_error_show,
-			g_strdup_printf(_("%s: %s."), operation, g_strerror(errno)));
-
-		if (kill(gdb_pid, SIGKILL) == -1)
-		{
-			plugin_idle_add(geany_plugin, io_error_show,
-				g_strdup_printf(_("%s: %s."), "kill(gdb)", g_strerror(errno)));
-		}
-		gdb_state = KILLING;
-	}
-}
-
-static guint wait_result;
 static gboolean wait_prompt;
 static GString *commands;
-
-static void send_commands(void)
-{
-	ssize_t count = write(gdb_in.fd, commands->str, commands->len);
-
-	if (count > 0)
-	{
-		const char *s = commands->str;
-
-		dc_output(0, commands->str, count);
-		wait_prompt = TRUE;
-
-		do
-		{
-			s = strchr(s, '\n');
-			if (s - commands->str >= count)
-				break;
-
-			wait_result++;
-		} while (*++s);
-
-		g_string_erase(commands, 0, count);
-		update_state(DS_BUSY);
-	}
-	else
-		gdb_io_check(count, "write(gdb_in)", ENOSPC);
-}
-
-#ifndef G_OS_UNIX
-static DWORD last_send_ticks;
-#endif
-
-static void debug_send_commands(void)
-{
-	send_commands();
-	if (commands->len)
-	{
-	#ifdef G_OS_UNIX
-		g_source_add_poll(gdb_source, &gdb_in);
-	#else
-		last_send_ticks = GetTickCount();
-	#endif
-	}
-}
-
-static void pre_parse(char *string, gboolean overflow)
-{
-	if (*string && strchr("~@&", *string))
-	{
-		char *text = string + 1;
-		const char *end;
-
-		if (*text == '"')
-		{
-			end = parse_string(text, '\n');
-			dc_output(1, text, -1);
-		}
-		else
-		{
-			dc_output(1, string, -1);
-			end = NULL;
-		}
-
-		if (overflow)
-			dc_error("overflow");
-		else if (!end)
-			dc_error("\" expected");
-		else if (g_str_has_prefix(string, "~^(Scope)#07"))
-			on_inspect_signal(string + 12);
-	}
- 	else if (!strcmp(string, "(gdb) "))  /* gdb.info says "(gdb)" */
- 	{
-		dc_output(3, "(gdb) ", 6);
-		wait_prompt = wait_result;
-	}
-	else
-	{
-		char *message;
-
-		for (message = string; isdigit(*message); message++);
-
-		if (option_library_messages || !g_str_has_prefix(message, "=library-"))
-		{
-			dc_output_nl(1, string, -1);
-
-			if (overflow)
-				dc_error("overflow");
-		}
-
-		if (*message == '^')
-		{
-			iff (wait_result, "extra result")
-				wait_result--;
-		}
-
-		if (*string == '0' && message > string + 1)
-		{
-			memmove(string, string + 1, message - string - 1);
-			message[-1] = '\0';
-		}
-		else
-			string = NULL;  /* no token */
-
-		parse_message(message, string);
-	}
-}
-
-static guint MAXLEN;
-static GString *received;
-static gboolean leading_receive;
-static char *reading_pos;
-
-static gboolean source_prepare(G_GNUC_UNUSED GSource *source, gint *timeout)
-{
-	*timeout = -1;
-	return gdb_state != INACTIVE && reading_pos > received->str;
-}
-
-#ifdef G_OS_UNIX
-static gboolean source_check(G_GNUC_UNUSED GSource *source)
-{
-	return gdb_state != INACTIVE && (gdb_err.revents || reading_pos > received->str ||
-		gdb_out.revents || (commands->len && gdb_in.revents));
-}
-#else  /* G_OS_UNIX */
-static gboolean peek_pipe(GPollFD *fd)
-{
-	DWORD available;
-	return !PeekNamedPipe((HANDLE) _get_osfhandle(fd->fd), NULL, 0, NULL, &available,
-		NULL) || available;
-}
-
-static gboolean source_check(G_GNUC_UNUSED GSource *source)
-{
-	return gdb_state != INACTIVE && (reading_pos > received->str || peek_pipe(&gdb_err) ||
-		peek_pipe(&gdb_out) || (commands->len &&
-		GetTickCount() - last_send_ticks >= (guint) pref_gdb_send_interval * 10));
-}
-#endif  /* G_OS_UNIX */
-
-static guint source_id = 0;
-
-static gboolean source_dispatch(G_GNUC_UNUSED GSource *source,
-	G_GNUC_UNUSED GSourceFunc callback, G_GNUC_UNUSED gpointer gdata)
-{
-	int status;
-	pid_t result;
-	ssize_t count;
-	char buffer[0x200];
-	char *pos;
-
-	/* show errors */
-	while ((count = read(gdb_err.fd, buffer, sizeof buffer - 1)) > 0)
-		dc_output(2, buffer, count);
-
-	gdb_io_check(count, "read(gdb_err)", EINVAL);
-
-	/* receive */
-	count = read(gdb_out.fd, received->str + received->len, MAXLEN - received->len);
-
-	if (count > 0)
-		g_string_set_size(received, received->len + count);
-	else
-		gdb_io_check(count, "read(gdb_out)", EINVAL);
-
-	while (pos = reading_pos, (reading_pos = strchr(pos, '\n')) != NULL)
-	{
-		if (leading_receive)
-		{
-		#ifdef G_OS_UNIX
-			*reading_pos++ = '\0';
-		#else
-			gboolean cr = reading_pos > received->str && reading_pos[-1] == '\r';
-			reading_pos[-cr]= '\0';
-			reading_pos++;
-		#endif
-			pre_parse(pos, FALSE);
-		}
-		else
-		{
-			reading_pos++;
-			leading_receive = TRUE;
-		}
-	}
-
-	g_string_erase(received, 0, pos - received->str);
-
-	if (G_UNLIKELY(received->len == MAXLEN))
-	{
-		if (leading_receive)
-		{
-			reading_pos = received->str + MAXLEN;
-			pre_parse(received->str, TRUE);
-		}
-		g_string_truncate(received, 0);
-		leading_receive = FALSE;
-	}
-
-	reading_pos = received->str;
-	result = waitpid(gdb_pid, &status, WNOHANG);
-
-	if (result == 0)
-	{
-		if (commands->len)
-		{
-			/* send */
-		#ifdef G_OS_UNIX
-			send_commands();
-			if (!commands->len)
-				g_source_remove_poll(gdb_source, &gdb_in);
-		#else
-			debug_send_commands();
-		#endif
-		}
-		else
-		{
-			/* idle update */
-			DebugState state = debug_state();
-
-			if (state & DS_SENDABLE)
-				views_update(state);
-		}
-	}
-	else if (gdb_state != INACTIVE)
-	{
-		GdbState state = gdb_state;
-		/* shutdown */
-		gdb_state = INACTIVE;
-		signal(SIGINT, SIG_DFL);
-		g_source_remove(source_id);
-
-		if (result == -1)
-			show_errno("waitpid(gdb)");
-		else if (state == ACTIVE)
-			show_error(_("GDB died unexpectedly with status %d."), status);
-		else if (thread_count)
-			ui_set_statusbar(FALSE, _("Program terminated."));
-
-		free_gdb();
-		views_clear();
-		utils_lock_all(FALSE);
-	}
-
-	update_state(debug_state());
-
-	return TRUE;
-}
-
-static void source_finalize(G_GNUC_UNUSED GSource *source)
-{
-	source_id = 0;
-}
 
 DebugState debug_state(void)
 {
@@ -400,8 +64,6 @@ DebugState debug_state(void)
 	return state;
 }
 
-static gboolean debug_auto_run;
-static gboolean debug_auto_exit;
 
 void on_debug_list_source(GArray *nodes)
 {
@@ -415,13 +77,15 @@ void on_debug_list_source(GArray *nodes)
 	parse_location_free(&loc);
 }
 
+static gboolean debug_auto_run;
+static gboolean debug_auto_exit;
+static gboolean debug_load_error;
+
 void on_debug_error(GArray *nodes)
 {
-	debug_auto_run = FALSE;
+	debug_auto_run = FALSE;  /* may be an initialization command failure */
 	on_error(nodes);
 }
-
-static gboolean debug_load_error;
 
 void on_debug_loaded(GArray *nodes)
 {
@@ -470,27 +134,234 @@ void on_debug_auto_run(G_GNUC_UNUSED GArray *nodes)
 	}
 }
 
-static void gdb_exit(void)
-{
-	debug_send_command(N, "-gdb-exit");
-	gdb_state = KILLING;
-}
-
 void on_debug_auto_exit(void)
 {
 	if (debug_auto_exit)
-		gdb_exit();
+	{
+		debug_send_command(N, "-gdb-exit");
+		gdb_state = KILLING;
+	}
 }
 
-static GSourceFuncs gdb_source_funcs =
+#define G_IO_FAILURE (G_IO_ERR | G_IO_HUP | G_IO_NVAL)  /* always used together */
+
+static GIOChannel *send_channel = NULL;
+static guint send_source_id = 0;
+static guint wait_result;
+
+static gboolean send_commands_cb(GIOChannel *channel, GIOCondition condition,
+	G_GNUC_UNUSED gpointer gdata)
 {
-	source_prepare,
-	source_check,
-	source_dispatch,
-	source_finalize,
-	NULL,
-	NULL
-};
+	SpawnWriteData data = { commands->str, commands->len };
+	gboolean result = spawn_write_data(channel, condition, &data);
+	gssize count = commands->len - data.size;
+
+	if (count > 0)
+	{
+		const char *s = commands->str;
+
+		dc_output(0, commands->str, count);
+		wait_prompt = TRUE;
+
+		do
+		{
+			s = strchr(s, '\n');
+			if (s - commands->str >= count)
+				break;
+
+			wait_result++;
+		} while (*++s);
+
+		g_string_erase(commands, 0, count);
+		update_state(DS_BUSY);
+	}
+
+	return result;
+}
+
+static void send_source_destroy_cb(G_GNUC_UNUSED gpointer gdata)
+{
+	send_source_id = 0;
+}
+
+/*
+ * We need to release the initial stdin cb to avoid it being called constantly, and attach a
+ * source when we have data to send. Unfortunately, glib does not allow re-attaching removed
+ * sources, so we create one each time.
+ */
+
+static void create_send_source(void)
+{
+	GSource *send_source = g_io_create_watch(send_channel, G_IO_OUT | G_IO_FAILURE);
+
+	g_io_channel_unref(send_channel);
+	g_source_set_callback(send_source, (GSourceFunc) send_commands_cb, NULL,
+		send_source_destroy_cb);
+	send_source_id = g_source_attach(send_source, NULL);
+}
+
+#define HAS_SPAWN_LEAVE_STDIN_OPEN 0
+
+static gboolean obtain_send_channel_cb(GIOChannel *channel, GIOCondition condition,
+	G_GNUC_UNUSED gpointer gdata)
+{
+#if HAS_SPAWN_LEAVE_STDIN_OPEN
+	if (condition & G_IO_FAILURE)
+		g_io_channel_shutdown(channel, FALSE, NULL);
+	else
+	{
+		g_io_channel_ref(channel);
+		send_channel = channel;
+		create_send_source();  /* for the initialization commands */
+	}
+#else
+	if (!(condition & G_IO_FAILURE))
+	{
+		gint stdin_fd = dup(g_io_channel_unix_get_fd(channel));
+
+	#ifdef G_OS_UNIX
+		send_channel = g_io_channel_unix_new(stdin_fd);
+		g_io_channel_set_flags(send_channel, G_IO_FLAG_NONBLOCK, NULL);
+	#else
+		send_channel = g_io_channel_win32_new_fd(stdin_fd);
+	#endif
+		g_io_channel_set_encoding(send_channel, NULL, NULL);
+		g_io_channel_set_buffered(send_channel, FALSE);
+		create_send_source();  /* for the initialization commands */
+	}
+#endif
+
+	return FALSE;
+}
+
+static void debug_parse(char *string, const char *error)
+{
+	if (*string && strchr("~@&", *string))
+	{
+		char *text = string + 1;
+		const char *end;
+
+		if (*text == '"')
+		{
+			end = parse_string(text, '\n');
+			dc_output(1, text, -1);
+		}
+		else
+		{
+			dc_output(1, string, -1);
+			end = NULL;
+		}
+
+		if (error)
+			dc_error(error);
+		else if (!end)
+			dc_error("\" expected");
+		else if (g_str_has_prefix(string, "~^(Scope)#07"))
+			on_inspect_signal(string + 12);
+	}
+ 	else if (!strcmp(string, "(gdb) "))  /* gdb.info says "(gdb)" */
+ 	{
+		dc_output(3, "(gdb) ", 6);
+		wait_prompt = wait_result;
+	}
+	else
+	{
+		char *message;
+
+		for (message = string; isdigit(*message); message++);
+
+		if (error || option_library_messages || !g_str_has_prefix(message, "=library-"))
+			dc_output_nl(1, string, -1);
+
+		if (*message == '^')
+		{
+			iff (wait_result, "extra result")
+				wait_result--;
+		}
+
+		if (*string == '0' && message > string + 1)
+		{
+			memmove(string, string + 1, message - string - 1);
+			message[-1] = '\0';
+		}
+		else
+			string = NULL;  /* no token */
+
+		if (error)
+			dc_error("%s, ignoring to EOLN", error);
+		else
+			parse_message(message, string);
+	}
+}
+
+static gboolean leading_receive;  /* FALSE for continuation of a too long / incomplete line */
+
+static void receive_output_cb(GString *string, GIOCondition condition,
+	G_GNUC_UNUSED gpointer gdata)
+{
+	if (condition & (G_IO_IN | G_IO_PRI))
+	{
+		char *term = string->str + string->len - 1;
+		const char *error = NULL;
+
+		switch (*term)
+		{
+			case '\n' : if (string->len >= 2 && term[-1] == '\r') term--;  /* falldown */
+			case '\r' : *term = '\0'; break;
+			case '\0' : error = "binary zero encountered"; break;
+			default : error = "line too long or incomplete";
+		}
+
+		if (leading_receive)
+			debug_parse(string->str, error);
+
+		leading_receive = !error;
+	}
+
+	if (!commands->len)
+		views_update(debug_state());
+
+	update_state(debug_state());
+}
+
+static void receive_errors_cb(GString *string, GIOCondition condition,
+	G_GNUC_UNUSED gpointer gdata)
+{
+	if (condition & (G_IO_IN | G_IO_PRI))
+		dc_output(2, string->str, string->len);
+}
+
+static void gdb_finalize(void)
+{
+	signal(SIGINT, SIG_DFL);
+
+	if (send_channel)
+	{
+		g_io_channel_shutdown(send_channel, FALSE, NULL);
+		g_io_channel_unref(send_channel);
+		send_channel = NULL;
+
+		if (send_source_id)
+			g_source_remove(send_source_id);
+	}
+}
+
+static void gdb_exit_cb(G_GNUC_UNUSED GPid pid, gint status, G_GNUC_UNUSED gpointer gdata)
+{
+	GdbState saved_state = gdb_state;
+
+	gdb_finalize();
+	gdb_state = INACTIVE;
+
+	if (saved_state == ACTIVE)
+		show_error(_("GDB died unexpectedly with status %d."), status);
+	else if (thread_count)
+		ui_set_statusbar(FALSE, _("Program terminated."));
+
+	views_clear();
+	utils_lock_all(FALSE);
+	update_state(DS_INACTIVE);
+}
 
 static void append_startup(const char *command, const gchar *value)
 {
@@ -502,7 +373,15 @@ static void append_startup(const char *command, const gchar *value)
 	}
 }
 
-#define GDB_SPAWN_FLAGS (G_SPAWN_SEARCH_PATH | G_SPAWN_DO_NOT_REAP_CHILD)
+#if HAS_SPAWN_LEAVE_STDIN_OPEN
+#define GDB_SPAWN_FLAGS (SPAWN_STDERR_UNBUFFERED | SPAWN_STDOUT_RECURSIVE | \
+	SPAWN_STDERR_RECURSIVE | SPAWN_LEAVE_STDIN_OPEN)
+#else
+#define GDB_SPAWN_FLAGS (SPAWN_STDERR_UNBUFFERED | SPAWN_STDOUT_RECURSIVE | \
+	SPAWN_STDERR_RECURSIVE)
+#endif
+
+#define GDB_BUFFER_SIZE ((1 << 20) - 1)  /* spawn adds 1 for '\0' */
 
 static void load_program(void)
 {
@@ -515,83 +394,62 @@ static void load_program(void)
 	while (gtk_events_pending())
 		gtk_main_iteration();
 
-	if (g_spawn_async_with_pipes(NULL, args, NULL, GDB_SPAWN_FLAGS, NULL, NULL, &gdb_pid,
-		&gdb_in.fd, &gdb_out.fd, &gdb_err.fd, &gerror))
+	if (spawn_with_callbacks(NULL, NULL, args, NULL, GDB_SPAWN_FLAGS, obtain_send_channel_cb,
+		NULL, receive_output_cb, NULL, GDB_BUFFER_SIZE, receive_errors_cb, NULL, 0,
+		gdb_exit_cb, NULL, &gdb_pid, &gerror))
 	{
+		gchar **environment = g_strsplit(program_environment, "\n", -1);
+		gchar *const *envar;
+	#ifdef G_OS_UNIX
+		extern char *slave_pty_name;
+	#else
+		GString *escaped = g_string_new(program_executable);
+	#endif
+
+		/* startup */
 		gdb_state = ACTIVE;
+		dc_clear();
+		utils_lock_all(TRUE);
+		signal(SIGINT, SIG_IGN);
+		wait_result = 0;
+		wait_prompt = TRUE;
+		g_string_truncate(commands, 0);
+		leading_receive = TRUE;
 
-		if (utils_set_nonblock(&gdb_in) && utils_set_nonblock(&gdb_out) &&
-			utils_set_nonblock(&gdb_err))
+		if (pref_gdb_async_mode)
+			g_string_append(commands, "-gdb-set target-async on\n");
+		if (program_non_stop_mode)
+			g_string_append(commands, "-gdb-set non-stop on\n");
+	#ifdef G_OS_UNIX
+		append_startup("010-file-exec-and-symbols", program_executable);
+		append_startup("-gdb-set inferior-tty", slave_pty_name);
+	#else  /* G_OS_UNIX */
+		utils_string_replace_all(escaped, "\\", "\\\\");
+		append_startup("010-file-exec-and-symbols", escaped->str);
+		g_string_free(escaped, TRUE);
+		g_string_append(commands, "-gdb-set new-console on\n");
+	#endif  /* G_OS_UNIX */
+		append_startup("-environment-cd", program_working_dir);  /* no escape needed */
+		append_startup("-exec-arguments", program_arguments);
+		for (envar = environment; *envar; envar++)
+			append_startup("-gdb-set environment", *envar);
+		g_strfreev(environment);
+		append_startup("011source -v", program_load_script);
+		g_string_append(commands, "07-list-target-features\n");
+		breaks_query_async(commands);
+
+		if (*program_executable || *program_load_script)
 		{
-			gchar **environment = g_strsplit(program_environment, "\n", -1);
-			gchar *const *envar;
-		#ifdef G_OS_UNIX
-			extern char *slave_pty_name;
-		#else
-			GString *escaped = g_string_new(program_executable);
-		#endif
-
-			/* startup */
-			dc_clear();
-			utils_lock_all(TRUE);
-			signal(SIGINT, SIG_IGN);
-			wait_result = 0;
-			wait_prompt = TRUE;
-			g_string_truncate(commands, 0);
-			g_string_truncate(received, 0);
-			reading_pos = received->str;
-			leading_receive = TRUE;
-
-			gdb_source = g_source_new(&gdb_source_funcs, sizeof(GSource));
-			g_source_set_can_recurse(gdb_source, TRUE);
-			source_id = g_source_attach(gdb_source, NULL);
-			g_source_unref(gdb_source);
-		#ifdef G_OS_UNIX
-			g_source_add_poll(gdb_source, &gdb_out);
-			g_source_add_poll(gdb_source, &gdb_err);
-		#endif
-			if (pref_gdb_async_mode)
-				g_string_append(commands, "-gdb-set target-async on\n");
-			if (program_non_stop_mode)
-				g_string_append(commands, "-gdb-set non-stop on\n");
-		#ifdef G_OS_UNIX
-			append_startup("010-file-exec-and-symbols", program_executable);
-			append_startup("-gdb-set inferior-tty", slave_pty_name);
-		#else  /* G_OS_UNIX */
-			utils_string_replace_all(escaped, "\\", "\\\\");
-			append_startup("010-file-exec-and-symbols", escaped->str);
-			g_string_free(escaped, TRUE);
-		#endif  /* G_OS_UNIX */
-			append_startup("-environment-cd", program_working_dir);
-			append_startup("-exec-arguments", program_arguments);
-			for (envar = environment; *envar; envar++)
-				append_startup("-gdb-set environment", *envar);
-			g_strfreev(environment);
-			append_startup("011source -v", program_load_script);
-			g_string_append(commands, "07-list-target-features\n");
-			breaks_query_async(commands);
-
-			if (*program_executable || *program_load_script)
-			{
-				debug_load_error = FALSE;
-				debug_auto_run = debug_auto_exit = program_auto_run_exit;
-			}
-			else
-				debug_auto_run = debug_auto_exit = FALSE;
-
-			if (option_open_panel_on_load)
-				open_debug_panel();
-
-			registers_query_names();
-			debug_send_commands();
+			debug_load_error = FALSE;
+			debug_auto_run = debug_auto_exit = program_auto_run_exit;
 		}
 		else
-		{
-			show_errno("fcntl(O_NONBLOCK)");
+			debug_auto_run = debug_auto_exit = FALSE;
 
-			if (kill(gdb_pid, SIGKILL) == -1)
-				show_errno("kill(gdb)");
-		}
+		if (option_open_panel_on_load)
+			open_debug_panel();
+
+		registers_query_names();
 	}
 	else
 	{
@@ -671,25 +529,35 @@ void on_debug_terminate(const MenuItem *menu_item)
 {
 	switch (debug_state())
 	{
-		case DS_DEBUG :
+		case DS_BUSY :
+		{
+			GError *gerror = NULL;
+
+			gdb_state = KILLING;
+
+			if (!spawn_kill_process(gdb_pid, &gerror))
+			{
+				show_error(_("%s."), gerror->message);
+				g_error_free(gerror);
+			}
+
+			break;
+		}
 		case DS_READY :
+		case DS_DEBUG :
 		{
 			if (menu_item && !debug_auto_exit)
 			{
 				debug_send_command(N, "kill");
 				break;
 			}
-		}
-		case DS_HANGING :
-		{
-			gdb_exit();
-			break;
+			/* falldown */
 		}
 		default :
 		{
+			debug_send_command(N, "-gdb-exit");
 			gdb_state = KILLING;
-			if (kill(gdb_pid, SIGKILL) == -1)
-				show_errno("kill(gdb)");
+			break;
 		}
 	}
 }
@@ -698,7 +566,6 @@ void debug_send_command(gint tf, const char *command)
 {
 	if (gdb_state == ACTIVE)
 	{
-		gsize previous_len = commands->len;
 		const char *s;
 
 		for (s = command; *s && !isspace(*s); s++);
@@ -715,8 +582,8 @@ void debug_send_command(gint tf, const char *command)
 		g_string_append(commands, s);
 		g_string_append_c(commands, '\n');
 
-		if (!previous_len)
-			debug_send_commands();
+		if (send_channel && !send_source_id)
+			create_send_source();
 	}
 }
 
@@ -753,33 +620,16 @@ char *debug_send_evaluate(char token, gint scid, const gchar *expr)
 void debug_init(void)
 {
 	commands = g_string_sized_new(0x3FFF);
-	received = g_string_sized_new(pref_gdb_buffer_length);
-	MAXLEN = received->allocated_len - 1;
 }
 
 void debug_finalize(void)
 {
-	if (source_id)
-	{
-		signal(SIGINT, SIG_DFL);
-		g_source_remove(source_id);
-	}
-
 	if (gdb_state != INACTIVE)
 	{
-		gint count = 0;
-
-		if (kill(gdb_pid, SIGKILL) == 0)
-		{
-			g_usleep(G_USEC_PER_SEC / 1000);
-			while (waitpid(gdb_pid, NULL, WNOHANG) == 0 && count++ < pref_gdb_wait_death)
-				g_usleep(G_USEC_PER_SEC / 100);
-		}
-
-		free_gdb();  /* may be still alive, but we can't do anything more */
+		spawn_kill_process(gdb_pid, NULL);
+		gdb_finalize();
 		statusbar_update_state(DS_INACTIVE);
 	}
 
-	g_string_free(received, TRUE);
 	g_string_free(commands, TRUE);
 }
