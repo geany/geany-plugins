@@ -4,6 +4,8 @@
    Removed the unused saved_id variable.
  * src/plugme.h:
    Removed the #ifndef checks, they don't work with Geany 1.25.
+ * src/common.h, src/plugme.c, src/scope.c:
+   Removed geany_functions, obsolete in Geany 1.25.
 
 
 2015-10-01  Dimitar Zhekov  <dimitar.zhekov@gmail.com>

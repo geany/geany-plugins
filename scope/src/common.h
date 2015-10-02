@@ -21,7 +21,6 @@
 
 extern GeanyPlugin *geany_plugin;
 extern GeanyData *geany_data;
-extern GeanyFunctions *geany_functions;
 
 typedef struct _MenuItem MenuItem;
 #define FRAME_ARGS '0' + (int) strlen(thread_id) - 1, thread_id, frame_id

@@ -22,7 +22,6 @@
 #include "geanyplugin.h"
 
 extern GeanyData *geany_data;
-extern GeanyFunctions *geany_functions;
 
 /* This file must not depend on Scope */
 #include "plugme.h"
