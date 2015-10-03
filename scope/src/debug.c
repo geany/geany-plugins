@@ -328,7 +328,7 @@ static void receive_errors_cb(GString *string, GIOCondition condition,
 	G_GNUC_UNUSED gpointer gdata)
 {
 	if (condition & (G_IO_IN | G_IO_PRI))
-		dc_output(2, string->str, string->len);
+		dc_output(2, string->str, -1);
 }
 
 static void gdb_finalize(void)
