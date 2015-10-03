@@ -21,9 +21,7 @@
 
 extern gchar *pref_gdb_executable;
 extern gboolean pref_gdb_async_mode;
-extern gint pref_gdb_wait_death;
 #ifndef G_OS_UNIX
-extern gint pref_gdb_send_interval;
 extern gboolean pref_async_break_bugs;
 #endif
 extern gboolean pref_var_update_bug;
