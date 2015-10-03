@@ -1,3 +1,16 @@
+2015-10-03  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
+
+ * docs/scope.html:
+   Small documentation fixes.
+ * src/prefs.c, src/prefs.h:
+   Cleanup the obsolete gdb_send_interval and gdb_wait_death.
+ * src/debug.c, src/debug.h, src/parse.c:
+   Don't say "GDB died unexpectedly" if the user types -gdb-exit.
+ * src/debug.c:
+   Don't display possible binary zeros received from gdb stderr.
+   Fix line read error message for non-MI lines.
+
+
 2015-10-02  Dimitar Zhekov  <dimitar.zhekov@gmail.com>
 
  * src/scope.c:
