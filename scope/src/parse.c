@@ -130,6 +130,7 @@ static const ParseRoute parse_routes[] =
 	{ "^error",                       on_quiet_error,          '4',  '\0', 0 },
 	{ "^error,",                      on_watch_error,          '6',  '\t', 0 },
 	{ "^error,",                      on_debug_error,          '\0', '\n', 0 },
+	{ "^exit",                        on_debug_exit,           '\0', '\0', 0 },
 	{ NULL, NULL, '\0', '\0', 0 }
 };
 

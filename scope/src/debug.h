@@ -52,6 +52,7 @@ void on_debug_list_source(GArray *nodes);
 void on_debug_error(GArray *nodes);
 void on_debug_loaded(GArray *nodes);
 void on_debug_load_error(GArray *nodes);
+void on_debug_exit(GArray *nodes);
 void on_debug_auto_run(GArray *nodes);
 void on_debug_auto_exit(void);
 

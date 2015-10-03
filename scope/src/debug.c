@@ -123,6 +123,11 @@ void on_debug_load_error(GArray *nodes)
 	on_error(nodes);
 }
 
+void on_debug_exit(G_GNUC_UNUSED GArray *nodes)
+{
+	gdb_state = KILLING;
+}
+
 void on_debug_auto_run(G_GNUC_UNUSED GArray *nodes)
 {
 	if (debug_auto_run && !thread_count)
