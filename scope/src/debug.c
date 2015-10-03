@@ -253,7 +253,7 @@ static void debug_parse(char *string, const char *error)
 		}
 
 		if (error)
-			dc_error("%s", error);
+			dc_error("%s, ignoring to EOLN", error);
 		else if (!end)
 			dc_error("\" expected");
 		else if (g_str_has_prefix(string, "~^(Scope)#07"))
