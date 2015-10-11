@@ -17,7 +17,10 @@ cvars = get_config_vars()
 # support multiarch-enabled distributions like Ubuntu
 if not 'MULTIARCH' in cvars.keys():
     cvars[['MULTIARCH']] = ''
-print(path_join(cvars[['LIBDIR']], cvars[['MULTIARCH']], cvars[['LDLIBRARY']]))
+# try to find the real installed lib, not the generic link
+if not 'INSTSONAME' in cvars.keys():
+    cvars[['INSTSONAME']] = cvars[['LDLIBRARY']]
+print(path_join(cvars[['LIBDIR']], cvars[['MULTIARCH']], cvars[['INSTSONAME']]))
 EOD`
 
 	AC_SUBST([PYTHON_LIBRARY], [$ax_python_library])
