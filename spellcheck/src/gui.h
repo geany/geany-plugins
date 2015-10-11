@@ -31,7 +31,7 @@ void sc_gui_kb_run_activate_cb(guint key_id);
 
 void sc_gui_kb_toggle_typing_activate_cb(guint key_id);
 
-void sc_gui_create_edit_menu(void);
+void sc_gui_recreate_editor_menu(void);
 
 void sc_gui_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 								  GeanyDocument *doc, gpointer user_data);

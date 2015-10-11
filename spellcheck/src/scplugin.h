@@ -38,6 +38,7 @@ typedef struct
 	gboolean check_on_document_open;
 	gboolean show_toolbar_item;
 	gboolean show_editor_menu_item;
+	gboolean show_editor_menu_item_sub_menu;
 	GPtrArray *dicts;
 	GtkWidget *main_menu;
 	GtkWidget *menu_item;
@@ -46,6 +47,7 @@ typedef struct
 	GtkWidget *edit_menu_sep;
 	GtkWidget *edit_menu_sub;
 	GtkToolItem *toolbar_button;
+	GSList *edit_menu_items;
 } SpellCheck;
 
 
