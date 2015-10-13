@@ -49,7 +49,6 @@ class Plugin(object):
 	#__plugin_version__ = None
 	#__plugin_author__ = None
 
-
 	_events = {
 		"document-open": [],
 		# TODO: add more events here
