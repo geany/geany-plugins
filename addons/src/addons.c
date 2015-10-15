@@ -291,7 +291,7 @@ void plugin_init(GeanyData *data)
 	ao_blanklines_set_enable(ao_info->strip_trailing_blank_lines);
 
 	/* setup keybindings */
-	key_group = plugin_set_key_group(geany_plugin, "addons", KB_COUNT+8, NULL);
+	key_group = plugin_set_key_group(geany_plugin, "addons", KB_COUNT + AO_WORDWRAP_KB_COUNT, NULL);
 	keybindings_set_item(key_group, KB_FOCUS_BOOKMARK_LIST, kb_bmlist_activate,
 		0, 0, "focus_bookmark_list", _("Focus Bookmark List"), NULL);
 	keybindings_set_item(key_group, KB_FOCUS_TASKS, kb_tasks_activate,
@@ -301,7 +301,7 @@ void plugin_init(GeanyData *data)
 	keybindings_set_item(key_group, KB_XMLTAGGING, kb_ao_xmltagging,
 		0, 0, "xml_tagging", _("Run XML tagging"), NULL);
 
-	ao_enclose_words_init(ao_info->config_file, key_group);
+	ao_enclose_words_init(ao_info->config_file, key_group, KB_COUNT);
 	ao_enclose_words_set_enabled (ao_info->enable_enclose_words, ao_info->enable_enclose_words_auto);
 
 	g_key_file_free(config);

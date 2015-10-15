@@ -20,8 +20,9 @@
 #ifndef __AO_WRAPWORDS_H__
 #define __AO_WRAPWORDS_H__
 
+#define AO_WORDWRAP_KB_COUNT 8
 
-void ao_enclose_words_init(gchar *, GeanyKeyGroup *);
+void ao_enclose_words_init(gchar *, GeanyKeyGroup *, gint);
 void ao_enclose_words_config(GtkButton *, GtkWidget *);
 void ao_enclose_words_set_enabled(gboolean, gboolean);
 
