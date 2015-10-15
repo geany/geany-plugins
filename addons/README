@@ -91,6 +91,13 @@ then be linked to a keybinding (e.g. set [ and ] to be Enclose Pair 1 and the
 keybinding to ctrl+[ , highlight some text and press ctrl+[ to surround the
 selected text in brackets).
 
+*Copy File Path*
+^^^^^^^^^^^^^^^^
+Simple extension to easily copy the full path of the current file
+to the clipboard for further use.
+The action can be triggered by a keyboard shortcut as well as by
+a menu item in the Tools menu.
+
 Requirements
 ------------
 
