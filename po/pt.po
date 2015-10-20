@@ -1,5 +1,5 @@
 # Portuguese translations for geany-plugins.
-# Copyright (C) 2009 - 2011 THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) 2009 - 2015 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 # André Glória, 2009 - 2011
 # Pedro Albuquerque <palbuquerque73@openmailbox.com>, 2015.
@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.25\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-25 03:19+0000\n"
-"PO-Revision-Date: 2015-06-25 06:24+0100\n"
+"POT-Creation-Date: 2015-10-20 22:46+0200\n"
+"PO-Revision-Date: 2015-10-19 13:42+0100\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@openmailbox.com>\n"
 "Language-Team: Português <palbuquerque73@openmailbox.com>\n"
 "Language: pt\n"
@@ -19,31 +19,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
-#: ../addons/src/ao_bookmarklist.c:182
+#: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
 msgstr "(Linha vazia)"
 
-#: ../addons/src/ao_bookmarklist.c:307
+#: ../addons/src/ao_bookmarklist.c:315
 msgid "_Remove Bookmark"
 msgstr "_Remover marcador"
 
 #. Translators: Number is meant at this point.
-#: ../addons/src/ao_bookmarklist.c:334
+#: ../addons/src/ao_bookmarklist.c:342
 msgid "No."
 msgstr "Não."
 
-#: ../addons/src/ao_bookmarklist.c:342 ../devhelp/src/dhp-object.c:494
+#: ../addons/src/ao_bookmarklist.c:350 ../devhelp/src/dhp-object.c:494
 #: ../devhelp/devhelp/dh-window.c:1142
 msgid "Contents"
 msgstr "Conteúdo"
 
-#: ../addons/src/ao_bookmarklist.c:375 ../treebrowser/src/treebrowser.c:624
+#: ../addons/src/ao_bookmarklist.c:383 ../treebrowser/src/treebrowser.c:624
 #: ../webhelper/src/gwh-plugin.c:329
 msgid "Bookmarks"
 msgstr "Marcadores"
 
 #. complete update
-#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2351
+#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2352
 msgid "_Update"
 msgstr "At_Ualizar"
 
@@ -134,15 +134,15 @@ msgstr "Carácter de abertura"
 msgid "Closing Character"
 msgstr "Carácter de fecho"
 
-#: ../addons/src/ao_doclist.c:207
+#: ../addons/src/ao_doclist.c:214
 msgid "Close Ot_her Documents"
 msgstr "Fec_Har os Outros Documentos"
 
-#: ../addons/src/ao_doclist.c:212
+#: ../addons/src/ao_doclist.c:219
 msgid "C_lose All"
 msgstr "Fechar _Todos"
 
-#: ../addons/src/ao_doclist.c:242
+#: ../addons/src/ao_doclist.c:249
 msgid "Show Document List"
 msgstr "Mostrar lista de documentos"
 
@@ -172,8 +172,8 @@ msgstr "Concluir etiquetas XML"
 
 #: ../addons/src/addons.c:417 ../autoclose/src/autoclose.c:885
 #: ../codenav/src/codenavigation.c:293 ../geanylatex/src/geanylatex.c:241
-#: ../geanyprj/src/geanyprj.c:174 ../geanysendmail/src/geanysendmail.c:123
-#: ../geanysendmail/src/geanysendmail.c:291 ../geanyvc/src/geanyvc.c:1854
+#: ../geanyprj/src/geanyprj.c:174 ../geanysendmail/src/geanysendmail.c:125
+#: ../geanysendmail/src/geanysendmail.c:290 ../geanyvc/src/geanyvc.c:1854
 #: ../geniuspaste/src/geniuspaste.c:140 ../spellcheck/src/scplugin.c:153
 #: ../treebrowser/src/treebrowser.c:1938
 #: ../updatechecker/src/updatechecker.c:267
@@ -623,11 +623,11 @@ msgstr "Integração de vários depuradores"
 msgid "Debug"
 msgstr "Depuração"
 
-#: ../debugger/src/vtree.c:173 ../debugger/src/envtree.c:417
+#: ../debugger/src/vtree.c:173 ../debugger/src/envtree.c:425
 msgid "Name"
 msgstr "Nome"
 
-#: ../debugger/src/vtree.c:196 ../debugger/src/envtree.c:422
+#: ../debugger/src/vtree.c:196 ../debugger/src/envtree.c:430
 msgid "Value"
 msgstr "Valor"
 
@@ -660,7 +660,7 @@ msgid "Environment Variables"
 msgstr "Variáveis de ambiente"
 
 #. if name is empty - offer to delete variable
-#: ../debugger/src/envtree.c:260 ../debugger/src/envtree.c:364
+#: ../debugger/src/envtree.c:260 ../debugger/src/envtree.c:366
 #: ../debugger/src/debug.c:264
 msgid "Delete variable?"
 msgstr "Eliminar variável?"
@@ -841,7 +841,7 @@ msgstr "Modo de duplo painel"
 msgid "Continue"
 msgstr "Continuar"
 
-#: ../debugger/src/dconfig.c:673
+#: ../debugger/src/dconfig.c:674
 msgid "Save debug session data to a project"
 msgstr "Gravar dados da sessão de depuração de um projeto"
 
@@ -1255,30 +1255,29 @@ msgid "Process execution failed (%s)"
 msgstr "Falha na execução do processo (%s)"
 
 #: ../geanyctags/src/geanyctags.c:517
-#: ../projectorganizer/src/prjorg-sidebar.c:423
-#: ../projectorganizer/src/prjorg-sidebar.c:1365
+#: ../projectorganizer/src/prjorg-sidebar.c:443
 msgid "Find Tag"
 msgstr "Localizar etiqueta"
 
 #: ../geanyctags/src/geanyctags.c:528 ../geanymacro/src/geanymacro.c:1424
 #: ../projectorganizer/src/prjorg-sidebar.c:128
-#: ../projectorganizer/src/prjorg-sidebar.c:434
+#: ../projectorganizer/src/prjorg-sidebar.c:454
 msgid "Search for:"
 msgstr "Procurar por:"
 
 #: ../geanyctags/src/geanyctags.c:546
-#: ../projectorganizer/src/prjorg-sidebar.c:452
+#: ../projectorganizer/src/prjorg-sidebar.c:472
 msgid "Match type:"
 msgstr "Comparar tipo:"
 
 #: ../geanyctags/src/geanyctags.c:562
 #: ../projectorganizer/src/prjorg-sidebar.c:156
-#: ../projectorganizer/src/prjorg-sidebar.c:480
+#: ../projectorganizer/src/prjorg-sidebar.c:500
 msgid "C_ase sensitive"
 msgstr "Sensível a  m_Aiúsculas"
 
 #: ../geanyctags/src/geanyctags.c:565
-#: ../projectorganizer/src/prjorg-sidebar.c:483
+#: ../projectorganizer/src/prjorg-sidebar.c:503
 msgid "_Declaration"
 msgstr "_Declaração"
 
@@ -3757,7 +3756,7 @@ msgstr "_Aceitar"
 
 #: ../geanymacro/src/geanymacro.c:1394 ../geanymacro/src/geanymacro.c:1537
 #: ../geanymacro/src/geanymacro.c:1827
-#: ../projectorganizer/src/prjorg-sidebar.c:292
+#: ../projectorganizer/src/prjorg-sidebar.c:300
 msgid "_Cancel"
 msgstr "_Cancelar"
 
@@ -4515,11 +4514,11 @@ msgstr "Localizar no projeto"
 msgid "Remove File"
 msgstr "Remover ficheiro"
 
-#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1389
+#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1417
 msgid "H_ide Sidebar"
 msgstr "Ocultar barra _Lateral"
 
-#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1410
+#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1439
 msgid "Project"
 msgstr "Projeto"
 
@@ -4590,13 +4589,13 @@ msgstr "Endereço de destino"
 msgid "Enter the recipient's e-mail address:"
 msgstr "Introduza o endereço eletrónico de destino:"
 
-#: ../geanysendmail/src/geanysendmail.c:138
+#: ../geanysendmail/src/geanysendmail.c:140
 msgid "Filename placeholder not found. The executed command might have failed."
 msgstr ""
 "O espaço reservado para o nome do ficheiro não foi encontrado. O comando "
 "executado pode ter falhado."
 
-#: ../geanysendmail/src/geanysendmail.c:144
+#: ../geanysendmail/src/geanysendmail.c:146
 msgid ""
 "Recipient address placeholder not found. The executed command might have "
 "failed."
@@ -4604,34 +4603,34 @@ msgstr ""
 "O espaço reservado para o endereço eletrónico de destino não encontrado. O "
 "comando executado pode ter falhado."
 
-#: ../geanysendmail/src/geanysendmail.c:159
+#: ../geanysendmail/src/geanysendmail.c:160
 msgid "Could not execute mailer. Please check your configuration."
 msgstr ""
 "Impossível executar a aplicação de correio. Por favor, verifique a "
 "configuração."
 
-#: ../geanysendmail/src/geanysendmail.c:168
+#: ../geanysendmail/src/geanysendmail.c:169
 msgid "Please define a mail client first."
 msgstr "Por favor, defina uma aplicação de correio eletrónico primeiro."
 
-#: ../geanysendmail/src/geanysendmail.c:173
+#: ../geanysendmail/src/geanysendmail.c:174
 msgid "File has to be saved before sending."
 msgstr "O ficheiro tem de ser gravado antes de ser enviado."
 
-#: ../geanysendmail/src/geanysendmail.c:191
+#: ../geanysendmail/src/geanysendmail.c:190
 msgid "Mail"
 msgstr "Correio"
 
-#: ../geanysendmail/src/geanysendmail.c:222
+#: ../geanysendmail/src/geanysendmail.c:221
 msgid "Send by mail"
 msgstr "Enviar por correio"
 
 #. add a label and a text entry to the dialog
-#: ../geanysendmail/src/geanysendmail.c:312
+#: ../geanysendmail/src/geanysendmail.c:311
 msgid "Path and options for the mail client:"
 msgstr "Caminho e opções para a aplicação de correio:"
 
-#: ../geanysendmail/src/geanysendmail.c:320
+#: ../geanysendmail/src/geanysendmail.c:319
 msgid ""
 "Note: \n"
 "\t%f will be replaced by your file.\n"
@@ -4649,29 +4648,29 @@ msgstr ""
 "\tsylpheed --attach \"%f\" --compose \"%r\"\n"
 "\tmutt -s \"A enviar '%b'\" -a \"%f\" \"%r\""
 
-#: ../geanysendmail/src/geanysendmail.c:330
+#: ../geanysendmail/src/geanysendmail.c:329
 msgid "Show toolbar icon"
 msgstr "Mostrar ícone da barra de ferramentas"
 
-#: ../geanysendmail/src/geanysendmail.c:332
+#: ../geanysendmail/src/geanysendmail.c:331
 msgid "Shows a icon in the toolbar to send file more easy."
 msgstr ""
 "Mostra um ícone na barra de ferramentas para facilitar o envio de ficheiros."
 
-#: ../geanysendmail/src/geanysendmail.c:338
+#: ../geanysendmail/src/geanysendmail.c:337
 msgid "Use dialog for entering email address of recipients"
 msgstr "Usar diálogo para inserir os endereços eletrónicos de destino"
 
-#: ../geanysendmail/src/geanysendmail.c:360
+#: ../geanysendmail/src/geanysendmail.c:359
 msgid "Send file by mail"
 msgstr "Enviar ficheiro por correio"
 
 #. Build up menu entry
-#: ../geanysendmail/src/geanysendmail.c:383
+#: ../geanysendmail/src/geanysendmail.c:382
 msgid "_Mail document"
 msgstr "Enviar o docu_Mento"
 
-#: ../geanysendmail/src/geanysendmail.c:386
+#: ../geanysendmail/src/geanysendmail.c:385
 msgid ""
 "Sends the opened file as unzipped attachment by any mailer from your $PATH"
 msgstr ""
@@ -5036,33 +5035,33 @@ msgstr "Reverter pasta base"
 msgid "Update file"
 msgstr "Atualizar ficheiro"
 
-#: ../geanyvc/src/geanyvc.c:2316
+#: ../geanyvc/src/geanyvc.c:2317
 msgid "_VC"
 msgstr "C_V"
 
-#: ../geanyvc/src/geanyvc.c:2322
+#: ../geanyvc/src/geanyvc.c:2323
 msgid "_Version Control"
 msgstr "Controlo de _Versão"
 
 #. Status of basedir
-#: ../geanyvc/src/geanyvc.c:2344
+#: ../geanyvc/src/geanyvc.c:2345
 msgid "_Status"
 msgstr "E_stado"
 
-#: ../geanyvc/src/geanyvc.c:2346
+#: ../geanyvc/src/geanyvc.c:2347
 msgid "Show status."
 msgstr "Mostrar estado."
 
-#: ../geanyvc/src/geanyvc.c:2353
+#: ../geanyvc/src/geanyvc.c:2354
 msgid "Update from remote repository."
 msgstr "Atualizar a partir de repositório remoto."
 
 #. Commit all changes
-#: ../geanyvc/src/geanyvc.c:2358
+#: ../geanyvc/src/geanyvc.c:2359
 msgid "_Commit"
 msgstr "_Submeter"
 
-#: ../geanyvc/src/geanyvc.c:2360
+#: ../geanyvc/src/geanyvc.c:2361
 msgid "Commit changes."
 msgstr "Submeter alterações."
 
@@ -5158,38 +5157,38 @@ msgstr "Linhas _Removidas:"
 msgid "Colors"
 msgstr "Cores"
 
-#: ../git-changebar/src/gcb-plugin.c:50
+#: ../git-changebar/src/gcb-plugin.c:59
 msgid "Git Change Bar"
 msgstr "Barra de alteração Git"
 
-#: ../git-changebar/src/gcb-plugin.c:51
+#: ../git-changebar/src/gcb-plugin.c:60
 msgid "Highlights uncommitted changes in files tracked with Git"
 msgstr "Realça alterações não submetidas em ficheiros monitorizados com Git"
 
-#: ../git-changebar/src/gcb-plugin.c:1108 ../pohelper/src/gph-plugin.c:1577
+#: ../git-changebar/src/gcb-plugin.c:1126 ../pohelper/src/gph-plugin.c:1577
 #, c-format
 msgid "Failed to load configuration file: %s"
 msgstr "Falha ao carregar ficheiro de configuração: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1133 ../pohelper/src/gph-plugin.c:1602
+#: ../git-changebar/src/gcb-plugin.c:1151 ../pohelper/src/gph-plugin.c:1602
 #, c-format
 msgid "Failed to create configuration directory \"%s\": %s"
 msgstr "Falha ao criar pasta de configuração \"%s\": %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1136 ../pohelper/src/gph-plugin.c:1605
+#: ../git-changebar/src/gcb-plugin.c:1154 ../pohelper/src/gph-plugin.c:1605
 #, c-format
 msgid "Failed to save configuration file: %s"
 msgstr "Falha ao gravar ficheiro de configuração: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1214
+#: ../git-changebar/src/gcb-plugin.c:1233
 msgid "Go to the previous hunk"
 msgstr "Ir para o bocado anterior"
 
-#: ../git-changebar/src/gcb-plugin.c:1216
+#: ../git-changebar/src/gcb-plugin.c:1235
 msgid "Go to the next hunk"
 msgstr "Ir para o bocado seguinte"
 
-#: ../git-changebar/src/gcb-plugin.c:1341 ../pohelper/src/gph-plugin.c:1373
+#: ../git-changebar/src/gcb-plugin.c:1360 ../pohelper/src/gph-plugin.c:1373
 #: ../pohelper/src/gph-plugin.c:1706
 #, c-format
 msgid ""
@@ -5683,47 +5682,47 @@ msgstr ""
 "Árvore do ficheiro de projeto, procura e indexação a nível de projeto, "
 "opções extra de navegação (era GProject)"
 
-#: ../projectorganizer/src/prjorg-menu.c:372
-msgid "Find in Project Files"
-msgstr "Localizar em ficheiros de projeto"
+#: ../projectorganizer/src/prjorg-menu.c:386
+msgid "Find in Project Files..."
+msgstr "Localizar em ficheiros de projeto..."
 
-#: ../projectorganizer/src/prjorg-menu.c:378
+#: ../projectorganizer/src/prjorg-menu.c:392
 msgid "Find in project files"
 msgstr "Localizar em ficheiros de projeto"
 
-#: ../projectorganizer/src/prjorg-menu.c:382
-msgid "Find Project File"
-msgstr "Localizar ficheiro de projeto"
+#: ../projectorganizer/src/prjorg-menu.c:396
+msgid "Find Project File..."
+msgstr "Localizar ficheiro de projeto..."
 
-#: ../projectorganizer/src/prjorg-menu.c:388
+#: ../projectorganizer/src/prjorg-menu.c:402
 msgid "Find project file"
 msgstr "Localizar ficheiro de projeto"
 
-#: ../projectorganizer/src/prjorg-menu.c:392
-msgid "Find Project Tag"
-msgstr "Localizar etiqueta de projeto"
+#: ../projectorganizer/src/prjorg-menu.c:406
+msgid "Find Project Tag..."
+msgstr "Localizar etiqueta de projeto..."
 
-#: ../projectorganizer/src/prjorg-menu.c:398
+#: ../projectorganizer/src/prjorg-menu.c:412
 msgid "Find project tag"
 msgstr "Localizar etiqueta de projeto"
 
-#: ../projectorganizer/src/prjorg-menu.c:400
+#: ../projectorganizer/src/prjorg-menu.c:414
 msgid "Swap Header/Source"
 msgstr "Trocar cabeçalho/código"
 
-#: ../projectorganizer/src/prjorg-menu.c:405
+#: ../projectorganizer/src/prjorg-menu.c:419
 msgid "Swap header/source"
 msgstr "Trocar cabeçalho/código"
 
-#: ../projectorganizer/src/prjorg-menu.c:411
+#: ../projectorganizer/src/prjorg-menu.c:425
 msgid "Open Selected File (Project Organizer)"
 msgstr "Abrir ficheiro selecionado (Organizador de projeto)"
 
-#: ../projectorganizer/src/prjorg-project.c:551
+#: ../projectorganizer/src/prjorg-project.c:586
 msgid "Source patterns:"
 msgstr "Padrões de fontes:"
 
-#: ../projectorganizer/src/prjorg-project.c:557
+#: ../projectorganizer/src/prjorg-project.c:592
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
 "Used for header/source swapping."
@@ -5731,11 +5730,11 @@ msgstr ""
 "Lista de padrões separados por espaços, usados para identificar ficheiros "
 "fonte. Usado para trocas entre cabeçalho/fonte."
 
-#: ../projectorganizer/src/prjorg-project.c:563
+#: ../projectorganizer/src/prjorg-project.c:598
 msgid "Header patterns:"
 msgstr "Padrões de ficheiros de cabeçalhos:"
 
-#: ../projectorganizer/src/prjorg-project.c:569
+#: ../projectorganizer/src/prjorg-project.c:604
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
 "header/source swapping."
@@ -5743,11 +5742,11 @@ msgstr ""
 "Lista de padrões separados por espaços, usados para identificar cabeçalhos. "
 "Usado para trocas entre cabeçalho/fonte."
 
-#: ../projectorganizer/src/prjorg-project.c:575
+#: ../projectorganizer/src/prjorg-project.c:610
 msgid "Ignored file patterns:"
 msgstr "Padrões de ficheiro a ignorar:"
 
-#: ../projectorganizer/src/prjorg-project.c:581
+#: ../projectorganizer/src/prjorg-project.c:616
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
 "not displayed in the project tree."
@@ -5755,11 +5754,11 @@ msgstr ""
 "Lista de padrões separados por espaços, usados para identificar ficheiros "
 "que não são mostrados na árvore do projeto."
 
-#: ../projectorganizer/src/prjorg-project.c:587
+#: ../projectorganizer/src/prjorg-project.c:622
 msgid "Ignored directory patterns:"
 msgstr "Padrões de pasta a ignorar:"
 
-#: ../projectorganizer/src/prjorg-project.c:593
+#: ../projectorganizer/src/prjorg-project.c:628
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
@@ -5767,23 +5766,23 @@ msgstr ""
 "Lista separada por espaços, de padrões a ser usados para identificar "
 "diretórios onde não se procurarão ficheiros de código."
 
-#: ../projectorganizer/src/prjorg-project.c:599
+#: ../projectorganizer/src/prjorg-project.c:634
 msgid "Generate tags for all project files:"
 msgstr "Gerar etiquetas para todos os ficheiros do projeto:"
 
-#: ../projectorganizer/src/prjorg-project.c:602
+#: ../projectorganizer/src/prjorg-project.c:637
 msgid "Auto (generate if less than 300 files)"
 msgstr "Automático (gerar se menos de 300 ficheiros)"
 
-#: ../projectorganizer/src/prjorg-project.c:603
+#: ../projectorganizer/src/prjorg-project.c:638
 msgid "Yes"
 msgstr "Sim"
 
-#: ../projectorganizer/src/prjorg-project.c:604
+#: ../projectorganizer/src/prjorg-project.c:639
 msgid "No"
 msgstr "Não"
 
-#: ../projectorganizer/src/prjorg-project.c:608
+#: ../projectorganizer/src/prjorg-project.c:643
 msgid ""
 "Generate tag list for all project files instead of only for the currently "
 "opened files. Might be slow for big projects."
@@ -5791,7 +5790,7 @@ msgstr ""
 "Gerar lista de etiquetas para todos os ficheiros do projeto e não só para os "
 "atualmente abertos. Pode ser lento para projetos grandes."
 
-#: ../projectorganizer/src/prjorg-project.c:614
+#: ../projectorganizer/src/prjorg-project.c:649
 msgid ""
 "Note: the patterns above affect only the sidebar and are not used in the "
 "Find in Files\n"
@@ -5808,12 +5807,11 @@ msgstr ""
 "Localizar em ficheiros)."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:117
-#: ../projectorganizer/src/prjorg-sidebar.c:1356
 msgid "Find File"
 msgstr "Procurar ficheiro"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:144
-#: ../projectorganizer/src/prjorg-sidebar.c:468
+#: ../projectorganizer/src/prjorg-sidebar.c:488
 msgid "Search inside:"
 msgstr "Procurar dentro:"
 
@@ -5822,68 +5820,76 @@ msgid "Search in full path"
 msgstr "Procurar em caminho completo"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:170
-#: ../projectorganizer/src/prjorg-sidebar.c:623
+#: ../projectorganizer/src/prjorg-sidebar.c:652
 msgid "project or external directory"
 msgstr "projeto ou pasta externa"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:290
+#: ../projectorganizer/src/prjorg-sidebar.c:298
 msgid "Add External Directory"
 msgstr "Adicionar pasta externa"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:293
+#: ../projectorganizer/src/prjorg-sidebar.c:301
 msgid "Add"
 msgstr "Adicionar"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:457
+#: ../projectorganizer/src/prjorg-sidebar.c:477
 msgid "exact"
 msgstr "exato"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:458
+#: ../projectorganizer/src/prjorg-sidebar.c:478
 msgid "prefix"
 msgstr "prefixo"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:459
+#: ../projectorganizer/src/prjorg-sidebar.c:479
 msgid "pattern"
 msgstr "padrão"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1034
+#: ../projectorganizer/src/prjorg-sidebar.c:1063
 msgid "Set file patterns under Project->Properties"
 msgstr "Definir padrões de ficheiros sob Projeto -> Propriedades"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1246
+#: ../projectorganizer/src/prjorg-sidebar.c:1274
 msgid "Reload all"
 msgstr "Recarregar todos"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1255
+#: ../projectorganizer/src/prjorg-sidebar.c:1283
 msgid "Add external directory"
 msgstr "Adicionar pasta externa"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1265
+#: ../projectorganizer/src/prjorg-sidebar.c:1293
 #: ../treebrowser/src/treebrowser.c:1282
 msgid "Expand all"
 msgstr "Expandir tudo"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1272
+#: ../projectorganizer/src/prjorg-sidebar.c:1300
 msgid "Collapse to project root"
 msgstr "Colapsar para a raíz do projeto"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1283
+#: ../projectorganizer/src/prjorg-sidebar.c:1311
 msgid "Follow active editor"
 msgstr "Seguir o editor ativo"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1329
+#: ../projectorganizer/src/prjorg-sidebar.c:1357
 msgid "Open a project to start using the plugin"
 msgstr "Abrir um projeto para começar a usar a extensão"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1338
+#: ../projectorganizer/src/prjorg-sidebar.c:1366
 msgid "Expand All"
 msgstr "Expandir tudo"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1347
-msgid "Find in Files"
-msgstr "Localizar em ficheiros"
+#: ../projectorganizer/src/prjorg-sidebar.c:1375
+msgid "Find in Files..."
+msgstr "Localizar em ficheiros..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1378
+#: ../projectorganizer/src/prjorg-sidebar.c:1384
+msgid "Find File..."
+msgstr "Procurar ficheiro..."
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1393
+msgid "Find Tag..."
+msgstr "Localizar etiqueta..."
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1406
 msgid "Remove External Directory"
 msgstr "Remover pasta externa"
 
@@ -6456,8 +6462,7 @@ msgstr "Terminal de Feed"
 msgid "Enter char # (0..255):"
 msgstr "Insira carácter # (0..255):"
 
-#: ../scope/src/conterm.c:512 ../scope/src/scope.c:550
-#: ../scope/src/scope.c:551
+#: ../scope/src/conterm.c:512 ../scope/src/scope.c:550 ../scope/src/scope.c:551
 #, c-format
 msgid "Scope: %s."
 msgstr "Âmbito: %s."
