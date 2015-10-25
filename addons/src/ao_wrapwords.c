@@ -143,7 +143,7 @@ gboolean on_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data
  * Loads the enclosing characters from the config file and sets keybindings.
  */
 
-void ao_enclose_words_init (gchar *config_file_name, GeanyKeyGroup *key_group)
+void ao_enclose_words_init (gchar *config_file_name, GeanyKeyGroup *key_group, gint ao_kb_count)
 {
 	GKeyFile *config = g_key_file_new();
 	gchar key_name[] = "Enclose_x";
@@ -152,14 +152,13 @@ void ao_enclose_words_init (gchar *config_file_name, GeanyKeyGroup *key_group)
 	config_file = g_strdup (config_file_name);
 	g_key_file_load_from_file (config, config_file, G_KEY_FILE_NONE, NULL);
 
-	for (i = 0; i < 8; i++)
+	for (i = 0; i < AO_WORDWRAP_KB_COUNT; i++)
 	{
 		key_name [8] = (gchar) (i + '0');
 		enclose_chars [i] = utils_get_setting_string (config, "addons", key_name, "  ");
 		key_name [8] = (gchar) ((i + 1) + '0');
-		keybindings_set_item (key_group, i+4, (GeanyKeyCallback) enclose_text_action, 0, 0, key_name,
-			key_name, NULL);
-
+		keybindings_set_item (key_group, i + ao_kb_count,
+			(GeanyKeyCallback) enclose_text_action, 0, 0, key_name, key_name, NULL);
 	}
 
 	g_key_file_free(config);

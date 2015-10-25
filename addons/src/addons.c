@@ -38,6 +38,7 @@
 #include "ao_tasks.h"
 #include "ao_xmltagging.h"
 #include "ao_wrapwords.h"
+#include "ao_copyfilepath.h"
 
 
 GeanyPlugin		*geany_plugin;
@@ -62,6 +63,7 @@ enum
 	KB_FOCUS_TASKS,
 	KB_UPDATE_TASKS,
 	KB_XMLTAGGING,
+	KB_COPYFILEPATH,
 	KB_COUNT
 };
 
@@ -93,6 +95,7 @@ typedef struct
 	AoBookmarkList *bookmarklist;
 	AoMarkWord *markword;
 	AoTasks *tasks;
+	AoCopyFilePath *copyfilepath;
 } AddonsInfo;
 static AddonsInfo *ao_info = NULL;
 
@@ -153,6 +156,7 @@ static void kb_tasks_update(guint key_id)
 	ao_tasks_update(ao_info->tasks, NULL);
 }
 
+
 static void kb_ao_xmltagging(guint key_id)
 {
 	if (ao_info->enable_xmltagging == TRUE)
@@ -160,6 +164,13 @@ static void kb_ao_xmltagging(guint key_id)
 		ao_xmltagging();
 	}
 }
+
+
+static void kb_ao_copyfilepath(guint key_id)
+{
+	ao_copy_file_path_copy(ao_info->copyfilepath);
+}
+
 
 gboolean ao_editor_notify_cb(GObject *object, GeanyEditor *editor,
 							 SCNotification *nt, gpointer data)
@@ -243,6 +254,7 @@ GtkWidget *ao_image_menu_item_new(const gchar *stock_id, const gchar *label)
 void plugin_init(GeanyData *data)
 {
 	GKeyFile *config = g_key_file_new();
+	GtkWidget *ao_copy_file_path_menu_item;
 	GeanyKeyGroup *key_group;
 
 	ao_info = g_new0(AddonsInfo, 1);
@@ -287,11 +299,12 @@ void plugin_init(GeanyData *data)
 	ao_info->markword = ao_mark_word_new(ao_info->enable_markword);
 	ao_info->tasks = ao_tasks_new(ao_info->enable_tasks,
 						ao_info->tasks_token_list, ao_info->tasks_scan_all_documents);
+	ao_info->copyfilepath = ao_copy_file_path_new();
 
 	ao_blanklines_set_enable(ao_info->strip_trailing_blank_lines);
 
 	/* setup keybindings */
-	key_group = plugin_set_key_group(geany_plugin, "addons", KB_COUNT+8, NULL);
+	key_group = plugin_set_key_group(geany_plugin, "addons", KB_COUNT + AO_WORDWRAP_KB_COUNT, NULL);
 	keybindings_set_item(key_group, KB_FOCUS_BOOKMARK_LIST, kb_bmlist_activate,
 		0, 0, "focus_bookmark_list", _("Focus Bookmark List"), NULL);
 	keybindings_set_item(key_group, KB_FOCUS_TASKS, kb_tasks_activate,
@@ -300,8 +313,11 @@ void plugin_init(GeanyData *data)
 		0, 0, "update_tasks", _("Update Tasks List"), NULL);
 	keybindings_set_item(key_group, KB_XMLTAGGING, kb_ao_xmltagging,
 		0, 0, "xml_tagging", _("Run XML tagging"), NULL);
+	ao_copy_file_path_menu_item = ao_copy_file_path_get_menu_item(ao_info->copyfilepath);
+	keybindings_set_item(key_group, KB_COPYFILEPATH, kb_ao_copyfilepath,
+		0, 0, "copy_file_path", _("Copy File Path"), ao_copy_file_path_menu_item);
 
-	ao_enclose_words_init(ao_info->config_file, key_group);
+	ao_enclose_words_init(ao_info->config_file, key_group, KB_COUNT);
 	ao_enclose_words_set_enabled (ao_info->enable_enclose_words, ao_info->enable_enclose_words_auto);
 
 	g_key_file_free(config);
@@ -615,6 +631,7 @@ void plugin_cleanup(void)
 	g_object_unref(ao_info->bookmarklist);
 	g_object_unref(ao_info->markword);
 	g_object_unref(ao_info->tasks);
+	g_object_unref(ao_info->copyfilepath);
 	g_free(ao_info->tasks_token_list);
 
 	ao_blanklines_set_enable(FALSE);
