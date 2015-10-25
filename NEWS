@@ -1,5 +1,21 @@
 Geany Plugins 1.26 (not release yet)
 
+    General:
+
+    Addons:
+    * Add new feature to copy path of current file into clipboard
+    * Improve refreshing behaviour of TODO list
+    * Improve Gtk3 support of plugin
+
+    Multiterm:
+    * Make a lot of strings translateable
+
+    Scope:
+
+    Spellcheck:
+    * Add an option to show spelling suggestion on top of the context
+      menu instead of an submenu (still default)
+
     Internationalization:
     * Update translations: de, pt
 
@@ -12,6 +28,7 @@ Geany Plugins 1.25 (2015-07-12)
     * New plugin GeanyCtags
     * New plugin GitChangeBar
     * New plugin Overview
+    * Fix plugin deinstallation under Windows
 
     Addons:
     * Improve URI selection
