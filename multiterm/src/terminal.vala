@@ -85,7 +85,7 @@ namespace MultiTerm
 			}
 			catch (Error err)
 			{
-				warning("Unable to run command: %s", err.message);
+				warning(_("Unable to run command: %s"), err.message);
 			}
 		}
 

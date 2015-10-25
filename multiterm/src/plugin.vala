@@ -27,6 +27,9 @@ public Plugin		geany_plugin;
 public Data			geany_data;
 public Functions	geany_functions;
 
+extern const string LOCALEDIR;
+extern const string GETTEXT_PACKAGE;
+
 /* Widgets to clean up when the plugin is unloaded */
 private List<Widget> toplevel_widgets = null;
 
@@ -39,8 +42,9 @@ public int plugin_version_check(int abi_version)
 /* Geany calls this to get some info about the plugin */
 public void plugin_set_info(Plugin.Info info)
 {
-	info.set("MultiTerm",
-			 "Multi-tabbed virtual terminal emulator.",
+	Main.locale_init (LOCALEDIR, GETTEXT_PACKAGE);
+	info.set(_("MultiTerm"),
+			 _("Multi-tabbed virtual terminal emulator."),
 			 "0.1", "Matthew Brush <matt@geany.org>");
 }
 
@@ -71,7 +75,7 @@ public void plugin_init(Geany.Data data)
 	}
 	catch (FileError err)
 	{
-		warning("Unable to write default config file: %s", err.message);
+		warning(_("Unable to write default config file: %s"), err.message);
 	}
 
 	/* Setup the widgets */
@@ -81,7 +85,7 @@ public void plugin_init(Geany.Data data)
 	align.show_all();
 	toplevel_widgets.append(align);
 
-	label = new Label("MultiTerm");
+	label = new Label(_("MultiTerm"));
 	notebook.set_data<Label>("label", label);
 	notebook.set_data<Gtk.Notebook>("msgwin_notebook", data.main_widgets.message_window_notebook);
 	notebook.set_data<Gtk.Notebook>("sidebar_notebook", data.main_widgets.sidebar_notebook);

@@ -49,13 +49,13 @@ namespace MultiTerm
 		{
 			if (item.get_data<bool>("location_is_msgwin"))
 			{
-				item.set_label("Move to message window");
+				item.set_label(_("Move to message window"));
 				item.set_data<bool>("location_is_msgwin", false);
 				move_to_location_activate("sidebar");
 			}
 			else
 			{
-				item.set_label("Move to sidebar");
+				item.set_label(_("Move to sidebar"));
 				item.set_data<bool>("location_is_msgwin", true);
 				move_to_location_activate("msgwin");
 			}
@@ -78,7 +78,7 @@ namespace MultiTerm
 			menu = new Gtk.Menu();
 			menu.show();
 
-			item = new Gtk.MenuItem.with_label("Open Tab");
+			item = new Gtk.MenuItem.with_label(_("Open Tab"));
 			item.set_submenu(menu);
 			item.show();
 			this.append(item);
@@ -93,19 +93,19 @@ namespace MultiTerm
 				item.show();
 			}
 
-			item = new Gtk.MenuItem.with_label("Open Window");
+			item = new Gtk.MenuItem.with_label(_("Open Window"));
 			item.activate.connect(() => new_window_activate());
 			this.append(item);
 			item.show();
 
 			add_separator();
 
-			item = new Gtk.MenuItem.with_label("Next tab");
+			item = new Gtk.MenuItem.with_label(_("Next tab"));
 			item.activate.connect(() => on_next_previous_tab_activate(item, true));
 			//this.append(item);
 			//item.show();
 
-			item = new Gtk.MenuItem.with_label("Previous tab");
+			item = new Gtk.MenuItem.with_label(_("Previous tab"));
 			item.activate.connect(() => on_next_previous_tab_activate(item, false));
 			//this.append(item);
 			//item.show();
@@ -124,7 +124,7 @@ namespace MultiTerm
 
 			//add_separator();
 
-			check_item = new CheckMenuItem.with_label("Show Tabs");
+			check_item = new CheckMenuItem.with_label(_("Show Tabs"));
 			check_item.active = cfg.show_tabs;
 			check_item.activate.connect(() => on_show_tabs_activate(check_item));
 			this.append(check_item);
@@ -132,12 +132,12 @@ namespace MultiTerm
 
 			if (cfg.location == "msgwin")
 			{
-				item = new Gtk.MenuItem.with_label("Move to sidebar");
+				item = new Gtk.MenuItem.with_label(_("Move to sidebar"));
 				item.set_data<bool>("location_is_msgwin", true);
 			}
 			else
 			{
-				item = new Gtk.MenuItem.with_label("Move to message window");
+				item = new Gtk.MenuItem.with_label(_("Move to message window"));
 				item.set_data<bool>("location_is_msgwin", false);
 			}
 			item.activate.connect(() => on_move_to_location(item));

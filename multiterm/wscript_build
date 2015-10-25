@@ -47,6 +47,8 @@ def build_vala_plugin(ctx, name, sources, vapi_dirs=None, packages=None,
                      vapi_dirs = vapi_dirs,
                      use = libraries,
                      vala_defines = [ 'G_LOG_DOMAIN="%s"' % log_domain ],
+                     defines = [ 'GETTEXT_PACKAGE="%s"' % ctx.env['GETTEXT_PACKAGE'],
+                                 'LOCALEDIR="%s"' % ctx.env['LOCALEDIR'] ],
                      install_path = install_path)
 
     install_docs(ctx, plugin_name,

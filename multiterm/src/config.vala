@@ -44,7 +44,7 @@ namespace MultiTerm
 			}
 			catch (FileError err)
 			{
-				warning("Unable to save config file %s: %s", _filename, err.message);
+				warning(_("Unable to save config file %s: %s"), _filename, err.message);
 				return true;
 			}
 		}
@@ -82,11 +82,11 @@ namespace MultiTerm
 			}
 			catch (KeyFileError err)
 			{
-				warning("Unable to load config file %s: %s", _filename, err.message);
+				warning(_("Unable to load config file %s: %s"), _filename, err.message);
 			}
 			catch (FileError err)
 			{
-				warning("Unable to load config file %s: %s", _filename, err.message);
+				warning(_("Unable to load config file %s: %s"), _filename, err.message);
 			}
 		}
 
