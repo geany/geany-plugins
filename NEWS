@@ -11,6 +11,8 @@ Geany Plugins 1.26 (not release yet)
     * Make a lot of strings translateable
 
     Scope:
+    * Use Geany spawn: maximum GDB line length fixed to 1MB, no CPU
+      time wasted when IDLE under Windows, 3 preferences deleted.
 
     Spellcheck:
     * Add an option to show spelling suggestion on top of the context
