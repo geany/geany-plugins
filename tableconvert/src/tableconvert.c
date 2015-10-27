@@ -292,7 +292,7 @@ void convert_to_table(gboolean header, gint file_type)
 		else
 		{
 			/* OK. Something went not as expected.
-			 * We did have a selection but cannot parse it into rows.
+			 * We do have a selection but cannot parse it into rows.
 			 * Aborting */
 			g_warning(_("Something went wrong on parsing selection. Aborting"));
 			return;
