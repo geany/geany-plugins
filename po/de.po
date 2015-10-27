@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.25\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-25 12:15+0100\n"
+"POT-Creation-Date: 2015-10-27 23:00+0100\n"
 "PO-Revision-Date: 2015-07-11 02:11+0200\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -156,6 +156,7 @@ msgid "Show Document List"
 msgstr "Dokumentenliste anzeigen"
 
 #: ../addons/src/ao_copyfilepath.c:104
+#, c-format
 msgid "File path \"%s\" copied to clipboard."
 msgstr "Dateipfad »%s« in die Zwischenablage kopiert."
 
@@ -5322,6 +5323,107 @@ msgstr "Markdown-Vorschau"
 msgid "The current document does not have a Markdown filetype."
 msgstr "Das aktuelle Dokument ist nicht vom Markdown-Dateityp."
 
+#: ../multiterm/src/config.vala:47 ../multiterm/src/config.c:133
+#, fuzzy, c-format
+msgid "Unable to save config file %s: %s"
+msgstr "Konnte Konfiguration nicht speichern: %s"
+
+#: ../multiterm/src/config.vala:85 ../multiterm/src/config.vala:89
+#: ../multiterm/src/config.c:370 ../multiterm/src/config.c:387
+#, fuzzy, c-format
+msgid "Unable to load config file %s: %s"
+msgstr "Konnte Konfiguration nicht laden: %s"
+
+#: ../multiterm/src/context-menu.vala:52 ../multiterm/src/context-menu.vala:140
+#: ../multiterm/src/context-menu.c:134 ../multiterm/src/context-menu.c:546
+#, fuzzy
+msgid "Move to message window"
+msgstr "Meldungsfenster"
+
+#: ../multiterm/src/context-menu.vala:58 ../multiterm/src/context-menu.vala:135
+#: ../multiterm/src/context-menu.c:144 ../multiterm/src/context-menu.c:535
+#, fuzzy
+msgid "Move to sidebar"
+msgstr "Seitenleiste"
+
+#: ../multiterm/src/context-menu.vala:81 ../multiterm/src/context-menu.c:385
+#, fuzzy
+msgid "Open Tab"
+msgstr "In Terminal ausführen"
+
+#: ../multiterm/src/context-menu.vala:96 ../multiterm/src/context-menu.c:471
+#, fuzzy
+msgid "Open Window"
+msgstr "_Neues Fenster"
+
+#: ../multiterm/src/context-menu.vala:103 ../multiterm/src/context-menu.c:483
+#, fuzzy
+msgid "Next tab"
+msgstr "_Nächster String"
+
+#. this.append(item);
+#. item.show();
+#: ../multiterm/src/context-menu.vala:108 ../multiterm/src/context-menu.c:490
+#, fuzzy
+msgid "Previous tab"
+msgstr "_Vorheriger String"
+
+#. this.append(image_item);
+#. image_item.show();
+#. add_separator();
+#: ../multiterm/src/context-menu.vala:127 ../multiterm/src/context-menu.c:509
+#, fuzzy
+msgid "Show Tabs"
+msgstr "Status der Arbeitskopie anzeigen"
+
+#: ../multiterm/src/notebook.vala:91 ../multiterm/src/notebook.c:236
+#, c-format
+msgid "Unable to launch external terminal: %s"
+msgstr ""
+
+#: ../multiterm/src/notebook.vala:137 ../multiterm/src/notebook.c:421
+#, fuzzy
+msgid "Unable to locate default shell in configuration file"
+msgstr "Konnte Standardkonfiguration nicht schreiben: %s"
+
+#: ../multiterm/src/notebook.vala:202 ../multiterm/src/notebook.c:646
+#, fuzzy
+msgid "New terminal"
+msgstr "Terminal anzeigen"
+
+#: ../multiterm/src/plugin.vala:46 ../multiterm/src/plugin.vala:88
+#: ../multiterm/src/plugin.c:104 ../multiterm/src/plugin.c:276
+msgid "MultiTerm"
+msgstr ""
+
+#: ../multiterm/src/plugin.vala:47 ../multiterm/src/plugin.c:105
+msgid "Multi-tabbed virtual terminal emulator."
+msgstr ""
+
+#: ../multiterm/src/plugin.vala:78 ../multiterm/src/plugin.c:242
+#, fuzzy, c-format
+msgid "Unable to write default config file: %s"
+msgstr "Konnte Standardkonfiguration nicht schreiben: %s"
+
+#: ../multiterm/src/shell-config.vala:30
+#, fuzzy, c-format
+msgid "Unable to read value for '%s' key: %s"
+msgstr "Konfigurationsverzeichnis unter »%s« konnte nicht erstellt werden."
+
+#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:1963
+msgid "Terminal"
+msgstr "Terminal"
+
+#: ../multiterm/src/tab-label.vala:84 ../multiterm/src/tab-label.c:168
+#, fuzzy
+msgid "Close terminal"
+msgstr "Terminal anzeigen"
+
+#: ../multiterm/src/terminal.vala:88 ../multiterm/src/terminal.c:121
+#, fuzzy, c-format
+msgid "Unable to run command: %s"
+msgstr "Konnte den Kommentar nicht anlegen: %s"
+
 #: ../overview/overview/overviewplugin.c:49
 msgid "Provides an overview of the active document"
 msgstr "Stellt einen Überblick über das aktuelle Dokument zur Verfügung"
@@ -5965,19 +6067,16 @@ msgid "Expand All"
 msgstr "Alle ausklappen"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1375
-#, fuzzy
 msgid "Find in Files..."
-msgstr "In Dateien finden"
+msgstr "In Dateien finden..."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1384
-#, fuzzy
 msgid "Find File..."
-msgstr "Datei suchen"
+msgstr "Datei suchen..."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1393
-#, fuzzy
 msgid "Find Tag..."
-msgstr "Tag finden"
+msgstr "Tag finden..."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1406
 msgid "Remove External Directory"
@@ -7241,10 +7340,6 @@ msgstr ""
 "können %f und %d als Platzhalter verwendet werden.\n"
 "%f wird mit dem Dateinamen ersetzt, der den kompletten Pfad beinhaltet.\n"
 "%d wird mit dem Pfad des Verzeichnisses der aktuellen Datei ersetzt."
-
-#: ../treebrowser/src/treebrowser.c:1963
-msgid "Terminal"
-msgstr "Terminal"
 
 #: ../treebrowser/src/treebrowser.c:1968
 msgid "The terminal to use with the command \"Open Terminal\""
