@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.25\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-20 11:24+0200\n"
+"POT-Creation-Date: 2015-10-27 23:00+0100\n"
 "PO-Revision-Date: 2011-10-21 14:08+0100\n"
 "Last-Translator: Masami Chikahiro <cmasa.z321@gmail.com>\n"
 "Language-Team: Japanese\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-Language: Japanese\n"
 
-#: ../addons/src/ao_bookmarklist.c:182
+#: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
 msgstr "(空行)"
 
-#: ../addons/src/ao_bookmarklist.c:307
+#: ../addons/src/ao_bookmarklist.c:315
 msgid "_Remove Bookmark"
 msgstr "ブックマークを削除(_R)"
 
 #. Translators: Number is meant at this point.
-#: ../addons/src/ao_bookmarklist.c:334
+#: ../addons/src/ao_bookmarklist.c:342
 msgid "No."
 msgstr "番号"
 
-#: ../addons/src/ao_bookmarklist.c:342 ../devhelp/src/dhp-object.c:494
+#: ../addons/src/ao_bookmarklist.c:350 ../devhelp/src/dhp-object.c:494
 #: ../devhelp/devhelp/dh-window.c:1142
 msgid "Contents"
 msgstr "内容"
 
-#: ../addons/src/ao_bookmarklist.c:375 ../treebrowser/src/treebrowser.c:624
+#: ../addons/src/ao_bookmarklist.c:383 ../treebrowser/src/treebrowser.c:624
 #: ../webhelper/src/gwh-plugin.c:329
 msgid "Bookmarks"
 msgstr "ブックマーク"
 
 #. complete update
-#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2351
+#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2352
 msgid "_Update"
 msgstr "更新(_U)"
 
@@ -103,110 +103,136 @@ msgstr "URIを開く"
 msgid "Copy URI"
 msgstr "URIをコピー"
 
-#: ../addons/src/ao_wrapwords.c:249
+#: ../addons/src/ao_wrapwords.c:252
 msgid "Enclose Characters"
 msgstr "閉じる記号"
 
-#: ../addons/src/ao_wrapwords.c:260
+#: ../addons/src/ao_wrapwords.c:253
+msgid "Accept"
+msgstr ""
+
+#: ../addons/src/ao_wrapwords.c:254 ../geanymacro/src/geanymacro.c:1064
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: ../addons/src/ao_wrapwords.c:254
+msgid "OK"
+msgstr ""
+
+#: ../addons/src/ao_wrapwords.c:263
 #, c-format
 msgid "Enclose combo %d"
 msgstr "括弧の対 %d"
 
-#: ../addons/src/ao_wrapwords.c:276
+#: ../addons/src/ao_wrapwords.c:279
 msgid "Opening Character"
 msgstr "開く記号"
 
-#: ../addons/src/ao_wrapwords.c:283
+#: ../addons/src/ao_wrapwords.c:286
 msgid "Closing Character"
 msgstr "閉じる記号"
 
-#: ../addons/src/ao_doclist.c:207
+#: ../addons/src/ao_doclist.c:214
 msgid "Close Ot_her Documents"
 msgstr "他の文書を閉じる(_H)"
 
-#: ../addons/src/ao_doclist.c:212
+#: ../addons/src/ao_doclist.c:219
 msgid "C_lose All"
 msgstr "すべて閉じる(_L)"
 
-#: ../addons/src/ao_doclist.c:242
+#: ../addons/src/ao_doclist.c:249
 msgid "Show Document List"
 msgstr "文書一覧を表示"
 
-#: ../addons/src/addons.c:52
+#: ../addons/src/ao_copyfilepath.c:104
+#, fuzzy, c-format
+msgid "File path \"%s\" copied to clipboard."
+msgstr "完全パスをクリップボードにコピー"
+
+#: ../addons/src/ao_copyfilepath.c:119 ../addons/src/addons.c:318
+msgid "Copy File Path"
+msgstr ""
+
+#: ../addons/src/ao_copyfilepath.c:122
+#, fuzzy
+msgid "Copy the file path of the current document to the clipboard"
+msgstr "現在の文書の綴りを検査"
+
+#: ../addons/src/addons.c:53
 msgid "Addons"
 msgstr "アドオン"
 
-#: ../addons/src/addons.c:53
+#: ../addons/src/addons.c:54
 msgid "Various small addons for Geany."
 msgstr "Geanyむけのアドオン集"
 
-#: ../addons/src/addons.c:296
+#: ../addons/src/addons.c:309
 msgid "Focus Bookmark List"
 msgstr "ブックマークに切り替え"
 
-#: ../addons/src/addons.c:298
+#: ../addons/src/addons.c:311
 msgid "Focus Tasks List"
 msgstr "タスク一覧に切り替え"
 
-#: ../addons/src/addons.c:300
+#: ../addons/src/addons.c:313
 msgid "Update Tasks List"
 msgstr "タスク一覧を更新"
 
-#: ../addons/src/addons.c:302
+#: ../addons/src/addons.c:315
 msgid "Run XML tagging"
 msgstr "XMLタグ付けを実行"
 
-#: ../addons/src/addons.c:417 ../autoclose/src/autoclose.c:885
+#: ../addons/src/addons.c:433 ../autoclose/src/autoclose.c:885
 #: ../codenav/src/codenavigation.c:293 ../geanylatex/src/geanylatex.c:241
-#: ../geanyprj/src/geanyprj.c:174 ../geanysendmail/src/geanysendmail.c:123
-#: ../geanysendmail/src/geanysendmail.c:291 ../geanyvc/src/geanyvc.c:1854
-#: ../geniuspaste/src/geniuspaste.c:140 ../spellcheck/src/scplugin.c:153
+#: ../geanyprj/src/geanyprj.c:174 ../geanysendmail/src/geanysendmail.c:125
+#: ../geanysendmail/src/geanysendmail.c:290 ../geanyvc/src/geanyvc.c:1854
+#: ../geniuspaste/src/geniuspaste.c:140 ../spellcheck/src/scplugin.c:159
 #: ../treebrowser/src/treebrowser.c:1938
 #: ../updatechecker/src/updatechecker.c:267
 msgid "Plugin configuration directory could not be created."
 msgstr "プラグイン設定ディレクトリを作成できません。"
 
-#: ../addons/src/addons.c:445
+#: ../addons/src/addons.c:461
 msgid "Show toolbar item to show a list of currently open documents"
 msgstr "現在の文書一覧を表示するツールバーボタンを表示"
 
-#: ../addons/src/addons.c:449
+#: ../addons/src/addons.c:465
 msgid "Sort documents by _name"
 msgstr "名前による文書の並び替え(_N)"
 
-#: ../addons/src/addons.c:451
+#: ../addons/src/addons.c:467
 msgid "Sort the documents in the list by their filename"
 msgstr "ファイル名によるリスト内の文書の並び替え"
 
-#: ../addons/src/addons.c:454
+#: ../addons/src/addons.c:470
 msgid "Sort documents by _occurrence"
 msgstr "出現順に文書を並び替え(_O)"
 
-#: ../addons/src/addons.c:456
+#: ../addons/src/addons.c:472
 msgid "Sort the documents in the order of the document tabs"
 msgstr "文書タブの順番に文書を並び替え"
 
-#: ../addons/src/addons.c:459
+#: ../addons/src/addons.c:475
 msgid "Sort documents by _occurrence (reversed)"
 msgstr "出現順(逆順)に文書を並び替え(_O)"
 
-#: ../addons/src/addons.c:461
+#: ../addons/src/addons.c:477
 msgid "Sort the documents in the order of the document tabs (reversed)"
 msgstr "文書タブの逆順に文書を並び替え"
 
-#: ../addons/src/addons.c:488
+#: ../addons/src/addons.c:504
 msgid "Show an 'Open URI' item in the editor menu"
 msgstr "'URIを開く'をエディタのメニューに表示"
 
-#: ../addons/src/addons.c:494
+#: ../addons/src/addons.c:510
 msgid "Show available Tasks in the Messages Window"
 msgstr "メッセージウィンドウに利用可能なタスクを表示"
 
-#: ../addons/src/addons.c:500
+#: ../addons/src/addons.c:516
 msgid "Show tasks of all documents"
 msgstr "すべての文書のタスクを表示"
 
-#: ../addons/src/addons.c:504
+#: ../addons/src/addons.c:520
 msgid ""
 "Whether to show the tasks of all open documents in the list or only those of "
 "the current document."
@@ -214,43 +240,43 @@ msgstr ""
 "現在の文書のタスクだけを表示するか、すべての文書のタスクを表示するかを選びま"
 "す。"
 
-#: ../addons/src/addons.c:511
+#: ../addons/src/addons.c:527
 msgid "Specify a semicolon separated list of search tokens."
 msgstr "セミコロンで区切られた検索文字列を指定"
 
-#: ../addons/src/addons.c:513
+#: ../addons/src/addons.c:529
 msgid "Search tokens:"
 msgstr "検索文字列:"
 
-#: ../addons/src/addons.c:530
+#: ../addons/src/addons.c:546
 msgid "Show status icon in the Notification Area"
 msgstr "通知領域にステータスアイコンを表示"
 
-#: ../addons/src/addons.c:536
+#: ../addons/src/addons.c:552
 msgid "Show defined bookmarks (marked lines) in the sidebar"
 msgstr "サイドバーにブックマークを表示"
 
-#: ../addons/src/addons.c:542
+#: ../addons/src/addons.c:558
 msgid "Mark all occurrences of a word when double-clicking it"
 msgstr "ダブルクリックしたときに単語をすべてマークする"
 
-#: ../addons/src/addons.c:548
+#: ../addons/src/addons.c:564
 msgid "Strip trailing blank lines"
 msgstr "文末の空白行を除去"
 
-#: ../addons/src/addons.c:554
+#: ../addons/src/addons.c:570
 msgid "XML tagging for selection"
 msgstr "選択用のXMLタグ付け"
 
-#: ../addons/src/addons.c:560
+#: ../addons/src/addons.c:576
 msgid "Enclose selection on configurable keybindings"
 msgstr "定義可能なキー入力によって選択したものに括弧をつける"
 
-#: ../addons/src/addons.c:564
+#: ../addons/src/addons.c:580
 msgid "Configure enclose pairs"
 msgstr ""
 
-#: ../addons/src/addons.c:572
+#: ../addons/src/addons.c:588
 msgid "Enclose selection automatically (without having to press a keybinding)"
 msgstr "自動的に選択したものに括弧をつける(括弧をつけるためのキー入力は不要)"
 
@@ -575,15 +601,15 @@ msgid "Various debuggers integration."
 msgstr "統合デバッガ"
 
 #: ../debugger/src/plugin.c:133 ../debugger/src/keys.c:76
-#: ../scope/data/scope.glade.h:124 ../scope/src/scope.c:226
+#: ../scope/data/scope.glade.h:124 ../scope/src/scope.c:225
 msgid "Debug"
 msgstr "デバッグ"
 
-#: ../debugger/src/vtree.c:173 ../debugger/src/envtree.c:417
+#: ../debugger/src/vtree.c:173 ../debugger/src/envtree.c:425
 msgid "Name"
 msgstr "名前"
 
-#: ../debugger/src/vtree.c:196 ../debugger/src/envtree.c:422
+#: ../debugger/src/vtree.c:196 ../debugger/src/envtree.c:430
 msgid "Value"
 msgstr "値"
 
@@ -616,7 +642,7 @@ msgid "Environment Variables"
 msgstr "環境変数"
 
 #. if name is empty - offer to delete variable
-#: ../debugger/src/envtree.c:260 ../debugger/src/envtree.c:364
+#: ../debugger/src/envtree.c:260 ../debugger/src/envtree.c:366
 #: ../debugger/src/debug.c:264
 msgid "Delete variable?"
 msgstr "変数を削除しますか?"
@@ -709,7 +735,7 @@ msgstr "スレッド %i"
 msgid "Target"
 msgstr "対象"
 
-#: ../debugger/src/tabs.c:135 ../scope/src/scope.c:524
+#: ../debugger/src/tabs.c:135 ../scope/src/scope.c:520
 msgid "Breakpoints"
 msgstr "ブレークポイント"
 
@@ -746,22 +772,22 @@ msgid "Restart"
 msgstr "再起動"
 
 #: ../debugger/src/keys.c:52 ../debugger/src/btnpanel.c:113
-#: ../scope/src/scope.c:66
+#: ../scope/src/scope.c:65
 msgid "Step into"
 msgstr "中へ"
 
 #: ../debugger/src/keys.c:53 ../debugger/src/btnpanel.c:110
-#: ../scope/src/scope.c:67
+#: ../scope/src/scope.c:66
 msgid "Step over"
 msgstr "次へ"
 
 #: ../debugger/src/keys.c:54 ../debugger/src/btnpanel.c:122
-#: ../scope/src/scope.c:68
+#: ../scope/src/scope.c:67
 msgid "Step out"
 msgstr "外へ"
 
 #: ../debugger/src/keys.c:55 ../debugger/src/btnpanel.c:125
-#: ../scope/src/scope.c:64
+#: ../scope/src/scope.c:63
 msgid "Run to cursor"
 msgstr "カーソル位置まで実行"
 
@@ -798,7 +824,7 @@ msgstr "2画面モード"
 msgid "Continue"
 msgstr "継続"
 
-#: ../debugger/src/dconfig.c:673
+#: ../debugger/src/dconfig.c:674
 msgid "Save debug session data to a project"
 msgstr "デバッグ・セッション・データをプロジェクトに保存"
 
@@ -1205,31 +1231,30 @@ msgid "Process execution failed (%s)"
 msgstr ""
 
 #: ../geanyctags/src/geanyctags.c:517
-#: ../projectorganizer/src/prjorg-sidebar.c:423
-#: ../projectorganizer/src/prjorg-sidebar.c:1365
+#: ../projectorganizer/src/prjorg-sidebar.c:443
 #, fuzzy
 msgid "Find Tag"
 msgstr "検索:"
 
 #: ../geanyctags/src/geanyctags.c:528 ../geanymacro/src/geanymacro.c:1424
 #: ../projectorganizer/src/prjorg-sidebar.c:128
-#: ../projectorganizer/src/prjorg-sidebar.c:434
+#: ../projectorganizer/src/prjorg-sidebar.c:454
 msgid "Search for:"
 msgstr "検索文字列:"
 
 #: ../geanyctags/src/geanyctags.c:546
-#: ../projectorganizer/src/prjorg-sidebar.c:452
+#: ../projectorganizer/src/prjorg-sidebar.c:472
 msgid "Match type:"
 msgstr ""
 
 #: ../geanyctags/src/geanyctags.c:562
 #: ../projectorganizer/src/prjorg-sidebar.c:156
-#: ../projectorganizer/src/prjorg-sidebar.c:480
+#: ../projectorganizer/src/prjorg-sidebar.c:500
 msgid "C_ase sensitive"
 msgstr "大文字小文字を区別(_A)"
 
 #: ../geanyctags/src/geanyctags.c:565
-#: ../projectorganizer/src/prjorg-sidebar.c:483
+#: ../projectorganizer/src/prjorg-sidebar.c:503
 #, fuzzy
 msgid "_Declaration"
 msgstr "関係式"
@@ -3633,10 +3658,6 @@ msgstr "マクロを記録"
 msgid "Record"
 msgstr "記録"
 
-#: ../geanymacro/src/geanymacro.c:1064
-msgid "Cancel"
-msgstr "キャンセル"
-
 #: ../geanymacro/src/geanymacro.c:1071
 msgid "Macro Trigger:"
 msgstr "マクロ・キー:"
@@ -3685,7 +3706,7 @@ msgstr "了解(_O)"
 
 #: ../geanymacro/src/geanymacro.c:1394 ../geanymacro/src/geanymacro.c:1537
 #: ../geanymacro/src/geanymacro.c:1827
-#: ../projectorganizer/src/prjorg-sidebar.c:292
+#: ../projectorganizer/src/prjorg-sidebar.c:300
 msgid "_Cancel"
 msgstr "キャンセル(_C)"
 
@@ -4144,8 +4165,8 @@ msgstr ""
 msgid "a key with fingerprint"
 msgstr "フィンガープリントを使用したキー"
 
-#: ../geanypg/src/verify_aux.c:66 ../spellcheck/src/gui.c:542
-#: ../spellcheck/src/gui.c:553
+#: ../geanypg/src/verify_aux.c:66 ../spellcheck/src/gui.c:613
+#: ../spellcheck/src/gui.c:624
 msgid "unknown"
 msgstr "不明"
 
@@ -4412,11 +4433,11 @@ msgstr "プロジェクト内を検索"
 msgid "Remove File"
 msgstr "ファイルを削除"
 
-#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1389
+#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1417
 msgid "H_ide Sidebar"
 msgstr "サイドバーを隠す(_I)"
 
-#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1410
+#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1439
 msgid "Project"
 msgstr "プロジェクト"
 
@@ -4489,42 +4510,42 @@ msgstr "受信者アドレス"
 msgid "Enter the recipient's e-mail address:"
 msgstr "受信者の電子メールアドレスを入力:"
 
-#: ../geanysendmail/src/geanysendmail.c:138
+#: ../geanysendmail/src/geanysendmail.c:140
 msgid "Filename placeholder not found. The executed command might have failed."
 msgstr "ファイル名がありません。実行したコマンドは間違っています。"
 
-#: ../geanysendmail/src/geanysendmail.c:144
+#: ../geanysendmail/src/geanysendmail.c:146
 msgid ""
 "Recipient address placeholder not found. The executed command might have "
 "failed."
 msgstr "受信者アドレスがありません。実行したコマンドは間違っています。"
 
-#: ../geanysendmail/src/geanysendmail.c:159
+#: ../geanysendmail/src/geanysendmail.c:160
 msgid "Could not execute mailer. Please check your configuration."
 msgstr "メールプログラムを実行できません。環境設定を確認してください。"
 
-#: ../geanysendmail/src/geanysendmail.c:168
+#: ../geanysendmail/src/geanysendmail.c:169
 msgid "Please define a mail client first."
 msgstr "メールプログラムを先に設定してください。"
 
-#: ../geanysendmail/src/geanysendmail.c:173
+#: ../geanysendmail/src/geanysendmail.c:174
 msgid "File has to be saved before sending."
 msgstr "送信する前にファイルを保存する必要があります。"
 
-#: ../geanysendmail/src/geanysendmail.c:191
+#: ../geanysendmail/src/geanysendmail.c:190
 msgid "Mail"
 msgstr "メール"
 
-#: ../geanysendmail/src/geanysendmail.c:222
+#: ../geanysendmail/src/geanysendmail.c:221
 msgid "Send by mail"
 msgstr "電子メールとして送信"
 
 #. add a label and a text entry to the dialog
-#: ../geanysendmail/src/geanysendmail.c:312
+#: ../geanysendmail/src/geanysendmail.c:311
 msgid "Path and options for the mail client:"
 msgstr "メールプログラムのパスとオプション:"
 
-#: ../geanysendmail/src/geanysendmail.c:320
+#: ../geanysendmail/src/geanysendmail.c:319
 msgid ""
 "Note: \n"
 "\t%f will be replaced by your file.\n"
@@ -4542,28 +4563,28 @@ msgstr ""
 "\tsylpheed --attach \"\\%f\" --compose \"\\%r\"\n"
 "\tmutt -s \"Sending '\\%b'\" -a \"\\%f\" \"\\%r\""
 
-#: ../geanysendmail/src/geanysendmail.c:330
+#: ../geanysendmail/src/geanysendmail.c:329
 msgid "Show toolbar icon"
 msgstr "ツールバーアイコンを表示"
 
-#: ../geanysendmail/src/geanysendmail.c:332
+#: ../geanysendmail/src/geanysendmail.c:331
 msgid "Shows a icon in the toolbar to send file more easy."
 msgstr "ファイル送信を簡単にするためにツールバーにアイコンを表示します。"
 
-#: ../geanysendmail/src/geanysendmail.c:338
+#: ../geanysendmail/src/geanysendmail.c:337
 msgid "Use dialog for entering email address of recipients"
 msgstr "受信者のメールアドレスを入力するダイアログを使用"
 
-#: ../geanysendmail/src/geanysendmail.c:360
+#: ../geanysendmail/src/geanysendmail.c:359
 msgid "Send file by mail"
 msgstr "ファイルを電子メールとして送信"
 
 #. Build up menu entry
-#: ../geanysendmail/src/geanysendmail.c:383
+#: ../geanysendmail/src/geanysendmail.c:382
 msgid "_Mail document"
 msgstr "文書をメールとして送信(_M)"
 
-#: ../geanysendmail/src/geanysendmail.c:386
+#: ../geanysendmail/src/geanysendmail.c:385
 msgid ""
 "Sends the opened file as unzipped attachment by any mailer from your $PATH"
 msgstr ""
@@ -4916,33 +4937,33 @@ msgstr "BASE ディレクトリに戻す"
 msgid "Update file"
 msgstr "ファイルを更新"
 
-#: ../geanyvc/src/geanyvc.c:2316
+#: ../geanyvc/src/geanyvc.c:2317
 msgid "_VC"
 msgstr "_VC"
 
-#: ../geanyvc/src/geanyvc.c:2322
+#: ../geanyvc/src/geanyvc.c:2323
 msgid "_Version Control"
 msgstr "バージョン管理(_V)"
 
 #. Status of basedir
-#: ../geanyvc/src/geanyvc.c:2344
+#: ../geanyvc/src/geanyvc.c:2345
 msgid "_Status"
 msgstr "状態(_S)"
 
-#: ../geanyvc/src/geanyvc.c:2346
+#: ../geanyvc/src/geanyvc.c:2347
 msgid "Show status."
 msgstr "状態を表示"
 
-#: ../geanyvc/src/geanyvc.c:2353
+#: ../geanyvc/src/geanyvc.c:2354
 msgid "Update from remote repository."
 msgstr "外部のレポジトリから更新"
 
 #. Commit all changes
-#: ../geanyvc/src/geanyvc.c:2358
+#: ../geanyvc/src/geanyvc.c:2359
 msgid "_Commit"
 msgstr "コミット(_C)"
 
-#: ../geanyvc/src/geanyvc.c:2360
+#: ../geanyvc/src/geanyvc.c:2361
 msgid "Commit changes."
 msgstr "変更を反映"
 
@@ -5038,40 +5059,40 @@ msgstr "ファイルを削除"
 msgid "Colors"
 msgstr "背景色:"
 
-#: ../git-changebar/src/gcb-plugin.c:50
+#: ../git-changebar/src/gcb-plugin.c:59
 msgid "Git Change Bar"
 msgstr ""
 
-#: ../git-changebar/src/gcb-plugin.c:51
+#: ../git-changebar/src/gcb-plugin.c:60
 msgid "Highlights uncommitted changes in files tracked with Git"
 msgstr ""
 
-#: ../git-changebar/src/gcb-plugin.c:1108 ../pohelper/src/gph-plugin.c:1577
+#: ../git-changebar/src/gcb-plugin.c:1126 ../pohelper/src/gph-plugin.c:1577
 #, fuzzy, c-format
 msgid "Failed to load configuration file: %s"
 msgstr "設定の読み込みに失敗: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1133 ../pohelper/src/gph-plugin.c:1602
+#: ../git-changebar/src/gcb-plugin.c:1151 ../pohelper/src/gph-plugin.c:1602
 #, fuzzy, c-format
 msgid "Failed to create configuration directory \"%s\": %s"
 msgstr "ファイル種類 \"%s\" 向けの設定ファイルが見つかりません: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1136 ../pohelper/src/gph-plugin.c:1605
+#: ../git-changebar/src/gcb-plugin.c:1154 ../pohelper/src/gph-plugin.c:1605
 #, fuzzy, c-format
 msgid "Failed to save configuration file: %s"
 msgstr "設定の保存に失敗: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1214
+#: ../git-changebar/src/gcb-plugin.c:1233
 #, fuzzy
 msgid "Go to the previous hunk"
 msgstr "前の頁に移動"
 
-#: ../git-changebar/src/gcb-plugin.c:1216
+#: ../git-changebar/src/gcb-plugin.c:1235
 #, fuzzy
 msgid "Go to the next hunk"
 msgstr "次の頁に移動"
 
-#: ../git-changebar/src/gcb-plugin.c:1341 ../pohelper/src/gph-plugin.c:1373
+#: ../git-changebar/src/gcb-plugin.c:1360 ../pohelper/src/gph-plugin.c:1373
 #: ../pohelper/src/gph-plugin.c:1706
 #, fuzzy, c-format
 msgid ""
@@ -5125,6 +5146,107 @@ msgstr "マークダウン プレビュー"
 #: ../markdown/src/plugin.c:162
 msgid "The current document does not have a Markdown filetype."
 msgstr "現在の文書はマークダウンファイルではありません"
+
+#: ../multiterm/src/config.vala:47 ../multiterm/src/config.c:133
+#, fuzzy, c-format
+msgid "Unable to save config file %s: %s"
+msgstr "設定の保存に失敗: %s"
+
+#: ../multiterm/src/config.vala:85 ../multiterm/src/config.vala:89
+#: ../multiterm/src/config.c:370 ../multiterm/src/config.c:387
+#, fuzzy, c-format
+msgid "Unable to load config file %s: %s"
+msgstr "設定の読み込みに失敗: %s"
+
+#: ../multiterm/src/context-menu.vala:52 ../multiterm/src/context-menu.vala:140
+#: ../multiterm/src/context-menu.c:134 ../multiterm/src/context-menu.c:546
+#, fuzzy
+msgid "Move to message window"
+msgstr "メッセージウィンドウ"
+
+#: ../multiterm/src/context-menu.vala:58 ../multiterm/src/context-menu.vala:135
+#: ../multiterm/src/context-menu.c:144 ../multiterm/src/context-menu.c:535
+#, fuzzy
+msgid "Move to sidebar"
+msgstr "サイドバー"
+
+#: ../multiterm/src/context-menu.vala:81 ../multiterm/src/context-menu.c:385
+#, fuzzy
+msgid "Open Tab"
+msgstr "端末で開く"
+
+#: ../multiterm/src/context-menu.vala:96 ../multiterm/src/context-menu.c:471
+#, fuzzy
+msgid "Open Window"
+msgstr "新しいウィンドウ(_N)"
+
+#: ../multiterm/src/context-menu.vala:103 ../multiterm/src/context-menu.c:483
+msgid "Next tab"
+msgstr ""
+
+#. this.append(item);
+#. item.show();
+#: ../multiterm/src/context-menu.vala:108 ../multiterm/src/context-menu.c:490
+#, fuzzy
+msgid "Previous tab"
+msgstr "前を検索"
+
+#. this.append(image_item);
+#. image_item.show();
+#. add_separator();
+#: ../multiterm/src/context-menu.vala:127 ../multiterm/src/context-menu.c:509
+#, fuzzy
+msgid "Show Tabs"
+msgstr "状態を表示"
+
+#: ../multiterm/src/notebook.vala:91 ../multiterm/src/notebook.c:236
+#, c-format
+msgid "Unable to launch external terminal: %s"
+msgstr ""
+
+#: ../multiterm/src/notebook.vala:137 ../multiterm/src/notebook.c:421
+#, fuzzy
+msgid "Unable to locate default shell in configuration file"
+msgstr "既定の設定の保存に失敗: %s"
+
+#: ../multiterm/src/notebook.vala:202 ../multiterm/src/notebook.c:646
+#, fuzzy
+msgid "New terminal"
+msgstr "端末を表示"
+
+#: ../multiterm/src/plugin.vala:46 ../multiterm/src/plugin.vala:88
+#: ../multiterm/src/plugin.c:104 ../multiterm/src/plugin.c:276
+msgid "MultiTerm"
+msgstr ""
+
+#: ../multiterm/src/plugin.vala:47 ../multiterm/src/plugin.c:105
+msgid "Multi-tabbed virtual terminal emulator."
+msgstr ""
+
+#: ../multiterm/src/plugin.vala:78 ../multiterm/src/plugin.c:242
+#, fuzzy, c-format
+msgid "Unable to write default config file: %s"
+msgstr "既定の設定の保存に失敗: %s"
+
+#: ../multiterm/src/shell-config.vala:30
+#, fuzzy, c-format
+msgid "Unable to read value for '%s' key: %s"
+msgstr "設定ディレクトリを '%s' に作成できません"
+
+#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:1963
+#, fuzzy
+msgid "Terminal"
+msgstr "終了"
+
+#: ../multiterm/src/tab-label.vala:84 ../multiterm/src/tab-label.c:168
+#, fuzzy
+msgid "Close terminal"
+msgstr "端末を表示"
+
+#: ../multiterm/src/terminal.vala:88 ../multiterm/src/terminal.c:121
+#, fuzzy, c-format
+msgid "Unable to run command: %s"
+msgstr "コメントのビルドに失敗: %s"
 
 #: ../overview/overview/overviewplugin.c:49
 msgid "Provides an overview of the active document"
@@ -5552,50 +5674,52 @@ msgid ""
 "options (was GProject)"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-menu.c:372
-msgid "Find in Project Files"
-msgstr "プロジェクトファイルを検索"
-
-#: ../projectorganizer/src/prjorg-menu.c:378
-msgid "Find in project files"
-msgstr "プロジェクトファイルを検索"
-
-#: ../projectorganizer/src/prjorg-menu.c:382
-msgid "Find Project File"
-msgstr "プロジェクトファイルを検索"
-
-#: ../projectorganizer/src/prjorg-menu.c:388
-msgid "Find project file"
+#: ../projectorganizer/src/prjorg-menu.c:386
+#, fuzzy
+msgid "Find in Project Files..."
 msgstr "プロジェクトファイルを検索"
 
 #: ../projectorganizer/src/prjorg-menu.c:392
-#, fuzzy
-msgid "Find Project Tag"
+msgid "Find in project files"
 msgstr "プロジェクトファイルを検索"
 
-#: ../projectorganizer/src/prjorg-menu.c:398
+#: ../projectorganizer/src/prjorg-menu.c:396
+#, fuzzy
+msgid "Find Project File..."
+msgstr "プロジェクトファイルを検索"
+
+#: ../projectorganizer/src/prjorg-menu.c:402
+msgid "Find project file"
+msgstr "プロジェクトファイルを検索"
+
+#: ../projectorganizer/src/prjorg-menu.c:406
+#, fuzzy
+msgid "Find Project Tag..."
+msgstr "プロジェクトファイルを検索"
+
+#: ../projectorganizer/src/prjorg-menu.c:412
 #, fuzzy
 msgid "Find project tag"
 msgstr "プロジェクトファイルを検索"
 
-#: ../projectorganizer/src/prjorg-menu.c:400
+#: ../projectorganizer/src/prjorg-menu.c:414
 msgid "Swap Header/Source"
 msgstr "ヘッダ/ソースを交換"
 
-#: ../projectorganizer/src/prjorg-menu.c:405
+#: ../projectorganizer/src/prjorg-menu.c:419
 msgid "Swap header/source"
 msgstr "ヘッダ/ソースを交換"
 
-#: ../projectorganizer/src/prjorg-menu.c:411
+#: ../projectorganizer/src/prjorg-menu.c:425
 #, fuzzy
 msgid "Open Selected File (Project Organizer)"
 msgstr "選択したファイルを開く(gproject)"
 
-#: ../projectorganizer/src/prjorg-project.c:551
+#: ../projectorganizer/src/prjorg-project.c:586
 msgid "Source patterns:"
 msgstr "ソースのフィルタ:"
 
-#: ../projectorganizer/src/prjorg-project.c:557
+#: ../projectorganizer/src/prjorg-project.c:592
 #, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
@@ -5604,11 +5728,11 @@ msgstr ""
 "空白で区切られたヘッダファイルとして使用するファイルパターンのリストヘッダ。"
 "ソースの交換に使用します。"
 
-#: ../projectorganizer/src/prjorg-project.c:563
+#: ../projectorganizer/src/prjorg-project.c:598
 msgid "Header patterns:"
 msgstr "ヘッダのフィルタ:"
 
-#: ../projectorganizer/src/prjorg-project.c:569
+#: ../projectorganizer/src/prjorg-project.c:604
 #, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
@@ -5617,12 +5741,12 @@ msgstr ""
 "空白で区切られたヘッダファイルとして使用するファイルパターンのリストヘッダ。"
 "ソースの交換に使用します。"
 
-#: ../projectorganizer/src/prjorg-project.c:575
+#: ../projectorganizer/src/prjorg-project.c:610
 #, fuzzy
 msgid "Ignored file patterns:"
 msgstr "無視するディレクトリ:"
 
-#: ../projectorganizer/src/prjorg-project.c:581
+#: ../projectorganizer/src/prjorg-project.c:616
 #, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
@@ -5631,12 +5755,12 @@ msgstr ""
 "空白で区切られたソースファイル検索の対象から外すディレクトリのパターンのリス"
 "ト"
 
-#: ../projectorganizer/src/prjorg-project.c:587
+#: ../projectorganizer/src/prjorg-project.c:622
 #, fuzzy
 msgid "Ignored directory patterns:"
 msgstr "無視するディレクトリ:"
 
-#: ../projectorganizer/src/prjorg-project.c:593
+#: ../projectorganizer/src/prjorg-project.c:628
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
@@ -5644,26 +5768,26 @@ msgstr ""
 "空白で区切られたソースファイル検索の対象から外すディレクトリのパターンのリス"
 "ト"
 
-#: ../projectorganizer/src/prjorg-project.c:599
+#: ../projectorganizer/src/prjorg-project.c:634
 #, fuzzy
 msgid "Generate tags for all project files:"
 msgstr "プロジェクトの全てのファイルのタグを生成"
 
-#: ../projectorganizer/src/prjorg-project.c:602
+#: ../projectorganizer/src/prjorg-project.c:637
 msgid "Auto (generate if less than 300 files)"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:603
+#: ../projectorganizer/src/prjorg-project.c:638
 #, fuzzy
 msgid "Yes"
 msgstr "はい"
 
-#: ../projectorganizer/src/prjorg-project.c:604
+#: ../projectorganizer/src/prjorg-project.c:639
 #, fuzzy
 msgid "No"
 msgstr "番号"
 
-#: ../projectorganizer/src/prjorg-project.c:608
+#: ../projectorganizer/src/prjorg-project.c:643
 #, fuzzy
 msgid ""
 "Generate tag list for all project files instead of only for the currently "
@@ -5673,7 +5797,7 @@ msgstr ""
 "トを生成します。大きなプロジェクト(1000ファイル以上)ではとても遅いので、使用"
 "しないでください。"
 
-#: ../projectorganizer/src/prjorg-project.c:614
+#: ../projectorganizer/src/prjorg-project.c:649
 msgid ""
 "Note: the patterns above affect only the sidebar and are not used in the "
 "Find in Files\n"
@@ -5684,12 +5808,11 @@ msgid ""
 msgstr ""
 
 #: ../projectorganizer/src/prjorg-sidebar.c:117
-#: ../projectorganizer/src/prjorg-sidebar.c:1356
 msgid "Find File"
 msgstr "ファイルを検索"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:144
-#: ../projectorganizer/src/prjorg-sidebar.c:468
+#: ../projectorganizer/src/prjorg-sidebar.c:488
 msgid "Search inside:"
 msgstr "検索範囲:"
 
@@ -5698,60 +5821,85 @@ msgid "Search in full path"
 msgstr "完全パスで検索"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:170
-#: ../projectorganizer/src/prjorg-sidebar.c:623
+#: ../projectorganizer/src/prjorg-sidebar.c:652
 #, fuzzy
 msgid "project or external directory"
 msgstr "ディレクトリを作成"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:290
+#: ../projectorganizer/src/prjorg-sidebar.c:298
 #, fuzzy
 msgid "Add External Directory"
 msgstr "ディレクトリを選択"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:293
+#: ../projectorganizer/src/prjorg-sidebar.c:301
 #, fuzzy
 msgid "Add"
 msgstr "アドオン"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1034
+#: ../projectorganizer/src/prjorg-sidebar.c:477
+msgid "exact"
+msgstr ""
+
+#: ../projectorganizer/src/prjorg-sidebar.c:478
+#, fuzzy
+msgid "prefix"
+msgstr "基数の接頭語(_P)"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:479
+#, fuzzy
+msgid "pattern"
+msgstr "手紙"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1063
 msgid "Set file patterns under Project->Properties"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1246
+#: ../projectorganizer/src/prjorg-sidebar.c:1274
 msgid "Reload all"
 msgstr "すべて読み直し"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1255
+#: ../projectorganizer/src/prjorg-sidebar.c:1283
 #, fuzzy
 msgid "Add external directory"
 msgstr "ディレクトリを元に戻す"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1265
+#: ../projectorganizer/src/prjorg-sidebar.c:1293
 #: ../treebrowser/src/treebrowser.c:1282
 msgid "Expand all"
 msgstr "すべて展開"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1272
+#: ../projectorganizer/src/prjorg-sidebar.c:1300
 msgid "Collapse to project root"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1283
+#: ../projectorganizer/src/prjorg-sidebar.c:1311
 msgid "Follow active editor"
 msgstr "アクティブなエディタに従う"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1329
+#: ../projectorganizer/src/prjorg-sidebar.c:1357
 msgid "Open a project to start using the plugin"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1338
+#: ../projectorganizer/src/prjorg-sidebar.c:1366
 msgid "Expand All"
 msgstr "すべて展開"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1347
-msgid "Find in Files"
+#: ../projectorganizer/src/prjorg-sidebar.c:1375
+#, fuzzy
+msgid "Find in Files..."
 msgstr "複数ファイルを検索"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1378
+#: ../projectorganizer/src/prjorg-sidebar.c:1384
+#, fuzzy
+msgid "Find File..."
+msgstr "ファイルを検索"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1393
+#, fuzzy
+msgid "Find Tag..."
+msgstr "検索:"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1406
 #, fuzzy
 msgid "Remove External Directory"
 msgstr "ディレクトリを元に戻す"
@@ -6102,7 +6250,7 @@ msgstr "一時的なブレークポイント(_T):"
 msgid "_Delete all breakpoints, watches, inspects and registers"
 msgstr "全てのブレークポイント,ウォッチ,検査を削除(_D)"
 
-#: ../scope/data/scope.glade.h:88 ../scope/src/scope.c:522
+#: ../scope/data/scope.glade.h:88 ../scope/src/scope.c:518
 msgid "Program"
 msgstr "プログラム"
 
@@ -6234,7 +6382,7 @@ msgstr "回数:"
 msgid "_Expand on apply"
 msgstr "適用時に展開(_E)"
 
-#: ../scope/data/scope.glade.h:123 ../scope/src/scope.c:522
+#: ../scope/data/scope.glade.h:123 ../scope/src/scope.c:518
 msgid "Program Terminal"
 msgstr "プログラム端末"
 
@@ -6337,31 +6485,25 @@ msgstr "端末に送る"
 msgid "Enter char # (0..255):"
 msgstr "文字コード(0...255)を入力:"
 
-#: ../scope/src/conterm.c:512 ../scope/src/scope.c:550
-#: ../scope/src/scope.c:551
+#: ../scope/src/conterm.c:512 ../scope/src/scope.c:546 ../scope/src/scope.c:547
 #, c-format
 msgid "Scope: %s."
 msgstr "スコープ: %s"
 
-#: ../scope/src/debug.c:115 ../scope/src/debug.c:120 ../scope/src/utils.c:37
-#, c-format
-msgid "%s: %s."
-msgstr "%s: %s."
+#: ../scope/src/debug.c:138
+msgid "No breakpoints. Hanging."
+msgstr "ブレークポイントがありません。中止。"
 
-#: ../scope/src/debug.c:363
+#: ../scope/src/debug.c:362
 #, c-format
 msgid "GDB died unexpectedly with status %d."
 msgstr "GDBは予期しないステータス %d で終了しました。"
 
-#: ../scope/src/debug.c:365
+#: ../scope/src/debug.c:364
 msgid "Program terminated."
 msgstr "プログラムは終了しました。"
 
-#: ../scope/src/debug.c:469
-msgid "No breakpoints. Hanging."
-msgstr "ブレークポイントがありません。中止。"
-
-#: ../scope/src/debug.c:598 ../scope/src/thread.c:93
+#: ../scope/src/debug.c:461 ../scope/src/debug.c:545 ../scope/src/thread.c:93
 #, c-format
 msgid "%s."
 msgstr "%s."
@@ -6411,24 +6553,24 @@ msgstr "式を監視"
 msgid "Inspect variable"
 msgstr "変数を検査"
 
-#: ../scope/src/parse.c:437
+#: ../scope/src/parse.c:438
 msgid "Undefined GDB error."
 msgstr "未定義GDBエラー"
 
-#: ../scope/src/plugme.c:80
+#: ../scope/src/plugme.c:79
 msgid "Select Folder"
 msgstr "フォルダを選択"
 
-#: ../scope/src/plugme.c:80
+#: ../scope/src/plugme.c:79
 msgid "Select File"
 msgstr "ファイルを選択"
 
-#: ../scope/src/prefs.c:294 ../scope/src/utils.c:449
+#: ../scope/src/prefs.c:314 ../scope/src/utils.c:449
 #, c-format
 msgid "Scope: %s: %s."
 msgstr "スコープ: %s: %s."
 
-#: ../scope/src/prefs.c:299
+#: ../scope/src/prefs.c:319
 msgid "Scope: created configuration file."
 msgstr "スコープ: 設定ファイルを生成しました。"
 
@@ -6466,76 +6608,76 @@ msgstr "_Name=value として"
 msgid "as _Name = value"
 msgstr "_Name = value として"
 
-#: ../scope/src/scope.c:34
+#: ../scope/src/scope.c:33
 msgid "Scope Debugger"
 msgstr "スコープデバッガ"
 
-#: ../scope/src/scope.c:35
+#: ../scope/src/scope.c:34
 #, fuzzy
 msgid "Relatively simple GDB front-end."
 msgstr "シンプルなGDBフロントエンド."
 
-#: ../scope/src/scope.c:62
+#: ../scope/src/scope.c:61
 msgid "Setup program"
 msgstr "プログラムを設定"
 
-#: ../scope/src/scope.c:63
+#: ../scope/src/scope.c:62
 msgid "Run/continue"
 msgstr "実行/継続"
 
-#: ../scope/src/scope.c:65
+#: ../scope/src/scope.c:64
 msgid "Run to source"
 msgstr "ソース位置まで実行"
 
-#: ../scope/src/scope.c:69
+#: ../scope/src/scope.c:68
 msgid "Terminate"
 msgstr "終了"
 
-#: ../scope/src/scope.c:70
+#: ../scope/src/scope.c:69
 msgid "Toggle breakpoint"
 msgstr "ブレークポイントを切り替え"
 
-#: ../scope/src/scope.c:72 ../scope/src/scope.c:75
+#: ../scope/src/scope.c:71 ../scope/src/scope.c:74
 msgid "GDB command"
 msgstr "GDBコマンド"
 
-#: ../scope/src/scope.c:73
+#: ../scope/src/scope.c:72
 msgid "Show terminal"
 msgstr "端末を表示"
 
-#: ../scope/src/scope.c:226
+#: ../scope/src/scope.c:225
 msgid "Busy"
 msgstr "ビジー"
 
-#: ../scope/src/scope.c:226
+#: ../scope/src/scope.c:225
 msgid "Ready"
 msgstr "レディ"
 
-#: ../scope/src/scope.c:227
+#: ../scope/src/scope.c:226
 msgid "Hang"
 msgstr "ハング"
 
-#: ../scope/src/scope.c:227
+#: ../scope/src/scope.c:226
 msgid "Assem"
 msgstr "Assem"
 
-#: ../scope/src/scope.c:227
+#: ../scope/src/scope.c:226
 msgid "Load"
 msgstr "ロード"
 
-#: ../scope/src/scope.c:421
+#: ../scope/src/scope.c:417
 msgid "Build action activated. Terminate debugging?"
 msgstr "ビルドがアクティブになりました.デバッグを終了しますか?"
 
-#: ../scope/src/scope.c:524
+#: ../scope/src/scope.c:520
 msgid "Breaks"
 msgstr "ブレーク"
 
-#: ../scope/src/scope.c:526
+#: ../scope/src/scope.c:522
 msgid "Console"
 msgstr "コンソール"
 
-#: ../scope/src/scope.c:526
+#: ../scope/src/scope.c:522
 msgid "Debug Console"
 msgstr "デバッグコンソール"
 
@@ -6580,6 +6722,11 @@ msgstr "実行中"
 #: ../scope/src/thread.c:893
 msgid "Stopped"
 msgstr "停止"
+
+#: ../scope/src/utils.c:37
+#, c-format
+msgid "%s: %s."
+msgstr "%s: %s."
 
 #: ../scope/src/utils.c:45
 #, fuzzy, c-format
@@ -6646,60 +6793,65 @@ msgstr "スペルチェック"
 msgid "Checks the spelling of the current document."
 msgstr "現在の文書の綴りを検査"
 
-#: ../spellcheck/src/scplugin.c:211
+#: ../spellcheck/src/scplugin.c:218
 msgid "Run Spell Check"
 msgstr "スペルチェックを実行"
 
-#: ../spellcheck/src/scplugin.c:214
+#: ../spellcheck/src/scplugin.c:221
 msgid "Toggle Check While Typing"
 msgstr "入力中のチェックを有効/無効"
 
 #. initialise the dialog
-#: ../spellcheck/src/scplugin.c:225
+#: ../spellcheck/src/scplugin.c:232
 msgid "Select Directory"
 msgstr "ディレクトリを選択"
 
-#: ../spellcheck/src/scplugin.c:266
+#: ../spellcheck/src/scplugin.c:284
 msgid "Show toolbar item to toggle spell checking"
 msgstr "スペルチェックを有効/無効にするツールバーボタンを表示"
 
-#: ../spellcheck/src/scplugin.c:270
+#: ../spellcheck/src/scplugin.c:288
 msgid "Show editor menu item to show spelling suggestions"
 msgstr "修正候補を表示するエディタメニュー項目を表示"
 
-#: ../spellcheck/src/scplugin.c:275
+#: ../spellcheck/src/scplugin.c:293
+#, fuzzy
+msgid "Show suggestions in a sub menu of the editor menu"
+msgstr "'URIを開く'をエディタのメニューに表示"
+
+#: ../spellcheck/src/scplugin.c:308
 msgid "Print misspelled words and suggestions in the messages window"
 msgstr "メッセージウィンドウに間違った単語と修正候補を表示"
 
-#: ../spellcheck/src/scplugin.c:285
+#: ../spellcheck/src/scplugin.c:318
 #, fuzzy
 msgid "<b>Interface</b>"
 msgstr "<b>検査</b>"
 
-#: ../spellcheck/src/scplugin.c:293
+#: ../spellcheck/src/scplugin.c:326
 msgid "Check spelling while typing"
 msgstr "入力中にスペルチェックを行う"
 
-#: ../spellcheck/src/scplugin.c:296
+#: ../spellcheck/src/scplugin.c:329
 #, fuzzy
 msgid "Check spelling when opening a document"
 msgstr "入力中にスペルチェックを行う"
 
-#: ../spellcheck/src/scplugin.c:298
+#: ../spellcheck/src/scplugin.c:331
 msgid ""
 "Enabling this option will check every document after it is opened in Geany. "
 "Reloading a document will also trigger a re-check."
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:302
+#: ../spellcheck/src/scplugin.c:335
 msgid "Language to use for the spell check:"
 msgstr "スペルチェックの言語:"
 
-#: ../spellcheck/src/scplugin.c:314
+#: ../spellcheck/src/scplugin.c:347
 msgid "_Directory to look for dictionary files:"
 msgstr "辞書ファイルを探すディレクトリ(_D):"
 
-#: ../spellcheck/src/scplugin.c:321
+#: ../spellcheck/src/scplugin.c:354
 msgid ""
 "Read additional dictionary files from this directory. For now, this only "
 "works with myspell dictionaries."
@@ -6707,7 +6859,7 @@ msgstr ""
 "このディレクトリから追加の辞書を読み込みます。現時点では、myspell 辞書のみ動"
 "作します。"
 
-#: ../spellcheck/src/scplugin.c:352
+#: ../spellcheck/src/scplugin.c:385
 #, fuzzy
 msgid "<b>Behavior</b>"
 msgstr "<b>その他</b>"
@@ -6720,7 +6872,24 @@ msgstr "入力中のスペルチェックは有効です"
 msgid "Spell checking while typing is now disabled"
 msgstr "入力中のスペルチェックは無効です"
 
-#: ../spellcheck/src/gui.c:327
+#: ../spellcheck/src/gui.c:326
+msgid "More..."
+msgstr "さらに..."
+
+#: ../spellcheck/src/gui.c:347
+msgid "(No Suggestions)"
+msgstr "(候補なし)"
+
+#: ../spellcheck/src/gui.c:360
+#, c-format
+msgid "Add \"%s\" to Dictionary"
+msgstr "\"%s\" を辞書に追加"
+
+#: ../spellcheck/src/gui.c:368
+msgid "Ignore All"
+msgstr "すべて無視"
+
+#: ../spellcheck/src/gui.c:445
 msgid ""
 "Search term is too long to provide\n"
 "spelling suggestions in the editor menu."
@@ -6728,38 +6897,21 @@ msgstr ""
 "エディタメニューに修正候補を表示するには\n"
 "検索する言葉が長すぎます"
 
-#: ../spellcheck/src/gui.c:332
+#: ../spellcheck/src/gui.c:451
 msgid "Perform Spell Check"
 msgstr "スペルチェックを実行"
 
-#: ../spellcheck/src/gui.c:364
-msgid "More..."
-msgstr "さらに..."
-
-#: ../spellcheck/src/gui.c:379
-msgid "(No Suggestions)"
-msgstr "(候補なし)"
-
-#: ../spellcheck/src/gui.c:388
-#, c-format
-msgid "Add \"%s\" to Dictionary"
-msgstr "\"%s\" を辞書に追加"
-
-#: ../spellcheck/src/gui.c:395
-msgid "Ignore All"
-msgstr "すべて無視"
-
-#: ../spellcheck/src/gui.c:541
+#: ../spellcheck/src/gui.c:612
 #, c-format
 msgid "Default (%s)"
 msgstr "標準 (%s)"
 
-#: ../spellcheck/src/gui.c:552
+#: ../spellcheck/src/gui.c:623
 #, c-format
 msgid "Toggle spell check while typing (current language: %s)"
 msgstr "入力中のスペルチェックを有効/無効(現在の言語: %s)"
 
-#: ../spellcheck/src/gui.c:607
+#: ../spellcheck/src/gui.c:701
 msgid "Spelling Suggestions"
 msgstr "正しい単語の候補"
 
@@ -6816,18 +6968,18 @@ msgid "Convert selection to table"
 msgstr "選択範囲をテーブルに変換"
 
 #. Build up menu entry for table_convert based on global file type
-#: ../tableconvert/src/tableconvert_ui.c:36
+#: ../tableconvert/src/tableconvert_ui.c:40
 msgid "_Convert to table"
 msgstr "テーブルに変換(_C)"
 
-#: ../tableconvert/src/tableconvert_ui.c:39
+#: ../tableconvert/src/tableconvert_ui.c:43
 msgid "Converts current marked list to a table."
 msgstr "現在マークしたリストをテーブルに変換."
 
 #. Build up menu entries for table convert based on explicit choice
 #. * This is needed for e.g. different wiki-Syntax or differenz stiles
 #. * within a special file type
-#: ../tableconvert/src/tableconvert_ui.c:48
+#: ../tableconvert/src/tableconvert_ui.c:52
 #, fuzzy
 msgid "_More TableConvert"
 msgstr "テーブル変換"
@@ -7009,11 +7161,6 @@ msgstr ""
 "%d を使用できます。\n"
 "%f は完全パスを含むファイル名に置き換えられます。\n"
 "%d は選択したファイルがあるパス名に置き換えられます。"
-
-#: ../treebrowser/src/treebrowser.c:1963
-#, fuzzy
-msgid "Terminal"
-msgstr "終了"
 
 #: ../treebrowser/src/treebrowser.c:1968
 msgid "The terminal to use with the command \"Open Terminal\""
