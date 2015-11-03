@@ -1361,8 +1361,8 @@ on_color_button_color_notify (GtkWidget  *widget,
 static void
 show_stats_dialog (guint  all,
                    guint  translated,
-                   guint  untranslated,
-                   guint  fuzzy)
+                   guint  fuzzy,
+                   guint  untranslated)
 {
   GError     *error = NULL;
   GtkBuilder *builder = gtk_builder_new ();
