@@ -2,26 +2,26 @@
 # Copyright (C) 2009 - 2015 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 # André Glória, 2009 - 2011
-# Pedro Albuquerque <palbuquerque73@openmailbox.com>, 2015.
+# Pedro Albuquerque <palbuquerque73@gmail.com>, 2015.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-plugins 1.25\n"
+"Project-Id-Version: Geany-plugins 1.26\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-27 23:00+0100\n"
-"PO-Revision-Date: 2015-10-19 13:42+0100\n"
-"Last-Translator: Pedro Albuquerque <palbuquerque73@openmailbox.com>\n"
-"Language-Team: Português <palbuquerque73@openmailbox.com>\n"
+"POT-Creation-Date: 2015-11-02 03:19+0000\n"
+"PO-Revision-Date: 2015-11-02 08:43+0000\n"
+"Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
+"Language-Team: Português <palbuquerque73@gmail.com>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\\n\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
-msgstr "(Linha vazia)"
+msgstr "(linha vazia)"
 
 #: ../addons/src/ao_bookmarklist.c:315
 msgid "_Remove Bookmark"
@@ -119,7 +119,7 @@ msgstr "Cancelar"
 
 #: ../addons/src/ao_wrapwords.c:254
 msgid "OK"
-msgstr "OK"
+msgstr "Aceitar"
 
 #: ../addons/src/ao_wrapwords.c:263
 #, c-format
@@ -147,18 +147,17 @@ msgid "Show Document List"
 msgstr "Mostrar lista de documentos"
 
 #: ../addons/src/ao_copyfilepath.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "File path \"%s\" copied to clipboard."
-msgstr "_Copiar caminho completo para a área de transferência"
+msgstr "Caminho de ficheiro \"%s\" copiado para a área de transferência"
 
 #: ../addons/src/ao_copyfilepath.c:119 ../addons/src/addons.c:318
 msgid "Copy File Path"
-msgstr ""
+msgstr "Copiar caminho do ficheiro"
 
 #: ../addons/src/ao_copyfilepath.c:122
-#, fuzzy
 msgid "Copy the file path of the current document to the clipboard"
-msgstr "Verifica a ortografia do atual documento."
+msgstr "Copiar o caminho do atual documento para a área de transferência."
 
 #: ../addons/src/addons.c:53
 msgid "Addons"
@@ -1108,7 +1107,7 @@ msgstr "400%"
 
 #: ../devhelp/devhelp/dh-window.c:722
 msgid "translator_credits"
-msgstr "créditos_tradução"
+msgstr "Pedro Albuquerque <palbuquerque73@gmail.com>"
 
 #: ../devhelp/devhelp/dh-window.c:729
 msgid "A developers' help browser for GNOME"
@@ -1418,12 +1417,12 @@ msgstr "Retângulo Selecionar até à âncora"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:117
 msgid "boolean value"
-msgstr "valor booleano"
+msgstr "valor booliano"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:130
 #, c-format
 msgid "invalid boolean value \"%s\""
-msgstr "valor booleano \"%s\" inválido"
+msgstr "valor booliano \"%s\" inválido"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:157
 #, c-format
@@ -1656,7 +1655,7 @@ msgstr "Abrir _Manual"
 
 #: ../geanygendoc/src/ggd-plugin.c:516
 msgid "Open the manual in a browser"
-msgstr "Abrir o manual no browser"
+msgstr "Abrir o manual no navegador"
 
 #. build tools menu item
 #: ../geanygendoc/src/ggd-plugin.c:520
@@ -2702,7 +2701,7 @@ msgstr "_BibTeX"
 
 #: ../geanylatex/src/geanylatex.c:2289
 msgid "Insert B_ibTeX reference"
-msgstr "Inserir referência B_ibTeX"
+msgstr "_Inserir referência BibTeX"
 
 #: ../geanylatex/src/geanylatex.c:2291
 msgid "Helps to insert a reference out of BibTeX files"
@@ -2870,7 +2869,7 @@ msgstr "Gerador de Lipsum"
 
 #: ../geanylipsum/src/geanylipsum.c:90
 msgid "Enter the length of Lipsum text here"
-msgstr "Introduza a dimensão do texto Lipsum aqui"
+msgstr "Insira a dimensão do texto Lipsum aqui"
 
 #. Building menu entry
 #: ../geanylipsum/src/geanylipsum.c:164
@@ -3198,27 +3197,27 @@ msgstr "Copiar a linha atual para a área de transferência"
 
 #: ../geanymacro/src/geanymacro.c:61
 msgid "Delete character to the left"
-msgstr "Apagar carácter à esquerda"
+msgstr "Eliminar carácter à esquerda"
 
 #: ../geanymacro/src/geanymacro.c:62
 msgid "Delete character to the right"
-msgstr "Apagar carácter à direita"
+msgstr "Eliminar carácter à direita"
 
 #: ../geanymacro/src/geanymacro.c:63
 msgid "Delete character to the left (but not newline)"
-msgstr "Apagar carácter à esquerda (mas sem nova linha)"
+msgstr "Eliminar carácter à esquerda (mas sem nova linha)"
 
 #: ../geanymacro/src/geanymacro.c:64
 msgid "Delete up to start of word to the Left"
-msgstr "Apagar até ao início da palavra à esquerda"
+msgstr "Eliminar até ao início da palavra à esquerda"
 
 #: ../geanymacro/src/geanymacro.c:65
 msgid "Delete up to start of word to the Right"
-msgstr "Apagar até ao início da palavra à direita"
+msgstr "Eliminar até ao início da palavra à direita"
 
 #: ../geanymacro/src/geanymacro.c:66
 msgid "Delete up to end of word to the Right"
-msgstr "Apagar até ao fim da palavra à direita"
+msgstr "Eliminar até ao fim da palavra à direita"
 
 #: ../geanymacro/src/geanymacro.c:67
 msgid "Delete to beginning of line"
@@ -4230,15 +4229,15 @@ msgstr "O comando pinentry devolveu um resultado inesperado."
 #. read the rest of the first line after OK
 #: ../geanypg/src/pinentry.c:131
 msgid "Passphrase entry"
-msgstr "Introduzir frase-senha"
+msgstr "Inserir frase-passe"
 
 #: ../geanypg/src/pinentry.c:135
 msgid "Passphrase"
-msgstr "Frase-senha"
+msgstr "Frase-passe"
 
 #: ../geanypg/src/pinentry.c:140
 msgid "Enter passphrase for"
-msgstr "Introduzir Frase-senha para"
+msgstr "Inserir Frase-passe para"
 
 #: ../geanypg/src/pinentry.c:171
 msgid "pinentry gave error"
@@ -4253,7 +4252,7 @@ msgid ""
 "Error, Passphrase input without using gpg-agent is not supported on Windows "
 "yet."
 msgstr ""
-"Erro, inserir uma frase-senha sem usar o gpg-agent ainda não é suportado "
+"Erro, inserir uma frase-passe sem usar o gpg-agent ainda não é suportado "
 "pelo Windows."
 
 #: ../geanypg/src/verify_aux.c:53
@@ -4448,7 +4447,7 @@ msgstr "Novo projeto"
 
 #: ../geanyprj/src/menu.c:110
 msgid "C_reate"
-msgstr "C_riar"
+msgstr "C_Riar"
 
 #: ../geanyprj/src/menu.c:123 ../scope/data/scope.glade.h:114
 msgid "Name:"
@@ -4601,7 +4600,7 @@ msgstr "Endereço de destino"
 
 #: ../geanysendmail/src/geanysendmail.c:100
 msgid "Enter the recipient's e-mail address:"
-msgstr "Introduza o endereço eletrónico de destino:"
+msgstr "Insira o endereço eletrónico de destino:"
 
 #: ../geanysendmail/src/geanysendmail.c:140
 msgid "Filename placeholder not found. The executed command might have failed."
@@ -4757,7 +4756,7 @@ msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:1243
 msgid "Commit Y/N"
-msgstr "Submeter Y/N"
+msgstr "Submeter S/N"
 
 #: ../geanyvc/src/geanyvc.c:1253
 msgid "Status"
@@ -5060,7 +5059,7 @@ msgstr "Controlo de _Versão"
 #. Status of basedir
 #: ../geanyvc/src/geanyvc.c:2345
 msgid "_Status"
-msgstr "E_stado"
+msgstr "E_Stado"
 
 #: ../geanyvc/src/geanyvc.c:2347
 msgid "Show status."
@@ -5257,106 +5256,94 @@ msgstr "Pré-visualizar Markdown"
 msgid "The current document does not have a Markdown filetype."
 msgstr "O documento atual não tem tipo de ficheiro Markdown."
 
-#: ../multiterm/src/config.vala:47 ../multiterm/src/config.c:133
-#, fuzzy, c-format
+#: ../multiterm/src/config.vala:47
+#, c-format
 msgid "Unable to save config file %s: %s"
-msgstr "Falha ao gravar ficheiro de configuração: %s"
+msgstr "Impossível gravar ficheiro de configuração %s: %s"
 
 #: ../multiterm/src/config.vala:85 ../multiterm/src/config.vala:89
-#: ../multiterm/src/config.c:370 ../multiterm/src/config.c:387
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to load config file %s: %s"
-msgstr "Falha ao carregar ficheiro de configuração: %s"
+msgstr "Impossível carregar ficheiro de configuração %s: %s"
 
-#: ../multiterm/src/context-menu.vala:52 ../multiterm/src/context-menu.vala:140
-#: ../multiterm/src/context-menu.c:134 ../multiterm/src/context-menu.c:546
-#, fuzzy
+#: ../multiterm/src/context-menu.vala:52
+#: ../multiterm/src/context-menu.vala:140
 msgid "Move to message window"
-msgstr "janela-de-mensagens"
+msgstr "Mover para janela-de-mensagens"
 
-#: ../multiterm/src/context-menu.vala:58 ../multiterm/src/context-menu.vala:135
-#: ../multiterm/src/context-menu.c:144 ../multiterm/src/context-menu.c:535
-#, fuzzy
+#: ../multiterm/src/context-menu.vala:58
+#: ../multiterm/src/context-menu.vala:135
 msgid "Move to sidebar"
-msgstr "barra lateral"
+msgstr "Mover para a barra lateral"
 
-#: ../multiterm/src/context-menu.vala:81 ../multiterm/src/context-menu.c:385
-#, fuzzy
+#: ../multiterm/src/context-menu.vala:81
 msgid "Open Tab"
-msgstr "Abrir terminal"
+msgstr "Abrir separador"
 
-#: ../multiterm/src/context-menu.vala:96 ../multiterm/src/context-menu.c:471
-#, fuzzy
+#: ../multiterm/src/context-menu.vala:96
 msgid "Open Window"
-msgstr "_Nova janela"
+msgstr "Abrir janela"
 
-#: ../multiterm/src/context-menu.vala:103 ../multiterm/src/context-menu.c:483
-#, fuzzy
+#: ../multiterm/src/context-menu.vala:103
 msgid "Next tab"
-msgstr "Cadeia segui_Nte"
+msgstr "Separador seguinte"
 
 #. this.append(item);
 #. item.show();
-#: ../multiterm/src/context-menu.vala:108 ../multiterm/src/context-menu.c:490
-#, fuzzy
+#: ../multiterm/src/context-menu.vala:108
 msgid "Previous tab"
-msgstr "Cadeia _Anterior"
+msgstr "Separador anterior"
 
 #. this.append(image_item);
 #. image_item.show();
 #. add_separator();
-#: ../multiterm/src/context-menu.vala:127 ../multiterm/src/context-menu.c:509
-#, fuzzy
+#: ../multiterm/src/context-menu.vala:127
 msgid "Show Tabs"
-msgstr "Mostrar estado"
+msgstr "Mostrar separadores"
 
-#: ../multiterm/src/notebook.vala:91 ../multiterm/src/notebook.c:236
+#: ../multiterm/src/notebook.vala:91
 #, c-format
 msgid "Unable to launch external terminal: %s"
-msgstr ""
+msgstr "Impossível iniciar terminal externo: %s"
 
-#: ../multiterm/src/notebook.vala:137 ../multiterm/src/notebook.c:421
-#, fuzzy
+#: ../multiterm/src/notebook.vala:137
 msgid "Unable to locate default shell in configuration file"
-msgstr "Impossível escrever configuração predefinida: %s"
+msgstr "Impossível localizar terminal predefinido no ficheiro de configuração"
 
-#: ../multiterm/src/notebook.vala:202 ../multiterm/src/notebook.c:646
-#, fuzzy
+#: ../multiterm/src/notebook.vala:202
 msgid "New terminal"
-msgstr "Mostrar terminal"
+msgstr "Novo terminal"
 
 #: ../multiterm/src/plugin.vala:46 ../multiterm/src/plugin.vala:88
-#: ../multiterm/src/plugin.c:104 ../multiterm/src/plugin.c:276
 msgid "MultiTerm"
-msgstr ""
+msgstr "MultiTerm"
 
-#: ../multiterm/src/plugin.vala:47 ../multiterm/src/plugin.c:105
+#: ../multiterm/src/plugin.vala:47
 msgid "Multi-tabbed virtual terminal emulator."
-msgstr ""
+msgstr "Emulador de terminal virtual multi-separador."
 
-#: ../multiterm/src/plugin.vala:78 ../multiterm/src/plugin.c:242
-#, fuzzy, c-format
+#: ../multiterm/src/plugin.vala:78
+#, c-format
 msgid "Unable to write default config file: %s"
 msgstr "Impossível escrever configuração predefinida: %s"
 
 #: ../multiterm/src/shell-config.vala:30
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to read value for '%s' key: %s"
-msgstr "Impossível criar pasta de configuração em  '%s'"
+msgstr "Impossível ler valor para \"%s\": %s"
 
 #: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:1963
 msgid "Terminal"
 msgstr "Terminal"
 
-#: ../multiterm/src/tab-label.vala:84 ../multiterm/src/tab-label.c:168
-#, fuzzy
+#: ../multiterm/src/tab-label.vala:84
 msgid "Close terminal"
-msgstr "Mostrar terminal"
+msgstr "Fechar terminal"
 
-#: ../multiterm/src/terminal.vala:88 ../multiterm/src/terminal.c:121
-#, fuzzy, c-format
+#: ../multiterm/src/terminal.vala:88
+#, c-format
 msgid "Unable to run command: %s"
-msgstr "Impossível gerar comentário: %s"
+msgstr "Impossível executar o comando: %s"
 
 #: ../overview/overview/overviewplugin.c:49
 msgid "Provides an overview of the active document"
@@ -6577,7 +6564,8 @@ msgstr "Terminal de Feed"
 msgid "Enter char # (0..255):"
 msgstr "Insira carácter # (0..255):"
 
-#: ../scope/src/conterm.c:512 ../scope/src/scope.c:546 ../scope/src/scope.c:547
+#: ../scope/src/conterm.c:512 ../scope/src/scope.c:546
+#: ../scope/src/scope.c:547
 #, c-format
 msgid "Scope: %s."
 msgstr "Âmbito: %s."
@@ -6908,9 +6896,8 @@ msgid "Show editor menu item to show spelling suggestions"
 msgstr "Mostrar menu no editor para sugestões dactilográficas "
 
 #: ../spellcheck/src/scplugin.c:293
-#, fuzzy
 msgid "Show suggestions in a sub menu of the editor menu"
-msgstr "Mostrar item \"Abrir URI\" no menu do editor"
+msgstr "Mostrar sugestões num submenu do menu do editor"
 
 #: ../spellcheck/src/scplugin.c:308
 msgid "Print misspelled words and suggestions in the messages window"
@@ -6991,7 +6978,7 @@ msgstr ""
 
 #: ../spellcheck/src/gui.c:451
 msgid "Perform Spell Check"
-msgstr "Executar o corretor ortográfico"
+msgstr "Realizar correção ortográfica"
 
 #: ../spellcheck/src/gui.c:612
 #, c-format
@@ -7048,7 +7035,7 @@ msgid "DokuWiki"
 msgstr "DokuWiki"
 
 #. OK. Something went not as expected.
-#. * We did have a selection but cannot parse it into rows.
+#. * We do have a selection but cannot parse it into rows.
 #. * Aborting
 #: ../tableconvert/src/tableconvert.c:297
 msgid "Something went wrong on parsing selection. Aborting"
@@ -7493,7 +7480,7 @@ msgstr "Vista Web"
 
 #: ../webhelper/src/gwh-plugin.c:186
 msgid "Web preview"
-msgstr "Pré-visualização Web"
+msgstr "Antevisão Web"
 
 #: ../webhelper/src/gwh-plugin.c:265
 msgid "Reload upon document saving"
@@ -7616,7 +7603,7 @@ msgstr "Excertos de código XML"
 
 #: ../xmlsnippets/src/plugin.c:46
 msgid "Autocompletes XML/HTML tags using snippets."
-msgstr "Auto completar etiquetas  XML/HTML usando excertos de código."
+msgstr "Conclusão automática de etiquetas  XML/HTML usando excertos de código."
 
 #~ msgid ""
 #~ "This plugin adds features to facilitate navigation between source files.\n"
