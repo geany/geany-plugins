@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Geany-plugins 1.25\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-27 23:00+0100\n"
-"PO-Revision-Date: 2015-06-23 14:29+0200\n"
+"PO-Revision-Date: 2015-11-04 18:53+0100\n"
 "Last-Translator: Colomban Wendling <ban@herbesfolles.org>\n"
 "Language-Team: French <geany-i18n@uvena.de>\n"
 "Language: fr\n"
@@ -147,18 +147,17 @@ msgid "Show Document List"
 msgstr "Montrer la liste des documents"
 
 #: ../addons/src/ao_copyfilepath.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "File path \"%s\" copied to clipboard."
-msgstr "_Copier le chemin complet dans le presse-papier"
+msgstr "Le chemin « %s » a été copié dans le presse-papier."
 
 #: ../addons/src/ao_copyfilepath.c:119 ../addons/src/addons.c:318
 msgid "Copy File Path"
-msgstr ""
+msgstr "Copier le chemin du fichier"
 
 #: ../addons/src/ao_copyfilepath.c:122
-#, fuzzy
 msgid "Copy the file path of the current document to the clipboard"
-msgstr "Vérifie l'orthographe du document courant."
+msgstr "Copie le chemin du document courant dans le presse-papier"
 
 #: ../addons/src/addons.c:53
 msgid "Addons"
@@ -5277,72 +5276,64 @@ msgid "The current document does not have a Markdown filetype."
 msgstr "Le type du fichier courant n'est pas définit à Markdown."
 
 #: ../multiterm/src/config.vala:47 ../multiterm/src/config.c:133
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to save config file %s: %s"
-msgstr "Impossible d'enregistrer le fichier de configuration : %s"
+msgstr "Impossible d'enregistrer le fichier de configuration « %s » : %s"
 
 #: ../multiterm/src/config.vala:85 ../multiterm/src/config.vala:89
 #: ../multiterm/src/config.c:370 ../multiterm/src/config.c:387
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to load config file %s: %s"
-msgstr "Impossible de charger le fichier de configuration : %s"
+msgstr "Impossible de charger le fichier de configuration « %s » : %s"
 
 #: ../multiterm/src/context-menu.vala:52 ../multiterm/src/context-menu.vala:140
 #: ../multiterm/src/context-menu.c:134 ../multiterm/src/context-menu.c:546
-#, fuzzy
 msgid "Move to message window"
-msgstr "fenêtre de messages"
+msgstr "Déplacer dans la fenêtre de messages"
 
 #: ../multiterm/src/context-menu.vala:58 ../multiterm/src/context-menu.vala:135
 #: ../multiterm/src/context-menu.c:144 ../multiterm/src/context-menu.c:535
-#, fuzzy
 msgid "Move to sidebar"
-msgstr "barre latérale"
+msgstr "Déplacer dans la barre latérale"
 
 #: ../multiterm/src/context-menu.vala:81 ../multiterm/src/context-menu.c:385
-#, fuzzy
 msgid "Open Tab"
-msgstr "Ouvrir dans un terminal"
+msgstr "Nouvel onglet"
 
 #: ../multiterm/src/context-menu.vala:96 ../multiterm/src/context-menu.c:471
-#, fuzzy
 msgid "Open Window"
-msgstr "_Nouvelle fenêtre"
+msgstr "Nouvelle fenêtre"
 
 #: ../multiterm/src/context-menu.vala:103 ../multiterm/src/context-menu.c:483
-#, fuzzy
 msgid "Next tab"
-msgstr "Chaîne suiva_nte"
+msgstr "Onglet suivant"
 
 #. this.append(item);
 #. item.show();
 #: ../multiterm/src/context-menu.vala:108 ../multiterm/src/context-menu.c:490
-#, fuzzy
 msgid "Previous tab"
-msgstr "Chaîne _précédente"
+msgstr "Onglet précédent"
 
 #. this.append(image_item);
 #. image_item.show();
 #. add_separator();
 #: ../multiterm/src/context-menu.vala:127 ../multiterm/src/context-menu.c:509
-#, fuzzy
 msgid "Show Tabs"
-msgstr "Afficher le statut"
+msgstr "Afficher les onglets"
 
 #: ../multiterm/src/notebook.vala:91 ../multiterm/src/notebook.c:236
 #, c-format
 msgid "Unable to launch external terminal: %s"
-msgstr ""
+msgstr "Impossible de langer le terminal externe : %s"
 
 #: ../multiterm/src/notebook.vala:137 ../multiterm/src/notebook.c:421
-#, fuzzy
 msgid "Unable to locate default shell in configuration file"
-msgstr "Impossible d'écrire la configuration par défaut : %s"
+msgstr ""
+"Impossible de trouver le shell par défaut dans le fichier de configuration"
 
 #: ../multiterm/src/notebook.vala:202 ../multiterm/src/notebook.c:646
-#, fuzzy
 msgid "New terminal"
-msgstr "Afficher le terminal"
+msgstr "Nouveau terminal"
 
 #: ../multiterm/src/plugin.vala:46 ../multiterm/src/plugin.vala:88
 #: ../multiterm/src/plugin.c:104 ../multiterm/src/plugin.c:276
@@ -5351,31 +5342,30 @@ msgstr ""
 
 #: ../multiterm/src/plugin.vala:47 ../multiterm/src/plugin.c:105
 msgid "Multi-tabbed virtual terminal emulator."
-msgstr ""
+msgstr "Émulateur de terminal multi-onglet"
 
 #: ../multiterm/src/plugin.vala:78 ../multiterm/src/plugin.c:242
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to write default config file: %s"
 msgstr "Impossible d'écrire la configuration par défaut : %s"
 
 #: ../multiterm/src/shell-config.vala:30
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to read value for '%s' key: %s"
-msgstr "Impossible de créer le dossier de configuration « %s »"
+msgstr "Impossible de lire la valeur de la clé « %s » : %s"
 
 #: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:1963
 msgid "Terminal"
 msgstr "Terminal"
 
 #: ../multiterm/src/tab-label.vala:84 ../multiterm/src/tab-label.c:168
-#, fuzzy
 msgid "Close terminal"
-msgstr "Afficher le terminal"
+msgstr "Fermer le terminal"
 
 #: ../multiterm/src/terminal.vala:88 ../multiterm/src/terminal.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to run command: %s"
-msgstr "Impossible de construire le commentaire : %s"
+msgstr "Impossible d'exécuter la commande : %s"
 
 #: ../overview/overview/overviewplugin.c:49
 msgid "Provides an overview of the active document"
@@ -5815,7 +5805,6 @@ msgstr ""
 "navigation additionnelles (anciennement GProject)"
 
 #: ../projectorganizer/src/prjorg-menu.c:386
-#, fuzzy
 msgid "Find in Project Files..."
 msgstr "Rechercher dans les fichiers du projet…"
 
@@ -5824,7 +5813,6 @@ msgid "Find in project files"
 msgstr "Rechercher dans les fcihiers du projet"
 
 #: ../projectorganizer/src/prjorg-menu.c:396
-#, fuzzy
 msgid "Find Project File..."
 msgstr "Rechercher un fichier du projet…"
 
@@ -5833,7 +5821,6 @@ msgid "Find project file"
 msgstr "Rechercher un fichier du projet"
 
 #: ../projectorganizer/src/prjorg-menu.c:406
-#, fuzzy
 msgid "Find Project Tag..."
 msgstr "Rechercher un symbole du projet…"
 
@@ -6014,19 +6001,16 @@ msgid "Expand All"
 msgstr "Tout déplier"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1375
-#, fuzzy
 msgid "Find in Files..."
-msgstr "Rechercher dans les fichiers"
+msgstr "Rechercher dans les fichiers…"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1384
-#, fuzzy
 msgid "Find File..."
-msgstr "Rechercher un fichier"
+msgstr "Rechercher un fichier…"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1393
-#, fuzzy
 msgid "Find Tag..."
-msgstr "Rechercher un symbole"
+msgstr "Rechercher un symbole…"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1406
 msgid "Remove External Directory"
@@ -6681,7 +6665,7 @@ msgstr ""
 #: ../scope/src/debug.c:362
 #, c-format
 msgid "GDB died unexpectedly with status %d."
-msgstr ""
+msgstr "GDB s'est terminé de façon inattendue avec le statut %d."
 
 #: ../scope/src/debug.c:364
 msgid "Program terminated."
@@ -7026,9 +7010,8 @@ msgid "Show editor menu item to show spelling suggestions"
 msgstr "Afficher les suggestions dans le menu de l'éditeur"
 
 #: ../spellcheck/src/scplugin.c:293
-#, fuzzy
 msgid "Show suggestions in a sub menu of the editor menu"
-msgstr "Montrer une commande « Ouvrir l'URI » dans le menu de l'éditeur"
+msgstr "Afficher les suggestions dans un sous-menu du menu de l'éditeur"
 
 #: ../spellcheck/src/scplugin.c:308
 msgid "Print misspelled words and suggestions in the messages window"
