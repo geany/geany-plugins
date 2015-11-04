@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.25\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-27 23:00+0100\n"
+"POT-Creation-Date: 2015-11-04 23:03+0100\n"
 "PO-Revision-Date: 2011-09-13 20:24+0100\n"
 "Last-Translator: Peter Scholtens <peter.scholtens@xs4all.nl>\n"
 "Language-Team: Dutch\n"
@@ -145,6 +145,7 @@ msgid "Show Document List"
 msgstr "Laat documentlijst zien"
 
 #: ../addons/src/ao_copyfilepath.c:104
+#, c-format
 msgid "File path \"%s\" copied to clipboard."
 msgstr "Padnaam van '%s' gekopiëerd naar klembord."
 
@@ -5009,47 +5010,49 @@ msgstr ""
 msgid "The current document does not have a Markdown filetype."
 msgstr ""
 
-#: ../multiterm/src/config.vala:47 ../multiterm/src/config.c:133
+#: ../multiterm/src/config.vala:47 ../multiterm/src/config.c:47
 #, fuzzy, c-format
 msgid "Unable to save config file %s: %s"
 msgstr "Kon configuratiebestand niet wegschrijven: %s"
 
 #: ../multiterm/src/config.vala:85 ../multiterm/src/config.vala:89
-#: ../multiterm/src/config.c:370 ../multiterm/src/config.c:387
+#: ../multiterm/src/config.c:85 ../multiterm/src/config.c:89
 #, fuzzy, c-format
 msgid "Unable to load config file %s: %s"
 msgstr "Kon configuratie bestand '%s' niet inlezen"
 
-#: ../multiterm/src/context-menu.vala:52 ../multiterm/src/context-menu.vala:140
-#: ../multiterm/src/context-menu.c:134 ../multiterm/src/context-menu.c:546
+#: ../multiterm/src/context-menu.vala:52
+#: ../multiterm/src/context-menu.vala:140 ../multiterm/src/context-menu.c:52
+#: ../multiterm/src/context-menu.c:140
 #, fuzzy
 msgid "Move to message window"
 msgstr "_Verberg berichtenvenster"
 
-#: ../multiterm/src/context-menu.vala:58 ../multiterm/src/context-menu.vala:135
-#: ../multiterm/src/context-menu.c:144 ../multiterm/src/context-menu.c:535
+#: ../multiterm/src/context-menu.vala:58
+#: ../multiterm/src/context-menu.vala:135 ../multiterm/src/context-menu.c:58
+#: ../multiterm/src/context-menu.c:135
 #, fuzzy
 msgid "Move to sidebar"
 msgstr "Ga naar begin van de regel"
 
-#: ../multiterm/src/context-menu.vala:81 ../multiterm/src/context-menu.c:385
+#: ../multiterm/src/context-menu.vala:81 ../multiterm/src/context-menu.c:81
 #, fuzzy
 msgid "Open Tab"
 msgstr "Open terminalvenster"
 
-#: ../multiterm/src/context-menu.vala:96 ../multiterm/src/context-menu.c:471
+#: ../multiterm/src/context-menu.vala:96 ../multiterm/src/context-menu.c:96
 #, fuzzy
 msgid "Open Window"
 msgstr "Open URI"
 
-#: ../multiterm/src/context-menu.vala:103 ../multiterm/src/context-menu.c:483
+#: ../multiterm/src/context-menu.vala:103 ../multiterm/src/context-menu.c:103
 #, fuzzy
 msgid "Next tab"
 msgstr "Volgende string"
 
 #. this.append(item);
 #. item.show();
-#: ../multiterm/src/context-menu.vala:108 ../multiterm/src/context-menu.c:490
+#: ../multiterm/src/context-menu.vala:108 ../multiterm/src/context-menu.c:108
 #, fuzzy
 msgid "Previous tab"
 msgstr "Vorige string"
@@ -5057,36 +5060,36 @@ msgstr "Vorige string"
 #. this.append(image_item);
 #. image_item.show();
 #. add_separator();
-#: ../multiterm/src/context-menu.vala:127 ../multiterm/src/context-menu.c:509
+#: ../multiterm/src/context-menu.vala:127 ../multiterm/src/context-menu.c:127
 #, fuzzy
 msgid "Show Tabs"
 msgstr "Laat toestand zien"
 
-#: ../multiterm/src/notebook.vala:91 ../multiterm/src/notebook.c:236
+#: ../multiterm/src/notebook.vala:91 ../multiterm/src/notebook.c:91
 #, c-format
 msgid "Unable to launch external terminal: %s"
 msgstr ""
 
-#: ../multiterm/src/notebook.vala:137 ../multiterm/src/notebook.c:421
+#: ../multiterm/src/notebook.vala:137 ../multiterm/src/notebook.c:137
 #, fuzzy
 msgid "Unable to locate default shell in configuration file"
 msgstr "Kon default configuratie niet wegschrijven: %s"
 
-#: ../multiterm/src/notebook.vala:202 ../multiterm/src/notebook.c:646
+#: ../multiterm/src/notebook.vala:202 ../multiterm/src/notebook.c:202
 #, fuzzy
 msgid "New terminal"
 msgstr "Laat regels van boom zien"
 
 #: ../multiterm/src/plugin.vala:46 ../multiterm/src/plugin.vala:88
-#: ../multiterm/src/plugin.c:104 ../multiterm/src/plugin.c:276
+#: ../multiterm/src/plugin.c:46 ../multiterm/src/plugin.c:88
 msgid "MultiTerm"
 msgstr ""
 
-#: ../multiterm/src/plugin.vala:47 ../multiterm/src/plugin.c:105
+#: ../multiterm/src/plugin.vala:47 ../multiterm/src/plugin.c:47
 msgid "Multi-tabbed virtual terminal emulator."
 msgstr ""
 
-#: ../multiterm/src/plugin.vala:78 ../multiterm/src/plugin.c:242
+#: ../multiterm/src/plugin.vala:78 ../multiterm/src/plugin.c:78
 #, fuzzy, c-format
 msgid "Unable to write default config file: %s"
 msgstr "Kon default configuratie niet wegschrijven: %s"
@@ -5096,17 +5099,18 @@ msgstr "Kon default configuratie niet wegschrijven: %s"
 msgid "Unable to read value for '%s' key: %s"
 msgstr "Kon configuratie map niet creëren op '%s'"
 
-#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:1963
+#: ../multiterm/src/tab-label.vala:62 ../multiterm/src/tab-label.c:62
+#: ../treebrowser/src/treebrowser.c:1963
 #, fuzzy
 msgid "Terminal"
 msgstr "Open terminalvenster"
 
-#: ../multiterm/src/tab-label.vala:84 ../multiterm/src/tab-label.c:168
+#: ../multiterm/src/tab-label.vala:84 ../multiterm/src/tab-label.c:84
 #, fuzzy
 msgid "Close terminal"
 msgstr "Laat regels van boom zien"
 
-#: ../multiterm/src/terminal.vala:88 ../multiterm/src/terminal.c:121
+#: ../multiterm/src/terminal.vala:88 ../multiterm/src/terminal.c:88
 #, fuzzy, c-format
 msgid "Unable to run command: %s"
 msgstr "Kon default configuratie niet wegschrijven: %s"
@@ -6347,7 +6351,8 @@ msgstr "Open terminalvenster"
 msgid "Enter char # (0..255):"
 msgstr ""
 
-#: ../scope/src/conterm.c:512 ../scope/src/scope.c:546 ../scope/src/scope.c:547
+#: ../scope/src/conterm.c:512 ../scope/src/scope.c:546
+#: ../scope/src/scope.c:547
 #, fuzzy, c-format
 msgid "Scope: %s."
 msgstr "Sluit: %s"
@@ -6609,7 +6614,7 @@ msgid "Scope: error reading [%s]."
 msgstr ""
 
 #: ../scope/src/views.c:526
-msgid "…"
+msgid "ے"
 msgstr ""
 
 #: ../scope/src/views.c:549
@@ -6821,7 +6826,7 @@ msgid "DokuWiki"
 msgstr "DokuWiki"
 
 #. OK. Something went not as expected.
-#. * We did have a selection but cannot parse it into rows.
+#. * We do have a selection but cannot parse it into rows.
 #. * Aborting
 #: ../tableconvert/src/tableconvert.c:297
 msgid "Something went wrong on parsing selection. Aborting"
