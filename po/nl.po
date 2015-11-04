@@ -145,18 +145,16 @@ msgid "Show Document List"
 msgstr "Laat documentlijst zien"
 
 #: ../addons/src/ao_copyfilepath.c:104
-#, fuzzy, c-format
 msgid "File path \"%s\" copied to clipboard."
-msgstr "Kopiëer volledig padnaam naar klembord"
+msgstr "Padnaam van '%s' gekopiëerd naar klembord."
 
 #: ../addons/src/ao_copyfilepath.c:119 ../addons/src/addons.c:318
 msgid "Copy File Path"
-msgstr ""
+msgstr "Kopiëer pad van bestandsnaam"
 
 #: ../addons/src/ao_copyfilepath.c:122
-#, fuzzy
 msgid "Copy the file path of the current document to the clipboard"
-msgstr "Controleert de spelling in het huidige bestand"
+msgstr "Kopiëert pad van huidige document naar klembord"
 
 #: ../addons/src/addons.c:53
 msgid "Addons"
@@ -1320,7 +1318,7 @@ msgstr ""
 
 #: ../geanyextrasel/src/extrasel.c:502
 msgid "E_xtra Selection"
-msgstr ""
+msgstr "Meer selecteeropties"
 
 #: ../geanyextrasel/src/extrasel.c:509
 msgid "_Column Mode"
@@ -4810,9 +4808,8 @@ msgid "_VC"
 msgstr "VB"
 
 #: ../geanyvc/src/geanyvc.c:2323
-#, fuzzy
 msgid "_Version Control"
-msgstr "Voeg aan Versie Beheer toe"
+msgstr "Versie Beheer"
 
 #. Status of basedir
 #: ../geanyvc/src/geanyvc.c:2345
@@ -5349,14 +5346,12 @@ msgid "_Reflow Translation"
 msgstr ""
 
 #: ../pohelper/data/menus.ui.h:24 ../pohelper/src/gph-plugin.c:1542
-#, fuzzy
 msgid "Show statistics of the current document"
-msgstr "Controleert de spelling in het huidige bestand"
+msgstr "Laat de statistieken van het hudige document zien"
 
 #: ../pohelper/data/menus.ui.h:25
-#, fuzzy
 msgid "_Show stats"
-msgstr "Laat toestand zien"
+msgstr "Laat statistiek zien"
 
 #: ../pohelper/data/menus.ui.h:26
 msgid ""
@@ -5371,38 +5366,32 @@ msgid "Update _Headers Upon Save"
 msgstr "Pas vertalingsinfo aan bij wegschrijven"
 
 #: ../pohelper/data/stats.ui.h:1
-#, fuzzy
 msgid "Translation statistics"
-msgstr "Vertalingshulp"
+msgstr "Vertalingsstatistieken"
 
 #: ../pohelper/data/stats.ui.h:2
-#, fuzzy
 msgid "Choose a color for translated strings"
-msgstr "Ga naar volgende onvertaalde string"
+msgstr "Kies een kleur voor de vertaalde string"
 
 #: ../pohelper/data/stats.ui.h:3
-#, fuzzy
 msgid "Choose a color for fuzzily translated strings"
-msgstr "Ga naar volgende onduidelijk vertaalde string"
+msgstr "Kies een kleur voor de onduidelijk vertaalde string"
 
 #: ../pohelper/data/stats.ui.h:4
-#, fuzzy
 msgid "Choose a color for untranslated strings"
-msgstr "Ga naar volgende onvertaalde string"
+msgstr "Kies een kleur voor de onvertaalde string"
 
 #: ../pohelper/data/stats.ui.h:5
-#, fuzzy
 msgid "Translated:"
-msgstr "Volgende onvertaalde string"
+msgstr "Vertaald:"
 
 #: ../pohelper/data/stats.ui.h:6
 msgid "Fuzzy:"
-msgstr ""
+msgstr "Onduidelijk:"
 
 #: ../pohelper/data/stats.ui.h:7
-#, fuzzy
 msgid "Untranslated:"
-msgstr "Volgende onvertaalde string"
+msgstr "Onvertaalde:"
 
 #: ../pohelper/src/gph-plugin.c:41
 msgid "Translation Helper"
@@ -5415,22 +5404,22 @@ msgstr "Verbetert ondersteuning van GetText vertalingsbestanden."
 #: ../pohelper/src/gph-plugin.c:1305 ../pohelper/src/gph-plugin.c:1322
 #, c-format
 msgid "<b>Translated:</b> %.3g%%"
-msgstr ""
+msgstr "<b>Vertaald:</b> %.3g%%"
 
 #: ../pohelper/src/gph-plugin.c:1307 ../pohelper/src/gph-plugin.c:1325
 #, c-format
 msgid "<b>Fuzzy:</b> %.3g%%"
-msgstr ""
+msgstr "<b>Onduidelijk:</b> %.3g%%"
 
 #: ../pohelper/src/gph-plugin.c:1309 ../pohelper/src/gph-plugin.c:1327
 #, c-format
 msgid "<b>Untranslated:</b> %.3g%%"
-msgstr ""
+msgstr "<b>Onvertaald:</b> %.3g%%"
 
 #: ../pohelper/src/gph-plugin.c:1407
 #, c-format
 msgid "%u (%.3g%%)"
-msgstr ""
+msgstr "%u (%.3g%%)"
 
 #: ../pohelper/src/gph-plugin.c:1532
 msgid "Paste original untranslated string to translation"
@@ -5463,9 +5452,8 @@ msgid "Run the PrettyPrinter XML"
 msgstr ""
 
 #: ../pretty-printer/src/PluginEntry.c:144
-#, fuzzy
 msgid "Unable to parse the content as XML."
-msgstr "Kon configuratie map niet creëren op '%s'"
+msgstr "Kon de inhoud niet als XML interpreteren."
 
 #: ../pretty-printer/src/PluginEntry.c:155
 msgid ""
@@ -6810,54 +6798,54 @@ msgstr ""
 
 #: ../tableconvert/src/tableconvert.c:31
 msgid "Tableconvert"
-msgstr ""
+msgstr "Tabelconversie"
 
 #: ../tableconvert/src/tableconvert.c:32
 msgid "A little plugin to convert lists into tables"
-msgstr ""
+msgstr "Een plug-in om lijsten naar tabellen om te zetten."
 
 #: ../tableconvert/src/tableconvert.c:42
 msgid "LaTeX"
-msgstr ""
+msgstr "LaTeX"
 
 #: ../tableconvert/src/tableconvert.c:59
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: ../tableconvert/src/tableconvert.c:79
 msgid "SQL"
-msgstr ""
+msgstr "SQL"
 
 #: ../tableconvert/src/tableconvert.c:96
 msgid "DokuWiki"
-msgstr ""
+msgstr "DokuWiki"
 
 #. OK. Something went not as expected.
 #. * We did have a selection but cannot parse it into rows.
 #. * Aborting
 #: ../tableconvert/src/tableconvert.c:297
 msgid "Something went wrong on parsing selection. Aborting"
-msgstr ""
+msgstr "Er ging iets fout met het interpreteren van de selectie. Afgebroken."
 
 #: ../tableconvert/src/tableconvert.c:329
 msgid "Convert selection to table"
-msgstr ""
+msgstr "Zet selectie om naar tabel."
 
 #. Build up menu entry for table_convert based on global file type
 #: ../tableconvert/src/tableconvert_ui.c:40
 msgid "_Convert to table"
-msgstr ""
+msgstr "Zet om naar tabel"
 
 #: ../tableconvert/src/tableconvert_ui.c:43
 msgid "Converts current marked list to a table."
-msgstr ""
+msgstr "Zet huidige gemarkeerde lijst om naar een tabel."
 
 #. Build up menu entries for table convert based on explicit choice
 #. * This is needed for e.g. different wiki-Syntax or differenz stiles
 #. * within a special file type
 #: ../tableconvert/src/tableconvert_ui.c:52
 msgid "_More TableConvert"
-msgstr ""
+msgstr "Meer tabelomzetting"
 
 #: ../treebrowser/src/treebrowser.c:127
 msgid "TreeBrowser"
