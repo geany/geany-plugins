@@ -49,6 +49,7 @@ PyMODINIT_FUNC initscintilla(void);
 PyMODINIT_FUNC initsearch(void);
 PyMODINIT_FUNC inittemplates(void);
 PyMODINIT_FUNC initui_utils(void);
+PyMODINIT_FUNC initpluginbase(void);
 
 
 static void
@@ -89,6 +90,7 @@ GeanyPy_start_interpreter(void)
     initsearch();
     inittemplates();
     initui_utils();
+    initpluginbase();
 
 #ifdef GEANYPY_WINDOWS
 	{ /* On windows, get path at runtime since we don't really know where
@@ -158,13 +160,35 @@ static gboolean has_error(void)
 	return FALSE;
 }
 
+static PyTypeObject PluginBaseType;
+
 static gboolean geanypy_proxy_init(GeanyPlugin *plugin, gpointer pdata)
 {
 	GeanyPyPluginData *data = (GeanyPyPluginData *) pdata;
+	GeanyPyPluginBase *base;
+	PyObject *args;
 
-	data->instance = PyObject_CallObject(data->class, NULL);
+	base = PyObject_New(GeanyPyPluginBase, &PluginBaseType);
+	base->plugin = plugin;
+
+	/* The new-style constructor gets a context parameter, and the class must pass
+	 * it to the geany.Plugin constructor. The new-style constructor is required
+	 * to have certain APIs work in it (those that need the GeanyPlugin pointer) */
+	args = Py_BuildValue("(O)", base);
+	data->instance = PyObject_CallObject(data->class, args);
+	Py_DECREF(args);
+	Py_DECREF(base);
+
+	if (PyErr_Occurred()) {
+		PyErr_Clear();
+		/* If the plugin still implements the old constructor we can catch this and try again */
+		data->instance = PyObject_CallObject(data->class, NULL);
+	}
+
 	if (has_error())
 		return FALSE;
+
+	((GeanyPyPluginBase *)data->instance)->plugin = plugin;
 
 	return TRUE;
 }
@@ -368,4 +392,71 @@ geany_load_module(GeanyPlugin *plugin)
 	plugin->funcs->cleanup    = geanypy_cleanup;
 
 	GEANY_PLUGIN_REGISTER_FULL(plugin, 224, state, g_free);
+}
+
+
+static void PluginBase_dealloc(GeanyPyPluginBase *self) { }
+
+static PyMethodDef
+PluginBase_methods[] = {
+	{ NULL }
+};
+
+static PyMethodDef
+PluginModule_methods[] = {
+	{ NULL }
+};
+
+
+static PyGetSetDef
+PluginBase_getseters[] = {
+	{ NULL },
+};
+
+
+static int
+PluginBase_init(GeanyPyPluginBase *self, PyObject *args, PyObject *kwargs)
+{
+	GeanyPyPluginBase *py_context;
+
+	if (PyArg_ParseTuple(args, "O", (PyObject **) &py_context) && (PyObject *)py_context != Py_None)
+		self->plugin = py_context->plugin;
+
+	return 0;
+}
+
+
+static PyTypeObject PluginBaseType = {
+	PyObject_HEAD_INIT(NULL)
+	0,											/* ob_size */
+	"geany.pluginbase,PluginBase",					/* tp_name */
+	sizeof(GeanyPyPluginBase),								/* tp_basicsize */
+	0,											/* tp_itemsize */
+	(destructor) PluginBase_dealloc,				/* tp_dealloc */
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,	/* tp_print - tp_as_buffer */
+	Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,	/* tp_flags */
+	"Wrapper around a GeanyPlugin structure."	,/* tp_doc */
+	0, 0, 0, 0, 0, 0,							/* tp_traverse - tp_iternext */
+	PluginBase_methods,							/* tp_methods */
+	0,											/* tp_members */
+	PluginBase_getseters,							/* tp_getset */
+	0, 0, 0, 0, 0,								/* tp_base - tp_dictoffset */
+	(initproc) PluginBase_init,						/* tp_init */
+	0, 0,										/* tp_alloc - tp_new */
+};
+
+
+PyMODINIT_FUNC initpluginbase(void)
+{
+	PyObject *m;
+
+	PluginBaseType.tp_new = PyType_GenericNew;
+	if (PyType_Ready(&PluginBaseType) < 0)
+		return;
+
+	m = Py_InitModule3("geany.pluginbase", PluginModule_methods,
+			"Plugin management.");
+
+	Py_INCREF(&PluginBaseType);
+	PyModule_AddObject(m, "PluginBase", (PyObject *)&PluginBaseType);
 }

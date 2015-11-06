@@ -33,6 +33,11 @@ extern GeanyData *geany_data;
 #define PyMODINIT_FUNC void
 #endif
 
+typedef struct
+{
+	PyObject_HEAD
+	GeanyPlugin *plugin;
+} GeanyPyPluginBase;
 
 #ifdef __cplusplus
 } /* extern "C" */
