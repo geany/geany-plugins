@@ -36,6 +36,7 @@ directory (something like ~/.config/geany/plugins/geanypy/plugins).  Only
 files with a `.py` extension will be loaded.
 """
 
+import keybindings
 
 class Plugin(object):
 	"""
@@ -120,3 +121,10 @@ class Plugin(object):
 			return self.__plugin_author__
 		else:
 			return ""
+
+	def set_key_group(self, section_name, count, callback = None):
+		"""
+		Sets up a GeanyKeyGroup for this plugin. You can use that group to add keybindings
+		with group.add_key_item().
+		"""
+		return keybindings.set_key_group(self, section_name, count, callback)

@@ -24,6 +24,7 @@ import scintilla
 import search
 import templates
 import ui_utils
+import keybindings
 
 from app import App
 from prefs import Prefs, ToolPrefs
@@ -41,6 +42,7 @@ __all__ = [ "Plugin",
             "main_widgets",
             "interface_prefs",
             "app",
+            "keybindings",
             "general_prefs",
             "search_prefs",
             "template_prefs",

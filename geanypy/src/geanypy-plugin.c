@@ -26,6 +26,7 @@
 #define INCLUDE_PYGOBJECT_ONCE_FULL
 
 #include "geanypy.h"
+#include "geanypy-keybindings.h"
 
 #include <glib.h>
 #include <glib/gstdio.h>
@@ -49,6 +50,7 @@ PyMODINIT_FUNC initscintilla(void);
 PyMODINIT_FUNC initsearch(void);
 PyMODINIT_FUNC inittemplates(void);
 PyMODINIT_FUNC initui_utils(void);
+PyMODINIT_FUNC initkeybindings(void);
 
 
 static void
@@ -89,6 +91,7 @@ GeanyPy_start_interpreter(void)
     initsearch();
     inittemplates();
     initui_utils();
+    initkeybindings();
 
 #ifdef GEANYPY_WINDOWS
 	{ /* On windows, get path at runtime since we don't really know where

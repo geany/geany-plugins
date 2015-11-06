@@ -23,6 +23,7 @@ geanypy_la_SOURCES			=	geanypy-app.c \
 								geanypy-highlighting.c \
 								geanypy-indentprefs.c \
 								geanypy-interfaceprefs.c \
+								geanypy-keybindings.c \
 								geanypy-main.c \
 								geanypy-mainwidgets.c \
 								geanypy-msgwindow.c \
