@@ -26,10 +26,7 @@
 extern "C" {
 #endif
 
-
-extern GeanyPlugin		*geany_plugin;
-extern GeanyData		*geany_data;
-extern GeanyFunctions	*geany_functions;
+extern GeanyData *geany_data;
 
 
 #ifndef PyMODINIT_FUNC
