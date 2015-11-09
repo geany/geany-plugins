@@ -12,6 +12,15 @@ which mirror the Geany C API will probably not change unless the Geany API
 changes, however new API may be added.  Also documentation is needed, 
 contributions are welcome.
 
+.. warning::
+   The upstream Geanypy is being updated to use the new proxy plugins mechanism
+   which will allow Python plugins to be first class plugins.  This also allows
+   them to have keybindings and all the features of C plugins.  This change
+   causes some incompatibilities with current plugins, and existing Python plugins will
+   need to be upgraded.  It is intended that the version of Geanypy with 
+   Geany-Plugins 1.27 will contain the changes, and from that release existing 
+   plugins may not work.
+
 How it works
 ------------
 
