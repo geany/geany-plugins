@@ -130,6 +130,15 @@ def configure(conf):
     conf.msg('Plugins to compile', ' '.join(enabled_plugins))
     plugins_with_missing_dependencies =conf.env['plugins_with_missing_dependencies']
     conf.msg('Plugins to skip due to missing dependencies', ' '.join(plugins_with_missing_dependencies))
+    # deprecation warning
+    _show_deprecation_warning(conf)
+
+
+def _show_deprecation_warning(ctx):
+    Logs.pprint(
+        'RED',
+        'The Waf build system is deprecated and will be removed in the removed in Geany 1.27. '
+        'Please use the Autotools build system.')
 
 
 def configure_plugins(conf, enabled_plugins):
@@ -231,6 +240,7 @@ def options(opt):
 def build(bld):
     is_win32 = target_is_win32(bld)
     enabled_plugins = bld.env['enabled_plugins']
+    bld.add_post_fun(_show_deprecation_warning)
 
     if bld.cmd == 'clean':
         remove_linguas_file()
