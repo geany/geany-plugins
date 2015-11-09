@@ -1279,7 +1279,7 @@ get_diff_color(G_GNUC_UNUSED GeanyDocument * doc, gint style)
 
 #define GLADE_HOOKUP_OBJECT(component,widget,name) \
   g_object_set_data_full (G_OBJECT (component), name, \
-    gtk_widget_ref (widget), (GDestroyNotify) gtk_widget_unref)
+    g_object_ref (widget), (GDestroyNotify) g_object_unref)
 
 #define GLADE_HOOKUP_OBJECT_NO_REF(component,widget,name) \
   g_object_set_data (G_OBJECT (component), name, widget)
@@ -1374,7 +1374,7 @@ create_commitDialog(void)
 	gtk_window_set_type_hint(GTK_WINDOW(commitDialog), GDK_WINDOW_TYPE_HINT_DIALOG);
 	gtk_dialog_set_has_separator(GTK_DIALOG(commitDialog), FALSE);
 
-	dialog_vbox1 = GTK_DIALOG(commitDialog)->vbox;
+	dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(commitDialog));
 	gtk_widget_show(dialog_vbox1);
 
 	vpaned1 = gtk_vpaned_new();
@@ -1464,7 +1464,7 @@ create_commitDialog(void)
 	gtk_box_pack_end(GTK_BOX(commit_text_vbox), lineColumnLabel, TRUE, TRUE, 0);
 	gtk_widget_show(lineColumnLabel);
 
-	dialog_action_area1 = GTK_DIALOG(commitDialog)->action_area;
+	dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(commitDialog));
 	gtk_widget_show(dialog_action_area1);
 	gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
@@ -2315,8 +2315,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 				ui_lookup_widget(geany->main_widgets->window, "menubar1"));
 
 		menu_vc = gtk_menu_item_new_with_mnemonic(_("_VC"));
-		gtk_menu_shell_insert(
-			menubar, menu_vc, g_list_length(menubar->children)-1);
+		gtk_menu_shell_append(menubar, menu_vc);
 	}
 	else
 	{
