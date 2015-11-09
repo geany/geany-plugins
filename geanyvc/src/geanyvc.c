@@ -1329,7 +1329,6 @@ create_commitDialog(void)
 	GtkWidget *scrolledwindow1;
 	GtkWidget *treeSelect;
 	GtkWidget *vpaned2;
-	GtkWidget *vpaned3;
 	GtkWidget *scrolledwindow2;
 	GtkWidget *textDiff;
 	GtkWidget *frame1;
@@ -1341,6 +1340,7 @@ create_commitDialog(void)
 	GtkWidget *btnCancel;
 	GtkWidget *btnCommit;
 	GtkWidget *select_cbox;
+	GtkWidget *bottom_vbox;
 	GtkWidget *commit_text_vbox;
 	GtkWidget *lineColumnLabel;
 	GtkTreeSelection *sel;
@@ -1397,12 +1397,12 @@ create_commitDialog(void)
 				       GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow2), GTK_SHADOW_IN);
 
-	vpaned3 = gtk_vpaned_new();
-	gtk_widget_show(vpaned3);
-	gtk_paned_pack2(GTK_PANED(vpaned2), vpaned3, FALSE, FALSE);
+	bottom_vbox = gtk_vbox_new(FALSE, 0);
+	gtk_widget_show(bottom_vbox);
+	gtk_paned_pack2(GTK_PANED(vpaned2), bottom_vbox, FALSE, FALSE);
 
 	select_cbox = GTK_WIDGET(gtk_check_button_new_with_mnemonic(_("_De-/select all files")));
-	gtk_paned_pack1(GTK_PANED(vpaned3), select_cbox, FALSE, FALSE);
+	gtk_box_pack_start(GTK_BOX(bottom_vbox), select_cbox, FALSE, FALSE, 2);
 	gtk_widget_show(select_cbox);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(select_cbox), TRUE);
 	g_signal_connect(select_cbox, "toggled", G_CALLBACK(commit_all_toggled_cb),
@@ -1419,7 +1419,7 @@ create_commitDialog(void)
 
 	frame1 = gtk_frame_new(NULL);
 	gtk_widget_show(frame1);
-	gtk_paned_pack2(GTK_PANED(vpaned3), frame1, TRUE, TRUE);
+	gtk_box_pack_start(GTK_BOX(bottom_vbox), frame1, TRUE, TRUE, 2);
 	gtk_frame_set_shadow_type(GTK_FRAME(frame1), GTK_SHADOW_NONE);
 
 	alignment1 = gtk_alignment_new(0.5, 0.5, 1, 1);
@@ -1453,7 +1453,7 @@ create_commitDialog(void)
 	/* line/column status label */
 	lineColumnLabel = gtk_label_new("");
 	gtk_misc_set_alignment(GTK_MISC(lineColumnLabel), 0, 0.5);
-	gtk_box_pack_end(GTK_BOX(commit_text_vbox), lineColumnLabel, TRUE, TRUE, 0);
+	gtk_box_pack_end(GTK_BOX(commit_text_vbox), lineColumnLabel, FALSE, TRUE, 0);
 	gtk_widget_show(lineColumnLabel);
 
 	dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(commitDialog));
@@ -1584,8 +1584,8 @@ vccommit_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 
 	gtk_widget_show_now(commit);
 	gtk_window_get_size(GTK_WINDOW(commit), NULL, &height);
-	gtk_paned_set_position(GTK_PANED(vpaned1), height * 30 / 100);
-	gtk_paned_set_position(GTK_PANED(vpaned2), height * 55 / 100);
+	gtk_paned_set_position(GTK_PANED(vpaned1), height * 25 / 100);
+	gtk_paned_set_position(GTK_PANED(vpaned2), height * 50 / 100);
 
 #ifdef USE_GTKSPELL
 	speller = gtkspell_new_attach(GTK_TEXT_VIEW(messageView), NULL, &spellcheck_error);
