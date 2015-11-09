@@ -379,8 +379,6 @@ show_output(const gchar * std_output, const gchar * name,
 	    const gchar * force_encoding, GeanyFiletype * ftype,
 	    gint line)
 {
-	gint page;
-	GtkNotebook *book;
 	GeanyDocument *doc, *cur_doc;
 
 	if (std_output)
@@ -392,23 +390,18 @@ show_output(const gchar * std_output, const gchar * name,
 			doc = document_new_file(name, ftype, std_output);
 			/* To due the given line is Scintilla's line number, but
 			 * we need the view line number in this case.  */
-			line = line + 1;
-			if (line < 1)
-				line = 1;
 		}
 		else
 		{
 			sci_set_text(doc->editor->sci, std_output);
 			if (ftype)
 				document_set_filetype(doc, ftype);
-			book = GTK_NOTEBOOK(geany->main_widgets->notebook);
-			page = gtk_notebook_page_num(book, GTK_WIDGET(doc->editor->sci));
-			gtk_notebook_set_current_page(book, page);
 		}
+
 		document_set_text_changed(doc, set_changed_flag);
 		document_set_encoding(doc, (force_encoding ? force_encoding : "UTF-8"));
 
-		navqueue_goto_line(cur_doc, doc, line);
+		navqueue_goto_line(cur_doc, doc, MAX(line + 1, 1));
 
 	}
 	else
