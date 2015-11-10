@@ -388,8 +388,6 @@ show_output(const gchar * std_output, const gchar * name,
 		if (doc == NULL)
 		{
 			doc = document_new_file(name, ftype, std_output);
-			/* To due the given line is Scintilla's line number, but
-			 * we need the view line number in this case.  */
 		}
 		else
 		{
@@ -1366,7 +1364,7 @@ create_commitDialog(void)
 	gtk_window_set_destroy_with_parent(GTK_WINDOW(commitDialog), TRUE);
 	gtk_window_set_type_hint(GTK_WINDOW(commitDialog), GDK_WINDOW_TYPE_HINT_DIALOG);
 
-	dialog_vbox1 = gtk_dialog_get_content_area (GTK_DIALOG(commitDialog));
+	dialog_vbox1 = gtk_dialog_get_content_area(GTK_DIALOG(commitDialog));
 	gtk_widget_show(dialog_vbox1);
 
 	vpaned1 = gtk_vpaned_new();
@@ -1456,7 +1454,7 @@ create_commitDialog(void)
 	gtk_box_pack_end(GTK_BOX(commit_text_vbox), lineColumnLabel, FALSE, TRUE, 0);
 	gtk_widget_show(lineColumnLabel);
 
-	dialog_action_area1 = gtk_dialog_get_action_area (GTK_DIALOG(commitDialog));
+	dialog_action_area1 = gtk_dialog_get_action_area(GTK_DIALOG(commitDialog));
 	gtk_widget_show(dialog_action_area1);
 	gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
