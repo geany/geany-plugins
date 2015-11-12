@@ -379,8 +379,6 @@ show_output(const gchar * std_output, const gchar * name,
 	    const gchar * force_encoding, GeanyFiletype * ftype,
 	    gint line)
 {
-	gint page;
-	GtkNotebook *book;
 	GeanyDocument *doc, *cur_doc;
 
 	if (std_output)
@@ -390,25 +388,18 @@ show_output(const gchar * std_output, const gchar * name,
 		if (doc == NULL)
 		{
 			doc = document_new_file(name, ftype, std_output);
-			/* To due the given line is Scintilla's line number, but
-			 * we need the view line number in this case.  */
-			line = line + 1;
-			if (line < 1)
-				line = 1;
 		}
 		else
 		{
 			sci_set_text(doc->editor->sci, std_output);
 			if (ftype)
 				document_set_filetype(doc, ftype);
-			book = GTK_NOTEBOOK(geany->main_widgets->notebook);
-			page = gtk_notebook_page_num(book, GTK_WIDGET(doc->editor->sci));
-			gtk_notebook_set_current_page(book, page);
 		}
+
 		document_set_text_changed(doc, set_changed_flag);
 		document_set_encoding(doc, (force_encoding ? force_encoding : "UTF-8"));
 
-		navqueue_goto_line(cur_doc, doc, line);
+		navqueue_goto_line(cur_doc, doc, MAX(line + 1, 1));
 
 	}
 	else
@@ -1279,7 +1270,7 @@ get_diff_color(G_GNUC_UNUSED GeanyDocument * doc, gint style)
 
 #define GLADE_HOOKUP_OBJECT(component,widget,name) \
   g_object_set_data_full (G_OBJECT (component), name, \
-    gtk_widget_ref (widget), (GDestroyNotify) gtk_widget_unref)
+    g_object_ref (widget), (GDestroyNotify) g_object_unref)
 
 #define GLADE_HOOKUP_OBJECT_NO_REF(component,widget,name) \
   g_object_set_data (G_OBJECT (component), name, widget)
@@ -1336,7 +1327,6 @@ create_commitDialog(void)
 	GtkWidget *scrolledwindow1;
 	GtkWidget *treeSelect;
 	GtkWidget *vpaned2;
-	GtkWidget *vpaned3;
 	GtkWidget *scrolledwindow2;
 	GtkWidget *textDiff;
 	GtkWidget *frame1;
@@ -1348,6 +1338,7 @@ create_commitDialog(void)
 	GtkWidget *btnCancel;
 	GtkWidget *btnCommit;
 	GtkWidget *select_cbox;
+	GtkWidget *bottom_vbox;
 	GtkWidget *commit_text_vbox;
 	GtkWidget *lineColumnLabel;
 	GtkTreeSelection *sel;
@@ -1372,9 +1363,8 @@ create_commitDialog(void)
 	gtk_window_set_modal(GTK_WINDOW(commitDialog), TRUE);
 	gtk_window_set_destroy_with_parent(GTK_WINDOW(commitDialog), TRUE);
 	gtk_window_set_type_hint(GTK_WINDOW(commitDialog), GDK_WINDOW_TYPE_HINT_DIALOG);
-	gtk_dialog_set_has_separator(GTK_DIALOG(commitDialog), FALSE);
 
-	dialog_vbox1 = GTK_DIALOG(commitDialog)->vbox;
+	dialog_vbox1 = gtk_dialog_get_content_area(GTK_DIALOG(commitDialog));
 	gtk_widget_show(dialog_vbox1);
 
 	vpaned1 = gtk_vpaned_new();
@@ -1405,12 +1395,12 @@ create_commitDialog(void)
 				       GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow2), GTK_SHADOW_IN);
 
-	vpaned3 = gtk_vpaned_new();
-	gtk_widget_show(vpaned3);
-	gtk_paned_pack2(GTK_PANED(vpaned2), vpaned3, FALSE, FALSE);
+	bottom_vbox = gtk_vbox_new(FALSE, 0);
+	gtk_widget_show(bottom_vbox);
+	gtk_paned_pack2(GTK_PANED(vpaned2), bottom_vbox, FALSE, FALSE);
 
 	select_cbox = GTK_WIDGET(gtk_check_button_new_with_mnemonic(_("_De-/select all files")));
-	gtk_paned_pack1(GTK_PANED(vpaned3), select_cbox, FALSE, FALSE);
+	gtk_box_pack_start(GTK_BOX(bottom_vbox), select_cbox, FALSE, FALSE, 2);
 	gtk_widget_show(select_cbox);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(select_cbox), TRUE);
 	g_signal_connect(select_cbox, "toggled", G_CALLBACK(commit_all_toggled_cb),
@@ -1427,7 +1417,7 @@ create_commitDialog(void)
 
 	frame1 = gtk_frame_new(NULL);
 	gtk_widget_show(frame1);
-	gtk_paned_pack2(GTK_PANED(vpaned3), frame1, TRUE, TRUE);
+	gtk_box_pack_start(GTK_BOX(bottom_vbox), frame1, TRUE, TRUE, 2);
 	gtk_frame_set_shadow_type(GTK_FRAME(frame1), GTK_SHADOW_NONE);
 
 	alignment1 = gtk_alignment_new(0.5, 0.5, 1, 1);
@@ -1461,10 +1451,10 @@ create_commitDialog(void)
 	/* line/column status label */
 	lineColumnLabel = gtk_label_new("");
 	gtk_misc_set_alignment(GTK_MISC(lineColumnLabel), 0, 0.5);
-	gtk_box_pack_end(GTK_BOX(commit_text_vbox), lineColumnLabel, TRUE, TRUE, 0);
+	gtk_box_pack_end(GTK_BOX(commit_text_vbox), lineColumnLabel, FALSE, TRUE, 0);
 	gtk_widget_show(lineColumnLabel);
 
-	dialog_action_area1 = GTK_DIALOG(commitDialog)->action_area;
+	dialog_action_area1 = gtk_dialog_get_action_area(GTK_DIALOG(commitDialog));
 	gtk_widget_show(dialog_action_area1);
 	gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
@@ -1592,8 +1582,8 @@ vccommit_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 
 	gtk_widget_show_now(commit);
 	gtk_window_get_size(GTK_WINDOW(commit), NULL, &height);
-	gtk_paned_set_position(GTK_PANED(vpaned1), height * 30 / 100);
-	gtk_paned_set_position(GTK_PANED(vpaned2), height * 55 / 100);
+	gtk_paned_set_position(GTK_PANED(vpaned1), height * 25 / 100);
+	gtk_paned_set_position(GTK_PANED(vpaned2), height * 50 / 100);
 
 #ifdef USE_GTKSPELL
 	speller = gtkspell_new_attach(GTK_TEXT_VIEW(messageView), NULL, &spellcheck_error);
@@ -2315,8 +2305,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 				ui_lookup_widget(geany->main_widgets->window, "menubar1"));
 
 		menu_vc = gtk_menu_item_new_with_mnemonic(_("_VC"));
-		gtk_menu_shell_insert(
-			menubar, menu_vc, g_list_length(menubar->children)-1);
+		gtk_menu_shell_append(menubar, menu_vc);
 	}
 	else
 	{
