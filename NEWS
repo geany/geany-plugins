@@ -6,8 +6,11 @@ Geany Plugins 1.26 (not release yet)
 
     Addons:
     * Add new feature to copy path of current file into clipboard
-    * Improve refreshing behaviour of TODO list
+    * Update bookmark list also on any line changes in the document
     * Improve Gtk3 support of plugin
+
+    GeanyPy:
+    * Fix Python library loading on Debian based systems
 
     GeanyVC:
     * Enable plugin to work with Gtk3
