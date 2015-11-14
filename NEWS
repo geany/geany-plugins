@@ -1,14 +1,23 @@
 Geany Plugins 1.26 (not release yet)
 
     General:
+    * Add a note about deprecating waf build system -- will be removed
+      with 1.27
 
     Addons:
     * Add new feature to copy path of current file into clipboard
     * Improve refreshing behaviour of TODO list
     * Improve Gtk3 support of plugin
 
+    GeanyVC:
+    * Enable plugin to work with Gtk3
+    * Little improvements on commit dialog
+
     Multiterm:
-    * Make a lot of strings translateable
+    * Make a lot of strings translatable
+
+    Pohelper:
+    *  Fix untranslated and fuzzy count in the stats dialog (#292)
 
     Scope:
     * Use Geany spawn: maximum GDB line length fixed to 1MB, no CPU
@@ -19,7 +28,7 @@ Geany Plugins 1.26 (not release yet)
       menu instead of an submenu (still default)
 
     Internationalization:
-    * Updated translations: de, fr, pt
+    * Updated translations: de, fr, nl, pt
     * New translations: kk
 
 
