@@ -1440,8 +1440,9 @@ static gboolean Key_Released_CallBack(GtkWidget *widget, GdkEventKey *ev, gpoint
 	if(ev->type!=GDK_KEY_RELEASE)
 		return FALSE;
 
-	/* control and number pressed */
-	if(ev->state==4)
+	/* control and number pressed  (while shift, alt and capslock are NOT pressed) */
+	if(  (ev->state & GDK_CONTROL_MASK) &&
+	    !(ev->state & (GDK_SHIFT_MASK|GDK_LOCK_MASK|GDK_MOD1_MASK))  )
 	{
 		i=((gint)(ev->keyval))-'0';
 		if(i<0 || i>9)
@@ -1450,8 +1451,11 @@ static gboolean Key_Released_CallBack(GtkWidget *widget, GdkEventKey *ev, gpoint
 		GotoBookMark(i);
 		return TRUE;
 	}
-	/* control+shift+number */
-	if(ev->state==5) {
+	/* control+(shift OR capslock)+number pressed, (while alt is NOT pressed) */
+	if(  (ev->state & (GDK_SHIFT_MASK|GDK_LOCK_MASK)) &&
+	     (ev->state & GDK_CONTROL_MASK) &&
+	    !(ev->state & GDK_MOD1_MASK)  )
+	{
 		/* could use hardware keycode instead of keyvals but if unable to get keyode then don't
 		 * have logical default to fall back on
 		*/

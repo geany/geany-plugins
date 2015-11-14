@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.25\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-27 23:00+0100\n"
+"POT-Creation-Date: 2015-11-04 23:03+0100\n"
 "PO-Revision-Date: 2011-09-13 20:24+0100\n"
 "Last-Translator: Peter Scholtens <peter.scholtens@xs4all.nl>\n"
 "Language-Team: Dutch\n"
@@ -145,18 +145,17 @@ msgid "Show Document List"
 msgstr "Laat documentlijst zien"
 
 #: ../addons/src/ao_copyfilepath.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "File path \"%s\" copied to clipboard."
-msgstr "Kopiëer volledig padnaam naar klembord"
+msgstr "Padnaam van '%s' gekopiëerd naar klembord."
 
 #: ../addons/src/ao_copyfilepath.c:119 ../addons/src/addons.c:318
 msgid "Copy File Path"
-msgstr ""
+msgstr "Kopiëer pad van bestandsnaam"
 
 #: ../addons/src/ao_copyfilepath.c:122
-#, fuzzy
 msgid "Copy the file path of the current document to the clipboard"
-msgstr "Controleert de spelling in het huidige bestand"
+msgstr "Kopiëert pad van huidige document naar klembord"
 
 #: ../addons/src/addons.c:53
 msgid "Addons"
@@ -1320,7 +1319,7 @@ msgstr ""
 
 #: ../geanyextrasel/src/extrasel.c:502
 msgid "E_xtra Selection"
-msgstr ""
+msgstr "Meer selecteeropties"
 
 #: ../geanyextrasel/src/extrasel.c:509
 msgid "_Column Mode"
@@ -4810,9 +4809,8 @@ msgid "_VC"
 msgstr "VB"
 
 #: ../geanyvc/src/geanyvc.c:2323
-#, fuzzy
 msgid "_Version Control"
-msgstr "Voeg aan Versie Beheer toe"
+msgstr "Versie Beheer"
 
 #. Status of basedir
 #: ../geanyvc/src/geanyvc.c:2345
@@ -5012,47 +5010,49 @@ msgstr ""
 msgid "The current document does not have a Markdown filetype."
 msgstr ""
 
-#: ../multiterm/src/config.vala:47 ../multiterm/src/config.c:133
+#: ../multiterm/src/config.vala:47 ../multiterm/src/config.c:47
 #, fuzzy, c-format
 msgid "Unable to save config file %s: %s"
 msgstr "Kon configuratiebestand niet wegschrijven: %s"
 
 #: ../multiterm/src/config.vala:85 ../multiterm/src/config.vala:89
-#: ../multiterm/src/config.c:370 ../multiterm/src/config.c:387
+#: ../multiterm/src/config.c:85 ../multiterm/src/config.c:89
 #, fuzzy, c-format
 msgid "Unable to load config file %s: %s"
 msgstr "Kon configuratie bestand '%s' niet inlezen"
 
-#: ../multiterm/src/context-menu.vala:52 ../multiterm/src/context-menu.vala:140
-#: ../multiterm/src/context-menu.c:134 ../multiterm/src/context-menu.c:546
+#: ../multiterm/src/context-menu.vala:52
+#: ../multiterm/src/context-menu.vala:140 ../multiterm/src/context-menu.c:52
+#: ../multiterm/src/context-menu.c:140
 #, fuzzy
 msgid "Move to message window"
 msgstr "_Verberg berichtenvenster"
 
-#: ../multiterm/src/context-menu.vala:58 ../multiterm/src/context-menu.vala:135
-#: ../multiterm/src/context-menu.c:144 ../multiterm/src/context-menu.c:535
+#: ../multiterm/src/context-menu.vala:58
+#: ../multiterm/src/context-menu.vala:135 ../multiterm/src/context-menu.c:58
+#: ../multiterm/src/context-menu.c:135
 #, fuzzy
 msgid "Move to sidebar"
 msgstr "Ga naar begin van de regel"
 
-#: ../multiterm/src/context-menu.vala:81 ../multiterm/src/context-menu.c:385
+#: ../multiterm/src/context-menu.vala:81 ../multiterm/src/context-menu.c:81
 #, fuzzy
 msgid "Open Tab"
 msgstr "Open terminalvenster"
 
-#: ../multiterm/src/context-menu.vala:96 ../multiterm/src/context-menu.c:471
+#: ../multiterm/src/context-menu.vala:96 ../multiterm/src/context-menu.c:96
 #, fuzzy
 msgid "Open Window"
 msgstr "Open URI"
 
-#: ../multiterm/src/context-menu.vala:103 ../multiterm/src/context-menu.c:483
+#: ../multiterm/src/context-menu.vala:103 ../multiterm/src/context-menu.c:103
 #, fuzzy
 msgid "Next tab"
 msgstr "Volgende string"
 
 #. this.append(item);
 #. item.show();
-#: ../multiterm/src/context-menu.vala:108 ../multiterm/src/context-menu.c:490
+#: ../multiterm/src/context-menu.vala:108 ../multiterm/src/context-menu.c:108
 #, fuzzy
 msgid "Previous tab"
 msgstr "Vorige string"
@@ -5060,36 +5060,36 @@ msgstr "Vorige string"
 #. this.append(image_item);
 #. image_item.show();
 #. add_separator();
-#: ../multiterm/src/context-menu.vala:127 ../multiterm/src/context-menu.c:509
+#: ../multiterm/src/context-menu.vala:127 ../multiterm/src/context-menu.c:127
 #, fuzzy
 msgid "Show Tabs"
 msgstr "Laat toestand zien"
 
-#: ../multiterm/src/notebook.vala:91 ../multiterm/src/notebook.c:236
+#: ../multiterm/src/notebook.vala:91 ../multiterm/src/notebook.c:91
 #, c-format
 msgid "Unable to launch external terminal: %s"
 msgstr ""
 
-#: ../multiterm/src/notebook.vala:137 ../multiterm/src/notebook.c:421
+#: ../multiterm/src/notebook.vala:137 ../multiterm/src/notebook.c:137
 #, fuzzy
 msgid "Unable to locate default shell in configuration file"
 msgstr "Kon default configuratie niet wegschrijven: %s"
 
-#: ../multiterm/src/notebook.vala:202 ../multiterm/src/notebook.c:646
+#: ../multiterm/src/notebook.vala:202 ../multiterm/src/notebook.c:202
 #, fuzzy
 msgid "New terminal"
 msgstr "Laat regels van boom zien"
 
 #: ../multiterm/src/plugin.vala:46 ../multiterm/src/plugin.vala:88
-#: ../multiterm/src/plugin.c:104 ../multiterm/src/plugin.c:276
+#: ../multiterm/src/plugin.c:46 ../multiterm/src/plugin.c:88
 msgid "MultiTerm"
 msgstr ""
 
-#: ../multiterm/src/plugin.vala:47 ../multiterm/src/plugin.c:105
+#: ../multiterm/src/plugin.vala:47 ../multiterm/src/plugin.c:47
 msgid "Multi-tabbed virtual terminal emulator."
 msgstr ""
 
-#: ../multiterm/src/plugin.vala:78 ../multiterm/src/plugin.c:242
+#: ../multiterm/src/plugin.vala:78 ../multiterm/src/plugin.c:78
 #, fuzzy, c-format
 msgid "Unable to write default config file: %s"
 msgstr "Kon default configuratie niet wegschrijven: %s"
@@ -5099,17 +5099,18 @@ msgstr "Kon default configuratie niet wegschrijven: %s"
 msgid "Unable to read value for '%s' key: %s"
 msgstr "Kon configuratie map niet creëren op '%s'"
 
-#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:1963
+#: ../multiterm/src/tab-label.vala:62 ../multiterm/src/tab-label.c:62
+#: ../treebrowser/src/treebrowser.c:1963
 #, fuzzy
 msgid "Terminal"
 msgstr "Open terminalvenster"
 
-#: ../multiterm/src/tab-label.vala:84 ../multiterm/src/tab-label.c:168
+#: ../multiterm/src/tab-label.vala:84 ../multiterm/src/tab-label.c:84
 #, fuzzy
 msgid "Close terminal"
 msgstr "Laat regels van boom zien"
 
-#: ../multiterm/src/terminal.vala:88 ../multiterm/src/terminal.c:121
+#: ../multiterm/src/terminal.vala:88 ../multiterm/src/terminal.c:88
 #, fuzzy, c-format
 msgid "Unable to run command: %s"
 msgstr "Kon default configuratie niet wegschrijven: %s"
@@ -5349,14 +5350,12 @@ msgid "_Reflow Translation"
 msgstr ""
 
 #: ../pohelper/data/menus.ui.h:24 ../pohelper/src/gph-plugin.c:1542
-#, fuzzy
 msgid "Show statistics of the current document"
-msgstr "Controleert de spelling in het huidige bestand"
+msgstr "Laat de statistieken van het hudige document zien"
 
 #: ../pohelper/data/menus.ui.h:25
-#, fuzzy
 msgid "_Show stats"
-msgstr "Laat toestand zien"
+msgstr "Laat statistiek zien"
 
 #: ../pohelper/data/menus.ui.h:26
 msgid ""
@@ -5371,38 +5370,32 @@ msgid "Update _Headers Upon Save"
 msgstr "Pas vertalingsinfo aan bij wegschrijven"
 
 #: ../pohelper/data/stats.ui.h:1
-#, fuzzy
 msgid "Translation statistics"
-msgstr "Vertalingshulp"
+msgstr "Vertalingsstatistieken"
 
 #: ../pohelper/data/stats.ui.h:2
-#, fuzzy
 msgid "Choose a color for translated strings"
-msgstr "Ga naar volgende onvertaalde string"
+msgstr "Kies een kleur voor de vertaalde string"
 
 #: ../pohelper/data/stats.ui.h:3
-#, fuzzy
 msgid "Choose a color for fuzzily translated strings"
-msgstr "Ga naar volgende onduidelijk vertaalde string"
+msgstr "Kies een kleur voor de onduidelijk vertaalde string"
 
 #: ../pohelper/data/stats.ui.h:4
-#, fuzzy
 msgid "Choose a color for untranslated strings"
-msgstr "Ga naar volgende onvertaalde string"
+msgstr "Kies een kleur voor de onvertaalde string"
 
 #: ../pohelper/data/stats.ui.h:5
-#, fuzzy
 msgid "Translated:"
-msgstr "Volgende onvertaalde string"
+msgstr "Vertaald:"
 
 #: ../pohelper/data/stats.ui.h:6
 msgid "Fuzzy:"
-msgstr ""
+msgstr "Onduidelijk:"
 
 #: ../pohelper/data/stats.ui.h:7
-#, fuzzy
 msgid "Untranslated:"
-msgstr "Volgende onvertaalde string"
+msgstr "Onvertaalde:"
 
 #: ../pohelper/src/gph-plugin.c:41
 msgid "Translation Helper"
@@ -5415,22 +5408,22 @@ msgstr "Verbetert ondersteuning van GetText vertalingsbestanden."
 #: ../pohelper/src/gph-plugin.c:1305 ../pohelper/src/gph-plugin.c:1322
 #, c-format
 msgid "<b>Translated:</b> %.3g%%"
-msgstr ""
+msgstr "<b>Vertaald:</b> %.3g%%"
 
 #: ../pohelper/src/gph-plugin.c:1307 ../pohelper/src/gph-plugin.c:1325
 #, c-format
 msgid "<b>Fuzzy:</b> %.3g%%"
-msgstr ""
+msgstr "<b>Onduidelijk:</b> %.3g%%"
 
 #: ../pohelper/src/gph-plugin.c:1309 ../pohelper/src/gph-plugin.c:1327
 #, c-format
 msgid "<b>Untranslated:</b> %.3g%%"
-msgstr ""
+msgstr "<b>Onvertaald:</b> %.3g%%"
 
 #: ../pohelper/src/gph-plugin.c:1407
 #, c-format
 msgid "%u (%.3g%%)"
-msgstr ""
+msgstr "%u (%.3g%%)"
 
 #: ../pohelper/src/gph-plugin.c:1532
 msgid "Paste original untranslated string to translation"
@@ -5463,9 +5456,8 @@ msgid "Run the PrettyPrinter XML"
 msgstr ""
 
 #: ../pretty-printer/src/PluginEntry.c:144
-#, fuzzy
 msgid "Unable to parse the content as XML."
-msgstr "Kon configuratie map niet creëren op '%s'"
+msgstr "Kon de inhoud niet als XML interpreteren."
 
 #: ../pretty-printer/src/PluginEntry.c:155
 msgid ""
@@ -6359,7 +6351,8 @@ msgstr "Open terminalvenster"
 msgid "Enter char # (0..255):"
 msgstr ""
 
-#: ../scope/src/conterm.c:512 ../scope/src/scope.c:546 ../scope/src/scope.c:547
+#: ../scope/src/conterm.c:512 ../scope/src/scope.c:546
+#: ../scope/src/scope.c:547
 #, fuzzy, c-format
 msgid "Scope: %s."
 msgstr "Sluit: %s"
@@ -6621,7 +6614,7 @@ msgid "Scope: error reading [%s]."
 msgstr ""
 
 #: ../scope/src/views.c:526
-msgid "…"
+msgid "ے"
 msgstr ""
 
 #: ../scope/src/views.c:549
@@ -6810,54 +6803,54 @@ msgstr ""
 
 #: ../tableconvert/src/tableconvert.c:31
 msgid "Tableconvert"
-msgstr ""
+msgstr "Tabelconversie"
 
 #: ../tableconvert/src/tableconvert.c:32
 msgid "A little plugin to convert lists into tables"
-msgstr ""
+msgstr "Een plug-in om lijsten naar tabellen om te zetten."
 
 #: ../tableconvert/src/tableconvert.c:42
 msgid "LaTeX"
-msgstr ""
+msgstr "LaTeX"
 
 #: ../tableconvert/src/tableconvert.c:59
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: ../tableconvert/src/tableconvert.c:79
 msgid "SQL"
-msgstr ""
+msgstr "SQL"
 
 #: ../tableconvert/src/tableconvert.c:96
 msgid "DokuWiki"
-msgstr ""
+msgstr "DokuWiki"
 
 #. OK. Something went not as expected.
-#. * We did have a selection but cannot parse it into rows.
+#. * We do have a selection but cannot parse it into rows.
 #. * Aborting
 #: ../tableconvert/src/tableconvert.c:297
 msgid "Something went wrong on parsing selection. Aborting"
-msgstr ""
+msgstr "Er ging iets fout met het interpreteren van de selectie. Afgebroken."
 
 #: ../tableconvert/src/tableconvert.c:329
 msgid "Convert selection to table"
-msgstr ""
+msgstr "Zet selectie om naar tabel."
 
 #. Build up menu entry for table_convert based on global file type
 #: ../tableconvert/src/tableconvert_ui.c:40
 msgid "_Convert to table"
-msgstr ""
+msgstr "Zet om naar tabel"
 
 #: ../tableconvert/src/tableconvert_ui.c:43
 msgid "Converts current marked list to a table."
-msgstr ""
+msgstr "Zet huidige gemarkeerde lijst om naar een tabel."
 
 #. Build up menu entries for table convert based on explicit choice
 #. * This is needed for e.g. different wiki-Syntax or differenz stiles
 #. * within a special file type
 #: ../tableconvert/src/tableconvert_ui.c:52
 msgid "_More TableConvert"
-msgstr ""
+msgstr "Meer tabelomzetting"
 
 #: ../treebrowser/src/treebrowser.c:127
 msgid "TreeBrowser"
