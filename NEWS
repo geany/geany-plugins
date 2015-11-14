@@ -1,26 +1,33 @@
 Geany Plugins 1.26 (not release yet)
 
     General:
-    * Add a note about deprecating waf build system -- will be removed
+    * Add a note about deprecating Waf build system -- will be removed
       with 1.27
 
     Addons:
-    * Add new feature to copy path of current file into clipboard
-    * Update bookmark list also on any line changes in the document
-    * Improve Gtk3 support of plugin
+    * Add new feature to copy path of current file into clipboard (#291)
+    * Update bookmark list also on any line changes in the document (SF#129,
+      SF#39, #284)
+    * Add GTK3 support (#271)
 
     GeanyPy:
     * Fix Python library loading on Debian based systems
 
     GeanyVC:
-    * Enable plugin to work with Gtk3
-    * Little improvements on commit dialog
+    * Add GTK3 support (#300)
+    * Little improvements on commit dialog (#300)
+
+    GitChangeBar:
+    * Add support for libgit2 0.23 (#283)
 
     Multiterm:
-    * Make a lot of strings translatable
+    * Make a lot of strings translatable (#254)
 
     Pohelper:
-    *  Fix untranslated and fuzzy count in the stats dialog (#292)
+    * Fix untranslated and fuzzy count in the stats dialog (#292)
+
+    ProjectOrganizer:
+    * Fix some features when the sidebar was never visible
 
     Scope:
     * Use Geany spawn: maximum GDB line length fixed to 1MB, no CPU
@@ -28,7 +35,7 @@ Geany Plugins 1.26 (not release yet)
 
     Spellcheck:
     * Add an option to show spelling suggestion on top of the context
-      menu instead of an submenu (still default)
+      menu instead of in a submenu (still default) (#287, #290)
 
     Internationalization:
     * Updated translations: de, fr, nl, pt
