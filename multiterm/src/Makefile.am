@@ -29,4 +29,5 @@ multiterm_la_CFLAGS = \
 	$(MULTITERM_CFLAGS)
 
 multiterm_la_LIBADD = \
+	$(COMMONLIBS) \
 	$(MULTITERM_LIBS)
