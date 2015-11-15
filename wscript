@@ -60,7 +60,7 @@ from build.wafutils import (
 
 
 APPNAME = 'geany-plugins'
-VERSION = '1.26'
+VERSION = '1.27'
 LINGUAS_FILE = 'po/LINGUAS'
 
 top = '.'
@@ -87,7 +87,7 @@ def configure(conf):
                    args='--cflags --libs')
     check_cfg_cached(conf,
                    package='geany',
-                   atleast_version='1.25',
+                   atleast_version='1.26',
                    uselib_store='GEANY',
                    mandatory=True,
                    args='--cflags --libs')
