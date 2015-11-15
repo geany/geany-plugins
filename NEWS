@@ -1,3 +1,11 @@
+Geany Plugins 1.26.1 (not yet released)
+
+    General:
+    * Fix a build issue with having an old Geany and a non default
+      target for plugins.
+    * Bump dependency-checks to Geany 1.26
+
+
 Geany Plugins 1.26 (2015-11-15)
 
     General:
