@@ -50,10 +50,10 @@ breakpoint* break_new(void)
 breakpoint* break_new_full(const char* file, int line, const char* condition, int enabled, int hitscount)
 {
 	breakpoint* bp = break_new();
-	strcpy(bp->file, file);
+	strncpy(bp->file, file, G_N_ELEMENTS(bp->file) - 1);
 	bp->line = line;
 	if (condition)
-		strcpy(bp->condition, condition);
+		strncpy(bp->condition, condition, G_N_ELEMENTS(bp->condition) - 1);
 	bp->enabled = enabled;
 	bp->hitscount = hitscount;
 

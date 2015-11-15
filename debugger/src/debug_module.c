@@ -32,7 +32,7 @@
 #include "debug_module.h"
 
 /* creates new variable */
-variable *variable_new(gchar *name, variable_type vt)
+variable *variable_new(const gchar *name, variable_type vt)
 {
 	variable *var = g_malloc(sizeof(variable));
 	var->name = g_string_new(name);
@@ -47,7 +47,7 @@ variable *variable_new(gchar *name, variable_type vt)
 }
 
 /* creates new variable with internal name */
-variable *variable_new2(gchar *name, gchar *internal, variable_type vt)
+variable *variable_new2(const gchar *name, const gchar *internal, variable_type vt)
 {
 	variable *var = variable_new(name, vt);
 	g_string_assign(var->internal, internal);

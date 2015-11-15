@@ -98,7 +98,7 @@ void markers_set_for_document(ScintillaObject *sci)
 void markers_init(void)
 {
 	/* set markers in all currently opened documents */
-	int i;
+	guint i;
 	foreach_document(i)
 		markers_set_for_document(document_index(i)->editor->sci);
 }

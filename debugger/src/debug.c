@@ -672,7 +672,8 @@ static void on_debugger_stopped (int thread_id)
 	}
 
 	/* clear calltips cache */
-	g_hash_table_remove_all(calltips);
+	if (calltips)
+		g_hash_table_remove_all(calltips);
 
 	/* if a stop was requested for asyncronous exiting -
 	 * stop debug module and exit */
@@ -841,8 +842,11 @@ static void on_debugger_exited (int code)
 	read_only_pages = NULL;
 
 	/* clear and destroy calltips cache */
-	g_hash_table_destroy(calltips);
-	calltips = NULL;
+	if (calltips)
+	{
+		g_hash_table_destroy(calltips);
+		calltips = NULL;
+	}
 
 	/* enable widgets */
 	enable_sensitive_widgets(TRUE);
@@ -937,7 +941,8 @@ static void on_select_frame(int frame_number)
 	active_module->set_active_frame(frame_number);
 	
 	/* clear calltips cache */
-	g_hash_table_remove_all(calltips);
+	if (calltips)
+		g_hash_table_remove_all(calltips);
 	
 	/* autos */
 	autos = active_module->get_autos();
@@ -1336,32 +1341,34 @@ gchar* debug_get_calltip_for_expression(gchar* expression)
 		if (var)
 		{
 			calltip_str = get_calltip_line(var, TRUE);
-			if (var->has_children)
+			if (calltip_str)
 			{
-				int lines_left = MAX_CALLTIP_HEIGHT - 1;
-				GList* children = active_module->get_children(var->internal->str); 
-				GList* child = children;
-				while(child && lines_left)
+				if (var->has_children)
 				{
-					variable *varchild = (variable*)child->data;
-					GString *child_string = get_calltip_line(varchild, FALSE);
-					g_string_append_printf(calltip_str, "\n%s", child_string->str);
-					g_string_free(child_string, TRUE);
+					int lines_left = MAX_CALLTIP_HEIGHT - 1;
+					GList* children = active_module->get_children(var->internal->str);
+					GList* child = children;
+					while(child && lines_left)
+					{
+						variable *varchild = (variable*)child->data;
+						GString *child_string = get_calltip_line(varchild, FALSE);
+						g_string_append_printf(calltip_str, "\n%s", child_string->str);
+						g_string_free(child_string, TRUE);
 
-					child = child->next;
-					lines_left--;
+						child = child->next;
+						lines_left--;
+					}
+					if (!lines_left && child)
+					{
+						g_string_append(calltip_str, "\n\t\t........");
+					}
+					g_list_foreach(children, (GFunc)variable_free, NULL);
+					g_list_free(children);
 				}
-				if (!lines_left && child)
-				{
-					g_string_append(calltip_str, "\n\t\t........");
-				}
-				g_list_foreach(children, (GFunc)variable_free, NULL);
-				g_list_free(children);
+				calltip = g_string_free(calltip_str, FALSE);
 			}
 
 			active_module->remove_watch(var->internal->str);
-
-			calltip = g_string_free(calltip_str, FALSE);
 
 			if (!calltips)
 			{

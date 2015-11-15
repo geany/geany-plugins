@@ -97,10 +97,10 @@ static void on_arguments_changed(GtkTextBuffer *textbuffer, gpointer user_data)
  */
 static void on_target_browse_clicked(GtkButton *button, gpointer   user_data)
 {
-	gchar path[FILENAME_MAX];
+	gchar *path;
 	const gchar *prevfile;
-	gchar *prevdir;
 	GtkWidget *dialog;
+	GeanyDocument *doc;
 
 	dialog = gtk_file_chooser_dialog_new (_("Choose target file"),
 					  NULL,
@@ -110,14 +110,15 @@ static void on_target_browse_clicked(GtkButton *button, gpointer   user_data)
 					  NULL);
 	
 	prevfile = gtk_entry_get_text(GTK_ENTRY(target_name));
-	prevdir = g_path_get_dirname(prevfile);
-	if (strcmp(".", prevdir))
-		strcpy(path, prevdir);
-	else
-		strcpy(path, g_path_get_dirname(DOC_FILENAME(document_get_current())));		
-	g_free(prevdir);
+	path = g_path_get_dirname(prevfile);
+	if (strcmp(".", path) == 0 && (doc = document_get_current()) != NULL)
+	{
+		g_free(path);
+		path = g_path_get_dirname(DOC_FILENAME(doc));
+	}
 	
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER (dialog), path);
+	g_free(path);
 	
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
 	{

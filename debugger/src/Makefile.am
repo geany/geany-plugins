@@ -39,6 +39,8 @@ debugger_la_SOURCES = \
 	envtree.h     \
 	gui.h     \
 	gui.c     \
+	gdb_mi.h  \
+	gdb_mi.c  \
 	keys.c     \
 	keys.h     \
 	atree.c     \
@@ -71,5 +73,15 @@ debugger_la_SOURCES = \
 
 debugger_la_LIBADD = $(COMMONLIBS) $(VTE_LIBS) -lutil
 debugger_la_CFLAGS = $(AM_CFLAGS) $(VTE_CFLAGS) -DDBGPLUG_DATA_DIR=\"$(plugindatadir)\" -DPLUGIN_NAME=\"$(plugin)\"
+
+check_PROGRAMS = gdb_mi_test
+dist_check_SCRIPTS = tests/gdb_mi_test.sh
+dist_check_DATA = tests/gdb_mi_test.input tests/gdb_mi_test.expected
+TESTS = $(dist_check_SCRIPTS)
+
+gdb_mi_test_SOURCES = gdb_mi.c gdb_mi.h
+gdb_mi_test_CFLAGS = $(AM_CFLAGS) -DTEST
+gdb_mi_test_LDFLAGS =
+gdb_mi_test_LDADD = $(COMMONLIBS)
 
 include $(top_srcdir)/build/cppcheck.mk

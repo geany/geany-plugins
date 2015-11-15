@@ -227,7 +227,7 @@ static void breaks_set_condition_debug(breakpoint* bp)
 	{
 		/* revert to old condition (taken from tree) */
 		gchar* oldcondition = bptree_get_condition(bp);
-		strcpy(bp->condition, oldcondition);
+		strncpy(bp->condition, oldcondition, G_N_ELEMENTS(bp->condition) - 1);
 		g_free(oldcondition);
 		/* show error message */
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", debug_error_message());
@@ -596,7 +596,7 @@ void breaks_set_condition(const char* file, int line, const char* condition)
 		return;
 	
 	/* change condition */
-	strcpy(bp->condition, condition);
+	strncpy(bp->condition, condition, G_N_ELEMENTS(bp->condition) - 1);
 	
 	/* handle setting condition instantly if debugger is idle or stopped
 	and request debug module interruption overwise */

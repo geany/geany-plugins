@@ -1,0 +1,14 @@
+# empty prompts
+(gdb)
+(gdb) 
+(gdb)   
+# simple result
+^error,msg="failed"
+# a bit more subtle records
+*stopped,reason="signal-received",signal-name="SIGINT",signal-meaning="Interrupt",frame={addr="0x00000000deadbeef",func="somefunc",args=[],file="somefile.c",fullname="/some/path/somefile.c",line="123"},thread-id="1",stopped-threads="all",core="1"
+*stopped,reason="breakpoint-hit",disp="keep",bkptno="1",frame={addr="0x0000000000400c55",func="gdb_mi_record_dump",args=[{name="record",value="0x603010"}],file="gdb_mi.c",fullname="/geany-plugins/debugger/src/gdb_mi.c",line="469"},thread-id="1",stopped-threads="all",core="1"
+=breakpoint-modified,bkpt={number="1",type="breakpoint",disp="keep",enabled="y",addr="0x0000000000400bc0",func="main",file="gdb_mi.c",fullname="/geany-plugins/debugger/src/gdb_mi.c",line="469",thread-groups=["i1"],times="1",original-location="/geany-plugins/debugger/src/gdb_mi.c:469"}
+# escapes for weird filenames
+=breakpoint-modified,bkpt={number="7",type="breakpoint",disp="keep",enabled="y",addr="0x0000000000400414",func="main",file="/tmp/\303\271\303\261\303\256\303\247\304\201\305\225\305\241.c",fullname="/tmp/\303\271\303\261\303\256\303\247\304\201\305\225\305\241.c",line="5",thread-groups=["i1"],times="1",original-location="/tmp/\303\271\303\261\303\256\303\247\304\201\305\225\305\241.c:5"}
+# for some reason in this output there are unescaped bytes (consistency, anyone?), but it works too
+*stopped,reason="breakpoint-hit",disp="keep",bkptno="7",frame={addr="0x0000000000400414",func="main",args=[],file="/tmp/ùñîçāŕš.c",fullname="/tmp/ùñîçāŕš.c",line="5"},thread-id="1",stopped-threads="all",core="1"
