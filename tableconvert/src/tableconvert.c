@@ -1,7 +1,7 @@
 /*
  *	  tableconvert.c
  *
- *	  Copyright 2011-2014 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *	  Copyright 2011-2015 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *	  This program is free software; you can redistribute it and/or modify
  *	  it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ PLUGIN_VERSION_CHECK(200)
 
 PLUGIN_SET_TRANSLATABLE_INFO(
     LOCALEDIR, GETTEXT_PACKAGE, _("Tableconvert"),
-    _("A little plugin to convert lists into tables"),
+    _("Converts lists into tables for different filetypes"),
     VERSION, "Frank Lanitz <frank@frank.uvena.de>")
 
 GeanyPlugin	 	*geany_plugin;
