@@ -33,6 +33,13 @@ extern GeanyData *geany_data;
 #define PyMODINIT_FUNC void
 #endif
 
+static inline GeanyPlugin *plugin_get(PyObject *self)
+{
+	PyObject *caps = PyObject_GetAttrString(self, "__geany_plugin__");
+	return PyCapsule_GetPointer(caps, "GeanyPlugin");
+}
+
+
 
 #ifdef __cplusplus
 } /* extern "C" */

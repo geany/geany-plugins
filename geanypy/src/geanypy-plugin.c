@@ -273,9 +273,11 @@ geanypy_load(GeanyPlugin *proxy, GeanyPlugin *subplugin, const gchar *filename, 
 		GeanyPyPluginData *pdata = g_slice_new(GeanyPyPluginData);
 		PluginInfo *info     = subplugin->info;
 		GeanyPluginFuncs *funcs = subplugin->funcs;
+		PyObject *caps = PyCapsule_New(subplugin, "GeanyPlugin", NULL);
 		Py_INCREF(found);
 		pdata->module        = module;
 		pdata->class         = found;
+		PyObject_SetAttrString(pdata->class, "__geany_plugin__", caps);
 		pdata->instance      = NULL;
 		info->name           = string_from_attr(pdata->class, "__plugin_name__");
 		info->description    = string_from_attr(pdata->class, "__plugin_description__");
