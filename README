@@ -5,7 +5,7 @@ Geany-Plugins
 Installation
 ------------
 
-You can build the plugins using either Autotools or Waf.
+You can build the plugins using Autotools.
 
 Building with Autotools
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -122,12 +122,3 @@ which means that after running ``./configure``, you may compile each
 individual plugin by cd-ing into the respective plugin directory
 and running make inside it.
 
-Building with Waf
-^^^^^^^^^^^^^^^^^
-
-Geany-Plugins can also being build using Python based build system Waf.
-For doing this you have similar to building with Autotools run three steps::
-
-  ./waf configure [arguments]
-  ./waf build
-  ./waf install
