@@ -8,6 +8,4 @@ dist_plugindoc_DATA = \
 	AUTHORS \
 	$(AUXFILES)
 
-EXTRA_DIST = \
-	wscript_build \
-	wscript_configure
+EXTRA_DIST =
