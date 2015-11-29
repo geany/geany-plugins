@@ -1,11 +1,6 @@
 AC_DEFUN([GP_CHECK_SCOPE],
 [
     GP_ARG_DISABLE([Scope], [auto])
-    GP_CHECK_PLUGIN_GTK2_ONLY([Scope])
-
-    GP_CHECK_PLUGIN_DEPS([scope], [VTE],
-                         [vte >= 0.17])
-    AC_CHECK_HEADERS([util.h pty.h libutil.h])
 
     GP_COMMIT_PLUGIN_STATUS([Scope])
 

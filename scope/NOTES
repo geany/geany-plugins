@@ -16,7 +16,7 @@ INTO, so deriving GtkTreeStore and altering GtkTreeDragDest makes no sense
 In this case the varobj is known as a dynamic varobj" - not supported
 
 shift-clicking send/busy to send a command without closing the dialog can be
-implemented, but is very ugly; shortcut for "GDB command" plus typing in the
+implemented, but will be ugly; shortcut for "GDB command" plus typing in the
 debug console should suffice
 
 gtk tooltips send lots of queries, and can't be explicitly shown/hidden;

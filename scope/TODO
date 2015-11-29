@@ -1,0 +1,113 @@
+In no particular order:
+
+Fix "utils.c:98:30: warning: logical not is only applied to the left hand
+side of comparison" - insifnificant, swapping should be enough.
+
+Request a (min?) height of 80 for the GtkTextView-s, for gtk+3 only.
+gtk+2 works fine.
+
+Don't allow Run/Continue without a program or script specified, it's almost
+always a mistake, but allow an empty script, even the system null file.
+Simplify the startup sequence. Simplify the Program Setup dialog, block OK
+if neither program nor script is specified. Update the documentation.
+
+Replace the "Temporary breakpoint on load" with "Break on startup", using
+gdb 7.7+ -exec-run --start. Simplify the startup sequence. Place a label
+near the checkbox that gdb 7.7 is required. Update the documentation.
+Convert the temporary location if any to a regular breakpoint?..
+
+Windows: add "Break on ExitProcess" and "Break on TerminateProcess" to
+Debug -> More?.. Useful for stopping at console program exit, since the
+console now closes automatically.
+
+Write more friendly documentation. The current one now seems a bit haughty.
+
+Add a setting for the gdb version, along with a "Detect" button? We only
+need it for -exec-run --start, the double-escape bug under in the Windows
+breakpoint list (fixed between 7.6.1 and 7.9.1) and the var-update bug,
+which was fixed at some point. Doesn't seem worth.
+
+Add a (renew the?) PR for the project-before-save signal.
+
+Correct locale from/to utf8 for variables under Windows: utils_get_...()
+from Geany should be g_locale_from/to_utf8(). Maybe provide a default Auto
+setting which detects utf8-or-locale?
+
+Add a [ ] Pending checkbox in the breakpoints menu? Currently a breakpoint
+that succeeds can't be marked as pending for the next child runs.
+
+Create a PR for ui_setup_open_button_callback. It was discussed long time
+ago, but ended without a resolution.
+
+"No breakpoints. Hanging." - with a program or script always present, this
+should be a per-program option. Also improve the text.
+
+Per-program gdb executable. 3-rd tab "GDB" in the Program Setup dialog. Move
+the gdb prefs there, including the bugs. Verify that the registers are
+re-queried on gdb change. A few more gdb options, maybe CL options too, for
+example --quiet, but only ones that can't be set via script.
+
+set_error -> set_error_literal where the text is static.
+
+Setup Program _Import -> I_mport, the underline is too short now. Add _Help,
+call the browser at #set_program.
+
+Add a note in the documentation that the memory offset, count can't be saved
+because of variable address/size changes on recompilation. Add a ^(Scope)
+command for inspecting memory.
+
+Change the "=li_brary" in the che label to "=li_brary-...", add a TL note
+that the "=library-..." text must not be translated, but the underline may
+be moved anywhere.
+
+Add a note that "[ ] Show Tooltips" requires restart (does it?..)
+
+GDB has an option to add the command execution times to MI, alter the parser
+to ignore them.
+
+Convert the thread exit codes to decimal. Options for decimal/hex/as-is?
+
+Write a Preferences dialog for the global preferences?
+
+wchar_t / L"text" support?
+
+Save sort column #-s?
+
+Check what's new in 7.7 and later. Add --language=C to all commands that
+produce variable texts? "--skip-unavailable"? Better support for
+catchpoints?
+
+Use the new plugin startup that allows failure, and check for the glade
+file?
+
+Per-program options to hide views: Program Terminal, Threads, Memory,
+Debug Console, Registers.
+
+Add a ^(Scope) command for (de)activating breakpoint groups and a
+on_break_signal() handler: a-h activate, A-H deactivate. Add a single letter
+(none, a-h) Group submenu to the breakpoints menu.
+
+Set breakpoint by clicking on the empty space before of a line, where the
+markers are shown.
+
+Message "<thread X | Program> received signal Y"?
+
+Try DND-selected-text support for Watches, Inspect?
+
+Try Watch formats or radix.
+
+Mark "Delete all breakpoints, watches ..." with bold if the program or
+script name was changed.
+
+Add a second Memory page? (Supporting 2+ regions in a single page seems
+confusing and uncomfortable UI.)
+
+Max display length for MI? Should try some very long lines, to see whether
+that makes sense. Failed MI must be fully displayed in all cases.
+
+Disassembler read-only editor window using the gdb commands only. Auto open
+on assembler location hit. That'll take some work.
+
+Remember 3 lines around the breakpoints and try to apply them as in patch,
+in the case that source was modified without the breakpoints loaded. That'll
+take work, too.
