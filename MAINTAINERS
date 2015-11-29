@@ -73,10 +73,10 @@ W: http://plugins.geany.org/geanydoc.html
 S: Odd Fixes
 
 geanyextrasel
-P: Dimitar Zhekov <dimitar.zhekov@gmail.com>
-M: Dimitar Zhekov <dimitar.zhekov@gmail.com>
+P:
+M:
 W: http://plugins.geany.org/geanyextrasel.html
-S: Maintained
+S: Orphaned
 
 geanygendoc
 P: Colomban Wendling <ban@herbesfolles.org>
@@ -85,10 +85,10 @@ W: http://plugins.geany.org/geanygendoc.html
 S: Maintained
 
 geanyinsertnum
-P: Dimitar Zhekov <dimitar.zhekov@gmail.com>
-M: Dimitar Zhekov <dimitar.zhekov@gmail.com>
+P:
+M:
 W: http://plugins.geany.org/geanyinsertnum.html
-S: Maintained
+S: Orphaned
 
 geanylatex
 P: Frank Lanitz <frank@frank.uvena.de>
@@ -211,10 +211,10 @@ W: http://plugins.geany.org/pohelper.html
 S: Maintained
 
 scope
-P: Dimitar Zhekov <dimitar.zhekov@gmail.com>
-M: Dimitar Zhekov <dimitar.zhekov@gmail.com>
+P:
+M:
 W: http://plugins.geany.org/scope.html
-S: Maintained
+S: Orphaned
 
 shiftcolumn
 P:
