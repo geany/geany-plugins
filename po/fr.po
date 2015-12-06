@@ -2382,7 +2382,7 @@ msgstr "Article"
 
 #: ../geanylatex/src/geanylatex.c:1788
 msgid "Report"
-msgstr "Raport"
+msgstr "Rapport"
 
 #: ../geanylatex/src/geanylatex.c:1790
 msgid "Letter"
