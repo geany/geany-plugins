@@ -18,16 +18,15 @@
  *  MA 02110-1301, USA.
  */
 
-
 #ifdef HAVE_CONFIG_H
-# include "config.h"
+#include "config.h"
 #endif
 
 #include "geany.h"
 #include "support.h"
 
 #ifdef HAVE_LOCALE_H
-# include <locale.h>
+#include <locale.h>
 #endif
 
 #include "ui_utils.h"
@@ -41,30 +40,48 @@
 #include <glib/gprintf.h>
 #include <gdk/gdkkeysyms.h>
 
-GeanyPlugin     *geany_plugin;
-GeanyData       *geany_data;
-GeanyFunctions  *geany_functions;
+GeanyPlugin *geany_plugin;
+GeanyData *geany_data;
+GeanyFunctions *geany_functions;
 
 PLUGIN_VERSION_CHECK(130)
-PLUGIN_SET_INFO(_("Shift Column"),
+   PLUGIN_SET_INFO(_("Shift Column"),
                 _("Shift a selection left and right"),
                 VERSION, "Andrew L Janke <a.janke@gmail.com>")
 
-
-static GtkWidget *menu_item_shift_left = NULL;
-static GtkWidget *menu_item_shift_right = NULL;
+     static GtkWidget *menu_item_shift_left = NULL;
+     static GtkWidget *menu_item_shift_right = NULL;
 
 /* Keybinding(s) */
-enum{
-   KB_SHIFT_LEFT,
-   KB_SHIFT_RIGHT,
-   KB_COUNT
-   };
+     enum { KB_SHIFT_LEFT,
+        KB_SHIFT_RIGHT,
+        KB_COUNT
+        };
 PLUGIN_KEY_GROUP(shiftcolumn, KB_COUNT)
 
+     static void swap_text(ScintillaObject * sci, int startb, int endb, int start,
+                           int end)
+{
+   gint txt_len = end - startb;
+   gchar *txt = g_malloc(txt_len + 1);
 
-static void shift_left_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
-                          G_GNUC_UNUSED gpointer gdata){
+   sci_get_text_range(sci, startb, end, txt);
+   gchar *txt_i = g_malloc(txt_len + 1);
+
+   memcpy(txt_i, txt + start - startb, end - start);
+   memcpy(txt_i + end - start, txt + endb - startb, start - endb);
+   memcpy(txt_i + end - endb, txt, endb - startb);
+   txt_i[txt_len] = 0;
+   scintilla_send_message(sci, SCI_DELETERANGE, startb, end - startb);
+   sci_insert_text(sci, startb, txt_i);
+   sci_end_undo_action(sci);
+   g_free(txt);
+   g_free(txt_i);
+   }
+
+static void shift_left_cb(G_GNUC_UNUSED GtkMenuItem * menuitem,
+                          G_GNUC_UNUSED gpointer gdata)
+{
    gchar *txt;
    gchar *txt_i;
    gchar char_before;
@@ -92,8 +109,7 @@ static void shift_left_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
    /* get a pointer to the scintilla object */
    sci = document_get_current()->editor->sci;
 
-   if (sci_has_selection(sci)){
-
+   if(sci_has_selection(sci)){
       startpos = sci_get_selection_start(sci);
       endpos = sci_get_selection_end(sci);
 
@@ -110,9 +126,7 @@ static void shift_left_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
       endline = sci_get_line_from_position(sci, endpos);
 
       /* normal mode */
-      if(startline == endline){
-
-         /* get the text in question */
+      if(startline == endline){       /* get the text in question */
          txt_len = endpos - startpos;
          txt_i = g_malloc(txt_len + 1);
          txt = g_malloc(txt_len + 2);
@@ -121,13 +135,14 @@ static void shift_left_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
          char_before = sci_get_char_at(sci, startpos - 1);
 
          /* set up new text buf */
-         (void) g_sprintf(txt, "%s%c", txt_i, char_before);
+         (void)g_sprintf(txt, "%s%c", txt_i, char_before);
 
          /* start undo */
          sci_start_undo_action(sci);
 
          /* put the new text in */
          sci_set_selection_start(sci, startpos - 1);
+         sci_set_selection_end(sci, endpos); // in case selection_start was after selection_end
          sci_replace_sel(sci, txt);
 
          /* select the right bit again */
@@ -142,7 +157,7 @@ static void shift_left_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
          }
 
       /* rectangle mode (we hope!) */
-      else{
+      else {
          startcol = sci_get_col_from_position(sci, startpos);
          endcol = sci_get_col_from_position(sci, endpos);
 
@@ -159,7 +174,7 @@ static void shift_left_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
             linelen = sci_get_line_length(sci, line_iter);
 
             /* do we need to do something */
-            if(linelen >= startcol - 1 ){
+            if(linelen >= startcol - 1){
 
                /* if between the two columns */
                /* pad to the end first */
@@ -190,7 +205,7 @@ static void shift_left_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
                char_before = sci_get_char_at(sci, linepos + startcol - 1);
 
                /* set up new text buf */
-               (void) g_sprintf(txt, "%s%c", txt_i, char_before);
+               (void)g_sprintf(txt, "%s%c", txt_i, char_before);
 
                /* put the new text in */
                sci_set_selection_start(sci, linepos + startcol - 1);
@@ -212,10 +227,27 @@ static void shift_left_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
          }
 
       }
+   else {                              // move word
+      gint pos = sci_get_current_position(sci);
+      gint start = scintilla_send_message(sci, SCI_WORDSTARTPOSITION, pos, TRUE);
+      gint end = scintilla_send_message(sci, SCI_WORDENDPOSITION, pos, TRUE);
+
+      if(start < 2)
+         return;
+      gint startb = scintilla_send_message(sci, SCI_WORDSTARTPOSITION, start - 2, TRUE);
+      gint endb = scintilla_send_message(sci, SCI_WORDENDPOSITION, startb, TRUE);
+
+      if(endb >= start)
+         return;
+      sci_start_undo_action(sci);
+      swap_text(sci, startb, endb, start, end);
+      sci_set_current_position(sci, startb + 1, TRUE);
+      }
    }
 
-static void shift_right_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
-                           G_GNUC_UNUSED gpointer gdata){
+static void shift_right_cb(G_GNUC_UNUSED GtkMenuItem * menuitem,
+                           G_GNUC_UNUSED gpointer gdata)
+{
    gchar *txt;
    gchar *txt_i;
    gchar char_after;
@@ -240,8 +272,7 @@ static void shift_right_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
    /* get a pointer to the scintilla object */
    sci = document_get_current()->editor->sci;
 
-   if (sci_has_selection(sci)){
-
+   if(sci_has_selection(sci)){
       startpos = sci_get_selection_start(sci);
       endpos = sci_get_selection_end(sci);
 
@@ -257,9 +288,7 @@ static void shift_right_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
       endline = sci_get_line_from_position(sci, endpos);
 
       /* normal mode */
-      if(startline == endline){
-
-         /* get the text in question */
+      if(startline == endline){       /* get the text in question */
          txt_len = endpos - startpos;
          txt_i = g_malloc(txt_len + 1);
          txt = g_malloc(txt_len + 2);
@@ -268,12 +297,13 @@ static void shift_right_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
          char_after = sci_get_char_at(sci, endpos);
 
          /* set up new text buf */
-         (void) g_sprintf(txt, "%c%s", char_after, txt_i);
+         (void)g_sprintf(txt, "%c%s", char_after, txt_i);
 
          /* start undo */
          sci_start_undo_action(sci);
 
          /* put the new text in */
+         sci_set_selection_start(sci, startpos);   // in case selection_start was after selection_end
          sci_set_selection_end(sci, endpos + 1);
          sci_replace_sel(sci, txt);
 
@@ -289,7 +319,7 @@ static void shift_right_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
          }
 
       /* rectangle mode (we hope!) */
-      else{
+      else {
          startcol = sci_get_col_from_position(sci, startpos);
          endcol = sci_get_col_from_position(sci, endpos);
 
@@ -301,7 +331,7 @@ static void shift_right_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
             linelen = sci_get_line_length(sci, line_iter);
 
             /* do we need to do something */
-            if(linelen >= startcol - 1 ){
+            if(linelen >= startcol - 1){
 
                /* if between the two columns or at the end */
                /* add in a space */
@@ -313,8 +343,7 @@ static void shift_right_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
                   g_free(txt);
                   }
 
-               else{
-                  /* move the text itself */
+               else {                  /* move the text itself */
                   sci_set_selection_mode(sci, 0);
                   sci_set_selection_start(sci, linepos + startcol);
                   sci_set_selection_end(sci, linepos + endcol);
@@ -327,7 +356,7 @@ static void shift_right_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
                   char_after = sci_get_char_at(sci, linepos + endcol);
 
                   /* set up new text buf */
-                  (void) g_sprintf(txt, "%c%s", char_after, txt_i);
+                  (void)g_sprintf(txt, "%c%s", char_after, txt_i);
 
                   /* put the new text in */
                   sci_set_selection_end(sci, linepos + endcol + 1);
@@ -349,30 +378,46 @@ static void shift_right_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
          sci_end_undo_action(sci);
          }
       }
+   else {                              // move word
+      gint pos = sci_get_current_position(sci);
+      gint start = scintilla_send_message(sci, SCI_WORDSTARTPOSITION, pos, TRUE);
+      gint end = scintilla_send_message(sci, SCI_WORDENDPOSITION, pos, TRUE);
+
+      gint endn = scintilla_send_message(sci, SCI_WORDENDPOSITION, end + 2, TRUE);
+      gint startn = scintilla_send_message(sci, SCI_WORDSTARTPOSITION, endn, TRUE);
+
+      if(startn <= end)
+         return;
+      sci_start_undo_action(sci);
+      swap_text(sci, start, end, startn, endn);
+      sci_set_current_position(sci, endn - 1, TRUE);
+      }
    }
 
-
-static void kb_shift_left(G_GNUC_UNUSED guint key_id){
+static void kb_shift_left(G_GNUC_UNUSED guint key_id)
+{
 
    /* sanity check */
-   if (document_get_current() == NULL){
-       return;
-       }
+   if(document_get_current() == NULL){
+      return;
+      }
 
    shift_left_cb(NULL, NULL);
    }
 
-static void kb_shift_right(G_GNUC_UNUSED guint key_id){
+static void kb_shift_right(G_GNUC_UNUSED guint key_id)
+{
 
    /* sanity check */
-   if (document_get_current() == NULL){
-       return;
-       }
+   if(document_get_current() == NULL){
+      return;
+      }
 
    shift_right_cb(NULL, NULL);
    }
 
-void plugin_init(G_GNUC_UNUSED GeanyData *data){
+void plugin_init(G_GNUC_UNUSED GeanyData * data)
+{
 
    /* init gettext and friends */
    main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
@@ -380,16 +425,14 @@ void plugin_init(G_GNUC_UNUSED GeanyData *data){
    menu_item_shift_left = gtk_menu_item_new_with_mnemonic(_("Shift Left"));
    gtk_widget_show(menu_item_shift_left);
    gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu),
-       menu_item_shift_left);
-   g_signal_connect(menu_item_shift_left, "activate",
-       G_CALLBACK(shift_left_cb), NULL);
+                     menu_item_shift_left);
+   g_signal_connect(menu_item_shift_left, "activate", G_CALLBACK(shift_left_cb), NULL);
 
    menu_item_shift_right = gtk_menu_item_new_with_mnemonic(_("Shift Right"));
    gtk_widget_show(menu_item_shift_right);
    gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu),
-       menu_item_shift_right);
-   g_signal_connect(menu_item_shift_right, "activate",
-       G_CALLBACK(shift_right_cb), NULL);
+                     menu_item_shift_right);
+   g_signal_connect(menu_item_shift_right, "activate", G_CALLBACK(shift_right_cb), NULL);
 
    /* make sure our menu items aren't called when there is no doc open */
    ui_add_document_sensitive(menu_item_shift_right);
@@ -397,12 +440,15 @@ void plugin_init(G_GNUC_UNUSED GeanyData *data){
 
    /* setup keybindings */
    keybindings_set_item(plugin_key_group, KB_SHIFT_LEFT, kb_shift_left,
-      0, GDK_CONTROL_MASK, "shift_left", _("Shift Left"), menu_item_shift_left);
-   keybindings_set_item(plugin_key_group, KB_SHIFT_RIGHT, kb_shift_right,
-      0, GDK_CONTROL_MASK, "shift_right", _("Shift Right"), menu_item_shift_right);
+                        0, GDK_CONTROL_MASK, "shift_left", _("Shift Left"),
+                        menu_item_shift_left);
+   keybindings_set_item(plugin_key_group, KB_SHIFT_RIGHT, kb_shift_right, 0,
+                        GDK_CONTROL_MASK, "shift_right", _("Shift Right"),
+                        menu_item_shift_right);
    }
 
-void plugin_cleanup(void){
+void plugin_cleanup(void)
+{
    gtk_widget_destroy(menu_item_shift_left);
    gtk_widget_destroy(menu_item_shift_right);
    }
