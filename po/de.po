@@ -564,7 +564,7 @@ msgstr "Auto-Mark"
 
 #: ../automark/src/automark.c:49
 msgid "Auto-mark word under cursor"
-msgstr "Automatisches markieren von Wörtern unter dem Cursor"
+msgstr "Automatisches Markieren von Wörtern unter dem Cursor"
 
 #: ../codenav/src/codenavigation.c:43
 msgid "Code navigation"
@@ -1694,12 +1694,12 @@ msgstr "_Anleitung öffnen"
 
 #: ../geanygendoc/src/ggd-plugin.c:516
 msgid "Open the manual in a browser"
-msgstr "Anleitung im Browser öfnen."
+msgstr "Anleitung im Browser öffnen."
 
 #. build tools menu item
 #: ../geanygendoc/src/ggd-plugin.c:520
 msgid "_Documentation Generator"
-msgstr "_Dokumentatinsgenerator"
+msgstr "_Dokumentationsgenerator"
 
 #. General
 #: ../geanygendoc/src/ggd-plugin.c:619
@@ -2747,7 +2747,7 @@ msgstr "_BibTeX"
 
 #: ../geanylatex/src/geanylatex.c:2289
 msgid "Insert B_ibTeX reference"
-msgstr "B_ibTeX-Referenze einfügen"
+msgstr "B_ibTeX-Referenz einfügen"
 
 #: ../geanylatex/src/geanylatex.c:2291
 msgid "Helps to insert a reference out of BibTeX files"
@@ -4348,15 +4348,15 @@ msgstr "[schlechter Validierungswert]"
 #. buffer should be more than 105 bytes long
 #: ../geanypg/src/verify_aux.c:79
 msgid " valid"
-msgstr "gültig"
+msgstr " gültig"
 
 #: ../geanypg/src/verify_aux.c:80
 msgid " green"
-msgstr "grün"
+msgstr " grün"
 
 #: ../geanypg/src/verify_aux.c:81
 msgid " red"
-msgstr "rot"
+msgstr " rot"
 
 #: ../geanypg/src/verify_aux.c:82
 msgid " revoked"
@@ -4364,23 +4364,23 @@ msgstr " widerrufen"
 
 #: ../geanypg/src/verify_aux.c:83
 msgid " key-expired"
-msgstr "Schlüssel abgelaufen"
+msgstr " Schlüssel abgelaufen"
 
 #: ../geanypg/src/verify_aux.c:84
 msgid " sig-expired"
-msgstr "Signatur abgelaufen"
+msgstr " Signatur abgelaufen"
 
 #: ../geanypg/src/verify_aux.c:85
 msgid " key-missing"
-msgstr "Schlüssel fehlt"
+msgstr " Schlüssel fehlt"
 
 #: ../geanypg/src/verify_aux.c:86
 msgid " crl-missing"
-msgstr "CRL fehlt"
+msgstr " CRL fehlt"
 
 #: ../geanypg/src/verify_aux.c:87
 msgid " crl-too-old"
-msgstr "CRL ist zu alt"
+msgstr " CRL ist zu alt"
 
 #: ../geanypg/src/verify_aux.c:88
 msgid " bad-policy"
@@ -4388,7 +4388,7 @@ msgstr " falsches Regelwerk (bad policy)"
 
 #: ../geanypg/src/verify_aux.c:89
 msgid " sys-error"
-msgstr "Systemfehler"
+msgstr " Systemfehler"
 
 #: ../geanypg/src/verify_aux.c:103 ../geanypg/src/verify_aux.c:108
 msgid "Unknown\n"
@@ -4447,7 +4447,7 @@ msgstr "RFU"
 
 #: ../geanypg/src/verify_aux.c:135
 msgid " wrong-key-usage"
-msgstr "Falsche Schlüsselnutzung"
+msgstr " Falsche Schlüsselnutzung"
 
 #: ../geanypg/src/verify_aux.c:135
 msgid " chain-model"
@@ -4637,7 +4637,7 @@ msgstr "Konnte das Python-Plugin-Verzeichnis nicht anlegen: %s: %s"
 
 #: ../geanypy/src/geanypy-plugin.c:270
 msgid "Python Plugin Manager"
-msgstr "Python Plugin-Verwaltung"
+msgstr "Python-Plugin-Verwaltung"
 
 #: ../geanysendmail/src/geanysendmail.c:43
 msgid "GeanySendMail"
@@ -5585,7 +5585,7 @@ msgstr "Findet und hebt passende öffnende und schließende HTML-Tags hervor"
 
 #: ../pohelper/data/menus.ui.h:1
 msgid "_Translation Helper"
-msgstr "_Übersetzungs-Helfer"
+msgstr "_Übersetzungshelfer"
 
 #: ../pohelper/data/menus.ui.h:2
 msgid "_Previous String"
@@ -5605,7 +5605,7 @@ msgstr "Zur nächsten String gehen"
 
 #: ../pohelper/data/menus.ui.h:6
 msgid "Pre_vious Untranslated"
-msgstr "_Vorheringe nicht übersetze Zeichenkette"
+msgstr "_Vorherige nicht übersetze Zeichenkette"
 
 #: ../pohelper/data/menus.ui.h:7 ../pohelper/src/gph-plugin.c:1512
 msgid "Go to previous untranslated string"
@@ -5707,7 +5707,7 @@ msgstr "Farbe für übersetze Texte auswählen"
 
 #: ../pohelper/data/stats.ui.h:3
 msgid "Choose a color for fuzzily translated strings"
-msgstr "Für für unklare Übersetzungen auswählen"
+msgstr "Farbe für unklare Übersetzungen auswählen"
 
 #: ../pohelper/data/stats.ui.h:4
 msgid "Choose a color for untranslated strings"
@@ -6350,7 +6350,7 @@ msgstr "_Ausdruck ansehen"
 
 #: ../scope/data/scope.glade.h:67
 msgid "_Inspect Variable"
-msgstr "_Veriable untersuchen"
+msgstr "_Variable untersuchen"
 
 #: ../scope/data/scope.glade.h:68
 msgid "Threads"
@@ -6506,7 +6506,7 @@ msgstr "<b>Inspizieren</b>"
 
 #: ../scope/data/scope.glade.h:106
 msgid "Show =li_brary messages"
-msgstr "=li_brary-Meldunngen anzeigen"
+msgstr "=li_brary-Meldungen anzeigen"
 
 #: ../scope/data/scope.glade.h:107
 msgid "Show _tooltips"
@@ -6592,7 +6592,7 @@ msgstr "schneller Ablaufverfolgungspunkt"
 
 #: ../scope/src/break.c:101
 msgid "write watchpoint"
-msgstr "Beobachtungspunkt schrieben"
+msgstr "Beobachtungspunkt schreiben"
 
 #: ../scope/src/break.c:104
 msgid "access watchpoint"
@@ -6818,7 +6818,7 @@ msgstr "Haltepunkt umschalten"
 
 #: ../scope/src/scope.c:71 ../scope/src/scope.c:74
 msgid "GDB command"
-msgstr "GDB Kommando"
+msgstr "GDB-Kommando"
 
 #: ../scope/src/scope.c:72
 msgid "Show terminal"
@@ -6932,11 +6932,11 @@ msgstr "_Senden"
 
 #: ../scope/src/views.c:549
 msgid "_Busy"
-msgstr "_Beshcäftigt"
+msgstr "_Beschäftigt"
 
 #: ../scope/src/views.c:558
 msgid "GDB Command"
-msgstr "GDB-Koomando:"
+msgstr "GDB-Kommando:"
 
 #: ../spellcheck/src/speller.c:180
 msgid "Try: "
@@ -7313,7 +7313,7 @@ msgstr "Leisten verbergen"
 msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
 "reverse try for example this '!;*.c;*.h;*.cpp'"
-msgstr "Filter (*.c;*.h;*.cpp). Die Nutzung von ! invertiert das Ergebnis."
+msgstr "Filter (*.c;*.h;*.cpp). Die Nutzung von »!« invertiert das Ergebnis."
 
 #: ../treebrowser/src/treebrowser.c:1782
 msgid "Addressbar for example '/projects/my-project'"
