@@ -206,6 +206,45 @@ static GtkWidget *geanypy_proxy_configure(GeanyPlugin *plugin, GtkDialog *parent
 	return NULL;
 }
 
+
+static void do_show_configure(GtkWidget *button, gpointer pdata)
+{
+	GeanyPyPluginData *data = (GeanyPyPluginData *) pdata;
+	PyObject_CallMethod(data->instance, "show_configure", NULL);
+}
+
+
+static GtkWidget *geanypy_proxy_configure_legacy(GeanyPlugin *plugin, GtkDialog *parent, gpointer pdata)
+{
+	GeanyPyPluginData *data = (GeanyPyPluginData *) pdata;
+	PyObject *o, *oparent;
+	GtkWidget *box, *label, *button, *align;
+	gchar *text;
+
+	/* This creates a simple page that has only one button to show the plugin's legacy configure
+	 * dialog. It is for older plugins that implement show_configure(). It's not pretty but
+	 * it provides basic backwards compatibility. */
+	box = gtk_vbox_new(FALSE, 2);
+
+	text = g_strdup_printf("The plugin \"%s\" is older and hasn't been updated\nto provide a configuration UI. However, it provides a dialog to\nallow you to change the plugin's preferences.", plugin->info->name);
+	label = gtk_label_new(text);
+
+	align = gtk_alignment_new(0, 0, 1, 1);
+	gtk_container_add(GTK_CONTAINER(align), label);
+	gtk_alignment_set_padding(GTK_ALIGNMENT(align), 0, 6, 2, 2);
+	gtk_box_pack_start(GTK_BOX(box), align, FALSE, FALSE, 0);
+
+	button = gtk_button_new_with_label("Open dialog");
+	align = gtk_alignment_new(0.5, 0, 0.3f, 1);
+	gtk_container_add(GTK_CONTAINER(align), button);
+	g_signal_connect(button, "clicked", (GCallback) do_show_configure, pdata);
+	gtk_box_pack_start(GTK_BOX(box), align, FALSE, TRUE, 0);
+
+	gtk_widget_show_all(box);
+	g_free(text);
+	return box;
+}
+
 static void geanypy_proxy_help(GeanyPlugin *plugin, gpointer pdata)
 {
 	GeanyPyPluginData *data = (GeanyPyPluginData *) pdata;
@@ -290,6 +329,8 @@ geanypy_load(GeanyPlugin *proxy, GeanyPlugin *subplugin, const gchar *filename, 
 		funcs->cleanup       = geanypy_proxy_cleanup;
 		if (PyObject_HasAttrString(found, "configure"))
 			funcs->configure = geanypy_proxy_configure;
+		else if (PyObject_HasAttrString(found, "show_configure"))
+			funcs->configure = geanypy_proxy_configure_legacy;
 		if (PyObject_HasAttrString(found, "help"))
 			funcs->help      = geanypy_proxy_help;
 		if (GEANY_PLUGIN_REGISTER_FULL(subplugin, 224, pdata, NULL))
