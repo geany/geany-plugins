@@ -1,120 +1,64 @@
+include build/vars.init.mk
+include build/vars.build.mk
+
 ACLOCAL_AMFLAGS = -I build/cache -I build -I build/bundled -I geanypy/m4 --install
 AM_DISTCHECK_CONFIGURE_FLAGS = --with-geany-libdir='$${libdir}'
 
 SUBDIRS = po
 
-if ENABLE_ADDONS
-SUBDIRS += addons
-endif
-
-if ENABLE_AUTOCLOSE
-SUBDIRS += autoclose
-endif
-
-if ENABLE_AUTOMARK
-SUBDIRS += automark
-endif
-
-if ENABLE_CODENAV
-SUBDIRS += codenav
-endif
-
-if ENABLE_COMMANDER
-SUBDIRS += commander
-endif
-
+include addons/Makefile.rel.am
+include autoclose/Makefile.rel.am
+include automark/Makefile.rel.am
+include codenav/Makefile.rel.am
+include commander/Makefile.rel.am
 if ENABLE_DEBUGGER
 SUBDIRS += debugger
 endif
 
-if ENABLE_DEFINEFORMAT
-SUBDIRS += defineformat
-endif
-
+include defineformat/Makefile.rel.am
 if ENABLE_DEVHELP
 SUBDIRS += devhelp
 endif
 
-if ENABLE_GEANYCTAGS
-SUBDIRS += geanyctags
-endif
-
+include geanyctags/Makefile.rel.am
 if ENABLE_GEANYDOC
 SUBDIRS += geanydoc
 endif
 
-if ENABLE_GEANYEXTRASEL
-SUBDIRS += geanyextrasel
-endif
-
+include geanyextrasel/Makefile.rel.am
 if ENABLE_GEANYGENDOC
 SUBDIRS += geanygendoc
 endif
 
-if ENABLE_GEANYINSERTNUM
-SUBDIRS += geanyinsertnum
-endif
-
+include geanyinsertnum/Makefile.rel.am
 if ENABLE_GEANYLATEX
 SUBDIRS += geanylatex
 endif
 
-if ENABLE_GEANYLIPSUM
-SUBDIRS += geanylipsum
-endif
-
+include geanylipsum/Makefile.rel.am
 if ENABLE_GEANYLUA
 SUBDIRS += geanylua
 endif
 
-if ENABLE_GEANYMACRO
-SUBDIRS += geanymacro
-endif
-
-if ENABLE_GEANYMINISCRIPT
-SUBDIRS += geanyminiscript
-endif
-
-if ENABLE_GEANYNUMBEREDBOOKMARKS
-SUBDIRS += geanynumberedbookmarks
-endif
-
-if ENABLE_GEANYPG
-SUBDIRS += geanypg
-endif
-
-if ENABLE_GEANYPRJ
-SUBDIRS += geanyprj
-endif
-
+include geanymacro/Makefile.rel.am
+include geanyminiscript/Makefile.rel.am
+include geanynumberedbookmarks/Makefile.rel.am
+include geanypg/Makefile.rel.am
+include geanyprj/Makefile.rel.am
 if ENABLE_GEANYPY
 SUBDIRS += geanypy
 endif
 
-if ENABLE_GEANYSENDMAIL
-SUBDIRS += geanysendmail
-endif
-
-if ENABLE_GEANYVC
-SUBDIRS += geanyvc
-endif
-
-if ENABLE_GENIUSPASTE
-SUBDIRS += geniuspaste
-endif
-
-if ENABLE_GITCHANGEBAR
-SUBDIRS += git-changebar
-endif
+include geanysendmail/Makefile.rel.am
+include geanyvc/Makefile.rel.am
+include geniuspaste/Makefile.rel.am
+include git-changebar/Makefile.rel.am
 
 if ENABLE_MARKDOWN
 SUBDIRS += markdown
 endif
 
-if ENABLE_MULTITERM
-SUBDIRS += multiterm
-endif
-
+include multiterm/Makefile.rel.am
 if ENABLE_OVERVIEW
 SUBDIRS += overview
 endif
@@ -127,10 +71,7 @@ if ENABLE_POHELPER
 SUBDIRS += pohelper
 endif
 
-if ENABLE_PRETTY_PRINTER
-SUBDIRS += pretty-printer
-endif
-
+include pretty-printer/Makefile.rel.am
 if ENABLE_PROJECTORGANIZER
 SUBDIRS += projectorganizer
 endif
@@ -139,36 +80,15 @@ if ENABLE_SCOPE
 SUBDIRS += scope
 endif
 
-if ENABLE_SHIFTCOLUMN
-SUBDIRS += shiftcolumn
-endif
+include shiftcolumn/Makefile.rel.am
+include spellcheck/Makefile.rel.am
+include tableconvert/Makefile.rel.am
+include treebrowser/Makefile.rel.am
+include updatechecker/Makefile.rel.am
+include webhelper/Makefile.rel.am
+include xmlsnippets/Makefile.rel.am
 
-if ENABLE_SPELLCHECK
-SUBDIRS += spellcheck
-endif
-
-if ENABLE_TABLECONVERT
-SUBDIRS += tableconvert
-endif
-
-if ENABLE_TREEBROWSER
-SUBDIRS += treebrowser
-endif
-
-if ENABLE_UPDATECHECKER
-SUBDIRS += updatechecker
-endif
-
-if ENABLE_WEBHELPER
-SUBDIRS += webhelper
-endif
-
-if ENABLE_XMLSNIPPETS
-SUBDIRS += xmlsnippets
-endif
-
-
-EXTRA_DIST = \
+EXTRA_DIST += \
 	build/__init__.py \
 	build/wafcache.py \
 	build/wafutils.py \

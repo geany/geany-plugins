@@ -1,0 +1,18 @@
+include %D%/src/Makefile.rel.am
+
+if ENABLE_WEBHELPER
+webhelperdocdir = $(docdir)/webhelper
+dist_webhelperdoc_DATA = \
+	%D%/README \
+	%D%/ChangeLog \
+	%D%/NEWS \
+	%D%/COPYING \
+	%D%/AUTHORS \
+	%D%/TODO
+
+EXTRA_DIST += \
+	%D%/wscript_build \
+	%D%/wscript_configure
+
+plugin = webhelper
+endif

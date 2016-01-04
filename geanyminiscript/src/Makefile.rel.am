@@ -1,0 +1,13 @@
+if ENABLE_GEANYMINISCRIPT
+geanyplugins_LTLIBRARIES += %D%/geanyminiscript.la
+
+%C%_geanyminiscript_la_SOURCES = \
+	%D%/gms.c \
+	%D%/gms.h \
+	%D%/gms_gui.c \
+	%D%/gms_gui.h \
+	%D%/gms_debug.h
+
+%C%_geanyminiscript_la_LIBADD = $(COMMONLIBS)
+endif
+

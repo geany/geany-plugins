@@ -1,0 +1,6 @@
+if ENABLE_AUTOMARK
+geanyplugins_LTLIBRARIES += %D%/automark.la
+
+%C%_automark_la_SOURCES = %D%/automark.c
+%C%_automark_la_LIBADD = $(COMMONLIBS)
+endif

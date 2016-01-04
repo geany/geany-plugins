@@ -1,0 +1,15 @@
+if ENABLE_CODENAV
+geanyplugins_LTLIBRARIES += %D%/codenav.la
+
+%C%_codenav_la_SOURCES = \
+	%D%/codenavigation.c \
+	%D%/codenavigation.h \
+	%D%/goto_file.c \
+	%D%/goto_file.h \
+	%D%/switch_head_impl.c \
+	%D%/switch_head_impl.h \
+	%D%/utils.c \
+	%D%/utils.h
+
+%C%_codenav_la_LIBADD = $(COMMONLIBS)
+endif

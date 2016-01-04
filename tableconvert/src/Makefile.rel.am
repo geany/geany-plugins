@@ -1,0 +1,10 @@
+if ENABLE_TABLECONVERT
+geanyplugins_LTLIBRARIES += %D%/tableconvert.la
+
+%C%_tableconvert_la_SOURCES = \
+	%D%/tableconvert.c \
+	%D%/tableconvert.h \
+	%D%/tableconvert_ui.c \
+	%D%/tableconvert_ui.h
+%C%_tableconvert_la_LIBADD = $(COMMONLIBS)
+endif

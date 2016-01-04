@@ -1,0 +1,4 @@
+if ENABLE_GITCHANGEBAR
+gcbdatadir = $(plugindatadir)/git-changebar
+dist_gcbdata_DATA = %D%/prefs.ui
+endif

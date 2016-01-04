@@ -1,0 +1,23 @@
+if ENABLE_XMLSNIPPETS
+geanyplugins_LTLIBRARIES += %D%/xmlsnippets.la
+
+check_PROGRAMS += %D%/xmlsnippets-check
+
+common_sources = %D%/xmlsnippets.c %D%/xmlsnippets.h
+
+%C%_xmlsnippets_la_SOURCES = \
+	%D%/plugin.c %D%/plugin.h \
+	$(common_sources)
+
+%C%_xmlsnippets_la_LIBADD = $(COMMONLIBS)
+
+%C%_xmlsnippets_check_SOURCES = \
+	%D%/tests.c \
+	%D%/test-stubs.c %D%/test-stubs.h \
+	$(common_sources)
+
+%C%_xmlsnippets_check_CPPFLAGS = -DTEST
+%C%_xmlsnippets_check_LDADD = $(COMMONLIBS)
+endif
+
+%C%_xmlsnippets_check_SHORTNAME = xmlsnippets_check_la

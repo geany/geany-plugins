@@ -1,0 +1,6 @@
+if ENABLE_GEANYMACRO
+geanyplugins_LTLIBRARIES += %D%/geanymacro.la
+
+%C%_geanymacro_la_SOURCES = %D%/geanymacro.c
+%C%_geanymacro_la_LIBADD = $(COMMONLIBS)
+endif

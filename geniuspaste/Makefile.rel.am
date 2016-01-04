@@ -1,0 +1,17 @@
+include %D%/src/Makefile.rel.am
+
+if ENABLE_GENIUSPASTE
+geniuspastedocdir = $(docdir)/geniuspaste
+dist_geniuspastedoc_DATA = \
+	%D%/README \
+	%D%/ChangeLog \
+	%D%/NEWS \
+	%D%/COPYING \
+	%D%/AUTHORS
+
+EXTRA_DIST += \
+	%D%/wscript_build \
+	%D%/wscript_configure
+
+plugin = geniuspaste
+endif

@@ -1,0 +1,6 @@
+if ENABLE_GEANYNUMBEREDBOOKMARKS
+geanyplugins_LTLIBRARIES += %D%/geanynumberedbookmarks.la
+
+%C%_geanynumberedbookmarks_la_SOURCES = %D%/geanynumberedbookmarks.c
+%C%_geanynumberedbookmarks_la_LIBADD = $(COMMONLIBS)
+endif

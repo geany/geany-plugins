@@ -1,4 +1,2 @@
-include $(top_srcdir)/build/vars.docs.mk
-plugin = git-changebar
-
-dist_plugindata_DATA = prefs.ui
+include $(top_srcdir)/build/vars.init.mk
+include Makefile.rel.am

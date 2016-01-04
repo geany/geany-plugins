@@ -1,0 +1,6 @@
+if ENABLE_GEANYSENDMAIL
+geanyplugins_LTLIBRARIES += %D%/geanysendmail.la
+
+%C%_geanysendmail_la_SOURCES = %D%/geanysendmail.c %D%/mail-icon.xpm
+%C%_geanysendmail_la_LIBADD = $(COMMONLIBS)
+endif

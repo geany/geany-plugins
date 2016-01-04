@@ -1,0 +1,18 @@
+include %D%/src/Makefile.rel.am
+include %D%/data/Makefile.rel.am
+
+if ENABLE_GITCHANGEBAR
+git_changebardocdir = $(docdir)/git-changebar
+dist_git_changebardoc_DATA = \
+	%D%/README \
+	%D%/ChangeLog \
+	%D%/NEWS \
+	%D%/COPYING \
+	%D%/AUTHORS
+
+EXTRA_DIST += \
+	%D%/wscript_build \
+	%D%/wscript_configure
+
+plugin = git-changebar
+endif

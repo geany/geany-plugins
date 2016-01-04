@@ -1,0 +1,15 @@
+if ENABLE_COMMANDER
+geanyplugins_LTLIBRARIES += %D%/commander.la
+
+%C%_commander_la_SOURCES  = %D%/commander-plugin.c
+%C%_commander_la_CPPFLAGS = $(AM_CPPFLAGS) \
+                        -DPLUGIN=\"commander\" \
+                        -DG_LOG_DOMAIN=\"Commander\"
+%C%_commander_la_CFLAGS   = $(AM_CFLAGS) \
+                        $(COMMANDER_CFLAGS)
+%C%_commander_la_LIBADD   = $(COMMONLIBS) \
+                        $(COMMANDER_LIBS)
+
+endif
+
+%C%_commander_la_SHORTNAME = commander_la

@@ -1,4 +1,3 @@
-include $(top_srcdir)/build/vars.auxfiles.mk
-plugin = git-changebar
-
-SUBDIRS = data src
+include $(top_srcdir)/build/vars.init.mk
+include $(top_srcdir)/build/vars.build.mk
+include Makefile.rel.am

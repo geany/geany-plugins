@@ -1,0 +1,6 @@
+if ENABLE_DEFINEFORMAT
+geanyplugins_LTLIBRARIES += %D%/defineformat.la
+
+%C%_defineformat_la_SOURCES = %D%/defineformat.c
+%C%_defineformat_la_LIBADD = $(COMMONLIBS)
+endif

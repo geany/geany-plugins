@@ -1,0 +1,16 @@
+if ENABLE_PRETTY_PRINTER
+geanyplugins_LTLIBRARIES += %D%/pretty-printer.la
+
+%C%_pretty_printer_la_SOURCES = \
+	%D%/PluginEntry.h \
+	%D%/PluginEntry.c \
+	%D%/PrettyPrinter.c \
+	%D%/PrettyPrinter.h \
+	%D%/ConfigUI.h \
+	%D%/ConfigUI.c
+
+%C%_pretty_printer_la_CFLAGS = $(AM_CFLAGS) $(LIBXML_CFLAGS) -DHAVE_GLIB -DHAVE_LIBXML
+%C%_pretty_printer_la_LIBADD = $(COMMONLIBS) $(LIBXML_LIBS)
+endif
+
+%C%_pretty_printer_la_SHORTNAME = pretty_printer_la
