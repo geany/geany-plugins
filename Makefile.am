@@ -107,6 +107,9 @@ if ENABLE_GITCHANGEBAR
 SUBDIRS += git-changebar
 endif
 
+if ENABLE_LINEOPERATIONS
+SUBDIRS += lineoperations
+endif
 if ENABLE_MARKDOWN
 SUBDIRS += markdown
 endif
