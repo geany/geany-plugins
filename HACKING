@@ -16,8 +16,8 @@ as well, so it's recommended you give it a read.
 
 Building your plugin
 --------------------
-You should first read either `README` or `README.waf` depending on whether
-you want to use Autotools or Waf to build the plugins.
+You should first read `README` to understand how to build the plugins in
+general.
 
 
 Autotools Build System
@@ -283,54 +283,6 @@ Makefile.am to references them::
     yourfancypluginname_la_CFLAGS = $(AM_CFLAGS) $(FOO_CFLAGS)
     yourfancypluginname_la_LIBADD = $(COMMONLIBS) $(FOO_LIBS)
 
-
-Adding a new plugin to Waf build system
----------------------------------------
-
-Configuration checks
-^^^^^^^^^^^^^^^^^^^^
-
-Add a ``wscript_configure`` file in your plugin's root folder.
-This file contains checks for dependencies, like libraries your plugin
-requires.  If your plugin does not have any additional dependencies
-besides Geany, GLib and GTK, you can leave this file empty (but you need
-to create it nonetheless).
-
-Generally checks are performed with ``check_cfg_cached``.  An example
-to check for library ``foo`` at version 2.0 or newer might look like
-this::
-
-    from build.wafutils import check_cfg_cached
-
-    check_cfg_cached(conf,
-                     package='foo',
-                     atleast_version='2.0',
-                     uselib_store='FOO',
-                     mandatory=True,
-                     args='--cflags --libs')
-
-
-Build rules
-^^^^^^^^^^^
-
-Add a ``wscript_build`` file inside your plugin's root folder.
-This files defines how the plugin is built, and has to at least call
-``build_plugin()``.  An example could look like this::
-
-    from build.wafutils import build_plugin
-
-    name = 'YourFancyPluginName'
-    sources = ['src/yourfancypluginname.c']
-
-    build_plugin(bld, name, sources=sources)
-
-If you checked for additional dependencies in ``wscript_configure``
-in addition to the standard Geany, GLib or GTK, you might need to make
-use of some results of these checks.  Given the configuration example
-above, you would need to add the ``libraries=['FOO']`` argument to
-the ``build_plugin()`` call::
-
-    build_plugin(bld, name, sources=sources, libraries=['FOO'])
 
 
 Additional things to do for a new plugin

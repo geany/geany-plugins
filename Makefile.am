@@ -169,10 +169,4 @@ endif
 
 
 EXTRA_DIST = \
-	build/__init__.py \
-	build/wafcache.py \
-	build/wafutils.py \
-	waf \
-	wscript \
-	README.waf \
 	README.windows
