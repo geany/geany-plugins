@@ -41,7 +41,6 @@ M: Colomban Wendling <ban@herbesfolles.org>
 W:
 S: Maintained
 
-
 debugger
 P: Alexander Petukhov <devel@apetukhov.ru>
 M: Alexander Petukhov <devel@apetukhov.ru>
@@ -166,6 +165,12 @@ git-changebar
 P: Colomban Wendling <ban@herbesfolles.org>
 M: Colomban Wendling <ban@herbesfolles.org>
 W: http://plugins.geany.org/git-changebar.html
+S: Maintained
+
+lineoperations
+P: Sylvan Mostert <smostert.dev@gmail.com>
+M: Sylvan Mostert <smostert.dev@gmail.com>
+W:
 S: Maintained
 
 markdown
