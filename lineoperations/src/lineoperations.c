@@ -32,7 +32,7 @@ PLUGIN_VERSION_CHECK(224)
 PLUGIN_SET_INFO(_("LineOperations"),
 				 _("Line operations, remove duplicate lines, empty lines, lines with only whitespace, sort lines."),
 				 "0.1",
-				 _("Sylvan Mostert"))
+				 "Sylvan Mostert")
 
 
 static GtkWidget *main_menu_item = NULL;
