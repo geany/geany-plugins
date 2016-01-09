@@ -205,7 +205,7 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number, const gchar *
 	gint wstart, wend;
 	gint suggestions_found = 0;
 	gint wordchars_len;
-	gchar *wordchars_orig;
+	gchar *wordchars;
 	GString *str;
 
 	g_return_val_if_fail(sc_speller_dict != NULL, 0);
@@ -215,14 +215,13 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number, const gchar *
 	/* add ' (single quote) temporarily to wordchars
 	 * to be able to check for "doesn't", "isn't" and similar */
 	wordchars_len = scintilla_send_message(doc->editor->sci, SCI_GETWORDCHARS, 0, 0);
-	wordchars_orig = g_malloc0(wordchars_len + 1);
-	scintilla_send_message(doc->editor->sci, SCI_GETWORDCHARS, 0, (sptr_t)wordchars_orig);
-	if (! strchr(wordchars_orig, '\''))
+	wordchars = g_malloc0(wordchars_len + 2); /* 2 = temporarily added "'" and "\0" */
+	scintilla_send_message(doc->editor->sci, SCI_GETWORDCHARS, 0, (sptr_t)wordchars);
+	if (! strchr(wordchars, '\''))
 	{
-		GString *wordchars_new = g_string_new(wordchars_orig);
-		g_string_append_c(wordchars_new, '\'');
-		scintilla_send_message(doc->editor->sci, SCI_SETWORDCHARS, 0, (sptr_t)wordchars_new->str);
-		g_string_free(wordchars_new, TRUE);
+		/* temporarily add "'" to the wordchars */
+		wordchars[wordchars_len] = '\'';
+		scintilla_send_message(doc->editor->sci, SCI_SETWORDCHARS, 0, (sptr_t)wordchars);
 	}
 
 	str = g_string_sized_new(256);
@@ -249,9 +248,10 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number, const gchar *
 	}
 
 	/* reset wordchars for the current document */
-	scintilla_send_message(doc->editor->sci, SCI_SETWORDCHARS, 0, (sptr_t)wordchars_orig);
+	wordchars[wordchars_len] = '\0';
+	scintilla_send_message(doc->editor->sci, SCI_SETWORDCHARS, 0, (sptr_t)wordchars);
 
-	g_free(wordchars_orig);
+	g_free(wordchars);
 	g_string_free(str, TRUE);
 	return suggestions_found;
 }
