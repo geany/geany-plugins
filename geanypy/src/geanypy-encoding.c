@@ -5,94 +5,6 @@
 #include "geanypy.h"
 
 
-static void
-Encoding_dealloc(Encoding *self)
-{
-	g_return_if_fail(self != NULL);
-	self->ob_type->tp_free((PyObject *) self);
-}
-
-
-static int
-Encoding_init(Encoding *self)
-{
-	g_return_val_if_fail(self != NULL, -1);
-	self->encoding = NULL;
-	return 0;
-}
-
-
-static PyObject *
-Encoding_get_property(Encoding *self, const gchar *prop_name)
-{
-	g_return_val_if_fail(self != NULL, NULL);
-	g_return_val_if_fail(prop_name != NULL, NULL);
-
-	if (!self->encoding)
-	{
-		PyErr_SetString(PyExc_RuntimeError,
-			"Encoding instance not initialized properly");
-		return NULL;
-	}
-
-	if (g_str_equal(prop_name, "charset") && self->encoding->charset)
-		return PyString_FromString(self->encoding->charset);
-	else if (g_str_equal(prop_name, "group"))
-		return PyInt_FromLong((glong) self->encoding->group);
-	else if (g_str_equal(prop_name, "idx"))
-		return PyInt_FromLong((glong) self->encoding->idx);
-	else if (g_str_equal(prop_name, "name") && self->encoding->name)
-		return PyString_FromString(self->encoding->name);
-	else if (g_str_equal(prop_name, "order"))
-		return PyInt_FromLong((glong) self->encoding->order);
-
-	Py_RETURN_NONE;
-}
-GEANYPY_PROPS_READONLY(Encoding);
-
-
-static PyGetSetDef Encoding_getseters[] = {
-	GEANYPY_GETSETDEF(Encoding, "charset",
-		"String representation of the encoding, ex. 'ISO-8859-3'."),
-	GEANYPY_GETSETDEF(Encoding, "group",
-		"Internally used member for grouping (see encoding.GROUP_* constants)."),
-	GEANYPY_GETSETDEF(Encoding, "idx",
-		"The index of the encoding, (see encoding.* constants, not encoding.GROUP_*)."),
-	GEANYPY_GETSETDEF(Encoding, "name",
-		"Translatable and descriptive name of the encoding, ex 'South European'."),
-	GEANYPY_GETSETDEF(Encoding, "order",
-		"Internally used member for grouping."),
-	{ NULL }
-};
-
-
-PyTypeObject EncodingType = {
-	PyObject_HEAD_INIT(NULL)
-	0,											/* ob_size */
-	"geany.encoding.Encoding",						/* tp_name */
-	sizeof(Encoding),								/* tp_basicsize */
-	0,											/* tp_itemsize */
-	(destructor) Encoding_dealloc,					/* tp_dealloc */
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,	/* tp_print - tp_as_buffer */
-	Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,	/* tp_flags */
-	"Wrapper around a GeanyEncoding structure.",	/* tp_doc  */
-	0, 0, 0, 0, 0, 0, 0, 0,						/* tp_traverse - tp_members */
-	Encoding_getseters,							/* tp_getset */
-	0, 0, 0, 0, 0,								/* tp_base - tp_dictoffset */
-	(initproc) Encoding_init,						/* tp_init */
-	0, 0,										/* tp_alloc - tp_new */
-};
-
-
-Encoding *Encoding_create_new_from_geany_encoding(GeanyEncoding *enc)
-{
-	Encoding *self;
-	self = (Encoding *) PyObject_CallObject((PyObject *) &EncodingType, NULL);
-	self->encoding = enc;
-	return self;
-}
-
-
 static PyObject *
 Encodings_convert_to_utf8(PyObject *module, PyObject *args, PyObject *kwargs)
 {
@@ -158,17 +70,6 @@ Encodings_get_charset_from_index(PyObject *module, PyObject *args, PyObject *kwa
 
     Py_RETURN_NONE;
 }
-
-
-static const gchar *encoding_groups[] = {
-	"GROUP_NONE",
-	"GROUP_WEST_EUROPEAN",
-	"GROUP_EAST_EUROPEAN",
-	"GROUP_EAST_ASIAN",
-	"GROUP_ASIAN",
-	"GROUP_MIDDLE_EASTERN",
-	"GROUP_UNICODE"
-};
 
 
 static const gchar *encoding_names[] = {
@@ -296,19 +197,9 @@ initencoding(void)
 	int i;
     PyObject *m;
 
-	EncodingType.tp_new = PyType_GenericNew;
-	if (PyType_Ready(&EncodingType) < 0)
-		return;
-
     m = Py_InitModule3("encoding", EncodingsModule_methods,
 			"Encoding conversion functions.");
 
-	Py_INCREF(&EncodingType);
-	PyModule_AddObject(m, "Encoding", (PyObject *) &EncodingType);
-
 	for (i = 0; i < GEANY_ENCODINGS_MAX; i++)
 		PyModule_AddIntConstant(m, encoding_names[i], (glong) i);
-
-	for (i = 0; i < GEANY_ENCODING_GROUPS_MAX; i++)
-		PyModule_AddIntConstant(m, encoding_groups[i], (glong) i);
 }
