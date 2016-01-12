@@ -131,7 +131,7 @@ void plugin_init(GeanyData *data)
 	GtkWidget *sortdesc_item;
 
 	/* Add an item to the Tools menu */
-	main_menu_item = gtk_menu_item_new_with_mnemonic(_("Line Operations"));
+	main_menu_item = gtk_menu_item_new_with_mnemonic(_("_Line Operations"));
 	gtk_widget_show(main_menu_item);
 	ui_add_document_sensitive(main_menu_item);
 
@@ -139,13 +139,13 @@ void plugin_init(GeanyData *data)
 	gtk_widget_show(submenu);
 	sep1 = gtk_separator_menu_item_new();
 	sep2 = gtk_separator_menu_item_new();
-	rmdupst_item  = gtk_menu_item_new_with_mnemonic(_("Remove Duplicate Lines, Sorted"));
-	rmdupln_item  = gtk_menu_item_new_with_mnemonic(_("Remove Duplicate Lines, Ordered"));
-	rmunqln_item  = gtk_menu_item_new_with_mnemonic(_("Remove Unique Lines"));
-	rmemtyln_item = gtk_menu_item_new_with_mnemonic(_("Remove Empty Lines"));
-	rmwhspln_item = gtk_menu_item_new_with_mnemonic(_("Remove Whitespace Lines"));
-	sortasc_item  = gtk_menu_item_new_with_mnemonic(_("Sort Lines Ascending"));
-	sortdesc_item = gtk_menu_item_new_with_mnemonic(_("Sort Lines Descending"));
+	rmdupst_item  = gtk_menu_item_new_with_mnemonic(_("Remove Duplicate Lines, _Sorted"));
+	rmdupln_item  = gtk_menu_item_new_with_mnemonic(_("Remove Duplicate Lines, _Ordered"));
+	rmunqln_item  = gtk_menu_item_new_with_mnemonic(_("Remove _Unique Lines"));
+	rmemtyln_item = gtk_menu_item_new_with_mnemonic(_("Remove _Empty Lines"));
+	rmwhspln_item = gtk_menu_item_new_with_mnemonic(_("Remove _Whitespace Lines"));
+	sortasc_item  = gtk_menu_item_new_with_mnemonic(_("Sort Lines _Ascending"));
+	sortdesc_item = gtk_menu_item_new_with_mnemonic(_("Sort Lines _Descending"));
 
 	gtk_widget_show(sep1);
 	gtk_widget_show(sep2);
