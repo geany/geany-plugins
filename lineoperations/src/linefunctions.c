@@ -104,9 +104,9 @@ void rmdupst(GeanyDocument *doc) {
 
 	// free used memory
 	for(i = 0; i < numlines; i++)
-		if(lines[i]) g_free(lines[i]);
-	if(lines)   g_free(lines);
-	if(newfile) g_free(newfile);
+		g_free(lines[i]);
+	g_free(lines);
+	g_free(new_file);
 }
 
 
@@ -159,7 +159,7 @@ void rmdupln(GeanyDocument *doc) {
 		if(!toremove[i])
 			for(j = 0; lines[i][j] != '\0'; j++)
 				newfile[nfposn++] = lines[i][j];
-		if(lines[i]) g_free(lines[i]);
+		g_free(lines[i]);
 	}
 
 	newfile[nfposn] = '\0';
@@ -168,9 +168,9 @@ void rmdupln(GeanyDocument *doc) {
 
 
 	// each line is freed in above for-loop
-	if(lines)    g_free(lines);
-	if(newfile)  g_free(newfile);
-	if(toremove) g_free(toremove);
+	g_free(lines);
+	g_free(new_file);
+	g_free(to_remove);
 }
 
 
@@ -223,7 +223,7 @@ void rmunqln(GeanyDocument *doc) {
 		if(!toremove[i])
 			for(j = 0; lines[i][j] != '\0'; j++)
 				newfile[nfposn++] = lines[i][j];
-		if(lines[i]) g_free(lines[i]);
+		g_free(lines[i]);
 	}
 
 	newfile[nfposn] = '\0';
@@ -232,9 +232,9 @@ void rmunqln(GeanyDocument *doc) {
 
 
 	// each line is freed in above for-loop
-	if(lines)    g_free(lines);
-	if(newfile)  g_free(newfile);
-	if(toremove) g_free(toremove);
+	g_free(lines);
+	g_free(new_file);
+	g_free(to_remove);
 }
 
 
@@ -383,7 +383,7 @@ void sortlines(GeanyDocument *doc, gboolean asc) {
 		for(j = 0; lines[i][j] != '\0'; j++)
 			newfile[nfposn++] = lines[i][j];
 
-		if(lines[i]) g_free(lines[i]);
+		g_free(lines[i]);
 	}
 	newfile[nfposn] = '\0';
 	sci_set_text(doc->editor->sci, newfile);	// set new document
@@ -391,6 +391,6 @@ void sortlines(GeanyDocument *doc, gboolean asc) {
 
 
 	// each line is freed in above for-loop
-	if(lines)   g_free(lines);
-	if(newfile) g_free(newfile);
+	g_free(lines);
+	g_free(new_file);
 }
