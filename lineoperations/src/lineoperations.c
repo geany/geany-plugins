@@ -27,12 +27,14 @@
 GeanyPlugin		*geany_plugin;
 GeanyData		*geany_data;
 
-PLUGIN_VERSION_CHECK(224)
 
-PLUGIN_SET_INFO(_("LineOperations"),
-				 _("Line operations, remove duplicate lines, empty lines, lines with only whitespace, sort lines."),
+PLUGIN_VERSION_CHECK(225)
+
+PLUGIN_SET_INFO(_("Line Operations"),
+				 _("Line Operations provides a handful of functions that can be applied to a document such as, removing duplicate lines, removing empty lines, removing lines with only whitespace, and sorting lines."),
 				 "0.1",
 				 "Sylvan Mostert")
+
 
 
 static GtkWidget *main_menu_item = NULL;
