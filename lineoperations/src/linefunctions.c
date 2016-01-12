@@ -22,26 +22,6 @@
 #include "linefunctions.h"
 
 
-// isspace()
-gboolean is_sp(gchar c)
-{
-	return (c == ' ' || c == '\t' || c == '\f' ||
-			c == '\v' || c == '\r' || c == '\n');
-}
-
-
-// is_whitespace_line(gchar* line) checks if line is a whitespace line
-gboolean is_whitespace_line(gchar* line)
-{
-	gint i;
-
-	for(i = 0; line[i] != '\0'; i++)
-		if(!is_sp(line[i]))
-			return FALSE;
-	return TRUE;
-}
-
-
 // comparison function to be used in qsort
 static gint compare_asc(const void * a, const void * b)
 {
@@ -216,110 +196,59 @@ void rmunqln(GeanyDocument *doc) {
 
 // Remove Empty Lines
 void rmemtyln(GeanyDocument *doc) {
-	gint  total_num_chars;  // number of characters in the document
-	gint  total_num_lines;  // number of lines in the document
-	gchar *line;            // temporary line
-	gint  linelen;          // length of *line
-	gchar *new_file;        // *final* string to replace current document
-	gint  nfposn;           // position to the last character in new_file
-	gint  i;                // temporary iterator number
-	gint j;                 // iterator
+	gint  total_num_lines;    // number of lines in the document
+	gint  i;                  // iterator
 
-
-	total_num_chars = sci_get_length(doc->editor->sci);
 	total_num_lines = sci_get_line_count(doc->editor->sci);
-	/*
-	 * Allocate space for the new document (same amount as open document.
-	 * If the document contains lines with only whitespace,
-	 * not all of this space will be used.)
-	*/
-	new_file   = g_malloc(sizeof(gchar) * (total_num_chars+1));
-	nfposn     = 0;
 
+	sci_start_undo_action(doc->editor->sci);
 
-
-	for(i = 0; i < total_num_lines; i++)    // loop through opened doc char by char
+	for(i = 0; i < total_num_lines; i++)    // loop through opened doc
 	{
-		linelen = sci_get_line_length(doc->editor->sci, i);
-
-		if(linelen == 2)
+		if(sci_get_position_from_line(doc->editor->sci, i) ==
+		   sci_get_line_end_position(doc->editor->sci, i))
 		{
-			line = sci_get_line(doc->editor->sci, i);
-
-			if(line[0] != '\r')
-				// copy current line into *new_file
-				for(j = 0; line[j] != '\0'; j++)
-					new_file[nfposn++] = line[j];
-		}
-		else if(linelen != 1)
-		{
-			line = sci_get_line(doc->editor->sci, i);
-
-			// copy current line into *new_file
-			for(j = 0; line[j] != '\0'; j++)
-				new_file[nfposn++] = line[j];
+			scintilla_send_message(doc->editor->sci,
+                                   SCI_DELETERANGE,
+                                   sci_get_position_from_line(doc->editor->sci, i),
+                                   sci_get_line_length(doc->editor->sci, i));
+			total_num_lines--;
+			i--;
 		}
 	}
-	new_file[nfposn] = '\0';
-	sci_set_text(doc->editor->sci, new_file);	// set new document
 
-
-
-	g_free(new_file);
+	sci_end_undo_action(doc->editor->sci);
 }
+
 
 
 
 // Remove Whitespace Lines
 void rmwhspln(GeanyDocument *doc) {
-	gint  total_num_chars;  // number of characters in the document
 	gint  total_num_lines;  // number of lines in the document
-	gchar *line;            // temporary line
-	gint  linelen;          // length of *line
-	gchar *new_file;        // *final* string to replace current document
-	gint  nfposn;           // position to the last character in new_file
-	gint  i;                // temporary iterator number
-	gint  j;                // iterator
+	gint  i;                // iterator
 
-
-	total_num_chars = sci_get_length(doc->editor->sci);
 	total_num_lines = sci_get_line_count(doc->editor->sci);
-	/*
-	 * Allocate space for the new document (same amount as open document.
-	 * If the document contains lines with only whitespace,
-	 * not all of this space will be used.)
-	*/
-	new_file = g_malloc(sizeof(gchar) * (total_num_chars+1));
-	nfposn   = 0;
+
+	sci_start_undo_action(doc->editor->sci);
 
 	for(i = 0; i < total_num_lines; i++)    // loop through opened doc
 	{
-		linelen = sci_get_line_length(doc->editor->sci, i);
 
-		if(linelen == 2)
+		if(sci_get_line_end_position(doc->editor->sci, i) -
+		   sci_get_position_from_line(doc->editor->sci, i) ==
+		   sci_get_line_indentation(doc->editor->sci, i))
 		{
-			line = sci_get_line(doc->editor->sci, i);
-
-			if(line[0] != '\r')
-				// copy current line into *new_file
-				for(j = 0; line[j] != '\0'; j++)
-					new_file[nfposn++] = line[j];
+			scintilla_send_message(doc->editor->sci,
+                                   SCI_DELETERANGE,
+                                   sci_get_position_from_line(doc->editor->sci, i),
+                                   sci_get_line_length(doc->editor->sci, i));
+			total_num_lines--;
+			i--;
 		}
-		else if(linelen != 1)
-		{
-			line = sci_get_line(doc->editor->sci, i);
-
-			if(!is_whitespace_line(line))
-				// copy current line into *new_file
-				for(j = 0; line[j] != '\0'; j++)
-					new_file[nfposn++] = line[j];
-		}
-
 	}
-	new_file[nfposn] = '\0';
-	sci_set_text(doc->editor->sci, new_file);	// set new document
 
-	g_free(new_file);
+	sci_end_undo_action(doc->editor->sci);
 }
 
 
