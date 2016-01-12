@@ -76,31 +76,30 @@ void rmdupst(GeanyDocument *doc) {
 	nfposn        = 0;
 	k             = 0;
 
-	if(newfile && lines)    // verify memory allocation
-	{
-		// copy *all* lines into **lines array
-		for(i = 0; i < totalnumlines; i++)
-			lines[numlines++] = sci_get_line(doc->editor->sci, i);
 
-		qsort(lines, numlines, sizeof(gchar *), compareasc);
 
-		if(numlines > 0)	// copy the first line into *newfile
-			for(j = 0; lines[0][j] != '\0'; j++)
-				newfile[nfposn++] = lines[0][j];
+	// copy *all* lines into **lines array
+	for(i = 0; i < totalnumlines; i++)
+		lines[numlines++] = sci_get_line(doc->editor->sci, i);
 
-		for(i = 0; i < numlines; i++)	// copy 1st occurance of each line
-										// into *newfile
-			if(strcmp(lines[k], lines[i]) != 0)
-			{
-				for(j = 0; lines[i][j] != '\0'; j++)
-					newfile[nfposn++] = lines[i][j];
-				k = i;
-			}
+	qsort(lines, numlines, sizeof(gchar *), compareasc);
 
-		newfile[nfposn] = '\0';
-		sci_set_text(doc->editor->sci, newfile);	// set new document
+	if(numlines > 0)	// copy the first line into *newfile
+		for(j = 0; lines[0][j] != '\0'; j++)
+			newfile[nfposn++] = lines[0][j];
 
-	}
+	for(i = 0; i < numlines; i++)	// copy 1st occurance of each line
+									// into *newfile
+		if(strcmp(lines[k], lines[i]) != 0)
+		{
+			for(j = 0; lines[i][j] != '\0'; j++)
+				newfile[nfposn++] = lines[i][j];
+			k = i;
+		}
+
+	newfile[nfposn] = '\0';
+	sci_set_text(doc->editor->sci, newfile);	// set new document
+
 
 
 	// free used memory
@@ -131,41 +130,41 @@ void rmdupln(GeanyDocument *doc) {
 	nfposn        = 0;
 	toremove      = NULL;
 
-	if(newfile && lines)    // verify memory allocation
+
+
+	// copy *all* lines into **lines array
+	for(i = 0; i < totalnumlines; i++)
+		lines[numlines++] = sci_get_line(doc->editor->sci, i);
+
+	// allocate and set *toremove to all FALSE
+	toremove = g_malloc(sizeof(gboolean) * numlines);
+	for(i = 0; i < (numlines); i++)
+		toremove[i] = FALSE;
+
+	// find which lines are duplicate
+	for(i = 0; i < numlines; i++)
+		// make sure that the line is not already duplicate
+		if(!toremove[i])
+			for(j = (i+1); j < numlines; j++)
+				if(!toremove[j])
+					if(strcmp(lines[i], lines[j]) == 0) {
+						toremove[j] = TRUE;   // this line is duplicate,
+						                      // mark to remove
+						//toremove[i] = TRUE; //remove all occurrances
+					}
+
+	// copy line into 'newfile' if it is not FALSE(not duplicate)
+	for(i = 0; i < numlines; i++)
 	{
-		// copy *all* lines into **lines array
-		for(i = 0; i < totalnumlines; i++)
-			lines[numlines++] = sci_get_line(doc->editor->sci, i);
-
-		// allocate and set *toremove to all FALSE
-		toremove = g_malloc(sizeof(gboolean) * numlines);
-		for(i = 0; i < (numlines); i++)
-			toremove[i] = FALSE;
-
-		// find which lines are duplicate
-		for(i = 0; i < numlines; i++)
-			// make sure that the line is not already duplicate
-			if(!toremove[i])
-				for(j = (i+1); j < numlines; j++)
-					if(!toremove[j])
-						if(strcmp(lines[i], lines[j]) == 0) {
-							toremove[j] = TRUE;   // this line is duplicate,
-							                      // mark to remove
-							//toremove[i] = TRUE; //remove all occurrances
-						}
-
-		// copy line into 'newfile' if it is not FALSE(not duplicate)
-		for(i = 0; i < numlines; i++)
-		{
-			if(!toremove[i])
-				for(j = 0; lines[i][j] != '\0'; j++)
-					newfile[nfposn++] = lines[i][j];
-			if(lines[i]) g_free(lines[i]);
-		}
-
-		newfile[nfposn] = '\0';
-		sci_set_text(doc->editor->sci, newfile);	// set new document
+		if(!toremove[i])
+			for(j = 0; lines[i][j] != '\0'; j++)
+				newfile[nfposn++] = lines[i][j];
+		if(lines[i]) g_free(lines[i]);
 	}
+
+	newfile[nfposn] = '\0';
+	sci_set_text(doc->editor->sci, newfile);	// set new document
+
 
 
 	// each line is freed in above for-loop
@@ -195,42 +194,41 @@ void rmunqln(GeanyDocument *doc) {
 	nfposn        = 0;
 	toremove      = NULL;
 
-	if(newfile && lines)    // verify memory allocation
+
+	// copy *all* lines into **lines array
+	for(i = 0; i < totalnumlines; i++)
+		lines[numlines++] = sci_get_line(doc->editor->sci, i);
+
+	// allocate and set *toremove to all TRUE
+	toremove = g_malloc(sizeof(gboolean) * numlines);
+	for(i = 0; i < (numlines); i++)
+		toremove[i] = TRUE;
+
+	// set all unique rows to FALSE
+	// toremove[i] corresponds to lines[i]
+	for(i = 0; i < numlines; i++)
+		if(toremove[i])
+			for(j = (i+1); j < numlines; j++)
+				if(toremove[j])
+					if(strcmp(lines[i], lines[j]) == 0)
+					{
+						toremove[i] = FALSE;
+						toremove[j] = FALSE;
+					}
+
+
+	// copy line into 'newfile' if it is not FALSE(unique)
+	for(i = 0; i < numlines; i++)
 	{
-		// copy *all* lines into **lines array
-		for(i = 0; i < totalnumlines; i++)
-			lines[numlines++] = sci_get_line(doc->editor->sci, i);
-
-		// allocate and set *toremove to all TRUE
-		toremove = g_malloc(sizeof(gboolean) * numlines);
-		for(i = 0; i < (numlines); i++)
-			toremove[i] = TRUE;
-
-		// set all unique rows to FALSE
-		// toremove[i] corresponds to lines[i]
-		for(i = 0; i < numlines; i++)
-			if(toremove[i])
-				for(j = (i+1); j < numlines; j++)
-					if(toremove[j])
-						if(strcmp(lines[i], lines[j]) == 0)
-						{
-							toremove[i] = FALSE;
-							toremove[j] = FALSE;
-						}
-
-
-		// copy line into 'newfile' if it is not FALSE(unique)
-		for(i = 0; i < numlines; i++)
-		{
-			if(!toremove[i])
-				for(j = 0; lines[i][j] != '\0'; j++)
-					newfile[nfposn++] = lines[i][j];
-			if(lines[i]) g_free(lines[i]);
-		}
-
-		newfile[nfposn] = '\0';
-		sci_set_text(doc->editor->sci, newfile);	// set new document
+		if(!toremove[i])
+			for(j = 0; lines[i][j] != '\0'; j++)
+				newfile[nfposn++] = lines[i][j];
+		if(lines[i]) g_free(lines[i]);
 	}
+
+	newfile[nfposn] = '\0';
+	sci_set_text(doc->editor->sci, newfile);	// set new document
+
 
 
 	// each line is freed in above for-loop
@@ -262,36 +260,36 @@ void rmemtyln(GeanyDocument *doc) {
 	newfile   = g_malloc(sizeof(gchar) * (totalnumchars+1));
 	nfposn    = 0;
 
-	if(newfile)    // verify memory allocation
+
+
+	for(i = 0; i < totalnumlines; i++)    // loop through opened doc char by char
 	{
-		for(i = 0; i < totalnumlines; i++)    // loop through opened doc char by char
+		linelen = sci_get_line_length(doc->editor->sci, i);
+
+		if(linelen == 2)
 		{
-			linelen = sci_get_line_length(doc->editor->sci, i);
+			line = sci_get_line(doc->editor->sci, i);
 
-			if(linelen == 2)
-			{
-				line = sci_get_line(doc->editor->sci, i);
-
-				if(line[0] != '\r')
-					// copy current line into *newfile
-					for(j = 0; line[j] != '\0'; j++)
-						newfile[nfposn++] = line[j];
-			}
-			else if(linelen != 1)
-			{
-				line = sci_get_line(doc->editor->sci, i);
-
+			if(line[0] != '\r')
 				// copy current line into *newfile
 				for(j = 0; line[j] != '\0'; j++)
 					newfile[nfposn++] = line[j];
-			}
 		}
-		newfile[nfposn] = '\0';
-		sci_set_text(doc->editor->sci, newfile);	// set new document
+		else if(linelen != 1)
+		{
+			line = sci_get_line(doc->editor->sci, i);
 
-
-		g_free(newfile);
+			// copy current line into *newfile
+			for(j = 0; line[j] != '\0'; j++)
+				newfile[nfposn++] = line[j];
+		}
 	}
+	newfile[nfposn] = '\0';
+	sci_set_text(doc->editor->sci, newfile);	// set new document
+
+
+
+	g_free(newfile);
 }
 
 
@@ -318,37 +316,34 @@ void rmwhspln(GeanyDocument *doc) {
 	newfile   = g_malloc(sizeof(gchar) * (totalnumchars+1));
 	nfposn    = 0;
 
-	if(newfile)    // verify memory allocation
+	for(i = 0; i < totalnumlines; i++)    // loop through opened doc
 	{
-		for(i = 0; i < totalnumlines; i++)    // loop through opened doc
+		linelen = sci_get_line_length(doc->editor->sci, i);
+
+		if(linelen == 2)
 		{
-			linelen = sci_get_line_length(doc->editor->sci, i);
+			line = sci_get_line(doc->editor->sci, i);
 
-			if(linelen == 2)
-			{
-				line = sci_get_line(doc->editor->sci, i);
-
-				if(line[0] != '\r')
-					// copy current line into *newfile
-					for(j = 0; line[j] != '\0'; j++)
-						newfile[nfposn++] = line[j];
-			}
-			else if(linelen != 1)
-			{
-				line = sci_get_line(doc->editor->sci, i);
-
-				if(!iswhitespaceline(line))
-					// copy current line into *newfile
-					for(j = 0; line[j] != '\0'; j++)
-						newfile[nfposn++] = line[j];
-			}
-
+			if(line[0] != '\r')
+				// copy current line into *newfile
+				for(j = 0; line[j] != '\0'; j++)
+					newfile[nfposn++] = line[j];
 		}
-		newfile[nfposn] = '\0';
-		sci_set_text(doc->editor->sci, newfile);	// set new document
+		else if(linelen != 1)
+		{
+			line = sci_get_line(doc->editor->sci, i);
 
-		g_free(newfile);
+			if(!iswhitespaceline(line))
+				// copy current line into *newfile
+				for(j = 0; line[j] != '\0'; j++)
+					newfile[nfposn++] = line[j];
+		}
+
 	}
+	newfile[nfposn] = '\0';
+	sci_set_text(doc->editor->sci, newfile);	// set new document
+
+	g_free(newfile);
 }
 
 
@@ -370,30 +365,30 @@ void sortlines(GeanyDocument *doc, gboolean asc) {
 	numlines      = 0;
 	nfposn        = 0;
 
-	if(newfile && lines)    // verify memory allocation worked
+
+
+	// copy *all* lines into **lines array
+	for(i = 0; i < totalnumlines; i++)
+		lines[numlines++] = sci_get_line(doc->editor->sci, i);
+
+	// sort **lines array
+	if(asc)
+		qsort(lines, numlines, sizeof(gchar *), compareasc);
+	else
+		qsort(lines, numlines, sizeof(gchar *), comparedesc);
+
+	// copy **lines array into *newfile
+	for(i = 0; i < numlines; i++)
 	{
-		// copy *all* lines into **lines array
-		for(i = 0; i < totalnumlines; i++)
-			lines[numlines++] = sci_get_line(doc->editor->sci, i);
+		for(j = 0; lines[i][j] != '\0'; j++)
+			newfile[nfposn++] = lines[i][j];
 
-		// sort **lines array
-		if(asc)
-			qsort(lines, numlines, sizeof(gchar *), compareasc);
-		else
-			qsort(lines, numlines, sizeof(gchar *), comparedesc);
-
-		// copy **lines array into *newfile
-		for(i = 0; i < numlines; i++)
-		{
-			for(j = 0; lines[i][j] != '\0'; j++)
-				newfile[nfposn++] = lines[i][j];
-
-			if(lines[i]) g_free(lines[i]);
-		}
-		newfile[nfposn] = '\0';
-		sci_set_text(doc->editor->sci, newfile);	// set new document
-
+		if(lines[i]) g_free(lines[i]);
 	}
+	newfile[nfposn] = '\0';
+	sci_set_text(doc->editor->sci, newfile);	// set new document
+
+
 
 	// each line is freed in above for-loop
 	if(lines)   g_free(lines);
