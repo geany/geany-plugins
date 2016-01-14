@@ -111,6 +111,8 @@ static void load_settings(void)
 {
     GKeyFile *config = g_key_file_new();
 
+    if (config_file)
+        g_free(config_file);
     config_file = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
                               "geniuspaste", G_DIR_SEPARATOR_S, "geniuspaste.conf", NULL);
     g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
