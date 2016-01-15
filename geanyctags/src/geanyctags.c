@@ -650,7 +650,7 @@ void plugin_init(G_GNUC_UNUSED GeanyData * data)
 	keybindings_set_item(key_group, KB_GENERATE_TAGS, NULL,
 		0, 0, "generate_tags", _("Generate tags"), s_gt_item);
 
-	s_ft_item = gtk_menu_item_new_with_mnemonic(_("Find tag"));
+	s_ft_item = gtk_menu_item_new_with_mnemonic(_("Find tag..."));
 	gtk_widget_show(s_ft_item);
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_ft_item);
 	g_signal_connect((gpointer) s_ft_item, "activate", G_CALLBACK(on_find_tag), NULL);
