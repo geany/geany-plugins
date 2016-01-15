@@ -70,18 +70,23 @@ static void collect_source_files(gchar *filename, TMSourceFile *sf, gpointer use
 
 
 /* path - absolute path in locale, returned list in locale */
-static GSList *get_file_list(const gchar *utf8_path, GSList *patterns, GSList *ignored_dirs_patterns, GSList *ignored_file_patterns)
+static GSList *get_file_list(const gchar *utf8_path, GSList *patterns,
+		GSList *ignored_dirs_patterns, GSList *ignored_file_patterns, GHashTable *visited_paths)
 {
 	GSList *list = NULL;
 	GDir *dir;
 	gchar *locale_path = utils_get_locale_from_utf8(utf8_path);
+	gchar *real_path = tm_get_real_path(locale_path);
 
 	dir = g_dir_open(locale_path, 0, NULL);
-	if (!dir)
+	if (!dir || !real_path || g_hash_table_contains(visited_paths, real_path))
 	{
 		g_free(locale_path);
+		g_free(real_path);
 		return NULL;
 	}
+
+	g_hash_table_insert(visited_paths, real_path, GINT_TO_POINTER(1));
 
 	while (TRUE)
 	{
@@ -99,32 +104,13 @@ static GSList *get_file_list(const gchar *utf8_path, GSList *patterns, GSList *i
 		if (g_file_test(locale_filename, G_FILE_TEST_IS_DIR))
 		{
 			GSList *lst;
-			gchar *relative, *locale_parent_realpath, *locale_child_realpath,
-				*utf8_parent_realpath, *utf8_child_realpath;
 
-			/* symlink cycle avoidance - test if directory within parent directory */
-			locale_parent_realpath = tm_get_real_path(locale_path);
-			locale_child_realpath = tm_get_real_path(locale_filename);
-			utf8_parent_realpath = utils_get_utf8_from_locale(locale_parent_realpath);
-			utf8_child_realpath = utils_get_utf8_from_locale(locale_child_realpath);
-
-			relative = get_relative_path(utf8_parent_realpath, utf8_child_realpath);
-
-			g_free(locale_parent_realpath);
-			g_free(locale_child_realpath);
-			g_free(utf8_parent_realpath);
-			g_free(utf8_child_realpath);
-
-			if (relative)
+			if (!patterns_match(ignored_dirs_patterns, utf8_name))
 			{
-				g_free(relative);
-
-				if (!patterns_match(ignored_dirs_patterns, utf8_name))
-				{
-					lst = get_file_list(utf8_filename, patterns, ignored_dirs_patterns, ignored_file_patterns);
-					if (lst)
-						list = g_slist_concat(list, lst);
-				}
+				lst = get_file_list(utf8_filename, patterns, ignored_dirs_patterns,
+						ignored_file_patterns, visited_paths);
+				if (lst)
+					list = g_slist_concat(list, lst);
 			}
 		}
 		else if (g_file_test(locale_filename, G_FILE_TEST_IS_REGULAR))
@@ -151,6 +137,7 @@ static gint prjorg_project_rescan_root(PrjOrgRoot *root)
 	GSList *pattern_list = NULL;
 	GSList *ignored_dirs_list = NULL;
 	GSList *ignored_file_list = NULL;
+	GHashTable *visited_paths;
 	GSList *lst;
 	GSList *elem;
 	gint filenum = 0;
@@ -173,7 +160,9 @@ static gint prjorg_project_rescan_root(PrjOrgRoot *root)
 	ignored_dirs_list = get_precompiled_patterns(prj_org->ignored_dirs_patterns);
 	ignored_file_list = get_precompiled_patterns(prj_org->ignored_file_patterns);
 
-	lst = get_file_list(root->base_dir, pattern_list, ignored_dirs_list, ignored_file_list);
+	visited_paths = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
+	lst = get_file_list(root->base_dir, pattern_list, ignored_dirs_list, ignored_file_list, visited_paths);
+	g_hash_table_destroy(visited_paths);
 
 	foreach_slist(elem, lst)
 	{
