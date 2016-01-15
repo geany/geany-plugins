@@ -25,14 +25,14 @@
 /* comparison function to be used in qsort */
 static gint compare_asc(const void * a, const void * b)
 {
-	return g_strcmp0(*(const gchar **) a, *(const gchar **) b);
+	return strcmp(*(const gchar **) a, *(const gchar **) b);
 }
 
 
 /* comparison function to be used in qsort */
 static gint compare_desc(const void * a, const void * b)
 {
-	return g_strcmp0(*(const gchar **) b, *(const gchar **) a);
+	return strcmp(*(const gchar **) b, *(const gchar **) a);
 }
 
 
@@ -176,7 +176,7 @@ void rmunqln(GeanyDocument *doc) {
 	/* copy **lines into 'new_file' if it is not FALSE(not duplicate) */
 	for(i = 0; i < total_num_lines; i++)
 		if(!to_remove[i])
-			nf_end   = g_stpcpy(nf_end, lines[i]);
+			nf_end = g_stpcpy(nf_end, lines[i]);
 
     /* set new document */
 	sci_set_text(doc->editor->sci, new_file);

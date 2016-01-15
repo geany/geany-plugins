@@ -25,8 +25,8 @@
 
 #include "geanyplugin.h"
 #include "Scintilla.h"
-//#include <ctype.h>	/* isspace */
-#include <stdlib.h>	/* qsort */
+#include <stdlib.h>      /* qsort */
+#include <string.h>
 
 
 /* Remove Duplicate Lines, sorted */
