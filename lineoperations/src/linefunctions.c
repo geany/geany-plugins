@@ -22,29 +22,29 @@
 #include "linefunctions.h"
 
 
-// comparison function to be used in qsort
+/* comparison function to be used in qsort */
 static gint compare_asc(const void * a, const void * b)
 {
 	return g_strcmp0(*(const gchar **) a, *(const gchar **) b);
 }
 
 
-// comparison function to be used in qsort
+/* comparison function to be used in qsort */
 static gint compare_desc(const void * a, const void * b)
 {
 	return g_strcmp0(*(const gchar **) b, *(const gchar **) a);
 }
 
 
-// Remove Duplicate Lines, sorted
+/* Remove Duplicate Lines, sorted */
 void rmdupst(GeanyDocument *doc) {
-	gint  total_num_chars;  // number of characters in the document
-	gint  total_num_lines;  // number of lines in the document
-	gchar **lines;          // array to hold all lines in the document
-	gchar *new_file;        // *final* string to replace current document
-	gchar *nf_end;          // points to end of new_file
-	gchar *lineptr;         // temporary line pointer
-	gint  i;                // iterator
+	gint  total_num_chars;  /* number of characters in the document */
+	gint  total_num_lines;  /* number of lines in the document */
+	gchar **lines;          /* array to hold all lines in the document */
+	gchar *new_file;        /* *final* string to replace current document */
+	gchar *nf_end;          /* points to end of new_file */
+	gchar *lineptr;         /* temporary line pointer */
+	gint  i;                /* iterator */
 
 	total_num_chars = sci_get_length(doc->editor->sci);
 	total_num_lines = sci_get_line_count(doc->editor->sci);
@@ -53,25 +53,25 @@ void rmdupst(GeanyDocument *doc) {
 	nf_end          = new_file;
 	lineptr         = (gchar *)"";
 
-	// copy *all* lines into **lines array
+	/* copy *all* lines into **lines array */
 	for(i = 0; i < total_num_lines; i++)
 		lines[i] = sci_get_line(doc->editor->sci, i);
 
-	// sort **lines ascending
+	/* sort **lines ascending */
 	qsort(lines, total_num_lines, sizeof(gchar *), compare_asc);
 
-	// loop through **lines, join first occurances into one str (new_file)
+	/* loop through **lines, join first occurances into one str (new_file) */
 	for(i = 0; i < total_num_lines; i++)
 		if(strcmp(lines[i], lineptr) != 0)
 		{
 			lineptr  = lines[i];
 			nf_end   = g_stpcpy(nf_end, lines[i]);
-		}	
+		}
 
-        // set new document
+    /* set new document */
 	sci_set_text(doc->editor->sci, new_file);
 
-	// free used memory
+	/* free used memory */
 	for(i = 0; i < total_num_lines; i++)
 		g_free(lines[i]);
 	g_free(lines);
@@ -79,16 +79,16 @@ void rmdupst(GeanyDocument *doc) {
 }
 
 
-// Remove Duplicate Lines, ordered
+/* Remove Duplicate Lines, ordered */
 void rmdupln(GeanyDocument *doc) {
-	gint  total_num_chars;  // number of characters in the document
-	gint  total_num_lines;  // number of lines in the document
-	gchar **lines;          // array to hold all lines in the document
-	gchar *new_file;        // *final* string to replace current document
-	gchar *nf_end;          // points to end of new_file
-	gint  i;                // iterator
-	gint  j;                // iterator
-	gboolean *to_remove;    // flag to 'mark' which lines to remove
+	gint  total_num_chars;  /* number of characters in the document */
+	gint  total_num_lines;  /* number of lines in the document */
+	gchar **lines;          /* array to hold all lines in the document */
+	gchar *new_file;        /* *final* string to replace current document */
+	gchar *nf_end;          /* points to end of new_file */
+	gint  i;                /* iterator */
+	gint  j;                /* iterator */
+	gboolean *to_remove;    /* flag to 'mark' which lines to remove */
 
 	total_num_chars = sci_get_length(doc->editor->sci);
 	total_num_lines = sci_get_line_count(doc->editor->sci);
@@ -98,36 +98,34 @@ void rmdupln(GeanyDocument *doc) {
 
 
 
-	// copy *all* lines into **lines array
+	/* copy *all* lines into **lines array */
 	for(i = 0; i < total_num_lines; i++)
 		lines[i] = sci_get_line(doc->editor->sci, i);
 
-	// allocate and set *to_remove to all FALSE
-	// to_remove[i] represents whether lines[i] should be removed
+	/* allocate and set *to_remove to all FALSE
+	 * to_remove[i] represents whether lines[i] should be removed  */
 	to_remove = g_malloc(sizeof(gboolean) * total_num_lines);
 	for(i = 0; i < (total_num_lines); i++)
 		to_remove[i] = FALSE;
 
-	// find which **lines are duplicate, and mark them as duplicate
-	for(i = 0; i < total_num_lines; i++)	// loop through **lines
-		// make sure that the line is not already duplicate
+	/* find which **lines are duplicate, and mark them as duplicate */
+	for(i = 0; i < total_num_lines; i++)	/* loop through **lines */
+		/* make sure that the line is not already duplicate */
 		if(!to_remove[i])
-			// find the rest of same lines
+			/* find the rest of same lines */
 			for(j = (i+1); j < total_num_lines; j++)
 				if(!to_remove[j] && strcmp(lines[i], lines[j]) == 0)
-					to_remove[j] = TRUE;   // line is duplicate, mark to remove
+					to_remove[j] = TRUE;   /* line is duplicate, mark to remove */
 
-	// copy **lines into 'new_file' if it is not FALSE(not duplicate)
+	/* copy **lines into 'new_file' if it is not FALSE(not duplicate) */
 	for(i = 0; i < total_num_lines; i++)
 		if(!to_remove[i])
 			nf_end   = g_stpcpy(nf_end, lines[i]);
 
-
-
-        // set new document
+    /* set new document */
 	sci_set_text(doc->editor->sci, new_file);
 
-	// free used memory
+	/* free used memory */
 	for(i = 0; i < total_num_lines; i++)
 		g_free(lines[i]);
 	g_free(lines);
@@ -136,16 +134,16 @@ void rmdupln(GeanyDocument *doc) {
 }
 
 
-// Remove Unique Lines
+/* Remove Unique Lines */
 void rmunqln(GeanyDocument *doc) {
-	gint total_num_chars;   // number of characters in the document
-	gint total_num_lines;   // number of lines in the document
-	gchar **lines;          // array to hold all lines in the document
-	gchar *new_file;        // *final* string to replace current document
-	gchar *nf_end;          // points to end of new_file
-	gint i;                 // iterator
-	gint j;                 // iterator
-	gboolean *to_remove;    // to 'mark' which lines to remove
+	gint total_num_chars;   /* number of characters in the document */
+	gint total_num_lines;   /* number of lines in the document */
+	gchar **lines;          /* array to hold all lines in the document */
+	gchar *new_file;        /* *final* string to replace current document */
+	gchar *nf_end;          /* points to end of new_file */
+	gint i;                 /* iterator */
+	gint j;                 /* iterator */
+	gboolean *to_remove;    /* to 'mark' which lines to remove */
 
 	total_num_chars = sci_get_length(doc->editor->sci);
 	total_num_lines = sci_get_line_count(doc->editor->sci);
@@ -153,19 +151,20 @@ void rmunqln(GeanyDocument *doc) {
 	new_file        = g_malloc(sizeof(gchar) * (total_num_chars+1));
 	nf_end          = new_file;
 
-	// copy *all* lines into **lines array
+	/* copy *all* lines into **lines array */
 	for(i = 0; i < total_num_lines; i++)
 		lines[i] = sci_get_line(doc->editor->sci, i);
 
-	// allocate and set *to_remove to all TRUE
-	// to_remove[i] represents whether lines[i] should be removed
+
+	/* allocate and set *to_remove to all TRUE
+	 * to_remove[i] represents whether lines[i] should be removed */
 	to_remove = g_malloc(sizeof(gboolean) * total_num_lines);
 	for(i = 0; i < total_num_lines; i++)
 		to_remove[i] = TRUE;
 
-	// find all unique lines and set them to FALSE (not to be removed)
+	/* find all unique lines and set them to FALSE (not to be removed) */
 	for(i = 0; i < total_num_lines; i++)
-		// make sure that the line is not already determined to be unique
+		/* make sure that the line is not already determined to be unique */
 		if(to_remove[i])
 			for(j = (i+1); j < total_num_lines; j++)
 				if(to_remove[j] && strcmp(lines[i], lines[j]) == 0)
@@ -174,18 +173,15 @@ void rmunqln(GeanyDocument *doc) {
 					to_remove[j] = FALSE;
 				}
 
-
-	// copy **lines into 'new_file' if it is not FALSE(not duplicate)
+	/* copy **lines into 'new_file' if it is not FALSE(not duplicate) */
 	for(i = 0; i < total_num_lines; i++)
 		if(!to_remove[i])
 			nf_end   = g_stpcpy(nf_end, lines[i]);
 
-
-
-        // set new document
+    /* set new document */
 	sci_set_text(doc->editor->sci, new_file);
 
-	// free used memory
+	/* free used memory */
 	for(i = 0; i < total_num_lines; i++)
 		g_free(lines[i]);
 	g_free(lines);
@@ -194,16 +190,16 @@ void rmunqln(GeanyDocument *doc) {
 }
 
 
-// Remove Empty Lines
+/* Remove Empty Lines */
 void rmemtyln(GeanyDocument *doc) {
-	gint  total_num_lines;    // number of lines in the document
-	gint  i;                  // iterator
+	gint  total_num_lines;    /* number of lines in the document */
+	gint  i;                  /* iterator */
 
 	total_num_lines = sci_get_line_count(doc->editor->sci);
 
 	sci_start_undo_action(doc->editor->sci);
 
-	for(i = 0; i < total_num_lines; i++)    // loop through opened doc
+	for(i = 0; i < total_num_lines; i++)    /* loop through opened doc */
 	{
 		if(sci_get_position_from_line(doc->editor->sci, i) ==
 		   sci_get_line_end_position(doc->editor->sci, i))
@@ -223,16 +219,16 @@ void rmemtyln(GeanyDocument *doc) {
 
 
 
-// Remove Whitespace Lines
+/* Remove Whitespace Lines */
 void rmwhspln(GeanyDocument *doc) {
-	gint  total_num_lines;  // number of lines in the document
-	gint  i;                // iterator
+	gint total_num_lines;  /* number of lines in the document */
+	gint i;                /* iterator */
 
 	total_num_lines = sci_get_line_count(doc->editor->sci);
 
 	sci_start_undo_action(doc->editor->sci);
 
-	for(i = 0; i < total_num_lines; i++)    // loop through opened doc
+	for(i = 0; i < total_num_lines; i++)    /* loop through opened doc */
 	{
 
 		if(sci_get_line_end_position(doc->editor->sci, i) -
@@ -246,43 +242,44 @@ void rmwhspln(GeanyDocument *doc) {
 			total_num_lines--;
 			i--;
 		}
+
 	}
 
 	sci_end_undo_action(doc->editor->sci);
 }
 
 
-// Sort Lines Ascending and Descending
+/* Sort Lines Ascending and Descending */
 void sortlines(GeanyDocument *doc, gboolean asc) {
-	gint  total_num_chars;  // number of characters in the document
-	gint  total_num_lines;  // number of lines in the document
-	gchar **lines;          // array to hold all lines in the document
-	gchar *new_file;        // *final* string to replace current document
-	gint  i;                // iterator
+	gint  total_num_chars;  /* number of characters in the document */
+	gint  total_num_lines;  /* number of lines in the document */
+	gchar **lines;          /* array to hold all lines in the document */
+	gchar *new_file;        /* *final* string to replace current document */
+	gint  i;                /* iterator */
 
 	total_num_chars = sci_get_length(doc->editor->sci);
 	total_num_lines = sci_get_line_count(doc->editor->sci);
 	lines           = g_malloc(sizeof(gchar *) * total_num_lines+1);
 	new_file        = g_malloc(sizeof(gchar) * (total_num_chars+1));
 
-	// copy *all* lines into **lines array
+	/* copy *all* lines into **lines array */
 	for(i = 0; i < total_num_lines; i++)
 		lines[i] = sci_get_line(doc->editor->sci, i);
 
-	// sort **lines array
+	/* sort **lines array */
 	if(asc)
 		qsort(lines, total_num_lines, sizeof(gchar *), compare_asc);
 	else
 		qsort(lines, total_num_lines, sizeof(gchar *), compare_desc);
 
-	// join **lines into one string (new_file)
+	/* join **lines into one string (new_file) */
 	lines[total_num_lines] = NULL;
 	new_file = g_strjoinv("", lines);
 	
-        // set new document
+    /* set new document */
 	sci_set_text(doc->editor->sci, new_file);
 
-	// free used memory
+	/* free used memory */
 	for(i = 0; i < total_num_lines; i++)
 		g_free(lines[i]);
 	g_free(lines);

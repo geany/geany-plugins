@@ -27,7 +27,7 @@
 static GtkWidget *main_menu_item = NULL;
 
 
-// Remove Duplicate Lines, sorted
+/* Remove Duplicate Lines, sorted */
 static void
 action_rmdupst_item(GtkMenuItem *menuitem, gpointer gdata)
 {
@@ -38,7 +38,7 @@ action_rmdupst_item(GtkMenuItem *menuitem, gpointer gdata)
 }
 
 
-// Remove Duplicate Lines, ordered
+/* Remove Duplicate Lines, ordered */
 static void
 action_rmdupln_item(GtkMenuItem *menuitem, gpointer gdata)
 {
@@ -49,7 +49,7 @@ action_rmdupln_item(GtkMenuItem *menuitem, gpointer gdata)
 }
 
 
-// Remove Unique Lines
+/* Remove Unique Lines */
 static void
 action_rmunqln_item(GtkMenuItem *menuitem, gpointer gdata)
 {
@@ -60,7 +60,7 @@ action_rmunqln_item(GtkMenuItem *menuitem, gpointer gdata)
 }
 
 
-// Remove Empty Lines
+/* Remove Empty Lines */
 static void
 action_rmemtyln_item(GtkMenuItem *menuitem, gpointer gdata)
 {
@@ -71,7 +71,7 @@ action_rmemtyln_item(GtkMenuItem *menuitem, gpointer gdata)
 }
 
 
-// Remove Whitespace Lines
+/* Remove Whitespace Lines */
 static void
 action_rmwhspln_item(GtkMenuItem *menuitem, gpointer gdata)
 {
@@ -82,7 +82,7 @@ action_rmwhspln_item(GtkMenuItem *menuitem, gpointer gdata)
 }
 
 
-// Sort Lines Ascending
+/* Sort Lines Ascending */
 static void
 action_sortasc_item(GtkMenuItem *menuitem, gpointer gdata)
 {
@@ -93,7 +93,7 @@ action_sortasc_item(GtkMenuItem *menuitem, gpointer gdata)
 }
 
 
-// Sort Lines Descending
+/* Sort Lines Descending */
 static void
 action_sortdesc_item(GtkMenuItem *menuitem, gpointer gdata)
 {

@@ -29,27 +29,27 @@
 #include <stdlib.h>	/* qsort */
 
 
-// Remove Duplicate Lines, sorted
+/* Remove Duplicate Lines, sorted */
 void rmdupst(GeanyDocument *doc);
 
 
-// Remove Duplicate Lines, ordered
+/* Remove Duplicate Lines, ordered */
 void rmdupln(GeanyDocument *doc);
 
 
-// Remove Unique Lines
+/* Remove Unique Lines */
 void rmunqln(GeanyDocument *doc);
 
 
-// Remove Empty Lines
+/* Remove Empty Lines */
 void rmemtyln(GeanyDocument *doc);
 
 
-// Remove Whitespace Lines
+/* Remove Whitespace Lines */
 void rmwhspln(GeanyDocument *doc);
 
 
-// Sort Lines Ascending and Descending
+/* Sort Lines Ascending and Descending */
 void sortlines(GeanyDocument *doc, gboolean asc);
 
 #endif
