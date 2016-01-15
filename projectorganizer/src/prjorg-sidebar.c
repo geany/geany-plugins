@@ -618,9 +618,8 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 			gchar *relpath;
 
 			relpath = get_relative_path(utf8_base_path, utf8_fname);
-			if (relpath)
-				msgwin_msg_add(COLOR_BLACK, -1, NULL, "%s:%lu:\n\t[%s]\t %s%s%s", relpath,
-					tag->line, tm_tag_type_name(tag), scopestr, tag->name, tag->arglist ? tag->arglist : "");
+			msgwin_msg_add(COLOR_BLACK, -1, NULL, "%s:%lu:\n\t[%s]\t %s%s%s", relpath ? relpath : utf8_fname,
+				tag->line, tm_tag_type_name(tag), scopestr, tag->name, tag->arglist ? tag->arglist : "");
 			g_free(scopestr);
 			g_free(relpath);
 			g_free(utf8_fname);
