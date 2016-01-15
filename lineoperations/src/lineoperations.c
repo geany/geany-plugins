@@ -24,19 +24,6 @@
 #include "linefunctions.h"
 
 
-GeanyPlugin		*geany_plugin;
-GeanyData		*geany_data;
-
-
-PLUGIN_VERSION_CHECK(225)
-
-PLUGIN_SET_INFO(_("Line Operations"),
-				 _("Line Operations provides a handful of functions that can be applied to a document such as, removing duplicate lines, removing empty lines, removing lines with only whitespace, and sorting lines."),
-				 "0.1",
-				 "Sylvan Mostert")
-
-
-
 static GtkWidget *main_menu_item = NULL;
 
 
@@ -117,8 +104,11 @@ action_sortdesc_item(GtkMenuItem *menuitem, gpointer gdata)
 }
 
 
-void plugin_init(GeanyData *data)
+static gboolean lo_init(GeanyPlugin *plugin, gpointer gdata)
 {
+	GeanyData *geany_data = plugin->geany_data;
+
+
 	GtkWidget *submenu;
 	GtkWidget *sep1;
 	GtkWidget *sep2;
@@ -130,10 +120,8 @@ void plugin_init(GeanyData *data)
 	GtkWidget *sortasc_item;
 	GtkWidget *sortdesc_item;
 
-	/* Add an item to the Tools menu */
 	main_menu_item = gtk_menu_item_new_with_mnemonic(_("_Line Operations"));
 	gtk_widget_show(main_menu_item);
-	ui_add_document_sensitive(main_menu_item);
 
 	submenu = gtk_menu_new();
 	gtk_widget_show(submenu);
@@ -170,6 +158,8 @@ void plugin_init(GeanyData *data)
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(main_menu_item), submenu);
 
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), main_menu_item);
+
+
 	g_signal_connect(rmdupst_item, "activate", G_CALLBACK(action_rmdupst_item), NULL);
 	g_signal_connect(rmdupln_item, "activate", G_CALLBACK(action_rmdupln_item), NULL);
 	g_signal_connect(rmunqln_item, "activate", G_CALLBACK(action_rmunqln_item), NULL);
@@ -185,11 +175,29 @@ void plugin_init(GeanyData *data)
 	ui_add_document_sensitive(rmwhspln_item);
 	ui_add_document_sensitive(sortasc_item);
 	ui_add_document_sensitive(sortdesc_item);
+
+	return TRUE;
 }
 
 
 void
-plugin_cleanup(void)
+lo_cleanup(void)
 {
 	if(main_menu_item) gtk_widget_destroy(main_menu_item);
 }
+
+
+G_MODULE_EXPORT
+void geany_load_module(GeanyPlugin *plugin)
+{
+    plugin->info->name        = _("Line Operations");
+    plugin->info->description = _("Line Operations provides a handful of functions that can be applied to a document such as, removing duplicate lines, removing empty lines, removing lines with only whitespace, and sorting lines.");
+    plugin->info->version     = "0.1";
+    plugin->info->author      = _("Sylvan Mostert <smostert.dev@gmail.com>");
+
+    plugin->funcs->init       = lo_init;
+    plugin->funcs->cleanup    = lo_cleanup;
+
+    GEANY_PLUGIN_REGISTER(plugin, 225);
+}
+
