@@ -9,6 +9,7 @@ AC_DEFUN([GP_CHECK_GENIUSPASTE],
 
     AC_CONFIG_FILES([
         geniuspaste/Makefile
+        geniuspaste/data/Makefile
         geniuspaste/src/Makefile
     ])
 ])

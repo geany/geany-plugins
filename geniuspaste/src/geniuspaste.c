@@ -35,7 +35,7 @@
 
 
 #define PLUGIN_NAME "GeniusPaste"
-#define PLUGIN_VERSION "0.2"
+#define PLUGIN_VERSION "0.3"
 
 #ifdef G_OS_WIN32
 #define USERNAME        g_getenv("USERNAME")
@@ -50,14 +50,6 @@
 #define GTK_COMBO_BOX_TEXT             GTK_COMBO_BOX
 #endif
 
-#define CODEPAD_ORG 		0
-#define TINYPASTE_COM 		1
-#define PASTEBIN_GEANY_ORG 	2
-#define DPASTE_DE 			3
-#define SPRUNGE_US 			4
-
-#define DEFAULT_TYPE_CODEPAD langs_supported_codepad[8];
-#define DEFAULT_TYPE_DPASTE langs_supported_dpaste[15];
 
 GeanyPlugin *geany_plugin;
 GeanyData *geany_data;
@@ -65,23 +57,14 @@ GeanyFunctions *geany_functions;
 
 static GtkWidget *main_menu_item = NULL;
 
-static const gchar *websites[] =
+typedef struct
 {
-    "codepad.org",
-    "tinypaste.com",
-    "pastebin.geany.org",
-    "dpaste.de",
-    "sprunge.us",
-};
+    gchar *name;
+    GKeyFile *config;
+}
+Pastebin;
 
-static const gchar *websites_api[] =
-{
-    "http://codepad.org/",
-    "http://tinypaste.com/api/create.xml",
-    "http://pastebin.geany.org/api/",
-    "http://dpaste.de/api/",
-    "http://sprunge.us/",
-};
+GSList *pastebins = NULL;
 
 static struct
 {
@@ -93,7 +76,7 @@ static struct
 static gchar *config_file = NULL;
 static gchar *author_name = NULL;
 
-static gint website_selected;
+static gchar *pastebin_selected = NULL;
 static gboolean check_button_is_checked = FALSE;
 
 PLUGIN_VERSION_CHECK(147)
@@ -101,10 +84,167 @@ PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, PLUGIN_NAME,
                              _("Paste your code on your favorite pastebin"),
                              PLUGIN_VERSION, "Enrico Trotta <enrico.trt@gmail.com>")
 
-static gint indexof(const gchar * string, gchar c)
+
+static void pastebin_free(Pastebin *pastebin)
 {
-    gchar * occ = strchr(string, c);
-    return occ ? occ - string : -1;
+    g_key_file_unref(pastebin->config);
+    g_free(pastebin->name);
+    g_free(pastebin);
+}
+
+/* like g_key_file_has_group() but sets error if the group is missing */
+static gboolean ensure_keyfile_has_group(GKeyFile *kf,
+                                         const gchar *group,
+                                         GError **error)
+{
+    if (g_key_file_has_group(kf, group))
+        return TRUE;
+    else
+    {
+        g_set_error(error, G_KEY_FILE_ERROR, G_KEY_FILE_ERROR_GROUP_NOT_FOUND,
+                    _("Group \"%s\" not found."), group);
+        return FALSE;
+    }
+}
+
+/* like g_key_file_has_key() but sets error if either the group or the key is
+ * missing */
+static gboolean ensure_keyfile_has_key(GKeyFile *kf,
+                                       const gchar *group,
+                                       const gchar *key,
+                                       GError **error)
+{
+    if (! ensure_keyfile_has_group(kf, group, error))
+        return FALSE;
+    else if (g_key_file_has_key(kf, group, key, NULL))
+        return TRUE;
+    else
+    {
+        g_set_error(error, G_KEY_FILE_ERROR, G_KEY_FILE_ERROR_GROUP_NOT_FOUND,
+                    _("Group \"%s\" has no key \"%s\"."), group, key);
+        return FALSE;
+    }
+}
+
+static Pastebin *pastebin_new(const gchar  *path,
+                              GError      **error)
+{
+    Pastebin *pastebin = NULL;
+    GKeyFile *kf = g_key_file_new();
+
+    if (g_key_file_load_from_file(kf, path, 0, error) &&
+        ensure_keyfile_has_key(kf, "pastebin", "name", error) &&
+        ensure_keyfile_has_key(kf, "pastebin", "url", error) &&
+        ensure_keyfile_has_group(kf, "format", error))
+    {
+        pastebin = g_malloc(sizeof *pastebin);
+
+        pastebin->name = g_key_file_get_string(kf, "pastebin", "name", NULL);
+        pastebin->config = g_key_file_ref(kf);
+    }
+
+    g_key_file_unref(kf);
+
+    return pastebin;
+}
+
+static const Pastebin *find_pastebin_by_name(const gchar *name)
+{
+    GSList *node;
+
+    g_return_val_if_fail(name != NULL, NULL);
+
+    for (node = pastebins; node; node = node->next)
+    {
+        Pastebin *pastebin = node->data;
+
+        if (strcmp(pastebin->name, name) == 0)
+            return pastebin;
+    }
+
+    return NULL;
+}
+
+static gint sort_pastebins(gconstpointer a, gconstpointer b)
+{
+    return utils_str_casecmp(((Pastebin *) a)->name, ((Pastebin *) b)->name);
+}
+
+static void load_pastebins_in_dir(const gchar *path)
+{
+    GError *err = NULL;
+    GDir *dir = g_dir_open(path, 0, &err);
+
+    if (! dir && err->code != G_FILE_ERROR_NOENT)
+        g_critical("Failed to read directory %s: %s", path, err->message);
+    if (err)
+        g_clear_error(&err);
+    if (dir)
+    {
+        const gchar *filename;
+
+        while ((filename = g_dir_read_name(dir)))
+        {
+            if (*filename == '.') /* silently skip dotfiles */
+                continue;
+            else if (! g_str_has_suffix(filename, ".conf"))
+            {
+                g_debug("Skipping %s%s%s because it has no .conf extension",
+                        path, G_DIR_SEPARATOR_S, filename);
+                continue;
+            }
+            else
+            {
+                gchar *fpath = g_build_filename(path, filename, NULL);
+                Pastebin *pastebin = pastebin_new(fpath, &err);
+
+                if (! pastebin)
+                {
+                    g_critical("Invalid pastebin configuration file %s: %s",
+                               fpath, err->message);
+                    g_clear_error(&err);
+                }
+                else
+                {
+                    if (! find_pastebin_by_name(pastebin->name))
+                        pastebins = g_slist_prepend(pastebins, pastebin);
+                    else
+                    {
+                        g_debug("Skipping duplicate configuration \"%s\" for "
+                                "pastebin \"%s\"", fpath, pastebin->name);
+                        pastebin_free(pastebin);
+                    }
+                }
+
+                g_free(fpath);
+            }
+        }
+
+        g_dir_close(dir);
+    }
+}
+
+static void load_all_pastebins(void)
+{
+    gchar *paths[] = {
+        g_build_filename(geany->app->configdir, "plugins", "geniuspaste",
+                         "pastebins", NULL),
+        g_build_filename(PLUGINDATADIR, "pastebins", NULL)
+    };
+    guint i;
+
+    for (i = 0; i < G_N_ELEMENTS(paths); i++)
+    {
+        load_pastebins_in_dir(paths[i]);
+        g_free(paths[i]);
+    }
+    pastebins = g_slist_sort(pastebins, sort_pastebins);
+}
+
+static void free_all_pastebins(void)
+{
+    g_slist_free_full(pastebins, (GDestroyNotify) pastebin_free);
+    pastebins = NULL;
 }
 
 static void load_settings(void)
@@ -116,11 +256,11 @@ static void load_settings(void)
     config_file = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
                               "geniuspaste", G_DIR_SEPARATOR_S, "geniuspaste.conf", NULL);
     g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
-    
-    website_selected = utils_get_setting_integer(config, "geniuspaste", "website", PASTEBIN_GEANY_ORG);
+
+    pastebin_selected = utils_get_setting_string(config, "geniuspaste", "website", "pastebin.geany.org");
     check_button_is_checked = utils_get_setting_boolean(config, "geniuspaste", "open_browser", FALSE);
     author_name = utils_get_setting_string(config, "geniuspaste", "author_name", USERNAME);
-    
+
     g_key_file_free(config);
 }
 
@@ -132,7 +272,7 @@ static void save_settings(void)
 
     g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
 
-    g_key_file_set_integer(config, "geniuspaste", "website", website_selected);
+    g_key_file_set_string(config, "geniuspaste", "website", pastebin_selected);
     g_key_file_set_boolean(config, "geniuspaste", "open_browser", check_button_is_checked);
     g_key_file_set_string(config, "geniuspaste", "author_name", author_name);
 
@@ -147,7 +287,7 @@ static void save_settings(void)
         utils_write_file(config_file, data);
         g_free(data);
     }
-    
+
     g_free(config_dir);
     g_key_file_free(config);
 }
@@ -174,50 +314,291 @@ static gchar *get_paste_text(GeanyDocument *doc, gsize *text_len)
     return paste_text;
 }
 
+static gchar *pastebin_get_default(const Pastebin *pastebin,
+                                   const gchar *key,
+                                   const gchar *def)
+{
+    return utils_get_setting_string(pastebin->config, "defaults", key, def);
+}
+
+static gchar *pastebin_get_language(const Pastebin *pastebin,
+                                    const gchar *geany_ft_name)
+{
+    gchar *lang = g_key_file_get_string(pastebin->config, "languages",
+                                        geany_ft_name, NULL);
+
+    return lang ? lang : pastebin_get_default(pastebin, "language", "");
+}
+
+/* append replacement for placeholder @placeholder to @str
+ * returns %TRUE on success, %FALSE if the placeholder didn't exist
+ *
+ * don't prepare replacements because they are unlikely to happen more than
+ * once for each paste */
+static gboolean append_placeholder(GString         *str,
+                                   const gchar     *placeholder,
+                                   /* some replacement sources */
+                                   const Pastebin  *pastebin,
+                                   GeanyDocument   *doc,
+                                   const gchar     *contents)
+{
+    /* special builtin placeholders */
+    if (strcmp("contents", placeholder) == 0)
+        g_string_append(str, contents);
+    else if (strcmp("language", placeholder) == 0)
+    {
+        gchar *language = pastebin_get_language(pastebin, doc->file_type->name);
+
+        g_string_append(str, language);
+        g_free(language);
+    }
+    else if (strcmp("title", placeholder) == 0)
+    {
+        gchar *title;
+
+        if (doc->file_name)
+            title = g_path_get_basename(doc->file_name);
+        else
+            title = document_get_basename_for_display(doc, -1);
+
+        g_string_append(str, title);
+        g_free(title);
+    }
+    else if (strcmp("user", placeholder) == 0)
+        g_string_append(str, author_name);
+    /* non-builtins (ones from [defaults] alone) */
+    else
+    {
+        gchar *val = pastebin_get_default(pastebin, placeholder, NULL);
+
+        if (val)
+        {
+            g_string_append(str, val);
+            g_free(val);
+        }
+        else
+        {
+            g_warning("non-existing placeholder \"%%%s%%\"", placeholder);
+            return FALSE;
+        }
+    }
+
+    return TRUE;
+}
+
+/* expands "%name%" placeholders in @string
+ *
+ * placeholders are of the form:
+ *      "%" [a-zA-Z0-9_]+ "%"
+ * Only valid and supported placeholders are replaced; everything else is left
+ * as-is. */
+static gchar *expand_placeholders(const gchar    *string,
+                                  const Pastebin *pastebin,
+                                  GeanyDocument  *doc,
+                                  const gchar    *contents)
+{
+    GString *str = g_string_new(NULL);
+    const gchar *p;
+
+    for (; (p = strchr(string, '%')); string = p + 1)
+    {
+        const gchar *k = p + 1;
+        gchar *key = NULL;
+        gsize key_len = 0;
+
+        g_string_append_len(str, string, p - string);
+
+        while (g_ascii_isalnum(k[key_len]) || k[key_len] == '_')
+            key_len++;
+
+        if (key_len > 0 && k[key_len] == '%')
+            key = g_strndup(k, key_len);
+
+        if (! key)
+            g_string_append_len(str, p, k + key_len - p);
+        else if (! append_placeholder(str, key, pastebin, doc, contents))
+            g_string_append_len(str, p, k + key_len + 1 - p);
+
+        if (key) /* skip % suffix too */
+            key_len++;
+
+        g_free(key);
+
+        p = k + key_len - 1;
+    }
+    g_string_append(str, string);
+
+    return g_string_free(str, FALSE);
+}
+
+/* Matches @pattern on @haystack and perform match substitutions in @replace */
+static gchar *regex_replace(const gchar  *pattern,
+                            const gchar  *haystack,
+                            const gchar  *replace,
+                            GError      **error)
+{
+    GRegex *re = g_regex_new(pattern, (G_REGEX_DOTALL |
+                                       G_REGEX_DOLLAR_ENDONLY |
+                                       G_REGEX_RAW), 0, error);
+    GMatchInfo *info = NULL;
+    gchar *result = NULL;
+
+    if (re && g_regex_match(re, haystack, 0, &info))
+    {
+        GString *str = g_string_new(NULL);
+        const gchar *p;
+
+        for (; (p = strchr(replace, '\\')); replace = p + 1)
+        {
+            gint digit = ((gint) p[1]) - '0';
+
+            g_string_append_len(str, replace, p - replace);
+            if (digit >= 0 && digit <= 9 &&
+                digit < g_match_info_get_match_count(info))
+            {
+                gchar *match = g_match_info_fetch(info, digit);
+
+                g_string_append(str, match);
+                g_free(match);
+                p++;
+            }
+            else
+                g_string_append_c(str, *p);
+        }
+        g_string_append(str, replace);
+
+        result = g_string_free(str, FALSE);
+    }
+
+    if (info)
+        g_match_info_free(info);
+
+    return result;
+}
+
+static void free_data_item(GQuark id, gpointer data, gpointer user_data)
+{
+    g_free(data);
+}
+
+/* sends data to @pastebin and returns the raw response */
+static SoupMessage *pastebin_soup_message_new(const Pastebin  *pastebin,
+                                              GeanyDocument   *doc,
+                                              const gchar     *contents)
+{
+    SoupMessage *msg;
+    gchar *url;
+    gchar *method;
+    gsize n_fields;
+    gchar **fields;
+    GData *data;
+
+    g_return_val_if_fail(pastebin != NULL, NULL);
+    g_return_val_if_fail(contents != NULL, NULL);
+
+    url = utils_get_setting_string(pastebin->config, "pastebin", "url", NULL);
+    method = utils_get_setting_string(pastebin->config, "pastebin", "method", "POST");
+    /* prepare the form data */
+    fields = g_key_file_get_keys(pastebin->config, "format", &n_fields, NULL);
+    g_datalist_init(&data);
+    for (gsize i = 0; fields && i < n_fields; i++)
+    {
+        gchar *value = g_key_file_get_string(pastebin->config, "format", fields[i], NULL);
+
+        SETPTR(value, expand_placeholders(value, pastebin, doc, contents));
+        g_datalist_set_data(&data, fields[i], value);
+    }
+    g_strfreev(fields);
+    msg = soup_form_request_new_from_datalist(method, url, &data);
+    g_datalist_foreach(&data, free_data_item, NULL);
+    g_datalist_clear(&data);
+
+    return msg;
+}
+
+/* parses @response and returns the URL of the paste, or %NULL on parse error
+ * or if the URL couldn't be found.
+ * @warning: it may return NULL even if @error is not set */
+static gchar *pastebin_parse_response(const Pastebin  *pastebin,
+                                      const gchar     *response,
+                                      GeanyDocument   *doc,
+                                      const gchar     *contents,
+                                      GError         **error)
+{
+    gchar *url = NULL;
+    gchar *search;
+    gchar *replace;
+
+    g_return_val_if_fail(pastebin != NULL, NULL);
+    g_return_val_if_fail(response != NULL, NULL);
+
+    search = utils_get_setting_string(pastebin->config, "parse", "search",
+                                      "^[[:space:]]*(.+?)[[:space:]]*$");
+    replace = utils_get_setting_string(pastebin->config, "parse", "replace", "\\1");
+    SETPTR(replace, expand_placeholders(replace, pastebin, doc, contents));
+
+    url = regex_replace(search, response, replace, error);
+
+    g_free(search);
+    g_free(replace);
+
+    return url;
+}
+
+G_GNUC_PRINTF (4, 5)
+static void show_msgbox(GtkMessageType type, GtkButtonsType buttons,
+                        const gchar *main_text,
+                        const gchar *secondary_markup, ...)
+{
+    GtkWidget *dlg;
+    va_list ap;
+    gchar *markup;
+
+    va_start(ap, secondary_markup);
+    markup = g_markup_vprintf_escaped(secondary_markup, ap);
+    va_end(ap);
+
+    dlg = g_object_new(GTK_TYPE_MESSAGE_DIALOG,
+                       "message-type", type,
+                       "buttons", buttons,
+                       "transient-for", geany->main_widgets->window,
+                       "modal", TRUE,
+                       "destroy-with-parent", TRUE,
+                       "text", main_text,
+                       "secondary-text", markup,
+                       "secondary-use-markup", TRUE,
+                       NULL);
+    gtk_dialog_run(GTK_DIALOG(dlg));
+    gtk_widget_destroy(dlg);
+}
+
 static void paste(GeanyDocument * doc, const gchar * website)
 {
-    SoupSession *session;
-    SoupMessage *msg = NULL;
-
+    const Pastebin *pastebin;
     gchar *f_content;
-    gchar const *f_type;
-    gchar *f_title;
-    gchar *p_url;
-    gchar *formdata = NULL;
-    gchar *user_agent = NULL;
-    gchar **tokens_array;
-
-    const gchar *langs_supported_codepad[] =
-    {
-        "C", "C++", "D", "Haskell",
-        "Lua", "OCaml", "PHP", "Perl", "Plain Text",
-        "Python", "Ruby", "Scheme", "Tcl"
-    };
-
-    const gchar *langs_supported_dpaste[] =
-    {
-        "Bash", "C", "CSS", "Diff",
-        "Django/Jinja", "HTML", "IRC logs", "JavaScript", "PHP",
-        "Python console session", "Python Traceback", "Python",
-        "Python3", "Restructured Text", "SQL", "Text only"
-    };
-
-    gint occ_position;
-    guint i;
-    guint status;
     gsize f_length;
+    SoupSession *session;
+    SoupMessage *msg;
+    gchar *user_agent = NULL;
+    guint status;
 
     g_return_if_fail(doc && doc->is_valid);
 
-    f_type = doc->file_type->name;
+    /* find the pastebin */
+    pastebin = find_pastebin_by_name(website);
+    if (! pastebin)
+    {
+        show_msgbox(GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+                    _("Invalid pastebin service."),
+                    _("Unknown pastebin service \"%s\". "
+                      "Select an existing pastebin service in the preferences "
+                      "or create an appropriate pastebin configuration and "
+                      "retry."),
+                    website);
+        return;
+    }
 
-    if (doc->file_name == NULL)
-        f_title = document_get_basename_for_display(doc, -1);
-    else
-        f_title = g_path_get_basename(doc->file_name);
-
-    load_settings();
-    
+    /* get the contents */
     f_content = get_paste_text(doc, &f_length);
     if (f_content == NULL || f_content[0] == '\0')
     {
@@ -225,188 +606,67 @@ static void paste(GeanyDocument * doc, const gchar * website)
         return;
     }
 
-    switch (website_selected)
-    {
-
-    case CODEPAD_ORG:
-
-        for (i = 0; i < G_N_ELEMENTS(langs_supported_codepad); i++)
-        {
-            if (g_strcmp0(f_type, langs_supported_codepad[i]) == 0)
-                break;
-            else
-                f_type = DEFAULT_TYPE_CODEPAD;
-        }
-
-        msg = soup_message_new("POST", website);
-        formdata = soup_form_encode("lang", f_type,
-                                    "code", f_content,
-                                    "submit", "Submit",
-                                    NULL);
-
-        break;
-
-    case TINYPASTE_COM:
-
-        msg = soup_message_new("POST", website);
-        formdata = soup_form_encode("paste", f_content, 
-                                    "title", f_title,
-                                    "is_code", g_strcmp0(f_type, "None") == 0 ? "0" : "1",
-                                    NULL);
-
-        break;
-
-
-    case DPASTE_DE:
-
-        for (i = 0; i < G_N_ELEMENTS(langs_supported_dpaste); i++)
-        {
-            if (g_strcmp0(f_type, langs_supported_dpaste[i]) == 0)
-                break;
-            else
-                f_type = DEFAULT_TYPE_DPASTE;
-        }
-
-        msg = soup_message_new("POST", website);
-        /* apparently dpaste.de detects automatically the syntax of the
-         * pasted code so 'lexer' should be unneeded
-         */
-        formdata = soup_form_encode("content", f_content,
-                                    "title", f_title,
-                                    "lexer", f_type,
-                                    NULL);
-
-        break;
-
-    case SPRUNGE_US:
-
-        msg = soup_message_new("POST", website);
-        formdata = soup_form_encode("sprunge", f_content, NULL);
-
-        break;
-
-    case PASTEBIN_GEANY_ORG:
-
-        msg = soup_message_new("POST", website);
-        formdata = soup_form_encode("content", f_content,
-                                    "author", author_name,
-                                    "title", f_title,
-                                    "lexer", f_type,
-                                    NULL);
-
-        break;
-
-    }
-
-    g_free(f_content);
+    msg = pastebin_soup_message_new(pastebin, doc, f_content);
 
     user_agent = g_strconcat(PLUGIN_NAME, " ", PLUGIN_VERSION, " / Geany ", GEANY_VERSION, NULL);
     session = soup_session_async_new_with_options(SOUP_SESSION_USER_AGENT, user_agent, NULL);
     g_free(user_agent);
 
-    soup_message_set_request(msg, "application/x-www-form-urlencoded",
-                             SOUP_MEMORY_TAKE, formdata, strlen(formdata));
-
     status = soup_session_send_message(session, msg);
-    p_url = g_strdup(msg->response_body->data);
-
     g_object_unref(session);
-    g_object_unref(msg);
 
-    if(status == SOUP_STATUS_OK)
+    if (! SOUP_STATUS_IS_SUCCESSFUL(status))
     {
+        show_msgbox(GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+                    _("Failed to paste the code"),
+                    _("Error pasting the code to the pastebin service %s.\n"
+                      "Error code: %u (%s).\n\n%s"),
+                    pastebin->name, status, msg->reason_phrase,
+                    (SOUP_STATUS_IS_TRANSPORT_ERROR(status)
+                     ? _("Check your connection or the pastebin configuration and retry.")
+                     : SOUP_STATUS_IS_SERVER_ERROR(status)
+                     ? _("Wait for the service to come back and retry, or retry "
+                         "with another pastebin service.")
+                     : _("Check the pastebin configuration and retry.")));
+    }
+    else
+    {
+        GError *err = NULL;
+        gchar *p_url = pastebin_parse_response(pastebin, msg->response_body->data,
+                                               doc, f_content, &err);
 
-        /*
-         * codepad.org doesn't return only the url of the new snippet pasted
-         * but an html page. This minimal parser will get the bare url.
-         */
-
-        if (website_selected == CODEPAD_ORG)
+        if (err || ! p_url)
         {
-            tokens_array = g_strsplit(p_url, "<a href=\"", 0);
+            show_msgbox(GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+                        _("Failed to obtain paste URL."),
+                        _("The code was successfully pasted on %s, but an "
+                          "error occurred trying to obtain its URL: %s\n\n%s"),
+                        pastebin->name,
+                        (err ? err->message
+                         : _("unexpected response from the pastebin service.")),
+                        _("Check the pastebin configuration and retry."));
 
-            /* cuts the string when it finds the first occurrence of '/'
-             * It shoud work even if codepad would change its url.
-             */
-
-            SETPTR(p_url, g_strdup(tokens_array[5]));
-            occ_position = indexof(tokens_array[5], '\"');
-
-            g_strfreev(tokens_array);
-
-            if(occ_position != -1)
-            {
-                p_url[occ_position] = '\0';
-            }
-            else
-            {
-                dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to paste the code on codepad.org\n"
-                                    "Retry or select another pastebin."));
-                g_free(p_url);
-                return;
-            }
-
+            if (err)
+                g_error_free(err);
         }
-        else if(website_selected == TINYPASTE_COM)
-        {
-            /* tinypaste.com returns a XML response which looks
-             * like this:
-             * 
-             * <?xml version="1.0" encoding="utf-8"?>
-             * <result>
-             *      <response>xxxxx</response>
-             * </result>
-             */
-            tokens_array = g_strsplit_set(p_url, "<>", 0);
-            
-            SETPTR(p_url, g_strdup_printf("http://%s/%s", websites[TINYPASTE_COM], tokens_array[6]));
-            
-            g_strfreev(tokens_array);
-        }
-            
-        else if(website_selected == DPASTE_DE)
-        {
-            SETPTR(p_url, g_strndup(p_url + 1, strlen(p_url) - 2));
-
-        }
-        else if(website_selected == SPRUNGE_US)
-        {
-
-            /* in order to enable the syntax highlightning on sprunge.us
-             * it is necessary to append at the returned url a question
-             * mark '?' followed by the file type.
-             *
-             * e.g. sprunge.us/xxxx?c
-             */
-            gchar *ft_tmp = g_ascii_strdown(f_type, -1);
-            g_strstrip(p_url);
-            SETPTR(p_url, g_strdup_printf("%s?%s", p_url, ft_tmp));
-            g_free(ft_tmp);
-        }
-
-        if (check_button_is_checked)
+        else if (check_button_is_checked)
         {
             utils_open_browser(p_url);
         }
         else
         {
-            GtkWidget *dlg = gtk_message_dialog_new(GTK_WINDOW(geany->main_widgets->window),
-                GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
-                _("Paste Successful"));
-            gtk_message_dialog_format_secondary_markup(GTK_MESSAGE_DIALOG(dlg),
-                _("Your paste can be found here:\n<a href=\"%s\" "
-                "title=\"Click to open the paste in your browser\">%s</a>"), p_url, p_url);
-            gtk_dialog_run(GTK_DIALOG(dlg));
-            gtk_widget_destroy(dlg);
+            show_msgbox(GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
+                        _("Paste Successful"),
+                        _("Your paste can be found here:\n<a href=\"%s\" "
+                          "title=\"Click to open the paste in your browser\">%s</a>"),
+                        p_url, p_url);
         }
-    }
-    else
-    {
-        dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to paste the code. Check your connection and retry.\n"
-                            "Error code: %d\n"), status);
+
+        g_free(p_url);
     }
 
-    g_free(p_url);
+    g_object_unref(msg);
+    g_free(f_content);
 }
 
 static void item_activate(GtkMenuItem * menuitem, gpointer gdata)
@@ -419,7 +679,7 @@ static void item_activate(GtkMenuItem * menuitem, gpointer gdata)
         return;
     }
 
-    paste(doc, websites_api[website_selected]);
+    paste(doc, pastebin_selected);
 }
 
 static void on_configure_response(GtkDialog * dialog, gint response, gpointer * user_data)
@@ -432,7 +692,7 @@ static void on_configure_response(GtkDialog * dialog, gint response, gpointer * 
         }
         else
         {
-            website_selected = gtk_combo_box_get_active(GTK_COMBO_BOX(widgets.combo));
+            SETPTR(pastebin_selected, gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(widgets.combo)));
             check_button_is_checked = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.check_button));
             SETPTR(author_name, g_strdup(gtk_entry_get_text(GTK_ENTRY(widgets.author_entry))));
             save_settings();
@@ -442,7 +702,8 @@ static void on_configure_response(GtkDialog * dialog, gint response, gpointer * 
 
 GtkWidget *plugin_configure(GtkDialog * dialog)
 {
-    guint i;
+    GSList *node;
+    gint i;
     GtkWidget *label, *vbox, *author_label;
 
     vbox = gtk_vbox_new(FALSE, 6);
@@ -462,8 +723,14 @@ GtkWidget *plugin_configure(GtkDialog * dialog)
 
     widgets.combo = gtk_combo_box_text_new();
 
-    for (i = 0; i < G_N_ELEMENTS(websites); i++)
-        gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(widgets.combo), websites[i]);
+    for (i = 0, node = pastebins; node; node = node->next, i++)
+    {
+        Pastebin *pastebin = node->data;
+
+        gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(widgets.combo), pastebin->name);
+        if (pastebin_selected && strcmp(pastebin_selected, pastebin->name) == 0)
+            gtk_combo_box_set_active(GTK_COMBO_BOX(widgets.combo), i);
+    }
 
     widgets.check_button = gtk_check_button_new_with_label(_("Show your paste in a new browser tab"));
 
@@ -473,7 +740,6 @@ GtkWidget *plugin_configure(GtkDialog * dialog)
     gtk_box_pack_start(GTK_BOX(vbox), widgets.author_entry, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), widgets.check_button, FALSE, FALSE, 0);
 
-    gtk_combo_box_set_active(GTK_COMBO_BOX(widgets.combo), website_selected);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.check_button), check_button_is_checked);
 
     gtk_widget_show_all(vbox);
@@ -499,6 +765,7 @@ static void add_menu_item(void)
 
 void plugin_init(GeanyData * data)
 {
+    load_all_pastebins();
     load_settings();
     main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
     add_menu_item();
@@ -509,4 +776,5 @@ void plugin_cleanup(void)
 {
     g_free(author_name);
     gtk_widget_destroy(main_menu_item);
+    free_all_pastebins();
 }
