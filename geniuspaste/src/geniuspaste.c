@@ -646,6 +646,24 @@ static void paste(GeanyDocument * doc, const gchar * website)
     status = soup_session_send_message(session, msg);
     g_object_unref(session);
 
+    if (geany->app->debug_mode)
+    {
+        gchar *real_uri = soup_uri_to_string(soup_message_get_uri(msg), FALSE);
+
+        soup_message_body_flatten(msg->request_body);
+        msgwin_msg_add(COLOR_BLUE, -1, NULL,
+                       "[geniuspaste] %s\n"
+                       "Request: %s\n"
+                       "Response: %s\n"
+                       "Code: %d (%s)",
+                       real_uri,
+                       msg->request_body->data,
+                       msg->response_body->data,
+                       msg->status_code,
+                       msg->reason_phrase);
+        g_free(real_uri);
+    }
+
     if (! SOUP_STATUS_IS_SUCCESSFUL(status))
     {
         show_msgbox(GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
