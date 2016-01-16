@@ -606,6 +606,29 @@ static void show_msgbox(GtkMessageType type, GtkButtonsType buttons,
     gtk_widget_destroy(dlg);
 }
 
+static void debug_log_message_body(SoupMessage *msg,
+                                   SoupMessageBody *body,
+                                   const gchar *label)
+{
+    if (geany->app->debug_mode)
+    {
+        gchar *real_uri = soup_uri_to_string(soup_message_get_uri(msg), FALSE);
+
+        soup_message_body_flatten(body);
+        msgwin_msg_add(COLOR_BLUE, -1, NULL,
+                       "[geniuspaste] %s:\n"
+                       "URI: %s\n"
+                       "Body: %s\n"
+                       "Code: %d (%s)",
+                       label,
+                       real_uri,
+                       body->data,
+                       msg->status_code,
+                       msg->reason_phrase);
+        g_free(real_uri);
+    }
+}
+
 static void paste(GeanyDocument * doc, const gchar * website)
 {
     const Pastebin *pastebin;
@@ -645,26 +668,12 @@ static void paste(GeanyDocument * doc, const gchar * website)
     session = soup_session_async_new_with_options(SOUP_SESSION_USER_AGENT, user_agent, NULL);
     g_free(user_agent);
 
+    debug_log_message_body(msg, msg->request_body, "Request");
+
     status = soup_session_send_message(session, msg);
     g_object_unref(session);
 
-    if (geany->app->debug_mode)
-    {
-        gchar *real_uri = soup_uri_to_string(soup_message_get_uri(msg), FALSE);
-
-        soup_message_body_flatten(msg->request_body);
-        msgwin_msg_add(COLOR_BLUE, -1, NULL,
-                       "[geniuspaste] %s\n"
-                       "Request: %s\n"
-                       "Response: %s\n"
-                       "Code: %d (%s)",
-                       real_uri,
-                       msg->request_body->data,
-                       msg->response_body->data,
-                       msg->status_code,
-                       msg->reason_phrase);
-        g_free(real_uri);
-    }
+    debug_log_message_body(msg, msg->response_body, "Response");
 
     if (! SOUP_STATUS_IS_SUCCESSFUL(status))
     {
