@@ -22,6 +22,20 @@
 #include "linefunctions.h"
 
 
+/* altered from geany/src/editor.c, ensure new line at file end */
+static void ensure_final_newline(GeanyEditor *editor, gint max_lines)
+{
+	gint end_document       = sci_get_position_from_line(editor->sci, max_lines);
+	gboolean append_newline = end_document >
+					sci_get_position_from_line(editor->sci, max_lines - 1);
+
+	if (append_newline)
+	{
+		const gchar *eol = editor_get_eol_char(editor);
+		sci_insert_text(editor->sci, end_document, eol);
+	}
+}
+
 /* comparison function to be used in qsort */
 static gint compare_asc(const void * a, const void * b)
 {
@@ -50,8 +64,14 @@ void rmdupst(GeanyDocument *doc) {
 	total_num_lines = sci_get_line_count(doc->editor->sci);
 	lines           = g_malloc(sizeof(gchar *) * total_num_lines);
 	new_file        = g_malloc(sizeof(gchar)   * (total_num_chars+1));
+	new_file[0]     = '\0';
 	nf_end          = new_file;
 	lineptr         = (gchar *)"";
+
+
+	/* if file is not empty, ensure that the file ends with newline */
+	if(total_num_lines != 1)
+		ensure_final_newline(doc->editor, total_num_lines);
 
 	/* copy *all* lines into **lines array */
 	for(i = 0; i < total_num_lines; i++)
@@ -94,9 +114,13 @@ void rmdupln(GeanyDocument *doc) {
 	total_num_lines = sci_get_line_count(doc->editor->sci);
 	lines           = g_malloc(sizeof(gchar *) * total_num_lines);
 	new_file        = g_malloc(sizeof(gchar) * (total_num_chars+1));
+	new_file[0]     = '\0';
 	nf_end          = new_file;
 
 
+	/* if file is not empty, ensure that the file ends with newline */
+	if(total_num_lines != 1)
+		ensure_final_newline(doc->editor, total_num_lines);
 
 	/* copy *all* lines into **lines array */
 	for(i = 0; i < total_num_lines; i++)
@@ -149,7 +173,13 @@ void rmunqln(GeanyDocument *doc) {
 	total_num_lines = sci_get_line_count(doc->editor->sci);
 	lines           = g_malloc(sizeof(gchar *) * total_num_lines);
 	new_file        = g_malloc(sizeof(gchar) * (total_num_chars+1));
+	new_file[0]     = '\0';
 	nf_end          = new_file;
+
+
+	/* if file is not empty, ensure that the file ends with newline */
+	if(total_num_lines != 1)
+		ensure_final_newline(doc->editor, total_num_lines);
 
 	/* copy *all* lines into **lines array */
 	for(i = 0; i < total_num_lines; i++)
@@ -261,6 +291,11 @@ void sortlines(GeanyDocument *doc, gboolean asc) {
 	total_num_lines = sci_get_line_count(doc->editor->sci);
 	lines           = g_malloc(sizeof(gchar *) * total_num_lines+1);
 	new_file        = g_malloc(sizeof(gchar) * (total_num_chars+1));
+	new_file[0]     = '\0';
+
+	/* if file is not empty, ensure that the file ends with newline */
+	if(total_num_lines != 1)
+		ensure_final_newline(doc->editor, total_num_lines);
 
 	/* copy *all* lines into **lines array */
 	for(i = 0; i < total_num_lines; i++)
