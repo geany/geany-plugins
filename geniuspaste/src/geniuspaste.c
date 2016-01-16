@@ -322,24 +322,19 @@ static void save_settings(void)
     g_key_file_free(config);
 }
 
-static gchar *get_paste_text(GeanyDocument *doc, gsize *text_len)
+static gchar *get_paste_text(GeanyDocument *doc)
 {
-    gsize len;
     gchar *paste_text;
 
     if (sci_has_selection(doc->editor->sci))
     {
-        len = sci_get_selected_text_length(doc->editor->sci) + 1;
         paste_text = sci_get_selection_contents(doc->editor->sci);
     }
     else
     {
-        len = sci_get_length(doc->editor->sci) + 1;
+        gint len = sci_get_length(doc->editor->sci) + 1;
         paste_text = sci_get_contents(doc->editor->sci, len);
     }
-
-    if (text_len)
-        *text_len = len;
 
     return paste_text;
 }
@@ -607,7 +602,6 @@ static void paste(GeanyDocument * doc, const gchar * website)
 {
     const Pastebin *pastebin;
     gchar *f_content;
-    gsize f_length;
     SoupSession *session;
     SoupMessage *msg;
     gchar *user_agent = NULL;
@@ -630,7 +624,7 @@ static void paste(GeanyDocument * doc, const gchar * website)
     }
 
     /* get the contents */
-    f_content = get_paste_text(doc, &f_length);
+    f_content = get_paste_text(doc);
     if (f_content == NULL || f_content[0] == '\0')
     {
         dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Refusing to create blank paste"));
