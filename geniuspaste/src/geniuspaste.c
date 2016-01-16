@@ -50,6 +50,16 @@
 #define GTK_COMBO_BOX_TEXT             GTK_COMBO_BOX
 #endif
 
+#define PASTEBIN_GROUP_DEFAULTS             "defaults"
+#define PASTEBIN_GROUP_FORMAT               "format"
+#define PASTEBIN_GROUP_LANGUAGES            "languages"
+#define PASTEBIN_GROUP_PARSE                "parse"
+#define PASTEBIN_GROUP_PARSE_KEY_SEARCH     "search"
+#define PASTEBIN_GROUP_PARSE_KEY_REPLACE    "replace"
+#define PASTEBIN_GROUP_PASTEBIN             "pastebin"
+#define PASTEBIN_GROUP_PASTEBIN_KEY_NAME    "name"
+#define PASTEBIN_GROUP_PASTEBIN_KEY_URL     "url"
+#define PASTEBIN_GROUP_PASTEBIN_KEY_METHOD  "method"
 
 GeanyPlugin *geany_plugin;
 GeanyData *geany_data;
@@ -133,13 +143,16 @@ static Pastebin *pastebin_new(const gchar  *path,
     GKeyFile *kf = g_key_file_new();
 
     if (g_key_file_load_from_file(kf, path, 0, error) &&
-        ensure_keyfile_has_key(kf, "pastebin", "name", error) &&
-        ensure_keyfile_has_key(kf, "pastebin", "url", error) &&
-        ensure_keyfile_has_group(kf, "format", error))
+        ensure_keyfile_has_key(kf, PASTEBIN_GROUP_PASTEBIN,
+                               PASTEBIN_GROUP_PASTEBIN_KEY_NAME, error) &&
+        ensure_keyfile_has_key(kf, PASTEBIN_GROUP_PASTEBIN,
+                               PASTEBIN_GROUP_PASTEBIN_KEY_URL, error) &&
+        ensure_keyfile_has_group(kf, PASTEBIN_GROUP_FORMAT, error))
     {
         pastebin = g_malloc(sizeof *pastebin);
 
-        pastebin->name = g_key_file_get_string(kf, "pastebin", "name", NULL);
+        pastebin->name = g_key_file_get_string(kf, PASTEBIN_GROUP_PASTEBIN,
+                                               PASTEBIN_GROUP_PASTEBIN_KEY_NAME, NULL);
         pastebin->config = g_key_file_ref(kf);
     }
 
@@ -335,13 +348,14 @@ static gchar *pastebin_get_default(const Pastebin *pastebin,
                                    const gchar *key,
                                    const gchar *def)
 {
-    return utils_get_setting_string(pastebin->config, "defaults", key, def);
+    return utils_get_setting_string(pastebin->config, PASTEBIN_GROUP_DEFAULTS,
+                                    key, def);
 }
 
 static gchar *pastebin_get_language(const Pastebin *pastebin,
                                     const gchar *geany_ft_name)
 {
-    gchar *lang = g_key_file_get_string(pastebin->config, "languages",
+    gchar *lang = g_key_file_get_string(pastebin->config, PASTEBIN_GROUP_LANGUAGES,
                                         geany_ft_name, NULL);
 
     return lang ? lang : pastebin_get_default(pastebin, "language", "");
@@ -508,14 +522,17 @@ static SoupMessage *pastebin_soup_message_new(const Pastebin  *pastebin,
     g_return_val_if_fail(pastebin != NULL, NULL);
     g_return_val_if_fail(contents != NULL, NULL);
 
-    url = utils_get_setting_string(pastebin->config, "pastebin", "url", NULL);
-    method = utils_get_setting_string(pastebin->config, "pastebin", "method", "POST");
+    url = utils_get_setting_string(pastebin->config, PASTEBIN_GROUP_PASTEBIN,
+                                   PASTEBIN_GROUP_PASTEBIN_KEY_URL, NULL);
+    method = utils_get_setting_string(pastebin->config, PASTEBIN_GROUP_PASTEBIN,
+                                      PASTEBIN_GROUP_PASTEBIN_KEY_METHOD, "POST");
     /* prepare the form data */
-    fields = g_key_file_get_keys(pastebin->config, "format", &n_fields, NULL);
+    fields = g_key_file_get_keys(pastebin->config, PASTEBIN_GROUP_FORMAT, &n_fields, NULL);
     g_datalist_init(&data);
     for (gsize i = 0; fields && i < n_fields; i++)
     {
-        gchar *value = g_key_file_get_string(pastebin->config, "format", fields[i], NULL);
+        gchar *value = g_key_file_get_string(pastebin->config, PASTEBIN_GROUP_FORMAT,
+                                             fields[i], NULL);
 
         SETPTR(value, expand_placeholders(value, pastebin, doc, contents));
         g_datalist_set_data(&data, fields[i], value);
@@ -544,9 +561,11 @@ static gchar *pastebin_parse_response(const Pastebin  *pastebin,
     g_return_val_if_fail(pastebin != NULL, NULL);
     g_return_val_if_fail(response != NULL, NULL);
 
-    search = utils_get_setting_string(pastebin->config, "parse", "search",
+    search = utils_get_setting_string(pastebin->config, PASTEBIN_GROUP_PARSE,
+                                      PASTEBIN_GROUP_PARSE_KEY_SEARCH,
                                       "^[[:space:]]*(.+?)[[:space:]]*$");
-    replace = utils_get_setting_string(pastebin->config, "parse", "replace", "\\1");
+    replace = utils_get_setting_string(pastebin->config, PASTEBIN_GROUP_PARSE,
+                                       PASTEBIN_GROUP_PARSE_KEY_REPLACE, "\\1");
     SETPTR(replace, expand_placeholders(replace, pastebin, doc, contents));
 
     url = regex_replace(search, response, replace, error);
