@@ -544,7 +544,7 @@ static SoupMessage *pastebin_soup_message_new(const Pastebin  *pastebin,
  * or if the URL couldn't be found.
  * @warning: it may return NULL even if @error is not set */
 static gchar *pastebin_parse_response(const Pastebin  *pastebin,
-                                      const gchar     *response,
+                                      SoupMessage     *msg,
                                       GeanyDocument   *doc,
                                       const gchar     *contents,
                                       GError         **error)
@@ -554,19 +554,27 @@ static gchar *pastebin_parse_response(const Pastebin  *pastebin,
     gchar *replace;
 
     g_return_val_if_fail(pastebin != NULL, NULL);
-    g_return_val_if_fail(response != NULL, NULL);
+    g_return_val_if_fail(msg != NULL, NULL);
 
-    search = utils_get_setting_string(pastebin->config, PASTEBIN_GROUP_PARSE,
-                                      PASTEBIN_GROUP_PARSE_KEY_SEARCH,
-                                      "^[[:space:]]*(.+?)[[:space:]]*$");
-    replace = utils_get_setting_string(pastebin->config, PASTEBIN_GROUP_PARSE,
-                                       PASTEBIN_GROUP_PARSE_KEY_REPLACE, "\\1");
-    SETPTR(replace, expand_placeholders(replace, pastebin, doc, contents));
+    if (! g_key_file_has_group(pastebin->config, PASTEBIN_GROUP_PARSE))
+    {
+        /* by default, use the response URI (redirect) */
+        url = soup_uri_to_string(soup_message_get_uri(msg), FALSE);
+    }
+    else
+    {
+        search = utils_get_setting_string(pastebin->config, PASTEBIN_GROUP_PARSE,
+                                          PASTEBIN_GROUP_PARSE_KEY_SEARCH,
+                                          "^[[:space:]]*(.+?)[[:space:]]*$");
+        replace = utils_get_setting_string(pastebin->config, PASTEBIN_GROUP_PARSE,
+                                           PASTEBIN_GROUP_PARSE_KEY_REPLACE, "\\1");
+        SETPTR(replace, expand_placeholders(replace, pastebin, doc, contents));
 
-    url = regex_replace(search, response, replace, error);
+        url = regex_replace(search, msg->response_body->data, replace, error);
 
-    g_free(search);
-    g_free(replace);
+        g_free(search);
+        g_free(replace);
+    }
 
     return url;
 }
@@ -675,8 +683,8 @@ static void paste(GeanyDocument * doc, const gchar * website)
     else
     {
         GError *err = NULL;
-        gchar *p_url = pastebin_parse_response(pastebin, msg->response_body->data,
-                                               doc, f_content, &err);
+        gchar *p_url = pastebin_parse_response(pastebin, msg, doc, f_content,
+                                               &err);
 
         if (err || ! p_url)
         {

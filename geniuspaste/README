@@ -103,8 +103,18 @@ Each key in this section is a field, and each value that field's value.
 *[parse]* section
 +++++++++++++++++
 
-The *parse* section defines the regular expression used to parse the raw
-response from the pastebin service and build the final paste URL.
+If the *parse* section is declared, it defines the regular expression used to
+parse the raw response body from the pastebin service and build the final
+paste URL.
+
+If this section doesn't exist, the URI of the response itself is used, after
+any possible redirection.  This is usually good for non-API pastebin services,
+where the server redirects the user to the paste page.
+
+**Warning:**  If the *parse* section exists, it will be used, no matter whether
+any key is actually defined.  This means that a ``[parse]`` line is enough to
+enable response body parsing, and it will use the default *search* and
+*replace* settings.
 
 *search*
 	A regular expression (PCRE) pattern to match against the pastebin
