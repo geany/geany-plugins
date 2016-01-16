@@ -257,7 +257,24 @@ static void load_settings(void)
                               "geniuspaste", G_DIR_SEPARATOR_S, "geniuspaste.conf", NULL);
     g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
 
-    pastebin_selected = utils_get_setting_string(config, "geniuspaste", "website", "pastebin.geany.org");
+    if (g_key_file_has_key(config, "geniuspaste", "pastebin", NULL) ||
+        ! g_key_file_has_key(config, "geniuspaste", "website", NULL))
+    {
+        pastebin_selected = utils_get_setting_string(config, "geniuspaste", "pastebin", "pastebin.geany.org");
+    }
+    else
+    {
+        /* compatibility for old setting "website" */
+        switch (utils_get_setting_integer(config, "geniuspaste", "website", 2))
+        {
+            case 0: pastebin_selected = g_strdup("codepad.org"); break;
+            case 1: pastebin_selected = g_strdup("tinypaste.com"); break;
+            default:
+            case 2: pastebin_selected = g_strdup("pastebin.geany.org"); break;
+            case 3: pastebin_selected = g_strdup("dpaste.de"); break;
+            case 4: pastebin_selected = g_strdup("sprunge.us"); break;
+        }
+    }
     check_button_is_checked = utils_get_setting_boolean(config, "geniuspaste", "open_browser", FALSE);
     author_name = utils_get_setting_string(config, "geniuspaste", "author_name", USERNAME);
 
@@ -272,7 +289,7 @@ static void save_settings(void)
 
     g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
 
-    g_key_file_set_string(config, "geniuspaste", "website", pastebin_selected);
+    g_key_file_set_string(config, "geniuspaste", "pastebin", pastebin_selected);
     g_key_file_set_boolean(config, "geniuspaste", "open_browser", check_button_is_checked);
     g_key_file_set_string(config, "geniuspaste", "author_name", author_name);
 
