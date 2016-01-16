@@ -7,5 +7,6 @@ dist_pastebins_DATA = \
 	dpaste.de.conf \
 	fpaste.org.conf \
 	pastebin.geany.org.conf \
+	paste.debian.net.conf \
 	sprunge.us.conf \
 	tinypaste.com.conf
