@@ -79,7 +79,7 @@ static GSList *get_file_list(const gchar *utf8_path, GSList *patterns,
 	gchar *real_path = tm_get_real_path(locale_path);
 
 	dir = g_dir_open(locale_path, 0, NULL);
-	if (!dir || !real_path || g_hash_table_contains(visited_paths, real_path))
+	if (!dir || !real_path || g_hash_table_lookup(visited_paths, real_path))
 	{
 		g_free(locale_path);
 		g_free(real_path);
