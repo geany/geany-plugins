@@ -371,12 +371,7 @@ static gboolean append_placeholder(GString         *str,
     }
     else if (strcmp("title", placeholder) == 0)
     {
-        gchar *title;
-
-        if (doc->file_name)
-            title = g_path_get_basename(doc->file_name);
-        else
-            title = document_get_basename_for_display(doc, -1);
+        gchar *title = g_path_get_basename(DOC_FILENAME(doc));
 
         g_string_append(str, title);
         g_free(title);
