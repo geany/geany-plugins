@@ -1,12 +1,14 @@
 ===============
 Line Operations
 ===============
+
 .. contents::
 
 About
 =====
 
-Line Operations is an assortment of simple line functions that can be applied to an open file.
+Line Operations is an assortment of simple line functions that can be 
+applied to an open file.
 
 Features
 ========
@@ -22,22 +24,16 @@ Features
 Usage
 =====
 
-After the plugins has been installed successfully, load the plugin via Geany's plugin manager and a new menu item in the Tools menu will appear. Click on each menu item to apply the operation on whole  file. See descriptions below to see operations for each menu item.
+After the plugins has been installed successfully, load the plugin via 
+Geany's plugin manager and a new menu item in the Tools menu will 
+appear. Click on each menu item to apply the operation on whole file. 
+See descriptions below to see operations for each menu item.
 
 Notes
 -----
 
-1. Line Operations will **not** make changes to a file until you save the file.
-
-2. New line characters are considered to be part of the line. If the last line does not contain new line characters it will be considered different from a line with new line character(s).
-
-  Example::
-
-    line 1
-
-  is not the same as::
-
-    line 1\r\n
+ * Line Operations will **not** make changes to a file until you save 
+   the file.
 
 
 Operation Details
@@ -46,9 +42,13 @@ Operation Details
 Remove Duplicate Lines
 ----------------------
 
-The first occurrence of each duplicate line will remain in the file. The **Sorted** option will sort the file and remove duplicate lines [fast]. The **Ordered** option will keep the same order of lines [slow].
+The first occurrence of each duplicate line will remain in the file. 
+The **Sorted** option will sort the file and remove duplicate lines 
+[fast on large files]. The **Ordered** option will keep the same order 
+of lines [slow on large files].
 
-  Example: Suppose a file has the following lines. (#comments added for clarity)
+  Example: Suppose a file has the following lines. (#comments added for
+  clarity)
 
   ::
 
@@ -67,7 +67,8 @@ The first occurrence of each duplicate line will remain in the file. The **Sorte
     Line 2
     Line 3
 
-  The **Remove Duplicate Lines, ordered** will change the file into this:
+  The **Remove Duplicate Lines, ordered** will change the file into 
+  this:
 
   ::
 
@@ -82,7 +83,8 @@ Remove Unique Lines
 
 Removes all lines that appear only once.
 
-  Example: Suppose a file has the following lines. (#comments added for clarity)
+  Example: Suppose a file has the following lines. (#comments added for 
+  clarity)
 
   ::
 
@@ -106,9 +108,11 @@ Removes all lines that appear only once.
 Remove Empty Lines
 ------------------
 
-Removes all lines that end with a newline character(s) AND do not have any other characters.
+Removes all lines that only contain a newline character, and no other 
+characters.
 
-  Example: Suppose a file has the following lines. (#comments, and \n newline characters added for clarity)
+  Example: Suppose a file has the following lines. (#comments, and 
+  \\n newline characters added for clarity)
 
   ::
 
@@ -119,7 +123,7 @@ Removes all lines that end with a newline character(s) AND do not have any other
         Line 1\n
     Line 2\n
 
-  The **Remove Unique Lines** will change the file into this:
+  The **Remove Empty Lines** will change the file into this:
 
   ::
 
@@ -133,18 +137,11 @@ Removes all lines that end with a newline character(s) AND do not have any other
 Remove Whitespace Lines
 -----------------------
 
-Removes all lines that have only white space characters.
+Removes all lines that have only whitespace characters.
 
-A **whitespace character** is one of:
 
-1. `' '` : space
-2. `'\t'`: horizontal tab
-3. `'\f'`: form feed
-4. `'\v'`: vertical tab
-5. `'\r'`: cartridge return
-6. `'\n'`: newline character
-
-  Example: Suppose a file has the following lines. (#comments, and \n newline characters added for clarity)
+  Example: Suppose a file has the following lines. (#comments, and \\n
+  newline characters added for clarity)
 
   ::
 
@@ -156,7 +153,7 @@ A **whitespace character** is one of:
         Line 1\n #NOT removed (contains non whitespace chars)
     Line 2\n
 
-  The **Remove Unique Lines** will change the file into this:
+  The **Remove Whitespace Lines** will change the file into this:
 
   ::
 
@@ -168,7 +165,8 @@ A **whitespace character** is one of:
 Sort Lines
 ----------
 
-Sorts lines ascending or descending based on ASCII values (lexicographic sort)
+Sorts lines ascending or descending based on ASCII values 
+(lexicographic sort).
 
 
   Example: Suppose a file has the following lines.
@@ -206,21 +204,19 @@ Sorts lines ascending or descending based on ASCII values (lexicographic sort)
 License
 =======
 
-The Line Operations plugin is distributed under the terms of the
-GNU General Public License as published by the Free Software Foundation;
-either version 2 of the License, or (at your option) any later version.
-A copy of this license can be found in the file COPYING included with the
-source code of this program.
+The Line Operations plugin is distributed under the terms of the GNU 
+General Public License as published by the Free Software Foundation; 
+either version 2 of the License, or (at your option) any later version. 
+A copy of this license can be found in the file COPYING included with 
+the source code of this program.
 
 Ideas, questions, patches and bug reports
 =========================================
 
-Please direct all questions, bug reports and patches to the plugin author using the
-email address listed below or to the Geany mailing list to get some help from other
-Geany users.
-
-
-or report them at https://github.com/geany/geany-plugins/issues.
+Please direct all questions, bug reports and patches to the plugin 
+author using the email address listed below or to the Geany mailing 
+list to get some help from other Geany users, or report them at 
+https://github.com/geany/geany-plugins/issues.
 
 
 
