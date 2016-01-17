@@ -104,7 +104,8 @@ action_sortdesc_item(GtkMenuItem *menuitem, gpointer gdata)
 }
 
 
-static gboolean lo_init(GeanyPlugin *plugin, gpointer gdata)
+static gboolean
+lo_init(GeanyPlugin *plugin, gpointer gdata)
 {
 	GeanyData *geany_data = plugin->geany_data;
 
@@ -180,8 +181,8 @@ static gboolean lo_init(GeanyPlugin *plugin, gpointer gdata)
 }
 
 
-void
-lo_cleanup(void)
+static void
+lo_cleanup(GeanyPlugin *plugin, gpointer pdata)
 {
 	if(main_menu_item) gtk_widget_destroy(main_menu_item);
 }
@@ -190,6 +191,8 @@ lo_cleanup(void)
 G_MODULE_EXPORT
 void geany_load_module(GeanyPlugin *plugin)
 {
+	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+
     plugin->info->name        = _("Line Operations");
     plugin->info->description = _("Line Operations provides a handful of functions that can be applied to a document such as, removing duplicate lines, removing empty lines, removing lines with only whitespace, and sorting lines.");
     plugin->info->version     = "0.1";
@@ -200,4 +203,3 @@ void geany_load_module(GeanyPlugin *plugin)
 
     GEANY_PLUGIN_REGISTER(plugin, 225);
 }
-
