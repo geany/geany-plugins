@@ -109,73 +109,48 @@ lo_init(GeanyPlugin *plugin, gpointer gdata)
 {
 	GeanyData *geany_data = plugin->geany_data;
 
-
 	GtkWidget *submenu;
-	GtkWidget *sep1;
-	GtkWidget *sep2;
-	GtkWidget *rmdupst_item;
-	GtkWidget *rmdupln_item;
-	GtkWidget *rmunqln_item;
-	GtkWidget *rmemtyln_item;
-	GtkWidget *rmwhspln_item;
-	GtkWidget *sortasc_item;
-	GtkWidget *sortdesc_item;
+	guint i;
+	struct {
+		const gchar *label;
+		GCallback cb_activate;
+	} menu_items[] = {
+		{ N_("Remove Duplicate Lines, _Sorted"), G_CALLBACK(action_rmdupst_item) },
+		{ N_("Remove Duplicate Lines, _Ordered"), G_CALLBACK(action_rmdupln_item) },
+		{ N_("Remove _Unique Lines"), G_CALLBACK(action_rmunqln_item) },
+		{ NULL },
+		{ N_("Remove _Empty Lines"), G_CALLBACK(action_rmemtyln_item) },
+		{ N_("Remove _Whitespace Lines"), G_CALLBACK(action_rmwhspln_item) },
+		{ NULL },
+		{ N_("Sort Lines _Ascending"), G_CALLBACK(action_sortasc_item) },
+		{ N_("Sort Lines _Descending"), G_CALLBACK(action_sortdesc_item) }
+	};
 
 	main_menu_item = gtk_menu_item_new_with_mnemonic(_("_Line Operations"));
 	gtk_widget_show(main_menu_item);
 
 	submenu = gtk_menu_new();
 	gtk_widget_show(submenu);
-	sep1 = gtk_separator_menu_item_new();
-	sep2 = gtk_separator_menu_item_new();
-	rmdupst_item  = gtk_menu_item_new_with_mnemonic(_("Remove Duplicate Lines, _Sorted"));
-	rmdupln_item  = gtk_menu_item_new_with_mnemonic(_("Remove Duplicate Lines, _Ordered"));
-	rmunqln_item  = gtk_menu_item_new_with_mnemonic(_("Remove _Unique Lines"));
-	rmemtyln_item = gtk_menu_item_new_with_mnemonic(_("Remove _Empty Lines"));
-	rmwhspln_item = gtk_menu_item_new_with_mnemonic(_("Remove _Whitespace Lines"));
-	sortasc_item  = gtk_menu_item_new_with_mnemonic(_("Sort Lines _Ascending"));
-	sortdesc_item = gtk_menu_item_new_with_mnemonic(_("Sort Lines _Descending"));
 
-	gtk_widget_show(sep1);
-	gtk_widget_show(sep2);
-	gtk_widget_show(rmdupst_item);
-	gtk_widget_show(rmdupln_item);
-	gtk_widget_show(rmunqln_item);
-	gtk_widget_show(rmemtyln_item);
-	gtk_widget_show(rmwhspln_item);
-	gtk_widget_show(sortasc_item);
-	gtk_widget_show(sortdesc_item);
+	for (i = 0; i < G_N_ELEMENTS(menu_items); i++)
+	{
+		GtkWidget *item;
 
-	gtk_menu_shell_append(GTK_MENU_SHELL(submenu), rmdupst_item);
-	gtk_menu_shell_append(GTK_MENU_SHELL(submenu), rmdupln_item);
-	gtk_menu_shell_append(GTK_MENU_SHELL(submenu), rmunqln_item);
-	gtk_menu_shell_append(GTK_MENU_SHELL(submenu), sep1);
-	gtk_menu_shell_append(GTK_MENU_SHELL(submenu), rmemtyln_item);
-	gtk_menu_shell_append(GTK_MENU_SHELL(submenu), rmwhspln_item);
-	gtk_menu_shell_append(GTK_MENU_SHELL(submenu), sep2);
-	gtk_menu_shell_append(GTK_MENU_SHELL(submenu), sortasc_item);
-	gtk_menu_shell_append(GTK_MENU_SHELL(submenu), sortdesc_item);
+		if (! menu_items[i].label) /* separator */
+			item = gtk_separator_menu_item_new();
+		else
+		{
+			item = gtk_menu_item_new_with_mnemonic(_(menu_items[i].label));
+			g_signal_connect(item, "activate", menu_items[i].cb_activate, NULL);
+			ui_add_document_sensitive(item);
+		}
+
+		gtk_widget_show(item);
+		gtk_menu_shell_append(GTK_MENU_SHELL(submenu), item);
+	}
 
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(main_menu_item), submenu);
-
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), main_menu_item);
-
-
-	g_signal_connect(rmdupst_item, "activate", G_CALLBACK(action_rmdupst_item), NULL);
-	g_signal_connect(rmdupln_item, "activate", G_CALLBACK(action_rmdupln_item), NULL);
-	g_signal_connect(rmunqln_item, "activate", G_CALLBACK(action_rmunqln_item), NULL);
-	g_signal_connect(rmemtyln_item, "activate", G_CALLBACK(action_rmemtyln_item), NULL);
-	g_signal_connect(rmwhspln_item, "activate", G_CALLBACK(action_rmwhspln_item), NULL);
-	g_signal_connect(sortasc_item, "activate", G_CALLBACK(action_sortasc_item), NULL);
-	g_signal_connect(sortdesc_item, "activate", G_CALLBACK(action_sortdesc_item), NULL);
-
-	ui_add_document_sensitive(rmdupst_item);
-	ui_add_document_sensitive(rmdupln_item);
-	ui_add_document_sensitive(rmunqln_item);
-	ui_add_document_sensitive(rmemtyln_item);
-	ui_add_document_sensitive(rmwhspln_item);
-	ui_add_document_sensitive(sortasc_item);
-	ui_add_document_sensitive(sortdesc_item);
 
 	return TRUE;
 }
