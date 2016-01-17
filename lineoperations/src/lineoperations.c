@@ -122,13 +122,13 @@ void geany_load_module(GeanyPlugin *plugin)
 {
 	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 
-    plugin->info->name        = _("Line Operations");
-    plugin->info->description = _("Line Operations provides a handful of functions that can be applied to a document such as, removing duplicate lines, removing empty lines, removing lines with only whitespace, and sorting lines.");
-    plugin->info->version     = "0.1";
-    plugin->info->author      = _("Sylvan Mostert <smostert.dev@gmail.com>");
+	plugin->info->name        = _("Line Operations");
+	plugin->info->description = _("Line Operations provides a handful of functions that can be applied to a document such as, removing duplicate lines, removing empty lines, removing lines with only whitespace, and sorting lines.");
+	plugin->info->version     = "0.1";
+	plugin->info->author      = _("Sylvan Mostert <smostert.dev@gmail.com>");
 
-    plugin->funcs->init       = lo_init;
-    plugin->funcs->cleanup    = lo_cleanup;
+	plugin->funcs->init       = lo_init;
+	plugin->funcs->cleanup    = lo_cleanup;
 
-    GEANY_PLUGIN_REGISTER(plugin, 225);
+	GEANY_PLUGIN_REGISTER(plugin, 225);
 }

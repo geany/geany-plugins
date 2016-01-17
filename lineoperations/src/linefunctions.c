@@ -36,6 +36,7 @@ static void ensure_final_newline(GeanyEditor *editor, gint max_lines)
 	}
 }
 
+
 /* comparison function to be used in qsort */
 static gint compare_asc(const void * a, const void * b)
 {
@@ -88,7 +89,7 @@ void rmdupst(GeanyDocument *doc) {
 			nf_end   = g_stpcpy(nf_end, lines[i]);
 		}
 
-    /* set new document */
+	/* set new document */
 	sci_set_text(doc->editor->sci, new_file);
 
 	/* free used memory */
@@ -146,7 +147,7 @@ void rmdupln(GeanyDocument *doc) {
 		if(!to_remove[i])
 			nf_end   = g_stpcpy(nf_end, lines[i]);
 
-    /* set new document */
+	/* set new document */
 	sci_set_text(doc->editor->sci, new_file);
 
 	/* free used memory */
@@ -208,7 +209,7 @@ void rmunqln(GeanyDocument *doc) {
 		if(!to_remove[i])
 			nf_end = g_stpcpy(nf_end, lines[i]);
 
-    /* set new document */
+	/* set new document */
 	sci_set_text(doc->editor->sci, new_file);
 
 	/* free used memory */
@@ -235,9 +236,9 @@ void rmemtyln(GeanyDocument *doc) {
 		   sci_get_line_end_position(doc->editor->sci, i))
 		{
 			scintilla_send_message(doc->editor->sci,
-                                   SCI_DELETERANGE,
-                                   sci_get_position_from_line(doc->editor->sci, i),
-                                   sci_get_line_length(doc->editor->sci, i));
+								   SCI_DELETERANGE,
+								   sci_get_position_from_line(doc->editor->sci, i),
+								   sci_get_line_length(doc->editor->sci, i));
 			total_num_lines--;
 			i--;
 		}
@@ -247,8 +248,6 @@ void rmemtyln(GeanyDocument *doc) {
 }
 
 
-
-
 /* Remove Whitespace Lines */
 void rmwhspln(GeanyDocument *doc) {
 	gint total_num_lines;  /* number of lines in the document */
@@ -256,24 +255,24 @@ void rmwhspln(GeanyDocument *doc) {
 	gint i;                /* iterator */
 
 	total_num_lines = sci_get_line_count(doc->editor->sci);
-	
+
 	sci_start_undo_action(doc->editor->sci);
 
 	for(i = 0; i < total_num_lines; i++)    /* loop through opened doc */
 	{
 		indent = scintilla_send_message(doc->editor->sci,
-                                    SCI_GETLINEINDENTPOSITION,
-                                    i, 0);
+									SCI_GETLINEINDENTPOSITION,
+									i, 0);
 
 		if(indent -
-           sci_get_position_from_line(doc->editor->sci, i) ==
-           sci_get_line_end_position(doc->editor->sci, i)-
-           sci_get_position_from_line(doc->editor->sci, i))
+		   sci_get_position_from_line(doc->editor->sci, i) ==
+		   sci_get_line_end_position(doc->editor->sci, i)-
+		   sci_get_position_from_line(doc->editor->sci, i))
 		{
 			scintilla_send_message(doc->editor->sci,
-                                   SCI_DELETERANGE,
-                                   sci_get_position_from_line(doc->editor->sci, i),
-                                   sci_get_line_length(doc->editor->sci, i));
+								   SCI_DELETERANGE,
+								   sci_get_position_from_line(doc->editor->sci, i),
+								   sci_get_line_length(doc->editor->sci, i));
 			total_num_lines--;
 			i--;
 		}
@@ -316,8 +315,8 @@ void sortlines(GeanyDocument *doc, gboolean asc) {
 	/* join **lines into one string (new_file) */
 	lines[total_num_lines] = NULL;
 	new_file = g_strjoinv("", lines);
-	
-    /* set new document */
+
+	/* set new document */
 	sci_set_text(doc->editor->sci, new_file);
 
 	/* free used memory */

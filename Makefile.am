@@ -110,6 +110,7 @@ endif
 if ENABLE_LINEOPERATIONS
 SUBDIRS += lineoperations
 endif
+
 if ENABLE_MARKDOWN
 SUBDIRS += markdown
 endif
