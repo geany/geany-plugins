@@ -221,6 +221,9 @@ geniuspaste/src/geniuspaste.c
 [type: gettext/glade]git-changebar/data/prefs.ui
 git-changebar/src/gcb-plugin.c
 
+# LineOperations
+lineoperations/src/lineoperations.c
+
 # Markdown
 markdown/src/conf.c
 markdown/src/plugin.c
