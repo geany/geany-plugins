@@ -295,7 +295,7 @@ void sortlines(GeanyDocument *doc, gboolean asc) {
 
 	total_num_chars = sci_get_length(doc->editor->sci);
 	total_num_lines = sci_get_line_count(doc->editor->sci);
-	lines           = g_malloc(sizeof(gchar *) * total_num_lines+1);
+	lines           = g_malloc(sizeof(gchar *) * (total_num_lines+1));
 	new_file        = g_malloc(sizeof(gchar) * (total_num_chars+1));
 	new_file[0]     = '\0';
 
