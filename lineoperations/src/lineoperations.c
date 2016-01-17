@@ -27,80 +27,26 @@
 static GtkWidget *main_menu_item = NULL;
 
 
-/* Remove Duplicate Lines, sorted */
+/* call custom func */
 static void
-action_rmdupst_item(GtkMenuItem *menuitem, gpointer gdata)
+action_func_item(GtkMenuItem *menuitem, gpointer gdata)
 {
+	void (*func)(GeanyDocument *) = gdata;
 	GeanyDocument *doc = NULL;
 	doc = document_get_current();
 
-	if(doc) rmdupst(doc);
+	if(doc) func(doc);
 }
 
 
-/* Remove Duplicate Lines, ordered */
+/* Sort Lines */
 static void
-action_rmdupln_item(GtkMenuItem *menuitem, gpointer gdata)
+action_sort_item(GtkMenuItem *menuitem, gpointer gdata)
 {
 	GeanyDocument *doc = NULL;
 	doc = document_get_current();
 
-	if(doc) rmdupln(doc);
-}
-
-
-/* Remove Unique Lines */
-static void
-action_rmunqln_item(GtkMenuItem *menuitem, gpointer gdata)
-{
-	GeanyDocument *doc = NULL;
-	doc = document_get_current();
-
-	if(doc) rmunqln(doc);
-}
-
-
-/* Remove Empty Lines */
-static void
-action_rmemtyln_item(GtkMenuItem *menuitem, gpointer gdata)
-{
-	GeanyDocument *doc = NULL;
-	doc = document_get_current();
-
-	if(doc) rmemtyln(doc);
-}
-
-
-/* Remove Whitespace Lines */
-static void
-action_rmwhspln_item(GtkMenuItem *menuitem, gpointer gdata)
-{
-	GeanyDocument *doc = NULL;
-	doc = document_get_current();
-
-	if(doc) rmwhspln(doc);
-}
-
-
-/* Sort Lines Ascending */
-static void
-action_sortasc_item(GtkMenuItem *menuitem, gpointer gdata)
-{
-	GeanyDocument *doc = NULL;
-	doc = document_get_current();
-
-	if(doc) sortlines(doc, 1);
-}
-
-
-/* Sort Lines Descending */
-static void
-action_sortdesc_item(GtkMenuItem *menuitem, gpointer gdata)
-{
-	GeanyDocument *doc = NULL;
-	doc = document_get_current();
-
-	if(doc) sortlines(doc, 0);
+	if(doc) sortlines(doc, GPOINTER_TO_INT(gdata));
 }
 
 
@@ -114,16 +60,24 @@ lo_init(GeanyPlugin *plugin, gpointer gdata)
 	struct {
 		const gchar *label;
 		GCallback cb_activate;
+		gpointer cb_data;
 	} menu_items[] = {
-		{ N_("Remove Duplicate Lines, _Sorted"), G_CALLBACK(action_rmdupst_item) },
-		{ N_("Remove Duplicate Lines, _Ordered"), G_CALLBACK(action_rmdupln_item) },
-		{ N_("Remove _Unique Lines"), G_CALLBACK(action_rmunqln_item) },
+		{ N_("Remove Duplicate Lines, _Sorted"),
+		  G_CALLBACK(action_func_item), (gpointer) rmdupst },
+		{ N_("Remove Duplicate Lines, _Ordered"),
+		  G_CALLBACK(action_func_item), (gpointer) rmdupln },
+		{ N_("Remove _Unique Lines"),
+		  G_CALLBACK(action_func_item), (gpointer) rmunqln },
 		{ NULL },
-		{ N_("Remove _Empty Lines"), G_CALLBACK(action_rmemtyln_item) },
-		{ N_("Remove _Whitespace Lines"), G_CALLBACK(action_rmwhspln_item) },
+		{ N_("Remove _Empty Lines"),
+		  G_CALLBACK(action_func_item), (gpointer) rmemtyln },
+		{ N_("Remove _Whitespace Lines"),
+		  G_CALLBACK(action_func_item), (gpointer) rmwhspln },
 		{ NULL },
-		{ N_("Sort Lines _Ascending"), G_CALLBACK(action_sortasc_item) },
-		{ N_("Sort Lines _Descending"), G_CALLBACK(action_sortdesc_item) }
+		{ N_("Sort Lines _Ascending"),
+		  G_CALLBACK(action_sort_item), GINT_TO_POINTER(1) },
+		{ N_("Sort Lines _Descending"),
+		  G_CALLBACK(action_sort_item), GINT_TO_POINTER(0) }
 	};
 
 	main_menu_item = gtk_menu_item_new_with_mnemonic(_("_Line Operations"));
@@ -141,7 +95,7 @@ lo_init(GeanyPlugin *plugin, gpointer gdata)
 		else
 		{
 			item = gtk_menu_item_new_with_mnemonic(_(menu_items[i].label));
-			g_signal_connect(item, "activate", menu_items[i].cb_activate, NULL);
+			g_signal_connect(item, "activate", menu_items[i].cb_activate, menu_items[i].cb_data);
 			ui_add_document_sensitive(item);
 		}
 
