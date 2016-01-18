@@ -19,6 +19,8 @@
 */
 
 
+#include "config.h"
+
 #include "geanyplugin.h"
 #include "Scintilla.h"
 #include "linefunctions.h"
