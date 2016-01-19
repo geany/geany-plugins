@@ -1598,14 +1598,16 @@ vccommit_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
     #endif
 	if (speller == NULL)
 	{
-		ui_set_statusbar(FALSE, _("Error initializing spell checking: %s"),
+        if (spellcheck_error != NULL)
+		{
+            ui_set_statusbar(FALSE, _("Error initializing spell checking: %s"),
 				 spellcheck_error->message);
-		g_error_free(spellcheck_error);
-		spellcheck_error = NULL;
+            g_error_free(spellcheck_error);
+            spellcheck_error = NULL;
+        }
 	}
 	else if (!EMPTY(lang))
 	{
-
 		gtkspell_set_language(speller, lang, &spellcheck_error);
 		if (spellcheck_error != NULL)
 		{
