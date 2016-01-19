@@ -6,12 +6,13 @@ AC_DEFUN([GP_CHECK_GEANYVC],
         AC_HELP_STRING([--enable-gtkspell=ARG],
             [Enable GtkSpell support in GeanyVC. [[default=auto]]]),,
         enable_gtkspell=auto)
-
+    GP_CHECK_GTK3([gtkspell_package=gtkspell3-3.0],
+                  [gtkspell_package=gtkspell-2.0])
     if [[ x"$enable_gtkspell" = "xauto" ]]; then
-        PKG_CHECK_MODULES(GTKSPELL, gtkspell-2.0,
+        PKG_CHECK_MODULES(GTKSPELL, $gtkspell_package,
             enable_gtkspell=yes, enable_gtkspell=no)
     elif [[ x"$enable_gtkspell" = "xyes" ]]; then
-        PKG_CHECK_MODULES(GTKSPELL, [gtkspell-2.0])
+        PKG_CHECK_MODULES(GTKSPELL, [$gtkspell_package])
     fi
     if [[ x"$enable_gtkspell" = "xyes" ]]; then
         AC_DEFINE(USE_GTKSPELL, 1, [GtkSpell support])
