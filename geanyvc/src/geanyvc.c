@@ -1528,6 +1528,10 @@ vccommit_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 	gint height;
 
 #ifdef USE_GTKSPELL
+#if GTK_CHECK_VERSION (3, 0, 0)
+    #define GtkSpell GtkSpellChecker
+    #define gtkspell_set_language gtk_spell_checker_set_language
+#endif
 	GtkSpell *speller = NULL;
 	GError *spellcheck_error = NULL;
 #endif
@@ -1586,7 +1590,12 @@ vccommit_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 	gtk_paned_set_position(GTK_PANED(vpaned2), height * 50 / 100);
 
 #ifdef USE_GTKSPELL
-	speller = gtkspell_new_attach(GTK_TEXT_VIEW(messageView), NULL, &spellcheck_error);
+    #if GTK_CHECK_VERSION (3, 0, 0)
+        speller = gtk_spell_checker_new ();
+        gtk_spell_checker_attach (speller, GTK_TEXT_VIEW (messageView));
+    #else
+        speller = gtkspell_new_attach(GTK_TEXT_VIEW(messageView), NULL, &spellcheck_error);
+    #endif
 	if (speller == NULL)
 	{
 		ui_set_statusbar(FALSE, _("Error initializing spell checking: %s"),
@@ -1596,6 +1605,7 @@ vccommit_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 	}
 	else if (!EMPTY(lang))
 	{
+
 		gtkspell_set_language(speller, lang, &spellcheck_error);
 		if (spellcheck_error != NULL)
 		{
