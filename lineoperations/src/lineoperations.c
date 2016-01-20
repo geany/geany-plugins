@@ -29,26 +29,84 @@
 static GtkWidget *main_menu_item = NULL;
 
 
-/* call custom func */
-static void
-action_func_item(GtkMenuItem *menuitem, gpointer gdata)
-{
-	void (*func)(GeanyDocument *) = gdata;
-	GeanyDocument *doc = NULL;
-	doc = document_get_current();
 
-	if(doc) func(doc);
+
+/* altered from geany/src/editor.c, ensure new line at file end */
+static void
+ensure_final_newline(GeanyEditor *editor, gint max_lines)
+{
+	gint end_document       = sci_get_position_from_line(editor->sci, max_lines);
+	gboolean append_newline = end_document >
+					sci_get_position_from_line(editor->sci, max_lines - 1);
+
+	if (append_newline)
+	{
+		const gchar *eol = editor_get_eol_char(editor);
+		sci_insert_text(editor->sci, end_document, eol);
+	}
 }
 
 
-/* Sort Lines */
+/* 
+ * functions with indirect scintilla manipulation 
+ * e.g. requires **lines array, *new_file...
+*/
 static void
-action_sort_item(GtkMenuItem *menuitem, gpointer gdata)
+action_indir_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 {
-	GeanyDocument *doc = NULL;
-	doc = document_get_current();
+	void (*func)(GeanyDocument *, gchar **, gint, gchar *) = gdata;
+	GeanyDocument *doc = document_get_current();
 
-	if(doc) sortlines(doc, GPOINTER_TO_INT(gdata));
+	gint  num_chars  = sci_get_length(doc->editor->sci);
+	gint  num_lines  = sci_get_line_count(doc->editor->sci);
+	gchar **lines    = g_malloc(sizeof(gchar *) * num_lines);
+	gchar *new_file  = g_malloc(sizeof(gchar)   * (num_chars+1));
+	gint i           = 0;
+	new_file[0]      = '\0';
+
+	
+	/* copy *all* lines into **lines array */
+	for(i = 0; i < num_lines; i++)
+		lines[i] = sci_get_line(doc->editor->sci, i);
+
+	sci_start_undo_action(doc->editor->sci);
+
+	/* if file is not empty, ensure that the file ends with newline */
+	if(num_lines != 1)
+		ensure_final_newline(doc->editor, num_lines);
+
+	if(doc) func(doc, lines, num_lines, new_file);
+
+	/* set new document */
+	sci_set_text(doc->editor->sci, new_file);
+
+	sci_end_undo_action(doc->editor->sci);
+
+	/* free used memory */
+	for(i = 0; i < num_lines; i++)
+		g_free(lines[i]);
+	g_free(lines);
+	g_free(new_file);
+}
+
+
+/* 
+ * functions with direct scintilla manipulation 
+ * e.g. no need for **lines array, *new_file...
+*/
+static void
+action_sci_manip_item(GtkMenuItem *menuitem, gpointer gdata)
+{
+	void (*func)(GeanyDocument *, gint) = gdata;
+	GeanyDocument *doc = document_get_current();
+
+	gint num_lines  = sci_get_line_count(doc->editor->sci);
+
+	sci_start_undo_action(doc->editor->sci);
+
+	if(doc) func(doc, num_lines);
+
+	sci_end_undo_action(doc->editor->sci);
 }
 
 
@@ -65,21 +123,21 @@ lo_init(GeanyPlugin *plugin, gpointer gdata)
 		gpointer cb_data;
 	} menu_items[] = {
 		{ N_("Remove Duplicate Lines, _Sorted"),
-		  G_CALLBACK(action_func_item), (gpointer) rmdupst },
+		  G_CALLBACK(action_indir_manip_item), (gpointer) rmdupst },
 		{ N_("Remove Duplicate Lines, _Ordered"),
-		  G_CALLBACK(action_func_item), (gpointer) rmdupln },
+		  G_CALLBACK(action_indir_manip_item), (gpointer) rmdupln },
 		{ N_("Remove _Unique Lines"),
-		  G_CALLBACK(action_func_item), (gpointer) rmunqln },
+		  G_CALLBACK(action_indir_manip_item), (gpointer) rmunqln },
 		{ NULL },
 		{ N_("Remove _Empty Lines"),
-		  G_CALLBACK(action_func_item), (gpointer) rmemtyln },
+		  G_CALLBACK(action_sci_manip_item), (gpointer) rmemtyln },
 		{ N_("Remove _Whitespace Lines"),
-		  G_CALLBACK(action_func_item), (gpointer) rmwhspln },
+		  G_CALLBACK(action_sci_manip_item), (gpointer) rmwhspln },
 		{ NULL },
 		{ N_("Sort Lines _Ascending"),
-		  G_CALLBACK(action_sort_item), GINT_TO_POINTER(1) },
+		  G_CALLBACK(action_indir_manip_item), (gpointer) sortlinesasc },
 		{ N_("Sort Lines _Descending"),
-		  G_CALLBACK(action_sort_item), GINT_TO_POINTER(0) }
+		  G_CALLBACK(action_indir_manip_item), (gpointer) sortlinesdesc }
 	};
 
 	main_menu_item = gtk_menu_item_new_with_mnemonic(_("_Line Operations"));

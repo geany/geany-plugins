@@ -30,26 +30,29 @@
 
 
 /* Remove Duplicate Lines, sorted */
-void rmdupst(GeanyDocument *doc);
+void rmdupst(GeanyDocument *doc, gchar **lines, gint num_lines, gchar *new_file);
 
 
 /* Remove Duplicate Lines, ordered */
-void rmdupln(GeanyDocument *doc);
+void rmdupln(GeanyDocument *doc, gchar **lines, gint num_lines, gchar *new_file);
 
 
 /* Remove Unique Lines */
-void rmunqln(GeanyDocument *doc);
+void rmunqln(GeanyDocument *doc, gchar **lines, gint num_lines, gchar *new_file);
 
 
 /* Remove Empty Lines */
-void rmemtyln(GeanyDocument *doc);
+void rmemtyln(GeanyDocument *doc, gint num_lines);
 
 
 /* Remove Whitespace Lines */
-void rmwhspln(GeanyDocument *doc);
+void rmwhspln(GeanyDocument *doc, gint num_lines);
 
 
-/* Sort Lines Ascending and Descending */
-void sortlines(GeanyDocument *doc, gboolean asc);
+/* Sort Lines Ascending */
+void sortlinesasc(GeanyDocument *doc, gchar **lines, gint num_lines, gchar *new_file);
+
+/* Sort Lines Descending */
+void sortlinesdesc(GeanyDocument *doc, gchar **lines, gint num_lines, gchar *new_file);
 
 #endif

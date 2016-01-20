@@ -284,40 +284,27 @@ void rmwhspln(GeanyDocument *doc) {
 }
 
 
-/* Sort Lines Ascending and Descending */
-void sortlines(GeanyDocument *doc, gboolean asc) {
-	gint  total_num_lines;  /* number of lines in the document */
-	gchar **lines;          /* array to hold all lines in the document */
-	gchar *new_file;        /* *final* string to replace current document */
-	gint  i;                /* iterator */
+/* Sort Lines Ascending */
+void sortlinesasc(GeanyDocument *doc, gchar **lines, gint num_lines, gchar *new_file) {
+	gchar *nf_end = new_file;          /* points to last char of new_file */
+	gint i;
 
-	total_num_lines = sci_get_line_count(doc->editor->sci);
-	lines           = g_malloc(sizeof(gchar *) * (total_num_lines+1));
-
-	/* if file is not empty, ensure that the file ends with newline */
-	if(total_num_lines != 1)
-		ensure_final_newline(doc->editor, total_num_lines);
-
-	/* copy *all* lines into **lines array */
-	for(i = 0; i < total_num_lines; i++)
-		lines[i] = sci_get_line(doc->editor->sci, i);
-
-	/* sort **lines array */
-	if(asc)
-		qsort(lines, total_num_lines, sizeof(gchar *), compare_asc);
-	else
-		qsort(lines, total_num_lines, sizeof(gchar *), compare_desc);
+	qsort(lines, num_lines, sizeof(gchar *), compare_asc);
 
 	/* join **lines into one string (new_file) */
-	lines[total_num_lines] = NULL;
-	new_file = g_strjoinv("", lines);
+	for(i = 0; i < num_lines; i++)
+		nf_end = g_stpcpy(nf_end, lines[i]);
+}
 
-	/* set new document */
-	sci_set_text(doc->editor->sci, new_file);
 
-	/* free used memory */
-	for(i = 0; i < total_num_lines; i++)
-		g_free(lines[i]);
-	g_free(lines);
-	g_free(new_file);
+/* Sort Lines Descending */
+void sortlinesdesc(GeanyDocument *doc, gchar **lines, gint num_lines, gchar *new_file) {
+	gchar *nf_end = new_file;          /* points to last char of new_file */
+	gint i;
+
+	qsort(lines, num_lines, sizeof(gchar *), compare_desc);
+
+	/* join **lines into one string (new_file) */
+	for(i = 0; i < num_lines; i++)
+		nf_end = g_stpcpy(nf_end, lines[i]);
 }
