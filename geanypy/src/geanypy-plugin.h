@@ -26,16 +26,18 @@
 extern "C" {
 #endif
 
-
-extern GeanyPlugin		*geany_plugin;
-extern GeanyData		*geany_data;
-extern GeanyFunctions	*geany_functions;
+extern GeanyData *geany_data;
 
 
 #ifndef PyMODINIT_FUNC
 #define PyMODINIT_FUNC void
 #endif
 
+typedef struct
+{
+	PyObject_HEAD
+	GeanyPlugin *plugin;
+} GeanyPyPluginBase;
 
 #ifdef __cplusplus
 } /* extern "C" */

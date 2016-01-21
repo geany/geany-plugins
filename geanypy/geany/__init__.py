@@ -15,9 +15,7 @@ import editor
 import encoding
 import filetypes
 import highlighting
-import loader
 import main
-import manager
 import msgwindow
 import navqueue
 import prefs

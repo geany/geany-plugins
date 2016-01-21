@@ -88,6 +88,7 @@ GObject *signal_manager_get_gobject(SignalManager *signal_manager)
 
 static void signal_manager_connect_signals(SignalManager *man)
 {
+	GeanyPlugin *geany_plugin = man->geany_plugin;
 	plugin_signal_connect(geany_plugin, NULL, "build-start", TRUE, G_CALLBACK(on_build_start), man);
 	plugin_signal_connect(geany_plugin, NULL, "document-activate", TRUE, G_CALLBACK(on_document_activate), man);
 	plugin_signal_connect(geany_plugin, NULL, "document-before-save", TRUE, G_CALLBACK(on_document_before_save), man);
