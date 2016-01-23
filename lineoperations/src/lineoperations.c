@@ -1,5 +1,6 @@
 /*
- *      lineoperations.c - Line operations, remove duplicate lines, empty lines, lines with only whitespace, sort lines.
+ *      lineoperations.c - Line operations, remove duplicate lines, empty lines,
+ *                         lines with only whitespace, sort lines.
  *
  *      Copyright 2015 Sylvan Mostert <smostert.dev@gmail.com>
  *
@@ -30,12 +31,74 @@ static GtkWidget *main_menu_item = NULL;
 
 
 
+/* represents lines that will have Operation applied to */
+struct lo_lines {
+	gboolean is_selection;
+	gint start_posn_line;
+	gint end_posn_line;
+};
+
+
+/* select lines in document based on lo_lines struct parameter */
+static void
+select_lines(GeanyDocument *doc, struct lo_lines sel)
+{
+	/* set the selection to beginning of first line */
+	sci_set_selection_start(doc->editor->sci,
+			sci_get_position_from_line(doc->editor->sci, sel.start_posn_line));
+
+	/* set the selection to end of last line */
+	sci_set_selection_end(doc->editor->sci,
+			sci_get_line_end_position(doc->editor->sci, sel.end_posn_line) +
+									 editor_get_eol_char_len(doc->editor));
+}
+
+
+/* get lo_lines struct based off of document */
+static struct lo_lines
+get_current_sel_lines(GeanyDocument *doc)
+{
+	struct lo_lines sel = { 0, 0 };
+	gint start_posn     = 0;        /* position of selection start */
+	gint end_posn       = 0;        /* position of selection end   */
+
+	/* check for selection */
+	if(sci_has_selection(doc->editor->sci))
+	{
+		/* get the start and end positions */
+		start_posn = sci_get_selection_start(doc->editor->sci);
+		end_posn   = sci_get_selection_end  (doc->editor->sci);
+
+		/* get the line number of those positions */
+		sel.start_posn_line = scintilla_send_message(doc->editor->sci,
+									SCI_LINEFROMPOSITION,
+									start_posn, 0);
+
+		sel.end_posn_line   = scintilla_send_message(doc->editor->sci,
+									SCI_LINEFROMPOSITION,
+									end_posn, 0);
+
+		sel.is_selection = TRUE;
+	}
+	else
+	{
+		/* if there is no selection, start at first line */
+		sel.start_posn_line = 0;
+		/* and end at last one */
+		sel.end_posn_line   = (sci_get_line_count(doc->editor->sci) - 1);
+
+		sel.is_selection = FALSE;
+	}
+
+	return sel;
+}
+
 
 /* altered from geany/src/editor.c, ensure new line at file end */
 static void
 ensure_final_newline(GeanyEditor *editor, gint max_lines)
 {
-	gint end_document       = sci_get_position_from_line(editor->sci, max_lines);
+	gint end_document      = sci_get_position_from_line(editor->sci, max_lines);
 	gboolean append_newline = end_document >
 					sci_get_position_from_line(editor->sci, max_lines - 1);
 
@@ -47,38 +110,57 @@ ensure_final_newline(GeanyEditor *editor, gint max_lines)
 }
 
 
-/* 
- * functions with indirect scintilla manipulation 
- * e.g. requires **lines array, *new_file...
+/*
+ * Menu action for functions with indirect scintilla manipulation
+ * e.g. functions requiring **lines array, *new_file...
 */
 static void
 action_indir_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 {
-	void (*func)(GeanyDocument *, gchar **, gint, gchar *) = gdata;
-	GeanyDocument *doc = document_get_current();
+	/* function pointer to gdata -- function to be used */
+	void (*func)(GeanyDocument * doc,
+					gchar **lines,
+					gint num_lines,
+					gchar *new_file) = gdata;
 
-	gint  num_chars  = sci_get_length(doc->editor->sci);
-	gint  num_lines  = sci_get_line_count(doc->editor->sci);
-	gchar **lines    = g_malloc(sizeof(gchar *) * num_lines);
-	gchar *new_file  = g_malloc(sizeof(gchar)   * (num_chars+1));
-	gint i           = 0;
+	GeanyDocument *doc  = document_get_current();
+	struct lo_lines sel = get_current_sel_lines(doc);
+	gint  num_chars     = 0;
+	gint  num_lines     = (sel.end_posn_line - sel.start_posn_line) + 1;
+	gchar **lines       = g_malloc(sizeof(gchar *) * num_lines);
+	gint i              = 0;
+
+	/* get num_chars and **lines */
+	for(i = 0; i < num_lines; i++)
+	{
+		num_chars += (sci_get_line_length(doc->editor->sci,
+										(i + sel.start_posn_line)));
+		lines[i]   = sci_get_line(doc->editor->sci,
+										(i + sel.start_posn_line));
+	}
+
+	gchar *new_file  = g_malloc(sizeof(gchar) * (num_chars + 1));
 	new_file[0]      = '\0';
 
-	
-	/* copy *all* lines into **lines array */
-	for(i = 0; i < num_lines; i++)
-		lines[i] = sci_get_line(doc->editor->sci, i);
+	/* select lines to indicate to user what lines were altered */
+	select_lines(doc, sel);
 
 	sci_start_undo_action(doc->editor->sci);
 
 	/* if file is not empty, ensure that the file ends with newline */
-	if(num_lines != 1)
+	if((!sel.is_selection && num_lines != 1) || (sel.is_selection &&
+		sel.end_posn_line == (sci_get_line_count(doc->editor->sci) - 1)))
+	{
 		ensure_final_newline(doc->editor, num_lines);
+	}
 
 	if(doc) func(doc, lines, num_lines, new_file);
 
 	/* set new document */
-	sci_set_text(doc->editor->sci, new_file);
+	if(sci_has_selection(doc->editor->sci))
+		sci_replace_sel(doc->editor->sci, new_file);
+	else
+		sci_set_text(doc->editor->sci, new_file);
 
 	sci_end_undo_action(doc->editor->sci);
 
@@ -90,21 +172,25 @@ action_indir_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 }
 
 
-/* 
- * functions with direct scintilla manipulation 
+
+/*
+ * Menu action for functions with direct scintilla manipulation
  * e.g. no need for **lines array, *new_file...
 */
 static void
 action_sci_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 {
-	void (*func)(GeanyDocument *, gint) = gdata;
-	GeanyDocument *doc = document_get_current();
+	/* function pointer to gdata -- function to be used */
+	void (*func)(GeanyDocument *, gint, gint) = gdata;
+	GeanyDocument *doc  = document_get_current();
+	struct lo_lines sel = get_current_sel_lines(doc);
 
-	gint num_lines  = sci_get_line_count(doc->editor->sci);
+	/* select lines to indicate to user what lines were altered */
+	select_lines(doc, sel);
 
 	sci_start_undo_action(doc->editor->sci);
 
-	if(doc) func(doc, num_lines);
+	if(doc) func(doc, sel.start_posn_line, sel.end_posn_line);
 
 	sci_end_undo_action(doc->editor->sci);
 }
@@ -135,9 +221,9 @@ lo_init(GeanyPlugin *plugin, gpointer gdata)
 		  G_CALLBACK(action_sci_manip_item), (gpointer) rmwhspln },
 		{ NULL },
 		{ N_("Sort Lines _Ascending"),
-		  G_CALLBACK(action_indir_manip_item), (gpointer) sortlinesasc },
+		  G_CALLBACK(action_indir_manip_item), (gpointer) sortlnsasc },
 		{ N_("Sort Lines _Descending"),
-		  G_CALLBACK(action_indir_manip_item), (gpointer) sortlinesdesc }
+		  G_CALLBACK(action_indir_manip_item), (gpointer) sortlndesc }
 	};
 
 	main_menu_item = gtk_menu_item_new_with_mnemonic(_("_Line Operations"));
@@ -155,7 +241,10 @@ lo_init(GeanyPlugin *plugin, gpointer gdata)
 		else
 		{
 			item = gtk_menu_item_new_with_mnemonic(_(menu_items[i].label));
-			g_signal_connect(item, "activate", menu_items[i].cb_activate, menu_items[i].cb_data);
+			g_signal_connect(item,
+								"activate",
+								menu_items[i].cb_activate,
+								menu_items[i].cb_data);
 			ui_add_document_sensitive(item);
 		}
 
@@ -164,7 +253,8 @@ lo_init(GeanyPlugin *plugin, gpointer gdata)
 	}
 
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(main_menu_item), submenu);
-	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), main_menu_item);
+	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu),
+									main_menu_item);
 
 	return TRUE;
 }
