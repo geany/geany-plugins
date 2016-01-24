@@ -39,42 +39,42 @@ struct lo_lines {
 };
 
 
-/* select lines in document based on lo_lines struct parameter */
+/* selects lines in document (based of lo_lines struct parameter) */
 static void
-select_lines(GeanyDocument *doc, struct lo_lines sel)
+select_lines(GeanyEditor *editor, struct lo_lines sel)
 {
 	/* set the selection to beginning of first line */
-	sci_set_selection_start(doc->editor->sci,
-			sci_get_position_from_line(doc->editor->sci, sel.start_posn_line));
+	sci_set_selection_start(editor->sci,
+			sci_get_position_from_line(editor->sci, sel.start_posn_line));
 
 	/* set the selection to end of last line */
-	sci_set_selection_end(doc->editor->sci,
-			sci_get_line_end_position(doc->editor->sci, sel.end_posn_line) +
-									 editor_get_eol_char_len(doc->editor));
+	sci_set_selection_end(editor->sci,
+			sci_get_line_end_position(editor->sci, sel.end_posn_line) +
+									 editor_get_eol_char_len(editor));
 }
 
 
 /* get lo_lines struct based off of document */
 static struct lo_lines
-get_current_sel_lines(GeanyDocument *doc)
+get_current_sel_lines(ScintillaObject *sci)
 {
 	struct lo_lines sel = { 0, 0 };
 	gint start_posn     = 0;        /* position of selection start */
 	gint end_posn       = 0;        /* position of selection end   */
 
 	/* check for selection */
-	if(sci_has_selection(doc->editor->sci))
+	if(sci_has_selection(sci))
 	{
 		/* get the start and end positions */
-		start_posn = sci_get_selection_start(doc->editor->sci);
-		end_posn   = sci_get_selection_end  (doc->editor->sci);
+		start_posn = sci_get_selection_start(sci);
+		end_posn   = sci_get_selection_end  (sci);
 
 		/* get the line number of those positions */
-		sel.start_posn_line = scintilla_send_message(doc->editor->sci,
+		sel.start_posn_line = scintilla_send_message(sci,
 									SCI_LINEFROMPOSITION,
 									start_posn, 0);
 
-		sel.end_posn_line   = scintilla_send_message(doc->editor->sci,
+		sel.end_posn_line   = scintilla_send_message(sci,
 									SCI_LINEFROMPOSITION,
 									end_posn, 0);
 
@@ -85,7 +85,7 @@ get_current_sel_lines(GeanyDocument *doc)
 		/* if there is no selection, start at first line */
 		sel.start_posn_line = 0;
 		/* and end at last one */
-		sel.end_posn_line   = (sci_get_line_count(doc->editor->sci) - 1);
+		sel.end_posn_line   = (sci_get_line_count(sci) - 1);
 
 		sel.is_selection = FALSE;
 	}
@@ -118,13 +118,10 @@ static void
 action_indir_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 {
 	/* function pointer to gdata -- function to be used */
-	void (*func)(GeanyDocument * doc,
-					gchar **lines,
-					gint num_lines,
-					gchar *new_file) = gdata;
+	void (*func)(gchar **lines, gint num_lines, gchar *new_file) = gdata;
 
 	GeanyDocument *doc  = document_get_current();
-	struct lo_lines sel = get_current_sel_lines(doc);
+	struct lo_lines sel = get_current_sel_lines(doc->editor->sci);
 	gint  num_chars     = 0;
 	gint  num_lines     = (sel.end_posn_line - sel.start_posn_line) + 1;
 	gchar **lines       = g_malloc(sizeof(gchar *) * num_lines);
@@ -143,7 +140,7 @@ action_indir_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 	new_file[0]      = '\0';
 
 	/* select lines to indicate to user what lines were altered */
-	select_lines(doc, sel);
+	select_lines(doc->editor, sel);
 
 	sci_start_undo_action(doc->editor->sci);
 
@@ -154,7 +151,7 @@ action_indir_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 		ensure_final_newline(doc->editor, num_lines);
 	}
 
-	if(doc) func(doc, lines, num_lines, new_file);
+	if(doc) func(lines, num_lines, new_file);
 
 	/* set new document */
 	if(sci_has_selection(doc->editor->sci))
@@ -181,16 +178,17 @@ static void
 action_sci_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 {
 	/* function pointer to gdata -- function to be used */
-	void (*func)(GeanyDocument *, gint, gint) = gdata;
+	void (*func)(ScintillaObject *, gint, gint) = gdata;
 	GeanyDocument *doc  = document_get_current();
-	struct lo_lines sel = get_current_sel_lines(doc);
+	struct lo_lines sel = get_current_sel_lines(doc->editor->sci);
 
 	/* select lines to indicate to user what lines were altered */
-	select_lines(doc, sel);
+	if(sel.is_selection)
+		select_lines(doc->editor, sel);
 
 	sci_start_undo_action(doc->editor->sci);
 
-	if(doc) func(doc, sel.start_posn_line, sel.end_posn_line);
+	if(doc) func(doc->editor->sci, sel.start_posn_line, sel.end_posn_line);
 
 	sci_end_undo_action(doc->editor->sci);
 }
