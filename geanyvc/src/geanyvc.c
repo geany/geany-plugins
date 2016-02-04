@@ -1528,11 +1528,12 @@ vccommit_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 	gint height;
 
 #ifdef USE_GTKSPELL
-#if GTK_CHECK_VERSION (3, 0, 0)
-    #define GtkSpell GtkSpellChecker
-    #define gtkspell_set_language gtk_spell_checker_set_language
+#if !GTK_CHECK_VERSION (3, 0, 0)
+//Since gtk3 will be default in future may be going this way would be better.
+    #define GtkSpellSpellChecker GtkSpell
+    #define gtk_spell_checker_set_language gtkspell_set_language
 #endif
-	GtkSpell *speller = NULL;
+	GtkSpellChecker *speller = NULL;
 	GError *spellcheck_error = NULL;
 #endif
 
@@ -1608,7 +1609,7 @@ vccommit_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 	}
 	else if (!EMPTY(lang))
 	{
-		gtkspell_set_language(speller, lang, &spellcheck_error);
+		gtk_spell_checker_set_language(speller, lang, &spellcheck_error);
 		if (spellcheck_error != NULL)
 		{
 			ui_set_statusbar(TRUE,
