@@ -135,7 +135,7 @@ static gboolean on_query_tooltip(GtkWidget *widget, gint x, gint y, gboolean key
 
 				g_free(path);
 			}
-			else if (column == gtk_tree_view_get_column(GTK_TREE_VIEW(widget), S_ADRESS && bx >= start_pos && bx < start_pos + width))
+			else if (column == gtk_tree_view_get_column(GTK_TREE_VIEW(widget), S_ADRESS) && bx >= start_pos && bx < start_pos + width)
 			{
 				gtk_tooltip_set_text(tooltip, gtk_tree_path_get_indices(tpath)[1] == active_frame_index ? _("Active frame") : _("Click an arrow to switch to a frame"));
 				gtk_tree_view_set_tooltip_row(GTK_TREE_VIEW(widget), tooltip, tpath);
