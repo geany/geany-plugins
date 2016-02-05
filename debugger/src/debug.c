@@ -418,13 +418,13 @@ static gboolean on_watch_key_pressed_callback(GtkWidget *widget, GdkEvent  *even
 
 			/* add path reference if it's not an empty row*/
 			if (gtk_tree_path_compare(path, empty_path))
-				references = g_list_append(references, gtk_tree_row_reference_new(wmodel, path));
+				references = g_list_prepend(references, gtk_tree_row_reference_new(wmodel, path));
 
 			iter = iter->next;
 		}
 
 		/* iterate through references and remove */
-		iter = references;
+		iter = g_list_reverse(references);
 		while (iter)
 		{
 			GtkTreeRowReference *reference = (GtkTreeRowReference*)iter->data;
@@ -1126,11 +1126,11 @@ GList* debug_get_modules(void)
 	module_description *desc = modules;
 	while (desc->title)
 	{
-		mods = g_list_append(mods, (gpointer)desc->title);
+		mods = g_list_prepend(mods, (gpointer)desc->title);
 		desc++;
 	}
 	
-	return mods;
+	return g_list_reverse(mods);
 }
 
 /*

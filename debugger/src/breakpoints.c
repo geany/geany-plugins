@@ -70,7 +70,7 @@ static void hash_table_foreach_call_function(gpointer key, gpointer value, gpoin
 static gboolean tree_foreach_add_to_list(gpointer key, gpointer value, gpointer data)
 {
 	GList **list = (GList**)data;
-	*list = g_list_append(*list, value);
+	*list = g_list_prepend(*list, value);
 	return FALSE;
 }
 
@@ -675,7 +675,7 @@ GList* breaks_get_for_document(const char* file)
 	{
 		g_tree_foreach(tree, tree_foreach_add_to_list, &breaks);
 	}
-	return breaks;
+	return g_list_reverse(breaks);
 }
 
 /*
@@ -702,5 +702,5 @@ GList* breaks_get_all(void)
 {
 	GList *breaks  = NULL;
 	g_hash_table_foreach(files, hash_table_foreach_add_to_list, &breaks);
-	return breaks;
+	return g_list_reverse(breaks);
 }
