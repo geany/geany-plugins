@@ -507,7 +507,7 @@ void stree_add_thread(int thread_id)
 		do
 		{
 			int existing_thread_id;
-			gtk_tree_model_get(model, &thread_iter, S_THREAD_ID, &existing_thread_id);
+			gtk_tree_model_get(model, &thread_iter, S_THREAD_ID, &existing_thread_id, -1);
 			if (existing_thread_id > thread_id)
 			{
 				consecutive = &thread_iter;
