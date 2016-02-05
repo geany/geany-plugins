@@ -640,7 +640,7 @@ static void on_debugger_run (void)
 	if (stack)
 	{
 		remove_stack_markers();
-		g_list_foreach(stack, (GFunc)frame_free, NULL);
+		g_list_foreach(stack, (GFunc)frame_unref, NULL);
 		g_list_free(stack);
 		stack = NULL;
 
@@ -799,7 +799,7 @@ static void on_debugger_exited (int code)
 	if (stack)
 	{
 		remove_stack_markers();
-		g_list_foreach(stack, (GFunc)frame_free, NULL);
+		g_list_foreach(stack, (GFunc)frame_unref, NULL);
 		g_list_free(stack);
 		stack = NULL;
 	}
@@ -1075,7 +1075,7 @@ void debug_destroy(void)
 	if (stack)
 	{
 		remove_stack_markers();
-		g_list_foreach(stack, (GFunc)frame_free, NULL);
+		g_list_foreach(stack, (GFunc)frame_unref, NULL);
 		g_list_free(stack);
 		stack = NULL;
 	}
