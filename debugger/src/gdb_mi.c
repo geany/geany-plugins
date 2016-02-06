@@ -482,17 +482,35 @@ static void gdb_mi_record_dump(const struct gdb_mi_record *record)
 		gdb_mi_result_dump(record->first, TRUE, 2);
 }
 
-int main(void)
+static gchar *read_line(FILE *fp)
 {
 	char buf[1024] = {0};
+	GString *line = g_string_new(NULL);
 
-	while (fgets(buf, sizeof buf, stdin))
+	while (fgets(buf, sizeof buf, fp))
 	{
-		struct gdb_mi_record *record = gdb_mi_record_parse(buf);
+		g_string_append(line, buf);
+		if (line->len < 1 || line->str[line->len - 1] == '\n')
+			break;
+	}
+
+	return g_string_free(line, line->len < 1);
+}
+
+int main(int argc, char **argv)
+{
+	gchar *line;
+
+	while ((line = read_line(stdin)) != NULL)
+	{
+		struct gdb_mi_record *record = gdb_mi_record_parse(line);
 
 		gdb_mi_record_dump(record);
 		gdb_mi_record_free(record);
+
+		g_free(line);
 	}
+
 	return 0;
 }
 
