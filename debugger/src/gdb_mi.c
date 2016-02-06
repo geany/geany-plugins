@@ -182,15 +182,15 @@ static gchar *parse_cstring(const gchar **p)
  *        the docs aren't clear on this */
 static gchar *parse_string(const gchar **p)
 {
-	GString *str = g_string_new(NULL);
+	const gchar *base = *p;
 
 	if (g_ascii_isalpha(**p) || strchr("-_.", **p))
 	{
-		g_string_append_c(str, **p);
 		for ((*p)++; g_ascii_isalnum(**p) || strchr("-_.", **p); (*p)++)
-			g_string_append_c(str, **p);
+			;
 	}
-	return g_string_free(str, FALSE);
+
+	return g_strndup (base, *p - base);
 }
 
 /* parses: string "=" value */
