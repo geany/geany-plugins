@@ -98,13 +98,17 @@ static gchar *parse_cstring(const gchar **p)
 
 	if (**p == '"')
 	{
+		const gchar *base;
+
 		(*p)++;
+		base = *p;
 		while (**p != '"')
 		{
 			gchar c = **p;
 			/* TODO: check expansions here */
 			if (c == '\\')
 			{
+				g_string_append_len(str, base, (*p) - base);
 				(*p)++;
 				c = **p;
 				switch (g_ascii_tolower(c))
@@ -159,12 +163,14 @@ static gchar *parse_cstring(const gchar **p)
 						}
 						break;
 				}
+				g_string_append_c(str, c);
+				base = (*p) + 1;
 			}
-			if (**p == '\0')
+			else if (**p == '\0')
 				break;
-			g_string_append_c(str, c);
 			(*p)++;
 		}
+		g_string_append_len(str, base, (*p) - base);
 		if (**p == '"')
 			(*p)++;
 	}
