@@ -211,15 +211,17 @@ static gboolean parse_result(struct gdb_mi_result *result, const gchar **p)
  * Actually, this is more permissive and allows mixed tuples/lists */
 static struct gdb_mi_value *parse_value(const gchar **p)
 {
-	struct gdb_mi_value *val = g_malloc0(sizeof *val);
+	struct gdb_mi_value *val = NULL;
 	if (**p == '"')
 	{
+		val = g_malloc0(sizeof *val);
 		val->type = GDB_MI_VAL_STRING;
 		val->string = parse_cstring(p);
 	}
 	else if (**p == '{' || **p == '[')
 	{
 		struct gdb_mi_result *prev = NULL;
+		val = g_malloc0(sizeof *val);
 		val->type = GDB_MI_VAL_LIST;
 		gchar end = **p == '{' ? '}' : ']';
 		(*p)++;
@@ -247,11 +249,6 @@ static struct gdb_mi_value *parse_value(const gchar **p)
 		}
 		if (**p == end)
 			(*p)++;
-	}
-	else
-	{
-		gdb_mi_value_free(val);
-		val = NULL;
 	}
 	return val;
 }
