@@ -34,8 +34,10 @@ struct gdb_mi_result;
 struct gdb_mi_value
 {
 	enum gdb_mi_value_type type;
-	gchar *string;
-	struct gdb_mi_result *list;
+	union {
+		gchar *string;
+		struct gdb_mi_result *list;
+	} v;
 };
 
 struct gdb_mi_result

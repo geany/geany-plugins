@@ -927,8 +927,8 @@ static int get_break_number(char* file, int line)
 	body = gdb_mi_result_var(table, "body", GDB_MI_VAL_LIST);
 	gdb_mi_result_foreach_matched (bkpt, body, "bkpt", GDB_MI_VAL_LIST)
 	{
-		const gchar *number = gdb_mi_result_var(bkpt->val->list, "number", GDB_MI_VAL_STRING);
-		const gchar *location = gdb_mi_result_var(bkpt->val->list, "original-location", GDB_MI_VAL_STRING);
+		const gchar *number = gdb_mi_result_var(bkpt->val->v.list, "number", GDB_MI_VAL_STRING);
+		const gchar *location = gdb_mi_result_var(bkpt->val->v.list, "original-location", GDB_MI_VAL_STRING);
 		const gchar *colon;
 		gboolean break_found = FALSE;
 
@@ -1091,9 +1091,9 @@ static GList* get_stack(void)
 	stack_node = gdb_mi_result_var(record->first, "stack", GDB_MI_VAL_LIST);
 	gdb_mi_result_foreach_matched (frame_node, stack_node, "frame", GDB_MI_VAL_LIST)
 	{
-		const gchar *addr = gdb_mi_result_var(frame_node->val->list, "addr", GDB_MI_VAL_STRING);
-		const gchar *func = gdb_mi_result_var(frame_node->val->list, "func", GDB_MI_VAL_STRING);
-		const gchar *line = gdb_mi_result_var(frame_node->val->list, "line", GDB_MI_VAL_STRING);
+		const gchar *addr = gdb_mi_result_var(frame_node->val->v.list, "addr", GDB_MI_VAL_STRING);
+		const gchar *func = gdb_mi_result_var(frame_node->val->v.list, "func", GDB_MI_VAL_STRING);
+		const gchar *line = gdb_mi_result_var(frame_node->val->v.list, "line", GDB_MI_VAL_STRING);
 		const gchar *file, *fullname;
 		frame *f = frame_new();
 
@@ -1101,9 +1101,9 @@ static GList* get_stack(void)
 		f->function = g_strdup(func);
 
 		/* file: fullname | file | from */
-		if ((fullname = file = gdb_mi_result_var(frame_node->val->list, "fullname", GDB_MI_VAL_STRING)) ||
-			(file = gdb_mi_result_var(frame_node->val->list, "file", GDB_MI_VAL_STRING)) ||
-			(file = gdb_mi_result_var(frame_node->val->list, "from", GDB_MI_VAL_STRING)))
+		if ((fullname = file = gdb_mi_result_var(frame_node->val->v.list, "fullname", GDB_MI_VAL_STRING)) ||
+			(file = gdb_mi_result_var(frame_node->val->v.list, "file", GDB_MI_VAL_STRING)) ||
+			(file = gdb_mi_result_var(frame_node->val->v.list, "from", GDB_MI_VAL_STRING)))
 		{
 			f->file = g_strdup(file);
 		}
@@ -1213,7 +1213,7 @@ static void update_files(void)
 	files_node = gdb_mi_result_var(record->first, "files", GDB_MI_VAL_LIST);
 	gdb_mi_result_foreach_matched (files_node, files_node, NULL, GDB_MI_VAL_LIST)
 	{
-		const gchar *fullname = gdb_mi_result_var(files_node->val->list, "fullname", GDB_MI_VAL_STRING);
+		const gchar *fullname = gdb_mi_result_var(files_node->val->v.list, "fullname", GDB_MI_VAL_STRING);
 
 		if (fullname && !g_hash_table_lookup(ht, fullname))
 		{
@@ -1325,11 +1325,11 @@ static void update_autos(void)
 
 		gdb_mi_result_foreach_matched (stack_args, stack_args, "frame", GDB_MI_VAL_LIST)
 		{
-			const struct gdb_mi_result *args = gdb_mi_result_var(stack_args->val->list, "args", GDB_MI_VAL_LIST);
+			const struct gdb_mi_result *args = gdb_mi_result_var(stack_args->val->v.list, "args", GDB_MI_VAL_LIST);
 
 			gdb_mi_result_foreach_matched (args, args, "name", GDB_MI_VAL_STRING)
 			{
-				variable *var = variable_new(args->val->string, VT_ARGUMENT);
+				variable *var = variable_new(args->val->v.string, VT_ARGUMENT);
 				vars = g_list_append(vars, var);
 			}
 		}
@@ -1342,7 +1342,7 @@ static void update_autos(void)
 
 		gdb_mi_result_foreach_matched (locals, locals, "name", GDB_MI_VAL_STRING)
 		{
-			variable *var = variable_new(locals->val->string, VT_LOCAL);
+			variable *var = variable_new(locals->val->v.string, VT_LOCAL);
 			vars = g_list_append(vars, var);
 		}
 	}
@@ -1445,8 +1445,8 @@ static GList* get_children (gchar* path)
 
 		gdb_mi_result_foreach_matched (child_node, child_node, "child", GDB_MI_VAL_LIST)
 		{
-			const gchar *internal = gdb_mi_result_var(child_node->val->list, "name", GDB_MI_VAL_STRING);
-			const gchar *name = gdb_mi_result_var(child_node->val->list, "exp", GDB_MI_VAL_STRING);
+			const gchar *internal = gdb_mi_result_var(child_node->val->v.list, "name", GDB_MI_VAL_STRING);
+			const gchar *name = gdb_mi_result_var(child_node->val->v.list, "exp", GDB_MI_VAL_STRING);
 			variable *var;
 
 			if (! name || ! internal)

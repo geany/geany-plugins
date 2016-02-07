@@ -47,13 +47,11 @@ void gdb_mi_value_free(struct gdb_mi_value *val)
 	switch (val->type)
 	{
 		case GDB_MI_VAL_STRING:
-			g_free(val->string);
-			g_warn_if_fail(val->list == NULL);
+			g_free(val->v.string);
 			break;
 
 		case GDB_MI_VAL_LIST:
-			gdb_mi_result_free(val->list, TRUE);
-			g_warn_if_fail(val->string == NULL);
+			gdb_mi_result_free(val->v.list, TRUE);
 			break;
 	}
 	g_free(val);
@@ -216,7 +214,7 @@ static struct gdb_mi_value *parse_value(const gchar **p)
 	{
 		val = g_malloc0(sizeof *val);
 		val->type = GDB_MI_VAL_STRING;
-		val->string = parse_cstring(p);
+		val->v.string = parse_cstring(p);
 	}
 	else if (**p == '{' || **p == '[')
 	{
@@ -235,7 +233,7 @@ static struct gdb_mi_value *parse_value(const gchar **p)
 				if (prev)
 					prev->next = item;
 				else
-					val->list = item;
+					val->v.list = item;
 				prev = item;
 			}
 			else
@@ -396,9 +394,9 @@ const void *gdb_mi_result_var(const struct gdb_mi_result *result, const gchar *n
 	if (! val || val->type != type)
 		return NULL;
 	else if (val->type == GDB_MI_VAL_STRING)
-		return val->string;
+		return val->v.string;
 	else if (val->type == GDB_MI_VAL_LIST)
-		return val->list;
+		return val->v.list;
 	return NULL;
 }
 
@@ -452,12 +450,12 @@ static void gdb_mi_value_dump(const struct gdb_mi_value *v, gint indent)
 	switch (v->type)
 	{
 		case GDB_MI_VAL_STRING:
-			fprintf(stderr, "%*sstring = %s\n", indent * 2, "", v->string);
+			fprintf(stderr, "%*sstring = %s\n", indent * 2, "", v->v.string);
 			break;
 		case GDB_MI_VAL_LIST:
 			fprintf(stderr, "%*slist =>\n", indent * 2, "");
-			if (v->list)
-				gdb_mi_result_dump(v->list, TRUE, indent + 1);
+			if (v->v.list)
+				gdb_mi_result_dump(v->v.list, TRUE, indent + 1);
 			break;
 	}
 }
