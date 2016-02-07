@@ -557,15 +557,15 @@ static void check_on_text_changed(GeanyDocument *doc, gint position, gint lines_
 	gint line_count;
 
 	/* Iterating over all lines which changed as indicated by lines_added. lines_added is 0
-	 * if only a lines has changed, in this case set it to 1. Otherwise, iterating over all
+	 * if only one line has changed, in this case set line_count to 1. Otherwise, iterating over all
 	 * new lines makes spell checking work for pasted text. */
 	line_count = MAX(1, lines_added);
 
 	line_number = sci_get_line_from_position(doc->editor->sci, position);
 	/* TODO: storing these information in the global check_line_data struct isn't that good.
-	 * The data gets overwritten when a new line is inserted and so there is a chance that thep
+	 * The data gets overwritten when a new line is inserted and so there is a chance that the
 	 * previous line is not checked to the end. One solution could be to simple maintain a list
-	 * of line numbers which needs to be checked and do this is the timeout handler. */
+	 * of line numbers which needs to be checked and do this in the timeout handler. */
 	check_line_data.doc = doc;
 	check_line_data.line_number = line_number;
 	check_line_data.line_count = line_count;
