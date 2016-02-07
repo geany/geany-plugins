@@ -98,13 +98,17 @@ static gchar *parse_cstring(const gchar **p)
 
 	if (**p == '"')
 	{
+		const gchar *base;
+
 		(*p)++;
+		base = *p;
 		while (**p != '"')
 		{
 			gchar c = **p;
 			/* TODO: check expansions here */
 			if (c == '\\')
 			{
+				g_string_append_len(str, base, (*p) - base);
 				(*p)++;
 				c = **p;
 				switch (g_ascii_tolower(c))
@@ -159,12 +163,14 @@ static gchar *parse_cstring(const gchar **p)
 						}
 						break;
 				}
+				g_string_append_c(str, c);
+				base = (*p) + 1;
 			}
-			if (**p == '\0')
+			else if (**p == '\0')
 				break;
-			g_string_append_c(str, c);
 			(*p)++;
 		}
+		g_string_append_len(str, base, (*p) - base);
 		if (**p == '"')
 			(*p)++;
 	}
@@ -176,15 +182,15 @@ static gchar *parse_cstring(const gchar **p)
  *        the docs aren't clear on this */
 static gchar *parse_string(const gchar **p)
 {
-	GString *str = g_string_new(NULL);
+	const gchar *base = *p;
 
 	if (g_ascii_isalpha(**p) || strchr("-_.", **p))
 	{
-		g_string_append_c(str, **p);
 		for ((*p)++; g_ascii_isalnum(**p) || strchr("-_.", **p); (*p)++)
-			g_string_append_c(str, **p);
+			;
 	}
-	return g_string_free(str, FALSE);
+
+	return g_strndup (base, *p - base);
 }
 
 /* parses: string "=" value */
@@ -205,15 +211,17 @@ static gboolean parse_result(struct gdb_mi_result *result, const gchar **p)
  * Actually, this is more permissive and allows mixed tuples/lists */
 static struct gdb_mi_value *parse_value(const gchar **p)
 {
-	struct gdb_mi_value *val = g_malloc0(sizeof *val);
+	struct gdb_mi_value *val = NULL;
 	if (**p == '"')
 	{
+		val = g_malloc0(sizeof *val);
 		val->type = GDB_MI_VAL_STRING;
 		val->string = parse_cstring(p);
 	}
 	else if (**p == '{' || **p == '[')
 	{
 		struct gdb_mi_result *prev = NULL;
+		val = g_malloc0(sizeof *val);
 		val->type = GDB_MI_VAL_LIST;
 		gchar end = **p == '{' ? '}' : ']';
 		(*p)++;
@@ -241,11 +249,6 @@ static struct gdb_mi_value *parse_value(const gchar **p)
 		}
 		if (**p == end)
 			(*p)++;
-	}
-	else
-	{
-		gdb_mi_value_free(val);
-		val = NULL;
 	}
 	return val;
 }
@@ -479,17 +482,35 @@ static void gdb_mi_record_dump(const struct gdb_mi_record *record)
 		gdb_mi_result_dump(record->first, TRUE, 2);
 }
 
-int main(void)
+static gchar *read_line(FILE *fp)
 {
 	char buf[1024] = {0};
+	GString *line = g_string_new(NULL);
 
-	while (fgets(buf, sizeof buf, stdin))
+	while (fgets(buf, sizeof buf, fp))
 	{
-		struct gdb_mi_record *record = gdb_mi_record_parse(buf);
+		g_string_append(line, buf);
+		if (line->len < 1 || line->str[line->len - 1] == '\n')
+			break;
+	}
+
+	return g_string_free(line, line->len < 1);
+}
+
+int main(int argc, char **argv)
+{
+	gchar *line;
+
+	while ((line = read_line(stdin)) != NULL)
+	{
+		struct gdb_mi_record *record = gdb_mi_record_parse(line);
 
 		gdb_mi_record_dump(record);
 		gdb_mi_record_free(record);
+
+		g_free(line);
 	}
+
 	return 0;
 }
 
