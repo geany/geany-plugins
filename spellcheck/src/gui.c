@@ -517,6 +517,7 @@ static gboolean check_lines(gpointer data)
 					msgwin_switch_tab(MSG_MESSAGE, FALSE);
 			}
 			g_free(line);
+			line_number++;
 		}
 	}
 	check_line_data.check_while_typing_idle_source_id = 0;
