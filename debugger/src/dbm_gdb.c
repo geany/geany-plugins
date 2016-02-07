@@ -390,7 +390,7 @@ static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpoint
 					g_string_printf(msg, item->error_message->str, gdb_msg);
 					dbg_cbs->report_error(msg->str);
 
-					g_string_free(msg, FALSE);
+					g_string_free(msg, TRUE);
 				}
 				else
 				{
@@ -930,6 +930,7 @@ static int get_break_number(char* file, int line)
 {
 	struct gdb_mi_record *record;
 	const struct gdb_mi_result *table, *body, *bkpt;
+	int break_number = -1;
 
 	exec_sync_command("-break-list", TRUE, &record);
 	if (! record)
@@ -958,13 +959,14 @@ static int get_break_number(char* file, int line)
 		}
 		if (break_found)
 		{
-			return atoi(number);
+			break_number = atoi(number);
+			break;
 		}
 	}
 	
 	gdb_mi_record_free(record);
 	
-	return -1;
+	return break_number;
 }
 
 /*
