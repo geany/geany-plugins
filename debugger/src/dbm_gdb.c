@@ -519,7 +519,14 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 			else
 			{
 				if (!requested_interrupt)
-					dbg_cbs->report_error(_("Program received a signal"));
+				{
+					gchar *msg = g_strdup_printf(_("Program received signal %s (%s)"),
+					                             (gchar *) gdb_mi_result_var(record->first, "signal-name", GDB_MI_VAL_STRING),
+					                             (gchar *) gdb_mi_result_var(record->first, "signal-meaning", GDB_MI_VAL_STRING));
+
+					dbg_cbs->report_error(msg);
+					g_free(msg);
+				}
 				else
 					requested_interrupt = FALSE;
 			}
