@@ -40,13 +40,16 @@ extern GeanyData		*geany_data;
 #include "xpm/frame_current.xpm"
 
 /* markers identifiers */
-#define M_FIRST									12
-#define M_BP_ENABLED						M_FIRST
-#define M_BP_DISABLED						(M_FIRST + 1)
-#define M_BP_CONDITIONAL					(M_FIRST + 2)
-#define M_CI_BACKGROUND					(M_FIRST + 3)
-#define M_CI_ARROW							(M_FIRST + 4)
-#define M_FRAME								(M_FIRST + 5)
+#define M_FIRST			12
+enum
+{
+	M_BP_ENABLED		= M_FIRST,
+	M_BP_DISABLED,
+	M_BP_CONDITIONAL,
+	M_CI_BACKGROUND,
+	M_CI_ARROW,
+	M_FRAME
+};
 
 #define MARKER_PRESENT(mask, marker) (mask && (0x01 << marker))
 
