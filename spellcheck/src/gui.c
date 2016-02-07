@@ -530,6 +530,8 @@ static gboolean need_delay(void)
 	gint64 time_now;
 	GTimeVal t;
 	const gint timeout = 500; /* delay in milliseconds */
+	gboolean ret = FALSE;
+
 	g_get_current_time(&t);
 
 	time_now = ((gint64) t.tv_sec * G_USEC_PER_SEC) + t.tv_usec;
@@ -542,12 +544,13 @@ static gboolean need_delay(void)
 	{
 		check_line_data.check_while_typing_idle_source_id =
 			plugin_timeout_add(geany_plugin, timeout, check_lines, NULL);
+		ret = TRUE;
 	}
 
 	/* set current time for the next key press */
 	time_prev = time_now;
 
-	return FALSE;
+	return ret;
 }
 
 
