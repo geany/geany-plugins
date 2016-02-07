@@ -930,9 +930,12 @@ dbg_callbacks callbacks = {
 static void on_select_frame(int frame_number)
 {
 	GList *autos, *watches;
-	frame *f = (frame*)g_list_nth(stack, active_module->get_active_frame())->data;
-	markers_remove_current_instruction(f->file, f->line);
-	markers_add_frame(f->file, f->line);
+	frame *f = (frame*)g_list_nth_data(stack, active_module->get_active_frame());
+	if (f)
+	{
+		markers_remove_current_instruction(f->file, f->line);
+		markers_add_frame(f->file, f->line);
+	}
 
 	active_module->set_active_frame(frame_number);
 	
@@ -948,9 +951,12 @@ static void on_select_frame(int frame_number)
 	watches = active_module->get_watches();
 	update_variables(GTK_TREE_VIEW(wtree), NULL, watches);
 
-	f = (frame*)g_list_nth(stack, frame_number)->data;
-	markers_remove_frame(f->file, f->line);
-	markers_add_current_instruction(f->file, f->line);
+	f = (frame*)g_list_nth_data(stack, frame_number);
+	if (f)
+	{
+		markers_remove_frame(f->file, f->line);
+		markers_add_current_instruction(f->file, f->line);
+	}
 }
 
 /*
