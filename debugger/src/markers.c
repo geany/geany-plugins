@@ -51,8 +51,6 @@ enum
 	M_CI_ARROW
 };
 
-#define MARKER_PRESENT(mask, marker) (mask && (0x01 << marker))
-
 /* markers colors */
 #define RGB(R,G,B)	(R | (G << 8) | (B << 16))
 #define RED				RGB(255,0,0)
