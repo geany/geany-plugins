@@ -60,9 +60,9 @@ typedef enum _result_class {
 
 /* structure to keep async command data (command line, messages) */
 typedef struct _queue_item {
-	GString *message;
-	GString *command;
-	GString *error_message;
+	gchar *message;
+	gchar *command;
+	gchar *error_message;
 	gboolean format_error_message;
 } queue_item;
 
@@ -261,11 +261,9 @@ static void gdb_input_write_line(const gchar *line)
  */
 static void free_queue_item(queue_item *item)
 {
-	if (item->message)
-		g_string_free(item->message, TRUE);
-	g_string_free(item->command, TRUE);
-	if (item->error_message)
-		g_string_free(item->error_message, TRUE);
+	g_free(item->message);
+	g_free(item->command);
+	g_free(item->error_message);
 	g_free(item);
 }
 
@@ -289,15 +287,9 @@ static GList* add_to_queue(GList* queue, const gchar *message, const gchar *comm
 
 	memset((void*)item, 0, sizeof(queue_item));
 
-	if (message)
-	{
-		item->message = g_string_new(message);
-	}
-	item->command = g_string_new(command);
-	if (error_message)
-	{
-		item->error_message = g_string_new(error_message);
-	}
+	item->message = g_strdup(message);
+	item->command = g_strdup(command);
+	item->error_message = g_strdup(error_message);
 	item->format_error_message = format_error_message;
 
 	return g_list_append(queue, (gpointer)item);
@@ -351,10 +343,10 @@ static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpoint
 				/* send message to debugger messages window */
 				if (item->message)
 				{
-					dbg_cbs->send_message(item->message->str, "grey");
+					dbg_cbs->send_message(item->message, "grey");
 				}
 
-				gdb_input_write_line(item->command->str);
+				gdb_input_write_line(item->command);
 
 				gdb_id_out = g_io_add_watch(gdb_ch_out, G_IO_IN, on_read_async_output, commands);
 			}
@@ -385,16 +377,14 @@ static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpoint
 				if (item->format_error_message)
 				{
 					const gchar* gdb_msg = gdb_mi_result_var(record->first, "msg", GDB_MI_VAL_STRING);
+					gchar *msg = g_strdup_printf(item->error_message, gdb_msg);
 
-					GString *msg = g_string_new("");
-					g_string_printf(msg, item->error_message->str, gdb_msg);
-					dbg_cbs->report_error(msg->str);
-
-					g_string_free(msg, TRUE);
+					dbg_cbs->report_error(msg);
+					g_free(msg);
 				}
 				else
 				{
-					dbg_cbs->report_error(item->error_message->str);
+					dbg_cbs->report_error(item->error_message);
 				}
 			}
 			
@@ -696,7 +686,7 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	gchar *working_directory = g_path_get_dirname(file);
 	GList *lines, *iter;
 	GList *commands = NULL;
-	GString *command;
+	gchar *command;
 	int bp_index;
 	queue_item *item;
 
@@ -752,10 +742,9 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	/* collect commands */
 
 	/* loading file */
-	command = g_string_new("");
-	g_string_printf(command, "-file-exec-and-symbols \"%s\"", file);
-	commands = add_to_queue(commands, _("~\"Loading target file.\\n\""), command->str, _("Error loading file"), FALSE);
-	g_string_free(command, TRUE);
+	command = g_strdup_printf("-file-exec-and-symbols \"%s\"", file);
+	commands = add_to_queue(commands, _("~\"Loading target file.\\n\""), command, _("Error loading file"), FALSE);
+	g_free(command);
 
 	/* setting asyncronous mode */
 	commands = add_to_queue(commands, NULL, "-gdb-set target-async 1", _("Error configuring GDB"), FALSE);
@@ -767,16 +756,14 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	commands = add_to_queue(commands, NULL, "-enable-pretty-printing", _("Error configuring GDB"), FALSE);
 
 	/* set locale */
-	command = g_string_new("");
-	g_string_printf(command, "-gdb-set environment LANG=%s", g_getenv("LANG"));
-	commands = add_to_queue(commands, NULL, command->str, NULL, FALSE);
-	g_string_free(command, TRUE);
+	command = g_strdup_printf("-gdb-set environment LANG=%s", g_getenv("LANG"));
+	commands = add_to_queue(commands, NULL, command, NULL, FALSE);
+	g_free(command);
 
 	/* set arguments */
-	command = g_string_new("");
-	g_string_printf(command, "-exec-arguments %s", commandline);
-	commands = add_to_queue(commands, NULL, command->str, NULL, FALSE);
-	g_string_free(command, TRUE);
+	command = g_strdup_printf("-exec-arguments %s", commandline);
+	commands = add_to_queue(commands, NULL, command, NULL, FALSE);
+	g_free(command);
 
 	/* set passed evironment */
 	iter = env;
@@ -788,11 +775,9 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 		iter = iter->next;
 		value = (gchar*)iter->data;
 
-		command = g_string_new("");
-		g_string_printf(command, "-gdb-set environment %s=%s", name, value);
-
-		commands = add_to_queue(commands, NULL, command->str, NULL, FALSE);
-		g_string_free(command, TRUE);
+		command = g_strdup_printf("-gdb-set environment %s=%s", name, value);
+		commands = add_to_queue(commands, NULL, command, NULL, FALSE);
+		g_free(command);
 
 		iter = iter->next;
 	}
@@ -802,50 +787,45 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	while (biter)
 	{
 		breakpoint *bp = (breakpoint*)biter->data;
-		GString *error_message = g_string_new("");
+		gchar *error_message;
 
-		command = g_string_new("");
-		g_string_printf(command, "-break-insert -f \"\\\"%s\\\":%i\"", bp->file, bp->line);
+		command = g_strdup_printf("-break-insert -f \"\\\"%s\\\":%i\"", bp->file, bp->line);
 
-		g_string_printf(error_message, _("Breakpoint at %s:%i cannot be set\nDebugger message: %s"), bp->file, bp->line, "%s");
-		
-		commands = add_to_queue(commands, NULL, command->str, error_message->str, TRUE);
+		error_message = g_strdup_printf(_("Breakpoint at %s:%i cannot be set\nDebugger message: %s"), bp->file, bp->line, "%s");
 
-		g_string_free(command, TRUE);
+		commands = add_to_queue(commands, NULL, command, error_message, TRUE);
+
+		g_free(command);
 
 		if (bp->hitscount)
 		{
-			command = g_string_new("");
-			g_string_printf(command, "-break-after %i %i", bp_index, bp->hitscount);
-			commands = add_to_queue(commands, NULL, command->str, error_message->str, TRUE);
-			g_string_free(command, TRUE);
+			command = g_strdup_printf("-break-after %i %i", bp_index, bp->hitscount);
+			commands = add_to_queue(commands, NULL, command, error_message, TRUE);
+			g_free(command);
 		}
 		if (strlen(bp->condition))
 		{
-			command = g_string_new("");
-			g_string_printf (command, "-break-condition %i %s", bp_index, bp->condition);
-			commands = add_to_queue(commands, NULL, command->str, error_message->str, TRUE);
-			g_string_free(command, TRUE);
+			command = g_strdup_printf ("-break-condition %i %s", bp_index, bp->condition);
+			commands = add_to_queue(commands, NULL, command, error_message, TRUE);
+			g_free(command);
 		}
 		if (!bp->enabled)
 		{
-			command = g_string_new("");
-			g_string_printf (command, "-break-disable %i", bp_index);
-			commands = add_to_queue(commands, NULL, command->str, error_message->str, TRUE);
-			g_string_free(command, TRUE);
+			command = g_strdup_printf ("-break-disable %i", bp_index);
+			commands = add_to_queue(commands, NULL, command, error_message, TRUE);
+			g_free(command);
 		}
 
-		g_string_free(error_message, TRUE);
+		g_free(error_message);
 
 		bp_index++;
 		biter = biter->next;
 	}
 
 	/* set debugging terminal */
-	command = g_string_new("-inferior-tty-set ");
-	g_string_append(command, terminal_device);
-	commands = add_to_queue(commands, NULL, command->str, NULL, FALSE);
-	g_string_free(command, TRUE);
+	command = g_strconcat("-inferior-tty-set ", terminal_device, NULL);
+	commands = add_to_queue(commands, NULL, command, NULL, FALSE);
+	g_free(command);
 
 	/* connect read callback to the output chanel */
 	gdb_id_out = g_io_add_watch(gdb_ch_out, G_IO_IN, on_read_async_output, commands);
@@ -855,11 +835,11 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	/* send message to debugger messages window */
 	if (item->message)
 	{
-		dbg_cbs->send_message(item->message->str, "grey");
+		dbg_cbs->send_message(item->message, "grey");
 	}
 
 	/* send first command */
-	gdb_input_write_line(item->command->str);
+	gdb_input_write_line(item->command);
 
 	return TRUE;
 }
