@@ -79,26 +79,28 @@ void variable_reset(variable *var)
 /* creates new frame */
 frame* frame_new(void)
 {
-	frame *f = (frame*)malloc(sizeof(frame));
-	memset((void*)f, 0, sizeof(frame));
+	frame *f = g_malloc0(sizeof *f);
+	f->ref_count = 1;
 	return f;
 }
 
-/* frees a frame */
-void frame_free(frame* f)
+/* refs a frame */
+frame* frame_ref(frame* f)
 {
-	if (f->address)
+	f->ref_count++;
+	return f;
+}
+
+/* unrefs a frame */
+void frame_unref(frame* f)
+{
+	if (f->ref_count > 1)
+		f->ref_count--;
+	else
 	{
 		g_free(f->address);
-	}
-	if (f->function)
-	{
 		g_free(f->function);
-	}
-	if (f->file)
-	{
 		g_free(f->file);
+		g_free(f);
 	}
-	
-	g_free(f);
 }

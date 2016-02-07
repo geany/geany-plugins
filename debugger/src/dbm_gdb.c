@@ -213,10 +213,10 @@ static GList* read_until_prompt(void)
 			break;
 
 		line[terminator] = '\0';
-		lines = g_list_append (lines, line);
+		lines = g_list_prepend (lines, line);
 	}
 	
-	return lines;
+	return g_list_reverse(lines);
 }
 
 /*
@@ -1129,11 +1129,11 @@ static GList* get_stack(void)
 		/* line */
 		f->line = line ? atoi(line) : 0;
 
-		stack = g_list_append(stack, f);
+		stack = g_list_prepend(stack, f);
 	}
 	gdb_mi_record_free(record);
 	
-	return stack;
+	return g_list_reverse(stack);
 }
 
 /*
@@ -1293,8 +1293,9 @@ static void update_watches(void)
 		var->evaluated = name != NULL;
 
 		/* add to updating list */
-		updating = g_list_append(updating, var);
+		updating = g_list_prepend(updating, var);
 	}
+	updating = g_list_reverse(updating);
 	
 	/* update watches */
 	get_variables(updating);
@@ -1465,11 +1466,12 @@ static GList* get_children (gchar* path)
 			var = variable_new2(name, internal, VT_CHILD);
 			var->evaluated = TRUE;
 
-			children = g_list_append(children, var);
+			children = g_list_prepend(children, var);
 		}
 	}
 	gdb_mi_record_free(record);
 	
+	children = g_list_reverse(children);
 	get_variables(children);
 
 	return children;
