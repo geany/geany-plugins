@@ -31,7 +31,7 @@
 GtkWidget*		stree_init(move_to_line_cb ml, select_frame_cb sf);
 void			stree_destroy(void);
 
-void 			stree_add(frame *f);
+void 			stree_add(GList *frames);
 void 			stree_clear(void);
 
 void 			stree_add_thread(int thread_id);

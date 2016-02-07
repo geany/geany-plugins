@@ -430,20 +430,29 @@ GtkWidget* stree_init(move_to_line_cb ml, select_frame_cb sf)
 }
 
 /*
- *	add frame to the tree view
+ *	add frames to the tree view
  */
-void stree_add(frame *f)
+void stree_add(GList *frames)
 {
+	GList *item;
 	GtkTreeRowReference *reference = (GtkTreeRowReference*)g_hash_table_lookup(threads, (gpointer)active_thread_id);
-	GtkTreeIter frame_iter;
 	GtkTreeIter thread_iter;
 	GtkTreePath *path = gtk_tree_row_reference_get_path(reference);
 	gtk_tree_model_get_iter(model, &thread_iter, path);
 	gtk_tree_path_free(path);
 
-	gtk_tree_store_insert_before(store, &frame_iter, &thread_iter, 0);
+	g_object_ref (model);
+	gtk_tree_view_set_model (GTK_TREE_VIEW (tree), NULL);
 
-	gtk_tree_store_set (store, &frame_iter, S_FRAME, f, -1);
+	/* prepending is a *lot* faster than appending, so prepend with a reversed data set */
+	for (item = g_list_last (frames); item; item = item->prev)
+	{
+		gtk_tree_store_insert_with_values (store, NULL, &thread_iter, 0,
+		                                   S_FRAME, item->data, -1);
+	}
+
+	gtk_tree_view_set_model (GTK_TREE_VIEW (tree), model);
+	g_object_unref (model);
 }
 
 /*

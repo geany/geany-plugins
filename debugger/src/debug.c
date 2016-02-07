@@ -700,11 +700,7 @@ static void on_debugger_stopped (int thread_id)
 
 	/* get current stack trace and put in the tree view */
 	stack = active_module->get_stack();
-	for (iter = stack; iter; iter = iter->next)
-	{
-		frame *f = (frame*)iter->data;
-		stree_add(f);
-	}
+	stree_add (stack);
 	stree_select_first_frame(TRUE);
 
 	/* files */
