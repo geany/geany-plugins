@@ -46,9 +46,9 @@ enum
 	M_BP_ENABLED		= M_FIRST,
 	M_BP_DISABLED,
 	M_BP_CONDITIONAL,
+	M_FRAME,
 	M_CI_BACKGROUND,
-	M_CI_ARROW,
-	M_FRAME
+	M_CI_ARROW
 };
 
 #define MARKER_PRESENT(mask, marker) (mask && (0x01 << marker))
