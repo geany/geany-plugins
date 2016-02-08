@@ -54,6 +54,7 @@ static int active_frame_index = 0;
 
 /* callbacks */
 static select_frame_cb select_frame = NULL;
+static select_thread_cb select_thread = NULL;
 static move_to_line_cb move_to_line = NULL;
 
 /* tree view, model and store handles */
@@ -284,32 +285,31 @@ static gboolean on_msgwin_button_press(GtkWidget *widget, GdkEventButton *event,
 static void on_cursor_changed(GtkTreeView *treeview, gpointer user_data)
 {
 	GtkTreePath *path;
+	GtkTreeIter iter;
+	frame *f;
+	int thread_id;
 
 	gtk_tree_view_get_cursor(treeview, &path, NULL);
 	if (! path)
 		return;
 
-	if (2 == gtk_tree_path_get_depth(path))
-	{
-		frame *f;
-		GtkTreeIter iter;
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_model_get (model, &iter,
+	                    S_FRAME, &f, S_THREAD_ID, &thread_id, -1);
 
-		gtk_tree_model_get_iter (
-			 model,
-			 &iter,
-			 path);
-		gtk_tree_model_get (
-			gtk_tree_view_get_model(GTK_TREE_VIEW(tree)),
-			&iter,
-			S_FRAME, &f,
-			-1);
-		
+	if (f) /* frame */
+	{
 		/* check if file name is not empty and we have source files for the frame */
 		if (f->have_source)
 		{
 			move_to_line(f->file, f->line);
 		}
 		frame_unref(f);
+	}
+	else /* thread */
+	{
+		if (thread_id != active_thread_id)
+			select_thread(thread_id);
 	}
 
 	gtk_tree_path_free(path);
@@ -356,12 +356,13 @@ static void on_render_address (GtkTreeViewColumn *tree_column, GtkCellRenderer *
 /*
  *	inits stack trace tree
  */
-GtkWidget* stree_init(move_to_line_cb ml, select_frame_cb sf)
+GtkWidget* stree_init(move_to_line_cb ml, select_thread_cb st, select_frame_cb sf)
 {
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 
 	move_to_line = ml;
+	select_thread = st;
 	select_frame = sf;
 
 	/* create tree view */
