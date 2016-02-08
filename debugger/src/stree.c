@@ -244,11 +244,10 @@ static gboolean on_msgwin_button_press(GtkWidget *widget, GdkEventButton *event,
 		{
 			if (2 == gtk_tree_path_get_depth(pressed_path))
 			{
-				GtkTreeSelection *selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
-				GList *rows = gtk_tree_selection_get_selected_rows(selection, &model);
-				GtkTreePath *selected_path = (GtkTreePath*)rows->data;
+				GtkTreePath *selected_path;
+				gtk_tree_view_get_cursor(GTK_TREE_VIEW(tree), &selected_path, NULL);
 
-				if (!gtk_tree_path_compare(pressed_path, selected_path))
+				if (selected_path && !gtk_tree_path_compare(pressed_path, selected_path))
 				{
 					frame *f;
 					GtkTreeIter iter;
@@ -268,8 +267,8 @@ static gboolean on_msgwin_button_press(GtkWidget *widget, GdkEventButton *event,
 					frame_unref(f);
 				}
 
-				g_list_foreach (rows, (GFunc) gtk_tree_path_free, NULL);
-				g_list_free (rows);
+				if (selected_path)
+					gtk_tree_path_free(selected_path);
 			}
 
 			gtk_tree_path_free(pressed_path);
@@ -280,20 +279,15 @@ static gboolean on_msgwin_button_press(GtkWidget *widget, GdkEventButton *event,
 }
 
 /*
- *  Tree view selection changed callback
+ *  Tree view cursor changed callback
  */
-static void on_selection_changed(GtkTreeSelection *treeselection, gpointer user_data)
+static void on_cursor_changed(GtkTreeView *treeview, gpointer user_data)
 {
-	GList *rows;
 	GtkTreePath *path;
 
-	if (!gtk_tree_selection_count_selected_rows(treeselection))
-	{
+	gtk_tree_view_get_cursor(treeview, &path, NULL);
+	if (! path)
 		return;
-	}
-	
-	rows = gtk_tree_selection_get_selected_rows(treeselection, &model);
-	path = (GtkTreePath*)rows->data;
 
 	if (2 == gtk_tree_path_get_depth(path))
 	{
@@ -318,8 +312,7 @@ static void on_selection_changed(GtkTreeSelection *treeselection, gpointer user_
 		frame_unref(f);
 	}
 
-	g_list_foreach (rows, (GFunc)gtk_tree_path_free, NULL);
-	g_list_free(rows);
+	gtk_tree_path_free(path);
 }
 
 static void on_render_function (GtkTreeViewColumn *tree_column, GtkCellRenderer *cell,
@@ -388,7 +381,7 @@ GtkWidget* stree_init(move_to_line_cb ml, select_frame_cb sf)
 	gtk_tree_view_set_show_expanders(GTK_TREE_VIEW(tree), FALSE);
 	
 	/* connect signals */
-	g_signal_connect(G_OBJECT(gtk_tree_view_get_selection(GTK_TREE_VIEW(tree))), "changed", G_CALLBACK (on_selection_changed), NULL);
+	g_signal_connect(G_OBJECT(tree), "cursor-changed", G_CALLBACK (on_cursor_changed), NULL);
 
 	/* for clicking on already selected frame */
 	g_signal_connect(G_OBJECT(tree), "button-press-event", G_CALLBACK(on_msgwin_button_press), NULL);
@@ -495,9 +488,7 @@ void stree_select_first_frame(gboolean make_active)
 
 		path = gtk_tree_model_get_path(model, &frame_iter);
 
-		gtk_tree_selection_select_path (
-			gtk_tree_view_get_selection(GTK_TREE_VIEW(tree)),
-			path);
+		gtk_tree_view_set_cursor(GTK_TREE_VIEW(tree), path, NULL, FALSE);
 
 		gtk_tree_path_free(path);
 	}
