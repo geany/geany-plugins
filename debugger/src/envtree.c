@@ -110,7 +110,7 @@ static void delete_selected_rows(void)
 
 	/* check whether only empty row was selected */
 	if (1 != gtk_tree_selection_count_selected_rows(selection) ||
-	    gtk_tree_path_compare((GtkTreePath*)rows->data, empty_path))
+	    (rows && gtk_tree_path_compare((GtkTreePath*)rows->data, empty_path)))
 	{
 		GtkTreePath *path;
 		/* get references to the selected rows and find out what to

@@ -399,7 +399,7 @@ static gboolean on_watch_key_pressed_callback(GtkWidget *widget, GdkEvent  *even
 
 	/* check whether only empty row was selected */
 	if (1 != gtk_tree_selection_count_selected_rows(selection) ||
-	    gtk_tree_path_compare((GtkTreePath*)rows->data, empty_path))
+	    (rows && gtk_tree_path_compare((GtkTreePath*)rows->data, empty_path)))
 	{
 		/* path reference to select after deleteing finishes */
 		GtkTreeRowReference *reference_to_select = NULL;
