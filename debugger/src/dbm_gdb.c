@@ -943,9 +943,13 @@ static int get_break_number(char* file, int line)
 		colon = strrchr(location, ':');
 		if (colon && atoi(colon + 1) == line)
 		{
-			gchar *fname = g_strndup(location, colon - location);
-			/* FIXME: the check used to be made against \"file\" (e.g. file surrounded
-			 * by backslash-quote), but that's not at least how GDB 7.7 does it */
+			gchar *fname;
+
+			/* quotes around filename (location not found or something?) */
+			if (*location == '"' && colon - location > 2)
+				fname = g_strndup(location + 1, colon - location - 2);
+			else
+				fname = g_strndup(location, colon - location);
 			break_found = strcmp(fname, file) == 0;
 			g_free(fname);
 		}
