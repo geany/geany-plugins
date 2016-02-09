@@ -960,6 +960,35 @@ static void on_select_frame(int frame_number)
 }
 
 /*
+ * called when a thread should been selected
+ */
+static void on_select_thread(int thread_id)
+{
+	gboolean success;
+
+	if (stack)
+		remove_stack_markers();
+
+	if ((success = active_module->set_active_thread(thread_id)))
+	{
+		g_list_free_full(stack, (GDestroyNotify)frame_unref);
+		stack = active_module->get_stack();
+
+		/* update the stack tree */
+		stree_remove_frames();
+		stree_set_active_thread_id(thread_id);
+		stree_add(stack);
+		stree_select_first_frame(TRUE);
+	}
+
+	if (stack)
+		add_stack_markers();
+
+	if (success)
+		on_select_frame(0);
+}
+
+/*
  * init debug related GUI (watch tree view)
  * arguments:
  */
@@ -1002,7 +1031,7 @@ void debug_init(void)
 	gtk_container_add(GTK_CONTAINER(tab_autos), atree);
 	
 	/* create stack trace page */
-	stree = stree_init(editor_open_position, on_select_frame);
+	stree = stree_init(editor_open_position, on_select_thread, on_select_frame);
 	tab_call_stack = gtk_scrolled_window_new(
 		gtk_tree_view_get_hadjustment(GTK_TREE_VIEW(stree )),
 		gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(stree ))

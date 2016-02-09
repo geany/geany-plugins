@@ -1082,6 +1082,34 @@ static void set_active_frame(int frame_number)
 	g_free(command);
 }
 
+static int get_active_thread(void)
+{
+	struct gdb_mi_record *record = NULL;
+	int current_thread = 0;
+
+	if (RC_DONE == exec_sync_command("-thread-info", TRUE, &record))
+	{
+		const gchar *id = gdb_mi_result_var(record->first, "current-thread-id", GDB_MI_VAL_STRING);
+		current_thread = id ? atoi(id) : 0;
+	}
+	gdb_mi_record_free(record);
+
+	return current_thread;
+}
+
+static gboolean set_active_thread(int thread_id)
+{
+	gchar *command = g_strdup_printf("-thread-select %i", thread_id);
+	gboolean success = (RC_DONE == exec_sync_command(command, TRUE, NULL));
+
+	if (success)
+		set_active_frame(0);
+
+	g_free(command);
+
+	return success;
+}
+
 /*
  * gets stack
  */
