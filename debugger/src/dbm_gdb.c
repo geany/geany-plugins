@@ -694,6 +694,7 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	GList *lines, *iter;
 	GList *commands = NULL;
 	gchar *command;
+	gchar *escaped;
 	int bp_index;
 	queue_item *item;
 
@@ -749,9 +750,11 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	/* collect commands */
 
 	/* loading file */
-	command = g_strdup_printf("-file-exec-and-symbols \"%s\"", file);
+	escaped = g_strescape(file, NULL);
+	command = g_strdup_printf("-file-exec-and-symbols \"%s\"", escaped);
 	commands = add_to_queue(commands, _("~\"Loading target file.\\n\""), command, _("Error loading file"), FALSE);
 	g_free(command);
+	g_free(escaped);
 
 	/* setting asyncronous mode */
 	commands = add_to_queue(commands, NULL, "-gdb-set target-async 1", _("Error configuring GDB"), FALSE);
@@ -796,7 +799,9 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 		breakpoint *bp = (breakpoint*)biter->data;
 		gchar *error_message;
 
-		command = g_strdup_printf("-break-insert -f \"\\\"%s\\\":%i\"", bp->file, bp->line);
+		escaped = g_strescape(bp->file, NULL);
+		command = g_strdup_printf("-break-insert -f \"\\\"%s\\\":%i\"", escaped, bp->line);
+		g_free(escaped);
 
 		error_message = g_strdup_printf(_("Breakpoint at %s:%i cannot be set\nDebugger message: %s"), bp->file, bp->line, "%s");
 
@@ -968,18 +973,21 @@ static gboolean set_break(breakpoint* bp, break_set_activity bsa)
 		struct gdb_mi_record *record;
 		const struct gdb_mi_result *bkpt;
 		const gchar *number;
+		gchar *escaped;
 		int num = 0;
 
 		/* 1. insert breakpoint */
-		g_snprintf(command, sizeof command, "-break-insert \"\\\"%s\\\":%i\"", bp->file, bp->line);
+		escaped = g_strescape(bp->file, NULL);
+		g_snprintf(command, sizeof command, "-break-insert \"\\\"%s\\\":%i\"", escaped, bp->line);
 		if (RC_DONE != exec_sync_command(command, TRUE, &record) || !record)
 		{
 			gdb_mi_record_free(record);
 			record = NULL;
-			g_snprintf(command, sizeof command, "-break-insert -f \"\\\"%s\\\":%i\"", bp->file, bp->line);
+			g_snprintf(command, sizeof command, "-break-insert -f \"\\\"%s\\\":%i\"", escaped, bp->line);
 			if (RC_DONE != exec_sync_command(command, TRUE, &record) || !record)
 			{
 				gdb_mi_record_free(record);
+				g_free(escaped);
 				return FALSE;
 			}
 		}
@@ -988,6 +996,7 @@ static gboolean set_break(breakpoint* bp, break_set_activity bsa)
 		if ((number = gdb_mi_result_var(bkpt, "number", GDB_MI_VAL_STRING)))
 			num = atoi(number);
 		gdb_mi_record_free(record);
+		g_free(escaped);
 		/* 2. set hits count if differs from 0 */
 		if (bp->hitscount)
 		{
