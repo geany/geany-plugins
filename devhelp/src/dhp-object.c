@@ -28,7 +28,13 @@
 #endif
 #include <geanyplugin.h>
 
-#include <devhelp/dh-base.h>
+#ifdef HAVE_DEVHELP_GTK3
+# include <devhelp/devhelp.h>
+# include <devhelp/dh-app.h>
+#else
+# include <devhelp/dh-base.h>
+#endif
+
 #include <devhelp/dh-book-tree.h>
 #include <devhelp/dh-search.h>
 #include <devhelp/dh-link.h>
@@ -46,7 +52,9 @@
 struct _DevhelpPluginPrivate
 {
 	/* Devhelp stuff */
+#ifndef HAVE_DEVHELP_GTK3
 	DhBase*			dhbase;
+#endif
     GtkWidget*		book_tree;			/* "Contents" in the sidebar */
     GtkWidget*		search;				/* "Search" in the sidebar */
     GtkWidget*		sb_notebook;		/* Notebook that holds contents/search */
@@ -78,15 +86,10 @@ struct _DevhelpPluginPrivate
 	gchar*		custom_homepage;
 	gboolean	use_devhelp;
 	gboolean	use_man;
-	gboolean	use_codesearch;
 
 	gchar*		man_prog_path;
 	gchar*		man_pager_prog;
 	gchar*		man_section_order;
-
-	gchar*		codesearch_base_uri;
-	gchar*		codesearch_params;
-	gboolean	codesearch_use_lang;
 
     GtkPositionType main_nb_tab_pos;
 };
@@ -111,10 +114,12 @@ enum
 	PROP_LAST
 };
 
-
 /* Causes problems if it gets re-initialized so leave global for now */
+#ifdef HAVE_DEVHELP_GTK3
+static gboolean devhelp_is_initialized = FALSE;
+#else
 static DhBase *dhbase = NULL;
-
+#endif
 
 /* Internal callbacks */
 static void on_search_help_activate(GtkMenuItem * menuitem, DevhelpPlugin *self);
@@ -226,7 +231,7 @@ static void devhelp_plugin_finalize(GObject * object)
 
 	gtk_widget_destroy(self->priv->sb_notebook);
 
-	gtk_widget_unref(devhelp_plugin_ref_unpack_webview_tab(self));
+	g_object_unref(devhelp_plugin_ref_unpack_webview_tab(self));
 
 	gtk_widget_destroy(self->priv->editor_menu_sep);
 	gtk_widget_destroy(self->priv->editor_menu_item);
@@ -234,8 +239,6 @@ static void devhelp_plugin_finalize(GObject * object)
 	g_free(self->priv->man_prog_path);
 	g_free(self->priv->man_pager_prog);
 	g_free(self->priv->man_section_order);
-	g_free(self->priv->codesearch_base_uri);
-	g_free(self->priv->codesearch_params);
 	g_free(self->priv->custom_homepage);
 
 	G_OBJECT_CLASS(devhelp_plugin_parent_class)->finalize(object);
@@ -344,6 +347,7 @@ static void devhelp_plugin_class_init(DevhelpPluginClass * klass)
  */
 static void devhelp_plugin_init_dh(DevhelpPlugin *self)
 {
+
 #ifdef HAVE_BOOK_MANAGER /* for newer api */
 	DhBookManager *book_manager;
 #else
@@ -351,12 +355,27 @@ static void devhelp_plugin_init_dh(DevhelpPlugin *self)
 	GList *keywords;
 #endif
 
+#ifdef HAVE_DEVHELP_GTK3
+	if (! devhelp_is_initialized)
+	{
+		dh_init();
+		devhelp_is_initialized = TRUE;
+	}
+#else
 	if (dhbase == NULL)
 		dhbase = dh_base_new();
 	self->priv->dhbase = dhbase;
+#endif
 
 #ifdef HAVE_BOOK_MANAGER /* for newer api */
+
+# ifdef HAVE_DEVHELP_GTK3
+	book_manager = dh_book_manager_new();
+	dh_book_manager_populate(book_manager);
+# else
 	book_manager = dh_base_get_book_manager(self->priv->dhbase);
+# endif
+
 	self->priv->book_tree = dh_book_tree_new(book_manager);
 	self->priv->search = dh_search_new(book_manager);
 #else
@@ -526,15 +545,10 @@ static void devhelp_plugin_init(DevhelpPlugin * self)
 	p->custom_homepage = NULL;
 	p->use_devhelp = TRUE;
 	p->use_man = TRUE;
-	p->use_codesearch = TRUE;
 
 	p->man_prog_path = g_find_program_in_path("man");
 	p->man_pager_prog = g_strdup("col -b");
 	p->man_section_order = g_strdup("3:2:1:8:5:4:7:6");
-
-	p->codesearch_base_uri = g_strdup("http://www.google.com/codesearch");
-	p->codesearch_params = NULL;
-	p->codesearch_use_lang = TRUE;
 
     p->main_nb_tab_pos = GTK_POS_BOTTOM;
 
@@ -825,7 +839,7 @@ static GtkWidget* devhelp_plugin_ref_unpack_webview_tab(DevhelpPlugin *self)
 	/* Prevents a segfault bug from popping up when messing with doc notebook */
 	gtk_widget_set_sensitive(geany->main_widgets->notebook, FALSE);
 
-	gtk_widget_ref(self->priv->webview_tab);
+	g_object_ref(self->priv->webview_tab);
 
 	if (self->priv->location != DEVHELP_PLUGIN_WEBVIEW_LOCATION_NONE)
 	{
@@ -837,11 +851,11 @@ static GtkWidget* devhelp_plugin_ref_unpack_webview_tab(DevhelpPlugin *self)
 	if (self->priv->location == DEVHELP_PLUGIN_WEBVIEW_LOCATION_MAIN_NOTEBOOK)
 	{
 		parent = gtk_widget_get_parent(self->priv->main_notebook);
-		doc_nb = gtk_widget_ref(geany->main_widgets->notebook);
+		doc_nb = g_object_ref(geany->main_widgets->notebook);
 		gtk_container_remove(GTK_CONTAINER(self->priv->main_notebook), doc_nb);
 		gtk_container_remove(GTK_CONTAINER(parent), self->priv->main_notebook);
 		gtk_container_add(GTK_CONTAINER(parent), doc_nb);
-		gtk_widget_unref(doc_nb);
+		g_object_unref(doc_nb);
 		self->priv->main_notebook = NULL;
 	}
 
@@ -867,7 +881,7 @@ static void devhelp_plugin_set_webview_location(DevhelpPlugin *self, DevhelpPlug
 				GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook),
 				devhelp_plugin_ref_unpack_webview_tab(self),
 				gtk_label_new(DEVHELP_PLUGIN_WEBVIEW_TAB_LABEL));
-			gtk_widget_unref(self->priv->webview_tab);
+			g_object_unref(self->priv->webview_tab);
 			self->priv->location = DEVHELP_PLUGIN_WEBVIEW_LOCATION_SIDEBAR;
 			break;
 		case DEVHELP_PLUGIN_WEBVIEW_LOCATION_MESSAGE_WINDOW:
@@ -875,7 +889,7 @@ static void devhelp_plugin_set_webview_location(DevhelpPlugin *self, DevhelpPlug
 				GTK_NOTEBOOK(geany->main_widgets->message_window_notebook),
 				devhelp_plugin_ref_unpack_webview_tab(self),
 				gtk_label_new(DEVHELP_PLUGIN_WEBVIEW_TAB_LABEL));
-			gtk_widget_unref(self->priv->webview_tab);
+			g_object_unref(self->priv->webview_tab);
 			self->priv->location = DEVHELP_PLUGIN_WEBVIEW_LOCATION_MESSAGE_WINDOW;
 			break;
 		case DEVHELP_PLUGIN_WEBVIEW_LOCATION_MAIN_NOTEBOOK:
@@ -886,7 +900,7 @@ static void devhelp_plugin_set_webview_location(DevhelpPlugin *self, DevhelpPlug
 			doc_nb = geany->main_widgets->notebook;
 			parent = gtk_widget_get_parent(doc_nb);
 
-			gtk_widget_ref(doc_nb);
+			g_object_ref(doc_nb);
 
 			gtk_container_remove(GTK_CONTAINER(parent), doc_nb);
 			main_notebook = gtk_notebook_new();
@@ -903,8 +917,8 @@ static void devhelp_plugin_set_webview_location(DevhelpPlugin *self, DevhelpPlug
 			gtk_widget_show_all(webview_tab);
 			gtk_widget_show_all(main_notebook);
 
-			gtk_widget_unref(doc_nb);
-			gtk_widget_unref(webview_tab);
+			g_object_unref(doc_nb);
+			g_object_unref(webview_tab);
 
 			self->priv->location = DEVHELP_PLUGIN_WEBVIEW_LOCATION_MAIN_NOTEBOOK;
 			break;
@@ -1080,23 +1094,6 @@ void devhelp_plugin_set_use_man(DevhelpPlugin *self, gboolean use)
 	/* TODO: hide edit menu items and keybindings */
 	/* TODO: if no providers, hide webview */
 }
-
-
-gboolean devhelp_plugin_get_use_codesearch(DevhelpPlugin *self)
-{
-	g_return_val_if_fail(DEVHELP_IS_PLUGIN(self), FALSE);
-	return self->priv->use_codesearch;
-}
-
-
-void devhelp_plugin_set_use_codesearch(DevhelpPlugin *self, gboolean use)
-{
-	g_return_if_fail(DEVHELP_IS_PLUGIN(self));
-	self->priv->use_codesearch = use;
-	/* TODO: hide edit menu items and keybindings */
-	/* TODO: if no providers, hide webview */
-}
-
 
 /* Activates (brings to top/makes visible) the Devhelp plugin's sidebar tab. */
 static inline void devhelp_plugin_activate_sidebar_tab(DevhelpPlugin *self)
