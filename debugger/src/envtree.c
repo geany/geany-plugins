@@ -110,7 +110,7 @@ static void delete_selected_rows(void)
 
 	/* check whether only empty row was selected */
 	if (1 != gtk_tree_selection_count_selected_rows(selection) ||
-	    gtk_tree_path_compare((GtkTreePath*)rows->data, empty_path))
+	    (rows && gtk_tree_path_compare((GtkTreePath*)rows->data, empty_path)))
 	{
 		GtkTreePath *path;
 		/* get references to the selected rows and find out what to
@@ -135,7 +135,7 @@ static void delete_selected_rows(void)
 			}
 			
 			if (gtk_tree_path_compare(path, empty_path))
-				references = g_list_append(references, gtk_tree_row_reference_new(model, path));
+				references = g_list_prepend(references, gtk_tree_row_reference_new(model, path));
 			
 			iter = iter->next;
 		}
@@ -145,7 +145,7 @@ static void delete_selected_rows(void)
 		if (!reference_to_select)
 			reference_to_select = gtk_tree_row_reference_copy (empty_row);
 
-		iter = references;
+		iter = g_list_reverse(references);
 		while (iter)
 		{
 			GtkTreeIter titer;

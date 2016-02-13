@@ -33,6 +33,7 @@ typedef enum _break_state {
 } break_state;
 
 typedef void	(*move_to_line_cb)(const char* file, int line);
+typedef void	(*select_thread_cb)(int thread_id);
 typedef void	(*select_frame_cb)(int frame_number);
 
 gboolean		breaks_init(move_to_line_cb callback);

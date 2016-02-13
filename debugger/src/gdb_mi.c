@@ -47,13 +47,11 @@ void gdb_mi_value_free(struct gdb_mi_value *val)
 	switch (val->type)
 	{
 		case GDB_MI_VAL_STRING:
-			g_free(val->string);
-			g_warn_if_fail(val->list == NULL);
+			g_free(val->v.string);
 			break;
 
 		case GDB_MI_VAL_LIST:
-			gdb_mi_result_free(val->list, TRUE);
-			g_warn_if_fail(val->string == NULL);
+			gdb_mi_result_free(val->v.list, TRUE);
 			break;
 	}
 	g_free(val);
@@ -98,13 +96,17 @@ static gchar *parse_cstring(const gchar **p)
 
 	if (**p == '"')
 	{
+		const gchar *base;
+
 		(*p)++;
+		base = *p;
 		while (**p != '"')
 		{
 			gchar c = **p;
 			/* TODO: check expansions here */
 			if (c == '\\')
 			{
+				g_string_append_len(str, base, (*p) - base);
 				(*p)++;
 				c = **p;
 				switch (g_ascii_tolower(c))
@@ -159,12 +161,14 @@ static gchar *parse_cstring(const gchar **p)
 						}
 						break;
 				}
+				g_string_append_c(str, c);
+				base = (*p) + 1;
 			}
-			if (**p == '\0')
+			else if (**p == '\0')
 				break;
-			g_string_append_c(str, c);
 			(*p)++;
 		}
+		g_string_append_len(str, base, (*p) - base);
 		if (**p == '"')
 			(*p)++;
 	}
@@ -176,15 +180,15 @@ static gchar *parse_cstring(const gchar **p)
  *        the docs aren't clear on this */
 static gchar *parse_string(const gchar **p)
 {
-	GString *str = g_string_new(NULL);
+	const gchar *base = *p;
 
 	if (g_ascii_isalpha(**p) || strchr("-_.", **p))
 	{
-		g_string_append_c(str, **p);
 		for ((*p)++; g_ascii_isalnum(**p) || strchr("-_.", **p); (*p)++)
-			g_string_append_c(str, **p);
+			;
 	}
-	return g_string_free(str, FALSE);
+
+	return g_strndup (base, *p - base);
 }
 
 /* parses: string "=" value */
@@ -205,15 +209,17 @@ static gboolean parse_result(struct gdb_mi_result *result, const gchar **p)
  * Actually, this is more permissive and allows mixed tuples/lists */
 static struct gdb_mi_value *parse_value(const gchar **p)
 {
-	struct gdb_mi_value *val = g_malloc0(sizeof *val);
+	struct gdb_mi_value *val = NULL;
 	if (**p == '"')
 	{
+		val = g_malloc0(sizeof *val);
 		val->type = GDB_MI_VAL_STRING;
-		val->string = parse_cstring(p);
+		val->v.string = parse_cstring(p);
 	}
 	else if (**p == '{' || **p == '[')
 	{
 		struct gdb_mi_result *prev = NULL;
+		val = g_malloc0(sizeof *val);
 		val->type = GDB_MI_VAL_LIST;
 		gchar end = **p == '{' ? '}' : ']';
 		(*p)++;
@@ -227,7 +233,7 @@ static struct gdb_mi_value *parse_value(const gchar **p)
 				if (prev)
 					prev->next = item;
 				else
-					val->list = item;
+					val->v.list = item;
 				prev = item;
 			}
 			else
@@ -241,11 +247,6 @@ static struct gdb_mi_value *parse_value(const gchar **p)
 		}
 		if (**p == end)
 			(*p)++;
-	}
-	else
-	{
-		gdb_mi_value_free(val);
-		val = NULL;
 	}
 	return val;
 }
@@ -393,9 +394,9 @@ const void *gdb_mi_result_var(const struct gdb_mi_result *result, const gchar *n
 	if (! val || val->type != type)
 		return NULL;
 	else if (val->type == GDB_MI_VAL_STRING)
-		return val->string;
+		return val->v.string;
 	else if (val->type == GDB_MI_VAL_LIST)
-		return val->list;
+		return val->v.list;
 	return NULL;
 }
 
@@ -449,12 +450,12 @@ static void gdb_mi_value_dump(const struct gdb_mi_value *v, gint indent)
 	switch (v->type)
 	{
 		case GDB_MI_VAL_STRING:
-			fprintf(stderr, "%*sstring = %s\n", indent * 2, "", v->string);
+			fprintf(stderr, "%*sstring = %s\n", indent * 2, "", v->v.string);
 			break;
 		case GDB_MI_VAL_LIST:
 			fprintf(stderr, "%*slist =>\n", indent * 2, "");
-			if (v->list)
-				gdb_mi_result_dump(v->list, TRUE, indent + 1);
+			if (v->v.list)
+				gdb_mi_result_dump(v->v.list, TRUE, indent + 1);
 			break;
 	}
 }
@@ -479,17 +480,35 @@ static void gdb_mi_record_dump(const struct gdb_mi_record *record)
 		gdb_mi_result_dump(record->first, TRUE, 2);
 }
 
-int main(void)
+static gchar *read_line(FILE *fp)
 {
 	char buf[1024] = {0};
+	GString *line = g_string_new(NULL);
 
-	while (fgets(buf, sizeof buf, stdin))
+	while (fgets(buf, sizeof buf, fp))
 	{
-		struct gdb_mi_record *record = gdb_mi_record_parse(buf);
+		g_string_append(line, buf);
+		if (line->len < 1 || line->str[line->len - 1] == '\n')
+			break;
+	}
+
+	return g_string_free(line, line->len < 1);
+}
+
+int main(int argc, char **argv)
+{
+	gchar *line;
+
+	while ((line = read_line(stdin)) != NULL)
+	{
+		struct gdb_mi_record *record = gdb_mi_record_parse(line);
 
 		gdb_mi_record_dump(record);
 		gdb_mi_record_free(record);
+
+		g_free(line);
 	}
+
 	return 0;
 }
 

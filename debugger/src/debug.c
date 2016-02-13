@@ -399,7 +399,7 @@ static gboolean on_watch_key_pressed_callback(GtkWidget *widget, GdkEvent  *even
 
 	/* check whether only empty row was selected */
 	if (1 != gtk_tree_selection_count_selected_rows(selection) ||
-	    gtk_tree_path_compare((GtkTreePath*)rows->data, empty_path))
+	    (rows && gtk_tree_path_compare((GtkTreePath*)rows->data, empty_path)))
 	{
 		/* path reference to select after deleteing finishes */
 		GtkTreeRowReference *reference_to_select = NULL;
@@ -418,13 +418,13 @@ static gboolean on_watch_key_pressed_callback(GtkWidget *widget, GdkEvent  *even
 
 			/* add path reference if it's not an empty row*/
 			if (gtk_tree_path_compare(path, empty_path))
-				references = g_list_append(references, gtk_tree_row_reference_new(wmodel, path));
+				references = g_list_prepend(references, gtk_tree_row_reference_new(wmodel, path));
 
 			iter = iter->next;
 		}
 
 		/* iterate through references and remove */
-		iter = references;
+		iter = g_list_reverse(references);
 		while (iter)
 		{
 			GtkTreeRowReference *reference = (GtkTreeRowReference*)iter->data;
@@ -640,7 +640,7 @@ static void on_debugger_run (void)
 	if (stack)
 	{
 		remove_stack_markers();
-		g_list_foreach(stack, (GFunc)frame_free, NULL);
+		g_list_foreach(stack, (GFunc)frame_unref, NULL);
 		g_list_free(stack);
 		stack = NULL;
 
@@ -700,11 +700,7 @@ static void on_debugger_stopped (int thread_id)
 
 	/* get current stack trace and put in the tree view */
 	stack = active_module->get_stack();
-	for (iter = stack; iter; iter = iter->next)
-	{
-		frame *f = (frame*)iter->data;
-		stree_add(f);
-	}
+	stree_add (stack);
 	stree_select_first_frame(TRUE);
 
 	/* files */
@@ -799,7 +795,7 @@ static void on_debugger_exited (int code)
 	if (stack)
 	{
 		remove_stack_markers();
-		g_list_foreach(stack, (GFunc)frame_free, NULL);
+		g_list_foreach(stack, (GFunc)frame_unref, NULL);
 		g_list_free(stack);
 		stack = NULL;
 	}
@@ -934,9 +930,12 @@ dbg_callbacks callbacks = {
 static void on_select_frame(int frame_number)
 {
 	GList *autos, *watches;
-	frame *f = (frame*)g_list_nth(stack, active_module->get_active_frame())->data;
-	markers_remove_current_instruction(f->file, f->line);
-	markers_add_frame(f->file, f->line);
+	frame *f = (frame*)g_list_nth_data(stack, active_module->get_active_frame());
+	if (f)
+	{
+		markers_remove_current_instruction(f->file, f->line);
+		markers_add_frame(f->file, f->line);
+	}
 
 	active_module->set_active_frame(frame_number);
 	
@@ -952,9 +951,41 @@ static void on_select_frame(int frame_number)
 	watches = active_module->get_watches();
 	update_variables(GTK_TREE_VIEW(wtree), NULL, watches);
 
-	f = (frame*)g_list_nth(stack, frame_number)->data;
-	markers_remove_frame(f->file, f->line);
-	markers_add_current_instruction(f->file, f->line);
+	f = (frame*)g_list_nth_data(stack, frame_number);
+	if (f)
+	{
+		markers_remove_frame(f->file, f->line);
+		markers_add_current_instruction(f->file, f->line);
+	}
+}
+
+/*
+ * called when a thread should been selected
+ */
+static void on_select_thread(int thread_id)
+{
+	gboolean success;
+
+	if (stack)
+		remove_stack_markers();
+
+	if ((success = active_module->set_active_thread(thread_id)))
+	{
+		g_list_free_full(stack, (GDestroyNotify)frame_unref);
+		stack = active_module->get_stack();
+
+		/* update the stack tree */
+		stree_remove_frames();
+		stree_set_active_thread_id(thread_id);
+		stree_add(stack);
+		stree_select_first_frame(TRUE);
+	}
+
+	if (stack)
+		add_stack_markers();
+
+	if (success)
+		on_select_frame(0);
 }
 
 /*
@@ -1000,7 +1031,7 @@ void debug_init(void)
 	gtk_container_add(GTK_CONTAINER(tab_autos), atree);
 	
 	/* create stack trace page */
-	stree = stree_init(editor_open_position, on_select_frame);
+	stree = stree_init(editor_open_position, on_select_thread, on_select_frame);
 	tab_call_stack = gtk_scrolled_window_new(
 		gtk_tree_view_get_hadjustment(GTK_TREE_VIEW(stree )),
 		gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(stree ))
@@ -1075,7 +1106,7 @@ void debug_destroy(void)
 	if (stack)
 	{
 		remove_stack_markers();
-		g_list_foreach(stack, (GFunc)frame_free, NULL);
+		g_list_foreach(stack, (GFunc)frame_unref, NULL);
 		g_list_free(stack);
 		stack = NULL;
 	}
@@ -1126,11 +1157,11 @@ GList* debug_get_modules(void)
 	module_description *desc = modules;
 	while (desc->title)
 	{
-		mods = g_list_append(mods, (gpointer)desc->title);
+		mods = g_list_prepend(mods, (gpointer)desc->title);
 		desc++;
 	}
 	
-	return mods;
+	return g_list_reverse(mods);
 }
 
 /*

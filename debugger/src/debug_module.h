@@ -79,6 +79,7 @@ typedef struct _variable {
 
 /* type to hold information about a stack frame */
 typedef struct _frame {
+	gint ref_count;
 	gchar *address;
 	gchar *function;
 	gchar *file;
@@ -120,7 +121,10 @@ typedef struct _dbg_module {
 
 	void (*set_active_frame)(int frame_number);
 	int (*get_active_frame)(void);
-		
+
+	gboolean (*set_active_thread)(int thread_id);
+	int (*get_active_thread)(void);
+
 	GList* (*get_autos) (void);
 	GList* (*get_watches) (void);
 	
@@ -154,6 +158,8 @@ typedef struct _dbg_module {
 	get_stack, \
 	set_active_frame, \
 	get_active_frame, \
+	set_active_thread, \
+	get_active_thread, \
 	get_autos, \
 	get_watches, \
 	get_files, \
@@ -170,7 +176,8 @@ variable*	variable_new(const gchar *name, variable_type vt);
 variable*	variable_new2(const gchar *name, const gchar *internal, variable_type vt);
 void		variable_reset(variable *var);
 
-frame*	frame_new(void);
-void		frame_free(frame* f);
+frame*		frame_new(void);
+frame*		frame_ref(frame* f);
+void		frame_unref(frame* f);
 
 #endif /* guard */

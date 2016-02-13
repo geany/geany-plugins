@@ -476,9 +476,9 @@ GList *get_root_items(GtkTreeView *tree)
 			-1);
 		
 		if (strlen(name))
-			names = g_list_append(names, name);
+			names = g_list_prepend(names, name);
 	}
 	while (gtk_tree_model_iter_next(model, &child));
 	
-	return names;
+	return g_list_reverse(names);
 }

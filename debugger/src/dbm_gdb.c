@@ -60,9 +60,9 @@ typedef enum _result_class {
 
 /* structure to keep async command data (command line, messages) */
 typedef struct _queue_item {
-	GString *message;
-	GString *command;
-	GString *error_message;
+	gchar *message;
+	gchar *command;
+	gchar *error_message;
 	gboolean format_error_message;
 } queue_item;
 
@@ -213,10 +213,10 @@ static GList* read_until_prompt(void)
 			break;
 
 		line[terminator] = '\0';
-		lines = g_list_append (lines, line);
+		lines = g_list_prepend (lines, line);
 	}
 	
-	return lines;
+	return g_list_reverse(lines);
 }
 
 /*
@@ -261,11 +261,9 @@ static void gdb_input_write_line(const gchar *line)
  */
 static void free_queue_item(queue_item *item)
 {
-	if (item->message)
-		g_string_free(item->message, TRUE);
-	g_string_free(item->command, TRUE);
-	if (item->error_message)
-		g_string_free(item->error_message, TRUE);
+	g_free(item->message);
+	g_free(item->command);
+	g_free(item->error_message);
 	g_free(item);
 }
 
@@ -289,15 +287,9 @@ static GList* add_to_queue(GList* queue, const gchar *message, const gchar *comm
 
 	memset((void*)item, 0, sizeof(queue_item));
 
-	if (message)
-	{
-		item->message = g_string_new(message);
-	}
-	item->command = g_string_new(command);
-	if (error_message)
-	{
-		item->error_message = g_string_new(error_message);
-	}
+	item->message = g_strdup(message);
+	item->command = g_strdup(command);
+	item->error_message = g_strdup(error_message);
 	item->format_error_message = format_error_message;
 
 	return g_list_append(queue, (gpointer)item);
@@ -351,10 +343,10 @@ static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpoint
 				/* send message to debugger messages window */
 				if (item->message)
 				{
-					dbg_cbs->send_message(item->message->str, "grey");
+					dbg_cbs->send_message(item->message, "grey");
 				}
 
-				gdb_input_write_line(item->command->str);
+				gdb_input_write_line(item->command);
 
 				gdb_id_out = g_io_add_watch(gdb_ch_out, G_IO_IN, on_read_async_output, commands);
 			}
@@ -385,16 +377,14 @@ static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpoint
 				if (item->format_error_message)
 				{
 					const gchar* gdb_msg = gdb_mi_result_var(record->first, "msg", GDB_MI_VAL_STRING);
+					gchar *msg = g_strdup_printf(item->error_message, gdb_msg);
 
-					GString *msg = g_string_new("");
-					g_string_printf(msg, item->error_message->str, gdb_msg);
-					dbg_cbs->report_error(msg->str);
-
-					g_string_free(msg, FALSE);
+					dbg_cbs->report_error(msg);
+					g_free(msg);
 				}
 				else
 				{
-					dbg_cbs->report_error(item->error_message->str);
+					dbg_cbs->report_error(item->error_message);
 				}
 			}
 			
@@ -529,7 +519,14 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 			else
 			{
 				if (!requested_interrupt)
-					dbg_cbs->report_error(_("Program received a signal"));
+				{
+					gchar *msg = g_strdup_printf(_("Program received signal %s (%s)"),
+					                             (gchar *) gdb_mi_result_var(record->first, "signal-name", GDB_MI_VAL_STRING),
+					                             (gchar *) gdb_mi_result_var(record->first, "signal-meaning", GDB_MI_VAL_STRING));
+
+					dbg_cbs->report_error(msg);
+					g_free(msg);
+				}
 				else
 					requested_interrupt = FALSE;
 			}
@@ -696,7 +693,8 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	gchar *working_directory = g_path_get_dirname(file);
 	GList *lines, *iter;
 	GList *commands = NULL;
-	GString *command;
+	gchar *command;
+	gchar *escaped;
 	int bp_index;
 	queue_item *item;
 
@@ -752,10 +750,11 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	/* collect commands */
 
 	/* loading file */
-	command = g_string_new("");
-	g_string_printf(command, "-file-exec-and-symbols \"%s\"", file);
-	commands = add_to_queue(commands, _("~\"Loading target file.\\n\""), command->str, _("Error loading file"), FALSE);
-	g_string_free(command, TRUE);
+	escaped = g_strescape(file, NULL);
+	command = g_strdup_printf("-file-exec-and-symbols \"%s\"", escaped);
+	commands = add_to_queue(commands, _("~\"Loading target file.\\n\""), command, _("Error loading file"), FALSE);
+	g_free(command);
+	g_free(escaped);
 
 	/* setting asyncronous mode */
 	commands = add_to_queue(commands, NULL, "-gdb-set target-async 1", _("Error configuring GDB"), FALSE);
@@ -767,16 +766,14 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	commands = add_to_queue(commands, NULL, "-enable-pretty-printing", _("Error configuring GDB"), FALSE);
 
 	/* set locale */
-	command = g_string_new("");
-	g_string_printf(command, "-gdb-set environment LANG=%s", g_getenv("LANG"));
-	commands = add_to_queue(commands, NULL, command->str, NULL, FALSE);
-	g_string_free(command, TRUE);
+	command = g_strdup_printf("-gdb-set environment LANG=%s", g_getenv("LANG"));
+	commands = add_to_queue(commands, NULL, command, NULL, FALSE);
+	g_free(command);
 
 	/* set arguments */
-	command = g_string_new("");
-	g_string_printf(command, "-exec-arguments %s", commandline);
-	commands = add_to_queue(commands, NULL, command->str, NULL, FALSE);
-	g_string_free(command, TRUE);
+	command = g_strdup_printf("-exec-arguments %s", commandline);
+	commands = add_to_queue(commands, NULL, command, NULL, FALSE);
+	g_free(command);
 
 	/* set passed evironment */
 	iter = env;
@@ -788,11 +785,9 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 		iter = iter->next;
 		value = (gchar*)iter->data;
 
-		command = g_string_new("");
-		g_string_printf(command, "-gdb-set environment %s=%s", name, value);
-
-		commands = add_to_queue(commands, NULL, command->str, NULL, FALSE);
-		g_string_free(command, TRUE);
+		command = g_strdup_printf("-gdb-set environment %s=%s", name, value);
+		commands = add_to_queue(commands, NULL, command, NULL, FALSE);
+		g_free(command);
 
 		iter = iter->next;
 	}
@@ -802,50 +797,47 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	while (biter)
 	{
 		breakpoint *bp = (breakpoint*)biter->data;
-		GString *error_message = g_string_new("");
+		gchar *error_message;
 
-		command = g_string_new("");
-		g_string_printf(command, "-break-insert -f \"\\\"%s\\\":%i\"", bp->file, bp->line);
+		escaped = g_strescape(bp->file, NULL);
+		command = g_strdup_printf("-break-insert -f \"\\\"%s\\\":%i\"", escaped, bp->line);
+		g_free(escaped);
 
-		g_string_printf(error_message, _("Breakpoint at %s:%i cannot be set\nDebugger message: %s"), bp->file, bp->line, "%s");
-		
-		commands = add_to_queue(commands, NULL, command->str, error_message->str, TRUE);
+		error_message = g_strdup_printf(_("Breakpoint at %s:%i cannot be set\nDebugger message: %s"), bp->file, bp->line, "%s");
 
-		g_string_free(command, TRUE);
+		commands = add_to_queue(commands, NULL, command, error_message, TRUE);
+
+		g_free(command);
 
 		if (bp->hitscount)
 		{
-			command = g_string_new("");
-			g_string_printf(command, "-break-after %i %i", bp_index, bp->hitscount);
-			commands = add_to_queue(commands, NULL, command->str, error_message->str, TRUE);
-			g_string_free(command, TRUE);
+			command = g_strdup_printf("-break-after %i %i", bp_index, bp->hitscount);
+			commands = add_to_queue(commands, NULL, command, error_message, TRUE);
+			g_free(command);
 		}
 		if (strlen(bp->condition))
 		{
-			command = g_string_new("");
-			g_string_printf (command, "-break-condition %i %s", bp_index, bp->condition);
-			commands = add_to_queue(commands, NULL, command->str, error_message->str, TRUE);
-			g_string_free(command, TRUE);
+			command = g_strdup_printf ("-break-condition %i %s", bp_index, bp->condition);
+			commands = add_to_queue(commands, NULL, command, error_message, TRUE);
+			g_free(command);
 		}
 		if (!bp->enabled)
 		{
-			command = g_string_new("");
-			g_string_printf (command, "-break-disable %i", bp_index);
-			commands = add_to_queue(commands, NULL, command->str, error_message->str, TRUE);
-			g_string_free(command, TRUE);
+			command = g_strdup_printf ("-break-disable %i", bp_index);
+			commands = add_to_queue(commands, NULL, command, error_message, TRUE);
+			g_free(command);
 		}
 
-		g_string_free(error_message, TRUE);
+		g_free(error_message);
 
 		bp_index++;
 		biter = biter->next;
 	}
 
 	/* set debugging terminal */
-	command = g_string_new("-inferior-tty-set ");
-	g_string_append(command, terminal_device);
-	commands = add_to_queue(commands, NULL, command->str, NULL, FALSE);
-	g_string_free(command, TRUE);
+	command = g_strconcat("-inferior-tty-set ", terminal_device, NULL);
+	commands = add_to_queue(commands, NULL, command, NULL, FALSE);
+	g_free(command);
 
 	/* connect read callback to the output chanel */
 	gdb_id_out = g_io_add_watch(gdb_ch_out, G_IO_IN, on_read_async_output, commands);
@@ -855,11 +847,11 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	/* send message to debugger messages window */
 	if (item->message)
 	{
-		dbg_cbs->send_message(item->message->str, "grey");
+		dbg_cbs->send_message(item->message, "grey");
 	}
 
 	/* send first command */
-	gdb_input_write_line(item->command->str);
+	gdb_input_write_line(item->command);
 
 	return TRUE;
 }
@@ -930,6 +922,7 @@ static int get_break_number(char* file, int line)
 {
 	struct gdb_mi_record *record;
 	const struct gdb_mi_result *table, *body, *bkpt;
+	int break_number = -1;
 
 	exec_sync_command("-break-list", TRUE, &record);
 	if (! record)
@@ -939,8 +932,8 @@ static int get_break_number(char* file, int line)
 	body = gdb_mi_result_var(table, "body", GDB_MI_VAL_LIST);
 	gdb_mi_result_foreach_matched (bkpt, body, "bkpt", GDB_MI_VAL_LIST)
 	{
-		const gchar *number = gdb_mi_result_var(bkpt->val->list, "number", GDB_MI_VAL_STRING);
-		const gchar *location = gdb_mi_result_var(bkpt->val->list, "original-location", GDB_MI_VAL_STRING);
+		const gchar *number = gdb_mi_result_var(bkpt->val->v.list, "number", GDB_MI_VAL_STRING);
+		const gchar *location = gdb_mi_result_var(bkpt->val->v.list, "original-location", GDB_MI_VAL_STRING);
 		const gchar *colon;
 		gboolean break_found = FALSE;
 
@@ -950,21 +943,26 @@ static int get_break_number(char* file, int line)
 		colon = strrchr(location, ':');
 		if (colon && atoi(colon + 1) == line)
 		{
-			gchar *fname = g_strndup(location, colon - location);
-			/* FIXME: the check used to be made against \"file\" (e.g. file surrounded
-			 * by backslash-quote), but that's not at least how GDB 7.7 does it */
+			gchar *fname;
+
+			/* quotes around filename (location not found or something?) */
+			if (*location == '"' && colon - location > 2)
+				fname = g_strndup(location + 1, colon - location - 2);
+			else
+				fname = g_strndup(location, colon - location);
 			break_found = strcmp(fname, file) == 0;
 			g_free(fname);
 		}
 		if (break_found)
 		{
-			return atoi(number);
+			break_number = atoi(number);
+			break;
 		}
 	}
 	
 	gdb_mi_record_free(record);
 	
-	return -1;
+	return break_number;
 }
 
 /*
@@ -979,18 +977,21 @@ static gboolean set_break(breakpoint* bp, break_set_activity bsa)
 		struct gdb_mi_record *record;
 		const struct gdb_mi_result *bkpt;
 		const gchar *number;
+		gchar *escaped;
 		int num = 0;
 
 		/* 1. insert breakpoint */
-		g_snprintf(command, sizeof command, "-break-insert \"\\\"%s\\\":%i\"", bp->file, bp->line);
+		escaped = g_strescape(bp->file, NULL);
+		g_snprintf(command, sizeof command, "-break-insert \"\\\"%s\\\":%i\"", escaped, bp->line);
 		if (RC_DONE != exec_sync_command(command, TRUE, &record) || !record)
 		{
 			gdb_mi_record_free(record);
 			record = NULL;
-			g_snprintf(command, sizeof command, "-break-insert -f \"\\\"%s\\\":%i\"", bp->file, bp->line);
+			g_snprintf(command, sizeof command, "-break-insert -f \"\\\"%s\\\":%i\"", escaped, bp->line);
 			if (RC_DONE != exec_sync_command(command, TRUE, &record) || !record)
 			{
 				gdb_mi_record_free(record);
+				g_free(escaped);
 				return FALSE;
 			}
 		}
@@ -999,6 +1000,7 @@ static gboolean set_break(breakpoint* bp, break_set_activity bsa)
 		if ((number = gdb_mi_result_var(bkpt, "number", GDB_MI_VAL_STRING)))
 			num = atoi(number);
 		gdb_mi_record_free(record);
+		g_free(escaped);
 		/* 2. set hits count if differs from 0 */
 		if (bp->hitscount)
 		{
@@ -1084,6 +1086,34 @@ static void set_active_frame(int frame_number)
 	g_free(command);
 }
 
+static int get_active_thread(void)
+{
+	struct gdb_mi_record *record = NULL;
+	int current_thread = 0;
+
+	if (RC_DONE == exec_sync_command("-thread-info", TRUE, &record))
+	{
+		const gchar *id = gdb_mi_result_var(record->first, "current-thread-id", GDB_MI_VAL_STRING);
+		current_thread = id ? atoi(id) : 0;
+	}
+	gdb_mi_record_free(record);
+
+	return current_thread;
+}
+
+static gboolean set_active_thread(int thread_id)
+{
+	gchar *command = g_strdup_printf("-thread-select %i", thread_id);
+	gboolean success = (RC_DONE == exec_sync_command(command, TRUE, NULL));
+
+	if (success)
+		set_active_frame(0);
+
+	g_free(command);
+
+	return success;
+}
+
 /*
  * gets stack
  */
@@ -1102,9 +1132,9 @@ static GList* get_stack(void)
 	stack_node = gdb_mi_result_var(record->first, "stack", GDB_MI_VAL_LIST);
 	gdb_mi_result_foreach_matched (frame_node, stack_node, "frame", GDB_MI_VAL_LIST)
 	{
-		const gchar *addr = gdb_mi_result_var(frame_node->val->list, "addr", GDB_MI_VAL_STRING);
-		const gchar *func = gdb_mi_result_var(frame_node->val->list, "func", GDB_MI_VAL_STRING);
-		const gchar *line = gdb_mi_result_var(frame_node->val->list, "line", GDB_MI_VAL_STRING);
+		const gchar *addr = gdb_mi_result_var(frame_node->val->v.list, "addr", GDB_MI_VAL_STRING);
+		const gchar *func = gdb_mi_result_var(frame_node->val->v.list, "func", GDB_MI_VAL_STRING);
+		const gchar *line = gdb_mi_result_var(frame_node->val->v.list, "line", GDB_MI_VAL_STRING);
 		const gchar *file, *fullname;
 		frame *f = frame_new();
 
@@ -1112,9 +1142,9 @@ static GList* get_stack(void)
 		f->function = g_strdup(func);
 
 		/* file: fullname | file | from */
-		if ((fullname = file = gdb_mi_result_var(frame_node->val->list, "fullname", GDB_MI_VAL_STRING)) ||
-			(file = gdb_mi_result_var(frame_node->val->list, "file", GDB_MI_VAL_STRING)) ||
-			(file = gdb_mi_result_var(frame_node->val->list, "from", GDB_MI_VAL_STRING)))
+		if ((fullname = file = gdb_mi_result_var(frame_node->val->v.list, "fullname", GDB_MI_VAL_STRING)) ||
+			(file = gdb_mi_result_var(frame_node->val->v.list, "file", GDB_MI_VAL_STRING)) ||
+			(file = gdb_mi_result_var(frame_node->val->v.list, "from", GDB_MI_VAL_STRING)))
 		{
 			f->file = g_strdup(file);
 		}
@@ -1129,11 +1159,11 @@ static GList* get_stack(void)
 		/* line */
 		f->line = line ? atoi(line) : 0;
 
-		stack = g_list_append(stack, f);
+		stack = g_list_prepend(stack, f);
 	}
 	gdb_mi_record_free(record);
 	
-	return stack;
+	return g_list_reverse(stack);
 }
 
 /*
@@ -1224,7 +1254,7 @@ static void update_files(void)
 	files_node = gdb_mi_result_var(record->first, "files", GDB_MI_VAL_LIST);
 	gdb_mi_result_foreach_matched (files_node, files_node, NULL, GDB_MI_VAL_LIST)
 	{
-		const gchar *fullname = gdb_mi_result_var(files_node->val->list, "fullname", GDB_MI_VAL_STRING);
+		const gchar *fullname = gdb_mi_result_var(files_node->val->v.list, "fullname", GDB_MI_VAL_STRING);
 
 		if (fullname && !g_hash_table_lookup(ht, fullname))
 		{
@@ -1293,8 +1323,9 @@ static void update_watches(void)
 		var->evaluated = name != NULL;
 
 		/* add to updating list */
-		updating = g_list_append(updating, var);
+		updating = g_list_prepend(updating, var);
 	}
+	updating = g_list_reverse(updating);
 	
 	/* update watches */
 	get_variables(updating);
@@ -1335,11 +1366,11 @@ static void update_autos(void)
 
 		gdb_mi_result_foreach_matched (stack_args, stack_args, "frame", GDB_MI_VAL_LIST)
 		{
-			const struct gdb_mi_result *args = gdb_mi_result_var(stack_args->val->list, "args", GDB_MI_VAL_LIST);
+			const struct gdb_mi_result *args = gdb_mi_result_var(stack_args->val->v.list, "args", GDB_MI_VAL_LIST);
 
 			gdb_mi_result_foreach_matched (args, args, "name", GDB_MI_VAL_STRING)
 			{
-				variable *var = variable_new(args->val->string, VT_ARGUMENT);
+				variable *var = variable_new(args->val->v.string, VT_ARGUMENT);
 				vars = g_list_append(vars, var);
 			}
 		}
@@ -1352,7 +1383,7 @@ static void update_autos(void)
 
 		gdb_mi_result_foreach_matched (locals, locals, "name", GDB_MI_VAL_STRING)
 		{
-			variable *var = variable_new(locals->val->string, VT_LOCAL);
+			variable *var = variable_new(locals->val->v.string, VT_LOCAL);
 			vars = g_list_append(vars, var);
 		}
 	}
@@ -1455,8 +1486,8 @@ static GList* get_children (gchar* path)
 
 		gdb_mi_result_foreach_matched (child_node, child_node, "child", GDB_MI_VAL_LIST)
 		{
-			const gchar *internal = gdb_mi_result_var(child_node->val->list, "name", GDB_MI_VAL_STRING);
-			const gchar *name = gdb_mi_result_var(child_node->val->list, "exp", GDB_MI_VAL_STRING);
+			const gchar *internal = gdb_mi_result_var(child_node->val->v.list, "name", GDB_MI_VAL_STRING);
+			const gchar *name = gdb_mi_result_var(child_node->val->v.list, "exp", GDB_MI_VAL_STRING);
 			variable *var;
 
 			if (! name || ! internal)
@@ -1465,11 +1496,12 @@ static GList* get_children (gchar* path)
 			var = variable_new2(name, internal, VT_CHILD);
 			var->evaluated = TRUE;
 
-			children = g_list_append(children, var);
+			children = g_list_prepend(children, var);
 		}
 	}
 	gdb_mi_record_free(record);
 	
+	children = g_list_reverse(children);
 	get_variables(children);
 
 	return children;
