@@ -1608,7 +1608,7 @@ vccommit_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 	speller = gtkspell_new_attach(GTK_TEXT_VIEW(messageView), EMPTY(lang) ? NULL : lang, &spellcheck_error);
 	if (speller == NULL && spellcheck_error != NULL)
 	{
-		ui_set_statusbar(TRUE, _("Error initializing spell checking: %s"),
+		ui_set_statusbar(TRUE, _("Error initializing GeanyVC spell checking: %s. Check your configuration."),
 				 spellcheck_error->message);
 		g_error_free(spellcheck_error);
 		spellcheck_error = NULL;
