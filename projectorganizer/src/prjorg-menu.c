@@ -403,13 +403,13 @@ void prjorg_menu_init(void)
 
 	image = gtk_image_new_from_stock(GTK_STOCK_FIND, GTK_ICON_SIZE_MENU);
 	gtk_widget_show(image);
-	s_ft_item = gtk_image_menu_item_new_with_mnemonic(_("Find Project Tag..."));
+	s_ft_item = gtk_image_menu_item_new_with_mnemonic(_("Find Project Symbol..."));
 	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(s_ft_item), image);
 	gtk_widget_show(s_ft_item);
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_ft_item);
 	g_signal_connect((gpointer) s_ft_item, "activate", G_CALLBACK(on_find_tag), NULL);
 	keybindings_set_item(key_group, KB_FIND_TAG, NULL,
-		0, 0, "find_tag", _("Find project tag"), s_ft_item);
+		0, 0, "find_tag", _("Find project symbol"), s_ft_item);
 
 	s_shs_item = gtk_menu_item_new_with_mnemonic(_("Swap Header/Source"));
 	gtk_widget_show(s_shs_item);

@@ -620,16 +620,16 @@ gint prjorg_project_add_properties_tab(GtkWidget *notebook)
 	gtk_entry_set_text(GTK_ENTRY(e->ignored_dirs_patterns), str);
 	g_free(str);
 
-	label = gtk_label_new(_("Generate tags for all project files:"));
+	label = gtk_label_new(_("Index all project files:"));
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
 	e->generate_tag_prefs = gtk_combo_box_text_new();
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), _("Auto (generate if less than 300 files)"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), _("Auto (index if less than 300 files)"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), _("Yes"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), _("No"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(e->generate_tag_prefs), prj_org->generate_tag_prefs);
 	ui_table_add_row(GTK_TABLE(table), 4, label, e->generate_tag_prefs, NULL);
 	ui_widget_set_tooltip_text(e->generate_tag_prefs,
-		_("Generate tag list for all project files instead of only for the currently opened files. "
+		_("Generate symbol list for all project files instead of only for the currently opened files. "
 		  "Might be slow for big projects."));
 
 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 6);
