@@ -440,7 +440,7 @@ static void create_dialog_find_tag(void)
 		return;
 
 	s_ft_dialog.widget = gtk_dialog_new_with_buttons(
-		_("Find Tag"), GTK_WINDOW(geany->main_widgets->window),
+		_("Find Symbol"), GTK_WINDOW(geany->main_widgets->window),
 		GTK_DIALOG_DESTROY_WITH_PARENT,
 		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
 	gtk_dialog_add_button(GTK_DIALOG(s_ft_dialog.widget), "gtk-find", GTK_RESPONSE_ACCEPT);
@@ -1389,7 +1389,7 @@ void prjorg_sidebar_init(void)
 
 	image = gtk_image_new_from_stock(GTK_STOCK_FIND, GTK_ICON_SIZE_MENU);
 	gtk_widget_show(image);
-	item = gtk_image_menu_item_new_with_mnemonic(_("Find Tag..."));
+	item = gtk_image_menu_item_new_with_mnemonic(_("Find Symbol..."));
 	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);

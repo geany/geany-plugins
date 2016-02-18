@@ -9,7 +9,7 @@ About
 
 Project Organizer is an extension of Geany's project management displaying a tree of 
 files belonging to the project in the sidebar. In addition, it enables complete indexing
-of the project files (and having code completion, syntax highlighting and tag 
+of the project files (and having code completion, syntax highlighting and symbol
 definition/declaration jumps for the whole project) quick swapping between header 
 and source files, improved opening of includes, searching project files by name 
 and more. External directories can be attached to the project to extend the plugin's
@@ -93,12 +93,12 @@ In addition, you can define patterns for files and directories that should be ig
 searching for files belonging to the project. These will typically be various binary
 files and VCS or hidden directories.
 
-Finally, you can specify whether the tag manager should be used to index all the project
-files or not. The default settings is Auto which means that if the total number
-of project (and external directory) files is less than 500, tags are generated.
+Finally, you can specify whether all the project files should be indexed or not.
+The default settings is Auto which means that if the total number
+of project (and external directory) files is less than 300, indexing is performed.
 This is a rather conservative number, at least for an SSD disk - Project Organizer 
 was tested with tens of thousands project files and even though the initial scanning 
-may take some time (for the linux kernel with 35000 files and 2300000 tags it takes 
+may take some time (for the linux kernel with 35000 files and 2300000 symbols it takes
 about 20s with an SSD disk), the work with the project is completely normal afterwards.
 However, with ordinary HDD expect only around 100 scanned files per second because
 of slow random access time.
@@ -116,21 +116,21 @@ files. When a sidebar item is right-clicked, a context menu appears:
   to the clicked directory
 * Find file - opens the Find file dialog and sets the search directory to the
   clicked directory
-* Find tag - opens the Find tag dialog and sets the search directory to the
+* Find symbol - opens the Find symbol dialog and sets the search directory to the
   clicked directory
 * Remove external directory - removes a previously added external directory from
   the project
 
 The following actions can be invoked from the sidebar's toolbar:
 
-* Reload all - reloads the project file tree and reindexes the files (if tag generation
+* Reload all - reloads the project file tree and reindexes the files (if symbol generation
   enabled). This is useful when files were added, modified externally or removed from 
   the project.
 * Add external directory - adds an additional directory related to the project (e.g.
   it is useful to have the geany project as an external directory for the geany-plugins 
-  project). External directories are indexed using the tag manager, and basically 
+  project). External directories are indexed, and basically 
   all Project Organizer features work with external directories too (find file or 
-  find in files from the context menu, swap header/source, open selected file, tag 
+  find in files from the context menu, swap header/source, open selected file, symbol
   definition/declaration jumps, and active editor following). Apart from adding related 
   projects, one of the possible uses is the addition of system header directories, 
   e.g. /usr/include/gtk-2.0, and having them indexed for code completion and syntax 
@@ -150,7 +150,7 @@ Project Organizer adds some extra entries under the Project menu:
   to the base directory of the project
 * Find Project File - opens the Find file dialog which can be used to find files
   within the project or external directories
-* Find Project Tag - opens the Find tag dialog which can be used to find tags
+* Find Project Symbol - opens the Find symbol dialog which can be used to find symbols
   within the project or external directories
 * Swap Header/Source - if the current file matches one of the source patterns from
   the properties, it opens a project file with the same base name (without extension)
@@ -172,18 +172,18 @@ The following search properties are configurable:
 * Search in full path - when not checked, the search is performed in the file
   name only (excluding path); when checked, the search is performed in the full path
 
-Find tag dialog
+Find symbol dialog
 ----------------
 
-The Find tag dialog can be invoked either from the Project menu or from the
+The Find symbol dialog can be invoked either from the Project menu or from the
 sidebar's context menu. Searches are performed within the "Search inside" directory.
 There are several search types:
 
-* prefix (default) - finds all tags with the specified prefix
-* exact - finds all tags matching the name exactly
-* pattern - finds all tags matching the provided glob pattern
+* prefix (default) - finds all symbols with the specified prefix
+* exact - finds all symbols matching the name exactly
+* pattern - finds all symbols matching the provided glob pattern
 
-By default, tag definitions are searched; to search tag declarations, select the 
+By default, symbol definitions are searched; to search symbol declarations, select the
 Declaration option.
 
 Editor context menu
