@@ -174,12 +174,12 @@ enum GEANY_MACRO_BUTTON {
 
 GeanyPlugin     *geany_plugin;
 GeanyData       *geany_data;
+GeanyFunctions  *geany_functions;
 
-PLUGIN_VERSION_CHECK(224)
+PLUGIN_VERSION_CHECK(147)
 
-PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
-                             _("Macros"),_("Macros for Geany"),
-                             "1.1","William Fraser <william.fraser@virgin.net>")
+PLUGIN_SET_INFO(_("Macros"),_("Macros for Geany"),
+                "1.1","William Fraser <william.fraser@virgin.net>")
 
 /* Plugin user alterable settings */
 static gboolean bSaveMacros=TRUE;
@@ -1399,10 +1399,10 @@ static void EditSearchOptions(GtkTreeModel *model,GtkTreeIter *iter)
 	gtk_widget_show(vbox);
 
 	/* create combobox to hold search direction */
-	gtkcb=gtk_combo_box_text_new();
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(gtkcb),_("Search Forwards"));
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(gtkcb),_("Search Backwards"));
-	gtk_combo_box_set_active(GTK_COMBO_BOX(gtkcb),(mde->message==SCI_SEARCHNEXT)?0:1);
+	gtkcb=gtk_combo_box_new_text();
+	gtk_combo_box_append_text((GtkComboBox*)gtkcb,_("Search Forwards"));
+	gtk_combo_box_append_text((GtkComboBox*)gtkcb,_("Search Backwards"));
+	gtk_combo_box_set_active((GtkComboBox*)gtkcb,(mde->message==SCI_SEARCHNEXT)?0:1);
 	gtk_box_pack_start(GTK_BOX(vbox),gtkcb,FALSE,FALSE,2);
 	gtk_widget_show(gtkcb);
 
@@ -1808,8 +1808,8 @@ static void EditMacroElements(Macro *m)
 	                            GTK_SELECTION_SINGLE);
 
 	/* add table to dialog */
-	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),table);
-/*	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),table,FALSE,FALSE,2);*/
+	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox),table);
+/*	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox),table,FALSE,FALSE,2);*/
 	gtk_widget_show(table);
 
 	/* add buttons */
