@@ -111,8 +111,10 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     GeanyDocument* doc = document_get_current();
     GeanyEditor* editor;
     ScintillaObject* sco;
-    int length;
-    gchar* buffer;
+    int input_length;
+    gchar* input_buffer;
+    int output_length;
+    gchar* output_buffer;
     xmlDoc* parsedDocument;
     int result;
     int xOffset;
@@ -128,11 +130,11 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
 
     /* prepare the buffer that will contain the text
      * from the scintilla object */
-    length = sci_get_length(sco)+1;
-    buffer = (char*)g_malloc(length*sizeof(char));
+    input_length = sci_get_length(sco)+1;
+    input_buffer = (char*)g_malloc(input_length*sizeof(char));
 
     /* retrieves the text */
-    sci_get_text(sco, length, buffer);
+    sci_get_text(sco, input_length, input_buffer);
 
     /* checks if the data is an XML format */
     parsedDocument = xmlParseDoc((unsigned char*)buffer);
@@ -140,7 +142,7 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     /* this is not a valid xml => exit with an error message */
     if(parsedDocument == NULL)
     {
-        g_free(buffer);
+        g_free(input_buffer);
         dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to parse the content as XML."));
         return;
     }
@@ -149,16 +151,16 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     xmlFreeDoc(parsedDocument);
 
     /* process pretty-printing */
-    result = processXMLPrettyPrinting(&buffer, &length, prettyPrintingOptions);
+    result = processXMLPrettyPrinting(input_buffer, input_length, &output_buffer, &output_length, prettyPrintingOptions);
     if (result != PRETTY_PRINTING_SUCCESS)
     {
-        g_free(buffer);
+        g_free(input_buffer);
         dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to process PrettyPrinting on the specified XML because some features are not supported.\n\nSee Help > Debug messages for more details..."));
         return;
     }
 
     /* updates the document */
-    sci_set_text(sco, buffer);
+    sci_set_text(sco, output_buffer);
 
     /* set the line */
     xOffset = scintilla_send_message(sco, SCI_GETXOFFSET, 0, 0);
@@ -168,5 +170,6 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     fileType = filetypes_index(GEANY_FILETYPES_XML);
     document_set_filetype(doc, fileType);
 
-    g_free(buffer);
+    g_free(input_buffer);
+    g_free(output_buffer);
 }

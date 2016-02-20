@@ -65,7 +65,7 @@ static int result;                                                /* result of t
 static char* xmlPrettyPrinted;                                    /* new buffer for the formatted XML */
 static int xmlPrettyPrintedLength;                                /* buffer size */
 static int xmlPrettyPrintedIndex;                                 /* buffer index (position of the next char to insert) */
-static char* inputBuffer;                                         /* input buffer */
+static const char* inputBuffer;                                   /* input buffer */
 static int inputBufferLength;                                     /* input buffer size */
 static int inputBufferIndex;                                      /* input buffer index (position of the next char to read into the input string) */
 static int currentDepth;                                          /* current depth (for indentation) */
@@ -86,14 +86,14 @@ static void PP_ERROR(const char* fmt, ...)
     va_end(va);
 }
 
-int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* ppOptions)
+int processXMLPrettyPrinting(const char *xml, int xml_length, char** output, int* output_length, PrettyPrintingOptions* ppOptions)
 {
     bool freeOptions;
     char* reallocated;
     
     /* empty buffer, nothing to process */
-    if (*length == 0) { return PRETTY_PRINTING_EMPTY_XML; }
-    if (buffer == NULL || *buffer == NULL) { return PRETTY_PRINTING_EMPTY_XML; }
+    if (xml_length == 0) { return PRETTY_PRINTING_EMPTY_XML; }
+    if (xml == NULL) { return PRETTY_PRINTING_EMPTY_XML; }
     
     /* initialize the variables */
     result = PRETTY_PRINTING_SUCCESS;
@@ -112,11 +112,11 @@ int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* 
     inputBufferIndex = 0;
     currentDepth = -1;
     
-    inputBuffer = *buffer;
-    inputBufferLength = *length;
+    inputBuffer = xml;
+    inputBufferLength = xml_length;
     
-    xmlPrettyPrintedLength = *length;
-    xmlPrettyPrinted = (char*)g_try_malloc(sizeof(char)*(*length));
+    xmlPrettyPrintedLength = xml_length;
+    xmlPrettyPrinted = (char*)g_try_malloc(sizeof(char)*(xml_length));
     if (xmlPrettyPrinted == NULL) { PP_ERROR("Allocation error (initialisation)"); return PRETTY_PRINTING_SYSTEM_ERROR; }
     
     /* go to the first char */
@@ -144,9 +144,8 @@ int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* 
     /* if success, then update the values */
     if (result == PRETTY_PRINTING_SUCCESS)
     {
-        g_free(*buffer);
-        *buffer = xmlPrettyPrinted;
-        *length = xmlPrettyPrintedIndex-2; /* the '\0' is not in the length */
+        *output = xmlPrettyPrinted;
+        *output_length = xmlPrettyPrintedIndex-2; /* the '\0' is not in the length */
     }
     /* else clean the other values */
     else
