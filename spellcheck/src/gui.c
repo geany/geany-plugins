@@ -179,8 +179,8 @@ static void menu_addword_item_activate_cb(GtkMenuItem *menuitem, gpointer gdata)
 {
 	gint startword, endword, i, doc_len;
 	ScintillaObject *sci;
-	GString *str;
 	gboolean ignore = GPOINTER_TO_INT(gdata);
+	gint click_word_len;
 
 	if (clickinfo.doc == NULL || clickinfo.word == NULL || clickinfo.pos == -1)
 		return;
@@ -195,7 +195,7 @@ static void menu_addword_item_activate_cb(GtkMenuItem *menuitem, gpointer gdata)
 
 	/* Remove all indicators on the added/ignored word */
 	sci = clickinfo.doc->editor->sci;
-	str = g_string_sized_new(256);
+	click_word_len = (gint) strlen(clickinfo.word);
 	doc_len = sci_get_length(sci);
 	for (i = 0; i < doc_len; i++)
 	{
@@ -206,17 +206,18 @@ static void menu_addword_item_activate_cb(GtkMenuItem *menuitem, gpointer gdata)
 			if (startword == endword)
 				continue;
 
-			if (str->len < (guint)(endword - startword + 1))
-				str = g_string_set_size(str, endword - startword + 1);
-			sci_get_text_range(sci, startword, endword, str->str);
+			if (click_word_len == endword - startword)
+			{
+				const gchar *ptr = (const gchar *) scintilla_send_message(sci,
+					SCI_GETRANGEPOINTER, startword, endword - startword);
 
-			if (strcmp(str->str, clickinfo.word) == 0)
-				sci_indicator_clear(sci, startword, endword - startword);
+				if (strncmp(ptr, clickinfo.word, click_word_len) == 0)
+					sci_indicator_clear(sci, startword, endword - startword);
+			}
 
 			i = endword;
 		}
 	}
-	g_string_free(str, TRUE);
 }
 
 
