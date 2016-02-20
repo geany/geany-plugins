@@ -463,17 +463,17 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	g_signal_connect(check_doclist, "toggled", G_CALLBACK(ao_configure_doclist_toggled_cb), dialog);
 
 	radio_doclist_name = gtk_radio_button_new_with_mnemonic(NULL, _("Sort documents by _name"));
-	ui_widget_set_tooltip_text(radio_doclist_name,
+	gtk_widget_set_tooltip_text(radio_doclist_name,
 		_("Sort the documents in the list by their filename"));
 
 	radio_doclist_tab_order = gtk_radio_button_new_with_mnemonic_from_widget(
 		GTK_RADIO_BUTTON(radio_doclist_name), _("Sort documents by _occurrence"));
-	ui_widget_set_tooltip_text(radio_doclist_tab_order,
+	gtk_widget_set_tooltip_text(radio_doclist_tab_order,
 		_("Sort the documents in the order of the document tabs"));
 
 	radio_doclist_tab_order_reversed = gtk_radio_button_new_with_mnemonic_from_widget(
 		GTK_RADIO_BUTTON(radio_doclist_name), _("Sort documents by _occurrence (reversed)"));
-	ui_widget_set_tooltip_text(radio_doclist_tab_order_reversed,
+	gtk_widget_set_tooltip_text(radio_doclist_tab_order_reversed,
 		_("Sort the documents in the order of the document tabs (reversed)"));
 
 	switch (ao_info->doclist_sort_mode)
@@ -516,14 +516,14 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 		_("Show tasks of all documents"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_tasks_scan_mode),
 		ao_info->tasks_scan_all_documents);
-	ui_widget_set_tooltip_text(check_tasks_scan_mode,
+	gtk_widget_set_tooltip_text(check_tasks_scan_mode,
 		_("Whether to show the tasks of all open documents in the list or only those of the current document."));
 
 	entry_tasks_tokens = gtk_entry_new();
 	if (!EMPTY(ao_info->tasks_token_list))
 		gtk_entry_set_text(GTK_ENTRY(entry_tasks_tokens), ao_info->tasks_token_list);
 	ui_entry_add_clear_icon(GTK_ENTRY(entry_tasks_tokens));
-	ui_widget_set_tooltip_text(entry_tasks_tokens,
+	gtk_widget_set_tooltip_text(entry_tasks_tokens,
 		_("Specify a semicolon separated list of search tokens."));
 
 	label_tasks_tokens = gtk_label_new_with_mnemonic(_("Search tokens:"));

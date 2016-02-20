@@ -244,11 +244,7 @@ void ao_open_uri_update_menu(AoOpenUri *openuri, GeanyDocument *doc, gint pos)
 
 	/* if we have a selection, prefer it over the current word */
 	if (sci_has_selection(doc->editor->sci))
-	{
-		gint len = sci_get_selected_text_length(doc->editor->sci);
-		text = g_malloc0((guint)len + 1);
-		sci_get_selected_text(doc->editor->sci, text);
-	}
+		text = sci_get_selection_contents(doc->editor->sci);
 	else
 		text = editor_get_word_at_pos(doc->editor, pos, GEANY_WORDCHARS"@.://-?&%#=~+,;");
 
