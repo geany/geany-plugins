@@ -123,6 +123,7 @@ static void shift_left_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
 
          /* put the new text in */
          sci_set_selection_start(sci, startpos - 1);
+         sci_set_selection_end(sci, endpos);
          sci_replace_sel(sci, txt);
 
          /* select the right bit again */
@@ -261,6 +262,7 @@ static void shift_right_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
          sci_start_undo_action(sci);
 
          /* put the new text in */
+         sci_set_selection_start(sci, startpos);
          sci_set_selection_end(sci, endpos + 1);
          sci_replace_sel(sci, txt);
 
