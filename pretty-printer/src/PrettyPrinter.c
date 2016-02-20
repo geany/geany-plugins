@@ -130,7 +130,12 @@ int processXMLPrettyPrinting(char** buffer, int* length, PrettyPrintingOptions* 
     
     /* adjust the final size */
     reallocated = (char*)realloc(xmlPrettyPrinted, xmlPrettyPrintedIndex); 
-    if (reallocated == NULL) { PP_ERROR("Allocation error (reallocation size is %d)", xmlPrettyPrintedIndex); return PRETTY_PRINTING_SYSTEM_ERROR; }
+    if (reallocated == NULL) {
+        PP_ERROR("Allocation error (reallocation size is %d)", xmlPrettyPrintedIndex);
+        free(xmlPrettyPrinted);
+        xmlPrettyPrinted = NULL;
+        return PRETTY_PRINTING_SYSTEM_ERROR;
+    }
     xmlPrettyPrinted = reallocated;
     
     /* freeing the unused values */
