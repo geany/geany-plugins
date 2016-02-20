@@ -193,8 +193,8 @@ static gboolean is_tag_opening(ScintillaObject *sci, gint openingBracket)
 }
 
 
-static void get_tag_name(ScintillaObject *sci, gint openingBracket, gint closingBracket,
-                    gchar tagName[], gboolean isTagOpening)
+static gchar *get_tag_name(ScintillaObject *sci, gint openingBracket, gint closingBracket,
+                    gboolean isTagOpening)
 {
     gint nameStart = openingBracket + (TRUE == isTagOpening ? 1 : 2);
     gint nameEnd = nameStart;
@@ -208,7 +208,7 @@ static void get_tag_name(ScintillaObject *sci, gint openingBracket, gint closing
         if(nameEnd-nameStart > MAX_TAG_NAME)
             break;
     }
-    sci_get_text_range(sci, nameStart, nameEnd-1, tagName);
+    return sci_get_contents_range(sci, nameStart, nameEnd-1);
 }
 
 
@@ -230,10 +230,10 @@ static void findMatchingOpeningTag(ScintillaObject *sci, gchar *tagName, gint op
             && (matchingClosingBracket > matchingOpeningBracket))
         {
             /* we are inside of some tag. Let us check what tag*/
-            gchar matchingTagName[MAX_TAG_NAME];
             gboolean isMatchingTagOpening = is_tag_opening(sci, matchingOpeningBracket);
-            get_tag_name(sci, matchingOpeningBracket, matchingClosingBracket,
-                            matchingTagName, isMatchingTagOpening);
+            gchar *matchingTagName = get_tag_name(sci, matchingOpeningBracket,
+                                                  matchingClosingBracket,
+                                                  isMatchingTagOpening);
             if(strcmp(tagName, matchingTagName) == 0)
             {
                 if(TRUE == isMatchingTagOpening)
@@ -242,6 +242,7 @@ static void findMatchingOpeningTag(ScintillaObject *sci, gchar *tagName, gint op
                     closingTagsCount++;
             }
             pos = matchingOpeningBracket+1;
+            g_free(matchingTagName);
         }
         /* Speed up search: if findBracket returns -1, that means start of line
          * is reached. There is no need to go through the same positions again.
@@ -285,10 +286,10 @@ static void findMatchingClosingTag(ScintillaObject *sci, gchar *tagName, gint cl
             && (matchingClosingBracket > matchingOpeningBracket))
         {
             /* we are inside of some tag. Let us check what tag*/
-            gchar matchingTagName[64];
             gboolean isMatchingTagOpening = is_tag_opening(sci, matchingOpeningBracket);
-            get_tag_name(sci, matchingOpeningBracket, matchingClosingBracket,
-                            matchingTagName, isMatchingTagOpening);
+            gchar *matchingTagName = get_tag_name(sci, matchingOpeningBracket,
+                                                  matchingClosingBracket,
+                                                  isMatchingTagOpening);
             if(strcmp(tagName, matchingTagName) == 0)
             {
                 if(TRUE == isMatchingTagOpening)
@@ -297,6 +298,7 @@ static void findMatchingClosingTag(ScintillaObject *sci, gchar *tagName, gint cl
                     closingTagsCount++;
             }
             pos = matchingClosingBracket;
+            g_free(matchingTagName);
         }
 
         if(openingTagsCount == closingTagsCount)
@@ -315,10 +317,8 @@ static void findMatchingClosingTag(ScintillaObject *sci, gchar *tagName, gint cl
 
 static void findMatchingTag(ScintillaObject *sci, gint openingBracket, gint closingBracket)
 {
-    gchar tagName[MAX_TAG_NAME];
     gboolean isTagOpening = is_tag_opening(sci, openingBracket);
-
-    get_tag_name(sci, openingBracket, closingBracket, tagName, isTagOpening);
+    gchar *tagName = get_tag_name(sci, openingBracket, closingBracket, isTagOpening);
 
     if(is_tag_self_closing(sci, closingBracket) || is_tag_empty(tagName)) {
         highlight_tag(sci, openingBracket, closingBracket, EMPTY_TAG_COLOR);
@@ -328,6 +328,8 @@ static void findMatchingTag(ScintillaObject *sci, gint openingBracket, gint clos
         else
             findMatchingOpeningTag(sci, tagName, openingBracket);
     }
+
+    g_free(tagName);
 }
 
 
