@@ -457,7 +457,7 @@ menu_add_item (GtkMenuShell  *menu,
                                    gtk_image_new_from_stock (stock_image,
                                                              GTK_ICON_SIZE_MENU));
   }
-  ui_widget_set_tooltip_text (item, tooltip);
+  gtk_widget_set_tooltip_text (item, tooltip);
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   if (activate_handler) {
     g_signal_connect (item, "activate", activate_handler, activate_data);
@@ -623,7 +623,7 @@ plugin_configure (GtkDialog *dialog)
   /* auto-save */
   widget = gtk_check_button_new_with_mnemonic (_("_Save file before generating "
                                                  "documentation"));
-  ui_widget_set_tooltip_text (widget,
+  gtk_widget_set_tooltip_text (widget,
     _("Whether the current document should be saved to disc before generating "
       "the documentation. This is a technical detail, but it is currently "
       "needed to have an up-to-date tag list. If you disable this option and "
@@ -635,7 +635,7 @@ plugin_configure (GtkDialog *dialog)
   gtk_box_pack_start (GTK_BOX (box2), widget, FALSE, FALSE, 0);
   /* indent */
   widget = gtk_check_button_new_with_mnemonic (_("_Indent inserted documentation"));
-  ui_widget_set_tooltip_text (widget,
+  gtk_widget_set_tooltip_text (widget,
     _("Whether the inserted documentation should be indented to fit the "
       "indentation at the insertion position."));
   ggd_opt_group_set_proxy_gtktogglebutton (plugin->config, &GGD_OPT_indent,
@@ -652,7 +652,7 @@ plugin_configure (GtkDialog *dialog)
     ggd_doctype_selector_set_doctype (GGD_DOCTYPE_SELECTOR (GGD_W_doctype_selector),
                                       i, GGD_OPT_doctype[i]);
   }
-  ui_widget_set_tooltip_text (GGD_W_doctype_selector,
+  gtk_widget_set_tooltip_text (GGD_W_doctype_selector,
     _("Choose the documentation type to use with each file type. The special "
       "language \"All\" on top of the list is used to choose the default "
       "documentation type, used for all languages that haven't one set."));
@@ -660,7 +660,7 @@ plugin_configure (GtkDialog *dialog)
   
   /* Environ editor */
   widget = ggd_frame_new (_("Global environment"));
-  ui_widget_set_tooltip_text (widget,
+  gtk_widget_set_tooltip_text (widget,
     _("Global environment overrides and additions. This environment will be "
       "merged with the file-type-specific ones."));
   {
