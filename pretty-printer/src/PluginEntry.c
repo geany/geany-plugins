@@ -114,7 +114,7 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     GeanyEditor* editor;
     ScintillaObject* sco;
     int input_length;
-    gchar* input_buffer;
+    const gchar* input_buffer;
     int output_length;
     gchar* output_buffer;
     xmlDoc* parsedDocument;
@@ -131,16 +131,15 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     if (prettyPrintingOptions == NULL) { prettyPrintingOptions = createDefaultPrettyPrintingOptions(); }
 
     /* retrieves the text */
-    input_length = sci_get_length(sco)+1;
-    input_buffer = sci_get_contents(sco, input_length);
+    input_length = sci_get_length(sco);
+    input_buffer = (gchar *) scintilla_send_message(sco, SCI_GETCHARACTERPOINTER, 0, 0);
 
     /* checks if the data is an XML format */
-    parsedDocument = xmlParseDoc((unsigned char*)buffer);
+    parsedDocument = xmlParseDoc((const unsigned char*)input_buffer);
 
     /* this is not a valid xml => exit with an error message */
     if(parsedDocument == NULL)
     {
-        g_free(input_buffer);
         dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to parse the content as XML."));
         return;
     }
@@ -152,7 +151,6 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     result = processXMLPrettyPrinting(input_buffer, input_length, &output_buffer, &output_length, prettyPrintingOptions);
     if (result != PRETTY_PRINTING_SUCCESS)
     {
-        g_free(input_buffer);
         dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to process PrettyPrinting on the specified XML because some features are not supported.\n\nSee Help > Debug messages for more details..."));
         return;
     }
@@ -168,6 +166,5 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     fileType = filetypes_index(GEANY_FILETYPES_XML);
     document_set_filetype(doc, fileType);
 
-    g_free(input_buffer);
     g_free(output_buffer);
 }
