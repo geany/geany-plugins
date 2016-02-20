@@ -95,7 +95,7 @@ static gchar *strip_word(const gchar *word_to_check, gint *result_offset)
 	g_memmove(word_start, word, new_word_len);
 	word = word_start;
 	word[new_word_len] = '\0';
-	if (! NZV(word))
+	if (EMPTY(word))
 	{
 		g_free(word);
 		return NULL;
@@ -146,7 +146,7 @@ static gint sc_speller_check_word(GeanyDocument *doc, gint line_number, const gc
 
 	/* strip punctuation and white space */
 	word_to_check = strip_word(word, &offset);
-	if (! NZV(word_to_check))
+	if (EMPTY(word_to_check))
 	{
 		g_free(word_to_check);
 		return 0;

@@ -156,8 +156,7 @@ static void menu_suggestion_item_activate_cb(GtkMenuItem *menuitem, gpointer gda
 		sci_set_selection_end(sci, endword);
 
 		/* retrieve the old text */
-		word = g_malloc(sci_get_selected_text_length(sci) + 1);
-		sci_get_selected_text(sci, word);
+		word = sci_get_selection_contents(sci);
 
 		/* retrieve the new text */
 		sugg = gtk_label_get_text(GTK_LABEL(gtk_bin_get_child(GTK_BIN(menuitem))));
@@ -420,11 +419,7 @@ void sc_gui_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 
 	/* if we have a selection, prefer it over the current word */
 	if (sci_has_selection(doc->editor->sci))
-	{
-		gint len = sci_get_selected_text_length(doc->editor->sci);
-		search_word = g_malloc(len + 1);
-		sci_get_selected_text(doc->editor->sci, search_word);
-	}
+		search_word = sci_get_selection_contents(doc->editor->sci);
 	else
 		search_word = g_strdup(word);
 
