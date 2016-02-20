@@ -1270,7 +1270,7 @@ void prjorg_sidebar_init(void)
 
 	item = GTK_WIDGET(gtk_tool_button_new(NULL, NULL));
 	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "prjorg-refresh");
-	ui_widget_set_tooltip_text(item, _("Reload all"));
+	gtk_widget_set_tooltip_text(item, _("Reload all"));
 	g_signal_connect(item, "clicked", G_CALLBACK(on_reload_project), NULL);
 	gtk_container_add(GTK_CONTAINER(s_toolbar), item);
 
@@ -1279,7 +1279,7 @@ void prjorg_sidebar_init(void)
 
 	item = GTK_WIDGET(gtk_tool_button_new(NULL, NULL));
 	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "prjorg-add-external");
-	ui_widget_set_tooltip_text(item, _("Add external directory"));
+	gtk_widget_set_tooltip_text(item, _("Add external directory"));
 	g_signal_connect(item, "clicked", G_CALLBACK(on_add_external), NULL);
 	gtk_container_add(GTK_CONTAINER(s_toolbar), item);
 	s_project_toolbar.add = item;
@@ -1289,14 +1289,14 @@ void prjorg_sidebar_init(void)
 
 	item = GTK_WIDGET(gtk_tool_button_new(NULL, NULL));
 	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "prjorg-expand");
-	ui_widget_set_tooltip_text(item, _("Expand all"));
+	gtk_widget_set_tooltip_text(item, _("Expand all"));
 	g_signal_connect(item, "clicked", G_CALLBACK(on_expand_all), NULL);
 	gtk_container_add(GTK_CONTAINER(s_toolbar), item);
 	s_project_toolbar.expand = item;
 
 	item = GTK_WIDGET(gtk_tool_button_new(NULL, NULL));
 	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "prjorg-collapse");
-	ui_widget_set_tooltip_text(item, _("Collapse to project root"));
+	gtk_widget_set_tooltip_text(item, _("Collapse to project root"));
 	g_signal_connect(item, "clicked", G_CALLBACK(on_collapse_all), NULL);
 	gtk_container_add(GTK_CONTAINER(s_toolbar), item);
 	s_project_toolbar.collapse = item;
@@ -1307,7 +1307,7 @@ void prjorg_sidebar_init(void)
 	item = GTK_WIDGET(gtk_toggle_tool_button_new());
 	gtk_toggle_tool_button_set_active(GTK_TOGGLE_TOOL_BUTTON(item), TRUE);
 	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "prjorg-follow");
-	ui_widget_set_tooltip_text(item, _("Follow active editor"));
+	gtk_widget_set_tooltip_text(item, _("Follow active editor"));
 	g_signal_connect(item, "clicked", G_CALLBACK(on_follow_active), NULL);
 	gtk_container_add(GTK_CONTAINER(s_toolbar), item);
 	s_project_toolbar.follow = item;
