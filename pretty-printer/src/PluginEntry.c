@@ -112,7 +112,7 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     GeanyEditor* editor;
     ScintillaObject* sco;
     int length;
-    char* buffer;
+    gchar* buffer;
     xmlDoc* parsedDocument;
     int result;
     int xOffset;
@@ -129,8 +129,7 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     /* prepare the buffer that will contain the text
      * from the scintilla object */
     length = sci_get_length(sco)+1;
-    buffer = (char*)malloc(length*sizeof(char));
-    if (buffer == NULL) { exit(-1); } /* malloc error */
+    buffer = (char*)g_malloc(length*sizeof(char));
 
     /* retrieves the text */
     sci_get_text(sco, length, buffer);
