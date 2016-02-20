@@ -37,7 +37,6 @@ PLUGIN_SET_TRANSLATABLE_INFO(
     _("XML PrettyPrinter"),
     _("Formats an XML and makes it human-readable."),
     PRETTY_PRINTER_VERSION, "Cédric Tabin - http://www.astorm.ch")
-PLUGIN_KEY_GROUP(prettyprinter, 1)
 
 /*========================================== DECLARATIONS ================================================================*/
 
@@ -52,6 +51,8 @@ static void config_closed(GtkWidget* configWidget, gint response, gpointer data)
 
 void plugin_init(GeanyData *data)
 {
+    GeanyKeyGroup *key_group;
+
     /* initializes the libxml2 */
     LIBXML_TEST_VERSION
 
@@ -66,7 +67,8 @@ void plugin_init(GeanyData *data)
     gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), main_menu_item);
 
     /* init keybindings */
-    keybindings_set_item(plugin_key_group, 0, kb_run_xml_pretty_print,
+    key_group = plugin_set_key_group(geany_plugin, "prettyprinter", 1, NULL);
+    keybindings_set_item(key_group, 0, kb_run_xml_pretty_print,
                          0, 0, "run_pretty_printer_xml", _("Run the PrettyPrinter XML"),
                          main_menu_item);
 
@@ -128,13 +130,9 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     /* default printing options */
     if (prettyPrintingOptions == NULL) { prettyPrintingOptions = createDefaultPrettyPrintingOptions(); }
 
-    /* prepare the buffer that will contain the text
-     * from the scintilla object */
-    input_length = sci_get_length(sco)+1;
-    input_buffer = (char*)g_malloc(input_length*sizeof(char));
-
     /* retrieves the text */
-    sci_get_text(sco, input_length, input_buffer);
+    input_length = sci_get_length(sco)+1;
+    input_buffer = sci_get_contents(sco, input_length);
 
     /* checks if the data is an XML format */
     parsedDocument = xmlParseDoc((unsigned char*)buffer);
