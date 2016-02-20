@@ -1736,32 +1736,32 @@ create_sidebar(void)
 	gtk_toolbar_set_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_ICONS);
 
 	wid = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_GO_UP));
-	ui_widget_set_tooltip_text(wid, _("Go up"));
+	gtk_widget_set_tooltip_text(wid, _("Go up"));
 	g_signal_connect(wid, "clicked", G_CALLBACK(on_button_go_up), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), wid);
 
 	wid = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_REFRESH));
-	ui_widget_set_tooltip_text(wid, _("Refresh"));
+	gtk_widget_set_tooltip_text(wid, _("Refresh"));
 	g_signal_connect(wid, "clicked", G_CALLBACK(on_button_refresh), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), wid);
 
 	wid = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_HOME));
-	ui_widget_set_tooltip_text(wid, _("Home"));
+	gtk_widget_set_tooltip_text(wid, _("Home"));
 	g_signal_connect(wid, "clicked", G_CALLBACK(on_button_go_home), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), wid);
 
 	wid = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_JUMP_TO));
-	ui_widget_set_tooltip_text(wid, _("Set path from document"));
+	gtk_widget_set_tooltip_text(wid, _("Set path from document"));
 	g_signal_connect(wid, "clicked", G_CALLBACK(on_button_current_path), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), wid);
 
 	wid = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_DIRECTORY));
-	ui_widget_set_tooltip_text(wid, _("Track path"));
+	gtk_widget_set_tooltip_text(wid, _("Track path"));
 	g_signal_connect(wid, "clicked", G_CALLBACK(treebrowser_track_current), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), wid);
 
 	wid = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_CLOSE));
-	ui_widget_set_tooltip_text(wid, _("Hide bars"));
+	gtk_widget_set_tooltip_text(wid, _("Hide bars"));
 	g_signal_connect(wid, "clicked", G_CALLBACK(on_button_hide_bars), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), wid);
 
@@ -1770,7 +1770,7 @@ create_sidebar(void)
 	gtk_box_pack_start(GTK_BOX(sidebar_vbox_bars), 			addressbar, 		FALSE, TRUE,  1);
 	gtk_box_pack_start(GTK_BOX(sidebar_vbox_bars), 			toolbar, 			FALSE, TRUE,  1);
 
-	ui_widget_set_tooltip_text(filter,
+	gtk_widget_set_tooltip_text(filter,
 		_("Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' reverse try for example this '!;*.c;*.h;*.cpp'"));
 	if (gtk_check_version(2, 15, 2) == NULL)
 	{
@@ -1778,7 +1778,7 @@ create_sidebar(void)
 		g_signal_connect(filter, "icon-release", G_CALLBACK(on_filter_clear), NULL);
 	}
 
-	ui_widget_set_tooltip_text(addressbar,
+	gtk_widget_set_tooltip_text(addressbar,
 		_("Addressbar for example '/projects/my-project'"));
 
 	if (CONFIG_SHOW_BARS == 2)
@@ -1951,7 +1951,7 @@ plugin_configure(GtkDialog *dialog)
 	configure_widgets.OPEN_EXTERNAL_CMD = gtk_entry_new();
 	gtk_entry_set_text(GTK_ENTRY(configure_widgets.OPEN_EXTERNAL_CMD), CONFIG_OPEN_EXTERNAL_CMD);
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-	ui_widget_set_tooltip_text(configure_widgets.OPEN_EXTERNAL_CMD,
+	gtk_widget_set_tooltip_text(configure_widgets.OPEN_EXTERNAL_CMD,
 		_("The command to execute when using \"Open with\". You can use %f and %d wildcards.\n"
 		  "%f will be replaced with the filename including full path\n"
 		  "%d will be replaced with the path name of the selected file without the filename"));
@@ -1964,7 +1964,7 @@ plugin_configure(GtkDialog *dialog)
 	configure_widgets.OPEN_TERMINAL = gtk_entry_new();
 	gtk_entry_set_text(GTK_ENTRY(configure_widgets.OPEN_TERMINAL), CONFIG_OPEN_TERMINAL);
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
-	ui_widget_set_tooltip_text(configure_widgets.OPEN_TERMINAL,
+	gtk_widget_set_tooltip_text(configure_widgets.OPEN_TERMINAL,
 		_("The terminal to use with the command \"Open Terminal\""));
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(hbox), configure_widgets.OPEN_TERMINAL, FALSE, FALSE, 0);
@@ -1979,7 +1979,7 @@ plugin_configure(GtkDialog *dialog)
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(hbox), configure_widgets.SHOW_BARS, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
-	ui_widget_set_tooltip_text(configure_widgets.SHOW_BARS,
+	gtk_widget_set_tooltip_text(configure_widgets.SHOW_BARS,
 		_("If position is changed, the option require plugin restart."));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(configure_widgets.SHOW_BARS), CONFIG_SHOW_BARS);
 
@@ -1998,14 +1998,14 @@ plugin_configure(GtkDialog *dialog)
 	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.SHOW_HIDDEN_FILES), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_HIDDEN_FILES), CONFIG_SHOW_HIDDEN_FILES);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.SHOW_HIDDEN_FILES, FALSE, FALSE, 0);
-	ui_widget_set_tooltip_text(configure_widgets.SHOW_HIDDEN_FILES,
+	gtk_widget_set_tooltip_text(configure_widgets.SHOW_HIDDEN_FILES,
 		_("On Windows, this just hide files that are prefixed with '.' (dot)"));
 
 	configure_widgets.HIDE_OBJECT_FILES = gtk_check_button_new_with_label(_("Hide object files"));
 	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.HIDE_OBJECT_FILES), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.HIDE_OBJECT_FILES), CONFIG_HIDE_OBJECT_FILES);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.HIDE_OBJECT_FILES, FALSE, FALSE, 0);
-	ui_widget_set_tooltip_text(configure_widgets.HIDE_OBJECT_FILES,
+	gtk_widget_set_tooltip_text(configure_widgets.HIDE_OBJECT_FILES,
 		_("Don't show generated object files in the file browser, this includes *.o, *.obj. *.so, *.dll, *.a, *.lib"));
 
 	configure_widgets.REVERSE_FILTER = gtk_check_button_new_with_label(_("Reverse filter"));
