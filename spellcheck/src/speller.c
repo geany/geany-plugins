@@ -199,7 +199,7 @@ static gint sc_speller_check_word(GeanyDocument *doc, gint line_number, const gc
 }
 
 
-gint sc_speller_process_line(GeanyDocument *doc, gint line_number, const gchar *line)
+gint sc_speller_process_line(GeanyDocument *doc, gint line_number)
 {
 	gint pos_start, pos_end;
 	gint wstart, wend;
@@ -210,7 +210,6 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number, const gchar *
 
 	g_return_val_if_fail(sc_speller_dict != NULL, 0);
 	g_return_val_if_fail(doc != NULL, 0);
-	g_return_val_if_fail(line != NULL, 0);
 
 	/* add ' (single quote) temporarily to wordchars
 	 * to be able to check for "doesn't", "isn't" and similar */
@@ -259,7 +258,6 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number, const gchar *
 
 void sc_speller_check_document(GeanyDocument *doc)
 {
-	gchar *line;
 	gint i;
 	gint first_line, last_line;
 	gchar *dict_string = NULL;
@@ -299,22 +297,16 @@ void sc_speller_check_document(GeanyDocument *doc)
 
 	if (first_line == last_line)
 	{
-		line = sci_get_selection_contents(doc->editor->sci);
-		suggestions_found += sc_speller_process_line(doc, first_line, line);
-		g_free(line);
+		suggestions_found += sc_speller_process_line(doc, first_line);
 	}
 	else
 	{
 		for (i = first_line; i < last_line; i++)
 		{
-			line = sci_get_line(doc->editor->sci, i);
-
-			suggestions_found += sc_speller_process_line(doc, i, line);
+			suggestions_found += sc_speller_process_line(doc, i);
 
 			/* process other GTK events to keep the GUI being responsive */
 			while (g_main_context_iteration(NULL, FALSE));
-
-			g_free(line);
 		}
 	}
 	if (suggestions_found == 0 && sc_info->use_msgwin)
