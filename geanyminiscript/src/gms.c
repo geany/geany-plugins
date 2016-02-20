@@ -69,13 +69,9 @@ static gchar        *gms_command = NULL ;
  */
 static void create_selection_2_input_file( ScintillaObject *sci )
 {
-    gchar  *contents = NULL;
-    gint    size_buf = sci_get_selected_text_length(sci);
+    gchar *contents = sci_get_selection_contents(sci);
 
-    contents = GMS_G_MALLOC( gchar, size_buf + 1  ) ;
     GMS_PNULL(contents) ;
-
-    sci_get_selected_text( sci ,contents  );
 
     g_file_set_contents(gms_get_in_filename(gms_hnd), contents, -1 , NULL );
     GMS_G_FREE(contents);
