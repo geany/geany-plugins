@@ -140,6 +140,7 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     /* this is not a valid xml => exit with an error message */
     if(parsedDocument == NULL)
     {
+        g_free(buffer);
         dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to parse the content as XML."));
         return;
     }
@@ -151,6 +152,7 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     result = processXMLPrettyPrinting(&buffer, &length, prettyPrintingOptions);
     if (result != PRETTY_PRINTING_SUCCESS)
     {
+        g_free(buffer);
         dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to process PrettyPrinting on the specified XML because some features are not supported.\n\nSee Help > Debug messages for more details..."));
         return;
     }
@@ -165,4 +167,6 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     /* sets the type */
     fileType = filetypes_index(GEANY_FILETYPES_XML);
     document_set_filetype(doc, fileType);
+
+    g_free(buffer);
 }
