@@ -35,7 +35,7 @@
 #include "geanydoc.h"
 
 /* These items are set by Geany before init() is called. */
-PluginFields *plugin_fields;
+GeanyPlugin *geany_plugin;
 GeanyData *geany_data;
 GeanyFunctions *geany_functions;
 
@@ -51,18 +51,16 @@ PLUGIN_VERSION_CHECK(128)
 		"Yura Siamshka <yurand2@gmail.com>")
 
 /* Keybinding(s) */
-     enum
-     {
-	     KB_DOCUMENT_WORD,
-	     KB_DOCUMENT_WORD_ASK,
-	     KB_COUNT
-     };
+enum
+{
+	KB_DOCUMENT_WORD,
+	KB_DOCUMENT_WORD_ASK,
+	KB_COUNT
+};
 
-PLUGIN_KEY_GROUP(doc_chars, KB_COUNT)
+GtkWidget *create_Interactive(void);
 
-     GtkWidget *create_Interactive(void);
-
-     static gboolean word_check_left(gchar c)
+static gboolean word_check_left(gchar c)
 {
 	if (g_ascii_isalnum(c) || c == '_' || c == '.')
 		return TRUE;
@@ -80,24 +78,17 @@ word_check_right(gchar c)
 static gchar *
 current_word(void)
 {
-	gchar *txt;
 	GeanyDocument *doc;
 
 	gint pos;
 	gint cstart, cend;
 	gchar c;
-	gint text_len;
 
 	doc = document_get_current();
 	g_return_val_if_fail(doc != NULL && doc->file_name != NULL, NULL);
 
-	text_len = sci_get_selected_text_length(doc->editor->sci);
-	if (text_len > 1)
-	{
-		txt = g_malloc(text_len + 1);
-		sci_get_selected_text(doc->editor->sci, txt);
-		return txt;
-	}
+	if (sci_has_selection(doc->editor->sci))
+		return sci_get_selection_contents(doc->editor->sci);
 
 	pos = sci_get_current_position(doc->editor->sci);
 	if (pos > 0)
@@ -129,10 +120,8 @@ current_word(void)
 
 	if (cstart == cend)
 		return NULL;
-	txt = g_malloc0(cend - cstart + 1);
 
-	sci_get_text_range(doc->editor->sci, cstart, cend, txt);
-	return txt;
+	return sci_get_contents_range(doc->editor->sci, cstart, cend);
 }
 
 /* name should be in UTF-8, and can have a path. */
@@ -433,6 +422,7 @@ create_Configure(void)
 void
 plugin_init(G_GNUC_UNUSED GeanyData * data)
 {
+	GeanyKeyGroup *key_group;
 	gchar *kb_label1;
 	gchar *kb_label2;
 
@@ -445,9 +435,10 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	keyb1 = gtk_menu_item_new();
 	keyb2 = gtk_menu_item_new();
 
-	keybindings_set_item(plugin_key_group, KB_DOCUMENT_WORD, kb_doc,
+	key_group = plugin_set_key_group(geany_plugin, "doc_chars", KB_COUNT, NULL);
+	keybindings_set_item(key_group, KB_DOCUMENT_WORD, kb_doc,
 				0, 0, kb_label1, kb_label1, keyb1);
-	keybindings_set_item(plugin_key_group, KB_DOCUMENT_WORD_ASK, kb_doc_ask,
+	keybindings_set_item(key_group, KB_DOCUMENT_WORD_ASK, kb_doc_ask,
 				0, 0, kb_label2, kb_label2, keyb2);
 }
 
