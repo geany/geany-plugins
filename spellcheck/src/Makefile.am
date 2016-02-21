@@ -10,6 +10,9 @@ spellcheck_la_SOURCES = \
 	speller.c \
 	scplugin.c
 
+spellcheck_la_CPPFLAGS = $(AM_CPPFLAGS) \
+						 -DG_LOG_DOMAIN=\"SpellCheck\"
+
 spellcheck_la_CFLAGS = \
 	$(AM_CFLAGS) \
 	$(ENCHANT_CFLAGS)

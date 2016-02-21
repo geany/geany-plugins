@@ -26,6 +26,9 @@ addons_la_SOURCES = \
 	ao_wrapwords.c \
 	ao_copyfilepath.c
 
+addons_la_CPPFLAGS = $(AM_CPPFLAGS) \
+					 -DG_LOG_DOMAIN=\"Addons\"
+
 addons_la_LIBADD = $(COMMONLIBS)
 
 include $(top_srcdir)/build/cppcheck.mk
