@@ -577,7 +577,7 @@ gint prjorg_project_add_properties_tab(GtkWidget *notebook)
 	e->source_patterns = gtk_entry_new();
 	ui_table_add_row(GTK_TABLE(table), 0, label, e->source_patterns, NULL);
 	ui_entry_add_clear_icon(GTK_ENTRY(e->source_patterns));
-	ui_widget_set_tooltip_text(e->source_patterns,
+	gtk_widget_set_tooltip_text(e->source_patterns,
 		_("Space separated list of patterns that are used to identify source files. "
 		  "Used for header/source swapping."));
 	str = g_strjoinv(" ", prj_org->source_patterns);
@@ -589,7 +589,7 @@ gint prjorg_project_add_properties_tab(GtkWidget *notebook)
 	e->header_patterns = gtk_entry_new();
 	ui_entry_add_clear_icon(GTK_ENTRY(e->header_patterns));
 	ui_table_add_row(GTK_TABLE(table), 1, label, e->header_patterns, NULL);
-	ui_widget_set_tooltip_text(e->header_patterns,
+	gtk_widget_set_tooltip_text(e->header_patterns,
 		_("Space separated list of patterns that are used to identify headers. "
 		  "Used for header/source swapping."));
 	str = g_strjoinv(" ", prj_org->header_patterns);
@@ -601,7 +601,7 @@ gint prjorg_project_add_properties_tab(GtkWidget *notebook)
 	e->ignored_file_patterns = gtk_entry_new();
 	ui_entry_add_clear_icon(GTK_ENTRY(e->ignored_file_patterns));
 	ui_table_add_row(GTK_TABLE(table), 2, label, e->ignored_file_patterns, NULL);
-	ui_widget_set_tooltip_text(e->ignored_file_patterns,
+	gtk_widget_set_tooltip_text(e->ignored_file_patterns,
 		_("Space separated list of patterns that are used to identify files "
 		  "that are not displayed in the project tree."));
 	str = g_strjoinv(" ", prj_org->ignored_file_patterns);
@@ -613,7 +613,7 @@ gint prjorg_project_add_properties_tab(GtkWidget *notebook)
 	e->ignored_dirs_patterns = gtk_entry_new();
 	ui_entry_add_clear_icon(GTK_ENTRY(e->ignored_dirs_patterns));
 	ui_table_add_row(GTK_TABLE(table), 3, label, e->ignored_dirs_patterns, NULL);
-	ui_widget_set_tooltip_text(e->ignored_dirs_patterns,
+	gtk_widget_set_tooltip_text(e->ignored_dirs_patterns,
 		_("Space separated list of patterns that are used to identify directories "
 		  "that are not scanned for source files."));
 	str = g_strjoinv(" ", prj_org->ignored_dirs_patterns);
@@ -628,7 +628,7 @@ gint prjorg_project_add_properties_tab(GtkWidget *notebook)
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), _("No"));
 	gtk_combo_box_set_active(GTK_COMBO_BOX(e->generate_tag_prefs), prj_org->generate_tag_prefs);
 	ui_table_add_row(GTK_TABLE(table), 4, label, e->generate_tag_prefs, NULL);
-	ui_widget_set_tooltip_text(e->generate_tag_prefs,
+	gtk_widget_set_tooltip_text(e->generate_tag_prefs,
 		_("Generate symbol list for all project files instead of only for the currently opened files. "
 		  "Might be slow for big projects."));
 
