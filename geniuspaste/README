@@ -5,8 +5,9 @@ GeniusPaste Plugin
 
 About
 -----
-This plugin allows the user to paste the code from Geany into five different
-pastebins. At the moment it supports this services:
+This plugin allows the user to paste code from Geany into a configured
+pastebin service.  At the moment it ships with builtin support these pastebin
+services, but more can be added:
 
 	* codepad.org
 	* tinypaste.com
@@ -14,19 +15,20 @@ pastebins. At the moment it supports this services:
 	* dpaste.de
 	* sprunge.us
 
-GeniusPaste detects automatically the syntax of the code and paste it
+GeniusPaste detects automatically the syntax of the code and pastes it
 with syntax highlighting enabled.
 It can also display the pasted code opening a new browser tab.
 
 Issues
 ------
-The API of the pastebin services can be updated in every moment. It
+The API of the pastebin services can be updated at every moment. It
 may happen that GeniusPaste plugin could use an outdated API that meanwhile
 has been deprecated.
 
 If you get a unexpected API response during the paste process (practically
-if the plugin doesn't return a link to the pasted code) write a email to me
-and warn me about the changes:
+if the plugin doesn't return a link to the pasted code), you will need to fix
+that pastebin service configuration to use its new API. If it is a
+configuration shipped with the plugin, please report the issue to:
 
 <enrico(dot)trt(at)gmail(dot)com>
 
@@ -34,11 +36,111 @@ Requirements
 ------------
 	* GTK+ >= 2.12
 	* libsoup 2.4 >= 2.4.0
-	
+
 Installation
 ------------
 This plugin is part of the geany-plugins project.
 See the README file of that package.
+
+Pastebin configuration
+----------------------
+
+Configuration for the pastebin services is looked up in one of data directories
+as follows, in order: ``$GEANY_CONFIG_DIR/plugins/geniuspaste/pastebins/`` and
+``$PREFIX/share/geany-plugins/geniuspaste/pastebins/`` (where
+``$GEANY_CONFIG_DIR`` is ``$HOME/.config/geany`` on \*NIX; and ``$PREFIX`` is
+generally either ``/usr/`` or ``/usr/local/`` under \*NIX).
+
+If more than one configuration file declare a pastebin service of the same
+name, only the first one found is used.  This way, one can easily override the
+configuration in a system directory with a custom one in a user directory.
+
+Format
+^^^^^^
+
+The pastebin configuration format uses an INI-style syntax.
+
+Placeholders
+++++++++++++
+
+Values from the `[format] section`_ and the *replace* key in the `[parse]
+section`_ can contain references to placeholders with the syntax ``%name%``
+(i.e. ``%contents%``).
+Custom placeholders can be defined in the `[defaults] section`_.
+
+The builtin placeholders are:
+
+*contents*
+	The data to actually paste.
+*language*
+	The language of the current document, as mapped through the `[languages]
+	section`_.
+*title*
+	The base name of the current document.
+*user*
+	The configured author name.
+
+*[pastebin]* section
+++++++++++++++++++++
+
+The *pastebin* section is required, and must contain at least the *name* and
+*url* keys.
+
+*name*
+	The name of the pastebin service, as displayed to the user.  This key is
+	required.
+*url*
+	The URL to which submit the data.  This key is required.
+*method*
+	The HTTP method to use to submit the data.  Defaults to ``POST``.
+
+*[format]* section
+++++++++++++++++++
+
+The *format* section describes the fields of the form to send to the pastebin.
+Each key in this section is a field, and each value that field's value.
+
+*[parse]* section
++++++++++++++++++
+
+If the *parse* section is declared, it defines the regular expression used to
+parse the raw response body from the pastebin service and build the final
+paste URL.
+
+If this section doesn't exist, the URI of the response itself is used, after
+any possible redirection.  This is usually good for non-API pastebin services,
+where the server redirects the user to the paste page.
+
+**Warning:**  If the *parse* section exists, it will be used, no matter whether
+any key is actually defined.  This means that a ``[parse]`` line is enough to
+enable response body parsing, and it will use the default *search* and
+*replace* settings.
+
+*search*
+	A regular expression (PCRE) pattern to match against the pastebin
+	service's raw response data.
+	Defaults to ``^[[:space:]]*(.+?)[[:space:]]*$``, e.g. capture everything
+	but the leading and trailing whitespaces.
+*replace*
+	The final URL, with regular expression capture groups from *search*
+	expanded.  Group references use the numeric, one-digit syntax: ``\0``
+	refers to the whole matched text, ``\1`` to the first captured group, and
+	so on. Defaults to ``\1``, which works nicely with the default *search*
+	pattern.
+
+*[defaults]* section
+++++++++++++++++++++
+
+The *defaults* section defines default values for some builtin `placeholders`_
+or define new placeholders.
+
+*[languages]* section
++++++++++++++++++++++
+
+The *languages* section maps Geany's filetype names (the keys) to the pastebin
+service's own name for this language.  This allows to translate the filetypes
+Geany knows about to ones the pastebin service understands.
+
 
 License
 -------
