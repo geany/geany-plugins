@@ -39,7 +39,7 @@ void init_menuentries(void)
 	/* Build up menu entry for table_convert based on global file type*/
 	main_menu_item = gtk_menu_item_new_with_mnemonic(_("_Convert to table"));
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), main_menu_item);
-	ui_widget_set_tooltip_text(main_menu_item,
+	gtk_widget_set_tooltip_text(main_menu_item,
 		_("Converts current marked list to a table."));
 	g_signal_connect(G_OBJECT(main_menu_item), "activate", G_CALLBACK(cb_table_convert), NULL);
 	gtk_widget_show_all(main_menu_item);
