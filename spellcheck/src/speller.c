@@ -95,7 +95,7 @@ static gchar *strip_word(const gchar *word_to_check, gint *result_offset)
 	g_memmove(word_start, word, new_word_len);
 	word = word_start;
 	word[new_word_len] = '\0';
-	if (! NZV(word))
+	if (EMPTY(word))
 	{
 		g_free(word);
 		return NULL;
@@ -146,7 +146,7 @@ static gint sc_speller_check_word(GeanyDocument *doc, gint line_number, const gc
 
 	/* strip punctuation and white space */
 	word_to_check = strip_word(word, &offset);
-	if (! NZV(word_to_check))
+	if (EMPTY(word_to_check))
 	{
 		g_free(word_to_check);
 		return 0;
@@ -199,18 +199,16 @@ static gint sc_speller_check_word(GeanyDocument *doc, gint line_number, const gc
 }
 
 
-gint sc_speller_process_line(GeanyDocument *doc, gint line_number, const gchar *line)
+gint sc_speller_process_line(GeanyDocument *doc, gint line_number)
 {
 	gint pos_start, pos_end;
 	gint wstart, wend;
 	gint suggestions_found = 0;
 	gint wordchars_len;
 	gchar *wordchars;
-	GString *str;
 
 	g_return_val_if_fail(sc_speller_dict != NULL, 0);
 	g_return_val_if_fail(doc != NULL, 0);
-	g_return_val_if_fail(line != NULL, 0);
 
 	/* add ' (single quote) temporarily to wordchars
 	 * to be able to check for "doesn't", "isn't" and similar */
@@ -224,27 +222,25 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number, const gchar *
 		scintilla_send_message(doc->editor->sci, SCI_SETWORDCHARS, 0, (sptr_t)wordchars);
 	}
 
-	str = g_string_sized_new(256);
-
 	pos_start = sci_get_position_from_line(doc->editor->sci, line_number);
 	pos_end = sci_get_position_from_line(doc->editor->sci, line_number + 1);
 
 	while (pos_start < pos_end)
 	{
+		gchar *word;
+
 		wstart = scintilla_send_message(doc->editor->sci, SCI_WORDSTARTPOSITION, pos_start, TRUE);
 		wend = scintilla_send_message(doc->editor->sci, SCI_WORDENDPOSITION, wstart, FALSE);
 		if (wstart == wend)
 			break;
 
-		/* ensure the string has enough allocated memory */
-		if (str->len < (guint)(wend - wstart))
-			g_string_set_size(str, wend - wstart);
+		word = sci_get_contents_range(doc->editor->sci, wstart, wend);
 
-		sci_get_text_range(doc->editor->sci, wstart, wend, str->str);
-
-		suggestions_found += sc_speller_check_word(doc, line_number, str->str, wstart, wend);
+		suggestions_found += sc_speller_check_word(doc, line_number, word, wstart, wend);
 
 		pos_start = wend + 1;
+
+		g_free(word);
 	}
 
 	/* reset wordchars for the current document */
@@ -252,14 +248,12 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number, const gchar *
 	scintilla_send_message(doc->editor->sci, SCI_SETWORDCHARS, 0, (sptr_t)wordchars);
 
 	g_free(wordchars);
-	g_string_free(str, TRUE);
 	return suggestions_found;
 }
 
 
 void sc_speller_check_document(GeanyDocument *doc)
 {
-	gchar *line;
 	gint i;
 	gint first_line, last_line;
 	gchar *dict_string = NULL;
@@ -299,22 +293,16 @@ void sc_speller_check_document(GeanyDocument *doc)
 
 	if (first_line == last_line)
 	{
-		line = sci_get_selection_contents(doc->editor->sci);
-		suggestions_found += sc_speller_process_line(doc, first_line, line);
-		g_free(line);
+		suggestions_found += sc_speller_process_line(doc, first_line);
 	}
 	else
 	{
 		for (i = first_line; i < last_line; i++)
 		{
-			line = sci_get_line(doc->editor->sci, i);
-
-			suggestions_found += sc_speller_process_line(doc, i, line);
+			suggestions_found += sc_speller_process_line(doc, i);
 
 			/* process other GTK events to keep the GUI being responsive */
 			while (g_main_context_iteration(NULL, FALSE));
-
-			g_free(line);
 		}
 	}
 	if (suggestions_found == 0 && sc_info->use_msgwin)

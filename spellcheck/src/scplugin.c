@@ -61,7 +61,6 @@ enum
 	KB_SPELL_TOOGLE_TYPING,
 	KB_COUNT
 };
-PLUGIN_KEY_GROUP(spellcheck, KB_COUNT)
 
 
 
@@ -173,6 +172,7 @@ static void configure_response_cb(GtkDialog *dialog, gint response, gpointer use
 
 void plugin_init(GeanyData *data)
 {
+	GeanyKeyGroup *key_group;
 	GKeyFile *config = g_key_file_new();
 	gchar *default_lang;
 
@@ -214,9 +214,10 @@ void plugin_init(GeanyData *data)
 	gtk_widget_show_all(sc_info->menu_item);
 
 	/* setup keybindings */
-	keybindings_set_item(plugin_key_group, KB_SPELL_CHECK, sc_gui_kb_run_activate_cb,
+	key_group = plugin_set_key_group(geany_plugin, "spellcheck", KB_COUNT, NULL);
+	keybindings_set_item(key_group, KB_SPELL_CHECK, sc_gui_kb_run_activate_cb,
 		0, 0, "spell_check", _("Run Spell Check"), sc_info->submenu_item_default);
-	keybindings_set_item(plugin_key_group, KB_SPELL_TOOGLE_TYPING,
+	keybindings_set_item(key_group, KB_SPELL_TOOGLE_TYPING,
 		sc_gui_kb_toggle_typing_activate_cb, 0, 0, "spell_toggle_typing",
 		_("Toggle Check While Typing"), NULL);
 }
@@ -327,7 +328,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_type), sc_info->check_while_typing);
 
 	check_on_open = gtk_check_button_new_with_label(_("Check spelling when opening a document"));
-	ui_widget_set_tooltip_text(check_on_open,
+	gtk_widget_set_tooltip_text(check_on_open,
 		_("Enabling this option will check every document after it is opened in Geany. "
 		  "Reloading a document will also trigger a re-check."));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_on_open), sc_info->check_on_document_open);
@@ -350,7 +351,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	entry_dir = gtk_entry_new();
 	ui_entry_add_clear_icon(GTK_ENTRY(entry_dir));
 	gtk_label_set_mnemonic_widget(GTK_LABEL(label_dir), entry_dir);
-	ui_widget_set_tooltip_text(entry_dir,
+	gtk_widget_set_tooltip_text(entry_dir,
 		_("Read additional dictionary files from this directory. "
 		  "For now, this only works with myspell dictionaries."));
 	if (! EMPTY(sc_info->dictionary_dir))

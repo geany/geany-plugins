@@ -156,8 +156,7 @@ static void menu_suggestion_item_activate_cb(GtkMenuItem *menuitem, gpointer gda
 		sci_set_selection_end(sci, endword);
 
 		/* retrieve the old text */
-		word = g_malloc(sci_get_selected_text_length(sci) + 1);
-		sci_get_selected_text(sci, word);
+		word = sci_get_selection_contents(sci);
 
 		/* retrieve the new text */
 		sugg = gtk_label_get_text(GTK_LABEL(gtk_bin_get_child(GTK_BIN(menuitem))));
@@ -180,8 +179,8 @@ static void menu_addword_item_activate_cb(GtkMenuItem *menuitem, gpointer gdata)
 {
 	gint startword, endword, i, doc_len;
 	ScintillaObject *sci;
-	GString *str;
 	gboolean ignore = GPOINTER_TO_INT(gdata);
+	gint click_word_len;
 
 	if (clickinfo.doc == NULL || clickinfo.word == NULL || clickinfo.pos == -1)
 		return;
@@ -196,7 +195,7 @@ static void menu_addword_item_activate_cb(GtkMenuItem *menuitem, gpointer gdata)
 
 	/* Remove all indicators on the added/ignored word */
 	sci = clickinfo.doc->editor->sci;
-	str = g_string_sized_new(256);
+	click_word_len = (gint) strlen(clickinfo.word);
 	doc_len = sci_get_length(sci);
 	for (i = 0; i < doc_len; i++)
 	{
@@ -207,17 +206,18 @@ static void menu_addword_item_activate_cb(GtkMenuItem *menuitem, gpointer gdata)
 			if (startword == endword)
 				continue;
 
-			if (str->len < (guint)(endword - startword + 1))
-				str = g_string_set_size(str, endword - startword + 1);
-			sci_get_text_range(sci, startword, endword, str->str);
+			if (click_word_len == endword - startword)
+			{
+				const gchar *ptr = (const gchar *) scintilla_send_message(sci,
+					SCI_GETRANGEPOINTER, startword, endword - startword);
 
-			if (strcmp(str->str, clickinfo.word) == 0)
-				sci_indicator_clear(sci, startword, endword - startword);
+				if (strncmp(ptr, clickinfo.word, click_word_len) == 0)
+					sci_indicator_clear(sci, startword, endword - startword);
+			}
 
 			i = endword;
 		}
 	}
-	g_string_free(str, TRUE);
 }
 
 
@@ -420,11 +420,7 @@ void sc_gui_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 
 	/* if we have a selection, prefer it over the current word */
 	if (sci_has_selection(doc->editor->sci))
-	{
-		gint len = sci_get_selected_text_length(doc->editor->sci);
-		search_word = g_malloc(len + 1);
-		sci_get_selected_text(doc->editor->sci, search_word);
-	}
+		search_word = sci_get_selection_contents(doc->editor->sci);
 	else
 		search_word = g_strdup(word);
 
@@ -502,21 +498,18 @@ static gboolean check_lines(gpointer data)
 	/* since we're in an timeout callback, the document may have been closed */
 	if (DOC_VALID (doc))
 	{
-		gchar *line;
 		gint line_number = check_line_data.line_number;
 		gint line_count = check_line_data.line_count;
 		gint i;
 
 		for (i = 0; i < line_count; i++)
 		{
-			line = sci_get_line(doc->editor->sci, line_number);
 			indicator_clear_on_line(doc, line_number);
-			if (sc_speller_process_line(doc, line_number, line) != 0)
+			if (sc_speller_process_line(doc, line_number) != 0)
 			{
 				if (sc_info->use_msgwin)
 					msgwin_switch_tab(MSG_MESSAGE, FALSE);
 			}
-			g_free(line);
 			line_number++;
 		}
 	}

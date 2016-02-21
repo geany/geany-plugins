@@ -27,7 +27,7 @@
 #define SC_SPELLER_H 1
 
 
-gint sc_speller_process_line(GeanyDocument *doc, gint line_number, const gchar *line);
+gint sc_speller_process_line(GeanyDocument *doc, gint line_number);
 
 void sc_speller_check_document(GeanyDocument *doc);
 
