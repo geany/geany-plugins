@@ -21,5 +21,7 @@ geanypg_la_LIBADD = \
 geanypg_la_CFLAGS = \
 	$(AM_CFLAGS) \
 	$(GPGME_CFLAGS)
+geanypg_la_CPPFLAGS = $(AM_CPPFLAGS) \
+                      -DG_LOG_DOMAIN=\"GeanyPG\"
 
 include $(top_srcdir)/build/cppcheck.mk

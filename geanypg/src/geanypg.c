@@ -44,8 +44,7 @@ static gpgme_error_t geanypg_init_gpgme(void)
 {
     /* Initialize the locale environment. */
     setlocale(LC_ALL, "");
-    fprintf(stderr, "GeanyPG: %s %s\n", _("Using libgpgme version:"),
-            gpgme_check_version("1.1.0"));
+    g_message("%s %s", _("Using libgpgme version:"), gpgme_check_version("1.1.0"));
     gpgme_set_locale(NULL, LC_CTYPE, setlocale(LC_CTYPE, NULL));
 #ifdef LC_MESSAGES /* only necessary for portability to W32 systems */
     gpgme_set_locale(NULL, LC_MESSAGES, setlocale(LC_MESSAGES, NULL));
@@ -58,7 +57,7 @@ gpgme_error_t geanypg_show_err_msg(gpgme_error_t err)
     gchar const * msg = (gchar const *)gpgme_strerror(err);
     gchar const * src = (gchar const *)gpgme_strsource(err);
     dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s %s: %s\n", _("Error from"), src, msg);
-    fprintf(stderr, "GeanyPG: %s %s: %s\n", _("Error from"), msg, src);
+    g_warning("%s %s: %s", _("Error from"), msg, src);
     return err;
 }
 
