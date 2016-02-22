@@ -97,7 +97,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, PLUGIN_NAME,
 
 static void pastebin_free(Pastebin *pastebin)
 {
-    g_key_file_unref(pastebin->config);
+    g_key_file_free(pastebin->config);
     g_free(pastebin->name);
     g_free(pastebin);
 }
@@ -153,10 +153,10 @@ static Pastebin *pastebin_new(const gchar  *path,
 
         pastebin->name = g_key_file_get_string(kf, PASTEBIN_GROUP_PASTEBIN,
                                                PASTEBIN_GROUP_PASTEBIN_KEY_NAME, NULL);
-        pastebin->config = g_key_file_ref(kf);
+        pastebin->config = kf;
     }
-
-    g_key_file_unref(kf);
+    else
+        g_key_file_free(kf);
 
     return pastebin;
 }
