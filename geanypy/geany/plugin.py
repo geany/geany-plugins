@@ -30,10 +30,9 @@ basic plugin could look something like this:
 The guts of the API are exposed to plugins through the `geany` package and
 its modules.
 
-Plugins should be placed in either the system plugin directory (something
-like /usr/local/share/geany/geanypy/plugins) or in their personal plugin
-directory (something like ~/.config/geany/plugins/geanypy/plugins).  Only
-files with a `.py` extension will be loaded.
+Plugins should be placed in either the system plugin directory (something like
+/usr/local/lib/geany) or in the user plugin directory (something like
+~/.config/geany/plugins).  Only files with a `.py` extension will be loaded.
 """
 
 import keybindings

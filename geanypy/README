@@ -33,14 +33,13 @@ module more "Pythonic".
 To write a plugin, inherit from the ``geany.Plugin`` class and implmenent the
 required members (see ``geany/plugin.py`` documentation comments).  Then put the
 plugin in a searched plugin path.  Currently two locations are search for
-plugins.  The first is ``PREFIX/share/geany/geanypy/plugins`` and the recommended
+plugins.  The first is ``PREFIX/lib/geany`` and the recommended
 location is under your personal Geany directory (usually
-``~/.config/geany/plugins/geanypy/plugins``).  To load or unload plugins, click
-the Python Plugin Manager item under the Tools menu which will appear when you
-activate GeanyPy through Geany's regular plugin manager.
+``~/.config/geany/plugins``). To load or unload plugins, use Geany's regular Plugin
++Manager. Python plugins appear there once GeanyPy is activated.
 
-When the GeanyPy plugin is loaded, it has an option to add a new tab to 
-the notebook in the message window area that contains an interactive 
+When the Python Console plugin is enabled, it will add a new tab to the notebook in
+the message window area that contains an interactive Python shell with the `geany`
 Python shell with the ``geany`` module pre-imported.  You can tinker 
 around with API with this console, for example::
 
