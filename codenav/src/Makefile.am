@@ -12,6 +12,7 @@ codenav_la_SOURCES = \
 	utils.c \
 	utils.h
 
+codenav_la_CPPFLAGS = $(AM_CPPFLAGS) -DG_LOG_DOMAIN=\"CodeNavigation\"
 codenav_la_LIBADD = $(COMMONLIBS)
 
 

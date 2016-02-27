@@ -7,6 +7,7 @@ lineoperations_la_SOURCES = \
 	linefunctions.c \
 	lineoperations.c
 
+lineoperations_la_CPPFLAGS = $(AM_CPPFLAGS) -DG_LOG_DOMAIN=\"LineOperations\"
 lineoperations_la_LIBADD = $(COMMONLIBS)
 
 include $(top_srcdir)/build/cppcheck.mk

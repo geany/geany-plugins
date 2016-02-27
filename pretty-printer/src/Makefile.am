@@ -10,6 +10,7 @@ pretty_printer_la_SOURCES = \
 	ConfigUI.h \
 	ConfigUI.c
 
+pretty_printer_la_CPPFLAGS = $(AM_CPPFLAGS) -DG_LOG_DOMAIN=\"PrettyPrinter\"
 pretty_printer_la_CFLAGS = $(AM_CFLAGS) $(LIBXML_CFLAGS) -DHAVE_GLIB -DHAVE_LIBXML
 pretty_printer_la_LIBADD = $(COMMONLIBS) $(LIBXML_LIBS)
 
