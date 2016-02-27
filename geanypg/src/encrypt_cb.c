@@ -29,7 +29,7 @@ static void geanypg_encrypt(encrypt_data * ed, gpgme_key_t * recp, int sign, int
     tempfile = tmpfile();
     if (!(tempfile))
     {
-        fprintf(stderr, "GeanyPG: %s: %s.\n", _("couldn't create tempfile"), strerror(errno));
+        g_warning("%s: %s.", _("couldn't create tempfile"), strerror(errno));
         return ;
     }
     gpgme_data_new_from_stream(&cipher, tempfile);

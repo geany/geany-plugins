@@ -83,12 +83,12 @@ gpgme_error_t geanypg_passphrase_cb(void * hook,
 
     if (pipe(outpipe))
     {
-        fprintf(stderr, "GeanyPG: %s\n", strerror(errno));
+        g_warning("%s", strerror(errno));
         return gpgme_error_from_errno(errno);
     }
     if (pipe(inpipe))
     {
-        fprintf(stderr, "GeanyPG: %s\n", strerror(errno));
+        g_warning("%s", strerror(errno));
         return gpgme_error_from_errno(errno);
     }
 
@@ -108,7 +108,7 @@ gpgme_error_t geanypg_passphrase_cb(void * hook,
 
         execvp(*argv, argv);
         /* shouldn't get here */
-        fprintf(stderr, "GeanyPG: %s\n%s\n", _("Could not use pinentry."), strerror(errno));
+        g_warning("%s: %s", _("Could not use pinentry."), strerror(errno));
         exit(1); /* kill the child */
     }
     /* GeanpyPG */
@@ -120,7 +120,7 @@ gpgme_error_t geanypg_passphrase_cb(void * hook,
     geanypg_read(outpipe[READ], ' ', 2049, readbuffer);
     if (strncmp(readbuffer, "OK", 3))
     {
-        fprintf(stderr, "GeanyPG: %s\n", _("Unexpected output from pinentry."));
+        g_warning(_("Unexpected output from pinentry."));
         fclose(childin);
         waitpid(childpid, &status, 0);
         close(outpipe[READ]);
@@ -168,10 +168,10 @@ gpgme_error_t geanypg_passphrase_cb(void * hook,
             geanypg_read(outpipe[READ], ' ', 2049, readbuffer);
             sscanf(readbuffer, "%lu", &errval);
             geanypg_read(outpipe[READ], '\n', 2049, readbuffer);
-            fprintf(stderr, "GeanyPG: %s %lu %s\n", _("pinentry gave error"), errval, readbuffer);
+            g_warning("%s %lu %s", _("pinentry gave error"), errval, readbuffer);
         }
         else
-            fprintf(stderr, "GeanyPG: %s\n", _("Unexpected error from pinentry."));
+            g_warning(_("Unexpected error from pinentry."));
         fclose(childin);
         waitpid(childpid, &status, 0);
         close(outpipe[READ]);

@@ -176,7 +176,7 @@ void geanypg_handle_signatures(encrypt_data * ed, int need_error)
     }
     if (!verified && need_error)
     {
-        fprintf(stderr, "GeanyPG: %s\n", _("Could not find verification results"));
+        g_warning(_("Could not find verification results"));
         dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Error, could not find verification results"));
     }
 }
