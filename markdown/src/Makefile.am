@@ -22,6 +22,7 @@ markdown_la_CFLAGS = \
 	-DMARKDOWN_DOC_DIR=\"$(docdir)/markdown\" \
 	-DMARKDOWN_HELP_FILE=\"$(docdir)/markdown/html/help.html\"
 
+markdown_la_CPPFLAGS = $(AM_CPPFLAGS) -DG_LOG_DOMAIN=\"Markdown\"
 markdown_la_LIBADD = \
 	$(COMMONLIBS) \
 	$(MARKDOWN_LIBS)

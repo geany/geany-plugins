@@ -16,6 +16,7 @@ noinst_HEADERS = \
 	dhp.h \
 	dhp-plugin.h
 
+devhelp_la_CPPFLAGS = $(AM_CPPFLAGS) -DG_LOG_DOMAIN=\"Devhelp\"
 devhelp_la_CFLAGS = \
 	$(AM_CFLAGS) \
 	-I$(top_srcdir)/devhelp \

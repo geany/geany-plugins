@@ -10,6 +10,7 @@ xmlsnippets_la_SOURCES = \
 	plugin.c plugin.h \
 	$(common_sources)
 
+xmlsnippets_la_CPPFLAGS = $(AM_CPPFLAGS) -DG_LOG_DOMAIN=\"XMLSnippets\"
 xmlsnippets_la_LIBADD = $(COMMONLIBS)
 
 xmlsnippets_check_SOURCES = \

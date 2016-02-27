@@ -73,6 +73,7 @@ debugger_la_SOURCES = \
 
 debugger_la_LIBADD = $(COMMONLIBS) $(VTE_LIBS) -lutil
 debugger_la_CFLAGS = $(AM_CFLAGS) $(VTE_CFLAGS) -DDBGPLUG_DATA_DIR=\"$(plugindatadir)\" -DPLUGIN_NAME=\"$(plugin)\"
+debugger_la_CPPFLAGS = $(AM_CPPFLAGS) -DG_LOG_DOMAIN=\"Debugger\"
 
 check_PROGRAMS = gdb_mi_test
 dist_check_SCRIPTS = tests/gdb_mi_test.sh

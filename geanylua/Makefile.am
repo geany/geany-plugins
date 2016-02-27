@@ -31,12 +31,14 @@ geanylua_la_CFLAGS = \
 	$(GMODULE_CFLAGS) \
 	$(LUA_CFLAGS)
 
+geanylua_la_CPPFLAGS = $(AM_CPPFLAGS) -DG_LOG_DOMAIN=\"GeanyLua\"
 geanylua_la_LIBADD = \
 	$(COMMONLIBS) \
 	$(GMODULE_LIBS) \
 	$(LUA_LIBS)
 
 libgeanylua_la_CFLAGS = $(geanylua_la_CFLAGS)
+libgeanylua_la_CPPFLAGS = $(AM_CPPFLAGS) -DG_LOG_DOMAIN=\"GeanyLua\"
 libgeanylua_la_LIBADD = $(geanylua_la_LIBADD)
 
 SUBDIRS = docs examples

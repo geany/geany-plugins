@@ -53,6 +53,7 @@ scope_la_SOURCES = \
 
 scope_la_LIBADD = $(COMMONLIBS) $(VTE_LIBS) $(PTY_LIBS)
 
+scope_la_CPPFLAGS = $(AM_CPPFLAGS) -DG_LOG_DOMAIN=\"Scope\"
 scope_la_CFLAGS = $(AM_CFLAGS) $(VTE_CFLAGS) \
 	-DPLUGINDATADIR=\"$(plugindatadir)\" \
 	-DPLUGINHTMLDOCDIR=\"$(plugindocdir)/html\" \
