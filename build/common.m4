@@ -64,3 +64,20 @@ AC_DEFUN([GP_COMMIT_PLUGIN_STATUS],
                    test "$m4_tolower(AS_TR_SH(enable_$1))" = yes)
     GP_STATUS_PLUGIN_ADD([$1], [$m4_tolower(AS_TR_SH(enable_$1))])
 ])
+
+dnl GEANY_CHECK_MINGW
+dnl Checks whether we're building for MinGW, and defines appropriate stuff
+dnl if it is the case.
+dnl Most importantly, AM_CODITIONALs MINGW
+AC_DEFUN([GP_CHECK_MINGW],
+[
+	case "${host}" in
+		*mingw*)
+			AC_DEFINE([WIN32], [1], [we are cross compiling for WIN32])
+			AM_CONDITIONAL([MINGW], true)
+			;;
+		*)
+			AM_CONDITIONAL([MINGW], false)
+			;;
+	esac
+])
