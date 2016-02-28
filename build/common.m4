@@ -65,7 +65,7 @@ AC_DEFUN([GP_COMMIT_PLUGIN_STATUS],
     GP_STATUS_PLUGIN_ADD([$1], [$m4_tolower(AS_TR_SH(enable_$1))])
 ])
 
-dnl GEANY_CHECK_MINGW
+dnl GP_CHECK_MINGW
 dnl Checks whether we're building for MinGW, and defines appropriate stuff
 dnl if it is the case.
 dnl Most importantly, AM_CODITIONALs MINGW
