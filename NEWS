@@ -1,6 +1,13 @@
 Geany Plugins 1.27 (not yet released)
 
-    * No changes so far
+    General:
+    * Removing waf build support
+    * New plugin LineOperations
+
+
+    Internationalization:
+    * Updated translations: de, fr, pt
+    * New translations:
 
 
 Geany Plugins 1.26 (2015-11-15)
