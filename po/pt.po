@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-plugins 1.26\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-13 11:45+0100\n"
+"POT-Creation-Date: 2016-02-28 14:22+0100\n"
 "PO-Revision-Date: 2016-02-13 11:37+0000\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
 "Language-Team: Português <palbuquerque73@gmail.com>\n"
@@ -43,7 +43,7 @@ msgid "Bookmarks"
 msgstr "Marcadores"
 
 #. complete update
-#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2341
+#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2347
 msgid "_Update"
 msgstr "At_ualizar"
 
@@ -51,12 +51,12 @@ msgstr "At_ualizar"
 msgid "_Hide Message Window"
 msgstr "_Ocultar janela de mensagens"
 
-#: ../addons/src/ao_tasks.c:412 ../debugger/src/stree.c:387
+#: ../addons/src/ao_tasks.c:412 ../debugger/src/stree.c:420
 msgid "File"
 msgstr "Ficheiro"
 
 #: ../addons/src/ao_tasks.c:423 ../debugger/src/bptree.c:702
-#: ../debugger/src/stree.c:394
+#: ../debugger/src/stree.c:427
 msgid "Line"
 msgstr "Linha"
 
@@ -186,8 +186,8 @@ msgstr "Concluir etiquetas XML"
 #: ../addons/src/addons.c:433 ../autoclose/src/autoclose.c:885
 #: ../codenav/src/codenavigation.c:293 ../geanylatex/src/geanylatex.c:241
 #: ../geanyprj/src/geanyprj.c:174 ../geanysendmail/src/geanysendmail.c:124
-#: ../geanysendmail/src/geanysendmail.c:289 ../geanyvc/src/geanyvc.c:1844
-#: ../geniuspaste/src/geniuspaste.c:140 ../spellcheck/src/scplugin.c:159
+#: ../geanysendmail/src/geanysendmail.c:289 ../geanyvc/src/geanyvc.c:1850
+#: ../geniuspaste/src/geniuspaste.c:312 ../spellcheck/src/scplugin.c:158
 #: ../treebrowser/src/treebrowser.c:1938
 #: ../updatechecker/src/updatechecker.c:267
 msgid "Plugin configuration directory could not be created."
@@ -695,36 +695,37 @@ msgstr "Contar ocorrências"
 msgid "line %i"
 msgstr "linha %i"
 
-#: ../debugger/src/dbm_gdb.c:532
-msgid "Program received a signal"
-msgstr "O programa recebeu um sinal"
+#: ../debugger/src/dbm_gdb.c:523
+#, fuzzy, c-format
+msgid "Program received signal %s (%s)"
+msgstr "O programa recebeu o sinal:"
 
-#: ../debugger/src/dbm_gdb.c:547
+#: ../debugger/src/dbm_gdb.c:544
 #, c-format
 msgid "Program exited with code \"%i\""
 msgstr "O programa saiu com o código \"%i\""
 
-#: ../debugger/src/dbm_gdb.c:710
+#: ../debugger/src/dbm_gdb.c:708
 msgid "Failed to spawn gdb process"
 msgstr "Falha ao iniciar o processo gdb"
 
-#: ../debugger/src/dbm_gdb.c:757
+#: ../debugger/src/dbm_gdb.c:755
 msgid "~\"Loading target file.\\n\""
 msgstr "~\"A carregar ficheiro destino.\\n\""
 
-#: ../debugger/src/dbm_gdb.c:757
+#: ../debugger/src/dbm_gdb.c:755
 msgid "Error loading file"
 msgstr "Erro ao ler ficheiro"
 
 #. setting asyncronous mode
 #. setting null-stop array printing
 #. enable pretty printing
-#: ../debugger/src/dbm_gdb.c:761 ../debugger/src/dbm_gdb.c:764
-#: ../debugger/src/dbm_gdb.c:767
+#: ../debugger/src/dbm_gdb.c:760 ../debugger/src/dbm_gdb.c:763
+#: ../debugger/src/dbm_gdb.c:766
 msgid "Error configuring GDB"
 msgstr "Erro ao configurar o GDB"
 
-#: ../debugger/src/dbm_gdb.c:810
+#: ../debugger/src/dbm_gdb.c:806
 #, c-format
 msgid ""
 "Breakpoint at %s:%i cannot be set\n"
@@ -738,29 +739,29 @@ msgstr ""
 msgid "Can't find a source file \"%s\""
 msgstr "Impossível encontrar ficheiro fonte \"%s\""
 
-#: ../debugger/src/stree.c:140
+#: ../debugger/src/stree.c:164
 msgid "Active frame"
 msgstr "Moldura ativa"
 
-#: ../debugger/src/stree.c:140
+#: ../debugger/src/stree.c:164
 msgid "Click an arrow to switch to a frame"
 msgstr "Clique numa seta para mudar de moldura"
 
-#: ../debugger/src/stree.c:363 ../geanylatex/src/bibtexlabels.c:46
+#: ../debugger/src/stree.c:350
+#, c-format
+msgid "Thread %i"
+msgstr "Linha %i"
+
+#: ../debugger/src/stree.c:395 ../geanylatex/src/bibtexlabels.c:46
 msgid "Address"
 msgstr "Endereço"
 
 #. i18n: in the programming language context, if you don't
 #. * have an ESTABLISHED term for it, leave it
 #. * untranslated.
-#: ../debugger/src/stree.c:381 ../devhelp/devhelp/dh-link.c:267
+#: ../debugger/src/stree.c:413 ../devhelp/devhelp/dh-link.c:267
 msgid "Function"
 msgstr "Função"
-
-#: ../debugger/src/stree.c:533
-#, c-format
-msgid "Thread %i"
-msgstr "Linha %i"
 
 #: ../debugger/src/tabs.c:132
 msgid "Target"
@@ -1113,7 +1114,7 @@ msgstr "Pedro Albuquerque <palbuquerque73@gmail.com>"
 msgid "A developers' help browser for GNOME"
 msgstr "Um navegador de ajuda ao programador para GNOME"
 
-#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2056
+#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2062
 msgid "_File"
 msgstr "_Ficheiro"
 
@@ -1268,7 +1269,6 @@ msgid "Process execution failed (%s)"
 msgstr "Falha na execução do processo (%s)"
 
 #: ../geanyctags/src/geanyctags.c:517
-#: ../projectorganizer/src/prjorg-sidebar.c:443
 msgid "Find Tag"
 msgstr "Localizar etiqueta"
 
@@ -1335,7 +1335,7 @@ msgstr "Doc"
 msgid "Call documentation viewer on current symbol."
 msgstr "Executar o visualizador de documentação sobre o símbolo atual."
 
-#: ../geanydoc/src/geanydoc.c:170 ../geanyvc/src/geanyvc.c:407
+#: ../geanydoc/src/geanydoc.c:170 ../geanyvc/src/geanyvc.c:426
 msgid "Could not parse the output of command"
 msgstr "Impossível processar a saída do comando"
 
@@ -4199,23 +4199,23 @@ msgstr "Hans Alves <alves.h88@gmail.com>"
 msgid "Using libgpgme version:"
 msgstr "A usar libgpgme com versão:"
 
-#: ../geanypg/src/geanypg.c:60 ../geanypg/src/geanypg.c:61
+#: ../geanypg/src/geanypg.c:59 ../geanypg/src/geanypg.c:60
 msgid "Error from"
 msgstr "Erro de"
 
-#: ../geanypg/src/geanypg.c:86
+#: ../geanypg/src/geanypg.c:85
 msgid "Encrypt"
 msgstr "Encriptar"
 
-#: ../geanypg/src/geanypg.c:87
+#: ../geanypg/src/geanypg.c:86
 msgid "Sign"
 msgstr "Assinar"
 
-#: ../geanypg/src/geanypg.c:88
+#: ../geanypg/src/geanypg.c:87
 msgid "Decrypt / Verify"
 msgstr "Desencriptar/Verificar"
 
-#: ../geanypg/src/geanypg.c:89
+#: ../geanypg/src/geanypg.c:88
 msgid "Verify detached signature"
 msgstr "Verificar assinatura dissociada"
 
@@ -4281,8 +4281,8 @@ msgstr ""
 msgid "a key with fingerprint"
 msgstr "uma chave com impressão digital"
 
-#: ../geanypg/src/verify_aux.c:66 ../spellcheck/src/gui.c:617
-#: ../spellcheck/src/gui.c:628
+#: ../geanypg/src/verify_aux.c:66 ../spellcheck/src/gui.c:610
+#: ../spellcheck/src/gui.c:621
 msgid "unknown"
 msgstr "desconhecido"
 
@@ -4711,57 +4711,57 @@ msgstr ""
 "Envia o ficheiro aberto como um anexo não comprimido, por qualquer aplicação "
 "presente no seu $PATH"
 
-#: ../geanyvc/src/geanyvc.c:53
+#: ../geanyvc/src/geanyvc.c:72
 msgid "GeanyVC"
 msgstr "GeanyVC"
 
-#: ../geanyvc/src/geanyvc.c:54
+#: ../geanyvc/src/geanyvc.c:73
 msgid "Interface to different Version Control systems."
 msgstr "Interface para diferentes Sistemas de Controlo de Versão (SCV)."
 
-#: ../geanyvc/src/geanyvc.c:466
+#: ../geanyvc/src/geanyvc.c:485
 #, c-format
 msgid "geanyvc: s_spawn_sync error: %s"
 msgstr "geanyvc:  erro s_spawn_sync: %s"
 
-#: ../geanyvc/src/geanyvc.c:552
+#: ../geanyvc/src/geanyvc.c:571
 #, c-format
 msgid "File %s: action %s executed via %s."
 msgstr "Ficheiro %s: ação %s executada via %s."
 
-#: ../geanyvc/src/geanyvc.c:605 ../geanyvc/src/geanyvc.c:616
+#: ../geanyvc/src/geanyvc.c:624 ../geanyvc/src/geanyvc.c:635
 #, c-format
 msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
 msgstr "geanyvc: vcdiff_file_activated: impossível renomear '%s' para '%s'"
 
-#: ../geanyvc/src/geanyvc.c:642 ../geanyvc/src/geanyvc.c:692
+#: ../geanyvc/src/geanyvc.c:661 ../geanyvc/src/geanyvc.c:711
 msgid "No changes were made."
 msgstr "Não foram efetuadas quaisquer alterações."
 
-#: ../geanyvc/src/geanyvc.c:719
+#: ../geanyvc/src/geanyvc.c:738
 msgid "No history available"
 msgstr "Nenhum histórico disponível"
 
-#: ../geanyvc/src/geanyvc.c:912 ../geanyvc/src/geanyvc.c:920
+#: ../geanyvc/src/geanyvc.c:931 ../geanyvc/src/geanyvc.c:939
 #, c-format
 msgid "Do you really want to revert: %s?"
 msgstr "Tem a certeza que quer reverter: %s?"
 
-#: ../geanyvc/src/geanyvc.c:928
+#: ../geanyvc/src/geanyvc.c:947
 #, c-format
 msgid "Do you really want to add: %s?"
 msgstr "Tem a certeza que quer adicionar: %s?"
 
-#: ../geanyvc/src/geanyvc.c:935
+#: ../geanyvc/src/geanyvc.c:954
 #, c-format
 msgid "Do you really want to remove: %s?"
 msgstr "Tem a certeza que quer remover: %s?"
 
-#: ../geanyvc/src/geanyvc.c:958
+#: ../geanyvc/src/geanyvc.c:977
 msgid "Do you really want to update?"
 msgstr "Tem a certeza que quer atualizar?"
 
-#: ../geanyvc/src/geanyvc.c:1085
+#: ../geanyvc/src/geanyvc.c:1104
 msgid ""
 "The resulting differences cannot be displayed because the changes are too "
 "big to display here and would slow down the UI significantly.\n"
@@ -4775,64 +4775,56 @@ msgstr ""
 "Para ver as diferenças, cancele o diálogo e abra as diferenças diretamente "
 "no Geany usando o menu GeanyVC (pasta base -> Diff)."
 
-#: ../geanyvc/src/geanyvc.c:1234
+#: ../geanyvc/src/geanyvc.c:1253
 msgid "Commit Y/N"
 msgstr "Submeter S/N"
 
-#: ../geanyvc/src/geanyvc.c:1244
+#: ../geanyvc/src/geanyvc.c:1263
 msgid "Status"
 msgstr "Estado"
 
-#: ../geanyvc/src/geanyvc.c:1251
+#: ../geanyvc/src/geanyvc.c:1270
 msgid "Path"
 msgstr "Caminho"
 
-#: ../geanyvc/src/geanyvc.c:1315
+#: ../geanyvc/src/geanyvc.c:1334
 #, c-format
 msgid "Line: %d Column: %d"
 msgstr "Linha: %d coluna: %d"
 
-#: ../geanyvc/src/geanyvc.c:1361
+#: ../geanyvc/src/geanyvc.c:1380
 msgid "Commit"
 msgstr "Submeter"
 
-#: ../geanyvc/src/geanyvc.c:1402
+#: ../geanyvc/src/geanyvc.c:1421
 msgid "_De-/select all files"
 msgstr "Remover seleção/Selecionar to_dos os ficheiros"
 
-#: ../geanyvc/src/geanyvc.c:1446
+#: ../geanyvc/src/geanyvc.c:1465
 msgid "<b>Commit message:</b>"
 msgstr "<b>Mensagem de submissão:</b>"
 
-#: ../geanyvc/src/geanyvc.c:1465
+#: ../geanyvc/src/geanyvc.c:1484
 msgid "C_ommit"
 msgstr "_Submeter"
 
-#: ../geanyvc/src/geanyvc.c:1546
+#: ../geanyvc/src/geanyvc.c:1565
 msgid "Nothing to commit."
 msgstr "Nada para submeter."
 
-#: ../geanyvc/src/geanyvc.c:1592
-#, c-format
-msgid "Error initializing spell checking: %s"
+#: ../geanyvc/src/geanyvc.c:1611
+#, fuzzy, c-format
+msgid ""
+"Error initializing GeanyVC spell checking: %s. Check your configuration."
 msgstr "Falha ao inicializar a correção ortográfica: %s"
 
-#: ../geanyvc/src/geanyvc.c:1604
-#, c-format
-msgid ""
-"Error while setting up language for spellchecking. Please check "
-"configuration. Error message was: %s"
-msgstr ""
-"Falha ao definir o idioma para correção ortográfica. Por favor, verifique a "
-"configuração. A mensagem de erro obtida foi: %s"
-
-#: ../geanyvc/src/geanyvc.c:1880
+#: ../geanyvc/src/geanyvc.c:1886
 msgid "Set Changed-flag for document tabs created by the plugin"
 msgstr ""
 "Definir estado Modificado nos separadores dos documentos criados pela "
 "extensão"
 
-#: ../geanyvc/src/geanyvc.c:1883
+#: ../geanyvc/src/geanyvc.c:1889
 msgid ""
 "If this option is activated, every new by the VC-plugin created document tab "
 "will be marked as changed. Even this option is useful in some cases, it "
@@ -4842,46 +4834,46 @@ msgstr ""
 "como Modificados. Mesmo sendo esta opção útil em alguns casos, pode gerar um "
 "elevado número de irritantes diálogos \"Tem a certeza que quer gravar?\" "
 
-#: ../geanyvc/src/geanyvc.c:1891
+#: ../geanyvc/src/geanyvc.c:1897
 msgid "Confirm adding new files to a VCS"
 msgstr "Confirmar adicionar novos ficheiros a um SCV"
 
-#: ../geanyvc/src/geanyvc.c:1894
+#: ../geanyvc/src/geanyvc.c:1900
 msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
 msgstr ""
 "Mostra um diálogo de confirmação ao adicionar um novo (criado) ficheiro ao "
 "SCV."
 
-#: ../geanyvc/src/geanyvc.c:1900
+#: ../geanyvc/src/geanyvc.c:1906
 msgid "Maximize commit dialog"
 msgstr "Maximizar janela de submissão"
 
-#: ../geanyvc/src/geanyvc.c:1901
+#: ../geanyvc/src/geanyvc.c:1907
 msgid "Show commit dialog maximize."
 msgstr "Mostra a janela de submissão maximizada."
 
-#: ../geanyvc/src/geanyvc.c:1907
+#: ../geanyvc/src/geanyvc.c:1913
 msgid "Use external diff viewer"
 msgstr "Usar aplicação de diferenças externa"
 
-#: ../geanyvc/src/geanyvc.c:1909
+#: ../geanyvc/src/geanyvc.c:1915
 msgid "Use external diff viewer for file diff."
 msgstr ""
 "Usar uma aplicação de diferenças externa para ver diferenças entre ficheiros."
 
-#: ../geanyvc/src/geanyvc.c:1915
+#: ../geanyvc/src/geanyvc.c:1921
 msgid "Show VC entries at editor menu"
 msgstr "Mostrar entrada do CV no menu do editor"
 
-#: ../geanyvc/src/geanyvc.c:1917
+#: ../geanyvc/src/geanyvc.c:1923
 msgid "Show entries for VC functions inside editor menu"
 msgstr "Mostra entradas das funções do VC dentro do menu do editor"
 
-#: ../geanyvc/src/geanyvc.c:1922
+#: ../geanyvc/src/geanyvc.c:1928
 msgid "Attach menu to menubar"
 msgstr "Anexar menu à barra de menus"
 
-#: ../geanyvc/src/geanyvc.c:1924
+#: ../geanyvc/src/geanyvc.c:1930
 msgid ""
 "Whether menu for this plugin are getting placed either inside tools menu or "
 "directly inside Geany's menubar.Will take in account after next start of "
@@ -4891,235 +4883,297 @@ msgstr ""
 "na barra de menus do Geany. Será tido em conta no arranque seguinte do "
 "GeanyVC."
 
-#: ../geanyvc/src/geanyvc.c:1932
+#: ../geanyvc/src/geanyvc.c:1938
 msgid "Enable CVS"
 msgstr "Ativar SCV"
 
-#: ../geanyvc/src/geanyvc.c:1937
+#: ../geanyvc/src/geanyvc.c:1943
 msgid "Enable GIT"
 msgstr "Ativar GIT"
 
-#: ../geanyvc/src/geanyvc.c:1942
+#: ../geanyvc/src/geanyvc.c:1948
 msgid "Enable SVN"
 msgstr "Ativar SVN"
 
-#: ../geanyvc/src/geanyvc.c:1947
+#: ../geanyvc/src/geanyvc.c:1953
 msgid "Enable SVK"
 msgstr "Ativar SVK"
 
-#: ../geanyvc/src/geanyvc.c:1952
+#: ../geanyvc/src/geanyvc.c:1958
 msgid "Enable Bazaar"
 msgstr "Ativar Bazaar"
 
-#: ../geanyvc/src/geanyvc.c:1957
+#: ../geanyvc/src/geanyvc.c:1963
 msgid "Enable Mercurial"
 msgstr "Ativar Mercurial"
 
-#: ../geanyvc/src/geanyvc.c:1963
+#: ../geanyvc/src/geanyvc.c:1969
 msgid "Spellcheck language"
 msgstr "Idioma para correção ortográfica"
 
-#: ../geanyvc/src/geanyvc.c:2054
+#: ../geanyvc/src/geanyvc.c:2060
 msgid "_VC file Actions"
 msgstr "Ações C_V sobre ficheiros"
 
 #. Diff of current file
 #. Diff of the current dir
 #. Complete diff of base directory
-#: ../geanyvc/src/geanyvc.c:2060 ../geanyvc/src/geanyvc.c:2137
-#: ../geanyvc/src/geanyvc.c:2177
+#: ../geanyvc/src/geanyvc.c:2066 ../geanyvc/src/geanyvc.c:2143
+#: ../geanyvc/src/geanyvc.c:2183
 msgid "_Diff"
 msgstr "_Diferenças"
 
-#: ../geanyvc/src/geanyvc.c:2063
+#: ../geanyvc/src/geanyvc.c:2069
 msgid "Make a diff from the current active file"
 msgstr "Inicia uma comparação de diferenças no ficheiro ativo"
 
 #. Revert current file
 #. Revert current dir
 #. Revert everything
-#: ../geanyvc/src/geanyvc.c:2068 ../geanyvc/src/geanyvc.c:2146
-#: ../geanyvc/src/geanyvc.c:2185
+#: ../geanyvc/src/geanyvc.c:2074 ../geanyvc/src/geanyvc.c:2152
+#: ../geanyvc/src/geanyvc.c:2191
 msgid "_Revert"
 msgstr "_Reverter"
 
-#: ../geanyvc/src/geanyvc.c:2071
+#: ../geanyvc/src/geanyvc.c:2077
 msgid "Restore pristine working copy file (undo local edits)."
 msgstr ""
 "Restaurar a antiga cópia original do ficheiro (descarta alterações locais)."
 
 #. Blame for current file
-#: ../geanyvc/src/geanyvc.c:2080
+#: ../geanyvc/src/geanyvc.c:2086
 msgid "_Blame"
 msgstr "_Culpar"
 
-#: ../geanyvc/src/geanyvc.c:2083
+#: ../geanyvc/src/geanyvc.c:2089
 msgid "Shows the changes made at one file per revision and author."
 msgstr "Mostra as alterações realizadas a um ficheiro por revisão e autor."
 
 #. History/log of current file
 #. History/log of the current dir
 #. Complete History/Log of base directory
-#: ../geanyvc/src/geanyvc.c:2090 ../geanyvc/src/geanyvc.c:2156
-#: ../geanyvc/src/geanyvc.c:2197
+#: ../geanyvc/src/geanyvc.c:2096 ../geanyvc/src/geanyvc.c:2162
+#: ../geanyvc/src/geanyvc.c:2203
 msgid "_History (log)"
 msgstr "_Histórico (diário)"
 
-#: ../geanyvc/src/geanyvc.c:2093
+#: ../geanyvc/src/geanyvc.c:2099
 msgid "Shows the log of the current file"
 msgstr "Mostra o histórico do ficheiro ativo"
 
 #. base version of the current file
-#: ../geanyvc/src/geanyvc.c:2098
+#: ../geanyvc/src/geanyvc.c:2104
 msgid "_Original"
 msgstr "_Original"
 
-#: ../geanyvc/src/geanyvc.c:2101
+#: ../geanyvc/src/geanyvc.c:2107
 msgid "Shows the original of the current file"
 msgstr "Mostra o original do ficheiro ativo"
 
 #. add current file
-#: ../geanyvc/src/geanyvc.c:2109
+#: ../geanyvc/src/geanyvc.c:2115
 msgid "_Add to Version Control"
 msgstr "_Adicionar ao controlo de versão"
 
-#: ../geanyvc/src/geanyvc.c:2111
+#: ../geanyvc/src/geanyvc.c:2117
 msgid "Add file to repository."
 msgstr "Adiciona o ficheiro ao repositório."
 
 #. remove current file
-#: ../geanyvc/src/geanyvc.c:2117
+#: ../geanyvc/src/geanyvc.c:2123
 msgid "_Remove from Version Control"
 msgstr "_Remover do controlo de versão"
 
-#: ../geanyvc/src/geanyvc.c:2119
+#: ../geanyvc/src/geanyvc.c:2125
 msgid "Remove file from repository."
 msgstr "Remove o ficheiro do repositório."
 
-#: ../geanyvc/src/geanyvc.c:2134
+#: ../geanyvc/src/geanyvc.c:2140
 msgid "_Directory"
 msgstr "_Pasta"
 
-#: ../geanyvc/src/geanyvc.c:2140
+#: ../geanyvc/src/geanyvc.c:2146
 msgid "Make a diff from the directory of the current active file"
 msgstr "Inicia uma comparação de diferenças na pasta do ficheiro ativo"
 
-#: ../geanyvc/src/geanyvc.c:2149
+#: ../geanyvc/src/geanyvc.c:2155
 msgid "Restore original files in the current folder (undo local edits)."
 msgstr ""
 "Restaura os ficheiros originais na pasta atual (descarta alterações locais)."
 
-#: ../geanyvc/src/geanyvc.c:2159
+#: ../geanyvc/src/geanyvc.c:2165
 msgid "Shows the log of the current directory"
 msgstr "Mostra o diário da pasta atual"
 
-#: ../geanyvc/src/geanyvc.c:2173
+#: ../geanyvc/src/geanyvc.c:2179
 msgid "_Base Directory"
 msgstr "Pasta _base"
 
-#: ../geanyvc/src/geanyvc.c:2179
+#: ../geanyvc/src/geanyvc.c:2185
 msgid "Make a diff from the top VC directory"
 msgstr "Inicia uma comparação de diferenças a partir da primeira pasta do CV"
 
-#: ../geanyvc/src/geanyvc.c:2187
+#: ../geanyvc/src/geanyvc.c:2193
 msgid "Revert any local edits."
 msgstr "Reverte quaisquer alterações locais."
 
-#: ../geanyvc/src/geanyvc.c:2200
+#: ../geanyvc/src/geanyvc.c:2206
 msgid "Shows the log of the top VC directory"
 msgstr "Mostra o diário da primeira pasta do CV"
 
-#: ../geanyvc/src/geanyvc.c:2226
+#: ../geanyvc/src/geanyvc.c:2232
 msgid "VC _Commit"
 msgstr "_Submeter CV"
 
-#: ../geanyvc/src/geanyvc.c:2261
+#: ../geanyvc/src/geanyvc.c:2267
 msgid "Show diff of file"
 msgstr "Mostrar diferenças do ficheiro"
 
-#: ../geanyvc/src/geanyvc.c:2263
+#: ../geanyvc/src/geanyvc.c:2269
 msgid "Show diff of directory"
 msgstr "Mostrar diferenças da pasta"
 
-#: ../geanyvc/src/geanyvc.c:2265
+#: ../geanyvc/src/geanyvc.c:2271
 msgid "Show diff of basedir"
 msgstr "Mostrar diferenças da pasta base"
 
-#: ../geanyvc/src/geanyvc.c:2268
+#: ../geanyvc/src/geanyvc.c:2274
 msgid "Commit changes"
 msgstr "Submeter alterações"
 
-#: ../geanyvc/src/geanyvc.c:2270
+#: ../geanyvc/src/geanyvc.c:2276
 msgid "Show status"
 msgstr "Mostrar estado"
 
-#: ../geanyvc/src/geanyvc.c:2272
+#: ../geanyvc/src/geanyvc.c:2278
 msgid "Revert single file"
 msgstr "Reverter ficheiro único"
 
-#: ../geanyvc/src/geanyvc.c:2274
+#: ../geanyvc/src/geanyvc.c:2280
 msgid "Revert directory"
 msgstr "Reverter pasta"
 
-#: ../geanyvc/src/geanyvc.c:2276
+#: ../geanyvc/src/geanyvc.c:2282
 msgid "Revert base directory"
 msgstr "Reverter pasta base"
 
-#: ../geanyvc/src/geanyvc.c:2278
+#: ../geanyvc/src/geanyvc.c:2284
 msgid "Update file"
 msgstr "Atualizar ficheiro"
 
-#: ../geanyvc/src/geanyvc.c:2307
+#: ../geanyvc/src/geanyvc.c:2313
 msgid "_VC"
 msgstr "C_V"
 
-#: ../geanyvc/src/geanyvc.c:2312
+#: ../geanyvc/src/geanyvc.c:2318
 msgid "_Version Control"
 msgstr "Controlo de _versão"
 
 #. Status of basedir
-#: ../geanyvc/src/geanyvc.c:2334
+#: ../geanyvc/src/geanyvc.c:2340
 msgid "_Status"
 msgstr "E_stado"
 
-#: ../geanyvc/src/geanyvc.c:2336
+#: ../geanyvc/src/geanyvc.c:2342
 msgid "Show status."
 msgstr "Mostrar estado."
 
-#: ../geanyvc/src/geanyvc.c:2343
+#: ../geanyvc/src/geanyvc.c:2349
 msgid "Update from remote repository."
 msgstr "Atualizar a partir de repositório remoto."
 
 #. Commit all changes
-#: ../geanyvc/src/geanyvc.c:2348
+#: ../geanyvc/src/geanyvc.c:2354
 msgid "_Commit"
 msgstr "_Submeter"
 
-#: ../geanyvc/src/geanyvc.c:2350
+#: ../geanyvc/src/geanyvc.c:2356
 msgid "Commit changes."
 msgstr "Submeter alterações."
 
-#: ../geniuspaste/src/geniuspaste.c:101
+#: ../geniuspaste/src/geniuspaste.c:94
 msgid "Paste your code on your favorite pastebin"
 msgstr "Cole o seu código no seu pastebin favorito"
 
-#: ../geniuspaste/src/geniuspaste.c:222
+#: ../geniuspaste/src/geniuspaste.c:115
+#, fuzzy, c-format
+msgid "Group \"%s\" not found."
+msgstr "Pasta %s não encontrada!\n"
+
+#: ../geniuspaste/src/geniuspaste.c:134
+#, c-format
+msgid "Group \"%s\" has no key \"%s\"."
+msgstr ""
+
+#: ../geniuspaste/src/geniuspaste.c:648
+#, fuzzy
+msgid "Invalid pastebin service."
+msgstr "posição \"%s\" inválida"
+
+#: ../geniuspaste/src/geniuspaste.c:649
+#, c-format
+msgid ""
+"Unknown pastebin service \"%s\". Select an existing pastebin service in the "
+"preferences or create an appropriate pastebin configuration and retry."
+msgstr ""
+
+#: ../geniuspaste/src/geniuspaste.c:661
 msgid "Refusing to create blank paste"
 msgstr "Recusa de criar uma colagem em branco"
 
-#: ../geniuspaste/src/geniuspaste.c:341
-msgid ""
-"Unable to paste the code on codepad.org\n"
-"Retry or select another pastebin."
-msgstr ""
-"Impossível colar o código em codepad.org\n"
-"Tente novamente ou selecione outro pastebin."
+#: ../geniuspaste/src/geniuspaste.c:681
+#, fuzzy
+msgid "Failed to paste the code"
+msgstr "Falha ao importar o módulo de gestão"
 
-#: ../geniuspaste/src/geniuspaste.c:393
+#: ../geniuspaste/src/geniuspaste.c:682
+#, c-format
+msgid ""
+"Error pasting the code to the pastebin service %s.\n"
+"Error code: %u (%s).\n"
+"\n"
+"%s"
+msgstr ""
+
+#: ../geniuspaste/src/geniuspaste.c:686
+msgid "Check your connection or the pastebin configuration and retry."
+msgstr ""
+
+#: ../geniuspaste/src/geniuspaste.c:688
+msgid ""
+"Wait for the service to come back and retry, or retry with another pastebin "
+"service."
+msgstr ""
+
+#: ../geniuspaste/src/geniuspaste.c:690 ../geniuspaste/src/geniuspaste.c:707
+#, fuzzy
+msgid "Check the pastebin configuration and retry."
+msgstr "Falha ao criar pasta de configuração \"%s\": %s"
+
+#: ../geniuspaste/src/geniuspaste.c:701
+#, fuzzy
+msgid "Failed to obtain paste URL."
+msgstr "Falha ao abrir o script."
+
+#: ../geniuspaste/src/geniuspaste.c:702
+#, c-format
+msgid ""
+"The code was successfully pasted on %s, but an error occurred trying to "
+"obtain its URL: %s\n"
+"\n"
+"%s"
+msgstr ""
+
+#: ../geniuspaste/src/geniuspaste.c:706
+#, fuzzy
+msgid "unexpected response from the pastebin service."
+msgstr "O comando pinentry deu um erro inesperado."
+
+#: ../geniuspaste/src/geniuspaste.c:719
 msgid "Paste Successful"
 msgstr "Colagem com sucesso"
 
-#: ../geniuspaste/src/geniuspaste.c:395
+#: ../geniuspaste/src/geniuspaste.c:720
 #, c-format
 msgid ""
 "Your paste can be found here:\n"
@@ -5128,36 +5182,27 @@ msgstr ""
 "A sua colagem pode ser encontrada aqui:\n"
 "<a href=\"%s\" title=\"Clique para abrir a colagem no seu navegador\">%s</a>"
 
-#: ../geniuspaste/src/geniuspaste.c:403
-#, c-format
-msgid ""
-"Unable to paste the code. Check your connection and retry.\n"
-"Error code: %d\n"
-msgstr ""
-"Impossível colar o código. Verifique a ligação e tente novamente.\n"
-"Código de erro: %d\n"
-
-#: ../geniuspaste/src/geniuspaste.c:416
+#: ../geniuspaste/src/geniuspaste.c:738
 msgid "There are no opened documents. Open one and retry.\n"
 msgstr "Não há documentos abertos. Abra um e tente novamente.\n"
 
-#: ../geniuspaste/src/geniuspaste.c:429
+#: ../geniuspaste/src/geniuspaste.c:751
 msgid "The author name field is empty!"
 msgstr "O campo de nome de autor está vazio!"
 
-#: ../geniuspaste/src/geniuspaste.c:448
+#: ../geniuspaste/src/geniuspaste.c:771
 msgid "Select a pastebin:"
 msgstr "Selecione um pastebin:"
 
-#: ../geniuspaste/src/geniuspaste.c:451
+#: ../geniuspaste/src/geniuspaste.c:774
 msgid "Enter the author name:"
 msgstr "Insira o nome do autor:"
 
-#: ../geniuspaste/src/geniuspaste.c:466
+#: ../geniuspaste/src/geniuspaste.c:795
 msgid "Show your paste in a new browser tab"
 msgstr "Mostrar a sua colagem num novo separador do navegador"
 
-#: ../geniuspaste/src/geniuspaste.c:488
+#: ../geniuspaste/src/geniuspaste.c:816
 msgid "_Paste it!"
 msgstr "C_olar!"
 
@@ -5869,12 +5914,14 @@ msgid "Find project file"
 msgstr "Localizar ficheiro de projeto"
 
 #: ../projectorganizer/src/prjorg-menu.c:406
-msgid "Find Project Tag..."
-msgstr "Localizar etiqueta de projeto..."
+#, fuzzy
+msgid "Find Project Symbol..."
+msgstr "Localizar ficheiro de projeto..."
 
 #: ../projectorganizer/src/prjorg-menu.c:412
-msgid "Find project tag"
-msgstr "Localizar etiqueta de projeto"
+#, fuzzy
+msgid "Find project symbol"
+msgstr "Localizar ficheiro de projeto"
 
 #: ../projectorganizer/src/prjorg-menu.c:414
 msgid "Swap Header/Source"
@@ -5937,11 +5984,13 @@ msgstr ""
 "diretórios onde não se procurarão ficheiros de código."
 
 #: ../projectorganizer/src/prjorg-project.c:623
-msgid "Generate tags for all project files:"
-msgstr "Gerar etiquetas para todos os ficheiros do projeto:"
+#, fuzzy
+msgid "Index all project files:"
+msgstr "Localizar em ficheiros de projeto"
 
 #: ../projectorganizer/src/prjorg-project.c:626
-msgid "Auto (generate if less than 300 files)"
+#, fuzzy
+msgid "Auto (index if less than 300 files)"
 msgstr "Automático (gerar se menos de 300 ficheiros)"
 
 #: ../projectorganizer/src/prjorg-project.c:627
@@ -5953,8 +6002,9 @@ msgid "No"
 msgstr "Não"
 
 #: ../projectorganizer/src/prjorg-project.c:632
+#, fuzzy
 msgid ""
-"Generate tag list for all project files instead of only for the currently "
+"Generate symbol list for all project files instead of only for the currently "
 "opened files. Might be slow for big projects."
 msgstr ""
 "Gerar lista de etiquetas para todos os ficheiros do projeto e não só para os "
@@ -6002,6 +6052,11 @@ msgstr "Adicionar pasta externa"
 msgid "Add"
 msgstr "Adicionar"
 
+#: ../projectorganizer/src/prjorg-sidebar.c:443
+#, fuzzy
+msgid "Find Symbol"
+msgstr "Procurar ficheiro"
+
 #: ../projectorganizer/src/prjorg-sidebar.c:472
 msgid "Match type:"
 msgstr "Comparar tipo:"
@@ -6048,8 +6103,9 @@ msgid "Find File..."
 msgstr "Procurar ficheiro..."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1392
-msgid "Find Tag..."
-msgstr "Localizar etiqueta..."
+#, fuzzy
+msgid "Find Symbol..."
+msgstr "Procurar ficheiro..."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1405
 msgid "Remove External Directory"
@@ -6895,30 +6951,30 @@ msgstr "Comando GDB"
 msgid "Try: "
 msgstr "Tentar:"
 
-#: ../spellcheck/src/speller.c:271
+#: ../spellcheck/src/speller.c:265
 msgid "Checking"
 msgstr "A verificar"
 
-#: ../spellcheck/src/speller.c:284
+#: ../spellcheck/src/speller.c:278
 #, c-format
 msgid "Checking file \"%s\" (lines %d to %d using %s):"
 msgstr "A verificar ficheiro \"%s\" (linhas %d até %d usando %s):"
 
-#: ../spellcheck/src/speller.c:294
+#: ../spellcheck/src/speller.c:288
 #, c-format
 msgid "Checking file \"%s\" (using %s):"
 msgstr "A verificar \"%s\" (usando %s):"
 
-#: ../spellcheck/src/speller.c:321
+#: ../spellcheck/src/speller.c:309
 msgid "The checked text is spelled correctly."
 msgstr "O texto verificado não contém erros ortográficos."
 
-#: ../spellcheck/src/speller.c:331
+#: ../spellcheck/src/speller.c:319
 #, c-format
 msgid "The Enchant library couldn't be initialized (%s)."
 msgstr "A biblioteca Enchant não pode ser inicializada (%s)."
 
-#: ../spellcheck/src/speller.c:332
+#: ../spellcheck/src/speller.c:320
 msgid "unknown error (maybe the chosen language is not available)"
 msgstr ""
 "erro desconhecido (talvez o idioma que escolheu não se encontre disponível)"
@@ -6931,50 +6987,50 @@ msgstr "Correção ortográfica"
 msgid "Checks the spelling of the current document."
 msgstr "Verifica a ortografia do atual documento."
 
-#: ../spellcheck/src/scplugin.c:218
+#: ../spellcheck/src/scplugin.c:219
 msgid "Run Spell Check"
 msgstr "Executar o corretor ortográfico"
 
-#: ../spellcheck/src/scplugin.c:221
+#: ../spellcheck/src/scplugin.c:222
 msgid "Toggle Check While Typing"
 msgstr "Alternar verificação ortográfica enquanto digita"
 
 #. initialise the dialog
-#: ../spellcheck/src/scplugin.c:232
+#: ../spellcheck/src/scplugin.c:233
 msgid "Select Directory"
 msgstr "Selecionar pasta"
 
-#: ../spellcheck/src/scplugin.c:284
+#: ../spellcheck/src/scplugin.c:285
 msgid "Show toolbar item to toggle spell checking"
 msgstr ""
 "Mostrar ícone na barra de ferramentas, para ativar/desativar verificação "
 "ortográfica enquanto digita"
 
-#: ../spellcheck/src/scplugin.c:288
+#: ../spellcheck/src/scplugin.c:289
 msgid "Show editor menu item to show spelling suggestions"
 msgstr "Mostrar menu no editor para sugestões dactilográficas "
 
-#: ../spellcheck/src/scplugin.c:293
+#: ../spellcheck/src/scplugin.c:294
 msgid "Show suggestions in a sub menu of the editor menu"
 msgstr "Mostrar sugestões num submenu do menu do editor"
 
-#: ../spellcheck/src/scplugin.c:308
+#: ../spellcheck/src/scplugin.c:309
 msgid "Print misspelled words and suggestions in the messages window"
 msgstr "Imprimir palavras incorretas e sugestões na janela de mensagens"
 
-#: ../spellcheck/src/scplugin.c:318
+#: ../spellcheck/src/scplugin.c:319
 msgid "<b>Interface</b>"
 msgstr "<b>Interface</b>"
 
-#: ../spellcheck/src/scplugin.c:326
+#: ../spellcheck/src/scplugin.c:327
 msgid "Check spelling while typing"
 msgstr "Verificar ortografia enquanto digita"
 
-#: ../spellcheck/src/scplugin.c:329
+#: ../spellcheck/src/scplugin.c:330
 msgid "Check spelling when opening a document"
 msgstr "Verificar ortografia ao abrir um documento"
 
-#: ../spellcheck/src/scplugin.c:331
+#: ../spellcheck/src/scplugin.c:332
 msgid ""
 "Enabling this option will check every document after it is opened in Geany. "
 "Reloading a document will also trigger a re-check."
@@ -6982,15 +7038,15 @@ msgstr ""
 "Ativar esta opção vai verificar qualquer documento após ser aberto no Geany. "
 "Recarregar um documento também força nova verificação."
 
-#: ../spellcheck/src/scplugin.c:335
+#: ../spellcheck/src/scplugin.c:336
 msgid "Language to use for the spell check:"
 msgstr "Idioma a usar para a correção ortográfica:"
 
-#: ../spellcheck/src/scplugin.c:347
+#: ../spellcheck/src/scplugin.c:348
 msgid "_Directory to look for dictionary files:"
 msgstr "Pasta onde procurar os _dicionários:"
 
-#: ../spellcheck/src/scplugin.c:354
+#: ../spellcheck/src/scplugin.c:355
 msgid ""
 "Read additional dictionary files from this directory. For now, this only "
 "works with myspell dictionaries."
@@ -6998,7 +7054,7 @@ msgstr ""
 "Ler dicionários adicionais desta pasta. De momento, só funciona com "
 "dicionários \"myspell\"."
 
-#: ../spellcheck/src/scplugin.c:385
+#: ../spellcheck/src/scplugin.c:386
 msgid "<b>Behavior</b>"
 msgstr "<b>Comportamento</b>"
 
@@ -7027,7 +7083,7 @@ msgstr "Adicionar \"%s\" ao dicionário"
 msgid "Ignore All"
 msgstr "Ignorar tudo"
 
-#: ../spellcheck/src/gui.c:445
+#: ../spellcheck/src/gui.c:441
 msgid ""
 "Search term is too long to provide\n"
 "spelling suggestions in the editor menu."
@@ -7035,21 +7091,21 @@ msgstr ""
 "Termo a procurar demasiado longo para mostrar\n"
 "sugestões de escrita no menu do editor."
 
-#: ../spellcheck/src/gui.c:451
+#: ../spellcheck/src/gui.c:447
 msgid "Perform Spell Check"
 msgstr "Realizar correção ortográfica"
 
-#: ../spellcheck/src/gui.c:616
+#: ../spellcheck/src/gui.c:609
 #, c-format
 msgid "Default (%s)"
 msgstr "Predefinição (%s)"
 
-#: ../spellcheck/src/gui.c:627
+#: ../spellcheck/src/gui.c:620
 #, c-format
 msgid "Toggle spell check while typing (current language: %s)"
 msgstr "Alternar correção ortográfica enquanto digita (idioma atual: %s)"
 
-#: ../spellcheck/src/gui.c:705
+#: ../spellcheck/src/gui.c:698
 msgid "Spelling Suggestions"
 msgstr "Sugestões de ortografia"
 
@@ -7663,6 +7719,42 @@ msgstr "Excertos de código XML"
 msgid "Autocompletes XML/HTML tags using snippets."
 msgstr "Conclusão automática de etiquetas  XML/HTML usando excertos de código."
 
+#~ msgid "Program received a signal"
+#~ msgstr "O programa recebeu um sinal"
+
+#~ msgid ""
+#~ "Error while setting up language for spellchecking. Please check "
+#~ "configuration. Error message was: %s"
+#~ msgstr ""
+#~ "Falha ao definir o idioma para correção ortográfica. Por favor, verifique "
+#~ "a configuração. A mensagem de erro obtida foi: %s"
+
+#~ msgid ""
+#~ "Unable to paste the code on codepad.org\n"
+#~ "Retry or select another pastebin."
+#~ msgstr ""
+#~ "Impossível colar o código em codepad.org\n"
+#~ "Tente novamente ou selecione outro pastebin."
+
+#~ msgid ""
+#~ "Unable to paste the code. Check your connection and retry.\n"
+#~ "Error code: %d\n"
+#~ msgstr ""
+#~ "Impossível colar o código. Verifique a ligação e tente novamente.\n"
+#~ "Código de erro: %d\n"
+
+#~ msgid "Find Project Tag..."
+#~ msgstr "Localizar etiqueta de projeto..."
+
+#~ msgid "Find project tag"
+#~ msgstr "Localizar etiqueta de projeto"
+
+#~ msgid "Generate tags for all project files:"
+#~ msgstr "Gerar etiquetas para todos os ficheiros do projeto:"
+
+#~ msgid "Find Tag..."
+#~ msgstr "Localizar etiqueta..."
+
 #~ msgid "Plugin to provide better LaTeX support"
 #~ msgstr "Extensão que melhora o suporte de LaTeX"
 
@@ -7810,9 +7902,6 @@ msgstr "Conclusão automática de etiquetas  XML/HTML usando excertos de código
 
 #~ msgid "reason:"
 #~ msgstr "razão:"
-
-#~ msgid "Directory %s not found!\n"
-#~ msgstr "Pasta %s não encontrada!\n"
 
 #~ msgid "Shutting down target program.\n"
 #~ msgstr "A desligar o programa alvo.\n"
@@ -7983,9 +8072,6 @@ msgstr "Conclusão automática de etiquetas  XML/HTML usando excertos de código
 
 #~ msgid "paused"
 #~ msgstr "pausado"
-
-#~ msgid "Program received signal:"
-#~ msgstr "O programa recebeu o sinal:"
 
 #~ msgid "Error:"
 #~ msgstr "Erro:"

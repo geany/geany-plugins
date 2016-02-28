@@ -5,9 +5,9 @@
 # hans <alves.h88@gmail.com>, 2011.
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-plugins 1.25\n"
+"Project-Id-Version: Geany-Plugins 1.27\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-27 23:00+0100\n"
+"POT-Creation-Date: 2016-02-28 14:22+0100\n"
 "PO-Revision-Date: 2011-09-13 20:24+0100\n"
 "Last-Translator: Peter Scholtens <peter.scholtens@xs4all.nl>\n"
 "Language-Team: Dutch\n"
@@ -41,7 +41,7 @@ msgid "Bookmarks"
 msgstr "Bladwijzers"
 
 #. complete update
-#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2352
+#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2347
 msgid "_Update"
 msgstr ""
 
@@ -49,12 +49,12 @@ msgstr ""
 msgid "_Hide Message Window"
 msgstr "_Verberg berichtenvenster"
 
-#: ../addons/src/ao_tasks.c:412 ../debugger/src/stree.c:387
+#: ../addons/src/ao_tasks.c:412 ../debugger/src/stree.c:420
 msgid "File"
 msgstr "Bestand"
 
 #: ../addons/src/ao_tasks.c:423 ../debugger/src/bptree.c:702
-#: ../debugger/src/stree.c:394
+#: ../debugger/src/stree.c:427
 msgid "Line"
 msgstr "Regel"
 
@@ -145,6 +145,7 @@ msgid "Show Document List"
 msgstr "Laat documentlijst zien"
 
 #: ../addons/src/ao_copyfilepath.c:104
+#, c-format
 msgid "File path \"%s\" copied to clipboard."
 msgstr "Padnaam van '%s' gekopiëerd naar klembord."
 
@@ -182,9 +183,9 @@ msgstr "XML labelen uitvoeren"
 
 #: ../addons/src/addons.c:433 ../autoclose/src/autoclose.c:885
 #: ../codenav/src/codenavigation.c:293 ../geanylatex/src/geanylatex.c:241
-#: ../geanyprj/src/geanyprj.c:174 ../geanysendmail/src/geanysendmail.c:125
-#: ../geanysendmail/src/geanysendmail.c:290 ../geanyvc/src/geanyvc.c:1854
-#: ../geniuspaste/src/geniuspaste.c:140 ../spellcheck/src/scplugin.c:159
+#: ../geanyprj/src/geanyprj.c:174 ../geanysendmail/src/geanysendmail.c:124
+#: ../geanysendmail/src/geanysendmail.c:289 ../geanyvc/src/geanyvc.c:1850
+#: ../geniuspaste/src/geniuspaste.c:312 ../spellcheck/src/scplugin.c:158
 #: ../treebrowser/src/treebrowser.c:1938
 #: ../updatechecker/src/updatechecker.c:267
 msgid "Plugin configuration directory could not be created."
@@ -610,26 +611,26 @@ msgid "Choose target file"
 msgstr "Kies doelbestand"
 
 #. target
-#: ../debugger/src/tpage.c:251
+#: ../debugger/src/tpage.c:252
 msgid "Target:"
 msgstr "Doel:"
 
-#: ../debugger/src/tpage.c:254
+#: ../debugger/src/tpage.c:255
 msgid "Browse"
 msgstr ""
 
 #. debugger
-#: ../debugger/src/tpage.c:259
+#: ../debugger/src/tpage.c:260
 msgid "Debugger:"
 msgstr ""
 
 #. arguments
-#: ../debugger/src/tpage.c:270
+#: ../debugger/src/tpage.c:271
 msgid "Command Line Arguments"
 msgstr "Commandoregel argumenten"
 
 #. environment
-#: ../debugger/src/tpage.c:281
+#: ../debugger/src/tpage.c:282
 msgid "Environment Variables"
 msgstr "Omgevingsvariabelen"
 
@@ -656,36 +657,37 @@ msgstr "Aantal hits"
 msgid "line %i"
 msgstr "regel %i"
 
-#: ../debugger/src/dbm_gdb.c:547
-msgid "Program received a signal"
+#: ../debugger/src/dbm_gdb.c:523
+#, fuzzy, c-format
+msgid "Program received signal %s (%s)"
 msgstr "Programma ontving een signaal"
 
-#: ../debugger/src/dbm_gdb.c:563
+#: ../debugger/src/dbm_gdb.c:544
 #, c-format
 msgid "Program exited with code \"%i\""
 msgstr ""
 
-#: ../debugger/src/dbm_gdb.c:735
+#: ../debugger/src/dbm_gdb.c:708
 msgid "Failed to spawn gdb process"
 msgstr ""
 
-#: ../debugger/src/dbm_gdb.c:782
+#: ../debugger/src/dbm_gdb.c:755
 msgid "~\"Loading target file.\\n\""
 msgstr "~\"Laad doelbestand.\\n\""
 
-#: ../debugger/src/dbm_gdb.c:782
+#: ../debugger/src/dbm_gdb.c:755
 msgid "Error loading file"
 msgstr "Fout gedurende inladen bestand"
 
 #. setting asyncronous mode
 #. setting null-stop array printing
 #. enable pretty printing
-#: ../debugger/src/dbm_gdb.c:786 ../debugger/src/dbm_gdb.c:789
-#: ../debugger/src/dbm_gdb.c:792
+#: ../debugger/src/dbm_gdb.c:760 ../debugger/src/dbm_gdb.c:763
+#: ../debugger/src/dbm_gdb.c:766
 msgid "Error configuring GDB"
 msgstr ""
 
-#: ../debugger/src/dbm_gdb.c:835
+#: ../debugger/src/dbm_gdb.c:806
 #, c-format
 msgid ""
 "Breakpoint at %s:%i cannot be set\n"
@@ -697,29 +699,29 @@ msgstr ""
 msgid "Can't find a source file \"%s\""
 msgstr "Kan bronbestand \"%s\" niet vinden"
 
-#: ../debugger/src/stree.c:140
+#: ../debugger/src/stree.c:164
 msgid "Active frame"
 msgstr ""
 
-#: ../debugger/src/stree.c:140
+#: ../debugger/src/stree.c:164
 msgid "Click an arrow to switch to a frame"
 msgstr ""
 
-#: ../debugger/src/stree.c:363 ../geanylatex/src/bibtexlabels.c:46
+#: ../debugger/src/stree.c:350
+#, c-format
+msgid "Thread %i"
+msgstr ""
+
+#: ../debugger/src/stree.c:395 ../geanylatex/src/bibtexlabels.c:46
 msgid "Address"
 msgstr "Adres"
 
 #. i18n: in the programming language context, if you don't
 #. * have an ESTABLISHED term for it, leave it
 #. * untranslated.
-#: ../debugger/src/stree.c:381 ../devhelp/devhelp/dh-link.c:267
+#: ../debugger/src/stree.c:413 ../devhelp/devhelp/dh-link.c:267
 msgid "Function"
 msgstr "Functie"
-
-#: ../debugger/src/stree.c:533
-#, c-format
-msgid "Thread %i"
-msgstr ""
 
 #: ../debugger/src/tabs.c:132
 msgid "Target"
@@ -1066,7 +1068,7 @@ msgstr ""
 msgid "A developers' help browser for GNOME"
 msgstr ""
 
-#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2066
+#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2062
 msgid "_File"
 msgstr "Bestand"
 
@@ -1225,21 +1227,34 @@ msgid "Process execution failed (%s)"
 msgstr ""
 
 #: ../geanyctags/src/geanyctags.c:517
-#: ../projectorganizer/src/prjorg-sidebar.c:443
 #, fuzzy
 msgid "Find Tag"
 msgstr "Zoek:"
 
-#: ../geanyctags/src/geanyctags.c:528 ../geanymacro/src/geanymacro.c:1424
-#: ../projectorganizer/src/prjorg-sidebar.c:128
-#: ../projectorganizer/src/prjorg-sidebar.c:454
-msgid "Search for:"
+#: ../geanyctags/src/geanyctags.c:528
+#, fuzzy
+msgid "_Search for:"
 msgstr "Zoek naar:"
 
 #: ../geanyctags/src/geanyctags.c:546
-#: ../projectorganizer/src/prjorg-sidebar.c:472
-msgid "Match type:"
+msgid "_Match type:"
 msgstr ""
+
+#: ../geanyctags/src/geanyctags.c:551
+#: ../projectorganizer/src/prjorg-sidebar.c:477
+msgid "exact"
+msgstr ""
+
+#: ../geanyctags/src/geanyctags.c:552
+#: ../projectorganizer/src/prjorg-sidebar.c:478
+msgid "prefix"
+msgstr ""
+
+#: ../geanyctags/src/geanyctags.c:553
+#: ../projectorganizer/src/prjorg-sidebar.c:479
+#, fuzzy
+msgid "pattern"
+msgstr "Brief"
 
 #: ../geanyctags/src/geanyctags.c:562
 #: ../projectorganizer/src/prjorg-sidebar.c:156
@@ -1266,7 +1281,12 @@ msgstr ""
 msgid "Generate tags"
 msgstr "Algemeen"
 
-#: ../geanyctags/src/geanyctags.c:653 ../geanyctags/src/geanyctags.c:658
+#: ../geanyctags/src/geanyctags.c:653
+#, fuzzy
+msgid "Find tag..."
+msgstr "Zoek:"
+
+#: ../geanyctags/src/geanyctags.c:658
 #, fuzzy
 msgid "Find tag"
 msgstr "Zoek volgende"
@@ -1280,7 +1300,7 @@ msgstr ""
 msgid "Call documentation viewer on current symbol."
 msgstr ""
 
-#: ../geanydoc/src/geanydoc.c:170 ../geanyvc/src/geanyvc.c:416
+#: ../geanydoc/src/geanydoc.c:170 ../geanyvc/src/geanyvc.c:426
 msgid "Could not parse the output of command"
 msgstr "Kon uitvoer van commando niet parsen."
 
@@ -2136,7 +2156,7 @@ msgid "GeanyLaTeX"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:42
-msgid "Plugin to provide better LaTeX support"
+msgid "Extends LaTeX support"
 msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:116
@@ -3611,6 +3631,12 @@ msgstr "Zoek achterwaarts"
 msgid "Search for contents of clipboard"
 msgstr "Zoek naar inoud van klembord"
 
+#: ../geanymacro/src/geanymacro.c:1424
+#: ../projectorganizer/src/prjorg-sidebar.c:128
+#: ../projectorganizer/src/prjorg-sidebar.c:454
+msgid "Search for:"
+msgstr "Zoek naar:"
+
 #. create checkbox to check for search options
 #: ../geanymacro/src/geanymacro.c:1442
 msgid "Search is case sensitive"
@@ -3839,18 +3865,18 @@ msgstr ""
 msgid "Numbered Bookmarks for Geany"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:927
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:931
 #, c-format
 msgid "Unable to apply all markers to '%s' as all being used."
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:929
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:973
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1396
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:933
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:977
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1400
 msgid "_Okay"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:971
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:975
 #, c-format
 msgid ""
 "'%s' has been edited since it was last saved by geany. Marker positions may "
@@ -3858,54 +3884,54 @@ msgid ""
 "Press Ignore to try an load markers anyway."
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:974
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:978
 msgid "_Ignore"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1219
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1223
 msgid "remember fold state"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1225
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1229
 msgid "Center view when goto bookmark"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1232
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1236
 #, fuzzy
 msgid "Move to start of line"
 msgstr "Ga naar begin van de regel"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1233
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1237
 msgid "Move to remembered position in line"
 msgstr "Ga naar bewaarde positie op de regel"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1234
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1238
 msgid "Move to position in current line"
 msgstr "Ga naar positie in huidige regel"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1235
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1239
 #, fuzzy
 msgid "Move to End of line"
 msgstr "Ga naar het eind van de regel"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1241
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1245
 msgid "Save file settings with program settings"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1242
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1246
 msgid "Save file settings to filename with suffix"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1247
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1251
 msgid "remember normal Bookmarks"
 msgstr ""
 
 #. create dialog box
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1267
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1271
 msgid "Numbered Bookmarks help"
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1274
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1278
 msgid ""
 "This Plugin implements Numbered Bookmarks in Geany, as well as remembering "
 "the state of folds, and positions of standard non-numbered bookmarks when a "
@@ -3921,7 +3947,7 @@ msgid ""
 "previously set bookmark, press Ctrl+a number from 0 to 9."
 msgstr ""
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1395
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1399
 msgid "Unable to apply markers as all being used."
 msgstr ""
 
@@ -3961,23 +3987,23 @@ msgstr ""
 msgid "Using libgpgme version:"
 msgstr "Gebruikte libgpgme versie:"
 
-#: ../geanypg/src/geanypg.c:60 ../geanypg/src/geanypg.c:61
+#: ../geanypg/src/geanypg.c:59 ../geanypg/src/geanypg.c:60
 msgid "Error from"
 msgstr "Error van"
 
-#: ../geanypg/src/geanypg.c:86
+#: ../geanypg/src/geanypg.c:85
 msgid "Encrypt"
 msgstr "Codeer"
 
-#: ../geanypg/src/geanypg.c:87
+#: ../geanypg/src/geanypg.c:86
 msgid "Sign"
 msgstr "Signeer"
 
-#: ../geanypg/src/geanypg.c:88
+#: ../geanypg/src/geanypg.c:87
 msgid "Decrypt / Verify"
 msgstr "Decodeer / Verifiëer"
 
-#: ../geanypg/src/geanypg.c:89
+#: ../geanypg/src/geanypg.c:88
 msgid "Verify detached signature"
 msgstr "Verifiëer losse handtekening"
 
@@ -4043,8 +4069,8 @@ msgstr ""
 msgid "a key with fingerprint"
 msgstr "een sleutel met vingerafdruk"
 
-#: ../geanypg/src/verify_aux.c:66 ../spellcheck/src/gui.c:613
-#: ../spellcheck/src/gui.c:624
+#: ../geanypg/src/verify_aux.c:66 ../spellcheck/src/gui.c:610
+#: ../spellcheck/src/gui.c:621
 msgid "unknown"
 msgstr "onbekend"
 
@@ -4307,11 +4333,11 @@ msgstr "Zoek in project"
 msgid "Remove File"
 msgstr "Verwijder bestand"
 
-#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1417
+#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1416
 msgid "H_ide Sidebar"
 msgstr "Verberg zijbalk"
 
-#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1439
+#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1438
 msgid "Project"
 msgstr ""
 
@@ -4368,55 +4394,53 @@ msgid "GeanySendMail"
 msgstr ""
 
 #: ../geanysendmail/src/geanysendmail.c:44
-msgid ""
-"A little plugin to send the current file as attachment by user's favorite "
-"mailer"
+msgid "Sends the current file as attachment with your favorite mailer"
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:98
+#: ../geanysendmail/src/geanysendmail.c:97
 msgid "Recipient's Address"
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:100
+#: ../geanysendmail/src/geanysendmail.c:99
 msgid "Enter the recipient's e-mail address:"
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:140
+#: ../geanysendmail/src/geanysendmail.c:139
 msgid "Filename placeholder not found. The executed command might have failed."
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:146
+#: ../geanysendmail/src/geanysendmail.c:145
 msgid ""
 "Recipient address placeholder not found. The executed command might have "
 "failed."
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:160
+#: ../geanysendmail/src/geanysendmail.c:159
 msgid "Could not execute mailer. Please check your configuration."
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:169
+#: ../geanysendmail/src/geanysendmail.c:168
 msgid "Please define a mail client first."
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:174
+#: ../geanysendmail/src/geanysendmail.c:173
 msgid "File has to be saved before sending."
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:190
+#: ../geanysendmail/src/geanysendmail.c:189
 msgid "Mail"
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:221
+#: ../geanysendmail/src/geanysendmail.c:220
 msgid "Send by mail"
 msgstr ""
 
 #. add a label and a text entry to the dialog
-#: ../geanysendmail/src/geanysendmail.c:311
+#: ../geanysendmail/src/geanysendmail.c:310
 msgid "Path and options for the mail client:"
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:319
+#: ../geanysendmail/src/geanysendmail.c:318
 msgid ""
 "Note: \n"
 "\t%f will be replaced by your file.\n"
@@ -4427,85 +4451,85 @@ msgid ""
 "\tmutt -s \"Sending '%b'\" -a \"%f\" \"%r\""
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:329
+#: ../geanysendmail/src/geanysendmail.c:328
 msgid "Show toolbar icon"
 msgstr "Laat Hulpmiddelenbalk pictogram"
 
-#: ../geanysendmail/src/geanysendmail.c:331
+#: ../geanysendmail/src/geanysendmail.c:330
 msgid "Shows a icon in the toolbar to send file more easy."
 msgstr ""
 "Laat in de hulpmiddelenbalk een pictogram zien om een bestand te versturen."
 
-#: ../geanysendmail/src/geanysendmail.c:337
+#: ../geanysendmail/src/geanysendmail.c:336
 msgid "Use dialog for entering email address of recipients"
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:359
+#: ../geanysendmail/src/geanysendmail.c:358
 msgid "Send file by mail"
 msgstr ""
 
 #. Build up menu entry
-#: ../geanysendmail/src/geanysendmail.c:382
+#: ../geanysendmail/src/geanysendmail.c:381
 msgid "_Mail document"
 msgstr ""
 
-#: ../geanysendmail/src/geanysendmail.c:385
+#: ../geanysendmail/src/geanysendmail.c:384
 msgid ""
 "Sends the opened file as unzipped attachment by any mailer from your $PATH"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:53
+#: ../geanyvc/src/geanyvc.c:72
 msgid "GeanyVC"
 msgstr "GeanyVB"
 
-#: ../geanyvc/src/geanyvc.c:54
+#: ../geanyvc/src/geanyvc.c:73
 msgid "Interface to different Version Control systems."
 msgstr "Interface voor diverse revisiebeheerprogramma's."
 
-#: ../geanyvc/src/geanyvc.c:475
+#: ../geanyvc/src/geanyvc.c:485
 #, c-format
 msgid "geanyvc: s_spawn_sync error: %s"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:561
+#: ../geanyvc/src/geanyvc.c:571
 #, c-format
 msgid "File %s: action %s executed via %s."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:614 ../geanyvc/src/geanyvc.c:625
+#: ../geanyvc/src/geanyvc.c:624 ../geanyvc/src/geanyvc.c:635
 #, c-format
 msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
 msgstr "geanyvc: vcdiff_file_activated: Kon \"%s\" niet hernoemen tot \"%s\""
 
-#: ../geanyvc/src/geanyvc.c:651 ../geanyvc/src/geanyvc.c:701
+#: ../geanyvc/src/geanyvc.c:661 ../geanyvc/src/geanyvc.c:711
 msgid "No changes were made."
 msgstr "Er zijn geen wijzigingen gemaakt."
 
-#: ../geanyvc/src/geanyvc.c:728
+#: ../geanyvc/src/geanyvc.c:738
 #, fuzzy
 msgid "No history available"
 msgstr "Geen geschiedenis beschikbaar."
 
-#: ../geanyvc/src/geanyvc.c:921 ../geanyvc/src/geanyvc.c:929
+#: ../geanyvc/src/geanyvc.c:931 ../geanyvc/src/geanyvc.c:939
 #, c-format
 msgid "Do you really want to revert: %s?"
 msgstr "Wil je echt de wijzigingen in \"%s\" terugdraaien?"
 
-#: ../geanyvc/src/geanyvc.c:937
+#: ../geanyvc/src/geanyvc.c:947
 #, c-format
 msgid "Do you really want to add: %s?"
 msgstr "Wil je echt \"%s\" toevoegen?"
 
-#: ../geanyvc/src/geanyvc.c:944
+#: ../geanyvc/src/geanyvc.c:954
 #, c-format
 msgid "Do you really want to remove: %s?"
 msgstr "Wil je echt \"%s\" verwijderen"
 
-#: ../geanyvc/src/geanyvc.c:967
+#: ../geanyvc/src/geanyvc.c:977
 msgid "Do you really want to update?"
 msgstr "Wil je echt updaten?"
 
-#: ../geanyvc/src/geanyvc.c:1094
+#: ../geanyvc/src/geanyvc.c:1104
 msgid ""
 "The resulting differences cannot be displayed because the changes are too "
 "big to display here and would slow down the UI significantly.\n"
@@ -4514,63 +4538,55 @@ msgid ""
 "Geany directly by using the GeanyVC menu (Base Directory -> Diff)."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1243
+#: ../geanyvc/src/geanyvc.c:1253
 msgid "Commit Y/N"
 msgstr "Doorvoeren J/N"
 
-#: ../geanyvc/src/geanyvc.c:1253
+#: ../geanyvc/src/geanyvc.c:1263
 msgid "Status"
 msgstr "Toestand"
 
-#: ../geanyvc/src/geanyvc.c:1260
+#: ../geanyvc/src/geanyvc.c:1270
 msgid "Path"
 msgstr "Pad"
 
-#: ../geanyvc/src/geanyvc.c:1324
+#: ../geanyvc/src/geanyvc.c:1334
 #, c-format
 msgid "Line: %d Column: %d"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1370
+#: ../geanyvc/src/geanyvc.c:1380
 msgid "Commit"
 msgstr "Doorvoeren"
 
-#: ../geanyvc/src/geanyvc.c:1412
+#: ../geanyvc/src/geanyvc.c:1421
 msgid "_De-/select all files"
 msgstr "(De-)selecteer alle bestanden"
 
-#: ../geanyvc/src/geanyvc.c:1456
+#: ../geanyvc/src/geanyvc.c:1465
 msgid "<b>Commit message:</b>"
 msgstr "<b>Doorvoer commentaar:</b>"
 
-#: ../geanyvc/src/geanyvc.c:1475
+#: ../geanyvc/src/geanyvc.c:1484
 msgid "C_ommit"
 msgstr "Doorvoeren"
 
-#: ../geanyvc/src/geanyvc.c:1556
+#: ../geanyvc/src/geanyvc.c:1565
 msgid "Nothing to commit."
 msgstr "Niets door te voeren."
 
-#: ../geanyvc/src/geanyvc.c:1602
-#, c-format
-msgid "Error initializing spell checking: %s"
+#: ../geanyvc/src/geanyvc.c:1611
+#, fuzzy, c-format
+msgid ""
+"Error initializing GeanyVC spell checking: %s. Check your configuration."
 msgstr "Fout tijdens spellingscontrole-initialisatie: \"%s\""
 
-#: ../geanyvc/src/geanyvc.c:1614
-#, c-format
-msgid ""
-"Error while setting up language for spellchecking. Please check "
-"configuration. Error message was: %s"
-msgstr ""
-"Controleer configuratie: er is een fout opgetreden bij het instellen van de "
-"taal voor de spellingscontrole. Foutmelding: \"%s\""
-
-#: ../geanyvc/src/geanyvc.c:1890
+#: ../geanyvc/src/geanyvc.c:1886
 msgid "Set Changed-flag for document tabs created by the plugin"
 msgstr ""
 "Zet vlag 'gewijzigd' bij tabbladen van de door plugin gecreërde documenten."
 
-#: ../geanyvc/src/geanyvc.c:1893
+#: ../geanyvc/src/geanyvc.c:1889
 msgid ""
 "If this option is activated, every new by the VC-plugin created document tab "
 "will be marked as changed. Even this option is useful in some cases, it "
@@ -4581,312 +4597,367 @@ msgstr ""
 "gevallen, zal het mogelijkerwijs ook een groot aantal hinderlijke 'Wil je "
 "dit bewaren' dialogen veroorzaken."
 
-#: ../geanyvc/src/geanyvc.c:1901
+#: ../geanyvc/src/geanyvc.c:1897
 msgid "Confirm adding new files to a VCS"
 msgstr "Bevestig het toevoegen van nieuwe bestanden aan VBS."
 
-#: ../geanyvc/src/geanyvc.c:1904
+#: ../geanyvc/src/geanyvc.c:1900
 msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
 msgstr ""
 "Laat een bevestigingsdialoog zien bij het toevoegen van een nieuw (gecreërd) "
 "bestand aan het VBS."
 
-#: ../geanyvc/src/geanyvc.c:1910
+#: ../geanyvc/src/geanyvc.c:1906
 msgid "Maximize commit dialog"
 msgstr "Maximaliseer doorvoer dialoog."
 
-#: ../geanyvc/src/geanyvc.c:1911
+#: ../geanyvc/src/geanyvc.c:1907
 msgid "Show commit dialog maximize."
 msgstr "Laat doorvoer dialoog maximalisatie zien."
 
-#: ../geanyvc/src/geanyvc.c:1917
+#: ../geanyvc/src/geanyvc.c:1913
 msgid "Use external diff viewer"
 msgstr "Gebruik externe diff viewer"
 
-#: ../geanyvc/src/geanyvc.c:1919
+#: ../geanyvc/src/geanyvc.c:1915
 msgid "Use external diff viewer for file diff."
 msgstr "Gebruik externe diff viewer voor bestanden."
 
-#: ../geanyvc/src/geanyvc.c:1925
+#: ../geanyvc/src/geanyvc.c:1921
 msgid "Show VC entries at editor menu"
 msgstr "Laat VB entries zien bij editor menu"
 
-#: ../geanyvc/src/geanyvc.c:1927
+#: ../geanyvc/src/geanyvc.c:1923
 msgid "Show entries for VC functions inside editor menu"
 msgstr "Laat entries voor VB functies in editor menu"
 
-#: ../geanyvc/src/geanyvc.c:1932
+#: ../geanyvc/src/geanyvc.c:1928
 msgid "Attach menu to menubar"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1934
+#: ../geanyvc/src/geanyvc.c:1930
 msgid ""
 "Whether menu for this plugin are getting placed either inside tools menu or "
 "directly inside Geany's menubar.Will take in account after next start of "
 "GeanyVC"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1942
+#: ../geanyvc/src/geanyvc.c:1938
 msgid "Enable CVS"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1947
+#: ../geanyvc/src/geanyvc.c:1943
 msgid "Enable GIT"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1952
+#: ../geanyvc/src/geanyvc.c:1948
 msgid "Enable SVN"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1957
+#: ../geanyvc/src/geanyvc.c:1953
 msgid "Enable SVK"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1962
+#: ../geanyvc/src/geanyvc.c:1958
 msgid "Enable Bazaar"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1967
+#: ../geanyvc/src/geanyvc.c:1963
 msgid "Enable Mercurial"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1973
+#: ../geanyvc/src/geanyvc.c:1969
 msgid "Spellcheck language"
 msgstr "Spellingscontroletaal"
 
-#: ../geanyvc/src/geanyvc.c:2064
+#: ../geanyvc/src/geanyvc.c:2060
 msgid "_VC file Actions"
 msgstr "VB bestandhandelingen"
 
 #. Diff of current file
 #. Diff of the current dir
 #. Complete diff of base directory
-#: ../geanyvc/src/geanyvc.c:2070 ../geanyvc/src/geanyvc.c:2147
-#: ../geanyvc/src/geanyvc.c:2187
+#: ../geanyvc/src/geanyvc.c:2066 ../geanyvc/src/geanyvc.c:2143
+#: ../geanyvc/src/geanyvc.c:2183
 msgid "_Diff"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2073
+#: ../geanyvc/src/geanyvc.c:2069
 msgid "Make a diff from the current active file"
 msgstr "Maak een 'diff' van het huidige actieve bestand"
 
 #. Revert current file
 #. Revert current dir
 #. Revert everything
-#: ../geanyvc/src/geanyvc.c:2078 ../geanyvc/src/geanyvc.c:2156
-#: ../geanyvc/src/geanyvc.c:2195
+#: ../geanyvc/src/geanyvc.c:2074 ../geanyvc/src/geanyvc.c:2152
+#: ../geanyvc/src/geanyvc.c:2191
 msgid "_Revert"
 msgstr "Draai terug"
 
-#: ../geanyvc/src/geanyvc.c:2081
+#: ../geanyvc/src/geanyvc.c:2077
 msgid "Restore pristine working copy file (undo local edits)."
 msgstr "Herstel oorspronkelijke werkversie (maak lokale wijzigingen ongedaan)."
 
 #. Blame for current file
-#: ../geanyvc/src/geanyvc.c:2090
+#: ../geanyvc/src/geanyvc.c:2086
 msgid "_Blame"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2093
+#: ../geanyvc/src/geanyvc.c:2089
 msgid "Shows the changes made at one file per revision and author."
 msgstr "Laat de wijzigingen van een bestand per revisie en auteur zien."
 
 #. History/log of current file
 #. History/log of the current dir
 #. Complete History/Log of base directory
-#: ../geanyvc/src/geanyvc.c:2100 ../geanyvc/src/geanyvc.c:2166
-#: ../geanyvc/src/geanyvc.c:2207
+#: ../geanyvc/src/geanyvc.c:2096 ../geanyvc/src/geanyvc.c:2162
+#: ../geanyvc/src/geanyvc.c:2203
 msgid "_History (log)"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2103
+#: ../geanyvc/src/geanyvc.c:2099
 msgid "Shows the log of the current file"
 msgstr "Laat de log van het huidige bestand zien"
 
 #. base version of the current file
-#: ../geanyvc/src/geanyvc.c:2108
+#: ../geanyvc/src/geanyvc.c:2104
 msgid "_Original"
 msgstr "Origineel"
 
-#: ../geanyvc/src/geanyvc.c:2111
+#: ../geanyvc/src/geanyvc.c:2107
 #, fuzzy
 msgid "Shows the original of the current file"
 msgstr "Laat het origineel van het huidige bestand zien"
 
 #. add current file
-#: ../geanyvc/src/geanyvc.c:2119
+#: ../geanyvc/src/geanyvc.c:2115
 msgid "_Add to Version Control"
 msgstr "Voeg aan Versie Beheer toe"
 
-#: ../geanyvc/src/geanyvc.c:2121
+#: ../geanyvc/src/geanyvc.c:2117
 msgid "Add file to repository."
 msgstr "Voeg bestand aan opslagplaats toe."
 
 #. remove current file
-#: ../geanyvc/src/geanyvc.c:2127
+#: ../geanyvc/src/geanyvc.c:2123
 msgid "_Remove from Version Control"
 msgstr "Verwijder van Versie Beheer"
 
-#: ../geanyvc/src/geanyvc.c:2129
+#: ../geanyvc/src/geanyvc.c:2125
 msgid "Remove file from repository."
 msgstr "Verwijder bestand van opslagplaats."
 
-#: ../geanyvc/src/geanyvc.c:2144
+#: ../geanyvc/src/geanyvc.c:2140
 msgid "_Directory"
 msgstr "Map"
 
-#: ../geanyvc/src/geanyvc.c:2150
+#: ../geanyvc/src/geanyvc.c:2146
 msgid "Make a diff from the directory of the current active file"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2159
+#: ../geanyvc/src/geanyvc.c:2155
 msgid "Restore original files in the current folder (undo local edits)."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2169
+#: ../geanyvc/src/geanyvc.c:2165
 msgid "Shows the log of the current directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2183
+#: ../geanyvc/src/geanyvc.c:2179
 msgid "_Base Directory"
 msgstr "Basismap"
 
-#: ../geanyvc/src/geanyvc.c:2189
+#: ../geanyvc/src/geanyvc.c:2185
 msgid "Make a diff from the top VC directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2197
+#: ../geanyvc/src/geanyvc.c:2193
 msgid "Revert any local edits."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2210
+#: ../geanyvc/src/geanyvc.c:2206
 msgid "Shows the log of the top VC directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2236
+#: ../geanyvc/src/geanyvc.c:2232
 msgid "VC _Commit"
 msgstr "VB doorvoeren"
 
-#: ../geanyvc/src/geanyvc.c:2271
+#: ../geanyvc/src/geanyvc.c:2267
 msgid "Show diff of file"
 msgstr "Laat verschil tussen bestanden zien"
 
-#: ../geanyvc/src/geanyvc.c:2273
+#: ../geanyvc/src/geanyvc.c:2269
 msgid "Show diff of directory"
 msgstr "Laat verschil tussen mappen zien"
 
-#: ../geanyvc/src/geanyvc.c:2275
+#: ../geanyvc/src/geanyvc.c:2271
 msgid "Show diff of basedir"
 msgstr "Laat verschil van basismap zien"
 
-#: ../geanyvc/src/geanyvc.c:2278
+#: ../geanyvc/src/geanyvc.c:2274
 msgid "Commit changes"
 msgstr "Voer wijzigingen door"
 
-#: ../geanyvc/src/geanyvc.c:2280
+#: ../geanyvc/src/geanyvc.c:2276
 msgid "Show status"
 msgstr "Laat toestand zien"
 
-#: ../geanyvc/src/geanyvc.c:2282
+#: ../geanyvc/src/geanyvc.c:2278
 msgid "Revert single file"
 msgstr "Draai wijzigingen van bestand terug"
 
-#: ../geanyvc/src/geanyvc.c:2284
+#: ../geanyvc/src/geanyvc.c:2280
 msgid "Revert directory"
 msgstr "Draai wijzigingen map terug"
 
-#: ../geanyvc/src/geanyvc.c:2286
+#: ../geanyvc/src/geanyvc.c:2282
 msgid "Revert base directory"
 msgstr "Draai wijzigingen basismap terug"
 
-#: ../geanyvc/src/geanyvc.c:2288
+#: ../geanyvc/src/geanyvc.c:2284
 msgid "Update file"
 msgstr "Update bestand"
 
-#: ../geanyvc/src/geanyvc.c:2317
+#: ../geanyvc/src/geanyvc.c:2313
 msgid "_VC"
 msgstr "VB"
 
-#: ../geanyvc/src/geanyvc.c:2323
+#: ../geanyvc/src/geanyvc.c:2318
 msgid "_Version Control"
 msgstr "Versie Beheer"
 
 #. Status of basedir
-#: ../geanyvc/src/geanyvc.c:2345
+#: ../geanyvc/src/geanyvc.c:2340
 msgid "_Status"
 msgstr "Toestand"
 
-#: ../geanyvc/src/geanyvc.c:2347
+#: ../geanyvc/src/geanyvc.c:2342
 msgid "Show status."
 msgstr "Laat toestand zien."
 
-#: ../geanyvc/src/geanyvc.c:2354
+#: ../geanyvc/src/geanyvc.c:2349
 msgid "Update from remote repository."
 msgstr "Update van opslagplaats op afstand"
 
 #. Commit all changes
-#: ../geanyvc/src/geanyvc.c:2359
+#: ../geanyvc/src/geanyvc.c:2354
 msgid "_Commit"
 msgstr "Doorvoeren"
 
-#: ../geanyvc/src/geanyvc.c:2361
+#: ../geanyvc/src/geanyvc.c:2356
 msgid "Commit changes."
 msgstr "Voer wijzigingen door."
 
-#: ../geniuspaste/src/geniuspaste.c:101
+#: ../geniuspaste/src/geniuspaste.c:94
 msgid "Paste your code on your favorite pastebin"
 msgstr ""
 
-#: ../geniuspaste/src/geniuspaste.c:222
+#: ../geniuspaste/src/geniuspaste.c:115
+#, c-format
+msgid "Group \"%s\" not found."
+msgstr ""
+
+#: ../geniuspaste/src/geniuspaste.c:134
+#, c-format
+msgid "Group \"%s\" has no key \"%s\"."
+msgstr ""
+
+#: ../geniuspaste/src/geniuspaste.c:648
+msgid "Invalid pastebin service."
+msgstr ""
+
+#: ../geniuspaste/src/geniuspaste.c:649
+#, c-format
+msgid ""
+"Unknown pastebin service \"%s\". Select an existing pastebin service in the "
+"preferences or create an appropriate pastebin configuration and retry."
+msgstr ""
+
+#: ../geniuspaste/src/geniuspaste.c:661
 msgid "Refusing to create blank paste"
 msgstr ""
 
-#: ../geniuspaste/src/geniuspaste.c:341
+#: ../geniuspaste/src/geniuspaste.c:681
+#, fuzzy
+msgid "Failed to paste the code"
+msgstr "Kon de inhoud niet als XML interpreteren."
+
+#: ../geniuspaste/src/geniuspaste.c:682
+#, c-format
 msgid ""
-"Unable to paste the code on codepad.org\n"
-"Retry or select another pastebin."
+"Error pasting the code to the pastebin service %s.\n"
+"Error code: %u (%s).\n"
+"\n"
+"%s"
 msgstr ""
 
-#: ../geniuspaste/src/geniuspaste.c:393
+#: ../geniuspaste/src/geniuspaste.c:686
+msgid "Check your connection or the pastebin configuration and retry."
+msgstr ""
+
+#: ../geniuspaste/src/geniuspaste.c:688
+msgid ""
+"Wait for the service to come back and retry, or retry with another pastebin "
+"service."
+msgstr ""
+
+#: ../geniuspaste/src/geniuspaste.c:690 ../geniuspaste/src/geniuspaste.c:707
+#, fuzzy
+msgid "Check the pastebin configuration and retry."
+msgstr "Kon configuratie map niet creëren op \"%s\": '%s'"
+
+#: ../geniuspaste/src/geniuspaste.c:701
+msgid "Failed to obtain paste URL."
+msgstr ""
+
+#: ../geniuspaste/src/geniuspaste.c:702
+#, c-format
+msgid ""
+"The code was successfully pasted on %s, but an error occurred trying to "
+"obtain its URL: %s\n"
+"\n"
+"%s"
+msgstr ""
+
+#: ../geniuspaste/src/geniuspaste.c:706
+#, fuzzy
+msgid "unexpected response from the pastebin service."
+msgstr "Onverwachte fout in pinentry"
+
+#: ../geniuspaste/src/geniuspaste.c:719
 msgid "Paste Successful"
 msgstr ""
 
-#: ../geniuspaste/src/geniuspaste.c:395
+#: ../geniuspaste/src/geniuspaste.c:720
 #, c-format
 msgid ""
 "Your paste can be found here:\n"
 "<a href=\"%s\" title=\"Click to open the paste in your browser\">%s</a>"
 msgstr ""
 
-#: ../geniuspaste/src/geniuspaste.c:403
-#, c-format
-msgid ""
-"Unable to paste the code. Check your connection and retry.\n"
-"Error code: %d\n"
-msgstr ""
-
-#: ../geniuspaste/src/geniuspaste.c:416
+#: ../geniuspaste/src/geniuspaste.c:738
 msgid "There are no opened documents. Open one and retry.\n"
 msgstr ""
 
-#: ../geniuspaste/src/geniuspaste.c:429
+#: ../geniuspaste/src/geniuspaste.c:751
 msgid "The author name field is empty!"
 msgstr ""
 
-#: ../geniuspaste/src/geniuspaste.c:448
+#: ../geniuspaste/src/geniuspaste.c:771
 #, fuzzy
 msgid "Select a pastebin:"
 msgstr "Selecteer een ondertekenaar"
 
-#: ../geniuspaste/src/geniuspaste.c:451
+#: ../geniuspaste/src/geniuspaste.c:774
 msgid "Enter the author name:"
 msgstr ""
 
-#: ../geniuspaste/src/geniuspaste.c:466
+#: ../geniuspaste/src/geniuspaste.c:795
 msgid "Show your paste in a new browser tab"
 msgstr ""
 
-#: ../geniuspaste/src/geniuspaste.c:488
+#: ../geniuspaste/src/geniuspaste.c:816
 msgid "_Paste it!"
 msgstr ""
 
@@ -4960,6 +5031,53 @@ msgid ""
 msgstr ""
 "Kon definitie van grafische interface niet lezen. Controleer de installatie."
 "Foutmelding '%s'"
+
+#: ../lineoperations/src/lineoperations.c:67
+msgid "Remove Duplicate Lines, _Sorted"
+msgstr ""
+
+#: ../lineoperations/src/lineoperations.c:69
+msgid "Remove Duplicate Lines, _Ordered"
+msgstr ""
+
+#: ../lineoperations/src/lineoperations.c:71
+#, fuzzy
+msgid "Remove _Unique Lines"
+msgstr "Verwijder bestand"
+
+#: ../lineoperations/src/lineoperations.c:74
+#, fuzzy
+msgid "Remove _Empty Lines"
+msgstr "Verwijder bestand"
+
+#: ../lineoperations/src/lineoperations.c:76
+msgid "Remove _Whitespace Lines"
+msgstr ""
+
+#: ../lineoperations/src/lineoperations.c:79
+msgid "Sort Lines _Ascending"
+msgstr ""
+
+#: ../lineoperations/src/lineoperations.c:81
+msgid "Sort Lines _Descending"
+msgstr ""
+
+#: ../lineoperations/src/lineoperations.c:85
+#, fuzzy
+msgid "_Line Operations"
+msgstr "Binaire operatoren"
+
+#: ../lineoperations/src/lineoperations.c:127
+#, fuzzy
+msgid "Line Operations"
+msgstr "Binaire operatoren"
+
+#: ../lineoperations/src/lineoperations.c:128
+msgid ""
+"Line Operations provides a handful of functions that can be applied to a "
+"document such as, removing duplicate lines, removing empty lines, removing "
+"lines with only whitespace, and sorting lines."
+msgstr ""
 
 #. POSITION OF VIEW
 #: ../markdown/src/conf.c:567
@@ -5549,12 +5667,12 @@ msgstr "Zoek projectfile"
 
 #: ../projectorganizer/src/prjorg-menu.c:406
 #, fuzzy
-msgid "Find Project Tag..."
+msgid "Find Project Symbol..."
 msgstr "Zoek projectfile"
 
 #: ../projectorganizer/src/prjorg-menu.c:412
 #, fuzzy
-msgid "Find project tag"
+msgid "Find project symbol"
 msgstr "Zoek projectfile"
 
 #: ../projectorganizer/src/prjorg-menu.c:414
@@ -5569,71 +5687,72 @@ msgstr ""
 msgid "Open Selected File (Project Organizer)"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:586
+#: ../projectorganizer/src/prjorg-project.c:575
 msgid "Source patterns:"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:592
+#: ../projectorganizer/src/prjorg-project.c:581
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
 "Used for header/source swapping."
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:598
+#: ../projectorganizer/src/prjorg-project.c:587
 msgid "Header patterns:"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:604
+#: ../projectorganizer/src/prjorg-project.c:593
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
 "header/source swapping."
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:610
+#: ../projectorganizer/src/prjorg-project.c:599
 msgid "Ignored file patterns:"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:616
+#: ../projectorganizer/src/prjorg-project.c:605
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
 "not displayed in the project tree."
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:622
+#: ../projectorganizer/src/prjorg-project.c:611
 msgid "Ignored directory patterns:"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:628
+#: ../projectorganizer/src/prjorg-project.c:617
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:634
-msgid "Generate tags for all project files:"
+#: ../projectorganizer/src/prjorg-project.c:623
+#, fuzzy
+msgid "Index all project files:"
+msgstr "Zoek in projectbestanden"
+
+#: ../projectorganizer/src/prjorg-project.c:626
+msgid "Auto (index if less than 300 files)"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:637
-msgid "Auto (generate if less than 300 files)"
-msgstr ""
-
-#: ../projectorganizer/src/prjorg-project.c:638
+#: ../projectorganizer/src/prjorg-project.c:627
 #, fuzzy
 msgid "Yes"
 msgstr "ja"
 
-#: ../projectorganizer/src/prjorg-project.c:639
+#: ../projectorganizer/src/prjorg-project.c:628
 #, fuzzy
 msgid "No"
 msgstr "Nee."
 
-#: ../projectorganizer/src/prjorg-project.c:643
+#: ../projectorganizer/src/prjorg-project.c:632
 msgid ""
-"Generate tag list for all project files instead of only for the currently "
+"Generate symbol list for all project files instead of only for the currently "
 "opened files. Might be slow for big projects."
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:649
+#: ../projectorganizer/src/prjorg-project.c:638
 msgid ""
 "Note: the patterns above affect only the sidebar and are not used in the "
 "Find in Files\n"
@@ -5657,7 +5776,7 @@ msgid "Search in full path"
 msgstr ""
 
 #: ../projectorganizer/src/prjorg-sidebar.c:170
-#: ../projectorganizer/src/prjorg-sidebar.c:652
+#: ../projectorganizer/src/prjorg-sidebar.c:651
 #, fuzzy
 msgid "project or external directory"
 msgstr "Creër nieuwe map"
@@ -5672,69 +5791,65 @@ msgstr "Kies map:"
 msgid "Add"
 msgstr "Toevoegingen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:477
-msgid "exact"
-msgstr ""
-
-#: ../projectorganizer/src/prjorg-sidebar.c:478
-msgid "prefix"
-msgstr ""
-
-#: ../projectorganizer/src/prjorg-sidebar.c:479
+#: ../projectorganizer/src/prjorg-sidebar.c:443
 #, fuzzy
-msgid "pattern"
-msgstr "Brief"
+msgid "Find Symbol"
+msgstr "Zoek bestand"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1063
+#: ../projectorganizer/src/prjorg-sidebar.c:472
+msgid "Match type:"
+msgstr ""
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1062
 msgid "Set file patterns under Project->Properties"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1274
+#: ../projectorganizer/src/prjorg-sidebar.c:1273
 msgid "Reload all"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1283
+#: ../projectorganizer/src/prjorg-sidebar.c:1282
 #, fuzzy
 msgid "Add external directory"
 msgstr "Draai wijzigingen map terug"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1293
+#: ../projectorganizer/src/prjorg-sidebar.c:1292
 #: ../treebrowser/src/treebrowser.c:1282
 msgid "Expand all"
 msgstr "Alles uitvouwen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1300
+#: ../projectorganizer/src/prjorg-sidebar.c:1299
 msgid "Collapse to project root"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1311
+#: ../projectorganizer/src/prjorg-sidebar.c:1310
 msgid "Follow active editor"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1357
+#: ../projectorganizer/src/prjorg-sidebar.c:1356
 msgid "Open a project to start using the plugin"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1366
+#: ../projectorganizer/src/prjorg-sidebar.c:1365
 msgid "Expand All"
 msgstr "Alles uitvouwen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1375
+#: ../projectorganizer/src/prjorg-sidebar.c:1374
 #, fuzzy
 msgid "Find in Files..."
 msgstr "Zoek in bestanden"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1384
+#: ../projectorganizer/src/prjorg-sidebar.c:1383
 #, fuzzy
 msgid "Find File..."
 msgstr "Zoek bestand"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1393
+#: ../projectorganizer/src/prjorg-sidebar.c:1392
 #, fuzzy
-msgid "Find Tag..."
-msgstr "Zoek:"
+msgid "Find Symbol..."
+msgstr "Zoek bestand"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1406
+#: ../projectorganizer/src/prjorg-sidebar.c:1405
 #, fuzzy
 msgid "Remove External Directory"
 msgstr "Draai wijzigingen map terug"
@@ -6629,30 +6744,30 @@ msgstr "Commando 0:"
 msgid "Try: "
 msgstr ""
 
-#: ../spellcheck/src/speller.c:252
+#: ../spellcheck/src/speller.c:265
 msgid "Checking"
 msgstr ""
 
-#: ../spellcheck/src/speller.c:265
+#: ../spellcheck/src/speller.c:278
 #, c-format
 msgid "Checking file \"%s\" (lines %d to %d using %s):"
 msgstr "Controleert bestand \"%s\" (regels %d t/m %d dmv. %s):"
 
-#: ../spellcheck/src/speller.c:275
+#: ../spellcheck/src/speller.c:288
 #, c-format
 msgid "Checking file \"%s\" (using %s):"
 msgstr "Controleert bestand \"%s\" (dmv. %s):"
 
-#: ../spellcheck/src/speller.c:302
+#: ../spellcheck/src/speller.c:309
 msgid "The checked text is spelled correctly."
 msgstr "The gecontroleerde tekst is korrekt gespeld"
 
-#: ../spellcheck/src/speller.c:312
+#: ../spellcheck/src/speller.c:319
 #, c-format
 msgid "The Enchant library couldn't be initialized (%s)."
 msgstr "De Enchant bibliotheek kon niet geïnitialiseerd worden (%s)"
 
-#: ../spellcheck/src/speller.c:313
+#: ../spellcheck/src/speller.c:320
 msgid "unknown error (maybe the chosen language is not available)"
 msgstr "onbekende fout (misschien is de gekozen taal niet beschikbaar)"
 
@@ -6664,70 +6779,70 @@ msgstr "Spellingscontrole"
 msgid "Checks the spelling of the current document."
 msgstr "Controleert de spelling in het huidige bestand"
 
-#: ../spellcheck/src/scplugin.c:218
+#: ../spellcheck/src/scplugin.c:219
 msgid "Run Spell Check"
 msgstr "Draai spellingscontrole"
 
-#: ../spellcheck/src/scplugin.c:221
+#: ../spellcheck/src/scplugin.c:222
 msgid "Toggle Check While Typing"
 msgstr ""
 
 #. initialise the dialog
-#: ../spellcheck/src/scplugin.c:232
+#: ../spellcheck/src/scplugin.c:233
 msgid "Select Directory"
 msgstr "Kies map:"
 
-#: ../spellcheck/src/scplugin.c:284
+#: ../spellcheck/src/scplugin.c:285
 msgid "Show toolbar item to toggle spell checking"
 msgstr "Zet spellingscontrole item in de hulpmiddelenbalk"
 
-#: ../spellcheck/src/scplugin.c:288
+#: ../spellcheck/src/scplugin.c:289
 msgid "Show editor menu item to show spelling suggestions"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:293
+#: ../spellcheck/src/scplugin.c:294
 #, fuzzy
 msgid "Show suggestions in a sub menu of the editor menu"
 msgstr "Laat een 'Open URI' menu item in het editor menu zien"
 
-#: ../spellcheck/src/scplugin.c:308
+#: ../spellcheck/src/scplugin.c:309
 msgid "Print misspelled words and suggestions in the messages window"
 msgstr "Geef verkeerd gespelde woorden en suggesties in berichtenvenster weer"
 
-#: ../spellcheck/src/scplugin.c:318
+#: ../spellcheck/src/scplugin.c:319
 msgid "<b>Interface</b>"
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:326
+#: ../spellcheck/src/scplugin.c:327
 msgid "Check spelling while typing"
 msgstr "Controleer spelling gedurende het typen"
 
-#: ../spellcheck/src/scplugin.c:329
+#: ../spellcheck/src/scplugin.c:330
 #, fuzzy
 msgid "Check spelling when opening a document"
 msgstr "Controleer spelling gedurende het typen"
 
-#: ../spellcheck/src/scplugin.c:331
+#: ../spellcheck/src/scplugin.c:332
 msgid ""
 "Enabling this option will check every document after it is opened in Geany. "
 "Reloading a document will also trigger a re-check."
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:335
+#: ../spellcheck/src/scplugin.c:336
 msgid "Language to use for the spell check:"
 msgstr "Te gebruiken taal voor spellingscontrole:"
 
-#: ../spellcheck/src/scplugin.c:347
+#: ../spellcheck/src/scplugin.c:348
 msgid "_Directory to look for dictionary files:"
 msgstr "Map om maar woordenboekbestanden te zoeken:"
 
-#: ../spellcheck/src/scplugin.c:354
+#: ../spellcheck/src/scplugin.c:355
 msgid ""
 "Read additional dictionary files from this directory. For now, this only "
 "works with myspell dictionaries."
 msgstr ""
 
-#: ../spellcheck/src/scplugin.c:385
+#: ../spellcheck/src/scplugin.c:386
 msgid "<b>Behavior</b>"
 msgstr ""
 
@@ -6756,27 +6871,27 @@ msgstr "Voeg \"%s\" aan woordenboek toe"
 msgid "Ignore All"
 msgstr "Negeer alles"
 
-#: ../spellcheck/src/gui.c:445
+#: ../spellcheck/src/gui.c:441
 msgid ""
 "Search term is too long to provide\n"
 "spelling suggestions in the editor menu."
 msgstr "Zoekterm is te lang om suggesties te genereren in editor menu"
 
-#: ../spellcheck/src/gui.c:451
+#: ../spellcheck/src/gui.c:447
 msgid "Perform Spell Check"
 msgstr "Voer spellingscontrole uit"
 
-#: ../spellcheck/src/gui.c:612
+#: ../spellcheck/src/gui.c:609
 #, c-format
 msgid "Default (%s)"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:623
+#: ../spellcheck/src/gui.c:620
 #, c-format
 msgid "Toggle spell check while typing (current language: %s)"
 msgstr ""
 
-#: ../spellcheck/src/gui.c:701
+#: ../spellcheck/src/gui.c:698
 msgid "Spelling Suggestions"
 msgstr "Spellingssuggesties"
 
@@ -6801,8 +6916,8 @@ msgid "Tableconvert"
 msgstr "Tabelconversie"
 
 #: ../tableconvert/src/tableconvert.c:32
-msgid "A little plugin to convert lists into tables"
-msgstr "Een plug-in om lijsten naar tabellen om te zetten."
+msgid "Converts lists into tables for different filetypes"
+msgstr ""
 
 #: ../tableconvert/src/tableconvert.c:42
 msgid "LaTeX"
@@ -6821,7 +6936,7 @@ msgid "DokuWiki"
 msgstr "DokuWiki"
 
 #. OK. Something went not as expected.
-#. * We did have a selection but cannot parse it into rows.
+#. * We do have a selection but cannot parse it into rows.
 #. * Aborting
 #: ../tableconvert/src/tableconvert.c:297
 msgid "Something went wrong on parsing selection. Aborting"
@@ -7136,8 +7251,7 @@ msgid "Updatechecker"
 msgstr "Update controleur"
 
 #: ../updatechecker/src/updatechecker.c:42
-msgid ""
-"A plugin which is checking whether there are updates for Geany available."
+msgid "Checks whether there are updates for Geany available"
 msgstr ""
 
 #: ../updatechecker/src/updatechecker.c:195
@@ -7383,6 +7497,24 @@ msgstr "XML Snippers"
 #: ../xmlsnippets/src/plugin.c:46
 msgid "Autocompletes XML/HTML tags using snippets."
 msgstr "Completeerd automatisch XML/HTML labels."
+
+#~ msgid ""
+#~ "Error while setting up language for spellchecking. Please check "
+#~ "configuration. Error message was: %s"
+#~ msgstr ""
+#~ "Controleer configuratie: er is een fout opgetreden bij het instellen van "
+#~ "de taal voor de spellingscontrole. Foutmelding: \"%s\""
+
+#, fuzzy
+#~ msgid "Find Project Tag..."
+#~ msgstr "Zoek projectfile"
+
+#, fuzzy
+#~ msgid "Find project tag"
+#~ msgstr "Zoek projectfile"
+
+#~ msgid "A little plugin to convert lists into tables"
+#~ msgstr "Een plug-in om lijsten naar tabellen om te zetten."
 
 #~ msgid ""
 #~ "This plugin adds features to facilitate navigation between source files.\n"
