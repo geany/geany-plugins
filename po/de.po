@@ -1,9 +1,9 @@
 # German translation for geany-plugins
-# Copyright (C) 2009-2015 THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) 2009-2016 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 # Andrew Janke <a.janke@gmail.com>, 2009
 # Fabian Nowak <timystery@arcor.de>, 2012
-# Frank Lanitz <frank@frank.uvena.de>, 2009-2015
+# Frank Lanitz <frank@frank.uvena.de>, 2009-2016
 # Dominic Hopf <dmaphy@gmail.com>, 2009
 # Michael Spahn <anyone90@googlemail.com>, 2009
 #
@@ -729,9 +729,8 @@ msgid "line %i"
 msgstr "Zeile %i"
 
 #: ../debugger/src/dbm_gdb.c:523
-#, fuzzy, c-format
 msgid "Program received signal %s (%s)"
-msgstr "Programm empfing ein Signal"
+msgstr "Programm empfing ein Signal %s (%s)"
 
 #: ../debugger/src/dbm_gdb.c:544
 #, c-format
@@ -1315,9 +1314,9 @@ msgid "Find Tag"
 msgstr "Tag finden"
 
 #: ../geanyctags/src/geanyctags.c:528
-#, fuzzy
+
 msgid "_Search for:"
-msgstr "Suchen nach:"
+msgstr "_Suchen nach:"
 
 #: ../geanyctags/src/geanyctags.c:546
 #, fuzzy
@@ -1363,7 +1362,6 @@ msgid "Generate tags"
 msgstr "Tags erstellen"
 
 #: ../geanyctags/src/geanyctags.c:653
-#, fuzzy
 msgid "Find tag..."
 msgstr "Tag finden..."
 
@@ -2273,7 +2271,7 @@ msgstr "GeanyLaTeX"
 
 #: ../geanylatex/src/geanylatex.c:42
 msgid "Extends LaTeX support"
-msgstr ""
+msgstr "Erweitert die LaTeX-Unterstützung"
 
 #: ../geanylatex/src/geanylatex.c:116
 msgid "Runs LaTeX wizard"
@@ -4669,11 +4667,9 @@ msgid "GeanySendMail"
 msgstr "GeanySendMail"
 
 #: ../geanysendmail/src/geanysendmail.c:44
-#, fuzzy
 msgid "Sends the current file as attachment with your favorite mailer"
 msgstr ""
-"Ein Plugin zum Senden einer Datei als Anhang unter Verwendung eines E-Mail-"
-"Programms."
+"Sendet die aktuelle Datei als Anhang mittels des favorisierten Mailprogrammes."
 
 # Ich sehe doppelt.
 #: ../geanysendmail/src/geanysendmail.c:97
@@ -4877,10 +4873,10 @@ msgid "Nothing to commit."
 msgstr "Nichts zum Übertragen."
 
 #: ../geanyvc/src/geanyvc.c:1611
-#, fuzzy, c-format
+
 msgid ""
 "Error initializing GeanyVC spell checking: %s. Check your configuration."
-msgstr "Fehler beim Initialisieren der Rechtschreibprüfung: %s"
+msgstr "Fehler beim Initialisieren der Rechtschreibprüfung: %s. Überprüfen Sie Ihre Konfiguration!"
 
 #: ../geanyvc/src/geanyvc.c:1886
 msgid "Set Changed-flag for document tabs created by the plugin"
@@ -5162,17 +5158,16 @@ msgstr "Quelltexte bei bevorzugter Code-Ablagestelle hinterlegen"
 #: ../geniuspaste/src/geniuspaste.c:115
 #, c-format
 msgid "Group \"%s\" not found."
-msgstr ""
+msgstr "Gruppe »%s« konnte nicht gefunden werden."
 
 #: ../geniuspaste/src/geniuspaste.c:134
 #, c-format
 msgid "Group \"%s\" has no key \"%s\"."
-msgstr ""
+msgstr "Gruppe »%s« hat keinen Eintrag »%s«."
 
 #: ../geniuspaste/src/geniuspaste.c:648
-#, fuzzy
 msgid "Invalid pastebin service."
-msgstr "Ungültige Position »%s«"
+msgstr "Ungültiger Dienst"
 
 #: ../geniuspaste/src/geniuspaste.c:649
 #, c-format
