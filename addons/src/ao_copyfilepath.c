@@ -116,7 +116,7 @@ static void ao_copy_file_path_init(AoCopyFilePath *self)
 {
 	AoCopyFilePathPrivate *priv = AO_COPY_FILE_PATH_GET_PRIVATE(self);
 
-	priv->tools_menu_item = ao_image_menu_item_new(GTK_STOCK_COPY, _("Copy File Path"));
+	priv->tools_menu_item = ui_image_menu_item_new(GTK_STOCK_COPY, _("Copy File Path"));
 	gtk_widget_set_tooltip_text(
 		priv->tools_menu_item,
 		_("Copy the file path of the current document to the clipboard"));
