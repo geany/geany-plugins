@@ -31,37 +31,37 @@
 
 
 /* Remove Duplicate Lines, sorted */
-void
+gint
 rmdupst(gchar **lines, gint num_lines, gchar *new_file);
 
 
 /* Remove Duplicate Lines, ordered */
-void
+gint
 rmdupln(gchar **lines, gint num_lines, gchar *new_file);
 
 
 /* Remove Unique Lines */
-void
+gint
 rmunqln(gchar **lines, gint num_lines, gchar *new_file);
 
 
 /* Remove Empty Lines */
-void
+gint
 rmemtyln(ScintillaObject *sci, gint line_num, gint end_line_num);
 
 
 /* Remove Whitespace Lines */
-void
+gint
 rmwhspln(ScintillaObject *sci, gint line_num, gint end_line_num);
 
 
 /* Sort Lines Ascending */
-void
+gint
 sortlnsasc(gchar **lines, gint num_lines, gchar *new_file);
 
 
 /* Sort Lines Descending */
-void
+gint
 sortlndesc(gchar **lines, gint num_lines, gchar *new_file);
 
 #endif

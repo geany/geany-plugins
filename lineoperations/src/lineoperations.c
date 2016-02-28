@@ -31,25 +31,25 @@ static GtkWidget *main_menu_item = NULL;
 
 
 
-/* represents lines that will have Operation applied to */
+/* represents a selection of lines that will have Operation applied to */
 struct lo_lines {
 	gboolean is_selection;
-	gint start_posn_line;
-	gint end_posn_line;
+	gint     start_line;
+	gint     end_line;
 };
 
 
-/* selects lines in document (based of lo_lines struct parameter) */
+/* selects lines in document (based off of lo_lines struct parameter) */
 static void
 select_lines(GeanyEditor *editor, struct lo_lines sel)
 {
 	/* set the selection to beginning of first line */
 	sci_set_selection_start(editor->sci,
-			sci_get_position_from_line(editor->sci, sel.start_posn_line));
+			sci_get_position_from_line(editor->sci, sel.start_line));
 
 	/* set the selection to end of last line */
 	sci_set_selection_end(editor->sci,
-			sci_get_line_end_position(editor->sci, sel.end_posn_line) +
+			sci_get_line_end_position(editor->sci, sel.end_line) +
 									 editor_get_eol_char_len(editor));
 }
 
@@ -70,11 +70,11 @@ get_current_sel_lines(ScintillaObject *sci)
 		end_posn   = sci_get_selection_end  (sci);
 
 		/* get the line number of those positions */
-		sel.start_posn_line = scintilla_send_message(sci,
+		sel.start_line = scintilla_send_message(sci,
 									SCI_LINEFROMPOSITION,
 									start_posn, 0);
 
-		sel.end_posn_line   = scintilla_send_message(sci,
+		sel.end_line   = scintilla_send_message(sci,
 									SCI_LINEFROMPOSITION,
 									end_posn, 0);
 
@@ -83,9 +83,9 @@ get_current_sel_lines(ScintillaObject *sci)
 	else
 	{
 		/* if there is no selection, start at first line */
-		sel.start_posn_line = 0;
+		sel.start_line = 0;
 		/* and end at last one */
-		sel.end_posn_line   = (sci_get_line_count(sci) - 1);
+		sel.end_line   = (sci_get_line_count(sci) - 1);
 
 		sel.is_selection = FALSE;
 	}
@@ -96,44 +96,89 @@ get_current_sel_lines(ScintillaObject *sci)
 
 /* altered from geany/src/editor.c, ensure new line at file end */
 static void
-ensure_final_newline(GeanyEditor *editor, gint max_lines)
+ensure_final_newline(GeanyEditor *editor, gint *num_lines, struct lo_lines *sel)
 {
-	gint end_document      = sci_get_position_from_line(editor->sci, max_lines);
+	gint end_document   = sci_get_position_from_line(editor->sci, (*num_lines));
 	gboolean append_newline = end_document >
-					sci_get_position_from_line(editor->sci, max_lines - 1);
+					sci_get_position_from_line(editor->sci, ((*num_lines) - 1));
 
 	if (append_newline)
 	{
 		const gchar *eol = editor_get_eol_char(editor);
 		sci_insert_text(editor->sci, end_document, eol);
+		(*num_lines)++;
+		(*sel).end_line++;
+	}
+}
+
+
+/* set statusbar with message and select altered lines */
+static void
+user_indicate(GeanyEditor *editor, gint lines_affected, struct lo_lines sel)
+{
+	if(lines_affected < 0)
+	{
+		ui_set_statusbar(FALSE, _("Operation successful! %d lines removed."),
+					-lines_affected);
+
+		/* select lines to indicate to user what lines were altered */
+		sel.end_line   += lines_affected;
+		
+		if(sel.is_selection)
+			select_lines(editor, sel);	
+	}
+	else if(lines_affected == 0)
+	{
+		ui_set_statusbar(FALSE, _("Operation successful! No lines removed."));
+
+		/* select lines to indicate to user what lines were altered */
+		if(sel.is_selection)
+			select_lines(editor, sel);
+	}
+	else
+	{
+		ui_set_statusbar(FALSE, _("Operation successful! %d lines affected."),
+					lines_affected);
+
+		/* select lines to indicate to user what lines were altered */
+		if(sel.is_selection)
+			select_lines(editor, sel);	
 	}
 }
 
 
 /*
  * Menu action for functions with indirect scintilla manipulation
- * e.g. functions requiring **lines array, *new_file...
+ * e.g. functions requiring **lines array, num_lines, *new_file
 */
 static void
 action_indir_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 {
-	/* function pointer to gdata -- function to be used */
-	void (*func)(gchar **lines, gint num_lines, gchar *new_file) = gdata;
+	/* function pointer to function to be used */
+	gint (*func)(gchar **lines, gint num_lines, gchar *new_file) = gdata;
+	GeanyDocument *doc    = document_get_current();
 
-	GeanyDocument *doc  = document_get_current();
-	struct lo_lines sel = get_current_sel_lines(doc->editor->sci);
-	gint  num_chars     = 0;
-	gint  num_lines     = (sel.end_posn_line - sel.start_posn_line) + 1;
-	gchar **lines       = g_malloc(sizeof(gchar *) * num_lines);
-	gint i              = 0;
+	struct lo_lines sel   = get_current_sel_lines(doc->editor->sci);
+	gint   num_lines      = (sel.end_line - sel.start_line) + 1;
+
+	gint   num_chars      = 0;
+	gint   i              = 0;
+	gint   lines_affected = 0;
+
+
+	/* if last line within selection ensure that the file ends with newline */
+	if((sel.end_line + 1) == sci_get_line_count(doc->editor->sci))
+		ensure_final_newline(doc->editor, &num_lines, &sel);
 
 	/* get num_chars and **lines */
+	gchar **lines        = g_malloc(sizeof(gchar *) * num_lines);
 	for(i = 0; i < num_lines; i++)
 	{
 		num_chars += (sci_get_line_length(doc->editor->sci,
-										(i + sel.start_posn_line)));
+										(i + sel.start_line)));
+
 		lines[i]   = sci_get_line(doc->editor->sci,
-										(i + sel.start_posn_line));
+										(i + sel.start_line));
 	}
 
 	gchar *new_file  = g_malloc(sizeof(gchar) * (num_chars + 1));
@@ -144,20 +189,18 @@ action_indir_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 
 	sci_start_undo_action(doc->editor->sci);
 
-	/* if file is not empty, ensure that the file ends with newline */
-	if((!sel.is_selection && num_lines != 1) || (sel.is_selection &&
-		sel.end_posn_line == (sci_get_line_count(doc->editor->sci) - 1)))
-	{
-		ensure_final_newline(doc->editor, num_lines);
-	}
 
-	if(doc) func(lines, num_lines, new_file);
+	if(doc)
+		lines_affected = func(lines, num_lines, new_file);
+
 
 	/* set new document */
 	if(sci_has_selection(doc->editor->sci))
 		sci_replace_sel(doc->editor->sci, new_file);
 	else
 		sci_set_text(doc->editor->sci, new_file);
+
+	user_indicate(doc->editor, lines_affected, sel);
 
 	sci_end_undo_action(doc->editor->sci);
 
@@ -178,17 +221,19 @@ static void
 action_sci_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 {
 	/* function pointer to gdata -- function to be used */
-	void (*func)(ScintillaObject *, gint, gint) = gdata;
+	gint (*func)(ScintillaObject *, gint, gint) = gdata;
 	GeanyDocument *doc  = document_get_current();
 	struct lo_lines sel = get_current_sel_lines(doc->editor->sci);
+	gint lines_affected = 0;
 
-	/* select lines to indicate to user what lines were altered */
-	if(sel.is_selection)
-		select_lines(doc->editor, sel);
 
 	sci_start_undo_action(doc->editor->sci);
 
-	if(doc) func(doc->editor->sci, sel.start_posn_line, sel.end_posn_line);
+	if(doc)
+		lines_affected = func(doc->editor->sci, sel.start_line, sel.end_line);
+
+	/* put message in ui_statusbar, and highlight lines that were affected */
+	user_indicate(doc->editor, lines_affected, sel);
 
 	sci_end_undo_action(doc->editor->sci);
 }

@@ -41,7 +41,7 @@ compare_desc(const void * a, const void * b)
 
 /* Remove Duplicate Lines, sorted */
 void
-rmdupst(GeanyDocument *doc, gchar **lines, gint num_lines, gchar *new_file)
+rmdupst(gchar **lines, gint num_lines, gchar *new_file)
 {
 	gchar *nf_end  = new_file;    /* points to last char of new_file */
 	gchar *lineptr = (gchar *)""; /* temporary line pointer */
@@ -64,7 +64,7 @@ rmdupst(GeanyDocument *doc, gchar **lines, gint num_lines, gchar *new_file)
 
 /* Remove Duplicate Lines, ordered */
 void
-rmdupln(GeanyDocument *doc, gchar **lines, gint num_lines, gchar *new_file)
+rmdupln(gchar **lines, gint num_lines, gchar *new_file)
 {
 	gchar *nf_end  = new_file;  /* points to last char of new_file */
 	gint  i        = 0;         /* iterator */
@@ -105,7 +105,7 @@ rmdupln(GeanyDocument *doc, gchar **lines, gint num_lines, gchar *new_file)
 
 /* Remove Unique Lines */
 void
-rmunqln(GeanyDocument *doc, gchar **lines, gint num_lines, gchar *new_file)
+rmunqln(gchar **lines, gint num_lines, gchar *new_file)
 {
 	gchar *nf_end = new_file;   /* points to last char of new_file */
 	gint i        = 0;          /* iterator */
@@ -142,7 +142,7 @@ rmunqln(GeanyDocument *doc, gchar **lines, gint num_lines, gchar *new_file)
 
 /* Remove Empty Lines */
 void
-rmemtyln(GeanyDocument *doc, gint line_num, gint end_line_num)
+rmemtyln(ScintillaObject *sci, gint line_num, gint end_line_num)
 {
 
 	while(line_num <= end_line_num)    /* loop through lines */
@@ -151,10 +151,11 @@ rmemtyln(GeanyDocument *doc, gint line_num, gint end_line_num)
 		if(sci_get_position_from_line(sci, line_num) ==
 		   sci_get_line_end_position (sci, line_num))
 		{
-			scintilla_send_message(doc->editor->sci,
+			scintilla_send_message(sci,
 					   SCI_DELETERANGE,
-					   sci_get_position_from_line(doc->editor->sci, line_num),
-					   sci_get_line_length(doc->editor->sci, line_num));
+					   sci_get_position_from_line(sci, line_num),
+					   sci_get_line_length(sci, line_num));
+
 			line_num--;
 			end_line_num--;
 		}
@@ -165,26 +166,27 @@ rmemtyln(GeanyDocument *doc, gint line_num, gint end_line_num)
 
 /* Remove Whitespace Lines */
 void
-rmwhspln(GeanyDocument *doc, gint line_num, gint end_line_num)
+rmwhspln(ScintillaObject *sci, gint line_num, gint end_line_num)
 {
 	gint indent;                       /* indent position */
 
 	while(line_num <= end_line_num)    /* loop through lines */
 	{
-		indent = scintilla_send_message(doc->editor->sci,
+		indent = scintilla_send_message(sci,
 									SCI_GETLINEINDENTPOSITION,
 									line_num, 0);
 
 		/* check if the posn of indentation is also the end of line posn */
 		if(indent -
-		   sci_get_position_from_line(doc->editor->sci, line_num) ==
-		   sci_get_line_end_position (doc->editor->sci, line_num)-
-		   sci_get_position_from_line(doc->editor->sci, line_num))
+		   sci_get_position_from_line(sci, line_num) ==
+		   sci_get_line_end_position (sci, line_num) -
+		   sci_get_position_from_line(sci, line_num))
 		{
-			scintilla_send_message(doc->editor->sci,
+			scintilla_send_message(sci,
 					   SCI_DELETERANGE,
-					   sci_get_position_from_line(doc->editor->sci, line_num),
-					   sci_get_line_length(doc->editor->sci, line_num));
+					   sci_get_position_from_line(sci, line_num),
+					   sci_get_line_length(sci, line_num));
+
 			line_num--;
 			end_line_num--;
 		}
@@ -196,7 +198,7 @@ rmwhspln(GeanyDocument *doc, gint line_num, gint end_line_num)
 
 /* Sort Lines Ascending */
 void
-sortlnsasc(GeanyDocument *doc, gchar **lines, gint num_lines, gchar *new_file)
+sortlnsasc(gchar **lines, gint num_lines, gchar *new_file)
 {
 	gchar *nf_end = new_file;          /* points to last char of new_file */
 	gint i;
@@ -211,7 +213,7 @@ sortlnsasc(GeanyDocument *doc, gchar **lines, gint num_lines, gchar *new_file)
 
 /* Sort Lines Descending */
 void
-sortlndesc(GeanyDocument *doc, gchar **lines, gint num_lines, gchar *new_file)
+sortlndesc(gchar **lines, gint num_lines, gchar *new_file)
 {
 	gchar *nf_end = new_file;          /* points to last char of new_file */
 	gint i;
