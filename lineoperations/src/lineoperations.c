@@ -58,18 +58,18 @@ select_lines(GeanyEditor *editor, struct lo_lines sel)
 static struct lo_lines
 get_current_sel_lines(ScintillaObject *sci)
 {
-	struct lo_lines sel = { 0, 0 };
+	struct lo_lines sel = { FALSE, 0, 0 };
 	gint start_posn     = 0;        /* position of selection start */
 	gint end_posn       = 0;        /* position of selection end   */
 
 	/* check for selection */
 	if(sci_has_selection(sci))
 	{
-		/* get the start and end positions */
+		/* get the start and end *positions* */
 		start_posn = sci_get_selection_start(sci);
 		end_posn   = sci_get_selection_end  (sci);
 
-		/* get the line number of those positions */
+		/* get the *line number* of those positions */
 		sel.start_line = scintilla_send_message(sci,
 									SCI_LINEFROMPOSITION,
 									start_posn, 0);
@@ -106,6 +106,8 @@ ensure_final_newline(GeanyEditor *editor, gint *num_lines, struct lo_lines *sel)
 	{
 		const gchar *eol = editor_get_eol_char(editor);
 		sci_insert_text(editor->sci, end_document, eol);
+
+		/* re-adjust the selection */
 		(*num_lines)++;
 		(*sel).end_line++;
 	}
@@ -123,9 +125,9 @@ user_indicate(GeanyEditor *editor, gint lines_affected, struct lo_lines sel)
 
 		/* select lines to indicate to user what lines were altered */
 		sel.end_line   += lines_affected;
-		
+
 		if(sel.is_selection)
-			select_lines(editor, sel);	
+			select_lines(editor, sel);
 	}
 	else if(lines_affected == 0)
 	{
@@ -142,7 +144,7 @@ user_indicate(GeanyEditor *editor, gint lines_affected, struct lo_lines sel)
 
 		/* select lines to indicate to user what lines were altered */
 		if(sel.is_selection)
-			select_lines(editor, sel);	
+			select_lines(editor, sel);
 	}
 }
 
@@ -184,7 +186,7 @@ action_indir_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 	gchar *new_file  = g_malloc(sizeof(gchar) * (num_chars + 1));
 	new_file[0]      = '\0';
 
-	/* select lines to indicate to user what lines were altered */
+	/* select lines that will be replaced with array */
 	select_lines(doc->editor, sel);
 
 	sci_start_undo_action(doc->editor->sci);
@@ -195,11 +197,9 @@ action_indir_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 
 
 	/* set new document */
-	if(sci_has_selection(doc->editor->sci))
-		sci_replace_sel(doc->editor->sci, new_file);
-	else
-		sci_set_text(doc->editor->sci, new_file);
+	sci_replace_sel(doc->editor->sci, new_file);
 
+	/* select affected lines and set statusbar message */
 	user_indicate(doc->editor, lines_affected, sel);
 
 	sci_end_undo_action(doc->editor->sci);

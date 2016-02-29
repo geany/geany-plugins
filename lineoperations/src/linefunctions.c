@@ -40,12 +40,13 @@ compare_desc(const void * a, const void * b)
 
 
 /* Remove Duplicate Lines, sorted */
-void
+gint
 rmdupst(gchar **lines, gint num_lines, gchar *new_file)
 {
-	gchar *nf_end  = new_file;    /* points to last char of new_file */
-	gchar *lineptr = (gchar *)""; /* temporary line pointer */
-	gint  i        = 0;           /* iterator */
+	gchar *nf_end  = new_file;     /* points to last char of new_file */
+	gchar *lineptr = (gchar *)" "; /* temporary line pointer */
+	gint  i        = 0;            /* iterator */
+	gint  changed  = 0;            /* number of lines removed */
 
 	/* sort **lines ascending */
 	qsort(lines, num_lines, sizeof(gchar *), compare_asc);
@@ -55,21 +56,26 @@ rmdupst(gchar **lines, gint num_lines, gchar *new_file)
 	{
 		if(strcmp(lines[i], lineptr) != 0)
 		{
-			lineptr  = lines[i];
-			nf_end   = g_stpcpy(nf_end, lines[i]);
+			changed++;     /* number of lines kept */
+			lineptr = lines[i];
+			nf_end  = g_stpcpy(nf_end, lines[i]);
 		}
 	}
+
+	/* return the number of lines deleted */
+	return -(num_lines - changed);
 }
 
 
 /* Remove Duplicate Lines, ordered */
-void
+gint
 rmdupln(gchar **lines, gint num_lines, gchar *new_file)
 {
 	gchar *nf_end  = new_file;  /* points to last char of new_file */
 	gint  i        = 0;         /* iterator */
 	gint  j        = 0;         /* iterator */
 	gboolean *to_remove = NULL; /* flag to 'mark' which lines to remove */
+	gint  changed  = 0;         /* number of lines removed */
 
 
 	/* allocate and set *to_remove to all FALSE
@@ -96,21 +102,28 @@ rmdupln(gchar **lines, gint num_lines, gchar *new_file)
 	/* copy **lines into 'new_file' if it is not FALSE (not duplicate) */
 	for(i = 0; i < num_lines; i++)
 		if(!to_remove[i])
-			nf_end   = g_stpcpy(nf_end, lines[i]);
+		{
+			changed++;     /* number of lines kept */
+			nf_end = g_stpcpy(nf_end, lines[i]);
+		}
 
 	/* free used memory */
 	g_free(to_remove);
+
+	/* return the number of lines deleted */
+	return -(num_lines - changed);
 }
 
 
 /* Remove Unique Lines */
-void
+gint
 rmunqln(gchar **lines, gint num_lines, gchar *new_file)
 {
 	gchar *nf_end = new_file;   /* points to last char of new_file */
-	gint i        = 0;          /* iterator */
-	gint j        = 0;          /* iterator */
+	gint  i       = 0;          /* iterator */
+	gint  j       = 0;          /* iterator */
 	gboolean *to_remove = NULL; /* to 'mark' which lines to remove */
+	gint  changed = 0;          /* number of lines removed */
 
 
 	/* allocate and set *to_remove to all TRUE
@@ -133,17 +146,24 @@ rmunqln(gchar **lines, gint num_lines, gchar *new_file)
 	/* copy **lines into 'new_file' if it is not FALSE(not duplicate) */
 	for(i = 0; i < num_lines; i++)
 		if(!to_remove[i])
+		{
+			changed++;     /* number of lines kept */
 			nf_end = g_stpcpy(nf_end, lines[i]);
+		}
 
 	/* free used memory */
 	g_free(to_remove);
+
+	/* return the number of lines deleted */
+	return -(num_lines - changed);
 }
 
 
 /* Remove Empty Lines */
-void
+gint
 rmemtyln(ScintillaObject *sci, gint line_num, gint end_line_num)
 {
+	gint  changed = 0;     /* number of lines removed */
 
 	while(line_num <= end_line_num)    /* loop through lines */
 	{
@@ -158,17 +178,22 @@ rmemtyln(ScintillaObject *sci, gint line_num, gint end_line_num)
 
 			line_num--;
 			end_line_num--;
+			changed++;
 		}
 		line_num++;
 	}
+
+	/* return the number of lines deleted */
+	return -changed;
 }
 
 
 /* Remove Whitespace Lines */
-void
+gint
 rmwhspln(ScintillaObject *sci, gint line_num, gint end_line_num)
 {
 	gint indent;                       /* indent position */
+	gint changed = 0;                  /* number of lines removed */
 
 	while(line_num <= end_line_num)    /* loop through lines */
 	{
@@ -189,15 +214,19 @@ rmwhspln(ScintillaObject *sci, gint line_num, gint end_line_num)
 
 			line_num--;
 			end_line_num--;
+			changed++;
 		}
 		line_num++;
 
 	}
+
+	/* return the number of lines deleted */
+	return -changed;
 }
 
 
 /* Sort Lines Ascending */
-void
+gint
 sortlnsasc(gchar **lines, gint num_lines, gchar *new_file)
 {
 	gchar *nf_end = new_file;          /* points to last char of new_file */
@@ -208,11 +237,13 @@ sortlnsasc(gchar **lines, gint num_lines, gchar *new_file)
 	/* join **lines into one string (new_file) */
 	for(i = 0; i < num_lines; i++)
 		nf_end = g_stpcpy(nf_end, lines[i]);
+
+	return num_lines;
 }
 
 
 /* Sort Lines Descending */
-void
+gint
 sortlndesc(gchar **lines, gint num_lines, gchar *new_file)
 {
 	gchar *nf_end = new_file;          /* points to last char of new_file */
@@ -223,4 +254,6 @@ sortlndesc(gchar **lines, gint num_lines, gchar *new_file)
 	/* join **lines into one string (new_file) */
 	for(i = 0; i < num_lines; i++)
 		nf_end = g_stpcpy(nf_end, lines[i]);
+
+	return num_lines;
 }
