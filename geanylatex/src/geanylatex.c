@@ -2367,8 +2367,6 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 
 	doc = document_get_current();
 
-	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
-
 	glatex_init_configuration();
 	glatex_init_encodings_latex();
 

@@ -827,7 +827,6 @@ void plugin_init(GeanyData * data)
 {
     load_all_pastebins();
     load_settings();
-    main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
     add_menu_item();
 }
 
