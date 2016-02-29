@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Geany-Plugins 1.27\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-28 14:22+0100\n"
-"PO-Revision-Date: 2015-11-04 18:53+0100\n"
+"PO-Revision-Date: 2016-02-29 01:44+0100\n"
 "Last-Translator: Colomban Wendling <ban@herbesfolles.org>\n"
 "Language-Team: French <geany-i18n@uvena.de>\n"
 "Language: fr\n"
@@ -691,9 +691,9 @@ msgid "line %i"
 msgstr "ligne %i"
 
 #: ../debugger/src/dbm_gdb.c:523
-#, fuzzy, c-format
+#, c-format
 msgid "Program received signal %s (%s)"
-msgstr "Le programme a reçu un signal"
+msgstr "Le programme a reçu le signal %s (%s)"
 
 #: ../debugger/src/dbm_gdb.c:544
 #, c-format
@@ -1274,14 +1274,12 @@ msgid "Find Tag"
 msgstr "Rechercher un symbole"
 
 #: ../geanyctags/src/geanyctags.c:528
-#, fuzzy
 msgid "_Search for:"
-msgstr "Rechercher :"
+msgstr "R_echercher :"
 
 #: ../geanyctags/src/geanyctags.c:546
-#, fuzzy
 msgid "_Match type:"
-msgstr "Type de correspondance :"
+msgstr "_Type de correspondance :"
 
 #: ../geanyctags/src/geanyctags.c:551
 #: ../projectorganizer/src/prjorg-sidebar.c:477
@@ -1322,13 +1320,12 @@ msgid "Generate tags"
 msgstr "Générer les tags"
 
 #: ../geanyctags/src/geanyctags.c:653
-#, fuzzy
 msgid "Find tag..."
 msgstr "Rechercher un symbole…"
 
 #: ../geanyctags/src/geanyctags.c:658
 msgid "Find tag"
-msgstr "Rechercher un symbole…"
+msgstr "Rechercher un symbole"
 
 #. All plugins must set name, description, version and author.
 #: ../geanydoc/src/geanydoc.c:50 ../geanydoc/src/geanydoc.c:347
@@ -1344,8 +1341,9 @@ msgid "Could not parse the output of command"
 msgstr "Impossible d'analyser la sortie de la commande"
 
 #: ../geanydoc/src/geanydoc.c:357
+#, fuzzy
 msgid "Put output in buffer"
-msgstr ""
+msgstr "Placer la sortie dans le tampon"
 
 #: ../geanydoc/src/geanydoc.c:369
 msgid "Command 0:"
@@ -2227,7 +2225,7 @@ msgstr "GeanyLaTeX"
 
 #: ../geanylatex/src/geanylatex.c:42
 msgid "Extends LaTeX support"
-msgstr ""
+msgstr "Améliore la gestion de LaTeX"
 
 #: ../geanylatex/src/geanylatex.c:116
 msgid "Runs LaTeX wizard"
@@ -4630,10 +4628,9 @@ msgid "GeanySendMail"
 msgstr "GeanySendMail"
 
 #: ../geanysendmail/src/geanysendmail.c:44
-#, fuzzy
 msgid "Sends the current file as attachment with your favorite mailer"
 msgstr ""
-"Envoyer le fichier courant comme pièce jointe avec votre client mail favori"
+"Envoie le fichier courant comme pièce jointe avec votre client mail favori"
 
 #: ../geanysendmail/src/geanysendmail.c:97
 msgid "Recipient's Address"
@@ -4832,10 +4829,12 @@ msgid "Nothing to commit."
 msgstr "Rien à commiter."
 
 #: ../geanyvc/src/geanyvc.c:1611
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error initializing GeanyVC spell checking: %s. Check your configuration."
-msgstr "Erreur lors de l'initialisation de la vérification orthographique : %s"
+msgstr ""
+"Erreur lors de l'initialisation de la vérification orthographique de "
+"GeanyVC : %s. Vérifiez votre configuration."
 
 #: ../geanyvc/src/geanyvc.c:1886
 msgid "Set Changed-flag for document tabs created by the plugin"
@@ -5118,17 +5117,16 @@ msgstr "Envoyer votre code sur votre pastebin préféré"
 #: ../geniuspaste/src/geniuspaste.c:115
 #, c-format
 msgid "Group \"%s\" not found."
-msgstr ""
+msgstr "Groupe « %s » introuvable."
 
 #: ../geniuspaste/src/geniuspaste.c:134
 #, c-format
 msgid "Group \"%s\" has no key \"%s\"."
-msgstr ""
+msgstr "Le groupe « %s » n'a pas de clé « %s »."
 
 #: ../geniuspaste/src/geniuspaste.c:648
-#, fuzzy
 msgid "Invalid pastebin service."
-msgstr "position « %s » invalide"
+msgstr "Service de pastebin invalide."
 
 #: ../geniuspaste/src/geniuspaste.c:649
 #, c-format
@@ -5136,15 +5134,17 @@ msgid ""
 "Unknown pastebin service \"%s\". Select an existing pastebin service in the "
 "preferences or create an appropriate pastebin configuration and retry."
 msgstr ""
+"Service de pastebin « %s » inconnu. Sélectionnez un service de pastebin "
+"existant dans les préférences ou créez la configuration de pastebin "
+"appropriée et réessayez."
 
 #: ../geniuspaste/src/geniuspaste.c:661
 msgid "Refusing to create blank paste"
 msgstr "Je refuse de créer un paste vide"
 
 #: ../geniuspaste/src/geniuspaste.c:681
-#, fuzzy
 msgid "Failed to paste the code"
-msgstr "Impossible d'importer le module \"manager\""
+msgstr "Impossible de paster le code"
 
 #: ../geniuspaste/src/geniuspaste.c:682
 #, c-format
@@ -5154,26 +5154,30 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Erreur lors de l'envoi du code vers le service de pastebin %s.\n"
+"Code d'erreur : %u (%s).\n"
+"\n"
+"%s"
 
 #: ../geniuspaste/src/geniuspaste.c:686
 msgid "Check your connection or the pastebin configuration and retry."
-msgstr ""
+msgstr "Vérifiez votre connexion ou la configuration du pastebin et réessayez."
 
 #: ../geniuspaste/src/geniuspaste.c:688
 msgid ""
 "Wait for the service to come back and retry, or retry with another pastebin "
 "service."
 msgstr ""
+"Attendez que le service revienne en ligne et réessayez, ou réessayez avec un "
+"autre service de pastebin."
 
 #: ../geniuspaste/src/geniuspaste.c:690 ../geniuspaste/src/geniuspaste.c:707
-#, fuzzy
 msgid "Check the pastebin configuration and retry."
-msgstr "Impossible de créer le dossier de configuration « %s » : %s"
+msgstr "Vérifiez la configuration du pastebin et réessayez."
 
 #: ../geniuspaste/src/geniuspaste.c:701
-#, fuzzy
 msgid "Failed to obtain paste URL."
-msgstr "Impossible d'ouvrir le script."
+msgstr "Impossible d'obtenir l'URL du paste."
 
 #: ../geniuspaste/src/geniuspaste.c:702
 #, c-format
@@ -5183,11 +5187,14 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Le code a été envoyé avec succès à %s, mais une erreur est survenue lors de "
+"la recherche son URL : %s\n"
+"\n"
+"%s"
 
 #: ../geniuspaste/src/geniuspaste.c:706
-#, fuzzy
 msgid "unexpected response from the pastebin service."
-msgstr "Erreur de pinentry imprévue."
+msgstr "réponse inattendue du service de pastebin."
 
 #: ../geniuspaste/src/geniuspaste.c:719
 msgid "Paste Successful"
@@ -5300,43 +5307,39 @@ msgstr ""
 
 #: ../lineoperations/src/lineoperations.c:67
 msgid "Remove Duplicate Lines, _Sorted"
-msgstr ""
+msgstr "Supprimer les lignes en double, _triées"
 
 #: ../lineoperations/src/lineoperations.c:69
 msgid "Remove Duplicate Lines, _Ordered"
-msgstr ""
+msgstr "Supprimer les lignes en double, _ordonnées"
 
 #: ../lineoperations/src/lineoperations.c:71
-#, fuzzy
 msgid "Remove _Unique Lines"
-msgstr "Lignes supp_rimés :"
+msgstr "Supprimer les lignes _uniques"
 
 #: ../lineoperations/src/lineoperations.c:74
-#, fuzzy
 msgid "Remove _Empty Lines"
-msgstr "Lignes supp_rimés :"
+msgstr "Supprimer les lignes _vides"
 
 #: ../lineoperations/src/lineoperations.c:76
 msgid "Remove _Whitespace Lines"
-msgstr ""
+msgstr "Supprimer les lignes _blanches"
 
 #: ../lineoperations/src/lineoperations.c:79
 msgid "Sort Lines _Ascending"
-msgstr ""
+msgstr "Trier les lignes par ordre _croissant"
 
 #: ../lineoperations/src/lineoperations.c:81
 msgid "Sort Lines _Descending"
-msgstr ""
+msgstr "Trier les lignes par ordre _décroissant"
 
 #: ../lineoperations/src/lineoperations.c:85
-#, fuzzy
 msgid "_Line Operations"
-msgstr "Opération binaire"
+msgstr "Opérations sur les _lignes"
 
 #: ../lineoperations/src/lineoperations.c:127
-#, fuzzy
 msgid "Line Operations"
-msgstr "Opération binaire"
+msgstr "Opérations sur les lignes"
 
 #: ../lineoperations/src/lineoperations.c:128
 msgid ""
@@ -5344,6 +5347,9 @@ msgid ""
 "document such as, removing duplicate lines, removing empty lines, removing "
 "lines with only whitespace, and sorting lines."
 msgstr ""
+"Fournit diverses fonctions qui peuvent être appliquées à un document, comme "
+"la suppression de lignes en double, vides ou entièrement blanches, ou le tri "
+"des lignes."
 
 #. POSITION OF VIEW
 #: ../markdown/src/conf.c:567
@@ -5936,14 +5942,12 @@ msgid "Find project file"
 msgstr "Rechercher un fichier du projet"
 
 #: ../projectorganizer/src/prjorg-menu.c:406
-#, fuzzy
 msgid "Find Project Symbol..."
-msgstr "Rechercher un fichier du projet…"
+msgstr "Rechercher un symbole du projet…"
 
 #: ../projectorganizer/src/prjorg-menu.c:412
-#, fuzzy
 msgid "Find project symbol"
-msgstr "Rechercher un fichier du projet"
+msgstr "Rechercher un symbole du projet"
 
 #: ../projectorganizer/src/prjorg-menu.c:414
 msgid "Swap Header/Source"
@@ -6006,14 +6010,12 @@ msgstr ""
 "dossiers à ignorer."
 
 #: ../projectorganizer/src/prjorg-project.c:623
-#, fuzzy
 msgid "Index all project files:"
-msgstr "Rechercher dans les fcihiers du projet"
+msgstr "Indexer tous les fichiers du projet :"
 
 #: ../projectorganizer/src/prjorg-project.c:626
-#, fuzzy
 msgid "Auto (index if less than 300 files)"
-msgstr "Automatique (générer s'il y a moins de 300 fichiers)"
+msgstr "Automatique (indexer s'il y a moins de 300 fichiers)"
 
 #: ../projectorganizer/src/prjorg-project.c:627
 msgid "Yes"
@@ -6024,13 +6026,12 @@ msgid "No"
 msgstr "Non"
 
 #: ../projectorganizer/src/prjorg-project.c:632
-#, fuzzy
 msgid ""
 "Generate symbol list for all project files instead of only for the currently "
 "opened files. Might be slow for big projects."
 msgstr ""
-"Génère la liste des tags pour tous les fichiers du projet et non uniquement "
-"ceux ouverts. Peut être lent avec de gros projets."
+"Génère la liste des symboles pour tous les fichiers du projet et non "
+"uniquement ceux ouverts. Peut être lent avec de gros projets."
 
 #: ../projectorganizer/src/prjorg-project.c:638
 msgid ""
@@ -6076,9 +6077,8 @@ msgid "Add"
 msgstr "Ajouter"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:443
-#, fuzzy
 msgid "Find Symbol"
-msgstr "Rechercher un fichier"
+msgstr "Rechercher un symbole"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:472
 msgid "Match type:"
@@ -6126,9 +6126,8 @@ msgid "Find File..."
 msgstr "Rechercher un fichier…"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1392
-#, fuzzy
 msgid "Find Symbol..."
-msgstr "Rechercher un fichier…"
+msgstr "Rechercher un symbole…"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1405
 msgid "Remove External Directory"
@@ -7252,7 +7251,7 @@ msgstr "Convertisseur en tableau"
 
 #: ../tableconvert/src/tableconvert.c:32
 msgid "Converts lists into tables for different filetypes"
-msgstr ""
+msgstr "Convertie des listes en tableaux"
 
 #: ../tableconvert/src/tableconvert.c:42
 msgid "LaTeX"
@@ -7588,7 +7587,6 @@ msgid "Updatechecker"
 msgstr "Recherche de mises à jour"
 
 #: ../updatechecker/src/updatechecker.c:42
-#, fuzzy
 msgid "Checks whether there are updates for Geany available"
 msgstr "Vérifie s'il y a des mises à jour disponibles pour Geany."
 
