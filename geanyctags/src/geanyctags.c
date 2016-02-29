@@ -47,7 +47,8 @@
 
 
 PLUGIN_VERSION_CHECK(211)
-PLUGIN_SET_INFO("GeanyCtags",
+PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
+	"GeanyCtags",
 	_("Ctags generation and search plugin for geany projects"),
 	VERSION,
 	"Jiri Techet <techet@gmail.com>")

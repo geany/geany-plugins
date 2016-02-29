@@ -47,8 +47,9 @@ static GtkWidget *keyb2;
  * for binary compatibility. */
 PLUGIN_VERSION_CHECK(128)
 /* All plugins must set name, description, version and author. */
-	PLUGIN_SET_INFO(_("Doc"), _("Call documentation viewer on current symbol."), VERSION,
-		"Yura Siamshka <yurand2@gmail.com>")
+PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
+	_("Doc"), _("Call documentation viewer on current symbol."), VERSION,
+	"Yura Siamshka <yurand2@gmail.com>")
 
 /* Keybinding(s) */
      enum
@@ -436,7 +437,6 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	gchar *kb_label1;
 	gchar *kb_label2;
 
-	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 	kb_label1 = _("Document current word");
 	kb_label2 = _("Document interactive");
 
