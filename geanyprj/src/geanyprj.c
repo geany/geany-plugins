@@ -35,8 +35,9 @@
 #include "geanyprj.h"
 
 PLUGIN_VERSION_CHECK(221)
-PLUGIN_SET_INFO("GeanyPrj", _("Alternative project support."), VERSION,
-		"Yura Siamashka <yurand2@gmail.com>")
+PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
+			     "GeanyPrj", _("Alternative project support."), VERSION,
+			     "Yura Siamashka <yurand2@gmail.com>")
 
 GeanyData      *geany_data;
 GeanyFunctions *geany_functions;
@@ -210,7 +211,6 @@ static void on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, G_GNUC_UNUSED
 /* Called by Geany to initialize the plugin */
 void plugin_init(G_GNUC_UNUSED GeanyData *data)
 {
-	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 	load_settings();
 	tools_menu_init();
 

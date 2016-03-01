@@ -44,7 +44,9 @@ PLUGIN_VERSION_CHECK (224)
 PLUGIN_VERSION_CHECK (211)
 #endif
 
-PLUGIN_SET_INFO (
+PLUGIN_SET_TRANSLATABLE_INFO (
+  LOCALEDIR,
+  GETTEXT_PACKAGE,
   "Overview",
   _("Provides an overview of the active document"),
   "0.01",

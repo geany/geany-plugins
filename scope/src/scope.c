@@ -535,7 +535,6 @@ void plugin_init(G_GNUC_UNUSED GeanyData *gdata)
 	ToolItem *tool_item = toolbar_items;
 	const ScopeCallback *scb;
 
-	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 	scope_key_group = plugin_set_key_group(geany_plugin, "scope", COUNT_KB, NULL);
 	builder = gtk_builder_new();
 	gtk_builder_set_translation_domain(builder, GETTEXT_PACKAGE);

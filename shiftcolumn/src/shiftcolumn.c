@@ -46,9 +46,10 @@ GeanyData       *geany_data;
 GeanyFunctions  *geany_functions;
 
 PLUGIN_VERSION_CHECK(130)
-PLUGIN_SET_INFO(_("Shift Column"),
-                _("Shift a selection left and right"),
-                VERSION, "Andrew L Janke <a.janke@gmail.com>")
+PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
+                             _("Shift Column"),
+                             _("Shift a selection left and right"),
+                             VERSION, "Andrew L Janke <a.janke@gmail.com>")
 
 
 static GtkWidget *menu_item_shift_left = NULL;
@@ -373,9 +374,6 @@ static void kb_shift_right(G_GNUC_UNUSED guint key_id){
    }
 
 void plugin_init(G_GNUC_UNUSED GeanyData *data){
-
-   /* init gettext and friends */
-   main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 
    menu_item_shift_left = gtk_menu_item_new_with_mnemonic(_("Shift Left"));
    gtk_widget_show(menu_item_shift_left);

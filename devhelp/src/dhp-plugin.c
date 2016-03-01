@@ -38,7 +38,9 @@
 
 PLUGIN_VERSION_CHECK(200)
 
-PLUGIN_SET_INFO(
+PLUGIN_SET_TRANSLATABLE_INFO(
+	LOCALEDIR,
+	GETTEXT_PACKAGE,
 	_("Devhelp Plugin"),
 	_("Adds support for looking up documentation in Devhelp, manual pages, and "
 	  "Google Code Search in the integrated viewer."),

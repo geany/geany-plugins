@@ -147,8 +147,6 @@ plugin_init(G_GNUC_UNUSED GeanyData *data)
 	gchar *config_file = NULL;
 	GeanyKeyGroup *key_group;
 
-	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
-
 	config_file = g_strconcat(geany->app->configdir,
 		G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
 		"geanylipsum", G_DIR_SEPARATOR_S, "lipsum.conf", NULL);
