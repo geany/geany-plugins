@@ -235,9 +235,11 @@ static void item_activate(GtkMenuItem *menuitem, gpointer gdata)
  */
 void plugin_init(GeanyData *data)
 {
+    const GeanyIndentPrefs *iprefs = editor_get_indent_prefs(NULL);
+
     gms_hnd = gms_new(geany->main_widgets->window,
                     data->interface_prefs->editor_font ,
-                    data->editor_prefs->indentation->width,
+                    iprefs->width,
 					geany->app->configdir
                     ) ;
 
