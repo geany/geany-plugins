@@ -34,14 +34,14 @@ GGD_BEGIN_PLUGIN_API
 
 void              ggd_file_type_manager_init            (void);
 void              ggd_file_type_manager_uninit          (void);
-void              ggd_file_type_manager_add_file_type   (GgdFileType *filetype);
-gchar            *ggd_file_type_manager_get_conf_path   (filetype_id  id,
-                                                         GgdPerms     perms_req,
-                                                         GError     **error);
-GgdFileType      *ggd_file_type_manager_load_file_type  (filetype_id id);
-GgdFileType      *ggd_file_type_manager_get_file_type   (filetype_id ft);
-GgdDocType       *ggd_file_type_manager_get_doc_type    (filetype_id  ft,
-                                                         const gchar *docname);
+void              ggd_file_type_manager_add_file_type   (GgdFileType     *filetype);
+gchar            *ggd_file_type_manager_get_conf_path   (GeanyFiletypeID  id,
+                                                         GgdPerms         perms_req,
+                                                         GError         **error);
+GgdFileType      *ggd_file_type_manager_load_file_type  (GeanyFiletypeID id);
+GgdFileType      *ggd_file_type_manager_get_file_type   (GeanyFiletypeID ft);
+GgdDocType       *ggd_file_type_manager_get_doc_type    (GeanyFiletypeID ft,
+                                                         const gchar    *docname);
 
 
 GGD_END_PLUGIN_API

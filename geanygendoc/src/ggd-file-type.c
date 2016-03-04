@@ -48,7 +48,7 @@
  * Returns: A newly created #GgdFileType.
  */
 GgdFileType *
-ggd_file_type_new (filetype_id type)
+ggd_file_type_new (GeanyFiletypeID type)
 {
   GgdFileType *ft;
   
