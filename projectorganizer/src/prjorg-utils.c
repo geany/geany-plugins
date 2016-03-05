@@ -24,7 +24,6 @@
 #include "prjorg-utils.h"
 
 extern GeanyData *geany_data;
-extern GeanyFunctions *geany_functions;
 
 
 /* utf8 */
