@@ -55,7 +55,6 @@ PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
 
 GeanyPlugin *geany_plugin;
 GeanyData *geany_data;
-GeanyFunctions *geany_functions;
 
 
 static GtkWidget *s_context_fdec_item, *s_context_fdef_item, *s_context_sep_item,
