@@ -3,6 +3,7 @@ Geany Plugins 1.27 (not yet released)
     General:
     * Removing waf build support
     * New plugin LineOperations
+    * Depend on Geany 1.27
 
 
     Internationalization:
