@@ -2306,12 +2306,14 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	if (set_menubar_entry == TRUE)
 	{
 		GtkMenuShell *menubar;
+		GList *menubar_children;
 
 		menubar = GTK_MENU_SHELL(
 				ui_lookup_widget(geany->main_widgets->window, "menubar1"));
 
 		menu_vc = gtk_menu_item_new_with_mnemonic(_("_VC"));
-		gtk_menu_shell_append(menubar, menu_vc);
+		menubar_children = gtk_container_get_children(GTK_CONTAINER(menubar));
+		gtk_menu_shell_insert(menubar, menu_vc, g_list_length(menubar_children) - 1);
 	}
 	else
 	{
