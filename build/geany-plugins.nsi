@@ -68,6 +68,12 @@ Var UNINSTDIR
 ;;;;;;;;;;;;;;;;
 !include "MUI2.nsh"
 
+;Reserve files used in .onInit, for faster start-up
+ReserveFile "${NSISDIR}\Plugins\System.dll"
+ReserveFile "${NSISDIR}\Plugins\UserInfo.dll"
+ReserveFile "${NSISDIR}\Plugins\InstallOptions.dll"
+ReserveFile "${NSISDIR}\Plugins\LangDLL.dll"
+
 !define MUI_ABORTWARNING
 ; FIXME hard-coded path...should we add geany.ico to the geany-plugins repo?
 !define MUI_ICON "..\geany\icons\geany.ico"
