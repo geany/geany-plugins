@@ -29,7 +29,7 @@ GeanyData       *geany_data;
  * from the tag */
 static gint highlightedBrackets[] = {0, 0, 0, 0};
 
-PLUGIN_VERSION_CHECK(211)
+PLUGIN_VERSION_CHECK(224)
 
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, _("Pair Tag Highlighter"),
                             _("Finds and highlights matching opening/closing HTML tag"),

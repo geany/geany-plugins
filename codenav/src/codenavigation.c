@@ -34,7 +34,7 @@
 
 /* Check that the running Geany supports the plugin API used below, and check
  * for binary compatibility. */
-PLUGIN_VERSION_CHECK(200)
+PLUGIN_VERSION_CHECK(224)
 
 /* All plugins must set name, description, version and author. */
 PLUGIN_SET_TRANSLATABLE_INFO(

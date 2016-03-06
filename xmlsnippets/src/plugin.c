@@ -37,7 +37,7 @@ static gboolean editor_notify_cb(GObject *object, GeanyEditor *editor,
 GeanyData *geany_data;
 GeanyPlugin *geany_plugin;
 
-PLUGIN_VERSION_CHECK(210)
+PLUGIN_VERSION_CHECK(224)
 PLUGIN_SET_TRANSLATABLE_INFO(
   LOCALEDIR,
   GETTEXT_PACKAGE,

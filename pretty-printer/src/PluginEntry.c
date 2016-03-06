@@ -29,7 +29,7 @@ GeanyData*             geany_data;
 
 /*========================================== PLUGIN INFORMATION ==========================================================*/
 
-PLUGIN_VERSION_CHECK(130)
+PLUGIN_VERSION_CHECK(224)
 PLUGIN_SET_TRANSLATABLE_INFO(
     LOCALEDIR,
     GETTEXT_PACKAGE,

@@ -44,7 +44,7 @@ static GtkWidget *keyb2;
 
 /* Check that Geany supports plugin API version 128 or later, and check
  * for binary compatibility. */
-PLUGIN_VERSION_CHECK(128)
+PLUGIN_VERSION_CHECK(224)
 /* All plugins must set name, description, version and author. */
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
 	_("Doc"), _("Call documentation viewer on current symbol."), VERSION,

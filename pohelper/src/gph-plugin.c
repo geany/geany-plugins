@@ -33,7 +33,7 @@ GeanyPlugin      *geany_plugin;
 GeanyData        *geany_data;
 
 
-PLUGIN_VERSION_CHECK (211) /* FIXME: what's the version really required? */
+PLUGIN_VERSION_CHECK (224)
 
 PLUGIN_SET_TRANSLATABLE_INFO (
   LOCALEDIR, GETTEXT_PACKAGE,

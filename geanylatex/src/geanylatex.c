@@ -33,7 +33,7 @@
 #include "geanylatex.h"
 #include "ctype.h"
 
-PLUGIN_VERSION_CHECK(217)
+PLUGIN_VERSION_CHECK(224)
 
 PLUGIN_SET_TRANSLATABLE_INFO(
 	LOCALEDIR,

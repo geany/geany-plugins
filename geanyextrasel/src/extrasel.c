@@ -28,7 +28,7 @@
 GeanyPlugin	*geany_plugin;
 GeanyData	*geany_data;
 
-PLUGIN_VERSION_CHECK(189)
+PLUGIN_VERSION_CHECK(224)
 
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
 	_("Extra Selection"), _("Column mode, select to line / brace / anchor."),

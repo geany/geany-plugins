@@ -48,7 +48,7 @@ GeanyData			*geany_data;
 
 /* Check that the running Geany supports the plugin API version used below, and check
  * for binary compatibility. */
-PLUGIN_VERSION_CHECK(209)
+PLUGIN_VERSION_CHECK(224)
 PLUGIN_SET_TRANSLATABLE_INFO(
 	LOCALEDIR,
 	GETTEXT_PACKAGE,
