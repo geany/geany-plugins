@@ -45,7 +45,6 @@
 
 GeanyPlugin     *geany_plugin;
 GeanyData       *geany_data;
-GeanyFunctions  *geany_functions;
 
 
 /* Check that the running Geany supports the plugin API used below, and check

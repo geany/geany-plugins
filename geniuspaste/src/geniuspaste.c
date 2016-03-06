@@ -63,7 +63,6 @@
 
 GeanyPlugin *geany_plugin;
 GeanyData *geany_data;
-GeanyFunctions *geany_functions;
 
 static GtkWidget *main_menu_item = NULL;
 

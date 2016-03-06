@@ -30,7 +30,6 @@
 /* These items are set by Geany before plugin_init() is called. */
 GeanyPlugin 				*geany_plugin;
 GeanyData 					*geany_data;
-GeanyFunctions 				*geany_functions;
 
 static gint 				page_number 				= 0;
 static GtkTreeStore 		*treestore;

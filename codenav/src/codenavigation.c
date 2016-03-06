@@ -63,7 +63,6 @@ typedef enum
 /* These items are set by Geany before plugin_init() is called. */
 GeanyPlugin		*geany_plugin;
 GeanyData		*geany_data;
-GeanyFunctions	*geany_functions;
 
 static GtkListStore *list_store;	/* for settings dialog */
 

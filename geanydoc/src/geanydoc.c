@@ -37,7 +37,6 @@
 /* These items are set by Geany before init() is called. */
 PluginFields *plugin_fields;
 GeanyData *geany_data;
-GeanyFunctions *geany_functions;
 
 static GtkWidget *keyb1;
 static GtkWidget *keyb2;

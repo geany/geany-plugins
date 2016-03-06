@@ -40,7 +40,6 @@ PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
 			     "Yura Siamashka <yurand2@gmail.com>")
 
 GeanyData      *geany_data;
-GeanyFunctions *geany_functions;
 
 
 static gchar    *config_file;

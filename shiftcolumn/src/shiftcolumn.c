@@ -35,7 +35,6 @@
 #include "document.h"
 #include "keybindings.h"
 #include "plugindata.h"
-#include "geanyfunctions.h"
 
 #include <glib.h>
 #include <glib/gprintf.h>
@@ -43,7 +42,6 @@
 
 GeanyPlugin     *geany_plugin;
 GeanyData       *geany_data;
-GeanyFunctions  *geany_functions;
 
 PLUGIN_VERSION_CHECK(130)
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,

@@ -24,7 +24,6 @@
 /* These items are set by Geany before plugin_init() is called. */
 GeanyPlugin     *geany_plugin;
 GeanyData       *geany_data;
-GeanyFunctions  *geany_functions;
 
 /* Is needed for clearing highlighting after moving cursor out
  * from the tag */

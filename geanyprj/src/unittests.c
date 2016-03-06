@@ -8,9 +8,6 @@
 #include "geanyprj.h"
 
 
-GeanyFunctions *geany_functions = NULL;
-
-
 void
 file_setup(void)
 {

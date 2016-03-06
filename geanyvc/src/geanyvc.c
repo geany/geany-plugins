@@ -61,7 +61,6 @@ static GtkSpell *gtkspell_new_attach(GtkTextView *view, const gchar *lang, GErro
 #endif
 
 GeanyData *geany_data;
-GeanyFunctions *geany_functions;
 GeanyPlugin		*geany_plugin;
 
 

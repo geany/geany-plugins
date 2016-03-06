@@ -33,7 +33,6 @@
 
 GeanyPlugin    *geany_plugin;
 GeanyData      *geany_data;
-GeanyFunctions *geany_functions;
 
 /* scintilla_get_type() is needed but was only added to the API in 224, but
  * previous versions will still work on Linux since it's before the symbol

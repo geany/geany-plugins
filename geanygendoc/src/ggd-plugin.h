@@ -39,7 +39,6 @@ G_BEGIN_DECLS
 /* Note that this cannot be hidden since it is accessed by the Geany instance */
 extern  GeanyPlugin      *geany_plugin;
 extern  GeanyData        *geany_data;
-extern  GeanyFunctions   *geany_functions;
 
 
 /* Begin of the plugin's self API */

@@ -35,7 +35,6 @@ G_BEGIN_DECLS
 
 extern GeanyPlugin     *geany_plugin;
 extern GeanyData       *geany_data;
-extern GeanyFunctions  *geany_functions;
 
 
 G_END_DECLS

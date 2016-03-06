@@ -26,8 +26,6 @@
 #include <shlobj.h>
 #endif
 
-extern GeanyFunctions *geany_functions;
-
 
 enum
 {

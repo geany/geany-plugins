@@ -34,7 +34,6 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 
 GeanyPlugin	 	*geany_plugin;
 GeanyData	   	*geany_data;
-GeanyFunctions  *geany_functions;
 
 TableConvertRule tablerules[] = {
 	/* LaTeX */

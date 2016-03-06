@@ -24,7 +24,6 @@
 #define XMLSNIPPETS_PLUGIN_H
 
 #include <geanyplugin.h>
-extern GeanyFunctions *geany_functions;
 
 #endif
 #endif

@@ -54,7 +54,6 @@ typedef struct
 
 extern GeanyPlugin     *geany_plugin;
 extern GeanyData       *geany_data;
-extern GeanyFunctions  *geany_functions;
 
 /* auxiliary functions (helper_functions.c) */
 void geanypg_init_ed(encrypt_data * ed);

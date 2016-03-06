@@ -49,7 +49,6 @@
 
 GeanyPlugin      *geany_plugin;
 GeanyData        *geany_data;
-GeanyFunctions   *geany_functions;
 
 
 PLUGIN_VERSION_CHECK(219) /* for document IDs */

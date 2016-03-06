@@ -45,7 +45,6 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 
 GeanyPlugin	 *geany_plugin;
 GeanyData	   *geany_data;
-GeanyFunctions  *geany_functions;
 
 /* Widgets for plugin */
 static GtkWidget *menu_latex = NULL;

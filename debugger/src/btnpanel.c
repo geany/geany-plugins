@@ -30,7 +30,6 @@
 #endif
 #include <geanyplugin.h>
 
-extern GeanyFunctions	*geany_functions;
 extern GeanyPlugin		*geany_plugin;
 
 #include "gui.h"

@@ -26,7 +26,6 @@
 
 GeanyData      *geany_data;
 GeanyPlugin    *geany_plugin;
-GeanyFunctions *geany_functions;
 
 PLUGIN_VERSION_CHECK(211)
 
