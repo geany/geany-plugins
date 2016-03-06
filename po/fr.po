@@ -5394,7 +5394,7 @@ msgstr "Aperçu Markdown"
 
 #: ../markdown/src/plugin.c:162
 msgid "The current document does not have a Markdown filetype."
-msgstr "Le type du fichier courant n'est pas définit à Markdown."
+msgstr "Le type du fichier courant n'est pas défini à Markdown."
 
 #: ../multiterm/src/config.vala:47 ../multiterm/src/config.c:133
 #, c-format
@@ -5445,7 +5445,7 @@ msgstr "Afficher les onglets"
 #: ../multiterm/src/notebook.vala:91 ../multiterm/src/notebook.c:236
 #, c-format
 msgid "Unable to launch external terminal: %s"
-msgstr "Impossible de langer le terminal externe : %s"
+msgstr "Impossible de lancer le terminal externe : %s"
 
 #: ../multiterm/src/notebook.vala:137 ../multiterm/src/notebook.c:421
 msgid "Unable to locate default shell in configuration file"
