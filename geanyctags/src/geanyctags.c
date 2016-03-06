@@ -46,7 +46,7 @@
 #endif
 
 
-PLUGIN_VERSION_CHECK(224)
+PLUGIN_VERSION_CHECK(226)
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
 	"GeanyCtags",
 	_("Ctags generation and search plugin for geany projects"),
@@ -118,13 +118,14 @@ void plugin_help (void)
 static void spawn_cmd(const gchar *cmd, const gchar *dir)
 {
 	GError *error = NULL;
-	gchar **argv;
+	gchar **argv = NULL;
 	gchar *working_dir;
 	gchar *utf8_working_dir;
 	gchar *utf8_cmd_string;
 	gchar *out;
 	gint exitcode;
 	gboolean success;
+	GString *output;
 
 #ifndef G_OS_WIN32
 	/* run within shell so we can use pipes */
@@ -133,13 +134,8 @@ static void spawn_cmd(const gchar *cmd, const gchar *dir)
 	argv[1] = g_strdup("-c");
 	argv[2] = g_strdup(cmd);
 	argv[3] = NULL;
-#else
-	/* no shell on windows */
-	argv = g_new0(gchar *, 2);
-	argv[0] = g_strdup(cmd);
-	argv[1] = NULL;
 #endif
-			
+
 	utf8_cmd_string = utils_get_utf8_from_locale(cmd);
 	utf8_working_dir = g_strdup(dir);
 	working_dir = utils_get_locale_from_utf8(utf8_working_dir);
@@ -149,14 +145,16 @@ static void spawn_cmd(const gchar *cmd, const gchar *dir)
 	msgwin_msg_add(COLOR_BLUE, -1, NULL, _("%s (in directory: %s)"), utf8_cmd_string, utf8_working_dir);
 	g_free(utf8_working_dir);
 	g_free(utf8_cmd_string);
-	
+
+	output = g_string_new(NULL);
 #ifndef G_OS_WIN32
-	success = utils_spawn_sync(working_dir, argv, NULL, G_SPAWN_SEARCH_PATH,
-			NULL, NULL, NULL, &out, &exitcode, &error);
+	success = spawn_sync(working_dir, NULL, argv, NULL,
+			NULL, NULL, output, &exitcode, &error);
 #else
-	success = utils_spawn_sync(working_dir, argv, NULL, G_SPAWN_SEARCH_PATH,
-			NULL, NULL, &out, NULL, &exitcode, &error);
+	success = spawn_sync(working_dir, cmd, NULL, NULL,
+			NULL, output, NULL, &exitcode, &error);
 #endif
+	out = g_string_free(output, FALSE);
 	if (!success || exitcode != 0)
 	{
 		if (error != NULL)
