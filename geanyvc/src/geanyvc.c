@@ -2314,6 +2314,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 		menu_vc = gtk_menu_item_new_with_mnemonic(_("_VC"));
 		menubar_children = gtk_container_get_children(GTK_CONTAINER(menubar));
 		gtk_menu_shell_insert(menubar, menu_vc, g_list_length(menubar_children) - 1);
+		g_list_free(menubar_children);
 	}
 	else
 	{
