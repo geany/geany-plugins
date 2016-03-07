@@ -1,0 +1,106 @@
+language: c
+
+sudo: false
+
+compiler:
+  - gcc
+
+env:
+  - GTK3=no
+  - GTK3=yes
+
+cache:
+  ccache: true
+  directories:
+    - $HOME/geany/gtk3
+    - $HOME/geany/gtk2
+
+addons:
+  apt:
+    packages:
+    - libgtk2.0-dev
+    - libgtk-3-dev
+    - intltool
+    - libtool
+    - python-docutils
+    - check
+    # FIXME: there are weird error with spellcheck and Ubuntu 12.04's version of cppcheck (1.52)
+    - cppcheck
+    # debugger
+    - libvte-dev
+    # devhelp
+    - libwebkitgtk-dev
+    - libwnck-dev
+    - libgconf2-dev
+    - zlib1g-dev
+    # geanygendoc
+    - libctpl-dev
+    # geanylua
+    - liblua5.1-0-dev
+    # geanypg
+    - libgpgme11-dev
+    # geanypy
+    # FIXME: Ubuntu 12.04 doesn't seem to have it
+    #- libpython-dev
+    # geanyvc
+    - libgtkspell-dev
+    - libgtkspell-3-dev
+    # geaniuspaste/updatechecker
+    - libsoup2.4-dev
+    # git-changebar
+    # FIXME: Ubuntu 12.04 doesn't seem to have it, 14.04 has a too old one
+    #- libgit2-dev
+    # markdown
+    - libmarkdown2-dev
+    # markdown/webhelper
+    - libwebkitgtk-3.0-dev
+    # multiterm
+    - valac
+    # pretty-printer
+    - libxml2-dev
+    # spellcheck
+    - libenchant-dev
+
+before_install:
+  # build Geany
+  - TEMPDIR=$(mktemp -d)
+  - git clone git://github.com/geany/geany.git "$TEMPDIR/geany"
+  - geany_commit=$(cd "$TEMPDIR/geany" && git rev-parse HEAD)
+  - gtkver=gtk2
+  - test "x$GTK3" = xno || gtkver=gtk3
+  - cachedir="$HOME/geany/$gtkver/"
+  - cache_id=$(cat "$cachedir/commit-id" 2>/dev/null || echo "none")
+  # check if the cache is up-to-date, and either use it, or (re-)create it
+  - >
+    if test "$geany_commit" = "$cache_id"; then
+      echo "Cache '$cachedir' looks good, using it (ID: $cache_id).";
+    else
+      echo "Cache '$cachedir' is missing, outdated or invalid, dropping it.";
+      echo "  Cache ID: $cache_id";
+      echo "  Geany ID: $geany_commit";
+      rm "$cachedir" -rf || exit 1;
+      ( cd "$TEMPDIR/geany"                                   &&
+        NOCONFIGURE=1 ./autogen.sh                            &&
+        ./configure --prefix="$cachedir" --enable-gtk3=$GTK3  &&
+        make -j2                                              &&
+        make install || exit 1;
+        git rev-parse HEAD > "$cachedir/commit-id" || exit 2;
+      ) || exit $?;
+    fi
+  - export PKG_CONFIG_PATH="$cachedir/lib/pkgconfig:$PKG_CONFIG_PATH"
+  - export LD_LIBRARY_PATH="$cachedir/lib:$LD_LIBRARY_PATH"
+
+before_script:
+  # prepare for GP
+  - export CFLAGS="-g -O2 -Werror=pointer-arith -Werror=aggregate-return -Werror=implicit-function-declaration"
+
+script:
+  - >
+    NOCONFIGURE=1 ./autogen.sh  &&
+    mkdir _build                &&
+    cd _build                   &&
+    ../configure                &&
+    make -j2                    &&
+    make -j2 check
+after_script:
+  - test -z "$TEMPDIR" || rm -rf "$TEMPDIR"
