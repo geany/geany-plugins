@@ -51,17 +51,17 @@ TMTag        *ggd_tag_find_from_line          (const GPtrArray *tags,
                                                gulong           line);
 TMTag        *ggd_tag_find_at_current_pos     (GeanyDocument *doc);
 TMTag        *ggd_tag_find_parent             (const GPtrArray *tags,
-                                               filetype_id      geany_ft,
+                                               GeanyFiletypeID  geany_ft,
                                                const TMTag     *child);
 GList        *ggd_tag_find_children_filtered  (const GPtrArray *tags,
                                                const TMTag     *parent,
-                                               filetype_id      geany_ft,
+                                               GeanyFiletypeID  geany_ft,
                                                TMTagType        filter);
 GList        *ggd_tag_find_children           (const GPtrArray *tags,
                                                const TMTag     *parent,
-                                               filetype_id      geany_ft);
+                                               GeanyFiletypeID  geany_ft);
 gchar        *ggd_tag_resolve_type_hierarchy  (const GPtrArray *tags,
-                                               filetype_id      geany_ft,
+                                               GeanyFiletypeID  geany_ft,
                                                const TMTag     *tag);
 TMTag        *ggd_tag_find_from_name          (const GPtrArray *tags,
                                                const gchar     *name);

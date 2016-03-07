@@ -37,8 +37,8 @@ typedef struct _GgdFileType GgdFileType;
 
 struct _GgdFileType
 {
-  gint          ref_count;
-  filetype_id   geany_ft;
+  gint            ref_count;
+  GeanyFiletypeID geany_ft;
   
   /* TODO: add support for custom environment variables, which may be used
    *       for tuning the templates easily (e.g. Doxygen's prefix character,
@@ -50,7 +50,7 @@ struct _GgdFileType
 };
 
 
-GgdFileType        *ggd_file_type_new       (filetype_id        type);
+GgdFileType        *ggd_file_type_new       (GeanyFiletypeID    type);
 GgdFileType        *ggd_file_type_ref       (GgdFileType       *filetype);
 void                ggd_file_type_unref     (GgdFileType       *filetype);
 void                ggd_file_type_dump      (const GgdFileType *filetype,

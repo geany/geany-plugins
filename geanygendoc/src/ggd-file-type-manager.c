@@ -144,9 +144,9 @@ ggd_file_type_manager_get_conf_path_intern (GeanyFiletype  *geany_ft,
  *          %NULL on error.
  */
 gchar *
-ggd_file_type_manager_get_conf_path (filetype_id  id,
-                                     GgdPerms     perms_req,
-                                     GError     **error)
+ggd_file_type_manager_get_conf_path (GeanyFiletypeID  id,
+                                     GgdPerms         perms_req,
+                                     GError         **error)
 {
   g_return_val_if_fail (id >= 0 && id < geany->filetypes_array->len, NULL);
   
@@ -164,7 +164,7 @@ ggd_file_type_manager_get_conf_path (filetype_id  id,
  *          failure.
  */
 GgdFileType *
-ggd_file_type_manager_load_file_type (filetype_id id)
+ggd_file_type_manager_load_file_type (GeanyFiletypeID id)
 {
   GeanyFiletype  *geany_ft;
   GgdFileType    *ft = NULL;
@@ -216,7 +216,7 @@ ggd_file_type_manager_load_file_type (filetype_id id)
  *          loaded.
  */
 GgdFileType *
-ggd_file_type_manager_get_file_type (filetype_id id)
+ggd_file_type_manager_get_file_type (GeanyFiletypeID id)
 {
   GgdFileType *ft;
   
@@ -244,8 +244,8 @@ ggd_file_type_manager_get_file_type (filetype_id id)
  *          or %NULL on failure.
  */
 GgdDocType *
-ggd_file_type_manager_get_doc_type (filetype_id  ft,
-                                    const gchar *docname)
+ggd_file_type_manager_get_doc_type (GeanyFiletypeID  ft,
+                                    const gchar     *docname)
 {
   GgdDocType   *doctype = NULL;
   GgdFileType  *filetype;
