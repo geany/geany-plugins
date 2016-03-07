@@ -6,14 +6,18 @@ compiler:
   - gcc
 
 env:
-  - GTK3=no
-  - GTK3=yes
+  global:
+    - LIBGIT2_VERSION=0.21.5
+  matrix:
+    - GTK3=no
+    - GTK3=yes
 
 cache:
   ccache: true
   directories:
     - $HOME/geany/gtk3
     - $HOME/geany/gtk2
+    - $HOME/libgit2-$LIBGIT2_VERSION
 
 addons:
   apt:
@@ -48,7 +52,8 @@ addons:
     # geaniuspaste/updatechecker
     - libsoup2.4-dev
     # git-changebar
-    # FIXME: Ubuntu 12.04 doesn't seem to have it, 14.04 has a too old one
+    # Ubuntu 12.04 doesn't have libgit2, 14.04 has a too old one, so we build
+    # our own for now.
     #- libgit2-dev
     # markdown
     - libmarkdown2-dev
@@ -60,6 +65,9 @@ addons:
     - libxml2-dev
     # spellcheck
     - libenchant-dev
+
+    # for libgit2 build
+    - cmake
 
 before_install:
   # build Geany
@@ -87,8 +95,33 @@ before_install:
         git rev-parse HEAD > "$cachedir/commit-id" || exit 2;
       ) || exit $?;
     fi
+  - test -z "$TEMPDIR" || rm -rf "$TEMPDIR"
   - export PKG_CONFIG_PATH="$cachedir/lib/pkgconfig:$PKG_CONFIG_PATH"
   - export LD_LIBRARY_PATH="$cachedir/lib:$LD_LIBRARY_PATH"
+
+  # build libgit2
+  - TEMPDIR=$(mktemp -d)
+  - libgit2dir="libgit2-$LIBGIT2_VERSION"
+  - >
+    if test -f "$HOME/$libgit2dir/lib/pkgconfig/libgit2.pc"; then
+      echo "Using pre-built libgit2 v$LIBGIT2_VERSION.";
+    else
+      ( cd $TEMPDIR || exit 1;
+        wget -q "https://github.com/libgit2/libgit2/archive/v$LIBGIT2_VERSION.tar.gz" -O - |
+          tar -xz "$libgit2dir" || exit 2;
+        cd "$libgit2dir" || exit 3;
+        cmake .                                       \
+          -DCMAKE_INSTALL_PREFIX="$HOME/$libgit2dir"  \
+          -DCMAKE_RULE_MESSAGES=OFF                   \
+          -DBUILD_CLAR=OFF                            \
+          -DBUILD_SHARED_LIBS=ON                      \
+          || exit 4;
+        cmake --build . --target install -- -j2 || exit 5;
+      ) || exit $?;
+    fi
+  - test -z "$TEMPDIR" || rm -rf "$TEMPDIR"
+  - export PKG_CONFIG_PATH="$HOME/$libgit2dir/lib/pkgconfig:$PKG_CONFIG_PATH"
+  - export LD_LIBRARY_PATH="$HOME/$libgit2dir/lib:$LD_LIBRARY_PATH"
 
 before_script:
   # prepare for GP
