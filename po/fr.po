@@ -4724,7 +4724,7 @@ msgid ""
 "Sends the opened file as unzipped attachment by any mailer from your $PATH"
 msgstr ""
 "Envoie le fichier ouvert comme pièce jointe non-compressée avec n'importe "
-"quel client depuis votre $PATH"
+"quel client dans votre $PATH"
 
 #: ../geanyvc/src/geanyvc.c:72
 msgid "GeanyVC"
