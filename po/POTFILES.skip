@@ -3,5 +3,13 @@
 #geanyvc
 geanyvc/src/commit.glade
 
+# Multiterm
+multiterm/src/config.c
+multiterm/src/context-menu.c
+multiterm/src/notebook.c
+multiterm/src/plugin.c
+multiterm/src/tab-label.c
+multiterm/src/terminal.c
+
 # WebHelper
 webhelper/src/gwh-enum-types.c

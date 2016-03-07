@@ -236,12 +236,6 @@ multiterm/src/plugin.vala
 multiterm/src/shell-config.vala
 multiterm/src/tab-label.vala
 multiterm/src/terminal.vala
-multiterm/src/config.c
-multiterm/src/context-menu.c
-multiterm/src/notebook.c
-multiterm/src/plugin.c
-multiterm/src/tab-label.c
-multiterm/src/terminal.c
 
 # Overview
 overview/overview/overviewcolor.c
