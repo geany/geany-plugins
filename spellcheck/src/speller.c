@@ -26,9 +26,8 @@
 # include "config.h"
 #endif
 
-#include "geanyplugin.h"
-
-#include "scintilla/SciLexer.h"
+#include <geanyplugin.h>
+#include <scintilla/SciLexer.h>
 
 #include <string.h>
 #include <ctype.h>
