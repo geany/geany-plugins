@@ -34,13 +34,12 @@
 
 #include "geanyprj.h"
 
-PLUGIN_VERSION_CHECK(221)
+PLUGIN_VERSION_CHECK(224)
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
 			     "GeanyPrj", _("Alternative project support."), VERSION,
 			     "Yura Siamashka <yurand2@gmail.com>")
 
 GeanyData      *geany_data;
-GeanyFunctions *geany_functions;
 
 
 static gchar    *config_file;

@@ -26,9 +26,8 @@
 
 GeanyData      *geany_data;
 GeanyPlugin    *geany_plugin;
-GeanyFunctions *geany_functions;
 
-PLUGIN_VERSION_CHECK(211)
+PLUGIN_VERSION_CHECK(224)
 
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
                              "Markdown",

@@ -42,7 +42,6 @@
 
 /* Last */
 #include "plugindata.h"		/* this defines the plugin API */
-#include "geanyfunctions.h"	/* this wraps geany_functions function pointers */
 
 /* Debug flag */
 /*#define CODE_NAVIGATION_DEBUG*/
@@ -81,7 +80,6 @@ enum
 /* Items for controlling geany */
 extern GeanyPlugin		*geany_plugin;
 extern GeanyData		*geany_data;
-extern GeanyFunctions	*geany_functions;
 
 extern GeanyKeyGroup *plugin_key_group;
 

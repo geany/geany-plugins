@@ -44,7 +44,6 @@
 #include "dconfig.h"
 #include "tabs.h"
 
-extern GeanyFunctions *geany_functions;
 
 /*
  * 	Set breakpoint and stack markers for a file

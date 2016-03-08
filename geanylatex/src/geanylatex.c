@@ -33,7 +33,7 @@
 #include "geanylatex.h"
 #include "ctype.h"
 
-PLUGIN_VERSION_CHECK(217)
+PLUGIN_VERSION_CHECK(224)
 
 PLUGIN_SET_TRANSLATABLE_INFO(
 	LOCALEDIR,
@@ -45,7 +45,6 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 
 GeanyPlugin	 *geany_plugin;
 GeanyData	   *geany_data;
-GeanyFunctions  *geany_functions;
 
 /* Widgets for plugin */
 static GtkWidget *menu_latex = NULL;

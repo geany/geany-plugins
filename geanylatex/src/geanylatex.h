@@ -46,7 +46,6 @@ typedef void (*MenuCallback) (G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSE
 
 extern GeanyPlugin	*geany_plugin;
 extern GeanyData	*geany_data;
-extern GeanyFunctions	*geany_functions;
 
 
 #define create_sub_menu(base_menu, menu, item, title) \

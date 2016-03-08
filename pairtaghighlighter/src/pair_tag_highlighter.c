@@ -24,13 +24,12 @@
 /* These items are set by Geany before plugin_init() is called. */
 GeanyPlugin     *geany_plugin;
 GeanyData       *geany_data;
-GeanyFunctions  *geany_functions;
 
 /* Is needed for clearing highlighting after moving cursor out
  * from the tag */
 static gint highlightedBrackets[] = {0, 0, 0, 0};
 
-PLUGIN_VERSION_CHECK(211)
+PLUGIN_VERSION_CHECK(224)
 
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, _("Pair Tag Highlighter"),
                             _("Finds and highlights matching opening/closing HTML tag"),

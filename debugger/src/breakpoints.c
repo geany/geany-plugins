@@ -28,7 +28,6 @@
 #include <string.h>
 
 #include "geanyplugin.h"
-extern GeanyFunctions	*geany_functions;
 
 #include "breakpoints.h"
 #include "utils.h"

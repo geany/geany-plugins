@@ -47,10 +47,9 @@
 /* These items are set by Geany before plugin_init() is called. */
 GeanyPlugin     *geany_plugin;
 GeanyData       *geany_data;
-GeanyFunctions  *geany_functions;
 
 /* TODO check minimum requierment */
-PLUGIN_VERSION_CHECK (221)
+PLUGIN_VERSION_CHECK (224)
 
 PLUGIN_SET_TRANSLATABLE_INFO (
   LOCALEDIR, GETTEXT_PACKAGE,

@@ -25,7 +25,7 @@
 #include "tableconvert.h"
 #include "tableconvert_ui.h"
 
-PLUGIN_VERSION_CHECK(200)
+PLUGIN_VERSION_CHECK(224)
 
 PLUGIN_SET_TRANSLATABLE_INFO(
     LOCALEDIR, GETTEXT_PACKAGE, _("Tableconvert"),
@@ -34,7 +34,6 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 
 GeanyPlugin	 	*geany_plugin;
 GeanyData	   	*geany_data;
-GeanyFunctions  *geany_functions;
 
 TableConvertRule tablerules[] = {
 	/* LaTeX */

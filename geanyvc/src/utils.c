@@ -23,7 +23,6 @@
 #include "utils.h"
 
 extern GeanyData *geany_data;
-extern GeanyFunctions *geany_functions;
 
 
 /* Normalize a pathname. This collapses redundant separators and up-level references so that A//B, A/./B

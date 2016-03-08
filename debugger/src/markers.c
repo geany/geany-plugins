@@ -26,7 +26,6 @@
 #include <string.h>
 
 #include "geanyplugin.h"
-extern GeanyFunctions	*geany_functions;
 extern GeanyData		*geany_data;
 
 #include "markers.h"

@@ -34,7 +34,7 @@
 
 /* Check that the running Geany supports the plugin API used below, and check
  * for binary compatibility. */
-PLUGIN_VERSION_CHECK(200)
+PLUGIN_VERSION_CHECK(224)
 
 /* All plugins must set name, description, version and author. */
 PLUGIN_SET_TRANSLATABLE_INFO(
@@ -63,7 +63,6 @@ typedef enum
 /* These items are set by Geany before plugin_init() is called. */
 GeanyPlugin		*geany_plugin;
 GeanyData		*geany_data;
-GeanyFunctions	*geany_functions;
 
 static GtkListStore *list_store;	/* for settings dialog */
 
