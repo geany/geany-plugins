@@ -2,6 +2,7 @@ AC_DEFUN([GP_CHECK_GITCHANGEBAR],
 [
     GP_ARG_DISABLE([GitChangeBar], [auto])
 
+    GP_CHECK_PLUGIN_GEANY_API_VERSION([GitChangeBar], [219])
     GP_CHECK_PLUGIN_DEPS([GitChangeBar], [GITCHANGEBAR],
                          [$GP_GTK_PACKAGE >= 2.18
                           glib-2.0
