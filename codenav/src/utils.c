@@ -21,6 +21,8 @@
 
 #include "utils.h"
 
+#include <geanyplugin.h>
+
  /**
  * @brief	Function which returns the extension of the file path which 
  * 			is given, or NULL if it did not found any extension.
