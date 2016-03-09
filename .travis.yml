@@ -1,0 +1,64 @@
+language: c
+compiler:
+  - gcc
+env:
+  - GTK3=no
+  - GTK3=yes
+before_install:
+  - sudo apt-get update -qq
+install:
+  - sudo apt-get install -y libgtk2.0-dev libgtk-3-dev intltool libtool
+  - sudo apt-get install -y python-docutils
+  - sudo apt-get install -y check
+  # FIXME: there are weird error with spellcheck and Ubuntu 12.04's version of cppcheck (1.52)
+  #- sudo apt-get install -y cppcheck
+  # debugger
+  - sudo apt-get install -y libvte-dev
+  # devhelp
+  - sudo apt-get install -y libwebkitgtk-dev libwnck-dev libgconf2-dev zlib1g-dev
+  # geanygendoc
+  - sudo apt-get install -y libctpl-dev
+  # geanylua
+  - sudo apt-get install -y liblua5.1-0-dev
+  # geanypg
+  - sudo apt-get install -y libgpgme11-dev
+  # geanypy
+  # FIXME: Ubuntu 12.04 doesn't seem to have it??
+  #- sudo apt-get install -y libpython-dev
+  # geanyvc
+  - sudo apt-get install -y libgtkspell-dev
+  # geaniuspaste/updatechecker
+  - sudo apt-get install -y libsoup2.4-dev
+  # markdown
+  - sudo apt-get install -y libmarkdown2-dev
+  # markdown/webhelper
+  - sudo apt-get install -y libwebkitgtk-3.0-dev
+  # multiterm
+  - sudo apt-get install -y valac
+  # pretty-printer
+  - sudo apt-get install -y libxml2-dev
+  # spellcheck
+  - sudo apt-get install -y libenchant-dev
+before_script:
+  # build Geany
+  - TEMPDIR=$(mktemp -d)
+  - git clone git://github.com/geany/geany.git "$TEMPDIR/geany"
+  - export GEANY_PREFIX="$TEMPDIR/_install"
+  - ( cd "$TEMPDIR/geany"                                         &&
+      ./autogen.sh --prefix="$GEANY_PREFIX" --enable-gtk3=$GTK3   &&
+      make -j2                                                    &&
+      make install )
+  - export PKG_CONFIG_PATH="$GEANY_PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH"
+  - export LD_LIBRARY_PATH="$GEANY_PREFIX/lib:$LD_LIBRARY_PATH"
+  # prepare for GP
+  - export CFLAGS="-g -O2 -Werror=pointer-arith -Werror=aggregate-return -Werror=implicit-function-declaration"
+script:
+  - >
+    NOCONFIGURE=1 ./autogen.sh  &&
+    mkdir _build                &&
+    cd _build                   &&
+    ../configure                &&
+    make -j2                    &&
+    make -j2 check
+after_script:
+  - test -z "$TEMPDIR" || rm -rf "$TEMPDIR"
