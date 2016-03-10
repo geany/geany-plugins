@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Geany-Plugins 1.27\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-28 14:22+0100\n"
-"PO-Revision-Date: 2015-06-25 11:07+0300\n"
+"PO-Revision-Date: 2016-03-10 19:52+0300\n"
 "Last-Translator: Pavel Roschin <rpg89(at)post(dot)ru>\n"
 "Language-Team: Russian <geany-i18n@uvena.de>\n"
 "Language: ru\n"
@@ -112,7 +112,7 @@ msgstr "Завершение символов"
 
 #: ../addons/src/ao_wrapwords.c:253
 msgid "Accept"
-msgstr ""
+msgstr "Принять"
 
 #: ../addons/src/ao_wrapwords.c:254 ../geanymacro/src/geanymacro.c:1064
 msgid "Cancel"
@@ -148,18 +148,17 @@ msgid "Show Document List"
 msgstr "Показать список документов"
 
 #: ../addons/src/ao_copyfilepath.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "File path \"%s\" copied to clipboard."
-msgstr "Скопировать полный путь в буфер обмена"
+msgstr "Путь \"%s\" скопирован в буфер обмена."
 
 #: ../addons/src/ao_copyfilepath.c:119 ../addons/src/addons.c:318
 msgid "Copy File Path"
 msgstr ""
 
 #: ../addons/src/ao_copyfilepath.c:122
-#, fuzzy
 msgid "Copy the file path of the current document to the clipboard"
-msgstr "Проверяет орфографию в текущем документе"
+msgstr "Скопировать путь до текущего документа в буфера обмена"
 
 #: ../addons/src/addons.c:53
 msgid "Addons"
@@ -692,9 +691,9 @@ msgid "line %i"
 msgstr "строка %i"
 
 #: ../debugger/src/dbm_gdb.c:523
-#, fuzzy, c-format
+#, c-format
 msgid "Program received signal %s (%s)"
-msgstr "Программа возвратила сигнал:"
+msgstr "Программа получила сигнал %s (%s)"
 
 #: ../debugger/src/dbm_gdb.c:544
 #, c-format
@@ -1262,37 +1261,33 @@ msgid "Find Tag"
 msgstr "Найти тег"
 
 #: ../geanyctags/src/geanyctags.c:528
-#, fuzzy
 msgid "_Search for:"
-msgstr "Искать:"
+msgstr "И_скать:"
 
 #: ../geanyctags/src/geanyctags.c:546
-#, fuzzy
 msgid "_Match type:"
-msgstr "Тип соответствия:"
+msgstr "Тип _поиска:"
 
 #: ../geanyctags/src/geanyctags.c:551
 #: ../projectorganizer/src/prjorg-sidebar.c:477
 msgid "exact"
-msgstr ""
+msgstr "точный"
 
 #: ../geanyctags/src/geanyctags.c:552
 #: ../projectorganizer/src/prjorg-sidebar.c:478
-#, fuzzy
 msgid "prefix"
-msgstr "Префикс"
+msgstr "префикс"
 
 #: ../geanyctags/src/geanyctags.c:553
 #: ../projectorganizer/src/prjorg-sidebar.c:479
-#, fuzzy
 msgid "pattern"
-msgstr "Письмо"
+msgstr "по шаблону"
 
 #: ../geanyctags/src/geanyctags.c:562
 #: ../projectorganizer/src/prjorg-sidebar.c:156
 #: ../projectorganizer/src/prjorg-sidebar.c:500
 msgid "C_ase sensitive"
-msgstr "С учётом регистра"
+msgstr "С _учётом регистра"
 
 #: ../geanyctags/src/geanyctags.c:565
 #: ../projectorganizer/src/prjorg-sidebar.c:503
@@ -1312,9 +1307,8 @@ msgid "Generate tags"
 msgstr "Сгенерировать теги"
 
 #: ../geanyctags/src/geanyctags.c:653
-#, fuzzy
 msgid "Find tag..."
-msgstr "Найти тег"
+msgstr "Найти тег..."
 
 #: ../geanyctags/src/geanyctags.c:658
 msgid "Find tag"
@@ -2209,7 +2203,7 @@ msgstr "GeanyLaTeX"
 
 #: ../geanylatex/src/geanylatex.c:42
 msgid "Extends LaTeX support"
-msgstr ""
+msgstr "Расширяет поддержку LaTeX"
 
 #: ../geanylatex/src/geanylatex.c:116
 msgid "Runs LaTeX wizard"
@@ -4587,11 +4581,8 @@ msgid "GeanySendMail"
 msgstr "Отправка почты"
 
 #: ../geanysendmail/src/geanysendmail.c:44
-#, fuzzy
 msgid "Sends the current file as attachment with your favorite mailer"
-msgstr ""
-"Небольшой плагин, который позволяет отослать текущий файл как вложение с "
-"использованием внешней почтовой программы "
+msgstr "Отправить текущий файл как вложение к письму"
 
 #: ../geanysendmail/src/geanysendmail.c:97
 msgid "Recipient's Address"
@@ -4791,10 +4782,12 @@ msgid "Nothing to commit."
 msgstr "Отсутствуют локальные изменения."
 
 #: ../geanyvc/src/geanyvc.c:1611
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error initializing GeanyVC spell checking: %s. Check your configuration."
-msgstr "Ошибка инициализации системы проверки правописания: %s"
+msgstr ""
+"Ошибка инициализации системы проверки правописания: %s. Проверьте настройки "
+"системы."
 
 #: ../geanyvc/src/geanyvc.c:1886
 msgid "Set Changed-flag for document tabs created by the plugin"
@@ -5065,22 +5058,21 @@ msgstr "Фиксировать локальные изменения"
 
 #: ../geniuspaste/src/geniuspaste.c:94
 msgid "Paste your code on your favorite pastebin"
-msgstr "Публикуйте свой код на одну из площадок pastebin"
+msgstr "Публикуйте код на pastebin-подобные площадки"
 
 #: ../geniuspaste/src/geniuspaste.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "Group \"%s\" not found."
-msgstr "Каталог %s не найден!\n"
+msgstr "Группа \"%s\" не найдена."
 
 #: ../geniuspaste/src/geniuspaste.c:134
 #, c-format
 msgid "Group \"%s\" has no key \"%s\"."
-msgstr ""
+msgstr "В группе \"%s\" отсутствует ключ \"%s\"."
 
 #: ../geniuspaste/src/geniuspaste.c:648
-#, fuzzy
 msgid "Invalid pastebin service."
-msgstr "недействительная позиция: \"%s\""
+msgstr "Некорректная служба публикации кода."
 
 #: ../geniuspaste/src/geniuspaste.c:649
 #, c-format
@@ -5088,15 +5080,16 @@ msgid ""
 "Unknown pastebin service \"%s\". Select an existing pastebin service in the "
 "preferences or create an appropriate pastebin configuration and retry."
 msgstr ""
+"Неизвестная служба публикации кода \"%s\". Выберите существующую в настройках "
+"или измените параметры и попробуйте снова."
 
 #: ../geniuspaste/src/geniuspaste.c:661
 msgid "Refusing to create blank paste"
 msgstr "Нельзя публиковать пустой код"
 
 #: ../geniuspaste/src/geniuspaste.c:681
-#, fuzzy
 msgid "Failed to paste the code"
-msgstr "Не удалось импортировать управляющий модуль"
+msgstr "Не удалось опубликовать код"
 
 #: ../geniuspaste/src/geniuspaste.c:682
 #, c-format
@@ -5106,26 +5099,31 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Ошибка публикации кода на %s.\n"
+"Код ошибки: %u (%s).\n"
+"\n"
+"%s"
 
 #: ../geniuspaste/src/geniuspaste.c:686
 msgid "Check your connection or the pastebin configuration and retry."
 msgstr ""
+"Проверьте соединение или параметры службы публикации кода и попробуйте снова."
 
 #: ../geniuspaste/src/geniuspaste.c:688
 msgid ""
 "Wait for the service to come back and retry, or retry with another pastebin "
 "service."
 msgstr ""
+"Подождите, пока доступ к служба не будет восстановлен и повторите попытку или "
+"попробуйте другую службу публикации кода."
 
 #: ../geniuspaste/src/geniuspaste.c:690 ../geniuspaste/src/geniuspaste.c:707
-#, fuzzy
 msgid "Check the pastebin configuration and retry."
-msgstr "Невозможно создать каталог конфигурации \"%s\": %s"
+msgstr "Проверьте параметры службы публикации кода и попробуйте снова."
 
 #: ../geniuspaste/src/geniuspaste.c:701
-#, fuzzy
 msgid "Failed to obtain paste URL."
-msgstr "Не удалось открыть файл со сценарием."
+msgstr "Не удалось получить URL публикации кода."
 
 #: ../geniuspaste/src/geniuspaste.c:702
 #, c-format
@@ -5135,11 +5133,14 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Код был успешно опубликован на %s, но произошла ошибка при попытке получить "
+"его адрес: %s\n"
+"\n"
+"%s"
 
 #: ../geniuspaste/src/geniuspaste.c:706
-#, fuzzy
 msgid "unexpected response from the pastebin service."
-msgstr "Неожиданная ошибка от pinentry."
+msgstr "неожиданная ошибка от службы публикации кода."
 
 #: ../geniuspaste/src/geniuspaste.c:719
 msgid "Paste Successful"
@@ -5249,43 +5250,39 @@ msgstr ""
 
 #: ../lineoperations/src/lineoperations.c:67
 msgid "Remove Duplicate Lines, _Sorted"
-msgstr ""
+msgstr "Удалить дублирующиеся строки, отсортировать"
 
 #: ../lineoperations/src/lineoperations.c:69
 msgid "Remove Duplicate Lines, _Ordered"
-msgstr ""
+msgstr "Удалить дублирующиеся строки, упорядочить"
 
 #: ../lineoperations/src/lineoperations.c:71
-#, fuzzy
 msgid "Remove _Unique Lines"
-msgstr "_Удалённые строки:"
+msgstr "Удалить _уникальные строки"
 
 #: ../lineoperations/src/lineoperations.c:74
-#, fuzzy
 msgid "Remove _Empty Lines"
-msgstr "_Удалённые строки:"
+msgstr "Удалить _пустые строки"
 
 #: ../lineoperations/src/lineoperations.c:76
 msgid "Remove _Whitespace Lines"
-msgstr ""
+msgstr "Удалить строки с п_робельными символами"
 
 #: ../lineoperations/src/lineoperations.c:79
 msgid "Sort Lines _Ascending"
-msgstr ""
+msgstr "Сортировать строки по _возрастанию"
 
 #: ../lineoperations/src/lineoperations.c:81
 msgid "Sort Lines _Descending"
-msgstr ""
+msgstr "Сортировать строки по у_быванию"
 
 #: ../lineoperations/src/lineoperations.c:85
-#, fuzzy
 msgid "_Line Operations"
-msgstr "Бинарные операции"
+msgstr "Операции со _строками"
 
 #: ../lineoperations/src/lineoperations.c:127
-#, fuzzy
 msgid "Line Operations"
-msgstr "Бинарные операции"
+msgstr "Операции со строками"
 
 #: ../lineoperations/src/lineoperations.c:128
 msgid ""
@@ -5293,6 +5290,9 @@ msgid ""
 "document such as, removing duplicate lines, removing empty lines, removing "
 "lines with only whitespace, and sorting lines."
 msgstr ""
+"Модуль предоставляет набор функций, которые могут быть применены к документу: "
+"удаление дублирующихся строк, удаление пустых строк, удаление строк, "
+"состоящих только из пробельных символов и сортировка строк."
 
 #. POSITION OF VIEW
 #: ../markdown/src/conf.c:567
@@ -5340,72 +5340,63 @@ msgid "The current document does not have a Markdown filetype."
 msgstr "Текущий документ не является документом Markdown."
 
 #: ../multiterm/src/config.vala:47 ../multiterm/src/config.c:133
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to save config file %s: %s"
-msgstr "Невозможно сохранить конфигурационный файл: %s"
+msgstr "Невозможно сохранить конфигурационный файл %s: %s"
 
 #: ../multiterm/src/config.vala:85 ../multiterm/src/config.vala:89
 #: ../multiterm/src/config.c:370 ../multiterm/src/config.c:387
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to load config file %s: %s"
-msgstr "Невозможно загрузить файл конфигурации: %s"
+msgstr "Невозможно загрузить файл конфигурации %s: %s"
 
 #: ../multiterm/src/context-menu.vala:52 ../multiterm/src/context-menu.vala:140
 #: ../multiterm/src/context-menu.c:134 ../multiterm/src/context-menu.c:546
-#, fuzzy
 msgid "Move to message window"
-msgstr "окно сообщений"
+msgstr "Переместить на окно сообщений"
 
 #: ../multiterm/src/context-menu.vala:58 ../multiterm/src/context-menu.vala:135
 #: ../multiterm/src/context-menu.c:144 ../multiterm/src/context-menu.c:535
-#, fuzzy
 msgid "Move to sidebar"
-msgstr "боковая панель"
+msgstr "Переместить на боковую панель"
 
 #: ../multiterm/src/context-menu.vala:81 ../multiterm/src/context-menu.c:385
-#, fuzzy
 msgid "Open Tab"
-msgstr "Открыть терминал"
+msgstr "Открыть вкладку"
 
 #: ../multiterm/src/context-menu.vala:96 ../multiterm/src/context-menu.c:471
-#, fuzzy
 msgid "Open Window"
-msgstr "Новое окно"
+msgstr "Открыть окно"
 
 #: ../multiterm/src/context-menu.vala:103 ../multiterm/src/context-menu.c:483
-#, fuzzy
 msgid "Next tab"
-msgstr "_Следующая строка"
+msgstr "Следующая вкладка"
 
 #. this.append(item);
 #. item.show();
 #: ../multiterm/src/context-menu.vala:108 ../multiterm/src/context-menu.c:490
-#, fuzzy
 msgid "Previous tab"
-msgstr "_Предыдущая строка"
+msgstr "Предыдущая вкладка"
 
 #. this.append(image_item);
 #. image_item.show();
 #. add_separator();
 #: ../multiterm/src/context-menu.vala:127 ../multiterm/src/context-menu.c:509
-#, fuzzy
 msgid "Show Tabs"
-msgstr "Показать статус"
+msgstr "Показать вкладки"
 
 #: ../multiterm/src/notebook.vala:91 ../multiterm/src/notebook.c:236
 #, c-format
 msgid "Unable to launch external terminal: %s"
-msgstr ""
+msgstr "Не удалось запустить внешний терминал: %s"
 
 #: ../multiterm/src/notebook.vala:137 ../multiterm/src/notebook.c:421
-#, fuzzy
 msgid "Unable to locate default shell in configuration file"
-msgstr " Невозможно сохранить конфигурацию по умолчанию: %s"
+msgstr "Не удалось обнаружить стандартный файл параметров Shell"
 
 #: ../multiterm/src/notebook.vala:202 ../multiterm/src/notebook.c:646
-#, fuzzy
 msgid "New terminal"
-msgstr "Показать терминал"
+msgstr "Новый терминал"
 
 #: ../multiterm/src/plugin.vala:46 ../multiterm/src/plugin.vala:88
 #: ../multiterm/src/plugin.c:104 ../multiterm/src/plugin.c:276
@@ -5414,35 +5405,34 @@ msgstr ""
 
 #: ../multiterm/src/plugin.vala:47 ../multiterm/src/plugin.c:105
 msgid "Multi-tabbed virtual terminal emulator."
-msgstr ""
+msgstr "Эмулятор терминала с поддержкой вкладок."
 
 #: ../multiterm/src/plugin.vala:78 ../multiterm/src/plugin.c:242
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to write default config file: %s"
-msgstr " Невозможно сохранить конфигурацию по умолчанию: %s"
+msgstr "Невозможно сохранить конфигурацию по умолчанию: %s"
 
 #: ../multiterm/src/shell-config.vala:30
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to read value for '%s' key: %s"
-msgstr "Невозможно создать каталог для хранения настроек в '%s'"
+msgstr "Невозможно прочитать значение для '%s' ключ: %s"
 
 #: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:1963
 msgid "Terminal"
 msgstr "Терминал"
 
 #: ../multiterm/src/tab-label.vala:84 ../multiterm/src/tab-label.c:168
-#, fuzzy
 msgid "Close terminal"
-msgstr "Показать терминал"
+msgstr "Закрыть терминал"
 
 #: ../multiterm/src/terminal.vala:88 ../multiterm/src/terminal.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to run command: %s"
-msgstr "Невозможно построить комментарии: %s"
+msgstr "Невозможно выполнить команду: %s"
 
 #: ../overview/overview/overviewplugin.c:49
 msgid "Provides an overview of the active document"
-msgstr "Отображает глобальный вид текущего документа"
+msgstr "Обзор текущего документа"
 
 #: ../overview/overview/overviewplugin.c:192
 msgid "Toggle Visibility"
@@ -5463,15 +5453,15 @@ msgstr "Строка <b>%d</b>, колонка <b>%d</b>, позиция <b>%d</
 
 #: ../overview/overview/overviewui.c:289
 msgid "Show Overview"
-msgstr "Отображать затемнение"
+msgstr "Показать обзор документа"
 
 #: ../overview/data/prefs.ui.h:1
 msgid ""
 "The amount to zoom the overview sidebar. This should probably negative if "
 "you want the sidebar zoomed out."
 msgstr ""
-"Масштаб глобального вида документа. Должно быть отрицательным числом для "
-"уменьшения масштаба."
+"Масштаб обзора документа. Должно быть отрицательным числом для уменьшения "
+"масштаба."
 
 #: ../overview/data/prefs.ui.h:2
 msgid "Zoom Level:"
@@ -5479,7 +5469,7 @@ msgstr "Масштаб:"
 
 #: ../overview/data/prefs.ui.h:3
 msgid "The width of the overview sidebar."
-msgstr "Ширина глобального вида документа."
+msgstr "Ширина обзора документа."
 
 #: ../overview/data/prefs.ui.h:4
 msgid "Width:"
@@ -5488,9 +5478,7 @@ msgstr "Ширина:"
 #: ../overview/data/prefs.ui.h:5
 msgid ""
 "The number of lines to scroll at a time when scrolling the overview sidebar."
-msgstr ""
-"Количество строк, прокручиваемых за раз при прокрутке глобального вида "
-"документа."
+msgstr "Количество строк, прокручиваемых за раз при прокрутке обзора документа."
 
 #: ../overview/data/prefs.ui.h:6
 msgid "Scroll Lines:"
@@ -5505,7 +5493,7 @@ msgid ""
 "Position the overview bar on the left rather than the right (requires Geany "
 "1.25 or greater)."
 msgstr ""
-"Отображать глобальный вид документа слева, а не справа от документа (нужен "
+"Отображать обзор документа слева, а не справа от документа (нужен "
 "Geany 1.25 и выше)"
 
 #: ../overview/data/prefs.ui.h:9
@@ -5517,8 +5505,8 @@ msgid ""
 "Hide the tooltip that is displayed when mousing over the overview that shows "
 "line, column and position information."
 msgstr ""
-"Скрыть подсказку, отображаю информацию о строке, позиции и колонке при "
-"наведении курсора мыши на глобальный вид документа."
+"Скрыть подсказку, отображающую информацию о строке, позиции и колонке при "
+"наведении курсора мыши на обзор документа."
 
 #: ../overview/data/prefs.ui.h:11
 msgid "Hide editor scrollbar"
@@ -5529,8 +5517,8 @@ msgid ""
 "Whether to hide Geany's regular editor scrollbar while the overview bar is "
 "visible."
 msgstr ""
-"Скрывать стандартную полосу прокрутки редактора, когда глобальный вид "
-"документа активен."
+"Скрывать стандартную полосу прокрутки редактора, когда обзор документа "
+"активен."
 
 #: ../overview/data/prefs.ui.h:13
 msgid "Disable overlay"
@@ -5541,7 +5529,7 @@ msgid ""
 "Turn off drawing overlay, which shows the region of the main editor view "
 "that is currently in view, ontop of the overview bar."
 msgstr ""
-"Выключает затемнение глобального вида. Затемнение отмечает границы видимого "
+"Выключает затемнение обзора документа. Затемнение отмечает границы видимого "
 "документа."
 
 #: ../overview/data/prefs.ui.h:15 ../scope/data/scope.glade.h:109
@@ -5551,9 +5539,7 @@ msgstr "Параметры"
 #: ../overview/data/prefs.ui.h:16
 msgid ""
 "The color and opacity of the overlay drawn ontop of the overlay sidebar."
-msgstr ""
-"Цвет и прозрачность затемнения, отображаемого поверх глобального вида "
-"документа."
+msgstr "Цвет и прозрачность затемнения, отображаемого поверх обзора документа."
 
 #: ../overview/data/prefs.ui.h:17
 msgid "Color:"
@@ -5564,8 +5550,8 @@ msgid ""
 "The color and opacity of the border drawn around the revealed area in the "
 "overview sidebar. Set to the same as Overlay Color to disable."
 msgstr ""
-"Цвет и прозрачность границы затемнения, отображаемого поверх глобального "
-"вида документа. Установите одинаковое с основным цветом, чтобы выключить."
+"Цвет и прозрачность границы затемнения, отображаемого поверх обзора документа."
+" Установите одинаковое с основным цветом, чтобы выключить."
 
 #: ../overview/data/prefs.ui.h:19
 msgid "Outline Color:"
@@ -5878,32 +5864,28 @@ msgstr ""
 "Дерево файлов, индексирование, поиск и навигация в проектах (бывш. GProject)"
 
 #: ../projectorganizer/src/prjorg-menu.c:386
-#, fuzzy
 msgid "Find in Project Files..."
-msgstr "Найти в файлах проекта"
+msgstr "Найти в файлах проекта..."
 
 #: ../projectorganizer/src/prjorg-menu.c:392
 msgid "Find in project files"
 msgstr "Найти в файлах проекта"
 
 #: ../projectorganizer/src/prjorg-menu.c:396
-#, fuzzy
 msgid "Find Project File..."
-msgstr "Найти файл проекта"
+msgstr "Найти файл проекта..."
 
 #: ../projectorganizer/src/prjorg-menu.c:402
 msgid "Find project file"
 msgstr "Найти файл проекта"
 
 #: ../projectorganizer/src/prjorg-menu.c:406
-#, fuzzy
 msgid "Find Project Symbol..."
-msgstr "Найти файл проекта"
+msgstr "Найти символ проекта..."
 
 #: ../projectorganizer/src/prjorg-menu.c:412
-#, fuzzy
 msgid "Find project symbol"
-msgstr "Найти файл проекта"
+msgstr "Найти символ проекта"
 
 #: ../projectorganizer/src/prjorg-menu.c:414
 msgid "Swap Header/Source"
@@ -5966,14 +5948,12 @@ msgstr ""
 "каталогов, не просматриваемых на предмет наличия файлов проекта."
 
 #: ../projectorganizer/src/prjorg-project.c:623
-#, fuzzy
 msgid "Index all project files:"
-msgstr "Найти в файлах проекта"
+msgstr "Индексировать все файлы проекта:"
 
 #: ../projectorganizer/src/prjorg-project.c:626
-#, fuzzy
 msgid "Auto (index if less than 300 files)"
-msgstr "Автоматически (генерировать, если файлов не более 300)"
+msgstr "Автоматически (индексировать, если файлов не более 300)"
 
 #: ../projectorganizer/src/prjorg-project.c:627
 msgid "Yes"
@@ -5984,13 +5964,12 @@ msgid "No"
 msgstr "Нет"
 
 #: ../projectorganizer/src/prjorg-project.c:632
-#, fuzzy
 msgid ""
 "Generate symbol list for all project files instead of only for the currently "
 "opened files. Might be slow for big projects."
 msgstr ""
-"Генерировать список тегов для всех файлов проекта, а не только для открытых. "
-"Может работать медленно для больших проектов."
+"Генерировать список символов для всех файлов проекта, а не только для "
+"открытых. Может работать медленно для больших проектов."
 
 #: ../projectorganizer/src/prjorg-project.c:638
 msgid ""
@@ -6035,9 +6014,8 @@ msgid "Add"
 msgstr "Добавить"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:443
-#, fuzzy
 msgid "Find Symbol"
-msgstr "Найти файл"
+msgstr "Найти символ"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:472
 msgid "Match type:"
@@ -6077,19 +6055,16 @@ msgid "Expand All"
 msgstr "Развернуть всё"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1374
-#, fuzzy
 msgid "Find in Files..."
-msgstr "Найти в файлах"
+msgstr "Найти в файлах..."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1383
-#, fuzzy
 msgid "Find File..."
-msgstr "Найти файл"
+msgstr "Найти файл..."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1392
-#, fuzzy
 msgid "Find Symbol..."
-msgstr "Найти файл"
+msgstr "Найти символ..."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1405
 msgid "Remove External Directory"
@@ -6994,9 +6969,8 @@ msgid "Show editor menu item to show spelling suggestions"
 msgstr "Добавить пункт проверки орфографии в меню редактора"
 
 #: ../spellcheck/src/scplugin.c:294
-#, fuzzy
 msgid "Show suggestions in a sub menu of the editor menu"
-msgstr "Отображать команду 'Открыть URI' в меню редактора"
+msgstr "Отображать варианты замены в подменю редактора"
 
 #: ../spellcheck/src/scplugin.c:309
 msgid "Print misspelled words and suggestions in the messages window"
@@ -7115,7 +7089,7 @@ msgstr "Преобразование в таблицу"
 
 #: ../tableconvert/src/tableconvert.c:32
 msgid "Converts lists into tables for different filetypes"
-msgstr ""
+msgstr "Конвертирует строки в таблицы для различных типов документов"
 
 #: ../tableconvert/src/tableconvert.c:42
 msgid "LaTeX"
@@ -7448,9 +7422,8 @@ msgid "Updatechecker"
 msgstr "Проверка обновлений"
 
 #: ../updatechecker/src/updatechecker.c:42
-#, fuzzy
 msgid "Checks whether there are updates for Geany available"
-msgstr "Плагин проверяет наличие новых версий Geany"
+msgstr "Проверяет наличие обновлений для Geany"
 
 #: ../updatechecker/src/updatechecker.c:195
 #, c-format
