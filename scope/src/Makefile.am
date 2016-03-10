@@ -59,4 +59,7 @@ scope_la_CFLAGS = $(AM_CFLAGS) $(VTE_CFLAGS) \
 	-DPLUGINHTMLDOCDIR=\"$(plugindocdir)/html\" \
 	-Wno-shadow
 
+# http://trac.cppcheck.net/ticket/7243
+AM_CPPCHECKFLAGS = --suppress='unknownEvaluationOrder:$(srcdir)/store/scptreestore.c:909'
+
 include $(top_srcdir)/build/cppcheck.mk
