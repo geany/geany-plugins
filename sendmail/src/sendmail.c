@@ -1,7 +1,7 @@
 /*
- *      geanysendmail.c
+ *      sendmail.c
  *
- *      Copyright 2007-2015 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2007-2016 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *      Copyright 2007 Enrico Tröger <enrico(dot)troeger(at)uvena(dot)de>
  *      Copyright 2007, 2008 Nick Treleaven <nick(dot)treleaven(at)btinternet(dot)com>
  *      Copyright 2008, 2009 Timothy Boronczyk <tboronczyk(at)gmail(dot)com>
@@ -39,7 +39,7 @@ PLUGIN_VERSION_CHECK(224)
 PLUGIN_SET_TRANSLATABLE_INFO(
 	LOCALEDIR,
 	GETTEXT_PACKAGE,
-	_("GeanySendMail"),
+	_("SendMail"),
 	_("Sends the current file as attachment with your favorite mailer"),
 	VERSION,
 	"Frank Lanitz <frank@frank.uvena.de>")

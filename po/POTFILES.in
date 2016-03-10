@@ -200,9 +200,6 @@ geanyprj/src/xproject.c
 # Geanypy
 geanypy/src/geanypy-plugin.c
 
-# geanysendmail
-geanysendmail/src/geanysendmail.c
-
 # geanyvc
 geanyvc/src/geanyvc.c
 geanyvc/src/geanyvc.h
@@ -282,6 +279,9 @@ scope/src/thread.c
 scope/src/utils.c
 scope/src/views.c
 scope/src/store/scptreestore.c
+
+# sendmail
+sendmail/src/sendmail.c
 
 # Spell Check
 spellcheck/src/speller.c
