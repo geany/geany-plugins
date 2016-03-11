@@ -130,7 +130,7 @@ before_script:
 script:
   - NOCONFIGURE=1 ./autogen.sh
   - mkdir _build && cd _build
-  - ../configure
+  - ../configure --disable-silent-rules
   - make -j2
   - make -j2 check
 
