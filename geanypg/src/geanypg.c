@@ -34,8 +34,8 @@ PLUGIN_SET_TRANSLATABLE_INFO(
                 GETTEXT_PACKAGE,
                 "GeanyPG",
                 _("gpg encryption plugin for geany"),
-                "0.1",
-                _("Hans Alves <alves.h88@gmail.com>"))
+                "0.2",
+                "Hans Alves, Paolo Stivanin")
 
 static GtkWidget * main_menu_item = NULL;
 
