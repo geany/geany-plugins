@@ -702,7 +702,7 @@ static void paste(GeanyDocument * doc, const gchar * website)
                           "error occurred trying to obtain its URL: %s\n\n%s"),
                         pastebin->name,
                         (err ? err->message
-                         : _("unexpected response from the pastebin service.")),
+                         : _("Unexpected response from the pastebin service.")),
                         _("Check the pastebin configuration and retry."));
 
             if (err)
