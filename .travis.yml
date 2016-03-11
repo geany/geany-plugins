@@ -128,12 +128,11 @@ before_script:
   - export CFLAGS="-g -O2 -Werror=pointer-arith -Werror=aggregate-return -Werror=implicit-function-declaration"
 
 script:
-  - >
-    NOCONFIGURE=1 ./autogen.sh  &&
-    mkdir _build                &&
-    cd _build                   &&
-    ../configure                &&
-    make -j2                    &&
-    make -j2 check
+  - NOCONFIGURE=1 ./autogen.sh
+  - mkdir _build && cd _build
+  - ../configure --disable-silent-rules
+  - make -j2
+  - make -j2 check
+
 after_script:
   - test -z "$TEMPDIR" || rm -rf "$TEMPDIR"
