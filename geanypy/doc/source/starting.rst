@@ -7,34 +7,30 @@ GeanyPy, it's important to note how it works and some features it provides.
 What the heck is GeanyPy, really?
 =================================
 
-GeanyPy is "just another Geany plugin", really.  Geany sees GeanyPy as any
-other `plugin <http://www.geany.org/manual/current/index.html#plugins>`_, so
-to activate GeanyPy, use Geany's
+GeanyPy is a proxy plugin. Geany initially sees GeanyPy as any other
+`plugin <http://www.geany.org/manual/current/index.html#plugins>`_, but
+GeanyPy registers some additional stuff that enables Geany to load python plugins
+through GeanyPy. So to activate, use Geany's
 `Plugin Manager <http://www.geany.org/manual/current/index.html#plugin-manager>`_
 under the Tools menu as you would for any other plugin.
 
-Once the GeanyPy plugin has been activated, a few elements are added to Geany's
-user interface as described below.
+Once the GeanyPy plugin has been activated, Geany should rescan the plugin
+directories and pick those up that are supported through GeanyPy. It'll integrate
+the python plugins into the Plugin Manager in an additional hierarchy level below
+GeanyPy.
 
-Python Plugin Manager
-=====================
+* [ ] Geany plugin 1
+* [x] GeanyPy
+ * [ ] Python plugin 1
+ * [x] Python plugin 2
+ * [ ] Python plugin 3
+* [ ] Geany plugin 3
 
-Under the Tools menu, you will find the Python Plugin Manager, which is meant
-to be similar to Geany's own Plugin Manager.  This is where you will activate
-any plugins written in Python.
+Remember that Geany looks in three places for plugins:
 
-The Python Plugin Manager looks in exactly two places for plugins:
-
-1. For system-wide plugins, it will search in PREFIX/share/geany/geanypy/plugins.
-2. In Geany's config directory under your home directory, typically ~/.config/geany/plugins/geanypy/plugins.
-
-Where `PREFIX` is the prefix used at configure time with Geany/GeanyPy (see
-the previous section, Installation).  Both of these paths may vary depending on
-your platform, but for most \*nix systems, the above paths should hold true.
-
-Any plugins which follow the proper interface found in either of those two
-directories will be listed in the Python Plugin Manager and you will be able
-to activate and deactivate them there.
+1. For system-wide plugins, it will search in (usually) /usr/share/geany or /usr/local/share/geany.
+2. In Geany's config directory under your home directory, typically ~/.config/geany/plugins.
+3. A user-configurable plugin directory (useful during plugin development).
 
 Python Console
 ==============
