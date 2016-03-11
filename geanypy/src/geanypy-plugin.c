@@ -119,9 +119,11 @@ GeanyPy_start_interpreter(void)
         "import os, sys\n"
         "path = '%s'.replace('~', os.path.expanduser('~'))\n"
         "sys.path.append(path)\n"
+        "path = '%s/plugins'.replace('~', os.path.expanduser('~'))\n"
+        "sys.path.append(path)\n"
         "path = '%s'.replace('~', os.path.expanduser('~'))\n"
         "sys.path.append(path)\n"
-        "import geany\n", py_dir, GEANYPY_PLUGIN_DIR);
+        "import geany\n", py_dir, geany_data->app->configdir, GEANYPY_PLUGIN_DIR);
     g_free(py_dir);
 
     PyRun_SimpleString(init_code);
