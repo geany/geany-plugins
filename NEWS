@@ -35,7 +35,7 @@ Geany Plugins 1.27 (not yet released)
       file
     * Add support for using the redirected URI as paste URI
 
-    MukltiTerm:
+    MultiTerm:
     * Fix an issue with extracting translatable strings from not shipped
       C files (PR#392)
 
