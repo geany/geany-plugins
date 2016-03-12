@@ -5481,9 +5481,8 @@ msgid "Close terminal"
 msgstr "Terminal schließen"
 
 #: ../multiterm/src/terminal.vala:88
-#, fuzzy, c-format
 msgid "Unable to run command: %s"
-msgstr "Konnte den Kommentar nicht anlegen: %s"
+msgstr "Konnte Kommando nicht ausführen: %s"
 
 #: ../overview/overview/overviewplugin.c:43
 msgid "Provides an overview of the active document"
@@ -5946,14 +5945,12 @@ msgid "Find project file"
 msgstr "Projektdatei finden"
 
 #: ../projectorganizer/src/prjorg-menu.c:405
-#, fuzzy
 msgid "Find Project Symbol..."
-msgstr "Im Projekt-Datei suchen..."
+msgstr "Finde Symbol in Projekt..."
 
 #: ../projectorganizer/src/prjorg-menu.c:411
-#, fuzzy
 msgid "Find project symbol"
-msgstr "Projektdatei finden"
+msgstr "Symbol eines Projektes finden"
 
 #: ../projectorganizer/src/prjorg-menu.c:413
 msgid "Swap Header/Source"
@@ -6019,12 +6016,10 @@ msgstr ""
 "zu erkennen, die nicht nach Quelldateien durchsucht werden sollen. "
 
 #: ../projectorganizer/src/prjorg-project.c:622
-#, fuzzy
 msgid "Index all project files:"
-msgstr "Im Projektdateien suchen"
+msgstr "Alle Projektdateien indizieren:"
 
 #: ../projectorganizer/src/prjorg-project.c:625
-#, fuzzy
 msgid "Auto (index if less than 300 files)"
 msgstr "Automatisch (bei weniger als 300 Dateien)"
 
@@ -6037,12 +6032,11 @@ msgid "No"
 msgstr "Nein"
 
 #: ../projectorganizer/src/prjorg-project.c:631
-#, fuzzy
 msgid ""
 "Generate symbol list for all project files instead of only for the currently "
 "opened files. Might be slow for big projects."
 msgstr ""
-"Erstellt Tags für alle Projektdateien, anstatt nur für die jeweils "
+"Erstellt Symbol-Listen für alle Projekt-Dateien, anstatt nur für die jeweils "
 "geöffneten Dateien. Sehr langsam bei großen Projekten und sollte in solch "
 "einem Fall deaktiviert werden."
 
@@ -6088,9 +6082,9 @@ msgid "Add"
 msgstr "Hinzufügen"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:442
-#, fuzzy
+
 msgid "Find Symbol"
-msgstr "Datei suchen"
+msgstr "Symbol finden"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:471
 msgid "Match type:"
@@ -6138,9 +6132,8 @@ msgid "Find File..."
 msgstr "Datei suchen..."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1391
-#, fuzzy
 msgid "Find Symbol..."
-msgstr "Datei suchen..."
+msgstr "Symbol finden..."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1404
 msgid "Remove External Directory"
@@ -6725,9 +6718,8 @@ msgid "Enter char # (0..255):"
 msgstr ""
 
 #: ../scope/src/conterm.c:512 ../scope/src/scope.c:545 ../scope/src/scope.c:546
-#, fuzzy, c-format
 msgid "Scope: %s."
-msgstr "»%s« schließen"
+msgstr "Scope: %s"
 
 #: ../scope/src/debug.c:138
 msgid "No breakpoints. Hanging."
@@ -6761,9 +6753,8 @@ msgid "no children in range"
 msgstr ""
 
 #: ../scope/src/inspect.c:454
-#, fuzzy
 msgid "out of scope"
-msgstr "Beobachtungspunkt #%s außerhalb des sichtbaren Bereichs."
+msgstr "außerhalb des Beobachtungsbereiches"
 
 #: ../scope/src/inspect.c:627
 msgid "Duplicate inspect variable name."
@@ -6855,12 +6846,12 @@ msgstr "Scope Debugger"
 
 #: ../scope/src/scope.c:34
 msgid "Relatively simple GDB front-end."
-msgstr ""
+msgstr "Relativ einfaches Frontend zu GDB."
 
 #: ../scope/src/scope.c:61
 #, fuzzy
 msgid "Setup program"
-msgstr "Kein Programm"
+msgstr ""
 
 #: ../scope/src/scope.c:62
 msgid "Run/continue"
@@ -7065,9 +7056,8 @@ msgid "Show editor menu item to show spelling suggestions"
 msgstr "Eintrag im Editormenü mit Korrekturvorschlägen"
 
 #: ../spellcheck/src/scplugin.c:293
-#, fuzzy
 msgid "Show suggestions in a sub menu of the editor menu"
-msgstr "Eintrag »URI öffnen« im Editor-Menü anzeigen"
+msgstr "Vorschläge als Untermenü im Kontextmenü anzeigen."
 
 #: ../spellcheck/src/scplugin.c:308
 msgid "Print misspelled words and suggestions in the messages window"
@@ -7082,15 +7072,14 @@ msgid "Check spelling while typing"
 msgstr "Beim Tippen Rechtschreibung überprüfen"
 
 #: ../spellcheck/src/scplugin.c:329
-#, fuzzy
 msgid "Check spelling when opening a document"
-msgstr "Beim Tippen Rechtschreibung überprüfen"
+msgstr "Rechtschreibung beim Dokument-Öffnen kontrollieren"
 
 #: ../spellcheck/src/scplugin.c:331
 msgid ""
 "Enabling this option will check every document after it is opened in Geany. "
 "Reloading a document will also trigger a re-check."
-msgstr ""
+msgstr "Wenn diese Option aktiviert ist, prüft das Plugin die Rechtschreibung eines Dokumentes direkt nach dem Öffnen in Geany. Zusätzlich wird ein Neuladen eine erneute Überprüfung auslösen."
 
 #: ../spellcheck/src/scplugin.c:335
 msgid "Language to use for the spell check:"
@@ -7188,7 +7177,7 @@ msgstr "Tableconvert"
 
 #: ../tableconvert/src/tableconvert.c:32
 msgid "Converts lists into tables for different filetypes"
-msgstr ""
+msgstr "Überträgt Liste in Tabellen für verschiedene Dateitypen"
 
 #: ../tableconvert/src/tableconvert.c:41
 msgid "LaTeX"
@@ -7522,9 +7511,8 @@ msgid "Updatechecker"
 msgstr "Updatechecker"
 
 #: ../updatechecker/src/updatechecker.c:41
-#, fuzzy
 msgid "Checks whether there are updates for Geany available"
-msgstr "Ein Plugin zum Überprüfen, ob es Updates für Geany gibt."
+msgstr "Prüft, ob Updates für Geany bereit stehen."
 
 #: ../updatechecker/src/updatechecker.c:194
 #, c-format
