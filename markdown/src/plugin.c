@@ -46,7 +46,6 @@ PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
 #ifndef MARKDOWN_HELP_FILE
 #  define MARKDOWN_HELP_FILE MARKDOWN_DOC_DIR "/html/help.html"
 #endif
-#define MARKDOWN_HELP_FILE_URI "file://" MARKDOWN_HELP_FILE
 
 #define MARKDOWN_PREVIEW_LABEL _("Markdown Preview")
 
@@ -138,7 +137,17 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 /* Called to show the plugin's help */
 void plugin_help(void)
 {
-  utils_open_browser(MARKDOWN_HELP_FILE_URI);
+#ifdef G_OS_WIN32
+  gchar *prefix = g_win32_get_package_installation_directory_of_module(NULL);
+#else
+  gchar *prefix = NULL;
+#endif
+  gchar *uri = g_strconcat("file://", prefix ? prefix : "", MARKDOWN_HELP_FILE, NULL);
+
+  utils_open_browser(uri);
+
+  g_free(uri);
+  g_free(prefix);
 }
 
 /* All of the various signal handlers call this function to update the
