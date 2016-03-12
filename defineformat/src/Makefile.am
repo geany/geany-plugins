@@ -1,4 +1,5 @@
 include $(top_srcdir)/build/vars.build.mk
+plugin = defineformat
 
 geanyplugins_LTLIBRARIES = defineformat.la
 

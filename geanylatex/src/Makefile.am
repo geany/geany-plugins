@@ -1,4 +1,5 @@
 include $(top_srcdir)/build/vars.build.mk
+plugin = geanylatex
 
 geanyplugins_LTLIBRARIES = geanylatex.la
 

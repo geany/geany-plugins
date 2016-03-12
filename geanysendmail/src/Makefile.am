@@ -1,4 +1,5 @@
 include $(top_srcdir)/build/vars.build.mk
+plugin = geanysendmail
 
 geanyplugins_LTLIBRARIES = geanysendmail.la
 
