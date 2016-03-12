@@ -238,10 +238,15 @@ static void load_pastebins_in_dir(const gchar *path)
 
 static void load_all_pastebins(void)
 {
+#ifdef G_OS_WIN32
+    gchar *prefix = g_win32_get_package_installation_directory_of_module(NULL);
+#else
+    gchar *prefix = NULL;
+#endif
     gchar *paths[] = {
         g_build_filename(geany->app->configdir, "plugins", "geniuspaste",
                          "pastebins", NULL),
-        g_build_filename(PLUGINDATADIR, "pastebins", NULL)
+        g_build_filename(prefix ? prefix : "", PLUGINDATADIR, "pastebins", NULL)
     };
     guint i;
 
@@ -251,6 +256,8 @@ static void load_all_pastebins(void)
         g_free(paths[i]);
     }
     pastebins = g_slist_sort(pastebins, sort_pastebins);
+
+    g_free(prefix);
 }
 
 static void free_all_pastebins(void)
