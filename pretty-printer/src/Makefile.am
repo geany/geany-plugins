@@ -1,4 +1,5 @@
 include $(top_srcdir)/build/vars.build.mk
+plugin = pretty-printer
 
 geanyplugins_LTLIBRARIES = pretty-printer.la
 

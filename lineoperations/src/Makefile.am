@@ -1,4 +1,5 @@
 include $(top_srcdir)/build/vars.build.mk
+plugin = lineoperations
 
 geanyplugins_LTLIBRARIES = lineoperations.la
 

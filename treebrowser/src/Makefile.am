@@ -1,4 +1,5 @@
 include $(top_srcdir)/build/vars.build.mk
+plugin = treebrowser
 
 geanyplugins_LTLIBRARIES = treebrowser.la
 

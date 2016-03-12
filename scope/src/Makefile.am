@@ -54,7 +54,6 @@ scope_la_SOURCES = \
 scope_la_LIBADD = $(COMMONLIBS) $(VTE_LIBS) $(PTY_LIBS)
 
 scope_la_CFLAGS = $(AM_CFLAGS) $(VTE_CFLAGS) \
-	-DPLUGINDATADIR=\"$(plugindatadir)\" \
 	-DPLUGINHTMLDOCDIR=\"$(plugindocdir)/html\" \
 	-Wno-shadow
 

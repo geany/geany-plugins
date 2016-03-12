@@ -1,4 +1,5 @@
 include $(top_srcdir)/build/vars.build.mk
+plugin = shiftcolumn
 
 geanyplugins_LTLIBRARIES = shiftcolumn.la
 

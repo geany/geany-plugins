@@ -1,4 +1,5 @@
 include $(top_srcdir)/build/vars.build.mk
+plugin = codenav
 
 geanyplugins_LTLIBRARIES = codenav.la
 

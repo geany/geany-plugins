@@ -1,4 +1,5 @@
 include $(top_srcdir)/build/vars.build.mk
+plugin = xmlsnippets
 
 geanyplugins_LTLIBRARIES = xmlsnippets.la
 
