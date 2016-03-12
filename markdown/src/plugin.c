@@ -36,9 +36,6 @@ PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
                              "Matthew Brush <mbrush@codebrainz.ca>")
 
 /* Should be defined by build system, this is just a fallback */
-#ifndef MARKDOWN_DATA_DIR
-#  define MARKDOWN_DATA_DIR "/usr/local/share/geany-plugins/markdown"
-#endif
 #ifndef MARKDOWN_DOC_DIR
 #  define MARKDOWN_DOC_DIR "/usr/local/share/doc/geany-plugins/markdown"
 #endif

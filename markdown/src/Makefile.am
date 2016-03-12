@@ -18,7 +18,6 @@ noinst_HEADERS = \
 markdown_la_CFLAGS = \
 	$(AM_CFLAGS) \
 	$(MARKDOWN_CFLAGS) \
-	-DMARKDOWN_DATA_DIR=\"$(pkgdatadir)/markdown\" \
 	-DMARKDOWN_DOC_DIR=\"$(docdir)/markdown\" \
 	-DMARKDOWN_HELP_FILE=\"$(docdir)/markdown/html/help.html\"
 
