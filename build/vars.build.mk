@@ -2,11 +2,11 @@ if MINGW
 LOCAL_AM_CFLAGS = \
 	-DLOCALEDIR=\""share/locale"\" \
 	-DPREFIX=\"\" \
-	-DDOCDIR=\""share/doc/geany-plugins"\" \
+	-DDOCDIR=\""share/doc/$(PACKAGE)"\" \
 	-DGEANYPLUGINS_DATADIR=\""share"\" \
-	-DPKGDATADIR=\""share/geany-plugins"\" \
+	-DPKGDATADIR=\""share/$(PACKAGE)"\" \
 	-DLIBDIR=\""lib"\" \
-	-DPKGLIBDIR=\""lib/geany-plugins"\"
+	-DPKGLIBDIR=\""lib/$(PACKAGE)"\"
 else
 LOCAL_AM_CFLAGS = \
 	-DLOCALEDIR=\""$(LOCALEDIR)"\" \
