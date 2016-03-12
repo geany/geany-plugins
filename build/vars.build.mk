@@ -6,7 +6,7 @@ LOCAL_AM_CFLAGS = \
 	-DGEANYPLUGINS_DATADIR=\"share\" \
 	-DPKGDATADIR=\""share/geany-plugins"\" \
 	-DLIBDIR=\""lib"\" \
-	-DPKGLIBDIR=\"\"
+	-DPKGLIBDIR="LIBDIR\"/$(PACKAGE)\""
 else
 LOCAL_AM_CFLAGS = \
 	-DLOCALEDIR=\""$(LOCALEDIR)"\" \
