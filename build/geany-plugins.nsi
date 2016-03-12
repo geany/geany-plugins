@@ -152,6 +152,7 @@ Section -Post
 SectionEnd
 
 Section Uninstall
+	Delete "$INSTDIR\ReadMe.Dependencies.Geany-Plugins.txt"
 	Delete "$INSTDIR\uninst-plugins.exe"
 	Delete "$INSTDIR\lib\geany\addons.dll"
 	Delete "$INSTDIR\lib\geany\autoclose.dll"
@@ -332,7 +333,7 @@ SectionEnd
 !insertmacro MUI_DESCRIPTION_TEXT ${SEC01} "Required plugin files. You cannot skip these files."
 !insertmacro MUI_DESCRIPTION_TEXT ${SEC02} "Various translations for the included plugins."
 !insertmacro MUI_DESCRIPTION_TEXT ${SEC03} "Various documentation files for the included plugins."
-!insertmacro MUI_DESCRIPTION_TEXT ${SEC04} "Dependency files for various plugins (currently libenchant for Spell Check, Lua for GeanyLua, libxml2 for PrettyPrinter, CTPL for GeanyGenDoc, libgit2 for Git Change Bar)."
+!insertmacro MUI_DESCRIPTION_TEXT ${SEC04} "Dependency files for various plugins (GeanyCTags, GeanyGenDoc, SpellCheck, WebHelper, Markdown, GeanyLua, GeanyPG, UpdateChecker, GitChangeBar, PrettyPrinter, GeanyVC)."
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;;;;;;;;;;;;;;;;;;;;;
