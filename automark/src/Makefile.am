@@ -1,4 +1,5 @@
 include $(top_srcdir)/build/vars.build.mk
+plugin = automark
 
 geanyplugins_LTLIBRARIES = automark.la
 

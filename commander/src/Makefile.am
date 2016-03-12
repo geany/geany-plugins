@@ -6,7 +6,6 @@ geanyplugins_LTLIBRARIES = commander.la
 
 commander_la_SOURCES  = commander-plugin.c
 commander_la_CPPFLAGS = $(AM_CPPFLAGS) \
-                        -DPLUGIN=\"$(plugin)\" \
                         -DG_LOG_DOMAIN=\"Commander\"
 commander_la_CFLAGS   = $(AM_CFLAGS) \
                         $(COMMANDER_CFLAGS)

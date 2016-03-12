@@ -4,9 +4,12 @@ LOCAL_AM_CFLAGS = \
 	-DPREFIX=\"\" \
 	-DDOCDIR=\"\" \
 	-DGEANYPLUGINS_DATADIR=\"share\" \
-	-DPKGDATADIR=\""share/geany-plugins"\" \
+	-DPKGDATADIR=\""share/$(PACKAGE)"\" \
 	-DLIBDIR=\""lib"\" \
-	-DPKGLIBDIR=\"\"
+	-DPKGLIBDIR=\""lib/$(PACKAGE)\"" \
+	-DPLUGINDATADIR=\""share/$(PACKAGE)/$(plugin)"\" \
+	-DPLUGINDOCDIR=\""$(plugin)"\" \
+	-DPLUGINLIBDIR=\""lib/$(PACKAGE)/$(plugin)"\"
 else
 LOCAL_AM_CFLAGS = \
 	-DLOCALEDIR=\""$(LOCALEDIR)"\" \
@@ -15,11 +18,15 @@ LOCAL_AM_CFLAGS = \
 	-DGEANYPLUGINS_DATADIR=\""$(datadir)"\" \
 	-DPKGDATADIR=\""$(pkgdatadir)"\" \
 	-DLIBDIR=\""$(libdir)"\" \
-	-DPKGLIBDIR=\""$(pkglibdir)"\"
+	-DPKGLIBDIR=\""$(pkglibdir)"\" \
+	-DPLUGINDATADIR=\""$(pkgdatadir)/$(plugin)"\" \
+	-DPLUGINDOCDIR=\""$(docdir)/$(plugin)"\" \
+	-DPLUGINLIBDIR=\""$(pkglibdir)/$(plugin)"\"
 endif
 
 AM_CFLAGS = \
 	${LOCAL_AM_CFLAGS} \
+	-DPLUGIN="\"$(plugin)\"" \
 	$(GEANY_CFLAGS) \
 	$(GP_CFLAGS)
 	

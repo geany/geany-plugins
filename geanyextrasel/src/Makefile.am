@@ -1,4 +1,5 @@
 include $(top_srcdir)/build/vars.build.mk
+plugin = geanyextrasel
 
 geanyplugins_LTLIBRARIES = geanyextrasel.la
 
