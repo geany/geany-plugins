@@ -2,13 +2,54 @@ Geany Plugins 1.27 (not yet released)
 
     General:
     * Removing waf build support
+    * Improving building plugins on Windows with Mingw
+    * Harmonize logging domain of plugins so output to e.g. command line
+      can be better connected to a plugin
     * New plugin LineOperations
     * Depend on Geany 1.27 for Windows builds
+    * Increase needed API to 224 (Geany 1.26) for all plugins by
+      removing deprecated symbols
+    * Enable travis for some integration test
 
+    Debugger:
+    * Fix toggling breakpoints for unknown locations
+    * Fix handling of escape characters in file names (#83)
+    * Fix marker for current frame
+    * Report the signal name when the process received one
+    * Allow to switch active thread
+
+    GeanyCtag:
+    * Follow symbolic links
+
+    GeanyPy:
+    * Convert to a proxy plugin
+    * Add keybinding support for Python plugins
+
+    GeanyVC:
+    * Fix a regression where VC-plugin menu was not added properly at
+      the end of menu list
+    * Enable spell checking also for Gtk3 build
+
+    Geniuspaste:
+    * Rework plugin so pastebins are now configurable via an configuration
+      file
+    * Add support for using the redirected URI as paste URI
+
+    MukltiTerm:
+    * Fix an issue with extracting translatable strings from not shipped
+      C files (PR#392)
+
+    Projectorganizer:
+    * Use term "symbol" instead of "tag"
+    * Improve symlink cycle detection
+
+    Spellcheck:
+    * Fix possible double checking when 'check while typing' is activated
+    * Improve detection of English contractions and other use of single quotes
 
     Internationalization:
-    * Updated translations: de, fr, pt
-    * New translations:
+    * Various fixes on plugins to ensure proper localization
+    * Updated translations: de, fr, pt, ru
 
 
 Geany Plugins 1.26 (2015-11-15)
