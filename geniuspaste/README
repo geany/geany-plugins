@@ -10,10 +10,12 @@ pastebin service.  At the moment it ships with builtin support these pastebin
 services, but more can be added:
 
 	* codepad.org
-	* tinypaste.com
-	* pastebin.geany.org
 	* dpaste.de
+	* fpaste.org
+	* pastebin.geany.org
+	* paste.debian.net
 	* sprunge.us
+	* tinypaste.com
 
 GeniusPaste detects automatically the syntax of the code and pastes it
 with syntax highlighting enabled.
