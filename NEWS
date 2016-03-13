@@ -1,8 +1,8 @@
 Geany Plugins 1.27 (not yet released)
 
     General:
-    * Removing waf build support
-    * Improving building plugins on Windows with Mingw
+    * Remove Waf build support
+    * Improve building plugins on Windows with Mingw
     * Harmonize logging domain of plugins so output to e.g. command line
       can be better connected to a plugin
     * New plugin LineOperations
@@ -12,35 +12,44 @@ Geany Plugins 1.27 (not yet released)
     * Enable travis for some integration test
 
     Debugger:
+    * Add support for switching threads
+    * Fix handling of non-ASCII characters in file names (#259)
+    * Speed up stack trace display on large traces (#347)
     * Fix toggling breakpoints for unknown locations
-    * Fix handling of escape characters in file names (#83)
-    * Fix marker for current frame
+    * Fix handling of escape characters in file names (part of #83)
+    * Fix marker for the current frame
     * Report the signal name when the process received one
-    * Allow to switch active thread
+    * Fix crash when reloading the plugin (#229)
+    * Fix many memory leaks and potential crashes
 
-    GeanyCtag:
+    GeanyCTags:
     * Follow symbolic links
+    * Fix spawning ctags on Windows
+
+    GeanyNumberedBookmarks:
+    * Fix crash in some situations with no documents open (#301)
 
     GeanyPy:
     * Convert to a proxy plugin
     * Add keybinding support for Python plugins
 
     GeanyVC:
-    * Fix a regression where VC-plugin menu was not added properly at
+    * Fix a regression where VC-plugin menu was not properly added at
       the end of menu list
-    * Enable spell checking also for Gtk3 build
+    * Enable spell checking also for GTK3 build
 
-    Geniuspaste:
-    * Rework plugin so pastebins are now configurable via an configuration
-      file
+    GeniusPaste:
+    * Make pastebins configurable via configuration files, adding support
+      for user-defined pastebins
     * Add support for using the redirected URI as paste URI
+    * Add new pastebins fpaste.org and paste.debian.net
 
     MultiTerm:
     * Fix an issue with extracting translatable strings from not shipped
       C files (PR#392)
 
     Projectorganizer:
-    * Use term "symbol" instead of "tag"
+    * Use the term "symbol" instead of "tag"
     * Improve symlink cycle detection
 
     Spellcheck:
