@@ -170,7 +170,3 @@ endif
 if ENABLE_XMLSNIPPETS
 SUBDIRS += xmlsnippets
 endif
-
-
-EXTRA_DIST = \
-	README.windows
