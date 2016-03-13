@@ -585,12 +585,30 @@ static gchar *pastebin_parse_response(const Pastebin  *pastebin,
     return url;
 }
 
+static gboolean message_dialog_label_link_activated(GtkLabel *label, gchar *uri, gpointer user_data)
+{
+    utils_open_browser(uri);
+    return TRUE;
+}
+
+static void message_dialog_label_set_url_hook(GtkWidget *widget, gpointer data)
+{
+    if (GTK_IS_LABEL(widget))
+    {
+        g_signal_connect(widget,
+                         "activate-link",
+                         G_CALLBACK(message_dialog_label_link_activated),
+                         NULL);
+    }
+}
+
 G_GNUC_PRINTF (4, 5)
 static void show_msgbox(GtkMessageType type, GtkButtonsType buttons,
                         const gchar *main_text,
                         const gchar *secondary_markup, ...)
 {
     GtkWidget *dlg;
+    GtkWidget *dlg_vbox;
     va_list ap;
     gchar *markup;
 
@@ -608,6 +626,12 @@ static void show_msgbox(GtkMessageType type, GtkButtonsType buttons,
                        "secondary-text", markup,
                        "secondary-use-markup", TRUE,
                        NULL);
+    /* fetch the message area of the dialog and attach a custom URL hook to the labels */
+    dlg_vbox = gtk_message_dialog_get_message_area(GTK_MESSAGE_DIALOG(dlg));
+    gtk_container_foreach(GTK_CONTAINER(dlg_vbox),
+                          message_dialog_label_set_url_hook,
+                          NULL);
+    /* run the dialog */
     gtk_dialog_run(GTK_DIALOG(dlg));
     gtk_widget_destroy(dlg);
 }
