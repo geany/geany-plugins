@@ -18,7 +18,11 @@ Usage::
   make
   sudo make install
 
-This will configure, build and install most of the Geany plugins.
+autogen.sh will call configure in background and is only available if
+you are using Geany plugins from git repository. It is not included in
+release packages.
+
+However, this will configure, build and install most of the Geany plugins.
 There is some auto-detection in place which automagically disables
 some of the plugins if there are insufficient build dependencies.
 The following arguments can tweak the behaviour of the configure
