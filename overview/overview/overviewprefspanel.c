@@ -198,15 +198,24 @@ overview_prefs_panel_init (OverviewPrefsPanel *self)
   GtkBuilder *builder;
   GError     *error = NULL;
   GtkWidget  *overlay_frame;
+#ifdef G_OS_WIN32
+  gchar      *prefix = g_win32_get_package_installation_directory_of_module (NULL);
+#else
+  gchar      *prefix = NULL;
+#endif
+  gchar      *ui_file_path = g_build_filename (prefix ? prefix : "", PLUGINDATADIR, "prefs.ui", NULL);
 
   builder = gtk_builder_new ();
-  if (! gtk_builder_add_from_file (builder, OVERVIEW_PREFS_UI_FILE, &error))
+  if (! gtk_builder_add_from_file (builder, ui_file_path, &error))
     {
-      g_critical ("failed to open UI file '%s': %s", OVERVIEW_PREFS_UI_FILE, error->message);
+      g_critical ("failed to open UI file '%s': %s", ui_file_path, error->message);
       g_error_free (error);
       g_object_unref (builder);
       return;
     }
+
+  g_free (ui_file_path);
+  g_free (prefix);
 
   self->prefs_table    = builder_get_widget (builder, "prefs-table");
   self->width_spin     = builder_get_widget (builder, "width-spin");

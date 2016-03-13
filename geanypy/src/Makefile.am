@@ -1,4 +1,5 @@
 include $(top_srcdir)/build/vars.build.mk
+plugin = geanypy
 
 geanyplugin_LTLIBRARIES		=	geanypy.la
 geanyplugindir				=	$(libdir)/geany

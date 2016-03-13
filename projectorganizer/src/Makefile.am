@@ -1,4 +1,5 @@
 include $(top_srcdir)/build/vars.build.mk
+plugin = projectorganizer
 
 geanyplugins_LTLIBRARIES = projectorganizer.la
 
@@ -14,7 +15,6 @@ projectorganizer_la_SOURCES = \
 	prjorg-menu.c
 
 projectorganizer_la_CPPFLAGS = $(AM_CPPFLAGS) \
-	-DPLUGIN=\"$(plugin)\" \
 	-DG_LOG_DOMAIN=\"ProjectOrganizer\"
 projectorganizer_la_CFLAGS = $(AM_CFLAGS)
 projectorganizer_la_LIBADD = $(COMMONLIBS)

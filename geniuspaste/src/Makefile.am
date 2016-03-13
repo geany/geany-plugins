@@ -7,7 +7,6 @@ geanyplugins_LTLIBRARIES = geniuspaste.la
 geniuspaste_la_SOURCES = geniuspaste.c
 geniuspaste_la_CPPFLAGS = \
 	$(AM_CPPFLAGS) \
-	-DPLUGINDATADIR=\"$(plugindatadir)\" \
 	-DGEANY_VERSION=\"$(GEANY_VERSION)\" \
 	-DG_LOG_DOMAIN=\"GeniusPaste\"
 geniuspaste_la_CFLAGS = \

@@ -1,4 +1,5 @@
 include $(top_srcdir)/build/vars.build.mk
+plugin = geanylipsum
 
 geanyplugins_LTLIBRARIES = geanylipsum.la
 

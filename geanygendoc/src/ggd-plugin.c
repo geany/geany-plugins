@@ -365,7 +365,18 @@ static void
 open_manual_handler (GtkWidget  *widget,
                      gpointer    data)
 {
-  utils_open_browser (DOCDIR "/" GGD_PLUGIN_CNAME "/html/manual.html");
+#ifdef G_OS_WIN32
+  gchar *prefix = g_win32_get_package_installation_directory_of_module (NULL);
+#else
+  gchar *prefix = NULL;
+#endif
+  gchar *path = g_build_filename (prefix ? prefix : "", PLUGINDOCDIR,
+                                  "/html/manual.html", NULL);
+  
+  utils_open_browser (path);
+  
+  g_free (path);
+  g_free (prefix);
 }
 
 /* handler that reloads the configuration */

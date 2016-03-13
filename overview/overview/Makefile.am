@@ -21,8 +21,7 @@ overview_la_SOURCES = \
 overview_la_CPPFLAGS = $(AM_CPPFLAGS) -DG_LOG_DOMAIN=\"Overview\"
 overview_la_CFLAGS = \
 	$(AM_CFLAGS) \
-	-I$(srcdir)/.. \
-	-DOVERVIEW_PREFS_UI_FILE=\""$(pkgdatadir)/overview/prefs.ui"\"
+	-I$(srcdir)/..
 
 overview_la_LIBADD = \
 	$(COMMONLIBS)

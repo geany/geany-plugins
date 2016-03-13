@@ -161,6 +161,7 @@ ggd_get_config_file (const gchar *name,
                      GError     **error)
 {
   gchar  *path = NULL;
+  gchar  *system_prefix = NULL;
   gchar  *user_dir;
   gchar  *user_path;
   gchar  *system_dir;
@@ -169,12 +170,17 @@ ggd_get_config_file (const gchar *name,
   g_return_val_if_fail (name != NULL, NULL);
   g_return_val_if_fail (error == NULL || *error == NULL, NULL);
   
+#ifdef G_OS_WIN32
+  system_prefix = g_win32_get_package_installation_directory_of_module (NULL);
+#endif
+  
   /* here we guess the locale encoding is ASCII-compatible, anyway it's the case
    * on Windows since we use UTF-8 and on UNIX it would cause too much troubles
    * everywhere if it is not anyway */
   user_dir = g_build_filename (geany->app->configdir, "plugins",
                                GGD_PLUGIN_CNAME, section, NULL);
-  system_dir = g_build_filename (PKGDATADIR, GGD_PLUGIN_CNAME, section, NULL);
+  system_dir = g_build_filename (system_prefix ? system_prefix : "",
+                                 PLUGINDATADIR, section, NULL);
   user_path = g_build_filename (user_dir, name, NULL);
   system_path = g_build_filename (system_dir, name, NULL);
   if (perms_req & GGD_PERM_R) {
@@ -253,6 +259,7 @@ ggd_get_config_file (const gchar *name,
   if (path != system_path) g_free (system_path);
   g_free (user_dir);
   g_free (system_dir);
+  g_free (system_prefix);
   
   return path;
 }

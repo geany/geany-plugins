@@ -1,4 +1,5 @@
 include $(top_srcdir)/build/vars.build.mk
+plugin = spellcheck
 
 geanyplugins_LTLIBRARIES = spellcheck.la
 

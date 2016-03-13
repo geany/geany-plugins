@@ -1,4 +1,5 @@
 include $(top_srcdir)/build/vars.build.mk
+plugin = geanyminiscript
 
 geanyplugins_LTLIBRARIES = geanyminiscript.la
 
