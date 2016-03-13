@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Geany-Plugins 1.27\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-28 14:22+0100\n"
-"PO-Revision-Date: 2016-02-29 01:44+0100\n"
+"PO-Revision-Date: 2016-03-13 04:35+0100\n"
 "Last-Translator: Colomban Wendling <ban@herbesfolles.org>\n"
 "Language-Team: French <geany-i18n@uvena.de>\n"
 "Language: fr\n"
@@ -5193,8 +5193,8 @@ msgstr ""
 "%s"
 
 #: ../geniuspaste/src/geniuspaste.c:706
-msgid "unexpected response from the pastebin service."
-msgstr "réponse inattendue du service de pastebin."
+msgid "Unexpected response from the pastebin service."
+msgstr "Réponse inattendue du service de pastebin."
 
 #: ../geniuspaste/src/geniuspaste.c:719
 msgid "Paste Successful"
