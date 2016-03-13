@@ -15,10 +15,10 @@ noinst_HEADERS = \
 	viewer.h \
 	markdown-gtk-compat.h
 
+
 markdown_la_CFLAGS = \
 	$(AM_CFLAGS) \
 	$(MARKDOWN_CFLAGS) \
-	-DMARKDOWN_DATA_DIR=PLUGINDATADIR \
 	-DMARKDOWN_DOC_DIR=PLUGINDOCDIR \
 	-DMARKDOWN_HELP_FILE=\"$(GP_DOCDIR)/$(plugin)/html/help.html\"
 
