@@ -22,7 +22,6 @@ cscope.files
 #-----------------------------------------------------------------------
 /aclocal.m4
 /autom4te.cache
-/_build_
 /build/*.pyc
 /build/cache
 /build-aux/
@@ -44,7 +43,6 @@ cscope.files
 /intltool-*
 /libtool
 /localwin32.mk
-/.lock-wscript
 /ltmain.sh
 /m4/
 /make_deb.sh
@@ -57,9 +55,6 @@ cscope.files
 /*.tar.*
 /test-driver
 /TODO.*
-/.waf-*
-/.waf3-*
-.lock-waf*
 
 #-----------------------------------------------------------------------
 # /po/
