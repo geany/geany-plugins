@@ -17,22 +17,22 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
 
+#ifdef HAVE_STRCASESTR
+	#define _GNU_SOURCE
+#endif
+#include <string.h>
 #include <sys/time.h>
 #include <gdk/gdkkeysyms.h>
-#include <string.h>
 
-#ifdef HAVE_CONFIG_H
-	#include "config.h" /* for the gettext domain */
-#endif
 #include <geanyplugin.h>
 
 #include "geanyprj.h"
 
-
-static GtkWidget *file_view_vbox;
-static GtkWidget *file_view;
-static GtkListStore *file_store;
+#define MULTISEARCH_SEP_STR		" "
 
 enum
 {
@@ -53,11 +53,31 @@ static struct
 	GtkWidget *find_in_files;
 } popup_items;
 
+/* Members */
+static GtkWidget *file_view_vbox;         /**< Main sidebar layout */
+static GtkWidget *file_view_filter_entry; /**< Entry used to filter file listing tree */
+static GtkWidget *file_view;              /**< File listing widget */
+static GtkListStore *file_store;          /**< File listing backend model */
+static GtkTreeModel *file_store_filter;   /**< Proxy model used to filter backend model items in the view */
+
+/* Settings */
+#ifdef HAVE_STRCASESTR
+static kbdsearch_policy search_policy = KBDSEARCH_POLICY_CONTAINS_ALL_INSENSITIVE;
+#else
+static kbdsearch_policy search_policy = KBDSEARCH_POLICY_CONTAINS_ALL;
+#endif
+
+static gboolean b_enable_filtering = TRUE;
+#ifdef HAVE_STRCASESTR
+static kbdsearch_policy filter_policy = KBDSEARCH_POLICY_CONTAINS_ALL_INSENSITIVE;
+#else
+static kbdsearch_policy filter_policy = KBDSEARCH_POLICY_CONTAINS_ALL;
+#endif
+
 
 /* Returns: the full filename in locale encoding. */
-static gchar *get_tree_path_filename(GtkTreePath *treepath)
+static gchar *get_tree_path_filename(GtkTreePath *treepath, GtkTreeModel *model)
 {
-	GtkTreeModel *model = GTK_TREE_MODEL(file_store);
 	GtkTreeIter iter;
 	gchar *name;
 
@@ -70,7 +90,7 @@ static gchar *get_tree_path_filename(GtkTreePath *treepath)
 
 
 /* We use documents->open_files() as it's more efficient. */
-static void open_selected_files(GList *list)
+static void open_selected_files(GList *list, GtkTreeModel *model)
 {
 	GSList *files = NULL;
 	GList *item;
@@ -78,7 +98,7 @@ static void open_selected_files(GList *list)
 	for (item = list; item != NULL; item = g_list_next(item))
 	{
 		GtkTreePath *treepath = item->data;
-		gchar *fname = get_tree_path_filename(treepath);
+		gchar *fname = get_tree_path_filename(treepath, model);
 		files = g_slist_append(files, fname);
 	}
 	document_open_files(files, FALSE, NULL, NULL);
@@ -96,7 +116,7 @@ static void on_open_clicked(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED g
 	treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(file_view));
 
 	list = gtk_tree_selection_get_selected_rows(treesel, &model);
-	open_selected_files(list);
+	open_selected_files(list, model);
 	g_list_foreach(list, (GFunc)gtk_tree_path_free, NULL);
 	g_list_free(list);
 }
@@ -108,6 +128,11 @@ static gboolean on_button_press(G_GNUC_UNUSED GtkWidget *widget, GdkEventButton 
 	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS)
 		on_open_clicked(NULL, NULL);
 	return FALSE;
+}
+
+static void on_view_filter_entry_modified(GtkEditable *editable, G_GNUC_UNUSED gpointer user_data)
+{
+	gtk_tree_model_filter_refilter(GTK_TREE_MODEL_FILTER(file_store_filter));
 }
 
 
@@ -123,13 +148,13 @@ static GtkWidget *make_toolbar(void)
 }
 
 
-static void remove_selected_files(GList *list)
+static void remove_selected_files(GList *list, GtkTreeModel *model)
 {
 	GList *item;
 	for (item = list; item != NULL; item = g_list_next(item))
 	{
 		GtkTreePath *treepath = item->data;
-		gchar *fname = get_tree_path_filename(treepath);
+		gchar *fname = get_tree_path_filename(treepath, model);
 		xproject_remove_file(fname);
 		g_free(fname);
 	}
@@ -145,7 +170,7 @@ static void on_remove_files(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED g
 	treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(file_view));
 
 	list = gtk_tree_selection_get_selected_rows(treesel, &model);
-	remove_selected_files(list);
+	remove_selected_files(list, model);
 	g_list_foreach(list, (GFunc) gtk_tree_path_free, NULL);
 	g_list_free(list);
 }
@@ -302,6 +327,109 @@ static gboolean on_button_release(G_GNUC_UNUSED GtkWidget *widget, GdkEventButto
 	return FALSE;
 }
 
+/* Return true if filename matches key according to given policy */
+static gboolean search_in_filename_func(const gchar *filename,
+                                        const gchar *key,
+                                        kbdsearch_policy policy)
+{
+	gboolean b_match = FALSE;
+	gchar **ppsz_key_tokens = NULL;
+	gchar **ppsz_key_tokens_iter = NULL;
+	
+	switch( policy )
+	{
+	case KBDSEARCH_POLICY_STARTWITH:
+		b_match = g_str_has_prefix( filename, key );
+		break;
+
+	case KBDSEARCH_POLICY_CONTAINS:
+		b_match = (strstr(filename, key) != NULL) ? TRUE : FALSE;
+		break;
+
+	case KBDSEARCH_POLICY_CONTAINS_ALL:
+		ppsz_key_tokens_iter = ppsz_key_tokens = g_strsplit(key,MULTISEARCH_SEP_STR,-1);
+		b_match = TRUE;
+		while( (*ppsz_key_tokens_iter != NULL) && (b_match == TRUE) )
+		{
+			b_match &= ((strstr(filename, *ppsz_key_tokens_iter) != NULL) ? TRUE : FALSE);
+			++ppsz_key_tokens_iter;
+		}
+		break;
+
+#ifdef HAVE_STRCASESTR
+	case KBDSEARCH_POLICY_CONTAINS_INSENSITIVE:
+		b_match = (strcasestr(filename, key) != NULL) ? TRUE : FALSE;
+		break;
+
+	case KBDSEARCH_POLICY_CONTAINS_ALL_INSENSITIVE:
+		ppsz_key_tokens_iter = ppsz_key_tokens = g_strsplit(key,MULTISEARCH_SEP_STR,-1);
+		b_match = TRUE;
+		while( (*ppsz_key_tokens_iter != NULL) && (b_match == TRUE) )
+		{
+			b_match &= ((strcasestr(filename, *ppsz_key_tokens_iter) != NULL) ? TRUE : FALSE);
+			++ppsz_key_tokens_iter;
+		}
+		break;
+#endif
+
+	default:
+		/* Error fallback currently equals to gtk default behavior */
+		b_match = g_str_has_prefix(filename, key);
+		break;
+	}
+	
+	g_strfreev(ppsz_key_tokens);
+	return b_match;
+}
+
+static gboolean treefilter_visible_func(GtkTreeModel *model,
+                                  GtkTreeIter *iter,
+                                  G_GNUC_UNUSED gpointer data)
+{
+	gboolean b_match = FALSE;
+	gchar *psz_iterdata = NULL;
+	
+	/* Get currently itered filename */
+	gtk_tree_model_get(model, iter,
+	                   FILEVIEW_COLUMN_NAME, &psz_iterdata,
+	                   -1);
+
+	/* Search filter key in this filename */
+	if( psz_iterdata != NULL )
+	{
+		b_match = search_in_filename_func(psz_iterdata,
+                                      gtk_entry_get_text(GTK_ENTRY(file_view_filter_entry)),
+                                      filter_policy);
+	}
+	
+	g_free(psz_iterdata);
+	return (b_match == TRUE);
+}
+
+/* GtkTreeViewSearchEqualFunc: return equality if key exists
+ * in row - according to current kbdsearch_policy */
+static gboolean treeview_search_anywhere(GtkTreeModel *model,
+                                    gint column,
+                                    const gchar *key,
+                                    GtkTreeIter *iter,
+                                    G_GNUC_UNUSED gpointer search_opt_data)
+{
+	gboolean b_match = FALSE;
+	gchar *psz_iterdata = NULL;
+
+	gtk_tree_model_get(model, iter,
+	                   column, &psz_iterdata,
+	                   -1);
+
+	if( psz_iterdata != NULL )
+	{
+		b_match = search_in_filename_func(psz_iterdata, key, search_policy);
+	}
+	
+	g_free(psz_iterdata);
+	return (b_match == FALSE);
+}
+
 
 static void prepare_file_view(void)
 {
@@ -311,8 +439,10 @@ static void prepare_file_view(void)
 	PangoFontDescription *pfd;
 
 	file_store = gtk_list_store_new(FILEVIEW_N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING);
-
-	gtk_tree_view_set_model(GTK_TREE_VIEW(file_view), GTK_TREE_MODEL(file_store));
+	file_store_filter = gtk_tree_model_filter_new(GTK_TREE_MODEL(file_store), NULL);
+	gtk_tree_model_filter_set_visible_func(GTK_TREE_MODEL_FILTER(file_store_filter), treefilter_visible_func, NULL, NULL);
+	
+	gtk_tree_view_set_model(GTK_TREE_VIEW(file_view), GTK_TREE_MODEL(file_store_filter));
 
 	text_renderer = gtk_cell_renderer_text_new();
 	column = gtk_tree_view_column_new();
@@ -324,6 +454,7 @@ static void prepare_file_view(void)
 
 	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(file_view), TRUE);
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(file_view), FILEVIEW_COLUMN_NAME);
+	gtk_tree_view_set_search_equal_func(GTK_TREE_VIEW(file_view), treeview_search_anywhere, NULL, NULL);
 
 	pfd = pango_font_description_from_string(geany_data->interface_prefs->tagbar_font);
 	gtk_widget_modify_font(file_view, pfd);
@@ -337,6 +468,8 @@ static void prepare_file_view(void)
 			 G_CALLBACK(on_button_release), NULL);
 	g_signal_connect(G_OBJECT(file_view), "button-press-event",
 			 G_CALLBACK(on_button_press), NULL);
+	g_signal_connect(G_OBJECT(file_view_filter_entry), "changed",
+			 G_CALLBACK(on_view_filter_entry_modified), NULL);
 
 	g_signal_connect(G_OBJECT(file_view), "key-press-event", G_CALLBACK(on_key_press), NULL);
 }
@@ -439,19 +572,30 @@ void create_sidebar(void)
 	GtkWidget *scrollwin, *toolbar;
 
 	file_view_vbox = gtk_vbox_new(FALSE, 0);
+	
+	/* Unused toolbar */
 	toolbar = make_toolbar();
 	gtk_box_pack_start(GTK_BOX(file_view_vbox), toolbar, FALSE, FALSE, 0);
 
+	/* Input field used to filter file listing */
+	file_view_filter_entry = gtk_entry_new();
+	ui_entry_add_clear_icon(GTK_ENTRY(file_view_filter_entry));
+	gtk_box_pack_start(GTK_BOX(file_view_vbox), file_view_filter_entry, FALSE, FALSE, 0);
+
+	/* File listing */
+	scrollwin = gtk_scrolled_window_new(NULL, NULL);
 	file_view = gtk_tree_view_new();
 	prepare_file_view();
 
-	scrollwin = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin),
 				       GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(scrollwin), file_view);
-	gtk_container_add(GTK_CONTAINER(file_view_vbox), scrollwin);
+	gtk_box_pack_start(GTK_BOX(file_view_vbox), scrollwin, TRUE, TRUE, 0);
 
+	/* Fix widget visibility */
 	gtk_widget_show_all(file_view_vbox);
+	
+	/* Insert the whole in geany sidebar */
 	gtk_notebook_append_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook),
 				 file_view_vbox, gtk_label_new(_("Project")));
 }
@@ -461,4 +605,73 @@ void destroy_sidebar(void)
 {
 	if (file_view_vbox)
 		gtk_widget_destroy(file_view_vbox);
+}
+
+kbdsearch_policy sidebar_get_kbdsearch_policy()
+{
+	return search_policy;
+}
+
+void sidebar_set_kbdsearch_policy(kbdsearch_policy policy)
+{
+	search_policy = policy;
+}
+
+gboolean sidebar_get_kbdfilter_enabled()
+{
+	return b_enable_filtering;
+}
+
+void sidebar_set_kbdfilter_enabled(gboolean filter_enabled)
+{
+	b_enable_filtering = filter_enabled;
+	
+	gtk_widget_set_visible(file_view_filter_entry, b_enable_filtering);
+	
+	if (b_enable_filtering == FALSE)
+	{
+		gtk_editable_delete_text( GTK_EDITABLE(file_view_filter_entry), 0, -1 );
+		gtk_tree_model_filter_refilter(GTK_TREE_MODEL_FILTER(file_store_filter));
+	}
+}
+
+kbdsearch_policy sidebar_get_kbdfilter_policy()
+{
+	return filter_policy;
+}
+
+void sidebar_set_kbdfilter_policy(kbdsearch_policy policy)
+{
+	filter_policy = policy;
+}
+
+const gchar * sidebar_get_kdbsearch_name(kbdsearch_policy policy)
+{
+	const gchar * name;
+	
+	switch(policy)
+	{
+		case KBDSEARCH_POLICY_STARTWITH:
+			name = _("Start with");
+			break;
+		case KBDSEARCH_POLICY_CONTAINS:
+			name = _("Contains");
+			break;
+		case KBDSEARCH_POLICY_CONTAINS_ALL:
+			name = _("Contains all");
+			break;
+#ifdef HAVE_STRCASESTR
+		case KBDSEARCH_POLICY_CONTAINS_INSENSITIVE:
+			name = _("Contains insentitive");
+			break;
+		case KBDSEARCH_POLICY_CONTAINS_ALL_INSENSITIVE:
+			name = _("Contains all insensitive");
+			break;
+#endif
+		default:
+			name = _("Unknown");
+			break;	
+	}
+	
+	return name;
 }

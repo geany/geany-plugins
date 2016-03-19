@@ -20,6 +20,10 @@
 #ifndef __GEANYPRJ_H__
 #define __GEANYPRJ_H__
 
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
+
 #include "geanyplugin.h"
 
 #ifdef __GNUC__
@@ -48,6 +52,21 @@ enum
 	NEW_PROJECT_TYPE_NONE,
 	NEW_PROJECT_TYPE_SIZE
 };
+
+/** This enum is used to choose sidebar fast-keyboard search policy */
+typedef enum
+{
+	KBDSEARCH_POLICY_STARTWITH,             /**< Default and fastest */
+	KBDSEARCH_POLICY_CONTAINS,              /**< Case sensitive search */
+	KBDSEARCH_POLICY_CONTAINS_ALL,          /**< Case sensitive search all words separated by MULTISEARCH_SEP_STR */
+#ifdef HAVE_STRCASESTR
+	KBDSEARCH_POLICY_CONTAINS_INSENSITIVE,  /**< Case insensitive search */
+	KBDSEARCH_POLICY_CONTAINS_ALL_INSENSITIVE, /**< Case insensitive search all words separated by MULTISEARCH_SEP_STR */
+#else
+	/* "Case insensitive search is not available" */
+#endif
+	KBDSEARCH_POLICY_ENUM_SIZE
+} kbdsearch_policy;
 
 struct GeanyPrj
 {
@@ -93,6 +112,13 @@ void geany_project_set_tags_from_list(struct GeanyPrj *prj, GSList *files);
 void create_sidebar(void);
 void destroy_sidebar(void);
 void sidebar_refresh(void);
+gboolean sidebar_get_kbdfilter_enabled();
+void sidebar_set_kbdfilter_enabled(gboolean filter_enabled);
+kbdsearch_policy sidebar_get_kbdfilter_policy();
+void sidebar_set_kbdfilter_policy(kbdsearch_policy policy);
+kbdsearch_policy sidebar_get_kbdsearch_policy();
+void sidebar_set_kbdsearch_policy(kbdsearch_policy policy);
+const gchar * sidebar_get_kdbsearch_name(kbdsearch_policy policy);
 
 
 /* xproject.c */
