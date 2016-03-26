@@ -377,7 +377,7 @@ static gboolean SaveIndividualSetting(GKeyFile *gkf,FileData *fd,gint iNumber,gc
 	/* i==10 if no markers set */
 
 	/* skip if no folding data or markers */
-	if(i==10 && (bRememberFolds==FALSE || fd->pcFolding==NULL) && 
+	if(i==10 && (bRememberFolds==FALSE || fd->pcFolding==NULL) &&
 	   (bRememberBookmarks==FALSE || fd->pcBookmarks==NULL))
 		return FALSE;
 
@@ -863,7 +863,7 @@ static gint NextFreeMarker(GeanyDocument* doc)
 		l=scintilla_send_message(sci,SCI_MARKERSYMBOLDEFINED,m,0);
 		if(l==SC_MARK_CIRCLE || l==SC_MARK_AVAILABLE)
 			return m;
-	}	
+	}
 
 	/* no empty markers available so return -1 */
 	/* in theory shouldn't get here but leave just in case my logic is flawed */
@@ -1231,19 +1231,19 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	/* save pointer to check_button */
 	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb2",gtkw);
 
-	gtkw=gtk_combo_box_new_text();
-	gtk_combo_box_append_text((GtkComboBox*)gtkw,_("Move to start of line"));
-	gtk_combo_box_append_text((GtkComboBox*)gtkw,_("Move to remembered position in line"));
-	gtk_combo_box_append_text((GtkComboBox*)gtkw,_("Move to position in current line"));
-	gtk_combo_box_append_text((GtkComboBox*)gtkw,_("Move to End of line"));
-	gtk_combo_box_set_active((GtkComboBox*)gtkw,PositionInLine);
+	gtkw=gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(gtkw),_("Move to start of line"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(gtkw),_("Move to remembered position in line"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(gtkw),_("Move to position in current line"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(gtkw),_("Move to End of line"));
+	gtk_combo_box_set_active(GTK_COMBO_BOX(gtkw),PositionInLine);
 	gtk_box_pack_start(GTK_BOX(vbox),gtkw,FALSE,FALSE,2);
 	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb3",gtkw);
 
-	gtkw=gtk_combo_box_new_text();
-	gtk_combo_box_append_text((GtkComboBox*)gtkw,_("Save file settings with program settings"));
-	gtk_combo_box_append_text((GtkComboBox*)gtkw,_("Save file settings to filename with suffix"));
-	gtk_combo_box_set_active((GtkComboBox*)gtkw,WhereToSaveFileDetails);
+	gtkw=gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(gtkw),_("Save file settings with program settings"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(gtkw),_("Save file settings to filename with suffix"));
+	gtk_combo_box_set_active(GTK_COMBO_BOX(gtkw),WhereToSaveFileDetails);
 	gtk_box_pack_start(GTK_BOX(vbox),gtkw,FALSE,FALSE,2);
 	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb4",gtkw);
 
@@ -1291,7 +1291,7 @@ will move the bookmark there if it was set on a different line, or create it if 
 	                               GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)scroll,label);
 
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox),scroll);
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),scroll);
 	gtk_widget_show(scroll);
 
 	/* set dialog size (leave width default) */
@@ -1363,7 +1363,7 @@ static void GotoBookMark(GeanyDocument* doc, gint iBookMark)
 	/* make sure view is not beyond start or end of document */
 	if(iLine+iLinesVisible>iLineCount)
 		iLine=iLineCount-iLinesVisible;
-		
+
 	if(iLine<0)
 		iLine=0;
 

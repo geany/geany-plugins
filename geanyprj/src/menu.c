@@ -180,9 +180,9 @@ static PropertyDialogElements *build_properties_dialog(gboolean properties)
 	label = gtk_label_new(_("Type:"));
 	gtk_misc_set_alignment(GTK_MISC(label), 1, 0);
 
-	e->type = gtk_combo_box_new_text();
+	e->type = gtk_combo_box_text_new();
 	for (i = 0; i < NEW_PROJECT_TYPE_SIZE; i++)
-		gtk_combo_box_append_text(GTK_COMBO_BOX(e->type), project_type_string[i]);
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->type), project_type_string[i]);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(e->type), 0);
 
 	ui_table_add_row(GTK_TABLE(table), 4, label, e->type, NULL);

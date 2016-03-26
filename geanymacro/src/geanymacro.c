@@ -901,7 +901,7 @@ NULL);
 								GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)scroll,label);
 
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox),scroll);
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),scroll);
 	gtk_widget_show(scroll);
 
 	/* set dialog size (leave width default) */
@@ -1065,7 +1065,7 @@ static gboolean InitializeMacroRecord(void)
 
 	/* create box to hold macro trigger entry box and label */
 	hbox=gtk_hbox_new(FALSE,0);
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox),hbox);
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),hbox);
 	gtk_widget_show(hbox);
 
 	gtkl=gtk_label_new(_("Macro Trigger:"));
@@ -1079,7 +1079,7 @@ static gboolean InitializeMacroRecord(void)
 
 	/* create box to hold macro name entry box, and label */
 	hbox=gtk_hbox_new(FALSE,0);
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox),hbox);
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),hbox);
 	gtk_widget_show(hbox);
 
 	gtkl=gtk_label_new(_("Macro Name:"));
@@ -1395,14 +1395,14 @@ static void EditSearchOptions(GtkTreeModel *model,GtkTreeIter *iter)
 
 	/* create box to hold widgets */
 	vbox=gtk_vbox_new(FALSE, 6);
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox),vbox);
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),vbox);
 	gtk_widget_show(vbox);
 
 	/* create combobox to hold search direction */
-	gtkcb=gtk_combo_box_new_text();
-	gtk_combo_box_append_text((GtkComboBox*)gtkcb,_("Search Forwards"));
-	gtk_combo_box_append_text((GtkComboBox*)gtkcb,_("Search Backwards"));
-	gtk_combo_box_set_active((GtkComboBox*)gtkcb,(mde->message==SCI_SEARCHNEXT)?0:1);
+	gtkcb=gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(gtkcb),_("Search Forwards"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(gtkcb),_("Search Backwards"));
+	gtk_combo_box_set_active(GTK_COMBO_BOX(gtkcb),(mde->message==SCI_SEARCHNEXT)?0:1);
 	gtk_box_pack_start(GTK_BOX(vbox),gtkcb,FALSE,FALSE,2);
 	gtk_widget_show(gtkcb);
 
@@ -1538,7 +1538,7 @@ static void EditSCIREPLACESELText(GtkTreeModel *model,GtkTreeIter *iter)
 
 	/* create box to hold macro name entry box, and label */
 	hbox=gtk_hbox_new(FALSE,0);
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox),hbox);
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),hbox);
 	gtk_widget_show(hbox);
 
 	gtkl=gtk_label_new(_("Text:"));
@@ -1808,8 +1808,8 @@ static void EditMacroElements(Macro *m)
 	                            GTK_SELECTION_SINGLE);
 
 	/* add table to dialog */
-	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox),table);
-/*	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox),table,FALSE,FALSE,2);*/
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),table);
+/*	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),table,FALSE,FALSE,2);*/
 	gtk_widget_show(table);
 
 	/* add buttons */
@@ -2109,7 +2109,7 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 	                            GTK_SELECTION_SINGLE);
 
 	/* add table to dialog */
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox),table,FALSE,FALSE,2);
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),table,FALSE,FALSE,2);
 	gtk_widget_show(table);
 
 	/* add buttons */

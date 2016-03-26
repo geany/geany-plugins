@@ -46,7 +46,7 @@ void glatex_parse_aux_file(gchar *file, gpointer combobox)
 				{
 					tmp = glatex_parseLine(aux_entries[i]);
 					tmp_label_name = g_strdup(tmp->label_name);
-					gtk_combo_box_append_text(GTK_COMBO_BOX(combobox), tmp_label_name);
+					gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combobox), tmp_label_name);
 					g_free(tmp);
 					g_free(tmp_label_name);
 				}

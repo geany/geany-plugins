@@ -102,7 +102,7 @@ void glatex_add_templates_to_combobox(GPtrArray *templates, GtkWidget *combobox)
 	for (i = 0; i < templates->len; i++)
 	{
 		tmp = g_ptr_array_index(templates,i);
-		gtk_combo_box_append_text(GTK_COMBO_BOX(combobox),
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(combobox),
 			tmp->label);
 	}
 }
