@@ -651,7 +651,7 @@ static gchar *validate_number(gchar *text)
 	for (s = text; isdigit(*s); s++);
 	*s = '\0';
 	return *text && (s - text < 10 ||
-		(s - text == 10 && strcmp(text, "2147483648")) < 0) ? text : NULL;
+		(s - text == 10 && strcmp(text, "2147483648") < 0)) ? text : NULL;
 }
 
 gchar *validate_column(gchar *text, gboolean string)
