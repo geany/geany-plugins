@@ -161,10 +161,7 @@ GtkWidget* vtree_create(watch_render_name on_render_name, watch_expression_chang
 	gtk_tree_view_set_level_indentation(GTK_TREE_VIEW(tree), 10);
 
 	/* connect signals */
-	if (NULL != on_key_pressed)
-	{
-		g_signal_connect(G_OBJECT(tree), "key-press-event", G_CALLBACK (on_key_pressed), NULL);
-	}
+	g_signal_connect(G_OBJECT(tree), "key-press-event", G_CALLBACK (on_key_pressed), NULL);
 
 	/* create columns */
 	
