@@ -11,6 +11,8 @@ using the preferred mail client from inside Geany. It is similar to
 the envelope symbol of most office tools and requires a mail client
 that is supporting remote calls.
 
+This is not a direct binding to sendmail, even it might could be used for.
+
 
 Requirements
 ------------
