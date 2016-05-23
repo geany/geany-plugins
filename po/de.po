@@ -4807,7 +4807,7 @@ msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:1252
 msgid "Commit Y/N"
-msgstr "Übertragen"
+msgstr "Eintragen"
 
 #: ../geanyvc/src/geanyvc.c:1262
 msgid "Status"
@@ -4824,7 +4824,7 @@ msgstr "Zeile: %d Spalte: %d"
 
 #: ../geanyvc/src/geanyvc.c:1379
 msgid "Commit"
-msgstr "Übertragen"
+msgstr "Eintragen (commit)"
 
 #: ../geanyvc/src/geanyvc.c:1420
 msgid "_De-/select all files"
@@ -4836,11 +4836,11 @@ msgstr "<b>Commitnachricht:</b>"
 
 #: ../geanyvc/src/geanyvc.c:1483
 msgid "C_ommit"
-msgstr "Über_tragen"
+msgstr "Ein_tragen"
 
 #: ../geanyvc/src/geanyvc.c:1564
 msgid "Nothing to commit."
-msgstr "Nichts zum Übertragen."
+msgstr "Nichts zum Eintragen."
 
 #: ../geanyvc/src/geanyvc.c:1610
 #, c-format
@@ -4963,7 +4963,7 @@ msgstr "Erstellt ein Diff für die aktuelle Datei."
 #: ../geanyvc/src/geanyvc.c:2073 ../geanyvc/src/geanyvc.c:2151
 #: ../geanyvc/src/geanyvc.c:2190
 msgid "_Revert"
-msgstr "_Zurücksetzen"
+msgstr "_Zurücksetzen (revert)"
 
 #: ../geanyvc/src/geanyvc.c:2076
 msgid "Restore pristine working copy file (undo local edits)."
@@ -5055,7 +5055,7 @@ msgstr "Zeigt die Versionsgeschichte für die gesamte Arbeitskopie"
 
 #: ../geanyvc/src/geanyvc.c:2231
 msgid "VC _Commit"
-msgstr "VC Über_tragen"
+msgstr "VC ein_tragen (commit)"
 
 #: ../geanyvc/src/geanyvc.c:2266
 msgid "Show diff of file"
@@ -5071,7 +5071,7 @@ msgstr "Diff vom Grundverzeichnis"
 
 #: ../geanyvc/src/geanyvc.c:2273
 msgid "Commit changes"
-msgstr "Änderungen übertragen"
+msgstr "Änderungen eintragen"
 
 #: ../geanyvc/src/geanyvc.c:2275
 msgid "Show status"
@@ -5079,11 +5079,11 @@ msgstr "Status der Arbeitskopie anzeigen"
 
 #: ../geanyvc/src/geanyvc.c:2277
 msgid "Revert single file"
-msgstr "Datei zurücksetzen"
+msgstr "Datei zurücksetzen (revert)"
 
 #: ../geanyvc/src/geanyvc.c:2279
 msgid "Revert directory"
-msgstr "Verzeichnis zurücksetzen"
+msgstr "Verzeichnis zurücksetzen (revert)"
 
 #: ../geanyvc/src/geanyvc.c:2281
 msgid "Revert base directory"
@@ -5117,11 +5117,11 @@ msgstr "Aus dem Repositorium aktualisieren"
 #. Commit all changes
 #: ../geanyvc/src/geanyvc.c:2356
 msgid "_Commit"
-msgstr "Über_tragen"
+msgstr "Ein_tragen (commit)"
 
 #: ../geanyvc/src/geanyvc.c:2358
 msgid "Commit changes."
-msgstr "Änderungen übertragen."
+msgstr "Änderungen eintragen."
 
 #: ../geniuspaste/src/geniuspaste.c:93
 msgid "Paste your code on your favorite pastebin"
