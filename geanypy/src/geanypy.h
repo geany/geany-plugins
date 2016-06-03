@@ -100,6 +100,9 @@ extern "C" {
 #include <Scintilla.h>
 #include <ScintillaWidget.h>
 
+/* Expansion of this Scintilla macro causes name clashes. */
+#undef NotifyHeader
+
 #include <geanyplugin.h>
 
 #ifndef G_LOG_DOMAIN
