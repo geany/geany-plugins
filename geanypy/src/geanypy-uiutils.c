@@ -359,7 +359,7 @@ UiUtils_widget_set_tooltip_text(PyObject *module, PyObject *args, PyObject *kwar
 		GOB_CHECK(py_widget, 1);
 		widget = pygobject_get(py_widget);
 		GOB_TYPE_CHECK(widget, GTK_TYPE_WIDGET, 1);
-		ui_widget_set_tooltip_text(GTK_WIDGET(widget), text);
+		gtk_widget_set_tooltip_text(GTK_WIDGET(widget), text);
 	}
 
 	Py_RETURN_NONE;

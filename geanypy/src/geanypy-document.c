@@ -187,14 +187,14 @@ Document_close(Document *self)
 
 
 static PyObject*
-Document_reload_file(Document *self, PyObject *args, PyObject *kwargs)
+Document_reload_force(Document *self, PyObject *args, PyObject *kwargs)
 {
 	gchar *forced_enc = NULL;
 	static gchar *kwlist[] = { "forced_enc", NULL };
 
 	if (PyArg_ParseTupleAndKeywords(args, kwargs, "|z", kwlist, &forced_enc))
 	{
-		if (document_reload_file(self->doc, forced_enc))
+		if (document_reload_force(self->doc, forced_enc))
 			Py_RETURN_TRUE;
 		else
 			Py_RETURN_FALSE;
@@ -269,7 +269,11 @@ Document_save_file_as(Document *self, PyObject *args, PyObject *kwargs)
 static PyMethodDef Document_methods[] = {
 	{ "close",				(PyCFunction)Document_close, 		METH_NOARGS,
 		"Closes the document." },
-	{ "reload_file",		(PyCFunction)Document_reload_file,	METH_KEYWORDS,
+	/* Geany deprecated alias */
+	{ "reload_file",		(PyCFunction)Document_reload_force,	METH_KEYWORDS,
+		"Reloads the document with the specified file encoding or None "
+		"to auto-detect the file encoding." },
+	{ "reload_force",		(PyCFunction)Document_reload_force,	METH_KEYWORDS,
 		"Reloads the document with the specified file encoding or None "
 		"to auto-detect the file encoding." },
 	{ "rename_file",		(PyCFunction)Document_rename_file,	METH_KEYWORDS,
