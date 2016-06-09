@@ -51,7 +51,7 @@ static gint filename_to_doc_idx(const gchar*fn)
 {
 	if (fn && *fn) {
 		guint i;
-		documents_foreach(i)
+		foreach_document(i)
 		{
 			if fncmp(fn,documents[i]->file_name) {return i; }
 		}
@@ -173,7 +173,7 @@ static gint glspi_documents(lua_State *L)
 static gint glspi_count(lua_State* L)
 {
 	guint i, n=0;
-	documents_foreach(i)
+	foreach_document(i)
 	{
 		if (documents[i]->is_valid){n++;}
 	}
@@ -225,7 +225,7 @@ static gint glspi_open(lua_State* L)
 		}
 	}
 	if (!fn) {
-		status=document_reload_file(documents[idx],NULL) ? idx : -1;
+		status=document_reload_force(documents[idx],NULL) ? idx : -1;
 	} else {
 		guint len=geany->documents_array->len;
 		GeanyDocument*doc=document_open_file(fn,FALSE,NULL,NULL);
@@ -235,7 +235,7 @@ static gint glspi_open(lua_State* L)
 			/* if len doesn't change, it means we are reloading an already open file */
 			/* ntrel: actually, len can stay the same when reusing invalid document slots. */
 			idx=document_get_current()->index;
-			status=document_reload_file(documents[idx],NULL) ? idx : -1;
+			status=document_reload_force(documents[idx],NULL) ? idx : -1;
 		}
 	}
 	push_number(L,status+1);

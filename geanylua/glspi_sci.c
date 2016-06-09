@@ -19,16 +19,9 @@ static gint glspi_text(lua_State* L)
 
 	if (!doc) { return 0; }
 	if (0 == lua_gettop(L)) { /* Called with no args, GET the current text */
-		gint len = sci_get_length(doc->editor->sci);
-		gchar *txt = NULL;
-		if (len>0) {
-			txt = g_malloc0((guint)len+2);
-			sci_get_text(doc->editor->sci, len+1, txt);
-			lua_pushstring(L, (const gchar *) txt);
-			g_free(txt);
-		} else {
-			lua_pushstring(L, "");
-		}
+		gchar *txt = sci_get_contents(doc->editor->sci, -1);
+		lua_pushstring(L, txt ? txt : "");
+		g_free(txt);
 		return 1;
 	} else { /* Called with one arg, SET the current text */
 		const gchar*txt;
@@ -48,16 +41,9 @@ static gint glspi_selection(lua_State* L)
 
 	DOC_REQUIRED
 	if (0 == lua_gettop(L)) { /* Called with no args, GET the selection */
-		gint len = sci_get_selected_text_length(doc->editor->sci);
-		gchar *txt = NULL;
-		if (len>0) {
-			txt = g_malloc0((guint)(len+1));
-			sci_get_selected_text(doc->editor->sci, txt);
-			lua_pushstring(L, (const gchar *) txt);
-			g_free(txt);
-		} else {
-			lua_pushstring(L, "");
-		}
+		gchar *txt = sci_get_selection_contents(doc->editor->sci);
+		lua_pushstring(L, txt ? txt : "");
+		g_free(txt);
 		return 1;
 	} else { /* Called with one arg, SET the selection */
 		const gchar*txt=NULL;
