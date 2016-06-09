@@ -34,7 +34,6 @@ PLUGIN_EXPORT
 const guint glspi_abi = GEANY_ABI_VERSION;
 
 GeanyData *glspi_geany_data=NULL;
-GeanyFunctions *glspi_geany_functions=NULL;
 GeanyPlugin *glspi_geany_plugin=NULL;
 
 static struct {
@@ -407,10 +406,9 @@ static gchar *get_data_dir(void)
 
 /* Called by Geany to initialize the plugin */
 PLUGIN_EXPORT
-void glspi_init (GeanyData *data, GeanyFunctions *functions, GeanyPlugin *plugin)
+void glspi_init (GeanyData *data, GeanyPlugin *plugin)
 {
 	glspi_geany_data = data;
-	glspi_geany_functions = functions;
 	glspi_geany_plugin = plugin;
 
 	local_data.script_dir =

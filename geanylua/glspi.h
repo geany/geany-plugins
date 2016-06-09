@@ -75,10 +75,6 @@ extern GeanyData *glspi_geany_data;
 
 #define geany_data glspi_geany_data
 
-extern GeanyFunctions *glspi_geany_functions;
-
-#define geany_functions glspi_geany_functions
-
 
 #ifdef NEED_FAIL_ARG_TYPE
 /* Pushes an error message onto Lua stack if script passes a wrong arg type */
