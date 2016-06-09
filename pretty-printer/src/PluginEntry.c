@@ -36,7 +36,6 @@ PLUGIN_SET_TRANSLATABLE_INFO(
     _("XML PrettyPrinter"),
     _("Formats an XML and makes it human-readable."),
     PRETTY_PRINTER_VERSION, "Cédric Tabin - http://www.astorm.ch")
-PLUGIN_KEY_GROUP(prettyprinter, 1)
 
 /*========================================== DECLARATIONS ================================================================*/
 
@@ -51,6 +50,8 @@ static void config_closed(GtkWidget* configWidget, gint response, gpointer data)
 
 void plugin_init(GeanyData *data)
 {
+    GeanyKeyGroup *key_group;
+
     /* initializes the libxml2 */
     LIBXML_TEST_VERSION
 
@@ -62,7 +63,8 @@ void plugin_init(GeanyData *data)
     gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), main_menu_item);
 
     /* init keybindings */
-    keybindings_set_item(plugin_key_group, 0, kb_run_xml_pretty_print,
+    key_group = plugin_set_key_group(geany_plugin, "prettyprinter", 1, NULL);
+    keybindings_set_item(key_group, 0, kb_run_xml_pretty_print,
                          0, 0, "run_pretty_printer_xml", _("Run the PrettyPrinter XML"),
                          main_menu_item);
 
@@ -107,8 +109,10 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     GeanyDocument* doc = document_get_current();
     GeanyEditor* editor;
     ScintillaObject* sco;
-    int length;
-    char* buffer;
+    int input_length;
+    const gchar* input_buffer;
+    int output_length;
+    gchar* output_buffer;
     xmlDoc* parsedDocument;
     int result;
     int xOffset;
@@ -122,17 +126,12 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     /* default printing options */
     if (prettyPrintingOptions == NULL) { prettyPrintingOptions = createDefaultPrettyPrintingOptions(); }
 
-    /* prepare the buffer that will contain the text
-     * from the scintilla object */
-    length = sci_get_length(sco)+1;
-    buffer = (char*)malloc(length*sizeof(char));
-    if (buffer == NULL) { exit(-1); } /* malloc error */
-
     /* retrieves the text */
-    sci_get_text(sco, length, buffer);
+    input_length = sci_get_length(sco);
+    input_buffer = (gchar *) scintilla_send_message(sco, SCI_GETCHARACTERPOINTER, 0, 0);
 
     /* checks if the data is an XML format */
-    parsedDocument = xmlParseDoc((unsigned char*)buffer);
+    parsedDocument = xmlParseDoc((const unsigned char*)input_buffer);
 
     /* this is not a valid xml => exit with an error message */
     if(parsedDocument == NULL)
@@ -145,7 +144,7 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     xmlFreeDoc(parsedDocument);
 
     /* process pretty-printing */
-    result = processXMLPrettyPrinting(&buffer, &length, prettyPrintingOptions);
+    result = processXMLPrettyPrinting(input_buffer, input_length, &output_buffer, &output_length, prettyPrintingOptions);
     if (result != PRETTY_PRINTING_SUCCESS)
     {
         dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to process PrettyPrinting on the specified XML because some features are not supported.\n\nSee Help > Debug messages for more details..."));
@@ -153,7 +152,7 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     }
 
     /* updates the document */
-    sci_set_text(sco, buffer);
+    sci_set_text(sco, output_buffer);
 
     /* set the line */
     xOffset = scintilla_send_message(sco, SCI_GETXOFFSET, 0, 0);
@@ -162,4 +161,6 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     /* sets the type */
     fileType = filetypes_index(GEANY_FILETYPES_XML);
     document_set_filetype(doc, fileType);
+
+    g_free(output_buffer);
 }

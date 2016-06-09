@@ -84,7 +84,7 @@ PrettyPrintingOptions;
 
 /*========================================== FUNCTIONS =========================================================*/
 
-int processXMLPrettyPrinting(char** xml, int* length, PrettyPrintingOptions* ppOptions);    /* process the pretty-printing on a valid xml string (no check done !!!). The ppOptions ARE NOT FREE-ED after processing. The method returns 0 if the pretty-printing has been done. */
-PrettyPrintingOptions* createDefaultPrettyPrintingOptions(void);                            /* creates a default PrettyPrintingOptions object */
+int processXMLPrettyPrinting(const char *xml, int xml_length, char** output, int* output_length, PrettyPrintingOptions* ppOptions); /* process the pretty-printing on a valid xml string (no check done !!!). The ppOptions ARE NOT FREE-ED after processing. The method returns 0 if the pretty-printing has been done. */
+PrettyPrintingOptions* createDefaultPrettyPrintingOptions(void);                                                                    /* creates a default PrettyPrintingOptions object */
 
 #endif
