@@ -6,18 +6,18 @@ plugin = overview
 geanyplugins_LTLIBRARIES = overview.la
 
 overview_la_SOURCES = \
-	$(top_srcdir)/overview/overview/overviewcolor.c \
-	$(top_srcdir)/overview/overview/overviewcolor.h \
-	$(top_srcdir)/overview/overview/overviewplugin.c \
-	$(top_srcdir)/overview/overview/overviewplugin.h \
-	$(top_srcdir)/overview/overview/overviewprefs.c \
-	$(top_srcdir)/overview/overview/overviewprefs.h \
-	$(top_srcdir)/overview/overview/overviewprefspanel.c \
-	$(top_srcdir)/overview/overview/overviewprefspanel.h \
-	$(top_srcdir)/overview/overview/overviewscintilla.c \
-	$(top_srcdir)/overview/overview/overviewscintilla.h \
-	$(top_srcdir)/overview/overview/overviewui.c \
-	$(top_srcdir)/overview/overview/overviewui.h
+	../../overview/overview/overviewcolor.c \
+	../../overview/overview/overviewcolor.h \
+	../../overview/overview/overviewplugin.c \
+	../../overview/overview/overviewplugin.h \
+	../../overview/overview/overviewprefs.c \
+	../../overview/overview/overviewprefs.h \
+	../../overview/overview/overviewprefspanel.c \
+	../../overview/overview/overviewprefspanel.h \
+	../../overview/overview/overviewscintilla.c \
+	../../overview/overview/overviewscintilla.h \
+	../../overview/overview/overviewui.c \
+	../../overview/overview/overviewui.h
 
 overview_la_CFLAGS = \
 	$(AM_CFLAGS) \
