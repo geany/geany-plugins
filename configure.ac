@@ -9,6 +9,9 @@ AC_CONFIG_SRCDIR([po/POTFILES.in])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([build/cache])
 
+dnl Add M4 search dirs for external plugins
+AC_CONFIG_MACRO_DIRS([build/overview])
+
 AC_PROG_CC
 AC_PROG_CC_C99
 AM_PROG_CC_C_O

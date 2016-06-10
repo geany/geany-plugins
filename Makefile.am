@@ -120,7 +120,7 @@ SUBDIRS += multiterm
 endif
 
 if ENABLE_OVERVIEW
-SUBDIRS += overview
+SUBDIRS += build/overview
 endif
 
 if ENABLE_PAIRTAGHIGHLIGHTER
