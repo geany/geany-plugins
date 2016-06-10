@@ -1,0 +1,3 @@
+[submodule "overview"]
+	path = overview
+	url = https://github.com/codebrainz/overview-plugin.git
