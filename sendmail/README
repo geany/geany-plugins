@@ -1,15 +1,17 @@
-GeanySendMail
-=============
+SendMail
+========
 
 .. contents::
 
 About
 ------
 
-GeanySendMail is a little plugin to send a document as attachment
+SendMail is a little plugin to send a document as attachment
 using the preferred mail client from inside Geany. It is similar to
 the envelope symbol of most office tools and requires a mail client
 that is supporting remote calls.
+
+This is not a direct binding to sendmail, even if it could be used for.
 
 
 Requirements
@@ -25,7 +27,7 @@ installed from the sources, you should be ready to go. If you used a
 prepared package e.g. from your distribution you probably need to
 install an additional package, this might be called geany-dev or
 geany-devel. Please note that in order to compile and use this plugin,
-you need Geany 0.20 or later (Geany Plugin API v199 or higher).
+you need Geany 1.26 or later (Geany Plugin API v224 or higher).
 
 Furthermore you need, of course, a C compiler and the Make tool. The
 GNU versions of these tools are recommended.
@@ -37,7 +39,7 @@ Installation
 This version of the plugin is installed with the combined
 geany-plugins release. Please check README of this package or download
 stand alone version of plugin from
-http://frank.uvena.de/en/Geany/geanysendmail/
+http://frank.uvena.de/en/Geany/SendMail/
 
 
 Usage
@@ -96,9 +98,9 @@ github.com. Get the code by:
 git clone https://github.com/geany/geany-plugins.git
 
 If you want to create a patch, please respect the license of
-GeanySendMail (GPLv2 or above) as well as intellectual property of
+SendMail (GPLv2 or above) as well as intellectual property of
 third. Patches that should be included to the default distribution
-must be licensed under the same conditions as GeanySendMail by the
+must be licensed under the same conditions as SendMail by the
 copyright owner.
 
 
@@ -117,7 +119,7 @@ https://github.com/geany/geany-plugins/issues
 License
 -------
 
-GeanySendMail and all its parts is distributed under the terms of the
+SendMail and all its parts is distributed under the terms of the
 GNU General Public License as published by the Free Software
 Foundation; either version 2 of the License, or (at your option) any
 later version. A copy of this license can be found in the file COPYING
@@ -131,6 +133,6 @@ Bugs, questions, bugs, homepage
 
 If you found any bugs or want to provide a patch, please contact Frank
 Lanitz (frank(at)geany(dot)org). Please also do so, if you got any
-questions and visiting http://frank.uvena.de/en/Geany/geanysendmail
+questions and visiting http://frank.uvena.de/en/Geany/SendMail
 didn't help you to figure out the answer. Visiting the website is also
 a good start if you want to check for any update on this plugin.
