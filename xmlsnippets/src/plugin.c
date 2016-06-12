@@ -65,7 +65,7 @@ static gboolean editor_notify_cb(GObject *object, GeanyEditor *editor,
 								SCNotification *nt, gpointer data)
 {
 	gint lexer, pos, style, min, size;
-	gchar sel[512];
+	gboolean handled = FALSE;
 
 	if (nt->nmhdr.code == SCN_CHARADDED && nt->ch == '>')
 	{
@@ -80,13 +80,14 @@ static gboolean editor_notify_cb(GObject *object, GeanyEditor *editor,
 			{
 				CompletionInfo c;
 				InputInfo i;
+				gchar *sel;
 
 				/* Grab the last 512 characters or so */
-				min = pos - sizeof(sel);
+				min = pos - 512;
 				if (min < 0) min = 0;
 				size = pos - min;
 
-				sci_get_text_range(editor->sci, min, pos, sel);
+				sel = sci_get_contents_range(editor->sci, min, pos);
 
 				if (get_completion(editor, sel, size, &c, &i))
 				{
@@ -101,12 +102,14 @@ static gboolean editor_notify_cb(GObject *object, GeanyEditor *editor,
 					sci_scroll_caret(editor->sci);
 
 					g_free((gchar *)c.completion);
-					return TRUE;
+					handled = TRUE;
 				}
+
+				g_free(sel);
 			}
 		}
 	}
-	return FALSE;
+	return handled;
 }
 
 #endif

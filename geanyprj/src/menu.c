@@ -28,10 +28,10 @@
 
 #include "geanyprj.h"
 
-PluginFields *plugin_fields;
-
 static struct
 {
+	GtkWidget *tools_item;
+
 	GtkWidget *new_project;
 	GtkWidget *delete_project;
 
@@ -156,7 +156,7 @@ static PropertyDialogElements *build_properties_dialog(gboolean properties)
 	gtk_misc_set_alignment(GTK_MISC(label), 1, 0);
 
 	e->base_path = gtk_entry_new();
-	ui_widget_set_tooltip_text(e->base_path,
+	gtk_widget_set_tooltip_text(e->base_path,
 			     _("Base directory of all files that make up the project. "
 			       "This can be a new path, or an existing directory tree. "
 			       "You can use paths relative to the project filename."));
@@ -168,7 +168,7 @@ static PropertyDialogElements *build_properties_dialog(gboolean properties)
 
 	label = gtk_label_new("");
 	e->regenerate = gtk_check_button_new_with_label(_("Generate file list on load"));
-	ui_widget_set_tooltip_text(e->regenerate,
+	gtk_widget_set_tooltip_text(e->regenerate,
 			     _("Automatically add files that match project type on project load "
 			       "automatically. You can't manually add/remove files if "
 			       "you checked this option, since your modification will be lost on "
@@ -362,16 +362,15 @@ void tools_menu_init(void)
 {
 	GtkWidget *item, *image;
 
-	GtkWidget *menu_prj = NULL;
 	GtkWidget *menu_prj_menu = NULL;
 
-	menu_prj = gtk_image_menu_item_new_with_mnemonic(_("_Project"));
-	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), menu_prj);
+	menu_items.tools_item = gtk_image_menu_item_new_with_mnemonic(_("_Project"));
+	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), menu_items.tools_item);
 
-	g_signal_connect((gpointer) menu_prj, "activate", G_CALLBACK(update_menu_items), NULL);
+	g_signal_connect((gpointer) menu_items.tools_item, "activate", G_CALLBACK(update_menu_items), NULL);
 
 	menu_prj_menu = gtk_menu_new();
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_prj), menu_prj_menu);
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_items.tools_item), menu_prj_menu);
 
 	image = gtk_image_new_from_stock(GTK_STOCK_NEW, GTK_ICON_SIZE_MENU);
 	item = gtk_image_menu_item_new_with_mnemonic(_("New Project"));
@@ -423,14 +422,13 @@ void tools_menu_init(void)
 	g_signal_connect((gpointer) item, "activate", G_CALLBACK(on_find_in_project), NULL);
 	menu_items.find_in_files = item;
 
-	gtk_widget_show_all(menu_prj);
+	gtk_widget_show_all(menu_items.tools_item);
 
-	plugin_fields->menu_item = menu_prj;
-	plugin_fields->flags = PLUGIN_IS_DOCUMENT_SENSITIVE;
+	ui_add_document_sensitive(menu_items.tools_item);
 }
 
 
 void tools_menu_uninit(void)
 {
-	gtk_widget_destroy(plugin_fields->menu_item);
+	gtk_widget_destroy(menu_items.tools_item);
 }

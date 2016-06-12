@@ -23,25 +23,16 @@
 #define CODENAVIGATION_H
 
 /* First */
-#include "geany.h"		/* for the GeanyApp data type */
+#include <geanyplugin.h>
 
 /* Other includes */
-#include "editor.h"		/* for the declaration of the GeanyEditor struct, not strictly necessary
-						   as it will be also included by plugindata.h */
-#include "document.h"	/* for the declaration of the GeanyDocument struct */
-#include "ui_utils.h"
 #include "Scintilla.h"	/* for the SCNotification struct */
 
-#include "keybindings.h"
-#include "filetypes.h"
 #include <gdk/gdkkeysyms.h>
 
 #include <string.h>
 
 #include "switch_head_impl.h"
-
-/* Last */
-#include "plugindata.h"		/* this defines the plugin API */
 
 /* Debug flag */
 /*#define CODE_NAVIGATION_DEBUG*/
