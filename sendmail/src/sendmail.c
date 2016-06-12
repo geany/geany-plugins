@@ -30,6 +30,9 @@
 
 #include <geanyplugin.h>
 #include "mail-icon.xpm"
+#include <glib.h>
+#include <glib/gstdio.h>
+#include <errno.h>
 
 GeanyPlugin		*geany_plugin;
 GeanyData		*geany_data;
@@ -116,6 +119,8 @@ send_as_attachment(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer g
 				}
 
 				config_dir = g_path_get_dirname(config_file);
+
+
 				if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) &&
 				      utils_mkdir(config_dir, TRUE) != 0)
  				{
@@ -354,12 +359,69 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 void plugin_init(GeanyData G_GNUC_UNUSED *data)
 {
 	GKeyFile *config = g_key_file_new();
+	gchar *config_file_old = NULL;
+	gchar *config_dir = NULL;
+	gchar *config_dir_old = NULL;
 	gchar *kb_label = _("Send file by mail");
 	GtkWidget *menu_mail = NULL;
 	GeanyKeyGroup *key_group;
 
 	config_file = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
+		"sendmail", G_DIR_SEPARATOR_S, "mail.conf", NULL);
+
+	#ifndef G_OS_WIN32
+	/* We try only to move if we are on not Windows platform */
+	config_file_old = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S,
+		"plugins", G_DIR_SEPARATOR_S,
 		"geanysendmail", G_DIR_SEPARATOR_S, "mail.conf", NULL);
+	config_dir = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S,
+		"plugins", G_DIR_SEPARATOR_S, "sendmail", NULL);
+	config_dir_old = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S,
+		"plugins", G_DIR_SEPARATOR_S, "geanysendmail", NULL);
+
+	if (g_file_test(config_file_old, G_FILE_TEST_EXISTS))
+	{
+		if (dialogs_show_question(
+			_("Renamed plugin detected!\n"
+			  "\n"
+			  "GeanySendMail has been renamed to sendmail -- you surely have "
+			  "already recognised it. \n"
+			  "Geany is able to migrate your old plugin configuration by "
+			  "moving the old configuration file to new location.\n"
+			  "Move now?")))
+		{
+			if (g_rename(config_dir_old, config_dir) == 0)
+			{
+				dialogs_show_msgbox(GTK_MESSAGE_INFO,
+					_("Your configuration directory has been "
+					  "successfully moved from \"%s\" to \"%s\"."),
+					config_dir_old, config_dir);
+			}
+			else
+			{
+				/* If there was an error on migrating we need
+				 * to load from original one.
+				 * When saving new configuration it will go to
+				 * new folder so migration should
+				 * be implicit. */
+				g_free(config_file);
+				config_file = g_strdup(config_file_old);
+				dialogs_show_msgbox(
+					GTK_MESSAGE_WARNING,
+					_("Your old configuration directory \"%s\" could "
+					  "not be moved to \"%s\" (%s). "
+					  "Please move manually the directory to the new location."),
+					config_dir_old,
+					config_dir,
+					g_strerror(errno));
+			}
+		}
+	}
+
+	g_free(config_dir_old);
+	g_free(config_dir);
+	g_free(config_file_old);
+	#endif
 
 	/* Initialising options from config file */
 	g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
