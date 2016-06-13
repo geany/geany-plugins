@@ -91,9 +91,6 @@ if ENABLE_GEANYPY
 SUBDIRS += geanypy
 endif
 
-if ENABLE_GEANYSENDMAIL
-SUBDIRS += geanysendmail
-endif
 
 if ENABLE_GEANYVC
 SUBDIRS += geanyvc
@@ -141,6 +138,10 @@ endif
 
 if ENABLE_SCOPE
 SUBDIRS += scope
+endif
+
+if ENABLE_SENDMAIL
+SUBDIRS += sendmail
 endif
 
 if ENABLE_SHIFTCOLUMN

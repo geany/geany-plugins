@@ -173,6 +173,7 @@ Section Uninstall
 	Delete "$INSTDIR\lib\geany\geanynumberedbookmarks.dll"
 	Delete "$INSTDIR\lib\geany\geanypg.dll"
 	Delete "$INSTDIR\lib\geany\geanyprj.dll"
+	; Keep for geanysendmail propper deleting old dll some time
 	Delete "$INSTDIR\lib\geany\geanysendmail.dll"
 	Delete "$INSTDIR\lib\geany\geanyvc.dll"
 	Delete "$INSTDIR\lib\geany\geniuspaste.dll"
@@ -185,6 +186,7 @@ Section Uninstall
 	Delete "$INSTDIR\lib\geany\pretty-printer.dll"
 	Delete "$INSTDIR\lib\geany\projectorganizer.dll"
 	Delete "$INSTDIR\lib\geany\scope.dll"
+	Delete "$INSTDIR\lib\geany\sendmail.dll"
 	Delete "$INSTDIR\lib\geany\shiftcolumn.dll"
 	Delete "$INSTDIR\lib\geany\spellcheck.dll"
 	Delete "$INSTDIR\lib\geany\tableconvert.dll"

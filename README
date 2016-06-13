@@ -68,7 +68,6 @@ Available plugins are:
 * ``geanypg`` -- the geanypg plugin
 * ``geanyprj`` -- the GeanyPrj plugin
 * ``geanypy`` -- the Geanypy plugin
-* ``geanysendmail`` -- the GeanySendmail plugin
 * ``geanyvc`` -- the GeanyVC plugin
 * ``geniuspaste`` -- the paste to a pastebin plugin
 * ``gitchangebar`` -- the GitChangeBar plugin
@@ -83,6 +82,7 @@ Available plugins are:
 * ``pretty_printer`` -- the pretty-printer plugin
 * ``projectorganizer`` -- the ProjectOrganizer plugin
 * ``scope`` -- the Scope plugin
+* ``sendmail`` -- the GeanySendmail plugin
 * ``shiftcolumn`` -- the ShiftColumn plugin
 * ``spellcheck`` -- the spellcheck plugin
 * ``treebrowser`` -- the Treebrowser plugin
