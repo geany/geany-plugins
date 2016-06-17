@@ -42,7 +42,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	VERSION,
 	"Jiri Techet <techet@gmail.com>")
 
-static gint page_index = -1;
+static GtkWidget *properties_tab = NULL;
 
 
 static void on_doc_open(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED GeanyDocument * doc,
@@ -96,8 +96,8 @@ static void on_build_start(GObject *obj, gpointer user_data)
 static void on_project_dialog_open(G_GNUC_UNUSED GObject * obj, GtkWidget * notebook,
 		G_GNUC_UNUSED gpointer user_data)
 {
-	if (prj_org && page_index == -1)
-		page_index = prjorg_project_add_properties_tab(notebook);
+	if (prj_org && !properties_tab)
+		properties_tab = prjorg_project_add_properties_tab(notebook);
 }
 
 
@@ -115,10 +115,10 @@ static void on_project_dialog_confirmed(G_GNUC_UNUSED GObject * obj, GtkWidget *
 static void on_project_dialog_close(G_GNUC_UNUSED GObject * obj, GtkWidget * notebook,
 		G_GNUC_UNUSED gpointer user_data)
 {
-	if (page_index != -1)
+	if (properties_tab)
 	{
-		gtk_notebook_remove_page(GTK_NOTEBOOK(notebook), page_index);
-		page_index = -1;
+		gtk_widget_destroy(properties_tab);
+		properties_tab = NULL;
 	}
 }
 

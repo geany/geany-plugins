@@ -555,13 +555,12 @@ void prjorg_project_read_properties_tab(void)
 }
 
 
-gint prjorg_project_add_properties_tab(GtkWidget *notebook)
+GtkWidget *prjorg_project_add_properties_tab(GtkWidget *notebook)
 {
 	GtkWidget *vbox, *hbox, *hbox1;
 	GtkWidget *table;
 	GtkWidget *label;
 	gchar *str;
-	gint page_index;
 
 	e = g_new0(PropertyDialogElements, 1);
 
@@ -645,10 +644,10 @@ gint prjorg_project_add_properties_tab(GtkWidget *notebook)
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), vbox, TRUE, TRUE, 6);
 
-	page_index = gtk_notebook_append_page(GTK_NOTEBOOK(notebook), hbox, label);
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), hbox, label);
 	gtk_widget_show_all(notebook);
 
-	return page_index;
+	return hbox;
 }
 
 
