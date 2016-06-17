@@ -570,24 +570,24 @@ static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
 		for (line = 0; line < lines; line++)
 		{
 			line_buf = g_strstrip(sci_get_line(doc->editor->sci, line));
-			token = priv->tokens;
-			while (*token != NULL)
+			for (token = priv->tokens; *token != NULL; ++token)
 			{
-				if (!EMPTY(*token) && (task_start = strstr(line_buf, *token)) != NULL)
-				{
-					/* skip the token and additional whitespace */
-					task_start += strlen(*token);
-					while (*task_start == ' ' || *task_start == ':')
-						task_start++;
-					/* reset task_start in case there is no text following */
-					if (EMPTY(task_start))
-						task_start = line_buf;
-					/* create the task */
-					create_task(t, doc, line, *token, line_buf, task_start, display_name);
-					/* if we found a token, continue on next line */
-					break;
-				}
-				token++;
+				if (EMPTY(*token))
+					continue;
+				if ((task_start = strstr(line_buf, *token)) == NULL)
+					continue;
+
+				/* skip the token and additional whitespace */
+				task_start += strlen(*token);
+				while (*task_start == ' ' || *task_start == ':')
+					task_start++;
+				/* reset task_start in case there is no text following */
+				if (EMPTY(task_start))
+					task_start = line_buf;
+				/* create the task */
+				create_task(t, doc, line, *token, line_buf, task_start, display_name);
+				/* if we found a token, continue on next line */
+				break;
 			}
 			g_free(line_buf);
 		}
