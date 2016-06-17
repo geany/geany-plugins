@@ -559,7 +559,7 @@ static void create_task(AoTasks *t, GeanyDocument *doc, gint line, const gchar *
 static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
 {
 	gint lexer, lines, line, last_pos = 0, style;
-	gchar *line_buf, *display_name, *task_start;
+	gchar *line_buf, *display_name, *task_start, *closing_comment;
 	gchar **token;
 	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
 
@@ -588,6 +588,11 @@ static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
 				/* reset task_start in case there is no text following */
 				if (EMPTY(task_start))
 					task_start = line_buf;
+				else if ((EMPTY(doc->file_type->comment_single) ||
+					strstr(line_buf, doc->file_type->comment_single) == NULL) &&
+					!EMPTY(doc->file_type->comment_close) &&
+					(closing_comment = strstr(task_start, doc->file_type->comment_close)) != NULL)
+					*closing_comment = '\0';
 				/* create the task */
 				create_task(t, doc, line, *token, line_buf, task_start, display_name);
 				/* if we found a token, continue on next line */
