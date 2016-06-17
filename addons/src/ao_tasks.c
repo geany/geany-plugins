@@ -558,7 +558,7 @@ static void create_task(AoTasks *t, GeanyDocument *doc, gint line, const gchar *
 
 static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
 {
-	gint lines, line;
+	gint lexer, lines, line, last_pos = 0, style;
 	gchar *line_buf, *display_name, *task_start;
 	gchar **token;
 	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
@@ -566,19 +566,23 @@ static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
 	if (doc->is_valid)
 	{
 		display_name = document_get_basename_for_display(doc, -1);
+		lexer = sci_get_lexer(doc->editor->sci);
 		lines = sci_get_line_count(doc->editor->sci);
 		for (line = 0; line < lines; line++)
 		{
-			line_buf = g_strstrip(sci_get_line(doc->editor->sci, line));
+			line_buf = sci_get_line(doc->editor->sci, line);
 			for (token = priv->tokens; *token != NULL; ++token)
 			{
 				if (EMPTY(*token))
 					continue;
 				if ((task_start = strstr(line_buf, *token)) == NULL)
 					continue;
+				style = sci_get_style_at(doc->editor->sci, last_pos + (task_start - line_buf));
+				if (!highlighting_is_comment_style(lexer, style))
+					continue;
 
 				/* skip the token and additional whitespace */
-				task_start += strlen(*token);
+				task_start = strstr(g_strstrip(line_buf), *token) + strlen(*token);
 				while (*task_start == ' ' || *task_start == ':')
 					task_start++;
 				/* reset task_start in case there is no text following */
@@ -590,6 +594,7 @@ static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
 				break;
 			}
 			g_free(line_buf);
+			last_pos = sci_get_line_end_position(doc->editor->sci, line) + 1;
 		}
 		g_free(display_name);
 	}
