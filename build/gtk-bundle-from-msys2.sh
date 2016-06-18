@@ -38,7 +38,6 @@ gnutls
 gpgme
 gstreamer
 gst-plugins-base
-gtkspell
 http-parser
 hunspell
 icu
@@ -63,6 +62,7 @@ libxml2
 libxslt
 lua51
 nettle
+nghttp2
 openssl
 orc
 p11-kit
@@ -74,9 +74,11 @@ xz
 "
 
 gtk2_dependency_pkgs="
+gtkspell
 webkitgtk2
 "
 gtk3_dependency_pkgs="
+gtkspell3
 webkitgtk3
 "
 
@@ -240,6 +242,7 @@ cleanup_unnecessary_files() {
 	rm -rf share/info
 	rm -rf share/lua
 	rm -rf share/man
+	rm -rf share/nghttp2
 	rm -rf share/readline
 	rm -rf share/zsh
 	# ssl: cleanup ssl files
