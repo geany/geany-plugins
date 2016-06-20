@@ -47,7 +47,7 @@ extern PrjOrg *prj_org;
 
 void prjorg_project_open(GKeyFile * key_file);
 
-gint prjorg_project_add_properties_tab(GtkWidget *notebook);
+GtkWidget *prjorg_project_add_properties_tab(GtkWidget *notebook);
 
 void prjorg_project_close(void);
 

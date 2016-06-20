@@ -38,7 +38,7 @@ RequestExecutionLevel highest ; set execution level for Windows Vista
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_DIR_REGKEY "Software\Geany-Plugins"
 !define GEANY_DIR_REGKEY "Software\Geany"
-!define REQUIRED_GEANY_VERSION "1.27.0"
+!define REQUIRED_GEANY_VERSION "1.28.0"
 !define RESOURCEDIR "geany-plugins-${PRODUCT_VERSION}"
 
 ;;;;;;;;;;;;;;;;;;;;;
@@ -51,7 +51,7 @@ VIAddVersionKey "ProductVersion" "${PRODUCT_VERSION}"
 VIAddVersionKey "LegalCopyright" "Copyright 2009-2016 by the Geany developer team"
 VIAddVersionKey "FileDescription" "${PRODUCT_NAME} Installer"
 
-BrandingText "$(^NAME) installer (NSIS 2.46)"
+BrandingText "$(^NAME) installer (NSIS 2.51)"
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 SetCompressor /SOLID lzma
 ShowInstDetails hide
@@ -235,6 +235,7 @@ Section Uninstall
 	Delete "$INSTDIR\bin\libgsttag-1.0-0.dll"
 	Delete "$INSTDIR\bin\libgstvideo-1.0-0.dll"
 	Delete "$INSTDIR\bin\libgtkspell-0.dll"
+	Delete "$INSTDIR\bin\libgtkspell3-*.dll"
 	Delete "$INSTDIR\bin\libhistory6.dll"
 	Delete "$INSTDIR\bin\libhogweed-4-1.dll"
 	Delete "$INSTDIR\bin\libhttp_parser-2.dll"
@@ -249,9 +250,11 @@ Section Uninstall
 	Delete "$INSTDIR\bin\libicuuc56.dll"
 	Delete "$INSTDIR\bin\libidn-11.dll"
 	Delete "$INSTDIR\bin\libjavascriptcoregtk-1.0-0.dll"
+	Delete "$INSTDIR\bin\libjavascriptcoregtk-3.0-0.dll"
 	Delete "$INSTDIR\bin\libjpeg-8.dll"
 	Delete "$INSTDIR\bin\liblzma-5.dll"
-	Delete "$INSTDIR\bin\libnettle-6-1.dll"
+	Delete "$INSTDIR\bin\libnettle-6-2.dll"
+	Delete "$INSTDIR\bin\libnghttp2-14"
 	Delete "$INSTDIR\bin\libogg-0.dll"
 	Delete "$INSTDIR\bin\liborc-0.4-0.dll"
 	Delete "$INSTDIR\bin\liborc-test-0.4-0.dll"
@@ -277,6 +280,7 @@ Section Uninstall
 	Delete "$INSTDIR\bin\libvorbisfile-3.dll"
 	Delete "$INSTDIR\bin\libvorbisidec-1.dll"
 	Delete "$INSTDIR\bin\libwebkitgtk-1.0-0.dll"
+	Delete "$INSTDIR\bin\libwebkitgtk-3.0-0.dll"
 	Delete "$INSTDIR\bin\libwebp-6.dll"
 	Delete "$INSTDIR\bin\libwebpdecoder-2.dll"
 	Delete "$INSTDIR\bin\libwebpdemux-2.dll"
@@ -300,6 +304,7 @@ Section Uninstall
 	RMDir /r "$INSTDIR\share\p11-kit"
 	RMDir /r "$INSTDIR\share\vala"
 	RMDir /r "$INSTDIR\share\webkitgtk-1.0"
+	RMDir /r "$INSTDIR\share\webkitgtk-3.0"
 
 	FindFirst $0 $1 "$INSTDIR\share\locale\*"
 	loop:
