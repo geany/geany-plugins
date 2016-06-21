@@ -169,8 +169,10 @@ static gboolean is_tag_empty(gchar *tagName)
     const char *emptyTags[] = {"area", "base", "br", "col", "embed",
                          "hr", "img", "input", "keygen", "link", "meta",
                          "param", "source", "track", "wbr", "!DOCTYPE"};
-
     unsigned int i;
+
+    g_return_val_if_fail(tagName != NULL, FALSE);
+
     for(i=0; i<(sizeof(emptyTags)/sizeof(emptyTags[0])); i++)
     {
         if(strcmp(tagName, emptyTags[i]) == 0)
@@ -207,7 +209,7 @@ static gchar *get_tag_name(ScintillaObject *sci, gint openingBracket, gint closi
         if(nameEnd-nameStart > MAX_TAG_NAME)
             break;
     }
-    return sci_get_contents_range(sci, nameStart, nameEnd-1);
+    return nameEnd > nameStart ? sci_get_contents_range(sci, nameStart, nameEnd-1) : NULL;
 }
 
 
@@ -233,7 +235,7 @@ static void findMatchingOpeningTag(ScintillaObject *sci, gchar *tagName, gint op
             gchar *matchingTagName = get_tag_name(sci, matchingOpeningBracket,
                                                   matchingClosingBracket,
                                                   isMatchingTagOpening);
-            if(strcmp(tagName, matchingTagName) == 0)
+            if(matchingTagName && strcmp(tagName, matchingTagName) == 0)
             {
                 if(TRUE == isMatchingTagOpening)
                     openingTagsCount++;
@@ -289,7 +291,7 @@ static void findMatchingClosingTag(ScintillaObject *sci, gchar *tagName, gint cl
             gchar *matchingTagName = get_tag_name(sci, matchingOpeningBracket,
                                                   matchingClosingBracket,
                                                   isMatchingTagOpening);
-            if(strcmp(tagName, matchingTagName) == 0)
+            if(matchingTagName && strcmp(tagName, matchingTagName) == 0)
             {
                 if(TRUE == isMatchingTagOpening)
                     openingTagsCount++;
@@ -318,6 +320,9 @@ static void findMatchingTag(ScintillaObject *sci, gint openingBracket, gint clos
 {
     gboolean isTagOpening = is_tag_opening(sci, openingBracket);
     gchar *tagName = get_tag_name(sci, openingBracket, closingBracket, isTagOpening);
+
+    if (!tagName)
+        return;
 
     if(is_tag_self_closing(sci, closingBracket) || is_tag_empty(tagName)) {
         highlight_tag(sci, openingBracket, closingBracket, EMPTY_TAG_COLOR);
