@@ -94,11 +94,10 @@ void glatex_structure_lvlup(void)
 			haystack = NULL;
 			sci_replace_sel(doc->editor->sci, tmp);
 			g_free(tmp);
-			sci_end_undo_action(doc->editor->sci);
 			break;
 		}
 	}
-
+	sci_end_undo_action(doc->editor->sci);
 	if (haystack != NULL)
 		g_string_free(haystack, TRUE);
 }
