@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Geany-Plugins 1.28\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-06-27 19:08+0200\n"
-"PO-Revision-Date: 2016-03-13 04:35+0100\n"
+"PO-Revision-Date: 2016-06-27 19:23+0200\n"
 "Last-Translator: Colomban Wendling <ban@herbesfolles.org>\n"
 "Language-Team: French <geany-i18n@uvena.de>\n"
 "Language: fr\n"
@@ -2891,9 +2891,8 @@ msgstr "Entrez la longueur du faux-texte ici"
 
 #. Building menu entry
 #: ../geanylipsum/src/geanylipsum.c:161
-#, fuzzy
 msgid "_Lipsum..."
-msgstr "_Lipsum"
+msgstr "_Lipsum…"
 
 #: ../geanylipsum/src/geanylipsum.c:162
 msgid "Include Pseudotext to your code"
@@ -6925,9 +6924,8 @@ msgid "GDB Command"
 msgstr "Commande de GDB"
 
 #: ../sendmail/src/sendmail.c:45
-#, fuzzy
 msgid "SendMail"
-msgstr "GeanySendMail"
+msgstr ""
 
 #: ../sendmail/src/sendmail.c:46
 msgid "Sends the current file as attachment with your favorite mailer"
@@ -7027,6 +7025,13 @@ msgid ""
 "configuration file to new location.\n"
 "Move now?"
 msgstr ""
+"Le plugin a été renommé !\n"
+"\n"
+"GeanySendMail a été renommé SendMail, comme vous l'avez sans doutes déjà "
+"remarqué.\n"
+"Geany peut migrer l'ancienne configuration du plugin en déplaçant l'ancien "
+"fichier de configuration vers sa nouvelle place.\n"
+"Voulez-vous le déplacer maintenant ?"
 
 #: ../sendmail/src/sendmail.c:396
 #, c-format
@@ -7034,6 +7039,8 @@ msgid ""
 "Your configuration directory has been successfully moved from \"%s\" to \"%s"
 "\"."
 msgstr ""
+"Votre dossier de configuration a été déplacé avec succès depuis « %s » vers "
+"« %s »."
 
 #: ../sendmail/src/sendmail.c:411
 #, c-format
@@ -7041,6 +7048,8 @@ msgid ""
 "Your old configuration directory \"%s\" could not be moved to \"%s\" (%s). "
 "Please move manually the directory to the new location."
 msgstr ""
+"Votre ancien dossier de configuration « %s » n'a pas pu être déplacé vers "
+"« %s » (%s).  Veuillez le déplacer manuellement vers sa nouvelle place."
 
 #. Build up menu entry
 #: ../sendmail/src/sendmail.c:442
