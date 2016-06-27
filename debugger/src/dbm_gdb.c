@@ -682,6 +682,32 @@ static result_class exec_sync_command(const gchar* command, gboolean wait4prompt
 	return rc;
 }
 
+
+/* escapes @str so it is valid to put it inside a quoted argument
+ * escapes '\' and '"'
+ * unlike g_strescape(), it doesn't escape non-ASCII characters so keeps
+ * all of UTF-8 */
+static gchar *escape_string(const gchar *str)
+{
+	gchar *new = g_malloc(strlen(str) * 2 + 1);
+	gchar *p;
+
+	for (p = new; *str; str++) {
+		switch (*str) {
+			/* FIXME: what to do with '\n'?  can't seem to find a way to escape it */
+			case '\\':
+			case '"':
+				*p++ = '\\';
+				/* fallthrough */
+			default:
+				*p++ = *str;
+		}
+	}
+	*p = 0;
+
+	return new;
+}
+
 /*
  * starts gdb, collects commands and start the first one
  */
@@ -749,7 +775,7 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	/* collect commands */
 
 	/* loading file */
-	escaped = g_strescape(file, NULL);
+	escaped = escape_string(file);
 	command = g_strdup_printf("-file-exec-and-symbols \"%s\"", escaped);
 	commands = add_to_queue(commands, _("~\"Loading target file.\\n\""), command, _("Error loading file"), FALSE);
 	g_free(command);
@@ -798,7 +824,7 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 		breakpoint *bp = (breakpoint*)biter->data;
 		gchar *error_message;
 
-		escaped = g_strescape(bp->file, NULL);
+		escaped = escape_string(bp->file);
 		command = g_strdup_printf("-break-insert -f \"\\\"%s\\\":%i\"", escaped, bp->line);
 		g_free(escaped);
 
@@ -980,7 +1006,7 @@ static gboolean set_break(breakpoint* bp, break_set_activity bsa)
 		int num = 0;
 
 		/* 1. insert breakpoint */
-		escaped = g_strescape(bp->file, NULL);
+		escaped = escape_string(bp->file);
 		g_snprintf(command, sizeof command, "-break-insert \"\\\"%s\\\":%i\"", escaped, bp->line);
 		if (RC_DONE != exec_sync_command(command, TRUE, &record) || !record)
 		{
@@ -1300,7 +1326,7 @@ static void update_watches(void)
 		gchar *escaped;
 
 		/* try to create variable */
-		escaped = g_strescape(var->name->str, NULL);
+		escaped = escape_string(var->name->str);
 		g_snprintf(command, sizeof command, "-var-create - * \"%s\"", escaped);
 		g_free(escaped);
 
@@ -1396,7 +1422,7 @@ static void update_autos(void)
 		const gchar *intname;
 
 		/* create new gdb variable */
-		escaped = g_strescape(var->name->str, NULL);
+		escaped = escape_string(var->name->str);
 		g_snprintf(command, sizeof command, "-var-create - * \"%s\"", escaped);
 		g_free(escaped);
 
@@ -1521,7 +1547,7 @@ static variable* add_watch(gchar* expression)
 	watches = g_list_append(watches, var);
 
 	/* try to create a variable */
-	escaped = g_strescape(expression, NULL);
+	escaped = escape_string(var->name->str);
 	g_snprintf(command, sizeof command, "-var-create - * \"%s\"", escaped);
 	g_free(escaped);
 
