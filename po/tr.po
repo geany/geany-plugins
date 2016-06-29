@@ -8,16 +8,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-27 19:08+0200\n"
+"POT-Creation-Date: 2016-06-28 03:19+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Gürkan Gür <seqizz@gmail.com>\n"
-"Language-Team: \n"
-"Language: \n"
+"Language-Team: Gürkan Gür <seqizz@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
+"X-Generator: Poedit 1.5.5\n"
+"Language: tr_TR\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
@@ -111,7 +112,7 @@ msgstr "Kapatma Karakteri"
 
 #: ../addons/src/ao_wrapwords.c:253
 msgid "Accept"
-msgstr ""
+msgstr "Kabul Et"
 
 #: ../addons/src/ao_wrapwords.c:254 ../geanymacro/src/geanymacro.c:1064
 msgid "Cancel"
@@ -119,7 +120,7 @@ msgstr "İptal"
 
 #: ../addons/src/ao_wrapwords.c:254
 msgid "OK"
-msgstr ""
+msgstr "Tamam"
 
 #: ../addons/src/ao_wrapwords.c:263
 #, c-format
@@ -153,7 +154,7 @@ msgstr "Tam yolu panoya _kopyala"
 
 #: ../addons/src/ao_copyfilepath.c:119 ../addons/src/addons.c:317
 msgid "Copy File Path"
-msgstr ""
+msgstr "Dosya yolunu kopyala"
 
 #: ../addons/src/ao_copyfilepath.c:122
 #, fuzzy
@@ -282,87 +283,87 @@ msgstr ""
 
 #: ../autoclose/src/autoclose.c:49
 msgid "Auto-close"
-msgstr ""
+msgstr "Otomatik kapatma"
 
 #: ../autoclose/src/autoclose.c:50
 msgid "Auto-close braces and brackets with lot of features"
-msgstr ""
+msgstr "Parantezleri otomatik kapatan yetenekli bir araç"
 
 #: ../autoclose/src/autoclose.c:1032
 msgid "Auto-close quotes and brackets"
-msgstr ""
+msgstr "Parantezleri otomatik olarak kapat"
 
 #: ../autoclose/src/autoclose.c:1033
 msgid "Parenthesis ( )"
-msgstr ""
+msgstr "Parantezler ( )"
 
 #: ../autoclose/src/autoclose.c:1034
 msgid "Auto-close parenthesis \"(\" -> \"(|)\""
-msgstr ""
+msgstr "Parantezleri otomatik kapat \"(\" -> \"(|)\""
 
 #: ../autoclose/src/autoclose.c:1036
 msgid "Curly brackets { }"
-msgstr ""
+msgstr "Süslü parantezler { }"
 
 #: ../autoclose/src/autoclose.c:1037
 msgid "Auto-close curly brackets \"{\" -> \"{|}\""
-msgstr ""
+msgstr "Süslü parantezleri otomatik olarak kapat \"{\" -> \"{|}\""
 
 #: ../autoclose/src/autoclose.c:1039
 msgid "Square brackets [ ]"
-msgstr ""
+msgstr "Köşeli parantezler [ ]"
 
 #: ../autoclose/src/autoclose.c:1040
 msgid "Auto-close square brackets \"[\" -> \"[|]\""
-msgstr ""
+msgstr "Köşeli parantezleri otomatik olarak kapat \"[\" -> \"[|]\""
 
 #: ../autoclose/src/autoclose.c:1041
 msgid "Angular brackets < >"
-msgstr ""
+msgstr "Küçük - büyük işaretleri < >"
 
 #: ../autoclose/src/autoclose.c:1042
 msgid "Auto-close angular brackets \"<\" -> \"<|>\""
-msgstr ""
+msgstr "Küçük - büyük işaretlerini otomatik olarak kapat \"<\" -> \"<|>\""
 
 #: ../autoclose/src/autoclose.c:1044
 msgid "\tOnly for HTML"
-msgstr ""
+msgstr "\tSadece HTML için"
 
 #: ../autoclose/src/autoclose.c:1045
 msgid "Auto-close angular brackets only in HTML documents"
-msgstr ""
+msgstr "Küçük - büyük işaretlerini sadece HTML dökümanlarında otomatik kapat"
 
 #: ../autoclose/src/autoclose.c:1046
 msgid "Double quotes \" \""
-msgstr ""
+msgstr "Çift tırnaklar \" \""
 
 #: ../autoclose/src/autoclose.c:1047
 msgid "Auto-close double quotes \" -> \"|\""
-msgstr ""
+msgstr "Çift tırnakları otomatik olarak kapat \" -> \"|\""
 
 #: ../autoclose/src/autoclose.c:1048
 msgid "Single quotes ' '"
-msgstr ""
+msgstr "Tek tırnaklar ' '"
 
 #: ../autoclose/src/autoclose.c:1049
 msgid "Auto-close single quotes ' -> '|'"
-msgstr ""
+msgstr "Tek tırnakları otomatik olarak kapat ' -> '|'"
 
 #: ../autoclose/src/autoclose.c:1050
 msgid "Backquote ` `"
-msgstr ""
+msgstr "Ters tırnaklar ` `"
 
 #: ../autoclose/src/autoclose.c:1051
 msgid "Auto-close backquote ` -> `|`"
-msgstr ""
+msgstr "Ters tırnakları otomatik olarak kapat ` -> `|`"
 
 #: ../autoclose/src/autoclose.c:1053
 msgid "\tOnly for Shell-scripts (Bash)"
-msgstr ""
+msgstr "\tSadece kabuk betikleri için (Bash)"
 
 #: ../autoclose/src/autoclose.c:1054
 msgid "Auto-close backquote only in Shell-scripts like Bash"
-msgstr ""
+msgstr "Ters tırnakları yalnızca Bash gibi kabuk betiklerinde otomatik kapat"
 
 #: ../autoclose/src/autoclose.c:1056
 msgid "Improve curly brackets completion"
@@ -560,15 +561,15 @@ msgstr ""
 #. Add the menu item, sensitive only when a document is opened
 #: ../codenav/src/goto_file.c:68 ../codenav/src/goto_file.c:218
 msgid "Go to File..."
-msgstr ""
+msgstr "Dosyaya Git..."
 
 #: ../codenav/src/goto_file.c:82
 msgid "Go to File"
-msgstr ""
+msgstr "Dosyaya Git"
 
 #: ../codenav/src/goto_file.c:227
 msgid "Enter the file you want to open:"
-msgstr ""
+msgstr "Açmak istediğiniz dosyayı girin:"
 
 #: ../codenav/src/goto_file.c:303 ../codenav/src/switch_head_impl.c:409
 #, c-format
@@ -3486,6 +3487,8 @@ msgid ""
 "This Plugin implements Macros in Geany.\n"
 "\n"
 msgstr ""
+"Bu eklenti Geany'e makro özelliği eklemekte.\n"
+"\n"
 
 #: ../geanymacro/src/geanymacro.c:856
 msgid "This plugin allows you to record and use your own macros. "
@@ -3934,6 +3937,9 @@ msgid ""
 "be unreliable and will not be loaded.\n"
 "Press Ignore to try an load markers anyway."
 msgstr ""
+"'%s' Geany'de son kaydedildiğinden bu yana düzenlenmiş, bu sebeple "
+"işaretleyici pozisyonları yüklenmeyecek.\n"
+"Yine de işaretçileri yüklemek için Yoksay'a basın."
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:977
 msgid "_Ignore"
