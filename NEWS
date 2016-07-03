@@ -3,6 +3,9 @@ Geany Plugins 1.28 (not yet released)
     General:
     * Renaming plugin GeanySendMail to SendMail
 
+    Internationalization:
+    * Updated translations: de, tr
+
 
 Geany Plugins 1.27 (2016-03-13)
 

@@ -387,7 +387,7 @@ get_setting_from_tag (GgdDocType     *doctype,
   gchar          *hierarchy;
   gint            nth_child;
   GPtrArray      *tag_array = doc->tm_file->tags_array;
-  filetype_id     geany_ft = FILETYPE_ID (doc->file_type);
+  GeanyFiletypeID geany_ft = FILETYPE_ID (doc->file_type);
   
   hierarchy = ggd_tag_resolve_type_hierarchy (tag_array, geany_ft, tag);
   /*g_debug ("type hierarchy for tag %s is: %s", tag->name, hierarchy);*/
