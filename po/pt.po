@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-27 19:08+0200\n"
-"PO-Revision-Date: 2016-03-09 16:13+0000\n"
+"POT-Creation-Date: 2016-07-04 03:19+0000\n"
+"PO-Revision-Date: 2016-07-04 06:43+0100\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
 "Language-Team: Português <palbuquerque73@gmail.com>\n"
 "Language: pt\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
@@ -2888,9 +2888,8 @@ msgstr "Insira a dimensão do texto Lipsum aqui"
 
 #. Building menu entry
 #: ../geanylipsum/src/geanylipsum.c:161
-#, fuzzy
 msgid "_Lipsum..."
-msgstr "_Lipsum"
+msgstr "_Lipsum..."
 
 #: ../geanylipsum/src/geanylipsum.c:162
 msgid "Include Pseudotext to your code"
@@ -5039,7 +5038,6 @@ msgstr ""
 "%s"
 
 #: ../geniuspaste/src/geniuspaste.c:736
-#, fuzzy
 msgid "Unexpected response from the pastebin service."
 msgstr "Resposta inesperada do serviço pastebin."
 
@@ -6811,9 +6809,8 @@ msgid "GDB Command"
 msgstr "Comando GDB"
 
 #: ../sendmail/src/sendmail.c:45
-#, fuzzy
 msgid "SendMail"
-msgstr "GeanySendMail"
+msgstr "SendMail"
 
 #: ../sendmail/src/sendmail.c:46
 msgid "Sends the current file as attachment with your favorite mailer"
@@ -6916,6 +6913,13 @@ msgid ""
 "configuration file to new location.\n"
 "Move now?"
 msgstr ""
+"Extensão renomeada detetada!\n"
+"\n"
+"GeanySendMais foi renomeado para SendMail -- certamente que já o "
+"reconheceu. \n"
+"O Geany consegue migrar a sua configuração de extensões movendo-a para uma "
+"nova localização.\n"
+"Quer mover agora?"
 
 #: ../sendmail/src/sendmail.c:396
 #, c-format
@@ -6923,6 +6927,7 @@ msgid ""
 "Your configuration directory has been successfully moved from \"%s\" to \"%s"
 "\"."
 msgstr ""
+"A sua pasta de configuração foi movida com sucesso de \"%s\" para \"%s\"."
 
 #: ../sendmail/src/sendmail.c:411
 #, c-format
@@ -6930,6 +6935,8 @@ msgid ""
 "Your old configuration directory \"%s\" could not be moved to \"%s\" (%s). "
 "Please move manually the directory to the new location."
 msgstr ""
+"A sua pasta de configuração antiga \"%s\" não pôde ser movida para \"%s"
+"\" (%s). Por favor, mova-a manualmente para a nova localização."
 
 #. Build up menu entry
 #: ../sendmail/src/sendmail.c:442
