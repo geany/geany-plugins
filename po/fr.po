@@ -3511,7 +3511,7 @@ msgstr "Échanger la ligne courante avec celle du dessus"
 
 #: ../geanymacro/src/geanymacro.c:143
 msgid "Change selected text to lowercase"
-msgstr "Qhanger la casse de la sélection en minuscules"
+msgstr "Changer la casse de la sélection en minuscules"
 
 #: ../geanymacro/src/geanymacro.c:144
 msgid "Change selected text to uppercase"
