@@ -11,43 +11,49 @@ Geany Plugins 1.28 (not yet released)
     * Updated translations: de, fr, pt, tr
 
     Addons:
-    * tasks: Stript comment-closing sequence from task text
+    * tasks: Strip comment-closing sequence from task text
     * tasks: Do not extract tokens from non-comments
 
-
     Debugger:
-    * Fix escaping target executable path if it contains non-ASCII.
+    * Fix escaping target executable path if it contains non-ASCII (#416)
 
     GeanyGenDoc:
-    * Replace deprecated filetype_id
+    * Fix build with old rst2html
 
     GeanyLaTeX:
     * Fix a conditional end of undo action. Without an undo-action
       might run forever.
-    * Improve support for Gtk3
-
+    * Improve support for GTK3
 
     GeanyLipsum:
     * Add ellipsis to menu item requiring further user input
 
     GeanyMacro:
-    * Fix Gtk3-support
+    * Fix GTK3 support
 
     GeanyNumberedBookmarks:
-    * Fix Gtk3-support
+    * Fix GTK3 support
 
     GeanyPrj:
-    * Fix Gtk3-support
+    * Fix GTK3 support
+
+    GeanyPy:
+    * Fix build with current Geany
 
     PairTagHighlighter:
-    * Fix for a crash when the tag name is missing
+    * Fix for a crash when the tag name is missing (#442, #446)
+
+    Prettyprinter:
+    * Fix several memory leaks
 
     ProjectOrganizer:
-    * Fix multiple tabs in Project Properties
-
+    * Fix duplicated tab in Project Properties
 
     Scope:
-    * Fix for dependency checks on Windows
+    * Fix dependency checks on Windows
+
+    Shiftcolumn:
+    * Fix handling of end-to-start selections
 
 
 Geany Plugins 1.27 (2016-03-13)
