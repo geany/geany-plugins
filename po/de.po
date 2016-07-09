@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-27 19:08+0200\n"
+"POT-Creation-Date: 2016-07-09 14:35+0200\n"
 "PO-Revision-Date: 2015-07-11 02:11+0200\n"
 "Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -2935,9 +2935,8 @@ msgstr "Bitte die Länge des Platzhaltertextes eingeben"
 
 #. Building menu entry
 #: ../geanylipsum/src/geanylipsum.c:161
-#, fuzzy
 msgid "_Lipsum..."
-msgstr "_Lipsum"
+msgstr "_Lipsum..."
 
 #: ../geanylipsum/src/geanylipsum.c:162
 msgid "Include Pseudotext to your code"
@@ -5036,7 +5035,7 @@ msgstr "Ungültiger Dienst"
 msgid ""
 "Unknown pastebin service \"%s\". Select an existing pastebin service in the "
 "preferences or create an appropriate pastebin configuration and retry."
-msgstr ""
+msgstr "Unbekannter pastebin-Dienst »%s«. Bitte wählen einen bereits existierenden Dienst in den Einstellungen oder erstelle eine neue Konfiguration und versuche es erneut."
 
 #: ../geniuspaste/src/geniuspaste.c:691
 msgid "Refusing to create blank paste"
@@ -5364,7 +5363,7 @@ msgstr "MultiTerm"
 
 #: ../multiterm/src/plugin.vala:47
 msgid "Multi-tabbed virtual terminal emulator."
-msgstr ""
+msgstr "Mehrspaltige Terminal Emulation"
 
 #: ../multiterm/src/plugin.vala:78
 #, c-format
@@ -6900,7 +6899,7 @@ msgstr "GDB-Kommando:"
 #: ../sendmail/src/sendmail.c:45
 #, fuzzy
 msgid "SendMail"
-msgstr "GeanySendMail"
+msgstr "SendMail"
 
 #: ../sendmail/src/sendmail.c:46
 msgid "Sends the current file as attachment with your favorite mailer"
@@ -7006,14 +7005,14 @@ msgid ""
 "Geany is able to migrate your old plugin configuration by moving the old "
 "configuration file to new location.\n"
 "Move now?"
-msgstr ""
+msgstr "Plugin-Umbenennung erkannt!\n\nGeanySendMail wurde in sendmail umbenannt -- wahrscheinlich hast Du das bereits erkannt.\nGeany kann die alten Plugin-Konfigurationsateien in das neue Konfigurationsverzeichnis verschieben.\nFortfahren?"
 
 #: ../sendmail/src/sendmail.c:396
 #, c-format
 msgid ""
 "Your configuration directory has been successfully moved from \"%s\" to \"%s"
 "\"."
-msgstr ""
+msgstr "Das Konfigurationsverzeichnis wurde erfolgreich von »%s« nach »%s« verschoben."
 
 #: ../sendmail/src/sendmail.c:411
 #, c-format
@@ -7021,6 +7020,9 @@ msgid ""
 "Your old configuration directory \"%s\" could not be moved to \"%s\" (%s). "
 "Please move manually the directory to the new location."
 msgstr ""
+"Das alte Konfigurationsverzeichnis »%s« konnte nicht nach »%s« "
+"verschoben werden: %s \n"
+"Bitte verschiebe die Konfigurationen manuell."
 
 #. Build up menu entry
 #: ../sendmail/src/sendmail.c:442
