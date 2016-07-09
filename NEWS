@@ -4,11 +4,19 @@ Geany Plugins 1.28 (not yet released)
     * Renaming plugin GeanySendMail to SendMail
     * Fix some inconsistency inside README of plugins
 
+    Windows build:
+    * Update dependencies shipped with the package
+
     Internationalization:
     * Updated translations: de, fr, pt, tr
 
+    Addons:
+    * tasks: Stript comment-closing sequence from task text
+    * tasks: Do not extract tokens from non-comments
+
+
     Debugger:
-    * Fix escaping target executable path if it contains non-ASCII
+    * Fix escaping target executable path if it contains non-ASCII.
 
     GeanyGenDoc:
     * Replace deprecated filetype_id
@@ -16,12 +24,27 @@ Geany Plugins 1.28 (not yet released)
     GeanyLaTeX:
     * Fix a conditional end of undo action. Without an undo-action
       might run forever.
+    * Improve support for Gtk3
+
 
     GeanyLipsum:
     * Add ellipsis to menu item requiring further user input
 
+    GeanyMacro:
+    * Fix Gtk3-support
+
+    GeanyNumberedBookmarks:
+    * Fix Gtk3-support
+
+    GeanyPrj:
+    * Fix Gtk3-support
+
     PairTagHighlighter:
     * Fix for a crash when the tag name is missing
+
+    ProjectOrganizer:
+    * Fix multiple tabs in Project Properties
+
 
     Scope:
     * Fix for dependency checks on Windows
