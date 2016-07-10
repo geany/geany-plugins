@@ -1,8 +1,8 @@
 Geany Plugins 1.28 (2016-07-10)
 
     General:
-    * Renaming plugin GeanySendMail to SendMail
-    * Fix some inconsistency inside README of plugins
+    * Rename plugin GeanySendMail to SendMail (PR#43)
+    * Fix some inconsistency in plugins' READMEs (PR#453)
 
     Windows build:
     * Update dependencies shipped with the package
@@ -11,49 +11,51 @@ Geany Plugins 1.28 (2016-07-10)
     * Updated translations: de, fr, pt, tr
 
     Addons:
-    * tasks: Strip comment-closing sequence from task text
-    * tasks: Do not extract tokens from non-comments
+    * tasks: Strip comment-closing sequence from task text (PR#416)
+    * tasks: Do not extract tokens from non-comments (PR#416)
 
     Debugger:
-    * Fix escaping target executable path if it contains non-ASCII (#416)
+    * Fix escaping target executable path if it contains non-ASCII (Issue#416,
+      PR#451)
 
     GeanyGenDoc:
-    * Fix build with old rst2html
+    * Fix build with old rst2html (PR#414)
 
     GeanyLaTeX:
     * Fix a conditional end of undo action. Without an undo-action
-      might run forever.
-    * Improve support for GTK3
+      might run forever (Issue#416)
+    * Improve support for GTK3 (PR#410)
 
     GeanyLipsum:
-    * Add ellipsis to menu item requiring further user input
+    * Add ellipsis to menu item requiring further user input (PR#452)
 
     GeanyMacro:
-    * Fix GTK3 support
+    * Fix GTK3 support (PR#410)
 
     GeanyNumberedBookmarks:
-    * Fix GTK3 support
+    * Fix GTK3 support (PR#410)
 
     GeanyPrj:
-    * Fix GTK3 support
+    * Fix GTK3 support (PR#410)
 
     GeanyPy:
-    * Fix build with current Geany
+    * Fix build with current Geany (PR#363)
 
     PairTagHighlighter:
-    * Fix for a crash when the tag name is missing (#442, #446)
+    * Fix a crash when the tag name is missing (Issue#442, Issue#446,
+      PR#447)
 
     Prettyprinter:
-    * Fix several memory leaks
+    * Fix several memory leaks (PR#364)
 
     ProjectOrganizer:
     * Fix duplicated tab in Project Properties
 
     Scope:
-    * Fix dependency checks on Windows
+    * Fix dependency checks on Windows (PR#409)
 
     Shiftcolumn:
-    * Fix handling of end-to-start selections
+    * Fix handling of end-to-start selections (PR#366)
 
 
 Geany Plugins 1.27 (2016-03-13)
