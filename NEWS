@@ -1,7 +1,7 @@
 Geany Plugins 1.28 (2016-07-10)
 
     General:
-    * Rename plugin GeanySendMail to SendMail (PR#43)
+    * Rename plugin GeanySendMail to SendMail (PR#443)
     * Fix some inconsistency in plugins' READMEs (PR#453)
 
     Windows build:
@@ -11,8 +11,8 @@ Geany Plugins 1.28 (2016-07-10)
     * Updated translations: de, fr, pt, tr
 
     Addons:
-    * tasks: Strip comment-closing sequence from task text (PR#416)
-    * tasks: Do not extract tokens from non-comments (PR#416)
+    * tasks: Strip comment-closing sequence from task text (PR#449)
+    * tasks: Do not extract tokens from non-comments (PR#449)
 
     Debugger:
     * Fix escaping target executable path if it contains non-ASCII (Issue#416,
