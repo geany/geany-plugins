@@ -1,5 +1,5 @@
 /*
- *      demoplugin.c - this file is part of Geany, a fast and lightweight IDE
+ *      keyrecord.c - this file is part of Geany, a fast and lightweight IDE
  *
  *      Copyright 2007-2012 Enrico Tröger <enrico(dot)troeger(at)uvena(dot)de>
  *      Copyright 2007-2012 Nick Treleaven <nick(dot)treleaven(at)btinternet(dot)com>
@@ -22,15 +22,7 @@
 
 
 /**
- * Demo plugin - example of a basic plugin for Geany. Adds a menu item to the
- * Tools menu.
- *
- * Note: This is not installed by default, but (on *nix) you can build it as follows:
- * cd plugins
- * make demoplugin.so
- *
- * Then copy or symlink the plugins/demoplugin.so file to ~/.config/geany/plugins
- * - it will be loaded at next startup.
+ * Keystrokes recorder plugin - plugin for recording sequences of keystrokes and replaying it
  */
 
 
