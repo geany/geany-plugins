@@ -1,0 +1,33 @@
+Keystrokes recorder
+===================
+
+.. contents::
+
+About
+-----
+
+This plugin allows you to record a sequence of keystrokes and to replay it
+several times.
+
+Features
+--------
+
+It's only basic features at the moment.
+
+Usage
+-----
+
+After installed successfully, load the plugin in Geany's plugin manager. You
+have to set up keybindings for recording and for replaing keystrokes. Work
+with the plugin then looks like follows: [record hotkey] [keystroke] ... 
+[keystroke] [record hotkey] ... some work ... [play hotkey]. 
+
+Requirements
+------------
+
+* GTK >= 2.8.0
+
+Contact developers
+------------------
+
+Artur Riazanov <tunyash(at)gmail(dot)com>

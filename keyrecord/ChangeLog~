@@ -1,0 +1,10 @@
+2013-10-05 Pavel Roschin - version 0.2
+ * add removing pairing brace by Shift+BackSpace
+ * do not add semicolon in #define-s
+ * add semicolon after class and struct
+ * now works with GTK3+ (thanks Matthew Brush for patch http://pastebin.geany.org/r2VKS/)
+ * added scrollbar for settings
+ * improve semicolon completion
+ * added help
+ * added Tab jump to enclosed char (thanks Thomas Martitz:
+   https://github.com/kugel-/geany-plugins/commit/7f19c3035abf6f8a7fa66c7b4c1efe0851cb2f83)
