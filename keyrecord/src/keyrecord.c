@@ -69,7 +69,7 @@ static gboolean
 on_key_press(GtkWidget *widget, GdkEventKey *event, gpointer data)
 {
 	cur_widget = widget;
-	GeanyDocument* doc = (GeanyDocument*)data;
+	//GeanyDocument* doc = (GeanyDocument*)data;
 	guint i;
 	GdkEventKey** tmp = NULL;
 	
@@ -188,7 +188,7 @@ static gboolean keyrecord_init(GeanyPlugin *plugin, gpointer data)
 /* Called by Geany before unloading the plugin.
  * Here any UI changes should be removed, memory freed and any other finalization done.
  * Be sure to leave Geany as it was before demo_init(). */
-static void keyrecord_cleanup(GeanyPlugin *plugin, gpointer data)
+static void keyrecord_cleanup(GeanyPlugin *plugin, gpointer _data)
 {
 	GeanyData* geany_data = plugin->geany_data;
     guint i;
@@ -214,7 +214,7 @@ void geany_load_module(GeanyPlugin *plugin)
 	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
 	plugin->info->name = _("Keystrokes recorder");
 	plugin->info->description = _("Allows to record some sequence of keystrokes and replay it");
-	plugin->info->version = "0.1";
+	plugin->info->version = "0.11";
 	plugin->info->author =  _("tunyash");
 
 	plugin->funcs->init = keyrecord_init;

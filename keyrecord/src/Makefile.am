@@ -1,10 +1,10 @@
 include $(top_srcdir)/build/vars.build.mk
-plugin = autoclose
+plugin = keyrecord
 
-geanyplugins_LTLIBRARIES = autoclose.la
+geanyplugins_LTLIBRARIES = keyrecord.la
 
-autoclose_la_SOURCES = autoclose.c
-autoclose_la_CPPFLAGS = $(AM_CPPFLAGS) -DG_LOG_DOMAIN=\"AutoClose\"
-autoclose_la_LIBADD = $(COMMONLIBS)
+keyrecord_la_SOURCES = keyrecord.c
+keyrecord_la_CPPFLAGS = $(AM_CPPFLAGS)
+keyrecord_la_LIBADD = $(COMMONLIBS)
 
 include $(top_srcdir)/build/cppcheck.mk
