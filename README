@@ -26,11 +26,11 @@ However, this will configure, build and install most of the Geany plugins.
 There is some auto-detection in place which automagically disables
 some of the plugins if there are insufficient build dependencies.
 The following arguments can tweak the behaviour of the configure
-script:
+script.
 
 Options
 =======
-A full listing of all supported options can be found in ``./configure --help.``
+A full listing of all supported options can be found in ``./configure --help``.
 
 Enable/Disable Features
 =======================
