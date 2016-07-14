@@ -114,7 +114,7 @@ enum {
 
 #define PATH_SEPARATOR " \342\206\222 " /* right arrow */
 
-#define SEPARATORS        " -_/\\\"'"
+#define SEPARATORS        " -_./\\\"'"
 #define IS_SEPARATOR(c)   (strchr (SEPARATORS, (c)) != NULL)
 #define next_separator(p) (strpbrk (p, SEPARATORS))
 
