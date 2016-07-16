@@ -31,6 +31,9 @@ Usage
 When loaded into Geany, this plugins adds markers in the markers margin.
 If the marker margin is not visible, they are displayed as line backgrounds.
 
+When you point your mouse on a marker that indicates a changed or removed hunk,
+a tooltip pops up showing the original contents of that hunk.
+
 To navigate through the hunks of the current file, you need to configure the
 plugin's *Go to next hunk* and *Go to previous hunk* keybindings in Geany's
 preferences dialog.
