@@ -414,7 +414,7 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 	gchar *tag_filename = NULL;
 	tagEntry entry;
 	tagFileInfo info;
-	int lastLineNumber = 0;
+	int last_line_number = 0;
 
 	prj = geany_data->app->project;
 	if (!prj)
@@ -447,7 +447,7 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 			{
 				path = g_build_filename(prj->base_path, entry.file, NULL);
 				show_entry(&entry);
-				lastLineNumber = entry.address.lineNumber;
+				last_line_number = entry.address.lineNumber;
 				num++;
 			}
 			
@@ -458,7 +458,7 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 					if (!path)
 						path = g_build_filename(prj->base_path, entry.file, NULL);
 					show_entry(&entry);
-					lastLineNumber = entry.address.lineNumber;
+					last_line_number = entry.address.lineNumber;
 					num++;
 				}
 			}
@@ -468,7 +468,7 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 				GeanyDocument *doc = document_open_file(path, FALSE, NULL, NULL);
 				if (doc != NULL)
 				{
-					navqueue_goto_line(document_get_current(), doc, lastLineNumber);
+					navqueue_goto_line(document_get_current(), doc, last_line_number);
 					gtk_widget_grab_focus(GTK_WIDGET(doc->editor->sci));
 				}
 			}
