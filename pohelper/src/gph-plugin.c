@@ -871,7 +871,7 @@ split_msg (const gchar *str,
     
     while (*str) {
       const gchar *nl = strstr (str, "\\n");
-      const gchar *p = strpbrk (str, " \t\v\r\n?!,.;:");
+      const gchar *p = strpbrk (str, " \t\v\r\n?!,.;:-");
       glong chunk_len = g_utf8_strlen (chunk->str, (gssize) chunk->len);
       
       if (nl)
