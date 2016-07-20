@@ -877,10 +877,14 @@ split_msg (const gchar *str,
       if (nl)
         nl += 2;
       
-      if (p)
-        p++;
-      else /* if there is no separator, use the end of the string */
+      if (! p) /* if there is no separator, use the end of the string */
         p = strchr (str, 0);
+      else {
+        p++;
+        /* try not to leave a space at the start of a chunk */
+        while (*p == ' ')
+          p++;
+      }
       
       if (nl && ((gsize)(chunk_len + g_utf8_strlen (str, nl - str)) <= len ||
                  (nl < p && chunk->len == 0))) {
