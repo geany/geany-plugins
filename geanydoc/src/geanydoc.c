@@ -284,7 +284,7 @@ on_comboboxType_changed(GtkComboBox * combobox, G_GNUC_UNUSED gpointer user_data
 
 #define GLADE_HOOKUP_OBJECT(component,widget,name) \
   g_object_set_data_full (G_OBJECT (component), name, \
-    g_object_ref (widget), (GDestroyNotify) gtk_widget_destroy)
+    g_object_ref (widget), (GDestroyNotify) g_object_unref)
 
 #define GLADE_HOOKUP_OBJECT_NO_REF(component,widget,name) \
   g_object_set_data (G_OBJECT (component), name, widget)
@@ -292,6 +292,7 @@ on_comboboxType_changed(GtkComboBox * combobox, G_GNUC_UNUSED gpointer user_data
 GtkWidget *
 create_Interactive(void)
 {
+	GtkWidget *dialog_vbox1;
 	GtkWidget *entry_word;
 	GtkWidget *dialog = gtk_dialog_new_with_buttons("Document interactive",
 							GTK_WINDOW(geany->main_widgets->window),
@@ -302,9 +303,12 @@ create_Interactive(void)
 							GTK_STOCK_CANCEL,
 							GTK_RESPONSE_REJECT,
 							NULL);
+	dialog_vbox1 = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+
 	entry_word = gtk_entry_new();
 	gtk_widget_show(entry_word);
-	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), entry_word);
+	gtk_box_pack_start(GTK_BOX(dialog_vbox1), entry_word, TRUE, TRUE, 0);
+
 
 	GLADE_HOOKUP_OBJECT(dialog, entry_word, "entry_word");
 	return dialog;
@@ -332,9 +336,7 @@ create_Configure(void)
 	gtk_window_set_title(GTK_WINDOW(Configure), _("Doc"));
 	gtk_window_set_type_hint(GTK_WINDOW(Configure), GDK_WINDOW_TYPE_HINT_DIALOG);
 
-	dialog_vbox1 = gtk_vbox_new(FALSE, 6);
-	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(Configure))), dialog_vbox1);
-
+	dialog_vbox1 = gtk_dialog_get_content_area(GTK_DIALOG(Configure));
 	gtk_widget_show(dialog_vbox1);
 
 	vbox1 = gtk_vbox_new(FALSE, 0);
