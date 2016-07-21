@@ -256,7 +256,7 @@ on_comboboxType_changed(GtkComboBox * combobox, G_GNUC_UNUSED gpointer user_data
 	GKeyFile *config = (GKeyFile *) g_object_get_data(G_OBJECT(combobox), "config");
 
 	from = g_object_get_data(G_OBJECT(combobox), "current");
-	to = gtk_combo_box_get_active_text(combobox);
+	to = gtk_combo_box_text_get_active_text(combobox);
 
 	if (from != NULL)
 	{
@@ -284,7 +284,7 @@ on_comboboxType_changed(GtkComboBox * combobox, G_GNUC_UNUSED gpointer user_data
 
 #define GLADE_HOOKUP_OBJECT(component,widget,name) \
   g_object_set_data_full (G_OBJECT (component), name, \
-    gtk_widget_ref (widget), (GDestroyNotify) gtk_widget_unref)
+    g_object_ref (widget), (GDestroyNotify) gtk_widget_destroy)
 
 #define GLADE_HOOKUP_OBJECT_NO_REF(component,widget,name) \
   g_object_set_data (G_OBJECT (component), name, widget)
@@ -292,7 +292,6 @@ on_comboboxType_changed(GtkComboBox * combobox, G_GNUC_UNUSED gpointer user_data
 GtkWidget *
 create_Interactive(void)
 {
-	GtkWidget *dialog_vbox1;
 	GtkWidget *entry_word;
 	GtkWidget *dialog = gtk_dialog_new_with_buttons("Document interactive",
 							GTK_WINDOW(geany->main_widgets->window),
@@ -303,12 +302,9 @@ create_Interactive(void)
 							GTK_STOCK_CANCEL,
 							GTK_RESPONSE_REJECT,
 							NULL);
-	dialog_vbox1 = GTK_DIALOG(dialog)->vbox;
-
 	entry_word = gtk_entry_new();
 	gtk_widget_show(entry_word);
-	gtk_box_pack_start(GTK_BOX(dialog_vbox1), entry_word, TRUE, TRUE, 0);
-
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), entry_word);
 
 	GLADE_HOOKUP_OBJECT(dialog, entry_word, "entry_word");
 	return dialog;
@@ -336,7 +332,9 @@ create_Configure(void)
 	gtk_window_set_title(GTK_WINDOW(Configure), _("Doc"));
 	gtk_window_set_type_hint(GTK_WINDOW(Configure), GDK_WINDOW_TYPE_HINT_DIALOG);
 
-	dialog_vbox1 = GTK_DIALOG(Configure)->vbox;
+	dialog_vbox1 = gtk_vbox_new(FALSE, 6);
+	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(Configure))), dialog_vbox1);
+
 	gtk_widget_show(dialog_vbox1);
 
 	vbox1 = gtk_vbox_new(FALSE, 0);
@@ -347,7 +345,7 @@ create_Configure(void)
 	gtk_widget_show(cbIntern);
 	gtk_box_pack_start(GTK_BOX(vbox1), cbIntern, FALSE, FALSE, 0);
 
-	comboboxType = gtk_combo_box_new_text();
+	comboboxType = gtk_combo_box_text_new();
 	gtk_widget_show(comboboxType);
 	gtk_box_pack_start(GTK_BOX(vbox1), comboboxType, FALSE, FALSE, 0);
 
@@ -383,19 +381,19 @@ create_Configure(void)
 	gtk_widget_show(label2);
 	gtk_box_pack_start(GTK_BOX(dialog_vbox1), label2, FALSE, FALSE, 0);
 
-	dialog_action_area1 = GTK_DIALOG(Configure)->action_area;
+	dialog_action_area1 = gtk_dialog_get_action_area(GTK_DIALOG(Configure));
 	gtk_widget_show(dialog_action_area1);
 	gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
 	cancelbutton1 = gtk_button_new_from_stock("gtk-cancel");
 	gtk_widget_show(cancelbutton1);
 	gtk_dialog_add_action_widget(GTK_DIALOG(Configure), cancelbutton1, GTK_RESPONSE_CANCEL);
-	GTK_WIDGET_SET_FLAGS(cancelbutton1, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(cancelbutton1, TRUE);
 
 	okbutton1 = gtk_button_new_from_stock("gtk-ok");
 	gtk_widget_show(okbutton1);
 	gtk_dialog_add_action_widget(GTK_DIALOG(Configure), okbutton1, GTK_RESPONSE_OK);
-	GTK_WIDGET_SET_FLAGS(okbutton1, GTK_CAN_DEFAULT);
+	gtk_widget_set_can_default(okbutton1, TRUE);
 
 	g_signal_connect_after((gpointer) comboboxType, "changed",
 			       G_CALLBACK(on_comboboxType_changed), NULL);
@@ -452,7 +450,7 @@ init_Configure(GtkWidget * dialog)
 
 	for (i = 0; i < geany->filetypes_array->len; i++)
 	{
-		gtk_combo_box_append_text(GTK_COMBO_BOX(cbTypes),
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(cbTypes),
 					  ((struct GeanyFiletype *) (filetypes[i]))->
 					  name);
 	}
