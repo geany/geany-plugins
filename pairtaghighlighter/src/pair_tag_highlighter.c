@@ -21,6 +21,12 @@
 #define NONMATCHING_PAIR_COLOR  0xff0000    /* red */
 #define EMPTY_TAG_COLOR         0xffff00    /* yellow */
 
+/* Keyboard Shortcut */
+enum {
+  KB_MATCH_TAG,
+  KB_COUNT
+};
+
 /* These items are set by Geany before plugin_init() is called. */
 GeanyPlugin     *geany_plugin;
 GeanyData       *geany_data;
@@ -382,7 +388,7 @@ static gboolean on_editor_notify(GObject *obj, GeanyEditor *editor,
     gint lexer;
 
     lexer = sci_get_lexer(editor->sci);
-    if((lexer != SCLEX_HTML) && (lexer != SCLEX_XML))
+    if((lexer != SCLEX_HTML) && (lexer != SCLEX_XML) && (lexer != SCLEX_PHPSCRIPT))
     {
         return FALSE;
     }
@@ -399,6 +405,25 @@ static gboolean on_editor_notify(GObject *obj, GeanyEditor *editor,
     return FALSE;
 }
 
+static void
+on_kb_goto_matching_tag (guint key_id)
+{
+    gint cur_line;
+    gint jump_line = 0;
+    if(highlightedBrackets[0] != highlightedBrackets[2] && highlightedBrackets[0] != 0){
+        GeanyDocument *doc = document_get_current();
+        cur_line = sci_get_current_position(doc->editor->sci);
+        if(cur_line >= highlightedBrackets[0] && cur_line <= highlightedBrackets[1]){
+            jump_line = highlightedBrackets[2];
+        }
+        else if(cur_line >= highlightedBrackets[2] && cur_line <= highlightedBrackets[3]){
+            jump_line = highlightedBrackets[0];
+        }
+        if(jump_line != 0){
+            sci_set_current_position(doc->editor->sci, jump_line, TRUE);
+        }
+    }
+}
 
 PluginCallback plugin_callbacks[] =
 {
@@ -409,6 +434,10 @@ PluginCallback plugin_callbacks[] =
 
 void plugin_init(GeanyData *data)
 {
+    GeanyKeyGroup *group;
+    group = plugin_set_key_group (geany_plugin, "Pair Tag Highlighter", KB_COUNT, NULL);
+    keybindings_set_item (group, KB_MATCH_TAG, on_kb_goto_matching_tag,
+                        0, 0, "goto_matching_tag", _("Go To Matching Tag"), NULL);
 }
 
 
