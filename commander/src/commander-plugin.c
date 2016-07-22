@@ -35,7 +35,7 @@
 GeanyPlugin      *geany_plugin;
 GeanyData        *geany_data;
 
-PLUGIN_VERSION_CHECK(224)
+PLUGIN_VERSION_CHECK(226)
 
 PLUGIN_SET_TRANSLATABLE_INFO (
   LOCALEDIR, GETTEXT_PACKAGE,
@@ -79,6 +79,8 @@ PLUGIN_SET_TRANSLATABLE_INFO (
 
 enum {
   KB_SHOW_PANEL,
+  KB_SHOW_PANEL_COMMANDS,
+  KB_SHOW_PANEL_FILES,
   KB_COUNT
 };
 
@@ -727,10 +729,27 @@ create_panel (void)
   gtk_widget_show_all (frame);
 }
 
-static void
-on_kb_show_panel (guint key_id)
+static gboolean
+on_kb_show_panel (GeanyKeyBinding  *kb,
+                  guint             key_id,
+                  gpointer          data)
 {
+  const gchar *prefix = data;
+  
   gtk_widget_show (plugin_data.panel);
+  
+  if (prefix) {
+    const gchar *key = gtk_entry_get_text (GTK_ENTRY (plugin_data.entry));
+    
+    if (! g_str_has_prefix (key, prefix)) {
+      gtk_entry_set_text (GTK_ENTRY (plugin_data.entry), prefix);
+    }
+    /* select the non-prefix part */
+    gtk_editable_select_region (GTK_EDITABLE (plugin_data.entry),
+                                g_utf8_strlen (prefix, -1), -1);
+  }
+  
+  return TRUE;
 }
 
 static gboolean
@@ -747,8 +766,17 @@ plugin_init (GeanyData *data)
   GeanyKeyGroup *group;
   
   group = plugin_set_key_group (geany_plugin, "commander", KB_COUNT, NULL);
-  keybindings_set_item (group, KB_SHOW_PANEL, on_kb_show_panel,
-                        0, 0, "show_panel", _("Show Command Panel"), NULL);
+  keybindings_set_item_full (group, KB_SHOW_PANEL, 0, 0, "show_panel",
+                             _("Show Command Panel"), NULL,
+                             on_kb_show_panel, NULL, NULL);
+  keybindings_set_item_full (group, KB_SHOW_PANEL_COMMANDS, 0, 0,
+                             "show_panel_commands",
+                             _("Show Command Panel (Commands Only)"), NULL,
+                             on_kb_show_panel, (gpointer) "c:", NULL);
+  keybindings_set_item_full (group, KB_SHOW_PANEL_FILES, 0, 0,
+                             "show_panel_files",
+                             _("Show Command Panel (Files Only)"), NULL,
+                             on_kb_show_panel, (gpointer) "f:", NULL);
   
   /* delay for other plugins to have a chance to load before, so we will
    * include their items */
