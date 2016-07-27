@@ -138,10 +138,10 @@ W: http://plugins.geany.org/geanyprj.html
 S: Odd Fixes
 
 geanypy
-P:
-M:
+P: Thomas Martitz <kugel@rockbox.org>
+M: Thomas Martitz <kugel@rockbox.org>
 W: http://plugins.geany.org/geanypy.html
-S: Orphaned, diverged from upstream
+S: Currently diverged from upstream
 
 geanysendmail
 P: Frank Lanitz <frank@frank.uvena.de>
