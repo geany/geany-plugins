@@ -1,3 +1,6 @@
+#######################
+# Not in usage anymore
+#######################
 2010-09-23  Frank Lanitz  <frank@frank.uvena.de>
 
  * Replace deprecated PLUGIN_KEY_GROUP macro.
@@ -10,7 +13,7 @@
 
 2009-04-11  Frank Lanitz  <frank(at)frank(dot)uvena(dot)de>
 
- * Add not complete part of Lorem Ipsum text if there is any at end of 
+ * Add not complete part of Lorem Ipsum text if there is any at end of
    insertion.
 
 
