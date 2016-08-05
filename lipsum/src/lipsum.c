@@ -1,7 +1,7 @@
 /*
- *      geanylipsum.c
+ *      lipsum.c
  *
- *      Copyright 2008-2015 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2008-2016 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -36,9 +36,9 @@ PLUGIN_VERSION_CHECK(224)
 PLUGIN_SET_TRANSLATABLE_INFO(
 	LOCALEDIR,
 	GETTEXT_PACKAGE,
-	_("GeanyLipsum"),
+	_("Lipsum"),
 	_("Creating dummy text with Geany"),
-	"0.4.4",
+	VERSION,
 	"Frank Lanitz <frank@frank.uvena.de>")
 
 static GtkWidget *main_menu_item = NULL;
