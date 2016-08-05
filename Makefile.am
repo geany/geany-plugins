@@ -59,10 +59,6 @@ if ENABLE_GEANYLATEX
 SUBDIRS += geanylatex
 endif
 
-if ENABLE_GEANYLIPSUM
-SUBDIRS += geanylipsum
-endif
-
 if ENABLE_GEANYLUA
 SUBDIRS += geanylua
 endif
@@ -106,6 +102,10 @@ endif
 
 if ENABLE_LINEOPERATIONS
 SUBDIRS += lineoperations
+endif
+
+if ENABLE_LIPSUM
+SUBDIRS += lipsum
 endif
 
 if ENABLE_MARKDOWN

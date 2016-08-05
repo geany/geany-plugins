@@ -148,9 +148,6 @@ geanylatex/src/latexencodings.c
 geanylatex/src/latexstructure.c
 geanylatex/src/reftex.c
 
-# geanylipsum
-geanylipsum/src/geanylipsum.c
-
 # geanyLua
 geanylua/glspi.h
 geanylua/glspi_ver.h
@@ -220,6 +217,9 @@ git-changebar/src/gcb-plugin.c
 
 # LineOperations
 lineoperations/src/lineoperations.c
+
+# lipsum
+lipsum/src/lipsum.c
 
 # Markdown
 markdown/src/conf.c
