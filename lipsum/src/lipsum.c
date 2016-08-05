@@ -28,6 +28,10 @@
 #endif
 
 #include <geanyplugin.h>
+#include <glib.h>
+#include <glib/gstdio.h>
+#include <errno.h>
+
 
 GeanyPlugin		*geany_plugin;
 GeanyData		*geany_data;
@@ -144,11 +148,67 @@ plugin_init(G_GNUC_UNUSED GeanyData *data)
 	GtkWidget *menu_lipsum = NULL;
 	GKeyFile *config = g_key_file_new();
 	gchar *config_file = NULL;
+	gchar *config_file_old = NULL;
+	gchar *config_dir = NULL;
+	gchar *config_dir_old = NULL;
 	GeanyKeyGroup *key_group;
+
 
 	config_file = g_strconcat(geany->app->configdir,
 		G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
 		"geanylipsum", G_DIR_SEPARATOR_S, "lipsum.conf", NULL);
+
+	#ifndef G_OS_WIN32
+	/* We try only to move if we are on not Windows platform */
+	config_dir_old = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S,
+		"plugins", G_DIR_SEPARATOR_S, "geanylipsum", NULL);
+	config_file_old = g_strconcat(config_dir_old,  G_DIR_SEPARATOR_S,
+		"lipsum.conf", NULL);
+	config_dir = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S,
+		"plugins", G_DIR_SEPARATOR_S, "lipsum", NULL);
+	if (g_file_test(config_file_old, G_FILE_TEST_EXISTS))
+	{
+		if (dialogs_show_question(
+			_("Renamed plugin detected!\n"
+			  "\n"
+			  "GeanyLipsum has been renamed to Lipsum -- you surely have "
+			  "already recognised it. \n"
+			  "Geany is able to migrate your old plugin configuration by "
+			  "moving the old configuration file to new location.\n"
+			  "Move now?")))
+		{
+			if (g_rename(config_dir_old, config_dir) == 0)
+			{
+				dialogs_show_msgbox(GTK_MESSAGE_INFO,
+					_("Your configuration directory has been "
+					  "successfully moved from \"%s\" to \"%s\"."),
+					config_dir_old, config_dir);
+			}
+			else
+			{
+				/* If there was an error on migrating we need
+				 * to load from original one.
+				 * When saving new configuration it will go to
+				 * new folder so migration should
+				 * be implicit. */
+				g_free(config_file);
+				config_file = g_strdup(config_file_old);
+				dialogs_show_msgbox(
+					GTK_MESSAGE_WARNING,
+					_("Your old configuration directory \"%s\" could "
+					  "not be moved to \"%s\" (%s). "
+					  "Please move manually the directory to the new location."),
+					config_dir_old,
+					config_dir,
+					g_strerror(errno));
+			}
+		}
+	}
+
+	g_free(config_dir_old);
+	g_free(config_dir);
+	g_free(config_file_old);
+	#endif
 
 	/* Initialising options from config file  if there is any*/
 	g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
