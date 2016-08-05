@@ -175,6 +175,7 @@ plugin_init(G_GNUC_UNUSED GeanyData *data)
 			  "already recognised it. \n"
 			  "Geany is able to migrate your old plugin configuration by "
 			  "moving the old configuration file to new location.\n"
+			  "Attention: this will not include your keybindings.\n"
 			  "Move now?")))
 		{
 			if (g_rename(config_dir_old, config_dir) == 0)
@@ -231,7 +232,7 @@ plugin_init(G_GNUC_UNUSED GeanyData *data)
 	main_menu_item = menu_lipsum;
 
 	/* init keybindings */
-	key_group = plugin_set_key_group(geany_plugin, "geanylipsum", COUNT_KB, NULL);
+	key_group = plugin_set_key_group(geany_plugin, "lipsum", COUNT_KB, NULL);
 	keybindings_set_item(key_group, LIPSUM_KB_INSERT, kblipsum_insert,
 		0, 0, "insert_lipsum", _("Insert Lipsum text"), menu_lipsum);
 }
