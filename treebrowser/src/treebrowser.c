@@ -1887,7 +1887,7 @@ save_settings(void)
 	g_key_file_set_boolean(config, 	"treebrowser", "show_tree_lines", 		CONFIG_SHOW_TREE_LINES);
 	g_key_file_set_boolean(config, 	"treebrowser", "show_bookmarks", 		CONFIG_SHOW_BOOKMARKS);
 	g_key_file_set_integer(config, 	"treebrowser", "show_icons", 			CONFIG_SHOW_ICONS);
-	g_key_file_set_boolean(config,	"treebrowser", "open_new_file",			CONFIG_OPEN_NEW_FILES);
+	g_key_file_set_boolean(config,	"treebrowser", "open_new_files",		CONFIG_OPEN_NEW_FILES);
 
 	data = g_key_file_to_data(config, NULL, NULL);
 	utils_write_file(CONFIG_FILE, data);
