@@ -60,7 +60,6 @@ Available plugins are:
 * ``geanygendoc`` -- the GeanyGenDoc plugin
 * ``geanyinsertnum`` -- the GeanyInsertNum plugin
 * ``geanylatex`` -- the GeanyLaTeX plugin
-* ``geanylipsum`` -- the GeanyLipsum plugin
 * ``geanylua`` -- the GeanyLua plugin
 * ``geanymacro`` -- the GeanyMacro plugin
 * ``geanyminiscript`` -- the GeanyMiniScript plugin
@@ -73,6 +72,7 @@ Available plugins are:
 * ``gitchangebar`` -- the GitChangeBar plugin
 * ``gtkspell`` -- GeanyVC's spell-check support
 * ``lineoperations`` -- simple line functions that can be applied to an open file
+* ``lipsum`` -- the Lipsum plugin
 * ``markdown`` -- the Markdown plugin
 * ``multiterm`` -- the multiterm plugin
 * ``overview``-- the overview plugin

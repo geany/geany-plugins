@@ -1,12 +1,12 @@
-GeanyLipsum
------------
+Lipsum
+------
 
 .. contents::
 
 About
 ------
 
-GeanyLipsum is a plugin for Geany that implements a Lorem Ipsum
+Lipsum is a plugin for Geany that implements a Lorem Ipsum
 generator to insert placeholder text into your document.
 
 
@@ -41,9 +41,9 @@ github.com. Get the code by:
 git clone https://github.com/geany/geany-plugins.git
 
 If you want to create a patch, please respect the license of
-GeanyLipsum as well as intellectual property of third. Patches that
+Lipsum as well as intellectual property of third. Patches that
 should be included to the default distribution must be licensed under
-the same conditions as GeanyLipsum by the copyright owner (GPL2+).
+the same conditions as Lipsum by the copyright owner (GPL2+).
 
 
 Known issues
@@ -58,7 +58,7 @@ https://github.com/geany/geany-plugins/issues
 License
 -------
 
-GeanyLipsum and all its parts is distributed under the terms of the
+Lipsum and all its parts is distributed under the terms of the
 GNU General Public License as published by the Free Software
 Foundation; either version 2 of the License, or (at your option) any
 later version. A copy of this license can be found in the file COPYING
@@ -75,6 +75,3 @@ Frank Lanitz (frank(at)geany(dot)org). Please also do so, if you got
 any questions and visiting http://plugins.geany.org didn't help you
 to figure out the answer. Visiting the website is also a good start
 if you want to check for any update on this plugin.
-
-A more historical page can be found at
-http://frank.uvena.de/en/Geany/geanylipsum

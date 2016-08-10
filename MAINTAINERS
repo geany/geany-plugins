@@ -95,11 +95,6 @@ M: Frank Lanitz <frank@frank.uvena.de>
 W: http://frank.uvena.de/en/Geany/geanylatex/
 S: Maintained
 
-geanylipsum
-P: Frank Lanitz <frank@frank.uvena.de>
-M: Frank Lanitz <frank@frank.uvena.de>
-W: http://plugins.geany.org/geanylipsum.html
-S: Maintained
 
 geanylua
 P:
@@ -171,6 +166,12 @@ lineoperations
 P: Sylvan Mostert <smostert.dev@gmail.com>
 M: Sylvan Mostert <smostert.dev@gmail.com>
 W:
+S: Maintained
+
+lipsum
+P: Frank Lanitz <frank@frank.uvena.de>
+M: Frank Lanitz <frank@frank.uvena.de>
+W: http://plugins.geany.org/lipsum.html
 S: Maintained
 
 markdown
