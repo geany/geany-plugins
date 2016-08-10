@@ -160,22 +160,22 @@ plugin_init(G_GNUC_UNUSED GeanyData *data)
 
 	#ifndef G_OS_WIN32
 	/* We try only to move if we are on not Windows platform */
-	config_dir_old = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S,
-		"plugins", G_DIR_SEPARATOR_S, "geanylipsum", NULL);
-	config_file_old = g_strconcat(config_dir_old,  G_DIR_SEPARATOR_S,
+	config_dir_old = g_build_filename(geany->app->configdir,
+		"plugins", "geanylipsum", NULL);
+	config_file_old = g_build_filename(config_dir_old,
 		"lipsum.conf", NULL);
-	config_dir = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S,
-		"plugins", G_DIR_SEPARATOR_S, "lipsum", NULL);
+	config_dir = g_build_filename(geany->app->configdir,
+		"plugins", "lipsum", NULL);
 	if (g_file_test(config_file_old, G_FILE_TEST_EXISTS))
 	{
 		if (dialogs_show_question(
 			_("Renamed plugin detected!\n"
 			  "\n"
-			  "GeanyLipsum has been renamed to Lipsum -- you surely have "
-			  "already recognised it. \n"
+			  "As you may have already noticed, GeanyLipsum has been "
+			  "renamed to just Lipsum. \n"
 			  "Geany is able to migrate your old plugin configuration by "
 			  "moving the old configuration file to new location.\n"
-			  "Attention: this will not include your keybindings.\n"
+			  "Warning: This will not include your keybindings.\n"
 			  "Move now?")))
 		{
 			if (g_rename(config_dir_old, config_dir) == 0)
@@ -198,7 +198,7 @@ plugin_init(G_GNUC_UNUSED GeanyData *data)
 					GTK_MESSAGE_WARNING,
 					_("Your old configuration directory \"%s\" could "
 					  "not be moved to \"%s\" (%s). "
-					  "Please move manually the directory to the new location."),
+					  "Please manually move the directory to the new location."),
 					config_dir_old,
 					config_dir,
 					g_strerror(errno));

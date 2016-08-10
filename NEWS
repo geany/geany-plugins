@@ -1,6 +1,7 @@
 Geany Plugins 1.29 (not yet released)
 
-    No changes by now.
+    General:
+    * Rename plugin GeanyLipsum to Lipsum (PR#472)
 
 
 Geany Plugins 1.28 (2016-07-10)
