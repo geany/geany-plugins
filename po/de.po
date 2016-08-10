@@ -4653,7 +4653,7 @@ msgstr "Ungültiger Dienst"
 #: ../geniuspaste/src/geniuspaste.c:679
 #, c-format
 msgid "Unknown pastebin service \"%s\". Select an existing pastebin service in the preferences or create an appropriate pastebin configuration and retry."
-msgstr "Unbekannter pastebin-Dienst »%s«. Bitte wählen einen bereits existierenden Dienst in den Einstellungen oder erstelle eine neue Konfiguration und versuche es erneut."
+msgstr "Unbekannter pastebin-Dienst »%s«. Bitte wähle einen bereits existierenden Dienst in den Einstellungen oder erstelle eine neue Konfiguration und versuche es erneut."
 
 #: ../geniuspaste/src/geniuspaste.c:691
 msgid "Refusing to create blank paste"
