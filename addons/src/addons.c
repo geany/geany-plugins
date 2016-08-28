@@ -77,6 +77,7 @@ typedef struct
 	gboolean enable_systray;
 	gboolean enable_bookmarklist;
 	gboolean enable_markword;
+	gboolean enable_markword_single_click_deselect;
 	gboolean enable_xmltagging;
 	gboolean enable_enclose_words;
 	gboolean enable_enclose_words_auto;
@@ -175,7 +176,6 @@ gboolean ao_editor_notify_cb(GObject *object, GeanyEditor *editor,
 							 SCNotification *nt, gpointer data)
 {
 	ao_bookmark_list_update_marker(ao_info->bookmarklist, editor, nt);
-	ao_mark_word_check(ao_info->markword, editor, nt);
 
 	return FALSE;
 }
@@ -204,6 +204,7 @@ static void ao_document_open_cb(GObject *obj, GeanyDocument *doc, gpointer data)
 	g_return_if_fail(doc != NULL && doc->is_valid);
 
 	ao_tasks_update(ao_info->tasks, doc);
+	ao_mark_document_open(ao_info->markword, doc);
 }
 
 
@@ -212,6 +213,7 @@ static void ao_document_close_cb(GObject *obj, GeanyDocument *doc, gpointer data
 	g_return_if_fail(doc != NULL && doc->is_valid);
 
 	ao_tasks_remove(ao_info->tasks, doc);
+	ao_mark_document_close(ao_info->markword, doc);
 }
 
 
@@ -280,6 +282,8 @@ void plugin_init(GeanyData *data)
 		"addons", "enable_bookmarklist", FALSE);
 	ao_info->enable_markword = utils_get_setting_boolean(config,
 		"addons", "enable_markword", FALSE);
+	ao_info->enable_markword_single_click_deselect = utils_get_setting_boolean(config,
+		"addons", "enable_markword_single_click_deselect", FALSE);
 	ao_info->strip_trailing_blank_lines = utils_get_setting_boolean(config,
 		"addons", "strip_trailing_blank_lines", FALSE);
 	ao_info->enable_xmltagging = utils_get_setting_boolean(config, "addons",
@@ -295,7 +299,8 @@ void plugin_init(GeanyData *data)
 	ao_info->openuri = ao_open_uri_new(ao_info->enable_openuri);
 	ao_info->systray = ao_systray_new(ao_info->enable_systray);
 	ao_info->bookmarklist = ao_bookmark_list_new(ao_info->enable_bookmarklist);
-	ao_info->markword = ao_mark_word_new(ao_info->enable_markword);
+	ao_info->markword = ao_mark_word_new(ao_info->enable_markword,
+		ao_info->enable_markword_single_click_deselect);
 	ao_info->tasks = ao_tasks_new(ao_info->enable_tasks,
 						ao_info->tasks_token_list, ao_info->tasks_scan_all_documents);
 	ao_info->copyfilepath = ao_copy_file_path_new();
@@ -329,6 +334,15 @@ static void ao_configure_tasks_toggled_cb(GtkToggleButton *togglebutton, gpointe
 
 	gtk_widget_set_sensitive(g_object_get_data(G_OBJECT(data), "check_tasks_scan_mode"), sens);
 	gtk_widget_set_sensitive(g_object_get_data(G_OBJECT(data), "entry_tasks_tokens"), sens);
+}
+
+
+static void ao_configure_markword_toggled_cb(GtkToggleButton *togglebutton, gpointer data)
+{
+	gboolean sens = gtk_toggle_button_get_active(togglebutton);
+
+	gtk_widget_set_sensitive(g_object_get_data(
+		G_OBJECT(data), "check_markword_single_click_deselect"), sens);
 }
 
 
@@ -379,6 +393,8 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 			g_object_get_data(G_OBJECT(dialog), "check_bookmarklist"))));
 		ao_info->enable_markword = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
 			g_object_get_data(G_OBJECT(dialog), "check_markword"))));
+		ao_info->enable_markword_single_click_deselect = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
+			g_object_get_data(G_OBJECT(dialog), "check_markword_single_click_deselect"))));
 		ao_info->strip_trailing_blank_lines = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
 			g_object_get_data(G_OBJECT(dialog), "check_blanklines"))));
 		ao_info->enable_xmltagging = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
@@ -403,6 +419,8 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 		g_key_file_set_boolean(config, "addons", "enable_bookmarklist",
 			ao_info->enable_bookmarklist);
 		g_key_file_set_boolean(config, "addons", "enable_markword", ao_info->enable_markword);
+		g_key_file_set_boolean(config, "addons", "enable_markword_single_click_deselect",
+			ao_info->enable_markword_single_click_deselect);
 		g_key_file_set_boolean(config, "addons", "strip_trailing_blank_lines",
 		  ao_info->strip_trailing_blank_lines);
 		g_key_file_set_boolean(config, "addons", "enable_xmltagging",
@@ -418,7 +436,10 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 		g_object_set(ao_info->systray, "enable-systray", ao_info->enable_systray, NULL);
 		g_object_set(ao_info->bookmarklist, "enable-bookmarklist",
 			ao_info->enable_bookmarklist, NULL);
-		g_object_set(ao_info->markword, "enable-markword", ao_info->enable_markword, NULL);
+		g_object_set(ao_info->markword,
+			"enable-markword", ao_info->enable_markword,
+			"enable-single-click-deselect", ao_info->enable_markword_single_click_deselect,
+			NULL);
 		g_object_set(ao_info->tasks,
 			"enable-tasks", ao_info->enable_tasks,
 			"scan-all-documents", ao_info->tasks_scan_all_documents,
@@ -449,7 +470,8 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	GtkWidget *vbox, *check_openuri, *check_tasks, *check_systray;
 	GtkWidget *check_doclist, *vbox_doclist, *frame_doclist;
 	GtkWidget *radio_doclist_name, *radio_doclist_tab_order, *radio_doclist_tab_order_reversed;
-	GtkWidget *check_bookmarklist, *check_markword, *frame_tasks, *vbox_tasks;
+	GtkWidget *check_bookmarklist, *check_markword, *check_markword_single_click_deselect;
+	GtkWidget *frame_markword, *frame_tasks, *vbox_tasks;
 	GtkWidget *check_tasks_scan_mode, *entry_tasks_tokens, *label_tasks_tokens, *tokens_hbox;
 	GtkWidget *check_blanklines, *check_xmltagging;
 	GtkWidget *check_enclose_words, *check_enclose_words_auto, *enclose_words_config_button, *enclose_words_hbox;
@@ -557,7 +579,17 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 		_("Mark all occurrences of a word when double-clicking it"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_markword),
 		ao_info->enable_markword);
-	gtk_box_pack_start(GTK_BOX(vbox), check_markword, FALSE, FALSE, 3);
+	g_signal_connect(check_markword, "toggled", G_CALLBACK(ao_configure_markword_toggled_cb), dialog);
+
+	check_markword_single_click_deselect = gtk_check_button_new_with_label(
+		_("Deselect a previous highlight by single click"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_markword_single_click_deselect),
+		ao_info->enable_markword_single_click_deselect);
+
+	frame_markword = gtk_frame_new(NULL);
+	gtk_frame_set_label_widget(GTK_FRAME(frame_markword), check_markword);
+	gtk_container_add(GTK_CONTAINER(frame_markword), check_markword_single_click_deselect);
+	gtk_box_pack_start(GTK_BOX(vbox), frame_markword, FALSE, FALSE, 3);
 
 	check_blanklines = gtk_check_button_new_with_label(
 		_("Strip trailing blank lines"));
@@ -602,6 +634,8 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	g_object_set_data(G_OBJECT(dialog), "check_systray", check_systray);
 	g_object_set_data(G_OBJECT(dialog), "check_bookmarklist", check_bookmarklist);
 	g_object_set_data(G_OBJECT(dialog), "check_markword", check_markword);
+	g_object_set_data(G_OBJECT(dialog), "check_markword_single_click_deselect",
+		check_markword_single_click_deselect);
 	g_object_set_data(G_OBJECT(dialog), "check_blanklines", check_blanklines);
 	g_object_set_data(G_OBJECT(dialog), "check_xmltagging", check_xmltagging);
 	g_object_set_data(G_OBJECT(dialog), "check_enclose_words", check_enclose_words);
@@ -610,6 +644,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	g_signal_connect(dialog, "response", G_CALLBACK(ao_configure_response_cb), NULL);
 
 	ao_configure_tasks_toggled_cb(GTK_TOGGLE_BUTTON(check_tasks), dialog);
+	ao_configure_markword_toggled_cb(GTK_TOGGLE_BUTTON(check_markword), dialog);
 	ao_configure_doclist_toggled_cb(GTK_TOGGLE_BUTTON(check_doclist), dialog);
 
 	gtk_widget_show_all(vbox);
