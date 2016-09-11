@@ -32,6 +32,9 @@
 
 typedef struct _AoMarkWordPrivate			AoMarkWordPrivate;
 
+#define DOUBLE_CLICK_DELAY 50
+
+
 #define AO_MARKWORD_GET_PRIVATE(obj)		(G_TYPE_INSTANCE_GET_PRIVATE((obj),\
 			AO_MARKWORD_TYPE, AoMarkWordPrivate))
 
@@ -48,12 +51,16 @@ struct _AoMarkWordClass
 struct _AoMarkWordPrivate
 {
 	gboolean enable_markword;
+	gboolean enable_single_click_deselect;
+
+	guint double_click_timer_id;
 };
 
 enum
 {
 	PROP_0,
-	PROP_ENABLE_MARKWORD
+	PROP_ENABLE_MARKWORD,
+	PROP_ENABLE_MARKWORD_SINGLE_CLICK_DESELECT
 };
 
 
@@ -71,6 +78,9 @@ static void ao_mark_word_set_property(GObject *object, guint prop_id,
 	{
 		case PROP_ENABLE_MARKWORD:
 			priv->enable_markword = g_value_get_boolean(value);
+			break;
+		case PROP_ENABLE_MARKWORD_SINGLE_CLICK_DESELECT:
+			priv->enable_single_click_deselect = g_value_get_boolean(value);
 			break;
 		default:
 			G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
@@ -96,6 +106,15 @@ static void ao_mark_word_class_init(AoMarkWordClass *klass)
 									"Whether to mark all occurrences of a word when double-clicking it",
 									TRUE,
 									G_PARAM_WRITABLE));
+
+	g_object_class_install_property(g_object_class,
+									PROP_ENABLE_MARKWORD_SINGLE_CLICK_DESELECT,
+									g_param_spec_boolean(
+									"enable-single-click-deselect",
+									"enable-single-click-deselect",
+									"Enable deselecting a previous highlight by single click",
+									TRUE,
+									G_PARAM_WRITABLE));
 }
 
 
@@ -108,28 +127,85 @@ static void ao_mark_word_finalize(GObject *object)
 }
 
 
-void ao_mark_word_check(AoMarkWord *bm, GeanyEditor *editor, SCNotification *nt)
+static void clear_marker(void)
+{
+	/* There might be a small risk that the current document is not the one we want
+	 * but this is very unlikely. */
+	GeanyDocument *document = document_get_current();
+	/* clear current search indicators */
+	if (DOC_VALID(document))
+		editor_indicator_clear(document->editor, GEANY_INDICATOR_SEARCH);
+}
+
+
+static gboolean mark_word(gpointer bm)
 {
 	AoMarkWordPrivate *priv = AO_MARKWORD_GET_PRIVATE(bm);
+	keybindings_send_command(GEANY_KEY_GROUP_SEARCH, GEANY_KEYS_SEARCH_MARKALL);
+	/* unset and remove myself */
+	priv->double_click_timer_id = 0;
+	return FALSE;
+}
 
-	if (priv->enable_markword)
+
+static gboolean on_editor_button_press_event(GtkWidget *widget, GdkEventButton *event,
+											 AoMarkWord *bm)
+{
+	if (event->button == 1)
 	{
-		switch (nt->nmhdr.code)
+		AoMarkWordPrivate *priv = AO_MARKWORD_GET_PRIVATE(bm);
+		if (! priv->enable_markword)
+			return FALSE;
+
+		if (event->type == GDK_BUTTON_PRESS)
 		{
-			case SCN_DOUBLECLICK:
-				keybindings_send_command(GEANY_KEY_GROUP_SEARCH, GEANY_KEYS_SEARCH_MARKALL);
-				break;
+			if (priv->enable_single_click_deselect)
+				clear_marker();
+		}
+		else if (event->type == GDK_2BUTTON_PRESS)
+		{
+			if (priv->double_click_timer_id == 0)
+				priv->double_click_timer_id = g_timeout_add(DOUBLE_CLICK_DELAY, mark_word, bm);
 		}
 	}
+	return FALSE;
+}
+
+
+void ao_mark_document_open(AoMarkWord *mw, GeanyDocument *document)
+{
+	g_return_if_fail(DOC_VALID(document));
+
+	plugin_signal_connect(
+		geany_plugin,
+		G_OBJECT(document->editor->sci),
+		"button-press-event",
+		FALSE,
+		G_CALLBACK(on_editor_button_press_event),
+		mw);
+}
+
+
+void ao_mark_document_close(AoMarkWord *mw, GeanyDocument *document)
+{
+	g_return_if_fail(DOC_VALID(document));
+
+	g_signal_handlers_disconnect_by_func(document->editor->sci, on_editor_button_press_event, mw);
 }
 
 
 static void ao_mark_word_init(AoMarkWord *self)
 {
+	AoMarkWordPrivate *priv = AO_MARKWORD_GET_PRIVATE(self);
+	priv->double_click_timer_id = 0;
 }
 
 
-AoMarkWord *ao_mark_word_new(gboolean enable)
+AoMarkWord *ao_mark_word_new(gboolean enable, gboolean single_click_deselect)
 {
-	return g_object_new(AO_MARKWORD_TYPE, "enable-markword", enable, NULL);
+	return g_object_new(
+		AO_MARKWORD_TYPE,
+		"enable-markword", enable,
+		"enable-single-click-deselect", single_click_deselect,
+		NULL);
 }
