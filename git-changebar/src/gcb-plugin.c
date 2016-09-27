@@ -598,14 +598,17 @@ encoding_needs_coversion (const gchar *encoding)
  * @brief Converts encoding
  * @param buffer Input and output buffer
  * @param length Input and output buffer length
+ * @param free_buffer whether @p buffer should be freed when replaced
  * @param to Target encoding
  * @param from Source encoding
  * @param error Return location for errors, or @c NULL
- * @returns @c TRUE if the conversion succeeded and the buffer has been
- *          replaced and should be freed, or @c FALSE otherwise.
+ * @returns @c TRUE if @p buffer should be freed, or @c FALSE otherwise.
  * 
  * @warning This function has a very weird API, but it is practical for
  *          how it's used.
+ * @note the only way to tell if the conversion succeeded when @p free_buffer
+ *       is @c TRUE is to compare the output value of @buffer against the
+ *       one it had as an input value.
  * 
  * Converts between encodings (using g_convert()) in-place.
  * 
@@ -615,12 +618,13 @@ encoding_needs_coversion (const gchar *encoding)
  * of memory that should be freed with @c g_free().
  * If the conversion succeeds, it replaces @p buffer and @p length with
  * the converted values and returns @c TRUE.  If it fails, it does not
- * modify the values and returns @c FALSE so that the passed-in
+ * modify the values and returns @p free_buffer so that the passed-in
  * variables can be used as a fallback if the conversion was optional.
  */
 static gboolean
 convert_encoding_inplace (gchar       **buffer,
                           gsize        *length,
+                          gboolean      free_buffer,
                           const gchar  *to,
                           const gchar  *from,
                           GError      **error)
@@ -630,11 +634,38 @@ convert_encoding_inplace (gchar       **buffer,
                                NULL, &tmp_len, error);
   
   if (tmp_buf) {
+    if (free_buffer) {
+      g_free (*buffer);
+    }
+    
     *buffer = tmp_buf;
     *length = tmp_len;
+    free_buffer = TRUE;
   }
   
-  return tmp_buf != NULL;
+  return free_buffer;
+}
+
+static gboolean
+add_utf8_bom (gchar   **buffer,
+              gsize    *length,
+              gboolean  free_buffer)
+{
+  gchar *new_buf = g_malloc (*length + 3);
+  
+  new_buf[0] = (gchar) 0xef;
+  new_buf[1] = (gchar) 0xbb;
+  new_buf[2] = (gchar) 0xbf;
+  memcpy (&new_buf[3], *buffer, *length);
+  
+  if (free_buffer) {
+    g_free (*buffer);
+  }
+  
+  *buffer = new_buf;
+  *length += 3;
+  
+  return TRUE;
 }
 
 static int
@@ -653,10 +684,15 @@ diff_buf_to_doc (const git_buf   *old_buf,
   buf = (gchar *) scintilla_send_message (sci, SCI_GETCHARACTERPOINTER, 0, 0);
   len = sci_get_length (sci);
   
+  /* add the BOM if needed */
+  if (doc->has_bom) {
+    /* UTF-8 BOM, converted below */
+    free_buf = add_utf8_bom (&buf, &len, free_buf);
+  }
   /* convert the buffer back to in-file encoding if necessary */
   if (encoding_needs_coversion (doc->encoding)) {
-    free_buf = convert_encoding_inplace (&buf, &len, doc->encoding, "UTF-8",
-                                         NULL);
+    free_buf = convert_encoding_inplace (&buf, &len, free_buf,
+                                         doc->encoding, "UTF-8", NULL);
   }
   
   /* no context lines, and no need to bother about binary checks */
@@ -734,8 +770,8 @@ get_widget_for_buf_range (GeanyDocument *doc,
   
   /* convert the buffer to UTF-8 if necessary */
   if (encoding_needs_coversion (doc->encoding)) {
-    free_buf = convert_encoding_inplace (&buf, &buf_len, "UTF-8", doc->encoding,
-                                         NULL);
+    free_buf = convert_encoding_inplace (&buf, &buf_len, free_buf,
+                                         "UTF-8", doc->encoding, NULL);
   }
   
   scintilla_send_message (sci, SCI_ADDTEXT, buf_len, (glong) buf);
