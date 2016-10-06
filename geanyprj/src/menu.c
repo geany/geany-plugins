@@ -177,6 +177,18 @@ static PropertyDialogElements *build_properties_dialog(gboolean properties)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(e->regenerate), TRUE);
 	ui_table_add_row(GTK_TABLE(table), 3, label, e->regenerate, NULL);
 
+	/* add row for working directory */
+	label = gtk_label_new(_("Working Directory:"));
+	gtk_misc_set_alignment(GTK_MISC(label), 1, 0);
+
+	e->working_dir = gtk_entry_new();
+	gtk_widget_set_tooltip_text(e->working_dir,
+			     _("Working directory for run and build commands."));
+	bbox = ui_path_box_new(_("Choose Project working dirctory."),
+			       GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER, GTK_ENTRY(e->working_dir));
+	gtk_entry_set_text(GTK_ENTRY(e->working_dir), dir);
+
+	ui_table_add_row(GTK_TABLE(table), 4, label, bbox, NULL);
 
 	label = gtk_label_new(_("Type:"));
 	gtk_misc_set_alignment(GTK_MISC(label), 1, 0);
@@ -186,7 +198,7 @@ static PropertyDialogElements *build_properties_dialog(gboolean properties)
 		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->type), project_type_string[i]);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(e->type), 0);
 
-	ui_table_add_row(GTK_TABLE(table), 4, label, e->type, NULL);
+	ui_table_add_row(GTK_TABLE(table), 5, label, e->type, NULL);
 
 	gtk_container_add(GTK_CONTAINER(vbox), table);
 	g_free(dir);
