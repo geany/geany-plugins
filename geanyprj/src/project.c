@@ -478,5 +478,6 @@ void geany_project_save(struct GeanyPrj *prj)
 		g_hash_table_foreach(prj->tags, geany_project_save_files, &data);
 	}
 	save_config(config, prj->path);
+	set_non_ft_build_wdir(g_current_project->working_dir);
 	g_free(base_path);
 }

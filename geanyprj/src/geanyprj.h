@@ -125,6 +125,7 @@ gchar *get_relative_path(const gchar *location, const gchar *path);
 gint config_length(GKeyFile *config, const gchar *section, const gchar *name);
 void save_config(GKeyFile *config, const gchar *path);
 GSList *get_file_list(const gchar *path, guint *length, gboolean(*func)(const gchar *), GError **error);
+void set_non_ft_build_wdir(gchar* wdir);
 
 
 extern struct GeanyPrj *g_current_project;
