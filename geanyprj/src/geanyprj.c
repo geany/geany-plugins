@@ -74,7 +74,7 @@ static void reload_project(void)
 	{
 		if (g_current_project)
 			xproject_close(TRUE);
-		set_non_ft_build_wdir((gchar*)"");
+		set_non_ft_build_wdir("");
 		return;
 	}
 

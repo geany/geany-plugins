@@ -284,7 +284,7 @@ void on_preferences(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer 
 		geany_project_set_name(g_current_project, gtk_entry_get_text(GTK_ENTRY(e->name)));
 		geany_project_set_description(g_current_project, "");
 		geany_project_set_run_cmd(g_current_project, "");
-		geany_project_set_working_dir(g_current_project,  gtk_entry_get_text(GTK_ENTRY(e->working_dir)));
+		geany_project_set_working_dir(g_current_project, gtk_entry_get_text(GTK_ENTRY(e->working_dir)));
 		geany_project_set_type_int(g_current_project,
 					   gtk_combo_box_get_active(GTK_COMBO_BOX(e->type)));
 		geany_project_set_regenerate(g_current_project,
