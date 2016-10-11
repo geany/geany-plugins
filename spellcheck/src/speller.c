@@ -53,7 +53,7 @@ static void dict_describe(const gchar* const lang, const gchar* const name,
 
 static gboolean is_word_sep(gunichar c)
 {
-	return (g_unichar_isspace(c) || g_unichar_ispunct(c)) && c != (gunichar)'\'';
+	return g_unichar_isspace(c) || g_unichar_ispunct(c);
 }
 
 
