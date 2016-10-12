@@ -799,7 +799,7 @@ get_widget_for_buf_range (GeanyDocument *doc,
     }
   }
   gtk_widget_set_size_request (GTK_WIDGET (sci),
-                               MIN (width, alloc.width),
+                               MIN (width + 1, alloc.width),
                                MIN (height + 1, alloc.height));
   
   return GTK_WIDGET (sci);
