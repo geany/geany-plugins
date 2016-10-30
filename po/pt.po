@@ -8,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-30 13:23+0100\n"
-"PO-Revision-Date: 2016-07-04 06:43+0100\n"
+"POT-Creation-Date: 2016-10-30 03:19+0000\n"
+"PO-Revision-Date: 2016-10-30 15:45+0000\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
-"Language-Team: Português <palbuquerque73@gmail.com>\n"
+"Language-Team: Português <>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -268,7 +268,7 @@ msgstr ""
 
 #: ../addons/src/addons.c:585
 msgid "Deselect a previous highlight by single click"
-msgstr ""
+msgstr "Remover uma selecção anterior com um só clique"
 
 #: ../addons/src/addons.c:595
 msgid "Strip trailing blank lines"
@@ -628,14 +628,12 @@ msgid "Show Command Panel"
 msgstr "Mostrar painel de comando"
 
 #: ../commander/src/commander-plugin.c:774
-#, fuzzy
 msgid "Show Command Panel (Commands Only)"
-msgstr "Mostrar painel de comando"
+msgstr "Mostrar painel de comando (só comandos)"
 
 #: ../commander/src/commander-plugin.c:778
-#, fuzzy
 msgid "Show Command Panel (Files Only)"
-msgstr "Mostrar painel de comando"
+msgstr "Mostrar painel de comando (só ficheiros)"
 
 #: ../debugger/src/plugin.c:55
 msgid "Debugger"
@@ -5181,9 +5179,8 @@ msgstr ""
 "remover linhas só com espaços e ordenar linhas."
 
 #: ../lipsum/src/lipsum.c:43
-#, fuzzy
 msgid "Lipsum"
-msgstr "_Lipsum..."
+msgstr "Lipsum"
 
 #: ../lipsum/src/lipsum.c:44
 msgid "Creating dummy text with Geany"
@@ -5198,7 +5195,6 @@ msgid "Enter the length of Lipsum text here"
 msgstr "Insira a dimensão do texto Lipsum aqui"
 
 #: ../lipsum/src/lipsum.c:172
-#, fuzzy
 msgid ""
 "Renamed plugin detected!\n"
 "\n"
@@ -5209,12 +5205,12 @@ msgid ""
 "Warning: This will not include your keybindings.\n"
 "Move now?"
 msgstr ""
-"Extensão renomeada detetada!\n"
+"Extensão renomeada detectada!\n"
 "\n"
-"GeanySendMais foi renomeado para SendMail -- certamente que já o "
-"reconheceu. \n"
+"Como certamente já reparou, o GeanyLipsum foi renomeado para Lipsum. \n"
 "O Geany consegue migrar a sua configuração de extensões movendo-a para uma "
 "nova localização.\n"
+"Aviso: isto não inclui as suas ligações de teclas.\n"
 "Quer mover agora?"
 
 #: ../lipsum/src/lipsum.c:184 ../sendmail/src/sendmail.c:396
@@ -5226,7 +5222,7 @@ msgstr ""
 "A sua pasta de configuração foi movida com sucesso de \"%s\" para \"%s\"."
 
 #: ../lipsum/src/lipsum.c:199
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your old configuration directory \"%s\" could not be moved to \"%s\" (%s). "
 "Please manually move the directory to the new location."
