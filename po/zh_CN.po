@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-27 19:08+0200\n"
+"POT-Creation-Date: 2016-10-30 13:23+0100\n"
 "PO-Revision-Date: 2009-10-30 08:44+0800\n"
 "Last-Translator: Xhacker Liu <liu.dongyuan@gmail.com>\n"
 "Language-Team: zh_CN <>\n"
@@ -156,7 +156,7 @@ msgstr "显示文件列表"
 msgid "File path \"%s\" copied to clipboard."
 msgstr ""
 
-#: ../addons/src/ao_copyfilepath.c:119 ../addons/src/addons.c:317
+#: ../addons/src/ao_copyfilepath.c:119 ../addons/src/addons.c:322
 msgid "Copy File Path"
 msgstr ""
 
@@ -173,24 +173,24 @@ msgstr "附加组件"
 msgid "Various small addons for Geany."
 msgstr "很多 Geany 的小附加组件。"
 
-#: ../addons/src/addons.c:308
+#: ../addons/src/addons.c:313
 msgid "Focus Bookmark List"
 msgstr "焦点书签列表"
 
-#: ../addons/src/addons.c:310
+#: ../addons/src/addons.c:315
 #, fuzzy
 msgid "Focus Tasks List"
 msgstr "焦点书签列表"
 
-#: ../addons/src/addons.c:312
+#: ../addons/src/addons.c:317
 msgid "Update Tasks List"
 msgstr ""
 
-#: ../addons/src/addons.c:314
+#: ../addons/src/addons.c:319
 msgid "Run XML tagging"
 msgstr ""
 
-#: ../addons/src/addons.c:432 ../autoclose/src/autoclose.c:884
+#: ../addons/src/addons.c:453 ../autoclose/src/autoclose.c:884
 #: ../codenav/src/codenavigation.c:292 ../geanylatex/src/geanylatex.c:240
 #: ../geanyprj/src/geanyprj.c:173 ../geanyvc/src/geanyvc.c:1849
 #: ../geniuspaste/src/geniuspaste.c:318 ../sendmail/src/sendmail.c:128
@@ -200,93 +200,97 @@ msgstr ""
 msgid "Plugin configuration directory could not be created."
 msgstr "无法创建插件配置文件目录。"
 
-#: ../addons/src/addons.c:460
+#: ../addons/src/addons.c:482
 msgid "Show toolbar item to show a list of currently open documents"
 msgstr "在工具栏中显示当前打开文件列表"
 
-#: ../addons/src/addons.c:464
+#: ../addons/src/addons.c:486
 msgid "Sort documents by _name"
 msgstr ""
 
-#: ../addons/src/addons.c:466
+#: ../addons/src/addons.c:488
 msgid "Sort the documents in the list by their filename"
 msgstr ""
 
-#: ../addons/src/addons.c:469
+#: ../addons/src/addons.c:491
 msgid "Sort documents by _occurrence"
 msgstr ""
 
-#: ../addons/src/addons.c:471
+#: ../addons/src/addons.c:493
 #, fuzzy
 msgid "Sort the documents in the order of the document tabs"
 msgstr "为您的新文档设置编码"
 
-#: ../addons/src/addons.c:474
+#: ../addons/src/addons.c:496
 msgid "Sort documents by _occurrence (reversed)"
 msgstr ""
 
-#: ../addons/src/addons.c:476
+#: ../addons/src/addons.c:498
 msgid "Sort the documents in the order of the document tabs (reversed)"
 msgstr ""
 
-#: ../addons/src/addons.c:503
+#: ../addons/src/addons.c:525
 #, fuzzy
 msgid "Show an 'Open URI' item in the editor menu"
 msgstr "在编辑器菜单中显示“打开URI”"
 
-#: ../addons/src/addons.c:509
+#: ../addons/src/addons.c:531
 #, fuzzy
 msgid "Show available Tasks in the Messages Window"
 msgstr "在消息窗口中显示可用的任务"
 
-#: ../addons/src/addons.c:515
+#: ../addons/src/addons.c:537
 msgid "Show tasks of all documents"
 msgstr ""
 
-#: ../addons/src/addons.c:519
+#: ../addons/src/addons.c:541
 msgid ""
 "Whether to show the tasks of all open documents in the list or only those of "
 "the current document."
 msgstr ""
 
-#: ../addons/src/addons.c:526
+#: ../addons/src/addons.c:548
 msgid "Specify a semicolon separated list of search tokens."
 msgstr ""
 
-#: ../addons/src/addons.c:528
+#: ../addons/src/addons.c:550
 msgid "Search tokens:"
 msgstr ""
 
-#: ../addons/src/addons.c:545
+#: ../addons/src/addons.c:567
 msgid "Show status icon in the Notification Area"
 msgstr "在通知区域显示状态图标"
 
-#: ../addons/src/addons.c:551
+#: ../addons/src/addons.c:573
 #, fuzzy
 msgid "Show defined bookmarks (marked lines) in the sidebar"
 msgstr "显示定义的书签（标记的行）在侧栏"
 
-#: ../addons/src/addons.c:557
+#: ../addons/src/addons.c:579
 msgid "Mark all occurrences of a word when double-clicking it"
 msgstr ""
 
-#: ../addons/src/addons.c:563
+#: ../addons/src/addons.c:585
+msgid "Deselect a previous highlight by single click"
+msgstr ""
+
+#: ../addons/src/addons.c:595
 msgid "Strip trailing blank lines"
 msgstr ""
 
-#: ../addons/src/addons.c:569
+#: ../addons/src/addons.c:601
 msgid "XML tagging for selection"
 msgstr ""
 
-#: ../addons/src/addons.c:575
+#: ../addons/src/addons.c:607
 msgid "Enclose selection on configurable keybindings"
 msgstr ""
 
-#: ../addons/src/addons.c:579
+#: ../addons/src/addons.c:611
 msgid "Configure enclose pairs"
 msgstr ""
 
-#: ../addons/src/addons.c:587
+#: ../addons/src/addons.c:619
 msgid "Enclose selection automatically (without having to press a keybinding)"
 msgstr ""
 
@@ -593,9 +597,19 @@ msgstr "命令0："
 msgid "Provides a command panel for quick access to actions, files and more"
 msgstr ""
 
-#: ../commander/src/commander-plugin.c:751
+#: ../commander/src/commander-plugin.c:770
 #, fuzzy
 msgid "Show Command Panel"
+msgstr "命令0："
+
+#: ../commander/src/commander-plugin.c:774
+#, fuzzy
+msgid "Show Command Panel (Commands Only)"
+msgstr "命令0："
+
+#: ../commander/src/commander-plugin.c:778
+#, fuzzy
+msgid "Show Command Panel (Files Only)"
 msgstr "命令0："
 
 #: ../debugger/src/plugin.c:55
@@ -1273,66 +1287,66 @@ msgstr ""
 msgid "Process execution failed (%s)"
 msgstr ""
 
-#: ../geanyctags/src/geanyctags.c:515
+#: ../geanyctags/src/geanyctags.c:518
 msgid "Find Tag"
 msgstr ""
 
-#: ../geanyctags/src/geanyctags.c:526
+#: ../geanyctags/src/geanyctags.c:529
 #, fuzzy
 msgid "_Search for:"
 msgstr "插入环境"
 
-#: ../geanyctags/src/geanyctags.c:544
+#: ../geanyctags/src/geanyctags.c:547
 msgid "_Match type:"
 msgstr ""
 
-#: ../geanyctags/src/geanyctags.c:549
+#: ../geanyctags/src/geanyctags.c:552
 #: ../projectorganizer/src/prjorg-sidebar.c:476
 msgid "exact"
 msgstr ""
 
-#: ../geanyctags/src/geanyctags.c:550
+#: ../geanyctags/src/geanyctags.c:553
 #: ../projectorganizer/src/prjorg-sidebar.c:477
 msgid "prefix"
 msgstr ""
 
-#: ../geanyctags/src/geanyctags.c:551
+#: ../geanyctags/src/geanyctags.c:554
 #: ../projectorganizer/src/prjorg-sidebar.c:478
 #, fuzzy
 msgid "pattern"
 msgstr "书信"
 
-#: ../geanyctags/src/geanyctags.c:560
+#: ../geanyctags/src/geanyctags.c:563
 #: ../projectorganizer/src/prjorg-sidebar.c:155
 #: ../projectorganizer/src/prjorg-sidebar.c:499
 msgid "C_ase sensitive"
 msgstr ""
 
-#: ../geanyctags/src/geanyctags.c:563
+#: ../geanyctags/src/geanyctags.c:566
 #: ../projectorganizer/src/prjorg-sidebar.c:502
 #, fuzzy
 msgid "_Declaration"
 msgstr "相关的"
 
-#: ../geanyctags/src/geanyctags.c:630
+#: ../geanyctags/src/geanyctags.c:633
 msgid "Find Tag Declaration (geanyctags)"
 msgstr ""
 
-#: ../geanyctags/src/geanyctags.c:635
+#: ../geanyctags/src/geanyctags.c:638
 msgid "Find Tag Definition (geanyctags)"
 msgstr ""
 
-#: ../geanyctags/src/geanyctags.c:644 ../geanyctags/src/geanyctags.c:649
+#: ../geanyctags/src/geanyctags.c:647 ../geanyctags/src/geanyctags.c:652
 #, fuzzy
 msgid "Generate tags"
 msgstr "GeanySendMail"
 
-#: ../geanyctags/src/geanyctags.c:651
+#: ../geanyctags/src/geanyctags.c:654
 #, fuzzy
 msgid "Find tag..."
 msgstr "添加文件"
 
-#: ../geanyctags/src/geanyctags.c:656
+#: ../geanyctags/src/geanyctags.c:659
 #, fuzzy
 msgid "Find tag"
 msgstr "添加文件"
@@ -2903,38 +2917,6 @@ msgstr "IBM 852 code page"
 #: ../geanylatex/src/latexencodings.c:57
 msgid "Don't set any encoding"
 msgstr ""
-
-#: ../geanylipsum/src/geanylipsum.c:39
-#, fuzzy
-msgid "GeanyLipsum"
-msgstr "Lipsum"
-
-#: ../geanylipsum/src/geanylipsum.c:40
-#, fuzzy
-msgid "Creating dummy text with Geany"
-msgstr "用 Geany 创建空虚的文字"
-
-#: ../geanylipsum/src/geanylipsum.c:88
-msgid "Lipsum-Generator"
-msgstr "Lipsum 生成器"
-
-#: ../geanylipsum/src/geanylipsum.c:89
-msgid "Enter the length of Lipsum text here"
-msgstr "输入 Lipsum 文本的长度"
-
-#. Building menu entry
-#: ../geanylipsum/src/geanylipsum.c:161
-#, fuzzy
-msgid "_Lipsum..."
-msgstr "_Lipsum"
-
-#: ../geanylipsum/src/geanylipsum.c:162
-msgid "Include Pseudotext to your code"
-msgstr "包含 Pseudotext 到您的代码"
-
-#: ../geanylipsum/src/geanylipsum.c:176
-msgid "Insert Lipsum text"
-msgstr "插入 Lipsum 文本"
 
 #: ../geanylua/glspi.h:87 ../geanylua/gsdlg_lua.c:95
 #: ../geanylua/glspi_kfile.c:54
@@ -5078,32 +5060,32 @@ msgstr ""
 msgid "Highlights uncommitted changes in files tracked with Git"
 msgstr ""
 
-#: ../git-changebar/src/gcb-plugin.c:1125 ../pohelper/src/gph-plugin.c:1593
+#: ../git-changebar/src/gcb-plugin.c:1161 ../pohelper/src/gph-plugin.c:1593
 #, fuzzy, c-format
 msgid "Failed to load configuration file: %s"
 msgstr "显示当前文件日志"
 
-#: ../git-changebar/src/gcb-plugin.c:1150 ../pohelper/src/gph-plugin.c:1618
+#: ../git-changebar/src/gcb-plugin.c:1186 ../pohelper/src/gph-plugin.c:1618
 #, fuzzy, c-format
 msgid "Failed to create configuration directory \"%s\": %s"
 msgstr "取回 GDB 工作路径设置失败"
 
-#: ../git-changebar/src/gcb-plugin.c:1153 ../pohelper/src/gph-plugin.c:1621
+#: ../git-changebar/src/gcb-plugin.c:1189 ../pohelper/src/gph-plugin.c:1621
 #, fuzzy, c-format
 msgid "Failed to save configuration file: %s"
 msgstr "显示当前文件日志"
 
-#: ../git-changebar/src/gcb-plugin.c:1232
+#: ../git-changebar/src/gcb-plugin.c:1268
 #, fuzzy
 msgid "Go to the previous hunk"
 msgstr "返回上一个对话框。"
 
-#: ../git-changebar/src/gcb-plugin.c:1234
+#: ../git-changebar/src/gcb-plugin.c:1270
 #, fuzzy
 msgid "Go to the next hunk"
 msgstr "单步进入下一行。"
 
-#: ../git-changebar/src/gcb-plugin.c:1365 ../pohelper/src/gph-plugin.c:1388
+#: ../git-changebar/src/gcb-plugin.c:1401 ../pohelper/src/gph-plugin.c:1388
 #: ../pohelper/src/gph-plugin.c:1723
 #, fuzzy, c-format
 msgid ""
@@ -5159,6 +5141,64 @@ msgid ""
 "document such as, removing duplicate lines, removing empty lines, removing "
 "lines with only whitespace, and sorting lines."
 msgstr ""
+
+#: ../lipsum/src/lipsum.c:43
+#, fuzzy
+msgid "Lipsum"
+msgstr "_Lipsum"
+
+#: ../lipsum/src/lipsum.c:44
+#, fuzzy
+msgid "Creating dummy text with Geany"
+msgstr "用 Geany 创建空虚的文字"
+
+#: ../lipsum/src/lipsum.c:92
+msgid "Lipsum-Generator"
+msgstr "Lipsum 生成器"
+
+#: ../lipsum/src/lipsum.c:93
+msgid "Enter the length of Lipsum text here"
+msgstr "输入 Lipsum 文本的长度"
+
+#: ../lipsum/src/lipsum.c:172
+msgid ""
+"Renamed plugin detected!\n"
+"\n"
+"As you may have already noticed, GeanyLipsum has been renamed to just "
+"Lipsum. \n"
+"Geany is able to migrate your old plugin configuration by moving the old "
+"configuration file to new location.\n"
+"Warning: This will not include your keybindings.\n"
+"Move now?"
+msgstr ""
+
+#: ../lipsum/src/lipsum.c:184 ../sendmail/src/sendmail.c:396
+#, c-format
+msgid ""
+"Your configuration directory has been successfully moved from \"%s\" to \"%s"
+"\"."
+msgstr ""
+
+#: ../lipsum/src/lipsum.c:199
+#, c-format
+msgid ""
+"Your old configuration directory \"%s\" could not be moved to \"%s\" (%s). "
+"Please manually move the directory to the new location."
+msgstr ""
+
+#. Building menu entry
+#: ../lipsum/src/lipsum.c:222
+#, fuzzy
+msgid "_Lipsum..."
+msgstr "_Lipsum"
+
+#: ../lipsum/src/lipsum.c:223
+msgid "Include Pseudotext to your code"
+msgstr "包含 Pseudotext 到您的代码"
+
+#: ../lipsum/src/lipsum.c:237
+msgid "Insert Lipsum text"
+msgstr "插入 Lipsum 文本"
 
 #. POSITION OF VIEW
 #: ../markdown/src/conf.c:567
@@ -6951,13 +6991,6 @@ msgid ""
 "Move now?"
 msgstr ""
 
-#: ../sendmail/src/sendmail.c:396
-#, c-format
-msgid ""
-"Your configuration directory has been successfully moved from \"%s\" to \"%s"
-"\"."
-msgstr ""
-
 #: ../sendmail/src/sendmail.c:411
 #, c-format
 msgid ""
@@ -7763,6 +7796,10 @@ msgstr ""
 #: ../xmlsnippets/src/plugin.c:45
 msgid "Autocompletes XML/HTML tags using snippets."
 msgstr ""
+
+#, fuzzy
+#~ msgid "GeanyLipsum"
+#~ msgstr "Lipsum"
 
 #, fuzzy
 #~ msgid "System plugin directory not found."

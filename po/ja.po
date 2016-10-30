@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-27 19:08+0200\n"
+"POT-Creation-Date: 2016-10-30 13:23+0100\n"
 "PO-Revision-Date: 2011-10-21 14:08+0100\n"
 "Last-Translator: Masami Chikahiro <cmasa.z321@gmail.com>\n"
 "Language-Team: Japanese\n"
@@ -149,7 +149,7 @@ msgstr "文書一覧を表示"
 msgid "File path \"%s\" copied to clipboard."
 msgstr "完全パスをクリップボードにコピー"
 
-#: ../addons/src/ao_copyfilepath.c:119 ../addons/src/addons.c:317
+#: ../addons/src/ao_copyfilepath.c:119 ../addons/src/addons.c:322
 msgid "Copy File Path"
 msgstr ""
 
@@ -166,23 +166,23 @@ msgstr "アドオン"
 msgid "Various small addons for Geany."
 msgstr "Geanyむけのアドオン集"
 
-#: ../addons/src/addons.c:308
+#: ../addons/src/addons.c:313
 msgid "Focus Bookmark List"
 msgstr "ブックマークに切り替え"
 
-#: ../addons/src/addons.c:310
+#: ../addons/src/addons.c:315
 msgid "Focus Tasks List"
 msgstr "タスク一覧に切り替え"
 
-#: ../addons/src/addons.c:312
+#: ../addons/src/addons.c:317
 msgid "Update Tasks List"
 msgstr "タスク一覧を更新"
 
-#: ../addons/src/addons.c:314
+#: ../addons/src/addons.c:319
 msgid "Run XML tagging"
 msgstr "XMLタグ付けを実行"
 
-#: ../addons/src/addons.c:432 ../autoclose/src/autoclose.c:884
+#: ../addons/src/addons.c:453 ../autoclose/src/autoclose.c:884
 #: ../codenav/src/codenavigation.c:292 ../geanylatex/src/geanylatex.c:240
 #: ../geanyprj/src/geanyprj.c:173 ../geanyvc/src/geanyvc.c:1849
 #: ../geniuspaste/src/geniuspaste.c:318 ../sendmail/src/sendmail.c:128
@@ -192,47 +192,47 @@ msgstr "XMLタグ付けを実行"
 msgid "Plugin configuration directory could not be created."
 msgstr "プラグイン設定ディレクトリを作成できません。"
 
-#: ../addons/src/addons.c:460
+#: ../addons/src/addons.c:482
 msgid "Show toolbar item to show a list of currently open documents"
 msgstr "現在の文書一覧を表示するツールバーボタンを表示"
 
-#: ../addons/src/addons.c:464
+#: ../addons/src/addons.c:486
 msgid "Sort documents by _name"
 msgstr "名前による文書の並び替え(_N)"
 
-#: ../addons/src/addons.c:466
+#: ../addons/src/addons.c:488
 msgid "Sort the documents in the list by their filename"
 msgstr "ファイル名によるリスト内の文書の並び替え"
 
-#: ../addons/src/addons.c:469
+#: ../addons/src/addons.c:491
 msgid "Sort documents by _occurrence"
 msgstr "出現順に文書を並び替え(_O)"
 
-#: ../addons/src/addons.c:471
+#: ../addons/src/addons.c:493
 msgid "Sort the documents in the order of the document tabs"
 msgstr "文書タブの順番に文書を並び替え"
 
-#: ../addons/src/addons.c:474
+#: ../addons/src/addons.c:496
 msgid "Sort documents by _occurrence (reversed)"
 msgstr "出現順(逆順)に文書を並び替え(_O)"
 
-#: ../addons/src/addons.c:476
+#: ../addons/src/addons.c:498
 msgid "Sort the documents in the order of the document tabs (reversed)"
 msgstr "文書タブの逆順に文書を並び替え"
 
-#: ../addons/src/addons.c:503
+#: ../addons/src/addons.c:525
 msgid "Show an 'Open URI' item in the editor menu"
 msgstr "'URIを開く'をエディタのメニューに表示"
 
-#: ../addons/src/addons.c:509
+#: ../addons/src/addons.c:531
 msgid "Show available Tasks in the Messages Window"
 msgstr "メッセージウィンドウに利用可能なタスクを表示"
 
-#: ../addons/src/addons.c:515
+#: ../addons/src/addons.c:537
 msgid "Show tasks of all documents"
 msgstr "すべての文書のタスクを表示"
 
-#: ../addons/src/addons.c:519
+#: ../addons/src/addons.c:541
 msgid ""
 "Whether to show the tasks of all open documents in the list or only those of "
 "the current document."
@@ -240,43 +240,47 @@ msgstr ""
 "現在の文書のタスクだけを表示するか、すべての文書のタスクを表示するかを選びま"
 "す。"
 
-#: ../addons/src/addons.c:526
+#: ../addons/src/addons.c:548
 msgid "Specify a semicolon separated list of search tokens."
 msgstr "セミコロンで区切られた検索文字列を指定"
 
-#: ../addons/src/addons.c:528
+#: ../addons/src/addons.c:550
 msgid "Search tokens:"
 msgstr "検索文字列:"
 
-#: ../addons/src/addons.c:545
+#: ../addons/src/addons.c:567
 msgid "Show status icon in the Notification Area"
 msgstr "通知領域にステータスアイコンを表示"
 
-#: ../addons/src/addons.c:551
+#: ../addons/src/addons.c:573
 msgid "Show defined bookmarks (marked lines) in the sidebar"
 msgstr "サイドバーにブックマークを表示"
 
-#: ../addons/src/addons.c:557
+#: ../addons/src/addons.c:579
 msgid "Mark all occurrences of a word when double-clicking it"
 msgstr "ダブルクリックしたときに単語をすべてマークする"
 
-#: ../addons/src/addons.c:563
+#: ../addons/src/addons.c:585
+msgid "Deselect a previous highlight by single click"
+msgstr ""
+
+#: ../addons/src/addons.c:595
 msgid "Strip trailing blank lines"
 msgstr "文末の空白行を除去"
 
-#: ../addons/src/addons.c:569
+#: ../addons/src/addons.c:601
 msgid "XML tagging for selection"
 msgstr "選択用のXMLタグ付け"
 
-#: ../addons/src/addons.c:575
+#: ../addons/src/addons.c:607
 msgid "Enclose selection on configurable keybindings"
 msgstr "定義可能なキー入力によって選択したものに括弧をつける"
 
-#: ../addons/src/addons.c:579
+#: ../addons/src/addons.c:611
 msgid "Configure enclose pairs"
 msgstr ""
 
-#: ../addons/src/addons.c:587
+#: ../addons/src/addons.c:619
 msgid "Enclose selection automatically (without having to press a keybinding)"
 msgstr "自動的に選択したものに括弧をつける(括弧をつけるためのキー入力は不要)"
 
@@ -588,8 +592,18 @@ msgstr ""
 "アクション、ファイルなどに素早くアクセスするためのコマンドパネルを提供しま"
 "す。"
 
-#: ../commander/src/commander-plugin.c:751
+#: ../commander/src/commander-plugin.c:770
 msgid "Show Command Panel"
+msgstr "コマンドパネルを表示"
+
+#: ../commander/src/commander-plugin.c:774
+#, fuzzy
+msgid "Show Command Panel (Commands Only)"
+msgstr "コマンドパネルを表示"
+
+#: ../commander/src/commander-plugin.c:778
+#, fuzzy
+msgid "Show Command Panel (Files Only)"
 msgstr "コマンドパネルを表示"
 
 #: ../debugger/src/plugin.c:55
@@ -1231,68 +1245,68 @@ msgstr "%s: ディレクトリがありません"
 msgid "Process execution failed (%s)"
 msgstr ""
 
-#: ../geanyctags/src/geanyctags.c:515
+#: ../geanyctags/src/geanyctags.c:518
 #, fuzzy
 msgid "Find Tag"
 msgstr "検索:"
 
-#: ../geanyctags/src/geanyctags.c:526
+#: ../geanyctags/src/geanyctags.c:529
 #, fuzzy
 msgid "_Search for:"
 msgstr "検索文字列:"
 
-#: ../geanyctags/src/geanyctags.c:544
+#: ../geanyctags/src/geanyctags.c:547
 msgid "_Match type:"
 msgstr ""
 
-#: ../geanyctags/src/geanyctags.c:549
+#: ../geanyctags/src/geanyctags.c:552
 #: ../projectorganizer/src/prjorg-sidebar.c:476
 msgid "exact"
 msgstr ""
 
-#: ../geanyctags/src/geanyctags.c:550
+#: ../geanyctags/src/geanyctags.c:553
 #: ../projectorganizer/src/prjorg-sidebar.c:477
 #, fuzzy
 msgid "prefix"
 msgstr "基数の接頭語(_P)"
 
-#: ../geanyctags/src/geanyctags.c:551
+#: ../geanyctags/src/geanyctags.c:554
 #: ../projectorganizer/src/prjorg-sidebar.c:478
 #, fuzzy
 msgid "pattern"
 msgstr "手紙"
 
-#: ../geanyctags/src/geanyctags.c:560
+#: ../geanyctags/src/geanyctags.c:563
 #: ../projectorganizer/src/prjorg-sidebar.c:155
 #: ../projectorganizer/src/prjorg-sidebar.c:499
 msgid "C_ase sensitive"
 msgstr "大文字小文字を区別(_A)"
 
-#: ../geanyctags/src/geanyctags.c:563
+#: ../geanyctags/src/geanyctags.c:566
 #: ../projectorganizer/src/prjorg-sidebar.c:502
 #, fuzzy
 msgid "_Declaration"
 msgstr "関係式"
 
-#: ../geanyctags/src/geanyctags.c:630
+#: ../geanyctags/src/geanyctags.c:633
 msgid "Find Tag Declaration (geanyctags)"
 msgstr ""
 
-#: ../geanyctags/src/geanyctags.c:635
+#: ../geanyctags/src/geanyctags.c:638
 msgid "Find Tag Definition (geanyctags)"
 msgstr ""
 
-#: ../geanyctags/src/geanyctags.c:644 ../geanyctags/src/geanyctags.c:649
+#: ../geanyctags/src/geanyctags.c:647 ../geanyctags/src/geanyctags.c:652
 #, fuzzy
 msgid "Generate tags"
 msgstr "全般"
 
-#: ../geanyctags/src/geanyctags.c:651
+#: ../geanyctags/src/geanyctags.c:654
 #, fuzzy
 msgid "Find tag..."
 msgstr "検索:"
 
-#: ../geanyctags/src/geanyctags.c:656
+#: ../geanyctags/src/geanyctags.c:659
 #, fuzzy
 msgid "Find tag"
 msgstr "次を検索"
@@ -2814,36 +2828,6 @@ msgstr "IBM 852 コードページ"
 #: ../geanylatex/src/latexencodings.c:57
 msgid "Don't set any encoding"
 msgstr "コードページなし"
-
-#: ../geanylipsum/src/geanylipsum.c:39
-msgid "GeanyLipsum"
-msgstr "GeanyLipsum"
-
-#: ../geanylipsum/src/geanylipsum.c:40
-msgid "Creating dummy text with Geany"
-msgstr "Geanyでダミーテキストを作成"
-
-#: ../geanylipsum/src/geanylipsum.c:88
-msgid "Lipsum-Generator"
-msgstr "Lipsum-Generator"
-
-#: ../geanylipsum/src/geanylipsum.c:89
-msgid "Enter the length of Lipsum text here"
-msgstr "ダミーテキストの文字数を指定"
-
-#. Building menu entry
-#: ../geanylipsum/src/geanylipsum.c:161
-#, fuzzy
-msgid "_Lipsum..."
-msgstr "_Lipsum"
-
-#: ../geanylipsum/src/geanylipsum.c:162
-msgid "Include Pseudotext to your code"
-msgstr "あなたの文書にダミーテキストを追加します"
-
-#: ../geanylipsum/src/geanylipsum.c:176
-msgid "Insert Lipsum text"
-msgstr "ダミーテキストを挿入"
 
 #: ../geanylua/glspi.h:87 ../geanylua/gsdlg_lua.c:95
 #: ../geanylua/glspi_kfile.c:54
@@ -5006,32 +4990,32 @@ msgstr ""
 msgid "Highlights uncommitted changes in files tracked with Git"
 msgstr ""
 
-#: ../git-changebar/src/gcb-plugin.c:1125 ../pohelper/src/gph-plugin.c:1593
+#: ../git-changebar/src/gcb-plugin.c:1161 ../pohelper/src/gph-plugin.c:1593
 #, fuzzy, c-format
 msgid "Failed to load configuration file: %s"
 msgstr "設定の読み込みに失敗: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1150 ../pohelper/src/gph-plugin.c:1618
+#: ../git-changebar/src/gcb-plugin.c:1186 ../pohelper/src/gph-plugin.c:1618
 #, fuzzy, c-format
 msgid "Failed to create configuration directory \"%s\": %s"
 msgstr "ファイル種類 \"%s\" 向けの設定ファイルが見つかりません: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1153 ../pohelper/src/gph-plugin.c:1621
+#: ../git-changebar/src/gcb-plugin.c:1189 ../pohelper/src/gph-plugin.c:1621
 #, fuzzy, c-format
 msgid "Failed to save configuration file: %s"
 msgstr "設定の保存に失敗: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1232
+#: ../git-changebar/src/gcb-plugin.c:1268
 #, fuzzy
 msgid "Go to the previous hunk"
 msgstr "前の頁に移動"
 
-#: ../git-changebar/src/gcb-plugin.c:1234
+#: ../git-changebar/src/gcb-plugin.c:1270
 #, fuzzy
 msgid "Go to the next hunk"
 msgstr "次の頁に移動"
 
-#: ../git-changebar/src/gcb-plugin.c:1365 ../pohelper/src/gph-plugin.c:1388
+#: ../git-changebar/src/gcb-plugin.c:1401 ../pohelper/src/gph-plugin.c:1388
 #: ../pohelper/src/gph-plugin.c:1723
 #, fuzzy, c-format
 msgid ""
@@ -5087,6 +5071,63 @@ msgid ""
 "document such as, removing duplicate lines, removing empty lines, removing "
 "lines with only whitespace, and sorting lines."
 msgstr ""
+
+#: ../lipsum/src/lipsum.c:43
+#, fuzzy
+msgid "Lipsum"
+msgstr "_Lipsum"
+
+#: ../lipsum/src/lipsum.c:44
+msgid "Creating dummy text with Geany"
+msgstr "Geanyでダミーテキストを作成"
+
+#: ../lipsum/src/lipsum.c:92
+msgid "Lipsum-Generator"
+msgstr "Lipsum-Generator"
+
+#: ../lipsum/src/lipsum.c:93
+msgid "Enter the length of Lipsum text here"
+msgstr "ダミーテキストの文字数を指定"
+
+#: ../lipsum/src/lipsum.c:172
+msgid ""
+"Renamed plugin detected!\n"
+"\n"
+"As you may have already noticed, GeanyLipsum has been renamed to just "
+"Lipsum. \n"
+"Geany is able to migrate your old plugin configuration by moving the old "
+"configuration file to new location.\n"
+"Warning: This will not include your keybindings.\n"
+"Move now?"
+msgstr ""
+
+#: ../lipsum/src/lipsum.c:184 ../sendmail/src/sendmail.c:396
+#, c-format
+msgid ""
+"Your configuration directory has been successfully moved from \"%s\" to \"%s"
+"\"."
+msgstr ""
+
+#: ../lipsum/src/lipsum.c:199
+#, c-format
+msgid ""
+"Your old configuration directory \"%s\" could not be moved to \"%s\" (%s). "
+"Please manually move the directory to the new location."
+msgstr ""
+
+#. Building menu entry
+#: ../lipsum/src/lipsum.c:222
+#, fuzzy
+msgid "_Lipsum..."
+msgstr "_Lipsum"
+
+#: ../lipsum/src/lipsum.c:223
+msgid "Include Pseudotext to your code"
+msgstr "あなたの文書にダミーテキストを追加します"
+
+#: ../lipsum/src/lipsum.c:237
+msgid "Insert Lipsum text"
+msgstr "ダミーテキストを挿入"
 
 #. POSITION OF VIEW
 #: ../markdown/src/conf.c:567
@@ -6831,13 +6872,6 @@ msgid ""
 "Move now?"
 msgstr ""
 
-#: ../sendmail/src/sendmail.c:396
-#, c-format
-msgid ""
-"Your configuration directory has been successfully moved from \"%s\" to \"%s"
-"\"."
-msgstr ""
-
 #: ../sendmail/src/sendmail.c:411
 #, c-format
 msgid ""
@@ -7632,6 +7666,9 @@ msgstr "XML スニペット"
 #: ../xmlsnippets/src/plugin.c:45
 msgid "Autocompletes XML/HTML tags using snippets."
 msgstr "スニペットを使用してXML/HTMLタグを自動補完"
+
+#~ msgid "GeanyLipsum"
+#~ msgstr "GeanyLipsum"
 
 #, fuzzy
 #~ msgid "System plugin directory not found."
