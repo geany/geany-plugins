@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-30 13:23+0100\n"
-"PO-Revision-Date: 2015-11-02 21:45+0500\n"
+"POT-Creation-Date: 2016-10-31 03:19+0000\n"
+"PO-Revision-Date: 2016-10-31 09:17+0500\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk_KZ@googlegroups.com>\n"
 "Language: kk\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Poedit 1.8.10\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
@@ -77,11 +77,11 @@ msgstr "Тапсырмалар"
 
 #: ../addons/src/ao_tasks.c:542
 msgid "Context:"
-msgstr ""
+msgstr "Контекст:"
 
 #: ../addons/src/ao_xmltagging.c:54
 msgid "XML tagging"
-msgstr ""
+msgstr "XML тегтерін орнату"
 
 #: ../addons/src/ao_xmltagging.c:65
 msgid "Tag name to be inserted:"
@@ -96,11 +96,11 @@ msgstr ""
 
 #: ../addons/src/ao_openuri.c:165
 msgid "Open URI"
-msgstr ""
+msgstr "URI ашу"
 
 #: ../addons/src/ao_openuri.c:171
 msgid "Copy URI"
-msgstr ""
+msgstr "URI көшіріп алу"
 
 #: ../addons/src/ao_wrapwords.c:252
 msgid "Enclose Characters"
@@ -141,7 +141,7 @@ msgstr "Бар_лығын жабу"
 
 #: ../addons/src/ao_doclist.c:249
 msgid "Show Document List"
-msgstr ""
+msgstr "Құжаттар тізімін көрсету"
 
 #: ../addons/src/ao_copyfilepath.c:104
 #, c-format
@@ -158,7 +158,7 @@ msgstr ""
 
 #: ../addons/src/addons.c:52
 msgid "Addons"
-msgstr ""
+msgstr "Кеңейтулер"
 
 #: ../addons/src/addons.c:53
 msgid "Various small addons for Geany."
@@ -554,11 +554,11 @@ msgstr ""
 #. Add the menu item, sensitive only when a document is opened
 #: ../codenav/src/goto_file.c:68 ../codenav/src/goto_file.c:218
 msgid "Go to File..."
-msgstr ""
+msgstr "Файлға өту..."
 
 #: ../codenav/src/goto_file.c:82
 msgid "Go to File"
-msgstr ""
+msgstr "Файлға өту"
 
 #: ../codenav/src/goto_file.c:227
 msgid "Enter the file you want to open:"
@@ -567,7 +567,7 @@ msgstr ""
 #: ../codenav/src/goto_file.c:303 ../codenav/src/switch_head_impl.c:409
 #, c-format
 msgid "%s not found, create it?"
-msgstr ""
+msgstr "\"%s\" табылмады, оны жасау керек пе?"
 
 #: ../commander/src/commander-plugin.c:42
 msgid "Commander"
@@ -617,7 +617,7 @@ msgstr ""
 #. target
 #: ../debugger/src/tpage.c:251
 msgid "Target:"
-msgstr ""
+msgstr "Мақсаты:"
 
 #: ../debugger/src/tpage.c:254
 msgid "Browse"
@@ -626,7 +626,7 @@ msgstr "Қарап шығу"
 #. debugger
 #: ../debugger/src/tpage.c:259
 msgid "Debugger:"
-msgstr ""
+msgstr "Жөндеуші:"
 
 #. arguments
 #: ../debugger/src/tpage.c:270
@@ -1227,9 +1227,8 @@ msgid "Find Tag"
 msgstr ""
 
 #: ../geanyctags/src/geanyctags.c:529
-#, fuzzy
 msgid "_Search for:"
-msgstr "Іздеу"
+msgstr "_Нені іздеу:"
 
 #: ../geanyctags/src/geanyctags.c:547
 msgid "_Match type:"
@@ -1274,9 +1273,8 @@ msgid "Generate tags"
 msgstr ""
 
 #: ../geanyctags/src/geanyctags.c:654
-#, fuzzy
 msgid "Find tag..."
-msgstr "Келесісін табу"
+msgstr "Тегті табу..."
 
 #: ../geanyctags/src/geanyctags.c:659
 msgid "Find tag"
@@ -3069,7 +3067,7 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:67
 msgid "Delete to beginning of line"
-msgstr ""
+msgstr "Жол басына дейін өшіру"
 
 #: ../geanymacro/src/geanymacro.c:68
 msgid "Delete to end of line"
@@ -4836,9 +4834,8 @@ msgid "Remove _Unique Lines"
 msgstr ""
 
 #: ../lineoperations/src/lineoperations.c:74
-#, fuzzy
 msgid "Remove _Empty Lines"
-msgstr "(Бос жол)"
+msgstr "_Бос жолдарды өшіру"
 
 #: ../lineoperations/src/lineoperations.c:76
 msgid "Remove _Whitespace Lines"
@@ -4853,14 +4850,12 @@ msgid "Sort Lines _Descending"
 msgstr ""
 
 #: ../lineoperations/src/lineoperations.c:85
-#, fuzzy
 msgid "_Line Operations"
-msgstr "Опциялар"
+msgstr "Жо_л әрекеттері"
 
 #: ../lineoperations/src/lineoperations.c:127
-#, fuzzy
 msgid "Line Operations"
-msgstr "Опциялар"
+msgstr "Жол әрекеттері"
 
 #: ../lineoperations/src/lineoperations.c:128
 msgid ""
@@ -5482,14 +5477,12 @@ msgid "Find project file"
 msgstr ""
 
 #: ../projectorganizer/src/prjorg-menu.c:405
-#, fuzzy
 msgid "Find Project Symbol..."
-msgstr "Жобадан табу"
+msgstr "Жоба таңбасын табу..."
 
 #: ../projectorganizer/src/prjorg-menu.c:411
-#, fuzzy
 msgid "Find project symbol"
-msgstr "Жобадан табу"
+msgstr "Жоба таңбасын табу"
 
 #: ../projectorganizer/src/prjorg-menu.c:413
 msgid "Swap Header/Source"
@@ -6373,11 +6366,11 @@ msgstr ""
 
 #: ../scope/src/scope.c:71 ../scope/src/scope.c:74
 msgid "GDB command"
-msgstr ""
+msgstr "GDB командасы"
 
 #: ../scope/src/scope.c:72
 msgid "Show terminal"
-msgstr ""
+msgstr "Терминалды көрсету"
 
 #: ../scope/src/scope.c:225
 msgid "Busy"
@@ -6460,12 +6453,12 @@ msgstr "Тоқтатылған"
 #: ../scope/src/utils.c:37
 #, c-format
 msgid "%s: %s."
-msgstr ""
+msgstr "%s: %s."
 
 #: ../scope/src/utils.c:45
 #, c-format
 msgid "%s: %s"
-msgstr ""
+msgstr "%s: %s"
 
 #: ../scope/src/utils.c:225
 #, c-format
@@ -6474,7 +6467,7 @@ msgstr ""
 
 #: ../scope/src/views.c:526
 msgid "…"
-msgstr ""
+msgstr "…"
 
 #: ../scope/src/views.c:549
 msgid "_Send"
@@ -6482,16 +6475,15 @@ msgstr "_Жіберу"
 
 #: ../scope/src/views.c:549
 msgid "_Busy"
-msgstr ""
+msgstr "_Бос емес"
 
 #: ../scope/src/views.c:558
 msgid "GDB Command"
 msgstr ""
 
 #: ../sendmail/src/sendmail.c:45
-#, fuzzy
 msgid "SendMail"
-msgstr "Пошта"
+msgstr "SendMail"
 
 #: ../sendmail/src/sendmail.c:46
 msgid "Sends the current file as attachment with your favorite mailer"
@@ -6895,7 +6887,7 @@ msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1245
 msgid "Create new file"
-msgstr ""
+msgstr "Жаңа файлды жасау"
 
 #: ../treebrowser/src/treebrowser.c:1249
 msgid "Rename"
@@ -6908,7 +6900,7 @@ msgstr "Өшіру"
 #: ../treebrowser/src/treebrowser.c:1262
 #, c-format
 msgid "Close: %s"
-msgstr ""
+msgstr "Жабу: %s"
 
 #: ../treebrowser/src/treebrowser.c:1267
 #, c-format
@@ -7011,7 +7003,7 @@ msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1986
 msgid "Show icons"
-msgstr ""
+msgstr "Таңбашаларды көрсету"
 
 #: ../treebrowser/src/treebrowser.c:1988
 msgid "None"
@@ -7085,11 +7077,11 @@ msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:2134
 msgid "Create New File"
-msgstr ""
+msgstr "Жаңа файлды жасау"
 
 #: ../treebrowser/src/treebrowser.c:2136
 msgid "Create New Directory"
-msgstr ""
+msgstr "Жаңа буманы жасау"
 
 #: ../updatechecker/src/updatechecker.c:40
 msgid "Updatechecker"
@@ -7325,7 +7317,7 @@ msgstr ""
 #. Browser
 #: ../webhelper/src/gwh-plugin.c:529
 msgid "Browser"
-msgstr ""
+msgstr "Браузер"
 
 #. Windows
 #: ../webhelper/src/gwh-plugin.c:541
