@@ -419,20 +419,24 @@ worker_thread (gpointer data)
         }
       }
     }
-    if (! repo && git_repository_open_ext (&repo, path, 0, NULL) == 0) {
-      if (git_repository_is_bare (repo)) {
-        git_repository_free (repo);
-        repo = NULL;
-      } else if (G_monitoring_enabled) {
-        /* we need to monitor HEAD, in case of e.g. branch switch (e.g.
-         * git checkout -b will switch the ref we need to watch) */
-        monitors[0] = monitor_repo_file (repo, "HEAD",
-                                         G_CALLBACK (on_git_repo_changed),
-                                         GINT_TO_POINTER (TRUE));
-        /* and of course the real ref (branch) for when changes get committed */
-        monitors[1] = monitor_head_ref (repo, G_CALLBACK (on_git_repo_changed),
-                                        GINT_TO_POINTER (FALSE));
+    if (! repo) {
+      gchar *dirname = g_path_get_dirname (path);
+      if (git_repository_open_ext (&repo, dirname, 0, NULL) == 0) {
+        if (git_repository_is_bare (repo)) {
+          git_repository_free (repo);
+          repo = NULL;
+        } else if (G_monitoring_enabled) {
+          /* we need to monitor HEAD, in case of e.g. branch switch (e.g.
+           * git checkout -b will switch the ref we need to watch) */
+          monitors[0] = monitor_repo_file (repo, "HEAD",
+                                           G_CALLBACK (on_git_repo_changed),
+                                           GINT_TO_POINTER (TRUE));
+          /* and of course the real ref (branch) for when changes get committed */
+          monitors[1] = monitor_head_ref (repo, G_CALLBACK (on_git_repo_changed),
+                                          GINT_TO_POINTER (FALSE));
+        }
       }
+      g_free(dirname);
     }
     
     buf_zero (&job->buf);
