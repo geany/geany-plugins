@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Geany-Plugins 1.28\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-30 13:23+0100\n"
-"PO-Revision-Date: 2016-06-27 19:23+0200\n"
+"PO-Revision-Date: 2016-11-01 10:41+0100\n"
 "Last-Translator: Colomban Wendling <ban@herbesfolles.org>\n"
 "Language-Team: French <geany-i18n@uvena.de>\n"
 "Language: fr\n"
@@ -265,7 +265,7 @@ msgstr "Marquer toutes les occurrences d'un mot lors d'un double-clic"
 
 #: ../addons/src/addons.c:585
 msgid "Deselect a previous highlight by single click"
-msgstr ""
+msgstr "Un simple clic supprime les marqueurs"
 
 #: ../addons/src/addons.c:595
 msgid "Strip trailing blank lines"
@@ -623,14 +623,12 @@ msgid "Show Command Panel"
 msgstr "Afficher le panneau de commande"
 
 #: ../commander/src/commander-plugin.c:774
-#, fuzzy
 msgid "Show Command Panel (Commands Only)"
-msgstr "Afficher le panneau de commande"
+msgstr "Afficher le panneau de commande (commandes seulement)"
 
 #: ../commander/src/commander-plugin.c:778
-#, fuzzy
 msgid "Show Command Panel (Files Only)"
-msgstr "Afficher le panneau de commande"
+msgstr "Afficher le panneau de commande (fichiers seulement)"
 
 #: ../debugger/src/plugin.c:55
 msgid "Debugger"
@@ -5216,7 +5214,6 @@ msgid "Enter the length of Lipsum text here"
 msgstr "Entrez la longueur du faux-texte ici"
 
 #: ../lipsum/src/lipsum.c:172
-#, fuzzy
 msgid ""
 "Renamed plugin detected!\n"
 "\n"
@@ -5229,10 +5226,11 @@ msgid ""
 msgstr ""
 "Le plugin a été renommé !\n"
 "\n"
-"GeanySendMail a été renommé SendMail, comme vous l'avez sans doutes déjà "
+"GeanyLipsum a été renommé Lipsum, comme vous l'avez sans doutes déjà "
 "remarqué.\n"
 "Geany peut migrer l'ancienne configuration du plugin en déplaçant l'ancien "
 "fichier de configuration vers sa nouvelle place.\n"
+"Attention : cela n'inclut pas vos raccourcis personnalisés.\n"
 "Voulez-vous le déplacer maintenant ?"
 
 #: ../lipsum/src/lipsum.c:184 ../sendmail/src/sendmail.c:396
@@ -5245,7 +5243,7 @@ msgstr ""
 "« %s »."
 
 #: ../lipsum/src/lipsum.c:199
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your old configuration directory \"%s\" could not be moved to \"%s\" (%s). "
 "Please manually move the directory to the new location."
