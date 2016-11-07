@@ -7,10 +7,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 1.28\n"
+"Project-Id-Version: Geany-Plugins 1.29\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-30 13:23+0100\n"
-"PO-Revision-Date: 2014-04-07 21:25+0200\n"
+"POT-Creation-Date: 2016-10-30 03:19+0000\n"
+"PO-Revision-Date: 2016-11-07 12:00+0100\n"
 "Last-Translator: Lucas Vieites <lucas@codexion.com>\n"
 "Language-Team: Spanish; Castilian <>\n"
 "Language: es\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Poedit 1.6.10\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
@@ -111,7 +111,7 @@ msgstr "Incluir caracteres"
 
 #: ../addons/src/ao_wrapwords.c:253
 msgid "Accept"
-msgstr ""
+msgstr "Aceptar"
 
 #: ../addons/src/ao_wrapwords.c:254 ../geanymacro/src/geanymacro.c:1064
 msgid "Cancel"
@@ -119,12 +119,12 @@ msgstr "Cancelar"
 
 #: ../addons/src/ao_wrapwords.c:254
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: ../addons/src/ao_wrapwords.c:263
 #, c-format
 msgid "Enclose combo %d"
-msgstr "Incluir combinación %d"
+msgstr "Combinación de encierre %d"
 
 #: ../addons/src/ao_wrapwords.c:279
 msgid "Opening Character"
@@ -147,18 +147,17 @@ msgid "Show Document List"
 msgstr "Mostrar lista de documentos"
 
 #: ../addons/src/ao_copyfilepath.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "File path \"%s\" copied to clipboard."
-msgstr "_Copiar ruta completa al portapapeles"
+msgstr "La ruta de archivo «%s» ha sido copiada al portapapeles."
 
 #: ../addons/src/ao_copyfilepath.c:119 ../addons/src/addons.c:322
 msgid "Copy File Path"
-msgstr ""
+msgstr "Copiar la ruta del archivo"
 
 #: ../addons/src/ao_copyfilepath.c:122
-#, fuzzy
 msgid "Copy the file path of the current document to the clipboard"
-msgstr "Comprueba la ortografía del documento actual."
+msgstr "Copia la ruta de archivo del documento actual al portapapeles. "
 
 #: ../addons/src/addons.c:52
 msgid "Addons"
@@ -265,7 +264,7 @@ msgstr ""
 
 #: ../addons/src/addons.c:585
 msgid "Deselect a previous highlight by single click"
-msgstr ""
+msgstr "Desmarcar un resaltado anterior on una sola pulsación"
 
 #: ../addons/src/addons.c:595
 msgid "Strip trailing blank lines"
@@ -281,7 +280,7 @@ msgstr "Incluir selección mediante combinaciones de tecla configurables"
 
 #: ../addons/src/addons.c:611
 msgid "Configure enclose pairs"
-msgstr ""
+msgstr "Configurar cierre de pares"
 
 #: ../addons/src/addons.c:619
 msgid "Enclose selection automatically (without having to press a keybinding)"
@@ -297,90 +296,88 @@ msgid "Auto-close braces and brackets with lot of features"
 msgstr "Auto-cerrar paréntesis y corchetes con multitud de opciones"
 
 #: ../autoclose/src/autoclose.c:1032
-#, fuzzy
 msgid "Auto-close quotes and brackets"
-msgstr "Auto-cerrar paréntesis y corchetes con multitud de opciones"
+msgstr "Auto-cerrar paréntesis y corchetes"
 
 #: ../autoclose/src/autoclose.c:1033
 msgid "Parenthesis ( )"
-msgstr ""
+msgstr "Paréntesis ( )"
 
 #: ../autoclose/src/autoclose.c:1034
 msgid "Auto-close parenthesis \"(\" -> \"(|)\""
-msgstr ""
+msgstr "Auto-cerrar paréntesis \"(\" -> \"(|)\""
 
 #: ../autoclose/src/autoclose.c:1036
 msgid "Curly brackets { }"
-msgstr ""
+msgstr "Llaves { }"
 
 #: ../autoclose/src/autoclose.c:1037
 msgid "Auto-close curly brackets \"{\" -> \"{|}\""
-msgstr ""
+msgstr "Auto-cerrar llaves \"{\" -> \"{|}\""
 
 #: ../autoclose/src/autoclose.c:1039
 msgid "Square brackets [ ]"
-msgstr ""
+msgstr "Corchetes [ ]"
 
 #: ../autoclose/src/autoclose.c:1040
 msgid "Auto-close square brackets \"[\" -> \"[|]\""
-msgstr ""
+msgstr "Auto-cerrar corchetes \"[\" -> \"[|]\""
 
 #: ../autoclose/src/autoclose.c:1041
 msgid "Angular brackets < >"
-msgstr ""
+msgstr "Corchetes angulares < >"
 
 #: ../autoclose/src/autoclose.c:1042
 msgid "Auto-close angular brackets \"<\" -> \"<|>\""
-msgstr ""
+msgstr "Auto-cerrar corchetes angulares \"<\" -> \"<|>\""
 
 #: ../autoclose/src/autoclose.c:1044
 msgid "\tOnly for HTML"
-msgstr ""
+msgstr "\tSólo para HTML"
 
 #: ../autoclose/src/autoclose.c:1045
 msgid "Auto-close angular brackets only in HTML documents"
-msgstr ""
+msgstr "Auto-cerrar corchetes angulares solamente en documentos HTML"
 
 #: ../autoclose/src/autoclose.c:1046
 msgid "Double quotes \" \""
-msgstr ""
+msgstr "Comillas dobles \" \""
 
 #: ../autoclose/src/autoclose.c:1047
 msgid "Auto-close double quotes \" -> \"|\""
-msgstr ""
+msgstr "Auto-cerrar comillas dobles \" -> \"|\""
 
 #: ../autoclose/src/autoclose.c:1048
 msgid "Single quotes ' '"
-msgstr ""
+msgstr "Comillas simples ' '"
 
 #: ../autoclose/src/autoclose.c:1049
 msgid "Auto-close single quotes ' -> '|'"
-msgstr ""
+msgstr "Auto-cerrar comillas simples ' -> '|'"
 
 #: ../autoclose/src/autoclose.c:1050
 msgid "Backquote ` `"
-msgstr ""
+msgstr "Comillas invertidas ` `"
 
 #: ../autoclose/src/autoclose.c:1051
 msgid "Auto-close backquote ` -> `|`"
-msgstr ""
+msgstr "Auto-cerrar comillas invertidas ` -> `|`"
 
 #: ../autoclose/src/autoclose.c:1053
 msgid "\tOnly for Shell-scripts (Bash)"
-msgstr ""
+msgstr "\tSolo para scripts Shell (Bash)"
 
 #: ../autoclose/src/autoclose.c:1054
 msgid "Auto-close backquote only in Shell-scripts like Bash"
-msgstr ""
+msgstr "Auto-cerrar comillas invertidas solamente en scripts de Shell Bash"
 
 #: ../autoclose/src/autoclose.c:1056
 msgid "Improve curly brackets completion"
-msgstr ""
+msgstr "Mejorar completado de llaves"
 
 #: ../autoclose/src/autoclose.c:1057
-#, fuzzy
 msgid "Indent when enclosing"
-msgstr "No establecer ninguna codificación"
+msgstr "Sangrar al encerrar"
 
 #: ../autoclose/src/autoclose.c:1058
 msgid ""
@@ -389,11 +386,14 @@ msgid ""
 "You do not need to select block precisely - block enclosing takes into "
 "account only lines."
 msgstr ""
+"Si selecciona un texto y pulsa «{» o «}» el plugin auto-cerrará las líneas "
+"seleccionadas y creará un nuevo bloque con sangría.\n"
+"No necesita seleccionar el bloque con precisión, solo se tendrán en cuenta "
+"las líneas."
 
 #: ../autoclose/src/autoclose.c:1063
-#, fuzzy
 msgid "Move cursor to beginning"
-msgstr "Mover el cursor al fin de la línea"
+msgstr "Mover el cursor al inicio"
 
 #: ../autoclose/src/autoclose.c:1064
 msgid ""
@@ -401,11 +401,12 @@ msgid ""
 "useful: usually you make new block and need to create new statement before "
 "this block."
 msgstr ""
+"Si ha marcado «Sangrar al encerrar» puede ser útil mover el cursor al "
+"inicio: normalmente querrá añadir una palabra clave delante del bloque nuevo."
 
 #: ../autoclose/src/autoclose.c:1067
-#, fuzzy
 msgid "Improved auto-indentation"
-msgstr "Orientación del navegador"
+msgstr "Auto-sangrado mejorado"
 
 #: ../autoclose/src/autoclose.c:1068
 msgid ""
@@ -413,10 +414,13 @@ msgid ""
 "plugin will create full indented block. Works without \"auto-close { }\" "
 "checkbox."
 msgstr ""
+"Auto-sangrado mejorado para llaves: escriba «{» y pulse Enter. El plugin "
+"creará un bloque completamente sangrado. Funciona sin haber marcado «Auto-"
+"cerrar llaves {»."
 
 #: ../autoclose/src/autoclose.c:1071
 msgid "\tWhitesmith's style"
-msgstr ""
+msgstr "\tEstilo Whitesmith"
 
 #: ../autoclose/src/autoclose.c:1072
 msgid ""
@@ -424,79 +428,89 @@ msgid ""
 "line, indented. Statements within the braces are indented to the same level "
 "as the braces."
 msgstr ""
+"Este estilo coloca el signo asociado a la sentencia de control en la "
+"siguiente línea. Las sentencias dentro de las llaves se sangran al mismo "
+"nivel que las llaves."
 
 #: ../autoclose/src/autoclose.c:1077
 msgid "Delete pairing character while backspacing first"
-msgstr ""
+msgstr "Borrar el carácter emparejado al pulsar la tecla de retroceso"
 
 #: ../autoclose/src/autoclose.c:1078
 msgid "Check if you want to delete pairing bracket by pressing BackSpace."
 msgstr ""
+"Marque esta opción si desea borrar las llaves emparejadas al pulsar "
+"Retroceso."
 
 #: ../autoclose/src/autoclose.c:1080
-#, fuzzy
 msgid "Suppress double-completion"
-msgstr "Modo de autocompletado"
+msgstr "Eliminar completado doble"
 
 #: ../autoclose/src/autoclose.c:1081
 msgid ""
 "Check if you want to allow editor automatically fix mistypes with brackets: "
 "if you type \"{}\" you will get \"{}\", not \"{}}\"."
 msgstr ""
+"Marque esta opción si quiere permitir al editor corregir errores con "
+"corchetes: si escribe «{}» obtendrá «{}» y no «{}}»."
 
 #: ../autoclose/src/autoclose.c:1083
-#, fuzzy
 msgid "Enclose selections"
-msgstr "Cancelar selección"
+msgstr "Encerrar selecciones"
 
 #: ../autoclose/src/autoclose.c:1084
 msgid "Automatically enclose selected text by pressing just one bracket key."
 msgstr ""
+"Encerrar el texto seleccionado automáticamente al pulsar unsolo corchete."
 
 #: ../autoclose/src/autoclose.c:1086
-#, fuzzy
 msgid "Keep selection when enclosing"
-msgstr "Establecer la selección a un nivel más abajo"
+msgstr "Mantener selección al encerrar"
 
 #: ../autoclose/src/autoclose.c:1087
 msgid "Keep your previously selected text after enclosing."
-msgstr ""
+msgstr "Mantener el texto seleccionado depués de encerrar."
 
 #: ../autoclose/src/autoclose.c:1089
 msgid "Behaviour inside comments and strings"
-msgstr ""
+msgstr "Comportamiento dentro de comentarios y cadenas de texto"
 
 #: ../autoclose/src/autoclose.c:1090
 msgid "Allow auto-closing in strings and comments"
-msgstr ""
+msgstr "Permitit auto-cerrar en cadenas y comentarios"
 
 #: ../autoclose/src/autoclose.c:1091
 msgid "Check if you want to keep auto-closing inside strings and comments too."
 msgstr ""
+"Marque esta opción si también quiere auto-cerrar dentro de cadenas de texto "
+"y comentarios."
 
 #: ../autoclose/src/autoclose.c:1092
-#, fuzzy
 msgid "Enclose selections in strings and comments"
-msgstr "Incluir selección mediante combinaciones de tecla configurables"
+msgstr "Encerrar selecciones dentro de cadenas y comentarios"
 
 #: ../autoclose/src/autoclose.c:1093
 msgid ""
 "Check if you want to enclose selections inside strings and comments too."
 msgstr ""
+"Marque esta opción si también quiere encerrar selecciones dentro de cadenas "
+"de texto y comentarios."
 
 #: ../autoclose/src/autoclose.c:1096
 msgid "Auto-complete \";\" for functions"
-msgstr ""
+msgstr "Auto-completar \";\" para funciones"
 
 #: ../autoclose/src/autoclose.c:1097
 msgid ""
 "Full function auto-closing (works only for C/C++): type \"sin(\" and you "
 "will get \"sin(|);\"."
 msgstr ""
+"Auto-cerrado de función completa (funciona solo para C/C++): escriba "
+"\"sin(\" y obtendrá \"sin(|);\"."
 
 #: ../autoclose/src/autoclose.c:1099
 msgid "Shift+BackSpace removes pairing brace too"
-msgstr ""
+msgstr "Mayús+Retroceso también borrar el corchete pareja"
 
 #: ../autoclose/src/autoclose.c:1100
 msgid ""
@@ -504,22 +518,25 @@ msgid ""
 "Tip: to completely remove indented block just Shift+BackSpace first \"{\" or "
 "last \"}\"."
 msgstr ""
+"Borrar los corchetes de inicio y cierre al pulsar Mayús+Retroceso.\n"
+"Pista: para borrar completamente un bloque sangrado pulse Mayús+Retroceso "
+"con el \"{\" inicial ol el \"}\" final."
 
 #: ../autoclose/src/autoclose.c:1103
 msgid "Jump on Tab to enclosed char"
-msgstr ""
+msgstr "Saltar a cierre al tabular"
 
 #: ../autoclose/src/autoclose.c:1104
 msgid "Jump behind autoclosed items on Tab press."
-msgstr ""
+msgstr "Mueve el cursor a detrás de elementos auto-cerrados al tabular."
 
 #: ../automark/src/automark.c:47
 msgid "Auto-mark"
-msgstr ""
+msgstr "Auto-marcar"
 
 #: ../automark/src/automark.c:48
 msgid "Auto-mark word under cursor"
-msgstr ""
+msgstr "Auto-marcar la palabra debajo del cursor"
 
 #: ../codenav/src/codenavigation.c:43
 msgid "Code navigation"
@@ -529,12 +546,16 @@ msgstr "Navegación por el código"
 msgid ""
 "This plugin adds features to facilitate navigation between source files."
 msgstr ""
+"Este complemento añade características que facilitan la navegación entre "
+"archivos de código."
 
 #: ../codenav/src/codenavigation.c:138
 msgid ""
 "Codenav head/impl lists should have been same length. Geany will use the "
 "default configuration."
 msgstr ""
+"Las listas head/impl de Codenav deberían tener la misma longitud. Jean usará "
+"la configuración predeterminada."
 
 #. Frame, which is the returned widget
 #. Add the menu item and make it sensitive only when a document is opened
@@ -546,7 +567,7 @@ msgstr "Cambiar cabecera/implementación"
 #. Help label
 #: ../codenav/src/codenavigation.c:402
 msgid "You can specify multiple extensions by separating them by commas."
-msgstr ""
+msgstr "Puede indicar varias extensiones separándolas por comas."
 
 #: ../codenav/src/codenavigation.c:425
 msgid "Implementations extensions"
@@ -558,28 +579,30 @@ msgstr "Extensiones de cabeceras"
 
 #. Add the "reset to default" button to the frame's hbox
 #: ../codenav/src/codenavigation.c:461
-#, fuzzy
 msgid "Reset to Default"
-msgstr "Por defecto"
+msgstr "Volver a predeterminado"
 
 #: ../codenav/src/codenavigation.c:546
 msgid ""
 "Are you sure you want to delete all languages and restore defaults?\n"
 "This action cannot be undone."
 msgstr ""
+"¿Está seguro de que desea eliminar todos los lenguajes y volver a los "
+"ajustes predeterminados?\n"
+"Esta acción no se puede deshacer."
 
 #. Add the menu item, sensitive only when a document is opened
 #: ../codenav/src/goto_file.c:68 ../codenav/src/goto_file.c:218
 msgid "Go to File..."
-msgstr ""
+msgstr "Ir al archivo..."
 
 #: ../codenav/src/goto_file.c:82
 msgid "Go to File"
-msgstr ""
+msgstr "Ir al archivo"
 
 #: ../codenav/src/goto_file.c:227
 msgid "Enter the file you want to open:"
-msgstr ""
+msgstr "Introduzca el archivo que desea abrir:"
 
 #: ../codenav/src/goto_file.c:303 ../codenav/src/switch_head_impl.c:409
 #, c-format
@@ -601,14 +624,12 @@ msgid "Show Command Panel"
 msgstr "Mostrar panel de comandos"
 
 #: ../commander/src/commander-plugin.c:774
-#, fuzzy
 msgid "Show Command Panel (Commands Only)"
-msgstr "Mostrar panel de comandos"
+msgstr "Mostrar panel de comandos (solo comandos)"
 
 #: ../commander/src/commander-plugin.c:778
-#, fuzzy
 msgid "Show Command Panel (Files Only)"
-msgstr "Mostrar panel de comandos"
+msgstr "Mostrar panel de comandos (solo archivos)"
 
 #: ../debugger/src/plugin.c:55
 msgid "Debugger"
@@ -683,9 +704,9 @@ msgid "line %i"
 msgstr "línea %i"
 
 #: ../debugger/src/dbm_gdb.c:522
-#, fuzzy, c-format
+#, c-format
 msgid "Program received signal %s (%s)"
-msgstr "El programa ha recibido la señal:"
+msgstr "El programa ha recibido la señal %s (%s)"
 
 #: ../debugger/src/dbm_gdb.c:543
 #, c-format
@@ -1099,7 +1120,7 @@ msgstr "400%"
 msgid "translator_credits"
 msgstr ""
 "Andrew Janke <a.janke@gmail.com>, 2009\n"
-"Lucas Vieites <lucas.vieites@gmail.com>, 2009 - 2012"
+"Lucas Vieites <lucas.vieites@gmail.com>, 2009 - 2016"
 
 #: ../devhelp/devhelp/dh-window.c:729
 msgid "A developers' help browser for GNOME"
@@ -1246,50 +1267,45 @@ msgid "Toggle case sensitive search"
 msgstr "Intercambiar búsqueda sensible a mayúsculas"
 
 #: ../geanyctags/src/geanyctags.c:52
-#, fuzzy
 msgid "Ctags generation and search plugin for geany projects"
-msgstr "complemento de criptografía gpg para geany"
+msgstr "Complemento de generación y búsqueda de ctags para proyectos geany"
 
 #: ../geanyctags/src/geanyctags.c:145
-#, fuzzy, c-format
+#, c-format
 msgid "%s (in directory: %s)"
-msgstr "%s: no existe el directorio."
+msgstr "%s ( en el directorio: %s)"
 
 #: ../geanyctags/src/geanyctags.c:162
 #, c-format
 msgid "Process execution failed (%s)"
-msgstr ""
+msgstr "Ha fallado la ejecución del proceso (%s)"
 
 #: ../geanyctags/src/geanyctags.c:518
-#, fuzzy
 msgid "Find Tag"
-msgstr "Buscar:"
+msgstr "Buscar etiqueta"
 
 #: ../geanyctags/src/geanyctags.c:529
-#, fuzzy
 msgid "_Search for:"
-msgstr "Buscar:"
+msgstr "Bu_scar:"
 
 #: ../geanyctags/src/geanyctags.c:547
 msgid "_Match type:"
-msgstr ""
+msgstr "_Tipo de coincidencia:"
 
 #: ../geanyctags/src/geanyctags.c:552
 #: ../projectorganizer/src/prjorg-sidebar.c:476
 msgid "exact"
-msgstr ""
+msgstr "exacto"
 
 #: ../geanyctags/src/geanyctags.c:553
 #: ../projectorganizer/src/prjorg-sidebar.c:477
-#, fuzzy
 msgid "prefix"
-msgstr "_Prefijo base"
+msgstr "prefijo"
 
 #: ../geanyctags/src/geanyctags.c:554
 #: ../projectorganizer/src/prjorg-sidebar.c:478
-#, fuzzy
 msgid "pattern"
-msgstr "Carta"
+msgstr "patrón"
 
 #: ../geanyctags/src/geanyctags.c:563
 #: ../projectorganizer/src/prjorg-sidebar.c:155
@@ -1299,32 +1315,28 @@ msgstr "Sensible _a mayúsculas"
 
 #: ../geanyctags/src/geanyctags.c:566
 #: ../projectorganizer/src/prjorg-sidebar.c:502
-#, fuzzy
 msgid "_Declaration"
-msgstr "Relacional"
+msgstr "_Declaración"
 
 #: ../geanyctags/src/geanyctags.c:633
 msgid "Find Tag Declaration (geanyctags)"
-msgstr ""
+msgstr "Buscar declaración de etiqueta (geanyctags)"
 
 #: ../geanyctags/src/geanyctags.c:638
 msgid "Find Tag Definition (geanyctags)"
-msgstr ""
+msgstr "Buscar definición de etiqueta (geanyctags)"
 
 #: ../geanyctags/src/geanyctags.c:647 ../geanyctags/src/geanyctags.c:652
-#, fuzzy
 msgid "Generate tags"
-msgstr "General"
+msgstr "Generar etiquetas"
 
 #: ../geanyctags/src/geanyctags.c:654
-#, fuzzy
 msgid "Find tag..."
-msgstr "Buscar:"
+msgstr "Buscar etiqueta..."
 
 #: ../geanyctags/src/geanyctags.c:659
-#, fuzzy
 msgid "Find tag"
-msgstr "Buscar siguiente"
+msgstr "Buscar etiqueta"
 
 #: ../geanydoc/src/geanydoc.c:50 ../geanydoc/src/geanydoc.c:336
 msgid "Doc"
@@ -2222,7 +2234,7 @@ msgstr "GeanyLaTeX"
 
 #: ../geanylatex/src/geanylatex.c:42
 msgid "Extends LaTeX support"
-msgstr ""
+msgstr "Extiende el soporte LaTeX"
 
 #: ../geanylatex/src/geanylatex.c:115
 msgid "Runs LaTeX wizard"
@@ -4655,10 +4667,12 @@ msgid "Nothing to commit."
 msgstr "No hay nada para commit."
 
 #: ../geanyvc/src/geanyvc.c:1610
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error initializing GeanyVC spell checking: %s. Check your configuration."
-msgstr "Ha ocurrido un error al iniciar la comprobación ortográfica: %s"
+msgstr ""
+"Ha ocurrido un error al iniciar la comprobación ortográfica GeanyVC: %s. "
+"Compruebe su configuración."
 
 #: ../geanyvc/src/geanyvc.c:1885
 msgid "Set Changed-flag for document tabs created by the plugin"
@@ -4936,19 +4950,18 @@ msgid "Paste your code on your favorite pastebin"
 msgstr "Pegue su código en su pastebin preferido"
 
 #: ../geniuspaste/src/geniuspaste.c:114
-#, fuzzy, c-format
+#, c-format
 msgid "Group \"%s\" not found."
-msgstr "No se ha encontrado el directorio %s.\n"
+msgstr "No se ha encontrado el grupo «%s»."
 
 #: ../geniuspaste/src/geniuspaste.c:133
 #, c-format
 msgid "Group \"%s\" has no key \"%s\"."
-msgstr ""
+msgstr "El grupo «%s» no tiene clave «%s»."
 
 #: ../geniuspaste/src/geniuspaste.c:678
-#, fuzzy
 msgid "Invalid pastebin service."
-msgstr "posición no válida «%s»"
+msgstr "Servicio pastebin inválido."
 
 #: ../geniuspaste/src/geniuspaste.c:679
 #, c-format
@@ -4956,15 +4969,16 @@ msgid ""
 "Unknown pastebin service \"%s\". Select an existing pastebin service in the "
 "preferences or create an appropriate pastebin configuration and retry."
 msgstr ""
+"Servicio pastebin inválido «%s». Seleccione un servicio pastebin existente "
+"en los ajustes o cree una configuración adecuada y vuelva a intentarlo."
 
 #: ../geniuspaste/src/geniuspaste.c:691
 msgid "Refusing to create blank paste"
 msgstr "Negándose a crear un pegado en blanco"
 
 #: ../geniuspaste/src/geniuspaste.c:711
-#, fuzzy
 msgid "Failed to paste the code"
-msgstr "No de ha podido importar el módulo de gestión"
+msgstr "No se ha podido pegar el código"
 
 #: ../geniuspaste/src/geniuspaste.c:712
 #, c-format
@@ -4974,26 +4988,31 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Ha ocurrido un error al pegar el código en el servicio pastebin %s.\n"
+"Código de error: %u (%s).\n"
+"\n"
+"%s"
 
 #: ../geniuspaste/src/geniuspaste.c:716
 msgid "Check your connection or the pastebin configuration and retry."
 msgstr ""
+"Compruebe su conexión o la configuración pastebin y vuelva a intentarlo."
 
 #: ../geniuspaste/src/geniuspaste.c:718
 msgid ""
 "Wait for the service to come back and retry, or retry with another pastebin "
 "service."
 msgstr ""
+"Espere a que se recupere el servicio y vuelva a intentarlo, o reinténtelo "
+"con otro servicio pastebin."
 
 #: ../geniuspaste/src/geniuspaste.c:720 ../geniuspaste/src/geniuspaste.c:737
-#, fuzzy
 msgid "Check the pastebin configuration and retry."
-msgstr "No se pudo crear el directorio de configuración «%s»: %s"
+msgstr "Compruebe la configuración pastebin y vuelva a intentarlo."
 
 #: ../geniuspaste/src/geniuspaste.c:731
-#, fuzzy
 msgid "Failed to obtain paste URL."
-msgstr "No se ha podido abrir el archivo de script."
+msgstr "No se ha podido obtener la URL para pegarla."
 
 #: ../geniuspaste/src/geniuspaste.c:732
 #, c-format
@@ -5003,11 +5022,14 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Se ha pegado el código con éxito en %s pero ha ocurrido un error al obtener "
+"su URL: %s\n"
+"\n"
+"%s"
 
 #: ../geniuspaste/src/geniuspaste.c:736
-#, fuzzy
 msgid "Unexpected response from the pastebin service."
-msgstr "Error inesperado desde pinentry"
+msgstr "Respuesta inesperada del servicio pastebin."
 
 #: ../geniuspaste/src/geniuspaste.c:749
 msgid "Paste Successful"
@@ -5048,7 +5070,7 @@ msgstr "_Péguelo"
 
 #: ../git-changebar/data/prefs.ui.h:1
 msgid "_Monitor repository for changes"
-msgstr ""
+msgstr "_Monitorear el repositorio por si hay cambios"
 
 #: ../git-changebar/data/prefs.ui.h:2
 msgid ""
@@ -5056,32 +5078,33 @@ msgid ""
 "when the underlying Git repository changes.  This should generally be "
 "enabled for optimal user experience."
 msgstr ""
+"Indica si desea actualizar el diff automáticamente para mantenerlo al día "
+"con los cambios del repositorio Git subyacente. Esto debería estar activado "
+"para obtener una experiencia de usuario óptima."
 
 #: ../git-changebar/data/prefs.ui.h:3
 msgid "_Added lines:"
-msgstr ""
+msgstr "Líneas _añadidas:"
 
 #: ../git-changebar/data/prefs.ui.h:4
 msgid "_Changed lines:"
-msgstr ""
+msgstr "Líneas _cambiadas:"
 
 #: ../git-changebar/data/prefs.ui.h:5
-#, fuzzy
 msgid "_Removed lines:"
-msgstr "Eliminar archivo"
+msgstr "Líneas _eliminadas:"
 
 #: ../git-changebar/data/prefs.ui.h:6
-#, fuzzy
 msgid "Colors"
-msgstr "Color de fondo:"
+msgstr "Colores"
 
 #: ../git-changebar/src/gcb-plugin.c:58
 msgid "Git Change Bar"
-msgstr ""
+msgstr "Barra de cambios Git"
 
 #: ../git-changebar/src/gcb-plugin.c:59
 msgid "Highlights uncommitted changes in files tracked with Git"
-msgstr ""
+msgstr "Realza cambios sin enviar en archivos seguidos con Git"
 
 #: ../git-changebar/src/gcb-plugin.c:1161 ../pohelper/src/gph-plugin.c:1593
 #, c-format
@@ -5099,14 +5122,12 @@ msgid "Failed to save configuration file: %s"
 msgstr "No se pudo guardar el archivo de configuración: %s"
 
 #: ../git-changebar/src/gcb-plugin.c:1268
-#, fuzzy
 msgid "Go to the previous hunk"
-msgstr "Ir a la página anterior"
+msgstr "Ir al pedazo anterior"
 
 #: ../git-changebar/src/gcb-plugin.c:1270
-#, fuzzy
 msgid "Go to the next hunk"
-msgstr "Ir a la siguiente página"
+msgstr "Ir al siguiente pedazo"
 
 #: ../git-changebar/src/gcb-plugin.c:1401 ../pohelper/src/gph-plugin.c:1388
 #: ../pohelper/src/gph-plugin.c:1723
@@ -5119,44 +5140,42 @@ msgstr ""
 "de error: %s"
 
 #: ../lineoperations/src/lineoperations.c:67
+#, fuzzy
 msgid "Remove Duplicate Lines, _Sorted"
-msgstr ""
+msgstr "Eliminar líneas duplicadas, _ordenado"
 
 #: ../lineoperations/src/lineoperations.c:69
+#, fuzzy
 msgid "Remove Duplicate Lines, _Ordered"
-msgstr ""
+msgstr "Eliminar líneas duplicadas, _ordenado"
 
 #: ../lineoperations/src/lineoperations.c:71
-#, fuzzy
 msgid "Remove _Unique Lines"
-msgstr "Eliminar archivo"
+msgstr "Eliminar líneas únicas"
 
 #: ../lineoperations/src/lineoperations.c:74
-#, fuzzy
 msgid "Remove _Empty Lines"
-msgstr "Eliminar archivo"
+msgstr "Eliminar líneas _vacías"
 
 #: ../lineoperations/src/lineoperations.c:76
 msgid "Remove _Whitespace Lines"
-msgstr ""
+msgstr "Eliminar líneas en _blanco"
 
 #: ../lineoperations/src/lineoperations.c:79
 msgid "Sort Lines _Ascending"
-msgstr ""
+msgstr "Ordenar líneas _ascendiente"
 
 #: ../lineoperations/src/lineoperations.c:81
 msgid "Sort Lines _Descending"
-msgstr ""
+msgstr "Ordenar líneas _descendente"
 
 #: ../lineoperations/src/lineoperations.c:85
-#, fuzzy
 msgid "_Line Operations"
-msgstr "Operación binaria"
+msgstr "Operaciones de _líneas"
 
 #: ../lineoperations/src/lineoperations.c:127
-#, fuzzy
 msgid "Line Operations"
-msgstr "Operación binaria"
+msgstr "Operaciones de líneas"
 
 #: ../lineoperations/src/lineoperations.c:128
 msgid ""
@@ -5164,15 +5183,17 @@ msgid ""
 "document such as, removing duplicate lines, removing empty lines, removing "
 "lines with only whitespace, and sorting lines."
 msgstr ""
+"\"Operaciones de líneas\" proporciona un puñado de funciones que se pueden "
+"aplicar a un documento, por ejemplo; eliminar líneas duplicadas, eliminar "
+"líneas vacías, eliminar líneas en blanco, y ordenar líneas."
 
 #: ../lipsum/src/lipsum.c:43
-#, fuzzy
 msgid "Lipsum"
-msgstr "_Lipsum"
+msgstr "Lipsum"
 
 #: ../lipsum/src/lipsum.c:44
 msgid "Creating dummy text with Geany"
-msgstr "Creando texto de relleno con Geany"
+msgstr "Crear texto de relleno con Geany"
 
 #: ../lipsum/src/lipsum.c:92
 msgid "Lipsum-Generator"
@@ -5193,6 +5214,13 @@ msgid ""
 "Warning: This will not include your keybindings.\n"
 "Move now?"
 msgstr ""
+"¡Se ha detectado un cambio de nombre!\n"
+"\n"
+"Como ya habrá visto, GeanyLipsum ha sido renombrado a solamente Lipsum.\n"
+"Geany es capaz de migrar su configuración del complemento antiguo moviendo "
+"el archivo de configuración viejo al nuevo lugar.\n"
+"Aviso: esto no incluye sus combinaciones de teclas.\n"
+"¿Desea moverlo ahora?"
 
 #: ../lipsum/src/lipsum.c:184 ../sendmail/src/sendmail.c:396
 #, c-format
@@ -5200,6 +5228,7 @@ msgid ""
 "Your configuration directory has been successfully moved from \"%s\" to \"%s"
 "\"."
 msgstr ""
+"Su directorio de configuración ha sido movido con éxito de «%s» a «%s»."
 
 #: ../lipsum/src/lipsum.c:199
 #, c-format
@@ -5207,12 +5236,13 @@ msgid ""
 "Your old configuration directory \"%s\" could not be moved to \"%s\" (%s). "
 "Please manually move the directory to the new location."
 msgstr ""
+"Su directorio de configuración viejo «%s» no se ha podido mover a «%s» (%s). "
+"Mueva el directorio al lugar nuevo de forma manual."
 
 #. Building menu entry
 #: ../lipsum/src/lipsum.c:222
-#, fuzzy
 msgid "_Lipsum..."
-msgstr "_Lipsum"
+msgstr "_Lipsum..."
 
 #: ../lipsum/src/lipsum.c:223
 msgid "Include Pseudotext to your code"
@@ -5268,198 +5298,199 @@ msgid "The current document does not have a Markdown filetype."
 msgstr "El documento actual no es un archivo de tipo Markdown."
 
 #: ../multiterm/src/config.vala:47
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to save config file %s: %s"
-msgstr "No se pudo guardar el archivo de configuración: %s"
+msgstr "No se pudo guardar el archivo de configuración %s: %s"
 
 #: ../multiterm/src/config.vala:85 ../multiterm/src/config.vala:89
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to load config file %s: %s"
-msgstr "No se pudo cargar el archivo de configuración: %s"
+msgstr "No se pudo cargar el archivo de configuración %s: %s"
 
-#: ../multiterm/src/context-menu.vala:52 ../multiterm/src/context-menu.vala:140
-#, fuzzy
+#: ../multiterm/src/context-menu.vala:52
+#: ../multiterm/src/context-menu.vala:140
 msgid "Move to message window"
-msgstr "ventana-de-mensajes"
+msgstr "Mover a la ventana de mensajes"
 
-#: ../multiterm/src/context-menu.vala:58 ../multiterm/src/context-menu.vala:135
-#, fuzzy
+#: ../multiterm/src/context-menu.vala:58
+#: ../multiterm/src/context-menu.vala:135
 msgid "Move to sidebar"
-msgstr "barra lateral"
+msgstr "Mover a la barra lateral"
 
 #: ../multiterm/src/context-menu.vala:81
-#, fuzzy
 msgid "Open Tab"
-msgstr "Abrir terminal"
+msgstr "Abrir pestaña"
 
 #: ../multiterm/src/context-menu.vala:96
-#, fuzzy
 msgid "Open Window"
-msgstr "Ventana _nueva"
+msgstr "Abrir ventana"
 
 #: ../multiterm/src/context-menu.vala:103
-#, fuzzy
 msgid "Next tab"
-msgstr "Cadena _siguiente"
+msgstr "Siguiente pestaña"
 
 #. this.append(item);
 #. item.show();
 #: ../multiterm/src/context-menu.vala:108
-#, fuzzy
 msgid "Previous tab"
-msgstr "Cadena _anterior"
+msgstr "Pestaña anterior"
 
 #. this.append(image_item);
 #. image_item.show();
 #. add_separator();
 #: ../multiterm/src/context-menu.vala:127
-#, fuzzy
 msgid "Show Tabs"
-msgstr "Mostrar estado"
+msgstr "Mostrar pestañas"
 
 #: ../multiterm/src/notebook.vala:91
 #, c-format
 msgid "Unable to launch external terminal: %s"
-msgstr ""
+msgstr "No se pudo lanzar la terminal externa: %s"
 
 #: ../multiterm/src/notebook.vala:137
-#, fuzzy
 msgid "Unable to locate default shell in configuration file"
-msgstr "No se ha podido escribir la configuración predeterminada: «%s»"
+msgstr ""
+"No se ha podido encontrar la shell predeterminada en el archivo de "
+"configuración"
 
 #: ../multiterm/src/notebook.vala:202
-#, fuzzy
 msgid "New terminal"
-msgstr "Mostrar terminal"
+msgstr "Terminal nueva"
 
 #: ../multiterm/src/plugin.vala:46 ../multiterm/src/plugin.vala:88
 msgid "MultiTerm"
-msgstr ""
+msgstr "MultiTerm"
 
 #: ../multiterm/src/plugin.vala:47
 msgid "Multi-tabbed virtual terminal emulator."
-msgstr ""
+msgstr "Emulador de terminal virtual de múltiples pestañas."
 
 #: ../multiterm/src/plugin.vala:78
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to write default config file: %s"
-msgstr "No se ha podido escribir la configuración predeterminada: «%s»"
+msgstr "No se ha podido escribir en el archivo de configuración: %s"
 
 #: ../multiterm/src/shell-config.vala:30
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to read value for '%s' key: %s"
-msgstr "No se ha podido crear el directorio de configuración en «%s»"
+msgstr "No se ha podido leer el valor de la clave «%s»: %s"
 
 #: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:1962
-#, fuzzy
 msgid "Terminal"
-msgstr "Terminar"
+msgstr "Terminal"
 
 #: ../multiterm/src/tab-label.vala:84
-#, fuzzy
 msgid "Close terminal"
-msgstr "Mostrar terminal"
+msgstr "Cerrar terminal"
 
 #: ../multiterm/src/terminal.vala:88
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to run command: %s"
-msgstr "No se pudo construir comentario: %s"
+msgstr "No se ha podido ejecutar el comando: %s"
 
 #: ../overview/overview/overviewplugin.c:43
 msgid "Provides an overview of the active document"
-msgstr ""
+msgstr "Proporciona una vista global del documento activo"
 
 #: ../overview/overview/overviewplugin.c:186
 msgid "Toggle Visibility"
-msgstr ""
+msgstr "Intercambiar visibilidad"
 
 #: ../overview/overview/overviewplugin.c:193
 msgid "Toggle Left/Right Position"
-msgstr ""
+msgstr "Intercambiar posición izquierda/derecha"
 
 #: ../overview/overview/overviewplugin.c:200
 msgid "Toggle Overlay Inversion"
-msgstr ""
+msgstr "Intercambiar inversión de cobertura"
 
 #: ../overview/overview/overviewscintilla.c:516
 #, c-format
 msgid "Line <b>%d</b>, Column <b>%d</b>, Position <b>%d</b>"
-msgstr ""
+msgstr "Línea <b>%d</b>, Columna <b>%d</b>, Posición <b>%d</b>"
 
 #: ../overview/overview/overviewui.c:289
-#, fuzzy
 msgid "Show Overview"
-msgstr "Mostrar terminal"
+msgstr "Mostrar vista global"
 
 #: ../overview/data/prefs.ui.h:1
 msgid ""
 "The amount to zoom the overview sidebar. This should probably negative if "
 "you want the sidebar zoomed out."
 msgstr ""
+"La cantidad de zoom de la barra lateral de vista global. Esto deberá ser "
+"negativo si desea la barra lateral sin zoom."
 
 #: ../overview/data/prefs.ui.h:2
-#, fuzzy
 msgid "Zoom Level:"
-msgstr "Acercar vista"
+msgstr "Nivel de zoom:"
 
 #: ../overview/data/prefs.ui.h:3
 msgid "The width of the overview sidebar."
-msgstr ""
+msgstr "La anchura de la barra lateral de vista global."
 
 #: ../overview/data/prefs.ui.h:4
 msgid "Width:"
-msgstr ""
+msgstr "Anchura:"
 
 #: ../overview/data/prefs.ui.h:5
 msgid ""
 "The number of lines to scroll at a time when scrolling the overview sidebar."
 msgstr ""
+"La cantidad de líneas que se desplazará la barra lateral de vista global al "
+"navegar."
 
 #: ../overview/data/prefs.ui.h:6
 msgid "Scroll Lines:"
-msgstr ""
+msgstr "Líneas de desplazamiento:"
 
 #: ../overview/data/prefs.ui.h:7
-#, fuzzy
 msgid "Position on left"
-msgstr "nombre de posición"
+msgstr "Colocar a la izquierda"
 
 #: ../overview/data/prefs.ui.h:8
 msgid ""
 "Position the overview bar on the left rather than the right (requires Geany "
 "1.25 or greater)."
 msgstr ""
+"Colocar la barra de vista global a la izquierda (necesita Geany 1.15 o "
+"superior)."
 
 #: ../overview/data/prefs.ui.h:9
-#, fuzzy
 msgid "Hide tooltip"
-msgstr "Mostrar ayuda emergen_te"
+msgstr "Ocultar ayuda emergente"
 
 #: ../overview/data/prefs.ui.h:10
 msgid ""
 "Hide the tooltip that is displayed when mousing over the overview that shows "
 "line, column and position information."
 msgstr ""
+"Oculta la ayuda emergente que indica línea, columna y posicón y se muestra "
+"al colocar el ratón sobre la vista global."
 
 #: ../overview/data/prefs.ui.h:11
 msgid "Hide editor scrollbar"
-msgstr ""
+msgstr "Ocultar la barra de desplazamiento del editor"
 
 #: ../overview/data/prefs.ui.h:12
 msgid ""
 "Whether to hide Geany's regular editor scrollbar while the overview bar is "
 "visible."
 msgstr ""
+"Indica si se oculta la barra de desplazamiento de Geany cuando está visible "
+"la barra de vista global."
 
 #: ../overview/data/prefs.ui.h:13
 msgid "Disable overlay"
-msgstr ""
+msgstr "Desactivar cobertura"
 
 #: ../overview/data/prefs.ui.h:14
 msgid ""
 "Turn off drawing overlay, which shows the region of the main editor view "
 "that is currently in view, ontop of the overview bar."
 msgstr ""
+"Desactiva la cobertura, que muestra la región de la vista del editor "
+"principal, encima de la barra de vista global."
 
 #: ../overview/data/prefs.ui.h:15 ../scope/data/scope.glade.h:109
 msgid "Options"
@@ -5469,26 +5500,29 @@ msgstr "Opciones"
 msgid ""
 "The color and opacity of the overlay drawn ontop of the overlay sidebar."
 msgstr ""
+"El color y la opacidad de la cobertura dibujada encima de la barra lateral "
+"de cobertura."
 
 #: ../overview/data/prefs.ui.h:17
-#, fuzzy
 msgid "Color:"
-msgstr "Color de fondo:"
+msgstr "Color:"
 
 #: ../overview/data/prefs.ui.h:18
 msgid ""
 "The color and opacity of the border drawn around the revealed area in the "
 "overview sidebar. Set to the same as Overlay Color to disable."
 msgstr ""
+"El color y la opcidad del borde alrededor del área mostrada en la barra "
+"lateral de vista global. Fijar al mismo que Color de cobertura para "
+"desactivar."
 
 #: ../overview/data/prefs.ui.h:19
-#, fuzzy
 msgid "Outline Color:"
-msgstr "Seleccionar color"
+msgstr "Color del borde:"
 
 #: ../overview/data/prefs.ui.h:20
 msgid "Draw over visible area"
-msgstr ""
+msgstr "Dibujar por encima del área visible"
 
 #: ../overview/data/prefs.ui.h:21
 msgid ""
@@ -5496,10 +5530,14 @@ msgid ""
 "the main editor view, when unchecked, it will do the opposite and draw the "
 "overlay everywhere but the visible area, \"revealing\" the visible part."
 msgstr ""
+"Si se marca dibujará la cobertura encima del área que está visible en la "
+"vista principal del editor. Al contrario hará lo opuesto, es decir, dibujará "
+"la cobertura en todas partes excepto el área visible, \"revelando\" el área "
+"visible."
 
 #: ../overview/data/prefs.ui.h:22
 msgid "Overlay"
-msgstr ""
+msgstr "Cobertura"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:34
 msgid "Pair Tag Highlighter"
@@ -5602,14 +5640,12 @@ msgid "_Reflow Translation"
 msgstr "_Refluir traducción"
 
 #: ../pohelper/data/menus.ui.h:24 ../pohelper/src/gph-plugin.c:1558
-#, fuzzy
 msgid "Show statistics of the current document"
-msgstr "Comprueba la ortografía del documento actual."
+msgstr "Mostrar estadísticas del documento actual"
 
 #: ../pohelper/data/menus.ui.h:25
-#, fuzzy
 msgid "_Show stats"
-msgstr "Mostrar estado"
+msgstr "Mo_strar estadísticas"
 
 #: ../pohelper/data/menus.ui.h:26
 msgid ""
@@ -5624,38 +5660,32 @@ msgid "Update _Headers Upon Save"
 msgstr "Actualizar _cabeceras al guardar"
 
 #: ../pohelper/data/stats.ui.h:1
-#, fuzzy
 msgid "Translation statistics"
-msgstr "Ayudante de traducción"
+msgstr "Estadísticas de traducción"
 
 #: ../pohelper/data/stats.ui.h:2
-#, fuzzy
 msgid "Choose a color for translated strings"
-msgstr "Ir a la siguiente cadena sin traducir"
+msgstr "Elija un color para las cadenas traducidas"
 
 #: ../pohelper/data/stats.ui.h:3
-#, fuzzy
 msgid "Choose a color for fuzzily translated strings"
-msgstr "Ir a la siguiente traducción difusa"
+msgstr "Elija un color para las cadenas de traducción difusa"
 
 #: ../pohelper/data/stats.ui.h:4
-#, fuzzy
 msgid "Choose a color for untranslated strings"
-msgstr "Ir a la siguiente cadena sin traducir"
+msgstr "Elija un color para las cadenas sin traducir"
 
 #: ../pohelper/data/stats.ui.h:5
-#, fuzzy
 msgid "Translated:"
-msgstr "Siguien_te sin traducir"
+msgstr "Traducido:"
 
 #: ../pohelper/data/stats.ui.h:6
 msgid "Fuzzy:"
-msgstr ""
+msgstr "Difuso:"
 
 #: ../pohelper/data/stats.ui.h:7
-#, fuzzy
 msgid "Untranslated:"
-msgstr "Siguien_te sin traducir"
+msgstr "Sin traducir:"
 
 #: ../pohelper/src/gph-plugin.c:40
 msgid "Translation Helper"
@@ -5668,22 +5698,22 @@ msgstr "Mejora el soporte para archivos de traducción Gettext."
 #: ../pohelper/src/gph-plugin.c:1304 ../pohelper/src/gph-plugin.c:1321
 #, c-format
 msgid "<b>Translated:</b> %.3g%%"
-msgstr ""
+msgstr "<b>Traducido:</b> %.3g%%"
 
 #: ../pohelper/src/gph-plugin.c:1306 ../pohelper/src/gph-plugin.c:1324
 #, c-format
 msgid "<b>Fuzzy:</b> %.3g%%"
-msgstr ""
+msgstr "<b>Difuso:</b> %.3g%%"
 
 #: ../pohelper/src/gph-plugin.c:1308 ../pohelper/src/gph-plugin.c:1326
 #, c-format
 msgid "<b>Untranslated:</b> %.3g%%"
-msgstr ""
+msgstr "<b>Sin traducir:</b> %.3g%%"
 
 #: ../pohelper/src/gph-plugin.c:1422
 #, c-format
 msgid "%u (%.3g%%)"
-msgstr ""
+msgstr "%u (%.3g%%)"
 
 #: ../pohelper/src/gph-plugin.c:1548
 msgid "Paste original untranslated string to translation"
@@ -5787,43 +5817,40 @@ msgid "Line break"
 msgstr "Cambio de línea"
 
 #: ../projectorganizer/src/prjorg-main.c:40
-#, fuzzy
 msgid "Project Organizer"
-msgstr "Preferencias del proyecto"
+msgstr "Organizador de proyectos"
 
 #: ../projectorganizer/src/prjorg-main.c:41
 msgid ""
 "Project file tree, project-wide indexing and search, extra navigation "
 "options (was GProject)"
 msgstr ""
+"Árbol de archivos del proyecto, indexado y búsqueda a lo ancho del proyecto, "
+"opciones de navegación extra (era GProject)"
 
 #: ../projectorganizer/src/prjorg-menu.c:385
-#, fuzzy
 msgid "Find in Project Files..."
-msgstr "Buscar en archivos del proyecto"
+msgstr "Buscar en archivos del proyecto..."
 
 #: ../projectorganizer/src/prjorg-menu.c:391
 msgid "Find in project files"
 msgstr "Buscar en archivos del proyecto"
 
 #: ../projectorganizer/src/prjorg-menu.c:395
-#, fuzzy
 msgid "Find Project File..."
-msgstr "Buscar archivo de proyecto"
+msgstr "Buscar archivo de proyecto..."
 
 #: ../projectorganizer/src/prjorg-menu.c:401
 msgid "Find project file"
 msgstr "Buscar archivo de proyecto"
 
 #: ../projectorganizer/src/prjorg-menu.c:405
-#, fuzzy
 msgid "Find Project Symbol..."
-msgstr "Buscar archivo de proyecto"
+msgstr "Buscar símbolo de proyecto..."
 
 #: ../projectorganizer/src/prjorg-menu.c:411
-#, fuzzy
 msgid "Find project symbol"
-msgstr "Buscar archivo de proyecto"
+msgstr "Buscar símbolo de proyecto"
 
 #: ../projectorganizer/src/prjorg-menu.c:413
 msgid "Swap Header/Source"
@@ -5834,52 +5861,46 @@ msgid "Swap header/source"
 msgstr "Intercambiar cabecera/fuente"
 
 #: ../projectorganizer/src/prjorg-menu.c:424
-#, fuzzy
 msgid "Open Selected File (Project Organizer)"
-msgstr "Abrir archivo seleccionado (gproject)"
+msgstr "Abrir archivo seleccionado (organizador de proyectos)"
 
 #: ../projectorganizer/src/prjorg-project.c:573
 msgid "Source patterns:"
 msgstr "Patrones de código:"
 
 #: ../projectorganizer/src/prjorg-project.c:579
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
 "Used for header/source swapping."
 msgstr ""
-"Lista de patrones separados por espacios, usados para identificar archivos "
-"de cabeceras. Usado principalmente para el intercambio de cabeceras y código."
+"Lista de patrones separados por espacios utilizados para identificar "
+"archivos de código. Usado para el intercambio entre cabeceras y código."
 
 #: ../projectorganizer/src/prjorg-project.c:585
 msgid "Header patterns:"
 msgstr "Patrones de cabecera:"
 
 #: ../projectorganizer/src/prjorg-project.c:591
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
 "header/source swapping."
 msgstr ""
 "Lista de patrones separados por espacios, usados para identificar archivos "
-"de cabeceras. Usado principalmente para el intercambio de cabeceras y código."
+"de cabeceras. Usado para el intercambio entre cabeceras y código."
 
 #: ../projectorganizer/src/prjorg-project.c:597
-#, fuzzy
 msgid "Ignored file patterns:"
 msgstr "Patrones de directorios ignorados:"
 
 #: ../projectorganizer/src/prjorg-project.c:603
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
 "not displayed in the project tree."
 msgstr ""
-"Lista de patrones separados por espacios, usados para identificar "
-"directorios en los que no se buscarán archivos de código fuente."
+"Lista de patrones separados por espacios, usados para identificar archivos "
+"que no se mostrarán en el árbol de proyectos."
 
 #: ../projectorganizer/src/prjorg-project.c:609
-#, fuzzy
 msgid "Ignored directory patterns:"
 msgstr "Patrones de directorios ignorados:"
 
@@ -5892,33 +5913,29 @@ msgstr ""
 "directorios en los que no se buscarán archivos de código fuente."
 
 #: ../projectorganizer/src/prjorg-project.c:621
-#, fuzzy
 msgid "Index all project files:"
-msgstr "Buscar en archivos del proyecto"
+msgstr "Indexar todos los archivos del proyecto:"
 
 #: ../projectorganizer/src/prjorg-project.c:624
 msgid "Auto (index if less than 300 files)"
-msgstr ""
+msgstr "Auto (indexar si hay menos de 300 archivos)"
 
 #: ../projectorganizer/src/prjorg-project.c:625
-#, fuzzy
 msgid "Yes"
-msgstr "sí"
+msgstr "Sí"
 
 #: ../projectorganizer/src/prjorg-project.c:626
-#, fuzzy
 msgid "No"
-msgstr "Nº"
+msgstr "No"
 
 #: ../projectorganizer/src/prjorg-project.c:630
-#, fuzzy
 msgid ""
 "Generate symbol list for all project files instead of only for the currently "
 "opened files. Might be slow for big projects."
 msgstr ""
-"Generar una lista de etiquetas para todos los archivos de proyecto en vez de "
-"solo para los archivos abiertos actualmente. Demasiado lento para proyectos "
-"grandes ( > 1000 archivos) y debería ser desctivado en este caso."
+"Generar una lista de símbolos para todos los archivos de proyecto en vez de "
+"solo para los archivos abiertos actualmente. Podría resultar lento para "
+"proyectos grandes."
 
 #: ../projectorganizer/src/prjorg-project.c:636
 msgid ""
@@ -5929,6 +5946,12 @@ msgid ""
 "File Patterns under the Project tab (these are also used for the Find in "
 "Files dialog)."
 msgstr ""
+"Nota: los patrones afecta solo a la barra lateral y no se utilizan en el "
+"diálogo\n"
+"«Buscar en archivos». Puede restringir todavía más los archivos que "
+"pertenecen\n"
+"al proyecto ajustando «Patrones de archivo» en la pestaña «Proyecto» (estos\n"
+"también se utilizarán en el diálogo «Buscar en archivos»)."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:116
 msgid "Find File"
@@ -5945,41 +5968,36 @@ msgstr "Buscar en la ruta completa"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:169
 #: ../projectorganizer/src/prjorg-sidebar.c:650
-#, fuzzy
 msgid "project or external directory"
-msgstr "Crear directorio nuevo"
+msgstr "proyecto o directorio externo"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:297
-#, fuzzy
 msgid "Add External Directory"
-msgstr "Seleccionar directorio"
+msgstr "Añadir directorio externo"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:300
-#, fuzzy
 msgid "Add"
-msgstr "Añadidos"
+msgstr "Añadir"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:442
-#, fuzzy
 msgid "Find Symbol"
-msgstr "Buscar archivo"
+msgstr "Buscar símbolo"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:471
 msgid "Match type:"
-msgstr ""
+msgstr "Tipo de coincidencia:"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1061
 msgid "Set file patterns under Project->Properties"
-msgstr ""
+msgstr "Configure patrones de archivo en «Proyecto->Propiedades»"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1272
 msgid "Reload all"
 msgstr "Recargar todos"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1281
-#, fuzzy
 msgid "Add external directory"
-msgstr "Revertir directorio"
+msgstr "Añadir directorio externo"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1291
 #: ../treebrowser/src/treebrowser.c:1281
@@ -5988,7 +6006,7 @@ msgstr "Expandir todos"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1298
 msgid "Collapse to project root"
-msgstr ""
+msgstr "Colapsar hasta el proyecto raíz"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1309
 msgid "Follow active editor"
@@ -5996,31 +6014,27 @@ msgstr "Seguir editor activo"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1355
 msgid "Open a project to start using the plugin"
-msgstr ""
+msgstr "Abra un proyecto para comenzar a utilizar el complemento"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1364
 msgid "Expand All"
 msgstr "Expandir todos"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1373
-#, fuzzy
 msgid "Find in Files..."
-msgstr "Buscar en archivos"
+msgstr "Buscar en archivos..."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1382
-#, fuzzy
 msgid "Find File..."
-msgstr "Buscar archivo"
+msgstr "Buscar archivo..."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1391
-#, fuzzy
 msgid "Find Symbol..."
-msgstr "Buscar archivo"
+msgstr "Buscar símbolo..."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1404
-#, fuzzy
 msgid "Remove External Directory"
-msgstr "Revertir directorio"
+msgstr "Eliminar directorio externo"
 
 #: ../scope/data/scope.glade.h:1
 msgid "Debu_g"
@@ -6592,7 +6606,8 @@ msgstr "Alimentar terminal"
 msgid "Enter char # (0..255):"
 msgstr "Introducir char # (0..255):"
 
-#: ../scope/src/conterm.c:512 ../scope/src/scope.c:545 ../scope/src/scope.c:546
+#: ../scope/src/conterm.c:512 ../scope/src/scope.c:545
+#: ../scope/src/scope.c:546
 #, c-format
 msgid "Scope: %s."
 msgstr "Ámbito: %s."
@@ -6861,16 +6876,14 @@ msgid "GDB Command"
 msgstr "Comando GDB"
 
 #: ../sendmail/src/sendmail.c:45
-#, fuzzy
 msgid "SendMail"
-msgstr "GeanySendMail"
+msgstr "SendMail"
 
 #: ../sendmail/src/sendmail.c:46
-#, fuzzy
 msgid "Sends the current file as attachment with your favorite mailer"
 msgstr ""
-"Un pequeño complemento para enviar el archivo actual como adjunto mediante "
-"el cliente de correo preferido del usuario"
+"Envía el archivo actual como adjunto mediante el cliente de correo preferido "
+"del usuario"
 
 #: ../sendmail/src/sendmail.c:99
 msgid "Recipient's Address"
@@ -6967,6 +6980,13 @@ msgid ""
 "configuration file to new location.\n"
 "Move now?"
 msgstr ""
+"¡Se ha detectado un cambio de nombre!\n"
+"\n"
+"GeanySendMail ha sido renombrado a sendmail -- seguro que ya lo habrá "
+"visto.\n"
+"Geany es capaz de migrar la configuración del complemento viejo moviendo el "
+"archivo de configuración al nuevo lugar.\n"
+"¿Desa moverlo ahora?"
 
 #: ../sendmail/src/sendmail.c:411
 #, c-format
@@ -6974,6 +6994,8 @@ msgid ""
 "Your old configuration directory \"%s\" could not be moved to \"%s\" (%s). "
 "Please move manually the directory to the new location."
 msgstr ""
+"Su directorio de configuración antiguo «%s» no se ha podido mover hacia "
+"«%s» (%s). Mueva manualmente su antiguo directorio a la nueva ubicación."
 
 #. Build up menu entry
 #: ../sendmail/src/sendmail.c:442
@@ -7050,33 +7072,32 @@ msgid "Show editor menu item to show spelling suggestions"
 msgstr "Mostrar elemento de menú para mostrar sugerencias ortográficas"
 
 #: ../spellcheck/src/scplugin.c:293
-#, fuzzy
 msgid "Show suggestions in a sub menu of the editor menu"
-msgstr "Mostrar el elemento «Abrir URI» en el menú del editor"
+msgstr "Mostrar sugerencias en un submenú del menú del editor"
 
 #: ../spellcheck/src/scplugin.c:308
 msgid "Print misspelled words and suggestions in the messages window"
 msgstr "Mostrar palabras mal escritas y sugerencias en la ventana de mensajes"
 
 #: ../spellcheck/src/scplugin.c:318
-#, fuzzy
 msgid "<b>Interface</b>"
-msgstr "<b>Inspeccionar</b>"
+msgstr "<b>Interfaz</b>"
 
 #: ../spellcheck/src/scplugin.c:326
 msgid "Check spelling while typing"
 msgstr "Corrección al escribir"
 
 #: ../spellcheck/src/scplugin.c:329
-#, fuzzy
 msgid "Check spelling when opening a document"
-msgstr "Corrección al escribir"
+msgstr "Comprobar ortografía al abrir un documento"
 
 #: ../spellcheck/src/scplugin.c:331
 msgid ""
 "Enabling this option will check every document after it is opened in Geany. "
 "Reloading a document will also trigger a re-check."
 msgstr ""
+"Esta opción comprobará cada documento tras abrirlo en Geany. Recargar el "
+"documento también iniciará una comprobación."
 
 #: ../spellcheck/src/scplugin.c:335
 msgid "Language to use for the spell check:"
@@ -7095,9 +7116,8 @@ msgstr ""
 "solamente funciona con diccionarios de myspell."
 
 #: ../spellcheck/src/scplugin.c:385
-#, fuzzy
 msgid "<b>Behavior</b>"
-msgstr "<b>Otros</b>"
+msgstr "<b>Comportamiento</b>"
 
 #: ../spellcheck/src/gui.c:76
 msgid "Spell checking while typing is now enabled"
@@ -7172,24 +7192,23 @@ msgstr "Convertir tabla"
 
 #: ../tableconvert/src/tableconvert.c:32
 msgid "Converts lists into tables for different filetypes"
-msgstr ""
+msgstr "Convierte listas en tablas en diferentes tipos de archivo"
 
 #: ../tableconvert/src/tableconvert.c:41
-#, fuzzy
 msgid "LaTeX"
-msgstr "_LaTeX"
+msgstr "LaTeX"
 
 #: ../tableconvert/src/tableconvert.c:58
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: ../tableconvert/src/tableconvert.c:78
 msgid "SQL"
-msgstr ""
+msgstr "SQL"
 
 #: ../tableconvert/src/tableconvert.c:95
 msgid "DokuWiki"
-msgstr ""
+msgstr "DokuWiki"
 
 #. OK. Something went not as expected.
 #. * We do have a selection but cannot parse it into rows.
@@ -7215,9 +7234,8 @@ msgstr "Convierte la lista marcada en una tabla"
 #. * This is needed for e.g. different wiki-Syntax or differenz stiles
 #. * within a special file type
 #: ../tableconvert/src/tableconvert_ui.c:52
-#, fuzzy
 msgid "_More TableConvert"
-msgstr "Convertir tabla"
+msgstr "_Más Convertir tabla"
 
 #: ../treebrowser/src/treebrowser.c:126
 msgid "TreeBrowser"
@@ -7397,7 +7415,7 @@ msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1967
 msgid "The terminal to use with the command \"Open Terminal\""
-msgstr ""
+msgstr "La terminal que se usará con el comando «Abrir terminal»"
 
 #: ../treebrowser/src/treebrowser.c:1973
 msgid "Toolbar"
@@ -7510,29 +7528,26 @@ msgid "Updatechecker"
 msgstr "Comprobador de actualizaciones"
 
 #: ../updatechecker/src/updatechecker.c:41
-#, fuzzy
 msgid "Checks whether there are updates for Geany available"
-msgstr ""
-"Este complemento comprueba si hay actualizaciones disponibles para Geany."
+msgstr "Comprueba si hay actualizaciones de Geany disponibles"
 
 #: ../updatechecker/src/updatechecker.c:194
-#, fuzzy, c-format
+#, c-format
 msgid "There is a more recent version of Geany available: %s"
-msgstr "Está disponible una versión más reciente"
+msgstr "Hay una versión más reciente de Geany disponible: %s"
 
 #: ../updatechecker/src/updatechecker.c:202
-#, fuzzy
 msgid "No newer Geany version available."
-msgstr "Está disponible una versión más reciente"
+msgstr "No hay versiones más recientes disponibles."
 
 #: ../updatechecker/src/updatechecker.c:217
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to perform version check.\n"
 "Error code: %d \n"
 "Error message: »%s«"
 msgstr ""
-"No se ha podido conseguir alguna información de la versión.\n"
+"No se ha podido comprobar la versión.\n"
 "Código de error: %d \n"
 "Mensaje de error: »%s«"
 
@@ -7578,9 +7593,8 @@ msgid "%s:"
 msgstr "%s:"
 
 #: ../webhelper/src/gwh-browser.c:474
-#, fuzzy
 msgid "Bookmark this website"
-msgstr "Enfocar lista de marcadores"
+msgstr "Marcar este sitio web"
 
 #: ../webhelper/src/gwh-browser.c:645
 msgid "_Zoom"
@@ -7612,7 +7626,7 @@ msgstr "Recargar página actual"
 
 #: ../webhelper/src/gwh-browser.c:978
 msgid "Website information and settings"
-msgstr ""
+msgstr "Información y ajustes del sitio web"
 
 #: ../webhelper/src/gwh-browser.c:987 ../webhelper/src/gwh-browser.c:1037
 msgid "Web inspector"
@@ -7665,9 +7679,8 @@ msgid "Last URI visited by the browser"
 msgstr "Último URI visitado por el navegador"
 
 #: ../webhelper/src/gwh-plugin.c:329
-#, fuzzy
 msgid "List of bookmarks"
-msgstr "Mostrar marcadores"
+msgstr "Lista de marcadores"
 
 #: ../webhelper/src/gwh-plugin.c:334
 msgid "Browser orientation"
@@ -7748,7 +7761,7 @@ msgstr "Mostrar/ocultar la ventana de vista web"
 
 #: ../webhelper/src/gwh-plugin.c:463
 msgid "Toggle bookmark for the current website"
-msgstr ""
+msgstr "Conmutar marcador para el sitio web actual"
 
 #. Browser
 #: ../webhelper/src/gwh-plugin.c:529
