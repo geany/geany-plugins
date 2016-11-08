@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Geany-Plugins 1.29\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-30 03:19+0000\n"
-"PO-Revision-Date: 2016-11-07 12:00+0100\n"
+"PO-Revision-Date: 2016-11-08 19:27+0100\n"
 "Last-Translator: Lucas Vieites <lucas@codexion.com>\n"
 "Language-Team: Spanish; Castilian <>\n"
 "Language: es\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
@@ -5140,14 +5140,12 @@ msgstr ""
 "de error: %s"
 
 #: ../lineoperations/src/lineoperations.c:67
-#, fuzzy
 msgid "Remove Duplicate Lines, _Sorted"
 msgstr "Eliminar líneas duplicadas, _ordenado"
 
 #: ../lineoperations/src/lineoperations.c:69
-#, fuzzy
 msgid "Remove Duplicate Lines, _Ordered"
-msgstr "Eliminar líneas duplicadas, _ordenado"
+msgstr "Eliminar líneas duplicadas, _sin ordenar"
 
 #: ../lineoperations/src/lineoperations.c:71
 msgid "Remove _Unique Lines"
@@ -5307,13 +5305,11 @@ msgstr "No se pudo guardar el archivo de configuración %s: %s"
 msgid "Unable to load config file %s: %s"
 msgstr "No se pudo cargar el archivo de configuración %s: %s"
 
-#: ../multiterm/src/context-menu.vala:52
-#: ../multiterm/src/context-menu.vala:140
+#: ../multiterm/src/context-menu.vala:52 ../multiterm/src/context-menu.vala:140
 msgid "Move to message window"
 msgstr "Mover a la ventana de mensajes"
 
-#: ../multiterm/src/context-menu.vala:58
-#: ../multiterm/src/context-menu.vala:135
+#: ../multiterm/src/context-menu.vala:58 ../multiterm/src/context-menu.vala:135
 msgid "Move to sidebar"
 msgstr "Mover a la barra lateral"
 
@@ -6606,8 +6602,7 @@ msgstr "Alimentar terminal"
 msgid "Enter char # (0..255):"
 msgstr "Introducir char # (0..255):"
 
-#: ../scope/src/conterm.c:512 ../scope/src/scope.c:545
-#: ../scope/src/scope.c:546
+#: ../scope/src/conterm.c:512 ../scope/src/scope.c:545 ../scope/src/scope.c:546
 #, c-format
 msgid "Scope: %s."
 msgstr "Ámbito: %s."
