@@ -3,6 +3,30 @@ Geany Plugins 1.29 (not yet released)
     General:
     * Rename plugin GeanyLipsum to Lipsum (PR#472)
 
+    Addons:
+    * Add a function to deselect with one click (PR#481)
+
+    Commander:
+    * Add keybindings for triggering a particular filter type (PR#468)
+
+    GeanyGenDoc:
+    * Fix typos in README (PR#476)
+
+    Git-Changebar:
+    * Fix an issue access the git repository in combination with
+      libgit2 0.24.2
+    * Fix an off-by-one issue in tooltip hunk width calculation cropping
+      1px on the right.
+    * Fix handling of documents starting with a BOM (PR#483, Issue#482)
+
+    Spellcheck:
+    * Strip single quotes from words' beginning and end (Issue#484)
+    * Fix a memory leak on duplicate dictionaries (PR#480)
+
+    Treebrowser:
+    * Fix a typo in configuration parsing causing option for
+      "open new files" have not being save/restored correctly (Issue##469, PR#473)
+
     Internationalization:
     * Updated translations: de, es, fr, kk, pt
 
