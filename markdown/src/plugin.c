@@ -48,6 +48,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
 /* Global data */
 static MarkdownViewer *g_viewer = NULL;
 static GtkWidget *g_scrolled_win = NULL;
+static GtkWidget *g_export_html = NULL;
 
 /* Forward declarations */
 static void update_markdown_viewer(MarkdownViewer *viewer);
@@ -55,6 +56,7 @@ static gboolean on_editor_notify(GObject *obj, GeanyEditor *editor, SCNotificati
 static void on_document_signal(GObject *obj, GeanyDocument *doc, MarkdownViewer *viewer);
 static void on_document_filetype_set(GObject *obj, GeanyDocument *doc, GeanyFiletype *ft_old, MarkdownViewer *viewer);
 static void on_view_pos_notify(GObject *obj, GParamSpec *pspec, MarkdownViewer *viewer);
+static void on_export_as_html_activate(GtkMenuItem *item, MarkdownViewer *viewer);
 
 /* Main plugin entry point on plugin load. */
 void plugin_init(GeanyData *data)
@@ -97,6 +99,11 @@ void plugin_init(GeanyData *data)
 
   g_signal_connect(conf, "notify::view-pos", G_CALLBACK(on_view_pos_notify), viewer);
 
+  g_export_html = gtk_menu_item_new_with_label(_("Export Markdown as HTML..."));
+  gtk_menu_shell_append(GTK_MENU_SHELL(data->main_widgets->tools_menu), g_export_html);
+  g_signal_connect(g_export_html, "activate", G_CALLBACK(on_export_as_html_activate), viewer);
+  gtk_widget_show(g_export_html);
+
 #define MD_PSC(sig, cb) \
   plugin_signal_connect(geany_plugin, NULL, (sig), TRUE, G_CALLBACK(cb), viewer)
   /* Geany takes care of disconnecting these for us when the plugin is unloaded,
@@ -119,6 +126,7 @@ void plugin_init(GeanyData *data)
 /* Cleanup resources on plugin unload. */
 void plugin_cleanup(void)
 {
+  gtk_widget_destroy(g_export_html);
   gtk_widget_destroy(g_scrolled_win);
 }
 
@@ -162,9 +170,11 @@ update_markdown_viewer(MarkdownViewer *viewer)
     gchar *text;
     text = (gchar*) scintilla_send_message(doc->editor->sci, SCI_GETCHARACTERPOINTER, 0, 0);
     markdown_viewer_set_markdown(viewer, text, doc->encoding);
+    gtk_widget_set_sensitive(g_export_html, TRUE);
   } else {
     markdown_viewer_set_markdown(viewer,
       _("The current document does not have a Markdown filetype."), "UTF-8");
+    gtk_widget_set_sensitive(g_export_html, FALSE);
   }
 
   markdown_viewer_queue_update(viewer);
@@ -239,4 +249,48 @@ on_view_pos_notify(GObject *obj, GParamSpec *pspec, MarkdownViewer *viewer)
   g_object_unref(g_scrolled_win); /* The new notebook owns it now */
 
   update_markdown_viewer(viewer);
+}
+
+static void on_export_as_html_activate(GtkMenuItem *item, MarkdownViewer *viewer)
+{
+  GtkWidget *dialog;
+  GtkFileFilter *filter;
+
+  g_return_if_fail(DOC_VALID(document_get_current()));
+
+  dialog = gtk_file_chooser_dialog_new(_("Save HTML File As"),
+    GTK_WINDOW(geany_data->main_widgets->window), GTK_FILE_CHOOSER_ACTION_SAVE,
+    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+    GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
+    NULL);
+  gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog), TRUE);
+  gtk_file_chooser_set_select_multiple(GTK_FILE_CHOOSER(dialog), FALSE);
+  gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), "index.html");
+
+  filter = gtk_file_filter_new();
+  gtk_file_filter_set_name(filter, _("HTML Files"));
+  gtk_file_filter_add_pattern(filter, "*.html");
+  gtk_file_filter_add_pattern(filter, "*.htm");
+  gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
+
+  filter = gtk_file_filter_new();
+  gtk_file_filter_set_name(filter, _("All Files"));
+  gtk_file_filter_add_pattern(filter, "*");
+  gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
+
+  if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
+    gchar *fn = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+    gchar *html = markdown_viewer_get_html(viewer);
+    GError *error = NULL;
+    if (! g_file_set_contents(fn, html, -1, &error)) {
+      dialogs_show_msgbox(GTK_MESSAGE_ERROR,
+        _("Failed to export Markdown HTML to file '%s': %s"),
+        fn, error->message);
+      g_error_free(error);
+    }
+    g_free(html);
+    g_free(fn);
+  }
+
+  gtk_widget_destroy(dialog);
 }
