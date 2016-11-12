@@ -251,12 +251,29 @@ on_view_pos_notify(GObject *obj, GParamSpec *pspec, MarkdownViewer *viewer)
   update_markdown_viewer(viewer);
 }
 
+static gchar *replace_extension(const gchar *utf8_fn, const gchar *new_ext)
+{
+  gchar *fn_noext, *new_fn, *dot;
+  fn_noext = g_filename_from_utf8(utf8_fn, -1, NULL, NULL, NULL);
+  dot = strrchr(fn_noext, '.');
+  if (dot != NULL) {
+    *dot = '\0';
+  }
+  new_fn = g_strconcat(fn_noext, new_ext, NULL);
+  g_free(fn_noext);
+  return new_fn;
+}
+
 static void on_export_as_html_activate(GtkMenuItem *item, MarkdownViewer *viewer)
 {
   GtkWidget *dialog;
   GtkFileFilter *filter;
+  gchar *fn;
+  GeanyDocument *doc;
+  gboolean saved = FALSE;
 
-  g_return_if_fail(DOC_VALID(document_get_current()));
+  doc = document_get_current();
+  g_return_if_fail(DOC_VALID(doc));
 
   dialog = gtk_file_chooser_dialog_new(_("Save HTML File As"),
     GTK_WINDOW(geany_data->main_widgets->window), GTK_FILE_CHOOSER_ACTION_SAVE,
@@ -264,13 +281,30 @@ static void on_export_as_html_activate(GtkMenuItem *item, MarkdownViewer *viewer
     GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
     NULL);
   gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog), TRUE);
-  gtk_file_chooser_set_select_multiple(GTK_FILE_CHOOSER(dialog), FALSE);
-  gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), "index.html");
+
+  fn = replace_extension(DOC_FILENAME(doc), ".html");
+  if (g_file_test(fn, G_FILE_TEST_EXISTS)) {
+    /* If the file exists, GtkFileChooser will change to the correct
+     * directory and show the base name as a suggestion. */
+    gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), fn);
+  } else {
+    /* If the file doesn't exist, change the directory and give a suggested
+     * name for the file, since GtkFileChooser won't do it. */
+    gchar *dn = g_path_get_dirname(fn);
+    gchar *bn = g_path_get_basename(fn);
+    gchar *utf8_name;
+    gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), dn);
+    g_free(dn);
+    utf8_name = g_filename_to_utf8(bn, -1, NULL, NULL, NULL);
+    gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER(dialog), utf8_name);
+    g_free(bn);
+    g_free(utf8_name);
+  }
+  g_free(fn);
 
   filter = gtk_file_filter_new();
   gtk_file_filter_set_name(filter, _("HTML Files"));
-  gtk_file_filter_add_pattern(filter, "*.html");
-  gtk_file_filter_add_pattern(filter, "*.htm");
+  gtk_file_filter_add_mime_type(filter, "text/html");
   gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
 
   filter = gtk_file_filter_new();
@@ -278,18 +312,21 @@ static void on_export_as_html_activate(GtkMenuItem *item, MarkdownViewer *viewer
   gtk_file_filter_add_pattern(filter, "*");
   gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
 
-  if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
-    gchar *fn = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+  while (!saved &&
+         gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
     gchar *html = markdown_viewer_get_html(viewer);
     GError *error = NULL;
+    fn = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
     if (! g_file_set_contents(fn, html, -1, &error)) {
       dialogs_show_msgbox(GTK_MESSAGE_ERROR,
         _("Failed to export Markdown HTML to file '%s': %s"),
         fn, error->message);
       g_error_free(error);
+    } else {
+      saved = TRUE;
     }
-    g_free(html);
     g_free(fn);
+    g_free(html);
   }
 
   gtk_widget_destroy(dialog);
