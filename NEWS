@@ -4,7 +4,7 @@ Geany Plugins 1.29 (not yet released)
     * Rename plugin GeanyLipsum to Lipsum (PR#472)
 
     Addons:
-    * Add a function to deselect with one click (PR#481)
+    * Add a function to deselect marked words with one click (PR#481)
 
     Commander:
     * Add keybindings for triggering a particular filter type (PR#468)
