@@ -309,7 +309,7 @@ on_webview_load_status_notify(WebKitWebView *view, GParamSpec *pspec,
   }
 }
 
-static gchar *
+gchar *
 markdown_viewer_get_html(MarkdownViewer *self)
 {
   gchar *md_as_html, *html = NULL;
