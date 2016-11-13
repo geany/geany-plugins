@@ -23,6 +23,7 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <webkit/webkitwebview.h>
+#include <geanyplugin.h>
 #ifndef FULL_PRICE
 # include <mkdio.h>
 #else
@@ -356,7 +357,33 @@ markdown_viewer_update_view(MarkdownViewer *self)
   push_scroll_pos(self);
 
   if (html) {
-    static const gchar *base_uri = "file://.";
+    gchar *base_path;
+    gchar *base_uri; /* A file URI not a path URI; last component is stripped */
+    GError *error = NULL;
+    GeanyDocument *doc = document_get_current();
+
+    /* If the current document has a known path (ie. is saved), use that,
+     * substituting the file's basename for `index.html`. */
+    if (DOC_VALID(doc) && doc->real_path != NULL) {
+      gchar *base_dir = g_path_get_dirname(doc->real_path);
+      base_path = g_build_filename(base_dir, "index.html", NULL);
+      g_free(base_dir);
+    }
+    /* Otherwise assume use a file `index.html` in the current working directory. */
+    else {
+      gchar *cwd = g_get_current_dir();
+      base_path = g_build_filename(cwd, "index.html", NULL);
+      g_free(cwd);
+    }
+
+    base_uri = g_filename_to_uri(base_path, NULL, &error);
+    if (base_uri == NULL) {
+      g_warning("failed to encode path '%s' as URI: %s", base_path, error->message);
+      g_error_free(error);
+      base_uri = g_strdup("file://./index.html");
+      g_debug("using phony base URI '%s', broken relative paths are likely", base_uri);
+    }
+    g_free(base_path);
 
     /* Connect a signal handler (only needed once) to restore the scroll
      * position once the webview is reloaded. */
@@ -369,6 +396,7 @@ markdown_viewer_update_view(MarkdownViewer *self)
     webkit_web_view_load_string(WEBKIT_WEB_VIEW(self), html, "text/html",
       self->priv->enc, base_uri);
 
+    g_free(base_uri);
     g_free(html);
   }
 
