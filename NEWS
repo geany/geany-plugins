@@ -25,7 +25,7 @@ Geany Plugins 1.29 (2016-11-13)
 
     Treebrowser:
     * Fix a typo in configuration parsing causing option for
-      "open new files" have not being save/restored correctly (Issue##469, PR#473)
+      "open new files" have not being save/restored correctly (Issue#469, PR#473)
 
     Internationalization:
     * Updated translations: de, es, fr, kk, pt
