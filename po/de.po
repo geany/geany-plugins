@@ -14,9 +14,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 1.28\n"
+"Project-Id-Version: Geany-Plugins 1.29\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-30 13:23+0100\n"
+"POT-Creation-Date: 2016-11-11 16:55+0100\n"
 "PO-Revision-Date: 2016-08-08 22:38+0200\n"
 "Last-Translator: Dominic Hopf <dmaphy@googlemail.com>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -277,7 +277,7 @@ msgstr "Bei Doppelklick alle Vorkommen eines Wortes markieren"
 
 #: ../addons/src/addons.c:585
 msgid "Deselect a previous highlight by single click"
-msgstr ""
+msgstr "Abwählen eines aktuell Hervorgehobenen mittels einem Klick"
 
 #: ../addons/src/addons.c:595
 msgid "Strip trailing blank lines"
@@ -661,14 +661,12 @@ msgid "Show Command Panel"
 msgstr "Kommandoliste zeigen"
 
 #: ../commander/src/commander-plugin.c:774
-#, fuzzy
 msgid "Show Command Panel (Commands Only)"
-msgstr "Kommandoliste zeigen"
+msgstr "Kommandoliste zeigen (nur Kommandos)"
 
 #: ../commander/src/commander-plugin.c:778
-#, fuzzy
 msgid "Show Command Panel (Files Only)"
-msgstr "Kommandoliste zeigen"
+msgstr "Kommandoliste zeigen (nur Dateien)"
 
 #: ../debugger/src/plugin.c:55
 msgid "Debugger"
@@ -5165,30 +5163,30 @@ msgstr ""
 "Hebt noch nicht committete Änderungen an in einem git-Repository verwaltete "
 "Dateien hervor."
 
-#: ../git-changebar/src/gcb-plugin.c:1161 ../pohelper/src/gph-plugin.c:1593
+#: ../git-changebar/src/gcb-plugin.c:1165 ../pohelper/src/gph-plugin.c:1593
 #, c-format
 msgid "Failed to load configuration file: %s"
 msgstr "Konnte Konfiguration nicht laden: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1186 ../pohelper/src/gph-plugin.c:1618
+#: ../git-changebar/src/gcb-plugin.c:1190 ../pohelper/src/gph-plugin.c:1618
 #, c-format
 msgid "Failed to create configuration directory \"%s\": %s"
 msgstr "Konnte das Konfigurationsverzeichnis »%s« nicht anlegen: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1189 ../pohelper/src/gph-plugin.c:1621
+#: ../git-changebar/src/gcb-plugin.c:1193 ../pohelper/src/gph-plugin.c:1621
 #, c-format
 msgid "Failed to save configuration file: %s"
 msgstr "Konnte Konfiguration nicht speichern: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1268
+#: ../git-changebar/src/gcb-plugin.c:1272
 msgid "Go to the previous hunk"
 msgstr "Zur vorherigen Block mit Änderungen springen"
 
-#: ../git-changebar/src/gcb-plugin.c:1270
+#: ../git-changebar/src/gcb-plugin.c:1274
 msgid "Go to the next hunk"
 msgstr "Zur nächsten Block mit Änderungen springen"
 
-#: ../git-changebar/src/gcb-plugin.c:1401 ../pohelper/src/gph-plugin.c:1388
+#: ../git-changebar/src/gcb-plugin.c:1405 ../pohelper/src/gph-plugin.c:1388
 #: ../pohelper/src/gph-plugin.c:1723
 #, c-format
 msgid ""
@@ -5245,9 +5243,8 @@ msgstr ""
 "doppelten Zeilen, leeren Zeilen oder das Sortieren von Zeilen."
 
 #: ../lipsum/src/lipsum.c:43
-#, fuzzy
 msgid "Lipsum"
-msgstr "_Lipsum..."
+msgstr "Lipsum"
 
 #: ../lipsum/src/lipsum.c:44
 msgid "Creating dummy text with Geany"
@@ -5262,7 +5259,6 @@ msgid "Enter the length of Lipsum text here"
 msgstr "Bitte die Länge des Platzhaltertextes eingeben"
 
 #: ../lipsum/src/lipsum.c:172
-#, fuzzy
 msgid ""
 "Renamed plugin detected!\n"
 "\n"
@@ -5275,7 +5271,7 @@ msgid ""
 msgstr ""
 "Plugin-Umbenennung erkannt!\n"
 "\n"
-"GeanySendMail wurde in sendmail umbenannt -- wahrscheinlich hast Du das "
+"GeanyLipsum wurde in Lipsum umbenannt -- wahrscheinlich hast Du das "
 "bereits erkannt.\n"
 "Geany kann die alten Plugin-Konfigurationsateien in das neue "
 "Konfigurationsverzeichnis verschieben.\n"
@@ -5291,7 +5287,6 @@ msgstr ""
 "verschoben."
 
 #: ../lipsum/src/lipsum.c:199
-#, fuzzy, c-format
 msgid ""
 "Your old configuration directory \"%s\" could not be moved to \"%s\" (%s). "
 "Please manually move the directory to the new location."
@@ -6957,7 +6952,6 @@ msgid "GDB Command"
 msgstr "GDB-Kommando:"
 
 #: ../sendmail/src/sendmail.c:45
-#, fuzzy
 msgid "SendMail"
 msgstr "SendMail"
 
