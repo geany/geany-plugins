@@ -1605,6 +1605,7 @@ on_treeview_renamed(GtkCellRenderer *renderer, const gchar *path_string, const g
 	column 		= gtk_tree_view_get_column(GTK_TREE_VIEW(treeview), 0);
 	renderers 	= _gtk_cell_layout_get_cells(column);
 	renderer 	= g_list_nth_data(renderers, TREEBROWSER_RENDER_TEXT);
+	g_list_free(renderers);
 
 	g_object_set(G_OBJECT(renderer), "editable", FALSE, NULL);
 
