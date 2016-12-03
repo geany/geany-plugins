@@ -83,10 +83,11 @@ baa foo
 
 will be transformed to
 
-(
-	('foo', 'baa'),
-	('baa', 'foo')
-)
+
+|    (
+|	('foo', 'baa'),
+|	('baa', 'foo')
+|    )
 
 
 Development
