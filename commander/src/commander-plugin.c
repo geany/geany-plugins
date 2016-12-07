@@ -682,10 +682,6 @@ create_panel (void)
   gtk_container_add (GTK_CONTAINER (frame), box);
   
   plugin_data.entry = gtk_entry_new ();
-  g_signal_connect (plugin_data.entry, "notify::text",
-                    G_CALLBACK (on_entry_text_notify), NULL);
-  g_signal_connect (plugin_data.entry, "activate",
-                    G_CALLBACK (on_entry_activate), NULL);
   gtk_box_pack_start (GTK_BOX (box), plugin_data.entry, FALSE, TRUE, 0);
   
   plugin_data.store = gtk_list_store_new (COL_COUNT,
@@ -725,6 +721,12 @@ create_panel (void)
   g_signal_connect (plugin_data.view, "row-activated",
                     G_CALLBACK (on_view_row_activated), NULL);
   gtk_container_add (GTK_CONTAINER (scroll), plugin_data.view);
+  
+  /* connect entry signals after the view is created as they use it */
+  g_signal_connect (plugin_data.entry, "notify::text",
+                    G_CALLBACK (on_entry_text_notify), NULL);
+  g_signal_connect (plugin_data.entry, "activate",
+                    G_CALLBACK (on_entry_activate), NULL);
   
   gtk_widget_show_all (frame);
 }
