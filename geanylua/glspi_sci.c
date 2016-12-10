@@ -739,7 +739,7 @@ static gint glspi_scintilla(lua_State* L)
 
 static gint glspi_find(lua_State* L)
 {
-	struct TextToFind ttf;
+	struct Sci_TextToFind ttf;
 
 	gint flags=0;
 	gint i,n;
@@ -820,7 +820,7 @@ struct CharacterRange {
 */
 
 /*
-struct TextToFind {
+struct Sci_TextToFind {
 		struct CharacterRange chrg;     // range to search
 		char *lpstrText;                // the search pattern (zero terminated)
 		struct CharacterRange chrgText; // returned as position of matching text
