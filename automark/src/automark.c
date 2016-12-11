@@ -86,7 +86,7 @@ get_current_word(ScintillaObject *sci)
 	gint pos = sci_get_current_position(sci);
 	gint start = SSM(sci, SCI_WORDSTARTPOSITION, pos, TRUE);
 	gint end = SSM(sci, SCI_WORDENDPOSITION, pos, TRUE);
-	
+
 	if ((guint)(end - start) >= GEANY_MAX_WORD_LENGTH)
 		end = start + (GEANY_MAX_WORD_LENGTH - 1);
 	return sci_get_contents_range(sci, start, end);
@@ -116,7 +116,7 @@ automark(gpointer user_data)
 
 	text = get_current_word(editor->sci);
 
-	if (!*text)
+	if (EMPTY(text))
 	{
 		editor_indicator_clear(editor, AUTOMARK_INDICATOR);
 		g_free(text);
@@ -129,7 +129,7 @@ automark(gpointer user_data)
 		strcpy(text_cache, text);
 		editor_cache = editor;
 	}
-	
+
 	gint vis_first = SSM(sci, SCI_GETFIRSTVISIBLELINE, 0, 0);
 	gint doc_first = SSM(sci, SCI_DOCLINEFROMVISIBLE, vis_first, 0);
 	gint vis_last  = SSM(sci, SCI_LINESONSCREEN, 0, 0) + vis_first;
