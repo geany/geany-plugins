@@ -53,14 +53,11 @@ PLUGIN_EXPORT
 PLUGIN_SET_INFO(PLUGIN_NAME, PLUGIN_DESC, PLUGIN_VER, PLUGIN_AUTHOR)
 
 PLUGIN_EXPORT
-GeanyFunctions *geany_functions;
-
-PLUGIN_EXPORT
 GeanyPlugin *geany_plugin;
 
 
 
-typedef void (*InitFunc) (GeanyData *data, GeanyFunctions *functions, GeanyPlugin *plugin);
+typedef void (*InitFunc) (GeanyData *data, GeanyPlugin *plugin);
 typedef void (*ConfigFunc) (GtkWidget *parent);
 typedef void (*CleanupFunc) (void);
 
@@ -213,7 +210,7 @@ void plugin_init(GeanyData *data)
 	g_free(libname);
 	copy_callbacks();
 
-	glspi_init(data, geany_functions, geany_plugin);
+	glspi_init(data, geany_plugin);
 }
 
 

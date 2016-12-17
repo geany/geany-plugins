@@ -28,9 +28,6 @@
 #include <stdlib.h>
 
 #include "geanyplugin.h"
-/* we need tm_get_real_path(), and we can't include glspi.h for those, so hack */
-extern GeanyFunctions *glspi_geany_functions;
-#define geany_functions glspi_geany_functions
 
 
 #define TextKey "gsdlg_TextKey_bc4871f4e3478ab5234e28432460a6b8"
