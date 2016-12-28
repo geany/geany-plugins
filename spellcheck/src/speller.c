@@ -256,15 +256,15 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number)
 		g_free(word);
 	}
 
-	if (underscore_in_wordchars != NULL)
+	if (wordchars_modified)
 	{
-		/* re-add underscore if we removed it above */
-		*underscore_in_wordchars = '_';
+		if (underscore_in_wordchars != NULL)
+			/* re-add underscore if we removed it above */
+			*underscore_in_wordchars = '_';
+		/* reset wordchars for the current document */
+		wordchars[wordchars_len] = '\0';
+		scintilla_send_message(doc->editor->sci, SCI_SETWORDCHARS, 0, (sptr_t)wordchars);
 	}
-	/* reset wordchars for the current document */
-	wordchars[wordchars_len] = '\0';
-	scintilla_send_message(doc->editor->sci, SCI_SETWORDCHARS, 0, (sptr_t)wordchars);
-
 	g_free(wordchars);
 	return suggestions_found;
 }
