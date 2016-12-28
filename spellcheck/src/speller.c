@@ -205,6 +205,8 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number)
 	gint suggestions_found = 0;
 	gint wordchars_len;
 	gchar *wordchars;
+	gchar *underscore_in_wordchars = NULL;
+	gboolean wordchars_modified = FALSE;
 
 	g_return_val_if_fail(sc_speller_dict != NULL, 0);
 	g_return_val_if_fail(doc != NULL, 0);
@@ -218,9 +220,21 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number)
 	{
 		/* temporarily add "'" to the wordchars */
 		wordchars[wordchars_len] = '\'';
+		wordchars_modified = TRUE;
+	}
+	underscore_in_wordchars = strchr(wordchars, '_');
+	if (underscore_in_wordchars != NULL)
+	{
+		/* Temporarily remove underscore from the wordchars to treat
+		 * it as a word seperator. Replace it by a "'" which we added already above. */
+		*underscore_in_wordchars = '\'';
+		wordchars_modified = TRUE;
+	}
+	if (wordchars_modified)
+	{
+		/* apply previously changed WORDCHARS setting */
 		scintilla_send_message(doc->editor->sci, SCI_SETWORDCHARS, 0, (sptr_t)wordchars);
 	}
-
 	pos_start = sci_get_position_from_line(doc->editor->sci, line_number);
 	pos_end = sci_get_position_from_line(doc->editor->sci, line_number + 1);
 
@@ -242,6 +256,11 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number)
 		g_free(word);
 	}
 
+	if (underscore_in_wordchars != NULL)
+	{
+		/* re-add underscore if we removed it above */
+		*underscore_in_wordchars = '_';
+	}
 	/* reset wordchars for the current document */
 	wordchars[wordchars_len] = '\0';
 	scintilla_send_message(doc->editor->sci, SCI_SETWORDCHARS, 0, (sptr_t)wordchars);
