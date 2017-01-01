@@ -1,0 +1,117 @@
+## Changes
+
+### 20161217.185107
+
+ * tweak regex to recognize sentences separated by newlines or tabs
+
+### 20161216.192727
+
+ * add time stamp to `geany_message()` output
+ * show frames around sections in config gui
+ * replace ellipses with periods in `pandoc` output
+   to avoid showing centered ellipses
+ * tweak handling double spaces between sentences
+	- fix: entity code sometimes shows in preview
+	- fix: double space when sentences separated by newline or tab
+
+### 20161214.171325
+
+ * faster updates for `plain` and `html` files
+ * fix: first separator in context menu sometimes missing
+
+### 20161214.140930
+
+ * fix: don't remove *copy* menu item in context menu
+ * refactor keyboard action handling
+
+### 20161213.213317
+
+ * tweak preview context menu
+	- remove default menu items
+	- fix: *reload* action
+	- add sync menu item
+ * remove sync button
+
+### 20161213.042209
+
+ * set webview uri so images will display in preview
+ * remove `head` tags from `get_css()` output
+
+### 20161211.225913
+
+ * add button to sync preview to caret location in source
+ * tweak config gui
+	- rearrange options
+	- adjust label alignment
+
+### 20161208.114419
+
+ * tweak config gui
+	- use combobox to set default filetype
+	- rearrange options
+
+### 20161208.100214
+
+ * add feature: save generated html to file
+
+### 20161207.113454
+
+ * add `asciidoctor` support
+ * preserve double spaces between sentences (asciidoc)
+ * fix: `get_css()` exception when css files do not exist
+ * tweak config gui
+	- change radio-buttons to combo-boxes
+
+### 20161103.180540
+
+ * preserve double spaces between sentences (html, pandoc)
+ * enable pandoc smart punctuation processing
+
+### 20161028.182600
+
+ * fix: preview not cleared when last document closed
+
+### 20161017.183718
+
+ * add use of css files based on filetype: `preview-[filetype].css`
+ * miscellaneous code rewrites
+
+### 20161017.051445
+
+ * add support for fountain (via screenplain)
+
+### 20161016.205757
+
+ * tweak config gui
+	- move 'hide menubar' option
+
+### 20161012.024620
+
+ * don't process documents when preview not visible
+
+### 20161015.030030
+
+ * add support for textile
+ * add support for org-mode
+
+### 20161015.015050
+
+ * add feature: toggle menubar visibility
+	- set keybinding in geany preferences
+ * add feature: set default filetype for processing
+ * process document after update_interval has passed
+   if document was not processed after last request
+ * move pandoc and asciidoc calls to new functions
+
+### 20161001.095420
+
+ * Initial release
+ * Formats supported via `pandoc`:
+	- Markdown
+	- reStructuredText
+	- Txt2tags
+	- LaTeX
+	- Docbook
+ * `asciidoc` support
+ * RFC-822-like email-messages processed according to the Content-Type header.
+ * Rudimentary web browsing.

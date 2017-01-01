@@ -1,0 +1,26 @@
+/* Reset */
+html {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+body {
+	margin: 0;
+	padding: 6pt;
+}
+
+
+pre.header {
+	background-color: #eeeeee;
+	padding: 6pt;
+	margin: -6pt -6pt 6pt -6pt;
+	border: 0;
+}
+
+pre.header+p {
+	margin-top: 0;
+}
