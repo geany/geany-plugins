@@ -58,7 +58,7 @@ enum
 	KB_COUNT
 };
 
-GtkWidget *create_Interactive(void);
+GtkWidget *create_Interactive(const gchar * default_word);
 
 static gboolean word_check_left(gchar c)
 {
@@ -221,11 +221,12 @@ kb_doc(G_GNUC_UNUSED guint key_id)
 static void
 kb_doc_ask(G_GNUC_UNUSED guint key_id)
 {
-	gchar *word = NULL;
+	gchar *word = NULL, *default_word = current_word();
 	GtkWidget *dialog, *entry;
 
 	/* example configuration dialog */
-	dialog = create_Interactive();
+	dialog = create_Interactive(default_word);
+	g_free(default_word);
 
 	/* run the dialog and check for the response code */
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
@@ -290,7 +291,7 @@ on_comboboxType_changed(GtkComboBox * combobox, G_GNUC_UNUSED gpointer user_data
   g_object_set_data (G_OBJECT (component), name, widget)
 
 GtkWidget *
-create_Interactive(void)
+create_Interactive(const gchar * default_word)
 {
 	GtkWidget *dialog_vbox1;
 	GtkWidget *entry_word;
@@ -306,6 +307,8 @@ create_Interactive(void)
 	dialog_vbox1 = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
 
 	entry_word = gtk_entry_new();
+	if (default_word)
+		gtk_entry_set_text(GTK_ENTRY(entry_word), default_word);
 	gtk_widget_show(entry_word);
 	gtk_box_pack_start(GTK_BOX(dialog_vbox1), entry_word, TRUE, TRUE, 0);
 
