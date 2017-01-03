@@ -15,6 +15,7 @@ Geany Plugins 1.30 (not yet released)
 
     GeanyDoc:
     * Improve compatibility with Gtk3
+    * Allow to use current word as initial text in interactive mode (PR##457
 
     GeanyLua
     * Remove deprecated GeanyFunctions from interface provided by this
@@ -22,7 +23,7 @@ Geany Plugins 1.30 (not yet released)
     * Fix build with latest Scintilla (PR##510)
 
     Lineoperations:
-    * Add support for selections
+    * Add support for selections (PR##378)
 
     Markdown:
     * Allow exporting Markdown as HTML (PR##502)
@@ -42,7 +43,7 @@ Geany Plugins 1.30 (not yet released)
     * Fix a possible memory leak (PR##478)
 
     Internationalization:
-    * Updated translations:
+    * Updated translations: de
 
 
 Geany Plugins 1.29 (2016-11-13)
