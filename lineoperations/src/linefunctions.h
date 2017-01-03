@@ -1,5 +1,6 @@
 /*
- *      linefunctions.h - Line operations, remove duplicate lines, empty lines, lines with only whitespace, sort lines.
+ *      linefunctions.h - Line operations, remove duplicate lines, empty lines,
+ *                        lines with only whitespace, sort lines.
  *
  *      Copyright 2015 Sylvan Mostert <smostert.dev@gmail.com>
  *
@@ -30,26 +31,37 @@
 
 
 /* Remove Duplicate Lines, sorted */
-void rmdupst(GeanyDocument *doc);
+gint
+rmdupst(gchar **lines, gint num_lines, gchar *new_file);
 
 
 /* Remove Duplicate Lines, ordered */
-void rmdupln(GeanyDocument *doc);
+gint
+rmdupln(gchar **lines, gint num_lines, gchar *new_file);
 
 
 /* Remove Unique Lines */
-void rmunqln(GeanyDocument *doc);
+gint
+rmunqln(gchar **lines, gint num_lines, gchar *new_file);
 
 
 /* Remove Empty Lines */
-void rmemtyln(GeanyDocument *doc);
+gint
+rmemtyln(ScintillaObject *sci, gint line_num, gint end_line_num);
 
 
 /* Remove Whitespace Lines */
-void rmwhspln(GeanyDocument *doc);
+gint
+rmwhspln(ScintillaObject *sci, gint line_num, gint end_line_num);
 
 
-/* Sort Lines Ascending and Descending */
-void sortlines(GeanyDocument *doc, gboolean asc);
+/* Sort Lines Ascending */
+gint
+sortlnsasc(gchar **lines, gint num_lines, gchar *new_file);
+
+
+/* Sort Lines Descending */
+gint
+sortlndesc(gchar **lines, gint num_lines, gchar *new_file);
 
 #endif

@@ -8,7 +8,7 @@ About
 =====
 
 Line Operations is an assortment of simple line functions that can be 
-applied to an open file.
+applied to an open file, or selection.
 
 Features
 ========
@@ -26,8 +26,16 @@ Usage
 
 After the plugins has been installed successfully, load the plugin via 
 Geany's plugin manager and a new menu item in the Tools menu will 
-appear. Click on each menu item to apply the operation on whole file. 
-See descriptions below to see operations for each menu item.
+appear. Click on each menu item to apply the operation on whole file, or 
+selection. See descriptions below to see operations for each menu item.
+
+Selection
+---------
+
+If a selection is made in the file, the line operation will be applied to the 
+lines within the selection. The beginning of the selection will expand to the 
+beginning of its line, and the end of the selection will expand to the end of 
+its line. If the end of the selection is on col 0, that line will be included.
 
 Notes
 -----
