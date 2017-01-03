@@ -21,6 +21,9 @@ Geany Plugins 1.30 (not yet released)
       plugin (PR##439)
     * Fix build with latest Scintilla (PR##510)
 
+    Lineoperations:
+    * Add support for selections
+
     Markdown:
     * Allow exporting Markdown as HTML (PR##502)
     * Fix relative paths (PR##501)
