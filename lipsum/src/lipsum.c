@@ -1,7 +1,7 @@
 /*
  *      lipsum.c
  *
- *      Copyright 2008-2016 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2008-2017 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut\
 aliquip ex ea commodo consequat. Duis aute irure dolor in\
 reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla\
 pariatur. Excepteur sint occaecat cupidatat non proident, sunt in\
-culpa qui officia deserunt mollit anim id est laborum.";
+culpa qui officia deserunt mollit anim id est laborum. ";
 
 
 /* Doing some basic keybinding stuff */
