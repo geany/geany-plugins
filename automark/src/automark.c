@@ -87,6 +87,9 @@ get_current_word(ScintillaObject *sci)
 	gint start = SSM(sci, SCI_WORDSTARTPOSITION, pos, TRUE);
 	gint end = SSM(sci, SCI_WORDENDPOSITION, pos, TRUE);
 
+	if (end == start)
+		return NULL;
+
 	if ((guint)(end - start) >= GEANY_MAX_WORD_LENGTH)
 		end = start + (GEANY_MAX_WORD_LENGTH - 1);
 	return sci_get_contents_range(sci, start, end);
