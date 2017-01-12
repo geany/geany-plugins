@@ -197,6 +197,7 @@ action_indir_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 
 	lines_affected = func(lines, num_lines, new_file);
 
+
 	/* set new document */
 	sci_replace_sel(doc->editor->sci, new_file);
 
