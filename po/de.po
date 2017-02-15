@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the geany-plugins package.
 # Andrew Janke <a.janke@gmail.com>, 2009
 # Fabian Nowak <timystery@arcor.de>, 2012
-# Frank Lanitz <frank@frank.uvena.de>, 2009-2016
+# Frank Lanitz <frank@frank.uvena.de>, 2009-2017
 # Dominic Hopf <dmaphy@gmail.com>, 2009
 # Michael Spahn <anyone90@googlemail.com>, 2009
 #
@@ -14,9 +14,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 1.29\n"
+"Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-03 22:49+0100\n"
+"POT-Creation-Date: 2017-02-15 23:08+0100\n"
 "PO-Revision-Date: 2016-08-08 22:38+0200\n"
 "Last-Translator: Dominic Hopf <dmaphy@googlemail.com>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -46,7 +46,7 @@ msgstr "Nr."
 msgid "Contents"
 msgstr "Inhalte"
 
-#: ../addons/src/ao_bookmarklist.c:383 ../treebrowser/src/treebrowser.c:623
+#: ../addons/src/ao_bookmarklist.c:383 ../treebrowser/src/treebrowser.c:624
 #: ../webhelper/src/gwh-plugin.c:328
 msgid "Bookmarks"
 msgstr "Lesezeichen"
@@ -197,7 +197,7 @@ msgstr "XML-Tagging ausführen"
 #: ../geanyprj/src/geanyprj.c:173 ../geanyvc/src/geanyvc.c:1849
 #: ../geniuspaste/src/geniuspaste.c:318 ../sendmail/src/sendmail.c:128
 #: ../sendmail/src/sendmail.c:293 ../spellcheck/src/scplugin.c:157
-#: ../treebrowser/src/treebrowser.c:1938
+#: ../treebrowser/src/treebrowser.c:1941
 #: ../updatechecker/src/updatechecker.c:266
 msgid "Plugin configuration directory could not be created."
 msgstr ""
@@ -1380,7 +1380,7 @@ msgstr "Tag finden..."
 msgid "Find tag"
 msgstr "Tag suchen"
 
-#: ../geanydoc/src/geanydoc.c:50 ../geanydoc/src/geanydoc.c:336
+#: ../geanydoc/src/geanydoc.c:50 ../geanydoc/src/geanydoc.c:339
 msgid "Doc"
 msgstr "Doc"
 
@@ -1392,27 +1392,27 @@ msgstr "Dokumentation für das aktuelle Wort anzeigen."
 msgid "Could not parse the output of command"
 msgstr "Konnte die Ausgabe des Befehls nicht verarbeiten."
 
-#: ../geanydoc/src/geanydoc.c:346
+#: ../geanydoc/src/geanydoc.c:349
 msgid "Put output in buffer"
 msgstr "Ausgabe in einem neuen Dokument anzeigen"
 
-#: ../geanydoc/src/geanydoc.c:358
+#: ../geanydoc/src/geanydoc.c:361
 msgid "Command 0:"
 msgstr "Befehl 0:"
 
-#: ../geanydoc/src/geanydoc.c:364
+#: ../geanydoc/src/geanydoc.c:367
 msgid "Command 1:"
 msgstr "Befehl 1:"
 
-#: ../geanydoc/src/geanydoc.c:382
+#: ../geanydoc/src/geanydoc.c:385
 msgid "%w will be replaced with current word\n"
 msgstr "%w wird mit dem aktuellen Wort ersetzt\n"
 
-#: ../geanydoc/src/geanydoc.c:429
+#: ../geanydoc/src/geanydoc.c:432
 msgid "Document current word"
 msgstr "Dokumentation für aktuelles Wort öffnen"
 
-#: ../geanydoc/src/geanydoc.c:430
+#: ../geanydoc/src/geanydoc.c:433
 msgid "Document interactive"
 msgstr "Nach Dokumentationswerkzeug für das aktuelle Wort fragen"
 
@@ -3905,6 +3905,7 @@ msgid "New _Below"
 msgstr "Neu d_arunter"
 
 #: ../geanymacro/src/geanymacro.c:1824 ../geanymacro/src/geanymacro.c:2120
+#: ../treebrowser/src/treebrowser.c:1255
 msgid "_Delete"
 msgstr "_Löschen"
 
@@ -5253,8 +5254,9 @@ msgid ""
 "lines, removing lines with only whitespace, and sorting lines."
 msgstr ""
 "Das Plugin bietet eine Reihe von Funktionen, die auf ein auf Zeilenebene auf "
-"ein Dokument oder einer Auswahl angewendet werden können. Dazu gehören das Entfernen von "
-"doppelten Zeilen oder leerer Zeilen sowie das Sortieren von Zeilen."
+"ein Dokument oder einer Auswahl angewendet werden können. Dazu gehören das "
+"Entfernen von doppelten Zeilen oder leerer Zeilen sowie das Sortieren von "
+"Zeilen."
 
 #: ../lipsum/src/lipsum.c:43
 msgid "Lipsum"
@@ -5385,6 +5387,7 @@ msgid "All Files"
 msgstr "Alle Dateien"
 
 #: ../markdown/src/plugin.c:322
+#, c-format
 msgid "Failed to export Markdown HTML to file '%s': %s"
 msgstr "Konnte das Markdown nicht in eine HTML-Datei exportieren: »%s«: %s"
 
@@ -5462,7 +5465,7 @@ msgstr "Konnte Standardkonfiguration nicht schreiben: %s"
 msgid "Unable to read value for '%s' key: %s"
 msgstr "Konnte Wert für »%s«, Schlüssel »%s« nicht lesen"
 
-#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:1963
+#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:1966
 msgid "Terminal"
 msgstr "Terminal"
 
@@ -6097,7 +6100,6 @@ msgid "Add external directory"
 msgstr "Externes Verzeichnis hinzufügen"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1291
-#: ../treebrowser/src/treebrowser.c:1281
 msgid "Expand all"
 msgstr "Alle ausklappen"
 
@@ -7361,41 +7363,41 @@ msgstr "Wandelt die aktuell markierte Liste in eine Tabelle"
 msgid "_More TableConvert"
 msgstr "_Mehr TableConvert"
 
-#: ../treebrowser/src/treebrowser.c:126
+#: ../treebrowser/src/treebrowser.c:127
 msgid "TreeBrowser"
 msgstr "Baumnavigator"
 
-#: ../treebrowser/src/treebrowser.c:127
+#: ../treebrowser/src/treebrowser.c:128
 msgid ""
 "This plugin adds a tree browser to Geany, allowing the user to browse files "
 "using a tree view of the directory being browsed."
 msgstr ""
 "Ein Plugin zum Navigieren durch den Verzeichnisbaum auf dem Dateisystem."
 
-#: ../treebrowser/src/treebrowser.c:432
+#: ../treebrowser/src/treebrowser.c:433
 #, c-format
 msgid "%s: no such directory."
 msgstr "Das Verzeichnis »%s« existiert nicht"
 
-#: ../treebrowser/src/treebrowser.c:535 ../treebrowser/src/treebrowser.c:570
-#: ../treebrowser/src/treebrowser.c:668
+#: ../treebrowser/src/treebrowser.c:536 ../treebrowser/src/treebrowser.c:571
+#: ../treebrowser/src/treebrowser.c:669
 msgid "(Empty)"
 msgstr "(leer)"
 
-#: ../treebrowser/src/treebrowser.c:971
+#: ../treebrowser/src/treebrowser.c:972
 #, c-format
 msgid "Could not execute configured external command '%s' (%s)."
 msgstr "Konnte das eingestellte externe Werkzeug »%s« nicht ausführen (%s)."
 
-#: ../treebrowser/src/treebrowser.c:1042
+#: ../treebrowser/src/treebrowser.c:1043
 msgid "NewDirectory"
 msgstr "Neues Verzeichnis"
 
-#: ../treebrowser/src/treebrowser.c:1044
+#: ../treebrowser/src/treebrowser.c:1045
 msgid "NewFile"
 msgstr "Neue Datei"
 
-#: ../treebrowser/src/treebrowser.c:1049
+#: ../treebrowser/src/treebrowser.c:1050
 #, c-format
 msgid ""
 "Target file '%s' exists\n"
@@ -7404,122 +7406,133 @@ msgstr ""
 "Zieldatei »%s« existiert bereits.\n"
 "Möchten Sie diese wirklich mit einer leeren Datei ersetzen?"
 
-#: ../treebrowser/src/treebrowser.c:1095
+#: ../treebrowser/src/treebrowser.c:1096
 #, c-format
 msgid "Do you really want to delete '%s' ?"
 msgstr "Soll »%s« wirklich gelöscht werden?"
 
-#: ../treebrowser/src/treebrowser.c:1207 ../treebrowser/src/treebrowser.c:1739
-msgid "Go up"
-msgstr "Aufwärts"
+#: ../treebrowser/src/treebrowser.c:1208
+msgid "Go _up"
+msgstr "_Aufwährts"
 
-#: ../treebrowser/src/treebrowser.c:1211 ../treebrowser/src/treebrowser.c:1754
-msgid "Set path from document"
-msgstr "Pfad des Dokumentes übernehmen"
+#: ../treebrowser/src/treebrowser.c:1212
+msgid "Set _path from document"
+msgstr "_Pfad des Dokumentes übernehmen"
 
-#: ../treebrowser/src/treebrowser.c:1215
+#: ../treebrowser/src/treebrowser.c:1216
 msgid "_Open externally"
 msgstr "_Extern öffnen"
 
-#: ../treebrowser/src/treebrowser.c:1220
-msgid "Open Terminal"
-msgstr "In Terminal ausführen"
+#: ../treebrowser/src/treebrowser.c:1221
+msgid "Open _Terminal"
+msgstr "In _Terminal öffnen"
 
-#: ../treebrowser/src/treebrowser.c:1224
-msgid "Set as root"
-msgstr "Als Wurzel festlegen"
+#: ../treebrowser/src/treebrowser.c:1225
+msgid "Set as _root"
+msgstr "Als _Wurzel festlegen"
 
-#: ../treebrowser/src/treebrowser.c:1229 ../treebrowser/src/treebrowser.c:1744
-#: ../treebrowser/src/treebrowser.c:2139
-msgid "Refresh"
-msgstr "Auffrischen"
+#: ../treebrowser/src/treebrowser.c:1230
+msgid "Refres_h"
+msgstr "Auffrisc_hen"
 
-#: ../treebrowser/src/treebrowser.c:1233
+#: ../treebrowser/src/treebrowser.c:1234
 msgid "_Find in Files"
 msgstr "In Dateien _finden"
 
-#: ../treebrowser/src/treebrowser.c:1241
-msgid "Create new directory"
-msgstr "Neues Verzeichnis anlegen"
+#: ../treebrowser/src/treebrowser.c:1242
+msgid "Creat_e new directory"
+msgstr "N_eues Verzeichnis anlegen"
 
-#: ../treebrowser/src/treebrowser.c:1245
-msgid "Create new file"
-msgstr "Neue Datei erstellen"
+#: ../treebrowser/src/treebrowser.c:1246
+msgid "Create _new file"
+msgstr "_Neue Datei erstellen"
 
-#: ../treebrowser/src/treebrowser.c:1249
-msgid "Rename"
-msgstr "Umbenennen"
+#: ../treebrowser/src/treebrowser.c:1250
+msgid "Rena_me"
+msgstr "_Umbenennen"
 
-#: ../treebrowser/src/treebrowser.c:1254
-msgid "Delete"
-msgstr "Löschen"
-
-#: ../treebrowser/src/treebrowser.c:1262
+#: ../treebrowser/src/treebrowser.c:1263
 #, c-format
 msgid "Close: %s"
 msgstr "»%s« schließen"
 
-#: ../treebrowser/src/treebrowser.c:1267
-#, c-format
-msgid "Close Child Documents "
-msgstr "Kinderdokumente schließen"
+#: ../treebrowser/src/treebrowser.c:1268
+msgid "Clo_se Child Documents "
+msgstr "Kinderdokumente _schließen"
 
-#: ../treebrowser/src/treebrowser.c:1272
+#: ../treebrowser/src/treebrowser.c:1273
 msgid "_Copy full path to clipboard"
 msgstr "_Vollständigen Pfad in die Zwischenablage kopieren"
 
-#: ../treebrowser/src/treebrowser.c:1285
-msgid "Collapse all"
-msgstr "Alle einklappen"
+#: ../treebrowser/src/treebrowser.c:1282
+msgid "E_xpand all"
+msgstr "A_lle ausklappen"
 
-#: ../treebrowser/src/treebrowser.c:1292 ../treebrowser/src/treebrowser.c:2048
-msgid "Show bookmarks"
-msgstr "Lesezeichen anzeigen"
+#: ../treebrowser/src/treebrowser.c:1286
 
-#: ../treebrowser/src/treebrowser.c:1297 ../treebrowser/src/treebrowser.c:1997
-msgid "Show hidden files"
-msgstr "Versteckte Dateien anzeigen"
+msgid "Coll_apse all"
+msgstr "Alle e_inklappen"
 
-#: ../treebrowser/src/treebrowser.c:1302
-msgid "Show toolbars"
-msgstr "Werkzeugleisten anzeigen"
+#: ../treebrowser/src/treebrowser.c:1293
+msgid "Show boo_kmarks"
+msgstr "L_esezeichen anzeigen"
 
-#: ../treebrowser/src/treebrowser.c:1622
+#: ../treebrowser/src/treebrowser.c:1298
+msgid "Sho_w hidden files"
+msgstr "_Versteckte Dateien anzeigen"
+
+#: ../treebrowser/src/treebrowser.c:1303
+msgid "Show tool_bars"
+msgstr "_Werkzeugleisten anzeigen"
+
+#: ../treebrowser/src/treebrowser.c:1625
 #, c-format
 msgid "Target file '%s' exists, do you really want to replace it?"
 msgstr "Zieldatei »%s« existiert bereits. Möchten Sie diese wirklich ersetzen?"
 
-#: ../treebrowser/src/treebrowser.c:1749
+#: ../treebrowser/src/treebrowser.c:1742
+msgid "Go up"
+msgstr "Aufwärts"
+
+#: ../treebrowser/src/treebrowser.c:1747 ../treebrowser/src/treebrowser.c:2146
+msgid "Refresh"
+msgstr "Auffrischen"
+
+#: ../treebrowser/src/treebrowser.c:1752
 msgid "Home"
 msgstr "Ausgabe"
 
-#: ../treebrowser/src/treebrowser.c:1759
+#: ../treebrowser/src/treebrowser.c:1757
+msgid "Set path from document"
+msgstr "Pfad des Dokumentes übernehmen"
+
+#: ../treebrowser/src/treebrowser.c:1762
 msgid "Track path"
 msgstr "Pfad aufzeichnen"
 
-#: ../treebrowser/src/treebrowser.c:1764
+#: ../treebrowser/src/treebrowser.c:1767
 msgid "Hide bars"
 msgstr "Leisten verbergen"
 
-#: ../treebrowser/src/treebrowser.c:1774
+#: ../treebrowser/src/treebrowser.c:1777
 msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
 "reverse try for example this '!;*.c;*.h;*.cpp'"
 msgstr "Filter (*.c;*.h;*.cpp). Die Nutzung von »!« invertiert das Ergebnis."
 
-#: ../treebrowser/src/treebrowser.c:1782
+#: ../treebrowser/src/treebrowser.c:1785
 msgid "Addressbar for example '/projects/my-project'"
 msgstr "Adressleiste. Zum Beispiel »/projects/my-project«"
 
-#: ../treebrowser/src/treebrowser.c:1807
+#: ../treebrowser/src/treebrowser.c:1810
 msgid "Tree Browser"
 msgstr "Baumnavigator"
 
-#: ../treebrowser/src/treebrowser.c:1950
+#: ../treebrowser/src/treebrowser.c:1953
 msgid "External open command"
 msgstr "Externer Öffnen-Befehl"
 
-#: ../treebrowser/src/treebrowser.c:1955
+#: ../treebrowser/src/treebrowser.c:1958
 #, c-format
 msgid ""
 "The command to execute when using \"Open with\". You can use %f and %d "
@@ -7533,59 +7546,63 @@ msgstr ""
 "%f wird mit dem Dateinamen ersetzt, der den kompletten Pfad beinhaltet.\n"
 "%d wird mit dem Pfad des Verzeichnisses der aktuellen Datei ersetzt."
 
-#: ../treebrowser/src/treebrowser.c:1968
+#: ../treebrowser/src/treebrowser.c:1971
 msgid "The terminal to use with the command \"Open Terminal\""
 msgstr ""
 "Das Terminal, welches für das Kommando »Terminal öffnen« genutzt werden "
 "soll. Z. B. »xterm«."
 
-#: ../treebrowser/src/treebrowser.c:1974
+#: ../treebrowser/src/treebrowser.c:1977
 msgid "Toolbar"
 msgstr "Werkzeugleiste:"
 
-#: ../treebrowser/src/treebrowser.c:1976
+#: ../treebrowser/src/treebrowser.c:1979
 msgid "Hidden"
 msgstr "Versteckt"
 
-#: ../treebrowser/src/treebrowser.c:1977
+#: ../treebrowser/src/treebrowser.c:1980
 msgid "Top"
 msgstr "Oben"
 
-#: ../treebrowser/src/treebrowser.c:1978
+#: ../treebrowser/src/treebrowser.c:1981
 msgid "Bottom"
 msgstr "Unten"
 
-#: ../treebrowser/src/treebrowser.c:1983
+#: ../treebrowser/src/treebrowser.c:1986
 msgid "If position is changed, the option require plugin restart."
 msgstr "Bei einer Veränderung der Position muss das Plugin neu geladen werden."
 
-#: ../treebrowser/src/treebrowser.c:1987
+#: ../treebrowser/src/treebrowser.c:1990
 msgid "Show icons"
 msgstr "Symbole anzeigen:"
 
-#: ../treebrowser/src/treebrowser.c:1989
+#: ../treebrowser/src/treebrowser.c:1992
 msgid "None"
 msgstr "Keines"
 
-#: ../treebrowser/src/treebrowser.c:1990
+#: ../treebrowser/src/treebrowser.c:1993
 msgid "Base"
 msgstr "Basis"
 
-#: ../treebrowser/src/treebrowser.c:1991
+#: ../treebrowser/src/treebrowser.c:1994
 msgid "Content-type"
 msgstr "Inhaltsart"
 
-#: ../treebrowser/src/treebrowser.c:2002
+#: ../treebrowser/src/treebrowser.c:2000
+msgid "Show hidden files"
+msgstr "Versteckte Dateien anzeigen"
+
+#: ../treebrowser/src/treebrowser.c:2005
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr ""
 "Unter Windows versteckt dies nur Dateien, die mit einem ».« (Punkt) "
 "beginnen. "
 
-#: ../treebrowser/src/treebrowser.c:2004
+#: ../treebrowser/src/treebrowser.c:2007
 msgid "Hide object files"
 msgstr "Objektdateien verbergen"
 
-#: ../treebrowser/src/treebrowser.c:2009
+#: ../treebrowser/src/treebrowser.c:2012
 msgid ""
 "Don't show generated object files in the file browser, this includes *.o, *."
 "obj. *.so, *.dll, *.a, *.lib"
@@ -7593,57 +7610,66 @@ msgstr ""
 "Keine generierten Objektdateien anzeigen. Dies bezieht *.o, *.obj. *.so, *."
 "dll, *.a, *.lib mit ein."
 
-#: ../treebrowser/src/treebrowser.c:2011
+#: ../treebrowser/src/treebrowser.c:2014
 msgid "Reverse filter"
 msgstr "Filter zurücksetzen"
 
-#: ../treebrowser/src/treebrowser.c:2016
+#: ../treebrowser/src/treebrowser.c:2019
 msgid "Follow current document"
 msgstr "Dem aktuellen Dokument folgen"
 
-#: ../treebrowser/src/treebrowser.c:2021
+#: ../treebrowser/src/treebrowser.c:2024
 msgid "Single click, open document and focus it"
 msgstr "Einzelklick öffnet Dokument und fokussiert es"
 
-#: ../treebrowser/src/treebrowser.c:2026
+#: ../treebrowser/src/treebrowser.c:2029
 msgid "Double click open directory"
 msgstr "Doppelklick öffnet ein Verzeichnis"
 
-#: ../treebrowser/src/treebrowser.c:2031
+#: ../treebrowser/src/treebrowser.c:2034
 msgid "On delete file, close it if is opened"
 msgstr "Datei schließen, wenn sie gelöscht wird"
 
-#: ../treebrowser/src/treebrowser.c:2036
+#: ../treebrowser/src/treebrowser.c:2039
 msgid "Focus editor on file open"
 msgstr "Fokus auf Editor legen beim Öffnen von Dateien"
 
-#: ../treebrowser/src/treebrowser.c:2041
+#: ../treebrowser/src/treebrowser.c:2044
 msgid "Show tree lines"
 msgstr "Leere Zeilen anzeigen"
 
-#: ../treebrowser/src/treebrowser.c:2053
+#: ../treebrowser/src/treebrowser.c:2051
+msgid "Show bookmarks"
+msgstr "Lesezeichen anzeigen"
+
+#: ../treebrowser/src/treebrowser.c:2056
 msgid "Open new files"
 msgstr "Neue Dateien öffnen"
 
-#: ../treebrowser/src/treebrowser.c:2129
+#: ../treebrowser/src/treebrowser.c:2136
 msgid "Focus File List"
 msgstr "Dateiliste fokussieren"
 
-#: ../treebrowser/src/treebrowser.c:2131
+#: ../treebrowser/src/treebrowser.c:2138
 msgid "Focus Path Entry"
 msgstr "Pfadeintrag fokussieren"
 
-#: ../treebrowser/src/treebrowser.c:2133
+#: ../treebrowser/src/treebrowser.c:2140
 msgid "Rename Object"
 msgstr "Objekt umbenennen"
 
-#: ../treebrowser/src/treebrowser.c:2135
+#: ../treebrowser/src/treebrowser.c:2142
 msgid "Create New File"
 msgstr "Neue Datei erstellen"
 
-#: ../treebrowser/src/treebrowser.c:2137
+#: ../treebrowser/src/treebrowser.c:2144
 msgid "Create New Directory"
 msgstr "Neues Verzeichnis erstellen"
+
+#: ../treebrowser/src/treebrowser.c:2148
+#, fuzzy
+msgid "Track Current"
+msgstr "Pfad aufzeichnen"
 
 #: ../updatechecker/src/updatechecker.c:40
 msgid "Updatechecker"
@@ -7904,6 +7930,9 @@ msgstr "XML-Schnipsel"
 #: ../xmlsnippets/src/plugin.c:45
 msgid "Autocompletes XML/HTML tags using snippets."
 msgstr "Autovervollständigt XML/HTML-Tags unter Verwendung von Schnipseln."
+
+#~ msgid "Delete"
+#~ msgstr "Löschen"
 
 #~ msgid "GeanyLipsum"
 #~ msgstr "GeanyLipsum"
