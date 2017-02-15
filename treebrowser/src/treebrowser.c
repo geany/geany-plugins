@@ -110,6 +110,7 @@ enum
 	KB_CREATE_FILE,
 	KB_CREATE_DIR,
 	KB_REFRESH,
+	KB_TRACK_CURRENT,
 	KB_COUNT
 };
 
@@ -2107,6 +2108,10 @@ static void kb_activate(guint key_id)
 		case KB_REFRESH:
 			on_menu_refresh(NULL, NULL);
 			break;
+
+		case KB_TRACK_CURRENT:
+			treebrowser_track_current();
+			break;
 	}
 }
 
@@ -2139,6 +2144,8 @@ plugin_init(GeanyData *data)
 		0, 0, "create_dir", _("Create New Directory"), NULL);
 	keybindings_set_item(key_group, KB_REFRESH, kb_activate,
 		0, 0, "rename_refresh", _("Refresh"), NULL);
+	keybindings_set_item(key_group, KB_TRACK_CURRENT, kb_activate,
+		0, 0, "track_current", _("Track Current"), NULL);
 
 	plugin_signal_connect(geany_plugin, NULL, "document-activate", TRUE,
 		(GCallback)&treebrowser_track_current_cb, NULL);
