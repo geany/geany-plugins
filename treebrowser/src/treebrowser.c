@@ -461,7 +461,6 @@ treebrowser_chroot(const gchar *dir)
 
 	treebrowser_bookmarks_set_state();
 
-	gtk_tree_store_clear(treestore);
 	setptr(addressbar_last_address, directory);
 
 	treebrowser_browse(addressbar_last_address, NULL);
@@ -499,6 +498,8 @@ treebrowser_browse(gchar *directory, gpointer parent)
 
 	if (parent)
 		gtk_tree_store_iter_clear_nodes(parent, FALSE);
+	else
+		gtk_tree_store_clear(treestore);
 
 	list = utils_get_file_list(directory, NULL, NULL);
 	if (list != NULL)
