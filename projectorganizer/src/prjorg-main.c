@@ -219,5 +219,5 @@ void plugin_cleanup(void)
 
 void plugin_help (void)
 {
-	utils_open_browser (DOCDIR "/" PLUGIN "/README");
+	utils_open_browser("http://plugins.geany.org/projectorganizer.html");
 }
