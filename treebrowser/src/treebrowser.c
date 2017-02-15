@@ -1204,11 +1204,11 @@ create_popup_menu(const gchar *name, const gchar *uri)
 	gboolean is_dir 		= is_exists ? g_file_test(uri, G_FILE_TEST_IS_DIR) : FALSE;
 	gboolean is_document 	= document_find_by_filename(uri) != NULL ? TRUE : FALSE;
 
-	item = ui_image_menu_item_new(GTK_STOCK_GO_UP, _("Go up"));
+	item = ui_image_menu_item_new(GTK_STOCK_GO_UP, _("Go _up"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_go_up), NULL);
 
-	item = ui_image_menu_item_new(GTK_STOCK_GO_UP, _("Set path from document"));
+	item = ui_image_menu_item_new(GTK_STOCK_GO_UP, _("Set _path from document"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_current_path), NULL);
 
@@ -1217,16 +1217,16 @@ create_popup_menu(const gchar *name, const gchar *uri)
 	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_open_externally), g_strdup(uri), (GClosureNotify)g_free, 0);
 	gtk_widget_set_sensitive(item, is_exists);
 
-	item = ui_image_menu_item_new("utilities-terminal", _("Open Terminal"));
+	item = ui_image_menu_item_new("utilities-terminal", _("Open _Terminal"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_open_terminal), g_strdup(uri), (GClosureNotify)g_free, 0);
 
-	item = ui_image_menu_item_new(GTK_STOCK_GOTO_TOP, _("Set as root"));
+	item = ui_image_menu_item_new(GTK_STOCK_GOTO_TOP, _("Set as _root"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_set_as_root), g_strdup(uri), (GClosureNotify)g_free, 0);
 	gtk_widget_set_sensitive(item, is_dir);
 
-	item = ui_image_menu_item_new(GTK_STOCK_REFRESH, _("Refresh"));
+	item = ui_image_menu_item_new(GTK_STOCK_REFRESH, _("Refres_h"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_refresh), NULL);
 
@@ -1238,20 +1238,20 @@ create_popup_menu(const gchar *name, const gchar *uri)
 	item = gtk_separator_menu_item_new();
 	gtk_container_add(GTK_CONTAINER(menu), item);
 
-	item = ui_image_menu_item_new(GTK_STOCK_ADD, _("Create new directory"));
+	item = ui_image_menu_item_new(GTK_STOCK_ADD, _("Creat_e new directory"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_create_new_object), (gpointer)"directory");
 
-	item = ui_image_menu_item_new(GTK_STOCK_NEW, _("Create new file"));
+	item = ui_image_menu_item_new(GTK_STOCK_NEW, _("Create _new file"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_create_new_object), (gpointer)"file");
 
-	item = ui_image_menu_item_new(GTK_STOCK_SAVE_AS, _("Rename"));
+	item = ui_image_menu_item_new(GTK_STOCK_SAVE_AS, _("Rena_me"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_rename), NULL);
 	gtk_widget_set_sensitive(item, is_exists);
 
-	item = ui_image_menu_item_new(GTK_STOCK_DELETE, _("Delete"));
+	item = ui_image_menu_item_new(GTK_STOCK_DELETE, _("_Delete"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_delete), NULL);
 	gtk_widget_set_sensitive(item, is_exists);
@@ -1264,7 +1264,7 @@ create_popup_menu(const gchar *name, const gchar *uri)
 	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_close), g_strdup(uri), (GClosureNotify)g_free, 0);
 	gtk_widget_set_sensitive(item, is_document);
 
-	item = ui_image_menu_item_new(GTK_STOCK_CLOSE, g_strdup_printf(_("Close Child Documents ")));
+	item = ui_image_menu_item_new(GTK_STOCK_CLOSE, g_strdup_printf(_("Clo_se Child Documents ")));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_close_children), g_strdup(uri), (GClosureNotify)g_free, 0);
 	gtk_widget_set_sensitive(item, is_dir);
@@ -1278,28 +1278,28 @@ create_popup_menu(const gchar *name, const gchar *uri)
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	gtk_widget_show(item);
 
-	item = ui_image_menu_item_new(GTK_STOCK_GO_FORWARD, _("Expand all"));
+	item = ui_image_menu_item_new(GTK_STOCK_GO_FORWARD, _("E_xpand all"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_expand_all), NULL);
 
-	item = ui_image_menu_item_new(GTK_STOCK_GO_BACK, _("Collapse all"));
+	item = ui_image_menu_item_new(GTK_STOCK_GO_BACK, _("Coll_apse all"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_collapse_all), NULL);
 
 	item = gtk_separator_menu_item_new();
 	gtk_container_add(GTK_CONTAINER(menu), item);
 
-	item = gtk_check_menu_item_new_with_mnemonic(_("Show bookmarks"));
+	item = gtk_check_menu_item_new_with_mnemonic(_("Show boo_kmarks"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), CONFIG_SHOW_BOOKMARKS);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_show_bookmarks), NULL);
 
-	item = gtk_check_menu_item_new_with_mnemonic(_("Show hidden files"));
+	item = gtk_check_menu_item_new_with_mnemonic(_("Sho_w hidden files"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), CONFIG_SHOW_HIDDEN_FILES);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_show_hidden_files), NULL);
 
-	item = gtk_check_menu_item_new_with_mnemonic(_("Show toolbars"));
+	item = gtk_check_menu_item_new_with_mnemonic(_("Show tool_bars"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), CONFIG_SHOW_BARS ? TRUE : FALSE);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_show_bars), NULL);
