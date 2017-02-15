@@ -1427,6 +1427,7 @@ on_treeview_keypress(GtkWidget *widget, GdkEventKey *event)
 	GtkTreeIter		iter;
 	GtkTreeModel	*model;
 	GtkTreePath		*path;
+	GdkModifierType	modifiers = gtk_accelerator_get_default_mod_mask();
 
 	if (event->keyval == GDK_space)
 	{
@@ -1445,7 +1446,8 @@ on_treeview_keypress(GtkWidget *widget, GdkEventKey *event)
 		on_button_go_up();
 		return TRUE;
 	}
-	if (event->keyval == GDK_Menu)
+	if ((event->keyval == GDK_Menu) ||
+	    (event->keyval == GDK_F10 && (event->state & modifiers) == GDK_SHIFT_MASK))
 	{
 		gchar *name = NULL, *uri = NULL;
 		GtkWidget *menu;
