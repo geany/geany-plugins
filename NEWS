@@ -28,6 +28,9 @@ Geany Plugins 1.30 (not yet released)
     Lineoperations:
     * Add support for selections (PR##378)
 
+    Lipsum:
+    * Add a space before restarting Lorem Ipsum text (#513)
+
     Markdown:
     * Allow exporting Markdown as HTML (PR##502)
     * Fix relative paths (PR##501)
