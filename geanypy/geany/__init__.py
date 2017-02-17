@@ -15,6 +15,7 @@ import editor
 import encoding
 import filetypes
 import highlighting
+import glog
 import main
 import msgwindow
 import navqueue
@@ -42,6 +43,7 @@ __all__ = [ "Plugin",
             "main_widgets",
             "interface_prefs",
             "app",
+            "glog",
             "keybindings",
             "general_prefs",
             "search_prefs",

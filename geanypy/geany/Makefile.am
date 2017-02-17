@@ -1,5 +1,6 @@
 geanypy_sources				=	__init__.py \
 								console.py \
+								logger.py \
 								plugin.py \
 								signalmanager.py
 geanypy_objects				=	$(geanypy_sources:.py=.pyc)
