@@ -1139,8 +1139,7 @@ static gboolean find_in_tree(GtkTreeIter *parent, gchar **path_split, gint level
 		g_free(name);
 		if (cmpres == 0)
 		{
-			GtkTreeIter foo;
-			if (path_split[level+1] == NULL && !gtk_tree_model_iter_children (model, &foo, &iter))
+			if (path_split[level+1] == NULL)
 			{
 				*ret = iter;
 				return TRUE;
@@ -1156,19 +1155,13 @@ static gboolean find_in_tree(GtkTreeIter *parent, gchar **path_split, gint level
 }
 
 
-static gboolean follow_editor_on_idle(gpointer foo)
+static gboolean expand_path(gchar *utf8_expanded_path, gboolean select)
 {
 	GtkTreeIter root_iter, found_iter;
 	gchar *utf8_path = NULL;
 	gchar **path_split;
-	GeanyDocument *doc;
 	GSList *elem;
 	GtkTreeModel *model;
-
-	doc = document_get_current();
-
-	if (!doc || !doc->file_name || !geany_data->app->project || !prj_org)
-		return FALSE;
 
 	model = GTK_TREE_MODEL(s_file_store);
 	gtk_tree_model_iter_children(model, &root_iter, NULL);
@@ -1176,7 +1169,7 @@ static gboolean follow_editor_on_idle(gpointer foo)
 	{
 		PrjOrgRoot *root = elem->data;
 
-		utf8_path = get_relative_path(root->base_dir, doc->file_name);
+		utf8_path = get_relative_path(root->base_dir, utf8_expanded_path);
 		if (utf8_path)
 			break;
 
@@ -1197,14 +1190,17 @@ static gboolean follow_editor_on_idle(gpointer foo)
 		GtkTreeSelection *treesel;
 
 		tree_path = gtk_tree_model_get_path (model, &found_iter);
-
 		gtk_tree_view_expand_to_path(GTK_TREE_VIEW(s_file_view), tree_path);
-		gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(s_file_view), tree_path,
-			NULL, FALSE, 0.0, 0.0);
 
-		treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(s_file_view));
-		gtk_tree_selection_select_iter(treesel, &found_iter);
-		gtk_tree_path_free(tree_path);
+		if (select)
+		{
+			gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(s_file_view), tree_path,
+				NULL, FALSE, 0.0, 0.0);
+
+			treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(s_file_view));
+			gtk_tree_selection_select_iter(treesel, &found_iter);
+			gtk_tree_path_free(tree_path);
+		}
 	}
 
 	g_free(utf8_path);
@@ -1214,19 +1210,92 @@ static gboolean follow_editor_on_idle(gpointer foo)
 }
 
 
+static gboolean expand_on_idle(gpointer ptr)
+{
+	GeanyDocument *doc = document_get_current();
+
+	if (ptr)
+	{
+		GPtrArray *expanded_paths = ptr;
+		gchar *item;
+		guint i;
+
+		foreach_ptr_array(item, i, expanded_paths)
+			expand_path(item, FALSE);
+		g_ptr_array_free(expanded_paths, TRUE);
+	}
+
+	if (!s_follow_editor || !doc || !doc->file_name || !geany_data->app->project || !prj_org)
+		return FALSE;
+
+	expand_path(doc->file_name, TRUE);
+
+	return FALSE;
+}
+
+
+static void on_map_expanded(GtkTreeView *tree_view, GtkTreePath *tree_path, GPtrArray *path_arr)
+{
+	GtkTreeIter iter;
+
+	if (gtk_tree_model_get_iter(GTK_TREE_MODEL(s_file_store), &iter, tree_path))
+	{
+		gchar *utf8_path = build_path(&iter);
+		gboolean replaced = FALSE;
+
+		if (path_arr->len > 0)
+		{
+			gchar *previous = path_arr->pdata[path_arr->len-1];
+			gchar *rel_path = get_relative_path(previous, utf8_path);
+
+			/* Filter-out redundant parent paths. gtk_tree_view_map_expanded_rows()
+			 * returns first parent paths and then nested paths so we can just
+			 * check if the last stored path is a parent of current path and
+			 * if so, replace it with curent path. */
+			if (rel_path)
+			{
+				g_free(previous);
+				path_arr->pdata[path_arr->len-1] = utf8_path;
+				replaced = TRUE;
+			}
+
+			g_free(rel_path);
+		}
+
+		if (!replaced)
+			g_ptr_array_add(path_arr, utf8_path);
+	}
+}
+
+
+static GPtrArray *get_expanded_paths(void)
+{
+	GPtrArray *expanded_paths = g_ptr_array_new_with_free_func(g_free);
+
+	gtk_tree_view_map_expanded_rows(GTK_TREE_VIEW(s_file_view),
+		(GtkTreeViewMappingFunc)on_map_expanded, expanded_paths);
+
+	return expanded_paths;
+}
+
+
 void prjorg_sidebar_update(gboolean reload)
 {
+	GPtrArray *expanded_paths = NULL;
+
 	if (reload)
 	{
+		expanded_paths = get_expanded_paths();
+
 		load_project();
 		/* we get color information only after the sidebar is realized -
 		 * perform reload later if this is not the case yet */
 		if (!gtk_widget_get_realized(s_toolbar))
 			s_pending_reload = TRUE;
 	}
-	if (s_follow_editor)
-		/* perform on idle - avoids unnecessary jumps on project load */
-		plugin_idle_add(geany_plugin, (GSourceFunc)follow_editor_on_idle, NULL);
+
+	/* perform on idle - avoids unnecessary jumps on project load */
+	plugin_idle_add(geany_plugin, (GSourceFunc)expand_on_idle, expanded_paths);
 }
 
 
