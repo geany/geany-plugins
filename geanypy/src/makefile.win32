@@ -10,7 +10,7 @@ SOURCES = \
 	geanypy-highlighting.c \
 	geanypy-indentprefs.c \
 	geanypy-interfaceprefs.c \
-	geanypy-log.c \
+	geanypy-glog.c \
 	geanypy-main.c \
 	geanypy-mainwidgets.c \
 	geanypy-msgwindow.c \
