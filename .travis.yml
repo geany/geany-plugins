@@ -125,7 +125,7 @@ before_install:
 
 before_script:
   # prepare for GP
-  - export CFLAGS="-g -O2 -Werror=pointer-arith -Werror=aggregate-return -Werror=implicit-function-declaration"
+  - export CFLAGS="-g -O2 -Werror=pointer-arith -Werror=implicit-function-declaration"
 
 script:
   - NOCONFIGURE=1 ./autogen.sh
