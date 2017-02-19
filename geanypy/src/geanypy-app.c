@@ -4,7 +4,6 @@
 
 #include "geanypy.h"
 
-
 typedef struct
 {
 	PyObject_HEAD

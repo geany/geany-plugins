@@ -118,9 +118,9 @@ Document_get_property(Document *self, const gchar *prop_name)
 	else if (g_str_equal(prop_name, "text_changed"))
 	{
 		if (self->doc->changed)
-			Py_RETURN_NONE;
+			Py_RETURN_TRUE;
 		else
-			Py_RETURN_NONE;
+			Py_RETURN_FALSE;
 	}
 
 	Py_RETURN_NONE;

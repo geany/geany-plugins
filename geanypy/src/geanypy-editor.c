@@ -62,7 +62,7 @@ Editor_get_property(Editor *self, const gchar *prop_name)
 		PyObject *py_doc;
 		py_doc = (PyObject *) Document_create_new_from_geany_document(
 									self->editor->document);
-		if (py_doc && py_doc != Py_None)
+		if (!py_doc || py_doc == Py_None)
 			Py_RETURN_NONE;
 		return py_doc;
 	}
@@ -296,7 +296,7 @@ static PyMethodDef Editor_methods[] = {
 	{ "indicator_set_on_range", (PyCFunction) Editor_indicator_set_on_range, METH_KEYWORDS,
 		"Sets an indicator on the range specified." },
 	{ "insert_snippet", (PyCFunction) Editor_insert_snippet, METH_KEYWORDS,
-		"Replces all special sequences in snippet and inserts it at "
+		"Replaces all special sequences in snippet and inserts it at "
 		"the specified position." },
 	{ "insert_text_block", (PyCFunction) Editor_insert_text_block, METH_KEYWORDS,
 		"Inserts text, replacing tab chars and newline chars accordingly "
