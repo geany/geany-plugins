@@ -20,10 +20,13 @@ Geany Plugins 1.30 (not yet released)
     * Improve compatibility with Gtk3
     * Allow to use current word as initial text in interactive mode (PR##457
 
-    GeanyLua
+    GeanyLua:
     * Remove deprecated GeanyFunctions from interface provided by this
       plugin (PR##439)
     * Fix build with latest Scintilla (PR##510)
+
+    GeanyPy:
+    * Sync with upstream GeanyPy version (PR##527)
 
     Lineoperations:
     * Add support for selections (PR##378)
@@ -41,6 +44,7 @@ Geany Plugins 1.30 (not yet released)
 
     ProjectOrganizer:
     * Show online help via help button (PR##521)
+    * Remember expanded directories in the sidebar when reloading (PR##528)
 
     Spellcheck:
     * Treat underscore as word seperator (PR##512)
@@ -52,6 +56,8 @@ Geany Plugins 1.30 (not yet released)
     * Fix a possible memory leak (PR##478)
     * Add a keybinding to follow current file (PR##524
     * Allow to show menu also with Shift+F10 (PR##523)
+    * Fix a bug addding files to file list again and again when using
+      refresh-function and no file is selected (PR##525)
 
     Internationalization:
     * Updated translations: de
