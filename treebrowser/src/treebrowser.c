@@ -151,7 +151,7 @@ _gtk_cell_layout_get_cells(GtkTreeViewColumn *column)
  * PROTOTYPES
  * ------------------ */
 
-static void 	project_change_cb(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile *config, G_GNUC_UNUSED gpointer data);
+static void 	project_open_cb(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile *config, G_GNUC_UNUSED gpointer data);
 static void 	treebrowser_browse(gchar *directory, gpointer parent);
 static void 	treebrowser_bookmarks_set_state(void);
 static void 	treebrowser_load_bookmarks(void);
@@ -168,8 +168,7 @@ static gboolean save_settings(void);
 
 PluginCallback plugin_callbacks[] =
 {
-	{ "project-open", (GCallback) &project_change_cb, TRUE, NULL },
-	{ "project-save", (GCallback) &project_change_cb, TRUE, NULL },
+	{ "project-open", (GCallback) &project_open_cb, TRUE, NULL },
 	{ NULL, NULL, FALSE, NULL }
 };
 
@@ -2072,7 +2071,7 @@ plugin_configure(GtkDialog *dialog)
  * ------------------ */
 
 static void
-project_change_cb(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile *config, G_GNUC_UNUSED gpointer data)
+project_open_cb(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile *config, G_GNUC_UNUSED gpointer data)
 {
 	gchar *uri;
 
