@@ -58,6 +58,7 @@ Geany Plugins 1.30 (not yet released)
     * Allow to show menu also with Shift+F10 (PR##523)
     * Fix a bug addding files to file list again and again when using
       refresh-function and no file is selected (PR##525)
+    * Don't change directory on project save (PR##536)
 
     Internationalization:
     * Updated translations: de
