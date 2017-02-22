@@ -6,9 +6,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 1.28\n"
+"Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-30 03:19+0000\n"
+"POT-Creation-Date: 2017-02-22 18:17+0100\n"
 "PO-Revision-Date: 2016-10-30 15:45+0000\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
 "Language-Team: Português <>\n"
@@ -37,7 +37,7 @@ msgstr "Não."
 msgid "Contents"
 msgstr "Conteúdo"
 
-#: ../addons/src/ao_bookmarklist.c:383 ../treebrowser/src/treebrowser.c:623
+#: ../addons/src/ao_bookmarklist.c:383 ../treebrowser/src/treebrowser.c:624
 #: ../webhelper/src/gwh-plugin.c:328
 msgid "Bookmarks"
 msgstr "Marcadores"
@@ -188,7 +188,7 @@ msgstr "Concluir etiquetas XML"
 #: ../geanyprj/src/geanyprj.c:173 ../geanyvc/src/geanyvc.c:1849
 #: ../geniuspaste/src/geniuspaste.c:318 ../sendmail/src/sendmail.c:128
 #: ../sendmail/src/sendmail.c:293 ../spellcheck/src/scplugin.c:157
-#: ../treebrowser/src/treebrowser.c:1937
+#: ../treebrowser/src/treebrowser.c:1941
 #: ../updatechecker/src/updatechecker.c:266
 msgid "Plugin configuration directory could not be created."
 msgstr "A pasta de configuração da extensão não pôde ser criada."
@@ -623,15 +623,15 @@ msgid "Provides a command panel for quick access to actions, files and more"
 msgstr ""
 "Fornece um painel de comandos para acesso rápido a ações, ficheiros e mais."
 
-#: ../commander/src/commander-plugin.c:770
+#: ../commander/src/commander-plugin.c:772
 msgid "Show Command Panel"
 msgstr "Mostrar painel de comando"
 
-#: ../commander/src/commander-plugin.c:774
+#: ../commander/src/commander-plugin.c:776
 msgid "Show Command Panel (Commands Only)"
 msgstr "Mostrar painel de comando (só comandos)"
 
-#: ../commander/src/commander-plugin.c:778
+#: ../commander/src/commander-plugin.c:780
 msgid "Show Command Panel (Files Only)"
 msgstr "Mostrar painel de comando (só ficheiros)"
 
@@ -707,37 +707,37 @@ msgstr "Contar ocorrências"
 msgid "line %i"
 msgstr "linha %i"
 
-#: ../debugger/src/dbm_gdb.c:522
+#: ../debugger/src/dbm_gdb.c:526
 #, c-format
 msgid "Program received signal %s (%s)"
 msgstr "O programa recebeu o sinal %s (%s)"
 
-#: ../debugger/src/dbm_gdb.c:543
+#: ../debugger/src/dbm_gdb.c:547
 #, c-format
 msgid "Program exited with code \"%i\""
 msgstr "O programa saiu com o código \"%i\""
 
-#: ../debugger/src/dbm_gdb.c:733
+#: ../debugger/src/dbm_gdb.c:737
 msgid "Failed to spawn gdb process"
 msgstr "Falha ao iniciar o processo gdb"
 
-#: ../debugger/src/dbm_gdb.c:780
+#: ../debugger/src/dbm_gdb.c:784
 msgid "~\"Loading target file.\\n\""
 msgstr "~\"A carregar ficheiro destino.\\n\""
 
-#: ../debugger/src/dbm_gdb.c:780
+#: ../debugger/src/dbm_gdb.c:784
 msgid "Error loading file"
 msgstr "Erro ao ler ficheiro"
 
 #. setting asyncronous mode
 #. setting null-stop array printing
 #. enable pretty printing
-#: ../debugger/src/dbm_gdb.c:785 ../debugger/src/dbm_gdb.c:788
-#: ../debugger/src/dbm_gdb.c:791
+#: ../debugger/src/dbm_gdb.c:789 ../debugger/src/dbm_gdb.c:792
+#: ../debugger/src/dbm_gdb.c:795
 msgid "Error configuring GDB"
 msgstr "Erro ao configurar o GDB"
 
-#: ../debugger/src/dbm_gdb.c:831
+#: ../debugger/src/dbm_gdb.c:835
 #, c-format
 msgid ""
 "Breakpoint at %s:%i cannot be set\n"
@@ -1338,7 +1338,7 @@ msgstr "Localizar etiqueta..."
 msgid "Find tag"
 msgstr "Localizar etiqueta"
 
-#: ../geanydoc/src/geanydoc.c:50 ../geanydoc/src/geanydoc.c:336
+#: ../geanydoc/src/geanydoc.c:50 ../geanydoc/src/geanydoc.c:339
 msgid "Doc"
 msgstr "Doc"
 
@@ -1350,27 +1350,27 @@ msgstr "Executar o visualizador de documentação sobre o símbolo atual."
 msgid "Could not parse the output of command"
 msgstr "Impossível processar a saída do comando"
 
-#: ../geanydoc/src/geanydoc.c:346
+#: ../geanydoc/src/geanydoc.c:349
 msgid "Put output in buffer"
 msgstr "Colocar saída em memória"
 
-#: ../geanydoc/src/geanydoc.c:358
+#: ../geanydoc/src/geanydoc.c:361
 msgid "Command 0:"
 msgstr "Comando 0:"
 
-#: ../geanydoc/src/geanydoc.c:364
+#: ../geanydoc/src/geanydoc.c:367
 msgid "Command 1:"
 msgstr "Comando 1:"
 
-#: ../geanydoc/src/geanydoc.c:382
+#: ../geanydoc/src/geanydoc.c:385
 msgid "%w will be replaced with current word\n"
 msgstr "%w será substituído pela palavra atual\n"
 
-#: ../geanydoc/src/geanydoc.c:429
+#: ../geanydoc/src/geanydoc.c:432
 msgid "Document current word"
 msgstr "Palavra atual do documento"
 
-#: ../geanydoc/src/geanydoc.c:430
+#: ../geanydoc/src/geanydoc.c:433
 msgid "Document interactive"
 msgstr "Interativo com o documento"
 
@@ -2882,7 +2882,7 @@ msgstr "IBM 852 code page"
 msgid "Don't set any encoding"
 msgstr "Não definir codificação"
 
-#: ../geanylua/glspi.h:87 ../geanylua/gsdlg_lua.c:95
+#: ../geanylua/glspi.h:83 ../geanylua/gsdlg_lua.c:95
 #: ../geanylua/glspi_kfile.c:54
 #, c-format
 msgid ""
@@ -2892,7 +2892,7 @@ msgstr ""
 "Erro no módulo \"%s\" na função %s():\n"
 " tipo esperado \"%s\" para o argumento #%d\n"
 
-#: ../geanylua/glspi.h:101
+#: ../geanylua/glspi.h:97
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2901,7 +2901,7 @@ msgstr ""
 "Erro no módulo \"%s\" na função %s():\n"
 " tipo esperado \"%s\" ou \"%s\" para o argumento #%d\n"
 
-#: ../geanylua/glspi.h:115 ../geanylua/gsdlg_lua.c:108
+#: ../geanylua/glspi.h:111 ../geanylua/gsdlg_lua.c:108
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2968,20 +2968,20 @@ msgstr "Falha ao abrir o script."
 msgid "Unknown error while loading script file."
 msgstr "Erro desconhecido ao carregar o script."
 
-#: ../geanylua/glspi_init.c:382
+#: ../geanylua/glspi_init.c:381
 msgid "_Lua Scripts"
 msgstr "Scripts _Lua "
 
-#: ../geanylua/glspi_init.c:427
+#: ../geanylua/glspi_init.c:425
 #, c-format
 msgid "     ==>> %s: Building menu from '%s'\n"
 msgstr "     ==>> %s: A gerar menu a partir de '%s'\n"
 
-#: ../geanylua/glspi_init.c:526
+#: ../geanylua/glspi_init.c:524
 msgid "Nothing to configure!"
 msgstr "Nada para configurar!"
 
-#: ../geanylua/glspi_init.c:528
+#: ../geanylua/glspi_init.c:526
 #, c-format
 msgid ""
 "You can create the script:\n"
@@ -2996,31 +2996,31 @@ msgstr ""
 "\n"
 "para adicionar o seu diálogo de configuração personalizado."
 
-#: ../geanylua/gsdlg.c:103 ../geanylua/glspi_dlg.c:420
+#: ../geanylua/gsdlg.c:100 ../geanylua/glspi_dlg.c:420
 msgid "Open file"
 msgstr "Abrir ficheiro"
 
-#: ../geanylua/gsdlg.c:107
+#: ../geanylua/gsdlg.c:104
 msgid "Select file"
 msgstr "Selecionar ficheiro"
 
-#: ../geanylua/gsdlg.c:154
+#: ../geanylua/gsdlg.c:151
 msgid "Browse..."
 msgstr "Explorar..."
 
-#: ../geanylua/gsdlg.c:176
+#: ../geanylua/gsdlg.c:173
 msgid "Select Color"
 msgstr "Selecionar cor"
 
-#: ../geanylua/gsdlg.c:207
+#: ../geanylua/gsdlg.c:204
 msgid "Choose..."
 msgstr "Escolher..."
 
-#: ../geanylua/gsdlg.c:228
+#: ../geanylua/gsdlg.c:225
 msgid "Select Font"
 msgstr "Selecionar letra"
 
-#: ../geanylua/gsdlg.c:255
+#: ../geanylua/gsdlg.c:252
 msgid "Select..."
 msgstr "Selecionar..."
 
@@ -3109,35 +3109,35 @@ msgstr ""
 "Erro no módulo \"%s\" na função %s():\n"
 "Esperada a frase \"open\" ou \"save\" como argumento #1.\n"
 
-#: ../geanylua/geanylua.c:156
+#: ../geanylua/geanylua.c:153
 #, c-format
 msgid "%s: Can't load support library %s!\n"
 msgstr "%s: impossível carregar a biblioteca de suporte %s!\n"
 
-#: ../geanylua/geanylua.c:168
+#: ../geanylua/geanylua.c:165
 #, c-format
 msgid "%s: Failed to initialize support library %s!\n"
 msgstr "%s: falha ao inicializar a biblioteca de suporte %s!\n"
 
-#: ../geanylua/geanylua.c:173
+#: ../geanylua/geanylua.c:170
 #, c-format
 msgid "%s: Support library version mismatch: %s for %s (should be %s)!\n"
 msgstr ""
 "%s: disparidade na versão da biblioteca de suporte: %s para %s (devia ser "
 "%s)!\n"
 
-#: ../geanylua/geanylua.c:179
+#: ../geanylua/geanylua.c:176
 #, c-format
 msgid "%s: Support library ABI mismatch: %d for %s (should be %d)!\n"
 msgstr ""
 "%s: disparidade na biblioteca de suporte ABI: %d para %s (devia ser %d)!\n"
 
-#: ../geanylua/geanylua.c:208
+#: ../geanylua/geanylua.c:205
 #, c-format
 msgid "%s: Can't find support library %s!\n"
 msgstr "%s: impossível encontrar a biblioteca de suporte %s!\n"
 
-#: ../geanylua/geanylua.c:227
+#: ../geanylua/geanylua.c:224
 #, c-format
 msgid ""
 "The %s plugin failed to load properly.\n"
@@ -3854,6 +3854,7 @@ msgid "New _Below"
 msgstr "Novo a_baixo"
 
 #: ../geanymacro/src/geanymacro.c:1824 ../geanymacro/src/geanymacro.c:2120
+#: ../treebrowser/src/treebrowser.c:1255
 msgid "_Delete"
 msgstr "_Eliminar"
 
@@ -4531,11 +4532,11 @@ msgstr "Localizar no projeto"
 msgid "Remove File"
 msgstr "Remover ficheiro"
 
-#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1415
+#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1484
 msgid "H_ide Sidebar"
 msgstr "Ocultar barra _lateral"
 
-#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1437
+#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1506
 msgid "Project"
 msgstr "Projeto"
 
@@ -4544,16 +4545,16 @@ msgstr "Projeto"
 msgid "Project \"%s\" opened."
 msgstr "Projeto \"%s\" aberto."
 
-#: ../geanypy/src/geanypy-plugin.c:68
+#: ../geanypy/src/geanypy-plugin.c:69
 #, c-format
 msgid "Unable to pre-load Python library: %s."
 msgstr "Impossível carregar previamente a biblioteca Python: '%s'."
 
-#: ../geanypy/src/geanypy-plugin.c:413
+#: ../geanypy/src/geanypy-plugin.c:415
 msgid "GeanyPy"
 msgstr "GeanyPy"
 
-#: ../geanypy/src/geanypy-plugin.c:414
+#: ../geanypy/src/geanypy-plugin.c:416
 msgid "Python plugins support"
 msgstr "Suporte a extensões Python"
 
@@ -5099,30 +5100,30 @@ msgstr "Barra de alteração Git"
 msgid "Highlights uncommitted changes in files tracked with Git"
 msgstr "Realça alterações não submetidas em ficheiros monitorizados com Git"
 
-#: ../git-changebar/src/gcb-plugin.c:1161 ../pohelper/src/gph-plugin.c:1593
+#: ../git-changebar/src/gcb-plugin.c:1165 ../pohelper/src/gph-plugin.c:1593
 #, c-format
 msgid "Failed to load configuration file: %s"
 msgstr "Falha ao carregar ficheiro de configuração: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1186 ../pohelper/src/gph-plugin.c:1618
+#: ../git-changebar/src/gcb-plugin.c:1190 ../pohelper/src/gph-plugin.c:1618
 #, c-format
 msgid "Failed to create configuration directory \"%s\": %s"
 msgstr "Falha ao criar pasta de configuração \"%s\": %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1189 ../pohelper/src/gph-plugin.c:1621
+#: ../git-changebar/src/gcb-plugin.c:1193 ../pohelper/src/gph-plugin.c:1621
 #, c-format
 msgid "Failed to save configuration file: %s"
 msgstr "Falha ao gravar ficheiro de configuração: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1268
+#: ../git-changebar/src/gcb-plugin.c:1272
 msgid "Go to the previous hunk"
 msgstr "Ir para o bocado anterior"
 
-#: ../git-changebar/src/gcb-plugin.c:1270
+#: ../git-changebar/src/gcb-plugin.c:1274
 msgid "Go to the next hunk"
 msgstr "Ir para o bocado seguinte"
 
-#: ../git-changebar/src/gcb-plugin.c:1401 ../pohelper/src/gph-plugin.c:1388
+#: ../git-changebar/src/gcb-plugin.c:1405 ../pohelper/src/gph-plugin.c:1388
 #: ../pohelper/src/gph-plugin.c:1723
 #, c-format
 msgid ""
@@ -5132,47 +5133,62 @@ msgstr ""
 "Falha ao carregar definição do UI, por favor verifique a sua instalação. O "
 "erro foi: %s"
 
-#: ../lineoperations/src/lineoperations.c:67
+#: ../lineoperations/src/lineoperations.c:123
+#, c-format
+msgid "Operation successful! %d lines removed."
+msgstr ""
+
+#: ../lineoperations/src/lineoperations.c:134
+msgid "Operation successful! No lines removed."
+msgstr ""
+
+#: ../lineoperations/src/lineoperations.c:142
+#, c-format
+msgid "Operation successful! %d lines affected."
+msgstr ""
+
+#: ../lineoperations/src/lineoperations.c:254
 msgid "Remove Duplicate Lines, _Sorted"
 msgstr "Remover linhas duplicadas, _sortidas"
 
-#: ../lineoperations/src/lineoperations.c:69
+#: ../lineoperations/src/lineoperations.c:256
 msgid "Remove Duplicate Lines, _Ordered"
 msgstr "Remover linhas duplicadas, _ordenadas"
 
-#: ../lineoperations/src/lineoperations.c:71
+#: ../lineoperations/src/lineoperations.c:258
 msgid "Remove _Unique Lines"
 msgstr "Remover linhas ú_nicas"
 
-#: ../lineoperations/src/lineoperations.c:74
+#: ../lineoperations/src/lineoperations.c:261
 msgid "Remove _Empty Lines"
 msgstr "R_emover linhas vazias"
 
-#: ../lineoperations/src/lineoperations.c:76
+#: ../lineoperations/src/lineoperations.c:263
 msgid "Remove _Whitespace Lines"
 msgstr "Remover linhas de es_paços"
 
-#: ../lineoperations/src/lineoperations.c:79
+#: ../lineoperations/src/lineoperations.c:266
 msgid "Sort Lines _Ascending"
 msgstr "Ordenar linhas _ascendentemente"
 
-#: ../lineoperations/src/lineoperations.c:81
+#: ../lineoperations/src/lineoperations.c:268
 msgid "Sort Lines _Descending"
 msgstr "Ordenar linhas _descendentemente"
 
-#: ../lineoperations/src/lineoperations.c:85
+#: ../lineoperations/src/lineoperations.c:272
 msgid "_Line Operations"
 msgstr "Operações de _linha"
 
-#: ../lineoperations/src/lineoperations.c:127
+#: ../lineoperations/src/lineoperations.c:318
 msgid "Line Operations"
 msgstr "Operações de linha"
 
-#: ../lineoperations/src/lineoperations.c:128
+#: ../lineoperations/src/lineoperations.c:319
+#, fuzzy
 msgid ""
 "Line Operations provides a handful of functions that can be applied to a "
-"document such as, removing duplicate lines, removing empty lines, removing "
-"lines with only whitespace, and sorting lines."
+"document or selection such as, removing duplicate lines, removing empty "
+"lines, removing lines with only whitespace, and sorting lines."
 msgstr ""
 "Operações de linha oferece uma mão cheia de funções que podem ser aplicadas "
 "a um documento, tais como remover linhas duplicadas, remover linhas vazias, "
@@ -5284,9 +5300,32 @@ msgstr "Pré-visualização real de Markdown"
 msgid "Markdown Preview"
 msgstr "Pré-visualizar Markdown"
 
-#: ../markdown/src/plugin.c:167
+#: ../markdown/src/plugin.c:102
+msgid "Export Markdown as HTML..."
+msgstr ""
+
+#: ../markdown/src/plugin.c:176
 msgid "The current document does not have a Markdown filetype."
 msgstr "O documento atual não tem tipo de ficheiro Markdown."
+
+#: ../markdown/src/plugin.c:278
+#, fuzzy
+msgid "Save HTML File As"
+msgstr "Gravar ficheiro"
+
+#: ../markdown/src/plugin.c:306
+msgid "HTML Files"
+msgstr ""
+
+#: ../markdown/src/plugin.c:311
+#, fuzzy
+msgid "All Files"
+msgstr "Adicionar ficheiro"
+
+#: ../markdown/src/plugin.c:322
+#, fuzzy, c-format
+msgid "Failed to export Markdown HTML to file '%s': %s"
+msgstr "Falha ao carregar o ficheiro \"%s\": %s"
 
 #: ../multiterm/src/config.vala:47
 #, c-format
@@ -5362,7 +5401,7 @@ msgstr "Impossível escrever configuração predefinida: %s"
 msgid "Unable to read value for '%s' key: %s"
 msgstr "Impossível ler valor para \"%s\": %s"
 
-#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:1962
+#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:1966
 msgid "Terminal"
 msgstr "Terminal"
 
@@ -5524,13 +5563,18 @@ msgstr ""
 msgid "Overlay"
 msgstr "Cobertura"
 
-#: ../pairtaghighlighter/src/pair_tag_highlighter.c:34
+#: ../pairtaghighlighter/src/pair_tag_highlighter.c:40
 msgid "Pair Tag Highlighter"
 msgstr "Realce de par de etiquetas"
 
-#: ../pairtaghighlighter/src/pair_tag_highlighter.c:35
+#: ../pairtaghighlighter/src/pair_tag_highlighter.c:41
 msgid "Finds and highlights matching opening/closing HTML tag"
 msgstr "Localiza e realça etiquetas de abertura/fecho HTML correspondentes"
+
+#: ../pairtaghighlighter/src/pair_tag_highlighter.c:440
+#, fuzzy
+msgid "Go To Matching Tag"
+msgstr "Selecionar até à chaveta _correspondente"
 
 #: ../pohelper/data/menus.ui.h:1
 msgid "_Translation Helper"
@@ -5975,48 +6019,47 @@ msgstr "Comparar tipo:"
 msgid "Set file patterns under Project->Properties"
 msgstr "Definir padrões de ficheiros sob Projeto -> Propriedades"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1272
+#: ../projectorganizer/src/prjorg-sidebar.c:1341
 msgid "Reload all"
 msgstr "Recarregar todos"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1281
+#: ../projectorganizer/src/prjorg-sidebar.c:1350
 msgid "Add external directory"
 msgstr "Adicionar pasta externa"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1291
-#: ../treebrowser/src/treebrowser.c:1281
+#: ../projectorganizer/src/prjorg-sidebar.c:1360
 msgid "Expand all"
 msgstr "Expandir tudo"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1298
+#: ../projectorganizer/src/prjorg-sidebar.c:1367
 msgid "Collapse to project root"
 msgstr "Colapsar para a raíz do projeto"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1309
+#: ../projectorganizer/src/prjorg-sidebar.c:1378
 msgid "Follow active editor"
 msgstr "Seguir o editor ativo"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1355
+#: ../projectorganizer/src/prjorg-sidebar.c:1424
 msgid "Open a project to start using the plugin"
 msgstr "Abrir um projeto para começar a usar a extensão"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1364
+#: ../projectorganizer/src/prjorg-sidebar.c:1433
 msgid "Expand All"
 msgstr "Expandir tudo"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1373
+#: ../projectorganizer/src/prjorg-sidebar.c:1442
 msgid "Find in Files..."
 msgstr "Localizar em ficheiros..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1382
+#: ../projectorganizer/src/prjorg-sidebar.c:1451
 msgid "Find File..."
 msgstr "Procurar ficheiro..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1391
+#: ../projectorganizer/src/prjorg-sidebar.c:1460
 msgid "Find Symbol..."
 msgstr "Procurar símbolo..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1404
+#: ../projectorganizer/src/prjorg-sidebar.c:1473
 msgid "Remove External Directory"
 msgstr "Remover pasta externa"
 
@@ -6994,30 +7037,30 @@ msgstr ""
 msgid "Try: "
 msgstr "Tentar:"
 
-#: ../spellcheck/src/speller.c:264
+#: ../spellcheck/src/speller.c:283
 msgid "Checking"
 msgstr "A verificar"
 
-#: ../spellcheck/src/speller.c:277
+#: ../spellcheck/src/speller.c:296
 #, c-format
 msgid "Checking file \"%s\" (lines %d to %d using %s):"
 msgstr "A verificar ficheiro \"%s\" (linhas %d até %d usando %s):"
 
-#: ../spellcheck/src/speller.c:287
+#: ../spellcheck/src/speller.c:306
 #, c-format
 msgid "Checking file \"%s\" (using %s):"
 msgstr "A verificar \"%s\" (usando %s):"
 
-#: ../spellcheck/src/speller.c:308
+#: ../spellcheck/src/speller.c:327
 msgid "The checked text is spelled correctly."
 msgstr "O texto verificado não contém erros ortográficos."
 
-#: ../spellcheck/src/speller.c:318
+#: ../spellcheck/src/speller.c:337
 #, c-format
 msgid "The Enchant library couldn't be initialized (%s)."
 msgstr "A biblioteca Enchant não pode ser inicializada (%s)."
 
-#: ../spellcheck/src/speller.c:319
+#: ../spellcheck/src/speller.c:338
 msgid "unknown error (maybe the chosen language is not available)"
 msgstr ""
 "erro desconhecido (talvez o idioma que escolheu não se encontre disponível)"
@@ -7219,11 +7262,11 @@ msgstr "Converte a lista atualmente selecionada numa tabela."
 msgid "_More TableConvert"
 msgstr "_Mais TableConvert"
 
-#: ../treebrowser/src/treebrowser.c:126
+#: ../treebrowser/src/treebrowser.c:127
 msgid "TreeBrowser"
 msgstr "Navegador em árvore"
 
-#: ../treebrowser/src/treebrowser.c:127
+#: ../treebrowser/src/treebrowser.c:128
 msgid ""
 "This plugin adds a tree browser to Geany, allowing the user to browse files "
 "using a tree view of the directory being browsed."
@@ -7236,25 +7279,25 @@ msgstr ""
 msgid "%s: no such directory."
 msgstr "%s: pasta inexistente."
 
-#: ../treebrowser/src/treebrowser.c:535 ../treebrowser/src/treebrowser.c:570
-#: ../treebrowser/src/treebrowser.c:668
+#: ../treebrowser/src/treebrowser.c:536 ../treebrowser/src/treebrowser.c:571
+#: ../treebrowser/src/treebrowser.c:669
 msgid "(Empty)"
 msgstr "(vazio)"
 
-#: ../treebrowser/src/treebrowser.c:971
+#: ../treebrowser/src/treebrowser.c:972
 #, c-format
 msgid "Could not execute configured external command '%s' (%s)."
 msgstr "Impossível executar o comando externo '%s' (%s). "
 
-#: ../treebrowser/src/treebrowser.c:1042
+#: ../treebrowser/src/treebrowser.c:1043
 msgid "NewDirectory"
 msgstr "Nova pasta"
 
-#: ../treebrowser/src/treebrowser.c:1044
+#: ../treebrowser/src/treebrowser.c:1045
 msgid "NewFile"
 msgstr "Novo ficheiro"
 
-#: ../treebrowser/src/treebrowser.c:1049
+#: ../treebrowser/src/treebrowser.c:1050
 #, c-format
 msgid ""
 "Target file '%s' exists\n"
@@ -7263,105 +7306,128 @@ msgstr ""
 "O ficheiro destino '%s' já existe\n"
 ", tem a certeza que o quer substituir por um ficheiro vazio?"
 
-#: ../treebrowser/src/treebrowser.c:1095
+#: ../treebrowser/src/treebrowser.c:1096
 #, c-format
 msgid "Do you really want to delete '%s' ?"
 msgstr "Tem a certeza que quer eliminar '%s'?"
 
-#: ../treebrowser/src/treebrowser.c:1207 ../treebrowser/src/treebrowser.c:1738
-msgid "Go up"
-msgstr "Ir para cima"
+#: ../treebrowser/src/treebrowser.c:1208
+msgid "Go _up"
+msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1211 ../treebrowser/src/treebrowser.c:1753
-msgid "Set path from document"
+#: ../treebrowser/src/treebrowser.c:1212
+#, fuzzy
+msgid "Set _path from document"
 msgstr "Definir caminho a partir do documento"
 
-#: ../treebrowser/src/treebrowser.c:1215
+#: ../treebrowser/src/treebrowser.c:1216
 msgid "_Open externally"
 msgstr "_Abrir externamente"
 
-#: ../treebrowser/src/treebrowser.c:1220
-msgid "Open Terminal"
+#: ../treebrowser/src/treebrowser.c:1221
+#, fuzzy
+msgid "Open _Terminal"
 msgstr "Abrir terminal"
 
-#: ../treebrowser/src/treebrowser.c:1224
-msgid "Set as root"
+#: ../treebrowser/src/treebrowser.c:1225
+#, fuzzy
+msgid "Set as _root"
 msgstr "Definir como raíz"
 
-#: ../treebrowser/src/treebrowser.c:1229 ../treebrowser/src/treebrowser.c:1743
-#: ../treebrowser/src/treebrowser.c:2138
-msgid "Refresh"
+#: ../treebrowser/src/treebrowser.c:1230
+#, fuzzy
+msgid "Refres_h"
 msgstr "Atualizar"
 
-#: ../treebrowser/src/treebrowser.c:1233
+#: ../treebrowser/src/treebrowser.c:1234
 msgid "_Find in Files"
 msgstr "Localizar em _ficheiros"
 
-#: ../treebrowser/src/treebrowser.c:1241
-msgid "Create new directory"
+#: ../treebrowser/src/treebrowser.c:1242
+#, fuzzy
+msgid "Creat_e new directory"
 msgstr "Criar uma nova pasta"
 
-#: ../treebrowser/src/treebrowser.c:1245
-msgid "Create new file"
+#: ../treebrowser/src/treebrowser.c:1246
+#, fuzzy
+msgid "Create _new file"
 msgstr "Criar um novo ficheiro"
 
-#: ../treebrowser/src/treebrowser.c:1249
-msgid "Rename"
+#: ../treebrowser/src/treebrowser.c:1250
+#, fuzzy
+msgid "Rena_me"
 msgstr "Renomear"
 
-#: ../treebrowser/src/treebrowser.c:1254
-msgid "Delete"
-msgstr "Eliminar"
-
-#: ../treebrowser/src/treebrowser.c:1262
+#: ../treebrowser/src/treebrowser.c:1263
 #, c-format
 msgid "Close: %s"
 msgstr "Fechar: %s"
 
-#: ../treebrowser/src/treebrowser.c:1267
-#, c-format
-msgid "Close Child Documents "
+#: ../treebrowser/src/treebrowser.c:1268
+#, fuzzy, c-format
+msgid "Clo_se Child Documents "
 msgstr "Fechar documentos-filho"
 
-#: ../treebrowser/src/treebrowser.c:1272
+#: ../treebrowser/src/treebrowser.c:1273
 msgid "_Copy full path to clipboard"
 msgstr "_Copiar caminho completo para a área de transferência"
 
-#: ../treebrowser/src/treebrowser.c:1285
-msgid "Collapse all"
+#: ../treebrowser/src/treebrowser.c:1282
+#, fuzzy
+msgid "E_xpand all"
+msgstr "Expandir tudo"
+
+#: ../treebrowser/src/treebrowser.c:1286
+#, fuzzy
+msgid "Coll_apse all"
 msgstr "Colapsar tudo"
 
-#: ../treebrowser/src/treebrowser.c:1292 ../treebrowser/src/treebrowser.c:2047
-msgid "Show bookmarks"
+#: ../treebrowser/src/treebrowser.c:1293
+#, fuzzy
+msgid "Show boo_kmarks"
 msgstr "Mostrar marcadores"
 
-#: ../treebrowser/src/treebrowser.c:1297 ../treebrowser/src/treebrowser.c:1996
-msgid "Show hidden files"
+#: ../treebrowser/src/treebrowser.c:1298
+#, fuzzy
+msgid "Sho_w hidden files"
 msgstr "Mostrar ficheiros ocultos"
 
-#: ../treebrowser/src/treebrowser.c:1302
-msgid "Show toolbars"
+#: ../treebrowser/src/treebrowser.c:1303
+#, fuzzy
+msgid "Show tool_bars"
 msgstr "Mostrar barras de ferramentas"
 
-#: ../treebrowser/src/treebrowser.c:1621
+#: ../treebrowser/src/treebrowser.c:1625
 #, c-format
 msgid "Target file '%s' exists, do you really want to replace it?"
 msgstr ""
 "O ficheiro destino '%s' já existe, tem a certeza que o quer substituir?"
 
-#: ../treebrowser/src/treebrowser.c:1748
+#: ../treebrowser/src/treebrowser.c:1742
+msgid "Go up"
+msgstr "Ir para cima"
+
+#: ../treebrowser/src/treebrowser.c:1747 ../treebrowser/src/treebrowser.c:2146
+msgid "Refresh"
+msgstr "Atualizar"
+
+#: ../treebrowser/src/treebrowser.c:1752
 msgid "Home"
 msgstr "Pasta pessoal"
 
-#: ../treebrowser/src/treebrowser.c:1758
+#: ../treebrowser/src/treebrowser.c:1757
+msgid "Set path from document"
+msgstr "Definir caminho a partir do documento"
+
+#: ../treebrowser/src/treebrowser.c:1762
 msgid "Track path"
 msgstr "Rastrear caminho"
 
-#: ../treebrowser/src/treebrowser.c:1763
+#: ../treebrowser/src/treebrowser.c:1767
 msgid "Hide bars"
 msgstr "Ocultar barras"
 
-#: ../treebrowser/src/treebrowser.c:1773
+#: ../treebrowser/src/treebrowser.c:1777
 msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
 "reverse try for example this '!;*.c;*.h;*.cpp'"
@@ -7369,19 +7435,19 @@ msgstr ""
 "Filtrar (*.c;*.h;*.cpp), e se quiser uma filtragem temporária use '!'. Tente "
 "por exemplo isto '!;*.c;*.h;*.cpp'"
 
-#: ../treebrowser/src/treebrowser.c:1781
+#: ../treebrowser/src/treebrowser.c:1785
 msgid "Addressbar for example '/projects/my-project'"
 msgstr "Barra de endereço por exemplo '/projetos/meu-projeto'"
 
-#: ../treebrowser/src/treebrowser.c:1806
+#: ../treebrowser/src/treebrowser.c:1810
 msgid "Tree Browser"
 msgstr "Navegador em árvore"
 
-#: ../treebrowser/src/treebrowser.c:1949
+#: ../treebrowser/src/treebrowser.c:1953
 msgid "External open command"
 msgstr "Comando externo para Abrir"
 
-#: ../treebrowser/src/treebrowser.c:1954
+#: ../treebrowser/src/treebrowser.c:1958
 #, c-format
 msgid ""
 "The command to execute when using \"Open with\". You can use %f and %d "
@@ -7396,55 +7462,59 @@ msgstr ""
 "%d será substituído pelo nome do caminho do ficheiro selecionado, sem o nome "
 "do ficheiro."
 
-#: ../treebrowser/src/treebrowser.c:1967
+#: ../treebrowser/src/treebrowser.c:1971
 msgid "The terminal to use with the command \"Open Terminal\""
 msgstr "O terminal a usar com o comando \"Abrir terminal\""
 
-#: ../treebrowser/src/treebrowser.c:1973
+#: ../treebrowser/src/treebrowser.c:1977
 msgid "Toolbar"
 msgstr "Barra de ferramentas"
 
-#: ../treebrowser/src/treebrowser.c:1975
+#: ../treebrowser/src/treebrowser.c:1979
 msgid "Hidden"
 msgstr "Oculto"
 
-#: ../treebrowser/src/treebrowser.c:1976
+#: ../treebrowser/src/treebrowser.c:1980
 msgid "Top"
 msgstr "Topo"
 
-#: ../treebrowser/src/treebrowser.c:1977
+#: ../treebrowser/src/treebrowser.c:1981
 msgid "Bottom"
 msgstr "Fundo"
 
-#: ../treebrowser/src/treebrowser.c:1982
+#: ../treebrowser/src/treebrowser.c:1986
 msgid "If position is changed, the option require plugin restart."
 msgstr "Se a posição mudar, esta opção requer reinicialização da extensão."
 
-#: ../treebrowser/src/treebrowser.c:1986
+#: ../treebrowser/src/treebrowser.c:1990
 msgid "Show icons"
 msgstr "Mostrar ícones"
 
-#: ../treebrowser/src/treebrowser.c:1988
+#: ../treebrowser/src/treebrowser.c:1992
 msgid "None"
 msgstr "Nenhum"
 
-#: ../treebrowser/src/treebrowser.c:1989
+#: ../treebrowser/src/treebrowser.c:1993
 msgid "Base"
 msgstr "Base"
 
-#: ../treebrowser/src/treebrowser.c:1990
+#: ../treebrowser/src/treebrowser.c:1994
 msgid "Content-type"
 msgstr "Tipo de conteúdo"
 
-#: ../treebrowser/src/treebrowser.c:2001
+#: ../treebrowser/src/treebrowser.c:2000
+msgid "Show hidden files"
+msgstr "Mostrar ficheiros ocultos"
+
+#: ../treebrowser/src/treebrowser.c:2005
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr "Em Windows, isto apenas oculta ficheiros precedidos de '.' (ponto)"
 
-#: ../treebrowser/src/treebrowser.c:2003
+#: ../treebrowser/src/treebrowser.c:2007
 msgid "Hide object files"
 msgstr "Ocultar ficheiros objeto"
 
-#: ../treebrowser/src/treebrowser.c:2008
+#: ../treebrowser/src/treebrowser.c:2012
 msgid ""
 "Don't show generated object files in the file browser, this includes *.o, *."
 "obj. *.so, *.dll, *.a, *.lib"
@@ -7452,57 +7522,66 @@ msgstr ""
 "Não mostrar ficheiros objeto gerados no navegador, isto inclui *.o, *.obj, *."
 "so, *.dll, *.a, *.lib"
 
-#: ../treebrowser/src/treebrowser.c:2010
+#: ../treebrowser/src/treebrowser.c:2014
 msgid "Reverse filter"
 msgstr "Reverte o filtro"
 
-#: ../treebrowser/src/treebrowser.c:2015
+#: ../treebrowser/src/treebrowser.c:2019
 msgid "Follow current document"
 msgstr "Seguir o documento ativo"
 
-#: ../treebrowser/src/treebrowser.c:2020
+#: ../treebrowser/src/treebrowser.c:2024
 msgid "Single click, open document and focus it"
 msgstr "Clique único abre documento e foca-o"
 
-#: ../treebrowser/src/treebrowser.c:2025
+#: ../treebrowser/src/treebrowser.c:2029
 msgid "Double click open directory"
 msgstr "Clique duplo abre pasta"
 
-#: ../treebrowser/src/treebrowser.c:2030
+#: ../treebrowser/src/treebrowser.c:2034
 msgid "On delete file, close it if is opened"
 msgstr "Ao eliminar ficheiro, fechá-lo caso esteja aberto"
 
-#: ../treebrowser/src/treebrowser.c:2035
+#: ../treebrowser/src/treebrowser.c:2039
 msgid "Focus editor on file open"
 msgstr "Focar o editor ao abrir ficheiro"
 
-#: ../treebrowser/src/treebrowser.c:2040
+#: ../treebrowser/src/treebrowser.c:2044
 msgid "Show tree lines"
 msgstr "Mostrar as linhas da árvore"
 
-#: ../treebrowser/src/treebrowser.c:2052
+#: ../treebrowser/src/treebrowser.c:2051
+msgid "Show bookmarks"
+msgstr "Mostrar marcadores"
+
+#: ../treebrowser/src/treebrowser.c:2056
 msgid "Open new files"
 msgstr "Abrir novos ficheiros"
 
-#: ../treebrowser/src/treebrowser.c:2128
+#: ../treebrowser/src/treebrowser.c:2136
 msgid "Focus File List"
 msgstr "Focar a lista de ficheiros"
 
-#: ../treebrowser/src/treebrowser.c:2130
+#: ../treebrowser/src/treebrowser.c:2138
 msgid "Focus Path Entry"
 msgstr "Focar a entrada de caminho"
 
-#: ../treebrowser/src/treebrowser.c:2132
+#: ../treebrowser/src/treebrowser.c:2140
 msgid "Rename Object"
 msgstr "Renomear objeto"
 
-#: ../treebrowser/src/treebrowser.c:2134
+#: ../treebrowser/src/treebrowser.c:2142
 msgid "Create New File"
 msgstr "Criar novo ficheiro"
 
-#: ../treebrowser/src/treebrowser.c:2136
+#: ../treebrowser/src/treebrowser.c:2144
 msgid "Create New Directory"
 msgstr "Criar nova pasta"
+
+#: ../treebrowser/src/treebrowser.c:2148
+#, fuzzy
+msgid "Track Current"
+msgstr "Rastrear caminho"
 
 #: ../updatechecker/src/updatechecker.c:40
 msgid "Updatechecker"
@@ -7761,6 +7840,9 @@ msgstr "Excertos de código XML"
 #: ../xmlsnippets/src/plugin.c:45
 msgid "Autocompletes XML/HTML tags using snippets."
 msgstr "Conclusão automática de etiquetas  XML/HTML usando excertos de código."
+
+#~ msgid "Delete"
+#~ msgstr "Eliminar"
 
 #~ msgid "GeanyLipsum"
 #~ msgstr "GeanyLipsum"

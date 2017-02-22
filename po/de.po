@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-15 23:08+0100\n"
+"POT-Creation-Date: 2017-02-22 18:17+0100\n"
 "PO-Revision-Date: 2016-08-08 22:38+0200\n"
 "Last-Translator: Dominic Hopf <dmaphy@googlemail.com>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -4589,11 +4589,11 @@ msgstr "Im Projekt suchen"
 msgid "Remove File"
 msgstr "Datei entfernen"
 
-#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1415
+#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1484
 msgid "H_ide Sidebar"
 msgstr "Seitenleiste _verstecken"
 
-#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1437
+#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1506
 msgid "Project"
 msgstr "Projekt"
 
@@ -4602,16 +4602,16 @@ msgstr "Projekt"
 msgid "Project \"%s\" opened."
 msgstr "Projekt »%s« geöffnet."
 
-#: ../geanypy/src/geanypy-plugin.c:68
+#: ../geanypy/src/geanypy-plugin.c:69
 #, c-format
 msgid "Unable to pre-load Python library: %s."
 msgstr "Python-Bibliothek konnte nicht geladen werden: %s"
 
-#: ../geanypy/src/geanypy-plugin.c:413
+#: ../geanypy/src/geanypy-plugin.c:415
 msgid "GeanyPy"
 msgstr "GeanyPy"
 
-#: ../geanypy/src/geanypy-plugin.c:414
+#: ../geanypy/src/geanypy-plugin.c:416
 msgid "Python plugins support"
 msgstr "Python für Plugins"
 
@@ -6091,47 +6091,47 @@ msgstr "Typ:"
 msgid "Set file patterns under Project->Properties"
 msgstr "Dateimuster unter Projekt->Eigenschaften definieren"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1272
+#: ../projectorganizer/src/prjorg-sidebar.c:1341
 msgid "Reload all"
 msgstr "Alle neuladen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1281
+#: ../projectorganizer/src/prjorg-sidebar.c:1350
 msgid "Add external directory"
 msgstr "Externes Verzeichnis hinzufügen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1291
+#: ../projectorganizer/src/prjorg-sidebar.c:1360
 msgid "Expand all"
 msgstr "Alle ausklappen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1298
+#: ../projectorganizer/src/prjorg-sidebar.c:1367
 msgid "Collapse to project root"
 msgstr "Zusammenfalten bis Projektwurzel"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1309
+#: ../projectorganizer/src/prjorg-sidebar.c:1378
 msgid "Follow active editor"
 msgstr "Aktiven Editor folgen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1355
+#: ../projectorganizer/src/prjorg-sidebar.c:1424
 msgid "Open a project to start using the plugin"
 msgstr "Ein Projekt zum Starten des Plugins öffnen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1364
+#: ../projectorganizer/src/prjorg-sidebar.c:1433
 msgid "Expand All"
 msgstr "Alle ausklappen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1373
+#: ../projectorganizer/src/prjorg-sidebar.c:1442
 msgid "Find in Files..."
 msgstr "In Dateien finden..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1382
+#: ../projectorganizer/src/prjorg-sidebar.c:1451
 msgid "Find File..."
 msgstr "Datei suchen..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1391
+#: ../projectorganizer/src/prjorg-sidebar.c:1460
 msgid "Find Symbol..."
 msgstr "Symbol finden..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1404
+#: ../projectorganizer/src/prjorg-sidebar.c:1473
 msgid "Remove External Directory"
 msgstr "Externes Verzeichnis entfernen"
 
@@ -7374,7 +7374,7 @@ msgid ""
 msgstr ""
 "Ein Plugin zum Navigieren durch den Verzeichnisbaum auf dem Dateisystem."
 
-#: ../treebrowser/src/treebrowser.c:433
+#: ../treebrowser/src/treebrowser.c:432
 #, c-format
 msgid "%s: no such directory."
 msgstr "Das Verzeichnis »%s« existiert nicht"
@@ -7457,6 +7457,7 @@ msgid "Close: %s"
 msgstr "»%s« schließen"
 
 #: ../treebrowser/src/treebrowser.c:1268
+#, c-format
 msgid "Clo_se Child Documents "
 msgstr "Kinderdokumente _schließen"
 
@@ -7469,7 +7470,6 @@ msgid "E_xpand all"
 msgstr "A_lle ausklappen"
 
 #: ../treebrowser/src/treebrowser.c:1286
-
 msgid "Coll_apse all"
 msgstr "Alle e_inklappen"
 

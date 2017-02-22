@@ -5,9 +5,9 @@
 # Xhacker Liu <liu.dongyuan@gmail.com>, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 1.28\n"
+"Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-30 13:23+0100\n"
+"POT-Creation-Date: 2017-02-22 18:17+0100\n"
 "PO-Revision-Date: 2009-10-30 08:44+0800\n"
 "Last-Translator: Xhacker Liu <liu.dongyuan@gmail.com>\n"
 "Language-Team: zh_CN <>\n"
@@ -37,7 +37,7 @@ msgstr "No."
 msgid "Contents"
 msgstr "内容"
 
-#: ../addons/src/ao_bookmarklist.c:383 ../treebrowser/src/treebrowser.c:623
+#: ../addons/src/ao_bookmarklist.c:383 ../treebrowser/src/treebrowser.c:624
 #: ../webhelper/src/gwh-plugin.c:328
 msgid "Bookmarks"
 msgstr "书签"
@@ -195,7 +195,7 @@ msgstr ""
 #: ../geanyprj/src/geanyprj.c:173 ../geanyvc/src/geanyvc.c:1849
 #: ../geniuspaste/src/geniuspaste.c:318 ../sendmail/src/sendmail.c:128
 #: ../sendmail/src/sendmail.c:293 ../spellcheck/src/scplugin.c:157
-#: ../treebrowser/src/treebrowser.c:1937
+#: ../treebrowser/src/treebrowser.c:1941
 #: ../updatechecker/src/updatechecker.c:266
 msgid "Plugin configuration directory could not be created."
 msgstr "无法创建插件配置文件目录。"
@@ -597,17 +597,17 @@ msgstr "命令0："
 msgid "Provides a command panel for quick access to actions, files and more"
 msgstr ""
 
-#: ../commander/src/commander-plugin.c:770
+#: ../commander/src/commander-plugin.c:772
 #, fuzzy
 msgid "Show Command Panel"
 msgstr "命令0："
 
-#: ../commander/src/commander-plugin.c:774
+#: ../commander/src/commander-plugin.c:776
 #, fuzzy
 msgid "Show Command Panel (Commands Only)"
 msgstr "命令0："
 
-#: ../commander/src/commander-plugin.c:778
+#: ../commander/src/commander-plugin.c:780
 #, fuzzy
 msgid "Show Command Panel (Files Only)"
 msgstr "命令0："
@@ -695,37 +695,37 @@ msgstr ""
 msgid "line %i"
 msgstr ""
 
-#: ../debugger/src/dbm_gdb.c:522
+#: ../debugger/src/dbm_gdb.c:526
 #, fuzzy, c-format
 msgid "Program received signal %s (%s)"
 msgstr "程序收到信号："
 
-#: ../debugger/src/dbm_gdb.c:543
+#: ../debugger/src/dbm_gdb.c:547
 #, fuzzy, c-format
 msgid "Program exited with code \"%i\""
 msgstr "程序退出，代码 %d [%s]\n"
 
-#: ../debugger/src/dbm_gdb.c:733
+#: ../debugger/src/dbm_gdb.c:737
 msgid "Failed to spawn gdb process"
 msgstr ""
 
-#: ../debugger/src/dbm_gdb.c:780
+#: ../debugger/src/dbm_gdb.c:784
 msgid "~\"Loading target file.\\n\""
 msgstr ""
 
-#: ../debugger/src/dbm_gdb.c:780
+#: ../debugger/src/dbm_gdb.c:784
 msgid "Error loading file"
 msgstr ""
 
 #. setting asyncronous mode
 #. setting null-stop array printing
 #. enable pretty printing
-#: ../debugger/src/dbm_gdb.c:785 ../debugger/src/dbm_gdb.c:788
-#: ../debugger/src/dbm_gdb.c:791
+#: ../debugger/src/dbm_gdb.c:789 ../debugger/src/dbm_gdb.c:792
+#: ../debugger/src/dbm_gdb.c:795
 msgid "Error configuring GDB"
 msgstr ""
 
-#: ../debugger/src/dbm_gdb.c:831
+#: ../debugger/src/dbm_gdb.c:835
 #, c-format
 msgid ""
 "Breakpoint at %s:%i cannot be set\n"
@@ -1351,7 +1351,7 @@ msgstr "添加文件"
 msgid "Find tag"
 msgstr "添加文件"
 
-#: ../geanydoc/src/geanydoc.c:50 ../geanydoc/src/geanydoc.c:336
+#: ../geanydoc/src/geanydoc.c:50 ../geanydoc/src/geanydoc.c:339
 msgid "Doc"
 msgstr "文档"
 
@@ -1363,27 +1363,27 @@ msgstr "为当前标记调用文档查看器。"
 msgid "Could not parse the output of command"
 msgstr "无法解析命令的输出"
 
-#: ../geanydoc/src/geanydoc.c:346
+#: ../geanydoc/src/geanydoc.c:349
 msgid "Put output in buffer"
 msgstr "输出到缓冲区"
 
-#: ../geanydoc/src/geanydoc.c:358
+#: ../geanydoc/src/geanydoc.c:361
 msgid "Command 0:"
 msgstr "命令0："
 
-#: ../geanydoc/src/geanydoc.c:364
+#: ../geanydoc/src/geanydoc.c:367
 msgid "Command 1:"
 msgstr "命令1："
 
-#: ../geanydoc/src/geanydoc.c:382
+#: ../geanydoc/src/geanydoc.c:385
 msgid "%w will be replaced with current word\n"
 msgstr "%w 将被替换为当前词\n"
 
-#: ../geanydoc/src/geanydoc.c:429
+#: ../geanydoc/src/geanydoc.c:432
 msgid "Document current word"
 msgstr "文件当前词"
 
-#: ../geanydoc/src/geanydoc.c:430
+#: ../geanydoc/src/geanydoc.c:433
 msgid "Document interactive"
 msgstr "文件交互"
 
@@ -2918,7 +2918,7 @@ msgstr "IBM 852 code page"
 msgid "Don't set any encoding"
 msgstr ""
 
-#: ../geanylua/glspi.h:87 ../geanylua/gsdlg_lua.c:95
+#: ../geanylua/glspi.h:83 ../geanylua/gsdlg_lua.c:95
 #: ../geanylua/glspi_kfile.c:54
 #, c-format
 msgid ""
@@ -2928,7 +2928,7 @@ msgstr ""
 "在模块“%1$s”的函数 %2$s() 中出现错误：\n"
 " 参数 #%4$d 期望类型“%3$s”\n"
 
-#: ../geanylua/glspi.h:101
+#: ../geanylua/glspi.h:97
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -2937,7 +2937,7 @@ msgstr ""
 "在模块“%1$s”的函数 %2$s() 中出现错误：\n"
 " 参数 #%5$d 需要类型“%3$s”或“%4$s”\n"
 
-#: ../geanylua/glspi.h:115 ../geanylua/gsdlg_lua.c:108
+#: ../geanylua/glspi.h:111 ../geanylua/gsdlg_lua.c:108
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -3004,20 +3004,20 @@ msgstr "打开脚本文件失败。"
 msgid "Unknown error while loading script file."
 msgstr "加载脚本文件时遇到未知错误。"
 
-#: ../geanylua/glspi_init.c:382
+#: ../geanylua/glspi_init.c:381
 msgid "_Lua Scripts"
 msgstr "_Lua 脚本"
 
-#: ../geanylua/glspi_init.c:427
+#: ../geanylua/glspi_init.c:425
 #, c-format
 msgid "     ==>> %s: Building menu from '%s'\n"
 msgstr "     ==>> %s：从“%s”生成菜单\n"
 
-#: ../geanylua/glspi_init.c:526
+#: ../geanylua/glspi_init.c:524
 msgid "Nothing to configure!"
 msgstr "没有可以设置的！"
 
-#: ../geanylua/glspi_init.c:528
+#: ../geanylua/glspi_init.c:526
 #, c-format
 msgid ""
 "You can create the script:\n"
@@ -3032,31 +3032,31 @@ msgstr ""
 "\n"
 "来添加您自己的设置对话框。"
 
-#: ../geanylua/gsdlg.c:103 ../geanylua/glspi_dlg.c:420
+#: ../geanylua/gsdlg.c:100 ../geanylua/glspi_dlg.c:420
 msgid "Open file"
 msgstr "打开文件"
 
-#: ../geanylua/gsdlg.c:107
+#: ../geanylua/gsdlg.c:104
 msgid "Select file"
 msgstr "选择文件"
 
-#: ../geanylua/gsdlg.c:154
+#: ../geanylua/gsdlg.c:151
 msgid "Browse..."
 msgstr "浏览..."
 
-#: ../geanylua/gsdlg.c:176
+#: ../geanylua/gsdlg.c:173
 msgid "Select Color"
 msgstr "选择颜色"
 
-#: ../geanylua/gsdlg.c:207
+#: ../geanylua/gsdlg.c:204
 msgid "Choose..."
 msgstr "选择..."
 
-#: ../geanylua/gsdlg.c:228
+#: ../geanylua/gsdlg.c:225
 msgid "Select Font"
 msgstr "选择字体"
 
-#: ../geanylua/gsdlg.c:255
+#: ../geanylua/gsdlg.c:252
 msgid "Select..."
 msgstr "选取..."
 
@@ -3145,32 +3145,32 @@ msgstr ""
 "在模块“%s”的函数 %s() 中出现错误：\n"
 " 参数 #1 需要字符串“open”或“save”。\n"
 
-#: ../geanylua/geanylua.c:156
+#: ../geanylua/geanylua.c:153
 #, c-format
 msgid "%s: Can't load support library %s!\n"
 msgstr "%s：无法加载支持库 %s！\n"
 
-#: ../geanylua/geanylua.c:168
+#: ../geanylua/geanylua.c:165
 #, c-format
 msgid "%s: Failed to initialize support library %s!\n"
 msgstr "%s：初始化支持库 %s 失败！\n"
 
-#: ../geanylua/geanylua.c:173
+#: ../geanylua/geanylua.c:170
 #, c-format
 msgid "%s: Support library version mismatch: %s for %s (should be %s)!\n"
 msgstr "%s：支持库版本不匹配：%s %s（应为 %s）！\n"
 
-#: ../geanylua/geanylua.c:179
+#: ../geanylua/geanylua.c:176
 #, c-format
 msgid "%s: Support library ABI mismatch: %d for %s (should be %d)!\n"
 msgstr "%1$s：支持库 ABI 不匹配：%3$s %2$d（应为 %4$d）！\n"
 
-#: ../geanylua/geanylua.c:208
+#: ../geanylua/geanylua.c:205
 #, c-format
 msgid "%s: Can't find support library %s!\n"
 msgstr "%s：无法找到支持库 %s！\n"
 
-#: ../geanylua/geanylua.c:227
+#: ../geanylua/geanylua.c:224
 #, c-format
 msgid ""
 "The %s plugin failed to load properly.\n"
@@ -3882,6 +3882,7 @@ msgid "New _Below"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:1824 ../geanymacro/src/geanymacro.c:2120
+#: ../treebrowser/src/treebrowser.c:1255
 #, fuzzy
 msgid "_Delete"
 msgstr "删除项目"
@@ -4517,11 +4518,11 @@ msgstr "在项目中查找"
 msgid "Remove File"
 msgstr "移除文件"
 
-#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1415
+#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1484
 msgid "H_ide Sidebar"
 msgstr "隐藏侧栏(_I)"
 
-#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1437
+#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1506
 msgid "Project"
 msgstr "项目"
 
@@ -4530,16 +4531,16 @@ msgstr "项目"
 msgid "Project \"%s\" opened."
 msgstr "项目“%s”已打开。"
 
-#: ../geanypy/src/geanypy-plugin.c:68
+#: ../geanypy/src/geanypy-plugin.c:69
 #, c-format
 msgid "Unable to pre-load Python library: %s."
 msgstr ""
 
-#: ../geanypy/src/geanypy-plugin.c:413
+#: ../geanypy/src/geanypy-plugin.c:415
 msgid "GeanyPy"
 msgstr ""
 
-#: ../geanypy/src/geanypy-plugin.c:414
+#: ../geanypy/src/geanypy-plugin.c:416
 msgid "Python plugins support"
 msgstr ""
 
@@ -5060,32 +5061,32 @@ msgstr ""
 msgid "Highlights uncommitted changes in files tracked with Git"
 msgstr ""
 
-#: ../git-changebar/src/gcb-plugin.c:1161 ../pohelper/src/gph-plugin.c:1593
+#: ../git-changebar/src/gcb-plugin.c:1165 ../pohelper/src/gph-plugin.c:1593
 #, fuzzy, c-format
 msgid "Failed to load configuration file: %s"
 msgstr "显示当前文件日志"
 
-#: ../git-changebar/src/gcb-plugin.c:1186 ../pohelper/src/gph-plugin.c:1618
+#: ../git-changebar/src/gcb-plugin.c:1190 ../pohelper/src/gph-plugin.c:1618
 #, fuzzy, c-format
 msgid "Failed to create configuration directory \"%s\": %s"
 msgstr "取回 GDB 工作路径设置失败"
 
-#: ../git-changebar/src/gcb-plugin.c:1189 ../pohelper/src/gph-plugin.c:1621
+#: ../git-changebar/src/gcb-plugin.c:1193 ../pohelper/src/gph-plugin.c:1621
 #, fuzzy, c-format
 msgid "Failed to save configuration file: %s"
 msgstr "显示当前文件日志"
 
-#: ../git-changebar/src/gcb-plugin.c:1268
+#: ../git-changebar/src/gcb-plugin.c:1272
 #, fuzzy
 msgid "Go to the previous hunk"
 msgstr "返回上一个对话框。"
 
-#: ../git-changebar/src/gcb-plugin.c:1270
+#: ../git-changebar/src/gcb-plugin.c:1274
 #, fuzzy
 msgid "Go to the next hunk"
 msgstr "单步进入下一行。"
 
-#: ../git-changebar/src/gcb-plugin.c:1401 ../pohelper/src/gph-plugin.c:1388
+#: ../git-changebar/src/gcb-plugin.c:1405 ../pohelper/src/gph-plugin.c:1388
 #: ../pohelper/src/gph-plugin.c:1723
 #, fuzzy, c-format
 msgid ""
@@ -5095,51 +5096,65 @@ msgstr ""
 "%s 插件未能正确加载。\n"
 "请检查您的安装。"
 
-#: ../lineoperations/src/lineoperations.c:67
+#: ../lineoperations/src/lineoperations.c:123
+#, c-format
+msgid "Operation successful! %d lines removed."
+msgstr ""
+
+#: ../lineoperations/src/lineoperations.c:134
+msgid "Operation successful! No lines removed."
+msgstr ""
+
+#: ../lineoperations/src/lineoperations.c:142
+#, c-format
+msgid "Operation successful! %d lines affected."
+msgstr ""
+
+#: ../lineoperations/src/lineoperations.c:254
 msgid "Remove Duplicate Lines, _Sorted"
 msgstr ""
 
-#: ../lineoperations/src/lineoperations.c:69
+#: ../lineoperations/src/lineoperations.c:256
 msgid "Remove Duplicate Lines, _Ordered"
 msgstr ""
 
-#: ../lineoperations/src/lineoperations.c:71
+#: ../lineoperations/src/lineoperations.c:258
 #, fuzzy
 msgid "Remove _Unique Lines"
 msgstr "移除文件"
 
-#: ../lineoperations/src/lineoperations.c:74
+#: ../lineoperations/src/lineoperations.c:261
 #, fuzzy
 msgid "Remove _Empty Lines"
 msgstr "移除文件"
 
-#: ../lineoperations/src/lineoperations.c:76
+#: ../lineoperations/src/lineoperations.c:263
 msgid "Remove _Whitespace Lines"
 msgstr ""
 
-#: ../lineoperations/src/lineoperations.c:79
+#: ../lineoperations/src/lineoperations.c:266
 msgid "Sort Lines _Ascending"
 msgstr ""
 
-#: ../lineoperations/src/lineoperations.c:81
+#: ../lineoperations/src/lineoperations.c:268
 msgid "Sort Lines _Descending"
 msgstr ""
 
-#: ../lineoperations/src/lineoperations.c:85
+#: ../lineoperations/src/lineoperations.c:272
 #, fuzzy
 msgid "_Line Operations"
 msgstr "二元运算"
 
-#: ../lineoperations/src/lineoperations.c:127
+#: ../lineoperations/src/lineoperations.c:318
 #, fuzzy
 msgid "Line Operations"
 msgstr "二元运算"
 
-#: ../lineoperations/src/lineoperations.c:128
+#: ../lineoperations/src/lineoperations.c:319
 msgid ""
 "Line Operations provides a handful of functions that can be applied to a "
-"document such as, removing duplicate lines, removing empty lines, removing "
-"lines with only whitespace, and sorting lines."
+"document or selection such as, removing duplicate lines, removing empty "
+"lines, removing lines with only whitespace, and sorting lines."
 msgstr ""
 
 #: ../lipsum/src/lipsum.c:43
@@ -5244,9 +5259,32 @@ msgstr ""
 msgid "Markdown Preview"
 msgstr ""
 
-#: ../markdown/src/plugin.c:167
+#: ../markdown/src/plugin.c:102
+msgid "Export Markdown as HTML..."
+msgstr ""
+
+#: ../markdown/src/plugin.c:176
 msgid "The current document does not have a Markdown filetype."
 msgstr ""
+
+#: ../markdown/src/plugin.c:278
+#, fuzzy
+msgid "Save HTML File As"
+msgstr "保存文件"
+
+#: ../markdown/src/plugin.c:306
+msgid "HTML Files"
+msgstr ""
+
+#: ../markdown/src/plugin.c:311
+#, fuzzy
+msgid "All Files"
+msgstr "添加文件"
+
+#: ../markdown/src/plugin.c:322
+#, fuzzy, c-format
+msgid "Failed to export Markdown HTML to file '%s': %s"
+msgstr "显示当前文件日志"
 
 #: ../multiterm/src/config.vala:47
 #, fuzzy, c-format
@@ -5330,7 +5368,7 @@ msgstr "显示当前文件日志"
 msgid "Unable to read value for '%s' key: %s"
 msgstr ""
 
-#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:1962
+#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:1966
 #, fuzzy
 msgid "Terminal"
 msgstr "已终止"
@@ -5480,12 +5518,16 @@ msgstr ""
 msgid "Overlay"
 msgstr ""
 
-#: ../pairtaghighlighter/src/pair_tag_highlighter.c:34
+#: ../pairtaghighlighter/src/pair_tag_highlighter.c:40
 msgid "Pair Tag Highlighter"
 msgstr ""
 
-#: ../pairtaghighlighter/src/pair_tag_highlighter.c:35
+#: ../pairtaghighlighter/src/pair_tag_highlighter.c:41
 msgid "Finds and highlights matching opening/closing HTML tag"
+msgstr ""
+
+#: ../pairtaghighlighter/src/pair_tag_highlighter.c:440
+msgid "Go To Matching Tag"
 msgstr ""
 
 #: ../pohelper/data/menus.ui.h:1
@@ -5927,52 +5969,51 @@ msgstr ""
 msgid "Set file patterns under Project->Properties"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1272
+#: ../projectorganizer/src/prjorg-sidebar.c:1341
 msgid "Reload all"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1281
+#: ../projectorganizer/src/prjorg-sidebar.c:1350
 #, fuzzy
 msgid "Add external directory"
 msgstr "恢复目录"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1291
-#: ../treebrowser/src/treebrowser.c:1281
+#: ../projectorganizer/src/prjorg-sidebar.c:1360
 msgid "Expand all"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1298
+#: ../projectorganizer/src/prjorg-sidebar.c:1367
 msgid "Collapse to project root"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1309
+#: ../projectorganizer/src/prjorg-sidebar.c:1378
 msgid "Follow active editor"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1355
+#: ../projectorganizer/src/prjorg-sidebar.c:1424
 msgid "Open a project to start using the plugin"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1364
+#: ../projectorganizer/src/prjorg-sidebar.c:1433
 msgid "Expand All"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1373
+#: ../projectorganizer/src/prjorg-sidebar.c:1442
 #, fuzzy
 msgid "Find in Files..."
 msgstr "在项目中查找"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1382
+#: ../projectorganizer/src/prjorg-sidebar.c:1451
 #, fuzzy
 msgid "Find File..."
 msgstr "添加文件"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1391
+#: ../projectorganizer/src/prjorg-sidebar.c:1460
 #, fuzzy
 msgid "Find Symbol..."
 msgstr "添加文件"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1404
+#: ../projectorganizer/src/prjorg-sidebar.c:1473
 #, fuzzy
 msgid "Remove External Directory"
 msgstr "恢复目录"
@@ -7013,30 +7054,30 @@ msgstr "将打开的文件作为未压缩的附件通过您 $PATH 中的邮件�
 msgid "Try: "
 msgstr "尝试："
 
-#: ../spellcheck/src/speller.c:264
+#: ../spellcheck/src/speller.c:283
 msgid "Checking"
 msgstr "检查中"
 
-#: ../spellcheck/src/speller.c:277
+#: ../spellcheck/src/speller.c:296
 #, c-format
 msgid "Checking file \"%s\" (lines %d to %d using %s):"
 msgstr "正在检查文件“%s”（第 %d 行至第 %d 行，使用 %s）"
 
-#: ../spellcheck/src/speller.c:287
+#: ../spellcheck/src/speller.c:306
 #, c-format
 msgid "Checking file \"%s\" (using %s):"
 msgstr "正在检查文件“%s”（使用 %s）"
 
-#: ../spellcheck/src/speller.c:308
+#: ../spellcheck/src/speller.c:327
 msgid "The checked text is spelled correctly."
 msgstr "已检查的文字拼写正确。"
 
-#: ../spellcheck/src/speller.c:318
+#: ../spellcheck/src/speller.c:337
 #, c-format
 msgid "The Enchant library couldn't be initialized (%s)."
 msgstr "无法初始化 Enchant 库（%s）。"
 
-#: ../spellcheck/src/speller.c:319
+#: ../spellcheck/src/speller.c:338
 msgid "unknown error (maybe the chosen language is not available)"
 msgstr "未知错误（可能不支持选取的语言）"
 
@@ -7235,12 +7276,12 @@ msgstr ""
 msgid "_More TableConvert"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:126
+#: ../treebrowser/src/treebrowser.c:127
 #, fuzzy
 msgid "TreeBrowser"
 msgstr "浏览..."
 
-#: ../treebrowser/src/treebrowser.c:127
+#: ../treebrowser/src/treebrowser.c:128
 msgid ""
 "This plugin adds a tree browser to Geany, allowing the user to browse files "
 "using a tree view of the directory being browsed."
@@ -7251,166 +7292,178 @@ msgstr ""
 msgid "%s: no such directory."
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:535 ../treebrowser/src/treebrowser.c:570
-#: ../treebrowser/src/treebrowser.c:668
+#: ../treebrowser/src/treebrowser.c:536 ../treebrowser/src/treebrowser.c:571
+#: ../treebrowser/src/treebrowser.c:669
 #, fuzzy
 msgid "(Empty)"
 msgstr "（空行）"
 
-#: ../treebrowser/src/treebrowser.c:971
+#: ../treebrowser/src/treebrowser.c:972
 #, c-format
 msgid "Could not execute configured external command '%s' (%s)."
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1042
+#: ../treebrowser/src/treebrowser.c:1043
 #, fuzzy
 msgid "NewDirectory"
 msgstr "目录(_D)"
 
-#: ../treebrowser/src/treebrowser.c:1044
+#: ../treebrowser/src/treebrowser.c:1045
 #, fuzzy
 msgid "NewFile"
 msgstr "文件(_F)"
 
-#: ../treebrowser/src/treebrowser.c:1049
+#: ../treebrowser/src/treebrowser.c:1050
 #, c-format
 msgid ""
 "Target file '%s' exists\n"
 ", do you really want to replace it with empty file?"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1095
+#: ../treebrowser/src/treebrowser.c:1096
 #, fuzzy, c-format
 msgid "Do you really want to delete '%s' ?"
 msgstr "您真的想恢复：%s？"
 
-#: ../treebrowser/src/treebrowser.c:1207 ../treebrowser/src/treebrowser.c:1738
-msgid "Go up"
+#: ../treebrowser/src/treebrowser.c:1208
+msgid "Go _up"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1211 ../treebrowser/src/treebrowser.c:1753
+#: ../treebrowser/src/treebrowser.c:1212
 #, fuzzy
-msgid "Set path from document"
+msgid "Set _path from document"
 msgstr "为您的新文档设置编码"
 
-#: ../treebrowser/src/treebrowser.c:1215
+#: ../treebrowser/src/treebrowser.c:1216
 #, fuzzy
 msgid "_Open externally"
 msgstr "在终端中运行"
 
-#: ../treebrowser/src/treebrowser.c:1220
+#: ../treebrowser/src/treebrowser.c:1221
 #, fuzzy
-msgid "Open Terminal"
+msgid "Open _Terminal"
 msgstr "在终端中运行"
 
-#: ../treebrowser/src/treebrowser.c:1224
-msgid "Set as root"
+#: ../treebrowser/src/treebrowser.c:1225
+msgid "Set as _root"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1229 ../treebrowser/src/treebrowser.c:1743
-#: ../treebrowser/src/treebrowser.c:2138
+#: ../treebrowser/src/treebrowser.c:1230
 #, fuzzy
-msgid "Refresh"
+msgid "Refres_h"
 msgstr "Series"
 
-#: ../treebrowser/src/treebrowser.c:1233
+#: ../treebrowser/src/treebrowser.c:1234
 #, fuzzy
 msgid "_Find in Files"
 msgstr "在项目中查找"
 
-#: ../treebrowser/src/treebrowser.c:1241
+#: ../treebrowser/src/treebrowser.c:1242
 #, fuzzy
-msgid "Create new directory"
+msgid "Creat_e new directory"
 msgstr "恢复根目录"
 
-#: ../treebrowser/src/treebrowser.c:1245
+#: ../treebrowser/src/treebrowser.c:1246
 #, fuzzy
-msgid "Create new file"
+msgid "Create _new file"
 msgstr "更新文件"
 
-#: ../treebrowser/src/treebrowser.c:1249
+#: ../treebrowser/src/treebrowser.c:1250
 #, fuzzy
-msgid "Rename"
+msgid "Rena_me"
 msgstr "文件名："
 
-#: ../treebrowser/src/treebrowser.c:1254
-#, fuzzy
-msgid "Delete"
-msgstr "删除项目"
-
-#: ../treebrowser/src/treebrowser.c:1262
+#: ../treebrowser/src/treebrowser.c:1263
 #, fuzzy, c-format
 msgid "Close: %s"
 msgstr "关闭全部(_L)"
 
-#: ../treebrowser/src/treebrowser.c:1267
+#: ../treebrowser/src/treebrowser.c:1268
 #, fuzzy, c-format
-msgid "Close Child Documents "
+msgid "Clo_se Child Documents "
 msgstr "关闭其他文件(_H)"
 
-#: ../treebrowser/src/treebrowser.c:1272
+#: ../treebrowser/src/treebrowser.c:1273
 msgid "_Copy full path to clipboard"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1285
+#: ../treebrowser/src/treebrowser.c:1282
+msgid "E_xpand all"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1286
 #, fuzzy
-msgid "Collapse all"
+msgid "Coll_apse all"
 msgstr "关闭全部(_L)"
 
-#: ../treebrowser/src/treebrowser.c:1292 ../treebrowser/src/treebrowser.c:2047
+#: ../treebrowser/src/treebrowser.c:1293
 #, fuzzy
-msgid "Show bookmarks"
+msgid "Show boo_kmarks"
 msgstr "书签"
 
-#: ../treebrowser/src/treebrowser.c:1297 ../treebrowser/src/treebrowser.c:1996
+#: ../treebrowser/src/treebrowser.c:1298
 #, fuzzy
-msgid "Show hidden files"
+msgid "Sho_w hidden files"
 msgstr "显示文件差异"
 
-#: ../treebrowser/src/treebrowser.c:1302
+#: ../treebrowser/src/treebrowser.c:1303
 #, fuzzy
-msgid "Show toolbars"
+msgid "Show tool_bars"
 msgstr "显示状态"
 
-#: ../treebrowser/src/treebrowser.c:1621
+#: ../treebrowser/src/treebrowser.c:1625
 #, c-format
 msgid "Target file '%s' exists, do you really want to replace it?"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1748
+#: ../treebrowser/src/treebrowser.c:1742
+msgid "Go up"
+msgstr ""
+
+#: ../treebrowser/src/treebrowser.c:1747 ../treebrowser/src/treebrowser.c:2146
+#, fuzzy
+msgid "Refresh"
+msgstr "Series"
+
+#: ../treebrowser/src/treebrowser.c:1752
 #, fuzzy
 msgid "Home"
 msgstr "Volume"
 
-#: ../treebrowser/src/treebrowser.c:1758
+#: ../treebrowser/src/treebrowser.c:1757
+#, fuzzy
+msgid "Set path from document"
+msgstr "为您的新文档设置编码"
+
+#: ../treebrowser/src/treebrowser.c:1762
 #, fuzzy
 msgid "Track path"
 msgstr "根目录："
 
-#: ../treebrowser/src/treebrowser.c:1763
+#: ../treebrowser/src/treebrowser.c:1767
 #, fuzzy
 msgid "Hide bars"
 msgstr "隐藏侧栏(_I)"
 
-#: ../treebrowser/src/treebrowser.c:1773
+#: ../treebrowser/src/treebrowser.c:1777
 msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
 "reverse try for example this '!;*.c;*.h;*.cpp'"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1781
+#: ../treebrowser/src/treebrowser.c:1785
 msgid "Addressbar for example '/projects/my-project'"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1806
+#: ../treebrowser/src/treebrowser.c:1810
 msgid "Tree Browser"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1949
+#: ../treebrowser/src/treebrowser.c:1953
 msgid "External open command"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1954
+#: ../treebrowser/src/treebrowser.c:1958
 #, c-format
 msgid ""
 "The command to execute when using \"Open with\". You can use %f and %d "
@@ -7420,123 +7473,138 @@ msgid ""
 "filename"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1967
+#: ../treebrowser/src/treebrowser.c:1971
 msgid "The terminal to use with the command \"Open Terminal\""
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1973
+#: ../treebrowser/src/treebrowser.c:1977
 msgid "Toolbar"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1975
+#: ../treebrowser/src/treebrowser.c:1979
 msgid "Hidden"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1976
+#: ../treebrowser/src/treebrowser.c:1980
 msgid "Top"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1977
+#: ../treebrowser/src/treebrowser.c:1981
 msgid "Bottom"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1982
+#: ../treebrowser/src/treebrowser.c:1986
 msgid "If position is changed, the option require plugin restart."
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1986
+#: ../treebrowser/src/treebrowser.c:1990
 #, fuzzy
 msgid "Show icons"
 msgstr "显示图标。"
 
-#: ../treebrowser/src/treebrowser.c:1988
+#: ../treebrowser/src/treebrowser.c:1992
 msgid "None"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1989
+#: ../treebrowser/src/treebrowser.c:1993
 #, fuzzy
 msgid "Base"
 msgstr "暂停(_P)"
 
-#: ../treebrowser/src/treebrowser.c:1990
+#: ../treebrowser/src/treebrowser.c:1994
 #, fuzzy
 msgid "Content-type"
 msgstr "内容"
 
-#: ../treebrowser/src/treebrowser.c:2001
+#: ../treebrowser/src/treebrowser.c:2000
+#, fuzzy
+msgid "Show hidden files"
+msgstr "显示文件差异"
+
+#: ../treebrowser/src/treebrowser.c:2005
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2003
+#: ../treebrowser/src/treebrowser.c:2007
 #, fuzzy
 msgid "Hide object files"
 msgstr "选择文件"
 
-#: ../treebrowser/src/treebrowser.c:2008
+#: ../treebrowser/src/treebrowser.c:2012
 msgid ""
 "Don't show generated object files in the file browser, this includes *.o, *."
 "obj. *.so, *.dll, *.a, *.lib"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2010
+#: ../treebrowser/src/treebrowser.c:2014
 #, fuzzy
 msgid "Reverse filter"
 msgstr "恢复单个文件"
 
-#: ../treebrowser/src/treebrowser.c:2015
+#: ../treebrowser/src/treebrowser.c:2019
 msgid "Follow current document"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2020
+#: ../treebrowser/src/treebrowser.c:2024
 msgid "Single click, open document and focus it"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2025
+#: ../treebrowser/src/treebrowser.c:2029
 #, fuzzy
 msgid "Double click open directory"
 msgstr "显示目录差异"
 
-#: ../treebrowser/src/treebrowser.c:2030
+#: ../treebrowser/src/treebrowser.c:2034
 msgid "On delete file, close it if is opened"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2035
+#: ../treebrowser/src/treebrowser.c:2039
 msgid "Focus editor on file open"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2040
+#: ../treebrowser/src/treebrowser.c:2044
 #, fuzzy
 msgid "Show tree lines"
 msgstr "显示工具提示。"
 
-#: ../treebrowser/src/treebrowser.c:2052
+#: ../treebrowser/src/treebrowser.c:2051
+#, fuzzy
+msgid "Show bookmarks"
+msgstr "书签"
+
+#: ../treebrowser/src/treebrowser.c:2056
 #, fuzzy
 msgid "Open new files"
 msgstr "打开文件"
 
-#: ../treebrowser/src/treebrowser.c:2128
+#: ../treebrowser/src/treebrowser.c:2136
 #, fuzzy
 msgid "Focus File List"
 msgstr "焦点书签列表"
 
-#: ../treebrowser/src/treebrowser.c:2130
+#: ../treebrowser/src/treebrowser.c:2138
 msgid "Focus Path Entry"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2132
+#: ../treebrowser/src/treebrowser.c:2140
 #, fuzzy
 msgid "Rename Object"
 msgstr "文件名："
 
-#: ../treebrowser/src/treebrowser.c:2134
+#: ../treebrowser/src/treebrowser.c:2142
 #, fuzzy
 msgid "Create New File"
 msgstr "更新文件"
 
-#: ../treebrowser/src/treebrowser.c:2136
+#: ../treebrowser/src/treebrowser.c:2144
 #, fuzzy
 msgid "Create New Directory"
 msgstr "恢复根目录"
+
+#: ../treebrowser/src/treebrowser.c:2148
+#, fuzzy
+msgid "Track Current"
+msgstr "根目录："
 
 #: ../updatechecker/src/updatechecker.c:40
 #, fuzzy
@@ -7796,6 +7864,10 @@ msgstr ""
 #: ../xmlsnippets/src/plugin.c:45
 msgid "Autocompletes XML/HTML tags using snippets."
 msgstr ""
+
+#, fuzzy
+#~ msgid "Delete"
+#~ msgstr "删除项目"
 
 #, fuzzy
 #~ msgid "GeanyLipsum"
