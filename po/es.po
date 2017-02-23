@@ -9,16 +9,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-22 18:17+0100\n"
-"PO-Revision-Date: 2016-11-08 19:27+0100\n"
-"Last-Translator: Lucas Vieites <lucas@codexion.com>\n"
+"POT-Creation-Date: 2017-02-23 03:19+0000\n"
+"PO-Revision-Date: 2017-02-23 23:48+0100\n"
+"Last-Translator: Abel 'Akronix' Serrano Juste <akronix5@gmail.com>\n"
 "Language-Team: Spanish; Castilian <>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 1.8.9\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
@@ -1273,7 +1273,7 @@ msgstr "Complemento de generación y búsqueda de ctags para proyectos geany"
 #: ../geanyctags/src/geanyctags.c:145
 #, c-format
 msgid "%s (in directory: %s)"
-msgstr "%s ( en el directorio: %s)"
+msgstr "%s (en el directorio: %s)"
 
 #: ../geanyctags/src/geanyctags.c:162
 #, c-format
@@ -4069,7 +4069,7 @@ msgid ""
 "Press Ignore to try an load markers anyway."
 msgstr ""
 "«%s» ha sido editado desde que fue guardado por última vez por Geany. Las "
-"posiciones de los marcadores no son fiables y no serán cargadas.\n"
+"posiciones de los marcadores pueden no ser fiables y no serán cargadas.\n"
 "Pulse «Ignorar» para intentar cargar los marcadores de todos modos."
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:977
@@ -4300,12 +4300,12 @@ msgstr "último"
 
 #: ../geanypg/src/verify_aux.c:72 ../geanypg/src/verify_aux.c:74
 msgid "[bad validity value]"
-msgstr "[valor de validez malo]"
+msgstr "[mal valor de validez]"
 
 #. buffer should be more than 105 bytes long
 #: ../geanypg/src/verify_aux.c:79
 msgid " valid"
-msgstr " validó"
+msgstr " válido"
 
 #: ../geanypg/src/verify_aux.c:80
 msgid " green"
@@ -4321,19 +4321,19 @@ msgstr " revocado"
 
 #: ../geanypg/src/verify_aux.c:83
 msgid " key-expired"
-msgstr " clave-expirado"
+msgstr " clave-expirada"
 
 #: ../geanypg/src/verify_aux.c:84
 msgid " sig-expired"
-msgstr " firma-expirado"
+msgstr " firma-expirada"
 
 #: ../geanypg/src/verify_aux.c:85
 msgid " key-missing"
-msgstr " clave-faltando"
+msgstr " clave-perdida"
 
 #: ../geanypg/src/verify_aux.c:86
 msgid " crl-missing"
-msgstr " crl-faltando"
+msgstr " crl-perdido"
 
 #: ../geanypg/src/verify_aux.c:87
 msgid " crl-too-old"
@@ -4341,7 +4341,7 @@ msgstr " crl-demasiado-viejo"
 
 #: ../geanypg/src/verify_aux.c:88
 msgid " bad-policy"
-msgstr " política-mala"
+msgstr " mala política"
 
 #: ../geanypg/src/verify_aux.c:89
 msgid " sys-error"
@@ -5143,16 +5143,16 @@ msgstr ""
 #: ../lineoperations/src/lineoperations.c:123
 #, c-format
 msgid "Operation successful! %d lines removed."
-msgstr ""
+msgstr "Operación completada! %d líneas borradas."
 
 #: ../lineoperations/src/lineoperations.c:134
 msgid "Operation successful! No lines removed."
-msgstr ""
+msgstr "Operación completada! Ninguna línea borrada."
 
 #: ../lineoperations/src/lineoperations.c:142
 #, c-format
 msgid "Operation successful! %d lines affected."
-msgstr ""
+msgstr "Operación completada! %d líneas afectadas."
 
 #: ../lineoperations/src/lineoperations.c:254
 msgid "Remove Duplicate Lines, _Sorted"
@@ -5191,14 +5191,13 @@ msgid "Line Operations"
 msgstr "Operaciones de líneas"
 
 #: ../lineoperations/src/lineoperations.c:319
-#, fuzzy
 msgid ""
 "Line Operations provides a handful of functions that can be applied to a "
 "document or selection such as, removing duplicate lines, removing empty "
 "lines, removing lines with only whitespace, and sorting lines."
 msgstr ""
 "\"Operaciones de líneas\" proporciona un puñado de funciones que se pueden "
-"aplicar a un documento, por ejemplo; eliminar líneas duplicadas, eliminar "
+"aplicar a un documento, por ejemplo: eliminar líneas duplicadas, eliminar "
 "líneas vacías, eliminar líneas en blanco, y ordenar líneas."
 
 #: ../lipsum/src/lipsum.c:43
@@ -5309,30 +5308,28 @@ msgstr "Vista previa de Markdown"
 
 #: ../markdown/src/plugin.c:102
 msgid "Export Markdown as HTML..."
-msgstr ""
+msgstr "Exportar Markdown como HTML..."
 
 #: ../markdown/src/plugin.c:176
 msgid "The current document does not have a Markdown filetype."
 msgstr "El documento actual no es un archivo de tipo Markdown."
 
 #: ../markdown/src/plugin.c:278
-#, fuzzy
 msgid "Save HTML File As"
-msgstr "Guardar archivo"
+msgstr "Guardar archivo HTML como"
 
 #: ../markdown/src/plugin.c:306
 msgid "HTML Files"
-msgstr ""
+msgstr "Ficheros HTML"
 
 #: ../markdown/src/plugin.c:311
-#, fuzzy
 msgid "All Files"
-msgstr "Añadir archivo"
+msgstr "Todos los archivos"
 
 #: ../markdown/src/plugin.c:322
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to export Markdown HTML to file '%s': %s"
-msgstr "No se ha podido cargar el archivo «%s»: %s"
+msgstr "Fallo al exportar Markdown HTML al fichero «%s»: %s"
 
 #: ../multiterm/src/config.vala:47
 #, c-format
@@ -5583,9 +5580,8 @@ msgid "Finds and highlights matching opening/closing HTML tag"
 msgstr "Encuentra y resalta etiquetas HTML de apertura/cierre"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:440
-#, fuzzy
 msgid "Go To Matching Tag"
-msgstr "Seleccionar hasta _corchete correspondiente"
+msgstr "Ir a etiqueta correspondiente"
 
 #: ../pohelper/data/menus.ui.h:1
 msgid "_Translation Helper"
@@ -7326,50 +7322,43 @@ msgstr "¿Está seguro de que desea eliminar «%s»?"
 
 #: ../treebrowser/src/treebrowser.c:1208
 msgid "Go _up"
-msgstr ""
+msgstr "S_ubir"
 
 #: ../treebrowser/src/treebrowser.c:1212
-#, fuzzy
 msgid "Set _path from document"
-msgstr "Fijar ruta del documento"
+msgstr "_Fijar ruta del documento"
 
 #: ../treebrowser/src/treebrowser.c:1216
 msgid "_Open externally"
 msgstr "_Abrir externamente"
 
 #: ../treebrowser/src/treebrowser.c:1221
-#, fuzzy
 msgid "Open _Terminal"
-msgstr "Abrir terminal"
+msgstr "Abrir _Terminal"
 
 #: ../treebrowser/src/treebrowser.c:1225
-#, fuzzy
 msgid "Set as _root"
-msgstr "Fijar como raíz"
+msgstr "Fijar como _raíz"
 
 #: ../treebrowser/src/treebrowser.c:1230
-#, fuzzy
 msgid "Refres_h"
-msgstr "Refrescar"
+msgstr "_Refrescar"
 
 #: ../treebrowser/src/treebrowser.c:1234
 msgid "_Find in Files"
 msgstr "_Buscar en archivos"
 
 #: ../treebrowser/src/treebrowser.c:1242
-#, fuzzy
 msgid "Creat_e new directory"
-msgstr "Crear directorio nuevo"
+msgstr "Cr_ear directorio nuevo"
 
 #: ../treebrowser/src/treebrowser.c:1246
-#, fuzzy
 msgid "Create _new file"
-msgstr "Crear archivo nuevo"
+msgstr "Crear archivo _nuevo"
 
 #: ../treebrowser/src/treebrowser.c:1250
-#, fuzzy
 msgid "Rena_me"
-msgstr "Renombrar"
+msgstr "Reno_mbrar"
 
 #: ../treebrowser/src/treebrowser.c:1263
 #, c-format
@@ -7377,38 +7366,33 @@ msgid "Close: %s"
 msgstr "Cerrar: %s"
 
 #: ../treebrowser/src/treebrowser.c:1268
-#, fuzzy, c-format
+#, c-format
 msgid "Clo_se Child Documents "
-msgstr "Cerrar documentos hijo"
+msgstr "_Cerrar documentos hijo"
 
 #: ../treebrowser/src/treebrowser.c:1273
 msgid "_Copy full path to clipboard"
 msgstr "_Copiar ruta completa al portapapeles"
 
 #: ../treebrowser/src/treebrowser.c:1282
-#, fuzzy
 msgid "E_xpand all"
-msgstr "Expandir todos"
+msgstr "E_xpandir todos"
 
 #: ../treebrowser/src/treebrowser.c:1286
-#, fuzzy
 msgid "Coll_apse all"
-msgstr "Colapsar todos"
+msgstr "Col_apsar todos"
 
 #: ../treebrowser/src/treebrowser.c:1293
-#, fuzzy
 msgid "Show boo_kmarks"
-msgstr "Mostrar marcadores"
+msgstr "Mostrar marca_dores"
 
 #: ../treebrowser/src/treebrowser.c:1298
-#, fuzzy
 msgid "Sho_w hidden files"
 msgstr "Mostrar archivos ocultos"
 
 #: ../treebrowser/src/treebrowser.c:1303
-#, fuzzy
 msgid "Show tool_bars"
-msgstr "Mostrar barras"
+msgstr "Mostrar _barras de herramientas"
 
 #: ../treebrowser/src/treebrowser.c:1625
 #, c-format
@@ -7593,9 +7577,8 @@ msgid "Create New Directory"
 msgstr "Crear directorio nuevo"
 
 #: ../treebrowser/src/treebrowser.c:2148
-#, fuzzy
 msgid "Track Current"
-msgstr "Rastrear ruta"
+msgstr "Rastrear ruta actual"
 
 #: ../updatechecker/src/updatechecker.c:40
 msgid "Updatechecker"
