@@ -123,6 +123,7 @@ struct UndoHunkData {
   guint    doc_id;
   gint     line;
   gboolean found;
+  gboolean first_line_removed;
   gint     old_start;
   gint     old_lines;
   gint     new_start;
@@ -731,16 +732,17 @@ diff_hunk_cb (const git_diff_delta *delta,
               void                 *data)
 {
   ScintillaObject *sci = data;
+  gint line;
   
   if (hunk->new_lines > 0) {
-    gint  line;
     guint marker = hunk->old_lines > 0 ? MARKER_LINE_CHANGED : MARKER_LINE_ADDED;
     
     for (line = hunk->new_start; line < hunk->new_start + hunk->new_lines; line++) {
       scintilla_send_message (sci, SCI_MARKERADD, line - 1, G_markers[marker].num);
     }
   } else {
-    scintilla_send_message (sci, SCI_MARKERADD, hunk->new_start - 1,
+    line = (hunk->new_start == 0) ? 0 : hunk->new_start - 1;
+    scintilla_send_message (sci, SCI_MARKERADD, line,
                             G_markers[MARKER_LINE_REMOVED].num);
   }
   
@@ -820,6 +822,12 @@ get_widget_for_buf_range (GeanyDocument *doc,
   return GTK_WIDGET (sci);
 }
 
+static gboolean
+is_first_line_removed (gint line, gint new_hunk_start, gint new_hunk_lines)
+{
+  return line == 1 && new_hunk_start == 0 && new_hunk_lines == 0;
+}
+
 static int
 tooltip_diff_hunk_cb (const git_diff_delta *delta,
                       const git_diff_hunk  *hunk,
@@ -832,8 +840,9 @@ tooltip_diff_hunk_cb (const git_diff_delta *delta,
   }
   
   if (hunk->old_lines > 0 &&
-      thd->line >= hunk->new_start &&
-      thd->line < hunk->new_start + MAX (1, hunk->new_lines)) {
+      (is_first_line_removed (thd->line, hunk->new_start, hunk->new_lines) ||
+       (thd->line >= hunk->new_start &&
+        thd->line < hunk->new_start + MAX (1, hunk->new_lines)))) {
     GtkWidget *old = get_widget_for_buf_range (thd->doc, thd->buf,
                                                hunk->old_start - 1,
                                                hunk->old_lines);
@@ -1044,13 +1053,13 @@ goto_next_hunk_diff_hunk_cb (const git_diff_delta *delta,
       if (data->next_line >= 0) {
         return 1;
       } else if (data->line < hunk->new_start - 1) {
-        data->next_line = hunk->new_start - 1;
+        data->next_line = (hunk->new_start == 0) ? 0 : hunk->new_start - 1;
       }
       break;
     
     case KB_GOTO_PREV_HUNK:
       if (data->line > hunk->new_start - 1 + MAX (hunk->new_lines - 1, 0)) {
-        data->next_line = hunk->new_start - 1;
+        data->next_line = (hunk->new_start == 0) ? 0 : hunk->new_start - 1;
       }
       break;
   }
@@ -1142,14 +1151,17 @@ undo_hunk_diff_hunk_cb (const git_diff_delta *delta,
                         void                 *udata)
 {
   UndoHunkData *data = udata;
+  gboolean first_line_removed = is_first_line_removed (data->line, hunk->new_start, hunk->new_lines);
 
-  if (data->line >= hunk->new_start &&
-      data->line < hunk->new_start + MAX (1, hunk->new_lines)) {
+  if (first_line_removed ||
+      (data->line >= hunk->new_start &&
+       data->line < hunk->new_start + MAX (1, hunk->new_lines))) {
     data->old_start = hunk->old_start;
     data->old_lines = hunk->old_lines;
     data->new_start = hunk->new_start;
     data->new_lines = hunk->new_lines;
     data->found = TRUE;
+    data->first_line_removed = first_line_removed;
     return 1;
   }
   
@@ -1184,8 +1196,8 @@ undo_hunk_cb (const gchar *path,
         gint line = sci_get_current_line (sci);
         gint pos;
 
-        if (data->new_lines == 0) {
-          line++; /* marker for deleted hunk is on previous line */
+        if (data->new_lines == 0 && !data->first_line_removed) {
+          line++; /* marker for deleted hunk is on previous line except the 1st line */
         }
         pos = sci_get_position_from_line (sci, line);
 
