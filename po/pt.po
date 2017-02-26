@@ -2,14 +2,14 @@
 # Copyright (C) 2009 - 2015 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 # André Glória, 2009 - 2011
-# Pedro Albuquerque <palbuquerque73@gmail.com>, 2015, 2016.
+# Pedro Albuquerque <palbuquerque73@gmail.com>, 2015, 2016, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 18:17+0100\n"
-"PO-Revision-Date: 2016-10-30 15:45+0000\n"
+"PO-Revision-Date: 2017-02-23 09:23+0000\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
 "Language-Team: Português <>\n"
 "Language: pt\n"
@@ -5136,16 +5136,16 @@ msgstr ""
 #: ../lineoperations/src/lineoperations.c:123
 #, c-format
 msgid "Operation successful! %d lines removed."
-msgstr ""
+msgstr "Operação com sucesso! %d linhas removidas."
 
 #: ../lineoperations/src/lineoperations.c:134
 msgid "Operation successful! No lines removed."
-msgstr ""
+msgstr "Operação com sucesso! Sem linhas removidas."
 
 #: ../lineoperations/src/lineoperations.c:142
 #, c-format
 msgid "Operation successful! %d lines affected."
-msgstr ""
+msgstr "Operação com sucesso! %d linhas afectadas."
 
 #: ../lineoperations/src/lineoperations.c:254
 msgid "Remove Duplicate Lines, _Sorted"
@@ -5184,15 +5184,14 @@ msgid "Line Operations"
 msgstr "Operações de linha"
 
 #: ../lineoperations/src/lineoperations.c:319
-#, fuzzy
 msgid ""
 "Line Operations provides a handful of functions that can be applied to a "
 "document or selection such as, removing duplicate lines, removing empty "
 "lines, removing lines with only whitespace, and sorting lines."
 msgstr ""
 "Operações de linha oferece uma mão cheia de funções que podem ser aplicadas "
-"a um documento, tais como remover linhas duplicadas, remover linhas vazias, "
-"remover linhas só com espaços e ordenar linhas."
+"a um documento ou selecção, tais como remover linhas duplicadas, remover "
+"linhas vazias, remover linhas só com espaços e ordenar linhas."
 
 #: ../lipsum/src/lipsum.c:43
 msgid "Lipsum"
@@ -5302,30 +5301,28 @@ msgstr "Pré-visualizar Markdown"
 
 #: ../markdown/src/plugin.c:102
 msgid "Export Markdown as HTML..."
-msgstr ""
+msgstr "Exportar Markdown como HTML..."
 
 #: ../markdown/src/plugin.c:176
 msgid "The current document does not have a Markdown filetype."
 msgstr "O documento atual não tem tipo de ficheiro Markdown."
 
 #: ../markdown/src/plugin.c:278
-#, fuzzy
 msgid "Save HTML File As"
-msgstr "Gravar ficheiro"
+msgstr "Gravar ficheiro HTML como"
 
 #: ../markdown/src/plugin.c:306
 msgid "HTML Files"
-msgstr ""
+msgstr "Ficheiros HTML"
 
 #: ../markdown/src/plugin.c:311
-#, fuzzy
 msgid "All Files"
-msgstr "Adicionar ficheiro"
+msgstr "Todos os ficheiros"
 
 #: ../markdown/src/plugin.c:322
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to export Markdown HTML to file '%s': %s"
-msgstr "Falha ao carregar o ficheiro \"%s\": %s"
+msgstr "Falha ao exportar Markdown HTML para o ficheiro \"%s\": %s"
 
 #: ../multiterm/src/config.vala:47
 #, c-format
@@ -5572,9 +5569,8 @@ msgid "Finds and highlights matching opening/closing HTML tag"
 msgstr "Localiza e realça etiquetas de abertura/fecho HTML correspondentes"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:440
-#, fuzzy
 msgid "Go To Matching Tag"
-msgstr "Selecionar até à chaveta _correspondente"
+msgstr "Ir até à etiqueta correspondente"
 
 #: ../pohelper/data/menus.ui.h:1
 msgid "_Translation Helper"
@@ -7313,50 +7309,43 @@ msgstr "Tem a certeza que quer eliminar '%s'?"
 
 #: ../treebrowser/src/treebrowser.c:1208
 msgid "Go _up"
-msgstr ""
+msgstr "S_ubir"
 
 #: ../treebrowser/src/treebrowser.c:1212
-#, fuzzy
 msgid "Set _path from document"
-msgstr "Definir caminho a partir do documento"
+msgstr "Definir _caminho do documento"
 
 #: ../treebrowser/src/treebrowser.c:1216
 msgid "_Open externally"
 msgstr "_Abrir externamente"
 
 #: ../treebrowser/src/treebrowser.c:1221
-#, fuzzy
 msgid "Open _Terminal"
-msgstr "Abrir terminal"
+msgstr "Abrir _terminal"
 
 #: ../treebrowser/src/treebrowser.c:1225
-#, fuzzy
 msgid "Set as _root"
-msgstr "Definir como raíz"
+msgstr "Definir como _raiz"
 
 #: ../treebrowser/src/treebrowser.c:1230
-#, fuzzy
 msgid "Refres_h"
-msgstr "Atualizar"
+msgstr "Actuali_zar"
 
 #: ../treebrowser/src/treebrowser.c:1234
 msgid "_Find in Files"
 msgstr "Localizar em _ficheiros"
 
 #: ../treebrowser/src/treebrowser.c:1242
-#, fuzzy
 msgid "Creat_e new directory"
-msgstr "Criar uma nova pasta"
+msgstr "Criar nova _pasta"
 
 #: ../treebrowser/src/treebrowser.c:1246
-#, fuzzy
 msgid "Create _new file"
-msgstr "Criar um novo ficheiro"
+msgstr "Criar _novo ficheiro"
 
 #: ../treebrowser/src/treebrowser.c:1250
-#, fuzzy
 msgid "Rena_me"
-msgstr "Renomear"
+msgstr "Reno_mear"
 
 #: ../treebrowser/src/treebrowser.c:1263
 #, c-format
@@ -7364,38 +7353,33 @@ msgid "Close: %s"
 msgstr "Fechar: %s"
 
 #: ../treebrowser/src/treebrowser.c:1268
-#, fuzzy, c-format
+#, c-format
 msgid "Clo_se Child Documents "
-msgstr "Fechar documentos-filho"
+msgstr "Fechar documento_s-filho"
 
 #: ../treebrowser/src/treebrowser.c:1273
 msgid "_Copy full path to clipboard"
 msgstr "_Copiar caminho completo para a área de transferência"
 
 #: ../treebrowser/src/treebrowser.c:1282
-#, fuzzy
 msgid "E_xpand all"
-msgstr "Expandir tudo"
+msgstr "E_xpandir tudo"
 
 #: ../treebrowser/src/treebrowser.c:1286
-#, fuzzy
 msgid "Coll_apse all"
-msgstr "Colapsar tudo"
+msgstr "Col_apsar tudo"
 
 #: ../treebrowser/src/treebrowser.c:1293
-#, fuzzy
 msgid "Show boo_kmarks"
-msgstr "Mostrar marcadores"
+msgstr "Mostrar mar_cadores"
 
 #: ../treebrowser/src/treebrowser.c:1298
-#, fuzzy
 msgid "Sho_w hidden files"
-msgstr "Mostrar ficheiros ocultos"
+msgstr "Mostrar ficheiros _ocultos"
 
 #: ../treebrowser/src/treebrowser.c:1303
-#, fuzzy
 msgid "Show tool_bars"
-msgstr "Mostrar barras de ferramentas"
+msgstr "Mostrar _barras de ferramentas"
 
 #: ../treebrowser/src/treebrowser.c:1625
 #, c-format
@@ -7579,9 +7563,8 @@ msgid "Create New Directory"
 msgstr "Criar nova pasta"
 
 #: ../treebrowser/src/treebrowser.c:2148
-#, fuzzy
 msgid "Track Current"
-msgstr "Rastrear caminho"
+msgstr "Rastrear actual"
 
 #: ../updatechecker/src/updatechecker.c:40
 msgid "Updatechecker"
