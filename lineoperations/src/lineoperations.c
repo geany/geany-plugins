@@ -160,6 +160,8 @@ action_indir_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 	gint (*func)(gchar **lines, gint num_lines, gchar *new_file) = gdata;
 	GeanyDocument *doc    = document_get_current();
 
+	g_return_if_fail(doc != NULL);
+
 	struct lo_lines sel   = get_current_sel_lines(doc->editor->sci);
 	gint   num_lines      = (sel.end_line - sel.start_line) + 1;
 
@@ -191,10 +193,7 @@ action_indir_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 
 	sci_start_undo_action(doc->editor->sci);
 
-
-	if(doc)
-		lines_affected = func(lines, num_lines, new_file);
-
+	lines_affected = func(lines, num_lines, new_file);
 
 	/* set new document */
 	sci_replace_sel(doc->editor->sci, new_file);
@@ -223,14 +222,15 @@ action_sci_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 	/* function pointer to gdata -- function to be used */
 	gint (*func)(ScintillaObject *, gint, gint) = gdata;
 	GeanyDocument *doc  = document_get_current();
+
+	g_return_if_fail(doc != NULL);
+
 	struct lo_lines sel = get_current_sel_lines(doc->editor->sci);
 	gint lines_affected = 0;
 
-
 	sci_start_undo_action(doc->editor->sci);
 
-	if(doc)
-		lines_affected = func(doc->editor->sci, sel.start_line, sel.end_line);
+	lines_affected = func(doc->editor->sci, sel.start_line, sel.end_line);
 
 	/* put message in ui_statusbar, and highlight lines that were affected */
 	user_indicate(doc->editor, lines_affected, sel);
