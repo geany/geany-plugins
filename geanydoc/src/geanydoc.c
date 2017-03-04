@@ -47,7 +47,7 @@ static GtkWidget *keyb2;
 PLUGIN_VERSION_CHECK(224)
 /* All plugins must set name, description, version and author. */
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
-	_("Doc"), _("Call documentation viewer on current symbol."), VERSION,
+	_("Doc"), _("Call documentation viewer on current symbol. \nThis plugin currently has no maintainer. Would you like to help by contributing to this plugin?"), VERSION,
 	"Yura Siamshka <yurand2@gmail.com>")
 
 /* Keybinding(s) */

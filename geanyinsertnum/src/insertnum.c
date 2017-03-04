@@ -41,7 +41,9 @@ GeanyData	*geany_data;
 PLUGIN_VERSION_CHECK(224)
 
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
-	_("Insert Numbers"), _("Insert/Fill columns with numbers."),
+	_("Insert Numbers"), _("Insert/Fill columns with numbers."
+	"\nThis plugin currently has no maintainer. Would you like to help"
+	" by contributing to this plugin?"),
 	"0.2.2", "Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
 
 /* Keybinding(s) */

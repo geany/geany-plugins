@@ -38,9 +38,11 @@ GeanyData       *geany_data;
 
 PLUGIN_VERSION_CHECK(224)
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
-                             _("Shift Column"),
-                             _("Shift a selection left and right"),
-                             VERSION, "Andrew L Janke <a.janke@gmail.com>")
+    _("Shift Column"),
+    _("Shift a selection left and right."
+      "\nThis plugin currently has no maintainer. Would you like to help "
+      "by contributing to this plugin?"),
+    VERSION, "Andrew L Janke <a.janke@gmail.com>")
 
 
 static GtkWidget *menu_item_shift_left = NULL;

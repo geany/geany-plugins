@@ -69,7 +69,9 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	LOCALEDIR,
 	GETTEXT_PACKAGE,
 	_("GeanyVC"),
-	_("Interface to different Version Control systems."),
+	_("Interface to different Version Control systems."
+	  "\nThis plugins is currently not developed actively. "
+	  "Would you like to help by contributing to this plugin?"),
 	VERSION,
 	"Yura Siamashka <yurand2@gmail.com>,\nFrank Lanitz <frank@frank.uvena.de>")
 

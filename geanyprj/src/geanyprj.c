@@ -4,7 +4,7 @@
  *  Copyright 2007 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *  Copyright 2007 Enrico Tröger <enrico.troeger@uvena.de>
  *  Copyright 2007 Nick Treleaven <nick.treleaven@btinternet.com>
- *  Copyright 2007,2008 Yura Siamashka <yurand2@gmail.com>
+ *  Copyright 2007, 2008 Yura Siamashka <yurand2@gmail.com>
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -36,8 +36,11 @@
 
 PLUGIN_VERSION_CHECK(224)
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
-			     "GeanyPrj", _("Alternative project support."), VERSION,
-			     "Yura Siamashka <yurand2@gmail.com>")
+	"GeanyPrj", _("Alternative project support. \nThis plugin currently"
+		          "has no maintainer. Would you like to help by contributing "
+		          "to this plugin?"),
+	VERSION,
+	"Yura Siamashka <yurand2@gmail.com>")
 
 GeanyPlugin    *geany_plugin;
 GeanyData      *geany_data;

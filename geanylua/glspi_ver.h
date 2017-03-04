@@ -6,7 +6,7 @@
 
 #define PLUGIN_NAME _("Lua Script")
 
-#define PLUGIN_DESC _("Write and run Lua scripts for custom commands.")
+#define PLUGIN_DESC _("Write and run Lua scripts for custom commands.\nThis plugin currently has no maintainer. Would you like to help by contributing to this plugin?")
 
 #define PLUGIN_VER VERSION
 
