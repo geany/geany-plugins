@@ -55,6 +55,7 @@ libtasn1
 libtheora
 libtiff
 libtre-git
+libunistring
 libvorbis
 libvorbisidec-svn
 libwebp
