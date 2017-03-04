@@ -83,7 +83,7 @@ static void update_check(gint type)
                                      GEANY_VERSION, NULL);
 
     g_message("Checking for updates (querying URL \"%s\")", UPDATE_CHECK_URL);
-    soup = soup_session_async_new_with_options(
+    soup = soup_session_new_with_options(
             SOUP_SESSION_USER_AGENT, user_agent,
             SOUP_SESSION_TIMEOUT, 10,
             NULL);
