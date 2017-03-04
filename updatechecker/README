@@ -28,10 +28,11 @@ get in contact with the Geany-servers and figure out, whether there
 has been a new version release or not. Once there is some result,
 you will get informed by a info popup.
 
-In default configuration the plugin will not check automaticly for
-new versions. But you can change this by activating this inside
-configuration dialog.
-
+In default configuration the plugin will not check automaticly for new
+versions. But you can change this by activating this inside
+configuration dialog. Once a new version of Geany is releases, this
+feature will create the popup until you have updated Geany and its
+plugins. This has potential to plague you with Geany's new version.
 
 Requirements
 ------------
