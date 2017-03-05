@@ -48,7 +48,7 @@ VIProductVersion "${PRODUCT_VERSION_ID}"
 VIAddVersionKey "ProductName" "${PRODUCT_NAME}"
 VIAddVersionKey "FileVersion" "${PRODUCT_VERSION}"
 VIAddVersionKey "ProductVersion" "${PRODUCT_VERSION}"
-VIAddVersionKey "LegalCopyright" "Copyright 2009-2016 by the Geany developer team"
+VIAddVersionKey "LegalCopyright" "Copyright 2009-2017 by the Geany developer team"
 VIAddVersionKey "FileDescription" "${PRODUCT_NAME} Installer"
 
 BrandingText "$(^NAME) installer (NSIS 2.51)"
