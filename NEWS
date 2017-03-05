@@ -1,8 +1,5 @@
 Geany Plugins 1.30 (not yet released)
 
-    General:
-    *
-
     Automark:
     * Fix a possible crash if nothing is selected for automarking
     * Replace internal usage of deprecated functions
@@ -11,54 +8,54 @@ Geany Plugins 1.30 (not yet released)
     * Fix a possible crash on startup with latest GTK3
 
     Debugger:
-    * Fix a possible crash if debug-modus is enabled (PR##511)
+    * Fix a possible crash if debug-modus is enabled (PR #511)
 
     Geanyctags:
-    * Show online help via help button (PR##521)
+    * Show online help via help button (PR #521)
 
     GeanyDoc:
     * Improve compatibility with Gtk3
-    * Allow to use current word as initial text in interactive mode (PR##457
+    * Allow to use current word as initial text in interactive mode (PR #457
 
     GeanyLua:
     * Remove deprecated GeanyFunctions from interface provided by this
-      plugin (PR##439)
-    * Fix build with latest Scintilla (PR##510)
+      plugin (PR #439)
+    * Fix build with latest Scintilla (PR #510)
 
     GeanyPy:
-    * Sync with upstream GeanyPy version (PR##527)
+    * Sync with upstream GeanyPy version (PR #527)
 
     Lineoperations:
-    * Add support for selections (PR##378)
+    * Add support for selections (PR #378)
 
     Lipsum:
     * Add a space before restarting Lorem Ipsum text (#513)
 
     Markdown:
-    * Allow exporting Markdown as HTML (PR##502)
-    * Fix relative paths (PR##501)
+    * Allow exporting Markdown as HTML (PR #502)
+    * Fix relative paths (PR #501)
 
     PairTagHighlighter:
-    * Add keybinding for jumping to matching tag (PR##466)
-    * Improve compatibility with Gtk3 (PR##466)
+    * Add keybinding for jumping to matching tag (PR #466)
+    * Improve compatibility with Gtk3 (PR #466)
 
     ProjectOrganizer:
-    * Show online help via help button (PR##521)
-    * Remember expanded directories in the sidebar when reloading (PR##528)
+    * Show online help via help button (PR #521)
+    * Remember expanded directories in the sidebar when reloading (PR #528)
 
     Spellcheck:
-    * Treat underscore as word seperator (PR##512)
+    * Treat underscore as word separator (PR #512)
 
     Tableconvert:
     * Fix markup of documentation
 
     Treebrowser:
-    * Fix a possible memory leak (PR##478)
-    * Add a keybinding to follow current file (PR##524
-    * Allow to show menu also with Shift+F10 (PR##523)
+    * Fix a possible memory leak (PR #478)
+    * Add a keybinding to follow current file (PR #524)
+    * Allow to show menu also with Shift+F10 (PR #523)
     * Fix a bug addding files to file list again and again when using
-      refresh-function and no file is selected (PR##525)
-    * Don't change directory on project save (PR##536)
+      refresh-function and no file is selected (PR #525)
+    * Don't change directory on project save (PR #536)
 
     Internationalization:
     * Updated translations: de, es, pt
