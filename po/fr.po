@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 18:17+0100\n"
-"PO-Revision-Date: 2016-11-01 10:41+0100\n"
+"PO-Revision-Date: 2017-03-05 16:25+0100\n"
 "Last-Translator: Colomban Wendling <ban@herbesfolles.org>\n"
 "Language-Team: French <geany-i18n@uvena.de>\n"
 "Language: fr\n"
@@ -5154,16 +5154,16 @@ msgstr ""
 #: ../lineoperations/src/lineoperations.c:123
 #, c-format
 msgid "Operation successful! %d lines removed."
-msgstr ""
+msgstr "Opération réussie ! %d lignes supprimées."
 
 #: ../lineoperations/src/lineoperations.c:134
 msgid "Operation successful! No lines removed."
-msgstr ""
+msgstr "Opération réussie ! Aucune ligne supprimée."
 
 #: ../lineoperations/src/lineoperations.c:142
 #, c-format
 msgid "Operation successful! %d lines affected."
-msgstr ""
+msgstr "Opération réussie ! %d lignes affectées."
 
 #: ../lineoperations/src/lineoperations.c:254
 msgid "Remove Duplicate Lines, _Sorted"
@@ -5202,20 +5202,18 @@ msgid "Line Operations"
 msgstr "Opérations sur les lignes"
 
 #: ../lineoperations/src/lineoperations.c:319
-#, fuzzy
 msgid ""
 "Line Operations provides a handful of functions that can be applied to a "
 "document or selection such as, removing duplicate lines, removing empty "
 "lines, removing lines with only whitespace, and sorting lines."
 msgstr ""
-"Fournit diverses fonctions qui peuvent être appliquées à un document, comme "
-"la suppression de lignes en double, vides ou entièrement blanches, ou le tri "
-"des lignes."
+"Fournit diverses fonctions qui peuvent être appliquées à un document ou une "
+"sélection, telles que la suppression de lignes en double, vides ou "
+"entièrement blanches, ou le tri des lignes."
 
 #: ../lipsum/src/lipsum.c:43
-#, fuzzy
 msgid "Lipsum"
-msgstr "_Lipsum…"
+msgstr "Lipsum"
 
 #: ../lipsum/src/lipsum.c:44
 msgid "Creating dummy text with Geany"
@@ -5323,30 +5321,28 @@ msgstr "Aperçu Markdown"
 
 #: ../markdown/src/plugin.c:102
 msgid "Export Markdown as HTML..."
-msgstr ""
+msgstr "Exporter le Markdown en HTML…"
 
 #: ../markdown/src/plugin.c:176
 msgid "The current document does not have a Markdown filetype."
 msgstr "Le type du fichier courant n'est pas défini à Markdown."
 
 #: ../markdown/src/plugin.c:278
-#, fuzzy
 msgid "Save HTML File As"
-msgstr "Enregistrer"
+msgstr "Enregistrer le fichier HTML sous"
 
 #: ../markdown/src/plugin.c:306
 msgid "HTML Files"
-msgstr ""
+msgstr "Fichiers HTML"
 
 #: ../markdown/src/plugin.c:311
-#, fuzzy
 msgid "All Files"
-msgstr "Ajouter un fichier"
+msgstr "Tous les fichiers"
 
 #: ../markdown/src/plugin.c:322
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to export Markdown HTML to file '%s': %s"
-msgstr "Impossible de charger le fichier « %s » : %s"
+msgstr "Impossible d'exporter le Markdown en HTML dans le fichier « %s » : %s"
 
 #: ../multiterm/src/config.vala:47
 #, c-format
@@ -5470,7 +5466,6 @@ msgstr ""
 "vous voulez que la barre latérale soit dézoomée."
 
 #: ../overview/data/prefs.ui.h:2
-#, fuzzy
 msgid "Zoom Level:"
 msgstr "Niveau de zoom :"
 
@@ -5542,7 +5537,6 @@ msgstr ""
 "par dessus la vue d'ensemble."
 
 #: ../overview/data/prefs.ui.h:15 ../scope/data/scope.glade.h:109
-#, fuzzy
 msgid "Options"
 msgstr "Options"
 
@@ -5597,8 +5591,9 @@ msgstr ""
 "correspondantes"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:440
+#, fuzzy
 msgid "Go To Matching Tag"
-msgstr ""
+msgstr "Aller au tag correspondant"
 
 #: ../pohelper/data/menus.ui.h:1
 msgid "_Translation Helper"
@@ -7432,47 +7427,40 @@ msgid "Go _up"
 msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:1212
-#, fuzzy
 msgid "Set _path from document"
-msgstr "Définir le chemin depuis le document"
+msgstr "_Définir le chemin depuis le document"
 
 #: ../treebrowser/src/treebrowser.c:1216
 msgid "_Open externally"
 msgstr "_Ouvrir dans un programme externe"
 
 #: ../treebrowser/src/treebrowser.c:1221
-#, fuzzy
 msgid "Open _Terminal"
-msgstr "Ouvrir dans un terminal"
+msgstr "Ouvrir dans un _terminal"
 
 #: ../treebrowser/src/treebrowser.c:1225
-#, fuzzy
 msgid "Set as _root"
-msgstr "Définir comme racine"
+msgstr "Définir comme _racine"
 
 #: ../treebrowser/src/treebrowser.c:1230
-#, fuzzy
 msgid "Refres_h"
-msgstr "Rafraîchir"
+msgstr "Rafraîc_hir"
 
 #: ../treebrowser/src/treebrowser.c:1234
 msgid "_Find in Files"
 msgstr "Rechercher dans les _fichiers"
 
 #: ../treebrowser/src/treebrowser.c:1242
-#, fuzzy
 msgid "Creat_e new directory"
-msgstr "Créer un nouveau dossier"
+msgstr "Cré_er un nouveau dossier"
 
 #: ../treebrowser/src/treebrowser.c:1246
-#, fuzzy
 msgid "Create _new file"
-msgstr "Créer un nouveau fichier"
+msgstr "Créer un _nouveau fichier"
 
 #: ../treebrowser/src/treebrowser.c:1250
-#, fuzzy
 msgid "Rena_me"
-msgstr "Renommer"
+msgstr "Reno_mmer"
 
 #: ../treebrowser/src/treebrowser.c:1263
 #, c-format
@@ -7480,38 +7468,33 @@ msgid "Close: %s"
 msgstr "Fermer « %s »"
 
 #: ../treebrowser/src/treebrowser.c:1268
-#, fuzzy, c-format
+#, c-format
 msgid "Clo_se Child Documents "
-msgstr "Fermer les documents enfants"
+msgstr "Fermer les documents enf_ants"
 
 #: ../treebrowser/src/treebrowser.c:1273
 msgid "_Copy full path to clipboard"
 msgstr "_Copier le chemin complet dans le presse-papier"
 
 #: ../treebrowser/src/treebrowser.c:1282
-#, fuzzy
 msgid "E_xpand all"
-msgstr "Tout étendre"
+msgstr "Tout _étendre"
 
 #: ../treebrowser/src/treebrowser.c:1286
-#, fuzzy
 msgid "Coll_apse all"
-msgstr "Tout replier"
+msgstr "Tout re_plier"
 
 #: ../treebrowser/src/treebrowser.c:1293
-#, fuzzy
 msgid "Show boo_kmarks"
-msgstr "Afficher les marque-pages"
+msgstr "Afficher les mar_que-pages"
 
 #: ../treebrowser/src/treebrowser.c:1298
-#, fuzzy
 msgid "Sho_w hidden files"
-msgstr "Afficher les fichiers cachés"
+msgstr "Aff_icher les fichiers cachés"
 
 #: ../treebrowser/src/treebrowser.c:1303
-#, fuzzy
 msgid "Show tool_bars"
-msgstr "Afficher les barres d'outils"
+msgstr "Afficher les _barres d'outils"
 
 #: ../treebrowser/src/treebrowser.c:1625
 #, c-format
