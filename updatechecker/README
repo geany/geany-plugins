@@ -41,7 +41,7 @@ Updatechecker depends on a recent version of Geany (0.20 or above)
 as well as on:
 
 * GTK >= 2.12
-* libsoup 2.4 >= 2.4.0
+* libsoup 2.4 >= 2.42
 
 To compile it on your own you will need the devel packages for these.
 
