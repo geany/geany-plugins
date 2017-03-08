@@ -156,42 +156,37 @@ action_indir_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 	/* function pointer to function to be used */
 	gint (*func)(gchar **lines, gint num_lines, gchar *new_file) = gdata;
 	GeanyDocument *doc    = document_get_current();
-
 	g_return_if_fail(doc != NULL);
 
+	struct lo_lines sel;
 	gint   num_chars      = 0;
 	gint   i              = 0;
 	gint   lines_affected = 0;
 
-	struct lo_lines *sel = g_malloc(sizeof(struct lo_lines));
-	sel->is_selection    = FALSE;
-	sel->start_line      = 0;
-	sel->end_line        = 0;
-
-	get_current_sel_lines(doc->editor->sci, sel);
-	gint num_lines       = (sel->end_line - sel->start_line) + 1;
+	get_current_sel_lines(doc->editor->sci, &sel);
+	gint num_lines       = (sel.end_line - sel.start_line) + 1;
 
 
 	/* if last line within selection ensure that the file ends with newline */
-	if((sel->end_line + 1) == sci_get_line_count(doc->editor->sci))
-		ensure_final_newline(doc->editor, &num_lines, sel);
+	if((sel.end_line + 1) == sci_get_line_count(doc->editor->sci))
+		ensure_final_newline(doc->editor, &num_lines, &sel);
 
 	/* get num_chars and **lines */
 	gchar **lines        = g_malloc(sizeof(gchar *) * num_lines);
 	for(i = 0; i < num_lines; i++)
 	{
 		num_chars += (sci_get_line_length(doc->editor->sci,
-										(i + sel->start_line)));
+										(i + sel.start_line)));
 
 		lines[i]   = sci_get_line(doc->editor->sci,
-										(i + sel->start_line));
+										(i + sel.start_line));
 	}
 
 	gchar *new_file  = g_malloc(sizeof(gchar) * (num_chars + 1));
 	new_file[0]      = '\0';
 
 	/* select lines that will be replaced with array */
-	select_lines(doc->editor, sel);
+	select_lines(doc->editor, &sel);
 
 	sci_start_undo_action(doc->editor->sci);
 
@@ -202,9 +197,7 @@ action_indir_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 	sci_replace_sel(doc->editor->sci, new_file);
 
 	/* select affected lines and set statusbar message */
-	user_indicate(doc->editor, lines_affected, sel);
-
-	g_free(sel);
+	user_indicate(doc->editor, lines_affected, &sel);
 
 	sci_end_undo_action(doc->editor->sci);
 
@@ -227,26 +220,19 @@ action_sci_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 	/* function pointer to gdata -- function to be used */
 	gint (*func)(ScintillaObject *, gint, gint) = gdata;
 	GeanyDocument *doc  = document_get_current();
-
 	g_return_if_fail(doc != NULL);
 
-	struct lo_lines *sel = g_malloc(sizeof(struct lo_lines));
-	sel->is_selection    = FALSE;
-	sel->start_line      = 0;
-	sel->end_line        = 0;
-
-	get_current_sel_lines(doc->editor->sci, sel);
+	struct lo_lines sel;
+	get_current_sel_lines(doc->editor->sci, &sel);
 	gint lines_affected = 0;
 
 	sci_start_undo_action(doc->editor->sci);
 
-	lines_affected = func(doc->editor->sci, sel->start_line, sel->end_line);
+	lines_affected = func(doc->editor->sci, sel.start_line, sel.end_line);
 
 
 	/* put message in ui_statusbar, and highlight lines that were affected */
-	user_indicate(doc->editor, lines_affected, sel);
-
-	g_free(sel);
+	user_indicate(doc->editor, lines_affected, &sel);
 
 	sci_end_undo_action(doc->editor->sci);
 }
