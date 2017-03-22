@@ -95,6 +95,10 @@ The *pastebin* section is required, and must contain at least the *name* and
 	The URL to which submit the data.  This key is required.
 *method*
 	The HTTP method to use to submit the data.  Defaults to ``POST``.
+*content-type*
+	The Content-Type the request body should be sent in.  Currently supported
+	types include ``application/x-www-form-urlencoded`` and ``application/json``.
+	Defaults to ``application/x-www-form-urlencoded``.
 
 *[format]* section
 ++++++++++++++++++
