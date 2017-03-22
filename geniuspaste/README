@@ -67,7 +67,7 @@ Placeholders
 
 Values from the `[format] section`_ and the *replace* key in the `[parse]
 section`_ can contain references to placeholders with the syntax ``%name%``
-(i.e. ``%contents%``).
+(e.g. ``%contents%``).
 Custom placeholders can be defined in the `[defaults] section`_.
 
 The builtin placeholders are:
@@ -121,7 +121,7 @@ enable response body parsing, and it will use the default *search* and
 *search*
 	A regular expression (PCRE) pattern to match against the pastebin
 	service's raw response data.
-	Defaults to ``^[[:space:]]*(.+?)[[:space:]]*$``, e.g. capture everything
+	Defaults to ``^[[:space:]]*(.+?)[[:space:]]*$``, i.e. capture everything
 	but the leading and trailing whitespaces.
 *replace*
 	The final URL, with regular expression capture groups from *search*
