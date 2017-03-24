@@ -196,7 +196,6 @@ gwh_settings_install_property (GwhSettings *self,
         break;
     
     HANDLE_BASIC_TYPE (BOOLEAN, Boolean, boolean)
-    HANDLE_BASIC_TYPE (CHAR,    Char,    char)
     HANDLE_BASIC_TYPE (UCHAR,   UChar,   uchar)
     HANDLE_BASIC_TYPE (INT,     Int,     int)
     HANDLE_BASIC_TYPE (UINT,    UInt,    uint)
@@ -211,7 +210,12 @@ gwh_settings_install_property (GwhSettings *self,
     HANDLE_BASIC_TYPE (STRING,  String,  string)
     
     #undef HANDLE_BASIC_TYPE
-    
+
+    /* remove depricated function g_value_set_char and replace w/ this. */
+    case G_TYPE_CHAR:
+    	g_value_set_schar(value, (gint8)((GParamSpecChar*)pspec)->default_value);
+        break;
+
     case G_TYPE_PARAM:
     case G_TYPE_BOXED:
     case G_TYPE_POINTER:
