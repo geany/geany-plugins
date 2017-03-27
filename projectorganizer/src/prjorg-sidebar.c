@@ -1163,6 +1163,9 @@ static gboolean expand_path(gchar *utf8_expanded_path, gboolean select)
 	GSList *elem;
 	GtkTreeModel *model;
 
+	if (!prj_org)
+		return FALSE;
+
 	model = GTK_TREE_MODEL(s_file_store);
 	gtk_tree_model_iter_children(model, &root_iter, NULL);
 	foreach_slist (elem, prj_org->roots)
