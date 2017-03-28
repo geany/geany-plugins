@@ -15,7 +15,6 @@ services, but more can be added:
 	* pastebin.geany.org
 	* paste.debian.net
 	* sprunge.us
-	* tinypaste.com
 
 GeniusPaste detects automatically the syntax of the code and pastes it
 with syntax highlighting enabled.
