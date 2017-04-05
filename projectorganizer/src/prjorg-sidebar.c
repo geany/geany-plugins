@@ -1221,7 +1221,10 @@ static gboolean expand_on_idle(ExpandData *expand_data)
 {
 	GeanyDocument *doc = document_get_current();
 
-	if (prj_org && geany_data->app->project == expand_data->project &&
+	if (!prj_org)
+		return FALSE;
+
+	if (geany_data->app->project == expand_data->project &&
 		expand_data->expanded_paths)
 	{
 		gchar *item;
