@@ -48,13 +48,6 @@ typedef enum
 	MATCH_PATTERN
 } MatchType;
 
-typedef struct
-{
-	GeanyProject *project;
-	GPtrArray *expanded_paths;
-} ExpandData;
-
-
 static GdkColor s_external_color;
 static GtkWidget *s_toolbar = NULL;
 static gboolean s_pending_reload = FALSE;
@@ -1217,24 +1210,22 @@ static gboolean expand_path(gchar *utf8_expanded_path, gboolean select)
 }
 
 
-static gboolean expand_on_idle(ExpandData *expand_data)
+static gboolean expand_on_idle(gpointer ptr)
 {
 	GeanyDocument *doc = document_get_current();
 
-	if (prj_org && geany_data->app->project == expand_data->project &&
-		expand_data->expanded_paths)
+	if (ptr)
 	{
+		GPtrArray *expanded_paths = ptr;
 		gchar *item;
 		guint i;
 
-		foreach_ptr_array(item, i, expand_data->expanded_paths)
+		foreach_ptr_array(item, i, expanded_paths)
 			expand_path(item, FALSE);
-		g_ptr_array_free(expand_data->expanded_paths, TRUE);
+		g_ptr_array_free(expanded_paths, TRUE);
 	}
 
-	g_free(expand_data);
-
-	if (!s_follow_editor || !doc || !doc->file_name)
+	if (!s_follow_editor || !doc || !doc->file_name || !geany_data->app->project || !prj_org)
 		return FALSE;
 
 	expand_path(doc->file_name, TRUE);
@@ -1290,13 +1281,11 @@ static GPtrArray *get_expanded_paths(void)
 
 void prjorg_sidebar_update(gboolean reload)
 {
-	ExpandData *expand_data = g_new0(ExpandData, 1);
-
-	expand_data->project = geany_data->app->project;
+	GPtrArray *expanded_paths = NULL;
 
 	if (reload)
 	{
-		expand_data->expanded_paths = get_expanded_paths();
+		expanded_paths = get_expanded_paths();
 
 		load_project();
 		/* we get color information only after the sidebar is realized -
@@ -1306,7 +1295,7 @@ void prjorg_sidebar_update(gboolean reload)
 	}
 
 	/* perform on idle - avoids unnecessary jumps on project load */
-	plugin_idle_add(geany_plugin, (GSourceFunc)expand_on_idle, expand_data);
+	plugin_idle_add(geany_plugin, (GSourceFunc)expand_on_idle, expanded_paths);
 }
 
 
