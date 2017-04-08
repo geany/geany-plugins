@@ -15,7 +15,6 @@ services, but more can be added:
 	* pastebin.geany.org
 	* paste.debian.net
 	* sprunge.us
-	* tinypaste.com
 
 GeniusPaste detects automatically the syntax of the code and pastes it
 with syntax highlighting enabled.
@@ -67,7 +66,7 @@ Placeholders
 
 Values from the `[format] section`_ and the *replace* key in the `[parse]
 section`_ can contain references to placeholders with the syntax ``%name%``
-(i.e. ``%contents%``).
+(e.g. ``%contents%``).
 Custom placeholders can be defined in the `[defaults] section`_.
 
 The builtin placeholders are:
@@ -95,6 +94,10 @@ The *pastebin* section is required, and must contain at least the *name* and
 	The URL to which submit the data.  This key is required.
 *method*
 	The HTTP method to use to submit the data.  Defaults to ``POST``.
+*content-type*
+	The Content-Type the request body should be sent in.  Currently supported
+	types include ``application/x-www-form-urlencoded`` and ``application/json``.
+	Defaults to ``application/x-www-form-urlencoded``.
 
 *[format]* section
 ++++++++++++++++++
@@ -121,7 +124,7 @@ enable response body parsing, and it will use the default *search* and
 *search*
 	A regular expression (PCRE) pattern to match against the pastebin
 	service's raw response data.
-	Defaults to ``^[[:space:]]*(.+?)[[:space:]]*$``, e.g. capture everything
+	Defaults to ``^[[:space:]]*(.+?)[[:space:]]*$``, i.e. capture everything
 	but the leading and trailing whitespaces.
 *replace*
 	The final URL, with regular expression capture groups from *search*

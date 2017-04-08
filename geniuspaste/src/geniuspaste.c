@@ -50,16 +50,17 @@
 #define GTK_COMBO_BOX_TEXT             GTK_COMBO_BOX
 #endif
 
-#define PASTEBIN_GROUP_DEFAULTS             "defaults"
-#define PASTEBIN_GROUP_FORMAT               "format"
-#define PASTEBIN_GROUP_LANGUAGES            "languages"
-#define PASTEBIN_GROUP_PARSE                "parse"
-#define PASTEBIN_GROUP_PARSE_KEY_SEARCH     "search"
-#define PASTEBIN_GROUP_PARSE_KEY_REPLACE    "replace"
-#define PASTEBIN_GROUP_PASTEBIN             "pastebin"
-#define PASTEBIN_GROUP_PASTEBIN_KEY_NAME    "name"
-#define PASTEBIN_GROUP_PASTEBIN_KEY_URL     "url"
-#define PASTEBIN_GROUP_PASTEBIN_KEY_METHOD  "method"
+#define PASTEBIN_GROUP_DEFAULTS                     "defaults"
+#define PASTEBIN_GROUP_FORMAT                       "format"
+#define PASTEBIN_GROUP_LANGUAGES                    "languages"
+#define PASTEBIN_GROUP_PARSE                        "parse"
+#define PASTEBIN_GROUP_PARSE_KEY_SEARCH             "search"
+#define PASTEBIN_GROUP_PARSE_KEY_REPLACE            "replace"
+#define PASTEBIN_GROUP_PASTEBIN                     "pastebin"
+#define PASTEBIN_GROUP_PASTEBIN_KEY_NAME            "name"
+#define PASTEBIN_GROUP_PASTEBIN_KEY_URL             "url"
+#define PASTEBIN_GROUP_PASTEBIN_KEY_METHOD          "method"
+#define PASTEBIN_GROUP_PASTEBIN_KEY_CONTENT_TYPE    "content-type"
 
 GeanyPlugin *geany_plugin;
 GeanyData *geany_data;
@@ -72,6 +73,13 @@ typedef struct
     GKeyFile *config;
 }
 Pastebin;
+
+typedef enum
+{
+    FORMAT_HTML_FORM_URLENCODED,
+    FORMAT_JSON
+}
+Format;
 
 GSList *pastebins = NULL;
 
@@ -503,9 +511,93 @@ static gchar *regex_replace(const gchar  *pattern,
     return result;
 }
 
-static void free_data_item(GQuark id, gpointer data, gpointer user_data)
+static Format pastebin_get_format(const Pastebin *pastebin)
 {
-    g_free(data);
+    static const struct
+    {
+        const gchar *name;
+        Format       format;
+    } formats[] = {
+        { "application/x-www-form-urlencoded",  FORMAT_HTML_FORM_URLENCODED },
+        { "application/json",                   FORMAT_JSON }
+    };
+    Format result = FORMAT_HTML_FORM_URLENCODED;
+    gchar *format = utils_get_setting_string(pastebin->config, PASTEBIN_GROUP_PASTEBIN,
+                                             PASTEBIN_GROUP_PASTEBIN_KEY_CONTENT_TYPE, NULL);
+
+    if (format)
+    {
+        for (guint i = 0; i < G_N_ELEMENTS(formats); i++)
+        {
+            if (strcmp(formats[i].name, format) == 0)
+            {
+                result = formats[i].format;
+                break;
+            }
+        }
+
+        g_free(format);
+    }
+
+    return result;
+}
+
+/* Appends a JSON string.  See:
+ * http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf */
+static void append_json_string(GString *str, const gchar *value)
+{
+    g_string_append_c(str, '"');
+    for (; *value; value++)
+    {
+        if (*value == '"' || *value == '\\')
+        {
+            g_string_append_c(str, '\\');
+            g_string_append_c(str, *value);
+        }
+        else if (*value == '\b')
+            g_string_append(str, "\\b");
+        else if (*value == '\f')
+            g_string_append(str, "\\f");
+        else if (*value == '\n')
+            g_string_append(str, "\\n");
+        else if (*value == '\r')
+            g_string_append(str, "\\r");
+        else if (*value == '\t')
+            g_string_append(str, "\\t");
+        else if (*value >= 0x00 && *value <= 0x1F)
+            g_string_append_printf(str, "\\u%04d", *value);
+        else
+            g_string_append_c(str, *value);
+    }
+    g_string_append_c(str, '"');
+}
+
+static void append_json_data_item(GQuark id, gpointer data, gpointer user_data)
+{
+    GString *str = user_data;
+
+    if (str->len > 1) /* if there's more than the first "{" */
+        g_string_append_c(str, ',');
+    append_json_string(str, g_quark_to_string(id));
+    g_string_append_c(str, ':');
+    append_json_string(str, data);
+}
+
+static SoupMessage *json_request_new(const gchar *method,
+                                     const gchar *url,
+                                     GData **fields)
+{
+    SoupMessage  *msg = soup_message_new(method, url);
+    GString      *str = g_string_new(NULL);
+
+    g_string_append_c(str, '{');
+    g_datalist_foreach(fields, append_json_data_item, str);
+    g_string_append_c(str, '}');
+    soup_message_set_request(msg, "application/json", SOUP_MEMORY_TAKE,
+                             str->str, str->len);
+    g_string_free(str, FALSE);
+
+    return msg;
 }
 
 /* sends data to @pastebin and returns the raw response */
@@ -516,6 +608,7 @@ static SoupMessage *pastebin_soup_message_new(const Pastebin  *pastebin,
     SoupMessage *msg;
     gchar *url;
     gchar *method;
+    Format format;
     gsize n_fields;
     gchar **fields;
     GData *data;
@@ -527,6 +620,7 @@ static SoupMessage *pastebin_soup_message_new(const Pastebin  *pastebin,
                                    PASTEBIN_GROUP_PASTEBIN_KEY_URL, NULL);
     method = utils_get_setting_string(pastebin->config, PASTEBIN_GROUP_PASTEBIN,
                                       PASTEBIN_GROUP_PASTEBIN_KEY_METHOD, "POST");
+    format = pastebin_get_format(pastebin);
     /* prepare the form data */
     fields = g_key_file_get_keys(pastebin->config, PASTEBIN_GROUP_FORMAT, &n_fields, NULL);
     g_datalist_init(&data);
@@ -536,11 +630,20 @@ static SoupMessage *pastebin_soup_message_new(const Pastebin  *pastebin,
                                              fields[i], NULL);
 
         SETPTR(value, expand_placeholders(value, pastebin, doc, contents));
-        g_datalist_set_data(&data, fields[i], value);
+        g_datalist_set_data_full(&data, fields[i], value, g_free);
     }
     g_strfreev(fields);
-    msg = soup_form_request_new_from_datalist(method, url, &data);
-    g_datalist_foreach(&data, free_data_item, NULL);
+    switch (format)
+    {
+        case FORMAT_JSON:
+            msg = json_request_new(method, url, &data);
+            break;
+
+        default:
+        case FORMAT_HTML_FORM_URLENCODED:
+            msg = soup_form_request_new_from_datalist(method, url, &data);
+            break;
+    }
     g_datalist_clear(&data);
 
     return msg;
