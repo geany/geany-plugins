@@ -2,6 +2,12 @@
 Geany-Plugins
 ===============
 
+Status
+------
+
+.. image:: https://travis-ci.org/geany/geany-plugins.svg?branch=master
+    :target: https://travis-ci.org/geany/geany-plugins
+    
 Installation
 ------------
 
