@@ -1,5 +1,5 @@
 # German translation for geany-plugins
-# Copyright (C) 2009-2016 THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) 2009-2017 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 # Andrew Janke <a.janke@gmail.com>, 2009
 # Fabian Nowak <timystery@arcor.de>, 2012
@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-22 18:17+0100\n"
+"POT-Creation-Date: 2017-04-12 23:12+0200\n"
 "PO-Revision-Date: 2016-08-08 22:38+0200\n"
 "Last-Translator: Dominic Hopf <dmaphy@googlemail.com>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -195,7 +195,7 @@ msgstr "XML-Tagging ausführen"
 #: ../addons/src/addons.c:453 ../autoclose/src/autoclose.c:884
 #: ../codenav/src/codenavigation.c:292 ../geanylatex/src/geanylatex.c:240
 #: ../geanyprj/src/geanyprj.c:173 ../geanyvc/src/geanyvc.c:1849
-#: ../geniuspaste/src/geniuspaste.c:318 ../sendmail/src/sendmail.c:128
+#: ../geniuspaste/src/geniuspaste.c:326 ../sendmail/src/sendmail.c:128
 #: ../sendmail/src/sendmail.c:293 ../spellcheck/src/scplugin.c:157
 #: ../treebrowser/src/treebrowser.c:1941
 #: ../updatechecker/src/updatechecker.c:266
@@ -1335,28 +1335,28 @@ msgid "_Match type:"
 msgstr "_Typ:"
 
 #: ../geanyctags/src/geanyctags.c:552
-#: ../projectorganizer/src/prjorg-sidebar.c:476
+#: ../projectorganizer/src/prjorg-sidebar.c:483
 msgid "exact"
 msgstr "exakt"
 
 #: ../geanyctags/src/geanyctags.c:553
-#: ../projectorganizer/src/prjorg-sidebar.c:477
+#: ../projectorganizer/src/prjorg-sidebar.c:484
 msgid "prefix"
 msgstr "Präfix"
 
 #: ../geanyctags/src/geanyctags.c:554
-#: ../projectorganizer/src/prjorg-sidebar.c:478
+#: ../projectorganizer/src/prjorg-sidebar.c:485
 msgid "pattern"
 msgstr "Muster"
 
 #: ../geanyctags/src/geanyctags.c:563
-#: ../projectorganizer/src/prjorg-sidebar.c:155
-#: ../projectorganizer/src/prjorg-sidebar.c:499
+#: ../projectorganizer/src/prjorg-sidebar.c:162
+#: ../projectorganizer/src/prjorg-sidebar.c:506
 msgid "C_ase sensitive"
 msgstr "_Groß-/Kleinschreibung beachten"
 
 #: ../geanyctags/src/geanyctags.c:566
-#: ../projectorganizer/src/prjorg-sidebar.c:502
+#: ../projectorganizer/src/prjorg-sidebar.c:509
 msgid "_Declaration"
 msgstr "_Deklaration"
 
@@ -3818,7 +3818,7 @@ msgstr "_OK"
 
 #: ../geanymacro/src/geanymacro.c:1394 ../geanymacro/src/geanymacro.c:1537
 #: ../geanymacro/src/geanymacro.c:1827
-#: ../projectorganizer/src/prjorg-sidebar.c:299
+#: ../projectorganizer/src/prjorg-sidebar.c:306
 msgid "_Cancel"
 msgstr "_Abbrechen"
 
@@ -3836,8 +3836,8 @@ msgid "Search for contents of clipboard"
 msgstr "Suchen nach Inhalten aus der Zwischenablage"
 
 #: ../geanymacro/src/geanymacro.c:1424
-#: ../projectorganizer/src/prjorg-sidebar.c:127
-#: ../projectorganizer/src/prjorg-sidebar.c:453
+#: ../projectorganizer/src/prjorg-sidebar.c:134
+#: ../projectorganizer/src/prjorg-sidebar.c:460
 msgid "Search for:"
 msgstr "Suchen nach:"
 
@@ -4589,11 +4589,11 @@ msgstr "Im Projekt suchen"
 msgid "Remove File"
 msgstr "Datei entfernen"
 
-#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1484
+#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1498
 msgid "H_ide Sidebar"
 msgstr "Seitenleiste _verstecken"
 
-#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1506
+#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1520
 msgid "Project"
 msgstr "Projekt"
 
@@ -4996,25 +4996,25 @@ msgstr "Ein_tragen (commit)"
 msgid "Commit changes."
 msgstr "Änderungen eintragen."
 
-#: ../geniuspaste/src/geniuspaste.c:93
+#: ../geniuspaste/src/geniuspaste.c:101
 msgid "Paste your code on your favorite pastebin"
 msgstr "Quelltexte bei bevorzugter Code-Ablagestelle hinterlegen"
 
-#: ../geniuspaste/src/geniuspaste.c:114
+#: ../geniuspaste/src/geniuspaste.c:122
 #, c-format
 msgid "Group \"%s\" not found."
 msgstr "Gruppe »%s« konnte nicht gefunden werden."
 
-#: ../geniuspaste/src/geniuspaste.c:133
+#: ../geniuspaste/src/geniuspaste.c:141
 #, c-format
 msgid "Group \"%s\" has no key \"%s\"."
 msgstr "Gruppe »%s« hat keinen Eintrag »%s«."
 
-#: ../geniuspaste/src/geniuspaste.c:678
+#: ../geniuspaste/src/geniuspaste.c:781
 msgid "Invalid pastebin service."
 msgstr "Ungültiger Dienst"
 
-#: ../geniuspaste/src/geniuspaste.c:679
+#: ../geniuspaste/src/geniuspaste.c:782
 #, c-format
 msgid ""
 "Unknown pastebin service \"%s\". Select an existing pastebin service in the "
@@ -5024,15 +5024,15 @@ msgstr ""
 "Dienst in den Einstellungen oder erstelle eine neue Konfiguration und "
 "versuche es erneut."
 
-#: ../geniuspaste/src/geniuspaste.c:691
+#: ../geniuspaste/src/geniuspaste.c:794
 msgid "Refusing to create blank paste"
 msgstr "Ein leeres Dokument kann nicht hochgeladen werden."
 
-#: ../geniuspaste/src/geniuspaste.c:711
+#: ../geniuspaste/src/geniuspaste.c:814
 msgid "Failed to paste the code"
 msgstr "Konnten die Inhalte nicht senden"
 
-#: ../geniuspaste/src/geniuspaste.c:712
+#: ../geniuspaste/src/geniuspaste.c:815
 #, c-format
 msgid ""
 "Error pasting the code to the pastebin service %s.\n"
@@ -5045,13 +5045,13 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../geniuspaste/src/geniuspaste.c:716
+#: ../geniuspaste/src/geniuspaste.c:819
 msgid "Check your connection or the pastebin configuration and retry."
 msgstr ""
 "Überprüfen Sie Ihre Internet-Verbindung sowie die Konfiguration und "
 "versuchen es erneut."
 
-#: ../geniuspaste/src/geniuspaste.c:718
+#: ../geniuspaste/src/geniuspaste.c:821
 msgid ""
 "Wait for the service to come back and retry, or retry with another pastebin "
 "service."
@@ -5059,15 +5059,15 @@ msgstr ""
 "Warten Sie, bis der Dienst wieder verfügbar ist, oder versuchen Sie einen "
 "anderen Dienst."
 
-#: ../geniuspaste/src/geniuspaste.c:720 ../geniuspaste/src/geniuspaste.c:737
+#: ../geniuspaste/src/geniuspaste.c:823 ../geniuspaste/src/geniuspaste.c:840
 msgid "Check the pastebin configuration and retry."
 msgstr "Bitte überprüfen Sie die Konfigurationen und versuchen Sie es erneut."
 
-#: ../geniuspaste/src/geniuspaste.c:731
+#: ../geniuspaste/src/geniuspaste.c:834
 msgid "Failed to obtain paste URL."
 msgstr "Konnte die URL des Pastebin-Dienstes nicht herausfinden."
 
-#: ../geniuspaste/src/geniuspaste.c:732
+#: ../geniuspaste/src/geniuspaste.c:835
 #, c-format
 msgid ""
 "The code was successfully pasted on %s, but an error occurred trying to "
@@ -5080,15 +5080,15 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../geniuspaste/src/geniuspaste.c:736
+#: ../geniuspaste/src/geniuspaste.c:839
 msgid "Unexpected response from the pastebin service."
 msgstr "Unerwartete Antwort des Pastebin-Dienstes."
 
-#: ../geniuspaste/src/geniuspaste.c:749
+#: ../geniuspaste/src/geniuspaste.c:852
 msgid "Paste Successful"
 msgstr "Das Hochladen war erfolgreich."
 
-#: ../geniuspaste/src/geniuspaste.c:750
+#: ../geniuspaste/src/geniuspaste.c:853
 #, c-format
 msgid ""
 "Your paste can be found here:\n"
@@ -5097,29 +5097,29 @@ msgstr ""
 "Der gesendete Inhalt kann jetzt hier betrachtet werden: <a href=\"%s\" title="
 "\"Klicken, um im Browser betrachtet zu werden\">%s</a>"
 
-#: ../geniuspaste/src/geniuspaste.c:768
+#: ../geniuspaste/src/geniuspaste.c:871
 msgid "There are no opened documents. Open one and retry.\n"
 msgstr ""
 "Momentan sind keine Dokumente geöffnet. Öffnen Sie eines und versuchen Sie "
 "es erneut.\n"
 
-#: ../geniuspaste/src/geniuspaste.c:781
+#: ../geniuspaste/src/geniuspaste.c:884
 msgid "The author name field is empty!"
 msgstr "Der Autorenname ist leer"
 
-#: ../geniuspaste/src/geniuspaste.c:801
+#: ../geniuspaste/src/geniuspaste.c:904
 msgid "Select a pastebin:"
 msgstr "Code-Ablagestelle:"
 
-#: ../geniuspaste/src/geniuspaste.c:804
+#: ../geniuspaste/src/geniuspaste.c:907
 msgid "Enter the author name:"
 msgstr "Autorenname:"
 
-#: ../geniuspaste/src/geniuspaste.c:825
+#: ../geniuspaste/src/geniuspaste.c:928
 msgid "Show your paste in a new browser tab"
 msgstr "Code-Ablage in einem neuen Reiter im Browser zeigen"
 
-#: ../geniuspaste/src/geniuspaste.c:846
+#: ../geniuspaste/src/geniuspaste.c:949
 msgid "_Paste it!"
 msgstr "Zu _Pastebin senden"
 
@@ -5221,33 +5221,37 @@ msgstr "Entferne doppelte Zeilen (_Reihenfolge des Auftretens)"
 
 #: ../lineoperations/src/lineoperations.c:258
 msgid "Remove _Unique Lines"
-msgstr "Entferne _einzelne Zeilen"
+msgstr "Entferne _einmalige Zeilen"
 
-#: ../lineoperations/src/lineoperations.c:261
+#: ../lineoperations/src/lineoperations.c:260
+msgid "Keep _Unique Lines"
+msgstr "Einmalige Zeilen _behalten"
+
+#: ../lineoperations/src/lineoperations.c:263
 msgid "Remove _Empty Lines"
 msgstr "Entferne leere Zeilen"
 
-#: ../lineoperations/src/lineoperations.c:263
+#: ../lineoperations/src/lineoperations.c:265
 msgid "Remove _Whitespace Lines"
 msgstr "Entferne Zeilen mit Leerzeichen"
 
-#: ../lineoperations/src/lineoperations.c:266
+#: ../lineoperations/src/lineoperations.c:268
 msgid "Sort Lines _Ascending"
 msgstr "Sortiere Zeilen, _aufsteigend"
 
-#: ../lineoperations/src/lineoperations.c:268
+#: ../lineoperations/src/lineoperations.c:270
 msgid "Sort Lines _Descending"
 msgstr "Sortiere Zeilen, a_bsteigend"
 
-#: ../lineoperations/src/lineoperations.c:272
+#: ../lineoperations/src/lineoperations.c:274
 msgid "_Line Operations"
 msgstr "Zeilenoperationen"
 
-#: ../lineoperations/src/lineoperations.c:318
+#: ../lineoperations/src/lineoperations.c:320
 msgid "Line Operations"
 msgstr "Zeilenoperationen"
 
-#: ../lineoperations/src/lineoperations.c:319
+#: ../lineoperations/src/lineoperations.c:321
 msgid ""
 "Line Operations provides a handful of functions that can be applied to a "
 "document or selection such as, removing duplicate lines, removing empty "
@@ -6053,85 +6057,85 @@ msgstr ""
 "Datei-Muster innerhalb des Projekt-Reiters -- auch für den »In Dateien "
 "suchen«-Dialog eingeschränkt werden."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:116
+#: ../projectorganizer/src/prjorg-sidebar.c:123
 msgid "Find File"
 msgstr "Datei suchen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:143
-#: ../projectorganizer/src/prjorg-sidebar.c:487
+#: ../projectorganizer/src/prjorg-sidebar.c:150
+#: ../projectorganizer/src/prjorg-sidebar.c:494
 msgid "Search inside:"
 msgstr "Suchen in:"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:158
+#: ../projectorganizer/src/prjorg-sidebar.c:165
 msgid "Search in full path"
 msgstr "Im vollen Pfad suchen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:169
-#: ../projectorganizer/src/prjorg-sidebar.c:650
+#: ../projectorganizer/src/prjorg-sidebar.c:176
+#: ../projectorganizer/src/prjorg-sidebar.c:657
 msgid "project or external directory"
 msgstr "Projekt oder externen Verzeichnis"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:297
+#: ../projectorganizer/src/prjorg-sidebar.c:304
 msgid "Add External Directory"
 msgstr "Externes Verzeichnis hinzufügen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:300
+#: ../projectorganizer/src/prjorg-sidebar.c:307
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:442
+#: ../projectorganizer/src/prjorg-sidebar.c:449
 msgid "Find Symbol"
 msgstr "Symbol finden"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:471
+#: ../projectorganizer/src/prjorg-sidebar.c:478
 msgid "Match type:"
 msgstr "Typ:"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1061
+#: ../projectorganizer/src/prjorg-sidebar.c:1068
 msgid "Set file patterns under Project->Properties"
 msgstr "Dateimuster unter Projekt->Eigenschaften definieren"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1341
+#: ../projectorganizer/src/prjorg-sidebar.c:1355
 msgid "Reload all"
 msgstr "Alle neuladen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1350
+#: ../projectorganizer/src/prjorg-sidebar.c:1364
 msgid "Add external directory"
 msgstr "Externes Verzeichnis hinzufügen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1360
+#: ../projectorganizer/src/prjorg-sidebar.c:1374
 msgid "Expand all"
 msgstr "Alle ausklappen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1367
+#: ../projectorganizer/src/prjorg-sidebar.c:1381
 msgid "Collapse to project root"
 msgstr "Zusammenfalten bis Projektwurzel"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1378
+#: ../projectorganizer/src/prjorg-sidebar.c:1392
 msgid "Follow active editor"
 msgstr "Aktiven Editor folgen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1424
+#: ../projectorganizer/src/prjorg-sidebar.c:1438
 msgid "Open a project to start using the plugin"
 msgstr "Ein Projekt zum Starten des Plugins öffnen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1433
+#: ../projectorganizer/src/prjorg-sidebar.c:1447
 msgid "Expand All"
 msgstr "Alle ausklappen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1442
+#: ../projectorganizer/src/prjorg-sidebar.c:1456
 msgid "Find in Files..."
 msgstr "In Dateien finden..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1451
+#: ../projectorganizer/src/prjorg-sidebar.c:1465
 msgid "Find File..."
 msgstr "Datei suchen..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1460
+#: ../projectorganizer/src/prjorg-sidebar.c:1474
 msgid "Find Symbol..."
 msgstr "Symbol finden..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1473
+#: ../projectorganizer/src/prjorg-sidebar.c:1487
 msgid "Remove External Directory"
 msgstr "Externes Verzeichnis entfernen"
 
@@ -7667,7 +7671,6 @@ msgid "Create New Directory"
 msgstr "Neues Verzeichnis erstellen"
 
 #: ../treebrowser/src/treebrowser.c:2148
-#, fuzzy
 msgid "Track Current"
 msgstr "Pfad aufzeichnen"
 
