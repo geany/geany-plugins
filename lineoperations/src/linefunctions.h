@@ -45,6 +45,11 @@ gint
 rmunqln(gchar **lines, gint num_lines, gchar *new_file);
 
 
+/* Keep Unique Lines */
+gint
+kpunqln(gchar **lines, gint num_lines, gchar *new_file);
+
+
 /* Remove Empty Lines */
 gint
 rmemtyln(ScintillaObject *sci, gint line_num, gint end_line_num);
