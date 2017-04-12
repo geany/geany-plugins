@@ -16,6 +16,7 @@ Features
 * Remove Duplicate Lines, sorted
 * Remove Duplicate Lines, ordered
 * Remove Unique Lines
+* Keep Unique Lines
 * Remove Empty Lines
 * Remove Whitespace Lines
 * Sort Lines Ascending
@@ -112,6 +113,32 @@ Removes all lines that appear only once.
     Line 2
     Line 1
     Line 2
+
+
+Keep Unique Lines
+-------------------
+
+Keep all lines that appear only once.
+
+  Example: Suppose a file has the following lines. (#comments added for 
+  clarity)
+
+  ::
+
+    Line 4
+    Line 1    #removed
+    Line 2    #removed
+    Line 3
+    Line 1    #removed
+    Line 2    #removed
+
+  The **Keep Unique Lines** will change the file into this:
+
+  ::
+
+    Line 4
+    Line 3
+
 
 Remove Empty Lines
 ------------------

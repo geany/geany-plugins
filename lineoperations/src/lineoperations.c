@@ -257,6 +257,8 @@ lo_init(GeanyPlugin *plugin, gpointer gdata)
 		  G_CALLBACK(action_indir_manip_item), (gpointer) rmdupln },
 		{ N_("Remove _Unique Lines"),
 		  G_CALLBACK(action_indir_manip_item), (gpointer) rmunqln },
+		{ N_("Keep _Unique Lines"),
+		  G_CALLBACK(action_indir_manip_item), (gpointer) kpunqln },
 		{ NULL },
 		{ N_("Remove _Empty Lines"),
 		  G_CALLBACK(action_sci_manip_item), (gpointer) rmemtyln },

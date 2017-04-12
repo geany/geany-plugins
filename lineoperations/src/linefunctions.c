@@ -159,6 +159,50 @@ rmunqln(gchar **lines, gint num_lines, gchar *new_file)
 }
 
 
+/* Keep Unique Lines */
+gint
+kpunqln(gchar **lines, gint num_lines, gchar *new_file)
+{
+	gchar *nf_end = new_file;   /* points to last char of new_file */
+	gint  i       = 0;          /* iterator */
+	gint  j       = 0;          /* iterator */
+	gboolean *to_remove = NULL; /* to 'mark' which lines to remove */
+	gint  changed = 0;          /* number of lines removed */
+
+
+	/* allocate and set *to_remove to all FALSE
+	 * to_remove[i] represents whether lines[i] should be removed */
+	to_remove = g_malloc(sizeof(gboolean) * num_lines);
+	for(i = 0; i < num_lines; i++)
+		to_remove[i] = FALSE;
+	
+	/* find all non unique lines and set them to TRUE (to be removed) */
+	for(i = 0; i < num_lines; i++)
+		/* make sure that the line is not already determined to be non unique */
+		if(!to_remove[i])
+			for(j = (i+1); j < num_lines; j++)
+				if(!to_remove[j] && strcmp(lines[i], lines[j]) == 0)
+				{
+					to_remove[i] = TRUE;
+					to_remove[j] = TRUE;
+				}
+	
+	/* copy **lines into 'new_file' if it is not FALSE(not duplicate) */
+	for(i = 0; i < num_lines; i++)
+		if(!to_remove[i])
+		{
+			changed++;     /* number of lines kept */
+			nf_end = g_stpcpy(nf_end, lines[i]);
+		}
+
+	/* free used memory */
+	g_free(to_remove);
+
+	/* return the number of lines deleted */
+	return -(num_lines - changed);
+}
+
+
 /* Remove Empty Lines */
 gint
 rmemtyln(ScintillaObject *sci, gint line_num, gint end_line_num)
