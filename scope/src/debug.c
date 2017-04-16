@@ -458,7 +458,7 @@ static void load_program(void)
 	}
 	else
 	{
-		show_error(_("%s."), gerror->message);
+		show_error(_("%s: %s."), pref_gdb_executable, gerror->message);
 		g_error_free(gerror);
 	}
 
