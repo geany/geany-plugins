@@ -172,6 +172,13 @@ static gboolean on_editor_button_press_event(GtkWidget *widget, GdkEventButton *
 }
 
 
+void ao_mark_document_new(AoMarkWord *mw, GeanyDocument *document)
+{
+	/* there is nothing different to handling open documents, so do the same */
+	ao_mark_document_open(mw, document);
+}
+
+
 void ao_mark_document_open(AoMarkWord *mw, GeanyDocument *document)
 {
 	g_return_if_fail(DOC_VALID(document));
