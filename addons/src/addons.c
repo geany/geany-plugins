@@ -104,6 +104,7 @@ static AddonsInfo *ao_info = NULL;
 static void ao_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 									 GeanyDocument *doc, gpointer data);
 static void ao_document_activate_cb(GObject *obj, GeanyDocument *doc, gpointer data);
+static void ao_document_new_cb(GObject *obj, GeanyDocument *doc, gpointer data);
 static void ao_document_open_cb(GObject *obj, GeanyDocument *doc, gpointer data);
 static void ao_document_save_cb(GObject *obj, GeanyDocument *doc, gpointer data);
 static void ao_document_before_save_cb(GObject *obj, GeanyDocument *doc, gpointer data);
@@ -120,6 +121,7 @@ PluginCallback plugin_callbacks[] =
 	{ "update-editor-menu", (GCallback) &ao_update_editor_menu_cb, FALSE, NULL },
 	{ "editor-notify", (GCallback) &ao_editor_notify_cb, TRUE, NULL },
 
+	{ "document-new", (GCallback) &ao_document_new_cb, TRUE, NULL },
 	{ "document-open", (GCallback) &ao_document_open_cb, TRUE, NULL },
 	{ "document-save", (GCallback) &ao_document_save_cb, TRUE, NULL },
 	{ "document-close", (GCallback) &ao_document_close_cb, TRUE, NULL },
@@ -196,6 +198,14 @@ static void ao_document_activate_cb(GObject *obj, GeanyDocument *doc, gpointer d
 
 	ao_bookmark_list_update(ao_info->bookmarklist, doc);
 	ao_tasks_update_single(ao_info->tasks, doc);
+}
+
+
+static void ao_document_new_cb(GObject *obj, GeanyDocument *doc, gpointer data)
+{
+	g_return_if_fail(doc != NULL && doc->is_valid);
+
+	ao_mark_document_new(ao_info->markword, doc);
 }
 
 
