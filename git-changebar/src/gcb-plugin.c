@@ -802,8 +802,11 @@ get_widget_for_buf_range (GeanyDocument *doc,
       break;
     }
   }
+  /* We need 2 extra pixels of width:
+   * 1 to avoid cropping the rightmost vertical bar of letters like H and M,
+   * 1 to avoid spurious line wrapping (issue #425). */
   gtk_widget_set_size_request (GTK_WIDGET (sci),
-                               MIN (width + 1, alloc.width),
+                               MIN (width + 2, alloc.width),
                                MIN (height + 1, alloc.height));
   
   return GTK_WIDGET (sci);
