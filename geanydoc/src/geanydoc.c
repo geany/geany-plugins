@@ -304,11 +304,13 @@ create_Interactive(const gchar * default_word)
 							GTK_STOCK_CANCEL,
 							GTK_RESPONSE_REJECT,
 							NULL);
+	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
 	dialog_vbox1 = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
 
 	entry_word = gtk_entry_new();
 	if (default_word)
 		gtk_entry_set_text(GTK_ENTRY(entry_word), default_word);
+	gtk_entry_set_activates_default(GTK_ENTRY(entry_word), TRUE);
 	gtk_widget_show(entry_word);
 	gtk_box_pack_start(GTK_BOX(dialog_vbox1), entry_word, TRUE, TRUE, 0);
 
