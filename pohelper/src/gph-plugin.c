@@ -1360,16 +1360,18 @@ on_color_button_color_notify (GtkWidget  *widget,
 static gchar *
 get_data_dir_path (const gchar *filename)
 {
-#ifdef G_OS_WIN32
-  gchar *prefix = g_win32_get_package_installation_directory_of_module (NULL);
-#else
   gchar *prefix = NULL;
+  gchar *path;
+
+#ifdef G_OS_WIN32
+  prefix = g_win32_get_package_installation_directory_of_module (NULL);
+#elif defined(__APPLE__)
+  if (g_getenv ("GEANY_PLUGINS_SHARE_PATH"))
+    return g_build_filename( g_getenv ("GEANY_PLUGINS_SHARE_PATH"), 
+                             PLUGIN, filename, NULL);
 #endif
-  gchar *path   = g_build_filename (prefix ? prefix : "", PLUGINDATADIR,
-                                    filename, NULL);
-  
+  path = g_build_filename (prefix ? prefix : "", PLUGINDATADIR, filename, NULL);
   g_free (prefix);
-  
   return path;
 }
 
