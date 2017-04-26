@@ -524,10 +524,27 @@ void configure_panel(void)
 	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(debug_panel), pref_panel_tab_pos);
 }
 
+static gchar *get_data_dir_path(const gchar *filename)
+{
+	gchar *prefix = NULL;
+	gchar *path;
+
+#ifdef G_OS_WIN32
+	prefix = g_win32_get_package_installation_directory_of_module(NULL);
+#elif defined(__APPLE__)
+	if (g_getenv("GEANY_PLUGINS_SHARE_PATH"))
+		return g_build_filename(g_getenv("GEANY_PLUGINS_SHARE_PATH"), 
+								PLUGIN, filename, NULL);
+#endif
+	path = g_build_filename(prefix ? prefix : "", PLUGINDATADIR, filename, NULL);
+	g_free(prefix);
+	return path;
+}
+
 void plugin_init(G_GNUC_UNUSED GeanyData *gdata)
 {
 	GeanyKeyGroup *scope_key_group;
-	char *gladefile = g_build_filename(PLUGINDATADIR, "scope.glade", NULL);
+	char *gladefile = get_data_dir_path("scope.glade");
 	GError *gerror = NULL;
 	GtkWidget *menubar1 = ui_lookup_widget(geany->main_widgets->window, "menubar1");
 	guint item;
