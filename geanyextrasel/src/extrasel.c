@@ -104,7 +104,12 @@ static void create_selection(ScintillaObject *sci, int anchor, int anchor_space,
 
 	sci_set_anchor_space(sci, anchor_space);
 	sci_set_cursor_space(sci, cursor_space);
-	sci_send_command(sci, SCI_CANCEL);
+
+	/* SCI bug: CANCEL may reduce a rectangle selection to a single line */
+	if (rectangle)
+		sci_set_selection_mode(sci, SC_SEL_RECTANGLE);
+	else
+		sci_send_command(sci, SCI_CANCEL);
 }
 
 static void convert_selection(ScintillaObject *sci, gboolean rectangle)
@@ -137,23 +142,16 @@ static const command_key command_keys[] =
 
 static void column_mode_command(ScintillaObject *sci, int command)
 {
-	gboolean convert = !sci_rectangle_selection(sci);
-	int anchor;
-	int anchor_space;
+	/* In the current SCI versions, using the command_keys->command for
+	   rectangular selection creates various problems. So we select a
+	   stream instead, and convert it to rectangle. It's slower, but all
+	   command-s move the cursor at least a word. */
+	int anchor = sci_get_anchor(sci);
+	int anchor_space = sci_get_anchor_space(sci);
 
-	if (convert)
-	{
-		anchor = sci_get_anchor(sci);
-		anchor_space = sci_get_anchor_space(sci);
-	}
-	sci_set_selection_mode(sci, SC_SEL_RECTANGLE);
+	sci_set_selection_mode(sci, SC_SEL_STREAM);
 	sci_send_command(sci, command);
-	if (convert)
-	{
-		sci_set_anchor(sci, anchor);
-		sci_set_anchor_space(sci, anchor_space);
-	}
-	sci_send_command(sci, SCI_CANCEL);
+	create_selection(sci, anchor, anchor_space, TRUE);
 }
 
 static gboolean on_key_press_event(GtkWidget *widget, GdkEventKey *event,
