@@ -1386,19 +1386,31 @@ on_plugin_configure_response (GtkDialog        *dialog,
   }
 }
 
+static gchar *
+get_data_dir_path (const gchar *filename)
+{
+  gchar *prefix = NULL;
+  gchar *path;
+
+#ifdef G_OS_WIN32
+  prefix = g_win32_get_package_installation_directory_of_module (NULL);
+#elif defined(__APPLE__)
+  if (g_getenv ("GEANY_PLUGINS_SHARE_PATH"))
+    return g_build_filename (g_getenv ("GEANY_PLUGINS_SHARE_PATH"), 
+                             PLUGIN, filename, NULL);
+#endif
+  path = g_build_filename (prefix ? prefix : "", PLUGINDATADIR, filename, NULL);
+  g_free (prefix);
+  return path;
+}
+
 GtkWidget *
 plugin_configure (GtkDialog *dialog)
 {
   GError     *error   = NULL;
   GtkWidget  *base    = NULL;
   GtkBuilder *builder = gtk_builder_new ();
-#ifdef G_OS_WIN32
-  gchar      *prefix  = g_win32_get_package_installation_directory_of_module (NULL);
-#else
-  gchar      *prefix  = NULL;
-#endif
-  gchar      *path    = g_build_filename (prefix ? prefix : "", PLUGINDATADIR,
-                                          "prefs.ui", NULL);
+  gchar      *path    = get_data_dir_path ("prefs.ui");
   
   gtk_builder_set_translation_domain (builder, GETTEXT_PACKAGE);
   if (! gtk_builder_add_from_file (builder, path, &error)) {
@@ -1444,7 +1456,6 @@ plugin_configure (GtkDialog *dialog)
   }
   
   g_free (path);
-  g_free (prefix);
   g_object_unref (builder);
   
   return base;

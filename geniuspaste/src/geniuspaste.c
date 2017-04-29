@@ -244,17 +244,29 @@ static void load_pastebins_in_dir(const gchar *path)
     }
 }
 
+static gchar *get_data_dir_path(const gchar *filename)
+{
+    gchar *prefix = NULL;
+    gchar *path;
+
+#ifdef G_OS_WIN32
+    prefix = g_win32_get_package_installation_directory_of_module(NULL);
+#elif defined(__APPLE__)
+    if (g_getenv("GEANY_PLUGINS_SHARE_PATH"))
+        return g_build_filename(g_getenv("GEANY_PLUGINS_SHARE_PATH"), 
+                                PLUGIN, filename, NULL);
+#endif
+    path = g_build_filename(prefix ? prefix : "", PLUGINDATADIR, filename, NULL);
+    g_free(prefix);
+    return path;
+}
+
 static void load_all_pastebins(void)
 {
-#ifdef G_OS_WIN32
-    gchar *prefix = g_win32_get_package_installation_directory_of_module(NULL);
-#else
-    gchar *prefix = NULL;
-#endif
     gchar *paths[] = {
         g_build_filename(geany->app->configdir, "plugins", "geniuspaste",
                          "pastebins", NULL),
-        g_build_filename(prefix ? prefix : "", PLUGINDATADIR, "pastebins", NULL)
+        get_data_dir_path("pastebins")
     };
     guint i;
 
@@ -264,8 +276,6 @@ static void load_all_pastebins(void)
         g_free(paths[i]);
     }
     pastebins = g_slist_sort(pastebins, sort_pastebins);
-
-    g_free(prefix);
 }
 
 static void free_all_pastebins(void)

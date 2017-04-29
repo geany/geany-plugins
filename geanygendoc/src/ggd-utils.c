@@ -135,6 +135,24 @@ ggd_copy_file (const gchar *input,
   return success;
 }
 
+static gchar *
+get_data_dir_path (const gchar *filename)
+{
+  gchar *prefix = NULL;
+  gchar *path;
+
+#ifdef G_OS_WIN32
+  prefix = g_win32_get_package_installation_directory_of_module (NULL);
+#elif defined(__APPLE__)
+  if (g_getenv ("GEANY_PLUGINS_SHARE_PATH"))
+    return g_build_filename (g_getenv ("GEANY_PLUGINS_SHARE_PATH"), 
+                             PLUGIN, filename, NULL);
+#endif
+  path = g_build_filename (prefix ? prefix : "", PLUGINDATADIR, filename, NULL);
+  g_free (prefix);
+  return path;
+}
+
 /**
  * ggd_get_config_file:
  * @name: The name of the configuration file to get (ASCII string)
@@ -161,7 +179,6 @@ ggd_get_config_file (const gchar *name,
                      GError     **error)
 {
   gchar  *path = NULL;
-  gchar  *system_prefix = NULL;
   gchar  *user_dir;
   gchar  *user_path;
   gchar  *system_dir;
@@ -170,17 +187,12 @@ ggd_get_config_file (const gchar *name,
   g_return_val_if_fail (name != NULL, NULL);
   g_return_val_if_fail (error == NULL || *error == NULL, NULL);
   
-#ifdef G_OS_WIN32
-  system_prefix = g_win32_get_package_installation_directory_of_module (NULL);
-#endif
-  
   /* here we guess the locale encoding is ASCII-compatible, anyway it's the case
    * on Windows since we use UTF-8 and on UNIX it would cause too much troubles
    * everywhere if it is not anyway */
   user_dir = g_build_filename (geany->app->configdir, "plugins",
                                GGD_PLUGIN_CNAME, section, NULL);
-  system_dir = g_build_filename (system_prefix ? system_prefix : "",
-                                 PLUGINDATADIR, section, NULL);
+  system_dir = get_data_dir_path (section);
   user_path = g_build_filename (user_dir, name, NULL);
   system_path = g_build_filename (system_dir, name, NULL);
   if (perms_req & GGD_PERM_R) {
@@ -259,7 +271,6 @@ ggd_get_config_file (const gchar *name,
   if (path != system_path) g_free (system_path);
   g_free (user_dir);
   g_free (system_dir);
-  g_free (system_prefix);
   
   return path;
 }
