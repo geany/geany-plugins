@@ -33,7 +33,9 @@ PLUGIN_SET_TRANSLATABLE_INFO(
                 LOCALEDIR,
                 GETTEXT_PACKAGE,
                 "GeanyPG",
-                _("gpg encryption plugin for geany"),
+                _("GPG encryption plugin for geany."
+                  "\nThis plugin currently has no maintainer. Would you "
+                  "like to help by contributing to this plugin?"),
                 "0.1",
                 _("Hans Alves <alves.h88@gmail.com>"))
 
