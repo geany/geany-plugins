@@ -162,6 +162,12 @@ M: Colomban Wendling <ban@herbesfolles.org>
 W: http://plugins.geany.org/git-changebar.html
 S: Maintained
 
+keyrecord
+P: Artur Riazanov <tunyash@gmail.com>
+M: Artur Riazanov <tunyash@gmail.com>
+W: 
+S: Maintained
+
 lineoperations
 P: Sylvan Mostert <smostert.dev@gmail.com>
 M: Sylvan Mostert <smostert.dev@gmail.com>

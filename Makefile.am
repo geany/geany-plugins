@@ -100,6 +100,10 @@ if ENABLE_GITCHANGEBAR
 SUBDIRS += git-changebar
 endif
 
+if ENABLE_KEYRECORD
+SUBDIRS += keyrecord
+endif
+
 if ENABLE_LINEOPERATIONS
 SUBDIRS += lineoperations
 endif
