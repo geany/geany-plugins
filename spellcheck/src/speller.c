@@ -211,6 +211,9 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number)
 	g_return_val_if_fail(sc_speller_dict != NULL, 0);
 	g_return_val_if_fail(doc != NULL, 0);
 
+	if (! DOC_VALID(doc))
+		return 0; /* current document has been closed */
+
 	/* add ' (single quote) temporarily to wordchars
 	 * to be able to check for "doesn't", "isn't" and similar */
 	wordchars_len = scintilla_send_message(doc->editor->sci, SCI_GETWORDCHARS, 0, 0);
@@ -317,6 +320,11 @@ void sc_speller_check_document(GeanyDocument *doc)
 	{
 		for (i = first_line; i < last_line; i++)
 		{
+			if (! DOC_VALID(doc))
+			{	/* current document has been closed (might happen while checking large files) */
+				ui_progress_bar_stop();
+				return;
+			}
 			suggestions_found += sc_speller_process_line(doc, i);
 
 			/* process other GTK events to keep the GUI being responsive */
