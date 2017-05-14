@@ -68,6 +68,10 @@ PLUGIN_SET_TRANSLATABLE_INFO (
 
 #define RESOURCES_ALLOCATED_QTAG \
   (g_quark_from_string (PLUGIN"/git-resources-allocated"))
+#define UNDO_LINE_QTAG \
+  (g_quark_from_string (PLUGIN"/git-undo-line"))
+#define DOC_ID_QTAG \
+  (g_quark_from_string (PLUGIN"/git-doc-id"))
 
 
 enum {
@@ -166,6 +170,7 @@ static GAsyncQueue     *G_queue               = NULL;
 static GThread         *G_thread              = NULL;
 static gulong           G_source_id           = 0;
 static gboolean         G_monitoring_enabled  = TRUE;
+static GtkWidget       *G_undo_menu_item      = NULL;
 static struct {
   gint    num;
   gint    style;
@@ -916,6 +921,8 @@ update_diff (const gchar *path,
       }
     }
     
+    gtk_widget_set_visible (G_undo_menu_item, contents != NULL);
+    
     if (contents && (allocated || allocate_resources (sci))) {
       diff_buf_to_doc (contents, doc, diff_hunk_cb, sci);
     } else if (! contents && allocated) {
@@ -977,6 +984,8 @@ update_diff_push (GeanyDocument  *doc,
                   gboolean        force)
 {
   g_return_if_fail (DOC_VALID (doc));
+  
+  gtk_widget_hide (G_undo_menu_item);
   
   if (G_source_id) {
     g_source_remove (G_source_id);
@@ -1210,19 +1219,84 @@ undo_hunk_cb (const gchar *path,
 }
 
 static void
+undo_hunk (GeanyDocument *doc,
+           gint           line)
+{
+  UndoHunkData *data = g_slice_alloc (sizeof *data);
+
+  data->doc_id = doc->id;
+  data->line   = line + 1;
+  data->found  = FALSE;
+  
+  get_cached_blob_contents_async (doc->real_path, doc->id, FALSE,
+                                  undo_hunk_cb, data);
+}
+
+static void
 on_kb_undo_hunk (guint kb)
 {
   GeanyDocument *doc = document_get_current ();
   
   if (doc) {
+    undo_hunk (doc, sci_get_current_line (doc->editor->sci));
+  }
+}
+
+static void
+on_undo_hunk_activate (GtkWidget *widget,
+                       gpointer   user_data)
+{
+  GeanyDocument  *doc     = document_get_current ();
+  gpointer        doc_id  = g_object_get_qdata (G_OBJECT (widget), DOC_ID_QTAG);
+  
+  if (doc && doc->id == GPOINTER_TO_UINT (doc_id) &&
+      gtk_widget_get_sensitive (widget)) {
+    gpointer line = g_object_get_qdata (G_OBJECT (widget), UNDO_LINE_QTAG);
+    
+    undo_hunk (doc, GPOINTER_TO_INT (line));
+  }
+}
+
+static void
+check_undo_hunk_cb (const gchar *path,
+                    git_buf     *contents,
+                    gpointer     udata)
+{
+  UndoHunkData  *data = udata;
+  GeanyDocument *doc  = document_get_current ();
+  
+  if (doc && doc->id == data->doc_id && contents) {
+    diff_buf_to_doc (contents, doc, undo_hunk_diff_hunk_cb, data);
+    if (data->found) {
+      gtk_widget_set_sensitive (G_undo_menu_item, TRUE);
+      g_object_set_qdata (G_OBJECT (G_undo_menu_item), UNDO_LINE_QTAG,
+                          GINT_TO_POINTER (data->line - 1));
+      g_object_set_qdata (G_OBJECT (G_undo_menu_item), DOC_ID_QTAG,
+                          GUINT_TO_POINTER (data->doc_id));
+    }
+  }
+  
+  g_slice_free1 (sizeof *data, data);
+}
+
+static void
+on_update_editor_menu (GObject       *object,
+                       const gchar   *word,
+                       gint           pos,
+                       GeanyDocument *doc,
+                       gpointer       user_data)
+{
+  gtk_widget_set_sensitive (G_undo_menu_item, FALSE);
+  
+  if (doc) {
     UndoHunkData *data = g_slice_alloc (sizeof *data);
   
     data->doc_id = doc->id;
-    data->line   = sci_get_current_line (doc->editor->sci) + 1;
+    data->line   = sci_get_line_from_position (doc->editor->sci, pos) + 1;
     data->found  = FALSE;
     
     get_cached_blob_contents_async (doc->real_path, doc->id, FALSE,
-                                    undo_hunk_cb, data);
+                                    check_undo_hunk_cb, data);
   }
 }
 
@@ -1407,16 +1481,25 @@ plugin_init (GeanyData *data)
   
   load_config ();
   
+  G_undo_menu_item = gtk_menu_item_new_with_label (_("Undo Git hunk"));
+  g_signal_connect (G_undo_menu_item, "activate",
+                    G_CALLBACK (on_undo_hunk_activate), NULL);
+  gtk_container_add (GTK_CONTAINER (data->main_widgets->editor_menu),
+                     G_undo_menu_item);
+  
   kb_group = plugin_set_key_group (geany_plugin, PLUGIN, KB_COUNT, NULL);
   keybindings_set_item (kb_group, KB_GOTO_PREV_HUNK, on_kb_goto_next_hunk, 0, 0,
                         "goto-prev-hunk", _("Go to the previous hunk"), NULL);
   keybindings_set_item (kb_group, KB_GOTO_NEXT_HUNK, on_kb_goto_next_hunk, 0, 0,
                         "goto-next-hunk", _("Go to the next hunk"), NULL);
   keybindings_set_item (kb_group, KB_UNDO_HUNK, on_kb_undo_hunk, 0, 0,
-                        "undo-hunk", _("Undo hunk at the cursor position"), NULL);
+                        "undo-hunk", _("Undo hunk at the cursor position"),
+                        G_undo_menu_item);
   
   plugin_signal_connect (geany_plugin, NULL, "editor-notify", TRUE,
                          G_CALLBACK (on_editor_notify), NULL);
+  plugin_signal_connect (geany_plugin, NULL, "update-editor-menu", TRUE,
+                         G_CALLBACK (on_update_editor_menu), NULL);
   plugin_signal_connect (geany_plugin, NULL, "document-activate", TRUE,
                          G_CALLBACK (on_document_activate), NULL);
   plugin_signal_connect (geany_plugin, NULL, "document-reload", TRUE,
@@ -1437,6 +1520,8 @@ void
 plugin_cleanup (void)
 {
   guint i;
+  
+  gtk_widget_destroy (G_undo_menu_item);
   
   if (G_source_id) {
     g_source_remove (G_source_id);
