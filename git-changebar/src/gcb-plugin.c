@@ -123,7 +123,6 @@ struct UndoHunkData {
   guint    doc_id;
   gint     line;
   gboolean found;
-  gboolean first_line_removed;
   gint     old_start;
   gint     old_lines;
   gint     new_start;
@@ -1151,9 +1150,8 @@ undo_hunk_diff_hunk_cb (const git_diff_delta *delta,
                         void                 *udata)
 {
   UndoHunkData *data = udata;
-  gboolean first_line_removed = is_first_line_removed (data->line, hunk->new_start, hunk->new_lines);
-
-  if (first_line_removed ||
+  
+  if (is_first_line_removed (data->line, hunk->new_start, hunk->new_lines) ||
       (data->line >= hunk->new_start &&
        data->line < hunk->new_start + MAX (1, hunk->new_lines))) {
     data->old_start = hunk->old_start;
@@ -1161,7 +1159,6 @@ undo_hunk_diff_hunk_cb (const git_diff_delta *delta,
     data->new_start = hunk->new_start;
     data->new_lines = hunk->new_lines;
     data->found = TRUE;
-    data->first_line_removed = first_line_removed;
     return 1;
   }
   
@@ -1180,33 +1177,30 @@ undo_hunk_cb (const gchar *path,
     diff_buf_to_doc (contents, doc, undo_hunk_diff_hunk_cb, data);
 
     if (data->found) {
-      ScintillaObject *sci = doc->editor->sci;
+      ScintillaObject  *sci   = doc->editor->sci;
+      gint              line  = data->new_start - (data->new_lines ? 1 : 0);
 
       sci_start_undo_action (sci);
 
       if (data->new_lines > 0) {
-        gint pos = sci_get_position_from_line (sci, data->new_start - 1);
+        gint pos = sci_get_position_from_line (sci, line);
         sci_set_target_start (sci, pos);
-        pos = sci_get_position_from_line (sci, data->new_start + data->new_lines - 1);
+        pos = sci_get_position_from_line (sci, line + data->new_lines);
         sci_set_target_end (sci, pos);
         sci_replace_target (sci, "", FALSE);
       }
 
       if (data->old_lines > 0) {
-        gint line = sci_get_current_line (sci);
-        gint pos;
-
-        if (data->new_lines == 0 && !data->first_line_removed) {
-          line++; /* marker for deleted hunk is on previous line except the 1st line */
-        }
-        pos = sci_get_position_from_line (sci, line);
+        gint pos = sci_get_position_from_line (sci, line);
 
         insert_buf_range (doc, contents, pos,
                           data->old_start - 1,
                           data->old_lines);
       }
 
-      sci_scroll_caret (sci);
+      scintilla_send_message (sci, SCI_SCROLLRANGE,
+                              sci_get_position_from_line (sci, line + data->old_lines),
+                              sci_get_position_from_line (sci, line));
 
       sci_end_undo_action (sci);
     }
