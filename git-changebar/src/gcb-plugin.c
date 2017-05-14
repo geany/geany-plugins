@@ -602,7 +602,7 @@ release_resources (ScintillaObject *sci)
 
 /* checks whether @encoding needs to be converted to UTF-8 */
 static gboolean
-encoding_needs_coversion (const gchar *encoding)
+encoding_needs_conversion (const gchar *encoding)
 {
   return (encoding &&
           ! utils_str_equal (encoding, "UTF-8") &&
@@ -705,7 +705,7 @@ diff_buf_to_doc (const git_buf   *old_buf,
     free_buf = add_utf8_bom (&buf, &len, free_buf);
   }
   /* convert the buffer back to in-file encoding if necessary */
-  if (encoding_needs_coversion (doc->encoding)) {
+  if (encoding_needs_conversion (doc->encoding)) {
     free_buf = convert_encoding_inplace (&buf, &len, free_buf,
                                          doc->encoding, "UTF-8", NULL);
   }
@@ -785,7 +785,7 @@ get_widget_for_buf_range (GeanyDocument *doc,
   }
   
   /* convert the buffer to UTF-8 if necessary */
-  if (encoding_needs_coversion (doc->encoding)) {
+  if (encoding_needs_conversion (doc->encoding)) {
     free_buf = convert_encoding_inplace (&buf, &buf_len, free_buf,
                                          "UTF-8", doc->encoding, NULL);
   }
@@ -1121,7 +1121,7 @@ insert_buf_range (GeanyDocument *doc,
   gchar           *old_range;
   
   /* convert the buffer to UTF-8 if necessary */
-  if (encoding_needs_coversion (doc->encoding)) {
+  if (encoding_needs_conversion (doc->encoding)) {
     free_buf = convert_encoding_inplace (&old_buf, &old_buf_len, free_buf,
                                          "UTF-8", doc->encoding, NULL);
   }
