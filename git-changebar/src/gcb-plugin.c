@@ -73,6 +73,8 @@ PLUGIN_SET_TRANSLATABLE_INFO (
 #define DOC_ID_QTAG \
   (g_quark_from_string (PLUGIN"/git-doc-id"))
 
+#define REMOVED_MARKER_POS(pos) \
+    ((pos) == 0 ? 0 : (pos) - 1)
 
 enum {
   MARKER_LINE_ADDED,
@@ -745,7 +747,7 @@ diff_hunk_cb (const git_diff_delta *delta,
       scintilla_send_message (sci, SCI_MARKERADD, line - 1, G_markers[marker].num);
     }
   } else {
-    line = (hunk->new_start == 0) ? 0 : hunk->new_start - 1;
+    line = REMOVED_MARKER_POS (hunk->new_start);
     scintilla_send_message (sci, SCI_MARKERADD, line,
                             G_markers[MARKER_LINE_REMOVED].num);
   }
@@ -1061,13 +1063,13 @@ goto_next_hunk_diff_hunk_cb (const git_diff_delta *delta,
       if (data->next_line >= 0) {
         return 1;
       } else if (data->line < hunk->new_start - 1) {
-        data->next_line = (hunk->new_start == 0) ? 0 : hunk->new_start - 1;
+        data->next_line = REMOVED_MARKER_POS (hunk->new_start);
       }
       break;
     
     case KB_GOTO_PREV_HUNK:
       if (data->line > hunk->new_start - 1 + MAX (hunk->new_lines - 1, 0)) {
-        data->next_line = (hunk->new_start == 0) ? 0 : hunk->new_start - 1;
+        data->next_line = REMOVED_MARKER_POS (hunk->new_start);
       }
       break;
   }
