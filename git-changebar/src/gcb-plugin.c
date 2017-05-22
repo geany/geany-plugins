@@ -1190,11 +1190,11 @@ undo_hunk_cb (const gchar *path,
     if (data->found) {
       ScintillaObject  *sci   = doc->editor->sci;
       gint              line  = data->new_start - (data->new_lines ? 1 : 0);
+      gint              pos   = sci_get_position_from_line (sci, line);
 
       sci_start_undo_action (sci);
 
       if (data->new_lines > 0) {
-        gint pos = sci_get_position_from_line (sci, line);
         sci_set_target_start (sci, pos);
         pos = sci_get_position_from_line (sci, line + data->new_lines);
         sci_set_target_end (sci, pos);
@@ -1202,16 +1202,18 @@ undo_hunk_cb (const gchar *path,
       }
 
       if (data->old_lines > 0) {
-        gint pos = sci_get_position_from_line (sci, line);
-
+        pos = sci_get_position_from_line (sci, line);
         insert_buf_range (doc, contents, pos,
                           data->old_start - 1,
                           data->old_lines);
+
+        pos = sci_get_position_from_line (sci, line + data->old_lines);
+        sci_set_current_position (sci, pos, FALSE);
       }
 
       scintilla_send_message (sci, SCI_SCROLLRANGE,
-                              sci_get_position_from_line (sci, line + data->old_lines),
-                              sci_get_position_from_line (sci, line));
+                              sci_get_position_from_line (sci, line),
+                              pos);
 
       sci_end_undo_action (sci);
     }
