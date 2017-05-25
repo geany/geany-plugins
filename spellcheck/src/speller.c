@@ -889,6 +889,7 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 			break;
 		}
 		case SCLEX_HTML:
+		case SCLEX_PHPSCRIPT:
 		case SCLEX_XML:
 		{
 			switch (style)
@@ -1139,6 +1140,26 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_RB_STRING:
 				case SCE_RB_CHARACTER:
 				case SCE_RB_POD:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
+		case SCLEX_RUST:
+		{
+			switch (style)
+			{
+				case SCE_RUST_DEFAULT:
+				case SCE_RUST_COMMENTBLOCK:
+				case SCE_RUST_COMMENTBLOCKDOC:
+				case SCE_RUST_COMMENTLINE:
+				case SCE_RUST_COMMENTLINEDOC:
+				case SCE_RUST_STRING:
+				case SCE_RUST_STRINGR:
+				case SCE_RUST_BYTESTRING:
+				case SCE_RUST_BYTESTRINGR:
+				case SCE_RUST_LEXERROR:
 					return TRUE;
 				default:
 					return FALSE;
