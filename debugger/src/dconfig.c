@@ -333,6 +333,54 @@ void config_set_debug_changed(void)
 /*
  *	set one or several panel config values
  */
+static void config_set_option(int config_part, gpointer config_value)
+{
+	switch (config_part)
+	{
+		case CP_TABBED_MODE:
+		{
+			g_key_file_set_boolean(keyfile_plugin, "tabbed_mode", "enabled", *((gboolean*)config_value));
+			break;
+		}
+		case CP_OT_TABS:
+		{
+			int *array = (int*)config_value;
+			g_key_file_set_integer_list(keyfile_plugin, "one_panel_mode", "tabs", array + 1, array[0]);
+			break;
+		}
+		case CP_OT_SELECTED:
+		{
+			g_key_file_set_integer(keyfile_plugin, "one_panel_mode", "selected_tab_index", *((int*)config_value));
+			break;
+		}
+		case CP_TT_LTABS:
+		{
+			int *array = (int*)config_value;
+			g_key_file_set_integer_list(keyfile_plugin, "two_panels_mode", "left_tabs", array + 1, array[0]);
+			break;
+		}
+		case CP_TT_LSELECTED:
+		{
+			g_key_file_set_integer(keyfile_plugin, "two_panels_mode", "left_selected_tab_index", *((int*)config_value));
+			break;
+		}
+		case CP_TT_RTABS:
+		{
+			int *array = (int*)config_value;
+			g_key_file_set_integer_list(keyfile_plugin, "two_panels_mode", "right_tabs", array + 1, array[0]);
+			break;
+		}
+		case CP_TT_RSELECTED:
+		{
+			g_key_file_set_integer(keyfile_plugin, "two_panels_mode", "right_selected_tab_index", *((int*)config_value));
+			break;
+		}
+	}
+}
+
+/*
+ *	set one or several panel config values
+ */
 void config_set_panel(int config_part, gpointer config_value, ...)
 {
 	va_list ap;
@@ -343,47 +391,7 @@ void config_set_panel(int config_part, gpointer config_value, ...)
 	
 	while(config_part)
 	{
-		switch (config_part)
-		{
-			case CP_TABBED_MODE:
-			{
-				g_key_file_set_boolean(keyfile_plugin, "tabbed_mode", "enabled", *((gboolean*)config_value));
-				break;
-			}
-			case CP_OT_TABS:
-			{
-				int *array = (int*)config_value;
-				g_key_file_set_integer_list(keyfile_plugin, "one_panel_mode", "tabs", array + 1, array[0]);
-				break;
-			}
-			case CP_OT_SELECTED:
-			{
-				g_key_file_set_integer(keyfile_plugin, "one_panel_mode", "selected_tab_index", *((int*)config_value));
-				break;
-			}
-			case CP_TT_LTABS:
-			{
-				int *array = (int*)config_value;
-				g_key_file_set_integer_list(keyfile_plugin, "two_panels_mode", "left_tabs", array + 1, array[0]);
-				break;
-			}
-			case CP_TT_LSELECTED:
-			{
-				g_key_file_set_integer(keyfile_plugin, "two_panels_mode", "left_selected_tab_index", *((int*)config_value));
-				break;
-			}
-			case CP_TT_RTABS:
-			{
-				int *array = (int*)config_value;
-				g_key_file_set_integer_list(keyfile_plugin, "two_panels_mode", "right_tabs", array + 1, array[0]);
-				break;
-			}
-			case CP_TT_RSELECTED:
-			{
-				g_key_file_set_integer(keyfile_plugin, "two_panels_mode", "right_selected_tab_index", *((int*)config_value));
-				break;
-			}
-		}
+		config_set_option(config_part, config_value);
 		
 		config_part = va_arg(ap, int);
 		if (config_part)
