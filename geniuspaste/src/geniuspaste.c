@@ -102,6 +102,54 @@ PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, PLUGIN_NAME,
                              PLUGIN_VERSION, "Enrico Trotta <enrico.trt@gmail.com>")
 
 
+/* Windows compatibility for resolving system plugin data path.
+ * This only works if the plugin's data is installed in the same tree as the
+ * plugin DLL, which might not be true (as the DLL has to be in Geany's libdir
+ * but the plugin's data might be anywhere in theory) */
+#ifdef G_OS_WIN32
+#   include <windows.h>
+
+static HINSTANCE geniuspaste_hinstance = NULL;
+static gchar *geniuspaste_datadir = NULL;
+
+BOOLEAN WINAPI DllMain(IN HINSTANCE hDllHandle,
+                       IN DWORD     nReason,
+                       IN LPVOID    Reserved)
+{
+    switch (nReason)
+    {
+        case DLL_PROCESS_ATTACH:
+            DisableThreadLibraryCalls(hDllHandle);
+
+            geniuspaste_hinstance = hDllHandle;
+            break;
+
+        case DLL_PROCESS_DETACH:
+            g_free(geniuspaste_datadir);
+            geniuspaste_datadir = NULL;
+            break;
+    }
+
+    return TRUE;
+}
+
+static const gchar *get_plugin_data_directory(void)
+{
+    if (! geniuspaste_datadir)
+    {
+        gchar *base = g_win32_get_package_installation_directory_of_module(geniuspaste_hinstance);
+
+        geniuspaste_datadir = g_build_filename(base, PLUGINDATADIR, NULL);
+        g_free(base);
+    }
+
+    return geniuspaste_datadir;
+}
+
+#   undef PLUGINDATADIR
+#   define PLUGINDATADIR (get_plugin_data_directory())
+#endif
+
 static void pastebin_free(Pastebin *pastebin)
 {
     g_key_file_free(pastebin->config);
