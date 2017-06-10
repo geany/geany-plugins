@@ -20,12 +20,12 @@ Features
 --------
 
 The following features exist and are configurable:
-- Change line breaks
-- Indentation
-- Format empty nodes
-- Format comments
-- Format text nodes
-- Format CDATA
+* Change line breaks
+* Indentation
+* Format empty nodes
+* Format comments
+* Format text nodes
+* Format CDATA
 
 
 Usage
