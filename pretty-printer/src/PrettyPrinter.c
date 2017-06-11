@@ -172,7 +172,7 @@ PrettyPrintingOptions* createDefaultPrettyPrintingOptions(void)
         return NULL;
     }
     
-    defaultOptions->newLineChars = "\r\n";
+    defaultOptions->newLineChars = g_strdup ("\r\n");
     defaultOptions->indentChar = ' ';
     defaultOptions->indentLength = 2;
     defaultOptions->oneLineText = FALSE;
