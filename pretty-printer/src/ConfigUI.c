@@ -119,10 +119,7 @@ fetchSettingsFromConfigUI(PrettyPrintingOptions* ppo)
     ppo->indentChar = gtk_combo_box_get_active(GTK_COMBO_BOX(indentationChar))==0 ? '\t' : ' ';
 
     breakStyle = gtk_combo_box_get_active(GTK_COMBO_BOX(lineBreak));
-    if (ppo->newLineChars != NULL)
-    {
-        g_free ((gpointer)ppo->newLineChars);
-    }
+    g_free ((gpointer)ppo->newLineChars);
     if (breakStyle == 0) ppo->newLineChars = g_strdup("\r");
     else if (breakStyle == 1) ppo->newLineChars = g_strdup("\n");
     else ppo->newLineChars = g_strdup("\r\n");
@@ -183,10 +180,7 @@ prefsFromData (PrettyPrintingOptions* ppo,
 
     if (g_key_file_has_key (kf, "pretty-printer", "newLineChars", NULL))
     {
-        if (ppo->newLineChars != NULL )
-        {
-            g_free ((gpointer)ppo->newLineChars);
-        }
+        g_free ((gpointer)ppo->newLineChars);
         ppo->newLineChars = g_key_file_get_string (kf, "pretty-printer", "newLineChars", error);
     }
     if (g_key_file_has_key (kf, "pretty-printer", "indentChar", NULL))
