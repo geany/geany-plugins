@@ -2200,6 +2200,7 @@ void plugin_init(GeanyData *data)
 {
 	gint i,k,iResults=0;
 	GdkKeymapKey *gdkkmkResults;
+	GdkKeymap *gdkKeyMap=gdk_keymap_get_default();
 
 	/* Load settings */
 	LoadSettings();
@@ -2216,7 +2217,7 @@ void plugin_init(GeanyData *data)
 	for(i=0;i<10;i++)
 	{
 		/* Get keymapkey data for number key */
-		k=gdk_keymap_get_entries_for_keyval(NULL,'0'+i,&gdkkmkResults,&iResults);
+		k=gdk_keymap_get_entries_for_keyval(gdkKeyMap,'0'+i,&gdkkmkResults,&iResults);
 		/* error retrieving hardware keycode, so leave as standard uk character for shift + number */
 		if(k==0)
 			continue;
@@ -2247,7 +2248,7 @@ void plugin_init(GeanyData *data)
 		/* set shift pressed */
 		gdkkmkResults[k].level=1;
 		/* now get keycode for shift + number */
-		iResults=gdk_keymap_lookup_key(NULL,&(gdkkmkResults[k]));
+		iResults=gdk_keymap_lookup_key(gdkKeyMap,&(gdkkmkResults[k]));
 		/* if valid keycode, enter into list of shift + numbers */
 		if(iResults!=0)
 			iShiftNumbers[i]=iResults;
