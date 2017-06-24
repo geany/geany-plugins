@@ -544,9 +544,10 @@ static GdkFilterReturn keygrab_cb(GdkXEvent *xevent, GdkEvent *event, gpointer d
 #include <gdk/gdkkeysyms.h>
 static gint init_key(guint keyval){
 	GdkKeymapKey *kmk=NULL;
+	GdkKeymap *gdk_key_map=gdk_keymap_get_default();
 	gint n_keys=0;
 	gint rv=0;
-	if (gdk_keymap_get_entries_for_keyval(NULL,keyval,&kmk,&n_keys)) {
+	if (gdk_keymap_get_entries_for_keyval(gdk_key_map,keyval,&kmk,&n_keys)) {
 		rv=kmk[0].keycode;
 		g_free(kmk);
 	}
@@ -560,6 +561,7 @@ static gint glspi_keygrab(lua_State* L)
 	GeanyDocument*doc=NULL;
 	const gchar*prompt=NULL;
 	GdkKeymapKey km={0,0,0};
+	GdkKeymap *gdk_key_map;
 	km.keycode=0;
 	km.group=0; /* Note: we hijack this field to use as a flag for first keydown. */
 	km.level=0;
@@ -595,7 +597,8 @@ static gint glspi_keygrab(lua_State* L)
 	sci_send_command(doc->editor->sci, SCI_CALLTIPCANCEL);
 	}
 	km.group=0; /* reset the hijacked flag before passing to GDK */
-	lua_pushstring(L, gdk_keyval_name(gdk_keymap_lookup_key(NULL, &km)));
+	gdk_key_map = gdk_keymap_get_default();
+	lua_pushstring(L, gdk_keyval_name(gdk_keymap_lookup_key(gdk_key_map, &km)));
 
 	return 1;
 }
