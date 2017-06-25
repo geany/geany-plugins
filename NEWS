@@ -1,6 +1,82 @@
 Geany Plugins 1.31 (not release yet)
 
-    No changes so far.
+    General:
+    * New plugin: keyrecord (PR #460)
+    * OS X: Use path relativ to bundle (PR #569). This fixes function of
+      several plugins on OS X. Included plugins are:
+      * Geanygendoc
+      * Geniuspaste
+      * GitChangebar
+      * Overview
+      * Pohelper
+      * Scope
+    * Add a note to plugins currently orphaned or odd fixes (PR #540).
+      This includes:
+      * Geanydoc
+      * GeanyExtrasel
+      * GeanyInsertNum
+      * GeanyLua
+      * GeanyPG
+      * GeanyPrj
+      * GeanyVC
+      * PrettyPrinter
+      * Scope
+      * Shiftcolumn
+      * Treebrowser
+
+    Addons:
+    * Enable Mark Word also for newly opened documents (PR #563)
+
+    Automark:
+    * Extends documentation (PR #582)
+
+    GeanyDoc:
+    * Make OK the default button in interactive mode (PR #566)
+
+    GeanyExtrasel:
+    * Fix issues related to Scintilla Rectancle select (PR #568)
+
+    GeanyLua:
+    * Pass a GdkKeymap to gdk_keymap_* functions to prevent crashes on
+      Windows and critical warnings on other platforms. (PR #586)
+
+    GeanyMacro:
+    * Pass a GdkKeymap to gdk_keymap_* functions to prevent crashes on
+      Windows and critical warnings on other platforms. (PR #586)
+
+    GeanyNumbersBookmarks:
+    * Pass a GdkKeymap to gdk_keymap_* functions to prevent crashes on
+      Windows and critical warnings on other platforms. (PR #586)
+
+    Geniuspaste:
+    * Update configuration for shipped pastebins (PR #551)
+
+    GitChangebar:
+    * Fix spurious line wrapping (PR #564)
+
+    Lineoperations:
+    * Add a feature to keep unique lines (PR #560)
+
+    Pretty-Printer:
+    * Add missing README, COPYING, NEWS and AUTHORS-files (PR #580)
+
+    Projectorganizer
+    * Fix a crash by ensuring project is open before
+      trying to expand the tree (PR #555, PR #557, PR #559)
+
+    Scope:
+    * Correct a missleading error message (PR #561)
+
+    Spellcheck:
+    * Stop processing if the document gets invalid to prevent crashes
+      while file gets closed during long check runs. (Issue #547)
+    * Add style mappings for Rust and PHPSCRIPT
+
+    Updatechecker:
+    * Remove deprecated soup call (PR #541)
+
+    Internationalization:
+    * Updated translations: de
 
 
 Geany Plugins 1.30 (2017-03-05)
