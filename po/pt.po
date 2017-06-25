@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-06-24 16:57+0200\n"
-"PO-Revision-Date: 2017-02-23 09:23+0000\n"
+"PO-Revision-Date: 2017-06-25 10:52+0100\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
-"Language-Team: Português <>\n"
+"Language-Team: Português <palbuquerque73@gmail.com>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.7\n"
+"Plural-Forms: nplurals=2; plural= n==1 || n%10==1 ? 0 : 1;\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
@@ -1348,6 +1348,8 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Chamar o visualizador de documentação no símbolo actual. \n"
+"Esta extensão actualmente não é mantida. Quer ajudar a manter a extensão?"
 
 #: ../geanydoc/src/geanydoc.c:159 ../geanyvc/src/geanyvc.c:427
 msgid "Could not parse the output of command"
@@ -1387,6 +1389,8 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Modo Coluna, seleccione para linha/parênteses/âncora.\n"
+"Esta extensão actualmente não é mantida. Quer ajudar a manter a extensão?"
 
 #: ../geanyextrasel/src/extrasel.c:501
 msgid "E_xtra Selection"
@@ -1873,6 +1877,8 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Inserir/Preencher colunas com números. \n"
+"Esta extensão actualmente não é mantida. Quer ajudar a manter a extensão?"
 
 #: ../geanyinsertnum/src/insertnum.c:146
 msgid "Counting..."
@@ -2935,6 +2941,8 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Escrever e executar scripts Lua para comandos personalizados. \n"
+"Esta extensão actualmente não é mantida. Quer ajudar a manter a extensão?"
 
 #: ../geanylua/glspi_ver.h:19
 msgid "Lua Script Plugin"
@@ -4188,6 +4196,8 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Extensão para encriptação GPG no Geany. \n"
+"Esta extensão actualmente não é mantida. Quer ajudar a manter a extensão?"
 
 #: ../geanypg/src/geanypg.c:40
 msgid "Hans Alves <alves.h88@gmail.com>"
@@ -4450,6 +4460,8 @@ msgid ""
 "This plugin currentlyhas no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Suporte alternativo ao projecto. \n"
+"Esta extensão actualmente não é mantida. Quer ajudar a manter a extensão?"
 
 #: ../geanyprj/src/geanyprj.c:228
 msgid "Find a text in geanyprj's project"
@@ -4586,6 +4598,8 @@ msgid ""
 "This plugins is currently not developed actively. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Interface para diferentes sistemas de controlo de versões. \n"
+"Esta extensão actualmente não é mantida. Quer ajudar a manter a extensão?"
 
 #: ../geanyvc/src/geanyvc.c:486
 #, c-format
@@ -5156,23 +5170,23 @@ msgstr ""
 
 #: ../keyrecord/src/keyrecord.c:154
 msgid "Start/Stop record"
-msgstr ""
+msgstr "Iniciar/Parar gravação"
 
 #: ../keyrecord/src/keyrecord.c:156
 msgid "Play"
-msgstr ""
+msgstr "Reproduzir"
 
 #: ../keyrecord/src/keyrecord.c:207
 msgid "Keystrokes recorder"
-msgstr ""
+msgstr "Gravador de teclas"
 
 #: ../keyrecord/src/keyrecord.c:208
 msgid "Allows to record some sequence of keystrokes and replay it"
-msgstr ""
+msgstr "Permite gravar uma sequência de teclas e repoduzi-la"
 
 #: ../keyrecord/src/keyrecord.c:210
 msgid "tunyash"
-msgstr ""
+msgstr "tunyash"
 
 #: ../lineoperations/src/lineoperations.c:123
 #, c-format
@@ -5201,9 +5215,8 @@ msgid "Remove _Unique Lines"
 msgstr "Remover linhas ú_nicas"
 
 #: ../lineoperations/src/lineoperations.c:260
-#, fuzzy
 msgid "Keep _Unique Lines"
-msgstr "Remover linhas ú_nicas"
+msgstr "Manter linhas ú_nicas"
 
 #: ../lineoperations/src/lineoperations.c:263
 msgid "Remove _Empty Lines"
@@ -5809,6 +5822,8 @@ msgid ""
 "This plugin currentlyhas no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Formata um XML e torna-o humanamente legível. \n"
+"Esta extensão actualmente não é mantida. Quer ajudar a manter a extensão?"
 
 #. put the menu into the Tools
 #: ../pretty-printer/src/PluginEntry.c:60
@@ -6814,6 +6829,8 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Front-end GDB relativamente simples. \n"
+"Esta extensão actualmente não é mantida. Quer ajudar a manter a extensão?"
 
 #: ../scope/src/scope.c:63
 msgid "Setup program"
@@ -7253,6 +7270,8 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Deslocar a selecção à direita e à esquerda. \n"
+"Esta extensão actualmente não é mantida. Quer ajudar a manter a extensão?"
 
 #: ../shiftcolumn/src/shiftcolumn.c:357 ../shiftcolumn/src/shiftcolumn.c:378
 msgid "Shift Left"
@@ -7318,7 +7337,6 @@ msgid "TreeBrowser"
 msgstr "Navegador em árvore"
 
 #: ../treebrowser/src/treebrowser.c:128
-#, fuzzy
 msgid ""
 "This plugin adds a tree browser to Geany, allowing the user to browse files "
 "using a tree view of the directory being browsed.\n"
@@ -7326,7 +7344,8 @@ msgid ""
 "contributing to this plugin?"
 msgstr ""
 "Esta extensão adiciona um navegador em árvore ao Geany, permitindo a "
-"navegação em ficheiros, na pasta atual,  usando uma vista em árvore."
+"navegação em ficheiros, na pasta atual, usando uma vista em árvore.\n"
+"Esta extensão actualmente não é mantida. Quer ajudar a manter a extensão?"
 
 #: ../treebrowser/src/treebrowser.c:435
 #, c-format
