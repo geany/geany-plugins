@@ -584,7 +584,7 @@ class _Console(_ReadLine, code.InteractiveInterpreter):
         except: pass
 
         try:
-            exec "import __builtin__" in self.locals
+            exec("import __builtin__" in self.locals)
             strings.extend(eval("dir(__builtin__)", self.locals))
         except:
             pass
