@@ -693,7 +693,7 @@ void ao_tasks_update(AoTasks *t, GeanyDocument *cur_doc)
 	}
 	else
 	{
-		guint i;
+		guint i = 0;
 		/* clear all */
 		gtk_list_store_clear(priv->store);
 		/* iterate over all docs */

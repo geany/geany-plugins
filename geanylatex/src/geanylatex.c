@@ -1283,7 +1283,7 @@ on_insert_bibtex_dialog_activate(G_GNUC_UNUSED GtkMenuItem *menuitem,
 	{
 		GDir *dir;
 		gchar *tmp_dir;
-		const gchar *filename;
+		const gchar *filename = NULL;
 
 		tmp_dir = g_path_get_dirname(doc->real_path);
 		dir = g_dir_open(tmp_dir, 0, NULL);

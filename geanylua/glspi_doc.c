@@ -50,7 +50,7 @@ static gint glspi_newfile(lua_State* L)
 static gint filename_to_doc_idx(const gchar*fn)
 {
 	if (fn && *fn) {
-		guint i;
+		guint i=0;
 		foreach_document(i)
 		{
 			if fncmp(fn,documents[i]->file_name) {return i; }
@@ -172,7 +172,7 @@ static gint glspi_documents(lua_State *L)
 /* Returns the number of open documents */
 static gint glspi_count(lua_State* L)
 {
-	guint i, n=0;
+	guint i=0, n=0;
 	foreach_document(i)
 	{
 		if (documents[i]->is_valid){n++;}

@@ -899,7 +899,7 @@ configure_response_cb(GtkDialog *dialog, gint response, gpointer user_data)
 void
 plugin_init(G_GNUC_UNUSED GeanyData *data)
 {
-	guint i;
+	guint i = 0;
 
 	foreach_document(i)
 	{
@@ -1120,7 +1120,7 @@ plugin_configure(GtkDialog *dialog)
 static void
 autoclose_cleanup(void)
 {
-	guint i;
+	guint i = 0;
 
 	foreach_document(i)
 	{

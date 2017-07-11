@@ -1297,7 +1297,7 @@ plugin_init (GeanyData *data)
 void
 plugin_cleanup (void)
 {
-  guint i;
+  guint i = 0;
   
   if (G_source_id) {
     g_source_remove (G_source_id);
@@ -1363,7 +1363,7 @@ on_plugin_configure_response (GtkDialog        *dialog,
   switch (response) {
     case GTK_RESPONSE_APPLY:
     case GTK_RESPONSE_OK: {
-      guint           i;
+      guint           i = 0;
       GdkColor        color;
       GeanyDocument  *doc = document_get_current ();
       

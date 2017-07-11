@@ -138,7 +138,7 @@ static gint prjorg_project_rescan_root(PrjOrgRoot *root)
 	GSList *ignored_file_list = NULL;
 	GHashTable *visited_paths;
 	GSList *lst;
-	GSList *elem;
+	GSList *elem = NULL;
 	gint filenum = 0;
 
 	source_files = g_ptr_array_new();
@@ -346,7 +346,7 @@ static void update_project(
 void prjorg_project_save(GKeyFile * key_file)
 {
 	GPtrArray *array;
-	GSList *elem, *lst;
+	GSList *elem = NULL, *lst;
 
 	if (!prj_org)
 		return;
@@ -456,7 +456,7 @@ void prjorg_project_open(GKeyFile * key_file)
 {
 	gchar **source_patterns, **header_patterns, **ignored_dirs_patterns, **ignored_file_patterns, **external_dirs, **dir_ptr, *last_name;
 	gint generate_tag_prefs;
-	GSList *elem, *ext_list = NULL;
+	GSList *elem = NULL, *ext_list = NULL;
 	gchar *utf8_base_path;
 
 	if (prj_org != NULL)
@@ -674,7 +674,7 @@ void prjorg_project_close(void)
 
 gboolean prjorg_project_is_in_project(const gchar *utf8_filename)
 {
-	GSList *elem;
+	GSList *elem = NULL;
 
 	if (!utf8_filename || !prj_org || !geany_data->app->project || !prj_org->roots)
 		return FALSE;
@@ -692,14 +692,14 @@ gboolean prjorg_project_is_in_project(const gchar *utf8_filename)
 
 static gboolean add_tm_idle(gpointer foo)
 {
-	GSList *elem2;
+	GSList *elem2 = NULL;
 
 	if (!prj_org || !s_idle_add_funcs)
 		return FALSE;
 
 	foreach_slist (elem2, s_idle_add_funcs)
 	{
-		GSList *elem;
+		GSList *elem = NULL;
 		gchar *utf8_fname = elem2->data;
 
 		foreach_slist (elem, prj_org->roots)
@@ -739,14 +739,14 @@ void prjorg_project_add_single_tm_file(gchar *utf8_filename)
 
 static gboolean remove_tm_idle(gpointer foo)
 {
-	GSList *elem2;
+	GSList *elem2 = NULL;
 
 	if (!prj_org || !s_idle_remove_funcs)
 		return FALSE;
 
 	foreach_slist (elem2, s_idle_remove_funcs)
 	{
-		GSList *elem;
+		GSList *elem = NULL;
 		gchar *utf8_fname = elem2->data;
 
 		foreach_slist (elem, prj_org->roots)

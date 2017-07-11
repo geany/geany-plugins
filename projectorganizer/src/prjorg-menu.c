@@ -52,7 +52,7 @@ static GtkWidget *s_fif_item, *s_ff_item, *s_ft_item, *s_shs_item, *s_sep_item, 
 static gboolean try_swap_header_source(gchar *utf8_file_name, gboolean is_header, GSList *file_list, GSList *header_patterns, GSList *source_patterns)
 {
 	gchar *name_pattern;
-	GSList *elem;
+	GSList *elem = NULL;
 	GPatternSpec *pattern;
 	gboolean found = FALSE;
 
@@ -115,7 +115,7 @@ static void on_swap_header_source(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_U
 	{
 		gboolean swapped;
 		GSList *elem, *list = NULL;
-		guint i;
+		guint i = 0;
 
 		foreach_document(i)
 		{
@@ -296,7 +296,7 @@ static void on_open_selected_file(GtkMenuItem *menuitem, gpointer user_data)
 
 		if (g_strcmp0(utf8_path, "") != 0)
 		{
-			GSList *elem;
+			GSList *elem = NULL;
 			const gchar *found_path = NULL;
 
 			foreach_slist (elem, prj_org->roots)
