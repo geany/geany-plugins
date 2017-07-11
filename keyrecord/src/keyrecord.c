@@ -158,7 +158,7 @@ static gboolean keyrecord_init(GeanyPlugin *plugin, gpointer data)
     GeanyData* geany_data = plugin->geany_data;
     recorded_pattern = g_new0(GdkEventKey*, CAPACITY);
 
-	guint i;
+	guint i = 0;
 	foreach_document(i) {
 		 on_document_open(NULL, documents[i], NULL);
 	}

@@ -303,7 +303,7 @@ static void menu_item_ref(GtkWidget *menu_item)
 static void update_editor_menu_items(const gchar *search_word, const gchar **suggs, gsize n_suggs)
 {
 	GtkWidget *menu_item, *menu, *sub_menu;
-	GSList *node;
+	GSList *node = NULL;
 	gchar *label;
 	gsize i;
 

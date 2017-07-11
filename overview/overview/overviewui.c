@@ -42,7 +42,7 @@ static GtkWidget     *overview_ui_menu_item = NULL;
 static inline void
 overview_ui_scintilla_foreach (DocForEachFunc callback)
 {
-  guint i;
+  guint i = 0;
   foreach_document (i)
     {
       GeanyDocument     *doc = documents[i];

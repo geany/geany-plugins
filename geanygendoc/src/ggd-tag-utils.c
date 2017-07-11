@@ -121,8 +121,8 @@ ggd_tag_sort_by_line_to_list (const GPtrArray  *tags,
                               gint              direction)
 {
   GList  *children = NULL;
-  guint   i;
-  TMTag  *el;
+  guint   i = 0;
+  TMTag  *el = NULL;
   
   g_return_val_if_fail (tags != NULL, NULL);
   g_return_val_if_fail (direction != 0, NULL);
@@ -152,8 +152,8 @@ ggd_tag_find_from_line (const GPtrArray  *tags,
                         gulong            line)
 {
   TMTag    *tag = NULL;
-  TMTag    *el;
-  guint     i;
+  TMTag    *el = NULL;
+  guint     i = 0;
   
   g_return_val_if_fail (tags != NULL, NULL);
   
@@ -217,8 +217,8 @@ ggd_tag_find_parent (const GPtrArray *tags,
     gchar        *parent_scope = NULL;
     const gchar  *parent_name;
     const gchar  *tmp;
-    guint         i;
-    TMTag        *el;
+    guint         i = 0;
+    TMTag        *el = NULL;
     const gchar  *separator;
     gsize         separator_len;
     
@@ -407,8 +407,8 @@ ggd_tag_find_from_name (const GPtrArray *tags,
                         const gchar     *name)
 {
   TMTag  *tag = NULL;
-  guint   i;
-  TMTag  *el;
+  guint   i = 0;
+  TMTag  *el = NULL;
   
   g_return_val_if_fail (tags != NULL, NULL);
   g_return_val_if_fail (name != NULL, NULL);
@@ -444,8 +444,8 @@ ggd_tag_find_children_filtered (const GPtrArray *tags,
                                 TMTagType        filter)
 {
   GList  *children = NULL;
-  guint   i;
-  TMTag  *el;
+  guint   i = 0;
+  TMTag  *el = NULL;
   
   g_return_val_if_fail (tags != NULL, NULL);
   g_return_val_if_fail (parent != NULL, NULL);

@@ -83,7 +83,7 @@ static void on_doc_close(G_GNUC_UNUSED GObject * obj, GeanyDocument * doc,
 
 static void on_build_start(GObject *obj, gpointer user_data)
 {
-	guint i;
+	guint i = 0;
 
 	foreach_document(i)
 	{
