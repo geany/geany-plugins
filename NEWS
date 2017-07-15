@@ -9,8 +9,8 @@ Geany Plugins 1.31 (not release yet)
       * Overview
       * Pohelper
       * Scope
-    * Add a note to plugins currently orphaned or odd fixes (PR #540).
-      Affected plugins:
+    * Add a note to plugins which are currently orphaned and might not
+      receive further fixes (PR #540). Affected plugins:
       * Geanydoc
       * GeanyExtrasel
       * GeanyInsertNum
