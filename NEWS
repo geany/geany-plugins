@@ -3,11 +3,11 @@ Geany Plugins 1.31 (not release yet)
     General:
     * New plugin: keyrecord (PR #460)
     * OS X: Use path relative to bundle (PR #569). Affected plugins:
-      * Geanygendoc
-      * Geniuspaste
+      * GeanyGenDoc
+      * GeniusPaste
       * GitChangebar
       * Overview
-      * Pohelper
+      * PoHelper
       * Scope
     * Add a note to plugins which are currently orphaned and might not
       receive further fixes (PR #540). Affected plugins:
@@ -47,16 +47,16 @@ Geany Plugins 1.31 (not release yet)
     * Pass a GdkKeymap to gdk_keymap_* functions to prevent crashes on
       Windows and critical warnings on other platforms (PR #586)
 
-    Geniuspaste:
+    GeniusPaste:
     * Update configuration for shipped pastebins (PR #551)
 
     GitChangebar:
     * Fix spurious line wrapping (PR #564)
 
-    Lineoperations:
+    LineOperations:
     * Add a feature to keep unique lines (PR #560)
 
-    Pretty-Printer:
+    PrettyPrinter:
     * Add missing README, COPYING, NEWS and AUTHORS files (PR #580)
 
     ProjectOrganizer:
@@ -105,7 +105,7 @@ Geany Plugins 1.30 (2017-03-05)
     GeanyPy:
     * Sync with upstream GeanyPy version (PR #527)
 
-    Lineoperations:
+    LineOperations:
     * Add support for selections (PR #378)
 
     Lipsum:
@@ -221,7 +221,7 @@ Geany Plugins 1.28 (2016-07-10)
     * Fix a crash when the tag name is missing (Issue#442, Issue#446,
       PR#447)
 
-    Prettyprinter:
+    PrettyPrinter:
     * Fix several memory leaks (PR#364)
 
     ProjectOrganizer:
@@ -322,7 +322,7 @@ Geany Plugins 1.26 (2015-11-15)
     Multiterm:
     * Make a lot of strings translatable (#254)
 
-    Pohelper:
+    PoHelper:
     * Fix untranslated and fuzzy count in the stats dialog (#292)
 
     ProjectOrganizer:
@@ -416,7 +416,7 @@ Geany Plugins 1.24 (2014-04-13)
 
     General:
     * Depend on Geany 1.24
-    * New plugin Pohelper
+    * New plugin PoHelper
     * New plugin PairTagHighlighter
     * New plugin Autoclose
     * New plugin Geanypy (Python bindings)
@@ -474,7 +474,7 @@ Geany Plugins 1.24 (2014-04-13)
     Multiterm:
     * Implement the other config VTE properties
 
-    Prettyprinter:
+    PrettyPrinter:
     * Add Gtk3 support
 
     Scope:
@@ -783,7 +783,7 @@ Geany-Plugins 0.19 (June 13, 2010)
     * Add new plugin GeanyExtraSel.
     * Add new plugin GeanyGenDoc.
     * Add new plugin GeanyInsertNum.
-    * Add new plugin Pretty-Printer.
+    * Add new plugin PrettyPrinter.
     * Add new plugin TreeBrowser.
 
     GeanySendMail:
