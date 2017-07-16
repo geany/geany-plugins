@@ -7,7 +7,7 @@ Status
 
 .. image:: https://travis-ci.org/geany/geany-plugins.svg?branch=master
     :target: https://travis-ci.org/geany/geany-plugins
-    
+
 Installation
 ------------
 
@@ -103,7 +103,7 @@ Example::
 
   ./configure --enable-geanylua --enable-spellcheck
 
-This will force force both geanylua and spellcheck plugins to be enabled even
+This will force both geanylua and spellcheck plugins to be enabled even
 if some dependencies are missing.
 
 You can also use the special option ``all-plugins`` to change the default for all
