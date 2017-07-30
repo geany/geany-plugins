@@ -1,0 +1,304 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-29 15:19+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: dialogs.c:43
+msgid "Create new workbench"
+msgstr ""
+
+#: dialogs.c:45 dialogs.c:79 dialogs.c:122 dialogs.c:163
+msgid "_Cancel"
+msgstr ""
+
+#: dialogs.c:46
+msgid "Create"
+msgstr ""
+
+#: dialogs.c:77
+msgid "Open workbench"
+msgstr ""
+
+#: dialogs.c:80 menu.c:173
+msgid "Open"
+msgstr ""
+
+#: dialogs.c:83
+msgid "Workbench files (.geanywb)"
+msgstr ""
+
+#: dialogs.c:87 dialogs.c:130
+msgid "All Files"
+msgstr ""
+
+#: dialogs.c:120 popup_menu.c:381
+msgid "Add project"
+msgstr ""
+
+#: dialogs.c:123 dialogs.c:164
+msgid "Add"
+msgstr ""
+
+#: dialogs.c:126
+msgid "Project files (.geany)"
+msgstr ""
+
+#: dialogs.c:161 popup_menu.c:409
+msgid "Add directory"
+msgstr ""
+
+#: dialogs.c:221 popup_menu.c:427
+msgid "Directory settings"
+msgstr ""
+
+#: dialogs.c:237
+msgid "File patterns:"
+msgstr ""
+
+#: dialogs.c:243
+msgid ""
+"Space separated list of patterns that are used to identify files that shall "
+"be displayed in the directory tree."
+msgstr ""
+
+#: dialogs.c:248
+msgid "Ignored file patterns:"
+msgstr ""
+
+#: dialogs.c:254
+msgid ""
+"Space separated list of patterns that are used to identify files that shall "
+"not be displayed in the directory tree."
+msgstr ""
+
+#: dialogs.c:259
+msgid "Ignored directory patterns:"
+msgstr ""
+
+#: dialogs.c:265
+msgid ""
+"Space separated list of patterns that are used to identify directories that "
+"shall not be scanned for source files."
+msgstr ""
+
+#: dialogs.c:273
+msgid ""
+"Note: the patterns above affect only the workbench directory and are not "
+"used in the Find in Files\n"
+"dialog."
+msgstr ""
+
+#: dialogs.c:352
+msgid "Workbench settings"
+msgstr ""
+
+#: dialogs.c:368
+msgid "Rescan all projects on open:"
+msgstr ""
+
+#: dialogs.c:373
+msgid ""
+"If the option is activated (default), then all projects will be re-scanned "
+"on opening of the workbench."
+msgstr ""
+
+#: menu.c:70
+#, c-format
+msgid "Could not create new workbench file: %s"
+msgstr ""
+
+#: menu.c:101
+#, c-format
+msgid "Could not open workbench file: %s"
+msgstr ""
+
+#: menu.c:118
+#, c-format
+msgid "Could not save workbench file: %s"
+msgstr ""
+
+#: menu.c:161 plugin_main.c:131 sidebar.c:971
+msgid "Workbench"
+msgstr ""
+
+#: menu.c:165
+msgid "New"
+msgstr ""
+
+#: menu.c:181
+msgid "Save"
+msgstr ""
+
+#: menu.c:189
+msgid "Settings"
+msgstr ""
+
+#: menu.c:197
+msgid "Close"
+msgstr ""
+
+#: plugin_main.c:95 sidebar.c:546
+msgid ""
+"Create or open a workbench\n"
+"using the workbench menu."
+msgstr ""
+
+#: plugin_main.c:132
+msgid "Manage and customize multiple projects."
+msgstr ""
+
+#: popup_menu.c:172
+#, c-format
+msgid "Could not add project file: %s"
+msgstr ""
+
+#: popup_menu.c:387
+msgid "Save project"
+msgstr ""
+
+#: popup_menu.c:393
+msgid "Remove project"
+msgstr ""
+
+#: popup_menu.c:399
+msgid "Fold/unfold project"
+msgstr ""
+
+#: popup_menu.c:415
+msgid "Remove directory"
+msgstr ""
+
+#: popup_menu.c:421
+msgid "Rescan directory"
+msgstr ""
+
+#: popup_menu.c:433
+msgid "Fold/unfold directory"
+msgstr ""
+
+#: popup_menu.c:443
+msgid "Expand all"
+msgstr ""
+
+#: popup_menu.c:449
+msgid "Collapse all"
+msgstr ""
+
+#: popup_menu.c:459
+msgid "Add to Workbench Bookmarks"
+msgstr ""
+
+#: popup_menu.c:465
+msgid "Add to Project Bookmarks"
+msgstr ""
+
+#: popup_menu.c:471
+msgid "Remove from Bookmarks"
+msgstr ""
+
+#: sidebar.c:299
+msgid "No directories"
+msgstr ""
+
+#: sidebar.c:544 sidebar.c:921
+msgid "No workbench opened."
+msgstr ""
+
+#: sidebar.c:556
+msgid "Projects"
+msgstr ""
+
+#: sidebar.c:566
+msgid ""
+"Add a project\n"
+"using the context menu."
+msgstr ""
+
+#: sidebar.c:673
+#, c-format
+msgid ""
+"%s\n"
+"Project file not found!"
+msgstr ""
+
+#: sidebar.c:687
+msgid ""
+"This project has no directories. Directories can be added to a project using "
+"the context menu."
+msgstr ""
+
+#: wb_project.c:1003
+#, c-format
+msgid "Directory-Name: %s\n"
+msgstr ""
+
+#: wb_project.c:1005
+#, c-format
+msgid "Base-Directory: %s\n"
+msgstr ""
+
+#: wb_project.c:1008
+msgid "File Patterns:"
+msgstr ""
+
+#: wb_project.c:1011 wb_project.c:1023 wb_project.c:1035
+#, c-format
+msgid " %s\n"
+msgstr ""
+
+#: wb_project.c:1016 wb_project.c:1028 wb_project.c:1040
+msgid "\n"
+msgstr ""
+
+#: wb_project.c:1019
+msgid "Ignored Dir. Patterns:"
+msgstr ""
+
+#: wb_project.c:1031
+msgid "Ignored File Patterns:"
+msgstr ""
+
+#: wb_project.c:1042
+#, c-format
+msgid "Number of Sub-Folders: %u\n"
+msgstr ""
+
+#: wb_project.c:1043
+#, c-format
+msgid "Number of Files: %u\n"
+msgstr ""
+
+#: wb_project.c:1063
+#, c-format
+msgid "Project: %s\n"
+msgstr ""
+
+#: wb_project.c:1065
+#, c-format
+msgid "File: %s\n"
+msgstr ""
+
+#: wb_project.c:1067
+#, c-format
+msgid "Number of Directories: %u\n"
+msgstr ""
+
+#: wb_project.c:1071
+msgid ""
+"\n"
+"The project contains unsafed changes!\n"
+msgstr ""

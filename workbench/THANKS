@@ -1,0 +1,13 @@
+What's this file about?
+-----------------------
+This file lists all external people that have contributed to this project.
+
+Project Organizer Plugin:
+-------------------------
+This plugin is heavily based on code from the Project Organizer plugin.
+So big thanks go to the author Jiří Techet.
+
+Geany and Geany plugins:
+------------------------
+Thanks to all Geany developers for support and writing an simple, lightweight,
+open and extensible IDE.

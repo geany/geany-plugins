@@ -1,0 +1,37 @@
+=========
+Workbench
+=========
+
+.. contents::
+
+About
+=====
+
+Workbench is an extension that makes it possible to manage multiple
+projects in geany.
+
+
+Usage
+=====
+
+Known issues
+============
+
+License
+=======
+
+Downloads
+=========
+
+Development Code
+================
+
+Get the code from::
+
+    git clone https://github.com/geany/geany-plugins.git
+
+Ideas, questions, patches and bug reports
+=========================================
+
+Please post any ideas, feature requests, questions and bugs in the
+github issue tracker.

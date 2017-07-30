@@ -312,6 +312,17 @@ webhelper/src/gwh-utils.c
 webhelper/src/gwh-browser.c
 webhelper/src/gwh-plugin.c
 
+# workbench
+workbench/src/dialogs.c
+workbench/src/menu.c
+workbench/src/plugin_main.c
+workbench/src/popup_menu.c
+workbench/src/sidebar.c
+workbench/src/utils.c
+workbench/src/wb_globals.c
+workbench/src/wb_project.c
+workbench/src/workbench.c
+
 # XMLSnippets
 xmlsnippets/src/plugin.c
 xmlsnippets/src/xmlsnippets.c
