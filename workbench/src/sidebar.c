@@ -730,9 +730,9 @@ static gboolean sidebar_file_view_on_button_release(G_GNUC_UNUSED GtkWidget * wi
 			{
 				popup_context = POPUP_CONTEXT_FILE;
 			}
-
-			popup_menu_show(popup_context, event);
 		}
+		popup_menu_show(popup_context, event);
+
 		return TRUE;
 	}
 
