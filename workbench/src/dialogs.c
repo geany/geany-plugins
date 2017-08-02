@@ -95,7 +95,6 @@ gchar *dialogs_open_workbench(void)
 
 		g_free(locale_filename);
 	}
-	//g_free(filter);
 
 	gtk_widget_destroy(dialog);
 
@@ -138,7 +137,6 @@ gchar *dialogs_add_project(void)
 
 		g_free(locale_filename);
 	}
-	//g_free(filter);
 
 	gtk_widget_destroy(dialog);
 
@@ -171,7 +169,6 @@ gchar *dialogs_add_directory(void)
 
 		g_free(locale_filename);
 	}
-	//g_free(filter);
 
 	gtk_widget_destroy(dialog);
 
