@@ -246,7 +246,7 @@ static void popup_menu_on_add_directory(G_GNUC_UNUSED GtkMenuItem * menuitem, G_
 	project = sidebar_file_view_get_selected_project(NULL);
 	if (project != NULL)
 	{
-		dirname = dialogs_add_directory();
+		dirname = dialogs_add_directory(project);
 		if (dirname != NULL)
 		{
 			SIDEBAR_CONTEXT context;

@@ -151,7 +151,7 @@ gchar *dialogs_add_project(void)
  * @return The filename
  *
  **/
-gchar *dialogs_add_directory(void)
+gchar *dialogs_add_directory(WB_PROJECT *project)
 {
 	gchar *utf8_filename = NULL;
 	GtkWidget *dialog;
@@ -160,7 +160,19 @@ gchar *dialogs_add_directory(void)
 		GTK_WINDOW(wb_globals.geany_plugin->geany_data->main_widgets->window), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
 		_("Add"), GTK_RESPONSE_ACCEPT, NULL);
-	//gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), locale_path);
+	if (project != NULL)
+	{
+		gchar *path;
+
+		/* Set the current folder to the location of the project file */
+		path = wb_project_get_filename(project);
+		if (path != NULL)
+		{
+			path = g_path_get_dirname(path);
+			gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
+			g_free(path);
+		}
+	}
 
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
 	{
