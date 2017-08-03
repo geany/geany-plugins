@@ -127,7 +127,7 @@ gchar *get_combined_path(const gchar *base, const gchar *relative)
 	gchar *result;
 	guint length;
 	gint goback;
-	
+
 	if (relative[0] != '.')
 	{
 		/* Not a relative directory. Simply return it. */
@@ -194,7 +194,7 @@ gchar *get_combined_path(const gchar *base, const gchar *relative)
  * The function can only properly handle pathes which consist of a maximum of
  * 29 sub-directories. If the pathes exceed this maximum the function aborts
  * and NULL is returned.
- * 
+ *
  * @param base   Base directory.
  * @param target Target directory or NULL in case of error.
  *
@@ -208,7 +208,7 @@ gchar *get_any_relative_path (const gchar *base, const gchar *target)
 	gchar **splitv_base;
 	gchar **splitv_target;
 
-	// Split up pathes into parts and count them
+	/* Split up pathes into parts and count them */
 	splitv_base = g_strsplit (base, G_DIR_SEPARATOR_S, -1);
 	index = 0;
 	while (splitv_base[index] != NULL)
@@ -230,14 +230,14 @@ gchar *get_any_relative_path (const gchar *base, const gchar *target)
 		index++;
 	}
 
-	// Count equal dirs
+	/* Count equal dirs */
 	equal = 0;
 	index = 0;
 	while (splitv_base[index] != NULL && splitv_target[index] != NULL)
 	{
 		if (g_strcmp0 (splitv_base[index], splitv_target[index]) == 0)
 		{
-			// We might encounter empty strings!
+			/* We might encounter empty strings! */
 			if (strlen(splitv_base[index]) > 0)
 			{
 				equal++;
@@ -256,7 +256,7 @@ gchar *get_any_relative_path (const gchar *base, const gchar *target)
 	relative = g_new (char *, 30);
 	if (equal < base_parts)
 	{
-		// Go back, add ".."
+		/* Go back, add ".." */
 		for (index = 0 ; index < (base_parts-equal) ; index++)
 		{
 			if (index == 0)
@@ -288,7 +288,7 @@ gchar *get_any_relative_path (const gchar *base, const gchar *target)
 			}
 		}
 
-		// Add directories
+		/* Add directories */
 		index = equal_index + 1;
 		while (splitv_target[index] != NULL)
 		{
@@ -311,8 +311,7 @@ gchar *get_any_relative_path (const gchar *base, const gchar *target)
 		}
 	}
 
-	// Copy it all together
-	// ********************
+	/* Copy it all together */
 	if (error == FALSE)
 	{
 		result = g_new(char, length+1);

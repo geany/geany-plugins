@@ -156,12 +156,12 @@ static void item_close_workbench_activate_cb(GtkMenuItem *menuitem, gpointer use
  **/
 gboolean menu_init(void)
 {
-	// Create menu and root item/label
+	/* Create menu and root item/label */
 	menu_data.menu = gtk_menu_new();
 	menu_data.root_item = gtk_menu_item_new_with_label(_("Workbench"));
 	gtk_widget_show(menu_data.root_item);
 
-	// Create new menu item "New Workbench"
+	/* Create new menu item "New Workbench" */
 	menu_data.item_new = gtk_menu_item_new_with_mnemonic(_("New"));
 	gtk_widget_show(menu_data.item_new);
 	gtk_menu_append(GTK_MENU (menu_data.menu), menu_data.item_new);
@@ -169,7 +169,7 @@ gboolean menu_init(void)
 					 G_CALLBACK(item_new_workbench_activate_cb), NULL);
 	geany_plugin_set_data(wb_globals.geany_plugin, menu_data.item_new, NULL);
 
-	// Create new menu item "Open Workbench"
+	/* Create new menu item "Open Workbench" */
 	menu_data.item_open = gtk_menu_item_new_with_mnemonic(_("Open"));
 	gtk_widget_show(menu_data.item_open);
 	gtk_menu_append(GTK_MENU (menu_data.menu), menu_data.item_open);
@@ -177,7 +177,7 @@ gboolean menu_init(void)
 					 G_CALLBACK(item_open_workbench_activate_cb), NULL);
 	geany_plugin_set_data(wb_globals.geany_plugin, menu_data.item_open, NULL);
 
-	// Create new menu item "Save Workbench"
+	/* Create new menu item "Save Workbench" */
 	menu_data.item_save = gtk_menu_item_new_with_mnemonic(_("Save"));
 	gtk_widget_show(menu_data.item_save);
 	gtk_menu_append(GTK_MENU (menu_data.menu), menu_data.item_save);
@@ -185,7 +185,7 @@ gboolean menu_init(void)
 					 G_CALLBACK(item_save_workbench_activate_cb), NULL);
 	geany_plugin_set_data(wb_globals.geany_plugin, menu_data.item_save, NULL);
 
-	// Create new menu item "Workbench Settings"
+	/* Create new menu item "Workbench Settings" */
 	menu_data.item_settings = gtk_menu_item_new_with_mnemonic(_("Settings"));
 	gtk_widget_show(menu_data.item_settings);
 	gtk_menu_append(GTK_MENU (menu_data.menu), menu_data.item_settings);
@@ -193,7 +193,7 @@ gboolean menu_init(void)
 					 G_CALLBACK(item_workbench_settings_activate_cb), NULL);
 	geany_plugin_set_data(wb_globals.geany_plugin, menu_data.item_settings, NULL);
 
-	// Create new menu item "Close Workbench"
+	/* Create new menu item "Close Workbench" */
 	menu_data.item_close = gtk_menu_item_new_with_mnemonic(_("Close"));
 	gtk_widget_show(menu_data.item_close);
 	gtk_menu_append(GTK_MENU (menu_data.menu), menu_data.item_close);
@@ -201,7 +201,7 @@ gboolean menu_init(void)
 					 G_CALLBACK(item_close_workbench_activate_cb), NULL);
 	geany_plugin_set_data(wb_globals.geany_plugin, menu_data.item_close, NULL);
 
-	// Add our menu to the main window (left of the help menu)
+	/* Add our menu to the main window (left of the help menu) */
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_data.root_item), menu_data.menu);
 	gtk_menu_shell_insert
 		(GTK_MENU_SHELL (ui_lookup_widget(wb_globals.geany_plugin->geany_data->main_widgets->window, "menubar1")),

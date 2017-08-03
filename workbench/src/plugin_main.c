@@ -77,7 +77,7 @@ static void plugin_workbench_on_doc_close(G_GNUC_UNUSED GObject * obj, GeanyDocu
 /* Initialize plugin */
 static gboolean plugin_workbench_init(GeanyPlugin *plugin, gpointer pdata)
 {
-	// Init/Update globals
+	/* Init/Update globals */
 	workbench_globals_init();
 	wb_globals.geany_plugin = plugin;
 	geany_plugin = plugin;
@@ -87,8 +87,8 @@ static gboolean plugin_workbench_init(GeanyPlugin *plugin, gpointer pdata)
 	sidebar_init();
 	popup_menu_init();
 
-	// At start there is no workbench open:
-	// deactive save and close menu item and sidebar
+	/* At start there is no workbench open:
+	   deactive save and close menu item and sidebar */
 	menu_item_save_deactivate();
 	menu_item_settings_deactivate();
 	menu_item_close_deactivate();

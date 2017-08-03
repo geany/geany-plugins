@@ -225,7 +225,7 @@ gboolean dialogs_directory_settings(WB_PROJECT_DIR *directory)
 	gchar *file_patterns_old, *ignored_file_patterns_old, *ignored_dirs_patterns_old;
 	gboolean changed;
 
-	// Create the widgets
+	/* Create the widgets */
 	flags = GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT;
 	dialog = gtk_dialog_new_with_buttons (_("Directory settings"),
 										  GTK_WINDOW(wb_globals.geany_plugin->geany_data->main_widgets->window),
@@ -287,7 +287,7 @@ gboolean dialogs_directory_settings(WB_PROJECT_DIR *directory)
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), vbox, TRUE, TRUE, 6);
 
-	// Add the label, and show everything we’ve added
+	/* Add the label, and show everything we’ve added */
 	gtk_container_add (GTK_CONTAINER (content_area), label);
 	gtk_container_add (GTK_CONTAINER (content_area), hbox);
 
@@ -356,7 +356,7 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 	GtkDialogFlags flags;
 	gboolean changed, rescan_projects_on_open, rescan_projects_on_open_old;
 
-	// Create the widgets
+	/* Create the widgets */
 	flags = GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT;
 	dialog = gtk_dialog_new_with_buttons (_("Workbench settings"),
 										  GTK_WINDOW(wb_globals.geany_plugin->geany_data->main_widgets->window),
@@ -389,7 +389,7 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), vbox, TRUE, TRUE, 6);
 
-	// Show everything we’ve added, run dialog
+	/* Show everything we’ve added, run dialog */
 	gtk_container_add (GTK_CONTAINER (content_area), hbox);
 	gtk_widget_show_all (dialog);
 	result = gtk_dialog_run(GTK_DIALOG(dialog));

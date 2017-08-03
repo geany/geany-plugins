@@ -144,8 +144,8 @@ static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList 
 			g_free(content_type);
 		}
 
-		// Build full absolute file name to use it on row activate to
-		// open the file. Will be assigned as data pointer, see below.
+		/* Build full absolute file name to use it on row activate to
+		   open the file. Will be assigned as data pointer, see below. */
 		part = g_build_filenamev(path_arr);
 		full = g_build_filename(abs_base_dir, part, NULL);
 		g_free(part);
@@ -501,8 +501,8 @@ static void sidebar_insert_all_projects(GtkTreeIter *iter, gint *position)
 			-1);
 
 		child_position = 0;
-		// Not required here as we build a completely new tree
-		//sidebar_remove_children(&iter);
+		/* Not required here as we build a completely new tree
+		   sidebar_remove_children(&iter); */
 		sidebar_insert_project_bookmarks(project, iter, &child_position);
 		sidebar_insert_project_directories(project, iter, &child_position);
 	}
@@ -593,7 +593,7 @@ static void sidebar_update_workbench(GtkTreeIter *iter, gint *position)
 		}
 		else
 		{
-			// Add/show workbench bookmarks if any
+			/* Add/show workbench bookmarks if any */
 			if (iter != NULL)
 			{
 				sidebar_insert_workbench_bookmarks(wb_globals.opened_wb, iter, position);
@@ -889,8 +889,8 @@ gboolean sidebar_file_view_get_selected_context(SIDEBAR_CONTEXT *context)
 	treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(sidebar.file_view));
 	if (gtk_tree_selection_get_selected(treesel, &model, &current))
 	{
-		// Search through the parents upwards until we find the project node.
-		// Save everthing that's interesting in callers variables...
+		/* Search through the parents upwards until we find the project node.
+		   Save everthing that's interesting in callers variables... */
 		do
 		{
 			gtk_tree_model_get(model, &current, FILEVIEW_COLUMN_DATA_ID, &dataid, -1);
@@ -912,7 +912,7 @@ gboolean sidebar_file_view_get_selected_context(SIDEBAR_CONTEXT *context)
 						context->directory = data;
 					break;
 					case DATA_ID_NO_DIRS:
-						// Has not got any data.
+						/* Has not got any data. */
 					break;
 					case DATA_ID_FOLDER:
 						context->folder = data;

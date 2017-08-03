@@ -123,8 +123,8 @@ void wb_project_set_filename(WB_PROJECT *prj, gchar *filename)
 			offset -= strlen(".geany");
 			if (ext == prj->name + offset)
 			{
-				// Strip of file extension by overwriting
-				// '.' with string terminator.
+				/* Strip of file extension by overwriting
+				   '.' with string terminator. */
 				prj->name[offset] = '\0';
 			}
 		}
@@ -951,7 +951,7 @@ gboolean wb_project_add_directory(WB_PROJECT *prj, const gchar *dirname)
 {
 	gchar *reldirname;
 
-	// Convert dirname to path relative to the project file
+	/* Convert dirname to path relative to the project file */
 	reldirname = get_any_relative_path(prj->filename, dirname);
 
 	if (wb_project_add_directory_int(prj, reldirname, TRUE) != NULL)
@@ -1255,17 +1255,17 @@ gboolean wb_project_save(WB_PROJECT *prj, GError **error)
 		gchar    *contents;
 		gsize    length, boomarks_size;
 
-		// Load existing data into GKeyFile
+		/* Load existing data into GKeyFile */
 		kf = g_key_file_new ();
 		if (!g_key_file_load_from_file(kf, prj->filename, G_KEY_FILE_NONE, error))
 		{
 			return FALSE;
 		}
 
-		// Remove existing, old data from our plugin
+		/* Remove existing, old data from our plugin */
 		g_key_file_remove_group (kf, "Workbench", NULL);
 
-		// Save Project bookmarks as string list
+		/* Save Project bookmarks as string list */
 		boomarks_size = wb_project_get_bookmarks_count(prj);
 		if (boomarks_size > 0)
 		{
@@ -1288,18 +1288,18 @@ gboolean wb_project_save(WB_PROJECT *prj, GError **error)
 			g_free(bookmarks_strings);
 		}
 
-		// Init tmp data
+		/* Init tmp data */
 		tmp.kf = kf;
 		tmp.dir_count = 1;
 
-		// Store our directories
+		/* Store our directories */
 		g_slist_foreach(prj->directories, (GFunc)wb_project_save_directories, &tmp);
 
-		// Get data as string
+		/* Get data as string */
 		contents = g_key_file_to_data (kf, &length, error);
 		g_key_file_free(kf);
 
-		// Save to file
+		/* Save to file */
 		success = g_file_set_contents (prj->filename, contents, length, error);
 		if (success)
 		{
@@ -1363,7 +1363,7 @@ gboolean wb_project_load(WB_PROJECT *prj, gchar *filename, GError **error)
 			gchar *str;
 			gchar **splitv, **bookmarks_strings;
 
-			// Load project bookmarks from string list
+			/* Load project bookmarks from string list */
 			bookmarks_strings = g_key_file_get_string_list (kf, "Workbench", "Bookmarks", NULL, error);
 			if (bookmarks_strings != NULL)
 			{
@@ -1383,7 +1383,7 @@ gboolean wb_project_load(WB_PROJECT *prj, gchar *filename, GError **error)
 				g_strfreev(bookmarks_strings);
 			}
 
-			// Load project dirs
+			/* Load project dirs */
 			for (index = 1 ; index < 1025 ; index++)
 			{
 				g_snprintf(key, sizeof(key), "Dir%u-BaseDir", index);

@@ -95,7 +95,7 @@ WORKBENCH *workbench_new(void)
 /** Free a workbench.
  *
  * @param wb The workbench
- * 
+ *
  **/
 void workbench_free(WORKBENCH *wb)
 {
@@ -231,8 +231,8 @@ void workbench_set_filename(WORKBENCH *wb, gchar *filename)
 			offset -= strlen(".geanywb");
 			if (ext == wb->name + offset)
 			{
-				// Strip of file extension by overwriting
-				// '.' with string terminator.
+				/* Strip of file extension by overwriting
+				   '.' with string terminator. */
 				wb->name[offset] = '\0';
 			}
 		}
@@ -300,7 +300,7 @@ WB_PROJECT *workbench_get_project_at_index (WORKBENCH *wb, guint index)
  *
  * Actually the project status just gives information about wheter
  * the project file for the project at @a index was found or not.
- * 
+ *
  * @param wb    The workbench
  * @param index The index
  * @return the status or PROJECT_ENTRY_STATUS_UNKNOWN if wb == NULL
@@ -326,7 +326,7 @@ PROJECT_ENTRY_STATUS workbench_get_project_status_at_index (WORKBENCH *wb, guint
  *
  * Actually the project status just gives information about wheter
  * the project file for the project at @a index was found or not.
- * 
+ *
  * @param wb      The workbench
  * @param address Location of the project
  * @return the status or PROJECT_ENTRY_STATUS_UNKNOWN if wb == NULL
@@ -352,7 +352,7 @@ PROJECT_ENTRY_STATUS workbench_get_project_status_by_address (WORKBENCH *wb, WB_
 
 
 /** Add a project to the workbench.
- * 
+ *
  * @param wb       The workbench
  * @param filename Project file
  * @return TRUE on success, FALSE otherwise
@@ -378,11 +378,11 @@ gboolean workbench_add_project(WORKBENCH *wb, gchar *filename)
 			return FALSE;
 		}
 
-		// Set entry data:
-		// - absolute and relative filename (relative to workbench file)
-		// - per default use relative path
-		// - check status of project file
-		// - pointer to the project data
+		/* Set entry data:
+		   - absolute and relative filename (relative to workbench file)
+		   - per default use relative path
+		   - check status of project file
+		   - pointer to the project data */
 		entry->abs_filename = g_strdup(filename);
 		entry->rel_filename = get_any_relative_path
 		                          (wb->filename, filename);
@@ -406,7 +406,7 @@ gboolean workbench_add_project(WORKBENCH *wb, gchar *filename)
 
 
 /** Remove a project from the workbench.
- * 
+ *
  * @param wb      The workbench
  * @param project The Project
  * @return TRUE on success, FALSE otherwise
@@ -482,7 +482,7 @@ static gboolean workbench_add_bookmark_int(WORKBENCH *wb, gchar *filename)
 
 
 /** Add a bookmark to a workbench.
- * 
+ *
  * @param wb       The workbench
  * @param filename File to bookmark
  * @return TRUE on success, FALSE otherwise
@@ -500,7 +500,7 @@ gboolean workbench_add_bookmark(WORKBENCH *wb, gchar *filename)
 
 
 /** Remove a bookmark from a workbench by filename address.
- * 
+ *
  * @param wb       The workbench
  * @param filename File to remove
  * @return TRUE on success, FALSE otherwise
@@ -529,7 +529,7 @@ gboolean workbench_remove_bookmark(WORKBENCH *wb, gchar *filename)
 
 
 /** Get the bookmark at @a index.
- * 
+ *
  * @param wb    The workbench
  * @param index The index
  * @return Address of filename or NULL
@@ -552,7 +552,7 @@ gchar *workbench_get_bookmark_at_index (WORKBENCH *wb, guint index)
 
 
 /** Get the number of bookmarks in a workbench.
- * 
+ *
  * @param wb The workbench
  * @return The number of bookmarks or 0 if wb == NULL
  *
@@ -568,7 +568,7 @@ guint workbench_get_bookmarks_count(WORKBENCH *wb)
 
 
 /** Save a workbench.
- * 
+ *
  * @param wb    The workbench
  * @param error Location for returning an GError
  * @return TRUE on success, FALSE otherwise
@@ -589,12 +589,12 @@ gboolean workbench_save(WORKBENCH *wb, GError **error)
 
 		kf = g_key_file_new ();
 
-		// Save common, simple values
+		/* Save common, simple values */
 		g_key_file_set_string(kf, "General", "filetype", "workbench");
 		g_key_file_set_string(kf, "General", "version", "1.0");
 		g_key_file_set_boolean(kf, "General", "RescanProjectsOnOpen", wb->rescan_projects_on_open);
 
-		// Save Workbench bookmarks as string list
+		/* Save Workbench bookmarks as string list */
 		boomarks_size = workbench_get_bookmarks_count(wb);
 		if (boomarks_size > 0)
 		{
@@ -617,7 +617,7 @@ gboolean workbench_save(WORKBENCH *wb, GError **error)
 			g_free(bookmarks_strings);
 		}
 
-		// Save projects data
+		/* Save projects data */
 		for (index = 0 ; index < wb->projects->len ; index++)
 		{
 			entry = g_ptr_array_index(wb->projects, index);
@@ -648,10 +648,10 @@ gboolean workbench_save(WORKBENCH *wb, GError **error)
 
 
 /** Load a workbench file.
- * 
+ *
  * The function loads the workbench settings from file @a filename and
  * stores it into @a wb.
- * 
+ *
  * @param wb       The workbench
  * @param filename File to load from
  * @param error    Location for returning an GError
@@ -715,7 +715,7 @@ gboolean workbench_load(WORKBENCH *wb, gchar *filename, GError **error)
 		workbench_set_filename(wb, filename);
 		wb->rescan_projects_on_open = g_key_file_get_boolean(kf, "General", "RescanProjectsOnOpen", error);
 
-		// Load Workbench bookmarks from string list
+		/* Load Workbench bookmarks from string list */
 		bookmarks_strings = g_key_file_get_string_list (kf, "General", "Bookmarks", NULL, error);
 		if (bookmarks_strings != NULL)
 		{
@@ -735,7 +735,7 @@ gboolean workbench_load(WORKBENCH *wb, gchar *filename, GError **error)
 			g_strfreev(bookmarks_strings);
 		}
 
-		// Load projects data
+		/* Load projects data */
 		for (index = 0 ; index < 1024 ; index++)
 		{
 			g_snprintf(group, sizeof(group), "Project-%u", (index+1));
@@ -768,7 +768,7 @@ gboolean workbench_load(WORKBENCH *wb, gchar *filename, GError **error)
 					{
 						entry->status = PROJECT_ENTRY_STATUS_OK;
 
-						// ToDo: collect and handle project load errors
+						/* ToDo: collect and handle project load errors */
 						wb_project_load(entry->project, prj_filename, error);
 					}
 					else
