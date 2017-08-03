@@ -398,6 +398,32 @@ static void sidebar_insert_project_bookmarks(WB_PROJECT *project, GtkTreeIter *p
 }
 
 
+/* Update the sidebar for a project, only update title */
+static void sidebar_update_project_title(WB_PROJECT *project)
+{
+	GtkTreeIter iter;
+
+	if (wb_globals.opened_wb == NULL)
+		return;
+
+	if (sidebar_get_project_iter(project, &iter))
+	{
+		gint length;
+		gchar text[200];
+
+		length = g_snprintf(text, sizeof(text), "%s", wb_project_get_name(project));
+		if (length < (sizeof(text)-1) && wb_project_is_modified(project))
+		{
+			text [length] = '*';
+			text [length+1] = '\0';
+		}
+		gtk_tree_store_set(sidebar.file_store, &iter,
+			FILEVIEW_COLUMN_NAME, text,
+			-1);
+	}
+}
+
+
 /* Update the sidebar for a project only */
 static void sidebar_update_project(WB_PROJECT *project)
 {
@@ -608,6 +634,11 @@ void sidebar_update (SIDEBAR_EVENT event, SIDEBAR_CONTEXT *context)
 			sidebar_update_workbench(NULL, &position);
 		break;
 		case SIDEBAR_CONTEXT_PROJECT_SAVED:
+			if (context != NULL && context->project != NULL)
+			{
+				sidebar_update_project_title(context->project);
+			}
+		break;
 		case SIDEBAR_CONTEXT_DIRECTORY_ADDED:
 		case SIDEBAR_CONTEXT_DIRECTORY_REMOVED:
 		case SIDEBAR_CONTEXT_DIRECTORY_RESCANNED:
@@ -1078,7 +1109,7 @@ void sidebar_collapse_selected_project(void)
 
 
 /** Toggle state of all rows in the sidebar tree for the selected project.
- * 
+ *
  * If the project is expanded, then it will be collapsed and vice versa.
  *
  **/
@@ -1106,7 +1137,7 @@ void sidebar_toggle_selected_project_expansion(void)
 
 
 /** Toggle state of all rows in the sidebar tree for the selected directory.
- * 
+ *
  * If the directory is expanded, then it will be collapsed and vice versa.
  *
  **/
