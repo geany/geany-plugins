@@ -1237,7 +1237,7 @@ guint wb_project_get_bookmarks_count(WB_PROJECT *prj)
  *
  * The function saves the project config file. Only the workbench plugin info
  * is changed, all other config options remain unchanged.
- * 
+ *
  * @param prj   The project
  * @param error Location to store error info at
  * @return TRUE on success, FALSE otherwise
@@ -1322,7 +1322,7 @@ gboolean wb_project_save(WB_PROJECT *prj, GError **error)
  *
  * The function loads the project data from file @a filename into the
  * project structure @a prj.
- * 
+ *
  * @param prj      The project
  * @param filename File to load
  * @param error    Location to store error info at
@@ -1338,7 +1338,7 @@ gboolean wb_project_load(WB_PROJECT *prj, gchar *filename, GError **error)
 		GKeyFile *kf;
 		guint	 index;
 		gchar    *contents;
-		gchar    key[20];
+		gchar    key[100];
 		gsize    length;
 
 		if (!g_file_get_contents (filename, &contents, &length, error))
