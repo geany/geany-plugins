@@ -1008,36 +1008,36 @@ gchar *wb_project_dir_get_info (WB_PROJECT_DIR *dir)
 	pos += g_snprintf(&(text[pos]), sizeof(text)-pos, _("File Patterns:"));
 	if (str != NULL )
 	{
-		pos += g_snprintf(&(text[pos]), sizeof(text)-pos, _(" %s\n"), str);
+		pos += g_snprintf(&(text[pos]), sizeof(text)-pos, " %s\n", str);
 		g_free(str);
 	}
 	else
 	{
-		pos += g_snprintf(&(text[pos]), sizeof(text)-pos, _("\n"));
+		pos += g_snprintf(&(text[pos]), sizeof(text)-pos, "\n");
 	}
 
 	pos += g_snprintf(&(text[pos]), sizeof(text)-pos, _("Ignored Dir. Patterns:"));
 	str = g_strjoinv(" ", dir->ignored_dirs_patterns);
 	if (str != NULL )
 	{
-		pos += g_snprintf(&(text[pos]), sizeof(text)-pos, _(" %s\n"), str);
+		pos += g_snprintf(&(text[pos]), sizeof(text)-pos, " %s\n", str);
 		g_free(str);
 	}
 	else
 	{
-		pos += g_snprintf(&(text[pos]), sizeof(text)-pos, _("\n"));
+		pos += g_snprintf(&(text[pos]), sizeof(text)-pos, "\n");
 	}
 
 	pos += g_snprintf(&(text[pos]), sizeof(text)-pos, _("Ignored File Patterns:"));
 	str = g_strjoinv(" ", dir->ignored_file_patterns);
 	if (str != NULL )
 	{
-		pos += g_snprintf(&(text[pos]), sizeof(text)-pos, _(" %s\n"), str);
+		pos += g_snprintf(&(text[pos]), sizeof(text)-pos, " %s\n", str);
 		g_free(str);
 	}
 	else
 	{
-		pos += g_snprintf(&(text[pos]), sizeof(text)-pos, _("\n"));
+		pos += g_snprintf(&(text[pos]), sizeof(text)-pos, "\n");
 	}
 	pos += g_snprintf(&(text[pos]), sizeof(text)-pos, _("Number of Sub-Folders: %u\n"), dir->folder_count);
 	pos += g_snprintf(&(text[pos]), sizeof(text)-pos, _("Number of Files: %u\n"), dir->file_count);
