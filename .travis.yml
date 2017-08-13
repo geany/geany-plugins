@@ -48,7 +48,7 @@ addons:
     - python-gtk2-dev
     # geanyvc
     - libgtkspell-dev
-    - libgtkspell-3-dev
+    - libgtkspell3-3-dev
     # geaniuspaste/updatechecker
     - libsoup2.4-dev
     # git-changebar
