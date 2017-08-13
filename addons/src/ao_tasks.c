@@ -559,7 +559,7 @@ static void create_task(AoTasks *t, GeanyDocument *doc, gint line, const gchar *
 static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
 {
 	gint lexer, lines, line, last_pos = 0, style;
-	gchar *line_buf, *display_name, *task_start, *closing_comment;
+	gchar *line_buf, *display_name, *task_start, *closing_comment = NULL;
 	gchar **token;
 	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
 
