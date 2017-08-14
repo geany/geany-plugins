@@ -155,7 +155,6 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 static void popup_menu_on_add_project(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
 	gchar *filename;
-	GError *error = NULL;
 
 	filename = dialogs_add_project();
 	if (filename == NULL || wb_globals.opened_wb == NULL)
@@ -169,7 +168,7 @@ static void popup_menu_on_add_project(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNU
 	}
 	else
 	{
-		dialogs_show_msgbox(GTK_MESSAGE_INFO, _("Could not add project file: %s"), error->message);
+		dialogs_show_msgbox(GTK_MESSAGE_INFO, _("Could not add project file: %s"), filename);
 	}
 	g_free(filename);
 }
