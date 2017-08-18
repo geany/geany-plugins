@@ -106,7 +106,7 @@ gchar *dialogs_open_workbench(void)
  **/
 gchar *dialogs_add_project(void)
 {
-    gchar *filename = NULL;
+	gchar *filename = NULL;
 	GtkWidget *dialog;
 	GtkFileFilter *filter;
 
