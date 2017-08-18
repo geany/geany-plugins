@@ -113,7 +113,7 @@ gchar *dialogs_add_project(void)
 	dialog = gtk_file_chooser_dialog_new(_("Add project"),
 		GTK_WINDOW(wb_globals.geany_plugin->geany_data->main_widgets->window), GTK_FILE_CHOOSER_ACTION_OPEN,
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
-		_("Add"), GTK_RESPONSE_ACCEPT, NULL);
+		_("_Add"), GTK_RESPONSE_ACCEPT, NULL);
 
 	filter = gtk_file_filter_new();
 	gtk_file_filter_set_name(filter, _("Project files (.geany)"));
@@ -150,7 +150,7 @@ gchar *dialogs_add_directory(WB_PROJECT *project)
 	dialog = gtk_file_chooser_dialog_new(_("Add directory"),
 		GTK_WINDOW(wb_globals.geany_plugin->geany_data->main_widgets->window), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
-		_("Add"), GTK_RESPONSE_ACCEPT, NULL);
+		_("_Add"), GTK_RESPONSE_ACCEPT, NULL);
 	if (project != NULL)
 	{
 		gchar *path;
