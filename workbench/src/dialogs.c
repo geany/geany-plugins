@@ -37,7 +37,7 @@ extern GeanyPlugin *geany_plugin;
  **/
 gchar *dialogs_create_new_workbench(void)
 {
-	gchar *utf8_filename = NULL;
+	gchar *filename = NULL;
 	GtkWidget *dialog;
 
 	dialog = gtk_file_chooser_dialog_new(_("Create new workbench"),
@@ -49,15 +49,12 @@ gchar *dialogs_create_new_workbench(void)
 
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
 	{
-		gchar *locale_filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-		utf8_filename = utils_get_utf8_from_locale(locale_filename);
-
-		g_free(locale_filename);
+		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
 	}
 
 	gtk_widget_destroy(dialog);
 
-	return utf8_filename;
+	return filename;
 }
 
 
@@ -70,7 +67,7 @@ gchar *dialogs_create_new_workbench(void)
  **/
 gchar *dialogs_open_workbench(void)
 {
-    gchar *utf8_filename = NULL;
+    gchar *filename = NULL;
 	GtkWidget *dialog;
 	GtkFileFilter *filter;
 
@@ -90,15 +87,12 @@ gchar *dialogs_open_workbench(void)
 
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
 	{
-		gchar *locale_filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-		utf8_filename = utils_get_utf8_from_locale(locale_filename);
-
-		g_free(locale_filename);
+		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
 	}
 
 	gtk_widget_destroy(dialog);
 
-	return utf8_filename;
+	return filename;
 }
 
 
@@ -112,7 +106,7 @@ gchar *dialogs_open_workbench(void)
  **/
 gchar *dialogs_add_project(void)
 {
-    gchar *utf8_filename = NULL;
+    gchar *filename = NULL;
 	GtkWidget *dialog;
 	GtkFileFilter *filter;
 
@@ -132,15 +126,12 @@ gchar *dialogs_add_project(void)
 
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
 	{
-		gchar *locale_filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-		utf8_filename = utils_get_utf8_from_locale(locale_filename);
-
-		g_free(locale_filename);
+		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
 	}
 
 	gtk_widget_destroy(dialog);
 
-	return utf8_filename;
+	return filename;
 }
 
 
@@ -153,7 +144,7 @@ gchar *dialogs_add_project(void)
  **/
 gchar *dialogs_add_directory(WB_PROJECT *project)
 {
-	gchar *utf8_filename = NULL;
+	gchar *filename = NULL;
 	GtkWidget *dialog;
 
 	dialog = gtk_file_chooser_dialog_new(_("Add directory"),
@@ -176,15 +167,12 @@ gchar *dialogs_add_directory(WB_PROJECT *project)
 
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
 	{
-		gchar *locale_filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-		utf8_filename = utils_get_utf8_from_locale(locale_filename);
-
-		g_free(locale_filename);
+		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
 	}
 
 	gtk_widget_destroy(dialog);
 
-	return utf8_filename;
+	return filename;
 }
 
 
