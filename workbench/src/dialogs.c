@@ -43,7 +43,7 @@ gchar *dialogs_create_new_workbench(void)
 	dialog = gtk_file_chooser_dialog_new(_("Create new workbench"),
 		GTK_WINDOW(wb_globals.geany_plugin->geany_data->main_widgets->window), GTK_FILE_CHOOSER_ACTION_SAVE,
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
-		_("Create"), GTK_RESPONSE_ACCEPT, NULL);
+		_("C_reate"), GTK_RESPONSE_ACCEPT, NULL);
 	gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER(dialog), "new.geanywb");
 	gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER(dialog), TRUE);
 
