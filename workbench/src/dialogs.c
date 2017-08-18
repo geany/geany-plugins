@@ -74,7 +74,7 @@ gchar *dialogs_open_workbench(void)
 	dialog = gtk_file_chooser_dialog_new(_("Open workbench"),
 		GTK_WINDOW(wb_globals.geany_plugin->geany_data->main_widgets->window), GTK_FILE_CHOOSER_ACTION_OPEN,
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
-		_("Open"), GTK_RESPONSE_ACCEPT, NULL);
+		_("_Open"), GTK_RESPONSE_ACCEPT, NULL);
 
 	filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter, _("Workbench files (.geanywb)"));
