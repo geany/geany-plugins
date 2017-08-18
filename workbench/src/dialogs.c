@@ -45,7 +45,7 @@ gchar *dialogs_create_new_workbench(void)
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
 		_("C_reate"), GTK_RESPONSE_ACCEPT, NULL);
 	gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER(dialog), "new.geanywb");
-	gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER(dialog), TRUE);
+	gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog), TRUE);
 
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
 	{
@@ -76,14 +76,14 @@ gchar *dialogs_open_workbench(void)
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
 		_("_Open"), GTK_RESPONSE_ACCEPT, NULL);
 
-	filter = gtk_file_filter_new ();
-	gtk_file_filter_set_name (filter, _("Workbench files (.geanywb)"));
-	gtk_file_filter_add_pattern (filter, "*.geanywb");
-	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER(dialog), filter);
-	filter = gtk_file_filter_new ();
-	gtk_file_filter_set_name (filter, _("All Files"));
-	gtk_file_filter_add_pattern (filter, "*");
-	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER(dialog), filter);
+	filter = gtk_file_filter_new();
+	gtk_file_filter_set_name(filter, _("Workbench files (.geanywb)"));
+	gtk_file_filter_add_pattern(filter, "*.geanywb");
+	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
+	filter = gtk_file_filter_new();
+	gtk_file_filter_set_name(filter, _("All Files"));
+	gtk_file_filter_add_pattern(filter, "*");
+	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
 
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
 	{
@@ -115,14 +115,14 @@ gchar *dialogs_add_project(void)
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
 		_("Add"), GTK_RESPONSE_ACCEPT, NULL);
 
-	filter = gtk_file_filter_new ();
-	gtk_file_filter_set_name (filter, _("Project files (.geany)"));
-	gtk_file_filter_add_pattern (filter, "*.geany");
-	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER(dialog), filter);
-	filter = gtk_file_filter_new ();
-	gtk_file_filter_set_name (filter, _("All Files"));
-	gtk_file_filter_add_pattern (filter, "*");
-	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER(dialog), filter);
+	filter = gtk_file_filter_new();
+	gtk_file_filter_set_name(filter, _("Project files (.geany)"));
+	gtk_file_filter_add_pattern(filter, "*.geany");
+	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
+	filter = gtk_file_filter_new();
+	gtk_file_filter_set_name(filter, _("All Files"));
+	gtk_file_filter_add_pattern(filter, "*");
+	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
 
 	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
 	{
@@ -215,15 +215,15 @@ gboolean dialogs_directory_settings(WB_PROJECT_DIR *directory)
 
 	/* Create the widgets */
 	flags = GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT;
-	dialog = gtk_dialog_new_with_buttons (_("Directory settings"),
-										  GTK_WINDOW(wb_globals.geany_plugin->geany_data->main_widgets->window),
-										  flags,
-										  GTK_STOCK_CANCEL,
-										  GTK_RESPONSE_CANCEL,
-										  GTK_STOCK_OK,
-										  GTK_RESPONSE_ACCEPT,
-										  NULL);
-	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	dialog = gtk_dialog_new_with_buttons(_("Directory settings"),
+										 GTK_WINDOW(wb_globals.geany_plugin->geany_data->main_widgets->window),
+										 flags,
+										 GTK_STOCK_CANCEL,
+										 GTK_RESPONSE_CANCEL,
+										 GTK_STOCK_OK,
+										 GTK_RESPONSE_ACCEPT,
+										 NULL);
+	content_area = gtk_dialog_get_content_area(GTK_DIALOG (dialog));
 
 	vbox = gtk_vbox_new(FALSE, 0);
 
@@ -276,10 +276,10 @@ gboolean dialogs_directory_settings(WB_PROJECT_DIR *directory)
 	gtk_box_pack_start(GTK_BOX(hbox), vbox, TRUE, TRUE, 6);
 
 	/* Add the label, and show everything we’ve added */
-	gtk_container_add (GTK_CONTAINER (content_area), label);
-	gtk_container_add (GTK_CONTAINER (content_area), hbox);
+	gtk_container_add(GTK_CONTAINER (content_area), label);
+	gtk_container_add(GTK_CONTAINER (content_area), hbox);
 
-	gtk_widget_show_all (dialog);
+	gtk_widget_show_all(dialog);
 	gint result = gtk_dialog_run(GTK_DIALOG(dialog));
 	changed = FALSE;
 	if (result == GTK_RESPONSE_ACCEPT)
@@ -346,15 +346,15 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 
 	/* Create the widgets */
 	flags = GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT;
-	dialog = gtk_dialog_new_with_buttons (_("Workbench settings"),
-										  GTK_WINDOW(wb_globals.geany_plugin->geany_data->main_widgets->window),
-										  flags,
-										  GTK_STOCK_CANCEL,
-										  GTK_RESPONSE_CANCEL,
-										  GTK_STOCK_OK,
-										  GTK_RESPONSE_ACCEPT,
-										  NULL);
-	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	dialog = gtk_dialog_new_with_buttons(_("Workbench settings"),
+										 GTK_WINDOW(wb_globals.geany_plugin->geany_data->main_widgets->window),
+										 flags,
+										 GTK_STOCK_CANCEL,
+										 GTK_RESPONSE_CANCEL,
+										 GTK_STOCK_OK,
+										 GTK_RESPONSE_ACCEPT,
+										 NULL);
+	content_area = gtk_dialog_get_content_area(GTK_DIALOG (dialog));
 
 	vbox = gtk_vbox_new(FALSE, 0);
 
@@ -364,13 +364,13 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 
 	label = gtk_label_new(_("Rescan all projects on open:"));
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
-	w_rescan_projects_on_open = gtk_check_button_new ();
+	w_rescan_projects_on_open = gtk_check_button_new();
 	ui_table_add_row(GTK_TABLE(table), 0, label, w_rescan_projects_on_open, NULL);
 	gtk_widget_set_tooltip_text(w_rescan_projects_on_open,
 		_("If the option is activated (default), then all projects will be re-scanned"
 		  " on opening of the workbench."));
 	rescan_projects_on_open_old = workbench_get_rescan_projects_on_open(workbench);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(w_rescan_projects_on_open), rescan_projects_on_open_old);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w_rescan_projects_on_open), rescan_projects_on_open_old);
 
 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 6);
 
@@ -378,14 +378,14 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 	gtk_box_pack_start(GTK_BOX(hbox), vbox, TRUE, TRUE, 6);
 
 	/* Show everything we’ve added, run dialog */
-	gtk_container_add (GTK_CONTAINER (content_area), hbox);
-	gtk_widget_show_all (dialog);
+	gtk_container_add(GTK_CONTAINER (content_area), hbox);
+	gtk_widget_show_all(dialog);
 	result = gtk_dialog_run(GTK_DIALOG(dialog));
 
 	changed = FALSE;
 	if (result == GTK_RESPONSE_ACCEPT)
 	{
-		rescan_projects_on_open = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(w_rescan_projects_on_open));
+		rescan_projects_on_open = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w_rescan_projects_on_open));
 		if (rescan_projects_on_open != rescan_projects_on_open_old)
 		{
 			changed = TRUE;
