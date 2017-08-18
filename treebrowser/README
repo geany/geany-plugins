@@ -42,7 +42,7 @@ Tools->Plugin Manager and set checkbox at TreeBrowser plugin
 FAQ
 ===
 
-* My base directory is not remember
+* My base directory is not remembered
 	Yes it isn`t saved, and I don`t think that it have to be saved while We have in Geany "Startup path", and "Load from the last session"
 	These settings are useful and the plugin take care about them, use them and the problem with the last directory remembering will be solved.
 
@@ -50,7 +50,7 @@ FAQ
 Download Source
 ===============
 
-Development Source Tarbal: https://github.com/geany/geany-plugins/archive/master.zip
+Development Source Tarball: https://github.com/geany/geany-plugins/archive/master.zip
 
 TreeBrowser is part of the combined Geany Plugins release. For more information and downloads, please visit http://plugins.geany.org/
 
@@ -64,7 +64,7 @@ Installation
 License
 =======
 
-TreeBrowser plugin is distrubuted under the same license as and geany.
+TreeBrowser plugin is distributed under the same license as in geany.
 
 
 Ideas, questions, patches and bug reports

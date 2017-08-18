@@ -397,7 +397,7 @@ static void
 fill_store (GtkListStore *store)
 {
   GtkWidget  *menubar;
-  guint       i;
+  guint       i = 0;
   
   /* menu items */
   menubar = find_menubar (GTK_CONTAINER (geany_data->main_widgets->window));

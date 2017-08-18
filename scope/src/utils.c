@@ -727,7 +727,7 @@ void utils_init(void)
 
 void utils_finalize(void)
 {
-	guint i;
+	guint i = 0;
 	DebugState state = debug_state();
 
 	foreach_document(i)

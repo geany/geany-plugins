@@ -1,0 +1,78 @@
+XML PrettyPrinter
+=================
+
+.. contents::
+
+About
+-----
+
+Formats an XML file and makes it human-readable.
+
+
+Installation
+------------
+
+This version of the plugin is installed with the combined
+geany-plugins release. Please check README of this package
+
+
+Features
+--------
+
+The following features exist and are configurable:
+* Change line breaks
+* Indentation
+* Format empty nodes
+* Format comments
+* Format text nodes
+* Format CDATA
+
+
+Usage
+-----
+
+After installed successfully, load the plugin in Geany's plugin manager.
+If the current file is an XML file simply choose "PrettyPrinter XML" to
+format the file according to the plugin's preferences. The plugin's
+preferences can be set under "Edit/Plugin Preferences", see the "XML
+PrettyPrinter" tab.
+
+
+Development
+-----------
+
+You can checkout the current source code from the git repository at
+github.com. Get the code by:
+
+git clone https://github.com/geany/geany-plugins.git
+
+If you want to create a patch, please respect the license of
+Lipsum as well as intellectual property of third. Patches that
+should be included to the default distribution must be licensed under
+the same conditions as Lipsum by the copyright owner (GPL2+).
+
+
+Known issues
+------------
+
+If you encounter any issues, please report them in the issue-tracker at github.
+There you will also find information about already reported issues and their progress.
+See https://github.com/geany/geany-plugins/issues.
+
+
+License
+-------
+
+PrettyPrinter and all its parts is distributed under the terms of the
+GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any
+later version. A copy of this license can be found in the file COPYING
+included with the source code of this program. If not, you will be
+able to get a copy by contacting the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+
+Contact developers
+------------------
+
+This plugin currently has no maintainer. Would you like to help by contributing to this plugin?

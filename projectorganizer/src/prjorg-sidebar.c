@@ -883,7 +883,7 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 {
 	GSList *dir_list = NULL;
 	GSList *file_list = NULL;
-	GSList *elem;
+	GSList *elem = NULL;
 
 	foreach_slist (elem, leaf_list)
 	{
@@ -1030,7 +1030,7 @@ static void load_project_root(PrjOrgRoot *root, GtkTreeIter *parent, GSList *hea
 {
 	GSList *lst = NULL;
 	GSList *path_list = NULL;
-	GSList *elem;
+	GSList *elem = NULL;
 	GHashTableIter iter;
 	gpointer key, value;
 
@@ -1077,7 +1077,7 @@ static void load_project_root(PrjOrgRoot *root, GtkTreeIter *parent, GSList *hea
 
 static void load_project(void)
 {
-	GSList *elem, *header_patterns, *source_patterns;
+	GSList *elem = NULL, *header_patterns, *source_patterns;
 	GtkTreeIter iter;
 	gboolean first = TRUE;
 	GIcon *icon_dir;
@@ -1167,7 +1167,7 @@ static gboolean expand_path(gchar *utf8_expanded_path, gboolean select)
 	GtkTreeIter root_iter, found_iter;
 	gchar *utf8_path = NULL;
 	gchar **path_split;
-	GSList *elem;
+	GSList *elem = NULL;
 	GtkTreeModel *model;
 
 	model = GTK_TREE_MODEL(s_file_store);

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-29 15:34+0200\n"
+"POT-Creation-Date: 2017-06-24 16:57+0200\n"
 "PO-Revision-Date: 2013-03-07 23:48+0100\n"
 "Last-Translator: Toni Garcia-Navarro <topi@elpiset.net>\n"
 "Language-Team: ca <topi@elpiset.net>\n"
@@ -3707,17 +3707,17 @@ msgid "_Re-Record"
 msgstr ""
 
 #. add record macro menu entry
-#: ../geanymacro/src/geanymacro.c:2260
+#: ../geanymacro/src/geanymacro.c:2261
 msgid "Record _Macro"
 msgstr "Enregistra una _Macro"
 
 #. add stop record macromenu entry
-#: ../geanymacro/src/geanymacro.c:2266
+#: ../geanymacro/src/geanymacro.c:2267
 msgid "Stop Recording _Macro"
 msgstr "Atura l'Enregistrament de la _Macro"
 
 #. add Edit Macro menu entry
-#: ../geanymacro/src/geanymacro.c:2272
+#: ../geanymacro/src/geanymacro.c:2273
 msgid "_Edit Macros"
 msgstr "_Edita les Macros"
 
@@ -5521,7 +5521,7 @@ msgstr ""
 msgid "XML PrettyPrinter"
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:42
+#: ../pretty-printer/src/PluginEntry.c:37
 msgid ""
 "Formats an XML and makes it human-readable. \n"
 "This plugin currentlyhas no maintainer. Would you like to help by "
@@ -5529,19 +5529,19 @@ msgid ""
 msgstr ""
 
 #. put the menu into the Tools
-#: ../pretty-printer/src/PluginEntry.c:125
+#: ../pretty-printer/src/PluginEntry.c:60
 msgid "PrettyPrinter XML"
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:134
+#: ../pretty-printer/src/PluginEntry.c:69
 msgid "Run the PrettyPrinter XML"
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:214
+#: ../pretty-printer/src/PluginEntry.c:140
 msgid "Unable to parse the content as XML."
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:225
+#: ../pretty-printer/src/PluginEntry.c:151
 msgid ""
 "Unable to process PrettyPrinting on the specified XML because some features "
 "are not supported.\n"

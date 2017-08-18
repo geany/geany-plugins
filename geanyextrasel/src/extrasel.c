@@ -564,7 +564,7 @@ void plugin_init(G_GNUC_UNUSED GeanyData *data)
 
 void plugin_cleanup(void)
 {
-	guint i;
+	guint i = 0;
 
 	gtk_widget_destroy(main_menu_item);
 	column_mode = FALSE;

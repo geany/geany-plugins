@@ -7,18 +7,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 1.30\n"
+"Project-Id-Version: Geany-Plugins 1.31\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-29 15:34+0200\n"
-"PO-Revision-Date: 2017-02-23 23:48+0100\n"
-"Last-Translator: Abel 'Akronix' Serrano Juste <akronix5@gmail.com>\n"
-"Language-Team: Spanish; Castilian <>\n"
+"POT-Creation-Date: 2017-06-24 16:57+0200\n"
+"PO-Revision-Date: 2017-06-26 12:01+0200\n"
+"Last-Translator: Lucas Vieites <lucas@codexion.com>\n"
+"Language-Team: Español <geany-i18n@uvena.de>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.9\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
@@ -1348,6 +1348,9 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Abrir el visor de documentación en el símbolo actual.\n"
+"En este momento este plugin no tiene mantenedor. ¿Te gustaría ayudar a "
+"contribuir a este plugin?"
 
 #: ../geanydoc/src/geanydoc.c:159 ../geanyvc/src/geanyvc.c:427
 msgid "Could not parse the output of command"
@@ -1387,6 +1390,9 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Modo columna, selecciona hasta línea/corchete/ancla.\n"
+"En este momento este plugin no tiene mantenedor. ¿Te gustaría ayudar a "
+"contribuir a este plugin?"
 
 #: ../geanyextrasel/src/extrasel.c:501
 msgid "E_xtra Selection"
@@ -1870,6 +1876,9 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Insertar/Rellenar columnas con números.\n"
+"En este momento este plugin no tiene mantenedor. ¿Te gustaría ayudar a "
+"contribuir a este plugin?"
 
 #: ../geanyinsertnum/src/insertnum.c:146
 msgid "Counting..."
@@ -2932,6 +2941,9 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Escribir y ejecutar scripts en Lua para comandos personalizados.\n"
+"En este momento este plugin no tiene mantenedor. ¿Te gustaría ayudar a "
+"contribuir a este plugin?"
 
 #: ../geanylua/glspi_ver.h:19
 msgid "Lua Script Plugin"
@@ -3897,17 +3909,17 @@ msgid "_Re-Record"
 msgstr "_Regrabar"
 
 #. add record macro menu entry
-#: ../geanymacro/src/geanymacro.c:2260
+#: ../geanymacro/src/geanymacro.c:2261
 msgid "Record _Macro"
 msgstr "Grabar _macro"
 
 #. add stop record macromenu entry
-#: ../geanymacro/src/geanymacro.c:2266
+#: ../geanymacro/src/geanymacro.c:2267
 msgid "Stop Recording _Macro"
 msgstr "Detener grabación de _macro"
 
 #. add Edit Macro menu entry
-#: ../geanymacro/src/geanymacro.c:2272
+#: ../geanymacro/src/geanymacro.c:2273
 msgid "_Edit Macros"
 msgstr "_Editar macros"
 
@@ -4197,6 +4209,9 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Plugin de encriptación PGP para Geany.\n"
+"En este momento este plugin no tiene mantenedor. ¿Te gustaría ayudar a "
+"contribuir a este plugin?"
 
 #: ../geanypg/src/geanypg.c:40
 msgid "Hans Alves <alves.h88@gmail.com>"
@@ -4459,6 +4474,9 @@ msgid ""
 "This plugin currentlyhas no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Soporte alternativo de proyectos.\n"
+"En este momento este plugin no tiene mantenedor. ¿Te gustaría ayudar a "
+"contribuir a este plugin?"
 
 #: ../geanyprj/src/geanyprj.c:228
 msgid "Find a text in geanyprj's project"
@@ -4595,6 +4613,9 @@ msgid ""
 "This plugins is currently not developed actively. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Interfaz hacia varios Sistemas de Control de Versión.\n"
+"En este momento este plugin no tiene mantenedor. ¿Te gustaría ayudar a "
+"contribuir a este plugin?"
 
 #: ../geanyvc/src/geanyvc.c:486
 #, c-format
@@ -5163,23 +5184,23 @@ msgstr ""
 
 #: ../keyrecord/src/keyrecord.c:154
 msgid "Start/Stop record"
-msgstr ""
+msgstr "Iniciar/Detener grabación"
 
 #: ../keyrecord/src/keyrecord.c:156
 msgid "Play"
-msgstr ""
+msgstr "Reproducir"
 
 #: ../keyrecord/src/keyrecord.c:207
 msgid "Keystrokes recorder"
-msgstr ""
+msgstr "Grabador de pulsaciones de teclado"
 
 #: ../keyrecord/src/keyrecord.c:208
 msgid "Allows to record some sequence of keystrokes and replay it"
-msgstr ""
+msgstr "Permite grabar secuencias de pulsaciones y reproducirlas"
 
 #: ../keyrecord/src/keyrecord.c:210
 msgid "tunyash"
-msgstr ""
+msgstr "tunyash"
 
 #: ../lineoperations/src/lineoperations.c:123
 #, c-format
@@ -5208,9 +5229,8 @@ msgid "Remove _Unique Lines"
 msgstr "Eliminar líneas únicas"
 
 #: ../lineoperations/src/lineoperations.c:260
-#, fuzzy
 msgid "Keep _Unique Lines"
-msgstr "Eliminar líneas únicas"
+msgstr "Mantener líneas ú_nicas"
 
 #: ../lineoperations/src/lineoperations.c:263
 msgid "Remove _Empty Lines"
@@ -5814,27 +5834,30 @@ msgstr ""
 msgid "XML PrettyPrinter"
 msgstr "PrettyPrinter XML"
 
-#: ../pretty-printer/src/PluginEntry.c:42
+#: ../pretty-printer/src/PluginEntry.c:37
 msgid ""
 "Formats an XML and makes it human-readable. \n"
 "This plugin currentlyhas no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Formatea XML y lo hace legible para humanos.\n"
+"En este momento este plugin no tiene mantenedor. ¿Te gustaría ayudar a "
+"contribuir a este plugin?"
 
 #. put the menu into the Tools
-#: ../pretty-printer/src/PluginEntry.c:125
+#: ../pretty-printer/src/PluginEntry.c:60
 msgid "PrettyPrinter XML"
 msgstr "PrettyPrinter XML"
 
-#: ../pretty-printer/src/PluginEntry.c:134
+#: ../pretty-printer/src/PluginEntry.c:69
 msgid "Run the PrettyPrinter XML"
 msgstr "Ejecutar PrettyPrinter XML"
 
-#: ../pretty-printer/src/PluginEntry.c:214
+#: ../pretty-printer/src/PluginEntry.c:140
 msgid "Unable to parse the content as XML."
 msgstr "No se puede parsear el contenido como XML."
 
-#: ../pretty-printer/src/PluginEntry.c:225
+#: ../pretty-printer/src/PluginEntry.c:151
 msgid ""
 "Unable to process PrettyPrinting on the specified XML because some features "
 "are not supported.\n"
@@ -6828,6 +6851,9 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Interfaz relativamente simple para GDB.\n"
+"En este momento este plugin no tiene mantenedor. ¿Te gustaría ayudar a "
+"contribuir a este plugin?"
 
 #: ../scope/src/scope.c:63
 msgid "Setup program"
@@ -7266,6 +7292,9 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Mover la selección hacia izquierda y derecha.\n"
+"En este momento este plugin no tiene mantenedor. ¿Te gustaría ayudar a "
+"contribuir a este plugin?"
 
 #: ../shiftcolumn/src/shiftcolumn.c:357 ../shiftcolumn/src/shiftcolumn.c:378
 msgid "Shift Left"
@@ -7339,7 +7368,9 @@ msgid ""
 "contributing to this plugin?"
 msgstr ""
 "Este complemento añade un navegador de archivos a Geany, permitiendo al "
-"usuario navegar por sus archivos mediante un árbol de directorios."
+"usuario navegar por sus archivos mediante un árbol de directorios.\n"
+"En este momento este plugin no tiene mantenedor. ¿Te gustaría ayudar a "
+"contribuir a este plugin?"
 
 #: ../treebrowser/src/treebrowser.c:435
 #, c-format

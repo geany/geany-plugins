@@ -223,6 +223,11 @@ cleanup_unnecessary_files() {
 	find lib -name '*.def' -delete
 	find lib -name '*.sh' -delete
 	find libexec -name '*.exe' -delete
+	# enchant: remove libenchant_zemberek.dll which should not packaged at all and is additionally packaged in the wrong location
+	# See https://github.com/Alexpux/MINGW-packages/issues/2632
+	rm -f lib/bin/libenchant_zemberek.dll
+	# enchant: remove aspell engine (it would require the aspell library which we don't need)
+	rm -f lib/enchant/libenchant_aspell.dll
 	# sbin: cleanup sbin files
 	rm -rf sbin
 	# share: cleanup other unnecessary files

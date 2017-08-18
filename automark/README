@@ -18,6 +18,8 @@ Usage
 -----
 
 After installed successfully, load the plugin in Geany's plugin manager.
+As soon as the cursor is moved on a word, all occurences of that word will
+be highlighted. The highlight color is "marker_search".
 
 Requirements
 ------------

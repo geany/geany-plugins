@@ -1,6 +1,86 @@
-Geany Plugins 1.31 (not release yet)
+Geany Plugins 1.32 (not yet released)
 
-    No changes so far.
+    No changes by now.
+
+
+Geany Plugins 1.31 (2017-07-16)
+
+    General:
+    * New plugin: keyrecord (PR #460)
+    * OS X: Use path relative to bundle (PR #569). Affected plugins:
+      * GeanyGenDoc
+      * GeniusPaste
+      * GitChangebar
+      * Overview
+      * PoHelper
+      * Scope
+    * Add a note to plugins which are currently orphaned and might not
+      receive further fixes (PR #540). Affected plugins:
+      * Geanydoc
+      * GeanyExtrasel
+      * GeanyInsertNum
+      * GeanyLua
+      * GeanyPG
+      * GeanyPrj
+      * GeanyVC
+      * PrettyPrinter
+      * Scope
+      * Shiftcolumn
+      * Treebrowser
+
+    Addons:
+    * Enable Mark Word also for newly opened documents (PR #563)
+
+    Automark:
+    * Extend documentation (PR #582)
+
+    GeanyDoc:
+    * Make OK the default button in interactive mode (PR #566)
+
+    GeanyExtrasel:
+    * Fix issues related to Scintilla Rectancle select (PR #568)
+
+    GeanyLua:
+    * Pass a GdkKeymap to gdk_keymap_* functions to prevent crashes on
+      Windows and critical warnings on other platforms (PR #586)
+
+    GeanyMacro:
+    * Pass a GdkKeymap to gdk_keymap_* functions to prevent crashes on
+      Windows and critical warnings on other platforms (PR #586)
+
+    GeanyNumbersBookmarks:
+    * Pass a GdkKeymap to gdk_keymap_* functions to prevent crashes on
+      Windows and critical warnings on other platforms (PR #586)
+
+    GeniusPaste:
+    * Update configuration for shipped pastebins (PR #551)
+
+    GitChangebar:
+    * Fix spurious line wrapping (PR #564)
+
+    LineOperations:
+    * Add a feature to keep unique lines (PR #560)
+
+    PrettyPrinter:
+    * Add missing README, COPYING, NEWS and AUTHORS files (PR #580)
+
+    ProjectOrganizer:
+    * Fix a crash by ensuring project is open before
+      trying to expand the tree (PR #555, PR #557, PR #559)
+
+    Scope:
+    * Correct a misleading error message (PR #561)
+
+    Spellcheck:
+    * Stop processing if the document gets invalid to prevent crashes
+      while file gets closed during long check runs (Issue #547)
+    * Add style mappings for Rust and PHPSCRIPT
+
+    Updatechecker:
+    * Remove deprecated soup call (PR #541)
+
+    Internationalization:
+    * Updated translations: de, es, pt
 
 
 Geany Plugins 1.30 (2017-03-05)
@@ -30,7 +110,7 @@ Geany Plugins 1.30 (2017-03-05)
     GeanyPy:
     * Sync with upstream GeanyPy version (PR #527)
 
-    Lineoperations:
+    LineOperations:
     * Add support for selections (PR #378)
 
     Lipsum:
@@ -146,7 +226,7 @@ Geany Plugins 1.28 (2016-07-10)
     * Fix a crash when the tag name is missing (Issue#442, Issue#446,
       PR#447)
 
-    Prettyprinter:
+    PrettyPrinter:
     * Fix several memory leaks (PR#364)
 
     ProjectOrganizer:
@@ -247,7 +327,7 @@ Geany Plugins 1.26 (2015-11-15)
     Multiterm:
     * Make a lot of strings translatable (#254)
 
-    Pohelper:
+    PoHelper:
     * Fix untranslated and fuzzy count in the stats dialog (#292)
 
     ProjectOrganizer:
@@ -341,7 +421,7 @@ Geany Plugins 1.24 (2014-04-13)
 
     General:
     * Depend on Geany 1.24
-    * New plugin Pohelper
+    * New plugin PoHelper
     * New plugin PairTagHighlighter
     * New plugin Autoclose
     * New plugin Geanypy (Python bindings)
@@ -399,7 +479,7 @@ Geany Plugins 1.24 (2014-04-13)
     Multiterm:
     * Implement the other config VTE properties
 
-    Prettyprinter:
+    PrettyPrinter:
     * Add Gtk3 support
 
     Scope:
@@ -708,7 +788,7 @@ Geany-Plugins 0.19 (June 13, 2010)
     * Add new plugin GeanyExtraSel.
     * Add new plugin GeanyGenDoc.
     * Add new plugin GeanyInsertNum.
-    * Add new plugin Pretty-Printer.
+    * Add new plugin PrettyPrinter.
     * Add new plugin TreeBrowser.
 
     GeanySendMail:

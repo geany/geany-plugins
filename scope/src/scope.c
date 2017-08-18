@@ -89,7 +89,7 @@ static void on_scope_reset_markers(G_GNUC_UNUSED const MenuItem *menu_item)
 
 static void on_scope_cleanup_files(G_GNUC_UNUSED const MenuItem *menu_item)
 {
-	guint i;
+	guint i = 0;
 
 	foreach_document(i)
 	{
@@ -315,7 +315,7 @@ static void on_document_open(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 
 static gboolean settings_saved(gpointer gdata)
 {
-	guint i;
+	guint i = 0;
 
 	foreach_document(i)
 	{
@@ -334,7 +334,7 @@ static gboolean settings_saved(gpointer gdata)
 
 static void schedule_settings_saved(gboolean conterm)
 {
-	guint i;
+	guint i = 0;
 
 	plugin_idle_add(geany_plugin, settings_saved, GINT_TO_POINTER(conterm));
 
