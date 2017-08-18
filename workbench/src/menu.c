@@ -162,7 +162,7 @@ gboolean menu_init(void)
 	gtk_widget_show(menu_data.root_item);
 
 	/* Create new menu item "New Workbench" */
-	menu_data.item_new = gtk_menu_item_new_with_mnemonic(_("New"));
+	menu_data.item_new = gtk_menu_item_new_with_mnemonic(_("_New"));
 	gtk_widget_show(menu_data.item_new);
 	gtk_menu_append(GTK_MENU (menu_data.menu), menu_data.item_new);
 	g_signal_connect(menu_data.item_new, "activate",
@@ -170,7 +170,7 @@ gboolean menu_init(void)
 	geany_plugin_set_data(wb_globals.geany_plugin, menu_data.item_new, NULL);
 
 	/* Create new menu item "Open Workbench" */
-	menu_data.item_open = gtk_menu_item_new_with_mnemonic(_("Open"));
+	menu_data.item_open = gtk_menu_item_new_with_mnemonic(_("_Open"));
 	gtk_widget_show(menu_data.item_open);
 	gtk_menu_append(GTK_MENU (menu_data.menu), menu_data.item_open);
 	g_signal_connect(menu_data.item_open, "activate",
@@ -178,7 +178,7 @@ gboolean menu_init(void)
 	geany_plugin_set_data(wb_globals.geany_plugin, menu_data.item_open, NULL);
 
 	/* Create new menu item "Save Workbench" */
-	menu_data.item_save = gtk_menu_item_new_with_mnemonic(_("Save"));
+	menu_data.item_save = gtk_menu_item_new_with_mnemonic(_("_Save"));
 	gtk_widget_show(menu_data.item_save);
 	gtk_menu_append(GTK_MENU (menu_data.menu), menu_data.item_save);
 	g_signal_connect(menu_data.item_save, "activate",
@@ -186,7 +186,7 @@ gboolean menu_init(void)
 	geany_plugin_set_data(wb_globals.geany_plugin, menu_data.item_save, NULL);
 
 	/* Create new menu item "Workbench Settings" */
-	menu_data.item_settings = gtk_menu_item_new_with_mnemonic(_("Settings"));
+	menu_data.item_settings = gtk_menu_item_new_with_mnemonic(_("S_ettings"));
 	gtk_widget_show(menu_data.item_settings);
 	gtk_menu_append(GTK_MENU (menu_data.menu), menu_data.item_settings);
 	g_signal_connect(menu_data.item_settings, "activate",
@@ -194,7 +194,7 @@ gboolean menu_init(void)
 	geany_plugin_set_data(wb_globals.geany_plugin, menu_data.item_settings, NULL);
 
 	/* Create new menu item "Close Workbench" */
-	menu_data.item_close = gtk_menu_item_new_with_mnemonic(_("Close"));
+	menu_data.item_close = gtk_menu_item_new_with_mnemonic(_("_Close"));
 	gtk_widget_show(menu_data.item_close);
 	gtk_menu_append(GTK_MENU (menu_data.menu), menu_data.item_close);
 	g_signal_connect(menu_data.item_close, "activate",
