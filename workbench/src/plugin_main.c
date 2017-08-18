@@ -113,7 +113,7 @@ static void plugin_workbench_help (GeanyPlugin *plugin, gpointer pdata)
 }
 
 
-PluginCallback plugin_workbench_callbacks[] = {
+static PluginCallback plugin_workbench_callbacks[] = {
 	{"document-open", (GCallback) &plugin_workbench_on_doc_open, TRUE, NULL},
 	{"document-close", (GCallback) &plugin_workbench_on_doc_close, TRUE, NULL},
 	{NULL, NULL, FALSE, NULL}
