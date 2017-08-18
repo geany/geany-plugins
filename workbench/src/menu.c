@@ -167,7 +167,6 @@ gboolean menu_init(void)
 	gtk_menu_append(GTK_MENU (menu_data.menu), menu_data.item_new);
 	g_signal_connect(menu_data.item_new, "activate",
 					 G_CALLBACK(item_new_workbench_activate_cb), NULL);
-	geany_plugin_set_data(wb_globals.geany_plugin, menu_data.item_new, NULL);
 
 	/* Create new menu item "Open Workbench" */
 	menu_data.item_open = gtk_menu_item_new_with_mnemonic(_("_Open"));
@@ -175,7 +174,6 @@ gboolean menu_init(void)
 	gtk_menu_append(GTK_MENU (menu_data.menu), menu_data.item_open);
 	g_signal_connect(menu_data.item_open, "activate",
 					 G_CALLBACK(item_open_workbench_activate_cb), NULL);
-	geany_plugin_set_data(wb_globals.geany_plugin, menu_data.item_open, NULL);
 
 	/* Create new menu item "Save Workbench" */
 	menu_data.item_save = gtk_menu_item_new_with_mnemonic(_("_Save"));
@@ -183,7 +181,6 @@ gboolean menu_init(void)
 	gtk_menu_append(GTK_MENU (menu_data.menu), menu_data.item_save);
 	g_signal_connect(menu_data.item_save, "activate",
 					 G_CALLBACK(item_save_workbench_activate_cb), NULL);
-	geany_plugin_set_data(wb_globals.geany_plugin, menu_data.item_save, NULL);
 
 	/* Create new menu item "Workbench Settings" */
 	menu_data.item_settings = gtk_menu_item_new_with_mnemonic(_("S_ettings"));
@@ -191,7 +188,6 @@ gboolean menu_init(void)
 	gtk_menu_append(GTK_MENU (menu_data.menu), menu_data.item_settings);
 	g_signal_connect(menu_data.item_settings, "activate",
 					 G_CALLBACK(item_workbench_settings_activate_cb), NULL);
-	geany_plugin_set_data(wb_globals.geany_plugin, menu_data.item_settings, NULL);
 
 	/* Create new menu item "Close Workbench" */
 	menu_data.item_close = gtk_menu_item_new_with_mnemonic(_("_Close"));
@@ -199,7 +195,6 @@ gboolean menu_init(void)
 	gtk_menu_append(GTK_MENU (menu_data.menu), menu_data.item_close);
 	g_signal_connect(menu_data.item_close, "activate",
 					 G_CALLBACK(item_close_workbench_activate_cb), NULL);
-	geany_plugin_set_data(wb_globals.geany_plugin, menu_data.item_close, NULL);
 
 	/* Add our menu to the main window (left of the help menu) */
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_data.root_item), menu_data.menu);
