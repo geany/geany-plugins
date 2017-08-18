@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-13 10:52+0200\n"
+"POT-Creation-Date: 2017-07-29 15:34+0200\n"
 "PO-Revision-Date: 2009-10-30 08:44+0800\n"
 "Last-Translator: Xhacker Liu <liu.dongyuan@gmail.com>\n"
 "Language-Team: zh_CN <>\n"
@@ -855,8 +855,7 @@ msgstr ""
 msgid "Run"
 msgstr "运行(_R)"
 
-#. Create new menu item "Workbench Settings"
-#: ../debugger/src/btnpanel.c:131 ../workbench/src/menu.c:189
+#: ../debugger/src/btnpanel.c:131
 #, fuzzy
 msgid "Settings"
 msgstr "正在启动"
@@ -3547,7 +3546,7 @@ msgstr "选择字体"
 msgid "Toggle Insert/Overwrite mode"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:137 ../pretty-printer/src/ConfigUI.c:239
+#: ../geanymacro/src/geanymacro.c:137 ../pretty-printer/src/ConfigUI.c:429
 msgid "Tab"
 msgstr ""
 
@@ -3805,9 +3804,7 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:1394 ../geanymacro/src/geanymacro.c:1537
 #: ../geanymacro/src/geanymacro.c:1827
-#: ../projectorganizer/src/prjorg-sidebar.c:306 ../workbench/src/dialogs.c:45
-#: ../workbench/src/dialogs.c:79 ../workbench/src/dialogs.c:121
-#: ../workbench/src/dialogs.c:161
+#: ../projectorganizer/src/prjorg-sidebar.c:306
 #, fuzzy
 msgid "_Cancel"
 msgstr "编码："
@@ -5325,8 +5322,7 @@ msgstr "保存文件"
 msgid "HTML Files"
 msgstr ""
 
-#: ../markdown/src/plugin.c:311 ../workbench/src/dialogs.c:87
-#: ../workbench/src/dialogs.c:129
+#: ../markdown/src/plugin.c:311
 #, fuzzy
 msgid "All Files"
 msgstr "添加文件"
@@ -5762,11 +5758,11 @@ msgid ""
 "installation."
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:36
+#: ../pretty-printer/src/PluginEntry.c:41
 msgid "XML PrettyPrinter"
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:37
+#: ../pretty-printer/src/PluginEntry.c:42
 msgid ""
 "Formats an XML and makes it human-readable. \n"
 "This plugin currentlyhas no maintainer. Would you like to help by "
@@ -5774,19 +5770,19 @@ msgid ""
 msgstr ""
 
 #. put the menu into the Tools
-#: ../pretty-printer/src/PluginEntry.c:60
+#: ../pretty-printer/src/PluginEntry.c:125
 msgid "PrettyPrinter XML"
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:69
+#: ../pretty-printer/src/PluginEntry.c:134
 msgid "Run the PrettyPrinter XML"
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:140
+#: ../pretty-printer/src/PluginEntry.c:214
 msgid "Unable to parse the content as XML."
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:151
+#: ../pretty-printer/src/PluginEntry.c:225
 msgid ""
 "Unable to process PrettyPrinting on the specified XML because some features "
 "are not supported.\n"
@@ -5822,33 +5818,33 @@ msgstr ""
 msgid "CDATA"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:205
+#: ../pretty-printer/src/ConfigUI.c:395
 #, fuzzy
 msgid "Empty nodes"
 msgstr "（空行）"
 
-#: ../pretty-printer/src/ConfigUI.c:206
+#: ../pretty-printer/src/ConfigUI.c:396
 msgid "Concatenation (<x></x> to <x/>)"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:207
+#: ../pretty-printer/src/ConfigUI.c:397
 msgid "Spacing (<x/> to <x />)"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:208
+#: ../pretty-printer/src/ConfigUI.c:398
 msgid "Expansion (<x/> to <x></x>)"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:235
+#: ../pretty-printer/src/ConfigUI.c:425
 #, fuzzy
 msgid "Indentation"
 msgstr "简报"
 
-#: ../pretty-printer/src/ConfigUI.c:240
+#: ../pretty-printer/src/ConfigUI.c:430
 msgid "Space"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:264
+#: ../pretty-printer/src/ConfigUI.c:454
 msgid "Line break"
 msgstr ""
 
@@ -5905,71 +5901,71 @@ msgstr ""
 msgid "Open Selected File (Project Organizer)"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:573
+#: ../projectorganizer/src/prjorg-project.c:578
 msgid "Source patterns:"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:579
+#: ../projectorganizer/src/prjorg-project.c:584
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
 "Used for header/source swapping."
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:585
+#: ../projectorganizer/src/prjorg-project.c:590
 msgid "Header patterns:"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:591
+#: ../projectorganizer/src/prjorg-project.c:596
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
 "header/source swapping."
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:597 ../workbench/src/dialogs.c:257
+#: ../projectorganizer/src/prjorg-project.c:602
 msgid "Ignored file patterns:"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:603
+#: ../projectorganizer/src/prjorg-project.c:608
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
 "not displayed in the project tree."
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:609 ../workbench/src/dialogs.c:268
+#: ../projectorganizer/src/prjorg-project.c:614
 msgid "Ignored directory patterns:"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:615
+#: ../projectorganizer/src/prjorg-project.c:620
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:621
+#: ../projectorganizer/src/prjorg-project.c:626
 #, fuzzy
 msgid "Index all project files:"
 msgstr "在项目中查找"
 
-#: ../projectorganizer/src/prjorg-project.c:624
+#: ../projectorganizer/src/prjorg-project.c:629
 msgid "Auto (index if less than 300 files)"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:625
+#: ../projectorganizer/src/prjorg-project.c:630
 msgid "Yes"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:626
+#: ../projectorganizer/src/prjorg-project.c:631
 #, fuzzy
 msgid "No"
 msgstr "No."
 
-#: ../projectorganizer/src/prjorg-project.c:630
+#: ../projectorganizer/src/prjorg-project.c:635
 msgid ""
 "Generate symbol list for all project files instead of only for the currently "
 "opened files. Might be slow for big projects."
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:636
+#: ../projectorganizer/src/prjorg-project.c:641
 msgid ""
 "Note: the patterns above affect only the sidebar and are not used in the "
 "Find in Files\n"
@@ -6004,8 +6000,7 @@ msgstr "恢复根目录"
 msgid "Add External Directory"
 msgstr "选择字典"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:307 ../workbench/src/dialogs.c:122
-#: ../workbench/src/dialogs.c:162
+#: ../projectorganizer/src/prjorg-sidebar.c:307
 #, fuzzy
 msgid "Add"
 msgstr "附加组件"
@@ -6033,7 +6028,6 @@ msgid "Add external directory"
 msgstr "恢复目录"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1374
-#: ../workbench/src/popup_menu.c:443
 msgid "Expand all"
 msgstr ""
 
@@ -7920,290 +7914,6 @@ msgstr "浏览..."
 msgid "Windows"
 msgstr ""
 
-#: ../workbench/src/dialogs.c:43
-#, fuzzy
-msgid "Create new workbench"
-msgstr "恢复根目录"
-
-#: ../workbench/src/dialogs.c:46
-#, fuzzy
-msgid "Create"
-msgstr "创建(_R)"
-
-#: ../workbench/src/dialogs.c:77
-#, fuzzy
-msgid "Open workbench"
-msgstr "打开URI"
-
-#. Create new menu item "Open Workbench"
-#: ../workbench/src/dialogs.c:80 ../workbench/src/menu.c:173
-#, fuzzy
-msgid "Open"
-msgstr "打开URI"
-
-#: ../workbench/src/dialogs.c:83
-msgid "Workbench files (.geanywb)"
-msgstr ""
-
-#: ../workbench/src/dialogs.c:119 ../workbench/src/popup_menu.c:381
-#, fuzzy
-msgid "Add project"
-msgstr "选择文件"
-
-#: ../workbench/src/dialogs.c:125
-#, fuzzy
-msgid "Project files (.geany)"
-msgstr "项目文件“%s”已经存在"
-
-#: ../workbench/src/dialogs.c:159 ../workbench/src/popup_menu.c:409
-#, fuzzy
-msgid "Add directory"
-msgstr "恢复目录"
-
-#: ../workbench/src/dialogs.c:230 ../workbench/src/popup_menu.c:427
-#, fuzzy
-msgid "Directory settings"
-msgstr "环境设置"
-
-#: ../workbench/src/dialogs.c:246
-#, fuzzy
-msgid "File patterns:"
-msgstr "书信"
-
-#: ../workbench/src/dialogs.c:252
-msgid ""
-"Space separated list of patterns that are used to identify files that shall "
-"be displayed in the directory tree."
-msgstr ""
-
-#: ../workbench/src/dialogs.c:263
-msgid ""
-"Space separated list of patterns that are used to identify files that shall "
-"not be displayed in the directory tree."
-msgstr ""
-
-#: ../workbench/src/dialogs.c:274
-msgid ""
-"Space separated list of patterns that are used to identify directories that "
-"shall not be scanned for source files."
-msgstr ""
-
-#: ../workbench/src/dialogs.c:282
-msgid ""
-"Note: the patterns above affect only the workbench directory and are not "
-"used in the Find in Files\n"
-"dialog."
-msgstr ""
-
-#: ../workbench/src/dialogs.c:361
-#, fuzzy
-msgid "Workbench settings"
-msgstr "环境设置"
-
-#: ../workbench/src/dialogs.c:377
-#, fuzzy
-msgid "Rescan all projects on open:"
-msgstr "在项目中查找"
-
-#: ../workbench/src/dialogs.c:382
-msgid ""
-"If the option is activated (default), then all projects will be re-scanned "
-"on opening of the workbench."
-msgstr ""
-
-#: ../workbench/src/menu.c:70
-#, fuzzy, c-format
-msgid "Could not create new workbench file: %s"
-msgstr "更新文件"
-
-#: ../workbench/src/menu.c:101
-#, c-format
-msgid "Could not open workbench file: %s"
-msgstr ""
-
-#: ../workbench/src/menu.c:118
-#, fuzzy, c-format
-msgid "Could not save workbench file: %s"
-msgstr "显示当前文件日志"
-
-#. Set metadata
-#: ../workbench/src/menu.c:161 ../workbench/src/plugin_main.c:131
-#: ../workbench/src/sidebar.c:1002
-msgid "Workbench"
-msgstr ""
-
-#. Create new menu item "New Workbench"
-#: ../workbench/src/menu.c:165
-#, fuzzy
-msgid "New"
-msgstr "下划线"
-
-#. Create new menu item "Save Workbench"
-#: ../workbench/src/menu.c:181
-#, fuzzy
-msgid "Save"
-msgstr "保存文件"
-
-#. Create new menu item "Close Workbench"
-#: ../workbench/src/menu.c:197
-#, fuzzy
-msgid "Close"
-msgstr "关闭全部(_L)"
-
-#: ../workbench/src/plugin_main.c:95 ../workbench/src/sidebar.c:572
-msgid ""
-"Create or open a workbench\n"
-"using the workbench menu."
-msgstr ""
-
-#: ../workbench/src/plugin_main.c:132
-msgid "Manage and customize multiple projects."
-msgstr ""
-
-#: ../workbench/src/popup_menu.c:172
-#, fuzzy, c-format
-msgid "Could not add project file: %s"
-msgstr "在项目中查找"
-
-#: ../workbench/src/popup_menu.c:387
-#, fuzzy
-msgid "Save project"
-msgstr "新项目"
-
-#: ../workbench/src/popup_menu.c:393
-#, fuzzy
-msgid "Remove project"
-msgstr "文件名："
-
-#: ../workbench/src/popup_menu.c:399
-#, fuzzy
-msgid "Fold/unfold project"
-msgstr "选择文件"
-
-#: ../workbench/src/popup_menu.c:415
-#, fuzzy
-msgid "Remove directory"
-msgstr "恢复目录"
-
-#: ../workbench/src/popup_menu.c:421
-#, fuzzy
-msgid "Rescan directory"
-msgstr "恢复目录"
-
-#: ../workbench/src/popup_menu.c:433
-#, fuzzy
-msgid "Fold/unfold directory"
-msgstr "显示目录差异"
-
-#: ../workbench/src/popup_menu.c:449
-#, fuzzy
-msgid "Collapse all"
-msgstr "关闭全部(_L)"
-
-#: ../workbench/src/popup_menu.c:459
-msgid "Add to Workbench Bookmarks"
-msgstr ""
-
-#: ../workbench/src/popup_menu.c:465
-msgid "Add to Project Bookmarks"
-msgstr ""
-
-#: ../workbench/src/popup_menu.c:471
-#, fuzzy
-msgid "Remove from Bookmarks"
-msgstr "书签"
-
-#: ../workbench/src/sidebar.c:299
-#, fuzzy
-msgid "No directories"
-msgstr "目录(_D)"
-
-#. *** label ***
-#: ../workbench/src/sidebar.c:570 ../workbench/src/sidebar.c:952
-msgid "No workbench opened."
-msgstr ""
-
-#: ../workbench/src/sidebar.c:582
-#, fuzzy
-msgid "Projects"
-msgstr "项目"
-
-#: ../workbench/src/sidebar.c:592
-msgid ""
-"Add a project\n"
-"using the context menu."
-msgstr ""
-
-#: ../workbench/src/sidebar.c:704
-#, c-format
-msgid ""
-"%s\n"
-"Project file not found!"
-msgstr ""
-
-#: ../workbench/src/sidebar.c:718
-msgid ""
-"This project has no directories. Directories can be added to a project using "
-"the context menu."
-msgstr ""
-
-#: ../workbench/src/wb_project.c:1003
-#, fuzzy, c-format
-msgid "Directory-Name: %s\n"
-msgstr "目录(_D)"
-
-#: ../workbench/src/wb_project.c:1005
-#, fuzzy, c-format
-msgid "Base-Directory: %s\n"
-msgstr "根目录(_B)"
-
-#: ../workbench/src/wb_project.c:1008
-#, fuzzy, c-format
-msgid "File Patterns:"
-msgstr "书信"
-
-#: ../workbench/src/wb_project.c:1019
-#, c-format
-msgid "Ignored Dir. Patterns:"
-msgstr ""
-
-#: ../workbench/src/wb_project.c:1031
-#, c-format
-msgid "Ignored File Patterns:"
-msgstr ""
-
-#: ../workbench/src/wb_project.c:1042
-#, c-format
-msgid "Number of Sub-Folders: %u\n"
-msgstr ""
-
-#: ../workbench/src/wb_project.c:1043
-#, fuzzy, c-format
-msgid "Number of Files: %u\n"
-msgstr "卷号"
-
-#: ../workbench/src/wb_project.c:1063
-#, fuzzy, c-format
-msgid "Project: %s\n"
-msgstr "项目"
-
-#: ../workbench/src/wb_project.c:1065
-#, fuzzy, c-format
-msgid "File: %s\n"
-msgstr "关闭全部(_L)"
-
-#: ../workbench/src/wb_project.c:1067
-#, fuzzy, c-format
-msgid "Number of Directories: %u\n"
-msgstr "卷号"
-
-#: ../workbench/src/wb_project.c:1071
-#, c-format
-msgid ""
-"\n"
-"The project contains unsafed changes!\n"
-msgstr ""
-
 #: ../xmlsnippets/src/plugin.c:44
 msgid "XML Snippets"
 msgstr ""
@@ -8254,6 +7964,10 @@ msgstr ""
 #, fuzzy
 #~ msgid "Find Project Tag..."
 #~ msgstr "在项目中查找"
+
+#, fuzzy
+#~ msgid "Find project tag"
+#~ msgstr "选择文件"
 
 #~ msgid ""
 #~ "This plugin adds features to facilitate navigation between source files.\n"
@@ -8438,6 +8152,9 @@ msgstr ""
 #~ msgid "Watchpoints"
 #~ msgstr "观察点"
 
+#~ msgid "Environment settings"
+#~ msgstr "环境设置"
+
 #~ msgid ""
 #~ "\n"
 #~ " Command-line arguments passed to target program:"
@@ -8604,6 +8321,10 @@ msgstr ""
 #, fuzzy
 #~ msgid "Error reading config file"
 #~ msgstr "显示当前文件日志"
+
+#, fuzzy
+#~ msgid "Couldn't create tempfile"
+#~ msgstr "更新文件"
 
 #~ msgid "Lionel Fuentes"
 #~ msgstr "Lionel Fuentes"

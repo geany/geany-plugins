@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-13 10:52+0200\n"
+"POT-Creation-Date: 2017-07-29 15:34+0200\n"
 "PO-Revision-Date: 2011-10-21 14:08+0100\n"
 "Last-Translator: Masami Chikahiro <cmasa.z321@gmail.com>\n"
 "Language-Team: Japanese\n"
@@ -827,8 +827,7 @@ msgstr "ソースファイルを編集するためにデバッグ・セッショ
 msgid "Run"
 msgstr "実行"
 
-#. Create new menu item "Workbench Settings"
-#: ../debugger/src/btnpanel.c:131 ../workbench/src/menu.c:189
+#: ../debugger/src/btnpanel.c:131
 msgid "Settings"
 msgstr "設定"
 
@@ -3431,7 +3430,7 @@ msgstr "選択を解除"
 msgid "Toggle Insert/Overwrite mode"
 msgstr "挿入/上書きモードを切替"
 
-#: ../geanymacro/src/geanymacro.c:137 ../pretty-printer/src/ConfigUI.c:239
+#: ../geanymacro/src/geanymacro.c:137 ../pretty-printer/src/ConfigUI.c:429
 msgid "Tab"
 msgstr "タブ"
 
@@ -3723,9 +3722,7 @@ msgstr "了解(_O)"
 
 #: ../geanymacro/src/geanymacro.c:1394 ../geanymacro/src/geanymacro.c:1537
 #: ../geanymacro/src/geanymacro.c:1827
-#: ../projectorganizer/src/prjorg-sidebar.c:306 ../workbench/src/dialogs.c:45
-#: ../workbench/src/dialogs.c:79 ../workbench/src/dialogs.c:121
-#: ../workbench/src/dialogs.c:161
+#: ../projectorganizer/src/prjorg-sidebar.c:306
 msgid "_Cancel"
 msgstr "キャンセル(_C)"
 
@@ -5251,8 +5248,7 @@ msgstr "ファイルを保存"
 msgid "HTML Files"
 msgstr ""
 
-#: ../markdown/src/plugin.c:311 ../workbench/src/dialogs.c:87
-#: ../workbench/src/dialogs.c:129
+#: ../markdown/src/plugin.c:311
 #, fuzzy
 msgid "All Files"
 msgstr "ファイルを追加"
@@ -5692,11 +5688,11 @@ msgid ""
 "installation."
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:36
+#: ../pretty-printer/src/PluginEntry.c:41
 msgid "XML PrettyPrinter"
 msgstr "XML整形"
 
-#: ../pretty-printer/src/PluginEntry.c:37
+#: ../pretty-printer/src/PluginEntry.c:42
 msgid ""
 "Formats an XML and makes it human-readable. \n"
 "This plugin currentlyhas no maintainer. Would you like to help by "
@@ -5704,19 +5700,19 @@ msgid ""
 msgstr ""
 
 #. put the menu into the Tools
-#: ../pretty-printer/src/PluginEntry.c:60
+#: ../pretty-printer/src/PluginEntry.c:125
 msgid "PrettyPrinter XML"
 msgstr "XML整形"
 
-#: ../pretty-printer/src/PluginEntry.c:69
+#: ../pretty-printer/src/PluginEntry.c:134
 msgid "Run the PrettyPrinter XML"
 msgstr "XML整形を実行"
 
-#: ../pretty-printer/src/PluginEntry.c:140
+#: ../pretty-printer/src/PluginEntry.c:214
 msgid "Unable to parse the content as XML."
 msgstr "内容がXMLではないと判断されました"
 
-#: ../pretty-printer/src/PluginEntry.c:151
+#: ../pretty-printer/src/PluginEntry.c:225
 msgid ""
 "Unable to process PrettyPrinting on the specified XML because some features "
 "are not supported.\n"
@@ -5754,31 +5750,31 @@ msgstr "文字ノード"
 msgid "CDATA"
 msgstr "CDATA"
 
-#: ../pretty-printer/src/ConfigUI.c:205
+#: ../pretty-printer/src/ConfigUI.c:395
 msgid "Empty nodes"
 msgstr "空ノード"
 
-#: ../pretty-printer/src/ConfigUI.c:206
+#: ../pretty-printer/src/ConfigUI.c:396
 msgid "Concatenation (<x></x> to <x/>)"
 msgstr "結合 (<x></x> を <x/>にする)"
 
-#: ../pretty-printer/src/ConfigUI.c:207
+#: ../pretty-printer/src/ConfigUI.c:397
 msgid "Spacing (<x/> to <x />)"
 msgstr "空白を開ける (<x/> を <x />にする)"
 
-#: ../pretty-printer/src/ConfigUI.c:208
+#: ../pretty-printer/src/ConfigUI.c:398
 msgid "Expansion (<x/> to <x></x>)"
 msgstr "展開 (<x/> を <x></x>にする)"
 
-#: ../pretty-printer/src/ConfigUI.c:235
+#: ../pretty-printer/src/ConfigUI.c:425
 msgid "Indentation"
 msgstr "インデント"
 
-#: ../pretty-printer/src/ConfigUI.c:240
+#: ../pretty-printer/src/ConfigUI.c:430
 msgid "Space"
 msgstr "空白"
 
-#: ../pretty-printer/src/ConfigUI.c:264
+#: ../pretty-printer/src/ConfigUI.c:454
 msgid "Line break"
 msgstr "改行"
 
@@ -5834,11 +5830,11 @@ msgstr "ヘッダ/ソースを交換"
 msgid "Open Selected File (Project Organizer)"
 msgstr "選択したファイルを開く(gproject)"
 
-#: ../projectorganizer/src/prjorg-project.c:573
+#: ../projectorganizer/src/prjorg-project.c:578
 msgid "Source patterns:"
 msgstr "ソースのフィルタ:"
 
-#: ../projectorganizer/src/prjorg-project.c:579
+#: ../projectorganizer/src/prjorg-project.c:584
 #, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
@@ -5847,11 +5843,11 @@ msgstr ""
 "空白で区切られたヘッダファイルとして使用するファイルパターンのリストヘッダ。"
 "ソースの交換に使用します。"
 
-#: ../projectorganizer/src/prjorg-project.c:585
+#: ../projectorganizer/src/prjorg-project.c:590
 msgid "Header patterns:"
 msgstr "ヘッダのフィルタ:"
 
-#: ../projectorganizer/src/prjorg-project.c:591
+#: ../projectorganizer/src/prjorg-project.c:596
 #, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
@@ -5860,12 +5856,12 @@ msgstr ""
 "空白で区切られたヘッダファイルとして使用するファイルパターンのリストヘッダ。"
 "ソースの交換に使用します。"
 
-#: ../projectorganizer/src/prjorg-project.c:597 ../workbench/src/dialogs.c:257
+#: ../projectorganizer/src/prjorg-project.c:602
 #, fuzzy
 msgid "Ignored file patterns:"
 msgstr "無視するディレクトリ:"
 
-#: ../projectorganizer/src/prjorg-project.c:603
+#: ../projectorganizer/src/prjorg-project.c:608
 #, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
@@ -5874,12 +5870,12 @@ msgstr ""
 "空白で区切られたソースファイル検索の対象から外すディレクトリのパターンのリス"
 "ト"
 
-#: ../projectorganizer/src/prjorg-project.c:609 ../workbench/src/dialogs.c:268
+#: ../projectorganizer/src/prjorg-project.c:614
 #, fuzzy
 msgid "Ignored directory patterns:"
 msgstr "無視するディレクトリ:"
 
-#: ../projectorganizer/src/prjorg-project.c:615
+#: ../projectorganizer/src/prjorg-project.c:620
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
@@ -5887,26 +5883,26 @@ msgstr ""
 "空白で区切られたソースファイル検索の対象から外すディレクトリのパターンのリス"
 "ト"
 
-#: ../projectorganizer/src/prjorg-project.c:621
+#: ../projectorganizer/src/prjorg-project.c:626
 #, fuzzy
 msgid "Index all project files:"
 msgstr "プロジェクトファイルを検索"
 
-#: ../projectorganizer/src/prjorg-project.c:624
+#: ../projectorganizer/src/prjorg-project.c:629
 msgid "Auto (index if less than 300 files)"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:625
+#: ../projectorganizer/src/prjorg-project.c:630
 #, fuzzy
 msgid "Yes"
 msgstr "はい"
 
-#: ../projectorganizer/src/prjorg-project.c:626
+#: ../projectorganizer/src/prjorg-project.c:631
 #, fuzzy
 msgid "No"
 msgstr "番号"
 
-#: ../projectorganizer/src/prjorg-project.c:630
+#: ../projectorganizer/src/prjorg-project.c:635
 #, fuzzy
 msgid ""
 "Generate symbol list for all project files instead of only for the currently "
@@ -5916,7 +5912,7 @@ msgstr ""
 "トを生成します。大きなプロジェクト(1000ファイル以上)ではとても遅いので、使用"
 "しないでください。"
 
-#: ../projectorganizer/src/prjorg-project.c:636
+#: ../projectorganizer/src/prjorg-project.c:641
 msgid ""
 "Note: the patterns above affect only the sidebar and are not used in the "
 "Find in Files\n"
@@ -5950,8 +5946,7 @@ msgstr "ディレクトリを作成"
 msgid "Add External Directory"
 msgstr "ディレクトリを選択"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:307 ../workbench/src/dialogs.c:122
-#: ../workbench/src/dialogs.c:162
+#: ../projectorganizer/src/prjorg-sidebar.c:307
 #, fuzzy
 msgid "Add"
 msgstr "アドオン"
@@ -5979,7 +5974,6 @@ msgid "Add external directory"
 msgstr "ディレクトリを元に戻す"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1374
-#: ../workbench/src/popup_menu.c:443
 msgid "Expand all"
 msgstr "すべて展開"
 
@@ -7800,299 +7794,6 @@ msgstr "ブラウザ"
 msgid "Windows"
 msgstr "ウィンドウ"
 
-#: ../workbench/src/dialogs.c:43
-#, fuzzy
-msgid "Create new workbench"
-msgstr "ディレクトリを作成"
-
-#: ../workbench/src/dialogs.c:46
-#, fuzzy
-msgid "Create"
-msgstr "作成(_R)"
-
-#: ../workbench/src/dialogs.c:77
-#, fuzzy
-msgid "Open workbench"
-msgstr "開く"
-
-#. Create new menu item "Open Workbench"
-#: ../workbench/src/dialogs.c:80 ../workbench/src/menu.c:173
-#, fuzzy
-msgid "Open"
-msgstr "開く"
-
-#: ../workbench/src/dialogs.c:83
-msgid "Workbench files (.geanywb)"
-msgstr ""
-
-#: ../workbench/src/dialogs.c:119 ../workbench/src/popup_menu.c:381
-#, fuzzy
-msgid "Add project"
-msgstr "プロジェクトファイルを検索"
-
-#: ../workbench/src/dialogs.c:125
-#, fuzzy
-msgid "Project files (.geany)"
-msgstr "プロジェクトファイル \"%s\" は既に存在します"
-
-#: ../workbench/src/dialogs.c:159 ../workbench/src/popup_menu.c:409
-#, fuzzy
-msgid "Add directory"
-msgstr "ディレクトリを元に戻す"
-
-#: ../workbench/src/dialogs.c:230 ../workbench/src/popup_menu.c:427
-#, fuzzy
-msgid "Directory settings"
-msgstr "環境設定"
-
-#: ../workbench/src/dialogs.c:246
-#, fuzzy
-msgid "File patterns:"
-msgstr "ソースのフィルタ:"
-
-#: ../workbench/src/dialogs.c:252
-#, fuzzy
-msgid ""
-"Space separated list of patterns that are used to identify files that shall "
-"be displayed in the directory tree."
-msgstr ""
-"空白で区切られたソースファイル検索の対象から外すディレクトリのパターンのリス"
-"ト"
-
-#: ../workbench/src/dialogs.c:263
-#, fuzzy
-msgid ""
-"Space separated list of patterns that are used to identify files that shall "
-"not be displayed in the directory tree."
-msgstr ""
-"空白で区切られたソースファイル検索の対象から外すディレクトリのパターンのリス"
-"ト"
-
-#: ../workbench/src/dialogs.c:274
-#, fuzzy
-msgid ""
-"Space separated list of patterns that are used to identify directories that "
-"shall not be scanned for source files."
-msgstr ""
-"空白で区切られたソースファイル検索の対象から外すディレクトリのパターンのリス"
-"ト"
-
-#: ../workbench/src/dialogs.c:282
-msgid ""
-"Note: the patterns above affect only the workbench directory and are not "
-"used in the Find in Files\n"
-"dialog."
-msgstr ""
-
-#: ../workbench/src/dialogs.c:361
-#, fuzzy
-msgid "Workbench settings"
-msgstr "環境設定"
-
-#: ../workbench/src/dialogs.c:377
-#, fuzzy
-msgid "Rescan all projects on open:"
-msgstr "プロジェクトファイルを検索"
-
-#: ../workbench/src/dialogs.c:382
-msgid ""
-"If the option is activated (default), then all projects will be re-scanned "
-"on opening of the workbench."
-msgstr ""
-
-#: ../workbench/src/menu.c:70
-#, fuzzy, c-format
-msgid "Could not create new workbench file: %s"
-msgstr "一時ファイルを作成できません"
-
-#: ../workbench/src/menu.c:101
-#, fuzzy, c-format
-msgid "Could not open workbench file: %s"
-msgstr "デバッグ設定ファイル %s の読み込みに失敗: %s"
-
-#: ../workbench/src/menu.c:118
-#, fuzzy, c-format
-msgid "Could not save workbench file: %s"
-msgstr "デバッグ設定ファイル %s の読み込みに失敗: %s"
-
-#. Set metadata
-#: ../workbench/src/menu.c:161 ../workbench/src/plugin_main.c:131
-#: ../workbench/src/sidebar.c:1002
-msgid "Workbench"
-msgstr ""
-
-#. Create new menu item "New Workbench"
-#: ../workbench/src/menu.c:165
-#, fuzzy
-msgid "New"
-msgstr "改行"
-
-#. Create new menu item "Save Workbench"
-#: ../workbench/src/menu.c:181
-#, fuzzy
-msgid "Save"
-msgstr "ファイルを保存"
-
-#. Create new menu item "Close Workbench"
-#: ../workbench/src/menu.c:197
-#, fuzzy
-msgid "Close"
-msgstr "閉じる: %s"
-
-#: ../workbench/src/plugin_main.c:95 ../workbench/src/sidebar.c:572
-msgid ""
-"Create or open a workbench\n"
-"using the workbench menu."
-msgstr ""
-
-#: ../workbench/src/plugin_main.c:132
-msgid "Manage and customize multiple projects."
-msgstr ""
-
-#: ../workbench/src/popup_menu.c:172
-#, fuzzy, c-format
-msgid "Could not add project file: %s"
-msgstr "デバッグ設定ファイル %s の読み込みに失敗: %s"
-
-#: ../workbench/src/popup_menu.c:387
-#, fuzzy
-msgid "Save project"
-msgstr "新規プロジェクト"
-
-#: ../workbench/src/popup_menu.c:393
-#, fuzzy
-msgid "Remove project"
-msgstr "オブジェクトの名前変更"
-
-#: ../workbench/src/popup_menu.c:399
-#, fuzzy
-msgid "Fold/unfold project"
-msgstr "プロジェクトファイルを検索"
-
-#: ../workbench/src/popup_menu.c:415
-#, fuzzy
-msgid "Remove directory"
-msgstr "ディレクトリを元に戻す"
-
-#: ../workbench/src/popup_menu.c:421
-#, fuzzy
-msgid "Rescan directory"
-msgstr "ディレクトリを元に戻す"
-
-#: ../workbench/src/popup_menu.c:433
-#, fuzzy
-msgid "Fold/unfold directory"
-msgstr "ディレクトリの差分を表示"
-
-#: ../workbench/src/popup_menu.c:449
-#, fuzzy
-msgid "Collapse all"
-msgstr "すべて閉じる"
-
-#: ../workbench/src/popup_menu.c:459
-msgid "Add to Workbench Bookmarks"
-msgstr ""
-
-#: ../workbench/src/popup_menu.c:465
-msgid "Add to Project Bookmarks"
-msgstr ""
-
-#: ../workbench/src/popup_menu.c:471
-#, fuzzy
-msgid "Remove from Bookmarks"
-msgstr "ブックマークを削除(_R)"
-
-#: ../workbench/src/sidebar.c:299
-#, fuzzy
-msgid "No directories"
-msgstr "新規ディレクトリ"
-
-#. *** label ***
-#: ../workbench/src/sidebar.c:570 ../workbench/src/sidebar.c:952
-msgid "No workbench opened."
-msgstr ""
-
-#: ../workbench/src/sidebar.c:582
-#, fuzzy
-msgid "Projects"
-msgstr "プロジェクト"
-
-#: ../workbench/src/sidebar.c:592
-msgid ""
-"Add a project\n"
-"using the context menu."
-msgstr ""
-
-#: ../workbench/src/sidebar.c:704
-#, c-format
-msgid ""
-"%s\n"
-"Project file not found!"
-msgstr ""
-
-#: ../workbench/src/sidebar.c:718
-msgid ""
-"This project has no directories. Directories can be added to a project using "
-"the context menu."
-msgstr ""
-
-#: ../workbench/src/wb_project.c:1003
-#, fuzzy, c-format
-msgid "Directory-Name: %s\n"
-msgstr "ディレクトリ(_D)"
-
-#: ../workbench/src/wb_project.c:1005
-#, fuzzy, c-format
-msgid "Base-Directory: %s\n"
-msgstr "_BASE ディレクトリ"
-
-#: ../workbench/src/wb_project.c:1008
-#, fuzzy, c-format
-msgid "File Patterns:"
-msgstr "無視するディレクトリ:"
-
-#: ../workbench/src/wb_project.c:1019
-#, fuzzy, c-format
-msgid "Ignored Dir. Patterns:"
-msgstr "無視するディレクトリ:"
-
-#: ../workbench/src/wb_project.c:1031
-#, fuzzy, c-format
-msgid "Ignored File Patterns:"
-msgstr "無視するディレクトリ:"
-
-#: ../workbench/src/wb_project.c:1042
-#, c-format
-msgid "Number of Sub-Folders: %u\n"
-msgstr ""
-
-#: ../workbench/src/wb_project.c:1043
-#, fuzzy, c-format
-msgid "Number of Files: %u\n"
-msgstr "巻数"
-
-#: ../workbench/src/wb_project.c:1063
-#, fuzzy, c-format
-msgid "Project: %s\n"
-msgstr "プロジェクト"
-
-#: ../workbench/src/wb_project.c:1065
-#, fuzzy, c-format
-msgid "File: %s\n"
-msgstr "閉じる: %s"
-
-#: ../workbench/src/wb_project.c:1067
-#, fuzzy, c-format
-msgid "Number of Directories: %u\n"
-msgstr "巻数"
-
-#: ../workbench/src/wb_project.c:1071
-#, c-format
-msgid ""
-"\n"
-"The project contains unsafed changes!\n"
-msgstr ""
-
 #: ../xmlsnippets/src/plugin.c:44
 msgid "XML Snippets"
 msgstr "XML スニペット"
@@ -8176,6 +7877,10 @@ msgstr "スニペットを使用してXML/HTMLタグを自動補完"
 
 #, fuzzy
 #~ msgid "Find Project Tag..."
+#~ msgstr "プロジェクトファイルを検索"
+
+#, fuzzy
+#~ msgid "Find project tag"
 #~ msgstr "プロジェクトファイルを検索"
 
 #, fuzzy
@@ -8383,6 +8088,9 @@ msgstr "スニペットを使用してXML/HTMLタグを自動補完"
 
 #~ msgid "Watchpoints"
 #~ msgstr "監視ポイント"
+
+#~ msgid "Environment settings"
+#~ msgstr "環境設定"
 
 #~ msgid ""
 #~ "\n"
@@ -8785,6 +8493,9 @@ msgstr "スニペットを使用してXML/HTMLタグを自動補完"
 
 #~ msgid "Error reading config file"
 #~ msgstr "設定ファイル読み込みエラー"
+
+#~ msgid "Couldn't create tempfile"
+#~ msgstr "一時ファイルを作成できません"
 
 #~ msgid "Lionel Fuentes"
 #~ msgstr "Lionel Fuentes"

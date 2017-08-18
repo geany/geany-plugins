@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-13 10:52+0200\n"
+"POT-Creation-Date: 2017-07-29 15:34+0200\n"
 "PO-Revision-Date: 2009-06-11 10:15+0200\n"
 "Last-Translator: Yura Siamshka <yurand2@gmail.com>>\n"
 "Language-Team: Belarusian <geany-i18n@uvena.de>\n"
@@ -820,8 +820,7 @@ msgstr ""
 msgid "Run"
 msgstr ""
 
-#. Create new menu item "Workbench Settings"
-#: ../debugger/src/btnpanel.c:131 ../workbench/src/menu.c:189
+#: ../debugger/src/btnpanel.c:131
 msgid "Settings"
 msgstr ""
 
@@ -3406,7 +3405,7 @@ msgstr ""
 msgid "Toggle Insert/Overwrite mode"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:137 ../pretty-printer/src/ConfigUI.c:239
+#: ../geanymacro/src/geanymacro.c:137 ../pretty-printer/src/ConfigUI.c:429
 msgid "Tab"
 msgstr ""
 
@@ -3656,9 +3655,7 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:1394 ../geanymacro/src/geanymacro.c:1537
 #: ../geanymacro/src/geanymacro.c:1827
-#: ../projectorganizer/src/prjorg-sidebar.c:306 ../workbench/src/dialogs.c:45
-#: ../workbench/src/dialogs.c:79 ../workbench/src/dialogs.c:121
-#: ../workbench/src/dialogs.c:161
+#: ../projectorganizer/src/prjorg-sidebar.c:306
 msgid "_Cancel"
 msgstr ""
 
@@ -5146,8 +5143,7 @@ msgstr "Выдаліць файл"
 msgid "HTML Files"
 msgstr ""
 
-#: ../markdown/src/plugin.c:311 ../workbench/src/dialogs.c:87
-#: ../workbench/src/dialogs.c:129
+#: ../markdown/src/plugin.c:311
 #, fuzzy
 msgid "All Files"
 msgstr "Дадаць файл"
@@ -5568,11 +5564,11 @@ msgid ""
 "installation."
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:36
+#: ../pretty-printer/src/PluginEntry.c:41
 msgid "XML PrettyPrinter"
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:37
+#: ../pretty-printer/src/PluginEntry.c:42
 msgid ""
 "Formats an XML and makes it human-readable. \n"
 "This plugin currentlyhas no maintainer. Would you like to help by "
@@ -5580,19 +5576,19 @@ msgid ""
 msgstr ""
 
 #. put the menu into the Tools
-#: ../pretty-printer/src/PluginEntry.c:60
+#: ../pretty-printer/src/PluginEntry.c:125
 msgid "PrettyPrinter XML"
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:69
+#: ../pretty-printer/src/PluginEntry.c:134
 msgid "Run the PrettyPrinter XML"
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:140
+#: ../pretty-printer/src/PluginEntry.c:214
 msgid "Unable to parse the content as XML."
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:151
+#: ../pretty-printer/src/PluginEntry.c:225
 msgid ""
 "Unable to process PrettyPrinting on the specified XML because some features "
 "are not supported.\n"
@@ -5627,31 +5623,31 @@ msgstr ""
 msgid "CDATA"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:205
+#: ../pretty-printer/src/ConfigUI.c:395
 msgid "Empty nodes"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:206
+#: ../pretty-printer/src/ConfigUI.c:396
 msgid "Concatenation (<x></x> to <x/>)"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:207
+#: ../pretty-printer/src/ConfigUI.c:397
 msgid "Spacing (<x/> to <x />)"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:208
+#: ../pretty-printer/src/ConfigUI.c:398
 msgid "Expansion (<x/> to <x></x>)"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:235
+#: ../pretty-printer/src/ConfigUI.c:425
 msgid "Indentation"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:240
+#: ../pretty-printer/src/ConfigUI.c:430
 msgid "Space"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:264
+#: ../pretty-printer/src/ConfigUI.c:454
 msgid "Line break"
 msgstr ""
 
@@ -5708,70 +5704,70 @@ msgstr ""
 msgid "Open Selected File (Project Organizer)"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:573
+#: ../projectorganizer/src/prjorg-project.c:578
 msgid "Source patterns:"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:579
+#: ../projectorganizer/src/prjorg-project.c:584
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
 "Used for header/source swapping."
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:585
+#: ../projectorganizer/src/prjorg-project.c:590
 msgid "Header patterns:"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:591
+#: ../projectorganizer/src/prjorg-project.c:596
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
 "header/source swapping."
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:597 ../workbench/src/dialogs.c:257
+#: ../projectorganizer/src/prjorg-project.c:602
 msgid "Ignored file patterns:"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:603
+#: ../projectorganizer/src/prjorg-project.c:608
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
 "not displayed in the project tree."
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:609 ../workbench/src/dialogs.c:268
+#: ../projectorganizer/src/prjorg-project.c:614
 msgid "Ignored directory patterns:"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:615
+#: ../projectorganizer/src/prjorg-project.c:620
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:621
+#: ../projectorganizer/src/prjorg-project.c:626
 #, fuzzy
 msgid "Index all project files:"
 msgstr "Знайсьці і праэкце"
 
-#: ../projectorganizer/src/prjorg-project.c:624
+#: ../projectorganizer/src/prjorg-project.c:629
 msgid "Auto (index if less than 300 files)"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:625
+#: ../projectorganizer/src/prjorg-project.c:630
 msgid "Yes"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:626
+#: ../projectorganizer/src/prjorg-project.c:631
 msgid "No"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:630
+#: ../projectorganizer/src/prjorg-project.c:635
 msgid ""
 "Generate symbol list for all project files instead of only for the currently "
 "opened files. Might be slow for big projects."
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:636
+#: ../projectorganizer/src/prjorg-project.c:641
 msgid ""
 "Note: the patterns above affect only the sidebar and are not used in the "
 "Find in Files\n"
@@ -5806,8 +5802,7 @@ msgstr "Выдаліць праэкт"
 msgid "Add External Directory"
 msgstr "Выдаліць праэкт"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:307 ../workbench/src/dialogs.c:122
-#: ../workbench/src/dialogs.c:162
+#: ../projectorganizer/src/prjorg-sidebar.c:307
 msgid "Add"
 msgstr ""
 
@@ -5834,7 +5829,6 @@ msgid "Add external directory"
 msgstr "Выдаліць праэкт"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1374
-#: ../workbench/src/popup_menu.c:443
 msgid "Expand all"
 msgstr ""
 
@@ -7596,283 +7590,6 @@ msgstr ""
 msgid "Windows"
 msgstr ""
 
-#: ../workbench/src/dialogs.c:43
-#, fuzzy
-msgid "Create new workbench"
-msgstr "Выдаліць праэкт"
-
-#: ../workbench/src/dialogs.c:46
-#, fuzzy
-msgid "Create"
-msgstr "Стварыць"
-
-#: ../workbench/src/dialogs.c:77
-msgid "Open workbench"
-msgstr ""
-
-#. Create new menu item "Open Workbench"
-#: ../workbench/src/dialogs.c:80 ../workbench/src/menu.c:173
-msgid "Open"
-msgstr ""
-
-#: ../workbench/src/dialogs.c:83
-msgid "Workbench files (.geanywb)"
-msgstr ""
-
-#: ../workbench/src/dialogs.c:119 ../workbench/src/popup_menu.c:381
-#, fuzzy
-msgid "Add project"
-msgstr "Знайсьці і праэкце"
-
-#: ../workbench/src/dialogs.c:125
-#, fuzzy
-msgid "Project files (.geany)"
-msgstr "Файл праэкта \"%s\" ужо існуе"
-
-#: ../workbench/src/dialogs.c:159 ../workbench/src/popup_menu.c:409
-#, fuzzy
-msgid "Add directory"
-msgstr "Выдаліць праэкт"
-
-#: ../workbench/src/dialogs.c:230 ../workbench/src/popup_menu.c:427
-#, fuzzy
-msgid "Directory settings"
-msgstr "Выдаліць праэкт"
-
-#: ../workbench/src/dialogs.c:246
-msgid "File patterns:"
-msgstr ""
-
-#: ../workbench/src/dialogs.c:252
-msgid ""
-"Space separated list of patterns that are used to identify files that shall "
-"be displayed in the directory tree."
-msgstr ""
-
-#: ../workbench/src/dialogs.c:263
-msgid ""
-"Space separated list of patterns that are used to identify files that shall "
-"not be displayed in the directory tree."
-msgstr ""
-
-#: ../workbench/src/dialogs.c:274
-msgid ""
-"Space separated list of patterns that are used to identify directories that "
-"shall not be scanned for source files."
-msgstr ""
-
-#: ../workbench/src/dialogs.c:282
-msgid ""
-"Note: the patterns above affect only the workbench directory and are not "
-"used in the Find in Files\n"
-"dialog."
-msgstr ""
-
-#: ../workbench/src/dialogs.c:361
-msgid "Workbench settings"
-msgstr ""
-
-#: ../workbench/src/dialogs.c:377
-#, fuzzy
-msgid "Rescan all projects on open:"
-msgstr "Знайсьці і праэкце"
-
-#: ../workbench/src/dialogs.c:382
-msgid ""
-"If the option is activated (default), then all projects will be re-scanned "
-"on opening of the workbench."
-msgstr ""
-
-#: ../workbench/src/menu.c:70
-#, c-format
-msgid "Could not create new workbench file: %s"
-msgstr ""
-
-#: ../workbench/src/menu.c:101
-#, c-format
-msgid "Could not open workbench file: %s"
-msgstr ""
-
-#: ../workbench/src/menu.c:118
-#, c-format
-msgid "Could not save workbench file: %s"
-msgstr ""
-
-#. Set metadata
-#: ../workbench/src/menu.c:161 ../workbench/src/plugin_main.c:131
-#: ../workbench/src/sidebar.c:1002
-msgid "Workbench"
-msgstr ""
-
-#. Create new menu item "New Workbench"
-#: ../workbench/src/menu.c:165
-#, fuzzy
-msgid "New"
-msgstr "Дадаць файл"
-
-#. Create new menu item "Save Workbench"
-#: ../workbench/src/menu.c:181
-#, fuzzy
-msgid "Save"
-msgstr "Выдаліць файл"
-
-#. Create new menu item "Close Workbench"
-#: ../workbench/src/menu.c:197
-msgid "Close"
-msgstr ""
-
-#: ../workbench/src/plugin_main.c:95 ../workbench/src/sidebar.c:572
-msgid ""
-"Create or open a workbench\n"
-"using the workbench menu."
-msgstr ""
-
-#: ../workbench/src/plugin_main.c:132
-msgid "Manage and customize multiple projects."
-msgstr ""
-
-#: ../workbench/src/popup_menu.c:172
-#, fuzzy, c-format
-msgid "Could not add project file: %s"
-msgstr "Знайсьці і праэкце"
-
-#: ../workbench/src/popup_menu.c:387
-#, fuzzy
-msgid "Save project"
-msgstr "Новы Праэкт"
-
-#: ../workbench/src/popup_menu.c:393
-#, fuzzy
-msgid "Remove project"
-msgstr "Выдаліць праэкт"
-
-#: ../workbench/src/popup_menu.c:399
-#, fuzzy
-msgid "Fold/unfold project"
-msgstr "Знайсьці і праэкце"
-
-#: ../workbench/src/popup_menu.c:415
-#, fuzzy
-msgid "Remove directory"
-msgstr "Выдаліць праэкт"
-
-#: ../workbench/src/popup_menu.c:421
-#, fuzzy
-msgid "Rescan directory"
-msgstr "Выдаліць праэкт"
-
-#: ../workbench/src/popup_menu.c:433
-#, fuzzy
-msgid "Fold/unfold directory"
-msgstr "Выдаліць праэкт"
-
-#: ../workbench/src/popup_menu.c:449
-msgid "Collapse all"
-msgstr ""
-
-#: ../workbench/src/popup_menu.c:459
-msgid "Add to Workbench Bookmarks"
-msgstr ""
-
-#: ../workbench/src/popup_menu.c:465
-msgid "Add to Project Bookmarks"
-msgstr ""
-
-#: ../workbench/src/popup_menu.c:471
-msgid "Remove from Bookmarks"
-msgstr ""
-
-#: ../workbench/src/sidebar.c:299
-#, fuzzy
-msgid "No directories"
-msgstr "Выдаліць праэкт"
-
-#. *** label ***
-#: ../workbench/src/sidebar.c:570 ../workbench/src/sidebar.c:952
-msgid "No workbench opened."
-msgstr ""
-
-#: ../workbench/src/sidebar.c:582
-#, fuzzy
-msgid "Projects"
-msgstr "Праэкт"
-
-#: ../workbench/src/sidebar.c:592
-msgid ""
-"Add a project\n"
-"using the context menu."
-msgstr ""
-
-#: ../workbench/src/sidebar.c:704
-#, c-format
-msgid ""
-"%s\n"
-"Project file not found!"
-msgstr ""
-
-#: ../workbench/src/sidebar.c:718
-msgid ""
-"This project has no directories. Directories can be added to a project using "
-"the context menu."
-msgstr ""
-
-#: ../workbench/src/wb_project.c:1003
-#, c-format
-msgid "Directory-Name: %s\n"
-msgstr ""
-
-#: ../workbench/src/wb_project.c:1005
-#, fuzzy, c-format
-msgid "Base-Directory: %s\n"
-msgstr "Выдаліць праэкт"
-
-#: ../workbench/src/wb_project.c:1008
-#, c-format
-msgid "File Patterns:"
-msgstr ""
-
-#: ../workbench/src/wb_project.c:1019
-#, c-format
-msgid "Ignored Dir. Patterns:"
-msgstr ""
-
-#: ../workbench/src/wb_project.c:1031
-#, c-format
-msgid "Ignored File Patterns:"
-msgstr ""
-
-#: ../workbench/src/wb_project.c:1042
-#, c-format
-msgid "Number of Sub-Folders: %u\n"
-msgstr ""
-
-#: ../workbench/src/wb_project.c:1043
-#, c-format
-msgid "Number of Files: %u\n"
-msgstr ""
-
-#: ../workbench/src/wb_project.c:1063
-#, fuzzy, c-format
-msgid "Project: %s\n"
-msgstr "Праэкт"
-
-#: ../workbench/src/wb_project.c:1065
-#, fuzzy, c-format
-msgid "File: %s\n"
-msgstr "Дадаць файл"
-
-#: ../workbench/src/wb_project.c:1067
-#, c-format
-msgid "Number of Directories: %u\n"
-msgstr ""
-
-#: ../workbench/src/wb_project.c:1071
-#, c-format
-msgid ""
-"\n"
-"The project contains unsafed changes!\n"
-msgstr ""
-
 #: ../xmlsnippets/src/plugin.c:44
 msgid "XML Snippets"
 msgstr ""
@@ -7893,6 +7610,10 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "Find Project Tag..."
+#~ msgstr "Знайсьці і праэкце"
+
+#, fuzzy
+#~ msgid "Find project tag"
 #~ msgstr "Знайсьці і праэкце"
 
 #, fuzzy
