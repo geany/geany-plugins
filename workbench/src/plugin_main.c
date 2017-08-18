@@ -140,8 +140,5 @@ void geany_load_module(GeanyPlugin *plugin)
 	plugin->funcs->callbacks = plugin_workbench_callbacks;
 
 	/* Register! */
-	if (GEANY_PLUGIN_REGISTER(plugin, 225))
-	{
-		return;
-	}
+	GEANY_PLUGIN_REGISTER(plugin, 225);
 }
