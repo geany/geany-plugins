@@ -1378,10 +1378,6 @@ gboolean wb_project_load(WB_PROJECT *prj, gchar *filename, GError **error)
 		for (index = 1 ; index < 1025 ; index++)
 		{
 			g_snprintf(key, sizeof(key), "Dir%u-BaseDir", index);
-			if (!g_key_file_has_key (kf, "Workbench", key, NULL))
-			{
-				break;
-			}
 
 			str = g_key_file_get_string(kf, "Workbench", key, NULL);
 			if (str == NULL)
