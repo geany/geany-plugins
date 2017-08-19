@@ -46,7 +46,7 @@ gboolean workbench_add_project(WORKBENCH *wb, gchar *filename);
 gboolean workbench_remove_project_with_address(WORKBENCH *wb, WB_PROJECT *project);
 WB_PROJECT *workbench_file_is_included (WORKBENCH *wb, gchar *filename);
 
-void workbench_set_filename(WORKBENCH *wb, gchar *filename);
+void workbench_set_filename(WORKBENCH *wb, const gchar *filename);
 gchar *workbench_get_filename(WORKBENCH *wb);
 gchar *workbench_get_name(WORKBENCH *wb);
 

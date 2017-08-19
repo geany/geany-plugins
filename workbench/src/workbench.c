@@ -215,7 +215,7 @@ gboolean workbench_get_rescan_projects_on_open(WORKBENCH *wb)
  * @param filename Name of the workbench file
  *
  **/
-void workbench_set_filename(WORKBENCH *wb, gchar *filename)
+void workbench_set_filename(WORKBENCH *wb, const gchar *filename)
 {
 	if (wb != NULL)
 	{

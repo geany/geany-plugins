@@ -107,7 +107,7 @@ gboolean wb_project_is_modified(WB_PROJECT *prj)
  * @param filename The filename
  *
  **/
-void wb_project_set_filename(WB_PROJECT *prj, gchar *filename)
+void wb_project_set_filename(WB_PROJECT *prj, const gchar *filename)
 {
 	if (prj != NULL)
 	{
