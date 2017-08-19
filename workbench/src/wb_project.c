@@ -987,56 +987,57 @@ gboolean wb_project_remove_directory (WB_PROJECT *prj, WB_PROJECT_DIR *dir)
  **/
 gchar *wb_project_dir_get_info (WB_PROJECT_DIR *dir)
 {
-	guint pos = 0;
 	gchar *str;
-	gchar text[2048];
 
 	if (dir == NULL)
-	    return g_strdup("");
+		return g_strdup("");
 
-	pos += g_snprintf(text, sizeof(text), _("Directory-Name: %s\n"),
-					  wb_project_dir_get_name(dir));
-	pos += g_snprintf(&(text[pos]), sizeof(text)-pos, _("Base-Directory: %s\n"),
-		              wb_project_dir_get_base_dir(dir));
+	GString *temp = g_string_new(NULL);
+	gchar *text;
+	g_string_append_printf(temp, _("Directory-Name: %s\n"), wb_project_dir_get_name(dir));
+	g_string_append_printf(temp, _("Base-Directory: %s\n"), wb_project_dir_get_base_dir(dir));
+
+	g_string_append(temp, _("File Patterns:"));
 	str = g_strjoinv(" ", dir->file_patterns);
-	pos += g_snprintf(&(text[pos]), sizeof(text)-pos, _("File Patterns:"));
 	if (str != NULL )
 	{
-		pos += g_snprintf(&(text[pos]), sizeof(text)-pos, " %s\n", str);
+		g_string_append_printf(temp, " %s\n", str);
 		g_free(str);
 	}
 	else
 	{
-		pos += g_snprintf(&(text[pos]), sizeof(text)-pos, "\n");
+		g_string_append(temp, "\n");
 	}
 
-	pos += g_snprintf(&(text[pos]), sizeof(text)-pos, _("Ignored Dir. Patterns:"));
+	g_string_append(temp, _("Ignored Dir. Patterns:"));
 	str = g_strjoinv(" ", dir->ignored_dirs_patterns);
 	if (str != NULL )
 	{
-		pos += g_snprintf(&(text[pos]), sizeof(text)-pos, " %s\n", str);
+		g_string_append_printf(temp, " %s\n", str);
 		g_free(str);
 	}
 	else
 	{
-		pos += g_snprintf(&(text[pos]), sizeof(text)-pos, "\n");
+		g_string_append(temp, "\n");
 	}
 
-	pos += g_snprintf(&(text[pos]), sizeof(text)-pos, _("Ignored File Patterns:"));
+	g_string_append(temp, _("Ignored File Patterns:"));
 	str = g_strjoinv(" ", dir->ignored_file_patterns);
 	if (str != NULL )
 	{
-		pos += g_snprintf(&(text[pos]), sizeof(text)-pos, " %s\n", str);
+		g_string_append_printf(temp, " %s\n", str);
 		g_free(str);
 	}
 	else
 	{
-		pos += g_snprintf(&(text[pos]), sizeof(text)-pos, "\n");
+		g_string_append(temp, "\n");
 	}
-	pos += g_snprintf(&(text[pos]), sizeof(text)-pos, _("Number of Sub-Folders: %u\n"), dir->folder_count);
-	pos += g_snprintf(&(text[pos]), sizeof(text)-pos, _("Number of Files: %u\n"), dir->file_count);
 
-	return g_strdup(text);
+	/* Steal string content */
+	text = temp->str;
+	g_string_free (temp, FALSE);
+
+	return text;
 }
 
 
