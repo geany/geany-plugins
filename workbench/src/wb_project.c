@@ -1451,13 +1451,8 @@ WB_PROJECT *wb_project_new(gchar *filename)
  **/
 void wb_project_free(WB_PROJECT *prj)
 {
-	GSList *elem;
-
 	/* Free directories first */
-	foreach_slist(elem, prj->directories)
-	{
-		wb_project_dir_free(elem->data);
-	}
+	g_slist_free_full(prj->directories, (GDestroyNotify)wb_project_dir_free);
 
 	/* Free all bookmarks */
 	wb_project_free_all_bookmarks(prj);
