@@ -89,9 +89,7 @@ static gboolean plugin_workbench_init(GeanyPlugin *plugin, gpointer pdata)
 
 	/* At start there is no workbench open:
 	   deactive save and close menu item and sidebar */
-	menu_item_save_deactivate();
-	menu_item_settings_deactivate();
-	menu_item_close_deactivate();
+	menu_set_context(MENU_CONTEXT_WB_CLOSED);
 	sidebar_show_intro_message(_("Create or open a workbench\nusing the workbench menu."), FALSE);
 
 	return TRUE;

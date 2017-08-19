@@ -19,18 +19,15 @@
 #ifndef __WB_MENU_H__
 #define __WB_MENU_H__
 
+typedef enum
+{
+	MENU_CONTEXT_WB_CREATED,
+	MENU_CONTEXT_WB_OPENED,
+	MENU_CONTEXT_WB_CLOSED,
+}MENU_CONTEXT;
 
+void menu_set_context(MENU_CONTEXT context);
 gboolean menu_init(void);
 void menu_cleanup (void);
-void menu_item_new_activate (void);
-void menu_item_new_deactivate (void);
-void menu_item_open_activate (void);
-void menu_item_open_deactivate (void);
-void menu_item_save_activate (void);
-void menu_item_save_deactivate (void);
-void menu_item_settings_activate (void);
-void menu_item_settings_deactivate (void);
-void menu_item_close_activate (void);
-void menu_item_close_deactivate (void);
 
 #endif

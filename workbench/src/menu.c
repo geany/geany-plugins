@@ -42,6 +42,35 @@ typedef struct
 }WB_MENU_DATA;
 static WB_MENU_DATA menu_data;
 
+/** Set the context of the workbench menu.
+ *
+ * The context set controls which items in the menu will be active and 
+ * which will be deactive.
+ *
+ * @param context The context/situation in which the menu is/shall be
+ *
+ **/
+void menu_set_context(MENU_CONTEXT context)
+{
+	switch (context)
+	{
+		case MENU_CONTEXT_WB_CREATED:
+		case MENU_CONTEXT_WB_OPENED:
+			gtk_widget_set_sensitive(menu_data.item_new, FALSE);
+			gtk_widget_set_sensitive(menu_data.item_open, FALSE);
+			gtk_widget_set_sensitive(menu_data.item_save, TRUE);
+			gtk_widget_set_sensitive(menu_data.item_settings, TRUE);
+			gtk_widget_set_sensitive(menu_data.item_close, TRUE);
+		break;
+		case MENU_CONTEXT_WB_CLOSED:
+			gtk_widget_set_sensitive(menu_data.item_new, TRUE);
+			gtk_widget_set_sensitive(menu_data.item_open, TRUE);
+			gtk_widget_set_sensitive(menu_data.item_save, FALSE);
+			gtk_widget_set_sensitive(menu_data.item_settings, FALSE);
+			gtk_widget_set_sensitive(menu_data.item_close, FALSE);
+		break;
+	}
+}
 
 /* The function handles the menu item "New workbench" */
 static void item_new_workbench_activate_cb(GtkMenuItem *menuitem, gpointer user_data)
@@ -58,11 +87,7 @@ static void item_new_workbench_activate_cb(GtkMenuItem *menuitem, gpointer user_
 	workbench_set_filename(wb_globals.opened_wb, filename);
 	if (workbench_save(wb_globals.opened_wb, &error))
 	{
-		menu_item_new_deactivate();
-		menu_item_open_deactivate();
-		menu_item_save_activate();
-		menu_item_settings_activate();
-		menu_item_close_activate();
+		menu_set_context(MENU_CONTEXT_WB_CREATED);
 		sidebar_update(SIDEBAR_CONTEXT_WB_CREATED, NULL);
 	}
 	else
@@ -89,11 +114,7 @@ static void item_open_workbench_activate_cb(GtkMenuItem *menuitem, gpointer user
 	wb_globals.opened_wb = workbench_new();
 	if (workbench_load(wb_globals.opened_wb, filename, &error))
 	{
-		menu_item_new_deactivate();
-		menu_item_open_deactivate();
-		menu_item_save_activate();
-		menu_item_settings_activate();
-		menu_item_close_activate();
+		menu_set_context(MENU_CONTEXT_WB_OPENED);
 		sidebar_update(SIDEBAR_CONTEXT_WB_OPENED, NULL);
 	}
 	else
@@ -141,12 +162,7 @@ static void item_close_workbench_activate_cb(GtkMenuItem *menuitem, gpointer use
 	workbench_free(wb_globals.opened_wb);
 	wb_globals.opened_wb = NULL;
 
-	menu_item_new_activate();
-	menu_item_open_activate();
-	menu_item_save_deactivate();
-	menu_item_settings_deactivate();
-	menu_item_close_deactivate();
-
+	menu_set_context(MENU_CONTEXT_WB_CLOSED);
 	sidebar_update(SIDEBAR_CONTEXT_WB_CLOSED, NULL);
 }
 
@@ -212,93 +228,4 @@ gboolean menu_init(void)
 void menu_cleanup (void)
 {
 	gtk_widget_destroy(menu_data.root_item);
-}
-
-
-/** Activate menu item "New".
- *
- **/
-void menu_item_new_activate (void)
-{
-	gtk_widget_set_sensitive(menu_data.item_new, TRUE);
-}
-
-
-/** Deactivate menu item "New".
- *
- **/
-void menu_item_new_deactivate (void)
-{
-	gtk_widget_set_sensitive(menu_data.item_new, FALSE);
-}
-
-
-/** Activate menu item "Open".
- *
- **/
-void menu_item_open_activate (void)
-{
-	gtk_widget_set_sensitive(menu_data.item_open, TRUE);
-}
-
-
-/** Deactivate menu item "Open".
- *
- **/
-void menu_item_open_deactivate (void)
-{
-	gtk_widget_set_sensitive(menu_data.item_open, FALSE);
-}
-
-
-/** Activate menu item "Save".
- *
- **/
-void menu_item_save_activate (void)
-{
-	gtk_widget_set_sensitive(menu_data.item_save, TRUE);
-}
-
-
-/** Deactivate menu item "Save".
- *
- **/
-void menu_item_save_deactivate (void)
-{
-	gtk_widget_set_sensitive(menu_data.item_save, FALSE);
-}
-
-
-/** Activate menu item "Settings".
- *
- **/
-void menu_item_settings_activate (void)
-{
-	gtk_widget_set_sensitive(menu_data.item_settings, TRUE);
-}
-
-/** Deactivate menu item "Settings".
- *
- **/
-void menu_item_settings_deactivate (void)
-{
-	gtk_widget_set_sensitive(menu_data.item_settings, FALSE);
-}
-
-
-/** Activate menu item "Close".
- *
- **/
-void menu_item_close_activate (void)
-{
-	gtk_widget_set_sensitive(menu_data.item_close, TRUE);
-}
-
-
-/** Deactivate menu item "Close".
- *
- **/
-void menu_item_close_deactivate (void)
-{
-	gtk_widget_set_sensitive(menu_data.item_close, FALSE);
 }
