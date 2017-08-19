@@ -624,14 +624,17 @@ gboolean workbench_save(WORKBENCH *wb, GError **error)
 			g_key_file_set_boolean(kf, group, "UseAbsFilename", entry->use_abs);
 		}
 		contents = g_key_file_to_data (kf, &length, error);
-		g_key_file_free(kf);
-
-		success = g_file_set_contents (wb->filename, contents, length, error);
-		if (success)
+		if (contents != NULL && *error == NULL)
 		{
-			wb->modified = FALSE;
+			g_key_file_free(kf);
+
+			success = g_file_set_contents (wb->filename, contents, length, error);
+			if (success)
+			{
+				wb->modified = FALSE;
+			}
+			g_free (contents);
 		}
-		g_free (contents);
 	}
 	else if (error != NULL)
 	{
