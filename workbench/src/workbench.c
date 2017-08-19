@@ -466,16 +466,13 @@ WB_PROJECT *workbench_file_is_included (WORKBENCH *wb, const gchar *filename)
 /* Add a workbench bookmark */
 static gboolean workbench_add_bookmark_int(WORKBENCH *wb, const gchar *filename)
 {
-	if (wb != NULL)
+	if (wb != NULL && filename != NULL)
 	{
 		gchar *new;
 
 		new = g_strdup(filename);
-		if (new != NULL)
-		{
-			g_ptr_array_add (wb->bookmarks, new);
-			return TRUE;
-		}
+		g_ptr_array_add (wb->bookmarks, new);
+		return TRUE;
 	}
 	return FALSE;
 }
