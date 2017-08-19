@@ -22,12 +22,6 @@
 
 #include "wb_globals.h"
 
-struct S_WB_GLOBALS
-{
-    GeanyPlugin *geany_plugin;
-    WORKBENCH   *opened_wb;
-};
-
 WB_GLOBALS wb_globals;
 
 void workbench_globals_init(void)
