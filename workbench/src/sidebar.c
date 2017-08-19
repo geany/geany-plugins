@@ -465,14 +465,14 @@ static void sidebar_update_project(WB_PROJECT *project)
 /* Insert all projects into the sidebar file tree */
 static void sidebar_insert_all_projects(GtkTreeIter *iter, gint *position)
 {
-	GIcon *icon_ok, *icon_ko, *icon;
+	GIcon *icon_good, *icon_bad, *icon;
 	guint index, max;
 
 	if (wb_globals.opened_wb == NULL)
 		return;
 
-	icon_ok = g_icon_new_for_string("workbench-project", NULL);
-	icon_ko = g_icon_new_for_string("workbench-project-error", NULL);
+	icon_good = g_icon_new_for_string("workbench-project", NULL);
+	icon_bad = g_icon_new_for_string("workbench-project-error", NULL);
 
 	max = workbench_get_project_count(wb_globals.opened_wb);
 	for (index = 0 ; index < max ; index++)
@@ -486,11 +486,11 @@ static void sidebar_insert_all_projects(GtkTreeIter *iter, gint *position)
 			==
 			PROJECT_ENTRY_STATUS_OK)
 		{
-			icon = icon_ok;
+			icon = icon_good;
 		}
 		else
 		{
-			icon = icon_ko;
+			icon = icon_bad;
 		}
 
 		length = g_snprintf(text, sizeof(text), "%s", wb_project_get_name(project));
@@ -515,13 +515,13 @@ static void sidebar_insert_all_projects(GtkTreeIter *iter, gint *position)
 	}
 	gtk_tree_view_expand_all(GTK_TREE_VIEW(sidebar.file_view));
 
-	if (icon_ok != NULL)
+	if (icon_good != NULL)
 	{
-		g_object_unref(icon_ok);
+		g_object_unref(icon_good);
 	}
-	if (icon_ko != NULL)
+	if (icon_bad != NULL)
 	{
-		g_object_unref(icon_ko);
+		g_object_unref(icon_bad);
 	}
 }
 
