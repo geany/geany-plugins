@@ -218,10 +218,8 @@ gboolean dialogs_directory_settings(WB_PROJECT_DIR *directory)
 	dialog = gtk_dialog_new_with_buttons(_("Directory settings"),
 										 GTK_WINDOW(wb_globals.geany_plugin->geany_data->main_widgets->window),
 										 flags,
-										 GTK_STOCK_CANCEL,
-										 GTK_RESPONSE_CANCEL,
-										 GTK_STOCK_OK,
-										 GTK_RESPONSE_ACCEPT,
+										 _("_Cancel"), GTK_RESPONSE_CANCEL,
+										 _("_OK"), GTK_RESPONSE_ACCEPT,
 										 NULL);
 	content_area = gtk_dialog_get_content_area(GTK_DIALOG (dialog));
 
@@ -349,10 +347,8 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 	dialog = gtk_dialog_new_with_buttons(_("Workbench settings"),
 										 GTK_WINDOW(wb_globals.geany_plugin->geany_data->main_widgets->window),
 										 flags,
-										 GTK_STOCK_CANCEL,
-										 GTK_RESPONSE_CANCEL,
-										 GTK_STOCK_OK,
-										 GTK_RESPONSE_ACCEPT,
+										 _("_Cancel"), GTK_RESPONSE_CANCEL,
+										 _("_OK"), GTK_RESPONSE_ACCEPT,
 										 NULL);
 	content_area = gtk_dialog_get_content_area(GTK_DIALOG (dialog));
 
