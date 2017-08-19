@@ -246,7 +246,7 @@ void workbench_set_filename(WORKBENCH *wb, const gchar *filename)
  * @return The filename or NULL
  *
  **/
-gchar *workbench_get_filename(WORKBENCH *wb)
+const gchar *workbench_get_filename(WORKBENCH *wb)
 {
 	if (wb != NULL)
 	{
@@ -358,7 +358,7 @@ PROJECT_ENTRY_STATUS workbench_get_project_status_by_address (WORKBENCH *wb, WB_
  * @return TRUE on success, FALSE otherwise
  *
  **/
-gboolean workbench_add_project(WORKBENCH *wb, gchar *filename)
+gboolean workbench_add_project(WORKBENCH *wb, const gchar *filename)
 {
 	if (wb != NULL)
 	{
@@ -443,7 +443,7 @@ gboolean workbench_remove_project_with_address(WORKBENCH *wb, WB_PROJECT *projec
  *         NULL if the file is not included in any workbench project.
  *
  **/
-WB_PROJECT *workbench_file_is_included (WORKBENCH *wb, gchar *filename)
+WB_PROJECT *workbench_file_is_included (WORKBENCH *wb, const gchar *filename)
 {
 	if (wb != NULL)
 	{
@@ -464,7 +464,7 @@ WB_PROJECT *workbench_file_is_included (WORKBENCH *wb, gchar *filename)
 
 
 /* Add a workbench bookmark */
-static gboolean workbench_add_bookmark_int(WORKBENCH *wb, gchar *filename)
+static gboolean workbench_add_bookmark_int(WORKBENCH *wb, const gchar *filename)
 {
 	if (wb != NULL)
 	{
@@ -488,7 +488,7 @@ static gboolean workbench_add_bookmark_int(WORKBENCH *wb, gchar *filename)
  * @return TRUE on success, FALSE otherwise
  *
  **/
-gboolean workbench_add_bookmark(WORKBENCH *wb, gchar *filename)
+gboolean workbench_add_bookmark(WORKBENCH *wb, const gchar *filename)
 {
 	if (workbench_add_bookmark_int(wb, filename) == TRUE)
 	{
@@ -506,7 +506,7 @@ gboolean workbench_add_bookmark(WORKBENCH *wb, gchar *filename)
  * @return TRUE on success, FALSE otherwise
  *
  **/
-gboolean workbench_remove_bookmark(WORKBENCH *wb, gchar *filename)
+gboolean workbench_remove_bookmark(WORKBENCH *wb, const gchar *filename)
 {
 	if (wb != NULL)
 	{
@@ -658,7 +658,7 @@ gboolean workbench_save(WORKBENCH *wb, GError **error)
  * @return TRUE on success, FALSE otherwise
  *
  **/
-gboolean workbench_load(WORKBENCH *wb, gchar *filename, GError **error)
+gboolean workbench_load(WORKBENCH *wb, const gchar *filename, GError **error)
 {
 	gboolean success = FALSE;
 

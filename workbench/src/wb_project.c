@@ -744,7 +744,7 @@ void wb_project_rescan(WB_PROJECT *prj)
  * @return TRUE if file is included, FALSE otherwise
  *
  **/
-gboolean wb_project_dir_file_is_included(WB_PROJECT_DIR *dir, gchar *filename)
+gboolean wb_project_dir_file_is_included(WB_PROJECT_DIR *dir, const gchar *filename)
 {
 	if (filename == NULL || dir == NULL)
 	{
@@ -767,7 +767,7 @@ gboolean wb_project_dir_file_is_included(WB_PROJECT_DIR *dir, gchar *filename)
  * @return TRUE if file is included, FALSE otherwise
  *
  **/
-gboolean wb_project_file_is_included(WB_PROJECT *prj, gchar *filename)
+gboolean wb_project_file_is_included(WB_PROJECT *prj, const gchar *filename)
 {
 	GSList *elem;
 
@@ -829,7 +829,7 @@ static gboolean add_tm_idle(gpointer foo)
  * Additional problem: The tag removal in Geany happens after this function is called.
  * To be sure, perform on idle after this happens (even though from my knowledge of TM
  * this shouldn't probably matter). */
-void wb_project_add_single_tm_file(WB_PROJECT *prj, gchar *filename)
+void wb_project_add_single_tm_file(WB_PROJECT *prj, const gchar *filename)
 {
 	if (prj == NULL)
 	{
@@ -890,7 +890,7 @@ static gboolean remove_tm_idle(gpointer foo)
  * when this function is called and if we remove the TmSourceFile now, line
  * number for the searched tag won't be found. For this reason delay the tag
  * TmSourceFile removal until idle */
-void wb_project_remove_single_tm_file(WB_PROJECT *prj, gchar *utf8_filename)
+void wb_project_remove_single_tm_file(WB_PROJECT *prj, const gchar *utf8_filename)
 {
 	if (prj == NULL)
 	{
@@ -1105,7 +1105,7 @@ static void wb_project_save_directories (gpointer data, gpointer user_data)
 
 
 /* Add a bookmark to the project */
-static gboolean wb_project_add_bookmark_int(WB_PROJECT *prj, gchar *filename)
+static gboolean wb_project_add_bookmark_int(WB_PROJECT *prj, const gchar *filename)
 {
 	if (prj != NULL)
 	{
@@ -1129,7 +1129,7 @@ static gboolean wb_project_add_bookmark_int(WB_PROJECT *prj, gchar *filename)
  * @return TRUE on success, FALSE otherwise
  *
  **/
-gboolean wb_project_add_bookmark(WB_PROJECT *prj, gchar *filename)
+gboolean wb_project_add_bookmark(WB_PROJECT *prj, const gchar *filename)
 {
 	if (wb_project_add_bookmark_int(prj, filename) == TRUE)
 	{
@@ -1147,7 +1147,7 @@ gboolean wb_project_add_bookmark(WB_PROJECT *prj, gchar *filename)
  * @return TRUE on success, FALSE otherwise
  *
  **/
-gboolean wb_project_remove_bookmark(WB_PROJECT *prj, gchar *filename)
+gboolean wb_project_remove_bookmark(WB_PROJECT *prj, const gchar *filename)
 {
 	if (prj != NULL)
 	{
@@ -1430,7 +1430,7 @@ gboolean wb_project_load(WB_PROJECT *prj, gchar *filename, GError **error)
  * @return Address of the new structure.
  *
  **/
-WB_PROJECT *wb_project_new(gchar *filename)
+WB_PROJECT *wb_project_new(const gchar *filename)
 {
 	WB_PROJECT *new_prj;
 

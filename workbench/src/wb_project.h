@@ -24,7 +24,7 @@
 typedef struct S_WB_PROJECT WB_PROJECT;
 typedef struct S_WB_PROJECT_DIR WB_PROJECT_DIR;
 
-WB_PROJECT *wb_project_new(gchar *filename);
+WB_PROJECT *wb_project_new(const gchar *filename);
 void wb_project_free(WB_PROJECT *prj);
 
 void wb_project_set_modified(WB_PROJECT *prj, gboolean value);
@@ -37,9 +37,9 @@ GSList *wb_project_get_directories(WB_PROJECT *prj);
 gboolean wb_project_add_directory(WB_PROJECT *prj, const gchar *dirname);
 gboolean wb_project_remove_directory (WB_PROJECT *prj, WB_PROJECT_DIR *dir);
 void wb_project_rescan(WB_PROJECT *prj);
-gboolean wb_project_file_is_included(WB_PROJECT *prj, gchar *filename);
-void wb_project_add_single_tm_file(WB_PROJECT *prj, gchar *filename);
-void wb_project_remove_single_tm_file(WB_PROJECT *prj, gchar *filename);
+gboolean wb_project_file_is_included(WB_PROJECT *prj, const gchar *filename);
+void wb_project_add_single_tm_file(WB_PROJECT *prj, const gchar *filename);
+void wb_project_remove_single_tm_file(WB_PROJECT *prj, const gchar *filename);
 
 const gchar *wb_project_dir_get_name (WB_PROJECT_DIR *directory);
 GHashTable *wb_project_dir_get_file_table (WB_PROJECT_DIR *directory);
@@ -52,10 +52,10 @@ gchar **wb_project_dir_get_ignored_file_patterns (WB_PROJECT_DIR *directory);
 gboolean wb_project_dir_set_ignored_file_patterns (WB_PROJECT_DIR *directory, gchar **new);
 gint wb_project_dir_rescan(WB_PROJECT *prj, WB_PROJECT_DIR *root);
 gchar *wb_project_dir_get_info (WB_PROJECT_DIR *dir);
-gboolean wb_project_dir_file_is_included(WB_PROJECT_DIR *dir, gchar *filename);
+gboolean wb_project_dir_file_is_included(WB_PROJECT_DIR *dir, const gchar *filename);
 
-gboolean wb_project_add_bookmark(WB_PROJECT *prj, gchar *filename);
-gboolean wb_project_remove_bookmark(WB_PROJECT *prj, gchar *filename);
+gboolean wb_project_add_bookmark(WB_PROJECT *prj, const gchar *filename);
+gboolean wb_project_remove_bookmark(WB_PROJECT *prj, const gchar *filename);
 GPtrArray *wb_project_get_bookmarks(WB_PROJECT *prj);
 gchar *wb_project_get_bookmark_at_index (WB_PROJECT *prj, guint index);
 guint wb_project_get_bookmarks_count(WB_PROJECT *prj);
