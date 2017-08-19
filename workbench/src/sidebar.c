@@ -722,7 +722,7 @@ static void sidebar_filew_view_on_row_activated (GtkTreeView       *treeview,
 				g_free(info);
 			break;
 			case DATA_ID_DIRECTORY:
-			    info = wb_project_dir_get_info((WB_PROJECT_DIR *)address);
+				info = wb_project_dir_get_info((WB_PROJECT_DIR *)address);
 				dialogs_show_msgbox(GTK_MESSAGE_INFO, "%s", info);
 			break;
 			case DATA_ID_WB_BOOKMARK:
