@@ -284,7 +284,7 @@ static void sidebar_insert_project_directories (WB_PROJECT *project, GtkTreeIter
 				FILEVIEW_COLUMN_DATA_ID, DATA_ID_DIRECTORY,
 				FILEVIEW_COLUMN_ASSIGNED_DATA_POINTER, elem->data,
 				-1);
-			position++;
+			(*position)++;
 			sidebar_insert_project_directory(project, elem->data, &iter);
 		}
 	}
@@ -297,7 +297,7 @@ static void sidebar_insert_project_directories (WB_PROJECT *project, GtkTreeIter
 			FILEVIEW_COLUMN_NAME, _("No directories"),
 			FILEVIEW_COLUMN_DATA_ID, DATA_ID_NO_DIRS,
 			-1);
-		position++;
+		(*position)++;
 	}
 	g_object_unref(icon);
 }
