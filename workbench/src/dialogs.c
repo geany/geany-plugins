@@ -153,15 +153,15 @@ gchar *dialogs_add_directory(WB_PROJECT *project)
 		_("_Add"), GTK_RESPONSE_ACCEPT, NULL);
 	if (project != NULL)
 	{
-		gchar *path;
+		const gchar *path;
 
 		/* Set the current folder to the location of the project file */
 		path = wb_project_get_filename(project);
 		if (path != NULL)
 		{
-			path = g_path_get_dirname(path);
-			gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
-			g_free(path);
+			gchar *dirname = g_path_get_dirname(path);
+			gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), dirname);
+			g_free(dirname);
 		}
 	}
 

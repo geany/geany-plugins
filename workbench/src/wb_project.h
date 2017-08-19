@@ -31,8 +31,8 @@ void wb_project_set_modified(WB_PROJECT *prj, gboolean value);
 gboolean wb_project_is_modified(WB_PROJECT *prj);
 
 void wb_project_set_filename(WB_PROJECT *prj, gchar *filename);
-gchar *wb_project_get_filename(WB_PROJECT *prj);
-gchar *wb_project_get_name(WB_PROJECT *prj);
+const gchar *wb_project_get_filename(WB_PROJECT *prj);
+const gchar *wb_project_get_name(WB_PROJECT *prj);
 GSList *wb_project_get_directories(WB_PROJECT *prj);
 gboolean wb_project_add_directory(WB_PROJECT *prj, const gchar *dirname);
 gboolean wb_project_remove_directory (WB_PROJECT *prj, WB_PROJECT_DIR *dir);
@@ -41,7 +41,7 @@ gboolean wb_project_file_is_included(WB_PROJECT *prj, gchar *filename);
 void wb_project_add_single_tm_file(WB_PROJECT *prj, gchar *filename);
 void wb_project_remove_single_tm_file(WB_PROJECT *prj, gchar *filename);
 
-gchar *wb_project_dir_get_name (WB_PROJECT_DIR *directory);
+const gchar *wb_project_dir_get_name (WB_PROJECT_DIR *directory);
 GHashTable *wb_project_dir_get_file_table (WB_PROJECT_DIR *directory);
 gchar *wb_project_dir_get_base_dir (WB_PROJECT_DIR *directory);
 gchar **wb_project_dir_get_file_patterns (WB_PROJECT_DIR *directory);

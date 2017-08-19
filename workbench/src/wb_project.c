@@ -140,7 +140,7 @@ void wb_project_set_filename(WB_PROJECT *prj, gchar *filename)
  * @return The filename
  *
  **/
-gchar *wb_project_get_filename(WB_PROJECT *prj)
+const gchar *wb_project_get_filename(WB_PROJECT *prj)
 {
 	if (prj != NULL)
 	{
@@ -156,7 +156,7 @@ gchar *wb_project_get_filename(WB_PROJECT *prj)
  * @return The project name
  *
  **/
-gchar *wb_project_get_name(WB_PROJECT *prj)
+const gchar *wb_project_get_name(WB_PROJECT *prj)
 {
 	if (prj != NULL)
 	{
@@ -341,7 +341,7 @@ static void wb_project_dir_collect_source_files(gchar *filename, TMSourceFile *s
  * @return The name
  *
  **/
-gchar *wb_project_dir_get_name (WB_PROJECT_DIR *directory)
+const gchar *wb_project_dir_get_name (WB_PROJECT_DIR *directory)
 {
 	if (directory != NULL)
 	{
