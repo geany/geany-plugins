@@ -211,8 +211,7 @@ gboolean menu_init(void)
  **/
 void menu_cleanup (void)
 {
-	gtk_container_remove (GTK_CONTAINER(ui_lookup_widget(wb_globals.geany_plugin->geany_data->main_widgets->window, "menubar1")),
-						  menu_data.root_item);
+	gtk_widget_destroy(menu_data.root_item);
 }
 
 
