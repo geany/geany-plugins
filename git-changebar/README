@@ -8,8 +8,8 @@ Git Change Bar
 About
 =====
 
-This plugin highlights uncommitted changes to files tracked with Git, and
-allows to navigate through the hunks.
+This plugin highlights uncommitted changes to files tracked with Git,
+allows to navigate through the hunks and undo them.
 
 
 Requirements
@@ -38,6 +38,10 @@ To navigate through the hunks of the current file, you need to configure the
 plugin's *Go to next hunk* and *Go to previous hunk* keybindings in Geany's
 preferences dialog.
 
+Hunks can also be undone by either setting a cursor at a line with a hunk and
+invoking the *Undo hunk at the cursor position* or by right-clicking in the
+editor where the hunk is located and selecting *Undo Git hunk* from the popup
+menu.
 
 License
 =======
