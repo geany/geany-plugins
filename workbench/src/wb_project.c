@@ -1049,23 +1049,25 @@ gchar *wb_project_dir_get_info (WB_PROJECT_DIR *dir)
  **/
 gchar *wb_project_get_info (WB_PROJECT *prj)
 {
-	guint pos = 0;
-	gchar text[2048];
+	GString *temp = g_string_new(NULL);
+	gchar *text;
 
 	if (prj == NULL)
-	    return g_strdup("");
+		return g_strdup("");
 
-	pos += g_snprintf(text, sizeof(text), _("Project: %s\n"),
-					  wb_project_get_name(prj));
-	pos += g_snprintf(&(text[pos]), sizeof(text)-pos, _("File: %s\n"),
-		              wb_project_get_filename(prj));
-	pos += g_snprintf(&(text[pos]), sizeof(text)-pos, _("Number of Directories: %u\n"),
-					  g_slist_length(prj->directories));
+	g_string_append_printf(temp, _("Project: %s\n"), wb_project_get_name(prj));
+	g_string_append_printf(temp, _("File: %s\n"), wb_project_get_filename(prj));
+	g_string_append_printf(temp, _("Number of Directories: %u\n"), g_slist_length(prj->directories));
 	if (wb_project_is_modified(prj))
 	{
-		pos += g_snprintf(&(text[pos]), sizeof(text)-pos, _("\nThe project contains unsafed changes!\n"));
+		g_string_append(temp, _("\nThe project contains unsafed changes!\n"));
 	}
-	return g_strdup(text);
+
+	/* Steal string content */
+	text = temp->str;
+	g_string_free (temp, FALSE);
+
+	return text;
 }
 
 
