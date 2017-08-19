@@ -1033,6 +1033,9 @@ gchar *wb_project_dir_get_info (WB_PROJECT_DIR *dir)
 		g_string_append(temp, "\n");
 	}
 
+	g_string_append_printf(temp, _("Number of Sub-Folders: %u\n"), dir->folder_count);
+	g_string_append_printf(temp, _("Number of Files: %u\n"), dir->file_count);
+
 	/* Steal string content */
 	text = temp->str;
 	g_string_free (temp, FALSE);
