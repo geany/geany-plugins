@@ -131,7 +131,7 @@ gchar *get_combined_path(const gchar *base, const gchar *relative)
 	if (relative[0] != '.')
 	{
 		/* Not a relative directory. Simply return it. */
-		return strdup(relative);
+		return g_strdup(relative);
 	}
 
 	start = relative;
