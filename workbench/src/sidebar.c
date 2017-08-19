@@ -254,10 +254,8 @@ static void sidebar_insert_project_directory(WB_PROJECT *prj, WB_PROJECT_DIR *di
 	if (path_list != NULL)
 		sidebar_create_branch(0, abs_base_dir, path_list, parent);
 
-	g_slist_foreach(lst, (GFunc) g_free, NULL);
-	g_slist_free(lst);
-	g_slist_foreach(path_list, (GFunc) g_strfreev, NULL);
-	g_slist_free(path_list);
+	g_slist_free_full(lst, g_free);
+	g_slist_free_full(path_list, (GDestroyNotify) g_strfreev);
 }
 
 
