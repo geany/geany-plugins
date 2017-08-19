@@ -212,18 +212,12 @@ static gboolean match_basename(gconstpointer pft, gconstpointer user_data)
 /* Clear idle queue */
 static void wb_project_clear_idle_queue(GSList **queue)
 {
-	GSList *elem;
-
 	if (queue == NULL || *queue == NULL)
 	{
 		return;
 	}
 
-	foreach_slist(elem, *queue)
-	{
-		g_free(elem->data);
-	}
-	g_slist_free(*queue);
+	g_slist_free_full(*queue, g_free);
 	*queue = NULL;
 }
 
