@@ -114,7 +114,9 @@ void wb_project_set_filename(WB_PROJECT *prj, gchar *filename)
 		guint offset;
 		gchar *ext;
 
+		g_free(prj->filename);
 		prj->filename = g_strdup(filename);
+		g_free(prj->name);
 		prj->name = g_path_get_basename (filename);
 		ext = g_strrstr(prj->name, ".geany");
 		if(ext != NULL)
