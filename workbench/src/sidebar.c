@@ -454,8 +454,7 @@ static void sidebar_insert_all_projects(GtkTreeIter *iter, gint *position)
 	max = workbench_get_project_count(wb_globals.opened_wb);
 	for (index = 0 ; index < max ; index++)
 	{
-		gint length, child_position;
-		gchar text[200];
+		gint child_position;
 		WB_PROJECT *project;
 
 		project = workbench_get_project_at_index(wb_globals.opened_wb, index);
@@ -470,19 +469,19 @@ static void sidebar_insert_all_projects(GtkTreeIter *iter, gint *position)
 			icon = icon_bad;
 		}
 
-		length = g_snprintf(text, sizeof(text), "%s", wb_project_get_name(project));
-		if (length < (sizeof(text)-1) && wb_project_is_modified(project))
+		GString *name = g_string_new(wb_project_get_name(project));
+		if (wb_project_is_modified(project))
 		{
-			text [length] = '*';
-			text [length+1] = '\0';
+			g_string_append_c(name, '*');
 		}
 
 		gtk_tree_store_insert_with_values(sidebar.file_store, iter, NULL, *position,
 			FILEVIEW_COLUMN_ICON, icon,
-			FILEVIEW_COLUMN_NAME, text,
+			FILEVIEW_COLUMN_NAME, name->str,
 			FILEVIEW_COLUMN_DATA_ID, DATA_ID_PROJECT,
 			FILEVIEW_COLUMN_ASSIGNED_DATA_POINTER, project,
 			-1);
+		g_string_free(name, TRUE);
 
 		child_position = 0;
 		/* Not required here as we build a completely new tree
