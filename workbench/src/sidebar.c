@@ -208,7 +208,10 @@ static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList 
 
 		g_slist_free(tmp_list);
 		g_slist_free(dir_list);
-		g_object_unref(icon_dir);
+		if (icon_dir != NULL)
+		{
+			g_object_unref(icon_dir);
+		}
 	}
 
 	g_slist_free(file_list);
@@ -299,7 +302,10 @@ static void sidebar_insert_project_directories (WB_PROJECT *project, GtkTreeIter
 			-1);
 		(*position)++;
 	}
-	g_object_unref(icon);
+	if (icon != NULL)
+	{
+		g_object_unref(icon);
+	}
 }
 
 
@@ -392,7 +398,10 @@ static void sidebar_insert_project_bookmarks(WB_PROJECT *project, GtkTreeIter *p
 			-1);
 		(*position)++;
 	}
-	g_object_unref(icon);
+	if (icon != NULL)
+	{
+		g_object_unref(icon);
+	}
 }
 
 
@@ -506,8 +515,14 @@ static void sidebar_insert_all_projects(GtkTreeIter *iter, gint *position)
 	}
 	gtk_tree_view_expand_all(GTK_TREE_VIEW(sidebar.file_view));
 
-	g_object_unref(icon_ok);
-	g_object_unref(icon_ko);
+	if (icon_ok != NULL)
+	{
+		g_object_unref(icon_ok);
+	}
+	if (icon_ko != NULL)
+	{
+		g_object_unref(icon_ko);
+	}
 }
 
 
@@ -547,7 +562,10 @@ static void sidebar_insert_workbench_bookmarks(WORKBENCH *workbench, GtkTreeIter
 	}
 
 	gtk_tree_view_expand_all(GTK_TREE_VIEW(sidebar.file_view));
-	g_object_unref(icon);
+	if (icon != NULL)
+	{
+		g_object_unref(icon);
+	}
 }
 
 
