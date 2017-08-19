@@ -1434,7 +1434,7 @@ WB_PROJECT *wb_project_new(gchar *filename)
 {
 	WB_PROJECT *new_prj;
 
-	new_prj = g_malloc0(sizeof *new_prj)
+	new_prj = g_malloc0(sizeof *new_prj);
 	new_prj->modified = FALSE;
 	wb_project_set_filename(new_prj, filename);
 	new_prj->bookmarks = g_ptr_array_new();
