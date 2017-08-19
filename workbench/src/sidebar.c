@@ -405,34 +405,8 @@ static void sidebar_insert_project_bookmarks(WB_PROJECT *project, GtkTreeIter *p
 }
 
 
-/* Update the sidebar for a project, only update title */
-static void sidebar_update_project_title(WB_PROJECT *project)
-{
-	GtkTreeIter iter;
-
-	if (wb_globals.opened_wb == NULL)
-		return;
-
-	if (sidebar_get_project_iter(project, &iter))
-	{
-		gint length;
-		gchar text[200];
-
-		length = g_snprintf(text, sizeof(text), "%s", wb_project_get_name(project));
-		if (length < (sizeof(text)-1) && wb_project_is_modified(project))
-		{
-			text [length] = '*';
-			text [length+1] = '\0';
-		}
-		gtk_tree_store_set(sidebar.file_store, &iter,
-			FILEVIEW_COLUMN_NAME, text,
-			-1);
-	}
-}
-
-
 /* Update the sidebar for a project only */
-static void sidebar_update_project(WB_PROJECT *project)
+static void sidebar_update_project(WB_PROJECT *project, gboolean title_only)
 {
 	GtkTreeIter iter;
 
@@ -441,23 +415,26 @@ static void sidebar_update_project(WB_PROJECT *project)
 
 	if (sidebar_get_project_iter(project, &iter))
 	{
-		gint length, position;
-		gchar text[200];
-
-		length = g_snprintf(text, sizeof(text), "%s", wb_project_get_name(project));
-		if (length < (sizeof(text)-1) && wb_project_is_modified(project))
+		/* Update the title */
+		GString *name = g_string_new(wb_project_get_name(project));
+		if (wb_project_is_modified(project))
 		{
-			text [length] = '*';
-			text [length+1] = '\0';
+			g_string_append_c(name, '*');
 		}
-		gtk_tree_store_set(sidebar.file_store, &iter,
-			FILEVIEW_COLUMN_NAME, text,
-			-1);
 
-		position = 0;
-		sidebar_remove_children(&iter);
-		sidebar_insert_project_bookmarks(project, &iter, &position);
-		sidebar_insert_project_directories(project, &iter, &position);
+		gtk_tree_store_set(sidebar.file_store, &iter,
+			FILEVIEW_COLUMN_NAME, name->str,
+			-1);
+		g_string_free(name, TRUE);
+
+		/* Update children/content to? */
+		if (!title_only)
+		{
+			gint position = 0;
+			sidebar_remove_children(&iter);
+			sidebar_insert_project_bookmarks(project, &iter, &position);
+			sidebar_insert_project_directories(project, &iter, &position);
+		}
 	}
 }
 
@@ -652,7 +629,7 @@ void sidebar_update (SIDEBAR_EVENT event, SIDEBAR_CONTEXT *context)
 		case SIDEBAR_CONTEXT_PROJECT_SAVED:
 			if (context != NULL && context->project != NULL)
 			{
-				sidebar_update_project_title(context->project);
+				sidebar_update_project(context->project, TRUE);
 			}
 		break;
 		case SIDEBAR_CONTEXT_DIRECTORY_ADDED:
@@ -663,7 +640,7 @@ void sidebar_update (SIDEBAR_EVENT event, SIDEBAR_CONTEXT *context)
 		case SIDEBAR_CONTEXT_PRJ_BOOKMARK_REMOVED:
 			if (context != NULL && context->project != NULL)
 			{
-				sidebar_update_project(context->project);
+				sidebar_update_project(context->project, FALSE);
 			}
 		break;
 		case SIDEBAR_CONTEXT_WB_BOOKMARK_ADDED:
