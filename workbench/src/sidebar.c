@@ -753,29 +753,29 @@ static gboolean sidebar_file_view_on_button_release(G_GNUC_UNUSED GtkWidget * wi
 
 		if (sidebar_file_view_get_selected_context(&context))
 		{
-			if (context.wb_bookmark != NULL)
-			{
-				popup_context = POPUP_CONTEXT_WB_BOOKMARK;
-			}
-			if (context.project != NULL)
-			{
-				popup_context = POPUP_CONTEXT_PROJECT;
-			}
-			if (context.prj_bookmark != NULL)
-			{
-				popup_context = POPUP_CONTEXT_PRJ_BOOKMARK;
-			}
-			if (context.directory != NULL)
-			{
-				popup_context = POPUP_CONTEXT_DIRECTORY;
-			}
-			if (context.folder != NULL)
-			{
-				popup_context = POPUP_CONTEXT_FOLDER;
-			}
 			if (context.file != NULL)
 			{
 				popup_context = POPUP_CONTEXT_FILE;
+			}
+			else if (context.folder != NULL)
+			{
+				popup_context = POPUP_CONTEXT_FOLDER;
+			}
+			else if (context.directory != NULL)
+			{
+				popup_context = POPUP_CONTEXT_DIRECTORY;
+			}
+			else if (context.prj_bookmark != NULL)
+			{
+				popup_context = POPUP_CONTEXT_PRJ_BOOKMARK;
+			}
+			else if (context.project != NULL)
+			{
+				popup_context = POPUP_CONTEXT_PROJECT;
+			}
+			else if (context.wb_bookmark != NULL)
+			{
+				popup_context = POPUP_CONTEXT_WB_BOOKMARK;
 			}
 		}
 		popup_menu_show(popup_context, event);
