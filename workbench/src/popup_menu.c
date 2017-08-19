@@ -266,8 +266,7 @@ static void popup_menu_on_remove_directory(G_GNUC_UNUSED GtkMenuItem * menuitem,
 	SIDEBAR_CONTEXT context;
 
 	if (sidebar_file_view_get_selected_context(&context)
-		&&
-		context.project != NULL && context.directory != NULL)
+		&& context.project != NULL && context.directory != NULL)
 	{
 		wb_project_remove_directory(context.project, context.directory);
 		sidebar_update(SIDEBAR_CONTEXT_DIRECTORY_REMOVED, &context);
@@ -281,8 +280,7 @@ static void popup_menu_on_rescan_directory(G_GNUC_UNUSED GtkMenuItem * menuitem,
 	SIDEBAR_CONTEXT context;
 
 	if (sidebar_file_view_get_selected_context(&context)
-		&&
-		context.project != NULL && context.directory != NULL)
+		&& context.project != NULL && context.directory != NULL)
 	{
 		wb_project_dir_rescan(context.project, context.directory);
 		sidebar_update(SIDEBAR_CONTEXT_DIRECTORY_RESCANNED, &context);
@@ -296,8 +294,7 @@ static void popup_menu_on_directory_settings(G_GNUC_UNUSED GtkMenuItem * menuite
 	SIDEBAR_CONTEXT context;
 
 	if (sidebar_file_view_get_selected_context(&context)
-		&&
-		context.project != NULL && context.directory != NULL)
+		&& context.project != NULL && context.directory != NULL)
 	{
 		if (dialogs_directory_settings(context.directory))
 		{
@@ -322,8 +319,7 @@ static void popup_menu_on_add_to_workbench_bookmarks(G_GNUC_UNUSED GtkMenuItem *
 	SIDEBAR_CONTEXT context;
 
 	if (sidebar_file_view_get_selected_context(&context)
-		&&
-		context.file != NULL)
+		&& context.file != NULL)
 	{
 		workbench_add_bookmark(wb_globals.opened_wb, context.file);
 		sidebar_update(SIDEBAR_CONTEXT_WB_BOOKMARK_ADDED, &context);
@@ -337,8 +333,7 @@ static void popup_menu_on_add_to_project_bookmarks(G_GNUC_UNUSED GtkMenuItem *me
 	SIDEBAR_CONTEXT context;
 
 	if (sidebar_file_view_get_selected_context(&context)
-		&&
-		context.project != NULL && context.file != NULL)
+		&& context.project != NULL && context.file != NULL)
 	{
 		wb_project_add_bookmark(context.project, context.file);
 		sidebar_update(SIDEBAR_CONTEXT_PRJ_BOOKMARK_ADDED, &context);
@@ -352,15 +347,13 @@ static void popup_menu_on_remove_from_bookmarks(G_GNUC_UNUSED GtkMenuItem *menui
 	SIDEBAR_CONTEXT context;
 
 	if (sidebar_file_view_get_selected_context(&context)
-		&&
-		context.wb_bookmark != NULL)
+		&& context.wb_bookmark != NULL)
 	{
 		workbench_remove_bookmark(wb_globals.opened_wb, context.wb_bookmark);
 		sidebar_update(SIDEBAR_CONTEXT_WB_BOOKMARK_REMOVED, &context);
 	}
 	if (sidebar_file_view_get_selected_context(&context)
-		&&
-		context.project != NULL && context.prj_bookmark != NULL)
+		&& context.project != NULL && context.prj_bookmark != NULL)
 	{
 		wb_project_remove_bookmark(context.project, context.prj_bookmark);
 		sidebar_update(SIDEBAR_CONTEXT_PRJ_BOOKMARK_REMOVED, &context);

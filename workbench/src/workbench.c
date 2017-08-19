@@ -689,8 +689,7 @@ gboolean workbench_load(WORKBENCH *wb, gchar *filename, GError **error)
 		}
 
 		if (g_key_file_has_key (kf, "General", "filetype", NULL)
-			&&
-			g_key_file_has_key (kf, "General", "version", NULL))
+			&& g_key_file_has_key (kf, "General", "version", NULL))
 		{
 			gchar *check;
 			check = g_key_file_get_string (kf, "General", "filetype", error);

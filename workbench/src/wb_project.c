@@ -309,10 +309,8 @@ static WB_PROJECT_DIR *wb_project_dir_new(const gchar *utf8_base_dir)
 
 	offset = strlen(dir->base_dir)-1;
 	while (offset > 0
-		   &&
-		   dir->base_dir[offset] != '\\'
-		   &&
-		   dir->base_dir[offset] != '/')
+		   && dir->base_dir[offset] != '\\'
+		   && dir->base_dir[offset] != '/')
 	{
 		offset--;
 	}
