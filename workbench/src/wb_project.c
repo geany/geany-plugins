@@ -559,9 +559,8 @@ static gint wb_project_dir_rescan_int(WB_PROJECT *prj, WB_PROJECT_DIR *root)
 
 	if (!root->file_patterns || !root->file_patterns[0])
 	{
-		gchar **all_pattern = g_strsplit ("*", " ", -1);
-		pattern_list = get_precompiled_patterns(all_pattern);
-		g_strfreev(all_pattern);
+		const gchar *all_pattern[] = { "*", NULL };
+		pattern_list = get_precompiled_patterns((gchar **)all_pattern);
 	}
 	else
 	{
