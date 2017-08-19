@@ -234,6 +234,7 @@ static GSList *wb_project_dir_get_file_list(WB_PROJECT_DIR *root, const gchar *u
 	dir = g_dir_open(locale_path, 0, NULL);
 	if (!dir || !real_path || g_hash_table_lookup(visited_paths, real_path))
 	{
+		g_dir_close(dir);
 		g_free(locale_path);
 		g_free(real_path);
 		return NULL;
