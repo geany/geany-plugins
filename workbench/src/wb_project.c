@@ -300,7 +300,7 @@ static WB_PROJECT_DIR *wb_project_dir_new(const gchar *utf8_base_dir)
 	{
 	    return NULL;
 	}
-	WB_PROJECT_DIR *dir = (WB_PROJECT_DIR *) g_new0(WB_PROJECT_DIR, 1);
+	WB_PROJECT_DIR *dir = g_new0(WB_PROJECT_DIR, 1);
 	dir->base_dir = g_strdup(utf8_base_dir);
 	dir->file_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, (GFreeFunc)tm_source_file_free);
 
