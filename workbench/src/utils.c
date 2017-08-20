@@ -179,19 +179,15 @@ gchar *get_combined_path(const gchar *base, const gchar *relative)
  * The function examines the relative path of @a target in relation to
  * @a base. It is not required that target is a sub-directory of base.
  *
- * The function can only properly handle pathes which consist of a maximum of
- * 29 sub-directories. If the pathes exceed this maximum the function aborts
- * and NULL is returned.
- *
  * @param base   Base directory.
  * @param target Target directory or NULL in case of error.
  *
  **/
 gchar *get_any_relative_path (const gchar *base, const gchar *target)
 {
-	gboolean error = FALSE;
-	guint pos = 0, index = 0, equal, equal_index = 0, base_parts = 0, target_parts = 0, length;
-	gchar **relative;
+	guint index = 0, equal, equal_index = 0, base_parts = 0, target_parts = 0, length;
+	GPtrArray *relative;
+	gchar *part;
 	gchar *result = NULL;
 	gchar **splitv_base;
 	gchar **splitv_target;
@@ -239,9 +235,8 @@ gchar *get_any_relative_path (const gchar *base, const gchar *target)
 		index++;
 	}
 
-	pos = 0;
 	length = 0;
-	relative = g_new (char *, 30);
+	relative = g_ptr_array_new();
 	if (equal < base_parts)
 	{
 		/* Go back, add ".." */
@@ -249,30 +244,14 @@ gchar *get_any_relative_path (const gchar *base, const gchar *target)
 		{
 			if (index == 0)
 			{
-				if (pos < 30)
-				{
-				    relative[pos++] = g_strdup("..");
-				    length += 2;
-				}
-				else
-				{
-					error = TRUE;
-					break;
-				}
+				g_ptr_array_add(relative, g_strdup(".."));
+				length += 2;
 			}
 			else
 			{
-				if (pos < 29)
-				{
-					length += 2 + strlen(G_DIR_SEPARATOR_S);
-					relative[pos++] = g_strdup(G_DIR_SEPARATOR_S);
-					relative[pos++] = g_strdup("..");
-				}
-				else
-				{
-					error = TRUE;
-					break;
-				}
+				length += 2 + strlen(G_DIR_SEPARATOR_S);
+				g_ptr_array_add(relative, g_strdup(G_DIR_SEPARATOR_S));
+				g_ptr_array_add(relative, g_strdup(".."));
 			}
 		}
 
@@ -282,50 +261,41 @@ gchar *get_any_relative_path (const gchar *base, const gchar *target)
 		{
 			if (strlen(splitv_target[index]) > 0)
 			{
-				if (pos < 29)
-				{
-					length += strlen(G_DIR_SEPARATOR_S)
-							  + strlen(splitv_target[index]);
-					relative[pos++] = g_strdup(G_DIR_SEPARATOR_S);
-					relative[pos++] = g_strdup(splitv_target[index]);
-				}
-				else
-				{
-					error = TRUE;
-					break;
-				}
+				length += strlen(G_DIR_SEPARATOR_S)
+						  + strlen(splitv_target[index]);
+				g_ptr_array_add(relative, g_strdup(G_DIR_SEPARATOR_S));
+				g_ptr_array_add(relative, g_strdup(splitv_target[index]));
 			}
 			index++;
 		}
 	}
 
 	/* Copy it all together */
-	if (error == FALSE)
+	result = g_new(char, length+1);
+	if (result != NULL)
 	{
-		result = g_new(char, length+1);
-		if (result != NULL)
-		{
-			guint strpos = 0;
+		guint strpos = 0;
 
-			index = 0;
-			for (index = 0 ; index < pos ; index++)
-			{
-				g_strlcpy (&(result[strpos]),
-						   relative[index],
-						   length+1-strpos);
-				strpos += strlen(relative[index]);
-			}
-		}
-		else
+		for (index = 0 ; index < relative->len ; index++)
 		{
-			error = TRUE;
+			part = g_ptr_array_index(relative, index);
+			g_strlcpy (&(result[strpos]),
+					   part,
+					   length+1-strpos);
+			strpos += strlen(part);
+			g_free(part);
 		}
 	}
-
-	if (error == TRUE)
+	else
 	{
-		return NULL;
+		for (index = 0 ; index < relative->len ; index++)
+		{
+			part = g_ptr_array_index(relative, index);
+			g_free(part);
+		}
+		result = NULL;
 	}
+	g_ptr_array_free(relative, TRUE);
 
 	return result;
 }
