@@ -935,7 +935,6 @@ void sidebar_init(void)
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
 	GtkTreeSelection *sel;
-	PangoFontDescription *pfd;
 	GList *focus_chain = NULL;
 
 	sidebar.file_view_vbox = gtk_vbox_new(FALSE, 0);
@@ -967,9 +966,8 @@ void sidebar_init(void)
 	gtk_tree_view_set_enable_search(GTK_TREE_VIEW(sidebar.file_view), TRUE);
 	gtk_tree_view_set_search_column(GTK_TREE_VIEW(sidebar.file_view), FILEVIEW_COLUMN_NAME);
 
-	pfd = pango_font_description_from_string(wb_globals.geany_plugin->geany_data->interface_prefs->tagbar_font);
-	gtk_widget_modify_font(sidebar.file_view, pfd);
-	pango_font_description_free(pfd);
+	ui_widget_modify_font_from_string(sidebar.file_view,
+		wb_globals.geany_plugin->geany_data->interface_prefs->tagbar_font);
 
 	sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(sidebar.file_view));
 	gtk_tree_selection_set_mode(sel, GTK_SELECTION_SINGLE);
