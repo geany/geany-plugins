@@ -214,9 +214,7 @@ gboolean menu_init(void)
 
 	/* Add our menu to the main window (left of the help menu) */
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_data.root_item), menu_data.menu);
-	gtk_menu_shell_insert
-		(GTK_MENU_SHELL (ui_lookup_widget(wb_globals.geany_plugin->geany_data->main_widgets->window, "menubar1")),
-		 menu_data.root_item, 8);
+	gtk_container_add(GTK_CONTAINER(wb_globals.geany_plugin->geany_data->main_widgets->tools_menu), menu_data.root_item);
 
 	return TRUE;
 }
