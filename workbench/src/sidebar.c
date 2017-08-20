@@ -74,7 +74,7 @@ typedef struct SIDEBAR
     GtkTreeStore *file_store;
     GtkWidget *file_view_label;
 }SIDEBAR;
-static SIDEBAR sidebar = {NULL, NULL, NULL, NULL, NULL};
+static SIDEBAR sidebar = {NULL, NULL, NULL, NULL};
 
 /* Remove all child nodes below parent */
 static void sidebar_remove_children(GtkTreeIter *parent)
