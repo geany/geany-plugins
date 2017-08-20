@@ -1,20 +1,20 @@
-icondir = $(datadir)/icons/hicolor/16x16/apps
+SUBDIRS = 16x16 24x24 32x32 48x48 scalable
 
-dist_icon_DATA = \
-	workbench-project.png		\
-	workbench-project-error.png	\
-	workbench-nodirs.png		\
-	workbench-bookmark.png		\
-	workbench-dir.png
+gtk_update_icon_cache = gtk-update-icon-cache -f -t
 
-gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
-install-data-hook: update-icon-cache
-uninstall-hook: update-icon-cache
-update-icon-cache:
-	@-if test -z "$(DESTDIR)"; then \
-		echo "Updating Gtk icon cache."; \
-		$(gtk_update_icon_cache); \
-	else \
-		echo "*** Icon cache not updated.  After (un)install, run this:"; \
-		echo "***   $(gtk_update_icon_cache)"; \
+install-data-hook:
+	@-if test -z "$(DESTDIR)"; then					\
+		echo "Updating Gtk icon cache.";			\
+		$(gtk_update_icon_cache) "$(datadir)/icons/hicolor";	\
+		$(gtk_update_icon_cache) "$(datadir)/icons/Tango"; \
+	else								\
+		echo "*** Icon cache not updated. Remember to run:";	\
+		echo "***";						\
+		echo "***   $(gtk_update_icon_cache) '$(datadir)/icons/hicolor'";\
+		echo "***   $(gtk_update_icon_cache) '$(datadir)/icons/Tango'";\
+		echo "***";						\
 	fi
+
+uninstall-local:
+	rm -f $(DESTDIR)$(datadir)/icons/hicolor/icon-theme.cache
+	rm -f $(DESTDIR)$(datadir)/icons/Tango/icon-theme.cache
