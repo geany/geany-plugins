@@ -125,63 +125,51 @@ gchar *get_combined_path(const gchar *base, const gchar *relative)
 	gchar *basedir, *basedir_end;
 	const gchar *start;
 	gchar *result;
-	guint length;
 	gint goback;
 
-	if (relative[0] != '.')
-	{
-		/* Not a relative directory. Simply return it. */
-		return g_strdup(relative);
-	}
-
 	start = relative;
-	if (strncmp("..", relative, sizeof("..")-1) == 0)
-	{
-		start = &(relative[sizeof("..")-1]);
-	}
-
 	basedir = g_path_get_dirname (base);
-
-	goback = 0;
-	while (*start != '\0')
+	if (relative[0] == '.')
 	{
-		if (strncmp("..", &(start[1]), sizeof("..")-1) == 0)
+		if (strncmp("..", relative, sizeof("..")-1) == 0)
 		{
-			start += 1 + (sizeof("..")-1);
-			goback++;
+			start = &(relative[sizeof("..")-1]);
 		}
-		else
+
+		goback = 0;
+		while (*start != '\0')
 		{
-			break;
+			if (strncmp("..", &(start[1]), sizeof("..")-1) == 0)
+			{
+				start += 1 + (sizeof("..")-1);
+				goback++;
+			}
+			else
+			{
+				break;
+			}
+		}
+
+		basedir_end = &(basedir[strlen(basedir)]);
+		while (goback > 0)
+		{
+			while (basedir_end > basedir && *basedir_end != G_DIR_SEPARATOR)
+			{
+				basedir_end--;
+			}
+			if (*basedir_end == G_DIR_SEPARATOR)
+			{
+				*basedir_end = '\0';
+			}
+			else
+			{
+				break;
+			}
+			goback--;
 		}
 	}
 
-	basedir_end = &(basedir[strlen(basedir)]);
-	while (goback > 0)
-	{
-		while (basedir_end > basedir && *basedir_end != G_DIR_SEPARATOR)
-		{
-			basedir_end--;
-		}
-		if (*basedir_end == G_DIR_SEPARATOR)
-		{
-			*basedir_end = '\0';
-		}
-		else
-		{
-			break;
-		}
-		goback--;
-	}
-
-	length = strlen(basedir)+strlen(start);
-	result = g_new(char, length+1);
-	if (result == NULL)
-	{
-		return NULL;
-	}
-	g_snprintf(result, length+1, "%s%s", basedir, start);
-
+	result = g_strconcat(basedir, start, NULL);
 	return result;
 }
 
