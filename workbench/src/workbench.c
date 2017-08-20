@@ -707,7 +707,7 @@ gboolean workbench_load(WORKBENCH *wb, const gchar *filename, GError **error)
 		if (!valid)
 		{
 			g_set_error (error, 0, 0,
-						 "File: %s is not a valid workbench file!",
+						 _("File %s is not a valid workbench file!"),
 						 filename);
 			return FALSE;
 		}
