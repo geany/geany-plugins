@@ -370,25 +370,25 @@ void popup_menu_init(void)
 
 	s_popup_menu.widget = gtk_menu_new();
 
-	item = gtk_menu_item_new_with_mnemonic(_("Add project..."));
+	item = gtk_menu_item_new_with_mnemonic(_("_Add project..."));
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_add_project), NULL);
 	s_popup_menu.add_project = item;
 
-	item = gtk_menu_item_new_with_mnemonic(_("Save project"));
+	item = gtk_menu_item_new_with_mnemonic(_("_Save project"));
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_save_project), NULL);
 	s_popup_menu.save_project = item;
 
-	item = gtk_menu_item_new_with_mnemonic(_("Remove project"));
+	item = gtk_menu_item_new_with_mnemonic(_("_Remove project"));
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_remove_project), NULL);
 	s_popup_menu.remove_project = item;
 
-	item = gtk_menu_item_new_with_mnemonic(_("Fold/unfold project"));
+	item = gtk_menu_item_new_with_mnemonic(_("_Fold/unfold project"));
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_fold_unfold_project), NULL);
@@ -398,31 +398,31 @@ void popup_menu_init(void)
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 
-	item = gtk_menu_item_new_with_mnemonic(_("Add directory..."));
+	item = gtk_menu_item_new_with_mnemonic(_("_Add directory..."));
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_add_directory), NULL);
 	s_popup_menu.add_directory = item;
 
-	item = gtk_menu_item_new_with_mnemonic(_("Remove directory"));
+	item = gtk_menu_item_new_with_mnemonic(_("_Remove directory"));
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_remove_directory), NULL);
 	s_popup_menu.remove_directory = item;
 
-	item = gtk_menu_item_new_with_mnemonic(_("Rescan directory"));
+	item = gtk_menu_item_new_with_mnemonic(_("_Rescan directory"));
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_rescan_directory), NULL);
 	s_popup_menu.rescan_directory = item;
 
-	item = gtk_menu_item_new_with_mnemonic(_("Directory settings"));
+	item = gtk_menu_item_new_with_mnemonic(_("_Directory settings"));
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_directory_settings), NULL);
 	s_popup_menu.directory_settings = item;
 
-	item = gtk_menu_item_new_with_mnemonic(_("Fold/unfold directory"));
+	item = gtk_menu_item_new_with_mnemonic(_("_Fold/unfold directory"));
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_fold_unfold_directory), NULL);
@@ -432,13 +432,13 @@ void popup_menu_init(void)
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 
-	item = gtk_menu_item_new_with_mnemonic(_("Expand all"));
+	item = gtk_menu_item_new_with_mnemonic(_("_Expand all"));
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_expand_all), NULL);
 	s_popup_menu.expand_all = item;
 
-	item = gtk_menu_item_new_with_mnemonic(_("Collapse all"));
+	item = gtk_menu_item_new_with_mnemonic(_("_Collapse all"));
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_collapse_all), NULL);
@@ -448,19 +448,19 @@ void popup_menu_init(void)
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 
-	item = gtk_menu_item_new_with_mnemonic(_("Add to Workbench Bookmarks"));
+	item = gtk_menu_item_new_with_mnemonic(_("_Add to Workbench Bookmarks"));
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_add_to_workbench_bookmarks), NULL);
 	s_popup_menu.add_wb_bookmark = item;
 
-	item = gtk_menu_item_new_with_mnemonic(_("Add to Project Bookmarks"));
+	item = gtk_menu_item_new_with_mnemonic(_("_Add to Project Bookmarks"));
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_add_to_project_bookmarks), NULL);
 	s_popup_menu.add_prj_bookmark = item;
 
-	item = gtk_menu_item_new_with_mnemonic(_("Remove from Bookmarks"));
+	item = gtk_menu_item_new_with_mnemonic(_("_Remove from Bookmarks"));
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_remove_from_bookmarks), NULL);
