@@ -178,14 +178,14 @@ gboolean menu_init(void)
 	gtk_widget_show(menu_data.root_item);
 
 	/* Create new menu item "New Workbench" */
-	menu_data.item_new = gtk_menu_item_new_with_mnemonic(_("_New"));
+	menu_data.item_new = gtk_menu_item_new_with_mnemonic(_("_New..."));
 	gtk_widget_show(menu_data.item_new);
 	gtk_menu_shell_append(GTK_MENU_SHELL (menu_data.menu), menu_data.item_new);
 	g_signal_connect(menu_data.item_new, "activate",
 					 G_CALLBACK(item_new_workbench_activate_cb), NULL);
 
 	/* Create new menu item "Open Workbench" */
-	menu_data.item_open = gtk_menu_item_new_with_mnemonic(_("_Open"));
+	menu_data.item_open = gtk_menu_item_new_with_mnemonic(_("_Open..."));
 	gtk_widget_show(menu_data.item_open);
 	gtk_menu_shell_append(GTK_MENU_SHELL (menu_data.menu), menu_data.item_open);
 	g_signal_connect(menu_data.item_open, "activate",

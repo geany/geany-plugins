@@ -370,7 +370,7 @@ void popup_menu_init(void)
 
 	s_popup_menu.widget = gtk_menu_new();
 
-	item = gtk_menu_item_new_with_mnemonic(_("Add project"));
+	item = gtk_menu_item_new_with_mnemonic(_("Add project..."));
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_add_project), NULL);
@@ -398,7 +398,7 @@ void popup_menu_init(void)
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 
-	item = gtk_menu_item_new_with_mnemonic(_("Add directory"));
+	item = gtk_menu_item_new_with_mnemonic(_("Add directory..."));
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_add_directory), NULL);
