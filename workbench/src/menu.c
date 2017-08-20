@@ -180,35 +180,35 @@ gboolean menu_init(void)
 	/* Create new menu item "New Workbench" */
 	menu_data.item_new = gtk_menu_item_new_with_mnemonic(_("_New"));
 	gtk_widget_show(menu_data.item_new);
-	gtk_menu_append(GTK_MENU (menu_data.menu), menu_data.item_new);
+	gtk_menu_shell_append(GTK_MENU_SHELL (menu_data.menu), menu_data.item_new);
 	g_signal_connect(menu_data.item_new, "activate",
 					 G_CALLBACK(item_new_workbench_activate_cb), NULL);
 
 	/* Create new menu item "Open Workbench" */
 	menu_data.item_open = gtk_menu_item_new_with_mnemonic(_("_Open"));
 	gtk_widget_show(menu_data.item_open);
-	gtk_menu_append(GTK_MENU (menu_data.menu), menu_data.item_open);
+	gtk_menu_shell_append(GTK_MENU_SHELL (menu_data.menu), menu_data.item_open);
 	g_signal_connect(menu_data.item_open, "activate",
 					 G_CALLBACK(item_open_workbench_activate_cb), NULL);
 
 	/* Create new menu item "Save Workbench" */
 	menu_data.item_save = gtk_menu_item_new_with_mnemonic(_("_Save"));
 	gtk_widget_show(menu_data.item_save);
-	gtk_menu_append(GTK_MENU (menu_data.menu), menu_data.item_save);
+	gtk_menu_shell_append(GTK_MENU_SHELL (menu_data.menu), menu_data.item_save);
 	g_signal_connect(menu_data.item_save, "activate",
 					 G_CALLBACK(item_save_workbench_activate_cb), NULL);
 
 	/* Create new menu item "Workbench Settings" */
 	menu_data.item_settings = gtk_menu_item_new_with_mnemonic(_("S_ettings"));
 	gtk_widget_show(menu_data.item_settings);
-	gtk_menu_append(GTK_MENU (menu_data.menu), menu_data.item_settings);
+	gtk_menu_shell_append(GTK_MENU_SHELL (menu_data.menu), menu_data.item_settings);
 	g_signal_connect(menu_data.item_settings, "activate",
 					 G_CALLBACK(item_workbench_settings_activate_cb), NULL);
 
 	/* Create new menu item "Close Workbench" */
 	menu_data.item_close = gtk_menu_item_new_with_mnemonic(_("_Close"));
 	gtk_widget_show(menu_data.item_close);
-	gtk_menu_append(GTK_MENU (menu_data.menu), menu_data.item_close);
+	gtk_menu_shell_append(GTK_MENU_SHELL (menu_data.menu), menu_data.item_close);
 	g_signal_connect(menu_data.item_close, "activate",
 					 G_CALLBACK(item_close_workbench_activate_cb), NULL);
 
