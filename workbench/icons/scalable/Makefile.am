@@ -1,4 +1,4 @@
-iconsdir = $(datadir)/icons/hicolor/16x16
+iconsdir = $(datadir)/icons/hicolor/scalable
 icons_appsdir = $(iconsdir)/apps
 
 dist_icons_apps_DATA =							\
