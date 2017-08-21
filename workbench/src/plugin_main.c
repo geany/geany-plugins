@@ -75,7 +75,7 @@ static void plugin_workbench_on_doc_close(G_GNUC_UNUSED GObject * obj, GeanyDocu
 
 
 /* Initialize plugin */
-static gboolean plugin_workbench_init(GeanyPlugin *plugin, gpointer pdata)
+static gboolean plugin_workbench_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
 	/* Init/Update globals */
 	workbench_globals_init();
@@ -97,7 +97,7 @@ static gboolean plugin_workbench_init(GeanyPlugin *plugin, gpointer pdata)
 
 
 /* Cleanup plugin */
-static void plugin_workbench_cleanup(GeanyPlugin *plugin, gpointer pdata)
+static void plugin_workbench_cleanup(G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
 	menu_cleanup();
 	sidebar_cleanup();
@@ -105,7 +105,7 @@ static void plugin_workbench_cleanup(GeanyPlugin *plugin, gpointer pdata)
 
 
 /* Show help */
-static void plugin_workbench_help (GeanyPlugin *plugin, gpointer pdata)
+static void plugin_workbench_help (G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
 	utils_open_browser("http://plugins.geany.org/workbench.html");
 }

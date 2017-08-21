@@ -73,7 +73,7 @@ void menu_set_context(MENU_CONTEXT context)
 }
 
 /* The function handles the menu item "New workbench" */
-static void item_new_workbench_activate_cb(GtkMenuItem *menuitem, gpointer user_data)
+static void item_new_workbench_activate_cb(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
 	gchar *filename;
 	GError *error = NULL;
@@ -101,7 +101,7 @@ static void item_new_workbench_activate_cb(GtkMenuItem *menuitem, gpointer user_
 
 
 /* The function handles the menu item "Open workbench" */
-static void item_open_workbench_activate_cb(GtkMenuItem *menuitem, gpointer user_data)
+static void item_open_workbench_activate_cb(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
 	gchar *filename;
 	GError *error = NULL;
@@ -128,7 +128,7 @@ static void item_open_workbench_activate_cb(GtkMenuItem *menuitem, gpointer user
 
 
 /* The function handles the menu item "Save workbench" */
-static void item_save_workbench_activate_cb(GtkMenuItem *menuitem, gpointer user_data)
+static void item_save_workbench_activate_cb(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
 	GError *error = NULL;
 
@@ -144,7 +144,7 @@ static void item_save_workbench_activate_cb(GtkMenuItem *menuitem, gpointer user
 
 
 /* The function handles the menu item "Settings" */
-static void item_workbench_settings_activate_cb(GtkMenuItem *menuitem, gpointer user_data)
+static void item_workbench_settings_activate_cb(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
 	if (wb_globals.opened_wb != NULL)
 	{
@@ -157,7 +157,7 @@ static void item_workbench_settings_activate_cb(GtkMenuItem *menuitem, gpointer 
 
 
 /* The function handles the menu item "Close workbench" */
-static void item_close_workbench_activate_cb(GtkMenuItem *menuitem, gpointer user_data)
+static void item_close_workbench_activate_cb(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
 	workbench_free(wb_globals.opened_wb);
 	wb_globals.opened_wb = NULL;

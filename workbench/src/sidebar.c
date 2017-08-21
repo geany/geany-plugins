@@ -660,10 +660,8 @@ void sidebar_update (SIDEBAR_EVENT event, SIDEBAR_CONTEXT *context)
 
 
 /* Callback function for clicking on a sidebar item */
-static void sidebar_filew_view_on_row_activated (GtkTreeView       *treeview,
-                                                 GtkTreePath       *path,
-                                                 GtkTreeViewColumn *col,
-                                                 gpointer          userdata)
+static void sidebar_filew_view_on_row_activated (GtkTreeView *treeview,
+	GtkTreePath *path, G_GNUC_UNUSED GtkTreeViewColumn *col, G_GNUC_UNUSED gpointer userdata)
 {
 	gchar *info;
 	GtkTreeModel *model;
