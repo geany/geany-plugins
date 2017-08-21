@@ -50,7 +50,7 @@ gchar **wb_project_dir_get_ignored_dirs_patterns (WB_PROJECT_DIR *directory);
 gboolean wb_project_dir_set_ignored_dirs_patterns (WB_PROJECT_DIR *directory, gchar **new);
 gchar **wb_project_dir_get_ignored_file_patterns (WB_PROJECT_DIR *directory);
 gboolean wb_project_dir_set_ignored_file_patterns (WB_PROJECT_DIR *directory, gchar **new);
-gint wb_project_dir_rescan(WB_PROJECT *prj, WB_PROJECT_DIR *root);
+guint wb_project_dir_rescan(WB_PROJECT *prj, WB_PROJECT_DIR *root);
 gchar *wb_project_dir_get_info (WB_PROJECT_DIR *dir);
 gboolean wb_project_dir_file_is_included(WB_PROJECT_DIR *dir, const gchar *filename);
 

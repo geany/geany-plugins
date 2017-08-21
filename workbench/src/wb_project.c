@@ -321,7 +321,7 @@ static WB_PROJECT_DIR *wb_project_dir_new(const gchar *utf8_base_dir)
 
 
 /* Collect source files */
-static void wb_project_dir_collect_source_files(gchar *filename, TMSourceFile *sf, gpointer user_data)
+static void wb_project_dir_collect_source_files(G_GNUC_UNUSED gchar *filename, TMSourceFile *sf, gpointer user_data)
 {
 	GPtrArray *array = user_data;
 
@@ -543,7 +543,7 @@ static guint wb_project_get_file_count(WB_PROJECT *prj)
 }
 
 /* Rescan/update the file list of a project dir. */
-static gint wb_project_dir_rescan_int(WB_PROJECT *prj, WB_PROJECT_DIR *root)
+static guint wb_project_dir_rescan_int(WB_PROJECT *prj, WB_PROJECT_DIR *root)
 {
 	GSList *pattern_list = NULL;
 	GSList *ignored_dirs_list = NULL;
@@ -655,7 +655,7 @@ static GeanyFiletype *filetypes_detect(const gchar *utf8_filename)
 
 
 /* Regenerate tags */
-static void wb_project_regenerate_tags(WB_PROJECT_DIR *root, gpointer user_data)
+static void wb_project_regenerate_tags(WB_PROJECT_DIR *root, G_GNUC_UNUSED gpointer user_data)
 {
 	GHashTableIter iter;
 	gpointer key, value;
@@ -693,7 +693,7 @@ static void wb_project_regenerate_tags(WB_PROJECT_DIR *root, gpointer user_data)
  * @return Number of files
  *
  **/
-gint wb_project_dir_rescan(WB_PROJECT *prj, WB_PROJECT_DIR *root)
+guint wb_project_dir_rescan(WB_PROJECT *prj, WB_PROJECT_DIR *root)
 {
 	guint total, filenum;
 
@@ -715,7 +715,7 @@ gint wb_project_dir_rescan(WB_PROJECT *prj, WB_PROJECT_DIR *root)
 void wb_project_rescan(WB_PROJECT *prj)
 {
 	GSList *elem;
-	gint filenum = 0;
+	guint filenum = 0;
 
 	if (!prj)
 	{

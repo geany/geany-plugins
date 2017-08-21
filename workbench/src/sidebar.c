@@ -508,14 +508,14 @@ static void sidebar_insert_workbench_bookmarks(WORKBENCH *workbench, GtkTreeIter
 	GIcon *icon;
 	guint index, max;
 
-	if (wb_globals.opened_wb == NULL)
+	if (workbench == NULL)
 	{
 		return;
 	}
 
 	sidebar_remove_nodes_with_data_id(DATA_ID_WB_BOOKMARK, NULL);
 
-	max = workbench_get_bookmarks_count(wb_globals.opened_wb);
+	max = workbench_get_bookmarks_count(workbench);
 	if (max == 0)
 	{
 		return;
@@ -526,8 +526,8 @@ static void sidebar_insert_workbench_bookmarks(WORKBENCH *workbench, GtkTreeIter
 	{
 		gchar *file, *name;
 
-		file = workbench_get_bookmark_at_index(wb_globals.opened_wb, index);
-		name = get_any_relative_path(workbench_get_filename(wb_globals.opened_wb), file);
+		file = workbench_get_bookmark_at_index(workbench, index);
+		name = get_any_relative_path(workbench_get_filename(workbench), file);
 		gtk_tree_store_insert_with_values(sidebar.file_store, iter, NULL, *position,
 			FILEVIEW_COLUMN_ICON, icon,
 			FILEVIEW_COLUMN_NAME, name,
@@ -546,7 +546,7 @@ static void sidebar_insert_workbench_bookmarks(WORKBENCH *workbench, GtkTreeIter
 
 
 /* Reset/Clear/empty the sidebar file tree */
-static void sidebar_reset_tree_store(GtkTreeIter *iter)
+static void sidebar_reset_tree_store(void)
 {
 	gtk_tree_store_clear(sidebar.file_store);
 }
@@ -572,7 +572,7 @@ static void sidebar_update_workbench(GtkTreeIter *iter, gint *position)
 		count = workbench_get_project_count(wb_globals.opened_wb);
 		length = g_snprintf(text, sizeof(text), _("%s: %u Projects"),
 							workbench_get_name(wb_globals.opened_wb), count);
-		if (length < (sizeof(text)-1) && workbench_is_modified(wb_globals.opened_wb))
+		if (length < (gint)(sizeof(text)-1) && workbench_is_modified(wb_globals.opened_wb))
 		{
 			text [length] = '*';
 			text [length+1] = '\0';
@@ -615,7 +615,7 @@ void sidebar_update (SIDEBAR_EVENT event, SIDEBAR_CONTEXT *context)
 		case SIDEBAR_CONTEXT_WB_OPENED:
 		case SIDEBAR_CONTEXT_PROJECT_ADDED:
 		case SIDEBAR_CONTEXT_PROJECT_REMOVED:
-			sidebar_reset_tree_store(&iter);
+			sidebar_reset_tree_store();
 			sidebar_update_workbench(&iter, &position);
 			sidebar_insert_all_projects(&iter, &position);
 			sidebar_activate();
