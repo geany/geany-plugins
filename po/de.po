@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-24 16:57+0200\n"
+"POT-Creation-Date: 2017-08-20 13:13+0200\n"
 "PO-Revision-Date: 2016-08-08 22:38+0200\n"
 "Last-Translator: Dominic Hopf <dmaphy@googlemail.com>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -3828,7 +3828,10 @@ msgstr "_OK"
 
 #: ../geanymacro/src/geanymacro.c:1394 ../geanymacro/src/geanymacro.c:1537
 #: ../geanymacro/src/geanymacro.c:1827
-#: ../projectorganizer/src/prjorg-sidebar.c:306
+#: ../projectorganizer/src/prjorg-sidebar.c:306 ../workbench/src/dialogs.c:45
+#: ../workbench/src/dialogs.c:76 ../workbench/src/dialogs.c:115
+#: ../workbench/src/dialogs.c:152 ../workbench/src/dialogs.c:221
+#: ../workbench/src/dialogs.c:350
 msgid "_Cancel"
 msgstr "_Abbrechen"
 
@@ -4523,7 +4526,7 @@ msgstr "Projekteigenschaften"
 msgid "New Project"
 msgstr "Neues Projekt"
 
-#: ../geanyprj/src/menu.c:110
+#: ../geanyprj/src/menu.c:110 ../workbench/src/dialogs.c:46
 msgid "C_reate"
 msgstr "_Erstellen"
 
@@ -5425,7 +5428,8 @@ msgstr "Datei als HTML speichern"
 msgid "HTML Files"
 msgstr "HTML-Dateien"
 
-#: ../markdown/src/plugin.c:311
+#: ../markdown/src/plugin.c:311 ../workbench/src/dialogs.c:84
+#: ../workbench/src/dialogs.c:123
 msgid "All Files"
 msgstr "Alle Dateien"
 
@@ -6034,7 +6038,7 @@ msgstr ""
 "identifizieren. Wird hauptsächlich für das Umschalten zwischen Quellen und "
 "Header verwendet."
 
-#: ../projectorganizer/src/prjorg-project.c:597
+#: ../projectorganizer/src/prjorg-project.c:597 ../workbench/src/dialogs.c:243
 msgid "Ignored file patterns:"
 msgstr "Muster für zu ignorierende Dateien:"
 
@@ -6047,7 +6051,7 @@ msgstr ""
 "erkennen, die nicht im projektspezifischen Dateibaum angezeigt werden "
 "sollen. "
 
-#: ../projectorganizer/src/prjorg-project.c:609
+#: ../projectorganizer/src/prjorg-project.c:609 ../workbench/src/dialogs.c:254
 msgid "Ignored directory patterns:"
 msgstr "Muster für zu ignorierende Verzeichnisse:"
 
@@ -6146,6 +6150,7 @@ msgid "Add external directory"
 msgstr "Externes Verzeichnis hinzufügen"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1374
+#: ../workbench/src/popup_menu.c:435
 msgid "Expand all"
 msgstr "Alle ausklappen"
 
@@ -7977,6 +7982,326 @@ msgstr "Browser"
 msgid "Windows"
 msgstr "Fenster"
 
+#: ../workbench/src/dialogs.c:43
+#, fuzzy
+msgid "Create new workbench"
+msgstr "Neue Werkbank anlegen"
+
+#: ../workbench/src/dialogs.c:74
+#, fuzzy
+msgid "Open workbench"
+msgstr "Öffne Werkbank"
+
+#. Create new menu item "Open Workbench"
+#: ../workbench/src/dialogs.c:77 ../workbench/src/menu.c:188
+#, fuzzy
+msgid "_Open"
+msgstr "Öffnen"
+
+#: ../workbench/src/dialogs.c:80
+msgid "Workbench files (.geanywb)"
+msgstr "Werkbank Dateien (.geanywb)"
+
+#: ../workbench/src/dialogs.c:113 ../workbench/src/popup_menu.c:373
+#, fuzzy
+msgid "Add project"
+msgstr "Projekt hinzufügen"
+
+#: ../workbench/src/dialogs.c:116 ../workbench/src/dialogs.c:153
+#, fuzzy
+msgid "_Add"
+msgstr "_Beides hinzufügen"
+
+#: ../workbench/src/dialogs.c:119
+#, fuzzy
+msgid "Project files (.geany)"
+msgstr "Projektdateien (.geany)"
+
+#: ../workbench/src/dialogs.c:150 ../workbench/src/popup_menu.c:401
+#, fuzzy
+msgid "Add directory"
+msgstr "Verzeichnis hinzufügen"
+
+#: ../workbench/src/dialogs.c:218 ../workbench/src/popup_menu.c:419
+#, fuzzy
+msgid "Directory settings"
+msgstr "Verzeichnis Einstellungen"
+
+#: ../workbench/src/dialogs.c:222 ../workbench/src/dialogs.c:351
+#, fuzzy
+msgid "_OK"
+msgstr "OK"
+
+#: ../workbench/src/dialogs.c:232
+#, fuzzy
+msgid "File patterns:"
+msgstr "Dateimuster:"
+
+#: ../workbench/src/dialogs.c:238
+#, fuzzy
+msgid ""
+"Space separated list of patterns that are used to identify files that shall "
+"be displayed in the directory tree."
+msgstr ""
+"Leerzeichengetrennte Liste mit Mustern, die genutzt werden, um Dateien zu "
+"erkennen, die im Verzeichnisbaum angezeigt werden sollen."
+
+#: ../workbench/src/dialogs.c:249
+#, fuzzy
+msgid ""
+"Space separated list of patterns that are used to identify files that shall "
+"not be displayed in the directory tree."
+msgstr ""
+"Leerzeichengetrennte Liste mit Mustern, die genutzt werden, um Dateien zu "
+"erkennen, die im Verzeichnisbaum nicht angezeigt werden sollen."
+
+#: ../workbench/src/dialogs.c:260
+#, fuzzy
+msgid ""
+"Space separated list of patterns that are used to identify directories that "
+"shall not be scanned for source files."
+msgstr ""
+"Leerzeichengetrennte Liste mit Mustern, die genutzt werden, um Verzeichnisse "
+"zu erkennen, die nicht nach Quelldateien durchsucht werden sollen. "
+
+#: ../workbench/src/dialogs.c:268
+msgid ""
+"Note: the patterns above affect only the workbench directory and are not "
+"used in the Find in Files\n"
+"dialog."
+msgstr ""
+"Anmerkung: die Muser oben beeinflußen nur das Werkbank-Verzeichnis und "
+"werden nicht in In Dateien suchen verwendet."
+
+#: ../workbench/src/dialogs.c:347
+msgid "Workbench settings"
+msgstr "Werkbank Einstellungen"
+
+#: ../workbench/src/dialogs.c:361
+#, fuzzy
+msgid "Rescan all projects on open:"
+msgstr "Beim Öffnen alle Projekte durchsuchen:"
+
+#: ../workbench/src/dialogs.c:366
+msgid ""
+"If the option is activated (default), then all projects will be re-scanned "
+"on opening of the workbench."
+msgstr ""
+"Wenn die Option aktiviert ist (Standard), dann werden beim Öffnen einer "
+"Werkbank alle Projekte durchsucht."
+
+#: ../workbench/src/menu.c:95
+#, fuzzy, c-format
+msgid "Could not create new workbench file: %s"
+msgstr "Konnte die Werkbank Datei nicht anlegen: %s"
+
+#: ../workbench/src/menu.c:122
+#, fuzzy, c-format
+msgid "Could not open workbench file: %s"
+msgstr "Konnte die Werkbank Datei nicht öffnen: %s"
+
+#: ../workbench/src/menu.c:139
+#, fuzzy, c-format
+msgid "Could not save workbench file: %s"
+msgstr "Konnte die Werkbank Datei nicht speichern: %s"
+
+#. Set metadata
+#: ../workbench/src/menu.c:177 ../workbench/src/plugin_main.c:129
+#: ../workbench/src/sidebar.c:992
+msgid "Workbench"
+msgstr "Werkbank"
+
+#. Create new menu item "New Workbench"
+#: ../workbench/src/menu.c:181
+msgid "_New"
+msgstr ""
+
+#. Create new menu item "Save Workbench"
+#: ../workbench/src/menu.c:195
+#, fuzzy
+msgid "_Save"
+msgstr "Datei speichern"
+
+#. Create new menu item "Workbench Settings"
+#: ../workbench/src/menu.c:202
+#, fuzzy
+msgid "S_ettings"
+msgstr "Einstellungen"
+
+#. Create new menu item "Close Workbench"
+#: ../workbench/src/menu.c:209
+#, fuzzy
+msgid "_Close"
+msgstr "Schließen"
+
+#: ../workbench/src/plugin_main.c:93 ../workbench/src/sidebar.c:564
+msgid ""
+"Create or open a workbench\n"
+"using the workbench menu."
+msgstr ""
+"Erstellen oder Öffen Sie eine Werkbank\n"
+"mit dem Werkbank Menü."
+
+#: ../workbench/src/plugin_main.c:130
+msgid "Manage and customize multiple projects."
+msgstr "Verwalten und anpassen mehrere Projekte."
+
+#: ../workbench/src/popup_menu.c:171
+#, fuzzy, c-format
+msgid "Could not add project file: %s"
+msgstr "Konnte die Projektdatei nicht hinzufügen: %s"
+
+#: ../workbench/src/popup_menu.c:379
+#, fuzzy
+msgid "Save project"
+msgstr "Projekt speichern"
+
+#: ../workbench/src/popup_menu.c:385
+#, fuzzy
+msgid "Remove project"
+msgstr "Projekt entfernen"
+
+#: ../workbench/src/popup_menu.c:391
+#, fuzzy
+msgid "Fold/unfold project"
+msgstr "Projekt falten/ausklappen"
+
+#: ../workbench/src/popup_menu.c:407
+#, fuzzy
+msgid "Remove directory"
+msgstr "Verzeichnis entfernen"
+
+#: ../workbench/src/popup_menu.c:413
+#, fuzzy
+msgid "Rescan directory"
+msgstr "Verzeichnis durchsuchen"
+
+#: ../workbench/src/popup_menu.c:425
+#, fuzzy
+msgid "Fold/unfold directory"
+msgstr "Verzeichnis falten/ausklappen"
+
+#: ../workbench/src/popup_menu.c:441
+#, fuzzy
+msgid "Collapse all"
+msgstr "Alle e_inklappen"
+
+#: ../workbench/src/popup_menu.c:451
+msgid "Add to Workbench Bookmarks"
+msgstr "Zu Werkbank Lesezeichen hinzufügen"
+
+#: ../workbench/src/popup_menu.c:457
+msgid "Add to Project Bookmarks"
+msgstr "Zu Projekt Lesezeichen hinzufügen"
+
+#: ../workbench/src/popup_menu.c:463
+#, fuzzy
+msgid "Remove from Bookmarks"
+msgstr "Von _Lesezeichen entfernen"
+
+#: ../workbench/src/sidebar.c:300
+#, fuzzy
+msgid "No directories"
+msgstr "Keine Verzeichnisse"
+
+#. *** label ***
+#: ../workbench/src/sidebar.c:562 ../workbench/src/sidebar.c:943
+msgid "No workbench opened."
+msgstr "Keine Werkbank geöffnet."
+
+#: ../workbench/src/sidebar.c:574
+#, fuzzy
+msgid "Projects"
+msgstr "Projekte"
+
+#: ../workbench/src/sidebar.c:584
+msgid ""
+"Add a project\n"
+"using the context menu."
+msgstr ""
+"Fügen Sie ein Projekt\n"
+"über das Kontextmenü hinzu."
+
+#: ../workbench/src/sidebar.c:696
+#, c-format
+msgid ""
+"%s\n"
+"Project file not found!"
+msgstr ""
+"%s\n"
+"Projekt Datei nicht gefunden!"
+
+#: ../workbench/src/sidebar.c:710
+msgid ""
+"This project has no directories. Directories can be added to a project using "
+"the context menu."
+msgstr ""
+"Dieses Projekt hat keine Verzeichnisse. Verzeichnisse können über "
+"dasKontextmenü zum Projekt hinzugefügt werden."
+
+#: ../workbench/src/wb_project.c:997
+#, fuzzy, c-format
+msgid "Directory-Name: %s\n"
+msgstr "Verzeichnis-Name: %s\n"
+
+#: ../workbench/src/wb_project.c:998
+#, fuzzy, c-format
+msgid "Base-Directory: %s\n"
+msgstr "Basis-Verzeichnis: %s\n"
+
+#: ../workbench/src/wb_project.c:1000
+#, fuzzy
+msgid "File Patterns:"
+msgstr "Datei Muster:"
+
+#: ../workbench/src/wb_project.c:1012
+#, fuzzy
+msgid "Ignored Dir. Patterns:"
+msgstr "Muster für zu ignorierende Dateien:"
+
+#: ../workbench/src/wb_project.c:1024
+#, fuzzy
+msgid "Ignored File Patterns:"
+msgstr "Muster für zu ignorierende Dateien:"
+
+#: ../workbench/src/wb_project.c:1036
+#, c-format
+msgid "Number of Sub-Folders: %u\n"
+msgstr "Anzahl der Unter-Verzeichnisse: %u\n"
+
+#: ../workbench/src/wb_project.c:1037
+#, fuzzy, c-format
+msgid "Number of Files: %u\n"
+msgstr "Anzahl von Dateien: %u\n"
+
+#: ../workbench/src/wb_project.c:1061
+#, fuzzy, c-format
+msgid "Project: %s\n"
+msgstr "Projekt: %s\n"
+
+#: ../workbench/src/wb_project.c:1062
+#, fuzzy, c-format
+msgid "File: %s\n"
+msgstr "Datei: %s\n"
+
+#: ../workbench/src/wb_project.c:1063
+#, fuzzy, c-format
+msgid "Number of Directories: %u\n"
+msgstr "Anzahl der Verzeichnisse: %u\n"
+
+#: ../workbench/src/wb_project.c:1066
+msgid ""
+"\n"
+"The project contains unsafed changes!\n"
+msgstr ""
+"\n"
+"Das Projekt enthält nicht gesicherte Änderungen!\n"
+
+#: ../workbench/src/workbench.c:710
+#, fuzzy, c-format
+msgid "File %s is not a valid workbench file!"
+msgstr "Die Datei %s ist keine gültige Workbench-Datei!"
+
 #: ../xmlsnippets/src/plugin.c:44
 msgid "XML Snippets"
 msgstr "XML-Schnipsel"
@@ -7984,6 +8309,14 @@ msgstr "XML-Schnipsel"
 #: ../xmlsnippets/src/plugin.c:45
 msgid "Autocompletes XML/HTML tags using snippets."
 msgstr "Autovervollständigt XML/HTML-Tags unter Verwendung von Schnipseln."
+
+#, fuzzy
+#~ msgid "Create"
+#~ msgstr "_Erstellen"
+
+#, fuzzy
+#~ msgid "New"
+#~ msgstr "Neu"
 
 #~ msgid "Call documentation viewer on current symbol."
 #~ msgstr "Dokumentation für das aktuelle Wort anzeigen."
@@ -8071,9 +8404,6 @@ msgstr "Autovervollständigt XML/HTML-Tags unter Verwendung von Schnipseln."
 
 #~ msgid "Find Project Tag..."
 #~ msgstr "Tag im Projekt finden..."
-
-#~ msgid "Find project tag"
-#~ msgstr "Tag im Projekt finden"
 
 #~ msgid "Generate tags for all project files:"
 #~ msgstr "Tags für alle Projektdateien erstellen"

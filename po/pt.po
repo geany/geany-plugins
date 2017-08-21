@@ -3493,7 +3493,7 @@ msgstr "Cancelar seleção"
 msgid "Toggle Insert/Overwrite mode"
 msgstr "Alternar modo Inserir/Sobrescrever"
 
-#: ../geanymacro/src/geanymacro.c:137 ../pretty-printer/src/ConfigUI.c:239
+#: ../geanymacro/src/geanymacro.c:137 ../pretty-printer/src/ConfigUI.c:429
 msgid "Tab"
 msgstr "Tab"
 
@@ -5812,7 +5812,7 @@ msgstr ""
 "Impossível encontrar o widget \"%s\" na definição do UI, por favor verifique "
 "a sua instalação."
 
-#: ../pretty-printer/src/PluginEntry.c:36
+#: ../pretty-printer/src/PluginEntry.c:41
 msgid "XML PrettyPrinter"
 msgstr "XML PrettyPrinter"
 
@@ -5877,31 +5877,31 @@ msgstr "Nós de texto"
 msgid "CDATA"
 msgstr "CDATA"
 
-#: ../pretty-printer/src/ConfigUI.c:205
+#: ../pretty-printer/src/ConfigUI.c:395
 msgid "Empty nodes"
 msgstr "Nós vazios"
 
-#: ../pretty-printer/src/ConfigUI.c:206
+#: ../pretty-printer/src/ConfigUI.c:396
 msgid "Concatenation (<x></x> to <x/>)"
 msgstr "Concatenação (<x></x> to <x/>)"
 
-#: ../pretty-printer/src/ConfigUI.c:207
+#: ../pretty-printer/src/ConfigUI.c:397
 msgid "Spacing (<x/> to <x />)"
 msgstr "Espaçamento (<x/> to <x />)"
 
-#: ../pretty-printer/src/ConfigUI.c:208
+#: ../pretty-printer/src/ConfigUI.c:398
 msgid "Expansion (<x/> to <x></x>)"
 msgstr "Expansão (<x/> to <x></x>)"
 
-#: ../pretty-printer/src/ConfigUI.c:235
+#: ../pretty-printer/src/ConfigUI.c:425
 msgid "Indentation"
 msgstr "Indentação"
 
-#: ../pretty-printer/src/ConfigUI.c:240
+#: ../pretty-printer/src/ConfigUI.c:430
 msgid "Space"
 msgstr "Espaço"
 
-#: ../pretty-printer/src/ConfigUI.c:264
+#: ../pretty-printer/src/ConfigUI.c:454
 msgid "Line break"
 msgstr "Quebra de linha"
 
@@ -5953,11 +5953,11 @@ msgstr "Trocar cabeçalho/código"
 msgid "Open Selected File (Project Organizer)"
 msgstr "Abrir ficheiro selecionado (Organizador de projeto)"
 
-#: ../projectorganizer/src/prjorg-project.c:573
+#: ../projectorganizer/src/prjorg-project.c:578
 msgid "Source patterns:"
 msgstr "Padrões de fontes:"
 
-#: ../projectorganizer/src/prjorg-project.c:579
+#: ../projectorganizer/src/prjorg-project.c:584
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
 "Used for header/source swapping."
@@ -5965,11 +5965,11 @@ msgstr ""
 "Lista de padrões separados por espaços, usados para identificar ficheiros "
 "fonte. Usado para trocas entre cabeçalho/fonte."
 
-#: ../projectorganizer/src/prjorg-project.c:585
+#: ../projectorganizer/src/prjorg-project.c:590
 msgid "Header patterns:"
 msgstr "Padrões de ficheiros de cabeçalhos:"
 
-#: ../projectorganizer/src/prjorg-project.c:591
+#: ../projectorganizer/src/prjorg-project.c:596
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
 "header/source swapping."
@@ -5977,11 +5977,11 @@ msgstr ""
 "Lista de padrões separados por espaços, usados para identificar cabeçalhos. "
 "Usado para trocas entre cabeçalho/fonte."
 
-#: ../projectorganizer/src/prjorg-project.c:597
+#: ../projectorganizer/src/prjorg-project.c:602
 msgid "Ignored file patterns:"
 msgstr "Padrões de ficheiro a ignorar:"
 
-#: ../projectorganizer/src/prjorg-project.c:603
+#: ../projectorganizer/src/prjorg-project.c:608
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
 "not displayed in the project tree."
@@ -5989,11 +5989,11 @@ msgstr ""
 "Lista de padrões separados por espaços, usados para identificar ficheiros "
 "que não são mostrados na árvore do projeto."
 
-#: ../projectorganizer/src/prjorg-project.c:609
+#: ../projectorganizer/src/prjorg-project.c:614
 msgid "Ignored directory patterns:"
 msgstr "Padrões de pasta a ignorar:"
 
-#: ../projectorganizer/src/prjorg-project.c:615
+#: ../projectorganizer/src/prjorg-project.c:620
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
@@ -6001,23 +6001,23 @@ msgstr ""
 "Lista separada por espaços, de padrões a ser usados para identificar "
 "diretórios onde não se procurarão ficheiros de código."
 
-#: ../projectorganizer/src/prjorg-project.c:621
+#: ../projectorganizer/src/prjorg-project.c:626
 msgid "Index all project files:"
 msgstr "Indexar todos os ficheiros de projeto:"
 
-#: ../projectorganizer/src/prjorg-project.c:624
+#: ../projectorganizer/src/prjorg-project.c:629
 msgid "Auto (index if less than 300 files)"
 msgstr "Automático (indexar se menos de 300 ficheiros)"
 
-#: ../projectorganizer/src/prjorg-project.c:625
+#: ../projectorganizer/src/prjorg-project.c:630
 msgid "Yes"
 msgstr "Sim"
 
-#: ../projectorganizer/src/prjorg-project.c:626
+#: ../projectorganizer/src/prjorg-project.c:631
 msgid "No"
 msgstr "Não"
 
-#: ../projectorganizer/src/prjorg-project.c:630
+#: ../projectorganizer/src/prjorg-project.c:635
 msgid ""
 "Generate symbol list for all project files instead of only for the currently "
 "opened files. Might be slow for big projects."
@@ -6025,7 +6025,7 @@ msgstr ""
 "Gerar lista de símbolos para todos os ficheiros do projeto e não só para os "
 "atualmente abertos. Pode ser lento para projetos grandes."
 
-#: ../projectorganizer/src/prjorg-project.c:636
+#: ../projectorganizer/src/prjorg-project.c:641
 msgid ""
 "Note: the patterns above affect only the sidebar and are not used in the "
 "Find in Files\n"
@@ -7337,6 +7337,7 @@ msgid "TreeBrowser"
 msgstr "Navegador em árvore"
 
 #: ../treebrowser/src/treebrowser.c:128
+#, fuzzy
 msgid ""
 "This plugin adds a tree browser to Geany, allowing the user to browse files "
 "using a tree view of the directory being browsed.\n"
