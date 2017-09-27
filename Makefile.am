@@ -172,6 +172,10 @@ if ENABLE_WEBHELPER
 SUBDIRS += webhelper
 endif
 
+if ENABLE_WORKBENCH
+SUBDIRS += workbench
+endif
+
 if ENABLE_XMLSNIPPETS
 SUBDIRS += xmlsnippets
 endif

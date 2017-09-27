@@ -1,0 +1,151 @@
+=========
+Workbench
+=========
+
+.. contents::
+
+About
+=====
+
+The Workbench plugin is an extension that makes it possible to manage
+multiple projects in geany. You can add geany projects to a workbench.
+From there you can add directories to the project to manage the files
+belonging to the project.
+
+Usage
+=====
+
+Enabling the plugin
+-------------------
+The plugin can be enabled in the plugin manager. After enabling the plugin
+a new tab will be displayed in the Sidebar. There will also be a new entry
+in the menubar. Both are labeled "Workbench".
+
+The Workbench menu
+------------------
+The Workbench menu is the starting point for creating your first workbench.
+Choose "New" from the menu to create your workbench file. Workbench files
+use the prefix ".geanywb". Just like Geany project files they are also
+simple text files containing key-value pairs.
+
+The complete managment of the Workbench file is done using the Workbench
+menu:
+- Item "New": as explained above, creates a new Workbench
+- Item "Open": open a Workbench
+- Item "Save": save the opened Workbench. This "only" saves any changes
+  in the Workbench file. It does not save any changes of the projects
+  belonging to the Workbench.
+- Item "Settings": open the Workbench settings dialog.
+- Item "Close": closes the opened Workbench.
+
+The new Workbench
+-----------------
+A newly created Workbench is completely empty. In the Workbench tab of
+the sidebar you should see the hint "Add a project using the context
+menu". Anything which is dealing with projects and their Workbench
+related settings is done using the context menu on the sidebar. Some
+items in the context menu will only be active if you right click inside
+a project, directory or bookmark.
+
+The Workbench context menu:
+---------------------------
+
+These are the available items:
+
+- "Add project":
+  Add an existing Geany project to the Workbench. Create your projects
+  with Geany. The Workbench plugin does not help you with that. After
+  adding a project you need to save the workbench settings by selecting
+  "Workbench / Save" in the menubar.
+- "Save project":
+  Selecting this item will save the Workbench related project settings in
+  the Geany project file. It is only available if you right clicked inside
+  of a project. It will only save the settings of the project that you
+  clicked on.
+- "Remove project":
+  Remove the project from the Workbench. It is only available if you
+  right clicked inside of a project.  After removing a project you need
+  to save the workbench settings by selecting "Workbench / Save" in the
+  menubar.
+- "Fold/unfold project":
+  Fold or unfold the items belonging to the project. It is only available
+  if you right clicked inside of a project.
+
+- "Add directory":
+  Add a directory to the project. It is only available
+  if you right clicked inside of a project. After selecting it a dialog
+  will be opened. Chosse the directory which shall be added. After that
+  the directory will be shown inside the project folder. After adding a
+  new directory, all files and folders beneath the directory will be
+  displayed. See "Directory settings" for more information.
+- "Remove directory":
+  Remove the directory from the project. It is only available if you
+  right clicked inside of a project directory.
+- "Rescan directory":
+  Rescan the directory for files and update the sidebar accordingly.
+  It is only available if you right clicked inside of a project directory.
+  If the content of a directory changes, e.g. a new file is added, then
+  the new file will only be visible in the sidebar after a rescan.
+- "Directory settings":
+  Select this item to change the directory settings. It is only available
+  if you right clicked inside of a project directory. In the directory
+  settings you can set a filter which controls the files and folders
+  that shall be displayed or not.
+- "Fold/unfold directory":
+  Fold or unfold the items belonging to the directory. It is only available
+  if you right clicked inside of a directory.
+
+- "Unfold All":
+  Select this item to unfold all projects, directories and folders.
+- "Collapse All":
+  Select this item to collpase/fold all projects, directories and folders.
+
+- "Add to Workbench Bookmarks":
+  Add the file to the Workbench Bookmarks. It is only available
+  if you right clicked on a file. After adding a file to the Workbench
+  bookmarks a ribbon will be shown for the file in the Workbench sidebar
+  tab in front of the first project. Clicking on it will open the file.
+  Workbench bookmarks give you quick access to files which you often need.
+- "Add to Project Bookmarks":
+  Add the file to the Project Bookmarks. It is only available
+  if you right clicked on a file. After adding a file to the Project
+  bookmarks a ribbon will be shown for the file in the Workbench sidebar
+  tab in front of the first directory of the project. Clicking on it will
+  open the file. Project bookmarks give you quick access to files which
+  you often need in that project.
+- "Remove from Bookmarks":
+  Remove file from the Workbench or project bookmarks. It is only available
+  if you right clicked on a bookmark.
+
+Known issues
+============
+
+None.
+
+License
+=======
+
+The Workbench plugin is distributed under the terms of the GNU General
+Public License as published by the Free Software Foundation; either
+version 2 of the License, or (at your option) any later version.  A copy
+of this license can be found in the file COPYING included with the source
+code of this program.
+
+Downloads
+=========
+
+The Workbench plugin is not (yet) part of the combined Geany Plugins release.
+So please download it from the github page, see below.
+
+Development Code
+================
+
+Get the code from::
+
+    git clone https://github.com/LarsGit223/geany-plugins
+
+Ideas, questions, patches and bug reports
+=========================================
+
+Please post any ideas, feature requests, questions and bugs in the
+github issue tracker.
