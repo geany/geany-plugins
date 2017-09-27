@@ -82,6 +82,8 @@ static GSList *get_file_list(const gchar *utf8_path, GSList *patterns,
 	{
 		g_free(locale_path);
 		g_free(real_path);
+		if (dir)
+			g_dir_close(dir);
 		return NULL;
 	}
 
