@@ -535,7 +535,7 @@ static gint wb_project_dir_comparator(WB_PROJECT_DIR *a, WB_PROJECT_DIR *b)
 /* Get the file count of a project */
 static guint wb_project_get_file_count(WB_PROJECT *prj)
 {
-	GSList *elem;
+	GSList *elem = NULL;
 	guint filenum = 0;
 
 	foreach_slist(elem, prj->directories)
@@ -553,7 +553,7 @@ static guint wb_project_dir_rescan_int(WB_PROJECT *prj, WB_PROJECT_DIR *root)
 	GSList *ignored_file_list = NULL;
 	GHashTable *visited_paths;
 	GSList *lst;
-	GSList *elem;
+	GSList *elem = NULL;
 	guint filenum = 0;
 	gchar *searchdir;
 
@@ -717,7 +717,7 @@ guint wb_project_dir_rescan(WB_PROJECT *prj, WB_PROJECT_DIR *root)
  **/
 void wb_project_rescan(WB_PROJECT *prj)
 {
-	GSList *elem;
+	GSList *elem = NULL;
 	guint filenum = 0;
 
 	if (!prj)
@@ -772,7 +772,7 @@ gboolean wb_project_dir_file_is_included(WB_PROJECT_DIR *dir, const gchar *filen
  **/
 gboolean wb_project_file_is_included(WB_PROJECT *prj, const gchar *filename)
 {
-	GSList *elem;
+	GSList *elem = NULL;
 
 	if (prj == NULL)
 	{
@@ -793,7 +793,7 @@ gboolean wb_project_file_is_included(WB_PROJECT *prj, const gchar *filename)
 static gboolean add_tm_idle(gpointer foo)
 {
 	WB_PROJECT *prj;
-	GSList *elem2;
+	GSList *elem2 = NULL;
 
 	prj = (WB_PROJECT *)foo;
 	if (prj == NULL || prj->s_idle_add_funcs == NULL)
@@ -803,7 +803,7 @@ static gboolean add_tm_idle(gpointer foo)
 
 	foreach_slist (elem2, prj->s_idle_add_funcs)
 	{
-		GSList *elem;
+		GSList *elem = NULL;
 		gchar *utf8_fname = elem2->data;
 
 		foreach_slist (elem, prj->directories)
@@ -851,7 +851,7 @@ void wb_project_add_single_tm_file(WB_PROJECT *prj, const gchar *filename)
 static gboolean remove_tm_idle(gpointer foo)
 {
 	WB_PROJECT *prj;
-	GSList *elem2;
+	GSList *elem2 = NULL;
 
 	prj = (WB_PROJECT *)foo;
 	if (prj == NULL || prj->s_idle_remove_funcs == NULL)
@@ -861,7 +861,8 @@ static gboolean remove_tm_idle(gpointer foo)
 
 	foreach_slist (elem2, prj->s_idle_remove_funcs)
 	{
-		GSList *elem;
+
+		GSList *elem = NULL;
 		gchar *utf8_fname = elem2->data;
 
 		foreach_slist (elem, prj->directories)
