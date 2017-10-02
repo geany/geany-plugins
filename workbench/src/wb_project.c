@@ -228,6 +228,9 @@ static GSList *wb_project_dir_get_file_list(WB_PROJECT_DIR *root, const gchar *u
 {
 	GSList *list = NULL;
 	GDir *dir;
+	const gchar *child_name;
+	GSList *child;
+	GSList *children = NULL;
 	gchar *locale_path = utils_get_locale_from_utf8(utf8_path);
 	gchar *real_path = utils_get_real_path(locale_path);
 
@@ -245,14 +248,17 @@ static GSList *wb_project_dir_get_file_list(WB_PROJECT_DIR *root, const gchar *u
 
 	g_hash_table_insert(visited_paths, real_path, GINT_TO_POINTER(1));
 
-	while (TRUE)
+	while ((child_name = g_dir_read_name(dir)))
+	children = g_slist_prepend(children, g_strdup(child_name));
+
+	g_dir_close(dir);
+
+	foreach_slist(child, children)
 	{
 		const gchar *locale_name;
 		gchar *locale_filename, *utf8_filename, *utf8_name;
 
-		locale_name = g_dir_read_name(dir);
-		if (!locale_name)
-			break;
+		locale_name = child->data;
 
 		utf8_name = utils_get_utf8_from_locale(locale_name);
 		locale_filename = g_build_filename(locale_path, locale_name, NULL);
@@ -287,7 +293,7 @@ static GSList *wb_project_dir_get_file_list(WB_PROJECT_DIR *root, const gchar *u
 		g_free(utf8_name);
 	}
 
-	g_dir_close(dir);
+	g_slist_free_full(children, g_free);
 	g_free(locale_path);
 
 	return list;
