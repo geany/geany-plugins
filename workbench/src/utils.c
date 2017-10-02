@@ -72,7 +72,7 @@ gchar *get_relative_path(const gchar *utf8_parent, const gchar *utf8_descendant)
  **/
 gboolean patterns_match(GSList *patterns, const gchar *str)
 {
-	GSList *elem;
+	GSList *elem = NULL;
 	foreach_slist (elem, patterns)
 	{
 		GPatternSpec *pattern = elem->data;

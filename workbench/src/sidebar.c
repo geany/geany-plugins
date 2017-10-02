@@ -95,7 +95,7 @@ static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList 
 {
 	GSList *dir_list = NULL;
 	GSList *file_list = NULL;
-	GSList *elem;
+	GSList *elem = NULL;
 	gchar **path_arr;
 
 	foreach_slist (elem, leaf_list)
@@ -230,7 +230,7 @@ static void sidebar_insert_project_directory(WB_PROJECT *prj, WB_PROJECT_DIR *di
 {
 	GSList *lst = NULL;
 	GSList *path_list = NULL;
-	GSList *elem;
+	GSList *elem = NULL;
 	GHashTableIter iter;
 	gpointer key, value;
 	gchar *abs_base_dir;
@@ -267,7 +267,7 @@ static void sidebar_insert_project_directories (WB_PROJECT *project, GtkTreeIter
 {
 	GtkTreeIter iter;
 	GIcon *icon;
-	GSList *elem, *dirs;
+	GSList *elem = NULL, *dirs;
 
 	if (project == NULL)
 	{
