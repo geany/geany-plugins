@@ -75,7 +75,7 @@ static GSList *get_file_list(const gchar *utf8_path, GSList *patterns,
 	GSList *list = NULL;
 	GDir *dir;
 	const gchar *child_name;
-	GSList *child;
+	GSList *child = NULL;
 	GSList *children = NULL;
 	gchar *locale_path = utils_get_locale_from_utf8(utf8_path);
 	gchar *real_path = utils_get_real_path(locale_path);
