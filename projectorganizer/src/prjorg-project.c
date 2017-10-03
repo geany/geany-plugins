@@ -78,7 +78,7 @@ static GSList *get_file_list(const gchar *utf8_path, GSList *patterns,
 	GSList *child;
 	GSList *children = NULL;
 	gchar *locale_path = utils_get_locale_from_utf8(utf8_path);
-	gchar *real_path = tm_get_real_path(locale_path);
+	gchar *real_path = utils_get_real_path(locale_path);
 
 	dir = g_dir_open(locale_path, 0, NULL);
 	if (!dir || !real_path || g_hash_table_lookup(visited_paths, real_path))
@@ -412,8 +412,8 @@ static gint root_comparator(PrjOrgRoot *a, PrjOrgRoot *b)
 
 	a_locale_base_dir = utils_get_locale_from_utf8(a->base_dir);
 	b_locale_base_dir = utils_get_locale_from_utf8(b->base_dir);
-	a_realpath = tm_get_real_path(a_locale_base_dir);
-	b_realpath = tm_get_real_path(b_locale_base_dir);
+	a_realpath = utils_get_real_path(a_locale_base_dir);
+	b_realpath = utils_get_real_path(b_locale_base_dir);
 
 	res = g_strcmp0(a_realpath, b_realpath);
 
