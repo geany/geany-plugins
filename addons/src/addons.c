@@ -178,6 +178,8 @@ gboolean ao_editor_notify_cb(GObject *object, GeanyEditor *editor,
 							 SCNotification *nt, gpointer data)
 {
 	ao_bookmark_list_update_marker(ao_info->bookmarklist, editor, nt);
+	
+	ao_mark_editor_notify(ao_info->markword, editor, nt);
 
 	return FALSE;
 }

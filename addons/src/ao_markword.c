@@ -171,6 +171,20 @@ static gboolean on_editor_button_press_event(GtkWidget *widget, GdkEventButton *
 	return FALSE;
 }
 
+void ao_mark_editor_notify(AoMarkWord *mw, GeanyEditor *editor, SCNotification *nt)
+{
+	// If something is about to be deleted and there is selected text clear the markers
+	if(nt->nmhdr.code == SCN_MODIFIED &&
+		((nt->modificationType & SC_MOD_BEFOREDELETE) == SC_MOD_BEFOREDELETE) &&
+		sci_has_selection(editor->sci)) 
+	{
+		AoMarkWordPrivate *priv = AO_MARKWORD_GET_PRIVATE(mw);
+		
+		if(priv->enable_markword && priv->enable_single_click_deselect)
+			clear_marker();
+	}
+}
+
 
 void ao_mark_document_new(AoMarkWord *mw, GeanyDocument *document)
 {
