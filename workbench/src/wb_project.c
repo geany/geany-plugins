@@ -248,8 +248,10 @@ static GSList *wb_project_dir_get_file_list(WB_PROJECT_DIR *root, const gchar *u
 
 	g_hash_table_insert(visited_paths, real_path, GINT_TO_POINTER(1));
 
-	while ((child_name = g_dir_read_name(dir)))
-	children = g_slist_prepend(children, g_strdup(child_name));
+	while ((child_name = g_dir_read_name(dir)) != NULL)
+	{
+		children = g_slist_prepend(children, g_strdup(child_name));
+	}
 
 	g_dir_close(dir);
 
