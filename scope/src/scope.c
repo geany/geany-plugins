@@ -153,18 +153,19 @@ typedef struct _ToolItem
 	gint index;
 	const char *icon[2];
 	GtkWidget *widget;
+	const char *tooltip_text;
 } ToolItem;
 
 static ToolItem toolbar_items[] =
 {
-	{ RUN_CONTINUE_KB, { "small_run_continue_icon", "large_run_continue_icon" }, NULL },
-	{ GOTO_CURSOR_KB,  { "small_goto_cursor_icon",  "large_goto_cursor_icon"  }, NULL },
-	{ GOTO_SOURCE_KB,  { "small_goto_source_icon",  "large_goto_source_icon"  }, NULL },
-	{ STEP_INTO_KB,    { "small_step_into_icon",    "large_step_into_icon"    }, NULL },
-	{ STEP_OVER_KB,    { "small_step_over_icon",    "large_step_over_icon"    }, NULL },
-	{ STEP_OUT_KB,     { "small_step_out_icon",     "large_step_out_icon"     }, NULL },
-	{ TERMINATE_KB,    { "small_terminate_icon",    "large_terminate_icon"    }, NULL },
-	{ BREAKPOINT_KB,   { "small_breakpoint_icon",   "large_breakpoint_icon",  }, NULL },
+	{ RUN_CONTINUE_KB, { "small_run_continue_icon", "large_run_continue_icon" }, NULL, N_("Run/continue")      },
+	{ GOTO_CURSOR_KB,  { "small_goto_cursor_icon",  "large_goto_cursor_icon"  }, NULL, N_("Run to cursor")     },
+	{ GOTO_SOURCE_KB,  { "small_goto_source_icon",  "large_goto_source_icon"  }, NULL, N_("Run to source")     },
+	{ STEP_INTO_KB,    { "small_step_into_icon",    "large_step_into_icon"    }, NULL, N_("Step into")         },
+	{ STEP_OVER_KB,    { "small_step_over_icon",    "large_step_over_icon"    }, NULL, N_("Step over")         },
+	{ STEP_OUT_KB,     { "small_step_out_icon",     "large_step_out_icon"     }, NULL, N_("Step out")          },
+	{ TERMINATE_KB,    { "small_terminate_icon",    "large_terminate_icon"    }, NULL, N_("Terminate")         },
+	{ BREAKPOINT_KB,   { "small_breakpoint_icon",   "large_breakpoint_icon",  }, NULL, N_("Toggle breakpoint") },
 	{ -1, { NULL, NULL }, NULL }
 };
 
@@ -631,6 +632,7 @@ void plugin_init(G_GNUC_UNUSED GeanyData *gdata)
 		GtkMenuItem *menu_item = GTK_MENU_ITEM(debug_menu_items[tool_item->index].widget);
 		GtkToolItem *button = gtk_tool_button_new(NULL, gtk_menu_item_get_label(menu_item));
 
+		gtk_widget_set_tooltip_text (GTK_WIDGET (button), tool_item->tooltip_text);
 		gtk_tool_button_set_use_underline(GTK_TOOL_BUTTON(button),
 			gtk_menu_item_get_use_underline(menu_item));
 		g_signal_connect(button, "clicked", G_CALLBACK(on_toolbar_button_clicked),
