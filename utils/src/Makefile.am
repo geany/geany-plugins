@@ -1,14 +1,14 @@
 include $(top_srcdir)/build/vars.build.mk
 
-geanyplugins_LTLIBRARIES = utils.la
+lib_LTLIBRARIES = libgeanypluginutils.la
 
-utils_la_SOURCES = \
+libgeanypluginutils_la_SOURCES = \
 	filelist.h \
 	filelist.c
 
-utils_la_CPPFLAGS = $(AM_CPPFLAGS) \
+libgeanypluginutils_la_CPPFLAGS = $(AM_CPPFLAGS) \
 	-DG_LOG_DOMAIN=\"Utils\"
-utils_la_CFLAGS = $(AM_CFLAGS)
-utils_la_LIBADD = $(COMMONLIBS)
-
+libgeanypluginutils_la_CFLAGS = $(AM_CFLAGS)
+libgeanypluginutils_la_LIBADD = $(COMMONLIBS)
+libgeanypluginutils_la_LDFLAGS = $(GP_LDFLAGS)
 include $(top_srcdir)/build/cppcheck.mk
