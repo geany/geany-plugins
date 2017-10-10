@@ -44,6 +44,8 @@ AoMarkWord*		ao_mark_word_new			(gboolean enable, gboolean single_click_deselect
 void			ao_mark_document_new		(AoMarkWord *mw, GeanyDocument *document);
 void			ao_mark_document_open		(AoMarkWord *mw, GeanyDocument *document);
 void			ao_mark_document_close		(AoMarkWord *mw, GeanyDocument *document);
+void 			ao_mark_editor_notify		(AoMarkWord *mw, GeanyEditor *editor,
+												SCNotification *nt);
 
 G_END_DECLS
 
