@@ -1,0 +1,45 @@
+=====
+Utils
+=====
+
+.. contents::
+
+About
+=====
+
+This is not a plugin but a common shared lib providing utility function
+for re-use by geany plugins.
+
+Known issues
+============
+
+None.
+
+License
+=======
+
+The utils lib is distributed under the terms of the GNU General
+Public License as published by the Free Software Foundation; either
+version 2 of the License, or (at your option) any later version.  A copy
+of this license can be found in the file COPYING included with the source
+code of this program.
+
+Downloads
+=========
+
+The utils lib is part of the combined Geany Plugins release.
+For more information and downloads, please visit
+http://plugins.geany.org/geany-plugins/
+
+Development Code
+================
+
+Get the code from::
+
+    git clone https://github.com/geany/geany-plugins.git
+
+Ideas, questions, patches and bug reports
+=========================================
+
+Please post any ideas, feature requests, questions and bugs in the
+github issue tracker.
