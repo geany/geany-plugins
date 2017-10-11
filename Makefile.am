@@ -2,6 +2,7 @@ ACLOCAL_AMFLAGS = -I build/cache -I build -I build/bundled -I geanypy/m4 --insta
 AM_DISTCHECK_CONFIGURE_FLAGS = --with-geany-libdir='$${libdir}'
 
 SUBDIRS = po
+SUBDIRS += utils
 
 if ENABLE_ADDONS
 SUBDIRS += addons
