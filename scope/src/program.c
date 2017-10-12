@@ -465,7 +465,7 @@ void program_init(void)
 	gtk_entry_set_max_length(working_dir_entry, PATH_MAX);
 	stash_group_add_entry(group, &program_working_dir, "working_dir", "", working_dir_entry);
 	ui_setup_open_button_callback(get_widget("program_working_dir_button"), NULL,
-		GTK_FILE_CHOOSER_ACTION_OPEN, working_dir_entry);
+		GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER, working_dir_entry);
 
 	load_script_entry = GTK_ENTRY(get_widget("program_load_script_entry"));
 	gtk_entry_set_max_length(load_script_entry, PATH_MAX);
