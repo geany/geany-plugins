@@ -21,7 +21,12 @@
  *       http://www.geany.org/manual/reference/howto.html
  */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include "PluginEntry.h"
+#include <errno.h>
 
 
 GeanyPlugin*           geany_plugin;
@@ -49,9 +54,69 @@ static void config_closed(GtkWidget* configWidget, gint response, gpointer data)
 
 /*========================================== FUNCTIONS ===================================================================*/
 
+static gchar *
+get_config_file (void)
+{
+    gchar *dir;
+    gchar *fn;
+
+    dir = g_build_filename (geany_data->app->configdir, "plugins", "pretty-printer", NULL);
+    fn = g_build_filename (dir, "prefs.conf", NULL);
+
+    if (! g_file_test (fn, G_FILE_TEST_IS_DIR))
+    {
+        if (g_mkdir_with_parents (dir, 0755) != 0)
+        {
+            g_critical ("failed to create config dir '%s': %s", dir, g_strerror (errno));
+            g_free (dir);
+            g_free (fn);
+            return NULL;
+        }
+    }
+
+    g_free (dir);
+
+    if (! g_file_test (fn, G_FILE_TEST_EXISTS))
+    {
+        GError *error = NULL;
+        const gchar *def_config;
+
+        def_config = getDefaultPrefs(&error);
+        if (def_config == NULL)
+        {
+            g_critical ("failed to fetch default config data (%s)",
+                        error->message);
+            g_error_free (error);
+            g_free (fn);
+            return NULL;
+        }
+        if (!g_file_set_contents (fn, def_config, -1, &error))
+        {
+            g_critical ("failed to save default config to file '%s': %s",
+                        fn, error->message);
+            g_error_free (error);
+            g_free (fn);
+            return NULL;
+        }
+    }
+
+    return fn;
+}
+
 void plugin_init(GeanyData *data)
 {
+    gchar         *conf_file;
+    GError        *error = NULL;
     GeanyKeyGroup *key_group;
+
+    /* load preferences */
+    conf_file = get_config_file ();
+    if (!prefsLoad (conf_file, &error))
+    {
+        g_critical ("failed to load preferences file '%s': %s", conf_file, error->message);
+        g_error_free (error);
+    }
+    g_free (conf_file);
 
     /* initializes the libxml2 */
     LIBXML_TEST_VERSION
@@ -95,7 +160,16 @@ void config_closed(GtkWidget* configWidget, gint response, gpointer gdata)
     if (response == GTK_RESPONSE_OK ||
         response == GTK_RESPONSE_APPLY)
     {
-        saveSettings();
+        gchar* conf_file;
+        GError* error = NULL;
+
+        conf_file = get_config_file ();
+        if (! prefsSave (conf_file, &error))
+        {
+            g_critical ("failed to save preferences to file '%s': %s", conf_file, error->message);
+            g_error_free (error);
+        }
+        g_free (conf_file);
     }
 }
 
