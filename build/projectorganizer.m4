@@ -5,6 +5,5 @@ AC_DEFUN([GP_CHECK_PROJECTORGANIZER],
     AC_CONFIG_FILES([
         projectorganizer/Makefile
         projectorganizer/src/Makefile
-        projectorganizer/icons/Makefile
     ])
 ])
