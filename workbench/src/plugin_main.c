@@ -128,7 +128,7 @@ void geany_load_module(GeanyPlugin *plugin)
 	/* Set metadata */
 	plugin->info->name = _("Workbench");
 	plugin->info->description = _("Manage and customize multiple projects.");
-	plugin->info->version = "1.0";
+	plugin->info->version = "1.01";
 	plugin->info->author = "LarsGit223";
 
 	/* Set functions */
@@ -138,5 +138,5 @@ void geany_load_module(GeanyPlugin *plugin)
 	plugin->funcs->callbacks = plugin_workbench_callbacks;
 
 	/* Register! */
-	GEANY_PLUGIN_REGISTER(plugin, 225);
+	GEANY_PLUGIN_REGISTER(plugin, 235);
 }

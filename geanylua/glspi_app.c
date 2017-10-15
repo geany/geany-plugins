@@ -256,7 +256,7 @@ static gint glspi_fullpath(lua_State* L)
 		const gchar *fn=NULL;
 		if (!lua_isstring(L,1)) { return FAIL_STRING_ARG(1); }
 		fn=lua_tostring(L,1);
-		rp=tm_get_real_path(fn);
+		rp=utils_get_real_path(fn);
 		if (rp) {
 			lua_pushstring(L,rp);
 			g_free(rp);

@@ -37,6 +37,8 @@ extern PrettyPrintingOptions* prettyPrintingOptions;
 /*========================================== FUNCTIONS ========================================================*/
 
 GtkWidget* createPrettyPrinterConfigUI(GtkDialog* dialog);
-void saveSettings(void);
+gboolean prefsLoad (const gchar* filename, GError** error);
+gboolean prefsSave (const gchar* filename, GError** error);
+gchar *getDefaultPrefs (GError** error);
 
 #endif

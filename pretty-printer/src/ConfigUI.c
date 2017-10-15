@@ -93,11 +93,12 @@ GtkWidget* createPrettyPrinterConfigUI(GtkDialog * dialog)
     return container;
 }
 
-void saveSettings(void)
+static void
+fetchSettingsFromConfigUI(PrettyPrintingOptions* ppo)
 {
     int breakStyle;
-    PrettyPrintingOptions* ppo = prettyPrintingOptions;
 
+    if (ppo == NULL) return;
     ppo->oneLineComment = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(commentOneLine));
     ppo->inlineComment = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(commentInline));
     ppo->alignComment = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(commentAlign));
@@ -118,9 +119,198 @@ void saveSettings(void)
     ppo->indentChar = gtk_combo_box_get_active(GTK_COMBO_BOX(indentationChar))==0 ? '\t' : ' ';
 
     breakStyle = gtk_combo_box_get_active(GTK_COMBO_BOX(lineBreak));
-    if (breakStyle == 0) ppo->newLineChars = "\r";
-    else if (breakStyle == 1) ppo->newLineChars = "\n";
-    else ppo->newLineChars = "\r\n";
+    g_free ((gpointer)ppo->newLineChars);
+    if (breakStyle == 0) ppo->newLineChars = g_strdup("\r");
+    else if (breakStyle == 1) ppo->newLineChars = g_strdup("\n");
+    else ppo->newLineChars = g_strdup("\r\n");
+}
+
+static gchar *
+prefsToData (PrettyPrintingOptions* ppo,
+             gsize* size,
+             GError** error)
+{
+    GKeyFile *kf;
+    gchar    *contents;
+
+    kf = g_key_file_new ();
+
+    g_key_file_set_string (kf, "pretty-printer", "newLineChars", ppo->newLineChars);
+    g_key_file_set_integer (kf, "pretty-printer", "indentChar", (int)ppo->indentChar);
+    g_key_file_set_integer (kf, "pretty-printer", "indentLength", ppo->indentLength);
+    g_key_file_set_boolean (kf, "pretty-printer", "oneLineText", ppo->oneLineText);
+    g_key_file_set_boolean (kf, "pretty-printer", "inlineText", ppo->inlineText);
+    g_key_file_set_boolean (kf, "pretty-printer", "oneLineComment", ppo->oneLineComment);
+    g_key_file_set_boolean (kf, "pretty-printer", "inlineComment", ppo->inlineComment);
+    g_key_file_set_boolean (kf, "pretty-printer", "oneLineCdata", ppo->oneLineCdata);
+    g_key_file_set_boolean (kf, "pretty-printer", "inlineCdata", ppo->inlineCdata);
+    g_key_file_set_boolean (kf, "pretty-printer", "emptyNodeStripping", ppo->emptyNodeStripping);
+    g_key_file_set_boolean (kf, "pretty-printer", "emptyNodeStrippingSpace", ppo->emptyNodeStrippingSpace);
+    g_key_file_set_boolean (kf, "pretty-printer", "forceEmptyNodeSplit", ppo->forceEmptyNodeSplit);
+    g_key_file_set_boolean (kf, "pretty-printer", "trimLeadingWhites", ppo->trimLeadingWhites);
+    g_key_file_set_boolean (kf, "pretty-printer", "trimTrailingWhites", ppo->trimTrailingWhites);
+    g_key_file_set_boolean (kf, "pretty-printer", "alignComment", ppo->alignComment);
+    g_key_file_set_boolean (kf, "pretty-printer", "alignText", ppo->alignText);
+    g_key_file_set_boolean (kf, "pretty-printer", "alignCdata", ppo->alignCdata);
+
+    contents = g_key_file_to_data (kf, size, error);
+    g_key_file_free (kf);
+    return contents;
+}
+
+static gboolean
+prefsFromData (PrettyPrintingOptions* ppo,
+               const gchar* contents,
+               gssize size,
+               GError** error)
+{
+    GKeyFile *kf;
+
+    g_return_val_if_fail (contents != NULL, FALSE);
+
+    kf = g_key_file_new ();
+
+    if (!g_key_file_load_from_data (kf, contents, size,
+             G_KEY_FILE_KEEP_COMMENTS | G_KEY_FILE_KEEP_TRANSLATIONS,
+             error))
+    {
+        g_key_file_free (kf);
+        return FALSE;
+    }
+
+    if (g_key_file_has_key (kf, "pretty-printer", "newLineChars", NULL))
+    {
+        g_free ((gpointer)ppo->newLineChars);
+        ppo->newLineChars = g_key_file_get_string (kf, "pretty-printer", "newLineChars", error);
+    }
+    if (g_key_file_has_key (kf, "pretty-printer", "indentChar", NULL))
+    {
+        ppo->indentChar = (char)g_key_file_get_integer (kf, "pretty-printer", "indentChar", error);
+    }
+    if (g_key_file_has_key (kf, "pretty-printer", "indentLength", NULL))
+    {
+        ppo->indentLength = g_key_file_get_integer (kf, "pretty-printer", "indentLength", error);
+    }
+    if (g_key_file_has_key (kf, "pretty-printer", "oneLineText", NULL))
+    {
+        ppo->oneLineText = g_key_file_get_boolean (kf, "pretty-printer", "oneLineText", error);
+    }
+    if (g_key_file_has_key (kf, "pretty-printer", "inlineText", NULL))
+    {
+        ppo->inlineText = g_key_file_get_boolean (kf, "pretty-printer", "inlineText", error);
+    }
+    if (g_key_file_has_key (kf, "pretty-printer", "oneLineComment", NULL))
+    {
+        ppo->oneLineComment = g_key_file_get_boolean (kf, "pretty-printer", "oneLineComment", error);
+    }
+    if (g_key_file_has_key (kf, "pretty-printer", "inlineComment", NULL))
+    {
+        ppo->inlineComment = g_key_file_get_boolean (kf, "pretty-printer", "inlineComment", error);
+    }
+    if (g_key_file_has_key (kf, "pretty-printer", "oneLineCdata", NULL))
+    {
+        ppo->oneLineCdata = g_key_file_get_boolean (kf, "pretty-printer", "oneLineCdata", error);
+    }
+    if (g_key_file_has_key (kf, "pretty-printer", "inlineCdata", NULL))
+    {
+        ppo->inlineCdata = g_key_file_get_boolean (kf, "pretty-printer", "inlineCdata", error);
+    }
+    if (g_key_file_has_key (kf, "pretty-printer", "emptyNodeStripping", NULL))
+    {
+        ppo->emptyNodeStripping = g_key_file_get_boolean (kf, "pretty-printer", "emptyNodeStripping", error);
+    }
+    if (g_key_file_has_key (kf, "pretty-printer", "emptyNodeStrippingSpace", NULL))
+    {
+        ppo->emptyNodeStrippingSpace = g_key_file_get_boolean (kf, "pretty-printer", "emptyNodeStrippingSpace", error);
+    }
+    if (g_key_file_has_key (kf, "pretty-printer", "forceEmptyNodeSplit", NULL))
+    {
+        ppo->forceEmptyNodeSplit = g_key_file_get_boolean (kf, "pretty-printer", "forceEmptyNodeSplit", error);
+    }
+    if (g_key_file_has_key (kf, "pretty-printer", "trimLeadingWhites", NULL))
+    {
+        ppo->trimLeadingWhites = g_key_file_get_boolean (kf, "pretty-printer", "trimLeadingWhites", error);
+    }
+    if (g_key_file_has_key (kf, "pretty-printer", "trimTrailingWhites", NULL))
+    {
+        ppo->trimTrailingWhites = g_key_file_get_boolean (kf, "pretty-printer", "trimTrailingWhites", error);
+    }
+    if (g_key_file_has_key (kf, "pretty-printer", "alignComment", NULL))
+    {
+        ppo->alignComment = g_key_file_get_boolean (kf, "pretty-printer", "alignComment", error);
+    }
+    if (g_key_file_has_key (kf, "pretty-printer", "alignText", NULL))
+    {
+        ppo->alignText = g_key_file_get_boolean (kf, "pretty-printer", "alignText", error);
+    }
+    if (g_key_file_has_key (kf, "pretty-printer", "alignCdata", NULL))
+    {
+        ppo->alignCdata = g_key_file_get_boolean (kf, "pretty-printer", "alignCdata", error);
+    }
+
+    g_key_file_free (kf);
+    return TRUE;
+}
+
+gboolean
+prefsLoad (const gchar* filename,
+           GError** error)
+{
+    PrettyPrintingOptions* ppo;
+    gchar  *contents = NULL;
+    gsize   size = 0;
+
+    g_return_val_if_fail (filename != NULL, FALSE);
+
+    /* default printing options */
+    if (prettyPrintingOptions == NULL) { prettyPrintingOptions = createDefaultPrettyPrintingOptions(); }
+    ppo = prettyPrintingOptions;
+
+    if (!g_file_get_contents (filename, &contents, &size, error))
+        return FALSE;
+    if (!prefsFromData (ppo, contents, size, error))
+    {
+        g_free (contents);
+        return FALSE;
+    }
+    g_free (contents);
+    return TRUE;
+}
+
+gboolean
+prefsSave (const gchar* filename,
+           GError** error)
+{
+    PrettyPrintingOptions* ppo;
+    gchar *contents = NULL;
+    gsize size = 0;
+
+    g_return_val_if_fail (filename != NULL, FALSE);
+    ppo = prettyPrintingOptions;
+    fetchSettingsFromConfigUI (ppo);
+    contents = prefsToData (ppo, &size, error);
+    if (contents == NULL)
+        return FALSE;
+    if (! g_file_set_contents (filename, contents, size, error))
+    {
+        g_free (contents);
+        return FALSE;
+    }
+    g_free (contents);
+    return TRUE;
+}
+
+gchar *
+getDefaultPrefs (GError** error)
+{
+    gchar *contents = NULL;
+    gsize size = 0;
+    PrettyPrintingOptions* ppo;
+
+    ppo = createDefaultPrettyPrintingOptions();
+    g_return_val_if_fail (ppo != NULL, NULL);
+    contents = prefsToData (ppo, &size, error);
+    return contents;
 }
 
 /*============================================= PRIVATE FUNCTIONS =======================================*/
