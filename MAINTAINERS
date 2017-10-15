@@ -247,10 +247,10 @@ W: http://plugins.geany.org/tableconvert.html
 S: Maintained
 
 treebrowser
-P:
-M:
-W:
-S: Orphaned
+P: Adam Dingle <adam@medovina.org>
+M: Adam Dingle <adam@medovina.org>
+W: http://plugins.geany.org/treebrowser.html
+S: Maintained
 
 updatechecker
 P: Frank Lanitz <frank@frank.uvena.de>
