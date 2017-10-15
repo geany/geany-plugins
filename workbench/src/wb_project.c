@@ -26,6 +26,7 @@
 #endif
 
 #include <geanyplugin.h>
+#include <../../utils/src/filelist.h>
 #include "wb_globals.h"
 #include "wb_project.h"
 #include "utils.h"
@@ -219,78 +220,6 @@ static void wb_project_clear_idle_queue(GSList **queue)
 
 	g_slist_free_full(*queue, g_free);
 	*queue = NULL;
-}
-
-
-/* Get the list of files for root */
-static GSList *wb_project_dir_get_file_list(WB_PROJECT_DIR *root, const gchar *utf8_path, GSList *patterns,
-		GSList *ignored_dirs_patterns, GSList *ignored_file_patterns, GHashTable *visited_paths)
-{
-	GSList *list = NULL;
-	GDir *dir;
-	gchar *locale_path = utils_get_locale_from_utf8(utf8_path);
-	gchar *real_path = utils_get_real_path(locale_path);
-
-	dir = g_dir_open(locale_path, 0, NULL);
-	if (!dir || !real_path || g_hash_table_lookup(visited_paths, real_path))
-	{
-		if (dir != NULL)
-		{
-			g_dir_close(dir);
-		}
-		g_free(locale_path);
-		g_free(real_path);
-		return NULL;
-	}
-
-	g_hash_table_insert(visited_paths, real_path, GINT_TO_POINTER(1));
-
-	while (TRUE)
-	{
-		const gchar *locale_name;
-		gchar *locale_filename, *utf8_filename, *utf8_name;
-
-		locale_name = g_dir_read_name(dir);
-		if (!locale_name)
-			break;
-
-		utf8_name = utils_get_utf8_from_locale(locale_name);
-		locale_filename = g_build_filename(locale_path, locale_name, NULL);
-		utf8_filename = utils_get_utf8_from_locale(locale_filename);
-
-		if (g_file_test(locale_filename, G_FILE_TEST_IS_DIR))
-		{
-			GSList *lst;
-
-			if (!patterns_match(ignored_dirs_patterns, utf8_name))
-			{
-				lst = wb_project_dir_get_file_list(root, utf8_filename, patterns, ignored_dirs_patterns,
-						ignored_file_patterns, visited_paths);
-				if (lst)
-				{
-					root->folder_count++;
-					list = g_slist_concat(list, lst);
-				}
-			}
-		}
-		else if (g_file_test(locale_filename, G_FILE_TEST_IS_REGULAR))
-		{
-			if (patterns_match(patterns, utf8_name) && !patterns_match(ignored_file_patterns, utf8_name))
-			{
-				root->file_count++;
-				list = g_slist_prepend(list, g_strdup(utf8_filename));
-			}
-		}
-
-		g_free(utf8_filename);
-		g_free(locale_filename);
-		g_free(utf8_name);
-	}
-
-	g_dir_close(dir);
-	g_free(locale_path);
-
-	return list;
 }
 
 
@@ -548,38 +477,25 @@ static guint wb_project_get_file_count(WB_PROJECT *prj)
 /* Rescan/update the file list of a project dir. */
 static guint wb_project_dir_rescan_int(WB_PROJECT *prj, WB_PROJECT_DIR *root)
 {
-	GSList *pattern_list = NULL;
-	GSList *ignored_dirs_list = NULL;
-	GSList *ignored_file_list = NULL;
-	GHashTable *visited_paths;
 	GSList *lst;
 	GSList *elem = NULL;
 	guint filenum = 0;
 	gchar *searchdir;
+	gchar **file_patterns = NULL;
 
 	wb_project_dir_remove_from_tm_workspace(root);
 	g_hash_table_remove_all(root->file_table);
 
-	if (!root->file_patterns || !root->file_patterns[0])
+	if (root->file_patterns && root->file_patterns[0])
 	{
-		const gchar *all_pattern[] = { "*", NULL };
-		pattern_list = get_precompiled_patterns((gchar **)all_pattern);
-	}
-	else
-	{
-		pattern_list = get_precompiled_patterns(root->file_patterns);
+		file_patterns = root->file_patterns;
 	}
 
-	ignored_dirs_list = get_precompiled_patterns(root->ignored_dirs_patterns);
-	ignored_file_list = get_precompiled_patterns(root->ignored_file_patterns);
-
-	visited_paths = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
 	searchdir = get_combined_path(prj->filename, root->base_dir);
 	root->file_count = 0;
 	root->folder_count = 0;
-	lst = wb_project_dir_get_file_list
-		(root, searchdir, pattern_list, ignored_dirs_list, ignored_file_list, visited_paths);
-	g_hash_table_destroy(visited_paths);
+	lst = filelist_scan_directory(&(root->file_count), &(root->folder_count),
+		searchdir, file_patterns, root->ignored_dirs_patterns, root->ignored_file_patterns);
 	g_free(searchdir);
 
 	foreach_slist(elem, lst)
@@ -595,15 +511,6 @@ static guint wb_project_dir_rescan_int(WB_PROJECT *prj, WB_PROJECT_DIR *root)
 
 	g_slist_foreach(lst, (GFunc) g_free, NULL);
 	g_slist_free(lst);
-
-	g_slist_foreach(pattern_list, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(pattern_list);
-
-	g_slist_foreach(ignored_dirs_list, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(ignored_dirs_list);
-
-	g_slist_foreach(ignored_file_list, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(ignored_file_list);
 
 	return filenum;
 }

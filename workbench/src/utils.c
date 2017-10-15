@@ -61,54 +61,6 @@ gchar *get_relative_path(const gchar *utf8_parent, const gchar *utf8_descendant)
 }
 
 
-/** Check if a string matches a pattern.
- *
- * The function checks if @a str matches pattern @a patterns.
- *
- * @param patterns Pattern list.
- * @param str      String to check
- * @return TRUE if str matches the pattern, FALSE otherwise
- *
- **/
-gboolean patterns_match(GSList *patterns, const gchar *str)
-{
-	GSList *elem = NULL;
-	foreach_slist (elem, patterns)
-	{
-		GPatternSpec *pattern = elem->data;
-		if (g_pattern_match_string(pattern, str))
-			return TRUE;
-	}
-	return FALSE;
-}
-
-
-/** Get precompiled patterns.
- *
- * The function builds the precompiled patterns for @a patterns and returns them
- * as a list.
- *
- * @param patterns NULL terminated string array of patterns.
- * @return Pointer to GSList of patterns or NULL if patterns == NULL
- *
- **/
-GSList *get_precompiled_patterns(gchar **patterns)
-{
-	guint i;
-	GSList *pattern_list = NULL;
-
-	if (!patterns)
-		return NULL;
-
-	for (i = 0; patterns[i] != NULL; i++)
-	{
-		GPatternSpec *pattern_spec = g_pattern_spec_new(patterns[i]);
-		pattern_list = g_slist_prepend(pattern_list, pattern_spec);
-	}
-	return pattern_list;
-}
-
-
 /** Combine an absolute and a relative path.
  *
  * The function combines the absolute path @a base with the relative path
