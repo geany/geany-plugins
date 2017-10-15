@@ -16,12 +16,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef __UTILS_FILELIST_H__
-#define __UTILS_FILELIST_H__
+#ifndef GP_UTILS_FILELIST_H
+#define GP_UTILS_FILELIST_H
 
 #include <glib.h>
 
-GSList *filelist_scan_directory(guint *files, guint *folders, const gchar *searchdir, gchar **file_patterns,
+GSList *gp_filelist_scan_directory(guint *files, guint *folders, const gchar *searchdir, gchar **file_patterns,
 		gchar **ignored_dirs_patterns, gchar **ignored_file_patterns);
 
-#endif
+#endif /* GP_UTILS_FILELIST_H */

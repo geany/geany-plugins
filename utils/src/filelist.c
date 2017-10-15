@@ -172,7 +172,7 @@ static void filelist_scan_directory_int(const gchar *searchdir, SCAN_DIR_PARAMS 
  * @return GSList of matched files
  *
  **/
-GSList *filelist_scan_directory(guint *files, guint *folders, const gchar *searchdir, gchar **file_patterns,
+GSList *gp_filelist_scan_directory(guint *files, guint *folders, const gchar *searchdir, gchar **file_patterns,
 		gchar **ignored_dirs_patterns, gchar **ignored_file_patterns)
 {
 	SCAN_DIR_PARAMS params;

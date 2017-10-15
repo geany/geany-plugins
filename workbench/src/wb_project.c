@@ -494,7 +494,7 @@ static guint wb_project_dir_rescan_int(WB_PROJECT *prj, WB_PROJECT_DIR *root)
 	searchdir = get_combined_path(prj->filename, root->base_dir);
 	root->file_count = 0;
 	root->folder_count = 0;
-	lst = filelist_scan_directory(&(root->file_count), &(root->folder_count),
+	lst = gp_filelist_scan_directory(&(root->file_count), &(root->folder_count),
 		searchdir, file_patterns, root->ignored_dirs_patterns, root->ignored_file_patterns);
 	g_free(searchdir);
 
