@@ -45,7 +45,7 @@ libassuan
 libgcrypt
 libgpg-error
 libgit2
-libidn
+libidn2
 libjpeg-turbo
 libogg
 libsoup
