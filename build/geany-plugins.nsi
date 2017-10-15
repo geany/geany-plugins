@@ -105,6 +105,9 @@ Section "!Program Files" SEC01
 	SectionIn RO 1 2
 	SetOverwrite ifnewer
 
+	SetOutPath "$INSTDIR\bin"
+	File /r "${RESOURCEDIR}\bin\libgeanypluginutils-0.dll"
+
 	SetOutPath "$INSTDIR\lib"
 	File /r "${RESOURCEDIR}\lib\*.dll"
 
@@ -154,6 +157,7 @@ SectionEnd
 Section Uninstall
 	Delete "$INSTDIR\ReadMe.Dependencies.Geany-Plugins.txt"
 	Delete "$INSTDIR\uninst-plugins.exe"
+	Delete "$INSTDIR\bin\libgeanypluginutils-0.dll"
 	Delete "$INSTDIR\lib\geany\addons.dll"
 	Delete "$INSTDIR\lib\geany\autoclose.dll"
 	Delete "$INSTDIR\lib\geany\automark.dll"
@@ -252,7 +256,7 @@ Section Uninstall
 	Delete "$INSTDIR\bin\libicutest58.dll"
 	Delete "$INSTDIR\bin\libicutu58.dll"
 	Delete "$INSTDIR\bin\libicuuc58.dll"
-	Delete "$INSTDIR\bin\libidn-11.dll"
+	Delete "$INSTDIR\bin\libidn2-0.dll"
 	Delete "$INSTDIR\bin\libjavascriptcoregtk-1.0-0.dll"
 	Delete "$INSTDIR\bin\libjavascriptcoregtk-3.0-0.dll"
 	Delete "$INSTDIR\bin\libjpeg-8.dll"
@@ -330,6 +334,7 @@ Section Uninstall
 	FindClose $0
 
 	; only if empty
+	RMDir "$INSTDIR\bin"
 	RMDir "$INSTDIR\lib\geany"
 	RMDir "$INSTDIR\lib"
 	RMDir "$INSTDIR\libexec"
