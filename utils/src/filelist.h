@@ -21,7 +21,11 @@
 
 #include <glib.h>
 
+G_BEGIN_DECLS
+
 GSList *gp_filelist_scan_directory(guint *files, guint *folders, const gchar *searchdir, gchar **file_patterns,
 		gchar **ignored_dirs_patterns, gchar **ignored_file_patterns);
+
+G_END_DECLS
 
 #endif /* GP_UTILS_FILELIST_H */
