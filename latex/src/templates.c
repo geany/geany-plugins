@@ -69,7 +69,7 @@ GPtrArray* glatex_init_custom_templates(void)
 	/* Creating up config dir for checking for templates */
 	tmp_basedir = g_strconcat(geany->app->configdir,
 			G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
-			"geanyLaTeX", G_DIR_SEPARATOR_S, NULL);
+			"LaTeX", G_DIR_SEPARATOR_S, NULL);
 
 	/* Putting all files in configdir to a file list */
 	file_list = utils_get_file_list_full(tmp_basedir, TRUE, TRUE, NULL);

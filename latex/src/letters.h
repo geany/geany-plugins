@@ -23,7 +23,7 @@
 #ifndef LETTERS_H
 #define LETTERS_H
 
-#include "geanylatex.h"
+#include "latex.h"
 #include "datatypes.h"
 #include "ui_utils.h"
 #include "support.h"

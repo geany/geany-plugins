@@ -166,6 +166,7 @@ Section Uninstall
 	Delete "$INSTDIR\lib\geany\geanygendoc.dll"
 	Delete "$INSTDIR\lib\geany\geanyinsertnum.dll"
 	Delete "$INSTDIR\lib\geany\geanylatex.dll"
+	Delete "$INSTDIR\lib\geany\latex.dll"
 	; Keep for geanylipsum propper deleting old dll some time
 	Delete "$INSTDIR\lib\geany\geanylipsum.dll"
 	Delete "$INSTDIR\lib\geany\geanylua.dll"

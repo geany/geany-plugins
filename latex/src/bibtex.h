@@ -22,7 +22,7 @@
 #ifndef LATEXBIBTEX_H
 #define LATEXBIBTEX_H
 
-#include "geanylatex.h"
+#include "latex.h"
 
 
 /* Define generic stuff */

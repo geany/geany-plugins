@@ -22,7 +22,7 @@
 #ifndef REFTEX_H
 #define REFTEX_H
 
-#include "geanylatex.h"
+#include "latex.h"
 
 
 void glatex_add_Labels(GtkWidget *combobox, GSList *dir);

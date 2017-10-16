@@ -1,15 +1,15 @@
 include $(top_srcdir)/build/vars.build.mk
-plugin = geanylatex
+plugin = latex
 
-geanyplugins_LTLIBRARIES = geanylatex.la
+geanyplugins_LTLIBRARIES = latex.la
 
-geanylatex_la_SOURCES = \
+latex_la_SOURCES = \
 	bibtex.c \
-	geanylatex.c \
+	latex.c \
 	latexkeybindings.h \
 	reftex.c \
 	bibtex.h \
-	geanylatex.h \
+	latex.h \
 	latexstructure.c \
 	reftex.h \
 	bibtexlabels.c \
@@ -30,7 +30,7 @@ geanylatex_la_SOURCES = \
 	latexkeybindings.c \
 	letters.h
 
-geanylatex_la_CPPFLAGS = $(AM_CPPFLAGS) -DG_LOG_DOMAIN=\"GeanyLaTeX\"
-geanylatex_la_LIBADD = $(COMMONLIBS)
+latex_la_CPPFLAGS = $(AM_CPPFLAGS) -DG_LOG_DOMAIN=\"LaTeX\"
+latex_la_LIBADD = $(COMMONLIBS)
 
 include $(top_srcdir)/build/cppcheck.mk

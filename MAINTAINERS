@@ -89,7 +89,7 @@ M:
 W: http://plugins.geany.org/geanyinsertnum.html
 S: Orphaned
 
-geanylatex
+latex
 P: Frank Lanitz <frank@frank.uvena.de>
 M: Frank Lanitz <frank@frank.uvena.de>
 W: http://frank.uvena.de/en/Geany/geanylatex/

@@ -1,10 +1,10 @@
-AC_DEFUN([GP_CHECK_GEANYLATEX],
+AC_DEFUN([GP_CHECK_LATEX],
 [
-    GP_ARG_DISABLE([GeanyLaTeX], [auto])
-    GP_COMMIT_PLUGIN_STATUS([GeanyLaTeX])
+    GP_ARG_DISABLE([LaTeX], [auto])
+    GP_COMMIT_PLUGIN_STATUS([LaTeX])
     AC_CONFIG_FILES([
-        geanylatex/Makefile
-        geanylatex/doc/Makefile
-        geanylatex/src/Makefile
+        latex/Makefile
+        latex/doc/Makefile
+        latex/src/Makefile
     ])
 ])

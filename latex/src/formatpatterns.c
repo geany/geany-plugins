@@ -19,7 +19,7 @@
  *      MA 02110-1301, USA.
  */
 
-#include "geanylatex.h"
+#include "latex.h"
 
 const gchar* glatex_format_pattern[] = {
 	"\\textit",
