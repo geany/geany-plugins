@@ -30,6 +30,7 @@
 	#include "config.h" /* for the gettext domain */
 #endif
 
+#include <glib/gstdio.h>
 #include "latex.h"
 #include "ctype.h"
 
@@ -178,6 +179,58 @@ static GtkWidget *init_toolbar(void)
 	/* TODO maybe more error handling */
 
 	return toolbar;
+}
+
+
+/* Move "geanyLaTex/general.conf" to "LaTex/general.conf"
+   if it still exists. */
+static void
+move_old_config_file(void)
+{
+	gchar *filename_old, *filename_new, *dir_new;
+	GFile *file_old, *file_new;
+
+	filename_old = g_strconcat(geany->app->configdir,
+		G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
+		"geanyLaTeX", G_DIR_SEPARATOR_S, "general.conf", NULL);
+
+	if (g_file_test(filename_old, G_FILE_TEST_EXISTS))
+	{
+		filename_new = g_strconcat(geany->app->configdir,
+			G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
+			"LaTeX", G_DIR_SEPARATOR_S, "general.conf", NULL);
+
+		dir_new = g_path_get_dirname(filename_new);
+		if (!g_file_test(dir_new, G_FILE_TEST_IS_DIR)
+			&& utils_mkdir(dir_new, TRUE) != 0)
+		{
+			dialogs_show_msgbox(GTK_MESSAGE_ERROR,
+				_("Plugin configuration directory could not be created."));
+		}
+
+		file_old = g_file_new_for_path(filename_old);
+		file_new = g_file_new_for_path(filename_new);
+
+		g_file_move(file_old, file_new, 0, NULL, NULL, NULL, NULL);
+
+		g_object_unref(file_old);
+		g_object_unref(file_new);
+
+		if (!g_file_test(filename_old, G_FILE_TEST_EXISTS))
+		{
+			gchar *dir_old;
+
+			/* File move successful, remove old dir. */
+			dir_old = g_path_get_dirname(filename_old);
+			g_rmdir(dir_old);
+			g_free(dir_old);
+		}
+
+		g_free(filename_new);
+		g_free(dir_new);
+	}
+
+	g_free(filename_old);
 }
 
 
@@ -2404,6 +2457,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 		}
 	}
 
+	move_old_config_file();
 }
 
 void
