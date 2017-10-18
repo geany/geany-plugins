@@ -906,7 +906,7 @@ GtkTreePath *scp_tree_store_get_path(VALIDATE_ONLY ScpTreeStore *store, GtkTreeI
 	{
 		gtk_tree_path_append_index(path, ITER_INDEX(iter));
 
-		while ((elem = elem->parent), elem->parent)
+		for (elem = elem->parent; elem->parent; elem = elem->parent)
 		{
 			gint index = scp_ptr_array_find(elem->parent->children, elem);
 
