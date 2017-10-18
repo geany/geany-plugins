@@ -237,6 +237,7 @@ static void sidebar_insert_project_directory(WB_PROJECT *prj, WB_PROJECT_DIR *di
 
 	g_hash_table_iter_init(&iter, wb_project_dir_get_file_table(directory));
 	abs_base_dir = get_combined_path(wb_project_get_filename(prj), wb_project_dir_get_base_dir(directory));
+
 	while (g_hash_table_iter_next(&iter, &key, &value))
 	{
 		gchar *path = get_relative_path(abs_base_dir, key);
@@ -266,7 +267,7 @@ static void sidebar_insert_project_directory(WB_PROJECT *prj, WB_PROJECT_DIR *di
 static void sidebar_insert_project_directories (WB_PROJECT *project, GtkTreeIter *parent, gint *position)
 {
 	GtkTreeIter iter;
-	GIcon *icon;
+	GIcon *icon, *icon_dir, *icon_base;
 	GSList *elem = NULL, *dirs;
 
 	if (project == NULL)
@@ -277,18 +278,41 @@ static void sidebar_insert_project_directories (WB_PROJECT *project, GtkTreeIter
 	dirs = wb_project_get_directories(project);
 	if (dirs != NULL)
 	{
-		icon = g_icon_new_for_string("workbench-dir", NULL);
+		const gchar *name;
+
+		icon_dir = g_icon_new_for_string("workbench-dir", NULL);
+		icon_base = g_icon_new_for_string("workbench-basedir", NULL);
 
 		foreach_slist (elem, dirs)
 		{
+			if (wb_project_dir_get_is_prj_base_dir(elem->data) == TRUE)
+			{
+				icon = icon_base;
+				name = _("Base dir");
+			}
+			else
+			{
+				icon = icon_dir;
+				name = wb_project_dir_get_name(elem->data);
+			}
+
 			gtk_tree_store_insert_with_values(sidebar.file_store, &iter, parent, *position,
 				FILEVIEW_COLUMN_ICON, icon,
-				FILEVIEW_COLUMN_NAME, wb_project_dir_get_name(elem->data),
+				FILEVIEW_COLUMN_NAME, name,
 				FILEVIEW_COLUMN_DATA_ID, DATA_ID_DIRECTORY,
 				FILEVIEW_COLUMN_ASSIGNED_DATA_POINTER, elem->data,
 				-1);
 			(*position)++;
 			sidebar_insert_project_directory(project, elem->data, &iter);
+		}
+
+		if (icon_dir != NULL)
+		{
+			g_object_unref(icon_dir);
+		}
+		if (icon_base != NULL)
+		{
+			g_object_unref(icon_base);
 		}
 	}
 	else
@@ -301,10 +325,11 @@ static void sidebar_insert_project_directories (WB_PROJECT *project, GtkTreeIter
 			FILEVIEW_COLUMN_DATA_ID, DATA_ID_NO_DIRS,
 			-1);
 		(*position)++;
-	}
-	if (icon != NULL)
-	{
-		g_object_unref(icon);
+
+		if (icon != NULL)
+		{
+			g_object_unref(icon);
+		}
 	}
 }
 
