@@ -3,6 +3,10 @@ Geany Plugins 1.32 (not yet released)
     General:
     * New plugin: workbench (PR #460)
     * Travis: Update travis to system with c++11 compiler (#597)
+    * Add a common utils library (PR #622)
+
+    Windows:
+    * Add libidn2 to installer
 
     Addons
     * markword: Deselect when the selection changes (PR #614)
@@ -10,6 +14,9 @@ Geany Plugins 1.32 (not yet released)
     GeanyLua:
     * Increase required geany API version to 235 for usage of
       'utils_get_real_path' to replace 'tm_get_real_path()'
+
+    Geaniuspaste:
+    * Enable HTTPS for pastebin.geany.org (PR #635)
 
     GitChangebar:
     * Add the possibility to undo hunk at cursor position (PR #531)
@@ -21,13 +28,15 @@ Geany Plugins 1.32 (not yet released)
     * Increase required geany API version to 235 for usage of
       'utils_get_real_path' to replace 'tm_get_real_path()'
     * Close dir created with g_dir_open() in some special cases as well
-      as  Don't keep directories open when enumerating their children (PR ##605)
+      as  Don't keep directories open when enumerating their children (PR #605)
+    * Use stock icons instead of the ones provided by the plugin (PR #625)
 
     Scope:
     * Only allow selection of folders for "working dir" (PR #623)
     * Add tooltips to toolbar buttons (PR #617)
 
     Treebrowser
+    * Having a new old maintainer
     * Fix some typos inside documentation (PR #595)
 
 Geany Plugins 1.31 (2017-07-16)
