@@ -565,7 +565,7 @@ static GeanyFiletype *filetypes_detect(const gchar *utf8_filename)
 
 
 /* Regenerate tags */
-static void wb_project_regenerate_tags(WB_PROJECT_DIR *root, G_GNUC_UNUSED gpointer user_data)
+static void wb_project_dir_regenerate_tags(WB_PROJECT_DIR *root, G_GNUC_UNUSED gpointer user_data)
 {
 	GHashTableIter iter;
 	gpointer key, value;
@@ -611,7 +611,7 @@ guint wb_project_dir_rescan(WB_PROJECT *prj, WB_PROJECT_DIR *root)
 	total = wb_project_get_file_count(prj);
 	if (prj->generate_tag_prefs == WB_PROJECT_TAG_PREFS_YES || (prj->generate_tag_prefs == WB_PROJECT_TAG_PREFS_AUTO && total < 300))
 	{
-		g_slist_foreach(prj->directories, (GFunc)wb_project_regenerate_tags, NULL);
+		wb_project_dir_regenerate_tags(root, NULL);
 	}
 	return filenum;
 }
@@ -642,7 +642,7 @@ void wb_project_rescan(WB_PROJECT *prj)
 
 	if (prj->generate_tag_prefs == WB_PROJECT_TAG_PREFS_YES || (prj->generate_tag_prefs == WB_PROJECT_TAG_PREFS_AUTO && filenum < 300))
 	{
-		g_slist_foreach(prj->directories, (GFunc)wb_project_regenerate_tags, NULL);
+		g_slist_foreach(prj->directories, (GFunc)wb_project_dir_regenerate_tags, NULL);
 	}
 }
 
