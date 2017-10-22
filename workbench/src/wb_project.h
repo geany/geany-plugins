@@ -41,6 +41,8 @@ gboolean wb_project_file_is_included(WB_PROJECT *prj, const gchar *filename);
 void wb_project_add_single_tm_file(WB_PROJECT *prj, const gchar *filename);
 void wb_project_remove_single_tm_file(WB_PROJECT *prj, const gchar *filename);
 
+void wb_project_dir_set_is_prj_base_dir (WB_PROJECT_DIR *directory, gboolean value);
+gboolean wb_project_dir_get_is_prj_base_dir (WB_PROJECT_DIR *directory);
 const gchar *wb_project_dir_get_name (WB_PROJECT_DIR *directory);
 GHashTable *wb_project_dir_get_file_table (WB_PROJECT_DIR *directory);
 gchar *wb_project_dir_get_base_dir (WB_PROJECT_DIR *directory);

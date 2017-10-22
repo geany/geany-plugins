@@ -2,6 +2,7 @@ iconsdir = $(datadir)/icons/hicolor/scalable
 icons_appsdir = $(iconsdir)/apps
 
 dist_icons_apps_DATA =							\
+	workbench-basedir.svg						\
 	workbench-bookmark.svg						\
 	workbench-dir.svg							\
 	workbench-nodirs.svg						\
