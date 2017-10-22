@@ -10,5 +10,5 @@ libgeanypluginutils_la_CPPFLAGS = $(AM_CPPFLAGS) \
 	-DG_LOG_DOMAIN=\"Utils\"
 libgeanypluginutils_la_CFLAGS = $(AM_CFLAGS)
 libgeanypluginutils_la_LIBADD = $(COMMONLIBS)
-libgeanypluginutils_la_LDFLAGS = $(GP_LDFLAGS)
+libgeanypluginutils_la_LDFLAGS = -no-undefined $(GP_LDFLAGS)
 include $(top_srcdir)/build/cppcheck.mk

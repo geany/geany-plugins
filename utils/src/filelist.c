@@ -16,9 +16,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-/*
- * Code for the WB_PROJECT structure.
- */
 #include <glib.h>
 #include <glib/gstdio.h>
 
@@ -38,7 +35,8 @@ typedef struct
 	GSList *ignored_dirs_list;
 	GSList *ignored_file_list;
 	GHashTable *visited_paths;
-}SCAN_DIR_PARAMS;
+}
+ScanDirParams;
 
 
 /** Get precompiled patterns.
@@ -90,7 +88,7 @@ static gboolean filelist_patterns_match(GSList *patterns, const gchar *str)
 
 
 /* Scan directory searchdir. Input and output parameters come from/go to params. */
-static void filelist_scan_directory_int(const gchar *searchdir, SCAN_DIR_PARAMS *params)
+static void filelist_scan_directory_int(const gchar *searchdir, ScanDirParams *params)
 {
 	GDir *dir;
 	gchar *locale_path = utils_get_locale_from_utf8(searchdir);
@@ -133,7 +131,8 @@ static void filelist_scan_directory_int(const gchar *searchdir, SCAN_DIR_PARAMS 
 		}
 		else if (g_file_test(locale_filename, G_FILE_TEST_IS_REGULAR))
 		{
-			if (filelist_patterns_match(params->file_patterns, utf8_name) && !filelist_patterns_match(params->ignored_file_list, utf8_name))
+			if (filelist_patterns_match(params->file_patterns, utf8_name) && !
+				filelist_patterns_match(params->ignored_file_list, utf8_name))
 			{
 				params->file_count++;
 				params->filelist = g_slist_prepend(params->filelist, g_strdup(utf8_filename));
@@ -172,12 +171,10 @@ static void filelist_scan_directory_int(const gchar *searchdir, SCAN_DIR_PARAMS 
  * @return GSList of matched files
  *
  **/
-GSList *filelist_scan_directory(guint *files, guint *folders, const gchar *searchdir, gchar **file_patterns,
+GSList *gp_filelist_scan_directory(guint *files, guint *folders, const gchar *searchdir, gchar **file_patterns,
 		gchar **ignored_dirs_patterns, gchar **ignored_file_patterns)
 {
-	SCAN_DIR_PARAMS params;
-
-	memset(&params, 0, sizeof(params));
+	ScanDirParams params = { 0 };
 
 	if (!file_patterns || !file_patterns[0])
 	{
