@@ -300,12 +300,6 @@ Section Uninstall
 	Delete "$INSTDIR\bin\lua51.dll"
 	Delete "$INSTDIR\bin\ssleay32.dll"
 
-	Delete "$INSTDIR\share\icons\hicolor\16x16\apps\workbench-*.png"
-	Delete "$INSTDIR\share\icons\hicolor\24x24\apps\workbench-*.png"
-	Delete "$INSTDIR\share\icons\hicolor\32x32\apps\workbench-*.png"
-	Delete "$INSTDIR\share\icons\hicolor\48x48\apps\workbench-*.png"
-	Delete "$INSTDIR\share\icons\hicolor\scalable\apps\workbench-*.svg"
-
 	RMDir /r "$INSTDIR\lib\enchant"
 	RMDir /r "$INSTDIR\lib\engines"
 	RMDir /r "$INSTDIR\lib\gio"
