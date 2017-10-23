@@ -280,8 +280,8 @@ static void sidebar_insert_project_directories (WB_PROJECT *project, GtkTreeIter
 	{
 		const gchar *name;
 
-		icon_dir = g_icon_new_for_string("workbench-dir", NULL);
-		icon_base = g_icon_new_for_string("workbench-basedir", NULL);
+		icon_dir = g_icon_new_for_string("system-search", NULL);
+		icon_base = g_icon_new_for_string("user-home", NULL);
 
 		foreach_slist (elem, dirs)
 		{
@@ -317,7 +317,7 @@ static void sidebar_insert_project_directories (WB_PROJECT *project, GtkTreeIter
 	}
 	else
 	{
-		icon = g_icon_new_for_string("workbench-nodirs", NULL);
+		icon = g_icon_new_for_string("dialog-information", NULL);
 
 		gtk_tree_store_insert_with_values(sidebar.file_store, &iter, parent, *position,
 			FILEVIEW_COLUMN_ICON, icon,
@@ -408,7 +408,7 @@ static void sidebar_insert_project_bookmarks(WB_PROJECT *project, GtkTreeIter *p
 	if (max == 0)
 		return;
 
-	icon = g_icon_new_for_string("workbench-bookmark", NULL);
+	icon = g_icon_new_for_string("user-bookmarks", NULL);
 	for (index = 0 ; index < max ; index++)
 	{
 		gchar *file, *name;
@@ -473,8 +473,8 @@ static void sidebar_insert_all_projects(GtkTreeIter *iter, gint *position)
 	if (wb_globals.opened_wb == NULL)
 		return;
 
-	icon_good = g_icon_new_for_string("workbench-project", NULL);
-	icon_bad = g_icon_new_for_string("workbench-project-error", NULL);
+	icon_good = g_icon_new_for_string("package-x-generic", NULL);
+	icon_bad = g_icon_new_for_string("dialog-error", NULL);
 
 	max = workbench_get_project_count(wb_globals.opened_wb);
 	for (index = 0 ; index < max ; index++)
@@ -546,7 +546,7 @@ static void sidebar_insert_workbench_bookmarks(WORKBENCH *workbench, GtkTreeIter
 		return;
 	}
 
-	icon = g_icon_new_for_string("workbench-bookmark", NULL);
+	icon = g_icon_new_for_string("user-bookmarks", NULL);
 	for (index = 0 ; index < max ; index++)
 	{
 		gchar *file, *name;
