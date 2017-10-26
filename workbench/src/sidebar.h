@@ -72,4 +72,8 @@ void sidebar_toggle_selected_project_dir_expansion (void);
 WB_PROJECT *sidebar_file_view_get_selected_project(GtkTreePath **path);
 gboolean sidebar_file_view_get_selected_context(SIDEBAR_CONTEXT *context);
 
+GPtrArray *sidebar_get_selected_project_filelist (void);
+GPtrArray *sidebar_get_selected_directory_filelist (void);
+GPtrArray *sidebar_get_selected_folder_filelist (void);
+
 #endif

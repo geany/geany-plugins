@@ -831,6 +831,36 @@ WB_PROJECT *sidebar_file_view_get_selected_project(GtkTreePath **path)
 }
 
 
+/* Search upwards from the selected row and get the iter of the
+   closest parent with DATA_ID id. */
+static gboolean sidebar_file_view_get_selected_parent_iter(GtkTreeIter *iter, guint id)
+{
+	gboolean has_parent;
+	guint dataid;
+	GtkTreeSelection *treesel;
+	GtkTreeModel *model;
+	GtkTreeIter current, parent;
+
+	treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(sidebar.file_view));
+	if (gtk_tree_selection_get_selected(treesel, &model, &current))
+	{
+		do
+		{
+			gtk_tree_model_get(model, &current, FILEVIEW_COLUMN_DATA_ID, &dataid, -1);
+			if (dataid == id)
+			{
+				*iter = current;
+				return TRUE;
+			}
+			has_parent = gtk_tree_model_iter_parent(model,
+							&parent, &current);
+			current = parent;
+		}while (has_parent);
+	}
+	return FALSE;
+}
+
+
 /** Get the selected project directory and the path to it.
  *
  * Get the selected project directory and return a pointer to it. Also if @a path is not NULL then
@@ -948,6 +978,93 @@ gboolean sidebar_file_view_get_selected_context(SIDEBAR_CONTEXT *context)
 	return FALSE;
 }
 
+/* Collect all filenames recursively starting from iter and add them to list */
+static void sidebar_get_filelist_for_iter(GPtrArray *list, GtkTreeIter iter)
+{
+	GtkTreeModel *model;
+	GtkTreeIter childs;
+	gboolean has_next;
+	guint dataid;
+	char *filename;
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(sidebar.file_view));
+	do
+	{
+		gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_DATA_ID, &dataid, -1);
+		switch (dataid)
+		{
+			case DATA_ID_FILE:
+				gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_ASSIGNED_DATA_POINTER, &filename, -1);
+				g_ptr_array_add(list, g_strdup(filename));
+			break;
+			case DATA_ID_DIRECTORY:
+			case DATA_ID_FOLDER:
+				if (gtk_tree_model_iter_children(model, &childs, &iter) == TRUE)
+				{
+					sidebar_get_filelist_for_iter(list, childs);
+				}
+			break;
+		}
+		has_next = gtk_tree_model_iter_next(model, &iter);
+	}
+	while (has_next);
+}
+
+
+/* Get the lkist of files belonging to the current selection for
+   id (id = project, directory, folder) */
+static GPtrArray *sidebar_get_selected_filelist (guint id)
+{
+	GtkTreeModel *model;
+	GPtrArray *list;
+	GtkTreeIter iter, childs;
+
+	if (sidebar_file_view_get_selected_parent_iter(&iter, id))
+	{
+		list = g_ptr_array_new_full(1, g_free);
+		model = gtk_tree_view_get_model(GTK_TREE_VIEW(sidebar.file_view));
+		if (gtk_tree_model_iter_children(model, &childs, &iter) == TRUE)
+		{
+			sidebar_get_filelist_for_iter(list, childs);
+		}
+		return list;
+	}
+
+	return NULL;
+}
+
+
+/** Get the list of files corresponding to the selected project.
+ * 
+ * @return GPtrArray containing file names or NULL.
+ *
+ **/
+GPtrArray *sidebar_get_selected_project_filelist (void)
+{
+	return sidebar_get_selected_filelist(DATA_ID_PROJECT);
+}
+
+
+/** Get the list of files corresponding to the selected directory.
+ * 
+ * @return GPtrArray containing file names or NULL.
+ *
+ **/
+GPtrArray *sidebar_get_selected_directory_filelist (void)
+{
+	return sidebar_get_selected_filelist(DATA_ID_DIRECTORY);
+}
+
+
+/** Get the list of files corresponding to the selected folder.
+ * 
+ * @return GPtrArray containing file names or NULL.
+ *
+ **/
+GPtrArray *sidebar_get_selected_folder_filelist (void)
+{
+	return sidebar_get_selected_filelist(DATA_ID_FOLDER);
+}
 
 /** Setup the sidebar.
  *
