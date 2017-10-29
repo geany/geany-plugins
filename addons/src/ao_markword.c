@@ -176,21 +176,21 @@ void ao_mark_editor_notify(AoMarkWord *mw, GeanyEditor *editor, SCNotification *
 	// If something is about to be deleted and there is selected text clear the markers
 	if(nt->nmhdr.code == SCN_MODIFIED &&
 		((nt->modificationType & SC_MOD_BEFOREDELETE) == SC_MOD_BEFOREDELETE) &&
-		sci_has_selection(editor->sci)) 
+		sci_has_selection(editor->sci))
 	{
 		AoMarkWordPrivate *priv = AO_MARKWORD_GET_PRIVATE(mw);
-		
+
 		if(priv->enable_markword && priv->enable_single_click_deselect)
 			clear_marker();
-	} 
-	
+	}
+
 	// In single click deselect mode, clear the markers when the cursor moves
-	else if(nt->nmhdr.code == SCN_UPDATEUI && 
+	else if(nt->nmhdr.code == SCN_UPDATEUI &&
 		nt->updated == SC_UPDATE_SELECTION &&
-		!sci_has_selection(editor->sci)) 
+		!sci_has_selection(editor->sci))
 	{
 		AoMarkWordPrivate *priv = AO_MARKWORD_GET_PRIVATE(mw);
-		
+
 		if(priv->enable_markword && priv->enable_single_click_deselect)
 			clear_marker();
 	}
