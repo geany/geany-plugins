@@ -82,7 +82,7 @@ static void ao_mark_word_set_property(GObject *object, guint prop_id,
 			/* if the plugin is loaded while Geany is already running, we need to connect the
 			 * button press signal for open documents, if Geany is just booting,
 			 * it happens automatically */
-			if (main_is_realized())
+			if (priv->enable_markword && main_is_realized())
 			{
 				connect_documents_button_press_signal_handler(AO_MARKWORD(object));
 			}
