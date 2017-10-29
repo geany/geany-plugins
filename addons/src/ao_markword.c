@@ -65,6 +65,7 @@ enum
 
 
 static void ao_mark_word_finalize  			(GObject *object);
+static void connect_documents_button_press_signal_handler(AoMarkWord *mw);
 
 G_DEFINE_TYPE(AoMarkWord, ao_mark_word, G_TYPE_OBJECT)
 
@@ -78,6 +79,13 @@ static void ao_mark_word_set_property(GObject *object, guint prop_id,
 	{
 		case PROP_ENABLE_MARKWORD:
 			priv->enable_markword = g_value_get_boolean(value);
+			/* if the plugin is loaded while Geany is already running, we need to connect the
+			 * button press signal for open documents, if Geany is just booting,
+			 * it happens automatically */
+			if (main_is_realized())
+			{
+				connect_documents_button_press_signal_handler(AO_MARKWORD(object));
+			}
 			break;
 		case PROP_ENABLE_MARKWORD_SINGLE_CLICK_DESELECT:
 			priv->enable_single_click_deselect = g_value_get_boolean(value);
@@ -197,14 +205,7 @@ void ao_mark_editor_notify(AoMarkWord *mw, GeanyEditor *editor, SCNotification *
 }
 
 
-void ao_mark_document_new(AoMarkWord *mw, GeanyDocument *document)
-{
-	/* there is nothing different to handling open documents, so do the same */
-	ao_mark_document_open(mw, document);
-}
-
-
-void ao_mark_document_open(AoMarkWord *mw, GeanyDocument *document)
+static void connect_document_button_press_signal_handler(AoMarkWord *mw, GeanyDocument *document)
 {
 	g_return_if_fail(DOC_VALID(document));
 
@@ -215,6 +216,29 @@ void ao_mark_document_open(AoMarkWord *mw, GeanyDocument *document)
 		FALSE,
 		G_CALLBACK(on_editor_button_press_event),
 		mw);
+}
+
+
+static void connect_documents_button_press_signal_handler(AoMarkWord *mw)
+{
+	guint i = 0;
+	/* connect the button-press event for all open documents */
+	foreach_document(i)
+	{
+		connect_document_button_press_signal_handler(mw, documents[i]);
+	}
+}
+
+
+void ao_mark_document_new(AoMarkWord *mw, GeanyDocument *document)
+{
+	connect_document_button_press_signal_handler(mw, document);
+}
+
+
+void ao_mark_document_open(AoMarkWord *mw, GeanyDocument *document)
+{
+	connect_document_button_press_signal_handler(mw, document);
 }
 
 
