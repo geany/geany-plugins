@@ -126,10 +126,8 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	GETTEXT_PACKAGE,
 	_("TreeBrowser"),
 	_("This plugin adds a tree browser to Geany, allowing the user to "
-	  "browse files using a tree view of the directory being browsed."
-	  "\nThis plugin currently has no maintainer. Would you like to help "
-	  "by contributing to this plugin?"),
-	"0.20" ,
+	  "browse files using a tree view of the directory being browsed."),
+	"1.32" ,
 	"Adrian Dimitrov (dimitrov.adrian@gmail.com)")
 
 
