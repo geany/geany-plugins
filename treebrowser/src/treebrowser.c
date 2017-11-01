@@ -1240,11 +1240,11 @@ create_popup_menu(const gchar *name, const gchar *uri)
 	item = gtk_separator_menu_item_new();
 	gtk_container_add(GTK_CONTAINER(menu), item);
 
-	item = ui_image_menu_item_new(GTK_STOCK_ADD, _("Creat_e New Directory"));
+	item = ui_image_menu_item_new(GTK_STOCK_ADD, _("N_ew Folder"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_create_new_object), (gpointer)"directory");
 
-	item = ui_image_menu_item_new(GTK_STOCK_NEW, _("Create _New File"));
+	item = ui_image_menu_item_new(GTK_STOCK_NEW, _("_New File"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_create_new_object), (gpointer)"file");
 
@@ -2140,9 +2140,9 @@ plugin_init(GeanyData *data)
 	keybindings_set_item(key_group, KB_RENAME_OBJECT, kb_activate,
 		0, 0, "rename_object", _("Rename Object"), NULL);
 	keybindings_set_item(key_group, KB_CREATE_FILE, kb_activate,
-		0, 0, "create_file", _("Create New File"), NULL);
+		0, 0, "create_file", _("New File"), NULL);
 	keybindings_set_item(key_group, KB_CREATE_DIR, kb_activate,
-		0, 0, "create_dir", _("Create New Directory"), NULL);
+		0, 0, "create_dir", _("New Folder"), NULL);
 	keybindings_set_item(key_group, KB_REFRESH, kb_activate,
 		0, 0, "rename_refresh", _("Refresh"), NULL);
 	keybindings_set_item(key_group, KB_TRACK_CURRENT, kb_activate,
