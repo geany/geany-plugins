@@ -26,5 +26,7 @@ gboolean patterns_match(GSList *patterns, const gchar *str);
 GSList *get_precompiled_patterns(gchar **patterns);
 gchar *get_combined_path(const gchar *base, const gchar *relative);
 gchar *get_any_relative_path (const gchar *base, const gchar *target);
+void open_all_files_in_list(GPtrArray *list);
+void close_all_files_in_list(GPtrArray *list);
 
 #endif

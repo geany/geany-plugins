@@ -26,6 +26,7 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 #include <geanyplugin.h>
+#include "wb_globals.h"
 #include "utils.h"
 
 /** Get the relative path.
@@ -250,4 +251,46 @@ gchar *get_any_relative_path (const gchar *base, const gchar *target)
 	g_ptr_array_free(relative, TRUE);
 
 	return result;
+}
+
+
+/** Open all files in list.
+ *
+ * @param list GPtrArray containing file names.
+ *
+ **/
+void open_all_files_in_list(GPtrArray *list)
+{
+	GeanyData* geany_data = wb_globals.geany_plugin->geany_data;
+	gboolean is_open;
+	guint index, doc;
+
+	for (index = 0 ; index < list->len ; index++)
+	{
+		document_open_file(list->pdata[index], FALSE, NULL, NULL);
+	}
+}
+
+
+/** Close all files in list.
+ *
+ * @param list GPtrArray containing file names.
+ *
+ **/
+void close_all_files_in_list(GPtrArray *list)
+{
+	GeanyData* geany_data = wb_globals.geany_plugin->geany_data;
+	guint index, doc;
+
+	for (index = 0 ; index < list->len ; index++)
+	{
+		foreach_document(doc)
+		{
+			if (g_strcmp0(list->pdata[index], documents[doc]->file_name) == 0)
+			{
+				document_close(documents[doc]);
+				break;
+			}
+		}
+	}
 }
