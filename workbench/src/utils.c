@@ -261,9 +261,7 @@ gchar *get_any_relative_path (const gchar *base, const gchar *target)
  **/
 void open_all_files_in_list(GPtrArray *list)
 {
-	GeanyData* geany_data = wb_globals.geany_plugin->geany_data;
-	gboolean is_open;
-	guint index, doc;
+	guint index;
 
 	for (index = 0 ; index < list->len ; index++)
 	{
@@ -280,7 +278,7 @@ void open_all_files_in_list(GPtrArray *list)
 void close_all_files_in_list(GPtrArray *list)
 {
 	GeanyData* geany_data = wb_globals.geany_plugin->geany_data;
-	guint index, doc;
+	guint index, doc=0;
 
 	for (index = 0 ; index < list->len ; index++)
 	{
