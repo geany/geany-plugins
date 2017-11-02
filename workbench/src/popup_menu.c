@@ -31,6 +31,7 @@
 #include "dialogs.h"
 #include "sidebar.h"
 #include "popup_menu.h"
+#include "utils.h"
 
 static struct
 {
@@ -40,11 +41,17 @@ static struct
 	GtkWidget *save_project;
 	GtkWidget *remove_project;
 	GtkWidget *fold_unfold_project;
+	GtkWidget *project_open_all;
+	GtkWidget *project_close_all;
 	GtkWidget *add_directory;
 	GtkWidget *remove_directory;
 	GtkWidget *rescan_directory;
 	GtkWidget *directory_settings;
 	GtkWidget *fold_unfold_directory;
+	GtkWidget *directory_open_all;
+	GtkWidget *directory_close_all;
+	GtkWidget *folder_open_all;
+	GtkWidget *folder_close_all;
 	GtkWidget *expand_all;
 	GtkWidget *collapse_all;
 	GtkWidget *add_wb_bookmark;
@@ -70,80 +77,134 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.fold_unfold_project, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.project_open_all, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.project_close_all, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.add_directory, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_directory, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.rescan_directory, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.directory_settings, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.fold_unfold_directory, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.directory_open_all, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.directory_close_all, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.add_wb_bookmark, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.add_prj_bookmark, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_bookmark, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.folder_open_all, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.folder_close_all, FALSE);
 		break;
 		case POPUP_CONTEXT_DIRECTORY:
-		case POPUP_CONTEXT_FOLDER:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.fold_unfold_project, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.project_open_all, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.project_close_all, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.add_directory, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_directory, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.rescan_directory, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.directory_settings, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.fold_unfold_directory, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.directory_open_all, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.directory_close_all, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.add_wb_bookmark, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.add_prj_bookmark, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_bookmark, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.folder_open_all, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.folder_close_all, FALSE);
+		break;
+		case POPUP_CONTEXT_FOLDER:
+			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.remove_project, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.fold_unfold_project, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.project_open_all, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.project_close_all, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.add_directory, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.remove_directory, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.rescan_directory, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.directory_settings, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.fold_unfold_directory, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.directory_open_all, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.directory_close_all, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.add_wb_bookmark, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.add_prj_bookmark, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.remove_bookmark, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.folder_open_all, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.folder_close_all, TRUE);
 		break;
 		case POPUP_CONTEXT_FILE:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.fold_unfold_project, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.project_open_all, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.project_close_all, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.add_directory, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_directory, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.rescan_directory, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.directory_settings, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.fold_unfold_directory, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.directory_open_all, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.directory_close_all, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.add_wb_bookmark, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.add_prj_bookmark, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_bookmark, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.folder_open_all, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.folder_close_all, TRUE);
 		break;
 		case POPUP_CONTEXT_BACKGROUND:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_project, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.fold_unfold_project, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.project_open_all, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.project_close_all, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.add_directory, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_directory, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.rescan_directory, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.directory_settings, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.fold_unfold_directory, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.directory_open_all, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.directory_close_all, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.add_wb_bookmark, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.add_prj_bookmark, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_bookmark, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.folder_open_all, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.folder_close_all, FALSE);
 		break;
 		case POPUP_CONTEXT_WB_BOOKMARK:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_project, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.fold_unfold_project, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.project_open_all, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.project_close_all, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.add_directory, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_directory, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.rescan_directory, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.directory_settings, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.fold_unfold_directory, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.directory_open_all, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.directory_close_all, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.add_wb_bookmark, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.add_prj_bookmark, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_bookmark, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.folder_open_all, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.folder_close_all, FALSE);
 		break;
 		case POPUP_CONTEXT_PRJ_BOOKMARK:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.fold_unfold_project, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.project_open_all, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.project_close_all, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.add_directory, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_directory, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.rescan_directory, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.directory_settings, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.fold_unfold_directory, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.directory_open_all, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.directory_close_all, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.add_wb_bookmark, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.add_prj_bookmark, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_bookmark, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.folder_open_all, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.folder_close_all, FALSE);
 		break;
 	}
 	gtk_menu_popup(GTK_MENU(s_popup_menu.widget), NULL, NULL, NULL, NULL,
@@ -236,6 +297,34 @@ static void popup_menu_on_fold_unfold_project(G_GNUC_UNUSED GtkMenuItem *menuite
 }
 
 
+/* Handle popup menu item "Open all files" (project) */
+static void popup_menu_on_project_open_all (G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
+{
+	GPtrArray *list;
+
+	list = sidebar_get_selected_project_filelist();
+	if (list != NULL)
+	{
+		open_all_files_in_list(list);
+		g_ptr_array_free(list, TRUE);
+	}
+}
+
+
+/* Handle popup menu item "Close all files" (project) */
+static void popup_menu_on_project_close_all (G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
+{
+	GPtrArray *list;
+
+	list = sidebar_get_selected_project_filelist();
+	if (list != NULL)
+	{
+		close_all_files_in_list(list);
+		g_ptr_array_free(list, TRUE);
+	}
+}
+
+
 /* Handle popup menu item "Add directory" */
 static void popup_menu_on_add_directory(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
 {
@@ -313,6 +402,34 @@ static void popup_menu_on_fold_unfold_directory(G_GNUC_UNUSED GtkMenuItem *menui
 }
 
 
+/* Handle popup menu item "Open all files" (directory) */
+static void popup_menu_on_directory_open_all (G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
+{
+	GPtrArray *list;
+
+	list = sidebar_get_selected_directory_filelist();
+	if (list != NULL)
+	{
+		open_all_files_in_list(list);
+		g_ptr_array_free(list, TRUE);
+	}
+}
+
+
+/* Handle popup menu item "Close all files" (directory) */
+static void popup_menu_on_directory_close_all (G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
+{
+	GPtrArray *list;
+
+	list = sidebar_get_selected_directory_filelist();
+	if (list != NULL)
+	{
+		close_all_files_in_list(list);
+		g_ptr_array_free(list, TRUE);
+	}
+}
+
+
 /* Handle popup menu item "Add to workbench bookmarks" */
 static void popup_menu_on_add_to_workbench_bookmarks(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
@@ -361,6 +478,34 @@ static void popup_menu_on_remove_from_bookmarks(G_GNUC_UNUSED GtkMenuItem *menui
 }
 
 
+/* Handle popup menu item "Open all files" (folder) */
+static void popup_menu_on_folder_open_all (G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
+{
+	GPtrArray *list;
+
+	list = sidebar_get_selected_folder_filelist();
+	if (list != NULL)
+	{
+		open_all_files_in_list(list);
+		g_ptr_array_free(list, TRUE);
+	}
+}
+
+
+/* Handle popup menu item "Close all files" (folder) */
+static void popup_menu_on_folder_close_all (G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
+{
+	GPtrArray *list;
+
+	list = sidebar_get_selected_folder_filelist();
+	if (list != NULL)
+	{
+		close_all_files_in_list(list);
+		g_ptr_array_free(list, TRUE);
+	}
+}
+
+
 /** Setup/Initialize the popup menu.
  *
  **/
@@ -393,6 +538,18 @@ void popup_menu_init(void)
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_fold_unfold_project), NULL);
 	s_popup_menu.fold_unfold_project = item;
+
+	item = gtk_menu_item_new_with_mnemonic(_("_Open all files in project"));
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
+	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_project_open_all), NULL);
+	s_popup_menu.project_open_all = item;
+
+	item = gtk_menu_item_new_with_mnemonic(_("_Close all files in project"));
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
+	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_project_close_all), NULL);
+	s_popup_menu.project_close_all = item;
 
 	item = gtk_separator_menu_item_new();
 	gtk_widget_show(item);
@@ -427,6 +584,34 @@ void popup_menu_init(void)
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_fold_unfold_directory), NULL);
 	s_popup_menu.fold_unfold_directory = item;
+
+	item = gtk_menu_item_new_with_mnemonic(_("_Open all files in directory"));
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
+	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_directory_open_all), NULL);
+	s_popup_menu.directory_open_all = item;
+
+	item = gtk_menu_item_new_with_mnemonic(_("_Close all files in directory"));
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
+	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_directory_close_all), NULL);
+	s_popup_menu.directory_close_all = item;
+
+	item = gtk_separator_menu_item_new();
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
+
+	item = gtk_menu_item_new_with_mnemonic(_("_Open all files in folder"));
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
+	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_folder_open_all), NULL);
+	s_popup_menu.folder_open_all = item;
+
+	item = gtk_menu_item_new_with_mnemonic(_("_Close all files in folder"));
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
+	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_folder_close_all), NULL);
+	s_popup_menu.folder_close_all = item;
 
 	item = gtk_separator_menu_item_new();
 	gtk_widget_show(item);
