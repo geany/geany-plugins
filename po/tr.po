@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-24 16:57+0200\n"
+"POT-Creation-Date: 2017-11-05 14:45+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Gürkan Gür <seqizz@gmail.com>\n"
 "Language-Team: Gürkan Gür <seqizz@gmail.com>\n"
@@ -38,7 +38,7 @@ msgstr "No."
 msgid "Contents"
 msgstr "İçerik"
 
-#: ../addons/src/ao_bookmarklist.c:383 ../treebrowser/src/treebrowser.c:627
+#: ../addons/src/ao_bookmarklist.c:383 ../treebrowser/src/treebrowser.c:625
 #: ../webhelper/src/gwh-plugin.c:328
 msgid "Bookmarks"
 msgstr "Yer İmleri"
@@ -152,7 +152,7 @@ msgstr "Döküman Listesini Göster"
 msgid "File path \"%s\" copied to clipboard."
 msgstr "Tam yolu panoya _kopyala"
 
-#: ../addons/src/ao_copyfilepath.c:119 ../addons/src/addons.c:332
+#: ../addons/src/ao_copyfilepath.c:119 ../addons/src/addons.c:334
 msgid "Copy File Path"
 msgstr "Dosya yolunu kopyala"
 
@@ -169,119 +169,119 @@ msgstr "Eklentiler"
 msgid "Various small addons for Geany."
 msgstr "Geany için birkaç ufak eklenti."
 
-#: ../addons/src/addons.c:323
+#: ../addons/src/addons.c:325
 msgid "Focus Bookmark List"
 msgstr "Yer İmleri Listesini Odakla"
 
-#: ../addons/src/addons.c:325
+#: ../addons/src/addons.c:327
 msgid "Focus Tasks List"
 msgstr "Görev Listesini Odakla"
 
-#: ../addons/src/addons.c:327
+#: ../addons/src/addons.c:329
 msgid "Update Tasks List"
 msgstr "Görev lListesini Güncelle"
 
-#: ../addons/src/addons.c:329
+#: ../addons/src/addons.c:331
 msgid "Run XML tagging"
 msgstr ""
 
-#: ../addons/src/addons.c:463 ../autoclose/src/autoclose.c:884
+#: ../addons/src/addons.c:465 ../autoclose/src/autoclose.c:884
 #: ../codenav/src/codenavigation.c:292 ../geanylatex/src/geanylatex.c:240
 #: ../geanyprj/src/geanyprj.c:176 ../geanyvc/src/geanyvc.c:1851
 #: ../geniuspaste/src/geniuspaste.c:336 ../sendmail/src/sendmail.c:128
 #: ../sendmail/src/sendmail.c:293 ../spellcheck/src/scplugin.c:157
-#: ../treebrowser/src/treebrowser.c:1944
+#: ../treebrowser/src/treebrowser.c:1942
 #: ../updatechecker/src/updatechecker.c:266
 msgid "Plugin configuration directory could not be created."
 msgstr "Eklenti düzenleme dizini oluşturulamadı."
 
-#: ../addons/src/addons.c:492
+#: ../addons/src/addons.c:494
 msgid "Show toolbar item to show a list of currently open documents"
 msgstr ""
 
-#: ../addons/src/addons.c:496
+#: ../addons/src/addons.c:498
 msgid "Sort documents by _name"
 msgstr "Döküma_nları isme göre sırala"
 
-#: ../addons/src/addons.c:498
+#: ../addons/src/addons.c:500
 msgid "Sort the documents in the list by their filename"
 msgstr ""
 
-#: ../addons/src/addons.c:501
+#: ../addons/src/addons.c:503
 msgid "Sort documents by _occurrence"
 msgstr ""
 
-#: ../addons/src/addons.c:503
+#: ../addons/src/addons.c:505
 msgid "Sort the documents in the order of the document tabs"
 msgstr "Dökümanları döküman sekmelerinin düzeninde sırala"
 
-#: ../addons/src/addons.c:506
+#: ../addons/src/addons.c:508
 msgid "Sort documents by _occurrence (reversed)"
 msgstr ""
 
-#: ../addons/src/addons.c:508
+#: ../addons/src/addons.c:510
 msgid "Sort the documents in the order of the document tabs (reversed)"
 msgstr ""
 
-#: ../addons/src/addons.c:535
+#: ../addons/src/addons.c:537
 msgid "Show an 'Open URI' item in the editor menu"
 msgstr ""
 
-#: ../addons/src/addons.c:541
+#: ../addons/src/addons.c:543
 msgid "Show available Tasks in the Messages Window"
 msgstr "Mesajlar penceresinde erişilebilir görevleri göster"
 
-#: ../addons/src/addons.c:547
+#: ../addons/src/addons.c:549
 msgid "Show tasks of all documents"
 msgstr "Tüm dökümanlardan görevleri göster"
 
-#: ../addons/src/addons.c:551
+#: ../addons/src/addons.c:553
 msgid ""
 "Whether to show the tasks of all open documents in the list or only those of "
 "the current document."
 msgstr ""
 
-#: ../addons/src/addons.c:558
+#: ../addons/src/addons.c:560
 msgid "Specify a semicolon separated list of search tokens."
 msgstr ""
 
-#: ../addons/src/addons.c:560
+#: ../addons/src/addons.c:562
 msgid "Search tokens:"
 msgstr ""
 
-#: ../addons/src/addons.c:577
+#: ../addons/src/addons.c:579
 msgid "Show status icon in the Notification Area"
 msgstr "Bildiri alanında durum simgesi göster"
 
-#: ../addons/src/addons.c:583
+#: ../addons/src/addons.c:585
 msgid "Show defined bookmarks (marked lines) in the sidebar"
 msgstr ""
 
-#: ../addons/src/addons.c:589
+#: ../addons/src/addons.c:591
 msgid "Mark all occurrences of a word when double-clicking it"
 msgstr ""
 
-#: ../addons/src/addons.c:595
+#: ../addons/src/addons.c:597
 msgid "Deselect a previous highlight by single click"
 msgstr ""
 
-#: ../addons/src/addons.c:605
+#: ../addons/src/addons.c:607
 msgid "Strip trailing blank lines"
 msgstr ""
 
-#: ../addons/src/addons.c:611
+#: ../addons/src/addons.c:613
 msgid "XML tagging for selection"
 msgstr ""
 
-#: ../addons/src/addons.c:617
+#: ../addons/src/addons.c:619
 msgid "Enclose selection on configurable keybindings"
 msgstr ""
 
-#: ../addons/src/addons.c:621
+#: ../addons/src/addons.c:623
 msgid "Configure enclose pairs"
 msgstr ""
 
-#: ../addons/src/addons.c:629
+#: ../addons/src/addons.c:631
 msgid "Enclose selection automatically (without having to press a keybinding)"
 msgstr ""
 
@@ -611,7 +611,7 @@ msgid "Various debuggers integration."
 msgstr ""
 
 #: ../debugger/src/plugin.c:132 ../debugger/src/keys.c:75
-#: ../scope/data/scope.glade.h:124 ../scope/src/scope.c:227
+#: ../scope/data/scope.glade.h:124 ../scope/src/scope.c:228
 msgid "Debug"
 msgstr "Hata Ayıkla"
 
@@ -744,7 +744,7 @@ msgstr "İşlev"
 msgid "Target"
 msgstr "Hedef"
 
-#: ../debugger/src/tabs.c:134 ../scope/src/scope.c:522
+#: ../debugger/src/tabs.c:134 ../scope/src/scope.c:523
 msgid "Breakpoints"
 msgstr "Aralıklar"
 
@@ -781,22 +781,22 @@ msgid "Restart"
 msgstr "Yeniden Başlat"
 
 #: ../debugger/src/keys.c:51 ../debugger/src/btnpanel.c:112
-#: ../scope/src/scope.c:67
+#: ../scope/src/scope.c:67 ../scope/src/scope.c:164
 msgid "Step into"
 msgstr ""
 
 #: ../debugger/src/keys.c:52 ../debugger/src/btnpanel.c:109
-#: ../scope/src/scope.c:68
+#: ../scope/src/scope.c:68 ../scope/src/scope.c:165
 msgid "Step over"
 msgstr ""
 
 #: ../debugger/src/keys.c:53 ../debugger/src/btnpanel.c:121
-#: ../scope/src/scope.c:69
+#: ../scope/src/scope.c:69 ../scope/src/scope.c:166
 msgid "Step out"
 msgstr ""
 
 #: ../debugger/src/keys.c:54 ../debugger/src/btnpanel.c:124
-#: ../scope/src/scope.c:65
+#: ../scope/src/scope.c:65 ../scope/src/scope.c:162
 msgid "Run to cursor"
 msgstr ""
 
@@ -3396,7 +3396,7 @@ msgstr "Seçimi iptal et"
 msgid "Toggle Insert/Overwrite mode"
 msgstr ""
 
-#: ../geanymacro/src/geanymacro.c:137 ../pretty-printer/src/ConfigUI.c:239
+#: ../geanymacro/src/geanymacro.c:137 ../pretty-printer/src/ConfigUI.c:429
 msgid "Tab"
 msgstr "Sekme"
 
@@ -3667,7 +3667,10 @@ msgstr "_Tamam"
 
 #: ../geanymacro/src/geanymacro.c:1394 ../geanymacro/src/geanymacro.c:1537
 #: ../geanymacro/src/geanymacro.c:1827
-#: ../projectorganizer/src/prjorg-sidebar.c:306
+#: ../projectorganizer/src/prjorg-sidebar.c:306 ../workbench/src/dialogs.c:45
+#: ../workbench/src/dialogs.c:76 ../workbench/src/dialogs.c:115
+#: ../workbench/src/dialogs.c:152 ../workbench/src/dialogs.c:221
+#: ../workbench/src/dialogs.c:350
 msgid "_Cancel"
 msgstr "İp_tal"
 
@@ -3754,7 +3757,7 @@ msgid "New _Below"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:1824 ../geanymacro/src/geanymacro.c:2120
-#: ../treebrowser/src/treebrowser.c:1258
+#: ../treebrowser/src/treebrowser.c:1256
 msgid "_Delete"
 msgstr "S_il"
 
@@ -4298,7 +4301,7 @@ msgstr "Proje Seçenekleri"
 msgid "New Project"
 msgstr "Yeni Proje"
 
-#: ../geanyprj/src/menu.c:110
+#: ../geanyprj/src/menu.c:110 ../workbench/src/dialogs.c:46
 msgid "C_reate"
 msgstr "Oluştu_r"
 
@@ -4378,11 +4381,11 @@ msgstr "Projede Ara"
 msgid "Remove File"
 msgstr "Dosyayı Kaldır"
 
-#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1498
+#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1475
 msgid "H_ide Sidebar"
 msgstr "Yan Panel_i Gizle"
 
-#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1520
+#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1497
 msgid "Project"
 msgstr "Proje"
 
@@ -4921,32 +4924,40 @@ msgstr ""
 msgid "Highlights uncommitted changes in files tracked with Git"
 msgstr ""
 
-#: ../git-changebar/src/gcb-plugin.c:1168 ../pohelper/src/gph-plugin.c:1595
+#: ../git-changebar/src/gcb-plugin.c:1386 ../pohelper/src/gph-plugin.c:1595
 #, fuzzy, c-format
 msgid "Failed to load configuration file: %s"
 msgstr "Seçenekler yüklenemedi: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1193 ../pohelper/src/gph-plugin.c:1620
+#: ../git-changebar/src/gcb-plugin.c:1411 ../pohelper/src/gph-plugin.c:1620
 #, fuzzy, c-format
 msgid "Failed to create configuration directory \"%s\": %s"
 msgstr "\"%s\" dosya türü için yapılandırma dosyası bulunamadı: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1196 ../pohelper/src/gph-plugin.c:1623
+#: ../git-changebar/src/gcb-plugin.c:1414 ../pohelper/src/gph-plugin.c:1623
 #, fuzzy, c-format
 msgid "Failed to save configuration file: %s"
 msgstr "Seçenekler kaydedilemedi: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1275
+#: ../git-changebar/src/gcb-plugin.c:1491
+msgid "Undo Git hunk"
+msgstr ""
+
+#: ../git-changebar/src/gcb-plugin.c:1499
 #, fuzzy
 msgid "Go to the previous hunk"
 msgstr "Önceki sayfaya git"
 
-#: ../git-changebar/src/gcb-plugin.c:1277
+#: ../git-changebar/src/gcb-plugin.c:1501
 #, fuzzy
 msgid "Go to the next hunk"
 msgstr "Sonraki sayfaya git"
 
-#: ../git-changebar/src/gcb-plugin.c:1420 ../pohelper/src/gph-plugin.c:1390
+#: ../git-changebar/src/gcb-plugin.c:1503
+msgid "Undo hunk at the cursor position"
+msgstr ""
+
+#: ../git-changebar/src/gcb-plugin.c:1651 ../pohelper/src/gph-plugin.c:1390
 #: ../pohelper/src/gph-plugin.c:1725
 #, fuzzy, c-format
 msgid ""
@@ -5157,7 +5168,8 @@ msgstr "Dosyayı kaydet"
 msgid "HTML Files"
 msgstr ""
 
-#: ../markdown/src/plugin.c:311
+#: ../markdown/src/plugin.c:311 ../workbench/src/dialogs.c:84
+#: ../workbench/src/dialogs.c:123
 #, fuzzy
 msgid "All Files"
 msgstr "Dosya Ekle"
@@ -5249,7 +5261,7 @@ msgstr "Öntanımlı ayarlar yazılamadı: %s"
 msgid "Unable to read value for '%s' key: %s"
 msgstr "'%s' adresinde ayar dizini oluşturulamadı"
 
-#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:1969
+#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:1967
 #, fuzzy
 msgid "Terminal"
 msgstr "Sonlandır"
@@ -5594,11 +5606,11 @@ msgid ""
 "installation."
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:36
+#: ../pretty-printer/src/PluginEntry.c:41
 msgid "XML PrettyPrinter"
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:37
+#: ../pretty-printer/src/PluginEntry.c:42
 msgid ""
 "Formats an XML and makes it human-readable. \n"
 "This plugin currentlyhas no maintainer. Would you like to help by "
@@ -5606,19 +5618,19 @@ msgid ""
 msgstr ""
 
 #. put the menu into the Tools
-#: ../pretty-printer/src/PluginEntry.c:60
+#: ../pretty-printer/src/PluginEntry.c:125
 msgid "PrettyPrinter XML"
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:69
+#: ../pretty-printer/src/PluginEntry.c:134
 msgid "Run the PrettyPrinter XML"
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:140
+#: ../pretty-printer/src/PluginEntry.c:214
 msgid "Unable to parse the content as XML."
 msgstr "İçerik XML olarak ayrıştırılamadı."
 
-#: ../pretty-printer/src/PluginEntry.c:151
+#: ../pretty-printer/src/PluginEntry.c:225
 msgid ""
 "Unable to process PrettyPrinting on the specified XML because some features "
 "are not supported.\n"
@@ -5653,31 +5665,31 @@ msgstr ""
 msgid "CDATA"
 msgstr "CDATA"
 
-#: ../pretty-printer/src/ConfigUI.c:205
+#: ../pretty-printer/src/ConfigUI.c:395
 msgid "Empty nodes"
 msgstr ""
 
-#: ../pretty-printer/src/ConfigUI.c:206
+#: ../pretty-printer/src/ConfigUI.c:396
 msgid "Concatenation (<x></x> to <x/>)"
 msgstr "Bağlanma (<x></x> den <x/> e)"
 
-#: ../pretty-printer/src/ConfigUI.c:207
+#: ../pretty-printer/src/ConfigUI.c:397
 msgid "Spacing (<x/> to <x />)"
 msgstr "Boşluklama (<x/> den <x /> e)"
 
-#: ../pretty-printer/src/ConfigUI.c:208
+#: ../pretty-printer/src/ConfigUI.c:398
 msgid "Expansion (<x/> to <x></x>)"
 msgstr "Genişleme (<x/> den <x></x> e)"
 
-#: ../pretty-printer/src/ConfigUI.c:235
+#: ../pretty-printer/src/ConfigUI.c:425
 msgid "Indentation"
 msgstr "Girinti"
 
-#: ../pretty-printer/src/ConfigUI.c:240
+#: ../pretty-printer/src/ConfigUI.c:430
 msgid "Space"
 msgstr "Boşluk"
 
-#: ../pretty-printer/src/ConfigUI.c:264
+#: ../pretty-printer/src/ConfigUI.c:454
 msgid "Line break"
 msgstr "Satır sonu"
 
@@ -5733,72 +5745,72 @@ msgstr ""
 msgid "Open Selected File (Project Organizer)"
 msgstr "Seçilen Dosyayı Aç (gproject)"
 
-#: ../projectorganizer/src/prjorg-project.c:573
+#: ../projectorganizer/src/prjorg-project.c:581
 msgid "Source patterns:"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:579
+#: ../projectorganizer/src/prjorg-project.c:587
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
 "Used for header/source swapping."
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:585
+#: ../projectorganizer/src/prjorg-project.c:593
 msgid "Header patterns:"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:591
+#: ../projectorganizer/src/prjorg-project.c:599
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
 "header/source swapping."
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:597
+#: ../projectorganizer/src/prjorg-project.c:605 ../workbench/src/dialogs.c:243
 msgid "Ignored file patterns:"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:603
+#: ../projectorganizer/src/prjorg-project.c:611
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
 "not displayed in the project tree."
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:609
+#: ../projectorganizer/src/prjorg-project.c:617 ../workbench/src/dialogs.c:254
 msgid "Ignored directory patterns:"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:615
+#: ../projectorganizer/src/prjorg-project.c:623
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:621
+#: ../projectorganizer/src/prjorg-project.c:629
 #, fuzzy
 msgid "Index all project files:"
 msgstr "Proje dosyalarında ara"
 
-#: ../projectorganizer/src/prjorg-project.c:624
+#: ../projectorganizer/src/prjorg-project.c:632
 msgid "Auto (index if less than 300 files)"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:625
+#: ../projectorganizer/src/prjorg-project.c:633
 #, fuzzy
 msgid "Yes"
 msgstr "evet"
 
-#: ../projectorganizer/src/prjorg-project.c:626
+#: ../projectorganizer/src/prjorg-project.c:634
 #, fuzzy
 msgid "No"
 msgstr "No."
 
-#: ../projectorganizer/src/prjorg-project.c:630
+#: ../projectorganizer/src/prjorg-project.c:638
 msgid ""
 "Generate symbol list for all project files instead of only for the currently "
 "opened files. Might be slow for big projects."
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:636
+#: ../projectorganizer/src/prjorg-project.c:644
 msgid ""
 "Note: the patterns above affect only the sidebar and are not used in the "
 "Find in Files\n"
@@ -5846,55 +5858,55 @@ msgstr "Dosya Ara"
 msgid "Match type:"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1068
+#: ../projectorganizer/src/prjorg-sidebar.c:1045
 msgid "Set file patterns under Project->Properties"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1355
+#: ../projectorganizer/src/prjorg-sidebar.c:1332
 msgid "Reload all"
 msgstr "Hepsini yeniden yükle"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1364
+#: ../projectorganizer/src/prjorg-sidebar.c:1341
 #, fuzzy
 msgid "Add external directory"
 msgstr "Dizini eski haline getir"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1374
+#: ../projectorganizer/src/prjorg-sidebar.c:1351
 msgid "Expand all"
 msgstr "Hepsini aç"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1381
+#: ../projectorganizer/src/prjorg-sidebar.c:1358
 msgid "Collapse to project root"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1392
+#: ../projectorganizer/src/prjorg-sidebar.c:1369
 msgid "Follow active editor"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1438
+#: ../projectorganizer/src/prjorg-sidebar.c:1415
 msgid "Open a project to start using the plugin"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1447
+#: ../projectorganizer/src/prjorg-sidebar.c:1424
 msgid "Expand All"
 msgstr "Hepsini aç"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1456
+#: ../projectorganizer/src/prjorg-sidebar.c:1433
 #, fuzzy
 msgid "Find in Files..."
 msgstr "Dosyalarda Ara"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1465
+#: ../projectorganizer/src/prjorg-sidebar.c:1442
 #, fuzzy
 msgid "Find File..."
 msgstr "Dosya Ara"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1474
+#: ../projectorganizer/src/prjorg-sidebar.c:1451
 #, fuzzy
 msgid "Find Symbol..."
 msgstr "Dosya Ara"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1487
+#: ../projectorganizer/src/prjorg-sidebar.c:1464
 #, fuzzy
 msgid "Remove External Directory"
 msgstr "Dizini eski haline getir"
@@ -6251,7 +6263,7 @@ msgstr ""
 msgid "_Delete all breakpoints, watches, inspects and registers"
 msgstr ""
 
-#: ../scope/data/scope.glade.h:88 ../scope/src/scope.c:520
+#: ../scope/data/scope.glade.h:88 ../scope/src/scope.c:521
 msgid "Program"
 msgstr ""
 
@@ -6385,7 +6397,7 @@ msgstr ""
 msgid "_Expand on apply"
 msgstr "Hepsini aç"
 
-#: ../scope/data/scope.glade.h:123 ../scope/src/scope.c:520
+#: ../scope/data/scope.glade.h:123 ../scope/src/scope.c:521
 msgid "Program Terminal"
 msgstr ""
 
@@ -6485,7 +6497,7 @@ msgstr ""
 msgid "Enter char # (0..255):"
 msgstr ""
 
-#: ../scope/src/conterm.c:512 ../scope/src/scope.c:564 ../scope/src/scope.c:565
+#: ../scope/src/conterm.c:512 ../scope/src/scope.c:565 ../scope/src/scope.c:566
 #, c-format
 msgid "Scope: %s."
 msgstr "Kapsam: %s"
@@ -6628,20 +6640,20 @@ msgstr ""
 msgid "Setup program"
 msgstr "program yok"
 
-#: ../scope/src/scope.c:64
+#: ../scope/src/scope.c:64 ../scope/src/scope.c:161
 msgid "Run/continue"
 msgstr "Çalıştır/devam et"
 
-#: ../scope/src/scope.c:66
+#: ../scope/src/scope.c:66 ../scope/src/scope.c:163
 #, fuzzy
 msgid "Run to source"
 msgstr "Konuma git"
 
-#: ../scope/src/scope.c:70
+#: ../scope/src/scope.c:70 ../scope/src/scope.c:167
 msgid "Terminate"
 msgstr "Sonlandır"
 
-#: ../scope/src/scope.c:71
+#: ../scope/src/scope.c:71 ../scope/src/scope.c:168
 #, fuzzy
 msgid "Toggle breakpoint"
 msgstr "kesme noktası"
@@ -6654,39 +6666,39 @@ msgstr "GDB Komutu"
 msgid "Show terminal"
 msgstr "Terminaldi göster"
 
-#: ../scope/src/scope.c:227
+#: ../scope/src/scope.c:228
 msgid "Busy"
 msgstr "Meşgul"
 
-#: ../scope/src/scope.c:227
+#: ../scope/src/scope.c:228
 msgid "Ready"
 msgstr "Hazır"
 
-#: ../scope/src/scope.c:228
+#: ../scope/src/scope.c:229
 msgid "Hang"
 msgstr "Askıda"
 
-#: ../scope/src/scope.c:228
+#: ../scope/src/scope.c:229
 msgid "Assem"
 msgstr ""
 
-#: ../scope/src/scope.c:228
+#: ../scope/src/scope.c:229
 msgid "Load"
 msgstr "Yükle"
 
-#: ../scope/src/scope.c:419
+#: ../scope/src/scope.c:420
 msgid "Build action activated. Terminate debugging?"
 msgstr "İnşa eylemi aktifleştirildi. Hata ayıklamayı sonlandır?"
 
-#: ../scope/src/scope.c:522
+#: ../scope/src/scope.c:523
 msgid "Breaks"
 msgstr ""
 
-#: ../scope/src/scope.c:524
+#: ../scope/src/scope.c:525
 msgid "Console"
 msgstr "Konsol"
 
-#: ../scope/src/scope.c:524
+#: ../scope/src/scope.c:525
 msgid "Debug Console"
 msgstr "Hata Ayıklama Konsolu"
 
@@ -7112,37 +7124,35 @@ msgstr "AğaçGezgini"
 #, fuzzy
 msgid ""
 "This plugin adds a tree browser to Geany, allowing the user to browse files "
-"using a tree view of the directory being browsed.\n"
-"This plugin currently has no maintainer. Would you like to help by "
-"contributing to this plugin?"
+"using a tree view of the directory being browsed."
 msgstr ""
 "Bu eklenti Geany'e ağaç tarayıcı ekler. Bu sayede dosya sisteminde gezer "
 "gibi dosyaları açabilirsiniz."
 
-#: ../treebrowser/src/treebrowser.c:435
+#: ../treebrowser/src/treebrowser.c:433
 #, c-format
 msgid "%s: no such directory."
 msgstr "%s: dosya veya dizin bulunamadı."
 
-#: ../treebrowser/src/treebrowser.c:539 ../treebrowser/src/treebrowser.c:574
-#: ../treebrowser/src/treebrowser.c:672
+#: ../treebrowser/src/treebrowser.c:537 ../treebrowser/src/treebrowser.c:572
+#: ../treebrowser/src/treebrowser.c:670
 msgid "(Empty)"
 msgstr "(Boş)"
 
-#: ../treebrowser/src/treebrowser.c:975
+#: ../treebrowser/src/treebrowser.c:973
 #, c-format
 msgid "Could not execute configured external command '%s' (%s)."
 msgstr "Ayarlanmış harici komut çalıştırılamadı '%s' (%s)."
 
-#: ../treebrowser/src/treebrowser.c:1046
+#: ../treebrowser/src/treebrowser.c:1044
 msgid "NewDirectory"
 msgstr "YeniDizin"
 
-#: ../treebrowser/src/treebrowser.c:1048
+#: ../treebrowser/src/treebrowser.c:1046
 msgid "NewFile"
 msgstr "YeniDosya"
 
-#: ../treebrowser/src/treebrowser.c:1053
+#: ../treebrowser/src/treebrowser.c:1051
 #, c-format
 msgid ""
 "Target file '%s' exists\n"
@@ -7151,145 +7161,148 @@ msgstr ""
 "Hedef dosya '%s' var\n"
 ", onu gerçekten boş bir dosya ile değiştirmek mi istiyorsunuz?"
 
-#: ../treebrowser/src/treebrowser.c:1099
+#: ../treebrowser/src/treebrowser.c:1097
 #, c-format
 msgid "Do you really want to delete '%s' ?"
 msgstr "Gerçekten silmek istiyor musunuz: '%s' ?"
 
-#: ../treebrowser/src/treebrowser.c:1211
-msgid "Go _up"
-msgstr ""
-
-#: ../treebrowser/src/treebrowser.c:1215
+#: ../treebrowser/src/treebrowser.c:1209
 #, fuzzy
-msgid "Set _path from document"
+msgid "Go _Up"
+msgstr "Y_ukarı Taşı"
+
+#: ../treebrowser/src/treebrowser.c:1213
+#, fuzzy
+msgid "Set _Path From Document"
 msgstr "Yolu belgeden ayarla"
 
-#: ../treebrowser/src/treebrowser.c:1219
-msgid "_Open externally"
+#: ../treebrowser/src/treebrowser.c:1217
+#, fuzzy
+msgid "_Open Externally"
 msgstr "Harici _olarak aç"
 
-#: ../treebrowser/src/treebrowser.c:1224
+#: ../treebrowser/src/treebrowser.c:1222
 #, fuzzy
 msgid "Open _Terminal"
 msgstr "Terminali Aç"
 
-#: ../treebrowser/src/treebrowser.c:1228
+#: ../treebrowser/src/treebrowser.c:1226
 #, fuzzy
-msgid "Set as _root"
+msgid "Set as _Root"
 msgstr "Kök olarak ata"
 
-#: ../treebrowser/src/treebrowser.c:1233
+#: ../treebrowser/src/treebrowser.c:1231
 #, fuzzy
 msgid "Refres_h"
 msgstr "Yenile"
 
-#: ../treebrowser/src/treebrowser.c:1237
+#: ../treebrowser/src/treebrowser.c:1235
 msgid "_Find in Files"
 msgstr "Dosy_alarda Ara"
 
-#: ../treebrowser/src/treebrowser.c:1245
+#: ../treebrowser/src/treebrowser.c:1243
 #, fuzzy
-msgid "Creat_e new directory"
-msgstr "Yeni dizin oluştur"
+msgid "N_ew Folder"
+msgstr "Dizin Seç"
 
-#: ../treebrowser/src/treebrowser.c:1249
+#: ../treebrowser/src/treebrowser.c:1247
 #, fuzzy
-msgid "Create _new file"
-msgstr "Yeni dosya oluştur"
+msgid "_New File"
+msgstr "YeniDosya"
 
-#: ../treebrowser/src/treebrowser.c:1253
+#: ../treebrowser/src/treebrowser.c:1251
 #, fuzzy
 msgid "Rena_me"
 msgstr "Yeniden adlandır"
 
-#: ../treebrowser/src/treebrowser.c:1266
+#: ../treebrowser/src/treebrowser.c:1264
 #, c-format
 msgid "Close: %s"
 msgstr "Kapat: %s"
 
-#: ../treebrowser/src/treebrowser.c:1271
+#: ../treebrowser/src/treebrowser.c:1269
 #, fuzzy, c-format
 msgid "Clo_se Child Documents "
 msgstr "Alt Dosyaları Kapat"
 
-#: ../treebrowser/src/treebrowser.c:1276
-msgid "_Copy full path to clipboard"
+#: ../treebrowser/src/treebrowser.c:1274
+#, fuzzy
+msgid "_Copy Full Path to Clipboard"
 msgstr "Tam yolu panoya _kopyala"
 
-#: ../treebrowser/src/treebrowser.c:1285
+#: ../treebrowser/src/treebrowser.c:1283
 #, fuzzy
-msgid "E_xpand all"
+msgid "E_xpand All"
 msgstr "Hepsini aç"
 
-#: ../treebrowser/src/treebrowser.c:1289
+#: ../treebrowser/src/treebrowser.c:1287
 #, fuzzy
-msgid "Coll_apse all"
+msgid "Coll_apse All"
 msgstr "Tümünü Kapat"
 
-#: ../treebrowser/src/treebrowser.c:1296
+#: ../treebrowser/src/treebrowser.c:1294
 #, fuzzy
-msgid "Show boo_kmarks"
+msgid "Show Boo_kmarks"
 msgstr "Yer imlerini göster"
 
-#: ../treebrowser/src/treebrowser.c:1301
+#: ../treebrowser/src/treebrowser.c:1299
 #, fuzzy
-msgid "Sho_w hidden files"
+msgid "Sho_w Hidden Files"
 msgstr "Gizli dosyaları göster"
 
-#: ../treebrowser/src/treebrowser.c:1306
+#: ../treebrowser/src/treebrowser.c:1304
 #, fuzzy
-msgid "Show tool_bars"
+msgid "Show Tool_bars"
 msgstr "Araç çubuklarını göster"
 
-#: ../treebrowser/src/treebrowser.c:1628
+#: ../treebrowser/src/treebrowser.c:1626
 #, c-format
 msgid "Target file '%s' exists, do you really want to replace it?"
 msgstr "Hedef dosya '%s' zaten var, üzerine yazmak istiyor musunuz?"
 
-#: ../treebrowser/src/treebrowser.c:1745
+#: ../treebrowser/src/treebrowser.c:1743
 msgid "Go up"
 msgstr "Yukarı git"
 
-#: ../treebrowser/src/treebrowser.c:1750 ../treebrowser/src/treebrowser.c:2149
+#: ../treebrowser/src/treebrowser.c:1748 ../treebrowser/src/treebrowser.c:2147
 msgid "Refresh"
 msgstr "Yenile"
 
-#: ../treebrowser/src/treebrowser.c:1755
+#: ../treebrowser/src/treebrowser.c:1753
 msgid "Home"
 msgstr "Ev"
 
-#: ../treebrowser/src/treebrowser.c:1760
+#: ../treebrowser/src/treebrowser.c:1758
 msgid "Set path from document"
 msgstr "Yolu belgeden ayarla"
 
-#: ../treebrowser/src/treebrowser.c:1765
+#: ../treebrowser/src/treebrowser.c:1763
 msgid "Track path"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1770
+#: ../treebrowser/src/treebrowser.c:1768
 msgid "Hide bars"
 msgstr "Çubukları gizle"
 
-#: ../treebrowser/src/treebrowser.c:1780
+#: ../treebrowser/src/treebrowser.c:1778
 msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
 "reverse try for example this '!;*.c;*.h;*.cpp'"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1788
+#: ../treebrowser/src/treebrowser.c:1786
 msgid "Addressbar for example '/projects/my-project'"
 msgstr "Adres satırı, örneğin '/projeler/benim-projem'"
 
-#: ../treebrowser/src/treebrowser.c:1813
+#: ../treebrowser/src/treebrowser.c:1811
 msgid "Tree Browser"
 msgstr "Ağaç Gezgini"
 
-#: ../treebrowser/src/treebrowser.c:1956
+#: ../treebrowser/src/treebrowser.c:1954
 msgid "External open command"
 msgstr "Harici açma komutu"
 
-#: ../treebrowser/src/treebrowser.c:1961
+#: ../treebrowser/src/treebrowser.c:1959
 #, c-format
 msgid ""
 "The command to execute when using \"Open with\". You can use %f and %d "
@@ -7299,61 +7312,61 @@ msgid ""
 "filename"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1974
+#: ../treebrowser/src/treebrowser.c:1972
 msgid "The terminal to use with the command \"Open Terminal\""
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1980
+#: ../treebrowser/src/treebrowser.c:1978
 msgid "Toolbar"
 msgstr "Araç Çubuğu"
 
-#: ../treebrowser/src/treebrowser.c:1982
+#: ../treebrowser/src/treebrowser.c:1980
 msgid "Hidden"
 msgstr "Gizli"
 
-#: ../treebrowser/src/treebrowser.c:1983
+#: ../treebrowser/src/treebrowser.c:1981
 msgid "Top"
 msgstr "Üstte"
 
-#: ../treebrowser/src/treebrowser.c:1984
+#: ../treebrowser/src/treebrowser.c:1982
 msgid "Bottom"
 msgstr "Sonda"
 
-#: ../treebrowser/src/treebrowser.c:1989
+#: ../treebrowser/src/treebrowser.c:1987
 msgid "If position is changed, the option require plugin restart."
 msgstr "Eğer pozisyon değişirse eklentinin tekrar başlatılması gerekmektedir."
 
-#: ../treebrowser/src/treebrowser.c:1993
+#: ../treebrowser/src/treebrowser.c:1991
 msgid "Show icons"
 msgstr "Simgeleri göster"
 
-#: ../treebrowser/src/treebrowser.c:1995
+#: ../treebrowser/src/treebrowser.c:1993
 msgid "None"
 msgstr "Hiçbiri"
 
-#: ../treebrowser/src/treebrowser.c:1996
+#: ../treebrowser/src/treebrowser.c:1994
 msgid "Base"
 msgstr "Temel"
 
-#: ../treebrowser/src/treebrowser.c:1997
+#: ../treebrowser/src/treebrowser.c:1995
 msgid "Content-type"
 msgstr "İçerik-türü"
 
-#: ../treebrowser/src/treebrowser.c:2003
+#: ../treebrowser/src/treebrowser.c:2001
 msgid "Show hidden files"
 msgstr "Gizli dosyaları göster"
 
-#: ../treebrowser/src/treebrowser.c:2008
+#: ../treebrowser/src/treebrowser.c:2006
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr ""
 "Windows'da bu sadece '.' (nokta) ile başlayan dosyaların görünmemesini "
 "sağlar."
 
-#: ../treebrowser/src/treebrowser.c:2010
+#: ../treebrowser/src/treebrowser.c:2008
 msgid "Hide object files"
 msgstr "Nesne dosyalarını gizle"
 
-#: ../treebrowser/src/treebrowser.c:2015
+#: ../treebrowser/src/treebrowser.c:2013
 msgid ""
 "Don't show generated object files in the file browser, this includes *.o, *."
 "obj. *.so, *.dll, *.a, *.lib"
@@ -7361,63 +7374,65 @@ msgstr ""
 "Dahili oluşturulmuş dosyaları dosya tarayıcıda göstermez, bu *.o, *.obj. *."
 "so, *.dll, *.a, *.lib dosyalarını içerir."
 
-#: ../treebrowser/src/treebrowser.c:2017
+#: ../treebrowser/src/treebrowser.c:2015
 msgid "Reverse filter"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2022
+#: ../treebrowser/src/treebrowser.c:2020
 msgid "Follow current document"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2027
+#: ../treebrowser/src/treebrowser.c:2025
 msgid "Single click, open document and focus it"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2032
+#: ../treebrowser/src/treebrowser.c:2030
 msgid "Double click open directory"
 msgstr "Dizini açmak için çift tık"
 
-#: ../treebrowser/src/treebrowser.c:2037
+#: ../treebrowser/src/treebrowser.c:2035
 msgid "On delete file, close it if is opened"
 msgstr "Silme tuşu, eğer açık ise kapat"
 
-#: ../treebrowser/src/treebrowser.c:2042
+#: ../treebrowser/src/treebrowser.c:2040
 msgid "Focus editor on file open"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2047
+#: ../treebrowser/src/treebrowser.c:2045
 msgid "Show tree lines"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2054
+#: ../treebrowser/src/treebrowser.c:2052
 msgid "Show bookmarks"
 msgstr "Yer imlerini göster"
 
-#: ../treebrowser/src/treebrowser.c:2059
+#: ../treebrowser/src/treebrowser.c:2057
 msgid "Open new files"
 msgstr "Yeni dosya aç"
 
-#: ../treebrowser/src/treebrowser.c:2139
+#: ../treebrowser/src/treebrowser.c:2137
 msgid "Focus File List"
 msgstr "Dosya Listesini Odakla"
 
-#: ../treebrowser/src/treebrowser.c:2141
+#: ../treebrowser/src/treebrowser.c:2139
 msgid "Focus Path Entry"
 msgstr "Yol Yazımını Odakla"
 
-#: ../treebrowser/src/treebrowser.c:2143
+#: ../treebrowser/src/treebrowser.c:2141
 msgid "Rename Object"
 msgstr "Nesneyi Yeniden adlandır"
 
+#: ../treebrowser/src/treebrowser.c:2143
+#, fuzzy
+msgid "New File"
+msgstr "YeniDosya"
+
 #: ../treebrowser/src/treebrowser.c:2145
-msgid "Create New File"
-msgstr "Yeni Dosya Oluştur"
+#, fuzzy
+msgid "New Folder"
+msgstr "Dizin Seç"
 
-#: ../treebrowser/src/treebrowser.c:2147
-msgid "Create New Directory"
-msgstr "Yeni Dizin Oluştur"
-
-#: ../treebrowser/src/treebrowser.c:2151
+#: ../treebrowser/src/treebrowser.c:2149
 msgid "Track Current"
 msgstr ""
 
@@ -7666,6 +7681,355 @@ msgstr "Tarayıcı"
 msgid "Windows"
 msgstr ""
 
+#: ../workbench/src/dialogs.c:43
+#, fuzzy
+msgid "Create new workbench"
+msgstr "Yeni dizin oluştur"
+
+#: ../workbench/src/dialogs.c:74
+msgid "Open workbench"
+msgstr ""
+
+#: ../workbench/src/dialogs.c:77
+#, fuzzy
+msgid "_Open"
+msgstr "Adres Aç"
+
+#: ../workbench/src/dialogs.c:80
+msgid "Workbench files (.geanywb)"
+msgstr ""
+
+#: ../workbench/src/dialogs.c:113
+#, fuzzy
+msgid "Add project"
+msgstr "Proje dosyası bul"
+
+#: ../workbench/src/dialogs.c:116 ../workbench/src/dialogs.c:153
+msgid "_Add"
+msgstr ""
+
+#: ../workbench/src/dialogs.c:119
+#, fuzzy
+msgid "Project files (.geany)"
+msgstr "Proje dosyası \"%s\" zaten mevcut"
+
+#: ../workbench/src/dialogs.c:150
+#, fuzzy
+msgid "Add directory"
+msgstr "Dizini eski haline getir"
+
+#: ../workbench/src/dialogs.c:218
+#, fuzzy
+msgid "Directory settings"
+msgstr "Çevre ayarları"
+
+#: ../workbench/src/dialogs.c:222 ../workbench/src/dialogs.c:351
+#, fuzzy
+msgid "_OK"
+msgstr "Tamam"
+
+#: ../workbench/src/dialogs.c:232
+#, fuzzy
+msgid "File patterns:"
+msgstr "Mektup"
+
+#: ../workbench/src/dialogs.c:238
+msgid ""
+"Space separated list of patterns that are used to identify files that shall "
+"be displayed in the directory tree."
+msgstr ""
+
+#: ../workbench/src/dialogs.c:249
+msgid ""
+"Space separated list of patterns that are used to identify files that shall "
+"not be displayed in the directory tree."
+msgstr ""
+
+#: ../workbench/src/dialogs.c:260
+msgid ""
+"Space separated list of patterns that are used to identify directories that "
+"shall not be scanned for source files."
+msgstr ""
+
+#: ../workbench/src/dialogs.c:268
+msgid ""
+"Note: the patterns above affect only the workbench directory and are not "
+"used in the Find in Files\n"
+"dialog."
+msgstr ""
+
+#: ../workbench/src/dialogs.c:347
+#, fuzzy
+msgid "Workbench settings"
+msgstr "Çevre ayarları"
+
+#: ../workbench/src/dialogs.c:361
+#, fuzzy
+msgid "Rescan all projects on open:"
+msgstr "Proje dosyalarında ara"
+
+#: ../workbench/src/dialogs.c:366
+msgid ""
+"If the option is activated (default), then all projects will be re-scanned "
+"on opening of the workbench."
+msgstr ""
+
+#: ../workbench/src/menu.c:95
+#, fuzzy, c-format
+msgid "Could not create new workbench file: %s"
+msgstr "Yeni dosya oluştur"
+
+#: ../workbench/src/menu.c:122
+#, fuzzy, c-format
+msgid "Could not open workbench file: %s"
+msgstr "\"%s\" dosyası yüklenirken hata: %s"
+
+#: ../workbench/src/menu.c:139
+#, fuzzy, c-format
+msgid "Could not save workbench file: %s"
+msgstr "\"%s\" dosyası yüklenirken hata: %s"
+
+#. Set metadata
+#: ../workbench/src/menu.c:177 ../workbench/src/plugin_main.c:129
+#: ../workbench/src/sidebar.c:1132
+msgid "Workbench"
+msgstr ""
+
+#. Create new menu item "New Workbench"
+#: ../workbench/src/menu.c:181
+msgid "_New..."
+msgstr ""
+
+#. Create new menu item "Open Workbench"
+#: ../workbench/src/menu.c:188
+msgid "_Open..."
+msgstr ""
+
+#. Create new menu item "Save Workbench"
+#: ../workbench/src/menu.c:195
+msgid "_Save"
+msgstr ""
+
+#. Create new menu item "Workbench Settings"
+#: ../workbench/src/menu.c:202
+#, fuzzy
+msgid "S_ettings"
+msgstr "Ayarlar"
+
+#. Create new menu item "Close Workbench"
+#: ../workbench/src/menu.c:209
+#, fuzzy
+msgid "_Close"
+msgstr "Kapat: %s"
+
+#: ../workbench/src/plugin_main.c:93 ../workbench/src/sidebar.c:589
+msgid ""
+"Create or open a workbench\n"
+"using the workbench menu."
+msgstr ""
+
+#: ../workbench/src/plugin_main.c:130
+msgid "Manage and customize multiple projects."
+msgstr ""
+
+#: ../workbench/src/popup_menu.c:232
+#, fuzzy, c-format
+msgid "Could not add project file: %s"
+msgstr "\"%s\" dosyası yüklenirken hata: %s"
+
+#: ../workbench/src/popup_menu.c:518
+#, fuzzy
+msgid "_Add project..."
+msgstr "Proje Dosyası Bul"
+
+#: ../workbench/src/popup_menu.c:524
+#, fuzzy
+msgid "_Save project"
+msgstr "Yeni Proje"
+
+#: ../workbench/src/popup_menu.c:530
+#, fuzzy
+msgid "_Remove project"
+msgstr "Nesneyi Yeniden adlandır"
+
+#: ../workbench/src/popup_menu.c:536
+#, fuzzy
+msgid "_Fold/unfold project"
+msgstr "Proje dosyası bul"
+
+#: ../workbench/src/popup_menu.c:542
+msgid "_Open all files in project"
+msgstr ""
+
+#: ../workbench/src/popup_menu.c:548
+msgid "_Close all files in project"
+msgstr ""
+
+#: ../workbench/src/popup_menu.c:558
+#, fuzzy
+msgid "_Add directory..."
+msgstr "Dizini eski haline getir"
+
+#: ../workbench/src/popup_menu.c:564
+#, fuzzy
+msgid "_Remove directory"
+msgstr "Dizini eski haline getir"
+
+#: ../workbench/src/popup_menu.c:570
+#, fuzzy
+msgid "_Rescan directory"
+msgstr "Dizini eski haline getir"
+
+#: ../workbench/src/popup_menu.c:576
+#, fuzzy
+msgid "_Directory settings"
+msgstr "_Dizin"
+
+#: ../workbench/src/popup_menu.c:582
+#, fuzzy
+msgid "_Fold/unfold directory"
+msgstr "Dizinin farkını göster"
+
+#: ../workbench/src/popup_menu.c:588
+#, fuzzy
+msgid "_Open all files in directory"
+msgstr "%s: dosya veya dizin bulunamadı"
+
+#: ../workbench/src/popup_menu.c:594
+#, fuzzy
+msgid "_Close all files in directory"
+msgstr "Yeni dizin oluştur"
+
+#: ../workbench/src/popup_menu.c:604
+#, fuzzy
+msgid "_Open all files in folder"
+msgstr "Bir imza dosyası aç"
+
+#: ../workbench/src/popup_menu.c:610
+msgid "_Close all files in folder"
+msgstr ""
+
+#: ../workbench/src/popup_menu.c:620
+#, fuzzy
+msgid "_Expand all"
+msgstr "Hepsini aç"
+
+#: ../workbench/src/popup_menu.c:626
+#, fuzzy
+msgid "_Collapse all"
+msgstr "Tümünü Kapat"
+
+#: ../workbench/src/popup_menu.c:636
+msgid "_Add to Workbench Bookmarks"
+msgstr ""
+
+#: ../workbench/src/popup_menu.c:642
+msgid "_Add to Project Bookmarks"
+msgstr ""
+
+#: ../workbench/src/popup_menu.c:648
+#, fuzzy
+msgid "_Remove from Bookmarks"
+msgstr "Ye_r İmini Kaldır"
+
+#: ../workbench/src/sidebar.c:291
+#, fuzzy
+msgid "Base dir"
+msgstr "Temel"
+
+#: ../workbench/src/sidebar.c:324
+#, fuzzy
+msgid "No directories"
+msgstr "YeniDizin"
+
+#. *** label ***
+#: ../workbench/src/sidebar.c:587 ../workbench/src/sidebar.c:1083
+msgid "No workbench opened."
+msgstr ""
+
+#: ../workbench/src/sidebar.c:598
+#, fuzzy, c-format
+msgid "%s: %u Projects"
+msgstr "Proje"
+
+#: ../workbench/src/sidebar.c:609
+msgid ""
+"Add a project\n"
+"using the context menu."
+msgstr ""
+
+#: ../workbench/src/sidebar.c:719
+#, c-format
+msgid ""
+"%s\n"
+"Project file not found!"
+msgstr ""
+
+#: ../workbench/src/sidebar.c:733
+msgid ""
+"This project has no directories. Directories can be added to a project using "
+"the context menu."
+msgstr ""
+
+#: ../workbench/src/wb_project.c:942
+#, fuzzy, c-format
+msgid "Directory-Name: %s\n"
+msgstr "_Dizin"
+
+#: ../workbench/src/wb_project.c:943
+#, fuzzy, c-format
+msgid "Base-Directory: %s\n"
+msgstr "_Temel Dizin"
+
+#: ../workbench/src/wb_project.c:945
+#, fuzzy
+msgid "File Patterns:"
+msgstr "Harfler:"
+
+#: ../workbench/src/wb_project.c:957
+msgid "Ignored Dir. Patterns:"
+msgstr ""
+
+#: ../workbench/src/wb_project.c:969
+msgid "Ignored File Patterns:"
+msgstr ""
+
+#: ../workbench/src/wb_project.c:981
+#, c-format
+msgid "Number of Sub-Folders: %u\n"
+msgstr ""
+
+#: ../workbench/src/wb_project.c:982
+#, fuzzy, c-format
+msgid "Number of Files: %u\n"
+msgstr "Cilt numarası"
+
+#: ../workbench/src/wb_project.c:1006
+#, fuzzy, c-format
+msgid "Project: %s\n"
+msgstr "Proje"
+
+#: ../workbench/src/wb_project.c:1007
+#, fuzzy, c-format
+msgid "File: %s\n"
+msgstr "Kapat: %s"
+
+#: ../workbench/src/wb_project.c:1008
+#, fuzzy, c-format
+msgid "Number of Directories: %u\n"
+msgstr "Cilt numarası"
+
+#: ../workbench/src/wb_project.c:1011
+msgid ""
+"\n"
+"The project contains unsafed changes!\n"
+msgstr ""
+
+#: ../workbench/src/workbench.c:710
+#, fuzzy, c-format
+msgid "File %s is not a valid workbench file!"
+msgstr "\"%s\" dosyası bulundu ama geçerli değil"
+
 #: ../xmlsnippets/src/plugin.c:44
 msgid "XML Snippets"
 msgstr ""
@@ -7673,6 +8037,20 @@ msgstr ""
 #: ../xmlsnippets/src/plugin.c:45
 msgid "Autocompletes XML/HTML tags using snippets."
 msgstr ""
+
+#, fuzzy
+#~ msgid "Create _new file"
+#~ msgstr "Yeni dosya oluştur"
+
+#, fuzzy
+#~ msgid "E_xpand all"
+#~ msgstr "Hepsini aç"
+
+#~ msgid "Create New File"
+#~ msgstr "Yeni Dosya Oluştur"
+
+#~ msgid "Create New Directory"
+#~ msgstr "Yeni Dizin Oluştur"
 
 #~ msgid "Write and run Lua scripts for custom commands."
 #~ msgstr "Düzenlenebilen komutlar için Lua betikleri yazın ve çalıştırın."
@@ -7714,14 +8092,6 @@ msgstr ""
 #~ msgstr ""
 #~ "İmla denetimi için dil ayarlanmasında hata. Lütfen yapılandırmayı kontrol "
 #~ "edin. Hata mesajı: %s"
-
-#, fuzzy
-#~ msgid "Find Project Tag..."
-#~ msgstr "Proje Dosyası Bul"
-
-#, fuzzy
-#~ msgid "Find project tag"
-#~ msgstr "Proje dosyası bul"
 
 #~ msgid "A little plugin to convert lists into tables"
 #~ msgstr "Listeleri tablolara çevirmek için ufak bir eklenti"
@@ -7868,9 +8238,6 @@ msgstr ""
 
 #~ msgid " is true."
 #~ msgstr " doğru."
-
-#~ msgid "Environment settings"
-#~ msgstr "Çevre ayarları"
 
 #~ msgid ""
 #~ "\n"
@@ -8049,10 +8416,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Error reading config file"
 #~ msgstr "Ayar dosyalarının tekrar yüklenmesini zorla"
-
-#, fuzzy
-#~ msgid "Couldn't create tempfile"
-#~ msgstr "Yeni dosya oluştur"
 
 #~ msgid "Yura Siamshka <yurand2@gmail.com>"
 #~ msgstr "Yura Siamshka <yurand2@gmail.com>"
