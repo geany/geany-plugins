@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-24 16:57+0200\n"
+"POT-Creation-Date: 2017-11-05 14:45+0100\n"
 "PO-Revision-Date: 2011-10-21 14:08+0100\n"
 "Last-Translator: Masami Chikahiro <cmasa.z321@gmail.com>\n"
 "Language-Team: Japanese\n"
@@ -36,7 +36,7 @@ msgstr "番号"
 msgid "Contents"
 msgstr "内容"
 
-#: ../addons/src/ao_bookmarklist.c:383 ../treebrowser/src/treebrowser.c:627
+#: ../addons/src/ao_bookmarklist.c:383 ../treebrowser/src/treebrowser.c:625
 #: ../webhelper/src/gwh-plugin.c:328
 msgid "Bookmarks"
 msgstr "ブックマーク"
@@ -149,7 +149,7 @@ msgstr "文書一覧を表示"
 msgid "File path \"%s\" copied to clipboard."
 msgstr "完全パスをクリップボードにコピー"
 
-#: ../addons/src/ao_copyfilepath.c:119 ../addons/src/addons.c:332
+#: ../addons/src/ao_copyfilepath.c:119 ../addons/src/addons.c:334
 msgid "Copy File Path"
 msgstr ""
 
@@ -166,73 +166,73 @@ msgstr "アドオン"
 msgid "Various small addons for Geany."
 msgstr "Geanyむけのアドオン集"
 
-#: ../addons/src/addons.c:323
+#: ../addons/src/addons.c:325
 msgid "Focus Bookmark List"
 msgstr "ブックマークに切り替え"
 
-#: ../addons/src/addons.c:325
+#: ../addons/src/addons.c:327
 msgid "Focus Tasks List"
 msgstr "タスク一覧に切り替え"
 
-#: ../addons/src/addons.c:327
+#: ../addons/src/addons.c:329
 msgid "Update Tasks List"
 msgstr "タスク一覧を更新"
 
-#: ../addons/src/addons.c:329
+#: ../addons/src/addons.c:331
 msgid "Run XML tagging"
 msgstr "XMLタグ付けを実行"
 
-#: ../addons/src/addons.c:463 ../autoclose/src/autoclose.c:884
+#: ../addons/src/addons.c:465 ../autoclose/src/autoclose.c:884
 #: ../codenav/src/codenavigation.c:292 ../geanylatex/src/geanylatex.c:240
 #: ../geanyprj/src/geanyprj.c:176 ../geanyvc/src/geanyvc.c:1851
 #: ../geniuspaste/src/geniuspaste.c:336 ../sendmail/src/sendmail.c:128
 #: ../sendmail/src/sendmail.c:293 ../spellcheck/src/scplugin.c:157
-#: ../treebrowser/src/treebrowser.c:1944
+#: ../treebrowser/src/treebrowser.c:1942
 #: ../updatechecker/src/updatechecker.c:266
 msgid "Plugin configuration directory could not be created."
 msgstr "プラグイン設定ディレクトリを作成できません。"
 
-#: ../addons/src/addons.c:492
+#: ../addons/src/addons.c:494
 msgid "Show toolbar item to show a list of currently open documents"
 msgstr "現在の文書一覧を表示するツールバーボタンを表示"
 
-#: ../addons/src/addons.c:496
+#: ../addons/src/addons.c:498
 msgid "Sort documents by _name"
 msgstr "名前による文書の並び替え(_N)"
 
-#: ../addons/src/addons.c:498
+#: ../addons/src/addons.c:500
 msgid "Sort the documents in the list by their filename"
 msgstr "ファイル名によるリスト内の文書の並び替え"
 
-#: ../addons/src/addons.c:501
+#: ../addons/src/addons.c:503
 msgid "Sort documents by _occurrence"
 msgstr "出現順に文書を並び替え(_O)"
 
-#: ../addons/src/addons.c:503
+#: ../addons/src/addons.c:505
 msgid "Sort the documents in the order of the document tabs"
 msgstr "文書タブの順番に文書を並び替え"
 
-#: ../addons/src/addons.c:506
+#: ../addons/src/addons.c:508
 msgid "Sort documents by _occurrence (reversed)"
 msgstr "出現順(逆順)に文書を並び替え(_O)"
 
-#: ../addons/src/addons.c:508
+#: ../addons/src/addons.c:510
 msgid "Sort the documents in the order of the document tabs (reversed)"
 msgstr "文書タブの逆順に文書を並び替え"
 
-#: ../addons/src/addons.c:535
+#: ../addons/src/addons.c:537
 msgid "Show an 'Open URI' item in the editor menu"
 msgstr "'URIを開く'をエディタのメニューに表示"
 
-#: ../addons/src/addons.c:541
+#: ../addons/src/addons.c:543
 msgid "Show available Tasks in the Messages Window"
 msgstr "メッセージウィンドウに利用可能なタスクを表示"
 
-#: ../addons/src/addons.c:547
+#: ../addons/src/addons.c:549
 msgid "Show tasks of all documents"
 msgstr "すべての文書のタスクを表示"
 
-#: ../addons/src/addons.c:551
+#: ../addons/src/addons.c:553
 msgid ""
 "Whether to show the tasks of all open documents in the list or only those of "
 "the current document."
@@ -240,47 +240,47 @@ msgstr ""
 "現在の文書のタスクだけを表示するか、すべての文書のタスクを表示するかを選びま"
 "す。"
 
-#: ../addons/src/addons.c:558
+#: ../addons/src/addons.c:560
 msgid "Specify a semicolon separated list of search tokens."
 msgstr "セミコロンで区切られた検索文字列を指定"
 
-#: ../addons/src/addons.c:560
+#: ../addons/src/addons.c:562
 msgid "Search tokens:"
 msgstr "検索文字列:"
 
-#: ../addons/src/addons.c:577
+#: ../addons/src/addons.c:579
 msgid "Show status icon in the Notification Area"
 msgstr "通知領域にステータスアイコンを表示"
 
-#: ../addons/src/addons.c:583
+#: ../addons/src/addons.c:585
 msgid "Show defined bookmarks (marked lines) in the sidebar"
 msgstr "サイドバーにブックマークを表示"
 
-#: ../addons/src/addons.c:589
+#: ../addons/src/addons.c:591
 msgid "Mark all occurrences of a word when double-clicking it"
 msgstr "ダブルクリックしたときに単語をすべてマークする"
 
-#: ../addons/src/addons.c:595
+#: ../addons/src/addons.c:597
 msgid "Deselect a previous highlight by single click"
 msgstr ""
 
-#: ../addons/src/addons.c:605
+#: ../addons/src/addons.c:607
 msgid "Strip trailing blank lines"
 msgstr "文末の空白行を除去"
 
-#: ../addons/src/addons.c:611
+#: ../addons/src/addons.c:613
 msgid "XML tagging for selection"
 msgstr "選択用のXMLタグ付け"
 
-#: ../addons/src/addons.c:617
+#: ../addons/src/addons.c:619
 msgid "Enclose selection on configurable keybindings"
 msgstr "定義可能なキー入力によって選択したものに括弧をつける"
 
-#: ../addons/src/addons.c:621
+#: ../addons/src/addons.c:623
 msgid "Configure enclose pairs"
 msgstr ""
 
-#: ../addons/src/addons.c:629
+#: ../addons/src/addons.c:631
 msgid "Enclose selection automatically (without having to press a keybinding)"
 msgstr "自動的に選択したものに括弧をつける(括弧をつけるためのキー入力は不要)"
 
@@ -615,7 +615,7 @@ msgid "Various debuggers integration."
 msgstr "統合デバッガ"
 
 #: ../debugger/src/plugin.c:132 ../debugger/src/keys.c:75
-#: ../scope/data/scope.glade.h:124 ../scope/src/scope.c:227
+#: ../scope/data/scope.glade.h:124 ../scope/src/scope.c:228
 msgid "Debug"
 msgstr "デバッグ"
 
@@ -750,7 +750,7 @@ msgstr "関数"
 msgid "Target"
 msgstr "対象"
 
-#: ../debugger/src/tabs.c:134 ../scope/src/scope.c:522
+#: ../debugger/src/tabs.c:134 ../scope/src/scope.c:523
 msgid "Breakpoints"
 msgstr "ブレークポイント"
 
@@ -787,22 +787,22 @@ msgid "Restart"
 msgstr "再起動"
 
 #: ../debugger/src/keys.c:51 ../debugger/src/btnpanel.c:112
-#: ../scope/src/scope.c:67
+#: ../scope/src/scope.c:67 ../scope/src/scope.c:164
 msgid "Step into"
 msgstr "中へ"
 
 #: ../debugger/src/keys.c:52 ../debugger/src/btnpanel.c:109
-#: ../scope/src/scope.c:68
+#: ../scope/src/scope.c:68 ../scope/src/scope.c:165
 msgid "Step over"
 msgstr "次へ"
 
 #: ../debugger/src/keys.c:53 ../debugger/src/btnpanel.c:121
-#: ../scope/src/scope.c:69
+#: ../scope/src/scope.c:69 ../scope/src/scope.c:166
 msgid "Step out"
 msgstr "外へ"
 
 #: ../debugger/src/keys.c:54 ../debugger/src/btnpanel.c:124
-#: ../scope/src/scope.c:65
+#: ../scope/src/scope.c:65 ../scope/src/scope.c:162
 msgid "Run to cursor"
 msgstr "カーソル位置まで実行"
 
@@ -3430,7 +3430,7 @@ msgstr "選択を解除"
 msgid "Toggle Insert/Overwrite mode"
 msgstr "挿入/上書きモードを切替"
 
-#: ../geanymacro/src/geanymacro.c:137 ../pretty-printer/src/ConfigUI.c:239
+#: ../geanymacro/src/geanymacro.c:137 ../pretty-printer/src/ConfigUI.c:429
 msgid "Tab"
 msgstr "タブ"
 
@@ -3722,7 +3722,10 @@ msgstr "了解(_O)"
 
 #: ../geanymacro/src/geanymacro.c:1394 ../geanymacro/src/geanymacro.c:1537
 #: ../geanymacro/src/geanymacro.c:1827
-#: ../projectorganizer/src/prjorg-sidebar.c:306
+#: ../projectorganizer/src/prjorg-sidebar.c:306 ../workbench/src/dialogs.c:45
+#: ../workbench/src/dialogs.c:76 ../workbench/src/dialogs.c:115
+#: ../workbench/src/dialogs.c:152 ../workbench/src/dialogs.c:221
+#: ../workbench/src/dialogs.c:350
 msgid "_Cancel"
 msgstr "キャンセル(_C)"
 
@@ -3809,7 +3812,7 @@ msgid "New _Below"
 msgstr "下に追加(_B)"
 
 #: ../geanymacro/src/geanymacro.c:1824 ../geanymacro/src/geanymacro.c:2120
-#: ../treebrowser/src/treebrowser.c:1258
+#: ../treebrowser/src/treebrowser.c:1256
 msgid "_Delete"
 msgstr "削除(_D)"
 
@@ -4380,7 +4383,7 @@ msgstr "プロジェクトの設定"
 msgid "New Project"
 msgstr "新規プロジェクト"
 
-#: ../geanyprj/src/menu.c:110
+#: ../geanyprj/src/menu.c:110 ../workbench/src/dialogs.c:46
 msgid "C_reate"
 msgstr "作成(_R)"
 
@@ -4462,11 +4465,11 @@ msgstr "プロジェクト内を検索"
 msgid "Remove File"
 msgstr "ファイルを削除"
 
-#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1498
+#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1475
 msgid "H_ide Sidebar"
 msgstr "サイドバーを隠す(_I)"
 
-#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1520
+#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1497
 msgid "Project"
 msgstr "プロジェクト"
 
@@ -5012,32 +5015,40 @@ msgstr ""
 msgid "Highlights uncommitted changes in files tracked with Git"
 msgstr ""
 
-#: ../git-changebar/src/gcb-plugin.c:1168 ../pohelper/src/gph-plugin.c:1595
+#: ../git-changebar/src/gcb-plugin.c:1386 ../pohelper/src/gph-plugin.c:1595
 #, fuzzy, c-format
 msgid "Failed to load configuration file: %s"
 msgstr "設定の読み込みに失敗: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1193 ../pohelper/src/gph-plugin.c:1620
+#: ../git-changebar/src/gcb-plugin.c:1411 ../pohelper/src/gph-plugin.c:1620
 #, fuzzy, c-format
 msgid "Failed to create configuration directory \"%s\": %s"
 msgstr "ファイル種類 \"%s\" 向けの設定ファイルが見つかりません: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1196 ../pohelper/src/gph-plugin.c:1623
+#: ../git-changebar/src/gcb-plugin.c:1414 ../pohelper/src/gph-plugin.c:1623
 #, fuzzy, c-format
 msgid "Failed to save configuration file: %s"
 msgstr "設定の保存に失敗: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1275
+#: ../git-changebar/src/gcb-plugin.c:1491
+msgid "Undo Git hunk"
+msgstr ""
+
+#: ../git-changebar/src/gcb-plugin.c:1499
 #, fuzzy
 msgid "Go to the previous hunk"
 msgstr "前の頁に移動"
 
-#: ../git-changebar/src/gcb-plugin.c:1277
+#: ../git-changebar/src/gcb-plugin.c:1501
 #, fuzzy
 msgid "Go to the next hunk"
 msgstr "次の頁に移動"
 
-#: ../git-changebar/src/gcb-plugin.c:1420 ../pohelper/src/gph-plugin.c:1390
+#: ../git-changebar/src/gcb-plugin.c:1503
+msgid "Undo hunk at the cursor position"
+msgstr ""
+
+#: ../git-changebar/src/gcb-plugin.c:1651 ../pohelper/src/gph-plugin.c:1390
 #: ../pohelper/src/gph-plugin.c:1725
 #, fuzzy, c-format
 msgid ""
@@ -5248,7 +5259,8 @@ msgstr "ファイルを保存"
 msgid "HTML Files"
 msgstr ""
 
-#: ../markdown/src/plugin.c:311
+#: ../markdown/src/plugin.c:311 ../workbench/src/dialogs.c:84
+#: ../workbench/src/dialogs.c:123
 #, fuzzy
 msgid "All Files"
 msgstr "ファイルを追加"
@@ -5340,7 +5352,7 @@ msgstr "既定の設定の保存に失敗: %s"
 msgid "Unable to read value for '%s' key: %s"
 msgstr "設定ディレクトリを '%s' に作成できません"
 
-#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:1969
+#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:1967
 #, fuzzy
 msgid "Terminal"
 msgstr "終了"
@@ -5688,11 +5700,11 @@ msgid ""
 "installation."
 msgstr ""
 
-#: ../pretty-printer/src/PluginEntry.c:36
+#: ../pretty-printer/src/PluginEntry.c:41
 msgid "XML PrettyPrinter"
 msgstr "XML整形"
 
-#: ../pretty-printer/src/PluginEntry.c:37
+#: ../pretty-printer/src/PluginEntry.c:42
 msgid ""
 "Formats an XML and makes it human-readable. \n"
 "This plugin currentlyhas no maintainer. Would you like to help by "
@@ -5700,19 +5712,19 @@ msgid ""
 msgstr ""
 
 #. put the menu into the Tools
-#: ../pretty-printer/src/PluginEntry.c:60
+#: ../pretty-printer/src/PluginEntry.c:125
 msgid "PrettyPrinter XML"
 msgstr "XML整形"
 
-#: ../pretty-printer/src/PluginEntry.c:69
+#: ../pretty-printer/src/PluginEntry.c:134
 msgid "Run the PrettyPrinter XML"
 msgstr "XML整形を実行"
 
-#: ../pretty-printer/src/PluginEntry.c:140
+#: ../pretty-printer/src/PluginEntry.c:214
 msgid "Unable to parse the content as XML."
 msgstr "内容がXMLではないと判断されました"
 
-#: ../pretty-printer/src/PluginEntry.c:151
+#: ../pretty-printer/src/PluginEntry.c:225
 msgid ""
 "Unable to process PrettyPrinting on the specified XML because some features "
 "are not supported.\n"
@@ -5750,31 +5762,31 @@ msgstr "文字ノード"
 msgid "CDATA"
 msgstr "CDATA"
 
-#: ../pretty-printer/src/ConfigUI.c:205
+#: ../pretty-printer/src/ConfigUI.c:395
 msgid "Empty nodes"
 msgstr "空ノード"
 
-#: ../pretty-printer/src/ConfigUI.c:206
+#: ../pretty-printer/src/ConfigUI.c:396
 msgid "Concatenation (<x></x> to <x/>)"
 msgstr "結合 (<x></x> を <x/>にする)"
 
-#: ../pretty-printer/src/ConfigUI.c:207
+#: ../pretty-printer/src/ConfigUI.c:397
 msgid "Spacing (<x/> to <x />)"
 msgstr "空白を開ける (<x/> を <x />にする)"
 
-#: ../pretty-printer/src/ConfigUI.c:208
+#: ../pretty-printer/src/ConfigUI.c:398
 msgid "Expansion (<x/> to <x></x>)"
 msgstr "展開 (<x/> を <x></x>にする)"
 
-#: ../pretty-printer/src/ConfigUI.c:235
+#: ../pretty-printer/src/ConfigUI.c:425
 msgid "Indentation"
 msgstr "インデント"
 
-#: ../pretty-printer/src/ConfigUI.c:240
+#: ../pretty-printer/src/ConfigUI.c:430
 msgid "Space"
 msgstr "空白"
 
-#: ../pretty-printer/src/ConfigUI.c:264
+#: ../pretty-printer/src/ConfigUI.c:454
 msgid "Line break"
 msgstr "改行"
 
@@ -5830,11 +5842,11 @@ msgstr "ヘッダ/ソースを交換"
 msgid "Open Selected File (Project Organizer)"
 msgstr "選択したファイルを開く(gproject)"
 
-#: ../projectorganizer/src/prjorg-project.c:573
+#: ../projectorganizer/src/prjorg-project.c:581
 msgid "Source patterns:"
 msgstr "ソースのフィルタ:"
 
-#: ../projectorganizer/src/prjorg-project.c:579
+#: ../projectorganizer/src/prjorg-project.c:587
 #, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
@@ -5843,11 +5855,11 @@ msgstr ""
 "空白で区切られたヘッダファイルとして使用するファイルパターンのリストヘッダ。"
 "ソースの交換に使用します。"
 
-#: ../projectorganizer/src/prjorg-project.c:585
+#: ../projectorganizer/src/prjorg-project.c:593
 msgid "Header patterns:"
 msgstr "ヘッダのフィルタ:"
 
-#: ../projectorganizer/src/prjorg-project.c:591
+#: ../projectorganizer/src/prjorg-project.c:599
 #, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
@@ -5856,12 +5868,12 @@ msgstr ""
 "空白で区切られたヘッダファイルとして使用するファイルパターンのリストヘッダ。"
 "ソースの交換に使用します。"
 
-#: ../projectorganizer/src/prjorg-project.c:597
+#: ../projectorganizer/src/prjorg-project.c:605 ../workbench/src/dialogs.c:243
 #, fuzzy
 msgid "Ignored file patterns:"
 msgstr "無視するディレクトリ:"
 
-#: ../projectorganizer/src/prjorg-project.c:603
+#: ../projectorganizer/src/prjorg-project.c:611
 #, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
@@ -5870,12 +5882,12 @@ msgstr ""
 "空白で区切られたソースファイル検索の対象から外すディレクトリのパターンのリス"
 "ト"
 
-#: ../projectorganizer/src/prjorg-project.c:609
+#: ../projectorganizer/src/prjorg-project.c:617 ../workbench/src/dialogs.c:254
 #, fuzzy
 msgid "Ignored directory patterns:"
 msgstr "無視するディレクトリ:"
 
-#: ../projectorganizer/src/prjorg-project.c:615
+#: ../projectorganizer/src/prjorg-project.c:623
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
@@ -5883,26 +5895,26 @@ msgstr ""
 "空白で区切られたソースファイル検索の対象から外すディレクトリのパターンのリス"
 "ト"
 
-#: ../projectorganizer/src/prjorg-project.c:621
+#: ../projectorganizer/src/prjorg-project.c:629
 #, fuzzy
 msgid "Index all project files:"
 msgstr "プロジェクトファイルを検索"
 
-#: ../projectorganizer/src/prjorg-project.c:624
+#: ../projectorganizer/src/prjorg-project.c:632
 msgid "Auto (index if less than 300 files)"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:625
+#: ../projectorganizer/src/prjorg-project.c:633
 #, fuzzy
 msgid "Yes"
 msgstr "はい"
 
-#: ../projectorganizer/src/prjorg-project.c:626
+#: ../projectorganizer/src/prjorg-project.c:634
 #, fuzzy
 msgid "No"
 msgstr "番号"
 
-#: ../projectorganizer/src/prjorg-project.c:630
+#: ../projectorganizer/src/prjorg-project.c:638
 #, fuzzy
 msgid ""
 "Generate symbol list for all project files instead of only for the currently "
@@ -5912,7 +5924,7 @@ msgstr ""
 "トを生成します。大きなプロジェクト(1000ファイル以上)ではとても遅いので、使用"
 "しないでください。"
 
-#: ../projectorganizer/src/prjorg-project.c:636
+#: ../projectorganizer/src/prjorg-project.c:644
 msgid ""
 "Note: the patterns above affect only the sidebar and are not used in the "
 "Find in Files\n"
@@ -5960,55 +5972,55 @@ msgstr "ファイルを検索"
 msgid "Match type:"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1068
+#: ../projectorganizer/src/prjorg-sidebar.c:1045
 msgid "Set file patterns under Project->Properties"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1355
+#: ../projectorganizer/src/prjorg-sidebar.c:1332
 msgid "Reload all"
 msgstr "すべて読み直し"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1364
+#: ../projectorganizer/src/prjorg-sidebar.c:1341
 #, fuzzy
 msgid "Add external directory"
 msgstr "ディレクトリを元に戻す"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1374
+#: ../projectorganizer/src/prjorg-sidebar.c:1351
 msgid "Expand all"
 msgstr "すべて展開"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1381
+#: ../projectorganizer/src/prjorg-sidebar.c:1358
 msgid "Collapse to project root"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1392
+#: ../projectorganizer/src/prjorg-sidebar.c:1369
 msgid "Follow active editor"
 msgstr "アクティブなエディタに従う"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1438
+#: ../projectorganizer/src/prjorg-sidebar.c:1415
 msgid "Open a project to start using the plugin"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1447
+#: ../projectorganizer/src/prjorg-sidebar.c:1424
 msgid "Expand All"
 msgstr "すべて展開"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1456
+#: ../projectorganizer/src/prjorg-sidebar.c:1433
 #, fuzzy
 msgid "Find in Files..."
 msgstr "複数ファイルを検索"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1465
+#: ../projectorganizer/src/prjorg-sidebar.c:1442
 #, fuzzy
 msgid "Find File..."
 msgstr "ファイルを検索"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1474
+#: ../projectorganizer/src/prjorg-sidebar.c:1451
 #, fuzzy
 msgid "Find Symbol..."
 msgstr "ファイルを検索"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1487
+#: ../projectorganizer/src/prjorg-sidebar.c:1464
 #, fuzzy
 msgid "Remove External Directory"
 msgstr "ディレクトリを元に戻す"
@@ -6359,7 +6371,7 @@ msgstr "一時的なブレークポイント(_T):"
 msgid "_Delete all breakpoints, watches, inspects and registers"
 msgstr "全てのブレークポイント,ウォッチ,検査を削除(_D)"
 
-#: ../scope/data/scope.glade.h:88 ../scope/src/scope.c:520
+#: ../scope/data/scope.glade.h:88 ../scope/src/scope.c:521
 msgid "Program"
 msgstr "プログラム"
 
@@ -6491,7 +6503,7 @@ msgstr "回数:"
 msgid "_Expand on apply"
 msgstr "適用時に展開(_E)"
 
-#: ../scope/data/scope.glade.h:123 ../scope/src/scope.c:520
+#: ../scope/data/scope.glade.h:123 ../scope/src/scope.c:521
 msgid "Program Terminal"
 msgstr "プログラム端末"
 
@@ -6594,7 +6606,7 @@ msgstr "端末に送る"
 msgid "Enter char # (0..255):"
 msgstr "文字コード(0...255)を入力:"
 
-#: ../scope/src/conterm.c:512 ../scope/src/scope.c:564 ../scope/src/scope.c:565
+#: ../scope/src/conterm.c:512 ../scope/src/scope.c:565 ../scope/src/scope.c:566
 #, c-format
 msgid "Scope: %s."
 msgstr "スコープ: %s"
@@ -6737,19 +6749,19 @@ msgstr ""
 msgid "Setup program"
 msgstr "プログラムを設定"
 
-#: ../scope/src/scope.c:64
+#: ../scope/src/scope.c:64 ../scope/src/scope.c:161
 msgid "Run/continue"
 msgstr "実行/継続"
 
-#: ../scope/src/scope.c:66
+#: ../scope/src/scope.c:66 ../scope/src/scope.c:163
 msgid "Run to source"
 msgstr "ソース位置まで実行"
 
-#: ../scope/src/scope.c:70
+#: ../scope/src/scope.c:70 ../scope/src/scope.c:167
 msgid "Terminate"
 msgstr "終了"
 
-#: ../scope/src/scope.c:71
+#: ../scope/src/scope.c:71 ../scope/src/scope.c:168
 msgid "Toggle breakpoint"
 msgstr "ブレークポイントを切り替え"
 
@@ -6761,39 +6773,39 @@ msgstr "GDBコマンド"
 msgid "Show terminal"
 msgstr "端末を表示"
 
-#: ../scope/src/scope.c:227
+#: ../scope/src/scope.c:228
 msgid "Busy"
 msgstr "ビジー"
 
-#: ../scope/src/scope.c:227
+#: ../scope/src/scope.c:228
 msgid "Ready"
 msgstr "レディ"
 
-#: ../scope/src/scope.c:228
+#: ../scope/src/scope.c:229
 msgid "Hang"
 msgstr "ハング"
 
-#: ../scope/src/scope.c:228
+#: ../scope/src/scope.c:229
 msgid "Assem"
 msgstr "Assem"
 
-#: ../scope/src/scope.c:228
+#: ../scope/src/scope.c:229
 msgid "Load"
 msgstr "ロード"
 
-#: ../scope/src/scope.c:419
+#: ../scope/src/scope.c:420
 msgid "Build action activated. Terminate debugging?"
 msgstr "ビルドがアクティブになりました.デバッグを終了しますか?"
 
-#: ../scope/src/scope.c:522
+#: ../scope/src/scope.c:523
 msgid "Breaks"
 msgstr "ブレーク"
 
-#: ../scope/src/scope.c:524
+#: ../scope/src/scope.c:525
 msgid "Console"
 msgstr "コンソール"
 
-#: ../scope/src/scope.c:524
+#: ../scope/src/scope.c:525
 msgid "Debug Console"
 msgstr "デバッグコンソール"
 
@@ -7225,37 +7237,35 @@ msgstr "ツリーブラウザ"
 #, fuzzy
 msgid ""
 "This plugin adds a tree browser to Geany, allowing the user to browse files "
-"using a tree view of the directory being browsed.\n"
-"This plugin currently has no maintainer. Would you like to help by "
-"contributing to this plugin?"
+"using a tree view of the directory being browsed."
 msgstr ""
 "このプラグインはGeanyにツリーブラウザを追加し、ディレクトリをツリービューに表"
 "示して、ユーザがファイルを選択できるようにします。"
 
-#: ../treebrowser/src/treebrowser.c:435
+#: ../treebrowser/src/treebrowser.c:433
 #, c-format
 msgid "%s: no such directory."
 msgstr "%s: ディレクトリがありません"
 
-#: ../treebrowser/src/treebrowser.c:539 ../treebrowser/src/treebrowser.c:574
-#: ../treebrowser/src/treebrowser.c:672
+#: ../treebrowser/src/treebrowser.c:537 ../treebrowser/src/treebrowser.c:572
+#: ../treebrowser/src/treebrowser.c:670
 msgid "(Empty)"
 msgstr "(空)"
 
-#: ../treebrowser/src/treebrowser.c:975
+#: ../treebrowser/src/treebrowser.c:973
 #, c-format
 msgid "Could not execute configured external command '%s' (%s)."
 msgstr "設定済みの外部コマンド '%s' が実行できません (%s)."
 
-#: ../treebrowser/src/treebrowser.c:1046
+#: ../treebrowser/src/treebrowser.c:1044
 msgid "NewDirectory"
 msgstr "新規ディレクトリ"
 
-#: ../treebrowser/src/treebrowser.c:1048
+#: ../treebrowser/src/treebrowser.c:1046
 msgid "NewFile"
 msgstr "新規ファイル"
 
-#: ../treebrowser/src/treebrowser.c:1053
+#: ../treebrowser/src/treebrowser.c:1051
 #, c-format
 msgid ""
 "Target file '%s' exists\n"
@@ -7264,130 +7274,131 @@ msgstr ""
 "対象ファイル '%s' が存在します。\n"
 "このファイルを空のファイルで上書きしてもいいですか?"
 
-#: ../treebrowser/src/treebrowser.c:1099
+#: ../treebrowser/src/treebrowser.c:1097
 #, c-format
 msgid "Do you really want to delete '%s' ?"
 msgstr "'%s' を削除してもよいですか?"
 
-#: ../treebrowser/src/treebrowser.c:1211
-msgid "Go _up"
-msgstr ""
-
-#: ../treebrowser/src/treebrowser.c:1215
+#: ../treebrowser/src/treebrowser.c:1209
 #, fuzzy
-msgid "Set _path from document"
+msgid "Go _Up"
+msgstr "上に移動(_U)"
+
+#: ../treebrowser/src/treebrowser.c:1213
+#, fuzzy
+msgid "Set _Path From Document"
 msgstr "文書からパスを設定"
 
-#: ../treebrowser/src/treebrowser.c:1219
+#: ../treebrowser/src/treebrowser.c:1217
 #, fuzzy
-msgid "_Open externally"
+msgid "_Open Externally"
 msgstr "外部アプリケーションで開く"
 
-#: ../treebrowser/src/treebrowser.c:1224
+#: ../treebrowser/src/treebrowser.c:1222
 #, fuzzy
 msgid "Open _Terminal"
 msgstr "端末で開く"
 
-#: ../treebrowser/src/treebrowser.c:1228
+#: ../treebrowser/src/treebrowser.c:1226
 #, fuzzy
-msgid "Set as _root"
+msgid "Set as _Root"
 msgstr "rootに設定"
 
-#: ../treebrowser/src/treebrowser.c:1233
+#: ../treebrowser/src/treebrowser.c:1231
 #, fuzzy
 msgid "Refres_h"
 msgstr "表示を更新"
 
-#: ../treebrowser/src/treebrowser.c:1237
+#: ../treebrowser/src/treebrowser.c:1235
 #, fuzzy
 msgid "_Find in Files"
 msgstr "複数ファイルを検索"
 
-#: ../treebrowser/src/treebrowser.c:1245
+#: ../treebrowser/src/treebrowser.c:1243
 #, fuzzy
-msgid "Creat_e new directory"
-msgstr "ディレクトリを作成"
+msgid "N_ew Folder"
+msgstr "フォルダを選択"
 
-#: ../treebrowser/src/treebrowser.c:1249
+#: ../treebrowser/src/treebrowser.c:1247
 #, fuzzy
-msgid "Create _new file"
-msgstr "ファイルを作成"
+msgid "_New File"
+msgstr "新規ファイル"
 
-#: ../treebrowser/src/treebrowser.c:1253
+#: ../treebrowser/src/treebrowser.c:1251
 #, fuzzy
 msgid "Rena_me"
 msgstr "名前変更"
 
-#: ../treebrowser/src/treebrowser.c:1266
+#: ../treebrowser/src/treebrowser.c:1264
 #, c-format
 msgid "Close: %s"
 msgstr "閉じる: %s"
 
-#: ../treebrowser/src/treebrowser.c:1271
+#: ../treebrowser/src/treebrowser.c:1269
 #, fuzzy, c-format
 msgid "Clo_se Child Documents "
 msgstr "下位の文書を閉じる"
 
-#: ../treebrowser/src/treebrowser.c:1276
+#: ../treebrowser/src/treebrowser.c:1274
 #, fuzzy
-msgid "_Copy full path to clipboard"
+msgid "_Copy Full Path to Clipboard"
 msgstr "完全パスをクリップボードにコピー"
 
-#: ../treebrowser/src/treebrowser.c:1285
+#: ../treebrowser/src/treebrowser.c:1283
 #, fuzzy
-msgid "E_xpand all"
+msgid "E_xpand All"
 msgstr "すべて展開"
 
-#: ../treebrowser/src/treebrowser.c:1289
+#: ../treebrowser/src/treebrowser.c:1287
 #, fuzzy
-msgid "Coll_apse all"
+msgid "Coll_apse All"
 msgstr "すべて閉じる"
 
-#: ../treebrowser/src/treebrowser.c:1296
+#: ../treebrowser/src/treebrowser.c:1294
 #, fuzzy
-msgid "Show boo_kmarks"
+msgid "Show Boo_kmarks"
 msgstr "ブックマークを表示"
 
-#: ../treebrowser/src/treebrowser.c:1301
+#: ../treebrowser/src/treebrowser.c:1299
 #, fuzzy
-msgid "Sho_w hidden files"
+msgid "Sho_w Hidden Files"
 msgstr "隠しファイルを表示"
 
-#: ../treebrowser/src/treebrowser.c:1306
+#: ../treebrowser/src/treebrowser.c:1304
 #, fuzzy
-msgid "Show tool_bars"
+msgid "Show Tool_bars"
 msgstr "ツールバーを表示"
 
-#: ../treebrowser/src/treebrowser.c:1628
+#: ../treebrowser/src/treebrowser.c:1626
 #, c-format
 msgid "Target file '%s' exists, do you really want to replace it?"
 msgstr "対象ファイル '%s' が存在します。置き換えてもいいですか?"
 
-#: ../treebrowser/src/treebrowser.c:1745
+#: ../treebrowser/src/treebrowser.c:1743
 msgid "Go up"
 msgstr "上に移動"
 
-#: ../treebrowser/src/treebrowser.c:1750 ../treebrowser/src/treebrowser.c:2149
+#: ../treebrowser/src/treebrowser.c:1748 ../treebrowser/src/treebrowser.c:2147
 msgid "Refresh"
 msgstr "表示を更新"
 
-#: ../treebrowser/src/treebrowser.c:1755
+#: ../treebrowser/src/treebrowser.c:1753
 msgid "Home"
 msgstr "ホーム"
 
-#: ../treebrowser/src/treebrowser.c:1760
+#: ../treebrowser/src/treebrowser.c:1758
 msgid "Set path from document"
 msgstr "文書からパスを設定"
 
-#: ../treebrowser/src/treebrowser.c:1765
+#: ../treebrowser/src/treebrowser.c:1763
 msgid "Track path"
 msgstr "パスを記録"
 
-#: ../treebrowser/src/treebrowser.c:1770
+#: ../treebrowser/src/treebrowser.c:1768
 msgid "Hide bars"
 msgstr "バーを隠す"
 
-#: ../treebrowser/src/treebrowser.c:1780
+#: ../treebrowser/src/treebrowser.c:1778
 msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
 "reverse try for example this '!;*.c;*.h;*.cpp'"
@@ -7395,19 +7406,19 @@ msgstr ""
 "フィルタ(*.c;*.h;*.cpp)と '!' 反転を使った一時フィルタを使用するには次のよう"
 "にします '!;*.c;*.h;*.cpp'"
 
-#: ../treebrowser/src/treebrowser.c:1788
+#: ../treebrowser/src/treebrowser.c:1786
 msgid "Addressbar for example '/projects/my-project'"
 msgstr "アドレスバーの入力例 '/projects/my-project'"
 
-#: ../treebrowser/src/treebrowser.c:1813
+#: ../treebrowser/src/treebrowser.c:1811
 msgid "Tree Browser"
 msgstr "ツリーブラウザ"
 
-#: ../treebrowser/src/treebrowser.c:1956
+#: ../treebrowser/src/treebrowser.c:1954
 msgid "External open command"
 msgstr "他のプログラムで開く"
 
-#: ../treebrowser/src/treebrowser.c:1961
+#: ../treebrowser/src/treebrowser.c:1959
 #, c-format
 msgid ""
 "The command to execute when using \"Open with\". You can use %f and %d "
@@ -7421,59 +7432,59 @@ msgstr ""
 "%f は完全パスを含むファイル名に置き換えられます。\n"
 "%d は選択したファイルがあるパス名に置き換えられます。"
 
-#: ../treebrowser/src/treebrowser.c:1974
+#: ../treebrowser/src/treebrowser.c:1972
 msgid "The terminal to use with the command \"Open Terminal\""
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1980
+#: ../treebrowser/src/treebrowser.c:1978
 msgid "Toolbar"
 msgstr "ツールバー"
 
-#: ../treebrowser/src/treebrowser.c:1982
+#: ../treebrowser/src/treebrowser.c:1980
 msgid "Hidden"
 msgstr "非表示"
 
-#: ../treebrowser/src/treebrowser.c:1983
+#: ../treebrowser/src/treebrowser.c:1981
 msgid "Top"
 msgstr "上"
 
-#: ../treebrowser/src/treebrowser.c:1984
+#: ../treebrowser/src/treebrowser.c:1982
 msgid "Bottom"
 msgstr "下"
 
-#: ../treebrowser/src/treebrowser.c:1989
+#: ../treebrowser/src/treebrowser.c:1987
 msgid "If position is changed, the option require plugin restart."
 msgstr "位置を変更したときは、プラグインの再起動が必要です。"
 
-#: ../treebrowser/src/treebrowser.c:1993
+#: ../treebrowser/src/treebrowser.c:1991
 msgid "Show icons"
 msgstr "アイコンを表示"
 
-#: ../treebrowser/src/treebrowser.c:1995
+#: ../treebrowser/src/treebrowser.c:1993
 msgid "None"
 msgstr "なし"
 
-#: ../treebrowser/src/treebrowser.c:1996
+#: ../treebrowser/src/treebrowser.c:1994
 msgid "Base"
 msgstr "基本"
 
-#: ../treebrowser/src/treebrowser.c:1997
+#: ../treebrowser/src/treebrowser.c:1995
 msgid "Content-type"
 msgstr "内容"
 
-#: ../treebrowser/src/treebrowser.c:2003
+#: ../treebrowser/src/treebrowser.c:2001
 msgid "Show hidden files"
 msgstr "隠しファイルを表示"
 
-#: ../treebrowser/src/treebrowser.c:2008
+#: ../treebrowser/src/treebrowser.c:2006
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr "'.'(ドット)から始まるファイルを隠します"
 
-#: ../treebrowser/src/treebrowser.c:2010
+#: ../treebrowser/src/treebrowser.c:2008
 msgid "Hide object files"
 msgstr "オブジェクトファイルを表示しない"
 
-#: ../treebrowser/src/treebrowser.c:2015
+#: ../treebrowser/src/treebrowser.c:2013
 msgid ""
 "Don't show generated object files in the file browser, this includes *.o, *."
 "obj. *.so, *.dll, *.a, *.lib"
@@ -7481,64 +7492,66 @@ msgstr ""
 "ファイルブラウザにオブジェクトファイルを表示しません。除外されるファイルは *."
 "o, *.obj. *.so, *.dll, *.a, *.lib です。"
 
-#: ../treebrowser/src/treebrowser.c:2017
+#: ../treebrowser/src/treebrowser.c:2015
 msgid "Reverse filter"
 msgstr "フィルタを反転"
 
-#: ../treebrowser/src/treebrowser.c:2022
+#: ../treebrowser/src/treebrowser.c:2020
 msgid "Follow current document"
 msgstr "現在の文書のディレクトリに合わせる"
 
-#: ../treebrowser/src/treebrowser.c:2027
+#: ../treebrowser/src/treebrowser.c:2025
 msgid "Single click, open document and focus it"
 msgstr "シングルクリックで文書を表示"
 
-#: ../treebrowser/src/treebrowser.c:2032
+#: ../treebrowser/src/treebrowser.c:2030
 msgid "Double click open directory"
 msgstr "ダブルクリックでディレクトリを表示"
 
-#: ../treebrowser/src/treebrowser.c:2037
+#: ../treebrowser/src/treebrowser.c:2035
 msgid "On delete file, close it if is opened"
 msgstr "ファイル削除時に、開いていたら閉じる"
 
-#: ../treebrowser/src/treebrowser.c:2042
+#: ../treebrowser/src/treebrowser.c:2040
 msgid "Focus editor on file open"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2047
+#: ../treebrowser/src/treebrowser.c:2045
 msgid "Show tree lines"
 msgstr "ツリー行数を表示"
 
-#: ../treebrowser/src/treebrowser.c:2054
+#: ../treebrowser/src/treebrowser.c:2052
 msgid "Show bookmarks"
 msgstr "ブックマークを表示"
 
-#: ../treebrowser/src/treebrowser.c:2059
+#: ../treebrowser/src/treebrowser.c:2057
 #, fuzzy
 msgid "Open new files"
 msgstr "ファイルを開く"
 
-#: ../treebrowser/src/treebrowser.c:2139
+#: ../treebrowser/src/treebrowser.c:2137
 msgid "Focus File List"
 msgstr "ファイル覧に切り替え"
 
-#: ../treebrowser/src/treebrowser.c:2141
+#: ../treebrowser/src/treebrowser.c:2139
 msgid "Focus Path Entry"
 msgstr "パス入力に切り替え"
 
-#: ../treebrowser/src/treebrowser.c:2143
+#: ../treebrowser/src/treebrowser.c:2141
 msgid "Rename Object"
 msgstr "オブジェクトの名前変更"
 
+#: ../treebrowser/src/treebrowser.c:2143
+#, fuzzy
+msgid "New File"
+msgstr "新規ファイル"
+
 #: ../treebrowser/src/treebrowser.c:2145
-msgid "Create New File"
-msgstr "ファイルを作成"
+#, fuzzy
+msgid "New Folder"
+msgstr "フォルダを選択"
 
-#: ../treebrowser/src/treebrowser.c:2147
-msgid "Create New Directory"
-msgstr "ディレクトリを作成"
-
-#: ../treebrowser/src/treebrowser.c:2151
+#: ../treebrowser/src/treebrowser.c:2149
 #, fuzzy
 msgid "Track Current"
 msgstr "パスを記録"
@@ -7794,6 +7807,368 @@ msgstr "ブラウザ"
 msgid "Windows"
 msgstr "ウィンドウ"
 
+#: ../workbench/src/dialogs.c:43
+#, fuzzy
+msgid "Create new workbench"
+msgstr "ディレクトリを作成"
+
+#: ../workbench/src/dialogs.c:74
+#, fuzzy
+msgid "Open workbench"
+msgstr "開く"
+
+#: ../workbench/src/dialogs.c:77
+#, fuzzy
+msgid "_Open"
+msgstr "開く"
+
+#: ../workbench/src/dialogs.c:80
+msgid "Workbench files (.geanywb)"
+msgstr ""
+
+#: ../workbench/src/dialogs.c:113
+#, fuzzy
+msgid "Add project"
+msgstr "プロジェクトファイルを検索"
+
+#: ../workbench/src/dialogs.c:116 ../workbench/src/dialogs.c:153
+#, fuzzy
+msgid "_Add"
+msgstr "両方追加(_A)"
+
+#: ../workbench/src/dialogs.c:119
+#, fuzzy
+msgid "Project files (.geany)"
+msgstr "プロジェクトファイル \"%s\" は既に存在します"
+
+#: ../workbench/src/dialogs.c:150
+#, fuzzy
+msgid "Add directory"
+msgstr "ディレクトリを元に戻す"
+
+#: ../workbench/src/dialogs.c:218
+#, fuzzy
+msgid "Directory settings"
+msgstr "環境設定"
+
+#: ../workbench/src/dialogs.c:222 ../workbench/src/dialogs.c:351
+#, fuzzy
+msgid "_OK"
+msgstr "了解(_O)"
+
+#: ../workbench/src/dialogs.c:232
+#, fuzzy
+msgid "File patterns:"
+msgstr "ソースのフィルタ:"
+
+#: ../workbench/src/dialogs.c:238
+#, fuzzy
+msgid ""
+"Space separated list of patterns that are used to identify files that shall "
+"be displayed in the directory tree."
+msgstr ""
+"空白で区切られたソースファイル検索の対象から外すディレクトリのパターンのリス"
+"ト"
+
+#: ../workbench/src/dialogs.c:249
+#, fuzzy
+msgid ""
+"Space separated list of patterns that are used to identify files that shall "
+"not be displayed in the directory tree."
+msgstr ""
+"空白で区切られたソースファイル検索の対象から外すディレクトリのパターンのリス"
+"ト"
+
+#: ../workbench/src/dialogs.c:260
+#, fuzzy
+msgid ""
+"Space separated list of patterns that are used to identify directories that "
+"shall not be scanned for source files."
+msgstr ""
+"空白で区切られたソースファイル検索の対象から外すディレクトリのパターンのリス"
+"ト"
+
+#: ../workbench/src/dialogs.c:268
+msgid ""
+"Note: the patterns above affect only the workbench directory and are not "
+"used in the Find in Files\n"
+"dialog."
+msgstr ""
+
+#: ../workbench/src/dialogs.c:347
+#, fuzzy
+msgid "Workbench settings"
+msgstr "環境設定"
+
+#: ../workbench/src/dialogs.c:361
+#, fuzzy
+msgid "Rescan all projects on open:"
+msgstr "プロジェクトファイルを検索"
+
+#: ../workbench/src/dialogs.c:366
+msgid ""
+"If the option is activated (default), then all projects will be re-scanned "
+"on opening of the workbench."
+msgstr ""
+
+#: ../workbench/src/menu.c:95
+#, fuzzy, c-format
+msgid "Could not create new workbench file: %s"
+msgstr "一時ファイルを作成できません"
+
+#: ../workbench/src/menu.c:122
+#, fuzzy, c-format
+msgid "Could not open workbench file: %s"
+msgstr "デバッグ設定ファイル %s の読み込みに失敗: %s"
+
+#: ../workbench/src/menu.c:139
+#, fuzzy, c-format
+msgid "Could not save workbench file: %s"
+msgstr "デバッグ設定ファイル %s の読み込みに失敗: %s"
+
+#. Set metadata
+#: ../workbench/src/menu.c:177 ../workbench/src/plugin_main.c:129
+#: ../workbench/src/sidebar.c:1132
+msgid "Workbench"
+msgstr ""
+
+#. Create new menu item "New Workbench"
+#: ../workbench/src/menu.c:181
+msgid "_New..."
+msgstr ""
+
+#. Create new menu item "Open Workbench"
+#: ../workbench/src/menu.c:188
+msgid "_Open..."
+msgstr ""
+
+#. Create new menu item "Save Workbench"
+#: ../workbench/src/menu.c:195
+msgid "_Save"
+msgstr ""
+
+#. Create new menu item "Workbench Settings"
+#: ../workbench/src/menu.c:202
+#, fuzzy
+msgid "S_ettings"
+msgstr "設定"
+
+#. Create new menu item "Close Workbench"
+#: ../workbench/src/menu.c:209
+#, fuzzy
+msgid "_Close"
+msgstr "閉じる: %s"
+
+#: ../workbench/src/plugin_main.c:93 ../workbench/src/sidebar.c:589
+msgid ""
+"Create or open a workbench\n"
+"using the workbench menu."
+msgstr ""
+
+#: ../workbench/src/plugin_main.c:130
+msgid "Manage and customize multiple projects."
+msgstr ""
+
+#: ../workbench/src/popup_menu.c:232
+#, fuzzy, c-format
+msgid "Could not add project file: %s"
+msgstr "デバッグ設定ファイル %s の読み込みに失敗: %s"
+
+#: ../workbench/src/popup_menu.c:518
+#, fuzzy
+msgid "_Add project..."
+msgstr "プロジェクトファイルを検索"
+
+#: ../workbench/src/popup_menu.c:524
+#, fuzzy
+msgid "_Save project"
+msgstr "新規プロジェクト"
+
+#: ../workbench/src/popup_menu.c:530
+#, fuzzy
+msgid "_Remove project"
+msgstr "オブジェクトの名前変更"
+
+#: ../workbench/src/popup_menu.c:536
+#, fuzzy
+msgid "_Fold/unfold project"
+msgstr "プロジェクトファイルを検索"
+
+#: ../workbench/src/popup_menu.c:542
+msgid "_Open all files in project"
+msgstr ""
+
+#: ../workbench/src/popup_menu.c:548
+msgid "_Close all files in project"
+msgstr ""
+
+#: ../workbench/src/popup_menu.c:558
+#, fuzzy
+msgid "_Add directory..."
+msgstr "ディレクトリを元に戻す"
+
+#: ../workbench/src/popup_menu.c:564
+#, fuzzy
+msgid "_Remove directory"
+msgstr "ディレクトリを元に戻す"
+
+#: ../workbench/src/popup_menu.c:570
+#, fuzzy
+msgid "_Rescan directory"
+msgstr "ディレクトリを元に戻す"
+
+#: ../workbench/src/popup_menu.c:576
+#, fuzzy
+msgid "_Directory settings"
+msgstr "ディレクトリ(_D)"
+
+#: ../workbench/src/popup_menu.c:582
+#, fuzzy
+msgid "_Fold/unfold directory"
+msgstr "ディレクトリの差分を表示"
+
+#: ../workbench/src/popup_menu.c:588
+#, fuzzy
+msgid "_Open all files in directory"
+msgstr "%s: ファイルまたはディレクトリがありません"
+
+#: ../workbench/src/popup_menu.c:594
+#, fuzzy
+msgid "_Close all files in directory"
+msgstr "ディレクトリを作成"
+
+#: ../workbench/src/popup_menu.c:604
+#, fuzzy
+msgid "_Open all files in folder"
+msgstr "署名ファイルを開く"
+
+#: ../workbench/src/popup_menu.c:610
+msgid "_Close all files in folder"
+msgstr ""
+
+#: ../workbench/src/popup_menu.c:620
+#, fuzzy
+msgid "_Expand all"
+msgstr "すべて展開"
+
+#: ../workbench/src/popup_menu.c:626
+#, fuzzy
+msgid "_Collapse all"
+msgstr "すべて閉じる"
+
+#: ../workbench/src/popup_menu.c:636
+msgid "_Add to Workbench Bookmarks"
+msgstr ""
+
+#: ../workbench/src/popup_menu.c:642
+msgid "_Add to Project Bookmarks"
+msgstr ""
+
+#: ../workbench/src/popup_menu.c:648
+#, fuzzy
+msgid "_Remove from Bookmarks"
+msgstr "ブックマークを削除(_R)"
+
+#: ../workbench/src/sidebar.c:291
+#, fuzzy
+msgid "Base dir"
+msgstr "基本"
+
+#: ../workbench/src/sidebar.c:324
+#, fuzzy
+msgid "No directories"
+msgstr "新規ディレクトリ"
+
+#. *** label ***
+#: ../workbench/src/sidebar.c:587 ../workbench/src/sidebar.c:1083
+msgid "No workbench opened."
+msgstr ""
+
+#: ../workbench/src/sidebar.c:598
+#, fuzzy, c-format
+msgid "%s: %u Projects"
+msgstr "プロジェクト"
+
+#: ../workbench/src/sidebar.c:609
+msgid ""
+"Add a project\n"
+"using the context menu."
+msgstr ""
+
+#: ../workbench/src/sidebar.c:719
+#, c-format
+msgid ""
+"%s\n"
+"Project file not found!"
+msgstr ""
+
+#: ../workbench/src/sidebar.c:733
+msgid ""
+"This project has no directories. Directories can be added to a project using "
+"the context menu."
+msgstr ""
+
+#: ../workbench/src/wb_project.c:942
+#, fuzzy, c-format
+msgid "Directory-Name: %s\n"
+msgstr "ディレクトリ(_D)"
+
+#: ../workbench/src/wb_project.c:943
+#, fuzzy, c-format
+msgid "Base-Directory: %s\n"
+msgstr "_BASE ディレクトリ"
+
+#: ../workbench/src/wb_project.c:945
+#, fuzzy
+msgid "File Patterns:"
+msgstr "無視するディレクトリ:"
+
+#: ../workbench/src/wb_project.c:957
+#, fuzzy
+msgid "Ignored Dir. Patterns:"
+msgstr "無視するディレクトリ:"
+
+#: ../workbench/src/wb_project.c:969
+#, fuzzy
+msgid "Ignored File Patterns:"
+msgstr "無視するディレクトリ:"
+
+#: ../workbench/src/wb_project.c:981
+#, c-format
+msgid "Number of Sub-Folders: %u\n"
+msgstr ""
+
+#: ../workbench/src/wb_project.c:982
+#, fuzzy, c-format
+msgid "Number of Files: %u\n"
+msgstr "巻数"
+
+#: ../workbench/src/wb_project.c:1006
+#, fuzzy, c-format
+msgid "Project: %s\n"
+msgstr "プロジェクト"
+
+#: ../workbench/src/wb_project.c:1007
+#, fuzzy, c-format
+msgid "File: %s\n"
+msgstr "閉じる: %s"
+
+#: ../workbench/src/wb_project.c:1008
+#, fuzzy, c-format
+msgid "Number of Directories: %u\n"
+msgstr "巻数"
+
+#: ../workbench/src/wb_project.c:1011
+msgid ""
+"\n"
+"The project contains unsafed changes!\n"
+msgstr ""
+
+#: ../workbench/src/workbench.c:710
+#, fuzzy, c-format
+msgid "File %s is not a valid workbench file!"
+msgstr "ファイル \"%s\" は存在しますが通常のファイルではありません"
+
 #: ../xmlsnippets/src/plugin.c:44
 msgid "XML Snippets"
 msgstr "XML スニペット"
@@ -7801,6 +8176,20 @@ msgstr "XML スニペット"
 #: ../xmlsnippets/src/plugin.c:45
 msgid "Autocompletes XML/HTML tags using snippets."
 msgstr "スニペットを使用してXML/HTMLタグを自動補完"
+
+#, fuzzy
+#~ msgid "Create _new file"
+#~ msgstr "ファイルを作成"
+
+#, fuzzy
+#~ msgid "E_xpand all"
+#~ msgstr "すべて展開"
+
+#~ msgid "Create New File"
+#~ msgstr "ファイルを作成"
+
+#~ msgid "Create New Directory"
+#~ msgstr "ディレクトリを作成"
 
 #~ msgid "Call documentation viewer on current symbol."
 #~ msgstr "選択中の単語をオンラインヘルプで調べます"
@@ -7874,14 +8263,6 @@ msgstr "スニペットを使用してXML/HTMLタグを自動補完"
 #~ "コードの貼り付けができません。インターネット接続を確認してもう一度実行しま"
 #~ "す。\n"
 #~ "エラーコード: %d\n"
-
-#, fuzzy
-#~ msgid "Find Project Tag..."
-#~ msgstr "プロジェクトファイルを検索"
-
-#, fuzzy
-#~ msgid "Find project tag"
-#~ msgstr "プロジェクトファイルを検索"
 
 #, fuzzy
 #~ msgid "Generate tags for all project files:"
@@ -8088,9 +8469,6 @@ msgstr "スニペットを使用してXML/HTMLタグを自動補完"
 
 #~ msgid "Watchpoints"
 #~ msgstr "監視ポイント"
-
-#~ msgid "Environment settings"
-#~ msgstr "環境設定"
 
 #~ msgid ""
 #~ "\n"
@@ -8493,9 +8871,6 @@ msgstr "スニペットを使用してXML/HTMLタグを自動補完"
 
 #~ msgid "Error reading config file"
 #~ msgstr "設定ファイル読み込みエラー"
-
-#~ msgid "Couldn't create tempfile"
-#~ msgstr "一時ファイルを作成できません"
 
 #~ msgid "Lionel Fuentes"
 #~ msgstr "Lionel Fuentes"
