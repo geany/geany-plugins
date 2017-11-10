@@ -67,8 +67,8 @@ static GKeyFile *keyfile_project = NULL;
 static gboolean debug_config_loading = FALSE;
 
 /* saving thread staff */
-static GMutex *change_config_mutex;
-static GCond *cond;
+static GMutex change_config_mutex;
+static GCond cond;
 static GThread *saving_thread;
 
 /* flags that indicate that part of a config has been changed and
@@ -269,8 +269,8 @@ static void save_to_keyfile(GKeyFile *keyfile)
  */
 static gpointer saving_thread_func(gpointer data)
 {
-	GTimeVal interval;
-	g_mutex_lock(change_config_mutex);
+	gint64 interval;
+	g_mutex_lock(&change_config_mutex);
 	do
 	{
 		if (
@@ -308,11 +308,10 @@ static gpointer saving_thread_func(gpointer data)
 			debug_config_changed = FALSE;
 		}
 
-		g_get_current_time(&interval);
-		g_time_val_add(&interval, SAVING_INTERVAL);
+		interval = g_get_monotonic_time () + SAVING_INTERVAL;
 	}
-	while (!g_cond_timed_wait(cond, change_config_mutex, &interval));
-	g_mutex_unlock(change_config_mutex);
+	while (!g_cond_wait_until(&cond, &change_config_mutex, interval));
+	g_mutex_unlock(&change_config_mutex);
 	
 	return NULL;
 }
@@ -324,9 +323,9 @@ void config_set_debug_changed(void)
 {
 	if (!debug_config_loading)
 	{
-		g_mutex_lock(change_config_mutex);
+		g_mutex_lock(&change_config_mutex);
 		debug_config_changed = TRUE;
-		g_mutex_unlock(change_config_mutex);
+		g_mutex_unlock(&change_config_mutex);
 	}
 }
 
@@ -337,7 +336,7 @@ void config_set_panel(int config_part, gpointer config_value, ...)
 {
 	va_list ap;
 	
-	g_mutex_lock(change_config_mutex);
+	g_mutex_lock(&change_config_mutex);
 	
 	va_start(ap, config_value);
 	
@@ -395,7 +394,7 @@ void config_set_panel(int config_part, gpointer config_value, ...)
 	va_end(ap);
 	
 	panel_config_changed = TRUE;
-	g_mutex_unlock(change_config_mutex);
+	g_mutex_unlock(&change_config_mutex);
 }
 
 /*
@@ -458,9 +457,9 @@ void config_init(void)
 		g_free(data);
 	}
 
-	change_config_mutex = g_mutex_new();
-	cond = g_cond_new();
-	saving_thread = g_thread_create(saving_thread_func, NULL, TRUE, NULL);
+	g_mutex_init(&change_config_mutex);
+	g_cond_init(&cond);
+	saving_thread = g_thread_new(NULL, saving_thread_func, NULL);
 }	
 
 /*
@@ -468,11 +467,11 @@ void config_init(void)
  */
 void config_destroy(void)
 {
-	g_cond_signal(cond);
+	g_cond_signal(&cond);
 	g_thread_join(saving_thread);
 	
-	g_mutex_free(change_config_mutex);
-	g_cond_free(cond);
+	g_mutex_clear(&change_config_mutex);
+	g_cond_clear(&cond);
 
 	g_free(plugin_config_path);
 	
@@ -642,9 +641,9 @@ static void on_configure_response(GtkDialog* dialog, gint response, gpointer use
 	{
 		g_key_file_set_boolean(keyfile_plugin, "saving_settings", "save_to_project", newvalue);
 
-		g_mutex_lock(change_config_mutex);
+		g_mutex_lock(&change_config_mutex);
 		panel_config_changed = TRUE;
-		g_mutex_unlock(change_config_mutex);
+		g_mutex_unlock(&change_config_mutex);
 
 		if (geany_data->app->project)
 		{
@@ -668,14 +667,14 @@ static void on_configure_response(GtkDialog* dialog, gint response, gpointer use
  */
 GtkWidget *config_plugin_configure(GtkDialog *dialog)
 {
-	GtkWidget *vbox = gtk_vbox_new(FALSE, 6);
-	GtkWidget *_hbox = gtk_hbox_new(FALSE, 6);
+	GtkWidget *vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
+	GtkWidget *hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
 	
 	save_to_project_btn = gtk_check_button_new_with_label(_("Save debug session data to a project"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(save_to_project_btn), config_get_save_to_project());
 
-	gtk_box_pack_start(GTK_BOX(_hbox), save_to_project_btn, TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox), _hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), save_to_project_btn, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
 	gtk_widget_show_all(vbox);
 

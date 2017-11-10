@@ -40,14 +40,14 @@ struct _CellRendererBreakIcon
 {
   GtkCellRenderer parent;
 
-  guint GSEAL (enabled);
-  const gchar* GSEAL(condition);
-  guint GSEAL (hitscount);
+  guint enabled;
+  const gchar* condition;
+  guint hitscount;
 
-  GdkPixbuf *GSEAL (pixbuf_enabled);
-  GdkPixbuf *GSEAL (pixbuf_disabled);
-  GdkPixbuf *GSEAL (pixbuf_conditional);
-  GdkPixbuf *GSEAL (pixbuf_file);
+  GdkPixbuf *pixbuf_enabled;
+  GdkPixbuf *pixbuf_disabled;
+  GdkPixbuf *pixbuf_conditional;
+  GdkPixbuf *pixbuf_file;
 };
 
 struct _CellRendererBreakIconClass

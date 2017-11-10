@@ -126,7 +126,7 @@ static GtkWidget *debugger_messages_textview = NULL;
 static GtkAdjustment *hadj = NULL;
 static GtkAdjustment *vadj = NULL;
 
-/* stack trace/watch/autos CtkTreeView widgets */
+/* stack trace/watch/autos GtkTreeView widgets */
 static GtkWidget *stree = NULL;
 static GtkWidget *wtree = NULL;
 static GtkWidget *atree = NULL;
@@ -320,7 +320,7 @@ static void on_watch_dragged_callback(GtkWidget *wgt, GdkDragContext *context, i
     gpointer userdata)
 {
 	/* string that is dragged */
-	gchar *expression = (gchar*)seldata->data;
+	const guchar *expression = gtk_selection_data_get_data(seldata);
 	GtkTreePath *path = NULL;
 	GtkTreeViewDropPosition pos;
 	GtkTreePath *empty_path;
@@ -366,11 +366,11 @@ static void on_watch_dragged_callback(GtkWidget *wgt, GdkDragContext *context, i
 	 *  if not - just set new expession in the tree view */ 
 	if (DBS_STOPPED == debug_state)
 	{
-		variable *var = active_module->add_watch(expression);
+		variable *var = active_module->add_watch((gchar*)expression);
 		change_watch(GTK_TREE_VIEW(wtree), &newvar, var);
 	}
 	else
-		variable_set_name_only(wstore, &newvar, expression);
+		variable_set_name_only(wstore, &newvar, (gchar*)expression);
 
 	config_set_debug_changed();
 }
@@ -997,8 +997,9 @@ void debug_init(void)
 	GtkWidget *hbox;
 	GKeyFile *config;
 	gchar *configfile;
-	gchar *font;
+	//gchar *font;
 	GtkTextBuffer *buffer;
+	VtePty *pty;
 
 	/* create watch page */
 	wtree = wtree_init(on_watch_expanded_callback,
@@ -1010,8 +1011,8 @@ void debug_init(void)
 	wstore = GTK_TREE_STORE(wmodel);
 	
 	tab_watch = gtk_scrolled_window_new(
-		gtk_tree_view_get_hadjustment(GTK_TREE_VIEW(wtree)),
-		gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(wtree))
+		gtk_scrollable_get_hadjustment(GTK_SCROLLABLE(wtree)),
+		gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(wtree))
 	);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(tab_watch),
 		GTK_POLICY_AUTOMATIC,
@@ -1021,8 +1022,8 @@ void debug_init(void)
 	/* create autos page */
 	atree = atree_init(on_watch_expanded_callback, on_watch_button_pressed_callback);
 	tab_autos = gtk_scrolled_window_new(
-		gtk_tree_view_get_hadjustment(GTK_TREE_VIEW(atree)),
-		gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(atree))
+		gtk_scrollable_get_hadjustment(GTK_SCROLLABLE(atree)),
+		gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(atree))
 	);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(tab_autos),
 		GTK_POLICY_AUTOMATIC,
@@ -1032,8 +1033,8 @@ void debug_init(void)
 	/* create stack trace page */
 	stree = stree_init(editor_open_position, on_select_thread, on_select_frame);
 	tab_call_stack = gtk_scrolled_window_new(
-		gtk_tree_view_get_hadjustment(GTK_TREE_VIEW(stree )),
-		gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(stree ))
+		gtk_scrollable_get_hadjustment(GTK_SCROLLABLE(stree)),
+		gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(stree))
 	);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(tab_call_stack),
 		GTK_POLICY_AUTOMATIC,
@@ -1043,17 +1044,17 @@ void debug_init(void)
 	/* create debug terminal page */
 	terminal = vte_terminal_new();
 	/* create PTY */
-	openpty(&pty_master, &pty_slave, NULL,
-		    NULL,
-		    NULL);
+	openpty(&pty_master, &pty_slave, NULL, NULL, NULL);
 	grantpt(pty_master);
 	unlockpt(pty_master);
-	vte_terminal_set_pty(VTE_TERMINAL(terminal), pty_master);
-	scrollbar = gtk_vscrollbar_new(GTK_ADJUSTMENT(VTE_TERMINAL(terminal)->adjustment));
-	GTK_WIDGET_UNSET_FLAGS(scrollbar, GTK_CAN_FOCUS);
+	pty = vte_pty_new_foreign_sync(pty_master, NULL, NULL);
+	vte_terminal_set_pty(VTE_TERMINAL(terminal), pty);
+	g_object_unref(pty);
+	scrollbar = gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL, gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(terminal)));
+	gtk_widget_set_can_focus(GTK_WIDGET(scrollbar), FALSE);
 	tab_terminal = gtk_frame_new(NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME(tab_terminal), GTK_SHADOW_NONE);
-	hbox = gtk_hbox_new(FALSE, 0);
+	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_container_add(GTK_CONTAINER(tab_terminal), hbox);
 	gtk_box_pack_start(GTK_BOX(hbox), terminal, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), scrollbar, FALSE, FALSE, 0);
@@ -1065,8 +1066,8 @@ void debug_init(void)
 	config = g_key_file_new();
 	configfile = g_strconcat(geany_data->app->configdir, G_DIR_SEPARATOR_S, "geany.conf", NULL);
 	g_key_file_load_from_file(config, configfile, G_KEY_FILE_NONE, NULL);
-	font = utils_get_setting_string(config, "VTE", "font", "Monospace 10");
-	vte_terminal_set_font_from_string (VTE_TERMINAL(terminal), font);	
+	//font = utils_get_setting_string(config, "VTE", "font", "Monospace 10");
+	//vte_terminal_set_font_from_string (VTE_TERMINAL(terminal), font);	
 		
 	/* debug messages page */
 	tab_messages = gtk_scrolled_window_new(NULL, NULL);
@@ -1078,7 +1079,7 @@ void debug_init(void)
 	
 	debugger_messages_textview =  gtk_text_view_new();
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (debugger_messages_textview), FALSE);
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(tab_messages), debugger_messages_textview);
+	gtk_container_add(GTK_CONTAINER(tab_messages), debugger_messages_textview);
 	
 	/* create tex tags */
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(debugger_messages_textview));

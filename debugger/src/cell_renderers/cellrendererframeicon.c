@@ -43,7 +43,7 @@ static guint clicked_signal;
  * activate callback
  */
 static gint cell_renderer_frame_icon_activate(GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, const gchar *path,
-	GdkRectangle *background_area, GdkRectangle *cell_area, GtkCellRendererState  flags)
+	const GdkRectangle *background_area, const GdkRectangle *cell_area, GtkCellRendererState  flags)
 {
 	if (!event ||
 		(
@@ -116,7 +116,7 @@ static void cell_renderer_frame_icon_set_property (GObject *object, guint param_
 /*
  * get size of a cell
  */
-static void cell_renderer_frame_icon_get_size(GtkCellRenderer *cell, GtkWidget *widget, GdkRectangle *cell_area, 
+static void cell_renderer_frame_icon_get_size(GtkCellRenderer *cell, GtkWidget *widget, const GdkRectangle *cell_area, 
 	gint *x_offset, gint *y_offset, gint *width, gint *height)
 {
 	CellRendererFrameIcon *cellframe = (CellRendererFrameIcon *) cell;
@@ -124,6 +124,10 @@ static void cell_renderer_frame_icon_get_size(GtkCellRenderer *cell, GtkWidget *
 	gint pixbuf_height = 0;
 	gint calc_width;
 	gint calc_height;
+	gint xpad;
+	gint ypad;
+	gfloat xalign;
+	gfloat yalign;
 	
 	if (cellframe->pixbuf_active)
 	{
@@ -135,22 +139,24 @@ static void cell_renderer_frame_icon_get_size(GtkCellRenderer *cell, GtkWidget *
 		pixbuf_width  = MAX (pixbuf_width, gdk_pixbuf_get_width (cellframe->pixbuf_highlighted));
 		pixbuf_height = MAX (pixbuf_height, gdk_pixbuf_get_height (cellframe->pixbuf_highlighted));
 	}
-	
-	calc_width  = (gint) cell->xpad * 2 + pixbuf_width;
-	calc_height = (gint) cell->ypad * 2 + pixbuf_height;
-	
+
+	gtk_cell_renderer_get_padding(cell, &xpad, &ypad);
+	calc_width  = xpad * 2 + pixbuf_width;
+	calc_height = ypad * 2 + pixbuf_height;
+
+	gtk_cell_renderer_get_alignment(cell, &xalign, &yalign);
 	if (cell_area && pixbuf_width > 0 && pixbuf_height > 0)
 	{
 		if (x_offset)
 		{
 			*x_offset = (((gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL) ?
-				(1.0 - cell->xalign) : cell->xalign) * 
+				(1.0 - xalign) : xalign) * 
 				(cell_area->width - calc_width));
 			*x_offset = MAX (*x_offset, 0);
 		}
 		if (y_offset)
 		{
-			*y_offset = (cell->yalign * (cell_area->height - calc_height));
+			*y_offset = (yalign * (cell_area->height - calc_height));
 			*y_offset = MAX (*y_offset, 0);
 		}
 	}
@@ -170,8 +176,8 @@ static void cell_renderer_frame_icon_get_size(GtkCellRenderer *cell, GtkWidget *
 /*
  * render a cell
  */
-static void cell_renderer_frame_icon_render(GtkCellRenderer *cell, GdkDrawable *window, GtkWidget *widget,
-	GdkRectangle *background_area, GdkRectangle *cell_area, GdkRectangle *expose_area, GtkCellRendererState flags)
+static void cell_renderer_frame_icon_render(GtkCellRenderer *cell, cairo_t *cr, GtkWidget *widget,
+	const GdkRectangle *background_area, const GdkRectangle *cell_area, GtkCellRendererState flags)
 {
 	CellRendererFrameIcon *cellframe = (CellRendererFrameIcon*) cell;
 	
@@ -179,21 +185,23 @@ static void cell_renderer_frame_icon_render(GtkCellRenderer *cell, GdkDrawable *
 	
 	GdkRectangle pix_rect;
 	GdkRectangle draw_rect;
-	cairo_t *cr;
+
+	gint xpad;
+	gint ypad;
 	
 	cell_renderer_frame_icon_get_size (cell, widget, cell_area,
 		&pix_rect.x,
 		&pix_rect.y,
 		&pix_rect.width,
 		&pix_rect.height);
+
+	gtk_cell_renderer_get_padding(cell, &xpad, &ypad);
+	pix_rect.x += cell_area->x + xpad;
+	pix_rect.y += cell_area->y + ypad;
+	pix_rect.width  -= xpad * 2;
+	pix_rect.height -= ypad * 2;
 	
-	pix_rect.x += cell_area->x + cell->xpad;
-	pix_rect.y += cell_area->y + cell->ypad;
-	pix_rect.width  -= cell->xpad * 2;
-	pix_rect.height -= cell->ypad * 2;
-	
-	if (!gdk_rectangle_intersect (cell_area, &pix_rect, &draw_rect) ||
-		!gdk_rectangle_intersect (expose_area, &draw_rect, &draw_rect))
+	if (!gdk_rectangle_intersect (cell_area, &pix_rect, &draw_rect))
 		return;
 	
 	if (cellframe->active_frame)
@@ -208,13 +216,9 @@ static void cell_renderer_frame_icon_render(GtkCellRenderer *cell, GdkDrawable *
 	if (!pixbuf)
 		return;
 	
-	cr = gdk_cairo_create (window);
-	
 	gdk_cairo_set_source_pixbuf (cr, pixbuf, pix_rect.x, pix_rect.y);
 	gdk_cairo_rectangle (cr, &draw_rect);
 	cairo_fill (cr);
-	
-	cairo_destroy (cr);
 }
 
 /*
@@ -223,12 +227,15 @@ static void cell_renderer_frame_icon_render(GtkCellRenderer *cell, GdkDrawable *
 static void cell_renderer_frame_icon_init (CellRendererFrameIcon *cell)
 {
 	GtkCellRenderer *cell_renderer = (GtkCellRenderer*)cell;
+	GValue mode = G_VALUE_INIT;
 	
 	cell->active_frame = FALSE;
-	
-	cell_renderer->mode = GTK_CELL_RENDERER_MODE_ACTIVATABLE;
-
 	cell->pixbuf_active = cell->pixbuf_highlighted = 0;
+
+	g_value_init(&mode, G_TYPE_ENUM);
+	g_value_set_enum(&mode, GTK_CELL_RENDERER_MODE_ACTIVATABLE);
+	g_object_set_property(G_OBJECT(cell_renderer), "mode", &mode);
+	g_value_unset(&mode);
 }
 
 /*

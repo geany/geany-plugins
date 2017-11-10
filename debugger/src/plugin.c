@@ -97,7 +97,7 @@ void plugin_init(GeanyData *data)
 	pixbufs_init();
 
 	/* main box */
-	hbox = gtk_hbox_new(FALSE, 7);
+	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 7);
 	gtk_container_set_border_width(GTK_CONTAINER(hbox), 6);
 
 	/* add target page */

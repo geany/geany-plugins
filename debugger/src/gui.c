@@ -52,7 +52,7 @@ GtkWidget* create_button(const gchar *icon, const gchar *tooltip)
 GtkWidget* create_stock_button(const gchar *stockid, const gchar *tooltip)
 {
 	GtkWidget *btn = gtk_button_new();
-	GtkWidget *image = gtk_image_new_from_stock (stockid, GTK_ICON_SIZE_MENU);
+	GtkWidget *image = gtk_image_new_from_icon_name(stockid, GTK_ICON_SIZE_MENU);
 	gtk_widget_show(image);
 	gtk_button_set_image(GTK_BUTTON(btn), image);
 
