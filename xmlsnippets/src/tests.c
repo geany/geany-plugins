@@ -80,7 +80,7 @@ static gboolean test(gint ordinal, const gchar *input, const gchar *completion_n
 	else if (!completion_needed && !success)
 		return TRUE;
 
-	if (strcmp(c.completion, completion_needed) != 0)
+	if (g_strcmp0(c.completion, completion_needed) != 0)
 	{
 		g_warning(
 			"Test %d: FAIL\n"

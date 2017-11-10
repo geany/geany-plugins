@@ -114,7 +114,7 @@ static void on_swap_header_source(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_U
 	if (known_type)
 	{
 		gboolean swapped;
-		GSList *elem, *list = NULL;
+		GSList *elem = NULL, *list = NULL;
 		guint i = 0;
 
 		foreach_document(i)
