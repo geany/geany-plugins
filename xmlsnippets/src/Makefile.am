@@ -21,5 +21,6 @@ xmlsnippets_check_SOURCES = \
 
 xmlsnippets_check_CPPFLAGS = -DTEST
 xmlsnippets_check_LDADD = $(COMMONLIBS)
+TESTS = $(check_PROGRAMS)
 
 include $(top_srcdir)/build/cppcheck.mk
