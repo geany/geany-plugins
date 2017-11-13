@@ -1,16 +1,16 @@
 # translation of es.po to
 # Spanish translation for geany-plugins
-# Copyright (C) 2009 - 2014 Lucas Vieites
+# Copyright (C) 2009 - 2017 Lucas Vieites
 # This file is distributed under the same license as the geany-plugins package.
 # Andrew Janke <a.janke@gmail.com>, 2009
-# Lucas Vieites <lucas@codexion.com>, 2009 - 2014.
+# Lucas Vieites <lucas@codexion.com>, 2009 - 2017.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 1.31\n"
+"Project-Id-Version: Geany-Plugins 1.32\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-05 14:45+0100\n"
-"PO-Revision-Date: 2017-06-26 12:01+0200\n"
+"PO-Revision-Date: 2017-11-08 11:26+0100\n"
 "Last-Translator: Lucas Vieites <lucas@codexion.com>\n"
 "Language-Team: Español <geany-i18n@uvena.de>\n"
 "Language: es\n"
@@ -1120,7 +1120,7 @@ msgstr "400%"
 msgid "translator_credits"
 msgstr ""
 "Andrew Janke <a.janke@gmail.com>, 2009\n"
-"Lucas Vieites <lucas.vieites@gmail.com>, 2009 - 2016"
+"Lucas Vieites <lucas.vieites@gmail.com>, 2009 - 2017"
 
 #: ../devhelp/devhelp/dh-window.c:729
 msgid "A developers' help browser for GNOME"
@@ -5169,7 +5169,7 @@ msgstr "No se pudo guardar el archivo de configuración: %s"
 
 #: ../git-changebar/src/gcb-plugin.c:1491
 msgid "Undo Git hunk"
-msgstr ""
+msgstr "Deshacer bloque Git"
 
 #: ../git-changebar/src/gcb-plugin.c:1499
 msgid "Go to the previous hunk"
@@ -5181,7 +5181,7 @@ msgstr "Ir al siguiente pedazo"
 
 #: ../git-changebar/src/gcb-plugin.c:1503
 msgid "Undo hunk at the cursor position"
-msgstr ""
+msgstr "Deshacer bloque en la posición del cursor"
 
 #: ../git-changebar/src/gcb-plugin.c:1651 ../pohelper/src/gph-plugin.c:1390
 #: ../pohelper/src/gph-plugin.c:1725
@@ -7372,15 +7372,12 @@ msgid "TreeBrowser"
 msgstr "Visor de árbol"
 
 #: ../treebrowser/src/treebrowser.c:128
-#, fuzzy
 msgid ""
 "This plugin adds a tree browser to Geany, allowing the user to browse files "
 "using a tree view of the directory being browsed."
 msgstr ""
 "Este complemento añade un navegador de archivos a Geany, permitiendo al "
-"usuario navegar por sus archivos mediante un árbol de directorios.\n"
-"En este momento este plugin no tiene mantenedor. ¿Te gustaría ayudar a "
-"contribuir a este plugin?"
+"usuario navegar por sus archivos mediante un árbol de directorios."
 
 #: ../treebrowser/src/treebrowser.c:433
 #, c-format
@@ -7420,17 +7417,14 @@ msgid "Do you really want to delete '%s' ?"
 msgstr "¿Está seguro de que desea eliminar «%s»?"
 
 #: ../treebrowser/src/treebrowser.c:1209
-#, fuzzy
 msgid "Go _Up"
 msgstr "S_ubir"
 
 #: ../treebrowser/src/treebrowser.c:1213
-#, fuzzy
 msgid "Set _Path From Document"
 msgstr "_Fijar ruta del documento"
 
 #: ../treebrowser/src/treebrowser.c:1217
-#, fuzzy
 msgid "_Open Externally"
 msgstr "_Abrir externamente"
 
@@ -7439,7 +7433,6 @@ msgid "Open _Terminal"
 msgstr "Abrir _Terminal"
 
 #: ../treebrowser/src/treebrowser.c:1226
-#, fuzzy
 msgid "Set as _Root"
 msgstr "Fijar como _raíz"
 
@@ -7452,14 +7445,12 @@ msgid "_Find in Files"
 msgstr "_Buscar en archivos"
 
 #: ../treebrowser/src/treebrowser.c:1243
-#, fuzzy
 msgid "N_ew Folder"
-msgstr "Seleccionar directorio"
+msgstr "Carpeta nu_eva"
 
 #: ../treebrowser/src/treebrowser.c:1247
-#, fuzzy
 msgid "_New File"
-msgstr "NewFile"
+msgstr "Archivo _nuevo"
 
 #: ../treebrowser/src/treebrowser.c:1251
 msgid "Rena_me"
@@ -7476,32 +7467,26 @@ msgid "Clo_se Child Documents "
 msgstr "_Cerrar documentos hijo"
 
 #: ../treebrowser/src/treebrowser.c:1274
-#, fuzzy
 msgid "_Copy Full Path to Clipboard"
 msgstr "_Copiar ruta completa al portapapeles"
 
 #: ../treebrowser/src/treebrowser.c:1283
-#, fuzzy
 msgid "E_xpand All"
-msgstr "Expandir todos"
+msgstr "E_xpandir todos"
 
 #: ../treebrowser/src/treebrowser.c:1287
-#, fuzzy
 msgid "Coll_apse All"
 msgstr "Col_apsar todos"
 
 #: ../treebrowser/src/treebrowser.c:1294
-#, fuzzy
 msgid "Show Boo_kmarks"
 msgstr "Mostrar marca_dores"
 
 #: ../treebrowser/src/treebrowser.c:1299
-#, fuzzy
 msgid "Sho_w Hidden Files"
-msgstr "Mostrar archivos ocultos"
+msgstr "Mostrar archivos _ocultos"
 
 #: ../treebrowser/src/treebrowser.c:1304
-#, fuzzy
 msgid "Show Tool_bars"
 msgstr "Mostrar _barras de herramientas"
 
@@ -7680,14 +7665,12 @@ msgid "Rename Object"
 msgstr "Renombrar objeto"
 
 #: ../treebrowser/src/treebrowser.c:2143
-#, fuzzy
 msgid "New File"
-msgstr "NewFile"
+msgstr "Archivo nuevo"
 
 #: ../treebrowser/src/treebrowser.c:2145
-#, fuzzy
 msgid "New Folder"
-msgstr "Seleccionar directorio"
+msgstr "Carpeta nueva"
 
 #: ../treebrowser/src/treebrowser.c:2149
 msgid "Track Current"
@@ -7944,79 +7927,66 @@ msgid "Windows"
 msgstr "Ventanas"
 
 #: ../workbench/src/dialogs.c:43
-#, fuzzy
 msgid "Create new workbench"
-msgstr "Cr_ear directorio nuevo"
+msgstr "Crear área de trabajo nuevo"
 
 #: ../workbench/src/dialogs.c:74
-#, fuzzy
 msgid "Open workbench"
-msgstr "Abrir al"
+msgstr "Abrir área de trabajo"
 
 #: ../workbench/src/dialogs.c:77
-#, fuzzy
 msgid "_Open"
-msgstr "Abrir al"
+msgstr "_Abrir"
 
 #: ../workbench/src/dialogs.c:80
 msgid "Workbench files (.geanywb)"
-msgstr ""
+msgstr "Archivos de área de trabajo (.geanywb)"
 
 #: ../workbench/src/dialogs.c:113
-#, fuzzy
 msgid "Add project"
-msgstr "Buscar archivo de proyecto"
+msgstr "Añadir proyecto"
 
 #: ../workbench/src/dialogs.c:116 ../workbench/src/dialogs.c:153
-#, fuzzy
 msgid "_Add"
-msgstr "_Añadir ambos"
+msgstr "_Añadir"
 
 #: ../workbench/src/dialogs.c:119
-#, fuzzy
 msgid "Project files (.geany)"
-msgstr "Ya existe el archivo de proyecto «%s»"
+msgstr "Archivos de proyecto (.geany)"
 
 #: ../workbench/src/dialogs.c:150
-#, fuzzy
 msgid "Add directory"
-msgstr "Añadir directorio externo"
+msgstr "Añadir directorio"
 
 #: ../workbench/src/dialogs.c:218
-#, fuzzy
 msgid "Directory settings"
-msgstr "Configuración del entorno"
+msgstr "Configuración del directorio"
 
 #: ../workbench/src/dialogs.c:222 ../workbench/src/dialogs.c:351
-#, fuzzy
 msgid "_OK"
-msgstr "OK"
+msgstr "_OK"
 
 #: ../workbench/src/dialogs.c:232
-#, fuzzy
 msgid "File patterns:"
-msgstr "Patrones de código:"
+msgstr "Patrones de archivo:"
 
 #: ../workbench/src/dialogs.c:238
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify files that shall "
 "be displayed in the directory tree."
 msgstr ""
 "Lista de patrones separados por espacios, usados para identificar archivos "
-"que no se mostrarán en el árbol de proyectos."
+"que se mostrarán en el árbol de directorios."
 
 #: ../workbench/src/dialogs.c:249
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify files that shall "
 "not be displayed in the directory tree."
 msgstr ""
 "Lista de patrones separados por espacios, usados para identificar archivos "
-"que no se mostrarán en el árbol de proyectos."
+"que no se mostrarán en el árbol de directorios."
 
 #: ../workbench/src/dialogs.c:260
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "shall not be scanned for source files."
@@ -8030,210 +8000,193 @@ msgid ""
 "used in the Find in Files\n"
 "dialog."
 msgstr ""
+"Nota: los patrones indicados arriba solo afectan al directorio del área de "
+"trabajo y no se usarán en «Buscar en archivos»"
 
 #: ../workbench/src/dialogs.c:347
-#, fuzzy
 msgid "Workbench settings"
-msgstr "Configuración del entorno"
+msgstr "Configuración del área de trabajo"
 
 #: ../workbench/src/dialogs.c:361
-#, fuzzy
 msgid "Rescan all projects on open:"
-msgstr "Indexar todos los archivos del proyecto:"
+msgstr "Explorar todos los proyectos al abrir:"
 
 #: ../workbench/src/dialogs.c:366
 msgid ""
 "If the option is activated (default), then all projects will be re-scanned "
 "on opening of the workbench."
 msgstr ""
+"Si la opción está activa (predet.) se explorarán todos los proyectos al "
+"abrir el área de trabajo."
 
 #: ../workbench/src/menu.c:95
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create new workbench file: %s"
-msgstr ""
-"No se ha podido cargar el archivo de configuración de depuración %s: %s."
+msgstr "No se ha podido crear el archivo de área de trabajo nuevo: %s"
 
 #: ../workbench/src/menu.c:122
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open workbench file: %s"
-msgstr ""
-"No se ha podido cargar el archivo de configuración de depuración %s: %s."
+msgstr "No se ha podido abrir el archivo de área de trabajo: %s"
 
 #: ../workbench/src/menu.c:139
-#, fuzzy, c-format
+#, c-format
 msgid "Could not save workbench file: %s"
-msgstr ""
-"No se ha podido cargar el archivo de configuración de depuración %s: %s."
+msgstr "No se ha podido guardar el archivo de área de trabajo: %s"
 
 #. Set metadata
 #: ../workbench/src/menu.c:177 ../workbench/src/plugin_main.c:129
 #: ../workbench/src/sidebar.c:1132
 msgid "Workbench"
-msgstr ""
+msgstr "Área de trabajo"
 
 #. Create new menu item "New Workbench"
 #: ../workbench/src/menu.c:181
 msgid "_New..."
-msgstr ""
+msgstr "_Nuevo..."
 
 #. Create new menu item "Open Workbench"
 #: ../workbench/src/menu.c:188
 msgid "_Open..."
-msgstr ""
+msgstr "_Abrir..."
 
 #. Create new menu item "Save Workbench"
 #: ../workbench/src/menu.c:195
 msgid "_Save"
-msgstr ""
+msgstr "_Guardar"
 
 #. Create new menu item "Workbench Settings"
 #: ../workbench/src/menu.c:202
-#, fuzzy
 msgid "S_ettings"
-msgstr "Ajustes"
+msgstr "Ajust_es"
 
 #. Create new menu item "Close Workbench"
 #: ../workbench/src/menu.c:209
-#, fuzzy
 msgid "_Close"
-msgstr "Cerrar: %s"
+msgstr "_Cerrar"
 
 #: ../workbench/src/plugin_main.c:93 ../workbench/src/sidebar.c:589
 msgid ""
 "Create or open a workbench\n"
 "using the workbench menu."
 msgstr ""
+"Cree o abra un área de trabajo\n"
+"mediante el menú Área de trabajo."
 
 #: ../workbench/src/plugin_main.c:130
 msgid "Manage and customize multiple projects."
-msgstr ""
+msgstr "Gestionar y personalizar varios proyectos."
 
 #: ../workbench/src/popup_menu.c:232
-#, fuzzy, c-format
+#, c-format
 msgid "Could not add project file: %s"
-msgstr ""
-"No se ha podido cargar el archivo de configuración de depuración %s: %s."
+msgstr "No se ha podido añadir el archivo de proyecto: %s."
 
 #: ../workbench/src/popup_menu.c:518
-#, fuzzy
 msgid "_Add project..."
-msgstr "Buscar archivo de proyecto"
+msgstr "_Añadir proyecto..."
 
 #: ../workbench/src/popup_menu.c:524
-#, fuzzy
 msgid "_Save project"
-msgstr "Proyecto nuevo"
+msgstr "_Guardar proyecto"
 
 #: ../workbench/src/popup_menu.c:530
-#, fuzzy
 msgid "_Remove project"
-msgstr "Renombrar objeto"
+msgstr "Elimina_r proyecto"
 
 #: ../workbench/src/popup_menu.c:536
-#, fuzzy
 msgid "_Fold/unfold project"
-msgstr "Buscar archivo de proyecto"
+msgstr "C_olapsar/Desplegar proyecto"
 
 #: ../workbench/src/popup_menu.c:542
 msgid "_Open all files in project"
-msgstr ""
+msgstr "A_brir todos lo archivos del proyecto"
 
 #: ../workbench/src/popup_menu.c:548
 msgid "_Close all files in project"
-msgstr ""
+msgstr "_Cerrar todos los archivos del proyecto"
 
 #: ../workbench/src/popup_menu.c:558
-#, fuzzy
 msgid "_Add directory..."
-msgstr "Añadir directorio externo"
+msgstr "_Añadir directorio..."
 
 #: ../workbench/src/popup_menu.c:564
-#, fuzzy
 msgid "_Remove directory"
-msgstr "Revertir directorio"
+msgstr "Eliminar_r directorio"
 
 #: ../workbench/src/popup_menu.c:570
-#, fuzzy
 msgid "_Rescan directory"
-msgstr "Revertir directorio"
+msgstr "Volve_r a explorar directorio"
 
 #: ../workbench/src/popup_menu.c:576
-#, fuzzy
 msgid "_Directory settings"
-msgstr "_Directorio"
+msgstr "Ajustes de _directorio"
 
 #: ../workbench/src/popup_menu.c:582
-#, fuzzy
 msgid "_Fold/unfold directory"
-msgstr "Mostrar diff del directorio"
+msgstr "C_olapsar/Desplegar directorio"
 
 #: ../workbench/src/popup_menu.c:588
-#, fuzzy
 msgid "_Open all files in directory"
-msgstr "%s: no existe el archivo o directorio"
+msgstr "Abrir t_odos los archivos en el directorio"
 
 #: ../workbench/src/popup_menu.c:594
-#, fuzzy
 msgid "_Close all files in directory"
-msgstr "Cr_ear directorio nuevo"
+msgstr "_Cerrar todos los archivos en el directorio"
 
 #: ../workbench/src/popup_menu.c:604
-#, fuzzy
 msgid "_Open all files in folder"
-msgstr "Abrir archivo de firma"
+msgstr "_Abrir todos los archivos en la carpeta"
 
 #: ../workbench/src/popup_menu.c:610
 msgid "_Close all files in folder"
-msgstr ""
+msgstr "_Cerrar todos los archivos en la carpeta"
 
 #: ../workbench/src/popup_menu.c:620
-#, fuzzy
 msgid "_Expand all"
-msgstr "Expandir todos"
+msgstr "_Expandir todos"
 
 #: ../workbench/src/popup_menu.c:626
-#, fuzzy
 msgid "_Collapse all"
-msgstr "Col_apsar todos"
+msgstr "_Colapsar todos"
 
 #: ../workbench/src/popup_menu.c:636
 msgid "_Add to Workbench Bookmarks"
-msgstr ""
+msgstr "_Añadir a marcadores de área de trabajo"
 
 #: ../workbench/src/popup_menu.c:642
 msgid "_Add to Project Bookmarks"
-msgstr ""
+msgstr "_Añadir a marcadores de proyecto"
 
 #: ../workbench/src/popup_menu.c:648
-#, fuzzy
 msgid "_Remove from Bookmarks"
-msgstr "Elimina_r marcador"
+msgstr "Elimina_r de marcadores"
 
 #: ../workbench/src/sidebar.c:291
-#, fuzzy
 msgid "Base dir"
-msgstr "Base"
+msgstr "Dir base"
 
 #: ../workbench/src/sidebar.c:324
-#, fuzzy
 msgid "No directories"
-msgstr "NewDirectory"
+msgstr "No hay directorios"
 
 #. *** label ***
 #: ../workbench/src/sidebar.c:587 ../workbench/src/sidebar.c:1083
 msgid "No workbench opened."
-msgstr ""
+msgstr "No hay área de trabajo abierta."
 
 #: ../workbench/src/sidebar.c:598
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %u Projects"
-msgstr "Proyecto"
+msgstr "%s: %u Proyectos"
 
 #: ../workbench/src/sidebar.c:609
 msgid ""
 "Add a project\n"
 "using the context menu."
 msgstr ""
+"Añadir un proyecto\n"
+"usando el menú contextual."
 
 #: ../workbench/src/sidebar.c:719
 #, c-format
@@ -8241,73 +8194,76 @@ msgid ""
 "%s\n"
 "Project file not found!"
 msgstr ""
+"%s\n"
+"No se ha encontrado el archivo de proyecto."
 
 #: ../workbench/src/sidebar.c:733
 msgid ""
 "This project has no directories. Directories can be added to a project using "
 "the context menu."
 msgstr ""
+"Este proyecto no tiene directorios. Se pueden añadir directorios a un "
+"proyecto mediante el menú contextual."
 
 #: ../workbench/src/wb_project.c:942
-#, fuzzy, c-format
+#, c-format
 msgid "Directory-Name: %s\n"
-msgstr "_Directorio"
+msgstr "Nombre de directorio: %s\n"
 
 #: ../workbench/src/wb_project.c:943
-#, fuzzy, c-format
+#, c-format
 msgid "Base-Directory: %s\n"
-msgstr "Directorio _Base"
+msgstr "Directorio base: %s\n"
 
 #: ../workbench/src/wb_project.c:945
-#, fuzzy
 msgid "File Patterns:"
-msgstr "Patrones de directorios ignorados:"
+msgstr "Patrones de archivo:"
 
 #: ../workbench/src/wb_project.c:957
-#, fuzzy
 msgid "Ignored Dir. Patterns:"
-msgstr "Patrones de directorios ignorados:"
+msgstr "Patrones de dir. ignorados:"
 
 #: ../workbench/src/wb_project.c:969
-#, fuzzy
 msgid "Ignored File Patterns:"
 msgstr "Patrones de directorios ignorados:"
 
 #: ../workbench/src/wb_project.c:981
 #, c-format
 msgid "Number of Sub-Folders: %u\n"
-msgstr ""
+msgstr "Número de subcarpetas: %u\n"
 
 #: ../workbench/src/wb_project.c:982
-#, fuzzy, c-format
+#, c-format
 msgid "Number of Files: %u\n"
-msgstr "Número de volumen"
+msgstr "Número de archivos: %u\n"
 
 #: ../workbench/src/wb_project.c:1006
-#, fuzzy, c-format
+#, c-format
 msgid "Project: %s\n"
-msgstr "Proyecto"
+msgstr "Proyecto: %s\n"
 
 #: ../workbench/src/wb_project.c:1007
-#, fuzzy, c-format
+#, c-format
 msgid "File: %s\n"
-msgstr "Cerrar: %s"
+msgstr "Archivo: %s\n"
 
 #: ../workbench/src/wb_project.c:1008
-#, fuzzy, c-format
+#, c-format
 msgid "Number of Directories: %u\n"
-msgstr "Número de volumen"
+msgstr "Número de directorios: %u\n"
 
 #: ../workbench/src/wb_project.c:1011
 msgid ""
 "\n"
 "The project contains unsafed changes!\n"
 msgstr ""
+"\n"
+"El proyecto contiene cambios inseguros.\n"
 
 #: ../workbench/src/workbench.c:710
-#, fuzzy, c-format
+#, c-format
 msgid "File %s is not a valid workbench file!"
-msgstr "El archivo «%s» existe pero no es un archivo correcto"
+msgstr "El archivo «%s» no es un archivo de área de trabajo válido."
 
 #: ../xmlsnippets/src/plugin.c:44
 msgid "XML Snippets"
