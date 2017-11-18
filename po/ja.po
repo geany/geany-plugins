@@ -8161,7 +8161,7 @@ msgstr "巻数"
 #: ../workbench/src/wb_project.c:1011
 msgid ""
 "\n"
-"The project contains unsafed changes!\n"
+"The project contains unsaved changes!\n"
 msgstr ""
 
 #: ../workbench/src/workbench.c:710
