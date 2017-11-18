@@ -257,7 +257,7 @@ on_comboboxType_changed(GtkComboBox * combobox, G_GNUC_UNUSED gpointer user_data
 	GKeyFile *config = (GKeyFile *) g_object_get_data(G_OBJECT(combobox), "config");
 
 	from = g_object_get_data(G_OBJECT(combobox), "current");
-	to = gtk_combo_box_text_get_active_text(combobox);
+	to = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(combobox));
 
 	if (from != NULL)
 	{
