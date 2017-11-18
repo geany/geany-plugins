@@ -1008,7 +1008,7 @@ gchar *wb_project_get_info (WB_PROJECT *prj)
 	g_string_append_printf(temp, _("Number of Directories: %u\n"), g_slist_length(prj->directories));
 	if (wb_project_is_modified(prj))
 	{
-		g_string_append(temp, _("\nThe project contains unsafed changes!\n"));
+		g_string_append(temp, _("\nThe project contains unsaved changes!\n"));
 	}
 
 	/* Steal string content */
