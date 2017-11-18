@@ -8021,84 +8021,72 @@ msgid "Windows"
 msgstr "Fenêtres"
 
 #: ../workbench/src/dialogs.c:43
-#, fuzzy
 msgid "Create new workbench"
-msgstr "Cré_er un nouveau dossier"
+msgstr "Créer un nouveau plan de travail"
 
 #: ../workbench/src/dialogs.c:74
 msgid "Open workbench"
-msgstr ""
+msgstr "Ouvrir un plan de travail"
 
 #: ../workbench/src/dialogs.c:77
-#, fuzzy
 msgid "_Open"
-msgstr "Ouvrir une URI"
+msgstr "_Ouvrir"
 
 #: ../workbench/src/dialogs.c:80
 msgid "Workbench files (.geanywb)"
-msgstr ""
+msgstr "Fichiers de plan de travail (.geanywb)"
 
 #: ../workbench/src/dialogs.c:113
-#, fuzzy
 msgid "Add project"
-msgstr "Rechercher un symbole du projet"
+msgstr "Ajouter un projet"
 
 #: ../workbench/src/dialogs.c:116 ../workbench/src/dialogs.c:153
-#, fuzzy
 msgid "_Add"
-msgstr "_Ajouter les deux"
+msgstr "_Ajouter"
 
 #: ../workbench/src/dialogs.c:119
-#, fuzzy
 msgid "Project files (.geany)"
-msgstr "Le fichier de projet « %s » existe déjà"
+msgstr "Fichiers de projets (.geany)"
 
 #: ../workbench/src/dialogs.c:150
-#, fuzzy
 msgid "Add directory"
-msgstr "Ajouter un dossier externe…"
+msgstr "Ajouter un répertoire"
 
 #: ../workbench/src/dialogs.c:218
-#, fuzzy
 msgid "Directory settings"
-msgstr "_Dossier"
+msgstr "Paramètres du répertoire"
 
 #: ../workbench/src/dialogs.c:222 ../workbench/src/dialogs.c:351
-#, fuzzy
 msgid "_OK"
-msgstr "OK"
+msgstr "_OK"
 
 #: ../workbench/src/dialogs.c:232
-#, fuzzy
 msgid "File patterns:"
-msgstr "Motifs de sources :"
+msgstr "Motifs de fichiers :"
 
 #: ../workbench/src/dialogs.c:238
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify files that shall "
 "be displayed in the directory tree."
 msgstr ""
 "Une liste séparée par des espaces de motifs utilisés pour identifier les "
-"fichiers à ne pas afficher dans l'arborescence du projet."
+"fichiers à afficher dans l'arborescence des répertoires."
 
 #: ../workbench/src/dialogs.c:249
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify files that shall "
 "not be displayed in the directory tree."
 msgstr ""
 "Une liste séparée par des espaces de motifs utilisés pour identifier les "
-"fichiers à ne pas afficher dans l'arborescence du projet."
+"fichiers à ne pas afficher dans l'arborescence des répertoires."
 
 #: ../workbench/src/dialogs.c:260
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "shall not be scanned for source files."
 msgstr ""
 "Une liste séparée par des espaces de motifs utilisés pour identifier les "
-"dossiers à ignorer."
+"répertoires à ignorer lors de la recherche des fichiers source."
 
 #: ../workbench/src/dialogs.c:268
 msgid ""
@@ -8106,205 +8094,193 @@ msgid ""
 "used in the Find in Files\n"
 "dialog."
 msgstr ""
+"Note : les motifs ci-dessus n'affectent que le répertoire du plan de travail "
+"et ne sont pas utilisé dans le dialogue « Rechercher dans les fichiers »."
 
 #: ../workbench/src/dialogs.c:347
 msgid "Workbench settings"
-msgstr ""
+msgstr "Paramètres du plan de travail"
 
 #: ../workbench/src/dialogs.c:361
-#, fuzzy
 msgid "Rescan all projects on open:"
-msgstr "Indexer tous les fichiers du projet :"
+msgstr "Réindexer tous les projets à l'ouverture :"
 
 #: ../workbench/src/dialogs.c:366
 msgid ""
 "If the option is activated (default), then all projects will be re-scanned "
 "on opening of the workbench."
 msgstr ""
+"Si cette option est activée (par défaut), tous les projets seront réindexés "
+"lors de l'ouverture du plan de travail."
 
 #: ../workbench/src/menu.c:95
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create new workbench file: %s"
-msgstr "Impossible de charger le fichier « %s » : %s"
+msgstr "Impossible de créer le nouveau fichier de plan de travail : %s"
 
 #: ../workbench/src/menu.c:122
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open workbench file: %s"
-msgstr "Impossible de charger le fichier « %s » : %s"
+msgstr "Impossible d'ouvrir le fichier de plan de travail : %s"
 
 #: ../workbench/src/menu.c:139
-#, fuzzy, c-format
+#, c-format
 msgid "Could not save workbench file: %s"
-msgstr "Impossible de charger le fichier « %s » : %s"
+msgstr "Impossible d'enregistrer le fichier de plan de travail : %s"
 
 #. Set metadata
 #: ../workbench/src/menu.c:177 ../workbench/src/plugin_main.c:129
 #: ../workbench/src/sidebar.c:1132
 msgid "Workbench"
-msgstr ""
+msgstr "Plan de travail"
 
 #. Create new menu item "New Workbench"
 #: ../workbench/src/menu.c:181
 msgid "_New..."
-msgstr ""
+msgstr "_Nouveau…"
 
 #. Create new menu item "Open Workbench"
 #: ../workbench/src/menu.c:188
 msgid "_Open..."
-msgstr ""
+msgstr "_Ouvrir…"
 
 #. Create new menu item "Save Workbench"
 #: ../workbench/src/menu.c:195
 msgid "_Save"
-msgstr ""
+msgstr "_Enregistrer"
 
 #. Create new menu item "Workbench Settings"
 #: ../workbench/src/menu.c:202
-#, fuzzy
 msgid "S_ettings"
-msgstr "Configuration"
+msgstr "_Paramètres"
 
 #. Create new menu item "Close Workbench"
 #: ../workbench/src/menu.c:209
-#, fuzzy
 msgid "_Close"
-msgstr "Fermer « %s »"
+msgstr "_Fermer"
 
 #: ../workbench/src/plugin_main.c:93 ../workbench/src/sidebar.c:589
 msgid ""
 "Create or open a workbench\n"
 "using the workbench menu."
 msgstr ""
+"Créez ou ouvrez un plan de travail\n"
+"via le menu Plan de travail."
 
 #: ../workbench/src/plugin_main.c:130
 msgid "Manage and customize multiple projects."
-msgstr ""
+msgstr "Gérez et personnalisez de multiple projets."
 
 #: ../workbench/src/popup_menu.c:232
-#, fuzzy, c-format
+#, c-format
 msgid "Could not add project file: %s"
-msgstr "Impossible de charger le fichier « %s » : %s"
+msgstr "Impossible d'ajouter le fichier de projet : %s"
 
 #: ../workbench/src/popup_menu.c:518
-#, fuzzy
 msgid "_Add project..."
-msgstr "Rechercher un symbole du projet…"
+msgstr "_Ajouter un projet…"
 
 #: ../workbench/src/popup_menu.c:524
-#, fuzzy
 msgid "_Save project"
-msgstr "Nouveau projet"
+msgstr "_Enregistrer le projet"
 
 #: ../workbench/src/popup_menu.c:530
-#, fuzzy
 msgid "_Remove project"
-msgstr "Renommer l'objet"
+msgstr "_Supprimer le projet"
 
 #: ../workbench/src/popup_menu.c:536
-#, fuzzy
 msgid "_Fold/unfold project"
-msgstr "Rechercher un symbole du projet"
+msgstr "_Plier/déplier le projet"
 
 #: ../workbench/src/popup_menu.c:542
 msgid "_Open all files in project"
-msgstr ""
+msgstr "_Ouvrir tous les fichiers du projet"
 
 #: ../workbench/src/popup_menu.c:548
 msgid "_Close all files in project"
-msgstr ""
+msgstr "_Fermer tous les fichier du projet"
 
 #: ../workbench/src/popup_menu.c:558
-#, fuzzy
 msgid "_Add directory..."
-msgstr "Ajouter un dossier externe…"
+msgstr "_Ajouter un répertoire…"
 
 #: ../workbench/src/popup_menu.c:564
-#, fuzzy
 msgid "_Remove directory"
-msgstr "Rétablir le dossier"
+msgstr "_Supprimer le répertoire"
 
 #: ../workbench/src/popup_menu.c:570
-#, fuzzy
 msgid "_Rescan directory"
-msgstr "Rétablir le dossier"
+msgstr "_Réinspecter le répertoire"
 
 #: ../workbench/src/popup_menu.c:576
-#, fuzzy
 msgid "_Directory settings"
-msgstr "_Dossier"
+msgstr "_Paramètres du répertoire"
 
 #: ../workbench/src/popup_menu.c:582
-#, fuzzy
 msgid "_Fold/unfold directory"
-msgstr "Afficher le diff du dossier"
+msgstr "_Plier/déplier le répertoire"
 
 #: ../workbench/src/popup_menu.c:588
-#, fuzzy
 msgid "_Open all files in directory"
-msgstr "%s : aucun fichier ou répertoire de ce type"
+msgstr "_Ouvrir tous les fichiers dans le répertoire"
 
 #: ../workbench/src/popup_menu.c:594
-#, fuzzy
 msgid "_Close all files in directory"
-msgstr "Cré_er un nouveau dossier"
+msgstr "_Fermer tous les fichiers dans le répertoire"
 
 #: ../workbench/src/popup_menu.c:604
-#, fuzzy
 msgid "_Open all files in folder"
-msgstr "Ouvrir un fichier de signature"
+msgstr "_Ouvrir tous les fichiers dans le dossier"
 
 #: ../workbench/src/popup_menu.c:610
 msgid "_Close all files in folder"
-msgstr ""
+msgstr "_Fermer tous les fichiers dans le dossier"
 
 #: ../workbench/src/popup_menu.c:620
-#, fuzzy
 msgid "_Expand all"
-msgstr "Tout étendre"
+msgstr "Tout ét_endre"
 
 #: ../workbench/src/popup_menu.c:626
-#, fuzzy
 msgid "_Collapse all"
 msgstr "Tout re_plier"
 
 #: ../workbench/src/popup_menu.c:636
 msgid "_Add to Workbench Bookmarks"
-msgstr ""
+msgstr "_Ajouter aux marque-pages de plan de travail"
 
 #: ../workbench/src/popup_menu.c:642
 msgid "_Add to Project Bookmarks"
-msgstr ""
+msgstr "_Ajouter aux marque-pages du projet"
 
 #: ../workbench/src/popup_menu.c:648
-#, fuzzy
 msgid "_Remove from Bookmarks"
-msgstr "_Supprimer le marque-page"
+msgstr "_Supprimer des marque-pages"
 
 #: ../workbench/src/sidebar.c:291
-#, fuzzy
 msgid "Base dir"
-msgstr "Basiques"
+msgstr "Répertoire de base"
 
 #: ../workbench/src/sidebar.c:324
-#, fuzzy
 msgid "No directories"
-msgstr "NouveauDossier"
+msgstr "Aucun répertoire"
 
 #. *** label ***
 #: ../workbench/src/sidebar.c:587 ../workbench/src/sidebar.c:1083
 msgid "No workbench opened."
-msgstr ""
+msgstr "Aucun plan de travail ouvert."
 
 #: ../workbench/src/sidebar.c:598
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %u Projects"
-msgstr "Projet"
+msgstr "%s : %u projets"
 
 #: ../workbench/src/sidebar.c:609
 msgid ""
 "Add a project\n"
 "using the context menu."
 msgstr ""
+"Ajoutez un projet\n"
+"via le menu contextuel."
 
 #: ../workbench/src/sidebar.c:719
 #, c-format
@@ -8312,73 +8288,76 @@ msgid ""
 "%s\n"
 "Project file not found!"
 msgstr ""
+"%s\n"
+"Fichier de projet non trouvé !"
 
 #: ../workbench/src/sidebar.c:733
 msgid ""
 "This project has no directories. Directories can be added to a project using "
 "the context menu."
 msgstr ""
+"Ce projet ne contient aucun répertoire. Des répertoires peuvent être ajoutés "
+"à un projet via le menu contextuel."
 
 #: ../workbench/src/wb_project.c:942
-#, fuzzy, c-format
+#, c-format
 msgid "Directory-Name: %s\n"
-msgstr "_Dossier"
+msgstr "Nom de répertoire : %s\n"
 
 #: ../workbench/src/wb_project.c:943
-#, fuzzy, c-format
+#, c-format
 msgid "Base-Directory: %s\n"
-msgstr "Dossier _racine"
+msgstr "Répertoire de base : %s\n"
 
 #: ../workbench/src/wb_project.c:945
-#, fuzzy
 msgid "File Patterns:"
-msgstr "Motifs de dossiers ignorés :"
+msgstr "Motifs de fichiers :"
 
 #: ../workbench/src/wb_project.c:957
-#, fuzzy
 msgid "Ignored Dir. Patterns:"
-msgstr "Motifs de dossiers ignorés :"
+msgstr "Motifs de répertoires ignorés :"
 
 #: ../workbench/src/wb_project.c:969
-#, fuzzy
 msgid "Ignored File Patterns:"
-msgstr "Motifs de dossiers ignorés :"
+msgstr "Motifs de fichiers ignorés :"
 
 #: ../workbench/src/wb_project.c:981
 #, c-format
 msgid "Number of Sub-Folders: %u\n"
-msgstr ""
+msgstr "Nombre de sous-dossiers : %u\n"
 
 #: ../workbench/src/wb_project.c:982
-#, fuzzy, c-format
+#, c-format
 msgid "Number of Files: %u\n"
-msgstr "Numéro du volume"
+msgstr "Nombre de fichiers : %u\n"
 
 #: ../workbench/src/wb_project.c:1006
-#, fuzzy, c-format
+#, c-format
 msgid "Project: %s\n"
-msgstr "Projet"
+msgstr "Projet : %s\n"
 
 #: ../workbench/src/wb_project.c:1007
-#, fuzzy, c-format
+#, c-format
 msgid "File: %s\n"
-msgstr "Fermer « %s »"
+msgstr "Fichier : %s\n"
 
 #: ../workbench/src/wb_project.c:1008
-#, fuzzy, c-format
+#, c-format
 msgid "Number of Directories: %u\n"
-msgstr "Numéro du volume"
+msgstr "Nombre de répertoires : %u\n"
 
 #: ../workbench/src/wb_project.c:1011
 msgid ""
 "\n"
 "The project contains unsafed changes!\n"
 msgstr ""
+"\n"
+"Le projet contiens des changements non enregistrés !\n"
 
 #: ../workbench/src/workbench.c:710
-#, fuzzy, c-format
+#, c-format
 msgid "File %s is not a valid workbench file!"
-msgstr "Le fichier « %s » existe mais n'est pas un fichier régulier"
+msgstr "Le fichier « %s » n'est pas un fichier de plan de travail valide !"
 
 #: ../xmlsnippets/src/plugin.c:44
 msgid "XML Snippets"
