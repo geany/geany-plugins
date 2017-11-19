@@ -28,7 +28,7 @@ Geany Plugins 1.32 (not yet released)
     * Increase required geany API version to 235 for usage of
       'utils_get_real_path' to replace 'tm_get_real_path()'
     * Close dir created with g_dir_open() in some special cases as well
-      as  Don't keep directories open when enumerating their children (PR #605)
+      as don't keep directories open when enumerating their children (PR #605)
     * Use stock icons instead of the ones provided by the plugin (PR #625)
 
     Scope:
@@ -38,6 +38,9 @@ Geany Plugins 1.32 (not yet released)
     Treebrowser
     * Having a new old maintainer
     * Fix some typos inside documentation (PR #595)
+
+    XmlSnippets:
+    * Activate tests for the plugin
 
     Internationalization
     * Updated translations: de, es, fr, pt
