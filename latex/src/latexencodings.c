@@ -20,7 +20,7 @@
  */
 
 #include <gtk/gtk.h>
-#include "geanylatex.h"
+#include "latex.h"
 #include "encodings.h"
 #include "latexencodings.h"
 

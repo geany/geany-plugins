@@ -133,20 +133,20 @@ geanygendoc/src/ggd-widget-doctype-selector.c
 # GeanyInsertnum
 geanyinsertnum/src/insertnum.c
 
-# geanylatex
-geanylatex/src/bibtex.c
-geanylatex/src/formatutils.c
-geanylatex/src/latexenvironments.c
-geanylatex/src/latexutils.c
-geanylatex/src/templates.c
-geanylatex/src/bibtexlabels.c
-geanylatex/src/geanylatex.c
-geanylatex/src/latexkeybindings.c
-geanylatex/src/letters.c
-geanylatex/src/formatpatterns.c
-geanylatex/src/latexencodings.c
-geanylatex/src/latexstructure.c
-geanylatex/src/reftex.c
+# latex
+latex/src/bibtex.c
+latex/src/formatutils.c
+latex/src/latexenvironments.c
+latex/src/latexutils.c
+latex/src/templates.c
+latex/src/bibtexlabels.c
+latex/src/latex.c
+latex/src/latexkeybindings.c
+latex/src/letters.c
+latex/src/formatpatterns.c
+latex/src/latexencodings.c
+latex/src/latexstructure.c
+latex/src/reftex.c
 
 # geanyLua
 geanylua/glspi.h

@@ -22,7 +22,7 @@
 #ifndef LATEXENVIRONMENTS_H
 #define LATEXENVIRONMENTS_H
 
-#include "geanylatex.h"
+#include "latex.h"
 #include <string.h>
 
 enum {

@@ -4,15 +4,15 @@
 <!--http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd-->  
 <html xmlns="http://www.w3.org/1999/xhtml"  
 > 
-<head><title>GeanyLaTeX &#8211; A LaTeX plugin for Geany
+<head><title>LaTeX &#8211; A LaTeX plugin for Geany
 Version 0.7</title> 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
 <meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)" /> 
 <meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)" /> 
 <!-- xhtml,html --> 
-<meta name="src" content="geanylatex.tex" /> 
+<meta name="src" content="latex.tex" /> 
 <meta name="date" content="2012-07-08 10:09:00" /> 
-<link rel="stylesheet" type="text/css" href="geanylatex.css" /> 
+<link rel="stylesheet" type="text/css" href="latex.css" /> 
 </head><body 
 >
 <div class="maketitle">
@@ -21,7 +21,7 @@ Version 0.7</title>
                                                                                           
                                                                                           
 
-<h2 class="titleHead">Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+<h2 class="titleHead"><span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> &#8211; A <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> plugin for Geany<br /><br />
 Version 0.7</h2>
@@ -35,7 +35,7 @@ class="cmr-12x-x-120">July 8, 2012</span></div>
 <span 
 class="cmbx-10x-x-109">Note: </span>Please note that this document has been created on July 8, 2012. If you are using a devel
 version from GIT, please compile and check <span 
-class="cmtt-10x-x-109">doc/geanylatex.tex </span>from sources. Please check Page
+class="cmtt-10x-x-109">doc/latex.tex </span>from sources. Please check Page
 <a 
 href="#x1-140004.2">6<!--tex4ht:ref: sec:compiling_of_documentation --></a>, Section <a 
 href="#x1-140004.2">4.2<!--tex4ht:ref: sec:compiling_of_documentation --></a> on how to do this.
@@ -54,16 +54,16 @@ href="#x1-50001" id="QQ2-1-8">About the plugin</a></span>
 <br /><span class="sectionToc" >2 <a 
 href="#x1-60002" id="QQ2-1-9">News &amp; ChangeLog</a></span>
 <br />&#x00A0;<span class="subsectionToc" >2.1 <a 
-href="#x1-70002.1" id="QQ2-1-10">Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+href="#x1-70002.1" id="QQ2-1-10"><span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> 0.7 &#8211; 2012-07-08</a></span>
 <br />&#x00A0;<span class="subsectionToc" >2.2 <a 
-href="#x1-80002.2" id="QQ2-1-11">Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+href="#x1-80002.2" id="QQ2-1-11"><span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> 0.6 &#8211; 2011-10-15</a></span>
 <br />&#x00A0;<span class="subsectionToc" >2.3 <a 
-href="#x1-90002.3" id="QQ2-1-12">Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+href="#x1-90002.3" id="QQ2-1-12"><span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> 0.5 &#8211; 2010-06-13</a></span>
 <br />&#x00A0;<span class="subsectionToc" >2.4 <a 
-href="#x1-100002.4" id="QQ2-1-13">Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+href="#x1-100002.4" id="QQ2-1-13"><span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> 0.4 &#8211; 2009-05-26</a></span>
 <br /><span class="sectionToc" >3 <a 
 href="#x1-110003" id="QQ2-1-14">Requirements</a></span>
@@ -121,7 +121,7 @@ class="cmsy-10x-x-109">{}</span></a></span>
 <br /><span class="sectionToc" >7 <a 
 href="#x1-330007" id="QQ2-1-46">Configuration</a></span>
 <br />&#x00A0;<span class="subsectionToc" >7.1 <a 
-href="#x1-340007.1" id="QQ2-1-47">GeanyLaTeX&#8217;s configuration dialog</a></span>
+href="#x1-340007.1" id="QQ2-1-47">LaTeX&#8217;s configuration dialog</a></span>
 <br />&#x00A0;&#x00A0;<span class="subsubsectionToc" >7.1.1 <a 
 href="#x1-350007.1.1" id="QQ2-1-48">Use KOMA script by default</a></span>
 <br />&#x00A0;&#x00A0;<span class="subsubsectionToc" >7.1.2 <a 
@@ -227,26 +227,26 @@ href="#x1-40001r2">List of available keybindings</a></span><br />
 <a 
  id="Q1-1-5"></a>
 <div class="tableofcontents"><span class="lofToc" >1&#x00A0;<a 
-href="#x1-15001r1">Plugin manager with Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+href="#x1-15001r1">Plugin manager with <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> 0.5 at Geany 0.19</a></span><br /><span class="lofToc" >2&#x00A0;<a 
 href="#x1-18001r2"><span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span>-Wizard of
 version 0.5</a></span><br /><span class="lofToc" >3&#x00A0;<a 
-href="#x1-21001r3">Insert label dialog on Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+href="#x1-21001r3">Insert label dialog on <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> 0.5</a></span><br /><span class="lofToc" >4&#x00A0;<a 
 href="#x1-21002r4">Insert reference dialog
-on Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+on <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> 0.5</a></span><br /><span class="lofToc" >5&#x00A0;<a 
-href="#x1-24001r5">Insert BibTeX reference dialog on Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+href="#x1-24001r5">Insert BibTeX reference dialog on <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span>
 0.6</a></span><br /><span class="lofToc" >6&#x00A0;<a 
-href="#x1-27007r6">Insert environment dialog on Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+href="#x1-27007r6">Insert environment dialog on <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> 0.5</a></span><br /><span class="lofToc" >7&#x00A0;<a 
 href="#x1-31001r7">Dialog for inserting
 <span 
 class="cmsy-10x-x-109">\</span>usepackage<span 
 class="cmsy-10x-x-109">{}</span></a></span><br /><span class="lofToc" >8&#x00A0;<a 
-href="#x1-36001r8">Plugin toolbar of Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+href="#x1-36001r8">Plugin toolbar of <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> 0.5</a></span><br />
 </div>
 <h3 class="likesectionHead"><a 
@@ -259,7 +259,7 @@ class="E">E</span>X</span></span> 0.5</a></span><br />
 </p>
 <h3 class="sectionHead"><span class="titlemark">1 </span> <a 
  id="x1-50001"></a>About the plugin</h3>
-<!--l. 71--><p class="noindent" >Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+<!--l. 71--><p class="noindent" ><span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> is a little plugin to improve <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> support in Geany. It implements a couple of hopefully
 useful functions:
@@ -300,7 +300,7 @@ class="cmsy-10x-x-109">\</span>newline
 <!--l. 95--><p class="noindent" >
 </p>
 <h4 class="subsectionHead"><span class="titlemark">2.1 </span> <a 
- id="x1-70002.1"></a>Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+ id="x1-70002.1"></a><span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> 0.7 &#8211; 2012-07-08</h4>
      <ul class="itemize1">
      <li class="itemize">Added a feature to lower selection before inserting <span 
@@ -310,7 +310,7 @@ class="cmsy-10x-x-109">{}</span></li></ul>
 <!--l. 100--><p class="noindent" >
 </p>
 <h4 class="subsectionHead"><span class="titlemark">2.2 </span> <a 
- id="x1-80002.2"></a>Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+ id="x1-80002.2"></a><span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> 0.6 &#8211; 2011-10-15</h4>
      <ul class="itemize1">
      <li class="itemize">Moved <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
@@ -329,7 +329,7 @@ class="E">E</span>X</span></span>-wizard into Geany&#8217;s main toolbar
 <!--l. 112--><p class="noindent" >
 </p>
 <h4 class="subsectionHead"><span class="titlemark">2.3 </span> <a 
- id="x1-90002.3"></a>Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+ id="x1-90002.3"></a><span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> 0.5 &#8211; 2010-06-13</h4>
      <ul class="itemize1">
      <li class="itemize">Introduced custom templates for <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
@@ -380,7 +380,7 @@ class="cmsy-10x-x-109">{} </span>after typing a command and hitting return in ca
 <!--l. 139--><p class="noindent" >
 </p>
 <h4 class="subsectionHead"><span class="titlemark">2.4 </span> <a 
- id="x1-100002.4"></a>Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+ id="x1-100002.4"></a><span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> 0.4 &#8211; 2009-05-26</h4>
      <ul class="itemize1">
      <li class="itemize">Added a toolbar with frequently used format commands
@@ -404,7 +404,7 @@ class="cmsy-10x-x-109">\</span>u-UTF-8 letters by octal coded chars to avoid dep
  id="x1-110003"></a>Requirements</h3>
 <!--l. 155--><p class="noindent" ><span 
 class="cmbx-10">Please note: </span><span 
-class="cmr-10">This section of documentation is only valid with standalone distribution of Geany</span><span class="LATEX"><span 
+class="cmr-10">This section of documentation is only valid with standalone distribution of </span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -480,7 +480,7 @@ class="cmr-10">4.2 </span></span> <a
 class="cmr-10">Compiling the documentation</span></h4>
 <!--l. 188--><p class="noindent" ><span 
 class="cmr-10">Sources of this documentation are available throught </span><span 
-class="cmtt-10">doc/geanylatex.tex </span><span 
+class="cmtt-10">doc/latex.tex </span><span 
 class="cmr-10">inside source tree. To compile the sources,</span>
 <span 
 class="cmr-10">usage of </span><span 
@@ -509,7 +509,7 @@ class="cmr-10">has been compiled with:</span>
  id="x1-14003r1"></a></span><span 
 class="cmtt-8">htlatex</span><span 
 class="cmtt-8">&#x00A0;</span><span 
-class="cmtt-8">geanylatex</span><span 
+class="cmtt-8">latex</span><span 
 class="cmtt-8">.</span><span 
 class="cmtt-8">tex</span><span 
 class="cmtt-8">&#x00A0;</span><span 
@@ -553,13 +553,13 @@ src="img/plugin_manager.png" alt="PIC"
  />
 <br /> </p><div class="caption" 
 ><span class="id">Figure&#x00A0;1: </span><span  
-class="content">Plugin manager with Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="content">Plugin manager with <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> 0.5 at Geany 0.19</span></div><!--tex4ht:label?: x1-15001r1 -->
                                                                                           
                                                                                           
 </div><hr class="endfigure" />
 <!--l. 209--><p class="noindent" ><span 
-class="cmr-10">After Geany</span><span class="LATEX"><span 
+class="cmr-10">After </span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -697,7 +697,7 @@ class="cmr-10">, </span><span
 class="cmtt-10">scrbook </span><span 
 class="cmr-10">will be used as document class. Default is</span>
 <span 
-class="cmr-10">activated here. This option is deactivated by default and can be set through Geany</span><span class="LATEX"><span 
+class="cmr-10">activated here. This option is deactivated by default and can be set through </span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -753,7 +753,7 @@ class="cmr-10">6.1.3 </span></span> <a
  id="x1-200006.1.3"></a><span 
 class="cmr-10">Extending by own templates</span></h5>
 <!--l. 280--><p class="noindent" ><span 
-class="cmr-10">Geany</span><span class="LATEX"><span 
+class="cmr-10"></span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -766,7 +766,7 @@ class="cmr-10">inside the plugin configuration dir with file extension glt. For 
 <span 
 class="cmr-10">to create a normal *.tex file and store it inside the directory. On most Linux systems this should be</span>
 <span 
-class="cmtt-10">~/.config/geany/geanyLaTeX/</span><span 
+class="cmtt-10">~/.config/geany/LaTeX/</span><span 
 class="cmr-10">.</span>
 </p><!--l. 287--><p class="noindent" ><span 
 class="cmr-10">Inside your template you can refer to wizard&#8217;s field by using some special strings which are:</span>
@@ -850,7 +850,7 @@ class="cmsy-10x-x-109">}    </span></td><td  style="white-space:wrap; text-align
 class="td11"><!--l. 309--><p class="noindent" >Will  be  replaced  by  <span 
 class="cmsy-6">&#x226B;</span>Dear  Sir  or  Madame<span 
 class="cmsy-6">&#x226A;</span> in  local
-geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> is running with. If you like to overwrite it,
 please don&#8217;t use the symbol and hardcode the phrase instead.</p></td>
 </tr><tr  
@@ -862,7 +862,7 @@ class="cmsy-10x-x-109">}    </span></td><td  style="white-space:wrap; text-align
 class="td11"><!--l. 312--><p class="noindent" >Will   be   replaced   by   <span 
 class="cmsy-6">&#x226B;</span>With   kind   regards<span 
 class="cmsy-6">&#x226A;</span>  in   local
-geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> is running with. If you like to overwrite it,
 please don&#8217;t use the symbol and hardcode the phrase instead.</p></td>
 </tr><tr  
@@ -901,7 +901,7 @@ class="cmr-10">6.2 </span></span> <a
  id="x1-210006.2"></a><span 
 class="cmr-10">Inserting References and Labels</span></h4>
 <!--l. 334--><p class="noindent" ><span 
-class="cmr-10">An often used feature on writing of documents is adding and referring to labels. Geany</span><span class="LATEX"><span 
+class="cmr-10">An often used feature on writing of documents is adding and referring to labels. </span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -926,13 +926,13 @@ src="img/insert_label.png" alt="PIC"
  />
 <br /> </p><div class="caption" 
 ><span class="id">Figure&#x00A0;3: </span><span  
-class="content">Insert label dialog on Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="content">Insert label dialog on <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> 0.5</span></div><!--tex4ht:label?: x1-21001r3 -->
                                                                                           
                                                                                           
 </div><hr class="endfigure" />
 <!--l. 343--><p class="noindent" ><span 
-class="cmr-10">After an label was added Geany</span><span class="LATEX"><span 
+class="cmr-10">After an label was added </span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -958,7 +958,7 @@ src="img/insert_reference.png" alt="PIC"
  />
 <br /> </p><div class="caption" 
 ><span class="id">Figure&#x00A0;4: </span><span  
-class="content">Insert reference dialog on Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="content">Insert reference dialog on <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> 0.5</span></div><!--tex4ht:label?: x1-21002r4 -->
                                                                                           
                                                                                           
@@ -998,7 +998,7 @@ class="cmr-10">6.3.1 </span></span> <a
  id="x1-230006.3.1"></a><span 
 class="cmr-10">BibTeX templates for catalogue entries</span></h5>
 <!--l. 364--><p class="noindent" ><span 
-class="cmr-10">Geany</span><span class="LATEX"><span 
+class="cmr-10"></span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -1117,7 +1117,7 @@ class="cmr-10">6.3.2 </span></span> <a
  id="x1-240006.3.2"></a><span 
 class="cmr-10">Inserting cite-reference</span></h5>
 <!--l. 402--><p class="noindent" ><span 
-class="cmr-10">Geany</span><span class="LATEX"><span 
+class="cmr-10"></span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -1144,7 +1144,7 @@ src="img/bibtex_reference.png" alt="PIC"
  />
 <br /> </p><div class="caption" 
 ><span class="id">Figure&#x00A0;5: </span><span  
-class="content">Insert BibTeX reference dialog on Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="content">Insert BibTeX reference dialog on <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> 0.6</span></div><!--tex4ht:label?: x1-24001r5 -->
                                                                                           
                                                                                           
@@ -1163,7 +1163,7 @@ class="cmr-10">6.4 </span></span> <a
  id="x1-250006.4"></a><span 
 class="cmr-10">Replacement of special characters</span></h4>
 <!--l. 418--><p class="noindent" ><span 
-class="cmr-10">Geany</span><span class="LATEX"><span 
+class="cmr-10"></span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -1229,7 +1229,7 @@ class="cmr-10">6.6 </span></span> <a
  id="x1-270006.6"></a><span 
 class="cmr-10">Inserting of Environment</span></h4>
 <!--l. 442--><p class="noindent" ><span 
-class="cmr-10">Geany</span><span class="LATEX"><span 
+class="cmr-10"></span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -1312,7 +1312,7 @@ src="img/insert_environment.png" alt="PIC"
  />
 <br /> </p><div class="caption" 
 ><span class="id">Figure&#x00A0;6: </span><span  
-class="content">Insert environment dialog on Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="content">Insert environment dialog on <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> 0.5</span></div><!--tex4ht:label?: x1-27007r6 -->
                                                                                           
                                                                                           
@@ -1322,7 +1322,7 @@ class="cmr-10">6.7 </span></span> <a
  id="x1-280006.7"></a><span 
 class="cmr-10">Format</span></h4>
 <!--l. 471--><p class="noindent" ><span 
-class="cmr-10">Geany</span><span class="LATEX"><span 
+class="cmr-10"></span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -1364,7 +1364,7 @@ class="cmr-10">left-aligned</span>
      <li class="itemize"><span 
 class="cmr-10">right-aligned</span></li></ul>
 <!--l. 488--><p class="noindent" ><span 
-class="cmr-10">Geany</span><span class="LATEX"><span 
+class="cmr-10"></span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -1375,7 +1375,7 @@ class="cmr-10">will add the correct format pattern to the document. If there is 
 <span 
 class="cmr-10">be placed around so the selected text will be formatted with this chosen style.</span>
 </p><!--l. 492--><p class="noindent" ><span 
-class="cmr-10">Following items are also accessible using the Geany</span><span class="LATEX"><span 
+class="cmr-10">Following items are also accessible using the </span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -1414,7 +1414,7 @@ class="cmr-10">begin and </span><span
 class="cmsy-10">\</span><span 
 class="cmr-10">begingroup</span></h4>
 <!--l. 505--><p class="noindent" ><span 
-class="cmr-10">Since version 0.5 GeanyLaTeX is supporting autocompletion for closing </span><span 
+class="cmr-10">Since version 0.5 LaTeX is supporting autocompletion for closing </span><span 
 class="cmsy-10">\</span><span 
 class="cmr-10">end and </span><span 
 class="cmsy-10">\</span><span 
@@ -1495,7 +1495,7 @@ class="cmr-10">From time you need to insert a new package into header of a docum
 <span 
 class="cmr-10">and scroll back to where you were.</span>
 </p><!--l. 533--><p class="noindent" ><span 
-class="cmr-10">Since version 0.5 Geany</span><span class="LATEX"><span 
+class="cmr-10">Since version 0.5 </span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -1559,7 +1559,7 @@ class="cmr-10">E</span></span><span
 class="cmr-10">X</span></span></span><span 
 class="cmr-10">, and want the abbreviations in small caps.</span>
 <span 
-class="cmr-10">Geany</span><span class="LATEX"><span 
+class="cmr-10"></span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -1590,11 +1590,11 @@ class="cmr-10">7 </span></span> <a
  id="x1-330007"></a><span 
 class="cmr-10">Configuration</span></h3>
 <!--l. 558--><p class="noindent" ><span 
-class="cmr-10">GeanyLaTeX can be configured in three major ways:</span>
+class="cmr-10">LaTeX can be configured in three major ways:</span>
      </p><ol  class="enumerate1" >
      <li 
   class="enumerate" id="x1-33002x1"><span 
-class="cmr-10">GeanyLaTeX&#8217;s configuration dialog (see chapter </span><a 
+class="cmr-10">LaTeX&#8217;s configuration dialog (see chapter </span><a 
 href="#x1-340007.1"><span 
 class="cmr-10">7.1</span><!--tex4ht:ref: sec:configuration_dialog --></a><span 
 class="cmr-10">, page </span><a 
@@ -1628,7 +1628,7 @@ class="cmr-10">)</span></li></ol>
 <h4 class="subsectionHead"><span class="titlemark"><span 
 class="cmr-10">7.1 </span></span> <a 
  id="x1-340007.1"></a><span 
-class="cmr-10">GeanyLaTeX&#8217;s configuration dialog</span></h4>
+class="cmr-10">LaTeX&#8217;s configuration dialog</span></h4>
 <!--l. 571--><p class="noindent" ><span 
 class="cmr-10">With version 0.4 the configuration dialog is offering two options which can be changed:</span>
                                                                                           
@@ -1652,7 +1652,7 @@ class="cmr-10">X</span></span></span><span
 class="cmr-10">-Wizard can be</span>
 <span 
 class="cmr-10">configured</span><span class="footnote-mark"><a 
-href="geanylatex2.html#fn1x0"><sup class="textsuperscript">1</sup></a></span><a 
+href="latex2.html#fn1x0"><sup class="textsuperscript">1</sup></a></span><a 
  id="x1-35001f1"></a> <span 
 class="cmr-10">.</span>
 <span 
@@ -1682,7 +1682,7 @@ src="img/toolbar.png" alt="PIC"
  />
 <br /> </p><div class="caption" 
 ><span class="id">Figure&#x00A0;8: </span><span  
-class="content">Plugin toolbar of Geany<span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="content">Plugin toolbar of <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
 class="E">E</span>X</span></span> 0.5</span></div><!--tex4ht:label?: x1-36001r8 -->
                                                                                           
                                                                                           
@@ -1692,7 +1692,7 @@ class="cmr-10">7.1.3 </span></span> <a
  id="x1-370007.1.3"></a><span 
 class="cmr-10">Capitalize letters on sentence begin</span></h5>
 <!--l. 592--><p class="noindent" ><span 
-class="cmr-10">If this option is enabled, Geany</span><span class="LATEX"><span 
+class="cmr-10">If this option is enabled, </span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -1719,7 +1719,7 @@ class="cmr-10">7.1.4 </span></span> <a
  id="x1-380007.1.4"></a><span 
 class="cmr-10">Add a wizard icon to Geany&#8217;s main toolbar</span></h5>
 <!--l. 601--><p class="noindent" ><span 
-class="cmr-10">This adds an icon for Geany</span><span class="LATEX"><span 
+class="cmr-10">This adds an icon for </span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -1728,7 +1728,7 @@ class="cmr-10">E</span></span><span
 class="cmr-10">X</span></span></span> <span 
 class="cmr-10">wizard to Geany&#8217;s main toolbar so its easy to access via mouse even the toolbar</span>
 <span 
-class="cmr-10">of Geany</span><span class="LATEX"><span 
+class="cmr-10">of </span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -1743,7 +1743,7 @@ class="cmr-10">7.1.5 </span></span> <a
  id="x1-390007.1.5"></a><span 
 class="cmr-10">Modus of autocompletion</span></h5>
 <!--l. 607--><p class="noindent" ><span 
-class="cmr-10">Here you can choose, whether the Geany</span><span class="LATEX"><span 
+class="cmr-10">Here you can choose, whether the </span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -1966,10 +1966,10 @@ directory.                                                          </p></td>
 class="hline"><td><hr /></td><td><hr /></td></tr><tr  
  style="vertical-align:baseline;" id="TBL-3-20-"><td  style="white-space:nowrap; text-align:left;" id="TBL-3-20-1"  
 class="td11">Toggle autocompletion for _ and <img 
-src="geanylatex0x.png" alt="&#x02C6;  "  class="circ"  />     </td><td  style="white-space:wrap; text-align:left;" id="TBL-3-20-2"  
+src="latex0x.png" alt="&#x02C6;  "  class="circ"  />     </td><td  style="white-space:wrap; text-align:left;" id="TBL-3-20-2"  
 class="td11"><!--l. 652--><p class="noindent" >Controlls whether braces should be inserted after _
 and <img 
-src="geanylatex1x.png" alt="&#x02C6;  "  class="circ"  />or not.                                                   </p></td>
+src="latex1x.png" alt="&#x02C6;  "  class="circ"  />or not.                                                   </p></td>
 </tr></table></div>
                                                                                           
                                                                                           
@@ -1980,7 +1980,7 @@ class="cmr-10">7.3 </span></span> <a
  id="x1-410007.3"></a><span 
 class="cmr-10">Hidden preferencess</span></h4>
 <!--l. 659--><p class="noindent" ><span 
-class="cmr-10">As not all users need to configure everything on there plugin, Geany </span><span class="LATEX"><span 
+class="cmr-10">As not all users need to configure everything on there plugin, </span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -2002,7 +2002,7 @@ class="cmr-10">E</span></span><span
 class="cmr-10">X</span></span><span 
 class="cmr-10">-type</span></h5>
 <!--l. 665--><p class="noindent" ><span 
-class="cmr-10">By default, Geany</span><span class="LATEX"><span 
+class="cmr-10">By default, </span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -2022,7 +2022,7 @@ class="cmr-10">preferences.</span>
 </p><!--l. 670--><p class="noindent" ><span 
 class="cmr-10">If you want to do so, just add a new section called </span><span 
 class="cmtt-10">toolbar </span><span 
-class="cmr-10">into your general.conf file of Geany</span><span class="LATEX"><span 
+class="cmr-10">into your general.conf file of </span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -2106,7 +2106,7 @@ class="cmr-10">E</span></span><span
 class="cmr-10">X</span></span><span 
 class="cmr-10">-type</span></h5>
 <!--l. 692--><p class="noindent" ><span 
-class="cmr-10">Geany</span><span class="LATEX"><span 
+class="cmr-10"></span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -2351,7 +2351,7 @@ class="cmr-10">E</span></span><span
 class="cmr-10">X</span></span><span 
 class="cmr-10">-like files</span></h5>
 <!--l. 756--><p class="noindent" ><span 
-class="cmr-10">With this option, you can force Geany</span><span class="LATEX"><span 
+class="cmr-10">With this option, you can force </span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -2419,7 +2419,7 @@ class="cmr-10">7.3.6 </span></span> <a
  id="x1-470007.3.6"></a><span 
 class="cmr-10">Customized reference strings</span></h5>
 <!--l. 771--><p class="noindent" ><span 
-class="cmr-10">Geany</span><span class="LATEX"><span 
+class="cmr-10"></span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -2547,7 +2547,7 @@ class="cmsy-10">{} </span><span
 class="cmr-10">after </span><span 
 class="cmr-10">_ and &#x02C6;</span></h5>
 <!--l. 801--><p class="noindent" ><span 
-class="cmr-10">Geany</span><span class="LATEX"><span 
+class="cmr-10"></span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -2753,7 +2753,7 @@ class="cmr-10">8.2 </span></span> <a
  id="x1-540008.2"></a><span 
 class="cmr-10">Testing &amp; bug reporting</span></h4>
 <!--l. 878--><p class="noindent" ><span 
-class="cmr-10">Geany</span><span class="LATEX"><span 
+class="cmr-10"></span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -2773,7 +2773,7 @@ class="cmr-10">8.3 </span></span> <a
  id="x1-550008.3"></a><span 
 class="cmr-10">Packaging</span></h4>
 <!--l. 885--><p class="noindent" ><span 
-class="cmr-10">Geany</span><span class="LATEX"><span 
+class="cmr-10"></span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -2840,7 +2840,7 @@ class="cmr-10">8.6 </span></span> <a
  id="x1-580008.6"></a><span 
 class="cmr-10">Propaganda</span></h4>
 <!--l. 915--><p class="noindent" ><span 
-class="cmr-10">And of course, tell others of Geany and this plugin. If you like to do a talk about Geany</span><span class="LATEX"><span 
+class="cmr-10">And of course, tell others of Geany and this plugin. If you like to do a talk about </span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -2859,7 +2859,7 @@ class="cmr-10">as a start point for preparing your own presentation. If your fav
 class="cmr-10">there, please feel free to do your own translation and in best case send your translation to one of</span>
 <span 
 class="cmr-10">Geany&#8217;s</span><span class="footnote-mark"><a 
-href="geanylatex3.html#fn2x0"><sup class="textsuperscript">2</sup></a></span><a 
+href="latex3.html#fn2x0"><sup class="textsuperscript">2</sup></a></span><a 
  id="x1-58001f2"></a> 
 <span 
 class="cmr-10">development team so it can be added to archive.</span>
@@ -2890,7 +2890,7 @@ class="cmr-10">9.1.1 </span></span> <a
  id="x1-610009.1.1"></a><span 
 class="cmr-10">Sending a patch</span></h5>
 <!--l. 934--><p class="noindent" ><span 
-class="cmr-10">If you want to create a patch, please respect the license of Geany</span><span class="LATEX"><span 
+class="cmr-10">If you want to create a patch, please respect the license of </span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -2901,7 +2901,7 @@ class="cmr-10">as well as intellectual property of third.</span>
 <span 
 class="cmr-10">Patches that should be included to the default distribution must be licensed under the same conditions as</span>
 <span 
-class="cmr-10">Geany</span><span class="LATEX"><span 
+class="cmr-10"></span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -2938,7 +2938,7 @@ class="cmr-10">and Geany</span></h3>
 <!--l. 946--><p class="noindent" ><span 
 class="cmr-10">Geany is offering a number of nice features that can be used to make daily work more easy without need to write a</span>
 <span 
-class="cmr-10">new plugin or extend Geany</span><span class="LATEX"><span 
+class="cmr-10">new plugin or extend </span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 
@@ -3319,7 +3319,7 @@ class="cmr-10">12 </span></span> <a
  id="x1-7400012"></a><span 
 class="cmr-10">License</span></h3>
 <!--l. 1047--><p class="noindent" ><span 
-class="cmr-10">Geany</span><span class="LATEX"><span 
+class="cmr-10"></span><span class="LATEX"><span 
 class="cmr-10">L</span><span class="A"><span 
 class="cmr-10">A</span></span><span class="TEX"><span 
 class="cmr-10">T</span><span 

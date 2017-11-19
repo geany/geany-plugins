@@ -22,7 +22,7 @@
 #ifndef LATEXFORMATUTILS_H
 #define LATEXFORMATUTILS_H
 
-#include "geanylatex.h"
+#include "latex.h"
 
 enum {
 	LATEX_ITALIC = 0,

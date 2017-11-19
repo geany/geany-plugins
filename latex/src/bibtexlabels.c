@@ -19,7 +19,7 @@
  *      MA 02110-1301, USA.
  */
 
-#include "geanylatex.h"
+#include "latex.h"
 #include "bibtex.h"
 #include "datatypes.h"
 

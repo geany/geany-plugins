@@ -22,7 +22,7 @@
 #ifndef GLATEXTEMPLATES_H
 #define GLATEXTEMPLATES_H
 
-#include "geanylatex.h"
+#include "latex.h"
 
 /* Add an enum entry for every new build in templates which are not
  * the TEMPLATE_LATEX_BEAMER and TEMPLATE_LATEX_LETTER.
