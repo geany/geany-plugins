@@ -6,7 +6,7 @@ Geany Plugins 1.33 (not yet released)
 Geany Plugins 1.32 (2017-11-19)
 
     General:
-    * New plugin: Workbench (PR #460)
+    * New plugin: Workbench (PR #601)
     * Travis: Update travis to system with c++11 compiler (#597)
     * Add a common utils library (PR #622)
 
