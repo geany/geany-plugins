@@ -111,9 +111,6 @@ Section "!Program Files" SEC01
 	SetOutPath "$INSTDIR\lib"
 	File /r "${RESOURCEDIR}\lib\*.dll"
 
-	SetOutPath "$INSTDIR\share\icons"
-	File /r "${RESOURCEDIR}\share\icons\*"
-
 	SetOutPath "$INSTDIR\share\geany-plugins"
 	File /r "${RESOURCEDIR}\share\geany-plugins\*"
 SectionEnd
