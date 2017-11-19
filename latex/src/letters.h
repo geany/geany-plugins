@@ -1,7 +1,7 @@
 /*
- *      latexutils.h
+ *      letters.h
  *
- *      Copyright 2009-2012 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *      Copyright 2008-2012 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -18,15 +18,21 @@
  *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  *      MA 02110-1301, USA.
  */
-#ifndef LATEXUTILS_H
-#define LATEXUTILS_H
 
-#include "geanylatex.h"
 
-gchar **glatex_read_file_in_array(const gchar *filename);
-void glatex_usepackage(const gchar *pkg, const gchar *options);
-void glatex_enter_key_pressed_in_entry(G_GNUC_UNUSED GtkWidget *widget, gpointer dialog);
-void glatex_insert_string(const gchar *string, gboolean reset_position);
-void glatex_replace_special_character(void);
+#ifndef LETTERS_H
+#define LETTERS_H
+
+#include "latex.h"
+#include "datatypes.h"
+#include "ui_utils.h"
+#include "support.h"
+#include "utils.h"
+
+extern SubMenuTemplate glatex_char_array[];
+
+extern CategoryName glatex_cat_names[];
+
+const gchar *glatex_get_entity(const gchar *letter);
 
 #endif

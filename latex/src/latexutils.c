@@ -20,7 +20,7 @@
  */
 
 #include "latexutils.h"
-#include "geanylatex.h"
+#include "latex.h"
 
 gchar **glatex_read_file_in_array(const gchar *filename)
 {

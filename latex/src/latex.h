@@ -1,5 +1,5 @@
  /*
- *      geanylatex.h
+ *      latex.h
  *
  *      Copyright 2008-2012 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
@@ -22,8 +22,8 @@
 /* LaTeX plugin */
 /* This plugin improves the work with LaTeX and Geany.*/
 
-#ifndef GEANYLATEX_H
-#define GEANYLATEX_H
+#ifndef LATEX_H
+#define LATEX_H
 
 #include <geanyplugin.h>
 #include <gtk/gtk.h>

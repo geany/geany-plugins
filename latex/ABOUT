@@ -1,4 +1,4 @@
-GeanyLaTeX is a little plugin to improve support of LaTeX on Geany.
+LaTeX is a little plugin to improve support of LaTeX on Geany.
 It implements a couple of maybe useful functions:
 
 	*  Wizard to create new LaTeX documents in a fast and easy way

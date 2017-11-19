@@ -22,7 +22,7 @@
 #ifndef LATEXSTRUCTURE_H
 #define LATEXSTRUCTURE_H
 
-#include "geanylatex.h"
+#include "latex.h"
 
 enum {
 	GLATEX_STRUCTURE_PART = 0,

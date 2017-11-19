@@ -22,7 +22,7 @@
 #ifndef LATEXKEYBINDINGS_H
 #define LATEXKEYBINDINGS_H
 
-#include "geanylatex.h"
+#include "latex.h"
 
 /* Enum for available keybindings */
 enum
