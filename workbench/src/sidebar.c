@@ -595,7 +595,8 @@ static void sidebar_update_workbench(GtkTreeIter *iter, gint *position)
 		gchar text[200];
 
 		count = workbench_get_project_count(wb_globals.opened_wb);
-		length = g_snprintf(text, sizeof(text), _("%s: %u Projects"),
+		length = g_snprintf(text, sizeof(text),
+							g_dngettext(GETTEXT_PACKAGE, "%s: %u Project", "%s: %u Projects", count),
 							workbench_get_name(wb_globals.opened_wb), count);
 		if (length < (gint)(sizeof(text)-1) && workbench_is_modified(wb_globals.opened_wb))
 		{
