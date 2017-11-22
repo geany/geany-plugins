@@ -337,7 +337,7 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 {
 	gint result;
 	GtkWidget *w_rescan_projects_on_open;
-	GtkWidget *dialog, *label, *content_area;
+	GtkWidget *dialog, *content_area;
 	GtkWidget *vbox, *hbox, *table;
 	GtkDialogFlags flags;
 	gboolean changed, rescan_projects_on_open, rescan_projects_on_open_old;
@@ -358,10 +358,8 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 	gtk_table_set_row_spacings(GTK_TABLE(table), 5);
 	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
 
-	label = gtk_label_new(_("Rescan all projects on open:"));
-	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
-	w_rescan_projects_on_open = gtk_check_button_new();
-	ui_table_add_row(GTK_TABLE(table), 0, label, w_rescan_projects_on_open, NULL);
+	w_rescan_projects_on_open = gtk_check_button_new_with_mnemonic(_("_Rescan all projects on open"));
+	ui_table_add_row(GTK_TABLE(table), 0, w_rescan_projects_on_open, NULL);
 	gtk_widget_set_tooltip_text(w_rescan_projects_on_open,
 		_("If the option is activated (default), then all projects will be re-scanned"
 		  " on opening of the workbench."));
