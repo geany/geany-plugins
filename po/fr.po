@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-05 14:45+0100\n"
+"POT-Creation-Date: 2017-11-21 18:22-0800\n"
 "PO-Revision-Date: 2017-03-05 16:25+0100\n"
 "Last-Translator: Colomban Wendling <ban@herbesfolles.org>\n"
 "Language-Team: French <geany-i18n@uvena.de>\n"
@@ -2239,9 +2239,9 @@ msgstr "Numéro du volume"
 msgid "Year of publication or creation if unpublished"
 msgstr "Année de publication ou de création si non publié"
 
-#: ../geanylatex/src/geanylatex.c:41
-msgid "GeanyLaTeX"
-msgstr "GeanyLaTeX"
+#: ../latex/src/latex.c:42 ../tableconvert/src/tableconvert.c:41
+msgid "LaTeX"
+msgstr "LaTeX"
 
 #: ../geanylatex/src/geanylatex.c:42
 msgid "Extends LaTeX support"
@@ -2617,11 +2617,11 @@ msgstr ""
 
 #: ../geanylatex/src/geanylatex.c:2011
 msgid ""
-"GeanyLaTeX is a plugin to improve support for LaTeX in Geany.\n"
+"LaTeX is a plugin to improve support for LaTeX in Geany.\n"
 "\n"
 "Please report all bugs or feature requests to one of the authors."
 msgstr ""
-"GeanyLaTeX est un plugin qui améliore la gestion de LaTeX dans Geany.\n"
+"LaTeX est un plugin qui améliore la gestion de LaTeX dans Geany.\n"
 "\n"
 "Merci de rapporter tous les bogues ou demandes d'améliorations aux auteurs."
 
@@ -7397,10 +7397,6 @@ msgstr "Convertisseur en tableau"
 msgid "Converts lists into tables for different filetypes"
 msgstr "Convertit des listes en tableaux"
 
-#: ../tableconvert/src/tableconvert.c:41
-msgid "LaTeX"
-msgstr "LaTeX"
-
 #: ../tableconvert/src/tableconvert.c:58
 msgid "HTML"
 msgstr "HTML"
@@ -8102,8 +8098,8 @@ msgid "Workbench settings"
 msgstr "Paramètres du plan de travail"
 
 #: ../workbench/src/dialogs.c:361
-msgid "Rescan all projects on open:"
-msgstr "Réindexer tous les projets à l'ouverture :"
+msgid "_Rescan all projects on open"
+msgstr "_Réindexer tous les projets à l'ouverture"
 
 #: ../workbench/src/dialogs.c:366
 msgid ""
@@ -8271,8 +8267,10 @@ msgstr "Aucun plan de travail ouvert."
 
 #: ../workbench/src/sidebar.c:598
 #, c-format
-msgid "%s: %u Projects"
-msgstr "%s : %u projets"
+msgid "%s: %u Project"
+msgid_plural "%s: %u Projects"
+msgstr[0] "%s : %u projet"
+msgstr[1] "%s : %u projets"
 
 #: ../workbench/src/sidebar.c:609
 msgid ""
