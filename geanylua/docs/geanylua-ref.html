@@ -136,7 +136,7 @@ The Geany module provides these functions and variables...<br><br><br>
 </tr>
 
 <tr class="odd">
-  <td>&nbsp; function <a href="#newfile"><b>newfile</b></a> ( [filename] )<br></td>
+  <td>&nbsp; function <a href="#newfile"><b>newfile</b></a> ( [filename [, filetype] )<br></td>
   <td class="desc">-- Create a new document.</td>
 </tr>
 
@@ -756,11 +756,23 @@ the selection is treated as <i>rectangular</i> rather than <i>linear</i>.<br>
 <br><br>
 
 
-<a name="newfile"></a><hr><h3><tt>geany.newfile ( [filename] )</tt></h3><p>
-When called with one argument, creates a new document with the specified
-<tt>filename</tt>. </p><p>When called with no arguments, creates a new, untitled document.
-</p><br><br>
+<a name="newfile"></a><hr><h3><tt>geany.newfile ( [filename [, filetype] )</tt></h3><p>
+<p>When called with no arguments, creates a new, untitled document.</p>
+<p>When called with one argument, creates a new document with the specified
+<tt>filename</tt>.</p>
+<p>When called with two argument, creates a new document with the specified
+<tt>filename</tt> and <tt>filetype</tt> (a one-word description of the filetype,
+e.g. "C" or "Python".). If you want untitled document then set <tt>filename</tt> as <tt>""</tt>.</p>
+<p>So you can use it like this:</p>
+<pre>local s = geany.selection();
 
+if (s ~= "") and (s ~= nil) then
+  local t = geany.fileinfo();
+  geany.newfile("", t.type);
+  geany.selection(s);
+end</pre>
+<p>(create a new, untitled document, with selected text and auto set filetype).</p>
+<br><br>
 
 
 <a name="open"></a><hr><h3><tt>geany.open ( [filename]|[index] )</tt></h3><p>
