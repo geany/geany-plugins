@@ -22,7 +22,7 @@
 #include "config.h"
 #include <string.h>
 #include <gtk/gtk.h>
-#include <webkit/webkitwebview.h>
+#include <webkit2/webkit2.h>
 #include <geanyplugin.h>
 #ifndef FULL_PRICE
 # include <mkdio.h>
@@ -300,7 +300,7 @@ static void
 on_webview_load_status_notify(WebKitWebView *view, GParamSpec *pspec,
   MarkdownViewer *self)
 {
-  WebKitLoadStatus load_status;
+  WebKitLoadEvent load_status;
 
   g_object_get(view, "load-status", &load_status, NULL);
 
@@ -393,8 +393,7 @@ markdown_viewer_update_view(MarkdownViewer *self)
           G_CALLBACK(on_webview_load_status_notify), self);
     }
 
-    webkit_web_view_load_string(WEBKIT_WEB_VIEW(self), html, "text/html",
-      self->priv->enc, base_uri);
+    webkit_web_view_load_html(WEBKIT_WEB_VIEW(self), html, base_uri);
 
     g_free(base_uri);
     g_free(html);
