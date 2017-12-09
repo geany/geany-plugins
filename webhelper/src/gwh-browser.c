@@ -27,7 +27,7 @@
 #include <glib.h>
 #include <glib/gi18n-lib.h>
 #include <gtk/gtk.h>
-#include <webkit/webkit.h>
+#include <webkit2/webkit2.h>
 
 #include "gwh-utils.h"
 #include "gwh-settings.h"
@@ -136,14 +136,15 @@ static void       inspector_set_detached      (GwhBrowser *self,
 
 static void
 set_location_icon (GwhBrowser  *self,
-                   const gchar *icon_uri)
+                   cairo_surface_t *favicon)
 {
   gboolean success = FALSE;
   
-  if (icon_uri) {
+  if (favicon) {
     GdkPixbuf *icon;
-    
-    icon = gwh_pixbuf_new_from_uri (icon_uri, NULL);
+    GtkImage *image;
+    gtk_image_set_from_surface (image, favicon);
+    icon = gtk_image_get_pixbuf(image);
     if (icon) {
       gtk_entry_set_icon_from_pixbuf (GTK_ENTRY (self->priv->url_entry),
                                       GTK_ENTRY_ICON_PRIMARY, icon);
@@ -520,19 +521,7 @@ update_load_status (GwhBrowser *self)
   gboolean        loading = FALSE;
   WebKitWebView  *web_view = WEBKIT_WEB_VIEW (self->priv->web_view);
   
-  switch (webkit_web_view_get_load_status (web_view)) {
-    case WEBKIT_LOAD_PROVISIONAL:
-    case WEBKIT_LOAD_COMMITTED:
-    case WEBKIT_LOAD_FIRST_VISUALLY_NON_EMPTY_LAYOUT:
-      loading = TRUE;
-      break;
-    
-    case WEBKIT_LOAD_FINISHED:
-    case WEBKIT_LOAD_FAILED:
-      loading = FALSE;
-      break;
-  }
-  
+  loading = webkit_web_view_is_loading(web_view);
   gtk_widget_set_sensitive (GTK_WIDGET (self->priv->item_reload), ! loading);
   gtk_widget_set_visible   (GTK_WIDGET (self->priv->item_reload), ! loading);
   gtk_widget_set_sensitive (GTK_WIDGET (self->priv->item_cancel), loading);
@@ -549,17 +538,17 @@ on_web_view_load_status_notify (GObject    *object,
   update_load_status (self);
 }
 
-static gboolean
+/*static gboolean
 on_web_view_load_error (WebKitWebView  *web_view,
-                        WebKitWebFrame *web_frame,
+                        WebKitFrame *web_frame,
                         gchar          *uri,
                         gpointer        web_error,
                         GwhBrowser     *self)
 {
   update_load_status (self);
   
-  return FALSE; /* we didn't really handled the error, so return %FALSE */
-}
+  return FALSE; we didn't really handled the error, so return %FALSE
+} */
 
 static void
 on_web_view_uri_notify (GObject    *object,
@@ -579,10 +568,10 @@ on_web_view_icon_uri_notify (GObject    *object,
                              GParamSpec *pspec,
                              GwhBrowser *self)
 {
-  const gchar *icon_uri;
+  cairo_surface_t *favicon;
   
-  icon_uri = webkit_web_view_get_icon_uri (WEBKIT_WEB_VIEW (self->priv->web_view));
-  set_location_icon (self, icon_uri);
+  favicon = webkit_web_view_get_favicon (WEBKIT_WEB_VIEW (self->priv->web_view));
+  set_location_icon (self, favicon);
 }
 
 static void
@@ -592,11 +581,12 @@ on_web_view_progress_notify (GObject    *object,
 {
   gdouble value;
   
-  value = webkit_web_view_get_progress (WEBKIT_WEB_VIEW (self->priv->web_view));
+/*  value = webkit_web_view_get_progress (WEBKIT_WEB_VIEW (self->priv->web_view));
   if (value >= 1.0) {
     value = 0.0;
   }
   gtk_entry_set_progress_fraction (GTK_ENTRY (self->priv->url_entry), value);
+  */
 }
 
 
@@ -617,13 +607,13 @@ on_item_zoom_100_activate (GtkMenuItem *item,
   webkit_web_view_set_zoom_level (WEBKIT_WEB_VIEW (self->priv->web_view), 1.0);
 }
 
-static void
+/* static void
 on_item_full_content_zoom_activate (GtkCheckMenuItem *item,
                                     GwhBrowser       *self)
 {
   webkit_web_view_set_full_content_zoom (WEBKIT_WEB_VIEW (self->priv->web_view),
                                          gtk_check_menu_item_get_active (item));
-}
+} */
 
 static void
 on_web_view_populate_popup (WebKitWebView *view,
@@ -648,13 +638,13 @@ on_web_view_populate_popup (WebKitWebView *view,
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   /* zoom in */
   item = gtk_image_menu_item_new_from_stock (GTK_STOCK_ZOOM_IN, NULL);
-  g_signal_connect_swapped (item, "activate",
-                            G_CALLBACK (webkit_web_view_zoom_in), view);
+//  g_signal_connect_swapped (item, "activate",
+//                            G_CALLBACK (webkit_web_view_zoom_in), view);
   gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
   /* zoom out */
   item = gtk_image_menu_item_new_from_stock (GTK_STOCK_ZOOM_OUT, NULL);
-  g_signal_connect_swapped (item, "activate",
-                            G_CALLBACK (webkit_web_view_zoom_out), view);
+//  g_signal_connect_swapped (item, "activate",
+//                            G_CALLBACK (webkit_web_view_zoom_out), view);
   gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
   /* zoom 1:1 */
   ADD_SEPARATOR (submenu);
@@ -665,10 +655,10 @@ on_web_view_populate_popup (WebKitWebView *view,
   /* full content zoom */
   ADD_SEPARATOR (submenu);
   item = gtk_check_menu_item_new_with_mnemonic (_("Full-_content zoom"));
-  gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item),
-                                  webkit_web_view_get_full_content_zoom (view));
-  g_signal_connect (item, "activate",
-                    G_CALLBACK (on_item_full_content_zoom_activate), self);
+//  gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item),
+//                                  webkit_web_view_get_full_content_zoom (view));
+//  g_signal_connect (item, "activate",
+//                    G_CALLBACK (on_item_full_content_zoom_activate), self);
   gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
   /* show zoom sumbenu */
   gtk_widget_show_all (submenu);
@@ -701,11 +691,11 @@ on_web_view_scroll_event (GtkWidget      *widget,
     handled = TRUE;
     switch (event->direction) {
       case GDK_SCROLL_DOWN:
-        webkit_web_view_zoom_out (WEBKIT_WEB_VIEW (self->priv->web_view));
+        webkit_web_view_set_zoom_level (WEBKIT_WEB_VIEW (self->priv->web_view), 1.0);
         break;
       
       case GDK_SCROLL_UP:
-        webkit_web_view_zoom_in (WEBKIT_WEB_VIEW (self->priv->web_view));
+        webkit_web_view_set_zoom_level (WEBKIT_WEB_VIEW (self->priv->web_view), 1.0);
         break;
       
       default:
@@ -1114,7 +1104,7 @@ static void
 gwh_browser_init (GwhBrowser *self)
 {
   GtkWidget          *scrolled;
-  WebKitWebSettings  *wkws;
+  WebKitSettings  *wkws;
   gboolean            inspector_detached;
   
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GWH_TYPE_BROWSER,
@@ -1185,8 +1175,8 @@ gwh_browser_init (GwhBrowser *self)
                     G_CALLBACK (on_web_view_uri_notify), self);
   g_signal_connect (G_OBJECT (self->priv->web_view), "notify::load-status",
                     G_CALLBACK (on_web_view_load_status_notify), self);
-  g_signal_connect (G_OBJECT (self->priv->web_view), "notify::load-error",
-                    G_CALLBACK (on_web_view_load_error), self);
+//  g_signal_connect (G_OBJECT (self->priv->web_view), "notify::load-error",
+//                    G_CALLBACK (on_web_view_load_error), self);
   g_signal_connect (G_OBJECT (self->priv->web_view), "notify::icon-uri",
                     G_CALLBACK (on_web_view_icon_uri_notify), self);
   g_signal_connect (G_OBJECT (self->priv->web_view), "populate-popup",
@@ -1251,7 +1241,7 @@ gwh_browser_set_uri (GwhBrowser  *self,
   }
   g_free (scheme);
   if (g_strcmp0 (real_uri, gwh_browser_get_uri (self)) != 0) {
-    webkit_web_view_open (WEBKIT_WEB_VIEW (self->priv->web_view), real_uri);
+    webkit_web_view_load_uri (WEBKIT_WEB_VIEW (self->priv->web_view), real_uri);
     g_object_notify (G_OBJECT (self), "uri");
   }
   g_free (real_uri);
