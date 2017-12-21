@@ -25,7 +25,8 @@ addons_la_SOURCES = \
 	ao_tasks.c \
 	ao_xmltagging.c \
 	ao_wrapwords.c \
-	ao_copyfilepath.c
+	ao_copyfilepath.c \
+	ao_colortip.c
 
 addons_la_CPPFLAGS = $(AM_CPPFLAGS) \
 					 -DG_LOG_DOMAIN=\"Addons\"
