@@ -1,5 +1,5 @@
 /*
- *      ao_markword.h - this file is part of Addons, a Geany plugin
+ *      ao_colortip.h - this file is part of Addons, a Geany plugin
  *
  *      Copyright 2017 LarsGit223
  *
