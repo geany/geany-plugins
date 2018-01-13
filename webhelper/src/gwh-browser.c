@@ -21,6 +21,7 @@
 
 #include "config.h"
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -124,6 +125,8 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL] = {0};
+static const gdouble zoom_in_factor = 1.2;
+static const gdouble zoom_out_factor = 1.0 / 1.2;
 
 
 G_DEFINE_TYPE_WITH_CODE (GwhBrowser, gwh_browser, GTK_TYPE_VBOX,
@@ -620,18 +623,20 @@ on_item_full_content_zoom_activate (GtkCheckMenuItem *item,
   webkit_settings_set_zoom_text_only (settings, !gtk_check_menu_item_get_active (item));
 }
 
+static void web_view_zoom (WebKitWebView *view, gdouble factor)
+{
+  gdouble zoom_level = webkit_web_view_get_zoom_level (view);
+  webkit_web_view_set_zoom_level (view, zoom_level * factor);
+}
+
 static void web_view_zoom_in (WebKitWebView *view)
 {
-  gdouble target_zoom_level = webkit_web_view_get_zoom_level (view) + 0.05;
-  webkit_web_view_set_zoom_level (view, target_zoom_level);
+  web_view_zoom (view, zoom_in_factor);
 }
 
 static void web_view_zoom_out (WebKitWebView *view)
 {
-  gdouble target_zoom_level = webkit_web_view_get_zoom_level (view) - 0.05;
-  target_zoom_level = MIN(target_zoom_level, 0.05);
-
-  webkit_web_view_set_zoom_level (view, target_zoom_level);
+  web_view_zoom (view, zoom_out_factor);
 }
 
 static void
@@ -705,6 +710,11 @@ on_web_view_scroll_event (GtkWidget      *widget,
 {
   guint     mods = event->state & gtk_accelerator_get_default_mod_mask ();
   gboolean  handled = FALSE;
+
+#if GTK_CHECK_VERSION(3, 0, 0)
+  gdouble   delta;
+  gdouble   factor;
+#endif
   
   if (mods == GDK_CONTROL_MASK) {
     handled = TRUE;
@@ -716,7 +726,16 @@ on_web_view_scroll_event (GtkWidget      *widget,
       case GDK_SCROLL_UP:
         web_view_zoom_in (WEBKIT_WEB_VIEW (self->priv->web_view));
         break;
-      
+
+#if GTK_CHECK_VERSION(3, 0, 0)
+      case GDK_SCROLL_SMOOTH:
+        delta = event->delta_x + event->delta_y;
+        factor = pow (delta < 0 ? zoom_in_factor : zoom_out_factor,
+                      fabs (delta));
+        web_view_zoom (WEBKIT_WEB_VIEW (self->priv->web_view), factor);
+        break;
+#endif
+
       default:
         handled = FALSE;
     }
