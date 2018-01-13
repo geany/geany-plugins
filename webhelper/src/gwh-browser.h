@@ -56,8 +56,8 @@ struct _GwhBrowserClass
 {
   GtkVBoxClass parent_class;
   
-  void        (*populate_popup)       (GwhBrowser *browser,
-                                       GtkMenu    *menu);
+  void        (*populate_popup)       (GwhBrowser        *browser,
+                                       WebKitContextMenu *menu);
 };
 
 
