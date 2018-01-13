@@ -1124,6 +1124,7 @@ gwh_browser_init (GwhBrowser *self)
 {
   GtkWidget          *scrolled;
   WebKitSettings     *wkws;
+  WebKitWebContext   *wkcontext;
   gboolean            inspector_detached;
   
   self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GWH_TYPE_BROWSER,
@@ -1134,6 +1135,9 @@ gwh_browser_init (GwhBrowser *self)
   self->priv->web_view = webkit_web_view_new ();
   wkws = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (self->priv->web_view));
   g_object_set (wkws, "enable-developer-extras", TRUE, NULL);
+
+  wkcontext = webkit_web_view_get_context (WEBKIT_WEB_VIEW (self->priv->web_view));
+  webkit_web_context_set_favicon_database_directory (wkcontext, NULL);
   
   self->priv->settings = gwh_settings_get_default ();
   g_object_get (self->priv->settings,
