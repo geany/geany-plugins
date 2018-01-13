@@ -27,6 +27,7 @@
 #include <string.h>
 #include <glib.h>
 #include <glib/gi18n-lib.h>
+#include <gio/gio.h>
 #include <gtk/gtk.h>
 #include <webkit2/webkit2.h>
 
@@ -597,8 +598,9 @@ on_web_view_progress_notify (GObject    *object,
 
 
 static void
-on_item_flip_orientation_activate (GtkMenuItem *item,
-                                   GwhBrowser  *self)
+on_item_flip_orientation_activate (GSimpleAction *action,
+                                   GVariant *parameter,
+                                   GwhBrowser    *self)
 {
   gtk_orientable_set_orientation (GTK_ORIENTABLE (self),
                                   gtk_orientable_get_orientation (GTK_ORIENTABLE (self)) == GTK_ORIENTATION_VERTICAL
@@ -607,20 +609,24 @@ on_item_flip_orientation_activate (GtkMenuItem *item,
 }
 
 static void
-on_item_zoom_100_activate (GtkMenuItem *item,
-                           GwhBrowser  *self)
+on_item_zoom_100_activate (WebKitWebView *view)
 {
-  webkit_web_view_set_zoom_level (WEBKIT_WEB_VIEW (self->priv->web_view), 1.0);
+  webkit_web_view_set_zoom_level (view, 1.0);
 }
 
 static void
-on_item_full_content_zoom_activate (GtkCheckMenuItem *item,
-                                    GwhBrowser       *self)
+on_item_full_content_zoom_activate (GSimpleAction *action,
+                                    GVariant      *dummy_parameter,
+                                    GwhBrowser    *self)
 {
   WebKitSettings *settings;
+  gboolean        zoom_text_only;
+
   settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (self->priv->web_view));
 
-  webkit_settings_set_zoom_text_only (settings, !gtk_check_menu_item_get_active (item));
+  zoom_text_only = !webkit_settings_get_zoom_text_only (settings);
+  webkit_settings_set_zoom_text_only (settings, zoom_text_only);
+  g_simple_action_set_state (action, g_variant_new_boolean (!zoom_text_only));
 }
 
 static void web_view_zoom (WebKitWebView *view, gdouble factor)
@@ -639,68 +645,88 @@ static void web_view_zoom_out (WebKitWebView *view)
   web_view_zoom (view, zoom_out_factor);
 }
 
-static void
-on_web_view_populate_popup (WebKitWebView *view,
-                            GtkMenu       *menu,
-                            GwhBrowser    *self)
+static gboolean
+on_web_view_context_menu (WebKitWebView       *view,
+                          WebKitContextMenu   *context_menu,
+                          GdkEvent            *event,
+                          WebKitHitTestResult *hit_test_result,
+                          GwhBrowser          *self)
 {
-  GtkWidget *item;
-  GtkWidget *submenu;
-  
-  #define ADD_SEPARATOR(menu) \
-    item = gtk_separator_menu_item_new (); \
-    gtk_widget_show (item); \
-    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item)
-  
-  ADD_SEPARATOR (menu);
-  
+  WebKitContextMenuItem    *item;
+  WebKitContextMenu        *submenu;
+  GAction                  *action;
+  GVariant                 *action_state;
+
+  webkit_context_menu_append (context_menu,
+                              webkit_context_menu_item_new_separator ());
+
   /* Zoom menu */
-  submenu = gtk_menu_new ();
-  item = gtk_menu_item_new_with_mnemonic (_("_Zoom"));
-  gtk_widget_show (item);
-  gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), submenu);
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  submenu = webkit_context_menu_new ();
+  item = webkit_context_menu_item_new_with_submenu (_("_Zoom"), submenu);
+  webkit_context_menu_append (context_menu, item);
+
   /* zoom in */
-  item = gtk_image_menu_item_new_from_stock (GTK_STOCK_ZOOM_IN, NULL);
-  g_signal_connect_swapped (item, "activate",
+  action = g_simple_action_new ("zoom-in", NULL);
+  g_signal_connect_swapped (action, "activate",
                             G_CALLBACK (web_view_zoom_in), view);
-  gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
+  item = webkit_context_menu_item_new_from_gaction (action, _("Zoom _In"),
+                                                    NULL);
+  webkit_context_menu_append (submenu, item);
+
   /* zoom out */
-  item = gtk_image_menu_item_new_from_stock (GTK_STOCK_ZOOM_OUT, NULL);
-  g_signal_connect_swapped (item, "activate",
+  action = g_simple_action_new ("zoom-out", NULL);
+  g_signal_connect_swapped (action, "activate",
                             G_CALLBACK (web_view_zoom_out), view);
-  gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
+  item = webkit_context_menu_item_new_from_gaction (action, _("Zoom _Out"),
+                                                    NULL);
+  webkit_context_menu_append (submenu, item);
+
   /* zoom 1:1 */
-  ADD_SEPARATOR (submenu);
-  item = gtk_image_menu_item_new_from_stock (GTK_STOCK_ZOOM_100, NULL);
-  g_signal_connect (item, "activate",
-                    G_CALLBACK (on_item_zoom_100_activate), self);
-  gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
+  webkit_context_menu_append (submenu,
+                              webkit_context_menu_item_new_separator ());
+  action = g_simple_action_new ("zoom-reset", NULL);
+  g_signal_connect_swapped (action, "activate",
+                            G_CALLBACK (on_item_zoom_100_activate), view);
+  item = webkit_context_menu_item_new_from_gaction (action, _("_Reset Zoom"),
+                                                    NULL);
+  webkit_context_menu_append (submenu, item);
+
   /* full content zoom */
-  ADD_SEPARATOR (submenu);
-  item = gtk_check_menu_item_new_with_mnemonic (_("Full-_content zoom"));
-  gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item),
-                                  !webkit_settings_get_zoom_text_only (webkit_web_view_get_settings(view)));
-  g_signal_connect (item, "activate",
-                    G_CALLBACK (on_item_full_content_zoom_activate), self);
-  gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
-  /* show zoom sumbenu */
-  gtk_widget_show_all (submenu);
-  
-  ADD_SEPARATOR (menu);
-  
-  item = gtk_menu_item_new_with_label (_("Flip panes orientation"));
-  g_signal_connect (item, "activate",
-                    G_CALLBACK (on_item_flip_orientation_activate), self);
-  gtk_widget_show (item);
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  webkit_context_menu_append (submenu,
+                              webkit_context_menu_item_new_separator ());
+  action_state = g_variant_new_boolean (
+    webkit_settings_get_zoom_text_only (webkit_web_view_get_settings (view)));
+
+  action = g_simple_action_new_stateful (
+    "full-content-zoom",
+    NULL,
+    action_state
+  );
+  item = webkit_context_menu_item_new_from_gaction (action,
+                                                    _("Full-_content zoom"),
+                                                    NULL);
+  g_simple_action_set_enabled (action, TRUE);
+  webkit_context_menu_append (submenu, item);
+  g_signal_connect (action, "activate",
+                    on_item_full_content_zoom_activate, self);
+
+  /* flip panes orientation */
+  webkit_context_menu_append (context_menu,
+                              webkit_context_menu_item_new_separator ());
+  action = g_simple_action_new ("flip-panes", NULL);
+  g_signal_connect_swapped (action, "activate",
+                            G_CALLBACK (on_item_flip_orientation_activate),
+                            view);
+  item = webkit_context_menu_item_new_from_gaction (
+    action, _("_Flip panes orientation"), NULL);
+  webkit_context_menu_append (context_menu, item);
   if (! INSPECTOR_VISIBLE (self) || INSPECTOR_DETACHED (self)) {
-    gtk_widget_set_sensitive (item, FALSE);
+    g_simple_action_set_enabled (action, FALSE);
   }
-  
-  #undef ADD_SEPARATOR
-  
-  g_signal_emit (self, signals[POPULATE_POPUP], 0, menu);
+
+  g_signal_emit (self, signals[POPULATE_POPUP], 0, context_menu);
+
+  return FALSE;
 }
 
 static gboolean
@@ -905,7 +931,7 @@ gwh_browser_class_init (GwhBrowserClass *klass)
                                           G_STRUCT_OFFSET (GwhBrowserClass, populate_popup),
                                           NULL, NULL,
                                           g_cclosure_marshal_VOID__OBJECT,
-                                          G_TYPE_NONE, 1, GTK_TYPE_MENU);
+                                          G_TYPE_NONE, 1, WEBKIT_TYPE_CONTEXT_MENU);
   
   g_object_class_override_property (object_class,
                                     PROP_ORIENTATION,
@@ -1221,8 +1247,8 @@ gwh_browser_init (GwhBrowser *self)
                     G_CALLBACK (on_web_view_load_failed), self);
   g_signal_connect (G_OBJECT (self->priv->web_view), "notify::favicon",
                     G_CALLBACK (on_web_view_favicon_notify), self);
-  g_signal_connect (G_OBJECT (self->priv->web_view), "populate-popup",
-                    G_CALLBACK (on_web_view_populate_popup), self);
+  g_signal_connect (G_OBJECT (self->priv->web_view), "context-menu",
+                    G_CALLBACK (on_web_view_context_menu), self);
   g_signal_connect (G_OBJECT (self->priv->web_view), "scroll-event",
                     G_CALLBACK (on_web_view_scroll_event), self);
   g_signal_connect (G_OBJECT (self->priv->web_view), "hovering-over-link",
