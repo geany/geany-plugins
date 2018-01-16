@@ -140,46 +140,34 @@ static gint contains_color_value(gchar *string, gint position, gint maxdist)
 
 static gint get_color_value_at_current_doc_position(void)
 {
-	gchar *subtext;
-	gint start, end, pos, max, color = -1;
-	GeanyDocument *doc = document_get_current();
+    gint color = -1;
+    GeanyDocument *doc = document_get_current();
+    gchar *word = editor_get_word_at_pos(doc->editor, -1, "0123456789abcdefABCDEF");
 
-	g_return_val_if_fail(doc != NULL, FALSE);
+    if (word)
+    {
+        switch (strlen (word))
+        {
+            case 3:
+                color = ((g_ascii_xdigit_value(word[0]) * 0x11) << 16 |
+                         (g_ascii_xdigit_value(word[1]) * 0x11) << 8 |
+                         (g_ascii_xdigit_value(word[2]) * 0x11) << 0);
+                break;
+            case 6:
+                color = (g_ascii_xdigit_value(word[0]) << 20 |
+                         g_ascii_xdigit_value(word[1]) << 16 |
+                         g_ascii_xdigit_value(word[2]) << 12 |
+                         g_ascii_xdigit_value(word[3]) << 8 |
+                         g_ascii_xdigit_value(word[4]) << 4 |
+                         g_ascii_xdigit_value(word[5]) << 0);
+                break;
+            default:
+                /* invalid color or other format */
+                break;
+        }
+    }
 
-	/* Is position valid? */
-	pos = sci_get_current_position(doc->editor->sci);
-	if (pos < 0)
-	{
-		return color;
-	}
-	max = SSM(doc->editor->sci, SCI_GETTEXTLENGTH, 0, 0);
-
-	/* Calculate range */
-	start = pos;
-	if (start >= 7)
-	{
-		start -= 7;
-	}
-	else
-	{
-		start = 0;
-	}
-	end = pos + 7;
-	if (end > max)
-	{
-		end = max;
-	}
-
-	/* Get text in range and examine it */
-	subtext = sci_get_contents_range(doc->editor->sci, start, end);
-	if (subtext != NULL)
-	{
-		pos = pos - start;
-		color = contains_color_value(subtext, pos, 1);
-		g_free(subtext);
-	}
-
-	return color;
+    return color;
 }
 
 static gboolean on_editor_button_press_event(GtkWidget *widget, GdkEventButton *event,
