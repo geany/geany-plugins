@@ -322,12 +322,14 @@ static void ao_color_tip_set_property(GObject *object, guint prop_id,
 void ao_color_tip_document_new(AoColorTip *colortip, GeanyDocument *document)
 {
 	connect_document_button_press_signal_handler(colortip, document);
+	SSM(document->editor->sci, SCI_SETMOUSEDWELLTIME, 300, 0);
 }
 
 
 void ao_color_tip_document_open(AoColorTip *colortip, GeanyDocument *document)
 {
 	connect_document_button_press_signal_handler(colortip, document);
+	SSM(document->editor->sci, SCI_SETMOUSEDWELLTIME, 300, 0);
 }
 
 
