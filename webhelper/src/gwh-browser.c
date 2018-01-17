@@ -134,10 +134,6 @@ G_DEFINE_TYPE_WITH_CODE (GwhBrowser, gwh_browser, GTK_TYPE_VBOX,
                          G_IMPLEMENT_INTERFACE (GTK_TYPE_ORIENTABLE, NULL))
 
 
-static void       inspector_set_detached      (GwhBrowser *self,
-                                               gboolean    detached);
-
-
 static void
 set_location_icon (GwhBrowser  *self,
                    const cairo_surface_t *icon_surface)
@@ -252,17 +248,6 @@ on_settings_inspector_window_geometry_notify (GObject    *object,
 }
 
 static void
-on_settings_inspector_detached_notify (GObject    *object,
-                                       GParamSpec *pspec,
-                                       GwhBrowser *self)
-{
-  gboolean detached;
-  
-  g_object_get (object, pspec->name, &detached, NULL);
-  inspector_set_detached (self, detached);
-}
-
-static void
 on_settings_wm_windows_skip_taskbar_notify (GObject    *object,
                                             GParamSpec *pspec,
                                             GwhBrowser *self)
@@ -298,10 +283,10 @@ on_settings_wm_windows_type_notify (GObject    *object,
 /* web inspector events handling */
 
 #define INSPECTOR_DETACHED(self) \
-  (gtk_bin_get_child (GTK_BIN ((self)->priv->inspector_window)) != NULL)
+  (webkit_web_inspector_is_attached ((self)->priv->inspector))
 
 #define INSPECTOR_VISIBLE(self) \
-  (gtk_widget_get_visible ((self)->priv->inspector_view))
+  (webkit_web_inspector_get_web_view ((self)->priv->inspector) != NULL)
 
 static void
 inspector_set_visible (GwhBrowser *self,
@@ -316,117 +301,22 @@ inspector_set_visible (GwhBrowser *self,
   }
 }
 
-static void
-inspector_hide_window (GwhBrowser *self)
-{
-  if (gtk_widget_get_visible (self->priv->inspector_window)) {
-    gtk_window_get_position (GTK_WINDOW (self->priv->inspector_window),
-                             &self->priv->inspector_window_x,
-                             &self->priv->inspector_window_y);
-    gtk_widget_hide (self->priv->inspector_window);
-  }
-}
-
-static void
-inspector_show_window (GwhBrowser *self)
-{
-  if (! gtk_widget_get_visible (self->priv->inspector_window)) {
-    gtk_widget_show (self->priv->inspector_window);
-    gtk_window_move (GTK_WINDOW (self->priv->inspector_window),
-                     self->priv->inspector_window_x,
-                     self->priv->inspector_window_y);
-  }
-}
-
-static void
-inspector_set_detached (GwhBrowser *self,
-                        gboolean    detached)
-{
-  if (detached != INSPECTOR_DETACHED (self)) {
-    if (detached) {
-      gtk_widget_reparent (self->priv->inspector_view,
-                           self->priv->inspector_window);
-      if (INSPECTOR_VISIBLE (self)) {
-        inspector_show_window (self);
-      }
-    } else {
-      gtk_widget_reparent (self->priv->inspector_view, self->priv->paned);
-      inspector_hide_window (self);
-    }
-    g_object_set (self->priv->settings, "inspector-detached", detached, NULL);
-  }
-}
-
-static WebKitWebView *
-on_inspector_inspect_web_view (WebKitWebInspector *inspector,
-                               WebKitWebView      *view,
-                               GwhBrowser         *self)
-{
-  if (self->priv->inspector_web_view) {
-    gtk_widget_destroy (self->priv->inspector_web_view);
-  }
-  
-  self->priv->inspector_web_view = webkit_web_view_new ();
-  gtk_widget_show (self->priv->inspector_web_view);
-  gtk_container_add (GTK_CONTAINER (self->priv->inspector_view),
-                     self->priv->inspector_web_view);
-  
-  return WEBKIT_WEB_VIEW (self->priv->inspector_web_view);
-}
-
 static gboolean
-on_inspector_show_window (WebKitWebInspector *inspector,
-                          GwhBrowser         *self)
+on_inspector_closed (WebKitWebInspector *inspector,
+                     GwhBrowser         *self)
 {
-  gtk_widget_show (self->priv->inspector_view);
-  if (INSPECTOR_DETACHED (self)) {
-    inspector_show_window (self);
-  }
-  gtk_toggle_tool_button_set_active (GTK_TOGGLE_TOOL_BUTTON (self->priv->item_inspector),
-                                     TRUE);
-  
-  return TRUE;
-}
-
-static gboolean
-on_inspector_close_window (WebKitWebInspector *inspector,
-                           GwhBrowser         *self)
-{
-  gtk_widget_hide (self->priv->inspector_view);
-  inspector_hide_window (self);
   gtk_toggle_tool_button_set_active (GTK_TOGGLE_TOOL_BUTTON (self->priv->item_inspector),
                                      FALSE);
-  gtk_widget_grab_focus (gtk_widget_get_toplevel (self->priv->web_view));
-  
-  return TRUE;
+  return FALSE;
 }
 
 static gboolean
-on_inspector_detach_window (WebKitWebInspector *inspector,
-                            GwhBrowser         *self)
+on_inspector_opened (WebKitWebInspector *inspector,
+                          GwhBrowser         *self)
 {
-  inspector_set_detached (self, TRUE);
-  
-  return TRUE;
-}
-
-static gboolean
-on_inspector_attach_window (WebKitWebInspector *inspector,
-                            GwhBrowser         *self)
-{
-  inspector_set_detached (self, FALSE);
-  
-  return TRUE;
-}
-
-static gboolean
-on_inspector_window_delete_event (GtkWidget  *window,
-                                  GdkEvent   *event,
-                                  GwhBrowser *self)
-{
-  webkit_web_inspector_close (self->priv->inspector);
-  
-  return TRUE;
+  gtk_toggle_tool_button_set_active (GTK_TOGGLE_TOOL_BUTTON (self->priv->item_inspector),
+                                     TRUE);
+  return FALSE;
 }
 
 /* web view events hanlding */
@@ -1073,33 +963,6 @@ create_toolbar (GwhBrowser *self)
   return toolbar;
 }
 
-static GtkWidget *
-create_inspector_window (GwhBrowser *self)
-{
-  gboolean skips_taskbar;
-  gboolean window_type;
-  
-  g_object_get (self->priv->settings,
-                "wm-secondary-windows-skip-taskbar", &skips_taskbar,
-                "wm-secondary-windows-type", &window_type,
-                NULL);
-  self->priv->inspector_window_x = self->priv->inspector_window_y = 0;
-  self->priv->inspector_window = g_object_new (GTK_TYPE_WINDOW,
-                                               "type", GTK_WINDOW_TOPLEVEL,
-                                               "skip-taskbar-hint", skips_taskbar,
-                                               "type-hint", window_type,
-                                               "title", _("Web inspector"),
-                                               NULL);
-  g_signal_connect (self->priv->inspector_window, "delete-event",
-                    G_CALLBACK (on_inspector_window_delete_event), self);
-  g_signal_connect (self->priv->settings, "notify::wm-secondary-windows-skip-taskbar",
-                    G_CALLBACK (on_settings_wm_windows_skip_taskbar_notify), self);
-  g_signal_connect (self->priv->settings, "notify::wm-secondary-windows-type",
-                    G_CALLBACK (on_settings_wm_windows_type_notify), self);
-  
-  return self->priv->inspector_window;
-}
-
 static guint
 get_statusbar_context_id (GtkStatusbar *statusbar)
 {
@@ -1207,7 +1070,6 @@ gwh_browser_init (GwhBrowser *self)
                                   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   self->priv->inspector_web_view = NULL;
   
-  self->priv->inspector_window = create_inspector_window (self);
   gtk_container_add (GTK_CONTAINER (inspector_detached
                                     ? self->priv->inspector_window
                                     : self->priv->paned),
@@ -1226,16 +1088,10 @@ gwh_browser_init (GwhBrowser *self)
                     G_CALLBACK (on_orientation_notify), self);
   
   self->priv->inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (self->priv->web_view));
-  g_signal_connect (self->priv->inspector, "inspect-web-view",
-                    G_CALLBACK (on_inspector_inspect_web_view), self);
-  g_signal_connect (self->priv->inspector, "show-window",
-                    G_CALLBACK (on_inspector_show_window), self);
-  g_signal_connect (self->priv->inspector, "close-window",
-                    G_CALLBACK (on_inspector_close_window), self);
-  g_signal_connect (self->priv->inspector, "detach-window",
-                    G_CALLBACK (on_inspector_detach_window), self);
-  g_signal_connect (self->priv->inspector, "attach-window",
-                    G_CALLBACK (on_inspector_attach_window), self);
+  g_signal_connect (self->priv->inspector, "bring-to-front",
+                    G_CALLBACK (on_inspector_opened), self);
+  g_signal_connect (self->priv->inspector, "closed",
+                    G_CALLBACK (on_inspector_closed), self);
   
   g_signal_connect (G_OBJECT (self->priv->web_view), "notify::progress",
                     G_CALLBACK (on_web_view_progress_notify), self);
@@ -1273,8 +1129,6 @@ gwh_browser_init (GwhBrowser *self)
                     G_CALLBACK (on_settings_browser_bookmarks_notify), self);
   g_signal_connect (self->priv->settings, "notify::browser-orientation",
                     G_CALLBACK (on_settings_browser_orientation_notify), self);
-  g_signal_connect (self->priv->settings, "notify::inspector-detached",
-                    G_CALLBACK (on_settings_inspector_detached_notify), self);
   g_signal_connect (self->priv->settings, "notify::inspector-window-geometry",
                     G_CALLBACK (on_settings_inspector_window_geometry_notify), self);
 }
