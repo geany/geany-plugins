@@ -26,7 +26,7 @@ typedef struct
 {
 	WB_PROJECT     *project;
 	WB_PROJECT_DIR *directory;
-	gchar          *folder;
+	gchar          *subdir;
 	gchar          *file;
 	gchar          *wb_bookmark;
 	gchar          *prj_bookmark;
@@ -74,6 +74,6 @@ gboolean sidebar_file_view_get_selected_context(SIDEBAR_CONTEXT *context);
 
 GPtrArray *sidebar_get_selected_project_filelist (void);
 GPtrArray *sidebar_get_selected_directory_filelist (void);
-GPtrArray *sidebar_get_selected_folder_filelist (void);
+GPtrArray *sidebar_get_selected_subdir_filelist (void);
 
 #endif
