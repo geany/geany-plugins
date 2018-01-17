@@ -49,8 +49,8 @@ AC_DEFUN([GP_CHECK_MARKDOWN],
     GTK_VERSION=2.16
     WEBKIT_VERSION=1.1.13
 
-    GP_CHECK_GTK3([webkit_package=webkitgtk-3.0],
-                  [webkit_package=webkit-1.0])
+    GP_CHECK_GTK3([webkit_package=webkit2gtk-4.0],
+                  [webkit_package=webkit2gtk-4.0])
 
     GP_CHECK_PLUGIN_DEPS([markdown], [MARKDOWN],
                          [$GP_GTK_PACKAGE >= ${GTK_VERSION}
