@@ -1114,18 +1114,24 @@ get_statusbar_context_id (GtkStatusbar *statusbar)
 }
 
 static void
-on_web_view_hovering_over_link (WebKitWebView *view,
-                                gchar         *title,
-                                gchar         *uri,
-                                GwhBrowser    *self)
+on_web_view_mouse_target_changed (WebKitWebView       *view,
+                                  WebKitHitTestResult *hit_test_result,
+                                  guint                modifiers,
+                                  GwhBrowser          *self)
 {
   GtkStatusbar *statusbar = GTK_STATUSBAR (self->priv->statusbar);
-  
+  const gchar *uri;
+
   if (self->priv->hovered_link) {
     gtk_statusbar_pop (statusbar, get_statusbar_context_id (statusbar));
     g_free (self->priv->hovered_link);
     self->priv->hovered_link = NULL;
   }
+
+  if (!webkit_hit_test_result_context_is_link (hit_test_result))
+    return;
+
+  uri = webkit_hit_test_result_get_link_uri (hit_test_result);
   if (uri && *uri) {
     self->priv->hovered_link = g_strdup (uri);
     gtk_statusbar_push (statusbar, get_statusbar_context_id (statusbar),
@@ -1252,8 +1258,8 @@ gwh_browser_init (GwhBrowser *self)
                     G_CALLBACK (on_web_view_context_menu), self);
   g_signal_connect (G_OBJECT (self->priv->web_view), "scroll-event",
                     G_CALLBACK (on_web_view_scroll_event), self);
-  g_signal_connect (G_OBJECT (self->priv->web_view), "hovering-over-link",
-                    G_CALLBACK (on_web_view_hovering_over_link), self);
+  g_signal_connect (G_OBJECT (self->priv->web_view), "mouse-target-changed",
+                    G_CALLBACK (on_web_view_mouse_target_changed), self);
   g_signal_connect (G_OBJECT (self->priv->web_view), "leave-notify-event",
                     G_CALLBACK (on_web_view_leave_notify_event), self);
   g_signal_connect (G_OBJECT (self->priv->web_view), "enter-notify-event",
