@@ -85,7 +85,7 @@ These are the available items:
   if you right clicked inside of a project. After selecting it a dialog
   will be opened. Chosse the directory which shall be added. After that
   the directory will be shown inside the project folder. After adding a
-  new directory, all files and folders beneath the directory will be
+  new directory, all files and sub-directories beneath the directory will be
   displayed. See "Directory settings" for more information.
 
 **Remove directory**
@@ -101,7 +101,7 @@ These are the available items:
 **Directory settings**
   Select this item to change the directory settings. It is only available
   if you right clicked inside of a project directory. In the directory
-  settings you can set a filter which controls the files and folders
+  settings you can set a filter which controls the files and sub-directories
   that shall be displayed or not.
 
 **Fold/unfold directory**
@@ -109,10 +109,10 @@ These are the available items:
   if you right clicked inside of a directory.
 
 **Unfold All**
-  Select this item to unfold all projects, directories and folders.
+  Select this item to unfold all projects, directories and sub-directories.
 
 **Collapse All**
-  Select this item to collpase/fold all projects, directories and folders.
+  Select this item to collpase/fold all projects, directories and sub-directories.
 
 **Add to Workbench Bookmarks**
   Add the file to the Workbench Bookmarks. It is only available

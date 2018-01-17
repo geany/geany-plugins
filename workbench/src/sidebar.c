@@ -41,7 +41,7 @@ enum
 	DATA_ID_PRJ_BOOKMARK,
 	DATA_ID_DIRECTORY,
 	DATA_ID_NO_DIRS,
-	DATA_ID_FOLDER,
+	DATA_ID_SUB_DIRECTORY,
 	DATA_ID_FILE,
 };
 
@@ -90,7 +90,7 @@ static void sidebar_remove_children(GtkTreeIter *parent)
 }
 
 
-/* Create a branch for a folder */
+/* Create a branch for a sub-directory */
 static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList *leaf_list, GtkTreeIter *parent)
 {
 	GSList *dir_list = NULL;
@@ -185,7 +185,7 @@ static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList 
 				gtk_tree_store_insert_with_values(sidebar.file_store, &iter, parent, 0,
 					FILEVIEW_COLUMN_ICON, icon_dir,
 					FILEVIEW_COLUMN_NAME, last_dir_name,
-					FILEVIEW_COLUMN_DATA_ID, DATA_ID_FOLDER,
+					FILEVIEW_COLUMN_DATA_ID, DATA_ID_SUB_DIRECTORY,
 					-1);
 
 				sidebar_create_branch(level+1, abs_base_dir, tmp_list, &iter);
@@ -201,7 +201,7 @@ static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList 
 		gtk_tree_store_insert_with_values(sidebar.file_store, &iter, parent, 0,
 			FILEVIEW_COLUMN_ICON, icon_dir,
 			FILEVIEW_COLUMN_NAME, last_dir_name,
-			FILEVIEW_COLUMN_DATA_ID, DATA_ID_FOLDER,
+			FILEVIEW_COLUMN_DATA_ID, DATA_ID_SUB_DIRECTORY,
 			-1);
 
 		sidebar_create_branch(level+1, abs_base_dir, tmp_list, &iter);
@@ -225,7 +225,7 @@ static int rev_strcmp(const char *str1, const char *str2)
 }
 
 
-/* Insert given directory/folder into the sidebar file tree */
+/* Insert given directory/sub-directory into the sidebar file tree */
 static void sidebar_insert_project_directory(WB_PROJECT *prj, WB_PROJECT_DIR *directory, GtkTreeIter *parent)
 {
 	GSList *lst = NULL;
@@ -757,9 +757,9 @@ static gboolean sidebar_file_view_on_button_release(G_GNUC_UNUSED GtkWidget * wi
 			{
 				popup_context = POPUP_CONTEXT_FILE;
 			}
-			else if (context.folder != NULL)
+			else if (context.subdir != NULL)
 			{
-				popup_context = POPUP_CONTEXT_FOLDER;
+				popup_context = POPUP_CONTEXT_SUB_DIRECTORY;
 			}
 			else if (context.directory != NULL)
 			{
@@ -960,8 +960,8 @@ gboolean sidebar_file_view_get_selected_context(SIDEBAR_CONTEXT *context)
 					case DATA_ID_NO_DIRS:
 						/* Has not got any data. */
 					break;
-					case DATA_ID_FOLDER:
-						context->folder = data;
+					case DATA_ID_SUB_DIRECTORY:
+						context->subdir = data;
 					break;
 					case DATA_ID_FILE:
 						context->file = data;
@@ -999,7 +999,7 @@ static void sidebar_get_filelist_for_iter(GPtrArray *list, GtkTreeIter iter)
 				g_ptr_array_add(list, g_strdup(filename));
 			break;
 			case DATA_ID_DIRECTORY:
-			case DATA_ID_FOLDER:
+			case DATA_ID_SUB_DIRECTORY:
 				if (gtk_tree_model_iter_children(model, &childs, &iter) == TRUE)
 				{
 					sidebar_get_filelist_for_iter(list, childs);
@@ -1013,7 +1013,7 @@ static void sidebar_get_filelist_for_iter(GPtrArray *list, GtkTreeIter iter)
 
 
 /* Get the lkist of files belonging to the current selection for
-   id (id = project, directory, folder) */
+   id (id = project, directory, sub-directory) */
 static GPtrArray *sidebar_get_selected_filelist (guint id)
 {
 	GtkTreeModel *model;
@@ -1057,14 +1057,14 @@ GPtrArray *sidebar_get_selected_directory_filelist (void)
 }
 
 
-/** Get the list of files corresponding to the selected folder.
+/** Get the list of files corresponding to the selected sub-directory.
  * 
  * @return GPtrArray containing file names or NULL.
  *
  **/
-GPtrArray *sidebar_get_selected_folder_filelist (void)
+GPtrArray *sidebar_get_selected_subdir_filelist (void)
 {
-	return sidebar_get_selected_filelist(DATA_ID_FOLDER);
+	return sidebar_get_selected_filelist(DATA_ID_SUB_DIRECTORY);
 }
 
 /** Setup the sidebar.
