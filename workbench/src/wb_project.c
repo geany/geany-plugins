@@ -54,7 +54,7 @@ struct S_WB_PROJECT_DIR
 	gchar **ignored_dirs_patterns;
 	gchar **ignored_file_patterns;
 	guint file_count;
-	guint folder_count;
+	guint subdir_count;
 	GHashTable *file_table; /* contains all file names within base_dir, maps file_name->TMSourceFile */
 	gboolean is_prj_base_dir;
 };
@@ -527,8 +527,8 @@ static guint wb_project_dir_rescan_int(WB_PROJECT *prj, WB_PROJECT_DIR *root)
 
 	searchdir = get_combined_path(prj->filename, root->base_dir);
 	root->file_count = 0;
-	root->folder_count = 0;
-	lst = gp_filelist_scan_directory(&(root->file_count), &(root->folder_count),
+	root->subdir_count = 0;
+	lst = gp_filelist_scan_directory(&(root->file_count), &(root->subdir_count),
 		searchdir, file_patterns, root->ignored_dirs_patterns, root->ignored_file_patterns);
 	g_free(searchdir);
 
@@ -978,7 +978,7 @@ gchar *wb_project_dir_get_info (WB_PROJECT_DIR *dir)
 		g_string_append(temp, "\n");
 	}
 
-	g_string_append_printf(temp, _("Number of Sub-Folders: %u\n"), dir->folder_count);
+	g_string_append_printf(temp, _("Number of Sub-Directories: %u\n"), dir->subdir_count);
 	g_string_append_printf(temp, _("Number of Files: %u\n"), dir->file_count);
 
 	/* Steal string content */
