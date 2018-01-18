@@ -83,7 +83,7 @@ These are the available items:
 **Add directory**
   Add a directory to the project. It is only available
   if you right clicked inside of a project. After selecting it a dialog
-  will be opened. Chosse the directory which shall be added. After that
+  will be opened. Choose the directory which shall be added. After that
   the directory will be shown inside the project folder. After adding a
   new directory, all files and sub-directories beneath the directory will be
   displayed. See "Directory settings" for more information.
@@ -102,7 +102,7 @@ These are the available items:
   Select this item to change the directory settings. It is only available
   if you right clicked inside of a project directory. In the directory
   settings you can set a filter which controls the files and sub-directories
-  that shall be displayed or not.
+  that will be displayed or not.
 
 **Fold/unfold directory**
   Fold or unfold the items belonging to the directory. It is only available
