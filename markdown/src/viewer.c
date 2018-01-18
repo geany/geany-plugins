@@ -297,15 +297,12 @@ pop_scroll_pos(MarkdownViewer *self)
 }
 
 static void
-on_webview_is_loading_notify(WebKitWebView *view, GParamSpec *pspec,
-  MarkdownViewer *self)
+on_webview_load_changed(MarkdownViewer  *self,
+                        WebKitLoadEvent  load_event,
+                        WebKitWebView   *web_view)
 {
-  gboolean load_status;
-
-  g_object_get(view, "is-loading", &load_status, NULL);
-
   /* When the webkit is done loading, reset the scroll position. */
-  if (!load_status) {
+  if (load_event == WEBKIT_LOAD_FINISHED) {
     pop_scroll_pos(self);
   }
 }
@@ -389,8 +386,8 @@ markdown_viewer_update_view(MarkdownViewer *self)
      * position once the webview is reloaded. */
     if (self->priv->load_handle == 0) {
       self->priv->load_handle =
-        g_signal_connect_swapped(WEBKIT_WEB_VIEW(self), "notify::is-loading",
-          G_CALLBACK(on_webview_is_loading_notify), self);
+        g_signal_connect_swapped(WEBKIT_WEB_VIEW(self), "load-changed",
+          G_CALLBACK(on_webview_load_changed), self);
     }
 
     webkit_web_view_load_html(WEBKIT_WEB_VIEW(self), html, base_uri);
