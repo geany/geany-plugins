@@ -82,6 +82,8 @@ static gboolean set_maximize_commit_dialog;
 static gboolean set_external_diff;
 static gboolean set_editor_menu_entries;
 static gboolean set_menubar_entry;
+static gint commit_dialog_width = 0;
+static gint commit_dialog_height = 0;
 
 static gchar *config_file;
 
@@ -1598,6 +1600,8 @@ vccommit_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 	else
 	{
 		gtk_widget_set_size_request(commit, 700, 500);
+		gtk_window_set_default_size(GTK_WINDOW(commit),
+			commit_dialog_width, commit_dialog_height);
 	}
 
 	gtk_widget_show_now(commit);
@@ -1635,6 +1639,9 @@ vccommit_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 		}
 		g_free(message);
 	}
+	/* remember commit dialog widget size */
+	gtk_window_get_size(GTK_WINDOW(commit),
+		&commit_dialog_width, &commit_dialog_height);
 
 	gtk_widget_destroy(commit);
 	free_commit_list(lst);
@@ -1811,6 +1818,14 @@ save_config(void)
 #ifdef USE_GTKSPELL
 	g_key_file_set_string(config, "VC", "spellchecking_language", lang);
 #endif
+
+	if (commit_dialog_width > 0 && commit_dialog_height > 0)
+	{
+		g_key_file_set_integer(config, "CommitDialog",
+			"commit_dialog_width", commit_dialog_width);
+		g_key_file_set_integer(config, "CommitDialog",
+			"commit_dialog_height", commit_dialog_height);
+	}
 
 	if (!g_file_test(config_dir, G_FILE_TEST_IS_DIR)
 	    && utils_mkdir(config_dir, TRUE) != 0)
@@ -2033,6 +2048,11 @@ load_config(void)
 		error = NULL;
 	}
 #endif
+
+	commit_dialog_width = utils_get_setting_integer(config, "CommitDialog",
+		"commit_dialog_width", 700);
+	commit_dialog_height = utils_get_setting_integer(config, "CommitDialog",
+		"commit_dialog_height", 500);
 
 	g_key_file_free(config);
 }
@@ -2382,6 +2402,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 void
 plugin_cleanup(void)
 {
+	save_config();
 	external_diff_viewer_deinit();
 	remove_menuitems_from_editor_menu();
 	gtk_widget_destroy(menu_entry);
