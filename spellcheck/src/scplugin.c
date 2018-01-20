@@ -268,14 +268,14 @@ static void configure_frame_editor_menu_toggled_cb(GtkToggleButton *togglebutton
 
 GtkWidget *plugin_configure(GtkDialog *dialog)
 {
-	GtkWidget *label_language, *label_dir, *vbox;
+	GtkWidget *label_language, *vbox;
 	GtkWidget *combo, *check_type, *check_on_open, *check_msgwin, *check_toolbar;
 	GtkWidget *frame_editor_menu, *check_editor_menu;
 	GtkWidget *check_editor_menu_sub_menu, *align_editor_menu_sub_menu;
 	GtkWidget *vbox_interface, *frame_interface, *label_interface;
 	GtkWidget *vbox_behavior, *frame_behavior, *label_behavior;
 #ifdef HAVE_ENCHANT_1_5
-	GtkWidget *entry_dir, *hbox, *button, *image;
+	GtkWidget *entry_dir, *label_dir, *hbox, *button, *image;
 #endif
 
 	vbox = gtk_vbox_new(FALSE, 6);
@@ -352,7 +352,9 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_label_set_mnemonic_widget(GTK_LABEL(label_dir), entry_dir);
 	gtk_widget_set_tooltip_text(entry_dir,
 		_("Read additional dictionary files from this directory. "
-		  "For now, this only works with myspell dictionaries."));
+		  "For now, this only works with hunspell dictionaries. "
+		  "With Enchant 2.0 or later, the dictionaries are searched "
+		  "in a subfolder called \"hunspell\". See the plugin's Help for details."));
 	if (! EMPTY(sc_info->dictionary_dir))
 		gtk_entry_set_text(GTK_ENTRY(entry_dir), sc_info->dictionary_dir);
 
