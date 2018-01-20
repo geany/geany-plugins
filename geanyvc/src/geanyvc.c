@@ -1786,15 +1786,57 @@ static struct
 widgets;
 
 static void
+save_config(void)
+{
+	GKeyFile *config = g_key_file_new();
+	gchar *config_dir = g_path_get_dirname(config_file);
+
+	g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
+
+	g_key_file_set_boolean(config, "VC", "set_changed_flag", set_changed_flag);
+	g_key_file_set_boolean(config, "VC", "set_add_confirmation", set_add_confirmation);
+	g_key_file_set_boolean(config, "VC", "set_external_diff", set_external_diff);
+	g_key_file_set_boolean(config, "VC", "set_maximize_commit_dialog",
+			       set_maximize_commit_dialog);
+	g_key_file_set_boolean(config, "VC", "set_editor_menu_entries", set_editor_menu_entries);
+	g_key_file_set_boolean(config, "VC", "attach_to_menubar", set_menubar_entry);
+
+	g_key_file_set_boolean(config, "VC", "enable_cvs", enable_cvs);
+	g_key_file_set_boolean(config, "VC", "enable_git", enable_git);
+	g_key_file_set_boolean(config, "VC", "enable_svn", enable_svn);
+	g_key_file_set_boolean(config, "VC", "enable_svk", enable_svk);
+	g_key_file_set_boolean(config, "VC", "enable_bzr", enable_bzr);
+	g_key_file_set_boolean(config, "VC", "enable_hg", enable_hg);
+
+#ifdef USE_GTKSPELL
+	g_key_file_set_string(config, "VC", "spellchecking_language", lang);
+#endif
+
+	if (!g_file_test(config_dir, G_FILE_TEST_IS_DIR)
+	    && utils_mkdir(config_dir, TRUE) != 0)
+	{
+		dialogs_show_msgbox(GTK_MESSAGE_ERROR,
+				    _
+				    ("Plugin configuration directory could not be created."));
+	}
+	else
+	{
+		/* write config to file */
+		gchar *data = g_key_file_to_data(config, NULL, NULL);
+		utils_write_file(config_file, data);
+		g_free(data);
+	}
+
+	g_free(config_dir);
+	g_key_file_free(config);
+}
+
+static void
 on_configure_response(G_GNUC_UNUSED GtkDialog * dialog, gint response,
 		      G_GNUC_UNUSED gpointer user_data)
 {
 	if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY)
 	{
-		GKeyFile *config = g_key_file_new();
-		gchar *data;
-		gchar *config_dir = g_path_get_dirname(config_file);
-
 		set_changed_flag =
 			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.cb_changed_flag));
 		set_add_confirmation =
@@ -1822,50 +1864,12 @@ on_configure_response(G_GNUC_UNUSED GtkDialog * dialog, gint response,
 		lang = g_strdup(gtk_entry_get_text(GTK_ENTRY(widgets.spellcheck_lang_textbox)));
 #endif
 
-		g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
-
-		g_key_file_set_boolean(config, "VC", "set_changed_flag", set_changed_flag);
-		g_key_file_set_boolean(config, "VC", "set_add_confirmation", set_add_confirmation);
-		g_key_file_set_boolean(config, "VC", "set_external_diff", set_external_diff);
-		g_key_file_set_boolean(config, "VC", "set_maximize_commit_dialog",
-				       set_maximize_commit_dialog);
-		g_key_file_set_boolean(config, "VC", "set_editor_menu_entries", set_editor_menu_entries);
-		g_key_file_set_boolean(config, "VC", "attach_to_menubar", set_menubar_entry);
-
-		g_key_file_set_boolean(config, "VC", "enable_cvs", enable_cvs);
-		g_key_file_set_boolean(config, "VC", "enable_git", enable_git);
-		g_key_file_set_boolean(config, "VC", "enable_svn", enable_svn);
-		g_key_file_set_boolean(config, "VC", "enable_svk", enable_svk);
-		g_key_file_set_boolean(config, "VC", "enable_bzr", enable_bzr);
-		g_key_file_set_boolean(config, "VC", "enable_hg", enable_hg);
-
-#ifdef USE_GTKSPELL
-		g_key_file_set_string(config, "VC", "spellchecking_language", lang);
-#endif
-
-		if (!g_file_test(config_dir, G_FILE_TEST_IS_DIR)
-		    && utils_mkdir(config_dir, TRUE) != 0)
-		{
-			dialogs_show_msgbox(GTK_MESSAGE_ERROR,
-					    _
-					    ("Plugin configuration directory could not be created."));
-		}
-		else
-		{
-			/* write config to file */
-			data = g_key_file_to_data(config, NULL, NULL);
-			utils_write_file(config_file, data);
-			g_free(data);
-		}
+		save_config();
 
 		if (set_editor_menu_entries == FALSE)
 			remove_menuitems_from_editor_menu();
 		else
 			add_menuitems_to_editor_menu();
-
-
-		g_free(config_dir);
-		g_key_file_free(config);
 
 		registrate();
 	}
