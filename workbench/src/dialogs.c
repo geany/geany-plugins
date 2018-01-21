@@ -28,6 +28,77 @@
 
 extern GeanyPlugin *geany_plugin;
 
+
+/** Shows the dialog "Create new file".
+ *
+ * The dialog lets the user create a new file (filter *).
+ *
+ * @param path The current folder
+ * @return The filename
+ *
+ **/
+gchar *dialogs_create_new_file(const gchar *path)
+{
+	gchar *filename = NULL;
+	GtkWidget *dialog;
+
+	dialog = gtk_file_chooser_dialog_new(_("Create new file"),
+		GTK_WINDOW(wb_globals.geany_plugin->geany_data->main_widgets->window), GTK_FILE_CHOOSER_ACTION_SAVE,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("C_reate"), GTK_RESPONSE_ACCEPT, NULL);
+	gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog), TRUE);
+
+	if (path != NULL)
+	{
+		gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
+	}
+
+	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
+	{
+		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+	}
+
+	gtk_widget_destroy(dialog);
+
+	return filename;
+}
+
+
+/** Shows the dialog "Create new directory".
+ *
+ * The dialog lets the user create a new directory.
+ *
+ * @param path The current folder
+ * @return The filename
+ *
+ **/
+gchar *dialogs_create_new_directory(const gchar *path)
+{
+	gchar *filename = NULL;
+	GtkWidget *dialog;
+
+	dialog = gtk_file_chooser_dialog_new(_("Create new directory"),
+		GTK_WINDOW(wb_globals.geany_plugin->geany_data->main_widgets->window), GTK_FILE_CHOOSER_ACTION_CREATE_FOLDER,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("C_reate"), GTK_RESPONSE_ACCEPT, NULL);
+	gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog), TRUE);
+
+	if (path != NULL)
+	{
+		gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
+	}
+
+	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
+	{
+		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+	}
+
+	gtk_widget_destroy(dialog);
+
+	return filename;
+}
+
+
 /** Shows the dialog "Create new workbench".
  *
  * The dialog lets the user create a new workbench file (filter *.geanywb).

@@ -19,6 +19,8 @@
 #ifndef __WB_DIALOGS_H__
 #define __WB_DIALOGS_H__
 
+gchar *dialogs_create_new_file(const gchar *path);
+gchar *dialogs_create_new_directory(const gchar *path);
 gchar *dialogs_create_new_workbench(void);
 gchar *dialogs_open_workbench(void);
 gchar *dialogs_add_project(void);
