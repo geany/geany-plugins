@@ -19,9 +19,12 @@
 /*
  * Code for the popup menu.
  */
+#include <errno.h>
 #include <sys/time.h>
 #include <gdk/gdkkeysyms.h>
 #include <string.h>
+#include <glib.h>
+#include <glib/gstdio.h>
 
 #ifdef HAVE_CONFIG_H
 	#include "config.h"
@@ -57,6 +60,8 @@ static struct
 	GtkWidget *add_wb_bookmark;
 	GtkWidget *add_prj_bookmark;
 	GtkWidget *remove_bookmark;
+	GtkWidget *new_file;
+	GtkWidget *new_directory;
 } s_popup_menu;
 
 
@@ -91,6 +96,8 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.remove_bookmark, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.subdir_open_all, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.subdir_close_all, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.new_file, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.new_directory, FALSE);
 		break;
 		case POPUP_CONTEXT_DIRECTORY:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
@@ -110,6 +117,8 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.remove_bookmark, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.subdir_open_all, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.subdir_close_all, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.new_file, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.new_directory, TRUE);
 		break;
 		case POPUP_CONTEXT_SUB_DIRECTORY:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
@@ -129,6 +138,8 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.remove_bookmark, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.subdir_open_all, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.subdir_close_all, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.new_file, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.new_directory, TRUE);
 		break;
 		case POPUP_CONTEXT_FILE:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
@@ -148,6 +159,8 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.remove_bookmark, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.subdir_open_all, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.subdir_close_all, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.new_file, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.new_directory, TRUE);
 		break;
 		case POPUP_CONTEXT_BACKGROUND:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
@@ -167,6 +180,8 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.remove_bookmark, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.subdir_open_all, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.subdir_close_all, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.new_file, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.new_directory, FALSE);
 		break;
 		case POPUP_CONTEXT_WB_BOOKMARK:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
@@ -186,6 +201,8 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.remove_bookmark, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.subdir_open_all, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.subdir_close_all, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.new_file, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.new_directory, FALSE);
 		break;
 		case POPUP_CONTEXT_PRJ_BOOKMARK:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
@@ -205,6 +222,8 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.remove_bookmark, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.subdir_open_all, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.subdir_close_all, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.new_file, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.new_directory, FALSE);
 		break;
 	}
 	gtk_menu_popup(GTK_MENU(s_popup_menu.widget), NULL, NULL, NULL, NULL,
@@ -506,6 +525,85 @@ static void popup_menu_on_subdir_close_all (G_GNUC_UNUSED GtkMenuItem *menuitem,
 }
 
 
+/* Handle popup menu item "Create new file here..." */
+static void popup_menu_on_new_file(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
+{
+	gchar *filename, *path = NULL, *abs_path = NULL;
+	SIDEBAR_CONTEXT context;
+
+	if (sidebar_file_view_get_selected_context(&context))
+	{
+		if (context.subdir != NULL)
+		{
+			path = context.subdir;
+			abs_path = g_strdup(path);
+		}
+		else
+		{
+			path = wb_project_dir_get_base_dir(context.directory);
+			abs_path = get_combined_path(wb_project_get_filename(context.project), path);
+		}
+	}
+
+	filename = dialogs_create_new_file(abs_path);
+	if (filename == NULL)
+	{
+		return;
+	}
+	else if (!g_file_test (filename, G_FILE_TEST_EXISTS))
+	{
+		FILE *new_file;
+		new_file = g_fopen (filename, "w");
+		if (new_file == NULL)
+		{
+			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Could not create new file \"%s\":\n\n%s"), filename, strerror(errno));
+		}
+		else
+		{
+			fclose(new_file);
+			wb_project_dir_rescan(context.project, context.directory);
+			sidebar_update(SIDEBAR_CONTEXT_DIRECTORY_RESCANNED, &context);
+			document_open_file(filename, FALSE, NULL, NULL);
+		}
+	}
+
+	g_free(abs_path);
+	g_free(filename);
+}
+
+
+/* Handle popup menu item "Create new directory here..." */
+static void popup_menu_on_new_directory(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
+{
+	gchar *filename, *path = NULL, *abs_path = NULL;
+	SIDEBAR_CONTEXT context;
+
+	if (sidebar_file_view_get_selected_context(&context))
+	{
+		if (context.subdir != NULL)
+		{
+			path = context.subdir;
+			abs_path = g_strdup(path);
+		}
+		else
+		{
+			path = wb_project_dir_get_base_dir(context.directory);
+			abs_path = get_combined_path(wb_project_get_filename(context.project), path);
+		}
+	}
+
+	filename = dialogs_create_new_directory(abs_path);
+	if (filename != NULL)
+	{
+		wb_project_dir_rescan(context.project, context.directory);
+		sidebar_update(SIDEBAR_CONTEXT_DIRECTORY_RESCANNED, &context);
+	}
+
+	g_free(abs_path);
+	g_free(filename);
+}
+
+
 /** Setup/Initialize the popup menu.
  *
  **/
@@ -650,4 +748,20 @@ void popup_menu_init(void)
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_remove_from_bookmarks), NULL);
 	s_popup_menu.remove_bookmark = item;
+
+	item = gtk_separator_menu_item_new();
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
+
+	item = gtk_menu_item_new_with_mnemonic(_("_Create file here..."));
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
+	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_new_file), NULL);
+	s_popup_menu.new_file = item;
+
+	item = gtk_menu_item_new_with_mnemonic(_("_Create directory here..."));
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
+	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_new_directory), NULL);
+	s_popup_menu.new_directory = item;
 }
