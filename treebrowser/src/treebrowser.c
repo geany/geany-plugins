@@ -225,6 +225,15 @@ utils_pixbuf_from_path(gchar *path)
 		info = gtk_icon_theme_lookup_by_gicon(gtk_icon_theme_get_default(), icon, width, GTK_ICON_LOOKUP_USE_BUILTIN);
 		g_object_unref(icon);
 		if (!info)
+		{
+			icon = g_themed_icon_new("text-x-generic");
+			if (icon != NULL)
+			{
+				info = gtk_icon_theme_lookup_by_gicon(gtk_icon_theme_get_default(), icon, width, GTK_ICON_LOOKUP_USE_BUILTIN);
+				g_object_unref(icon);
+			}
+		}
+		if (!info)
 			return NULL;
 		ret = gtk_icon_info_load_icon (info, NULL);
 		gtk_icon_info_free(info);
