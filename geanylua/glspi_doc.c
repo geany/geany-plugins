@@ -32,12 +32,23 @@ static gint glspi_filename(lua_State* L)
 static gint glspi_newfile(lua_State* L)
 {
 	const gchar *fn=NULL;
-	if (lua_gettop(L)>0) {
+	GeanyFiletype *ft=NULL;
+	switch (lua_gettop(L)) {
+	case 0: break;
+	case 2:
+		if (!lua_isstring(L, 2))	{ return FAIL_STRING_ARG(2); }
+		const gchar *tmp=lua_tostring(L, 2);
+		if ( '\0' == tmp[0] ) {
+			ft=NULL;
+		} else {
+			ft=filetypes_lookup_by_name(tmp);
+		}
+	default:
 		if (!lua_isstring(L, 1))	{ return FAIL_STRING_ARG(1); }
 		fn=lua_tostring(L, 1);
-		if ( '\0' == fn[0] ) { fn = NULL; }
+		if ( '\0' == fn[0] ) { fn=NULL; }
 	}
-	document_new_file(fn, NULL, NULL);
+	document_new_file(fn, ft, NULL);
 	return 0;
 }
 
