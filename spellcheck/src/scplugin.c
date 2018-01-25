@@ -93,13 +93,52 @@ static void populate_dict_combo(GtkComboBox *combo)
 }
 
 
+static void save_config(void)
+{
+		GKeyFile *config = g_key_file_new();
+		gchar *data;
+		gchar *config_dir = g_path_get_dirname(sc_info->config_file);
+
+		g_key_file_load_from_file(config, sc_info->config_file, G_KEY_FILE_NONE, NULL);
+		if (sc_info->default_language != NULL) /* lang may be NULL */
+			g_key_file_set_string(config, "spellcheck", "language", sc_info->default_language);
+		g_key_file_set_boolean(config, "spellcheck", "check_while_typing",
+			sc_info->check_while_typing);
+		g_key_file_set_boolean(config, "spellcheck", "check_on_document_open",
+			sc_info->check_on_document_open);
+		g_key_file_set_boolean(config, "spellcheck", "use_msgwin",
+			sc_info->use_msgwin);
+		g_key_file_set_boolean(config, "spellcheck", "show_toolbar_item",
+			sc_info->show_toolbar_item);
+		g_key_file_set_boolean(config, "spellcheck", "show_editor_menu_item",
+			sc_info->show_editor_menu_item);
+		g_key_file_set_boolean(config, "spellcheck", "show_editor_menu_item_sub_menu",
+			sc_info->show_editor_menu_item_sub_menu);
+		if (sc_info->dictionary_dir != NULL)
+			g_key_file_set_string(config, "spellcheck", "dictionary_dir",
+				sc_info->dictionary_dir);
+
+		if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir(config_dir, TRUE) != 0)
+		{
+			dialogs_show_msgbox(GTK_MESSAGE_ERROR,
+				_("Plugin configuration directory could not be created."));
+		}
+		else
+		{
+			/* write config to file */
+			data = g_key_file_to_data(config, NULL, NULL);
+			utils_write_file(sc_info->config_file, data);
+			g_free(data);
+		}
+		g_free(config_dir);
+		g_key_file_free(config);
+}
+
+
 static void configure_response_cb(GtkDialog *dialog, gint response, gpointer user_data)
 {
 	if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY)
 	{
-		GKeyFile *config = g_key_file_new();
-		gchar *data;
-		gchar *config_dir = g_path_get_dirname(sc_info->config_file);
 		GtkComboBox *combo = GTK_COMBO_BOX(g_object_get_data(G_OBJECT(dialog), "combo"));
 
 		setptr(sc_info->default_language, gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(combo)));
@@ -127,44 +166,12 @@ static void configure_response_cb(GtkDialog *dialog, gint response, gpointer use
 		sc_info->show_editor_menu_item_sub_menu = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
 			g_object_get_data(G_OBJECT(dialog), "check_editor_menu_sub_menu"))));
 
-		g_key_file_load_from_file(config, sc_info->config_file, G_KEY_FILE_NONE, NULL);
-		if (sc_info->default_language != NULL) /* lang may be NULL */
-			g_key_file_set_string(config, "spellcheck", "language", sc_info->default_language);
-		g_key_file_set_boolean(config, "spellcheck", "check_while_typing",
-			sc_info->check_while_typing);
-		g_key_file_set_boolean(config, "spellcheck", "check_on_document_open",
-			sc_info->check_on_document_open);
-		g_key_file_set_boolean(config, "spellcheck", "use_msgwin",
-			sc_info->use_msgwin);
-		g_key_file_set_boolean(config, "spellcheck", "show_toolbar_item",
-			sc_info->show_toolbar_item);
-		g_key_file_set_boolean(config, "spellcheck", "show_editor_menu_item",
-			sc_info->show_editor_menu_item);
-		g_key_file_set_boolean(config, "spellcheck", "show_editor_menu_item_sub_menu",
-			sc_info->show_editor_menu_item_sub_menu);
-		if (sc_info->dictionary_dir != NULL)
-			g_key_file_set_string(config, "spellcheck", "dictionary_dir",
-				sc_info->dictionary_dir);
+		save_config();
 
 		sc_gui_recreate_editor_menu();
 		sc_gui_update_toolbar();
 		sc_gui_update_menu();
 		populate_dict_combo(combo);
-
-		if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir(config_dir, TRUE) != 0)
-		{
-			dialogs_show_msgbox(GTK_MESSAGE_ERROR,
-				_("Plugin configuration directory could not be created."));
-		}
-		else
-		{
-			/* write config to file */
-			data = g_key_file_to_data(config, NULL, NULL);
-			utils_write_file(sc_info->config_file, data);
-			g_free(data);
-		}
-		g_free(config_dir);
-		g_key_file_free(config);
 	}
 }
 
@@ -428,6 +435,8 @@ void plugin_help(void)
 
 void plugin_cleanup(void)
 {
+	save_config();
+
 	sc_gui_free();
 	sc_speller_free();
 
