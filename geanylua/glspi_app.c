@@ -604,22 +604,30 @@ static gint glspi_keygrab(lua_State* L)
 }
 
 
+static gint glspi_reloadconf(lua_State* L)
+{
+	main_reload_configuration();
+	return 0;
+}
+
+
 
 static const struct luaL_reg glspi_app_funcs[] = {
-	{"pluginver", glspi_pluginver},
-	{"appinfo",   glspi_appinfo},
-	{"xsel",      glspi_xsel},
-	{"signal",    glspi_signal},
-	{"stat",      glspi_stat},
-	{"status",    glspi_status},
-	{"basename",  glspi_basename},
-	{"dirname",   glspi_dirname},
-	{"fullpath",  glspi_fullpath},
-	{"dirlist",   glspi_dirlist},
-	{"wkdir",     glspi_wkdir},
-	{"keycmd",    glspi_keycmd},
-	{"launch",    glspi_launch},
-	{"keygrab",   glspi_keygrab},
+	{"pluginver",  glspi_pluginver},
+	{"appinfo",    glspi_appinfo},
+	{"xsel",       glspi_xsel},
+	{"signal",     glspi_signal},
+	{"stat",       glspi_stat},
+	{"status",     glspi_status},
+	{"basename",   glspi_basename},
+	{"dirname",    glspi_dirname},
+	{"fullpath",   glspi_fullpath},
+	{"dirlist",    glspi_dirlist},
+	{"wkdir",      glspi_wkdir},
+	{"keycmd",     glspi_keycmd},
+	{"launch",     glspi_launch},
+	{"keygrab",    glspi_keygrab},
+	{"reloadconf", glspi_reloadconf},
 	{NULL,NULL}
 };
 
