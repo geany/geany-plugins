@@ -267,18 +267,22 @@ The Geany module provides these functions and variables...<br><br><br>
   <td class="desc">-- Run a script without the debug hook.</td>
 </tr>
 <tr class="odd">
+  <td>&nbsp; function <a href="#reloadconf"><b>reloadconf</b></a> ()<br></td>
+  <td class="desc">-- Reload Configuration.</td>
+</tr>
+<tr class="even">
   <td>&nbsp; function <a href="#rescan"><b>rescan</b></a> ()<br></td>
   <td class="desc">-- Regenerate the scripts menu.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
   <td>&nbsp; function <a href="#stat"><b>stat</b></a> ( filename [, lstat] )<br></td>
   <td class="desc">-- Retrieve some information about a disk file.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
   <td>&nbsp; function <a href="#timeout"><b>timeout</b></a> ( seconds )<br></td>
   <td class="desc">-- Control maximum time allowed for script execution.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
   <td>&nbsp; function <a href="#wkdir"><b>wkdir</b></a> ( [folder] )<br></td>
   <td class="desc">-- Get or set the current working directory.</td>
 </tr>
@@ -813,6 +817,23 @@ or if the document is marked read-only.</p><p>
 Otherwise it returns the effective change in the document's size. <br>
 ( Which may actually be negative, if the clipboard content size is less than the prior selection. )
 </p>
+<br><br>
+
+
+<a name="reloadconf"></a><hr><h3><tt>geany.reloadconf ()</tt></h3>
+<p>This function will cause Geany to reload most of it's configuration files without restarting
+(as menu item <b><i>Tools-><u>R</u>eload Configuration</i></b>).</p>
+<!-- The list was copied from https://geanypy.readthedocs.io/en/latest/api.html#geany.reload_configuration -->
+<p>Currently the following files are reloaded:</p>
+<ul>
+<li>all template files;</li>
+<li>new file templates;</li>
+<li>the New (with template) menus will be updated;</li>
+<li>Snippets (snippets.conf);</li>
+<li>filetype extensions (filetype_extensions.conf);</li>
+<li><i>setting</i>s and <i>build_settings</i> sections of the filetype definition files.</li>
+</ul>
+<p>This function which can be used if you updated one of these configuration files, or modified or added template files.</p>
 <br><br>
 
 
