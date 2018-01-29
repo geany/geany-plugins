@@ -39,6 +39,7 @@
 #include "ao_xmltagging.h"
 #include "ao_wrapwords.h"
 #include "ao_copyfilepath.h"
+#include "ao_colortip.h"
 
 
 GeanyPlugin		*geany_plugin;
@@ -82,6 +83,8 @@ typedef struct
 	gboolean enable_enclose_words;
 	gboolean enable_enclose_words_auto;
 	gboolean strip_trailing_blank_lines;
+	gboolean enable_colortip;
+	gboolean enable_double_click_color_chooser;
 
 	gchar *tasks_token_list;
 	gboolean tasks_scan_all_documents;
@@ -96,6 +99,7 @@ typedef struct
 	AoMarkWord *markword;
 	AoTasks *tasks;
 	AoCopyFilePath *copyfilepath;
+	AoColorTip *colortip;
 } AddonsInfo;
 static AddonsInfo *ao_info = NULL;
 
@@ -181,6 +185,8 @@ gboolean ao_editor_notify_cb(GObject *object, GeanyEditor *editor,
 	
 	ao_mark_editor_notify(ao_info->markword, editor, nt);
 
+	ao_color_tip_editor_notify(ao_info->colortip, editor, nt);
+
 	return FALSE;
 }
 
@@ -208,6 +214,7 @@ static void ao_document_new_cb(GObject *obj, GeanyDocument *doc, gpointer data)
 	g_return_if_fail(doc != NULL && doc->is_valid);
 
 	ao_mark_document_new(ao_info->markword, doc);
+	ao_color_tip_document_new(ao_info->colortip, doc);
 }
 
 
@@ -217,6 +224,7 @@ static void ao_document_open_cb(GObject *obj, GeanyDocument *doc, gpointer data)
 
 	ao_tasks_update(ao_info->tasks, doc);
 	ao_mark_document_open(ao_info->markword, doc);
+	ao_color_tip_document_open(ao_info->colortip, doc);
 }
 
 
@@ -226,6 +234,7 @@ static void ao_document_close_cb(GObject *obj, GeanyDocument *doc, gpointer data
 
 	ao_tasks_remove(ao_info->tasks, doc);
 	ao_mark_document_close(ao_info->markword, doc);
+	ao_color_tip_document_close(ao_info->colortip, doc);
 }
 
 
@@ -304,6 +313,10 @@ void plugin_init(GeanyData *data)
 		"enable_enclose_words", FALSE);
 	ao_info->enable_enclose_words_auto = utils_get_setting_boolean(config, "addons",
 		"enable_enclose_words_auto", FALSE);
+	ao_info->enable_colortip = utils_get_setting_boolean(config,
+		"addons", "enable_colortip", FALSE);
+	ao_info->enable_double_click_color_chooser = utils_get_setting_boolean(config,
+		"addons", "enable_double_click_color_chooser", FALSE);
 
 	plugin_module_make_resident(geany_plugin);
 
@@ -316,6 +329,8 @@ void plugin_init(GeanyData *data)
 	ao_info->tasks = ao_tasks_new(ao_info->enable_tasks,
 						ao_info->tasks_token_list, ao_info->tasks_scan_all_documents);
 	ao_info->copyfilepath = ao_copy_file_path_new();
+	ao_info->colortip = ao_color_tip_new(ao_info->enable_colortip,
+		ao_info->enable_double_click_color_chooser);
 
 	ao_blanklines_set_enable(ao_info->strip_trailing_blank_lines);
 
@@ -415,6 +430,10 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 			g_object_get_data(G_OBJECT(dialog), "check_enclose_words"))));
 		ao_info->enable_enclose_words_auto = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
 			g_object_get_data(G_OBJECT(dialog), "check_enclose_words_auto"))));
+		ao_info->enable_colortip = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
+			g_object_get_data(G_OBJECT(dialog), "check_colortip"))));
+		ao_info->enable_double_click_color_chooser = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
+			g_object_get_data(G_OBJECT(dialog), "check_double_click_color_chooser"))));
 
 		ao_enclose_words_set_enabled (ao_info->enable_enclose_words, ao_info->enable_enclose_words_auto);
 
@@ -441,6 +460,9 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 			ao_info->enable_enclose_words);
 		g_key_file_set_boolean(config, "addons", "enable_enclose_words_auto",
 			ao_info->enable_enclose_words_auto);
+		g_key_file_set_boolean(config, "addons", "enable_colortip", ao_info->enable_colortip);
+		g_key_file_set_boolean(config, "addons", "enable_double_click_color_chooser",
+			ao_info->enable_double_click_color_chooser);
 
 		g_object_set(ao_info->doclist, "enable-doclist", ao_info->enable_doclist, NULL);
 		g_object_set(ao_info->doclist, "sort-mode", ao_info->doclist_sort_mode, NULL);
@@ -458,6 +480,10 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 			"tokens", ao_info->tasks_token_list,
 			NULL);
 		ao_blanklines_set_enable(ao_info->strip_trailing_blank_lines);
+		g_object_set(ao_info->colortip,
+			"enable-colortip", ao_info->enable_colortip,
+			"enable-double-click-color-chooser", ao_info->enable_double_click_color_chooser,
+			NULL);
 
 		if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir(config_dir, TRUE) != 0)
 		{
@@ -487,6 +513,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	GtkWidget *check_tasks_scan_mode, *entry_tasks_tokens, *label_tasks_tokens, *tokens_hbox;
 	GtkWidget *check_blanklines, *check_xmltagging;
 	GtkWidget *check_enclose_words, *check_enclose_words_auto, *enclose_words_config_button, *enclose_words_hbox;
+	GtkWidget *check_colortip, *check_double_click_color_chooser;
 
 	vbox = gtk_vbox_new(FALSE, 6);
 
@@ -633,6 +660,17 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 		ao_info->enable_enclose_words_auto);
 	gtk_box_pack_start(GTK_BOX(vbox), check_enclose_words_auto, FALSE, FALSE, 3);
 
+	check_colortip = gtk_check_button_new_with_label(
+		_("Show a calltip when hovering over a color value"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_colortip),
+		ao_info->enable_colortip);
+	gtk_box_pack_start(GTK_BOX(vbox), check_colortip, FALSE, FALSE, 3);
+
+	check_double_click_color_chooser = gtk_check_button_new_with_label(
+		_("Open Color Chooser when double-clicking a color value"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_double_click_color_chooser),
+		ao_info->enable_double_click_color_chooser);
+	gtk_box_pack_start(GTK_BOX(vbox), check_double_click_color_chooser, FALSE, FALSE, 3);
 
 	g_object_set_data(G_OBJECT(dialog), "check_doclist", check_doclist);
 	g_object_set_data(G_OBJECT(dialog), "radio_doclist_name", radio_doclist_name);
@@ -653,6 +691,9 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	g_object_set_data(G_OBJECT(dialog), "check_enclose_words", check_enclose_words);
 	g_object_set_data(G_OBJECT(dialog), "check_enclose_words_auto", check_enclose_words_auto);
 	g_object_set_data(G_OBJECT(dialog), "enclose_words_config_button", enclose_words_config_button);
+	g_object_set_data(G_OBJECT(dialog), "check_colortip", check_colortip);
+	g_object_set_data(G_OBJECT(dialog), "check_double_click_color_chooser",
+		check_double_click_color_chooser);
 	g_signal_connect(dialog, "response", G_CALLBACK(ao_configure_response_cb), NULL);
 
 	ao_configure_tasks_toggled_cb(GTK_TOGGLE_BUTTON(check_tasks), dialog);
@@ -678,6 +719,7 @@ void plugin_cleanup(void)
 	g_object_unref(ao_info->markword);
 	g_object_unref(ao_info->tasks);
 	g_object_unref(ao_info->copyfilepath);
+	g_object_unref(ao_info->colortip);
 	g_free(ao_info->tasks_token_list);
 
 	ao_blanklines_set_enable(FALSE);
