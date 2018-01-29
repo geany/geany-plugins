@@ -27,6 +27,8 @@ Features
 * Strip trailing blank lines when saving
 * XMLtagging
 * Enclose selected text with characters
+* Show colorized calltip on hovering over a color value
+* Open Color Chooser on double clicking on a color value
 
 Usage
 -----
@@ -97,6 +99,21 @@ Simple extension to easily copy the full path of the current file
 to the clipboard for further use.
 The action can be triggered by a keyboard shortcut as well as by
 a menu item in the Tools menu.
+
+*Show colorized calltip on hovering over a color value*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This extension will show a calltip if the mouse is hovered over a color
+value like #fff or #ffffff. The calltip background color represents the
+color value over which the mouse is hovered. The preferences option "Show
+a calltip when hovering over a color value" is used to enable or disable
+the extension.
+
+*Open Color Chooser on double clicking on a color value*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This extension will open the Color Chooser if the user double clicks on
+a color value like #fff or #ffffff. The preferences option "Open Color
+Chooser when double-clicking a color value" is used to enable or disable
+the extension.
 
 Requirements
 ------------
