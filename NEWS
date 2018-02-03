@@ -1,7 +1,38 @@
 Geany Plugins 1.33 (not yet released)
 
-    No changes by now.
+    General:
+    * Rename plugin geanylatex to latex
+    * utils lib: added new function 'gp_filelist_scan_directory_full() (PR #681)
 
+    Addons:
+    * Show color tip and start Color Chooser with double click (PR #664)
+
+    GeanyLua:
+    * Add filetype to set in geany.newfile() (PR #652)
+    * Add function geany.reloadconf() (PR #653)
+    * Fix right-trim.lua (PR #670)
+    * Update glspi_keycmd.h to match latest Geany version (PR #662)
+    * Update to match latest Geany's Scintilla API (PR #685)
+
+    PrettyPrinter:
+    * Allow to pretty print a selection only (PR #683)
+
+    Spellcheck:
+    * Remember 'Check while typing' setting between sessions (PR #667, #667)
+    * Support Enchant 2.0 and later (PR #674)
+
+    Treebrowser:
+    * Fallback to "text-x-generic" icon if info lookup fails (PR #682)
+
+    VC:
+    * Remember the commit dialog size (#679)
+
+    Workbench:
+    * Add "Create file here..."/"Create directory here..." (PR #681)
+    * Renamed "folder" to "sub-directory" (PR #678)
+
+    Internationalization:
+    * Updated translations: fr
 
 Geany Plugins 1.32 (2017-11-19)
 
