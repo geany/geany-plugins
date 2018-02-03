@@ -133,6 +133,14 @@ These are the available items:
   Remove file from the Workbench or project bookmarks. It is only available
   if you right clicked on a bookmark.
 
+**Create file here...**
+  Select this item to create a new file at the current selected position
+  in the file tree. Available since version 1.02 of the workbench plugin.
+
+**Create directory here...**
+  Select this item to create a new directory at the current selected position
+  in the file tree. Available since version 1.02 of the workbench plugin.
+
 Known issues
 ============
 
