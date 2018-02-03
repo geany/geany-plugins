@@ -96,7 +96,7 @@ static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList 
 	GSList *dir_list = NULL;
 	GSList *file_list = NULL;
 	GSList *elem = NULL;
-	gchar **path_arr;
+	gchar **path_arr, *part, *full, *dirpath;
 
 	foreach_slist (elem, leaf_list)
 	{
@@ -105,6 +105,10 @@ static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList 
 			continue;
 		}
 		path_arr = elem->data;
+		if (path_arr[level] == NULL)
+		{
+			continue;
+		}
 
 		if (path_arr[level+1] != NULL)
 		{
@@ -112,14 +116,24 @@ static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList 
 		}
 		else
 		{
-			file_list = g_slist_prepend(file_list, path_arr);
+			// Extra check for empty directories
+			part = g_build_filenamev(path_arr);
+			dirpath = g_build_filename(abs_base_dir, part, NULL);
+			if (dirpath != NULL && g_file_test (dirpath, G_FILE_TEST_IS_DIR))
+			{
+				dir_list = g_slist_prepend(dir_list, path_arr);
+				g_free(dirpath);
+			}
+			else
+			{
+				file_list = g_slist_prepend(file_list, path_arr);
+			}
 		}
 	}
 
 	foreach_slist (elem, file_list)
 	{
 		GtkTreeIter iter;
-		gchar *part, *full;
 		GIcon *icon = NULL;
 
 		path_arr = elem->data;
@@ -177,6 +191,10 @@ static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList 
 		{
 			gboolean dir_changed;
 
+			part = g_build_filenamev(path_arr);
+			full = g_build_filename(abs_base_dir, part, NULL);
+			g_free(part);
+
 			path_arr = (gchar **) elem->data;
 			dir_changed = g_strcmp0(last_dir_name, path_arr[level]) != 0;
 
@@ -186,6 +204,7 @@ static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList 
 					FILEVIEW_COLUMN_ICON, icon_dir,
 					FILEVIEW_COLUMN_NAME, last_dir_name,
 					FILEVIEW_COLUMN_DATA_ID, DATA_ID_SUB_DIRECTORY,
+					FILEVIEW_COLUMN_ASSIGNED_DATA_POINTER, g_strdup(full),
 					-1);
 
 				sidebar_create_branch(level+1, abs_base_dir, tmp_list, &iter);
@@ -194,15 +213,22 @@ static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList 
 				tmp_list = NULL;
 				last_dir_name = path_arr[level];
 			}
+			g_free(full);
 
 			tmp_list = g_slist_prepend(tmp_list, path_arr);
 		}
+
+		part = g_build_filenamev(path_arr);
+		full = g_build_filename(abs_base_dir, part, NULL);
+		g_free(part);
 
 		gtk_tree_store_insert_with_values(sidebar.file_store, &iter, parent, 0,
 			FILEVIEW_COLUMN_ICON, icon_dir,
 			FILEVIEW_COLUMN_NAME, last_dir_name,
 			FILEVIEW_COLUMN_DATA_ID, DATA_ID_SUB_DIRECTORY,
+			FILEVIEW_COLUMN_ASSIGNED_DATA_POINTER, g_strdup(full),
 			-1);
+			g_free(full);
 
 		sidebar_create_branch(level+1, abs_base_dir, tmp_list, &iter);
 
@@ -221,7 +247,7 @@ static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList 
 /* Reverse strcmp */
 static int rev_strcmp(const char *str1, const char *str2)
 {
-	return strcmp(str2, str1);
+	return g_strcmp0(str2, str1);
 }
 
 
@@ -241,7 +267,10 @@ static void sidebar_insert_project_directory(WB_PROJECT *prj, WB_PROJECT_DIR *di
 	while (g_hash_table_iter_next(&iter, &key, &value))
 	{
 		gchar *path = get_relative_path(abs_base_dir, key);
-		lst = g_slist_prepend(lst, path);
+		if (path != NULL)
+		{
+			lst = g_slist_prepend(lst, path);
+		}
 	}
 	/* sort in reverse order so we can prepend nodes to the tree store -
 	 * the store behaves as a linked list and prepending is faster */
@@ -961,7 +990,10 @@ gboolean sidebar_file_view_get_selected_context(SIDEBAR_CONTEXT *context)
 						/* Has not got any data. */
 					break;
 					case DATA_ID_SUB_DIRECTORY:
-						context->subdir = data;
+						if (context->subdir == NULL)
+						{
+							context->subdir = data;
+						}
 					break;
 					case DATA_ID_FILE:
 						context->file = data;

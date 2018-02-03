@@ -88,7 +88,7 @@ static gboolean filelist_patterns_match(GSList *patterns, const gchar *str)
 
 
 /* Scan directory searchdir. Input and output parameters come from/go to params. */
-static void filelist_scan_directory_int(const gchar *searchdir, ScanDirParams *params)
+static void filelist_scan_directory_int(const gchar *searchdir, ScanDirParams *params, guint flags)
 {
 	GDir *dir;
 	gchar *locale_path = utils_get_locale_from_utf8(searchdir);
@@ -115,7 +115,9 @@ static void filelist_scan_directory_int(const gchar *searchdir, ScanDirParams *p
 
 		locale_name = g_dir_read_name(dir);
 		if (!locale_name)
+		{
 			break;
+		}
 
 		utf8_name = utils_get_utf8_from_locale(locale_name);
 		locale_filename = g_build_filename(locale_path, locale_name, NULL);
@@ -125,8 +127,12 @@ static void filelist_scan_directory_int(const gchar *searchdir, ScanDirParams *p
 		{
 			if (!filelist_patterns_match(params->ignored_dirs_list, utf8_name))
 			{
-				filelist_scan_directory_int(utf8_filename, params);
+				filelist_scan_directory_int(utf8_filename, params, flags);
 				params->folder_count++;
+				if (flags & FILELIST_FLAG_ADD_DIRS)
+				{
+					params->filelist = g_slist_prepend(params->filelist, g_strdup(utf8_filename));
+				}
 			}
 		}
 		else if (g_file_test(locale_filename, G_FILE_TEST_IS_REGULAR))
@@ -190,7 +196,78 @@ GSList *gp_filelist_scan_directory(guint *files, guint *folders, const gchar *se
 	params.ignored_file_list = filelist_get_precompiled_patterns(ignored_file_patterns);
 
 	params.visited_paths = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
-	filelist_scan_directory_int(searchdir, &params);
+	filelist_scan_directory_int(searchdir, &params, 0);
+	g_hash_table_destroy(params.visited_paths);
+
+	g_slist_foreach(params.file_patterns, (GFunc) g_pattern_spec_free, NULL);
+	g_slist_free(params.file_patterns);
+
+	g_slist_foreach(params.ignored_dirs_list, (GFunc) g_pattern_spec_free, NULL);
+	g_slist_free(params.ignored_dirs_list);
+
+	g_slist_foreach(params.ignored_file_list, (GFunc) g_pattern_spec_free, NULL);
+	g_slist_free(params.ignored_file_list);
+
+	if (files != NULL)
+	{
+		*files = params.file_count;
+	}
+	if (folders != NULL)
+	{
+		*folders = params.folder_count;
+	}
+
+	return params.filelist;
+}
+
+
+/** Scan a directory and return a list of files and directories.
+ *
+ * The function scans directory searchdir and returns a list of files.
+ * The list will only include files which match the patterns in file_patterns.
+ * Directories or files matched by ignored_dirs_patterns or ignored_file_patterns
+ * will not be scanned or added to the list.
+ *
+ * If flags is 0 then the result will be the same as for gp_filelist_scan_directory().
+ * 
+ * @param files     Can be optionally specified to return the number of matched/found
+ *                  files in *files.
+ * @param folders   Can be optionally specified to return the number of matched/found
+ *                  folders/sub-directories in *folders.
+ * @param searchdir Directory which shall be scanned
+ * @param file_patterns
+ *                  File patterns for matching files (e.g. "*.c") or NULL
+ *                  for all files.
+ * @param ignored_dirs_patterns
+ *                  Patterns for ignored directories
+ * @param ignored_file_patterns
+ *                  Patterns for ignored files
+ * @param flags     Flags which influence the returned list:
+ *                  - FILELIST_FLAG_ADD_DIRS: if set, directories will be added
+ *                    as own list entries. This also includes empty dirs.
+ * @return GSList of matched files
+ *
+ **/
+GSList *gp_filelist_scan_directory_full(guint *files, guint *folders, const gchar *searchdir, gchar **file_patterns,
+		gchar **ignored_dirs_patterns, gchar **ignored_file_patterns, guint flags)
+{
+	ScanDirParams params = { 0 };
+
+	if (!file_patterns || !file_patterns[0])
+	{
+		const gchar *all_pattern[] = { "*", NULL };
+		params.file_patterns = filelist_get_precompiled_patterns((gchar **)all_pattern);
+	}
+	else
+	{
+		params.file_patterns = filelist_get_precompiled_patterns(file_patterns);
+	}
+
+	params.ignored_dirs_list = filelist_get_precompiled_patterns(ignored_dirs_patterns);
+	params.ignored_file_list = filelist_get_precompiled_patterns(ignored_file_patterns);
+
+	params.visited_paths = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
+	filelist_scan_directory_int(searchdir, &params, flags);
 	g_hash_table_destroy(params.visited_paths);
 
 	g_slist_foreach(params.file_patterns, (GFunc) g_pattern_spec_free, NULL);

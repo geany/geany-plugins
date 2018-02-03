@@ -23,8 +23,15 @@
 
 G_BEGIN_DECLS
 
+typedef enum
+{
+	FILELIST_FLAG_ADD_DIRS = 1,
+}FILELIST_FLAG;
+
 GSList *gp_filelist_scan_directory(guint *files, guint *folders, const gchar *searchdir, gchar **file_patterns,
 		gchar **ignored_dirs_patterns, gchar **ignored_file_patterns);
+GSList *gp_filelist_scan_directory_full(guint *files, guint *folders, const gchar *searchdir, gchar **file_patterns,
+		gchar **ignored_dirs_patterns, gchar **ignored_file_patterns, guint flags);
 
 G_END_DECLS
 
