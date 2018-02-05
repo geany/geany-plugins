@@ -39,7 +39,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(
     LOCALEDIR,
     GETTEXT_PACKAGE,
     _("XML PrettyPrinter"),
-    _("Formats an XML and makes it human-readable. \nThis plugin currently"
+    _("Formats an XML and makes it human-readable. \nThis plugin currently "
       "has no maintainer. Would you like to help by contributing to this plugin?"),
     PRETTY_PRINTER_VERSION, "Cédric Tabin - http://www.astorm.ch")
 
