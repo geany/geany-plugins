@@ -4238,7 +4238,7 @@ msgstr "Open handtekeningsbestand"
 #: ../geanyprj/src/geanyprj.c:39
 msgid ""
 "Alternative project support. \n"
-"This plugin currentlyhas no maintainer. Would you like to help by "
+"This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
 
@@ -5573,7 +5573,7 @@ msgstr ""
 #: ../pretty-printer/src/PluginEntry.c:42
 msgid ""
 "Formats an XML and makes it human-readable. \n"
-"This plugin currentlyhas no maintainer. Would you like to help by "
+"This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
 
