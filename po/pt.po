@@ -2,21 +2,21 @@
 # Copyright (C) 2009 - 2015 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 # André Glória, 2009 - 2011
-# Pedro Albuquerque <palbuquerque73@gmail.com>, 2015 - 2017.
+# Pedro Albuquerque <palbuquerque73@gmail.com>, 2015 - 2017, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.32\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-11 17:41+0100\n"
-"PO-Revision-Date: 2017-11-06 09:38+0000\n"
+"POT-Creation-Date: 2018-02-14 03:19+0000\n"
+"PO-Revision-Date: 2018-02-14 05:55+0000\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
 "Language-Team: Português <palbuquerque73@gmail.com>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural= n==1 || n%10==1 ? 0 : 1;\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
@@ -292,11 +292,11 @@ msgstr "Incluir selecção automaticamente (sem ter de premir um símbolo)"
 
 #: ../addons/src/addons.c:664
 msgid "Show a calltip when hovering over a color value"
-msgstr ""
+msgstr "Mostrar uma dica ao pairar sobre um valor de cor"
 
 #: ../addons/src/addons.c:670
 msgid "Open Color Chooser when double-clicking a color value"
-msgstr ""
+msgstr "Abrir o selector de cores com duplo clique num valor de cor"
 
 #: ../autoclose/src/autoclose.c:49
 msgid "Auto-close"
@@ -2629,15 +2629,14 @@ msgid "Insert BibTeX reference dialog"
 msgstr "Inserir diálogo de referências BibTeX"
 
 #: ../latex/src/latex.c:2064
-#, fuzzy
 msgid ""
 "LaTeX is a plugin to improve support for LaTeX in Geany.\n"
 "\n"
 "Please report all bugs or feature requests to one of the authors."
 msgstr ""
-"GeanyLaTex é uma extensão que melhora o suporte de LaTeX no Geany.\n"
+"LaTeX é uma extensão que melhora o suporte de LaTeX no Geany.\n"
 "\n"
-"Por favor, reporte todas as falhas ou pedidos de funcionalidades a um dos "
+"Por favor, reporte todas os erros ou pedidos de funcionalidades a um dos "
 "autores."
 
 #: ../latex/src/latex.c:2102
@@ -5418,11 +5417,13 @@ msgstr "Impossível gravar ficheiro de configuração %s: %s"
 msgid "Unable to load config file %s: %s"
 msgstr "Impossível carregar ficheiro de configuração %s: %s"
 
-#: ../multiterm/src/context-menu.vala:52 ../multiterm/src/context-menu.vala:140
+#: ../multiterm/src/context-menu.vala:52
+#: ../multiterm/src/context-menu.vala:140
 msgid "Move to message window"
 msgstr "Mover para janela de mensagens"
 
-#: ../multiterm/src/context-menu.vala:58 ../multiterm/src/context-menu.vala:135
+#: ../multiterm/src/context-menu.vala:58
+#: ../multiterm/src/context-menu.vala:135
 msgid "Move to sidebar"
 msgstr "Mover para a barra lateral"
 
@@ -6718,7 +6719,8 @@ msgstr "Terminal de Feed"
 msgid "Enter char # (0..255):"
 msgstr "Insira carácter # (0..255):"
 
-#: ../scope/src/conterm.c:512 ../scope/src/scope.c:565 ../scope/src/scope.c:566
+#: ../scope/src/conterm.c:512 ../scope/src/scope.c:565
+#: ../scope/src/scope.c:566
 #, c-format
 msgid "Scope: %s."
 msgstr "Âmbito: %s."
@@ -7223,7 +7225,6 @@ msgid "_Directory to look for dictionary files:"
 msgstr "Pasta onde procurar os _dicionários:"
 
 #: ../spellcheck/src/scplugin.c:361
-#, fuzzy
 msgid ""
 "Read additional dictionary files from this directory. For now, this only "
 "works with hunspell dictionaries. With Enchant 2.0 or later, the "
@@ -7231,7 +7232,9 @@ msgid ""
 "plugin's Help for details."
 msgstr ""
 "Ler dicionários adicionais desta pasta. De momento, só funciona com "
-"dicionários \"myspell\"."
+"dicionários hunspell. Com o Enchant 2.0 ou posterior, os dicionários são "
+"procurados numa sub-pasta chamada \"hunspell\". Veja a ajuda da extensão "
+"para mais detalhes."
 
 #: ../spellcheck/src/scplugin.c:394
 msgid "<b>Behavior</b>"
@@ -7914,12 +7917,10 @@ msgid "Windows"
 msgstr "Janelas"
 
 #: ../workbench/src/dialogs.c:45
-#, fuzzy
 msgid "Create new file"
-msgstr "Criar _novo ficheiro"
+msgstr "Criar novo ficheiro"
 
 #: ../workbench/src/dialogs.c:80
-#, fuzzy
 msgid "Create new directory"
 msgstr "Criar nova pasta"
 
@@ -8005,9 +8006,8 @@ msgid "Workbench settings"
 msgstr "Definições da bancada"
 
 #: ../workbench/src/dialogs.c:432
-#, fuzzy
 msgid "_Rescan all projects on open"
-msgstr "Re-analisar todos os ficheiros ao abrir:"
+msgstr "_Re-analisar todos os projectos ao abrir:"
 
 #: ../workbench/src/dialogs.c:435
 msgid ""
@@ -8081,12 +8081,15 @@ msgid "Could not add project file: %s"
 msgstr "Impossível adicionar ficheiro de projecto: %s"
 
 #: ../workbench/src/popup_menu.c:559
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not create new file \"%s\":\n"
 "\n"
 "%s"
-msgstr "Impossível criar ficheiro de bancada: %s."
+msgstr ""
+"Impossível criar novo ficheiro \"%s\":\n"
+"\n"
+"%s"
 
 #: ../workbench/src/popup_menu.c:616
 msgid "_Add project..."
@@ -8141,14 +8144,12 @@ msgid "_Close all files in directory"
 msgstr "Fe_char todos os ficheiros no directório"
 
 #: ../workbench/src/popup_menu.c:702
-#, fuzzy
 msgid "_Open all files in sub-directory"
-msgstr "_Abrir todos os ficheiros no directório"
+msgstr "Abrir t_odos os ficheiros na sub-pasta"
 
 #: ../workbench/src/popup_menu.c:708
-#, fuzzy
 msgid "_Close all files in sub-directory"
-msgstr "Fe_char todos os ficheiros no directório"
+msgstr "Fe_char todos os ficheiros na sub-pasta"
 
 #: ../workbench/src/popup_menu.c:718
 msgid "_Expand all"
@@ -8171,14 +8172,12 @@ msgid "_Remove from Bookmarks"
 msgstr "_Remover dos marcadores"
 
 #: ../workbench/src/popup_menu.c:756
-#, fuzzy
 msgid "_Create file here..."
-msgstr "Criar _novo ficheiro"
+msgstr "_Criar ficheiro aqui..."
 
 #: ../workbench/src/popup_menu.c:762
-#, fuzzy
 msgid "_Create directory here..."
-msgstr "Criar nova pasta"
+msgstr "_Criar pasta aqui..."
 
 #: ../workbench/src/sidebar.c:320
 msgid "Base dir"
@@ -8194,11 +8193,11 @@ msgid "No workbench opened."
 msgstr "Sem bancada aberta."
 
 #: ../workbench/src/sidebar.c:628
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %u Project"
 msgid_plural "%s: %u Projects"
-msgstr[0] "%s: projectos %u"
-msgstr[1] "%s: projectos %u"
+msgstr[0] "%s: %u projecto"
+msgstr[1] "%s: %u projectos"
 
 #: ../workbench/src/sidebar.c:639
 msgid ""
@@ -8247,9 +8246,9 @@ msgid "Ignored File Patterns:"
 msgstr "Padrões de ficheiro a ignorar:"
 
 #: ../workbench/src/wb_project.c:982
-#, fuzzy, c-format
+#, c-format
 msgid "Number of Sub-Directories: %u\n"
-msgstr "Número de pastas: %u\n"
+msgstr "Número de sub-pastas: %u\n"
 
 #: ../workbench/src/wb_project.c:983
 #, c-format
