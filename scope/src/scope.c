@@ -632,7 +632,7 @@ void plugin_init(G_GNUC_UNUSED GeanyData *gdata)
 		GtkMenuItem *menu_item = GTK_MENU_ITEM(debug_menu_items[tool_item->index].widget);
 		GtkToolItem *button = gtk_tool_button_new(NULL, gtk_menu_item_get_label(menu_item));
 
-		gtk_widget_set_tooltip_text (GTK_WIDGET (button), tool_item->tooltip_text);
+		gtk_widget_set_tooltip_text (GTK_WIDGET (button), _(tool_item->tooltip_text));
 		gtk_tool_button_set_use_underline(GTK_TOOL_BUTTON(button),
 			gtk_menu_item_get_use_underline(menu_item));
 		g_signal_connect(button, "clicked", G_CALLBACK(on_toolbar_button_clicked),
