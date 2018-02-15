@@ -166,7 +166,7 @@ static ToolItem toolbar_items[] =
 	{ STEP_OUT_KB,     { "small_step_out_icon",     "large_step_out_icon"     }, NULL, N_("Step out")          },
 	{ TERMINATE_KB,    { "small_terminate_icon",    "large_terminate_icon"    }, NULL, N_("Terminate")         },
 	{ BREAKPOINT_KB,   { "small_breakpoint_icon",   "large_breakpoint_icon",  }, NULL, N_("Toggle breakpoint") },
-	{ -1, { NULL, NULL }, NULL }
+	{ -1, { NULL, NULL }, NULL, NULL }
 };
 
 static void on_toolbar_button_clicked(G_GNUC_UNUSED GtkToolButton *toolbutton, gpointer gdata)
