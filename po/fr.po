@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-11 17:41+0100\n"
-"PO-Revision-Date: 2017-03-05 16:25+0100\n"
+"POT-Creation-Date: 2018-02-14 23:05-0600\n"
+"PO-Revision-Date: 2018-02-15 23:00-0600\n"
 "Last-Translator: Colomban Wendling <ban@herbesfolles.org>\n"
 "Language-Team: French <geany-i18n@uvena.de>\n"
 "Language: fr\n"
@@ -52,11 +52,12 @@ msgid "_Hide Message Window"
 msgstr "Cac_her la fenêtre de messages"
 
 #: ../addons/src/ao_tasks.c:412 ../debugger/src/stree.c:420
+#: ../scope/data/scope.glade.h:72
 msgid "File"
 msgstr "Fichier"
 
 #: ../addons/src/ao_tasks.c:423 ../debugger/src/bptree.c:702
-#: ../debugger/src/stree.c:427
+#: ../debugger/src/stree.c:427 ../scope/data/scope.glade.h:73
 msgid "Line"
 msgstr "Ligne"
 
@@ -65,6 +66,7 @@ msgstr "Ligne"
 #. * untranslated.
 #: ../addons/src/ao_tasks.c:434 ../debugger/src/vtree.c:201
 #: ../devhelp/devhelp/dh-link.c:287 ../latex/src/bibtexlabels.c:68
+#: ../scope/data/scope.glade.h:79
 msgid "Type"
 msgstr "Type"
 
@@ -290,11 +292,11 @@ msgstr ""
 
 #: ../addons/src/addons.c:664
 msgid "Show a calltip when hovering over a color value"
-msgstr ""
+msgstr "Afficher une infobulle au survol d'une couleur"
 
 #: ../addons/src/addons.c:670
 msgid "Open Color Chooser when double-clicking a color value"
-msgstr ""
+msgstr "Ouvrir le sélecteur de couleur lors du double-clic sur une couleur"
 
 #: ../autoclose/src/autoclose.c:49
 #, fuzzy
@@ -647,15 +649,17 @@ msgid "Various debuggers integration."
 msgstr "Intégration de divers débogueurs."
 
 #: ../debugger/src/plugin.c:132 ../debugger/src/keys.c:75
-#: ../scope/data/scope.glade.h:124 ../scope/src/scope.c:228
+#: ../scope/data/scope.glade.h:145 ../scope/src/scope.c:228
 msgid "Debug"
 msgstr "Déboguage"
 
 #: ../debugger/src/vtree.c:170 ../debugger/src/envtree.c:424
+#: ../scope/data/scope.glade.h:88
 msgid "Name"
 msgstr "Nom"
 
 #: ../debugger/src/vtree.c:193 ../debugger/src/envtree.c:429
+#: ../scope/data/scope.glade.h:89
 msgid "Value"
 msgstr "Valeur"
 
@@ -697,7 +701,7 @@ msgstr "Supprimer la variable ?"
 msgid "Location"
 msgstr "Emplacement"
 
-#: ../debugger/src/bptree.c:685
+#: ../debugger/src/bptree.c:685 ../scope/data/scope.glade.h:83
 msgid "Condition"
 msgstr "Condition"
 
@@ -770,6 +774,7 @@ msgid "Thread %i"
 msgstr "Thread %i"
 
 #: ../debugger/src/stree.c:395 ../latex/src/bibtexlabels.c:46
+#: ../scope/data/scope.glade.h:75
 msgid "Address"
 msgstr "Adresse"
 
@@ -777,6 +782,7 @@ msgstr "Adresse"
 #. * have an ESTABLISHED term for it, leave it
 #. * untranslated.
 #: ../debugger/src/stree.c:413 ../devhelp/devhelp/dh-link.c:267
+#: ../scope/data/scope.glade.h:74
 msgid "Function"
 msgstr "Fonction"
 
@@ -1357,6 +1363,9 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Appeler le visionneur de documentation sur le symbole courant.\n"
+"Ce plugin n'a pas de mainteneur en ce moment. Voudriez-vous aider en "
+"contribuant à ce plugin ?"
 
 #: ../geanydoc/src/geanydoc.c:159 ../geanyvc/src/geanyvc.c:429
 msgid "Could not parse the output of command"
@@ -1882,6 +1891,9 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Insère ou remplit des colonnes avec des nombres.\n"
+"Ce plugin n'a pas de mainteneur en ce moment. Voudriez-vous aider en "
+"contribuant à ce plugin ?"
 
 #: ../geanyinsertnum/src/insertnum.c:146
 msgid "Counting..."
@@ -2217,7 +2229,7 @@ msgstr "Numéros de pages séparés par des virgules ou des double-tirets"
 
 #: ../latex/src/bibtexlabels.c:121
 msgid "Name of publisher"
-msgstr ""
+msgstr "Nom de l'éditeur"
 
 #: ../latex/src/bibtexlabels.c:122
 msgid "School where thesis was written"
@@ -2946,6 +2958,9 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Écrire et exécuter des scripts Lua pour des commandes personnalisées.\n"
+"Ce plugin n'a pas de mainteneur en ce moment. Voudriez-vous aider en "
+"contribuant à ce plugin ?"
 
 #: ../geanylua/glspi_ver.h:19
 msgid "Lua Script Plugin"
@@ -4212,6 +4227,9 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Chiffrement GPG pour Geany.\n"
+"Ce plugin n'a pas de mainteneur en ce moment. Voudriez-vous aider en "
+"contribuant à ce plugin ?"
 
 #: ../geanypg/src/geanypg.c:40
 msgid "Hans Alves <alves.h88@gmail.com>"
@@ -4476,6 +4494,9 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Gestion de projet alternative.\n"
+"Ce plugin n'a pas de mainteneur en ce moment. Voudriez-vous aider en "
+"contribuant à ce plugin ?"
 
 #: ../geanyprj/src/geanyprj.c:228
 msgid "Find a text in geanyprj's project"
@@ -4499,7 +4520,7 @@ msgstr "Nouveau projet"
 msgid "C_reate"
 msgstr "C_réer"
 
-#: ../geanyprj/src/menu.c:123 ../scope/data/scope.glade.h:114
+#: ../geanyprj/src/menu.c:123 ../scope/data/scope.glade.h:135
 msgid "Name:"
 msgstr "Nom :"
 
@@ -4613,6 +4634,9 @@ msgid ""
 "This plugins is currently not developed actively. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Interface pour différents systèmes de gestion de versions.\n"
+"Ce plugin n'est pas développé activement en ce moment. Voudriez-vous aider en "
+"contribuant à ce plugin ?"
 
 #: ../geanyvc/src/geanyvc.c:488
 #, c-format
@@ -5169,7 +5193,7 @@ msgstr "Impossible d'enregistrer le fichier de configuration : %s"
 
 #: ../git-changebar/src/gcb-plugin.c:1491
 msgid "Undo Git hunk"
-msgstr ""
+msgstr "Annuler le hunk Git"
 
 #: ../git-changebar/src/gcb-plugin.c:1499
 msgid "Go to the previous hunk"
@@ -5181,7 +5205,7 @@ msgstr "Aller au hunk suivant"
 
 #: ../git-changebar/src/gcb-plugin.c:1503
 msgid "Undo hunk at the cursor position"
-msgstr ""
+msgstr "Annuler le hunk au niveau du curseur"
 
 #: ../git-changebar/src/gcb-plugin.c:1651 ../pohelper/src/gph-plugin.c:1390
 #: ../pohelper/src/gph-plugin.c:1725
@@ -5240,9 +5264,8 @@ msgid "Remove _Unique Lines"
 msgstr "Supprimer les lignes _uniques"
 
 #: ../lineoperations/src/lineoperations.c:260
-#, fuzzy
 msgid "Keep _Unique Lines"
-msgstr "Supprimer les lignes _uniques"
+msgstr "Garder les lignes _uniques"
 
 #: ../lineoperations/src/lineoperations.c:263
 msgid "Remove _Empty Lines"
@@ -5604,7 +5627,7 @@ msgstr ""
 "Désactive l'overlay qui affiche la partie actuellement visible de l'éditeur "
 "par dessus la vue d'ensemble."
 
-#: ../overview/data/prefs.ui.h:15 ../scope/data/scope.glade.h:109
+#: ../overview/data/prefs.ui.h:15 ../scope/data/scope.glade.h:130
 msgid "Options"
 msgstr "Options"
 
@@ -5854,6 +5877,9 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Formate un fichier XML pour le rendre lisible par des humains.\n"
+"Ce plugin n'a pas de mainteneur en ce moment. Voudriez-vous aider en "
+"contribuant à ce plugin ?"
 
 #. put the menu into the Tools
 #: ../pretty-printer/src/PluginEntry.c:125
@@ -6156,24 +6182,21 @@ msgstr "Débo_guer"
 
 #: ../scope/data/scope.glade.h:2
 msgid "_Setup Program"
-msgstr ""
+msgstr "_Configurer le programme"
 
 #: ../scope/data/scope.glade.h:3
 msgid "Recent _Programs"
-msgstr "_Programmes récents"
+msgstr "Programmes _récents"
 
 #: ../scope/data/scope.glade.h:4
-#, fuzzy
 msgid "_Run/Continue"
-msgstr "Exécute_r / continuer"
+msgstr "_Exécuter / continuer"
 
 #: ../scope/data/scope.glade.h:5
-#, fuzzy
 msgid "Run to _Cursor"
 msgstr "Exécuter jusqu'au _curseur"
 
 #: ../scope/data/scope.glade.h:6
-#, fuzzy
 msgid "Run to _Source"
 msgstr "Exécuter jusqu'à la _source"
 
@@ -6191,121 +6214,107 @@ msgstr ""
 
 #: ../scope/data/scope.glade.h:10
 msgid "_Terminate"
-msgstr ""
+msgstr "_Terminer"
 
 #: ../scope/data/scope.glade.h:11
-#, fuzzy
 msgid "Toggle _Breakpoint"
-msgstr "Basculer le point d'arrêt"
+msgstr "Ajouter / enlever le point d'_arrêt"
 
 #: ../scope/data/scope.glade.h:12
-#, fuzzy
 msgid "_GDB Command"
 msgstr "Commande _GDB"
 
 #: ../scope/data/scope.glade.h:13
-#, fuzzy
 msgid "_More"
-msgstr "_Plus"
+msgstr "P_lus"
 
 #: ../scope/data/scope.glade.h:14
-#, fuzzy
 msgid "_Show Terminal"
 msgstr "Afficher le _terminal"
 
 #: ../scope/data/scope.glade.h:15
-#, fuzzy
 msgid "_Reset Markers"
 msgstr "_Réinitialiser les marqueurs"
 
 #: ../scope/data/scope.glade.h:16
-#, fuzzy
 msgid "_Cleanup Files"
-msgstr "Nettoyer les fichiers"
+msgstr "Nettoyer les fi_chiers"
 
 #: ../scope/data/scope.glade.h:17
 msgid "_Feed"
-msgstr ""
+msgstr "_Insérer un caractère"
 
 #: ../scope/data/scope.glade.h:18
-#, fuzzy
 msgid "_Window"
 msgstr "_Fenêtre"
 
 #: ../scope/data/scope.glade.h:19
 msgid "_Auto Show"
-msgstr ""
+msgstr "_Afficher automatiquement"
 
 #: ../scope/data/scope.glade.h:20
 msgid "Auto _Hide"
-msgstr ""
+msgstr "_Cacher automatiquement"
 
 #: ../scope/data/scope.glade.h:21
 msgid "Show on _Error"
-msgstr ""
+msgstr "Afficher lors d'une _erreur"
 
 #: ../scope/data/scope.glade.h:22
 msgid "_Unsorted"
-msgstr ""
+msgstr "_Non trié"
 
 #: ../scope/data/scope.glade.h:23
 msgid "_View Source"
-msgstr ""
+msgstr "_Voir la source"
 
 #: ../scope/data/scope.glade.h:24
-#, fuzzy
 msgid "S_ynchronize"
 msgstr "S_ynchroniser"
 
 #: ../scope/data/scope.glade.h:25
-#, fuzzy
 msgid "_Interrupt"
 msgstr "_Interrompre"
 
 #: ../scope/data/scope.glade.h:26
-#, fuzzy
 msgid "_Send Signal"
 msgstr "Envoyer un _signal"
 
 #: ../scope/data/scope.glade.h:27
 msgid "S_elect on"
-msgstr ""
+msgstr "Sél_ectionner quand"
 
 #: ../scope/data/scope.glade.h:28
 msgid "_Running"
-msgstr ""
+msgstr "_En cours d'exécution"
 
 #: ../scope/data/scope.glade.h:29
-#, fuzzy
 msgid "_Stopped"
 msgstr "_Arrêté"
 
 #: ../scope/data/scope.glade.h:30
 msgid "_Exited"
-msgstr ""
+msgstr "_Terminé"
 
 #: ../scope/data/scope.glade.h:31
-#, fuzzy
 msgid "_Follow"
-msgstr "Suivre"
+msgstr "_Suivre"
 
 #: ../scope/data/scope.glade.h:32
-#, fuzzy
 msgid "_Columns"
 msgstr "_Colonnes"
 
 #: ../scope/data/scope.glade.h:33
-#, fuzzy
 msgid "Show _Group"
 msgstr "Afficher le _groupe"
 
 #: ../scope/data/scope.glade.h:34
 msgid "Show _Core"
-msgstr ""
+msgstr "Afficher le _cœur"
 
 #: ../scope/data/scope.glade.h:35
 msgid "Add _Break"
-msgstr ""
+msgstr "Ajouter un point d'_arrêt"
 
 #: ../scope/data/scope.glade.h:36
 msgid "Add _Watch"
@@ -6313,19 +6322,17 @@ msgstr ""
 
 #: ../scope/data/scope.glade.h:37
 msgid "Apply on _Run"
-msgstr ""
+msgstr "Appliquer à l'_exécution"
 
 #: ../scope/data/scope.glade.h:38
 msgid "_Show @entry"
-msgstr ""
+msgstr "Afficher @_entry"
 
 #: ../scope/data/scope.glade.h:39
-#, fuzzy
 msgid "Show _Address"
-msgstr "Afficher l'adresse"
+msgstr "Afficher l'_adresse"
 
 #: ../scope/data/scope.glade.h:40
-#, fuzzy
 msgid "_Modify"
 msgstr "_Modifier"
 
@@ -6339,40 +6346,36 @@ msgid "_Inspect"
 msgstr "_Inspecter"
 
 #: ../scope/data/scope.glade.h:43
-#, fuzzy
 msgid "_8-bit mode"
-msgstr "mode _8 bits"
+msgstr "Mode _8 bits"
 
 #: ../scope/data/scope.glade.h:44
-#, fuzzy
 msgid "_Default"
 msgstr "Par _défaut"
 
 #: ../scope/data/scope.glade.h:45
-#, fuzzy
 msgid "_7 bit"
 msgstr "_7 bits"
 
 #: ../scope/data/scope.glade.h:46
 msgid "_Locale"
-msgstr ""
+msgstr "_Locale"
 
 #: ../scope/data/scope.glade.h:47
 msgid "_UTF-8"
 msgstr "_UTF-8"
 
 #: ../scope/data/scope.glade.h:48
-#, fuzzy
 msgid "_Show .names"
-msgstr "Afficher le statut"
+msgstr "Afficher les .noms"
 
 #: ../scope/data/scope.glade.h:49
 msgid "R_ead"
-msgstr ""
+msgstr "Lir_e"
 
 #: ../scope/data/scope.glade.h:50
 msgid "_Group by"
-msgstr ""
+msgstr "_Grouper par"
 
 #: ../scope/data/scope.glade.h:51
 msgid "_1"
@@ -6392,10 +6395,9 @@ msgstr "_8"
 
 #: ../scope/data/scope.glade.h:55
 msgid "_Jump To"
-msgstr ""
+msgstr "_Aller à"
 
 #: ../scope/data/scope.glade.h:56
-#, fuzzy
 msgid "_Apply"
 msgstr "_Appliquer"
 
@@ -6406,14 +6408,13 @@ msgstr "_Étendre"
 
 #: ../scope/data/scope.glade.h:59
 msgid "_Natural"
-msgstr ""
+msgstr "_Naturel"
 
 #: ../scope/data/scope.glade.h:60
 msgid "_Decimal"
 msgstr "_Décimal"
 
 #: ../scope/data/scope.glade.h:61
-#, fuzzy
 msgid "_Hex"
 msgstr "_Hexadécimal"
 
@@ -6426,13 +6427,12 @@ msgid "_Binary"
 msgstr "_Binaire"
 
 #: ../scope/data/scope.glade.h:64
-#, fuzzy
 msgid "_Raw"
 msgstr "B_rut"
 
 #: ../scope/data/scope.glade.h:65
 msgid "_Evaluate/Modify"
-msgstr ""
+msgstr "Évalu_er / modifier"
 
 #: ../scope/data/scope.glade.h:66
 msgid "_Watch Expression"
@@ -6441,315 +6441,350 @@ msgstr ""
 #: ../scope/data/scope.glade.h:67
 #, fuzzy
 msgid "_Inspect Variable"
-msgstr "_Inspecter les variables"
+msgstr "_Inspecter la variable"
 
 #: ../scope/data/scope.glade.h:68
+msgid "Id"
+msgstr "Id"
+
+#: ../scope/data/scope.glade.h:69
+msgid "Pid"
+msgstr "Pid"
+
+#: ../scope/data/scope.glade.h:70
+msgid "Gid"
+msgstr "Gid"
+
+#: ../scope/data/scope.glade.h:71
+msgid "State"
+msgstr "Statut"
+
+#: ../scope/data/scope.glade.h:76
+msgid "Target Id"
+msgstr "Id Cible"
+
+#: ../scope/data/scope.glade.h:77
+msgid "Core"
+msgstr "Cœur"
+
+#: ../scope/data/scope.glade.h:78
 msgid "Threads"
 msgstr "Threads"
 
-#: ../scope/data/scope.glade.h:69
-#, fuzzy
-msgid "Stack"
-msgstr "Pile"
+#: ../scope/data/scope.glade.h:80
+msgid "Location or expr"
+msgstr "Emplacement ou expression"
 
-#: ../scope/data/scope.glade.h:70
+#: ../scope/data/scope.glade.h:81
+msgid "Times"
+msgstr "Fois"
+
+#: ../scope/data/scope.glade.h:82
+msgid "Ignore"
+msgstr "Ignorer"
+
+#: ../scope/data/scope.glade.h:84
+msgid "Script"
+msgstr "Script"
+
+#: ../scope/data/scope.glade.h:85
+msgid "#"
+msgstr "#"
+
+#: ../scope/data/scope.glade.h:86
+msgid "Arguments"
+msgstr "Arguments"
+
+#: ../scope/data/scope.glade.h:87
+msgid "Stack"
+msgstr "Stack"
+
+#: ../scope/data/scope.glade.h:90
 msgid "Locals"
 msgstr ""
 
-#: ../scope/data/scope.glade.h:71
+#: ../scope/data/scope.glade.h:91
+msgid "Expression"
+msgstr "Expression"
+
+#: ../scope/data/scope.glade.h:92
 msgid "Watches"
 msgstr ""
 
-#: ../scope/data/scope.glade.h:72
-#, fuzzy
+#: ../scope/data/scope.glade.h:93
 msgid "Memory"
 msgstr "Mémoire"
 
-#: ../scope/data/scope.glade.h:73
-#, fuzzy
+#: ../scope/data/scope.glade.h:94
 msgid "Enter gdb command:"
-msgstr "Insérer une commande GDB :"
+msgstr "Commande GDB :"
 
-#: ../scope/data/scope.glade.h:74
+#: ../scope/data/scope.glade.h:95
 msgid "Convert _UTF-8 to locale"
-msgstr ""
+msgstr "Convertir l'_UTF-8 à la locale"
 
-#: ../scope/data/scope.glade.h:75
+#: ../scope/data/scope.glade.h:96
 msgid "_Thread"
 msgstr "_Thread"
 
-#: ../scope/data/scope.glade.h:76
-#, fuzzy
+#: ../scope/data/scope.glade.h:97
 msgid "_Group"
 msgstr "_Groupe"
 
-#: ../scope/data/scope.glade.h:77
-#, fuzzy
+# Ce n'est pas traduit intentionnellement car je n'ai pas trouvé de traduction
+# commune, et le mot anglais est couramment utilisé.
+# La "traduction" ici est pour changer le mnémonique qui entre en conflit avec
+# "_Fermer"
+#: ../scope/data/scope.glade.h:98
 msgid "_Frame"
-msgstr "Page"
+msgstr "Fr_ame"
 
-#: ../scope/data/scope.glade.h:78
+#: ../scope/data/scope.glade.h:99
 msgid "Setup Program"
-msgstr ""
+msgstr "Configurer le programme"
 
-#: ../scope/data/scope.glade.h:79
-#, fuzzy
+#: ../scope/data/scope.glade.h:100
 msgid "_Executable:"
 msgstr "_Exécutable :"
 
-#: ../scope/data/scope.glade.h:80
-#, fuzzy
+#: ../scope/data/scope.glade.h:101
 msgid "_Arguments:"
 msgstr "_Arguments :"
 
-#: ../scope/data/scope.glade.h:81
-#, fuzzy
+#: ../scope/data/scope.glade.h:102
 msgid "En_vironment:"
-msgstr "En_vironnement :"
+msgstr "Environne_ment :"
 
-#: ../scope/data/scope.glade.h:82
-#, fuzzy
+#: ../scope/data/scope.glade.h:103
 msgid "_Working dir:"
 msgstr "Dossier de travail :"
 
-#: ../scope/data/scope.glade.h:83
+#: ../scope/data/scope.glade.h:104
 msgid "_Load script:"
-msgstr ""
+msgstr "_Sciprt de chargement :"
 
-#: ../scope/data/scope.glade.h:84
+#: ../scope/data/scope.glade.h:105
 msgid "Auto _run program/exit gdb"
-msgstr ""
+msgstr "_Démarrer le programme et quitter GDB automatiquement"
 
-#: ../scope/data/scope.glade.h:85
+#: ../scope/data/scope.glade.h:106
 msgid "_Non-stop mode"
 msgstr ""
 
-#: ../scope/data/scope.glade.h:86
+#: ../scope/data/scope.glade.h:107
 msgid "_Temporary breakpoint on load at:"
-msgstr ""
+msgstr "Point d'arrêt _temporaire au chargement à :"
 
-#: ../scope/data/scope.glade.h:87
+#: ../scope/data/scope.glade.h:108
 #, fuzzy
 msgid "_Delete all breakpoints, watches, inspects and registers"
 msgstr ""
-"Supprimer tous les points d'arrêt, watches (?), inspects (?) et registres (?)"
+"Supprimer tous les points d'arrêt, watches (?), inspects (?) et registres"
 
-#: ../scope/data/scope.glade.h:88 ../scope/src/scope.c:521
-#, fuzzy
+#: ../scope/data/scope.glade.h:109 ../scope/src/scope.c:521
 msgid "Program"
 msgstr "Programme"
 
-#: ../scope/data/scope.glade.h:89
+#: ../scope/data/scope.glade.h:110
 msgid "Open on"
-msgstr ""
+msgstr "Ouvrir lors du"
 
-#: ../scope/data/scope.glade.h:90
+#: ../scope/data/scope.glade.h:111
 msgid "g_db load"
-msgstr ""
+msgstr "chargement de g_db"
 
-#: ../scope/data/scope.glade.h:91
+#: ../scope/data/scope.glade.h:112
 msgid "p_rogram start"
-msgstr ""
+msgstr "démarrage du p_rogramme"
 
-#: ../scope/data/scope.glade.h:92
-#, fuzzy
+#: ../scope/data/scope.glade.h:113
 msgid "Update all _views"
-msgstr "Mettre à jour toutes les _vues"
+msgstr "Mettre à jour toutes les v_ues"
 
-#: ../scope/data/scope.glade.h:93
+#: ../scope/data/scope.glade.h:114
 #, fuzzy
 msgid "<b>Panel</b>"
 msgstr "<b>Panneau</b>"
 
-#: ../scope/data/scope.glade.h:94
+#: ../scope/data/scope.glade.h:115
 msgid "Default 8-bit text mode:"
 msgstr "Mode de texte 8-bit par défaut :"
 
-#: ../scope/data/scope.glade.h:95
+#: ../scope/data/scope.glade.h:116
 msgid "_7-bit \\nnn"
-msgstr ""
+msgstr "_7-bit \\nnn"
 
-#: ../scope/data/scope.glade.h:96
-#, fuzzy
+# Les 5 chaînes suivantes sont bizarres, car le plugin est mal fait :
+# ils correspondent en gros à
+#   "Display member and argument names [as …]"
+# avec des checkboxes pour "member" et "argument".
+#: ../scope/data/scope.glade.h:117
 msgid "Display"
-msgstr "Affichage"
+msgstr "Affichager les noms des"
 
-#: ../scope/data/scope.glade.h:97
-#, fuzzy
+#: ../scope/data/scope.glade.h:118
 msgid "_member"
-msgstr "_membre"
+msgstr "_membres"
 
-#: ../scope/data/scope.glade.h:98
-#, fuzzy
+#: ../scope/data/scope.glade.h:119
 msgid "and"
-msgstr "et"
+msgstr "et des"
 
-#: ../scope/data/scope.glade.h:99
-#, fuzzy
+#: ../scope/data/scope.glade.h:120
 msgid "_argument"
-msgstr "_argument"
+msgstr "_arguments"
 
-#: ../scope/data/scope.glade.h:100
-#, fuzzy
+# ZWSP, voir plus haut
+#: ../scope/data/scope.glade.h:121
 msgid "names"
-msgstr "noms"
+msgstr "​"
 
-#: ../scope/data/scope.glade.h:101
+#: ../scope/data/scope.glade.h:122
 msgid "<b>Values</b>"
 msgstr "<b>Valeurs</b>"
 
-#: ../scope/data/scope.glade.h:102
-msgid "E_xpand on apply"
-msgstr ""
-
-#: ../scope/data/scope.glade.h:103
+#: ../scope/data/scope.glade.h:123
 #, fuzzy
+msgid "E_xpand on apply"
+msgstr "Éten_dre lors de l'application"
+
+#: ../scope/data/scope.glade.h:124
 msgid "S_how"
 msgstr "Affic_her"
 
-#: ../scope/data/scope.glade.h:104
-#, fuzzy
+#: ../scope/data/scope.glade.h:125
 msgid "children"
 msgstr "enfants"
 
-#: ../scope/data/scope.glade.h:105
+#: ../scope/data/scope.glade.h:126
 #, fuzzy
 msgid "<b>Inspect</b>"
 msgstr "<b>Inspecter</b>"
 
-#: ../scope/data/scope.glade.h:106
-#, fuzzy
+#: ../scope/data/scope.glade.h:127
 msgid "Show =li_brary messages"
 msgstr "Afficher les messages =li_brary"
 
-#: ../scope/data/scope.glade.h:107
-#, fuzzy
+#: ../scope/data/scope.glade.h:128
 msgid "Show _tooltips"
-msgstr "Afficher les infobulles"
+msgstr "Afficher les _infobulles"
 
-#: ../scope/data/scope.glade.h:108
-#, fuzzy
+#: ../scope/data/scope.glade.h:129
 msgid "<b>Others</b>"
 msgstr "<b>Autres</b>"
 
-#: ../scope/data/scope.glade.h:110
-#, fuzzy
+#: ../scope/data/scope.glade.h:131
 msgid "_Import"
 msgstr "_Importer"
 
-#: ../scope/data/scope.glade.h:111
+#: ../scope/data/scope.glade.h:132
 msgid "Enter assignment expression:"
 msgstr ""
 
-#: ../scope/data/scope.glade.h:112
+#: ../scope/data/scope.glade.h:133
 #, fuzzy
 msgid "Inspect"
 msgstr "Inspecter"
 
-#: ../scope/data/scope.glade.h:113
-#, fuzzy
+#: ../scope/data/scope.glade.h:134
 msgid "Object:"
 msgstr "Objet :"
 
-#: ../scope/data/scope.glade.h:115
-#, fuzzy
+#: ../scope/data/scope.glade.h:136
 msgid "-"
 msgstr "-"
 
-#: ../scope/data/scope.glade.h:116
-#, fuzzy
+#: ../scope/data/scope.glade.h:137
 msgid "Frame:"
-msgstr "Page :"
+msgstr "Frame :"
 
-#: ../scope/data/scope.glade.h:117
-#, fuzzy
+#: ../scope/data/scope.glade.h:138
 msgid "@"
 msgstr "@"
 
-#: ../scope/data/scope.glade.h:118
+#: ../scope/data/scope.glade.h:139
+#, fuzzy
 msgid "_Apply on run"
-msgstr ""
+msgstr "_Appliquer à l'exécution"
 
-#: ../scope/data/scope.glade.h:119
+#: ../scope/data/scope.glade.h:140
 #, fuzzy
 msgid "Expand"
-msgstr "Tout déplier"
+msgstr "Étendre"
 
-#: ../scope/data/scope.glade.h:120
+#: ../scope/data/scope.glade.h:141
 #, fuzzy
 msgid "Start:"
-msgstr "_Début :"
+msgstr "Début :"
 
-#: ../scope/data/scope.glade.h:121
+#: ../scope/data/scope.glade.h:142
 msgid "Count:"
 msgstr ""
 
-#: ../scope/data/scope.glade.h:122
+#: ../scope/data/scope.glade.h:143
 msgid "_Expand on apply"
 msgstr ""
 
-#: ../scope/data/scope.glade.h:123 ../scope/src/scope.c:521
-#, fuzzy
+#: ../scope/data/scope.glade.h:144 ../scope/src/scope.c:521
 msgid "Program Terminal"
-msgstr "Terminal de déboguage"
+msgstr "Terminal du programme"
 
-#: ../scope/data/scope.glade.h:125
+#: ../scope/data/scope.glade.h:146
 msgid "Registers"
 msgstr "Registres"
 
-#: ../scope/src/break.c:97
+#: ../scope/src/break.c:101
 #, fuzzy
 msgid "breakpoint"
-msgstr "points d'arrêt"
+msgstr "point d'arrêt"
 
-#: ../scope/src/break.c:98
+#: ../scope/src/break.c:102
 #, fuzzy
 msgid "hardware breakpoint"
-msgstr "points d'arrêt matériels"
+msgstr "point d'arrêt matériel"
 
-#: ../scope/src/break.c:99
+#: ../scope/src/break.c:103
 msgid "tracepoint"
 msgstr ""
 
-#: ../scope/src/break.c:100
+#: ../scope/src/break.c:104
 msgid "fast tracepoint"
 msgstr ""
 
-#: ../scope/src/break.c:101
+#: ../scope/src/break.c:105
 msgid "write watchpoint"
 msgstr ""
 
-#: ../scope/src/break.c:104
+#: ../scope/src/break.c:108
 msgid "access watchpoint"
 msgstr ""
 
-#: ../scope/src/break.c:106
+#: ../scope/src/break.c:110
 msgid "read watchpoint"
 msgstr ""
 
-#: ../scope/src/break.c:108
+#: ../scope/src/break.c:112
 msgid "catchpoint"
 msgstr ""
 
-#: ../scope/src/break.c:135 ../scope/src/break.c:139
+#: ../scope/src/break.c:139 ../scope/src/break.c:143
 msgid "CLI"
 msgstr ""
 
-#: ../scope/src/break.c:136
+#: ../scope/src/break.c:140
 msgid "unsupported MI"
 msgstr ""
 
-#: ../scope/src/break.c:141
+#: ../scope/src/break.c:145
 msgid "on load"
 msgstr ""
 
-#: ../scope/src/break.c:142
-#, fuzzy
+#: ../scope/src/break.c:146
 msgid "Run to Cursor"
 msgstr "Exécuter jusqu'au curseur"
 
-#: ../scope/src/break.c:1013
-#, fuzzy, c-format
+#: ../scope/src/break.c:1017
+#, c-format
 msgid ""
 "There are two or more breakpoints at %s:%d.\n"
 "\n"
@@ -6759,31 +6794,29 @@ msgstr ""
 "\n"
 "Utilisez la liste de points d'arrêt pour supprimer le bon."
 
-#: ../scope/src/break.c:1250
+#: ../scope/src/break.c:1254
 #, c-format
 msgid ", %s"
 msgstr ""
 
-#: ../scope/src/break.c:1276
+#: ../scope/src/break.c:1280
 #, c-format
 msgid "func %s"
 msgstr ""
 
-#: ../scope/src/break.c:1307
-#, fuzzy
+#: ../scope/src/break.c:1311
 msgid "Add Breakpoint"
 msgstr "Ajouter un point d'arrêt"
 
-#: ../scope/src/break.c:1322
+#: ../scope/src/break.c:1326
 msgid "Add Watchpoint"
 msgstr ""
 
 #: ../scope/src/conterm.c:109
 msgid "Feed Terminal"
-msgstr ""
+msgstr "Envoyer au terminal"
 
 #: ../scope/src/conterm.c:109
-#, fuzzy
 msgid "Enter char # (0..255):"
 msgstr "Entrez le n° de caractère (0 à 255) :"
 
@@ -6792,112 +6825,109 @@ msgstr "Entrez le n° de caractère (0 à 255) :"
 msgid "Scope: %s."
 msgstr "Portée : %s."
 
-#: ../scope/src/debug.c:138
+#: ../scope/src/debug.c:142
 msgid "No breakpoints. Hanging."
 msgstr ""
 
-#: ../scope/src/debug.c:362
+#: ../scope/src/debug.c:366
 #, c-format
 msgid "GDB died unexpectedly with status %d."
 msgstr "GDB s'est terminé de façon inattendue avec le statut %d."
 
-#: ../scope/src/debug.c:364
+#: ../scope/src/debug.c:368
 msgid "Program terminated."
 msgstr ""
 
-#: ../scope/src/debug.c:461 ../scope/src/utils.c:37
+#: ../scope/src/debug.c:465 ../scope/src/utils.c:41
 #, c-format
 msgid "%s: %s."
 msgstr "%s : %s."
 
-#: ../scope/src/debug.c:545 ../scope/src/thread.c:93
+#: ../scope/src/debug.c:549 ../scope/src/thread.c:97
 #, c-format
 msgid "%s."
 msgstr "%s."
 
-#: ../scope/src/inspect.c:66
+#: ../scope/src/inspect.c:70
 msgid "..."
 msgstr "…"
 
-#: ../scope/src/inspect.c:339
+#: ../scope/src/inspect.c:343
 #, fuzzy
 msgid "invalid data"
 msgstr "données invalides"
 
-#: ../scope/src/inspect.c:371
+#: ../scope/src/inspect.c:375
 msgid "no children in range"
 msgstr ""
 
-#: ../scope/src/inspect.c:454
+#: ../scope/src/inspect.c:458
 msgid "out of scope"
 msgstr ""
 
-#: ../scope/src/inspect.c:627
+#: ../scope/src/inspect.c:631
 msgid "Duplicate inspect variable name."
 msgstr ""
 
-#: ../scope/src/memory.c:292
+#: ../scope/src/memory.c:296
 msgid "Read Memory"
-msgstr ""
+msgstr "Lire la mémoire"
 
-#: ../scope/src/memory.c:396
+#: ../scope/src/memory.c:400
 #, c-format
 msgid "Scope: pointer size > %d, Data disabled."
 msgstr ""
 
-#: ../scope/src/menu.c:375
+#: ../scope/src/menu.c:379
 msgid "Modify"
-msgstr ""
+msgstr "Modifier"
 
-#: ../scope/src/menu.c:481
+#: ../scope/src/menu.c:485
+#, fuzzy
 msgid "Evaluate/modify"
-msgstr ""
+msgstr "Évaluer / modifier"
 
-#: ../scope/src/menu.c:482
+#: ../scope/src/menu.c:486
 msgid "Watch expression"
 msgstr ""
 
-#: ../scope/src/menu.c:483
+#: ../scope/src/menu.c:487
 #, fuzzy
 msgid "Inspect variable"
 msgstr "Inspecter la variable"
 
-#: ../scope/src/parse.c:438
-#, fuzzy
+#: ../scope/src/parse.c:442
 msgid "Undefined GDB error."
 msgstr "Erreur GDB indéfinie."
 
-#: ../scope/src/plugme.c:79
-#, fuzzy
+#: ../scope/src/plugme.c:83
 msgid "Select Folder"
 msgstr "Sélectionner un dossier"
 
-#: ../scope/src/plugme.c:79
-#, fuzzy
+#: ../scope/src/plugme.c:83
 msgid "Select File"
 msgstr "Sélectionner un fichier"
 
-#: ../scope/src/prefs.c:314 ../scope/src/utils.c:449
-#, fuzzy, c-format
+#: ../scope/src/prefs.c:318 ../scope/src/utils.c:453
+#, c-format
 msgid "Scope: %s: %s."
 msgstr "Scope : %s : %s."
 
-#: ../scope/src/prefs.c:319
-#, fuzzy
+#: ../scope/src/prefs.c:323
 msgid "Scope: created configuration file."
 msgstr "Scope : fichier de configuration créé."
 
-#: ../scope/src/program.c:255
-#, c-format
+#: ../scope/src/program.c:259
+#, c-format, fuzzy
 msgid "Loaded debug settings for %s."
-msgstr ""
+msgstr "Configurer les options de débogage pour %s."
 
-#: ../scope/src/program.c:263
+#: ../scope/src/program.c:267
 #, fuzzy, c-format
 msgid "Could not load debug settings file %s: %s."
-msgstr "Impossible de charger le fichier « %s » : %s"
+msgstr "Impossible de charger le fichier d'options de débogage %s : %s"
 
-#: ../scope/src/program.c:383
+#: ../scope/src/program.c:387
 #, fuzzy, c-format
 msgid ""
 "%s: %s.\n"
@@ -6908,21 +6938,20 @@ msgstr ""
 "\n"
 "Continuer ?"
 
-#: ../scope/src/program.c:419
+#: ../scope/src/program.c:423
 #, fuzzy
 msgid "Delete all breakpoints, watches et cetera?"
 msgstr "Supprimer tous les points d'arrêt, watches (?), etc. ?"
 
-#: ../scope/src/program.c:527
+#: ../scope/src/program.c:531
 msgid "as _Name=value"
-msgstr ""
+msgstr "comme Nom=_valeur"
 
-#: ../scope/src/program.c:528
+#: ../scope/src/program.c:532
 msgid "as _Name = value"
-msgstr ""
+msgstr "comme Nom = _valeur"
 
 #: ../scope/src/scope.c:33
-#, fuzzy
 msgid "Scope Debugger"
 msgstr "Débogueur Scope"
 
@@ -6932,49 +6961,43 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Interface relativement simple pour GDB.\n"
+"Ce plugin n'a pas de mainteneur en ce moment. Voudriez-vous aider en "
+"contribuant à ce plugin ?"
 
 #: ../scope/src/scope.c:63
-#, fuzzy
 msgid "Setup program"
 msgstr "Configurer le programme"
 
 #: ../scope/src/scope.c:64 ../scope/src/scope.c:161
-#, fuzzy
 msgid "Run/continue"
 msgstr "Exécuter / continuer"
 
 #: ../scope/src/scope.c:66 ../scope/src/scope.c:163
-#, fuzzy
 msgid "Run to source"
 msgstr "Exécuter jusqu'à la source"
 
 #: ../scope/src/scope.c:70 ../scope/src/scope.c:167
-#, fuzzy
 msgid "Terminate"
 msgstr "Terminer"
 
 #: ../scope/src/scope.c:71 ../scope/src/scope.c:168
-#, fuzzy
 msgid "Toggle breakpoint"
-msgstr "Ajouter / enlever un point d'arrêt"
+msgstr "Ajouter ou enlever le point d'arrêt"
 
 #: ../scope/src/scope.c:73 ../scope/src/scope.c:76
-#, fuzzy
 msgid "GDB command"
-msgstr "Commande de GDB"
+msgstr "Commande GDB"
 
 #: ../scope/src/scope.c:74
-#, fuzzy
 msgid "Show terminal"
 msgstr "Afficher le terminal"
 
 #: ../scope/src/scope.c:228
-#, fuzzy
 msgid "Busy"
 msgstr "Occupé"
 
 #: ../scope/src/scope.c:228
-#, fuzzy
 msgid "Ready"
 msgstr "Prêt"
 
@@ -6984,7 +7007,7 @@ msgstr ""
 
 #: ../scope/src/scope.c:229
 msgid "Assem"
-msgstr ""
+msgstr "Assem"
 
 #: ../scope/src/scope.c:229
 #, fuzzy
@@ -7005,85 +7028,79 @@ msgid "Console"
 msgstr "Console"
 
 #: ../scope/src/scope.c:525
-#, fuzzy
 msgid "Debug Console"
-msgstr "Console de déboguage"
+msgstr "Console de débogage"
 
-#: ../scope/src/thread.c:49
+#: ../scope/src/thread.c:53
 #, c-format
 msgid "Thread group %s started."
-msgstr ""
+msgstr "Groupe de thread %s démarré."
 
-#: ../scope/src/thread.c:64
+#: ../scope/src/thread.c:68
 msgid "Thread group "
-msgstr ""
+msgstr "Groupe de thread "
 
-#: ../scope/src/thread.c:84
+#: ../scope/src/thread.c:88
 msgid " exited"
-msgstr ""
+msgstr " terminé"
 
-#: ../scope/src/thread.c:87
+#: ../scope/src/thread.c:91
 #, c-format
 msgid " with exit code %s"
-msgstr ""
+msgstr " avec le code de retour %s"
 
-#: ../scope/src/thread.c:749
-#, fuzzy
+#: ../scope/src/thread.c:753
 msgid "Send Signal"
 msgstr "Envoyer un signal"
 
-#: ../scope/src/thread.c:749
-#, fuzzy
+#: ../scope/src/thread.c:753
 msgid "Enter signal #:"
 msgstr "Saisissez le numéro de signal :"
 
-#: ../scope/src/thread.c:789
+#: ../scope/src/thread.c:793
 #, fuzzy
 msgid "Terminate Process"
 msgstr "Terminer le processus"
 
-#: ../scope/src/thread.c:789
+#: ../scope/src/thread.c:793
 #, fuzzy
 msgid "Enter exit code:"
 msgstr "Entrez le code de retour :"
 
-#: ../scope/src/thread.c:892
+#: ../scope/src/thread.c:896
 msgid "Running"
 msgstr ""
 
-#: ../scope/src/thread.c:893
+#: ../scope/src/thread.c:897
 #, fuzzy
 msgid "Stopped"
 msgstr "Stoppé"
 
-#: ../scope/src/utils.c:45
-#, fuzzy, c-format
+#: ../scope/src/utils.c:49
+#, c-format
 msgid "%s: %s"
 msgstr "%s : %s"
 
-#: ../scope/src/utils.c:225
+#: ../scope/src/utils.c:229
 #, fuzzy, c-format
 msgid "Scope: error reading [%s]."
 msgstr "Scope : erreur à la lecture [%s]."
 
-#: ../scope/src/views.c:526
+#: ../scope/src/views.c:530
 msgid "…"
 msgstr "…"
 
-#: ../scope/src/views.c:549
-#, fuzzy
+#: ../scope/src/views.c:553
 msgid "_Send"
 msgstr "_Envoyer"
 
-#: ../scope/src/views.c:549
-#, fuzzy
+#: ../scope/src/views.c:553
 msgid "_Busy"
 msgstr "_Occupé"
 
-#: ../scope/src/views.c:558
-#, fuzzy
+#: ../scope/src/views.c:562
 msgid "GDB Command"
-msgstr "Commande de GDB"
+msgstr "Commande GDB"
 
 #: ../sendmail/src/sendmail.c:45
 msgid "SendMail"
@@ -7314,7 +7331,6 @@ msgid "_Directory to look for dictionary files:"
 msgstr "_Dossier où chercher les fichiers de dictionnaire :"
 
 #: ../spellcheck/src/scplugin.c:361
-#, fuzzy
 msgid ""
 "Read additional dictionary files from this directory. For now, this only "
 "works with hunspell dictionaries. With Enchant 2.0 or later, the "
@@ -7322,7 +7338,9 @@ msgid ""
 "plugin's Help for details."
 msgstr ""
 "Lire les dictionnaires additionnels depuis ce dossier. Pour le moment cela "
-"fonctionne uniquement pour les dictionnaires MySpell."
+"fonctionne uniquement pour les dictionnaires hunspell. Avec Enchant 2.0 ou "
+"plus récent, les dictionnaires sont cherchés dans un sous-dossier nommé "
+"\"hunspell\". Consultez l'aide du plugin pour plus de détails."
 
 #: ../spellcheck/src/scplugin.c:394
 msgid "<b>Behavior</b>"
@@ -7393,6 +7411,9 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Déplacer une sélection vers la gauche ou la droite.\n"
+"Ce plugin n'a pas de mainteneur en ce moment. Voudriez-vous aider en "
+"contribuant à ce plugin ?"
 
 #: ../shiftcolumn/src/shiftcolumn.c:357 ../shiftcolumn/src/shiftcolumn.c:378
 msgid "Shift Left"
@@ -7519,7 +7540,6 @@ msgid "Open _Terminal"
 msgstr "Ouvrir dans un _terminal"
 
 #: ../treebrowser/src/treebrowser.c:1235
-#, fuzzy
 msgid "Set as _Root"
 msgstr "Définir comme _racine"
 
@@ -7532,14 +7552,12 @@ msgid "_Find in Files"
 msgstr "Rechercher dans les _fichiers"
 
 #: ../treebrowser/src/treebrowser.c:1252
-#, fuzzy
 msgid "N_ew Folder"
-msgstr "Sélectionner un dossier"
+msgstr "Nouveau _dossier"
 
 #: ../treebrowser/src/treebrowser.c:1256
-#, fuzzy
 msgid "_New File"
-msgstr "NouveauFichier"
+msgstr "_Nouveau fichier"
 
 #: ../treebrowser/src/treebrowser.c:1260
 msgid "Rena_me"
@@ -7556,32 +7574,26 @@ msgid "Clo_se Child Documents "
 msgstr "Fermer les documents enf_ants"
 
 #: ../treebrowser/src/treebrowser.c:1283
-#, fuzzy
 msgid "_Copy Full Path to Clipboard"
 msgstr "_Copier le chemin complet dans le presse-papier"
 
 #: ../treebrowser/src/treebrowser.c:1292
-#, fuzzy
 msgid "E_xpand All"
-msgstr "Tout déplier"
+msgstr "Tout _étendre"
 
 #: ../treebrowser/src/treebrowser.c:1296
-#, fuzzy
 msgid "Coll_apse All"
 msgstr "Tout re_plier"
 
 #: ../treebrowser/src/treebrowser.c:1303
-#, fuzzy
 msgid "Show Boo_kmarks"
 msgstr "Afficher les mar_que-pages"
 
 #: ../treebrowser/src/treebrowser.c:1308
-#, fuzzy
 msgid "Sho_w Hidden Files"
 msgstr "Aff_icher les fichiers cachés"
 
 #: ../treebrowser/src/treebrowser.c:1313
-#, fuzzy
 msgid "Show Tool_bars"
 msgstr "Afficher les _barres d'outils"
 
@@ -7760,14 +7772,12 @@ msgid "Rename Object"
 msgstr "Renommer l'objet"
 
 #: ../treebrowser/src/treebrowser.c:2152
-#, fuzzy
 msgid "New File"
-msgstr "NouveauFichier"
+msgstr "Nouveau fichier"
 
 #: ../treebrowser/src/treebrowser.c:2154
-#, fuzzy
 msgid "New Folder"
-msgstr "Sélectionner un dossier"
+msgstr "Nouveau dossier"
 
 # Qu'est-ce que ça fait en pratique ?
 #: ../treebrowser/src/treebrowser.c:2158
@@ -8030,12 +8040,10 @@ msgid "Windows"
 msgstr "Fenêtres"
 
 #: ../workbench/src/dialogs.c:45
-#, fuzzy
 msgid "Create new file"
-msgstr "Créer un _nouveau fichier"
+msgstr "Créer un nouveau fichier"
 
 #: ../workbench/src/dialogs.c:80
-#, fuzzy
 msgid "Create new directory"
 msgstr "Créer un nouveau dossier"
 
@@ -8201,7 +8209,9 @@ msgid ""
 "Could not create new file \"%s\":\n"
 "\n"
 "%s"
-msgstr "Impossible de créer le nouveau fichier de plan de travail : %s"
+msgstr "Impossible de créer le nouveau fichier « %s » :\n"
+"\n"
+"%s"
 
 #: ../workbench/src/popup_menu.c:616
 msgid "_Add project..."
@@ -8430,7 +8440,7 @@ msgstr ""
 #~ msgstr "Insère ou remplit des colonnes avec des nombres."
 
 #~ msgid "Write and run Lua scripts for custom commands."
-#~ msgstr "Écrit et exécute des scripts Lua pour des commandes personnalisées."
+#~ msgstr "Écrire et exécuter des scripts Lua pour des commandes personnalisées."
 
 #~ msgid "gpg encryption plugin for geany"
 #~ msgstr "Chiffrement GPG pour Geany"
