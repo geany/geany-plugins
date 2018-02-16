@@ -17,6 +17,10 @@
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #define _WIN32_WINNT 0x0501  /* for DebugBreakProcess(), must be before any #include-s */
 
 #include <ctype.h>
