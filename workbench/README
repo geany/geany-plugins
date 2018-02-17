@@ -53,8 +53,8 @@ related settings is done using the context menu on the sidebar. Some
 items in the context menu will only be active if you right click inside
 a project, directory or bookmark.
 
-The Workbench context menu:
----------------------------
+The Workbench context menu
+--------------------------
 
 These are the available items:
 
@@ -140,6 +140,33 @@ These are the available items:
 **Create directory here...**
   Select this item to create a new directory at the current selected position
   in the file tree. Available since version 1.02 of the workbench plugin.
+
+The Workbench settings
+----------------------
+The following settings exist for a workbench:
+
+**Rescan all projects on open**
+  If the option is activated (default), then all projects will be re-scanned
+  on opening of a workbench.
+
+**Enable live update**
+  If the option is activated (default), then the list of files and the sidebar
+  will be updated automatically if a file or directory is created, removed or renamed.
+  A manual re-scan is not required if the option is enabled. This feature is available
+  since version 1.03 of the workbench plugin. If you open a workbench file
+  which has been created with an older version of the workbench plugin
+  then the option will be added with value "activated".
+
+Live update
+-----------
+From version 1.03 on the workbench plugin supports an automatic live update
+of the file list and the sidebar.
+
+This feature will only work if your system supports directory file monitoring.
+If the workbench plugin cannot setup file monitoring for a directory then it
+will output a message in the message window. The message has the following form::
+
+    Could not setup file monitoring for directory: "exampledir". Error: <some error message>
 
 Known issues
 ============

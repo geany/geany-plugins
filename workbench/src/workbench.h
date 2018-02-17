@@ -21,6 +21,7 @@
 
 #include <glib.h>
 #include "wb_project.h"
+#include "wb_monitor.h"
 
 typedef enum
 {
@@ -37,8 +38,12 @@ void workbench_free(WORKBENCH *wb);
 gboolean workbench_is_empty(WORKBENCH *wb);
 guint workbench_get_project_count(WORKBENCH *wb);
 gboolean workbench_is_modified(WORKBENCH *wb);
+
 void workbench_set_rescan_projects_on_open(WORKBENCH *wb, gboolean value);
 gboolean workbench_get_rescan_projects_on_open(WORKBENCH *wb);
+void workbench_set_enable_live_update(WORKBENCH *wb, gboolean value);
+gboolean workbench_get_enable_live_update(WORKBENCH *wb);
+
 WB_PROJECT *workbench_get_project_at_index(WORKBENCH *wb, guint index);
 PROJECT_ENTRY_STATUS workbench_get_project_status_at_index(WORKBENCH *wb, guint index);
 PROJECT_ENTRY_STATUS workbench_get_project_status_by_address(WORKBENCH *wb, WB_PROJECT *address);
@@ -49,6 +54,7 @@ WB_PROJECT *workbench_file_is_included (WORKBENCH *wb, const gchar *filename);
 void workbench_set_filename(WORKBENCH *wb, const gchar *filename);
 const gchar *workbench_get_filename(WORKBENCH *wb);
 gchar *workbench_get_name(WORKBENCH *wb);
+WB_MONITOR *workbench_get_monitor(WORKBENCH *wb);
 
 gboolean workbench_save(WORKBENCH *wb, GError **error);
 gboolean workbench_load(WORKBENCH *wb, const gchar *filename, GError **error);
@@ -57,5 +63,10 @@ gboolean workbench_add_bookmark(WORKBENCH *wb, const gchar *filename);
 gboolean workbench_remove_bookmark(WORKBENCH *wb, const gchar *filename);
 gchar *workbench_get_bookmark_at_index (WORKBENCH *wb, guint index);
 guint workbench_get_bookmarks_count(WORKBENCH *wb);
+
+void workbench_process_add_file_event(WORKBENCH *wb, WB_PROJECT *prj, WB_PROJECT_DIR *dir, const gchar *file);
+void workbench_process_remove_file_event(WORKBENCH *wb, WB_PROJECT *prj, WB_PROJECT_DIR *dir, const gchar *file);
+void workbench_enable_live_update(WORKBENCH *wb);
+void workbench_disable_live_update(WORKBENCH *wb);
 
 #endif
