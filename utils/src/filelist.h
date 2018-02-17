@@ -32,6 +32,8 @@ GSList *gp_filelist_scan_directory(guint *files, guint *folders, const gchar *se
 		gchar **ignored_dirs_patterns, gchar **ignored_file_patterns);
 GSList *gp_filelist_scan_directory_full(guint *files, guint *folders, const gchar *searchdir, gchar **file_patterns,
 		gchar **ignored_dirs_patterns, gchar **ignored_file_patterns, guint flags);
+gboolean gp_filelist_filepath_matches_patterns(const gchar *filepath, gchar **file_patterns,
+		gchar **ignored_dirs_patterns, gchar **ignored_file_patterns);
 
 G_END_DECLS
 
