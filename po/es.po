@@ -1,24 +1,24 @@
 # translation of es.po to
 # Spanish translation for geany-plugins
-# Copyright (C) 2009 - 2017 Lucas Vieites
+# Copyright (C) 2009 - 2018 Lucas Vieites
 # This file is distributed under the same license as the geany-plugins package.
 # Andrew Janke <a.janke@gmail.com>, 2009
-# Lucas Vieites <lucas@codexion.com>, 2009 - 2017.
+# Lucas Vieites <lucas@codexion.com>, 2009 - 2018.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 1.32\n"
+"Project-Id-Version: Geany-Plugins 1.33\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-11 17:41+0100\n"
-"PO-Revision-Date: 2017-11-08 11:26+0100\n"
-"Last-Translator: Lucas Vieites <lucas@codexion.com>\n"
+"POT-Creation-Date: 2018-02-14 03:19+0000\n"
+"PO-Revision-Date: 2018-02-14 11:02+0100\n"
+"Last-Translator: Lucas Vieites Fariña <lucas@codexion.com>\n"
 "Language-Team: Español <geany-i18n@uvena.de>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Geany 1.32\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
@@ -289,11 +289,11 @@ msgstr ""
 
 #: ../addons/src/addons.c:664
 msgid "Show a calltip when hovering over a color value"
-msgstr ""
+msgstr "Mostrar una ayuda emergente al pasar por encima de un valor de color"
 
 #: ../addons/src/addons.c:670
 msgid "Open Color Chooser when double-clicking a color value"
-msgstr ""
+msgstr "Abrir el selector de colores al pulsar dos veces sobre un valor de color"
 
 #: ../autoclose/src/autoclose.c:49
 msgid "Auto-close"
@@ -2628,15 +2628,14 @@ msgid "Insert BibTeX reference dialog"
 msgstr "Diálogo insertar referencia BibTeX"
 
 #: ../latex/src/latex.c:2064
-#, fuzzy
 msgid ""
 "LaTeX is a plugin to improve support for LaTeX in Geany.\n"
 "\n"
 "Please report all bugs or feature requests to one of the authors."
 msgstr ""
-"GeanyLaTeX es un complemento para mejorar el soporte de LaTeX en Geany.\n"
+"LaTeX es un complemento para mejorar el apoyo de LaTeX en Geany.\n"
 "\n"
-"Por favor, notifique todos los fallos o características deseadas a "
+"Notifique todos los fallos o características deseadas a "
 "cualquiera de los autores."
 
 #: ../latex/src/latex.c:2102
@@ -7243,7 +7242,6 @@ msgid "_Directory to look for dictionary files:"
 msgstr "_Directorio en el que buscar archivos de diccionario:"
 
 #: ../spellcheck/src/scplugin.c:361
-#, fuzzy
 msgid ""
 "Read additional dictionary files from this directory. For now, this only "
 "works with hunspell dictionaries. With Enchant 2.0 or later, the "
@@ -7251,7 +7249,9 @@ msgid ""
 "plugin's Help for details."
 msgstr ""
 "Leer archivos de diccionario adicionales de este directorio. Por ahora "
-"solamente funciona con diccionarios de myspell."
+"solamente funciona con diccionarios hunspell. Con Enchant 2.0 o posterior"
+"se buscarán los diccionarios en una subcarpeta llamafa \"hunspell\"."
+"Para más información consulte la Ayuda del complemento."
 
 #: ../spellcheck/src/scplugin.c:394
 msgid "<b>Behavior</b>"
@@ -7937,12 +7937,10 @@ msgid "Windows"
 msgstr "Ventanas"
 
 #: ../workbench/src/dialogs.c:45
-#, fuzzy
 msgid "Create new file"
-msgstr "Crear archivo _nuevo"
+msgstr "Crear archivo nuevo"
 
 #: ../workbench/src/dialogs.c:80
-#, fuzzy
 msgid "Create new directory"
 msgstr "Crear directorio nuevo"
 
@@ -8028,9 +8026,8 @@ msgid "Workbench settings"
 msgstr "Configuración del área de trabajo"
 
 #: ../workbench/src/dialogs.c:432
-#, fuzzy
 msgid "_Rescan all projects on open"
-msgstr "Explorar todos los proyectos al abrir:"
+msgstr "Volve_r a explorar todos los proyectos al abrir"
 
 #: ../workbench/src/dialogs.c:435
 msgid ""
@@ -8104,12 +8101,13 @@ msgid "Could not add project file: %s"
 msgstr "No se ha podido añadir el archivo de proyecto: %s."
 
 #: ../workbench/src/popup_menu.c:559
-#, fuzzy, c-format
 msgid ""
 "Could not create new file \"%s\":\n"
 "\n"
 "%s"
-msgstr "No se ha podido crear el archivo de área de trabajo nuevo: %s"
+msgstr "No se ha podido crear el archivo de área de trabajo nuevo: «%s»:\n"
+"\n"
+"%s"
 
 #: ../workbench/src/popup_menu.c:616
 msgid "_Add project..."
@@ -8164,14 +8162,12 @@ msgid "_Close all files in directory"
 msgstr "_Cerrar todos los archivos en el directorio"
 
 #: ../workbench/src/popup_menu.c:702
-#, fuzzy
 msgid "_Open all files in sub-directory"
-msgstr "Abrir t_odos los archivos en el directorio"
+msgstr "Abrir t_odos los archivos en el subdirectorio"
 
 #: ../workbench/src/popup_menu.c:708
-#, fuzzy
 msgid "_Close all files in sub-directory"
-msgstr "_Cerrar todos los archivos en el directorio"
+msgstr "_Cerrar todos los archivos en el subdirectorio"
 
 #: ../workbench/src/popup_menu.c:718
 msgid "_Expand all"
@@ -8194,14 +8190,12 @@ msgid "_Remove from Bookmarks"
 msgstr "Elimina_r de marcadores"
 
 #: ../workbench/src/popup_menu.c:756
-#, fuzzy
 msgid "_Create file here..."
-msgstr "Crear archivo _nuevo"
+msgstr "_Crear archivo aquí..."
 
 #: ../workbench/src/popup_menu.c:762
-#, fuzzy
 msgid "_Create directory here..."
-msgstr "Crear directorio nuevo"
+msgstr "_Crear directorio aqui..."
 
 #: ../workbench/src/sidebar.c:320
 msgid "Base dir"
@@ -8217,7 +8211,6 @@ msgid "No workbench opened."
 msgstr "No hay área de trabajo abierta."
 
 #: ../workbench/src/sidebar.c:628
-#, fuzzy, c-format
 msgid "%s: %u Project"
 msgid_plural "%s: %u Projects"
 msgstr[0] "%s: %u Proyectos"
@@ -8271,9 +8264,8 @@ msgid "Ignored File Patterns:"
 msgstr "Patrones de directorios ignorados:"
 
 #: ../workbench/src/wb_project.c:982
-#, fuzzy, c-format
 msgid "Number of Sub-Directories: %u\n"
-msgstr "Número de directorios: %u\n"
+msgstr "Número de subdirectorios: %u\n"
 
 #: ../workbench/src/wb_project.c:983
 #, c-format
