@@ -453,16 +453,24 @@ goto_next_untranslated_or_fuzzy (GeanyDocument *doc)
   }
 }
 
-/* basic regex search/replace without captures or back references */
+/* basic regex search/replace without captures or back references
+ *
+ * @sci A ScintillaObject
+ * @start Position where to start the search
+ * @end Position where to end the search, or -1 for the buffer's end
+ * @scire The Scintilla regular expression
+ * @repl The replacement text */
 static gboolean
 regex_replace (ScintillaObject *sci,
+               gint             start,
+               gint             end,
                const gchar     *scire,
                const gchar     *repl)
 {
   struct Sci_TextToFind ttf;
   
-  ttf.chrg.cpMin = 0;
-  ttf.chrg.cpMax = sci_get_length (sci);
+  ttf.chrg.cpMin = start;
+  ttf.chrg.cpMax = end >= 0 ? end : sci_get_length (sci);
   ttf.lpstrText = (gchar *) scire;
   
   if (sci_find_text (sci, SCFIND_REGEXP, &ttf) != -1) {
@@ -503,34 +511,6 @@ escape_string (const gchar *str)
   *p = 0;
   
   return new;
-}
-
-static void
-on_document_save (GObject        *obj,
-                  GeanyDocument  *doc,
-                  gpointer        user_data)
-{
-  if (doc_is_po (doc) && plugin.update_headers) {
-    gchar *name = escape_string (geany_data->template_prefs->developer);
-    gchar *mail = escape_string (geany_data->template_prefs->mail);
-    gchar *date;
-    gchar *translator;
-    
-    date = utils_get_date_time ("\"PO-Revision-Date: %Y-%m-%d %H:%M%z\\n\"",
-                                NULL);
-    translator = g_strdup_printf ("\"Last-Translator: %s <%s>\\n\"",
-                                  name, mail);
-    
-    sci_start_undo_action (doc->editor->sci);
-    regex_replace (doc->editor->sci, "^\"PO-Revision-Date: .*\"$", date);
-    regex_replace (doc->editor->sci, "^\"Last-Translator: .*\"$", translator);
-    sci_end_undo_action (doc->editor->sci);
-    
-    g_free (date);
-    g_free (translator);
-    g_free (name);
-    g_free (mail);
-  }
 }
 
 static void
@@ -1209,6 +1189,65 @@ on_kb_toggle_fuzziness (guint key_id)
       
       g_ptr_array_free (flags, TRUE);
     }
+  }
+}
+
+static gint
+find_header_start (GeanyDocument *doc)
+{
+  if (doc_is_po (doc)) {
+    for (gint line = 0; line < sci_get_line_count (doc->editor->sci); line++) {
+      if (find_first_non_default_style_on_line (doc->editor->sci, line) == SCE_PO_MSGID) {
+        gint      pos = sci_get_position_from_line (doc->editor->sci, line);
+        GString  *str = get_msgid_text_at (doc, pos);
+        
+        if (str) {
+          gboolean is_header = (*str->str == 0);
+          
+          g_string_free (str, TRUE);
+          if (is_header) {
+            return pos;
+          }
+        }
+      }
+    }
+  }
+  
+  return -1;
+}
+
+static void
+on_document_save (GObject        *obj,
+                  GeanyDocument  *doc,
+                  gpointer        user_data)
+{
+  gint header_start;
+  
+  if (doc_is_po (doc) && plugin.update_headers &&
+      (header_start = find_header_start (doc)) >= 0) {
+    gchar *name = escape_string (geany_data->template_prefs->developer);
+    gchar *mail = escape_string (geany_data->template_prefs->mail);
+    gchar *date;
+    gchar *translator;
+    
+    date = utils_get_date_time ("\"PO-Revision-Date: %Y-%m-%d %H:%M%z\\n\"",
+                                NULL);
+    translator = g_strdup_printf ("\"Last-Translator: %s <%s>\\n\"",
+                                  name, mail);
+    
+    sci_start_undo_action (doc->editor->sci);
+    regex_replace (doc->editor->sci,
+                   header_start, find_msgstr_end_at (doc, header_start) + 1,
+                   "^\"PO-Revision-Date: .*\"$", date);
+    regex_replace (doc->editor->sci,
+                   header_start, find_msgstr_end_at (doc, header_start) + 1,
+                   "^\"Last-Translator: .*\"$", translator);
+    sci_end_undo_action (doc->editor->sci);
+    
+    g_free (date);
+    g_free (translator);
+    g_free (name);
+    g_free (mail);
   }
 }
 
