@@ -858,6 +858,21 @@ get_msgid_text_at (GeanyDocument *doc,
   return NULL;
 }
 
+static const gchar *
+find_line_break (const gchar *str)
+{
+  for (; *str; str++) {
+    if (*str == '\\') {
+      if (str[1] == 'n')
+        return str;
+      else if (str[1])
+        str++;
+    }
+  }
+
+  return NULL;
+}
+
 /* cuts @str in human-readable chunks for max @len.
  * cuts first at \n, then at spaces and punctuation */
 static gchar **
@@ -870,7 +885,7 @@ split_msg (const gchar *str,
     GString *chunk = g_string_sized_new (len);
     
     while (*str) {
-      const gchar *nl = strstr (str, "\\n");
+      const gchar *nl = find_line_break (str);
       const gchar *p = strpbrk (str, " \t\v\r\n?!,.;:-");
       glong chunk_len = g_utf8_strlen (chunk->str, (gssize) chunk->len);
       
