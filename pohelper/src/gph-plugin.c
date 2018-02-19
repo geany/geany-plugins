@@ -951,8 +951,9 @@ on_kb_reflow (guint key_id)
                               (uptr_t) start, end + 1 - start);
       
       msgstr_kw_len = start - sci_get_position_from_line (sci, sci_get_line_from_position (sci, start));
-      if (msgstr_kw_len + len + 2 <= line_len) {
-        /* if all can go in the msgstr line, put it here */
+      if (msgstr_kw_len + len + 2 <= line_len &&
+          find_line_break (msgstr->str) == NULL) {
+        /* if all can go in the msgstr line and there's no newline, put it here */
         gchar *text = g_strconcat ("\"", msgstr->str, "\"", NULL);
         sci_insert_text (sci, start, text);
         g_free (text);
