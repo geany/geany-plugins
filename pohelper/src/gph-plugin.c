@@ -1229,11 +1229,14 @@ on_document_save (GObject        *obj,
     gchar *mail = escape_string (geany_data->template_prefs->mail);
     gchar *date;
     gchar *translator;
+    gchar *generator;
     
     date = utils_get_date_time ("\"PO-Revision-Date: %Y-%m-%d %H:%M%z\\n\"",
                                 NULL);
     translator = g_strdup_printf ("\"Last-Translator: %s <%s>\\n\"",
                                   name, mail);
+    generator = g_strdup_printf ("\"X-Generator: Geany / PoHelper %s\\n\"",
+                                 VERSION);
     
     sci_start_undo_action (doc->editor->sci);
     regex_replace (doc->editor->sci,
@@ -1242,10 +1245,14 @@ on_document_save (GObject        *obj,
     regex_replace (doc->editor->sci,
                    header_start, find_msgstr_end_at (doc, header_start) + 1,
                    "^\"Last-Translator: .*\"$", translator);
+    regex_replace (doc->editor->sci,
+                   header_start, find_msgstr_end_at (doc, header_start) + 1,
+                   "^\"X-Generator: .*\"$", generator);
     sci_end_undo_action (doc->editor->sci);
     
     g_free (date);
     g_free (translator);
+    g_free (generator);
     g_free (name);
     g_free (mail);
   }
