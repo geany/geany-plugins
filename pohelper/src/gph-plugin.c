@@ -39,7 +39,7 @@ PLUGIN_SET_TRANSLATABLE_INFO (
   LOCALEDIR, GETTEXT_PACKAGE,
   _("Translation Helper"),
   _("Improves support for GetText translation files."),
-  "0.1",
+  VERSION,
   "Colomban Wendling <ban@herbesfolles.org>"
 )
 
