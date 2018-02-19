@@ -1,16 +1,16 @@
 # French translation for geany-plugins
-# Copyright (C) 2009 THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) 2009 - 2018 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 # Burlot Pascal <prublot(at)users(dot)sourceforge(dot)net>, 2009.
 # Lionel Fuentes <funto66(at)gmail(dot)com>, 2009
-# Colomban Wendling <ban@herbesfolles.org>, 2011, 2013.
+# Colomban Wendling <ban@herbesfolles.org>, 2011 - 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-14 23:05-0600\n"
-"PO-Revision-Date: 2018-02-15 23:00-0600\n"
+"PO-Revision-Date: 2018-02-19 17:07-0600\n"
 "Last-Translator: Colomban Wendling <ban@herbesfolles.org>\n"
 "Language-Team: French <geany-i18n@uvena.de>\n"
 "Language: fr\n"
@@ -6367,7 +6367,7 @@ msgstr "_UTF-8"
 
 #: ../scope/data/scope.glade.h:48
 msgid "_Show .names"
-msgstr "Afficher les .noms"
+msgstr "_Afficher les .noms"
 
 #: ../scope/data/scope.glade.h:49
 msgid "R_ead"
@@ -6557,7 +6557,7 @@ msgstr "Environne_ment :"
 
 #: ../scope/data/scope.glade.h:103
 msgid "_Working dir:"
-msgstr "Dossier de travail :"
+msgstr "Dossier de _travail :"
 
 #: ../scope/data/scope.glade.h:104
 msgid "_Load script:"
@@ -6573,7 +6573,7 @@ msgstr ""
 
 #: ../scope/data/scope.glade.h:107
 msgid "_Temporary breakpoint on load at:"
-msgstr "Point d'arrêt _temporaire au chargement à :"
+msgstr "_Point d'arrêt temporaire au chargement à :"
 
 #: ../scope/data/scope.glade.h:108
 #, fuzzy
