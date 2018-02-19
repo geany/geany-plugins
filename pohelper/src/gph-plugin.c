@@ -465,7 +465,7 @@ regex_replace (ScintillaObject *sci,
   ttf.chrg.cpMax = sci_get_length (sci);
   ttf.lpstrText = (gchar *) scire;
   
-  if (sci_find_text (sci, SCFIND_REGEXP, &ttf)) {
+  if (sci_find_text (sci, SCFIND_REGEXP, &ttf) != -1) {
     sci_set_target_start (sci, (gint) ttf.chrgText.cpMin);
     sci_set_target_end (sci, (gint) ttf.chrgText.cpMax);
     sci_replace_target (sci, repl, FALSE);
