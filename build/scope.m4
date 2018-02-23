@@ -1,7 +1,7 @@
 AC_DEFUN([GP_CHECK_SCOPE],
 [
     GP_ARG_DISABLE([Scope], [auto])
-    GP_CHECK_PLUGIN_GTK2_ONLY([Scope])
+    GP_CHECK_PLUGIN_GTK3_ONLY([Scope])
 
     case "$host_os" in
         cygwin* | mingw* | win32*)
@@ -10,7 +10,7 @@ AC_DEFUN([GP_CHECK_SCOPE],
 
         *)
             GP_CHECK_PLUGIN_DEPS([scope], [VTE],
-                                 [vte >= 0.17])
+                                 [vte-2.91])
             AC_CHECK_HEADERS([util.h pty.h libutil.h])
             PTY_LIBS="-lutil"
             ;;

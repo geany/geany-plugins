@@ -437,10 +437,14 @@ void utils_remark(GeanyDocument *doc)
 
 guint utils_parse_sci_color(const gchar *string)
 {
-	GdkColor color;
+	GdkRGBA color;
+	guint blue, green, red;
 
-	gdk_color_parse(string, &color);
-	return ((color.blue >> 8) << 16) + (color.green & 0xFF00) + (color.red >> 8);
+	gdk_rgba_parse(&color, string);
+	blue = color.blue * 0xFF;
+	green = color.green * 0xFF;
+	red = color.red * 0xFF;
+	return (blue << 16) + (green << 8) + red;
 }
 
 gboolean utils_key_file_write_to_file(GKeyFile *config, const char *configfile)

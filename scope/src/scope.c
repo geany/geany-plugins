@@ -239,7 +239,9 @@ void statusbar_update_state(DebugState state)
 		{
 			gtk_widget_hide(debug_statusbar);
 		#if GTK_CHECK_VERSION(3, 0, 0)
-			gtk_window_set_has_resize_grip(GTK_WINDOW(geany->main_widgets->window), TRUE);
+			#if !GTK_CHECK_VERSION(3, 14, 0)
+				gtk_window_set_has_resize_grip(GTK_WINDOW(geany->main_widgets->window), TRUE);
+			#endif
 		#else
 			gtk_statusbar_set_has_resize_grip(geany_statusbar, TRUE);
 		#endif
@@ -247,7 +249,9 @@ void statusbar_update_state(DebugState state)
 		else if (last_state == DS_INACTIVE)
 		{
 		#if GTK_CHECK_VERSION(3, 0, 0)
-			gtk_window_set_has_resize_grip(GTK_WINDOW(geany->main_widgets->window), FALSE);
+			#if !GTK_CHECK_VERSION(3, 14, 0)
+				gtk_window_set_has_resize_grip(GTK_WINDOW(geany->main_widgets->window), FALSE);
+			#endif
 		#else
 			gtk_statusbar_set_has_resize_grip(geany_statusbar, FALSE);
 		#endif
@@ -262,7 +266,7 @@ static guint blink_id = 0;
 
 static gboolean plugin_unblink(G_GNUC_UNUSED gpointer gdata)
 {
-	gtk_widget_set_state(debug_statusbar, GTK_STATE_NORMAL);
+	gtk_widget_set_state_flags(debug_statusbar, GTK_STATE_FLAG_NORMAL, FALSE);
 	blink_id = 0;
 	return FALSE;
 }
@@ -274,7 +278,7 @@ void plugin_blink(void)
 		if (blink_id)
 			g_source_remove(blink_id);
 		else
-			gtk_widget_set_state(debug_statusbar, GTK_STATE_SELECTED);
+			gtk_widget_set_state_flags(debug_statusbar, GTK_STATE_FLAG_SELECTED, FALSE);
 
 		blink_id = plugin_timeout_add(geany_plugin, pref_visual_beep_length * 10,
 			plugin_unblink, NULL);
