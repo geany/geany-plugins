@@ -45,22 +45,10 @@
 GeanyPlugin		*geany_plugin;
 GeanyData			*geany_data;
 
-
-/* Check that the running Geany supports the plugin API version used below, and check
- * for binary compatibility. */
-PLUGIN_VERSION_CHECK(224)
-PLUGIN_SET_TRANSLATABLE_INFO(
-	LOCALEDIR,
-	GETTEXT_PACKAGE,
-	_("Debugger"),
-	_("Various debuggers integration."),
-	VERSION,
-	"Alexander Petukhov <devel@apetukhov.ru>")
-
 /* vbox for keeping breaks/stack/watch notebook */
 static GtkWidget *hbox = NULL;
 
-PluginCallback plugin_callbacks[] =
+static PluginCallback plugin_debugger_callbacks[] =
 {
 	/* Set 'after' (third field) to TRUE to run the callback @a after the default handler.
 	 * If 'after' is FALSE, the callback is run @a before the default handler, so the plugin
@@ -85,10 +73,13 @@ static void on_paned_mode_changed(GtkToggleButton *button, gpointer user_data)
 
 /* Called by Geany to initialize the plugin.
  * Note: data is the same as geany_data. */
-void plugin_init(GeanyData *data)
+static gboolean plugin_debugger_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
 	GtkWidget* vbox;
 	guint i;
+
+	geany_plugin = plugin;
+	geany_data = plugin->geany_data;
 
 	plugin_module_make_resident(geany_plugin);
 
@@ -145,6 +136,8 @@ void plugin_init(GeanyData *data)
 		scintilla_send_message(document_index(i)->editor->sci, SCI_SETMOUSEDWELLTIME, 500, 0);
 		scintilla_send_message(document_index(i)->editor->sci, SCI_CALLTIPUSESTYLE, 20, (long)NULL);
 	}
+
+	return TRUE;
 }
 
 /* Called by Geany to show the plugin's configure dialog. This function is always called after
@@ -152,7 +145,7 @@ void plugin_init(GeanyData *data)
  * You can omit this function if the plugin doesn't need to be configured.
  * Note: parent is the parent window which can be used as the transient window for the created
  *       dialog. */
-GtkWidget *plugin_configure(GtkDialog *dialog)
+static GtkWidget *plugin_debugger_configure(G_GNUC_UNUSED GeanyPlugin *plugin, GtkDialog *dialog, G_GNUC_UNUSED gpointer pdata)
 {
 	return config_plugin_configure(dialog);
 }
@@ -161,7 +154,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 /* Called by Geany before unloading the plugin.
  * Here any UI changes should be removed, memory freed and any other finalization done.
  * Be sure to leave Geany as it was before plugin_init(). */
-void plugin_cleanup(void)
+static void plugin_debugger_cleanup(G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
 	/* stop debugger if running */
 	if (DBS_IDLE != debug_get_state())
@@ -180,4 +173,36 @@ void plugin_cleanup(void)
 	
 	/* release other allocated strings and objects */
 	gtk_widget_destroy(hbox);
+}
+
+
+/* Show help */
+static void plugin_debugger_help (G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
+{
+	utils_open_browser("https://plugins.geany.org/debugger.html");
+}
+
+
+/* Load module */
+G_MODULE_EXPORT
+void geany_load_module(GeanyPlugin *plugin)
+{
+	/* Setup translation */
+	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+
+	/* Set metadata */
+	plugin->info->name = _("Debugger");
+	plugin->info->description = _("Various debuggers integration.");
+	plugin->info->version = VERSION;
+	plugin->info->author = "Alexander Petukhov <devel@apetukhov.ru>";
+
+	/* Set functions */
+	plugin->funcs->init = plugin_debugger_init;
+	plugin->funcs->cleanup = plugin_debugger_cleanup;
+	plugin->funcs->help = plugin_debugger_help;
+	plugin->funcs->configure = plugin_debugger_configure;
+	plugin->funcs->callbacks = plugin_debugger_callbacks;
+
+	/* Register! */
+	GEANY_PLUGIN_REGISTER(plugin, 224);
 }
