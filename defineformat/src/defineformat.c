@@ -48,15 +48,6 @@
 GeanyPlugin		*geany_plugin;
 GeanyData		*geany_data;
 
-PLUGIN_VERSION_CHECK(224)
-PLUGIN_SET_TRANSLATABLE_INFO(
-	LOCALEDIR,
-	GETTEXT_PACKAGE,
-	_("Define formatter"),
-	_("Automatically align backslash in multi-line defines"),
-	"0.1",
-	"Pavel Roschin <rpg89(at)post(dot)ru>")
-
 static GArray *lines_stack = NULL;
 
 static gint
@@ -239,24 +230,50 @@ editor_notify_cb(GObject *object, GeanyEditor *editor, SCNotification *nt, gpoin
 	return FALSE;
 }
 
-PluginCallback plugin_callbacks[] =
+static PluginCallback plugin_defineformat_callbacks[] =
 {
 	{ "editor-notify", (GCallback) &editor_notify_cb, FALSE, NULL },
 	{ NULL, NULL, FALSE, NULL }
 };
 
-void plugin_init(GeanyData *data)
+static gboolean plugin_defineformat_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
+	geany_plugin = plugin;
+	geany_data = plugin->geany_data;
 	lines_stack = g_array_new (TRUE, FALSE, sizeof(gint));
+	return TRUE;
 }
 
-void plugin_cleanup(void)
+static void plugin_defineformat_cleanup(G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
 	g_array_free(lines_stack, TRUE);
 }
 
-void
-plugin_help(void)
+static void plugin_defineformat_help (G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
-	utils_open_browser("http://plugins.geany.org/defineformat.html");
+	utils_open_browser("https://plugins.geany.org/defineformat.html");
+}
+
+
+/* Load module */
+G_MODULE_EXPORT
+void geany_load_module(GeanyPlugin *plugin)
+{
+	/* Setup translation */
+	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+
+	/* Set metadata */
+	plugin->info->name = _("Define formatter");
+	plugin->info->description = _("Automatically align backslash in multi-line defines");
+	plugin->info->version = "0.1";
+	plugin->info->author = "Pavel Roschin <rpg89(at)post(dot)ru>";
+
+	/* Set functions */
+	plugin->funcs->init = plugin_defineformat_init;
+	plugin->funcs->cleanup = plugin_defineformat_cleanup;
+	plugin->funcs->help = plugin_defineformat_help;
+	plugin->funcs->callbacks = plugin_defineformat_callbacks;
+
+	/* Register! */
+	GEANY_PLUGIN_REGISTER(plugin, 224);
 }
