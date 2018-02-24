@@ -94,22 +94,6 @@ typedef struct
 static AddonsInfo *ao_info = NULL;
 
 
-
-static void ao_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
-									 GeanyDocument *doc, gpointer data);
-static void ao_document_activate_cb(GObject *obj, GeanyDocument *doc, gpointer data);
-static void ao_document_new_cb(GObject *obj, GeanyDocument *doc, gpointer data);
-static void ao_document_open_cb(GObject *obj, GeanyDocument *doc, gpointer data);
-static void ao_document_save_cb(GObject *obj, GeanyDocument *doc, gpointer data);
-static void ao_document_before_save_cb(GObject *obj, GeanyDocument *doc, gpointer data);
-static void ao_document_close_cb(GObject *obj, GeanyDocument *doc, gpointer data);
-static void ao_document_reload_cb(GObject *obj, GeanyDocument *doc, gpointer data);
-static void ao_startup_complete_cb(GObject *obj, gpointer data);
-
-gboolean ao_editor_notify_cb(GObject *object, GeanyEditor *editor,
-	SCNotification *nt, gpointer data);
-
-
 static void ao_startup_complete_cb(GObject *obj, gpointer data)
 {
 	ao_tasks_set_active(ao_info->tasks);
@@ -149,7 +133,7 @@ static void kb_ao_copyfilepath(guint key_id)
 }
 
 
-gboolean ao_editor_notify_cb(GObject *object, GeanyEditor *editor,
+static gboolean ao_editor_notify_cb(GObject *object, GeanyEditor *editor,
 							 SCNotification *nt, gpointer data)
 {
 	ao_bookmark_list_update_marker(ao_info->bookmarklist, editor, nt);
