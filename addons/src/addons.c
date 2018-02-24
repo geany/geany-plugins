@@ -42,18 +42,8 @@
 #include "ao_colortip.h"
 
 
-GeanyPlugin		*geany_plugin;
-GeanyData		*geany_data;
-
-
-PLUGIN_VERSION_CHECK(224)
-PLUGIN_SET_TRANSLATABLE_INFO(
-	LOCALEDIR,
-	GETTEXT_PACKAGE,
-	_("Addons"),
-	_("Various small addons for Geany."),
-	VERSION,
-	"Enrico Tröger, Bert Vermeulen, Eugene Arshinov, Frank Lanitz")
+GeanyPlugin		*geany_plugin = NULL;
+GeanyData		*geany_data = NULL;
 
 
 /* Keybinding(s) */
@@ -118,25 +108,6 @@ static void ao_startup_complete_cb(GObject *obj, gpointer data);
 
 gboolean ao_editor_notify_cb(GObject *object, GeanyEditor *editor,
 	SCNotification *nt, gpointer data);
-
-
-PluginCallback plugin_callbacks[] =
-{
-	{ "update-editor-menu", (GCallback) &ao_update_editor_menu_cb, FALSE, NULL },
-	{ "editor-notify", (GCallback) &ao_editor_notify_cb, TRUE, NULL },
-
-	{ "document-new", (GCallback) &ao_document_new_cb, TRUE, NULL },
-	{ "document-open", (GCallback) &ao_document_open_cb, TRUE, NULL },
-	{ "document-save", (GCallback) &ao_document_save_cb, TRUE, NULL },
-	{ "document-close", (GCallback) &ao_document_close_cb, TRUE, NULL },
-	{ "document-activate", (GCallback) &ao_document_activate_cb, TRUE, NULL },
-	{ "document-before-save", (GCallback) &ao_document_before_save_cb, TRUE, NULL },
-	{ "document-reload", (GCallback) &ao_document_reload_cb, TRUE, NULL },
-
-	{ "geany-startup-complete", (GCallback) &ao_startup_complete_cb, TRUE, NULL },
-
-	{ NULL, NULL, FALSE, NULL }
-};
 
 
 static void ao_startup_complete_cb(GObject *obj, gpointer data)
@@ -270,88 +241,6 @@ GtkWidget *ao_image_menu_item_new(const gchar *stock_id, const gchar *label)
 	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
 	gtk_widget_show(image);
 	return item;
-}
-
-
-void plugin_init(GeanyData *data)
-{
-	GKeyFile *config = g_key_file_new();
-	GtkWidget *ao_copy_file_path_menu_item;
-	GeanyKeyGroup *key_group;
-
-	ao_info = g_new0(AddonsInfo, 1);
-
-	ao_info->config_file = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S,
-		"plugins", G_DIR_SEPARATOR_S, "addons", G_DIR_SEPARATOR_S, "addons.conf", NULL);
-
-	g_key_file_load_from_file(config, ao_info->config_file, G_KEY_FILE_NONE, NULL);
-	ao_info->enable_doclist = utils_get_setting_boolean(config,
-		"addons", "show_toolbar_doclist_item", TRUE);
-	ao_info->doclist_sort_mode = utils_get_setting_integer(config,
-		"addons", "doclist_sort_mode", DOCLIST_SORT_BY_TAB_ORDER);
-	ao_info->enable_openuri = utils_get_setting_boolean(config,
-		"addons", "enable_openuri", FALSE);
-	ao_info->enable_tasks = utils_get_setting_boolean(config,
-		"addons", "enable_tasks", TRUE);
-	ao_info->tasks_scan_all_documents = utils_get_setting_boolean(config,
-		"addons", "tasks_scan_all_documents", FALSE);
-	ao_info->tasks_token_list = utils_get_setting_string(config,
-		"addons", "tasks_token_list", "TODO;FIXME");
-	ao_info->enable_systray = utils_get_setting_boolean(config,
-		"addons", "enable_systray", FALSE);
-	ao_info->enable_bookmarklist = utils_get_setting_boolean(config,
-		"addons", "enable_bookmarklist", FALSE);
-	ao_info->enable_markword = utils_get_setting_boolean(config,
-		"addons", "enable_markword", FALSE);
-	ao_info->enable_markword_single_click_deselect = utils_get_setting_boolean(config,
-		"addons", "enable_markword_single_click_deselect", FALSE);
-	ao_info->strip_trailing_blank_lines = utils_get_setting_boolean(config,
-		"addons", "strip_trailing_blank_lines", FALSE);
-	ao_info->enable_xmltagging = utils_get_setting_boolean(config, "addons",
-		"enable_xmltagging", FALSE);
-	ao_info->enable_enclose_words = utils_get_setting_boolean(config, "addons",
-		"enable_enclose_words", FALSE);
-	ao_info->enable_enclose_words_auto = utils_get_setting_boolean(config, "addons",
-		"enable_enclose_words_auto", FALSE);
-	ao_info->enable_colortip = utils_get_setting_boolean(config,
-		"addons", "enable_colortip", FALSE);
-	ao_info->enable_double_click_color_chooser = utils_get_setting_boolean(config,
-		"addons", "enable_double_click_color_chooser", FALSE);
-
-	plugin_module_make_resident(geany_plugin);
-
-	ao_info->doclist = ao_doc_list_new(ao_info->enable_doclist, ao_info->doclist_sort_mode);
-	ao_info->openuri = ao_open_uri_new(ao_info->enable_openuri);
-	ao_info->systray = ao_systray_new(ao_info->enable_systray);
-	ao_info->bookmarklist = ao_bookmark_list_new(ao_info->enable_bookmarklist);
-	ao_info->markword = ao_mark_word_new(ao_info->enable_markword,
-		ao_info->enable_markword_single_click_deselect);
-	ao_info->tasks = ao_tasks_new(ao_info->enable_tasks,
-						ao_info->tasks_token_list, ao_info->tasks_scan_all_documents);
-	ao_info->copyfilepath = ao_copy_file_path_new();
-	ao_info->colortip = ao_color_tip_new(ao_info->enable_colortip,
-		ao_info->enable_double_click_color_chooser);
-
-	ao_blanklines_set_enable(ao_info->strip_trailing_blank_lines);
-
-	/* setup keybindings */
-	key_group = plugin_set_key_group(geany_plugin, "addons", KB_COUNT + AO_WORDWRAP_KB_COUNT, NULL);
-	keybindings_set_item(key_group, KB_FOCUS_BOOKMARK_LIST, kb_bmlist_activate,
-		0, 0, "focus_bookmark_list", _("Focus Bookmark List"), NULL);
-	keybindings_set_item(key_group, KB_FOCUS_TASKS, kb_tasks_activate,
-		0, 0, "focus_tasks", _("Focus Tasks List"), NULL);
-	keybindings_set_item(key_group, KB_UPDATE_TASKS, kb_tasks_update,
-		0, 0, "update_tasks", _("Update Tasks List"), NULL);
-	keybindings_set_item(key_group, KB_XMLTAGGING, kb_ao_xmltagging,
-		0, 0, "xml_tagging", _("Run XML tagging"), NULL);
-	ao_copy_file_path_menu_item = ao_copy_file_path_get_menu_item(ao_info->copyfilepath);
-	keybindings_set_item(key_group, KB_COPYFILEPATH, kb_ao_copyfilepath,
-		0, 0, "copy_file_path", _("Copy File Path"), ao_copy_file_path_menu_item);
-
-	ao_enclose_words_init(ao_info->config_file, key_group, KB_COUNT);
-	ao_enclose_words_set_enabled (ao_info->enable_enclose_words, ao_info->enable_enclose_words_auto);
-
-	g_key_file_free(config);
 }
 
 
@@ -503,7 +392,96 @@ static void ao_configure_response_cb(GtkDialog *dialog, gint response, gpointer 
 }
 
 
-GtkWidget *plugin_configure(GtkDialog *dialog)
+/* Initialization */
+static gboolean plugin_addons_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
+{
+	GKeyFile *config = g_key_file_new();
+	GtkWidget *ao_copy_file_path_menu_item;
+	GeanyKeyGroup *key_group;
+
+	geany_plugin = plugin;
+	geany_data = plugin->geany_data;
+
+	ao_info = g_new0(AddonsInfo, 1);
+
+	ao_info->config_file = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S,
+		"plugins", G_DIR_SEPARATOR_S, "addons", G_DIR_SEPARATOR_S, "addons.conf", NULL);
+
+	g_key_file_load_from_file(config, ao_info->config_file, G_KEY_FILE_NONE, NULL);
+	ao_info->enable_doclist = utils_get_setting_boolean(config,
+		"addons", "show_toolbar_doclist_item", TRUE);
+	ao_info->doclist_sort_mode = utils_get_setting_integer(config,
+		"addons", "doclist_sort_mode", DOCLIST_SORT_BY_TAB_ORDER);
+	ao_info->enable_openuri = utils_get_setting_boolean(config,
+		"addons", "enable_openuri", FALSE);
+	ao_info->enable_tasks = utils_get_setting_boolean(config,
+		"addons", "enable_tasks", TRUE);
+	ao_info->tasks_scan_all_documents = utils_get_setting_boolean(config,
+		"addons", "tasks_scan_all_documents", FALSE);
+	ao_info->tasks_token_list = utils_get_setting_string(config,
+		"addons", "tasks_token_list", "TODO;FIXME");
+	ao_info->enable_systray = utils_get_setting_boolean(config,
+		"addons", "enable_systray", FALSE);
+	ao_info->enable_bookmarklist = utils_get_setting_boolean(config,
+		"addons", "enable_bookmarklist", FALSE);
+	ao_info->enable_markword = utils_get_setting_boolean(config,
+		"addons", "enable_markword", FALSE);
+	ao_info->enable_markword_single_click_deselect = utils_get_setting_boolean(config,
+		"addons", "enable_markword_single_click_deselect", FALSE);
+	ao_info->strip_trailing_blank_lines = utils_get_setting_boolean(config,
+		"addons", "strip_trailing_blank_lines", FALSE);
+	ao_info->enable_xmltagging = utils_get_setting_boolean(config, "addons",
+		"enable_xmltagging", FALSE);
+	ao_info->enable_enclose_words = utils_get_setting_boolean(config, "addons",
+		"enable_enclose_words", FALSE);
+	ao_info->enable_enclose_words_auto = utils_get_setting_boolean(config, "addons",
+		"enable_enclose_words_auto", FALSE);
+	ao_info->enable_colortip = utils_get_setting_boolean(config,
+		"addons", "enable_colortip", FALSE);
+	ao_info->enable_double_click_color_chooser = utils_get_setting_boolean(config,
+		"addons", "enable_double_click_color_chooser", FALSE);
+
+	plugin_module_make_resident(geany_plugin);
+
+	ao_info->doclist = ao_doc_list_new(ao_info->enable_doclist, ao_info->doclist_sort_mode);
+	ao_info->openuri = ao_open_uri_new(ao_info->enable_openuri);
+	ao_info->systray = ao_systray_new(ao_info->enable_systray);
+	ao_info->bookmarklist = ao_bookmark_list_new(ao_info->enable_bookmarklist);
+	ao_info->markword = ao_mark_word_new(ao_info->enable_markword,
+		ao_info->enable_markword_single_click_deselect);
+	ao_info->tasks = ao_tasks_new(ao_info->enable_tasks,
+						ao_info->tasks_token_list, ao_info->tasks_scan_all_documents);
+	ao_info->copyfilepath = ao_copy_file_path_new();
+	ao_info->colortip = ao_color_tip_new(ao_info->enable_colortip,
+		ao_info->enable_double_click_color_chooser);
+
+	ao_blanklines_set_enable(ao_info->strip_trailing_blank_lines);
+
+	/* setup keybindings */
+	key_group = plugin_set_key_group(geany_plugin, "addons", KB_COUNT + AO_WORDWRAP_KB_COUNT, NULL);
+	keybindings_set_item(key_group, KB_FOCUS_BOOKMARK_LIST, kb_bmlist_activate,
+		0, 0, "focus_bookmark_list", _("Focus Bookmark List"), NULL);
+	keybindings_set_item(key_group, KB_FOCUS_TASKS, kb_tasks_activate,
+		0, 0, "focus_tasks", _("Focus Tasks List"), NULL);
+	keybindings_set_item(key_group, KB_UPDATE_TASKS, kb_tasks_update,
+		0, 0, "update_tasks", _("Update Tasks List"), NULL);
+	keybindings_set_item(key_group, KB_XMLTAGGING, kb_ao_xmltagging,
+		0, 0, "xml_tagging", _("Run XML tagging"), NULL);
+	ao_copy_file_path_menu_item = ao_copy_file_path_get_menu_item(ao_info->copyfilepath);
+	keybindings_set_item(key_group, KB_COPYFILEPATH, kb_ao_copyfilepath,
+		0, 0, "copy_file_path", _("Copy File Path"), ao_copy_file_path_menu_item);
+
+	ao_enclose_words_init(ao_info->config_file, key_group, KB_COUNT);
+	ao_enclose_words_set_enabled (ao_info->enable_enclose_words, ao_info->enable_enclose_words_auto);
+
+	g_key_file_free(config);
+
+	return TRUE;
+}
+
+
+/* Configuration */
+static GtkWidget *plugin_addons_configure(G_GNUC_UNUSED GeanyPlugin *plugin, GtkDialog *dialog, G_GNUC_UNUSED gpointer pdata)
 {
 	GtkWidget *vbox, *check_openuri, *check_tasks, *check_systray;
 	GtkWidget *check_doclist, *vbox_doclist, *frame_doclist;
@@ -710,7 +688,8 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 }
 
 
-void plugin_cleanup(void)
+/* Cleanup */
+static void plugin_addons_cleanup(G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
 	g_object_unref(ao_info->doclist);
 	g_object_unref(ao_info->openuri);
@@ -728,3 +707,53 @@ void plugin_cleanup(void)
 	g_free(ao_info);
 }
 
+
+/* Show help */
+static void plugin_addons_help (G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
+{
+	utils_open_browser("https://plugins.geany.org/addons.html");
+}
+
+
+static PluginCallback plugin_addons_callbacks[] =
+{
+	{ "update-editor-menu", (GCallback) &ao_update_editor_menu_cb, FALSE, NULL },
+	{ "editor-notify", (GCallback) &ao_editor_notify_cb, TRUE, NULL },
+
+	{ "document-new", (GCallback) &ao_document_new_cb, TRUE, NULL },
+	{ "document-open", (GCallback) &ao_document_open_cb, TRUE, NULL },
+	{ "document-save", (GCallback) &ao_document_save_cb, TRUE, NULL },
+	{ "document-close", (GCallback) &ao_document_close_cb, TRUE, NULL },
+	{ "document-activate", (GCallback) &ao_document_activate_cb, TRUE, NULL },
+	{ "document-before-save", (GCallback) &ao_document_before_save_cb, TRUE, NULL },
+	{ "document-reload", (GCallback) &ao_document_reload_cb, TRUE, NULL },
+
+	{ "geany-startup-complete", (GCallback) &ao_startup_complete_cb, TRUE, NULL },
+
+	{ NULL, NULL, FALSE, NULL }
+};
+
+
+/* Load module */
+G_MODULE_EXPORT
+void geany_load_module(GeanyPlugin *plugin)
+{
+	/* Setup translation */
+	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+
+	/* Set metadata */
+	plugin->info->name = _("Addons");
+	plugin->info->description = _("Various small addons for Geany.");
+	plugin->info->version = VERSION;
+	plugin->info->author = "Enrico Tröger, Bert Vermeulen, Eugene Arshinov, Frank Lanitz";
+
+	/* Set functions */
+	plugin->funcs->init = plugin_addons_init;
+	plugin->funcs->cleanup = plugin_addons_cleanup;
+	plugin->funcs->help = plugin_addons_help;
+	plugin->funcs->configure = plugin_addons_configure;
+	plugin->funcs->callbacks = plugin_addons_callbacks;
+
+	/* Register! */
+	GEANY_PLUGIN_REGISTER(plugin, 224);
+}
