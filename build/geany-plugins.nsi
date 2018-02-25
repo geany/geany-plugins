@@ -224,6 +224,8 @@ Section Uninstall
 	Delete "$INSTDIR\bin\libgnutlsxx-28.dll"
 	Delete "$INSTDIR\bin\libgpg-error-0.dll"
 	Delete "$INSTDIR\bin\libgpgme-11.dll"
+	Delete "$INSTDIR\bin\libqgpgme-7.dll"
+	Delete "$INSTDIR\bin\libgpgmepp-6.dll"
 	Delete "$INSTDIR\bin\libgstallocators-1.0-0.dll"
 	Delete "$INSTDIR\bin\libgstapp-1.0-0.dll"
 	Delete "$INSTDIR\bin\libgstaudio-1.0-0.dll"
