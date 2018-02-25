@@ -31,8 +31,8 @@ RequestExecutionLevel highest ; set execution level for Windows Vista
 ; helper defines  ;
 ;;;;;;;;;;;;;;;;;;;
 !define PRODUCT_NAME "Geany-Plugins"
-!define PRODUCT_VERSION "1.33"
-!define PRODUCT_VERSION_ID "1.33.0.0"
+!define PRODUCT_VERSION "1.34"
+!define PRODUCT_VERSION_ID "1.34.0.0"
 !define PRODUCT_PUBLISHER "The Geany developer team"
 !define PRODUCT_WEB_SITE "https://www.geany.org/"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
