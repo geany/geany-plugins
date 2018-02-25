@@ -10,7 +10,7 @@ addons_la_SOURCES = \
 	ao_blanklines.h \
 	ao_bookmarklist.c \
 	ao_bookmarklist.h \
-	ao_colortip.c
+	ao_colortip.c \
 	ao_colortip.h \
 	ao_copyfilepath.c \
 	ao_copyfilepath.h \
@@ -27,7 +27,7 @@ addons_la_SOURCES = \
 	ao_wrapwords.c \
 	ao_wrapwords.h \
 	ao_xmltagging.c \
-	ao_xmltagging.h \
+	ao_xmltagging.h
 
 addons_la_CPPFLAGS = $(AM_CPPFLAGS) \
 					 -DG_LOG_DOMAIN=\"Addons\"
