@@ -1286,7 +1286,7 @@ gboolean wb_project_save(WB_PROJECT *prj, GError **error)
  * @return TRUE on success, FALSE otherwise
  *
  **/
-gboolean wb_project_load(WB_PROJECT *prj, gchar *filename, GError **error)
+gboolean wb_project_load(WB_PROJECT *prj, const gchar *filename, GError **error)
 {
 	GKeyFile *kf;
 	guint	 index;
