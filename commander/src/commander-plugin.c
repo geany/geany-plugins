@@ -752,9 +752,9 @@ on_plugin_idle_init (gpointer dummy)
   return FALSE;
 }
 
-
 static gboolean
-plugin_commander_init (GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
+plugin_commander_init (GeanyPlugin *plugin,
+                       G_GNUC_UNUSED gpointer pdata)
 {
   GeanyKeyGroup *group;
 
@@ -777,12 +777,13 @@ plugin_commander_init (GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
   /* delay for other plugins to have a chance to load before, so we will
    * include their items */
   plugin_idle_add (geany_plugin, on_plugin_idle_init, NULL);
+
   return TRUE;
 }
 
-
 static void
-plugin_commander_cleanup (G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
+plugin_commander_cleanup (G_GNUC_UNUSED GeanyPlugin *plugin,
+                          G_GNUC_UNUSED gpointer pdata)
 {
   if (plugin_data.panel) {
     gtk_widget_destroy (plugin_data.panel);
@@ -792,32 +793,30 @@ plugin_commander_cleanup (G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpoin
   }
 }
 
-
 static void
-plugin_commander_help (G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdat)
+plugin_commander_help (G_GNUC_UNUSED GeanyPlugin *plugin,
+                       G_GNUC_UNUSED gpointer pdat)
 {
   utils_open_browser("https://plugins.geany.org/commander.html");
 }
 
-
 /* Load module */
 G_MODULE_EXPORT
-void geany_load_module(GeanyPlugin *plugin)
+void geany_load_module (GeanyPlugin *plugin)
 {
-	/* Setup translation */
-	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+  /* Setup translation */
+  main_locale_init (LOCALEDIR, GETTEXT_PACKAGE);
 
-	/* Set metadata */
-	plugin->info->name = _("Commander");
-	plugin->info->description = _("Provides a command panel for quick access to actions, files and more");
-	plugin->info->version = VERSION;
-	plugin->info->author = "Colomban Wendling <ban@herbesfolles.org>";
+  /* Set metadata */
+  plugin->info->name = _("Commander");
+  plugin->info->description = _("Provides a command panel for quick access to actions, files and more");
+  plugin->info->version = VERSION;
+  plugin->info->author = "Colomban Wendling <ban@herbesfolles.org>";
 
-	/* Set functions */
-	plugin->funcs->init = plugin_commander_init;
-	plugin->funcs->cleanup = plugin_commander_cleanup;
-	plugin->funcs->help = plugin_commander_help;
+  /* Set functions */
+  plugin->funcs->init = plugin_commander_init;
+  plugin->funcs->cleanup = plugin_commander_cleanup;
+  plugin->funcs->help = plugin_commander_help;
 
-	/* Register! */
-	GEANY_PLUGIN_REGISTER(plugin, 226);
+  GEANY_PLUGIN_REGISTER (plugin, 226);
 }
