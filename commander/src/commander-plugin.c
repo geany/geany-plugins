@@ -797,7 +797,7 @@ static void
 plugin_commander_help (G_GNUC_UNUSED GeanyPlugin *plugin,
                        G_GNUC_UNUSED gpointer pdat)
 {
-  utils_open_browser("https://plugins.geany.org/commander.html");
+  utils_open_browser (DOCDIR "/" PLUGIN "/README");
 }
 
 /* Load module */
