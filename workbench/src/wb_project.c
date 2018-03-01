@@ -1355,7 +1355,7 @@ gboolean wb_project_load(WB_PROJECT *prj, gchar *filename, GError **error)
 		gchar **bookmarks_strings;
 
 		/* Load project bookmarks from string list */
-		bookmarks_strings = g_key_file_get_string_list (kf, "Workbench", "Bookmarks", NULL, error);
+		bookmarks_strings = g_key_file_get_string_list (kf, "Workbench", "Bookmarks", NULL, NULL);
 		if (bookmarks_strings != NULL)
 		{
 			gchar **file, *abs_path;
