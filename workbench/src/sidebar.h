@@ -22,6 +22,18 @@
 #include <gtk/gtk.h>
 #include "wb_project.h"
 
+enum
+{
+	DATA_ID_UNSET = 0,
+	DATA_ID_WB_BOOKMARK,
+	DATA_ID_PROJECT,
+	DATA_ID_PRJ_BOOKMARK,
+	DATA_ID_DIRECTORY,
+	DATA_ID_NO_DIRS,
+	DATA_ID_SUB_DIRECTORY,
+	DATA_ID_FILE,
+};
+
 typedef struct
 {
 	WB_PROJECT     *project;
@@ -50,6 +62,8 @@ typedef enum
 	SIDEBAR_CONTEXT_WB_BOOKMARK_REMOVED,
 	SIDEBAR_CONTEXT_PRJ_BOOKMARK_ADDED,
 	SIDEBAR_CONTEXT_PRJ_BOOKMARK_REMOVED,
+	SIDEBAR_CONTEXT_FILE_ADDED,
+	SIDEBAR_CONTEXT_FILE_REMOVED,
 }SIDEBAR_EVENT;
 
 void sidebar_init(void);
@@ -75,5 +89,8 @@ gboolean sidebar_file_view_get_selected_context(SIDEBAR_CONTEXT *context);
 GPtrArray *sidebar_get_selected_project_filelist (void);
 GPtrArray *sidebar_get_selected_directory_filelist (void);
 GPtrArray *sidebar_get_selected_subdir_filelist (void);
+
+void sidebar_call_foreach(guint dataid,
+	void (func)(SIDEBAR_CONTEXT *, gpointer userdata), gpointer userdata);
 
 #endif

@@ -46,7 +46,8 @@ static void plugin_workbench_on_doc_open(G_GNUC_UNUSED GObject * obj, G_GNUC_UNU
 	project = workbench_file_is_included(wb_globals.opened_wb, doc->file_name);
 	if (project != NULL)
 	{
-		wb_project_remove_single_tm_file(project, doc->file_name);
+		wb_project_add_idle_action(WB_PROJECT_IDLE_ACTION_ID_REMOVE_SINGLE_TM_FILE,
+			project, g_strdup(doc->file_name));
 	}
 }
 
@@ -69,7 +70,8 @@ static void plugin_workbench_on_doc_close(G_GNUC_UNUSED GObject * obj, GeanyDocu
 	project = workbench_file_is_included(wb_globals.opened_wb, doc->file_name);
 	if (project != NULL)
 	{
-		wb_project_add_single_tm_file(project, doc->file_name);
+		wb_project_add_idle_action(WB_PROJECT_IDLE_ACTION_ID_ADD_SINGLE_TM_FILE,
+			project, g_strdup(doc->file_name));
 	}
 }
 
@@ -128,7 +130,7 @@ void geany_load_module(GeanyPlugin *plugin)
 	/* Set metadata */
 	plugin->info->name = _("Workbench");
 	plugin->info->description = _("Manage and customize multiple projects.");
-	plugin->info->version = "1.02";
+	plugin->info->version = "1.03";
 	plugin->info->author = "LarsGit223";
 
 	/* Set functions */
