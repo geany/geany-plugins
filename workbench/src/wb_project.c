@@ -569,6 +569,7 @@ static guint wb_project_dir_rescan_int(WB_PROJECT *prj, WB_PROJECT_DIR *root)
 
 
 /* Add a new file to the project directory and update the sidebar. */
+#ifdef __WB_LIVE_UPDATE
 static void wb_project_dir_add_file_int(WB_PROJECT *prj, WB_PROJECT_DIR *root, const gchar *filepath)
 {
 	gboolean matches;
@@ -633,6 +634,8 @@ static void wb_project_dir_add_file_int(WB_PROJECT *prj, WB_PROJECT_DIR *root, c
 		g_slist_free(scanned);
 	}
 }
+#endif
+
 
 /** Add a new file to the project directory and update the sidebar.
  * 
@@ -643,6 +646,7 @@ static void wb_project_dir_add_file_int(WB_PROJECT *prj, WB_PROJECT_DIR *root, c
  * @param filepath The file to add.
  *
  **/
+#ifdef __WB_LIVE_UPDATE
 void wb_project_dir_add_file(WB_PROJECT *prj, WB_PROJECT_DIR *root, const gchar *filepath)
 {
 	wb_project_dir_add_file_int(prj, root, filepath);
@@ -650,9 +654,11 @@ void wb_project_dir_add_file(WB_PROJECT *prj, WB_PROJECT_DIR *root, const gchar 
 		root, NULL);
 
 }
+#endif
 
 
 /* Check if the filepath is equal for the length of the directory path in px_temp */
+#ifdef __WB_LIVE_UPDATE
 static gboolean wb_project_dir_remove_child (gpointer key, gpointer value, gpointer user_data)
 {
 	WB_PROJECT_TEMP_DATA *px_temp;
@@ -674,6 +680,7 @@ static gboolean wb_project_dir_remove_child (gpointer key, gpointer value, gpoin
 	}
 	return FALSE;
 }
+#endif
 
 
 /** Remove a file from the project directory and update the sidebar.
@@ -685,6 +692,7 @@ static gboolean wb_project_dir_remove_child (gpointer key, gpointer value, gpoin
  * @param filepath The file to remove.
  *
  **/
+#ifdef __WB_LIVE_UPDATE
 void wb_project_dir_remove_file(WB_PROJECT *prj, WB_PROJECT_DIR *root, const gchar *filepath)
 {
 	gboolean matches, was_dir;
@@ -760,6 +768,7 @@ void wb_project_dir_remove_file(WB_PROJECT *prj, WB_PROJECT_DIR *root, const gch
 		}
 	}
 }
+#endif
 
 
 /* Stolen and modified version from Geany. The only difference is that Geany
@@ -923,6 +932,7 @@ void wb_project_rescan(WB_PROJECT *prj)
 	}
 
 	/* Create file monitors for directories. */
+#ifdef __WB_LIVE_UPDATE
 	if (workbench_get_enable_live_update(wb_globals.opened_wb) == TRUE)
 	{
 		WB_MONITOR *monitor;
@@ -952,6 +962,7 @@ void wb_project_rescan(WB_PROJECT *prj)
 			}
 		}
 	}
+#endif
 }
 
 

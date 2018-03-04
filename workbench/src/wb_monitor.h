@@ -22,12 +22,18 @@
 #include <glib.h>
 #include "wb_project.h"
 
+#if defined(HAVE_GIO) && GLIB_CHECK_VERSION (2, 46, 0)
+#define __WB_LIVE_UPDATE 1
+#endif
+
 typedef struct S_WB_MONITOR WB_MONITOR;
 
+#ifdef __WB_LIVE_UPDATE
 WB_MONITOR *wb_monitor_new(void);
 void wb_monitor_add_dir(WB_MONITOR *monitor, WB_PROJECT *prj,
 						WB_PROJECT_DIR *dir, const gchar *dirpath);
 gboolean wb_monitor_remove_dir(WB_MONITOR *monitor, const gchar *dirpath);
 void wb_monitor_free(WB_MONITOR *monitor);
+#endif
 
 #endif
