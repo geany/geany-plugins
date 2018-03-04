@@ -31,6 +31,8 @@
 #include "wb_monitor.h"
 #include "utils.h"
 
+#ifdef __WB_LIVE_UPDATE
+
 struct S_WB_MONITOR
 {
 	GHashTable *monitors;
@@ -265,3 +267,4 @@ void wb_monitor_free(WB_MONITOR *monitor)
 		}
 	}
 }
+#endif
