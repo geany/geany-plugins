@@ -561,8 +561,15 @@ static void popup_menu_on_new_file(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_U
 		else
 		{
 			fclose(new_file);
-			wb_project_dir_rescan(context.project, context.directory);
-			sidebar_update(SIDEBAR_CONTEXT_DIRECTORY_RESCANNED, &context);
+
+			if (workbench_get_enable_live_update(wb_globals.opened_wb) == FALSE)
+			{
+				/* Live update is disabled. We need to update the file list and
+				   the sidebar manually. */
+				wb_project_dir_rescan(context.project, context.directory);
+				sidebar_update(SIDEBAR_CONTEXT_DIRECTORY_RESCANNED, &context);
+			}
+
 			document_open_file(filename, FALSE, NULL, NULL);
 		}
 	}
@@ -595,8 +602,13 @@ static void popup_menu_on_new_directory(G_GNUC_UNUSED GtkMenuItem *menuitem, G_G
 	filename = dialogs_create_new_directory(abs_path);
 	if (filename != NULL)
 	{
-		wb_project_dir_rescan(context.project, context.directory);
-		sidebar_update(SIDEBAR_CONTEXT_DIRECTORY_RESCANNED, &context);
+		if (workbench_get_enable_live_update(wb_globals.opened_wb) == FALSE)
+		{
+			/* Live update is disabled. We need to update the file list and
+			   the sidebar manually. */
+			wb_project_dir_rescan(context.project, context.directory);
+			sidebar_update(SIDEBAR_CONTEXT_DIRECTORY_RESCANNED, &context);
+		}
 	}
 
 	g_free(abs_path);
