@@ -457,6 +457,9 @@ gboolean workbench_add_project(WORKBENCH *wb, const gchar *filename)
 		}
 		g_ptr_array_add (wb->projects, entry);
 
+		/* Load project to import base path. */
+		wb_project_load(project, filename, NULL);
+
 		wb->modified = TRUE;
 		return TRUE;
 	}

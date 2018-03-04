@@ -71,7 +71,7 @@ gchar *wb_project_get_bookmark_at_index (WB_PROJECT *prj, guint index);
 guint wb_project_get_bookmarks_count(WB_PROJECT *prj);
 
 gboolean wb_project_save(WB_PROJECT *prj, GError **error);
-gboolean wb_project_load(WB_PROJECT *prj, gchar *filename, GError **error);
+gboolean wb_project_load(WB_PROJECT *prj, const gchar *filename, GError **error);
 
 gchar *wb_project_get_info (WB_PROJECT *prj);
 
