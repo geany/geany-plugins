@@ -290,3 +290,73 @@ GSList *gp_filelist_scan_directory_full(guint *files, guint *folders, const gcha
 
 	return params.filelist;
 }
+
+
+/** Check if a filepath matches the given patterns.
+ *
+ * If the filepath belongs to a regular file, then TRUE will be returned if
+ * the filepath matches the patterns in file_patterns but does not match the
+ * patterns in ignored_file_patterns.
+ * 
+ * If the filepath belongs to a directory, then TRUE will be returned if it
+ * does not match the patterns in ignored_dirs_patterns.
+ *
+ * @param filepath  The file or dorectory path to check
+ * @param file_patterns
+ *                  File patterns for matching files (e.g. "*.c") or NULL
+ *                  for all files.
+ * @param ignored_dirs_patterns
+ *                  Patterns for ignored directories
+ * @param ignored_file_patterns
+ *                  Patterns for ignored files
+ * @return gboolean
+ *
+ **/
+gboolean gp_filelist_filepath_matches_patterns(const gchar *filepath, gchar **file_patterns,
+		gchar **ignored_dirs_patterns, gchar **ignored_file_patterns)
+{
+	gboolean match = FALSE;
+	GSList *file_patterns_list;
+	GSList *ignored_dirs_list;
+	GSList *ignored_file_list;
+
+	if (!file_patterns || !file_patterns[0])
+	{
+		const gchar *all_pattern[] = { "*", NULL };
+		file_patterns_list = filelist_get_precompiled_patterns((gchar **)all_pattern);
+	}
+	else
+	{
+		file_patterns_list = filelist_get_precompiled_patterns(file_patterns);
+	}
+
+	ignored_dirs_list = filelist_get_precompiled_patterns(ignored_dirs_patterns);
+	ignored_file_list = filelist_get_precompiled_patterns(ignored_file_patterns);
+
+	if (g_file_test(filepath, G_FILE_TEST_IS_DIR))
+	{
+		if (!filelist_patterns_match(ignored_dirs_list, filepath))
+		{
+			match = TRUE;
+		}
+	}
+	else if (g_file_test(filepath, G_FILE_TEST_IS_REGULAR))
+	{
+		if (filelist_patterns_match(file_patterns_list, filepath) &&
+			!filelist_patterns_match(ignored_file_list, filepath))
+		{
+			match = TRUE;
+		}
+	}
+
+	g_slist_foreach(file_patterns_list, (GFunc) g_pattern_spec_free, NULL);
+	g_slist_free(file_patterns_list);
+
+	g_slist_foreach(ignored_dirs_list, (GFunc) g_pattern_spec_free, NULL);
+	g_slist_free(ignored_dirs_list);
+
+	g_slist_foreach(ignored_file_list, (GFunc) g_pattern_spec_free, NULL);
+	g_slist_free(ignored_file_list);
+
+	return match;
+}
