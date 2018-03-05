@@ -22,7 +22,7 @@
 #include <glib.h>
 #include "wb_project.h"
 
-#if defined(HAVE_GIO) && GLIB_CHECK_VERSION (2, 46, 0)
+#if defined(HAVE_GIO)
 #define __WB_LIVE_UPDATE 1
 #endif
 
