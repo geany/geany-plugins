@@ -86,9 +86,9 @@ void sidebar_toggle_selected_project_dir_expansion (void);
 WB_PROJECT *sidebar_file_view_get_selected_project(GtkTreePath **path);
 gboolean sidebar_file_view_get_selected_context(SIDEBAR_CONTEXT *context);
 
-GPtrArray *sidebar_get_selected_project_filelist (void);
-GPtrArray *sidebar_get_selected_directory_filelist (void);
-GPtrArray *sidebar_get_selected_subdir_filelist (void);
+GPtrArray *sidebar_get_selected_project_filelist (gboolean dirnames);
+GPtrArray *sidebar_get_selected_directory_filelist (gboolean dirnames);
+GPtrArray *sidebar_get_selected_subdir_filelist (gboolean dirnames);
 
 void sidebar_call_foreach(guint dataid,
 	void (func)(SIDEBAR_CONTEXT *, gpointer userdata), gpointer userdata);
