@@ -1258,7 +1258,7 @@ gboolean sidebar_file_view_get_selected_context(SIDEBAR_CONTEXT *context)
 }
 
 /* Collect all filenames recursively starting from iter and add them to list */
-static void sidebar_get_filelist_for_iter(GPtrArray *list, GtkTreeIter iter)
+static void sidebar_get_filelist_for_iter(GPtrArray *list, GtkTreeIter iter, gboolean dirnames)
 {
 	GtkTreeModel *model;
 	GtkTreeIter childs;
@@ -1278,9 +1278,14 @@ static void sidebar_get_filelist_for_iter(GPtrArray *list, GtkTreeIter iter)
 			break;
 			case DATA_ID_DIRECTORY:
 			case DATA_ID_SUB_DIRECTORY:
+				if (dirnames == TRUE)
+				{
+					gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_ASSIGNED_DATA_POINTER, &filename, -1);
+					g_ptr_array_add(list, g_strdup(filename));
+				}
 				if (gtk_tree_model_iter_children(model, &childs, &iter) == TRUE)
 				{
-					sidebar_get_filelist_for_iter(list, childs);
+					sidebar_get_filelist_for_iter(list, childs, dirnames);
 				}
 			break;
 		}
@@ -1292,7 +1297,7 @@ static void sidebar_get_filelist_for_iter(GPtrArray *list, GtkTreeIter iter)
 
 /* Get the lkist of files belonging to the current selection for
    id (id = project, directory, sub-directory) */
-static GPtrArray *sidebar_get_selected_filelist (guint id)
+static GPtrArray *sidebar_get_selected_filelist (guint id, gboolean dirnames)
 {
 	GtkTreeModel *model;
 	GPtrArray *list;
@@ -1304,7 +1309,7 @@ static GPtrArray *sidebar_get_selected_filelist (guint id)
 		model = gtk_tree_view_get_model(GTK_TREE_VIEW(sidebar.file_view));
 		if (gtk_tree_model_iter_children(model, &childs, &iter) == TRUE)
 		{
-			sidebar_get_filelist_for_iter(list, childs);
+			sidebar_get_filelist_for_iter(list, childs, dirnames);
 		}
 		return list;
 	}
@@ -1318,9 +1323,9 @@ static GPtrArray *sidebar_get_selected_filelist (guint id)
  * @return GPtrArray containing file names or NULL.
  *
  **/
-GPtrArray *sidebar_get_selected_project_filelist (void)
+GPtrArray *sidebar_get_selected_project_filelist (gboolean dirnames)
 {
-	return sidebar_get_selected_filelist(DATA_ID_PROJECT);
+	return sidebar_get_selected_filelist(DATA_ID_PROJECT, dirnames);
 }
 
 
@@ -1329,9 +1334,9 @@ GPtrArray *sidebar_get_selected_project_filelist (void)
  * @return GPtrArray containing file names or NULL.
  *
  **/
-GPtrArray *sidebar_get_selected_directory_filelist (void)
+GPtrArray *sidebar_get_selected_directory_filelist (gboolean dirnames)
 {
-	return sidebar_get_selected_filelist(DATA_ID_DIRECTORY);
+	return sidebar_get_selected_filelist(DATA_ID_DIRECTORY, dirnames);
 }
 
 
@@ -1340,9 +1345,9 @@ GPtrArray *sidebar_get_selected_directory_filelist (void)
  * @return GPtrArray containing file names or NULL.
  *
  **/
-GPtrArray *sidebar_get_selected_subdir_filelist (void)
+GPtrArray *sidebar_get_selected_subdir_filelist (gboolean dirnames)
 {
-	return sidebar_get_selected_filelist(DATA_ID_SUB_DIRECTORY);
+	return sidebar_get_selected_filelist(DATA_ID_SUB_DIRECTORY, dirnames);
 }
 
 /** Setup the sidebar.
