@@ -440,19 +440,10 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 
 	w_enable_live_update = gtk_check_button_new_with_mnemonic(_("_Enable live update"));
 	ui_table_add_row(GTK_TABLE(table), 1, w_enable_live_update, NULL);
-#ifdef __WB_LIVE_UPDATE
 	gtk_widget_set_tooltip_text(w_enable_live_update,
 		_("If the option is activated (default), then the list of files and the sidebar"
 		  " will be updated automatically if a file or directory is created, removed or renamed."
 		  "A manual re-scan is not required if the option is enabled."));
-#else
-	gtk_widget_set_sensitive(w_enable_live_update, FALSE);
-	gtk_widget_set_tooltip_text(w_enable_live_update,
-		_("If the option is activated (default), then the list of files and the sidebar"
-		  " will be updated automatically if a file or directory is created, removed or renamed."
-		  "A manual re-scan is not required if the option is enabled.\n\n"
-		  "This feature has been disabled because it is not available on your system."));
-#endif
 	enable_live_update_old = workbench_get_enable_live_update(workbench);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w_enable_live_update), enable_live_update_old);
 
