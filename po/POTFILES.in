@@ -278,6 +278,7 @@ scope/src/plugme.c
 scope/src/prefs.c
 scope/src/program.c
 scope/src/scope.c
+scope/src/scope_spawn.c
 scope/src/thread.c
 scope/src/utils.c
 scope/src/views.c

@@ -33,6 +33,8 @@ scope_la_SOURCES = \
 	register.h \
 	scope.c \
 	scope.h \
+	scope_spawn.c \
+	scope_spawn.h \
 	stack.c \
 	stack.h \
 	thread.c \
