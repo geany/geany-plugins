@@ -29,7 +29,7 @@
 #include <glib.h>
 
 #include "common.h"
-#include "spawn.h"
+#include "scope_spawn.h"
 
 extern guint thread_count;
 extern guint thread_prompt;
@@ -161,8 +161,8 @@ static guint wait_result;
 static gboolean send_commands_cb(GIOChannel *channel, GIOCondition condition,
 	G_GNUC_UNUSED gpointer gdata)
 {
-	SpawnWriteData data = { commands->str, commands->len };
-	gboolean result = spawn_write_data(channel, condition, &data);
+	ScopeSpawnWriteData data = { commands->str, commands->len };
+	gboolean result = scope_spawn_write_data(channel, condition, &data);
 	gssize count = commands->len - data.size;
 
 	if (count > 0)
@@ -383,11 +383,11 @@ static void append_startup(const char *command, const gchar *value)
 }
 
 #if HAS_SPAWN_LEAVE_STDIN_OPEN
-#define GDB_SPAWN_FLAGS (SPAWN_STDERR_UNBUFFERED | SPAWN_STDOUT_RECURSIVE | \
-	SPAWN_STDERR_RECURSIVE | SPAWN_LEAVE_STDIN_OPEN)
+#define GDB_SPAWN_FLAGS (SCOPE_SPAWN_STDERR_UNBUFFERED | SCOPE_SPAWN_STDOUT_RECURSIVE | \
+	SCOPE_SPAWN_STDERR_RECURSIVE | SCOPE_SPAWN_LEAVE_STDIN_OPEN)
 #else
-#define GDB_SPAWN_FLAGS (SPAWN_STDERR_UNBUFFERED | SPAWN_STDOUT_RECURSIVE | \
-	SPAWN_STDERR_RECURSIVE)
+#define GDB_SPAWN_FLAGS (SCOPE_SPAWN_STDERR_UNBUFFERED | SCOPE_SPAWN_STDOUT_RECURSIVE | \
+	SCOPE_SPAWN_STDERR_RECURSIVE)
 #endif
 
 #define GDB_BUFFER_SIZE ((1 << 20) - 1)  /* spawn adds 1 for '\0' */
@@ -403,7 +403,7 @@ static void load_program(void)
 	while (gtk_events_pending())
 		gtk_main_iteration();
 
-	if (spawn_with_callbacks(NULL, NULL, args, NULL, GDB_SPAWN_FLAGS, obtain_send_channel_cb,
+	if (scope_spawn_with_callbacks(NULL, NULL, args, NULL, GDB_SPAWN_FLAGS, obtain_send_channel_cb,
 		NULL, receive_output_cb, NULL, GDB_BUFFER_SIZE, receive_errors_cb, NULL, 0,
 		gdb_exit_cb, NULL, &gdb_pid, &gerror))
 	{
@@ -544,7 +544,7 @@ void on_debug_terminate(const MenuItem *menu_item)
 
 			gdb_state = KILLING;
 
-			if (!spawn_kill_process(gdb_pid, &gerror))
+			if (!scope_spawn_kill_process(gdb_pid, &gerror))
 			{
 				show_error(_("%s."), gerror->message);
 				g_error_free(gerror);
@@ -635,7 +635,7 @@ void debug_finalize(void)
 {
 	if (gdb_state != INACTIVE)
 	{
-		spawn_kill_process(gdb_pid, NULL);
+		scope_spawn_kill_process(gdb_pid, NULL);
 		gdb_finalize();
 		statusbar_update_state(DS_INACTIVE);
 	}
