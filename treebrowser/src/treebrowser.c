@@ -19,9 +19,7 @@
 #include "geany.h"
 #include "geanyplugin.h"
 
-#ifdef HAVE_GIO
-# include <gio/gio.h>
-#endif
+#include <gio/gio.h>
 
 #ifdef G_OS_WIN32
 # include <windows.h>
@@ -208,7 +206,7 @@ utils_pixbuf_from_stock(const gchar *stock_id)
 static GdkPixbuf *
 utils_pixbuf_from_path(gchar *path)
 {
-#if defined(HAVE_GIO) && GTK_CHECK_VERSION(2, 14, 0)
+#if GTK_CHECK_VERSION(2, 14, 0)
 	GIcon 		*icon;
 	GdkPixbuf 	*ret = NULL;
 	GtkIconInfo *info;
