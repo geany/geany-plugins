@@ -15,14 +15,8 @@ AC_DEFUN([GP_CHECK_TREEBROWSER],
             ])
     fi
 
-    PKG_CHECK_MODULES([GIO], [gio-2.0],
-        [AC_DEFINE([HAVE_GIO], 1, [Whether we have GIO])
-         have_gio=yes],
-        [have_gio=no])
-
     AM_CONDITIONAL(ENABLE_TREEBROWSER, test "x$enable_treebrowser" = "xyes")
     GP_COMMIT_PLUGIN_STATUS([TreeBrowser])
-    GP_STATUS_FEATURE_ADD([TreeBrowser GIO support], [$have_gio])
 
     AC_CONFIG_FILES([
         treebrowser/Makefile
