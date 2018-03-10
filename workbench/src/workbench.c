@@ -92,9 +92,7 @@ WORKBENCH *workbench_new(void)
 	new_wb->enable_live_update = TRUE;
 	new_wb->projects = g_ptr_array_new();
 	new_wb->bookmarks = g_ptr_array_new();
-#ifdef __WB_LIVE_UPDATE
 	new_wb->monitor = wb_monitor_new();
-#endif
 
 	return new_wb;
 }
@@ -125,9 +123,7 @@ void workbench_free(WORKBENCH *wb)
 		}
 	}
 
-#ifdef __WB_LIVE_UPDATE
 	wb_monitor_free(wb->monitor);
-#endif
 	g_ptr_array_free (wb->projects, TRUE);
 	g_free(wb);
 }
@@ -923,7 +919,6 @@ static gboolean workbench_references_are_valid(WORKBENCH *wb, WB_PROJECT *prj, W
  * @param file The new file to add to project/directory
  *
  **/
-#ifdef __WB_LIVE_UPDATE
 void workbench_process_add_file_event(WORKBENCH *wb, WB_PROJECT *prj, WB_PROJECT_DIR *dir, const gchar *file)
 {
 	if (workbench_references_are_valid(wb, prj, dir) == FALSE)
@@ -936,7 +931,6 @@ void workbench_process_add_file_event(WORKBENCH *wb, WB_PROJECT *prj, WB_PROJECT
 
 	wb_project_dir_add_file(prj, dir, file);
 }
-#endif
 
 
 /** Process the remove file event.
@@ -951,7 +945,6 @@ void workbench_process_add_file_event(WORKBENCH *wb, WB_PROJECT *prj, WB_PROJECT
  * @param file The file to remove from project/directory
  *
  **/
-#ifdef __WB_LIVE_UPDATE
 void workbench_process_remove_file_event(WORKBENCH *wb, WB_PROJECT *prj, WB_PROJECT_DIR *dir, const gchar *file)
 {
 	if (workbench_references_are_valid(wb, prj, dir) == FALSE)
@@ -964,11 +957,9 @@ void workbench_process_remove_file_event(WORKBENCH *wb, WB_PROJECT *prj, WB_PROJ
 
 	wb_project_dir_remove_file(prj, dir, file);
 }
-#endif
 
 
 /* Foreach callback function for creating file monitors. */
-#ifdef __WB_LIVE_UPDATE
 static void workbench_enable_live_update_foreach_cb(SIDEBAR_CONTEXT *context,
 													gpointer userdata)
 {
@@ -998,7 +989,6 @@ static void workbench_enable_live_update_foreach_cb(SIDEBAR_CONTEXT *context,
 
 	g_free(abs_path);
 }
-#endif
 
 
 /** Enable live update.
@@ -1011,7 +1001,6 @@ static void workbench_enable_live_update_foreach_cb(SIDEBAR_CONTEXT *context,
  **/
 void workbench_enable_live_update(WORKBENCH *wb)
 {
-#ifdef __WB_LIVE_UPDATE
 	if (wb != NULL)
 	{
 		sidebar_call_foreach(DATA_ID_DIRECTORY,
@@ -1019,7 +1008,6 @@ void workbench_enable_live_update(WORKBENCH *wb)
 		sidebar_call_foreach(DATA_ID_SUB_DIRECTORY,
 			workbench_enable_live_update_foreach_cb, wb->monitor);
 	}
-#endif
 }
 
 
@@ -1033,10 +1021,8 @@ void workbench_enable_live_update(WORKBENCH *wb)
  **/
 void workbench_disable_live_update(WORKBENCH *wb)
 {
-#ifdef __WB_LIVE_UPDATE
 	if (wb != NULL)
 	{
 		wb_monitor_free(wb->monitor);
 	}
-#endif
 }
