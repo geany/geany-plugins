@@ -31,7 +31,6 @@
 #include "wb_monitor.h"
 #include "utils.h"
 
-#ifdef __WB_LIVE_UPDATE
 
 struct S_WB_MONITOR
 {
@@ -122,26 +121,6 @@ static void wb_monitor_file_changed_cb(G_GNUC_UNUSED GFileMonitor *monitor,
 				entry->prj, entry->dir, file_path);
 			break;
 
-		case G_FILE_MONITOR_EVENT_RENAMED:
-			event_string = "FILE_RENAMED";
-			workbench_process_remove_file_event (wb_globals.opened_wb,
-				entry->prj, entry->dir, file_path);
-			workbench_process_add_file_event (wb_globals.opened_wb,
-				entry->prj, entry->dir, other_file_path);
-			break;
-
-		case G_FILE_MONITOR_EVENT_MOVED_IN:
-			event_string = "FILE_MOVED_IN";
-			workbench_process_add_file_event (wb_globals.opened_wb,
-				entry->prj, entry->dir, file_path);
-			break;
-
-		case G_FILE_MONITOR_EVENT_MOVED_OUT:
-			event_string = "FILE_MOVED_OUT";
-			workbench_process_remove_file_event (wb_globals.opened_wb,
-				entry->prj, entry->dir, file_path);
-			break;
-
 		default:
 			break;
 	}
@@ -204,7 +183,7 @@ void wb_monitor_add_dir(WB_MONITOR *monitor, WB_PROJECT *prj,
 	/* Setup file monitor for directory */
 	file = g_file_new_for_path(dirpath);
 	newmon = g_file_monitor_directory
-		(file, G_FILE_MONITOR_WATCH_MOVES, NULL, &error);
+		(file, G_FILE_MONITOR_NONE, NULL, &error);
 	if (newmon == NULL)
 	{
 		/* Create monitor failed. Report error. */
@@ -267,4 +246,3 @@ void wb_monitor_free(WB_MONITOR *monitor)
 		}
 	}
 }
-#endif
