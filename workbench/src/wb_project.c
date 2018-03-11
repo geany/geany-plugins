@@ -824,9 +824,11 @@ static void wb_project_dir_regenerate_tags(WB_PROJECT_DIR *root, G_GNUC_UNUSED g
 	g_hash_table_iter_init(&iter, root->file_table);
 	while (g_hash_table_iter_next(&iter, &key, &value))
 	{
+		TMSourceFile *sf;
+
+		sf = NULL;
 		if (g_file_test(key, G_FILE_TEST_IS_REGULAR))
 		{
-			TMSourceFile *sf;
 			gchar *utf8_path = key;
 			gchar *locale_path = utils_get_locale_from_utf8(utf8_path);
 
@@ -834,9 +836,11 @@ static void wb_project_dir_regenerate_tags(WB_PROJECT_DIR *root, G_GNUC_UNUSED g
 			if (sf && !document_find_by_filename(utf8_path))
 				g_ptr_array_add(source_files, sf);
 
-			g_hash_table_insert(file_table, g_strdup(utf8_path), sf);
 			g_free(locale_path);
 		}
+
+		/* Add all files to the file-table (files and dirs)! */
+		g_hash_table_insert(file_table, g_strdup(key), sf);
 	}
 	g_hash_table_destroy(root->file_table);
 	root->file_table = file_table;
