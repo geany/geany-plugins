@@ -259,10 +259,10 @@ S: Maintained
 
 scope
 P:
-g:
+g: @LarsGit223
 M:
 W: http://plugins.geany.org/scope.html
-S: Orphaned
+S: Maintained
 
 shiftcolumn
 P:
