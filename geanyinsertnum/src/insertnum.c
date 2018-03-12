@@ -476,14 +476,14 @@ void plugin_init(G_GNUC_UNUSED GeanyData *data)
 	step_value = 1;
 	base_value = 10;
 
-	main_menu_item = gtk_menu_item_new_with_mnemonic(_("Insert _Numbers"));
+	main_menu_item = gtk_menu_item_new_with_mnemonic(_("Insert _Numbers..."));
 	gtk_widget_show(main_menu_item);
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), main_menu_item);
 	g_signal_connect(main_menu_item, "activate", G_CALLBACK(on_insert_numbers_activate),
 		NULL);
 
 	keybindings_set_item(plugin_key_group, INSERT_NUMBERS_KB, on_insert_numbers_key,
-		0, 0, "insert_numbers", _("Insert Numbers"), main_menu_item);
+		0, 0, "insert_numbers", _("Insert Numbers..."), main_menu_item);
 
 	plugin_signal_connect(geany_plugin, G_OBJECT(geany->main_widgets->tools_menu), "show",
 		FALSE, (GCallback) on_tools_show, NULL);
