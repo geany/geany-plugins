@@ -48,6 +48,7 @@ struct S_WORKBENCH
 	gboolean  modified;
 	gboolean  rescan_projects_on_open;
 	gboolean  enable_live_update;
+	gboolean  expand_on_hover;
 	GPtrArray *projects;
 	GPtrArray *bookmarks;
 	WB_MONITOR *monitor;
@@ -247,6 +248,42 @@ gboolean workbench_get_enable_live_update(WORKBENCH *wb)
 	if (wb != NULL)
 	{
 		return wb->enable_live_update;
+	}
+	return FALSE;
+}
+
+
+/** Set the "Expand on hover" option.
+ *
+ * @param wb    The workbench
+ * @param value The value to set
+ *
+ **/
+void workbench_set_expand_on_hover(WORKBENCH *wb, gboolean value)
+{
+	if (wb != NULL)
+	{
+		if (wb->expand_on_hover != value)
+		{
+			wb->expand_on_hover = value;
+			wb->modified = TRUE;
+		}
+	}
+}
+
+
+/** Get the "Expand on hover" option.
+ *
+ * @param wb The workbench
+ * @return TRUE = expand a tree-node on hovering over it,
+ *         FALSE = don't
+ *
+ **/
+gboolean workbench_get_expand_on_hover(WORKBENCH *wb)
+{
+	if (wb != NULL)
+	{
+		return wb->expand_on_hover;
 	}
 	return FALSE;
 }
@@ -653,6 +690,7 @@ gboolean workbench_save(WORKBENCH *wb, GError **error)
 		g_key_file_set_string(kf, "General", "version", "1.0");
 		g_key_file_set_boolean(kf, "General", "RescanProjectsOnOpen", wb->rescan_projects_on_open);
 		g_key_file_set_boolean(kf, "General", "EnableLiveUpdate", wb->enable_live_update);
+		g_key_file_set_boolean(kf, "General", "ExpandOnHover", wb->expand_on_hover);
 
 		/* Save Workbench bookmarks as string list */
 		boomarks_size = workbench_get_bookmarks_count(wb);
@@ -785,6 +823,16 @@ gboolean workbench_load(WORKBENCH *wb, const gchar *filename, GError **error)
 			/* Not found. Might happen if the workbench was created with an older version of the plugin.
 			   Initialize with TRUE. */
 			wb->enable_live_update = TRUE;
+		}
+		if (g_key_file_has_key (kf, "General", "ExpandOnHover", error))
+		{
+			wb->expand_on_hover = g_key_file_get_boolean(kf, "General", "ExpandOnHover", error);
+		}
+		else
+		{
+			/* Not found. Might happen if the workbench was created with an older version of the plugin.
+			   Initialize with FALSE. */
+			wb->expand_on_hover = FALSE;
 		}
 
 		/* Load Workbench bookmarks from string list */

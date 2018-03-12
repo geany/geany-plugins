@@ -407,12 +407,13 @@ gboolean dialogs_directory_settings(WB_PROJECT_DIR *directory)
 gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 {
 	gint result;
-	GtkWidget *w_rescan_projects_on_open, *w_enable_live_update;
+	GtkWidget *w_rescan_projects_on_open, *w_enable_live_update, *w_expand_on_hover;
 	GtkWidget *dialog, *content_area;
 	GtkWidget *vbox, *hbox, *table;
 	GtkDialogFlags flags;
 	gboolean changed, rescan_projects_on_open, rescan_projects_on_open_old;
 	gboolean enable_live_update, enable_live_update_old;
+	gboolean expand_on_hover, expand_on_hover_old;
 
 	/* Create the widgets */
 	flags = GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT;
@@ -447,6 +448,14 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 	enable_live_update_old = workbench_get_enable_live_update(workbench);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w_enable_live_update), enable_live_update_old);
 
+	w_expand_on_hover = gtk_check_button_new_with_mnemonic(_("_Expand on hover"));
+	ui_table_add_row(GTK_TABLE(table), 2, w_expand_on_hover, NULL);
+	gtk_widget_set_tooltip_text(w_expand_on_hover,
+		_("If the option is activated, then a tree node in the sidebar"
+		  " will be expanded or collapsed by hovering over it with the mouse cursor."));
+	expand_on_hover_old = workbench_get_expand_on_hover(workbench);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w_expand_on_hover), expand_on_hover_old);
+
 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 6);
 
 	hbox = gtk_hbox_new(FALSE, 0);
@@ -471,6 +480,12 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 		{
 			changed = TRUE;
 			workbench_set_enable_live_update(workbench, enable_live_update);
+		}
+		expand_on_hover = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w_expand_on_hover));
+		if (expand_on_hover != expand_on_hover_old)
+		{
+			changed = TRUE;
+			workbench_set_expand_on_hover(workbench, expand_on_hover);
 		}
 	}
 

@@ -130,7 +130,7 @@ void geany_load_module(GeanyPlugin *plugin)
 	/* Set metadata */
 	plugin->info->name = _("Workbench");
 	plugin->info->description = _("Manage and customize multiple projects.");
-	plugin->info->version = "1.04";
+	plugin->info->version = "1.05";
 	plugin->info->author = "LarsGit223";
 
 	/* Set functions */
