@@ -863,6 +863,9 @@ static void sidebar_update_workbench(GtkTreeIter *iter, gint *position)
 		gint length;
 		gchar text[200];
 
+		gtk_tree_view_set_hover_expand(GTK_TREE_VIEW(sidebar.file_view),
+			workbench_get_expand_on_hover(wb_globals.opened_wb));
+
 		count = workbench_get_project_count(wb_globals.opened_wb);
 		length = g_snprintf(text, sizeof(text),
 							g_dngettext(GETTEXT_PACKAGE, "%s: %u Project", "%s: %u Projects", count),
@@ -913,6 +916,14 @@ void sidebar_update (SIDEBAR_EVENT event, SIDEBAR_CONTEXT *context)
 			sidebar_reset_tree_store();
 			sidebar_update_workbench(&iter, &position);
 			sidebar_insert_all_projects(&iter, &position);
+
+			if (event == SIDEBAR_CONTEXT_WB_CREATED ||
+				event == SIDEBAR_CONTEXT_WB_OPENED)
+			{
+				gtk_tree_view_set_hover_expand(GTK_TREE_VIEW(sidebar.file_view),
+					workbench_get_expand_on_hover(wb_globals.opened_wb));
+			}
+
 			sidebar_activate();
 		break;
 		case SIDEBAR_CONTEXT_WB_SAVED:
