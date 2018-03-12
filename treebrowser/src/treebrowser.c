@@ -135,12 +135,6 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 
 #define foreach_slist_free(node, list) for (node = list, list = NULL; g_slist_free_1(list), node != NULL; list = node, node = node->next)
 
-static GList*
-_gtk_cell_layout_get_cells(GtkTreeViewColumn *column)
-{
-	return gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(column));
-}
-
 
 /* ------------------
  * PROTOTYPES
@@ -150,7 +144,7 @@ static void 	project_open_cb(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile 
 static void 	treebrowser_browse(gchar *directory, gpointer parent);
 static void 	treebrowser_bookmarks_set_state(void);
 static void 	treebrowser_load_bookmarks(void);
-static void 	gtk_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root);
+static void 	treebrowser_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root);
 static void 	treebrowser_rename_current(void);
 static void 	on_menu_create_new_object(GtkMenuItem *menuitem, const gchar *type);
 static void 	load_settings(void);
@@ -494,7 +488,7 @@ treebrowser_browse(gchar *directory, gpointer parent)
 	}
 
 	if (parent)
-		gtk_tree_store_iter_clear_nodes(parent, FALSE);
+		treebrowser_tree_store_iter_clear_nodes(parent, FALSE);
 	else
 		gtk_tree_store_clear(treestore);
 
@@ -611,7 +605,7 @@ treebrowser_load_bookmarks(void)
 		if (gtk_tree_store_iter_is_valid(treestore, &bookmarks_iter))
 		{
 			bookmarks_expanded = tree_view_row_expanded_iter(GTK_TREE_VIEW(treeview), &bookmarks_iter);
-			gtk_tree_store_iter_clear_nodes(&bookmarks_iter, FALSE);
+			treebrowser_tree_store_iter_clear_nodes(&bookmarks_iter, FALSE);
 		}
 		else
 		{
@@ -784,7 +778,7 @@ showbars(gboolean state)
 }
 
 static void
-gtk_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root)
+treebrowser_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root)
 {
 	GtkTreeIter i;
 
@@ -889,7 +883,7 @@ treebrowser_iter_rename(gpointer iter)
 		if (G_LIKELY(path != NULL))
 		{
 			column 		= gtk_tree_view_get_column(GTK_TREE_VIEW(treeview), 0);
-			renderers 	= _gtk_cell_layout_get_cells(column);
+			renderers 	= gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(column));
 			renderer 	= g_list_nth_data(renderers, TREEBROWSER_RENDER_TEXT);
 
 			g_object_set(G_OBJECT(renderer), "editable", TRUE, NULL);
@@ -1513,7 +1507,7 @@ on_treeview_changed(GtkWidget *widget, gpointer user_data)
 			if (!g_file_test(uri, G_FILE_TEST_IS_DIR) && CONFIG_ONE_CLICK_CHDOC)
 				document_open_file(uri, FALSE, NULL, NULL);
 		} else
-			gtk_tree_store_iter_clear_nodes(&iter, TRUE);
+			treebrowser_tree_store_iter_clear_nodes(&iter, TRUE);
 
 		g_free(uri);
 	}
@@ -1604,7 +1598,7 @@ on_treeview_renamed(GtkCellRenderer *renderer, const gchar *path_string, const g
 	gchar 				*uri, *uri_new, *dirname;
 
 	column 		= gtk_tree_view_get_column(GTK_TREE_VIEW(treeview), 0);
-	renderers 	= _gtk_cell_layout_get_cells(column);
+	renderers 	= gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(column));
 	renderer 	= g_list_nth_data(renderers, TREEBROWSER_RENDER_TEXT);
 	g_list_free(renderers);
 
