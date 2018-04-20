@@ -299,6 +299,13 @@ M: Frank Lanitz <frank@frank.uvena.de>
 W: http://plugins.geany.org/updatechecker.html
 S: Maintained
 
+vimode
+P: Jiří Techet <techet@gmail.com>
+g: @techee
+M: Jiří Techet <techet@gmail.com>
+W: http://plugins.geany.org/vimode.html
+S: Maintained
+
 webhelper
 P: Colomban Wendling <ban@herbesfolles.org>
 g: @b4n

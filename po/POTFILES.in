@@ -304,6 +304,9 @@ treebrowser/src/treebrowser.c
 # UpdateChecker
 updatechecker/src/updatechecker.c
 
+# ViMode
+vimode/src/backends/backend-geany.c
+
 # WebHelper
 webhelper/src/gwh-enum-types.c
 webhelper/src/gwh-keybindings.c
