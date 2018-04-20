@@ -1,0 +1,8 @@
+Various parts of the plugin code were taken from other Geany plugins, from Geany
+code or Scintilla. Thanks to all the authors of the corresponding code.
+
+Thanks to Frank Lanitz for the name of the plugin.
+
+Thanks to Bill Joy and Bram Moolenaar for creating vi and vim, respectively, so
+every bloody editor on the planet has to create a compatibility mode with this
+crazy editor to make users happy.
