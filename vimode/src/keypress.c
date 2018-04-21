@@ -23,10 +23,10 @@
 
 KeyPress *kp_from_event_key(GdkEventKey *ev)
 {
-	guint mask = GDK_MODIFIER_MASK & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK | GDK_CONTROL_MASK);
 	KeyPress *kp;
 
-	if (ev->state & mask)
+	/* ignore keypresses containing Alt - no Vim command uses it */
+	if (ev->state & GDK_MOD1_MASK)
 		return NULL;
 
 	switch (ev->keyval)
