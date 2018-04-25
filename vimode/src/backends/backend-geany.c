@@ -193,11 +193,24 @@ static gboolean on_editor_notify(GObject *object, GeanyEditor *editor,
 }
 
 
+static gboolean on_key_press(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
+{
+	GeanyDocument *doc = document_get_current();
+	ScintillaObject *sci = doc != NULL ? doc->editor->sci : NULL;
+
+	if (!sci || gtk_window_get_focus(GTK_WINDOW(geany->main_widgets->window)) != GTK_WIDGET(sci))
+		return FALSE;
+
+	return vi_notify_key_press(event);
+}
+
+
 PluginCallback plugin_callbacks[] = {
 	{"document-open", (GCallback) &on_doc_open, TRUE, NULL},
 	{"document-activate", (GCallback) &on_doc_activate, TRUE, NULL},
 	{"document-close", (GCallback) &on_doc_close, TRUE, NULL},
 	{"editor-notify", (GCallback) &on_editor_notify, TRUE, NULL},
+	{"key-press", (GCallback) &on_key_press, TRUE, NULL},
 	{NULL, NULL, FALSE, NULL}
 };
 
@@ -263,18 +276,6 @@ static void on_quit(gboolean force)
 }
 
 
-static gboolean on_key_press_cb(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
-{
-	GeanyDocument *doc = document_get_current();
-	ScintillaObject *sci = doc != NULL ? doc->editor->sci : NULL;
-
-	if (!sci || gtk_window_get_focus(GTK_WINDOW(geany->main_widgets->window)) != GTK_WIDGET(sci))
-		return FALSE;
-
-	return vi_notify_key_press(event);
-}
-
-
 void plugin_init(GeanyData *data)
 {
 	GeanyDocument *doc = document_get_current();
@@ -324,9 +325,6 @@ void plugin_init(GeanyData *data)
 
 	if (doc)
 		vi_set_active_sci(doc->editor->sci);
-
-	g_signal_connect(geany_data->main_widgets->window, "key-press-event",
-		G_CALLBACK(on_key_press_cb), NULL);
 }
 
 
@@ -334,8 +332,6 @@ void plugin_cleanup(void)
 {
 	vi_cleanup();
 	gtk_widget_destroy(menu_items.parent_item);
-	g_signal_handlers_disconnect_by_func(geany_data->main_widgets->window,
-		G_CALLBACK(on_key_press_cb), NULL);
 }
 
 
