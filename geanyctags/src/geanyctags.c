@@ -221,8 +221,8 @@ on_generate_tags(GtkMenuItem *menuitem, gpointer user_data)
 #ifndef G_OS_WIN32
 		gchar *find_string = generate_find_string(prj);
 		cmd = g_strconcat(find_string,
-			" | ctags --totals --fields=fKsSt --extra=-fq --c-kinds=+p --sort=foldcase --excmd=number -L - -f ",
-			tag_filename, NULL);
+			" | ctags --totals --fields=fKsSt --extra=-fq --c-kinds=+p --sort=foldcase --excmd=number -L - -f '",
+			tag_filename, "'", NULL);
 		g_free(find_string);
 #else
 		/* We don't have find and | on windows, generate tags for all files in the project (-R recursively) */
@@ -232,8 +232,8 @@ on_generate_tags(GtkMenuItem *menuitem, gpointer user_data)
 		 * refuses to overwrite it. Therefore, we need to delete the tags file manually. */
 		g_unlink(tag_filename);
 
-		cmd = g_strconcat("ctags.exe -R --totals --fields=fKsSt --extra=-fq --c-kinds=+p --sort=foldcase --excmd=number -f ",
-			tag_filename, NULL);
+		cmd = g_strconcat("ctags.exe -R --totals --fields=fKsSt --extra=-fq --c-kinds=+p --sort=foldcase --excmd=number -f \"",
+			tag_filename, "\"", NULL);
 #endif
 
 		spawn_cmd(cmd, prj->base_path);
