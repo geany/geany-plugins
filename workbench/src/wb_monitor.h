@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 LarsGit223
+ * Copyright 2018 LarsGit223
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,25 +16,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef GP_UTILS_FILELIST_H
-#define GP_UTILS_FILELIST_H
+#ifndef __WB_MONITOR_H__
+#define __WB_MONITOR_H__
 
 #include <glib.h>
+#include "wb_project.h"
 
-G_BEGIN_DECLS
+typedef struct S_WB_MONITOR WB_MONITOR;
 
-typedef enum
-{
-	FILELIST_FLAG_ADD_DIRS = 1,
-}FILELIST_FLAG;
+WB_MONITOR *wb_monitor_new(void);
+void wb_monitor_add_dir(WB_MONITOR *monitor, WB_PROJECT *prj,
+						WB_PROJECT_DIR *dir, const gchar *dirpath);
+gboolean wb_monitor_remove_dir(WB_MONITOR *monitor, const gchar *dirpath);
+void wb_monitor_free(WB_MONITOR *monitor);
 
-GSList *gp_filelist_scan_directory(guint *files, guint *folders, const gchar *searchdir, gchar **file_patterns,
-		gchar **ignored_dirs_patterns, gchar **ignored_file_patterns);
-GSList *gp_filelist_scan_directory_full(guint *files, guint *folders, const gchar *searchdir, gchar **file_patterns,
-		gchar **ignored_dirs_patterns, gchar **ignored_file_patterns, guint flags);
-gboolean gp_filelist_filepath_matches_patterns(const gchar *filepath, gchar **file_patterns,
-		gchar **ignored_dirs_patterns, gchar **ignored_file_patterns);
-
-G_END_DECLS
-
-#endif /* GP_UTILS_FILELIST_H */
+#endif

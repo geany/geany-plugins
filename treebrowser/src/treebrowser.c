@@ -19,9 +19,7 @@
 #include "geany.h"
 #include "geanyplugin.h"
 
-#ifdef HAVE_GIO
-# include <gio/gio.h>
-#endif
+#include <gio/gio.h>
 
 #ifdef G_OS_WIN32
 # include <windows.h>
@@ -137,16 +135,6 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 
 #define foreach_slist_free(node, list) for (node = list, list = NULL; g_slist_free_1(list), node != NULL; list = node, node = node->next)
 
-static GList*
-_gtk_cell_layout_get_cells(GtkTreeViewColumn *column)
-{
-#if GTK_CHECK_VERSION(2, 12, 0)
-	return gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(column));
-#else
-	return gtk_tree_view_column_get_cell_renderers(column);
-#endif
-}
-
 
 /* ------------------
  * PROTOTYPES
@@ -156,7 +144,7 @@ static void 	project_open_cb(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile 
 static void 	treebrowser_browse(gchar *directory, gpointer parent);
 static void 	treebrowser_bookmarks_set_state(void);
 static void 	treebrowser_load_bookmarks(void);
-static void 	gtk_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root);
+static void 	treebrowser_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root);
 static void 	treebrowser_rename_current(void);
 static void 	on_menu_create_new_object(GtkMenuItem *menuitem, const gchar *type);
 static void 	load_settings(void);
@@ -208,7 +196,6 @@ utils_pixbuf_from_stock(const gchar *stock_id)
 static GdkPixbuf *
 utils_pixbuf_from_path(gchar *path)
 {
-#if defined(HAVE_GIO) && GTK_CHECK_VERSION(2, 14, 0)
 	GIcon 		*icon;
 	GdkPixbuf 	*ret = NULL;
 	GtkIconInfo *info;
@@ -225,16 +212,20 @@ utils_pixbuf_from_path(gchar *path)
 		info = gtk_icon_theme_lookup_by_gicon(gtk_icon_theme_get_default(), icon, width, GTK_ICON_LOOKUP_USE_BUILTIN);
 		g_object_unref(icon);
 		if (!info)
+		{
+			icon = g_themed_icon_new("text-x-generic");
+			if (icon != NULL)
+			{
+				info = gtk_icon_theme_lookup_by_gicon(gtk_icon_theme_get_default(), icon, width, GTK_ICON_LOOKUP_USE_BUILTIN);
+				g_object_unref(icon);
+			}
+		}
+		if (!info)
 			return NULL;
 		ret = gtk_icon_info_load_icon (info, NULL);
 		gtk_icon_info_free(info);
 	}
 	return ret;
-#else
-	return utils_pixbuf_from_stock(g_file_test(path, G_FILE_TEST_IS_DIR)
-									? GTK_STOCK_DIRECTORY
-									: GTK_STOCK_FILE);
-#endif
 }
 
 
@@ -497,7 +488,7 @@ treebrowser_browse(gchar *directory, gpointer parent)
 	}
 
 	if (parent)
-		gtk_tree_store_iter_clear_nodes(parent, FALSE);
+		treebrowser_tree_store_iter_clear_nodes(parent, FALSE);
 	else
 		gtk_tree_store_clear(treestore);
 
@@ -614,7 +605,7 @@ treebrowser_load_bookmarks(void)
 		if (gtk_tree_store_iter_is_valid(treestore, &bookmarks_iter))
 		{
 			bookmarks_expanded = tree_view_row_expanded_iter(GTK_TREE_VIEW(treeview), &bookmarks_iter);
-			gtk_tree_store_iter_clear_nodes(&bookmarks_iter, FALSE);
+			treebrowser_tree_store_iter_clear_nodes(&bookmarks_iter, FALSE);
 		}
 		else
 		{
@@ -787,7 +778,7 @@ showbars(gboolean state)
 }
 
 static void
-gtk_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root)
+treebrowser_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root)
 {
 	GtkTreeIter i;
 
@@ -892,7 +883,7 @@ treebrowser_iter_rename(gpointer iter)
 		if (G_LIKELY(path != NULL))
 		{
 			column 		= gtk_tree_view_get_column(GTK_TREE_VIEW(treeview), 0);
-			renderers 	= _gtk_cell_layout_get_cells(column);
+			renderers 	= gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(column));
 			renderer 	= g_list_nth_data(renderers, TREEBROWSER_RENDER_TEXT);
 
 			g_object_set(G_OBJECT(renderer), "editable", TRUE, NULL);
@@ -1516,7 +1507,7 @@ on_treeview_changed(GtkWidget *widget, gpointer user_data)
 			if (!g_file_test(uri, G_FILE_TEST_IS_DIR) && CONFIG_ONE_CLICK_CHDOC)
 				document_open_file(uri, FALSE, NULL, NULL);
 		} else
-			gtk_tree_store_iter_clear_nodes(&iter, TRUE);
+			treebrowser_tree_store_iter_clear_nodes(&iter, TRUE);
 
 		g_free(uri);
 	}
@@ -1607,7 +1598,7 @@ on_treeview_renamed(GtkCellRenderer *renderer, const gchar *path_string, const g
 	gchar 				*uri, *uri_new, *dirname;
 
 	column 		= gtk_tree_view_get_column(GTK_TREE_VIEW(treeview), 0);
-	renderers 	= _gtk_cell_layout_get_cells(column);
+	renderers 	= gtk_cell_layout_get_cells(GTK_CELL_LAYOUT(column));
 	renderer 	= g_list_nth_data(renderers, TREEBROWSER_RENDER_TEXT);
 	g_list_free(renderers);
 
@@ -1699,15 +1690,11 @@ create_view_and_model(void)
 
 	ui_widget_modify_font_from_string(view, geany->interface_prefs->tagbar_font);
 
-#if GTK_CHECK_VERSION(2, 10, 0)
 	g_object_set(view, "has-tooltip", TRUE, "tooltip-column", TREEBROWSER_COLUMN_URI, NULL);
-#endif
 
 	gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW(view)), GTK_SELECTION_SINGLE);
 
-#if GTK_CHECK_VERSION(2, 10, 0)
 	gtk_tree_view_set_enable_tree_lines(GTK_TREE_VIEW(view), CONFIG_SHOW_TREE_LINES);
-#endif
 
 	treestore = gtk_tree_store_new(TREEBROWSER_COLUMNC, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT);
 
@@ -1776,11 +1763,8 @@ create_sidebar(void)
 
 	gtk_widget_set_tooltip_text(filter,
 		_("Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' reverse try for example this '!;*.c;*.h;*.cpp'"));
-	if (gtk_check_version(2, 15, 2) == NULL)
-	{
-		ui_entry_add_clear_icon(GTK_ENTRY(filter));
-		g_signal_connect(filter, "icon-release", G_CALLBACK(on_filter_clear), NULL);
-	}
+	ui_entry_add_clear_icon(GTK_ENTRY(filter));
+	g_signal_connect(filter, "icon-release", G_CALLBACK(on_filter_clear), NULL);
 
 	gtk_widget_set_tooltip_text(addressbar,
 		_("Addressbar for example '/projects/my-project'"));
@@ -1929,9 +1913,7 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 
 	if (save_settings() == TRUE)
 	{
-#if GTK_CHECK_VERSION(2, 10, 0)
 		gtk_tree_view_set_enable_tree_lines(GTK_TREE_VIEW(treeview), CONFIG_SHOW_TREE_LINES);
-#endif
 		treebrowser_chroot(addressbar_last_address);
 		if (CONFIG_SHOW_BOOKMARKS)
 			treebrowser_load_bookmarks();
@@ -2045,9 +2027,7 @@ plugin_configure(GtkDialog *dialog)
 	configure_widgets.SHOW_TREE_LINES = gtk_check_button_new_with_label(_("Show tree lines"));
 	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.SHOW_TREE_LINES), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_TREE_LINES), CONFIG_SHOW_TREE_LINES);
-#if GTK_CHECK_VERSION(2, 10, 0)
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.SHOW_TREE_LINES, FALSE, FALSE, 0);
-#endif
 
 	configure_widgets.SHOW_BOOKMARKS = gtk_check_button_new_with_label(_("Show bookmarks"));
 	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.SHOW_BOOKMARKS), FALSE);

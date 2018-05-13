@@ -31,10 +31,8 @@ GeanyData *geany_data;
 PLUGIN_VERSION_CHECK(224)
 
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, _("Scope Debugger"),
-	_("Relatively simple GDB front-end."
-	  "\nThis plugin currently has no maintainer. Would you like to help "
-	  "by contributing to this plugin?"), "0.94",
-	"Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>")
+	_("Relatively simple GDB front-end."), "0.94",
+	"Dimitar Toshkov Zhekov <dimitar.zhekov@gmail.com>, LarsGit223")
 
 /* Keybinding(s) */
 enum
@@ -166,7 +164,7 @@ static ToolItem toolbar_items[] =
 	{ STEP_OUT_KB,     { "small_step_out_icon",     "large_step_out_icon"     }, NULL, N_("Step out")          },
 	{ TERMINATE_KB,    { "small_terminate_icon",    "large_terminate_icon"    }, NULL, N_("Terminate")         },
 	{ BREAKPOINT_KB,   { "small_breakpoint_icon",   "large_breakpoint_icon",  }, NULL, N_("Toggle breakpoint") },
-	{ -1, { NULL, NULL }, NULL }
+	{ -1, { NULL, NULL }, NULL, NULL }
 };
 
 static void on_toolbar_button_clicked(G_GNUC_UNUSED GtkToolButton *toolbutton, gpointer gdata)
@@ -632,7 +630,7 @@ void plugin_init(G_GNUC_UNUSED GeanyData *gdata)
 		GtkMenuItem *menu_item = GTK_MENU_ITEM(debug_menu_items[tool_item->index].widget);
 		GtkToolItem *button = gtk_tool_button_new(NULL, gtk_menu_item_get_label(menu_item));
 
-		gtk_widget_set_tooltip_text (GTK_WIDGET (button), tool_item->tooltip_text);
+		gtk_widget_set_tooltip_text (GTK_WIDGET (button), _(tool_item->tooltip_text));
 		gtk_tool_button_set_use_underline(GTK_TOOL_BUTTON(button),
 			gtk_menu_item_get_use_underline(menu_item));
 		g_signal_connect(button, "clicked", G_CALLBACK(on_toolbar_button_clicked),

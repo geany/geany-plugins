@@ -39,7 +39,7 @@ PLUGIN_SET_TRANSLATABLE_INFO (
   LOCALEDIR, GETTEXT_PACKAGE,
   _("Translation Helper"),
   _("Improves support for GetText translation files."),
-  "0.1",
+  VERSION,
   "Colomban Wendling <ban@herbesfolles.org>"
 )
 
@@ -453,19 +453,27 @@ goto_next_untranslated_or_fuzzy (GeanyDocument *doc)
   }
 }
 
-/* basic regex search/replace without captures or back references */
+/* basic regex search/replace without captures or back references
+ *
+ * @sci A ScintillaObject
+ * @start Position where to start the search
+ * @end Position where to end the search, or -1 for the buffer's end
+ * @scire The Scintilla regular expression
+ * @repl The replacement text */
 static gboolean
 regex_replace (ScintillaObject *sci,
+               gint             start,
+               gint             end,
                const gchar     *scire,
                const gchar     *repl)
 {
   struct Sci_TextToFind ttf;
   
-  ttf.chrg.cpMin = 0;
-  ttf.chrg.cpMax = sci_get_length (sci);
+  ttf.chrg.cpMin = start;
+  ttf.chrg.cpMax = end >= 0 ? end : sci_get_length (sci);
   ttf.lpstrText = (gchar *) scire;
   
-  if (sci_find_text (sci, SCFIND_REGEXP, &ttf)) {
+  if (sci_find_text (sci, SCFIND_REGEXP, &ttf) != -1) {
     sci_set_target_start (sci, (gint) ttf.chrgText.cpMin);
     sci_set_target_end (sci, (gint) ttf.chrgText.cpMax);
     sci_replace_target (sci, repl, FALSE);
@@ -503,34 +511,6 @@ escape_string (const gchar *str)
   *p = 0;
   
   return new;
-}
-
-static void
-on_document_save (GObject        *obj,
-                  GeanyDocument  *doc,
-                  gpointer        user_data)
-{
-  if (doc_is_po (doc) && plugin.update_headers) {
-    gchar *name = escape_string (geany_data->template_prefs->developer);
-    gchar *mail = escape_string (geany_data->template_prefs->mail);
-    gchar *date;
-    gchar *translator;
-    
-    date = utils_get_date_time ("\"PO-Revision-Date: %Y-%m-%d %H:%M%z\\n\"",
-                                NULL);
-    translator = g_strdup_printf ("\"Last-Translator: %s <%s>\\n\"",
-                                  name, mail);
-    
-    sci_start_undo_action (doc->editor->sci);
-    regex_replace (doc->editor->sci, "^\"PO-Revision-Date: .*\"$", date);
-    regex_replace (doc->editor->sci, "^\"Last-Translator: .*\"$", translator);
-    sci_end_undo_action (doc->editor->sci);
-    
-    g_free (date);
-    g_free (translator);
-    g_free (name);
-    g_free (mail);
-  }
 }
 
 static void
@@ -858,6 +838,21 @@ get_msgid_text_at (GeanyDocument *doc,
   return NULL;
 }
 
+static const gchar *
+find_line_break (const gchar *str)
+{
+  for (; *str; str++) {
+    if (*str == '\\') {
+      if (str[1] == 'n')
+        return str;
+      else if (str[1])
+        str++;
+    }
+  }
+
+  return NULL;
+}
+
 /* cuts @str in human-readable chunks for max @len.
  * cuts first at \n, then at spaces and punctuation */
 static gchar **
@@ -870,17 +865,21 @@ split_msg (const gchar *str,
     GString *chunk = g_string_sized_new (len);
     
     while (*str) {
-      const gchar *nl = strstr (str, "\\n");
-      const gchar *p = strpbrk (str, " \t\v\r\n?!,.;:");
+      const gchar *nl = find_line_break (str);
+      const gchar *p = strpbrk (str, " \t\v\r\n?!,.;:-");
       glong chunk_len = g_utf8_strlen (chunk->str, (gssize) chunk->len);
       
       if (nl)
         nl += 2;
       
-      if (p)
-        p++;
-      else /* if there is no separator, use the end of the string */
+      if (! p) /* if there is no separator, use the end of the string */
         p = strchr (str, 0);
+      else {
+        p++;
+        /* try not to leave a space at the start of a chunk */
+        while (*p == ' ')
+          p++;
+      }
       
       if (nl && ((gsize)(chunk_len + g_utf8_strlen (str, nl - str)) <= len ||
                  (nl < p && chunk->len == 0))) {
@@ -932,8 +931,9 @@ on_kb_reflow (guint key_id)
                               (uptr_t) start, end + 1 - start);
       
       msgstr_kw_len = start - sci_get_position_from_line (sci, sci_get_line_from_position (sci, start));
-      if (msgstr_kw_len + len + 2 <= line_len) {
-        /* if all can go in the msgstr line, put it here */
+      if (msgstr_kw_len + len + 2 <= line_len &&
+          find_line_break (msgstr->str) == NULL) {
+        /* if all can go in the msgstr line and there's no newline, put it here */
         gchar *text = g_strconcat ("\"", msgstr->str, "\"", NULL);
         sci_insert_text (sci, start, text);
         g_free (text);
@@ -1189,6 +1189,72 @@ on_kb_toggle_fuzziness (guint key_id)
       
       g_ptr_array_free (flags, TRUE);
     }
+  }
+}
+
+static gint
+find_header_start (GeanyDocument *doc)
+{
+  if (doc_is_po (doc)) {
+    for (gint line = 0; line < sci_get_line_count (doc->editor->sci); line++) {
+      if (find_first_non_default_style_on_line (doc->editor->sci, line) == SCE_PO_MSGID) {
+        gint      pos = sci_get_position_from_line (doc->editor->sci, line);
+        GString  *str = get_msgid_text_at (doc, pos);
+        
+        if (str) {
+          gboolean is_header = (*str->str == 0);
+          
+          g_string_free (str, TRUE);
+          if (is_header) {
+            return pos;
+          }
+        }
+      }
+    }
+  }
+  
+  return -1;
+}
+
+static void
+on_document_save (GObject        *obj,
+                  GeanyDocument  *doc,
+                  gpointer        user_data)
+{
+  gint header_start;
+  
+  if (doc_is_po (doc) && plugin.update_headers &&
+      (header_start = find_header_start (doc)) >= 0) {
+    gchar *name = escape_string (geany_data->template_prefs->developer);
+    gchar *mail = escape_string (geany_data->template_prefs->mail);
+    gchar *date;
+    gchar *translator;
+    gchar *generator;
+    
+    date = utils_get_date_time ("\"PO-Revision-Date: %Y-%m-%d %H:%M%z\\n\"",
+                                NULL);
+    translator = g_strdup_printf ("\"Last-Translator: %s <%s>\\n\"",
+                                  name, mail);
+    generator = g_strdup_printf ("\"X-Generator: Geany / PoHelper %s\\n\"",
+                                 VERSION);
+    
+    sci_start_undo_action (doc->editor->sci);
+    regex_replace (doc->editor->sci,
+                   header_start, find_msgstr_end_at (doc, header_start) + 1,
+                   "^\"PO-Revision-Date: .*\"$", date);
+    regex_replace (doc->editor->sci,
+                   header_start, find_msgstr_end_at (doc, header_start) + 1,
+                   "^\"Last-Translator: .*\"$", translator);
+    regex_replace (doc->editor->sci,
+                   header_start, find_msgstr_end_at (doc, header_start) + 1,
+                   "^\"X-Generator: .*\"$", generator);
+    sci_end_undo_action (doc->editor->sci);
+    
+    g_free (date);
+    g_free (translator);
+    g_free (generator);
+    g_free (name);
+    g_free (mail);
   }
 }
 

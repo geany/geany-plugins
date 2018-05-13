@@ -27,7 +27,9 @@
 #include <glib/gstdio.h>
 #include <geanyplugin.h>
 #include "workbench.h"
+#include "sidebar.h"
 #include "wb_project.h"
+#include "wb_monitor.h"
 #include "utils.h"
 
 typedef struct
@@ -45,8 +47,11 @@ struct S_WORKBENCH
 	gchar     *name;
 	gboolean  modified;
 	gboolean  rescan_projects_on_open;
+	gboolean  enable_live_update;
+	gboolean  expand_on_hover;
 	GPtrArray *projects;
 	GPtrArray *bookmarks;
+	WB_MONITOR *monitor;
 };
 
 /* Create a new, empty workbench project entry */
@@ -81,12 +86,14 @@ WORKBENCH *workbench_new(void)
 {
 	WORKBENCH *new_wb;
 
-	new_wb = g_new(WORKBENCH, 1);
+	new_wb = g_new0(WORKBENCH, 1);
 	memset(new_wb, 0, sizeof(*new_wb));
 	new_wb->modified = FALSE;
 	new_wb->rescan_projects_on_open = TRUE;
+	new_wb->enable_live_update = TRUE;
 	new_wb->projects = g_ptr_array_new();
 	new_wb->bookmarks = g_ptr_array_new();
+	new_wb->monitor = wb_monitor_new();
 
 	return new_wb;
 }
@@ -117,6 +124,7 @@ void workbench_free(WORKBENCH *wb)
 		}
 	}
 
+	wb_monitor_free(wb->monitor);
 	g_ptr_array_free (wb->projects, TRUE);
 	g_free(wb);
 }
@@ -209,6 +217,78 @@ gboolean workbench_get_rescan_projects_on_open(WORKBENCH *wb)
 }
 
 
+/** Set the "Enable live update" option.
+ *
+ * @param wb    The workbench
+ * @param value The value to set
+ *
+ **/
+void workbench_set_enable_live_update(WORKBENCH *wb, gboolean value)
+{
+	if (wb != NULL)
+	{
+		if (wb->enable_live_update != value)
+		{
+			wb->enable_live_update = value;
+			wb->modified = TRUE;
+		}
+	}
+}
+
+
+/** Get the "Enable live update" option.
+ *
+ * @param wb The workbench
+ * @return TRUE = use file monitoring for live update of the file list,
+ *         FALSE = don't
+ *
+ **/
+gboolean workbench_get_enable_live_update(WORKBENCH *wb)
+{
+	if (wb != NULL)
+	{
+		return wb->enable_live_update;
+	}
+	return FALSE;
+}
+
+
+/** Set the "Expand on hover" option.
+ *
+ * @param wb    The workbench
+ * @param value The value to set
+ *
+ **/
+void workbench_set_expand_on_hover(WORKBENCH *wb, gboolean value)
+{
+	if (wb != NULL)
+	{
+		if (wb->expand_on_hover != value)
+		{
+			wb->expand_on_hover = value;
+			wb->modified = TRUE;
+		}
+	}
+}
+
+
+/** Get the "Expand on hover" option.
+ *
+ * @param wb The workbench
+ * @return TRUE = expand a tree-node on hovering over it,
+ *         FALSE = don't
+ *
+ **/
+gboolean workbench_get_expand_on_hover(WORKBENCH *wb)
+{
+	if (wb != NULL)
+	{
+		return wb->expand_on_hover;
+	}
+	return FALSE;
+}
+
+
 /** Set the filename.
  *
  * @param wb       The workbench
@@ -251,6 +331,22 @@ const gchar *workbench_get_filename(WORKBENCH *wb)
 	if (wb != NULL)
 	{
 		return wb->filename;
+	}
+	return NULL;
+}
+
+
+/** Get the monitor.
+ *
+ * @param wb The workbench
+ * @return Reference to the WB_MONITOR (can be NULL).
+ *
+ **/
+WB_MONITOR *workbench_get_monitor(WORKBENCH *wb)
+{
+	if (wb != NULL)
+	{
+		return wb->monitor;
 	}
 	return NULL;
 }
@@ -397,6 +493,9 @@ gboolean workbench_add_project(WORKBENCH *wb, const gchar *filename)
 			entry->status = PROJECT_ENTRY_STATUS_NOT_FOUND;
 		}
 		g_ptr_array_add (wb->projects, entry);
+
+		/* Load project to import base path. */
+		wb_project_load(project, filename, NULL);
 
 		wb->modified = TRUE;
 		return TRUE;
@@ -590,6 +689,8 @@ gboolean workbench_save(WORKBENCH *wb, GError **error)
 		g_key_file_set_string(kf, "General", "filetype", "workbench");
 		g_key_file_set_string(kf, "General", "version", "1.0");
 		g_key_file_set_boolean(kf, "General", "RescanProjectsOnOpen", wb->rescan_projects_on_open);
+		g_key_file_set_boolean(kf, "General", "EnableLiveUpdate", wb->enable_live_update);
+		g_key_file_set_boolean(kf, "General", "ExpandOnHover", wb->expand_on_hover);
 
 		/* Save Workbench bookmarks as string list */
 		boomarks_size = workbench_get_bookmarks_count(wb);
@@ -713,6 +814,26 @@ gboolean workbench_load(WORKBENCH *wb, const gchar *filename, GError **error)
 		}
 		workbench_set_filename(wb, filename);
 		wb->rescan_projects_on_open = g_key_file_get_boolean(kf, "General", "RescanProjectsOnOpen", error);
+		if (g_key_file_has_key (kf, "General", "EnableLiveUpdate", error))
+		{
+			wb->enable_live_update = g_key_file_get_boolean(kf, "General", "EnableLiveUpdate", error);
+		}
+		else
+		{
+			/* Not found. Might happen if the workbench was created with an older version of the plugin.
+			   Initialize with TRUE. */
+			wb->enable_live_update = TRUE;
+		}
+		if (g_key_file_has_key (kf, "General", "ExpandOnHover", error))
+		{
+			wb->expand_on_hover = g_key_file_get_boolean(kf, "General", "ExpandOnHover", error);
+		}
+		else
+		{
+			/* Not found. Might happen if the workbench was created with an older version of the plugin.
+			   Initialize with FALSE. */
+			wb->expand_on_hover = FALSE;
+		}
 
 		/* Load Workbench bookmarks from string list */
 		bookmarks_strings = g_key_file_get_string_list (kf, "General", "Bookmarks", NULL, error);
@@ -800,4 +921,156 @@ gboolean workbench_load(WORKBENCH *wb, const gchar *filename, GError **error)
 	}
 
 	return success;
+}
+
+
+/* Check if the given pointers are still valid references. */
+static gboolean workbench_references_are_valid(WORKBENCH *wb, WB_PROJECT *prj, WB_PROJECT_DIR *dir)
+{
+	guint index;
+	WB_PROJECT_ENTRY *entry;
+
+	if (wb == NULL)
+	{
+		return FALSE;
+	}
+
+	/* Try to find the project. */
+	for (index = 0 ; index < wb->projects->len ; index++)
+	{
+		entry = g_ptr_array_index(wb->projects, index);
+		if (((WB_PROJECT_ENTRY *)entry)->project == prj)
+		{
+			break;
+		}
+	}
+	if (index >= wb->projects->len)
+	{
+		return FALSE;
+	}
+
+	/* Project exists in this workbench, let the project validate
+	   the directory. */
+	return wb_project_is_valid_dir_reference(prj, dir);
+}
+
+
+/** Process the add file event.
+ *
+ * The function processes the add file event. The pointers are checked for
+ * validity and on success the task is passed on to the project dir. file can
+ * be the path of a regular file or a directory.
+ *
+ * @param wb   The workbench
+ * @param prj  The project
+ * @param dir  The directory
+ * @param file The new file to add to project/directory
+ *
+ **/
+void workbench_process_add_file_event(WORKBENCH *wb, WB_PROJECT *prj, WB_PROJECT_DIR *dir, const gchar *file)
+{
+	if (workbench_references_are_valid(wb, prj, dir) == FALSE)
+	{
+		/* Should not happen, log a message and return. */
+		g_message("%s: invalid references: wb: %p, prj: %p, dir: %p",
+			G_STRFUNC, wb, prj, dir);
+		return;
+	}
+
+	wb_project_dir_add_file(prj, dir, file);
+}
+
+
+/** Process the remove file event.
+ *
+ * The function processes the remove file event. The pointers are checked for
+ * validity and on success the task is passed on to the project dir. file can
+ * be the path of a regular file or a directory.
+ *
+ * @param wb   The workbench
+ * @param prj  The project
+ * @param dir  The directory
+ * @param file The file to remove from project/directory
+ *
+ **/
+void workbench_process_remove_file_event(WORKBENCH *wb, WB_PROJECT *prj, WB_PROJECT_DIR *dir, const gchar *file)
+{
+	if (workbench_references_are_valid(wb, prj, dir) == FALSE)
+	{
+		/* Should not happen, log a message and return. */
+		g_message("%s: invalid references: wb: %p, prj: %p, dir: %p",
+			G_STRFUNC, wb, prj, dir);
+		return;
+	}
+
+	wb_project_dir_remove_file(prj, dir, file);
+}
+
+
+/* Foreach callback function for creating file monitors. */
+static void workbench_enable_live_update_foreach_cb(SIDEBAR_CONTEXT *context,
+													gpointer userdata)
+{
+	gchar *dirpath = NULL;
+	gchar *abs_path = NULL;
+	WB_MONITOR *monitor;
+
+	if (context->project != NULL && context->directory != NULL)
+	{
+		if (context->subdir != NULL)
+		{
+			dirpath = context->subdir;
+		}
+		else
+		{
+			abs_path = get_combined_path(wb_project_get_filename(context->project),
+										wb_project_dir_get_base_dir(context->directory));
+			dirpath = abs_path;
+		}
+	}
+
+	if (dirpath != NULL)
+	{
+		monitor = userdata;
+		wb_monitor_add_dir(monitor, context->project, context->directory, dirpath);
+	}
+
+	g_free(abs_path);
+}
+
+
+/** Enable live update.
+ *
+ * The function enables live update of the workbench by creating file
+ * monitors for all directories in the sidebars file tree.
+ *
+ * @param wb       The workbench
+ *
+ **/
+void workbench_enable_live_update(WORKBENCH *wb)
+{
+	if (wb != NULL)
+	{
+		sidebar_call_foreach(DATA_ID_DIRECTORY,
+			workbench_enable_live_update_foreach_cb, wb->monitor);
+		sidebar_call_foreach(DATA_ID_SUB_DIRECTORY,
+			workbench_enable_live_update_foreach_cb, wb->monitor);
+	}
+}
+
+
+/** Disable live update.
+ *
+ * The function disables live update of the workbench by freeing all
+ * file monitors.
+ *
+ * @param wb       The workbench
+ *
+ **/
+void workbench_disable_live_update(WORKBENCH *wb)
+{
+	if (wb != NULL)
+	{
+		wb_monitor_free(wb->monitor);
+	}
 }

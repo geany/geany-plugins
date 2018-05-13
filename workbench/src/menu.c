@@ -148,9 +148,27 @@ static void item_workbench_settings_activate_cb(G_GNUC_UNUSED GtkMenuItem *menui
 {
 	if (wb_globals.opened_wb != NULL)
 	{
+		gboolean enable_live_update_old, enable_live_update;
+
+		enable_live_update_old = workbench_get_enable_live_update(wb_globals.opened_wb);
 		if (dialogs_workbench_settings(wb_globals.opened_wb))
 		{
 			sidebar_update(SIDEBAR_CONTEXT_WB_SETTINGS_CHANGED, NULL);
+
+			enable_live_update = workbench_get_enable_live_update(wb_globals.opened_wb);
+			if (enable_live_update != enable_live_update_old)
+			{
+				if (enable_live_update == TRUE)
+				{
+					/* Start/create all file monitors. */
+					workbench_enable_live_update(wb_globals.opened_wb);
+				}
+				else
+				{
+					/* Stop/free all file monitors. */
+					workbench_disable_live_update(wb_globals.opened_wb);
+				}
+			}
 		}
 	}
 }

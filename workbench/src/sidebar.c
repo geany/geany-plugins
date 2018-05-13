@@ -35,18 +35,6 @@
 
 enum
 {
-	DATA_ID_UNSET = 0,
-	DATA_ID_WB_BOOKMARK,
-	DATA_ID_PROJECT,
-	DATA_ID_PRJ_BOOKMARK,
-	DATA_ID_DIRECTORY,
-	DATA_ID_NO_DIRS,
-	DATA_ID_FOLDER,
-	DATA_ID_FILE,
-};
-
-enum
-{
 	FILEVIEW_COLUMN_ICON,
 	FILEVIEW_COLUMN_NAME,
 	FILEVIEW_COLUMN_DATA_ID,
@@ -63,9 +51,26 @@ typedef enum
 
 typedef struct
 {
+	gboolean iter_valid;
+	GtkTreeIter iter;
+	gboolean parent_valid;
+	GtkTreeIter parent;
+}ITER_SEARCH_RESULT;
+
+typedef struct
+{
 	GeanyProject *project;
 	GPtrArray *expanded_paths;
 } ExpandData;
+
+typedef struct
+{
+	SIDEBAR_CONTEXT *context;
+	GtkTreeModel *model;
+	guint dataid;
+	void (*func)(SIDEBAR_CONTEXT *, gpointer userdata);
+	gpointer userdata;
+}SB_CALLFOREACH_CONTEXT;
 
 typedef struct SIDEBAR
 {
@@ -75,6 +80,9 @@ typedef struct SIDEBAR
     GtkWidget *file_view_label;
 }SIDEBAR;
 static SIDEBAR sidebar = {NULL, NULL, NULL, NULL};
+
+static gboolean sidebar_get_directory_iter(WB_PROJECT *prj, WB_PROJECT_DIR *dir, GtkTreeIter *iter);
+static gboolean sidebar_get_filepath_iter (WB_PROJECT *prj, WB_PROJECT_DIR *root, const gchar *filepath, ITER_SEARCH_RESULT *result);
 
 /* Remove all child nodes below parent */
 static void sidebar_remove_children(GtkTreeIter *parent)
@@ -90,13 +98,13 @@ static void sidebar_remove_children(GtkTreeIter *parent)
 }
 
 
-/* Create a branch for a folder */
+/* Create a branch for a sub-directory */
 static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList *leaf_list, GtkTreeIter *parent)
 {
 	GSList *dir_list = NULL;
 	GSList *file_list = NULL;
 	GSList *elem = NULL;
-	gchar **path_arr;
+	gchar **path_arr, *part, *full, *dirpath;
 
 	foreach_slist (elem, leaf_list)
 	{
@@ -105,6 +113,10 @@ static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList 
 			continue;
 		}
 		path_arr = elem->data;
+		if (path_arr[level] == NULL)
+		{
+			continue;
+		}
 
 		if (path_arr[level+1] != NULL)
 		{
@@ -112,14 +124,24 @@ static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList 
 		}
 		else
 		{
-			file_list = g_slist_prepend(file_list, path_arr);
+			// Extra check for empty directories
+			part = g_build_filenamev(path_arr);
+			dirpath = g_build_filename(abs_base_dir, part, NULL);
+			if (dirpath != NULL && g_file_test (dirpath, G_FILE_TEST_IS_DIR))
+			{
+				dir_list = g_slist_prepend(dir_list, path_arr);
+				g_free(dirpath);
+			}
+			else
+			{
+				file_list = g_slist_prepend(file_list, path_arr);
+			}
 		}
 	}
 
 	foreach_slist (elem, file_list)
 	{
 		GtkTreeIter iter;
-		gchar *part, *full;
 		GIcon *icon = NULL;
 
 		path_arr = elem->data;
@@ -177,6 +199,10 @@ static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList 
 		{
 			gboolean dir_changed;
 
+			part = g_build_filenamev(path_arr);
+			full = g_build_filename(abs_base_dir, part, NULL);
+			g_free(part);
+
 			path_arr = (gchar **) elem->data;
 			dir_changed = g_strcmp0(last_dir_name, path_arr[level]) != 0;
 
@@ -185,7 +211,8 @@ static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList 
 				gtk_tree_store_insert_with_values(sidebar.file_store, &iter, parent, 0,
 					FILEVIEW_COLUMN_ICON, icon_dir,
 					FILEVIEW_COLUMN_NAME, last_dir_name,
-					FILEVIEW_COLUMN_DATA_ID, DATA_ID_FOLDER,
+					FILEVIEW_COLUMN_DATA_ID, DATA_ID_SUB_DIRECTORY,
+					FILEVIEW_COLUMN_ASSIGNED_DATA_POINTER, g_strdup(full),
 					-1);
 
 				sidebar_create_branch(level+1, abs_base_dir, tmp_list, &iter);
@@ -194,15 +221,22 @@ static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList 
 				tmp_list = NULL;
 				last_dir_name = path_arr[level];
 			}
+			g_free(full);
 
 			tmp_list = g_slist_prepend(tmp_list, path_arr);
 		}
 
+		part = g_build_filenamev(path_arr);
+		full = g_build_filename(abs_base_dir, part, NULL);
+		g_free(part);
+
 		gtk_tree_store_insert_with_values(sidebar.file_store, &iter, parent, 0,
 			FILEVIEW_COLUMN_ICON, icon_dir,
 			FILEVIEW_COLUMN_NAME, last_dir_name,
-			FILEVIEW_COLUMN_DATA_ID, DATA_ID_FOLDER,
+			FILEVIEW_COLUMN_DATA_ID, DATA_ID_SUB_DIRECTORY,
+			FILEVIEW_COLUMN_ASSIGNED_DATA_POINTER, g_strdup(full),
 			-1);
+			g_free(full);
 
 		sidebar_create_branch(level+1, abs_base_dir, tmp_list, &iter);
 
@@ -221,11 +255,11 @@ static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList 
 /* Reverse strcmp */
 static int rev_strcmp(const char *str1, const char *str2)
 {
-	return strcmp(str2, str1);
+	return g_strcmp0(str2, str1);
 }
 
 
-/* Insert given directory/folder into the sidebar file tree */
+/* Insert given directory/sub-directory into the sidebar file tree */
 static void sidebar_insert_project_directory(WB_PROJECT *prj, WB_PROJECT_DIR *directory, GtkTreeIter *parent)
 {
 	GSList *lst = NULL;
@@ -241,7 +275,10 @@ static void sidebar_insert_project_directory(WB_PROJECT *prj, WB_PROJECT_DIR *di
 	while (g_hash_table_iter_next(&iter, &key, &value))
 	{
 		gchar *path = get_relative_path(abs_base_dir, key);
-		lst = g_slist_prepend(lst, path);
+		if (path != NULL)
+		{
+			lst = g_slist_prepend(lst, path);
+		}
 	}
 	/* sort in reverse order so we can prepend nodes to the tree store -
 	 * the store behaves as a linked list and prepending is faster */
@@ -334,6 +371,104 @@ static void sidebar_insert_project_directories (WB_PROJECT *project, GtkTreeIter
 }
 
 
+/* Add a file to the sidebar. filepath can be a file or directory. */
+static void sidebar_add_file (WB_PROJECT *prj, WB_PROJECT_DIR *root, const gchar *filepath)
+{
+	GIcon *icon = NULL;
+	gchar *name;
+	guint dataid;
+	ITER_SEARCH_RESULT search_result;
+
+	if (!sidebar_get_filepath_iter(prj, root, filepath, &search_result))
+	{
+		return;
+	}
+	else
+	{
+		if (search_result.iter_valid)
+		{
+			/* Error, file already exists in sidebar tree. */
+			return;
+		}
+		else
+		{
+			/* This is the expected result as we want to add a new file node.
+			   But parent should be valid. */
+			if (!search_result.parent_valid)
+			{
+				return;
+			}
+		}
+	}
+
+	/* Collect data */
+	name = g_path_get_basename(filepath);
+	if (g_file_test (filepath, G_FILE_TEST_IS_DIR))
+	{
+		dataid = DATA_ID_SUB_DIRECTORY;
+		icon = g_icon_new_for_string("folder", NULL);
+	}
+	else
+	{
+		dataid = DATA_ID_FILE;
+
+		gchar *content_type = g_content_type_guess(filepath, NULL, 0, NULL);
+		if (content_type)
+		{
+			icon = g_content_type_get_icon(content_type);
+			if (icon)
+			{
+				GtkIconInfo *icon_info;
+
+				icon_info = gtk_icon_theme_lookup_by_gicon(gtk_icon_theme_get_default(), icon, 16, 0);
+				if (!icon_info)
+				{
+					g_object_unref(icon);
+					icon = NULL;
+				}
+				else
+					gtk_icon_info_free(icon_info);
+			}
+			g_free(content_type);
+		}
+
+	}
+
+	/* Create new row/node in sidebar tree. */
+	gtk_tree_store_insert_with_values(sidebar.file_store, &search_result.iter, &search_result.parent, -1,
+		FILEVIEW_COLUMN_ICON, icon,
+		FILEVIEW_COLUMN_NAME, name,
+		FILEVIEW_COLUMN_DATA_ID, dataid,
+		FILEVIEW_COLUMN_ASSIGNED_DATA_POINTER, g_strdup(filepath),
+		-1);
+
+	if (icon)
+	{
+		g_object_unref(icon);
+	}
+}
+
+
+/* Remove a file from the sidebar. filepath can be a file or directory. */
+static void sidebar_remove_file (WB_PROJECT *prj, WB_PROJECT_DIR *root, const gchar *filepath)
+{
+	ITER_SEARCH_RESULT search_result;
+
+	if (!sidebar_get_filepath_iter(prj, root, filepath, &search_result))
+	{
+		return;
+	}
+	else
+	{
+		if (search_result.iter_valid)
+		{
+			/* File was found, remove the node. */
+			gtk_tree_store_remove(sidebar.file_store, &search_result.iter);
+		}
+	}
+}
+
+
 /* Get the GtkTreeIter for project prj */
 static gboolean sidebar_get_project_iter(WB_PROJECT *prj, GtkTreeIter *iter)
 {
@@ -354,6 +489,140 @@ static gboolean sidebar_get_project_iter(WB_PROJECT *prj, GtkTreeIter *iter)
 		}while (gtk_tree_model_iter_next(model, iter));
 	}
 	return FALSE;
+}
+
+
+/* Get the GtkTreeIter for directory dir in project prj */
+static gboolean sidebar_get_directory_iter(WB_PROJECT *prj, WB_PROJECT_DIR *dir, GtkTreeIter *iter)
+{
+	GtkTreeIter parent;
+	GtkTreeModel *model;
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(sidebar.file_view));
+	if (sidebar_get_project_iter(prj, iter))
+	{
+		parent = *iter;
+		if (gtk_tree_model_iter_children (model, iter, &parent))
+		{
+			WB_PROJECT_DIR *current;
+
+			do
+			{
+				gtk_tree_model_get(model, iter, FILEVIEW_COLUMN_ASSIGNED_DATA_POINTER, &current, -1);
+				if (current == dir)
+				{
+					return TRUE;
+				}
+			}while (gtk_tree_model_iter_next(model, iter));
+		}
+	}
+	return FALSE;
+}
+
+
+/* Get the GtkTreeIter for filepath (absolute) in directory root in project prj */
+static gboolean sidebar_get_filepath_iter (WB_PROJECT *prj, WB_PROJECT_DIR *root, const gchar *filepath, ITER_SEARCH_RESULT *search_result)
+{
+	guint len, index;
+	gchar *part, **parts, *found = NULL, *last_found, *abs_base_dir;
+	GtkTreeIter iter, parent;
+	GtkTreeModel *model;
+
+	if (search_result == NULL)
+	{
+		return FALSE;
+	}
+	search_result->iter_valid = FALSE;
+	search_result->parent_valid = FALSE;
+
+	abs_base_dir = get_combined_path(wb_project_get_filename(prj), wb_project_dir_get_base_dir(root));
+	len = strlen(abs_base_dir);
+	if (strncmp(abs_base_dir, filepath, len) != 0)
+	{
+		/* Error, return. */
+		return FALSE;
+	}
+	if (filepath[len] == G_DIR_SEPARATOR)
+	{
+		len++;
+	}
+	part = g_strdup(&(filepath[len]));
+	if (strlen(part) == 0)
+	{
+		return FALSE;
+	}
+	parts = g_strsplit(part, G_DIR_SEPARATOR_S, -1);
+	if (parts[0] == NULL)
+	{
+		return FALSE;
+	}
+
+	if (sidebar_get_directory_iter(prj, root, &iter))
+	{
+		index = 0;
+		last_found = NULL;
+		model = gtk_tree_view_get_model(GTK_TREE_VIEW(sidebar.file_view));
+
+		while (parts[index] != NULL)
+		{
+			parent = iter;
+			if (gtk_tree_model_iter_children(model, &iter, &parent))
+			{
+				gchar *current;
+
+				found = NULL;
+				do
+				{
+					gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_NAME, &current, -1);
+
+					if (g_strcmp0(current, parts[index]) == 0)
+					{
+						found = current;
+						last_found = current;
+						index++;
+						//parent = iter;
+						break;
+					}
+				}while (gtk_tree_model_iter_next(model, &iter));
+
+				/* Did we find the next match? */
+				if (found == NULL)
+				{
+					/* No, abort. */
+					break;
+				}
+			}
+			else
+			{
+				break;
+			}
+		}
+
+		/* Did we find a full match? */
+		if (parts[index] == NULL && found != NULL)
+		{
+			/* Yes. */
+			search_result->iter_valid = TRUE;
+			search_result->iter = iter;
+
+			search_result->parent_valid = TRUE;
+			search_result->parent = parent;
+		}
+		else if (parts[index+1] == NULL &&
+				 (last_found != NULL || parts[1] == NULL))
+		{
+			/* Not a full match but everything but the last part
+			   of the filepath. At least return the parent. */
+			search_result->parent_valid = TRUE;
+			search_result->parent = parent;
+		}
+	}
+
+	g_free(part);
+	g_free(abs_base_dir);
+	g_strfreev(parts);
+
+	return TRUE;
 }
 
 
@@ -594,6 +863,9 @@ static void sidebar_update_workbench(GtkTreeIter *iter, gint *position)
 		gint length;
 		gchar text[200];
 
+		gtk_tree_view_set_hover_expand(GTK_TREE_VIEW(sidebar.file_view),
+			workbench_get_expand_on_hover(wb_globals.opened_wb));
+
 		count = workbench_get_project_count(wb_globals.opened_wb);
 		length = g_snprintf(text, sizeof(text),
 							g_dngettext(GETTEXT_PACKAGE, "%s: %u Project", "%s: %u Projects", count),
@@ -644,6 +916,14 @@ void sidebar_update (SIDEBAR_EVENT event, SIDEBAR_CONTEXT *context)
 			sidebar_reset_tree_store();
 			sidebar_update_workbench(&iter, &position);
 			sidebar_insert_all_projects(&iter, &position);
+
+			if (event == SIDEBAR_CONTEXT_WB_CREATED ||
+				event == SIDEBAR_CONTEXT_WB_OPENED)
+			{
+				gtk_tree_view_set_hover_expand(GTK_TREE_VIEW(sidebar.file_view),
+					workbench_get_expand_on_hover(wb_globals.opened_wb));
+			}
+
 			sidebar_activate();
 		break;
 		case SIDEBAR_CONTEXT_WB_SAVED:
@@ -680,6 +960,12 @@ void sidebar_update (SIDEBAR_EVENT event, SIDEBAR_CONTEXT *context)
 				sidebar_update_workbench(&first, &position);
 			}
 		}
+		break;
+		case SIDEBAR_CONTEXT_FILE_ADDED:
+			sidebar_add_file(context->project, context->directory, context->file);
+		break;
+		case SIDEBAR_CONTEXT_FILE_REMOVED:
+			sidebar_remove_file(context->project, context->directory, context->file);
 		break;
 	}
 }
@@ -757,9 +1043,9 @@ static gboolean sidebar_file_view_on_button_release(G_GNUC_UNUSED GtkWidget * wi
 			{
 				popup_context = POPUP_CONTEXT_FILE;
 			}
-			else if (context.folder != NULL)
+			else if (context.subdir != NULL)
 			{
-				popup_context = POPUP_CONTEXT_FOLDER;
+				popup_context = POPUP_CONTEXT_SUB_DIRECTORY;
 			}
 			else if (context.directory != NULL)
 			{
@@ -960,8 +1246,11 @@ gboolean sidebar_file_view_get_selected_context(SIDEBAR_CONTEXT *context)
 					case DATA_ID_NO_DIRS:
 						/* Has not got any data. */
 					break;
-					case DATA_ID_FOLDER:
-						context->folder = data;
+					case DATA_ID_SUB_DIRECTORY:
+						if (context->subdir == NULL)
+						{
+							context->subdir = data;
+						}
 					break;
 					case DATA_ID_FILE:
 						context->file = data;
@@ -980,7 +1269,7 @@ gboolean sidebar_file_view_get_selected_context(SIDEBAR_CONTEXT *context)
 }
 
 /* Collect all filenames recursively starting from iter and add them to list */
-static void sidebar_get_filelist_for_iter(GPtrArray *list, GtkTreeIter iter)
+static void sidebar_get_filelist_for_iter(GPtrArray *list, GtkTreeIter iter, gboolean dirnames)
 {
 	GtkTreeModel *model;
 	GtkTreeIter childs;
@@ -999,10 +1288,15 @@ static void sidebar_get_filelist_for_iter(GPtrArray *list, GtkTreeIter iter)
 				g_ptr_array_add(list, g_strdup(filename));
 			break;
 			case DATA_ID_DIRECTORY:
-			case DATA_ID_FOLDER:
+			case DATA_ID_SUB_DIRECTORY:
+				if (dirnames == TRUE)
+				{
+					gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_ASSIGNED_DATA_POINTER, &filename, -1);
+					g_ptr_array_add(list, g_strdup(filename));
+				}
 				if (gtk_tree_model_iter_children(model, &childs, &iter) == TRUE)
 				{
-					sidebar_get_filelist_for_iter(list, childs);
+					sidebar_get_filelist_for_iter(list, childs, dirnames);
 				}
 			break;
 		}
@@ -1013,8 +1307,8 @@ static void sidebar_get_filelist_for_iter(GPtrArray *list, GtkTreeIter iter)
 
 
 /* Get the lkist of files belonging to the current selection for
-   id (id = project, directory, folder) */
-static GPtrArray *sidebar_get_selected_filelist (guint id)
+   id (id = project, directory, sub-directory) */
+static GPtrArray *sidebar_get_selected_filelist (guint id, gboolean dirnames)
 {
 	GtkTreeModel *model;
 	GPtrArray *list;
@@ -1026,7 +1320,7 @@ static GPtrArray *sidebar_get_selected_filelist (guint id)
 		model = gtk_tree_view_get_model(GTK_TREE_VIEW(sidebar.file_view));
 		if (gtk_tree_model_iter_children(model, &childs, &iter) == TRUE)
 		{
-			sidebar_get_filelist_for_iter(list, childs);
+			sidebar_get_filelist_for_iter(list, childs, dirnames);
 		}
 		return list;
 	}
@@ -1040,9 +1334,9 @@ static GPtrArray *sidebar_get_selected_filelist (guint id)
  * @return GPtrArray containing file names or NULL.
  *
  **/
-GPtrArray *sidebar_get_selected_project_filelist (void)
+GPtrArray *sidebar_get_selected_project_filelist (gboolean dirnames)
 {
-	return sidebar_get_selected_filelist(DATA_ID_PROJECT);
+	return sidebar_get_selected_filelist(DATA_ID_PROJECT, dirnames);
 }
 
 
@@ -1051,20 +1345,20 @@ GPtrArray *sidebar_get_selected_project_filelist (void)
  * @return GPtrArray containing file names or NULL.
  *
  **/
-GPtrArray *sidebar_get_selected_directory_filelist (void)
+GPtrArray *sidebar_get_selected_directory_filelist (gboolean dirnames)
 {
-	return sidebar_get_selected_filelist(DATA_ID_DIRECTORY);
+	return sidebar_get_selected_filelist(DATA_ID_DIRECTORY, dirnames);
 }
 
 
-/** Get the list of files corresponding to the selected folder.
+/** Get the list of files corresponding to the selected sub-directory.
  * 
  * @return GPtrArray containing file names or NULL.
  *
  **/
-GPtrArray *sidebar_get_selected_folder_filelist (void)
+GPtrArray *sidebar_get_selected_subdir_filelist (gboolean dirnames)
 {
-	return sidebar_get_selected_filelist(DATA_ID_FOLDER);
+	return sidebar_get_selected_filelist(DATA_ID_SUB_DIRECTORY, dirnames);
 }
 
 /** Setup the sidebar.
@@ -1291,5 +1585,109 @@ void sidebar_toggle_selected_project_dir_expansion (void)
 										path, TRUE);
 		}
 		gtk_tree_path_free(path);
+	}
+}
+
+
+/* Helper function to set context according to given parameters. */
+static void sidebar_set_context (SIDEBAR_CONTEXT *context, guint dataid, gpointer data)
+{
+	if (data != NULL)
+	{
+		switch (dataid)
+		{
+			case DATA_ID_WB_BOOKMARK:
+				memset(context, 0, sizeof(*context));
+				context->wb_bookmark = data;
+			break;
+			case DATA_ID_PROJECT:
+				memset(context, 0, sizeof(*context));
+				context->project = data;
+			break;
+			case DATA_ID_PRJ_BOOKMARK:
+				context->prj_bookmark = data;
+				context->directory = NULL;
+				context->subdir = NULL;
+				context->file = NULL;
+			break;
+			case DATA_ID_DIRECTORY:
+				context->directory = data;
+				context->subdir = NULL;
+				context->file = NULL;
+			break;
+			case DATA_ID_NO_DIRS:
+				/* Has not got any data. */
+			break;
+			case DATA_ID_SUB_DIRECTORY:
+				context->subdir = data;
+				context->file = NULL;
+			break;
+			case DATA_ID_FILE:
+				context->file = data;
+			break;
+		}
+	}
+}
+
+
+/* Internal call foreach function. Traverses the whole sidebar. */
+void sidebar_call_foreach_int(SB_CALLFOREACH_CONTEXT *foreach_cntxt,
+							  GtkTreeIter *iter)
+{
+	guint currentid;
+	gpointer current;
+	GtkTreeIter children;
+
+	do
+	{
+		gtk_tree_model_get(foreach_cntxt->model, iter, FILEVIEW_COLUMN_DATA_ID, &currentid, -1);
+		gtk_tree_model_get(foreach_cntxt->model, iter, FILEVIEW_COLUMN_ASSIGNED_DATA_POINTER, &current, -1);
+
+		sidebar_set_context(foreach_cntxt->context, currentid, current);
+		if (currentid == foreach_cntxt->dataid)
+		{
+			/* Found requested node. Call callback function. */
+			foreach_cntxt->func(foreach_cntxt->context, foreach_cntxt->userdata);
+		}
+
+		/* If the node has childs then check them to. */
+		if (gtk_tree_model_iter_children (foreach_cntxt->model, &children, iter))
+		{
+			sidebar_call_foreach_int(foreach_cntxt, &children);
+		}
+	}while (gtk_tree_model_iter_next(foreach_cntxt->model, iter));
+}
+
+
+/** Call a callback function for each matching node.
+ *
+ * This function traverses the complete sidebar tree and calls func each time
+ * a node with dataid is found. The function is passed the sidebar context
+ * for the current position in hte tree and the given userdata.
+ * 
+ * @param dataid   Which nodes are of interest?
+ * @param func     Callback function
+ * @param userdata Pointer to user data. Is transparently passed through
+ *                 on calling func.
+ *
+ **/
+void sidebar_call_foreach(guint dataid,
+						  void (*func)(SIDEBAR_CONTEXT *, gpointer userdata),
+						  gpointer userdata)
+{
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+	SIDEBAR_CONTEXT context;
+	SB_CALLFOREACH_CONTEXT foreach_cntxt;
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(sidebar.file_view));
+	if (gtk_tree_model_get_iter_first (model, &iter))
+	{
+		foreach_cntxt.context = &context;
+		foreach_cntxt.model = model;
+		foreach_cntxt.dataid = dataid;
+		foreach_cntxt.func = func;
+		foreach_cntxt.userdata = userdata;
+		sidebar_call_foreach_int(&foreach_cntxt, &iter);
 	}
 }

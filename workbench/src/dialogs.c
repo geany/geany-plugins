@@ -28,6 +28,77 @@
 
 extern GeanyPlugin *geany_plugin;
 
+
+/** Shows the dialog "Create new file".
+ *
+ * The dialog lets the user create a new file (filter *).
+ *
+ * @param path The current folder
+ * @return The filename
+ *
+ **/
+gchar *dialogs_create_new_file(const gchar *path)
+{
+	gchar *filename = NULL;
+	GtkWidget *dialog;
+
+	dialog = gtk_file_chooser_dialog_new(_("Create new file"),
+		GTK_WINDOW(wb_globals.geany_plugin->geany_data->main_widgets->window), GTK_FILE_CHOOSER_ACTION_SAVE,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("C_reate"), GTK_RESPONSE_ACCEPT, NULL);
+	gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog), TRUE);
+
+	if (path != NULL)
+	{
+		gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
+	}
+
+	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
+	{
+		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+	}
+
+	gtk_widget_destroy(dialog);
+
+	return filename;
+}
+
+
+/** Shows the dialog "Create new directory".
+ *
+ * The dialog lets the user create a new directory.
+ *
+ * @param path The current folder
+ * @return The filename
+ *
+ **/
+gchar *dialogs_create_new_directory(const gchar *path)
+{
+	gchar *filename = NULL;
+	GtkWidget *dialog;
+
+	dialog = gtk_file_chooser_dialog_new(_("Create new directory"),
+		GTK_WINDOW(wb_globals.geany_plugin->geany_data->main_widgets->window), GTK_FILE_CHOOSER_ACTION_CREATE_FOLDER,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("C_reate"), GTK_RESPONSE_ACCEPT, NULL);
+	gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog), TRUE);
+
+	if (path != NULL)
+	{
+		gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
+	}
+
+	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
+	{
+		filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+	}
+
+	gtk_widget_destroy(dialog);
+
+	return filename;
+}
+
+
 /** Shows the dialog "Create new workbench".
  *
  * The dialog lets the user create a new workbench file (filter *.geanywb).
@@ -336,11 +407,13 @@ gboolean dialogs_directory_settings(WB_PROJECT_DIR *directory)
 gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 {
 	gint result;
-	GtkWidget *w_rescan_projects_on_open;
+	GtkWidget *w_rescan_projects_on_open, *w_enable_live_update, *w_expand_on_hover;
 	GtkWidget *dialog, *content_area;
 	GtkWidget *vbox, *hbox, *table;
 	GtkDialogFlags flags;
 	gboolean changed, rescan_projects_on_open, rescan_projects_on_open_old;
+	gboolean enable_live_update, enable_live_update_old;
+	gboolean expand_on_hover, expand_on_hover_old;
 
 	/* Create the widgets */
 	flags = GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT;
@@ -366,6 +439,23 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 	rescan_projects_on_open_old = workbench_get_rescan_projects_on_open(workbench);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w_rescan_projects_on_open), rescan_projects_on_open_old);
 
+	w_enable_live_update = gtk_check_button_new_with_mnemonic(_("_Enable live update"));
+	ui_table_add_row(GTK_TABLE(table), 1, w_enable_live_update, NULL);
+	gtk_widget_set_tooltip_text(w_enable_live_update,
+		_("If the option is activated (default), then the list of files and the sidebar"
+		  " will be updated automatically if a file or directory is created, removed or renamed."
+		  "A manual re-scan is not required if the option is enabled."));
+	enable_live_update_old = workbench_get_enable_live_update(workbench);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w_enable_live_update), enable_live_update_old);
+
+	w_expand_on_hover = gtk_check_button_new_with_mnemonic(_("_Expand on hover"));
+	ui_table_add_row(GTK_TABLE(table), 2, w_expand_on_hover, NULL);
+	gtk_widget_set_tooltip_text(w_expand_on_hover,
+		_("If the option is activated, then a tree node in the sidebar"
+		  " will be expanded or collapsed by hovering over it with the mouse cursor."));
+	expand_on_hover_old = workbench_get_expand_on_hover(workbench);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w_expand_on_hover), expand_on_hover_old);
+
 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 6);
 
 	hbox = gtk_hbox_new(FALSE, 0);
@@ -384,6 +474,18 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 		{
 			changed = TRUE;
 			workbench_set_rescan_projects_on_open(workbench, rescan_projects_on_open);
+		}
+		enable_live_update = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w_enable_live_update));
+		if (enable_live_update != enable_live_update_old)
+		{
+			changed = TRUE;
+			workbench_set_enable_live_update(workbench, enable_live_update);
+		}
+		expand_on_hover = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w_expand_on_hover));
+		if (expand_on_hover != expand_on_hover_old)
+		{
+			changed = TRUE;
+			workbench_set_expand_on_hover(workbench, expand_on_hover);
 		}
 	}
 

@@ -53,8 +53,8 @@ related settings is done using the context menu on the sidebar. Some
 items in the context menu will only be active if you right click inside
 a project, directory or bookmark.
 
-The Workbench context menu:
----------------------------
+The Workbench context menu
+--------------------------
 
 These are the available items:
 
@@ -83,9 +83,9 @@ These are the available items:
 **Add directory**
   Add a directory to the project. It is only available
   if you right clicked inside of a project. After selecting it a dialog
-  will be opened. Chosse the directory which shall be added. After that
+  will be opened. Choose the directory which shall be added. After that
   the directory will be shown inside the project folder. After adding a
-  new directory, all files and folders beneath the directory will be
+  new directory, all files and sub-directories beneath the directory will be
   displayed. See "Directory settings" for more information.
 
 **Remove directory**
@@ -101,18 +101,18 @@ These are the available items:
 **Directory settings**
   Select this item to change the directory settings. It is only available
   if you right clicked inside of a project directory. In the directory
-  settings you can set a filter which controls the files and folders
-  that shall be displayed or not.
+  settings you can set a filter which controls the files and sub-directories
+  that will be displayed or not.
 
 **Fold/unfold directory**
   Fold or unfold the items belonging to the directory. It is only available
   if you right clicked inside of a directory.
 
 **Unfold All**
-  Select this item to unfold all projects, directories and folders.
+  Select this item to unfold all projects, directories and sub-directories.
 
 **Collapse All**
-  Select this item to collpase/fold all projects, directories and folders.
+  Select this item to collpase/fold all projects, directories and sub-directories.
 
 **Add to Workbench Bookmarks**
   Add the file to the Workbench Bookmarks. It is only available
@@ -132,6 +132,41 @@ These are the available items:
 **Remove from Bookmarks**
   Remove file from the Workbench or project bookmarks. It is only available
   if you right clicked on a bookmark.
+
+**Create file here...**
+  Select this item to create a new file at the current selected position
+  in the file tree. Available since version 1.02 of the workbench plugin.
+
+**Create directory here...**
+  Select this item to create a new directory at the current selected position
+  in the file tree. Available since version 1.02 of the workbench plugin.
+
+The Workbench settings
+----------------------
+The following settings exist for a workbench:
+
+**Rescan all projects on open**
+  If the option is activated (default), then all projects will be re-scanned
+  on opening of a workbench.
+
+**Enable live update**
+  If the option is activated (default), then the list of files and the sidebar
+  will be updated automatically if a file or directory is created, removed or renamed.
+  A manual re-scan is not required if the option is enabled. This feature is available
+  since version 1.03 of the workbench plugin. If you open a workbench file
+  which has been created with an older version of the workbench plugin
+  then the option will be added with value "activated".
+
+Live update
+-----------
+From version 1.03 on the workbench plugin supports an automatic live update
+of the file list and the sidebar.
+
+This feature will only work if your system supports directory file monitoring.
+If the workbench plugin cannot setup file monitoring for a directory then it
+will output a message in the message window. The message has the following form::
+
+    Could not setup file monitoring for directory: "exampledir". Error: <some error message>
 
 Known issues
 ============
