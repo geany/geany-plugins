@@ -54,7 +54,7 @@ print(
 
 
 print("typedef struct _KeyCmdHashEntry {")
-print("\tgchar *name;")
+print("\tconst gchar *name;")
 print("\tguint group;")
 print("\tguint key_id;")
 print("} KeyCmdHashEntry;")

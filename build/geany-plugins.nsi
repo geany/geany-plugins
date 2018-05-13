@@ -31,8 +31,8 @@ RequestExecutionLevel highest ; set execution level for Windows Vista
 ; helper defines  ;
 ;;;;;;;;;;;;;;;;;;;
 !define PRODUCT_NAME "Geany-Plugins"
-!define PRODUCT_VERSION "1.33"
-!define PRODUCT_VERSION_ID "1.33.0.0"
+!define PRODUCT_VERSION "1.34"
+!define PRODUCT_VERSION_ID "1.34.0.0"
 !define PRODUCT_PUBLISHER "The Geany developer team"
 !define PRODUCT_WEB_SITE "https://www.geany.org/"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -224,6 +224,8 @@ Section Uninstall
 	Delete "$INSTDIR\bin\libgnutlsxx-28.dll"
 	Delete "$INSTDIR\bin\libgpg-error-0.dll"
 	Delete "$INSTDIR\bin\libgpgme-11.dll"
+	Delete "$INSTDIR\bin\libqgpgme-7.dll"
+	Delete "$INSTDIR\bin\libgpgmepp-6.dll"
 	Delete "$INSTDIR\bin\libgstallocators-1.0-0.dll"
 	Delete "$INSTDIR\bin\libgstapp-1.0-0.dll"
 	Delete "$INSTDIR\bin\libgstaudio-1.0-0.dll"

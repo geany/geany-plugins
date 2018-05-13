@@ -21,6 +21,13 @@
 
 #include <glib.h>
 
+typedef enum
+{
+	WB_PROJECT_IDLE_ACTION_ID_ADD_SINGLE_TM_FILE,
+	WB_PROJECT_IDLE_ACTION_ID_REMOVE_SINGLE_TM_FILE,
+	WB_PROJECT_IDLE_ACTION_ID_UPDATE_TAGS,
+}WB_PROJECT_IDLE_ACTION_ID;
+
 typedef struct S_WB_PROJECT WB_PROJECT;
 typedef struct S_WB_PROJECT_DIR WB_PROJECT_DIR;
 
@@ -38,8 +45,7 @@ gboolean wb_project_add_directory(WB_PROJECT *prj, const gchar *dirname);
 gboolean wb_project_remove_directory (WB_PROJECT *prj, WB_PROJECT_DIR *dir);
 void wb_project_rescan(WB_PROJECT *prj);
 gboolean wb_project_file_is_included(WB_PROJECT *prj, const gchar *filename);
-void wb_project_add_single_tm_file(WB_PROJECT *prj, const gchar *filename);
-void wb_project_remove_single_tm_file(WB_PROJECT *prj, const gchar *filename);
+gboolean wb_project_is_valid_dir_reference(WB_PROJECT *prj, WB_PROJECT_DIR *dir);
 
 void wb_project_dir_set_is_prj_base_dir (WB_PROJECT_DIR *directory, gboolean value);
 gboolean wb_project_dir_get_is_prj_base_dir (WB_PROJECT_DIR *directory);
@@ -55,6 +61,8 @@ gboolean wb_project_dir_set_ignored_file_patterns (WB_PROJECT_DIR *directory, gc
 guint wb_project_dir_rescan(WB_PROJECT *prj, WB_PROJECT_DIR *root);
 gchar *wb_project_dir_get_info (WB_PROJECT_DIR *dir);
 gboolean wb_project_dir_file_is_included(WB_PROJECT_DIR *dir, const gchar *filename);
+void wb_project_dir_add_file(WB_PROJECT *prj, WB_PROJECT_DIR *root, const gchar *filepath);
+void wb_project_dir_remove_file(WB_PROJECT *prj, WB_PROJECT_DIR *root, const gchar *filepath);
 
 gboolean wb_project_add_bookmark(WB_PROJECT *prj, const gchar *filename);
 gboolean wb_project_remove_bookmark(WB_PROJECT *prj, const gchar *filename);
@@ -63,8 +71,10 @@ gchar *wb_project_get_bookmark_at_index (WB_PROJECT *prj, guint index);
 guint wb_project_get_bookmarks_count(WB_PROJECT *prj);
 
 gboolean wb_project_save(WB_PROJECT *prj, GError **error);
-gboolean wb_project_load(WB_PROJECT *prj, gchar *filename, GError **error);
+gboolean wb_project_load(WB_PROJECT *prj, const gchar *filename, GError **error);
 
 gchar *wb_project_get_info (WB_PROJECT *prj);
+
+void wb_project_add_idle_action(WB_PROJECT_IDLE_ACTION_ID id, gpointer param_a, gpointer param_b);
 
 #endif

@@ -39,7 +39,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(
     LOCALEDIR,
     GETTEXT_PACKAGE,
     _("XML PrettyPrinter"),
-    _("Formats an XML and makes it human-readable. \nThis plugin currently"
+    _("Formats an XML and makes it human-readable. \nThis plugin currently "
       "has no maintainer. Would you like to help by contributing to this plugin?"),
     PRETTY_PRINTER_VERSION, "Cédric Tabin - http://www.astorm.ch")
 
@@ -185,6 +185,7 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     GeanyEditor* editor;
     ScintillaObject* sco;
     int input_length;
+    gboolean has_selection;
     const gchar* input_buffer;
     int output_length;
     gchar* output_buffer;
@@ -197,13 +198,13 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
 
     editor = doc->editor;
     sco = editor->sci;
-
+    
     /* default printing options */
     if (prettyPrintingOptions == NULL) { prettyPrintingOptions = createDefaultPrettyPrintingOptions(); }
 
+    has_selection = sci_has_selection(sco);
     /* retrieves the text */
-    input_length = sci_get_length(sco);
-    input_buffer = (gchar *) scintilla_send_message(sco, SCI_GETCHARACTERPOINTER, 0, 0);
+    input_buffer = (has_selection)?sci_get_selection_contents(sco):sci_get_contents(sco, -1);
 
     /* checks if the data is an XML format */
     parsedDocument = xmlParseDoc((const unsigned char*)input_buffer);
@@ -211,6 +212,7 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     /* this is not a valid xml => exit with an error message */
     if(parsedDocument == NULL)
     {
+        g_free(input_buffer);
         dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to parse the content as XML."));
         return;
     }
@@ -219,23 +221,32 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     xmlFreeDoc(parsedDocument);
 
     /* process pretty-printing */
+    input_length = (has_selection)?sci_get_selected_text_length(sco):sci_get_length(sco);
     result = processXMLPrettyPrinting(input_buffer, input_length, &output_buffer, &output_length, prettyPrintingOptions);
     if (result != PRETTY_PRINTING_SUCCESS)
     {
+        g_free(input_buffer);
         dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Unable to process PrettyPrinting on the specified XML because some features are not supported.\n\nSee Help > Debug messages for more details..."));
         return;
     }
 
     /* updates the document */
-    sci_set_text(sco, output_buffer);
+     if(has_selection){
+        sci_replace_sel(sco, output_buffer);
+    }
+    else{
+        sci_set_text(sco, output_buffer);
+    }
 
     /* set the line */
     xOffset = scintilla_send_message(sco, SCI_GETXOFFSET, 0, 0);
     scintilla_send_message(sco, SCI_LINESCROLL, -xOffset, 0); /* TODO update with the right function-call for geany-0.19 */
 
     /* sets the type */
-    fileType = filetypes_index(GEANY_FILETYPES_XML);
-    document_set_filetype(doc, fileType);
+    if(!has_selection && (doc->file_type->id != GEANY_FILETYPES_HTML)){
+        fileType = filetypes_index(GEANY_FILETYPES_XML);
+        document_set_filetype(doc, fileType);
+    }
 
     g_free(output_buffer);
 }

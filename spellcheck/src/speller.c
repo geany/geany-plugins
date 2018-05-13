@@ -470,7 +470,12 @@ void sc_speller_add_word(const gchar *word)
 	g_return_if_fail(sc_speller_dict != NULL);
 	g_return_if_fail(word != NULL);
 
+#ifdef HAVE_ENCHANT_1_5
+	/* enchant_dict_add() is available since Enchant 1.4 */
+	enchant_dict_add(sc_speller_dict, word, -1);
+#else
 	enchant_dict_add_to_pwl(sc_speller_dict, word, -1);
+#endif
 }
 
 gboolean sc_speller_dict_check(const gchar *word)
@@ -518,7 +523,18 @@ void sc_speller_reinit_enchant_dict(void)
 	if (sc_speller_dict != NULL)
 		enchant_broker_free_dict(sc_speller_broker, sc_speller_dict);
 
-#if HAVE_ENCHANT_1_5
+#ifdef HAVE_ENCHANT_2_0
+	#define ENCHANT_CONFIG_ENV_NAME "ENCHANT_CONFIG_DIR"
+	/* set custom configuration path for enchant (Enchant will look for dictionaries there) */
+	if (! EMPTY(sc_info->dictionary_dir))
+	{
+		g_setenv(ENCHANT_CONFIG_ENV_NAME, sc_info->dictionary_dir, TRUE);
+	}
+	else
+	{
+		g_unsetenv(ENCHANT_CONFIG_ENV_NAME);
+	}
+#elif HAVE_ENCHANT_1_5
 	{
 		const gchar *old_path;
 		gchar *new_path;
@@ -569,8 +585,21 @@ void sc_speller_reinit_enchant_dict(void)
 }
 
 
+static void log_enchant_version(void)
+{
+#ifdef HAVE_ENCHANT_2_0
+	const gchar *enchant_version = enchant_get_version();
+#else
+	const gchar *enchant_version = "1.6 or older";
+#endif
+
+	g_debug("Initializing Enchant library version %s", enchant_version);
+}
+
+
 void sc_speller_init(void)
 {
+	log_enchant_version();
 	sc_speller_broker = enchant_broker_init();
 
 	sc_speller_reinit_enchant_dict();
