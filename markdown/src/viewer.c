@@ -22,7 +22,7 @@
 #include "config.h"
 #include <string.h>
 #include <gtk/gtk.h>
-#ifdef WEBKIT2
+#ifdef MARKDOWN_WEBKIT2
 # include <webkit2/webkit2.h>
 #else
 # include <webkit/webkitwebview.h>
@@ -300,7 +300,7 @@ pop_scroll_pos(MarkdownViewer *self)
   return popped;
 }
 
-#ifdef WEBKIT2
+#ifdef MARKDOWN_WEBKIT2
 static void
 on_webview_load_changed(MarkdownViewer  *self,
                         WebKitLoadEvent  load_event,
@@ -405,7 +405,7 @@ markdown_viewer_update_view(MarkdownViewer *self)
     /* Connect a signal handler (only needed once) to restore the scroll
      * position once the webview is reloaded. */
     if (self->priv->load_handle == 0) {
-#ifdef WEBKIT2
+#ifdef MARKDOWN_WEBKIT2
       self->priv->load_handle =
         g_signal_connect_swapped(WEBKIT_WEB_VIEW(self), "load-changed",
           G_CALLBACK(on_webview_load_changed), self);
@@ -416,7 +416,7 @@ markdown_viewer_update_view(MarkdownViewer *self)
 #endif
     }
 
-#ifdef WEBKIT2
+#ifdef MARKDOWN_WEBKIT2
     webkit_web_view_load_html(WEBKIT_WEB_VIEW(self), html, base_uri);
 #else
     webkit_web_view_load_string(WEBKIT_WEB_VIEW(self), html, "text/html",
