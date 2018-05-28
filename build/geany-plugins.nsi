@@ -197,6 +197,7 @@ Section Uninstall
 	Delete "$INSTDIR\lib\geany\tableconvert.dll"
 	Delete "$INSTDIR\lib\geany\treebrowser.dll"
 	Delete "$INSTDIR\lib\geany\updatechecker.dll"
+	Delete "$INSTDIR\lib\geany\vimode.dll"
 	Delete "$INSTDIR\lib\geany\webhelper.dll"
 	Delete "$INSTDIR\lib\geany\workbench.dll"
 	Delete "$INSTDIR\lib\geany\xmlsnippets.dll"

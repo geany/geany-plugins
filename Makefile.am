@@ -172,6 +172,10 @@ if ENABLE_UPDATECHECKER
 SUBDIRS += updatechecker
 endif
 
+if ENABLE_VIMODE
+SUBDIRS += vimode
+endif
+
 if ENABLE_WEBHELPER
 SUBDIRS += webhelper
 endif
