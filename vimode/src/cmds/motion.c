@@ -78,7 +78,7 @@ static void goto_down(CmdParams *p, gint num)
 	/* see cmd_goto_up() for explanation */
 	one_above = p->line + num - 1;
 	one_above = one_above < last_line ? one_above : last_line - 1;
-	pos = SSM(p->sci, SCI_POSITIONFROMLINE, one_above, 0);
+	pos = SSM(p->sci, SCI_GETLINEENDPOSITION, one_above, 0);
 	SET_POS_NOX(p->sci, pos, FALSE);
 	SSM(p->sci, SCI_LINEDOWN, 0, 0);
 }
