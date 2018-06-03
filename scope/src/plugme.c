@@ -35,8 +35,8 @@ static gchar *run_file_chooser(const gchar *title, GtkFileChooserAction action,
 {
 	GtkWidget *dialog = gtk_file_chooser_dialog_new(title,
 		GTK_WINDOW(geany->main_widgets->window), action,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL);
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_Open"), GTK_RESPONSE_OK, NULL);
 	gchar *locale_path;
 	gchar *ret_path = NULL;
 

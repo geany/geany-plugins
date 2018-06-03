@@ -94,7 +94,7 @@ static gboolean on_terminal_parent_delete(G_GNUC_UNUSED GtkWidget *widget,
 
 static void on_terminal_copy(G_GNUC_UNUSED const MenuItem *menu_item)
 {
-	vte_terminal_copy_clipboard(program_terminal);
+	vte_terminal_copy_clipboard_format(program_terminal, VTE_FORMAT_TEXT);
 }
 
 static void on_terminal_paste(G_GNUC_UNUSED const MenuItem *menu_item)
@@ -154,8 +154,10 @@ static MenuInfo terminal_menu_info = { terminal_menu_items, terminal_menu_extra_
 
 void on_vte_realize(VteTerminal *vte, G_GNUC_UNUSED gpointer gdata)
 {
-	vte_terminal_set_emulation(vte, pref_vte_emulation);
-	vte_terminal_set_font_from_string(vte, pref_vte_font);
+	PangoFontDescription *font_desc;
+
+	font_desc = pango_font_description_from_string(pref_vte_font);
+	vte_terminal_set_font(vte, font_desc);
 	vte_terminal_set_scrollback_lines(vte, pref_vte_scrollback);
 	vte_terminal_set_scroll_on_output(vte, TRUE);
 	vte_terminal_set_color_foreground(vte, &pref_vte_colour_fore);
@@ -322,7 +324,7 @@ static void on_console_copy(G_GNUC_UNUSED const MenuItem *menu_item)
 {
 #ifdef G_OS_UNIX
 	if (debug_console)
-		vte_terminal_copy_clipboard(debug_console);
+		vte_terminal_copy_clipboard_format(debug_console, VTE_FORMAT_TEXT);
 	else
 #endif
 	{
@@ -394,10 +396,10 @@ void conterm_load_config(void)
 	pref_vte_font = utils_get_setting_string(config, "VTE", "font", "Monospace 10");
 	pref_vte_scrollback = utils_get_setting_integer(config, "VTE", "scrollback_lines", 500);
 	tmp_string = utils_get_setting_string(config, "VTE", "colour_fore", "#ffffff");
-	gdk_color_parse(tmp_string, &pref_vte_colour_fore);
+	gdk_rgba_parse(&pref_vte_colour_fore, tmp_string);
 	g_free(tmp_string);
 	tmp_string = utils_get_setting_string(config, "VTE", "colour_back", "#000000");
-	gdk_color_parse(tmp_string, &pref_vte_colour_back);
+	gdk_rgba_parse(&pref_vte_colour_back, tmp_string);
 	g_free(tmp_string);
 	g_key_file_free(config);
 	g_free(configfile);
@@ -405,8 +407,29 @@ void conterm_load_config(void)
 
 static void context_apply_config(GtkWidget *console)
 {
-	gtk_widget_modify_base(console, GTK_STATE_NORMAL, &pref_vte_colour_back);
-	gtk_widget_modify_cursor(console, &pref_vte_colour_fore, &pref_vte_colour_back);
+	GString *css_string;
+	GtkStyleContext *context;
+	GtkCssProvider *provider;
+	gchar *css_code, *color, *background_color;
+
+	color = gdk_rgba_to_string (&pref_vte_colour_fore);
+	background_color = gdk_rgba_to_string (&pref_vte_colour_back);
+
+	gtk_widget_set_name(console, "scope-console");
+	context = gtk_widget_get_style_context(console);
+	provider = gtk_css_provider_new();
+	gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(provider),
+		GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+	css_string = g_string_new(NULL);
+	g_string_printf(css_string, "#scope-console { color: %s; background-color: %s; }",
+		color, background_color);
+	css_code = g_string_free(css_string, FALSE);
+
+	gtk_css_provider_load_from_data(GTK_CSS_PROVIDER(provider), css_code, -1, NULL);
+
+	g_free(css_code);
+	g_object_unref(provider);
 	ui_widget_modify_font_from_string(console, pref_vte_font);
 }
 
@@ -485,11 +508,11 @@ void conterm_init(void)
 	{
 #if VTE_CHECK_VERSION(0, 25, 0)
 		GError *gerror = NULL;
-		VtePty *pty = vte_pty_new_foreign(pty_master, &gerror);
+		VtePty *pty = vte_pty_new_foreign_sync(pty_master, NULL, &gerror);
 
 		if (pty)
 		{
-			vte_terminal_set_pty_object(program_terminal, pty);
+			vte_terminal_set_pty(program_terminal, pty);
 			slave_pty_name = g_strdup(pty_name);
 		}
 		else

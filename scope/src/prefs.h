@@ -64,8 +64,8 @@ extern gboolean pref_vte_blinken;
 extern gchar *pref_vte_emulation;
 extern gchar *pref_vte_font;
 extern gint pref_vte_scrollback;
-extern GdkColor pref_vte_colour_fore;
-extern GdkColor pref_vte_colour_back;
+extern GdkRGBA pref_vte_colour_fore;
+extern GdkRGBA pref_vte_colour_back;
 
 void prefs_apply(GeanyDocument *doc);
 char *prefs_file_name(void);

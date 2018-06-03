@@ -76,8 +76,8 @@ gboolean pref_vte_blinken;
 gchar *pref_vte_emulation;
 gchar *pref_vte_font;
 gint pref_vte_scrollback;
-GdkColor pref_vte_colour_fore;
-GdkColor pref_vte_colour_back;
+GdkRGBA pref_vte_colour_fore;
+GdkRGBA pref_vte_colour_back;
 
 typedef struct _MarkerStyle
 {
