@@ -29,4 +29,5 @@ dist_plugindata_DATA = \
 	StepOver.png \
 	StepOver22.png \
 	StepOver24.png \
-	scope.glade
+	scope.glade \
+	scope_gtk3.glade

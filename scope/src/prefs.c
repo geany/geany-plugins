@@ -76,8 +76,14 @@ gboolean pref_vte_blinken;
 gchar *pref_vte_emulation;
 gchar *pref_vte_font;
 gint pref_vte_scrollback;
+
+#if !GTK_CHECK_VERSION(3, 14, 0)
 GdkColor pref_vte_colour_fore;
 GdkColor pref_vte_colour_back;
+#else
+GdkRGBA pref_vte_colour_fore;
+GdkRGBA pref_vte_colour_back;
+#endif
 
 typedef struct _MarkerStyle
 {

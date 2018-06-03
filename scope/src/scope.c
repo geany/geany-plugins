@@ -25,6 +25,10 @@
 
 #include "common.h"
 
+#include <vte/vte.h>
+
+#include <gp_gtkcompat.h>
+
 GeanyPlugin *geany_plugin;
 GeanyData *geany_data;
 
@@ -545,7 +549,11 @@ static gchar *get_data_dir_path(const gchar *filename)
 void plugin_init(G_GNUC_UNUSED GeanyData *gdata)
 {
 	GeanyKeyGroup *scope_key_group;
+#if GTK_CHECK_VERSION(3, 0, 0)
+	char *gladefile = get_data_dir_path("scope_gtk3.glade");
+#else
 	char *gladefile = get_data_dir_path("scope.glade");
+#endif
 	GError *gerror = NULL;
 	GtkWidget *menubar1 = ui_lookup_widget(geany->main_widgets->window, "menubar1");
 	guint item;
