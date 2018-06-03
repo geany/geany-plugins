@@ -289,16 +289,12 @@ static gint cell_renderer_break_icon_activate(GtkCellRenderer *cell, GdkEvent *e
 static void cell_renderer_break_icon_init (CellRendererBreakIcon *cell)
 {
 	GtkCellRenderer *cell_renderer = (GtkCellRenderer*)cell;
-	GValue mode = G_VALUE_INIT;
 	
 	cell->enabled = TRUE;
 	cell->condition = NULL;
 	cell->hitscount = 0;
 
-	g_value_init(&mode, G_TYPE_ENUM);
-	g_value_set_enum(&mode, GTK_CELL_RENDERER_MODE_ACTIVATABLE);
-	g_object_set_property(G_OBJECT(cell_renderer), "mode", &mode);
-	g_value_unset(&mode);
+	g_object_set(cell_renderer, "mode", GTK_CELL_RENDERER_MODE_ACTIVATABLE, NULL);
 
 	cell->pixbuf_enabled = cell->pixbuf_disabled = cell->pixbuf_conditional = cell->pixbuf_file = 0;
 }

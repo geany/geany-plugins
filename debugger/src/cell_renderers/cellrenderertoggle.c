@@ -53,12 +53,8 @@ static gint cell_renderer_toggle_activate(GtkCellRenderer *cell, GdkEvent *event
 static void cell_renderer_toggle_init (CellRendererToggle *cell)
 {
 	GtkCellRenderer *cell_renderer = (GtkCellRenderer*)cell;
-	GValue mode = G_VALUE_INIT;
 
-	g_value_init(&mode, G_TYPE_ENUM);
-	g_value_set_enum(&mode, GTK_CELL_RENDERER_MODE_ACTIVATABLE);
-	g_object_set_property(G_OBJECT(cell_renderer), "mode", &mode);
-	g_value_unset(&mode);
+	g_object_set(cell_renderer, "mode", GTK_CELL_RENDERER_MODE_ACTIVATABLE, NULL);
 }
 
 /*

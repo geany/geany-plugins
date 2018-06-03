@@ -227,15 +227,11 @@ static void cell_renderer_frame_icon_render(GtkCellRenderer *cell, cairo_t *cr, 
 static void cell_renderer_frame_icon_init (CellRendererFrameIcon *cell)
 {
 	GtkCellRenderer *cell_renderer = (GtkCellRenderer*)cell;
-	GValue mode = G_VALUE_INIT;
 	
 	cell->active_frame = FALSE;
 	cell->pixbuf_active = cell->pixbuf_highlighted = 0;
 
-	g_value_init(&mode, G_TYPE_ENUM);
-	g_value_set_enum(&mode, GTK_CELL_RENDERER_MODE_ACTIVATABLE);
-	g_object_set_property(G_OBJECT(cell_renderer), "mode", &mode);
-	g_value_unset(&mode);
+	g_object_set(cell_renderer, "mode", GTK_CELL_RENDERER_MODE_ACTIVATABLE, NULL);
 }
 
 /*
