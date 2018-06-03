@@ -35,8 +35,4 @@ markdown_la_CFLAGS += $(LIBMARKDOWN_CFLAGS)
 markdown_la_LIBADD += $(LIBMARKDOWN_LIBS)
 endif
 
-if MARKDOWN_WEBKIT2
-markdown_la_CFLAGS += -DMARKDOWN_WEBKIT2
-endif
-
 include $(top_srcdir)/build/cppcheck.mk

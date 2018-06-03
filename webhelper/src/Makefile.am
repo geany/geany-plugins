@@ -34,8 +34,7 @@ webhelper_la_CPPFLAGS = $(AM_CPPFLAGS) \
 webhelper_la_CFLAGS   = $(AM_CFLAGS) \
                         $(WEBHELPER_CFLAGS)
 webhelper_la_LIBADD   = $(COMMONLIBS) \
-                        $(WEBHELPER_LIBS) \
-                        -lm
+                        $(WEBHELPER_LIBS)
 
 # These are generated in $(srcdir) because they are part of the distribution,
 # and should anyway only be regenerated if the .tpl changes, which is a
