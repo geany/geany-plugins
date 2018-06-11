@@ -47,7 +47,7 @@ enum {
     UPDATECHECK_STARTUP
 };
 
-#define UPDATE_CHECK_URL "http://geany.org/service/version.php"
+#define UPDATE_CHECK_URL "https://geany.org/service/version.php"
 
 static GtkWidget *main_menu_item = NULL;
 static void update_check_result_cb(SoupSession *session,
