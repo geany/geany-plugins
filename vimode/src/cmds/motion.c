@@ -43,20 +43,48 @@ void cmd_goto_right(CmdContext *c, CmdParams *p)
 
 void cmd_goto_up(CmdContext *c, CmdParams *p)
 {
-	gint one_below, pos;
+	gint one_above, pos;
 
 	if (p->line == 0)
 		return;
 
-	/* Calling SCI_LINEUP in a loop for num lines leads to visible slow scrolling.
-	 * On the other hand, SCI_LINEUP preserves the value of SCI_CHOOSECARETX
-	 * we want to keep - perform jump to previous line and one final SCI_LINEUP
-	 * which recovers SCI_CHOOSECARETX for us. */
-	one_below = p->line - p->num + 1;
-	one_below = one_below > 0 ? one_below : 1;
-	pos = SSM(p->sci, SCI_POSITIONFROMLINE, one_below, 0);
-	SET_POS_NOX(p->sci, pos, FALSE);
-	SSM(p->sci, SCI_LINEUP, 0, 0);
+	/* Calling SCI_LINEUP/SCI_LINEDOWN in a loop for num lines leads to visible
+	 * slow scrolling. On the other hand, SCI_LINEUP preserves the value of
+	 * SCI_CHOOSECARETX which we cannot read directly from Scintilla and which
+	 * we want to keep - perform jump to previous/following line and add
+	 * one final SCI_LINEUP/SCI_LINEDOWN which recovers SCI_CHOOSECARETX for us. */
+	one_above = p->line - p->num - 1;
+	if (one_above >= 0)
+	{
+		/* Every case except for the first line - go one line above and perform
+		 * SCI_LINEDOWN. This ensures that even with wrapping on, we get the
+		 * caret on the first line of the wrapped line */
+		pos = SSM(p->sci, SCI_GETLINEENDPOSITION, one_above, 0);
+		SET_POS_NOX(p->sci, pos, FALSE);
+		SSM(p->sci, SCI_LINEDOWN, 0, 0);
+	}
+	else
+	{
+		/* This is the first line and there is no line above - we need to go to
+		 * the following line and do SCI_LINEUP. In addition, when wrapping is
+		 * on, we need to repeat SCI_LINEUP to get to the first line of wrapping.
+		 * This may lead to visible slow scrolling which is why there's the
+		 * fast case above for anything else but the first line. */
+		gint one_below = p->line - p->num + 1;
+		gint wrap_count;
+
+		one_below = one_below > 0 ? one_below : 1;
+		pos = SSM(p->sci, SCI_POSITIONFROMLINE, one_below, 0);
+		SET_POS_NOX(p->sci, pos, FALSE);
+		SSM(p->sci, SCI_LINEUP, 0, 0);
+
+		wrap_count = SSM(p->sci, SCI_WRAPCOUNT, GET_CUR_LINE(p->sci), 0);
+		while (wrap_count > 1)
+		{
+			SSM(p->sci, SCI_LINEUP, 0, 0);
+			wrap_count--;
+		}
+	}
 }
 
 
