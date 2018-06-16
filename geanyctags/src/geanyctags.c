@@ -205,6 +205,25 @@ static gchar *generate_find_string(GeanyProject *prj)
 }
 
 
+static gchar *get_base_path(void)
+{
+	gchar *ret;
+	GeanyProject *prj = geany_data->app->project;
+	gchar *project_dir_utf8;
+
+	if (!prj)
+		return NULL;
+
+	if (g_path_is_absolute(prj->base_path))
+		return g_strdup(prj->base_path);
+
+	project_dir_utf8 = g_path_get_dirname(prj->file_name);
+	ret = g_build_filename(project_dir_utf8, prj->base_path, NULL);
+	g_free(project_dir_utf8);
+	return ret;
+}
+
+
 static void
 on_generate_tags(GtkMenuItem *menuitem, gpointer user_data)
 {
@@ -215,6 +234,7 @@ on_generate_tags(GtkMenuItem *menuitem, gpointer user_data)
 	{
 		gchar *cmd;
 		gchar *tag_filename;
+		gchar *base_path;
 
 		tag_filename = get_tags_filename();
 
@@ -236,10 +256,12 @@ on_generate_tags(GtkMenuItem *menuitem, gpointer user_data)
 			tag_filename, "\"", NULL);
 #endif
 
-		spawn_cmd(cmd, prj->base_path);
+		base_path = get_base_path();
+		spawn_cmd(cmd, base_path);
 
 		g_free(cmd);
 		g_free(tag_filename);
+		g_free(base_path);
 	}
 }
 
@@ -412,6 +434,7 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 	tagFile *tf;
 	GeanyProject *prj;
 	gchar *tag_filename = NULL;
+	gchar *base_path;
 	tagEntry entry;
 	tagFileInfo info;
 	int last_line_number = 0;
@@ -420,8 +443,9 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 	if (!prj)
 		return;
 
+	base_path = get_base_path();
 	msgwin_clear_tab(MSG_MESSAGE);
-	msgwin_set_messages_dir(prj->base_path);
+	msgwin_set_messages_dir(base_path);
 
 	tag_filename = get_tags_filename();
 	tf = tagsOpen(tag_filename, &info);
@@ -445,7 +469,7 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 
 			if (!filter_tag(&entry, name_pat, declaration, case_sensitive))
 			{
-				path = g_build_filename(prj->base_path, entry.file, NULL);
+				path = g_build_filename(base_path, entry.file, NULL);
 				show_entry(&entry);
 				last_line_number = entry.address.lineNumber;
 				num++;
@@ -456,7 +480,7 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 				if (!filter_tag(&entry, name_pat, declaration, case_sensitive))
 				{
 					if (!path)
-						path = g_build_filename(prj->base_path, entry.file, NULL);
+						path = g_build_filename(base_path, entry.file, NULL);
 					show_entry(&entry);
 					last_line_number = entry.address.lineNumber;
 					num++;
@@ -484,6 +508,7 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 	msgwin_switch_tab(MSG_MESSAGE, TRUE);
 
 	g_free(tag_filename);
+	g_free(base_path);
 }
 
 static void on_find_declaration(GtkMenuItem *menuitem, gpointer user_data)
