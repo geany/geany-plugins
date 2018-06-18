@@ -275,5 +275,5 @@ void geany_load_module(GeanyPlugin *plugin)
 	plugin->funcs->callbacks = plugin_defineformat_callbacks;
 
 	/* Register! */
-	GEANY_PLUGIN_REGISTER(plugin, 224);
+	GEANY_PLUGIN_REGISTER(plugin, 226);
 }
