@@ -1166,5 +1166,5 @@ void geany_load_module(GeanyPlugin *plugin)
 	plugin->funcs->configure = plugin_autoclose_configure;
 
 	/* Register! */
-	GEANY_PLUGIN_REGISTER(plugin, 224);
+	GEANY_PLUGIN_REGISTER(plugin, 226);
 }
