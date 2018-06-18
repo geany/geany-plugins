@@ -226,5 +226,5 @@ void geany_load_module(GeanyPlugin *plugin)
 	plugin->funcs->help = plugin_devhelp_help;
 
 	/* Register! */
-	GEANY_PLUGIN_REGISTER(plugin, 224);
+	GEANY_PLUGIN_REGISTER(plugin, 226);
 }
