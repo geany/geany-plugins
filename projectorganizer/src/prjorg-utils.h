@@ -25,6 +25,9 @@ gboolean patterns_match(GSList *patterns, const gchar *str);
 GSList *get_precompiled_patterns(gchar **patterns);
 
 void open_file(gchar *utf8_name);
+void close_file(gchar *utf8_name);
+gboolean rename_file(gchar *utf8_oldname, gchar *utf8_newname);
+
 gchar *get_selection(void);
 gchar *get_project_base_path(void);
 

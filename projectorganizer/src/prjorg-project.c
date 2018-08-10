@@ -114,6 +114,7 @@ static GSList *get_file_list(const gchar *utf8_path, GSList *patterns,
 
 			if (!patterns_match(ignored_dirs_patterns, utf8_name))
 			{
+				list = g_slist_prepend(list, g_build_path(G_DIR_SEPARATOR_S, utf8_filename, PROJORG_SENTINEL_FILENAME, NULL));
 				lst = get_file_list(utf8_filename, patterns, ignored_dirs_patterns,
 						ignored_file_patterns, visited_paths);
 				if (lst)
