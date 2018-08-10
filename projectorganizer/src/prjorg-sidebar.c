@@ -105,6 +105,11 @@ static struct
 	GtkWidget *find_tag;
 	GtkWidget *expand;
 	GtkWidget *remove_external_dir;
+
+	GtkWidget *create_file;
+	GtkWidget *create_dir;
+	GtkWidget *rename;
+	GtkWidget *delete;
 } s_popup_menu;
 
 
@@ -345,6 +350,199 @@ static void on_remove_external_dir(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_U
 	prjorg_project_remove_external_dir(name);
 	prjorg_sidebar_update(TRUE);
 	project_write_config();
+
+	g_free(name);
+}
+
+
+// returned string must be freed
+static gchar* parent_dir_for_create()
+{
+	GtkTreeSelection *treesel;
+	GtkTreeModel *model;
+	GtkTreeIter iter, parent;
+	gchar *path = NULL;
+
+	treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(s_file_view));
+	if (gtk_tree_selection_get_selected(treesel, &model, &iter))
+	{
+		path = build_path(&iter);
+		if (!g_file_test(path, G_FILE_TEST_IS_DIR))
+		{
+			g_print("%s is not dir\n", path);
+			g_free(path);
+			path = NULL;
+			if (gtk_tree_model_iter_parent(model, &parent, &iter))
+			{
+				path = build_path(&parent);
+			}
+		}
+	}
+	return path;
+}
+
+
+static void on_create_file(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
+{
+	gchar *dir, *name, *path;
+
+	dir = parent_dir_for_create();
+	if (NULL == dir)
+	{
+		return;
+	}
+
+	g_print("Creating file in %s\n", dir);
+
+	name = dialogs_show_input(_("New File"), geany->main_widgets->window, _("Name:"), _("newfile.txt"));
+	if (NULL != name)
+	{
+		path = g_build_path(G_DIR_SEPARATOR_S, dir, name, NULL);
+		g_free(name);
+		g_print("new file: %s", path);
+
+		if (create_file(path))
+		{
+			open_file(path);
+			prjorg_project_rescan();
+			prjorg_sidebar_update(TRUE);
+			project_write_config();
+		}
+		else
+		{
+			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot create new file %s"), path);
+		}
+		g_free(path);
+	}
+	g_free(dir);
+}
+
+
+static void on_create_dir(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
+{
+	gchar *dir, *name, *path;
+
+	dir = parent_dir_for_create();
+	if (NULL == dir)
+	{
+		return;
+	}
+
+	g_print("Creating dir in %s\n", dir);
+
+	name = dialogs_show_input(_("New Directory"), geany->main_widgets->window, _("Name:"), _("newdir"));
+	if (NULL != name)
+	{
+		path = g_build_path(G_DIR_SEPARATOR_S, dir, name, NULL);
+		g_free(name);
+		g_print("new dir: %s", path);
+
+		if (create_dir(path))
+		{
+			prjorg_project_rescan();
+			prjorg_sidebar_update(TRUE);
+			project_write_config();
+		}
+		else
+		{
+			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot create directory %s"), path);
+		}
+		g_free(path);
+	}
+	g_free(dir);
+}
+
+
+static void on_rename(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
+{
+	GtkTreeSelection *treesel;
+	GtkTreeModel *model;
+	GtkTreeIter iter, parent;
+	gchar *name, *dir, *newname, *oldpath, *newpath;
+
+	g_print("Renaming");
+
+	treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(s_file_view));
+	if (!gtk_tree_selection_get_selected(treesel, &model, &iter))
+	{
+		return;
+	}
+	if (!gtk_tree_model_iter_parent(model, &parent, &iter))
+	{
+		return;
+	}
+	dir = build_path(&parent);
+	if (NULL == dir)
+	{
+		return;
+	}
+
+	gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_NAME, &name, -1);
+	if (NULL != name)
+	{
+		newname = dialogs_show_input(_("Rename"), geany->main_widgets->window, _("New name:"), name);
+		if (NULL != newname)
+		{
+			oldpath = g_build_path(G_DIR_SEPARATOR_S, dir, name, NULL);
+			newpath = g_build_path(G_DIR_SEPARATOR_S, dir, newname, NULL);
+			if (rename_file_or_dir(oldpath, newpath))
+			{
+				prjorg_project_rescan();
+				prjorg_sidebar_update(TRUE);
+				project_write_config();
+			}
+			else
+			{
+				dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot rename %s to %s"), oldpath, newpath);
+			}
+			g_free(oldpath);
+			g_free(newpath);
+			g_free(newname);
+		}
+		g_free(name);
+	}
+	g_free(dir);
+}
+
+
+static void on_delete(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
+{
+	GtkTreeSelection *treesel;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gchar *name;
+	gchar *path;
+
+	treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(s_file_view));
+	if (!gtk_tree_selection_get_selected(treesel, &model, &iter))
+	{
+		return;
+	}
+
+	gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_NAME, &name, -1);
+
+	if (dialogs_show_question(_("Do you really want to delete '%s'"), name))
+	{
+		path = build_path(&iter);
+		printf("deleting '%s'\n", path);
+
+		//TODO: recurse into directories
+
+		if (0 == g_remove(path))
+		{
+			close_file(path);
+		}
+		else
+		{
+			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot delete file %s"), path);
+		}
+
+		g_free(path);
+
+		prjorg_project_rescan();
+		prjorg_sidebar_update(TRUE);
+		project_write_config();
+	}
 
 	g_free(name);
 }
@@ -900,6 +1098,10 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 		GtkTreeIter iter;
 		gchar **path_arr = elem->data;
 		GIcon *icon = NULL;
+
+		if (0 == g_strcmp0(PROJORG_SENTINEL_FILENAME, path_arr[level]))
+			continue;
+
 		gchar *content_type = g_content_type_guess(path_arr[level], NULL, 0, NULL);
 
 		if (content_type)
@@ -1467,6 +1669,50 @@ void prjorg_sidebar_init(void)
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect((gpointer) item, "activate", G_CALLBACK(on_remove_external_dir), NULL);
 	s_popup_menu.remove_external_dir = item;
+
+
+
+	item = gtk_separator_menu_item_new();
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
+
+	image = gtk_image_new_from_stock(GTK_STOCK_FILE, GTK_ICON_SIZE_MENU);
+	gtk_widget_show(image);
+	item = gtk_image_menu_item_new_with_mnemonic(_("New File"));
+	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
+	g_signal_connect((gpointer) item, "activate", G_CALLBACK(on_create_file), NULL);
+	s_popup_menu.create_file = item;
+
+	image = gtk_image_new_from_stock(GTK_STOCK_DIRECTORY, GTK_ICON_SIZE_MENU);
+	gtk_widget_show(image);
+	item = gtk_image_menu_item_new_with_mnemonic(_("New Directory"));
+	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
+	g_signal_connect((gpointer) item, "activate", G_CALLBACK(on_create_dir), NULL);
+	s_popup_menu.create_dir = item;
+
+	image = gtk_image_new_from_stock(GTK_STOCK_EDIT, GTK_ICON_SIZE_MENU);
+	gtk_widget_show(image);
+	item = gtk_image_menu_item_new_with_mnemonic(_("Rename"));
+	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
+	g_signal_connect((gpointer) item, "activate", G_CALLBACK(on_rename), NULL);
+	s_popup_menu.rename = item;
+
+	image = gtk_image_new_from_stock(GTK_STOCK_REMOVE, GTK_ICON_SIZE_MENU);
+	gtk_widget_show(image);
+	item = gtk_image_menu_item_new_with_mnemonic(_("Delete"));
+	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
+	g_signal_connect((gpointer) item, "activate", G_CALLBACK(on_delete), NULL);
+	s_popup_menu.delete = item;
+
+
 
 	item = gtk_separator_menu_item_new();
 	gtk_widget_show(item);
