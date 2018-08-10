@@ -63,4 +63,6 @@ void prjorg_project_remove_single_tm_file(gchar *utf8_filename);
 
 gboolean prjorg_project_is_in_project(const gchar *utf8_filename);
 
+#define PROJORG_SENTINEL_FILENAME "..."
+
 #endif
