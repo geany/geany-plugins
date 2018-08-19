@@ -217,7 +217,7 @@ cleanup_unnecessary_files() {
 	rm -rf lib/lua
 	rm -rf lib/p11-kit
 	rm -rf lib/python2.7
-	rm -rf lib/python3.6
+	rm -rf lib/python3.7
 	find lib -name '*.h' -delete
 	find lib -name '*.a' -delete
 	find lib -name '*.typelib' -delete
