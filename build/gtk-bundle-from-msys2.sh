@@ -23,6 +23,8 @@ gtkv="3"
 # gtkspell - for GeanyVC plugin
 # the rest is dependency-dependency
 packages="
+p11-kit
+ca-certificates
 ctags
 ctpl-git
 curl
@@ -66,7 +68,6 @@ nettle
 nghttp2
 openssl
 orc
-p11-kit
 readline
 rtmpdump-git
 sqlite3
@@ -253,7 +254,9 @@ cleanup_unnecessary_files() {
 	rm -rf share/readline
 	rm -rf share/zsh
 	# ssl: cleanup ssl files
-	rm -rf ssl
+	rm -rf ssl/*.cnf
+	rm -rf ssl/*.cnf.dist
+	rm -rf ssl/*.pem
 	# bin: cleanup binaries and libs (delete anything except *.dll and binaries we need)
 	find bin \
 		! -name '*.dll' \
