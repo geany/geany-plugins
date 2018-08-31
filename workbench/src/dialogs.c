@@ -443,7 +443,7 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 	ui_table_add_row(GTK_TABLE(table), 1, w_enable_live_update, NULL);
 	gtk_widget_set_tooltip_text(w_enable_live_update,
 		_("If the option is activated (default), then the list of files and the sidebar"
-		  " will be updated automatically if a file or directory is created, removed or renamed."
+		  " will be updated automatically if a file or directory is created, removed or renamed. "
 		  "A manual re-scan is not required if the option is enabled."));
 	enable_live_update_old = workbench_get_enable_live_update(workbench);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w_enable_live_update), enable_live_update_old);
