@@ -1948,7 +1948,7 @@ plugin_configure(GtkDialog * dialog)
 	widgets.cb_attach_to_menubar = gtk_check_button_new_with_label(_("Attach menu to menubar"));
 	gtk_widget_set_tooltip_text(widgets.cb_editor_menu_entries,
 			     _("Whether menu for this plugin are getting placed either "
-			       "inside tools menu or directly inside Geany's menubar."
+			       "inside tools menu or directly inside Geany's menubar. "
 			       "Will take in account after next start of GeanyVC"));
 	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_attach_to_menubar), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_attach_to_menubar),
