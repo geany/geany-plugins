@@ -4663,7 +4663,7 @@ msgstr "メニューをメニューバーに追加"
 #: ../geanyvc/src/geanyvc.c:1950
 msgid ""
 "Whether menu for this plugin are getting placed either inside tools menu or "
-"directly inside Geany's menubar.Will take in account after next start of "
+"directly inside Geany's menubar. Will take in account after next start of "
 "GeanyVC"
 msgstr ""
 "このプラグインのメニューがツールメニューの中に表示されるかGeanyのメニューバー"
