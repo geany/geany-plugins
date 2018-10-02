@@ -1039,7 +1039,7 @@ on_menu_create_new_object(GtkMenuItem *menuitem, const gchar *type)
 	if (uri_new)
 	{
 		if (!(g_file_test(uri_new, G_FILE_TEST_EXISTS) &&
-			!dialogs_show_question(_("Target file '%s' exists\n, do you really want to replace it with empty file?"), uri_new)))
+			!dialogs_show_question(_("Target file '%s' exists.\nDo you really want to replace it with an empty file?"), uri_new)))
 		{
 			gboolean creation_success = FALSE;
 
