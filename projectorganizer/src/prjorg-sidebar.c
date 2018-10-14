@@ -373,9 +373,7 @@ static gchar* parent_dir_for_create()
 			g_free(path);
 			path = NULL;
 			if (gtk_tree_model_iter_parent(model, &parent, &iter))
-			{
 				path = build_path(&parent);
-			}
 		}
 	}
 	return path;
@@ -388,9 +386,7 @@ static void on_create_file(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gp
 
 	dir = parent_dir_for_create();
 	if (dir == NULL)
-	{
 		return;
-	}
 
 	g_print("Creating file in %s\n", dir);
 
@@ -411,9 +407,7 @@ static void on_create_file(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gp
 			project_write_config();
 		}
 		else
-		{
 			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot create new file %s"), path);
-		}
 		g_free(path);
 	}
 	g_free(dir);
@@ -426,9 +420,7 @@ static void on_create_dir(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpo
 
 	dir = parent_dir_for_create();
 	if (dir == NULL)
-	{
 		return;
-	}
 
 	g_print("Creating dir in %s\n", dir);
 
@@ -448,9 +440,7 @@ static void on_create_dir(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpo
 			project_write_config();
 		}
 		else
-		{
 			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot create directory %s"), path);
-		}
 		g_free(path);
 	}
 	g_free(dir);
@@ -468,18 +458,12 @@ static void on_rename(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 
 	treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(s_file_view));
 	if (!gtk_tree_selection_get_selected(treesel, &model, &iter))
-	{
 		return;
-	}
 	if (!gtk_tree_model_iter_parent(model, &parent, &iter))
-	{
 		return;
-	}
 	dir = build_path(&parent);
 	if (dir == NULL)
-	{
 		return;
-	}
 
 	gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_NAME, &name, -1);
 	if (name != NULL)
@@ -498,10 +482,8 @@ static void on_rename(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 				project_write_config();
 			}
 			else
-			{
 				dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot rename %s to %s"),
 					oldpath, newpath);
-			}
 			g_free(oldpath);
 			g_free(newpath);
 			g_free(newname);
@@ -522,9 +504,7 @@ static void on_delete(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 
 	treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(s_file_view));
 	if (!gtk_tree_selection_get_selected(treesel, &model, &iter))
-	{
 		return;
-	}
 
 	gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_NAME, &name, -1);
 
@@ -536,13 +516,9 @@ static void on_delete(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 		//TODO: recurse into directories
 
 		if (remove_file_or_dir(path))
-		{
 			close_file(path);
-		}
 		else
-		{
 			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot delete file %s"), path);
-		}
 
 		g_free(path);
 

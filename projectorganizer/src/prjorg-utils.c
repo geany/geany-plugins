@@ -129,9 +129,7 @@ gboolean create_file(gchar *utf8_name)
 
 	fd = g_open(utf8_name, O_CREAT|O_EXCL, 0660); // rw-rw----
 	if (fd == -1) // not created?
-	{
 		return FALSE;
-	}
 	g_close(fd, &err);
 	return TRUE;
 }
@@ -147,7 +145,6 @@ gboolean remove_file_or_dir(char *utf8_name)
 {
 	return g_remove(utf8_name) == 0;
 }
-
 
 
 static gboolean document_rename(GeanyDocument *document, gchar *utf8_name)
@@ -167,9 +164,7 @@ gboolean rename_file_or_dir(gchar *utf8_oldname, gchar *utf8_newname)
 
 	doc = document_find_by_filename(utf8_oldname);
 	if (doc)
-	{
 		return document_rename(doc, utf8_newname);
-	}
 	else
 	{
 		oldname = utils_get_locale_from_utf8(utf8_oldname);
