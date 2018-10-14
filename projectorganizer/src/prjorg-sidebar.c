@@ -369,7 +369,6 @@ static gchar* parent_dir_for_create()
 		path = build_path(&iter);
 		if (!g_file_test(path, G_FILE_TEST_IS_DIR))
 		{
-			g_print("%s is not dir\n", path);
 			g_free(path);
 			path = NULL;
 			if (gtk_tree_model_iter_parent(model, &parent, &iter))
@@ -388,8 +387,6 @@ static void on_create_file(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gp
 	if (dir == NULL)
 		return;
 
-	g_print("Creating file in %s\n", dir);
-
 	name = dialogs_show_input(_("New File"), GTK_WINDOW(geany->main_widgets->window),
 		_("Name:"), _("newfile.txt"));
 
@@ -397,7 +394,6 @@ static void on_create_file(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gp
 	{
 		path = g_build_path(G_DIR_SEPARATOR_S, dir, name, NULL);
 		g_free(name);
-		g_print("new file: %s", path);
 
 		if (create_file(path))
 		{
@@ -422,8 +418,6 @@ static void on_create_dir(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpo
 	if (dir == NULL)
 		return;
 
-	g_print("Creating dir in %s\n", dir);
-
 	name = dialogs_show_input(_("New Directory"), GTK_WINDOW(geany->main_widgets->window),
 		_("Name:"), _("newdir"));
 
@@ -431,7 +425,6 @@ static void on_create_dir(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpo
 	{
 		path = g_build_path(G_DIR_SEPARATOR_S, dir, name, NULL);
 		g_free(name);
-		g_print("new dir: %s", path);
 
 		if (create_dir(path))
 		{
@@ -453,8 +446,6 @@ static void on_rename(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 	GtkTreeModel *model;
 	GtkTreeIter iter, parent;
 	gchar *name, *dir, *newname, *oldpath, *newpath;
-
-	g_print("Renaming");
 
 	treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(s_file_view));
 	if (!gtk_tree_selection_get_selected(treesel, &model, &iter))
@@ -511,7 +502,6 @@ static void on_delete(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 	if (dialogs_show_question(_("Do you really want to delete '%s'"), name))
 	{
 		path = build_path(&iter);
-		printf("deleting '%s'\n", path);
 
 		//TODO: recurse into directories
 
