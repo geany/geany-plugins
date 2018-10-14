@@ -124,26 +124,36 @@ void close_file(gchar *utf8_name)
 
 gboolean create_file(gchar *utf8_name)
 {
-	int fd;
-	GError *err;
+	gchar *name = utils_get_locale_from_utf8(utf8_name);
+	gint fd = g_open(name, O_CREAT|O_EXCL, 0660);  // rw-rw----
+	gboolean success = FALSE;
 
-	fd = g_open(utf8_name, O_CREAT|O_EXCL, 0660); // rw-rw----
-	if (fd == -1) // not created?
-		return FALSE;
-	g_close(fd, &err);
-	return TRUE;
+	if (fd != -1)
+	{
+		GError *err;
+		success = TRUE;
+		g_close(fd, &err);
+	}
+	g_free(name);
+	return success;
 }
 
 
 gboolean create_dir(char *utf8_name)
 {
-	return g_mkdir_with_parents(utf8_name, 0770) == 0; // rwxrwx---
+	gchar *name = utils_get_locale_from_utf8(utf8_name);
+	gboolean ret = g_mkdir_with_parents(name, 0770) == 0;  // rwxrwx---
+	g_free(name);
+	return ret;
 }
 
 
 gboolean remove_file_or_dir(char *utf8_name)
 {
-	return g_remove(utf8_name) == 0;
+	gchar *name = utils_get_locale_from_utf8(utf8_name);
+	gboolean ret = g_remove(utf8_name) == 0;
+	g_free(name);
+	return ret;
 }
 
 
@@ -157,19 +167,14 @@ static gboolean document_rename(GeanyDocument *document, gchar *utf8_name)
 
 gboolean rename_file_or_dir(gchar *utf8_oldname, gchar *utf8_newname)
 {
-	GeanyDocument *doc;
-	gchar *oldname;
-	gchar *newname;
-	int res;
-
-	doc = document_find_by_filename(utf8_oldname);
+	GeanyDocument *doc = document_find_by_filename(utf8_oldname);
 	if (doc)
 		return document_rename(doc, utf8_newname);
 	else
 	{
-		oldname = utils_get_locale_from_utf8(utf8_oldname);
-		newname = utils_get_locale_from_utf8(utf8_newname);
-		res = g_rename(oldname, newname);
+		gchar *oldname = utils_get_locale_from_utf8(utf8_oldname);
+		gchar *newname = utils_get_locale_from_utf8(utf8_newname);
+		gint res = g_rename(oldname, newname);
 		g_free(oldname);
 		g_free(newname);
 		return res == 0;
