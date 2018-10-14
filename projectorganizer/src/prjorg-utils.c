@@ -128,7 +128,7 @@ gboolean create_file(gchar *utf8_name)
 	GError *err;
 
 	fd = g_open(utf8_name, O_CREAT|O_EXCL, 0660); // rw-rw----
-	if (-1 == fd) // not created?
+	if (fd == -1) // not created?
 	{
 		return FALSE;
 	}
@@ -139,13 +139,13 @@ gboolean create_file(gchar *utf8_name)
 
 gboolean create_dir(char *utf8_name)
 {
-	return 0 == g_mkdir_with_parents(utf8_name, 0770); // rwxrwx---
+	return g_mkdir_with_parents(utf8_name, 0770) == 0; // rwxrwx---
 }
 
 
 gboolean remove_file_or_dir(char *utf8_name)
 {
-	return 0 == g_remove(utf8_name);
+	return g_remove(utf8_name) == 0;
 }
 
 
@@ -177,7 +177,7 @@ gboolean rename_file_or_dir(gchar *utf8_oldname, gchar *utf8_newname)
 		res = g_rename(oldname, newname);
 		g_free(oldname);
 		g_free(newname);
-		return 0 == res;
+		return res == 0;
 	}
 }
 

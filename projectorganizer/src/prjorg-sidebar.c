@@ -387,7 +387,7 @@ static void on_create_file(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gp
 	gchar *dir, *name, *path;
 
 	dir = parent_dir_for_create();
-	if (NULL == dir)
+	if (dir == NULL)
 	{
 		return;
 	}
@@ -397,7 +397,7 @@ static void on_create_file(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gp
 	name = dialogs_show_input(_("New File"), GTK_WINDOW(geany->main_widgets->window),
 		_("Name:"), _("newfile.txt"));
 
-	if (NULL != name)
+	if (name != NULL)
 	{
 		path = g_build_path(G_DIR_SEPARATOR_S, dir, name, NULL);
 		g_free(name);
@@ -425,7 +425,7 @@ static void on_create_dir(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpo
 	gchar *dir, *name, *path;
 
 	dir = parent_dir_for_create();
-	if (NULL == dir)
+	if (dir == NULL)
 	{
 		return;
 	}
@@ -435,7 +435,7 @@ static void on_create_dir(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpo
 	name = dialogs_show_input(_("New Directory"), GTK_WINDOW(geany->main_widgets->window),
 		_("Name:"), _("newdir"));
 
-	if (NULL != name)
+	if (name != NULL)
 	{
 		path = g_build_path(G_DIR_SEPARATOR_S, dir, name, NULL);
 		g_free(name);
@@ -476,18 +476,18 @@ static void on_rename(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 		return;
 	}
 	dir = build_path(&parent);
-	if (NULL == dir)
+	if (dir == NULL)
 	{
 		return;
 	}
 
 	gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_NAME, &name, -1);
-	if (NULL != name)
+	if (name != NULL)
 	{
 		newname = dialogs_show_input(_("Rename"), GTK_WINDOW(geany->main_widgets->window),
 			_("New name:"), name);
 
-		if (NULL != newname)
+		if (newname != NULL)
 		{
 			oldpath = g_build_path(G_DIR_SEPARATOR_S, dir, name, NULL);
 			newpath = g_build_path(G_DIR_SEPARATOR_S, dir, newname, NULL);
@@ -1106,7 +1106,7 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 		gchar **path_arr = elem->data;
 		GIcon *icon = NULL;
 
-		if (0 == g_strcmp0(PROJORG_SENTINEL_FILENAME, path_arr[level]))
+		if (g_strcmp0(PROJORG_SENTINEL_FILENAME, path_arr[level]) == 0)
 			continue;
 
 		gchar *content_type = g_content_type_guess(path_arr[level], NULL, 0, NULL);
