@@ -397,6 +397,7 @@ static void on_create_file(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gp
 		if (create_file(path))
 		{
 			open_file(path);
+			//TODO: don't rescan the whole project, only change the affected file
 			prjorg_project_rescan();
 			prjorg_sidebar_update(TRUE);
 		}
@@ -426,6 +427,7 @@ static void on_create_dir(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpo
 
 		if (create_dir(path))
 		{
+			//TODO: don't rescan the whole project, only change the affected directory
 			prjorg_project_rescan();
 			prjorg_sidebar_update(TRUE);
 		}
@@ -466,6 +468,7 @@ static void on_rename(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 			gchar *newpath = g_build_path(G_DIR_SEPARATOR_S, dir, newname, NULL);
 			if (rename_file_or_dir(oldpath, newpath))
 			{
+				//TODO: don't rescan the whole project, only change the affected file
 				prjorg_project_rescan();
 				prjorg_sidebar_update(TRUE);
 			}
@@ -506,6 +509,7 @@ static void on_delete(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 
 		g_free(path);
 
+		//TODO: don't rescan the whole project, only change the affected file
 		prjorg_project_rescan();
 		prjorg_sidebar_update(TRUE);
 	}
