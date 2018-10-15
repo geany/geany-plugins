@@ -381,7 +381,7 @@ static gchar* parent_dir_for_create()
 
 static void on_create_file(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
-	gchar *dir, *name, *path;
+	gchar *dir, *name;
 
 	dir = parent_dir_for_create();
 	if (dir == NULL)
@@ -392,8 +392,7 @@ static void on_create_file(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gp
 
 	if (name != NULL)
 	{
-		path = g_build_path(G_DIR_SEPARATOR_S, dir, name, NULL);
-		g_free(name);
+		gchar *path = g_build_path(G_DIR_SEPARATOR_S, dir, name, NULL);
 
 		if (create_file(path))
 		{
@@ -405,13 +404,14 @@ static void on_create_file(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gp
 			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot create new file %s"), path);
 		g_free(path);
 	}
+	g_free(name);
 	g_free(dir);
 }
 
 
 static void on_create_dir(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
-	gchar *dir, *name, *path;
+	gchar *dir, *name;
 
 	dir = parent_dir_for_create();
 	if (dir == NULL)
@@ -422,8 +422,7 @@ static void on_create_dir(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpo
 
 	if (name != NULL)
 	{
-		path = g_build_path(G_DIR_SEPARATOR_S, dir, name, NULL);
-		g_free(name);
+		gchar *path = g_build_path(G_DIR_SEPARATOR_S, dir, name, NULL);
 
 		if (create_dir(path))
 		{
@@ -434,6 +433,7 @@ static void on_create_dir(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpo
 			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot create directory %s"), path);
 		g_free(path);
 	}
+	g_free(name);
 	g_free(dir);
 }
 
@@ -443,7 +443,7 @@ static void on_rename(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 	GtkTreeSelection *treesel;
 	GtkTreeModel *model;
 	GtkTreeIter iter, parent;
-	gchar *name, *dir, *newname, *oldpath, *newpath;
+	gchar *name, *dir;
 
 	treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(s_file_view));
 	if (!gtk_tree_selection_get_selected(treesel, &model, &iter))
@@ -457,13 +457,13 @@ static void on_rename(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 	gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_NAME, &name, -1);
 	if (name != NULL)
 	{
-		newname = dialogs_show_input(_("Rename"), GTK_WINDOW(geany->main_widgets->window),
+		gchar *newname = dialogs_show_input(_("Rename"), GTK_WINDOW(geany->main_widgets->window),
 			_("New name:"), name);
 
 		if (newname != NULL)
 		{
-			oldpath = g_build_path(G_DIR_SEPARATOR_S, dir, name, NULL);
-			newpath = g_build_path(G_DIR_SEPARATOR_S, dir, newname, NULL);
+			gchar *oldpath = g_build_path(G_DIR_SEPARATOR_S, dir, name, NULL);
+			gchar *newpath = g_build_path(G_DIR_SEPARATOR_S, dir, newname, NULL);
 			if (rename_file_or_dir(oldpath, newpath))
 			{
 				prjorg_project_rescan();
@@ -474,11 +474,11 @@ static void on_rename(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 					oldpath, newpath);
 			g_free(oldpath);
 			g_free(newpath);
-			g_free(newname);
 		}
-		g_free(name);
+		g_free(newname);
 	}
 	g_free(dir);
+	g_free(name);
 }
 
 
@@ -488,7 +488,6 @@ static void on_delete(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	gchar *name;
-	gchar *path;
 
 	treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(s_file_view));
 	if (!gtk_tree_selection_get_selected(treesel, &model, &iter))
@@ -498,7 +497,7 @@ static void on_delete(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 
 	if (dialogs_show_question(_("Do you really want to delete '%s'"), name))
 	{
-		path = build_path(&iter);
+		gchar *path = build_path(&iter);
 
 		//TODO: recurse into directories
 
