@@ -114,11 +114,12 @@ static GSList *get_file_list(const gchar *utf8_path, GSList *patterns,
 
 			if (!patterns_match(ignored_dirs_patterns, utf8_name))
 			{
-				list = g_slist_prepend(list, g_build_path(G_DIR_SEPARATOR_S, utf8_filename, PROJORG_SENTINEL_FILENAME, NULL));
 				lst = get_file_list(utf8_filename, patterns, ignored_dirs_patterns,
 						ignored_file_patterns, visited_paths);
 				if (lst)
 					list = g_slist_concat(list, lst);
+				else
+					list = g_slist_prepend(list, g_build_path(G_DIR_SEPARATOR_S, utf8_filename, PROJORG_DIR_ENTRY, NULL));
 			}
 		}
 		else if (g_file_test(locale_filename, G_FILE_TEST_IS_REGULAR))
@@ -285,16 +286,19 @@ static void regenerate_tags(PrjOrgRoot *root, gpointer user_data)
 	g_hash_table_iter_init(&iter, root->file_table);
 	while (g_hash_table_iter_next(&iter, &key, &value))
 	{
-		TMSourceFile *sf;
+		TMSourceFile *sf = NULL;
 		gchar *utf8_path = key;
 		gchar *locale_path = utils_get_locale_from_utf8(utf8_path);
+		gchar *basename = g_path_get_basename(locale_path);
 
-		sf = tm_source_file_new(locale_path, filetypes_detect(utf8_path)->name);
-		if (sf && !document_find_by_filename(utf8_path))
+		if (g_strcmp0(PROJORG_DIR_ENTRY, basename) != 0)
+			sf = tm_source_file_new(locale_path, filetypes_detect(utf8_path)->name);
+		if (sf && !document_find_by_filename(utf8_path)  )
 			g_ptr_array_add(source_files, sf);
 
 		g_hash_table_insert(file_table, g_strdup(utf8_path), sf);
 		g_free(locale_path);
+		g_free(basename);
 	}
 	g_hash_table_destroy(root->file_table);
 	root->file_table = file_table;

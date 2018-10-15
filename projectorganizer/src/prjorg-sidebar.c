@@ -1072,7 +1072,7 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 		gchar **path_arr = elem->data;
 		GIcon *icon = NULL;
 
-		if (g_strcmp0(PROJORG_SENTINEL_FILENAME, path_arr[level]) == 0)
+		if (g_strcmp0(PROJORG_DIR_ENTRY, path_arr[level]) == 0)
 			continue;
 
 		gchar *content_type = g_content_type_guess(path_arr[level], NULL, 0, NULL);
