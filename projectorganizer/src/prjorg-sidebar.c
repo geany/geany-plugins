@@ -400,7 +400,6 @@ static void on_create_file(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gp
 			open_file(path);
 			prjorg_project_rescan();
 			prjorg_sidebar_update(TRUE);
-			project_write_config();
 		}
 		else
 			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot create new file %s"), path);
@@ -430,7 +429,6 @@ static void on_create_dir(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpo
 		{
 			prjorg_project_rescan();
 			prjorg_sidebar_update(TRUE);
-			project_write_config();
 		}
 		else
 			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot create directory %s"), path);
@@ -470,7 +468,6 @@ static void on_rename(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 			{
 				prjorg_project_rescan();
 				prjorg_sidebar_update(TRUE);
-				project_write_config();
 			}
 			else
 				dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot rename %s to %s"),
@@ -514,7 +511,6 @@ static void on_delete(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 
 		prjorg_project_rescan();
 		prjorg_sidebar_update(TRUE);
-		project_write_config();
 	}
 
 	g_free(name);
