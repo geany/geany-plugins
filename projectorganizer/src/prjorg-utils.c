@@ -19,6 +19,11 @@
 #include <string.h>
 #include <glib.h>
 
+#include <glib/gstdio.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+
 #include <geanyplugin.h>
 
 #include "prjorg-utils.h"
@@ -101,6 +106,79 @@ void open_file(gchar *utf8_name)
 		gtk_widget_grab_focus(GTK_WIDGET(doc->editor->sci));
 
 	g_free(name);
+}
+
+
+void close_file(gchar *utf8_name)
+{
+	GeanyDocument *doc;
+
+	doc = document_find_by_filename(utf8_name);
+	if (doc)
+	{
+		document_set_text_changed(doc, FALSE);
+		document_close(doc);
+	}
+}
+
+
+gboolean create_file(gchar *utf8_name)
+{
+	int fd;
+	GError *err;
+
+	fd = g_open(utf8_name, O_CREAT|O_EXCL, 0660); // rw-rw----
+	if (-1 == fd) // not created?
+	{
+		return FALSE;
+	}
+	g_close(fd, &err);
+	return TRUE;
+}
+
+
+gboolean create_dir(char *utf8_name)
+{
+	return 0 == g_mkdir_with_parents(utf8_name, 0770); // rwxrwx---
+}
+
+
+gboolean remove_file_or_dir(char *utf8_name)
+{
+	return 0 == g_remove(utf8_name);
+}
+
+
+
+static gboolean document_rename(GeanyDocument *document, gchar *utf8_name)
+{
+	// IMHO: this is wrong. If save as fails Geany's state becomes inconsistent.
+	document_rename_file(document, utf8_name);
+	return document_save_file_as(document, utf8_name);
+}
+
+
+gboolean rename_file_or_dir(gchar *utf8_oldname, gchar *utf8_newname)
+{
+	GeanyDocument *doc;
+	gchar *oldname;
+	gchar *newname;
+	int res;
+
+	doc = document_find_by_filename(utf8_oldname);
+	if (doc)
+	{
+		return document_rename(doc, utf8_newname);
+	}
+	else
+	{
+		oldname = utils_get_locale_from_utf8(utf8_oldname);
+		newname = utils_get_locale_from_utf8(utf8_newname);
+		res = g_rename(oldname, newname);
+		g_free(oldname);
+		g_free(newname);
+		return 0 == res;
+	}
 }
 
 
