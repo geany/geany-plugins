@@ -388,7 +388,7 @@ static void on_create_file(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gp
 		return;
 
 	name = dialogs_show_input(_("New File"), GTK_WINDOW(geany->main_widgets->window),
-		_("Name:"), _("newfile.txt"));
+			_("File name:"), _("newfile.txt"));
 
 	if (name != NULL)
 	{
@@ -401,7 +401,7 @@ static void on_create_file(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gp
 			prjorg_sidebar_update(TRUE);
 		}
 		else
-			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot create new file %s"), path);
+			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot create file '%s'."), path);
 		g_free(path);
 	}
 	g_free(name);
@@ -418,7 +418,7 @@ static void on_create_dir(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpo
 		return;
 
 	name = dialogs_show_input(_("New Directory"), GTK_WINDOW(geany->main_widgets->window),
-		_("Name:"), _("newdir"));
+			_("Directory name:"), _("newdir"));
 
 	if (name != NULL)
 	{
@@ -430,7 +430,7 @@ static void on_create_dir(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpo
 			prjorg_sidebar_update(TRUE);
 		}
 		else
-			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot create directory %s"), path);
+			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot create directory '%s'."), path);
 		g_free(path);
 	}
 	g_free(name);
@@ -458,7 +458,7 @@ static void on_rename(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 	if (name != NULL)
 	{
 		gchar *newname = dialogs_show_input(_("Rename"), GTK_WINDOW(geany->main_widgets->window),
-			_("New name:"), name);
+				_("New name:"), name);
 
 		if (newname != NULL)
 		{
@@ -470,8 +470,8 @@ static void on_rename(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 				prjorg_sidebar_update(TRUE);
 			}
 			else
-				dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot rename %s to %s"),
-					oldpath, newpath);
+				dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot rename '%s' to '%s'."),
+						oldpath, newpath);
 			g_free(oldpath);
 			g_free(newpath);
 		}
@@ -495,7 +495,7 @@ static void on_delete(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 
 	gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_NAME, &name, -1);
 
-	if (dialogs_show_question(_("Do you really want to delete '%s'"), name))
+	if (dialogs_show_question(_("Are you sure you want to delete '%s'?"), name))
 	{
 		gchar *path = build_path(&iter);
 
@@ -504,7 +504,7 @@ static void on_delete(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 		if (remove_file_or_dir(path))
 			close_file(path);
 		else
-			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot delete file %s"), path);
+			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot delete file '%s'."), path);
 
 		g_free(path);
 
@@ -1638,15 +1638,13 @@ void prjorg_sidebar_init(void)
 	g_signal_connect((gpointer) item, "activate", G_CALLBACK(on_remove_external_dir), NULL);
 	s_popup_menu.remove_external_dir = item;
 
-
-
 	item = gtk_separator_menu_item_new();
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 
 	image = gtk_image_new_from_stock(GTK_STOCK_FILE, GTK_ICON_SIZE_MENU);
 	gtk_widget_show(image);
-	item = gtk_image_menu_item_new_with_mnemonic(_("New File"));
+	item = gtk_image_menu_item_new_with_mnemonic(_("New File..."));
 	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
@@ -1655,7 +1653,7 @@ void prjorg_sidebar_init(void)
 
 	image = gtk_image_new_from_stock(GTK_STOCK_DIRECTORY, GTK_ICON_SIZE_MENU);
 	gtk_widget_show(image);
-	item = gtk_image_menu_item_new_with_mnemonic(_("New Directory"));
+	item = gtk_image_menu_item_new_with_mnemonic(_("New Directory..."));
 	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
@@ -1664,7 +1662,7 @@ void prjorg_sidebar_init(void)
 
 	image = gtk_image_new_from_stock(GTK_STOCK_EDIT, GTK_ICON_SIZE_MENU);
 	gtk_widget_show(image);
-	item = gtk_image_menu_item_new_with_mnemonic(_("Rename"));
+	item = gtk_image_menu_item_new_with_mnemonic(_("Rename..."));
 	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
@@ -1679,8 +1677,6 @@ void prjorg_sidebar_init(void)
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect((gpointer) item, "activate", G_CALLBACK(on_delete), NULL);
 	s_popup_menu.delete = item;
-
-
 
 	item = gtk_separator_menu_item_new();
 	gtk_widget_show(item);
