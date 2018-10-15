@@ -499,8 +499,6 @@ static void on_delete(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 	{
 		gchar *path = build_path(&iter);
 
-		//TODO: recurse into directories
-
 		if (remove_file_or_dir(path))
 			close_file(path);
 		else
@@ -955,6 +953,8 @@ static gboolean on_button_release(G_GNUC_UNUSED GtkWidget * widget, GdkEventButt
 		GtkTreeSelection *treesel;
 		GtkTreeModel *model;
 		GtkTreeIter iter;
+		gboolean delete_enabled = TRUE;
+		gchar *path;
 
 		treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(s_file_view));
 
@@ -963,6 +963,23 @@ static gboolean on_button_release(G_GNUC_UNUSED GtkWidget * widget, GdkEventButt
 
 		gtk_widget_set_sensitive(s_popup_menu.expand, gtk_tree_model_iter_has_child(model, &iter));
 		gtk_widget_set_sensitive(s_popup_menu.remove_external_dir, topmost_selected(model, &iter, FALSE));
+
+		path = build_path(&iter);
+		SETPTR(path, utils_get_locale_from_utf8(path));
+		if (g_file_test(path, G_FILE_TEST_IS_DIR))
+		{
+			GDir *dir = g_dir_open(path, 0, NULL);
+
+			delete_enabled = FALSE;
+			if (dir)
+			{
+				delete_enabled = g_dir_read_name(dir) == NULL;
+				g_dir_close(dir);
+			}
+		}
+		g_free(path);
+
+		gtk_widget_set_sensitive(s_popup_menu.delete, delete_enabled);
 
 		gtk_menu_popup(GTK_MENU(s_popup_menu.widget), NULL, NULL, NULL, NULL,
 						event->button, event->time);

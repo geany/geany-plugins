@@ -111,9 +111,8 @@ void open_file(gchar *utf8_name)
 
 void close_file(gchar *utf8_name)
 {
-	GeanyDocument *doc;
+	GeanyDocument *doc = document_find_by_filename(utf8_name);
 
-	doc = document_find_by_filename(utf8_name);
 	if (doc)
 	{
 		document_set_text_changed(doc, FALSE);
