@@ -267,6 +267,7 @@ projectorganizer/src/prjorg-sidebar.c
 
 # Scope
 scope/data/scope.glade
+scope/data/scope_gtk3.glade
 scope/src/break.c
 scope/src/conterm.c
 scope/src/debug.c

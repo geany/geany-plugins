@@ -23,6 +23,10 @@
 
 #include <string.h>
 
+#include "common.h"
+
+#include <gp_gtkcompat.h>
+
 #include "geanyplugin.h"
 
 extern GeanyData *geany_data;
