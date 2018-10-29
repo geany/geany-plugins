@@ -238,9 +238,6 @@ on_settings_wm_windows_type_notify (GObject    *object,
 
 /* web inspector events handling */
 
-#define INSPECTOR_DETACHED(self) \
-  (webkit_web_inspector_is_attached ((self)->priv->inspector))
-
 #define INSPECTOR_VISIBLE(self) \
   (webkit_web_inspector_get_web_view ((self)->priv->inspector) != NULL)
 
@@ -560,16 +557,15 @@ on_web_view_context_menu (WebKitWebView       *view,
   webkit_context_menu_append (context_menu,
                               webkit_context_menu_item_new_separator ());
   action = g_simple_action_new ("flip-panes", NULL);
-  g_signal_connect_swapped (action, "activate",
-                            G_CALLBACK (on_item_flip_orientation_activate),
-                            view);
+  g_signal_connect (action, "activate",
+                    G_CALLBACK (on_item_flip_orientation_activate),
+                    self);
   item = webkit_context_menu_item_new_from_gaction (G_ACTION (action),
                                                     _("_Flip panes orientation"),
                                                     NULL);
   webkit_context_menu_append (context_menu, item);
-  if (! INSPECTOR_VISIBLE (self) || INSPECTOR_DETACHED (self)) {
-    g_simple_action_set_enabled (action, FALSE);
-  }
+  g_simple_action_set_enabled (action, (INSPECTOR_VISIBLE (self) &&
+                                        webkit_web_inspector_is_attached (self->priv->inspector)));
 
   g_signal_emit (self, signals[POPULATE_POPUP], 0, context_menu);
 
