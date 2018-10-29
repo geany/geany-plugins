@@ -37,50 +37,6 @@
 #include "gwh-plugin.h"
 
 
-#if ! GTK_CHECK_VERSION (2, 18, 0)
-# ifndef gtk_widget_set_visible
-#  define gtk_widget_set_visible(w, v) \
-  ((v) ? gtk_widget_show (w) : gtk_widget_hide (w))
-# endif /* defined (gtk_widget_set_visible) */
-# ifndef gtk_widget_get_visible
-#  define gtk_widget_get_visible(w) \
-  (GTK_WIDGET_VISIBLE (w))
-# endif /* defined (gtk_widget_get_visible) */
-#endif /* GTK_CHECK_VERSION (2, 18, 0) */
-#if ! GTK_CHECK_VERSION (2, 20, 0)
-# ifndef gtk_widget_get_mapped
-#  define gtk_widget_get_mapped(w) \
-  (GTK_WIDGET_MAPPED ((w)))
-# endif /* defined (gtk_widget_get_mapped) */
-#endif /* GTK_CHECK_VERSION (2, 20, 0) */
-#if ! GTK_CHECK_VERSION (3, 0, 0)
-/* the GtkComboBoxText API is actually available in 2.24, but Geany's
- * gtkcompat.h hides it on < 3.0.0 to keep ABI compatibility on all 2.x, so we
- * need to use the old API there too. */
-# define gtk_combo_box_get_entry_text_column(c) \
-  (gtk_combo_box_entry_get_text_column (GTK_COMBO_BOX_ENTRY (c)))
-#endif /* GTK_CHECK_VERSION (3, 0, 0) */
-#if ! GTK_CHECK_VERSION (3, 0, 0)
-static void
-combo_box_text_remove_all (GtkComboBoxText *combo_box)
-{
-  GtkListStore *store;
-
-  g_return_if_fail (GTK_IS_COMBO_BOX_TEXT (combo_box));
-
-  store = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box)));
-  gtk_list_store_clear (store);
-}
-# define gtk_combo_box_text_remove_all combo_box_text_remove_all
-#endif /* GTK_CHECK_VERSION (3, 0, 0) */
-#if GTK_CHECK_VERSION (3, 0, 0)
-/* alias GtkObject, we implement the :destroy signal */
-# define GtkObject          GtkWidget
-# define GtkObjectClass     GtkWidgetClass
-# define GTK_OBJECT_CLASS   GTK_WIDGET_CLASS
-#endif /* GTK_CHECK_VERSION (3, 0, 0) */
-
-
 struct _GwhBrowserPrivate
 {
   GwhSettings        *settings;
@@ -737,11 +693,8 @@ on_web_view_scroll_event (GtkWidget      *widget,
 {
   guint     mods = event->state & gtk_accelerator_get_default_mod_mask ();
   gboolean  handled = FALSE;
-
-#if GTK_CHECK_VERSION(3, 0, 0)
   gdouble   delta;
   gdouble   factor;
-#endif
   
   if (mods == GDK_CONTROL_MASK) {
     handled = TRUE;
@@ -754,14 +707,12 @@ on_web_view_scroll_event (GtkWidget      *widget,
         web_view_zoom_in (WEBKIT_WEB_VIEW (self->priv->web_view));
         break;
 
-#if GTK_CHECK_VERSION(3, 0, 0)
       case GDK_SCROLL_SMOOTH:
         delta = event->delta_x + event->delta_y;
         factor = pow (delta < 0 ? zoom_in_factor : zoom_out_factor,
                       fabs (delta));
         web_view_zoom (WEBKIT_WEB_VIEW (self->priv->web_view), factor);
         break;
-#endif
 
       default:
         handled = FALSE;
@@ -781,9 +732,9 @@ on_orientation_notify (GObject    *object,
 }
 
 static void
-gwh_browser_destroy (GtkObject *object)
+gwh_browser_destroy (GtkWidget *widget)
 {
-  GwhBrowser *self = GWH_BROWSER (object);
+  GwhBrowser *self = GWH_BROWSER (widget);
   gchar      *geometry;
   
   /* save the setting now because we can't really set it at the time it changed,
@@ -808,7 +759,7 @@ gwh_browser_destroy (GtkObject *object)
   /* also destroy the window, since it has no parent that will tell it to die */
   gtk_widget_destroy (self->priv->inspector_window);
   
-  GTK_OBJECT_CLASS (gwh_browser_parent_class)->destroy (object);
+  GTK_WIDGET_CLASS (gwh_browser_parent_class)->destroy (widget);
 }
 
 static void
@@ -914,7 +865,6 @@ static void
 gwh_browser_class_init (GwhBrowserClass *klass)
 {
   GObjectClass       *object_class    = G_OBJECT_CLASS (klass);
-  GtkObjectClass     *gtkobject_class = GTK_OBJECT_CLASS (klass);
   GtkWidgetClass     *widget_class    = GTK_WIDGET_CLASS (klass);
   
   object_class->finalize      = gwh_browser_finalize;
@@ -922,8 +872,7 @@ gwh_browser_class_init (GwhBrowserClass *klass)
   object_class->get_property  = gwh_browser_get_property;
   object_class->set_property  = gwh_browser_set_property;
   
-  gtkobject_class->destroy    = gwh_browser_destroy;
-  
+  widget_class->destroy       = gwh_browser_destroy;
   widget_class->show_all      = gwh_browser_show_all;
   
   signals[POPULATE_POPUP] = g_signal_new ("populate-popup",

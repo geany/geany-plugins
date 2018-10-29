@@ -29,13 +29,6 @@
 #include <gtk/gtk.h>
 
 
-#if ! GTK_CHECK_VERSION (3, 0, 0)
-/* make gtk_adjustment_new() return a real GtkAdjustment, not a GtkObject */
-# define gtk_adjustment_new(v, l, u, si, pi, ps) \
-  (GtkAdjustment *) (gtk_adjustment_new ((v), (l), (u), (si), (pi), (ps)))
-#endif
-
-
 struct _GwhSettingsPrivate
 {
   GPtrArray *prop_array;
