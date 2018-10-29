@@ -105,7 +105,6 @@ static void
 on_separate_window_destroy (GtkWidget  *widget,
                             gpointer    data)
 {
-  gwh_browser_set_inspector_transient_for (GWH_BROWSER (G_browser), NULL);
   gtk_container_remove (GTK_CONTAINER (G_container.widget), G_browser);
 }
 
@@ -156,8 +155,6 @@ create_separate_window (void)
     gtk_window_set_icon_list (GTK_WINDOW (window), icons);
     g_list_free (icons);
   }
-  gwh_browser_set_inspector_transient_for (GWH_BROWSER (G_browser),
-                                           GTK_WINDOW (window));
   
   return window;
 }
@@ -183,8 +180,6 @@ attach_browser (void)
     }
     gtk_notebook_append_page (GTK_NOTEBOOK (G_container.widget),
                               G_browser, gtk_label_new (_("Web preview")));
-    gwh_browser_set_inspector_transient_for (GWH_BROWSER (G_browser),
-                                             GTK_WINDOW (geany_data->main_widgets->window));
   }
 }
 
@@ -358,12 +353,6 @@ load_config (void)
     "browser-separate-window-geometry",
     _("Browser separate window geometry"),
     _("Last geometry of the separated browser's window"),
-    "400x300",
-    G_PARAM_READWRITE));
-  gwh_settings_install_property (G_settings, g_param_spec_string (
-    "inspector-window-geometry",
-    _("Inspector window geometry"),
-    _("Last geometry of the inspector window"),
     "400x300",
     G_PARAM_READWRITE));
   gwh_settings_install_property (G_settings, g_param_spec_boolean (

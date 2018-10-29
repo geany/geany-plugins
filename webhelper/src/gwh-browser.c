@@ -44,16 +44,8 @@ struct _GwhBrowserPrivate
   GIcon        *default_icon;
   
   GtkWidget          *toolbar;
-  GtkWidget          *paned;
   GtkWidget          *web_view;
   WebKitWebInspector *inspector;
-  GtkWidget          *inspector_view; /* the widget that should be shown to
-                                       * display the inspector, not necessarily
-                                       * a WebKitWebView */
-  GtkWidget          *inspector_window;
-  gint                inspector_window_x;
-  gint                inspector_window_y;
-  GtkWidget          *inspector_web_view;
   
   GtkWidget    *url_entry;
   GtkWidget    *url_combo;
@@ -69,8 +61,6 @@ struct _GwhBrowserPrivate
 
 enum {
   PROP_0,
-  PROP_INSPECTOR_TRANSIENT_FOR,
-  PROP_ORIENTATION,
   PROP_URI,
   PROP_WEB_VIEW,
   PROP_TOOLBAR
@@ -86,8 +76,7 @@ static const gdouble zoom_in_factor = 1.2;
 static const gdouble zoom_out_factor = 1.0 / 1.2;
 
 
-G_DEFINE_TYPE_WITH_CODE (GwhBrowser, gwh_browser, GTK_TYPE_VBOX,
-                         G_IMPLEMENT_INTERFACE (GTK_TYPE_ORIENTABLE, NULL))
+G_DEFINE_TYPE (GwhBrowser, gwh_browser, GTK_TYPE_VBOX)
 
 
 static void
@@ -125,23 +114,6 @@ set_location_icon (GwhBrowser  *self,
   }
 }
 
-static gchar *
-get_web_inspector_window_geometry (GwhBrowser *self)
-{
-  return gwh_get_window_geometry (GTK_WINDOW (self->priv->inspector_window),
-                                  self->priv->inspector_window_x,
-                                  self->priv->inspector_window_y);
-}
-
-static void
-set_web_inspector_window_geometry (GwhBrowser  *self,
-                                   const gchar *geometry)
-{
-  gwh_set_window_geometry (GTK_WINDOW (self->priv->inspector_window),
-                           geometry, &self->priv->inspector_window_x,
-                           &self->priv->inspector_window_y);
-}
-
 /* settings change notifications */
 
 static void
@@ -175,64 +147,6 @@ on_settings_browser_bookmarks_notify (GObject    *object,
                                       *p);
     }
     g_strfreev (bookmarks);
-  }
-}
-
-static void
-on_settings_browser_orientation_notify (GObject    *object,
-                                        GParamSpec *pspec,
-                                        GwhBrowser *self)
-{
-  GtkOrientation orientation;
-  
-  g_object_get (object, pspec->name, &orientation, NULL);
-  if (orientation != gtk_orientable_get_orientation (GTK_ORIENTABLE (self))) {
-    gtk_orientable_set_orientation (GTK_ORIENTABLE (self), orientation);
-  }
-}
-
-static void
-on_settings_inspector_window_geometry_notify (GObject    *object,
-                                              GParamSpec *pspec,
-                                              GwhBrowser *self)
-{
-  gchar *geometry;
-  
-  g_object_get (object, pspec->name, &geometry, NULL);
-  set_web_inspector_window_geometry (self, geometry);
-  g_free (geometry);
-}
-
-static void
-on_settings_wm_windows_skip_taskbar_notify (GObject    *object,
-                                            GParamSpec *pspec,
-                                            GwhBrowser *self)
-{
-  gboolean skips_taskbar;
-  
-  g_object_get (object, pspec->name, &skips_taskbar, NULL);
-  gtk_window_set_skip_taskbar_hint (GTK_WINDOW (self->priv->inspector_window),
-                                    skips_taskbar);
-}
-
-static void
-on_settings_wm_windows_type_notify (GObject    *object,
-                                    GParamSpec *pspec,
-                                    GwhBrowser *self)
-{
-  gint      type;
-  gboolean  remap = gtk_widget_get_mapped (self->priv->inspector_window);
-  
-  /* We need to remap the window if we change its type because it's not doable
-   * when mapped. So, hack around. */
-  
-  g_object_get (object, pspec->name, &type, NULL);
-  if (remap) {
-    gtk_widget_unmap (self->priv->inspector_window);
-  }
-  gtk_window_set_type_hint (GTK_WINDOW (self->priv->inspector_window), type);
-  if (remap) {
-    gtk_widget_map (self->priv->inspector_window);
   }
 }
 
@@ -439,18 +353,6 @@ on_web_view_progress_notify (GObject    *object,
   gtk_entry_set_progress_fraction (GTK_ENTRY (self->priv->url_entry), value);
 }
 
-
-static void
-on_item_flip_orientation_activate (GSimpleAction *action,
-                                   GVariant *parameter,
-                                   GwhBrowser    *self)
-{
-  gtk_orientable_set_orientation (GTK_ORIENTABLE (self),
-                                  gtk_orientable_get_orientation (GTK_ORIENTABLE (self)) == GTK_ORIENTATION_VERTICAL
-                                  ? GTK_ORIENTATION_HORIZONTAL
-                                  : GTK_ORIENTATION_VERTICAL);
-}
-
 static void
 on_item_zoom_100_activate (WebKitWebView *view)
 {
@@ -553,20 +455,6 @@ on_web_view_context_menu (WebKitWebView       *view,
   g_signal_connect (action, "activate",
                     G_CALLBACK (on_item_full_content_zoom_activate), self);
 
-  /* flip panes orientation */
-  webkit_context_menu_append (context_menu,
-                              webkit_context_menu_item_new_separator ());
-  action = g_simple_action_new ("flip-panes", NULL);
-  g_signal_connect (action, "activate",
-                    G_CALLBACK (on_item_flip_orientation_activate),
-                    self);
-  item = webkit_context_menu_item_new_from_gaction (G_ACTION (action),
-                                                    _("_Flip panes orientation"),
-                                                    NULL);
-  webkit_context_menu_append (context_menu, item);
-  g_simple_action_set_enabled (action, (INSPECTOR_VISIBLE (self) &&
-                                        webkit_web_inspector_is_attached (self->priv->inspector)));
-
   g_signal_emit (self, signals[POPULATE_POPUP], 0, context_menu);
 
   return FALSE;
@@ -609,27 +497,9 @@ on_web_view_scroll_event (GtkWidget      *widget,
 }
 
 static void
-on_orientation_notify (GObject    *object,
-                       GParamSpec *pspec,
-                       GwhBrowser *self)
-{
-  g_object_set (G_OBJECT (self->priv->settings), "browser-orientation",
-                gtk_orientable_get_orientation (GTK_ORIENTABLE (self)), NULL);
-}
-
-static void
 gwh_browser_destroy (GtkWidget *widget)
 {
   GwhBrowser *self = GWH_BROWSER (widget);
-  gchar      *geometry;
-  
-  /* save the setting now because we can't really set it at the time it changed,
-   * but it's not a problem, anyway probably nobody but us is interested by the
-   * geometry of our inspector window. */
-  geometry = get_web_inspector_window_geometry (self);
-  g_object_set (self->priv->settings, "inspector-window-geometry", geometry,
-                NULL);
-  g_free (geometry);
   
   /* remove signal handlers that might get called during the destruction phase
    * but that rely on stuff that might already heave been destroyed */
@@ -642,8 +512,6 @@ gwh_browser_destroy (GtkWidget *widget)
   g_signal_handlers_disconnect_matched (self->priv->settings,
                                         G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL,
                                         self);
-  /* also destroy the window, since it has no parent that will tell it to die */
-  gtk_widget_destroy (self->priv->inspector_window);
   
   GTK_WIDGET_CLASS (gwh_browser_parent_class)->destroy (widget);
 }
@@ -675,8 +543,6 @@ gwh_browser_constructed (GObject *object)
   /* a bit ugly, fake notifications */
   g_object_notify (G_OBJECT (self->priv->settings), "browser-last-uri");
   g_object_notify (G_OBJECT (self->priv->settings), "browser-bookmarks");
-  g_object_notify (G_OBJECT (self->priv->settings), "browser-orientation");
-  g_object_notify (G_OBJECT (self->priv->settings), "inspector-window-geometry");
 }
 
 static void
@@ -686,18 +552,8 @@ gwh_browser_get_property (GObject    *object,
                           GParamSpec *pspec)
 {
   switch (prop_id) {
-    case PROP_INSPECTOR_TRANSIENT_FOR:
-      g_value_set_object (value,
-                          gwh_browser_get_inspector_transient_for (GWH_BROWSER (object)));
-      break;
-    
     case PROP_URI:
       g_value_set_string (value, gwh_browser_get_uri (GWH_BROWSER (object)));
-      break;
-    
-    case PROP_ORIENTATION:
-      g_value_set_enum (value,
-                        gtk_orientable_get_orientation (GTK_ORIENTABLE (GWH_BROWSER (object)->priv->paned)));
       break;
     
     case PROP_TOOLBAR:
@@ -720,18 +576,8 @@ gwh_browser_set_property (GObject      *object,
                           GParamSpec   *pspec)
 {
   switch (prop_id) {
-    case PROP_INSPECTOR_TRANSIENT_FOR:
-      gwh_browser_set_inspector_transient_for (GWH_BROWSER (object),
-                                               g_value_get_object (value));
-      break;
-    
     case PROP_URI:
       gwh_browser_set_uri (GWH_BROWSER (object), g_value_get_string (value));
-      break;
-    
-    case PROP_ORIENTATION:
-      gtk_orientable_set_orientation (GTK_ORIENTABLE (GWH_BROWSER (object)->priv->paned),
-                                      g_value_get_enum (value));
       break;
     
     default:
@@ -769,16 +615,6 @@ gwh_browser_class_init (GwhBrowserClass *klass)
                                           g_cclosure_marshal_VOID__OBJECT,
                                           G_TYPE_NONE, 1, WEBKIT_TYPE_CONTEXT_MENU);
   
-  g_object_class_override_property (object_class,
-                                    PROP_ORIENTATION,
-                                    "orientation");
-  
-  g_object_class_install_property (object_class, PROP_INSPECTOR_TRANSIENT_FOR,
-                                   g_param_spec_object ("inspector-transient-for",
-                                                        "Inspector transient for",
-                                                        "The parent window of the inspector when detached",
-                                                        GTK_TYPE_WINDOW,
-                                                        G_PARAM_READWRITE));
   g_object_class_install_property (object_class, PROP_URI,
                                    g_param_spec_string ("uri",
                                                         "URI",
@@ -1021,7 +857,6 @@ gwh_browser_init (GwhBrowser *self)
                 NULL);
   
   self->priv->toolbar = create_toolbar (self);
-  self->priv->paned = gtk_vpaned_new ();
   scrolled = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
                                   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -1029,19 +864,8 @@ gwh_browser_init (GwhBrowser *self)
   
   gtk_box_pack_start (GTK_BOX (self), self->priv->toolbar, FALSE, TRUE, 0);
   gtk_widget_show (self->priv->toolbar);
-  gtk_box_pack_start (GTK_BOX (self), self->priv->paned, TRUE, TRUE, 0);
-  gtk_paned_pack1 (GTK_PANED (self->priv->paned), scrolled, TRUE, TRUE);
-  gtk_widget_show_all (self->priv->paned);
-  
-  self->priv->inspector_view = gtk_scrolled_window_new (NULL, NULL);
-  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (self->priv->inspector_view),
-                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  self->priv->inspector_web_view = NULL;
-  
-  gtk_container_add (GTK_CONTAINER (inspector_detached
-                                    ? self->priv->inspector_window
-                                    : self->priv->paned),
-                     self->priv->inspector_view);
+  gtk_box_pack_start (GTK_BOX (self), scrolled, TRUE, TRUE, 0);
+  gtk_widget_show_all (scrolled);
   
   self->priv->statusbar = ui_lookup_widget (geany->main_widgets->window, "statusbar");
   if (self->priv->statusbar) {
@@ -1051,9 +875,6 @@ gwh_browser_init (GwhBrowser *self)
     self->priv->statusbar = gtk_statusbar_new ();
   }
   self->priv->hovered_link = NULL;
-  
-  g_signal_connect (self, "notify::orientation",
-                    G_CALLBACK (on_orientation_notify), self);
   
   self->priv->inspector = webkit_web_view_get_inspector (WEBKIT_WEB_VIEW (self->priv->web_view));
   g_signal_connect (self->priv->inspector, "bring-to-front",
@@ -1086,8 +907,6 @@ gwh_browser_init (GwhBrowser *self)
   
   g_signal_connect (self->priv->web_view, "key-press-event",
                     G_CALLBACK (gwh_keybindings_handle_event), self);
-  g_signal_connect (self->priv->inspector_view, "key-press-event",
-                    G_CALLBACK (gwh_keybindings_handle_event), self);
   
   gtk_widget_grab_focus (self->priv->url_entry);
   
@@ -1095,10 +914,6 @@ gwh_browser_init (GwhBrowser *self)
                     G_CALLBACK (on_settings_browser_last_uri_notify), self);
   g_signal_connect (self->priv->settings, "notify::browser-bookmarks",
                     G_CALLBACK (on_settings_browser_bookmarks_notify), self);
-  g_signal_connect (self->priv->settings, "notify::browser-orientation",
-                    G_CALLBACK (on_settings_browser_orientation_notify), self);
-  g_signal_connect (self->priv->settings, "notify::inspector-window-geometry",
-                    G_CALLBACK (on_settings_inspector_window_geometry_notify), self);
 }
 
 
@@ -1167,25 +982,6 @@ gwh_browser_reload (GwhBrowser *self)
   g_return_if_fail (GWH_IS_BROWSER (self));
   
   webkit_web_view_reload (WEBKIT_WEB_VIEW (self->priv->web_view));
-}
-
-void
-gwh_browser_set_inspector_transient_for (GwhBrowser *self,
-                                            GtkWindow  *window)
-{
-  g_return_if_fail (GWH_IS_BROWSER (self));
-  g_return_if_fail (window == NULL || GTK_IS_WINDOW (window));
-  
-  gtk_window_set_transient_for (GTK_WINDOW (self->priv->inspector_window),
-                                window);
-}
-
-GtkWindow *
-gwh_browser_get_inspector_transient_for (GwhBrowser *self)
-{
-  g_return_val_if_fail (GWH_IS_BROWSER (self), NULL);
-  
-  return gtk_window_get_transient_for (GTK_WINDOW (self->priv->inspector_window));
 }
 
 void
