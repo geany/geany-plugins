@@ -340,9 +340,9 @@ on_web_view_favicon_notify (GObject    *object,
 }
 
 static void
-on_web_view_progress_notify (GObject    *object,
-                             GParamSpec *pspec,
-                             GwhBrowser *self)
+on_web_view_estimated_load_progress_notify (GObject    *object,
+                                            GParamSpec *pspec,
+                                            GwhBrowser *self)
 {
   gdouble value;
   
@@ -882,8 +882,8 @@ gwh_browser_init (GwhBrowser *self)
   g_signal_connect (self->priv->inspector, "closed",
                     G_CALLBACK (on_inspector_closed), self);
   
-  g_signal_connect (G_OBJECT (self->priv->web_view), "notify::progress",
-                    G_CALLBACK (on_web_view_progress_notify), self);
+  g_signal_connect (G_OBJECT (self->priv->web_view), "notify::estimated-load-progress",
+                    G_CALLBACK (on_web_view_estimated_load_progress_notify), self);
   g_signal_connect (G_OBJECT (self->priv->web_view), "notify::uri",
                     G_CALLBACK (on_web_view_uri_notify), self);
   g_signal_connect (G_OBJECT (self->priv->web_view), "load-changed",
