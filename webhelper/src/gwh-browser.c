@@ -708,7 +708,7 @@ on_web_view_context_menu (WebKitWebView       *view,
   g_simple_action_set_enabled (action, TRUE);
   webkit_context_menu_append (submenu, item);
   g_signal_connect (action, "activate",
-                    on_item_full_content_zoom_activate, self);
+                    G_CALLBACK (on_item_full_content_zoom_activate), self);
 
   /* flip panes orientation */
   webkit_context_menu_append (context_menu,
