@@ -250,7 +250,8 @@ on_item_auto_reload_toggled (GAction  *action,
                 "browser-auto-reload", &browser_auto_reload, NULL);
   g_object_set (G_OBJECT (G_settings), "browser-auto-reload",
                 !browser_auto_reload, NULL);
-  g_simple_action_set_state (action, g_variant_new_boolean (browser_auto_reload));
+  g_simple_action_set_state (G_SIMPLE_ACTION (action),
+                             g_variant_new_boolean (browser_auto_reload));
 }
 
 static void
@@ -258,7 +259,7 @@ on_browser_populate_popup (GwhBrowser        *browser,
                            WebKitContextMenu *menu,
                            gpointer           dummy)
 {
-  GAction               *action;
+  GSimpleAction         *action;
   gboolean               auto_reload = FALSE;
   GVariant              *action_state;
   WebKitContextMenuItem *item;
@@ -269,13 +270,11 @@ on_browser_populate_popup (GwhBrowser        *browser,
   g_object_get (G_OBJECT (G_settings), "browser-auto-reload", &auto_reload,
                 NULL);
   action_state = g_variant_new_boolean (auto_reload);
-  action = g_simple_action_new_stateful (
-    "browser-auto-reload",
-    NULL,
-    action_state
-  );
-  item = webkit_context_menu_item_new_from_gaction (
-    action, _("Reload upon document saving"), NULL);
+  action = g_simple_action_new_stateful ("browser-auto-reload",
+                                         NULL, action_state);
+  item = webkit_context_menu_item_new_from_gaction (G_ACTION (action),
+                                                    _("Reload upon document saving"),
+                                                    NULL);
   webkit_context_menu_append (menu, item);
   g_signal_connect (action, "activate",
                     on_item_auto_reload_toggled, NULL);

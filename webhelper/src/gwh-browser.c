@@ -654,7 +654,7 @@ on_web_view_context_menu (WebKitWebView       *view,
 {
   WebKitContextMenuItem    *item;
   WebKitContextMenu        *submenu;
-  GAction                  *action;
+  GSimpleAction            *action;
   GVariant                 *action_state;
 
   webkit_context_menu_append (context_menu,
@@ -669,16 +669,16 @@ on_web_view_context_menu (WebKitWebView       *view,
   action = g_simple_action_new ("zoom-in", NULL);
   g_signal_connect_swapped (action, "activate",
                             G_CALLBACK (web_view_zoom_in), view);
-  item = webkit_context_menu_item_new_from_gaction (action, _("Zoom _In"),
-                                                    NULL);
+  item = webkit_context_menu_item_new_from_gaction (G_ACTION (action),
+                                                    _("Zoom _In"), NULL);
   webkit_context_menu_append (submenu, item);
 
   /* zoom out */
   action = g_simple_action_new ("zoom-out", NULL);
   g_signal_connect_swapped (action, "activate",
                             G_CALLBACK (web_view_zoom_out), view);
-  item = webkit_context_menu_item_new_from_gaction (action, _("Zoom _Out"),
-                                                    NULL);
+  item = webkit_context_menu_item_new_from_gaction (G_ACTION (action),
+                                                    _("Zoom _Out"), NULL);
   webkit_context_menu_append (submenu, item);
 
   /* zoom 1:1 */
@@ -687,8 +687,8 @@ on_web_view_context_menu (WebKitWebView       *view,
   action = g_simple_action_new ("zoom-reset", NULL);
   g_signal_connect_swapped (action, "activate",
                             G_CALLBACK (on_item_zoom_100_activate), view);
-  item = webkit_context_menu_item_new_from_gaction (action, _("_Reset Zoom"),
-                                                    NULL);
+  item = webkit_context_menu_item_new_from_gaction (G_ACTION (action),
+                                                    _("_Reset Zoom"), NULL);
   webkit_context_menu_append (submenu, item);
 
   /* full content zoom */
@@ -702,7 +702,7 @@ on_web_view_context_menu (WebKitWebView       *view,
     NULL,
     action_state
   );
-  item = webkit_context_menu_item_new_from_gaction (action,
+  item = webkit_context_menu_item_new_from_gaction (G_ACTION (action),
                                                     _("Full-_content zoom"),
                                                     NULL);
   g_simple_action_set_enabled (action, TRUE);
@@ -717,8 +717,9 @@ on_web_view_context_menu (WebKitWebView       *view,
   g_signal_connect_swapped (action, "activate",
                             G_CALLBACK (on_item_flip_orientation_activate),
                             view);
-  item = webkit_context_menu_item_new_from_gaction (
-    action, _("_Flip panes orientation"), NULL);
+  item = webkit_context_menu_item_new_from_gaction (G_ACTION (action),
+                                                    _("_Flip panes orientation"),
+                                                    NULL);
   webkit_context_menu_append (context_menu, item);
   if (! INSPECTOR_VISIBLE (self) || INSPECTOR_DETACHED (self)) {
     g_simple_action_set_enabled (action, FALSE);
