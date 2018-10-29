@@ -6,7 +6,7 @@ libgeanypluginutils_la_SOURCES = \
 	filelist.h \
 	filelist.c
 
-if GP_VTE291_USED
+if SCOPE_USE_VTE291
 libgeanypluginutils_la_SOURCES += \
 	gp_vtecompat.h \
 	gp_vtecompat.c

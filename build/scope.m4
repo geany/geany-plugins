@@ -17,7 +17,7 @@ AC_DEFUN([GP_CHECK_SCOPE],
             ;;
     esac
 
-    AM_CONDITIONAL([GP_VTE291_USED], [test "$enable_scope" != no && test "$vte_package" = vte-2.91])
+    AM_CONDITIONAL([SCOPE_USE_VTE291], [test "$enable_scope" != no && test "$vte_package" = vte-2.91])
     AC_SUBST(PTY_LIBS)
 
     GP_COMMIT_PLUGIN_STATUS([Scope])
