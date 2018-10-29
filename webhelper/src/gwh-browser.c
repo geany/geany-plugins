@@ -140,7 +140,7 @@ static void       inspector_set_detached      (GwhBrowser *self,
 
 static void
 set_location_icon (GwhBrowser  *self,
-                   const cairo_surface_t *icon_surface)
+                   cairo_surface_t *icon_surface)
 {
   gboolean success = FALSE;
 
@@ -576,7 +576,7 @@ on_web_view_favicon_notify (GObject    *object,
                             GParamSpec *pspec,
                             GwhBrowser *self)
 {
-  const cairo_surface_t *icon_surface;
+  cairo_surface_t *icon_surface;
   
   icon_surface = webkit_web_view_get_favicon (WEBKIT_WEB_VIEW (self->priv->web_view));
   set_location_icon (self, icon_surface);
