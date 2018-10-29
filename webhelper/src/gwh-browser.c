@@ -938,6 +938,19 @@ url_completion_match_func (GtkEntryCompletion  *comp,
   return match;
 }
 
+static GtkToolItem *
+tool_button_new (const gchar *mnemonic,
+                 const gchar *icon_name,
+                 const gchar *tooltip)
+{
+  return g_object_new (GTK_TYPE_TOOL_BUTTON,
+                       "use-underline", TRUE,
+                       "label", mnemonic,
+                       "icon-name", icon_name,
+                       "tooltip-text", tooltip,
+                       NULL);
+}
+
 static GtkWidget *
 create_toolbar (GwhBrowser *self)
 {
@@ -950,20 +963,20 @@ create_toolbar (GwhBrowser *self)
                           "toolbar-style", GTK_TOOLBAR_ICONS,
                           NULL);
   
-  self->priv->item_prev = gtk_tool_button_new_from_stock (GTK_STOCK_GO_BACK);
-  gtk_tool_item_set_tooltip_text (self->priv->item_prev, _("Back"));
+  self->priv->item_prev = tool_button_new (_("_Back"), "go-previous",
+                                           _("Go back"));
   gtk_toolbar_insert (GTK_TOOLBAR (toolbar), self->priv->item_prev, -1);
   gtk_widget_show (GTK_WIDGET (self->priv->item_prev));
-  self->priv->item_next = gtk_tool_button_new_from_stock (GTK_STOCK_GO_FORWARD);
-  gtk_tool_item_set_tooltip_text (self->priv->item_next, _("Forward"));
+  self->priv->item_next = tool_button_new (_("_Forward"), "go-next",
+                                           _("Go forward"));
   gtk_toolbar_insert (GTK_TOOLBAR (toolbar), self->priv->item_next, -1);
   gtk_widget_show (GTK_WIDGET (self->priv->item_next));
-  self->priv->item_cancel = gtk_tool_button_new_from_stock (GTK_STOCK_CANCEL);
-  gtk_tool_item_set_tooltip_text (self->priv->item_cancel, _("Cancel loading"));
+  self->priv->item_cancel = tool_button_new (_("_Cancel"), "process-stop",
+                                             _("Cancel loading"));
   gtk_toolbar_insert (GTK_TOOLBAR (toolbar), self->priv->item_cancel, -1);
   /* don't show cancel */
-  self->priv->item_reload = gtk_tool_button_new_from_stock (GTK_STOCK_REFRESH);
-  gtk_tool_item_set_tooltip_text (self->priv->item_reload, _("Reload current page"));
+  self->priv->item_reload = tool_button_new (_("_Refresh"), "view-refresh",
+                                             _("Reload current page"));
   gtk_toolbar_insert (GTK_TOOLBAR (toolbar), self->priv->item_reload, -1);
   gtk_widget_show (GTK_WIDGET (self->priv->item_reload));
   
@@ -987,9 +1000,12 @@ create_toolbar (GwhBrowser *self)
   gtk_entry_completion_set_match_func (comp, url_completion_match_func, NULL, NULL);
   gtk_entry_set_completion (GTK_ENTRY (self->priv->url_entry), comp);
   
-  self->priv->item_inspector = gtk_toggle_tool_button_new_from_stock (GTK_STOCK_INFO);
-  gtk_tool_button_set_label (GTK_TOOL_BUTTON (self->priv->item_inspector), _("Web inspector"));
-  gtk_tool_item_set_tooltip_text (self->priv->item_inspector, _("Toggle web inspector"));
+  self->priv->item_inspector = g_object_new (GTK_TYPE_TOGGLE_TOOL_BUTTON,
+                                             "use-underline", TRUE,
+                                             "label", _("Web _Inspector"),
+                                             "tooltip-text", _("Toggle web inspector"),
+                                             "icon-name", "dialog-information",
+                                             NULL);
   gtk_toolbar_insert (GTK_TOOLBAR (toolbar), self->priv->item_inspector, -1);
   gtk_widget_show (GTK_WIDGET (self->priv->item_inspector));
   
