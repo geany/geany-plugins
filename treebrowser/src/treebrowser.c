@@ -942,6 +942,34 @@ on_menu_current_path(GtkMenuItem *menuitem, gpointer *user_data)
 }
 
 static void
+on_menu_open_with_glade(GtkMenuItem *menuitem, gchar *uri)
+{
+	gchar 				*cmd, *locale_cmd, *dir, *c;
+	GString 			*cmd_str 	= g_string_new("glade '%f'");
+	GError 				*error 		= NULL;
+
+	dir = g_file_test(uri, G_FILE_TEST_IS_DIR) ? g_strdup(uri) : g_path_get_dirname(uri);
+    
+	utils_string_replace_all(cmd_str, "%f", uri);
+    
+	cmd = g_string_free(cmd_str, FALSE);
+	locale_cmd = utils_get_locale_from_utf8(cmd);
+	if (! g_spawn_command_line_async(locale_cmd, &error))
+	{
+		c = strchr(cmd, ' ');
+		if (c != NULL)
+			*c = '\0';
+		ui_set_statusbar(TRUE,
+			_("Could not execute configured external command '%s' (%s)."),
+			cmd, error->message);
+		g_error_free(error);
+	}
+	g_free(locale_cmd);
+	g_free(cmd);
+	g_free(dir);
+}
+
+static void
 on_menu_open_externally(GtkMenuItem *menuitem, gchar *uri)
 {
 	gchar 				*cmd, *locale_cmd, *dir, *c;
@@ -1200,7 +1228,13 @@ create_popup_menu(const gchar *name, const gchar *uri)
 	item = ui_image_menu_item_new(GTK_STOCK_GO_UP, _("Go _Up"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_go_up), NULL);
-
+    
+    if (g_str_has_suffix(uri, ".ui") || g_str_has_suffix(uri, ".glade")){
+        item = ui_image_menu_item_new(GTK_STOCK_GO_UP, _("Open with Glade"));
+        gtk_container_add(GTK_CONTAINER(menu), item);
+        g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_open_with_glade), g_strdup(uri), (GClosureNotify)g_free, 0);
+    }
+    
 	item = ui_image_menu_item_new(GTK_STOCK_GO_UP, _("Set _Path From Document"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_current_path), NULL);
