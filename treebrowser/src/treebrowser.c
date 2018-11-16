@@ -62,7 +62,7 @@ static gboolean 			flag_on_expand_refresh 		= FALSE;
 # define CONFIG_OPEN_TERMINAL_DEFAULT "cmd"
 #endif
 
-# define CONFIG_OPEN_EXT_USER_DEF_DEFAULT "notepad++:.txt;glade:.ui;glade:.glade"
+# define CONFIG_OPEN_EXT_USER_DEF_DEFAULT "glade:.ui;glade:.glade"
 
 static gchar 				*CONFIG_FILE 				= NULL;
 static gchar 				*CONFIG_OPEN_EXTERNAL_CMD 	= NULL;
