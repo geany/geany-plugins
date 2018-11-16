@@ -2025,7 +2025,7 @@ plugin_configure(GtkDialog *dialog)
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(hbox), configure_widgets.OPEN_EXTERNAL_CMD, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox_s), label_s, FALSE, FALSE, 6);
-	gtk_box_pack_start(GTK_BOX(hbox_s), configure_widgets.OPEN_EXT_CMD_USER_SPEC, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox_s), configure_widgets.OPEN_EXT_CMD_USER_SPEC, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox_s, FALSE, FALSE, 6);
 
