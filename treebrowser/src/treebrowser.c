@@ -1264,12 +1264,12 @@ create_popup_menu(const gchar *name, const gchar *uri)
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_go_up), NULL);
     
-	parse_user_file_associations(item, menu, g_strdup(uri));
-    
 	item = ui_image_menu_item_new(GTK_STOCK_GO_UP, _("Set _Path From Document"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_current_path), NULL);
-
+	
+	parse_user_file_associations(item, menu, g_strdup(uri));
+	
 	item = ui_image_menu_item_new(GTK_STOCK_OPEN, _("_Open Externally"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_open_externally), g_strdup(uri), (GClosureNotify)g_free, 0);
@@ -2016,7 +2016,8 @@ plugin_configure(GtkDialog *dialog)
 		  "%f will be replaced with the filename including full path\n"
 		  "%d will be replaced with the path name of the selected file without the filename"));
 	gtk_widget_set_tooltip_text(configure_widgets.OPEN_EXT_CMD_USER_SPEC,
-		_("You can define custom file associations for specific file extensions\n"
+		_("You can define custom file associations for specific file extensions.\n"
+		  "An \"Open with x\" entry will be created on the right click context menu for each definition.\n"
 		  "An example definition is like: glade:.glade\n"
 		  "Multiple definitions can be separated by semicolons, such that:\n"
 		  "glade:.glade;glade:.ui;notepad++:.txt\n"
