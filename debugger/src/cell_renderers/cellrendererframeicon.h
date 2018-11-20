@@ -40,10 +40,17 @@ struct _CellRendererFrameIcon
 {
   GtkCellRenderer parent;
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+  guint active_frame;
+
+  GdkPixbuf *pixbuf_active;
+  GdkPixbuf *pixbuf_highlighted;
+#else
   guint GSEAL (active_frame);
 
   GdkPixbuf *GSEAL (pixbuf_active);
   GdkPixbuf *GSEAL (pixbuf_highlighted);
+#endif
 };
 
 struct _CellRendererFrameIconClass

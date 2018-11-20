@@ -104,8 +104,13 @@ static void on_target_browse_clicked(GtkButton *button, gpointer   user_data)
 	dialog = gtk_file_chooser_dialog_new (_("Choose target file"),
 					  NULL,
 					  GTK_FILE_CHOOSER_ACTION_OPEN,
+#if GTK_CHECK_VERSION(3, 0, 0)
+					  _("_Cancel"), GTK_RESPONSE_CANCEL,
+					  _("_Open"), GTK_RESPONSE_ACCEPT,
+#else
 					  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					  GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+#endif
 					  NULL);
 	
 	prevfile = gtk_entry_get_text(GTK_ENTRY(target_name));
@@ -161,23 +166,41 @@ void tpage_pack_widgets(gboolean tabbed)
 	{
 		GtkWidget *hbox, *rbox, *lbox;
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+		root = gtk_box_new(GTK_ORIENTATION_VERTICAL, SPACING);
+#else
 		root = gtk_vbox_new(FALSE, SPACING);
+#endif
 		gtk_container_set_border_width(GTK_CONTAINER(root), ROOT_BORDER_WIDTH);
 	
 		/* filename */
+#if GTK_CHECK_VERSION(3, 0, 0)
+		hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, SPACING);
+#else
 		hbox = gtk_hbox_new(FALSE, SPACING);
+#endif
 		gtk_box_pack_start(GTK_BOX(root), hbox, FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), target_label, FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), target_name, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), target_button_browse, FALSE, FALSE, 0);
 		
 		/* lower hbox */
+#if GTK_CHECK_VERSION(3, 0, 0)
+		hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, SPACING);
+		gtk_box_set_homogeneous(GTK_BOX(hbox), TRUE);
+#else
 		hbox = gtk_hbox_new(TRUE, SPACING);
+#endif
 		gtk_box_pack_start(GTK_BOX(root), hbox, TRUE, TRUE, 0);
 
 		/* lower left and right vboxes */
+#if GTK_CHECK_VERSION(3, 0, 0)
+		lbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, SPACING);
+		rbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, SPACING);
+#else
 		lbox = gtk_vbox_new(FALSE, SPACING);
 		rbox = gtk_vbox_new(FALSE, SPACING);
+#endif
 		gtk_box_pack_start(GTK_BOX(hbox), lbox, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), rbox, TRUE, TRUE, 0);
 
@@ -187,7 +210,11 @@ void tpage_pack_widgets(gboolean tabbed)
 		/* arguments */
 		gtk_box_pack_start(GTK_BOX(rbox), args_frame, TRUE, TRUE, 0);
 		/* debugger type */
+#if GTK_CHECK_VERSION(3, 0, 0)
+		hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, SPACING);
+#else
 		hbox = gtk_hbox_new(FALSE, SPACING);
+#endif
 		gtk_box_pack_start(GTK_BOX(hbox), debugger_label, FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), debugger_cmb, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(rbox), hbox, FALSE, FALSE, 0);
@@ -196,11 +223,21 @@ void tpage_pack_widgets(gboolean tabbed)
 	{
 		GtkWidget *lbox, *rbox, *hbox;
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+		root = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, SPACING);
+		gtk_box_set_homogeneous(GTK_BOX(root), TRUE);
+#else
 		root = gtk_hbox_new(TRUE, SPACING);
+#endif
 		gtk_container_set_border_width(GTK_CONTAINER(root), ROOT_BORDER_WIDTH);
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+		lbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, SPACING);
+		rbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, SPACING);
+#else
 		lbox = gtk_vbox_new(FALSE, SPACING);
 		rbox = gtk_vbox_new(FALSE, SPACING);
+#endif
 		gtk_box_pack_start(GTK_BOX(root), lbox, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(root), rbox, TRUE, TRUE, 0);
 
@@ -208,7 +245,11 @@ void tpage_pack_widgets(gboolean tabbed)
 		gtk_box_pack_start(GTK_BOX(lbox), env_frame, TRUE, TRUE, 0);
 
 		/* target */
+#if GTK_CHECK_VERSION(3, 0, 0)
+		hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, SPACING);
+#else
 		hbox = gtk_hbox_new(FALSE, SPACING);
+#endif
 		gtk_box_pack_start(GTK_BOX(hbox), target_label, FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), target_name, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), target_button_browse, FALSE, FALSE, 0);
@@ -216,7 +257,11 @@ void tpage_pack_widgets(gboolean tabbed)
 		/* arguments */
 		gtk_box_pack_start(GTK_BOX(rbox), args_frame, TRUE, TRUE, 0);
 		/* debugger type */
+#if GTK_CHECK_VERSION(3, 0, 0)
+		hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, SPACING);
+#else
 		hbox = gtk_hbox_new(FALSE, SPACING);
+#endif
 		gtk_box_pack_start(GTK_BOX(hbox), debugger_label, FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), debugger_cmb, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(rbox), hbox, FALSE, FALSE, 0);
@@ -233,7 +278,11 @@ void tpage_pack_widgets(gboolean tabbed)
 		gtk_container_remove(GTK_CONTAINER(tab_target), oldroot);
 	}
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+	gtk_box_pack_start(GTK_BOX(tab_target), root, TRUE, TRUE, 0);
+#else
 	gtk_container_add(GTK_CONTAINER(tab_target), root);
+#endif
 	gtk_widget_show_all(tab_target);
 }
 
@@ -250,26 +299,46 @@ static void tpage_create_widgets(void)
 	/* target */
 	target_label = gtk_label_new(_("Target:"));
 	target_name = gtk_entry_new ();
+#if GTK_CHECK_VERSION(3, 0, 0)
+	gtk_editable_set_editable(GTK_EDITABLE(target_name), FALSE);
+	target_button_browse = create_stock_button("document-open", _("Browse"));
+#else
 	gtk_entry_set_editable(GTK_ENTRY(target_name), FALSE);
 	target_button_browse = create_stock_button(GTK_STOCK_OPEN, _("Browse"));
+#endif
 	gtk_widget_set_size_request(target_button_browse, BROWSE_BUTTON_WIDTH, 0);
 	g_signal_connect(G_OBJECT(target_button_browse), "clicked", G_CALLBACK (on_target_browse_clicked), NULL);
 
 	/* debugger */
 	debugger_label = gtk_label_new(_("Debugger:")); 
+#if GTK_CHECK_VERSION(3, 0, 0)
+	debugger_cmb = gtk_combo_box_text_new();
+#else
 	debugger_cmb = gtk_combo_box_new_text();
+#endif
 	modules = debug_get_modules();
 	for (iter = modules; iter; iter = iter->next)
 	{
+#if GTK_CHECK_VERSION(3, 0, 0)
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(debugger_cmb), (gchar*)iter->data);
+#else
 		gtk_combo_box_append_text(GTK_COMBO_BOX(debugger_cmb), (gchar*)iter->data);
+#endif
 	}
 	g_list_free(modules);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(debugger_cmb), 0);
 
 	/* arguments */
 	args_frame = gtk_frame_new(_("Command Line Arguments"));
+#if GTK_CHECK_VERSION(3, 0, 0)
+	hbox = gtk_scrolled_window_new(
+		gtk_scrollable_get_hadjustment(GTK_SCROLLABLE(args_textview)),
+		gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(args_textview)));
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(hbox), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+#else
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(hbox), 5);
+#endif
 	args_textview = gtk_text_view_new ();
 	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(args_textview), GTK_WRAP_CHAR);
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(args_textview));
@@ -279,8 +348,15 @@ static void tpage_create_widgets(void)
 
 	/* environment */
 	env_frame = gtk_frame_new(_("Environment Variables"));
+#if GTK_CHECK_VERSION(3, 0, 0)
+	hbox = gtk_scrolled_window_new(
+		gtk_scrollable_get_hadjustment(GTK_SCROLLABLE(args_textview)),
+		gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(args_textview)));
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(hbox), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+#else
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(hbox), 5);
+#endif
 	tree = envtree_init();
 	gtk_container_add(GTK_CONTAINER(hbox), tree);
 	gtk_container_add(GTK_CONTAINER(env_frame), hbox);
@@ -366,7 +442,11 @@ int tpage_get_debug_module_index(void)
  */
 gchar* tpage_get_debugger(void)
 {
+#if GTK_CHECK_VERSION(3, 0, 0)
+	return gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(debugger_cmb));
+#else
 	return gtk_combo_box_get_active_text(GTK_COMBO_BOX(debugger_cmb));
+#endif
 }
 
 /*
@@ -404,7 +484,11 @@ GList* tpage_get_environment(void)
  */
 void tpage_init(void)
 {
+#if GTK_CHECK_VERSION(3, 0, 0)
+	tab_target = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+#else
 	tab_target = gtk_vbox_new(FALSE, 0);
+#endif
 	tpage_create_widgets();
 }
 

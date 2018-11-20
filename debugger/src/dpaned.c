@@ -41,6 +41,7 @@ extern GeanyData		*geany_data;
 #include "dconfig.h"
 
 #define NOTEBOOK_GROUP 438948394
+#define NOTEBOOK_GROUP_NAME(id) ("notebook-" #id)
 #define HPANED_BORDER_WIDTH 4
 
 #define CONNECT_PAGE_SIGNALS(X) \
@@ -287,8 +288,13 @@ void dpaned_init(void)
 	/* setup notebooks */
 	gtk_notebook_set_scrollable(GTK_NOTEBOOK(debug_notebook_left), TRUE);
 	gtk_notebook_set_scrollable(GTK_NOTEBOOK(debug_notebook_right), TRUE);
+#if GTK_CHECK_VERSION(3, 0, 0)
+	gtk_notebook_set_group_name(GTK_NOTEBOOK(debug_notebook_left), NOTEBOOK_GROUP_NAME(NOTEBOOK_GROUP));
+	gtk_notebook_set_group_name(GTK_NOTEBOOK(debug_notebook_right), NOTEBOOK_GROUP_NAME(NOTEBOOK_GROUP));
+#else
 	gtk_notebook_set_group_id(GTK_NOTEBOOK(debug_notebook_left), NOTEBOOK_GROUP);
 	gtk_notebook_set_group_id (GTK_NOTEBOOK(debug_notebook_right), NOTEBOOK_GROUP);
+#endif
 	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(debug_notebook_left), GTK_POS_TOP);
 	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(debug_notebook_right), GTK_POS_TOP);
 	

@@ -136,14 +136,25 @@ static void cell_renderer_break_icon_set_property (GObject *object, guint param_
 /*
  * get size of a cell
  */
+#if GTK_CHECK_VERSION(3, 0, 0)
+static void cell_renderer_break_icon_get_size(GtkCellRenderer *cell, GtkWidget *widget, const GdkRectangle *cell_area, 
+	gint *x_offset, gint *y_offset, gint *width, gint *height)
+#else
 static void cell_renderer_break_icon_get_size(GtkCellRenderer *cell, GtkWidget *widget, GdkRectangle *cell_area, 
 	gint *x_offset, gint *y_offset, gint *width, gint *height)
+#endif
 {
 	CellRendererBreakIcon *cellbreakpoint = (CellRendererBreakIcon *) cell;
 	gint pixbuf_width  = 0;
 	gint pixbuf_height = 0;
 	gint calc_width;
 	gint calc_height;
+#if GTK_CHECK_VERSION(3, 0, 0)
+	gint xpad;
+	gint ypad;
+	gfloat xalign;
+	gfloat yalign;
+#endif
 	
 	if (cellbreakpoint->pixbuf_enabled)
 	{
@@ -166,21 +177,37 @@ static void cell_renderer_break_icon_get_size(GtkCellRenderer *cell, GtkWidget *
 		pixbuf_height = MAX (pixbuf_height, gdk_pixbuf_get_height (cellbreakpoint->pixbuf_file));
 	}
 	
+#if GTK_CHECK_VERSION(3, 0, 0)
+	gtk_cell_renderer_get_padding(cell, &xpad, &ypad);
+	calc_width  = xpad * 2 + pixbuf_width;
+	calc_height = ypad * 2 + pixbuf_height;
+
+	gtk_cell_renderer_get_alignment(cell, &xalign, &yalign);
+#else
 	calc_width  = (gint) cell->xpad * 2 + pixbuf_width;
 	calc_height = (gint) cell->ypad * 2 + pixbuf_height;
+#endif
 	
 	if (cell_area && pixbuf_width > 0 && pixbuf_height > 0)
 	{
 		if (x_offset)
 		{
 			*x_offset = (((gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL) ?
+#if GTK_CHECK_VERSION(3, 0, 0)
+				(1.0 - xalign) : xalign) * 
+#else
 				(1.0 - cell->xalign) : cell->xalign) * 
+#endif
 				(cell_area->width - calc_width));
 			*x_offset = MAX (*x_offset, 0);
 		}
 		if (y_offset)
 		{
+#if GTK_CHECK_VERSION(3, 0, 0)
+			*y_offset = (yalign * (cell_area->height - calc_height));
+#else
 			*y_offset = (cell->yalign * (cell_area->height - calc_height));
+#endif
 			*y_offset = MAX (*y_offset, 0);
 		}
 	}
@@ -200,8 +227,13 @@ static void cell_renderer_break_icon_get_size(GtkCellRenderer *cell, GtkWidget *
 /*
  * render a cell
  */
+#if GTK_CHECK_VERSION(3, 0, 0)
+static void cell_renderer_break_icon_render(GtkCellRenderer *cell, cairo_t *cr, GtkWidget *widget,
+	const GdkRectangle *background_area, const GdkRectangle *cell_area, GtkCellRendererState flags)
+#else
 static void cell_renderer_break_icon_render(GtkCellRenderer *cell, GdkDrawable *window, GtkWidget *widget,
 	GdkRectangle *background_area, GdkRectangle *cell_area, GdkRectangle *expose_area, GtkCellRendererState flags)
+#endif
 {
 	CellRendererBreakIcon *cellbreakpoint = (CellRendererBreakIcon*) cell;
 	
@@ -209,7 +241,16 @@ static void cell_renderer_break_icon_render(GtkCellRenderer *cell, GdkDrawable *
 	
 	GdkRectangle pix_rect;
 	GdkRectangle draw_rect;
+
+#if GTK_CHECK_VERSION(3, 0, 0)
+	gint xpad;
+	gint ypad;
+
+	GValue is_expander_value = G_VALUE_INIT;
+	gboolean is_expander;
+#else
 	cairo_t *cr;
+#endif
 	
 	cell_renderer_break_icon_get_size (cell, widget, cell_area,
 		&pix_rect.x,
@@ -217,6 +258,20 @@ static void cell_renderer_break_icon_render(GtkCellRenderer *cell, GdkDrawable *
 		&pix_rect.width,
 		&pix_rect.height);
 	
+#if GTK_CHECK_VERSION(3, 0, 0)
+	gtk_cell_renderer_get_padding(cell, &xpad, &ypad);
+	pix_rect.x += cell_area->x + xpad;
+	pix_rect.y += cell_area->y + ypad;
+	pix_rect.width  -= xpad * 2;
+	pix_rect.height -= ypad * 2;
+
+	if (!gdk_rectangle_intersect (cell_area, &pix_rect, &draw_rect))
+ 		return;
+
+	g_object_get_property(G_OBJECT(cell), "is-expander", &is_expander_value);
+	is_expander = g_value_get_boolean(&is_expander_value);
+	g_value_unset(&is_expander_value);
+#else
 	pix_rect.x += cell_area->x + cell->xpad;
 	pix_rect.y += cell_area->y + cell->ypad;
 	pix_rect.width  -= cell->xpad * 2;
@@ -225,8 +280,13 @@ static void cell_renderer_break_icon_render(GtkCellRenderer *cell, GdkDrawable *
 	if (!gdk_rectangle_intersect (cell_area, &pix_rect, &draw_rect) ||
 		!gdk_rectangle_intersect (expose_area, &draw_rect, &draw_rect))
 		return;
+#endif
 	
+#if GTK_CHECK_VERSION(3, 0, 0)
+	if (is_expander)
+#else
 	if (cell->is_expander)
+#endif
 	{
 		pixbuf = cellbreakpoint->pixbuf_file;
 	}
@@ -246,20 +306,29 @@ static void cell_renderer_break_icon_render(GtkCellRenderer *cell, GdkDrawable *
 	if (!pixbuf)
 		return;
 	
+#if !GTK_CHECK_VERSION(3, 0, 0)
 	cr = gdk_cairo_create (window);
+#endif
 	
 	gdk_cairo_set_source_pixbuf (cr, pixbuf, pix_rect.x, pix_rect.y);
 	gdk_cairo_rectangle (cr, &draw_rect);
 	cairo_fill (cr);
 	
+#if !GTK_CHECK_VERSION(3, 0, 0)
 	cairo_destroy (cr);
+#endif
 }
 
 /*
  * activate callback
  */
+#if GTK_CHECK_VERSION(3, 0, 0)
+static gint cell_renderer_break_icon_activate(GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, const gchar *path,
+	const GdkRectangle *background_area, const GdkRectangle *cell_area, GtkCellRendererState flags)
+#else
 static gint cell_renderer_break_icon_activate(GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, const gchar *path,
 	GdkRectangle *background_area, GdkRectangle *cell_area, GtkCellRendererState  flags)
+#endif
 {
 	if (!event ||
 		(
@@ -284,7 +353,11 @@ static void cell_renderer_break_icon_init (CellRendererBreakIcon *cell)
 	cell->condition = NULL;
 	cell->hitscount = 0;
 	
+#if GTK_CHECK_VERSION(3, 0, 0)
+	g_object_set(cell_renderer, "mode", GTK_CELL_RENDERER_MODE_ACTIVATABLE, NULL);
+#else
 	cell_renderer->mode = GTK_CELL_RENDERER_MODE_ACTIVATABLE;
+#endif
 
 	cell->pixbuf_enabled = cell->pixbuf_disabled = cell->pixbuf_conditional = cell->pixbuf_file = 0;
 }

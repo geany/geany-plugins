@@ -82,9 +82,15 @@ static void on_execute_until(GtkButton *button, gpointer user_data)
  */
 GtkWidget* btnpanel_create(on_toggle cb)
 {
+#if GTK_CHECK_VERSION(3, 0, 0)
+	GtkWidget *vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, CP_BUTTONS_PAD);
+
+	GtkWidget *hbutton_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, CP_BUTTONS_PAD);
+#else
 	GtkWidget *vbox = gtk_vbox_new(FALSE, CP_BUTTONS_PAD);
 
 	GtkWidget *hbutton_box = gtk_hbox_new(FALSE, CP_BUTTONS_PAD);
+#endif
 
 	runbtn = create_button("run.gif", _("Run"));
 	g_signal_connect(G_OBJECT(runbtn), "clicked", G_CALLBACK (debug_run), (gpointer)TRUE);
@@ -92,7 +98,12 @@ GtkWidget* btnpanel_create(on_toggle cb)
 	gtk_box_pack_start(GTK_BOX(hbutton_box), runbtn, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbutton_box, FALSE, TRUE, 0);
 	
+#if GTK_CHECK_VERSION(3, 0, 0)
+	hbutton_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, CP_BUTTONS_PAD);
+	gtk_box_set_homogeneous(GTK_BOX(hbutton_box), TRUE);
+#else
 	hbutton_box = gtk_hbox_new(TRUE, CP_BUTTONS_PAD);
+#endif
 
 	restartbtn = create_button("restart.gif", _("Restart"));
 	g_signal_connect(G_OBJECT(restartbtn), "clicked", G_CALLBACK (debug_restart), (gpointer)TRUE);
@@ -104,7 +115,12 @@ GtkWidget* btnpanel_create(on_toggle cb)
 	gtk_box_pack_start(GTK_BOX(hbutton_box), stopbtn, FALSE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbutton_box, FALSE, TRUE, 0);
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+	hbutton_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, CP_BUTTONS_PAD);
+	gtk_box_set_homogeneous(GTK_BOX(hbutton_box), TRUE);
+#else
 	hbutton_box = gtk_hbox_new(TRUE, CP_BUTTONS_PAD);
+#endif
 
 	stepoverbtn = create_button("step_over.gif", _("Step over"));
 	g_signal_connect(G_OBJECT(stepoverbtn), "clicked", G_CALLBACK (debug_step_over), (gpointer)TRUE);
@@ -116,7 +132,12 @@ GtkWidget* btnpanel_create(on_toggle cb)
 	gtk_box_pack_start(GTK_BOX(hbutton_box), stepinbtn, FALSE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbutton_box, FALSE, TRUE, 0);
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+	hbutton_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, CP_BUTTONS_PAD);
+	gtk_box_set_homogeneous(GTK_BOX(hbutton_box), TRUE);
+#else
 	hbutton_box = gtk_hbox_new(TRUE, CP_BUTTONS_PAD);
+#endif
 
 	stepoutbtn = create_button("step_out.gif", _("Step out"));
 	g_signal_connect(G_OBJECT(stepoutbtn), "clicked", G_CALLBACK (debug_step_out), (gpointer)TRUE);
@@ -128,7 +149,11 @@ GtkWidget* btnpanel_create(on_toggle cb)
 	gtk_box_pack_start(GTK_BOX(hbutton_box), runcursorbtn, FALSE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbutton_box, FALSE, TRUE, 0);
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+	optbtn = create_stock_button("preferences-system", _("Settings"));
+#else
 	optbtn = create_stock_button(GTK_STOCK_PREFERENCES, _("Settings"));
+#endif
 	g_signal_connect(G_OBJECT(optbtn), "clicked", G_CALLBACK (on_settings), NULL);
 	gtk_box_pack_end(GTK_BOX(vbox), optbtn, FALSE, FALSE, 0);
 
