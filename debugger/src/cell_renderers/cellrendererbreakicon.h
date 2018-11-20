@@ -36,27 +36,6 @@ G_BEGIN_DECLS
 typedef struct _CellRendererBreakIcon CellRendererBreakIcon;
 typedef struct _CellRendererBreakIconClass CellRendererBreakIconClass;
 
-struct _CellRendererBreakIcon
-{
-  GtkCellRenderer parent;
-
-  guint GSEAL (enabled);
-  const gchar* GSEAL(condition);
-  guint GSEAL (hitscount);
-
-  GdkPixbuf *GSEAL (pixbuf_enabled);
-  GdkPixbuf *GSEAL (pixbuf_disabled);
-  GdkPixbuf *GSEAL (pixbuf_conditional);
-  GdkPixbuf *GSEAL (pixbuf_file);
-};
-
-struct _CellRendererBreakIconClass
-{
-  GtkCellRendererClass parent_class;
-
-  void (*clicked)(CellRendererBreakIcon *cell_renderer_toggle, const gchar *path);
-};
-
 GType					cell_renderer_break_icon_get_type(void);
 GtkCellRenderer*		cell_renderer_break_icon_new (void);
 
