@@ -23,6 +23,7 @@ gtkv="3"
 # gtkspell - for GeanyVC plugin
 # the rest is dependency-dependency
 packages="
+brotli
 ctags
 ctpl-git
 curl
@@ -47,6 +48,7 @@ libgpg-error
 libgit2
 libidn2
 libjpeg-turbo
+libpsl
 libogg
 libsoup
 libssh2
