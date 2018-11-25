@@ -4741,7 +4741,7 @@ msgstr "Poni menu nella menubar"
 #: ../geanyvc/src/geanyvc.c:1950
 msgid ""
 "Whether menu for this plugin are getting placed either inside tools menu or "
-"directly inside Geany's menubar.Will take in account after next start of "
+"directly inside Geany's menubar. Will take in account after next start of "
 "GeanyVC"
 msgstr ""
 "Imposta se il menu per questo plugin deve essere posizionato all'interno del "

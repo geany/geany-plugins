@@ -33,6 +33,7 @@
 
 #ifdef G_OS_UNIX
 #include <vte/vte.h>
+#include <gp_vtecompat.h>
 /* instead of detecting N kinds of *nix */
 #if defined(HAVE_UTIL_H)
 #include <util.h>
@@ -394,10 +395,18 @@ void conterm_load_config(void)
 	pref_vte_font = utils_get_setting_string(config, "VTE", "font", "Monospace 10");
 	pref_vte_scrollback = utils_get_setting_integer(config, "VTE", "scrollback_lines", 500);
 	tmp_string = utils_get_setting_string(config, "VTE", "colour_fore", "#ffffff");
+#if !GTK_CHECK_VERSION(3, 14, 0)
 	gdk_color_parse(tmp_string, &pref_vte_colour_fore);
+#else
+	gdk_rgba_parse(&pref_vte_colour_fore, tmp_string);
+#endif
 	g_free(tmp_string);
 	tmp_string = utils_get_setting_string(config, "VTE", "colour_back", "#000000");
+#if !GTK_CHECK_VERSION(3, 14, 0)
 	gdk_color_parse(tmp_string, &pref_vte_colour_back);
+#else
+	gdk_rgba_parse(&pref_vte_colour_back, tmp_string);
+#endif
 	g_free(tmp_string);
 	g_key_file_free(config);
 	g_free(configfile);
@@ -405,8 +414,34 @@ void conterm_load_config(void)
 
 static void context_apply_config(GtkWidget *console)
 {
+#if !GTK_CHECK_VERSION(3, 0, 0)
 	gtk_widget_modify_base(console, GTK_STATE_NORMAL, &pref_vte_colour_back);
 	gtk_widget_modify_cursor(console, &pref_vte_colour_fore, &pref_vte_colour_back);
+#else
+	GString *css_string;
+	GtkStyleContext *context;
+	GtkCssProvider *provider;
+	gchar *css_code, *color, *background_color;
+
+	color = gdk_rgba_to_string (&pref_vte_colour_fore);
+	background_color = gdk_rgba_to_string (&pref_vte_colour_back);
+
+	gtk_widget_set_name(console, "scope-console");
+	context = gtk_widget_get_style_context(console);
+	provider = gtk_css_provider_new();
+	gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(provider),
+		GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+	css_string = g_string_new(NULL);
+	g_string_printf(css_string, "#scope-console { color: %s; background-color: %s; }",
+		color, background_color);
+	css_code = g_string_free(css_string, FALSE);
+
+	gtk_css_provider_load_from_data(GTK_CSS_PROVIDER(provider), css_code, -1, NULL);
+
+	g_free(css_code);
+	g_object_unref(provider);
+#endif
 	ui_widget_modify_font_from_string(console, pref_vte_font);
 }
 
@@ -457,7 +492,15 @@ void conterm_init(void)
 	{
 		gint vte_border_x, vte_border_y;
 
-#if VTE_CHECK_VERSION(0, 24, 0)
+#if GTK_CHECK_VERSION(3, 4, 0)
+		GtkStyleContext *context;
+		GtkBorder border;
+
+		context = gtk_widget_get_style_context (console);
+		gtk_style_context_get_padding (context, GTK_STATE_FLAG_NORMAL, &border);
+		vte_border_x = border.left + border.right;
+		vte_border_y = border.top + border.bottom;
+#elif VTE_CHECK_VERSION(0, 24, 0)
 		GtkBorder *border = NULL;
 
 		gtk_widget_style_get(console, "inner-border", &border, NULL);

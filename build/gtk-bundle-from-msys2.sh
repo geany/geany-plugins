@@ -24,6 +24,7 @@ gtkv="3"
 # the rest is dependency-dependency
 packages="
 p11-kit
+brotli
 ca-certificates
 ctags
 ctpl-git
@@ -49,6 +50,7 @@ libgpg-error
 libgit2
 libidn2
 libjpeg-turbo
+libpsl
 libogg
 libsoup
 libssh2

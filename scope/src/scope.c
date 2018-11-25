@@ -25,6 +25,10 @@
 
 #include "common.h"
 
+#include <vte/vte.h>
+
+#include <gp_gtkcompat.h>
+
 GeanyPlugin *geany_plugin;
 GeanyData *geany_data;
 
@@ -351,12 +355,6 @@ static void on_settings_save(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile 
 	schedule_settings_saved(TRUE);
 }
 
-static void on_project_before_save(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile *keyfile,
-	G_GNUC_UNUSED gpointer gdata)
-{
-	schedule_settings_saved(FALSE);
-}
-
 static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor,
 	SCNotification *nt, G_GNUC_UNUSED gpointer gdata)
 {
@@ -438,7 +436,6 @@ static const ScopeCallback scope_callbacks[] =
 	{ "document-filetype-set",    G_CALLBACK(on_document_filetype_set) },
 	{ "document-activate",        G_CALLBACK(on_document_activate) },
 	{ "document-save",            G_CALLBACK(on_document_activate) },
-	{ "project-before-save",      G_CALLBACK(on_project_before_save) },
 	{ "project-open",             G_CALLBACK(on_project_open) },
 	{ "project-close",            G_CALLBACK(on_project_close) },
 	{ "geany-startup-complete",   G_CALLBACK(on_geany_startup_complete) },
@@ -545,7 +542,11 @@ static gchar *get_data_dir_path(const gchar *filename)
 void plugin_init(G_GNUC_UNUSED GeanyData *gdata)
 {
 	GeanyKeyGroup *scope_key_group;
+#if GTK_CHECK_VERSION(3, 0, 0)
+	char *gladefile = get_data_dir_path("scope_gtk3.glade");
+#else
 	char *gladefile = get_data_dir_path("scope.glade");
+#endif
 	GError *gerror = NULL;
 	GtkWidget *menubar1 = ui_lookup_widget(geany->main_widgets->window, "menubar1");
 	guint item;

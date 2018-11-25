@@ -4786,7 +4786,7 @@ msgstr "Añadir menú a la barra de menús"
 #: ../geanyvc/src/geanyvc.c:1950
 msgid ""
 "Whether menu for this plugin are getting placed either inside tools menu or "
-"directly inside Geany's menubar.Will take in account after next start of "
+"directly inside Geany's menubar. Will take in account after next start of "
 "GeanyVC"
 msgstr ""
 "Indica si el menú de este plugin se colocará dentro del menú de herramientas "

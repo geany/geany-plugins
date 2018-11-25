@@ -4775,7 +4775,7 @@ msgstr "Anexar menu à barra de menus"
 #: ../geanyvc/src/geanyvc.c:1950
 msgid ""
 "Whether menu for this plugin are getting placed either inside tools menu or "
-"directly inside Geany's menubar.Will take in account after next start of "
+"directly inside Geany's menubar. Will take in account after next start of "
 "GeanyVC"
 msgstr ""
 "Se o menu da extensão é colocado dentro do menu Ferramentas ou directamente "

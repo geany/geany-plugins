@@ -434,16 +434,16 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 	w_rescan_projects_on_open = gtk_check_button_new_with_mnemonic(_("_Rescan all projects on open"));
 	ui_table_add_row(GTK_TABLE(table), 0, w_rescan_projects_on_open, NULL);
 	gtk_widget_set_tooltip_text(w_rescan_projects_on_open,
-		_("If the option is activated (default), then all projects will be re-scanned"
-		  " on opening of the workbench."));
+		_("If the option is activated (default), then all projects will be re-scanned "
+		  "on opening of the workbench."));
 	rescan_projects_on_open_old = workbench_get_rescan_projects_on_open(workbench);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w_rescan_projects_on_open), rescan_projects_on_open_old);
 
 	w_enable_live_update = gtk_check_button_new_with_mnemonic(_("_Enable live update"));
 	ui_table_add_row(GTK_TABLE(table), 1, w_enable_live_update, NULL);
 	gtk_widget_set_tooltip_text(w_enable_live_update,
-		_("If the option is activated (default), then the list of files and the sidebar"
-		  " will be updated automatically if a file or directory is created, removed or renamed."
+		_("If the option is activated (default), then the list of files and the sidebar "
+		  "will be updated automatically if a file or directory is created, removed or renamed. "
 		  "A manual re-scan is not required if the option is enabled."));
 	enable_live_update_old = workbench_get_enable_live_update(workbench);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w_enable_live_update), enable_live_update_old);
@@ -451,8 +451,8 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 	w_expand_on_hover = gtk_check_button_new_with_mnemonic(_("_Expand on hover"));
 	ui_table_add_row(GTK_TABLE(table), 2, w_expand_on_hover, NULL);
 	gtk_widget_set_tooltip_text(w_expand_on_hover,
-		_("If the option is activated, then a tree node in the sidebar"
-		  " will be expanded or collapsed by hovering over it with the mouse cursor."));
+		_("If the option is activated, then a tree node in the sidebar "
+		  "will be expanded or collapsed by hovering over it with the mouse cursor."));
 	expand_on_hover_old = workbench_get_expand_on_hover(workbench);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w_expand_on_hover), expand_on_hover_old);
 
