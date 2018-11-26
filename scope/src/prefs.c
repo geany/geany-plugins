@@ -26,10 +26,6 @@
 
 #include "common.h"
 
-#ifdef G_OS_UNIX
-#include <vte/vte.h>
-#endif
-
 gchar *pref_gdb_executable;
 gboolean pref_gdb_async_mode;
 #ifndef G_OS_UNIX
