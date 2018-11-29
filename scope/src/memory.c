@@ -390,8 +390,7 @@ void memory_init(void)
 	g_signal_connect(tree, "key-press-event", G_CALLBACK(on_memory_key_press),
 		(gpointer) menu_item_find(memory_menu_items, "memory_read"));
 
-	pointer_size = sizeof(void *) > sizeof &memory_init ? sizeof(void *) :
-		sizeof &memory_init;
+	pointer_size = MAX(sizeof(void *), sizeof(&memory_init));
 	addr_format = g_strdup_printf("%%0%u" G_GINT64_MODIFIER "x  ", pointer_size * 2);
 	memory_configure();
 
