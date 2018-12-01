@@ -327,6 +327,7 @@ Section Uninstall
 	RMDir /r "$INSTDIR\share\webkitgtk-1.0"
 	RMDir /r "$INSTDIR\share\webkitgtk-3.0"
 	RMDir /r "$INSTDIR\share\xml\dbus-1"
+	RMDir /r "$INSTDIR\ssl\certs"
 
 	FindFirst $0 $1 "$INSTDIR\share\locale\*"
 	loop:
@@ -361,6 +362,8 @@ Section Uninstall
 	RMDir "$INSTDIR\share\locale"
 	RMDir "$INSTDIR\share\xml"
 	RMDir "$INSTDIR\share"
+	RMDir "$INSTDIR\ssl\certs"
+	RMDir "$INSTDIR\ssl"
 	RMDir "$INSTDIR"
 
 	DeleteRegKey SHCTX "${PRODUCT_DIR_REGKEY}"
