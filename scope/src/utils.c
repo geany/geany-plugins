@@ -99,7 +99,7 @@ gboolean utils_check_path(const gchar *pathname, gboolean file, int mode)
 
 		if (stat(path, &buf) == 0)
 		{
-			if (!S_ISDIR(buf.st_mode) == file)
+			if ((!S_ISDIR(buf.st_mode)) == file)
 				result = access(path, mode) == 0;
 			else
 				errno = file ? EISDIR : ENOTDIR;
@@ -324,7 +324,7 @@ gboolean utils_source_filetype(GeanyFiletype *ft)
 
 		guint i;
 
-		for (i = 0; i < sizeof ft_id / sizeof ft_id[0]; i++)
+		for (i = 0; i < sizeof(ft_id) / sizeof(ft_id[0]); i++)
 			if (ft_id[i] == ft->id)
 				return TRUE;
 	}
