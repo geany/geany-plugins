@@ -141,7 +141,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(
  * ------------------ */
 
 static void 	project_open_cb(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile *config, G_GNUC_UNUSED gpointer data);
-static void 	treebrowser_browse(gchar *directory, gpointer parent);
+static void 	treebrowser_browse(const gchar *directory, gpointer parent);
 static void 	treebrowser_bookmarks_set_state(void);
 static void 	treebrowser_load_bookmarks(void);
 static void 	treebrowser_tree_store_iter_clear_nodes(gpointer iter, gboolean delete_root);
@@ -459,7 +459,7 @@ treebrowser_chroot(const gchar *dir)
 }
 
 static void
-treebrowser_browse(gchar *directory, gpointer parent)
+treebrowser_browse(const gchar *directory, gpointer parent)
 {
 	GtkTreeIter 	iter, iter_empty, *last_dir_iter = NULL;
 	gboolean 		is_dir;
@@ -469,8 +469,6 @@ treebrowser_browse(gchar *directory, gpointer parent)
 
 	gchar 			*fname;
 	gchar 			*uri;
-
-	directory 		= g_strconcat(directory, G_DIR_SEPARATOR_S, NULL);
 
 	has_parent = parent ? gtk_tree_store_iter_is_valid(treestore, parent) : FALSE;
 	if (has_parent)
@@ -498,7 +496,7 @@ treebrowser_browse(gchar *directory, gpointer parent)
 		foreach_slist_free(node, list)
 		{
 			fname 		= node->data;
-			uri 		= g_strconcat(directory, fname, NULL);
+			uri 		= g_build_filename(directory, fname, NULL);
 			is_dir 		= g_file_test (uri, G_FILE_TEST_IS_DIR);
 			utf8_name 	= utils_get_utf8_from_locale(fname);
 
@@ -572,9 +570,6 @@ treebrowser_browse(gchar *directory, gpointer parent)
 	}
 	else
 		treebrowser_load_bookmarks();
-
-	g_free(directory);
-
 }
 
 static void
@@ -796,7 +791,7 @@ treebrowser_expand_to_path(gchar* root, gchar* find)
 {
 	guint i = 0;
 	gboolean found = FALSE, global_found = FALSE;
-	gchar *new = NULL;
+	gchar *new = NULL, *new_root = NULL;
 	gchar **root_segments = NULL, **find_segments = NULL;
 	guint find_segments_n = 0;
 
@@ -807,7 +802,8 @@ treebrowser_expand_to_path(gchar* root, gchar* find)
 
 	for (i = 1; i<=find_segments_n; i++)
 	{
-		new = g_strconcat(new ? new : "", G_DIR_SEPARATOR_S, find_segments[i], NULL);
+		new_root = g_build_filename(new ? new : G_DIR_SEPARATOR_S, find_segments[i], NULL);
+		SETPTR(new, new_root);
 
 		if (found)
 		{
@@ -2099,6 +2095,7 @@ void
 plugin_init(GeanyData *data)
 {
 	GeanyKeyGroup *key_group;
+	gchar *default_dir = NULL;
 
 	CONFIG_FILE = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
 		"treebrowser", G_DIR_SEPARATOR_S, "treebrowser.conf", NULL);
@@ -2107,7 +2104,9 @@ plugin_init(GeanyData *data)
 
 	load_settings();
 	create_sidebar();
-	treebrowser_chroot(get_default_dir());
+	default_dir = get_default_dir();
+	treebrowser_chroot(default_dir);
+	g_free(default_dir);
 
 	/* setup keybindings */
 	key_group = plugin_set_key_group(geany_plugin, "file_browser", KB_COUNT, NULL);
