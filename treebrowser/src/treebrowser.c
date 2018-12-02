@@ -434,7 +434,7 @@ treebrowser_chroot(const gchar *dir)
 {
 	gchar *directory;
 
-	if (g_str_has_suffix(dir, G_DIR_SEPARATOR_S))
+	if (g_str_has_suffix(dir, G_DIR_SEPARATOR_S) && !utils_str_equal(dir, G_DIR_SEPARATOR_S))
 		directory = g_strndup(dir, strlen(dir)-1);
 	else
 		directory = g_strdup(dir);
@@ -800,7 +800,7 @@ treebrowser_expand_to_path(gchar* root, gchar* find)
 
 	find_segments_n = g_strv_length(find_segments)-1;
 
-	for (i = 1; i<=find_segments_n; i++)
+	for (i = 0; i<=find_segments_n; i++)
 	{
 		new_root = g_build_filename(new ? new : G_DIR_SEPARATOR_S, find_segments[i], NULL);
 		SETPTR(new, new_root);
