@@ -795,7 +795,7 @@ static gboolean
 treebrowser_expand_to_path(gchar* root, gchar* find)
 {
 	guint i = 0;
-	gboolean founded = FALSE, global_founded = FALSE;
+	gboolean found = FALSE, global_found = FALSE;
 	gchar *new = NULL;
 	gchar **root_segments = NULL, **find_segments = NULL;
 	guint find_segments_n = 0;
@@ -805,26 +805,25 @@ treebrowser_expand_to_path(gchar* root, gchar* find)
 
 	find_segments_n = g_strv_length(find_segments)-1;
 
-
 	for (i = 1; i<=find_segments_n; i++)
 	{
 		new = g_strconcat(new ? new : "", G_DIR_SEPARATOR_S, find_segments[i], NULL);
 
-		if (founded)
+		if (found)
 		{
 			if (treebrowser_search(new, NULL))
-				global_founded = TRUE;
+				global_found = TRUE;
 		}
 		else
 			if (utils_str_equal(root, new) == TRUE)
-				founded = TRUE;
+				found = TRUE;
 	}
 
 	g_free(new);
 	g_strfreev(root_segments);
 	g_strfreev(find_segments);
 
-	return global_founded;
+	return global_found;
 }
 
 static gboolean
@@ -846,7 +845,7 @@ treebrowser_track_current(void)
 		if (! treebrowser_search(path_current, NULL))
 		{
 			/*
-			 * Else we have to chroting to the document`s nearles path
+			 * Else we have to chrooting to the document`s nearles path
 			 */
 
 			froot = path_is_in_dir(addressbar_last_address, g_path_get_dirname(path_current));
