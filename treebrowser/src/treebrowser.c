@@ -149,6 +149,7 @@ static void 	treebrowser_rename_current(void);
 static void 	on_menu_create_new_object(GtkMenuItem *menuitem, const gchar *type);
 static void 	load_settings(void);
 static gboolean save_settings(void);
+static void 	treebrowser_track_current_cb(void);
 
 
 /* ------------------
@@ -158,6 +159,7 @@ static gboolean save_settings(void);
 PluginCallback plugin_callbacks[] =
 {
 	{ "project-open", (GCallback) &project_open_cb, TRUE, NULL },
+	{ "document-activate", (GCallback) &treebrowser_track_current_cb, TRUE, NULL },
 	{ NULL, NULL, FALSE, NULL }
 };
 
@@ -2125,9 +2127,6 @@ plugin_init(GeanyData *data)
 		0, 0, "rename_refresh", _("Refresh"), NULL);
 	keybindings_set_item(key_group, KB_TRACK_CURRENT, kb_activate,
 		0, 0, "track_current", _("Track Current"), NULL);
-
-	plugin_signal_connect(geany_plugin, NULL, "document-activate", TRUE,
-		(GCallback)&treebrowser_track_current_cb, NULL);
 }
 
 void
