@@ -330,6 +330,21 @@ win32_check_hidden(const gchar *filename)
 		return TRUE;
 	return FALSE;
 }
+
+static gchar *
+win32_strip_drive_letter(const gchar *path)
+{
+	if (path != NULL && g_path_is_absolute(path))
+	{	/* HACK: Skip the drive letter on Windows, otherwise all further filename comparisons
+		 * in this code will break. Though, without the drive letter multi drive support
+		 * remains broken .*/
+		const gchar *path_relative = g_path_skip_root(path);
+		/* add leading backslash to make the path absolute again, i.e. absolute on the current drive */
+		gchar *new_path_current = g_build_filename(G_DIR_SEPARATOR_S, path_relative, NULL);
+		return new_path_current;
+	}
+	return g_strdup(path);
+}
 #endif
 
 /* Returns: whether name should be hidden. */
@@ -364,31 +379,36 @@ check_hidden(const gchar *filename)
 static gchar*
 get_default_dir(void)
 {
-	gchar 			*dir;
+	gchar			*path = NULL;
 	GeanyProject 	*project 	= geany->app->project;
 	GeanyDocument	*doc 		= document_get_current();
 
 	if (doc != NULL && doc->file_name != NULL && g_path_is_absolute(doc->file_name))
 	{
 		gchar *dir_name;
-		gchar *ret;
 
 		dir_name = g_path_get_dirname(doc->file_name);
-		ret = utils_get_locale_from_utf8(dir_name);
-		g_free (dir_name);
-
-		return ret;
+		path = utils_get_locale_from_utf8(dir_name);
+		g_free(dir_name);
 	}
 
-	if (project)
-		dir = project->base_path;
-	else
-		dir = geany->prefs->default_open_path;
+	if (EMPTY(path))
+	{
+		if (project)
+			path = project->base_path;
+		else
+			path = geany->prefs->default_open_path;
+	}
+	if (EMPTY(path))
+	{
+		path = g_get_current_dir();
+	}
 
-	if (! EMPTY(dir))
-		return utils_get_locale_from_utf8(dir);
-
-	return g_get_current_dir();
+	SETPTR(path, utils_get_locale_from_utf8(path));
+#ifdef G_OS_WIN32
+	SETPTR(path, win32_strip_drive_letter(path));
+#endif
+	return path;
 }
 
 static gchar *
@@ -501,6 +521,9 @@ treebrowser_browse(const gchar *directory, gpointer parent)
 			uri 		= g_build_filename(directory, fname, NULL);
 			is_dir 		= g_file_test (uri, G_FILE_TEST_IS_DIR);
 			utf8_name 	= utils_get_utf8_from_locale(fname);
+#ifdef G_OS_WIN32
+			SETPTR(uri, win32_strip_drive_letter(uri));
+#endif
 
 			if (!check_hidden(uri))
 			{
@@ -836,7 +859,9 @@ treebrowser_track_current(void)
 	if (doc != NULL && doc->file_name != NULL && g_path_is_absolute(doc->file_name))
 	{
 		path_current = utils_get_locale_from_utf8(doc->file_name);
-
+#ifdef G_OS_WIN32
+		SETPTR(path_current, win32_strip_drive_letter(path_current));
+#endif
 		/*
 		 * Checking if the document is in the expanded or collapsed files
 		 */
