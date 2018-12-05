@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-11 17:41+0100\n"
+"POT-Creation-Date: 2018-12-05 17:12+0100\n"
 "PO-Revision-Date: 2011-10-21 14:08+0100\n"
 "Last-Translator: Masami Chikahiro <cmasa.z321@gmail.com>\n"
 "Language-Team: Japanese\n"
@@ -36,7 +36,7 @@ msgstr "番号"
 msgid "Contents"
 msgstr "内容"
 
-#: ../addons/src/ao_bookmarklist.c:383 ../treebrowser/src/treebrowser.c:634
+#: ../addons/src/ao_bookmarklist.c:383 ../treebrowser/src/treebrowser.c:616
 #: ../webhelper/src/gwh-plugin.c:328
 msgid "Bookmarks"
 msgstr "ブックマーク"
@@ -51,11 +51,13 @@ msgid "_Hide Message Window"
 msgstr "メッセージウィンドウを隠す(_H)"
 
 #: ../addons/src/ao_tasks.c:412 ../debugger/src/stree.c:420
+#: ../scope/data/scope.glade.h:72 ../scope/data/scope_gtk3.glade.h:72
 msgid "File"
 msgstr "ファイル"
 
 #: ../addons/src/ao_tasks.c:423 ../debugger/src/bptree.c:702
-#: ../debugger/src/stree.c:427
+#: ../debugger/src/stree.c:427 ../scope/data/scope.glade.h:73
+#: ../scope/data/scope_gtk3.glade.h:73
 msgid "Line"
 msgstr "行"
 
@@ -64,6 +66,7 @@ msgstr "行"
 #. * untranslated.
 #: ../addons/src/ao_tasks.c:434 ../debugger/src/vtree.c:201
 #: ../devhelp/devhelp/dh-link.c:287 ../latex/src/bibtexlabels.c:68
+#: ../scope/data/scope.glade.h:79 ../scope/data/scope_gtk3.glade.h:79
 msgid "Type"
 msgstr "種類"
 
@@ -187,7 +190,7 @@ msgstr "XMLタグ付けを実行"
 #: ../latex/src/latex.c:293 ../geanyprj/src/geanyprj.c:176
 #: ../geanyvc/src/geanyvc.c:1835 ../geniuspaste/src/geniuspaste.c:336
 #: ../sendmail/src/sendmail.c:128 ../sendmail/src/sendmail.c:293
-#: ../spellcheck/src/scplugin.c:124 ../treebrowser/src/treebrowser.c:1951
+#: ../spellcheck/src/scplugin.c:124 ../treebrowser/src/treebrowser.c:1924
 #: ../updatechecker/src/updatechecker.c:266
 msgid "Plugin configuration directory could not be created."
 msgstr "プラグイン設定ディレクトリを作成できません。"
@@ -623,15 +626,18 @@ msgid "Various debuggers integration."
 msgstr "統合デバッガ"
 
 #: ../debugger/src/plugin.c:132 ../debugger/src/keys.c:75
-#: ../scope/data/scope.glade.h:124 ../scope/src/scope.c:228
+#: ../scope/data/scope.glade.h:145 ../scope/data/scope_gtk3.glade.h:145
+#: ../scope/src/scope.c:228
 msgid "Debug"
 msgstr "デバッグ"
 
 #: ../debugger/src/vtree.c:170 ../debugger/src/envtree.c:424
+#: ../scope/data/scope.glade.h:88 ../scope/data/scope_gtk3.glade.h:88
 msgid "Name"
 msgstr "名前"
 
 #: ../debugger/src/vtree.c:193 ../debugger/src/envtree.c:429
+#: ../scope/data/scope.glade.h:89 ../scope/data/scope_gtk3.glade.h:89
 msgid "Value"
 msgstr "値"
 
@@ -673,7 +679,8 @@ msgstr "変数を削除しますか?"
 msgid "Location"
 msgstr "場所"
 
-#: ../debugger/src/bptree.c:685
+#: ../debugger/src/bptree.c:685 ../scope/data/scope.glade.h:83
+#: ../scope/data/scope_gtk3.glade.h:83
 msgid "Condition"
 msgstr "条件"
 
@@ -744,6 +751,7 @@ msgid "Thread %i"
 msgstr "スレッド %i"
 
 #: ../debugger/src/stree.c:395 ../latex/src/bibtexlabels.c:46
+#: ../scope/data/scope.glade.h:75 ../scope/data/scope_gtk3.glade.h:75
 msgid "Address"
 msgstr "アドレス"
 
@@ -751,6 +759,7 @@ msgstr "アドレス"
 #. * have an ESTABLISHED term for it, leave it
 #. * untranslated.
 #: ../debugger/src/stree.c:413 ../devhelp/devhelp/dh-link.c:267
+#: ../scope/data/scope.glade.h:74 ../scope/data/scope_gtk3.glade.h:74
 msgid "Function"
 msgstr "関数"
 
@@ -758,7 +767,7 @@ msgstr "関数"
 msgid "Target"
 msgstr "対象"
 
-#: ../debugger/src/tabs.c:134 ../scope/src/scope.c:523
+#: ../debugger/src/tabs.c:134 ../scope/src/scope.c:516
 msgid "Breakpoints"
 msgstr "ブレークポイント"
 
@@ -1253,68 +1262,68 @@ msgstr "%s: ディレクトリがありません"
 msgid "Process execution failed (%s)"
 msgstr ""
 
-#: ../geanyctags/src/geanyctags.c:518
+#: ../geanyctags/src/geanyctags.c:543
 #, fuzzy
 msgid "Find Tag"
 msgstr "検索:"
 
-#: ../geanyctags/src/geanyctags.c:529
+#: ../geanyctags/src/geanyctags.c:554
 #, fuzzy
 msgid "_Search for:"
 msgstr "検索文字列:"
 
-#: ../geanyctags/src/geanyctags.c:547
+#: ../geanyctags/src/geanyctags.c:572
 msgid "_Match type:"
 msgstr ""
 
-#: ../geanyctags/src/geanyctags.c:552
+#: ../geanyctags/src/geanyctags.c:577
 #: ../projectorganizer/src/prjorg-sidebar.c:483
 msgid "exact"
 msgstr ""
 
-#: ../geanyctags/src/geanyctags.c:553
+#: ../geanyctags/src/geanyctags.c:578
 #: ../projectorganizer/src/prjorg-sidebar.c:484
 #, fuzzy
 msgid "prefix"
 msgstr "基数の接頭語(_P)"
 
-#: ../geanyctags/src/geanyctags.c:554
+#: ../geanyctags/src/geanyctags.c:579
 #: ../projectorganizer/src/prjorg-sidebar.c:485
 #, fuzzy
 msgid "pattern"
 msgstr "手紙"
 
-#: ../geanyctags/src/geanyctags.c:563
+#: ../geanyctags/src/geanyctags.c:588
 #: ../projectorganizer/src/prjorg-sidebar.c:162
 #: ../projectorganizer/src/prjorg-sidebar.c:506
 msgid "C_ase sensitive"
 msgstr "大文字小文字を区別(_A)"
 
-#: ../geanyctags/src/geanyctags.c:566
+#: ../geanyctags/src/geanyctags.c:591
 #: ../projectorganizer/src/prjorg-sidebar.c:509
 #, fuzzy
 msgid "_Declaration"
 msgstr "関係式"
 
-#: ../geanyctags/src/geanyctags.c:633
+#: ../geanyctags/src/geanyctags.c:658
 msgid "Find Tag Declaration (geanyctags)"
 msgstr ""
 
-#: ../geanyctags/src/geanyctags.c:638
+#: ../geanyctags/src/geanyctags.c:663
 msgid "Find Tag Definition (geanyctags)"
 msgstr ""
 
-#: ../geanyctags/src/geanyctags.c:647 ../geanyctags/src/geanyctags.c:652
+#: ../geanyctags/src/geanyctags.c:672 ../geanyctags/src/geanyctags.c:677
 #, fuzzy
 msgid "Generate tags"
 msgstr "全般"
 
-#: ../geanyctags/src/geanyctags.c:654
+#: ../geanyctags/src/geanyctags.c:679
 #, fuzzy
 msgid "Find tag..."
 msgstr "検索:"
 
-#: ../geanyctags/src/geanyctags.c:659
+#: ../geanyctags/src/geanyctags.c:684
 #, fuzzy
 msgid "Find tag"
 msgstr "次を検索"
@@ -1828,7 +1837,6 @@ msgid "Default documentation type for languages that does not have one set"
 msgstr "言語別の設定が用意されてしないすべて言語用の文書種類設定"
 
 #: ../geanyinsertnum/src/insertnum.c:44 ../geanyinsertnum/src/insertnum.c:337
-#: ../geanyinsertnum/src/insertnum.c:486
 msgid "Insert Numbers"
 msgstr "番号を挿入"
 
@@ -1900,8 +1908,14 @@ msgid "_Zero"
 msgstr "ゼロ(_Z)"
 
 #: ../geanyinsertnum/src/insertnum.c:479
-msgid "Insert _Numbers"
+#, fuzzy
+msgid "Insert _Numbers..."
 msgstr "番号を挿入(_N)"
+
+#: ../geanyinsertnum/src/insertnum.c:486
+#, fuzzy
+msgid "Insert Numbers..."
+msgstr "番号を挿入"
 
 #: ../latex/src/latexenvironments.c:25
 msgid "Environments"
@@ -2656,6 +2670,7 @@ msgstr ""
 "現在のファイルのヘッダに \\usepackage{} を挿入するための小さなダイアログ"
 
 #: ../latex/src/latex.c:2244 ../scope/data/scope.glade.h:58
+#: ../scope/data/scope_gtk3.glade.h:58
 msgid "_Format"
 msgstr "書式(_F)"
 
@@ -3736,7 +3751,7 @@ msgstr "了解(_O)"
 #: ../workbench/src/dialogs.c:82 ../workbench/src/dialogs.c:116
 #: ../workbench/src/dialogs.c:147 ../workbench/src/dialogs.c:186
 #: ../workbench/src/dialogs.c:223 ../workbench/src/dialogs.c:292
-#: ../workbench/src/dialogs.c:421
+#: ../workbench/src/dialogs.c:423
 msgid "_Cancel"
 msgstr "キャンセル(_C)"
 
@@ -3823,7 +3838,7 @@ msgid "New _Below"
 msgstr "下に追加(_B)"
 
 #: ../geanymacro/src/geanymacro.c:1824 ../geanymacro/src/geanymacro.c:2120
-#: ../treebrowser/src/treebrowser.c:1265
+#: ../treebrowser/src/treebrowser.c:1247
 msgid "_Delete"
 msgstr "削除(_D)"
 
@@ -4399,7 +4414,8 @@ msgstr "新規プロジェクト"
 msgid "C_reate"
 msgstr "作成(_R)"
 
-#: ../geanyprj/src/menu.c:123 ../scope/data/scope.glade.h:114
+#: ../geanyprj/src/menu.c:123 ../scope/data/scope.glade.h:135
+#: ../scope/data/scope_gtk3.glade.h:135
 msgid "Name:"
 msgstr "名前:"
 
@@ -5027,17 +5043,17 @@ msgstr ""
 msgid "Highlights uncommitted changes in files tracked with Git"
 msgstr ""
 
-#: ../git-changebar/src/gcb-plugin.c:1386 ../pohelper/src/gph-plugin.c:1595
+#: ../git-changebar/src/gcb-plugin.c:1386 ../pohelper/src/gph-plugin.c:1661
 #, fuzzy, c-format
 msgid "Failed to load configuration file: %s"
 msgstr "設定の読み込みに失敗: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1411 ../pohelper/src/gph-plugin.c:1620
+#: ../git-changebar/src/gcb-plugin.c:1411 ../pohelper/src/gph-plugin.c:1686
 #, fuzzy, c-format
 msgid "Failed to create configuration directory \"%s\": %s"
 msgstr "ファイル種類 \"%s\" 向けの設定ファイルが見つかりません: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1414 ../pohelper/src/gph-plugin.c:1623
+#: ../git-changebar/src/gcb-plugin.c:1414 ../pohelper/src/gph-plugin.c:1689
 #, fuzzy, c-format
 msgid "Failed to save configuration file: %s"
 msgstr "設定の保存に失敗: %s"
@@ -5060,8 +5076,8 @@ msgstr "次の頁に移動"
 msgid "Undo hunk at the cursor position"
 msgstr ""
 
-#: ../git-changebar/src/gcb-plugin.c:1651 ../pohelper/src/gph-plugin.c:1390
-#: ../pohelper/src/gph-plugin.c:1725
+#: ../git-changebar/src/gcb-plugin.c:1651 ../pohelper/src/gph-plugin.c:1456
+#: ../pohelper/src/gph-plugin.c:1791
 #, fuzzy, c-format
 msgid ""
 "Failed to load UI definition, please check your installation. The error was: "
@@ -5364,7 +5380,7 @@ msgstr "既定の設定の保存に失敗: %s"
 msgid "Unable to read value for '%s' key: %s"
 msgstr "設定ディレクトリを '%s' に作成できません"
 
-#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:1976
+#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:1949
 #, fuzzy
 msgid "Terminal"
 msgstr "終了"
@@ -5475,7 +5491,8 @@ msgid ""
 "that is currently in view, ontop of the overview bar."
 msgstr ""
 
-#: ../overview/data/prefs.ui.h:15 ../scope/data/scope.glade.h:109
+#: ../overview/data/prefs.ui.h:15 ../scope/data/scope.glade.h:130
+#: ../scope/data/scope_gtk3.glade.h:130
 msgid "Options"
 msgstr "オプション"
 
@@ -5536,7 +5553,7 @@ msgstr ""
 msgid "_Previous String"
 msgstr ""
 
-#: ../pohelper/data/menus.ui.h:3 ../pohelper/src/gph-plugin.c:1524
+#: ../pohelper/data/menus.ui.h:3 ../pohelper/src/gph-plugin.c:1590
 #, fuzzy
 msgid "Go to previous string"
 msgstr "前の頁に移動"
@@ -5545,7 +5562,7 @@ msgstr "前の頁に移動"
 msgid "_Next String"
 msgstr ""
 
-#: ../pohelper/data/menus.ui.h:5 ../pohelper/src/gph-plugin.c:1527
+#: ../pohelper/data/menus.ui.h:5 ../pohelper/src/gph-plugin.c:1593
 #, fuzzy
 msgid "Go to next string"
 msgstr "次の頁に移動"
@@ -5554,7 +5571,7 @@ msgstr "次の頁に移動"
 msgid "Pre_vious Untranslated"
 msgstr ""
 
-#: ../pohelper/data/menus.ui.h:7 ../pohelper/src/gph-plugin.c:1530
+#: ../pohelper/data/menus.ui.h:7 ../pohelper/src/gph-plugin.c:1596
 msgid "Go to previous untranslated string"
 msgstr ""
 
@@ -5562,7 +5579,7 @@ msgstr ""
 msgid "Next _Untranslated"
 msgstr ""
 
-#: ../pohelper/data/menus.ui.h:9 ../pohelper/src/gph-plugin.c:1533
+#: ../pohelper/data/menus.ui.h:9 ../pohelper/src/gph-plugin.c:1599
 msgid "Go to next untranslated string"
 msgstr ""
 
@@ -5570,7 +5587,7 @@ msgstr ""
 msgid "Previous Fu_zzy"
 msgstr ""
 
-#: ../pohelper/data/menus.ui.h:11 ../pohelper/src/gph-plugin.c:1536
+#: ../pohelper/data/menus.ui.h:11 ../pohelper/src/gph-plugin.c:1602
 msgid "Go to previous fuzzily translated string"
 msgstr ""
 
@@ -5578,7 +5595,7 @@ msgstr ""
 msgid "Next _Fuzzy"
 msgstr ""
 
-#: ../pohelper/data/menus.ui.h:13 ../pohelper/src/gph-plugin.c:1539
+#: ../pohelper/data/menus.ui.h:13 ../pohelper/src/gph-plugin.c:1605
 msgid "Go to next fuzzily translated string"
 msgstr ""
 
@@ -5586,7 +5603,7 @@ msgstr ""
 msgid "Previous Untranslated or Fuzz_y"
 msgstr ""
 
-#: ../pohelper/data/menus.ui.h:15 ../pohelper/src/gph-plugin.c:1542
+#: ../pohelper/data/menus.ui.h:15 ../pohelper/src/gph-plugin.c:1608
 msgid "Go to previous untranslated or fuzzy string"
 msgstr ""
 
@@ -5594,11 +5611,11 @@ msgstr ""
 msgid "Next Untranslated _or Fuzzy"
 msgstr ""
 
-#: ../pohelper/data/menus.ui.h:17 ../pohelper/src/gph-plugin.c:1546
+#: ../pohelper/data/menus.ui.h:17 ../pohelper/src/gph-plugin.c:1612
 msgid "Go to next untranslated or fuzzy string"
 msgstr ""
 
-#: ../pohelper/data/menus.ui.h:18 ../pohelper/src/gph-plugin.c:1557
+#: ../pohelper/data/menus.ui.h:18 ../pohelper/src/gph-plugin.c:1623
 #, fuzzy
 msgid "Toggle current translation fuzziness"
 msgstr "文書タブを切り替え"
@@ -5615,7 +5632,7 @@ msgstr ""
 msgid "Paste the original untranslated string to the translation"
 msgstr ""
 
-#: ../pohelper/data/menus.ui.h:22 ../pohelper/src/gph-plugin.c:1554
+#: ../pohelper/data/menus.ui.h:22 ../pohelper/src/gph-plugin.c:1620
 msgid "Reflow the current translation string"
 msgstr ""
 
@@ -5623,7 +5640,7 @@ msgstr ""
 msgid "_Reflow Translation"
 msgstr ""
 
-#: ../pohelper/data/menus.ui.h:24 ../pohelper/src/gph-plugin.c:1560
+#: ../pohelper/data/menus.ui.h:24 ../pohelper/src/gph-plugin.c:1626
 #, fuzzy
 msgid "Show statistics of the current document"
 msgstr "現在の文書の綴りを検査"
@@ -5681,31 +5698,31 @@ msgstr ""
 msgid "Improves support for GetText translation files."
 msgstr ""
 
-#: ../pohelper/src/gph-plugin.c:1304 ../pohelper/src/gph-plugin.c:1321
+#: ../pohelper/src/gph-plugin.c:1370 ../pohelper/src/gph-plugin.c:1387
 #, c-format
 msgid "<b>Translated:</b> %.3g%%"
 msgstr ""
 
-#: ../pohelper/src/gph-plugin.c:1306 ../pohelper/src/gph-plugin.c:1324
+#: ../pohelper/src/gph-plugin.c:1372 ../pohelper/src/gph-plugin.c:1390
 #, c-format
 msgid "<b>Fuzzy:</b> %.3g%%"
 msgstr ""
 
-#: ../pohelper/src/gph-plugin.c:1308 ../pohelper/src/gph-plugin.c:1326
+#: ../pohelper/src/gph-plugin.c:1374 ../pohelper/src/gph-plugin.c:1392
 #, c-format
 msgid "<b>Untranslated:</b> %.3g%%"
 msgstr ""
 
-#: ../pohelper/src/gph-plugin.c:1424
+#: ../pohelper/src/gph-plugin.c:1490
 #, c-format
 msgid "%u (%.3g%%)"
 msgstr ""
 
-#: ../pohelper/src/gph-plugin.c:1550
+#: ../pohelper/src/gph-plugin.c:1616
 msgid "Paste original untranslated string to translation"
 msgstr ""
 
-#: ../pohelper/src/gph-plugin.c:1767
+#: ../pohelper/src/gph-plugin.c:1833
 #, c-format
 msgid ""
 "Cannot find widget \"%s\" in the UI definition, please check your "
@@ -6037,552 +6054,614 @@ msgstr "ファイルを検索"
 msgid "Remove External Directory"
 msgstr "ディレクトリを元に戻す"
 
-#: ../scope/data/scope.glade.h:1
+#: ../scope/data/scope.glade.h:1 ../scope/data/scope_gtk3.glade.h:1
 msgid "Debu_g"
 msgstr "デバッグ(_G)"
 
-#: ../scope/data/scope.glade.h:2
+#: ../scope/data/scope.glade.h:2 ../scope/data/scope_gtk3.glade.h:2
 msgid "_Setup Program"
 msgstr "スタートアッププログラム(_S)"
 
-#: ../scope/data/scope.glade.h:3
+#: ../scope/data/scope.glade.h:3 ../scope/data/scope_gtk3.glade.h:3
 msgid "Recent _Programs"
 msgstr "最近のプログラム(_P)"
 
-#: ../scope/data/scope.glade.h:4
+#: ../scope/data/scope.glade.h:4 ../scope/data/scope_gtk3.glade.h:4
 msgid "_Run/Continue"
 msgstr "実行/継続(_R)"
 
-#: ../scope/data/scope.glade.h:5
+#: ../scope/data/scope.glade.h:5 ../scope/data/scope_gtk3.glade.h:5
 msgid "Run to _Cursor"
 msgstr "カーソル位置まで実行(_C)"
 
-#: ../scope/data/scope.glade.h:6
+#: ../scope/data/scope.glade.h:6 ../scope/data/scope_gtk3.glade.h:6
 msgid "Run to _Source"
 msgstr "ソース位置まで実行(_S)"
 
-#: ../scope/data/scope.glade.h:7
+#: ../scope/data/scope.glade.h:7 ../scope/data/scope_gtk3.glade.h:7
 msgid "Step _Into"
 msgstr "中へ(_I)"
 
-#: ../scope/data/scope.glade.h:8
+#: ../scope/data/scope.glade.h:8 ../scope/data/scope_gtk3.glade.h:8
 msgid "Step _Over"
 msgstr "次へ(_O)"
 
-#: ../scope/data/scope.glade.h:9
+#: ../scope/data/scope.glade.h:9 ../scope/data/scope_gtk3.glade.h:9
 msgid "Step O_ut"
 msgstr "外へ(_U)"
 
-#: ../scope/data/scope.glade.h:10
+#: ../scope/data/scope.glade.h:10 ../scope/data/scope_gtk3.glade.h:10
 msgid "_Terminate"
 msgstr "終了(_T)"
 
-#: ../scope/data/scope.glade.h:11
+#: ../scope/data/scope.glade.h:11 ../scope/data/scope_gtk3.glade.h:11
 msgid "Toggle _Breakpoint"
 msgstr "ブレークポイント(_B)"
 
-#: ../scope/data/scope.glade.h:12
+#: ../scope/data/scope.glade.h:12 ../scope/data/scope_gtk3.glade.h:12
 msgid "_GDB Command"
 msgstr "_GDB コマンド"
 
-#: ../scope/data/scope.glade.h:13
+#: ../scope/data/scope.glade.h:13 ../scope/data/scope_gtk3.glade.h:13
 msgid "_More"
 msgstr "詳細(_M)"
 
-#: ../scope/data/scope.glade.h:14
+#: ../scope/data/scope.glade.h:14 ../scope/data/scope_gtk3.glade.h:14
 msgid "_Show Terminal"
 msgstr "端末を開く(_S)"
 
-#: ../scope/data/scope.glade.h:15
+#: ../scope/data/scope.glade.h:15 ../scope/data/scope_gtk3.glade.h:15
 msgid "_Reset Markers"
 msgstr "マーカーをリセット(_R)"
 
-#: ../scope/data/scope.glade.h:16
+#: ../scope/data/scope.glade.h:16 ../scope/data/scope_gtk3.glade.h:16
 msgid "_Cleanup Files"
 msgstr "ファイルをクリア(_C)"
 
-#: ../scope/data/scope.glade.h:17
+#: ../scope/data/scope.glade.h:17 ../scope/data/scope_gtk3.glade.h:17
 msgid "_Feed"
 msgstr "フィード(_F)"
 
-#: ../scope/data/scope.glade.h:18
+#: ../scope/data/scope.glade.h:18 ../scope/data/scope_gtk3.glade.h:18
 msgid "_Window"
 msgstr "ウィンドウ(_W)"
 
-#: ../scope/data/scope.glade.h:19
+#: ../scope/data/scope.glade.h:19 ../scope/data/scope_gtk3.glade.h:19
 msgid "_Auto Show"
 msgstr "自動表示(_A)"
 
-#: ../scope/data/scope.glade.h:20
+#: ../scope/data/scope.glade.h:20 ../scope/data/scope_gtk3.glade.h:20
 msgid "Auto _Hide"
 msgstr "自動非表示(_H)"
 
-#: ../scope/data/scope.glade.h:21
+#: ../scope/data/scope.glade.h:21 ../scope/data/scope_gtk3.glade.h:21
 msgid "Show on _Error"
 msgstr "エラーを表示(_E)"
 
-#: ../scope/data/scope.glade.h:22
+#: ../scope/data/scope.glade.h:22 ../scope/data/scope_gtk3.glade.h:22
 msgid "_Unsorted"
 msgstr "ソートしない(_U)"
 
-#: ../scope/data/scope.glade.h:23
+#: ../scope/data/scope.glade.h:23 ../scope/data/scope_gtk3.glade.h:23
 msgid "_View Source"
 msgstr "ソース表示(_V)"
 
-#: ../scope/data/scope.glade.h:24
+#: ../scope/data/scope.glade.h:24 ../scope/data/scope_gtk3.glade.h:24
 msgid "S_ynchronize"
 msgstr "同期(_Y)"
 
-#: ../scope/data/scope.glade.h:25
+#: ../scope/data/scope.glade.h:25 ../scope/data/scope_gtk3.glade.h:25
 msgid "_Interrupt"
 msgstr "中断(_I)"
 
-#: ../scope/data/scope.glade.h:26
+#: ../scope/data/scope.glade.h:26 ../scope/data/scope_gtk3.glade.h:26
 msgid "_Send Signal"
 msgstr "シグナルを送る(_S)"
 
-#: ../scope/data/scope.glade.h:27
+#: ../scope/data/scope.glade.h:27 ../scope/data/scope_gtk3.glade.h:27
 msgid "S_elect on"
 msgstr "選択(_E)"
 
-#: ../scope/data/scope.glade.h:28
+#: ../scope/data/scope.glade.h:28 ../scope/data/scope_gtk3.glade.h:28
 msgid "_Running"
 msgstr "実行中(_R)"
 
-#: ../scope/data/scope.glade.h:29
+#: ../scope/data/scope.glade.h:29 ../scope/data/scope_gtk3.glade.h:29
 msgid "_Stopped"
 msgstr "停止(_S)"
 
-#: ../scope/data/scope.glade.h:30
+#: ../scope/data/scope.glade.h:30 ../scope/data/scope_gtk3.glade.h:30
 msgid "_Exited"
 msgstr "終了(_E)"
 
-#: ../scope/data/scope.glade.h:31
+#: ../scope/data/scope.glade.h:31 ../scope/data/scope_gtk3.glade.h:31
 msgid "_Follow"
 msgstr "フォロー(_F)"
 
-#: ../scope/data/scope.glade.h:32
+#: ../scope/data/scope.glade.h:32 ../scope/data/scope_gtk3.glade.h:32
 msgid "_Columns"
 msgstr "列(_C)"
 
-#: ../scope/data/scope.glade.h:33
+#: ../scope/data/scope.glade.h:33 ../scope/data/scope_gtk3.glade.h:33
 msgid "Show _Group"
 msgstr "グループ表示(_G)"
 
-#: ../scope/data/scope.glade.h:34
+#: ../scope/data/scope.glade.h:34 ../scope/data/scope_gtk3.glade.h:34
 msgid "Show _Core"
 msgstr "コアを表示(_C)"
 
-#: ../scope/data/scope.glade.h:35
+#: ../scope/data/scope.glade.h:35 ../scope/data/scope_gtk3.glade.h:35
 msgid "Add _Break"
 msgstr "ブレークを追加(_B)"
 
-#: ../scope/data/scope.glade.h:36
+#: ../scope/data/scope.glade.h:36 ../scope/data/scope_gtk3.glade.h:36
 msgid "Add _Watch"
 msgstr "ウォッチを追加(_W)"
 
-#: ../scope/data/scope.glade.h:37
+#: ../scope/data/scope.glade.h:37 ../scope/data/scope_gtk3.glade.h:37
 msgid "Apply on _Run"
 msgstr "実行時に適用(_R)"
 
-#: ../scope/data/scope.glade.h:38
+#: ../scope/data/scope.glade.h:38 ../scope/data/scope_gtk3.glade.h:38
 msgid "_Show @entry"
 msgstr "@entryを表示(_S)"
 
-#: ../scope/data/scope.glade.h:39
+#: ../scope/data/scope.glade.h:39 ../scope/data/scope_gtk3.glade.h:39
 msgid "Show _Address"
 msgstr "アドレスを表示(_A)"
 
-#: ../scope/data/scope.glade.h:40
+#: ../scope/data/scope.glade.h:40 ../scope/data/scope_gtk3.glade.h:40
 msgid "_Modify"
 msgstr "修正(_M)"
 
-#: ../scope/data/scope.glade.h:41
+#: ../scope/data/scope.glade.h:41 ../scope/data/scope_gtk3.glade.h:41
 msgid "_Watch"
 msgstr "ウォッチ(_W)"
 
-#: ../scope/data/scope.glade.h:42
+#: ../scope/data/scope.glade.h:42 ../scope/data/scope_gtk3.glade.h:42
 msgid "_Inspect"
 msgstr "検査(_I)"
 
-#: ../scope/data/scope.glade.h:43
+#: ../scope/data/scope.glade.h:43 ../scope/data/scope_gtk3.glade.h:43
 msgid "_8-bit mode"
 msgstr "_8ビットモード"
 
-#: ../scope/data/scope.glade.h:44
+#: ../scope/data/scope.glade.h:44 ../scope/data/scope_gtk3.glade.h:44
 msgid "_Default"
 msgstr "標準(_D)"
 
-#: ../scope/data/scope.glade.h:45
+#: ../scope/data/scope.glade.h:45 ../scope/data/scope_gtk3.glade.h:45
 msgid "_7 bit"
 msgstr "_7ビット"
 
-#: ../scope/data/scope.glade.h:46
+#: ../scope/data/scope.glade.h:46 ../scope/data/scope_gtk3.glade.h:46
 msgid "_Locale"
 msgstr "ロケール(_L)"
 
-#: ../scope/data/scope.glade.h:47
+#: ../scope/data/scope.glade.h:47 ../scope/data/scope_gtk3.glade.h:47
 msgid "_UTF-8"
 msgstr "_UTF-8"
 
-#: ../scope/data/scope.glade.h:48
+#: ../scope/data/scope.glade.h:48 ../scope/data/scope_gtk3.glade.h:48
 msgid "_Show .names"
 msgstr ".namesを表示(_S)"
 
-#: ../scope/data/scope.glade.h:49
+#: ../scope/data/scope.glade.h:49 ../scope/data/scope_gtk3.glade.h:49
 msgid "R_ead"
 msgstr "読み込み(_E)"
 
-#: ../scope/data/scope.glade.h:50
+#: ../scope/data/scope.glade.h:50 ../scope/data/scope_gtk3.glade.h:50
 msgid "_Group by"
 msgstr "グループ化(_G)"
 
-#: ../scope/data/scope.glade.h:51
+#: ../scope/data/scope.glade.h:51 ../scope/data/scope_gtk3.glade.h:51
 msgid "_1"
 msgstr "_1"
 
-#: ../scope/data/scope.glade.h:52
+#: ../scope/data/scope.glade.h:52 ../scope/data/scope_gtk3.glade.h:52
 msgid "_2"
 msgstr "_2"
 
-#: ../scope/data/scope.glade.h:53
+#: ../scope/data/scope.glade.h:53 ../scope/data/scope_gtk3.glade.h:53
 msgid "_4"
 msgstr "_4"
 
-#: ../scope/data/scope.glade.h:54
+#: ../scope/data/scope.glade.h:54 ../scope/data/scope_gtk3.glade.h:54
 msgid "_8"
 msgstr "_8"
 
-#: ../scope/data/scope.glade.h:55
+#: ../scope/data/scope.glade.h:55 ../scope/data/scope_gtk3.glade.h:55
 msgid "_Jump To"
 msgstr "移動(_J)"
 
-#: ../scope/data/scope.glade.h:56
+#: ../scope/data/scope.glade.h:56 ../scope/data/scope_gtk3.glade.h:56
 msgid "_Apply"
 msgstr "適用(_A)"
 
-#: ../scope/data/scope.glade.h:57
+#: ../scope/data/scope.glade.h:57 ../scope/data/scope_gtk3.glade.h:57
 msgid "_Expand"
 msgstr "展開(_E)"
 
-#: ../scope/data/scope.glade.h:59
+#: ../scope/data/scope.glade.h:59 ../scope/data/scope_gtk3.glade.h:59
 msgid "_Natural"
 msgstr "自然(_N)"
 
-#: ../scope/data/scope.glade.h:60
+#: ../scope/data/scope.glade.h:60 ../scope/data/scope_gtk3.glade.h:60
 msgid "_Decimal"
 msgstr "10進(_D)"
 
-#: ../scope/data/scope.glade.h:61
+#: ../scope/data/scope.glade.h:61 ../scope/data/scope_gtk3.glade.h:61
 msgid "_Hex"
 msgstr "16進(_H)"
 
-#: ../scope/data/scope.glade.h:62
+#: ../scope/data/scope.glade.h:62 ../scope/data/scope_gtk3.glade.h:62
 msgid "_Octal"
 msgstr "8進(_O)"
 
-#: ../scope/data/scope.glade.h:63
+#: ../scope/data/scope.glade.h:63 ../scope/data/scope_gtk3.glade.h:63
 msgid "_Binary"
 msgstr "2進(_B)"
 
-#: ../scope/data/scope.glade.h:64
+#: ../scope/data/scope.glade.h:64 ../scope/data/scope_gtk3.glade.h:64
 msgid "_Raw"
 msgstr ""
 
-#: ../scope/data/scope.glade.h:65
+#: ../scope/data/scope.glade.h:65 ../scope/data/scope_gtk3.glade.h:65
 msgid "_Evaluate/Modify"
 msgstr "評価/修正(_E)"
 
-#: ../scope/data/scope.glade.h:66
+#: ../scope/data/scope.glade.h:66 ../scope/data/scope_gtk3.glade.h:66
 msgid "_Watch Expression"
 msgstr "式をウォッチ(_W)"
 
-#: ../scope/data/scope.glade.h:67
+#: ../scope/data/scope.glade.h:67 ../scope/data/scope_gtk3.glade.h:67
 msgid "_Inspect Variable"
 msgstr "変数を検査(_I)"
 
-#: ../scope/data/scope.glade.h:68
+#: ../scope/data/scope.glade.h:68 ../scope/data/scope_gtk3.glade.h:68
+msgid "Id"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:69 ../scope/data/scope_gtk3.glade.h:69
+msgid "Pid"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:70 ../scope/data/scope_gtk3.glade.h:70
+msgid "Gid"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:71 ../scope/data/scope_gtk3.glade.h:71
+#, fuzzy
+msgid "State"
+msgstr "状態"
+
+#: ../scope/data/scope.glade.h:76 ../scope/data/scope_gtk3.glade.h:76
+#, fuzzy
+msgid "Target Id"
+msgstr "対象"
+
+#: ../scope/data/scope.glade.h:77 ../scope/data/scope_gtk3.glade.h:77
+msgid "Core"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:78 ../scope/data/scope_gtk3.glade.h:78
 msgid "Threads"
 msgstr "スレッド"
 
-#: ../scope/data/scope.glade.h:69
+#: ../scope/data/scope.glade.h:80 ../scope/data/scope_gtk3.glade.h:80
+#, fuzzy
+msgid "Location or expr"
+msgstr "場所"
+
+#: ../scope/data/scope.glade.h:81 ../scope/data/scope_gtk3.glade.h:81
+#, fuzzy
+msgid "Times"
+msgstr " 回ごと."
+
+#: ../scope/data/scope.glade.h:82 ../scope/data/scope_gtk3.glade.h:82
+#, fuzzy
+msgid "Ignore"
+msgstr "無視(_I)"
+
+#: ../scope/data/scope.glade.h:84 ../scope/data/scope_gtk3.glade.h:84
+#, fuzzy
+msgid "Script"
+msgstr "Lua スクリプト"
+
+#: ../scope/data/scope.glade.h:85 ../scope/data/scope_gtk3.glade.h:85
+msgid "#"
+msgstr ""
+
+#: ../scope/data/scope.glade.h:86 ../scope/data/scope_gtk3.glade.h:86
+#, fuzzy
+msgid "Arguments"
+msgstr "引数(_A):"
+
+#: ../scope/data/scope.glade.h:87 ../scope/data/scope_gtk3.glade.h:87
 msgid "Stack"
 msgstr "スタック"
 
-#: ../scope/data/scope.glade.h:70
+#: ../scope/data/scope.glade.h:90 ../scope/data/scope_gtk3.glade.h:90
 msgid "Locals"
 msgstr "ロケール"
 
-#: ../scope/data/scope.glade.h:71
+#: ../scope/data/scope.glade.h:91 ../scope/data/scope_gtk3.glade.h:91
+#, fuzzy
+msgid "Expression"
+msgstr "式をウォッチ(_W)"
+
+#: ../scope/data/scope.glade.h:92 ../scope/data/scope_gtk3.glade.h:92
 msgid "Watches"
 msgstr "監視"
 
-#: ../scope/data/scope.glade.h:72
+#: ../scope/data/scope.glade.h:93 ../scope/data/scope_gtk3.glade.h:93
 msgid "Memory"
 msgstr "メモリ"
 
-#: ../scope/data/scope.glade.h:73
+#: ../scope/data/scope.glade.h:94 ../scope/data/scope_gtk3.glade.h:97
 msgid "Enter gdb command:"
 msgstr "GDB コマンドを入力:"
 
-#: ../scope/data/scope.glade.h:74
+#: ../scope/data/scope.glade.h:95 ../scope/data/scope_gtk3.glade.h:98
 msgid "Convert _UTF-8 to locale"
 msgstr "_UTF-8をロケールに変換"
 
-#: ../scope/data/scope.glade.h:75
+#: ../scope/data/scope.glade.h:96 ../scope/data/scope_gtk3.glade.h:94
 msgid "_Thread"
 msgstr "スレッド(_T)"
 
-#: ../scope/data/scope.glade.h:76
+#: ../scope/data/scope.glade.h:97 ../scope/data/scope_gtk3.glade.h:95
 msgid "_Group"
 msgstr "グループ(_G)"
 
-#: ../scope/data/scope.glade.h:77
+#: ../scope/data/scope.glade.h:98 ../scope/data/scope_gtk3.glade.h:96
 msgid "_Frame"
 msgstr "フレーム(_F)"
 
-#: ../scope/data/scope.glade.h:78
+#: ../scope/data/scope.glade.h:99 ../scope/data/scope_gtk3.glade.h:99
 msgid "Setup Program"
 msgstr "プログラムを設定"
 
-#: ../scope/data/scope.glade.h:79
+#: ../scope/data/scope.glade.h:100 ../scope/data/scope_gtk3.glade.h:100
 msgid "_Executable:"
 msgstr "実行ファイル(_E):"
 
-#: ../scope/data/scope.glade.h:80
+#: ../scope/data/scope.glade.h:101 ../scope/data/scope_gtk3.glade.h:101
 msgid "_Arguments:"
 msgstr "引数(_A):"
 
-#: ../scope/data/scope.glade.h:81
+#: ../scope/data/scope.glade.h:102 ../scope/data/scope_gtk3.glade.h:102
 msgid "En_vironment:"
 msgstr "環境(_V):"
 
-#: ../scope/data/scope.glade.h:82
+#: ../scope/data/scope.glade.h:103 ../scope/data/scope_gtk3.glade.h:103
 msgid "_Working dir:"
 msgstr "作業ディレクトリ(_W):"
 
-#: ../scope/data/scope.glade.h:83
+#: ../scope/data/scope.glade.h:104 ../scope/data/scope_gtk3.glade.h:104
 msgid "_Load script:"
 msgstr "スクリプトを読込(_L):"
 
-#: ../scope/data/scope.glade.h:84
+#: ../scope/data/scope.glade.h:105 ../scope/data/scope_gtk3.glade.h:105
 msgid "Auto _run program/exit gdb"
 msgstr "自動起動プログラム/gdbを終了(_R)"
 
-#: ../scope/data/scope.glade.h:85
+#: ../scope/data/scope.glade.h:106 ../scope/data/scope_gtk3.glade.h:106
 msgid "_Non-stop mode"
 msgstr "ノンストップモード(_N)"
 
-#: ../scope/data/scope.glade.h:86
+#: ../scope/data/scope.glade.h:107 ../scope/data/scope_gtk3.glade.h:107
 #, fuzzy
 msgid "_Temporary breakpoint on load at:"
 msgstr "一時的なブレークポイント(_T):"
 
-#: ../scope/data/scope.glade.h:87
+#: ../scope/data/scope.glade.h:108 ../scope/data/scope_gtk3.glade.h:108
 #, fuzzy
 msgid "_Delete all breakpoints, watches, inspects and registers"
 msgstr "全てのブレークポイント,ウォッチ,検査を削除(_D)"
 
-#: ../scope/data/scope.glade.h:88 ../scope/src/scope.c:521
+#: ../scope/data/scope.glade.h:109 ../scope/data/scope_gtk3.glade.h:109
+#: ../scope/src/scope.c:514
 msgid "Program"
 msgstr "プログラム"
 
-#: ../scope/data/scope.glade.h:89
+#: ../scope/data/scope.glade.h:110 ../scope/data/scope_gtk3.glade.h:110
 msgid "Open on"
 msgstr "開く"
 
-#: ../scope/data/scope.glade.h:90
+#: ../scope/data/scope.glade.h:111 ../scope/data/scope_gtk3.glade.h:111
 msgid "g_db load"
 msgstr "g_db ロード"
 
-#: ../scope/data/scope.glade.h:91
+#: ../scope/data/scope.glade.h:112 ../scope/data/scope_gtk3.glade.h:112
 msgid "p_rogram start"
 msgstr "プログラム開始(_R)"
 
-#: ../scope/data/scope.glade.h:92
+#: ../scope/data/scope.glade.h:113 ../scope/data/scope_gtk3.glade.h:113
 msgid "Update all _views"
 msgstr "全ての表示を更新(_V)"
 
-#: ../scope/data/scope.glade.h:93
+#: ../scope/data/scope.glade.h:114 ../scope/data/scope_gtk3.glade.h:114
 msgid "<b>Panel</b>"
 msgstr "<b>パネル</b>"
 
-#: ../scope/data/scope.glade.h:94
+#: ../scope/data/scope.glade.h:115 ../scope/data/scope_gtk3.glade.h:115
 msgid "Default 8-bit text mode:"
 msgstr "標準8ビットテキストモード:"
 
-#: ../scope/data/scope.glade.h:95
+#: ../scope/data/scope.glade.h:116 ../scope/data/scope_gtk3.glade.h:116
 msgid "_7-bit \\nnn"
 msgstr "_7ビット \\nnn"
 
-#: ../scope/data/scope.glade.h:96
+#: ../scope/data/scope.glade.h:117 ../scope/data/scope_gtk3.glade.h:117
 msgid "Display"
 msgstr "表示"
 
-#: ../scope/data/scope.glade.h:97
+#: ../scope/data/scope.glade.h:118 ../scope/data/scope_gtk3.glade.h:118
 msgid "_member"
 msgstr "メンバー(_M)"
 
-#: ../scope/data/scope.glade.h:98
+#: ../scope/data/scope.glade.h:119 ../scope/data/scope_gtk3.glade.h:119
 msgid "and"
 msgstr "および"
 
-#: ../scope/data/scope.glade.h:99
+#: ../scope/data/scope.glade.h:120 ../scope/data/scope_gtk3.glade.h:120
 msgid "_argument"
 msgstr "引数(_A)"
 
-#: ../scope/data/scope.glade.h:100
+#: ../scope/data/scope.glade.h:121 ../scope/data/scope_gtk3.glade.h:121
 msgid "names"
 msgstr "名前"
 
-#: ../scope/data/scope.glade.h:101
+#: ../scope/data/scope.glade.h:122 ../scope/data/scope_gtk3.glade.h:122
 msgid "<b>Values</b>"
 msgstr "<b>値</b>"
 
-#: ../scope/data/scope.glade.h:102
+#: ../scope/data/scope.glade.h:123 ../scope/data/scope_gtk3.glade.h:123
 msgid "E_xpand on apply"
 msgstr "展開(_X)"
 
-#: ../scope/data/scope.glade.h:103
+#: ../scope/data/scope.glade.h:124 ../scope/data/scope_gtk3.glade.h:124
 msgid "S_how"
 msgstr "表示(_H)"
 
-#: ../scope/data/scope.glade.h:104
+#: ../scope/data/scope.glade.h:125 ../scope/data/scope_gtk3.glade.h:125
 msgid "children"
 msgstr "子"
 
-#: ../scope/data/scope.glade.h:105
+#: ../scope/data/scope.glade.h:126 ../scope/data/scope_gtk3.glade.h:126
 msgid "<b>Inspect</b>"
 msgstr "<b>検査</b>"
 
-#: ../scope/data/scope.glade.h:106
+#: ../scope/data/scope.glade.h:127 ../scope/data/scope_gtk3.glade.h:127
 msgid "Show =li_brary messages"
 msgstr "表示 =ライブラリメッセージ(_I)"
 
-#: ../scope/data/scope.glade.h:107
+#: ../scope/data/scope.glade.h:128 ../scope/data/scope_gtk3.glade.h:128
 msgid "Show _tooltips"
 msgstr "ツールチップを表示(_T)"
 
-#: ../scope/data/scope.glade.h:108
+#: ../scope/data/scope.glade.h:129 ../scope/data/scope_gtk3.glade.h:129
 msgid "<b>Others</b>"
 msgstr "<b>その他</b>"
 
-#: ../scope/data/scope.glade.h:110
+#: ../scope/data/scope.glade.h:131 ../scope/data/scope_gtk3.glade.h:131
 msgid "_Import"
 msgstr "読み込み(_I)"
 
-#: ../scope/data/scope.glade.h:111
+#: ../scope/data/scope.glade.h:132 ../scope/data/scope_gtk3.glade.h:132
 msgid "Enter assignment expression:"
 msgstr "割当て式を入力:"
 
-#: ../scope/data/scope.glade.h:112
+#: ../scope/data/scope.glade.h:133 ../scope/data/scope_gtk3.glade.h:133
 msgid "Inspect"
 msgstr "検証"
 
-#: ../scope/data/scope.glade.h:113
+#: ../scope/data/scope.glade.h:134 ../scope/data/scope_gtk3.glade.h:134
 msgid "Object:"
 msgstr "オブジェクト:"
 
-#: ../scope/data/scope.glade.h:115
+#: ../scope/data/scope.glade.h:136 ../scope/data/scope_gtk3.glade.h:136
 msgid "-"
 msgstr "-"
 
-#: ../scope/data/scope.glade.h:116
+#: ../scope/data/scope.glade.h:137 ../scope/data/scope_gtk3.glade.h:137
 msgid "Frame:"
 msgstr "フレーム:"
 
-#: ../scope/data/scope.glade.h:117
+#: ../scope/data/scope.glade.h:138 ../scope/data/scope_gtk3.glade.h:138
 msgid "@"
 msgstr "@"
 
-#: ../scope/data/scope.glade.h:118
+#: ../scope/data/scope.glade.h:139 ../scope/data/scope_gtk3.glade.h:139
 msgid "_Apply on run"
 msgstr "実行時に適用(_A)"
 
-#: ../scope/data/scope.glade.h:119
+#: ../scope/data/scope.glade.h:140 ../scope/data/scope_gtk3.glade.h:140
 msgid "Expand"
 msgstr "展開"
 
-#: ../scope/data/scope.glade.h:120
+#: ../scope/data/scope.glade.h:141 ../scope/data/scope_gtk3.glade.h:141
 msgid "Start:"
 msgstr "開始:"
 
-#: ../scope/data/scope.glade.h:121
+#: ../scope/data/scope.glade.h:142 ../scope/data/scope_gtk3.glade.h:142
 msgid "Count:"
 msgstr "回数:"
 
-#: ../scope/data/scope.glade.h:122
+#: ../scope/data/scope.glade.h:143 ../scope/data/scope_gtk3.glade.h:143
 msgid "_Expand on apply"
 msgstr "適用時に展開(_E)"
 
-#: ../scope/data/scope.glade.h:123 ../scope/src/scope.c:521
+#: ../scope/data/scope.glade.h:144 ../scope/data/scope_gtk3.glade.h:144
+#: ../scope/src/scope.c:514
 msgid "Program Terminal"
 msgstr "プログラム端末"
 
-#: ../scope/data/scope.glade.h:125
+#: ../scope/data/scope.glade.h:146 ../scope/data/scope_gtk3.glade.h:146
 msgid "Registers"
 msgstr ""
 
-#: ../scope/src/break.c:97
+#: ../scope/src/break.c:101
 #, fuzzy
 msgid "breakpoint"
 msgstr "ブレークポイント"
 
-#: ../scope/src/break.c:98
+#: ../scope/src/break.c:102
 #, fuzzy
 msgid "hardware breakpoint"
 msgstr "ブレークポイントを修正"
 
-#: ../scope/src/break.c:99
+#: ../scope/src/break.c:103
 #, fuzzy
 msgid "tracepoint"
 msgstr "監視ポイント"
 
-#: ../scope/src/break.c:100
+#: ../scope/src/break.c:104
 #, fuzzy
 msgid "fast tracepoint"
 msgstr "監視ポイント"
 
-#: ../scope/src/break.c:101
+#: ../scope/src/break.c:105
 #, fuzzy
 msgid "write watchpoint"
 msgstr "監視ポイントを修正"
 
-#: ../scope/src/break.c:104
+#: ../scope/src/break.c:108
 #, fuzzy
 msgid "access watchpoint"
 msgstr "監視ポイント"
 
-#: ../scope/src/break.c:106
+#: ../scope/src/break.c:110
 #, fuzzy
 msgid "read watchpoint"
 msgstr "監視ポイントを修正"
 
-#: ../scope/src/break.c:108
+#: ../scope/src/break.c:112
 #, fuzzy
 msgid "catchpoint"
 msgstr "監視ポイント"
 
-#: ../scope/src/break.c:135 ../scope/src/break.c:139
+#: ../scope/src/break.c:139 ../scope/src/break.c:143
 msgid "CLI"
 msgstr ""
 
-#: ../scope/src/break.c:136
+#: ../scope/src/break.c:140
 #, fuzzy
 msgid "unsupported MI"
 msgstr "ソートしない(_U)"
 
-#: ../scope/src/break.c:141
+#: ../scope/src/break.c:145
 #, fuzzy
 msgid "on load"
 msgstr "g_db ロード"
 
-#: ../scope/src/break.c:142
+#: ../scope/src/break.c:146
 #, fuzzy
 msgid "Run to Cursor"
 msgstr "カーソル位置まで実行(_C)"
 
-#: ../scope/src/break.c:1013
+#: ../scope/src/break.c:1017
 #, fuzzy, c-format
 msgid ""
 "There are two or more breakpoints at %s:%d.\n"
@@ -6592,137 +6671,137 @@ msgstr ""
 "%s:%d に複数のブレークポイントがあります。\n"
 "ブレークポイントリストより1つに変更してください。"
 
-#: ../scope/src/break.c:1250
+#: ../scope/src/break.c:1254
 #, c-format
 msgid ", %s"
 msgstr ""
 
-#: ../scope/src/break.c:1276
+#: ../scope/src/break.c:1280
 #, c-format
 msgid "func %s"
 msgstr ""
 
-#: ../scope/src/break.c:1307
+#: ../scope/src/break.c:1311
 msgid "Add Breakpoint"
 msgstr "ブレークポイントを追加"
 
-#: ../scope/src/break.c:1322
+#: ../scope/src/break.c:1326
 msgid "Add Watchpoint"
 msgstr "監視ポイントを追加"
 
-#: ../scope/src/conterm.c:109
+#: ../scope/src/conterm.c:110
 msgid "Feed Terminal"
 msgstr "端末に送る"
 
-#: ../scope/src/conterm.c:109
+#: ../scope/src/conterm.c:110
 msgid "Enter char # (0..255):"
 msgstr "文字コード(0...255)を入力:"
 
-#: ../scope/src/conterm.c:512 ../scope/src/scope.c:565 ../scope/src/scope.c:566
+#: ../scope/src/conterm.c:555 ../scope/src/scope.c:562 ../scope/src/scope.c:563
 #, c-format
 msgid "Scope: %s."
 msgstr "スコープ: %s"
 
-#: ../scope/src/debug.c:138
+#: ../scope/src/debug.c:142
 msgid "No breakpoints. Hanging."
 msgstr "ブレークポイントがありません。中止。"
 
-#: ../scope/src/debug.c:362
+#: ../scope/src/debug.c:366
 #, c-format
 msgid "GDB died unexpectedly with status %d."
 msgstr "GDBは予期しないステータス %d で終了しました。"
 
-#: ../scope/src/debug.c:364
+#: ../scope/src/debug.c:368
 msgid "Program terminated."
 msgstr "プログラムは終了しました。"
 
-#: ../scope/src/debug.c:461 ../scope/src/utils.c:37
+#: ../scope/src/debug.c:465 ../scope/src/utils.c:41
 #, c-format
 msgid "%s: %s."
 msgstr "%s: %s."
 
-#: ../scope/src/debug.c:545 ../scope/src/thread.c:93
+#: ../scope/src/debug.c:549 ../scope/src/thread.c:97
 #, c-format
 msgid "%s."
 msgstr "%s."
 
-#: ../scope/src/inspect.c:66
+#: ../scope/src/inspect.c:70
 msgid "..."
 msgstr "..."
 
-#: ../scope/src/inspect.c:339
+#: ../scope/src/inspect.c:343
 msgid "invalid data"
 msgstr "無効なデータ"
 
-#: ../scope/src/inspect.c:371
+#: ../scope/src/inspect.c:375
 msgid "no children in range"
 msgstr "範囲に子がありません"
 
-#: ../scope/src/inspect.c:454
+#: ../scope/src/inspect.c:458
 msgid "out of scope"
 msgstr "スコープ範囲外"
 
-#: ../scope/src/inspect.c:627
+#: ../scope/src/inspect.c:631
 msgid "Duplicate inspect variable name."
 msgstr "検査変数名が重複"
 
-#: ../scope/src/memory.c:292
+#: ../scope/src/memory.c:296
 msgid "Read Memory"
 msgstr "メモリを読み込み"
 
-#: ../scope/src/memory.c:396
+#: ../scope/src/memory.c:399
 #, fuzzy, c-format
 msgid "Scope: pointer size > %d, Data disabled."
 msgstr "スコープ: ポインタサイズ > 8, データ無効"
 
-#: ../scope/src/menu.c:375
+#: ../scope/src/menu.c:379
 msgid "Modify"
 msgstr "修正"
 
-#: ../scope/src/menu.c:481
+#: ../scope/src/menu.c:485
 msgid "Evaluate/modify"
 msgstr "評価/修正"
 
-#: ../scope/src/menu.c:482
+#: ../scope/src/menu.c:486
 msgid "Watch expression"
 msgstr "式を監視"
 
-#: ../scope/src/menu.c:483
+#: ../scope/src/menu.c:487
 msgid "Inspect variable"
 msgstr "変数を検査"
 
-#: ../scope/src/parse.c:438
+#: ../scope/src/parse.c:442
 msgid "Undefined GDB error."
 msgstr "未定義GDBエラー"
 
-#: ../scope/src/plugme.c:79
+#: ../scope/src/plugme.c:87
 msgid "Select Folder"
 msgstr "フォルダを選択"
 
-#: ../scope/src/plugme.c:79
+#: ../scope/src/plugme.c:87
 msgid "Select File"
 msgstr "ファイルを選択"
 
-#: ../scope/src/prefs.c:314 ../scope/src/utils.c:449
+#: ../scope/src/prefs.c:320 ../scope/src/utils.c:464
 #, c-format
 msgid "Scope: %s: %s."
 msgstr "スコープ: %s: %s."
 
-#: ../scope/src/prefs.c:319
+#: ../scope/src/prefs.c:325
 msgid "Scope: created configuration file."
 msgstr "スコープ: 設定ファイルを生成しました。"
 
-#: ../scope/src/program.c:255
+#: ../scope/src/program.c:259
 #, c-format
 msgid "Loaded debug settings for %s."
 msgstr "%s 用のデバッグ設定を読み込みました"
 
-#: ../scope/src/program.c:263
+#: ../scope/src/program.c:267
 #, c-format
 msgid "Could not load debug settings file %s: %s."
 msgstr "デバッグ設定ファイル %s の読み込みに失敗: %s"
 
-#: ../scope/src/program.c:383
+#: ../scope/src/program.c:387
 #, c-format
 msgid ""
 "%s: %s.\n"
@@ -6733,29 +6812,27 @@ msgstr ""
 "\n"
 "継続しますか?"
 
-#: ../scope/src/program.c:419
+#: ../scope/src/program.c:423
 #, fuzzy
 msgid "Delete all breakpoints, watches et cetera?"
 msgstr "全てのブレークポイント、監視、検査を削除しますか?"
 
-#: ../scope/src/program.c:527
+#: ../scope/src/program.c:531
 msgid "as _Name=value"
 msgstr "_Name=value として"
 
-#: ../scope/src/program.c:528
+#: ../scope/src/program.c:532
 msgid "as _Name = value"
 msgstr "_Name = value として"
 
-#: ../scope/src/scope.c:33
+#: ../scope/src/scope.c:35
 msgid "Scope Debugger"
 msgstr "スコープデバッガ"
 
-#: ../scope/src/scope.c:34
-msgid ""
-"Relatively simple GDB front-end.\n"
-"This plugin currently has no maintainer. Would you like to help by "
-"contributing to this plugin?"
-msgstr ""
+#: ../scope/src/scope.c:36
+#, fuzzy
+msgid "Relatively simple GDB front-end."
+msgstr "シンプルなGDBフロントエンド."
 
 #: ../scope/src/scope.c:63
 msgid "Setup program"
@@ -6805,87 +6882,87 @@ msgstr "Assem"
 msgid "Load"
 msgstr "ロード"
 
-#: ../scope/src/scope.c:420
+#: ../scope/src/scope.c:414
 msgid "Build action activated. Terminate debugging?"
 msgstr "ビルドがアクティブになりました.デバッグを終了しますか?"
 
-#: ../scope/src/scope.c:523
+#: ../scope/src/scope.c:516
 msgid "Breaks"
 msgstr "ブレーク"
 
-#: ../scope/src/scope.c:525
+#: ../scope/src/scope.c:518
 msgid "Console"
 msgstr "コンソール"
 
-#: ../scope/src/scope.c:525
+#: ../scope/src/scope.c:518
 msgid "Debug Console"
 msgstr "デバッグコンソール"
 
-#: ../scope/src/thread.c:49
+#: ../scope/src/thread.c:53
 #, c-format
 msgid "Thread group %s started."
 msgstr "スレッドグループ %s を開始しました。"
 
-#: ../scope/src/thread.c:64
+#: ../scope/src/thread.c:68
 msgid "Thread group "
 msgstr "スレッドグループ "
 
-#: ../scope/src/thread.c:84
+#: ../scope/src/thread.c:88
 msgid " exited"
 msgstr " 終了"
 
-#: ../scope/src/thread.c:87
+#: ../scope/src/thread.c:91
 #, c-format
 msgid " with exit code %s"
 msgstr " コード %s で終了"
 
-#: ../scope/src/thread.c:749
+#: ../scope/src/thread.c:753
 msgid "Send Signal"
 msgstr "シグナルを送信"
 
-#: ../scope/src/thread.c:749
+#: ../scope/src/thread.c:753
 msgid "Enter signal #:"
 msgstr "シグナル番号を入力:"
 
-#: ../scope/src/thread.c:789
+#: ../scope/src/thread.c:793
 msgid "Terminate Process"
 msgstr "プロセスを終了"
 
-#: ../scope/src/thread.c:789
+#: ../scope/src/thread.c:793
 msgid "Enter exit code:"
 msgstr "終了コードを入力:"
 
-#: ../scope/src/thread.c:892
+#: ../scope/src/thread.c:896
 msgid "Running"
 msgstr "実行中"
 
-#: ../scope/src/thread.c:893
+#: ../scope/src/thread.c:897
 msgid "Stopped"
 msgstr "停止"
 
-#: ../scope/src/utils.c:45
+#: ../scope/src/utils.c:49
 #, fuzzy, c-format
 msgid "%s: %s"
 msgstr "%s: %s."
 
-#: ../scope/src/utils.c:225
+#: ../scope/src/utils.c:229
 #, c-format
 msgid "Scope: error reading [%s]."
 msgstr "スコープ: [%s] 読み込み中にエラー。"
 
-#: ../scope/src/views.c:526
+#: ../scope/src/views.c:530
 msgid "…"
 msgstr "..."
 
-#: ../scope/src/views.c:549
+#: ../scope/src/views.c:553
 msgid "_Send"
 msgstr "送信(_S)"
 
-#: ../scope/src/views.c:549
+#: ../scope/src/views.c:553
 msgid "_Busy"
 msgstr "ビジー(_B)"
 
-#: ../scope/src/views.c:558
+#: ../scope/src/views.c:562
 msgid "GDB Command"
 msgstr "GDBコマンド"
 
@@ -7239,11 +7316,11 @@ msgstr "現在マークしたリストをテーブルに変換."
 msgid "_More TableConvert"
 msgstr "テーブル変換"
 
-#: ../treebrowser/src/treebrowser.c:127
+#: ../treebrowser/src/treebrowser.c:125
 msgid "TreeBrowser"
 msgstr "ツリーブラウザ"
 
-#: ../treebrowser/src/treebrowser.c:128
+#: ../treebrowser/src/treebrowser.c:126
 #, fuzzy
 msgid ""
 "This plugin adds a tree browser to Geany, allowing the user to browse files "
@@ -7252,163 +7329,163 @@ msgstr ""
 "このプラグインはGeanyにツリーブラウザを追加し、ディレクトリをツリービューに表"
 "示して、ユーザがファイルを選択できるようにします。"
 
-#: ../treebrowser/src/treebrowser.c:442
+#: ../treebrowser/src/treebrowser.c:424
 #, c-format
 msgid "%s: no such directory."
 msgstr "%s: ディレクトリがありません"
 
-#: ../treebrowser/src/treebrowser.c:546 ../treebrowser/src/treebrowser.c:581
-#: ../treebrowser/src/treebrowser.c:679
+#: ../treebrowser/src/treebrowser.c:528 ../treebrowser/src/treebrowser.c:563
+#: ../treebrowser/src/treebrowser.c:661
 msgid "(Empty)"
 msgstr "(空)"
 
-#: ../treebrowser/src/treebrowser.c:982
+#: ../treebrowser/src/treebrowser.c:964
 #, c-format
 msgid "Could not execute configured external command '%s' (%s)."
 msgstr "設定済みの外部コマンド '%s' が実行できません (%s)."
 
-#: ../treebrowser/src/treebrowser.c:1053
+#: ../treebrowser/src/treebrowser.c:1035
 msgid "NewDirectory"
 msgstr "新規ディレクトリ"
 
-#: ../treebrowser/src/treebrowser.c:1055
+#: ../treebrowser/src/treebrowser.c:1037
 msgid "NewFile"
 msgstr "新規ファイル"
 
-#: ../treebrowser/src/treebrowser.c:1060
-#, c-format
+#: ../treebrowser/src/treebrowser.c:1042
+#, fuzzy, c-format
 msgid ""
-"Target file '%s' exists\n"
-", do you really want to replace it with empty file?"
+"Target file '%s' exists.\n"
+"Do you really want to replace it with an empty file?"
 msgstr ""
 "対象ファイル '%s' が存在します。\n"
 "このファイルを空のファイルで上書きしてもいいですか?"
 
-#: ../treebrowser/src/treebrowser.c:1106
+#: ../treebrowser/src/treebrowser.c:1088
 #, c-format
 msgid "Do you really want to delete '%s' ?"
 msgstr "'%s' を削除してもよいですか?"
 
-#: ../treebrowser/src/treebrowser.c:1218
+#: ../treebrowser/src/treebrowser.c:1200
 #, fuzzy
 msgid "Go _Up"
 msgstr "上に移動(_U)"
 
-#: ../treebrowser/src/treebrowser.c:1222
+#: ../treebrowser/src/treebrowser.c:1204
 #, fuzzy
 msgid "Set _Path From Document"
 msgstr "文書からパスを設定"
 
-#: ../treebrowser/src/treebrowser.c:1226
+#: ../treebrowser/src/treebrowser.c:1208
 #, fuzzy
 msgid "_Open Externally"
 msgstr "外部アプリケーションで開く"
 
-#: ../treebrowser/src/treebrowser.c:1231
+#: ../treebrowser/src/treebrowser.c:1213
 #, fuzzy
 msgid "Open _Terminal"
 msgstr "端末で開く"
 
-#: ../treebrowser/src/treebrowser.c:1235
+#: ../treebrowser/src/treebrowser.c:1217
 #, fuzzy
 msgid "Set as _Root"
 msgstr "rootに設定"
 
-#: ../treebrowser/src/treebrowser.c:1240
+#: ../treebrowser/src/treebrowser.c:1222
 #, fuzzy
 msgid "Refres_h"
 msgstr "表示を更新"
 
-#: ../treebrowser/src/treebrowser.c:1244
+#: ../treebrowser/src/treebrowser.c:1226
 #, fuzzy
 msgid "_Find in Files"
 msgstr "複数ファイルを検索"
 
-#: ../treebrowser/src/treebrowser.c:1252
+#: ../treebrowser/src/treebrowser.c:1234
 #, fuzzy
 msgid "N_ew Folder"
 msgstr "フォルダを選択"
 
-#: ../treebrowser/src/treebrowser.c:1256
+#: ../treebrowser/src/treebrowser.c:1238
 #, fuzzy
 msgid "_New File"
 msgstr "新規ファイル"
 
-#: ../treebrowser/src/treebrowser.c:1260
+#: ../treebrowser/src/treebrowser.c:1242
 #, fuzzy
 msgid "Rena_me"
 msgstr "名前変更"
 
-#: ../treebrowser/src/treebrowser.c:1273
+#: ../treebrowser/src/treebrowser.c:1255
 #, c-format
 msgid "Close: %s"
 msgstr "閉じる: %s"
 
-#: ../treebrowser/src/treebrowser.c:1278
+#: ../treebrowser/src/treebrowser.c:1260
 #, fuzzy, c-format
 msgid "Clo_se Child Documents "
 msgstr "下位の文書を閉じる"
 
-#: ../treebrowser/src/treebrowser.c:1283
+#: ../treebrowser/src/treebrowser.c:1265
 #, fuzzy
 msgid "_Copy Full Path to Clipboard"
 msgstr "完全パスをクリップボードにコピー"
 
-#: ../treebrowser/src/treebrowser.c:1292
+#: ../treebrowser/src/treebrowser.c:1274
 #, fuzzy
 msgid "E_xpand All"
 msgstr "すべて展開"
 
-#: ../treebrowser/src/treebrowser.c:1296
+#: ../treebrowser/src/treebrowser.c:1278
 #, fuzzy
 msgid "Coll_apse All"
 msgstr "すべて閉じる"
 
-#: ../treebrowser/src/treebrowser.c:1303
+#: ../treebrowser/src/treebrowser.c:1285
 #, fuzzy
 msgid "Show Boo_kmarks"
 msgstr "ブックマークを表示"
 
-#: ../treebrowser/src/treebrowser.c:1308
+#: ../treebrowser/src/treebrowser.c:1290
 #, fuzzy
 msgid "Sho_w Hidden Files"
 msgstr "隠しファイルを表示"
 
-#: ../treebrowser/src/treebrowser.c:1313
+#: ../treebrowser/src/treebrowser.c:1295
 #, fuzzy
 msgid "Show Tool_bars"
 msgstr "ツールバーを表示"
 
-#: ../treebrowser/src/treebrowser.c:1635
+#: ../treebrowser/src/treebrowser.c:1617
 #, c-format
 msgid "Target file '%s' exists, do you really want to replace it?"
 msgstr "対象ファイル '%s' が存在します。置き換えてもいいですか?"
 
-#: ../treebrowser/src/treebrowser.c:1752
+#: ../treebrowser/src/treebrowser.c:1730
 msgid "Go up"
 msgstr "上に移動"
 
-#: ../treebrowser/src/treebrowser.c:1757 ../treebrowser/src/treebrowser.c:2156
+#: ../treebrowser/src/treebrowser.c:1735 ../treebrowser/src/treebrowser.c:2127
 msgid "Refresh"
 msgstr "表示を更新"
 
-#: ../treebrowser/src/treebrowser.c:1762
+#: ../treebrowser/src/treebrowser.c:1740
 msgid "Home"
 msgstr "ホーム"
 
-#: ../treebrowser/src/treebrowser.c:1767
+#: ../treebrowser/src/treebrowser.c:1745
 msgid "Set path from document"
 msgstr "文書からパスを設定"
 
-#: ../treebrowser/src/treebrowser.c:1772
+#: ../treebrowser/src/treebrowser.c:1750
 msgid "Track path"
 msgstr "パスを記録"
 
-#: ../treebrowser/src/treebrowser.c:1777
+#: ../treebrowser/src/treebrowser.c:1755
 msgid "Hide bars"
 msgstr "バーを隠す"
 
-#: ../treebrowser/src/treebrowser.c:1787
+#: ../treebrowser/src/treebrowser.c:1765
 msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
 "reverse try for example this '!;*.c;*.h;*.cpp'"
@@ -7416,19 +7493,19 @@ msgstr ""
 "フィルタ(*.c;*.h;*.cpp)と '!' 反転を使った一時フィルタを使用するには次のよう"
 "にします '!;*.c;*.h;*.cpp'"
 
-#: ../treebrowser/src/treebrowser.c:1795
+#: ../treebrowser/src/treebrowser.c:1770
 msgid "Addressbar for example '/projects/my-project'"
 msgstr "アドレスバーの入力例 '/projects/my-project'"
 
-#: ../treebrowser/src/treebrowser.c:1820
+#: ../treebrowser/src/treebrowser.c:1795
 msgid "Tree Browser"
 msgstr "ツリーブラウザ"
 
-#: ../treebrowser/src/treebrowser.c:1963
+#: ../treebrowser/src/treebrowser.c:1936
 msgid "External open command"
 msgstr "他のプログラムで開く"
 
-#: ../treebrowser/src/treebrowser.c:1968
+#: ../treebrowser/src/treebrowser.c:1941
 #, c-format
 msgid ""
 "The command to execute when using \"Open with\". You can use %f and %d "
@@ -7442,59 +7519,59 @@ msgstr ""
 "%f は完全パスを含むファイル名に置き換えられます。\n"
 "%d は選択したファイルがあるパス名に置き換えられます。"
 
-#: ../treebrowser/src/treebrowser.c:1981
+#: ../treebrowser/src/treebrowser.c:1954
 msgid "The terminal to use with the command \"Open Terminal\""
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1987
+#: ../treebrowser/src/treebrowser.c:1960
 msgid "Toolbar"
 msgstr "ツールバー"
 
-#: ../treebrowser/src/treebrowser.c:1989
+#: ../treebrowser/src/treebrowser.c:1962
 msgid "Hidden"
 msgstr "非表示"
 
-#: ../treebrowser/src/treebrowser.c:1990
+#: ../treebrowser/src/treebrowser.c:1963
 msgid "Top"
 msgstr "上"
 
-#: ../treebrowser/src/treebrowser.c:1991
+#: ../treebrowser/src/treebrowser.c:1964
 msgid "Bottom"
 msgstr "下"
 
-#: ../treebrowser/src/treebrowser.c:1996
+#: ../treebrowser/src/treebrowser.c:1969
 msgid "If position is changed, the option require plugin restart."
 msgstr "位置を変更したときは、プラグインの再起動が必要です。"
 
-#: ../treebrowser/src/treebrowser.c:2000
+#: ../treebrowser/src/treebrowser.c:1973
 msgid "Show icons"
 msgstr "アイコンを表示"
 
-#: ../treebrowser/src/treebrowser.c:2002
+#: ../treebrowser/src/treebrowser.c:1975
 msgid "None"
 msgstr "なし"
 
-#: ../treebrowser/src/treebrowser.c:2003
+#: ../treebrowser/src/treebrowser.c:1976
 msgid "Base"
 msgstr "基本"
 
-#: ../treebrowser/src/treebrowser.c:2004
+#: ../treebrowser/src/treebrowser.c:1977
 msgid "Content-type"
 msgstr "内容"
 
-#: ../treebrowser/src/treebrowser.c:2010
+#: ../treebrowser/src/treebrowser.c:1983
 msgid "Show hidden files"
 msgstr "隠しファイルを表示"
 
-#: ../treebrowser/src/treebrowser.c:2015
+#: ../treebrowser/src/treebrowser.c:1988
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr "'.'(ドット)から始まるファイルを隠します"
 
-#: ../treebrowser/src/treebrowser.c:2017
+#: ../treebrowser/src/treebrowser.c:1990
 msgid "Hide object files"
 msgstr "オブジェクトファイルを表示しない"
 
-#: ../treebrowser/src/treebrowser.c:2022
+#: ../treebrowser/src/treebrowser.c:1995
 msgid ""
 "Don't show generated object files in the file browser, this includes *.o, *."
 "obj. *.so, *.dll, *.a, *.lib"
@@ -7502,66 +7579,66 @@ msgstr ""
 "ファイルブラウザにオブジェクトファイルを表示しません。除外されるファイルは *."
 "o, *.obj. *.so, *.dll, *.a, *.lib です。"
 
-#: ../treebrowser/src/treebrowser.c:2024
+#: ../treebrowser/src/treebrowser.c:1997
 msgid "Reverse filter"
 msgstr "フィルタを反転"
 
-#: ../treebrowser/src/treebrowser.c:2029
+#: ../treebrowser/src/treebrowser.c:2002
 msgid "Follow current document"
 msgstr "現在の文書のディレクトリに合わせる"
 
-#: ../treebrowser/src/treebrowser.c:2034
+#: ../treebrowser/src/treebrowser.c:2007
 msgid "Single click, open document and focus it"
 msgstr "シングルクリックで文書を表示"
 
-#: ../treebrowser/src/treebrowser.c:2039
+#: ../treebrowser/src/treebrowser.c:2012
 msgid "Double click open directory"
 msgstr "ダブルクリックでディレクトリを表示"
 
-#: ../treebrowser/src/treebrowser.c:2044
+#: ../treebrowser/src/treebrowser.c:2017
 msgid "On delete file, close it if is opened"
 msgstr "ファイル削除時に、開いていたら閉じる"
 
-#: ../treebrowser/src/treebrowser.c:2049
+#: ../treebrowser/src/treebrowser.c:2022
 msgid "Focus editor on file open"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2054
+#: ../treebrowser/src/treebrowser.c:2027
 msgid "Show tree lines"
 msgstr "ツリー行数を表示"
 
-#: ../treebrowser/src/treebrowser.c:2061
+#: ../treebrowser/src/treebrowser.c:2032
 msgid "Show bookmarks"
 msgstr "ブックマークを表示"
 
-#: ../treebrowser/src/treebrowser.c:2066
+#: ../treebrowser/src/treebrowser.c:2037
 #, fuzzy
 msgid "Open new files"
 msgstr "ファイルを開く"
 
-#: ../treebrowser/src/treebrowser.c:2146
+#: ../treebrowser/src/treebrowser.c:2117
 msgid "Focus File List"
 msgstr "ファイル覧に切り替え"
 
-#: ../treebrowser/src/treebrowser.c:2148
+#: ../treebrowser/src/treebrowser.c:2119
 msgid "Focus Path Entry"
 msgstr "パス入力に切り替え"
 
-#: ../treebrowser/src/treebrowser.c:2150
+#: ../treebrowser/src/treebrowser.c:2121
 msgid "Rename Object"
 msgstr "オブジェクトの名前変更"
 
-#: ../treebrowser/src/treebrowser.c:2152
+#: ../treebrowser/src/treebrowser.c:2123
 #, fuzzy
 msgid "New File"
 msgstr "新規ファイル"
 
-#: ../treebrowser/src/treebrowser.c:2154
+#: ../treebrowser/src/treebrowser.c:2125
 #, fuzzy
 msgid "New Folder"
 msgstr "フォルダを選択"
 
-#: ../treebrowser/src/treebrowser.c:2158
+#: ../treebrowser/src/treebrowser.c:2129
 #, fuzzy
 msgid "Track Current"
 msgstr "パスを記録"
@@ -7604,31 +7681,81 @@ msgstr "起動時に更新チェックを実行"
 msgid "Check for Updates"
 msgstr "更新をチェック"
 
-#: ../webhelper/src/gwh-enum-types.c:15
+#: ../vimode/src/backends/backend-geany.c:41
+msgid "Vimode"
+msgstr ""
+
+#: ../vimode/src/backends/backend-geany.c:42
+#, fuzzy
+msgid "Vim mode for Geany"
+msgstr "Geanyマクロ"
+
+#: ../vimode/src/backends/backend-geany.c:140
+#, c-format
+msgid "Insert Mode for Dummies: %s"
+msgstr ""
+
+#: ../vimode/src/backends/backend-geany.c:140
+msgid "ON"
+msgstr ""
+
+#: ../vimode/src/backends/backend-geany.c:140
+msgid "OFF"
+msgstr ""
+
+#: ../vimode/src/backends/backend-geany.c:290
+#, fuzzy
+msgid "_Vim Mode"
+msgstr "列選択モード(_C)"
+
+#: ../vimode/src/backends/backend-geany.c:296
+#, fuzzy
+msgid "Enable _Vim Mode"
+msgstr "CVSを有効"
+
+#: ../vimode/src/backends/backend-geany.c:301
+#, fuzzy
+msgid "Enable Vim Mode"
+msgstr "CVSを有効"
+
+#: ../vimode/src/backends/backend-geany.c:303
+#, fuzzy
+msgid "Insert Mode for _Dummies"
+msgstr "番号を挿入(_N)"
+
+#: ../vimode/src/backends/backend-geany.c:309
+msgid "Insert Mode for Dummies"
+msgstr ""
+
+#: ../vimode/src/backends/backend-geany.c:311
+msgid "Start in _Insert Mode"
+msgstr ""
+
+#: ../webhelper/src/gwh-enum-types.c:14
 msgid "message-window"
 msgstr "メッセージウィンドウ"
 
-#: ../webhelper/src/gwh-enum-types.c:16
+#: ../webhelper/src/gwh-enum-types.c:15
 msgid "sidebar"
 msgstr "サイドバー"
 
-#: ../webhelper/src/gwh-enum-types.c:17
+#: ../webhelper/src/gwh-enum-types.c:16
 msgid "separate-window"
 msgstr "分離ウィンドウ"
 
-#: ../webhelper/src/gwh-enum-types.c:32
+#: ../webhelper/src/gwh-enum-types.c:30
 msgid "none"
 msgstr "なし"
 
-#: ../webhelper/src/gwh-enum-types.c:33
+#: ../webhelper/src/gwh-enum-types.c:31
 msgid "on-connexion"
 msgstr "接続"
 
-#: ../webhelper/src/gwh-enum-types.c:48
+#: ../webhelper/src/gwh-enum-types.c:45
 msgid "normal"
 msgstr "通常サイズ"
 
-#: ../webhelper/src/gwh-enum-types.c:49
+#: ../webhelper/src/gwh-enum-types.c:46
 msgid "utility"
 msgstr "ユーティリティ"
 
@@ -7871,7 +7998,7 @@ msgstr "ディレクトリを元に戻す"
 msgid "Directory settings"
 msgstr "環境設定"
 
-#: ../workbench/src/dialogs.c:293 ../workbench/src/dialogs.c:422
+#: ../workbench/src/dialogs.c:293 ../workbench/src/dialogs.c:424
 #, fuzzy
 msgid "_OK"
 msgstr "了解(_O)"
@@ -7915,20 +8042,42 @@ msgid ""
 "dialog."
 msgstr ""
 
-#: ../workbench/src/dialogs.c:418
+#: ../workbench/src/dialogs.c:420
 #, fuzzy
 msgid "Workbench settings"
 msgstr "環境設定"
 
-#: ../workbench/src/dialogs.c:432
+#: ../workbench/src/dialogs.c:434
 #, fuzzy
 msgid "_Rescan all projects on open"
 msgstr "プロジェクトファイルを検索"
 
-#: ../workbench/src/dialogs.c:435
+#: ../workbench/src/dialogs.c:437
 msgid ""
 "If the option is activated (default), then all projects will be re-scanned "
 "on opening of the workbench."
+msgstr ""
+
+#: ../workbench/src/dialogs.c:442
+msgid "_Enable live update"
+msgstr ""
+
+#: ../workbench/src/dialogs.c:445
+msgid ""
+"If the option is activated (default), then the list of files and the sidebar "
+"will be updated automatically if a file or directory is created, removed or "
+"renamed. A manual re-scan is not required if the option is enabled."
+msgstr ""
+
+#: ../workbench/src/dialogs.c:451
+#, fuzzy
+msgid "_Expand on hover"
+msgstr "適用時に展開(_E)"
+
+#: ../workbench/src/dialogs.c:454
+msgid ""
+"If the option is activated, then a tree node in the sidebar will be expanded "
+"or collapsed by hovering over it with the mouse cursor."
 msgstr ""
 
 #: ../workbench/src/menu.c:95
@@ -7947,54 +8096,54 @@ msgid "Could not save workbench file: %s"
 msgstr "デバッグ設定ファイル %s の読み込みに失敗: %s"
 
 #. Set metadata
-#: ../workbench/src/menu.c:177 ../workbench/src/plugin_main.c:129
-#: ../workbench/src/sidebar.c:1165
+#: ../workbench/src/menu.c:195 ../workbench/src/plugin_main.c:131
+#: ../workbench/src/sidebar.c:1427
 msgid "Workbench"
 msgstr ""
 
 #. Create new menu item "New Workbench"
-#: ../workbench/src/menu.c:181
+#: ../workbench/src/menu.c:199
 msgid "_New..."
 msgstr ""
 
 #. Create new menu item "Open Workbench"
-#: ../workbench/src/menu.c:188
+#: ../workbench/src/menu.c:206
 msgid "_Open..."
 msgstr ""
 
 #. Create new menu item "Save Workbench"
-#: ../workbench/src/menu.c:195
+#: ../workbench/src/menu.c:213
 msgid "_Save"
 msgstr ""
 
 #. Create new menu item "Workbench Settings"
-#: ../workbench/src/menu.c:202
+#: ../workbench/src/menu.c:220
 #, fuzzy
 msgid "S_ettings"
 msgstr "設定"
 
 #. Create new menu item "Close Workbench"
-#: ../workbench/src/menu.c:209
+#: ../workbench/src/menu.c:227
 #, fuzzy
 msgid "_Close"
 msgstr "閉じる: %s"
 
-#: ../workbench/src/plugin_main.c:93 ../workbench/src/sidebar.c:618
+#: ../workbench/src/plugin_main.c:95 ../workbench/src/sidebar.c:858
 msgid ""
 "Create or open a workbench\n"
 "using the workbench menu."
 msgstr ""
 
-#: ../workbench/src/plugin_main.c:130
+#: ../workbench/src/plugin_main.c:132
 msgid "Manage and customize multiple projects."
 msgstr ""
 
-#: ../workbench/src/popup_menu.c:251
+#: ../workbench/src/popup_menu.c:259
 #, fuzzy, c-format
 msgid "Could not add project file: %s"
 msgstr "デバッグ設定ファイル %s の読み込みに失敗: %s"
 
-#: ../workbench/src/popup_menu.c:559
+#: ../workbench/src/popup_menu.c:567
 #, fuzzy, c-format
 msgid ""
 "Could not create new file \"%s\":\n"
@@ -8002,209 +8151,246 @@ msgid ""
 "%s"
 msgstr "一時ファイルを作成できません"
 
-#: ../workbench/src/popup_menu.c:616
+#: ../workbench/src/popup_menu.c:667
+#, fuzzy, c-format
+msgid ""
+"Do you really want to remove file \"%s\"?\n"
+"\n"
+"This cannot be undone!"
+msgstr "ファイルを削除してもよいですか: %s?"
+
+#: ../workbench/src/popup_menu.c:672
+#, c-format
+msgid ""
+"Do you really want to remove directory \"%s\" and all files in it?\n"
+"\n"
+"This cannot be undone!"
+msgstr ""
+
+#. Remove file failed. Report error.
+#: ../workbench/src/popup_menu.c:684 ../workbench/src/popup_menu.c:708
+#, fuzzy, c-format
+msgid "Could not remove file \"%s\"."
+msgstr "一時ファイルを作成できません"
+
+#. Remove file failed. Report error.
+#: ../workbench/src/popup_menu.c:728 ../workbench/src/popup_menu.c:742
+#, fuzzy, c-format
+msgid "Could not remove directory \"%s\"."
+msgstr "pinentryを使用できません"
+
+#: ../workbench/src/popup_menu.c:775
 #, fuzzy
 msgid "_Add project..."
 msgstr "プロジェクトファイルを検索"
 
-#: ../workbench/src/popup_menu.c:622
+#: ../workbench/src/popup_menu.c:781
 #, fuzzy
 msgid "_Save project"
 msgstr "新規プロジェクト"
 
-#: ../workbench/src/popup_menu.c:628
+#: ../workbench/src/popup_menu.c:787
 #, fuzzy
 msgid "_Remove project"
 msgstr "オブジェクトの名前変更"
 
-#: ../workbench/src/popup_menu.c:634
+#: ../workbench/src/popup_menu.c:793
 #, fuzzy
 msgid "_Fold/unfold project"
 msgstr "プロジェクトファイルを検索"
 
-#: ../workbench/src/popup_menu.c:640
+#: ../workbench/src/popup_menu.c:799
 msgid "_Open all files in project"
 msgstr ""
 
-#: ../workbench/src/popup_menu.c:646
+#: ../workbench/src/popup_menu.c:805
 msgid "_Close all files in project"
 msgstr ""
 
-#: ../workbench/src/popup_menu.c:656
+#: ../workbench/src/popup_menu.c:815
 #, fuzzy
 msgid "_Add directory..."
 msgstr "ディレクトリを元に戻す"
 
-#: ../workbench/src/popup_menu.c:662
+#: ../workbench/src/popup_menu.c:821
 #, fuzzy
 msgid "_Remove directory"
 msgstr "ディレクトリを元に戻す"
 
-#: ../workbench/src/popup_menu.c:668
+#: ../workbench/src/popup_menu.c:827
 #, fuzzy
 msgid "_Rescan directory"
 msgstr "ディレクトリを元に戻す"
 
-#: ../workbench/src/popup_menu.c:674
+#: ../workbench/src/popup_menu.c:833
 #, fuzzy
 msgid "_Directory settings"
 msgstr "ディレクトリ(_D)"
 
-#: ../workbench/src/popup_menu.c:680
+#: ../workbench/src/popup_menu.c:839
 #, fuzzy
 msgid "_Fold/unfold directory"
 msgstr "ディレクトリの差分を表示"
 
-#: ../workbench/src/popup_menu.c:686
+#: ../workbench/src/popup_menu.c:845
 #, fuzzy
 msgid "_Open all files in directory"
 msgstr "%s: ファイルまたはディレクトリがありません"
 
-#: ../workbench/src/popup_menu.c:692
+#: ../workbench/src/popup_menu.c:851
 #, fuzzy
 msgid "_Close all files in directory"
 msgstr "ディレクトリを作成"
 
-#: ../workbench/src/popup_menu.c:702
+#: ../workbench/src/popup_menu.c:861
 #, fuzzy
 msgid "_Open all files in sub-directory"
 msgstr "%s: ファイルまたはディレクトリがありません"
 
-#: ../workbench/src/popup_menu.c:708
+#: ../workbench/src/popup_menu.c:867
 #, fuzzy
 msgid "_Close all files in sub-directory"
 msgstr "ディレクトリを作成"
 
-#: ../workbench/src/popup_menu.c:718
+#: ../workbench/src/popup_menu.c:877
 #, fuzzy
 msgid "_Expand all"
 msgstr "すべて展開"
 
-#: ../workbench/src/popup_menu.c:724
+#: ../workbench/src/popup_menu.c:883
 #, fuzzy
 msgid "_Collapse all"
 msgstr "すべて閉じる"
 
-#: ../workbench/src/popup_menu.c:734
+#: ../workbench/src/popup_menu.c:893
 msgid "_Add to Workbench Bookmarks"
 msgstr ""
 
-#: ../workbench/src/popup_menu.c:740
+#: ../workbench/src/popup_menu.c:899
 msgid "_Add to Project Bookmarks"
 msgstr ""
 
-#: ../workbench/src/popup_menu.c:746
+#: ../workbench/src/popup_menu.c:905
 #, fuzzy
 msgid "_Remove from Bookmarks"
 msgstr "ブックマークを削除(_R)"
 
-#: ../workbench/src/popup_menu.c:756
+#: ../workbench/src/popup_menu.c:915
 #, fuzzy
 msgid "_Create file here..."
 msgstr "ファイルを作成"
 
-#: ../workbench/src/popup_menu.c:762
+#: ../workbench/src/popup_menu.c:921
 #, fuzzy
 msgid "_Create directory here..."
 msgstr "ディレクトリを作成"
 
-#: ../workbench/src/sidebar.c:320
+#: ../workbench/src/popup_menu.c:927
+msgid "_Remove..."
+msgstr ""
+
+#: ../workbench/src/sidebar.c:328
 #, fuzzy
 msgid "Base dir"
 msgstr "基本"
 
-#: ../workbench/src/sidebar.c:353
+#: ../workbench/src/sidebar.c:361
 #, fuzzy
 msgid "No directories"
 msgstr "新規ディレクトリ"
 
 #. *** label ***
-#: ../workbench/src/sidebar.c:616 ../workbench/src/sidebar.c:1116
+#: ../workbench/src/sidebar.c:856 ../workbench/src/sidebar.c:1378
 msgid "No workbench opened."
 msgstr ""
 
-#: ../workbench/src/sidebar.c:628
+#: ../workbench/src/sidebar.c:871
 #, fuzzy, c-format
 msgid "%s: %u Project"
 msgid_plural "%s: %u Projects"
 msgstr[0] "プロジェクト"
 
-#: ../workbench/src/sidebar.c:639
+#: ../workbench/src/sidebar.c:882
 msgid ""
 "Add a project\n"
 "using the context menu."
 msgstr ""
 
-#: ../workbench/src/sidebar.c:749
+#: ../workbench/src/sidebar.c:1006
 #, c-format
 msgid ""
 "%s\n"
 "Project file not found!"
 msgstr ""
 
-#: ../workbench/src/sidebar.c:763
+#: ../workbench/src/sidebar.c:1020
 msgid ""
 "This project has no directories. Directories can be added to a project using "
 "the context menu."
 msgstr ""
 
-#: ../workbench/src/wb_project.c:943
+#: ../workbench/src/wb_monitor.c:191
+#, fuzzy, c-format
+msgid "Could not setup file monitoring for directory: \"%s\". Error: %s"
+msgstr "ファイル種類 \"%s\" 向けの設定ファイルが見つかりません: %s"
+
+#: ../workbench/src/wb_project.c:1227
 #, fuzzy, c-format
 msgid "Directory-Name: %s\n"
 msgstr "ディレクトリ(_D)"
 
-#: ../workbench/src/wb_project.c:944
+#: ../workbench/src/wb_project.c:1228
 #, fuzzy, c-format
 msgid "Base-Directory: %s\n"
 msgstr "_BASE ディレクトリ"
 
-#: ../workbench/src/wb_project.c:946
+#: ../workbench/src/wb_project.c:1230
 #, fuzzy
 msgid "File Patterns:"
 msgstr "無視するディレクトリ:"
 
-#: ../workbench/src/wb_project.c:958
+#: ../workbench/src/wb_project.c:1242
 #, fuzzy
 msgid "Ignored Dir. Patterns:"
 msgstr "無視するディレクトリ:"
 
-#: ../workbench/src/wb_project.c:970
+#: ../workbench/src/wb_project.c:1254
 #, fuzzy
 msgid "Ignored File Patterns:"
 msgstr "無視するディレクトリ:"
 
-#: ../workbench/src/wb_project.c:982
+#: ../workbench/src/wb_project.c:1266
 #, fuzzy, c-format
 msgid "Number of Sub-Directories: %u\n"
 msgstr "巻数"
 
-#: ../workbench/src/wb_project.c:983
+#: ../workbench/src/wb_project.c:1267
 #, fuzzy, c-format
 msgid "Number of Files: %u\n"
 msgstr "巻数"
 
-#: ../workbench/src/wb_project.c:1007
+#: ../workbench/src/wb_project.c:1291
 #, fuzzy, c-format
 msgid "Project: %s\n"
 msgstr "プロジェクト"
 
-#: ../workbench/src/wb_project.c:1008
+#: ../workbench/src/wb_project.c:1292
 #, fuzzy, c-format
 msgid "File: %s\n"
 msgstr "閉じる: %s"
 
-#: ../workbench/src/wb_project.c:1009
+#: ../workbench/src/wb_project.c:1293
 #, fuzzy, c-format
 msgid "Number of Directories: %u\n"
 msgstr "巻数"
 
-#: ../workbench/src/wb_project.c:1012
+#: ../workbench/src/wb_project.c:1296
 msgid ""
 "\n"
 "The project contains unsaved changes!\n"
 msgstr ""
 
-#: ../workbench/src/workbench.c:710
+#: ../workbench/src/workbench.c:811
 #, fuzzy, c-format
 msgid "File %s is not a valid workbench file!"
 msgstr "ファイル \"%s\" は存在しますが通常のファイルではありません"
@@ -8254,10 +8440,6 @@ msgstr "スニペットを使用してXML/HTMLタグを自動補完"
 
 #~ msgid "Formats an XML and makes it human-readable."
 #~ msgstr "XMLを整形し人が読みやすくします"
-
-#, fuzzy
-#~ msgid "Relatively simple GDB front-end."
-#~ msgstr "シンプルなGDBフロントエンド."
 
 #~ msgid "Shift a selection left and right"
 #~ msgstr "選択した箇所を左右に移動"
@@ -8497,9 +8679,6 @@ msgstr "スニペットを使用してXML/HTMLタグを自動補完"
 
 #~ msgid "Break after "
 #~ msgstr "ブレーク条件 "
-
-#~ msgid " times."
-#~ msgstr " 回ごと."
 
 #~ msgid "Break when "
 #~ msgstr "ブレーク条件 "
