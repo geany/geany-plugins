@@ -6,10 +6,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 1.32\n"
+"Project-Id-Version: Geany-Plugins 1.34\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-05 17:12+0100\n"
-"PO-Revision-Date: 2018-02-14 05:55+0000\n"
+"POT-Creation-Date: 2018-12-05 14:09+0000\n"
+"PO-Revision-Date: 2018-12-05 14:22+0000\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
 "Language-Team: Português <palbuquerque73@gmail.com>\n"
 "Language: pt\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
@@ -1957,14 +1957,12 @@ msgid "_Zero"
 msgstr "_Zero"
 
 #: ../geanyinsertnum/src/insertnum.c:479
-#, fuzzy
 msgid "Insert _Numbers..."
-msgstr "Inserir _números"
+msgstr "Inserir _números..."
 
 #: ../geanyinsertnum/src/insertnum.c:486
-#, fuzzy
 msgid "Insert Numbers..."
-msgstr "Inserir números"
+msgstr "Inserir números..."
 
 #: ../latex/src/latexenvironments.c:25
 msgid "Environments"
@@ -6430,62 +6428,55 @@ msgstr "_Inspeccionar variável"
 
 #: ../scope/data/scope.glade.h:68 ../scope/data/scope_gtk3.glade.h:68
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #: ../scope/data/scope.glade.h:69 ../scope/data/scope_gtk3.glade.h:69
 msgid "Pid"
-msgstr ""
+msgstr "Pid"
 
 #: ../scope/data/scope.glade.h:70 ../scope/data/scope_gtk3.glade.h:70
 msgid "Gid"
-msgstr ""
+msgstr "Gid"
 
 #: ../scope/data/scope.glade.h:71 ../scope/data/scope_gtk3.glade.h:71
-#, fuzzy
 msgid "State"
 msgstr "Estado"
 
 #: ../scope/data/scope.glade.h:76 ../scope/data/scope_gtk3.glade.h:76
-#, fuzzy
 msgid "Target Id"
-msgstr "Destino"
+msgstr "Id destino"
 
 #: ../scope/data/scope.glade.h:77 ../scope/data/scope_gtk3.glade.h:77
 msgid "Core"
-msgstr ""
+msgstr "Núcleo"
 
 #: ../scope/data/scope.glade.h:78 ../scope/data/scope_gtk3.glade.h:78
 msgid "Threads"
 msgstr "Linhas"
 
 #: ../scope/data/scope.glade.h:80 ../scope/data/scope_gtk3.glade.h:80
-#, fuzzy
 msgid "Location or expr"
-msgstr "Localização"
+msgstr "Localização ou expressão"
 
 #: ../scope/data/scope.glade.h:81 ../scope/data/scope_gtk3.glade.h:81
-#, fuzzy
 msgid "Times"
-msgstr "vezes."
+msgstr "Vezes"
 
 #: ../scope/data/scope.glade.h:82 ../scope/data/scope_gtk3.glade.h:82
-#, fuzzy
 msgid "Ignore"
-msgstr "_Ignorar"
+msgstr "Ignorar"
 
 #: ../scope/data/scope.glade.h:84 ../scope/data/scope_gtk3.glade.h:84
-#, fuzzy
 msgid "Script"
-msgstr "Script Lua"
+msgstr "Script"
 
 #: ../scope/data/scope.glade.h:85 ../scope/data/scope_gtk3.glade.h:85
 msgid "#"
-msgstr ""
+msgstr "Nº"
 
 #: ../scope/data/scope.glade.h:86 ../scope/data/scope_gtk3.glade.h:86
-#, fuzzy
 msgid "Arguments"
-msgstr "_Argumentos:"
+msgstr "Argumentos"
 
 #: ../scope/data/scope.glade.h:87 ../scope/data/scope_gtk3.glade.h:87
 msgid "Stack"
@@ -6496,9 +6487,8 @@ msgid "Locals"
 msgstr "Locais"
 
 #: ../scope/data/scope.glade.h:91 ../scope/data/scope_gtk3.glade.h:91
-#, fuzzy
 msgid "Expression"
-msgstr "Obser_var expressão"
+msgstr "Expressão"
 
 #: ../scope/data/scope.glade.h:92 ../scope/data/scope_gtk3.glade.h:92
 msgid "Watches"
@@ -7466,13 +7456,13 @@ msgid "NewFile"
 msgstr "Novo ficheiro"
 
 #: ../treebrowser/src/treebrowser.c:1042
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Target file '%s' exists.\n"
 "Do you really want to replace it with an empty file?"
 msgstr ""
-"O ficheiro destino \"%s\" já existe,\n"
-"tem a certeza que o quer substituir por um ficheiro vazio?"
+"O ficheiro destino \"%s\" já existe.\n"
+"Tem a certeza que o quer substituir por um ficheiro vazio?"
 
 #: ../treebrowser/src/treebrowser.c:1088
 #, c-format
@@ -7775,79 +7765,74 @@ msgstr "Procurar actualizações"
 
 #: ../vimode/src/backends/backend-geany.c:41
 msgid "Vimode"
-msgstr ""
+msgstr "Vimode"
 
 #: ../vimode/src/backends/backend-geany.c:42
-#, fuzzy
 msgid "Vim mode for Geany"
-msgstr "Macros para o Geany"
+msgstr "Modo Vim para o Geany"
 
 #: ../vimode/src/backends/backend-geany.c:140
 #, c-format
 msgid "Insert Mode for Dummies: %s"
-msgstr ""
+msgstr "Modo Inserir para tontos: %s"
 
 #: ../vimode/src/backends/backend-geany.c:140
 msgid "ON"
-msgstr ""
+msgstr "LIG"
 
 #: ../vimode/src/backends/backend-geany.c:140
 msgid "OFF"
-msgstr ""
+msgstr "DESLIG"
 
 #: ../vimode/src/backends/backend-geany.c:290
-#, fuzzy
 msgid "_Vim Mode"
-msgstr "Modo _coluna"
+msgstr "Modo _Vim"
 
 #: ../vimode/src/backends/backend-geany.c:296
-#, fuzzy
 msgid "Enable _Vim Mode"
-msgstr "Activar SCV"
+msgstr "Activar modo _Vim"
 
 #: ../vimode/src/backends/backend-geany.c:301
-#, fuzzy
 msgid "Enable Vim Mode"
-msgstr "Activar SCV"
+msgstr "Activar modo Vim"
 
 #: ../vimode/src/backends/backend-geany.c:303
-#, fuzzy
 msgid "Insert Mode for _Dummies"
-msgstr "Inserir _números"
+msgstr "Mo_do Inserir para tontos"
 
 #: ../vimode/src/backends/backend-geany.c:309
 msgid "Insert Mode for Dummies"
-msgstr ""
+msgstr "Modo Inserir para tontos"
 
 #: ../vimode/src/backends/backend-geany.c:311
 msgid "Start in _Insert Mode"
-msgstr ""
+msgstr "Iniciar em modo _Inserir"
 
-#: ../webhelper/src/gwh-enum-types.c:14
+#: ../webhelper/src/gwh-enum-types.c:15
 msgid "message-window"
 msgstr "janela-de-mensagens"
 
-#: ../webhelper/src/gwh-enum-types.c:15
+#: ../webhelper/src/gwh-enum-types.c:16
 msgid "sidebar"
 msgstr "barra lateral"
 
-#: ../webhelper/src/gwh-enum-types.c:16
+#: ../webhelper/src/gwh-enum-types.c:17
 msgid "separate-window"
 msgstr "janela-separada"
 
-#: ../webhelper/src/gwh-enum-types.c:30
+#: ../webhelper/src/gwh-enum-types.c:32
 msgid "none"
 msgstr "nada"
 
-#: ../webhelper/src/gwh-enum-types.c:31
+#: ../webhelper/src/gwh-enum-types.c:33
 msgid "on-connexion"
 msgstr "ao-ligar"
 
-#: ../webhelper/src/gwh-enum-types.c:45
+#: ../webhelper/src/gwh-enum-types.c:48
 msgid "normal"
 msgstr "normal"
 
-#: ../webhelper/src/gwh-enum-types.c:46
+#: ../webhelper/src/gwh-enum-types.c:49
 msgid "utility"
 msgstr "utilidade"
 
@@ -8140,7 +8125,7 @@ msgstr ""
 
 #: ../workbench/src/dialogs.c:442
 msgid "_Enable live update"
-msgstr ""
+msgstr "_Activar actualização ao vivo"
 
 #: ../workbench/src/dialogs.c:445
 msgid ""
@@ -8148,20 +8133,21 @@ msgid ""
 "will be updated automatically if a file or directory is created, removed or "
 "renamed. A manual re-scan is not required if the option is enabled."
 msgstr ""
+"Se a opção estiver activa (predefinição), a lista de ficheiros e a barra "
+"lateral serão actualizadas automaticamente se for criado, removido ou "
+"renomeado um ficheiro ou pasta. Não é necessária uma actualização manual."
 
 #: ../workbench/src/dialogs.c:451
-#, fuzzy
 msgid "_Expand on hover"
-msgstr "_Expandir ao aplicar"
+msgstr "_Expandir ao pairar"
 
 #: ../workbench/src/dialogs.c:454
-#, fuzzy
 msgid ""
 "If the option is activated, then a tree node in the sidebar will be expanded "
 "or collapsed by hovering over it with the mouse cursor."
 msgstr ""
-"Se a opção estiver activa (predefinição); todos os projectos são re-"
-"analisados ao abrir a bancada."
+"Se a opção estiver activa, os nós da árvore serão expandidos ou colapsados "
+"ao pairar com o cursor do rato sobre eles."
 
 #: ../workbench/src/menu.c:95
 #, c-format
@@ -8238,12 +8224,15 @@ msgstr ""
 "%s"
 
 #: ../workbench/src/popup_menu.c:667
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Do you really want to remove file \"%s\"?\n"
 "\n"
 "This cannot be undone!"
-msgstr "Tem a certeza que quer remover: %s?"
+msgstr ""
+"Tem a certeza que deseja remover \"%s\"?\n"
+"\n"
+"Isto não pode ser desfeito!"
 
 #: ../workbench/src/popup_menu.c:672
 #, c-format
@@ -8252,21 +8241,21 @@ msgid ""
 "\n"
 "This cannot be undone!"
 msgstr ""
+"Deseja realmente remover a pasta \"%s\" e todos os ficheiros nela contidos?\n"
+"\n"
+"Isto não pode ser desfeito!"
 
 #. Remove file failed. Report error.
 #: ../workbench/src/popup_menu.c:684 ../workbench/src/popup_menu.c:708
-#, fuzzy, c-format
+#, c-format
 msgid "Could not remove file \"%s\"."
-msgstr ""
-"Impossível criar novo ficheiro \"%s\":\n"
-"\n"
-"%s"
+msgstr "Impossível remover o ficheiro \"%s\"."
 
 #. Remove file failed. Report error.
 #: ../workbench/src/popup_menu.c:728 ../workbench/src/popup_menu.c:742
-#, fuzzy, c-format
+#, c-format
 msgid "Could not remove directory \"%s\"."
-msgstr "Impossível usar pinentry."
+msgstr "Impossível remover a pasta \"%s\"."
 
 #: ../workbench/src/popup_menu.c:775
 msgid "_Add project..."
@@ -8358,7 +8347,7 @@ msgstr "_Criar pasta aqui..."
 
 #: ../workbench/src/popup_menu.c:927
 msgid "_Remove..."
-msgstr ""
+msgstr "_Remover..."
 
 #: ../workbench/src/sidebar.c:328
 msgid "Base dir"
@@ -8405,9 +8394,11 @@ msgstr ""
 "Este projecto não tem pastas. Pode adicioná-las através do menu contextual."
 
 #: ../workbench/src/wb_monitor.c:191
-#, fuzzy, c-format
+#, c-format
 msgid "Could not setup file monitoring for directory: \"%s\". Error: %s"
-msgstr "Falha ao criar pasta de configuração \"%s\": %s"
+msgstr ""
+"Impossível configurar a monitorização de ficheiros para a pasta: \"%s\". "
+"Erro: %s"
 
 #: ../workbench/src/wb_project.c:1227
 #, c-format
