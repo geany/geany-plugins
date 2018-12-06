@@ -7,10 +7,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 1.33\n"
+"Project-Id-Version: Geany-Plugins 1.34\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-05 17:12+0100\n"
-"PO-Revision-Date: 2018-02-14 11:02+0100\n"
+"POT-Creation-Date: 2018-12-05 03:19+0000\n"
+"PO-Revision-Date: 2018-12-05 15:43+0100\n"
 "Last-Translator: Lucas Vieites Fariña <lucas@codexion.com>\n"
 "Language-Team: Español <geany-i18n@uvena.de>\n"
 "Language: es\n"
@@ -1958,14 +1958,12 @@ msgid "_Zero"
 msgstr "_Cero"
 
 #: ../geanyinsertnum/src/insertnum.c:479
-#, fuzzy
 msgid "Insert _Numbers..."
-msgstr "Insertar _números"
+msgstr "Insertar _números..."
 
 #: ../geanyinsertnum/src/insertnum.c:486
-#, fuzzy
 msgid "Insert Numbers..."
-msgstr "Insertar números"
+msgstr "Insertar números..."
 
 #: ../latex/src/latexenvironments.c:25
 msgid "Environments"
@@ -6449,62 +6447,55 @@ msgstr "_Inspeccionar variable"
 
 #: ../scope/data/scope.glade.h:68 ../scope/data/scope_gtk3.glade.h:68
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #: ../scope/data/scope.glade.h:69 ../scope/data/scope_gtk3.glade.h:69
 msgid "Pid"
-msgstr ""
+msgstr "Pid"
 
 #: ../scope/data/scope.glade.h:70 ../scope/data/scope_gtk3.glade.h:70
 msgid "Gid"
-msgstr ""
+msgstr "Gid"
 
 #: ../scope/data/scope.glade.h:71 ../scope/data/scope_gtk3.glade.h:71
-#, fuzzy
 msgid "State"
 msgstr "Estado"
 
 #: ../scope/data/scope.glade.h:76 ../scope/data/scope_gtk3.glade.h:76
-#, fuzzy
 msgid "Target Id"
-msgstr "Objetivo"
+msgstr "Id objetivo"
 
 #: ../scope/data/scope.glade.h:77 ../scope/data/scope_gtk3.glade.h:77
 msgid "Core"
-msgstr ""
+msgstr "Núcleo"
 
 #: ../scope/data/scope.glade.h:78 ../scope/data/scope_gtk3.glade.h:78
 msgid "Threads"
 msgstr "Hilos"
 
 #: ../scope/data/scope.glade.h:80 ../scope/data/scope_gtk3.glade.h:80
-#, fuzzy
 msgid "Location or expr"
-msgstr "Ubicación"
+msgstr "Ubicación o expr"
 
 #: ../scope/data/scope.glade.h:81 ../scope/data/scope_gtk3.glade.h:81
-#, fuzzy
 msgid "Times"
-msgstr " veces."
+msgstr "Veces"
 
 #: ../scope/data/scope.glade.h:82 ../scope/data/scope_gtk3.glade.h:82
-#, fuzzy
 msgid "Ignore"
-msgstr "_Ignorar"
+msgstr "Ignorar"
 
 #: ../scope/data/scope.glade.h:84 ../scope/data/scope_gtk3.glade.h:84
-#, fuzzy
 msgid "Script"
-msgstr "Script Lua"
+msgstr "Script"
 
 #: ../scope/data/scope.glade.h:85 ../scope/data/scope_gtk3.glade.h:85
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #: ../scope/data/scope.glade.h:86 ../scope/data/scope_gtk3.glade.h:86
-#, fuzzy
 msgid "Arguments"
-msgstr "_Argumentos:"
+msgstr "Argumentos"
 
 #: ../scope/data/scope.glade.h:87 ../scope/data/scope_gtk3.glade.h:87
 msgid "Stack"
@@ -6515,9 +6506,8 @@ msgid "Locals"
 msgstr "Locales"
 
 #: ../scope/data/scope.glade.h:91 ../scope/data/scope_gtk3.glade.h:91
-#, fuzzy
 msgid "Expression"
-msgstr "Expresión de _vigilancia"
+msgstr "Expresión"
 
 #: ../scope/data/scope.glade.h:92 ../scope/data/scope_gtk3.glade.h:92
 msgid "Watches"
@@ -7487,7 +7477,6 @@ msgid "NewFile"
 msgstr "NewFile"
 
 #: ../treebrowser/src/treebrowser.c:1042
-#, fuzzy, c-format
 msgid ""
 "Target file '%s' exists.\n"
 "Do you really want to replace it with an empty file?"
@@ -7798,79 +7787,74 @@ msgstr "Comprobar actualizaciones"
 
 #: ../vimode/src/backends/backend-geany.c:41
 msgid "Vimode"
-msgstr ""
+msgstr "Modo vi"
 
 #: ../vimode/src/backends/backend-geany.c:42
-#, fuzzy
 msgid "Vim mode for Geany"
-msgstr "Macros para Geany"
+msgstr "Modo vi para Geany"
 
 #: ../vimode/src/backends/backend-geany.c:140
 #, c-format
 msgid "Insert Mode for Dummies: %s"
-msgstr ""
+msgstr "Modo inserción para tontos: %s"
 
 #: ../vimode/src/backends/backend-geany.c:140
 msgid "ON"
-msgstr ""
+msgstr "ON"
 
 #: ../vimode/src/backends/backend-geany.c:140
 msgid "OFF"
-msgstr ""
+msgstr "OFF"
 
 #: ../vimode/src/backends/backend-geany.c:290
-#, fuzzy
 msgid "_Vim Mode"
-msgstr "Modo _columna"
+msgstr "Modo _Vim"
 
 #: ../vimode/src/backends/backend-geany.c:296
-#, fuzzy
 msgid "Enable _Vim Mode"
-msgstr "Activar CVS"
+msgstr "Activar Modo _Vim"
 
 #: ../vimode/src/backends/backend-geany.c:301
-#, fuzzy
 msgid "Enable Vim Mode"
-msgstr "Activar CVS"
+msgstr "Activar Modo Vim"
 
 #: ../vimode/src/backends/backend-geany.c:303
-#, fuzzy
 msgid "Insert Mode for _Dummies"
-msgstr "Insertar _números"
+msgstr "Modo inserción para _tontos"
 
 #: ../vimode/src/backends/backend-geany.c:309
 msgid "Insert Mode for Dummies"
-msgstr ""
+msgstr "Modo inserción para tontos"
 
 #: ../vimode/src/backends/backend-geany.c:311
 msgid "Start in _Insert Mode"
-msgstr ""
+msgstr "Arrancar en modo _inserción"
 
-#: ../webhelper/src/gwh-enum-types.c:14
+#: ../webhelper/src/gwh-enum-types.c:15
 msgid "message-window"
 msgstr "ventana-de-mensajes"
 
-#: ../webhelper/src/gwh-enum-types.c:15
+#: ../webhelper/src/gwh-enum-types.c:16
 msgid "sidebar"
 msgstr "barra lateral"
 
-#: ../webhelper/src/gwh-enum-types.c:16
+#: ../webhelper/src/gwh-enum-types.c:17
 msgid "separate-window"
 msgstr "ventana-separada"
 
-#: ../webhelper/src/gwh-enum-types.c:30
+#: ../webhelper/src/gwh-enum-types.c:32
 msgid "none"
 msgstr "ninguno"
 
-#: ../webhelper/src/gwh-enum-types.c:31
+#: ../webhelper/src/gwh-enum-types.c:33
 msgid "on-connexion"
 msgstr "en-conexión"
 
-#: ../webhelper/src/gwh-enum-types.c:45
+#: ../webhelper/src/gwh-enum-types.c:48
 msgid "normal"
 msgstr "normal"
 
-#: ../webhelper/src/gwh-enum-types.c:46
+#: ../webhelper/src/gwh-enum-types.c:49
 msgid "utility"
 msgstr "utilidad"
 
@@ -8163,28 +8147,28 @@ msgstr ""
 
 #: ../workbench/src/dialogs.c:442
 msgid "_Enable live update"
-msgstr ""
+msgstr "_Activar vista en directo"
 
 #: ../workbench/src/dialogs.c:445
 msgid ""
 "If the option is activated (default), then the list of files and the sidebar "
 "will be updated automatically if a file or directory is created, removed or "
 "renamed. A manual re-scan is not required if the option is enabled."
-msgstr ""
+msgstr "Si la opción está activa (predet.), la lista de archivos y la barra lateral"
+"se actualizarán automáticamente cuando se cree, borre, o renombre un archivo o"
+"directorio. No es necesario un refreso manual."
 
 #: ../workbench/src/dialogs.c:451
-#, fuzzy
 msgid "_Expand on hover"
-msgstr "_Expandir al aplicar"
+msgstr "_Expandir al pasar por encima"
 
 #: ../workbench/src/dialogs.c:454
-#, fuzzy
 msgid ""
 "If the option is activated, then a tree node in the sidebar will be expanded "
 "or collapsed by hovering over it with the mouse cursor."
 msgstr ""
-"Si la opción está activa (predet.) se explorarán todos los proyectos al "
-"abrir el área de trabajo."
+"Si la opción está activa (predet.) se expandirá o colapsará un nodo en la barra "
+"lateral al pasar con el ratón por encima."
 
 #: ../workbench/src/menu.c:95
 #, c-format
@@ -8261,12 +8245,14 @@ msgstr ""
 "%s"
 
 #: ../workbench/src/popup_menu.c:667
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Do you really want to remove file \"%s\"?\n"
 "\n"
 "This cannot be undone!"
 msgstr "¿Está seguro de que quiere eliminar «%s»?"
+"\n"
+"Esto no se puede deshacer."
 
 #: ../workbench/src/popup_menu.c:672
 #, c-format
@@ -8275,21 +8261,21 @@ msgid ""
 "\n"
 "This cannot be undone!"
 msgstr ""
+"¿Está seguro de que quiere eliminar el directorio «%s» y todos los archivos que contiene?\n"
+"\n"
+"Esto no se puede deshacer."
 
 #. Remove file failed. Report error.
 #: ../workbench/src/popup_menu.c:684 ../workbench/src/popup_menu.c:708
-#, fuzzy, c-format
+#, c-format
 msgid "Could not remove file \"%s\"."
-msgstr ""
-"No se ha podido crear el archivo de área de trabajo nuevo: «%s»:\n"
-"\n"
-"%s"
+msgstr "No se ha podido borrar el archivo «%s»."
 
 #. Remove file failed. Report error.
 #: ../workbench/src/popup_menu.c:728 ../workbench/src/popup_menu.c:742
-#, fuzzy, c-format
+#, c-format
 msgid "Could not remove directory \"%s\"."
-msgstr "No pudo usar pinentry"
+msgstr "No se ha podido borrar el directorio «%s»."
 
 #: ../workbench/src/popup_menu.c:775
 msgid "_Add project..."
@@ -8377,11 +8363,11 @@ msgstr "_Crear archivo aquí..."
 
 #: ../workbench/src/popup_menu.c:921
 msgid "_Create directory here..."
-msgstr "_Crear directorio aqui..."
+msgstr "_Crear directorio aquí..."
 
 #: ../workbench/src/popup_menu.c:927
 msgid "_Remove..."
-msgstr ""
+msgstr "_Borrar..."
 
 #: ../workbench/src/sidebar.c:328
 msgid "Base dir"
@@ -8429,9 +8415,9 @@ msgstr ""
 "proyecto mediante el menú contextual."
 
 #: ../workbench/src/wb_monitor.c:191
-#, fuzzy, c-format
+#, c-format
 msgid "Could not setup file monitoring for directory: \"%s\". Error: %s"
-msgstr "No se pudo crear el directorio de configuración «%s»: %s"
+msgstr "No se ha podido configurar la vigilancia del directorio «%s». Error: %s"
 
 #: ../workbench/src/wb_project.c:1227
 #, c-format
