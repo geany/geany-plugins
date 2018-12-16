@@ -14,9 +14,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 1.33\n"
+"Project-Id-Version: Geany-Plugins 1.34\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-05 17:12+0100\n"
+"POT-Creation-Date: 2018-12-16 11:35+0100\n"
 "PO-Revision-Date: 2016-08-08 22:38+0200\n"
 "Last-Translator: Dominic Hopf <dmaphy@googlemail.com>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -306,7 +306,7 @@ msgstr ""
 
 #: ../addons/src/addons.c:664
 msgid "Show a calltip when hovering over a color value"
-msgstr ""
+msgstr "Zeigt einen Calltip beim Überfahren mit der Maus"
 
 #: ../addons/src/addons.c:670
 msgid "Open Color Chooser when double-clicking a color value"
@@ -1406,7 +1406,8 @@ msgid ""
 "Call documentation viewer on current symbol. \n"
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
-msgstr ""
+msgstr "Ruft die Dokumentation für das aktuell unter dem Cursor befindliche Symbol auf. \n"
+"Dieses Plugin hat im Moment keinen Maintainer. Möchtest Du vielleicht helfen?"
 
 #: ../geanydoc/src/geanydoc.c:159 ../geanyvc/src/geanyvc.c:429
 msgid "Could not parse the output of command"
@@ -1924,7 +1925,8 @@ msgid ""
 "Insert/Fill columns with numbers.\n"
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
-msgstr ""
+msgstr "Einfügen/Ausfüllen von Spalten mit Zahlen.\n"
+"Dieses Plugin hat im Moment keinen Maintainer. Möchtest Du vielleicht helfen?"
 
 #: ../geanyinsertnum/src/insertnum.c:146
 msgid "Counting..."
@@ -1987,14 +1989,12 @@ msgid "_Zero"
 msgstr "_Null"
 
 #: ../geanyinsertnum/src/insertnum.c:479
-#, fuzzy
 msgid "Insert _Numbers..."
-msgstr "_Nummern einfügen"
+msgstr "_Nummern einfügen..."
 
 #: ../geanyinsertnum/src/insertnum.c:486
-#, fuzzy
 msgid "Insert Numbers..."
-msgstr "Nummern einfügen"
+msgstr "Nummern einfügen..."
 
 #: ../latex/src/latexenvironments.c:25
 msgid "Environments"
@@ -3004,7 +3004,8 @@ msgid ""
 "Write and run Lua scripts for custom commands.\n"
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
-msgstr ""
+msgstr "Schreiben und Ausführen von Lua-Skripten für benutzerdefinierte Kommandos.\n"
+"Dieses Plugin hat im Moment keinen Maintainer. Möchtest Du vielleicht helfen?"
 
 #: ../geanylua/glspi_ver.h:19
 msgid "Lua Script Plugin"
@@ -4269,7 +4270,8 @@ msgid ""
 "GPG encryption plugin for geany.\n"
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
-msgstr ""
+msgstr "GnuPG-Verschlüsselungsplugin für Geany.\n"
+"Dieses Plugin hat im Moment keine Maintainer. Möchtest Du vielleicht helfen?"
 
 #: ../geanypg/src/geanypg.c:40
 msgid "Hans Alves <alves.h88@gmail.com>"
@@ -4531,7 +4533,8 @@ msgid ""
 "Alternative project support. \n"
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
-msgstr ""
+msgstr "Alterantiver Projekt-Support. \n"
+"Dieses Plugin hat im Moment keinen Maintainer. Möchtest Du vielleicht helfen?"
 
 #: ../geanyprj/src/geanyprj.c:228
 msgid "Find a text in geanyprj's project"
@@ -4669,7 +4672,8 @@ msgid ""
 "Interface to different Version Control systems.\n"
 "This plugins is currently not developed actively. Would you like to help by "
 "contributing to this plugin?"
-msgstr ""
+msgstr "Schnittstelle für verschiedene Softwareversionskontrollsysteme.\n"
+"Dieses Plugin hat im Moment keinen Maintainer. Möchtest Du vielleicht helfen?"
 
 #: ../geanyvc/src/geanyvc.c:488
 #, c-format
@@ -5229,7 +5233,7 @@ msgstr "Konnte Konfiguration nicht speichern: %s"
 
 #: ../git-changebar/src/gcb-plugin.c:1491
 msgid "Undo Git hunk"
-msgstr ""
+msgstr "Undo Git hunk"
 
 #: ../git-changebar/src/gcb-plugin.c:1499
 msgid "Go to the previous hunk"
@@ -5241,7 +5245,7 @@ msgstr "Zur nächsten Block mit Änderungen springen"
 
 #: ../git-changebar/src/gcb-plugin.c:1503
 msgid "Undo hunk at the cursor position"
-msgstr ""
+msgstr "Hunk an der aktuellen Cursoer-Position rückgänging machen."
 
 #: ../git-changebar/src/gcb-plugin.c:1651 ../pohelper/src/gph-plugin.c:1456
 #: ../pohelper/src/gph-plugin.c:1791
@@ -5255,11 +5259,11 @@ msgstr ""
 
 #: ../keyrecord/src/keyrecord.c:154
 msgid "Start/Stop record"
-msgstr ""
+msgstr "Aufzeichen beginnen/beenden"
 
 #: ../keyrecord/src/keyrecord.c:156
 msgid "Play"
-msgstr ""
+msgstr "Wiedergabe"
 
 #: ../keyrecord/src/keyrecord.c:207
 msgid "Keystrokes recorder"
@@ -5267,7 +5271,7 @@ msgstr ""
 
 #: ../keyrecord/src/keyrecord.c:208
 msgid "Allows to record some sequence of keystrokes and replay it"
-msgstr ""
+msgstr "Erlaubt das Aufzeichnen von Tastendrücken und diese wieder zu geben."
 
 #: ../keyrecord/src/keyrecord.c:210
 msgid "tunyash"
@@ -5305,11 +5309,11 @@ msgstr "Einmalige Zeilen _behalten"
 
 #: ../lineoperations/src/lineoperations.c:263
 msgid "Remove _Empty Lines"
-msgstr "Entferne leere Zeilen"
+msgstr "Entferne l_eere Zeilen"
 
 #: ../lineoperations/src/lineoperations.c:265
 msgid "Remove _Whitespace Lines"
-msgstr "Entferne Zeilen mit Leerzeichen"
+msgstr "Entferne Zeilen mit _Leerzeichen"
 
 #: ../lineoperations/src/lineoperations.c:268
 msgid "Sort Lines _Ascending"
@@ -5321,7 +5325,7 @@ msgstr "Sortiere Zeilen, a_bsteigend"
 
 #: ../lineoperations/src/lineoperations.c:274
 msgid "_Line Operations"
-msgstr "Zeilenoperationen"
+msgstr "Zei_lenoperationen"
 
 #: ../lineoperations/src/lineoperations.c:320
 msgid "Line Operations"
@@ -5916,7 +5920,8 @@ msgid ""
 "Formats an XML and makes it human-readable. \n"
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
-msgstr ""
+msgstr "Formatiert XML, so dass es besser lesbar für Menschen ist.\n"
+"Dieses Plugin hat im Moment keinen Maintainer. Möchtest Du vielleicht helfen?"
 
 #. put the menu into the Tools
 #: ../pretty-printer/src/PluginEntry.c:125
@@ -6492,18 +6497,17 @@ msgstr "_Variable untersuchen"
 
 #: ../scope/data/scope.glade.h:68 ../scope/data/scope_gtk3.glade.h:68
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #: ../scope/data/scope.glade.h:69 ../scope/data/scope_gtk3.glade.h:69
 msgid "Pid"
-msgstr ""
+msgstr "Pid"
 
 #: ../scope/data/scope.glade.h:70 ../scope/data/scope_gtk3.glade.h:70
 msgid "Gid"
-msgstr ""
+msgstr "Gid"
 
 #: ../scope/data/scope.glade.h:71 ../scope/data/scope_gtk3.glade.h:71
-#, fuzzy
 msgid "State"
 msgstr "Status"
 
@@ -6541,7 +6545,7 @@ msgstr "Lua-Skript"
 
 #: ../scope/data/scope.glade.h:85 ../scope/data/scope_gtk3.glade.h:85
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #: ../scope/data/scope.glade.h:86 ../scope/data/scope_gtk3.glade.h:86
 #, fuzzy
@@ -7454,7 +7458,8 @@ msgid ""
 "Shift a selection left and right.\n"
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
-msgstr ""
+msgstr "Bewege eine Auswahl nach links oder nach rechts.\n"
+"Dieses Plugin hat im Moment keinen Maintainer. Möchtest Du vielleicht helfen?"
 
 #: ../shiftcolumn/src/shiftcolumn.c:357 ../shiftcolumn/src/shiftcolumn.c:378
 msgid "Shift Left"
@@ -7516,7 +7521,6 @@ msgid "TreeBrowser"
 msgstr "Baumnavigator"
 
 #: ../treebrowser/src/treebrowser.c:126
-#, fuzzy
 msgid ""
 "This plugin adds a tree browser to Geany, allowing the user to browse files "
 "using a tree view of the directory being browsed."
@@ -7919,31 +7923,31 @@ msgstr ""
 msgid "Start in _Insert Mode"
 msgstr ""
 
-#: ../webhelper/src/gwh-enum-types.c:14
+#: ../webhelper/src/gwh-enum-types.c:15
 msgid "message-window"
 msgstr "Meldungsfenster"
 
-#: ../webhelper/src/gwh-enum-types.c:15
+#: ../webhelper/src/gwh-enum-types.c:16
 msgid "sidebar"
 msgstr "Seitenleiste"
 
-#: ../webhelper/src/gwh-enum-types.c:16
+#: ../webhelper/src/gwh-enum-types.c:17
 msgid "separate-window"
 msgstr "eigenes Fenster"
 
-#: ../webhelper/src/gwh-enum-types.c:30
+#: ../webhelper/src/gwh-enum-types.c:32
 msgid "none"
 msgstr "keine"
 
-#: ../webhelper/src/gwh-enum-types.c:31
+#: ../webhelper/src/gwh-enum-types.c:33
 msgid "on-connexion"
 msgstr "bei Verbindung"
 
-#: ../webhelper/src/gwh-enum-types.c:45
+#: ../webhelper/src/gwh-enum-types.c:48
 msgid "normal"
 msgstr "normal"
 
-#: ../webhelper/src/gwh-enum-types.c:46
+#: ../webhelper/src/gwh-enum-types.c:49
 msgid "utility"
 msgstr "Werkzeug"
 
