@@ -57,11 +57,9 @@ Available plugins are:
 * ``automark`` -- the Automark plugin
 * ``codenav`` -- the CodeNav plugin
 * ``commander`` -- the Commander plugin
-* ``cppcheck`` -- static code analysis using cppcheck (see also HACKING)
 * ``debugger`` -- the Debugger plugin
 * ``defineformat`` -- the Defineformat plugin
 * ``devhelp`` -- the devhelp plugin
-* ``extra-c-warnings`` -- extra C Compiler warnings (see also HACKING)
 * ``geanyctags`` -- the GeanyCtags plugin
 * ``geanydoc`` -- the GeanyDoc plugin
 * ``geanyextrasel`` -- the GeanyExtraSel plugin
@@ -96,6 +94,7 @@ Available plugins are:
 * ``tableconvert`` -- the Tableconvert plugin
 * ``treebrowser`` -- the Treebrowser plugin
 * ``updatechecker`` -- the Updatechecker plugin
+* ``vimode`` -- the Vim-mode plugin
 * ``webhelper`` -- the WebHelper plugin
 * ``xmlsnippets`` -- the XMLSnippets plugin
 
