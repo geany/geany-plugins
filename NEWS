@@ -1,6 +1,44 @@
-Geany Plugins 1.34 (not yet released)
+Geany Plugins 1.34 (2018-12-16)
 
-    No changes by now.
+    General:
+    * New plugin: vimode: A Vim Mode for Geany (PR #735)
+    * Improve Travis testsuite to run also "make distcheck"
+
+    Geanyctags:
+    * Use base path as relative to the project file path (#698, PR #755)
+
+    GeanyLua:
+    * Update Scintilla symbols for Geany 1.34 (PR #776)
+    * Update glspi_keycmd.h from geany-master (PR #759)
+
+    Markdown:
+    * Port plugin to Webkit2GTK (PR #746)
+
+    PoHelper:
+    * Consider dash a separator when rewrapping messages (PR #696)
+    * Do not leave spaces at the start of a line when rewrapping (PR #696)
+    * Make sure to only replace header fields in the actual header (PR #696)
+    * Update X-Generator header if present (PR #696)
+    * Use Geany-Plugins version for the plugin (PR #696)
+    * Fix: for locating line breaks (PR #696)
+    * Fix: Properly break all multiline strings on multiple lines (PR #696)
+    * Fix: regular expression replacement when no matches are found
+
+    Scope:
+    * Add GTK3 support (#PR #750)
+
+    Updatechecker:
+    * On Windows, the common ca-certificates bundle is included in
+      the installer for proper SSL certificate verification (PR #768)
+
+    Workbench:
+    * Add option "Expand on hover" (PR #727)
+    * Import base path on "Add project..."
+    * Allow to remove files or directories
+    * Support live update (PR #695, #659)
+
+    Internationalization:
+    * Updated translations: es, pt
 
 
 Geany Plugins 1.33 (2018-02-25)
