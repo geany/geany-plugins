@@ -1,6 +1,6 @@
 AC_PREREQ([2.61])
 dnl Don't forget when updating version number to do GP_CHECK_GEANY also
-AC_INIT([geany-plugins], [1.34])
+AC_INIT([geany-plugins], [1.35])
 AM_INIT_AUTOMAKE([1.8 foreign dist-bzip2 tar-ustar subdir-objects])
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
