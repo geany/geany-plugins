@@ -6,6 +6,7 @@ Geany Plugins 1.34 (2018-12-16)
 
     Geanyctags:
     * Use base path as relative to the project file path (#698, PR #755)
+    * Add apostrophes around generated tags file (PR #739)
 
     GeanyLua:
     * Update Scintilla symbols for Geany 1.34 (PR #776)
