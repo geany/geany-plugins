@@ -1578,6 +1578,7 @@ void plugin_cleanup(void)
 		g_free(fdTemp);
 		fdTemp=fdTemp2;
 	}
+	fdKnownFilesSettings = NULL;
 
 	/* free memory used for settings */
 	g_free(FileDetailsSuffix);
