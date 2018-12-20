@@ -1554,7 +1554,9 @@ void plugin_cleanup(void)
 	for(i=0;i<GEANY(documents_array)->len;i++)
 		if(documents[i]->is_valid) {
 			sci=documents[i]->editor->sci;
-			markers=GetMarkersUsed(sci);
+			markers=g_object_steal_data(G_OBJECT(sci), "Geany_Numbered_Bookmarks_Used");
+			if(!markers)
+				continue;
 			for(k=2;k<25;k++)
 				if(((*markers)&(1<<k))!=0)
 					scintilla_send_message(sci,SCI_MARKERDELETEALL,k,0);
