@@ -55,7 +55,7 @@ static gboolean 			flag_on_expand_refresh 		= FALSE;
  * ------------------ */
 
 #ifndef G_OS_WIN32
-# define CONFIG_OPEN_EXTERNAL_CMD_DEFAULT "nautilus '%d'"
+# define CONFIG_OPEN_EXTERNAL_CMD_DEFAULT "xdg-open '%d'"
 # define CONFIG_OPEN_TERMINAL_DEFAULT "xterm"
 #else
 # define CONFIG_OPEN_EXTERNAL_CMD_DEFAULT "explorer '%d'"
