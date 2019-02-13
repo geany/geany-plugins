@@ -424,7 +424,7 @@ markdown_viewer_update_view(MarkdownViewer *self)
     }
 
 #ifdef MARKDOWN_WEBKIT2
-    webkit_web_view_load_html(WEBKIT_WEB_VIEW(self), html, base_uri,self->priv->enc, base_uri);
+    webkit_web_view_load_html(WEBKIT_WEB_VIEW(self), html, base_uri);
 #else
     webkit_web_view_load_string(WEBKIT_WEB_VIEW(self), html, "text/html",
       self->priv->enc, base_uri);
