@@ -179,7 +179,7 @@ static void on_local_mr_mode(const MenuItem *menu_item)
 
 #define DS_FRESHABLE (DS_DEBUG | DS_EXTRA_2)
 #define DS_COPYABLE (DS_BASICS | DS_EXTRA_1)
-#define DS_MODIFYABLE (DS_DEBUG | DS_EXTRA_2)
+#define DS_MODIFYABLE (DS_DEBUG | DS_EXTRA_1)
 #define DS_WATCHABLE (DS_BASICS | DS_EXTRA_1)
 #define DS_INSPECTABLE (DS_NOT_BUSY | DS_EXTRA_1)
 #define DS_REPARSABLE (DS_BASICS | DS_EXTRA_1)
