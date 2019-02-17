@@ -107,5 +107,8 @@ void utils_tree_set_cursor(GtkTreeSelection *selection, GtkTreeIter *iter, gdoub
 void utils_init(void);
 void utils_finalize(void);
 
+gchar *utils_evaluate_expr_from_string(gchar *chunk, guint peek_index);
+gchar *utils_read_evaluate_expr(GeanyEditor *editor, gint pos);
+
 #define UTILS_H 1
 #endif
