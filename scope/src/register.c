@@ -459,16 +459,20 @@ static void on_register_format_update(const MenuItem *menu_item)
 	gint format = GPOINTER_TO_INT(menu_item->gdata);
 	gint id;
 
-	gtk_tree_selection_get_selected(selection, NULL, &iter);
-	scp_tree_store_get(store, &iter, REGISTER_ID, &id, -1);
-
-	if (debug_state() & DS_DEBUG)
+	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-		debug_send_format(N, "02%d%c%s%s-data-list-register-values %c %d", format,
-			FRAME_ARGS, register_formats[format], id);
+		scp_tree_store_get(store, &iter, REGISTER_ID, &id, -1);
+
+		if (debug_state() & DS_DEBUG)
+		{
+			debug_send_format(N, "02%d%c%s%s-data-list-register-values %c %d", format,
+				FRAME_ARGS, register_formats[format], id);
+		}
+		else
+		{
+			scp_tree_store_set(store, &iter, REGISTER_FORMAT, format, -1);
+		}
 	}
-	else
-		scp_tree_store_set(store, &iter, REGISTER_FORMAT, format, -1);
 }
 
 static void on_register_query(G_GNUC_UNUSED const MenuItem *menu_item)
