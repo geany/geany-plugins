@@ -428,6 +428,18 @@ static gboolean is_cmdpart(GSList *kpl, CmdDef *cmds)
 }
 
 
+static gboolean is_printable(GSList *kpl)
+{
+	guint mask = GDK_MODIFIER_MASK & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK);
+	KeyPress *kp = g_slist_nth_data(kpl, 0);
+
+	if (kp->modif & mask)
+		return FALSE;
+
+	return g_unichar_isprint(gdk_keyval_to_unicode(kp->key));
+}
+
+
 static CmdDef *get_cmd_to_run(GSList *kpl, CmdDef *cmds, gboolean have_selection)
 {
 	gint i;
@@ -609,7 +621,7 @@ static gboolean perform_repeat_cmd(CmdContext *ctx)
 }
 
 
-static gboolean process_cmd(CmdDef *cmds, CmdContext *ctx)
+static gboolean process_cmd(CmdDef *cmds, CmdContext *ctx, gboolean ins_mode)
 {
 	gboolean consumed;
 	gboolean performed = FALSE;
@@ -618,7 +630,7 @@ static gboolean process_cmd(CmdDef *cmds, CmdContext *ctx)
 		SSM(ctx->sci, SCI_GETSELECTIONEND, 0, 0) - SSM(ctx->sci, SCI_GETSELECTIONSTART, 0, 0) > 0;
 	CmdDef *def = get_cmd_to_run(ctx->kpl, cmds, have_selection);
 
-	consumed = is_cmdpart(ctx->kpl, cmds);
+	consumed = is_cmdpart(ctx->kpl, cmds) || (!ins_mode && is_printable(ctx->kpl));
 
 	if (def)
 	{
@@ -667,17 +679,17 @@ static gboolean process_cmd(CmdDef *cmds, CmdContext *ctx)
 
 gboolean cmd_perform_cmd(CmdContext *ctx)
 {
-	return process_cmd(cmd_mode_cmds, ctx);
+	return process_cmd(cmd_mode_cmds, ctx, FALSE);
 }
 
 
 gboolean cmd_perform_vis(CmdContext *ctx)
 {
-	return process_cmd(vis_mode_cmds, ctx);
+	return process_cmd(vis_mode_cmds, ctx, FALSE);
 }
 
 
 gboolean cmd_perform_ins(CmdContext *ctx)
 {
-	return process_cmd(ins_mode_cmds, ctx);
+	return process_cmd(ins_mode_cmds, ctx, TRUE);
 }
