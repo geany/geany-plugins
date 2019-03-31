@@ -487,9 +487,13 @@ void on_debug_run_continue(G_GNUC_UNUSED const MenuItem *menu_item)
 {
 	if (gdb_state == INACTIVE)
 	{
-		if (check_load_path(program_executable, TRUE, R_OK | X_OK) &&
-			check_load_path(program_working_dir, FALSE, X_OK) &&
-			check_load_path(program_load_script, TRUE, R_OK))
+		if (program_executable == NULL || strlen(program_executable) == 0)
+		{
+			show_error(_("No executable set. Please set an executable under \"Debug/Setup Program\"."));
+		}
+		else if (check_load_path(program_executable, TRUE, R_OK | X_OK) &&
+				 check_load_path(program_working_dir, FALSE, X_OK) &&
+				 check_load_path(program_load_script, TRUE, R_OK))
 		{
 			load_program();
 		}
