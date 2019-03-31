@@ -104,12 +104,7 @@ static void create_selection(ScintillaObject *sci, int anchor, int anchor_space,
 
 	sci_set_anchor_space(sci, anchor_space);
 	sci_set_cursor_space(sci, cursor_space);
-
-	/* SCI bug: CANCEL may reduce a rectangle selection to a single line */
-	if (rectangle)
-		sci_set_selection_mode(sci, SC_SEL_RECTANGLE);
-	else
-		sci_send_command(sci, SCI_CANCEL);
+	sci_send_command(sci, SCI_CANCEL);
 }
 
 static void convert_selection(ScintillaObject *sci, gboolean rectangle)
