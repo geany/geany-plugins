@@ -63,4 +63,9 @@ void prjorg_project_remove_single_tm_file(gchar *utf8_filename);
 
 gboolean prjorg_project_is_in_project(const gchar *utf8_filename);
 
+/* In the code we create a list of all files but we want to keep empty directories
+ * in the list for which we create a fake file name with the PROJORG_DIR_ENTRY
+ * value. */
+#define PROJORG_DIR_ENTRY "..."
+
 #endif
