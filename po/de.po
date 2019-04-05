@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the geany-plugins package.
 # Andrew Janke <a.janke@gmail.com>, 2009
 # Fabian Nowak <timystery@arcor.de>, 2012
-# Frank Lanitz <frank@frank.uvena.de>, 2009-2018
+# Frank Lanitz <frank@frank.uvena.de>, 2009-2019
 # Dominic Hopf <dmaphy@gmail.com>, 2009
 # Michael Spahn <anyone90@googlemail.com>, 2009
 #
@@ -14,9 +14,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 1.34\n"
+"Project-Id-Version: Geany-Plugins 1.35\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-16 11:35+0100\n"
+"POT-Creation-Date: 2019-04-05 12:11+0200\n"
 "PO-Revision-Date: 2016-08-08 22:38+0200\n"
 "Last-Translator: Dominic Hopf <dmaphy@googlemail.com>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -52,7 +52,7 @@ msgid "Bookmarks"
 msgstr "Lesezeichen"
 
 #. complete update
-#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2375
+#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2527
 msgid "_Update"
 msgstr "_Aktualisieren"
 
@@ -198,7 +198,7 @@ msgstr "XML-Tagging ausführen"
 #: ../addons/src/addons.c:491 ../autoclose/src/autoclose.c:884
 #: ../codenav/src/codenavigation.c:292 ../latex/src/latex.c:208
 #: ../latex/src/latex.c:293 ../geanyprj/src/geanyprj.c:176
-#: ../geanyvc/src/geanyvc.c:1835 ../geniuspaste/src/geniuspaste.c:336
+#: ../geanyvc/src/geanyvc.c:1973 ../geniuspaste/src/geniuspaste.c:336
 #: ../sendmail/src/sendmail.c:128 ../sendmail/src/sendmail.c:293
 #: ../spellcheck/src/scplugin.c:124 ../treebrowser/src/treebrowser.c:1924
 #: ../updatechecker/src/updatechecker.c:266
@@ -1181,7 +1181,7 @@ msgstr "_Übersetzer"
 msgid "A developers' help browser for GNOME"
 msgstr "Ein Hilfebrowser für Entwickler unter GNOME"
 
-#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2087
+#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2239
 msgid "_File"
 msgstr "_Datei"
 
@@ -1322,80 +1322,80 @@ msgstr "_Groß-/Kleinschreibung beachten"
 msgid "Toggle case sensitive search"
 msgstr "»Beachten von Groß-/Kleinschreibung« umschalten"
 
-#: ../geanyctags/src/geanyctags.c:52
-msgid "Ctags generation and search plugin for geany projects"
-msgstr ""
-"Unterstützung beim Erstellen von und Suchen in CTag-Dateien für Geany-"
-"Projekte"
-
 # c-format
-#: ../geanyctags/src/geanyctags.c:145
+#: ../geanyctags/src/geanyctags.c:138
 #, c-format
 msgid "%s (in directory: %s)"
 msgstr "%s (im Verzeichnis %s)"
 
-#: ../geanyctags/src/geanyctags.c:162
+#: ../geanyctags/src/geanyctags.c:155
 #, c-format
 msgid "Process execution failed (%s)"
 msgstr "Prozess konnte nicht gestartet werden (%s)"
 
-#: ../geanyctags/src/geanyctags.c:543
+#: ../geanyctags/src/geanyctags.c:536
 msgid "Find Tag"
 msgstr "Tag finden"
 
-#: ../geanyctags/src/geanyctags.c:554
+#: ../geanyctags/src/geanyctags.c:547
 msgid "_Search for:"
 msgstr "_Suchen nach:"
 
-#: ../geanyctags/src/geanyctags.c:572
+#: ../geanyctags/src/geanyctags.c:565
 msgid "_Match type:"
 msgstr "_Typ:"
 
-#: ../geanyctags/src/geanyctags.c:577
-#: ../projectorganizer/src/prjorg-sidebar.c:483
+#: ../geanyctags/src/geanyctags.c:570
+#: ../projectorganizer/src/prjorg-sidebar.c:651
 msgid "exact"
 msgstr "exakt"
 
-#: ../geanyctags/src/geanyctags.c:578
-#: ../projectorganizer/src/prjorg-sidebar.c:484
+#: ../geanyctags/src/geanyctags.c:571
+#: ../projectorganizer/src/prjorg-sidebar.c:652
 msgid "prefix"
 msgstr "Präfix"
 
-#: ../geanyctags/src/geanyctags.c:579
-#: ../projectorganizer/src/prjorg-sidebar.c:485
+#: ../geanyctags/src/geanyctags.c:572
+#: ../projectorganizer/src/prjorg-sidebar.c:653
 msgid "pattern"
 msgstr "Muster"
 
-#: ../geanyctags/src/geanyctags.c:588
-#: ../projectorganizer/src/prjorg-sidebar.c:162
-#: ../projectorganizer/src/prjorg-sidebar.c:506
+#: ../geanyctags/src/geanyctags.c:581
+#: ../projectorganizer/src/prjorg-sidebar.c:167
+#: ../projectorganizer/src/prjorg-sidebar.c:674
 msgid "C_ase sensitive"
 msgstr "_Groß-/Kleinschreibung beachten"
 
-#: ../geanyctags/src/geanyctags.c:591
-#: ../projectorganizer/src/prjorg-sidebar.c:509
+#: ../geanyctags/src/geanyctags.c:584
+#: ../projectorganizer/src/prjorg-sidebar.c:677
 msgid "_Declaration"
 msgstr "_Deklaration"
 
-#: ../geanyctags/src/geanyctags.c:658
+#: ../geanyctags/src/geanyctags.c:656
 msgid "Find Tag Declaration (geanyctags)"
 msgstr "Tag-Deklaration finden (geanyctags)"
 
-#: ../geanyctags/src/geanyctags.c:663
+#: ../geanyctags/src/geanyctags.c:661
 msgid "Find Tag Definition (geanyctags)"
 msgstr "Tag-Definition finden (geanyctags)"
 
-#: ../geanyctags/src/geanyctags.c:672 ../geanyctags/src/geanyctags.c:677
+#: ../geanyctags/src/geanyctags.c:670 ../geanyctags/src/geanyctags.c:675
 msgid "Generate tags"
 msgstr "Tags erstellen"
 
-#: ../geanyctags/src/geanyctags.c:679
+#: ../geanyctags/src/geanyctags.c:677
 msgid "Find tag..."
 msgstr "Tag finden..."
 
-#: ../geanyctags/src/geanyctags.c:684
+#: ../geanyctags/src/geanyctags.c:682
 msgid "Find tag"
 msgstr "Tag suchen"
+
+#: ../geanyctags/src/geanyctags.c:714
+msgid "Ctags generation and search plugin for geany projects"
+msgstr ""
+"Unterstützung beim Erstellen von und Suchen in CTag-Dateien für Geany-"
+"Projekte"
 
 #: ../geanydoc/src/geanydoc.c:50 ../geanydoc/src/geanydoc.c:341
 msgid "Doc"
@@ -1406,10 +1406,12 @@ msgid ""
 "Call documentation viewer on current symbol. \n"
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
-msgstr "Ruft die Dokumentation für das aktuell unter dem Cursor befindliche Symbol auf. \n"
+msgstr ""
+"Ruft die Dokumentation für das aktuell unter dem Cursor befindliche Symbol "
+"auf. \n"
 "Dieses Plugin hat im Moment keinen Maintainer. Möchtest Du vielleicht helfen?"
 
-#: ../geanydoc/src/geanydoc.c:159 ../geanyvc/src/geanyvc.c:429
+#: ../geanydoc/src/geanydoc.c:159 ../geanyvc/src/geanyvc.c:439
 msgid "Could not parse the output of command"
 msgstr "Konnte die Ausgabe des Befehls nicht verarbeiten."
 
@@ -1448,63 +1450,63 @@ msgid ""
 "contributing to this plugin?"
 msgstr ""
 
-#: ../geanyextrasel/src/extrasel.c:501
+#: ../geanyextrasel/src/extrasel.c:496
 msgid "E_xtra Selection"
 msgstr "E_xtra-Auswahl"
 
-#: ../geanyextrasel/src/extrasel.c:508
+#: ../geanyextrasel/src/extrasel.c:503
 msgid "_Column Mode"
 msgstr "_Spaltenmodus"
 
-#: ../geanyextrasel/src/extrasel.c:513
+#: ../geanyextrasel/src/extrasel.c:508
 msgid "Column mode"
 msgstr "Spaltenmodus"
 
-#: ../geanyextrasel/src/extrasel.c:515
+#: ../geanyextrasel/src/extrasel.c:510
 msgid "Select to _Line"
 msgstr "_Auswählen bis Zeile"
 
-#: ../geanyextrasel/src/extrasel.c:519
+#: ../geanyextrasel/src/extrasel.c:514
 msgid "Select to line"
 msgstr "Auswählen bis Zeile"
 
-#: ../geanyextrasel/src/extrasel.c:521
+#: ../geanyextrasel/src/extrasel.c:516
 msgid "Select to Matching _Brace"
 msgstr "Bis zur passenden _Klammer auswählen"
 
-#: ../geanyextrasel/src/extrasel.c:525
+#: ../geanyextrasel/src/extrasel.c:520
 msgid "Select to matching brace"
 msgstr "Bis zur passenden Klammer auswählen"
 
-#: ../geanyextrasel/src/extrasel.c:527
+#: ../geanyextrasel/src/extrasel.c:522
 msgid "_Toggle Stream/Rectangular"
 msgstr "Zwischen Fluss- und Rechteckauswahl _umschalten"
 
-#: ../geanyextrasel/src/extrasel.c:531
+#: ../geanyextrasel/src/extrasel.c:526
 msgid "Convert selection"
 msgstr "Auswahl umwandeln"
 
-#: ../geanyextrasel/src/extrasel.c:536
+#: ../geanyextrasel/src/extrasel.c:531
 msgid "_Set Anchor"
 msgstr "_Anker setzen"
 
-#: ../geanyextrasel/src/extrasel.c:540
+#: ../geanyextrasel/src/extrasel.c:535
 msgid "Set anchor"
 msgstr "Anker setzen"
 
-#: ../geanyextrasel/src/extrasel.c:542
+#: ../geanyextrasel/src/extrasel.c:537
 msgid "Select to _Anchor"
 msgstr "Bis zum Anker _auswählen"
 
-#: ../geanyextrasel/src/extrasel.c:546
+#: ../geanyextrasel/src/extrasel.c:541
 msgid "Select to anchor"
 msgstr "Bis zum Anker auswählen"
 
-#: ../geanyextrasel/src/extrasel.c:548
+#: ../geanyextrasel/src/extrasel.c:543
 msgid "_Rectangle Select to Anchor"
 msgstr "_Rechteckige Auswahl bis zum Anker"
 
-#: ../geanyextrasel/src/extrasel.c:553
+#: ../geanyextrasel/src/extrasel.c:548
 msgid "Rectangle select to anchor"
 msgstr "Rechteckige Auswahl bis zum Anker"
 
@@ -1925,7 +1927,8 @@ msgid ""
 "Insert/Fill columns with numbers.\n"
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
-msgstr "Einfügen/Ausfüllen von Spalten mit Zahlen.\n"
+msgstr ""
+"Einfügen/Ausfüllen von Spalten mit Zahlen.\n"
 "Dieses Plugin hat im Moment keinen Maintainer. Möchtest Du vielleicht helfen?"
 
 #: ../geanyinsertnum/src/insertnum.c:146
@@ -3004,7 +3007,8 @@ msgid ""
 "Write and run Lua scripts for custom commands.\n"
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
-msgstr "Schreiben und Ausführen von Lua-Skripten für benutzerdefinierte Kommandos.\n"
+msgstr ""
+"Schreiben und Ausführen von Lua-Skripten für benutzerdefinierte Kommandos.\n"
 "Dieses Plugin hat im Moment keinen Maintainer. Möchtest Du vielleicht helfen?"
 
 #: ../geanylua/glspi_ver.h:19
@@ -3852,7 +3856,7 @@ msgstr "_OK"
 
 #: ../geanymacro/src/geanymacro.c:1394 ../geanymacro/src/geanymacro.c:1537
 #: ../geanymacro/src/geanymacro.c:1827
-#: ../projectorganizer/src/prjorg-sidebar.c:306 ../workbench/src/dialogs.c:47
+#: ../projectorganizer/src/prjorg-sidebar.c:311 ../workbench/src/dialogs.c:47
 #: ../workbench/src/dialogs.c:82 ../workbench/src/dialogs.c:116
 #: ../workbench/src/dialogs.c:147 ../workbench/src/dialogs.c:186
 #: ../workbench/src/dialogs.c:223 ../workbench/src/dialogs.c:292
@@ -3874,8 +3878,8 @@ msgid "Search for contents of clipboard"
 msgstr "Suchen nach Inhalten aus der Zwischenablage"
 
 #: ../geanymacro/src/geanymacro.c:1424
-#: ../projectorganizer/src/prjorg-sidebar.c:134
-#: ../projectorganizer/src/prjorg-sidebar.c:460
+#: ../projectorganizer/src/prjorg-sidebar.c:139
+#: ../projectorganizer/src/prjorg-sidebar.c:628
 msgid "Search for:"
 msgstr "Suchen nach:"
 
@@ -4270,7 +4274,8 @@ msgid ""
 "GPG encryption plugin for geany.\n"
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
-msgstr "GnuPG-Verschlüsselungsplugin für Geany.\n"
+msgstr ""
+"GnuPG-Verschlüsselungsplugin für Geany.\n"
 "Dieses Plugin hat im Moment keine Maintainer. Möchtest Du vielleicht helfen?"
 
 #: ../geanypg/src/geanypg.c:40
@@ -4533,7 +4538,8 @@ msgid ""
 "Alternative project support. \n"
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
-msgstr "Alterantiver Projekt-Support. \n"
+msgstr ""
+"Alterantiver Projekt-Support. \n"
 "Dieses Plugin hat im Moment keinen Maintainer. Möchtest Du vielleicht helfen?"
 
 #: ../geanyprj/src/geanyprj.c:228
@@ -4637,11 +4643,11 @@ msgstr "Im Projekt suchen"
 msgid "Remove File"
 msgstr "Datei entfernen"
 
-#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1475
+#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1706
 msgid "H_ide Sidebar"
 msgstr "Seitenleiste _verstecken"
 
-#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1497
+#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1728
 msgid "Project"
 msgstr "Projekt"
 
@@ -4672,52 +4678,53 @@ msgid ""
 "Interface to different Version Control systems.\n"
 "This plugins is currently not developed actively. Would you like to help by "
 "contributing to this plugin?"
-msgstr "Schnittstelle für verschiedene Softwareversionskontrollsysteme.\n"
+msgstr ""
+"Schnittstelle für verschiedene Softwareversionskontrollsysteme.\n"
 "Dieses Plugin hat im Moment keinen Maintainer. Möchtest Du vielleicht helfen?"
 
-#: ../geanyvc/src/geanyvc.c:488
+#: ../geanyvc/src/geanyvc.c:498
 #, c-format
 msgid "geanyvc: s_spawn_sync error: %s"
 msgstr "geanyvc: s_spawn_sync error: %s"
 
-#: ../geanyvc/src/geanyvc.c:574
+#: ../geanyvc/src/geanyvc.c:584
 #, c-format
 msgid "File %s: action %s executed via %s."
 msgstr "Datei %s: Aktion %s wurde über %s ausgeführt."
 
-#: ../geanyvc/src/geanyvc.c:627 ../geanyvc/src/geanyvc.c:638
+#: ../geanyvc/src/geanyvc.c:637 ../geanyvc/src/geanyvc.c:648
 #, c-format
 msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
 msgstr "geanyvc: vcdiff_file_activated: Kann »%s« nicht in »%s« umbenennen."
 
-#: ../geanyvc/src/geanyvc.c:664 ../geanyvc/src/geanyvc.c:714
+#: ../geanyvc/src/geanyvc.c:674 ../geanyvc/src/geanyvc.c:724
 msgid "No changes were made."
 msgstr "Es wurden keine Änderungen vorgenommen."
 
-#: ../geanyvc/src/geanyvc.c:741
+#: ../geanyvc/src/geanyvc.c:751
 msgid "No history available"
 msgstr "Keine Historie verfügbar"
 
-#: ../geanyvc/src/geanyvc.c:934 ../geanyvc/src/geanyvc.c:942
+#: ../geanyvc/src/geanyvc.c:944 ../geanyvc/src/geanyvc.c:952
 #, c-format
 msgid "Do you really want to revert: %s?"
 msgstr "Möchten Sie wirklich »%s« zurücksetzen?"
 
-#: ../geanyvc/src/geanyvc.c:950
+#: ../geanyvc/src/geanyvc.c:960
 #, c-format
 msgid "Do you really want to add: %s?"
 msgstr "Möchten Sie wirklich »%s« hinzufügen?"
 
-#: ../geanyvc/src/geanyvc.c:957
+#: ../geanyvc/src/geanyvc.c:967
 #, c-format
 msgid "Do you really want to remove: %s?"
 msgstr "Möchten Sie wirklich »%s« entfernen?"
 
-#: ../geanyvc/src/geanyvc.c:980
+#: ../geanyvc/src/geanyvc.c:990
 msgid "Do you really want to update?"
 msgstr "Möchten Sie wirklich »%s« aktualisieren?"
 
-#: ../geanyvc/src/geanyvc.c:1107
+#: ../geanyvc/src/geanyvc.c:1117
 msgid ""
 "The resulting differences cannot be displayed because the changes are too "
 "big to display here and would slow down the UI significantly.\n"
@@ -4730,44 +4737,48 @@ msgstr ""
 "Um sich dennoch die Änderungen anzeigen zu lassen, benutzen Sie einfach die "
 "Diff-Funktion aus dem GeanyVC-Unterpunktes innerhalb des Werkzeuge-Menüs."
 
-#: ../geanyvc/src/geanyvc.c:1256
+#: ../geanyvc/src/geanyvc.c:1266
 msgid "Commit Y/N"
 msgstr "Eintragen"
 
-#: ../geanyvc/src/geanyvc.c:1266
+#: ../geanyvc/src/geanyvc.c:1276
 msgid "Status"
 msgstr "Status"
 
-#: ../geanyvc/src/geanyvc.c:1273
+#: ../geanyvc/src/geanyvc.c:1283
 msgid "Path"
 msgstr "Pfad"
 
-#: ../geanyvc/src/geanyvc.c:1337
+#: ../geanyvc/src/geanyvc.c:1400
+msgid "Choose a previous commit message"
+msgstr "Eine vorhergegangene Commit-Beschreibung auswählen"
+
+#: ../geanyvc/src/geanyvc.c:1431
 #, c-format
 msgid "Line: %d Column: %d"
 msgstr "Zeile: %d Spalte: %d"
 
-#: ../geanyvc/src/geanyvc.c:1383
+#: ../geanyvc/src/geanyvc.c:1478
 msgid "Commit"
 msgstr "Eintragen (commit)"
 
-#: ../geanyvc/src/geanyvc.c:1424
+#: ../geanyvc/src/geanyvc.c:1519
 msgid "_De-/select all files"
 msgstr "Alle _Dateien aus- bzw. abwählen"
 
-#: ../geanyvc/src/geanyvc.c:1468
+#: ../geanyvc/src/geanyvc.c:1563
 msgid "<b>Commit message:</b>"
 msgstr "<b>Commitnachricht:</b>"
 
-#: ../geanyvc/src/geanyvc.c:1487
+#: ../geanyvc/src/geanyvc.c:1587
 msgid "C_ommit"
 msgstr "Ein_tragen"
 
-#: ../geanyvc/src/geanyvc.c:1568
+#: ../geanyvc/src/geanyvc.c:1693
 msgid "Nothing to commit."
 msgstr "Nichts zum Eintragen."
 
-#: ../geanyvc/src/geanyvc.c:1616
+#: ../geanyvc/src/geanyvc.c:1741
 #, c-format
 msgid ""
 "Error initializing GeanyVC spell checking: %s. Check your configuration."
@@ -4775,11 +4786,11 @@ msgstr ""
 "Fehler beim Initialisieren der Rechtschreibprüfung: %s. Überprüfen Sie Ihre "
 "Konfiguration!"
 
-#: ../geanyvc/src/geanyvc.c:1906
+#: ../geanyvc/src/geanyvc.c:2044
 msgid "Set Changed-flag for document tabs created by the plugin"
 msgstr "Vom Plugin erstellte Dokumente als geändert markieren"
 
-#: ../geanyvc/src/geanyvc.c:1909
+#: ../geanyvc/src/geanyvc.c:2047
 msgid ""
 "If this option is activated, every new by the VC-plugin created document tab "
 "will be marked as changed. Even this option is useful in some cases, it "
@@ -4790,45 +4801,45 @@ msgstr ""
 "der Speichern-Dialog geöffnet wird. Auch wenn diese Option von Zeit zu Zeit "
 "sehr nützlich sein kann, kann sie ab und an einfach nur stören."
 
-#: ../geanyvc/src/geanyvc.c:1917
+#: ../geanyvc/src/geanyvc.c:2055
 msgid "Confirm adding new files to a VCS"
 msgstr "Hinzufügen von Dateien zur Versionsverwaltung immer bestätigen"
 
-#: ../geanyvc/src/geanyvc.c:1920
+#: ../geanyvc/src/geanyvc.c:2058
 msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
 msgstr ""
 "Zeigt einen Bestätigungsdialog beim Hinzufügen von Dateien zu einem "
 "Versionsverwaltungssystem."
 
-#: ../geanyvc/src/geanyvc.c:1926
+#: ../geanyvc/src/geanyvc.c:2064
 msgid "Maximize commit dialog"
 msgstr "Commit-Dialog maximieren"
 
-#: ../geanyvc/src/geanyvc.c:1927
+#: ../geanyvc/src/geanyvc.c:2065
 msgid "Show commit dialog maximize."
 msgstr "Commit-Dialog beim Anzeigen maximieren"
 
-#: ../geanyvc/src/geanyvc.c:1933
+#: ../geanyvc/src/geanyvc.c:2071
 msgid "Use external diff viewer"
 msgstr "Externes Diff-Programm"
 
-#: ../geanyvc/src/geanyvc.c:1935
+#: ../geanyvc/src/geanyvc.c:2073
 msgid "Use external diff viewer for file diff."
 msgstr "Externes Diff-Programm zum Vergleich von zwei Dateien"
 
-#: ../geanyvc/src/geanyvc.c:1941
+#: ../geanyvc/src/geanyvc.c:2079
 msgid "Show VC entries at editor menu"
 msgstr "Funktionen über das Editormenü verfügbar machen"
 
-#: ../geanyvc/src/geanyvc.c:1943
+#: ../geanyvc/src/geanyvc.c:2081
 msgid "Show entries for VC functions inside editor menu"
 msgstr "Einträge für das Plugin im Editormenü anzeigen"
 
-#: ../geanyvc/src/geanyvc.c:1948
+#: ../geanyvc/src/geanyvc.c:2086
 msgid "Attach menu to menubar"
 msgstr "Menü an Menüleiste anhängen"
 
-#: ../geanyvc/src/geanyvc.c:1950
+#: ../geanyvc/src/geanyvc.c:2088
 msgid ""
 "Whether menu for this plugin are getting placed either inside tools menu or "
 "directly inside Geany's menubar. Will take in account after next start of "
@@ -4838,213 +4849,213 @@ msgstr ""
 "Menüleiste von Geany angezeigt werden. Dies wird erst nach einen Neustart "
 "von GeanyVC funktionieren"
 
-#: ../geanyvc/src/geanyvc.c:1958
+#: ../geanyvc/src/geanyvc.c:2096
 msgid "Enable CVS"
 msgstr "CVS aktivieren"
 
-#: ../geanyvc/src/geanyvc.c:1963
+#: ../geanyvc/src/geanyvc.c:2101
 msgid "Enable GIT"
 msgstr "GIT aktivieren"
 
-#: ../geanyvc/src/geanyvc.c:1968
+#: ../geanyvc/src/geanyvc.c:2106
 msgid "Enable SVN"
 msgstr "SVN aktivieren"
 
-#: ../geanyvc/src/geanyvc.c:1973
+#: ../geanyvc/src/geanyvc.c:2111
 msgid "Enable SVK"
 msgstr "SVK aktivieren"
 
-#: ../geanyvc/src/geanyvc.c:1978
+#: ../geanyvc/src/geanyvc.c:2116
 msgid "Enable Bazaar"
 msgstr "Bazaar aktivieren"
 
-#: ../geanyvc/src/geanyvc.c:1983
+#: ../geanyvc/src/geanyvc.c:2121
 msgid "Enable Mercurial"
 msgstr "Mercurial aktivieren"
 
-#: ../geanyvc/src/geanyvc.c:1989
+#: ../geanyvc/src/geanyvc.c:2127
 msgid "Spellcheck language"
 msgstr "Sprache:"
 
-#: ../geanyvc/src/geanyvc.c:2085
+#: ../geanyvc/src/geanyvc.c:2237
 msgid "_VC file Actions"
 msgstr "_VC Dateioperationen"
 
 #. Diff of current file
 #. Diff of the current dir
 #. Complete diff of base directory
-#: ../geanyvc/src/geanyvc.c:2091 ../geanyvc/src/geanyvc.c:2168
-#: ../geanyvc/src/geanyvc.c:2208
+#: ../geanyvc/src/geanyvc.c:2243 ../geanyvc/src/geanyvc.c:2320
+#: ../geanyvc/src/geanyvc.c:2360
 msgid "_Diff"
 msgstr "_Unterschiede anzeigen (diff)"
 
-#: ../geanyvc/src/geanyvc.c:2094
+#: ../geanyvc/src/geanyvc.c:2246
 msgid "Make a diff from the current active file"
 msgstr "Erstellt ein Diff für die aktuelle Datei."
 
 #. Revert current file
 #. Revert current dir
 #. Revert everything
-#: ../geanyvc/src/geanyvc.c:2099 ../geanyvc/src/geanyvc.c:2177
-#: ../geanyvc/src/geanyvc.c:2216
+#: ../geanyvc/src/geanyvc.c:2251 ../geanyvc/src/geanyvc.c:2329
+#: ../geanyvc/src/geanyvc.c:2368
 msgid "_Revert"
 msgstr "_Zurücksetzen (revert)"
 
-#: ../geanyvc/src/geanyvc.c:2102
+#: ../geanyvc/src/geanyvc.c:2254
 msgid "Restore pristine working copy file (undo local edits)."
 msgstr ""
 "Stellt den ursprünglichen Zustand der Datei wieder her (verwirft lokale "
 "Änderungen)."
 
 #. Blame for current file
-#: ../geanyvc/src/geanyvc.c:2111
+#: ../geanyvc/src/geanyvc.c:2263
 msgid "_Blame"
 msgstr "Ä_nderungsverfolgung (blame)"
 
-#: ../geanyvc/src/geanyvc.c:2114
+#: ../geanyvc/src/geanyvc.c:2266
 msgid "Shows the changes made at one file per revision and author."
 msgstr "Zeigt alle Änderungen einer Datei nach Autor und Revision."
 
 #. History/log of current file
 #. History/log of the current dir
 #. Complete History/Log of base directory
-#: ../geanyvc/src/geanyvc.c:2121 ../geanyvc/src/geanyvc.c:2187
-#: ../geanyvc/src/geanyvc.c:2228
+#: ../geanyvc/src/geanyvc.c:2273 ../geanyvc/src/geanyvc.c:2339
+#: ../geanyvc/src/geanyvc.c:2380
 msgid "_History (log)"
 msgstr "_Versionsgeschichte (log)"
 
-#: ../geanyvc/src/geanyvc.c:2124
+#: ../geanyvc/src/geanyvc.c:2276
 msgid "Shows the log of the current file"
 msgstr "Zeigt die Versionsgeschichte der aktuellen Datei an."
 
 #. base version of the current file
-#: ../geanyvc/src/geanyvc.c:2129
+#: ../geanyvc/src/geanyvc.c:2281
 msgid "_Original"
 msgstr "_Original"
 
-#: ../geanyvc/src/geanyvc.c:2132
+#: ../geanyvc/src/geanyvc.c:2284
 msgid "Shows the original of the current file"
 msgstr "Zeigt die unveränderte Datei an"
 
 #. add current file
-#: ../geanyvc/src/geanyvc.c:2140
+#: ../geanyvc/src/geanyvc.c:2292
 msgid "_Add to Version Control"
 msgstr "Zur _Versionskontrolle hinzufügen"
 
-#: ../geanyvc/src/geanyvc.c:2142
+#: ../geanyvc/src/geanyvc.c:2294
 msgid "Add file to repository."
 msgstr "Fügt eine Datei zur Versionskontrolle hin_zu."
 
 #. remove current file
-#: ../geanyvc/src/geanyvc.c:2148
+#: ../geanyvc/src/geanyvc.c:2300
 msgid "_Remove from Version Control"
 msgstr "Aus Versionskontrolle _entfernen"
 
-#: ../geanyvc/src/geanyvc.c:2150
+#: ../geanyvc/src/geanyvc.c:2302
 msgid "Remove file from repository."
 msgstr "Entfernt eine Datei aus Versionskontrolle und Repository."
 
-#: ../geanyvc/src/geanyvc.c:2165
+#: ../geanyvc/src/geanyvc.c:2317
 msgid "_Directory"
 msgstr "_Verzeichnis"
 
-#: ../geanyvc/src/geanyvc.c:2171
+#: ../geanyvc/src/geanyvc.c:2323
 msgid "Make a diff from the directory of the current active file"
 msgstr "Erstellt ein Diff für das Verzeichnis der aktuellen Datei."
 
-#: ../geanyvc/src/geanyvc.c:2180
+#: ../geanyvc/src/geanyvc.c:2332
 msgid "Restore original files in the current folder (undo local edits)."
 msgstr ""
 "Stellt den ursprünglichen Zustand der Datei wieder her (verwirft lokale "
 "Änderungen)."
 
-#: ../geanyvc/src/geanyvc.c:2190
+#: ../geanyvc/src/geanyvc.c:2342
 msgid "Shows the log of the current directory"
 msgstr "Zeigt die Versionsgeschichte für das aktuelle Verzeichnis."
 
-#: ../geanyvc/src/geanyvc.c:2204
+#: ../geanyvc/src/geanyvc.c:2356
 msgid "_Base Directory"
 msgstr "_Basisordner"
 
-#: ../geanyvc/src/geanyvc.c:2210
+#: ../geanyvc/src/geanyvc.c:2362
 msgid "Make a diff from the top VC directory"
 msgstr "Erstellt ein Diff für die gesamte Arbeitskopie"
 
-#: ../geanyvc/src/geanyvc.c:2218
+#: ../geanyvc/src/geanyvc.c:2370
 msgid "Revert any local edits."
 msgstr "Alle lokalen Änderungen zurücksetzen"
 
-#: ../geanyvc/src/geanyvc.c:2231
+#: ../geanyvc/src/geanyvc.c:2383
 msgid "Shows the log of the top VC directory"
 msgstr "Zeigt die Versionsgeschichte für die gesamte Arbeitskopie"
 
-#: ../geanyvc/src/geanyvc.c:2257
+#: ../geanyvc/src/geanyvc.c:2409
 msgid "VC _Commit"
 msgstr "VC ein_tragen (commit)"
 
-#: ../geanyvc/src/geanyvc.c:2292
+#: ../geanyvc/src/geanyvc.c:2444
 msgid "Show diff of file"
 msgstr "Diff von der aktuellen Datei"
 
-#: ../geanyvc/src/geanyvc.c:2294
+#: ../geanyvc/src/geanyvc.c:2446
 msgid "Show diff of directory"
 msgstr "Zeigt Veränderung des Verzeichnisses an (diff)"
 
-#: ../geanyvc/src/geanyvc.c:2296
+#: ../geanyvc/src/geanyvc.c:2448
 msgid "Show diff of basedir"
 msgstr "Diff vom Grundverzeichnis"
 
-#: ../geanyvc/src/geanyvc.c:2299
+#: ../geanyvc/src/geanyvc.c:2451
 msgid "Commit changes"
 msgstr "Änderungen eintragen"
 
-#: ../geanyvc/src/geanyvc.c:2301
+#: ../geanyvc/src/geanyvc.c:2453
 msgid "Show status"
 msgstr "Status der Arbeitskopie anzeigen"
 
-#: ../geanyvc/src/geanyvc.c:2303
+#: ../geanyvc/src/geanyvc.c:2455
 msgid "Revert single file"
 msgstr "Datei zurücksetzen (revert)"
 
-#: ../geanyvc/src/geanyvc.c:2305
+#: ../geanyvc/src/geanyvc.c:2457
 msgid "Revert directory"
 msgstr "Verzeichnis zurücksetzen (revert)"
 
-#: ../geanyvc/src/geanyvc.c:2307
+#: ../geanyvc/src/geanyvc.c:2459
 msgid "Revert base directory"
 msgstr "Alle Änderungen verwerfen"
 
-#: ../geanyvc/src/geanyvc.c:2309
+#: ../geanyvc/src/geanyvc.c:2461
 msgid "Update file"
 msgstr "Datei aktualisieren"
 
-#: ../geanyvc/src/geanyvc.c:2339
+#: ../geanyvc/src/geanyvc.c:2491
 msgid "_VC"
 msgstr "_VC"
 
-#: ../geanyvc/src/geanyvc.c:2346
+#: ../geanyvc/src/geanyvc.c:2498
 msgid "_Version Control"
 msgstr "_Versionskontrolle"
 
 #. Status of basedir
-#: ../geanyvc/src/geanyvc.c:2368
+#: ../geanyvc/src/geanyvc.c:2520
 msgid "_Status"
 msgstr "_Status"
 
-#: ../geanyvc/src/geanyvc.c:2370
+#: ../geanyvc/src/geanyvc.c:2522
 msgid "Show status."
 msgstr "Zeigt den Status der Arbeitskopie."
 
-#: ../geanyvc/src/geanyvc.c:2377
+#: ../geanyvc/src/geanyvc.c:2529
 msgid "Update from remote repository."
 msgstr "Aus dem Repositorium aktualisieren"
 
 #. Commit all changes
-#: ../geanyvc/src/geanyvc.c:2382
+#: ../geanyvc/src/geanyvc.c:2534
 msgid "_Commit"
 msgstr "Ein_tragen (commit)"
 
-#: ../geanyvc/src/geanyvc.c:2384
+#: ../geanyvc/src/geanyvc.c:2536
 msgid "Commit changes."
 msgstr "Änderungen eintragen."
 
@@ -5206,48 +5217,48 @@ msgstr "_Entfernte Zeilen:"
 msgid "Colors"
 msgstr "Farben:"
 
-#: ../git-changebar/src/gcb-plugin.c:58
+#: ../git-changebar/src/gcb-plugin.c:62
 msgid "Git Change Bar"
 msgstr "Git Change Bar"
 
-#: ../git-changebar/src/gcb-plugin.c:59
+#: ../git-changebar/src/gcb-plugin.c:63
 msgid "Highlights uncommitted changes in files tracked with Git"
 msgstr ""
 "Hebt noch nicht committete Änderungen an in einem git-Repository verwaltete "
 "Dateien hervor."
 
-#: ../git-changebar/src/gcb-plugin.c:1386 ../pohelper/src/gph-plugin.c:1661
+#: ../git-changebar/src/gcb-plugin.c:1390 ../pohelper/src/gph-plugin.c:1661
 #, c-format
 msgid "Failed to load configuration file: %s"
 msgstr "Konnte Konfiguration nicht laden: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1411 ../pohelper/src/gph-plugin.c:1686
+#: ../git-changebar/src/gcb-plugin.c:1415 ../pohelper/src/gph-plugin.c:1686
 #, c-format
 msgid "Failed to create configuration directory \"%s\": %s"
 msgstr "Konnte das Konfigurationsverzeichnis »%s« nicht anlegen: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1414 ../pohelper/src/gph-plugin.c:1689
+#: ../git-changebar/src/gcb-plugin.c:1418 ../pohelper/src/gph-plugin.c:1689
 #, c-format
 msgid "Failed to save configuration file: %s"
 msgstr "Konnte Konfiguration nicht speichern: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1491
+#: ../git-changebar/src/gcb-plugin.c:1495
 msgid "Undo Git hunk"
 msgstr "Undo Git hunk"
 
-#: ../git-changebar/src/gcb-plugin.c:1499
+#: ../git-changebar/src/gcb-plugin.c:1503
 msgid "Go to the previous hunk"
 msgstr "Zur vorherigen Block mit Änderungen springen"
 
-#: ../git-changebar/src/gcb-plugin.c:1501
+#: ../git-changebar/src/gcb-plugin.c:1505
 msgid "Go to the next hunk"
 msgstr "Zur nächsten Block mit Änderungen springen"
 
-#: ../git-changebar/src/gcb-plugin.c:1503
+#: ../git-changebar/src/gcb-plugin.c:1507
 msgid "Undo hunk at the cursor position"
 msgstr "Hunk an der aktuellen Cursoer-Position rückgänging machen."
 
-#: ../git-changebar/src/gcb-plugin.c:1651 ../pohelper/src/gph-plugin.c:1456
+#: ../git-changebar/src/gcb-plugin.c:1655 ../pohelper/src/gph-plugin.c:1456
 #: ../pohelper/src/gph-plugin.c:1791
 #, c-format
 msgid ""
@@ -5267,7 +5278,7 @@ msgstr "Wiedergabe"
 
 #: ../keyrecord/src/keyrecord.c:207
 msgid "Keystrokes recorder"
-msgstr ""
+msgstr "Tastendrücke aufzeichen"
 
 #: ../keyrecord/src/keyrecord.c:208
 msgid "Allows to record some sequence of keystrokes and replay it"
@@ -5275,7 +5286,7 @@ msgstr "Erlaubt das Aufzeichnen von Tastendrücken und diese wieder zu geben."
 
 #: ../keyrecord/src/keyrecord.c:210
 msgid "tunyash"
-msgstr ""
+msgstr "tunyash"
 
 #: ../lineoperations/src/lineoperations.c:123
 #, c-format
@@ -5920,7 +5931,8 @@ msgid ""
 "Formats an XML and makes it human-readable. \n"
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
-msgstr "Formatiert XML, so dass es besser lesbar für Menschen ist.\n"
+msgstr ""
+"Formatiert XML, so dass es besser lesbar für Menschen ist.\n"
 "Dieses Plugin hat im Moment keinen Maintainer. Möchtest Du vielleicht helfen?"
 
 #. put the menu into the Tools
@@ -6052,11 +6064,11 @@ msgstr "Header und Quellen tauschen"
 msgid "Open Selected File (Project Organizer)"
 msgstr "Ausgewählte Datei öffnen (Project Organizer)"
 
-#: ../projectorganizer/src/prjorg-project.c:581
+#: ../projectorganizer/src/prjorg-project.c:586
 msgid "Source patterns:"
 msgstr "Quelltextmuster:"
 
-#: ../projectorganizer/src/prjorg-project.c:587
+#: ../projectorganizer/src/prjorg-project.c:592
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
 "Used for header/source swapping."
@@ -6065,11 +6077,11 @@ msgstr ""
 "Dateien zu identifizieren. Wird hauptsächlich für das Umschalten zwischen "
 "Quellen und Header verwendet."
 
-#: ../projectorganizer/src/prjorg-project.c:593
+#: ../projectorganizer/src/prjorg-project.c:598
 msgid "Header patterns:"
 msgstr "Header-Muster:"
 
-#: ../projectorganizer/src/prjorg-project.c:599
+#: ../projectorganizer/src/prjorg-project.c:604
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
 "header/source swapping."
@@ -6078,11 +6090,11 @@ msgstr ""
 "identifizieren. Wird hauptsächlich für das Umschalten zwischen Quellen und "
 "Header verwendet."
 
-#: ../projectorganizer/src/prjorg-project.c:605 ../workbench/src/dialogs.c:314
+#: ../projectorganizer/src/prjorg-project.c:610 ../workbench/src/dialogs.c:314
 msgid "Ignored file patterns:"
 msgstr "Muster für zu ignorierende Dateien:"
 
-#: ../projectorganizer/src/prjorg-project.c:611
+#: ../projectorganizer/src/prjorg-project.c:616
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
 "not displayed in the project tree."
@@ -6091,11 +6103,11 @@ msgstr ""
 "erkennen, die nicht im projektspezifischen Dateibaum angezeigt werden "
 "sollen. "
 
-#: ../projectorganizer/src/prjorg-project.c:617 ../workbench/src/dialogs.c:325
+#: ../projectorganizer/src/prjorg-project.c:622 ../workbench/src/dialogs.c:325
 msgid "Ignored directory patterns:"
 msgstr "Muster für zu ignorierende Verzeichnisse:"
 
-#: ../projectorganizer/src/prjorg-project.c:623
+#: ../projectorganizer/src/prjorg-project.c:628
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
@@ -6103,23 +6115,23 @@ msgstr ""
 "Leerzeichengetrennte Liste mit Mustern, die genutzt werden, um Verzeichnisse "
 "zu erkennen, die nicht nach Quelldateien durchsucht werden sollen. "
 
-#: ../projectorganizer/src/prjorg-project.c:629
+#: ../projectorganizer/src/prjorg-project.c:634
 msgid "Index all project files:"
 msgstr "Alle Projektdateien indizieren:"
 
-#: ../projectorganizer/src/prjorg-project.c:632
+#: ../projectorganizer/src/prjorg-project.c:637
 msgid "Auto (index if less than 300 files)"
 msgstr "Automatisch (bei weniger als 300 Dateien)"
 
-#: ../projectorganizer/src/prjorg-project.c:633
+#: ../projectorganizer/src/prjorg-project.c:638
 msgid "Yes"
 msgstr "Ja"
 
-#: ../projectorganizer/src/prjorg-project.c:634
+#: ../projectorganizer/src/prjorg-project.c:639
 msgid "No"
 msgstr "Nein"
 
-#: ../projectorganizer/src/prjorg-project.c:638
+#: ../projectorganizer/src/prjorg-project.c:643
 msgid ""
 "Generate symbol list for all project files instead of only for the currently "
 "opened files. Might be slow for big projects."
@@ -6128,7 +6140,7 @@ msgstr ""
 "geöffneten Dateien. Sehr langsam bei großen Projekten und sollte in solch "
 "einem Fall deaktiviert werden."
 
-#: ../projectorganizer/src/prjorg-project.c:644
+#: ../projectorganizer/src/prjorg-project.c:649
 msgid ""
 "Note: the patterns above affect only the sidebar and are not used in the "
 "Find in Files\n"
@@ -6143,87 +6155,161 @@ msgstr ""
 "Datei-Muster innerhalb des Projekt-Reiters -- auch für den »In Dateien "
 "suchen«-Dialog eingeschränkt werden."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:123
+#: ../projectorganizer/src/prjorg-sidebar.c:128
 msgid "Find File"
 msgstr "Datei suchen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:150
-#: ../projectorganizer/src/prjorg-sidebar.c:494
+#: ../projectorganizer/src/prjorg-sidebar.c:155
+#: ../projectorganizer/src/prjorg-sidebar.c:662
 msgid "Search inside:"
 msgstr "Suchen in:"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:165
+#: ../projectorganizer/src/prjorg-sidebar.c:170
 msgid "Search in full path"
 msgstr "Im vollen Pfad suchen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:176
-#: ../projectorganizer/src/prjorg-sidebar.c:657
+#: ../projectorganizer/src/prjorg-sidebar.c:181
+#: ../projectorganizer/src/prjorg-sidebar.c:825
 msgid "project or external directory"
 msgstr "Projekt oder externen Verzeichnis"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:304
+#: ../projectorganizer/src/prjorg-sidebar.c:309
 msgid "Add External Directory"
 msgstr "Externes Verzeichnis hinzufügen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:307
+#: ../projectorganizer/src/prjorg-sidebar.c:312
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:449
+#: ../projectorganizer/src/prjorg-sidebar.c:390
+#: ../treebrowser/src/treebrowser.c:2123
+msgid "New File"
+msgstr "Neue Datei"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:391
+msgid "File name:"
+msgstr "Dateiname:"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:391
+msgid "newfile.txt"
+msgstr "neue Datei.txt"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:405
+msgid "Cannot create file '%s'."
+msgstr "Konnte die Datei nicht anlegen: %s"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:421
+msgid "New Directory"
+msgstr "Neues Verzeichnis"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:422
+msgid "Directory name:"
+msgstr "Verzeichnis-Name:"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:422
+msgid "newdir"
+msgstr "Neuer Ordner"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:435
+
+msgid "Cannot create directory '%s'."
+msgstr "Konnte Verzeichnis »%s« nicht anlegen."
+
+#: ../projectorganizer/src/prjorg-sidebar.c:462
+msgid "Rename"
+msgstr "Umbenennen"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:463
+msgid "New name:"
+msgstr "Neuer Name:"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:476
+msgid "Cannot rename '%s' to '%s'."
+msgstr "Konnte »%s« nicht nach »%s« umbenennen."
+
+#: ../projectorganizer/src/prjorg-sidebar.c:501
+msgid "Are you sure you want to delete '%s'?"
+msgstr "Soll »%s« wirklich gelöscht werden?"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:508
+#, fuzzy, c-format
+msgid "Cannot delete file '%s'."
+msgstr "Konnte die Werkbank Datei nicht anlegen: %s"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:617
 msgid "Find Symbol"
 msgstr "Symbol finden"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:478
+#: ../projectorganizer/src/prjorg-sidebar.c:646
 msgid "Match type:"
 msgstr "Typ:"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1045
+#: ../projectorganizer/src/prjorg-sidebar.c:1236
 msgid "Set file patterns under Project->Properties"
 msgstr "Dateimuster unter Projekt->Eigenschaften definieren"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1332
+#: ../projectorganizer/src/prjorg-sidebar.c:1523
 msgid "Reload all"
 msgstr "Alle neuladen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1341
+#: ../projectorganizer/src/prjorg-sidebar.c:1532
 msgid "Add external directory"
 msgstr "Externes Verzeichnis hinzufügen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1351
+#: ../projectorganizer/src/prjorg-sidebar.c:1542
 msgid "Expand all"
 msgstr "Alle ausklappen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1358
+#: ../projectorganizer/src/prjorg-sidebar.c:1549
 msgid "Collapse to project root"
 msgstr "Zusammenfalten bis Projektwurzel"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1369
+#: ../projectorganizer/src/prjorg-sidebar.c:1560
 msgid "Follow active editor"
 msgstr "Aktiven Editor folgen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1415
+#: ../projectorganizer/src/prjorg-sidebar.c:1606
 msgid "Open a project to start using the plugin"
 msgstr "Ein Projekt zum Starten des Plugins öffnen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1424
+#: ../projectorganizer/src/prjorg-sidebar.c:1615
 msgid "Expand All"
 msgstr "Alle ausklappen"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1433
+#: ../projectorganizer/src/prjorg-sidebar.c:1624
 msgid "Find in Files..."
 msgstr "In Dateien finden..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1442
+#: ../projectorganizer/src/prjorg-sidebar.c:1633
 msgid "Find File..."
 msgstr "Datei suchen..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1451
+#: ../projectorganizer/src/prjorg-sidebar.c:1642
 msgid "Find Symbol..."
 msgstr "Symbol finden..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1464
+#: ../projectorganizer/src/prjorg-sidebar.c:1655
 msgid "Remove External Directory"
 msgstr "Externes Verzeichnis entfernen"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1668
+#, fuzzy
+msgid "New File..."
+msgstr "Neue Datei"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1677
+#, fuzzy
+msgid "New Directory..."
+msgstr "Neues Verzeichnis"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1686
+#, fuzzy
+msgid "Rename..."
+msgstr "_Umbenennen"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1695
+msgid "Delete"
+msgstr "Löschen"
 
 #: ../scope/data/scope.glade.h:1 ../scope/data/scope_gtk3.glade.h:1
 msgid "Debu_g"
@@ -6886,8 +6972,13 @@ msgstr "Programm abgebrochen"
 msgid "%s: %s."
 msgstr "%s: %s."
 
+#: ../scope/src/debug.c:492
+msgid ""
+"No executable set. Please set an executable under \"Debug/Setup Program\"."
+msgstr ""
+
 # c-format
-#: ../scope/src/debug.c:549 ../scope/src/thread.c:97
+#: ../scope/src/debug.c:553 ../scope/src/thread.c:97
 #, c-format
 msgid "%s."
 msgstr "%s."
@@ -7458,7 +7549,8 @@ msgid ""
 "Shift a selection left and right.\n"
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
-msgstr "Bewege eine Auswahl nach links oder nach rechts.\n"
+msgstr ""
+"Bewege eine Auswahl nach links oder nach rechts.\n"
 "Dieses Plugin hat im Moment keinen Maintainer. Möchtest Du vielleicht helfen?"
 
 #: ../shiftcolumn/src/shiftcolumn.c:357 ../shiftcolumn/src/shiftcolumn.c:378
@@ -7822,11 +7914,6 @@ msgstr "Pfadeintrag fokussieren"
 #: ../treebrowser/src/treebrowser.c:2121
 msgid "Rename Object"
 msgstr "Objekt umbenennen"
-
-#: ../treebrowser/src/treebrowser.c:2123
-#, fuzzy
-msgid "New File"
-msgstr "Neue Datei"
 
 #: ../treebrowser/src/treebrowser.c:2125
 #, fuzzy
@@ -8671,9 +8758,6 @@ msgstr "Autovervollständigt XML/HTML-Tags unter Verwendung von Schnipseln."
 
 #~ msgid "Shift a selection left and right"
 #~ msgstr "Verschiebt eine Auswahl nach links oder rechts."
-
-#~ msgid "Delete"
-#~ msgstr "Löschen"
 
 #~ msgid "GeanyLipsum"
 #~ msgstr "GeanyLipsum"
