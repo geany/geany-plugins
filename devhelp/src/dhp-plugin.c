@@ -36,21 +36,20 @@
 #include "dhp.h"
 
 
-PLUGIN_VERSION_CHECK(224)
-
-PLUGIN_SET_TRANSLATABLE_INFO(
-	LOCALEDIR,
-	GETTEXT_PACKAGE,
-	_("Devhelp Plugin"),
-	_("Adds support for looking up documentation in Devhelp, manual pages, and "
-	  "Google Code Search in the integrated viewer."),
-	"1.0", "Matthew Brush <mbrush@leftclick.ca>")
-
-
 GeanyPlugin	 	*geany_plugin;
 GeanyData	   	*geany_data;
 
-struct PluginData plugin;
+
+struct PluginData
+{
+	gchar *default_config;
+	gchar *user_config;
+
+	DevhelpPlugin *devhelp;
+};
+
+
+struct PluginData plugin_data;
 
 /* keybindings */
 enum
@@ -72,32 +71,32 @@ static void kb_activate(guint key_id)
 	switch (key_id)
 	{
 		case KB_DEVHELP_TOGGLE_CONTENTS:
-			devhelp_plugin_toggle_contents_tab(plugin.devhelp);
+			devhelp_plugin_toggle_contents_tab(plugin_data.devhelp);
 			break;
 		case KB_DEVHELP_TOGGLE_SEARCH:
-			devhelp_plugin_toggle_search_tab(plugin.devhelp);
+			devhelp_plugin_toggle_search_tab(plugin_data.devhelp);
 			break;
 		case KB_DEVHELP_TOGGLE_WEBVIEW: /* not working */
-			devhelp_plugin_toggle_webview_tab(plugin.devhelp);
+			devhelp_plugin_toggle_webview_tab(plugin_data.devhelp);
 			break;
 		case KB_DEVHELP_ACTIVATE_DEVHELP:
-			devhelp_plugin_activate_all_tabs(plugin.devhelp);
+			devhelp_plugin_activate_all_tabs(plugin_data.devhelp);
 			break;
 		case KB_DEVHELP_SEARCH_SYMBOL:
 		{
-			current_tag = devhelp_plugin_get_current_word(plugin.devhelp);
+			current_tag = devhelp_plugin_get_current_word(plugin_data.devhelp);
 			if (current_tag == NULL)
 				return;
-			devhelp_plugin_search_books(plugin.devhelp, current_tag);
+			devhelp_plugin_search_books(plugin_data.devhelp, current_tag);
 			g_free(current_tag);
 			break;
 		}
 		case KB_DEVHELP_SEARCH_MANPAGES:
 		{
-			current_tag = devhelp_plugin_get_current_word(plugin.devhelp);
+			current_tag = devhelp_plugin_get_current_word(plugin_data.devhelp);
 			if (current_tag == NULL)
 				return;
-			devhelp_plugin_search_manpages(plugin.devhelp, current_tag);
+			devhelp_plugin_search_manpages(plugin_data.devhelp, current_tag);
 			g_free(current_tag);
 			break;
 		}
@@ -111,10 +110,10 @@ gboolean plugin_config_init(struct PluginData *pd)
 
 	g_return_val_if_fail(pd != NULL, FALSE);
 
-	plugin.default_config = g_build_path(G_DIR_SEPARATOR_S, DHPLUG_DATA_DIR, "devhelp.conf", NULL);
+	plugin_data.default_config = g_build_path(G_DIR_SEPARATOR_S, DHPLUG_DATA_DIR, "devhelp.conf", NULL);
 
 	user_config_dir = g_build_path(G_DIR_SEPARATOR_S, geany_data->app->configdir, "plugins", "devhelp", NULL);
-	plugin.user_config = g_build_path(G_DIR_SEPARATOR_S, user_config_dir, "devhelp.conf", NULL);
+	plugin_data.user_config = g_build_path(G_DIR_SEPARATOR_S, user_config_dir, "devhelp.conf", NULL);
 	if (g_mkdir_with_parents(user_config_dir, S_IRUSR | S_IWUSR | S_IXUSR) != 0)
 	{
 		g_warning(_("Unable to create config dir at '%s'"), user_config_dir);
@@ -151,21 +150,24 @@ gboolean plugin_config_init(struct PluginData *pd)
 }
 
 
-void plugin_init(GeanyData *data)
+static gboolean plugin_devhelp_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
 	GeanyKeyGroup *key_group;
+
+	geany_plugin = plugin;
+	geany_data = plugin->geany_data;
 
 	plugin_module_make_resident(geany_plugin);
 
 	if (!g_thread_supported())
 		g_thread_init(NULL);
 
-	memset(&plugin, 0, sizeof(struct PluginData));
+	memset(&plugin_data, 0, sizeof(struct PluginData));
 
-	plugin.devhelp = devhelp_plugin_new();
-	plugin_config_init(&plugin);
+	plugin_data.devhelp = devhelp_plugin_new();
+	plugin_config_init(&plugin_data);
 
-	devhelp_plugin_load_settings(plugin.devhelp, plugin.user_config);
+	devhelp_plugin_load_settings(plugin_data.devhelp, plugin_data.user_config);
 
 	key_group = plugin_set_key_group(geany_plugin, "devhelp", KB_COUNT, NULL);
 
@@ -179,18 +181,50 @@ void plugin_init(GeanyData *data)
 		0, 0, "devhelp_activate_all", _("Activate all tabs"), NULL);
 	keybindings_set_item(key_group, KB_DEVHELP_SEARCH_SYMBOL, kb_activate,
 		0, 0, "devhelp_search_symbol", _("Search for current tag in Devhelp"), NULL);
-	if (devhelp_plugin_get_have_man_prog(plugin.devhelp))
+	if (devhelp_plugin_get_have_man_prog(plugin_data.devhelp))
 	{
 		keybindings_set_item(key_group, KB_DEVHELP_SEARCH_MANPAGES, kb_activate,
 			0, 0, "devhelp_search_manpages", _("Search for current tag in Manual Pages"), NULL);
 	}
+
+	return TRUE;
 }
 
 
-void plugin_cleanup(void)
+static void plugin_devhelp_cleanup(G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
-	devhelp_plugin_store_settings(plugin.devhelp, plugin.user_config);
-	g_object_unref(plugin.devhelp);
-	g_free(plugin.default_config);
-	g_free(plugin.user_config);
+	devhelp_plugin_store_settings(plugin_data.devhelp, plugin_data.user_config);
+	g_object_unref(plugin_data.devhelp);
+	g_free(plugin_data.default_config);
+	g_free(plugin_data.user_config);
+}
+
+
+static void plugin_devhelp_help (G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
+{
+	utils_open_browser("https://plugins.geany.org/devhelp.html");
+}
+
+
+/* Load module */
+G_MODULE_EXPORT
+void geany_load_module(GeanyPlugin *plugin)
+{
+	/* Setup translation */
+	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+
+	/* Set metadata */
+	plugin->info->name = _("Devhelp Plugin");
+	plugin->info->description = _("Adds support for looking up documentation in Devhelp, manual pages, and "
+		"Google Code Search in the integrated viewer.");
+	plugin->info->version = "1.0";
+	plugin->info->author = "Matthew Brush <mbrush@leftclick.ca>";
+
+	/* Set functions */
+	plugin->funcs->init = plugin_devhelp_init;
+	plugin->funcs->cleanup = plugin_devhelp_cleanup;
+	plugin->funcs->help = plugin_devhelp_help;
+
+	/* Register! */
+	GEANY_PLUGIN_REGISTER(plugin, 226);
 }
