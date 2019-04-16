@@ -1,22 +1,22 @@
 # Portuguese translations for geany-plugins.
-# Copyright (C) 2009 - 2015 THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) 2009 - 2019 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 # André Glória, 2009 - 2011
-# Pedro Albuquerque <palbuquerque73@gmail.com>, 2015 - 2017, 2018.
+# Pedro Albuquerque <palbuquerque73@gmail.com>, 2015 - 2019.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 1.34\n"
+"Project-Id-Version: Geany-Plugins 1.35\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-14 18:57+0200\n"
-"PO-Revision-Date: 2018-12-05 14:22+0000\n"
+"POT-Creation-Date: 2019-04-16 03:19+0000\n"
+"PO-Revision-Date: 2019-04-16 10:17+0100\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
 "Language-Team: Português <palbuquerque73@gmail.com>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: Plural-Forms: nplurals=2; plural=n>1;\n"
 "X-Generator: Gtranslator 2.91.7\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
@@ -4706,7 +4706,7 @@ msgstr "Caminho"
 
 #: ../geanyvc/src/geanyvc.c:1400
 msgid "Choose a previous commit message"
-msgstr ""
+msgstr "Escolha uma mensagem de commit anterior"
 
 #: ../geanyvc/src/geanyvc.c:1431
 #, c-format
@@ -6123,62 +6123,57 @@ msgid "New File"
 msgstr "Novo ficheiro"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:391
-#, fuzzy
 msgid "File name:"
-msgstr "Nome do Ficheiro:"
+msgstr "Nome do ficheiro:"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:391
 msgid "newfile.txt"
-msgstr ""
+msgstr "novofich.txt"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:405
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create file '%s'."
-msgstr "Impossível remover o ficheiro \"%s\"."
+msgstr "Impossível criar o ficheiro \"%s\"."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:421
-#, fuzzy
 msgid "New Directory"
 msgstr "Nova pasta"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:422
-#, fuzzy
 msgid "Directory name:"
-msgstr "Nome da pasta: %s\n"
+msgstr "Nome da pasta:"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:422
 msgid "newdir"
-msgstr ""
+msgstr "novapasta"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:435
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create directory '%s'."
-msgstr "Impossível remover a pasta \"%s\"."
+msgstr "Impossível criar a pasta \"%s\"."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:462
-#, fuzzy
 msgid "Rename"
-msgstr "Reno_mear"
+msgstr "Renomear"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:463
-#, fuzzy
 msgid "New name:"
-msgstr "Nome:"
+msgstr "Novo nome:"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:476
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename '%s' to '%s'."
-msgstr "Impossível descomprimir o livro \"%s\": %s"
+msgstr "Impossível renomear \"%s\" para \"%s\"."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:501
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete '%s'?"
 msgstr "Tem a certeza que quer eliminar \"%s\"?"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:508
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete file '%s'."
-msgstr "Impossível remover o ficheiro \"%s\"."
+msgstr "Impossível eliminar o ficheiro \"%s\"."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:617
 msgid "Find Symbol"
@@ -6237,19 +6232,16 @@ msgid "Remove External Directory"
 msgstr "Remover pasta externa"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1668
-#, fuzzy
 msgid "New File..."
-msgstr "Novo ficheiro"
+msgstr "Novo ficheiro..."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1677
-#, fuzzy
 msgid "New Directory..."
-msgstr "Nova pasta"
+msgstr "Nova pasta..."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1686
-#, fuzzy
 msgid "Rename..."
-msgstr "Reno_mear"
+msgstr "Renomear..."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1695
 msgid "Delete"
@@ -6906,6 +6898,8 @@ msgstr "%s: %s."
 msgid ""
 "No executable set. Please set an executable under \"Debug/Setup Program\"."
 msgstr ""
+"Sem conjunto executável. Defina um executável em \"Depurar/Configurar "
+"programa."
 
 #: ../scope/src/debug.c:553 ../scope/src/thread.c:97
 #, c-format
