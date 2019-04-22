@@ -119,6 +119,9 @@ Section "Language Files" SEC02
 	SectionIn 1
 	SetOutPath "$INSTDIR\share\locale"
 	File /r "${RESOURCEDIR}\share\locale\*"
+	; dependency translations
+	SetOutPath "$INSTDIR\share\locale"
+	File /r "contrib\share\locale\*"
 SectionEnd
 
 Section "Documentation" SEC03
@@ -132,7 +135,7 @@ Section "Dependencies" SEC04
 	SectionIn 1
 	SetOverwrite ifnewer
 	SetOutPath "$INSTDIR"
-	File /r "contrib\"
+	File /r /x "*.mo" "contrib\"
 SectionEnd
 
 Section -Post
