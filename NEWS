@@ -58,13 +58,15 @@ Geany Plugins 1.35 (2019-04-28)
     Spellcheck:
     * Improve documentation where to put translation
       dictionaries (Issue #1627)
-    * Update README (PR #812)
 
     Treebrowser:
     * Use xdg-open for external open command (PR #813)
 
     Vimmode:
     * Fix repeated commands like 10dd not working (PR #820)
+
+    Webhelper:
+    * Update README (PR #812)
 
     Internationalization:
     * Updated translations: de, es, pt
