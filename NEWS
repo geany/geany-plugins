@@ -1,7 +1,73 @@
-Geany Plugins 1.35 (not yet released)
+Geany Plugins 1.35 (2019-04-28)
 
-    No changes by now.
+    General:
+    * Windows: Install dependency translations only if selected
+    * Build: Don't rely on a pkg-config output formatting detail
+      (Fix for Geany GTK version check on OpenBSD 6.4)
 
+    Addons:
+    * Update to use new plugin API (PR #699)
+
+    Autoclose:
+    * Update to use new plugin API (PR #700)
+
+    Automark:
+    * Update to use new plugin API (PR #701)
+
+    Codenav:
+    * Update to use new plugin API (PR #702)
+
+    Debugger:
+    * Update to use new plugin API (PR #704)
+    * Fix a compiler warning (PR #816)
+
+    Defineformat:
+    * Update to use new plugin API (PR #705)
+
+    DevHelp:
+    * Update to use new plugin API (PR #707)
+
+    GeanyCTags
+    * Update to use new plugin API (PR #708)
+
+    GeanyExtraSel
+    * Undo workaround for rectange selection cancel bug
+      (Fixed with 1.34+ Geany core release)(PR #806)
+
+    GeanyLua:
+    * Fix build warnings (PR #778)
+    * Update to match latest Geany's Scintilla API (PR #814)
+
+    GeanyNumberedBookmarks:
+    * Fix crash on re-unload (PR #804)
+
+    GeanyVC:
+    * Add a commit message history (PR #836)
+
+    GitChangebar:
+    * Fix compatibility with libgit2 0.28 API (PR #821)
+
+    Project Organizer:
+    * Add file operations to Project Organizer (PR #783)
+
+    Scope:
+    * Correct height of "Environment" GtkTextView (PR #830)
+    * Show error message if no executable is set (PR #831)
+    * Fix "Modify" menu item being active without selection (PR #826)
+
+    Spellcheck:
+    * Improve documentation where to put translation
+      dictionaries (Issue #1627)
+    * Update README (PR #812)
+
+    Treebrowser:
+    * Use xdg-open for external open command (PR #813)
+
+    Vimmode:
+    * Fix repeated commands like 10dd not working (PR #820)
+
+    Internationalization:
+    * Updated translations: de, es, pt
 
 
 Geany Plugins 1.34 (2018-12-16)
