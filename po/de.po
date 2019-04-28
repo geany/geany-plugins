@@ -7958,7 +7958,7 @@ msgstr "Auf mögliche Aktualisierungen prüfen"
 
 #: ../vimode/src/backends/backend-geany.c:41
 msgid "Vimode"
-msgstr "Cim-Modus"
+msgstr "Vim-Modus"
 
 #: ../vimode/src/backends/backend-geany.c:42
 msgid "Vim mode for Geany"
