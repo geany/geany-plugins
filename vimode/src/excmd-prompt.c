@@ -34,6 +34,8 @@
 static GtkWidget *prompt;
 static GtkWidget *entry;
 static CmdContext *ctx;
+static GList *history;
+static gint history_pos;
 
 
 static void close_prompt()
@@ -57,10 +59,65 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 		case GDK_KEY_Return:
 		case GDK_KEY_KP_Enter:
 		case GDK_KEY_ISO_Enter:
-			excmd_perform(ctx, gtk_entry_get_text(GTK_ENTRY(entry)));
+		{
+			const gchar *text = gtk_entry_get_text(GTK_ENTRY(entry));
+			GList *link = g_list_find_custom(history, text, (GCompareFunc)g_strcmp0);
+
+			if (link)
+			{
+				g_free(link->data);
+				history = g_list_remove_link(history, link);
+			}
+			if (g_strcmp0(text, ":") != 0)
+				history = g_list_prepend(history, g_strdup(text));
+
+			excmd_perform(ctx, text);
 			close_prompt();
+
 			return TRUE;
+		}
+
+		case GDK_KEY_Up:
+		case GDK_KEY_KP_Up:
+		case GDK_KEY_uparrow:
+		{
+			gint history_len = g_list_length(history);
+
+			if (history_pos == -1 && history_len > 0)
+				history_pos = 0;
+			else if (history_pos + 1 < history_len)
+				history_pos++;
+
+			if (history_pos != -1 && history_pos < history_len)
+			{
+				gchar *val = g_list_nth_data(history, history_pos);
+				gtk_entry_set_text(GTK_ENTRY(entry), val);
+				gtk_editable_set_position(GTK_EDITABLE(entry), strlen(val));
+			}
+
+			return TRUE;
+		}
+
+		case GDK_KEY_Down:
+		case GDK_KEY_KP_Down:
+		case GDK_KEY_downarrow:
+		{
+			const gchar *val;
+
+			if (history_pos == -1)
+				return TRUE;
+
+			history_pos--;
+
+			val = history_pos == -1 ? ":" : g_list_nth_data(history, history_pos);
+			gtk_entry_set_text(GTK_ENTRY(entry), val);
+			gtk_editable_set_position(GTK_EDITABLE(entry), strlen(val));
+
+			return TRUE;
+		}
 	}
+
+	history_pos = -1;
 
 	return FALSE;
 }
@@ -86,6 +143,8 @@ void ex_prompt_init(GtkWidget *parent_window, CmdContext *c)
 	GtkWidget *frame;
 
 	ctx = c;
+
+	history = NULL;
 
 	/* prompt */
 	prompt = g_object_new(GTK_TYPE_WINDOW,
@@ -128,6 +187,7 @@ static void position_prompt(void)
 
 void ex_prompt_show(const gchar *val)
 {
+	history_pos = -1;
 	gtk_widget_show(prompt);
 	position_prompt();
 	gtk_entry_set_text(GTK_ENTRY(entry), val);
@@ -138,4 +198,5 @@ void ex_prompt_show(const gchar *val)
 void ex_prompt_cleanup(void)
 {
 	gtk_widget_destroy(prompt);
+	g_list_free_full(history, g_free);
 }
