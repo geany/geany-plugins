@@ -34,7 +34,7 @@
 static GtkWidget *prompt;
 static GtkWidget *entry;
 static CmdContext *ctx;
-static GList *history;
+static GPtrArray *history;
 static gint history_pos;
 
 
@@ -60,16 +60,13 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 		case GDK_KEY_KP_Enter:
 		case GDK_KEY_ISO_Enter:
 		{
+			guint index;
 			const gchar *text = gtk_entry_get_text(GTK_ENTRY(entry));
-			GList *link = g_list_find_custom(history, text, (GCompareFunc)g_strcmp0);
 
-			if (link)
-			{
-				g_free(link->data);
-				history = g_list_remove_link(history, link);
-			}
-			if (g_strcmp0(text, ":") != 0)
-				history = g_list_prepend(history, g_strdup(text));
+			if (g_ptr_array_find_with_equal_func(history, text, g_str_equal, &index))
+				g_ptr_array_remove_index(history, index);
+			if (strlen(text) > 1)
+				g_ptr_array_add(history, g_strdup(text));
 
 			excmd_perform(ctx, text);
 			close_prompt();
@@ -81,16 +78,14 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 		case GDK_KEY_KP_Up:
 		case GDK_KEY_uparrow:
 		{
-			gint history_len = g_list_length(history);
+			if (history_pos == -1 && history->len > 0)
+				history_pos = history->len - 1;
+			else if (history_pos > 0)
+				history_pos--;
 
-			if (history_pos == -1 && history_len > 0)
-				history_pos = 0;
-			else if (history_pos + 1 < history_len)
-				history_pos++;
-
-			if (history_pos != -1 && history_pos < history_len)
+			if (history_pos != -1)
 			{
-				gchar *val = g_list_nth_data(history, history_pos);
+				gchar *val = history->pdata[history_pos];
 				gtk_entry_set_text(GTK_ENTRY(entry), val);
 				gtk_editable_set_position(GTK_EDITABLE(entry), strlen(val));
 			}
@@ -107,9 +102,12 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 			if (history_pos == -1)
 				return TRUE;
 
-			history_pos--;
+			if (history_pos + 1 < history->len)
+				history_pos++;
+			else
+				history_pos = -1;
 
-			val = history_pos == -1 ? ":" : g_list_nth_data(history, history_pos);
+			val = history_pos == -1 ? ":" : history->pdata[history_pos];
 			gtk_entry_set_text(GTK_ENTRY(entry), val);
 			gtk_editable_set_position(GTK_EDITABLE(entry), strlen(val));
 
@@ -144,7 +142,7 @@ void ex_prompt_init(GtkWidget *parent_window, CmdContext *c)
 
 	ctx = c;
 
-	history = NULL;
+	history = g_ptr_array_new_with_free_func(g_free);
 
 	/* prompt */
 	prompt = g_object_new(GTK_TYPE_WINDOW,
@@ -198,5 +196,5 @@ void ex_prompt_show(const gchar *val)
 void ex_prompt_cleanup(void)
 {
 	gtk_widget_destroy(prompt);
-	g_list_free_full(history, g_free);
+	g_ptr_array_free(history, TRUE);
 }
