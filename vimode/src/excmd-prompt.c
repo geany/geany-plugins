@@ -34,13 +34,27 @@
 static GtkWidget *prompt;
 static GtkWidget *entry;
 static CmdContext *ctx;
+
+static gchar cmd_first_char;
 static GPtrArray *history;
+static GPtrArray *cmd_history;
+static GPtrArray *search_history;
 static gint history_pos;
 
 
 static void close_prompt()
 {
 	gtk_widget_hide(prompt);
+}
+
+
+static void set_prompt_text(const gchar *val)
+{
+	gchar *text = g_strconcat(" ", val, NULL);
+	text[0] = cmd_first_char;
+	gtk_entry_set_text(GTK_ENTRY(entry), text);
+	gtk_editable_set_position(GTK_EDITABLE(entry), strlen(text));
+	g_free(text);
 }
 
 
@@ -63,10 +77,10 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 			guint index;
 			const gchar *text = gtk_entry_get_text(GTK_ENTRY(entry));
 
-			if (g_ptr_array_find_with_equal_func(history, text, g_str_equal, &index))
+			if (g_ptr_array_find_with_equal_func(history, text + 1, g_str_equal, &index))
 				g_ptr_array_remove_index(history, index);
 			if (strlen(text) > 1)
-				g_ptr_array_add(history, g_strdup(text));
+				g_ptr_array_add(history, g_strdup(text + 1));
 
 			excmd_perform(ctx, text);
 			close_prompt();
@@ -84,11 +98,7 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 				history_pos--;
 
 			if (history_pos != -1)
-			{
-				gchar *val = history->pdata[history_pos];
-				gtk_entry_set_text(GTK_ENTRY(entry), val);
-				gtk_editable_set_position(GTK_EDITABLE(entry), strlen(val));
-			}
+				set_prompt_text(history->pdata[history_pos]);
 
 			return TRUE;
 		}
@@ -97,8 +107,6 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 		case GDK_KEY_KP_Down:
 		case GDK_KEY_downarrow:
 		{
-			const gchar *val;
-
 			if (history_pos == -1)
 				return TRUE;
 
@@ -107,9 +115,7 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 			else
 				history_pos = -1;
 
-			val = history_pos == -1 ? ":" : history->pdata[history_pos];
-			gtk_entry_set_text(GTK_ENTRY(entry), val);
-			gtk_editable_set_position(GTK_EDITABLE(entry), strlen(val));
+			set_prompt_text(history_pos == -1 ? "" : history->pdata[history_pos]);
 
 			return TRUE;
 		}
@@ -142,7 +148,8 @@ void ex_prompt_init(GtkWidget *parent_window, CmdContext *c)
 
 	ctx = c;
 
-	history = g_ptr_array_new_with_free_func(g_free);
+	cmd_history = g_ptr_array_new_with_free_func(g_free);
+	search_history = g_ptr_array_new_with_free_func(g_free);
 
 	/* prompt */
 	prompt = g_object_new(GTK_TYPE_WINDOW,
@@ -186,6 +193,8 @@ static void position_prompt(void)
 void ex_prompt_show(const gchar *val)
 {
 	history_pos = -1;
+	cmd_first_char = val[0];
+	history = cmd_first_char == ':' ? cmd_history : search_history;
 	gtk_widget_show(prompt);
 	position_prompt();
 	gtk_entry_set_text(GTK_ENTRY(entry), val);
@@ -196,5 +205,6 @@ void ex_prompt_show(const gchar *val)
 void ex_prompt_cleanup(void)
 {
 	gtk_widget_destroy(prompt);
-	g_ptr_array_free(history, TRUE);
+	g_ptr_array_free(cmd_history, TRUE);
+	g_ptr_array_free(search_history, TRUE);
 }
