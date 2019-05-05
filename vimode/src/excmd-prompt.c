@@ -60,9 +60,10 @@ static void set_prompt_text(const gchar *val)
 
 static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer dummy)
 {
-	guint mask = GDK_MODIFIER_MASK & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK);
+	guint printable_mask = GDK_MODIFIER_MASK & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK);
+	guint modif_mask = GDK_MODIFIER_MASK & ~GDK_LOCK_MASK;
 
-	if ((event->state & mask) == 0)
+	if ((event->state & printable_mask) == 0)
 	{
 		switch (event->keyval)
 		{
@@ -125,6 +126,15 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 
 				return TRUE;
 			}
+		}
+	}
+	else if ((event->state & modif_mask) == GDK_CONTROL_MASK)
+	{
+		switch (event->keyval)
+		{
+			case GDK_KEY_c:
+				close_prompt();
+				return TRUE;
 		}
 	}
 
