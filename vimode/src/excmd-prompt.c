@@ -60,66 +60,71 @@ static void set_prompt_text(const gchar *val)
 
 static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer dummy)
 {
-	switch (event->keyval)
+	guint mask = GDK_MODIFIER_MASK & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK);
+
+	if ((event->state & mask) == 0)
 	{
-		case GDK_KEY_Escape:
-			close_prompt();
-			return TRUE;
-
-		case GDK_KEY_Tab:
-			/* avoid leaving the entry */
-			return TRUE;
-
-		case GDK_KEY_Return:
-		case GDK_KEY_KP_Enter:
-		case GDK_KEY_ISO_Enter:
+		switch (event->keyval)
 		{
-			guint index;
-			const gchar *text = gtk_entry_get_text(GTK_ENTRY(entry));
-
-			if (g_ptr_array_find_with_equal_func(history, text + 1, g_str_equal, &index))
-				g_ptr_array_remove_index(history, index);
-			if (strlen(text) > 1)
-				g_ptr_array_add(history, g_strdup(text + 1));
-			if (history->len > 20) // default vim history size
-				g_ptr_array_remove_index(history, 0);
-
-			excmd_perform(ctx, text);
-			close_prompt();
-
-			return TRUE;
-		}
-
-		case GDK_KEY_Up:
-		case GDK_KEY_KP_Up:
-		case GDK_KEY_uparrow:
-		{
-			if (history_pos == -1 && history->len > 0)
-				history_pos = history->len - 1;
-			else if (history_pos > 0)
-				history_pos--;
-
-			if (history_pos != -1)
-				set_prompt_text(history->pdata[history_pos]);
-
-			return TRUE;
-		}
-
-		case GDK_KEY_Down:
-		case GDK_KEY_KP_Down:
-		case GDK_KEY_downarrow:
-		{
-			if (history_pos == -1)
+			case GDK_KEY_Escape:
+				close_prompt();
 				return TRUE;
 
-			if (history_pos + 1 < history->len)
-				history_pos++;
-			else
-				history_pos = -1;
+			case GDK_KEY_Tab:
+				/* avoid leaving the entry */
+				return TRUE;
 
-			set_prompt_text(history_pos == -1 ? "" : history->pdata[history_pos]);
+			case GDK_KEY_Return:
+			case GDK_KEY_KP_Enter:
+			case GDK_KEY_ISO_Enter:
+			{
+				guint index;
+				const gchar *text = gtk_entry_get_text(GTK_ENTRY(entry));
 
-			return TRUE;
+				if (g_ptr_array_find_with_equal_func(history, text + 1, g_str_equal, &index))
+					g_ptr_array_remove_index(history, index);
+				if (strlen(text) > 1)
+					g_ptr_array_add(history, g_strdup(text + 1));
+				if (history->len > 20) // default vim history size
+					g_ptr_array_remove_index(history, 0);
+
+				excmd_perform(ctx, text);
+				close_prompt();
+
+				return TRUE;
+			}
+
+			case GDK_KEY_Up:
+			case GDK_KEY_KP_Up:
+			case GDK_KEY_uparrow:
+			{
+				if (history_pos == -1 && history->len > 0)
+					history_pos = history->len - 1;
+				else if (history_pos > 0)
+					history_pos--;
+
+				if (history_pos != -1)
+					set_prompt_text(history->pdata[history_pos]);
+
+				return TRUE;
+			}
+
+			case GDK_KEY_Down:
+			case GDK_KEY_KP_Down:
+			case GDK_KEY_downarrow:
+			{
+				if (history_pos == -1)
+					return TRUE;
+
+				if (history_pos + 1 < history->len)
+					history_pos++;
+				else
+					history_pos = -1;
+
+				set_prompt_text(history_pos == -1 ? "" : history->pdata[history_pos]);
+
+				return TRUE;
+			}
 		}
 	}
 
