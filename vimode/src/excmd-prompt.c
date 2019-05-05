@@ -81,6 +81,8 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 				g_ptr_array_remove_index(history, index);
 			if (strlen(text) > 1)
 				g_ptr_array_add(history, g_strdup(text + 1));
+			if (history->len > 20) // default vim history size
+				g_ptr_array_remove_index(history, 0);
 
 			excmd_perform(ctx, text);
 			close_prompt();
