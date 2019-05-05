@@ -60,6 +60,7 @@ static void set_prompt_text(const gchar *val)
 
 static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer dummy)
 {
+	const gchar *text = gtk_entry_get_text(GTK_ENTRY(entry));
 	guint printable_mask = GDK_MODIFIER_MASK & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK);
 	guint modif_mask = GDK_MODIFIER_MASK & ~GDK_LOCK_MASK;
 
@@ -80,7 +81,6 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 			case GDK_KEY_ISO_Enter:
 			{
 				guint index;
-				const gchar *text = gtk_entry_get_text(GTK_ENTRY(entry));
 
 				if (g_ptr_array_find_with_equal_func(history, text + 1, g_str_equal, &index))
 					g_ptr_array_remove_index(history, index);
@@ -126,6 +126,13 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 
 				return TRUE;
 			}
+
+			case GDK_KEY_Home:
+				gtk_editable_set_position(GTK_EDITABLE(entry), 1);
+				return TRUE;
+			case GDK_KEY_End:
+				gtk_editable_set_position(GTK_EDITABLE(entry), strlen(text));
+				return TRUE;
 		}
 	}
 	else if ((event->state & modif_mask) == GDK_CONTROL_MASK)
@@ -134,6 +141,13 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 		{
 			case GDK_KEY_c:
 				close_prompt();
+				return TRUE;
+
+			case GDK_KEY_b:
+				gtk_editable_set_position(GTK_EDITABLE(entry), 1);
+				return TRUE;
+			case GDK_KEY_e:
+				gtk_editable_set_position(GTK_EDITABLE(entry), strlen(text));
 				return TRUE;
 		}
 	}
