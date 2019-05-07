@@ -40,11 +40,20 @@ static GPtrArray *history;
 static GPtrArray *cmd_history;
 static GPtrArray *search_history;
 static gint history_pos;
+/* text entered by user used to filter history */
+static gchar *entered_text;
+/* ignore change of text inside entry when set from history */
+static gboolean ignore_change;
 
 
 static void close_prompt()
 {
 	gtk_widget_hide(prompt);
+	if (entered_text)
+	{
+		g_free(entered_text);
+		entered_text = NULL;
+	}
 }
 
 
@@ -52,6 +61,7 @@ static void set_prompt_text(const gchar *val)
 {
 	gchar *text = g_strconcat(" ", val, NULL);
 	text[0] = cmd_first_char;
+	ignore_change = TRUE;
 	gtk_entry_set_text(GTK_ENTRY(entry), text);
 	gtk_editable_set_position(GTK_EDITABLE(entry), strlen(text));
 	g_free(text);
@@ -61,10 +71,11 @@ static void set_prompt_text(const gchar *val)
 static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer dummy)
 {
 	const gchar *text = gtk_entry_get_text(GTK_ENTRY(entry));
-	guint printable_mask = GDK_MODIFIER_MASK & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK);
 	guint modif_mask = GDK_MODIFIER_MASK & ~GDK_LOCK_MASK;
 
-	if ((event->state & printable_mask) == 0)
+	ignore_change = FALSE;
+
+	if ((event->state & modif_mask) == 0)
 	{
 		switch (event->keyval)
 		{
@@ -99,13 +110,25 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 			case GDK_KEY_KP_Up:
 			case GDK_KEY_uparrow:
 			{
-				if (history_pos == -1 && history->len > 0)
-					history_pos = history->len - 1;
-				else if (history_pos > 0)
-					history_pos--;
+				gint pos = -1;
 
-				if (history_pos != -1)
-					set_prompt_text(history->pdata[history_pos]);
+				if (history_pos == -1 && history->len > 0)
+					pos = history->len - 1;
+				else if (history_pos > 0)
+					pos = history_pos - 1;
+
+				while (pos >= 0)
+				{
+					if (g_str_has_prefix(history->pdata[pos], entered_text))
+						break;
+					pos--;
+				}
+
+				if (pos != -1)
+				{
+					set_prompt_text(history->pdata[pos]);
+					history_pos = pos;
+				}
 
 				return TRUE;
 			}
@@ -114,15 +137,25 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 			case GDK_KEY_KP_Down:
 			case GDK_KEY_downarrow:
 			{
+				gint pos;
+
 				if (history_pos == -1)
 					return TRUE;
 
-				if (history_pos + 1 < history->len)
-					history_pos++;
-				else
-					history_pos = -1;
+				pos = history_pos + 1;
 
-				set_prompt_text(history_pos == -1 ? "" : history->pdata[history_pos]);
+				while (pos < history->len)
+				{
+					if (g_str_has_prefix(history->pdata[pos], entered_text))
+						break;
+					pos++;
+				}
+
+				if (pos >= history->len)
+					pos = -1;
+
+				set_prompt_text(pos == -1 ? "" : history->pdata[pos]);
+				history_pos = pos;
 
 				return TRUE;
 			}
@@ -164,6 +197,11 @@ static void on_entry_text_notify(GObject *object, GParamSpec *pspec, gpointer du
 
 	if (cmd == NULL || strlen(cmd) == 0)
 		close_prompt();
+	else if (!ignore_change)
+	{
+		g_free(entered_text);
+		entered_text = g_strdup(cmd + 1);
+	}
 }
 
 
@@ -224,6 +262,7 @@ static void position_prompt(void)
 void ex_prompt_show(const gchar *val)
 {
 	history_pos = -1;
+	entered_text = g_strdup(val + 1);
 	cmd_first_char = val[0];
 	history = cmd_first_char == ':' ? cmd_history : search_history;
 	gtk_widget_show(prompt);
