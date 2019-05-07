@@ -91,10 +91,11 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 			case GDK_KEY_KP_Enter:
 			case GDK_KEY_ISO_Enter:
 			{
-				guint index;
+				guint i;
 
-				if (g_ptr_array_find_with_equal_func(history, text + 1, g_str_equal, &index))
-					g_ptr_array_remove_index(history, index);
+				for (i = 0; i < history->len; i++)
+					if (g_str_equal(text + 1, history->pdata[i]))
+						g_ptr_array_remove_index(history, i);
 				if (strlen(text) > 1)
 					g_ptr_array_add(history, g_strdup(text + 1));
 				if (history->len > 20) // default vim history size
