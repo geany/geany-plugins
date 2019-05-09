@@ -315,9 +315,11 @@ S: Maintained
 
 workbench
 P:
+g: @LarsGit223
 M:
-W:
-S: Orphaned
+W: http://plugins.geany.org/workbench.html
+S: Maintained
+
 
 xmlsnippets
 P: Eugene Arshinov <earshinov@gmail.com>
