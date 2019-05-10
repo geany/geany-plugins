@@ -51,7 +51,14 @@ G_BEGIN_DECLS
 #define GTK_STOCK_OPEN   _("_Open")
 #define GTK_STOCK_CANCEL _("_Cancel")
 #endif
+
+/* Replace calls to gtk_icon_info_free() with call to
+   g_object_unref(). Starting from version 3.8.*/
+#if GTK_CHECK_VERSION(3, 8, 0)
+#define gtk_icon_info_free(icon_info) \
+        g_object_unref(icon_info)
+#endif
+
 G_END_DECLS
 
 #endif /* GP_GTKCOMPAT_H */
-

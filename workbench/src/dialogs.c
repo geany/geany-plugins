@@ -279,7 +279,12 @@ gboolean dialogs_directory_settings(WB_PROJECT_DIR *directory)
 {
 	GtkWidget *w_file_patterns, *w_ignored_dirs_patterns, *w_ignored_file_patterns;
 	GtkWidget *dialog, *label, *content_area;
-	GtkWidget *vbox, *hbox, *hbox1, *table;
+	GtkWidget *vbox, *hbox, *hbox1;
+#if GTK_CHECK_VERSION(3, 4, 0)
+	GtkWidget *grid;
+#else
+	GtkWidget *table;
+#endif
 	GtkDialogFlags flags;
 	gchar *file_patterns_old, *ignored_file_patterns_old, *ignored_dirs_patterns_old;
 	gboolean changed;
@@ -296,14 +301,34 @@ gboolean dialogs_directory_settings(WB_PROJECT_DIR *directory)
 
 	vbox = gtk_vbox_new(FALSE, 0);
 
+#if GTK_CHECK_VERSION(3, 4, 0)
+	grid = gtk_grid_new ();
+	gtk_grid_set_row_spacing (GTK_GRID(grid), 5);
+	gtk_grid_set_column_spacing (GTK_GRID(grid), 10);
+#else
 	table = gtk_table_new(5, 2, FALSE);
 	gtk_table_set_row_spacings(GTK_TABLE(table), 5);
 	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
+#endif
 
 	label = gtk_label_new(_("File patterns:"));
+#if GTK_CHECK_VERSION(3, 16, 0)
+	gtk_label_set_xalign (GTK_LABEL(label), 0);
+	gtk_label_set_yalign (GTK_LABEL(label), 0);
+#else
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+#endif
 	w_file_patterns = gtk_entry_new();
+#if GTK_CHECK_VERSION(3, 4, 0)
+	gtk_grid_attach (GTK_GRID(grid), label, 0, 0, 1, 1);
+	gtk_grid_attach (GTK_GRID(grid), w_file_patterns, 1, 0, 1, 1);
+	gtk_widget_set_valign (label, GTK_ALIGN_BASELINE);
+	gtk_widget_set_hexpand (label, FALSE);
+	gtk_widget_set_valign (w_file_patterns, GTK_ALIGN_BASELINE);
+	gtk_widget_set_hexpand (w_file_patterns, TRUE);
+#else
 	ui_table_add_row(GTK_TABLE(table), 0, label, w_file_patterns, NULL);
+#endif
 	ui_entry_add_clear_icon(GTK_ENTRY(w_file_patterns));
 	gtk_widget_set_tooltip_text(w_file_patterns,
 		_("Space separated list of patterns that are used to identify files "
@@ -312,10 +337,24 @@ gboolean dialogs_directory_settings(WB_PROJECT_DIR *directory)
 	gtk_entry_set_text(GTK_ENTRY(w_file_patterns), file_patterns_old);
 
 	label = gtk_label_new(_("Ignored file patterns:"));
+#if GTK_CHECK_VERSION(3, 16, 0)
+	gtk_label_set_xalign (GTK_LABEL(label), 0);
+	gtk_label_set_yalign (GTK_LABEL(label), 0);
+#else
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+#endif
 	w_ignored_file_patterns = gtk_entry_new();
 	ui_entry_add_clear_icon(GTK_ENTRY(w_ignored_file_patterns));
+#if GTK_CHECK_VERSION(3, 4, 0)
+	gtk_grid_attach (GTK_GRID(grid), label, 0, 1, 1, 1);
+	gtk_grid_attach (GTK_GRID(grid), w_ignored_file_patterns, 1, 1, 1, 1);
+	gtk_widget_set_valign (label, GTK_ALIGN_BASELINE);
+	gtk_widget_set_hexpand (label, FALSE);
+	gtk_widget_set_valign (w_ignored_file_patterns, GTK_ALIGN_BASELINE);
+	gtk_widget_set_hexpand (w_ignored_file_patterns, TRUE);
+#else
 	ui_table_add_row(GTK_TABLE(table), 2, label, w_ignored_file_patterns, NULL);
+#endif
 	gtk_widget_set_tooltip_text(w_ignored_file_patterns,
 		_("Space separated list of patterns that are used to identify files "
 		  "that shall not be displayed in the directory tree."));
@@ -323,17 +362,35 @@ gboolean dialogs_directory_settings(WB_PROJECT_DIR *directory)
 	gtk_entry_set_text(GTK_ENTRY(w_ignored_file_patterns), ignored_file_patterns_old);
 
 	label = gtk_label_new(_("Ignored directory patterns:"));
+#if GTK_CHECK_VERSION(3, 16, 0)
+	gtk_label_set_xalign (GTK_LABEL(label), 0);
+	gtk_label_set_yalign (GTK_LABEL(label), 0);
+#else
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+#endif
 	w_ignored_dirs_patterns = gtk_entry_new();
 	ui_entry_add_clear_icon(GTK_ENTRY(w_ignored_dirs_patterns));
+#if GTK_CHECK_VERSION(3, 4, 0)
+	gtk_grid_attach (GTK_GRID(grid), label, 0, 2, 1, 1);
+	gtk_grid_attach (GTK_GRID(grid), w_ignored_dirs_patterns, 1, 2, 1, 1);
+	gtk_widget_set_valign (label, GTK_ALIGN_BASELINE);
+	gtk_widget_set_hexpand (label, FALSE);
+	gtk_widget_set_valign (w_ignored_dirs_patterns, GTK_ALIGN_BASELINE);
+	gtk_widget_set_hexpand (w_ignored_dirs_patterns, TRUE);
+#else
 	ui_table_add_row(GTK_TABLE(table), 3, label, w_ignored_dirs_patterns, NULL);
+#endif
 	gtk_widget_set_tooltip_text(w_ignored_dirs_patterns,
 		_("Space separated list of patterns that are used to identify directories "
 		  "that shall not be scanned for source files."));
 	ignored_dirs_patterns_old = g_strjoinv(" ", wb_project_dir_get_ignored_dirs_patterns(directory));
 	gtk_entry_set_text(GTK_ENTRY(w_ignored_dirs_patterns), ignored_dirs_patterns_old);
 
+#if GTK_CHECK_VERSION(3, 4, 0)
+	gtk_box_pack_start(GTK_BOX(vbox), grid, FALSE, FALSE, 6);
+#else
 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 6);
+#endif
 
 	hbox1 = gtk_hbox_new(FALSE, 0);
 	label = gtk_label_new(_("Note: the patterns above affect only the workbench directory and are not used in the Find in Files\n"
@@ -409,7 +466,12 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 	gint result;
 	GtkWidget *w_rescan_projects_on_open, *w_enable_live_update, *w_expand_on_hover;
 	GtkWidget *dialog, *content_area;
-	GtkWidget *vbox, *hbox, *table;
+	GtkWidget *vbox, *hbox;
+#if GTK_CHECK_VERSION(3, 4, 0)
+	GtkWidget *grid;
+#else
+	GtkWidget *table;
+#endif
 	GtkDialogFlags flags;
 	gboolean changed, rescan_projects_on_open, rescan_projects_on_open_old;
 	gboolean enable_live_update, enable_live_update_old;
@@ -427,12 +489,26 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 
 	vbox = gtk_vbox_new(FALSE, 0);
 
+#if GTK_CHECK_VERSION(3, 4, 0)
+	grid = gtk_grid_new ();
+	gtk_grid_set_row_spacing (GTK_GRID(grid), 5);
+	gtk_grid_set_column_spacing (GTK_GRID(grid), 10);
+#else
 	table = gtk_table_new(5, 2, FALSE);
 	gtk_table_set_row_spacings(GTK_TABLE(table), 5);
 	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
+#endif
 
 	w_rescan_projects_on_open = gtk_check_button_new_with_mnemonic(_("_Rescan all projects on open"));
+#if GTK_CHECK_VERSION(3, 4, 0)
+	gtk_grid_attach (GTK_GRID(grid), w_rescan_projects_on_open, 0, 0, 1, 1);
+	gtk_widget_set_halign (w_rescan_projects_on_open, GTK_ALIGN_CENTER);
+	gtk_widget_set_hexpand (w_rescan_projects_on_open, TRUE);
+	gtk_widget_set_valign (w_rescan_projects_on_open, GTK_ALIGN_CENTER);
+	gtk_widget_set_vexpand (w_rescan_projects_on_open, TRUE);
+#else
 	ui_table_add_row(GTK_TABLE(table), 0, w_rescan_projects_on_open, NULL);
+#endif
 	gtk_widget_set_tooltip_text(w_rescan_projects_on_open,
 		_("If the option is activated (default), then all projects will be re-scanned "
 		  "on opening of the workbench."));
@@ -440,7 +516,15 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w_rescan_projects_on_open), rescan_projects_on_open_old);
 
 	w_enable_live_update = gtk_check_button_new_with_mnemonic(_("_Enable live update"));
+#if GTK_CHECK_VERSION(3, 4, 0)
+	gtk_grid_attach (GTK_GRID(grid), w_enable_live_update, 0, 1, 1, 1);
+	gtk_widget_set_halign (w_enable_live_update, GTK_ALIGN_CENTER);
+	gtk_widget_set_hexpand (w_enable_live_update, TRUE);
+	gtk_widget_set_valign (w_enable_live_update, GTK_ALIGN_CENTER);
+	gtk_widget_set_vexpand (w_enable_live_update, TRUE);
+#else
 	ui_table_add_row(GTK_TABLE(table), 1, w_enable_live_update, NULL);
+#endif
 	gtk_widget_set_tooltip_text(w_enable_live_update,
 		_("If the option is activated (default), then the list of files and the sidebar "
 		  "will be updated automatically if a file or directory is created, removed or renamed. "
@@ -449,14 +533,26 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w_enable_live_update), enable_live_update_old);
 
 	w_expand_on_hover = gtk_check_button_new_with_mnemonic(_("_Expand on hover"));
+#if GTK_CHECK_VERSION(3, 4, 0)
+	gtk_grid_attach (GTK_GRID(grid), w_expand_on_hover, 0, 2, 1, 1);
+	gtk_widget_set_halign (w_expand_on_hover, GTK_ALIGN_CENTER);
+	gtk_widget_set_hexpand (w_expand_on_hover, TRUE);
+	gtk_widget_set_valign (w_expand_on_hover, GTK_ALIGN_CENTER);
+	gtk_widget_set_vexpand (w_expand_on_hover, TRUE);
+#else
 	ui_table_add_row(GTK_TABLE(table), 2, w_expand_on_hover, NULL);
+#endif
 	gtk_widget_set_tooltip_text(w_expand_on_hover,
 		_("If the option is activated, then a tree node in the sidebar "
 		  "will be expanded or collapsed by hovering over it with the mouse cursor."));
 	expand_on_hover_old = workbench_get_expand_on_hover(workbench);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w_expand_on_hover), expand_on_hover_old);
 
+#if GTK_CHECK_VERSION(3, 4, 0)
+	gtk_box_pack_start(GTK_BOX(vbox), grid, FALSE, FALSE, 6);
+#else
 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 6);
+#endif
 
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), vbox, TRUE, TRUE, 6);
