@@ -197,7 +197,7 @@ static void on_render_line(GtkTreeViewColumn *tree_column, GtkCellRenderer *cell
 		g_object_set(cell, "text", "", NULL);
 	else
 	{
-		GValue value = {0};
+		GValue value = G_VALUE_INIT;
 
 		g_value_init(&value, G_TYPE_INT);
 		g_value_set_int (&value, f->line);

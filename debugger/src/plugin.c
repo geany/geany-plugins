@@ -88,7 +88,11 @@ static gboolean plugin_debugger_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer
 	pixbufs_init();
 
 	/* main box */
+#if GTK_CHECK_VERSION(3, 0, 0)
+	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 7);
+#else
 	hbox = gtk_hbox_new(FALSE, 7);
+#endif
 	gtk_container_set_border_width(GTK_CONTAINER(hbox), 6);
 
 	/* add target page */

@@ -29,11 +29,26 @@
 
 #include "cellrenderertoggle.h"
 
+struct _CellRendererToggle
+{
+  GtkCellRendererToggle parent;
+};
+
+struct _CellRendererToggleClass
+{
+  GtkCellRendererToggleClass parent_class;
+};
+
 /*
  * handles an activation and sends a toggle signal is its cell renderer has been clicked
  */
+#if GTK_CHECK_VERSION(3, 0, 0)
+static gint cell_renderer_toggle_activate(GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, const gchar *path,
+	const GdkRectangle *background_area, const GdkRectangle *cell_area, GtkCellRendererState  flags)
+#else
 static gint cell_renderer_toggle_activate(GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, const gchar *path,
 	GdkRectangle *background_area, GdkRectangle *cell_area, GtkCellRendererState  flags)
+#endif
 {
 	if (!event ||
 		(
@@ -53,7 +68,7 @@ static gint cell_renderer_toggle_activate(GtkCellRenderer *cell, GdkEvent *event
 static void cell_renderer_toggle_init (CellRendererToggle *cell)
 {
 	GtkCellRenderer *cell_renderer = (GtkCellRenderer*)cell;
-	cell_renderer->mode = GTK_CELL_RENDERER_MODE_ACTIVATABLE;
+	g_object_set(cell_renderer, "mode", GTK_CELL_RENDERER_MODE_ACTIVATABLE, NULL);
 }
 
 /*
