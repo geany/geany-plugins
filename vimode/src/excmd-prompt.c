@@ -34,86 +34,155 @@
 static GtkWidget *prompt;
 static GtkWidget *entry;
 static CmdContext *ctx;
-static GList *history;
+
+static gchar cmd_first_char;
+static GPtrArray *history;
+static GPtrArray *cmd_history;
+static GPtrArray *search_history;
 static gint history_pos;
+/* text entered by user used to filter history */
+static gchar *entered_text;
+/* ignore change of text inside entry when set from history */
+static gboolean ignore_change;
 
 
 static void close_prompt()
 {
 	gtk_widget_hide(prompt);
+	if (entered_text)
+	{
+		g_free(entered_text);
+		entered_text = NULL;
+	}
+}
+
+
+static void set_prompt_text(const gchar *val)
+{
+	gchar *text = g_strconcat(" ", val, NULL);
+	text[0] = cmd_first_char;
+	ignore_change = TRUE;
+	gtk_entry_set_text(GTK_ENTRY(entry), text);
+	gtk_editable_set_position(GTK_EDITABLE(entry), strlen(text));
+	g_free(text);
 }
 
 
 static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer dummy)
 {
-	switch (event->keyval)
+	const gchar *text = gtk_entry_get_text(GTK_ENTRY(entry));
+	guint modif_mask = GDK_MODIFIER_MASK & ~GDK_LOCK_MASK;
+
+	ignore_change = FALSE;
+
+	if ((event->state & modif_mask) == 0)
 	{
-		case GDK_KEY_Escape:
-			close_prompt();
-			return TRUE;
-
-		case GDK_KEY_Tab:
-			/* avoid leaving the entry */
-			return TRUE;
-
-		case GDK_KEY_Return:
-		case GDK_KEY_KP_Enter:
-		case GDK_KEY_ISO_Enter:
+		switch (event->keyval)
 		{
-			const gchar *text = gtk_entry_get_text(GTK_ENTRY(entry));
-			GList *link = g_list_find_custom(history, text, (GCompareFunc)g_strcmp0);
-
-			if (link)
-			{
-				g_free(link->data);
-				history = g_list_remove_link(history, link);
-			}
-			if (g_strcmp0(text, ":") != 0)
-				history = g_list_prepend(history, g_strdup(text));
-
-			excmd_perform(ctx, text);
-			close_prompt();
-
-			return TRUE;
-		}
-
-		case GDK_KEY_Up:
-		case GDK_KEY_KP_Up:
-		case GDK_KEY_uparrow:
-		{
-			gint history_len = g_list_length(history);
-
-			if (history_pos == -1 && history_len > 0)
-				history_pos = 0;
-			else if (history_pos + 1 < history_len)
-				history_pos++;
-
-			if (history_pos != -1 && history_pos < history_len)
-			{
-				gchar *val = g_list_nth_data(history, history_pos);
-				gtk_entry_set_text(GTK_ENTRY(entry), val);
-				gtk_editable_set_position(GTK_EDITABLE(entry), strlen(val));
-			}
-
-			return TRUE;
-		}
-
-		case GDK_KEY_Down:
-		case GDK_KEY_KP_Down:
-		case GDK_KEY_downarrow:
-		{
-			const gchar *val;
-
-			if (history_pos == -1)
+			case GDK_KEY_Escape:
+				close_prompt();
 				return TRUE;
 
-			history_pos--;
+			case GDK_KEY_Tab:
+				/* avoid leaving the entry */
+				return TRUE;
 
-			val = history_pos == -1 ? ":" : g_list_nth_data(history, history_pos);
-			gtk_entry_set_text(GTK_ENTRY(entry), val);
-			gtk_editable_set_position(GTK_EDITABLE(entry), strlen(val));
+			case GDK_KEY_Return:
+			case GDK_KEY_KP_Enter:
+			case GDK_KEY_ISO_Enter:
+			{
+				guint i;
 
-			return TRUE;
+				for (i = 0; i < history->len; i++)
+					if (g_str_equal(text + 1, history->pdata[i]))
+						g_ptr_array_remove_index(history, i);
+				if (strlen(text) > 1)
+					g_ptr_array_add(history, g_strdup(text + 1));
+				if (history->len > 20) // default vim history size
+					g_ptr_array_remove_index(history, 0);
+
+				excmd_perform(ctx, text);
+				close_prompt();
+
+				return TRUE;
+			}
+
+			case GDK_KEY_Up:
+			case GDK_KEY_KP_Up:
+			case GDK_KEY_uparrow:
+			{
+				gint pos = -1;
+
+				if (history_pos == -1 && history->len > 0)
+					pos = history->len - 1;
+				else if (history_pos > 0)
+					pos = history_pos - 1;
+
+				while (pos >= 0)
+				{
+					if (g_str_has_prefix(history->pdata[pos], entered_text))
+						break;
+					pos--;
+				}
+
+				if (pos != -1)
+				{
+					set_prompt_text(history->pdata[pos]);
+					history_pos = pos;
+				}
+
+				return TRUE;
+			}
+
+			case GDK_KEY_Down:
+			case GDK_KEY_KP_Down:
+			case GDK_KEY_downarrow:
+			{
+				gint pos;
+
+				if (history_pos == -1)
+					return TRUE;
+
+				pos = history_pos + 1;
+
+				while (pos < history->len)
+				{
+					if (g_str_has_prefix(history->pdata[pos], entered_text))
+						break;
+					pos++;
+				}
+
+				if (pos >= history->len)
+					pos = -1;
+
+				set_prompt_text(pos == -1 ? "" : history->pdata[pos]);
+				history_pos = pos;
+
+				return TRUE;
+			}
+
+			case GDK_KEY_Home:
+				gtk_editable_set_position(GTK_EDITABLE(entry), 1);
+				return TRUE;
+			case GDK_KEY_End:
+				gtk_editable_set_position(GTK_EDITABLE(entry), strlen(text));
+				return TRUE;
+		}
+	}
+	else if ((event->state & modif_mask) == GDK_CONTROL_MASK)
+	{
+		switch (event->keyval)
+		{
+			case GDK_KEY_c:
+				close_prompt();
+				return TRUE;
+
+			case GDK_KEY_b:
+				gtk_editable_set_position(GTK_EDITABLE(entry), 1);
+				return TRUE;
+			case GDK_KEY_e:
+				gtk_editable_set_position(GTK_EDITABLE(entry), strlen(text));
+				return TRUE;
 		}
 	}
 
@@ -129,6 +198,11 @@ static void on_entry_text_notify(GObject *object, GParamSpec *pspec, gpointer du
 
 	if (cmd == NULL || strlen(cmd) == 0)
 		close_prompt();
+	else if (!ignore_change)
+	{
+		g_free(entered_text);
+		entered_text = g_strdup(cmd + 1);
+	}
 }
 
 
@@ -144,7 +218,8 @@ void ex_prompt_init(GtkWidget *parent_window, CmdContext *c)
 
 	ctx = c;
 
-	history = NULL;
+	cmd_history = g_ptr_array_new_with_free_func(g_free);
+	search_history = g_ptr_array_new_with_free_func(g_free);
 
 	/* prompt */
 	prompt = g_object_new(GTK_TYPE_WINDOW,
@@ -188,6 +263,9 @@ static void position_prompt(void)
 void ex_prompt_show(const gchar *val)
 {
 	history_pos = -1;
+	entered_text = g_strdup(val + 1);
+	cmd_first_char = val[0];
+	history = cmd_first_char == ':' ? cmd_history : search_history;
 	gtk_widget_show(prompt);
 	position_prompt();
 	gtk_entry_set_text(GTK_ENTRY(entry), val);
@@ -198,5 +276,6 @@ void ex_prompt_show(const gchar *val)
 void ex_prompt_cleanup(void)
 {
 	gtk_widget_destroy(prompt);
-	g_list_free_full(history, g_free);
+	g_ptr_array_free(cmd_history, TRUE);
+	g_ptr_array_free(search_history, TRUE);
 }
