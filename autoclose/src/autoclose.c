@@ -1005,7 +1005,11 @@ plugin_autoclose_configure(G_GNUC_UNUSED GeanyPlugin *plugin, GtkDialog *dialog,
 	vbox = gtk_vbox_new(FALSE, 0);
 	scrollbox = gtk_scrolled_window_new(NULL, NULL);
 	gtk_widget_set_size_request(GTK_WIDGET(scrollbox), -1, 400);
+#if GTK_CHECK_VERSION(3, 8, 0)
+	gtk_container_add(GTK_CONTAINER(scrollbox), vbox);
+#else
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrollbox), vbox);
+#endif
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollbox),
 		GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
