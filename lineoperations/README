@@ -19,6 +19,7 @@ Features
 * Keep Unique Lines
 * Remove Empty Lines
 * Remove Whitespace Lines
+* Remove Every Nth Line
 * Sort Lines Ascending
 * Sort Lines Descending
 
@@ -196,6 +197,30 @@ Removes all lines that have only whitespace characters.
     Line 1\n
         Line 1\n
     Line 2\n
+
+Remove Every Nth Line
+---------------------
+
+The user can enter a number N. Every Nth line will be removed then.
+
+  Example: Suppose a file has the following lines and the user enters the
+  value 2 for N. (#comments added for clarity)
+
+  ::
+
+    Line 1
+    Line 2    #removed
+    Line 3
+    Line 4    #removed
+    Line 5
+
+  The **Remove Every Nth Line** (N=2) will change the file into this:
+
+  ::
+
+    Line 1
+    Line 3
+    Line 5
 
 Sort Lines
 ----------
