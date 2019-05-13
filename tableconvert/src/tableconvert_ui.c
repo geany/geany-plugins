@@ -49,7 +49,11 @@ void init_menuentries(void)
 	 * This is needed for e.g. different wiki-Syntax or differenz stiles
 	 * within a special file type */
 
+#if GTK_CHECK_VERSION(3, 10, 0)
+	menu_tableconvert = gtk_menu_item_new_with_mnemonic(_("_More TableConvert"));
+#else
 	menu_tableconvert = gtk_image_menu_item_new_with_mnemonic(_("_More TableConvert"));
+#endif
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), menu_tableconvert);
 
 	menu_tableconvert_menu = gtk_menu_new ();
