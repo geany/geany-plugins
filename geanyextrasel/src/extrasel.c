@@ -334,7 +334,11 @@ static void doit_and_select(guint group_id, guint key_id)
 		else
 		{
 			if (geany_data->prefs->beep_on_errors)
+#if GTK_CHECK_VERSION(2, 2, 0)
+				gdk_display_beep(gdk_display_get_default());
+#else
 				gdk_beep();
+#endif
 			return;
 		}
 
