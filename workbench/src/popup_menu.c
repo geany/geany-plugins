@@ -234,8 +234,12 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.remove_file_or_dir, FALSE);
 		break;
 	}
+#if GTK_CHECK_VERSION(3, 22, 0)
+	gtk_menu_popup_at_pointer(GTK_MENU(s_popup_menu.widget), (GdkEvent *)event);
+#else
 	gtk_menu_popup(GTK_MENU(s_popup_menu.widget), NULL, NULL, NULL, NULL,
 				   event->button, event->time);
+#endif
 }
 
 

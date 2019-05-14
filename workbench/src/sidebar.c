@@ -28,6 +28,7 @@
 #endif
 #include "wb_globals.h"
 #include <gtkcompat.h>
+#include <gp_gtkcompat.h>
 
 #include "sidebar.h"
 #include "popup_menu.h"
