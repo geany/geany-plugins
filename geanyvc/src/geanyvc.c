@@ -1359,7 +1359,7 @@ create_commit_message_history_combobox(void)
 	GtkCellRenderer *renderer;
 	GtkTreeIter iter;
 	GtkListStore *store;
-	GSList *list_item;
+	GSList *list_item = NULL;
 	GString *display_message_string;
 	gchar *display_message;
 
@@ -2147,7 +2147,7 @@ load_config(void)
 	GError *error = NULL;
 #endif
 
-	gchar **commit_message_history_keys, **ptr;
+	gchar **commit_message_history_keys, **ptr = NULL;
 	gchar *commit_message;
 	GKeyFile *config = g_key_file_new();
 
