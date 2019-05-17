@@ -91,9 +91,9 @@ static gboolean
 automark(gpointer user_data)
 {
 	GeanyDocument      *doc = (GeanyDocument *)user_data;
-	GeanyEditor        *editor = doc->editor;
+	GeanyEditor        *editor;
 	static GeanyEditor *editor_cache = NULL;
-	ScintillaObject    *sci = editor->sci;
+	ScintillaObject    *sci;
 	gchar              *text;
 	static gchar        text_cache[GEANY_MAX_WORD_LENGTH] = {0};
 	gint                match_flag = SCFIND_MATCHCASE | SCFIND_WHOLEWORD;
@@ -104,6 +104,9 @@ automark(gpointer user_data)
 	/* during timeout document could be destroyed so check everything again */
 	if (!DOC_VALID(doc))
 		return FALSE;
+
+	editor = doc->editor;
+	sci = editor->sci;
 
 	/* Do not highlight while selecting text and allow other markers to work */
 	if (sci_has_selection(sci))
