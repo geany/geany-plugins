@@ -287,7 +287,7 @@ S: Maintained
 
 treebrowser
 P: Adam Dingle <adam@medovina.org>
-g:
+g: @medovina
 M: Adam Dingle <adam@medovina.org>
 W: http://plugins.geany.org/treebrowser.html
 S: Maintained
