@@ -26,6 +26,7 @@
 #include <gdk/gdkkeysyms.h>
 
 #include <geanyplugin.h>
+#include <gp_gtkcompat.h>
 
 
 /* uncomment to display each row score (for debugging sort) */
@@ -304,8 +305,24 @@ store_populate_menu_items (GtkListStore  *store,
       gchar        *path;
       gchar        *item_label;
       gboolean      use_underline;
+#if !GTK_CHECK_VERSION(3, 10, 0)
       GtkStockItem  item;
-      
+#endif
+
+#if GTK_CHECK_VERSION(3, 10, 0)
+    gboolean is_stock_item;
+    is_stock_item = gp_gtkcompat_get_stock_item_info
+        (gtk_menu_item_get_label (node->data), NULL, &item_label, &use_underline);
+    if (is_stock_item == TRUE)
+    {
+        item_label = g_strdup (item_label);
+    }
+    else
+    {
+        item_label = g_strdup (gtk_menu_item_get_label (node->data));
+        use_underline = gtk_menu_item_get_use_underline (node->data);
+    }
+#else
       if (GTK_IS_IMAGE_MENU_ITEM (node->data) &&
           gtk_image_menu_item_get_use_stock (node->data) &&
           gtk_stock_lookup (gtk_menu_item_get_label (node->data), &item)) {
@@ -315,7 +332,8 @@ store_populate_menu_items (GtkListStore  *store,
         item_label = g_strdup (gtk_menu_item_get_label (node->data));
         use_underline = gtk_menu_item_get_use_underline (node->data);
       }
-      
+#endif
+
       /* remove underlines */
       if (use_underline) {
         gchar  *p   = item_label;

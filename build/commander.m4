@@ -1,6 +1,7 @@
 AC_DEFUN([GP_CHECK_COMMANDER],
 [
     GP_ARG_DISABLE([Commander], [auto])
+    GP_CHECK_UTILSLIB([Commander])
 
     GP_CHECK_PLUGIN_DEPS([Commander], [COMMANDER],
                          [$GP_GTK_PACKAGE >= 2.16

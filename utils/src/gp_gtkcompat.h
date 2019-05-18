@@ -59,6 +59,11 @@ G_BEGIN_DECLS
         g_object_unref(icon_info)
 #endif
 
+#if GTK_CHECK_VERSION(3, 10, 0)
+gboolean gp_gtkcompat_get_stock_item_info(const gchar *stock_id, gchar **icon_name,
+										  gchar **label, gboolean *has_underscore);
+#endif
+
 G_END_DECLS
 
 #endif /* GP_GTKCOMPAT_H */
