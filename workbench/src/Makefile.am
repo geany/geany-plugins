@@ -22,7 +22,11 @@ workbench_la_SOURCES = \
 	sidebar.h \
 	sidebar.c \
 	utils.h \
-	utils.c
+	utils.c \
+	idle_queue.h \
+	idle_queue.c \
+	tm_control.h \
+	tm_control.c
 
 workbench_la_CPPFLAGS = $(AM_CPPFLAGS) \
 	-DG_LOG_DOMAIN=\"Workbench\"

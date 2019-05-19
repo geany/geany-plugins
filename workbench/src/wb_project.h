@@ -21,13 +21,6 @@
 
 #include <glib.h>
 
-typedef enum
-{
-	WB_PROJECT_IDLE_ACTION_ID_ADD_SINGLE_TM_FILE,
-	WB_PROJECT_IDLE_ACTION_ID_REMOVE_SINGLE_TM_FILE,
-	WB_PROJECT_IDLE_ACTION_ID_UPDATE_TAGS,
-}WB_PROJECT_IDLE_ACTION_ID;
-
 typedef struct S_WB_PROJECT WB_PROJECT;
 typedef struct S_WB_PROJECT_DIR WB_PROJECT_DIR;
 
@@ -74,7 +67,5 @@ gboolean wb_project_save(WB_PROJECT *prj, GError **error);
 gboolean wb_project_load(WB_PROJECT *prj, const gchar *filename, GError **error);
 
 gchar *wb_project_get_info (WB_PROJECT *prj);
-
-void wb_project_add_idle_action(WB_PROJECT_IDLE_ACTION_ID id, gpointer param_a, gpointer param_b);
 
 #endif
