@@ -36,7 +36,6 @@ typedef struct
 	GtkWidget *root_item;
 	GtkWidget *item_new;
 	GtkWidget *item_open;
-	GtkWidget *item_save;
 	GtkWidget *item_settings;
 	GtkWidget *item_close;
 }WB_MENU_DATA;
@@ -58,14 +57,12 @@ void menu_set_context(MENU_CONTEXT context)
 		case MENU_CONTEXT_WB_OPENED:
 			gtk_widget_set_sensitive(menu_data.item_new, FALSE);
 			gtk_widget_set_sensitive(menu_data.item_open, FALSE);
-			gtk_widget_set_sensitive(menu_data.item_save, TRUE);
 			gtk_widget_set_sensitive(menu_data.item_settings, TRUE);
 			gtk_widget_set_sensitive(menu_data.item_close, TRUE);
 		break;
 		case MENU_CONTEXT_WB_CLOSED:
 			gtk_widget_set_sensitive(menu_data.item_new, TRUE);
 			gtk_widget_set_sensitive(menu_data.item_open, TRUE);
-			gtk_widget_set_sensitive(menu_data.item_save, FALSE);
 			gtk_widget_set_sensitive(menu_data.item_settings, FALSE);
 			gtk_widget_set_sensitive(menu_data.item_close, FALSE);
 		break;
@@ -127,22 +124,6 @@ static void item_open_workbench_activate_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
 }
 
 
-/* The function handles the menu item "Save workbench" */
-static void item_save_workbench_activate_cb(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
-{
-	GError *error = NULL;
-
-	if (wb_globals.opened_wb != NULL)
-	{
-		if (!workbench_save(wb_globals.opened_wb, &error))
-		{
-			dialogs_show_msgbox(GTK_MESSAGE_INFO, _("Could not save workbench file: %s"), error->message);
-		}
-		sidebar_update(SIDEBAR_CONTEXT_WB_SAVED, NULL);
-	}
-}
-
-
 /* The function handles the menu item "Settings" */
 static void item_workbench_settings_activate_cb(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
@@ -153,7 +134,16 @@ static void item_workbench_settings_activate_cb(G_GNUC_UNUSED GtkMenuItem *menui
 		enable_live_update_old = workbench_get_enable_live_update(wb_globals.opened_wb);
 		if (dialogs_workbench_settings(wb_globals.opened_wb))
 		{
+			GError *error = NULL;
+
 			sidebar_update(SIDEBAR_CONTEXT_WB_SETTINGS_CHANGED, NULL);
+
+			/* Save the new settings to the workbench file (.geanywb). */
+			if (!workbench_save(wb_globals.opened_wb, &error))
+			{
+				dialogs_show_msgbox(GTK_MESSAGE_INFO, _("Could not save workbench file: %s"), error->message);
+			}
+			sidebar_update(SIDEBAR_CONTEXT_WB_SAVED, NULL);
 
 			enable_live_update = workbench_get_enable_live_update(wb_globals.opened_wb);
 			if (enable_live_update != enable_live_update_old)
@@ -208,13 +198,6 @@ gboolean menu_init(void)
 	gtk_menu_shell_append(GTK_MENU_SHELL (menu_data.menu), menu_data.item_open);
 	g_signal_connect(menu_data.item_open, "activate",
 					 G_CALLBACK(item_open_workbench_activate_cb), NULL);
-
-	/* Create new menu item "Save Workbench" */
-	menu_data.item_save = gtk_menu_item_new_with_mnemonic(_("_Save"));
-	gtk_widget_show(menu_data.item_save);
-	gtk_menu_shell_append(GTK_MENU_SHELL (menu_data.menu), menu_data.item_save);
-	g_signal_connect(menu_data.item_save, "activate",
-					 G_CALLBACK(item_save_workbench_activate_cb), NULL);
 
 	/* Create new menu item "Workbench Settings" */
 	menu_data.item_settings = gtk_menu_item_new_with_mnemonic(_("S_ettings"));
