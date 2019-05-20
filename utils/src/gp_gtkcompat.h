@@ -48,8 +48,10 @@ G_BEGIN_DECLS
 #if GTK_CHECK_VERSION(3, 10, 0)
 #undef GTK_STOCK_OPEN
 #undef GTK_STOCK_CANCEL
+#undef GTK_STOCK_OK
 #define GTK_STOCK_OPEN   _("_Open")
 #define GTK_STOCK_CANCEL _("_Cancel")
+#define GTK_STOCK_OK _("_OK")
 #endif
 
 /* Replace calls to gtk_icon_info_free() with call to
