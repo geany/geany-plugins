@@ -465,7 +465,7 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 {
 	gint result;
 	GtkWidget *w_rescan_projects_on_open, *w_enable_live_update, *w_expand_on_hover;
-	GtkWidget *dialog, *content_area;
+	GtkWidget *dialog, *content_area, *w_enable_tree_lines;
 	GtkWidget *vbox, *hbox;
 #if GTK_CHECK_VERSION(3, 4, 0)
 	GtkWidget *grid;
@@ -476,6 +476,7 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 	gboolean changed, rescan_projects_on_open, rescan_projects_on_open_old;
 	gboolean enable_live_update, enable_live_update_old;
 	gboolean expand_on_hover, expand_on_hover_old;
+	gboolean enable_tree_lines, enable_tree_lines_old;
 
 	/* Create the widgets */
 	flags = GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT;
@@ -548,6 +549,22 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 	expand_on_hover_old = workbench_get_expand_on_hover(workbench);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w_expand_on_hover), expand_on_hover_old);
 
+	w_enable_tree_lines = gtk_check_button_new_with_mnemonic(_("_Enable tree lines"));
+#if GTK_CHECK_VERSION(3, 4, 0)
+	gtk_grid_attach (GTK_GRID(grid), w_enable_tree_lines, 0, 3, 1, 1);
+	gtk_widget_set_halign (w_enable_tree_lines, GTK_ALIGN_CENTER);
+	gtk_widget_set_hexpand (w_enable_tree_lines, TRUE);
+	gtk_widget_set_valign (w_enable_tree_lines, GTK_ALIGN_CENTER);
+	gtk_widget_set_vexpand (w_enable_tree_lines, TRUE);
+#else
+	ui_table_add_row(GTK_TABLE(table), 3, w_enable_tree_lines, NULL);
+#endif
+	gtk_widget_set_tooltip_text(w_enable_tree_lines,
+		_("If the option is activated, lines will be drawn between "
+		  "the nodes in the sidebar tree."));
+	enable_tree_lines_old = workbench_get_enable_tree_lines(workbench);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w_enable_tree_lines), enable_tree_lines_old);
+
 #if GTK_CHECK_VERSION(3, 4, 0)
 	gtk_box_pack_start(GTK_BOX(vbox), grid, FALSE, FALSE, 6);
 #else
@@ -582,6 +599,12 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 		{
 			changed = TRUE;
 			workbench_set_expand_on_hover(workbench, expand_on_hover);
+		}
+		enable_tree_lines = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w_enable_tree_lines));
+		if (enable_tree_lines != enable_tree_lines_old)
+		{
+			changed = TRUE;
+			workbench_set_enable_tree_lines(workbench, enable_tree_lines);
 		}
 	}
 
