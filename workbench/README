@@ -35,12 +35,10 @@ menu:
   As explained above, creates a new Workbench.
 **Item "Open"**
   Open a Workbench.
-**Item "Save"**
-  Save the opened Workbench. This "only" saves any changes
-  in the Workbench file. It does not save any changes of the projects
-  belonging to the Workbench.
 **Item "Settings"**
-  Open the Workbench settings dialog.
+  Open the Workbench settings dialog. After the settings have been
+  confirmed with "OK" they will be written back to the workbench file
+  (if any value was changed).
 **Item "Close"**
   Closes the opened Workbench.
 
