@@ -166,6 +166,47 @@ will output a message in the message window. The message has the following form:
 
     Could not setup file monitoring for directory: "exampledir". Error: <some error message>
 
+Styling the sidebar
+-------------------
+
+On linux based systems using GTK3 the workbench sidebar can be styled using CSS.
+For general information on how to setup CSS with Geany please see the manual under
+https://www.geany.org/manual/current/index.html#customizing-geany-s-appearance-using-gtk-3-css.
+
+To style the workbench sidebar use the CSS ID *"workbench"*. Here is a small
+example::
+
+    /* Style the label over the treeview. */
+    #workbench label {
+        color: black;
+        background-color: silver;
+        border-bottom: 2px solid red;
+        font-size: 20pt;
+    }
+
+    /* Style the treeview: the border-color specifies the color of the
+       treeview lines (if enabled in the workbench settings). */
+    #workbench treeview {
+        color: black;
+        background-color: linen;
+        border-color: darkviolet;
+        font-size: 12pt;
+    }
+
+    /* The following changes the text and background color for the selected
+       row in the workbench treeview. */
+    #workbench treeview:selected {
+        color: white;
+        background-color: red;
+    }
+
+    /* The following changes the text and background color for a row in the
+       workbench treeview if the user hovers over it with the mouse pointer. */
+    #workbench treeview:hover {
+        color: white;
+        background-color: orange;
+    }
+
 Known issues
 ============
 
