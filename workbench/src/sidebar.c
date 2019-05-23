@@ -1374,6 +1374,7 @@ void sidebar_init(void)
 	GList *focus_chain = NULL;
 
 	sidebar.file_view_vbox = gtk_vbox_new(FALSE, 0);
+	gtk_widget_set_name(sidebar.file_view_vbox, "workbench");
 
 	/**** label ****/
 	sidebar.file_view_label = gtk_label_new (_("No workbench opened."));
