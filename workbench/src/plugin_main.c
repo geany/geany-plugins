@@ -31,6 +31,8 @@
 #include "sidebar.h"
 #include "menu.h"
 #include "popup_menu.h"
+#include "idle_queue.h"
+#include "tm_control.h"
 
 GeanyPlugin *geany_plugin;
 GeanyData *geany_data;
@@ -39,16 +41,10 @@ GeanyData *geany_data;
 static void plugin_workbench_on_doc_open(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED GeanyDocument * doc,
 										 G_GNUC_UNUSED gpointer user_data)
 {
-	WB_PROJECT *project;
-
 	g_return_if_fail(doc != NULL && doc->file_name != NULL);
 
-	project = workbench_file_is_included(wb_globals.opened_wb, doc->file_name);
-	if (project != NULL)
-	{
-		wb_project_add_idle_action(WB_PROJECT_IDLE_ACTION_ID_REMOVE_SINGLE_TM_FILE,
-			project, g_strdup(doc->file_name));
-	}
+	wb_idle_queue_add_action(WB_IDLE_ACTION_ID_TM_SOURCE_FILE_REMOVE,
+		g_strdup(doc->file_name));
 }
 
 
@@ -56,23 +52,12 @@ static void plugin_workbench_on_doc_open(G_GNUC_UNUSED GObject * obj, G_GNUC_UNU
 static void plugin_workbench_on_doc_close(G_GNUC_UNUSED GObject * obj, GeanyDocument * doc,
 										  G_GNUC_UNUSED gpointer user_data)
 {
-	WB_PROJECT *project;
-
-	g_return_if_fail(doc != NULL);
-
-	if (doc->file_name == NULL)
-	{
-		return;
-	}
+	g_return_if_fail(doc != NULL && doc->file_name != NULL);
 
 	/* tags of open files managed by geany - when the file gets closed,
 	 * we should take care of it */
-	project = workbench_file_is_included(wb_globals.opened_wb, doc->file_name);
-	if (project != NULL)
-	{
-		wb_project_add_idle_action(WB_PROJECT_IDLE_ACTION_ID_ADD_SINGLE_TM_FILE,
-			project, g_strdup(doc->file_name));
-	}
+	wb_idle_queue_add_action(WB_IDLE_ACTION_ID_TM_SOURCE_FILE_ADD,
+		g_strdup(doc->file_name));
 }
 
 
@@ -88,6 +73,7 @@ static gboolean plugin_workbench_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointe
 	menu_init();
 	sidebar_init();
 	popup_menu_init();
+	wb_tm_control_init();
 
 	/* At start there is no workbench open:
 	   deactive save and close menu item and sidebar */
@@ -103,6 +89,7 @@ static void plugin_workbench_cleanup(G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_U
 {
 	menu_cleanup();
 	sidebar_cleanup();
+	wb_tm_control_cleanup();
 }
 
 
