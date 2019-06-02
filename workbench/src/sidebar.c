@@ -867,6 +867,9 @@ static void sidebar_update_workbench(GtkTreeIter *iter, gint *position)
 		gtk_tree_view_set_hover_expand(GTK_TREE_VIEW(sidebar.file_view),
 			workbench_get_expand_on_hover(wb_globals.opened_wb));
 
+		gtk_tree_view_set_enable_tree_lines(GTK_TREE_VIEW(sidebar.file_view),
+			workbench_get_enable_tree_lines(wb_globals.opened_wb));
+
 		count = workbench_get_project_count(wb_globals.opened_wb);
 		length = g_snprintf(text, sizeof(text),
 							g_dngettext(GETTEXT_PACKAGE, "%s: %u Project", "%s: %u Projects", count),
