@@ -15,6 +15,8 @@ workbench_la_SOURCES = \
 	wb_monitor.c \
 	dialogs.h \
 	dialogs.c \
+	search_projects.h \
+	search_projects.c \
 	menu.h \
 	menu.c \
 	popup_menu.h \

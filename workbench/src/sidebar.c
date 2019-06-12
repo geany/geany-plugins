@@ -883,7 +883,8 @@ static void sidebar_update_workbench(GtkTreeIter *iter, gint *position)
 		if (count == 0)
 		{
 			gtk_tree_store_clear(sidebar.file_store);
-			sidebar_show_intro_message(_("Add a project\nusing the context menu."), TRUE);
+			sidebar_show_intro_message(_("Add a project using the context menu\n"
+				"or select \"Search projects\" from the menu."), TRUE);
 		}
 		else
 		{

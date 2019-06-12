@@ -534,6 +534,12 @@ gboolean workbench_add_project(WORKBENCH *wb, const gchar *filename)
 		/* Load project to import base path. */
 		wb_project_load(project, filename, NULL);
 
+		/* Start immediate scan if enabled. */
+		if (wb->rescan_projects_on_open == TRUE)
+		{
+			wb_project_rescan(project);
+		}
+
 		wb->modified = TRUE;
 		return TRUE;
 	}
